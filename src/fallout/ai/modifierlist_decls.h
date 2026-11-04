@@ -3,9 +3,13 @@
 #define FNV_MODIFIERLIST_DECLS_H
 
 
+#include "fnv/decl/FUN_004f5d90_shell.h"
+#include "fnv/decl/FUN_009373f0_shell.h"
+#include "fnv/decl/ModifierRoutingList.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/symbols_00937000.h"
 #include "layout_support.h"
 
-#pragma pack(push, 4)
 class Modifier
 {
   public:
@@ -15,9 +19,6 @@ class Modifier
 
     Modifier(Modifier* other);
     Modifier(char key, float value);
-    void SetValue(float value);
-    char GetKey();
-    float GetValue();
 };
 
 class ModifierPointerList
@@ -45,18 +46,11 @@ class ActorValueModifierList : public BSSimpleList<Modifier*>
         ClampNone = 0
     };
     void ModifyModifier(char key, float delta, ClampStyle clamp);
-    static float ModifyAndClamp(float value, float delta, ClampStyle clamp);
-    void EraseModifier(Modifier* modifier);
     void CopyModifierListFrom(ActorValueModifierList* other);
-    void AppendModifier(Modifier* modifier);
     void RemoveAllModifiers();
     void AddFastModifier(char key, Modifier* modifier);
 };
-#pragma pack(pop)
 
-void __cdecl operator delete(void* memory);
 
-FNV_STATIC_ASSERT(sizeof(Modifier) == 8);
-FNV_STATIC_ASSERT(sizeof(ActorValueModifierList) == 0x10);
 
 #endif

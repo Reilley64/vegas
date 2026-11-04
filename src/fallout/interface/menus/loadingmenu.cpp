@@ -1,11 +1,155 @@
 // fallout/interface/menus/loadingmenu.cpp: LoadingMenu, BSAudio, LoadingMenuStandIn, LoadingMenuX and more (71 functions)
 
+#include "fallout/interface/tile_fields.h"
+#include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
+#include <cstdint>
+#include <new>
+#include <cctype>
+#include "fnv/decl/AnimTile.h"
+#include "fnv/decl/BEC16D0MoviePlayerThread.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DecalStub.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00424940_shell.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00442550_shell.h"
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00461070_shell.h"
+#include "fnv/decl/FUN_004ed8c0_shell.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_005a7110_shell.h"
+#include "fnv/decl/FUN_005a7130_shell.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_005ec330_shell.h"
+#include "fnv/decl/FUN_00678ce0_shell.h"
+#include "fnv/decl/FUN_00759450_shell.h"
+#include "fnv/decl/FUN_0078cf10_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00952b30_Class.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a07530_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00a20cc0_t.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00ad7230_shell.h"
+#include "fnv/decl/FUN_00ba2fa0_C.h"
+#include "fnv/decl/FUN_00ec17c0_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FontManager.h"
+#include "fnv/decl/ListStandIn.h"
+#include "fnv/decl/LoadScreenTypeData_FUN.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/NiTPointerListBase.h"
+#include "fnv/decl/PatrolActorPackageData.h"
+#include "fnv/decl/S1740.h"
+#include "fnv/decl/S_0082f1f0_Lock.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/SemaphoreWaitReceiver.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/TESTexLoader.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/ThreadCoordinator_ba2f30.h"
+#include "fnv/decl/ThreadStageSignalDetail__RenderingStageController.h"
+#include "fnv/decl/TileImage.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_00639b40.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_004a03c0__DD.h"
+#include "fnv/decl/fnv_0056c7f0__Tile.h"
+#include "fnv/decl/fnv_00575d10__FUN_00575d10_shell.h"
+#include "fnv/decl/fnv_00713fb0__MenuMgr.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/decl/fnv_009a4320__FUN_009a4320_arr.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/decl/fnv_00ec25e0__FUN_00ec25e0_cls.h"
+#include "fnv/decl/s44b130__Lock.h"
+#include "fnv/decl/sa040a0__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00452000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004a0000.h"
+#include "fnv/symbols_004af000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005a0000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005c2000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_00713000.h"
+#include "fnv/symbols_00715000.h"
+#include "fnv/symbols_00717000.h"
+#include "fnv/symbols_00761000.h"
+#include "fnv/symbols_00771000.h"
+#include "fnv/symbols_00775000.h"
+#include "fnv/symbols_00788000.h"
+#include "fnv/symbols_0078a000.h"
+#include "fnv/symbols_0078b000.h"
+#include "fnv/symbols_0078d000.h"
+#include "fnv/symbols_0082f000.h"
+#include "fnv/symbols_00830000.h"
+#include "fnv/symbols_00890000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_00a04000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a61000.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01070000.h"
+#include "fnv/symbols_01074000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_0126f000.h"
 #include "loadingmenu_packet.h"
 class BSSystemUtility
 {
   public:
-    static int s_iUpdateEnabled;
+    static intptr_t s_iUpdateEnabled;
     static BSSystemUtility* ms_pSystemUtility;
+public:
+    static void GetRandomGenerator();
 };
 
 // @fnv 0x0078d2d0
@@ -31,7 +175,7 @@ void LoadingMenu::SetTileVisible(LoadingMenu::TileIndex tileIndex, bool doSwap)
 {
     for (int i = 0; i < 38; ++i)
     {
-        m_pTiles[i]->Set(0xFA3, (float)(i == (int)tileIndex || (tileIndex == 0 && (i == 32 || i == 33))), false);
+        reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[i]))->FUN_00a012d0(0xFA3, (float)(i == (int)tileIndex || (tileIndex == 0 && (i == 32 || i == 33))), false);
     }
     SetFloatFlag(6, doSwap);
 }
@@ -45,7 +189,6 @@ class CountingSemaphore
     CountingSemaphore();
     ~CountingSemaphore();
     void Wait();
-    void Signal();
 };
 
 class LoadingMenuThread : public BSThread
@@ -77,12 +220,12 @@ LoadingMenuThread::LoadingMenuThread() : BSThread(), m_kFirstSemaphore(), m_kSec
 void LoadingMenu::UpdateLoadingScreenThread()
 {
     if (BSSystemUtility::s_iUpdateEnabled && BSSystemUtility::ms_pSystemUtility &&
-        reinterpret_cast<LoadingMenuThread*>(BSSystemUtility::ms_pSystemUtility)->FUN_008905f0() &&
+        ::FUN_008905f0((bool *)(reinterpret_cast<LoadingMenuThread*>(BSSystemUtility::ms_pSystemUtility))) &&
         !reinterpret_cast<LoadingMenuThread*>(BSSystemUtility::ms_pSystemUtility)->m_bFirstThreadFlag)
     {
         reinterpret_cast<LoadingMenuThread*>(BSSystemUtility::ms_pSystemUtility)->SetThreadPriority(1);
         reinterpret_cast<LoadingMenuThread*>(BSSystemUtility::ms_pSystemUtility)->m_bFirstThreadFlag = true;
-        reinterpret_cast<LoadingMenuThread*>(BSSystemUtility::ms_pSystemUtility)->m_kSecondSemaphore.Wait();
+        reinterpret_cast<::SemaphoreWaitReceiver *>(&(reinterpret_cast<LoadingMenuThread*>(BSSystemUtility::ms_pSystemUtility)->m_kSecondSemaphore))->FUN_004424e0();
     }
 }
 
@@ -90,18 +233,18 @@ void LoadingMenu::UpdateLoadingScreenThread()
 void LoadingMenu::SetLoadingScreenVisible(int visible)
 {
     NiGeometry* object;
-    RgbaColor* pColors = reinterpret_cast<NiGeometryData*>(FUN_004b7210())->GetColors();
-    NiNode* node = pColors ? pColors->FUN_0056c7f0() : 0;
+    RgbaColor* pColors = ((::RgbaColor *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<NiGeometryData*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60()));
+    NiNode* node = pColors ? ((::NiNode *)(reinterpret_cast<::TileFields *>((pColors))->renderedNode)) : 0;
     object = 0;
     // object is deliberately initialized after obtaining the node.
     if (node)
     {
-        object = reinterpret_cast<NiGeometry*>(node->FUN_0045bc00(0));
+        object = reinterpret_cast<NiGeometry*>(((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((node))->FUN_0045bc00(0))));
         if (object)
         {
-            NiProperty* property = object->GetProperty(FUN_004af350());
+            NiProperty* property = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(FUN_004af350())));
             if (property)
-                property->FUN_0068c9f0((float)visible);
+                reinterpret_cast<::DecalStub *>((property))->FUN_0068c9f0((float)visible);
         }
     }
 }
@@ -112,21 +255,21 @@ void LoadingMenu::UpdateLoadingScreenTip()
 {
     float delay = 0.0f;
     if (FUN_0070edf0())
-        delay = g_011da190.FUN_00450410();
+        delay = reinterpret_cast<::FUN_00450410_Class *>(&(g_011da190))->FUN_00450410();
     else if (DAT_011a0294)
-        delay = g_011da158.FUN_00450410();
+        delay = reinterpret_cast<::FUN_00450410_Class *>(&(g_011da158))->FUN_00450410();
     else
-        delay = g_011da1a0.FUN_00450410();
-    nextTipTime = gm_GetTickCount() + (unsigned int)(delay * 1000.0);
+        delay = reinterpret_cast<::FUN_00450410_Class *>(&(g_011da1a0))->FUN_00450410();
+    nextTipTime = ((unsigned int)(::FUN_00457fe0())) + (unsigned int)(delay * 1000.0);
 }
 
 // @fnv 0x0078ab20
 bool LoadingMenu::IsLoadScreenValid(TESLoadScreen* screen)
 {
     bool valid = screen && screen->GetFormType() == FormLoadScreen;
-    for (BSSimpleList<BGSPerkEntry*>* entry = &candidates; valid && entry && entry->GetItem(); entry = entry->GetNext())
+    for (BSSimpleList<BGSPerkEntry*>* entry = &candidates; valid && entry && ((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)); entry = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())))
     {
-        valid = FUN_00408b20(screen->fullName.GetFullName(), entry->GetItem()->fullName.GetFullName()) != 0;
+        valid = FUN_00408b20(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(screen->fullName))->FUN_00408da0())), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item))->fullName))->FUN_00408da0()))) != 0;
     }
     return valid;
 }
@@ -134,70 +277,49 @@ bool LoadingMenu::IsLoadScreenValid(TESLoadScreen* screen)
 // @fnv 0x0078aec0
 void LoadingMenu::RefreshLoadingScreen()
 {
-    if (!g_BGSSaveLoadGame || !g_BGSSaveLoadGame->FUN_0042ce10())
+    if (!::g_BGSSaveLoadGame || !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
         FUN_0078d670();
-    m_pTiles[10]->Set(0x1004, DAT_011da16c, true);
-    m_pTiles[10]->GetFloat(0x1005, DAT_011da170);
-    m_pTiles[3]->Set(0xfc4,
-                     g_011da168.objective ? g_011da168.objective->GetDisplayText()
-                                          : reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011d1f8c)->String(),
+    reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[10]))->FUN_00a012d0(0x1004, DAT_011da16c, true);
+    m_pTiles[10]->Set(0x1005, DAT_011da170);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[3]))->FUN_00a01350(0xfc4,
+                     (char *)(g_011da168.objective ? reinterpret_cast<::FUN_005ec330_shell *>((g_011da168.objective))->GetPromptText()
+                                          : ((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011d1f8c)))->GetMenuTitle()))),
                      true);
-    m_pTiles[14]->Set(0xfc4, reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011d40f0)->String(), true);
-    m_pTiles[15]->Set(0xfc4, reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011d2358)->String(), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[14]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011d40f0)))->GetMenuTitle()))), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[15]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011d2358)))->GetMenuTitle()))), true);
 }
 
-// @fnv 0x0078d490
-unsigned int LoadingMenuThread::ThreadProc()
+// The fields of BSSimpleArray<TESLoadScreen*, 1024>.
+struct LoadScreenArrayFields
 {
-    unsigned int interval = gm_GetTickCount();
-    unsigned int next = 50;
-    while (m_bThirdThreadFlag != true)
-    {
-        if (gm_GetTickCount() < interval)
-            FUN_0040fca0(interval - gm_GetTickCount());
-        if (m_bFirstThreadFlag &&
-            (!DAT_011a0294 || *reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011ded5c)->String() ||
-             !reinterpret_cast<LoadingMenu*>(BSSystemUtility::s_iUpdateEnabled)->m_pTiles[0]->FUN_0078a1f0()))
-        {
-            m_kSecondSemaphore.Signal();
-            m_bSecondThreadFlag = true;
-            m_kFirstSemaphore.Wait();
-            SetThreadPriority(-1);
-            m_bSecondThreadFlag = false;
-        }
-        else
-        {
-            interval = gm_GetTickCount() + next;
-        }
-        reinterpret_cast<LoadingMenu*>(BSSystemUtility::s_iUpdateEnabled)->Update();
-        LoadingMenu::UpdateLoadingMenuState();
-    }
-    return 0;
-}
+    void* vtable;
+    TESLoadScreen** data;
+    unsigned int size;
+    unsigned int capacity;
+};
 
 // Picks random load screens from array into candidates until the candidate count reaches the game-setting count, removing each picked entry.
 // @fnv 0x0078adc0
 void LoadingMenu::SelectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>& aLoadScreens)
 {
-    unsigned int count = reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da138)->Int()->u;
+    unsigned int count = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da138)))))->u;
     if (GetFloat(5))
-        count = reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da124)->Int()->u;
-    else if (extraCandidates && !TESLoadScreenFlags::GetUseLocationSpecificScreensOnly())
-        count = FUN_0042f5a0(count, reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da108)->Int()->u);
+        count = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da124)))))->u;
+    else if (pLocation && !((bool)(::FUN_0078a930())))
+        count = FUN_0042f5a0(count, ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da108)))))->u);
     unsigned int maximum = reinterpret_cast<BSSimpleList<BGSMusicType::MusicTrack*>*>(&candidates)->ItemsInList();
-    while (maximum < count && reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&aLoadScreens)->GetSize())
+    while (maximum < count && ((std::uintptr_t)(reinterpret_cast<LoadScreenArrayFields*>(&aLoadScreens)->size)))
     {
         unsigned int index =
-            FUN_005a00a0(reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&aLoadScreens)->GetSize());
+            FUN_005a00a0(((unsigned int)(reinterpret_cast<LoadScreenArrayFields*>(&aLoadScreens)->size)));
         if (IsLoadScreenValid(
                 reinterpret_cast<TESLoadScreen*>(reinterpret_cast<NiFormArray*>(&aLoadScreens)->FUN_00877a30(index))))
         {
-            reinterpret_cast<BSSimpleList<ScriptVariableInfo*>*>(&candidates)
-                ->AddTail(reinterpret_cast<ScriptVariableInfo* const&>(
-                    reinterpret_cast<NiFormArray*>(&aLoadScreens)->FUN_00877a30(index)));
+            reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<ScriptVariableInfo*>*>(&candidates)))->FUN_00905820((void *)&(reinterpret_cast<ScriptVariableInfo* const&>(
+                    reinterpret_cast<NiFormArray*>(&aLoadScreens)->FUN_00877a30(index))));
             ++maximum;
         }
-        aLoadScreens.UpdateEntryValue(index, 1);
+        reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(&(aLoadScreens))->FUN_009a4320(index, 1);
     }
 }
 
@@ -207,46 +329,22 @@ void LoadingMenu::LoadGame(BGSLoadGameBuffer* buffer)
 {
     TESQuest* b = 0;     // saved quest
     unsigned int c = 0;  // saved objective ID
-    b = dynamic_cast<TESQuest*>(TESForm::GetFormByID(buffer->ReadFormIdentifier()));
-    buffer->ReadDataBlock(&c, 4);
+    b = dynamic_cast<TESQuest*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&c), 4);
     g_011da168.objective = b ? b->GetObjective(c) : 0;
-    buffer->ReadDataBlock(&DAT_011da16c, 4);
-    buffer->ReadDataBlock(&DAT_011da170, 4);
-    if ((unsigned int)DAT_011da170 >= reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011d0c60)->Int()->u)
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&DAT_011da16c), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&DAT_011da170), 4);
+    if ((unsigned int)DAT_011da170 >= ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011d0c60)))))->u)
         DAT_011da16c = 0.0f;
     bool a = false;  // location-specific screens only
-    buffer->ReadDataBlock(&a, 1);
-    TESLoadScreenFlags::SetUseLocationSpecificScreensOnly(a);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a), 1);
+    ::FUN_005c25e0(a);
     if (BSSystemUtility::s_iUpdateEnabled)
     {
         reinterpret_cast<LoadingMenu*>(BSSystemUtility::s_iUpdateEnabled)->m_pTiles[11]->Set(0xfa3, 1);
         reinterpret_cast<LoadingMenu*>(BSSystemUtility::s_iUpdateEnabled)->SetFloatFlag(8, false);
     }
     FUN_004581c0(true);
-}
-
-// @fnv 0x0078ac60
-void LoadingMenu::CollectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>& aLoadScreens)
-{
-    reinterpret_cast<BSSimpleArray<unsigned short, 1024>*>(&aLoadScreens)->Clear(false);
-    for (BSSimpleList<BGSPerkEntry*>* entry =
-             reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(g_dataHandler->GetTESLoadScreenList());
-         entry && entry->GetItem(); entry = entry->GetNext())
-    {
-        if ((GetFloat(5) && reinterpret_cast<TESLoadScreen*>(entry->GetItem())->IsRefFlag400Set()) ||
-            (!GetFloat(5) &&
-             ((extraCandidates && reinterpret_cast<TESLoadScreen*>(entry->GetItem())
-                                      ->MatchesFormLocation(reinterpret_cast<TESForm*>(extraCandidates))) ||
-              (!extraCandidates && reinterpret_cast<TESLoadScreen*>(entry->GetItem())->IsDefaultLoadScreen()))))
-        {
-            unsigned int index = reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&aLoadScreens)
-                                     ->Add(reinterpret_cast<NavMeshInfo*&>(entry->GetItem()));
-            int type = reinterpret_cast<TESLoadScreen*>(entry->GetItem())->GetLoadScreenTypeDataType();
-            if ((DAT_011d8907 || (unsigned char)reinterpret_cast<DurationData*>(g_osGlobals)->FUN_00678ce0()) &&
-                type != 3 && type != 0)
-                aLoadScreens.UpdateEntryValue(index, 1);
-        }
-    }
 }
 
 // @fnv 0x0078afc0
@@ -257,32 +355,32 @@ void LoadingMenu::UpdateLoadScreen(TESLoadScreen* screen, float alpha, int mode)
     if (!screen)
     {
         if (currentCandidate)
-            screen = reinterpret_cast<TESLoadScreen*>(currentCandidate->GetItem());
+            screen = reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(currentCandidate)->m_item)));
         else
-            screen = reinterpret_cast<TESLoadScreen*>(candidates.GetItem());
+            screen = reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(candidates))->m_item)));
         if (!screen)
             return;
     }
     if (reinterpret_cast<BGSCameraPath*>(screen)->GetPrevPath())
     {
         Tile** tiles = 0;
-        int type = screen->GetLoadScreenTypeDataType();
+        int type = reinterpret_cast<::FUN_005a7130_shell *>((screen))->FUN_005a7130();
         switch (type)
         {
         case 4:
-            tiles = reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0xd0);
+            tiles = reinterpret_cast<Tile**>(&this->m_kFirstTileList);
             FUN_0078b100(alpha, mode);
             break;
         case 3:
-            tiles = reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0xf4);
+            tiles = reinterpret_cast<Tile**>(&this->m_kFourthTileList);
             FadeSlideTiles(alpha, mode);
             break;
         case 1:
-            tiles = reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0xe8);
+            tiles = reinterpret_cast<Tile**>(&this->m_kThirdTileList);
             UpdateLoadingTiles(alpha, mode);
             break;
         case 2:
-            tiles = reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0xdc);
+            tiles = reinterpret_cast<Tile**>(&this->m_kSecondTileList);
             UpdateTiles(alpha, mode);
             break;
         }
@@ -300,8 +398,6 @@ void __cdecl FUN_004581c0(bool abOn)
 
 struct SubObj
 {
-    void FUN_004ed900();
-    void FUN_004ed8c0(int*);
 };
 struct LM2
 {
@@ -316,34 +412,39 @@ struct LM2
 // @fnv 0x00788f30
 void LM2::FUN_00788f30()
 {
-    s.FUN_004ed900();
-    s.FUN_004ed8c0(&a);
-    s.FUN_004ed8c0(&b);
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(s))->FUN_004ed900();
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(s))->FUN_004ed8c0(&a);
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(s))->FUN_004ed8c0(&b);
 }
 
 struct FUN_Sub
 {
-    void FUN_004ed900();
-    void FUN_004ed8c0(void* p);
 };
 // Calls FUN_004ed900 on the FUN_Sub at self+0xdc, then FUN_004ed8c0 with self+0x94, self+0x34 and self+0x60.
 // @fnv 0x00788f80
-void __fastcall FUN_00788f80(char* self)
+void FUN_00788f80(char* self)
 {
-    ((FUN_Sub*)(self + 0xdc))->FUN_004ed900();
-    ((FUN_Sub*)(self + 0xdc))->FUN_004ed8c0(self + 0x94);
-    ((FUN_Sub*)(self + 0xdc))->FUN_004ed8c0(self + 0x34);
-    ((FUN_Sub*)(self + 0xdc))->FUN_004ed8c0(self + 0x60);
+    reinterpret_cast<::NiTPointerListBaseRaw *>((((FUN_Sub*)(self + 0xdc))))->FUN_004ed900();
+    reinterpret_cast<::FUN_004ed8c0_shell *>((((FUN_Sub*)(self + 0xdc))))->FUN_004ed8c0((int *)(void *)(self + 0x94));
+    reinterpret_cast<::FUN_004ed8c0_shell *>((((FUN_Sub*)(self + 0xdc))))->FUN_004ed8c0((int *)(void *)(self + 0x34));
+    reinterpret_cast<::FUN_004ed8c0_shell *>((((FUN_Sub*)(self + 0xdc))))->FUN_004ed8c0((int *)(void *)(self + 0x60));
 }
 
 struct M788
 {
-    void FUN_004ed900();
-    void FUN_004ed8c0(void*);
 };
 struct S788
 {
-    char pad[0xe8];
+    char pad00[0x50];
+    void* unk50;
+    char pad54[0x10];
+    void* unk64;
+    void* unk68;
+    char pad6c[0x2c];
+    void* unk98;
+    void* unk9c;
+    void* unka0;
+    char pada4[0x44];
     M788 m;
     void FUN_00788fe0();
 };
@@ -351,20 +452,18 @@ struct S788
 // @fnv 0x00788fe0
 void S788::FUN_00788fe0()
 {
-    m.FUN_004ed900();
-    m.FUN_004ed8c0((char*)this + 0x68);
-    m.FUN_004ed8c0((char*)this + 0x98);
-    m.FUN_004ed8c0((char*)this + 0x9c);
-    m.FUN_004ed8c0((char*)this + 0x64);
-    m.FUN_004ed8c0((char*)this + 0x50);
-    m.FUN_004ed8c0((char*)this + 0xa0);
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(m))->FUN_004ed900();
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unk68);
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unk98);
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unk9c);
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unk64);
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unk50);
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)&this->unka0);
 }
 
 namespace fnv_00789080 {
 struct SubObj
 {
-    void FUN_004ed900();
-    void FUN_004ed8c0(int*);
 };
 struct LM3
 {
@@ -381,10 +480,10 @@ struct LM3
 // @fnv 0x00789080
 void LM3::FUN_00789080()
 {
-    s1.FUN_004ed900();
-    s1.FUN_004ed8c0(&a);
-    s2.FUN_004ed900();
-    s2.FUN_004ed8c0(&b);
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(s1))->FUN_004ed900();
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(s1))->FUN_004ed8c0(&a);
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(s2))->FUN_004ed900();
+    reinterpret_cast<::FUN_004ed8c0_shell *>(&(s2))->FUN_004ed8c0(&b);
 }
 }  // namespace fnv_00789080
 
@@ -404,7 +503,6 @@ void FUN_0078a1c0_shell::ToggleFlagBit(int aBit)
 
 struct NiControllerSequence
 {
-    int GetState();
 };
 
 struct FUN_0078a1f0_this
@@ -415,9 +513,9 @@ struct FUN_0078a1f0_this
 
 // Returns true if pSequence is set and its GetState() equals 1.
 // @fnv 0x0078a1f0
-bool __fastcall FUN_0078a1f0(FUN_0078a1f0_this* pThis)
+bool FUN_0078a1f0(FUN_0078a1f0_this* pThis)
 {
-    return pThis->pSequence && pThis->pSequence->GetState() == 1;
+    return pThis->pSequence && ((std::intptr_t)(reinterpret_cast<::LowProcess *>((pThis->pSequence))->GetActiveCombatTarget())) == 1;
 }
 
 struct FUN_0078a230_shell : public LoadingMenu
@@ -427,22 +525,20 @@ struct FUN_0078a230_shell : public LoadingMenu
 
 struct Dummy_00a20ed0
 {
-    void UpdateAnimation(float a1, int a2);
 };
 
 // Calls UpdateAnimation on the object at offset 0x54 with -1.0f and 0.
 // @fnv 0x0078a230
 void FUN_0078a230_shell::FUN_0078a230()
 {
-    (*reinterpret_cast<Dummy_00a20ed0**>(reinterpret_cast<char*>(this) + 0x54))->UpdateAnimation(-1.0f, 0);
+    reinterpret_cast<::AnimTile *>(((*reinterpret_cast<Dummy_00a20ed0**>(&this->m_pTiles[11]))))->UpdateAnimation(-1.0f, 0);
 }
 
-extern SettingT_GameSettingCollection_** _DAT_011c6d50[];
 
 // @fnv 0x0078a260
 const char* __cdecl GetGameSettingString(int index)
 {
-    return (*_DAT_011c6d50[index])->String();
+    return ((const char *)(reinterpret_cast<::StartMenu *>(((*(*reinterpret_cast<SettingT_GameSettingCollection_ ** (*)[]>(&::DAT_011c6d50))[index])))->GetMenuTitle()));
 }
 
 // Returns the value pointed to by p, then increments that value by one.
@@ -464,22 +560,18 @@ class TESForm_Ex
     virtual ~TESForm_Ex();
 };
 
-TESForm_Ex** __fastcall _ref_006815c0(void*);
-void* __fastcall _ref_00726070(void*);
-bool __fastcall FUN_004077c0(const void*);
-void __fastcall FUN_00470470(void*);
 
 // @fnv 0x0078a940
-void __fastcall FUN_0078a940(char* this_ptr)
+void FUN_0078a940(char* this_ptr)
 {
-    for (void* pIter = this_ptr + 0x1d0; pIter && *_ref_006815c0(pIter); pIter = _ref_00726070(pIter))
+    for (void* pIter = this_ptr + 0x1d0; pIter && *((::TESForm_Ex **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)); pIter = reinterpret_cast<::Callees *>((pIter))->FUN_00726070())
     {
-        if (FUN_004077c0(*_ref_006815c0(pIter)))
+        if (reinterpret_cast<::FUN_004077c0_shell *>((void *)(*((::TESForm_Ex **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))))->FUN_004077c0())
         {
-            delete *_ref_006815c0(pIter);
+            delete *((::TESForm_Ex **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item));
         }
     }
-    FUN_00470470(this_ptr + 0x1d0);
+    reinterpret_cast<::FileMatchList *>((this_ptr + 0x1d0))->RemoveAll();
     *reinterpret_cast<void**>(this_ptr + 0x1d8) = this_ptr + 0x1d0;
 }
 
@@ -487,17 +579,38 @@ struct FUN_0078ada0_shell : public TESLoadScreen
 {
     bool IsRefFlag400Set();
 };
+// @fnv 0x0078ac60
+void LoadingMenu::CollectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>& aLoadScreens)
+{
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArray<unsigned short, 1024>*>(&aLoadScreens)))->Clear(false);
+    for (BSSimpleList<BGSPerkEntry*>* entry =
+             reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(((::BSSimpleList< ::TESLoadScreen *> *)(reinterpret_cast<::FUN_00461070_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->GetSomethingAtOffset128())));
+         entry && ((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)); entry = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())))
+    {
+        if ((GetFloat(5) && reinterpret_cast<::FUN_0078ada0_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))))->IsRefFlag400Set()) ||
+            (!GetFloat(5) &&
+             ((pLocation && reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))
+                                      ->MatchesFormLocation(reinterpret_cast<TESForm*>(pLocation))) ||
+              (!pLocation && reinterpret_cast<::FUN_005a7110_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))))->FUN_005a7110()))))
+        {
+            unsigned int index = reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&aLoadScreens)))->FUN_007cb2e0((unsigned int *)&(reinterpret_cast<NavMeshInfo*&>(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)));
+            int type = reinterpret_cast<::FUN_005a7130_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))))->FUN_005a7130();
+            if ((DAT_011d8907 || (unsigned char)reinterpret_cast<::FUN_00678ce0_shell *>((reinterpret_cast<DurationData*>(g_osGlobals)))->FUN_00678ce0()) &&
+                type != 3 && type != 0)
+                reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(&(aLoadScreens))->FUN_009a4320(index, 1);
+        }
+    }
+}
 
 class TESObjectREFR
 {
   public:
-    unsigned int GetFlags();
 };
 
 // @fnv 0x0078ada0
 bool FUN_0078ada0_shell::IsRefFlag400Set()
 {
-    return (((TESObjectREFR*)this)->GetFlags() & 0x400) != 0;
+    return (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)this)))->GetName())) & 0x400) != 0;
 }
 
 struct FUN_0078afa0_shell : public LoadingMenu
@@ -517,7 +630,6 @@ struct StrH
 };
 struct ListH
 {
-    Tile*& GetNext(void*& pos);
 };
 struct LM0078b650
 {
@@ -532,7 +644,7 @@ void LM0078b650::FUN_0078b650(bool b)
     void* pos = (void*)(const char*)*reinterpret_cast<StrH*>(&lst);
     while (pos)
     {
-        reinterpret_cast<ListH*>(&lst)->GetNext(pos)->Set(0xfa3, b);
+        ((::Tile *)(reinterpret_cast<::ListStandIn *>((reinterpret_cast<ListH*>(&lst)))->FUN_0057cbe0((int **)&(pos))))->Set(0xfa3, b);
     }
 }
 
@@ -543,7 +655,6 @@ struct StrH
 };
 struct ListH
 {
-    Tile*& GetNext(void*& pos);
 };
 struct LM0078b6a0
 {
@@ -558,15 +669,13 @@ void LM0078b6a0::FUN_0078b6a0(bool b)
     void* pos = (void*)(const char*)*reinterpret_cast<StrH*>(&lst);
     while (pos)
     {
-        reinterpret_cast<ListH*>(&lst)->GetNext(pos)->Set(0xfa3, b);
+        ((::Tile *)(reinterpret_cast<::ListStandIn *>((reinterpret_cast<ListH*>(&lst)))->FUN_0057cbe0((int **)&(pos))))->Set(0xfa3, b);
     }
 }
 }  // namespace fnv_0078b6a0
 
 struct TL
 {
-    void* GetHead() const;
-    Tile*& GetNext(void*&);
 };
 struct S78b
 {
@@ -583,17 +692,17 @@ struct S78b
 // @fnv 0x0078b6f0
 void S78b::FUN_0078b6f0(bool b)
 {
-    void* pos = l1.GetHead();
+    void* pos = ((void *)(::FUN_00559450((int *)&(l1))));
     while (pos)
     {
-        Tile* pTile = l1.GetNext(pos);
+        Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>(&(l1))->FUN_0057cbe0((int **)&(pos))));
         if (pTile)
             pTile->Set(0xfa3, b);
     }
-    pos = l2.GetHead();
+    pos = ((void *)(::FUN_00559450((int *)&(l2))));
     while (pos)
     {
-        Tile* pTile = l2.GetNext(pos);
+        Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>(&(l2))->FUN_0057cbe0((int **)&(pos))));
         if (pTile)
             pTile->Set(0xfa3, b);
     }
@@ -608,7 +717,6 @@ struct StrH
 };
 struct ListH
 {
-    Tile*& GetNext(void*& pos);
 };
 struct LM0078b7c0
 {
@@ -623,20 +731,18 @@ void LM0078b7c0::FUN_0078b7c0(bool b)
     void* pos = (void*)(const char*)*reinterpret_cast<StrH*>(&lst);
     while (pos)
     {
-        reinterpret_cast<ListH*>(&lst)->GetNext(pos)->Set(0xfa3, b);
+        ((::Tile *)(reinterpret_cast<::ListStandIn *>((reinterpret_cast<ListH*>(&lst)))->FUN_0057cbe0((int **)&(pos))))->Set(0xfa3, b);
     }
 }
 }  // namespace fnv_0078b7c0
 
 struct LoadScreenTypeData
 {
-    void Endian();
     int DataType;
     char m_acFirstString[40];
     char m_acSecondString[40];
     unsigned int m_uiTrailingValue;
 };
-typedef char _sizecheck_LoadScreenType_Data[sizeof(LoadScreenTypeData) == 88 ? 1 : -1];
 struct FUN_0078b9b0_shell : public LoadingMenu
 {
     void FUN_0078b9b0(void*);
@@ -644,33 +750,47 @@ struct FUN_0078b9b0_shell : public LoadingMenu
 
 class BGSLoadGameBuffer;
 
+class TESObjectREFR;
 class Interface
 {
   public:
-    static void __cdecl PrintDebugMessage(BGSLoadGameBuffer*);
+public:
+    static void SetLookAtReference(::TESObjectREFR *);
+public:
+    static float GetThirdInterfaceFloat();
+public:
+    static float GetFourthInterfaceFloat();
 };
 
+class Tile;
 class InterfaceManager
 {
   public:
     static float __cdecl UpdateInterfaceState(void);
+public:
+    ::Tile *FUN_00586150();
 };
 
-float __cdecl FUN_00404010(float, float);
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl FUN_00715da0(void);
-float __cdecl FUN_007177c0(void);
-float __cdecl FUN_00717820(void);
 
 extern const double DAT_0106e7f8;
+
+// The rectangle FUN_0078b9b0 reads from apData, in 1280-wide screen units.
+struct LoadingScreenRect
+{
+    unsigned int uiUnk0;
+    unsigned int uiX;
+    unsigned int uiY;
+    unsigned int uiWidth;
+    unsigned int uiHeight;
+};
 
 // @fnv 0x0078b9b0
 void FUN_0078b9b0_shell::FUN_0078b9b0(void* apData)
 {
     if (apData == 0)
     {
-        Interface::PrintDebugMessage(
-            (BGSLoadGameBuffer*)"WARNING: LoadingMenu::CalcLoadScreenTypeTextWindowVerts() received a NULL apData.");
+        ::FUN_0040fbe0(
+            );
         return;
     }
 
@@ -681,22 +801,22 @@ void FUN_0078b9b0_shell::FUN_0078b9b0(void* apData)
     float fCurrentScreenWidth = InterfaceManager::UpdateInterfaceState();
     float fCurrentScreenHeight = FUN_00715da0();
     fSafeWidth = fCurrentScreenWidth - FUN_007177c0();
-    fSafeHeight = fCurrentScreenHeight - FUN_00717820();
+    fSafeHeight = fCurrentScreenHeight - ::fnv_00717820::FUN_00717820();
 
     float fConvertedWidth;
-    float fConvertedXPos = (double)((unsigned int*)apData)[1] / 1280.0 * fCurrentScreenWidth;
-    fConvertedYPos = (double)((unsigned int*)apData)[2] / DAT_0106e7f8 * fCurrentScreenHeight;
-    fConvertedWidth = (double)((unsigned int*)apData)[3] / 1280.0 * fCurrentScreenWidth;
-    fConvertedHeight = (double)((unsigned int*)apData)[4] / 1280.0 * fCurrentScreenHeight;
+    float fConvertedXPos = (double)static_cast<LoadingScreenRect*>(apData)->uiX / 1280.0 * fCurrentScreenWidth;
+    fConvertedYPos = (double)static_cast<LoadingScreenRect*>(apData)->uiY / DAT_0106e7f8 * fCurrentScreenHeight;
+    fConvertedWidth = (double)static_cast<LoadingScreenRect*>(apData)->uiWidth / 1280.0 * fCurrentScreenWidth;
+    fConvertedHeight = (double)static_cast<LoadingScreenRect*>(apData)->uiHeight / 1280.0 * fCurrentScreenHeight;
 
-    if (((unsigned int*)apData)[0] != 0)
+    if (static_cast<LoadingScreenRect*>(apData)->uiUnk0 != 0)
     {
-        *(int*)((char*)this + 0xc0) = (int)FUN_00404010(fConvertedXPos, FUN_007177c0());
-        *(int*)((char*)this + 0xc4) = (int)FUN_00404010(fConvertedYPos, FUN_00717820());
-        *(int*)((char*)this + 0xc8) =
-            (int)FUN_0040ebd0((float)*(int*)((char*)this + 0xc0) + fConvertedWidth, fSafeWidth);
-        *(int*)((char*)this + 0xcc) =
-            (int)FUN_0040ebd0((float)*(int*)((char*)this + 0xc4) + fConvertedHeight, fSafeHeight);
+        this->unkc0 = (int)FUN_00404010(fConvertedXPos, FUN_007177c0());
+        this->unkc4 = (int)FUN_00404010(fConvertedYPos, ::fnv_00717820::FUN_00717820());
+        this->unkc8 =
+            (int)FUN_0040ebd0((float)this->unkc0 + fConvertedWidth, fSafeWidth);
+        this->unkcc =
+            (int)FUN_0040ebd0((float)this->unkc4 + fConvertedHeight, fSafeHeight);
     }
 }
 
@@ -714,7 +834,7 @@ void LMStandIn::FUN_0078bb40()
 }
 
 // @fnv 0x0078bc60
-int __fastcall FUN_0078bc60(int apObject)
+int FUN_0078bc60(intptr_t apObject)
 {
     return *(int*)(apObject + 0x34) + 0x18;
 }
@@ -722,7 +842,6 @@ int __fastcall FUN_0078bc60(int apObject)
 struct RecursiveLock
 {
     void Enter(char*);
-    void Leave();
     void Lock(char*);
     void Unlock();
     bool TryLock();
@@ -737,13 +856,10 @@ struct RecursiveLock
     unsigned long m_uiSecondValue;
     int m_uiRecursionCount;
 };
-typedef char _sizecheck_BSCriticalSection[sizeof(RecursiveLock) == 40 ? 1 : -1];
 
 class NiRenderer
 {
   public:
-    void StartScene();
-    void FinishScene();
 };
 
 class TaskThreadManager
@@ -752,88 +868,76 @@ class TaskThreadManager
     static TaskThreadManager* __cdecl GetSingleton();
 };
 
-NiRenderer* __cdecl FUN_0043c4b0(void);
-RecursiveLock* __cdecl FUN_00713d70(void);
-bool __fastcall FUN_0044b130(RecursiveLock*);
-int __fastcall FUN_0078d1d0(RecursiveLock*);
+int FUN_0078d1d0(RecursiveLock*);
 bool __cdecl BSSpinLockGlobalTryLock(void);
-void __cdecl FUN_00452530(void);
 
 struct MTRenderingSystem_Helper
 {
-    void FUN_00ba2f30();
-    void FUN_00ba30f0(int, int);
-    void FUN_00ba3130(int, int);
-    void FUN_00ba2fa0();
 };
 
 struct InterfaceManager_Helper
 {
-    void RenderMenu(int, int);
 };
 
 struct Tile_Helper : public Tile
 {
-    static void __cdecl UpdateAll(bool);
 };
 
-extern RecursiveLock DAT_011f4380;
-extern bool DAT_011a0295;
 extern bool DAT_011c70f8;
 
 // @fnv 0x0078d080
 void __cdecl FUN_0078d080(void)
 {
-    FUN_0043c4b0()->StartScene();
-    RecursiveLock* pTileCritSect = FUN_00713d70();
-    if (!FUN_0044b130(pTileCritSect))
+    ::FUN_004a0370((char *)(FUN_0043c4b0()));
+    RecursiveLock* pTileCritSect = ((::RecursiveLock *)(::FUN_00713d70()));
+    if (!reinterpret_cast<::s44b130::Lock *>((pTileCritSect))->FUN_0044b130())
     {
-        FUN_0043c4b0()->FinishScene();
+        reinterpret_cast<::fnv_004a03c0::DD *>((FUN_0043c4b0()))->FUN_004a03c0();
         return;
     }
 
-    if (!FUN_0078d1d0(&DAT_011f4380))
+    if (!FUN_0078d1d0(&(*reinterpret_cast<::RecursiveLock *>(&::DAT_011f4380))))
     {
-        pTileCritSect->Leave();
-        FUN_0043c4b0()->FinishScene();
+        reinterpret_cast<::S_0082f1f0_Lock *>((pTileCritSect))->FUN_0082f1f0();
+        reinterpret_cast<::fnv_004a03c0::DD *>((FUN_0043c4b0()))->FUN_004a03c0();
         return;
     }
 
     if (DAT_011a0295 && !BSSpinLockGlobalTryLock())
     {
-        DAT_011f4380.Leave();
-        pTileCritSect->Leave();
-        FUN_0043c4b0()->FinishScene();
+        reinterpret_cast<::S_0082f1f0_Lock *>(&((*reinterpret_cast<::RecursiveLock *>(&::DAT_011f4380))))->FUN_0082f1f0();
+        reinterpret_cast<::S_0082f1f0_Lock *>((pTileCritSect))->FUN_0082f1f0();
+        reinterpret_cast<::fnv_004a03c0::DD *>((FUN_0043c4b0()))->FUN_004a03c0();
         return;
     }
 
     if (DAT_011a0295)
     {
-        Tile_Helper::UpdateAll(true);
+        ::fnv_00a04200::FUN_00a04200(true);
         FUN_00452530();
     }
 
-    reinterpret_cast<MTRenderingSystem_Helper*>(TaskThreadManager::GetSingleton())->FUN_00ba2f30();
+    reinterpret_cast<::ThreadCoordinator_ba2f30 *>((reinterpret_cast<MTRenderingSystem_Helper*>(TaskThreadManager::GetSingleton())))->FUN_00ba2f30();
     for (int i = 1; i < 23; ++i)
     {
-        reinterpret_cast<MTRenderingSystem_Helper*>(TaskThreadManager::GetSingleton())->FUN_00ba30f0(0, i);
-        reinterpret_cast<MTRenderingSystem_Helper*>(TaskThreadManager::GetSingleton())->FUN_00ba3130(1, i);
+        reinterpret_cast<::ThreadStageSignalDetail::RenderingStageController *>((reinterpret_cast<MTRenderingSystem_Helper*>(TaskThreadManager::GetSingleton())))->FUN_00ba30f0(0, i);
+        ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(reinterpret_cast<MTRenderingSystem_Helper*>(TaskThreadManager::GetSingleton())), (void *)(1), i, {});
     }
 
     DAT_011c70f8 = true;
-    reinterpret_cast<InterfaceManager_Helper*>(FUN_004b7210())->RenderMenu(0, 0);
+    reinterpret_cast<::fnv_00713fb0::MenuMgr *>((reinterpret_cast<InterfaceManager_Helper*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->RenderMenu(0, 0);
     DAT_011c70f8 = false;
 
-    reinterpret_cast<MTRenderingSystem_Helper*>(TaskThreadManager::GetSingleton())->FUN_00ba2fa0();
-    FUN_0043c4b0()->FinishScene();
-    pTileCritSect->Leave();
-    DAT_011f4380.Leave();
+    reinterpret_cast<::FUN_00ba2fa0_C *>((reinterpret_cast<MTRenderingSystem_Helper*>(TaskThreadManager::GetSingleton())))->FUN_00ba2fa0();
+    reinterpret_cast<::fnv_004a03c0::DD *>((FUN_0043c4b0()))->FUN_004a03c0();
+    reinterpret_cast<::S_0082f1f0_Lock *>((pTileCritSect))->FUN_0082f1f0();
+    reinterpret_cast<::S_0082f1f0_Lock *>(&((*reinterpret_cast<::RecursiveLock *>(&::DAT_011f4380))))->FUN_0082f1f0();
 }
 
-extern void*(__stdcall* DAT_00fdf0b4)(void*, long, long, const char*);
+extern void*(* DAT_00fdf0b4)(void*, long, long, const char*);
 
 // @fnv 0x0078d3b0
-CountingSemaphore* __fastcall InitSemaphore(CountingSemaphore* pThis)
+CountingSemaphore* InitSemaphore(CountingSemaphore* pThis)
 {
     pThis->iCount = 0;
     pThis->m_iMaximumCount = 1;
@@ -843,54 +947,49 @@ CountingSemaphore* __fastcall InitSemaphore(CountingSemaphore* pThis)
 
 struct PlayerCharacter
 {
-    int FindAudioEntry();
-    unsigned short GetLevel();
 };
-extern PlayerCharacter* pPlayer;
 float __cdecl GetLevelProgress();
 // Stores the player's FindAudioEntry result, GetLevelProgress result and level into g_011da168, DAT_011da16c and DAT_011da170.
 // @fnv 0x0078d670
 void FUN_0078d670()
 {
-    *(int*)&g_011da168 = pPlayer->FindAudioEntry();
+    *(intptr_t*)&g_011da168 = ((intptr_t)(reinterpret_cast<::FUN_00952b30_Class *>((::_g_thePlayer))->FindAudioEntry()));
     DAT_011da16c = GetLevelProgress();
-    DAT_011da170 = pPlayer->GetLevel();
+    DAT_011da170 = reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((::_g_thePlayer))->FUN_0087f9f0();
 }
 
 namespace fnv_0078d880 {
-extern int DAT_0107410c;
 class NavMeshInfo;
-template <> class BSSimpleArray<NavMeshInfo*, 1024>
+}
+template <> class BSSimpleArray<fnv_0078d880::NavMeshInfo*, 1024>
 {
   public:
     void FUN_006b3eb0(unsigned int, bool);
 };
+namespace fnv_0078d880 {
 
 // @fnv 0x0078d880
-void* __fastcall FUN_0078d880(void* pThis)
+void* FUN_0078d880(void* pThis)
 {
-    *reinterpret_cast<int**>(pThis) = &DAT_0107410c;
+    *reinterpret_cast<int**>(pThis) = &::DAT_0107410c;
     reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(pThis)->FUN_006b3eb0(0, false);
     return pThis;
 }
 }  // namespace fnv_0078d880
 
-extern int DAT_0107410c;
 
 class GlobalObject_00869f00
 {
   public:
-    void Clear(bool);
 };
 
 // @fnv 0x0078d8b0
-void __fastcall FUN_0078d8b0(GlobalObject_00869f00* pThis)
+void FUN_0078d8b0(GlobalObject_00869f00* pThis)
 {
     *(int**)pThis = &DAT_0107410c;
-    pThis->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
 }
 
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
@@ -906,7 +1005,7 @@ void* DelStandIn::DestroyAndFree(unsigned int flags)
 {
     ((DtorStandIn*)this)->FUN_0083dec0();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
@@ -922,7 +1021,6 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_007890e0_shell : public LoadingMenu
 {
     void InitLoadingMenu(TESForm*);
@@ -995,17 +1093,11 @@ class NiAVObjectV
     virtual void v37();
     virtual void v38();
     virtual NiAVObjectV* GetObjectByName(const NiFixedString&);
-    NiProperty* GetProperty(unsigned int);
-    void FUN_00440490(float);
-    void SetLocalRotation(float, float, float, float);
-    void SetAppCulled(bool);
 };
 
 class NiNodeV : public NiAVObjectV
 {
   public:
-    NiAVObjectV* FUN_0045bc00(unsigned int);
-    void Update(NiUpdateDataH&);
 };
 
 class NiRendererV
@@ -1059,67 +1151,48 @@ class NiRendererV
 
 struct Tile3D
 {
-    NiNodeV* FUN_0056c7f0();
-    void FUN_00a20cc0(const char*);
 };
 
 struct Tile_
 {
     virtual ~Tile_();
 };
-Tile_* __cdecl FindMenuById(int);
 
 struct TileEx
 {
-    float GetFloat(int);
 };
 struct TileH
 {
-    static float GetInterfaceScale();
 };
 struct FUN_00424940_shell
 {
-    char FUN_00424940();
 };
 struct FUN_0041fd00_shell
 {
-    void FUN_0041fd00(int);
 };
 struct HUDMainMenu
 {
-    static void UpdateVisibilityState(int);
-    static bool UpdateTargetReference(TESObjectREFR*, bool, bool);
 };
 struct InterfaceH
 {
-    static void SetLookAtReference(TESObjectREFR*);
-    static double GetFourthInterfaceFloat();
-    static double GetThirdInterfaceFloat();
 };
 struct BGSMoviePlayer
 {
-    bool FUN_00ec17c0();
-    void FUN_00ec25e0();
 };
 struct TESGlobalValueReader
 {
-    float GetValue();
 };
 struct OSGlobalsH
 {
-    bool FUN_00678ce0();
 };
 struct TESObjectCELL
 {
-    bool IsInterior();
 };
 struct FUN_00575d10_shell
 {
-    bool FUN_00575d10();
 };
 struct Setting_S
 {
-    float* Float();
 };
 struct FUN_0078a5a0_shell
 {
@@ -1131,7 +1204,6 @@ struct FUN_0078a280_shell
 };
 struct FUN_0078a9f0_shell
 {
-    void FUN_0078a9f0();
 };
 struct FUN_0078a3e0_shell
 {
@@ -1143,100 +1215,74 @@ struct FUN_0078cc50_shell
 };
 struct BSAudio
 {
-    static BSAudio* GetSingleton();
-    bool IsPatrolling();
-    bool FUN_005bb4d0();
-    void SetUseMultipleThreads(bool);
     void SetAudioProperty(unsigned int, unsigned int, unsigned int);
 };
 
-extern const double DAT_010704f0;
-extern const double DAT_010704e8;
-extern const double gModifierZero;
 extern const float DAT_01073f20;
-extern int DAT_011a9bd0;
-extern bool DAT_011a0295;
-extern TESGlobalValueReader* DAT_011c3f3c;
-extern BGSMoviePlayer* DAT_0126fac4;
-extern GlobalObject_0044f440 originalRuntimeFloatSetting1218;
 struct PC7d;
-extern PC7d* g_thePlayer;
 
 struct LoadingMenuH
 {
     void SetTileVisible(int, bool);
-    void SetFloatFlag(int, bool);
-    bool GetFloat(int);
-    void RefreshLoadingScreen();
-    void UpdateLoadingScreenTip();
-    static void UpdateLoadingMenuState();
 };
 struct FUN_0078afa0_shell
 {
-    void FUN_0078afa0(bool);
 };
 struct FUN_0078a230_shell
 {
-    void FUN_0078a230();
 };
 struct NiRendererH
 {
-    void StartScene();
-    void FinishScene();
 };
-NiRendererV* __cdecl FUN_0043c4b0();
 
-unsigned int __cdecl FUN_00438220();
-void __cdecl _FNV_Warning(int, const char*, ...);
 
 // @fnv 0x007890e0
 void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
 {
     Tile_* psleep;
 
-    *(unsigned int*)((char*)this + 0x1e0) = 0;
-    if (((TileEx*)*(Tile**)((char*)this + 4))->GetFloat(0xfa7) == DAT_010704f0 ||
-        ((TileEx*)*(Tile**)((char*)this + 4))->GetFloat(0xfa7) == DAT_010704e8)
+    this->nextTipTime = 0;
+    if (reinterpret_cast<::TileListBoxCalls *>((((TileEx*)*(Tile**)&this->unk04)))->GetFloat(0xfa7) == ::DAT_010704f0 ||
+        reinterpret_cast<::TileListBoxCalls *>((((TileEx*)*(Tile**)&this->unk04)))->GetFloat(0xfa7) == ::DAT_010704e8)
     {
-        (*(Tile**)((char*)this + 4))->Set(0xfad, TileH::GetInterfaceScale(), true);
+        reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)&this->unk04)))->FUN_00a012d0(0xfad, ::Tile::GetInterfaceScale(), true);
     }
 
-    if (((FUN_00424940_shell*)FUN_004b7210())->FUN_00424940() != 3)
-        ((FUN_0041fd00_shell*)FUN_004b7210())->FUN_0041fd00(2);
+    if (reinterpret_cast<::FUN_00424940_shell *>((((FUN_00424940_shell*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00424940() != 3)
+        reinterpret_cast<::FUN_0041fd00_shell *>((((FUN_0041fd00_shell*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0041fd00(2);
 
-    HUDMainMenu::UpdateVisibilityState(5);
-    HUDMainMenu::UpdateTargetReference(0, false, false);
-    InterfaceH::SetLookAtReference(0);
+    ::fnv_00771700::FUN_00771700(5);
+    ::UpdateActivatePrompt((::RefX *)(::fnv_007890e0::TESObjectREFR *)(0), false, false);
+    ::Interface::SetLookAtReference((::TESObjectREFR *)(::fnv_007890e0::TESObjectREFR *)(0));
 
-    if (g_thePlayer && !DAT_0126fac4->FUN_00ec17c0())
-        DAT_0126fac4->FUN_00ec25e0();
+    if ((*reinterpret_cast<::fnv_007890e0::PC7d * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_00ec17c0_Class *>(((*reinterpret_cast<::fnv_007890e0::BGSMoviePlayer * *>(&::DAT_0126fac4))))->FUN_00ec17c0())
+        reinterpret_cast<::fnv_00ec25e0::FUN_00ec25e0_cls *>(((*reinterpret_cast<::fnv_007890e0::BGSMoviePlayer * *>(&::DAT_0126fac4))))->FUN_00ec25e0();
 
-    psleep = FindMenuById(0x3f4);
+    psleep = ((::fnv_007890e0::Tile_ *)(::FUN_00a09030(0x3f4)));
     if (psleep)
         delete psleep;
 
-    *(TESForm**)((char*)this + 0x1e8) = apLocation;
+    this->pLocation = apLocation;
 
-    if (DAT_011a0294 || DAT_011c3f3c->GetValue() != gModifierZero)
+    if (DAT_011a0294 || reinterpret_cast<::FUN_00526ac0_shell *>(((*reinterpret_cast<::fnv_007890e0::TESGlobalValueReader * *>(&::DAT_011c3f3c))))->FUN_00526ac0() != ::_DAT_01012060)
     {
         ((LoadingMenuH*)this)->SetTileVisible(0, false);
     }
-    else if (DAT_011d8907 || ((OSGlobalsH*)g_osGlobals)->FUN_00678ce0())
+    else if (DAT_011d8907 || ((bool)(reinterpret_cast<::FUN_00678ce0_shell *>((((OSGlobalsH*)g_osGlobals)))->FUN_00678ce0())))
     {
-        ((FUN_0078afa0_shell*)this)->FUN_0078afa0(false);
-        ((NiRendererH*)FUN_0043c4b0())->StartScene();
-        ((FUN_0078a230_shell*)this)->FUN_0078a230();
-        ((NiRendererH*)FUN_0043c4b0())->FinishScene();
+        reinterpret_cast<::FUN_0078afa0_shell *>((((FUN_0078afa0_shell*)this)))->FUN_0078afa0(false);
+        ::FUN_004a0370((char *)(((NiRendererH*)((::fnv_007890e0::NiRendererV *)(::FUN_0043c4b0())))));
+        reinterpret_cast<::FUN_0078a230_shell *>((((FUN_0078a230_shell*)this)))->FUN_0078a230();
+        reinterpret_cast<::fnv_004a03c0::DD *>((((NiRendererH*)((::fnv_007890e0::NiRendererV *)(::FUN_0043c4b0())))))->FUN_004a03c0();
     }
     else
     {
-        if (*(TESForm**)((char*)this + 0x1e8) && !g_BGSSaveLoadGame->FUN_0042ce10())
+        if (this->pLocation && !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
         {
-            switch ((*(TESForm**)((char*)this + 0x1e8))->GetFormType())
+            switch ((this->pLocation)->GetFormType())
             {
             case 0x39:
-                ((LoadingMenuH*)this)
-                    ->SetFloatFlag(9, ((TESObjectCELL*)*(TESForm**)((char*)this + 0x1e8))->IsInterior());
+                reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->SetFloatFlag(9, reinterpret_cast<::TESObjectCELL *>((((TESObjectCELL*)this->pLocation)))->IsCellInterior());
                 break;
             case 0x3a:
             case 0x3b:
@@ -1246,126 +1292,117 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
             case 0x3f:
             case 0x40:
             case 0x69:
-                ((LoadingMenuH*)this)
-                    ->SetFloatFlag(9, ((FUN_00575d10_shell*)*(TESForm**)((char*)this + 0x1e8))->FUN_00575d10());
+                reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->SetFloatFlag(9, reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((((FUN_00575d10_shell*)this->pLocation)))->FUN_00575d10());
                 break;
             }
         }
-        if (((LoadingMenuH*)this)->GetFloat(9))
+        if (reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->GetFloat(9))
         {
             ((LoadingMenuH*)this)->SetTileVisible(0xb, false);
-            ((LoadingMenuH*)this)->SetFloatFlag(4, false);
-            *(unsigned int*)((char*)this + 0x1e4) = gm_GetTickCount();
-            DAT_011a0295 = true;
+            reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->SetFloatFlag(4, false);
+            this->m_uiTipTimer = ((unsigned int)(::FUN_00457fe0()));
+            ::DAT_011a0295 = true;
         }
         else
         {
-            ((FUN_0078afa0_shell*)this)->FUN_0078afa0(true);
-            ((LoadingMenuH*)this)->RefreshLoadingScreen();
+            reinterpret_cast<::FUN_0078afa0_shell *>((((FUN_0078afa0_shell*)this)))->FUN_0078afa0(true);
+            reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->RefreshLoadingScreen();
         }
-        ((NiRendererH*)FUN_0043c4b0())->StartScene();
-        ((FUN_0078a230_shell*)this)->FUN_0078a230();
-        ((NiRendererH*)FUN_0043c4b0())->FinishScene();
+        ::FUN_004a0370((char *)(((NiRendererH*)((::fnv_007890e0::NiRendererV *)(::FUN_0043c4b0())))));
+        reinterpret_cast<::FUN_0078a230_shell *>((((FUN_0078a230_shell*)this)))->FUN_0078a230();
+        reinterpret_cast<::fnv_004a03c0::DD *>((((NiRendererH*)((::fnv_007890e0::NiRendererV *)(::FUN_0043c4b0())))))->FUN_004a03c0();
     }
 
-    FUN_0043c4b0()->SetBackgroundColor(&DAT_011a9bd0);
+    ((::fnv_007890e0::NiRendererV *)(::FUN_0043c4b0()))->SetBackgroundColor(&(*reinterpret_cast<int *>(&::DAT_011a9bd0)));
 
-    if (((Tile3D*)(*(Tile**)((char*)this + 0x54)))->FUN_0056c7f0())
+    if (((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[11]))))->renderedNode)))
     {
-        ((Tile3D*)(*(Tile**)((char*)this + 0x54)))
-            ->FUN_0056c7f0()
-            ->FUN_00440490(originalRuntimeFloatSetting1218.FUN_00450410());
-        (*(Tile**)((char*)this + 0x54))->Set(0x1004, *((Setting_S*)&originalRuntimeFloatSetting1218)->Float(), true);
-        ((Tile3D*)(*(Tile**)((char*)this + 0x54)))->FUN_0056c7f0()->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
+        reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[11]))))->renderedNode))))->FUN_00440490(reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))->FUN_00450410());
+        reinterpret_cast<::FUN_00a012d0_t *>(((this->m_pTiles[11])))->FUN_00a012d0(0x1004, *((float *)&(::FUN_00403e20((float *)(((Setting_S*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))))), true);
+        reinterpret_cast<::NiAVObject *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[11]))))->renderedNode))))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
     }
     else
     {
-        _FNV_Warning(0x12, "WARNING:  Loading Menu wheel does not have a model.");
+        ::FUN_005b5e40();
     }
 
-    if (!((LoadingMenuH*)this)->GetFloat(9))
+    if (!reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->GetFloat(9))
     {
         NiUpdateDataH data;
         NiAVObjectV* pav;
         NiNodeV* pnode;
         Tile3D* p3dtile;
 
-        pav = ((Tile3D*)(*(Tile**)((char*)this + 0x28)))->FUN_0056c7f0()->GetObjectByName(NiFixedString("Slide01"));
+        pav = ((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))->GetObjectByName(NiFixedString("Slide01"));
         pnode = pav->IsSceneNode();
         if (pnode)
         {
-            *(NiProperty**)((char*)this + 0x1ec) = pnode->FUN_0045bc00(0)->GetProperty(FUN_00438220());
-            pnode = (NiNodeV*)((Tile3D*)(*(Tile**)((char*)this + 0x28)))
-                        ->FUN_0056c7f0()
+            this->m_pTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007890e0::NiAVObjectV *)(reinterpret_cast<::S_FUN_0045bc00 *>((pnode))->FUN_0045bc00(0)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
+            pnode = (NiNodeV*)((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))
                         ->GetObjectByName(NiFixedString("Slide02"));
-            *(NiProperty**)((char*)this + 0x1f0) = pnode->FUN_0045bc00(0)->GetProperty(FUN_00438220());
+            *(NiProperty**)&this->m_pAlternateTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007890e0::NiAVObjectV *)(reinterpret_cast<::S_FUN_0045bc00 *>((pnode))->FUN_0045bc00(0)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
         }
         else
         {
-            *(NiProperty**)((char*)this + 0x1ec) = pav->GetProperty(FUN_00438220());
-            pav = ((Tile3D*)(*(Tile**)((char*)this + 0x28)))->FUN_0056c7f0()->GetObjectByName(NiFixedString("Slide02"));
-            *(NiProperty**)((char*)this + 0x1f0) = pav->GetProperty(FUN_00438220());
+            this->m_pTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pav))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
+            pav = ((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))->GetObjectByName(NiFixedString("Slide02"));
+            *(NiProperty**)&this->m_pAlternateTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pav))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
         }
 
         ((FUN_0078a5a0_shell*)this)->UpdateLoadingScreens();
         if (!DAT_011a0294)
         {
             ((FUN_0078a280_shell*)this)->UpdateLoadingScreenText(false);
-            ((FUN_0078a9f0_shell*)this)->FUN_0078a9f0();
+            ::FUN_0078a9f0((char *)(((FUN_0078a9f0_shell*)this)));
             ((FUN_0078a3e0_shell*)this)->ApplyLoadingScreenTexture(false);
-            ((LoadingMenuH*)this)->UpdateLoadingScreenTip();
+            reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->UpdateLoadingScreenTip();
         }
 
-        ((Tile3D*)(*(Tile**)((char*)this + 0x28)))->FUN_0056c7f0()->FUN_00440490(DAT_01073f20);
-        ((Tile3D*)(*(Tile**)((char*)this + 0x28)))->FUN_0056c7f0()->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
-        (*(Tile**)((char*)this + 0x28))
-            ->Set(0x1004, InterfaceH::GetFourthInterfaceFloat() / InterfaceH::GetThirdInterfaceFloat(), true);
+        reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))))->FUN_00440490(DAT_01073f20);
+        reinterpret_cast<::NiAVObject *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
+        reinterpret_cast<::FUN_00a012d0_t *>(((this->m_pTiles[0])))->FUN_00a012d0(0x1004, ((double)(::Interface::GetFourthInterfaceFloat())) / ((double)(::Interface::GetThirdInterfaceFloat())), true);
 
-        p3dtile = (Tile3D*)(*(Tile**)((char*)this + 0x28));
-        p3dtile->FUN_00a20cc0("Left");
+        p3dtile = (Tile3D*)(this->m_pTiles[0]);
+        reinterpret_cast<::FUN_00a20cc0_t *>((p3dtile))->FUN_00a20cc0("Left");
         data.FUN_0043d410(0.0f, true, false);
-        p3dtile->FUN_0056c7f0()->Update(data);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((p3dtile))->renderedNode))))->FUN_00a59c60((std::intptr_t)&(data));
         ((FUN_0078cc50_shell*)this)->FUN_0078cc50();
-        *(unsigned int*)((char*)this + 0x1e4) = 0;
+        this->m_uiTipTimer = 0;
     }
 
-    LoadingMenuH::UpdateLoadingMenuState();
+    ::FUN_0078d080();
 
-    if ((DAT_011a0294 || !apLocation) && BSAudio::GetSingleton()->IsPatrolling() &&
-        !*((SettingT_GameSettingCollection_*)&g_011ded5c)->String())
+    if ((DAT_011a0294 || !apLocation) && reinterpret_cast<::PatrolActorPackageData *>((((::fnv_007890e0::BSAudio *)(::FUN_00453a70()))))->IsPatrolling() &&
+        !*((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011ded5c)))->GetMenuTitle())))
     {
-        if (!BSAudio::GetSingleton()->FUN_005bb4d0())
+        if (!reinterpret_cast<::FUN_005bb4d0_shell *>((((::fnv_007890e0::BSAudio *)(::FUN_00453a70()))))->FUN_005bb4d0())
         {
-            BSAudio::GetSingleton()->SetUseMultipleThreads(true);
-            ((LoadingMenuH*)this)->SetFloatFlag(2, true);
+            reinterpret_cast<::FUN_00ad7230_shell *>((((::fnv_007890e0::BSAudio *)(::FUN_00453a70()))))->FUN_00ad7230(true);
+            reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->SetFloatFlag(2, true);
         }
     }
-    else if (!DAT_011a0294 && BSAudio::GetSingleton()->IsPatrolling())
+    else if (!DAT_011a0294 && reinterpret_cast<::PatrolActorPackageData *>((((::fnv_007890e0::BSAudio *)(::FUN_00453a70()))))->IsPatrolling())
     {
-        if (!BSAudio::GetSingleton()->FUN_005bb4d0())
+        if (!reinterpret_cast<::FUN_005bb4d0_shell *>((((::fnv_007890e0::BSAudio *)(::FUN_00453a70()))))->FUN_005bb4d0())
         {
-            BSAudio::GetSingleton()->SetUseMultipleThreads(true);
-            ((LoadingMenuH*)this)->SetFloatFlag(2, true);
+            reinterpret_cast<::FUN_00ad7230_shell *>((((::fnv_007890e0::BSAudio *)(::FUN_00453a70()))))->FUN_00ad7230(true);
+            reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->SetFloatFlag(2, true);
         }
-        BSAudio::GetSingleton()->SetAudioProperty(2, 1000, 6000);
+        ((::fnv_007890e0::BSAudio *)(::FUN_00453a70()))->SetAudioProperty(2, 1000, 6000);
     }
 
-    *(unsigned int*)((char*)this + 0x5b4) = 0;
-    ((Tile3D*)(*(Tile**)((char*)this + 0x28)))->FUN_0056c7f0()->SetAppCulled(true);
+    this->m_uiFirstStateValue = 0;
+    reinterpret_cast<::TaskQueueInterface *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))))->QueueActorDisarm(true);
 }
 }  // namespace fnv_007890e0
 
 struct TileList
 {
-    void* GetHeadPos() const;
-    Tile*& GetNext(void*& pos);
 };
 struct TileEx : public Tile
 {
     using Tile::Set;
     void Set(int aeValue, unsigned int auiValue);
-    float GetValue(int aeValue);
-    void SetImageFlags(int aeValue);
 };
 struct LoadingTileSettings
 {
@@ -1386,74 +1423,74 @@ struct LoadingMenuTips : public LoadingMenu
 // @fnv 0x0078c770
 void LoadingMenuTips::ApplySettingsToTiles(LoadingTileSettings* apSettings)
 {
-    void* pos = ((TileList*)m_kFourthTileList)->GetHeadPos();
+    void* pos = ((void *)(::FUN_00559450((int *)(((TileList*)m_kFourthTileList)))));
     while (pos)
     {
-        TileEx* pTile = (TileEx*)((TileList*)m_kFourthTileList)->GetNext(pos);
+        TileEx* pTile = (TileEx*)((::Tile *)(reinterpret_cast<::ListStandIn *>((((TileList*)m_kFourthTileList)))->FUN_0057cbe0((int **)&(pos))));
         if (pTile)
         {
             float fX = 0;
             switch (apSettings->uiJustify)
             {
             case 1:
-                fX = *(int*)((char*)this + 0xc0);
+                fX = this->unkc0;
                 break;
             case 2:
-                fX = *(int*)((char*)this + 0xc0) + (*(int*)((char*)this + 0xc8) - *(int*)((char*)this + 0xc0)) / 2.0;
+                fX = this->unkc0 + (this->unkc8 - this->unkc0) / 2.0;
                 break;
             case 4:
-                fX = *(int*)((char*)this + 0xc8);
+                fX = this->unkc8;
                 break;
             }
-            pTile->Set(0xfa1, fX, true);
-            pTile->Set(0xfb1, (float)(*(int*)((char*)this + 0xc8) - *(int*)((char*)this + 0xc0)), true);
-            pTile->Set(0xfba, pTile->GetValue(0xfb1), true);
-            pTile->Set(0xfa2, (float)*(int*)((char*)this + 0xc4), true);
-            pTile->Set(0xfb0, *(int*)((char*)this + 0xcc) - pTile->GetValue(0xfa2), true);
-            pTile->Set(0xfbb, pTile->GetValue(0xfb0), true);
-            pTile->Set(0xffa, apSettings->fAlpha, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa1, fX, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb1, (float)(this->unkc8 - this->unkc0), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfba, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfb1), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa2, (float)this->unkc4, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb0, this->unkcc - reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfa2), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfbb, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfb0), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xffa, apSettings->fAlpha, true);
             pTile->Set(0xfb9, apSettings->iVisible);
-            pTile->Set(0xfb7, apSettings->uiJustify);
-            pTile->Set(0xfb2, apSettings->fRed, true);
-            pTile->Set(0xfb3, apSettings->fGreen, true);
-            pTile->Set(0xfb4, apSettings->fBlue, true);
+            reinterpret_cast<::Tile *>((pTile))->Set(0xfb7, apSettings->uiJustify);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb2, apSettings->fRed, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb3, apSettings->fGreen, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb4, apSettings->fBlue, true);
             pTile->Set(0xff5, -1);
-            pTile->SetImageFlags(8);
+            reinterpret_cast<::FUN_00a07530_shell *>((pTile))->FUN_00a07530(8);
         }
     }
-    pos = ((TileList*)m_kFifthTileList)->GetHeadPos();
+    pos = ((void *)(::FUN_00559450((int *)(((TileList*)m_kFifthTileList)))));
     while (pos)
     {
-        TileEx* pTile = (TileEx*)((TileList*)m_kFifthTileList)->GetNext(pos);
+        TileEx* pTile = (TileEx*)((::Tile *)(reinterpret_cast<::ListStandIn *>((((TileList*)m_kFifthTileList)))->FUN_0057cbe0((int **)&(pos))));
         if (pTile)
         {
             float fX = 0;
             switch (apSettings->uiJustify)
             {
             case 1:
-                fX = *(int*)((char*)this + 0xc0);
+                fX = this->unkc0;
                 break;
             case 2:
-                fX = *(int*)((char*)this + 0xc0) + (*(int*)((char*)this + 0xc8) - *(int*)((char*)this + 0xc0)) / 2.0;
+                fX = this->unkc0 + (this->unkc8 - this->unkc0) / 2.0;
                 break;
             case 4:
-                fX = *(int*)((char*)this + 0xc8);
+                fX = this->unkc8;
                 break;
             }
-            pTile->Set(0xfa1, fX, true);
-            pTile->Set(0xfb1, (float)(*(int*)((char*)this + 0xc8) - *(int*)((char*)this + 0xc0)), true);
-            pTile->Set(0xfba, pTile->GetValue(0xfb1), true);
-            pTile->Set(0xfa2, (float)*(int*)((char*)this + 0xc4), true);
-            pTile->Set(0xfb0, *(int*)((char*)this + 0xcc) - pTile->GetValue(0xfa2), true);
-            pTile->Set(0xfbb, pTile->GetValue(0xfb0), true);
-            pTile->Set(0xffa, apSettings->fAlpha, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa1, fX, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb1, (float)(this->unkc8 - this->unkc0), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfba, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfb1), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa2, (float)this->unkc4, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb0, this->unkcc - reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfa2), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfbb, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfb0), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xffa, apSettings->fAlpha, true);
             pTile->Set(0xfb9, apSettings->iVisible);
-            pTile->Set(0xfb7, apSettings->uiJustify);
-            pTile->Set(0xfb2, apSettings->fRed, true);
-            pTile->Set(0xfb3, apSettings->fGreen, true);
-            pTile->Set(0xfb4, apSettings->fBlue, true);
+            reinterpret_cast<::Tile *>((pTile))->Set(0xfb7, apSettings->uiJustify);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb2, apSettings->fRed, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb3, apSettings->fGreen, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb4, apSettings->fBlue, true);
             pTile->Set(0xff5, -1);
-            pTile->SetImageFlags(8);
+            reinterpret_cast<::FUN_00a07530_shell *>((pTile))->FUN_00a07530(8);
         }
     }
 }
@@ -1486,6 +1523,34 @@ struct FUN_00789820_shell : public LoadingMenu
 {
     void FUN_00789820();
 };
+// @fnv 0x0078d490
+unsigned int LoadingMenuThread::ThreadProc()
+{
+    unsigned int interval = ((unsigned int)(::FUN_00457fe0()));
+    unsigned int next = 50;
+    while (m_bThirdThreadFlag != true)
+    {
+        if (((unsigned int)(::FUN_00457fe0())) < interval)
+            FUN_0040fca0(interval - ((unsigned int)(::FUN_00457fe0())));
+        if (m_bFirstThreadFlag &&
+            (!DAT_011a0294 || *((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011ded5c)))->GetMenuTitle())) ||
+             !::FUN_0078a1f0((::FUN_0078a1f0_this *)(reinterpret_cast<LoadingMenu*>(BSSystemUtility::s_iUpdateEnabled)->m_pTiles[0]))))
+        {
+            reinterpret_cast<::FUN_00442550_shell *>(&(m_kSecondSemaphore))->ReleaseAndInitScriptRunLock();
+            m_bSecondThreadFlag = true;
+            reinterpret_cast<::SemaphoreWaitReceiver *>(&(m_kFirstSemaphore))->FUN_004424e0();
+            SetThreadPriority(-1);
+            m_bSecondThreadFlag = false;
+        }
+        else
+        {
+            interval = ((unsigned int)(::FUN_00457fe0())) + next;
+        }
+        reinterpret_cast<::FUN_00789820_shell *>((reinterpret_cast<LoadingMenu*>(BSSystemUtility::s_iUpdateEnabled)))->FUN_00789820();
+        ::FUN_0078d080();
+    }
+    return 0;
+}
 
 class TESForm_Ex;
 class TES;
@@ -1495,49 +1560,31 @@ enum MEDIATYPE
 {
     MEDIATYPE_8 = 8
 };
-extern bool DAT_011a0295;
 extern bool DAT_011da0c9;
 extern float DAT_011dd300;
 extern float DAT_011dd338;
 extern double DAT_01073fb8;
-extern double DAT_0101db88;
-extern const double runtimeInitializationDouble5;
-extern double _gModifierZero;
-extern TES* g_TES;
 extern GlobalObject2_0045cfe0 g_011de740;
 extern GlobalObject2_0045cfe0 g_011da0f0;
-void* memset(void*, int, unsigned int);
-int sprintf_s(char*, unsigned int, const char*, ...);
-unsigned int BSStringLength(const char*);
 void FUN_005330e0(float&, float, float);
-void FUN_00761460(bool);
-void FUN_00830660();
-int Warning(const char*, ...);
-TESForm_Ex** __fastcall _ref_006815c0(void*);
-void __fastcall FUN_0078a9f0(char*);
 class TESGlobalValueReader
 {
   public:
-    float GetValue();
 };
-extern TESGlobalValueReader* DAT_011c3f3c;
 class BGSMoviePlayer
 {
   public:
-    bool FUN_00ec17c0();
-    void FUN_00ec16d0(const char*, int, int, int, int, float);
 };
-extern BGSMoviePlayer* DAT_0126fac4;
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
     void Update(bool);
 };
+enum MEDIATYPE;
 struct FalloutAudioMedia
 {
-    static void Update();
-    static void PlayMedia(MEDIATYPE, const char*, unsigned int, bool, bool, float, unsigned int);
+public:
+    static void FadeOutMedia(int, ::MEDIATYPE);
 };
 class NiUpdateData
 {
@@ -1552,23 +1599,18 @@ class NiUpdateData
 };
 struct NN_00605d70
 {
-    void Update(const NiUpdateData&);
 };
 struct NiAVObjectS
 {
-    void FUN_00450f90(bool);
 };
 struct TGF
 {
-    float GetFloat(int);
 };
 struct TileQ
 {
-    bool ContainsTrait(int);
 };
 struct TV
 {
-    bool IsVisible();
 };
 struct NiControllerManager
 {
@@ -1576,11 +1618,9 @@ struct NiControllerManager
 };
 struct EP_008c48d0
 {
-    void* GetEntryPoint();
 };
 struct TESTopicInfo
 {
-    TESSound* GetConversationData();
 };
 struct BSSimpleListTESRaceSize
 {
@@ -1589,176 +1629,11 @@ struct BSSimpleListTESRaceSize
 class Tile3D : public Tile
 {
   public:
-    bool FUN_00a20cc0(const char*);
 };
 struct LoadingMenuS
 {
-    void ToggleFlagBit(int);
-    void FUN_0078a230();
-    void UpdateLoadingScreenText(int);
-    void ApplyLoadingScreenTexture(void*);
     void FUN_0078cc50();
 };
-
-// @fnv 0x00789820
-void FUN_00789820_shell::FUN_00789820()
-{
-
-    DAT_011a0295 = true;
-    if (((LoadingMenu*)this)->m_iStateFlags & 1)
-    {
-        ((LoadingMenu*)this)->m_iStateFlags &= ~1;
-        ((LoadingMenu*)this)
-            ->m_pTiles[36]
-            ->Set(0xfa2, ((TGF*)((LoadingMenu*)this)->m_pTiles[34])->GetFloat(0xfa2) - runtimeInitializationDouble5,
-                  true);
-        ((LoadingMenu*)this)
-            ->m_pTiles[36]
-            ->Set(0xfb0, ((TGF*)((LoadingMenu*)this)->m_pTiles[34])->GetFloat(0xfb0) + DAT_0101db88, true);
-    }
-    if (((LoadingMenu*)this)->m_iStateFlags & 2)
-    {
-        ((LoadingMenu*)this)->m_iStateFlags &= ~2;
-        ((LoadingMenu*)this)
-            ->m_pTiles[37]
-            ->Set(0xfa2, ((TGF*)((LoadingMenu*)this)->m_pTiles[35])->GetFloat(0xfa2) - runtimeInitializationDouble5,
-                  true);
-        ((LoadingMenu*)this)
-            ->m_pTiles[37]
-            ->Set(0xfb0, ((TGF*)((LoadingMenu*)this)->m_pTiles[35])->GetFloat(0xfb0) + DAT_0101db88, true);
-    }
-
-    unsigned int CurrTime = gm_GetTickCount();
-    if (!((LoadingMenu*)this)->GetFloat(4))
-    {
-        unsigned int CrossTime = CurrTime - ((LoadingMenu*)this)->m_uiFirstStateValue;
-        float fTileAlpha = CrossTime * DAT_01073fb8;
-        if (!((LoadingMenu*)this)->m_uiFirstStateValue)
-            fTileAlpha = 1.0f;
-        FUN_005330e0(fTileAlpha, 0.0f, 1.0f);
-        if (((LoadingMenu*)this)->m_uiSecondStateValue % 2 == 0)
-            fTileAlpha = 1.0f - fTileAlpha;
-        float fSlide01Alpha = fTileAlpha;
-        FUN_005330e0(fSlide01Alpha, 0.0f, 1.0f);
-        if (((LoadingMenu*)this)->m_pTiles[32])
-            ((LoadingMenu*)this)->m_pTiles[32]->Set(0xfa9, (int)(fSlide01Alpha * 255.0));
-        float fSlide02Alpha = 1.0f - fTileAlpha;
-        FUN_005330e0(fSlide02Alpha, 0.0f, 1.0f);
-        if (((LoadingMenu*)this)->m_pTiles[33])
-            ((LoadingMenu*)this)->m_pTiles[33]->Set(0xfa9, (int)(fSlide02Alpha * 255.0));
-        ((LoadingMenu*)this)->UpdateLoadScreen(*(TESLoadScreen**)((LoadingMenu*)this)->_padToTime, fSlide01Alpha, 1);
-        ((LoadingMenu*)this)
-            ->UpdateLoadScreen((TESLoadScreen*)*_ref_006815c0(((LoadingMenu*)this)->currentCandidate), fSlide02Alpha,
-                               2);
-        DAT_011a0295 = true;
-    }
-
-    if (CurrTime - ((LoadingMenu*)this)->m_uiFirstStateValue < 3000)
-    {
-        if (DAT_011a0294 && !((LoadingMenu*)this)->GetFloat(0) && !DAT_0126fac4->FUN_00ec17c0() &&
-            BSStringLength(((SettingT_GameSettingCollection_*)&g_011de740)->String()) && !DAT_011da0c9)
-        {
-            char cfilename[64];
-            memset(cfilename, 0, 64);
-            sprintf_s(cfilename, 64, "Data\\Music\\Special\\%s.mp3",
-                      ((SettingT_GameSettingCollection_*)&g_011da0f0)->String());
-            FUN_00761460(true);
-            FalloutAudioMedia::PlayMedia(MEDIATYPE_8, cfilename, 0, true, true, 0.0f, 0);
-            FUN_00830660();
-            DAT_011dd300 = 0.6f;
-            DAT_011dd338 = 0.6f;
-            ((NiAVObjectS*)((RgbaColor*)((LoadingMenu*)this)->m_pTiles[0])->FUN_0056c7f0())->FUN_00450f90(true);
-            ((LoadingMenu*)this)->m_pTiles[32]->Set(0xfa9, 0.0f, true);
-            ((LoadingMenu*)this)->m_pTiles[33]->Set(0xfa9, 255.0f, true);
-            DAT_0126fac4->FUN_00ec16d0(((SettingT_GameSettingCollection_*)&g_011de740)->String(), 0, -1, 0, 0, 0.0f);
-            DAT_011da0c9 = true;
-            ((LoadingMenu*)this)->m_pTiles[11]->Set(0xfa3, 1);
-            DAT_011a0295 = true;
-        }
-        else if (DAT_011a0294 && !((LoadingMenu*)this)->GetFloat(0) && !DAT_0126fac4->FUN_00ec17c0() && !DAT_011da0c9 &&
-                 !BSStringLength(((SettingT_GameSettingCollection_*)&g_011de740)->String()))
-        {
-            char cfilename[64];
-            memset(cfilename, 0, 64);
-            sprintf_s(cfilename, 64, "Data\\Music\\Special\\%s.mp3",
-                      ((SettingT_GameSettingCollection_*)&g_011da0f0)->String());
-            FUN_00761460(true);
-            FalloutAudioMedia::PlayMedia(MEDIATYPE_8, cfilename, 0, true, true, 0.0f, 0);
-            FUN_00830660();
-            DAT_011dd300 = 0.6f;
-            DAT_011dd338 = 0.6f;
-            DAT_011da0c9 = true;
-        }
-    }
-    else if (!((LoadingMenu*)this)->nextTipTime)
-    {
-        if (DAT_011a0294)
-        {
-            while (!g_TES)
-                FUN_0040fca0(5);
-            ((LoadingMenuS*)this)->ApplyLoadingScreenTexture(*(void**)((LoadingMenu*)this)->_padToUsFlags_pad1ec);
-        }
-        if (!*(unsigned int*)((LoadingMenu*)this)->_padToExtra && ((LoadingMenu*)this)->GetFloat(4))
-            ((LoadingMenuS*)this)->FUN_0078cc50();
-        else
-            *(unsigned int*)((LoadingMenu*)this)->_padToExtra = gm_GetTickCount();
-        ((LoadingMenu*)this)->nextTipTime = *(unsigned int*)((LoadingMenu*)this)->_padToExtra;
-    }
-    else if (((LoadingMenu*)this)->GetFloat(4))
-    {
-        ((LoadingMenuS*)this)->FUN_0078cc50();
-    }
-    else if (!((LoadingMenu*)this)->GetFloat(9) && gm_GetTickCount() >= ((LoadingMenu*)this)->nextTipTime)
-    {
-        Tile3D* p3dtile = (Tile3D*)((LoadingMenu*)this)->m_pTiles[0];
-        if (p3dtile->FUN_0078a1f0())
-        {
-            if (!DAT_011a0294 && DAT_011c3f3c->GetValue() == _gModifierZero && !FUN_0070edf0() &&
-                (!((LoadingMenu*)this)->GetFloat(3) ||
-                 ((TileQ*)((LoadingMenu*)this)->m_pTiles[34])->ContainsTrait(0xfa3)))
-                ((LoadingMenuS*)this)->UpdateLoadingScreenText(0);
-            FUN_0078a9f0((char*)this);
-            ((LoadingMenuS*)this)->ApplyLoadingScreenTexture(0);
-            ((NiControllerManager*)((TESTopicInfo*)p3dtile)->GetConversationData())
-                ->StopSequence((NiControllerSequence*)((EP_008c48d0*)p3dtile)->GetEntryPoint(), 0.0f);
-            ((LoadingMenu*)this)->UpdateLoadingScreenTip();
-            if (DAT_011a0294 && ((LoadingMenu*)this)->currentCandidate == &((LoadingMenu*)this)->candidates)
-                ((LoadingMenu*)this)->SetFloatFlag(0, true);
-        }
-        else if (!DAT_011a0294 || !((LoadingMenu*)this)->GetFloat(0))
-        {
-            if (!((LoadingMenu*)this)->GetFloat(3) && !((LoadingMenu*)this)->GetFloat(8))
-            {
-                ((LoadingMenu*)this)->nextTipTime = gm_GetTickCount();
-                ((LoadingMenuS*)this)->ToggleFlagBit(1);
-                if (p3dtile->FUN_00a20cc0(((LoadingMenu*)this)->GetFloat(1) ? "Forward" : "Backward"))
-                {
-                    ((LoadingMenu*)this)->m_uiFirstStateValue = gm_GetTickCount();
-                    ((LoadingMenu*)this)->m_uiSecondStateValue++;
-                    if (((LoadingMenu*)this)->GetFloat(7))
-                    {
-                        ((LoadingMenu*)this)
-                            ->SetFloatFlag(
-                                8, ((BSSimpleListTESRaceSize*)&((LoadingMenu*)this)->candidates)->GetSize() == 1);
-                        ((LoadingMenu*)this)->SetFloatFlag(7, false);
-                    }
-                    NiUpdateData data(0.0f, true, false);
-                    ((NN_00605d70*)((RgbaColor*)p3dtile)->FUN_0056c7f0())->Update(data);
-                }
-                else
-                {
-                    Warning("MENUS: (Loading Menu) Unable to play sequence %s",
-                            ((LoadingMenu*)this)->GetFloat(1) ? "Forward" : "Backward");
-                }
-            }
-        }
-    }
-
-    if (((TV*)((LoadingMenu*)this)->m_pTiles[11])->IsVisible())
-        ((LoadingMenuS*)this)->FUN_0078a230();
-    BSAudio::GetSingleton()->Update(true);
-    FalloutAudioMedia::Update();
-}
 
 extern unsigned char DAT_011cabb8;
 
@@ -1775,30 +1650,33 @@ struct Flt
 };
 struct TL
 {
-    Tile*& GetNext(void*& pos);
+    void* m_pHead;
+    char pad04[0x8];
 };
 struct TileEx
 {
-    float GetFloat(int aiID);
 };
 struct LoadingMenuStandIn
 {
+    char pad00[0xd0];
+    TL kTiles;
+
     void FUN_0078b100(float afTime, int aiState);
     void SetTileAlpha(Tile* apTile, float afTime);
 };
-// When aiState is 1, walks the tile list at this+0xd0, sets flag 0xfa3 to 1 on tiles where it is 0, and calls SetTileAlpha on each tile with afTime.
+// When aiState is 1, walks the tile list kTiles, sets flag 0xfa3 to 1 on tiles where it is 0, and calls SetTileAlpha on each tile with afTime.
 // @fnv 0x0078b100
 void LoadingMenuStandIn::FUN_0078b100(float afTime, int aiState)
 {
     if (aiState == 1)
     {
-        void* pos = (void*)(unsigned int)*(Flt*)((char*)this + 0xd0);
+        void* pos = this->kTiles.m_pHead;
         while (pos)
         {
-            Tile* pTile = ((TL*)((char*)this + 0xd0))->GetNext(pos);
+            Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((&this->kTiles))->FUN_0057cbe0((int **)&(pos))));
             if (pTile)
             {
-                if (((TileEx*)pTile)->GetFloat(0xfa3) == 0.0)
+                if (reinterpret_cast<::TileListBoxCalls *>((((TileEx*)pTile)))->GetFloat(0xfa3) == 0.0)
                     pTile->Set(0xfa3, 1);
                 SetTileAlpha(pTile, afTime);
             }
@@ -1814,30 +1692,33 @@ struct Flt
 };
 struct TL
 {
-    Tile*& GetNext(void*& pos);
+    void* m_pHead;
+    char pad04[0x8];
 };
 struct TileEx
 {
-    float GetFloat(int aiID);
 };
 struct LoadingMenuStandIn
 {
+    char pad00[0xdc];
+    TL kTiles;
+
     void UpdateTiles(float afTime, int aiState);
     void SetTileAlpha(Tile* apTile, float afTime);
 };
-// When aiState is 1, walks the tile list at this+0xdc, sets tile flag 0xfa3 to 1 if it is 0, and calls SetTileAlpha on each tile with afTime.
+// When aiState is 1, walks the tile list kTiles, sets tile flag 0xfa3 to 1 if it is 0, and calls SetTileAlpha on each tile with afTime.
 // @fnv 0x0078b190
 void LoadingMenuStandIn::UpdateTiles(float afTime, int aiState)
 {
     if (aiState == 1)
     {
-        void* pos = (void*)(unsigned int)*(Flt*)((char*)this + 0xdc);
+        void* pos = this->kTiles.m_pHead;
         while (pos)
         {
-            Tile* pTile = ((TL*)((char*)this + 0xdc))->GetNext(pos);
+            Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((&this->kTiles))->FUN_0057cbe0((int **)&(pos))));
             if (pTile)
             {
-                if (((TileEx*)pTile)->GetFloat(0xfa3) == 0.0)
+                if (reinterpret_cast<::TileListBoxCalls *>((((TileEx*)pTile)))->GetFloat(0xfa3) == 0.0)
                     pTile->Set(0xfa3, 1);
                 SetTileAlpha(pTile, afTime);
             }
@@ -1858,11 +1739,9 @@ struct Flt
 };
 struct TL
 {
-    Tile*& GetNext(void*& pos);
 };
 struct TileEx
 {
-    float GetFloat(int aiID);
 };
 struct LoadingMenuStandIn
 {
@@ -1875,13 +1754,13 @@ void FUN_0078b220_shell::FadeSlideTiles(float afAlpha, int anSlide)
     void* piter;
     if (anSlide == 1)
     {
-        piter = (void*)(unsigned int)*(Flt*)m_kFourthTileList;
+        piter = (void*)(uintptr_t)*(Flt*)m_kFourthTileList;
         while (piter)
         {
-            Tile* pTile = ((TL*)m_kFourthTileList)->GetNext(piter);
+            Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)m_kFourthTileList)))->FUN_0057cbe0((int **)&(piter))));
             if (pTile)
             {
-                if (((TileEx*)pTile)->GetFloat(0xfa3) == 0.0)
+                if (reinterpret_cast<::TileListBoxCalls *>((((TileEx*)pTile)))->GetFloat(0xfa3) == 0.0)
                     pTile->Set(0xfa3, 1);
                 ((LoadingMenuStandIn*)this)->SetTileAlpha(pTile, afAlpha);
             }
@@ -1890,13 +1769,13 @@ void FUN_0078b220_shell::FadeSlideTiles(float afAlpha, int anSlide)
     }
     if (anSlide == 2)
     {
-        piter = (void*)(unsigned int)*(Flt*)m_kFifthTileList;
+        piter = (void*)(uintptr_t)*(Flt*)m_kFifthTileList;
         while (piter)
         {
-            Tile* pTile = ((TL*)m_kFifthTileList)->GetNext(piter);
+            Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)m_kFifthTileList)))->FUN_0057cbe0((int **)&(piter))));
             if (pTile)
             {
-                if (((TileEx*)pTile)->GetFloat(0xfa3) == 0.0)
+                if (reinterpret_cast<::TileListBoxCalls *>((((TileEx*)pTile)))->GetFloat(0xfa3) == 0.0)
                     pTile->Set(0xfa3, 1);
                 ((LoadingMenuStandIn*)this)->SetTileAlpha(pTile, afAlpha);
             }
@@ -1913,30 +1792,33 @@ struct Flt
 };
 struct TL
 {
-    Tile*& GetNext(void*& pos);
+    void* m_pHead;
+    char pad04[0x8];
 };
 struct TileEx
 {
-    float GetFloat(int aiID);
 };
 struct LoadingMenuStandIn
 {
+    char pad00[0xe8];
+    TL kTiles;
+
     void UpdateLoadingTiles(float afTime, int aiState);
     void SetTileAlpha(Tile* apTile, float afTime);
 };
-// When aiState is 1, walks the tile list at this+0xe8, sets flag 0xfa3 to 1 on tiles where it is 0, and calls SetTileAlpha on each tile with afTime.
+// When aiState is 1, walks the tile list kTiles, sets flag 0xfa3 to 1 on tiles where it is 0, and calls SetTileAlpha on each tile with afTime.
 // @fnv 0x0078b360
 void LoadingMenuStandIn::UpdateLoadingTiles(float afTime, int aiState)
 {
     if (aiState == 1)
     {
-        void* pos = (void*)(unsigned int)*(Flt*)((char*)this + 0xe8);
+        void* pos = this->kTiles.m_pHead;
         while (pos)
         {
-            Tile* pTile = ((TL*)((char*)this + 0xe8))->GetNext(pos);
+            Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((&this->kTiles))->FUN_0057cbe0((int **)&(pos))));
             if (pTile)
             {
-                if (((TileEx*)pTile)->GetFloat(0xfa3) == 0.0)
+                if (reinterpret_cast<::TileListBoxCalls *>((((TileEx*)pTile)))->GetFloat(0xfa3) == 0.0)
                     pTile->Set(0xfa3, 1);
                 SetTileAlpha(pTile, afTime);
             }
@@ -1948,7 +1830,6 @@ void LoadingMenuStandIn::UpdateLoadingTiles(float afTime, int aiState)
 namespace fnv_0078b810 {
 struct TileEx
 {
-    float GetFloat(int aiID);
 };
 struct TileLayout
 {
@@ -1976,12 +1857,12 @@ void FUN_0078b810_shell::CopyTileLayout()
         unsigned char justify = 4;
         if (m_pTiles[i])
         {
-            x9 = (int)((TileEx*)m_pTiles[i])->GetFloat(0xfa1);
-            y4 = (int)((TileEx*)m_pTiles[i])->GetFloat(0xfa2);
-            height = (int)((TileEx*)m_pTiles[i])->GetFloat(0xfb0);
-            width = (int)((TileEx*)m_pTiles[i])->GetFloat(0xfb1);
-            aZoom = (int)((TileEx*)m_pTiles[i])->GetFloat(0xfb9);
-            justify = (unsigned char)((TileEx*)m_pTiles[i])->GetFloat(0xfb7);
+            x9 = (int)reinterpret_cast<::TileListBoxCalls *>((((TileEx*)m_pTiles[i])))->GetFloat(0xfa1);
+            y4 = (int)reinterpret_cast<::TileListBoxCalls *>((((TileEx*)m_pTiles[i])))->GetFloat(0xfa2);
+            height = (int)reinterpret_cast<::TileListBoxCalls *>((((TileEx*)m_pTiles[i])))->GetFloat(0xfb0);
+            width = (int)reinterpret_cast<::TileListBoxCalls *>((((TileEx*)m_pTiles[i])))->GetFloat(0xfb1);
+            aZoom = (int)reinterpret_cast<::TileListBoxCalls *>((((TileEx*)m_pTiles[i])))->GetFloat(0xfb9);
+            justify = (unsigned char)reinterpret_cast<::TileListBoxCalls *>((((TileEx*)m_pTiles[i])))->GetFloat(0xfb7);
         }
         ((TileLayout*)m_kTileLayouts)[i].iX = x9;
         ((TileLayout*)m_kTileLayouts)[i].iY = y4;
@@ -1993,16 +1874,19 @@ void FUN_0078b810_shell::CopyTileLayout()
 }
 }  // namespace fnv_0078b810
 
-void* __fastcall _ref_00726070(void* apNode);
-unsigned int __fastcall FUN_0044edb0(void* apList);
 void FUN_0078d670();
 extern float DAT_011da16c;
 extern int DAT_011da170;
 struct BGSSaveFormBuffer
 {
-    void SerializeFormData(void* apForm, int aiFlags);
-    void SaveData(void* apData, int aiSize, int aiFlags);
 };
+// The leading fields of BGSQuestObjective.
+struct QuestObjectiveFields
+{
+    void* vtable;
+    int objectiveId;
+};
+
 // @fnv 0x0078d6b0
 void SaveLoadScreenData(BGSSaveFormBuffer* apSaveGameBuffer)
 {
@@ -2010,19 +1894,18 @@ void SaveLoadScreenData(BGSSaveFormBuffer* apSaveGameBuffer)
     void* pquest;
     bool bLocationSpecificOnly;
     FUN_0078d670();
-    pquest = *(void**)&g_011da168 ? (void*)FUN_0044edb0(*(void**)&g_011da168) : 0;
-    iElementIndex = *(void**)&g_011da168 ? (unsigned int)_ref_00726070(*(void**)&g_011da168) : 0;
-    apSaveGameBuffer->SerializeFormData(pquest, 0);
-    apSaveGameBuffer->SaveData(&iElementIndex, 4, 0);
-    apSaveGameBuffer->SaveData(&DAT_011da16c, 4, 0);
-    apSaveGameBuffer->SaveData(&DAT_011da170, 4, 0);
-    bLocationSpecificOnly = TESLoadScreenFlags::GetUseLocationSpecificScreensOnly();
-    apSaveGameBuffer->SaveData(&bLocationSpecificOnly, 1, 0);
+    pquest = *(void**)&g_011da168 ? (void*)((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((*(void**)&g_011da168))->FUN_0044edb0())) : 0;
+    iElementIndex = *(void**)&g_011da168 ? (unsigned int)reinterpret_cast<::QuestObjectiveFields *>(*(void**)&g_011da168)->objectiveId : 0;
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pquest), 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&iElementIndex, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&DAT_011da16c, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&DAT_011da170, 4, 0);
+    bLocationSpecificOnly = ((bool)(::FUN_0078a930()));
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&bLocationSpecificOnly, 1, 0);
 }
 
 struct LoadingMenu_CreateProxy
 {
-    static Tile* __cdecl Create(TESForm*, bool, bool);
 };
 // @fnv 0x0078d280
 void FUN_0078d280(bool abCreate)
@@ -2030,27 +1913,16 @@ void FUN_0078d280(bool abCreate)
     if (BSSystemUtility::s_iUpdateEnabled)
         LoadingMenu::UpdateLoadingScreenThread();
     else if (abCreate)
-        LoadingMenu_CreateProxy::Create(0, false, false);
+        ::CreateLoadingMenuTile(0, false, false);
     if (BSSystemUtility::s_iUpdateEnabled)
         ((LoadingMenu*&)BSSystemUtility::s_iUpdateEnabled)->SetTileVisible(LoadingMenu::Tile0, false);
 }
 
-void _Deallocate(void*);
 struct S0078d3f0
 {
     void FUN_0078d420();
     void* FUN_0078d3f0(unsigned int);
 };
-// Calls FUN_0078d420 on this, deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x0078d3f0
-void* S0078d3f0::FUN_0078d3f0(unsigned int flags)
-{
-    this->FUN_0078d420();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct Fake00788ab0
 {
     char _pad[0x1e8];
@@ -2071,13 +1943,6 @@ void UpdateIfEnabled(int aiValue)
 
 namespace fnv_007887a0 {
 class NiRenderer;
-NiRenderer* __cdecl FUN_0043c4b0();
-void __cdecl FUN_00761460(unsigned char);
-void __cdecl FUN_00788a90(unsigned char);
-unsigned char __cdecl FUN_00788aa0();
-void __fastcall FUN_0078a940(char*);
-bool __cdecl FUN_00a61f30(const void*);
-extern char* _g_thePlayer;
 
 struct BSS
 {
@@ -2111,27 +1976,19 @@ struct GlobalObject_0048f200
 };
 struct PatrolActorPackageData
 {
-    bool IsPatrolling();
 };
 struct S1740
 {
-    void FUN_005d1740(int);
 };
 struct SndX
 {
-    void Stop();
-    void PausePlayback();
 };
 struct QuestX
 {
-    void SetEnabled(bool);
 };
 class BSAudio
 {
   public:
-    static BSAudio* __cdecl GetSingleton();
-    bool FUN_005bb4d0();
-    void SetUseMultipleThreads(bool);
 };
 enum MEDIATYPE
 {
@@ -2140,7 +1997,6 @@ enum MEDIATYPE
 class FalloutAudioMedia
 {
   public:
-    static void __cdecl FadeOutMedia(int, MEDIATYPE);
 };
 struct RendX
 {
@@ -2225,37 +2081,37 @@ FUN_007887a0::~FUN_007887a0()
     {
         if (*(Flt*)&m_kLoadScreenTextures[i])
         {
-            FUN_00a61f30((const void*)(unsigned int)*(Flt*)&m_kLoadScreenTextures[i]);
+            ::FUN_00a61f30((const void*)(uintptr_t)*(Flt*)&m_kLoadScreenTextures[i]);
             m_kLoadScreenTextures[i] = 0;
         }
     }
     DAT_011d8907 = false;
-    ((RendX*)FUN_0043c4b0())->SetBackground(m_kLoadingScreenColor);
-    if (FUN_0070edf0() || (DAT_011a0294 && *((SettingT_GameSettingCollection_*)&g_011ded5c)->String()))
+    ((RendX*)((::fnv_007887a0::NiRenderer *)(::FUN_0043c4b0())))->SetBackground(m_kLoadingScreenColor);
+    if (FUN_0070edf0() || (DAT_011a0294 && *((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011ded5c)))->GetMenuTitle()))))
     {
-        if (((PatrolActorPackageData*)BSAudio::GetSingleton())->IsPatrolling())
-            FalloutAudioMedia::FadeOutMedia(4000, (MEDIATYPE)0);
+        if (reinterpret_cast<::PatrolActorPackageData *>((((PatrolActorPackageData*)((::fnv_007887a0::BSAudio *)(::FUN_00453a70())))))->IsPatrolling())
+            ::FalloutAudioMedia::FadeOutMedia(4000, (*(::MEDIATYPE *)&(const ::fnv_007887a0::MEDIATYPE &)((MEDIATYPE)0)));
     }
-    if (FUN_00788aa0())
+    if (::FUN_00788aa0())
     {
-        FUN_00788a90(0);
-        FUN_00761460(0);
-        FalloutAudioMedia::FadeOutMedia(4000, (MEDIATYPE)0);
+        ::FUN_00788a90(0);
+        ::FUN_00761460(0);
+        ::FalloutAudioMedia::FadeOutMedia(4000, (*(::MEDIATYPE *)&(const ::fnv_007887a0::MEDIATYPE &)((MEDIATYPE)0)));
     }
-    if (((LoadingMenu*)this)->GetFloat(2) && BSAudio::GetSingleton()->FUN_005bb4d0())
-        BSAudio::GetSingleton()->SetUseMultipleThreads(false);
-    ((S1740*)BSAudio::GetSingleton())->FUN_005d1740(1000);
+    if (((LoadingMenu*)this)->GetFloat(2) && reinterpret_cast<::FUN_005bb4d0_shell *>((((::fnv_007887a0::BSAudio *)(::FUN_00453a70()))))->FUN_005bb4d0())
+        reinterpret_cast<::FUN_00ad7230_shell *>((((::fnv_007887a0::BSAudio *)(::FUN_00453a70()))))->FUN_00ad7230(false);
+    reinterpret_cast<::S1740 *>((((S1740*)((::fnv_007887a0::BSAudio *)(::FUN_00453a70())))))->FUN_005d1740(1000);
     DAT_011a0294 = false;
-    FUN_0078a940((char*)this);
-    ((SndX*)&m_kSecondDate)->Stop();
-    ((SndX*)&m_kSecondDate)->PausePlayback();
-    ((SndX*)&m_kFirstDate)->PausePlayback();
+    ::FUN_0078a940((char*)this);
+    reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>((((SndX*)&m_kSecondDate)))->FUN_00ad88f0();
+    reinterpret_cast<::SoundPlaybackHandle *>((((SndX*)&m_kSecondDate)))->Release();
+    reinterpret_cast<::SoundPlaybackHandle *>((((SndX*)&m_kFirstDate)))->Release();
     pLocation = 0;
     BSSystemUtility::s_iUpdateEnabled = 0;
-    if (_g_thePlayer && *(QuestX**)(_g_thePlayer + 0xe4c))
+    if ((*reinterpret_cast<char * *>(&::_g_thePlayer)) && *(QuestX**)((*reinterpret_cast<char * *>(&::_g_thePlayer)) + 0xe4c))
     {
-        (*(QuestX**)(_g_thePlayer + 0xe4c))->SetEnabled(true);
-        *(QuestX**)(_g_thePlayer + 0xe4c) = 0;
+        reinterpret_cast<::TESQuest *>(((*(QuestX**)((*reinterpret_cast<char * *>(&::_g_thePlayer)) + 0xe4c))))->SetEnabled(true);
+        *(QuestX**)((*reinterpret_cast<char * *>(&::_g_thePlayer)) + 0xe4c) = 0;
     }
 }
 }  // namespace fnv_007887a0
@@ -2265,13 +2121,8 @@ struct FUN_0078a280_shell : public LoadingMenu
     void UpdateLoadingScreenText(bool);
 };
 
-extern "C" int __cdecl tolower(int);
-
-extern SettingT_GameSettingCollection_ g_011d3000;
-extern bool DAT_011a0295;
 struct LoadScreenNode_r8a280
 {
-    TESLoadScreen** _ref_006815c0();
 };
 class BaseFormComponent
 {
@@ -2291,29 +2142,29 @@ class TESDescription : public BaseFormComponent
 void FUN_0078a280_shell::UpdateLoadingScreenText(bool abRefreshCurrent)
 {
     unsigned int iplateno = 0;
-    const char* pName = (*((LoadScreenNode_r8a280*)currentCandidate)->_ref_006815c0())->fullName.GetFullName();
+    const char* pName = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::TESLoadScreen **)(&reinterpret_cast<::SimpleListNodeView*>(((LoadScreenNode_r8a280*)currentCandidate))->m_item)))->fullName))->FUN_00408da0()));
     while (*pName)
         iplateno = (iplateno << 5) + iplateno + tolower(*pName++);
     iplateno %= 100000;
     if (m_uiSecondStateValue % 2 == 0)
     {
         m_iStateFlags |= 1;
-        m_pTiles[34]->Set(
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[34]))->FUN_00a01350(
             0xfc4,
-            ((TESDescription*)((char*)*((LoadScreenNode_r8a280*)currentCandidate)->_ref_006815c0() + 0x24))
-                ->GetDescription(0, 0x43534544),
+            (char *)(((TESDescription*)((char*)*((::TESLoadScreen **)(&reinterpret_cast<::SimpleListNodeView*>(((LoadScreenNode_r8a280*)currentCandidate))->m_item)) + 0x24))
+                ->GetDescription(0, 0x43534544)),
             true);
     }
     else
     {
         m_iStateFlags |= 2;
-        m_pTiles[35]->Set(
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[35]))->FUN_00a01350(
             0xfc4,
-            ((TESDescription*)((char*)*((LoadScreenNode_r8a280*)currentCandidate)->_ref_006815c0() + 0x24))
-                ->GetDescription(0, 0x43534544),
+            (char *)(((TESDescription*)((char*)*((::TESLoadScreen **)(&reinterpret_cast<::SimpleListNodeView*>(((LoadScreenNode_r8a280*)currentCandidate))->m_item)) + 0x24))
+                ->GetDescription(0, 0x43534544)),
             true);
     }
-    m_pTiles[13]->Set(0xfc4, g_011d3000.String(), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[13]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d3000))))->GetMenuTitle()))), true);
     DAT_011a0295 = true;
 }
 
@@ -2343,12 +2194,10 @@ struct LMString
     char* pString;
     unsigned short usLen;
     unsigned short usMaxLen;
-    int __cdecl Sprintf(const char* apFormat, ...);
     operator const char*() const;
 };
 struct LMFullName
 {
-    const char* GetFullName();
 };
 struct LMLoadScreen
 {
@@ -2362,18 +2211,16 @@ struct LMLoadScreen
 };
 struct LMNode
 {
-    LMLoadScreen** GetItem();
 };
 class TES
 {
   public:
-    void CreateTextureImage(const char* apPath, NiPointer<NiSourceTexture>& arTexture, bool abA, bool abB);
 };
-extern TES* g_TES;
-bool FUN_00a61f30(const void* apTexture);
+struct NiTexture;
 struct TileShaderProperty
 {
-    void SetTexture(NiSourceTexture* apTexture);
+public:
+    void FUN_00bb7a10(::NiTexture *);
 };
 class LMTile
 {
@@ -2400,7 +2247,7 @@ struct LoadingMenuX
     int unk01c;
     int unk020;
     int unk024;
-    int unk028;
+    intptr_t unk028;
     int unk02c;
     int unk030;
     int unk034;
@@ -2508,7 +2355,7 @@ struct LoadingMenuX
     int unk1d0;
     int unk1d4;
     LMNode* currentCandidate;
-    int unk1dc;
+    intptr_t unk1dc;
     int unk1e0;
     int unk1e4;
     int unk1e8;
@@ -2755,6 +2602,160 @@ struct LoadingMenuX
     unsigned int m_uiSecondStateValue;
     void ApplyLoadingScreenTexture(TileShaderProperty* apProperty);
 };
+// @fnv 0x00789820
+void FUN_00789820_shell::FUN_00789820()
+{
+
+    DAT_011a0295 = true;
+    if (((LoadingMenu*)this)->m_iStateFlags & 1)
+    {
+        ((LoadingMenu*)this)->m_iStateFlags &= ~1;
+        reinterpret_cast<::FUN_00a012d0_t *>((((LoadingMenu*)this)
+            ->m_pTiles[36]))->FUN_00a012d0(0xfa2, reinterpret_cast<::TileListBoxCalls *>((((TGF*)((LoadingMenu*)this)->m_pTiles[34])))->GetFloat(0xfa2) - runtimeInitializationDouble5,
+                  true);
+        reinterpret_cast<::FUN_00a012d0_t *>((((LoadingMenu*)this)
+            ->m_pTiles[36]))->FUN_00a012d0(0xfb0, reinterpret_cast<::TileListBoxCalls *>((((TGF*)((LoadingMenu*)this)->m_pTiles[34])))->GetFloat(0xfb0) + DAT_0101db88, true);
+    }
+    if (((LoadingMenu*)this)->m_iStateFlags & 2)
+    {
+        ((LoadingMenu*)this)->m_iStateFlags &= ~2;
+        reinterpret_cast<::FUN_00a012d0_t *>((((LoadingMenu*)this)
+            ->m_pTiles[37]))->FUN_00a012d0(0xfa2, reinterpret_cast<::TileListBoxCalls *>((((TGF*)((LoadingMenu*)this)->m_pTiles[35])))->GetFloat(0xfa2) - runtimeInitializationDouble5,
+                  true);
+        reinterpret_cast<::FUN_00a012d0_t *>((((LoadingMenu*)this)
+            ->m_pTiles[37]))->FUN_00a012d0(0xfb0, reinterpret_cast<::TileListBoxCalls *>((((TGF*)((LoadingMenu*)this)->m_pTiles[35])))->GetFloat(0xfb0) + DAT_0101db88, true);
+    }
+
+    unsigned int CurrTime = ((unsigned int)(::FUN_00457fe0()));
+    if (!((LoadingMenu*)this)->GetFloat(4))
+    {
+        unsigned int CrossTime = CurrTime - ((LoadingMenu*)this)->m_uiFirstStateValue;
+        float fTileAlpha = CrossTime * DAT_01073fb8;
+        if (!((LoadingMenu*)this)->m_uiFirstStateValue)
+            fTileAlpha = 1.0f;
+        FUN_005330e0(fTileAlpha, 0.0f, 1.0f);
+        if (((LoadingMenu*)this)->m_uiSecondStateValue % 2 == 0)
+            fTileAlpha = 1.0f - fTileAlpha;
+        float fSlide01Alpha = fTileAlpha;
+        FUN_005330e0(fSlide01Alpha, 0.0f, 1.0f);
+        if (((LoadingMenu*)this)->m_pTiles[32])
+            ((LoadingMenu*)this)->m_pTiles[32]->Set(0xfa9, (int)(fSlide01Alpha * 255.0));
+        float fSlide02Alpha = 1.0f - fTileAlpha;
+        FUN_005330e0(fSlide02Alpha, 0.0f, 1.0f);
+        if (((LoadingMenu*)this)->m_pTiles[33])
+            ((LoadingMenu*)this)->m_pTiles[33]->Set(0xfa9, (int)(fSlide02Alpha * 255.0));
+        ((LoadingMenu*)this)->UpdateLoadScreen(*(TESLoadScreen**)((LoadingMenu*)this)->_padToTime, fSlide01Alpha, 1);
+        ((LoadingMenu*)this)
+            ->UpdateLoadScreen((TESLoadScreen*)*((::TESForm_Ex **)(&reinterpret_cast<::SimpleListNodeView*>(((LoadingMenu*)this)->currentCandidate)->m_item)), fSlide02Alpha,
+                               2);
+        DAT_011a0295 = true;
+    }
+
+    if (CurrTime - ((LoadingMenu*)this)->m_uiFirstStateValue < 3000)
+    {
+        if (DAT_011a0294 && !((LoadingMenu*)this)->GetFloat(0) && !reinterpret_cast<::FUN_00ec17c0_Class *>((DAT_0126fac4))->FUN_00ec17c0() &&
+            ::FUN_0044a670(((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011de740)))->GetMenuTitle()))) && !DAT_011da0c9)
+        {
+            char cfilename[64];
+            ::FUN_00403d30(cfilename, 0, 64);
+            ::FUN_00406d00(cfilename, 64, "Data\\Music\\Special\\%s.mp3",
+                      ((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011da0f0)))->GetMenuTitle())));
+            ::FUN_00761460(true);
+            ::fnv_008300c0::PlayAudioMedia((*(int *)&(const ::MEDIATYPE &)(MEDIATYPE_8)), cfilename, 0, true, true, 0.0f, 0);
+            FUN_00830660();
+            DAT_011dd300 = 0.6f;
+            DAT_011dd338 = 0.6f;
+            reinterpret_cast<::TaskQueueInterface *>((((NiAVObjectS*)((::NiNode *)(reinterpret_cast<::TileFields *>((((RgbaColor*)((LoadingMenu*)this)->m_pTiles[0])))->renderedNode)))))->QueueActorDisarm(true);
+            reinterpret_cast<::FUN_00a012d0_t *>((((LoadingMenu*)this)->m_pTiles[32]))->FUN_00a012d0(0xfa9, 0.0f, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((((LoadingMenu*)this)->m_pTiles[33]))->FUN_00a012d0(0xfa9, 255.0f, true);
+            reinterpret_cast<::BEC16D0MoviePlayerThread *>((DAT_0126fac4))->FUN_00ec16d0((void *)(((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011de740)))->GetMenuTitle()))), 0, -1, 0, 0, 0.0f);
+            DAT_011da0c9 = true;
+            ((LoadingMenu*)this)->m_pTiles[11]->Set(0xfa3, 1);
+            DAT_011a0295 = true;
+        }
+        else if (DAT_011a0294 && !((LoadingMenu*)this)->GetFloat(0) && !reinterpret_cast<::FUN_00ec17c0_Class *>((DAT_0126fac4))->FUN_00ec17c0() && !DAT_011da0c9 &&
+                 !::FUN_0044a670(((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011de740)))->GetMenuTitle()))))
+        {
+            char cfilename[64];
+            ::FUN_00403d30(cfilename, 0, 64);
+            ::FUN_00406d00(cfilename, 64, "Data\\Music\\Special\\%s.mp3",
+                      ((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011da0f0)))->GetMenuTitle())));
+            ::FUN_00761460(true);
+            ::fnv_008300c0::PlayAudioMedia((*(int *)&(const ::MEDIATYPE &)(MEDIATYPE_8)), cfilename, 0, true, true, 0.0f, 0);
+            FUN_00830660();
+            DAT_011dd300 = 0.6f;
+            DAT_011dd338 = 0.6f;
+            DAT_011da0c9 = true;
+        }
+    }
+    else if (!((LoadingMenu*)this)->nextTipTime)
+    {
+        if (DAT_011a0294)
+        {
+            while (!(*reinterpret_cast<::TES * *>(&::g_TES)))
+                FUN_0040fca0(5);
+            reinterpret_cast<::LoadingMenuX *>((((LoadingMenuS*)this)))->ApplyLoadingScreenTexture((::TileShaderProperty *)(((LoadingMenu*)this)->m_pTileShaderState));
+        }
+        if (!((LoadingMenu*)this)->m_uiTipTimer && ((LoadingMenu*)this)->GetFloat(4))
+            ((LoadingMenuS*)this)->FUN_0078cc50();
+        else
+            ((LoadingMenu*)this)->m_uiTipTimer = ((unsigned int)(::FUN_00457fe0()));
+        ((LoadingMenu*)this)->nextTipTime = ((LoadingMenu*)this)->m_uiTipTimer;
+    }
+    else if (((LoadingMenu*)this)->GetFloat(4))
+    {
+        ((LoadingMenuS*)this)->FUN_0078cc50();
+    }
+    else if (!((LoadingMenu*)this)->GetFloat(9) && ((unsigned int)(::FUN_00457fe0())) >= ((LoadingMenu*)this)->nextTipTime)
+    {
+        Tile3D* p3dtile = (Tile3D*)((LoadingMenu*)this)->m_pTiles[0];
+        if (::FUN_0078a1f0((::FUN_0078a1f0_this *)(p3dtile)))
+        {
+            if (!DAT_011a0294 && reinterpret_cast<::FUN_00526ac0_shell *>(((*reinterpret_cast<::TESGlobalValueReader * *>(&::DAT_011c3f3c))))->FUN_00526ac0() == ::_DAT_01012060 && !FUN_0070edf0() &&
+                (!((LoadingMenu*)this)->GetFloat(3) ||
+                 reinterpret_cast<::FUN_00a01230_shell *>((((TileQ*)((LoadingMenu*)this)->m_pTiles[34])))->IsTraitNonZero(0xfa3)))
+                reinterpret_cast<::FUN_0078a280_shell *>((((LoadingMenuS*)this)))->UpdateLoadingScreenText(0);
+            FUN_0078a9f0((char*)this);
+            reinterpret_cast<::LoadingMenuX *>((((LoadingMenuS*)this)))->ApplyLoadingScreenTexture((::TileShaderProperty *)(void *)(0));
+            ((NiControllerManager*)((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)p3dtile))))))
+                ->StopSequence((NiControllerSequence*)((void *)(reinterpret_cast<::Twin_00639b40 *>((((EP_008c48d0*)p3dtile)))->GetEntryPoint())), 0.0f);
+            ((LoadingMenu*)this)->UpdateLoadingScreenTip();
+            if (DAT_011a0294 && ((LoadingMenu*)this)->currentCandidate == &((LoadingMenu*)this)->candidates)
+                ((LoadingMenu*)this)->SetFloatFlag(0, true);
+        }
+        else if (!DAT_011a0294 || !((LoadingMenu*)this)->GetFloat(0))
+        {
+            if (!((LoadingMenu*)this)->GetFloat(3) && !((LoadingMenu*)this)->GetFloat(8))
+            {
+                ((LoadingMenu*)this)->nextTipTime = ((unsigned int)(::FUN_00457fe0()));
+                reinterpret_cast<::FUN_0078a1c0_shell *>((((LoadingMenuS*)this)))->ToggleFlagBit(1);
+                if (reinterpret_cast<::FUN_00a20cc0_t *>((p3dtile))->FUN_00a20cc0(((LoadingMenu*)this)->GetFloat(1) ? "Forward" : "Backward"))
+                {
+                    ((LoadingMenu*)this)->m_uiFirstStateValue = ((unsigned int)(::FUN_00457fe0()));
+                    ((LoadingMenu*)this)->m_uiSecondStateValue++;
+                    if (((LoadingMenu*)this)->GetFloat(7))
+                    {
+                        ((LoadingMenu*)this)
+                            ->SetFloatFlag(
+                                8, ((BSSimpleListTESRaceSize*)&((LoadingMenu*)this)->candidates)->GetSize() == 1);
+                        ((LoadingMenu*)this)->SetFloatFlag(7, false);
+                    }
+                    NiUpdateData data(0.0f, true, false);
+                    reinterpret_cast<::FUN_00a59c60_cls *>((((NN_00605d70*)((::NiNode *)(reinterpret_cast<::TileFields *>((((RgbaColor*)p3dtile)))->renderedNode)))))->FUN_00a59c60((std::intptr_t)&(data));
+                }
+                else
+                {
+                    ::FUN_005b5e40();
+                }
+            }
+        }
+    }
+
+    if (reinterpret_cast<::sa040a0::Owner *>((((TV*)((LoadingMenu*)this)->m_pTiles[11])))->IsAllChildrenFlag0())
+        reinterpret_cast<::FUN_0078a230_shell *>((((LoadingMenuS*)this)))->FUN_0078a230();
+    ::FUN_00453a70()->Update(true);
+    ::UpdateMediaLocation();
+}
 
 // Builds a texture path from the current candidate's full name, creates the texture image, stores it in a rotating slot, and assigns it to a tile shader property.
 // @fnv 0x0078a3e0
@@ -2763,9 +2764,9 @@ void LoadingMenuX::ApplyLoadingScreenTexture(TileShaderProperty* apProperty)
     AutoMemContext memContext(MEM_CONTEXT_0D, true,
                               "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Interface\\Menus\\LoadingMenu.cpp",
                               0x423);
-    m_kLoadingScreenTip.Sprintf("%s\\%s", "Textures", (*currentCandidate->GetItem())->fullName.GetFullName());
+    ::FUN_00406f60((::FUN_00406f90_this *)&(m_kLoadingScreenTip), "%s\\%s", "Textures", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::LMLoadScreen **)(&reinterpret_cast<::SimpleListNodeView*>(currentCandidate)->m_item)))->fullName))->FUN_00408da0())));
     NiPointer<NiSourceTexture> spTexture(0);
-    g_TES->CreateTextureImage(m_kLoadingScreenTip, spTexture, false, false);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_004568c0(m_kLoadingScreenTip, (::TexPtr< ::NiSourceTexture> &)(spTexture), false, false);
     NiPointer<NiSourceTexture>* pSlot = &m_kLoadScreenTextures[m_uiLoadingScreenNumber];
     m_uiLoadingScreenNumber++;
     if (m_uiLoadingScreenNumber >= 4)
@@ -2780,7 +2781,7 @@ void LoadingMenuX::ApplyLoadingScreenTexture(TileShaderProperty* apProperty)
     apProperty = (m_uiSecondStateValue % 2 == 0) ? pTileA8->GetShaderProperty() : pTileAC->GetShaderProperty();
     if (apProperty)
     {
-        apProperty->SetTexture(spTexture);
+        apProperty->FUN_00bb7a10((::NiTexture *)(::NiSourceTexture *)(spTexture));
     }
 }
 
@@ -2795,33 +2796,24 @@ class TileX
   public:
     void Set(int aeValue, float afValue, bool abPropagate);
     void Set(int aeValue, unsigned int auiValue);
-    void SetInt(int aeValue, int aiValue);
-    float GetFloat(int aeValue);
-    void FUN_00a07530(int aiFlags);
     void FUN_00a0b520();
 };
 
 struct TileListX
 {
-    void* GetHeadPos() const;
-    TileX*& GetNext(void*& pos);
 };
 
 class SettingX
 {
   public:
-    const char* String();
 };
-extern SettingX g_011d2358_x;
 
 class FontManager
 {
   public:
-    static FontManager* Instance();
     NiPoint3 GetStringDimensions(const char* apText, int aiFont, float afWrapWidth, int aiStart);
 };
 
-int sprintf_s(char* apBuffer, unsigned int auiSize, const char* apFormat, ...);
 
 struct LoadingTileSettingsX
 {
@@ -2858,19 +2850,19 @@ class LoadingMenuX
 // @fnv 0x0078c210
 void LoadingMenuX::ApplyXPBarSettings(LoadingTileSettingsX* apSettings)
 {
-    void* pos = m_kThirdTileList.GetHeadPos();
+    void* pos = ((void *)(::FUN_00559450((int *)&(m_kThirdTileList))));
     while (pos)
     {
-        TileX* pTile = m_kThirdTileList.GetNext(pos);
+        TileX* pTile = ((::fnv_0078c210::TileX *)(reinterpret_cast<::ListStandIn *>(&(m_kThirdTileList))->FUN_0057cbe0((int **)&(pos))));
         if (pTile)
         {
             if (pTile == pXPBox)
             {
-                pTile->Set(0xfa1, (float)iXPMin, true);
-                pTile->Set(0xfb1, (float)(iXPCur - pTile->GetFloat(0xfa1)), true);
-                pTile->Set(0xfba, pTile->GetFloat(0xfb1), true);
-                pTile->Set(0xfa2, (float)iXPMin2, true);
-                pTile->Set(0xfb0, (float)(iXPCur2 - pTile->GetFloat(0xfa2)), true);
+                reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa1, (float)iXPMin, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb1, (float)(iXPCur - reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfa1)), true);
+                reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfba, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfb1), true);
+                reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa2, (float)iXPMin2, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb0, (float)(iXPCur2 - reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfa2)), true);
             }
             else
             {
@@ -2889,41 +2881,41 @@ void LoadingMenuX::ApplyXPBarSettings(LoadingTileSettingsX* apSettings)
                         fStart = (float)(iXPCur - iXPMin);
                         break;
                     }
-                    pTile->Set(0xfa1, fStart, true);
-                    pTile->Set(0xfb7, apSettings->uiJustify);
-                    pTile->SetInt(0xfb9, apSettings->m_iType);
-                    pTile->Set(0xfb1, (float)(iXPCur - iXPMin), true);
-                    pTile->Set(0xfba, pTile->GetFloat(0xfb1), true);
-                    NiPoint3 kBounds = FontManager::Instance()->GetStringDimensions(
-                        g_011d2358_x.String(), apSettings->m_iType, pTile->GetFloat(0xfba), 0);
+                    reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa1, fStart, true);
+                    reinterpret_cast<::Tile *>((pTile))->Set(0xfb7, apSettings->uiJustify);
+                    reinterpret_cast<::Tile *>((pTile))->Set(0xfb9, apSettings->m_iType);
+                    reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb1, (float)(iXPCur - iXPMin), true);
+                    reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfba, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfb1), true);
+                    NiPoint3 kBounds = ((::fnv_0078c210::FontManager *)(::FontManager::Instance()))->GetStringDimensions(
+                        ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078c210::SettingX *>(&::g_011d2358))))->GetMenuTitle())), apSettings->m_iType, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfba), 0);
                     float m_fGlyphExtent = kBounds.y;
-                    pTile->Set(0xfb0, m_fGlyphExtent, true);
+                    reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb0, m_fGlyphExtent, true);
                 }
                 else if (pTile == pXPBar)
                 {
                     char buffer[260];
-                    sprintf_s(buffer, 0x104, "%i", (unsigned int)pTile->GetFloat(0x1005));
-                    float fNum = FontManager::Instance()
-                                     ->GetStringDimensions(buffer, apSettings->m_iType, pTile->GetFloat(0xfba), 0)
+                    ::FUN_00406d00(buffer, 0x104, "%i", (unsigned int)reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0x1005));
+                    float fNum = ((::fnv_0078c210::FontManager *)(::FontManager::Instance()))
+                                     ->GetStringDimensions(buffer, apSettings->m_iType, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfba), 0)
                                      .x;
-                    pTile->Set(0xfa1, fNum, true);
+                    reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa1, fNum, true);
                     char acLevel2[260];
-                    sprintf_s(acLevel2, 0x104, "%i", (unsigned int)pTile->GetFloat(0x1006));
-                    float fRightWidth = FontManager::Instance()
+                    ::FUN_00406d00(acLevel2, 0x104, "%i", (unsigned int)reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0x1006));
+                    float fRightWidth = ((::fnv_0078c210::FontManager *)(::FontManager::Instance()))
                                             ->GetStringDimensions(acLevel2, apSettings->m_iType,
                                                                   (float)(((iXPCur - iXPMin) - fNum) / 2.0), 0)
                                             .x;
-                    pTile->Set(0xfb1, (float)((iXPCur - iXPMin) - fNum * 2.0f - fRightWidth), true);
+                    reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb1, (float)((iXPCur - iXPMin) - fNum * 2.0f - fRightWidth), true);
                 }
-                pTile->Set(0xfb2, apSettings->fRed, true);
-                pTile->Set(0xfb3, apSettings->fGreen, true);
-                pTile->Set(0xfb4, apSettings->fBlue, true);
-                pTile->SetInt(0xff5, -1);
-                pTile->FUN_00a07530(8);
+                reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb2, apSettings->fRed, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb3, apSettings->fGreen, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb4, apSettings->fBlue, true);
+                reinterpret_cast<::Tile *>((pTile))->Set(0xff5, -1);
+                reinterpret_cast<::FUN_00a07530_shell *>((pTile))->FUN_00a07530(8);
             }
         }
     }
-    pXPBox->Set(0xffa, apSettings->fAlpha, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((pXPBox))->FUN_00a012d0(0xffa, apSettings->fAlpha, true);
     pXPBox->FUN_00a0b520();
 }
 }  // namespace fnv_0078c210
@@ -2952,6 +2944,15 @@ class FUN_0078d420 : public Base_b7116
 
     virtual ~FUN_0078d420();
 };
+// Calls FUN_0078d420 on this, deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x0078d3f0
+void* S0078d3f0::FUN_0078d3f0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0078d420 *>((this))->FUN_0078d420::~FUN_0078d420();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor for the class; destroys the two Sub_b7116 members unk3c and unk30.
 // @fnv 0x0078d420
@@ -2962,13 +2963,10 @@ class LoadingMenuCreateMenu;
 class LoadingMenuCreateTile : public Tile
 {
   public:
-    LoadingMenuCreateTile* ReadFile(const char*);
-    LoadingMenuCreateMenu* GetMenu();
 };
 class LoadingMenuCreateProvider
 {
   public:
-    LoadingMenuCreateTile* FUN_00586150();
 };
 class LoadingMenuCreateMenu
 {
@@ -2987,71 +2985,51 @@ class LoadingMenuCreateMenu
     virtual void vfn2c();
     virtual void vfn30();
     virtual int GetID();
-    void FUN_00458080(int, bool);
     void FUN_00788ab0(TESForm*);
-    void FUN_00a1dc70(LoadingMenuCreateTile*, bool);
-    void CopyTileLayout();
-    void FUN_00788f30();
-    void FUN_00788f80();
-    void FUN_00789080();
-    void FUN_00788fe0();
-    void FUN_0078b6a0(bool);
-    void FUN_0078b6f0(bool);
-    void FUN_0078b650(bool);
-    void FUN_0078b7c0(bool);
-    void InitLoadingMenu(TESForm*);
 };
-extern LoadingMenuCreateMenu* DAT_011da0c0;
-extern LoadingMenuThread* DAT_011da0c4;
 extern bool DAT_011da0c8;
-LoadingMenuCreateTile* FUN_00a09030(int);
-void FUN_00717740(int);
-void FUN_0078d020();
-void* __cdecl operator new(unsigned int);
 
 // Looks up a loading-menu tile by id; if missing, loads loading_menu.xml, initialises the menu, creates the thread and returns the tile.
 // @fnv 0x00788cc0
 Tile* __cdecl CreateLoadingMenuTile(TESForm* form, bool refresh, bool visible)
 {
-    LoadingMenuCreateTile* menu = FUN_00a09030(FUN_00788f20());
+    LoadingMenuCreateTile* menu = ((::LoadingMenuCreateTile *)(::FUN_00a09030(FUN_00788f20())));
     if (menu)
     {
-        DAT_011da0c0->FUN_00458080(3, true);
-        DAT_011da0c0->FUN_00788ab0(form);
-        DAT_011da0c0->FUN_00458080(10, visible);
+        reinterpret_cast<::LoadingMenu *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->SetFloatFlag(3, true);
+        (*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))->FUN_00788ab0(form);
+        reinterpret_cast<::LoadingMenu *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->SetFloatFlag(10, visible);
         return menu;
     }
     DAT_011da0c8 = true;
-    LoadingMenuCreateTile* existing = reinterpret_cast<LoadingMenuCreateProvider*>(FUN_004b7210())
-                                          ->FUN_00586150()
-                                          ->ReadFile("Data\\Menus\\loading_menu.xml");
+    LoadingMenuCreateTile* existing = ((::LoadingMenuCreateTile *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::LoadingMenuCreateTile *)(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<LoadingMenuCreateProvider*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00586150()))))->FUN_00a01b00((void *)("Data\\Menus\\loading_menu.xml"))));
     DAT_011da0c8 = false;
-    LoadingMenuCreateMenu* tile = existing->GetMenu();
+    LoadingMenuCreateMenu* tile = ((::LoadingMenuCreateMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((existing))->FUN_00a03c90()));
     if (tile && tile->GetID() == FUN_00788f20())
     {
-        FUN_00717740(0);
-        tile->FUN_00a1dc70(existing, false);
-        DAT_011da0c0 = tile;
-        DAT_011da0c0->CopyTileLayout();
-        DAT_011da0c0->FUN_00788f30();
-        DAT_011da0c0->FUN_00788f80();
-        DAT_011da0c0->FUN_00789080();
-        DAT_011da0c0->FUN_00788fe0();
-        DAT_011da0c0->FUN_0078b6a0(false);
-        DAT_011da0c0->FUN_0078b6f0(false);
-        DAT_011da0c0->FUN_0078b650(false);
-        DAT_011da0c0->FUN_0078b7c0(false);
-        DAT_011da0c0->InitLoadingMenu(form);
-        DAT_011da0c0->FUN_00458080(10, visible);
-        if (!DAT_011da0c4)
-            DAT_011da0c4 = new LoadingMenuThread;
+        ::LoadingMenu::SetLoadingScreenVisible(0);
+        reinterpret_cast<::FUN_00a1dc70_shell *>((tile))->FUN_00a1dc70((::TileMenu *)(existing), false);
+        (*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled)) = tile;
+        reinterpret_cast<::fnv_0078b810::FUN_0078b810_shell *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->CopyTileLayout();
+        reinterpret_cast<::LM2 *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->FUN_00788f30();
+        ::FUN_00788f80((char *)((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))));
+        reinterpret_cast<::fnv_00789080::LM3 *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->FUN_00789080();
+        reinterpret_cast<::S788 *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->FUN_00788fe0();
+        reinterpret_cast<::fnv_0078b6a0::LM0078b6a0 *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->FUN_0078b6a0(false);
+        reinterpret_cast<::S78b *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->FUN_0078b6f0(false);
+        reinterpret_cast<::LM0078b650 *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->FUN_0078b650(false);
+        reinterpret_cast<::fnv_0078b7c0::LM0078b7c0 *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->FUN_0078b7c0(false);
+        reinterpret_cast<::fnv_007890e0::FUN_007890e0_shell *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->InitLoadingMenu(form);
+        reinterpret_cast<::LoadingMenu *>(((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled))))->SetFloatFlag(10, visible);
+        if (!(*reinterpret_cast<::LoadingMenuThread * *>(&::BSSystemUtility::ms_pSystemUtility)))
+            (*reinterpret_cast<::LoadingMenuThread * *>(&::BSSystemUtility::ms_pSystemUtility)) = new LoadingMenuThread;
         else if (refresh)
-            FUN_0078d020();
-        reinterpret_cast<LoadingMenu*>(DAT_011da0c0)->m_pTiles[32]->Set(0xfa9, 0);
-        reinterpret_cast<LoadingMenu*>(DAT_011da0c0)->m_pTiles[33]->Set(0xfa9, 0);
+            ::BSSystemUtility::GetRandomGenerator();
+        reinterpret_cast<LoadingMenu*>((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled)))->m_pTiles[32]->Set(0xfa9, 0);
+        reinterpret_cast<LoadingMenu*>((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled)))->m_pTiles[33]->Set(0xfa9, 0);
         return existing;
     }
-    else if (tile && _ref_00726070(tile))
+    else if (tile && reinterpret_cast<::MenuFields *>((tile))->tile)
     {
         delete tile;
     }
@@ -3067,18 +3045,13 @@ struct ScreenEntry
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     ScreenPath path;
     int unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
-    static void* operator new(unsigned int) throw();
-    static void operator delete(void*);
     ScreenEntry();
-    void Prepare();
 };
 struct ScreenList
 {
     bool Empty();
     unsigned int Count();
-    void Append(ScreenEntry* const&);
     void Add(ScreenEntry* const&);
-    ScreenEntry** Head();
 };
 struct ScreenArray
 {
@@ -3089,81 +3062,14 @@ struct ScreenArray
 struct SettingProxy
 {
     int a, b, c;
-    const char* Text();
-    unsigned int* Number();
 };
 extern SettingProxy screenNames[];
-extern DurationData* schedule;
-int IsSpecial(const char*);
-void NextScreen(int*, int);
 struct FUN_0078a5a0_cls : LoadingMenuX
 {
     void UpdateLoadingScreens();
-    void Clear();
-    void SetFlag(int, bool);
     void Gather(ScreenArray&);
     void Build(ScreenArray&);
-    void Refresh();
-    void Reset();
-    void Select(ScreenEntry*, bool);
 };
-// Clears and rebuilds the loading screen list from settings or gathered entries, adds a fallback entry, refreshes the menu and selects the first entry.
-// @fnv 0x0078a5a0
-void FUN_0078a5a0_cls::UpdateLoadingScreens()
-{
-    bool cleared = false;
-    if (!((ScreenList*)&unk1d0)->Empty())
-    {
-        Clear();
-        cleared = true;
-    }
-    SetFlag(5, FUN_0070edf0() || (unsigned char)schedule->FUN_00678ce0());
-    if (DAT_011a0294 && !FUN_0070edf0())
-    {
-        int index = 0;
-        if (IsSpecial(((SettingProxy*)&g_011de740)->Text()))
-            index = 3;
-        for (; index < 5; NextScreen(&index, 0))
-        {
-            const char* folder = index == 4 ? "Main" : "Loading";
-            m_kLoadingScreenTip.Sprintf("Interface\\%s\\%s.dds", folder, screenNames[index].Text());
-            ScreenEntry* entry = new ScreenEntry;
-            entry->path.Set(m_kLoadingScreenTip);
-            entry->Prepare();
-            ((ScreenList*)&unk1d0)->Append(entry);
-        }
-    }
-    else
-    {
-        ScreenArray screenArray;
-        Gather(screenArray);
-        Build(screenArray);
-        if (unk1e8 && ((ScreenList*)&unk1d0)->Count() < *((SettingProxy*)&g_011da138)->Number() && !FUN_0078a930())
-        {
-            unk1e8 = 0;
-            Gather(screenArray);
-            Build(screenArray);
-        }
-    }
-    if (((ScreenList*)&unk1d0)->Empty())
-    {
-        m_kLoadingScreenTip.Sprintf("Interface\\Loading\\%s.dds", screenNames[0].Text());
-        ScreenEntry* fallback = new ScreenEntry;
-        fallback->path.Set(m_kLoadingScreenTip);
-        fallback->Prepare();
-        ((ScreenList*)&unk1d0)->Add(fallback);
-    }
-    if (cleared && !((Tile*)unk028)->FUN_0078a1f0())
-    {
-        ApplyLoadingScreenTexture(0);
-        Refresh();
-    }
-    SetFlag(7, true);
-    unk1dc = (int)*((ScreenList*)&unk1d0)->Head();
-    Reset();
-    Select((ScreenEntry*)unk1dc, true);
-}
-
 template <class T> class NiTListItem;
 template <class T> class NiTPointerList
 {
@@ -3175,9 +3081,6 @@ struct LoadingStatsTile : Tile
 {
     int unk00;
     NiTPointerList<Tile*> children;
-    float FUN_00a011b0(int value);
-    void FUN_00a07530(int flags);
-    void FUN_00a0b520();
 };
 struct LoadingStatsSettings
 {
@@ -3253,57 +3156,8 @@ struct LoadingStatsMenu
     int bottom;
     void ApplySettings(LoadingStatsSettings* settings);
 };
-// @fnv 0x0078bc80
-void LoadingStatsMenu::ApplySettings(LoadingStatsSettings* settings)
-{
-    container->Set(0xfa1, float(left), true);
-    container->Set(0xfb1, float(right - left), true);
-    container->Set(0xfa2, float(top), true);
-    container->Set(0xfb0, float(bottom - top), true);
-    firstStats->Set(0xfb9, settings->first.iVisible);
-    firstStats->Set(0xfb2, settings->first.fRed, true);
-    firstStats->Set(0xfb3, settings->first.fGreen, true);
-    firstStats->Set(0xfb4, settings->first.fBlue, true);
-    secondStats->Set(0xfb9, settings->second.iVisible);
-    firstStats->Set(0xfb2, settings->second.fRed, true);
-    firstStats->Set(0xfb3, settings->second.fGreen, true);
-    firstStats->Set(0xfb4, settings->second.fBlue, true);
-    float spacing = container->FUN_00a011b0(0xfb0) / settings->second.count;
-    float y = 0.0f;
-    NiTListItem<Tile*>* secondPos = firstStats->children.FUN_00726070();
-    NiTListItem<Tile*>* pos2 = secondStats->children.FUN_00726070();
-    unsigned int uiIndex = 1;
-    while (secondPos && pos2)
-    {
-        Tile* firstTile = firstStats->children.GetPrev(secondPos);
-        Tile* secondTile = secondStats->children.GetPrev(pos2);
-        if (firstTile && secondTile)
-        {
-            bool visible = true;
-            if (uiIndex <= settings->second.count)
-            {
-                firstTile->Set(0xfa2, y, true);
-                secondTile->Set(0xfa2, y, true);
-                y += spacing;
-                static_cast<LoadingStatsTile*>(firstTile)->FUN_00a07530(8);
-                static_cast<LoadingStatsTile*>(secondTile)->FUN_00a07530(8);
-                ++uiIndex;
-            }
-            else
-            {
-                visible = false;
-            }
-            firstTile->Set(0xfa3, int(visible));
-            secondTile->Set(0xfa3, int(visible));
-        }
-    }
-    container->Set(0xffa, settings->first.fAlpha, true);
-    container->FUN_00a0b520();
-}
-
 struct Font
 {
-    float Height();
 };
 struct Extent
 {
@@ -3316,20 +3170,61 @@ struct FontMgr
     Font* fonts[8];
     void Measure(Extent*, const char*, int, float, int);
 };
-FontMgr* FUN_005bd5b0();
 struct TileWork
 {
     void Set(int, float, bool);
-    void SetInt(int, int);
-    void SetUnsigned(int, unsigned);
-    float Get(int);
-    void Update(int);
-    void Finish();
+public:
+    void FUN_00a0b520();
 };
+// @fnv 0x0078bc80
+void LoadingStatsMenu::ApplySettings(LoadingStatsSettings* settings)
+{
+    reinterpret_cast<::FUN_00a012d0_t *>((container))->FUN_00a012d0(0xfa1, float(left), true);
+    reinterpret_cast<::FUN_00a012d0_t *>((container))->FUN_00a012d0(0xfb1, float(right - left), true);
+    reinterpret_cast<::FUN_00a012d0_t *>((container))->FUN_00a012d0(0xfa2, float(top), true);
+    reinterpret_cast<::FUN_00a012d0_t *>((container))->FUN_00a012d0(0xfb0, float(bottom - top), true);
+    firstStats->Set(0xfb9, settings->first.iVisible);
+    reinterpret_cast<::FUN_00a012d0_t *>((firstStats))->FUN_00a012d0(0xfb2, settings->first.fRed, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((firstStats))->FUN_00a012d0(0xfb3, settings->first.fGreen, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((firstStats))->FUN_00a012d0(0xfb4, settings->first.fBlue, true);
+    secondStats->Set(0xfb9, settings->second.iVisible);
+    reinterpret_cast<::FUN_00a012d0_t *>((firstStats))->FUN_00a012d0(0xfb2, settings->second.fRed, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((firstStats))->FUN_00a012d0(0xfb3, settings->second.fGreen, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((firstStats))->FUN_00a012d0(0xfb4, settings->second.fBlue, true);
+    float spacing = reinterpret_cast<::TileListBoxCalls *>((container))->GetFloat(0xfb0) / settings->second.count;
+    float y = 0.0f;
+    NiTListItem<Tile*>* secondPos = ((::NiTListItem< ::Tile *> *)(reinterpret_cast<::Callees *>(&(firstStats->children))->FUN_00726070()));
+    NiTListItem<Tile*>* pos2 = ((::NiTListItem< ::Tile *> *)(reinterpret_cast<::Callees *>(&(secondStats->children))->FUN_00726070()));
+    unsigned int uiIndex = 1;
+    while (secondPos && pos2)
+    {
+        Tile* firstTile = firstStats->children.GetPrev(secondPos);
+        Tile* secondTile = secondStats->children.GetPrev(pos2);
+        if (firstTile && secondTile)
+        {
+            bool visible = true;
+            if (uiIndex <= settings->second.count)
+            {
+                reinterpret_cast<::FUN_00a012d0_t *>((firstTile))->FUN_00a012d0(0xfa2, y, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((secondTile))->FUN_00a012d0(0xfa2, y, true);
+                y += spacing;
+                reinterpret_cast<::FUN_00a07530_shell *>((static_cast<LoadingStatsTile*>(firstTile)))->FUN_00a07530(8);
+                reinterpret_cast<::FUN_00a07530_shell *>((static_cast<LoadingStatsTile*>(secondTile)))->FUN_00a07530(8);
+                ++uiIndex;
+            }
+            else
+            {
+                visible = false;
+            }
+            firstTile->Set(0xfa3, int(visible));
+            secondTile->Set(0xfa3, int(visible));
+        }
+    }
+    reinterpret_cast<::FUN_00a012d0_t *>((container))->FUN_00a012d0(0xffa, settings->first.fAlpha, true);
+    reinterpret_cast<::TileWork *>((container))->FUN_00a0b520();
+}
 struct WorkTileList
 {
-    void* Head();
-    TileWork*& Next(void*&);
 };
 struct Options
 {
@@ -3409,11 +3304,11 @@ struct MenuWork
 // @fnv 0x0078bf80
 void MenuWork::UpdateMenuTiles(Options* options)
 {
-    float fontHeight = FUN_005bd5b0()->fonts[options->font]->Height();
-    void* position = tiles.Head();
+    float fontHeight = reinterpret_cast<::FUN_00759450_shell *>((((::FontMgr *)(::FontManager::Instance()))->fonts[options->font]))->FUN_00759450();
+    void* position = ((void *)(::FUN_00559450((int *)&(tiles))));
     while (position)
     {
-        TileWork* tile = tiles.Next(position);
+        TileWork* tile = ((::TileWork *)(reinterpret_cast<::ListStandIn *>(&(tiles))->FUN_0057cbe0((int **)&(position))));
         if (tile)
         {
             if (tile == primary)
@@ -3431,31 +3326,31 @@ void MenuWork::UpdateMenuTiles(Options* options)
                     offset = right;
                     break;
                 }
-                tile->Set(0xfa1, offset, true);
-                tile->Set(0xfb1, float(right - left), true);
-                tile->Set(0xfba, tile->Get(0xfb1), true);
-                tile->Set(0xfa2, float(top), true);
-                tile->SetInt(0xfb9, options->font);
-                tile->SetUnsigned(0xfb7, options->align);
-                tile->Set(0xfb2, options->value1, true);
-                tile->Set(0xfb3, options->value2, true);
-                tile->Set(0xfb4, options->value3, true);
-                tile->SetInt(0xff5, -1);
-                tile->Update(8);
+                reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfa1, offset, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfb1, float(right - left), true);
+                reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfba, reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfb1), true);
+                reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfa2, float(top), true);
+                reinterpret_cast<::Tile *>((tile))->Set(0xfb9, options->font);
+                reinterpret_cast<::Tile *>((tile))->Set(0xfb7, options->align);
+                reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfb2, options->value1, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfb3, options->value2, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfb4, options->value3, true);
+                reinterpret_cast<::Tile *>((tile))->Set(0xff5, -1);
+                reinterpret_cast<::FUN_00a07530_shell *>((tile))->FUN_00a07530(8);
             }
             else if (tile == secondary)
             {
                 float width = float(right - left);
                 Extent extent;
-                FUN_005bd5b0()->Measure(&extent, ((SettingT_GameSettingCollection_*)&g_011d40f0)->String(),
+                ((::FontMgr *)(::FontManager::Instance()))->Measure(&extent, ((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011d40f0)))->GetMenuTitle())),
                                         options->font, width, 0);
                 float height = extent.y;
-                tile->Set(0xfa2, height, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfa2, height, true);
             }
         }
     }
-    primary->Set(0xffa, options->alpha, true);
-    primary->Finish();
+    reinterpret_cast<::FUN_00a012d0_t *>((primary))->FUN_00a012d0(0xffa, options->alpha, true);
+    primary->FUN_00a0b520();
 }
 
 struct TileVT
@@ -3467,7 +3362,6 @@ struct TileVT
 };
 struct TileImage3D
 {
-    NiNode* FUN_0056c7f0();
 };
 struct FUN_0078ce10_shell
 {
@@ -3475,7 +3369,6 @@ struct FUN_0078ce10_shell
     Tile* m_pkInvertedTile;
     char pad5c[0xac - 0x5c];
     Tile* m_pkSkipTile;
-    void SetAlphaRecursive(NiNode* pkNode, float fAlpha);
     void SetTileAlpha(Tile* pkTile, float fAlpha);
 };
 
@@ -3490,68 +3383,59 @@ void FUN_0078ce10_shell::SetTileAlpha(Tile* pkTile, float fAlpha)
     fAlpha = FUN_00404010(fAlpha, 0.0f);
     if (((TileVT*)pkTile)->GetType() == 0x388)
     {
-        SetAlphaRecursive(((TileImage3D*)pkTile)->FUN_0056c7f0(), fAlpha);
+        reinterpret_cast<::FUN_0078cf10_Class *>(this)->SetAlphaRecursive((::NiAVObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::TileFields *>((((TileImage3D*)pkTile)))->renderedNode))), fAlpha);
         return;
     }
     if (pkTile == m_pkInvertedTile)
         fAlpha = 1.0f - fAlpha;
-    pkTile->Set(0xfa9, fAlpha * 255.0, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((pkTile))->FUN_00a012d0(0xfa9, fAlpha * 255.0, true);
     DAT_011a0295 = true;
-    void* pPos = ((TileList*)((char*)pkTile + 4))->GetHeadPos();
+    void* pPos = ((void *)(::FUN_00559450((int *)(((TileList*)&reinterpret_cast<::TileFields *>(pkTile)->childHead)))));
     while (pPos)
-        SetTileAlpha(((TileList*)((char*)pkTile + 4))->GetNext(pPos), fAlpha);
+        SetTileAlpha(((::Tile *)(reinterpret_cast<::ListStandIn *>((((TileList*)&reinterpret_cast<::TileFields *>(pkTile)->childHead)))->FUN_0057cbe0((int **)&(pPos)))), fAlpha);
 }
 
 namespace fnv_0078bb60 {
 extern bool DAT_011a0296;
 struct PerkEntryX : BGSPerkEntry
 {
-    void* FUN_005f36f0();
-    int FUN_0078bc60();
-    int FUN_005a7130();
 };
 struct LoadingMenuX : LoadingMenu
 {
-    bool FUN_00458110(int);
-    void FUN_0078b9b0(int);
-    void ApplySettings(int);
-    void ApplyXPBarSettings(int);
-    void ApplySettingsToTiles(int);
-    void UpdateMenuTiles(int);
     void FUN_0078bb60(BGSPerkEntry* entry);
 };
 // Applies the selected perk entry's settings to the loading menu tiles, XP bar, or menu tiles based on its type, then clears DAT_011a0296.
 // @fnv 0x0078bb60
 void LoadingMenuX::FUN_0078bb60(BGSPerkEntry* entry)
 {
-    if (!FUN_00458110(6))
+    if (!reinterpret_cast<::LoadingMenu *>(this)->GetFloat(6))
         return;
     if (entry == 0)
     {
         if (currentCandidate)
-            entry = currentCandidate->GetItem();
+            entry = ((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(currentCandidate)->m_item));
         else
-            entry = candidates.GetItem();
+            entry = ((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(candidates))->m_item));
         if (entry == 0)
             return;
     }
-    if (((PerkEntryX*)entry)->FUN_005f36f0())
+    if (((void *)(reinterpret_cast<::BGSCameraPath *>((((PerkEntryX*)entry)))->GetPrevPath())))
     {
-        int x = ((PerkEntryX*)entry)->FUN_0078bc60();
-        FUN_0078b9b0(x);
-        switch (((PerkEntryX*)entry)->FUN_005a7130())
+        intptr_t x = ::FUN_0078bc60((intptr_t)(((PerkEntryX*)entry)));
+        reinterpret_cast<::FUN_0078b9b0_shell *>(this)->FUN_0078b9b0((void *)(x));
+        switch (reinterpret_cast<::FUN_005a7130_shell *>((((PerkEntryX*)entry)))->FUN_005a7130())
         {
         case 4:
-            ApplySettings(x);
+            reinterpret_cast<::LoadingStatsMenu *>(this)->ApplySettings((::LoadingStatsSettings *)(x));
             break;
         case 1:
-            ApplyXPBarSettings(x);
+            reinterpret_cast<::fnv_0078c210::LoadingMenuX *>(this)->ApplyXPBarSettings((::fnv_0078c210::LoadingTileSettingsX *)(x));
             break;
         case 3:
-            ApplySettingsToTiles(x);
+            reinterpret_cast<::LoadingMenuTips *>(this)->ApplySettingsToTiles((::LoadingTileSettings *)(x));
             break;
         case 2:
-            UpdateMenuTiles(x);
+            reinterpret_cast<::MenuWork *>(this)->UpdateMenuTiles((::Options *)(x));
             break;
         }
     }
@@ -3564,23 +3448,18 @@ namespace s78cc50 {
 
 struct Tile
 {
-    float FUN_00a011b0(unsigned int uiValue);
 };
 
 struct TileMenu
 {
-    void FUN_00a20610(int iValue);
 };
 
 struct VATSCamera
 {
-    int FUN_0078cdf0();
+    intptr_t FUN_0078cdf0();
 };
 
-extern VATSCamera* DAT_011dea0c;
-extern bool DAT_011a0294;
 
-unsigned int FUN_00457fe0();
 
 struct FadeMenu
 {
@@ -3952,46 +3831,41 @@ struct FadeMenu
     int unk5b4;
     int m_iFadeCount;
 
-    void SetTileAlpha(Tile* pkTile, float fAlpha);
-    void FUN_00458080(int iArg0, int iArg1);
     void FUN_0078cc50();
 };
 
 // @fnv 0x0078cc50
 void FadeMenu::FUN_0078cc50()
 {
-    static float s_fDuration = m_pkTile->FUN_00a011b0(0xfc1) * 1000.0;
+    static float s_fDuration = reinterpret_cast<::TileListBoxCalls *>((m_pkTile))->GetFloat(0xfc1) * 1000.0;
 
     if (m_uiEndTime == 0)
     {
-        if (DAT_011dea0c->FUN_0078cdf0() || DAT_011a0294)
+        if ((*reinterpret_cast<::s78cc50::VATSCamera * *>(&::g_osGlobals))->FUN_0078cdf0() || ::DAT_011a0294)
         {
-            m_pkMenu->FUN_00a20610(DAT_011dea0c->FUN_0078cdf0());
-            m_uiEndTime = (unsigned int)(FUN_00457fe0() + s_fDuration);
+            reinterpret_cast<::TileImage *>((m_pkMenu))->SetTexture((::NiAVObject *)((*reinterpret_cast<::s78cc50::VATSCamera * *>(&::g_osGlobals))->FUN_0078cdf0()));
+            m_uiEndTime = (unsigned int)(((unsigned int)(::FUN_00457fe0())) + s_fDuration);
         }
         else
         {
-            m_uiEndTime = FUN_00457fe0();
+            m_uiEndTime = ((unsigned int)(::FUN_00457fe0()));
         }
     }
-    if (FUN_00457fe0() < m_uiEndTime)
+    if (((unsigned int)(::FUN_00457fe0())) < m_uiEndTime)
     {
-        unsigned int uiRemaining = m_uiEndTime - FUN_00457fe0();
-        SetTileAlpha(m_pkTile, 1.0f - uiRemaining / s_fDuration);
+        unsigned int uiRemaining = m_uiEndTime - ((unsigned int)(::FUN_00457fe0()));
+        reinterpret_cast<::FUN_0078ce10_shell *>(this)->SetTileAlpha((::Tile *)(m_pkTile), 1.0f - uiRemaining / s_fDuration);
     }
     else
     {
-        SetTileAlpha(m_pkTile, 1.0f);
-        FUN_00458080(4, 0);
+        reinterpret_cast<::FUN_0078ce10_shell *>(this)->SetTileAlpha((::Tile *)(m_pkTile), 1.0f);
+        reinterpret_cast<::LoadingMenu *>(this)->SetFloatFlag(4, 0);
         m_iFadeCount++;
     }
 }
 
 }
 
-void* __fastcall _ref_00726070(void* apNode);
-extern bool DAT_011a0294;
-unsigned int gm_GetTickCount();
 
 struct FUN_0078aa90_shell : LoadingMenu
 {
@@ -4002,12 +3876,12 @@ struct FUN_0078aa90_shell : LoadingMenu
 bool FUN_0078aa90_shell::UpdateLoadingScreen()
 {
     Tile* p3dtile = m_pTiles[0];
-    if (DAT_011a0294 && !GetFloat(0) && !p3dtile->FUN_0078a1f0())
+    if (DAT_011a0294 && !GetFloat(0) && !::FUN_0078a1f0((::FUN_0078a1f0_this *)(p3dtile)))
     {
-        while (_ref_00726070(currentCandidate))
-            currentCandidate = (BSSimpleList<BGSPerkEntry*>*)_ref_00726070(currentCandidate);
-        ((LoadingMenuS*)this)->ApplyLoadingScreenTexture(0);
-        nextTipTime = gm_GetTickCount();
+        while (reinterpret_cast<::Callees *>((currentCandidate))->FUN_00726070())
+            currentCandidate = (BSSimpleList<BGSPerkEntry*>*)reinterpret_cast<::Callees *>((currentCandidate))->FUN_00726070();
+        reinterpret_cast<::LoadingMenuX *>((((LoadingMenuS*)this)))->ApplyLoadingScreenTexture((::TileShaderProperty *)(void *)(0));
+        nextTipTime = ((unsigned int)(::FUN_00457fe0()));
         return true;
     }
     else
@@ -4019,11 +3893,63 @@ bool FUN_0078aa90_shell::UpdateLoadingScreen()
 struct LoadVisibilityMenu : LoadingMenu
 {
     void FUN_0078b3f0(TESLoadScreen*, bool);
-    void FUN_0078b650(bool);
-    void FUN_0078b6a0(bool);
-    void FUN_0078b6f0(bool);
-    void FUN_0078b7c0(bool);
 };
+// Clears and rebuilds the loading screen list from settings or gathered entries, adds a fallback entry, refreshes the menu and selects the first entry.
+// @fnv 0x0078a5a0
+void FUN_0078a5a0_cls::UpdateLoadingScreens()
+{
+    bool cleared = false;
+    if (!((ScreenList*)&unk1d0)->Empty())
+    {
+        ::FUN_0078a940((char *)this);
+        cleared = true;
+    }
+    reinterpret_cast<::LoadingMenu *>(this)->SetFloatFlag(5, FUN_0070edf0() || (unsigned char)reinterpret_cast<::FUN_00678ce0_shell *>(((*reinterpret_cast<::DurationData * *>(&::g_osGlobals))))->FUN_00678ce0());
+    if (DAT_011a0294 && !FUN_0070edf0())
+    {
+        int index = 0;
+        if (((int)(::FUN_0044a670(((const char *)(reinterpret_cast<::StartMenu *>((((SettingProxy*)&g_011de740)))->GetMenuTitle()))))))
+            index = 3;
+        for (; index < 5; ::PostIncrementInt(&index))
+        {
+            const char* folder = index == 4 ? "Main" : "Loading";
+            ::FUN_00406f60((::FUN_00406f90_this *)&(m_kLoadingScreenTip), "Interface\\%s\\%s.dds", folder, ((const char *)(reinterpret_cast<::StartMenu *>(&(screenNames[index]))->GetMenuTitle())));
+            ScreenEntry* entry = new ScreenEntry;
+            reinterpret_cast<::TESFullName *>(&(entry->path))->SetFullName(m_kLoadingScreenTip);
+            reinterpret_cast<::TESForm *>((entry))->NotifySaveLoadGameOfFormChange();
+            reinterpret_cast<::Callees *>((((ScreenList*)&unk1d0)))->FUN_00905820((void *)&(entry));
+        }
+    }
+    else
+    {
+        ScreenArray screenArray;
+        Gather(screenArray);
+        Build(screenArray);
+        if (unk1e8 && ((ScreenList*)&unk1d0)->Count() < *((unsigned int *)&(::FUN_0043d4d0((int *)(((SettingProxy*)&g_011da138))))) && !FUN_0078a930())
+        {
+            unk1e8 = 0;
+            Gather(screenArray);
+            Build(screenArray);
+        }
+    }
+    if (((ScreenList*)&unk1d0)->Empty())
+    {
+        ::FUN_00406f60((::FUN_00406f90_this *)&(m_kLoadingScreenTip), "Interface\\Loading\\%s.dds", ((const char *)(reinterpret_cast<::StartMenu *>(&(screenNames[0]))->GetMenuTitle())));
+        ScreenEntry* fallback = new ScreenEntry;
+        reinterpret_cast<::TESFullName *>(&(fallback->path))->SetFullName(m_kLoadingScreenTip);
+        reinterpret_cast<::TESForm *>((fallback))->NotifySaveLoadGameOfFormChange();
+        ((ScreenList*)&unk1d0)->Add(fallback);
+    }
+    if (cleared && !::FUN_0078a1f0((::FUN_0078a1f0_this *)(((Tile*)unk028))))
+    {
+        ApplyLoadingScreenTexture(0);
+        reinterpret_cast<::LoadingMenu *>(this)->UpdateLoadingScreenTip();
+    }
+    reinterpret_cast<::LoadingMenu *>(this)->SetFloatFlag(7, true);
+    unk1dc = (intptr_t)*((::ScreenEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((ScreenList*)&unk1d0))->m_item));
+    reinterpret_cast<::LMStandIn *>(this)->FUN_0078bb40();
+    reinterpret_cast<::LoadVisibilityMenu *>(this)->FUN_0078b3f0((::TESLoadScreen *)(::ScreenEntry *)((ScreenEntry*)unk1dc), true);
+}
 
 // For a selected screen with bShow true, dispatches settings by screen type; otherwise passes bShow to all four methods.
 // @fnv 0x0078b3f0
@@ -4037,11 +3963,11 @@ void LoadVisibilityMenu::FUN_0078b3f0(TESLoadScreen* pLoadScreen, bool bShow)
     {
         if (currentCandidate)
         {
-            pLoadScreen = (TESLoadScreen*)currentCandidate->GetItem();
+            pLoadScreen = (TESLoadScreen*)((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(currentCandidate)->m_item));
         }
         else
         {
-            pLoadScreen = (TESLoadScreen*)candidates.GetItem();
+            pLoadScreen = (TESLoadScreen*)((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(candidates))->m_item));
         }
         if (!pLoadScreen)
         {
@@ -4050,68 +3976,59 @@ void LoadVisibilityMenu::FUN_0078b3f0(TESLoadScreen* pLoadScreen, bool bShow)
     }
     if (pLoadScreen && bShow)
     {
-        switch (pLoadScreen->GetLoadScreenTypeDataType())
+        switch (reinterpret_cast<::FUN_005a7130_shell *>((pLoadScreen))->FUN_005a7130())
         {
         case 2:
-            FUN_0078b6a0(bShow);
-            FUN_0078b650(!bShow);
-            FUN_0078b6f0(!bShow);
-            FUN_0078b7c0(!bShow);
+            reinterpret_cast<::fnv_0078b6a0::LM0078b6a0 *>(this)->FUN_0078b6a0(bShow);
+            reinterpret_cast<::LM0078b650 *>(this)->FUN_0078b650(!bShow);
+            reinterpret_cast<::S78b *>(this)->FUN_0078b6f0(!bShow);
+            reinterpret_cast<::fnv_0078b7c0::LM0078b7c0 *>(this)->FUN_0078b7c0(!bShow);
             break;
         case 4:
-            FUN_0078b6a0(!bShow);
-            FUN_0078b650(bShow);
-            FUN_0078b6f0(!bShow);
-            FUN_0078b7c0(!bShow);
+            reinterpret_cast<::fnv_0078b6a0::LM0078b6a0 *>(this)->FUN_0078b6a0(!bShow);
+            reinterpret_cast<::LM0078b650 *>(this)->FUN_0078b650(bShow);
+            reinterpret_cast<::S78b *>(this)->FUN_0078b6f0(!bShow);
+            reinterpret_cast<::fnv_0078b7c0::LM0078b7c0 *>(this)->FUN_0078b7c0(!bShow);
             break;
         case 3:
-            FUN_0078b6a0(!bShow);
-            FUN_0078b650(!bShow);
-            FUN_0078b6f0(bShow);
-            FUN_0078b7c0(!bShow);
+            reinterpret_cast<::fnv_0078b6a0::LM0078b6a0 *>(this)->FUN_0078b6a0(!bShow);
+            reinterpret_cast<::LM0078b650 *>(this)->FUN_0078b650(!bShow);
+            reinterpret_cast<::S78b *>(this)->FUN_0078b6f0(bShow);
+            reinterpret_cast<::fnv_0078b7c0::LM0078b7c0 *>(this)->FUN_0078b7c0(!bShow);
             break;
         case 1:
-            FUN_0078b6a0(!bShow);
-            FUN_0078b650(!bShow);
-            FUN_0078b6f0(!bShow);
-            FUN_0078b7c0(bShow);
+            reinterpret_cast<::fnv_0078b6a0::LM0078b6a0 *>(this)->FUN_0078b6a0(!bShow);
+            reinterpret_cast<::LM0078b650 *>(this)->FUN_0078b650(!bShow);
+            reinterpret_cast<::S78b *>(this)->FUN_0078b6f0(!bShow);
+            reinterpret_cast<::fnv_0078b7c0::LM0078b7c0 *>(this)->FUN_0078b7c0(bShow);
             break;
         default:
-            FUN_0078b6a0(false);
-            FUN_0078b650(false);
-            FUN_0078b6f0(false);
-            FUN_0078b7c0(false);
+            reinterpret_cast<::fnv_0078b6a0::LM0078b6a0 *>(this)->FUN_0078b6a0(false);
+            reinterpret_cast<::LM0078b650 *>(this)->FUN_0078b650(false);
+            reinterpret_cast<::S78b *>(this)->FUN_0078b6f0(false);
+            reinterpret_cast<::fnv_0078b7c0::LM0078b7c0 *>(this)->FUN_0078b7c0(false);
             break;
         }
     }
     else
     {
-        FUN_0078b6a0(bShow);
-        FUN_0078b650(bShow);
-        FUN_0078b6f0(bShow);
-        FUN_0078b7c0(bShow);
+        reinterpret_cast<::fnv_0078b6a0::LM0078b6a0 *>(this)->FUN_0078b6a0(bShow);
+        reinterpret_cast<::LM0078b650 *>(this)->FUN_0078b650(bShow);
+        reinterpret_cast<::S78b *>(this)->FUN_0078b6f0(bShow);
+        reinterpret_cast<::fnv_0078b7c0::LM0078b7c0 *>(this)->FUN_0078b7c0(bShow);
     }
 }
 
 namespace fnv_00788ab0 {
-extern bool DAT_011a0295;
 struct LoadingResetTileState
 {
-    void FUN_00458080(LoadingMenu::TileIndex, bool);
 };
 struct S00788ab0_AfaShell
 {
-    void FUN_0078afa0(bool);
 };
 struct S00788ab0_LoadingMenu
 {
-    void UpdateLoadingScreenText(int);
-    void ApplyLoadingScreenTexture(int);
-    void FUN_0078a230();
 };
-void* __cdecl FUN_0043c4b0();
-void __cdecl FUN_00a04200(bool);
-void __fastcall FUN_0078a9f0(char*);
 class S00788ab0_StartMenu
 {
   public:
@@ -4124,84 +4041,72 @@ class S00788ab0_StartMenu
 };
 struct S00788ab0_MenuTileQuery
 {
-    S00788ab0_StartMenu* GetMenu();
 };
-int FUN_0070ede0();
-S00788ab0_MenuTileQuery* FUN_00a09030(int);
-void FUN_0078cfc0();
-void FUN_0078d020();
-void __fastcall FUN_004a0370(char*);
-void __fastcall FUN_004a03c0(char*);
 struct S00788ab0_OSQuery
 {
-    bool FUN_00678ce0();
 };
 struct S00788ab0_InterfaceQuery
 {
-    Tile* GetParent();
 };
 struct S00788ab0_VisibleTile
 {
-    bool IsVisible();
 };
 struct S00788ab0_LoadingSetup : LoadingMenu
 {
     void FUN_00788ab0(int);
-    void FUN_0078aec0();
-    void UpdateLoadingScreens();
-    void FUN_0078abd0();
 };
-// When GetFloat(3) is nonzero, updates timers and menu state, configures tiles, and assigns value to extraCandidates.
+// When GetFloat(3) is nonzero, updates timers and menu state, configures tiles, and assigns the value to pLocation.
 // @fnv 0x00788ab0
 void S00788ab0_LoadingSetup::FUN_00788ab0(int aiExtraCandidates)
 {
     if (GetFloat(3))
     {
-        FUN_0078cfc0();
-        m_uiFirstStateValue = gm_GetTickCount() - 4000;
-        if (DAT_011d8907 || g_BGSSaveLoadGame->FUN_0042ce10())
+        ::LoadingMenu::UpdateLoadingScreenThread();
+        m_uiFirstStateValue = ((unsigned int)(::FUN_00457fe0())) - 4000;
+        if (DAT_011d8907 || reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
         {
-            S00788ab0_StartMenu* menu = FUN_00a09030(FUN_0070ede0())->GetMenu();
+            S00788ab0_StartMenu* menu = ((::fnv_00788ab0::S00788ab0_StartMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::fnv_00788ab0::S00788ab0_MenuTileQuery *)(::FUN_00a09030(::FUN_0070ede0())))))->FUN_00a03c90()));
             if (menu && !menu->IsFlagSet(S00788ab0_StartMenu::Flag1))
             {
                 delete menu;
             }
         }
-        if (((S00788ab0_OSQuery*)g_osGlobals)->FUN_00678ce0())
+        if (((bool)(reinterpret_cast<::FUN_00678ce0_shell *>((((S00788ab0_OSQuery*)g_osGlobals)))->FUN_00678ce0())))
         {
-            ((S00788ab0_AfaShell*)this)->FUN_0078afa0(false);
+            reinterpret_cast<::FUN_0078afa0_shell *>((((S00788ab0_AfaShell*)this)))->FUN_0078afa0(false);
         }
         else
         {
-            ((S00788ab0_AfaShell*)this)->FUN_0078afa0(true);
-            FUN_0078aec0();
+            reinterpret_cast<::FUN_0078afa0_shell *>((((S00788ab0_AfaShell*)this)))->FUN_0078afa0(true);
+            reinterpret_cast<::LoadingMenu *>(this)->RefreshLoadingScreen();
         }
-        extraCandidates = aiExtraCandidates;
-        UpdateLoadingScreens();
-        extraCandidates = aiExtraCandidates;
-        nextTipTime = gm_GetTickCount();
+        pLocation = (TESForm*)(std::intptr_t)aiExtraCandidates;
+        reinterpret_cast<::FUN_0078a5a0_cls *>(this)->UpdateLoadingScreens();
+        pLocation = (TESForm*)(std::intptr_t)aiExtraCandidates;
+        nextTipTime = ((unsigned int)(::FUN_00457fe0()));
         ++m_uiSecondStateValue;
-        ((S00788ab0_LoadingMenu*)this)->UpdateLoadingScreenText(0);
-        FUN_0078a9f0((char*)this);
-        ((S00788ab0_LoadingMenu*)this)->ApplyLoadingScreenTexture(0);
-        FUN_0078abd0();
+        reinterpret_cast<::FUN_0078a280_shell *>((((S00788ab0_LoadingMenu*)this)))->UpdateLoadingScreenText(0);
+        ::FUN_0078a9f0((char*)this);
+        reinterpret_cast<::LoadingMenuX *>((((S00788ab0_LoadingMenu*)this)))->ApplyLoadingScreenTexture((::TileShaderProperty *)(0));
+        reinterpret_cast<::LoadingMenu *>(this)->UpdateLoadingScreenTip();
         ++m_uiSecondStateValue;
-        ((S00788ab0_LoadingMenu*)this)->UpdateLoadingScreenText(0);
-        FUN_0078a9f0((char*)this);
-        ((S00788ab0_LoadingMenu*)this)->ApplyLoadingScreenTexture(0);
-        FUN_0078abd0();
-        ((LoadingResetTileState*)this)->FUN_00458080((TileIndex)3, false);
-        FUN_004a0370((char*)FUN_0043c4b0());
-        if (!((S00788ab0_VisibleTile*)m_pTiles[11])->IsVisible())
+        reinterpret_cast<::FUN_0078a280_shell *>((((S00788ab0_LoadingMenu*)this)))->UpdateLoadingScreenText(0);
+        ::FUN_0078a9f0((char*)this);
+        reinterpret_cast<::LoadingMenuX *>((((S00788ab0_LoadingMenu*)this)))->ApplyLoadingScreenTexture((::TileShaderProperty *)(0));
+        reinterpret_cast<::LoadingMenu *>(this)->UpdateLoadingScreenTip();
+        reinterpret_cast<::LoadingMenu *>((((LoadingResetTileState*)this)))->SetFloatFlag((*(int *)&(const ::LoadingMenu::TileIndex &)((TileIndex)3)), false);
+        ::FUN_004a0370((char*)((void *)(::FUN_0043c4b0())));
+        if (!reinterpret_cast<::sa040a0::Owner *>((((S00788ab0_VisibleTile*)m_pTiles[11])))->IsAllChildrenFlag0())
         {
             m_pTiles[11]->Set(4003, 1);
-            ((S00788ab0_LoadingMenu*)this)->FUN_0078a230();
+            reinterpret_cast<::FUN_0078a230_shell *>((((S00788ab0_LoadingMenu*)this)))->FUN_0078a230();
         }
-        ((S00788ab0_InterfaceQuery*)FUN_004b7210())->GetParent()->Set(4003, 0);
-        FUN_00a04200(true);
-        FUN_004a03c0((char*)FUN_0043c4b0());
-        DAT_011a0295 = true;
-        FUN_0078d020();
+        ((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((S00788ab0_InterfaceQuery*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60()))->Set(4003, 0);
+        ::fnv_00a04200::FUN_00a04200(true);
+        reinterpret_cast<::fnv_004a03c0::DD *>(((char*)((void *)(::FUN_0043c4b0()))))->FUN_004a03c0();
+        ::DAT_011a0295 = true;
+        ::BSSystemUtility::GetRandomGenerator();
     }
 }
 }  // namespace fnv_00788ab0
+#include "generated/data/fallout/interface/menus/loadingmenu.inc"

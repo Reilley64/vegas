@@ -145,7 +145,7 @@ struct Dispatch
 
 // Forwards apFirst and apSecond to apDispatch->V04 and returns its result.
 // @fnv 0x00d42710
-int __stdcall DispatchToV04(void* apFirst, void* apSecond, void* apThird, Dispatch* apDispatch)
+int DispatchToV04(void* apFirst, void* apSecond, void* apThird, Dispatch* apDispatch)
 {
     return apDispatch->V04(apFirst, apSecond);
 }
@@ -163,13 +163,13 @@ int __cdecl CallVirtualMethod(int a1, int a2, int aiUnused, FUN_00d42730_obj* ap
 }
 
 // @fnv 0x00d42700
-void __stdcall FUN_00d42700(int, int, int, int)
+void FUN_00d42700(int, int, int, int)
 {}
 
 // @fnv 0x00d42750
-void __stdcall FUN_00d42750(int, int, int, int)
+void FUN_00d42750(int, int, int, int)
 {}
 
 // @fnv 0x00d42770
-void __stdcall FUN_00d42770(int, int, int, int, int)
+void FUN_00d42770(int, int, int, int, int)
 {}

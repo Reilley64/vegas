@@ -2,17 +2,39 @@
 // src/havok/physics/dynamics/constraint/breakable/hkpbreakableconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/breakable/hkpbreakableconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include <cmath>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00d00000.h"
+#include "fnv/symbols_00d4d000.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00d72000.h"
+#include "fnv/symbols_00d86000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpBreakableConstraintData.h"
 
-struct FUN_00d4de80_class
+struct FUN_00d4de80_class : hkpBreakableConstraintData
 {
     void FUN_00d4de80(int, void* out);
 };
+// hkpConstraintData::RuntimeInfo as this function fills it.
+struct BreakableRuntimeInfo
+{
+    int m_sizeOfExternalRuntime;
+    int m_numSolverResults;
+};
+// Bytes of the breakable data's own runtime in front of the child's runtime.
+static const int kBreakableRuntimeBytes = 0x34;
 // @fnv 0x00d4de80
 void FUN_00d4de80_class::FUN_00d4de80(int, void* out)
 {
-    ((int*)out)[1] = *(unsigned short*)((char*)this + 0x1e);
-    ((int*)out)[0] = *(unsigned short*)((char*)this + 0x1c) + 0x34;
+    BreakableRuntimeInfo* info = static_cast<BreakableRuntimeInfo*>(out);
+    info->m_numSolverResults = m_usNumSolverResults;
+    info->m_sizeOfExternalRuntime = m_usRuntimeOffset + kBreakableRuntimeBytes;
 }
 
 struct GenericConstraintAtomScheme
@@ -22,20 +44,18 @@ struct GenericConstraintAtomScheme
     int m_usSizeOfAllAtoms;  // +0x14
 };
 
-struct FUN_00d4de50_class
+struct FUN_00d4de50_class : hkpBreakableConstraintData
 {
-    char pad[0x18];
-    void* m_pHavokConstraint;  // +0x18
     void PopulateInfo(GenericConstraintAtomScheme* info);
 };
 
 // @fnv 0x00d4de50
 void FUN_00d4de50_class::PopulateInfo(GenericConstraintAtomScheme* info)
 {
-    ((void(__thiscall*)(void*, GenericConstraintAtomScheme*))((*(void***)m_pHavokConstraint)[0x3c / 4]))(
-        m_pHavokConstraint, info);
-    info->m_kBridgeAtoms = (char*)this + 0xc;
-    info->m_usSizeOfAllAtoms = 0xc;
+    ((void(*)(void*, GenericConstraintAtomScheme*))((*(void***)m_pConstraintData)[0x3c / 4]))(
+        m_pConstraintData, info);
+    info->m_kBridgeAtoms = &m_kBridgeAtoms;
+    info->m_usSizeOfAllAtoms = int(sizeof(hkpBridgeAtoms));
 }
 
 struct FUN_00d4dea0_object
@@ -73,10 +93,8 @@ void* FUN_00d4dea0_class::FUN_00d4dea0(void* value)
 }
 
 extern void* DAT_010d0a1c;
-extern void* _DAT_0102e388;
 struct DDCC60World
 {
-    void removeReference();
 };
 struct FUN_00d4e000_class
 {
@@ -94,8 +112,8 @@ void FUN_00d4e000_class::FUN_00d4e000()
 {
     DDCC60World* pOldWorld = m6;
     m_vt = &DAT_010d0a1c;
-    pOldWorld->removeReference();
-    m_vt = &_DAT_0102e388;
+    reinterpret_cast<::hkReferencedObjectC905 *>((pOldWorld))->FUN_00c905b0();
+    m_vt = &::DAT_0102e388;
 }
 
 // @fnv 0x00d4dec0
@@ -104,37 +122,22 @@ int __cdecl FUN_00d4dec0()
     return 0xc;
 }
 
-struct FnvCpu_FUN_00cc48b0_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00cc48b0_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00cc48b0_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00cc48b0_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00cc48b0_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00d4e000();
     FnvCpu_FUN_00cc48b0_CpuObject* Destroy(unsigned int flags);
 };
 // Calls FUN_00d4e000, then if flags has bit 0 set, frees this object through the allocator from FUN_00c85750, and returns this.
 // @fnv 0x00cc48b0
 FnvCpu_FUN_00cc48b0_CpuObject* FnvCpu_FUN_00cc48b0_CpuObject::Destroy(unsigned int flags)
 {
-    FUN_00d4e000();
+    reinterpret_cast<::FUN_00d4e000_class *>(this)->FUN_00d4e000();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cc48b0_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -212,7 +215,6 @@ class hkReferencedObjectCDF7
         m_sReferenceCount = 1;
     }
     virtual ~hkReferencedObjectCDF7() throw();
-    void FUN_00c90510() throw();
 
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
@@ -225,7 +227,6 @@ class hkListenerCDF7
     {
         m_type = 1;
     }
-    void FUN_00d21ce0(void* owner) throw();
 
     short m_type;
     short unk02;
@@ -258,8 +259,8 @@ class FUN_00cdf710 : public hkMidCDF7
 FUN_00cdf710::FUN_00cdf710(hkReferencedObjectCDF7* ref) throw() : m_ref(ref), m_1c(0.01f)
 {
     if (m_ref)
-        m_ref->FUN_00c90510();
-    m_kListener.FUN_00d21ce0(this);
+        reinterpret_cast<::FUN_00c90510_class *>((m_ref))->FUN_00c90510();
+    reinterpret_cast<::FUN_00d21ce0_cls *>(&(m_kListener))->FUN_00d21ce0(this);
 }
 
 class hkBoolD4DE
@@ -294,8 +295,6 @@ class hkShapeD4DE
     virtual void vf20();
     virtual void vf24(hkBoolD4DE b, hkFilterInfoD4DE* out);
 
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 
 class hkOwnerD4DE
@@ -314,9 +313,9 @@ class hkOwnerD4DE
 void hkOwnerD4DE::SetCollisionShape(hkShapeD4DE* shape)
 {
     if (shape)
-        shape->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((shape))->FUN_00c90510();
     if (m_pCollisionShape)
-        m_pCollisionShape->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pCollisionShape))->FUN_00c905b0();
     m_pCollisionShape = shape;
     if (shape)
     {
@@ -423,10 +422,6 @@ struct hkpBoolResultD4E0
     hkBool m_cBooleanValue;
 };
 
-void __stdcall FUN_00d4de30(const hkpConstraintQueryInD4E0& in, int out);
-void __cdecl FUN_00d72190(hkpConstraintAtom* atoms, const hkpConstraintQueryInD4E0& in, hkpBoolResultD4E0 flag,
-                          int out);
-void __cdecl FUN_00d6f460(hkpConstraintAtom* atoms, int sizeOfAllAtoms, const hkpConstraintQueryInD4E0& in, int out);
 
 struct RuntimeD4E0
 {
@@ -446,12 +441,12 @@ __forceinline void store3(const hkVector4& v, hkReal* p)
 
 struct S00d4e0f0_Object : hkpBreakableConstraintData
 {
-    void FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out);
+    void FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, void* out);
 };
 
 // If the runtime flag is clear, saves body velocities and calls FUN_00d72190 or FUN_00d6f460; else calls FUN_00d4de30 and optionally removes the constraint.
 // @fnv 0x00d4e0f0
-void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out)
+void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, void* out)
 {
     RuntimeD4E0* runtime = reinterpret_cast<RuntimeD4E0*>(in.m_pByteBuffer + m_usRuntimeOffset);
 
@@ -471,16 +466,16 @@ void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out)
         {
             hkpBoolResultD4E0 flag;
             flag.m_cBooleanValue = 1;
-            FUN_00d72190(info.m_kBridgeAtoms, in, flag, out);
+            ::FUN_00d72190((::Node *)(info.m_kBridgeAtoms), (::Buffer *)&(in), (*(int *)&(const ::hkpBoolResultD4E0 &)(flag)), static_cast<int *>(out));
         }
         else
         {
-            FUN_00d6f460(info.m_kBridgeAtoms, info.m_usSizeOfAllAtoms, in, out);
+            ::FUN_00d6f460((const ::Atom *)(info.m_kBridgeAtoms), info.m_usSizeOfAllAtoms, (const ::QueryIn *)&(in), static_cast<::QueryOut *>(out));
         }
     }
     else
     {
-        FUN_00d4de30(in, out);
+        ::FUN_00d4de30((intptr_t)&(in), (intptr_t)out);
 
         if (m_bRemoveWhenBroken)
         {
@@ -491,25 +486,8 @@ void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out)
     }
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_load_ss(float const*);
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_set_ps1(float);
-    double __cdecl sqrt(double);
-}
+#include "fnv/symbols_simd.h"
 
-extern const __m128 DAT_010ec7f0;
 
 struct hkVector4q
 {
@@ -525,7 +503,7 @@ struct hkVector4q
     }
     __forceinline void setInterpolate4(const hkVector4q& v0, const hkVector4q& v1, const hkVector4q& t)
     {
-        __m128 s = _mm_sub_ps(DAT_010ec7f0, t.m_vComponents);
+        __m128 s = _mm_sub_ps(::DAT_010ec7f0, t.m_vComponents);
         m_vComponents = _mm_add_ps(_mm_mul_ps(v0.m_vComponents, s), _mm_mul_ps(v1.m_vComponents, t.m_vComponents));
     }
     __forceinline void blendFrom(const hkVector4q& v0, const hkVector4q& t)
@@ -625,62 +603,8 @@ class hkBoolC
 
 struct hkpBreakableConstraintData_e1e0 : hkpBreakableConstraintData
 {
-    void FUN_00d4e020(void* instance, hkBoolC isBroken, hkReal currentConstraintForce);
     void FUN_00d4e1e0(const SixteenWordFloatRecord* in);
 };
-
-// If the squared impulse sum exceeds breaking strength squared, calls FUN_00d4e020 and optionally blends body velocities back; always zeroes the impulses.
-// @fnv 0x00d4e1e0
-void hkpBreakableConstraintData_e1e0::FUN_00d4e1e0(const SixteenWordFloatRecord* in)
-{
-    ContactImpulseInfo* pImpulseInfo = in->m_pByteBuffer;
-    hkpBreakableRuntime* runtime =
-        reinterpret_cast<hkpBreakableRuntime*>(reinterpret_cast<char*>(pImpulseInfo) + m_usRuntimeOffset);
-    int numResults = m_usNumSolverResults;
-
-    if (!runtime->m_bFlag)
-    {
-        hkReal sumImpulse = 0.0f;
-        for (int i = 0; i < numResults; i++)
-        {
-            hkReal impulse = pImpulseInfo[i].getImpulseApplied();
-            sumImpulse += impulse * impulse;
-        }
-
-        if (sumImpulse > m_fBreakingStrength * m_fBreakingStrength)
-        {
-
-            FUN_00d4e020(in->m_pConstraintChainInstance.val(), true, hkMath_sqrt(sumImpulse));
-
-            if (m_bRevertBackVelocityOnBreak)
-            {
-                hkVector4q factor;
-                factor.SetAllComponents(hkMath_sqrtInverse(sumImpulse) * m_fBreakingStrength);
-
-                hkVector4q linA;
-                linA.set(runtime->m_linearVelA[0], runtime->m_linearVelA[1], runtime->m_linearVelA[2]);
-                hkVector4q linB;
-                linB.set(runtime->m_linearVelB[0], runtime->m_linearVelB[1], runtime->m_linearVelB[2]);
-                hkVector4q angA;
-                angA.set(runtime->m_angularVelA[0], runtime->m_angularVelA[1], runtime->m_angularVelA[2]);
-                hkVector4q angB;
-                angB.set(runtime->m_angularVelB[0], runtime->m_angularVelB[1], runtime->m_angularVelB[2]);
-
-                QuantizedBoundsData* bodyA = in->m_pBodyA;
-                QuantizedBoundsData* bodyB = in->m_pBodyB;
-                bodyA->m_vLinearVelocity.blendFrom(linA, factor);
-                bodyB->m_vLinearVelocity.blendFrom(linB, factor);
-                bodyA->m_vAngularVelocity.blendFrom(angA, factor);
-                bodyB->m_vAngularVelocity.blendFrom(angB, factor);
-            }
-        }
-    }
-
-    for (int i = 0; i < numResults; i++)
-    {
-        pImpulseInfo[i].m_fAccumulatedImpulse = 0.0f;
-    }
-}
 
 namespace fnv_00d4df30 {
 struct hkBoolD4D
@@ -724,7 +648,6 @@ class hkpConstraintDataD4D
     short m_sReferenceCount;
     unsigned int m_ulUserData;
 
-    void FUN_00c90510() const throw();
 };
 
 struct FUN_00d21ce0_cls
@@ -738,7 +661,6 @@ struct FUN_00d21ce0_cls
     {
         m_type = 1;
     }
-    void FUN_00d21ce0(void* constraintData) throw();
 };
 
 class FUN_00d4df30 : public hkpConstraintDataD4D
@@ -764,13 +686,13 @@ FUN_00d4df30::FUN_00d4df30(hkpConstraintDataD4D* constraintData) : m_pConstraint
     m_bRevertBackVelocityOnBreak = false;
     if (m_pConstraintData)
     {
-        m_pConstraintData->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((void *)(m_pConstraintData))->FUN_00c90510();
         RuntimeInfoD4D info;
         m_pConstraintData->GetConstraintRuntimeInfo(true, info);
         m_usRuntimeOffset = (unsigned short)info.m_iSolverIterationCount;
         m_usNumSolverResults = (unsigned short)info.m_iSolverResultCount;
     }
-    m_kBridgeAtoms.FUN_00d21ce0(this);
+    reinterpret_cast<::FUN_00d21ce0_cls *>(&(m_kBridgeAtoms))->FUN_00d21ce0(this);
 }
 }  // namespace fnv_00d4df30
 
@@ -840,11 +762,7 @@ struct BrkInfo
 };
 
 void __cdecl FUN_00d85fa0(BrkInfo* pkInfo);
-void __cdecl FUN_00d86050(BrkInfo* pkInfo);
-void __cdecl FUN_00d00b40(hkpSimulationIslandD4E0* pkIsland, BrkInfo* pkInfo);
-void __cdecl FUN_00d00bf0(hkpSimulationIslandD4E0* pkIsland, BrkInfo* pkInfo);
 
-extern char DAT_01269c44;
 
 struct hkpBreakableRuntimeD4E0
 {
@@ -861,6 +779,58 @@ class hkpBreakableConstraintDataD4E0
 
     void FUN_00d4e020(BrkInstance* instanceArg, hkBoolD4E0 broken, float currentForce);
 };
+// If the squared impulse sum exceeds breaking strength squared, calls FUN_00d4e020 and optionally blends body velocities back; always zeroes the impulses.
+// @fnv 0x00d4e1e0
+void hkpBreakableConstraintData_e1e0::FUN_00d4e1e0(const SixteenWordFloatRecord* in)
+{
+    ContactImpulseInfo* pImpulseInfo = in->m_pByteBuffer;
+    hkpBreakableRuntime* runtime =
+        reinterpret_cast<hkpBreakableRuntime*>(reinterpret_cast<char*>(pImpulseInfo) + m_usRuntimeOffset);
+    int numResults = m_usNumSolverResults;
+
+    if (!runtime->m_bFlag)
+    {
+        hkReal sumImpulse = 0.0f;
+        for (int i = 0; i < numResults; i++)
+        {
+            hkReal impulse = pImpulseInfo[i].getImpulseApplied();
+            sumImpulse += impulse * impulse;
+        }
+
+        if (sumImpulse > m_fBreakingStrength * m_fBreakingStrength)
+        {
+
+            reinterpret_cast<::hkpBreakableConstraintDataD4E0 *>(this)->FUN_00d4e020((::BrkInstance *)(void *)(in->m_pConstraintChainInstance.val()), (*(::hkBoolD4E0 *)&(const ::hkBoolC &)(true)), hkMath_sqrt(sumImpulse));
+
+            if (m_bRevertBackVelocityOnBreak)
+            {
+                hkVector4q factor;
+                factor.SetAllComponents(hkMath_sqrtInverse(sumImpulse) * m_fBreakingStrength);
+
+                hkVector4q linA;
+                linA.set(runtime->m_linearVelA[0], runtime->m_linearVelA[1], runtime->m_linearVelA[2]);
+                hkVector4q linB;
+                linB.set(runtime->m_linearVelB[0], runtime->m_linearVelB[1], runtime->m_linearVelB[2]);
+                hkVector4q angA;
+                angA.set(runtime->m_angularVelA[0], runtime->m_angularVelA[1], runtime->m_angularVelA[2]);
+                hkVector4q angB;
+                angB.set(runtime->m_angularVelB[0], runtime->m_angularVelB[1], runtime->m_angularVelB[2]);
+
+                QuantizedBoundsData* bodyA = in->m_pBodyA;
+                QuantizedBoundsData* bodyB = in->m_pBodyB;
+                bodyA->m_vLinearVelocity.blendFrom(linA, factor);
+                bodyB->m_vLinearVelocity.blendFrom(linB, factor);
+                bodyA->m_vAngularVelocity.blendFrom(angA, factor);
+                bodyB->m_vAngularVelocity.blendFrom(angB, factor);
+            }
+        }
+    }
+
+    for (int i = 0; i < numResults; i++)
+    {
+        pImpulseInfo[i].m_fAccumulatedImpulse = 0.0f;
+    }
+}
 
 // Sets the broken flag on the breakable runtime, updates the constraint flags, and dispatches a BrkInfo event to listeners and the simulation island.
 // @fnv 0x00d4e020
@@ -885,7 +855,7 @@ void hkpBreakableConstraintDataD4E0::FUN_00d4e020(BrkInstance* apInstance, hkBoo
     }
 
     hkpSimulationIslandD4E0* world = instance->m_pEntity->m_pSimulationIsland;
-    BrkInfo event(world, instance, reinterpret_cast<const GlobalObjectO2_00d472a0*>(&DAT_01269c44));
+    BrkInfo event(world, instance, reinterpret_cast<const GlobalObjectO2_00d472a0*>(&(*reinterpret_cast<char *>(&::g_01269c44))));
     if (broken)
     {
         event.m_0c = 0;
@@ -895,15 +865,15 @@ void hkpBreakableConstraintDataD4E0::FUN_00d4e020(BrkInstance* apInstance, hkBoo
         {
             FUN_00d85fa0(&event);
         }
-        FUN_00d00b40(world, &event);
+        ::FUN_00d00b40((::ListenerOwnerQ *)(world), &event);
     }
     else
     {
         event.m_0c = 0;
         if (event.m_pHavokConstraint->m_kListeners)
         {
-            FUN_00d86050(&event);
+            ::fnv_00d86050::FUN_00d86050((::fnv_00d86050::D86050Self *)(::BrkInfo *)(&event));
         }
-        FUN_00d00bf0(world, &event);
+        ::FUN_00d00bf0((::ListenerOwner *)(world), &event);
     }
 }

@@ -1,11 +1,23 @@
 // fallout/ai/combat/combatstate_decls.h: declares InventoryChanges, CombatLocations, CombatLOS, CombatPrefix, CombatState
+#include <cstdint>
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/FUN_004c8f30_shell.h"
+#include "fnv/decl/FUN_008be220_cls.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_004df000.h"
+#include "fnv/symbols_00884000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_011d5000.h"
 class TESObjectREFR;
 class TESForm;
+class TESObjectREFR;
 class InventoryChanges
 {
   public:
-    static InventoryChanges* GetOrAddInventoryChanges(TESObjectREFR*);
-    int GetObjectCount(TESForm*);
+public:
+    static ::InventoryChanges *CreateForReference(::TESObjectREFR *);
 };
 class CombatLocations
 {
@@ -15,8 +27,6 @@ class CombatLocations
 class CombatLOS
 {
   public:
-    bool FUN_00884920();
-    void FUN_008be220(CombatLocations*);
 };
 class CombatPrefix
 {
@@ -29,9 +39,11 @@ class CombatPrefix
 class CombatState : public CombatPrefix, public CombatLocations
 {
   public:
-    int GetInventoryItemCount(TESForm*);
+    intptr_t GetInventoryItemCount(TESForm*);
     void ProcessCoverLOSResult();
-    char padac[0xd0];
+    char padac[0x3c];
+    void* unke8;
+    char padec[0x90];
     float timer, offsetX, offsetY;
     void UpdateCombatStateData(int, float*, float*, float);
 };
@@ -39,31 +51,4 @@ class CombatState : public CombatPrefix, public CombatLocations
 class GlobalObject_0044f440
 {
   public:
-    float FUN_00450410();
 };
-float RandomFloat(float, float);
-bool RandomBoolean(float);
-extern GlobalObject_0044f440 DAT_011d57d0;
-extern GlobalObject_0044f440 DAT_011d5944;
-extern GlobalObject_0044f440 DAT_011d5750;
-extern GlobalObject_0044f440 DAT_011d5968;
-extern GlobalObject_0044f440 DAT_011d5874;
-extern GlobalObject_0044f440 DAT_011d58e8;
-extern GlobalObject_0044f440 DAT_011d5988;
-extern GlobalObject_0044f440 DAT_011d5794;
-extern GlobalObject_0044f440 DAT_011d57b8;
-extern GlobalObject_0044f440 DAT_011d581c;
-extern GlobalObject_0044f440 DAT_011d5894;
-extern GlobalObject_0044f440 DAT_011d5930;
-extern GlobalObject_0044f440 DAT_011d58d8;
-extern GlobalObject_0044f440 DAT_011d5868;
-extern GlobalObject_0044f440 DAT_011d5834;
-extern GlobalObject_0044f440 DAT_011d58c4;
-extern GlobalObject_0044f440 DAT_011d5908;
-extern GlobalObject_0044f440 DAT_011d585c;
-extern const float DAT_01017870;
-extern const float DAT_01017718;
-extern const float DAT_010162c0;
-extern const float DAT_01016088;
-extern const float DAT_01016248;
-extern const float DAT_0101e570;

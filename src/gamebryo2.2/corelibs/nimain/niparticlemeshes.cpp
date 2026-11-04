@@ -4,6 +4,23 @@
 // NiParticles is declared here with the interface this translation unit needs;
 // its constructor and vtable live in their own NiMain units.
 
+#include <new>
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/decl/AV59f.h"
+#include "fnv/decl/FUN_00a59f90_holder.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a80580_cls.h"
+#include "fnv/decl/FUN_00a98c90_shell.h"
+#include "fnv/decl/GeomStub.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiGeometry.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a9b000.h"
+#include "fnv/symbols_010a0000.h"
+#include "fnv/symbols_011f5000.h"
 class NiRTTI;
 
 class NiParticles
@@ -31,15 +48,13 @@ struct FUN_00a98ec0_shell : public NiParticleMeshes
     void* FUN_00a98ec0();
 };
 
-extern NiRTTI* g_011f5f14;
 
 // @fnv 0x00a98ec0
 void* FUN_00a98ec0_shell::FUN_00a98ec0()
 {
-    return &g_011f5f14;
+    return &(*reinterpret_cast<::NiRTTI * *>(&::g_011f5f14));
 }
 
-extern void __cdecl FUN_00a80580();
 extern "C" void __cdecl _delete(void*, unsigned int);
 struct FUN_00a98ed0_shell : public NiParticleMeshes
 {
@@ -51,7 +66,7 @@ struct FUN_00a98ed0_shell : public NiParticleMeshes
 void* FUN_00a98ed0_shell::FUN_00a98ed0(unsigned int flags)
 {
     NiParticleMeshes* p = this;
-    FUN_00a80580();
+    static_cast<::FUN_00a80580_cls *>(nullptr)->FUN_00a80580();
     if (flags & 1)
         _delete(p, 0xcc);
     return p;
@@ -61,7 +76,6 @@ class NiRenderer;
 class NiParticleMeshesData;
 struct HackBase
 {
-    void FUN_00a809b0(NiRenderer*);
 };
 struct FUN_00a99090_shell : public NiParticleMeshes
 {
@@ -70,14 +84,14 @@ struct FUN_00a99090_shell : public NiParticleMeshes
 // @fnv 0x00a99090
 void FUN_00a99090_shell::FUN_00a99090(NiRenderer* pkRenderer)
 {
-    ((HackBase*)this)->FUN_00a809b0(pkRenderer);
+    reinterpret_cast<::GeomStub *>((((HackBase*)this)))->FUN_00a809b0(pkRenderer);
     NiParticleMeshesData* pkPMData = *(NiParticleMeshesData**)((char*)this + 0xb8);
     if (pkPMData)
     {
         void* pkMeshes = *(void**)((char*)pkPMData + 0x70);
         if (pkMeshes)
         {
-            typedef void(__thiscall * Fn)(void*, NiRenderer*);
+            typedef void(* Fn)(void*, NiRenderer*);
             ((Fn)(*(void***)pkMeshes)[54])(pkMeshes, pkRenderer);
         }
     }
@@ -100,22 +114,19 @@ template <class T, class A> struct NiTPrimitiveArray
 typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > StrArr2;
 struct Caller
 {
-    void FUN_00a9b2e0(StrArr2*);
     void AppendString(StrArr2*);
 };
-char* __cdecl _FUN_00a7d330(const char*);
-extern const char* const g_011f5f14_arg1;
 // Appends the string returned by _FUN_00a7d330(g_011f5f14_arg1) to pkStrings, growing the array if it is full.
 // @fnv 0x00a990c0
 void Caller::AppendString(StrArr2* pkStrings)
 {
-    FUN_00a9b2e0(pkStrings);
-    char* psz = _FUN_00a7d330(g_011f5f14_arg1);
+    ::FUN_00a9b2e0((::StrArr *)this);
+    char* psz = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f5f64)));
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiMax = pkStrings->m_usMax;
     if (uiSize >= uiMax)
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrow);
-    pkStrings->SetAt(uiSize, psz);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->m_usGrow);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, psz);
 }
 
 struct FUN_00a808f0_shell
@@ -244,7 +255,7 @@ struct StandinNiParticleMeshes : NiGeometry
 // @fnv 0x00a99040
 void StandinNiParticleMeshes::UpdatePropertyState(NiPropertyState* pkParentState)
 {
-    NiGeometry::UpdatePropertiesDownwardPass(pkParentState);
+    reinterpret_cast<::NiGeometry *>(this)->UpdatePropertiesDownwardPass((::NiPropertyState *)(pkParentState));
     NiNode* pkParticlesContainer = *(NiNode**)((char*)*(void**)((char*)this + 0xb8) + 0x70);
     pkParticlesContainer->UpdatePropertiesDownwardPass((NiPropertyState*)((char*)this + 0x9c));
 }
@@ -308,7 +319,6 @@ struct S_00a98e30
     int unkC0;
     float unkC4;
     bool unkC8;
-    void FUN_00a59f90(S_00a98e30_Val* p, int x);
     void FUN_00a98e30(S_00a98e30_Val* p, int x);
 };
 // @fnv 0x00a98e30
@@ -316,7 +326,7 @@ void S_00a98e30::FUN_00a98e30(S_00a98e30_Val* apVal, int x)
 {
     unkC4 = apVal->f;
     unkC8 = apVal->b;
-    FUN_00a59f90(apVal, x);
+    reinterpret_cast<::FUN_00a59f90_holder *>(this)->FUN_00a59f90((*(::NiUpdateData *)(apVal)), x);
 }
 
 struct S_00a98e50_UpdateData
@@ -375,7 +385,6 @@ struct S_00a98e50_Base
     int unkB8;
     int unkBC;
     int unkC0;
-    void UpdateDownwardPassIfSelective(S_00a98e50_UpdateData& kData);
 };
 struct S_00a98e50 : S_00a98e50_Base
 {
@@ -387,7 +396,7 @@ struct S_00a98e50 : S_00a98e50_Base
 void S_00a98e50::FUN_00a98e50(S_00a98e50_UpdateData& kData)
 {
     m_fLastTime = kData.m_fTime;
-    S_00a98e50_Base::UpdateDownwardPassIfSelective(kData);
+    reinterpret_cast<::AV59f *>(this)->UpdateDownwardPassIfSelective((::NiUpdateData &)(kData), {});
 }
 
 struct NiRenderer;
@@ -465,12 +474,10 @@ void FUN_00a99070_shell::RenderTarget(NiRenderer* pkRenderer)
     m_pUserData->m_pkTarget->Render(pkRenderer);
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
-extern const char DAT_010a0a6c;
+
 
 struct CreatedObj
 {
-    void FUN_00a9b120();
     const char* m_pTable;
     int unk04[49];
     bool m_bFlag;
@@ -478,7 +485,6 @@ struct CreatedObj
 
 struct FUN_00a98f00_shell : public NiParticleMeshes
 {
-    void FUN_00a9b140(CreatedObj* pObj, void* pArg);
     CreatedObj* CreateAndInitObj(void* pArg);
 };
 
@@ -489,15 +495,15 @@ CreatedObj* FUN_00a98f00_shell::CreateAndInitObj(void* pArg)
     CreatedObj* pObj = (CreatedObj*)FUN_00aa13e0(0xcc);
     if (pObj != 0)
     {
-        pObj->FUN_00a9b120();
-        pObj->m_pTable = &DAT_010a0a6c;
+        new ((void *)(pObj)) ::NiParticleMeshes();
+        pObj->m_pTable = &(*reinterpret_cast<const char *>((void *)&::DAT_010a0a6c));
         pObj->m_bFlag = true;
     }
     else
     {
         pObj = 0;
     }
-    FUN_00a9b140(pObj, pArg);
+    ::FUN_00a9b140();
     return pObj;
 }
 
@@ -616,15 +622,12 @@ struct A98F60Renderer
     A98F60Camera* m_pkAccumulationCamera;
     bool m_bValueAt0C;
 
-    void UpdateParticleMeshes();
 };
 
 struct A98F60AVObject
 {
     virtual void UpdateWorldData(NiUpdateData& kData);
 
-    void FUN_00a5a040();
-    void FUN_00a29680();
 
     int unk04;
     int unk08;
@@ -673,18 +676,18 @@ struct FUN_00a98f60 : A98F60AVObject
 // @fnv 0x00a98f60
 void FUN_00a98f60::UpdateWorldData(NiUpdateData& kData)
 {
-    A98F60AVObject::UpdateWorldData(kData);
+    reinterpret_cast<::NiAVObject *>(this)->UpdateWorldData(kData);
     A98F60Renderer* pkRenderer = m_pOwnerShader;
     A98F60Camera* pkCamera = pkRenderer->m_pkAccumulationCamera;
-    pkRenderer->UpdateParticleMeshes();
+    reinterpret_cast<::FUN_00a98c90_shell *>((pkRenderer))->UpdateParticleMeshes();
     pkCamera->m_kWorldRotate = m_kWorldRotate;
     pkCamera->m_kWorldTranslate = m_kWorldTranslate;
     pkCamera->m_fWorldScale = A98F60Abs(m_fWorldScale);
     pkCamera->Update(kData, false);
     if (pkRenderer->m_bValueAt0C)
     {
-        FUN_00a5a040();
-        FUN_00a29680();
+        reinterpret_cast<::FUN_00a5a040_Class *>(this)->FUN_00a5a040();
+        ::FUN_00a29680();
         pkRenderer->m_bValueAt0C = false;
     }
 }

@@ -4,6 +4,8 @@
 
 
 // Private declarations for the map and array specializations used by this unit.
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/symbols_00587000.h"
 template <class K, class V> class NiTMapItem
 {
   public:
@@ -68,13 +70,11 @@ class BGSCellNumericIDArrayMap : public NiTMap<unsigned int, BSSimpleArray<unsig
 class TESForm
 {
   public:
-    unsigned int GetFormID();
 };
 
 class TESWorldSpace : public TESForm
 {
   public:
-    static int BuildCellKey(short x, short y);
 };
 
 class TESObjectCELL : public TESForm
@@ -97,10 +97,7 @@ class BGSSaveLoadReferencesMap
 
     void Clear();
     void LoadCellReferences(TESObjectCELL* cell, BGSReconstructFormsInAllFilesMap* forms);
-    void ReconstructFormID(unsigned int id, BGSReconstructFormsInAllFilesMap* forms);
 };
 
-typedef char bgssaveloadreferencesmap_cell_map_size[(sizeof(BGSCellNumericIDArrayMap) == 16) ? 1 : -1];
-typedef char bgssaveloadreferencesmap_references_size[(sizeof(BGSSaveLoadReferencesMap) == 48) ? 1 : -1];
 
 #endif

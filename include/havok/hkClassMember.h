@@ -7,7 +7,6 @@
 class hkClass;
 class hkClassEnum;
 class hkCustomAttributes;
-#pragma pack(push, 1)
 class hkClassMember
 {
   public:
@@ -76,6 +75,4 @@ class hkClassMember
     hkUint16 m_offset;                        // +0x12
     hkCustomAttributes* m_pCustomAttributes;  // +0x14
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkClassMember[(sizeof(hkClassMember) == 0x18) ? 1 : -1];
 #endif

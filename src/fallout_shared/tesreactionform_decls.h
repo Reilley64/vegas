@@ -3,12 +3,19 @@
 #define FNV_TESREACTIONFORM_PRIVATE_DECLS_H
 
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 #include "BaseFormComponent.h"
 
 class ReactionInfo
 {
   public:
-    unsigned int formID;
+    std::uintptr_t formID;
 };
 class BGSLoadFormBuffer;
 class TESForm;
@@ -27,7 +34,6 @@ class BaseProcess
 #define FNV_TESREACTIONFORM_H
 #endif
 
-#pragma pack(push, 4)
 class TESReactionForm : public BaseFormComponent
 {
   public:
@@ -41,11 +47,7 @@ class TESReactionForm : public BaseFormComponent
     void InitLoadGame(BGSLoadFormBuffer* buffer);
     void InitItem(TESForm* form);
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(TESReactionForm) == 0x10);
-FNV_STATIC_ASSERT(offsetof(TESReactionForm, m_kReactionList) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESReactionForm, m_ucReactionFlags) == 0xC);
 
 #endif
 
@@ -82,9 +84,6 @@ template <> class BSSimpleList<BGSCameraShot*>
     BGSCameraShot* item;
     BSSimpleList* next;
     bool IsEmpty();
-    BGSCameraShot*& GetItem();
-    BSSimpleList* GetNext();
-    void Remove(BGSCameraShot* const&);
     void RemoveHead();
 };
 
@@ -171,9 +170,5 @@ class TESForm
     virtual void vfn_12c();
     virtual const char* GetEditorID();
     TESFile* GetFile(int);
-    unsigned int GetFormID();
-    static TESForm* GetFormByID(unsigned int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
 };
 #endif
-int Warning(const char*, ...);

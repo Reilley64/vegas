@@ -2,66 +2,135 @@
 // src/fallout/magic/absorbeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/absorbeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/effect_item_fields.h"
+#include "fnv/active_effect_fields.h"
+#include <cstddef>
+#include "fnv/decl/ActiveEffectLoader.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSXFlags_shell.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/EffectSaveShell.h"
+#include "fnv/decl/Emitter.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00507780.h"
+#include "fnv/decl/FUN_005077a0_Class.h"
+#include "fnv/decl/FUN_005f9b10_class.h"
+#include "fnv/decl/FUN_00804f80_shell.h"
+#include "fnv/decl/FUN_00821620_Class.h"
+#include "fnv/decl/FUN_0082c000_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/LoadedValueEffect.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicCaster.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/Ring216.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/_FUN_00822510_Class.h"
+#include "fnv/decl/fnv_00496940__FUN_00496940_shell.h"
+#include "fnv/decl/fnv_00804210__ActiveEffectUpdateShell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00448000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00646000.h"
+#include "fnv/symbols_00bc1000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011d1000.h"
 struct Actor;
 
 struct ActiveEffect
 {
-    void SaveGame(Actor* apActor);
+public:
+    bool IsDone() const;
 };
 
+class ActiveEffect;
 struct ValueModifierEffect : ActiveEffect
 {
     void FUN_00802db0(Actor* apActor);
+public:
+    void CopyData(::ActiveEffect *);
+public:
+    void RefreshPlayerActorValue();
+public:
+    void Update(float);
+public:
+    float GetModifiedMagnitude(float);
 };
 
 // @fnv 0x00802db0
 void ValueModifierEffect::FUN_00802db0(Actor* apActor)
 {
-    ActiveEffect::SaveGame(apActor);
+    reinterpret_cast<::EffectSaveShell *>(this)->FUN_008050d0(apActor);
 }
 
 struct FUN_00803a50_shell
 {
     unsigned char bFlag;  // +0x177
     void FUN_00803a50(unsigned char flag);
+    char pad01[0x176];
+    unsigned char unk177;
 };
 
 // @fnv 0x00803a50
 void FUN_00803a50_shell::FUN_00803a50(unsigned char flag)
 {
-    ((unsigned char*)this)[0x177] = flag;
+    this->unk177 = flag;
 }
 
 struct FUN_00803a90_shell
 {
     void SetBoltGrowWidth(float afBoltGrowWidth);
+    unsigned int pad00[0x4f];
+    float unk13c;
 };
 
 // @fnv 0x00803a90
 void FUN_00803a90_shell::SetBoltGrowWidth(float afBoltGrowWidth)
 {
-    *(float*)((char*)this + 0x13c) = afBoltGrowWidth;
+    this->unk13c = afBoltGrowWidth;
 }
 
 struct FUN_00803b10_shell
 {
     void SetByteAtOffset175(unsigned char value);
+    char pad00[0x175];
+    unsigned char unk175;
+    char pad176[0x2];
 };
 
 // @fnv 0x00803b10
 void FUN_00803b10_shell::SetByteAtOffset175(unsigned char value)
 {
-    reinterpret_cast<unsigned char*>(this)[0x175] = value;
+    this->unk175 = value;
 }
 
 struct FUN_00803b50_shell
 {
     void FUN_00803b50(float value);
+    unsigned int pad00[0x54];
+    float unk150;
 };
 // @fnv 0x00803b50
 void FUN_00803b50_shell::FUN_00803b50(float value)
 {
-    *(float*)((char*)this + 0x150) = value;
+    this->unk150 = value;
 }
 
 namespace fnv_00803d00 {
@@ -69,19 +138,18 @@ struct Actor;
 
 struct ValueModifierEffect
 {
-    void __thiscall FUN_0082cd10(Actor* apActor);
 };
 
 struct AbsorbEffect : ValueModifierEffect
 {
-    void __thiscall InitBoltEffect();
-    void __thiscall FUN_00803d00(Actor* apActor);
+    void InitBoltEffect();
+    void FUN_00803d00(Actor* apActor);
 };
 
 // @fnv 0x00803d00
-void __thiscall AbsorbEffect::FUN_00803d00(Actor* apActor)
+void AbsorbEffect::FUN_00803d00(Actor* apActor)
 {
-    FUN_0082cd10(apActor);
+    reinterpret_cast<::LoadedValueEffect *>(this)->FUN_0082cd10((::Actor *)(apActor));
     InitBoltEffect();
 }
 }  // namespace fnv_00803d00
@@ -92,7 +160,6 @@ struct ActiveEffect
 };
 struct ValueModifierEffect
 {
-    void CopyData(ActiveEffect*);
 };
 struct AbsorbEffect : ValueModifierEffect
 {
@@ -102,13 +169,12 @@ struct AbsorbEffect : ValueModifierEffect
 // @fnv 0x0082a650
 void AbsorbEffect::FUN_0082a650(ActiveEffect* apDestination)
 {
-    ValueModifierEffect::CopyData(apDestination);
+    reinterpret_cast<::ValueModifierEffect *>(this)->CopyData((::ActiveEffect *)(apDestination));
 }
 }  // namespace fnv_0082a650
 
 struct ActiveEffect_LoadGame_Helper
 {
-    void LoadGame(Actor* apActor);
 };
 
 struct ValueModifierEffect_LoadGame_Helper : ActiveEffect_LoadGame_Helper
@@ -119,61 +185,53 @@ struct ValueModifierEffect_LoadGame_Helper : ActiveEffect_LoadGame_Helper
 // @fnv 0x00802dd0
 void ValueModifierEffect_LoadGame_Helper::FUN_00802dd0(Actor* apActor)
 {
-    ActiveEffect_LoadGame_Helper::LoadGame(apActor);
+    reinterpret_cast<::ActiveEffectLoader *>(this)->FUN_00805330(apActor);
 }
 
 struct AbsorbEffect
 {
     void FUN_00802e20();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
-void __cdecl _Deallocate(void* p);
-
-// Calls FUN_00802e20 on this, frees this when flags has bit 0 set, and returns this.
-// @fnv 0x00802df0
-void* __thiscall AbsorbEffect::Destroy(unsigned int flags)
-{
-    this->FUN_00802e20();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
 
 struct FUN_00803a70_shell
 {
     void FUN_00803a70(unsigned int value);
+    unsigned int pad00[0x4a];
+    unsigned int unk128;
 };
 
 // @fnv 0x00803a70
 void FUN_00803a70_shell::FUN_00803a70(unsigned int value)
 {
-    *(unsigned int*)((char*)this + 0x128) = value;
+    this->unk128 = value;
 }
 
 struct FUN_00803b30_shell
 {
     void FUN_00803b30(float value);
+    unsigned int pad00[0x51];
+    float unk144;
 };
 
 // @fnv 0x00803b30
 void FUN_00803b30_shell::FUN_00803b30(float value)
 {
-    *(float*)((char*)this + 0x144) = value;
+    this->unk144 = value;
 }
 
 struct ActiveEffect_GetSaveSize_Helper
 {
-    unsigned short GetSaveSize(Actor* apActor);
 };
 struct FUN_00802d90_shell : ValueModifierEffect
 {
-    unsigned short __thiscall FUN_00802d90(Actor* apActor);
+    unsigned short FUN_00802d90(Actor* apActor);
 };
 // @fnv 0x00802d90
-unsigned short __thiscall FUN_00802d90_shell::FUN_00802d90(Actor* apActor)
+unsigned short FUN_00802d90_shell::FUN_00802d90(Actor* apActor)
 {
-    return ((ActiveEffect_GetSaveSize_Helper*)this)->GetSaveSize(apActor);
+    return reinterpret_cast<::FUN_00804f80_shell *>((((ActiveEffect_GetSaveSize_Helper*)this)))->FUN_00804f80(apActor);
 }
 
 struct FUN_00803ab0_arg
@@ -186,12 +244,14 @@ struct FUN_00803ab0_arg
 struct FUN_00803ab0_shell
 {
     void SetArg(FUN_00803ab0_arg p);
+    char pad00[0x154];
+    FUN_00803ab0_arg unk154;
 };
 // Copies the four-int argument struct into the object at offset 0x154.
 // @fnv 0x00803ab0
 void FUN_00803ab0_shell::SetArg(FUN_00803ab0_arg aArg)
 {
-    *(FUN_00803ab0_arg*)((char*)this + 0x154) = aArg;
+    unk154 = aArg;
 }
 
 struct FUN_00803ae0_Data
@@ -204,19 +264,24 @@ struct FUN_00803ae0_Data
 struct FUN_00803ae0_shell
 {
     void SetData(FUN_00803ae0_Data aVal);
+    char pad00[0x164];
+    FUN_00803ae0_Data unk164;
 };
 // Stores the four-int value aVal into the object at offset 0x164.
 // @fnv 0x00803ae0
 void FUN_00803ae0_shell::SetData(FUN_00803ae0_Data aVal)
 {
-    *reinterpret_cast<FUN_00803ae0_Data*>((char*)this + 0x164) = aVal;
+    unk164 = aVal;
 }
 
 class NiNode;
+class NiExtraData;
+class NiFixedString;
 class NiAVObject
 {
   public:
-    NiNode* GetParent() const;
+public:
+    ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
 class NiNode : public NiAVObject
 {
@@ -289,7 +354,6 @@ template <class T> class NiPointer
     operator T*() const;
     NiPointer& operator=(T* apObject);
 };
-void __cdecl FUN_00bc1470(NiAVObject* apSource, NiAVObject* apTarget);
 struct FUN_0080d930
 {
     virtual ~FUN_0080d930();
@@ -320,14 +384,23 @@ struct FUN_00802e20 : FUN_0080d930
     NiPointer<NiAVObject> m_spTargetObject;
     virtual ~FUN_00802e20();
 };
+// Calls FUN_00802e20 on this, frees this when flags has bit 0 set, and returns this.
+// @fnv 0x00802df0
+void* AbsorbEffect::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00802e20 *>((this))->FUN_00802e20::~FUN_00802e20();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x00802e20
 FUN_00802e20::~FUN_00802e20()
 {
-    FUN_00bc1470(spBolt, m_spTargetObject);
+    ::FUN_00bc1470((::Fn1470Owner *)(::NiAVObject *)(spBolt), (::Fn1470Result *)(::NiAVObject *)(m_spTargetObject));
     m_spTargetObject = 0;
     if (spBolt)
     {
-        NiNode* pParent = ((NiAVObject*)spBolt)->GetParent();
+        NiNode* pParent = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((void *)(((NiAVObject*)spBolt)))->FUN_009611e0()));
         if (pParent)
             pParent->DetachChildAlt(spBolt);
         spBolt = 0;
@@ -394,8 +467,6 @@ struct EffectItem;
 
 struct F40ActiveEffect
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 
     virtual void vfunc00();
     virtual void vfunc04();
@@ -457,7 +528,6 @@ F40ActiveEffect* F40ActiveEffect::CreateAbsorbEffectClone()
     return pkClone;
 }
 
-void* __cdecl FUN_00401000(unsigned int size);
 
 struct AbsorbRecord
 {
@@ -484,10 +554,6 @@ struct AbsorbRecord
     unsigned int unk50;
     unsigned int unk54;
     unsigned int unk58;
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00401000(size);
-    }
     AbsorbRecord(unsigned int a, unsigned int b, unsigned int c);
 };
 
@@ -498,21 +564,17 @@ AbsorbRecord* __cdecl CreateAbsorbRecord(unsigned int uiFirst, unsigned int uiSe
     return new AbsorbRecord(uiFirst, uiSecond, uiThird);
 }
 
-extern double DAT_01012060;
 
 struct FUN_00803070_Probe
 {
-    unsigned char FUN_00403e60();
 };
 
 struct FUN_00803070_Sub
 {
-    FUN_00803070_Probe* FUN_00825c00(int a);
 };
 
 struct FUN_00803070_Node
 {
-    void* FUN_00815410();
 };
 
 struct FUN_00803070_Owner
@@ -559,10 +621,8 @@ struct FUN_00803070_cls
     int unk1C;
     float m_20;
 
-    void FUN_0082c000();
     void* FUN_0045cd60();
     float GetFloatAtOffset1C(int a);
-    void FUN_0082be10();
     void InitBoltEffect();
     void FUN_00803070();
 };
@@ -570,15 +630,15 @@ struct FUN_00803070_cls
 // @fnv 0x00803070
 void FUN_00803070_cls::FUN_00803070()
 {
-    FUN_0082c000();
-    if (m_0c->FUN_00825c00(2)->FUN_00403e60() != 0 || (double)m_20 == DAT_01012060)
+    reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
+    if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00803070_Probe *)(reinterpret_cast<::EffectItemFields *>(m_0c)->setting))))->FUN_00403e60({}))) != 0 || (double)m_20 == ::_DAT_01012060)
     {
-        void* result = ((FUN_00803070_Owner*)this)->FUN_0045cd60() != 0
-                           ? ((FUN_00803070_Node*)((FUN_00803070_Owner*)this)->FUN_0045cd60())->FUN_00815410()
+        void* result = ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_00803070_Owner*)this)))->FUN_0045cd60())) != 0
+                           ? ((void *)(reinterpret_cast<::MagicCaster *>((((FUN_00803070_Node*)((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_00803070_Owner*)this)))->FUN_0045cd60())))))->GetCasterActor()))
                            : 0;
-        vSlot19(result, -((FUN_00803070_Owner*)this)->GetFloatAtOffset1C(-1));
+        vSlot19(result, -::GetFloatAtOffset1C((char *)(((FUN_00803070_Owner*)this))));
     }
-    FUN_0082be10();
+    reinterpret_cast<::ValueModifierEffect *>(this)->RefreshPlayerActorValue();
     InitBoltEffect();
 }
 
@@ -743,8 +803,6 @@ struct BoltActorStandIn
     char pad04[0xa4 - 4];
     BoltAVOwner kAVOwner;
 
-    float FUN_005723b0(BoltActorStandIn* pkOther, bool b1, bool b2);
-    BoltProcessStandIn* FUN_008d8520();
 };
 
 struct BoltProcessStandIn
@@ -1075,26 +1133,19 @@ struct BoltProcessStandIn
 
 struct BoltCasterSrc
 {
-    BoltActorStandIn* FUN_00815410();
 };
 struct BoltTargetSrc
 {
-    BoltActorStandIn* FUN_00822b40();
 };
 struct BoltFlags
 {
-    bool FUN_00403e60();
 };
 struct BoltEffectSetting
 {
-    BoltFlags* FUN_00825c00(int iFlag);
 };
 struct SettingStandIn
 {
-    float* FUN_00403e20();
 };
-extern SettingStandIn g_s_011d1aa8;
-float __cdecl FUN_006463e0(float f);
 
 struct BoltEffectUpd
 {
@@ -1132,50 +1183,10 @@ struct BoltEffectUpd
     int unk10[4];
     float unk20;
 
-    void FUN_0082c660(float fTimeOffset);
     BoltCasterSrc* FUN_0045cd60();
-    BoltTargetSrc* FUN_0059bb30();
-    void FUN_00804210(bool bForce);
-    bool FUN_00705cf0();
     float GetFloatAtOffset1C(int iIndex);
-    void FUN_00803b70(float fTimeOffset);
     void UpdateEffect(float fTimeOffset);
 };
-
-// @fnv 0x00803120
-void BoltEffectUpd::UpdateEffect(float fTimeOffset)
-{
-    FUN_0082c660(fTimeOffset);
-    BoltActorStandIn* pkCaster = FUN_0045cd60() ? FUN_0045cd60()->FUN_00815410() : 0;
-    BoltActorStandIn* pkTarget = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-    if (!unk0c->FUN_00825c00(2)->FUN_00403e60() && unk20 > 0.0)
-    {
-        int iAV = GetActorValue();
-        if (pkTarget && pkTarget->kAVOwner.GetActorValueInt(GetActorValue()) <= 0.0)
-            FUN_00804210(false);
-        if (!FUN_00705cf0())
-            ApplyDamage(pkCaster, -GetFloatAtOffset1C(-1) * fTimeOffset);
-    }
-    if (!FUN_00705cf0() && pkTarget && pkTarget->Get3D() && !pkTarget->IsDead(false) && pkCaster && pkCaster->Get3D() &&
-        !pkCaster->IsDead(false))
-    {
-        float fDist = pkCaster->FUN_005723b0(pkTarget, false, false);
-        if (fDist > FUN_006463e0(*g_s_011d1aa8.FUN_00403e20()))
-            FUN_00804210(false);
-        else if (pkCaster->FUN_008d8520())
-        {
-            BoltLOSData* pkLOS = pkCaster->FUN_008d8520()->GetLOS(pkTarget, 0);
-            if (pkLOS && !pkLOS->bHasLOS)
-                FUN_00804210(false);
-        }
-    }
-    else
-    {
-        FUN_00804210(false);
-    }
-    if (!FUN_00705cf0())
-        FUN_00803b70(fTimeOffset);
-}
 
 struct S_008033b0_Obj;
 
@@ -1244,7 +1255,6 @@ struct S_008033b0_Node
 
 struct S_008033b0_Obj
 {
-    S_008033b0_Node* FUN_009611e0();
 };
 
 struct S_008033b0_Ptr
@@ -1252,26 +1262,21 @@ struct S_008033b0_Ptr
     int unk00;
     int unk04;
     int unk08;
-    S_008033b0_Obj* FUN_00559450();
     void FUN_0066b0d0(int v);
 };
 
 struct S_008033b0_Q
 {
-    bool FUN_00403e60();
 };
 
 struct S_008033b0_Mgr
 {
-    S_008033b0_Q* FUN_00825c00(int v);
 };
 
 struct S_008033b0_Tgt
 {
-    void* FUN_00815410();
 };
 
-void __cdecl FUN_00bc1470(S_008033b0_Obj* a, S_008033b0_Obj* b);
 
 struct S_008033b0_Fx
 {
@@ -1320,10 +1325,8 @@ struct S_008033b0_Fx
     int unk48;
     S_008033b0_Ptr p4c;
     S_008033b0_Ptr p58;
-    void ApplyEffect();
     S_008033b0_Tgt* FUN_0045cd60();
     float GetFloatAtOffset1C();
-    float FUN_0082ce70(float v);
     void Update();
     virtual void vfn_64(void* t, float f, int n);
 };
@@ -1331,19 +1334,19 @@ struct S_008033b0_Fx
 // @fnv 0x008033b0
 void S_008033b0_Fx::Update()
 {
-    ApplyEffect();
-    if (unk0c->FUN_00825c00(2)->FUN_00403e60())
+    reinterpret_cast<::Cls *>(this)->ApplyEffect();
+    if (reinterpret_cast<::S3e60 *>((((::S_008033b0_Q *)(reinterpret_cast<::EffectItemFields *>(unk0c)->setting))))->FUN_00403e60({}))
     {
-        void* t = FUN_0045cd60() ? FUN_0045cd60()->FUN_00815410() : 0;
-        float f = FUN_0082ce70(GetFloatAtOffset1C());
+        void* t = ((::S_008033b0_Tgt *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((void *)(reinterpret_cast<::MagicCaster *>((((::S_008033b0_Tgt *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
+        float f = reinterpret_cast<::ValueModifierEffect *>(this)->GetModifiedMagnitude(::GetFloatAtOffset1C((char *)this));
         vfn_64(t, f, -1);
     }
-    FUN_00bc1470(p4c.FUN_00559450(), p58.FUN_00559450());
-    if (p4c.FUN_00559450())
+    ::FUN_00bc1470((::Fn1470Owner *)(::S_008033b0_Obj *)(((::S_008033b0_Obj *)(::FUN_00559450((int *)&(p4c))))), (::Fn1470Result *)(::S_008033b0_Obj *)(((::S_008033b0_Obj *)(::FUN_00559450((int *)&(p58))))));
+    if (((::S_008033b0_Obj *)(::FUN_00559450((int *)&(p4c)))))
     {
-        S_008033b0_Node* n = p4c.FUN_00559450()->FUN_009611e0();
+        S_008033b0_Node* n = ((::S_008033b0_Node *)(reinterpret_cast<::FUN_009611e0_shell *>((((::S_008033b0_Obj *)(::FUN_00559450((int *)&(p4c))))))->FUN_009611e0()));
         if (n)
-            n->vfn_e8(p4c.FUN_00559450());
+            n->vfn_e8(((::S_008033b0_Obj *)(::FUN_00559450((int *)&(p4c)))));
         p4c.FUN_0066b0d0(0);
     }
 }
@@ -1371,7 +1374,7 @@ struct BoltExtraData
 {
     int unk00, unk04, unk08, unk0c;
     BoltExtraData();
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return FUN_00aa13e0(uiSize);
     }
@@ -1379,14 +1382,13 @@ struct BoltExtraData
     {
         BoltFree(pvMem);
     }
-    void FUN_00519230(int a1, int a2);
 };
 
 struct BoltNode
 {
     int unk00[0xac / 4];
     BoltNode(int iChildren);
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return FUN_00aa13e0(uiSize);
     }
@@ -1394,25 +1396,10 @@ struct BoltNode
     {
         BoltFree(pvMem);
     }
-    BoltExtraData* FUN_00a5bdd0(const char* pName);
-    void FUN_00a5bc40(const char* pName, BoltExtraData* pkData);
 };
 
 struct BoltGeometry
 {
-    void FUN_00821620(float f);
-    void FUN_00507780(float f);
-    void FUN_00803b30(float f);
-    void FUN_005077a0(float f);
-    void FUN_00803b50(float f);
-    void SetBoltSmallWidth(float f);
-    void SetBoltGrowWidth(float f);
-    void FUN_00803a70(unsigned int ui);
-    void SetArg(NiColorAStandIn kColor);
-    void SetData(NiColorAStandIn kColor);
-    void SetByteAtOffset175(unsigned char uc);
-    void FUN_00803a50(unsigned char uc);
-    void FUN_00bc2360();
 };
 
 template <class T> struct BoltPtr
@@ -1423,28 +1410,10 @@ template <class T> struct BoltPtr
     bool FUN_00822510(T* pObject) const;
 };
 
-const char* __cdecl FUN_00448a80();
-BoltGeometry* __cdecl FUN_00bc18d0(BoltNode* pkNode, int iFlag);
 
 struct SettingStandIn
 {
-    float* FUN_00403e20();
-    unsigned int* FUN_0043d4d0();
 };
-extern SettingStandIn g_s_011d1710;
-extern SettingStandIn g_s_011d1c88;
-extern SettingStandIn g_s_011d1af0;
-extern SettingStandIn g_s_011d1d3c;
-extern SettingStandIn g_s_011d1ac0;
-extern SettingStandIn g_s_011d1ab4;
-extern SettingStandIn g_s_011d1680;
-extern SettingStandIn g_s_011d1c64;
-extern SettingStandIn g_s_011d18b4;
-extern SettingStandIn g_s_011d1570;
-extern SettingStandIn g_s_011d1c94;
-extern SettingStandIn g_s_011d1818;
-extern SettingStandIn g_s_011d1830;
-extern SettingStandIn g_s_011d16a4;
 
 struct BoltNodeLookup
 {
@@ -1488,11 +1457,9 @@ struct BoltNodeLookup
 
 struct BoltModelInfo
 {
-    BoltNodeLookup* GetStringAtOffset();
 };
 struct BoltRoot
 {
-    BoltModelInfo* FUN_00496940();
 };
 
 struct BoltAttachTarget
@@ -1556,7 +1523,6 @@ struct BoltAttachTarget
 };
 struct BoltAttachSource
 {
-    BoltAttachTarget* FUN_005497a0();
 };
 struct BoltProcess
 {
@@ -1723,7 +1689,6 @@ struct BoltEffectImpl
     BoltPtr<NiAVObjectStandIn> m_spReferencedObject;
     BoltPtr<BoltGeometry> m_spBolt;
 
-    BoltCasterSource* FUN_0059bb30();
     BoltTargetSource* FUN_0045cd60();
     void InitBoltEffect();
 };
@@ -1733,59 +1698,59 @@ struct BoltEffectImpl
 void BoltEffectImpl::InitBoltEffect()
 {
     m_spNode.FUN_0066b0d0(new BoltNode(0));
-    BoltExtraData* pkDataZ = m_spNode.FUN_00559450()->FUN_00a5bdd0(FUN_00448a80());
+    BoltExtraData* pkDataZ = ((::fnv_008034c0::BoltExtraData *)(reinterpret_cast<::NiAVObject *>((((::fnv_008034c0::BoltNode *)(::FUN_00559450((int *)&(m_spNode))))))->GetExtraData((*(const ::NiFixedString *)(((const char *)&(::FUN_00448a80())))))));
     if (!pkDataZ)
     {
         pkDataZ = new BoltExtraData;
-        m_spNode.FUN_00559450()->FUN_00a5bc40(FUN_00448a80(), pkDataZ);
+        reinterpret_cast<::Holder *>((((::fnv_008034c0::BoltNode *)(::FUN_00559450((int *)&(m_spNode))))))->FUN_00a5bc40((*(const ::NiFixedString *)(((const char *)&(::FUN_00448a80())))), (::NiTexture *)(pkDataZ));
     }
-    pkDataZ->FUN_00519230(1, 1);
+    reinterpret_cast<::BSXFlags_shell *>((pkDataZ))->FUN_00519230(1, 1);
 
-    BoltActor* pkAY = FUN_0059bb30() ? FUN_0059bb30()->GetActor() : 0;
-    BoltActor* pkBOut = FUN_0045cd60() ? FUN_0045cd60()->GetActor() : 0;
+    BoltActor* pkAY = ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetActor() : 0;
+    BoltActor* pkBOut = ((::fnv_008034c0::BoltTargetSource *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_008034c0::BoltTargetSource *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))->GetActor() : 0;
     BoltAttachTarget* pkAttachTmp;
     BoltRoot* pkRootRes;
     if (pkAY && pkBOut)
     {
-        pkAttachTmp = pkAY->FUN_008d6f30()->FUN_005497a0();
-        pkAttachTmp->AttachChildInAvailableSlot(m_spNode.FUN_00559450(), 1);
+        pkAttachTmp = ((::fnv_008034c0::BoltAttachTarget *)(reinterpret_cast<::TESObjectCELL *>((((::fnv_008034c0::BoltAttachSource *)(reinterpret_cast<::LowProcess *>((pkAY))->GetTarget()))))->GetDynamicNode()));
+        pkAttachTmp->AttachChildInAvailableSlot(((::fnv_008034c0::BoltNode *)(::FUN_00559450((int *)&(m_spNode)))), 1);
         m_spBolt.FUN_0066b0d0(0);
-        m_spBolt.FUN_0066b0d0(FUN_00bc18d0(m_spNode.FUN_00559450(), 1));
+        m_spBolt.FUN_0066b0d0(((::fnv_008034c0::BoltGeometry *)(::FUN_00bc18d0((::Obj_bc18d0 *)(::fnv_008034c0::BoltNode *)(((::fnv_008034c0::BoltNode *)(::FUN_00559450((int *)&(m_spNode)))))))));
 
         pkRootRes = pkBOut->GetRoot();
         if (pkRootRes)
         {
             m_spSource.FUN_0066b0d0(
-                pkRootRes->FUN_00496940()->GetStringAtOffset()->GetObjectByName(NiFixedStringStandIn(s_szSpine1)));
-            if (m_spSource.FUN_00822510(0))
+                ((::fnv_008034c0::BoltNodeLookup *)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::fnv_008034c0::BoltModelInfo *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((pkRootRes))->FUN_00496940()))))))->GetObjectByName(NiFixedStringStandIn(s_szSpine1)));
+            if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(m_spSource))->operator==((int)(0)))
                 m_spSource.FUN_0066b0d0(pkAY->Get3D());
         }
         pkRootRes = pkAY->GetRoot();
         if (pkRootRes)
         {
             m_spReferencedObject.FUN_0066b0d0(
-                pkRootRes->FUN_00496940()->GetStringAtOffset()->GetObjectByName(NiFixedStringStandIn(s_szSpine1)));
-            if (m_spReferencedObject.FUN_00822510(0))
+                ((::fnv_008034c0::BoltNodeLookup *)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::fnv_008034c0::BoltModelInfo *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((pkRootRes))->FUN_00496940()))))))->GetObjectByName(NiFixedStringStandIn(s_szSpine1)));
+            if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(m_spReferencedObject))->operator==((int)(0)))
                 m_spReferencedObject.FUN_0066b0d0(pkBOut->Get3D());
         }
 
-        if (m_spBolt.FUN_00559450())
+        if (((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt)))))
         {
-            m_spBolt.FUN_00559450()->FUN_00821620(*g_s_011d1710.FUN_00403e20());
-            m_spBolt.FUN_00559450()->FUN_00507780(*g_s_011d1c88.FUN_00403e20());
-            m_spBolt.FUN_00559450()->FUN_00803b30(*g_s_011d1af0.FUN_00403e20());
-            m_spBolt.FUN_00559450()->FUN_005077a0(*g_s_011d1d3c.FUN_00403e20());
-            m_spBolt.FUN_00559450()->FUN_00803b50(*g_s_011d1ac0.FUN_00403e20());
-            m_spBolt.FUN_00559450()->SetBoltSmallWidth(*g_s_011d1ab4.FUN_00403e20());
-            m_spBolt.FUN_00559450()->SetBoltGrowWidth(*g_s_011d1680.FUN_00403e20());
-            m_spBolt.FUN_00559450()->FUN_00803a70(*g_s_011d1c64.FUN_0043d4d0());
-            m_spBolt.FUN_00559450()->SetArg(NiColorAStandIn(*g_s_011d1c94.FUN_00403e20(), *g_s_011d1570.FUN_00403e20(),
-                                                            *g_s_011d18b4.FUN_00403e20(), 1.0f));
-            m_spBolt.FUN_00559450()->SetData(NiColorAStandIn(*g_s_011d16a4.FUN_00403e20(), *g_s_011d1830.FUN_00403e20(),
-                                                             *g_s_011d1818.FUN_00403e20(), 1.0f));
-            m_spBolt.FUN_00559450()->SetByteAtOffset175(0);
-            m_spBolt.FUN_00559450()->FUN_00803a50(1);
-            m_spBolt.FUN_00559450()->FUN_00bc2360();
+            reinterpret_cast<::FUN_00821620_Class *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00821620(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1201)))))));
+            reinterpret_cast<::FUN_00507780 *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetBoltsRadiusStrength(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1202)))))));
+            reinterpret_cast<::FUN_00803b30_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803b30(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1208)))))));
+            reinterpret_cast<::FUN_005077a0_Class *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_005077a0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1203)))))));
+            reinterpret_cast<::FUN_00803b50_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803b50(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1204)))))));
+            reinterpret_cast<::FUN_005f9b10_class *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetBoltSmallWidth(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1205)))))));
+            reinterpret_cast<::FUN_00803a90_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetBoltGrowWidth(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1680)))))));
+            reinterpret_cast<::FUN_00803a70_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803a70(*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1c64)))))));
+            reinterpret_cast<::FUN_00803ab0_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetArg((*(::FUN_00803ab0_arg *)&(const ::fnv_008034c0::NiColorAStandIn &)(NiColorAStandIn(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1c94)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1570)))))),
+                                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d18b4)))))), 1.0f))));
+            reinterpret_cast<::FUN_00803ae0_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetData((*(::FUN_00803ae0_Data *)&(const ::fnv_008034c0::NiColorAStandIn &)(NiColorAStandIn(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d16a4)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1206)))))),
+                                                             *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1818)))))), 1.0f))));
+            reinterpret_cast<::FUN_00803b10_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetByteAtOffset175(0);
+            reinterpret_cast<::FUN_00803a50_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803a50(1);
+            reinterpret_cast<::Emitter *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00bc2360();
         }
     }
 }
@@ -1796,8 +1761,6 @@ struct S_00803b70_Pt
     float x;
     float y;
     float z;
-    float FUN_00457990();
-    S_00803b70_Pt FUN_00439ef0(const S_00803b70_Pt& o);
 };
 
 struct FUN_006815c0
@@ -1812,56 +1775,42 @@ struct FUN_006815c0
     float m7;
     float m8;
     FUN_006815c0();
-    void FUN_00a59780(float a, float b, float c);
 };
 
 struct S_00803b70_O4c
 {
-    void FUN_00440460(S_00803b70_Pt* p);
-    void FUN_0043fa80(FUN_006815c0* m);
 };
 struct S_00803b70_O50
 {
-    S_00803b70_Pt* FUN_0045bb80();
 };
 struct S_00803b70_O54
 {
-    S_00803b70_Pt* FUN_0045bb80();
 };
 struct S_00803b70_O58
 {
-    void AddValue(float a, float b, float c);
 };
 
 struct S_00803b70_H4c
 {
     int unk00;
-    S_00803b70_O4c* FUN_00559450();
 };
 struct S_00803b70_H50
 {
     int unk00;
-    S_00803b70_O50* FUN_00559450();
 };
 struct S_00803b70_H54
 {
     int unk00;
-    S_00803b70_O54* FUN_00559450();
 };
 struct S_00803b70_H58
 {
     int unk00;
-    S_00803b70_O58* FUN_00559450();
 };
 
 struct S_00803b70_Setting
 {
-    float* FUN_00403e20(int i);
 };
-extern S_00803b70_Setting DAT_011d1c10;
-extern S_00803b70_Pt DAT_011f426c;
 extern unsigned char DAT_011db9f4;
-float __cdecl FUN_004b5550(float a, float b);
 
 struct S_00803b70_Main
 {
@@ -1890,22 +1839,58 @@ struct S_00803b70_Main
     S_00803b70_H58 m_58;
     void FUN_00803b70(float value);
 };
+// @fnv 0x00803120
+void BoltEffectUpd::UpdateEffect(float fTimeOffset)
+{
+    reinterpret_cast<::ValueModifierEffect *>(this)->Update(fTimeOffset);
+    BoltActorStandIn* pkCaster = ((::BoltCasterSrc *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::BoltActorStandIn *)(reinterpret_cast<::MagicCaster *>((((::BoltCasterSrc *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
+    BoltActorStandIn* pkTarget = ((::BoltTargetSrc *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::BoltActorStandIn *)(reinterpret_cast<::MagicTarget *>((((::BoltTargetSrc *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
+    if (!reinterpret_cast<::S3e60 *>((((::BoltFlags *)(reinterpret_cast<::EffectItemFields *>(unk0c)->setting))))->FUN_00403e60({}) && unk20 > 0.0)
+    {
+        int iAV = GetActorValue();
+        if (pkTarget && pkTarget->kAVOwner.GetActorValueInt(GetActorValue()) <= 0.0)
+            reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
+        if (!reinterpret_cast<::ActiveEffect *>(this)->IsDone())
+            ApplyDamage(pkCaster, -::GetFloatAtOffset1C((char *)this) * fTimeOffset);
+    }
+    if (!reinterpret_cast<::ActiveEffect *>(this)->IsDone() && pkTarget && pkTarget->Get3D() && !pkTarget->IsDead(false) && pkCaster && pkCaster->Get3D() &&
+        !pkCaster->IsDead(false))
+    {
+        float fDist = reinterpret_cast<::RefS *>((pkCaster))->FUN_005723b0((::RefS *)(pkTarget), false, false);
+        if (fDist > FUN_006463e0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStandIn *>(&::originalRuntimeFloatSetting1127))))))))
+            reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
+        else if (((::BoltProcessStandIn *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkCaster))->GetBaseTexture())))
+        {
+            BoltLOSData* pkLOS = ((::BoltProcessStandIn *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkCaster))->GetBaseTexture()))->GetLOS(pkTarget, 0);
+            if (pkLOS && !pkLOS->bHasLOS)
+                reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
+        }
+    }
+    else
+    {
+        reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
+    }
+    if (!reinterpret_cast<::ActiveEffect *>(this)->IsDone())
+        reinterpret_cast<::S_00803b70_Main *>(this)->FUN_00803b70(fTimeOffset);
+}
 
 // @fnv 0x00803b70
 void S_00803b70_Main::FUN_00803b70(float value)
 {
-    if (m_50.FUN_00559450() && m_54.FUN_00559450() && m_4c.FUN_00559450() && m_58.FUN_00559450() && !DAT_011db9f4)
+    if (((::S_00803b70_O50 *)(::FUN_00559450((int *)&(m_50)))) && ((::S_00803b70_O54 *)(::FUN_00559450((int *)&(m_54)))) && ((::S_00803b70_O4c *)(::FUN_00559450((int *)&(m_4c)))) && ((::S_00803b70_O58 *)(::FUN_00559450((int *)&(m_58)))) && !DAT_011db9f4)
     {
-        S_00803b70_Pt v7 = DAT_011f426c;
-        v7 = *m_50.FUN_00559450()->FUN_0045bb80();
-        m_4c.FUN_00559450()->FUN_00440460(&v7);
-        S_00803b70_Pt r = m_54.FUN_00559450()->FUN_0045bb80()->FUN_00439ef0(v7);
+        S_00803b70_Pt v7 = (*reinterpret_cast<::S_00803b70_Pt *>((void *)&::NiPoint3::ZERO));
+        v7 = *((::S_00803b70_Pt *)(::FUN_0045bb80((intptr_t)(((::S_00803b70_O50 *)(::FUN_00559450((int *)&(m_50))))))));
+        reinterpret_cast<::FUN_00440460_S *>((((::S_00803b70_O4c *)(::FUN_00559450((int *)&(m_4c))))))->FUN_00440460((const ::V3 *)(::S_00803b70_Pt *)(&v7));
+        S_00803b70_Pt r = ([&] { ::S_00803b70_Pt difference; reinterpret_cast<::FUN_00439ef0_class *>((((::S_00803b70_Pt *)(::FUN_0045bb80((intptr_t)(((::S_00803b70_O54 *)(::FUN_00559450((int *)&(m_54))))))))))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(v7))); return difference; }());
         FUN_006815c0 mat;
         float t = r.z;
         r.z = 0.0f;
-        float fPlanarLen = r.FUN_00457990();
-        mat.FUN_00a59780(FUN_004b5550(r.x, r.y), 0.0f, -FUN_004b5550(t, fPlanarLen));
-        m_4c.FUN_00559450()->FUN_0043fa80(&mat);
-        m_58.FUN_00559450()->AddValue(value, r.FUN_00457990(), *DAT_011d1c10.FUN_00403e20(0));
+        float fPlanarLen = reinterpret_cast<::NiPoint3 *>(&(r))->ComputeMagnitude();
+        reinterpret_cast<::ThreeByThreeMatrix *>(&(mat))->FUN_00a59780(FUN_004b5550(r.x, r.y), 0.0f, -FUN_004b5550(t, fPlanarLen));
+        reinterpret_cast<::FUN_0043fa80_s *>((((::S_00803b70_O4c *)(::FUN_00559450((int *)&(m_4c))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&mat)));
+        reinterpret_cast<::Ring216 *>((((::S_00803b70_O58 *)(::FUN_00559450((int *)&(m_58))))))->AddValue(value, reinterpret_cast<::NiPoint3 *>(&(r))->ComputeMagnitude(), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00803b70_Setting *>(&::originalRuntimeFloatSetting1207)))))), {});
     }
 }
+
+#include "generated/data/fallout/magic/absorbeffect.inc"

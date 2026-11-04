@@ -1,6 +1,10 @@
 // fallout_shared/pathfinding/navmesh_loadsave_decls.h: declares Pathing, TES, NavMeshPtr, BGSReconstructFormsInAllFilesMap, NavMeshObstacleMap and more
 
+#include "fnv/decl/FUN_00460340_shell.h"
+#include "fnv/decl/Owner45A.h"
+#include "fnv/symbols_011de000.h"
 #include "navmesh_loadsave_types_NavMesh.h"
+class TESObjectREFR;
 class Pathing
 {
   public:
@@ -55,14 +59,13 @@ class Pathing
     virtual void vfn_c0();
     virtual void vfn_c4();
     virtual void SetAltered(bool);
-    bool FUN_00460340();
+public:
+    ::TESObjectREFR *FindReferenceByFormId(unsigned int);
 };
 class TES
 {
   public:
-    Pathing* GetActiveCell();
 };
-extern TES* g_TES;
 
 class ObstacleData;
 // Shared PC smart-pointer operations have several existing type aliases.
@@ -87,12 +90,8 @@ class BGSReconstructFormsInAllFilesMap
 class NavMeshObstacleMap : public BGSReconstructFormsInAllFilesMap
 {
   public:
-    void FUN_006947e0(void*&, unsigned short&, NiPointer<ObstacleData>&);
-    void FUN_006946a0(unsigned short, NiPointer<ObstacleData>);
 };
 class NavMeshPOVMap : public BGSReconstructFormsInAllFilesMap
 {
   public:
-    void FUN_00694d30(void*&, unsigned short&, NavMeshPOVData&);
-    void InsertOrUpdate(unsigned short, NavMeshPOVData);
 };

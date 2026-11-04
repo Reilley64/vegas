@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
 class hkpConstraintMotor;
-#pragma pack(push, 1)
 class hkpRagdollMotorConstraintAtom : public hkpConstraintAtom
 {
   public:
@@ -19,6 +18,4 @@ class hkpRagdollMotorConstraintAtom : public hkpConstraintAtom
     hkpConstraintMotor* m_ppMotors[3];  // +0x40
     char pad4C[0x4];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpRagdollMotorConstraintAtom[(sizeof(hkpRagdollMotorConstraintAtom) == 0x50) ? 1 : -1];
 #endif

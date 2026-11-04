@@ -2,13 +2,19 @@
 #ifndef HOTKEYSWHEEL_DECLS_H
 #define HOTKEYSWHEEL_DECLS_H
 
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a23e10_Class.h"
+#include "fnv/decl/FUN_00a24180_shell.h"
+#include "fnv/decl/InputManager245.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a03da0__FUN_00a03da0_shell.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_01011000.h"
 class Tile
 {
   public:
-    bool ContainsTrait(int);
     void Set(int, int);
-    void Set(int, const char*, bool);
-    Tile* GetNamedChild(const char*);
 };
 class HotkeyWheelDisplay
 {
@@ -20,16 +26,12 @@ class HotkeyWheelDisplay
     int m_iTileValueIdAtOffset28, m_iTileValueIdAtOffset2C, m_iTileValueIdAtOffset30;
     bool GetVisible();
     void SetVisible(bool);
-    void RefreshHotkeyWheel();
     void Initialize(Tile*);
     char inputPadding[0x1b92 - 0x34];
     unsigned short flags;
     unsigned char keyboard[3][28];
     unsigned char controller[28];
     int SetHotkeyItem(int, int);
-    int FUN_00a24560(int, int, int);
-    int HandleHotkeyInput(int, int);
-    int FUN_00a23e10(int, int);
 };
 template <class T> class BSStringT
 {
@@ -42,9 +44,7 @@ template <class T> class BSStringT
     int __cdecl PrintfString(const char*, ...);
     const char* String();
 };
-int __cdecl GetTileValueID(const char*, int);
-int __cdecl Warning(const char*, ...);
-extern const char DAT_0106eaa0[], DAT_0106ea94[], DAT_0106ea84[], DAT_0106ea74[], g_emptyTopicInfoPrompt[];
+extern const char DAT_0106eaa0[], DAT_0106ea94[], DAT_0106ea84[], DAT_0106ea74[];
 __forceinline unsigned short HotkeySuppressedMask()
 {
     return 8;

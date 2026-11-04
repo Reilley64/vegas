@@ -19,7 +19,6 @@ class SurgeryMenu
     class PerkEntryHandler
     {
       public:
-        void RefreshPerkState();
     };
     static void UpdatePerkEntries();
 };

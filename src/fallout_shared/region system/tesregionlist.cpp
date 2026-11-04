@@ -2,6 +2,13 @@
 // src/fallout_shared/region system/tesregionlist.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/region system/tesregionlist.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004f6640_cls.h"
+#include "fnv/decl/FUN_004f70b0_Class.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011c7000.h"
 struct TESRegion;
 struct G2
 {
@@ -9,7 +16,6 @@ struct G2
 };
 struct LH
 {
-    bool IsInList(TESRegion* const&) const;
 };
 
 struct TESRegionList
@@ -23,27 +29,16 @@ bool TESRegionList::AddRegion(TESRegion* apRegion)
 {
     if (!apRegion)
         return false;
-    if (!(((LH*)((char*)this + 4))->IsInList(apRegion)))
+    if (!(reinterpret_cast<::RefList *>((void *)(((LH*)((char*)this + 4))))->FUN_005f65d0((void **)&(apRegion))))
         ((G2*)((char*)this + 4))->AddHead(apRegion);
     return true;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_004f6480_shell
 {
     void FUN_004f64b0();
     void* DestroyIfFlagged(unsigned int flags);
 };
-// Calls FUN_004f64b0, then deletes this object if bit 0 of flags is set, and returns this.
-// @fnv 0x004f6480
-void* FUN_004f6480_shell::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_004f64b0();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct IntList
 {
     void* first;
@@ -59,21 +54,27 @@ struct CachePair
     Cache* first;
     Cache* second;
 };
-extern CachePair caches[9];
-extern unsigned int instanceCount;
 struct FUN_004f64b0
 {
     virtual ~FUN_004f64b0();
     IntList regions;
     bool ownsCache;
-    void FUN_004f6640();
 };
+// Calls FUN_004f64b0, then deletes this object if bit 0 of flags is set, and returns this.
+// @fnv 0x004f6480
+void* FUN_004f6480_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004f64b0 *>(this)->FUN_004f64b0::~FUN_004f64b0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Calls FUN_004f6640, then if ownsCache and the instance count drops to zero, deletes both caches in each of the 9 slots.
 // @fnv 0x004f64b0
 FUN_004f64b0::~FUN_004f64b0()
 {
-    FUN_004f6640();
-    if (ownsCache && --instanceCount == 0)
+    reinterpret_cast<::FUN_004f6640_cls *>(this)->FUN_004f6640();
+    if (ownsCache && --(*reinterpret_cast<unsigned int *>(&::g_poolInitCount_4f6320)) == 0)
     {
         Cache* second = 0;
         Cache* first = 0;
@@ -95,12 +96,9 @@ FUN_004f64b0::~FUN_004f64b0()
     }
 }
 
-extern float DAT_01017d00;
-extern bool __cdecl FUN_0040eb10(float a, float b, float c);
 struct PointObject;
 struct RegionNode
 {
-    bool FUN_004f70b0(PointObject* obj);
 };
 struct PointObject
 {
@@ -113,10 +111,12 @@ bool PointObject::IsInRegion(RegionNode* region, float value)
 {
     if (region == 0)
         return false;
-    if (FUN_0040eb10(value, position, DAT_01017d00))
+    if (FUN_0040eb10(value, position, ::AngularDashpotApplyD4DCB0::DAT_01017d00))
     {
-        if (region->FUN_004f70b0(this))
+        if (reinterpret_cast<::FUN_004f70b0_Class *>((region))->FUN_004f70b0((::RegionPoint *)(::PointObject *)(this)))
             return true;
     }
     return false;
 }
+
+#include "generated/data/fallout_shared/region system/tesregionlist.inc"

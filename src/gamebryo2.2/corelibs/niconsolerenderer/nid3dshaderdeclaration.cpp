@@ -1,11 +1,11 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl _delete(void* p, unsigned int flags);
 
+#include "fnv/decl/FUN_00e78be0_cls.h"
+#include "fnv/symbols_00aa1000.h"
 struct FUN_00e7a1e0_shell
 {
-    void* FUN_00e78be0();
     void* DestroyIfFlagged(unsigned int flags);
 };
 
@@ -13,9 +13,9 @@ struct FUN_00e7a1e0_shell
 // @fnv 0x00e7a1e0
 void* FUN_00e7a1e0_shell::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00e78be0();
+    reinterpret_cast<::FUN_00e78be0_cls *>(this)->FUN_00e78be0();
     if (flags & 1)
-        _delete(this, 0x2c);
+        ::FUN_00aa1460(this, 0x2c);
     return this;
 }
 

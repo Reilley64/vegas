@@ -2,24 +2,25 @@
 // src/havok/physics/dynamics/constraint/hkpconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/hkpconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cb1000.h"
 #include "havok/hkpConstraintData.h"
+#include <cstdint>
 
-extern "C" void __cdecl FUN_00cb1280(void* dst, int n, int len);
 
 struct FUN_00d21a30_class
 {
-    void __thiscall FUN_00d21a30(int a, int b, int c);
+    void FUN_00d21a30(int a, void* pBuffer, int uiLength);
 };
 
 // @fnv 0x00d21a30
-void __thiscall FUN_00d21a30_class::FUN_00d21a30(int a, int pBuffer, int uiLength)
+void FUN_00d21a30_class::FUN_00d21a30(int a, void* pBuffer, int uiLength)
 {
     if (pBuffer)
-        FUN_00cb1280((void*)pBuffer, 0, uiLength);
+        ::FUN_00cb1280(pBuffer, 0, uiLength);
 }
 
 // @fnv 0x00d21a50
-int __stdcall FUN_00d21a50(int a)
+int FUN_00d21a50(int a)
 {
     return a;
 }
@@ -132,7 +133,7 @@ void __cdecl FUN_00d21a60(const hkpConstraintAtom* atoms, int sizeOfAllAtoms, Ge
         switch (atom->type)
         {
         case hkpConstraintAtom::INVALID:
-            cursor = reinterpret_cast<const char*>((reinterpret_cast<unsigned long>(cursor) + 15) & ~15UL);
+            cursor = reinterpret_cast<const char*>((reinterpret_cast<uintptr_t>(cursor) + uintptr_t(15)) & ~uintptr_t(15));
             goto dispatchAlignedAtom;
         case hkpConstraintAtom::BALL_SOCKET:
             addSolverSchema(info, 144, 3, 3);

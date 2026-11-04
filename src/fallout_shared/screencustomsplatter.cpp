@@ -1,5 +1,37 @@
 // fallout_shared/screencustomsplatter.cpp: ScreenCustomSplatter, BSPortal, BSCustomSplatterExtraData (15 functions)
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/CamLook.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_004def90_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/decl/FUN_00a7b300_shell.h"
+#include "fnv/decl/FUN_00c5dea0_Class.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_004df000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b81000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01189000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 #include "screencustomsplatter_decls.h"
 // Iterates the entries array and calls FUN_00c5dea0 on each non-null PortalEntry before destruction.
 // @fnv 0x00c50930
@@ -14,22 +46,22 @@ BSPortal::~BSPortal()
         slot = entry;
         value = slot;
         if (value)
-            value->FUN_00c5dea0();
+            reinterpret_cast<::FUN_00c5dea0_Class *>((value))->FUN_00c5dea0();
     }
 }
 // @fnv 0x004defb0
 void ScreenCustomSplatter::Clear()
 {
-    if (DAT_011c77e8)
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_011c77e8)))
     {
-        DAT_011c7810->FUN_004def90();
+        reinterpret_cast<::FUN_004def90_Class *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c7810))).operator->()))->FUN_004def90();
         DAT_011c77dc = 0;
         DAT_011c77ec = 0.0f;
         DAT_011c77e9 = 0;
-        SkyTextureManager::LoadTextureFromPath(&DAT_011c7808, DAT_011ce918.String());
-        SkyTextureManager::LoadTextureFromPath(&DAT_011c7804, DAT_011ce284.String());
+        SkyTextureManager::LoadTextureFromPath(&(*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::g_spDebrisTexture)), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce918))))->GetMenuTitle())));
+        SkyTextureManager::LoadTextureFromPath(&(*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::g_spDebrisNormalMap)), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce284))))->GetMenuTitle())));
         if (DAT_011f941e)
-            SkyTextureManager::LoadTextureFromPath(&DAT_011c780c, DAT_011cede8.String());
+            SkyTextureManager::LoadTextureFromPath(&(*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::g_spDebrisShadowTexture)), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cede8))))->GetMenuTitle())));
     }
 }
 // @fnv 0x004deb30
@@ -37,37 +69,37 @@ void ScreenCustomSplatter::Init()
 {
     AutoMemContext mem(MEM_CONTEXT_SCREEN, true,
                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ScreenCustomSplatter.cpp", 189);
-    DAT_011c77e8 = DAT_011c77f4.Bool()->b;
-    if (DAT_011c77e8)
+    (*reinterpret_cast<unsigned char *>(&::DAT_011c77e8)) = (*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011c77f4)).Bool()->b;
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_011c77e8)))
     {
         GraphicsRenderer* renderer = reinterpret_cast<GraphicsRenderer*>(FUN_0043c4b0());
         float fAspect = (float)renderer->GetRenderTargetWidth() / (float)renderer->GetRenderTargetHeight();
-        reinterpret_cast<NiPointer<NiAVObject>&>(DAT_011c781c) = new FUN_00a712f0;
-        DAT_011c781c->FUN_00440460(NiPoint3(0.0f, 0.0f, DAT_01022960));
+        reinterpret_cast<NiPointer<NiAVObject>&>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c))) = new FUN_00a712f0;
+        reinterpret_cast<::FUN_00440460_S *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c))).operator->()))->FUN_00440460((const ::V3 *)&(const ::NiPoint3 &)(NiPoint3(0.0f, 0.0f, DAT_01022960)));
         NiUpdateData update1(0.0f, false, false);
-        DAT_011c781c->Update(update1);
-        reinterpret_cast<NiCamera*>(DAT_011c781c.operator->())->AimAt(NiPoint3::ZERO, DAT_011a9478);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c))).operator->()))->FUN_00a59c60((std::intptr_t)&(update1));
+        reinterpret_cast<::CamLook *>((reinterpret_cast<NiCamera*>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c)).operator->())))->SetLookAt((const ::CamPoint &)(NiPoint3::ZERO), (const ::CamPoint &)(DAT_011a9478));
         NiFrustum frustum(false);
         frustum.ortho = false;
-        frustum.top = DAT_01016248;
+        frustum.top = ::fnv_00c88020::DAT_01016248;
         frustum.bottom = DAT_0102295c;
         frustum.left = (float)(fAspect * DAT_01011598);
         frustum.right = (float)(fAspect * DAT_01011588);
         frustum.farPlane = DAT_01022958;
         frustum.nearPlane = 1.0f;
-        reinterpret_cast<NiCamera*>(DAT_011c781c.operator->())->UpdateViewFrustum(frustum);
+        reinterpret_cast<NiCamera*>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c)).operator->())->UpdateViewFrustum(frustum);
         NiUpdateData update2(0.0f, false, false);
-        DAT_011c781c->Update(update2);
-        DAT_01189500 = frustum.right;
-        DAT_01189504 = frustum.top;
-        DAT_011c77ec = DAT_011cfc2c.Float()->f;
+        reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c))).operator->()))->FUN_00a59c60((std::intptr_t)&(update2));
+        ::g_fDebrisRangeX = frustum.right;
+        ::g_fDebrisRangeY = frustum.top;
+        DAT_011c77ec = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting736))))))->f;
         DAT_011c77e9 = 0;
-        reinterpret_cast<NiPointer<NiAVObject>&>(DAT_011c7810) = new NiNode(0);
+        reinterpret_cast<NiPointer<NiAVObject>&>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c7810))) = new NiNode(0);
         DAT_011c77dc = 0;
-        SkyTextureManager::LoadTextureFromPath(&DAT_011c7808, DAT_011ce918.String());
-        SkyTextureManager::LoadTextureFromPath(&DAT_011c7804, DAT_011ce284.String());
+        SkyTextureManager::LoadTextureFromPath(&(*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::g_spDebrisTexture)), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce918))))->GetMenuTitle())));
+        SkyTextureManager::LoadTextureFromPath(&(*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::g_spDebrisNormalMap)), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce284))))->GetMenuTitle())));
         if (DAT_011f941e)
-            SkyTextureManager::LoadTextureFromPath(&DAT_011c780c, DAT_011cede8.String());
+            SkyTextureManager::LoadTextureFromPath(&(*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::g_spDebrisShadowTexture)), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cede8))))->GetMenuTitle())));
     }
 }
 
@@ -99,7 +131,6 @@ void FUN_004de8a0(float value)
     DAT_011feda4 = value;
 }
 
-extern float DAT_011ad874;
 
 // @fnv 0x004de8b0
 void FUN_004de8b0(float value)
@@ -107,7 +138,6 @@ void FUN_004de8b0(float value)
     DAT_011ad874 = value;
 }
 
-extern float DAT_011ad878;
 
 // @fnv 0x004de8c0
 void FUN_004de8c0(float f)
@@ -115,7 +145,6 @@ void FUN_004de8c0(float f)
     DAT_011ad878 = f;
 }
 
-extern float DAT_011ad878;
 
 // @fnv 0x004de8d0
 float FUN_004de8d0()
@@ -126,7 +155,6 @@ float FUN_004de8d0()
 struct NiRTTI
 {
 };
-extern NiRTTI g_011c7820;
 
 struct BSCustomSplatterExtraData
 {
@@ -136,19 +164,18 @@ struct BSCustomSplatterExtraData
 // @fnv 0x004dead0
 const NiRTTI* BSCustomSplatterExtraData::GetRTTI() const
 {
-    return &g_011c7820;
+    return &(*reinterpret_cast<::NiRTTI *>(&::g_011c7820));
 }
 
 struct FUN_004deb10_shell
 {
-    void __thiscall FUN_00a7b300();
     void FUN_004deb10();
 };
 
 // @fnv 0x004deb10
 void FUN_004deb10_shell::FUN_004deb10()
 {
-    FUN_00a7b300();
+    reinterpret_cast<::FUN_00a7b300_shell *>(this)->FUN_00a7b300();
 }
 
 extern int DAT_010228c4;
@@ -170,11 +197,10 @@ struct FUN_004dea80 : NiExtraData
 // @fnv 0x004dea80
 FUN_004dea80::FUN_004dea80(Vector4f* apSource) : NiExtraData(FUN_004de890())
 {
-    *(int*)this = (int)&DAT_010228c4;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_010228c4;
     q = *apSource;
 }
 
-void __cdecl _delete(void*, unsigned int);
 struct FUN_004deae0_holder
 {
     void* DestroyIfFlagged(unsigned int);
@@ -185,7 +211,7 @@ void* FUN_004deae0_holder::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<FUN_004deb10_shell*>(this)->FUN_004deb10();
     if (flags & 1)
-        _delete(this, 0x1c);
+        ::FUN_00aa1460(this, 0x1c);
     return this;
 }
 
@@ -198,11 +224,9 @@ struct OpacityFadeState
 };
 struct SplatterExtra : NiExtraData
 {
-    OpacityFadeState* GetOffsetC();
 };
 struct SplatterObject : NiAVObject
 {
-    SplatterExtra* FUN_00a5bdd0(BSFadeNode*);
 };
 struct SplatterNode : NiNode
 {
@@ -268,44 +292,38 @@ struct SplatterNode : NiNode
     virtual void virtual3b();
     virtual void RemoveAt(unsigned int);
     unsigned int FUN_0043b480();
-    NiAVObject* FUN_0043b4a0(unsigned int);
 };
 struct TimeGlobal
 {
-    float FUN_0084d030();
 };
-extern TimeGlobal DAT_011f6394;
-extern SettingT_GameSettingCollection_ DAT_011ceeb4, DAT_011cf6a8;
-float LinearInterpolate(float, float, float, float, float);
-float FUN_0040ebd0(float, float);
 
 // Advances each splatter child's elapsed time, removes expired ones, updates opacity and NiUpdateData, then advances the fade value toward 1.
 // @fnv 0x004de600
 void FUN_004de600()
 {
-    if (DAT_011c77e8)
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_011c77e8)))
     {
-        unsigned int uiChildCount = reinterpret_cast<SplatterNode*>(DAT_011c7810.operator->())->FUN_0043b480();
-        float elapsed = DAT_011f6394.FUN_0084d030();
+        unsigned int uiChildCount = reinterpret_cast<SplatterNode*>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c7810)).operator->())->FUN_0043b480();
+        float elapsed = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
         for (unsigned int index = 0; index < uiChildCount; ++index)
         {
             SplatterObject* child = static_cast<SplatterObject*>(
-                reinterpret_cast<SplatterNode*>(DAT_011c7810.operator->())->FUN_0043b4a0(index));
+                reinterpret_cast<::NiNode *>((reinterpret_cast<SplatterNode*>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c7810)).operator->())))->GetAt(index));
             if (child)
             {
-                SplatterExtra* extra = child->FUN_00a5bdd0(FUN_004de890());
-                OpacityFadeState* data = extra->GetOffsetC();
+                SplatterExtra* extra = ((::SplatterExtra *)(reinterpret_cast<::NiAVObject *>((child))->GetExtraData((*(const ::NiFixedString *)(FUN_004de890())))));
+                OpacityFadeState* data = ((::OpacityFadeState *)(::GetOffsetC((std::intptr_t)(extra))));
                 data->elapsed += elapsed;
                 if (data->elapsed >= data->duration)
                 {
                     DAT_011c77dc -= data->count;
-                    reinterpret_cast<SplatterNode*>(DAT_011c7810.operator->())->RemoveAt(index);
+                    reinterpret_cast<SplatterNode*>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c7810)).operator->())->RemoveAt(index);
                 }
                 else
                 {
                     if (!DAT_011c77e9 && data->elapsed / data->duration >= DAT_011c77ec)
                     {
-                        data->opacity = 1.0f - LinearInterpolate(0.0f, 1.0f, DAT_011cfc2c.Float()->f * data->duration,
+                        data->opacity = 1.0f - LinearInterpolate(0.0f, 1.0f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting736))))))->f * data->duration,
                                                                  data->duration, data->elapsed);
                     }
                     else if (DAT_011c77e9 && data->elapsed >= data->duration - DAT_011c77ec)
@@ -315,12 +333,12 @@ void FUN_004de600()
                                                                  data->duration, data->elapsed);
                     }
                     NiUpdateData updateData(data->elapsed, true, false);
-                    child->Update(updateData);
+                    reinterpret_cast<::FUN_00a59c60_cls *>((child))->FUN_00a59c60((std::intptr_t)&(updateData));
                 }
             }
         }
-        FUN_004de8a0(DAT_011ceeb4.Float()->f);
-        FUN_004de8b0(DAT_011cf6a8.Float()->f);
+        FUN_004de8a0(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting742))))))->f);
+        FUN_004de8b0(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf6a8))))))->f);
         float fade = FUN_004de8d0();
         if (fade < 1.0)
         {
@@ -350,15 +368,10 @@ struct SplatterExtraData : NiExtraData
 {
     SplatterParams params;
     SplatterExtraData(SplatterParams* p);
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
-    void* GetList();
 };
 
 struct SplatterGeometry
 {
-    bool AddExtraData(SplatterExtraData* pData);
-    void SetName(const NiFixedString& kName);
 };
 
 struct SplatterRoot
@@ -419,24 +432,19 @@ struct SplatterRoot
     virtual void V53();
     virtual void V54();
     virtual void AttachChildInAvailableSlot(SplatterGeometry* pChild, bool abFirstAvailableSlot);
-    void Update(NiUpdateData& kData);
 };
 
-extern NiPointer<SplatterRoot> g_spSplatterRoot;
-extern SettingT_GameSettingCollection_ g_fSplatterDefaultAlpha;
 
-SplatterGeometry* CreateDebrisNode(unsigned int ItemUpdateArray, float fSizeMin, float fSizeMax);
-void FUN_00b81420(SplatterGeometry* pGeom, void* pList);
 
 // @fnv 0x004de8e0
 void FUN_004de8e0(unsigned int ItemUpdateArray, float fAlpha, int iUnused, float fSizeMin, float fSizeMax)
 {
-    if (DAT_011c77e8)
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_011c77e8)))
     {
         unsigned int uiNum_2 = ItemUpdateArray;
         if (uiNum_2 > 0)
         {
-            SplatterGeometry* pGeom = CreateDebrisNode(uiNum_2, fSizeMin, fSizeMax);
+            SplatterGeometry* pGeom = ((::SplatterGeometry *)(::CreateDebrisNode(uiNum_2, fSizeMin, fSizeMax)));
             DAT_011c77dc += uiNum_2;
             SplatterParams kParams2;
             kParams2.fScale = 1.0f;
@@ -447,16 +455,18 @@ void FUN_004de8e0(unsigned int ItemUpdateArray, float fAlpha, int iUnused, float
             }
             else
             {
-                kParams2.fAlpha = g_fSplatterDefaultAlpha.Float()->f;
+                kParams2.fAlpha = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting735))))))->f;
             }
             kParams2.ItemUpdateArray = uiNum_2;
             SplatterExtraData* pExtraData = new SplatterExtraData(&kParams2);
-            pGeom->AddExtraData(pExtraData);
-            pGeom->SetName(NiFixedString("ScreenSplatterRoot"));
-            g_spSplatterRoot->AttachChildInAvailableSlot(pGeom, true);
-            FUN_00b81420(pGeom, pExtraData->GetList());
+            reinterpret_cast<::FUN_00a5bca0_shell *>((pGeom))->SetExtraDataName((::NiExtraData *)(pExtraData));
+            ::AssignFixedString((char *)(pGeom), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("ScreenSplatterRoot")), {});
+            (*reinterpret_cast<::NiPointer< ::SplatterRoot> *>(&::g_011c7810))->AttachChildInAvailableSlot(pGeom, true);
+            ::FUN_00b81420((::S_00b81420_AVObject *)(pGeom), (std::intptr_t)(((void *)(reinterpret_cast<::NonActorMagicTarget *>((pExtraData))->GetActiveEffectList()))));
             NiUpdateData kUpdate(0.0f, false, false);
-            g_spSplatterRoot->Update(kUpdate);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::SplatterRoot> *>(&::g_011c7810))).operator->()))->FUN_00a59c60((std::intptr_t)&(kUpdate));
         }
     }
 }
+
+#include "generated/data/fallout_shared/screencustomsplatter.inc"

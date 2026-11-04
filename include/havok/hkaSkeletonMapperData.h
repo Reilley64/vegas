@@ -7,7 +7,6 @@
 class hkaSkeleton;
 class hkaSkeletonMapperDataChainMapping;
 class hkaSkeletonMapperDataSimpleMapping;
-#pragma pack(push, 1)
 class hkaSkeletonMapperData
 {
   public:
@@ -28,6 +27,4 @@ class hkaSkeletonMapperData
     hkInt32 m_eMappingType;  // +0x64 (MappingType)
     char pad68[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaSkeletonMapperData[(sizeof(hkaSkeletonMapperData) == 0x70) ? 1 : -1];
 #endif

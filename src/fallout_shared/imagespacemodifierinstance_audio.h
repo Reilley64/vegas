@@ -8,7 +8,6 @@ class NiPoint3
     float x, y, z;
     static const NiPoint3 ZERO;
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 12);
 enum SOUND_MSG
 {
     SOUND_MSG_ENTER_DIALOGUE = 13

@@ -1,0 +1,10 @@
+#pragma once
+
+struct NiAccumulator;
+struct NiCamera;
+
+struct HolderForAccum {
+public:
+    // 0x00ba3cb0
+    void SetAccumulatorAt(unsigned int, ::NiAccumulator *, const ::NiCamera *);
+};

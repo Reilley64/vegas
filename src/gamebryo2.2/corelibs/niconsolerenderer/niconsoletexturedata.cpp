@@ -1,5 +1,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "generated/data/vtables.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/symbols_00aa1000.h"
 struct NiRefObject
 {
     virtual ~NiRefObject();
@@ -7,20 +10,19 @@ struct NiRefObject
 
 struct NiTexture_RendererData : NiRefObject
 {
-    void* __thiscall FUN_00a981a0(unsigned int flags);
+    void* FUN_00a981a0(unsigned int flags);
 };
 
-extern "C" void _delete(void* p, unsigned int size);
 
 // Sets the vtable pointer, calls the NiRefObject destructor, and frees the object with _delete when flags has bit 0 set; returns pThis.
 // @fnv 0x00a981a0
-void* __thiscall NiTexture_RendererData::FUN_00a981a0(unsigned int flags)
+void* NiTexture_RendererData::FUN_00a981a0(unsigned int flags)
 {
     NiTexture_RendererData* pThis = this;
-    *reinterpret_cast<void**>(pThis) = reinterpret_cast<void*>(0x010a080c);
-    pThis->NiRefObject::~NiRefObject();
+    *reinterpret_cast<void**>(pThis) = reinterpret_cast<void*>(fnv_vftable_S_00a981d0_Mid);
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((pThis))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
-        _delete(pThis, 0x60);
+        ::FUN_00aa1460(pThis, 0x60);
     return pThis;
 }
 

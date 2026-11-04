@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 class hkpMoppCode;
-#pragma pack(push, 1)
 class hkMoppBvTreeShapeBase
 {
   public:
@@ -15,6 +14,4 @@ class hkMoppBvTreeShapeBase
     hkUint32 m_uiMoppDataSize;  // +0x1C
     hkVector4 m_kMoppCodeInfo;  // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkMoppBvTreeShapeBase[(sizeof(hkMoppBvTreeShapeBase) == 0x30) ? 1 : -1];
 #endif

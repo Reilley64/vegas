@@ -2,6 +2,18 @@
 // src/gamebryo2.2/corelibs/nimain/nitristripsdynamicdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nitristripsdynamicdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/A76340StripsData.h"
+#include "fnv/decl/NiTriStripsDataA75F.h"
+#include "fnv/decl/NiTriStripsDataImpl__FUN_00a76040.h"
+#include "fnv/decl/NiTriStripsSerializer.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a761c0__StripLoad.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a75000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 struct NiTriStripsDynamicData
 {
     void FUN_00a923c0(unsigned short& usStrips, const unsigned short*& pusStripLengths,
@@ -24,7 +36,6 @@ struct NiObject;
 struct NiTriStripsData
 {
     char m_auiShapeKeys[0x50];
-    bool IsEqual(NiTriStripsData* pkData);
 };
 
 struct NiTriStripsDynamicData : NiTriStripsData
@@ -39,7 +50,7 @@ struct NiTriStripsDynamicData : NiTriStripsData
 bool NiTriStripsDynamicData::IsEqualDynamic(NiObject* pkObject)
 {
     NiTriStripsDynamicData* pkData = (NiTriStripsDynamicData*)pkObject;
-    if (IsEqual(pkData))
+    if (reinterpret_cast<::NiTriStripsDataA75F *>(this)->FUN_00a75f80((::NiObject *)(pkData)))
     {
         if (m_usActiveVertices == pkData->m_usActiveVertices && m_usActiveTriangles == pkData->m_usActiveTriangles)
             return true;
@@ -48,33 +59,30 @@ bool NiTriStripsDynamicData::IsEqualDynamic(NiObject* pkObject)
 }
 }  // namespace fnv_00a92430
 
-extern "C" void* g_011f5e8c;
 
 // @fnv 0x00a92470
 void* __cdecl FUN_00a92470()
 {
-    return &g_011f5e8c;
+    return &(*reinterpret_cast<void * *>(&::g_011f5e8c));
 }
 
 struct FUN_00a92480_shell
 {
-    void __thiscall FUN_00a92480(short value);
+    void FUN_00a92480(short value);
 };
 
 // @fnv 0x00a92480
-void __thiscall FUN_00a92480_shell::FUN_00a92480(short value)
+void FUN_00a92480_shell::FUN_00a92480(short value)
 {
     *(short*)((char*)this + 0x50) = value;
 }
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a75e20_shell
 {
-    void __thiscall FUN_00a75e20();
 };
 
 extern int DAT_0109fc54;
@@ -83,13 +91,13 @@ extern int DAT_0109fc54;
 // @fnv 0x00a923f0
 void* __cdecl FUN_00a923f0()
 {
-    void* pNode = BSFadeNode::operator new(0x54);
+    void* pNode = ::operator new(0x54);
     if (pNode)
     {
         char* pBytes = (char*)pNode;
-        ((FUN_00a75e20_shell*)pBytes)->FUN_00a75e20();
+        ::FUN_00a75e20((::NiTriBasedGeomData *)(((FUN_00a75e20_shell*)pBytes)));
         *(unsigned short*)(pBytes + 0x50) = 0;
-        *(int*)pBytes = (int)&DAT_0109fc54;
+        *(intptr_t*)pBytes = (intptr_t)&DAT_0109fc54;
         *(unsigned short*)(pBytes + 0x52) = 0;
         return pNode;
     }
@@ -98,20 +106,20 @@ void* __cdecl FUN_00a923f0()
 
 struct FUN_00a92490_shell
 {
-    void __thiscall SetShortValue(short value);
+    void SetShortValue(short value);
 };
 
 // @fnv 0x00a92490
-void __thiscall FUN_00a92490_shell::SetShortValue(short value)
+void FUN_00a92490_shell::SetShortValue(short value)
 {
     *(short*)((char*)this + 0x52) = value;
     if (*(short*)((char*)this + 0x44))
-        *(short*)(*(unsigned int*)((char*)this + 0x48)) = value;
+        *(short*)(*(uintptr_t*)((char*)this + 0x48)) = value;
 }
 
 struct FUN_00a75dc0
 {
-    virtual void __thiscall Dummy();
+    virtual void Dummy();
     char _pad[76];
     FUN_00a75dc0(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, unsigned int a6,
                  unsigned int a7, unsigned int a8, unsigned int a9, unsigned int a10, unsigned int a11);
@@ -136,17 +144,15 @@ FUN_00a92340::FUN_00a92340(unsigned int a1, unsigned int a2, unsigned int a3, un
 
 struct Standin00a761a0
 {
-    void FUN_00a76040();
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 // Calls FUN_00a76040, then frees this with _delete when arg has bit 1 set, and returns this.
 // @fnv 0x00a924b0
-void* __thiscall Standin00a761a0::DestroyIfFlagged(unsigned int auiFlags)
+void* Standin00a761a0::DestroyIfFlagged(unsigned int auiFlags)
 {
-    FUN_00a76040();
+    reinterpret_cast<::NiTriStripsDataImpl::FUN_00a76040 *>(this)->NiTriStripsDataImpl::FUN_00a76040::~FUN_00a76040();
     if (auiFlags & 1)
-        _delete(this, 0x54);
+        ::FUN_00aa1460(this, 0x54);
     return this;
 }
 
@@ -335,7 +341,6 @@ class NiTriStripsData
 {
   public:
     char pad[0x50];
-    void LoadBinary(NiStream& stream);
 };
 
 struct DynStripsData : NiTriStripsData
@@ -349,7 +354,7 @@ struct DynStripsData : NiTriStripsData
 // @fnv 0x00a924d0
 void DynStripsData::FUN_00a924d0(NiStream& stream)
 {
-    NiTriStripsData::LoadBinary(stream);
+    reinterpret_cast<::fnv_00a761c0::StripLoad *>(this)->FUN_00a761c0((::fnv_00a761c0::NiStream &)(stream));
     ReadBinaryValue(stream, m_usActiveVertices);
     ReadBinaryValue(stream, m_usActiveTriangles);
 }
@@ -375,14 +380,12 @@ struct A92590StringArray
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char*& element);
 
     unsigned int SetAtGrow(unsigned int uiIndex, char*& element)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
         return uiIndex;
     }
 
@@ -392,17 +395,13 @@ struct A92590StringArray
     }
 };
 
-extern "C" char* __cdecl FUN_00a7d330(const char* pcText);
-char* __cdecl FUN_00a7d490(const char* pcPrefix, unsigned short usValue);
 
 struct A92590Base
 {
-    void GetViewerStrings(A92590StringArray* pkStrings);
 };
 
 struct A92590TriShapeData : A92590Base
 {
-    static A92590RTTI ms_kRTTI;
 
     int unk00;
     int unk04;
@@ -434,8 +433,8 @@ struct A92590TriShapeData : A92590Base
 // @fnv 0x00a92590
 void A92590TriShapeData::FUN_00a92590(A92590StringArray* pkStrings)
 {
-    A92590Base::GetViewerStrings(pkStrings);
-    char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
+    reinterpret_cast<::NiTriStripsSerializer *>(this)->FUN_00a76430((*(::NiStream *)(pkStrings)));
+    char* pcString = ::FUN_00a7d330((*reinterpret_cast<::A92590RTTI *>(&::g_011f5e8c)).GetName());
     pkStrings->Add(pcString);
     pcString = FUN_00a7d490("m_usActiveVertices", m_usActiveVertices);
     pkStrings->Add(pcString);
@@ -482,14 +481,13 @@ struct NiTriStripsStandin
     int unk4C;
     unsigned short m_usActiveVertices;
     unsigned short m_usActiveTriangles;
-    void __thiscall FUN_00a76340(unsigned int);
-    void __thiscall FUN_00a92530(void*);
+    void FUN_00a92530(void*);
 };
 
 // @fnv 0x00a92530
-void __thiscall NiTriStripsStandin::FUN_00a92530(void* stream)
+void NiTriStripsStandin::FUN_00a92530(void* stream)
 {
-    this->FUN_00a76340((unsigned int)stream);
+    reinterpret_cast<::A76340StripsData *>((this))->FUN_00a76340((*(::A76340Stream *)((uintptr_t)stream)));
     NiStreamBufferStandin* pBuffer = *(NiStreamBufferStandin**)((char*)stream + 0x250);
     int written;
     {

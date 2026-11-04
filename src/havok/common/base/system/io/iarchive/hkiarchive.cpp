@@ -2,10 +2,12 @@
 // src/havok/common/base/system/io/iarchive/hkiarchive.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/iarchive/hkiarchive.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_010d7000.h"
 struct hkReferencedObject
 {
-    void RetainReference();
-    void removeReference();
 };
 
 struct FUN_00dd9110_class
@@ -19,8 +21,8 @@ struct FUN_00dd9110_class
 // @fnv 0x00dd9110
 void FUN_00dd9110_class::SetReferencedObject(hkReferencedObject* apObject)
 {
-    apObject->RetainReference();
-    m_cByteAtOffset2->removeReference();
+    reinterpret_cast<::FUN_00c90510_class *>((apObject))->FUN_00c90510();
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_cByteAtOffset2))->FUN_00c905b0();
     m_cByteAtOffset2 = apObject;
 }
 
@@ -39,7 +41,7 @@ FUN_00dd9130_class* FUN_00dd9130_class::Init(hkReferencedObject* apObject, bool 
     *(int**)this = &DAT_010d7c80;
     *(hkReferencedObject**)((char*)this + 8) = apObject;
     *(bool*)((char*)this + 12) = abFlag;
-    apObject->RetainReference();
+    reinterpret_cast<::FUN_00c90510_class *>((apObject))->FUN_00c90510();
     return this;
 }
 
@@ -49,7 +51,7 @@ struct Inner
     virtual void v01();
     virtual void v02();
     virtual void v03();
-    virtual void Tail(int a);
+    virtual void Tail(intptr_t a);
 };
 
 struct FUN_00dd90d0_cls
@@ -57,11 +59,11 @@ struct FUN_00dd90d0_cls
     int unk00;
     int unk04;
     Inner* m_08;
-    void FUN_00dd90d0(int a);
+    void FUN_00dd90d0(intptr_t a);
 };
 
 // @fnv 0x00dd90d0
-void FUN_00dd90d0_cls::FUN_00dd90d0(int a)
+void FUN_00dd90d0_cls::FUN_00dd90d0(intptr_t a)
 {
     m_08->Tail(a);
 }
@@ -119,7 +121,7 @@ struct DD8FE0_Writer
     virtual void v1();
     virtual void v2();
     virtual void v3();
-    virtual void Write(void* buffer, int bytes);
+    virtual void Write(void* buffer, intptr_t bytes);
 };
 struct DD8FE0_Stream
 {
@@ -127,7 +129,7 @@ struct DD8FE0_Stream
     int m_04;
     DD8FE0_Writer* m_pStreamWriter;
     unsigned char m_swapByteOrder;
-    void FUN_00dd8fe0(void* data, int itemSize, int itemCount);
+    void FUN_00dd8fe0(void* data, int itemSize, intptr_t itemCount);
 };
 static __forceinline void swapByte(unsigned char& low, unsigned char& high)
 {
@@ -137,7 +139,7 @@ static __forceinline void swapByte(unsigned char& low, unsigned char& high)
 }
 // Writes itemSize*itemCount bytes to the stream writer, then swaps byte order in-place for 2, 4, or 8-byte items when m_swapByteOrder is set.
 // @fnv 0x00dd8fe0
-void DD8FE0_Stream::FUN_00dd8fe0(void* data, int itemSize, int itemCount)
+void DD8FE0_Stream::FUN_00dd8fe0(void* data, int itemSize, intptr_t itemCount)
 {
     m_pStreamWriter->Write(data, itemSize * itemCount);
     if (m_swapByteOrder)

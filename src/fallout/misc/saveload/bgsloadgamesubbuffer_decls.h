@@ -3,13 +3,30 @@
 #define BGSLOADGAMESUBBUFFER_DECLS_H
 
 
+#include "fnv/decl/AnimSelf.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_00422940_shell.h"
+#include "fnv/decl/FUN_00422ac0_shell.h"
+#include "fnv/decl/FUN_0049bb50_shell.h"
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/PlayerL.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_005636e0__FUN_005636e0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008647f0__FUN_008647f0_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_008a8150__FUN_008a8150_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_00846000.h"
+#include "fnv/symbols_0084d000.h"
+#include "fnv/symbols_011de000.h"
 class BGSLoadGameBuffer
 {
   public:
     void** m_ppVirtualMethodTable;
     ~BGSLoadGameBuffer();
-    char* ReadTypedData(char* value);
-    char* GetCombinedValue();
 };
 
 class BGSLoadFormBuffer
@@ -18,9 +35,8 @@ class BGSLoadFormBuffer
     void** m_ppVirtualMethodTable;
     char padding[44];
     BGSLoadFormBuffer();
-    void FUN_008a8150(unsigned char);
-    void SetBuffer(char*, unsigned int, unsigned int);
-    int ReadElementCount();
+public:
+    unsigned char GetVersion();
 };
 
 class TESObjectREFR;
@@ -50,14 +66,11 @@ class bhkCharacterController;
 class MobileObject
 {
   public:
-    bhkCharacterController* GetPhysicsCharacterController();
 };
 
 class MiddleHighProcess
 {
   public:
-    TargetDoorController* GetObjectToAcquire();
-    void ReadAnimationState(BGSLoadFormBuffer* buffer);
     char _pdbpad_1[199];
     char DeadDetectList_padc7_padc7_padc7[8];
     char RefListChairBed_padcf_padcf_padcf[8];
@@ -168,48 +181,42 @@ class MiddleHighProcess
 class QuantityData
 {
   public:
-    void SetQuantity(unsigned int quantity);
 };
 
 class ActorPackageContext
 {
   public:
-    void AddToProcedureIndex(int index);
 };
 
+namespace ActorValue { enum Index; }
 class TESRecipe
 {
   public:
-    void SetSkill(int);
+public:
+    void SetRequiredSkill(::ActorValue::Index);
 };
-extern unsigned int __cdecl ReadEncodedInteger(char*, unsigned int&);
 class Animation
 {
   public:
-    void Load(BGSLoadFormBuffer*);
 };
 class TESBoundObject;
 class NiAVObject;
 class ExtraDataList
 {
   public:
-    void SetSavedAnimation(char*);
-    void SetSavedHavokData(char*);
 };
 class TESObjectREFR : public TESForm
 {
   public:
-    NiAVObject* Get3DSimple();
-    ExtraDataList* GetExtraData();
-    TESBoundObject* GetObjectReference();
-    void RestoreAnimation(BGSLoadFormBuffer*);
 };
+class Animation;
 class PlayerCharacter : public TESObjectREFR
 {
   public:
     Animation* GetAnimation(bool);
+public:
+    ::Animation *GetAnimation(bool) const;
 };
-extern PlayerCharacter* g_thePlayer;
 template <> class NiTPointerMap<unsigned int, unsigned int>
 {
   public:
@@ -223,10 +230,6 @@ class BGSReconstructFormsInAllFilesMap
 class QueuedMap
 {
   public:
-    void GetNextEntry(void*&, TESForm*&,
-                      LockFreeMap<TESObjectREFR*, BSTreeNode*>::ThreadSafePointer<
-                          LockFreeMap<TESObjectREFR*, BSTreeNode*>::ThreadSafeHashTableNode>&);
 };
-extern void __cdecl LogWarning(const char* message, ...);
 
 #endif

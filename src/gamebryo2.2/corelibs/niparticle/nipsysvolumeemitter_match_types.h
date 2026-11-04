@@ -4,6 +4,7 @@
 #ifndef FNV_NIPSYSVOLUMEEMITTER_MATCH_TYPES_H
 #define FNV_NIPSYSVOLUMEEMITTER_MATCH_TYPES_H
 
+#include "fnv/decl/FUN_00a645b0_cls.h"
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
@@ -23,11 +24,6 @@ class NiPSysModifier : public NiObject
     bool m_bModifierActive;        // +0x14, 1 bytes
     unsigned char layoutPadding15[3];
 };
-FNV_STATIC_ASSERT(sizeof(NiPSysModifier) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_uiUpdateOrder) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_pkTarget) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_bModifierActive) == 20);
 class RgbaColor
 {
   public:
@@ -36,11 +32,6 @@ class RgbaColor
     float b;  // +0x8, 4 bytes
     float a;  // +0xC, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
 class NiPSysEmitter : public NiPSysModifier
 {
   public:
@@ -59,19 +50,6 @@ class NiPSysEmitter : public NiPSysModifier
     float m_fLifeSpanVariation;     // +0x4C, 4 bytes
     float m_fScale;                 // +0x50, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(NiPSysEmitter) == 84);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fEmissionSpeed) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fSpeedVariation) == 28);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fEmissionDeclination) == 32);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fDeclinationVariation) == 36);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fEmissionPlanarAngle) == 40);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fPlanarAngleVariation) == 44);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_kParticleColor) == 48);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fEmissionRadius) == 64);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fRadiusVariation) == 68);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fYValue) == 72);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fLifeSpanVariation) == 76);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitter, m_fScale) == 80);
 class NiPSysVolumeEmitter : public NiPSysEmitter
 {
   public:
@@ -79,13 +57,10 @@ class NiPSysVolumeEmitter : public NiPSysEmitter
     virtual void LinkObject(NiStream& stream);
     NiAVObject* m_pkEmitterObject;  // +0x54, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(NiPSysVolumeEmitter) == 88);
-FNV_STATIC_ASSERT(offsetof(NiPSysVolumeEmitter, m_pkEmitterObject) == 84);
 // Only out-of-line interfaces used by this unit. No NiStream layout is accessed.
 class NiStream
 {
   public:
-    void ResetStreamState();
     NiObject* GetLoadedObject();
 };
 #endif

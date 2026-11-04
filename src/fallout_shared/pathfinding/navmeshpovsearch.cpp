@@ -1,5 +1,81 @@
 // fallout_shared/pathfinding/navmeshpovsearch.cpp: NavMeshBounds, CircularArc, NavMeshPOVSearch, AngleSinCosArc_Helper and more (37 functions)
 
+#include "fnv_result_slot.h"
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include <cstring>
+#include "fnv/decl/A06F0Key.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004941c0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_0052ce20_shell.h"
+#include "fnv/decl/FUN_00558dd0_class.h"
+#include "fnv/decl/FUN_00595c80_shell.h"
+#include "fnv/decl/FUN_005eeda0_this.h"
+#include "fnv/decl/FUN_0061bef0_class.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_0068f0a0_shell.h"
+#include "fnv/decl/FUN_0068f1d0_shell.h"
+#include "fnv/decl/FUN_0068f230_shell.h"
+#include "fnv/decl/FUN_006985f0_shell.h"
+#include "fnv/decl/FUN_0069a6c0_S.h"
+#include "fnv/decl/FUN_0069cfe0_cls.h"
+#include "fnv/decl/FUN_0069d050_cls.h"
+#include "fnv/decl/FUN_0069f900_shell.h"
+#include "fnv/decl/FUN_006a04b0_stand.h"
+#include "fnv/decl/FUN_006a04e0_helper.h"
+#include "fnv/decl/FUN_006a0520_class.h"
+#include "fnv/decl/FUN_006a0580_class.h"
+#include "fnv/decl/FUN_006a1490_class.h"
+#include "fnv/decl/FUN_006a1720_class.h"
+#include "fnv/decl/FUN_006a1a50_cls.h"
+#include "fnv/decl/FUN_006a1aa0_class.h"
+#include "fnv/decl/FUN_006a1b60_Class.h"
+#include "fnv/decl/FUN_006b3420_shell.h"
+#include "fnv/decl/FUN_006bc870_shell.h"
+#include "fnv/decl/FUN_006bf8f0_Class.h"
+#include "fnv/decl/FUN_006cf900_Class.h"
+#include "fnv/decl/FUN_006dba30_Class.h"
+#include "fnv/decl/FUN_008691b0.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/Holder670.h"
+#include "fnv/decl/NavMesh.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/PathingLocation.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/S00693b90.h"
+#include "fnv/decl/S006950d0.h"
+#include "fnv/decl/S006a1460.h"
+#include "fnv/decl/S6c4350.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0069a830__FUN_0069a830_shell.h"
+#include "fnv/decl/fnv_0069a940__FUN_0069a940_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00588000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_006a0000.h"
+#include "fnv/symbols_006a1000.h"
+#include "fnv/symbols_006ba000.h"
+#include "fnv/symbols_006bb000.h"
+#include "fnv/symbols_009a3000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01064000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_011d6000.h"
 #include "navmeshpovsearch_decls.h"
 // Copies min, max, parents and triangles from this NavMeshBounds into dest.
 // @fnv 0x0069cc80
@@ -7,8 +83,8 @@ void NavMeshBounds::CopyTo(NavMeshBounds* dest)
 {
     dest->min = min;
     dest->max = max;
-    parents.CopyTo<1024>(&dest->parents);
-    triangles.CopyRecordsTo(&dest->triangles);
+    reinterpret_cast<::FUN_0069cfe0_cls *>(&(parents))->CopyElementsTo((::FUN_0069cfe0_Dst *)(::BSSimpleArray< ::ParentSpaceNode, 1024> *)(&dest->parents));
+    reinterpret_cast<::FUN_0069d050_cls *>(&(triangles))->CopyRecordsTo((std::intptr_t)(&dest->triangles));
 }
 // Picks start/end by direction, computes the span and the angle relative to the first endpoint, and tests the relative angle against the span.
 // @fnv 0x006a0660
@@ -18,7 +94,7 @@ bool CircularArc::FUN_006a0660(const SineCosine& angle) const
     const SineCosine& last81336 = direction == 0 ? end : start;
     const SineCosine span32329 = last81336 - first9182;
     const SineCosine relative34769 = angle - first9182;
-    return relative34769.FUN_006a06f0(span32329);
+    return reinterpret_cast<::A06F0Key *>((void *)&(relative34769))->FUN_006a06f0((::A06F0Key *)&(span32329));
 }
 // Computes up to two tangent directions between two spheres along the center line and stores them in out, returning the count.
 // @fnv 0x006bb570
@@ -33,15 +109,15 @@ int NavMeshPOVSearch::FindSphereTangents(const Sphere& aSphereA, const Sphere& a
     {
         count = 1.0f;
         delta = aSphereA.fRadius / aSphereB.fRadius;
-        r1.ScaleByInverse(aSphereB.fRadius);
+        reinterpret_cast<::FUN_004941c0_shell *>(&(r1))->ScaleByInverse(aSphereB.fRadius);
     }
     else if (aSphereA.fRadius != 0.0)
     {
         delta = 1.0f;
         count = aSphereB.fRadius / aSphereA.fRadius;
-        r1.ScaleByInverse(aSphereA.fRadius);
+        reinterpret_cast<::FUN_004941c0_shell *>(&(r1))->ScaleByInverse(aSphereA.fRadius);
     }
-    float r2 = r1.GetSquaredXYLength();
+    float r2 = reinterpret_cast<::FUN_00595c80_shell *>((void *)&(r1))->GetSquaredXYLength();
     if (r2 == 0.0)
     {
         aTangents.count = 0;
@@ -125,13 +201,12 @@ bool _FUN_0052aa80_shell::operator!=(int pObject) const
 extern int DAT_010326fc;
 struct NTL
 {
-    void NiTLargePrimitiveArray(unsigned int, unsigned int);
 };
 // Calls NiTLargePrimitiveArray(0, 1) on self, sets self's vtable pointer to DAT_010326fc, and returns self.
 // @fnv 0x006197c0
-void* __fastcall InitLargePrimitiveArray(void* self)
+void* InitLargePrimitiveArray(void* self)
 {
-    ((NTL*)self)->NiTLargePrimitiveArray(0, 1);
+    new ((void *)(((NTL*)self))) ::FUN_0061bef0_class((void *)(0), (void *)(1));
     *(int**)self = &DAT_010326fc;
     return self;
 }
@@ -177,7 +252,7 @@ const char* _Dummy_0069e390::GetString() const
 }
 
 // @fnv 0x0069ef80
-float __fastcall GetFloatAtOffset68(const char* pThis)
+float GetFloatAtOffset68(const char* pThis)
 {
     return *(const float*)(pThis + 0x68);
 }
@@ -189,13 +264,12 @@ class NiBound
     char _pad[12];
 };
 
-void __fastcall _ref_006815c0(void*);
 
 // @fnv 0x006a0480
-void* __fastcall FUN_006a0480(void* pThis)
+void* FUN_006a0480(void* pThis)
 {
-    ((NiBound*)pThis)->NiBound::NiBound();
-    _ref_006815c0((char*)pThis + 0xC);
+    ::FUN_006240d0((void *)(((NiBound*)pThis)));
+    (void *)((char*)pThis + 0xC);
     return pThis;
 }
 
@@ -215,8 +289,8 @@ struct FUN_006a05e0_cls
 // @fnv 0x006a05e0
 FUN_006a05e0_cls* FUN_006a05e0_cls::Init(const AngleSinCosHelper* aStart, const AngleSinCosHelper* aEnd, int aeDir)
 {
-    a = *aStart;
-    b = *aEnd;
+    reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::AngleSinCosHelper &)(a))->CopyFloatPair((void *)&(*aStart));
+    reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::AngleSinCosHelper &)(b))->CopyFloatPair((void *)&(*aEnd));
     dir = aeDir;
     return this;
 }
@@ -225,7 +299,6 @@ struct AngleSinCos_Helper
 {
     float x;
     float y;
-    AngleSinCos_Helper& CopyFloatPair(const AngleSinCos_Helper&);
 };
 
 struct AngleSinCosArc_Helper
@@ -240,8 +313,8 @@ struct AngleSinCosArc_Helper
 // @fnv 0x006a0620
 AngleSinCosArc_Helper& AngleSinCosArc_Helper::Assign(const AngleSinCosArc_Helper& other)
 {
-    start.CopyFloatPair(other.start);
-    end.CopyFloatPair(other.end);
+    reinterpret_cast<::FUN_006985f0_shell *>(&(start))->CopyFloatPair((void *)&(other.start));
+    reinterpret_cast<::FUN_006985f0_shell *>(&(end))->CopyFloatPair((void *)&(other.end));
     dir = other.dir;
     return *this;
 }
@@ -251,27 +324,25 @@ struct FUN_006a0840_shell : public SineCosine
     float FUN_006a0840();
 };
 
-float __cdecl FUN_004b5570(float, float);
 
 // Returns the result of FUN_004b5570 called with the object's second float and first float.
 // @fnv 0x006a0840
 float FUN_006a0840_shell::FUN_006a0840()
 {
-    return FUN_004b5570(((float*)this)[1], ((float*)this)[0]);
+    return FUN_004b5570(this->fSin, ((float*)this)[0]);
 }
 
-void __stdcall compiler_vector_constructor_iterator(void*, unsigned int, int, void*(__fastcall*)(void*));
-void* __fastcall FUN_00588c50(void*);
+void compiler_vector_constructor_iterator(void*, unsigned int, int, void*(*)(void*));
 
 struct Dummy_006a0870
 {
-    void* __thiscall Construct();
+    void* Construct();
 };
 
 // @fnv 0x006a0870
-void* __thiscall Dummy_006a0870::Construct()
+void* Dummy_006a0870::Construct()
 {
-    compiler_vector_constructor_iterator((char*)this + 4, 0x14, 2, FUN_00588c50);
+    compiler_vector_constructor_iterator((char*)this + 4, 0x14, 2, ((void *(&)(void *))::FUN_00588c50));
     return this;
 }
 
@@ -292,7 +363,7 @@ struct E6a0e50
 // @fnv 0x006a0e50
 E6a0e50* E6a0e50::FUN_006a0e50(const E6a0e50* apOther)
 {
-    ((Hh6a0e50*)this)->NavMeshEdgeData(apOther);
+    reinterpret_cast<::S6c4350 *>((((Hh6a0e50*)this)))->FUN_006c4350((*(const ::S6c4350 *)(apOther)));
     loc = apOther->loc;
     return this;
 }
@@ -300,7 +371,6 @@ E6a0e50* E6a0e50::FUN_006a0e50(const E6a0e50* apOther)
 struct ASC6a0e90
 {
     float s, c;
-    void _ref_006815c0();
     ASC6a0e90& operator=(const ASC6a0e90&);
     ASC6a0e90* Multiply(ASC6a0e90* out, const ASC6a0e90* a);
 };
@@ -308,26 +378,22 @@ struct ASC6a0e90
 ASC6a0e90* ASC6a0e90::Multiply(ASC6a0e90* out, const ASC6a0e90* apOther)
 {
     ASC6a0e90 ret;
-    ret._ref_006815c0();
     ret.s = s * apOther->s - c * apOther->c;
     ret.c = c * apOther->s + s * apOther->c;
-    *out = ret;
+    reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::ASC6a0e90 &)(*out))->CopyFloatPair((void *)&(ret));
     return out;
 }
 
 struct S3e60
 {
-    bool GetFlag(unsigned int) const;
     bool FUN_006a1400(unsigned int f);
 };
 // @fnv 0x006a1400
 bool S3e60::FUN_006a1400(unsigned int auiFlag)
 {
-    return GetFlag(auiFlag);
+    return ((bool)(reinterpret_cast<::FUN_006a1490_class *>((void *)this)->FUN_006a1490(auiFlag)));
 }
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-__declspec(dllimport) void __stdcall Sleep(unsigned long);
 struct S2f760
 {
     char pad[0x30];
@@ -340,24 +406,13 @@ struct S2f760
 void S2f760::CopyAndSleep(const void* apData)
 {
     memcpy(buf, apData, 8);
-    Sleep(t);
+    reinterpret_cast<::FUN_008691b0 *>((t))->Lock();
 }
 
 struct FUN_0069e1d0_shell
 {
-    void FUN_0069e200();
     void* DestroyIfFlagged(unsigned int flags);
 };
-
-// Calls FUN_0069e200, then deletes this when flags has bit 0 set, and returns this.
-// @fnv 0x0069e1d0
-void* FUN_0069e1d0_shell::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_0069e200();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
 
 struct FUN_0069ef40_shell
 {
@@ -393,7 +448,6 @@ struct Node_006a08a0
 };
 struct SeqObj
 {
-    const Node_006a08a0& GetName() const;
 };
 struct This_006a08a0
 {
@@ -403,7 +457,7 @@ struct This_006a08a0
 // @fnv 0x006a08a0
 bool This_006a08a0::IsTypeFour(const SeqObj* apNode)
 {
-    return apNode->GetName().m_pAvoidNode->eType == 4;
+    return (*(const ::Node_006a08a0 *)(reinterpret_cast<::TESTopicInfoData *>((void *)(apNode))->GetLinkToList())).m_pAvoidNode->eType == 4;
 }
 
 struct NavMeshEdgeData
@@ -415,7 +469,7 @@ struct NavMeshEdgeData
 };
 struct S12
 {
-    int a;
+    void* a;
     int b;
     int c;
 };
@@ -449,7 +503,6 @@ C006a14b0* C006a14b0::FUN_006a14b0()
 
 struct GlobalObject_00869f00
 {
-    void Clear(bool);
 };
 struct FUN_006a2580
 {
@@ -463,7 +516,7 @@ struct FUN_006a25d0 : FUN_006a2580
 // @fnv 0x006a25d0
 FUN_006a25d0::~FUN_006a25d0()
 {
-    ((GlobalObject_00869f00*)this)->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
 }
 
 class SpawnedBase_b7454
@@ -2868,6 +2921,15 @@ class FUN_0069e200_cls : public Base_69e200
 
     virtual ~FUN_0069e200_cls();
 };
+// Calls FUN_0069e200, then deletes this when flags has bit 0 set, and returns this.
+// @fnv 0x0069e1d0
+void* FUN_0069e1d0_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0069e200_cls *>(this)->::FUN_0069e200_cls::~FUN_0069e200_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor for the class; the body is empty and member destructors run automatically.
 // @fnv 0x0069e200
@@ -2878,7 +2940,6 @@ struct Pt3
 {
     float x, y, z;
     Pt3 operator-(const Pt3& o) const;
-    float Len() const;
 };
 
 struct NavObj;
@@ -2903,24 +2964,17 @@ struct NavObj
     ObjArr* pList;
 };
 
-bool CompareObj(NavObj* const& a, NavObj* const& b);
 
 struct InnerArr
 {
-    unsigned int GetCount();
     NavObj*& GetAt(unsigned int idx);
 };
 
 struct OuterArr
 {
-    unsigned int GetCount();
-    InnerArr* GetAt(unsigned int idx);
 };
 
-bool FUN_006bab00(const Pt3& center, float radius, const Pt3& a, const Pt3& b);
 
-extern float fCostType5;
-extern float fCostOther;
 
 struct NavOwner
 {
@@ -3191,25 +3245,25 @@ struct NavOwner
 // @fnv 0x006a0ac0
 float NavOwner::ComputePathCost(NavObj* apSelf, const Pt3& aStart, const Pt3& aEnd, NavObj* apIgnore)
 {
-    for (unsigned int i = 0; i < groups.GetCount(); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); i++)
     {
-        for (unsigned int j = 0; j < groups.GetAt(i)->GetCount(); j++)
+        for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::InnerArr *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i)))))->GetName())); j++)
         {
-            NavObj* pObj = groups.GetAt(i)->GetAt(j);
+            NavObj* pObj = ((::InnerArr *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i)))->GetAt(j);
             if (pObj == apIgnore)
                 continue;
             if (pObj == apSelf)
                 continue;
-            if (pObj->pList->Find(apSelf, 0, CompareObj) != -1)
+            if (pObj->pList->Find(apSelf, 0, ((bool (&)(NavObj *const &, NavObj *const &))::FUN_009a3830)) != -1)
                 continue;
-            if ((pObj->pos - aStart).Len() < pObj->radius * pObj->radius)
+            if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Pt3 &)((pObj->pos - aStart)))->UpdateCombatStyle() < pObj->radius * pObj->radius)
                 continue;
             if (FUN_006bab00(pObj->pos, pObj->radius, aStart, aEnd))
             {
                 if (pObj->type == 5)
-                    return fCostType5;
+                    return ::DAT_010162c0;
                 else
-                    return fCostOther;
+                    return ::DAT_01016410;
             }
         }
     }
@@ -3289,8 +3343,6 @@ class B6A1330Node
     virtual void vfn0D8();
     virtual void AttachChildInAvailableSlot(B6A1330Node* pkChild, bool abFirstAvailableSlot);
 
-    void UpdatePropertiesUpward();
-    void Update(const B6A1330UpdateData& kData);
 };
 
 class B6A1330NodePtr
@@ -3304,22 +3356,18 @@ class B6A1330NodePtr
     B6A1330Node* m_pObject;
 };
 
-extern B6A1330NodePtr g_spB6A1330Root;
 
-B6A1330Node* __cdecl FUN_004b3890(const char* pcPath, int iParamB, int iParamA, int iParamB2, bool bFlag);
 
 // @fnv 0x006a1330
-void __cdecl FUN_006a1330(const char* pcPath, int iParamA, int iParamB)
+void __cdecl FUN_006a1330(const char* pcPath, std::intptr_t iParamA, std::intptr_t iParamB)
 {
-    B6A1330NodePtr spNode7 = FUN_004b3890(pcPath, iParamB, iParamA, iParamB, true);
+    B6A1330NodePtr spNode7 = ((::B6A1330Node *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(pcPath)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), (*(const class ::FUN_006815c0 *)(iParamA)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), true)));
     B6A1330UpdateData kData(0.0f, false, false);
-    spNode7->UpdatePropertiesUpward();
-    spNode7->Update(kData);
-    g_spB6A1330Root->AttachChildInAvailableSlot(spNode7, true);
+    reinterpret_cast<::FUN_00a5a040_Class *>(((spNode7).operator->()))->FUN_00a5a040();
+    reinterpret_cast<::FUN_00a59c60_cls *>(((spNode7).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));
+    (*reinterpret_cast<::B6A1330NodePtr *>(&::g_011d6ddc))->AttachChildInAvailableSlot(spNode7, true);
 }
 
-void* FUN_00401000(unsigned int uiSize);
-void FUN_00401030(void* pvMem);
 
 class NiPoint369E
 {
@@ -3328,7 +3376,6 @@ class NiPoint369E
     float y;
     float z;
 
-    static const NiPoint369E ZERO;
 };
 
 class Vec69E
@@ -3346,14 +3393,6 @@ class Helper69E
   public:
     Helper69E();
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00401000(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        FUN_00401030(pvMem);
-    }
 
     int unk00, unk04, unk08, unk0C;
 };
@@ -3374,7 +3413,7 @@ class FUN_0069e2c0
 
 // Initializes the index to -1, the point to ZERO, the value to 0.0f and the scale to 1.0f, then allocates a Helper69E for m_pkHelper.
 // @fnv 0x0069e2c0
-FUN_0069e2c0::FUN_0069e2c0() : m_iIndex(-1), m_kPathOffset(NiPoint369E::ZERO), m_fValue(0.0f), m_fScale(1.0f)
+FUN_0069e2c0::FUN_0069e2c0() : m_iIndex(-1), m_kPathOffset((*reinterpret_cast<const ::NiPoint369E *>((void *)&::NiPoint3::ZERO))), m_fValue(0.0f), m_fScale(1.0f)
 {
     m_pkHelper = new Helper69E;
 }
@@ -3383,13 +3422,10 @@ struct Vec
 {
     float x, y, z;
     Vec operator-(const Vec&) const;
-    float FUN_004a7290() const;
 };
 struct Ed
 {
     unsigned short value;
-    unsigned short GetMaskedValue();
-    int GetTopBits();
 };
 struct EdgePair
 {
@@ -3397,14 +3433,12 @@ struct EdgePair
 };
 struct Tri
 {
-    bool IsEdgeFlagSet(int);
 };
 struct Words
 {
     int a, b, c, d;
     Words();
     ~Words();
-    unsigned short& At(unsigned int);
 };
 struct VertPair
 {
@@ -3413,11 +3447,7 @@ struct VertPair
 };
 struct Mesh
 {
-    unsigned int CollectTrianglePOVs(unsigned short, Words*);
-    unsigned int FUN_0069a940(unsigned short, Words*);
     bool FUN_0069a9d0(unsigned short, EdgePair*);
-    const Vec& FUN_0068f0a0(unsigned short);
-    Tri* FUN_005582f0(unsigned short);
     void FUN_0068f040(VertPair*, unsigned short, int);
 };
 struct Handle
@@ -3430,33 +3460,21 @@ struct Handle
 struct Handles
 {
     int a, b, c, d;
-    unsigned int Count();
-    Handle* At(unsigned int);
-    bool FUN_006a1460(const Handle&);
-    void Add(const Handle&);
 };
 struct GroupHandles
 {
     int a, b, c, d;
     GroupHandles(int);
     ~GroupHandles();
-    unsigned int Count();
-    Handles* At(unsigned int);
 };
 struct Record;
 struct Records
 {
-    unsigned int Count();
     Record*& At(unsigned int);
-    unsigned int Add(Record*&);
-    void Remove(unsigned int, bool);
 };
 struct Groups
 {
     int a, b, c, d;
-    unsigned int Count();
-    Records* At(unsigned int);
-    void FUN_006a1720(unsigned int, int);
 };
 struct Record
 {
@@ -3472,28 +3490,20 @@ struct Record
 };
 struct Request
 {
-    float GetFloatAtOffset68();
 };
 struct Pair
 {
     unsigned int group, index;
     Pair(unsigned int, unsigned int);
 };
-bool __cdecl CallMethodOnObject(const Pair&, const Pair&);
 struct Pairs
 {
     int a, b, c, d;
     Pairs();
     ~Pairs();
-    unsigned int Count();
-    Pair* At(unsigned int);
-    int FindMatchingEntry(const Pair&, unsigned int, bool(__cdecl*)(const Pair&, const Pair&));
-    void Add(const Pair&);
 };
 struct Input
 {
-    unsigned int Count();
-    Handle* At(unsigned int);
 };
 struct Owner
 {
@@ -5579,116 +5589,114 @@ struct Owner
 // @fnv 0x0069e3b0
 bool Owner::BuildGroups(Input* input, Groups* output)
 {
-    groups.FUN_006a1720(input->Count() + 1, 1);
-    GroupHandles first3(groups.Count());
-    GroupHandles second7(groups.Count());
+    reinterpret_cast<::FUN_006a1720_class *>(&(groups))->FUN_006a1720(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((input))->GetName())) + 1, 1);
+    GroupHandles first3(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())));
+    GroupHandles second7(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())));
     Words indices3;
-    for (unsigned int outer = 0; outer < input->Count(); outer++)
+    for (unsigned int outer = 0; outer < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((input))->GetName())); outer++)
     {
-        unsigned int count = input->At(outer)->mesh->CollectTrianglePOVs(input->At(outer)->index, &indices3);
+        unsigned int count = ((unsigned int)(reinterpret_cast<::fnv_0069a830::FUN_0069a830_shell *>((((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh))->CollectTrianglePOVs(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->index, (::BSSimpleArray<unsigned short, 1024> *)(::Words *)(&indices3))));
         for (unsigned int inner = 0; inner < count; inner++)
         {
-            Handle handle(input->At(outer)->mesh, indices3.At(inner));
-            if (!first3.At(outer)->FUN_006a1460(handle))
-                first3.At(outer)->Add(handle);
+            Handle handle(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh, reinterpret_cast<::FUN_005eeda0_this *>(&(indices3))->GetBufferEntry(inner));
+            if (!reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006a1460((std::intptr_t)&(handle)))
+                reinterpret_cast<::FUN_006dba30_Class *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006dba30((const ::S0069a690 *)&(handle));
         }
-        count = input->At(outer)->mesh->FUN_0069a940(input->At(outer)->index, &indices3);
+        count = reinterpret_cast<::fnv_0069a940::FUN_0069a940_shell *>((((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh))->FUN_0069a940(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->index, (::fnv_0069a940::GlobalObject_00869f00 *)(::Words *)(&indices3));
         for (unsigned int innerB = 0; innerB < count; innerB++)
         {
-            Handle handleB(input->At(outer)->mesh, indices3.At(innerB));
-            if (!first3.At(outer)->FUN_006a1460(handleB) && !second7.At(outer)->FUN_006a1460(handleB))
-                second7.At(outer)->Add(handleB);
+            Handle handleB(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh, reinterpret_cast<::FUN_005eeda0_this *>(&(indices3))->GetBufferEntry(innerB));
+            if (!reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006a1460((std::intptr_t)&(handleB)) && !reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(outer)))))->FUN_006a1460((std::intptr_t)&(handleB)))
+                reinterpret_cast<::FUN_006dba30_Class *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(outer)))))->FUN_006dba30((const ::S0069a690 *)&(handleB));
         }
     }
-    for (unsigned int groupA = 0; groupA < first3.Count(); groupA++)
+    for (unsigned int groupA = 0; groupA < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(first3))->GetName())); groupA++)
     {
-        for (unsigned int indexA = 0; indexA < first3.At(groupA)->Count(); indexA++)
+        for (unsigned int indexA = 0; indexA < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(groupA)))))->GetName())); indexA++)
         {
-            Handle* current2 = first3.At(groupA)->At(indexA);
+            Handle* current2 = ((::Handle *)(reinterpret_cast<::S006950d0 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(groupA)))))->GetElement(indexA)));
             EdgePair edges7;
             if (!current2->mesh->FUN_0069a9d0(current2->index, &edges7))
                 continue;
             Record* recordA = new Record;
             recordA->type = 0;
-            recordA->position = current2->mesh->FUN_0068f0a0(current2->index);
-            recordA->radius = request->GetFloatAtOffset68();
+            recordA->position = (*(const ::Vec *)(reinterpret_cast<::FUN_0068f0a0_shell *>((current2->mesh))->FUN_0068f0a0(current2->index)));
+            recordA->radius = ::GetFloatAtOffset68((const char *)(request));
             recordA->index = current2->index;
-            Tri* triA5 = current2->mesh->FUN_005582f0(edges7.first.GetMaskedValue());
-            Tri* triB9 = current2->mesh->FUN_005582f0(edges7.second.GetMaskedValue());
-            if (triA5->IsEdgeFlagSet(edges7.first.GetTopBits()) || triB9->IsEdgeFlagSet(edges7.second.GetTopBits()))
+            Tri* triA5 = ((::Tri *)(reinterpret_cast<::NavMesh *>((current2->mesh))->GetTriangle(((unsigned short)(reinterpret_cast<::FUN_0069ef40_shell *>(&(edges7.first))->GetMaskedValue())))));
+            Tri* triB9 = ((::Tri *)(reinterpret_cast<::NavMesh *>((current2->mesh))->GetTriangle(((unsigned short)(reinterpret_cast<::FUN_0069ef40_shell *>(&(edges7.second))->GetMaskedValue())))));
+            if (reinterpret_cast<::FUN_0068f1d0_shell *>((triA5))->IsEdgeFlagSet(reinterpret_cast<::FUN_0069ef60_shell *>(&(edges7.first))->GetTopBits()) || reinterpret_cast<::FUN_0068f1d0_shell *>((triB9))->IsEdgeFlagSet(reinterpret_cast<::FUN_0069ef60_shell *>(&(edges7.second))->GetTopBits()))
                 recordA->type = 1;
             VertPair pointsA2;
-            current2->mesh->FUN_0068f040(&pointsA2, edges7.first.GetMaskedValue(), edges7.first.GetTopBits());
+            current2->mesh->FUN_0068f040(&pointsA2, ((unsigned short)(reinterpret_cast<::FUN_0069ef40_shell *>(&(edges7.first))->GetMaskedValue())), reinterpret_cast<::FUN_0069ef60_shell *>(&(edges7.first))->GetTopBits());
             VertPair pointsB3;
-            current2->mesh->FUN_0068f040(&pointsB3, edges7.second.GetMaskedValue(), edges7.second.GetTopBits());
+            current2->mesh->FUN_0068f040(&pointsB3, ((unsigned short)(reinterpret_cast<::FUN_0069ef40_shell *>(&(edges7.second))->GetMaskedValue())), reinterpret_cast<::FUN_0069ef60_shell *>(&(edges7.second))->GetTopBits());
             recordA->directionA = *pointsA2.end - *pointsA2.start;
             recordA->directionB = *pointsB3.end - *pointsB3.start;
             recordA->directionA.z = 0.0f;
             recordA->directionB.z = 0.0f;
-            output->At(groupA)->Add(recordA);
+            reinterpret_cast<::FUN_00438690 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(groupA)))))->FUN_007cb2e0((unsigned int *)&(recordA));
         }
     }
-    for (unsigned int groupB = 0; groupB < second7.Count(); groupB++)
+    for (unsigned int groupB = 0; groupB < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(second7))->GetName())); groupB++)
     {
-        for (unsigned int indexB = 0; indexB < second7.At(groupB)->Count(); indexB++)
+        for (unsigned int indexB = 0; indexB < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(groupB)))))->GetName())); indexB++)
         {
-            Handle* currentB = second7.At(groupB)->At(indexB);
+            Handle* currentB = ((::Handle *)(reinterpret_cast<::S006950d0 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(groupB)))))->GetElement(indexB)));
             Record* recordB5 = new Record;
             recordB5->type = 2;
-            recordB5->position = currentB->mesh->FUN_0068f0a0(currentB->index);
-            recordB5->radius = request->GetFloatAtOffset68();
+            recordB5->position = (*(const ::Vec *)(reinterpret_cast<::FUN_0068f0a0_shell *>((currentB->mesh))->FUN_0068f0a0(currentB->index)));
+            recordB5->radius = ::GetFloatAtOffset68((const char *)(request));
             recordB5->index = currentB->index;
-            output->At(groupB)->Add(recordB5);
+            reinterpret_cast<::FUN_00438690 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(groupB)))))->FUN_007cb2e0((unsigned int *)&(recordB5));
             Record* partner2 = new Record;
             partner2->type = 2;
-            partner2->position = currentB->mesh->FUN_0068f0a0(currentB->index);
+            partner2->position = (*(const ::Vec *)(reinterpret_cast<::FUN_0068f0a0_shell *>((currentB->mesh))->FUN_0068f0a0(currentB->index)));
             partner2->radius = 10.0f;
             partner2->index = currentB->index;
             partner2->cost = 2.0f;
-            output->At(groupB)->Add(partner2);
-            recordB5->links->Add(partner2);
-            partner2->links->Add(recordB5);
+            reinterpret_cast<::FUN_00438690 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(groupB)))))->FUN_007cb2e0((unsigned int *)&(partner2));
+            reinterpret_cast<::FUN_00438690 *>((recordB5->links))->FUN_007cb2e0((unsigned int *)&(partner2));
+            reinterpret_cast<::FUN_00438690 *>((partner2->links))->FUN_007cb2e0((unsigned int *)&(recordB5));
         }
     }
     Pairs removalsTmp;
     float threshold9 = 25.0f;
-    for (unsigned int group = 0; group < output->Count(); group++)
+    for (unsigned int group = 0; group < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((output))->GetName())); group++)
     {
-        for (unsigned int index = 0; index < output->At(group)->Count(); index++)
+        for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))))->GetName())); index++)
         {
-            for (unsigned int other = group; other < output->Count(); other++)
+            for (unsigned int other = group; other < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((output))->GetName())); other++)
             {
                 if (other == group)
                 {
-                    for (unsigned int next = index + 1; next < output->At(other)->Count(); next++)
+                    for (unsigned int next = index + 1; next < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))))->GetName())); next++)
                     {
-                        if ((output->At(group)->At(index)->position - output->At(other)->At(next)->position)
-                                .FUN_004a7290() < threshold9)
+                        if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Vec &)((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))->At(index)->position - ((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))->At(next)->position)))->UpdateCombatStyle() < threshold9)
                         {
-                            if (removalsTmp.FindMatchingEntry(Pair(group, index), 0, CallMethodOnObject) == -1)
-                                removalsTmp.Add(Pair(group, index));
+                            if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((intptr_t)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(intptr_t, intptr_t))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
+                                reinterpret_cast<::FUN_006a1a50_cls *>(&(removalsTmp))->FUN_006a1a50((const ::FUN_006a1a50_pair *)&(const ::Pair &)(Pair(group, index)));
                         }
                     }
                 }
                 else
                 {
-                    for (unsigned int nextOther = 0; nextOther < output->At(other)->Count(); nextOther++)
+                    for (unsigned int nextOther = 0; nextOther < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))))->GetName())); nextOther++)
                     {
-                        if ((output->At(group)->At(index)->position - output->At(other)->At(nextOther)->position)
-                                .FUN_004a7290() < threshold9)
+                        if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Vec &)((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))->At(index)->position - ((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))->At(nextOther)->position)))->UpdateCombatStyle() < threshold9)
                         {
-                            if (removalsTmp.FindMatchingEntry(Pair(group, index), 0, CallMethodOnObject) == -1)
-                                removalsTmp.Add(Pair(group, index));
+                            if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((intptr_t)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(intptr_t, intptr_t))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
+                                reinterpret_cast<::FUN_006a1a50_cls *>(&(removalsTmp))->FUN_006a1a50((const ::FUN_006a1a50_pair *)&(const ::Pair &)(Pair(group, index)));
                         }
                     }
                 }
             }
         }
     }
-    for (int remove = removalsTmp.Count() - 1; remove >= 0; remove--)
+    for (int remove = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(removalsTmp))->GetName())) - 1; remove >= 0; remove--)
     {
-        delete groups.At(removalsTmp.At(remove)->group)->At(removalsTmp.At(remove)->index);
-        groups.At(removalsTmp.At(remove)->group)->Remove(removalsTmp.At(remove)->index, true);
+        delete ((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->group)))->At(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->index);
+        reinterpret_cast<::FUN_006bf8f0_Class *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->group)))))->FUN_006bf8f0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->index, true);
     }
     return true;
 }
@@ -5696,11 +5704,7 @@ bool Owner::BuildGroups(Input* input, Groups* output)
 struct P072Point
 {
     float x, y, z;
-    P072Point FUN_00439ef0(const P072Point&) const;
-    P072Point FUN_00439e90(const P072Point&) const;
     P072Point FUN_004b3800(const P072Point&) const;
-    float GetSquaredXYLength() const;
-    float FUN_00457990() const;
 };
 struct P072Angle
 {
@@ -5708,9 +5712,6 @@ struct P072Angle
     P072Angle();
     P072Angle(float);
     P072Angle* SetFromAngle(float);
-    P072Angle& CopyFloatPair(const P072Angle&);
-    P072Angle& FUN_006a0520(const P072Angle&);
-    P072Angle& FUN_006a0580(const P072Angle&);
     P072Point MakePointOnCircle(float);
 };
 struct P072Arc
@@ -5719,14 +5720,11 @@ struct P072Arc
     int direction;
     P072Arc(const P072Angle&, const P072Angle&, int);
     P072Arc(const P072Arc&);
-    bool FUN_006a0660(const P072Angle&);
-    float FUN_006a07a0(float);
 };
 struct P072Sphere
 {
     P072Point center;
     float radius;
-    P072Sphere* SetCenterAndRadius(const P072Point&, float);
 };
 struct P072Tangent
 {
@@ -5761,8 +5759,6 @@ struct P072Handle
     unsigned short unk06;
     int edge;
     P072Point pos;
-    void FUN_006a0480();
-    P072Handle& FUN_006cf900(const P072Handle&);
 };
 struct P072Details
 {
@@ -5776,26 +5772,17 @@ struct P072Node
     int unk00, unk04, unk08, unk0c, unk10;
     P072Angle start, end;
     P072Handle first, second;
-    P072Input* FUN_00413f40();
-    P072Details* FUN_007d6bb0();
-    P072Node* GetField54();
-    float FUN_006a7f50();
-    void FUN_0052ce20(float);
 };
 struct P072List
 {
-    void FUN_007cb2e0(P072Node*&);
 };
 struct P072Inner
 {
-    unsigned int FUN_0044ddc0();
     P072Data*& FUN_00877a30(unsigned int);
 };
 struct P072Outer
 {
     unsigned int unk00, unk04, unk08, unk0c;
-    unsigned int FUN_0044ddc0();
-    P072Inner* FUN_00558dd0(unsigned int);
 };
 class NavMesh;
 class NavMeshPtr
@@ -5804,20 +5791,12 @@ class NavMeshPtr
     NavMesh* object;
     NavMeshPtr();
     ~NavMeshPtr();
-    NavMesh* FUN_00559450();
 };
 struct P072Location
 {
-    bool FUN_006dd640(NavMeshPtr&, unsigned short&);
-    P072Point FUN_005c3420();
 };
-extern P072Point DAT_011f426c;
-extern bool DAT_011d6dcc;
 extern char DAT_011a9c20, DAT_011a9bf0, DAT_011a9c00;
-int FUN_006bb570(const P072Sphere&, const P072Sphere&, int, P072Tangents&);
 float FUN_00408840(float);
-void FUN_006a1180(const P072Point&, float, const P072Angle&, const P072Angle&, int, const char*);
-void FUN_006a1330(const P072Point&, const P072Point&, const char*);
 struct P072Search
 {
     int unk0000;
@@ -7898,197 +7877,13 @@ struct P072Search
     int unk2078, unk207c, unk2080, unk2084;
     P072Location location;
     bool FindNeighborNodes(P072Node*, P072List*);
-    bool TraceArcOnBall(const P072Handle&, const P072Point&, P072Arc, P072Handle&);
     float FUN_006a0940(P072Data*, P072Arc, P072Data*);
     bool FindPath(const P072Handle&, const P072Point&, P072Handle&);
-    float ComputePathCost(P072Data*, const P072Point&, const P072Point&, P072Data*);
-    unsigned int FUN_0069f900(P072Data*, int);
-    int InsertOrUpdateNode(unsigned int, float, P072Node**);
-    void SetEdgeFromSphere(P072Node*, P072Data*, int, unsigned int);
 };
-// @fnv 0x0069f9d0
-bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
-{
-    P072Input* info = pInputNode->FUN_00413f40();
-    P072Details* groupCount = pInputNode->FUN_007d6bb0();
-    unsigned int details = groups.FUN_0044ddc0();
-    for (unsigned int group = info->group; group < details; group++)
-    {
-        unsigned int objects;
-        P072Inner* objectCount = groups.FUN_00558dd0(group);
-        objects = objectCount->FUN_0044ddc0();
-        for (unsigned int item = 0; item < objects; item++)
-        {
-            P072Data* object = objectCount->FUN_00877a30(item);
-            if (object == info->object)
-                continue;
-            if (pInputNode->GetField54() && object == pInputNode->GetField54()->FUN_00413f40()->object)
-                continue;
-            P072Point tangents = object->pos.FUN_00439ef0(info->object->pos);
-            int self;
-            float other = tangents.GetSquaredXYLength();
-            {
-                float heightSquared = tangents.z * tangents.z;
-                if (other * 1.2000000476837158 * 1.2000000476837158 < heightSquared)
-                    continue;
-            }
-            P072Sphere tangentCount;
-            tangentCount.SetCenterAndRadius(info->object->pos, info->object->radius);
-            P072Sphere delta;
-            delta.SetCenterAndRadius(object->pos, object->radius);
-            P072Tangents distance;
-            self = FUN_006bb570(tangentCount, delta, info->direction, distance);
-            if (self == 0)
-                continue;
-            for (int tangent = 0; tangent < self; tangent++)
-            {
-                P072Handle arc2;
-                P072Point start;
-                float endBlockTmp;
-                if (pInputNode->GetField54())
-                {
-                    P072Angle previous;
-                    previous.CopyFloatPair(groupCount->angle);
-                    if (info->direction == 0)
-                    {
-                        previous.FUN_006a0520(P072Angle(4.71238899230957f));
-                    }
-                    else
-                    {
-                        previous.FUN_006a0580(P072Angle(4.71238899230957f));
-                    }
-                    P072Arc excluded(previous, groupCount->angle, info->direction);
-                    if (excluded.FUN_006a0660(distance.tangents[tangent].start))
-                        continue;
-                }
-                start = DAT_011f426c;
-                P072Point lineCost = DAT_011f426c;
-                P072Point endPoint =
-                    delta.center.FUN_00439e90(distance.tangents[tangent].end.MakePointOnCircle(delta.radius))
-                        .FUN_00439ef0(tangentCount.center)
-                        .FUN_00439ef0(distance.tangents[tangent].start.MakePointOnCircle(tangentCount.radius));
-                if (info->object->type != 3 && object->type == 0)
-                {
-                    float limit = 1.0f;
-                    tangents.z = 0.0f;
-                    P072Point second2 = object->first;
-                    second2.z = 0.0f;
-                    P072Point first = object->second;
-                    first.z = 0.0f;
-                    start = second2.FUN_004b3800(endPoint);
-                    lineCost = first.FUN_004b3800(endPoint);
-                    if (start.z > limit && lineCost.z > limit)
-                        continue;
-                }
-                if (info->object->type != 3 && object->type == 0)
-                {
-                    if (distance.tangents[tangent].direction == 0)
-                    {
-                        if (lineCost.z < -0.10000000149011612)
-                            continue;
-                    }
-                    else
-                    {
-                        if (start.z < -0.10000000149011612)
-                            continue;
-                    }
-                }
-                P072Arc node(groupCount->angle, distance.tangents[tangent].start, info->direction);
-                arc2.FUN_006a0480();
-                if (!pInputNode->GetField54())
-                {
-                    NavMeshPtr mesh;
-                    unsigned short triangle;
-                    if (!location.FUN_006dd640(mesh, triangle))
-                        return false;
-                    arc2.mesh = mesh.FUN_00559450();
-                    arc2.triangle = triangle;
-                    arc2.edge = -1;
-                    arc2.pos = location.FUN_005c3420();
-                }
-                else
-                    arc2.FUN_006cf900(groupCount->handle);
-                endBlockTmp = 1.0f;
-                P072Handle cost;
-                cost.FUN_006a0480();
-                if (!pInputNode->GetField54())
-                    cost.FUN_006cf900(arc2);
-                else
-                {
-                    if (!TraceArcOnBall(arc2, tangentCount.center, node, cost))
-                    {
-                        if (DAT_011d6dcc)
-                            FUN_006a1180(tangentCount.center, tangentCount.radius, node.start, node.end, node.direction,
-                                         &DAT_011a9c20);
-                        continue;
-                    }
-                    if (FUN_00408840(cost.pos.FUN_00439ef0(tangentCount.center).z) >= 180.0)
-                        continue;
-                    endBlockTmp = FUN_006a0940(info->object, node, object);
-                    if (endBlockTmp == 3.4028234663852886e38)
-                    {
-                        if (DAT_011d6dcc)
-                            FUN_006a1180(tangentCount.center, tangentCount.radius, node.start, node.end, node.direction,
-                                         &DAT_011a9bf0);
-                        continue;
-                    }
-                }
-                P072Handle crossFirst;
-                crossFirst.FUN_006a0480();
-                P072Point initialPoint5 =
-                    delta.center.FUN_00439e90(distance.tangents[tangent].end.MakePointOnCircle(delta.radius));
-                if (!FindPath(cost, initialPoint5, crossFirst))
-                {
-                    if (DAT_011d6dcc)
-                        FUN_006a1330(cost.pos, crossFirst.pos, &DAT_011a9c20);
-                    continue;
-                }
-                if (FUN_00408840(crossFirst.pos.FUN_00439ef0(delta.center).z) >= 180.0)
-                    continue;
-                float crossSecond = ComputePathCost(info->object, cost.pos, crossFirst.pos, object);
-                if (crossSecond == 3.4028234663852886e38)
-                {
-                    if (DAT_011d6dcc)
-                        FUN_006a1330(cost.pos, crossFirst.pos, &DAT_011a9bf0);
-                    continue;
-                }
-                if (DAT_011d6dcc)
-                {
-                    if (pInputNode->GetField54())
-                        FUN_006a1180(tangentCount.center, tangentCount.radius, node.start, node.end, node.direction,
-                                     &DAT_011a9c00);
-                    FUN_006a1330(cost.pos, crossFirst.pos, &DAT_011a9c00);
-                }
-                float direction = pInputNode->FUN_006a7f50();
-                if (pInputNode->GetField54())
-                    direction += node.FUN_006a07a0(info->object->radius) * (object->cost + endBlockTmp + crossSecond);
-                direction += crossFirst.pos.FUN_00439ef0(cost.pos).FUN_00457990();
-                P072Node* arcCost;
-                switch (
-                    InsertOrUpdateNode(FUN_0069f900(object, distance.tangents[tangent].direction), direction, &arcCost))
-                {
-                case 0:
-                    SetEdgeFromSphere(arcCost, object, distance.tangents[tangent].direction, group);
-                case 1:
-                    arcCost->first.FUN_006cf900(cost);
-                    arcCost->second.FUN_006cf900(crossFirst);
-                    arcCost->start.CopyFloatPair(distance.tangents[tangent].start);
-                    arcCost->end.CopyFloatPair(distance.tangents[tangent].end);
-                    arcCost->FUN_0052ce20(direction);
-                    pOutputList->FUN_007cb2e0(arcCost);
-                    break;
-                }
-            }
-        }
-    }
-    return true;
-}
-
 struct P3
 {
     float x, y, z;
     P3 operator-(const P3& o) const;
-    float Length() const;
 };
 
 struct Pos4
@@ -8119,7 +7914,6 @@ struct Edge6a08d0
 {
     int unk00;
     float f04;
-    S12& GetName();
 };
 
 struct Sphere6a08d0
@@ -8133,10 +7927,10 @@ struct Sphere6a08d0
 // @fnv 0x006a08d0
 void Ctx6a08d0::SetEdgeFromSphere(Edge6a08d0* a1, Sphere6a08d0* pSphere, int a3, int a4)
 {
-    a1->GetName().a = (int)pSphere;
-    a1->GetName().b = a3;
-    a1->GetName().c = a4;
-    a1->f04 = (pSphere->center04 - unk207c->pos04).Length() * 0.75;
+    (*(::S12 *)(reinterpret_cast<::TESTopicInfoData *>((a1))->GetLinkToList())).a = pSphere;
+    (*(::S12 *)(reinterpret_cast<::TESTopicInfoData *>((a1))->GetLinkToList())).b = a3;
+    (*(::S12 *)(reinterpret_cast<::TESTopicInfoData *>((a1))->GetLinkToList())).c = a4;
+    a1->f04 = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::P3 &)((pSphere->center04 - unk207c->pos04)))->ComputeMagnitude() * 0.75;
 }
 
 class Point
@@ -8159,7 +7953,6 @@ struct Arc
 {
     Angle start, end;
     int direction;
-    bool Contains(const Angle&) const;
 };
 struct Ball
 {
@@ -8177,10 +7970,185 @@ struct Edge
 struct Search
 {
     bool Test(Edge&, const Point&, Edge&);
-    bool TraceArcOnBall(const Edge&, const Ball&, Arc, Edge&);
+    bool TraceArcOnBall(const Edge&, const Ball&, struct Arc, Edge&);
 };
+// @fnv 0x0069f9d0
+bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
+{
+    P072Input* info = ((::P072Input *)(reinterpret_cast<::TESTopicInfoData *>((pInputNode))->GetLinkToList()));
+    P072Details* groupCount = ((::P072Details *)(reinterpret_cast<::NonActorMagicTarget *>((pInputNode))->GetActiveEffectList()));
+    unsigned int details = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName()));
+    for (unsigned int group = info->group; group < details; group++)
+    {
+        unsigned int objects;
+        P072Inner* objectCount = ((::P072Inner *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(group)));
+        objects = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((objectCount))->GetName()));
+        for (unsigned int item = 0; item < objects; item++)
+        {
+            P072Data* object = objectCount->FUN_00877a30(item);
+            if (object == info->object)
+                continue;
+            if (((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())) && object == ((::P072Input *)(reinterpret_cast<::TESTopicInfoData *>((((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54()))))->GetLinkToList()))->object)
+                continue;
+            P072Point tangents = (*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(object->pos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(info->object->pos)))));
+            int self;
+            float other = reinterpret_cast<::FUN_00595c80_shell *>((void *)&(tangents))->GetSquaredXYLength();
+            {
+                float heightSquared = tangents.z * tangents.z;
+                if (other * 1.2000000476837158 * 1.2000000476837158 < heightSquared)
+                    continue;
+            }
+            P072Sphere tangentCount;
+            reinterpret_cast<::FUN_006a04b0_stand *>(&(tangentCount))->SetCenterAndRadius((const ::P3 *)&(info->object->pos), info->object->radius);
+            P072Sphere delta;
+            reinterpret_cast<::FUN_006a04b0_stand *>(&(delta))->SetCenterAndRadius((const ::P3 *)&(object->pos), object->radius);
+            P072Tangents distance;
+            self = ::NavMeshPOVSearch::FindSphereTangents((const ::Sphere &)(tangentCount), (const ::Sphere &)(delta), (::ANGLE_DIRECTION)(info->direction), (::SphereTangents &)(distance));
+            if (self == 0)
+                continue;
+            for (int tangent = 0; tangent < self; tangent++)
+            {
+                P072Handle arc2;
+                P072Point start;
+                float endBlockTmp;
+                if (((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())))
+                {
+                    P072Angle previous;
+                    reinterpret_cast<::FUN_006985f0_shell *>(&(previous))->CopyFloatPair((void *)&(groupCount->angle));
+                    if (info->direction == 0)
+                    {
+                        reinterpret_cast<::FUN_006a0520_class *>(&(previous))->FUN_006a0520((const ::NiPoint3 &)((const ::P072Angle &)(P072Angle(4.71238899230957f))));
+                    }
+                    else
+                    {
+                        reinterpret_cast<::FUN_006a0580_class *>(&(previous))->FUN_006a0580((const float *)&(const ::P072Angle &)(P072Angle(4.71238899230957f)));
+                    }
+                    P072Arc excluded(previous, groupCount->angle, info->direction);
+                    if (reinterpret_cast<::CircularArc *>(&(excluded))->FUN_006a0660((const ::SineCosine &)(distance.tangents[tangent].start)))
+                        continue;
+                }
+                start = (*reinterpret_cast<::P072Point *>((void *)&::NiPoint3::ZERO));
+                P072Point lineCost = (*reinterpret_cast<::P072Point *>((void *)&::NiPoint3::ZERO));
+                P072Point endPoint =
+                    (*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::P072Point &)((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::P072Point &)((*(::P072Point *)(reinterpret_cast<::Point3Offset *>((void *)&(delta.center))->ProjectileLaunched((::NiPoint3 *)&(const ::P072Point &)(distance.tangents[tangent].end.MakePointOnCircle(delta.radius)), {})))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(tangentCount.center)))))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(const ::P072Point &)(distance.tangents[tangent].start.MakePointOnCircle(tangentCount.radius))))));
+                if (info->object->type != 3 && object->type == 0)
+                {
+                    float limit = 1.0f;
+                    tangents.z = 0.0f;
+                    P072Point second2 = object->first;
+                    second2.z = 0.0f;
+                    P072Point first = object->second;
+                    first.z = 0.0f;
+                    start = second2.FUN_004b3800(endPoint);
+                    lineCost = first.FUN_004b3800(endPoint);
+                    if (start.z > limit && lineCost.z > limit)
+                        continue;
+                }
+                if (info->object->type != 3 && object->type == 0)
+                {
+                    if (distance.tangents[tangent].direction == 0)
+                    {
+                        if (lineCost.z < -0.10000000149011612)
+                            continue;
+                    }
+                    else
+                    {
+                        if (start.z < -0.10000000149011612)
+                            continue;
+                    }
+                }
+                P072Arc node(groupCount->angle, distance.tangents[tangent].start, info->direction);
+                ::FUN_006a0480((void *)&(arc2));
+                if (!((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())))
+                {
+                    NavMeshPtr mesh;
+                    unsigned short triangle;
+                    if (!reinterpret_cast<::PathingLocation *>(&(location))->FindNavMeshTriangle(mesh, triangle))
+                        return false;
+                    arc2.mesh = ((::NavMesh *)(::FUN_00559450((int *)&(mesh))));
+                    arc2.triangle = triangle;
+                    arc2.edge = -1;
+                    arc2.pos = (*(::P072Point *)&(reinterpret_cast<::TaskQueueInterface *>(&(location))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>())));
+                }
+                else
+                    reinterpret_cast<::FUN_006cf900_Class *>(&(arc2))->FUN_006cf900((const ::FUN_006cf900_Class *)&(groupCount->handle));
+                endBlockTmp = 1.0f;
+                P072Handle cost;
+                ::FUN_006a0480((void *)&(cost));
+                if (!((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())))
+                    reinterpret_cast<::FUN_006cf900_Class *>(&(cost))->FUN_006cf900((const ::FUN_006cf900_Class *)&(arc2));
+                else
+                {
+                    if (!reinterpret_cast<::Search *>(this)->TraceArcOnBall((const ::Edge &)(arc2), (const ::Ball &)(tangentCount.center), (*(struct ::Arc *)&(const ::P072Arc &)(node)), (::Edge &)(cost)))
+                    {
+                        if (DAT_011d6dcc)
+                            ::FUN_006a1180((const ::ArcPoint3 &)(tangentCount.center), tangentCount.radius, (const ::ArcAngle *)&(node.start), (const ::ArcAngle *)&(node.end), node.direction,
+                                         (std::intptr_t)(&DAT_011a9c20));
+                        continue;
+                    }
+                    if (FUN_00408840((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cost.pos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(tangentCount.center))))).z) >= 180.0)
+                        continue;
+                    endBlockTmp = FUN_006a0940(info->object, node, object);
+                    if (endBlockTmp == 3.4028234663852886e38)
+                    {
+                        if (DAT_011d6dcc)
+                            ::FUN_006a1180((const ::ArcPoint3 &)(tangentCount.center), tangentCount.radius, (const ::ArcAngle *)&(node.start), (const ::ArcAngle *)&(node.end), node.direction,
+                                         (std::intptr_t)(&DAT_011a9bf0));
+                        continue;
+                    }
+                }
+                P072Handle crossFirst;
+                ::FUN_006a0480((void *)&(crossFirst));
+                P072Point initialPoint5 =
+                    (*(::P072Point *)(reinterpret_cast<::Point3Offset *>((void *)&(delta.center))->ProjectileLaunched((::NiPoint3 *)&(const ::P072Point &)(distance.tangents[tangent].end.MakePointOnCircle(delta.radius)), {})));
+                if (!FindPath(cost, initialPoint5, crossFirst))
+                {
+                    if (DAT_011d6dcc)
+                        ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (std::intptr_t)(&DAT_011a9c20));
+                    continue;
+                }
+                if (FUN_00408840((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(crossFirst.pos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(delta.center))))).z) >= 180.0)
+                    continue;
+                float crossSecond = reinterpret_cast<::NavOwner *>(this)->ComputePathCost((::NavObj *)(info->object), (const ::Pt3 &)(cost.pos), (const ::Pt3 &)(crossFirst.pos), (::NavObj *)(object));
+                if (crossSecond == 3.4028234663852886e38)
+                {
+                    if (DAT_011d6dcc)
+                        ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (std::intptr_t)(&DAT_011a9bf0));
+                    continue;
+                }
+                if (DAT_011d6dcc)
+                {
+                    if (((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())))
+                        ::FUN_006a1180((const ::ArcPoint3 &)(tangentCount.center), tangentCount.radius, (const ::ArcAngle *)&(node.start), (const ::ArcAngle *)&(node.end), node.direction,
+                                     (std::intptr_t)(&DAT_011a9c00));
+                    ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (std::intptr_t)(&DAT_011a9c00));
+                }
+                float direction = reinterpret_cast<::CombatTargetTimestamp *>((pInputNode))->FUN_006a7f50();
+                if (((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())))
+                    direction += reinterpret_cast<::CircularArc *>(&(node))->GetLength(info->object->radius) * (object->cost + endBlockTmp + crossSecond);
+                direction += reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::P072Point &)((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(crossFirst.pos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(cost.pos)))))))->ComputeMagnitude();
+                P072Node* arcCost;
+                switch (
+                    reinterpret_cast<::FUN_006b3420_shell *>(this)->InsertOrUpdateNode(reinterpret_cast<::FUN_0069f900_shell *>(this)->FUN_0069f900((::PathSmootherPOVPoint *)(object), distance.tangents[tangent].direction), direction, (::PSNode **)(::P072Node **)(&arcCost)))
+                {
+                case 0:
+                    reinterpret_cast<::Ctx6a08d0 *>(this)->SetEdgeFromSphere((::Edge6a08d0 *)(arcCost), (::Sphere6a08d0 *)(object), distance.tangents[tangent].direction, group);
+                case 1:
+                    reinterpret_cast<::FUN_006cf900_Class *>(&(arcCost->first))->FUN_006cf900((const ::FUN_006cf900_Class *)&(cost));
+                    reinterpret_cast<::FUN_006cf900_Class *>(&(arcCost->second))->FUN_006cf900((const ::FUN_006cf900_Class *)&(crossFirst));
+                    reinterpret_cast<::FUN_006985f0_shell *>(&(arcCost->start))->CopyFloatPair((void *)&(distance.tangents[tangent].start));
+                    reinterpret_cast<::FUN_006985f0_shell *>(&(arcCost->end))->CopyFloatPair((void *)&(distance.tangents[tangent].end));
+                    reinterpret_cast<::FUN_0052ce20_shell *>((arcCost))->FUN_0052ce20(direction);
+                    reinterpret_cast<::FUN_00438690 *>((pOutputList))->FUN_007cb2e0((unsigned int *)&(arcCost));
+                    break;
+                }
+            }
+        }
+    }
+    return true;
+}
 // @fnv 0x006a0c50
-bool Search::TraceArcOnBall(const Edge& aStartEdge, const Ball& ball, Arc arc, Edge& aOutputEdge)
+bool Search::TraceArcOnBall(const Edge& aStartEdge, const Ball& ball, struct Arc arc, Edge& aOutputEdge)
 {
     Angle edge(arc.direction == 0 ? 0.2617993950843811f : -0.2617993950843811f);
     Angle last(arc.start);
@@ -8190,34 +8158,34 @@ bool Search::TraceArcOnBall(const Edge& aStartEdge, const Ball& ball, Arc arc, E
     Edge point;
     unsigned hit = 0;
     int endpoint = -1;
-    while (arc.Contains(step) && hit < 24)
+    while (reinterpret_cast<::CircularArc *>((void *)&(arc))->FUN_006a0660((const ::SineCosine &)(step)) && hit < 24)
     {
         nextAngle.triangle = -1;
         if (!Test(nextAngle, current, point))
         {
-            aOutputEdge = point;
+            reinterpret_cast<::FUN_006cf900_Class *>((void *)&(const ::Edge &)(aOutputEdge))->FUN_006cf900((const ::FUN_006cf900_Class *)&(point));
             return false;
         }
-        nextAngle = point;
-        last = step;
-        step = last + edge;
+        reinterpret_cast<::FUN_006cf900_Class *>((void *)&(const ::Edge &)(nextAngle))->FUN_006cf900((const ::FUN_006cf900_Class *)&(point));
+        reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::Angle &)(last))->CopyFloatPair((void *)&(step));
+        reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::Angle &)(step))->CopyFloatPair((void *)&(const ::Angle &)(last + edge));
         current = ball.center + step.GetPoint(ball.radius);
         endpoint = point.triangle;
         hit = hit + 1;
     }
     if (hit == 24)
     {
-        aOutputEdge = point;
+        reinterpret_cast<::FUN_006cf900_Class *>((void *)&(const ::Edge &)(aOutputEdge))->FUN_006cf900((const ::FUN_006cf900_Class *)&(point));
         return false;
     }
     Point count = ball.center + arc.end.GetPoint(ball.radius);
     nextAngle.triangle = -1;
     if (!Test(nextAngle, count, point))
     {
-        aOutputEdge = point;
+        reinterpret_cast<::FUN_006cf900_Class *>((void *)&(const ::Edge &)(aOutputEdge))->FUN_006cf900((const ::FUN_006cf900_Class *)&(point));
         return false;
     }
-    aOutputEdge = point;
+    reinterpret_cast<::FUN_006cf900_Class *>((void *)&(const ::Edge &)(aOutputEdge))->FUN_006cf900((const ::FUN_006cf900_Class *)&(point));
     return true;
 }
 
@@ -8230,7 +8198,6 @@ struct Vec
     Vec operator+(const Vec&) const;
     Vec operator*(float) const;
     Vec& operator+=(const Vec&);
-    void FUN_004a0c10();
 };
 struct Mesh;
 struct Handle
@@ -8239,8 +8206,6 @@ struct Handle
     unsigned short triangle;
     unsigned short flags;
     int edge;
-    Handle* FUN_006c4350(const Handle&);
-    Handle* FUN_0069a6c0(Mesh*, unsigned short, int);
     Handle& operator=(const Handle&);
 };
 struct Start
@@ -8268,7 +8233,6 @@ struct EdgeInfo
 };
 struct Triangle
 {
-    bool FUN_00693b90();
 };
 struct Vertices
 {
@@ -8278,9 +8242,6 @@ struct Vertices
 struct Mesh
 {
     Hit FindEdgeIntersection(unsigned short, int, const Vec&, const Vec&);
-    bool MatchNavMesh(const Handle&, Bound&);
-    Triangle* FUN_005582f0(unsigned short);
-    EdgeInfo* FUN_0068f230(unsigned short, int);
     Vertices FUN_0068f040(unsigned short, int);
 };
 struct PathResult
@@ -8291,17 +8252,13 @@ struct PathResult
 };
 struct Output
 {
-    void FUN_006cf900(const PathResult&);
 };
 struct Request
 {
-    float GetFloatAtOffset68();
 };
 struct Setting
 {
-    float* FUN_00403e20();
 };
-extern Setting DAT_011d6ef0;
 Vec FUN_006ba550(const Vec&, const Vec&, const Vec&, const Vec&);
 struct Walker
 {
@@ -10394,30 +10351,30 @@ bool Walker::FindPath(const Start* start, const Vec& target, Output* output)
     Vec origin6 = start->position;
     Vec destination5 = target;
     Vec direction = destination5 - origin6;
-    direction.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
     Vec current = origin6;
     Handle handle8;
-    handle8.FUN_006c4350(start->handle);
+    reinterpret_cast<::S6c4350 *>(&(handle8))->FUN_006c4350((const ::S6c4350 &)(start->handle));
     while (true)
     {
         Hit hit2 = handle8.mesh->FindEdgeIntersection(handle8.triangle, handle8.edge, current, destination5);
         if (!hit2.mesh)
         {
-            output->FUN_006cf900(PathResult(handle8, destination5));
+            reinterpret_cast<::FUN_006cf900_Class *>((output))->FUN_006cf900((const ::FUN_006cf900_Class *)&(const ::fnv_006a0ef0::PathResult &)(PathResult(handle8, destination5)));
             return true;
         }
         else
         {
             Handle edge7;
-            edge7.FUN_0069a6c0(handle8.mesh, handle8.triangle, hit2.edge);
+            reinterpret_cast<::FUN_0069a6c0_S *>(&(edge7))->FUN_0069a6c0(handle8.mesh, handle8.triangle, hit2.edge);
             Bound next;
-            bool kPass4 = edge7.mesh->MatchNavMesh(edge7, next);
+            bool kPass4 = reinterpret_cast<::Holder670 *>((edge7.mesh))->MatchNavMesh((::In670 *)&(edge7), (::Out670 *)&(next));
             if (kPass4)
             {
-                if (request->GetFloatAtOffset68() > *DAT_011d6ef0.FUN_00403e20() &&
-                    next.mesh->FUN_005582f0(next.triangle)->FUN_00693b90())
+                if (::GetFloatAtOffset68((const char *)(request)) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006a0ef0::Setting *>(&::originalRuntimeFloatSetting1308)))))) &&
+                    reinterpret_cast<::S00693b90 *>((((::fnv_006a0ef0::Triangle *)(reinterpret_cast<::NavMesh *>((next.mesh))->GetTriangle(next.triangle)))))->FUN_00693b90())
                     kPass4 = false;
-                EdgeInfo* info = edge7.mesh->FUN_0068f230(edge7.triangle, edge7.edge);
+                EdgeInfo* info = ((::fnv_006a0ef0::EdgeInfo *)(reinterpret_cast<::FUN_0068f230_shell *>((edge7.mesh))->FUN_0068f230(edge7.triangle, edge7.edge)));
                 if (info && info->type == 1)
                     kPass4 = false;
             }
@@ -10428,15 +10385,15 @@ bool Walker::FindPath(const Start* start, const Vec& target, Output* output)
                     Vertices vertices3 = next.mesh->FUN_0068f040(next.triangle, next.edge);
                     Vec midpointA = (*vertices3.first + *vertices3.second) * 0.5f;
                     current = FUN_006ba550(*vertices3.first, *vertices3.second, hit2.position, destination5);
-                    current += (midpointA - current) * 0.01f;
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_006a0ef0::Vec &)(current))->FUN_0063c8a0((void *)&(const ::fnv_006a0ef0::Vec &)((midpointA - current) * 0.01f));
                 }
                 else
                     current = hit2.position;
-                handle8 = *(Handle*)&next;
+                reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::fnv_006a0ef0::Handle &)(handle8))->CopyFromNavMeshEdge((void *)&(*(Handle*)&next));
             }
             else
             {
-                output->FUN_006cf900(PathResult(edge7, hit2.position));
+                reinterpret_cast<::FUN_006cf900_Class *>((output))->FUN_006cf900((const ::FUN_006cf900_Class *)&(const ::fnv_006a0ef0::PathResult &)(PathResult(edge7, hit2.position)));
                 return false;
             }
         }
@@ -10445,8 +10402,6 @@ bool Walker::FindPath(const Start* start, const Vec& target, Output* output)
 }
 }  // namespace fnv_006a0ef0
 
-extern float DAT_01064f64;
-extern float DAT_0106b3a8;
 
 struct ArcPoint3
 {
@@ -10457,7 +10412,6 @@ struct ArcPoint3
 struct ArcAngle
 {
     float fCos, fSin;
-    ArcAngle* SetAngle(float afAngle);
     ArcAngle& operator=(const ArcAngle&);
     ArcAngle operator+(const ArcAngle&) const;
     ArcPoint3 GetOffset(float afRadius) const;
@@ -10468,10 +10422,8 @@ struct ArcRange
     ArcAngle start, end;
     int direction;
     ArcRange(const ArcAngle* apStart, const ArcAngle* apEnd, int aeDir);
-    bool Contains(const ArcAngle&) const;
 };
 
-void __cdecl ArcSegmentStep(ArcPoint3* apFrom, ArcPoint3* apTo, int aiParam);
 
 // @fnv 0x006a1180
 void __cdecl FUN_006a1180(const ArcPoint3& akCenter, float afRadius, const ArcAngle* apStart, const ArcAngle* apEnd,
@@ -10479,27 +10431,27 @@ void __cdecl FUN_006a1180(const ArcPoint3& akCenter, float afRadius, const ArcAn
 {
     ArcRange kArc(apStart, apEnd, aeDir);
     ArcAngle kStep5;
-    kStep5.SetAngle(aeDir == 0 ? DAT_01064f64 : DAT_0106b3a8);
+    reinterpret_cast<::FUN_006a04e0_helper *>(&(kStep5))->SetFromAngle(aeDir == 0 ? DAT_01064f64 : DAT_0106b3a8);
     ArcAngle kCur4;
-    kCur4 = *apStart;
+    reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::ArcAngle &)(kCur4))->CopyFloatPair((void *)&(*apStart));
     ArcAngle kNext = kCur4 + kStep5;
     ArcPoint3 kFromX = akCenter + kCur4.GetOffset(afRadius);
     ArcPoint3 kTo5 = akCenter + kNext.GetOffset(afRadius);
     unsigned int uiStepCount;
     uiStepCount = 0;
-    while (kArc.Contains(kNext) && uiStepCount < 24)
+    while (reinterpret_cast<::CircularArc *>((void *)&(kArc))->FUN_006a0660((const ::SineCosine &)(kNext)) && uiStepCount < 24)
     {
-        ArcSegmentStep(&kFromX, &kTo5, aiParam);
+        ::FUN_006a1330((const char *)(::ArcPoint3 *)(&kFromX), (std::intptr_t)(&kTo5), aiParam);
         kFromX = kTo5;
-        kCur4 = kNext;
-        kNext = kCur4 + kStep5;
+        reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::ArcAngle &)(kCur4))->CopyFloatPair((void *)&(kNext));
+        reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::ArcAngle &)(kNext))->CopyFloatPair((void *)&(const ::ArcAngle &)(kCur4 + kStep5));
         kTo5 = akCenter + kNext.GetOffset(afRadius);
         uiStepCount++;
     }
     if (uiStepCount == 24)
         return;
     ArcPoint3 kEnd = akCenter + apEnd->GetOffset(afRadius);
-    ArcSegmentStep(&kFromX, &kTo5, aiParam);
+    ::FUN_006a1330((const char *)(::ArcPoint3 *)(&kFromX), (std::intptr_t)(&kTo5), aiParam);
 }
 
 namespace fnv_006a0940 {
@@ -10508,7 +10460,6 @@ struct Vec3
     float x, y, z;
     Vec3 operator+(const Vec3& o) const;
     Vec3 operator-(const Vec3& o) const;
-    float Length() const;
 };
 struct ArcAngle
 {
@@ -10527,7 +10478,6 @@ struct SphereStandIn
     float fRadius;
     SphereStandIn(const Pt3& aCenter, float afRadius);
 };
-bool __cdecl ArcBlockedBySphere(const SphereStandIn& aSelf, const ArcStandIn& aArc, const SphereStandIn& aOther);
 
 struct NavOwnerArc : NavOwner
 {
@@ -10540,29 +10490,31 @@ float NavOwnerArc::FUN_006a0940(NavObj* apSelf, ArcStandIn aArc, NavObj* apIgnor
 {
     SphereStandIn kSelf(apSelf->pos, apSelf->radius);
     Vec3 kPoint = kSelf.Center + aArc.start.PointAt(kSelf.fRadius);
-    for (unsigned int i_ = 0; i_ < groups.GetCount(); i_++)
+    for (unsigned int i_ = 0; i_ < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); i_++)
     {
-        for (unsigned int j2 = 0; j2 < groups.GetAt(i_)->GetCount(); j2++)
+        for (unsigned int j2 = 0; j2 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::InnerArr *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i_)))))->GetName())); j2++)
         {
-            NavObj* pObj = groups.GetAt(i_)->GetAt(j2);
+            NavObj* pObj = ((::InnerArr *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i_)))->GetAt(j2);
             if (pObj == apIgnore)
                 continue;
             if (pObj == apSelf)
                 continue;
-            if (pObj->pList->Find(apSelf, 0, CompareObj) != -1)
+            if (pObj->pList->Find(apSelf, 0, ((bool (&)(NavObj *const &, NavObj *const &))::FUN_009a3830)) != -1)
                 continue;
             SphereStandIn kOther4(pObj->pos, pObj->radius);
-            if ((kOther4.Center - kPoint).Length() < kOther4.fRadius * kOther4.fRadius)
+            if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::fnv_006a0940::Vec3 &)((kOther4.Center - kPoint)))->UpdateCombatStyle() < kOther4.fRadius * kOther4.fRadius)
                 continue;
-            if (!ArcBlockedBySphere(kSelf, aArc, kOther4))
+            if (!::FUN_006bb8b0((const ::Sphere_6bb8b0 *)&(kSelf), (::Obstacle_6bb8b0 *)&(aArc), (const ::Sphere_6bb8b0 *)&(kOther4)))
             {
                 if (pObj->type == 5)
-                    return fCostType5;
+                    return ::DAT_010162c0;
                 else
-                    return fCostOther;
+                    return ::DAT_01016410;
             }
         }
     }
     return 1.0f;
 }
 }  // namespace fnv_006a0940
+
+#include "generated/data/fallout_shared/pathfinding/navmeshpovsearch.inc"

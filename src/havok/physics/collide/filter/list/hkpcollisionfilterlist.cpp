@@ -2,6 +2,9 @@
 // src/havok/physics/collide/filter/list/hkpcollisionfilterlist.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/filter/list/hkpcollisionfilterlist.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_0102e000.h"
 #include "havok/hkpCollisionFilterList.h"
 
 struct hkBoolRet
@@ -349,7 +352,6 @@ hkBool9C90 FilterList9C90::FUN_00e49c90(const void* p0, const void* p1, const vo
 
 struct FUN_00e49dc0_FilterObject
 {
-    void FUN_00c905b0();
 };
 
 struct FUN_00e49dc0_List : public hkpCollisionFilterList
@@ -390,7 +392,7 @@ found:
         data[index] = data[size];
     }
 
-    ((FUN_00e49dc0_FilterObject*)filter)->FUN_00c905b0();
+    reinterpret_cast<::hkReferencedObjectC905 *>((((FUN_00e49dc0_FilterObject*)filter)))->FUN_00c905b0();
 }
 
 struct AllocatorE49
@@ -412,7 +414,6 @@ struct RefE49
     virtual ~RefE49() throw();
     unsigned short sizeFlags;
     short references;
-    void AddReference() throw();
 };
 struct CollidableE49
 {
@@ -481,7 +482,7 @@ FUN_00e49e50::FUN_00e49e50(const FilterArrayE49& source) throw()
     type = 3;
     filters.Copy(source);
     for (int i = 0; i < filters.size; ++i)
-        filters.data[i]->AddReference();
+        reinterpret_cast<::FUN_00c90510_class *>((filters.data[i]))->FUN_00c90510();
 }
 
 struct FilterAllocatorE4
@@ -508,7 +509,6 @@ struct FilterRefE4
     {}
     unsigned short sizeFlags;
     short references;
-    void RemoveReference() throw();
 };
 struct CollectionFilterE4
 {
@@ -565,15 +565,14 @@ struct FUN_00e49f40 : CollisionFilterE4
 FUN_00e49f40::~FUN_00e49f40() throw()
 {
     for (int i = 0; i < filters.size; ++i)
-        filters.data[i]->RemoveReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((filters.data[i]))->FUN_00c905b0();
 }
 
-extern int DAT_0102e388;
 
 class FilterListAE90
 {
   public:
-    int vftable;
+    void* vftable;
     int unk04;
     FilterRefE4** m_data;
     int m_iElementCount;
@@ -592,7 +591,7 @@ void FilterListAE90::FUN_00e4ae90()
     for (int i = 0; i < n; i++)
     {
         if (data[i])
-            data[i]->RemoveReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((data[i]))->FUN_00c905b0();
         data[i] = 0;
     }
     int cap = m_iCapacityState;
@@ -603,5 +602,5 @@ void FilterListAE90::FUN_00e4ae90()
     }
     m_data = 0;
     m_iCapacityState = (int)0x80000000;
-    vftable = (int)&DAT_0102e388;
+    vftable = &::DAT_0102e388;
 }

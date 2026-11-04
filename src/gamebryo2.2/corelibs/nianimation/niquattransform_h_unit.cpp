@@ -1,2 +1,11 @@
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a386a0_shell.h"
+#include "fnv/decl/QXform2.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
 #include "niquattransform.inl"

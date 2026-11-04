@@ -1,20 +1,168 @@
 // fallout/ai/combat/combatmanager.cpp: CombatFlagHolder, CombatBox, CombatManager, CombatNodeArray and more (37 functions)
 
+#include "fnv/combat_group_fields.h"
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include <cstring>
+#include "fnv/decl/Actor8A7.h"
+#include "fnv/decl/ActorMergeData.h"
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/Arr86.h"
+#include "fnv/decl/B8EB30Group.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Cls.h"
+#include "fnv/decl/CombatEntryOwner.h"
+#include "fnv/decl/CombatGroupS.h"
+#include "fnv/decl/CombatGroup_009867d0.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/CombatStateHash.h"
+#include "fnv/decl/DebugGroup.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/EntryMap9A5.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_00435de0_ctor.h"
+#include "fnv/decl/FUN_00435e00_t.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_00453700_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FUN_008d7f40_shell.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00968630_stub.h"
+#include "fnv/decl/FUN_0097ef30_shell.h"
+#include "fnv/decl/FUN_0097fa50_Class.h"
+#include "fnv/decl/FUN_009865b0_shell.h"
+#include "fnv/decl/FUN_00986740_shell.h"
+#include "fnv/decl/FUN_009869a0_shell.h"
+#include "fnv/decl/FUN_00986bd0_shell.h"
+#include "fnv/decl/FUN_00986c40_shell.h"
+#include "fnv/decl/FUN_0098a2e0_shell.h"
+#include "fnv/decl/FUN_0098cb30_cls.h"
+#include "fnv/decl/FUN_00990890_shell.h"
+#include "fnv/decl/FUN_009a5cd0_cls.h"
+#include "fnv/decl/FUN_009a5eb0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/GroupLoad.h"
+#include "fnv/decl/Group_987820.h"
+#include "fnv/decl/GrpQ.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/Package.h"
+#include "fnv/decl/PackageEx.h"
+#include "fnv/decl/PathingRequest.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SavedCombatState.h"
+#include "fnv/decl/Standin77900.h"
+#include "fnv/decl/State.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_008acbe0__FUN_008acbe0_shell.h"
+#include "fnv/decl/fnv_008b0670__MyActor.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_0097ef50__FUN_0097ef50_shell.h"
+#include "fnv/decl/fnv_009a5a70__FUN_009a5a70_cls.h"
+#include "fnv/decl/fnv_009a5f90__FUN_009a5f90_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00435000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_00524000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00600000.h"
+#include "fnv/symbols_00993000.h"
+#include "fnv/symbols_00c56000.h"
+#include "fnv/symbols_00c5a000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0108a000.h"
+#include "fnv/symbols_0108d000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f1000.h"
 #include "combatmanager_decls.h"
+
 
 // @fnv 0x00993790
 void CombatManager::ApplyLoadBuffer(BGSLoadGameBuffer* buffer)
 {
-    for (unsigned int i = 0; i < m_kCombatGroups.GetSize(); i++)
+    for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>(&(m_kCombatGroups))->GetShortAtOffsetA(); i++)
     {
         ActorCombatGroup* group = m_kCombatGroups.GetAt(i);
         if (group)
-            group->RemoveActorsNotInGroup(buffer);
+            reinterpret_cast<::B8EB30Group *>((group))->RemoveActorsNotInGroup(buffer);
     }
-    m_pThreatMap->ProcessAllProjectiles(buffer);
+    reinterpret_cast<::FUN_009a5cd0_cls *>((m_pThreatMap))->ProcessAllProjectiles((intptr_t)(buffer));
 }
 
-void* __cdecl operator new(unsigned int);
 
 namespace N {
 class CombatThreatMap
@@ -25,7 +173,6 @@ class CombatThreatMap
 };
 }
 
-extern TESWorldSpace* BGSSaveLoadGlobalDataWorldspacePtr;
 
 void __cdecl InitCombatActions();
 void __cdecl InitCombatGoalTable();
@@ -62,22 +209,22 @@ struct Arr
 {
     unsigned int* GetAt(int);
 };
-typedef void(__thiscall* ActorVFn)(Actor*);
+typedef void(* ActorVFn)(Actor*);
 // Iterates every group, calls a virtual function on each member actor, and re-reads the member count when it changes.
 // @fnv 0x00991dc0
 void FUN_00991dc0_shell::FUN_00991dc0()
 {
-    for (unsigned int i = 0; i < ((GlobalObject_004aff00*)this)->GetSize(); i++)
+    for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)this)))->GetShortAtOffsetA(); i++)
     {
-        ActorCombatGroup* pgroup = (ActorCombatGroup*)*((Arr*)this)->GetAt(i);
+        ActorCombatGroup* pgroup = SimpleArrayItem<ActorCombatGroup*>(this, i);
         if (pgroup)
         {
-            unsigned int imemberCount = pgroup->GetCount();
+            unsigned int imemberCount = reinterpret_cast<::FUN_00990890_shell *>((pgroup))->FUN_00990890();
             for (unsigned int j = 0; j < imemberCount; j++)
             {
-                Actor* pactor = pgroup->GetIntAt(j);
+                Actor* pactor = ((::Actor *)(reinterpret_cast<::Target *>((pgroup))->GetIntAt(j)));
                 (*(ActorVFn**)pactor)[0x430 / 4](pactor);
-                unsigned int inewMemberCount = pgroup->GetCount();
+                unsigned int inewMemberCount = reinterpret_cast<::FUN_00990890_shell *>((pgroup))->FUN_00990890();
                 if (inewMemberCount != imemberCount)
                 {
                     imemberCount = inewMemberCount;
@@ -144,7 +291,6 @@ struct Arr
 
 struct CombatGroupStandIn
 {
-    void RebuildDebugVisuals(int);
 };
 
 struct Flt
@@ -154,7 +300,6 @@ struct Flt
 
 struct Calendar
 {
-    unsigned int GetDaysPassed();
 };
 
 struct NP_0081c630
@@ -169,8 +314,6 @@ struct ProcessLists
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
-    static void __cdecl operator delete(void*);
 };
 
 struct NiUpdateData
@@ -182,9 +325,6 @@ struct NiUpdateData
 class NiAVObject : public BSFadeNode
 {
   public:
-    void FUN_00440460(NiPoint3 const&);
-    void AttachProperty(NiObject*);
-    void UpdateSceneObject();
 };
 
 class NiNode : public NiAVObject
@@ -199,7 +339,6 @@ struct NiAlphaProperty : public BSFadeNode
 {
     int pad[7];
     NiAlphaProperty();
-    void FUN_0049ed90(bool);
 };
 
 struct TeleportableReference
@@ -209,12 +348,10 @@ struct TeleportableReference
 
 struct MobileObjectProcessArray
 {
-    MobileObject* GetItem(unsigned int) const;
 };
 
 struct TopicInfoArray
 {
-    unsigned int FUN_005be5c0(int);
 };
 
 struct DetectionEvent
@@ -225,7 +362,6 @@ struct DetectionEvent
 
 struct TES
 {
-    void* GetLogDate();
 };
 
 struct RgbaColor
@@ -236,13 +372,8 @@ struct RgbaColor
 
 struct BSShaderManager
 {
-    static void __cdecl UpdateObjectTypeRecurse(NiAVObject*, bool, bool);
 };
 
-NiAVObject* __fastcall FUN_00524cf0(TESObjectCELL*);
-NiAVObject* __cdecl FUN_00c56680(float, int, int, RgbaColor const&);
-NiAVObject* __cdecl FUN_00c5a0f0(NiPoint3 const&, NiPoint3 const&, float, float, RgbaColor const&, RgbaColor const&);
-void __cdecl AttachLightingPropertyRecursive(unsigned int);
 
 struct VtblStandIn
 {
@@ -304,7 +435,7 @@ struct VtblStandIn
     virtual void AttachChildInAvailableSlot(NiAVObject*, bool);  // slot 55 (+0xDC)
     virtual void v056();
     virtual void v057();
-    virtual void InsertChild(unsigned int);  // slot 58 (+0xE8)
+    virtual void InsertChild(void*);  // slot 58 (+0xE8)
     virtual void v059();
     virtual void v060();
     virtual void v061();
@@ -515,119 +646,106 @@ struct VtblStandIn
     virtual TESForm* GetCombatController();  // slot 266 (+0x428)
 };
 
-extern float const g_011d86e0_arg1;
-extern float _DAT_010162c0;
-extern float DAT_0108aff0;
 extern float DAT_0108da38;
-extern TeleportableReference DAT_011e0e80;
-extern ProcessLists g_011f197c;
 
 // @fnv 0x00991770
 void FUN_00991770_shell::UpdateDetectionVisuals()
 {
-    (*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x14))->TESForm::ClearData();
-    (*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x18))->TESForm::ClearData();
-    (*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x1c))->TESForm::ClearData();
-    for (unsigned int i = 0; i < reinterpret_cast<GlobalObject_004aff00*>(this)->GetSize(); ++i)
+    (*reinterpret_cast<TESForm**>(&this->m_pThreatMap))->TESForm::ClearData();
+    (*reinterpret_cast<TESForm**>(&this->m_pCoverMap))->TESForm::ClearData();
+    (*reinterpret_cast<TESForm**>(&this->m_pTargetMap))->TESForm::ClearData();
+    for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<GlobalObject_004aff00*>(this)))->GetShortAtOffsetA(); ++i)
     {
         ActorCombatGroup* pgroup = reinterpret_cast<ActorCombatGroup*>(*reinterpret_cast<Arr*>(this)->GetAt(i));
         if (pgroup)
         {
-            reinterpret_cast<CombatGroupStandIn*>(pgroup)->RebuildDebugVisuals(0);
-            unsigned int imemberCount = pgroup->GetCount();
+            reinterpret_cast<::DebugGroup *>((reinterpret_cast<CombatGroupStandIn*>(pgroup)))->RebuildDebugVisuals(0);
+            unsigned int imemberCount = reinterpret_cast<::FUN_00990890_shell *>((pgroup))->FUN_00990890();
             for (unsigned int j = 0; j < imemberCount; ++j)
             {
-                Actor* pactor = pgroup->GetIntAt(j);
+                Actor* pactor = ((::Actor *)(reinterpret_cast<::Target *>((pgroup))->GetIntAt(j)));
                 if (pactor)
                 {
                     TESForm* pcombatController = reinterpret_cast<VtblStandIn*>(pactor)->GetCombatController();
                     if (pcombatController)
                     {
-                        pcombatController->TESForm::Revert(0);
+                        reinterpret_cast<::FUN_004534f0_shell *>((pcombatController))->FUN_004534f0((unsigned int)(0));
                     }
                 }
             }
         }
     }
-    if (*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38) &&
-        reinterpret_cast<Calendar*>(
-            static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))
-            ->GetDaysPassed())
+    if (m_spDebugRootNode.m_pObject &&
+        ((std::intptr_t)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<Calendar*>(
+            m_spDebugRootNode.m_pObject)))->FUN_009611e0())))
     {
-        reinterpret_cast<VtblStandIn*>(reinterpret_cast<Calendar*>(static_cast<unsigned int>(*reinterpret_cast<Flt*>(
-                                                                       reinterpret_cast<char*>(this) + 0x38)))
-                                           ->GetDaysPassed())
-            ->InsertChild(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38));
+        reinterpret_cast<VtblStandIn*>(((std::intptr_t)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<Calendar*>(m_spDebugRootNode.m_pObject)))->FUN_009611e0())))
+            ->InsertChild(m_spDebugRootNode.m_pObject);
     }
-    *reinterpret_cast<NP_0081c630*>(reinterpret_cast<char*>(this) + 0x38) = 0;
-    if (!reinterpret_cast<TESObjectREFR*>(g_thePlayer)->GetParentCell() ||
-        !FUN_00524cf0(reinterpret_cast<TESObjectREFR*>(g_thePlayer)->GetParentCell()))
+    *reinterpret_cast<NP_0081c630*>(&m_spDebugRootNode) = 0;
+    if (!((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<TESObjectREFR*>(::_g_thePlayer)))->GetTarget())) ||
+        !((::fnv_00991770::NiAVObject *)(::FUN_00524cf0(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<TESObjectREFR*>(::_g_thePlayer)))->GetTarget()))))))
     {
         return;
     }
-    if (*g_011f197c.GetLifeStateControlFlag())
+    if (*(*reinterpret_cast<::fnv_00991770::ProcessLists *>(&::g_011f197c)).GetLifeStateControlFlag())
     {
-        if (!*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38))
+        if (!m_spDebugRootNode.m_pObject)
         {
-            *reinterpret_cast<NP_0081c630*>(reinterpret_cast<char*>(this) + 0x38) = new NiNode(0);
+            *reinterpret_cast<NP_0081c630*>(&m_spDebugRootNode) = new NiNode(0);
         }
         unsigned int iHighActorCount =
-            reinterpret_cast<TopicInfoArray*>(const_cast<NiPoint3*>(&DAT_011e0e80.GetPosition()))->FUN_005be5c0(0);
+            reinterpret_cast<::FUN_005be5c0_shell *>((reinterpret_cast<TopicInfoArray*>(const_cast<NiPoint3*>(&(*reinterpret_cast<::fnv_00991770::TeleportableReference *>(&::g_011e0e80)).GetPosition()))))->FUN_005be5c0(0);
         for (unsigned int i = 0; i < iHighActorCount + 1; ++i)
         {
             MobileObject* pMobileObject =
                 (i == iHighActorCount)
-                    ? reinterpret_cast<MobileObject*>(g_thePlayer)
-                    : reinterpret_cast<const MobileObjectProcessArray*>(&DAT_011e0e80.GetPosition())->GetItem(i);
+                    ? reinterpret_cast<MobileObject*>(::_g_thePlayer)
+                    : ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)(reinterpret_cast<const MobileObjectProcessArray*>(&(*reinterpret_cast<::fnv_00991770::TeleportableReference *>(&::g_011e0e80)).GetPosition())))->FUN_00968670(i)));
             if (pMobileObject && reinterpret_cast<TESForm*>(pMobileObject)->IsActor())
             {
                 Actor* pactor = reinterpret_cast<Actor*>(pMobileObject);
                 DetectionEvent* pdetectionEvent =
-                    reinterpret_cast<VtblStandIn*>(reinterpret_cast<TES*>(pactor)->GetLogDate())
+                    reinterpret_cast<VtblStandIn*>(((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>(pactor)))->GetBaseTexture())))
                         ->GetDetectionEvent(pactor);
                 if (pdetectionEvent)
                 {
                     RgbaColor arrowColor(0.0f, 0.25f, 0.25f, 0.5f);
-                    RgbaColor sphereColor(0.0f, g_011d86e0_arg1, g_011d86e0_arg1, 0.5f);
-                    RgbaColor color(1.0f, DAT_0108da38, DAT_0108aff0, 0.5f);
+                    RgbaColor sphereColor(0.0f, ::DAT_01016264, ::DAT_01016264, 0.5f);
+                    RgbaColor color(1.0f, DAT_0108da38, ::fnv_0093c200::DAT_0108aff0, 0.5f);
                     float fradius = pdetectionEvent->soundLevel + 32.0;
-                    NiAVObject* psphere = FUN_00c56680(fradius, 10, 10, sphereColor);
-                    psphere->FUN_00440460(pdetectionEvent->pos);
+                    NiAVObject* psphere = ((::fnv_00991770::NiAVObject *)(::FUN_00c56680(fradius, 10, 10, (const ::Color4 *)&(sphereColor))));
+                    reinterpret_cast<::FUN_00440460_S *>((psphere))->FUN_00440460((const ::V3 *)&(pdetectionEvent->pos));
                     reinterpret_cast<VtblStandIn*>(
-                        static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))
+                        m_spDebugRootNode.m_pObject)
                         ->AttachChildInAvailableSlot(psphere, true);
                     NiPoint3 actorPos = *reinterpret_cast<TESObjectREFR*>(pactor)->GetPos();
-                    NiAVObject* parrow = FUN_00c5a0f0(actorPos, pdetectionEvent->pos, _DAT_010162c0, _DAT_010162c0,
-                                                      arrowColor, sphereColor);
+                    NiAVObject* parrow = ((::fnv_00991770::NiAVObject *)(::fnv_00c5a0f0::FUN_00c5a0f0((const ::fnv_00c5a0f0::Vec3 &)(actorPos), (const ::fnv_00c5a0f0::Vec3 &)(pdetectionEvent->pos), ::DAT_010162c0, ::DAT_010162c0,
+                                                      (const ::fnv_00c5a0f0::Color4 *)&(arrowColor), (const ::fnv_00c5a0f0::Color4 *)&(sphereColor))));
                     reinterpret_cast<VtblStandIn*>(
-                        static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))
+                        m_spDebugRootNode.m_pObject)
                         ->AttachChildInAvailableSlot(parrow, true);
                 }
             }
         }
     }
-    if (*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38))
+    if (m_spDebugRootNode.m_pObject)
     {
         NiAlphaProperty* pAlphaProperty = new NiAlphaProperty();
-        pAlphaProperty->FUN_0049ed90(true);
-        reinterpret_cast<NiAVObject*>(
-            static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))
-            ->AttachProperty(reinterpret_cast<NiObject*>(pAlphaProperty));
-        AttachLightingPropertyRecursive(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38));
-        BSShaderManager::UpdateObjectTypeRecurse(reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(
-                                                     *reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38))),
+        reinterpret_cast<::FUN_0049ed90_shell *>((pAlphaProperty))->FUN_0049ed90(true);
+        reinterpret_cast<::FUN_00439410_cls *>((reinterpret_cast<NiAVObject*>(
+            m_spDebugRootNode.m_pObject)))->FUN_00439410((::ArgObject *)(::fnv_00991770::NiObject *)(reinterpret_cast<NiObject*>(pAlphaProperty)));
+        ::fnv_004b6e90::AttachLightingPropertyRecursive((::NiAVObject *)(m_spDebugRootNode.m_pObject));
+        ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::fnv_00991770::NiAVObject *)(reinterpret_cast<NiAVObject*>(m_spDebugRootNode.m_pObject)),
                                                  false, false);
-        reinterpret_cast<VtblStandIn*>(FUN_00524cf0(reinterpret_cast<TESObjectREFR*>(g_thePlayer)->GetParentCell()))
-            ->AttachChildInAvailableSlot(reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(
-                                             *reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38))),
+        reinterpret_cast<VtblStandIn*>(((::fnv_00991770::NiAVObject *)(::FUN_00524cf0(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<TESObjectREFR*>(::_g_thePlayer)))->GetTarget()))))))
+            ->AttachChildInAvailableSlot(reinterpret_cast<NiAVObject*>(m_spDebugRootNode.m_pObject),
                                          true);
-        reinterpret_cast<NiAVObject*>(
-            static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))
-            ->UpdateSceneObject();
+        reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(
+            m_spDebugRootNode.m_pObject)))->FUN_00a5a040();
         NiUpdateData UpdateData(0.0f, false, false);
-        reinterpret_cast<NiNode*>(
-            static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))
-            ->Update(UpdateData);
+        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(
+            m_spDebugRootNode.m_pObject)))->FUN_00a59c60((std::intptr_t)&(UpdateData));
     }
 }
 }  // namespace fnv_00991770
@@ -676,27 +794,22 @@ class Tile;
 
 struct RegionPoint
 {
-    float GetX();
 };
 
 struct BGSSaveLoadGame
 {
-    bool FUN_0042ce10();
 };
 
 struct Animation
 {
-    float FUN_00453700();
 };
 
 struct IMH
 {
-    Tile* FUN_00586150();
 };
 
 struct PathingSolution
 {
-    unsigned int GetVirtualNodeCount();
 };
 
 struct GlobalObject_004aff00
@@ -711,35 +824,23 @@ struct Arr
 
 struct CombatTimerStandIn
 {
-    void FUN_008d7f40(float);
-    bool FUN_008d7f80();
-    void FUN_00910b10();
-    bool FUN_0097fa50();
 };
 
 struct ActorStandIn
 {
-    float GetModifiedDamagePerSecond(float);
-    bool FUN_009670f0(Actor*);
 };
 
 struct CombatGroupStandIn
 {
-    bool FUN_0097ef30();
-    bool FUN_0098a2e0();
     void GetCombatTargetTimestamp(CombatTargetTimestamp*, Actor*);
     bool FUN_009931a0();
-    int FUN_00989880(Actor*, float);
-    float GetModifierSum(int);
 };
 
 struct FUN_00435de0_ctor
 {
     float fTimeStamp;
-    void* FUN_00435de0(float);
 };
 
-float __cdecl FUN_00435dd0();
 
 struct ActorVtblStandIn
 {
@@ -1012,51 +1113,41 @@ struct ActorVtblStandIn
     virtual IMH* GetCombatController();
 };
 
-extern double _gModifierZero;
-extern float DAT_0108d9b0;
-extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting486;
-extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting485;
-extern SettingT_GameSettingCollection_ g_011ce72c;
-extern SettingT_GameSettingCollection_ g_011ceec0;
-extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting483;
-extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting484;
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 // Checks combat groups against the player to decide whether combat music should play, updating the music timer and timestamp fields accordingly.
 // @fnv 0x00992d90
 bool FUN_00992d90_shell::UpdateCombatMusic()
 {
     bool bplayingMusic =
-        (reinterpret_cast<RegionPoint*>(reinterpret_cast<char*>(this) + 0x20)->GetX() != -DAT_0108d9b0) ? true : false;
-    if (!reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x2c)->FUN_008d7f80() ||
-        g_BGSSaveLoadGame->FUN_0042ce10())
+        (reinterpret_cast<::CombatTargetTimestamp *>((reinterpret_cast<RegionPoint*>(&this->m_kFourByteManagerData.fTimeStamp)))->FUN_006a7f50() != -::DAT_0108d9b0) ? true : false;
+    if (!reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kSecondEightByteManagerData.m_fStartTime)))->CheckTimer() ||
+        reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_00992d90::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
     {
         return bplayingMusic;
     }
-    reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x2c)
-        ->FUN_008d7f40(*reinterpret_cast<float*>(g_011ceec0.Float()));
+    reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kSecondEightByteManagerData.m_fStartTime)))->FUN_008d7f40(*reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ceec0))))))));
     bool bplayCombatMusic = false;
     float fnearbyGroupCombatStrength = 0.0f;
     bool bnearbyGroupDetected = false;
-    float fplayerCombatStrength = reinterpret_cast<ActorStandIn*>(g_thePlayer)->GetModifiedDamagePerSecond(-1.0f);
-    for (unsigned int i = 0; i < reinterpret_cast<GlobalObject_004aff00*>(this)->GetSize(); ++i)
+    float fplayerCombatStrength = reinterpret_cast<::fnv_008acbe0::FUN_008acbe0_shell *>((reinterpret_cast<ActorStandIn*>(::_g_thePlayer)))->GetModifiedDamagePerSecond(-1.0f);
+    for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<GlobalObject_004aff00*>(this)))->GetShortAtOffsetA(); ++i)
     {
         ActorCombatGroup* pgroup = reinterpret_cast<ActorCombatGroup*>(*reinterpret_cast<Arr*>(this)->GetAt(i));
         if (pgroup)
         {
-            if (reinterpret_cast<CombatGroupStandIn*>(pgroup)->FUN_0097ef30() ||
-                !reinterpret_cast<PathingSolution*>(pgroup)->GetVirtualNodeCount() ||
-                reinterpret_cast<CombatGroupStandIn*>(pgroup)->FUN_0098a2e0())
+            if (reinterpret_cast<::FUN_0097ef30_shell *>((reinterpret_cast<CombatGroupStandIn*>(pgroup)))->FUN_0097ef30() ||
+                !::FUN_005a4320((char *)(reinterpret_cast<PathingSolution*>(pgroup))) ||
+                reinterpret_cast<::FUN_0098a2e0_shell *>((reinterpret_cast<CombatGroupStandIn*>(pgroup)))->FUN_0098a2e0())
             {
                 continue;
             }
-            if (pgroup->ContainsActor(reinterpret_cast<Actor*>(g_thePlayer)))
+            if (reinterpret_cast<::FUN_009865b0_shell *>((pgroup))->FUN_009865b0((intptr_t)(reinterpret_cast<Actor*>(::_g_thePlayer))))
             {
                 CombatTargetTimestamp flastDetectedTimeSTamp;
                 reinterpret_cast<CombatGroupStandIn*>(pgroup)->GetCombatTargetTimestamp(
-                    &flastDetectedTimeSTamp, reinterpret_cast<Actor*>(g_thePlayer));
-                if (flastDetectedTimeSTamp.GetElapsedTime() <
-                    *reinterpret_cast<float*>(originalRuntimeFloatSetting413.Float()))
+                    &flastDetectedTimeSTamp, reinterpret_cast<Actor*>(::_g_thePlayer));
+                if (reinterpret_cast<::FUN_00435e00_t *>(&(flastDetectedTimeSTamp))->FUN_00435e00() <
+                    *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting413))))))))
                 {
                     if (bplayingMusic)
                     {
@@ -1065,25 +1156,25 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
                     else
                     {
                         float fgroupCombatStrength = 0.0f;
-                        unsigned int imemberCount = pgroup->GetCount();
+                        unsigned int imemberCount = reinterpret_cast<::FUN_00990890_shell *>((pgroup))->FUN_00990890();
                         for (unsigned int i = 0; i < imemberCount; ++i)
                         {
-                            Actor* pmember = pgroup->GetIntAt(i);
-                            if (reinterpret_cast<ActorStandIn*>(g_thePlayer)->FUN_009670f0(pmember))
+                            Actor* pmember = ((::Actor *)(reinterpret_cast<::Target *>((pgroup))->GetIntAt(i)));
+                            if (reinterpret_cast<::Cls *>((reinterpret_cast<ActorStandIn*>(::_g_thePlayer)))->FUN_009670f0((intptr_t)(pmember)))
                             {
                                 IMH* pcombatController =
                                     reinterpret_cast<ActorVtblStandIn*>(pmember)->GetCombatController();
                                 if (pcombatController)
                                 {
                                     fgroupCombatStrength +=
-                                        reinterpret_cast<Animation*>(pcombatController->FUN_00586150())->FUN_00453700();
+                                        reinterpret_cast<::FUN_00453700_shell *>((reinterpret_cast<Animation*>(((::fnv_00992d90::Tile *)(reinterpret_cast<::InterfaceManager *>((pcombatController))->FUN_00586150())))))->FUN_00453700();
                                 }
                             }
                         }
-                        if (fgroupCombatStrength > _gModifierZero)
+                        if (fgroupCombatStrength > ::_DAT_01012060)
                         {
                             float fthreatRatio = fplayerCombatStrength / fgroupCombatStrength;
-                            if (fthreatRatio < *reinterpret_cast<float*>(originalRuntimeFloatSetting486.Float()))
+                            if (fthreatRatio < *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting486))))))))
                             {
                                 bplayCombatMusic = true;
                             }
@@ -1095,35 +1186,35 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
             {
                 if (bplayingMusic)
                 {
-                    if (reinterpret_cast<CombatGroupStandIn*>(pgroup)->FUN_00989880(
-                            reinterpret_cast<Actor*>(g_thePlayer),
-                            *reinterpret_cast<float*>(originalRuntimeFloatSetting485.Float())))
+                    if (((intptr_t)(reinterpret_cast<::CombatGroupS *>((reinterpret_cast<CombatGroupStandIn*>(pgroup)))->FUN_00989880(
+                            (::ActorS *)(::Actor *)(reinterpret_cast<Actor*>(::_g_thePlayer)),
+                            *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting485)))))))))))
                     {
                         bplayCombatMusic = true;
                     }
                 }
                 else
                 {
-                    if (reinterpret_cast<CombatGroupStandIn*>(pgroup)->FUN_00989880(
-                            reinterpret_cast<Actor*>(g_thePlayer),
-                            *reinterpret_cast<float*>(originalRuntimeFloatSetting484.Float())))
+                    if (((intptr_t)(reinterpret_cast<::CombatGroupS *>((reinterpret_cast<CombatGroupStandIn*>(pgroup)))->FUN_00989880(
+                            (::ActorS *)(::Actor *)(reinterpret_cast<Actor*>(::_g_thePlayer)),
+                            *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting484)))))))))))
                     {
                         if (!bnearbyGroupDetected)
                         {
-                            unsigned int imemberCount = pgroup->GetCount();
+                            unsigned int imemberCount = reinterpret_cast<::FUN_00990890_shell *>((pgroup))->FUN_00990890();
                             for (unsigned int i = 0; i < imemberCount; ++i)
                             {
-                                Actor* pmember = pgroup->GetIntAt(i);
-                                if (reinterpret_cast<ActorStandIn*>(g_thePlayer)->FUN_009670f0(pmember))
+                                Actor* pmember = ((::Actor *)(reinterpret_cast<::Target *>((pgroup))->GetIntAt(i)));
+                                if (reinterpret_cast<::Cls *>((reinterpret_cast<ActorStandIn*>(::_g_thePlayer)))->FUN_009670f0((intptr_t)(pmember)))
                                 {
                                     bnearbyGroupDetected = true;
                                     break;
                                 }
                             }
                         }
-                        fnearbyGroupCombatStrength += reinterpret_cast<CombatGroupStandIn*>(pgroup)->GetModifierSum(0);
+                        fnearbyGroupCombatStrength += reinterpret_cast<::FUN_0098cb30_cls *>((reinterpret_cast<CombatGroupStandIn*>(pgroup)))->GetModifierSum((::FUN_0098cb30_inner *)(0));
                         if (bnearbyGroupDetected &&
-                            fplayerCombatStrength * *reinterpret_cast<float*>(g_011ce72c.Float()) <
+                            fplayerCombatStrength * *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce72c))))))) <
                                 fnearbyGroupCombatStrength)
                         {
                             bplayCombatMusic = true;
@@ -1141,31 +1232,29 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
     {
         if (bplayCombatMusic)
         {
-            reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)->FUN_00910b10();
+            reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->FUN_00910b10();
             FUN_00435de0_ctor ts1;
-            ts1.FUN_00435de0(FUN_00435dd0());
-            *reinterpret_cast<FUN_00435de0_ctor*>(reinterpret_cast<char*>(this) + 0x20) = ts1;
+            reinterpret_cast<::FUN_00435de0_ctor *>(&(ts1))->FUN_00435de0(::FUN_00435dd0());
+            *reinterpret_cast<FUN_00435de0_ctor*>(&this->m_kFourByteManagerData.fTimeStamp) = ts1;
         }
-        else if (!reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)->FUN_0097fa50())
+        else if (!reinterpret_cast<::FUN_0097fa50_Class *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->FUN_0097fa50())
         {
-            reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)
-                ->FUN_008d7f40(*reinterpret_cast<float*>(originalRuntimeFloatSetting483.Float()));
+            reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->FUN_008d7f40(*reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting483))))))));
         }
-        else if (reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)->FUN_008d7f80())
+        else if (reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->CheckTimer())
         {
             FUN_00435de0_ctor ts2;
-            ts2.FUN_00435de0(-DAT_0108d9b0);
-            *reinterpret_cast<FUN_00435de0_ctor*>(reinterpret_cast<char*>(this) + 0x20) = ts2;
-            reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)->FUN_00910b10();
+            reinterpret_cast<::FUN_00435de0_ctor *>(&(ts2))->FUN_00435de0(-::DAT_0108d9b0);
+            *reinterpret_cast<FUN_00435de0_ctor*>(&this->m_kFourByteManagerData.fTimeStamp) = ts2;
+            reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->FUN_00910b10();
         }
     }
-    return reinterpret_cast<RegionPoint*>(reinterpret_cast<char*>(this) + 0x20)->GetX() != -DAT_0108d9b0;
+    return reinterpret_cast<::CombatTargetTimestamp *>((reinterpret_cast<RegionPoint*>(&this->m_kFourByteManagerData.fTimeStamp)))->FUN_006a7f50() != -::DAT_0108d9b0;
 }
 }  // namespace fnv_00992d90
 
 struct CombatNode
 {
-    unsigned int FUN_00726070();
 };
 struct CombatNodeArray
 {
@@ -1177,10 +1266,10 @@ struct CombatNodeArray
 // @fnv 0x00991d60
 CombatNode* CombatNodeArray::FindByKey(unsigned int key)
 {
-    for (unsigned int i = 0; i < GetSize(); ++i)
+    for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>(this)->GetShortAtOffsetA(); ++i)
     {
         CombatNode* node = *GetAt(i);
-        if (node && node->FUN_00726070() == key)
+        if (node && reinterpret_cast<::CombatGroupFields*>(node)->unk04 == key)
             return node;
     }
     return 0;
@@ -1188,14 +1277,11 @@ CombatNode* CombatNodeArray::FindByKey(unsigned int key)
 
 struct FUN_005a4320_shell
 {
-    unsigned int FUN_005a4320();
-    Actor* FUN_00968630(unsigned int auiIndex);
 };
 
 struct ActorShell
 {
     bool FUN_008b0970(Actor* apActor);
-    bool IsHostileToActor(Actor* apTarget, int aiArg, int* apResult, bool abArg);
 };
 
 struct FUN_00992530_shell : public CombatManager
@@ -1214,20 +1300,20 @@ bool FUN_00992530_shell::FUN_00992530(Actor* apActor, Actor* apTarget)
         ActorCombatGroup* pgroup2 = apTarget->GetCombatGroup();
         if (pgroup2)
         {
-            unsigned int ihelperCount4 = ((FUN_005a4320_shell*)pgroup2)->FUN_005a4320();
+            unsigned int ihelperCount4 = ::FUN_005a4320((char *)(((FUN_005a4320_shell*)pgroup2)));
             unsigned int imemberCount5;
             for (unsigned int i5 = 0; i5 < ihelperCount4; i5++)
             {
-                Actor* phelper2 = ((FUN_005a4320_shell*)pgroup2)->FUN_00968630(i5);
+                Actor* phelper2 = ((::Actor *)(reinterpret_cast<::FUN_00968630_stub *>((((FUN_005a4320_shell*)pgroup2)))->FUN_00968630(i5)));
                 if (((ActorShell*)apActor)->FUN_008b0970(phelper2))
                     return false;
             }
-            imemberCount5 = pgroup2->GetCount();
+            imemberCount5 = reinterpret_cast<::FUN_00990890_shell *>((pgroup2))->FUN_00990890();
             for (unsigned int j2 = 0; j2 < imemberCount5; j2++)
             {
-                Actor* pmember = pgroup2->GetIntAt(j2);
+                Actor* pmember = ((::Actor *)(reinterpret_cast<::Target *>((pgroup2))->GetIntAt(j2)));
                 int iattack = 0;
-                if (((ActorShell*)apActor)->IsHostileToActor(pmember, 0, &iattack, false))
+                if (reinterpret_cast<::HostActor *>((((ActorShell*)apActor)))->IsHostileTo((::HostActor *)(pmember), 0, &iattack, false))
                     return false;
             }
         }
@@ -1237,23 +1323,16 @@ bool FUN_00992530_shell::FUN_00992530(Actor* apActor, Actor* apTarget)
 
 struct CombatBox
 {
-    void FUN_00992a50(unsigned int a, unsigned int b);
-    void FUN_009926c0(unsigned int a, unsigned int b);
+    void FUN_009926c0(uintptr_t a, uintptr_t b);
 };
-// @fnv 0x009926c0
-void CombatBox::FUN_009926c0(unsigned int uiFirst, unsigned int uiSecond)
-{
-    FUN_00992a50(uiSecond, uiFirst);
-}
-
 namespace fnv_009926e0 {
 struct CombatBox
 {
     void ClearFlagIfSet(unsigned int a, unsigned int b);
-    void SwapAndDispatch(unsigned int a, unsigned int b);
+    void SwapAndDispatch(uintptr_t a, uintptr_t b);
 };
 // @fnv 0x009926e0
-void CombatBox::SwapAndDispatch(unsigned int uiFirst, unsigned int uiSecond)
+void CombatBox::SwapAndDispatch(uintptr_t uiFirst, uintptr_t uiSecond)
 {
     ClearFlagIfSet(uiSecond, uiFirst);
 }
@@ -1263,10 +1342,10 @@ namespace fnv_00992700 {
 struct CombatBox
 {
     void FUN_009929e0(unsigned int a);
-    void FUN_00992700(unsigned int a, unsigned int b);
+    void FUN_00992700(uintptr_t a, uintptr_t b);
 };
 // @fnv 0x00992700
-void CombatBox::FUN_00992700(unsigned int uiUnused, unsigned int uiValue)
+void CombatBox::FUN_00992700(uintptr_t uiUnused, uintptr_t uiValue)
 {
     FUN_009929e0(uiValue);
 }
@@ -1287,37 +1366,37 @@ namespace fnv_009928c0 {
 struct CombatFlagHolder
 {
     bool HasCombatFlag(unsigned int mask);
+    unsigned int pad00[0x2a];
+    unsigned int unka8;
 };
 // @fnv 0x009928c0
 bool CombatFlagHolder::HasCombatFlag(unsigned int mask)
 {
-    return (*(unsigned int*)((char*)this + 0xa8) & mask) ? true : false;
+    return (this->unka8 & mask) ? true : false;
 }
 }  // namespace fnv_009928c0
 
 namespace fnv_009928e0 {
 struct CombatFlagHolder
 {
-    bool HasCombatFlag(unsigned int mask);
     bool HasCombatFlag40();
 };
 // @fnv 0x009928e0
 bool CombatFlagHolder::HasCombatFlag40()
 {
-    return HasCombatFlag(0x40);
+    return reinterpret_cast<::fnv_009928c0::CombatFlagHolder *>(this)->HasCombatFlag(0x40);
 }
 }  // namespace fnv_009928e0
 
 namespace fnv_00992900 {
 struct CombatFlagHolder
 {
-    bool HasCombatFlag(unsigned int mask);
     bool HasCombatFlag80();
 };
 // @fnv 0x00992900
 bool CombatFlagHolder::HasCombatFlag80()
 {
-    return HasCombatFlag(0x80);
+    return reinterpret_cast<::fnv_009928c0::CombatFlagHolder *>(this)->HasCombatFlag(0x80);
 }
 }  // namespace fnv_00992900
 
@@ -1328,33 +1407,25 @@ struct CombatPair
 };
 struct CombatTarget
 {
-    bool Lookup(unsigned int key, CombatPair* out);
     void SetValue(unsigned int key, unsigned int x, unsigned int y);
 };
 struct CombatOwner
 {
-    void FUN_009929e0(unsigned int key);
+    void FUN_009929e0(uintptr_t key);
+    unsigned int pad00[0x4];
+    void* unk10;
 };
-// @fnv 0x009929e0
-void CombatOwner::FUN_009929e0(unsigned int key)
-{
-    CombatPair pair = {0, 0};
-    if (!(*(CombatTarget**)((char*)this + 0x10))->Lookup(key, &pair))
-        (*(CombatTarget**)((char*)this + 0x10))->SetValue(key, 0, 0);
-}
-
 struct MapH
 {
-    bool RemoveAt(unsigned int key);
 };
 struct CombatMapOwner
 {
-    void FUN_00992a30(unsigned int key);
+    void FUN_00992a30(uintptr_t key);
 };
 // @fnv 0x00992a30
-void CombatMapOwner::FUN_00992a30(unsigned int key)
+void CombatMapOwner::FUN_00992a30(uintptr_t key)
 {
-    (*(MapH**)((char*)this + 0x10))->RemoveAt(key);
+    reinterpret_cast<::NiTMap_S *>(((*(MapH**)((char*)this + 0x10))))->RemoveKey(key);
 }
 
 struct Flt
@@ -1363,7 +1434,6 @@ struct Flt
 };
 struct CPHelper00992a50
 {
-    bool Lookup(Actor* a, unsigned __int64* out);
     void SetValue(Actor* a, unsigned __int64 v);
 };
 struct CPStandIn00992a50
@@ -1372,21 +1442,10 @@ struct CPStandIn00992a50
     CPHelper00992a50* pHelper;
     void FUN_00992a50(Actor* pactor, Flt& flt);
 };
-
-// Reads a bit mask for pactor, sets the bit given by flt if clear, and writes the mask back.
-// @fnv 0x00992a50
-void CPStandIn00992a50::FUN_00992a50(Actor* pactor, Flt& aiBitIndex)
+// @fnv 0x009926c0
+void CombatBox::FUN_009926c0(uintptr_t uiFirst, uintptr_t uiSecond)
 {
-    __int64 ullBit;
-    unsigned __int64 ullMask = 0;
-    if (!pHelper->Lookup(pactor, &ullMask))
-        ullMask = 0;
-    ullBit = 1 << (unsigned int)aiBitIndex;
-    if ((ullMask & ullBit) == 0)
-    {
-        ullMask |= ullBit;
-        pHelper->SetValue(pactor, ullMask);
-    }
+    reinterpret_cast<::CPStandIn00992a50 *>(this)->FUN_00992a50((::Actor *)(uiSecond), (*(::Flt *)(uiFirst)));
 }
 
 namespace fnv_00992b00 {
@@ -1426,33 +1485,57 @@ void CPStandIn00992b00::ClearFlagIfSet(Actor* apActor, Flt& flt)
 struct CombatObj
 {
     int FUN_009931a0();
+    char pad00[0x154];
+    char unk154;
 };
 // @fnv 0x009931a0
 int CombatObj::FUN_009931a0()
 {
-    return *(char*)((char*)this + 0x154) == 1;
+    return this->unk154 == 1;
 }
 
 typedef unsigned __int64 CPOut00993a00;
 struct CPMapItem00993a00
 {
     CPMapItem00993a00* next;
-    unsigned int key;
+    uintptr_t key;
     CPOut00993a00 val;
 };
 struct CPMap00993a00
 {
     virtual ~CPMap00993a00();
-    virtual unsigned int GetHashIndex(unsigned int key);
-    virtual bool IsKeyEqual(unsigned int key, unsigned int other);
+    virtual unsigned int GetHashIndex(uintptr_t key);
+    virtual bool IsKeyEqual(uintptr_t key, uintptr_t other);
     int iCount;
     CPMapItem00993a00** m_pkBuckets;
-    bool Lookup(unsigned int key, CPOut00993a00* pOut);
+    bool Lookup(uintptr_t key, CPOut00993a00* pOut);
 };
+// @fnv 0x009929e0
+void CombatOwner::FUN_009929e0(uintptr_t key)
+{
+    CombatPair pair = {0, 0};
+    if (!reinterpret_cast<::CPMap00993a00 *>(((*(CombatTarget**)&this->unk10)))->Lookup(key, (unsigned long long *)(::CombatPair *)(&pair)))
+        (*(CombatTarget**)&this->unk10)->SetValue(key, 0, 0);
+}
+// Reads a bit mask for pactor, sets the bit given by flt if clear, and writes the mask back.
+// @fnv 0x00992a50
+void CPStandIn00992a50::FUN_00992a50(Actor* pactor, Flt& aiBitIndex)
+{
+    __int64 ullBit;
+    unsigned __int64 ullMask = 0;
+    if (!reinterpret_cast<::CPMap00993a00 *>((pHelper))->Lookup((uintptr_t)(pactor), &ullMask))
+        ullMask = 0;
+    ullBit = 1 << (unsigned int)aiBitIndex;
+    if ((ullMask & ullBit) == 0)
+    {
+        ullMask |= ullBit;
+        pHelper->SetValue(pactor, ullMask);
+    }
+}
 
 // Hashes the key, walks that bucket's item chain, and on a matching key copies the item's value to pOut and returns true; otherwise returns false.
 // @fnv 0x00993a00
-bool CPMap00993a00::Lookup(unsigned int key, CPOut00993a00* pOutValue)
+bool CPMap00993a00::Lookup(uintptr_t key, CPOut00993a00* pOutValue)
 {
     unsigned int uiIndex = GetHashIndex(key);
     CPMapItem00993a00* pkItem = m_pkBuckets[uiIndex];
@@ -1471,21 +1554,21 @@ bool CPMap00993a00::Lookup(unsigned int key, CPOut00993a00* pOutValue)
 struct CPMapItem00993a80
 {
     CPMapItem00993a80* next;
-    unsigned int key;
+    uintptr_t key;
     unsigned __int64 val;
 };
 struct CPMap00993a80
 {
     virtual ~CPMap00993a80();
-    virtual unsigned int GetHashIndex(unsigned int key);
+    virtual unsigned int GetHashIndex(uintptr_t key);
     unsigned int iCount;
     CPMapItem00993a80** m_pkBuckets;
-    void GetNextEntry(CPMapItem00993a80*& rpkNext, unsigned int* pKey, unsigned __int64* pVal);
+    void GetNextEntry(CPMapItem00993a80*& rpkNext, uintptr_t* pKey, unsigned __int64* pVal);
 };
 
 // Outputs the current item's key and value, then advances the cursor to the next item in the same bucket or the next non-empty bucket.
 // @fnv 0x00993a80
-void CPMap00993a80::GetNextEntry(CPMapItem00993a80*& rpkNext, unsigned int* pKey, unsigned __int64* pVal)
+void CPMap00993a80::GetNextEntry(CPMapItem00993a80*& rpkNext, uintptr_t* pKey, unsigned __int64* pVal)
 {
     CPMapItem00993a80* pkItem = rpkNext;
     unsigned int uiIndex;
@@ -1511,7 +1594,6 @@ void CPMap00993a80::GetNextEntry(CPMapItem00993a80*& rpkNext, unsigned int* pKey
 
 struct CombatMap
 {
-    void ComputeHash();
 };
 struct CombatMapRef
 {
@@ -1520,7 +1602,7 @@ struct CombatMapRef
 // @fnv 0x009950a0
 void CombatMapRef::FUN_009950a0(CombatMap** ppCombatMap)
 {
-    (*ppCombatMap)->ComputeHash();
+    reinterpret_cast<::CombatStateHash *>(((*ppCombatMap)))->ComputeHash();
 }
 
 extern const char $SG8126[];
@@ -1532,17 +1614,14 @@ struct AutoMemHelper
     ~AutoMemHelper();
 };
 
-void _FNV_Warning(const char*, ...);
 
 struct QuantityData
 {
-    void SetQuantity(unsigned int);
 };
 
 struct FUN_00985d10 : QuantityData
 {
     char pad[0x15c];
-    void* operator new(size_t size);
     FUN_00985d10(unsigned int);
 };
 
@@ -1562,14 +1641,12 @@ FUN_00985d10* FUN_00991e80_shell::FUN_00991e80()
 {
     AutoMemHelper tempMemContext(0x2b, true, $SG8126, 0x161);
     FUN_00985d10* pgroup = new FUN_00985d10(m_uiDebugFlags++);
-    unsigned int ipos = Add(pgroup);
+    unsigned int ipos = reinterpret_cast<::Arr86 *>(this)->AddAtFirstFreeSlot((::BGSAddonNode *&)(pgroup));
     if (ipos > 0x40)
     {
-        _FNV_Warning(
-            "COMBAT: In CombatManager, MAX_NUM_COMBAT_GROUPS( %i ) has been exceeded to %i.  Its value needs to be raised.",
-            0x40, ipos);
+        ::FUN_005b5e40();
     }
-    pgroup->SetQuantity(ipos);
+    reinterpret_cast<::FUN_00537e90 *>((pgroup))->SetQuantity(ipos);
     return pgroup;
 }
 
@@ -1582,9 +1659,6 @@ class CombatController
 };
 struct CombatGroup_9922b0
 {
-    bool AddMember(Actor* apActor);
-    void ClearMembers();
-    bool ActorMergeData(ActorCombatGroup* apGroup);
 };
 struct FUN_009922b0_shell : public CombatManager
 {
@@ -1600,11 +1674,11 @@ CombatController* FUN_009922b0_shell::GetOrCreateCombatController(Actor* apActor
     pcombatController = apActor->GetCombatController();
     if (pcombatController)
     {
-        ActorCombatGroup* pcurrentGroup = pcombatController->GetCombatGroup();
-        if (pcurrentGroup != apGroup && ((CombatGroup_9922b0*)apGroup)->ActorMergeData(pcurrentGroup))
-            ((CombatGroup_9922b0*)pcurrentGroup)->ClearMembers();
+        ActorCombatGroup* pcurrentGroup = ((::ActorCombatGroup *)(reinterpret_cast<::EffectSetting *>((pcombatController))->GetCastSound()));
+        if (pcurrentGroup != apGroup && reinterpret_cast<::ActorMergeData *>((((CombatGroup_9922b0*)apGroup)))->MergeFrom((::ActorMergeData *)(pcurrentGroup)))
+            reinterpret_cast<::FUN_00986bd0_shell *>((((CombatGroup_9922b0*)pcurrentGroup)))->FUN_00986bd0();
     }
-    else if (((CombatGroup_9922b0*)apGroup)->AddMember(apActor))
+    else if (reinterpret_cast<::CombatGroup_009867d0 *>((((CombatGroup_9922b0*)apGroup)))->FUN_009867d0((::ActorV *)(apActor)))
     {
         pcombatController = new CombatController(apActor, apGroup, false);
     }
@@ -1614,19 +1688,16 @@ CombatController* FUN_009922b0_shell::GetOrCreateCombatController(Actor* apActor
 namespace fnv_009923d0 {
 struct FUN_009867d0_shell
 {
-    void FUN_009867d0(void* arg1);
 };
 
 struct CombatController
 {
     char pad[0x188];
-    void* operator new(size_t size);
     CombatController(void* arg1, FUN_009867d0_shell* group, void* arg2);
 };
 
 struct FUN_009923d0_shell
 {
-    FUN_009867d0_shell* FUN_00991e80();
 
     CombatController* CreateCombatController(void* arg1, void* arg2);
 };
@@ -1635,9 +1706,9 @@ struct FUN_009923d0_shell
 // @fnv 0x009923d0
 CombatController* FUN_009923d0_shell::CreateCombatController(void* arg1, void* arg2)
 {
-    FUN_009867d0_shell* m_pCombatData = FUN_00991e80();
+    FUN_009867d0_shell* m_pCombatData = ((::fnv_009923d0::FUN_009867d0_shell *)(reinterpret_cast<::FUN_00991e80_shell *>(this)->FUN_00991e80()));
     m_pCombatData = m_pCombatData;
-    m_pCombatData->FUN_009867d0(arg1);
+    reinterpret_cast<::CombatGroup_009867d0 *>((m_pCombatData))->FUN_009867d0((::ActorV *)(arg1));
     CombatController* m_pCombatController = new CombatController(arg1, m_pCombatData, arg2);
     return m_pCombatController;
 }
@@ -1646,9 +1717,7 @@ CombatController* FUN_009923d0_shell::CreateCombatController(void* arg1, void* a
 namespace fnv_00992920 {
 struct BGSSaveLoadGame
 {
-    bool FUN_0042ce10();
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 struct Arr
 {
@@ -1658,22 +1727,18 @@ struct Arr
 
 struct CombatMapOwner : Arr
 {
-    void FUN_00992a30(unsigned int);
 };
 
 struct FUN_00987820_shell
 {
-    void FUN_00987820(void*);
 };
 
 struct Member14
 {
-    void RemoveEntryForRef(void*);
 };
 
 struct Member1C
 {
-    void RemoveEntry(unsigned int);
 };
 
 struct TargetObj
@@ -1758,27 +1823,27 @@ struct FUN_00992920_shell : CombatMapOwner
 // @fnv 0x00992920
 void FUN_00992920_shell::ProcessCombatTarget(TargetObj* pTarget)
 {
-    if (g_BGSSaveLoadGame->FUN_0042ce10())
+    if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_00992920::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
         return;
 
     TargetObj* pActor = 0;
     if (pTarget->IsActor())
         pActor = pTarget;
 
-    for (unsigned int i = 0; i < Arr::GetSize(); i++)
+    for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>(this)->GetShortAtOffsetA(); i++)
     {
-        FUN_00987820_shell* pGroup = (FUN_00987820_shell*)*Arr::GetAt(i);
+        FUN_00987820_shell* pGroup = SimpleArrayItem<FUN_00987820_shell*>(this, i);
         if (pGroup)
-            pGroup->FUN_00987820(pTarget);
+            reinterpret_cast<::Group_987820 *>((pGroup))->FUN_00987820((::Actor_987820 *)(pTarget));
     }
 
     if (pActor)
     {
-        CombatMapOwner::FUN_00992a30((unsigned int)pActor);
-        member_1c->RemoveEntry((unsigned int)pActor);
+        reinterpret_cast<::CombatMapOwner *>(this)->FUN_00992a30((uintptr_t)pActor);
+        reinterpret_cast<::CombatEntryOwner *>((member_1c))->RemoveEntry((uintptr_t)pActor);
     }
 
-    member_14->RemoveEntryForRef(pTarget);
+    reinterpret_cast<::EntryMap9A5 *>((member_14))->RemoveEntryForRef((::Ref9A5 *)(pTarget));
 }
 }  // namespace fnv_00992920
 
@@ -1829,7 +1894,6 @@ struct Arr
 };
 struct StrArr
 {
-    void SetAt(unsigned int, char* const&);
 };
 struct BGSCameraPath;
 template <class T> class NiTMallocInterface;
@@ -1837,11 +1901,9 @@ template <class T, class A> class NiTArray;
 template <> class NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >
 {
   public:
-    void Compact();
 };
 struct FUN_00986c40_obj
 {
-    bool FUN_00986c40();
 };
 struct FUN_009914d0
 {
@@ -1849,71 +1911,65 @@ struct FUN_009914d0
 };
 struct FUN_0097ef50_obj
 {
-    void ResetModifierIfActive();
 };
 struct FUN_00991770_obj
 {
-    void UpdateDetectionVisuals();
 };
-int __fastcall FUN_009938b0(void*);
 // @fnv 0x00991600
 void FUN_00991600_shell::FUN_00991600(bool abTimeStopped)
 {
-    unsigned int igroupCount = ((Arr*)this)->GetSize();
+    unsigned int igroupCount = reinterpret_cast<::FUN_00658930_class *>((((Arr*)this)))->GetShortAtOffsetA();
     if (igroupCount)
     {
         for (unsigned int i = 0; i < igroupCount; i++)
         {
-            ActorCombatGroup* pgroup = (ActorCombatGroup*)*((Arr*)this)->GetAt(i);
-            if (pgroup && ((FUN_00986c40_obj*)pgroup)->FUN_00986c40())
+            ActorCombatGroup* pgroup = SimpleArrayItem<ActorCombatGroup*>(this, i);
+            if (pgroup && reinterpret_cast<::FUN_00986c40_shell *>((((FUN_00986c40_obj*)pgroup)))->FUN_00986c40())
             {
                 delete (FUN_009914d0*)pgroup;
-                ((StrArr*)this)->SetAt(i, 0);
+                reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((StrArr*)this)))->SetAt(i, (char *&)((const char *const &)(0)));
             }
         }
-        if (!FUN_009938b0(this))
+        if (!((int)(::FUN_009938b0((const unsigned short *)(void *)(this)))))
         {
-            ((NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >*)this)->Compact();
-            ((NiTPointerMap<Actor*, __int64>*)m_pActorCombatGroupMap)->RemoveAll();
+            ::CompactArray((::NiTArray_CombatGroup *)(((NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >*)this)));
+            reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<Actor*, __int64>*)m_pActorCombatGroupMap)))->FUN_00438af0();
         }
     }
     if (!abTimeStopped)
     {
-        for (unsigned int i = 0; i < ((Arr*)this)->GetSize(); i++)
+        for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((((Arr*)this)))->GetShortAtOffsetA(); i++)
         {
-            ActorCombatGroup* pgroup = (ActorCombatGroup*)*((Arr*)this)->GetAt(i);
+            ActorCombatGroup* pgroup = SimpleArrayItem<ActorCombatGroup*>(this, i);
             if (pgroup)
             {
-                unsigned int imemberCount = pgroup->GetCount();
+                unsigned int imemberCount = reinterpret_cast<::FUN_00990890_shell *>((pgroup))->FUN_00990890();
                 for (unsigned int j = 0; j < imemberCount; j++)
                 {
                     CombatController* pcombatController;
-                    Actor* pactor = pgroup->GetIntAt(j);
+                    Actor* pactor = ((::Actor *)(reinterpret_cast<::Target *>((pgroup))->GetIntAt(j)));
                     pcombatController = pactor->GetCombatController();
                     if (pcombatController)
-                        ((FUN_0097ef50_obj*)pcombatController)->ResetModifierIfActive();
+                        reinterpret_cast<::fnv_0097ef50::FUN_0097ef50_shell *>((((FUN_0097ef50_obj*)pcombatController)))->ResetModifierIfActive();
                 }
             }
         }
     }
-    ((FUN_00991770_obj*)this)->UpdateDetectionVisuals();
+    reinterpret_cast<::fnv_00991770::FUN_00991770_shell *>((((FUN_00991770_obj*)this)))->UpdateDetectionVisuals();
 }
 }  // namespace fnv_00991600
 
 namespace fnv_00992640 {
 struct FUN_00968630_stub
 {
-    Actor* FUN_00968630(unsigned int);
 };
 
 struct PathingSolution : FUN_00968630_stub
 {
-    unsigned int GetVirtualNodeCount();
 };
 
 struct TESWorldSpace
 {
-    bool FUN_00992530(Actor*, Actor*);
 };
 
 struct FUN_actor_vtstub
@@ -2188,11 +2244,11 @@ bool FUN_00992640_shell::FUN_00992640(Actor* apActor, Actor* apAttacker)
     {
         return false;
     }
-    unsigned int iGroupCount = ((PathingSolution*)pgroup)->GetVirtualNodeCount();
+    unsigned int iGroupCount = ::FUN_005a4320((char *)(((PathingSolution*)pgroup)));
     for (unsigned int i = 0; i < iGroupCount; ++i)
     {
-        Actor* pGroupMember = ((PathingSolution*)pgroup)->FUN_00968630(i);
-        if (FUN_00992530(apActor, pGroupMember))
+        Actor* pGroupMember = ((::Actor *)(reinterpret_cast<::FUN_00968630_stub *>((((PathingSolution*)pgroup)))->FUN_00968630(i)));
+        if (reinterpret_cast<::FUN_00992530_shell *>(this)->FUN_00992530(apActor, pGroupMember))
         {
             return true;
         }
@@ -2212,26 +2268,25 @@ struct Arr
     unsigned int GetSize();
     unsigned int* GetAt(int);
 };
-extern Actor* _g_thePlayer;
 // @fnv 0x009931c0
 unsigned int FUN_009931c0_shell::CountCombatGroupMembers(Actor* apActor, unsigned int* apNumLost)
 {
     unsigned int icount = 0;
     if (apNumLost)
         *apNumLost = 0;
-    for (unsigned int i = 0; i < ((Arr*)this)->GetSize(); i++)
+    for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((((Arr*)this)))->GetShortAtOffsetA(); i++)
     {
-        ActorCombatGroup* pgroup = (ActorCombatGroup*)*((Arr*)this)->GetAt(i);
-        if (pgroup && (!apActor || pgroup->ContainsActor(apActor)))
+        ActorCombatGroup* pgroup = SimpleArrayItem<ActorCombatGroup*>(this, i);
+        if (pgroup && (!apActor || reinterpret_cast<::FUN_009865b0_shell *>((pgroup))->FUN_009865b0((intptr_t)(apActor))))
         {
-            unsigned int igroupCount = pgroup->GetCount();
-            if (igroupCount > 0 && pgroup == _g_thePlayer->GetCombatGroup())
+            unsigned int igroupCount = reinterpret_cast<::FUN_00990890_shell *>((pgroup))->FUN_00990890();
+            if (igroupCount > 0 && pgroup == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer))->GetCombatGroup())
                 igroupCount--;
             icount += igroupCount;
             if (apActor && apNumLost)
             {
                 CombatTargetTimestamp flastDetectedTimeStamp = pgroup->GetLastDetectedTimestamp(apActor);
-                if (flastDetectedTimeStamp.GetElapsedTime() > *(float*)originalRuntimeFloatSetting413.Float())
+                if (reinterpret_cast<::FUN_00435e00_t *>(&(flastDetectedTimeStamp))->FUN_00435e00() > *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting413)))))))
                     *apNumLost += igroupCount;
             }
         }
@@ -2281,7 +2336,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00993440_shell : public CombatManager
 {
     void LoadCombatState(BGSLoadGameBuffer*);
@@ -2300,15 +2354,13 @@ struct Arr86
 };
 struct QuantityData
 {
-    void SetQuantity(unsigned int);
 };
 struct TESRaceForm
 {
-    void Initialize(unsigned int);
 };
 struct CombatTarget
 {
-    void SetValue(unsigned int, unsigned int, unsigned int);
+    void SetValue(uintptr_t, unsigned int, unsigned int);
 };
 struct FUN_00985d10
 {
@@ -2317,65 +2369,56 @@ struct FUN_00985d10
 };
 struct GroupShim
 {
-    void FUN_0098e3d0(BGSLoadGameBuffer*);
 };
 struct ThreatShim
 {
-    void FUN_009a5a70(BGSLoadGameBuffer*);
 };
 struct StampShim
 {
-    void FUN_009a5ff0(BGSLoadGameBuffer*);
 };
 struct TimerShim
 {
-    void FUN_009a5f20(BGSLoadFormBuffer*);
 };
 struct int64
 {
     unsigned int lo;
     unsigned int hi;
 };
-struct CMView
-{
-    char pad[0x10];
-    CombatTarget* m_pActorCombatGroupMap;
-    ThreatShim* m_pThreatMap;
-};
 // @fnv 0x00993440
 void FUN_00993440_shell::LoadCombatState(BGSLoadGameBuffer* apLoadGameBuffer)
 {
-    ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadTypedData((char*)this + 0x34, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_uiDebugFlags), 4);
     unsigned int icount;
-    unsigned int inumCombatGroups = ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadElementCount();
+    unsigned int inumCombatGroups = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_00864a60();
     for (unsigned int i = 0; i < inumCombatGroups; i++)
     {
         ActorCombatGroup* pgroup;
         unsigned int igroupNum = 0;
-        ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadTypedData(&igroupNum, 4);
-        unsigned int igroupID = 0;
-        ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadTypedData(&igroupID, 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&igroupNum), 4);
+        uintptr_t igroupID = 0;
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&igroupID), 4);
         pgroup = (ActorCombatGroup*)new FUN_00985d10(0);
-        ((QuantityData*)pgroup)->SetQuantity(igroupNum);
-        ((TESRaceForm*)pgroup)->Initialize(igroupID);
-        ((GroupShim*)pgroup)->FUN_0098e3d0(apLoadGameBuffer);
+        reinterpret_cast<::FUN_00537e90 *>((((QuantityData*)pgroup)))->SetQuantity(igroupNum);
+        reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)pgroup)))->Initialize((::CombatController *)(igroupID));
+        reinterpret_cast<::GroupLoad *>((((GroupShim*)pgroup)))->FUN_0098e3d0((::LoadBuf *)(apLoadGameBuffer));
         ((Arr86*)this)->SetAt(igroupNum, *(BGSAddonNode**)&pgroup);
     }
-    ((CMView*)this)->m_pThreatMap->FUN_009a5a70(apLoadGameBuffer);
-    icount = ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadElementCount();
+    reinterpret_cast<::fnv_009a5a70::FUN_009a5a70_cls*>(m_pThreatMap)->FUN_009a5a70(
+        reinterpret_cast<::fnv_009a5a70::ItemList*>(apLoadGameBuffer));
+    icount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_00864a60();
     for (unsigned int i = 0; i < icount; i++)
     {
         Actor* pactor = 0;
         int64 itargetingBitfield;
         itargetingBitfield.lo = 0;
         itargetingBitfield.hi = 0;
-        ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadFormIdentifier(&pactor);
-        ((CMView*)this)
-            ->m_pActorCombatGroupMap->SetValue((unsigned int)pactor, itargetingBitfield.lo, itargetingBitfield.hi);
+        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_008648e0((unsigned int *)(void *)(&pactor));
+        reinterpret_cast<CombatTarget*>(m_pActorCombatGroupMap)->SetValue(
+            (uintptr_t)pactor, itargetingBitfield.lo, itargetingBitfield.hi);
     }
-    ((StampShim*)((char*)this + 0x20))->FUN_009a5ff0(apLoadGameBuffer);
-    ((TimerShim*)((char*)this + 0x24))->FUN_009a5f20((BGSLoadFormBuffer*)apLoadGameBuffer);
-    ((TimerShim*)((char*)this + 0x2c))->FUN_009a5f20((BGSLoadFormBuffer*)apLoadGameBuffer);
+    reinterpret_cast<::CombatTargetTimestamp *>((((StampShim*)&this->m_kFourByteManagerData.fTimeStamp)))->LoadGame((::BGSLoadGameBuffer *)(apLoadGameBuffer));
+    reinterpret_cast<::TimeoutTimer *>((((TimerShim*)&this->m_kFirstEightByteManagerData.m_fStartTime)))->LoadGame((::BGSLoadFormBuffer *)(::fnv_00993440::BGSLoadFormBuffer *)((BGSLoadFormBuffer*)apLoadGameBuffer));
+    reinterpret_cast<::TimeoutTimer *>((((TimerShim*)&this->m_kSecondEightByteManagerData.m_fStartTime)))->LoadGame((::BGSLoadFormBuffer *)(::fnv_00993440::BGSLoadFormBuffer *)((BGSLoadFormBuffer*)apLoadGameBuffer));
 }
 }  // namespace fnv_00993440
 
@@ -2383,7 +2426,6 @@ namespace fnv_009932d0 {
 struct CPMapItem00993a80;
 struct MapX
 {
-    void* GetFirstPos();
 };
 struct Flt
 {
@@ -2396,30 +2438,21 @@ struct Arr
 };
 struct BGSSaveFormBuffer
 {
-    void SerializeFormData(void*, int);
-    void SaveData(void*, int, int);
-    unsigned int FUN_00865f20();
-    void FUN_00865ff0(int, unsigned int);
 };
 struct CPMap00993a80
 {
-    void GetNextEntry(CPMapItem00993a80*&, unsigned int*, unsigned __int64*);
 };
 struct S0098de90
 {
-    void WriteToStream(BGSSaveFormBuffer*);
 };
 struct S009a59e0
 {
-    void SaveThreats(BGSSaveFormBuffer*);
 };
 struct FUN_009a5eb0_shell
 {
-    void FUN_009a5eb0(BGSSaveFormBuffer*);
 };
 struct S009a5f90
 {
-    void SaveTimeStamp(void*);
 };
 
 struct FUN_009932d0_shell
@@ -2430,46 +2463,52 @@ struct FUN_009932d0_shell
 // @fnv 0x009932d0
 void FUN_009932d0_shell::FUN_009932d0(BGSSaveFormBuffer* apBuffer)
 {
-    apBuffer->SaveData((char*)this + 0x34, 4, 0);
+    auto* manager = reinterpret_cast<::CombatManager*>(this);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&manager->m_uiDebugFlags, 4, 0);
     unsigned int uiSavedCount = 0;
-    unsigned int uiPos = apBuffer->FUN_00865f20();
+    unsigned int uiPos = reinterpret_cast<::FUN_00865f20_shell *>((apBuffer))->FUN_00865f20();
     {
         unsigned int uiMapCount;
         unsigned int uiPos2;
-        for (unsigned int i = 0; i < ((Arr*)this)->GetSize(); i++)
+        for (unsigned int i = 0; i < manager->m_kCombatGroups.m_usSize; i++)
         {
-            Flt* pItem = (Flt*)*((Arr*)this)->GetAt(i);
+            Flt* pItem = reinterpret_cast<Flt*>(manager->m_kCombatGroups.m_pBase[i]);
             if (pItem)
             {
                 unsigned int uiNext;
                 {
                     unsigned int uiID = *pItem;
-                    apBuffer->SaveData(&uiID, 4, 0);
+                    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&uiID, 4, 0);
                 }
-                uiNext = (unsigned int)((BSSimpleList<void*>*)pItem)->GetNext();
-                apBuffer->SaveData(&uiNext, 4, 0);
-                ((S0098de90*)pItem)->WriteToStream(apBuffer);
+                uiNext = reinterpret_cast<::CombatGroupFields*>(pItem)->unk04;
+                reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&uiNext, 4, 0);
+                reinterpret_cast<::SavedCombatState *>((((S0098de90*)pItem)))->WriteToStream((::CombatWriter *)(apBuffer));
                 uiSavedCount++;
             }
         }
-        apBuffer->FUN_00865ff0(uiSavedCount, uiPos);
-        ((S009a59e0*)*(void**)((char*)this + 0x14))->SaveThreats(apBuffer);
+        reinterpret_cast<::FUN_00865ff0_shell *>((apBuffer))->FUN_00865ff0(uiSavedCount, uiPos);
+        manager->m_pThreatMap->SaveThreats(reinterpret_cast<::BGSSaveFormBuffer*>(apBuffer));
         uiMapCount = 0;
-        uiPos2 = apBuffer->FUN_00865f20();
-        for (CPMapItem00993a80* pMapPos = (CPMapItem00993a80*)((MapX*)*(void**)((char*)this + 0x10))->GetFirstPos();
+        uiPos2 = reinterpret_cast<::FUN_00865f20_shell *>((apBuffer))->FUN_00865f20();
+        for (CPMapItem00993a80* pMapPos = static_cast<CPMapItem00993a80*>(
+                 reinterpret_cast<::BGSReconstructFormsInAllFilesMap*>(manager->m_pActorCombatGroupMap)->GetFirstPos());
              pMapPos;)
         {
-            unsigned int uiKey;
+            uintptr_t uiKey;
             unsigned __int64 uiValue;
-            ((CPMap00993a80*)*(void**)((char*)this + 0x10))->GetNextEntry(pMapPos, &uiKey, &uiValue);
-            apBuffer->SerializeFormData((void*)uiKey, 0);
+            reinterpret_cast<::CPMap00993a80*>(manager->m_pActorCombatGroupMap)->GetNextEntry(
+                reinterpret_cast<::CPMapItem00993a80*&>(pMapPos), &uiKey, &uiValue);
+            reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)((void*)uiKey), 0);
             uiMapCount++;
         }
-        apBuffer->FUN_00865ff0(uiMapCount, uiPos2);
+        reinterpret_cast<::FUN_00865ff0_shell *>((apBuffer))->FUN_00865ff0(uiMapCount, uiPos2);
     }
-    ((S009a5f90*)((char*)this + 0x20))->SaveTimeStamp(apBuffer);
-    ((FUN_009a5eb0_shell*)((char*)this + 0x24))->FUN_009a5eb0(apBuffer);
-    ((FUN_009a5eb0_shell*)((char*)this + 0x2c))->FUN_009a5eb0(apBuffer);
+    reinterpret_cast<::fnv_009a5f90::FUN_009a5f90_shell*>(&manager->m_kFourByteManagerData)->SaveTimeStamp(
+        reinterpret_cast<::fnv_009a5f90::BGSSaveFormBuffer*>(apBuffer));
+    reinterpret_cast<::FUN_009a5eb0_shell*>(&manager->m_kFirstEightByteManagerData)->FUN_009a5eb0(
+        reinterpret_cast<::BGSSaveFormBuffer*>(apBuffer));
+    reinterpret_cast<::FUN_009a5eb0_shell*>(&manager->m_kSecondEightByteManagerData)->FUN_009a5eb0(
+        reinterpret_cast<::BGSSaveFormBuffer*>(apBuffer));
 }
 }  // namespace fnv_009932d0
 
@@ -2786,21 +2825,15 @@ struct Actor496
     virtual void unk134();
     virtual void unk135();
     virtual NiPoint3 Predict(float);
-    bool GetDisabled() const;
-    bool GetDeleted() const;
 };
 struct GroupIndexView
 {
-    unsigned int GetIndex();
 };
 struct PointLengthView
 {
-    float FUN_004a7290() const;
 };
 struct CombatMap496
 {
-    void* GetFirstPos();
-    void GetNext(void*&, Actor496**, unsigned __int64*);
 };
 struct Manager496
 {
@@ -2808,7 +2841,7 @@ struct Manager496
     CombatMap496* map;
     int CountNearbyActors(NiPoint3, float, float, Actor496*, int*, int*, int*, int*);
 };
-typedef NiPoint3(__thiscall* Predict496)(Actor496*, float);
+typedef NiPoint3(* Predict496)(Actor496*, float);
 // @fnv 0x00992ba0
 int Manager496::CountNearbyActors(NiPoint3 origin, float range, float time, Actor496* source, int* outSelf,
                                   int* outGroup, int* outAllied, int* outEnemy)
@@ -2822,18 +2855,18 @@ int Manager496::CountNearbyActors(NiPoint3 origin, float range, float time, Acto
     float g = range * range;
     unsigned __int64 f = 0;
     if (d)
-        f = 1ui64 << reinterpret_cast<GroupIndexView*>(d)->GetIndex();
-    void* h = map->GetFirstPos();
+        f = 1ui64 << ((unsigned int)(::FUN_00559450((int *)(reinterpret_cast<GroupIndexView*>(d)))));
+    void* h = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((map))->GetFirstPos();
     while (h)
     {
         Actor496* F = 0;
         unsigned __int64 I = 0;
-        map->GetNext(h, &F, &I);
-        if (!F || (F && (F->IsDead(false) || F->GetDisabled() || F->GetDeleted())))
+        reinterpret_cast<::CPMap00993a80 *>((map))->GetNextEntry((::CPMapItem00993a80 *&)(h), (uintptr_t *)(::Actor496 **)(&F), &I);
+        if (!F || (F && (F->IsDead(false) || reinterpret_cast<::TESForm *>((void *)(F))->GetDisabled() || reinterpret_cast<::FUN_00440d80_shell *>((void *)(F))->FUN_00440d80())))
             continue;
         NiPoint3 A = F->Predict(time);
         NiPoint3 H = origin - A;
-        if (g > reinterpret_cast<const PointLengthView*>(&H)->FUN_004a7290())
+        if (g > reinterpret_cast<::TESCombatStyle *>((void *)(reinterpret_cast<const PointLengthView*>(&H)))->UpdateCombatStyle())
         {
             i++;
             if (F == source)
@@ -2859,22 +2892,13 @@ int Manager496::CountNearbyActors(NiPoint3 origin, float range, float time, Acto
 
 struct CombatGroupShell_00991f80 : ActorCombatGroup
 {
-    void FUN_009869a0(Actor* actor);
-    bool FUN_009867d0(Actor* actor);
-    void FUN_00986740(ActorCombatGroup* group);
-    void FUN_00986410(Actor* actor);
 };
 struct ActorShell_00991f80 : Actor
 {
-    bool FUN_00566950();
-    int FUN_00474cb0();
-    unsigned int FUN_0055d520();
-    unsigned int FUN_0084e3a0();
 };
-typedef void(__thiscall* SetCombatGroupProc_00991f80)(Actor*, ActorCombatGroup*);
-typedef unsigned int(__thiscall* GetActorValueProc_00991f80)(Actor*);
+typedef void(* SetCombatGroupProc_00991f80)(Actor*, ActorCombatGroup*);
+typedef unsigned int(* GetActorValueProc_00991f80)(Actor*);
 extern const char UNK_0108dab0[];
-void __cdecl FUN_005b5e40(const char*, unsigned int, unsigned int);
 struct FUN_00991f80_shell : CombatManager
 {
     FUN_00985d10* FUN_00991f80(Actor* actor);
@@ -2882,52 +2906,45 @@ struct FUN_00991f80_shell : CombatManager
 // @fnv 0x00991f80
 FUN_00985d10* FUN_00991f80_shell::FUN_00991f80(Actor* apActor)
 {
-    ActorCombatGroup* pGroup = g_thePlayer->GetCombatGroup();
-    ((CombatGroupShell_00991f80*)pGroup)->FUN_009869a0(apActor);
-    if (pGroup->GetCount() > 1)
+    ActorCombatGroup* pGroup = ::_g_thePlayer->GetCombatGroup();
+    reinterpret_cast<::FUN_009869a0_shell *>((((CombatGroupShell_00991f80*)pGroup)))->FUN_009869a0(apActor);
+    if (reinterpret_cast<::FUN_00990890_shell *>((pGroup))->FUN_00990890() > 1)
     {
         ActorCombatGroup* pOldGroup = pGroup;
-        ((CombatGroupShell_00991f80*)pOldGroup)->FUN_009869a0((Actor*)g_thePlayer);
+        reinterpret_cast<::FUN_009869a0_shell *>((((CombatGroupShell_00991f80*)pOldGroup)))->FUN_009869a0((Actor*)::_g_thePlayer);
         pGroup = (ActorCombatGroup*)((FUN_00991e80_shell*)this)->FUN_00991e80();
-        ((CombatGroupShell_00991f80*)pGroup)->FUN_009867d0((Actor*)g_thePlayer);
-        ((SetCombatGroupProc_00991f80)(*(void***)g_thePlayer)[0xff])((Actor*)g_thePlayer, pGroup);
-        ((CombatGroupShell_00991f80*)pGroup)->FUN_00986740(pOldGroup);
-        for (unsigned int uStack_14 = 0; uStack_14 < pOldGroup->GetCount(); uStack_14++)
+        reinterpret_cast<::CombatGroup_009867d0 *>((((CombatGroupShell_00991f80*)pGroup)))->FUN_009867d0((::ActorV *)(::Actor *)((Actor*)::_g_thePlayer));
+        ((SetCombatGroupProc_00991f80)(*(void***)::_g_thePlayer)[0xff])((Actor*)::_g_thePlayer, pGroup);
+        reinterpret_cast<::FUN_00986740_shell *>((((CombatGroupShell_00991f80*)pGroup)))->FUN_00986740((::FUN_00986740_shell *)(pOldGroup));
+        for (unsigned int uStack_14 = 0; uStack_14 < reinterpret_cast<::FUN_00990890_shell *>((pOldGroup))->FUN_00990890(); uStack_14++)
         {
-            Actor* piVar5 = pOldGroup->GetIntAt(uStack_14);
-            if (((ActorShell_00991f80*)piVar5)->FUN_00566950())
+            Actor* piVar5 = ((::Actor *)(reinterpret_cast<::Target *>((pOldGroup))->GetIntAt(uStack_14)));
+            if (reinterpret_cast<::MiddleHighProcess *>((((ActorShell_00991f80*)piVar5)))->IsActorInCombat())
             {
-                if (((CombatGroupShell_00991f80*)pGroup)->FUN_009867d0(piVar5))
+                if (reinterpret_cast<::CombatGroup_009867d0 *>((((CombatGroupShell_00991f80*)pGroup)))->FUN_009867d0((::ActorV *)(piVar5)))
                 {
-                    ((CombatGroupShell_00991f80*)pOldGroup)->FUN_009869a0(piVar5);
+                    reinterpret_cast<::FUN_009869a0_shell *>((((CombatGroupShell_00991f80*)pOldGroup)))->FUN_009869a0(piVar5);
                     ((SetCombatGroupProc_00991f80)(*(void***)piVar5)[0xff])((Actor*)piVar5, pGroup);
                     uStack_14--;
                 }
                 else
                 {
-                    FUN_005b5e40(UNK_0108dab0,
-                                 ((ActorShell_00991f80*)piVar5)->FUN_00474cb0()
-                                     ? ((GetActorValueProc_00991f80)(*(void***)piVar5)[0x130 / 4])(piVar5)
-                                     : ((ActorShell_00991f80*)piVar5)->FUN_0055d520(),
-                                 ((ActorShell_00991f80*)piVar5)->FUN_0084e3a0());
+                    ::FUN_005b5e40();
                 }
             }
         }
     }
-    ((CombatGroupShell_00991f80*)pGroup)->FUN_00986410(apActor);
+    reinterpret_cast<::GrpQ *>((((CombatGroupShell_00991f80*)pGroup)))->FUN_00986410((::ActQ *)(apActor));
     FUN_00985d10* pResult = ((FUN_00991e80_shell*)this)->FUN_00991e80();
-    ((CombatGroupShell_00991f80*)pResult)->FUN_009867d0(apActor);
+    reinterpret_cast<::CombatGroup_009867d0 *>((((CombatGroupShell_00991f80*)pResult)))->FUN_009867d0((::ActorV *)(apActor));
     return pResult;
 }
 
 struct ActorShell_992110
 {
-    bool FUN_008b0670(Actor* apTarget);
 };
 struct CombatGroup_992110
 {
-    bool AddMember(Actor* apActor);
-    bool FUN_00986410(Actor* apTarget);
 };
 struct CombatController_992110
 {
@@ -2951,12 +2968,12 @@ CombatController_992110* FUN_00992110_shell::FUN_00992110(Actor* apActor, Actor*
     CombatGroup_992110* pGroup2 = 0;
     if (!pController)
     {
-        if (!((ActorShell_992110*)apActor)->FUN_008b0670(apTarget))
+        if (!reinterpret_cast<::fnv_008b0670::MyActor *>((((ActorShell_992110*)apActor)))->FUN_008b0670(apTarget))
             return 0;
         pGroup2 = (CombatGroup_992110*)FUN_00991e80();
-        pGroup2->AddMember(apActor);
+        reinterpret_cast<::CombatGroup_009867d0 *>((pGroup2))->FUN_009867d0((::ActorV *)(apActor));
         pController = (CombatController_992110*)new CombatController(apActor, (ActorCombatGroup*)pGroup2, false);
-        if (!pGroup2->FUN_00986410(apTarget))
+        if (!reinterpret_cast<::GrpQ *>((pGroup2))->FUN_00986410((::ActQ *)(apTarget)))
         {
             delete pController;
             return 0;
@@ -2964,28 +2981,20 @@ CombatController_992110* FUN_00992110_shell::FUN_00992110(Actor* apActor, Actor*
     }
     else
     {
-        pGroup2 = pController->GetCombatGroup();
-        pGroup2->FUN_00986410(apTarget);
+        pGroup2 = ((::CombatGroup_992110 *)(reinterpret_cast<::EffectSetting *>((pController))->GetCastSound()));
+        reinterpret_cast<::GrpQ *>((pGroup2))->FUN_00986410((::ActQ *)(apTarget));
     }
     return pController;
 }
 
 struct ThreatFloatSetting
 {
-    float* FUN_00403e20();
 };
 struct ThreatIntSetting
 {
-    int* FUN_0043d4d0();
 };
-extern ThreatFloatSetting DAT_011cf3f0;
-extern ThreatFloatSetting DAT_011cea74;
-extern ThreatIntSetting DAT_011ce3cc;
 struct ThreatState
 {
-    bool FUN_009928a0();
-    bool HasCombatFlag40();
-    bool HasCombatFlag80();
 };
 struct ThreatValueOwner
 {
@@ -3037,9 +3046,6 @@ struct ThreatActor
     int unk9c;
     int unka0;
     ThreatValueOwner values;
-    float FUN_00477900();
-    float FUN_006a78f0();
-    ThreatState* FUN_008a7f80();
 };
 struct ThreatPosition
 {
@@ -3048,7 +3054,6 @@ struct ThreatPosition
 float ComputeExplosionDamageFalloff(float, float, float);
 struct ThreatManager
 {
-    int CountNearbyActors(ThreatPosition, float, float, ThreatActor*, int*, int*, int*, int*);
     bool IsThreatWithinLimits(ThreatActor*, ThreatActor*, const ThreatPosition&, float);
 };
 // @fnv 0x00992720
@@ -3057,31 +3062,28 @@ bool ThreatManager::IsThreatWithinLimits(ThreatActor* actor, ThreatActor* target
 {
     if (!target)
         return true;
-    float strength = target->FUN_00477900();
-    float distance = target->FUN_006a78f0();
-    if (distance < *DAT_011cf3f0.FUN_00403e20())
+    float strength = reinterpret_cast<::Standin77900 *>((target))->FUN_00477900();
+    float distance = reinterpret_cast<::PathingRequest *>((target))->GetTargetRadius();
+    if (distance < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ThreatFloatSetting *>(&::originalRuntimeFloatSetting353)))))))
         return true;
-    strength = ComputeExplosionDamageFalloff(strength, distance, *DAT_011cf3f0.FUN_00403e20());
-    if (strength < *DAT_011cea74.FUN_00403e20())
+    strength = ComputeExplosionDamageFalloff(strength, distance, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ThreatFloatSetting *>(&::originalRuntimeFloatSetting353)))))));
+    if (strength < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ThreatFloatSetting *>(&::originalRuntimeFloatSetting354)))))))
         return true;
     int firstB = 0;
     int second_ = 0;
     int third8 = 0;
     int fourth_2 = 0;
-    int result2 = CountNearbyActors(position, strength, radius, actor, &firstB, &second_, &third8, &fourth_2);
-    ThreatState* state = actor->FUN_008a7f80();
-    if (firstB && !state->FUN_009928a0())
+    int result2 = reinterpret_cast<::Manager496 *>(this)->CountNearbyActors((*(::NiPoint3 *)&(const ::ThreatPosition &)(position)), strength, radius, (::Actor496 *)(actor), &firstB, &second_, &third8, &fourth_2);
+    ThreatState* state = ((::ThreatState *)(reinterpret_cast<::Actor8A7 *>((actor))->FUN_008a7f80()));
+    if (firstB && !reinterpret_cast<::CombatFlagHolder *>((state))->FUN_009928a0())
         return false;
-    if (second_ && !state->HasCombatFlag40())
+    if (second_ && !reinterpret_cast<::fnv_009928e0::CombatFlagHolder *>((state))->HasCombatFlag40())
         return false;
-    if (fourth_2 && actor->values.Value(3) >= *DAT_011ce3cc.FUN_0043d4d0() && !state->HasCombatFlag80())
+    if (fourth_2 && actor->values.Value(3) >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ThreatIntSetting *>(&::g_011ce3cc)))))) && !reinterpret_cast<::fnv_00992900::CombatFlagHolder *>((state))->HasCombatFlag80())
         return false;
     return true;
 }
 
-extern "C" void* __cdecl memset(void* dest, int c, unsigned int count);
-
-extern int DAT_011f1590;
 
 class BaseProcess
 {
@@ -3242,7 +3244,6 @@ class FUN_00906f60
 {
   public:
     FUN_00906f60();
-    void FUN_008d7f40(float);
     float x;
     float y;
 };
@@ -3261,7 +3262,6 @@ class FUN_006707c0
   public:
     FUN_006707c0();
     virtual ~FUN_006707c0();
-    void SetPackageType(int);
     int b004;
     int b008;
     int b00C;
@@ -3453,8 +3453,6 @@ class FUN_0097d3a0 : public FUN_006707c0
     FUN_0097d3a0(Actor* a1, int a2, TESPackage* a3);
     virtual ~FUN_0097d3a0();
 
-    void FUN_00984f60(unsigned int);
-    void SetupPackageTarget(TESPackage*);
 
     int unk80;
     int unk84;
@@ -3562,12 +3560,12 @@ FUN_0097d3a0::FUN_0097d3a0(Actor* apActor, int a2, TESPackage* apPackage)
     this->unkB0 = 0;
     this->unkF0 = 0;
     this->unkF4 = 0;
-    this->unkB4.FUN_008d7f40(0.1f);
+    reinterpret_cast<::FUN_008d7f40_shell *>(&(this->unkB4))->FUN_008d7f40(0.1f);
     this->unk148 = 0.0f;
     memset(&this->unk14C, 0, sizeof(this->unk14C));
     this->actor = apActor;
     this->unkC0 = 0;
-    this->SetPackageType(0x12);
+    reinterpret_cast<::PackageEx *>((this))->SetPackageType(0x12);
     this->floatE0 = -1.0f;
     this->byteC4 = 0;
     this->byteE4 = 0;
@@ -3584,7 +3582,7 @@ FUN_0097d3a0::FUN_0097d3a0(Actor* apActor, int a2, TESPackage* apPackage)
     this->byteC6 = 0xff;
     this->byteC5 = 0;
     this->byteF9 = 0;
-    this->FUN_00984f60(0xc);
+    reinterpret_cast<::TESPackage *>((this))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(0xc));
     this->byteF8 = 0;
     this->byte125 = 0;
     this->byte126 = 0;
@@ -3598,9 +3596,9 @@ FUN_0097d3a0::FUN_0097d3a0(Actor* apActor, int a2, TESPackage* apPackage)
     {
         if (apPackage == 0)
         {
-            apPackage = this->actor->GetProcess()->GetAssignedPackage();
+            apPackage = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this->actor))->GetBaseTexture()))->GetAssignedPackage();
         }
-        this->SetupPackageTarget(apPackage);
+        reinterpret_cast<::State *>((this))->SetupPackageTarget((::Package *)(apPackage));
     }
 }
 
@@ -3608,12 +3606,10 @@ namespace fnv_00992480 {
 
 struct TESPackage
 {
-    int GetPackType();
 };
 
 struct SpectatorPackage : public TESPackage
 {
-    void FUN_009f8330(Actor* target);
 };
 
 class BaseProcess_SV
@@ -3763,7 +3759,6 @@ class BaseProcess_SV
 
 struct CombatOwner_SV
 {
-    void FUN_009929e0(unsigned int);
     void FUN_00992480(Actor* a1, Actor* a2);
 };
 
@@ -3776,19 +3771,21 @@ void CombatOwner_SV::FUN_00992480(Actor* apActor, Actor* apTarget)
 
     TESPackage* package;
     {
-        BaseProcess_SV* process = (BaseProcess_SV*)apActor->GetProcess();
+        BaseProcess_SV* process = (BaseProcess_SV*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apActor))->GetBaseTexture()));
         package = process->GetCurrentPackage();
-        if (!package || package->GetPackType() != 0x18)
+        if (!package || reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() != 0x18)
         {
             apActor->Unk_103();
             package = process->GetCurrentPackage();
         }
     }
-    if (package && package->GetPackType() == 0x18)
+    if (package && reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 0x18)
     {
         SpectatorPackage* spectatorPackage = (SpectatorPackage*)package;
-        spectatorPackage->FUN_009f8330(apTarget);
+        reinterpret_cast<::Package *>((spectatorPackage))->FUN_009f8330((::Parameter *)(apTarget));
     }
-    FUN_009929e0((unsigned int)apActor);
+    reinterpret_cast<::CombatOwner *>(this)->FUN_009929e0((uintptr_t)apActor);
 }
 }  // namespace fnv_00992480
+
+#include "generated/data/fallout/ai/combat/combatmanager.inc"

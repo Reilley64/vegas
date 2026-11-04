@@ -1,18 +1,19 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_0043cc80_shell.h"
 struct FUN_0043c610_shell
 {
-    void __thiscall RunVirtualMethod28();
+    void RunVirtualMethod28();
 };
 
 struct FUN_0043daa0_shell
 {
-    void __thiscall FUN_0043daa0();
+    void FUN_0043daa0();
 };
 
 // @fnv 0x0043daa0
-void __thiscall FUN_0043daa0_shell::FUN_0043daa0()
+void FUN_0043daa0_shell::FUN_0043daa0()
 {
     ((FUN_0043c610_shell*)this)->RunVirtualMethod28();
 }
@@ -52,20 +53,22 @@ struct QHeadPtr
 };
 struct IOTask
 {
-    unsigned char GetPriority();
 };
 struct C_00449210
 {
-    void FUN_00449210(int, QHeadPtr*);
+public:
+    void FUN_00449210(int, void*);
 };
 struct FUN_0043d6b0_shell
 {
-    void __thiscall FUN_0043d6b0(QHeadLocal* aHead);
+    char pad00[0x64];
+    C_00449210* m_pQueues;
+    void FUN_0043d6b0(QHeadLocal* aHead);
 };
-// Wraps aHead in a QHeadPtr and passes its priority and the wrapper to the object at this+0x64 via FUN_00449210.
+// Wraps aHead in a QHeadPtr and passes its priority and the wrapper to m_pQueues via FUN_00449210.
 // @fnv 0x0043d6b0
 void FUN_0043d6b0_shell::FUN_0043d6b0(QHeadLocal* aHead)
 {
     QHeadPtr head(aHead);
-    (*(C_00449210**)((char*)this + 0x64))->FUN_00449210(((IOTask*)aHead)->GetPriority(), &head);
+    m_pQueues->FUN_00449210(reinterpret_cast<::FUN_0043cc80_shell *>((((IOTask*)aHead)))->FUN_0043cc80(), &head);
 }

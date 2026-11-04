@@ -1,5 +1,18 @@
 // fallout_shared/magic/enchantmentitem.cpp: EnchantmentItem, MagicShaderHitEffect, SpellItem, Unnamed and more (11 functions)
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00409210.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_0040e500_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FlaggedData.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S_004063e0.h"
+#include "fnv/decl/Twin_00639b40.h"
+#include "fnv/decl/fnv_00406340__EffectItemList.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_009e3000.h"
 #include "enchantmentitem.h"
 
 // @fnv 0x009d6b60
@@ -12,7 +25,7 @@ TEMP_EFFECT_TYPE MagicShaderHitEffect::GetType()
 // @fnv 0x00409340
 void SpellItem::ClearData()
 {
-    effects.RemoveAllEffectItems();
+    reinterpret_cast<::fnv_00406340::EffectItemList *>(&(effects))->FUN_00406340();
 }
 // @fnv 0x00409310
 void EnchantmentItem::ResetFormData()
@@ -29,39 +42,26 @@ EnchantmentItem::EnchantmentItem()
     formVtable = DAT_01012ea4;
     nameVtable = DAT_01012e5c;
     effects.vtable = DAT_01012e44;
-    SetFormType(FORM_ENCHANTMENT);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(FORM_ENCHANTMENT)));
     ResetFormData();
 }
 
-void __cdecl _Deallocate(void*);
 struct FUN_00409160_Class
 {
     void FUN_004092a0();
     void* DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_004092a0, frees this when flags has bit 1 set, and returns this.
-// @fnv 0x00409160
-void* FUN_00409160_Class::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_004092a0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct Unnamed
 {
-    void __thiscall FUN_00409210();
-    void* __thiscall FUN_00409270(unsigned int);
+    void* FUN_00409270(unsigned int);
 };
-void __cdecl _Deallocate(void*);
 // Calls FUN_00409210, then frees this via _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x00409270
-void* __thiscall Unnamed::FUN_00409270(unsigned int flags)
+void* Unnamed::FUN_00409270(unsigned int flags)
 {
-    FUN_00409210();
+    reinterpret_cast<::FUN_00409210 *>(this)->FUN_00409210::~FUN_00409210();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -77,27 +77,21 @@ struct MagicItem
 };
 struct TESTopicInfo
 {
-    TESSound* GetConversationData();
-    void SetSpeaker(MagicItem*);
     virtual ~TESTopicInfo();
 };
 struct EP_008c48d0
 {
-    MagicItem* GetEntryPoint();
 };
 struct CP_008c48d0
 {
-    TESSound* GetPrevPath();
 };
 struct BGSAcousticSpace
 {
-    void SetNoonSound(TESSound*);
 };
 struct TES
 {
-    void SetDawnSound(TESSound*);
 };
-struct FUN_00409400_shell
+struct FUN_00409400_shell : ::EnchantmentItem
 {
     void CopySoundAndSpeakerData(MagicItem*);
 };
@@ -108,24 +102,21 @@ void FUN_00409400_shell::CopySoundAndSpeakerData(MagicItem* apItem)
     EnchantmentItem* info = dynamic_cast<EnchantmentItem*>(apItem);
     if (!info)
         return;
-    ((BGSAcousticSpace*)((char*)this - 0x18))->SetNoonSound(((TESTopicInfo*)info)->GetConversationData());
-    ((TESTopicInfo*)((char*)this - 0x18))->SetSpeaker(((EP_008c48d0*)info)->GetEntryPoint());
-    ((TES*)((char*)this - 0x18))->SetDawnSound(((CP_008c48d0*)info)->GetPrevPath());
-    ((char*)this)[0x28] = ((char*)info)[0x40];
+    reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)((char*)this - 0x18))))->SetValue((std::intptr_t)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)info)))))));
+    reinterpret_cast<::FUN_00409480_shell *>((((TESTopicInfo*)((char*)this - 0x18))))->FUN_00409480((::TESActorBase *)(::MagicItem *)(((::MagicItem *)(reinterpret_cast<::Twin_00639b40 *>((((EP_008c48d0*)info)))->GetEntryPoint()))));
+    reinterpret_cast<::LowProcess *>((((TES*)((char*)this - 0x18))))->SetCurrentBoundObject((::TESBoundObject *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)info)))->GetPrevPath()))));
+    this->effects.unk04 = (*(char*)&info->flags);
 }
 
 namespace fnv_004094a0 {
 struct FlaggedData
 {
-    bool ContainsAnyFlag(unsigned int);
 };
 struct EP_008c48d0
 {
-    void* GetEntryPoint();
 };
 struct S_004063e0
 {
-    float GetTotalCost(int);
 };
 
 struct FUN_004094a0_Class
@@ -137,20 +128,19 @@ struct FUN_004094a0_Class
 // @fnv 0x004094a0
 float FUN_004094a0_Class::FUN_004094a0(int apActor)
 {
-    if (((FlaggedData*)((char*)this - 0x24))->ContainsAnyFlag(1))
+    if (((bool)(reinterpret_cast<::FlaggedData *>((((FlaggedData*)((char*)this - 0x24))))->ContainsAnyFlag(1))))
     {
-        return (float)(long)((EP_008c48d0*)((char*)this - 0x24))->GetEntryPoint();
+        return (float)(std::intptr_t)((void *)(reinterpret_cast<::Twin_00639b40 *>((((EP_008c48d0*)((char*)this - 0x24))))->GetEntryPoint()));
     }
     else
     {
-        return ((S_004063e0*)this)->GetTotalCost(0);
+        return reinterpret_cast<::S_004063e0 *>((((S_004063e0*)this)))->GetTotalCost((::Actor *)(0));
     }
 }
 }  // namespace fnv_004094a0
 
 struct IMH
 {
-    int FUN_00586150(void);
 };
 
 struct IngredientItem : MagicItem
@@ -169,7 +159,7 @@ bool FUN_00409fd0_shell::FUN_00409fd0(MagicItem* apCompare)
     EnchantmentItem* penchantment = (EnchantmentItem*)dynamic_cast<IngredientItem*>(apCompare);
     if (!penchantment)
         return true;
-    if (((IMH*)((char*)penchantment))->FUN_00586150() != ((IMH*)((char*)this - 0x30))->FUN_00586150() ||
+    if (((std::intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)((char*)penchantment))))->FUN_00586150())) != ((int)(std::uintptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)((char*)this - 0x30))))->FUN_00586150())) ||
         *(unsigned char*)((char*)penchantment + 0xa0) != *(unsigned char*)((char*)this + 0x70))
         return true;
     return false;
@@ -191,14 +181,22 @@ struct TertiaryBase
 };
 struct FUN_004092a0 : PrimaryBase, SecondaryBase, TertiaryBase
 {
-    void FUN_00409340();
     ~FUN_004092a0();
 };
+// Calls FUN_004092a0, frees this when flags has bit 1 set, and returns this.
+// @fnv 0x00409160
+void* FUN_00409160_Class::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004092a0 *>(this)->FUN_004092a0::~FUN_004092a0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor that calls FUN_00409340 before the object is destroyed.
 // @fnv 0x004092a0
 FUN_004092a0::~FUN_004092a0()
 {
-    FUN_00409340();
+    reinterpret_cast<::SpellItem *>(this)->ClearData();
 }
 
 struct EnchantmentMagicPart : MagicItem
@@ -215,9 +213,6 @@ struct EnchantmentComparison : PrimaryBase, EnchantmentMagicPart
     unsigned int charge;
     unsigned int cost;
     unsigned char flags;
-    unsigned int GetField38();
-    unsigned int FUN_00639b40();
-    unsigned int FUN_005f36f0();
     virtual bool FUN_00409360(MagicItem* object);
 };
 
@@ -229,9 +224,9 @@ bool EnchantmentComparison::FUN_00409360(MagicItem* apMagicItem)
     if (pEnchantmentItem == 0)
         return true;
 
-    if (reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)->GetField38() != GetField38() ||
-        reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)->FUN_00639b40() != FUN_00639b40() ||
-        reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)->FUN_005f36f0() != FUN_005f36f0() ||
+    if (((unsigned int)(::GetField38((char *)(reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem))))) != ((unsigned int)(::GetField38((char *)this))) ||
+        ((std::uintptr_t)(reinterpret_cast<::Twin_00639b40 *>((reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)))->GetEntryPoint())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())) ||
+        ((std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)))->GetPrevPath())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) ||
         pEnchantmentItem->flags != flags)
         return true;
     return false;

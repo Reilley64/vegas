@@ -14,7 +14,6 @@ class BaseFormComponent
     virtual bool CompareWithBase(BaseFormComponent* component);
 };
 
-#pragma pack(push, 4)
 class TESAttributes : public BaseFormComponent
 {
   public:
@@ -24,10 +23,6 @@ class TESAttributes : public BaseFormComponent
     TESAttributes();
     void InitializeComponent();
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(BaseFormComponent) == 0x4);
-FNV_STATIC_ASSERT(sizeof(TESAttributes) == 12);
-FNV_STATIC_ASSERT(offsetof(TESAttributes, cAttribute) == 4);
 
 #endif

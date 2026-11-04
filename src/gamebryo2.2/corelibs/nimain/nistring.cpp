@@ -2,12 +2,15 @@
 // src/gamebryo2.2/corelibs/nimain/nistring.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nistring.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
+#include "fnv/symbols_00aa1000.h"
 struct StringPointerRecord
 {
     char* m_kHandle;
 };
-extern "C" float __cdecl _atof(const char*);
-extern int __cdecl _FUN_00ecbf20(const char*, const char*);
 
 struct FUN_00a88c00_shell : StringPointerRecord
 {
@@ -20,14 +23,14 @@ bool FUN_00a88c00_shell::FUN_00a88c00(float* out)
     if (!m_kHandle)
         return false;
 
-    *out = _atof(m_kHandle);
+    *out = std::atof(m_kHandle);
 
     if (*out == 0.0f)
     {
         if (m_kHandle)
         {
-            int pos = _FUN_00ecbf20(m_kHandle, "-0");
-            if (pos != 0 && pos - (int)m_kHandle >= 0 && pos - (int)m_kHandle != -1)
+            int pos = ((int)(std::uintptr_t)(std::strpbrk((char *)(m_kHandle), "-0")));
+            if (pos != 0 && pos - (intptr_t)m_kHandle >= 0 && pos - (intptr_t)m_kHandle != -1)
                 return true;
         }
         return false;
@@ -36,7 +39,6 @@ bool FUN_00a88c00_shell::FUN_00a88c00(float* out)
 }
 
 char* __cdecl AllocStringHandle(const char*);
-extern "C" unsigned int __cdecl strlen(const char*);
 struct MyStr
 {
     char* m_kHandle;
@@ -53,8 +55,6 @@ MyStr& MyStr::AssignString(const char* acString)
     return *this;
 }
 
-void __cdecl _NiFreeAlias(void*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct S00a88bc0
 {
     char* m_kHandle;
@@ -73,7 +73,7 @@ void S00a88bc0::ReleaseHandle()
             char* tmp = m_kHandle;
             if (tmp)
             {
-                _NiFreeAlias(tmp - 12);
+                ::FUN_00aa10f0(tmp - 12);
                 m_kHandle = 0;
             }
         }
@@ -82,8 +82,6 @@ void S00a88bc0::ReleaseHandle()
 }
 
 unsigned int __cdecl FUN_00a88ac0(unsigned int);
-void* __cdecl _NiMalloc(unsigned int);
-void* __cdecl _memmove(void*, const void*, unsigned int);
 
 // Allocates a handle for a copy of pcStr, stores the length before the string and returns a pointer to the copied string, or 0 on failure.
 // @fnv 0x00a88b10
@@ -98,7 +96,7 @@ char* __cdecl AllocStringHandle(const char* pcSource)
         uiSize = 1;
     unsigned int uiAlloc = uiSize + 0xd;
     unsigned int uiRet = FUN_00a88ac0(uiAlloc);
-    unsigned int* pkMem = (unsigned int*)_NiMalloc(uiRet);
+    unsigned int* pkMem = (unsigned int*)::FUN_00aa1070(uiRet);
     *pkMem = uiRet;
     char* pcHandle = (char*)(pkMem + 3);
     pkMem[1] = 1;
@@ -107,7 +105,7 @@ char* __cdecl AllocStringHandle(const char* pcSource)
     if (!pcHandle)
         return 0;
 
-    _memmove(pcHandle, pcSource, uiLen + 1);
+    std::memmove(pcHandle, pcSource, uiLen + 1);
     *(unsigned int*)(pcHandle - 4) = uiLen;
     return pcHandle;
 }

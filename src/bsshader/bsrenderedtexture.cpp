@@ -1,12 +1,15 @@
 // bsshader/bsrenderedtexture.cpp: BSRenderedTexture (3 functions)
 
+#include <cstdint>
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/symbols_01270000.h"
 #include "bsrenderedtexture_decls.h"
 // @fnv 0x00b6b260
 NiRenderTargetGroup* BSRenderedTexture::GetGroup()
 {
     if (!this)
         return 0;
-    if (!(spTexture[0] ? spTexture[0]->IsExactKindOf(&DAT_012708e4) : false))
+    if (!(spTexture[0] ? spTexture[0]->IsExactKindOf(&(*reinterpret_cast<::NiRTTI *>(&::g_012708e4))) : false))
         return m_apRenderTargetGroups[0];
     return m_apRenderTargetGroups[spTexture[0]->face];
 }
@@ -211,15 +214,14 @@ class RendererB6B8
 };
 
 namespace gfxB6B8 {
-extern RendererB6B8* DAT_011f4748;
 }
 
 // Sets m_iFadeIndex to 2 when it is 0 and vfn_17C() returns true, then forwards to FUN_00b6b7d0.
 // @fnv 0x00b6b8d0
-bool __cdecl FUN_00b6b8d0(int iArg, NiRenderTargetGroup* pkGroup)
+bool __cdecl FUN_00b6b8d0(intptr_t iArg, NiRenderTargetGroup* pkGroup)
 {
-    int& iState = gfxB6B8::DAT_011f4748->m_iFadeIndex;
-    if (iState == 0 && gfxB6B8::DAT_011f4748->vfn_17C())
+    int& iState = (*reinterpret_cast<::RendererB6B8 * *>(&::NiRenderer::ms_pRenderer))->m_iFadeIndex;
+    if (iState == 0 && (*reinterpret_cast<::RendererB6B8 * *>(&::NiRenderer::ms_pRenderer))->vfn_17C())
         iState = 2;
     return FUN_00b6b7d0(pkGroup, iArg);
 }

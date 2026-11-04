@@ -1,5 +1,45 @@
 // bsaudio/bsaudio.cpp: BSAudio, AudioUpdateStand, Owner (65 functions)
 
+#include <cstdint>
+#include "fnv/decl/AudioCacheOwner.h"
+#include "fnv/decl/AudioManagerD570.h"
+#include "fnv/decl/AudioMgr70.h"
+#include "fnv/decl/AudioSystem.h"
+#include "fnv/decl/AudioThreadHost_00ad9f30.h"
+#include "fnv/decl/BSAudioManager_.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00ad8540_shell.h"
+#include "fnv/decl/FUN_00ad87d0_Class.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ada1d0_shell.h"
+#include "fnv/decl/FUN_00ada300_shell.h"
+#include "fnv/decl/FUN_00adeff0_cls.h"
+#include "fnv/decl/FUN_00ae6c60_shell.h"
+#include "fnv/decl/OwnerQ3.h"
+#include "fnv/decl/fnv_0083b8d0__FUN_0083b8d0.h"
+#include "fnv/decl/fnv_00ada0f0__BSAudioMgrA0.h"
+#include "fnv/decl/fnv_00adbf50__FUN_00adbf50_cls.h"
+#include "fnv/decl/fnv_00adc160__FUN_00adc160_cls.h"
+#include "fnv/decl/fnv_00adca20__FUN_00adca20_cls.h"
+#include "fnv/decl/fnv_00add630__ADD630Manager.h"
+#include "fnv/decl/fnv_00ae6ca0__BSAudioManager_shell.h"
+#include "fnv/decl/fnv_00ae6cf0__FUN_00ae6cf0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00ad9000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011dc000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
 #include "bsaudio_decls.h"
 
 // @fnv 0x00ad8780
@@ -21,7 +61,7 @@ void BSAudio::DeactivateAudio()
 // @fnv 0x007ec380
 void BSAudio::DisableAudioPlayback()
 {
-    reinterpret_cast<BSAudioManager*>(this)->DisableAudioPlayback(0x3002, false);
+    reinterpret_cast<::FUN_00ad8540_shell *>((reinterpret_cast<BSAudioManager*>(this)))->FUN_00ad8540(0x3002, false);
 }
 
 // @fnv 0x00ad7ae0
@@ -35,7 +75,7 @@ float BSAudio::GetMusicVolume()
 // @fnv 0x00ad8480
 void BSAudio::SetAudioProperty(unsigned int type, unsigned int flags, unsigned int value)
 {
-    BSAudioManager::GetRandomGenerator().SetAudioSettingValue(type, flags, value);
+    reinterpret_cast<::fnv_00adca20::FUN_00adca20_cls *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00adca20(type, flags, value);
 }
 
 // @fnv 0x00ad78b0
@@ -52,7 +92,7 @@ bool SoundPlaybackHandle::Release()
         return false;
     }
 
-    bool released = BSAudioManager::GetRandomGenerator().FUN_00adbf50(uiSoundID);
+    bool released = reinterpret_cast<::fnv_00adbf50::FUN_00adbf50_cls *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00adbf50(uiSoundID);
     if (released)
     {
         uiSoundID = 0xffffffff;
@@ -119,7 +159,7 @@ bool BSAudio::FUN_00ad7c50()
 // @fnv 0x00ad7990
 void BSAudio::FUN_00ad7990(bool value)
 {
-    BSAudioManager::GetRandomGenerator().FUN_00adeff0(value);
+    reinterpret_cast<::FUN_00adeff0_cls *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00adeff0(value);
 }
 
 // @fnv 0x00ad79b0
@@ -144,35 +184,35 @@ void BSAudio::FUN_00ad7940(NiPoint3 front, NiPoint3 top)
 void BSAudio::Update(bool flag)
 {
     BSAudioMemContext m_uiMemoryContext(MEM_CONTEXT_MEM_CONTEXT_AUDIO);
-    BSAudioManager::GetRandomGenerator().Update(flag);
+    reinterpret_cast<::FUN_00ada1d0_shell *>(&(BSAudioManager::GetRandomGenerator()))->InitUISounds(flag);
 }
 
 // @fnv 0x00ad7fa0
 void BSAudio::Precache(char* file, unsigned int size)
 {
     BSAudioMemContext m_uiMemoryContext(MEM_CONTEXT_MEM_CONTEXT_AUDIO);
-    BSAudioManager::GetRandomGenerator().FUN_00add570(file, size);
+    reinterpret_cast<::AudioManagerD570 *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add570(file, size);
 }
 
 // @fnv 0x00ad77f0
 void BSAudio::FUN_00ad77f0(float value, unsigned int flags)
 {
     BSAudioMemContext m_uiMemoryContext(MEM_CONTEXT_MEM_CONTEXT_AUDIO);
-    BSAudioManager::GetRandomGenerator().FUN_00ada300(value, flags);
+    reinterpret_cast<::FUN_00ada300_shell *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00ada300(value, flags);
 }
 
 // @fnv 0x00ad8100
-void BSAudio::FUN_00ad8100(unsigned int type, unsigned int flags, unsigned int value)
+void BSAudio::FUN_00ad8100(const char* type, unsigned int flags, std::intptr_t value)
 {
     BSAudioMemContext m_uiMemoryContext(MEM_CONTEXT_MEM_CONTEXT_AUDIO);
-    BSAudioManager::GetRandomGenerator().FUN_00add6f0(type, flags, value);
+    reinterpret_cast<::OwnerQ3 *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add6f0(type, flags, value);
 }
 
 // @fnv 0x00ad8050
-void BSAudio::ForwardToManager(unsigned int type, unsigned int value)
+void BSAudio::ForwardToManager(const char* type, unsigned int value)
 {
     BSAudioMemContext m_uiMemoryContext(MEM_CONTEXT_MEM_CONTEXT_AUDIO);
-    BSAudioManager::GetRandomGenerator().FUN_00add630(type, value);
+    reinterpret_cast<::fnv_00add630::ADD630Manager *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add630(type, value);
 }
 
 struct FUN_00ad8740_shell : public BSAudio
@@ -184,11 +224,11 @@ struct FUN_00ad8740_shell : public BSAudio
 // @fnv 0x00ad8740
 void FUN_00ad8740_shell::FUN_00ad8740()
 {
-    if (*reinterpret_cast<void (**)()>(reinterpret_cast<char*>(this) + 0x34))
+    if (*reinterpret_cast<void (**)()>(&this->m_pfnShutdownAudio))
     {
-        (*reinterpret_cast<void (**)()>(reinterpret_cast<char*>(this) + 0x34))();
+        (*reinterpret_cast<void (**)()>(&this->m_pfnShutdownAudio))();
     }
-    char* p = reinterpret_cast<char*>(this) + 0x14;
+    char* p = reinterpret_cast<char*>(&this->m_kAudioBackendData);
     *reinterpret_cast<unsigned int*>(p + 8) &= ~1u;
 }
 
@@ -203,14 +243,14 @@ struct MemCtxGuard_00ad7740
     int saved;
     __forceinline MemCtxGuard_00ad7740(int v)
     {
-        int t = g_tls_00ad7740.memContext;
+        int t = (*reinterpret_cast<::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext;
         saved = t;
-        g_tls_00ad7740.memContext = v;
+        (*reinterpret_cast<::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext = v;
     }
     __forceinline ~MemCtxGuard_00ad7740()
     {
         int t = saved;
-        g_tls_00ad7740.memContext = t;
+        (*reinterpret_cast<::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext = t;
     }
 };
 struct AudioUpdateStand
@@ -222,7 +262,7 @@ struct AudioUpdateStand
 void AudioUpdateStand::FUN_00ad7740(bool abFlag)
 {
     MemCtxGuard_00ad7740 guard(0xb);
-    BSAudioManager::GetRandomGenerator().Update(abFlag);
+    reinterpret_cast<::FUN_00ada1d0_shell *>(&(BSAudioManager::GetRandomGenerator()))->InitUISounds(abFlag);
 }
 
 namespace fnv_00ad7fa0 {
@@ -237,14 +277,14 @@ struct MemCtxGuard_00ad7740
     int saved;
     __forceinline MemCtxGuard_00ad7740(int v)
     {
-        int t = g_tls_00ad7740.memContext;
+        int t = (*reinterpret_cast<::fnv_00ad7fa0::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext;
         saved = t;
-        g_tls_00ad7740.memContext = v;
+        (*reinterpret_cast<::fnv_00ad7fa0::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext = v;
     }
     __forceinline ~MemCtxGuard_00ad7740()
     {
         int t = saved;
-        g_tls_00ad7740.memContext = t;
+        (*reinterpret_cast<::fnv_00ad7fa0::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext = t;
     }
 };
 struct AudioUpdateStand
@@ -255,13 +295,12 @@ struct AudioUpdateStand
 void AudioUpdateStand::FUN_00ad7fa0(char* apName, unsigned int aiFlag)
 {
     MemCtxGuard_00ad7740 guard(0xb);
-    BSAudioManager::GetRandomGenerator().FUN_00add570(apName, aiFlag);
+    reinterpret_cast<::AudioManagerD570 *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add570(apName, aiFlag);
 }
 }  // namespace fnv_00ad7fa0
 
 struct FUN_0083b8d0_stub
 {
-    void FUN_0083b8d0();
 };
 struct FUN_00798450_shell
 {
@@ -271,30 +310,32 @@ struct FUN_00798450_shell
 // @fnv 0x00798450
 void* FUN_00798450_shell::FUN_00798450(unsigned int flags)
 {
-    ((FUN_0083b8d0_stub*)this)->FUN_0083b8d0();
+    reinterpret_cast<::fnv_0083b8d0::FUN_0083b8d0 *>((((FUN_0083b8d0_stub*)this)))->fnv_0083b8d0::FUN_0083b8d0::~FUN_0083b8d0();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct TESResponse
 {
-    int GetNext();
 };
 struct Tile
 {
-    void Set(int, float, bool);
 };
-void* __cdecl FUN_004b7210();
-extern int DAT_011da9a4;
-// If DAT_011da9a4 is set, stores 7 at offset 0x28 and calls Set(0xfa9, 255.0f, true) on the next TESResponse tile.
+// The menu field FUN_007c2420 sets; the pad stands for members not named here.
+struct MenuStateView
+{
+    char pad00[0x28];
+    int m_iState;
+};
+// If DAT_011da9a4 is set, stores 7 in its m_iState and calls Set(0xfa9, 255.0f, true) on the next TESResponse tile.
 // @fnv 0x007c2420
 void FUN_007c2420()
 {
     if (DAT_011da9a4)
     {
-        *(int*)(DAT_011da9a4 + 0x28) = 7;
-        ((Tile*)((TESResponse*)FUN_004b7210())->GetNext())->Set(0xfa9, 255.0f, true);
+        ((MenuStateView*)DAT_011da9a4)->m_iState = 7;
+        reinterpret_cast<::FUN_00a012d0_t *>((((Tile*)((reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60())))))->FUN_00a012d0(0xfa9, 255.0f, true);
     }
 }
 
@@ -309,11 +350,11 @@ void FUN_00aa4a50_shell2::FUN_00aa4a50(int a)
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return g_audioThreadMode;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 inline void SetMode(int v)
 {
-    g_audioThreadMode = v;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
 }
 struct AudioThreadModeScope
 {
@@ -321,7 +362,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        g_audioThreadMode = 11;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -330,11 +371,9 @@ struct AudioThreadModeScope
 };
 struct FUN_00ada0f0_stub
 {
-    void FUN_00ada0f0();
 };
 struct FUN_00ad9870_stub
 {
-    void FUN_00ad9870();
 };
 struct FUN_00ad7150_shell
 {
@@ -356,9 +395,9 @@ void FUN_00ad7150_shell::FUN_00ad7150()
     if (IsActive())
     {
         if (bFlag6)
-            ((FUN_00ada0f0_stub*)&BSAudioManager::GetRandomGenerator())->FUN_00ada0f0();
+            reinterpret_cast<::fnv_00ada0f0::BSAudioMgrA0 *>((((FUN_00ada0f0_stub*)&BSAudioManager::GetRandomGenerator())))->FUN_00ada0f0();
         bFlag5 = false;
-        ((FUN_00ad9870_stub*)&BSAudioManager::GetRandomGenerator())->FUN_00ad9870();
+        reinterpret_cast<::AudioMgr70 *>((((FUN_00ad9870_stub*)&BSAudioManager::GetRandomGenerator())))->FUN_00ad9870();
     }
 }
 
@@ -369,7 +408,6 @@ struct FUN_00ad78e0_obj
     virtual void v2();
     virtual const NiPoint3* v3();
 };
-extern NiPoint3 _NiPoint3_ZERO;
 struct FUN_00ad78e0_shell
 {
     FUN_00ad78e0_obj* pObj;
@@ -384,24 +422,22 @@ struct FUN_00ad78e0_cls
 // @fnv 0x00ad78e0
 NiPoint3 FUN_00ad78e0_cls::FUN_00ad78e0()
 {
-    const NiPoint3* p = pObj ? pObj->v3() : &_NiPoint3_ZERO;
+    const NiPoint3* p = pObj ? pObj->v3() : &::NiPoint3::ZERO;
     return *p;
 }
 
-void __fastcall FUN_00adc160(void*);
 
 // Sets BSAudioManager's master volume to f and calls FUN_00adc160 with the manager.
 // @fnv 0x00ad7b10
-void __fastcall SetMasterVolume(float afVolume, int)
+void SetMasterVolume(float afVolume, int)
 {
     BSAudioManager& mgr = BSAudioManager::GetRandomGenerator();
     mgr.fMasterVolume = afVolume;
-    FUN_00adc160(&mgr);
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((&mgr))->FUN_00adc160();
 }
 
 struct AudioStub
 {
-    void FUN_00adc160();
 };
 
 struct FUN_00ad7b40
@@ -415,26 +451,24 @@ void FUN_00ad7b40::Set(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->m_fVolumeSetting1 = value;
-    reinterpret_cast<AudioStub*>(mgr)->FUN_00adc160();
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((reinterpret_cast<AudioStub*>(mgr)))->FUN_00adc160();
 }
 
 struct FUN_00adc160_shell
 {
-    void __thiscall FUN_00adc160();
 };
 
 // @fnv 0x00ad7b70
-void __fastcall FUN_00ad7b70(void* thisPtr, float m_fVolumeSetting2)
+void FUN_00ad7b70(void* thisPtr, float m_fVolumeSetting2)
 {
     BSAudioManager& instance = BSAudioManager::GetRandomGenerator();
     instance.m_fVolumeSetting2 = m_fVolumeSetting2;
-    ((FUN_00adc160_shell*)&instance)->FUN_00adc160();
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((((FUN_00adc160_shell*)&instance)))->FUN_00adc160();
 }
 
 namespace fnv_00ad7ba0 {
 struct AudioStub
 {
-    void FUN_00adc160();
 };
 
 struct FUN_00ad7ba0
@@ -448,14 +482,13 @@ void FUN_00ad7ba0::Set(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->m_fVolumeSetting3 = value;
-    reinterpret_cast<AudioStub*>(mgr)->FUN_00adc160();
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((reinterpret_cast<AudioStub*>(mgr)))->FUN_00adc160();
 }
 }  // namespace fnv_00ad7ba0
 
 namespace fnv_00ad7bd0 {
 struct AudioStub
 {
-    void FUN_00adc160();
 };
 
 struct FUN_00ad7bd0
@@ -469,14 +502,13 @@ void FUN_00ad7bd0::Set(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->m_fVolumeSetting4 = value;
-    reinterpret_cast<AudioStub*>(mgr)->FUN_00adc160();
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((reinterpret_cast<AudioStub*>(mgr)))->FUN_00adc160();
 }
 }  // namespace fnv_00ad7bd0
 
 namespace fnv_00ad7c00 {
 struct AudioStub
 {
-    void FUN_00adc160();
 };
 
 struct FUN_00ad7c00
@@ -490,11 +522,10 @@ void FUN_00ad7c00::Set(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->m_fVolumeSetting5 = value;
-    reinterpret_cast<AudioStub*>(mgr)->FUN_00adc160();
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((reinterpret_cast<AudioStub*>(mgr)))->FUN_00adc160();
 }
 }  // namespace fnv_00ad7c00
 
-void __fastcall FUN_00adc160(BSAudioManager* m);
 struct FUN_00ad7c30_shell2
 {
     void FUN_00ad7c30();
@@ -502,7 +533,7 @@ struct FUN_00ad7c30_shell2
 // @fnv 0x00ad7c30
 void FUN_00ad7c30_shell2::FUN_00ad7c30()
 {
-    FUN_00adc160(&BSAudioManager::GetRandomGenerator());
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((&BSAudioManager::GetRandomGenerator()))->FUN_00adc160();
 }
 
 struct FUN_00ad7cb0_shell2
@@ -514,7 +545,7 @@ struct FUN_00ad7cb0_shell2
 float FUN_00ad7cb0_shell2::FUN_00ad7cb0()
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
-    float val = *(float*)((char*)mgr + 0x15c);
+    float val = mgr->m_fVolumeSetting7;
     return val;
 }
 
@@ -573,7 +604,6 @@ float FUN_00ad7d70::Get()
 namespace fnv_00ad7da0 {
 struct AudioStub
 {
-    void FUN_00adc160();
 };
 
 struct FUN_00ad7da0
@@ -587,14 +617,13 @@ void FUN_00ad7da0::Set(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->m_fVolumeSetting6 = value;
-    reinterpret_cast<AudioStub*>(mgr)->FUN_00adc160();
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((reinterpret_cast<AudioStub*>(mgr)))->FUN_00adc160();
 }
 }  // namespace fnv_00ad7da0
 
 namespace fnv_00ad7dd0 {
 struct AudioStub
 {
-    void FUN_00adc160();
 };
 
 struct FUN_00ad7dd0
@@ -608,14 +637,13 @@ void FUN_00ad7dd0::Set(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->m_fVolumeSetting7 = value;
-    reinterpret_cast<AudioStub*>(mgr)->FUN_00adc160();
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((reinterpret_cast<AudioStub*>(mgr)))->FUN_00adc160();
 }
 }  // namespace fnv_00ad7dd0
 
 namespace fnv_00ad7e00 {
 struct AudioStub
 {
-    void FUN_00adc160();
 };
 
 struct FUN_00ad7e00
@@ -629,14 +657,13 @@ void FUN_00ad7e00::Set(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->m_fVolumeSetting8 = value;
-    reinterpret_cast<AudioStub*>(mgr)->FUN_00adc160();
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((reinterpret_cast<AudioStub*>(mgr)))->FUN_00adc160();
 }
 }  // namespace fnv_00ad7e00
 
 namespace fnv_00ad7e30 {
 struct AudioStub
 {
-    void FUN_00adc160();
 };
 
 struct FUN_00ad7e30
@@ -650,11 +677,10 @@ void FUN_00ad7e30::Set(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->m_fVolumeSetting9 = value;
-    reinterpret_cast<AudioStub*>(mgr)->FUN_00adc160();
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((reinterpret_cast<AudioStub*>(mgr)))->FUN_00adc160();
 }
 }  // namespace fnv_00ad7e30
 
-void __fastcall FUN_00adc160(BSAudioManager*);
 struct FUN_00ad7e60_shell
 {
     void FUN_00ad7e60(float v);
@@ -664,10 +690,9 @@ void FUN_00ad7e60_shell::FUN_00ad7e60(float v)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->m_fVolumeSetting10 = v;
-    FUN_00adc160(mgr);
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((mgr))->FUN_00adc160();
 }
 
-void __fastcall FUN_00adc160(BSAudioManager*);
 struct FUN_00ad7e90_shell
 {
     void FUN_00ad7e90(float v);
@@ -677,10 +702,9 @@ void FUN_00ad7e90_shell::FUN_00ad7e90(float v)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->m_fVolumeSetting11 = v;
-    FUN_00adc160(mgr);
+    reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((mgr))->FUN_00adc160();
 }
 
-void __fastcall FUN_00ad87d0(BSAudioManager* m);
 struct FUN_00ad7ec0_shell2
 {
     void FUN_00ad7ec0();
@@ -688,18 +712,18 @@ struct FUN_00ad7ec0_shell2
 // @fnv 0x00ad7ec0
 void FUN_00ad7ec0_shell2::FUN_00ad7ec0()
 {
-    FUN_00ad87d0(&BSAudioManager::GetRandomGenerator());
+    reinterpret_cast<::FUN_00ad87d0_Class *>((&BSAudioManager::GetRandomGenerator()))->FUN_00ad87d0();
 }
 
 namespace fnv_00ad7ee0 {
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return g_audioThreadMode;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 inline void SetMode(int v)
 {
-    g_audioThreadMode = v;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
 }
 struct AudioThreadModeScope
 {
@@ -707,7 +731,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        g_audioThreadMode = 11;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -716,18 +740,17 @@ struct AudioThreadModeScope
 };
 struct FUN_00ae5ff0_stub
 {
-    int FUN_00ae5ff0(unsigned int);
 };
 struct FUN_00ad7ee0_shell
 {
-    int FUN_00ad7ee0(unsigned int n);
+    void* FUN_00ad7ee0(unsigned int n);
 };
 // Saves the current audio thread mode, sets it to 11 for the duration of the call, then restores it and returns the result of FUN_00ae5ff0(n).
 // @fnv 0x00ad7ee0
-int FUN_00ad7ee0_shell::FUN_00ad7ee0(unsigned int n)
+void* FUN_00ad7ee0_shell::FUN_00ad7ee0(unsigned int n)
 {
     AudioThreadModeScope scope;
-    return ((FUN_00ae5ff0_stub*)&BSAudioManager::GetRandomGenerator())->FUN_00ae5ff0(n);
+    return ((reinterpret_cast<::AudioSystem *>((((FUN_00ae5ff0_stub*)&BSAudioManager::GetRandomGenerator())))->FUN_00ae5ff0(n)));
 }
 }  // namespace fnv_00ad7ee0
 
@@ -735,11 +758,11 @@ namespace fnv_00ad81c0 {
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return g_audioThreadMode;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 inline void SetMode(int v)
 {
-    g_audioThreadMode = v;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
 }
 struct AudioThreadModeScope
 {
@@ -747,7 +770,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        g_audioThreadMode = 11;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -756,7 +779,6 @@ struct AudioThreadModeScope
 };
 struct FUN_00ae6bf0_stub
 {
-    void SetAudioCacheSize(unsigned int);
 };
 struct FUN_00ad81c0_shell
 {
@@ -767,7 +789,7 @@ struct FUN_00ad81c0_shell
 void FUN_00ad81c0_shell::SetAudioThreadModeAndForward(unsigned int auiValue)
 {
     AudioThreadModeScope scope;
-    ((FUN_00ae6bf0_stub*)&BSAudioManager::GetRandomGenerator())->SetAudioCacheSize(auiValue);
+    reinterpret_cast<::AudioCacheOwner *>((((FUN_00ae6bf0_stub*)&BSAudioManager::GetRandomGenerator())))->SetAudioCacheSize(auiValue);
 }
 }  // namespace fnv_00ad81c0
 
@@ -775,11 +797,11 @@ namespace fnv_00ad8270 {
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return g_audioThreadMode;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 inline void SetMode(int v)
 {
-    g_audioThreadMode = v;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
 }
 struct AudioThreadModeScope
 {
@@ -787,7 +809,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        g_audioThreadMode = 11;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -796,7 +818,6 @@ struct AudioThreadModeScope
 };
 struct FUN_00ae6c60_stub
 {
-    int FUN_00ae6c60();
 };
 struct FUN_00ad8270_shell
 {
@@ -806,7 +827,7 @@ struct FUN_00ad8270_shell
 int FUN_00ad8270_shell::FUN_00ad8270()
 {
     AudioThreadModeScope scope;
-    return ((FUN_00ae6c60_stub*)&BSAudioManager::GetRandomGenerator())->FUN_00ae6c60();
+    return reinterpret_cast<::FUN_00ae6c60_shell *>((((FUN_00ae6c60_stub*)&BSAudioManager::GetRandomGenerator())))->FUN_00ae6c60();
 }
 }  // namespace fnv_00ad8270
 
@@ -814,11 +835,11 @@ namespace fnv_00ad8320 {
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return g_audioThreadMode;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 inline void SetMode(int v)
 {
-    g_audioThreadMode = v;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
 }
 struct AudioThreadModeScope
 {
@@ -826,7 +847,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        g_audioThreadMode = 11;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -835,7 +856,6 @@ struct AudioThreadModeScope
 };
 struct FUN_00ae6ca0_stub
 {
-    void FUN_00ae6ca0(bool);
 };
 struct FUN_00ad8320_shell
 {
@@ -846,7 +866,7 @@ struct FUN_00ad8320_shell
 void FUN_00ad8320_shell::FUN_00ad8320(bool b)
 {
     AudioThreadModeScope scope;
-    ((FUN_00ae6ca0_stub*)&BSAudioManager::GetRandomGenerator())->FUN_00ae6ca0(b);
+    reinterpret_cast<::fnv_00ae6ca0::BSAudioManager_shell *>((((FUN_00ae6ca0_stub*)&BSAudioManager::GetRandomGenerator())))->FUN_00ae6ca0(b);
 }
 }  // namespace fnv_00ad8320
 
@@ -854,11 +874,11 @@ namespace fnv_00ad83d0 {
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return g_audioThreadMode;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 inline void SetMode(int v)
 {
-    g_audioThreadMode = v;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
 }
 struct AudioThreadModeScope
 {
@@ -866,7 +886,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        g_audioThreadMode = 11;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -875,7 +895,6 @@ struct AudioThreadModeScope
 };
 struct FUN_00ae6cf0_stub
 {
-    bool FUN_00ae6cf0();
 };
 struct FUN_00ad83d0_shell
 {
@@ -885,15 +904,13 @@ struct FUN_00ad83d0_shell
 bool FUN_00ad83d0_shell::FUN_00ad83d0()
 {
     AudioThreadModeScope scope;
-    return ((FUN_00ae6cf0_stub*)&BSAudioManager::GetRandomGenerator())->FUN_00ae6cf0();
+    return reinterpret_cast<::fnv_00ae6cf0::FUN_00ae6cf0_shell *>((((FUN_00ae6cf0_stub*)&BSAudioManager::GetRandomGenerator())))->FUN_00ae6cf0();
 }
 }  // namespace fnv_00ad83d0
 
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FUN_00ad7000_stub
 {
     void FUN_00ad7000();
@@ -908,7 +925,7 @@ void* FUN_00ad8790_shell::FUN_00ad8790(unsigned int flags)
 {
     ((FUN_00ad7000_stub*)this)->FUN_00ad7000();
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
@@ -921,21 +938,19 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00ad7230_shell : public BSAudio
 {
     void FUN_00ad7230(bool);
 };
 
-extern __declspec(thread) int iCurrentMemContext;
 
 inline int GetCurrentMemContext()
 {
-    return iCurrentMemContext;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 inline void SetCurrentMemContext(int aiContext)
 {
-    iCurrentMemContext = aiContext;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
 }
 
 struct MemContextScope
@@ -944,7 +959,7 @@ struct MemContextScope
     MemContextScope(int aiContext)
     {
         m_eMemoryContext = GetCurrentMemContext();
-        iCurrentMemContext = aiContext;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
     }
     ~MemContextScope()
     {
@@ -952,7 +967,6 @@ struct MemContextScope
     }
 };
 
-extern bool DAT_01202800;
 
 struct SettingBool
 {
@@ -961,11 +975,10 @@ struct SettingBool
     char* pKey;
     bool& GetBool()
     {
-        return this ? bValue : (DAT_01202800 = false);
+        return this ? bValue : ((*reinterpret_cast<bool *>(&::DAT_01202800)) = false);
     }
 };
 
-extern SettingBool g_011f6dfc;
 
 struct BSAudioState
 {
@@ -985,19 +998,19 @@ void FUN_00ad7230_shell::FUN_00ad7230(bool abUseMultipleThreads)
     {
         return;
     }
-    if (!g_011f6dfc.GetBool() && abUseMultipleThreads)
+    if (!(*reinterpret_cast<::SettingBool *>(&::g_011f6dfc)).GetBool() && abUseMultipleThreads)
     {
         return;
     }
-    if (abUseMultipleThreads && !*(reinterpret_cast<bool*>(this) + 6))
+    if (abUseMultipleThreads && !this->m_bUseMultipleThreads)
     {
-        BSAudioManager::GetRandomGenerator().StartAudioThreads();
+        reinterpret_cast<::AudioThreadHost_00ad9f30 *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00ad9f30();
     }
-    else if (!abUseMultipleThreads && *(reinterpret_cast<bool*>(this) + 6))
+    else if (!abUseMultipleThreads && this->m_bUseMultipleThreads)
     {
-        BSAudioManager::GetRandomGenerator().StopAudioThreads();
+        reinterpret_cast<::BSAudioManager_ *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00ada020();
     }
-    *(reinterpret_cast<bool*>(this) + 6) = abUseMultipleThreads;
+    this->m_bUseMultipleThreads = abUseMultipleThreads;
 }
 
 struct BSAudioSoundHandle
@@ -1015,14 +1028,13 @@ struct FUN_00ad73b0_t : public BSAudio
 {
     BSAudioSoundHandle FUN_00ad73b0(unsigned int, unsigned int);
 };
-extern __declspec(thread) int BSAudioThreadContext;
 __forceinline int BSAudioGetMemContext()
 {
-    return BSAudioThreadContext;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 __forceinline void BSAudioSetMemContext(int aiMemoryContext)
 {
-    BSAudioThreadContext = aiMemoryContext;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
 }
 struct BSAudioScopedMemContext
 {
@@ -1045,15 +1057,14 @@ BSAudioSoundHandle FUN_00ad73b0_t::FUN_00ad73b0(unsigned int aiFormID, unsigned 
 }
 
 namespace fnv_00ad7620 {
-extern __declspec(thread) int iCurrentMemContext;
 
 inline int GetCurrentMemContext()
 {
-    return iCurrentMemContext;
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
 }
 inline void SetCurrentMemContext(int aiContext)
 {
-    iCurrentMemContext = aiContext;
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
 }
 
 struct MemContextScope
@@ -1062,7 +1073,7 @@ struct MemContextScope
     MemContextScope(int aiContext)
     {
         m_eMemoryContext = GetCurrentMemContext();
-        iCurrentMemContext = aiContext;
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
     }
     ~MemContextScope()
     {
@@ -1080,8 +1091,6 @@ struct BSSoundHandleEx
     {}
     ~BSSoundHandleEx()
     {}
-    bool Play(bool);
-    bool SetPosition(float, float, float);
 };
 
 struct FUN_00ae5870_t
@@ -1102,8 +1111,8 @@ BSSoundHandleEx FUN_00ad7620_t::FUN_00ad7620(unsigned int aiFormID, unsigned int
     MemContextScope tempMemContext(11);
     BSSoundHandleEx hndl =
         reinterpret_cast<FUN_00ae5870_t*>(&BSAudioManager::GetRandomGenerator())->FUN_00ae5870(aiFormID, aiTypeFlags);
-    hndl.SetPosition(aLoc.x, aLoc.y, aLoc.z);
-    hndl.Play(true);
+    reinterpret_cast<::FUN_00ad8b60_h *>(&(hndl))->FUN_00ad8b60(aLoc.x, aLoc.y, aLoc.z);
+    reinterpret_cast<::FUN_00ad8830_shell *>(&(hndl))->FUN_00ad8830(true);
     return hndl;
 }
 }  // namespace fnv_00ad7620
@@ -1118,7 +1127,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00ad77f0_shell : public BSAudio
 {
     void FUN_00ad77f0(float, unsigned int);
@@ -1129,27 +1137,26 @@ struct OH2TlsBlock
     char pad[0x2b4];
     int m_iThreadLocalValue;
 };
-extern __declspec(thread) OH2TlsBlock g_OH2Tls;
 struct OH2MemContext
 {
     int m_eMemoryContext;
     __forceinline OH2MemContext(int aiContext)
     {
-        int iOld = g_OH2Tls.m_iThreadLocalValue;
+        int iOld = (*reinterpret_cast<::fnv_00ad77f0::OH2TlsBlock *>(&::g_tlsBlock)).m_iThreadLocalValue;
         m_eMemoryContext = iOld;
-        g_OH2Tls.m_iThreadLocalValue = aiContext;
+        (*reinterpret_cast<::fnv_00ad77f0::OH2TlsBlock *>(&::g_tlsBlock)).m_iThreadLocalValue = aiContext;
     }
     __forceinline ~OH2MemContext()
     {
         int iOld = m_eMemoryContext;
-        g_OH2Tls.m_iThreadLocalValue = iOld;
+        (*reinterpret_cast<::fnv_00ad77f0::OH2TlsBlock *>(&::g_tlsBlock)).m_iThreadLocalValue = iOld;
     }
 };
 // @fnv 0x00ad77f0
 void FUN_00ad77f0_shell::FUN_00ad77f0(float afCurrentGamehour, unsigned int aiWeatherConditions)
 {
     OH2MemContext tempMemContext(0xb);
-    BSAudioManager::GetRandomGenerator().FUN_00ada300(afCurrentGamehour, aiWeatherConditions);
+    reinterpret_cast<::FUN_00ada300_shell *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00ada300(afCurrentGamehour, aiWeatherConditions);
 }
 }  // namespace fnv_00ad77f0
 
@@ -1218,99 +1225,7 @@ namespace sad7c50 {
 
 struct Settings
 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
+    char pad000[0x174];
     unsigned char unk174;
     bool m_bEnableState;
 
@@ -1320,7 +1235,6 @@ struct Settings
     }
 };
 
-Settings* FUN_00ad9060();
 
 struct Owner
 {
@@ -1331,107 +1245,27 @@ struct Owner
 // @fnv 0x00ad7c50
 bool Owner::FUN_00ad7c50()
 {
-    Settings* pkSettings = FUN_00ad9060();
+    Settings* pkSettings = ((::sad7c50::Settings *)(::FUN_00ad9060()));
     return pkSettings->IsEnabled();
 }
 
 }
 
-extern __declspec(thread) int g_tlsMemContext;
 
-namespace sad8050 {
 
-struct MemContextGuard
+#include "fnv/decl/fnv_00ad8100__FUN_00ad8100_shell.h"
+#include "fnv/decl/sad8050__Owner.h"
+
+// Forwards to BSAudio::FUN_00ad8100 (0x00ad8100) for callers that name it through this stand-in.
+void fnv_00ad8100::FUN_00ad8100_shell::FUN_00ad8100(char* apSoundName, unsigned int aiFlags, void* apParam)
 {
-    int m_iPrevious;
-
-    MemContextGuard(int aiMemoryContext)
-    {
-        int iPrevious = g_tlsMemContext;
-        m_iPrevious = iPrevious;
-        g_tlsMemContext = aiMemoryContext;
-    }
-    ~MemContextGuard()
-    {
-        int iPrevious = m_iPrevious;
-        g_tlsMemContext = iPrevious;
-    }
-};
-
-struct Manager
-{
-    void FUN_00add630(int iArg0, int iArg1);
-};
-
-Manager* FUN_00ad9060();
-
-struct Owner
-{
-    void ForwardToManager(int iArg0, int iArg1);
-};
-
-// Sets the thread memory context to 0xb and forwards iArg0 and iArg1 to FUN_00add630 on the Manager returned by FUN_00ad9060.
-// @fnv 0x00ad8050
-void Owner::ForwardToManager(int iArg0, int iArg1)
-{
-    MemContextGuard kGuard(0xb);
-    FUN_00ad9060()->FUN_00add630(iArg0, iArg1);
+    reinterpret_cast<BSAudio*>(this)->FUN_00ad8100(apSoundName, aiFlags, (std::intptr_t)apParam);
 }
 
+// Forwards to BSAudio::ForwardToManager (0x00ad8050) for callers that name it through this stand-in.
+void sad8050::Owner::ForwardToManager(std::intptr_t iArg0, int iArg1)
+{
+    reinterpret_cast<BSAudio*>(this)->ForwardToManager((const char*)iArg0, iArg1);
 }
 
-namespace fnv_00ad8100 {
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
-struct FUN_00ad8100_shell : public BSAudio
-{
-    void FUN_00ad8100(char*, unsigned int, void*);
-};
-
-struct TLSData
-{
-    char pad[0x2b4];
-    int memContext;
-};
-__declspec(thread) TLSData g_tlsData;
-
-static inline int GetCurrentMemContext()
-{
-    return g_tlsData.memContext;
-}
-
-static inline void SetCurrentMemContext(int context)
-{
-    g_tlsData.memContext = context;
-}
-
-struct MemContextScope
-{
-    int oldContext;
-    MemContextScope(int newContext)
-    {
-        oldContext = GetCurrentMemContext();
-        g_tlsData.memContext = newContext;
-    }
-    ~MemContextScope()
-    {
-        SetCurrentMemContext(oldContext);
-    }
-};
-
-// Sets memory context 11 and forwards the sound name, flags, and parameter to BSAudioManager::FUN_00add6f0.
-// @fnv 0x00ad8100
-void FUN_00ad8100_shell::FUN_00ad8100(char* apSoundName, unsigned int aiFlags, void* apParam)
-{
-    MemContextScope tempMemContext(11);
-    BSAudioManager::GetRandomGenerator().FUN_00add6f0((unsigned int)apSoundName, aiFlags, (unsigned int)apParam);
-}
-}  // namespace fnv_00ad8100
+#include "generated/data/bsaudio/bsaudio.inc"

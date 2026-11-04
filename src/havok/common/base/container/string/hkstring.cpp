@@ -2,21 +2,27 @@
 // src/havok/common/base/container/string/hkstring.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/string/hkstring.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl FUN_00ecc7b0(char* dest, const char* src, int count);
+#include <cstdint>
+#include "fnv/decl/B6266F0Array.h"
+#include "fnv/symbols_00c85000.h"
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include "fnv/decl/fnv_00cb0c50__SStringPtr.h"
+#include "fnv/symbols_00cb1000.h"
 
 // @fnv 0x00cb10b0
-void __cdecl CopyIfNonEmpty(char* dest, const char* src, int count)
+void __cdecl CopyIfNonEmpty(char* dest, const char* src, intptr_t count)
 {
     if (count)
-        FUN_00ecc7b0(dest, src, count);
+        std::strncpy(dest, src, count);
 }
 
-void __cdecl FUN_00ec8d33(int a, int b, int c);
 
 // @fnv 0x00cb10f0
-void __cdecl CallWithZeroMiddleArg(int aiFirst, int aiThird)
+void __cdecl CallWithZeroMiddleArg(intptr_t aiFirst, int aiThird)
 {
-    FUN_00ec8d33(aiFirst, 0, aiThird);
+    std::strtoul((const char *)(aiFirst), 0, aiThird);
 }
 
 struct BSAudio;
@@ -28,20 +34,17 @@ struct UnkHolder
 {
     UnkRet* FUN_00c85750();
 };
-extern "C" BSAudio* __cdecl FUN_00c85750();
-extern "C" void __cdecl CallSwappedArgs(BSAudio*, int);
 
 // @fnv 0x00cb13c0
-void __cdecl FUN_00cb13c0(int aiAudio)
+void __cdecl FUN_00cb13c0(intptr_t aiAudio)
 {
-    CallSwappedArgs((BSAudio*)aiAudio, *(int*)((char*)FUN_00c85750() + 0x10));
+    ::CallSwappedArgs((uintptr_t)((BSAudio*)aiAudio), *(int*)((char*)static_cast<BSAudio*>(::FUN_00c85750()) + 0x10));
 }
 
-double __cdecl FUN_00ecdf2d(unsigned int value, int mode);
 // @fnv 0x00cb1110
-float __cdecl ConvertToFloat(unsigned int value)
+float __cdecl ConvertToFloat(uintptr_t value)
 {
-    return FUN_00ecdf2d(value, 0);
+    return std::strtod((const char *)(value), 0);
 }
 
 class hkBool
@@ -68,20 +71,19 @@ hkBool StartsWith(const char* acString, const char* prefix)
     return true;
 }
 
-int __cdecl FUN_00cb10d0(const char* text);
 
 // Compares the tail of text against suffix and stores whether text ends with suffix into result.
 // @fnv 0x00cb1340
 bool* __cdecl EndsWith(bool* result, const char* text, const char* suffix)
 {
-    int textLength = FUN_00cb10d0(text);
-    int suffixLength = FUN_00cb10d0(suffix);
+    intptr_t textLength = ::fnv_00cb10d0::FUN_00cb10d0(text);
+    intptr_t suffixLength = ::fnv_00cb10d0::FUN_00cb10d0(suffix);
     if (textLength < suffixLength)
     {
         *result = false;
         return result;
     }
-    int offset = textLength - suffixLength;
+    intptr_t offset = textLength - suffixLength;
     for (int i = 0; i < suffixLength; ++i)
     {
         if (text[offset + i] != suffix[i])
@@ -103,20 +105,18 @@ class NineIntegerRecord
 
 struct BSAudio
 {
-    int unk00, unk04, unk08, unk0c;
-    int unk10;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
+    void* unk10;
 };
 
-BSAudio* FUN_00c85750();
-void __cdecl FUN_00cb11b0(int a, int b, int c);
 
 // Reads unk10 from the BSAudio returned by FUN_00c85750 and passes it with a and b to FUN_00cb11b0.
 // @fnv 0x00cb13e0
-void __cdecl FUN_00cb13e0(int aiArg1, int aiArg2)
+void __cdecl FUN_00cb13e0(intptr_t aiArg1, int aiArg2)
 {
     NineIntegerRecord router;
-    int c = FUN_00c85750()->unk10;
-    FUN_00cb11b0(aiArg1, aiArg2, c);
+    intptr_t c = (intptr_t)static_cast<BSAudio*>(::FUN_00c85750())->unk10;
+    ::fnv_00cb11b0::FUN_00cb11b0((void *)(aiArg1), aiArg2, (void *)(c));
 }
 
 // @fnv 0x00cb1090
@@ -174,12 +174,11 @@ int __cdecl FUN_00cb1290(const unsigned char* pLeft, const unsigned char* pRight
     return 0;
 }
 
-const char* __cdecl FUN_00cb1150(const char* str, int c);
 
 // @fnv 0x00cb1390
 int __cdecl FUN_00cb1390(const char* str, char acChar)
 {
-    const char* p = FUN_00cb1150(str, acChar);
+    const char* p = ::fnv_00cb1150::FUN_00cb1150(str, acChar);
     return p ? (int)(p - str) : -1;
 }
 
@@ -196,25 +195,20 @@ struct S_00cb1410_Buf
     int unk20;
     S_00cb1410_Buf();
 };
-int __cdecl FUN_00cb1160(int a, int b);
 
 // Constructs a local S_00cb1410_Buf, reads unk10 from FUN_00c85750()'s result, and passes it with a to FUN_00cb1160.
 // @fnv 0x00cb1410
-void __cdecl FUN_00cb1410(int aiValue)
+void __cdecl FUN_00cb1410(intptr_t aiValue)
 {
     S_00cb1410_Buf buf;
-    int r = FUN_00c85750()->unk10;
-    FUN_00cb1160(aiValue, r);
+    intptr_t r = (intptr_t)static_cast<BSAudio*>(::FUN_00c85750())->unk10;
+    ::FUN_00cb1160((const char *)(aiValue), (void *)(r));
 }
 
 struct Sink
 {
-    void FUN_00cb0c50(const char* p, int n);
 };
 
-const char* __cdecl FUN_00cb1130(const char* a, const char* b);
-int __cdecl FUN_00cb10d0(const char* text);
-char* __cdecl FUN_00cb1140(const char* s, int c);
 
 static __declspec(noinline) char* skip(char* p)
 {
@@ -227,10 +221,10 @@ static __declspec(noinline) char* skip(char* p)
 // @fnv 0x00d48440
 static __declspec(noinline) int ParseQuotedValue(const char* pText, const char* pKey, Sink* sink)
 {
-    const char* p = FUN_00cb1130(pText, pKey);
+    const char* p = ::fnv_00cb1130::FUN_00cb1130(pText, pKey);
     if (!p)
         return 0;
-    p += FUN_00cb10d0(pKey);
+    p += ::fnv_00cb10d0::FUN_00cb10d0(pKey);
     p = skip((char*)p);
     if (*p != '=')
         return 0;
@@ -238,10 +232,10 @@ static __declspec(noinline) int ParseQuotedValue(const char* pText, const char* 
     if (*p != '"')
         return 0;
     ++p;
-    char* pQuoteEnd = FUN_00cb1140(p, '"');
+    char* pQuoteEnd = ::fnv_00cb1140::FUN_00cb1140(p, '"');
     if (!pQuoteEnd)
         return 0;
-    sink->FUN_00cb0c50(p, (int)(pQuoteEnd - p));
+    reinterpret_cast<::fnv_00cb0c50::SStringPtr *>((sink))->FUN_00cb0c50(p, (int)(pQuoteEnd - p));
     return 1;
 }
 
@@ -250,66 +244,60 @@ int __cdecl call_it(const char* a, const char* b, Sink* s)
     return ParseQuotedValue(a, b, s);
 }
 
-void __cdecl FUN_00ecddf1(int a, int b, int c, int d);
+void __cdecl FUN_00ecddf1(intptr_t a, int b, intptr_t c, intptr_t d);
 
 // @fnv 0x00cb0f50
-void __cdecl FUN_00cb0f50(int a, int b, int c, int d)
+void __cdecl FUN_00cb0f50(intptr_t a, int b, intptr_t c, intptr_t d)
 {
     FUN_00ecddf1(a, b, c, d);
 }
 
 namespace fnv_00cb1140 {
-extern "C" char* __cdecl _strchr(const char* s, int c);
 
 // @fnv 0x00cb1140
 char* __cdecl FUN_00cb1140(const char* s, int c)
 {
-    return _strchr(s, c);
+    return std::strchr((char *)(s), c);
 }
 }  // namespace fnv_00cb1140
 
 namespace fnv_00cb1150 {
-extern "C" const char* __cdecl FUN_00ec6e30(const char* str, int c);
 
 // @fnv 0x00cb1150
 const char* __cdecl FUN_00cb1150(const char* str, int c)
 {
-    return FUN_00ec6e30(str, c);
+    return ((const char *)(std::strrchr((char *)(str), c)));
 }
 }  // namespace fnv_00cb1150
 
-void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 // @fnv 0x00cb1260
-void* __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int count)
+void* __cdecl FUN_00cb1260(void* dst, const void* src, uintptr_t count)
 {
-    return _memmove(dst, src, count);
+    return std::memmove(dst, src, count);
 }
 
-void* __cdecl FUN_00ec7230(char* a, const char* b, int c);
 // @fnv 0x00cb1270
 void* __cdecl FUN_00cb1270(char* a, const char* b, int c)
 {
-    return FUN_00ec7230(a, b, c);
+    return std::memmove(a, b, c);
 }
 
-extern void __cdecl FUN_00ec61c0(void* dest, int value, unsigned int count);
 
 // @fnv 0x00cb1280
-void __cdecl FUN_00cb1280(void* dest, int value, unsigned int count)
+void __cdecl FUN_00cb1280(void* dest, int value, uintptr_t count)
 {
-    FUN_00ec61c0(dest, value, count);
+    std::memset(dest, value, count);
 }
 
 #include <stdarg.h>
-extern "C" int __cdecl FUN_00ecddf1(char* buf, unsigned int n, const char* fmt, va_list args);
 
 // @fnv 0x00cb0f60
-int __cdecl Vsnprintf(char* buf, int n, const char* fmt, ...)
+int __cdecl Vsnprintf(char* buf, intptr_t n, const char* fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    int ret = FUN_00ecddf1(buf, n, fmt, args);
+    int ret = std::vsnprintf(buf, n, fmt, args);
     va_end(args);
     return ret;
 }
@@ -330,3 +318,24 @@ const char* __cdecl FUN_00cb1130(const char* a, const char* b)
     return strstr(a, b);
 }
 }  // namespace fnv_00cb1130
+
+
+struct Cls;
+
+struct BoolGuard
+{
+    bool flag;
+    intptr_t Get(Cls* owner, intptr_t value);
+};
+
+struct Cls
+{
+    void FUN_00626420(intptr_t value);
+};
+
+// @fnv 0x00626420
+void Cls::FUN_00626420(intptr_t value)
+{
+    BoolGuard g = {};
+    reinterpret_cast<::B6266F0Array *>(this)->FUN_006266f0((::B6266F0Allocator *)(g.Get(this, value)), *(const ::B6266F0Entry *)nullptr);
+}

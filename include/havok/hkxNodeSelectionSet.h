@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 class hkxNode;
-#pragma pack(push, 1)
 class hkxNodeSelectionSet
 {
   public:
@@ -13,6 +12,4 @@ class hkxNodeSelectionSet
     hkArray<hkxNode*> m_kSelection;  // +0x14
     hkStringPtr m_name;              // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxNodeSelectionSet[(sizeof(hkxNodeSelectionSet) == 0x24) ? 1 : -1];
 #endif

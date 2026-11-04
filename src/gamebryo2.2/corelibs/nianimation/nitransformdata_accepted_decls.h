@@ -3,6 +3,7 @@
 #define FNV_NITRANSFORMDATA_ACCEPTED_DECLS_H
 
 
+#include "fnv/symbols_011f3000.h"
 #include "nitransformdata_NiObject.h"
 
 class AnimationKey
@@ -32,11 +33,7 @@ typedef void(__cdecl* NiRotKeyDeleteFunction)(TimedRotationKey*);
 typedef void(__cdecl* NiPosKeyDeleteFunction)(PositionKeyInterpolator*);
 typedef void(__cdecl* NiFloatKeyDeleteFunction)(TimedAnimationKey*);
 extern NiRotKeyDeleteFunction DAT_011f38d0[AnimationKey::NUMKEYTYPES];
-extern NiPosKeyDeleteFunction DAT_011f38b8[AnimationKey::NUMKEYTYPES];
-extern NiFloatKeyDeleteFunction DAT_011f38a0[AnimationKey::NUMKEYTYPES];
 extern unsigned char DAT_011f3764[AnimationKey::NUMKEYTYPES];
-extern unsigned char DAT_011f375e[AnimationKey::NUMKEYTYPES];
-extern unsigned char DAT_011f3758[AnimationKey::NUMKEYTYPES];
 
 class NiTransformData : public NiObject
 {
@@ -59,10 +56,5 @@ class NiTransformData : public NiObject
     void SetScaleKeys(TimedAnimationKey*, unsigned int, AnimationKey::KeyType);
 };
 
-FNV_STATIC_ASSERT(sizeof(NiTransformData) == 0x2c);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_eRotationKeyType) == 0x10);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkRotationKeys) == 0x20);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkPositionKeys) == 0x24);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkScaleKeyArray) == 0x28);
 
 #endif

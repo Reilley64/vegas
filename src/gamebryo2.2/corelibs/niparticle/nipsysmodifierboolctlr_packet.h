@@ -3,12 +3,14 @@
 #define NIPSYSMODIFIERBOOLCTLR_PACKET_H
 
 
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010c0000.h"
+#include "fnv/symbols_01202000.h"
 class NiFixedString
 {
   public:
     const char* value;
 };
-extern NiFixedString EmptyFS;
 
 class NiTimeController
 {
@@ -16,7 +18,5 @@ class NiTimeController
     void SetControllerActive(bool);
 };
 
-extern void* NiPSysModifierCtlr_vtable[];
-extern void* DAT_012027c8;
 
 #endif

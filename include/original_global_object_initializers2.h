@@ -1,26 +1,32 @@
 #ifndef FNV_ORIGINAL_GLOBAL_OBJECT_INITIALIZERS2_H
 #define FNV_ORIGINAL_GLOBAL_OBJECT_INITIALIZERS2_H
 // Owner classes are named after their original constructor address; constructors and destructors stay original.
-class GlobalObject2_0040c150
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_01078000.h"
+#include "SettingT.h"
+class GlobalObject2_0040c150 : public SettingT<GameSettingCollection>
 {
   public:
-    GlobalObject2_0040c150(const char*, int);
-    ~GlobalObject2_0040c150();
-    char storage[4];
+    GlobalObject2_0040c150(const char* key, int value) : SettingT(key, value)
+    {
+    }
 };
-class GlobalObject2_0045cfe0
+class GlobalObject2_0045cfe0 : public SettingT<INISettingCollection>
 {
   public:
-    GlobalObject2_0045cfe0(const char*, const char*);
-    ~GlobalObject2_0045cfe0();
-    char storage[4];
+    GlobalObject2_0045cfe0(const char* key, const char* value) : SettingT(key, value)
+    {
+    }
 };
-class GlobalObject2_004a4a40
+class GlobalObject2_004a4a40 : public SettingT<SettingCollection_011f35a4>
 {
   public:
-    GlobalObject2_004a4a40(const char*, const char*);
-    ~GlobalObject2_004a4a40();
-    char storage[4];
+    GlobalObject2_004a4a40(const char* key, const char* value) : SettingT(key, value)
+    {
+    }
 };
 class GlobalObject2_0096a2d0
 {
@@ -48,37 +54,21 @@ extern const char g_011c3ab0_arg0[];
 extern const char g_011c399c_arg0[];
 extern const char g_011c3a24_arg0[];
 extern const char g_011c3c20_arg0[];
-extern const char g_011c3c20_arg1[];
 extern const char g_011c3c50_arg0[];
-extern const char g_011c3c50_arg1[];
 extern const char g_011c3e0c_arg0[];
-extern const char g_011c3e0c_arg1[];
 extern const char g_011c3cb4_arg0[];
-extern const char g_011c3cb4_arg1[];
 extern const char g_011c3c84_arg0[];
-extern const char g_011c3c84_arg1[];
 extern const char g_011c3e48_arg0[];
-extern const char g_011c3e48_arg1[];
 extern const char g_011c3eb4_arg0[];
-extern const char g_011c3eb4_arg1[];
 extern const char g_011c3c9c_arg0[];
-extern const char g_011c3c9c_arg1[];
 extern const char g_011c3cd8_arg0[];
-extern const char g_011c3cd8_arg1[];
 extern const char g_011c3e28_arg0[];
-extern const char g_011c3e28_arg1[];
 extern const char g_011c3ca8_arg0[];
-extern const char g_011c3ca8_arg1[];
 extern const char g_011c3d34_arg0[];
-extern const char g_011c3d34_arg1[];
 extern const char g_011c3e70_arg0[];
-extern const char g_011c3e70_arg1[];
 extern const char g_011c3e88_arg0[];
-extern const char g_011c3e88_arg1[];
 extern const char g_011c3de4_arg0[];
-extern const char g_011c3de4_arg1[];
 extern const char g_011c4030_arg0[];
-extern const char g_011c4030_arg1[];
 extern const char g_011c3f74_arg0[];
 extern const char g_011c3f74_arg1[];
 extern const char g_011c4024_arg0[];
@@ -92,15 +82,11 @@ extern const char g_011c5bbc_arg1[];
 extern const char g_011c5c50_arg0[];
 extern const char g_011c5c50_arg1[];
 extern const char g_011c5c80_arg0[];
-extern const char g_011c5c80_arg1[];
 extern const char g_011c5a4c_arg0[];
-extern const char g_011c5a4c_arg1[];
 extern const char g_011c5c04_arg0[];
 extern const char g_011c5c04_arg1[];
 extern const char g_011c59e0_arg0[];
-extern const char g_011c59e0_arg1[];
 extern const char g_011c72c0_arg0[];
-extern const char g_011c72c0_arg1[];
 extern const char g_011c7c8c_arg0[];
 extern const char g_011c7c8c_arg1[];
 extern const char g_011c846c_arg0[];
@@ -454,17 +440,12 @@ extern const char g_011da184_arg1[];
 extern const char g_011dac00_arg0[];
 extern const char g_011dac00_arg1[];
 extern const char g_011db3d8_arg0[];
-extern const char g_011db3d8_arg1[];
 extern const char g_011db744_arg0[];
-extern const char g_011db744_arg1[];
 extern const char g_011de25c_arg0[];
 extern const char g_011de25c_arg1[];
 extern const char g_011de72c_arg0[];
-extern const char g_011de72c_arg1[];
 extern const char g_011de740_arg0[];
-extern const char g_011de740_arg1[];
 extern const char g_011de71c_arg0[];
-extern const char g_011de71c_arg1[];
 extern const char g_011dee78_arg0[];
 extern const char g_011dee78_arg1[];
 extern const char g_011ded2c_arg0[];
@@ -474,31 +455,18 @@ extern const char g_011deb94_arg1[];
 extern const char g_011debf0_arg0[];
 extern const char g_011debf0_arg1[];
 extern const char g_011deb88_arg0[];
-extern const char g_011deb88_arg1[];
 extern const char g_011decf8_arg0[];
-extern const char g_011decf8_arg1[];
 extern const char g_011dee9c_arg0[];
-extern const char g_011dee9c_arg1[];
 extern const char g_011dec34_arg0[];
-extern const char g_011dec34_arg1[];
 extern const char g_011dee0c_arg0[];
-extern const char g_011dee0c_arg1[];
 extern const char g_011ded14_arg0[];
-extern const char g_011ded14_arg1[];
 extern const char g_011dee48_arg0[];
-extern const char g_011dee48_arg1[];
 extern const char g_011dea70_arg0[];
-extern const char g_011dea70_arg1[];
 extern const char g_011ded48_arg0[];
-extern const char g_011ded48_arg1[];
 extern const char g_011ded5c_arg0[];
-extern const char g_011ded5c_arg1[];
 extern const char g_011deb48_arg0[];
-extern const char g_011deb48_arg1[];
 extern const char g_011dee8c_arg0[];
-extern const char g_011dee8c_arg1[];
 extern const char g_011debc4_arg0[];
-extern const char g_011debc4_arg1[];
 extern const char g_011dee30_arg0[];
 extern const char g_011dee30_arg1[];
 extern const char g_011deb04_arg0[];

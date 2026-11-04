@@ -2,6 +2,26 @@
 #ifndef FNV_TASK_NIGEOMETRY_DECLS_H
 #define FNV_TASK_NIGEOMETRY_DECLS_H
 
+#include <new>
+#include <windows.h>
+#include <cstring>
+#include "fnv/decl/BA3760Object.h"
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Owner62B.h"
+#include "fnv/decl/S_00a7fea0_Class.h"
+#include "fnv/decl/fnv_00a5c290__FUN_00a5c290_shell.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/decl/fnv_00a89960__WorkerProperties.h"
+#include "fnv/symbols_00a5a000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a92000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 class NiAVObject;
 class NiRTTI
 {
@@ -129,8 +149,6 @@ class NiObject
     virtual void ProcessClone(CloningProcess& process);
     unsigned int m_uiRefCount;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 template <class T> class NiPointer
 {
   public:
@@ -220,11 +238,9 @@ class NiPropertyNode
     }
 };
 extern unsigned int DAT_011f42a4;
-extern unsigned int DAT_011f42a0;
 class RecursiveSpinLock
 {
   public:
-    void Lock(const char* name);
 };
 class ShaderBufferRecord;
 template <class T> class NiTStringPointerMap
@@ -243,7 +259,6 @@ class NiPoint3
     float x, y, z;
     static const NiPoint3 ZERO;
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 #pragma intrinsic(memcpy)
 class NiBound
 {
@@ -264,13 +279,10 @@ class NiBound
         radius = value;
     }
     void Update(const NiBound&, const NiTransform&);
-    void TransformPoint(const NiTransform&);
-    bool FUN_00a92660(const NiBound&);
 };
-extern NiBound DAT_011f4288;
-inline const NiBound& __fastcall PreviousBound(NiBound* b)
+inline const NiBound& PreviousBound(NiBound* b)
 {
-    return b ? *b : DAT_011f4288;
+    return b ? *b : ::g_defaultBound;
 }
 inline bool BoundFlag(unsigned int bits, unsigned int shift)
 {
@@ -278,19 +290,19 @@ inline bool BoundFlag(unsigned int bits, unsigned int shift)
 }
 inline NiBound CopyWorldBound(NiBound* b)
 {
-    return b ? *b : DAT_011f4288;
+    return b ? *b : ::g_defaultBound;
 }
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int);
 };
-extern MemoryManager g_memoryManager;
 class NiLODNode;
+class NiBound;
 class NiScreenLODData
 {
   public:
-    void UpdateScreenBound(NiLODNode*);
+public:
+    void UpdateScreenBound(::NiBound &);
 };
 class NiTransform
 {
@@ -309,7 +321,6 @@ class NiFlags
 class NiObjectNET
 {
   public:
-    void CopyMemberData(NiObjectNET*, CloningProcess&);
 };
 class NiAVObject
 {
@@ -359,13 +370,11 @@ class NiAVObject
     virtual void vfn_a8();
     virtual void vfn_ac();
     virtual void ApplyPropertyState(const NiPropertyState&);
-    void SetName(const NiFixedString&);
     void SetSelectiveUpdateFlags(bool&, bool, bool&);
-    void CopyMemberData();
     void FUN_00a5ac90(NiAVObject*, CloningProcess&);
-    void FUN_00a5abe0(NiAVObject*, void*, CloningProcess&);
-    void AssignCollisionObject(NiCollisionObject*);
-    unsigned char m_pad18[0x14];
+    unsigned char m_pad18[0x8];
+    void* unk0c;
+    unsigned char pad10[0x8];
     void* m_pParentNode;
     NiPointer<NiCollisionObject> m_spCollisionObject;
     NiBound* m_worldBound;
@@ -382,11 +391,6 @@ template <> NiPointer<NiAVObject>& NiPointer<NiAVObject>::operator=(NiAVObject*)
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int) throw();
-    static void* operator new(unsigned int, void* memory) throw()
-    {
-        return memory;
-    }
 };
 class NiD3DShaderInterface : public NiMemObject
 {
@@ -422,7 +426,7 @@ class NiD3DShaderInterface : public NiMemObject
 inline NiD3DShaderInterface* CreateGeometryShader()
 {
     NiD3DShaderInterface* shader = 0;
-    void* memory = NiMemObject::operator new(sizeof(NiD3DShaderInterface));
+    void* memory = ::operator new(sizeof(NiD3DShaderInterface));
     if (memory)
         shader = new (memory) NiD3DShaderInterface;
     return shader;
@@ -436,11 +440,9 @@ inline bool NiIsExactKindOf(const NiRTTI* type, NiD3DShaderInterface* object)
 {
     return object ? object->IsExactKindOf(type) : false;
 }
-extern NiRTTI DAT_011f5d08;
 class NiTexture
 {
   public:
-    const NiFixedString& GetFilename();
 };
 class NiD3DShaderProgram
 {
@@ -451,7 +453,6 @@ class MagicItem;
 class NonActorMagicCaster
 {
   public:
-    void SetSelectedMagicItem(MagicItem*);
 };
 class NiController
 {
@@ -519,7 +520,7 @@ class NiGeometry : public NiAVObject
     {
         if (m_worldBound)
             return *m_worldBound;
-        return DAT_011f4288;
+        return ::g_defaultBound;
     }
     bool GetFlag19() const
     {
@@ -555,8 +556,5 @@ class NiStream
 {
   public:
     NiObject* GetLoadedObject();
-    void ResetStreamState();
-    void ReadStringTableEntry(NiFixedString& value);
-    void ReadFixedString(NiFixedString& value);
 };
 #endif

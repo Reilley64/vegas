@@ -1,10 +1,44 @@
 // fallout_shared/sky/stars.cpp: Stars, StarsLoader (7 functions)
 
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/Calendar.h"
+#include "fnv/decl/F940Owner.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_00476c90_Class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f0180_Class.h"
+#include "fnv/decl/FUN_0057eef0_shell.h"
+#include "fnv/decl/FUN_006366b0_shell.h"
+#include "fnv/decl/FUN_0063b9b0_shell.h"
+#include "fnv/decl/FUN_0063ba30_shell.h"
+#include "fnv/decl/FUN_008d0600_s.h"
+#include "fnv/decl/FUN_00a4ff00_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a6e1f0_shell.h"
+#include "fnv/decl/FUN_00c3a8a0_cls.h"
+#include "fnv/decl/MLx.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_00595000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00966000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
 #include "stars_decls.h"
 // @fnv 0x0063fd90
 void Stars::Initialize(NiNode* node)
 {
-    SkyObject::Initialize(node);
+    reinterpret_cast<::F940Owner *>(this)->CreateSortAdjustNode((::F940Parent *)(node));
 }
 
 struct ThreeByThreeMatrix
@@ -36,7 +70,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiQuaternion
 {
     void SetW(float);
@@ -61,8 +94,6 @@ struct NiQuaternion
     void FromAngleAxisX(float);
     void FromAngleAxisY(float);
     void FromAngleAxisZ(float);
-    void SetRotationFromEulerXYZ(float, float, float);
-    void ToRotationMatrix(ThreeByThreeMatrix*);
     void FromRotationMatrix(void*);
     void Snap();
     static void LoadBinary(NiStream*, NiQuaternion*, unsigned int);
@@ -70,17 +101,15 @@ struct NiQuaternion
     static void SaveBinary(NiStream*, NiQuaternion*, unsigned int);
     void SaveBinary(NiStream*);
     char* FormatToBuffer(char*);
-    void Normalize();
-    void EnsureCanonicalSign();
     static float ISqrt_approx_in_neighborhood(float);
     static float Lerp(float, float, float);
-    static float CalculateSlerpWeight(float, float);
     float m_fVectorX;
     float m_fVectorY;
     float m_fVectorZ;
     float m_fScalarPart;
+public:
+    void MakeUnitLength();
 };
-typedef char _sizecheck_NiQuaternion[sizeof(NiQuaternion) == 16 ? 1 : -1];
 
 struct FUN_004f0160_arg
 {
@@ -88,9 +117,9 @@ struct FUN_004f0160_arg
 };
 
 // @fnv 0x004f0160
-void __fastcall FUN_004f0160(char* _this, FUN_004f0160_arg aQuatArg)
+void FUN_004f0160(char* _this, FUN_004f0160_arg aQuatArg)
 {
-    aQuatArg.kQuat->ToRotationMatrix((ThreeByThreeMatrix*)(_this + 0x34));
+    reinterpret_cast<::FUN_004f0180_Class *>((aQuatArg.kQuat))->FUN_004f0180((::M3_ *)(::ThreeByThreeMatrix *)((ThreeByThreeMatrix*)(_this + 0x34)));
 }
 
 namespace fnv_00640020 {
@@ -125,7 +154,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiPoint3
 {
     static struct blob12 ComponentProduct(void*, void*);
@@ -156,7 +184,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00640020_shell : public Stars
 {
     void UpdateStars(Sky*, float);
@@ -175,22 +202,17 @@ class NiAVObject
     virtual void* IsFadeNode();
     virtual void* IsMultiBoundNode();
     virtual NiGeometry* IsGeometry();
-    void SetAppCulled(bool);
-    void SetLocalRotation(float, float, float, float);
 };
 struct NiNode : public NiAVObject
 {
-    int FUN_00453470();
     NiAVObject* GetAt(unsigned int);
 };
 class NiGeometry : public NiAVObject
 {
   public:
-    NiProperty* GetProperty(int);
 };
 struct BGSTerrainManager
 {
-    unsigned int GetMinLevel();
 };
 struct SkyShaderProperty
 {
@@ -206,44 +228,33 @@ struct NiPoint3Ex
 class WaterShaderSettings;
 struct TESWaterForm
 {
-    WaterShaderSettings* FUN_0057eef0();
 };
 struct SkyObjectS
 {
-    void Update(Sky*, float);
 };
 struct BSAudio
 {
-    void* GetAudioBackendData();
 };
 struct Sky
 {
-    float GetFieldEC();
-    int FUN_00476c90();
 };
 struct FUN_00595fc0_shell
 {
-    float FUN_00595fc0();
 };
 struct FUN_00595f50_shell
 {
-    float FUN_00595f50();
 };
 struct FUN_0063ba30_shell
 {
-    float FUN_0063ba30();
 };
 struct FUN_0063b9b0_shell
 {
-    float FUN_0063b9b0();
 };
 struct FUN_006366b0_shell
 {
-    bool FUN_006366b0();
 };
 struct Call_439090_tgt
 {
-    bool _Call_439090(const void*);
 };
 struct Flt
 {
@@ -264,98 +275,90 @@ template <class T> class SettingT
 class GlobalObject_0040e0b0 : public SettingT<GameSettingCollection>
 {
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting79;
-extern GlobalObject_0040e0b0 g_011ccdc4;
-extern GlobalObject_0040e0b0 g_011ccddc;
-extern GlobalObject_0040e0b0 g_011cce30;
 class Calendar
 {
   public:
-    unsigned int GetGameDaysPassed();
 };
-extern Calendar g_calendar;
-float __cdecl FUN_004b1520(float, float);
 
 // Updates the stars node's fade alpha from the sky hour, recolors star geometry, and rotates the stars node by the elapsed game time.
 // @fnv 0x00640020
 void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
 {
-    if (!((BSAudio*)apSky)->GetAudioBackendData())
+    if (!((void *)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)apSky)))->FUN_0044edb0())))
         return;
-    float fhour = apSky->GetFieldEC();
-    *(float*)((char*)this + 0xc) = 0.0f;
+    float fhour = ::GetFieldEC((const char *)(apSky));
+    this->m_fAlpha = 0.0f;
     static NiPoint3Ex lastColor(0.0f, 0.0f, 0.0f);
-    ((SkyObjectS*)this)->Update(apSky, afSecondsPassed);
-    if (apSky->FUN_00476c90() == 3 || apSky->FUN_00476c90() == 2)
+    reinterpret_cast<::FUN_008d0600_s *>((((SkyObjectS*)this)))->FUN_008d0600((std::intptr_t)(apSky), afSecondsPassed);
+    if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 3 || ((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 2)
     {
-        if (!((FUN_006366b0_shell*)(unsigned int)*(const Flt*)((char*)this + 4))->FUN_006366b0())
+        if (!reinterpret_cast<::FUN_006366b0_shell *>(((*(FUN_006366b0_shell**)&this->m_pRoot)))->FUN_006366b0())
         {
-            ((NiAVObject*)(unsigned int)*(const Flt*)((char*)this + 4))->SetAppCulled(true);
+            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pRoot)))->QueueActorDisarm(true);
             return;
         }
-        float fSunsetBegin = ((FUN_00595fc0_shell*)apSky)->FUN_00595fc0();
-        float fSunsetEnd = ((FUN_0063ba30_shell*)apSky)->FUN_0063ba30();
-        float fSunriseEnd = ((FUN_00595f50_shell*)apSky)->FUN_00595f50();
-        float fSunriseBegin = ((FUN_0063b9b0_shell*)apSky)->FUN_0063b9b0();
+        float fSunsetBegin = ::fnv_00595fc0::FUN_00595fc0((char *)(((FUN_00595fc0_shell*)apSky)));
+        float fSunsetEnd = reinterpret_cast<::FUN_0063ba30_shell *>((((FUN_0063ba30_shell*)apSky)))->FUN_0063ba30();
+        float fSunriseEnd = ::fnv_00595f50::FUN_00595f50((::fnv_00595f50::Sky *)(((FUN_00595f50_shell*)apSky)));
+        float fSunriseBegin = reinterpret_cast<::FUN_0063b9b0_shell *>((((FUN_0063b9b0_shell*)apSky)))->FUN_0063b9b0();
         float fBeginFadeIn = fSunsetEnd - (fSunsetEnd - fSunsetBegin) * 0.5f;
         float fEndFadeOut = fSunriseEnd - (fSunriseEnd - fSunriseBegin) * 0.5f;
         if (fSunriseBegin < fhour && fhour < fEndFadeOut)
-            *(float*)((char*)this + 0xc) = (fEndFadeOut - fhour) / (fEndFadeOut - fSunriseBegin);
+            this->m_fAlpha = (fEndFadeOut - fhour) / (fEndFadeOut - fSunriseBegin);
         else if (fEndFadeOut <= fhour && fhour <= fBeginFadeIn)
-            *(float*)((char*)this + 0xc) = 0.0f;
+            this->m_fAlpha = 0.0f;
         else if (fBeginFadeIn < fhour && fhour < fSunsetEnd)
-            *(float*)((char*)this + 0xc) = (fhour - fBeginFadeIn) / (fSunsetEnd - fBeginFadeIn);
+            this->m_fAlpha = (fhour - fBeginFadeIn) / (fSunsetEnd - fBeginFadeIn);
         else
-            *(float*)((char*)this + 0xc) = 1.0f;
-        if (*(float*)((char*)this + 0xc) > 0.0)
+            this->m_fAlpha = 1.0f;
+        if (this->m_fAlpha > 0.0)
         {
-            ((NiAVObject*)(unsigned int)*(const Flt*)((char*)this + 4))->SetAppCulled(false);
-            NiPoint3Ex colorThisFrame = *(NiPoint3Ex*)((TESWaterForm*)apSky)->FUN_0057eef0();
+            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pRoot)))->QueueActorDisarm(false);
+            NiPoint3Ex colorThisFrame = *(NiPoint3Ex*)((::fnv_00640020::WaterShaderSettings *)(reinterpret_cast<::FUN_0057eef0_shell *>((((TESWaterForm*)apSky)))->FUN_0057eef0()));
             NiGeometry* pstarsgeo = 0;
             NiAVObject* pchild = 0;
             unsigned int icount = (unsigned int)*(const Flt*)((char*)this + 8)
-                                      ? ((NiNode*)(unsigned int)*(const Flt*)((char*)this + 8))->FUN_00453470()
+                                      ? reinterpret_cast<::FUN_00453470_shell *>(((*(NiNode**)&this->m_pStarsNode)))->FUN_00453470()
                                       : 0;
             for (unsigned int i = 0; i < icount; i++)
             {
-                pchild = ((NiNode*)(unsigned int)*(const Flt*)((char*)this + 8))->GetAt(i);
+                pchild = (*(NiNode**)&this->m_pStarsNode)->GetAt(i);
                 if (pchild)
                 {
                     pstarsgeo = pchild->IsGeometry();
                     if (pstarsgeo)
                     {
                         SkyShaderProperty* pStarsProp =
-                            (pstarsgeo->GetProperty(3) == 0
+                            (((::fnv_00640020::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pstarsgeo))->FUN_00a59d30(3))) == 0
                                  ? 0
-                                 : ((BGSTerrainManager*)pstarsgeo->GetProperty(3))->GetMinLevel() == 13)
-                                ? (SkyShaderProperty*)pstarsgeo->GetProperty(3)
+                                 : reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)((::fnv_00640020::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pstarsgeo))->FUN_00a59d30(3))))))->GetMinLevel() == 13)
+                                ? (SkyShaderProperty*)((::fnv_00640020::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pstarsgeo))->FUN_00a59d30(3)))
                                 : 0;
                         if (pStarsProp)
                         {
-                            if (((Call_439090_tgt*)&lastColor)->_Call_439090(&colorThisFrame))
+                            if (reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)&lastColor)))->operator==((*(const ::NiPlane *)(&colorThisFrame))))
                             {
                                 pStarsProp->r = colorThisFrame.x;
                                 pStarsProp->g = colorThisFrame.y;
                                 pStarsProp->b = colorThisFrame.z;
                             }
-                            pStarsProp->fAlpha = *(float*)((char*)this + 0xc);
+                            pStarsProp->fAlpha = this->m_fAlpha;
                         }
                     }
                 }
             }
             lastColor = colorThisFrame;
-            float felapsed = g_calendar.GetGameDaysPassed() + apSky->GetFieldEC() / 24.0;
-            float fangle = FUN_004b1520(felapsed, originalRuntimeFloatSetting79.Float()->f) * 6.2831854820251465 /
-                           originalRuntimeFloatSetting79.Float()->f;
-            NiPoint3Ex axis(g_011ccdc4.Float()->f, g_011cce30.Float()->f, g_011ccddc.Float()->f);
-            axis.ComputeMagnitude();
+            float felapsed = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_00640020::Calendar *>(&::g_011de7b8))))->GetGameDaysPassed() + ::GetFieldEC((const char *)(apSky)) / 24.0;
+            float fangle = ::FUN_004b1520(felapsed, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::SettingT< ::fnv_00640020::GameSettingCollection> *>(&::originalRuntimeFloatSetting79))))))->f) * 6.2831854820251465 /
+                           ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::SettingT< ::fnv_00640020::GameSettingCollection> *>(&::originalRuntimeFloatSetting79))))))->f;
+            NiPoint3Ex axis(((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011ccdc4))))))->f, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011cce30))))))->f, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011ccddc))))))->f);
+            reinterpret_cast<::FUN_004a0c10_s *>(&(axis))->FUN_004a0c10();
             if ((unsigned int)*(const Flt*)((char*)this + 8))
-                ((NiNode*)(unsigned int)*(const Flt*)((char*)this + 8))
-                    ->SetLocalRotation(fangle, axis.x, axis.y, axis.z);
+                reinterpret_cast<::NiAVObject *>(((*(NiNode**)&this->m_pStarsNode)))->SetLocalRotation(fangle, axis.x, axis.y, axis.z);
         }
         else
         {
-            ((NiAVObject*)(unsigned int)*(const Flt*)((char*)this + 4))->SetAppCulled(true);
+            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pRoot)))->QueueActorDisarm(true);
         }
     }
 }
@@ -371,16 +374,6 @@ struct FUN_0063fd20_shell
     void FUN_0063fd20();
 };
 
-void __cdecl _Deallocate(void* p);
-
-// @fnv 0x0063fcf0
-void* FUN_0063fcf0_shell::DestroyIfFlagged(unsigned int flags)
-{
-    ((FUN_0063fd20_shell*)this)->FUN_0063fd20();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
 
 struct S_0063fd20_Base
 {
@@ -399,6 +392,14 @@ struct FUN_0063fd20 : S_0063fd20_Base
     S_0063fd20_Member m_08;
     virtual ~FUN_0063fd20();
 };
+// @fnv 0x0063fcf0
+void* FUN_0063fcf0_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0063fd20 *>((((FUN_0063fd20_shell*)this)))->FUN_0063fd20::~FUN_0063fd20();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor that calls m_08.FUN_0066b0d0 with 0 before the base destructor runs.
 // @fnv 0x0063fd20
 FUN_0063fd20::~FUN_0063fd20()
@@ -477,9 +478,6 @@ class NiNode
     virtual void virtual_56();
     virtual void virtual_57();
     virtual void InsertChild(NiNode* child);
-    void FUN_00635fe0(bool enabled);
-    void FUN_004902f0(bool enabled);
-    void FUN_00a5a040();
 };
 template <class T> class NiPointer
 {
@@ -818,9 +816,6 @@ struct BSStream
     unsigned int unk5c4;
     unsigned int unk5c8;
     BSStream();
-    bool FUN_00c3a8a0(const char* path, bool);
-    unsigned int GetRefAt21C();
-    NiNode* GetStringAt(unsigned int index);
 };
 class Model
 {
@@ -829,12 +824,7 @@ class Model
     NiNode* object;
     Model(const char*, BSStream*, bool, bool);
     ~Model();
-    NiNode* GetObject3D();
 };
-extern const char* const DAT_011f4428;
-int __cdecl FUN_00406f60(BSStringT<char>*, const char*, ...);
-bool __cdecl FUN_0043b300(const void*, NiNode*);
-void __cdecl FNV_Warning(const char*);
 struct StarsLoader
 {
     unsigned int unk00;
@@ -847,26 +837,26 @@ void StarsLoader::FUN_0063fdb0(const char* path)
 {
     if (!path || !*path)
     {
-        parent->FUN_00635fe0(false);
+        reinterpret_cast<::TaskQueueInterface *>(((parent).operator->()))->FUN_00635fe0(false);
         return;
     }
     BSStringT<char> fileName;
-    FUN_00406f60(&fileName, "%s%s%s", "Meshes", "\\", path);
+    ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&fileName), "%s%s%s", "Meshes", "\\", path);
     {
         BSStream stream;
-        if (!stream.FUN_00c3a8a0(fileName, false) || stream.GetRefAt21C() != 1 ||
-            !FUN_0043b300(&DAT_011f4428, stream.GetStringAt(0)))
+        if (!reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((std::uintptr_t)(fileName.data), false) || ((unsigned int)(::GetRefAt21C((const char *)&(stream)))) != 1 ||
+            !::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<const char *const *>(&::g_011f4428))), (::NiAVObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::MLx *>(&(stream))->GetStringAt(0))))))
         {
-            FNV_Warning("DEFAULT: Cannot load the stars.");
-            parent->FUN_00635fe0(false);
+            ::FUN_005b5e40();
+            reinterpret_cast<::TaskQueueInterface *>(((parent).operator->()))->FUN_00635fe0(false);
             return;
         }
         Model model(fileName, &stream, true, false);
-        parent->FUN_00635fe0(true);
+        reinterpret_cast<::TaskQueueInterface *>(((parent).operator->()))->FUN_00635fe0(true);
         parent->InsertChild(stars);
-        stars = model.GetObject3D();
-        stars->FUN_004902f0(true);
+        stars = ((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)&(model))));
+        reinterpret_cast<::TaskQueueInterface *>(((stars).operator->()))->FUN_004902f0(true);
         parent->AttachChildInAvailableSlot(stars, true);
-        stars->FUN_00a5a040();
+        reinterpret_cast<::FUN_00a5a040_Class *>(((stars).operator->()))->FUN_00a5a040();
     }
 }

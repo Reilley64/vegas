@@ -70,18 +70,17 @@ FUN_00db0920_cls* FUN_00db0920_cls::FUN_00db0920()
 class BoxPointLookup
 {
   public:
-    unsigned char* ContainsKey(unsigned char* result, const unsigned char* key);
 };
 
 class BoxPointInsertion : public FUN_00db0920
 {
   public:
-    int FUN_00db0960(unsigned int a, unsigned int b, const unsigned char* key);
+    int FUN_00db0960(const void* a, const void* b, const unsigned char* key);
 };
 
 // Inserts a key into the entries array if the count is under 8 and the key is not already present, returning the index or -1 on failure.
 // @fnv 0x00db0960
-int BoxPointInsertion::FUN_00db0960(unsigned int aiUnused, unsigned int b, const unsigned char* key)
+int BoxPointInsertion::FUN_00db0960(const void* aiUnused, const void* b, const unsigned char* key)
 {
     FUN_00db0920* self = this;
     unsigned char count = self->count;
@@ -90,7 +89,7 @@ int BoxPointInsertion::FUN_00db0960(unsigned int aiUnused, unsigned int b, const
         return -1;
     }
     unsigned int result;
-    unsigned char* found = reinterpret_cast<BoxPointLookup*>(self)->ContainsKey((unsigned char*)&result, key);
+    unsigned char* found = reinterpret_cast<::FUN_00db0920 *>((reinterpret_cast<BoxPointLookup*>(self)))->ContainsKey((unsigned char*)&result, key);
     if (*found != 0)
     {
         return -1;

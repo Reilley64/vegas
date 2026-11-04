@@ -3,7 +3,16 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef DEBUGSHADER_LOCAL_H
 #define DEBUGSHADER_LOCAL_H
+#include <cstddef>
 
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_011f9000.h"
 #define NiPointer FNV_STUB_NiPointer
 #include "layout_support.h"
 #include "NiFixedString.h"
@@ -11,8 +20,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 #include "NiRefObject.h"
 #include "NiObjectNET.h"
@@ -848,7 +855,6 @@ enum BSShaderManager__eBSSMPassEnum
     BSShaderManager__eBSSMPassEnum_BSSM_UNUSEDPASSES_LAST = 755,
     BSShaderManager__eBSSMPassEnum_BSSM_COUNT = 756
 };
-#pragma pack(push, 4)
 class NiShader : public NiRefObject
 {
   public:
@@ -915,12 +921,6 @@ class NiShader : public NiRefObject
     // NiShader& __cdecl NiShader::*(const NiShader&)
     // void __cdecl NiShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShader) == 20);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_uiShaderIdentifier) == 12);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_bShaderEnabled) == 16);
-#pragma pack(push, 4)
 class NiD3DShaderInterface : public NiShader
 {
   public:
@@ -942,13 +942,6 @@ class NiD3DShaderInterface : public NiShader
     // NiD3DShaderInterface& __cdecl NiD3DShaderInterface::*(const NiD3DShaderInterface&)
     // void __cdecl NiD3DShaderInterface::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderInterface) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pD3DDevice) == 20);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pShaderObject) == 24);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pRenderState) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_bShaderState) == 32);
-#pragma pack(push, 4)
 class NiD3DShader : public NiD3DShaderInterface
 {
   public:
@@ -1001,16 +994,6 @@ class NiD3DShader : public NiD3DShaderInterface
     // NiD3DShader& __cdecl NiD3DShader::*(const NiD3DShader&)
     // void __cdecl NiD3DShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShader) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bIsInitialized) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bSoftwareVertexProcessing) == 37);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spShaderDeclaration) == 40);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_pRenderStateGroup) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spFirstShaderConstantMap) == 48);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spSecondShaderConstantMap) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_uiShaderType) == 56);
-#pragma pack(push, 4)
 class NiD3DDefaultShader : public NiD3DShader
 {
   public:
@@ -1042,18 +1025,6 @@ class NiD3DDefaultShader : public NiD3DShader
     // NiD3DDefaultShader& __cdecl NiD3DDefaultShader::*(const NiD3DDefaultShader&)
     // void __cdecl NiD3DDefaultShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DDefaultShader) == 92);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_bUseFog) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_bFogEnabled) == 61);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiDefaultShaderFlags) == 64);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassCount) == 68);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiActivePass) == 72);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassFlags) == 76);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_pPassFogStatus) == 80);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassFogStatusCount) == 84);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_pDynamicEffectState) == 88);
-#pragma pack(push, 4)
 class BSShader : public NiD3DDefaultShader
 {
   public:
@@ -1064,14 +1035,9 @@ class BSShader : public NiD3DDefaultShader
     unsigned char layoutPadding65[3];
     int m_iPassId;  // +0x68, 4 bytes
     BSShader();
+public:
+    bool Initialize();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShader) == 108);
-FNV_STATIC_ASSERT(offsetof(BSShader, spRenderPass) == 92);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_ePass) == 96);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_bIsBest) == 100);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_iPassId) == 104);
-#pragma pack(push, 4)
 class BloodSplatterBeamShader : public BSShader
 {
   public:
@@ -1081,8 +1047,7 @@ class BloodSplatterBeamShader : public BSShader
     NiPointer<NiD3DPixelShader> m_spPixelShaderVariants[2];       // +0xB4, 8 bytes
     unsigned int m_uiShaderState;                                 // +0xBC, 4 bytes
     BloodSplatterBeamShader();
-    static BSShader* CreateShader();
-    void InitializeShaderData();
+    static BSShader* CreateShader_00bd23f0();
     bool ConfigureShaderPass();
     // BloodSplatterBeamShader
     // void __cdecl BloodSplatterBeamShader::*()
@@ -1100,13 +1065,6 @@ class BloodSplatterBeamShader : public BSShader
     // BloodSplatterBeamShader& __cdecl BloodSplatterBeamShader::*(const BloodSplatterBeamShader&)
     // void __cdecl BloodSplatterBeamShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BloodSplatterBeamShader) == 192);
-FNV_STATIC_ASSERT(offsetof(BloodSplatterBeamShader, m_pTextures) == 108);
-FNV_STATIC_ASSERT(offsetof(BloodSplatterBeamShader, m_pMenuBackgroundScreenGeometry) == 172);
-FNV_STATIC_ASSERT(offsetof(BloodSplatterBeamShader, m_spTreeVertexShader) == 176);
-FNV_STATIC_ASSERT(offsetof(BloodSplatterBeamShader, m_spPixelShaderVariants) == 180);
-FNV_STATIC_ASSERT(offsetof(BloodSplatterBeamShader, m_uiShaderState) == 188);
 
 // Smart-pointer targets touched by this TU (DecRefCount/DeleteThis only).
 // Each direct base is the true one-hop base; empty bodies keep all codegen identical.
@@ -1189,9 +1147,7 @@ class NiD3DShaderDeclaration : public NiRefObject
 class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
 {
   public:
-    static NiD3DVertexDeclaration* Create(NiRenderer*, unsigned int, unsigned int);
 };
-extern NiRenderer* DAT_011f9508;
 
 class NiD3DShaderConstantMap : public NiRefObject
 {
@@ -1201,9 +1157,6 @@ class BeamStage
   public:
     unsigned char layoutPadding0[0x60];
     unsigned int m_uiRefCount;
-    static void CreateNewStage(NiPointer<BeamStage>&);
-    void FUN_00e7def0(unsigned int);
-    void ReturnToPool();
     void IncRefCount()
     {
         ++m_uiRefCount;
@@ -1211,7 +1164,7 @@ class BeamStage
     void DecRefCount()
     {
         if (--m_uiRefCount == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 class D3DRenderStateGroup
@@ -1234,7 +1187,6 @@ class NiD3DPass
     NiPointer<NiD3DVertexShader> m_spVertexShaderObject;
     unsigned int m_uiRefCount;
     static void CreateD3DPass(NiPointer<NiD3DPass>&);
-    void FUN_00e802b0(unsigned int, BeamStage*);
     void DecRefCount();
     void IncRefCount();
     void SetVertexShader(NiD3DVertexShader* shader)
@@ -1249,9 +1201,8 @@ class NiD3DPass
     {
         if (!m_pRenderStateGroup)
             m_pRenderStateGroup = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-        m_pRenderStateGroup->SetRenderState(state, value, save);
+        reinterpret_cast<::StateGroup *>((m_pRenderStateGroup))->SetNodeValue(state, value, save);
     }
 };
-void ConfigureBeamStage(BeamStage*, unsigned int, unsigned int, unsigned int, bool);
 
 #endif

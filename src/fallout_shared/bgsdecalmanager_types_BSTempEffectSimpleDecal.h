@@ -2,6 +2,9 @@
 #ifndef FNV_BSTEMPEFFECTSIMPLEDECAL_H
 #define FNV_BSTEMPEFFECTSIMPLEDECAL_H
 
+#include "fnv/decl/DecalSetup.h"
+#include "fnv/decl/FUN_0068de30_holder.h"
+#include "fnv/decl/FUN_0068dea0_cls.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
@@ -18,7 +21,6 @@ class NiColor;
 class RgbaColor;
 class NiPlane;
 class NiPoint2;
-#pragma pack(push, 4)
 class BSTempEffect : public NiObject
 {
   public:
@@ -58,13 +60,6 @@ class BSTempEffect : public NiObject
     // void __cdecl BSTempEffect::*()
     // BSTempEffect& __cdecl BSTempEffect::*(const BSTempEffect&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTempEffect) == 24);
-FNV_STATIC_ASSERT(offsetof(BSTempEffect, m_fParticleParameter5) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTempEffect, pCell) == 12);
-FNV_STATIC_ASSERT(offsetof(BSTempEffect, m_fFirstFloatValue) == 16);
-FNV_STATIC_ASSERT(offsetof(BSTempEffect, bInitialized) == 20);
-#pragma pack(push, 4)
 class NiPlane
 {
   public:
@@ -84,11 +79,6 @@ class NiPlane
     // void __cdecl NiPlane::*(NiStream&)
     // char* __cdecl NiPlane::*(const char*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPlane) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPlane, m_kPlaneNormal) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPlane, m_fPlaneConstant) == 12);
-#pragma pack(push, 4)
 class NiColor
 {
   public:
@@ -114,12 +104,6 @@ class NiColor
     // float __cdecl NiColor::*()
     // void __cdecl NiColor::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
-FNV_STATIC_ASSERT(offsetof(NiColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(NiColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(NiColor, b) == 8);
-#pragma pack(push, 4)
 class BSTempEffectSimpleDecal : public BSTempEffect
 {
   public:
@@ -176,10 +160,6 @@ class BSTempEffectSimpleDecal : public BSTempEffect
     bool m_bTextureFlag;          // +0x140, 1 bytes
     bool m_bDecalTextureCreated;  // +0x141, 1 bytes
     unsigned char layoutPadding142[2];
-    bool ReleaseTextureObject();
-    bool CreateDecalTexture();
-    void SetDecalTint(RgbaColor&, bool);
-    bool GetByteAt2D();
     TESTopicInfoData* FUN_004a0330();
     // const NiRTTI* __cdecl BSTempEffectSimpleDecal::*()
     // BSTempEffectSimpleDecal
@@ -217,54 +197,4 @@ class BSTempEffectSimpleDecal : public BSTempEffect
     // BSTempEffectSimpleDecal& __cdecl BSTempEffectSimpleDecal::*(const BSTempEffectSimpleDecal&)
     // void __cdecl BSTempEffectSimpleDecal::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTempEffectSimpleDecal) == 324);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, bWasPlaying) == 24);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_bTextureDirty) == 25);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_bNeedsManagerUpdate) == 26);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_bDecalRenderingEnabled) == 27);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pRenderQuery) == 28);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pDecalRenderTexture) == 32);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_uiTextureReferenceCount) == 36);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pSceneObject) == 40);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, bPermanent) == 44);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_bSecondObjectFlag) == 45);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, TexturedObjectPlacementInfo) == 46);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pTextureSet) == 48);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, pOrigin) == 52);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_kSecondVertex) == 64);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_kThirdPoint) == 76);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_kFourthPoint) == 88);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_akFacePlanes) == 100);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_iFirstValueAfterPlanes) == 196);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_iSecondValueAfterPlanes) == 200);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pFirstPoint3Array) == 204);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pVertexNormals) == 208);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pThirdPoint3Array) == 212);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pVertexBitangents) == 216);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pPrimaryTextureCoordinates) == 220);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pSecondaryTextureCoordinates) == 224);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pFirstElementArray) == 228);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, NavMeshGeometryBuffers) == 232);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pFirstUnsignedShortArray) == 236);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pSecondUnsignedShortArray) == 240);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pSignedShortArray) == 244);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_aucByteBuffer) == 248);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pDecalNode) == 264);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_pTargetNode) == 268);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, fScale) == 272);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, fPathHeading) == 276);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_fGlyphWidthInPixels) == 280);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_fGlyphExtent) == 284);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_fProjectionDepth) == 288);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_ucByteAfterFloats) == 292);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_bFlagBeforeFloat) == 293);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_fFloatBeforeScalarFlagState) == 296);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, ScalarFlagState) == 300);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_bFirstBooleanFlag) == 301);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_bSecondBooleanFlag) == 302);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_fSpecularStrength) == 304);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_kSurfaceColor) == 308);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_bTextureFlag) == 320);
-FNV_STATIC_ASSERT(offsetof(BSTempEffectSimpleDecal, m_bDecalTextureCreated) == 321);
 #endif

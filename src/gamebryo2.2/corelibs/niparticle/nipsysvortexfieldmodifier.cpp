@@ -2,12 +2,29 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202688;
 
 // @fnv 0x00c26810
+#include <cstdint>
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00589850_Class.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_00c32120_cls.h"
+#include "fnv/decl/NiPSysParticle.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/S_00c322b0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c26000.h"
+#include "fnv/symbols_01202000.h"
+#include <cmath>
+#include "fnv/decl/MyPoint439180.h"
 void* __cdecl FUN_00c26810()
 {
-    return &g_01202688;
+    return &(*reinterpret_cast<void * *>(&::g_01202688));
 }
 
 struct NiStream;
@@ -17,7 +34,6 @@ struct NiColor
 };
 struct NiPSysFieldModifier
 {
-    void LoadBinary(NiStream&);
 };
 struct NiPSysVortexFieldModifier : NiPSysFieldModifier
 {
@@ -27,25 +43,23 @@ struct NiPSysVortexFieldModifier : NiPSysFieldModifier
 // @fnv 0x00c267d0
 void NiPSysVortexFieldModifier::FUN_00c267d0(NiStream& stream)
 {
-    NiPSysFieldModifier::LoadBinary(stream);
+    reinterpret_cast<::FUN_00c32120_cls *>(this)->LoadFromStream((::StreamOwner *)&(stream));
     ((NiColor*)((char*)this + 0x30))->LoadBinary(stream);
 }
 
-void __cdecl FUN_00c31750();
-void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c26920_shell
 {
-    FUN_00c26920_shell* __thiscall DestroyIfFlagged(int a);
+    FUN_00c26920_shell* DestroyIfFlagged(int a);
 };
 
 // Calls FUN_00c31750, then deletes this with size 0x3c when bit 0 of a is set, and returns this.
 // @fnv 0x00c26920
-FUN_00c26920_shell* __thiscall FUN_00c26920_shell::DestroyIfFlagged(int a)
+FUN_00c26920_shell* FUN_00c26920_shell::DestroyIfFlagged(int a)
 {
-    FUN_00c31750();
+    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (a & 1)
-        operator delete(this, 0x3c);
+        ::FUN_00aa1460(this, 0x3c);
     return this;
 }
 
@@ -53,7 +67,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct CloningProcess
 {
     void __dflt_ctor_closure();
@@ -64,13 +77,11 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 
 struct NiObject;
 struct ShaderBufferRecord;
 struct NiTStringPointerMap_00e93060
 {
-    bool GetAt(const char*, ShaderBufferRecord*&);
 };
 struct CloningProcess;
 struct NiPSysModifier
@@ -87,12 +98,11 @@ void NiPSysAirFieldModifier_00c2c110::FUN_00c2c110(CloningProcess& aCloneProcess
 {
     NiPSysModifier::ProcessClone(aCloneProcess);
     ShaderBufferRecord* pMappedObject = 0;
-    ((NiTStringPointerMap_00e93060*)aCloneProcess.m_pCloneMap)->GetAt((const char*)this, pMappedObject);
+    reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_00e93060*)aCloneProcess.m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)((const char*)this), (::A54440Manager **)&(pMappedObject));
     ShaderBufferRecord* destination = pMappedObject;
     if (*(NiObject**)((char*)this + 0x18))
     {
-        if (((NiTStringPointerMap_00e93060*)aCloneProcess.m_pCloneMap)
-                ->GetAt((const char*)*(NiObject**)((char*)this + 0x18), pMappedObject))
+        if (reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_00e93060*)aCloneProcess.m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)((const char*)*(NiObject**)((char*)this + 0x18)), (::A54440Manager **)&(pMappedObject)))
         {
             *(NiObject**)((char*)destination + 0x18) = (NiObject*)pMappedObject;
             return;
@@ -108,22 +118,30 @@ struct StrArr
     unsigned short m_usSize;      // +0x0a
     char _pad_c[2];
     unsigned short m_usGrowBy;  // +0x0e
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
+struct FUN_00438fc0_file;
 struct NiPoint3
 {
     char* FUN_00a59af0(char const*);
+public:
+    static const ::NiPoint3 ZERO;
+public:
+    unsigned char ReadFromFile(::FUN_00438fc0_file *);
+    bool FUN_004390c0(const ::NiPoint3 &);
+    ::NiPoint3 &Subtract(const ::NiPoint3 &);
+    float GetLengthSquared();
+    float ComputeMagnitude() const;
+    ::NiPoint3 Cross(const ::NiPoint3 &) const;
+    ::NiPoint3 CrossProduct(const ::NiPoint3 &) const;
+    ::NiPoint3 *ScaleTo(::NiPoint3 *, float);
+    ::NiPoint3 &FUN_00b2a1c0(const ::NiPoint3 &);
 };
 
-char* __cdecl _FUN_00a7d330(void*);
 
-extern void* _g_01202688;
 
 struct C27A30Base
 {
-    void FUN_00c322b0(StrArr*);
 };
 
 struct FUN_00c27060_shell : C27A30Base
@@ -134,17 +152,17 @@ struct FUN_00c27060_shell : C27A30Base
 // @fnv 0x00c27060
 void FUN_00c27060_shell::AppendNameAndDirection(StrArr* pkStrings)
 {
-    FUN_00c322b0(pkStrings);
-    char* pcStr = _FUN_00a7d330(_g_01202688);
+    reinterpret_cast<::S_00c322b0 *>(this)->FUN_00c322b0((::S_00c322b0_Arr *)(pkStrings));
+    char* pcStr = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202688))));
     unsigned int uiIdx = pkStrings->m_usSize;
     if (uiIdx >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(pkStrings->m_usGrowBy + uiIdx);
-    pkStrings->SetAt(uiIdx, pcStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->m_usGrowBy + uiIdx);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIdx, pcStr);
     pcStr = ((NiPoint3*)((char*)this + 0x30))->FUN_00a59af0("Direction");
     uiIdx = pkStrings->m_usSize;
     if (uiIdx >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(pkStrings->m_usGrowBy + uiIdx);
-    pkStrings->SetAt(uiIdx, pcStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->m_usGrowBy + uiIdx);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIdx, pcStr);
 }
 
 struct CloneVec3
@@ -154,7 +172,6 @@ struct CloneVec3
     int z;
 };
 
-extern "C" CloneVec3 DAT_011f426c;
 
 struct CloneItemBase
 {
@@ -165,10 +182,9 @@ struct CloneItemBase
 
 struct CloneItem : CloneItemBase
 {
-    void* operator new(unsigned int) throw();
     CloneItem() throw()
     {
-        m_30 = DAT_011f426c;
+        m_30 = (*reinterpret_cast<::CloneVec3 *>((void *)&::NiPoint3::ZERO));
     }
     virtual void Vfn0();
     CloneVec3 m_30;
@@ -178,16 +194,15 @@ struct CloneHost
 {
     char _pad_0[0x30];
     CloneVec3 m_30;
-    void FUN_00c32020(CloneItem* pItem, int a);
-    CloneItem* FUN_00c26940(int a);
+    CloneItem* FUN_00c26940(intptr_t a);
 };
 
 // Allocates a CloneItem, passes it with a to FUN_00c32020, copies m_30 into the item's m_30, and returns it.
 // @fnv 0x00c26940
-CloneItem* CloneHost::FUN_00c26940(int a)
+CloneItem* CloneHost::FUN_00c26940(intptr_t a)
 {
     CloneItem* pItem = new CloneItem;
-    this->FUN_00c32020(pItem, a);
+    reinterpret_cast<::NiPSysParticle *>((this))->FUN_00c32020((::NiPSysParticle *)(pItem), (::CloningProcess *)(a));
     pItem->m_30 = m_30;
     return pItem;
 }
@@ -227,15 +242,14 @@ struct Pt_c268
         return *this;
     }
 };
-extern const Pt_c268 _NiPoint3_ZERO;
 
 // @fnv 0x00c26820
-Pt_c268 __stdcall FUN_00c26820(const Pt_c268& origin, const Pt_c268& direction, const Pt_c268& point)
+Pt_c268 FUN_00c26820(const Pt_c268& origin, const Pt_c268& direction, const Pt_c268& point)
 {
     Pt_c268 vDifference = point - origin;
     float dot = vDifference * direction;
     vDifference -= direction * dot;
-    if (vDifference.x == _NiPoint3_ZERO.x && vDifference.y == _NiPoint3_ZERO.y && vDifference.z == _NiPoint3_ZERO.z)
+    if (vDifference.x == (*reinterpret_cast<const ::Pt_c268 *>((void *)&::NiPoint3::ZERO)).x && vDifference.y == (*reinterpret_cast<const ::Pt_c268 *>((void *)&::NiPoint3::ZERO)).y && vDifference.z == (*reinterpret_cast<const ::Pt_c268 *>((void *)&::NiPoint3::ZERO)).z)
         return vDifference;
     return direction.FUN_0053d1a0(vDifference);
 }
@@ -260,7 +274,6 @@ struct Vec3
         y = fY;
         z = fZ;
     }
-    void FUN_004a0c10();
 
     Vec3 operator-(const Vec3& pt) const
     {
@@ -313,8 +326,9 @@ class NiTransform
     Vec3 m_kTranslation;
     float m_fScale;
 
-    void FUN_004b4880(NiTransform& kDest) const;
     NiTransform operator*(const NiTransform& xform) const;
+public:
+    void CalculateInverse(::NiTransform &);
 };
 
 struct AVObj
@@ -381,13 +395,13 @@ void VortexModifier::FUN_00c269b0(float fTime, PSysData* pkData)
     NiTransform kInvPSys;
     {
         NiTransform kPSys = m_pkTarget->m_kWorldSpaceTransform;
-        kPSys.FUN_004b4880(kInvPSys);
+        reinterpret_cast<::NiTransform *>((void *)&(kPSys))->CalculateInverse(kInvPSys);
     }
     {
         NiTransform kFieldToPSys = kInvPSys * kField;
         Vec3 kPosition = kFieldToPSys.m_kTranslation;
         Vec3 kDirection = kFieldToPSys.m_kOrientation * m_kLightVector;
-        kDirection.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kDirection))->FUN_004a0c10();
         float fMaxDistanceSqr = m_fDistanceLimit * m_fDistanceLimit;
         for (unsigned short us = 0; us < pkData->m_usActiveVertices; us++)
         {
@@ -397,12 +411,12 @@ void VortexModifier::FUN_00c269b0(float fTime, PSysData* pkData)
             {
                 Vec3* __restrict pkVertex = pkData->m_pkVertex;
                 Vec3 kParticlePosition = pkVertex[us];
-                float fDistance = (kParticlePosition - kFieldToPSys.m_kTranslation).Length();
+                float fDistance = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::Vec3 &)((kParticlePosition - kFieldToPSys.m_kTranslation)))->FUN_00589850();
                 if (fDistance != 0.0f && fDistance <= fMaxDistanceSqr)
                 {
                     Vec3 kDeltaV = FUN_00c26820(kPosition, kDirection, kParticlePosition);
                     kDeltaV *= m_fInfluence * fDeltaT;
-                    pkCurrentParticle->m_kValue += kDeltaV;
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Vec3 &)(pkCurrentParticle->m_kValue))->FUN_0063c8a0((void *)&(kDeltaV));
                 }
             }
         }
@@ -423,17 +437,13 @@ struct NormVec3
     float x;
     float y;
     float z;
-    void FUN_004a0c10();
 };
 struct NiTransform
 {
     float rotation[9];
     Vec3 translation;
     float scale;
-    void FUN_004b4880(NiTransform&);
-    void FUN_0062c250(NiTransform&, NiTransform&);
 };
-typedef char _sizecheck_NiTransform[sizeof(NiTransform) == 52 ? 1 : -1];
 struct TransformNode
 {
     int unk00;
@@ -531,11 +541,12 @@ struct ForceOwner
     int unk2c;
     Vec3 m_dir;
     void FUN_00c26c00(float, ParticleList*);
-    Vec3 ComputeForce(const Vec3& origin, const Vec3& axis, const Vec3& point);
     Vec3 Force(const Vec3& origin, const Vec3& axis, Vec3 point)
     {
         const Vec3 kPoint = point;
-        return ComputeForce(origin, axis, kPoint);
+        ::Pt_c268 kForce = ::FUN_00c26820(reinterpret_cast<const ::Pt_c268&>(origin), reinterpret_cast<const ::Pt_c268&>(axis),
+                                          reinterpret_cast<const ::Pt_c268&>(kPoint));
+        return reinterpret_cast<const Vec3&>(kForce);
     }
 };
 // Computes the force on each particle in list from node10's transform and m_dir, scaled by age, and adds it to each particle's velocity.
@@ -548,11 +559,11 @@ void ForceOwner::FUN_00c26c00(float delta, ParticleList* list)
     transformA = node10->transform;
     NiTransform combined;
     NiTransform* pA = &transformA;
-    pA->FUN_004b4880(combined);
-    combined.FUN_0062c250(*pA, transformB);
+    reinterpret_cast<::NiTransform *>((pA))->CalculateInverse((::NiTransform &)(combined));
+    reinterpret_cast<::NiTransform *>(&(combined))->operator*((const ::NiTransform &)(*pA));
     Vec3 axis = RotMul(transformA.rotation, m_dir);
     Vec3 origin = transformA.translation;
-    ((NormVec3*)&axis)->FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>((((NormVec3*)&axis)))->FUN_004a0c10();
     for (unsigned short i = 0; i < list->count; ++i)
     {
         Particle* pParticle = list->particles + i;
@@ -576,7 +587,6 @@ namespace fnv_00c2c170 {
 struct AirVector
 {
     float x, y, z;
-    __declspec(noalias) void FUN_004a0c10();
     float SquaredLength() const
     {
         return x * x + y * y + z * z;
@@ -608,8 +618,6 @@ struct NiTransform
     float r00, r01, r02, r10, r11, r12, r20, r21, r22;
     AirVector translate;
     float scale;
-    void FUN_004b4880(NiTransform& result);
-    void FUN_0062c250(NiTransform& result, const NiTransform& right) const;
     AirVector FUN_004b4500(const AirVector&);
 };
 struct AirNode
@@ -669,11 +677,11 @@ void AirField::FUN_00c2c170(float time, const AirParticles* apParticles)
     NiTransform fieldWorld = field->world;
     NiTransform transform = owner->world;
     NiTransform inverse;
-    transform.FUN_004b4880(inverse);
-    inverse.FUN_0062c250(transform, fieldWorld);
+    reinterpret_cast<::NiTransform *>(&(transform))->CalculateInverse((::NiTransform &)(inverse));
+    reinterpret_cast<::NiTransform *>((void *)&(inverse))->operator*((const ::NiTransform &)(transform));
     AirVector axis;
     axis = transform.FUN_004b4500(direction);
-    axis.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(axis))->FUN_004a0c10();
     float axisSquared = axis.SquaredLength();
     float range = farDistance - nearDistance;
     for (unsigned short i = 0; i < apParticles->count; ++i)
@@ -707,3 +715,214 @@ void AirField::FUN_00c2c170(float time, const AirParticles* apParticles)
     }
 }
 }  // namespace fnv_00c2c170
+
+void* __cdecl FUN_00c26810();
+
+// FUN_00c26de0: NiPSysFieldModifier-style Update with attenuation - per-particle
+// force from FUN_00c26820, scaled by magnitude * dt / dist^attenuation.
+struct TPoint3
+{
+    float x, y, z;
+
+    TPoint3()
+    {}
+    TPoint3(float fX, float fY, float fZ) : x(fX), y(fY), z(fZ)
+    {}
+
+    TPoint3 operator-(const TPoint3& kPt) const
+    {
+        return TPoint3(x - kPt.x, y - kPt.y, z - kPt.z);
+    }
+};
+
+
+struct TMatrix3
+{
+    float m_afEntries[3][3];
+
+    TPoint3 FUN_004b4500(const TPoint3& kPt) const;
+};
+
+struct NiTransform_od_o2_nood
+{
+    TMatrix3 m_kOrientation;
+    TPoint3 m_kTranslation;
+    float m_fScale;
+
+public:
+    void CalculateInverse(::NiTransform_od_o2_nood &);
+public:
+    ::NiTransform_od_o2_nood operator*(const ::NiTransform_od_o2_nood &) const;
+};
+
+struct TAVObject
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    NiTransform_od_o2_nood m_kWorldSpaceTransform;
+};
+
+struct TParticleInfo
+{
+    TPoint3 m_kValue;
+    float m_fXValue;
+    float m_fYValue;
+    float m_fZValue;
+    int unk18;
+};
+
+struct TPSysData
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    TPoint3* m_pkVertex;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    unsigned short m_usVertices;
+    unsigned short unk52;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    TParticleInfo* m_pkParticleInfo;
+
+    unsigned short GetShaderParticleCount() const
+    {
+        return m_usVertices;
+    }
+    TPoint3* GetVertices() const
+    {
+        return m_pkVertex;
+    }
+    TParticleInfo* GetParticleInfo() const
+    {
+        return m_pkParticleInfo;
+    }
+};
+
+inline float NiPow(float fBase, float fExp)
+{
+    return (float)pow(fBase, fExp);
+}
+
+struct TFieldModifier
+{
+    void* m_pVtbl;
+    int m_iRefCount;
+    int m_kName;
+    unsigned int m_uiUpdateOrder;
+    TAVObject* m_pkTarget;
+    bool m_bModifierActive;
+    TAVObject* m_pkFieldObject;
+    float m_fInfluence;
+    float m_fFieldAttenuation;
+    bool m_bEnableMaxDistance;
+    float m_fDistanceLimit;
+    float m_fFieldStrength;
+    TPoint3 m_kLightVector;
+
+    void FUN_00c26de0(float fTime, TPSysData* pkData);
+    __declspec(noalias) TPoint3 FUN_00c26820(const TPoint3& kFieldPos, const TPoint3& kFieldDir, const TPoint3& kPos);
+};
+
+// @fnv 0x00c26de0
+void TFieldModifier::FUN_00c26de0(float fTime, TPSysData* pkData)
+{
+    if (m_fInfluence == 0.0f)
+        return;
+    if (pkData->GetShaderParticleCount() == 0)
+        return;
+    if (reinterpret_cast<::NiPoint3 *>((void *)&(m_kLightVector))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<const ::TPoint3 *>((void *)&::NiPoint3::ZERO)))))
+        return;
+    if (!m_pkFieldObject)
+        return;
+
+    if (m_fFieldAttenuation == 0.0f)
+    {
+        if (m_bEnableMaxDistance)
+            reinterpret_cast<::VortexModifier *>(this)->FUN_00c269b0(fTime, (::PSysData *)(pkData));
+        else
+            reinterpret_cast<::fnv_00c26c00::ForceOwner *>(this)->FUN_00c26c00(fTime, (::fnv_00c26c00::ParticleList *)(pkData));
+        return;
+    }
+
+    NiTransform_od_o2_nood kFieldXform = m_pkFieldObject->m_kWorldSpaceTransform;
+    NiTransform_od_o2_nood kInvPSys;
+    {
+        NiTransform_od_o2_nood kPSysXform = m_pkTarget->m_kWorldSpaceTransform;
+        reinterpret_cast<::NiTransform_od_o2_nood *>((void *)&(kPSysXform))->CalculateInverse(kInvPSys);
+    }
+
+    {
+        NiTransform_od_o2_nood kFieldToPSys = reinterpret_cast<::NiTransform_od_o2_nood *>((void *)&(kInvPSys))->operator*(kFieldXform);
+        TPoint3 kFieldPos = kFieldToPSys.m_kTranslation;
+        TPoint3 kFieldDir = kFieldToPSys.m_kOrientation.FUN_004b4500(m_kLightVector);
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kFieldDir))->FUN_004a0c10();
+
+        for (unsigned short i = 0; i < pkData->GetShaderParticleCount(); i++)
+        {
+            TParticleInfo* pkInfo = &pkData->GetParticleInfo()[i];
+            float fDeltaT = fTime - pkInfo->m_fZValue;
+            if (fDeltaT != 0.0f)
+            {
+                TPoint3 kPos = pkData->GetVertices()[i];
+                TPoint3 kDiff = kPos - kFieldToPSys.m_kTranslation;
+                float fDist = reinterpret_cast<::NiPoint3 *>((void *)&(kDiff))->ComputeMagnitude();
+                if (fDist != 0.0f)
+                {
+                    if (!m_bEnableMaxDistance || fDist <= m_fDistanceLimit)
+                    {
+                        TPoint3 kForce = FUN_00c26820(kFieldPos, kFieldDir, kPos);
+                        if (m_fFieldAttenuation == 0.0f)
+                            reinterpret_cast<::MyPoint439180 *>(&(kForce))->FUN_00439180(fDeltaT * m_fInfluence);
+                        else
+                            reinterpret_cast<::MyPoint439180 *>(&(kForce))->FUN_00439180(fDeltaT * m_fInfluence / NiPow(fDist, m_fFieldAttenuation));
+                        reinterpret_cast<::FUN_0063c8a0_shell *>(&(pkInfo->m_kValue))->FUN_0063c8a0((void *)&(kForce));
+                    }
+                }
+            }
+        }
+    }
+}

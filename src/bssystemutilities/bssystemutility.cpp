@@ -1,5 +1,14 @@
 // bssystemutilities/bssystemutility.cpp: BSSystemUtility (12 functions)
 
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00442550_shell.h"
+#include "fnv/decl/FUN_00af2db0_cls.h"
+#include "fnv/decl/FUN_00af3120_Class.h"
+#include "fnv/decl/FnvEmptyThiscall_Class.h"
+#include "fnv/symbols_00af2000.h"
+#include "fnv/symbols_011f6000.h"
 #include "bssystemutility_private.h"
 #include <string.h>
 
@@ -11,7 +20,7 @@ void BSSystemUtility::Destroy()
     NetworkSystemUtility::GetRandomGenerator();
     FUN_00af2d30();
     IdleSystem::GetRandomGenerator();
-    FUN_00af2370();
+    ::IdleSystem::Shutdown();
 
     FUN_00af3850()->vfn_08();
     GetStaticSlot()->vfn_08();
@@ -20,14 +29,14 @@ void BSSystemUtility::Destroy()
     FUN_00af34f0()->vfn_08();
     GetInitObj()->vfn_08();
 
-    fnv_zlib_memset((char*)this + 4, 0, 0x80);
-    *((unsigned char*)((char*)this + 0x94)) = 0;
-    *((unsigned int*)((char*)this + 0x90)) = 0;
-    *((unsigned int*)((char*)this + 0x84)) = 0;
-    *((unsigned int*)((char*)this + 0x88)) = 0;
+    std::memset(m_acFilePath, 0, 0x80);
+    m_b94 = 0;
+    m_ui90 = 0;
+    m_ui84 = 0;
+    m_ui88 = 0;
 }
 
-// Calls vfn_08, copies fileName (capped at 0x7f chars) into this+4, then invokes vfn_04 on several subsystems and runs further init calls.
+// Calls vfn_08, copies fileName (capped at 0x7f chars) into m_acFilePath, then invokes vfn_04 on several subsystems and runs further init calls.
 // @fnv 0x00af3140
 void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsigned int arg2)
 {
@@ -42,7 +51,7 @@ void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsi
             length = 0x7f;
         else
             length = count;
-        fnv_CopyFilePath((char*)this + 4, length + 1, pcFilePath, length);
+        fnv::crt::strncpy_s(m_acFilePath, length + 1, pcFilePath, length);
     }
 
     FUN_00af3850()->vfn_04();
@@ -53,21 +62,22 @@ void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsi
     GetInitObj()->vfn_04();
 
     IdleSystem::GetRandomGenerator();
-    FUN_00af2360();
+    ::IdleSystem::Startup();
     NetworkSystemUtility::GetRandomGenerator();
     IdleSystem::Initialize();
     DownloadableContentManager::GetRandomGenerator();
-    FUN_00af2750();
+    ::FUN_00af2750();
 }
 
-// If the byte at offset 0x49 is set, clears the byte at 0x48 and signals the object at offset 0x30.
+// If m_bReleasePending is set, clears m_bRunning and signals m_kLock.
 // @fnv 0x0078d570
 void BSSystemUtility::Update()
 {
-    if (*((unsigned char*)((char*)this + 0x49)) != 0)
+    ScriptRunGate* gate = reinterpret_cast<ScriptRunGate*>(this);
+    if (gate->m_bReleasePending != 0)
     {
-        *((unsigned char*)((char*)this + 0x48)) = 0;
-        ((CountingSemaphore*)((char*)this + 0x30))->Signal();
+        gate->m_bRunning = 0;
+        reinterpret_cast<::FUN_00442550_shell *>(&gate->m_kLock)->ReleaseAndInitScriptRunLock();
     }
 }
 
@@ -76,8 +86,8 @@ void BSSystemUtility::Update()
 void BSSystemUtility::FUN_00af3340()
 {
     IdleSystem::GetRandomGenerator().Idle();
-    NetworkSystemUtility::GetRandomGenerator().UpdateSteamRunningFlag();
-    DownloadableContentManager::GetRandomGenerator().FUN_00af2c80();
+    reinterpret_cast<::FUN_00af2db0_cls *>(&(NetworkSystemUtility::GetRandomGenerator()))->UpdateSteamRunningFlag();
+    reinterpret_cast<::FnvEmptyThiscall_Class *>(&(DownloadableContentManager::GetRandomGenerator()))->FUN_00af2c80();
 }
 
 struct FUN_00af3370_shell
@@ -104,13 +114,10 @@ void FUN_00af3370_shell::SetValue(unsigned char ucValue)
 
 struct MemoryManager
 {
-    void _DeallocateAlias(void* p);
 };
-extern MemoryManager g_memoryManager;
 
 struct FUN_00af33c0_Class
 {
-    void FUN_00af3120();
     void* DestroyIfFlagged(unsigned int flags);
 };
 
@@ -118,9 +125,9 @@ struct FUN_00af33c0_Class
 // @fnv 0x00af33c0
 void* FUN_00af33c0_Class::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00af3120();
+    reinterpret_cast<::FUN_00af3120_Class *>(this)->FUN_00af3120();
     if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 

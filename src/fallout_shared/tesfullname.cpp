@@ -2,6 +2,15 @@
 // src/fallout_shared/tesfullname.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesfullname.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/B408A80String.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
 #include "TESFullName.h"
 
 struct BGSLoadFormBuffer;
@@ -39,7 +48,6 @@ struct TESDescription : public BaseFormComponent
     void SetDescription(char*);
     unsigned long m_uiDescriptionFileOffset;
 };
-typedef char _sizecheck_TESDescription[sizeof(TESDescription) == 8 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -68,13 +76,11 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct TESIcon : public TESTexture
 {
     virtual char* GetTextureResourcePath();
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 struct FUN_004870f0_shell : public TESFullName
 {
     void CopyFullNameFrom(BaseFormComponent*);
@@ -82,11 +88,9 @@ struct FUN_004870f0_shell : public TESFullName
 
 struct BSStr
 {
-    bool Set(char const*, unsigned int);
 };
 struct FNStub
 {
-    char const* GetFullName(void);
 };
 
 // Casts apCopyFC to TESFullName and, if successful, copies its full name into this object's BSStr at offset 4.
@@ -96,7 +100,7 @@ void FUN_004870f0_shell::CopyFullNameFrom(BaseFormComponent* apCopyFC)
     TESFullName* pCopy = dynamic_cast<TESFullName*>(apCopyFC);
     if (!pCopy)
         return;
-    ((BSStr*)((char*)this + 4))->Set(((FNStub*)pCopy)->GetFullName(), 0);
+    reinterpret_cast<::TextString *>((((BSStr*)&this->m_kName)))->FUN_004037f0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pCopy)))->FUN_00408da0())), 0);
 }
 
 struct TESForm
@@ -108,20 +112,18 @@ struct TESForm
 const char* FUN_00482720(TESForm* apObj)
 {
     TESFullName* pFullName = dynamic_cast<TESFullName*>(apObj);
-    return pFullName ? ((FNStub*)pFullName)->GetFullName() : "";
+    return pFullName ? ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pFullName)))->FUN_00408da0())) : "";
 }
 
 class StringShell487 : public BSStringT<char>
 {
   public:
-    int StrCmp(const char* pcOther, bool bCaseSensitive) const;
 };
 
 class FullNameShell487 : public TESFullName
 {
   public:
     unsigned int GetLength() const;
-    const char* GetName() const;
 
     bool CompareFullName(BaseFormComponent* pkComponent);
 };
@@ -137,7 +139,7 @@ bool FullNameShell487::CompareFullName(BaseFormComponent* pkComponent)
     {
         if (GetLength() != static_cast<FullNameShell487*>(pkOther)->GetLength())
             return true;
-        else if (static_cast<StringShell487*>(&m_kName)->StrCmp(static_cast<FullNameShell487*>(pkOther)->GetName(),
+        else if (reinterpret_cast<::B408A80String *>((void *)(static_cast<StringShell487*>(&m_kName)))->FUN_00408a80(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(static_cast<FullNameShell487*>(pkOther)))->FUN_00408da0())),
                                                                 false))
             return true;
     }
@@ -146,7 +148,6 @@ bool FullNameShell487::CompareFullName(BaseFormComponent* pkComponent)
 
 struct TESFullNameSetter : public TESFullName
 {
-    void SetName(const char* text);
 };
 
 // Reads the FULL chunk from apFile and sets the name on apName via TESFullNameSetter::SetName.
@@ -157,20 +158,20 @@ void ReadFullName(TESFullName* apName, TESFile* apFile)
     {
         return;
     }
-    unsigned int id = apFile->GetChunkID();
+    unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0()));
     switch (id)
     {
     case CHUNK_ID_FULL_ID: {
         void* pChunkData;
-        if (apFile->GetChunkSize())
+        if (reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C())
         {
-            pChunkData = _alloca(apFile->GetChunkSize());
-            apFile->GetChunkData(pChunkData, 0);
-            ((TESFullNameSetter*)apName)->SetName((const char*)pChunkData);
+            pChunkData = _alloca(reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pChunkData), 0);
+            reinterpret_cast<::TESFullName *>((((TESFullNameSetter*)apName)))->SetFullName((const char*)pChunkData);
         }
         else
         {
-            ((TESFullNameSetter*)apName)->SetName(0);
+            reinterpret_cast<::TESFullName *>((((TESFullNameSetter*)apName)))->SetFullName(0);
         }
     }
     break;

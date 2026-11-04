@@ -2,17 +2,39 @@
 // src/gamebryo2.2/corelibs/nianimation/nilookatcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nilookatcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f3f98;
 
 // @fnv 0x00a4cd30
+#include <cstdint>
+#include <new>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a6d730_shell.h"
+#include "fnv/decl/NiTimeControllerCM.h"
+#include "fnv/decl/NiTimeController_Luna.h"
+#include "fnv/decl/TCController.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a6c000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f3000.h"
 void* __cdecl FUN_00a4cd30()
 {
-    return &g_011f3f98;
+    return &(*reinterpret_cast<void * *>(&::g_011f3f98));
 }
 
+class CloningProcess;
+class NiStream;
 struct NiTimeController
 {
     virtual ~NiTimeController();
+public:
+    void ProcessClone(::CloningProcess &);
+public:
+    void LinkObject(::NiStream &);
 };
 
 struct NiLookAtController : NiTimeController
@@ -22,45 +44,40 @@ struct NiLookAtController : NiTimeController
 };
 
 void __cdecl FUN_00a6d290();
-extern "C" __declspec(noinline) void __cdecl _delete(void* p, unsigned int flags);
 
 // Calls FUN_00a6d290, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00a4cd40
-void* __thiscall NiLookAtController::FUN_00a4cd40(unsigned int flags)
+void* NiLookAtController::FUN_00a4cd40(unsigned int flags)
 {
     FUN_00a6d290();
     if (flags & 1)
-        _delete(this, 0x3c);
+        ::FUN_00aa1460(this, 0x3c);
     return this;
 }
 
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct BaseStub
 {
-    void FUN_00a6d830(StrArr*);
 };
-char* _FUN_00a7d330(const char*);
-struct Holder : NiLookAtController
+struct Holder_00a4cef0 : NiLookAtController
 {
     void AppendString(StrArr*);
 };
 // Appends the string returned by _FUN_00a7d330(g_011f3f98) to pkStrings, growing its size first if it is full.
 // @fnv 0x00a4cef0
-void Holder::AppendString(StrArr* pkStrings)
+void Holder_00a4cef0::AppendString(StrArr* pkStrings)
 {
-    ((BaseStub*)this)->FUN_00a6d830(pkStrings);
-    char* s = _FUN_00a7d330((const char*)g_011f3f98);
+    reinterpret_cast<::TCController *>((((BaseStub*)this)))->FUN_00a6d830((::NiViewerStringsArray *)(pkStrings));
+    char* s = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f3f98)));
     unsigned int sz = *(unsigned short*)((char*)pkStrings + 0xa);
     if (sz >= *(unsigned short*)((char*)pkStrings + 8))
     {
         unsigned int gr = *(unsigned short*)((char*)pkStrings + 0xe);
-        pkStrings->SetSize(gr + sz);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(gr + sz);
     }
-    pkStrings->SetAt(sz, s);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(sz, s);
 }
 
 namespace fnv_00a4c840 {
@@ -91,7 +108,7 @@ struct NiLookAtController : NiTimeController
 // @fnv 0x00a4c840
 void NiLookAtController::FUN_00a4c840(NiStream& stream)
 {
-    NiTimeController::LinkObject(stream);
+    reinterpret_cast<::NiTimeController *>(this)->LinkObject((::NiStream &)(stream));
     m_pkLookAt = static_cast<NiAVObject*>(stream.GetLoadedObject());
 }
 }  // namespace fnv_00a4c840
@@ -102,7 +119,6 @@ struct NiStream
 };
 struct TCReg
 {
-    bool __thiscall FUN_00a6d0f0(NiStream&);
 };
 struct FakeAV
 {
@@ -133,12 +149,12 @@ struct S00a4c860
 {
     char _p[0x38];
     FakeAV* m;
-    bool __thiscall FUN_00a4c860(NiStream&);
+    bool FUN_00a4c860(NiStream&);
 };
 // @fnv 0x00a4c860
-bool __thiscall S00a4c860::FUN_00a4c860(NiStream& s)
+bool S00a4c860::FUN_00a4c860(NiStream& s)
 {
-    if (!((TCReg*)this)->FUN_00a6d0f0(s))
+    if (!::FUN_00a6d0f0((::TCReg *)(((TCReg*)this)), (intptr_t)&(s), *(::NiStream *)nullptr))
         return false;
     if (m)
         m->v21(s);
@@ -319,11 +335,9 @@ struct StreamLayout
 };
 struct BaseLoad
 {
-    void FUN_00a6d5e0(NiStream&);
 };
 struct StreamFinish
 {
-    void FUN_00a645b0();
 };
 struct LookAt : BaseLoad
 {
@@ -346,7 +360,7 @@ struct LookAt : BaseLoad
 // @fnv 0x00a4ce20
 void LookAt::FUN_00a4ce20(NiStream& stream)
 {
-    BaseLoad::FUN_00a6d5e0(stream);
+    reinterpret_cast<::NiTimeController_Luna *>(this)->FUN_00a6d5e0(stream);
     StreamLayout& streamLayout = reinterpret_cast<StreamLayout&>(stream);
     if (streamLayout.version < 0x0a000102)
     {
@@ -359,13 +373,12 @@ void LookAt::FUN_00a4ce20(NiStream& stream)
         unsigned int size = 2;
         input->position += read(input, &flags, 2, &size, 1);
     }
-    reinterpret_cast<StreamFinish*>(&stream)->FUN_00a645b0();
+    reinterpret_cast<::FUN_00a645b0_cls *>((reinterpret_cast<StreamFinish*>(&stream)))->FUN_00a645b0();
 }
 
 class NiTStringPointerMap_00e93020
 {
   public:
-    bool GetAt(void* pKey, void*& rValue);
 };
 
 struct FUN_00a4ccd0_Item
@@ -406,7 +419,6 @@ class FUN_00a4ccd0_cls
     int unk34;
     FUN_00a4ccd0_Item* m_38;
 
-    void FUN_00a6d0c0(void* pArg);
     void LookupAndLinkItem(void* pArg);
 };
 
@@ -421,13 +433,13 @@ void FUN_00a4ccd0_cls::LookupAndLinkItem(void* apItem)
     NiTStringPointerMap_00e93020* pMap;
 
     pItem = apItem;
-    FUN_00a6d0c0(pItem);
+    reinterpret_cast<::NiTimeController *>(this)->ProcessClone((*(::CloningProcess *)(pItem)));
     pMap = ((FUN_00a4ccd0_Item*)pItem)->m_pMgr;
     apItem = 0;
-    pMap->GetAt(this, apItem);
+    reinterpret_cast<::A54440Hash *>((pMap))->FUN_00a53c30((::A54440Manager *)(void *)(this), (::A54440Manager **)&(apItem));
     if (m_38 != 0)
     {
-        bFound = ((FUN_00a4ccd0_Item*)pItem)->m_pMgr->GetAt(m_38, local);
+        bFound = reinterpret_cast<::A54440Hash *>((((FUN_00a4ccd0_Item*)pItem)->m_pMgr))->FUN_00a53c30((::A54440Manager *)(m_38), (::A54440Manager **)&(local));
         if (!bFound)
         {
             pResolved = m_38;
@@ -621,7 +633,6 @@ struct StreamObj
 // The base class that owns the shared stream handling.
 struct Base44
 {
-    void FUN_00a6d730(StreamObj* stream);
 };
 
 // The look-at data that is handed to the callback.
@@ -655,7 +666,7 @@ struct Ctl : Base44
 // @fnv 0x00a4cea0
 void Ctl::FUN_00a4cea0(StreamObj* stream)
 {
-    Base44::FUN_00a6d730(stream);
+    reinterpret_cast<::FUN_00a6d730_shell *>(this)->FUN_00a6d730((*(::Stream_a6d730 *)(stream)));
     Handler* handler = stream->m250;
     {
         // The out-value is kept in an inner block on purpose: that way the
@@ -671,14 +682,12 @@ void Ctl::FUN_00a4cea0(StreamObj* stream)
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int uiSize);
 };
 
 struct FUN_00a6d220 : public BSFaceGenMorphData
 {
     FUN_00a6d220() throw();
     virtual void v00();
-    void FUN_00a6cfe0(FUN_00a6d220* pkDest, void* pkCloning);
     int unk;
     unsigned short m_usFlags;
     unsigned short unk0a;
@@ -740,7 +749,7 @@ struct Clone_a4c : public FUN_00a6d220
 Clone_a4c* Clone_a4c::FUN_00a4cd60(void* pkCloning)
 {
     Clone_a4c* pkClone = new Clone_a4c;
-    FUN_00a6cfe0(pkClone, pkCloning);
+    reinterpret_cast<::NiTimeControllerCM *>(this)->FUN_00a6cfe0((::NiTimeController *)(pkClone), (*(::CloningProcess *)(pkCloning)));
     pkClone->m_34 = m_34;
     pkClone->SetBit(GetBit(1), 1);
     pkClone->SetField(GetField(6, 1), 6, 1);
@@ -749,7 +758,7 @@ Clone_a4c* Clone_a4c::FUN_00a4cd60(void* pkCloning)
 }
 
 extern int DAT_01098c14;
-void __fastcall FUN_00a6d220(void*) throw();
+void FUN_00a6d220(void*) throw();
 
 struct Base4c : BSFaceGenMorphData
 {
@@ -760,7 +769,7 @@ struct Base4c : BSFaceGenMorphData
     unsigned int pad[10];
     Base4c()
     {
-        FUN_00a6d220(this);
+        new ((void *)(this)) class ::FUN_00a6d220();
     }
 };
 struct X4c : Base4c
@@ -816,7 +825,6 @@ struct Eq4c
     unsigned int unk[14];
     EqAV4c* m_spObj;
 
-    bool FUN_00a6cc80(Eq4c* other);
     bool FUN_00a4c890(Eq4c* other);
 };
 
@@ -824,7 +832,7 @@ struct Eq4c
 // @fnv 0x00a4c890
 bool Eq4c::FUN_00a4c890(Eq4c* other)
 {
-    if (!FUN_00a6cc80(other))
+    if (!::FUN_00a6cc80((::TCEq *)this, (intptr_t)(other), {}))
         return false;
     if ((m_spObj && !other->m_spObj) || (!m_spObj && other->m_spObj))
         return false;
@@ -871,7 +879,6 @@ struct S00a4c8e0_Pt
     {
         return S00a4c8e0_Pt(y * p.z - z * p.y, z * p.x - x * p.z, x * p.y - y * p.x);
     }
-    __declspec(noalias) void FUN_004a0c10();
 };
 struct S00a4c8e0_Mat
 {
@@ -964,9 +971,6 @@ struct S00a4c8e0_Ctl
     }
     void Update(float);
 };
-extern S00a4c8e0_Mat DAT_011a9448;
-extern S00a4c8e0_Pt DAT_011a9478;
-extern S00a4c8e0_Pt DAT_011a9484;
 
 // Rotates the controlled node to face the target node by building a look-at matrix from their world positions and applying the parent transform.
 // @fnv 0x00a4c8e0
@@ -987,7 +991,7 @@ void S00a4c8e0_Ctl::Update(float time)
     }
     else
     {
-        parentRot = DAT_011a9448;
+        parentRot = (*reinterpret_cast<::S00a4c8e0_Mat *>(&::DAT_011a9448));
         worldPos = node->translation;
     }
     S00a4c8e0_Pt at = targetPos - worldPos;
@@ -999,21 +1003,21 @@ void S00a4c8e0_Ctl::Update(float time)
     }
     else
     {
-        at.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(at))->FUN_004a0c10();
         S00a4c8e0_Pt up;
         float d;
         if (at.z < 1.001f && at.z > 0.9990000128746033)
         {
-            up = DAT_011a9478;
+            up = (*reinterpret_cast<::S00a4c8e0_Pt *>(&::DAT_011a9478));
             d = at.y;
         }
         else
         {
-            up = DAT_011a9484;
+            up = (*reinterpret_cast<::S00a4c8e0_Pt *>((void *)&::DAT_011a9484));
             d = at.z;
         }
         up -= at * d;
-        up.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(up))->FUN_004a0c10();
         if (!GetFlip())
             at = -at;
         S00a4c8e0_Pt right = up.Cross(at);

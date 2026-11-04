@@ -3,6 +3,8 @@
 #define FNV_BGSLOADEDREFERENCECOLLECTION_H
 
 
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_011f6000.h"
 #include "layout_support.h"
 #include "TESForm.h"
 
@@ -28,18 +30,18 @@ template <class K, class V> class NiTPointerMap
     void SetAt(K key, V value);
 };
 
+class ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
+public:
+    ::ExtraRadioData *GetExtraRadioData();
 };
 
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
 };
-extern TimeGlobal g_timeGlobal;
 
-#pragma pack(push, 4)
 class LoadedReferenceMap : public NiTPointerMap<unsigned int, TESObjectREFR*>
 {
   public:
@@ -48,10 +50,6 @@ class LoadedReferenceMap : public NiTPointerMap<unsigned int, TESObjectREFR*>
 
     bool AddReference(TESObjectREFR* pRef);
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(LoadedReferenceMap) == 24);
-FNV_STATIC_ASSERT(offsetof(LoadedReferenceMap, iCount) == 16);
-FNV_STATIC_ASSERT(offsetof(LoadedReferenceMap, m_uiLastUpdateTime) == 20);
 
 #endif

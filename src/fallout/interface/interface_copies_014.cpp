@@ -1,6 +1,15 @@
 
 // Provisional build file (plan B2): exact copies of the interface recipe for other original addresses.
 // Twin_<addr>/FUN_<addr> are placeholder names; the original identities of these functions are unknown.
+#include "fnv/decl/FUN_00706d90_shell.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_00715000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011d9000.h"
 #include "interface_packet.h"
 
 class TESWorldSpace;

@@ -1,5 +1,127 @@
 // fallout/ai/aitaskmanager.cpp: MovementTaskData, PackageUpdateTaskData, Owner, ActorsScriptTaskData and more (87 functions)
 
+#include "fnv/simple_list_node_view.h"
+#include <cstdint>
+#include "havok/hkMemoryRouter.h"
+#include <new>
+#include "fnv/decl/ActiveEffect.h"
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/B88B5A0Actor.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00422700_shell.h"
+#include "fnv/decl/FUN_00422720_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00442550_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0059e400_shell.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_006ea330_shell.h"
+#include "fnv/decl/FUN_006ec390_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_0088b510_cls.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008_Struct.h"
+#include "fnv/decl/FUN_008a1710_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008bc700_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FUN_008ca770_Class.h"
+#include "fnv/decl/FUN_008ca7c0_shell.h"
+#include "fnv/decl/FUN_008ca830_cls.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00967350_shell.h"
+#include "fnv/decl/FUN_009ae580_shell.h"
+#include "fnv/decl/FaderManager.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/GameObject.h"
+#include "fnv/decl/GlobalObject_0044fae0.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/ItemChangeList.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/PlayerCharacter.h"
+#include "fnv/decl/QuantitySet.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_0082f1f0_Lock.h"
+#include "fnv/decl/SemaphoreWaitReceiver.h"
+#include "fnv/decl/TESFaction_RankDataView.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TeammateOwner.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_00422690__FUN_00422690_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00565870__FUN_00565870_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_008b0520__FUN_008b0520_shell.h"
+#include "fnv/decl/fnv_008bc860__FUN_008bc860_StandIn.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/fnv_00964260__SelActor.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_0096e3c0__FUN_0096e3c0_shell.h"
+#include "fnv/decl/fnv_00977130__FUN_00977130_shell.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_005cb000.h"
+#include "fnv/symbols_0076b000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_008c8000.h"
+#include "fnv/symbols_008ca000.h"
+#include "fnv/symbols_00cbb000.h"
+#include "fnv/symbols_01085000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011df000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f1000.h"
+#include "fnv/symbols_011f6000.h"
 #include "../../../include/layout_support.h"
 #include "../../../include/Actor.h"
 #include "../../../include/RecursiveLock.h"
@@ -21,7 +143,7 @@ class ActorTaskManager
 // @fnv 0x004538c0
 void ActorTaskManager::WaitForTasksDuringRendering()
 {
-    m_taskLock.Leave();
+    reinterpret_cast<::S_0082f1f0_Lock *>(&(m_taskLock))->FUN_0082f1f0();
 }
 
 struct ST_008c8bb0
@@ -52,16 +174,13 @@ void FUN_008c8fd0_helper::Set(bool abVal)
 struct WeatherEntry;
 struct SoundListView
 {
-    void AddTail(char* const&);
 };
-extern SoundListView g_011d970c;
-int __cdecl FUN_0076bb00(WeatherEntry*, WeatherEntry*);
 // Appends name to g_011d970c and re-sorts the list using FUN_0076bb00 as the comparison.
 // @fnv 0x0076bad0
 void FUN_0076bad0(char* name)
 {
-    g_011d970c.AddTail(name);
-    ((BSSimpleList<WeatherEntry*>*)&g_011d970c)->Sort(FUN_0076bb00);
+    reinterpret_cast<::Callees *>(&((*reinterpret_cast<::SoundListView *>(&::g_011d970c))))->FUN_00905820((void *)&(name));
+    reinterpret_cast<::ItemChangeList *>((((BSSimpleList<WeatherEntry*>*)&(*reinterpret_cast<::SoundListView *>(&::g_011d970c)))))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(((int (&)(WeatherEntry *, WeatherEntry *))::FUN_0076bb00)));
 }
 
 struct FUN_008c8190_shell
@@ -86,31 +205,10 @@ struct FUN_008c8370_shell
     void FUN_008c83a0();
     FUN_008c8370_shell* FUN_008c8370(unsigned int flags);
 };
-// Calls FUN_008c83a0, then deletes this if flags has bit 0 set, and returns this.
-// @fnv 0x008c8370
-FUN_008c8370_shell* FUN_008c8370_shell::FUN_008c8370(unsigned int flags)
-{
-    FUN_008c83a0();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct FUN_008c8400_shell
 {
-    void FUN_008c8430();
     FUN_008c8400_shell* FUN_008c8400(unsigned int flags);
 };
-// Calls FUN_008c8430, deletes this when flags has bit 0 set, and returns this.
-// @fnv 0x008c8400
-FUN_008c8400_shell* FUN_008c8400_shell::FUN_008c8400(unsigned int flags)
-{
-    FUN_008c8430();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 extern int DAT_01085728;
 struct FUN_008c8430_shell
 {
@@ -118,22 +216,10 @@ struct FUN_008c8430_shell
     void FUN_008c83a0();
     void FUN_008c8430();
 };
-// @fnv 0x008c8430
-void FUN_008c8430_shell::FUN_008c8430()
-{
-    vtbl = &DAT_01085728;
-    FUN_008c83a0();
-}
-
 struct ATM
 {
-    void WaitForTasksDuringRendering();
 };
 struct PC7d;
-extern PC7d* g_thePlayer;
-void __fastcall FUN_00964260(void*);
-extern ATM g_011dfbe8;
-extern ATM g_011dfc04;
 struct FUN_008c8490_shell
 {
     void FUN_008c8490(unsigned int);
@@ -142,9 +228,9 @@ struct FUN_008c8490_shell
 // @fnv 0x008c8490
 void FUN_008c8490_shell::FUN_008c8490(unsigned int)
 {
-    FUN_00964260(g_thePlayer);
-    g_011dfc04.WaitForTasksDuringRendering();
-    g_011dfbe8.WaitForTasksDuringRendering();
+    reinterpret_cast<::fnv_00964260::SelActor *>(((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))))->FUN_00964260();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::ATM *>(&::g_011dfc04))))->WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::ATM *>(&::g_011dfbe8))))->WaitForTasksDuringRendering();
 }
 
 extern int DAT_01085768;
@@ -163,22 +249,10 @@ FUN_008c8830_shell* FUN_008c8830_shell::Construct(int p)
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008c8860_shell
 {
-    void FUN_008c8890();
     void* FUN_008c8860(unsigned int flags);
 };
-// Calls FUN_008c8890, deletes this when flags has bit 0 set, and returns this.
-// @fnv 0x008c8860
-void* FUN_008c8860_shell::FUN_008c8860(unsigned int flags)
-{
-    FUN_008c8890();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 extern int DAT_01085768;
 struct FUN_008c8890_shell
 {
@@ -186,20 +260,11 @@ struct FUN_008c8890_shell
     void FUN_008c83a0();
     void FUN_008c8890();
 };
-// @fnv 0x008c8890
-void FUN_008c8890_shell::FUN_008c8890()
-{
-    vtbl = &DAT_01085768;
-    FUN_008c83a0();
-}
-
 namespace fnv_008c88b0 {
 struct ATM
 {
     void QueryPerformanceCounter(int);
 };
-extern ATM g_011dfc38;
-extern ATM g_011dfc04;
 struct FUN_008c88b0_shell
 {
     void QueryPerformanceCounters(int);
@@ -208,18 +273,15 @@ struct FUN_008c88b0_shell
 // @fnv 0x008c88b0
 void FUN_008c88b0_shell::QueryPerformanceCounters(int)
 {
-    g_011dfc38.QueryPerformanceCounter(0);
-    g_011dfc04.QueryPerformanceCounter(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c88b0::ATM *>(&::g_011dfc38))))->FUN_004538a0(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c88b0::ATM *>(&::g_011dfc04))))->FUN_004538a0(0);
 }
 }  // namespace fnv_008c88b0
 
 namespace fnv_008c88e0 {
 struct ATM
 {
-    void WaitForTasksDuringRendering();
 };
-extern ATM g_011dfc04;
-extern ATM g_011dfc38;
 struct FUN_008c88e0_shell
 {
     void FUN_008c88e0(int a);
@@ -228,8 +290,8 @@ struct FUN_008c88e0_shell
 // @fnv 0x008c88e0
 void FUN_008c88e0_shell::FUN_008c88e0(int aiUnused)
 {
-    g_011dfc04.WaitForTasksDuringRendering();
-    g_011dfc38.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_008c88e0::ATM *>(&::g_011dfc04))))->WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_008c88e0::ATM *>(&::g_011dfc38))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_008c88e0
 
@@ -252,21 +314,10 @@ FUN_008c89a0::FUN_008c89a0(int aiValue) : FUN_008c82e0(aiValue)
     field38 = 0;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008c89d0_shell
 {
-    void FUN_008c8a00();
     void* Destroy(unsigned int flags);
 };
-// @fnv 0x008c89d0
-void* FUN_008c89d0_shell::Destroy(unsigned int flags)
-{
-    FUN_008c8a00();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 extern int DAT_01085788;
 struct FUN_008c8a00_shell
 {
@@ -274,38 +325,30 @@ struct FUN_008c8a00_shell
     void FUN_008c83a0();
     void FUN_008c8a00();
 };
-// @fnv 0x008c8a00
-void FUN_008c8a00_shell::FUN_008c8a00()
-{
-    vtbl = &DAT_01085788;
-    FUN_008c83a0();
-}
-
 namespace fnv_008c8a20 {
 struct ATM
 {
     void QueryPerformanceCounter(int);
 };
-extern ATM g_011dfc38;
 struct FUN_008c8a20_shell
 {
     void FUN_008c8a20(int);
+    unsigned int pad00[0xe];
+    int unk38;
 };
 // Clears the int at offset 0x38 and calls QueryPerformanceCounter on g_011dfc38.
 // @fnv 0x008c8a20
 void FUN_008c8a20_shell::FUN_008c8a20(int)
 {
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x38) = 0;
-    g_011dfc38.QueryPerformanceCounter(0);
+    this->unk38 = 0;
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c8a20::ATM *>(&::g_011dfc38))))->FUN_004538a0(0);
 }
 }  // namespace fnv_008c8a20
 
 namespace fnv_008c8a50 {
 struct ATM
 {
-    void WaitForTasksDuringRendering();
 };
-extern ATM g_011dfc38;
 struct FUN_008c8a50_shell
 {
     void FUN_008c8a50(int a);
@@ -313,25 +356,14 @@ struct FUN_008c8a50_shell
 // @fnv 0x008c8a50
 void FUN_008c8a50_shell::FUN_008c8a50(int aiUnused)
 {
-    g_011dfc38.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_008c8a50::ATM *>(&::g_011dfc38))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_008c8a50
 
-void __cdecl operator delete(void*);
 struct FUN_008c8b20_shell
 {
-    void FUN_008c8b50();
     void* DestroyOrReturnSelf(unsigned int flags);
 };
-// @fnv 0x008c8b20
-void* FUN_008c8b20_shell::DestroyOrReturnSelf(unsigned int flags)
-{
-    FUN_008c8b50();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 extern int DAT_010857a8;
 struct FUN_008c8b50_shell
 {
@@ -339,13 +371,6 @@ struct FUN_008c8b50_shell
     void FUN_008c83a0();
     void FUN_008c8b50();
 };
-// @fnv 0x008c8b50
-void FUN_008c8b50_shell::FUN_008c8b50()
-{
-    vtbl = &DAT_010857a8;
-    FUN_008c83a0();
-}
-
 extern "C" unsigned char DAT_011e01dd;
 
 // @fnv 0x008c8bd0
@@ -357,20 +382,14 @@ void FUN_008c8bd0()
 namespace fnv_008c8ff0 {
 struct Twin_0084d030
 {
-    float GetStoredFloatValue();
 };
 struct PkgObj
 {
-    void FUN_00977130(float f);
 };
 struct ATM
 {
-    void WaitForTasksDuringRendering();
     void QueryPerformanceCounter(int);
 };
-extern Twin_0084d030 g_timeGlobal;
-extern PkgObj DAT_011e0e80;
-extern ATM g_011dfbe8;
 struct PackageUpdateTaskData
 {
     void RunPackageUpdateTask(unsigned int aiThread);
@@ -378,8 +397,8 @@ struct PackageUpdateTaskData
 // @fnv 0x008c8ff0
 void PackageUpdateTaskData::RunPackageUpdateTask(unsigned int aiThread)
 {
-    DAT_011e0e80.FUN_00977130(g_timeGlobal.GetStoredFloatValue());
-    g_011dfbe8.WaitForTasksDuringRendering();
+    reinterpret_cast<::fnv_00977130::FUN_00977130_shell *>(&((*reinterpret_cast<::fnv_008c8ff0::PkgObj *>(&::g_011e0e80))))->FUN_00977130(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_008c8ff0::Twin_0084d030 *>(&::g_timeGlobal))))->GetStoredFloatValue());
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_008c8ff0::ATM *>(&::g_011dfbe8))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_008c8ff0
 
@@ -404,22 +423,10 @@ FUN_008c9020::FUN_008c9020(int a) : FUN_008c82e0(a)
 }
 }  // namespace fnv_008c9020
 
-void __cdecl operator delete(void*);
 struct FUN_008c9050_shell
 {
-    void FUN_008c9080();
     void* FUN_008c9050(unsigned int flags);
 };
-// Calls FUN_008c9080, deletes this when flags has bit 0 set, and returns this.
-// @fnv 0x008c9050
-void* FUN_008c9050_shell::FUN_008c9050(unsigned int flags)
-{
-    FUN_008c9080();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 extern int DAT_010857c8;
 struct FUN_008c9080_shell
 {
@@ -427,21 +434,10 @@ struct FUN_008c9080_shell
     void FUN_008c83a0();
     void FUN_008c9080();
 };
-// @fnv 0x008c9080
-void FUN_008c9080_shell::FUN_008c9080()
-{
-    vtbl = &DAT_010857c8;
-    FUN_008c83a0();
-}
-
 namespace fnv_008c90e0 {
 struct ATM
 {
-    void WaitForTasksDuringRendering();
 };
-extern ATM g_011dfbe8;
-extern ATM g_011dfc04;
-extern ATM g_011dfc38;
 struct FUN_008c90e0_shell
 {
     void FUN_008c90e0(unsigned int);
@@ -450,9 +446,9 @@ struct FUN_008c90e0_shell
 // @fnv 0x008c90e0
 void FUN_008c90e0_shell::FUN_008c90e0(unsigned int)
 {
-    g_011dfbe8.WaitForTasksDuringRendering();
-    g_011dfc04.WaitForTasksDuringRendering();
-    g_011dfc38.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_008c90e0::ATM *>(&::g_011dfbe8))))->WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_008c90e0::ATM *>(&::g_011dfc04))))->WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_008c90e0::ATM *>(&::g_011dfc38))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_008c90e0
 
@@ -477,22 +473,10 @@ FUN_008c9170::FUN_008c9170(int a) : FUN_008c82e0(a)
 }
 }  // namespace fnv_008c9170
 
-void __cdecl operator delete(void*);
 struct FUN_008c91a0_shell
 {
-    void FUN_008c91d0();
     void* FUN_008c91a0(unsigned int flags);
 };
-// Calls FUN_008c91d0, then frees this with operator delete when flags has bit 0 set, and returns this.
-// @fnv 0x008c91a0
-void* FUN_008c91a0_shell::FUN_008c91a0(unsigned int flags)
-{
-    FUN_008c91d0();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 extern int DAT_010857e8;
 
 struct FUN_008c91d0_shell
@@ -501,12 +485,14 @@ struct FUN_008c91d0_shell
     void FUN_008c83a0();
     void FUN_008c91d0();
 };
-
-// @fnv 0x008c91d0
-void FUN_008c91d0_shell::FUN_008c91d0()
+// Calls FUN_008c91d0, then frees this with operator delete when flags has bit 0 set, and returns this.
+// @fnv 0x008c91a0
+void* FUN_008c91a0_shell::FUN_008c91a0(unsigned int flags)
 {
-    m_vft = &DAT_010857e8;
-    FUN_008c83a0();
+    reinterpret_cast<::FUN_008c91d0_shell *>(this)->FUN_008c91d0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
 }
 
 namespace fnv_008c91f0 {
@@ -514,8 +500,6 @@ struct ATM
 {
     void QueryPerformanceCounter(int);
 };
-extern ATM g_011dfbe8;
-extern ATM g_011dfc04;
 struct MovementTaskData
 {
     int pad[14];
@@ -527,18 +511,15 @@ struct MovementTaskData
 void MovementTaskData::FUN_008c91f0(unsigned int auiCount)
 {
     field = 0;
-    g_011dfc04.QueryPerformanceCounter(0);
-    g_011dfbe8.QueryPerformanceCounter(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c91f0::ATM *>(&::g_011dfc04))))->FUN_004538a0(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c91f0::ATM *>(&::g_011dfbe8))))->FUN_004538a0(0);
 }
 }  // namespace fnv_008c91f0
 
 namespace fnv_008c9300 {
 struct ATM
 {
-    void WaitForTasksDuringRendering();
 };
-extern ATM g_011dfbe8;
-extern ATM g_011dfc04;
 struct FUN_008c9300_shell
 {
     void FUN_008c9300(int a);
@@ -547,8 +528,8 @@ struct FUN_008c9300_shell
 // @fnv 0x008c9300
 void FUN_008c9300_shell::FUN_008c9300(int aiUnused)
 {
-    g_011dfbe8.WaitForTasksDuringRendering();
-    g_011dfc04.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_008c9300::ATM *>(&::g_011dfbe8))))->WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_008c9300::ATM *>(&::g_011dfc04))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_008c9300
 
@@ -557,11 +538,11 @@ struct FUN_008c9a50_shell
     int m_uiContentCount;
     int m_auiShapeKeys;
     int m_uiFilterValue;
-    FUN_008c9a50_shell* FUN_008c9a50(int value);
+    FUN_008c9a50_shell* FUN_008c9a50(intptr_t value);
 };
 // Sets the first field to 1 and stores value in the third field, then returns this.
 // @fnv 0x008c9a50
-FUN_008c9a50_shell* FUN_008c9a50_shell::FUN_008c9a50(int value)
+FUN_008c9a50_shell* FUN_008c9a50_shell::FUN_008c9a50(intptr_t value)
 {
     m_uiContentCount = 1;
     m_uiFilterValue = value;
@@ -574,12 +555,12 @@ struct Obj_008c9a80
     int m_items[10];
     int m_40;
     int m_44;
-    void PushItem(int a);
+    void PushItem(intptr_t a);
 };
 
 // Stores a into m_items at a circular index derived from m_44 and m_40, then increments m_40, if m_40 is below 10.
 // @fnv 0x008c9a80
-void Obj_008c9a80::PushItem(int aiValue)
+void Obj_008c9a80::PushItem(intptr_t aiValue)
 {
     if (m_40 < 10)
     {
@@ -591,21 +572,11 @@ void Obj_008c9a80::PushItem(int aiValue)
     }
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008c9ec0_shell
 {
     void FUN_008c9ef0();
     void* FUN_008c9ec0(unsigned int flags);
 };
-// @fnv 0x008c9ec0
-void* FUN_008c9ec0_shell::FUN_008c9ec0(unsigned int flags)
-{
-    FUN_008c9ef0();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct GlobalObject_0078d3b0
 {
     char d[0xc];
@@ -630,6 +601,14 @@ struct FUN_008c9ef0 : FUN_00aa63c0_base
     FUN_0052d240_obj c;
     ~FUN_008c9ef0();
 };
+// @fnv 0x008c9ec0
+void* FUN_008c9ec0_shell::FUN_008c9ec0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008c9ef0 *>(this)->FUN_008c9ef0::~FUN_008c9ef0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor for FUN_008c9ef0; the body is empty.
 // @fnv 0x008c9ef0
 FUN_008c9ef0::~FUN_008c9ef0()
@@ -637,7 +616,6 @@ FUN_008c9ef0::~FUN_008c9ef0()
 
 struct CountingSemaphore
 {
-    void Signal();
 };
 struct FUN_008c9fb0_shell
 {
@@ -646,13 +624,12 @@ struct FUN_008c9fb0_shell
 // @fnv 0x008c9fb0
 void FUN_008c9fb0_shell::SignalAtOffset30()
 {
-    ((CountingSemaphore*)((char*)this + 0x30))->Signal();
+    reinterpret_cast<::FUN_00442550_shell *>((((CountingSemaphore*)((char*)this + 0x30))))->ReleaseAndInitScriptRunLock();
 }
 
 namespace fnv_008ca2e0 {
 struct FUN_008c9fb0_shell
 {
-    void SignalAtOffset30();
 };
 struct FUN_008ca2e0_shell
 {
@@ -661,51 +638,48 @@ struct FUN_008ca2e0_shell
 // @fnv 0x008ca2e0
 void FUN_008ca2e0_shell::CallAt(int iIndex)
 {
-    ((FUN_008c9fb0_shell**)this)[iIndex]->SignalAtOffset30();
+    reinterpret_cast<::FUN_008c9fb0_shell *>((((FUN_008c9fb0_shell**)this)[iIndex]))->SignalAtOffset30();
 }
 }  // namespace fnv_008ca2e0
 
 struct GlobalObject_008caae0
 {
-    void __thiscall FUN_008ca330(int a);
 };
-extern GlobalObject_008caae0 g_011dfc24;
 
 struct FUN_008ca300_shell
 {
-    void __thiscall FUN_008ca300();
+    void FUN_008ca300();
+    char pad00[0x10180];
+    unsigned char unk10180;
 };
 
-// @fnv 0x008ca300
-void __thiscall FUN_008ca300_shell::FUN_008ca300()
-{
-    if (*(unsigned char*)((char*)this + 0x10180))
-    {
-        g_011dfc24.FUN_008ca330(2);
-        *(unsigned char*)((char*)this + 0x10180) = 0;
-    }
-}
-
-void __fastcall FUN_008c7490(void* p);
 struct FUN_008ca330_shell
 {
     void FUN_008ca330(int a);
 };
+// @fnv 0x008ca300
+void FUN_008ca300_shell::FUN_008ca300()
+{
+    if (this->unk10180)
+    {
+        reinterpret_cast<::FUN_008ca330_shell *>(&(::g_011dfc24))->FUN_008ca330(2);
+        this->unk10180 = 0;
+    }
+}
 // @fnv 0x008ca330
 void FUN_008ca330_shell::FUN_008ca330(int aiIndex)
 {
-    FUN_008c7490(((void**)this)[aiIndex]);
+    ::FUN_008c7490((::FUN_008c7490_this *)(((void**)this)[aiIndex]));
 }
 
 extern int DAT_0108583c;
 
 // @fnv 0x008ca3c0
-void __fastcall FUN_008ca3c0(void* thisPtr)
+void FUN_008ca3c0(void* thisPtr)
 {
     *static_cast<void**>(thisPtr) = &DAT_0108583c;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008ca3e0_shell
 {
     void FUN_008ca3c0();
@@ -715,27 +689,17 @@ struct FUN_008ca3e0_shell
 // @fnv 0x008ca3e0
 void* FUN_008ca3e0_shell::FUN_008ca3e0(unsigned int flags)
 {
-    FUN_008ca3c0();
+    ::FUN_008ca3c0((void *)this);
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008ca410_shell
 {
     void FUN_008ca350();
     void* FUN_008ca410(unsigned int flags);
 };
-// @fnv 0x008ca410
-void* FUN_008ca410_shell::FUN_008ca410(unsigned int flags)
-{
-    FUN_008ca350();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct FUN_008ca740
 {
     int m_pad4;
@@ -763,19 +727,18 @@ FUN_008ca440::FUN_008ca440(int aiValue)
 
 struct FUN_008ca520_shell
 {
-    void __thiscall InitVtbl();
+    void InitVtbl();
 };
 extern int DAT_01085864;
 
 // @fnv 0x008ca500
-void __fastcall FUN_008ca500(void* this_ptr)
+void FUN_008ca500(void* this_ptr)
 {
     *(void**)this_ptr = &DAT_01085864;
     ((FUN_008ca520_shell*)this_ptr)->InitVtbl();
 }
 
 namespace fnv_008ca520 {
-extern int DAT_01085884;
 struct FUN_008ca520_shell
 {
     int* vtbl;
@@ -784,11 +747,10 @@ struct FUN_008ca520_shell
 // @fnv 0x008ca520
 void FUN_008ca520_shell::InitVtbl()
 {
-    vtbl = &DAT_01085884;
+    vtbl = &::DAT_01085884;
 }
 }  // namespace fnv_008ca520
 
-void __cdecl operator delete(void*);
 struct FUN_008ca540_shell
 {
     void FUN_008ca500();
@@ -798,25 +760,23 @@ struct FUN_008ca540_shell
 // @fnv 0x008ca540
 void* FUN_008ca540_shell::FUN_008ca540(unsigned int flags)
 {
-    FUN_008ca500();
+    ::FUN_008ca500((void *)this);
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008ca570_shell
 {
-    void InitVtbl();
     void* FUN_008ca570(unsigned int flags);
 };
 // Calls InitVtbl, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x008ca570
 void* FUN_008ca570_shell::FUN_008ca570(unsigned int flags)
 {
-    InitVtbl();
+    reinterpret_cast<::fnv_008ca520::FUN_008ca520_shell *>(this)->InitVtbl();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -829,7 +789,6 @@ struct FUN_008ca5a0_node
 };
 struct FUN_008ca5a0_pool
 {
-    bool FUN_008ca7c0(FUN_008ca5a0_node** out, unsigned int arg);
 };
 struct FUN_008ca5a0_mgr
 {
@@ -845,7 +804,7 @@ bool FUN_008ca5a0_mgr::AppendNode(unsigned int arg)
 {
     bool result;
     FUN_008ca5a0_node* node;
-    if (pool && pool->FUN_008ca7c0(&node, arg))
+    if (pool && reinterpret_cast<::FUN_008ca7c0_shell *>((pool))->FUN_008ca7c0((intptr_t)(&node), arg))
     {
         if (!head)
             tail = &head;
@@ -872,12 +831,12 @@ struct Obj_009529d0
     int m_6b8;
     char pad2[0x6c4 - 0x6bc];
     List_009e03e0 m_6c4;
-    void FUN_009529d0(int a);
+    void FUN_009529d0(intptr_t a);
 };
 
 // If the new value differs from m_6b8, stores it and, when it becomes zero, clears the m_6c4 list.
 // @fnv 0x009529d0
-void Obj_009529d0::FUN_009529d0(int a)
+void Obj_009529d0::FUN_009529d0(intptr_t a)
 {
     if (a != m_6b8)
     {
@@ -887,7 +846,7 @@ void Obj_009529d0::FUN_009529d0(int a)
         }
         else
         {
-            m_6c4.RemoveAll();
+            reinterpret_cast<::FileMatchList *>(&(m_6c4))->RemoveAll();
         }
     }
 }
@@ -909,6 +868,94 @@ struct FUN_008c83a0 : BaseT
     FUN_008ca480 m_1c;
     ~FUN_008c83a0();
 };
+// Calls FUN_008c83a0, then deletes this if flags has bit 0 set, and returns this.
+// @fnv 0x008c8370
+FUN_008c8370_shell* FUN_008c8370_shell::FUN_008c8370(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008c83a0 *>(this)->FUN_008c83a0::~FUN_008c83a0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+// Calls FUN_008c8430, deletes this when flags has bit 0 set, and returns this.
+// @fnv 0x008c8400
+FUN_008c8400_shell* FUN_008c8400_shell::FUN_008c8400(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008c8430_shell *>(this)->FUN_008c8430();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+// @fnv 0x008c8430
+void FUN_008c8430_shell::FUN_008c8430()
+{
+    vtbl = &DAT_01085728;
+    reinterpret_cast<::FUN_008c83a0 *>(this)->FUN_008c83a0::~FUN_008c83a0();
+}
+// Calls FUN_008c8890, deletes this when flags has bit 0 set, and returns this.
+// @fnv 0x008c8860
+void* FUN_008c8860_shell::FUN_008c8860(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008c8890_shell *>(this)->FUN_008c8890();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+// @fnv 0x008c8890
+void FUN_008c8890_shell::FUN_008c8890()
+{
+    vtbl = &DAT_01085768;
+    reinterpret_cast<::FUN_008c83a0 *>(this)->FUN_008c83a0::~FUN_008c83a0();
+}
+// @fnv 0x008c89d0
+void* FUN_008c89d0_shell::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008c8a00_shell *>(this)->FUN_008c8a00();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+// @fnv 0x008c8a00
+void FUN_008c8a00_shell::FUN_008c8a00()
+{
+    vtbl = &DAT_01085788;
+    reinterpret_cast<::FUN_008c83a0 *>(this)->FUN_008c83a0::~FUN_008c83a0();
+}
+// @fnv 0x008c8b20
+void* FUN_008c8b20_shell::DestroyOrReturnSelf(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008c8b50_shell *>(this)->FUN_008c8b50();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+// @fnv 0x008c8b50
+void FUN_008c8b50_shell::FUN_008c8b50()
+{
+    vtbl = &DAT_010857a8;
+    reinterpret_cast<::FUN_008c83a0 *>(this)->FUN_008c83a0::~FUN_008c83a0();
+}
+// Calls FUN_008c9080, deletes this when flags has bit 0 set, and returns this.
+// @fnv 0x008c9050
+void* FUN_008c9050_shell::FUN_008c9050(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008c9080_shell *>(this)->FUN_008c9080();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+// @fnv 0x008c9080
+void FUN_008c9080_shell::FUN_008c9080()
+{
+    vtbl = &DAT_010857c8;
+    reinterpret_cast<::FUN_008c83a0 *>(this)->FUN_008c83a0::~FUN_008c83a0();
+}
+// @fnv 0x008c91d0
+void FUN_008c91d0_shell::FUN_008c91d0()
+{
+    m_vft = &DAT_010857e8;
+    reinterpret_cast<::FUN_008c83a0 *>(this)->FUN_008c83a0::~FUN_008c83a0();
+}
 
 // Destructor for FUN_008c83a0; the body is empty and the base and member destructors run implicitly.
 // @fnv 0x008c83a0
@@ -981,7 +1028,6 @@ FUN_008c9a20_shell* FUN_008c9a20_shell::FUN_008c9a20(unsigned int v)
     return this;
 }
 
-void* __cdecl operator new(unsigned int);
 struct BSThread
 {
     char d[0x30];
@@ -1087,6 +1133,14 @@ struct FUN_008ca350 : FUN_008ca3c0
     Date m_items[0x1000];
     virtual ~FUN_008ca350();
 };
+// @fnv 0x008ca410
+void* FUN_008ca410_shell::FUN_008ca410(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008ca350 *>(this)->FUN_008ca350::~FUN_008ca350();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructs the array of Date elements held by the object.
 // @fnv 0x008ca350
 FUN_008ca350::~FUN_008ca350()
@@ -1105,7 +1159,6 @@ struct FUN_008ca500
 };
 struct FUN_008ca480 : FUN_008ca500
 {
-    bool FUN_006ec390(Tmp_008ca480* t);
     virtual ~FUN_008ca480();
 };
 // Destructor that repeatedly calls FUN_006ec390 with a temporary Tmp_008ca480 until it returns false.
@@ -1113,7 +1166,7 @@ struct FUN_008ca480 : FUN_008ca500
 FUN_008ca480::~FUN_008ca480()
 {
     Tmp_008ca480 t;
-    while (FUN_006ec390(&t))
+    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((intptr_t)(&t)))
     {
     }
 }
@@ -1122,17 +1175,14 @@ FUN_008ca480::~FUN_008ca480()
 struct Node_008ca620;
 struct Arg_008ca620
 {
-    void FUN_008caa70(void* p);
 };
 struct List_008ca620
 {
-    void FUN_008ca770(Node_008ca620** pp);
 };
 struct Node_008ca620
 {
     int m_auiShapeKeys[3];
     Node_008ca620* m_0c;
-    void* _ref_006815c0();
 };
 struct Obj_008ca620
 {
@@ -1149,9 +1199,9 @@ bool Obj_008ca620::PopNode(Arg_008ca620* a)
     Node_008ca620* node = m_0c;
     if (node)
     {
-        a->FUN_008caa70(node->_ref_006815c0());
+        reinterpret_cast<::FUN_008_Struct *>((a))->FUN_008caa70((::FUN_008_Struct *)(void *)(((void *)(((::Vec3 *)(void *)(node))))));
         m_0c = node->m_0c;
-        m_08->FUN_008ca770(&node);
+        reinterpret_cast<::FUN_008ca770_Class *>((m_08))->FUN_008ca770((::Date **)(::Node_008ca620 **)(&node));
         bPopped = true;
     }
     else
@@ -1180,17 +1230,15 @@ struct FUN_008ca680 : FUN_008ca800_base
     GlobalObject_008caae0 items[0x1000];
     FUN_008ca680();
     virtual void v0();
-    void InitFreeList(unsigned int n, GlobalObject_008caae0* p);
 };
 // Constructs the object and calls InitFreeList with 0x1000 and the items array.
 // @fnv 0x008ca680
 FUN_008ca680::FUN_008ca680()
 {
-    InitFreeList(0x1000, items);
+    reinterpret_cast<::FUN_008ca830_cls *>(this)->InitFreeList(0x1000, (::FreeNode16 *)(items));
 }
 }  // namespace fnv_008ca680
 
-void __cdecl operator delete(void*);
 struct FUN_008ca710_shell
 {
     void FUN_008ca480();
@@ -1199,9 +1247,9 @@ struct FUN_008ca710_shell
 // @fnv 0x008ca710
 void* FUN_008ca710_shell::FUN_008ca710(unsigned int flags)
 {
-    FUN_008ca480();
+    reinterpret_cast<::fnv_008ca480::FUN_008ca480 *>(this)->fnv_008ca480::FUN_008ca480::~FUN_008ca480();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -1218,12 +1266,12 @@ void AnimationTaskData::FUN_008c8910(MobileObject* apMob)
     if (pmob && pmob->IsActor())
     {
         Actor* pact = (Actor*)pmob;
-        if (*(bool*)((char*)pact + 0xbc))
+        if (pact->m_bFirstActorFlag)
         {
             pact->Unk_9A(0.0f);
         }
     }
-    else if (pmob && pmob->IsTalkingActivator())
+    else if (pmob && ((bool)(::FUN_00574900((const unsigned char *)(pmob)))))
     {
         pmob->Unk_9A(0.0f);
     }
@@ -1278,7 +1326,6 @@ struct Script
 };
 struct MobileObjectExt
 {
-    void FUN_00565870();
 };
 struct ActorsScriptTaskData
 {
@@ -1293,7 +1340,7 @@ void ActorsScriptTaskData::FUN_008c9110(MobileObject* apMob)
     MobileObject* pmob = apMob;
     if (pmob && pmob->IsActor() && Script::IsConsolePlatform())
     {
-        ((MobileObjectExt*)pmob)->FUN_00565870();
+        reinterpret_cast<::fnv_00565870::FUN_00565870_shell *>((((MobileObjectExt*)pmob)))->FUN_00565870();
         m_3C++;
     }
 }
@@ -1314,10 +1361,12 @@ struct FUN_008c81c0_shell
     void SetMob(void*);
     void SetCount(unsigned int);
     bool ProcessMessage(const MobileObjectTaskletContext* aMessage, unsigned int aThread);
+    unsigned int pad0c[0x9];
+    unsigned int unk30;
 };
 
-typedef void(__thiscall* SetCountFn)(FUN_008c81c0_shell*, unsigned int);
-typedef void(__thiscall* SetMobFn)(FUN_008c81c0_shell*, void*);
+typedef void(* SetCountFn)(FUN_008c81c0_shell*, unsigned int);
+typedef void(* SetMobFn)(FUN_008c81c0_shell*, void*);
 
 // @fnv 0x008c81c0
 bool FUN_008c81c0_shell::ProcessMessage(const MobileObjectTaskletContext* aMessage, unsigned int aThread)
@@ -1326,7 +1375,7 @@ bool FUN_008c81c0_shell::ProcessMessage(const MobileObjectTaskletContext* aMessa
     switch (aMessage->m_iFirstValue)
     {
     case 0:
-        *(unsigned int*)((char*)this + 0x30) = aMessage->ItemUpdateArray;
+        this->unk30 = aMessage->ItemUpdateArray;
         ((SetCountFn*)m_vtbl)[4](this, aMessage->ItemUpdateArray);
         break;
     case 1:
@@ -1351,7 +1400,6 @@ struct FUN_008c8190
 typedef FUN_008c8190 MobileObjectTaskletContext;
 struct PathingTaskData
 {
-    void FUN_006ea330();
 };
 struct MsgQueue
 {
@@ -1367,7 +1415,6 @@ struct MobileObjectTaskletData
     int _pad0[7];
     MsgQueue m_kMessageQueue;
     int eType;
-    bool ProcessMessage(void*, int);
     void FUN_008c8130();
 };
 // Drains messages from the queue, stops if ProcessMessage rejects one, otherwise calls FUN_006ea330 on this as PathingTaskData.
@@ -1377,10 +1424,10 @@ void MobileObjectTaskletData::FUN_008c8130()
     MobileObjectTaskletContext msg;
     while (m_kMessageQueue.GetMsg(&msg))
     {
-        if (!ProcessMessage(&msg, eType))
+        if (!reinterpret_cast<::FUN_008c81c0_shell *>(this)->ProcessMessage((const ::MobileObjectTaskletContext *)(void *)(&msg), eType))
             return;
     }
-    ((PathingTaskData*)this)->FUN_006ea330();
+    reinterpret_cast<::FUN_006ea330_shell *>((((PathingTaskData*)this)))->FUN_006ea330();
 }
 }  // namespace fnv_008c8130
 
@@ -1440,8 +1487,6 @@ struct ATM
 {
     void QueryPerformanceCounter(int);
 };
-extern ATM g_011dfbe8;
-extern ATM g_011dfc04;
 struct MovementTaskData
 {
     int pad[14];
@@ -1455,8 +1500,8 @@ void MovementTaskData::FUN_008c8450(unsigned int auUnused)
 {
     f38 = 0.0f;
     f3c = 0;
-    g_011dfc04.QueryPerformanceCounter(0);
-    g_011dfbe8.QueryPerformanceCounter(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c8450::ATM *>(&::g_011dfc04))))->FUN_004538a0(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c8450::ATM *>(&::g_011dfbe8))))->FUN_004538a0(0);
 }
 }  // namespace fnv_008c8450
 
@@ -1490,11 +1535,7 @@ struct ATM
 };
 struct Actor
 {
-    void FUN_008c8bb0(int);
 };
-extern ATM g_011dfbe8;
-extern Actor* g_thePlayer;
-void FUN_008c8bd0();
 struct PackageUpdateTaskData
 {
     int pad[15];
@@ -1507,9 +1548,9 @@ void PackageUpdateTaskData::FUN_008c8b70(unsigned int auiUnused)
 {
     f3c = 0;
     f40 = 0;
-    FUN_008c8bd0();
-    g_thePlayer->FUN_008c8bb0(0);
-    g_011dfbe8.QueryPerformanceCounter(0);
+    ::FUN_008c8bd0();
+    reinterpret_cast<::ST_008c8bb0 *>(((*reinterpret_cast<::fnv_008c8b70::Actor * *>(&::_g_thePlayer))))->FUN_008c8bb0(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c8b70::ATM *>(&::g_011dfbe8))))->FUN_004538a0(0);
 }
 }  // namespace fnv_008c8b70
 
@@ -1518,9 +1559,6 @@ struct ATM
 {
     void QueryPerformanceCounter(int);
 };
-extern ATM g_011dfbe8;
-extern ATM g_011dfc04;
-extern ATM g_011dfc38;
 struct ActorsScriptTaskData
 {
     int pad[15];
@@ -1532,9 +1570,9 @@ struct ActorsScriptTaskData
 void ActorsScriptTaskData::FUN_008c90a0(unsigned int a)
 {
     f3c = 0;
-    g_011dfc38.QueryPerformanceCounter(0);
-    g_011dfc04.QueryPerformanceCounter(0);
-    g_011dfbe8.QueryPerformanceCounter(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c90a0::ATM *>(&::g_011dfc38))))->FUN_004538a0(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c90a0::ATM *>(&::g_011dfc04))))->FUN_004538a0(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008c90a0::ATM *>(&::g_011dfbe8))))->FUN_004538a0(0);
 }
 }  // namespace fnv_008c90a0
 
@@ -1542,18 +1580,14 @@ namespace fnv_008c9c70 {
 struct CountingSemaphore
 {
     char d[0xc];
-    void Wait();
-    void Signal();
 };
 struct MobileObjectTaskletData
 {
-    void FUN_008c8240(int arg);
 };
 struct GlobalObject_008caab0
 {
     MobileObjectTaskletData* FUN_008c9cf0();
 };
-extern GlobalObject_008caab0 g_011dfb98;
 struct FUN_008c9c70_cls
 {
     char pad0[0x30];
@@ -1574,17 +1608,17 @@ unsigned int FUN_008c9c70_cls::RunTaskletLoop()
     InitMemory();
     while (1)
     {
-        start.Wait();
+        reinterpret_cast<::SemaphoreWaitReceiver *>(&(start))->FUN_004424e0();
         if (quit)
             break;
         pTaskletData = 0;
         do
         {
-            pTaskletData = g_011dfb98.FUN_008c9cf0();
+            pTaskletData = (*reinterpret_cast<::fnv_008c9c70::GlobalObject_008caab0 *>(&::g_011dfb98)).FUN_008c9cf0();
             if (pTaskletData)
-                pTaskletData->FUN_008c8240(arg);
+                reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>((pTaskletData))->FUN_008c8240(arg);
         } while (pTaskletData);
-        finish.Signal();
+        reinterpret_cast<::FUN_00442550_shell *>(&(finish))->ReleaseAndInitScriptRunLock();
     }
     DispatchTask();
     return 0;
@@ -1593,7 +1627,6 @@ unsigned int FUN_008c9c70_cls::RunTaskletLoop()
 
 struct Elem
 {
-    void SignalAtOffset30();
 };
 struct FUN_008c9f70_this
 {
@@ -1606,11 +1639,10 @@ struct FUN_008c9f70_this
 void FUN_008c9f70_this::CallAllElements()
 {
     for (int i = 0; i < count; i++)
-        ((Elem**)this)[i]->SignalAtOffset30();
+        reinterpret_cast<::FUN_008c9fb0_shell *>((((Elem**)this)[i]))->SignalAtOffset30();
 }
 
 struct FUN_008c7490_this;
-void __fastcall FUN_008c7490(FUN_008c7490_this*);
 struct FUN_008c9fd0_this
 {
     int pad[3];
@@ -1634,11 +1666,11 @@ struct H008ca010
 {
     char pad[0x1C];
     S008ca010 inner;
-    void ForwardToInner(int);
+    void ForwardToInner(intptr_t);
 };
 // Calls f1 on the inner object, passing the given int through.
 // @fnv 0x008ca010
-void H008ca010::ForwardToInner(int aiValue)
+void H008ca010::ForwardToInner(intptr_t aiValue)
 {
     inner.f1(aiValue);
 }
@@ -1913,6 +1945,8 @@ struct VTActorBase
 struct VTActor : VTActorBase
 {
     virtual void v2f8(float);
+    char pad04[0xb8];
+    unsigned char unkbc;
 };
 
 struct ActorUpdateTaskData
@@ -1931,7 +1965,7 @@ void ActorUpdateTaskData::UpdateActorTask(MobileObject* apMob)
     if (pmob != 0 && ((VTMobileObject*)pmob)->v100())
     {
         pact = (VTActor*)pmob;
-        if (*((unsigned char*)pact + 0xbc) != 0)
+        if (pact->unkbc != 0)
         {
             pact->v2f8(0.0f);
         }
@@ -1999,29 +2033,24 @@ struct FUN_008c9330
 // @fnv 0x008c9330
 FUN_008c9330::FUN_008c9330() : m0(&m6), m1(&m6), m2(&m6), m3(&m6), m4(&m6), m5(&m6)
 {
-    m6.FUN_008ca680();
+    new ((void *)&(m6)) ::fnv_008ca680::FUN_008ca680();
     m_flag = 0;
 }
 
 namespace fnv_0077a480 {
 struct GameTimerRecord
 {
-    unsigned int GetTime() const;
 };
 
-extern GameTimerRecord g_timeGlobal;
 
 struct TESQuest
 {
-    bool HasFlag40();
-    bool GetCompleted();
 };
 
 class ATM
 {
   public:
     void QueryPerformanceCounter(int);
-    void WaitForTasksDuringRendering();
 };
 
 class GlobalObject_0044fae0 : public ATM
@@ -2030,20 +2059,13 @@ class GlobalObject_0044fae0 : public ATM
 
 struct Obj_009529d0
 {
-    void FUN_009529d0(int);
 };
 
 struct PlayerCharacter : public Obj_009529d0
 {
-    TESQuest* FUN_005cbb50();
 };
 
-void __cdecl FUN_0076bad0(char*);
 
-extern int DAT_011d96ac;
-extern int _pme;
-extern GlobalObject_0044fae0 g_011d96cc;
-extern PlayerCharacter* _g_thePlayer;
 
 struct Task
 {
@@ -2055,38 +2077,38 @@ struct Task
 // @fnv 0x0077a480
 void __cdecl FUN_0077a480(TESQuest* quest)
 {
-    g_011d96cc.QueryPerformanceCounter(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_0077a480::GlobalObject_0044fae0 *>(&::g_011d96cc))))->FUN_004538a0(0);
 
-    if (quest == 0 || _pme == 0)
+    if (quest == 0 || (*reinterpret_cast<int *>(&::g_pHudMainMenuInstance)) == 0)
         return;
 
-    DAT_011d96ac = g_timeGlobal.GetTime();
+    ::DAT_011d96ac = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&((*reinterpret_cast<::fnv_0077a480::GameTimerRecord *>(&::g_timeGlobal))))->FUN_00825c00();
 
     Task* task = new Task;
     task->quest = quest;
 
-    if (quest->HasFlag40())
+    if (reinterpret_cast<::TESFaction_RankDataView *>((quest))->HasFlag40())
     {
         task->state = 2;
-        if (_g_thePlayer->FUN_005cbb50() == quest)
-            _g_thePlayer->FUN_009529d0(0);
+        if (((::fnv_0077a480::TESQuest *)(::FUN_005cbb50((char *)((*reinterpret_cast<::fnv_0077a480::PlayerCharacter * *>(&::_g_thePlayer)))))) == quest)
+            reinterpret_cast<::Obj_009529d0 *>(((*reinterpret_cast<::fnv_0077a480::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_009529d0(0);
     }
-    else if (quest->GetCompleted())
+    else if (reinterpret_cast<::FUN_0059e400_shell *>((quest))->FUN_0059e400())
     {
         task->state = 1;
-        if (_g_thePlayer->FUN_005cbb50() == quest)
-            _g_thePlayer->FUN_009529d0(0);
+        if (((::fnv_0077a480::TESQuest *)(::FUN_005cbb50((char *)((*reinterpret_cast<::fnv_0077a480::PlayerCharacter * *>(&::_g_thePlayer)))))) == quest)
+            reinterpret_cast<::Obj_009529d0 *>(((*reinterpret_cast<::fnv_0077a480::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_009529d0(0);
     }
     else
     {
         task->state = 0;
-        if (_g_thePlayer->FUN_005cbb50() == 0)
-            _g_thePlayer->FUN_009529d0(reinterpret_cast<int>(quest));
+        if (((::fnv_0077a480::TESQuest *)(::FUN_005cbb50((char *)((*reinterpret_cast<::fnv_0077a480::PlayerCharacter * *>(&::_g_thePlayer)))))) == 0)
+            reinterpret_cast<::Obj_009529d0 *>(((*reinterpret_cast<::fnv_0077a480::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_009529d0(reinterpret_cast<intptr_t>(quest));
     }
 
-    FUN_0076bad0(reinterpret_cast<char*>(task));
+    ::FUN_0076bad0(reinterpret_cast<char*>(task));
 
-    g_011d96cc.WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_0077a480::GlobalObject_0044fae0 *>(&::g_011d96cc))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_0077a480
 
@@ -2098,13 +2120,10 @@ struct ResourceHandle
 };
 struct Completion
 {
-    void FUN_008c70c0();
 };
 struct ContextBlock
 {
     unsigned int unk00;
-    ResourceHandle* FUN_0044edb0();
-    Completion* FUN_006815c0(int first, int second);
 };
 struct TaskToken
 {
@@ -2120,8 +2139,6 @@ struct DispatchQueue
     virtual void AdvanceFade();
     virtual void Queue(ContextBlock* context, TaskToken token);
 };
-void FUN_00cbb990();
-DispatchQueue* FUN_00cbbfc0();
 struct TaskOwner
 {
     unsigned int unk00, unk04, unk08, unk0c;
@@ -2138,10 +2155,10 @@ struct TaskOwner
 // @fnv 0x008c9e40
 void TaskOwner::DispatchTask()
 {
-    context.FUN_0044edb0()->Dispatch(payload, 0x16800);
+    ((::ResourceHandle *)(reinterpret_cast<::MagicCaster_shell *>(&(context))->FUN_0044edb0()))->Dispatch(payload, 0x16800);
     FUN_00cbb990();
-    FUN_00cbbfc0()->Queue(&context, TaskToken(1));
-    context.FUN_006815c0(0, 0)->FUN_008c70c0();
+    ((::DispatchQueue *)(::FUN_00cbbfc0()))->Queue(&context, TaskToken(1));
+    reinterpret_cast<::QuantitySet *>((((::Completion *)(((::Vec3 *)(void *)&(context))))))->FUN_008c70c0({}, {});
 }
 
 // Stand-in for the game's PlayerCharacter.  The unit file only
@@ -2149,7 +2166,6 @@ void TaskOwner::DispatchTask()
 // reach the IsSleepingOrResting() member.
 struct PlayerPC
 {
-    bool IsSleepingOrResting();
 };
 
 // Stand-in for the game's HighProcess.  What matters here is the
@@ -2415,8 +2431,6 @@ struct HighProcess
     virtual void Unk_D0(void);
     virtual void Unk_D1(void);
     virtual void Unk_D2(float arg0, bool arg1);
-    void FUN_009bec10(float arg0);
-    void FUN_009ae580(float arg0);
 };
 
 // Stand-in for the game's MovementTaskData (the vtable slot that
@@ -2451,7 +2465,7 @@ void MovementTaskData::UpdateMovementTask(HighProcess* apMob)
         HighProcess* pActor = pCurrentObject;
         if (pActor->unkBC)
         {
-            pActor->Unk_D2(0.0f, ((PlayerPC*)g_thePlayer)->IsSleepingOrResting());
+            pActor->Unk_D2(0.0f, reinterpret_cast<::PlayerCharacter *>((((PlayerPC*)(*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))))->IsSleepingOrResting());
         }
     }
     else
@@ -2459,12 +2473,12 @@ void MovementTaskData::UpdateMovementTask(HighProcess* apMob)
         if (pCurrentObject->Unk_89())
         {
             HighProcess* pObj = pCurrentObject;
-            pObj->FUN_009bec10(0.0f);
+            reinterpret_cast<::GameObject *>((pObj))->FUN_009bec10(0.0f);
         }
         else if (pCurrentObject->Unk_88())
         {
             HighProcess* pTarget = pCurrentObject;
-            pTarget->FUN_009ae580(0.0f);
+            reinterpret_cast<::FUN_009ae580_shell *>((pTarget))->FUN_009ae580(0.0f);
         }
     }
     unk38++;
@@ -2473,21 +2487,15 @@ void MovementTaskData::UpdateMovementTask(HighProcess* apMob)
 struct CountTask
 {
     unsigned state, kind, value;
-    CountTask* FUN_008c9a20(unsigned);
 };
 struct ActorTask
 {
     unsigned state, kind;
     Actor* value;
-    ActorTask* FUN_008c9a50(Actor*);
 };
 struct WorkQueue
 {
     unsigned state;
-    void ForwardToInner(const CountTask&);
-    void ForwardToInner(const ActorTask&);
-    void CallMidVirtualB();
-    void FUN_008c8240(int);
 };
 struct BoolSettingView
 {
@@ -2495,35 +2503,20 @@ struct BoolSettingView
 };
 struct IntSettingView
 {
-    int* Int();
 };
-extern bool DAT_011a34e7, DAT_011f1220;
-extern BoolSettingView DAT_011dfb68, DAT_011dfc70, DAT_011dfb88;
-extern IntSettingView DAT_011c3ea4, DAT_011d10d4;
+extern bool DAT_011a34e7;
 struct ThreadManagerView
 {
-    void CreateThread(unsigned);
-    void CallAllElements();
-    void FUN_008c9fd0();
 };
-extern ThreadManagerView DAT_011dfc24;
 struct QueueManagerView
 {
-    void PushItem(WorkQueue*);
 };
-extern QueueManagerView DAT_011dfb98;
 struct ActorListView
 {
-    unsigned FUN_005be5c0();
-    Actor* FUN_00968670();
 };
 struct ActorManagerView
 {
-    ActorListView* FUN_00717e50(int);
 };
-extern ActorManagerView DAT_011e0e80;
-void __cdecl FUN_007034c0(int);
-void __cdecl FUN_00703490();
 struct TaskOwnerTarget
 {
     WorkQueue first;
@@ -2615,126 +2608,126 @@ void TaskOwnerTarget::FUN_008c94e0()
 
     if (DAT_011a34e7)
     {
-        if (*DAT_011dfb68.Bool())
+        if (*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb68)).Bool())
         {
-            DAT_011dfc24.CreateThread(1);
-            DAT_011dfc24.CreateThread(3);
-            DAT_011dfc24.CreateThread(5);
+            reinterpret_cast<::FUN_008c9ae0_mgr *>(&((*reinterpret_cast<::ThreadManagerView *>(&::g_011dfc24))))->CreateThread(1);
+            reinterpret_cast<::FUN_008c9ae0_mgr *>(&((*reinterpret_cast<::ThreadManagerView *>(&::g_011dfc24))))->CreateThread(3);
+            reinterpret_cast<::FUN_008c9ae0_mgr *>(&((*reinterpret_cast<::ThreadManagerView *>(&::g_011dfc24))))->CreateThread(5);
         }
         DAT_011a34e7 = false;
     }
-    if (DAT_011f1220 && DAT_011e0e80.FUN_00717e50(0)->FUN_005be5c0() > 0)
+    if (DAT_011f1220 && reinterpret_cast<::FUN_005be5c0_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0({}) > 0)
     {
-        uiActorCount = DAT_011e0e80.FUN_00717e50(0)->FUN_005be5c0();
-        if (!*DAT_011dfc70.Bool())
+        uiActorCount = reinterpret_cast<::FUN_005be5c0_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0({});
+        if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfc70)).Bool())
         {
             CountTask a;
-            first.ForwardToInner((a.FUN_008c9a20(uiActorCount), a));
+            reinterpret_cast<::H008ca010 *>(&(first))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(a))->FUN_008c9a20(uiActorCount))), a)));
         }
         {
             CountTask b;
-            third.ForwardToInner((b.FUN_008c9a20(uiActorCount), b));
+            reinterpret_cast<::H008ca010 *>(&(third))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(b))->FUN_008c9a20(uiActorCount))), b)));
         }
-        if (*DAT_011c3ea4.Int() == 1)
+        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
         {
             {
                 CountTask c;
-                fourth.ForwardToInner((c.FUN_008c9a20(uiActorCount), c));
+                reinterpret_cast<::H008ca010 *>(&(fourth))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(c))->FUN_008c9a20(uiActorCount))), c)));
             }
             {
                 CountTask d;
-                second.ForwardToInner((d.FUN_008c9a20(uiActorCount), d));
+                reinterpret_cast<::H008ca010 *>(&(second))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(d))->FUN_008c9a20(uiActorCount))), d)));
             }
         }
         {
             CountTask e;
-            fifth.ForwardToInner((e.FUN_008c9a20(uiActorCount), e));
+            reinterpret_cast<::H008ca010 *>(&(fifth))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(e))->FUN_008c9a20(uiActorCount))), e)));
         }
-        if (!*DAT_011dfb88.Bool())
+        if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb88)).Bool())
         {
             CountTask f;
-            sixth.ForwardToInner((f.FUN_008c9a20(uiActorCount), f));
+            reinterpret_cast<::H008ca010 *>(&(sixth))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(f))->FUN_008c9a20(uiActorCount))), f)));
         }
         count = 0;
         do
         {
-            if (!*DAT_011dfc70.Bool())
+            if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfc70)).Bool())
             {
                 ActorTask g;
-                first.ForwardToInner((g.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), g));
+                reinterpret_cast<::H008ca010 *>(&(first))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(g))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), g)));
             }
             {
                 ActorTask h;
-                third.ForwardToInner((h.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), h));
+                reinterpret_cast<::H008ca010 *>(&(third))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(h))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), h)));
             }
-            if (*DAT_011c3ea4.Int() == 1)
+            if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
             {
                 {
                     ActorTask j;
-                    fourth.ForwardToInner((j.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), j));
+                    reinterpret_cast<::H008ca010 *>(&(fourth))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(j))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), j)));
                 }
                 {
                     ActorTask k;
-                    second.ForwardToInner((k.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), k));
+                    reinterpret_cast<::H008ca010 *>(&(second))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(k))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), k)));
                 }
             }
             {
                 ActorTask l;
-                fifth.ForwardToInner((l.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), l));
+                reinterpret_cast<::H008ca010 *>(&(fifth))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(l))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), l)));
             }
-            if (!*DAT_011dfb88.Bool())
+            if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb88)).Bool())
             {
                 ActorTask m;
-                sixth.ForwardToInner((m.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), m));
+                reinterpret_cast<::H008ca010 *>(&(sixth))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(m))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), m)));
             }
             ++count;
-        } while (count < DAT_011e0e80.FUN_00717e50(0)->FUN_005be5c0());
-        if (!*DAT_011dfc70.Bool())
-            first.CallMidVirtualB();
-        third.CallMidVirtualB();
-        if (*DAT_011c3ea4.Int() == 1)
+        } while (count < reinterpret_cast<::FUN_005be5c0_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0({}));
+        if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfc70)).Bool())
+            reinterpret_cast<::Owner *>(&(first))->CallMidVirtualB();
+        reinterpret_cast<::Owner *>(&(third))->CallMidVirtualB();
+        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
         {
-            second.CallMidVirtualB();
-            fourth.CallMidVirtualB();
+            reinterpret_cast<::Owner *>(&(second))->CallMidVirtualB();
+            reinterpret_cast<::Owner *>(&(fourth))->CallMidVirtualB();
         }
-        fifth.CallMidVirtualB();
-        if (!*DAT_011dfb88.Bool())
-            sixth.CallMidVirtualB();
-        if (*DAT_011dfb68.Bool())
+        reinterpret_cast<::Owner *>(&(fifth))->CallMidVirtualB();
+        if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb88)).Bool())
+            reinterpret_cast<::Owner *>(&(sixth))->CallMidVirtualB();
+        if (*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb68)).Bool())
         {
-            if (*DAT_011c3ea4.Int() == 1)
-                DAT_011dfb98.PushItem(&fourth);
-            DAT_011dfb98.PushItem(&third);
-            DAT_011dfb98.PushItem(&fifth);
-            if (!*DAT_011dfc70.Bool())
-                DAT_011dfb98.PushItem(&first);
-            if (!*DAT_011dfb88.Bool())
+            if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
+                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&fourth));
+            reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&third));
+            reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&fifth));
+            if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfc70)).Bool())
+                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&first));
+            if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb88)).Bool())
             {
-                DAT_011dfb98.PushItem(&sixth);
-                DAT_011dfb98.PushItem(&second);
+                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&sixth));
+                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&second));
             }
-            DAT_011dfc24.CallAllElements();
-            DAT_011dfc24.FUN_008c9fd0();
+            reinterpret_cast<::FUN_008c9f70_this *>(&((*reinterpret_cast<::ThreadManagerView *>(&::g_011dfc24))))->CallAllElements();
+            reinterpret_cast<::FUN_008c9fd0_this *>(&((*reinterpret_cast<::ThreadManagerView *>(&::g_011dfc24))))->FUN_008c9fd0();
         }
         else
         {
-            if (!*DAT_011dfc70.Bool())
-                first.FUN_008c8240(0);
-            third.FUN_008c8240(0);
-            fifth.FUN_008c8240(0);
-            if (*DAT_011c3ea4.Int() == 1)
+            if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfc70)).Bool())
+                reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(first))->FUN_008c8240(0);
+            reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(third))->FUN_008c8240(0);
+            reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(fifth))->FUN_008c8240(0);
+            if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
             {
-                second.FUN_008c8240(0);
-                fourth.FUN_008c8240(0);
+                reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(second))->FUN_008c8240(0);
+                reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(fourth))->FUN_008c8240(0);
             }
-            if (!*DAT_011dfb88.Bool())
-                sixth.FUN_008c8240(0);
+            if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb88)).Bool())
+                reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(sixth))->FUN_008c8240(0);
         }
     }
-    if (*DAT_011c3ea4.Int() == 1)
+    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
     {
-        FUN_007034c0(*DAT_011d10d4.Int());
-        FUN_00703490();
+        ::TaskQueueInterface::ThreadProcessInput(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011d10d4)))))));
+        ::TaskQueueInterface::ThreadProcessSecondaryInput();
     }
 }
 
@@ -2759,8 +2752,6 @@ class V20SP
 class ABSP
 {
   public:
-    unsigned char IsDone();
-    unsigned int GetTimeStamp();
 };
 
 class PROJ
@@ -2986,58 +2977,35 @@ class R
     virtual void s2b8();
     char padBC[0xb8];
     unsigned char mBC;
-    PROJ* GetProjectileBase();
-    unsigned char FUN_00437bd0();
-    BP* GetProcess();
-    float FUN_005723b0(R* a, int b, int c);
-    char FUN_00493bb0();
-    unsigned char IsHostileTo(R* a, int b, int* c, int d);
-    unsigned char FUN_008bc700(R* a);
     int FUN_008a0d10(int a, R* b, unsigned char* c, unsigned char d, int e, int f, unsigned char* g);
-    void FUN_00966f20(R* a, unsigned char b, int c);
-    void FUN_00967350(R* a);
 };
 
 class TG
 {
   public:
-    float GetTime();
 };
 
 class FS
 {
   public:
-    float* Float();
 };
 
 class S3
 {
   public:
-    float FUN_007014e0(int a);
 };
 
 class S4
 {
   public:
-    void FUN_0096e3c0(R* a);
 };
 
-extern R* DAT_011dea3c;
-extern S3* DAT_011d8804;
-extern class SL* DAT_011de45c;
-extern TG DAT_011f6394;
-extern FS DAT_011ccf94;
-extern FS DAT_011d13c8;
-extern S4 DAT_011e0e80;
 
 class SL
 {
   public:
-    unsigned char GetLoading();
 };
 
-float FUN_0040ebd0(float a, float b);
-float _RandomFloat(float a, float b);
 
 class Owner
 {
@@ -3053,58 +3021,58 @@ class Owner
 // @fnv 0x008c84c0
 void Owner::UpdateProjectile(R* arg)
 {
-    float v6 = (double)m30 * DAT_011f6394.GetTime();
-    v6 = FUN_0040ebd0(v6, 5.0f);
-    v6 = _RandomFloat(0.0f, v6);
+    float v6 = (double)m30 * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_008c84c0::TG *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    v6 = ::FUN_0040ebd0(v6, 5.0f);
+    v6 = ::RandomFloat(0.0f, v6);
     R* p = NULL;
     if (arg && arg->s100())
     {
         p = arg;
         R* aQ = p;
-        if (aQ->mBC && !aQ->GetProjectileBase()->m30.a20())
+        if (aQ->mBC && !((::fnv_008c84c0::PROJ *)(reinterpret_cast<::Actor *>((aQ))->GetActorBase()))->m30.a20())
         {
-            float v3 = aQ->FUN_005723b0(DAT_011dea3c, 0, 0);
-            if (aQ != DAT_011dea3c && !DAT_011de45c->GetLoading())
+            float v3 = reinterpret_cast<::RefS *>((aQ))->FUN_005723b0((::RefS *)((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))), 0, 0);
+            if (aQ != (*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer)) && !((unsigned char)(reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::fnv_008c84c0::SL * *>(&::g_TESSaveLoadGame))))->EvaluateCondition())))
             {
-                if (p->s2b4() < 0.0 && !aQ->FUN_00437bd0() && !p->s22c(0))
+                if (p->s2b4() < 0.0 && !((unsigned char)(reinterpret_cast<::FUN_00437bd0_stub *>((aQ))->FUN_00437bd0())) && !p->s22c(0))
                 {
-                    if (DAT_011d8804->FUN_007014e0(1) <= 0.0)
+                    if (reinterpret_cast<::FaderManager *>(((*reinterpret_cast<::fnv_008c84c0::S3 * *>(&::DAT_011d8804))))->GetFadeValue((::FADER_ENUM)(1)) <= 0.0)
                     {
                         p->s2b0(v6);
-                        if (aQ->GetProcess()->b70(aQ))
+                        if (((::fnv_008c84c0::BP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((aQ))->GetBaseTexture()))->b70(aQ))
                         {
                             unsigned char v16 = 0;
-                            unsigned char v1e2 = p->FUN_00493bb0();
+                            unsigned char v1e2 = reinterpret_cast<::FUN_00493bb0_Class *>((p))->FUN_00493bb0();
                             unsigned char v1d = 0;
-                            int aV14 = DAT_011dea3c->FUN_008a0d10(1, p, &v16, v1e2, 0, 0, &v1d);
+                            int aV14 = (*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))->FUN_008a0d10(1, p, &v16, v1e2, 0, 0, &v1d);
                             unsigned char v15 = 0;
                             int v1c2 = 0;
-                            if (p->IsHostileTo(DAT_011dea3c, 0, &v1c2, 0) || p->FUN_008bc700(DAT_011dea3c))
+                            if (((unsigned char)(reinterpret_cast<::HostActor *>((p))->IsHostileTo((::HostActor *)((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))), 0, &v1c2, 0))) || ((unsigned char)(reinterpret_cast<::FUN_008bc700_shell *>((p))->FUN_008bc700((::Actor *)((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer)))))))
                             {
                                 v15 = 1;
                             }
                             else if (v1c2 == 0 || v1c2 == 1)
                             {
-                                if (p->GetProjectileBase()->m90.IsDone() &&
-                                    p->GetProjectileBase()->m90.GetTimeStamp() > 0)
+                                if (((unsigned char)(reinterpret_cast<::ActiveEffect *>(&(((::fnv_008c84c0::PROJ *)(reinterpret_cast<::Actor *>((p))->GetActorBase()))->m90))->IsDone())) &&
+                                    reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(((::fnv_008c84c0::PROJ *)(reinterpret_cast<::Actor *>((p))->GetActorBase()))->m90))->FUN_00825c00() > 0)
                                     v15 = 1;
                             }
                             if (p)
                             {
-                                if (v3 < *DAT_011ccf94.Float())
-                                    DAT_011e0e80.FUN_0096e3c0(aQ);
+                                if (v3 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008c84c0::FS *>(&::originalRuntimeFloatSetting248)))))))
+                                    reinterpret_cast<::fnv_0096e3c0::FUN_0096e3c0_shell *>(&((*reinterpret_cast<::fnv_008c84c0::S4 *>(&::g_011e0e80))))->FUN_0096e3c0((::Actor *)(aQ));
                             }
-                            if ((double)aV14 >= *DAT_011d13c8.Float())
+                            if ((double)aV14 >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008c84c0::FS *>(&::originalRuntimeFloatSetting1073)))))))
                             {
-                                DAT_011dea3c->FUN_00966f20(p, v15, 0);
+                                reinterpret_cast<::TeammateOwner *>(((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))))->FUN_00966f20((::Actor *)(p), v15, 0);
                             }
                             else if (v1d || v16)
                             {
-                                DAT_011dea3c->FUN_00966f20(p, v15, 1);
+                                reinterpret_cast<::TeammateOwner *>(((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))))->FUN_00966f20((::Actor *)(p), v15, 1);
                             }
                             else
                             {
-                                DAT_011dea3c->FUN_00967350(p);
+                                reinterpret_cast<::FUN_00967350_shell *>(((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))))->FUN_00967350((intptr_t)(p));
                             }
                         }
                     }
@@ -3112,7 +3080,7 @@ void Owner::UpdateProjectile(R* arg)
                 else
                 {
                     if (p->s2b4() < 0.0)
-                        DAT_011dea3c->FUN_00967350(p);
+                        reinterpret_cast<::FUN_00967350_shell *>(((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))))->FUN_00967350((intptr_t)(p));
                     p->s2b8();
                 }
             }
@@ -3136,7 +3104,6 @@ class BaseProcess
     virtual void Unk07();
     virtual void Unk08();
     virtual void UpdateActor(Actor* actor, int mode);
-    void FUN_008c8fd0(bool active);
 };
 struct ExtraFollower
 {
@@ -3147,9 +3114,6 @@ struct ExtraFollower
 };
 struct FollowerExtra : ExtraDataList
 {
-    ExtraFollower* FUN_00422700();
-    void FUN_00422690(Actor* actor);
-    void FUN_00422720();
 };
 // This view supplies the float-taking update slot at vtable index 0x97.
 class UpdateObject : public TESObjectREFR
@@ -3163,24 +3127,16 @@ class UpdateObject : public TESObjectREFR
     virtual void Unk95();
     virtual void Unk96();
     virtual void Update(float elapsed);
-    BaseProcess* FUN_008d8520();
     void* FUN_00931850();
 };
 class UpdateActor : public Actor
 {
   public:
-    bool FUN_008b0520();
-    BaseProcess* FUN_008d8520();
-    void RestoreHealth(float amount);
-    void ApplyFatigueDamage(float amount);
-    bool FUN_008bc860(Actor* actor);
 };
 class PlayerCharacter : public UpdateActor
 {
   public:
-    bool IsSleepingOrResting();
 };
-extern PlayerCharacter* g_thePlayer;
 class UpdateManager
 {
   public:
@@ -3214,8 +3170,8 @@ void UpdateManager::UpdateMobileObject(MobileObject* object)
     BSSimpleList<Actor*>* listVal;
     BSSimpleList<Actor*>* otherListA;
     BSSimpleList<Actor*>* nodeVal;
-    if (current && !current->IsStillLoading() && !current->GetDeleted() && !current->GetDisabled() &&
-        current->FUN_008d8520() && !current->FUN_00931850())
+    if (current && !reinterpret_cast<::FUN_00576d30_shell *>((void *)(current))->FUN_00576d30() && !reinterpret_cast<::FUN_00440d80_shell *>((void *)(current))->FUN_00440d80() && !current->GetDisabled() &&
+        ((::fnv_008c8be0::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((current))->GetBaseTexture())) && !current->FUN_00931850())
     {
         actorTmp = 0;
         allowedTmp = true;
@@ -3223,60 +3179,60 @@ void UpdateManager::UpdateMobileObject(MobileObject* object)
             actorTmp = reinterpret_cast<UpdateActor*>(current);
         if (actorTmp && !actorTmp->m_bFirstActorFlag)
             return;
-        if (actorTmp && actorTmp->FUN_008b0520())
+        if (actorTmp && reinterpret_cast<::fnv_008b0520::FUN_008b0520_shell *>((actorTmp))->FUN_008b0520())
         {
-            actorTmp->FUN_008d8520()->UpdateActor(actorTmp, 0);
+            ((::fnv_008c8be0::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actorTmp))->GetBaseTexture()))->UpdateActor(actorTmp, 0);
             allowedTmp = false;
             ++updatedActors;
-            actorTmp->FUN_008d8520()->FUN_008c8fd0(true);
+            reinterpret_cast<::FUN_008c8fd0_helper *>((((::fnv_008c8be0::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actorTmp))->GetBaseTexture()))))->Set(true);
         }
         else
         {
             current->Update(0.0f);
             ++updatedObjects;
         }
-        if (actorTmp && g_thePlayer->IsSleepingOrResting())
+        if (actorTmp && reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::fnv_008c8be0::PlayerCharacter * *>(&::_g_thePlayer))))->IsSleepingOrResting())
         {
-            actorTmp->RestoreHealth(2.0f);
-            actorTmp->ApplyFatigueDamage(2.0f);
+            reinterpret_cast<::FUN_0088b510_cls *>((actorTmp))->SetScaledValue(2.0f);
+            reinterpret_cast<::B88B5A0Actor *>((actorTmp))->ApplyFatigueDamage(2.0f);
         }
         if (current->FUN_00931850())
             pending = 0;
         if (allowedTmp)
         {
             otherList3 =
-                current->GetExtraData() ? static_cast<FollowerExtra*>(current->GetExtraData())->FUN_00422700() : 0;
+                ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((current))->FUN_005d43c0())) ? ((::fnv_008c8be0::ExtraFollower *)(reinterpret_cast<::FUN_00422700_shell *>((static_cast<FollowerExtra*>(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((current))->FUN_005d43c0())))))->FUN_00422700())) : 0;
             if (otherList3)
             {
                 listVal = new BSSimpleList<Actor*>;
                 otherListA = new BSSimpleList<Actor*>;
                 nodeVal = otherListA;
                 list_ = otherList3->followers;
-                while (list_ && list_->GetItem())
+                while (list_ && (((list_))->m_item))
                 {
-                    otherListA->AddTail(list_->GetItem());
-                    list_ = list_->GetNext();
+                    reinterpret_cast<::Callees *>((otherListA))->FUN_00905820((void *)&((((list_))->m_item)));
+                    list_ = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((list_))->m_pkNext));
                 }
-                while (nodeVal && nodeVal->GetItem())
+                while (nodeVal && (((nodeVal))->m_item))
                 {
-                    Actor* actorA = nodeVal->GetItem();
-                    if (actorA && actorA != g_thePlayer && !static_cast<UpdateActor*>(actorA)->FUN_008bc860(actorTmp))
+                    Actor* actorA = (((nodeVal))->m_item);
+                    if (actorA && actorA != (*reinterpret_cast<::fnv_008c8be0::PlayerCharacter * *>(&::_g_thePlayer)) && !reinterpret_cast<::fnv_008bc860::FUN_008bc860_StandIn *>((static_cast<UpdateActor*>(actorA)))->FUN_008bc860(actorTmp))
                         listVal->AddHead(actorA);
-                    nodeVal = nodeVal->GetNext();
+                    nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((nodeVal))->m_pkNext));
                 }
                 nodeVal = listVal;
-                while (nodeVal && nodeVal->GetItem())
+                while (nodeVal && (((nodeVal))->m_item))
                 {
-                    Actor* targetB = nodeVal->GetItem();
-                    static_cast<FollowerExtra*>(current->GetExtraData())->FUN_00422690(targetB);
-                    nodeVal = nodeVal->GetNext();
+                    Actor* targetB = (((nodeVal))->m_item);
+                    reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((static_cast<FollowerExtra*>(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((current))->FUN_005d43c0())))))->FUN_00422690((::fnv_00422690::Actor *)(targetB));
+                    nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((nodeVal))->m_pkNext));
                 }
-                listVal->RemoveAll();
+                reinterpret_cast<::FileMatchList *>((listVal))->RemoveAll();
                 delete listVal;
-                otherListA->RemoveAll();
+                reinterpret_cast<::FileMatchList *>((otherListA))->RemoveAll();
                 delete otherListA;
                 if (otherList3->followers->IsEmpty())
-                    static_cast<FollowerExtra*>(current->GetExtraData())->FUN_00422720();
+                    reinterpret_cast<::FUN_00422720_shell *>((static_cast<FollowerExtra*>(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((current))->FUN_005d43c0())))))->FUN_00422720();
             }
         }
     }
@@ -3286,7 +3242,6 @@ void UpdateManager::UpdateMobileObject(MobileObject* object)
 namespace fnv_008ca070 {
 struct IntSetting
 {
-    int* FUN_0043d4d0();
 };
 struct BoolSetting
 {
@@ -3294,100 +3249,86 @@ struct BoolSetting
 };
 struct Values
 {
-    unsigned FUN_005be5c0();
-    void* FUN_00968670();
 };
 struct Container
 {
-    Values* FUN_00717e50(unsigned);
 };
 struct Temp
 {
     int unk00, unk04, unk08;
-    Temp* FUN_008c9a20(unsigned);
-    Temp* FUN_008c9a50(void*);
 };
 struct Store
 {
-    void PushItem(void*);
 };
 struct Mode
 {
-    void CallAt(int);
 };
-extern IntSetting DAT_011c3ea4;
-extern BoolSetting DAT_011dfc70, DAT_011dfb88, DAT_011dfb68;
-extern unsigned char DAT_011f1220;
-extern Container DAT_011e0e80;
-extern Store DAT_011dfb98;
-extern Mode DAT_011dfc24;
 struct Obj
 {
     void FUN_008ca070();
-    void ForwardToInner(Temp*);
-    void CallMidVirtualB();
-    void FUN_008c8240(int);
+    char pad00[0x10180];
+    bool unk10180;
 };
 // @fnv 0x008ca070
 void Obj::FUN_008ca070()
 {
-    if (*DAT_011c3ea4.FUN_0043d4d0() == 1)
+    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008ca070::IntSetting *>(&::g_011c3ea4)))))) == 1)
     {
-        if (!*DAT_011dfc70.FUN_00408d60() && !*DAT_011dfb88.FUN_00408d60())
+        if (!*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfc70)).FUN_00408d60() && !*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb88)).FUN_00408d60())
             return;
-        if (DAT_011f1220)
+        if ((*reinterpret_cast<unsigned char *>(&::DAT_011f1220)))
         {
-            unsigned aVal = DAT_011e0e80.FUN_00717e50(0)->FUN_005be5c0();
+            unsigned aVal = reinterpret_cast<::FUN_005be5c0_shell *>((((::fnv_008ca070::Values *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::fnv_008ca070::Container *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0({});
             if (aVal > 0)
             {
-                unsigned b_2 = DAT_011e0e80.FUN_00717e50(0)->FUN_005be5c0();
+                unsigned b_2 = reinterpret_cast<::FUN_005be5c0_shell *>((((::fnv_008ca070::Values *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::fnv_008ca070::Container *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0({});
                 unsigned i;
-                if (*DAT_011dfc70.FUN_00408d60())
+                if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfc70)).FUN_00408d60())
                 {
                     Temp t2;
-                    t2.FUN_008c9a20(b_2);
-                    ForwardToInner(&t2);
+                    reinterpret_cast<::FUN_008c9a20_shell *>(&(t2))->FUN_008c9a20(b_2);
+                    reinterpret_cast<::H008ca010 *>(this)->ForwardToInner((intptr_t)(&t2));
                 }
-                if (*DAT_011dfb88.FUN_00408d60())
+                if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb88)).FUN_00408d60())
                 {
                     Temp u9;
-                    u9.FUN_008c9a20(b_2);
-                    ((Obj*)((char*)this + 0x138))->ForwardToInner(&u9);
+                    reinterpret_cast<::FUN_008c9a20_shell *>(&(u9))->FUN_008c9a20(b_2);
+                    reinterpret_cast<::H008ca010 *>((((Obj*)((char*)this + 0x138))))->ForwardToInner((intptr_t)(&u9));
                 }
                 for (i = 0; i < b_2; ++i)
                 {
-                    if (*DAT_011dfc70.FUN_00408d60())
+                    if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfc70)).FUN_00408d60())
                     {
                         Temp v5;
-                        v5.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(i)->FUN_00968670());
-                        ForwardToInner(&v5);
+                        reinterpret_cast<::FUN_008c9a50_shell *>(&(v5))->FUN_008c9a50((intptr_t)(((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::fnv_008ca070::Values *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::fnv_008ca070::Container *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({})))));
+                        reinterpret_cast<::H008ca010 *>(this)->ForwardToInner((intptr_t)(&v5));
                     }
-                    if (*DAT_011dfb88.FUN_00408d60())
+                    if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb88)).FUN_00408d60())
                     {
                         Temp w2;
-                        w2.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(i)->FUN_00968670());
-                        ((Obj*)((char*)this + 0x138))->ForwardToInner(&w2);
+                        reinterpret_cast<::FUN_008c9a50_shell *>(&(w2))->FUN_008c9a50((intptr_t)(((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::fnv_008ca070::Values *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::fnv_008ca070::Container *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({})))));
+                        reinterpret_cast<::H008ca010 *>((((Obj*)((char*)this + 0x138))))->ForwardToInner((intptr_t)(&w2));
                     }
                 }
-                if (*DAT_011dfc70.FUN_00408d60())
-                    CallMidVirtualB();
-                if (*DAT_011dfb88.FUN_00408d60())
-                    ((Obj*)((char*)this + 0x138))->CallMidVirtualB();
-                if (*DAT_011dfb68.FUN_00408d60())
+                if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfc70)).FUN_00408d60())
+                    reinterpret_cast<::Owner *>(this)->CallMidVirtualB();
+                if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb88)).FUN_00408d60())
+                    reinterpret_cast<::Owner *>((((Obj*)((char*)this + 0x138))))->CallMidVirtualB();
+                if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb68)).FUN_00408d60())
                 {
-                    if (*DAT_011dfc70.FUN_00408d60())
-                        DAT_011dfb98.PushItem(this);
-                    if (*DAT_011dfb88.FUN_00408d60())
-                        DAT_011dfb98.PushItem((char*)this + 0x138);
-                    DAT_011dfc24.CallAt(2);
-                    *((bool*)this + 0x10180) = true;
+                    if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfc70)).FUN_00408d60())
+                        reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::fnv_008ca070::Store *>(&::g_011dfb98))))->PushItem((intptr_t)(this));
+                    if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb88)).FUN_00408d60())
+                        reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::fnv_008ca070::Store *>(&::g_011dfb98))))->PushItem((intptr_t)((char*)this + 0x138));
+                    reinterpret_cast<::fnv_008ca2e0::FUN_008ca2e0_shell *>(&((*reinterpret_cast<::fnv_008ca070::Mode *>(&::g_011dfc24))))->CallAt(2);
+                    this->unk10180 = true;
                 }
                 else
                 {
-                    if (*DAT_011dfc70.FUN_00408d60())
-                        FUN_008c8240(0);
-                    if (*DAT_011dfb88.FUN_00408d60())
-                        ((Obj*)((char*)this + 0x138))->FUN_008c8240(0);
+                    if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfc70)).FUN_00408d60())
+                        reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(this)->FUN_008c8240(0);
+                    if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb88)).FUN_00408d60())
+                        reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>((((Obj*)((char*)this + 0x138))))->FUN_008c8240(0);
                 }
             }
         }
@@ -3410,8 +3351,6 @@ struct FacQ
     virtual void v2();
     virtual void Create(MemQ* p, const char* pName, FUN_008c71b0 k);
 };
-FacQ* FUN_00cbbfc0();
-void __cdecl FUN_00cbb930(MemQ* p);
 struct HeapQ
 {
     virtual void v0();
@@ -3419,39 +3358,34 @@ struct HeapQ
 };
 struct BufQ
 {
-    void FUN_008c70c0(int p, int n);
 };
 struct MemQ
 {
-    HeapQ* FUN_0044edb0();
-    void FUN_0041fd00(HeapQ* p);
-    void FUN_00984f60(HeapQ* p);
-    BufQ* FUN_006815c0();
 };
 struct GQ
 {
-    void FUN_00462ee0();
 };
-extern GQ* DAT_011c3f2c;
 struct OwnQ
 {
     char pad[0x50];
-    MemQ kMem;
-    char pad2[0x20];
-    int unk74;
+    hkMemoryRouter kMem;
+    void* unk74;
     void InitMemory();
 };
+// Sets up the AI task thread's Havok memory router: temp and solver use the heap, and the stack area is a
+// 0x16800-byte heap block.
 // @fnv 0x008c9d70
 void OwnQ::InitMemory()
 {
-    FUN_00cbbfc0()->Create(&kMem, "AITaskThread", FUN_008c71b0(1));
-    FUN_00cbb930(&kMem);
-    kMem.FUN_0041fd00(kMem.FUN_0044edb0());
-    kMem.FUN_00984f60(kMem.FUN_0044edb0());
-    unk74 = kMem.FUN_0044edb0()->Alloc(0x16800);
-    kMem.FUN_006815c0()->FUN_008c70c0(unk74, 0x16800);
-    DAT_011c3f2c->FUN_00462ee0();
+    ((::fnv_008c9d70::FacQ *)(::FUN_00cbbfc0()))->Create((MemQ *)&kMem, "AITaskThread", FUN_008c71b0(1));
+    ::FUN_00cbb930(&kMem);
+    kMem.m_temp = kMem.m_heap;
+    kMem.m_solver = kMem.m_heap;
+    unk74 = kMem.m_heap->blockAlloc(0x16800);
+    reinterpret_cast<::QuantitySet *>(&kMem)->FUN_008c70c0((uintptr_t)unk74, 0x16800);
+    reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008c9d70::GQ * *>(&::g_dataHandler))))->BuildCompiledFileList();
 }
+
 }  // namespace fnv_008c9d70
 
 struct Obj_008c9cf0
@@ -3473,7 +3407,7 @@ struct Obj_008c9cf0
 // @fnv 0x008c9cf0
 int Obj_008c9cf0::FUN_008c9cf0()
 {
-    QueryPerformanceCounter(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(this)->FUN_004538a0(0);
     int result = 0;
     if (m_uiItemCount > 0)
     {
@@ -3486,3 +3420,5 @@ int Obj_008c9cf0::FUN_008c9cf0()
     reinterpret_cast<ActorTaskManager*>(this)->WaitForTasksDuringRendering();
     return result;
 }
+
+#include "generated/data/fallout/ai/aitaskmanager.inc"

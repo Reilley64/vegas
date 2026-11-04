@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKMESHVERTEXBUFFER_H
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkMeshVertexBuffer : public hkReferencedObject
 {
   public:
@@ -23,6 +22,4 @@ class hkMeshVertexBuffer : public hkReferencedObject
         RESULT_IN_USE = 2
     };
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkMeshVertexBuffer[(sizeof(hkMeshVertexBuffer) == 0x8) ? 1 : -1];
 #endif

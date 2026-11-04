@@ -1,15 +1,16 @@
 // bgsencounterzone_TESFile.h: declares TESFile
 #ifndef FNV_LOCAL_TESFILE_H
 #define FNV_LOCAL_TESFILE_H
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
 #include "bgsencounterzone_layout_support.h"
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
-    bool GetChunkData();
     bool NextChunk();
+public:
+    bool IsEndianConversionRequired();
 };
 #endif

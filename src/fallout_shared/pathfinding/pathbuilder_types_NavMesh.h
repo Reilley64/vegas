@@ -2,6 +2,9 @@
 #ifndef FNV_NAVMESH_TYPES_H
 #define FNV_NAVMESH_TYPES_H
 
+#include "fnv/decl/FUN_00691140_shell.h"
+#include "fnv/decl/FUN_006a5ec0_shell.h"
+#include "fnv/decl/S00693b90.h"
 #include "layout_support.h"
 #include "NiPoint3.h"
 #include "NiRefObject.h"
@@ -41,7 +44,6 @@ enum PathingAvoidNode__AVOID_NODE_TYPE
     PathingAvoidNode__AVOID_NODE_TYPE_AVOID_NODE_CYLINDER = 1,
     PathingAvoidNode__AVOID_NODE_TYPE_AVOID_NODE_SPHERE_ACTOR = 2
 };
-#pragma pack(push, 4)
 class NavMeshVertex
 {
   public:
@@ -49,16 +51,9 @@ class NavMeshVertex
     // void __cdecl NavMeshVertex::*()
     // void __cdecl NavMeshVertex::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshVertex) == 12);
-FNV_STATIC_ASSERT(offsetof(NavMeshVertex, Location) == 0);
-#pragma pack(push, 4)
 class NavMeshTriangle
 {
   public:
-    bool FUN_006a5ec0();
-    bool FUN_00693b90();
-    bool FUN_00691140(unsigned int);
     unsigned short Vertices[3];      // +0x0, 6 bytes
     unsigned short Triangles[3];     // +0x6, 6 bytes
     unsigned int m_uiTriangleFlags;  // +0xC, 4 bytes
@@ -113,12 +108,6 @@ class NavMeshTriangle
     // float __cdecl NavMeshTriangle::*(unsigned int)
     // void __cdecl NavMeshTriangle::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshTriangle) == 16);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangle, Vertices) == 0);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangle, Triangles) == 6);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangle, m_uiTriangleFlags) == 12);
-#pragma pack(push, 4)
 class NavMeshInfoTriangleReference
 {
   public:
@@ -135,11 +124,6 @@ class NavMeshInfoTriangleReference
     // bool __cdecl NavMeshInfoTriangleReference::*(const NavMeshInfoTriangleReference&)
     // bool __cdecl NavMeshInfoTriangleReference::*(const NavMeshInfoTriangleReference&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshInfoTriangleReference) == 8);
-FNV_STATIC_ASSERT(offsetof(NavMeshInfoTriangleReference, m_pNavMeshInfo) == 0);
-FNV_STATIC_ASSERT(offsetof(NavMeshInfoTriangleReference, m_usTriangleIdentifier) == 4);
-#pragma pack(push, 4)
 class EdgeExtraInfo
 {
   public:
@@ -154,11 +138,6 @@ class EdgeExtraInfo
     // void __cdecl EdgeExtraInfo::*(TESFile*, char*)
     // void __cdecl EdgeExtraInfo::*(TESFile*, char*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(EdgeExtraInfo) == 12);
-FNV_STATIC_ASSERT(offsetof(EdgeExtraInfo, eType) == 0);
-FNV_STATIC_ASSERT(offsetof(EdgeExtraInfo, Portal) == 4);
-#pragma pack(push, 4)
 class NavMeshTriangleDoorPortal
 {
   public:
@@ -173,11 +152,6 @@ class NavMeshTriangleDoorPortal
     // bool __cdecl NavMeshTriangleDoorPortal::*(const NavMeshTriangleDoorPortal&)
     // bool __cdecl NavMeshTriangleDoorPortal::*(const NavMeshTriangleDoorPortal&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshTriangleDoorPortal) == 8);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangleDoorPortal, NavMeshDoorPortalData) == 0);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangleDoorPortal, m_usDoorPortalIndex) == 4);
-#pragma pack(push, 4)
 class NavMeshClosedDoorInfo
 {
   public:
@@ -189,11 +163,6 @@ class NavMeshClosedDoorInfo
     // bool __cdecl NavMeshClosedDoorInfo::*(const NavMeshClosedDoorInfo&)
     // bool __cdecl NavMeshClosedDoorInfo::*(const NavMeshClosedDoorInfo&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshClosedDoorInfo) == 8);
-FNV_STATIC_ASSERT(offsetof(NavMeshClosedDoorInfo, m_uiDoorFormID) == 0);
-FNV_STATIC_ASSERT(offsetof(NavMeshClosedDoorInfo, m_usDoorTriangleIndex) == 4);
-#pragma pack(push, 4)
 class NavMeshTriangleHandle
 {
   public:
@@ -204,30 +173,18 @@ class NavMeshTriangleHandle
     // void __cdecl NavMeshTriangleHandle::*(unsigned short)
     // void __cdecl NavMeshTriangleHandle::*(unsigned short)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshTriangleHandle) == 2);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangleHandle, m_usIndex) == 0);
-#pragma pack(push, 4)
 class NavMeshPOVData
 {
   public:
     NavMeshTriangleHandle m_kFirstEdge;   // +0x0, 2 bytes
     NavMeshTriangleHandle m_kSecondEdge;  // +0x2, 2 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshPOVData) == 4);
-FNV_STATIC_ASSERT(offsetof(NavMeshPOVData, m_kFirstEdge) == 0);
-FNV_STATIC_ASSERT(offsetof(NavMeshPOVData, m_kSecondEdge) == 2);
-#pragma pack(push, 4)
 class DFALL_NiTMapItem_unsigned_short_NavMeshPOVData___
 {
   public:
     // void* __cdecl DFALL<NiTMapItem<unsigned short,NavMeshPOVData> >::*()
     // void __cdecl DFALL<NiTMapItem<unsigned short,NavMeshPOVData> >::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DFALL_NiTMapItem_unsigned_short_NavMeshPOVData___) == 1);
-#pragma pack(push, 4)
 class NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_short_NavMeshPOVData___AntiBloatAllocator
     : public DFALL_NiTMapItem_unsigned_short_NavMeshPOVData___
 {
@@ -235,16 +192,6 @@ class NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_shor
     // base DFALL<NiTMapItem<unsigned short,NavMeshPOVData> > at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(
-    sizeof(
-        NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_short_NavMeshPOVData___AntiBloatAllocator) ==
-    4);
-FNV_STATIC_ASSERT(
-    offsetof(
-        NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_short_NavMeshPOVData___AntiBloatAllocator,
-        m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_short_NavMeshPOVData_
 {
   public:
@@ -267,18 +214,6 @@ class NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_shor
     // void __cdecl NiTMapBase<DFALL<NiTMapItem<unsigned short,NavMeshPOVData> >,unsigned short,NavMeshPOVData>::*()
     // void __cdecl NiTMapBase<DFALL<NiTMapItem<unsigned short,NavMeshPOVData> >,unsigned short,NavMeshPOVData>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_short_NavMeshPOVData_) ==
-                  16);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_short_NavMeshPOVData_,
-                           m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_short_NavMeshPOVData_,
-                           m_uiHashSize) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_short_NavMeshPOVData_,
-                           m_ppkHashTable) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_short_NavMeshPOVData_,
-                           m_kItemCount) == 12);
-#pragma pack(push, 4)
 class NiTMap_unsigned_short_NavMeshPOVData_
     : public NiTMapBase_DFALL_NiTMapItem_unsigned_short_NavMeshPOVData____unsigned_short_NavMeshPOVData_
 {
@@ -292,9 +227,6 @@ class NiTMap_unsigned_short_NavMeshPOVData_
     // void __cdecl NiTMap<unsigned short,NavMeshPOVData>::*()
     // void __cdecl NiTMap<unsigned short,NavMeshPOVData>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTMap_unsigned_short_NavMeshPOVData_) == 16);
-#pragma pack(push, 4)
 class NavMeshGrid
 {
   public:
@@ -324,19 +256,9 @@ class NavMeshGrid
     // bool __cdecl NavMeshGrid::*(const char*, unsigned int, TESFile*)
     // void __cdecl NavMeshGrid::*(NavMeshGrid*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshGrid) == 40);
-FNV_STATIC_ASSERT(offsetof(NavMeshGrid, m_uiGridIndex) == 0);
-FNV_STATIC_ASSERT(offsetof(NavMeshGrid, m_fFirstGridValue) == 4);
-FNV_STATIC_ASSERT(offsetof(NavMeshGrid, NavMeshPointEntry) == 8);
-FNV_STATIC_ASSERT(offsetof(NavMeshGrid, IndexedPointRecord) == 12);
-FNV_STATIC_ASSERT(offsetof(NavMeshGrid, IndexedPointData) == 24);
-FNV_STATIC_ASSERT(offsetof(NavMeshGrid, TESFileRecordLoader) == 36);
-#pragma pack(push, 4)
 class PathingAvoidanceNode
 {
   public:
-    NavMeshTriangle* GetAvoidanceAtPoint(unsigned short);
     NiPoint3 m_kLocation;                          // +0x0, 12 bytes
     NiPoint3 TwoComponentVector;              // +0xC, 12 bytes
     float fRadius;                            // +0x18, 4 bytes
@@ -352,14 +274,6 @@ class PathingAvoidanceNode
     // void __cdecl PathingAvoidanceNode::*(BGSSaveFormBuffer*)
     // void __cdecl PathingAvoidanceNode::*(BGSLoadFormBuffer*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingAvoidanceNode) == 36);
-FNV_STATIC_ASSERT(offsetof(PathingAvoidanceNode, m_kLocation) == 0);
-FNV_STATIC_ASSERT(offsetof(PathingAvoidanceNode, TwoComponentVector) == 12);
-FNV_STATIC_ASSERT(offsetof(PathingAvoidanceNode, fRadius) == 24);
-FNV_STATIC_ASSERT(offsetof(PathingAvoidanceNode, m_fPathingCostCur) == 28);
-FNV_STATIC_ASSERT(offsetof(PathingAvoidanceNode, eType) == 32);
-#pragma pack(push, 4)
 class NavMeshStaticAvoidNode : public PathingAvoidanceNode
 {
   public:
@@ -371,10 +285,8 @@ class NavMeshStaticAvoidNode : public PathingAvoidanceNode
     // void __cdecl NavMeshStaticAvoidNode::*(float)
     // void __cdecl NavMeshStaticAvoidNode::*(float)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshStaticAvoidNode) == 40);
-FNV_STATIC_ASSERT(offsetof(NavMeshStaticAvoidNode, m_usTriangleID) == 36);
-#pragma pack(push, 4)
+class NavMeshTriangle;
+class NiPoint3;
 class NavMesh : public TESForm, public TESChildCell, public NiRefObject
 {
   public:
@@ -536,22 +448,9 @@ class NavMesh : public TESForm, public TESChildCell, public NiRefObject
     // bool __cdecl NavMesh::*(unsigned short, BSSimpleArray<NavMeshStaticAvoidNode *,1024>&)
     // NavMesh& __cdecl NavMesh::*(const NavMesh&)
     // void __cdecl NavMesh::*()
+public:
+    ::NiPoint3 GetNavMeshData(unsigned short);
+public:
+    ::NavMeshTriangle *GetTriangle(unsigned short);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMesh) == 264);
-FNV_STATIC_ASSERT(offsetof(NavMesh, m_pOwningCell) == 36);
-FNV_STATIC_ASSERT(offsetof(NavMesh, Vertices) == 40);
-FNV_STATIC_ASSERT(offsetof(NavMesh, Triangles) == 56);
-FNV_STATIC_ASSERT(offsetof(NavMesh, m_kEdgeExtraInfo) == 72);
-FNV_STATIC_ASSERT(offsetof(NavMesh, m_kDoorPortals) == 88);
-FNV_STATIC_ASSERT(offsetof(NavMesh, m_kClosedDoorInfo) == 104);
-FNV_STATIC_ASSERT(offsetof(NavMesh, m_kIndexList) == 120);
-FNV_STATIC_ASSERT(offsetof(NavMesh, POVPointerArray) == 136);
-FNV_STATIC_ASSERT(offsetof(NavMesh, m_kAdditionalIndexList) == 152);
-FNV_STATIC_ASSERT(offsetof(NavMesh, m_kGrid) == 168);
-FNV_STATIC_ASSERT(offsetof(NavMesh, m_kObstacleUndoData) == 208);
-FNV_STATIC_ASSERT(offsetof(NavMesh, pTriangleToObstacleMap) == 224);
-FNV_STATIC_ASSERT(offsetof(NavMesh, m_kAdditionalData) == 228);
-FNV_STATIC_ASSERT(offsetof(NavMesh, m_kStaticAvoidNodes) == 244);
-FNV_STATIC_ASSERT(offsetof(NavMesh, m_pNavigationMesh) == 260);
 #endif

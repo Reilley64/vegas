@@ -1,12 +1,14 @@
 // bscore/bsreadwritelock.cpp: free functions (7 functions)
 
+#include <windows.h>
+#include "fnv/symbols_005e9000.h"
 #include "bsreadwritelock_decls.h"
 
 // Calls FUN_005e9530, then sets the vtable to kVtbl_BGSEntryPointPerkEntry and zeroes value0C, value10, flag0A and flag09.
 // @fnv 0x005e9f60
 PerkEntryConditionSet::PerkEntryConditionSet()
 {
-    reinterpret_cast<BGSIdleMarker*>(this)->FUN_005e9530();
+    ::FUN_005e9530((::FUN_005e9530_Obj *)(reinterpret_cast<BGSIdleMarker*>(this)));
     vtable = &kVtbl_BGSEntryPointPerkEntry;
     value0C = 0;
     value10 = 0;
@@ -27,14 +29,11 @@ struct ReadWriteLock
     unsigned int m_uiLockState;
     unsigned int m_uiWriterThreadId;
 };
-typedef char _sizecheck_BSReadWriteLock[sizeof(ReadWriteLock) == 8 ? 1 : -1];
 struct FUN_00aa62e0_shell : public ReadWriteLock
 {
     void FUN_00aa62e0();
 };
 
-__declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile* Destination, long Exchange,
-                                                                long Comperand);
 
 // @fnv 0x00aa62e0
 void FUN_00aa62e0_shell::FUN_00aa62e0()
@@ -49,11 +48,8 @@ void FUN_00aa62e0_shell::FUN_00aa62e0()
 }
 
 namespace fnv_00aa6060 {
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
-extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(volatile long*, long, long);
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
 // @fnv 0x00aa6060
-void __fastcall AcquireLock(ReadWriteLock* lock)
+void AcquireLock(ReadWriteLock* lock)
 {
     unsigned int uiz;
     unsigned int uia;
@@ -81,9 +77,6 @@ void __fastcall AcquireLock(ReadWriteLock* lock)
 namespace fnv_00aa6120 {
 extern "C"
 {
-    __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId(void);
-    __declspec(dllimport) long __stdcall InterlockedCompareExchange(volatile long*, long, long);
-    __declspec(dllimport) void __stdcall Sleep(unsigned long);
 }
 struct Lock00aa6120
 {
@@ -120,9 +113,6 @@ bool Lock00aa6120::FUN_00aa6120()
 namespace fnv_00aa61b0 {
 extern "C"
 {
-    __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId(void);
-    __declspec(dllimport) long __stdcall InterlockedCompareExchange(volatile long*, long, long);
-    __declspec(dllimport) void __stdcall Sleep(unsigned long);
 }
 struct Lock00aa61b0
 {
@@ -156,9 +146,6 @@ bool Lock00aa61b0::FUN_00aa61b0()
 namespace fnv_00aa6220 {
 extern "C"
 {
-    __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId(void);
-    __declspec(dllimport) long __stdcall InterlockedCompareExchange(volatile long*, long, long);
-    __declspec(dllimport) void __stdcall Sleep(unsigned long);
 }
 struct Lock00aa6220
 {
@@ -201,7 +188,6 @@ bool Lock00aa6220::FUN_00aa6220()
 }
 }  // namespace fnv_00aa6220
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct Lock00aa62c0
 {
     long count;

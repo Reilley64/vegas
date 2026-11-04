@@ -2,33 +2,44 @@
 // src/gamebryo2.2/corelibs/nimain/nifloatsextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nifloatsextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_011f5b60;
 
 // @fnv 0x00a89120
+#include <new>
+#include "generated/data/vtables.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/decl/ExtraDataObject.h"
+#include "fnv/decl/ExtraDataStrings.h"
+#include "fnv/decl/FUN_00a7b2c0_shell.h"
+#include "fnv/decl/FUN_00a7b330_shell.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f5000.h"
 void* __cdecl FUN_00a89120()
 {
-    return &g_011f5b60;
+    return &(*reinterpret_cast<void * *>(&::g_011f5b60));
 }
 
+class NiStream;
 struct NiExtraData
 {
-    void FUN_00a7b2e0();
+public:
+    void LoadBinary(::NiStream &);
 };
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a89190
 void* __cdecl FUN_00a89190()
 {
-    void* p = BSFadeNode::operator new(0x14);
+    void* p = ::operator new(0x14);
     if (p != 0)
     {
         NiExtraData* pExtraData = static_cast<NiExtraData*>(p);
-        pExtraData->FUN_00a7b2e0();
-        *static_cast<void**>(p) = (void*)0x0109ec0c;
+        reinterpret_cast<::ExtraDataObject *>((pExtraData))->FUN_00a7b2e0();
+        *static_cast<void**>(p) = (void*)fnv_vftable_DAT_0109ec0c;
         *(int*)(static_cast<char*>(p) + 0x10) = 0;
         *(int*)(static_cast<char*>(p) + 0x0c) = 0;
         return p;
@@ -41,11 +52,11 @@ struct NiFloatsExtraData
     char m_ucUnknownByte[12];
     unsigned int m_uiSize;
     float* m_pfValue;
-    bool __thiscall SetValue(const unsigned int uiIndex, float fValue);
+    bool SetValue(const unsigned int uiIndex, float fValue);
 };
 
 // @fnv 0x00a89000
-bool __thiscall NiFloatsExtraData::SetValue(const unsigned int uiIndex, float fValue)
+bool NiFloatsExtraData::SetValue(const unsigned int uiIndex, float fValue)
 {
     if (uiIndex < m_uiSize)
     {
@@ -63,15 +74,14 @@ struct CloningProcess
 };
 struct NiFloatsExtraData_shell : NiFloatsExtraData
 {
-    void __thiscall CopyFloatsExtraData(NiFloatsExtraData* pDest, CloningProcess* pCloning);
-    void __thiscall FUN_00a7b330(NiFloatsExtraData*, CloningProcess*);
+    void CopyFloatsExtraData(NiFloatsExtraData* pDest, CloningProcess* pCloning);
 };
 
 // Copies the base extra data, then allocates and copies the float array from this object into pDest, or clears pDest's array when empty.
 // @fnv 0x00a89040
-void __thiscall NiFloatsExtraData_shell::CopyFloatsExtraData(NiFloatsExtraData* pDest, CloningProcess* pCloning)
+void NiFloatsExtraData_shell::CopyFloatsExtraData(NiFloatsExtraData* pDest, CloningProcess* pCloning)
 {
-    FUN_00a7b330(pDest, pCloning);
+    reinterpret_cast<::FUN_00a7b330_shell *>(this)->FUN_00a7b330((::NiBinaryExtraData *)(pDest), pCloning);
     if (!m_pfValue || m_uiSize <= 0)
     {
         pDest->m_pfValue = 0;
@@ -89,24 +99,24 @@ void __thiscall NiFloatsExtraData_shell::CopyFloatsExtraData(NiFloatsExtraData* 
 void __cdecl _NiFreeAlias(void*);
 struct FUN_00a7b300_shell
 {
-    void __thiscall _FUN_00a7b300();
+public:
+    void FUN_00a7b300();
 };
 extern int DAT_0109ec0c;
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00a891d0_shell
 {
-    void* __thiscall DestroyNiFloatsExtraData(unsigned int);
+    void* DestroyNiFloatsExtraData(unsigned int);
 };
 // Releases the float array, resets the vtable, runs base cleanup, and optionally frees the object when flags has bit 0 set.
 // @fnv 0x00a891d0
-void* __thiscall FUN_00a891d0_shell::DestroyNiFloatsExtraData(unsigned int flags)
+void* FUN_00a891d0_shell::DestroyNiFloatsExtraData(unsigned int flags)
 {
     NiFloatsExtraData* p = (NiFloatsExtraData*)this;
     float* v = p->m_pfValue;
     *(void**)this = (void*)&DAT_0109ec0c;
     _NiFreeAlias(v);
     p->m_pfValue = 0;
-    ((FUN_00a7b300_shell*)this)->_FUN_00a7b300();
+    ((FUN_00a7b300_shell*)this)->FUN_00a7b300();
     if (flags & 1)
         ::operator delete(this, 0x14);
     return this;
@@ -115,11 +125,11 @@ void* __thiscall FUN_00a891d0_shell::DestroyNiFloatsExtraData(unsigned int flags
 // NiFloatsExtraData float accessor: bounds-checked read of the value array.
 struct FUN_00a89020_cls : NiFloatsExtraData
 {
-    float __thiscall GetValueAt(unsigned int uiIndex);
+    float GetValueAt(unsigned int uiIndex);
 };
 
 // @fnv 0x00a89020
-float __thiscall FUN_00a89020_cls::GetValueAt(unsigned int uiIndex)
+float FUN_00a89020_cls::GetValueAt(unsigned int uiIndex)
 {
     if (uiIndex < m_uiSize)
         return m_pfValue[uiIndex];
@@ -128,11 +138,11 @@ float __thiscall FUN_00a89020_cls::GetValueAt(unsigned int uiIndex)
 
 struct NiFloatsExtraData_compare : NiFloatsExtraData
 {
-    bool __thiscall FUN_00a890b0(const NiFloatsExtraData* pOther);
+    bool FUN_00a890b0(const NiFloatsExtraData* pOther);
 };
 // Compares this NiFloatsExtraData with pOther: checks size, null-ness of the value array, and element-wise equality of the floats.
 // @fnv 0x00a890b0
-bool __thiscall NiFloatsExtraData_compare::FUN_00a890b0(const NiFloatsExtraData* pOther)
+bool NiFloatsExtraData_compare::FUN_00a890b0(const NiFloatsExtraData* pOther)
 {
     if (!pOther)
         return false;
@@ -357,7 +367,6 @@ class A89210ExtraData
     int unk04;
     int unk08;
 
-    void SaveBinary(A89210Stream& kStream);
 };
 
 class A89210IntsExtraData : public A89210ExtraData
@@ -374,15 +383,11 @@ class A89210IntsExtraData : public A89210ExtraData
 // @fnv 0x00a89210
 void A89210IntsExtraData::FUN_00a89210(A89210Stream& kStream)
 {
-    A89210ExtraData::SaveBinary(kStream);
+    reinterpret_cast<::FUN_00a7b2c0_shell *>(this)->FUN_00a7b2c0((::NiStream &)(kStream));
     A89210SaveBinary(kStream, m_uiSize);
     A89210BinaryStreamSave(*kStream.m_pBackingStream, m_piValue, m_uiSize);
 }
 
-extern "C" void* g_011f5b60;
-char* __cdecl FUN_00a7d330(const char* pcText);
-char* __cdecl FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
-char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
 
 template <class T> struct NiTMallocInterface
 {
@@ -419,8 +424,8 @@ template <class T, class TAlloc> class NiTPrimitiveArray
     unsigned int SetAtGrow(unsigned int uiIndex, T& element)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
         return uiIndex;
     }
     unsigned int Add(T element)
@@ -439,7 +444,6 @@ typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > NiViewerStringsArra
 
 struct NiExtraDataStub
 {
-    void GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
 struct NiFloatsExtraDataStub : NiExtraDataStub
@@ -456,8 +460,8 @@ struct NiFloatsExtraDataStub : NiExtraDataStub
 // @fnv 0x00a89280
 void NiFloatsExtraDataStub::FUN_00a89280(NiViewerStringsArray* pkStrings)
 {
-    NiExtraDataStub::GetViewerStrings(pkStrings);
-    pkStrings->Add(FUN_00a7d330((const char*)g_011f5b60));
+    reinterpret_cast<::ExtraDataStrings *>(this)->FUN_00a7b580((::StrArr *)(pkStrings));
+    pkStrings->Add(FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f5b60))));
     pkStrings->Add(FUN_00a7d510("m_uiSize", m_uiSize));
     for (unsigned int i = 0; i < m_uiSize; i++)
         pkStrings->Add(FUN_00a7d550("m_pfValue[i]", m_pfValue[i]));
@@ -667,7 +671,7 @@ class FUN_00a99a90_IntsExtraData : public BA99A90ExtraData
 // @fnv 0x00a99a90
 void FUN_00a99a90_IntsExtraData::LoadBinary(BA99A90Stream& kStream)
 {
-    BA99A90ExtraData::LoadBinary(kStream);
+    reinterpret_cast<::NiExtraData *>(this)->LoadBinary((::NiStream &)(kStream));
 
     BA99A90LoadBinary(kStream, m_uiSize);
     if (m_uiSize > 0)
@@ -681,7 +685,7 @@ void FUN_00a99a90_IntsExtraData::LoadBinary(BA99A90Stream& kStream)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+
 struct A89130Layout
 {
     void* m_ppVirtualMethodTable;
@@ -700,7 +704,7 @@ NiFloatsExtraData* A89130Owner::CreateNiFloatsExtraData(CloningProcess* pCloning
     NiFloatsExtraData* pExtraData = (NiFloatsExtraData*)FUN_00aa13e0(0x14);
     NiFloatsExtraData* ret =
         pExtraData
-            ? (((NiExtraData*)pExtraData)->FUN_00a7b2e0(), ((A89130Layout*)pExtraData)->m_ppVirtualMethodTable = (void*)&DAT_0109ec0c,
+            ? (reinterpret_cast<::ExtraDataObject *>((((NiExtraData*)pExtraData)))->FUN_00a7b2e0(), ((A89130Layout*)pExtraData)->m_ppVirtualMethodTable = (void*)&DAT_0109ec0c,
                ((A89130Layout*)pExtraData)->m_pfValue = 0, ((A89130Layout*)pExtraData)->m_uiSize = 0, pExtraData)
             : 0;
     CopyFloatsExtraData(ret, pCloning);

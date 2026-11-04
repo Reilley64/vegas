@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpVehicleDriverInputStatus.h"
-#pragma pack(push, 1)
 class hkpVehicleDriverInputAnalogStatus : public hkpVehicleDriverInputStatus
 {
   public:
@@ -15,7 +14,4 @@ class hkpVehicleDriverInputAnalogStatus : public hkpVehicleDriverInputStatus
     hkBool m_bReverseButtonPressed;  // +0x11
     char pad12[0x2];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpVehicleDriverInputAnalogStatus[(sizeof(hkpVehicleDriverInputAnalogStatus) == 0x14) ? 1 : -1];
 #endif

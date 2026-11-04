@@ -2,6 +2,12 @@
 #ifndef FNV_BSTEXTUREPALETTE_DECLS_H
 #define FNV_BSTEXTUREPALETTE_DECLS_H
 
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/HashA616.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_00af6000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_011f4000.h"
 #include "layout_support.h"
 
 class NiFixedString
@@ -61,9 +67,7 @@ class FileNameHash
   public:
     unsigned char cLast, cSecondToLast, cLength, cFirst;
     unsigned int uiCRC;
-    static void __cdecl CreateDirectoryAndFileHashes(const char*, FileNameHash&, FileNameHash&);
 };
-FNV_STATIC_ASSERT(sizeof(FileNameHash) == 8);
 
 // Archive type one is the texture archive group.
 enum ArchiveType
@@ -73,7 +77,6 @@ enum ArchiveType
 class ArchiveManager
 {
   public:
-    static BSFileEntry* __cdecl FindFileEntry(ArchiveType, FileNameHash&, FileNameHash&, const char*);
 };
 
 class TextureFileEntrySetter
@@ -82,7 +85,6 @@ class TextureFileEntrySetter
     static BSFileEntry* __cdecl FindEntryForTexture(const NiTexture*);
     static void __cdecl SetTexture(NiTexture*, const BSFileEntry*);
 };
-bool __cdecl CleanPath(const char*, char*, unsigned int);
 
 class TextureCacheNode
 {
@@ -93,29 +95,21 @@ class TextureCacheNode
     unsigned short m_usTextureSizeLevel;
     short m_sTextureCacheValue;
 };
-FNV_STATIC_ASSERT(sizeof(TextureCacheNode) == 16);
 class TextureCacheMap
 {
   public:
     TextureCacheNode* pElement[713];
     unsigned int iCount;
-    TextureCacheNode* FindOrInsertTexture(NiTexture*);
 };
-FNV_STATIC_ASSERT(sizeof(TextureCacheMap) == 0xb28);
 class BSFileEntryMap
 {
   public:
-    void SetAt(const BSFileEntry*, TextureCacheNode*);
 };
 class RecursiveSpinLock
 {
   public:
     volatile unsigned int m_uiOwningThreadID;
     unsigned int m_uiRecursionCount;
-    void Lock(const char*);
 };
-extern RecursiveSpinLock g_spinLock;
-extern TextureCacheMap* DAT_011f4464;
-extern BSFileEntryMap* DAT_011f4468;
 unsigned int __cdecl GetTextureSizeLevel(NiTexture*);
 #endif

@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpusplitsimulationislandjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpusplitsimulationislandjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cb6000.h"
+#include "fnv/symbols_00d07000.h"
 struct D942F0Array
 {
     void* m_data;
@@ -26,16 +28,14 @@ struct D942F0Island
     unsigned char unk24;
     unsigned char m_flags;
 
-    void markDirty();
 };
 
-void __cdecl FUN_00cb6060(D942F0Island* island, void* world, void* context, D942F0Array* out);
 
 // @fnv 0x00d942f0
 void __cdecl ClearFlagsAndMarkDirty(D942F0Island* island, void* context)
 {
     island->m_flags &= ~3;
     D942F0Array entities;
-    island->markDirty();
-    FUN_00cb6060(island, island->m_pOwningWorld, context, &entities);
+    ::FUN_00d07120();
+    ::FUN_00cb6060((::SplitIsland_Arg0 *)(island), (::SplitIsland_Arg1 *)(island->m_pOwningWorld), (::SplitIsland_Arg2Vec *)(context), &entities);
 }

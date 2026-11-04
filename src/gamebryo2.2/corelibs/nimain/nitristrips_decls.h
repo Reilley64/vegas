@@ -1,4 +1,5 @@
 // gamebryo2.2/corelibs/nimain/nitristrips_decls.h: declares NiParticles, NiTriStrips
+#include "fnv/symbols_0109e000.h"
 class NiParticles
 {
   public:
@@ -10,4 +11,3 @@ class NiTriStrips : public NiParticles
   public:
     NiTriStrips();
 };
-extern unsigned int DAT_0109ed94;

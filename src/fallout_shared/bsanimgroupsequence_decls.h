@@ -2,6 +2,33 @@
 #ifndef BSANIMGROUPSEQUENCE_DECLS_H
 #define BSANIMGROUPSEQUENCE_DECLS_H
 
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/FUN_00495f30_shell.h"
+#include "fnv/decl/FUN_00507b00Class.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00639aa0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a35030_shell.h"
+#include "fnv/decl/FUN_00ad8570_S.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/ThisCls_cls.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_004ee000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e3000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_01203000.h"
 class NiFixedString
 {
   public:
@@ -23,8 +50,6 @@ class NiRTTI
     const NiRTTI* parent;
 };
 class GlobalObject_00a7b610;
-extern GlobalObject_00a7b610 g_012031b8;
-extern const NiRTTI DAT_011f36bc;
 class BGSCameraPath
 {
   public:
@@ -80,9 +105,6 @@ class NiAVObject
     virtual void vfn_98();
     virtual NiAVObject* GetObjectByName(const NiFixedString&);
     const NiPoint3& FUN_0045bb80() const;
-    void FUN_004ef970(bool);
-    NiTimeController* GetController(const NiRTTI*);
-    class NiNode* GetParent();
 };
 class NiNode : public NiAVObject
 {
@@ -212,13 +234,10 @@ class TESObjectREFR
 class PlayerCharacter : public TESObjectREFR
 {
   public:
-    void ApplyHitShaderToReference(TESObjectREFR*);
 };
-extern PlayerCharacter* g_thePlayer;
 class TESForm
 {
   public:
-    unsigned int GetFormID();
 };
 class TESSound : public TESForm
 {
@@ -235,15 +254,12 @@ class TESSound : public TESForm
         unsigned short m_uiReverbAttenuation;
         unsigned int iPriority, m_uiTrailingValue1, m_uiTrailingValue2;
     };
-    SoundPlaybackParameters CopyBig();
-    static unsigned int GetPlaybackFlags(unsigned int);
 };
 class TESDataHandler
 {
   public:
     TESSound* GetSoundByEditorID(const char*);
 };
-extern TESDataHandler* g_dataHandler;
 class SoundPlaybackHandle
 {
   public:
@@ -253,16 +269,11 @@ class SoundPlaybackHandle
     SoundPlaybackHandle();
     ~SoundPlaybackHandle();
     SoundPlaybackHandle& operator=(const SoundPlaybackHandle&);
-    bool SetObjectToFollow(NiAVObject*);
-    bool SetPosition(float, float, float);
-    bool Play(bool);
 };
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
     SoundPlaybackHandle GetSoundHandleByFormID(unsigned int, unsigned int);
-    void FUN_00ad8570(NiAVObject*, float, unsigned int);
 };
 class SoundPlaybackManager
 {
@@ -278,7 +289,6 @@ class TimedTextEntry
 class NiTextKeyExtraData
 {
   public:
-    TimedTextEntry* FUN_00495f30(unsigned int*);
 };
 class LowProcess
 {
@@ -296,6 +306,8 @@ class BGSPerkEntry;
 template <class T> class BSSimpleList
 {
   public:
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
     T& GetItem();
 };
 class TESTopicInfoData
@@ -306,12 +318,10 @@ class TESTopicInfoData
 class PlayerQuestData
 {
   public:
-    PerkEntryConditionSet* GetConditions();
 };
 class RegionPoint
 {
   public:
-    float GetX();
 };
 class NiControllerSequence
 {
@@ -347,11 +357,7 @@ class NiControllerSequence
     void* m_pkAnimNotes;
     unsigned short m_usNumAnimNotes;
     bool m_bHasAnimNotes;
-    float GetField4C();
-    float FUN_00508100();
-    float FUN_00639aa0();
     NiTextKeyExtraData* FUN_00700300();
-    bool Deactivate(float, bool);
 };
 class TESAnimGroup
 {
@@ -368,15 +374,9 @@ class BSAnimGroupSequence : public NiControllerSequence
 {
   public:
     NiPointer<NiNode> m_spAnimGroup;
-    static bool PlayAnimSounds(NiControllerSequence*, TESObjectREFR*);
     unsigned char GetPriority(const char*, unsigned int*);
     bool Deactivate(float, bool);
 };
 extern const float DAT_01023850;
 const NiFixedString& FUN_004ef990();
-extern "C" int _strnicmp(const char*, const char*, unsigned int);
-int FUN_00404dc0(const char*, const char*);
-extern "C" char* strchr(const char*, int);
-extern "C" char* __insecure_strcpy(char*, const char*);
-int Warning(const char*, ...);
 #endif

@@ -2,104 +2,113 @@
 // src/fallout_shared/bgsconstructibleobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsconstructibleobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <malloc.h>
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_0051af50_shell.h"
+#include "fnv/decl/FUN_0051afb0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESObjectMISC.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_009ee000.h"
+#include "fnv/symbols_01183000.h"
 struct FUN_004f9bf0_shell
 {
-    unsigned int FUN_004f9bf0();
+    uintptr_t FUN_004f9bf0();
 };
 
 // @fnv 0x004f9bf0
-unsigned int FUN_004f9bf0_shell::FUN_004f9bf0()
+uintptr_t FUN_004f9bf0_shell::FUN_004f9bf0()
 {
     return ((unsigned int*)this)[0x2b];
 }
 
-void* __cdecl _Deallocate(void*);
 
 struct BGSConstructibleObject
 {
-    void* __thiscall FUN_004f94b0();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
-
-// Calls FUN_004f94b0, then frees this with _Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x004f9480
-void* BGSConstructibleObject::Destroy(unsigned int flags)
-{
-    FUN_004f94b0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
 
 struct FUN_004855a0
 {
-    void __thiscall M();
 };
 struct S_00487010
 {
-    void __thiscall FUN_00487010();
 };
 struct S_0048a520
 {
-    void __thiscall ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct FUN_0048e370_obj
 {
-    void __thiscall FUN_0048e370(unsigned int);
 };
 struct FUN_0047a240_shell
 {
-    void __thiscall FUN_0047a240(unsigned int);
+    void FUN_0047a240(unsigned int);
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void FUN_0048cca0();
 };
 struct S_00477f20
 {
-    void __thiscall FUN_00477f20();
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e00();
+    void FUN_00485e00();
 };
 struct FUN_00485680
 {
-    void __thiscall M();
 };
 struct SoundH
 {
-    unsigned int __thiscall Deallocate();
 };
-void __cdecl FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_004f9a90_shell : BGSConstructibleObject
 {
-    void __thiscall FUN_004f9a90();
+    void FUN_004f9a90();
 };
 
 // @fnv 0x004f9a90
-void __thiscall FUN_004f9a90_shell::FUN_004f9a90()
+void FUN_004f9a90_shell::FUN_004f9a90()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x30))->FUN_00487010();
-    ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4C444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_0048e370_obj*)((char*)this + 0x5c))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x30))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x3c))))->ProcessAndFreeData(0x4C444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x5c))))->FUN_0048e370(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x8c))->FUN_0047a240(0x4f43494d);
     ((S_0048cca0*)((char*)this + 0x68))->FUN_0048cca0();
-    ((S_00477f20*)((char*)this + 0x84))->FUN_00477f20();
+    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)((char*)this + 0x84))))->FUN_00477f20();
     ((FUN_00485e00_shell*)this)->FUN_00485e00();
     if (*(void**)((char*)this + 0xac))
     {
-        unsigned int itempint = ((SoundH*)*(void**)((char*)this + 0xac))->Deallocate();
-        FUN_00485910(0x4d414e52, itempint);
+        unsigned int itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(void**)((char*)this + 0xac))))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e52, itempint);
     }
     if (*(void**)((char*)this + 0xb0))
     {
-        unsigned int itempint2 = ((SoundH*)*(void**)((char*)this + 0xb0))->Deallocate();
-        FUN_00485910(0x4d414e43, itempint2);
+        unsigned int itempint2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(void**)((char*)this + 0xb0))))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e43, itempint2);
     }
-    ((FUN_00485680*)this)->M();
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
 namespace fnv_004f9570 {
@@ -124,16 +133,12 @@ typedef int CHUNK_ID;
 class TESFile
 {
   public:
-    unsigned int GetChunkSize();
-    unsigned short GetFormVersion();
-    int GetChunkID();
     bool NextChunk();
     bool GetChunkData(unsigned int*);
-    bool GetChunkData(void*, unsigned int);
 };
-extern "C" void* __cdecl _alloca(unsigned int);
 class BGSListForm;
 class TESBoundObject;
+class TESFile;
 class TESForm
 {
   public:
@@ -215,14 +220,18 @@ class TESForm
     virtual void v12c();
     virtual void v130();
     virtual void SetEditorID(const char*);
-    void LoadRecordHeader(TESFile*);
     void SetInitializationState(bool);
-    void ReadTypedData(TESFile*, void*, unsigned short);
     unsigned char m_ucFormType;
     unsigned int m_uiFormFlags;
     unsigned int iFormID;
     void* pSourceFilesHead;
     void* pSourceFilesNext;
+public:
+    bool GetInitialized() const;
+public:
+    void ClearData();
+public:
+    ::TESFile *GetFile(int);
 };
 class TESBoundObjectBase : public TESForm
 {
@@ -248,7 +257,6 @@ class TESFullName
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName*, TESFile*);
 };
 class TESModel
 {
@@ -265,7 +273,6 @@ class TESModel
 class TESModelTextureSwap : public TESModel
 {
   public:
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     void* pSwapListHead;
     void* pSwapListNext;
 };
@@ -281,7 +288,6 @@ class TESTexture
 class TESScriptableForm
 {
   public:
-    void FUN_006ecd40(unsigned int);
     void InitItem(TESForm*);
     void* pVtbl;
     void* m_pFormScript;
@@ -302,14 +308,12 @@ class TESWeightForm
 class BGSDestructibleObjectForm
 {
   public:
-    static void __cdecl LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
     void* pVtbl;
     void* pData;
 };
 class BGSMessageIcon
 {
   public:
-    static void __cdecl LoadMessageIconChunk(BGSMessageIcon*, TESFile*);
     void* pVtbl;
     void* pIconVtbl;
     char* pIcon;
@@ -342,16 +346,16 @@ struct FUN_004f96f0_cobj : public TESBoundObjectBase,
 // @fnv 0x004f96f0
 bool FUN_004f96f0_cobj::FUN_004f96f0(TESFile* apFile)
 {
-    LoadRecordHeader(apFile);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(apFile));
     SetInitializationState(false);
     CHUNK_ID chunkid;
-    while ((chunkid = apFile->GetChunkID()) != 0)
+    while ((chunkid = reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0()) != 0)
     {
         switch (chunkid)
         {
         case 0x44494445: {
-            char* pEditorId = (char*)_alloca(apFile->GetChunkSize());
-            apFile->GetChunkData(pEditorId, 0x200);
+            char* pEditorId = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pEditorId), 0x200);
             SetEditorID(pEditorId);
             break;
         }
@@ -359,7 +363,7 @@ bool FUN_004f96f0_cobj::FUN_004f96f0(TESFile* apFile)
             LoadBoundObject(apFile);
             break;
         case 0x4c4c5546:
-            TESFullNameLoader::LoadFullNameChunk(this, apFile);
+            ::ReadFullName(this, apFile);
             break;
         case 0x4c444f4d:
         case 0x54444f4d:
@@ -368,42 +372,42 @@ bool FUN_004f96f0_cobj::FUN_004f96f0(TESFile* apFile)
             TESModel::LoadModelData(this, apFile);
             break;
         case 0x53444f4d: {
-            unsigned int uiChunkSize = apFile->GetChunkSize();
+            unsigned int uiChunkSize = reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C();
             void* pChunkData = _alloca(uiChunkSize);
-            apFile->GetChunkData(pChunkData, uiChunkSize);
-            TESModelTextureSwap::ParseTextureSwapData(pChunkData, uiChunkSize, apFile->GetFormVersion());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pChunkData), uiChunkSize);
+            reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(pChunkData, uiChunkSize, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((apFile))->FUN_00403570());
             break;
         }
         case 0x4e4f4349:
             TESTexture::ReadTextureData(this, apFile);
             break;
         case 0x4f43494d:
-            BGSMessageIcon::LoadMessageIconChunk(this, apFile);
+            ::FUN_0047a290((::TeleportableReference *)(::BGSMessageIcon *)(this), apFile);
             break;
         case 0x49524353: {
             unsigned int tempint = 0;
             apFile->GetChunkData(&tempint);
-            TESScriptableForm::FUN_006ecd40(tempint);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(tempint));
             TESScriptableForm::InitItem(this);
             break;
         }
         case 0x54534544:
         case 0x44545344:
-            BGSDestructibleObjectForm::LoadDestructibleData(this, apFile);
+            ::FUN_004781e0(this, apFile);
             break;
         case 0x41544144:
-            ReadTypedData(apFile, 0, 0);
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(apFile, 0, 0);
             break;
         case 0x4d414e52: {
             unsigned int itempint = 0;
             apFile->GetChunkData(&itempint);
-            m_pCreatedObject = (BGSListForm*)itempint;
+            m_pCreatedObject = (BGSListForm*)(std::uintptr_t)itempint;
             break;
         }
         case 0x4d414e43: {
             unsigned int itempint = 0;
             apFile->GetChunkData(&itempint);
-            m_pWorkbenchKeyword = (TESBoundObject*)itempint;
+            m_pWorkbenchKeyword = (TESBoundObject*)(std::uintptr_t)itempint;
             break;
         }
         }
@@ -413,19 +417,15 @@ bool FUN_004f96f0_cobj::FUN_004f96f0(TESFile* apFile)
     return true;
 }
 
-extern char DAT_01183028;
 extern char DAT_01189c78;
 
-void* __cdecl FUN_00ec43fb(unsigned int, unsigned int, void*, void*, unsigned int);
 
 struct FUN_0051af50_cls
 {
-    void __thiscall FUN_0051af50(void* p);
 };
 
 struct FUN_009ee040_cls
 {
-    unsigned int __thiscall FUN_009ee040();
 };
 
 struct FUN_004f9b80_cls
@@ -476,21 +476,21 @@ struct FUN_004f9b80_cls
     unsigned int m_ac;
     unsigned int m_b0;
 
-    void __thiscall FUN_004f9b80(unsigned int a1);
+    void FUN_004f9b80(unsigned int a1);
 };
 
 // @fnv 0x004f9b80
 void FUN_004f9b80_cls::FUN_004f9b80(unsigned int a1)
 {
-    void* r = FUN_00ec43fb(a1, 0, &DAT_01183028, &DAT_01189c78, 0);
+    void* r = dynamic_cast<::BGSConstructibleObject *>(reinterpret_cast<::TESForm *>(a1));
     if (r == 0)
     {
     }
     else
     {
-        reinterpret_cast<FUN_0051af50_cls*>(this)->FUN_0051af50(r);
+        reinterpret_cast<::FUN_0051af50_shell *>((reinterpret_cast<FUN_0051af50_cls*>(this)))->FUN_0051af50((::TESForm *)(r));
         m_ac = reinterpret_cast<FUN_004f9bf0_shell*>(r)->FUN_004f9bf0();
-        m_b0 = reinterpret_cast<FUN_009ee040_cls*>(r)->FUN_009ee040();
+        m_b0 = ((unsigned int)(::FUN_009ee040((char *)(reinterpret_cast<FUN_009ee040_cls*>(r)))));
     }
 }
 
@@ -505,9 +505,6 @@ class TESBoundObject : public TESForm
     virtual ~TESBoundObject();
 };
 
-TESForm* __cdecl FUN_004839c0(unsigned int id);
-void __cdecl ResolveFormID(unsigned int* id, void* file);
-int __cdecl FUN_005b5e40(const char* fmt, ...);
 
 struct S_004f95a0
 {
@@ -631,11 +628,6 @@ struct S_004f95a0
     int unka8;
     BGSListForm* unkac;
     TESBoundObject* unkb0;
-    bool FUN_004013e0();
-    void FUN_0051a9a0();
-    void* FUN_00484e60(int index);
-    void FUN_00484ab0(bool flag);
-    unsigned int FUN_0084e3a0();
     virtual const char* v130();
     void LoadFormReferences();
 };
@@ -643,33 +635,30 @@ struct S_004f95a0
 // @fnv 0x004f95a0
 void S_004f95a0::LoadFormReferences()
 {
-    if (FUN_004013e0())
+    if (reinterpret_cast<::TESForm *>(this)->GetInitialized())
         return;
-    FUN_0051a9a0();
-    unsigned int id = (unsigned int)unkac;
+    reinterpret_cast<::TESObjectMISC *>(this)->InitItem();
+    unsigned int id = (unsigned int)(std::uintptr_t)unkac;
     if (id)
     {
-        ResolveFormID(&id, FUN_00484e60(-1));
+        ::ResolveFormID(&id, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
         unkac = dynamic_cast<BGSListForm*>(FUN_004839c0(id));
         if (!unkac)
-            FUN_005b5e40("MASTERFILE: Could not find item list (%08X) on constructible object '%s' (%08X).", id, v130(),
-                         FUN_0084e3a0());
+            ::FUN_005b5e40();
     }
-    id = (unsigned int)unkb0;
+    id = (unsigned int)(std::uintptr_t)unkb0;
     if (id)
     {
-        ResolveFormID(&id, FUN_00484e60(-1));
+        ::ResolveFormID(&id, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
         unkb0 = dynamic_cast<TESBoundObject*>(FUN_004839c0(id));
         if (!unkb0)
-            FUN_005b5e40("MASTERFILE: Could not find created item (%08X) on constructible object '%s' (%08X).", id,
-                         v130(), FUN_0084e3a0());
+            ::FUN_005b5e40();
     }
-    FUN_00484ab0(true);
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(true);
 }
 
 struct BoundObjectComparison
 {
-    bool FUN_0051afb0(void*);
 };
 
 struct ConstructibleComparison : FUN_004f96f0_cobj
@@ -681,14 +670,14 @@ struct ConstructibleComparison : FUN_004f96f0_cobj
 // @fnv 0x004f9c10
 bool ConstructibleComparison::FUN_004f9c10(void* apCompare)
 {
-    void* pcomp = FUN_00ec43fb((unsigned int)apCompare, 0, &DAT_01183028, &DAT_01189c78, 0);
+    void* pcomp = dynamic_cast<::BGSConstructibleObject *>(reinterpret_cast<::TESForm *>(apCompare));
     if (!pcomp)
         return true;
-    if (((BoundObjectComparison*)this)->FUN_0051afb0(pcomp))
+    if (reinterpret_cast<::FUN_0051afb0_shell *>((((BoundObjectComparison*)this)))->FUN_0051afb0((::TESForm *)(pcomp)))
         return true;
     if (m_pCreatedObject != (BGSListForm*)((FUN_004f9bf0_shell*)pcomp)->FUN_004f9bf0())
         return true;
-    if (m_pWorkbenchKeyword != (TESBoundObject*)((FUN_009ee040_cls*)pcomp)->FUN_009ee040())
+    if (m_pWorkbenchKeyword != (TESBoundObject*)((::FUN_009ee040((char *)(((FUN_009ee040_cls*)pcomp))))))
         return true;
     return false;
 }
@@ -709,7 +698,6 @@ struct TESBoundObjectQ
     virtual void v00()
     {}
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
-    void FUN_00483710();
 };
 
 struct TESFullNameQ
@@ -792,9 +780,53 @@ struct FUN_004f94b0_BGSConstructibleObject : TESObjectMISCQ
 {
     ~FUN_004f94b0_BGSConstructibleObject();
 };
+// Calls FUN_004f94b0, then frees this with _Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x004f9480
+void* BGSConstructibleObject::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004f94b0_BGSConstructibleObject *>(this)->FUN_004f94b0_BGSConstructibleObject::~FUN_004f94b0_BGSConstructibleObject();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x004f94b0
 FUN_004f94b0_BGSConstructibleObject::~FUN_004f94b0_BGSConstructibleObject()
 {
-    FUN_00483710();
+    reinterpret_cast<::TESForm *>(this)->ClearData();
 }
+
+// sub ecx,0x3c; jmp target: MSVC adjustor thunk from multiple inheritance (Derived overrides a virtual both bases declare).
+struct PrimaryBase
+{
+    virtual void FUN_004f9cb0();
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_004f9cb0();
+};
+
+struct AdjustedDerived : PrimaryBase, SecondaryBase
+{
+    AdjustedDerived();
+// @fnv 0x004f9cb0
+    virtual void FUN_004f9cb0();
+};
+
+AdjustedDerived::AdjustedDerived()
+{}

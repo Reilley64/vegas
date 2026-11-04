@@ -2,6 +2,20 @@
 // src/fallout/magic/dispeleffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/dispeleffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
+#include "fnv/simple_list_node_view.h"
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/MagicCaster.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00804210__ActiveEffectUpdateShell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_011d1000.h"
 struct ActiveEffect
 {
     void CopyData(ActiveEffect*);
@@ -37,7 +51,6 @@ bool FUN_0082d060_shell::IsCharacter(MagicTarget* apTarget)
     return dynamic_cast<Character*>(apTarget) != 0;
 }
 
-void* operator new(unsigned int size) throw();
 
 struct SpawnedEffect
 {
@@ -120,25 +133,14 @@ struct ItemObj
     SubObj m_0c;
 
     bool FUN_008256d0();
-    ItemObj** FUN_006815c0();
-    ItemObj* FUN_00726070();
-    ItemObj* FUN_0044ddc0();
-    void FUN_00804210(int arg);
-    ItemObj* FUN_00815410();
 };
 
 struct DatObj
 {
-    float* FUN_00403e20();
 };
-extern DatObj DAT_011d1b20;
 
 struct FUN_0080da00_cls
 {
-    HolderObj* FUN_0059bb30();
-    FUN_0080da00_cls* FUN_0084e3a0();
-    ItemObj* FUN_0045cd60();
-    float GetFloatAtOffset1C();
 
     void UpdateItems();
 };
@@ -146,20 +148,20 @@ struct FUN_0080da00_cls
 // @fnv 0x0080da00
 void FUN_0080da00_cls::UpdateItems()
 {
-    ItemObj* cur = FUN_0059bb30()->h2();
-    bool b9 = FUN_0084e3a0()->FUN_0084e3a0() == 0;
-    ItemObj* x = FUN_0045cd60() ? FUN_0045cd60()->FUN_00815410() : 0;
+    ItemObj* cur = ((::HolderObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->h2();
+    bool b9 = ((::FUN_0080da00_cls *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FUN_0080da00_cls *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect))))->FUN_0084e3a0())) == 0;
+    ItemObj* x = ((::ItemObj *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::ItemObj *)(reinterpret_cast<::MagicCaster *>((((::ItemObj *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     while (cur != 0 && !cur->FUN_008256d0())
     {
-        ItemObj* t5 = *cur->FUN_006815c0();
-        ItemObj* nextItem = cur->FUN_00726070();
+        ItemObj* t5 = *((::ItemObj **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item));
+        ItemObj* nextItem = ((::ItemObj *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
         if (t5 != 0 && (void*)t5 != (void*)this)
         {
-            ItemObj* u2 = t5->FUN_0044ddc0();
+            ItemObj* u2 = ((::ItemObj *)(reinterpret_cast<::Twin_0044ddc0 *>((t5))->GetName()));
             if (u2->i6() == 0)
             {
-                if (u2->m_0c.s2(b9 ? x : 0) <= GetFloatAtOffset1C() * *DAT_011d1b20.FUN_00403e20())
-                    t5->FUN_00804210(0);
+                if (u2->m_0c.s2(b9 ? x : 0) <= ::GetFloatAtOffset1C((char *)this) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DatObj *>(&::originalRuntimeFloatSetting1184)))))))
+                    reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((t5))->FUN_00804210(0);
             }
         }
         cur = nextItem;

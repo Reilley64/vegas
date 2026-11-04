@@ -2,6 +2,7 @@
 #ifndef NAVMESHPTR_DECLS_H
 #define NAVMESHPTR_DECLS_H
 
+#include "fnv/symbols_00690000.h"
 class NavMesh;
 class NavMeshPtr;
 class NavMeshInfo
@@ -11,5 +12,4 @@ class NavMeshInfo
     NavMesh* m_pLocationNavMesh;
     bool AcquireNavMesh(NavMeshPtr& out);
 };
-void __cdecl ProcessWithScopedRef(NavMeshPtr&, NavMesh*);
 #endif

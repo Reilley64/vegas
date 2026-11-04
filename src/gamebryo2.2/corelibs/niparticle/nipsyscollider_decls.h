@@ -2,11 +2,11 @@
 #ifndef FNV_NIPSYSCOLLIDER_DECLS_H
 #define FNV_NIPSYSCOLLIDER_DECLS_H
 
+#include "fnv/decl/A54440Hash.h"
 #include "NiRefObject.h"
 class NiStream;
 class CloningProcess;
 #define FNV_NIOBJECT_H
-#pragma pack(push, 4)
 class NiObject : public NiRefObject
 {
   public:
@@ -50,12 +50,10 @@ class NiBinaryStream
         return read;
     }
 };
-#pragma pack(pop)
 #include "nipsyscollider_stream.h"
 #include "NiPoint3.h"
 class NiPSysSpawnModifier;
 class NiPSysColliderManager;
-#pragma pack(push, 4)
 class NiPSysCollider : public NiObject
 {
   public:
@@ -71,17 +69,12 @@ class NiPSysCollider : public NiObject
     NiPSysColliderManager* m_pColliderManager;
     NiPointer<NiPSysCollider> m_spNextController;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiObject) == 8);
-FNV_STATIC_ASSERT(sizeof(NiPSysCollider) == 44);
-FNV_STATIC_ASSERT(offsetof(NiPSysCollider, m_spNextController) == 40);
 class ShaderBufferRecord;
 template <class T> class NiTStringPointerMap
 {
   public:
     bool GetAt(const char* key, T& value);
 };
-#pragma pack(push, 4)
 class CloningProcess
 {
   public:
@@ -93,12 +86,9 @@ class CloningProcess
     {
         // The PC linker folds this pointer-map lookup with the canonical
         // string-pointer-map lookup; preserve its bound external symbol.
-        return reinterpret_cast<NiTStringPointerMap<ShaderBufferRecord*>*>(m_pCloneMap)
-            ->GetAt(reinterpret_cast<const char*>(original), reinterpret_cast<ShaderBufferRecord*&>(clone));
+        return reinterpret_cast<::A54440Hash *>((reinterpret_cast<NiTStringPointerMap<ShaderBufferRecord*>*>(m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)(reinterpret_cast<const char*>(original)), (::A54440Manager **)&(reinterpret_cast<ShaderBufferRecord*&>(clone)));
     }
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(CloningProcess) == 16);
 template <class T> inline void NiBinaryStreamLoad(NiBinaryStream& stream, T* value, unsigned int count = 1)
 {
     unsigned int size = sizeof(T);

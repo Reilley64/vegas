@@ -2,6 +2,18 @@
 // src/fallout/ai/combat/combatprocedure.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedure.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_009ca6c0_class.h"
+#include "fnv/decl/Holder_009816d0.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00981570__FUN_00981570_shell.h"
+#include "fnv/decl/fnv_00981660__CombatController.h"
+#include "fnv/decl/fnv_00981690__CombatController.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005b5000.h"
 #include "CombatProcedure.h"
 
 struct FUN_0097f450_shell
@@ -17,19 +29,18 @@ void FUN_0097f450_shell::SetAttacker(unsigned char bAttacker)
 
 struct FUN_009ca6e0_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
-    void __thiscall FUN_009ca6c0();
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 void __cdecl FUN_009ca6c0_shell_member();
 
 // Calls FUN_009ca6c0, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x009ca6e0
-void* __thiscall FUN_009ca6e0_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_009ca6e0_shell::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_009ca6c0();
+    reinterpret_cast<::FUN_009ca6c0_class *>(this)->FUN_009ca6c0();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -49,39 +60,42 @@ float FUN_009d1b10_shell::GetTarget()
 struct FUN_009d4f30_shell
 {
     void SetByteAtOffset188ToFF();
+    char pad00[0x188];
+    unsigned char unk188;
 };
 
 // @fnv 0x009d4f30
 void FUN_009d4f30_shell::SetByteAtOffset188ToFF()
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x188) = 0xff;
+    this->unk188 = 0xff;
 }
 
 struct FUN_00980070_shell
 {
-    unsigned int __thiscall FUN_00980070();
+    unsigned int FUN_00980070();
+    unsigned int pad00[0x3d];
+    unsigned int unkf4;
 };
 
 // @fnv 0x00980070
 unsigned int FUN_00980070_shell::FUN_00980070()
 {
-    return *(unsigned int*)((char*)this + 0xf4);
+    return this->unkf4;
 }
 
 struct BGSSaveFormBuffer
 {
-    void __thiscall SaveData(void* data, int offset, int size);
 };
 
 struct FUN_00996ed0_shell
 {
-    void __thiscall SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer);
+    void SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 // @fnv 0x00996ed0
-void __thiscall FUN_00996ed0_shell::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
+void FUN_00996ed0_shell::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    apSaveGameBuffer->SaveData(this + 8, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(this + 8, 4, 0);
 }
 
 struct NiPoint3
@@ -92,56 +106,53 @@ struct NiPoint3
 };
 struct CombatController
 {
-    int __thiscall FUN_00981690(void* a, const NiPoint3& b, unsigned char c);
-    void __thiscall FUN_009816d0(int d);
+public:
+    void FUN_00981720(unsigned char);
 };
 struct CombatProcedureEx
 {
     int _pad;
     CombatController* m_pCombatController;
-    void __thiscall SetLookAtPoint(const NiPoint3& arLookAtPoint, unsigned char acPriority);
+    void SetLookAtPoint(const NiPoint3& arLookAtPoint, unsigned char acPriority);
 };
 // Passes the look-at point and priority to the combat controller, then applies the returned value via a second controller call.
 // @fnv 0x00996e60
 void CombatProcedureEx::SetLookAtPoint(const NiPoint3& arLookAtPoint, unsigned char acPriority)
 {
-    m_pCombatController->FUN_009816d0(m_pCombatController->FUN_00981690(this, arLookAtPoint, acPriority));
+    reinterpret_cast<::Holder_009816d0 *>((m_pCombatController))->FUN_009816d0(((int)(reinterpret_cast<::fnv_00981690::CombatController *>((m_pCombatController))->FUN_00981690((::fnv_00981690::CombatProcedure *)(void *)(this)))), *(const ::Pt_009816d0 *)nullptr, {});
 }
 
 namespace fnv_00996ea0 {
 struct CombatController
 {
-    int __thiscall FUN_00981690(void* a1);
-    void __thiscall FUN_00981720(unsigned char a1);
 };
 struct MyProc
 {
     int _pad;
     CombatController* pCtrl;
-    void __thiscall FUN_00996ea0();
+    void FUN_00996ea0();
 };
 // Calls FUN_00981690 on this, then passes the result to pCtrl->FUN_00981720.
 // @fnv 0x00996ea0
-void __thiscall MyProc::FUN_00996ea0()
+void MyProc::FUN_00996ea0()
 {
-    pCtrl->FUN_00981720(pCtrl->FUN_00981690(this));
+    reinterpret_cast<::CombatController *>((pCtrl))->FUN_00981720(((int)(reinterpret_cast<::fnv_00981690::CombatController *>((pCtrl))->FUN_00981690((::fnv_00981690::CombatProcedure *)(void *)(this)))));
 }
 }  // namespace fnv_00996ea0
 
 struct BGSLoadFormBuffer
 {
-    void __thiscall ReadTypedData(void* data, unsigned int size);
 };
 
 struct FUN_00996ef0_shell
 {
-    void __thiscall FUN_00996ef0(BGSLoadFormBuffer* buffer);
+    void FUN_00996ef0(BGSLoadFormBuffer* buffer);
 };
 
 // @fnv 0x00996ef0
-void __thiscall FUN_00996ef0_shell::FUN_00996ef0(BGSLoadFormBuffer* buffer)
+void FUN_00996ef0_shell::FUN_00996ef0(BGSLoadFormBuffer* buffer)
 {
-    buffer->ReadTypedData(this + 8, 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 8), 4);
 }
 
 struct Attacker_008b3a50
@@ -156,29 +167,29 @@ struct CombatProcedure_008b3a50
 {
     char _pad[0x190];
     Attacker_008b3a50* m_atk;
-    void* __thiscall FUN_008b3a50();
+    void* FUN_008b3a50();
 };
 // Returns the result of calling f4 on the attacker object stored in m_atk.
 // @fnv 0x008b3a50
-void* __thiscall CombatProcedure_008b3a50::FUN_008b3a50()
+void* CombatProcedure_008b3a50::FUN_008b3a50()
 {
     return m_atk->f4();
 }
 
 struct AlchemyItem
 {
-    void* __thiscall FUN_004030b0();
+    void* FUN_004030b0();
 };
 
 struct FUN_00996e00_shell
 {
     char _pad[4];
     AlchemyItem* _m_04;  // +0x04
-    void* __thiscall FUN_00996e00();
+    void* FUN_00996e00();
 };
 
 // @fnv 0x00996e00
-void* __thiscall FUN_00996e00_shell::FUN_00996e00()
+void* FUN_00996e00_shell::FUN_00996e00()
 {
     return _m_04->FUN_004030b0();
 }
@@ -186,46 +197,42 @@ void* __thiscall FUN_00996e00_shell::FUN_00996e00()
 namespace fnv_00996e20 {
 struct CombatController
 {
-    void __thiscall FUN_00981570(int aiCombatMoveMode);
 };
 
 struct FUN_00996e20_shell
 {
     char _pad[4];
     CombatController* m_pCombatController;  // +0x04
-    void __thiscall FUN_00996e20(int aiCombatMoveMode);
+    void FUN_00996e20(int aiCombatMoveMode);
 };
 
 // @fnv 0x00996e20
-void __thiscall FUN_00996e20_shell::FUN_00996e20(int aiCombatMoveMode)
+void FUN_00996e20_shell::FUN_00996e20(int aiCombatMoveMode)
 {
-    this->m_pCombatController->FUN_00981570(aiCombatMoveMode);
+    reinterpret_cast<::fnv_00981570::FUN_00981570_shell *>((this->m_pCombatController))->FUN_00981570(aiCombatMoveMode);
 }
 }  // namespace fnv_00996e20
 
 namespace fnv_00996e40 {
 struct CombatController
 {
-    void __thiscall ResetCombatState();
 };
 
 struct FUN_00996e40_shell
 {
     char _pad[4];
     CombatController* m_pCombatController;
-    void __thiscall FUN_00996e40();
+    void FUN_00996e40();
 };
 
 // @fnv 0x00996e40
-void __thiscall FUN_00996e40_shell::FUN_00996e40()
+void FUN_00996e40_shell::FUN_00996e40()
 {
-    m_pCombatController->ResetCombatState();
+    reinterpret_cast<::fnv_00981660::CombatController *>((m_pCombatController))->ResetCombatState();
 }
 }  // namespace fnv_00996e40
 
 struct TESObjectWEAP;
-void* operator new(unsigned int);
-void __cdecl FUN_005b5e40(int, const char*, int);
 extern char DAT_0108ddac;
 struct FUN_009d0890 : CombatProcedure
 {
@@ -381,7 +388,7 @@ struct FUN_009ca5f0 : CombatProcedure
 };
 struct FUN_009d6030 : CombatProcedure
 {
-    FUN_009d6030(int, float, int, int);
+    FUN_009d6030(void*, float, int, int);
     int f10;
     int f14;
     int f18;
@@ -475,7 +482,7 @@ CombatProcedure* __cdecl CreateCombatProcedure(int kind)
     case 12:
         return new FUN_009d3a00();
     default:
-        FUN_005b5e40(1, &DAT_0108ddac, kind);
+        ::FUN_005b5e40();
         return 0;
     }
 }

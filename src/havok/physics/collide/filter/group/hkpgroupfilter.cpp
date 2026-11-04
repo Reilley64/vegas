@@ -2,13 +2,10 @@
 // src/havok/physics/collide/filter/group/hkpgroupfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/filter/group/hkpgroupfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010c3000.h"
 #include "havok/hkpGroupFilter.h"
 
-extern int DAT_0102e388;
-extern int DAT_010c3b80;
-extern int DAT_010c3b8c;
-extern int DAT_010c3b98;
-extern int DAT_010c3bac;
 
 struct FUN_00e48a80_struct
 {
@@ -28,10 +25,10 @@ void FUN_00e48a80_struct::InitGroupFilterPointers()
     p4 = &DAT_010c3bac;
     p3 = &DAT_010c3b98;
     p2 = &DAT_010c3b80;
-    p0 = &DAT_0102e388;
+    p0 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-struct FUN_00e48970_struct
+struct FUN_00e48970_struct : hkpGroupFilter
 {
     void ClearMaskedBits(unsigned int, unsigned int);
 };
@@ -39,7 +36,7 @@ struct FUN_00e48970_struct
 // @fnv 0x00e48970
 void FUN_00e48970_struct::ClearMaskedBits(unsigned int auiMaskA, unsigned int auiMaskB)
 {
-    unsigned int* mask = reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x34);
+    unsigned int* mask = m_uiCollisionGroupMasks;
 
     unsigned int bit = 1;
     unsigned int count = 32;
@@ -57,9 +54,11 @@ void FUN_00e48970_struct::ClearMaskedBits(unsigned int auiMaskA, unsigned int au
     } while (--count);
 }
 
-struct FUN_00e48830_class
+struct hkBoolRet
 {
-    void ShouldCollide(int* value, int value0, int value1);
+    char b;
+    hkBoolRet(bool v) : b(v)
+    {}
 };
 
 struct FUN_00e48b60_arg2
@@ -74,25 +73,9 @@ struct FUN_00e48b60_arg1
     int value_24;
 };
 
-struct FUN_00e48b60_class
+struct FUN_00e48b60_class : hkpRayCollidableFilter
 {
-    int* FUN_00e48b60(int* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2);
-};
-
-// Calls ShouldCollide on the object 0x14 bytes before this, passing value, arg1->value_24 and arg2->value_1c, then returns value.
-// @fnv 0x00e48b60
-int* FUN_00e48b60_class::FUN_00e48b60(int* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2)
-{
-    reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 0x14)
-        ->ShouldCollide(value, arg1->value_24, arg2->value_1c);
-    return value;
-}
-
-struct hkBoolRet
-{
-    char b;
-    hkBoolRet(bool v) : b(v)
-    {}
+    hkBoolRet* FUN_00e48b60(hkBoolRet* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2);
 };
 
 class GroupFilter : public hkpGroupFilter
@@ -100,6 +83,13 @@ class GroupFilter : public hkpGroupFilter
   public:
     hkBoolRet ShouldCollide(unsigned int infoA, unsigned int infoB);
 };
+// Calls ShouldCollide on the object 0x14 bytes before this, passing value, arg1->value_24 and arg2->value_1c, then returns value.
+// @fnv 0x00e48b60
+hkBoolRet* FUN_00e48b60_class::FUN_00e48b60(hkBoolRet* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2)
+{
+    *value = static_cast<::GroupFilter *>(static_cast<hkpRayCollidableFilter*>(this))->ShouldCollide(arg1->value_24, arg2->value_1c);
+    return value;
+}
 
 // Checks whether two collision filter infos may collide, using group/subgroup masks or the group filter table.
 // @fnv 0x00e48830
@@ -141,20 +131,20 @@ struct FUN_00e488a0_object
     virtual int getValue(int input);
 };
 
-struct FUN_00e488a0_class
+struct FUN_00e488a0_class : hkpRayShapeCollectionFilter
 {
-    int* CallGetValueAndDispatch(int* value, FUN_00e488a0_data* data, int unused, FUN_00e488a0_object* object,
+    hkBoolRet* CallGetValueAndDispatch(hkBoolRet* value, FUN_00e488a0_data* data, int unused, FUN_00e488a0_object* object,
                                  int input);
 };
 
 // Calls object->getValue(input), then forwards value and data->value20 with the result to ShouldCollide on the owner at this-16, returning value.
 // @fnv 0x00e488a0
-int* FUN_00e488a0_class::CallGetValueAndDispatch(int* value, FUN_00e488a0_data* data, int unused,
+hkBoolRet* FUN_00e488a0_class::CallGetValueAndDispatch(hkBoolRet* value, FUN_00e488a0_data* data, int unused,
                                                  FUN_00e488a0_object* object, int input)
 {
     int result = object->getValue(input);
-    FUN_00e48830_class* owner = reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 16);
-    owner->ShouldCollide(value, data->value20, result);
+    ::GroupFilter* owner = static_cast<::GroupFilter *>(static_cast<hkpRayShapeCollectionFilter*>(this));
+    *value = owner->ShouldCollide(data->value20, result);
     return value;
 }
 
@@ -193,17 +183,16 @@ struct FUN_00e48ab0_value
     int value_1c;
 };
 
-struct FUN_00e48ab0_class
+struct FUN_00e48ab0_class : hkpCollidableCollidableFilter
 {
-    int* __thiscall FUN_00e48ab0(int* value, FUN_00e48ab0_value* arg2, FUN_00e48ab0_value* arg3);
+    hkBoolRet* FUN_00e48ab0(hkBoolRet* value, FUN_00e48ab0_value* arg2, FUN_00e48ab0_value* arg3);
 };
 
 // Calls ShouldCollide on the object at this-8, passing value and the value_1c fields of arg2 and arg3, then returns value.
 // @fnv 0x00e48ab0
-int* FUN_00e48ab0_class::FUN_00e48ab0(int* value, FUN_00e48ab0_value* pFirstValue, FUN_00e48ab0_value* pSecondValue)
+hkBoolRet* FUN_00e48ab0_class::FUN_00e48ab0(hkBoolRet* value, FUN_00e48ab0_value* pFirstValue, FUN_00e48ab0_value* pSecondValue)
 {
-    reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 8)
-        ->ShouldCollide(value, pFirstValue->value_1c, pSecondValue->value_1c);
+    *value = static_cast<::GroupFilter *>(static_cast<hkpCollidableCollidableFilter*>(this))->ShouldCollide(pFirstValue->value_1c, pSecondValue->value_1c);
     return value;
 }
 

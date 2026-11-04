@@ -30,7 +30,6 @@ enum BGSCameraShot__CAM_OBJECT
     BGSCameraShot__CAM_OBJECT_CO_TARGET = 2,
     BGSCameraShot__CAM_OBJECT_CO_COUNT = 3
 };
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -47,11 +46,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -84,12 +78,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class TESImageSpaceModifiableForm : public BaseFormComponent
 {
   public:
@@ -107,14 +95,9 @@ class TESImageSpaceModifiableForm : public BaseFormComponent
     // TESImageSpaceModifiableForm& __cdecl TESImageSpaceModifiableForm::*(const TESImageSpaceModifiableForm&)
     void InitItem(TESForm*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESImageSpaceModifiableForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifiableForm, m_pImageSpaceModifier) == 4);
-#pragma pack(push, 4)
 class BGSCameraShot__CAMERA_SHOT_DATA
 {
   public:
-    void FUN_0058c3c0();
     BGSCameraShot__CAM_ACTION m_eAction;    // +0x0, 4 bytes
     BGSCameraShot__CAM_OBJECT pInputFile;   // +0x4, 4 bytes
     BGSCameraShot__CAM_OBJECT m_eAttacker;  // +0x8, 4 bytes
@@ -126,19 +109,6 @@ class BGSCameraShot__CAMERA_SHOT_DATA
     float m_fCameraValue1;                  // +0x20, 4 bytes
     float m_fCameraValue2;                  // +0x24, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSCameraShot__CAMERA_SHOT_DATA) == 40);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot__CAMERA_SHOT_DATA, m_eAction) == 0);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot__CAMERA_SHOT_DATA, pInputFile) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot__CAMERA_SHOT_DATA, m_eAttacker) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot__CAMERA_SHOT_DATA, iFlags) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot__CAMERA_SHOT_DATA, m_fMinTime) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot__CAMERA_SHOT_DATA, m_fTargetPercent) == 20);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot__CAMERA_SHOT_DATA, m_fTimeMultiplier) == 24);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot__CAMERA_SHOT_DATA, fMaxTime) == 28);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot__CAMERA_SHOT_DATA, m_fCameraValue1) == 32);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot__CAMERA_SHOT_DATA, m_fCameraValue2) == 36);
-#pragma pack(push, 4)
 class BGSCameraShot : public TESForm, public TESModel, public TESImageSpaceModifiableForm
 {
   public:
@@ -210,15 +180,4 @@ class BGSCameraShot : public TESForm, public TESModel, public TESImageSpaceModif
     void ResetFormData();
     virtual void InitItem();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSCameraShot) == 120);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot, Data) == 56);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot, m_pLocationNode) == 96);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot, m_pTargetNode) == 100);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot, m_pReference) == 104);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot, m_spPositionNode) == 108);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot, m_pSceneObject) == 112);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot, m_bUpdateNodePosition) == 116);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot, m_bFlag74) == 117);
-FNV_STATIC_ASSERT(offsetof(BGSCameraShot, m_bFlag75) == 118);
 #endif

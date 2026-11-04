@@ -1,8 +1,131 @@
 // fallout/ai/middlelowprocess.cpp: MiddleLowProcess, StandIn, Holder, ProcStandIn (24 functions)
 
+#include "fnv/save_load_game_view.h"
+#include "fnv/package_fields.h"
+#include <cstdint>
+#include <new>
+#include <cstdio>
+#include "fnv/decl/ActiveEffect.h"
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Calendar.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/DurationData.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041d8a0_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_0061cc40_shell.h"
+#include "fnv/decl/FUN_00672dd0_shell.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_00862110_cls.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_00881650_shell.h"
+#include "fnv/decl/FUN_00893530_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008b3bf0_shell.h"
+#include "fnv/decl/FUN_008bc790_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FUN_0090c360_cls.h"
+#include "fnv/decl/FUN_0090f8b0_shell.h"
+#include "fnv/decl/FUN_00910450_shell.h"
+#include "fnv/decl/FUN_0092ca00.h"
+#include "fnv/decl/FUN_00931fb0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_00937b50_cls.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00962720_shell.h"
+#include "fnv/decl/FUN_0096a970_Class.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LocationDescriptor.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/ModifierListCalc.h"
+#include "fnv/decl/ObjQ.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Script.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00674f30__FUN_00674f30_shell.h"
+#include "fnv/decl/fnv_00675a50__FUN_00675a50_shell.h"
+#include "fnv/decl/fnv_00675c20__PHost.h"
+#include "fnv/decl/fnv_00678670__FUN_00678670_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_008a8f60__FUN_008a8f60_shell.h"
+#include "fnv/decl/fnv_008b3690__TES.h"
+#include "fnv/decl/fnv_0090fa70__LowProcessFA70.h"
+#include "fnv/decl/fnv_0090fd80__ProcessState.h"
+#include "fnv/decl/fnv_009334b0__FUN_009334b0_shell.h"
+#include "fnv/decl/fnv_009378d0__FUN_009378d0_shell.h"
+#include "fnv/decl/fnv_009379c0__FUN_009379c0_shell.h"
+#include "fnv/decl/fnv_00937c60__ModifierList_h.h"
+#include "fnv/decl/fnv_00962620__FUN_00962620_cls.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_00574000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_008a6000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01030000.h"
+#include "fnv/symbols_01035000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011a3000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 #include "../../../include/layout_support.h"
 #include "../../../include/Actor.h"
 #include "MiddleLowProcess.h"
+#include "../../../include/Actor_decl_middlelowprocess.h"
 
 // @fnv 0x008d80e0
 int MiddleLowProcess::GetProcessInteger()
@@ -10,7 +133,7 @@ int MiddleLowProcess::GetProcessInteger()
     return m_iValueB4;
 }
 // @fnv 0x00502c90
-void MiddleLowProcess::SetProcessInteger(int argument0)
+void MiddleLowProcess::SetProcessInteger(intptr_t argument0)
 {
     m_iValueB4 = argument0;
 }
@@ -31,14 +154,13 @@ struct FUN_0092c950 : Base_0092c950
 {
     Mem_0092c950 m;
     FUN_0092c950();
-    void SetSkillLevel(int);
     virtual ~FUN_0092c950();
 };
 // Constructs the object and initializes its skill level to 2 via SetSkillLevel.
 // @fnv 0x0092c950
 FUN_0092c950::FUN_0092c950()
 {
-    SetSkillLevel(2);
+    reinterpret_cast<::FUN_0061cc40_shell *>(this)->FUN_0061cc40(2);
 }
 
 struct Actor;
@@ -125,11 +247,9 @@ struct FUN_0092ce00_shell : public MiddleLowProcess
 };
 
 namespace ActorValue {
-bool GetFlag(int, unsigned int);
 }
 struct ML_0092ce00
 {
-    float GetActorValueModifierAmount(char);
 };
 struct LP_0092ce00
 {
@@ -140,10 +260,10 @@ struct LP_0092ce00
 // @fnv 0x0092ce00
 float FUN_0092ce00_shell::GetActorValueWithModifiers(TESActorBase* apActorBase, int aiWhich, Actor* apActor)
 {
-    if (ActorValue::GetFlag(aiWhich, 0x100))
-        return ((LP_0092ce00*)this)->GetCurrentActorValue(apActorBase, aiWhich, apActor);
-    return ((LP_0092ce00*)this)->GetCurrentActorValue(apActorBase, aiWhich, apActor) +
-           ((LP_0092ce00*)this)->mods.GetActorValueModifierAmount((char)aiWhich);
+    if (::FUN_00406d70(aiWhich, 0x100))
+        return reinterpret_cast<::LowProcess *>((((LP_0092ce00*)this)))->GetCurrentActorValue(apActorBase, (::ActorValue::Index)(aiWhich), apActor);
+    return reinterpret_cast<::LowProcess *>((((LP_0092ce00*)this)))->GetCurrentActorValue(apActorBase, (::ActorValue::Index)(aiWhich), apActor) +
+           reinterpret_cast<::ActorValueModifierList *>(&(((LP_0092ce00*)this)->mods))->GetActorValueModifierAmount((char)aiWhich);
 }
 
 namespace fnv_0092eaa0 {
@@ -195,7 +315,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -232,7 +351,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_0092eaa0_shell : public MiddleLowProcess
 {
     void FUN_0092eaa0(BGSLoadFormBuffer*);
@@ -241,7 +359,6 @@ struct FUN_0092eaa0_shell : public MiddleLowProcess
 struct BGSChangeFlagsCall
 {
     char b[4];
-    bool CheckFlag(unsigned int) const;
 };
 
 struct BGSLoadFormBufferCall
@@ -262,11 +379,11 @@ struct ModifierListCall
 // @fnv 0x0092eaa0
 void FUN_0092eaa0_shell::FUN_0092eaa0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<LowProcessCall*>(this)->LoadGame(apLoadGameBuffer);
-    apLoadGameBuffer->ReadTypedData(reinterpret_cast<void*>(&m_iValueB4), 4);
-    if (reinterpret_cast<BGSLoadFormBufferCall*>(apLoadGameBuffer)->GetChangeFlags().CheckFlag(0x100000))
+    reinterpret_cast<::LowProcess *>((reinterpret_cast<LowProcessCall*>(this)))->LoadGame((::BGSLoadFormBuffer *)(apLoadGameBuffer));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<void*>(&m_iValueB4)), 4);
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)(void *)&(const ::fnv_0092eaa0::BGSChangeFlagsCall &)(reinterpret_cast<BGSLoadFormBufferCall*>(apLoadGameBuffer)->GetChangeFlags()))->FUN_004280f0(0x100000))
     {
-        reinterpret_cast<ModifierListCall*>(&m_kProcessModifierList)->LoadGame(apLoadGameBuffer);
+        reinterpret_cast<::fnv_00937c60::ModifierList_h *>((reinterpret_cast<ModifierListCall*>(&m_kProcessModifierList)))->LoadModifiers((::fnv_00937c60::BGSLoadFormBuffer *)(apLoadGameBuffer));
     }
 }
 }  // namespace fnv_0092eaa0
@@ -320,7 +437,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -357,7 +473,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_0092eb00_shell : public MiddleLowProcess
 {
     void FUN_0092eb00(BGSLoadFormBuffer*);
@@ -381,15 +496,14 @@ struct LowProcess_helper
 
 struct ModifierList_helper
 {
-    void FUN_00937d50(BGSLoadFormBuffer*);
 };
 
 // @fnv 0x0092eb00
 void FUN_0092eb00_shell::FUN_0092eb00(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<LowProcess_helper*>(this)->Revert(apLoadGameBuffer);
-    if (reinterpret_cast<BGSLoadFormBuffer_helper*>(apLoadGameBuffer)->GetOldChangeFlags(0x100000))
-        reinterpret_cast<ModifierList_helper*>(reinterpret_cast<char*>(this) + 0xb8)->FUN_00937d50(apLoadGameBuffer);
+    reinterpret_cast<::LowProcess *>((reinterpret_cast<LowProcess_helper*>(this)))->Revert((::BGSLoadFormBuffer *)(apLoadGameBuffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_0092eb00::BGSChangeFlags_helper &)(reinterpret_cast<BGSLoadFormBuffer_helper*>(apLoadGameBuffer)->GetOldChangeFlags(0x100000)))->FUN_004280f0(0x100000))
+        reinterpret_cast<::ActorValueModifierList *>((reinterpret_cast<ModifierList_helper*>(reinterpret_cast<char*>(this) + 0xb8)))->FUN_00937d50((intptr_t)(apLoadGameBuffer));
 }
 }  // namespace fnv_0092eb00
 
@@ -417,20 +531,18 @@ template <int N> struct Lvl : Lvl<N - 1>
 struct StandIn : Lvl<23>
 {
     virtual void Target(int, int, float) = 0;
-    void CallTargetWithFloat(int, int, int);
+    void CallTargetWithFloat(intptr_t, int, int);
 };
 // Converts the third integer argument to float and forwards all three arguments to Target.
 // @fnv 0x00907430
-void StandIn::CallTargetWithFloat(int aiArg1, int aiArg2, int aiArg3)
+void StandIn::CallTargetWithFloat(intptr_t aiArg1, int aiArg2, int aiArg3)
 {
     Target(aiArg1, aiArg2, (float)aiArg3);
 }
 
 struct S0092ca00
 {
-    void FUN_0092ca00();
 };
-void __cdecl _Deallocate(void*);
 struct FUN_0092c9d0_shell
 {
     void* FUN_0092c9d0(unsigned int);
@@ -439,19 +551,18 @@ struct FUN_0092c9d0_shell
 // @fnv 0x0092c9d0
 void* FUN_0092c9d0_shell::FUN_0092c9d0(unsigned int flags)
 {
-    ((S0092ca00*)this)->FUN_0092ca00();
+    reinterpret_cast<::FUN_0092ca00 *>((((S0092ca00*)this)))->FUN_0092ca00::~FUN_0092ca00();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct P09AV
 {
-    static bool __cdecl GetFlag(int, unsigned int);
 };
 struct ModHack
 {
-    void __thiscall ModifyModifier(char, float, int);
+    void ModifyModifier(char, float, int);
 };
 struct FUN_0092ce70_shell
 {
@@ -461,7 +572,7 @@ struct FUN_0092ce70_shell
 // @fnv 0x0092ce70
 void FUN_0092ce70_shell::ApplyModifierIfNotFlagged(void* apUnused, int aiArg, int afValue)
 {
-    if (P09AV::GetFlag(aiArg, 0x100))
+    if (::FUN_00406d70(aiArg, 0x100))
         return;
     ((ModHack*)((char*)this + 0xB8))->ModifyModifier((char)aiArg, (float)afValue, 2);
 }
@@ -469,7 +580,6 @@ void FUN_0092ce70_shell::ApplyModifierIfNotFlagged(void* apUnused, int aiArg, in
 namespace fnv_0092cf10 {
 struct ML_0092ce00
 {
-    float GetActorValueModifierAmount(char);
 };
 struct FUN_0092cf10_shell
 {
@@ -480,13 +590,12 @@ struct FUN_0092cf10_shell
 // @fnv 0x0092cf10
 float FUN_0092cf10_shell::FUN_0092cf10(char aWhich)
 {
-    return _m.GetActorValueModifierAmount(aWhich);
+    return reinterpret_cast<::ActorValueModifierList *>(&(_m))->GetActorValueModifierAmount(aWhich);
 }
 }  // namespace fnv_0092cf10
 
 struct LowHolder
 {
-    void FUN_0090c360(void*, float);
 };
 struct Holder
 {
@@ -495,12 +604,11 @@ struct Holder
 // @fnv 0x0092e400
 void Holder::FUN_0092e400(void* a, float afValue)
 {
-    ((LowHolder*)this)->FUN_0090c360(a, afValue);
+    reinterpret_cast<::FUN_0090c360_cls *>((((LowHolder*)this)))->FUN_0090c360((::SpellItem *)(a), afValue);
 }
 
 struct FUN_00910310_shell
 {
-    void ResetAndClear(unsigned int, class MobileObject*);
 };
 struct FUN_00937b30_shell
 {
@@ -513,14 +621,13 @@ struct FUN_0092e9f0_shell
 // @fnv 0x0092e9f0
 void FUN_0092e9f0_shell::FUN_0092e9f0(unsigned int aiFlags, class MobileObject* pmob)
 {
-    ((FUN_00910310_shell*)this)->ResetAndClear(aiFlags, pmob);
+    reinterpret_cast<::ObjQ *>((((FUN_00910310_shell*)this)))->ResetAndClear(aiFlags, (::A2Q *)(pmob));
     if (aiFlags & 0x100000)
         ((FUN_00937b30_shell*)((char*)this + 0xB8))->FUN_00937b30();
 }
 
 struct Inner096a970
 {
-    void InsertAt(MobileObject*, int);
 };
 struct Host096d450
 {
@@ -532,17 +639,15 @@ struct Host096d450
 void Host096d450::FUN_0096d450(MobileObject* apActor, int aWhichList, bool aiWhere, bool abinsert,
                                MobileObject* apInsertActor)
 {
-    inner.InsertAt(apActor, aWhichList);
+    reinterpret_cast<::FUN_0096a970_Class *>(&(inner))->InsertAt((intptr_t)(apActor), aWhichList);
 }
 
 namespace fnv_0092cd90 {
 struct ML_0092ce00
 {
-    float GetActorValueModifierAmount(char);
 };
 struct P09AV
 {
-    static bool GetFlag(int, unsigned int);
 };
 struct FUN_0092cd90_shell : LowProcess
 {
@@ -551,29 +656,29 @@ struct FUN_0092cd90_shell : LowProcess
 // @fnv 0x0092cd90
 int FUN_0092cd90_shell::GetActorValue(TESActorBase* apActorBase, ActorValue__Index index, Actor* actorPtr)
 {
-    if (P09AV::GetFlag((int)index, 0x100))
-        return BaseProcess::GetActorValue(apActorBase, index, actorPtr);
-    return BaseProcess::GetActorValue(apActorBase, index, actorPtr) +
-           (int)(float)((ML_0092ce00*)((char*)this + 0xB8))->GetActorValueModifierAmount((char)index);
+    if (::FUN_00406d70((int)index, 0x100))
+        return reinterpret_cast<::LowProcess *>(this)->GetActorValue(apActorBase, index, actorPtr);
+    return reinterpret_cast<::LowProcess *>(this)->GetActorValue(apActorBase, index, actorPtr) +
+           (int)(float)reinterpret_cast<::ActorValueModifierList *>((((ML_0092ce00*)((char*)this + 0xB8))))->GetActorValueModifierAmount((char)index);
 }
 }  // namespace fnv_0092cd90
 
 struct Setting_S
 {
-    float* Float();
 };
 
-extern Setting_S originalRuntimeFloatSetting236;
 
 struct FUN_0092cc90_shell
 {
     bool FUN_0092cc90(Actor* apActor, float afTimeDelta);
+    unsigned int pad00[0x10];
+    void* unk40;
 };
 
 // @fnv 0x0092cc90
 bool FUN_0092cc90_shell::FUN_0092cc90(Actor* apActor, float afTimeDelta)
 {
-    int iCount = (int)(*originalRuntimeFloatSetting236.Float() * 4.0);
+    int iCount = (int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting236)))))) * 4.0);
     Actor* ptarget = 0;
 
     while (iCount)
@@ -583,7 +688,7 @@ bool FUN_0092cc90_shell::FUN_0092cc90(Actor* apActor, float afTimeDelta)
 
         apActor->Unk_10E();
 
-        ptarget = dynamic_cast<Actor*>(*(TESObjectREFR**)((char*)this + 0x40));
+        ptarget = dynamic_cast<Actor*>(*(TESObjectREFR**)&this->unk40);
         if (ptarget && !ptarget->Unk_8B(false))
             ptarget->Unk_10E();
 
@@ -591,7 +696,7 @@ bool FUN_0092cc90_shell::FUN_0092cc90(Actor* apActor, float afTimeDelta)
     }
 
     if (ptarget && !ptarget->Unk_8B(false))
-        ptarget->GetProcess()->ResetPackageState();
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((ptarget))->GetBaseTexture()))->ResetPackageState();
 
     return false;
 }
@@ -599,10 +704,8 @@ bool FUN_0092cc90_shell::FUN_0092cc90(Actor* apActor, float afTimeDelta)
 namespace fnv_0092cf30 {
 struct P09AV
 {
-    static bool __cdecl GetFlag(int, unsigned int);
 };
 
-float __cdecl FUN_0066eea0(void*, int, float);
 
 struct ModHack
 {
@@ -617,11 +720,11 @@ struct FUN_0092cf30_shell
 // @fnv 0x0092cf30
 void FUN_0092cf30_shell::FUN_0092cf30(Actor* apActor, int aiWhich, float afValue)
 {
-    if (P09AV::GetFlag(aiWhich, 0x100))
+    if (::FUN_00406d70(aiWhich, 0x100))
         return;
 
-    float fclamped = FUN_0066eea0(apActor ? (char*)apActor + 0xa4 : 0, aiWhich, afValue);
-    int eclampStyle = P09AV::GetFlag(aiWhich, 0x200) ? 1 : 0;
+    float fclamped = ::FUN_0066eea0((::FUN_0066eea0_Object *)(void *)(apActor ? (char*)static_cast<ActorValueOwner *>(apActor) : 0), aiWhich, afValue);
+    int eclampStyle = ::FUN_00406d70(aiWhich, 0x200) ? 1 : 0;
 
     ((ModHack*)((char*)this + 0x94))->ModifyModifier((char)aiWhich, fclamped, eclampStyle);
 }
@@ -634,13 +737,10 @@ struct GlobalObject_0045cf30
 
 struct Interface
 {
-    static void __cdecl PrintDebugMessage(const char*, ...);
 };
 
 struct TESSaveLoadGame
 {
-    bool FUN_00862110();
-    void* GetHitSound();
 };
 
 struct HitSoundData_0092e420
@@ -649,38 +749,33 @@ struct HitSoundData_0092e420
     unsigned char pad;
 };
 
-extern GlobalObject_0045cf30 g_011de4e8;
-extern TESSaveLoadGame* DAT_011de45c;
 
-TESForm* _GetFormByNumericID(unsigned int);
 
 struct FUN_0092e420_shell
 {
-    unsigned short FUN_0090f8b0(unsigned int, int);
 
     struct SaveSizePart
     {
-        unsigned short FUN_00937ab0();
     };
 
     unsigned char pad[0xb8];
     SaveSizePart saveSizePart;
 
-    unsigned short FUN_0092e420(unsigned int, int);
+    unsigned short FUN_0092e420(unsigned int, intptr_t);
 };
 
 // @fnv 0x0092e420
-unsigned short FUN_0092e420_shell::FUN_0092e420(unsigned int flags, int value)
+unsigned short FUN_0092e420_shell::FUN_0092e420(unsigned int flags, intptr_t value)
 {
     unsigned short usSize = 0;
     unsigned short usInitialSize;
     HitSoundData_0092e420* hitSound;
     TESForm* form;
 
-    usSize += this->FUN_0090f8b0(flags, value);
+    usSize += reinterpret_cast<::FUN_0090f8b0_shell *>((this))->FUN_0090f8b0(flags, value);
     usInitialSize = usSize;
 
-    if (DAT_011de45c->FUN_00862110())
+    if (reinterpret_cast<::FUN_00862110_cls *>((::g_TESSaveLoadGame))->FUN_00862110())
     {
         usSize += 4;
         usSize += 2;
@@ -690,28 +785,22 @@ unsigned short FUN_0092e420_shell::FUN_0092e420(unsigned int flags, int value)
 
     if (flags & 0x100000)
     {
-        usSize += this->saveSizePart.FUN_00937ab0();
+        usSize += reinterpret_cast<::ModifierListCalc *>(&(this->saveSizePart))->FUN_00937ab0();
     }
 
-    if (*g_011de4e8.Bool())
+    if (*::g_011de4e8.Bool())
     {
-        hitSound = static_cast<HitSoundData_0092e420*>(DAT_011de45c->GetHitSound());
+        hitSound = static_cast<HitSoundData_0092e420*>(((void *)(reinterpret_cast<::EffectSetting *>((::g_TESSaveLoadGame))->GetHitSound())));
 
         if (hitSound)
         {
-            form = _GetFormByNumericID(hitSound->formID);
+            form = ::FUN_004839c0(hitSound->formID);
 
-            Interface::PrintDebugMessage(
-                "GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-                usSize - usInitialSize, hitSound->formID, form->GetName(),
-                *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(hitSound) + 5), 0x263,
-                "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\ai\\MiddleLowProcess.cpp");
+            ::FUN_0040fbe0();
         }
         else
         {
-            Interface::PrintDebugMessage("GetSaveSize(): %-5i ending at line %i in file %s", usSize - usInitialSize,
-                                         0x263,
-                                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\ai\\MiddleLowProcess.cpp");
+            ::FUN_0040fbe0();
         }
     }
 
@@ -724,11 +813,11 @@ class FUN_00501c10_cls
 {
   public:
     void FUN_00438470(int arg);
-    FUN_00501c10_cls* CallAndReturnSelf(int arg);
+    FUN_00501c10_cls* CallAndReturnSelf(intptr_t arg);
 };
 
 // @fnv 0x00501c10
-FUN_00501c10_cls* FUN_00501c10_cls::CallAndReturnSelf(int arg)
+FUN_00501c10_cls* FUN_00501c10_cls::CallAndReturnSelf(intptr_t arg)
 {
     FUN_00438470(arg);
     return this;
@@ -736,27 +825,24 @@ FUN_00501c10_cls* FUN_00501c10_cls::CallAndReturnSelf(int arg)
 
 struct FNVTimeClock
 {
-    float GetTime();
 };
-extern FNVTimeClock g_GameClock;
 
 struct FUN_0092cfd0_shell : MiddleLowProcess
 {
-    bool FUN_0090a1a0(int packageType, bool forced);
-    bool FUN_0092cfd0(int packageType, bool forced);
+    bool FUN_0092cfd0(intptr_t packageType, bool forced);
 };
 
 // Re-evaluates the current package via FUN_0090a1a0 when forced, no package is active, or the clock's integer second changed, caching that second.
 // @fnv 0x0092cfd0
-bool FUN_0092cfd0_shell::FUN_0092cfd0(int packageType, bool forced)
+bool FUN_0092cfd0_shell::FUN_0092cfd0(intptr_t packageType, bool forced)
 {
     bool result;
     {
-        float currentTime = g_GameClock.GetTime();
+        float currentTime = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::FNVTimeClock *>(&::g_011de7b8))))->GetGameTime();
         result = false;
         if (forced || !GetCurrentPackage() || m_iValueB4 != static_cast<int>(currentTime))
         {
-            result = FUN_0090a1a0(packageType, forced);
+            result = reinterpret_cast<::LowProcess *>(this)->CanProcessActor((::Actor *)(packageType), forced);
             m_iValueB4 = static_cast<int>(currentTime);
         }
     }
@@ -861,10 +947,6 @@ struct SaveFormData_92e560
 
 struct SaveLoadGame_92e560
 {
-    bool IsDebugBlocks();
-    unsigned int GetOffset();
-    SaveFormData_92e560* GetCurrentForm();
-    void WriteData(void* apData, int aiSize);
 };
 
 struct SettingBool_92e560
@@ -932,103 +1014,85 @@ struct MiddleLowProcess_92e560 : LowProcessBase_92e560
     int unkB4;
     SaveSizePart_92e560 unkB8;
 
-    void FUN_0092e560(unsigned int auiFlags, int aiArg);
+    void FUN_0092e560(unsigned int auiFlags, intptr_t aiArg);
 };
 
-extern SaveLoadGame_92e560* g_TESSaveLoadGame;
-extern SettingBool_92e560 g_bSaveDebug_92e560;
-TESForm_92e560* __cdecl LookupFormByID_92e560(unsigned int auiFormID);
-void __cdecl DebugPrintf_92e560(const char* apFmt, ...);
-void __cdecl SaveWarning_92e560(const char* apFmt, ...);
 
 // @fnv 0x0092e560
-void MiddleLowProcess_92e560::FUN_0092e560(unsigned int auiFlags, int aiArg)
+void MiddleLowProcess_92e560::FUN_0092e560(unsigned int auiFlags, intptr_t aiArg)
 {
-    LowProcessBase_92e560::SaveGame(auiFlags, aiArg);
+    reinterpret_cast<::fnv_0090fa70::LowProcessFA70 *>(this)->SaveToStream(auiFlags, aiArg);
     unsigned short usBlockSize = 0;
     unsigned short* pBlockSize3 = 0;
-    unsigned int _uiStart = g_TESSaveLoadGame->GetOffset();
-    if (*g_bSaveDebug_92e560.Bool())
-        _uiStart = g_TESSaveLoadGame->GetOffset();
-    if (g_TESSaveLoadGame->IsDebugBlocks())
+    std::uintptr_t _uiStart = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->pBufferCursor);
+    if (*(*reinterpret_cast<::SettingBool_92e560 *>(&::g_011de4e8)).Bool())
+        _uiStart = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->pBufferCursor);
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int uiMarker6 = 0x424c4f4b;
-        g_TESSaveLoadGame->WriteData(&uiMarker6, 4);
-        pBlockSize3 = (unsigned short*)g_TESSaveLoadGame->GetOffset();
-        g_TESSaveLoadGame->WriteData(&usBlockSize, 2);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&uiMarker6, 4);
+        pBlockSize3 = (unsigned short*)reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&usBlockSize, 2);
     }
-    g_TESSaveLoadGame->WriteData(&unkB4, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unkB4, 4);
     if (auiFlags & 0x100000)
-        unkB8.SaveGame();
-    if (*g_bSaveDebug_92e560.Bool())
+        reinterpret_cast<::fnv_009378d0::FUN_009378d0_shell *>(&(unkB8))->CountModifiers();
+    if (*(*reinterpret_cast<::SettingBool_92e560 *>(&::g_011de4e8)).Bool())
     {
-        unsigned int uiEnd4 = g_TESSaveLoadGame->GetOffset();
-        SaveFormData_92e560* pFormData3 = g_TESSaveLoadGame->GetCurrentForm();
+        std::uintptr_t uiEnd4 = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->pBufferCursor);
+        SaveFormData_92e560* pFormData3 = ((::SaveFormData_92e560 *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (pFormData3)
         {
-            TESForm_92e560* pForm = LookupFormByID_92e560(pFormData3->formID);
-            DebugPrintf_92e560("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
-                               uiEnd4 - _uiStart, pFormData3->formID, pForm->GetEditorID(), pFormData3->flags, 634,
-                               "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\ai\\MiddleLowProcess.cpp");
+            TESForm_92e560* pForm = ((::TESForm_92e560 *)(::FUN_004839c0(pFormData3->formID)));
+            ::FUN_0040fbe0();
         }
         else
         {
-            DebugPrintf_92e560("SaveGame(): %-5i ending at line %i in file %s", uiEnd4 - _uiStart, 634,
-                               "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\ai\\MiddleLowProcess.cpp");
+            ::FUN_0040fbe0();
         }
     }
-    if (g_TESSaveLoadGame->IsDebugBlocks())
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int uiCur2 = g_TESSaveLoadGame->GetOffset();
-        unsigned int uiBase2 = (unsigned int)pBlockSize3;
+        std::uintptr_t uiCur2 = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->pBufferCursor);
+        uintptr_t uiBase2 = (uintptr_t)pBlockSize3;
         if (uiCur2 > uiBase2 + 0xffff)
-            SaveWarning_92e560("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
-                               "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\ai\\MiddleLowProcess.cpp", 634);
+            ::FUN_005b5e40();
         *pBlockSize3 = (unsigned short)(uiCur2 - uiBase2);
     }
 }
 
 struct BGSChangeFlags_s
 {
-    bool Test(unsigned int mask);
 };
 struct FUN_00865e50_shell
 {
     BGSChangeFlags_s* FUN_00428110(unsigned int* out);
-    void FUN_00865e50(void* buf, unsigned int size, int flags);
+public:
+    void FUN_00865e50(void *, unsigned int, unsigned int);
 };
 struct TemporaryModifiers_shell
 {
-    void FUN_00937b50(FUN_00865e50_shell* a);
 };
 struct FUN_0092ea30_shell : public LowProcess
 {
     int m_iValueB4;
     TemporaryModifiers_shell m_kProcessModifierList;
-    void FUN_00910450(FUN_00865e50_shell* a);
     void LoadFromStream(FUN_00865e50_shell* a);
 };
 // @fnv 0x0092ea30
 void FUN_0092ea30_shell::LoadFromStream(FUN_00865e50_shell* a)
 {
     unsigned int flags;
-    FUN_00910450(a);
+    reinterpret_cast<::FUN_00910450_shell *>(this)->FUN_00910450((::BGSSaveFormBuffer *)(a));
     a->FUN_00865e50(&m_iValueB4, 4, 0);
-    if (a->FUN_00428110(&flags)->Test(0x100000))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((a->FUN_00428110(&flags)))->FUN_004280f0(0x100000))
     {
-        m_kProcessModifierList.FUN_00937b50(a);
+        reinterpret_cast<::FUN_00937b50_cls *>(&(m_kProcessModifierList))->FUN_00937b50((::BGSSaveFormBuffer *)(a));
     }
 }
 
 namespace fnv_0092e730 {
-extern "C" char DAT_011de45c;
 extern "C" char DAT_0108a3f0;
-extern "C" char DAT_01015718;
-extern "C" char DAT_010156a8;
-extern "C" char DAT_01015588;
-extern "C" char DAT_01015500;
-extern "C" char DAT_010154a0;
-extern "C" char DAT_01015440;
 struct Record92
 {
     unsigned id;
@@ -1118,100 +1182,85 @@ struct Virtual92
 };
 struct Save92
 {
-    bool FUN_00862110();
-    void FUN_008579e0(void*, unsigned);
-    Record92* FUN_004fd3c0();
-    unsigned char FUN_008df040();
-    unsigned FUN_00825c00();
 };
 struct Base92
 {
-    void FUN_0090fd80(unsigned, unsigned, unsigned);
 };
 struct Sub92
 {
-    void LoadModifiers();
 };
-Virtual92* __cdecl FUN_004839c0(unsigned);
-void __cdecl FUN_005b5e40(const char*, ...);
 struct Target92
 {
     char pad[0xb4];
     unsigned field;
     Sub92 sub;
-    void FUN_0092e730(unsigned, unsigned, unsigned);
+    void FUN_0092e730(unsigned, unsigned, uintptr_t);
 };
 // Calls the base handler, reads a 4-byte field from the save stream, logs a mismatch record, and compares stream position against a stored offset.
 // @fnv 0x0092e730
-void Target92::FUN_0092e730(unsigned flags, unsigned arg2, unsigned arg3)
+void Target92::FUN_0092e730(unsigned flags, unsigned arg2, uintptr_t arg3)
 {
-    ((Base92*)this)->FUN_0090fd80(flags, arg2, arg3);
+    reinterpret_cast<::fnv_0090fd80::ProcessState *>((((Base92*)this)))->FUN_0090fd80(flags, arg2, arg3);
     unsigned short a = 0;
-    unsigned b = 0;
-    if ((*(Save92**)&DAT_011de45c)->FUN_00862110())
+    std::uintptr_t b = 0;
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         unsigned uiMagic;
-        (*(Save92**)&DAT_011de45c)->FUN_008579e0(&uiMagic, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&uiMagic, 4);
         if (uiMagic != 0x424c4f4b)
         {
-            Record92* pRecord = (*(Save92**)&DAT_011de45c)->FUN_004fd3c0();
+            Record92* pRecord = ((::fnv_0092e730::Record92 *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))));
             if (pRecord)
             {
-                Virtual92* pVirtual = FUN_004839c0(pRecord->id);
-                FUN_005b5e40(&DAT_01015718, &DAT_0108a3f0, 0x287, pRecord->id, pVirtual->v76(), pRecord->kind,
-                             *(unsigned*)pRecord->value);
+                Virtual92* pVirtual = ((::fnv_0092e730::Virtual92 *)(::FUN_004839c0(pRecord->id)));
+                ::FUN_005b5e40();
             }
             else
             {
-                FUN_005b5e40(&DAT_010156a8, &DAT_0108a3f0, 0x287, (*(Save92**)&DAT_011de45c)->FUN_008df040());
+                ::FUN_005b5e40();
             }
         }
-        b = (*(Save92**)&DAT_011de45c)->FUN_00825c00();
-        (*(Save92**)&DAT_011de45c)->FUN_008579e0(&a, 2);
+        b = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&a, 2);
     }
-    (*(Save92**)&DAT_011de45c)->FUN_008579e0(&field, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&field, 4);
     if (flags & 0x100000)
-        sub.LoadModifiers();
-    if ((*(Save92**)&DAT_011de45c)->FUN_00862110())
+        reinterpret_cast<::fnv_009379c0::FUN_009379c0_shell *>(&(sub))->LoadModifiers();
+    if (reinterpret_cast<::FUN_00862110_cls *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
-        unsigned uiNewPos = (*(Save92**)&DAT_011de45c)->FUN_00825c00();
-        Record92* pRecord2 = (*(Save92**)&DAT_011de45c)->FUN_004fd3c0();
+        std::uintptr_t uiNewPos = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
+        Record92* pRecord2 = ((::fnv_0092e730::Record92 *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))));
         if (pRecord2)
         {
-            Virtual92* pVirtual2 = FUN_004839c0(pRecord2->id);
+            Virtual92* pVirtual2 = ((::fnv_0092e730::Virtual92 *)(::FUN_004839c0(pRecord2->id)));
             if (uiNewPos > b + a)
             {
-                FUN_005b5e40(&DAT_01015588, uiNewPos - (b + a), &DAT_0108a3f0, 0x290, pRecord2->id, pVirtual2->v76(),
-                             pRecord2->kind, *(unsigned*)pRecord2->value);
+                ::FUN_005b5e40();
             }
             else if (uiNewPos < b + a)
             {
-                FUN_005b5e40(&DAT_01015500, (b + a) - uiNewPos, &DAT_0108a3f0, 0x290, pRecord2->id, pVirtual2->v76(),
-                             pRecord2->kind, *(unsigned*)pRecord2->value);
+                ::FUN_005b5e40();
             }
         }
         else
         {
             if (uiNewPos > b + a)
             {
-                FUN_005b5e40(&DAT_010154a0, uiNewPos - (b + a), &DAT_0108a3f0, 0x290,
-                             (*(Save92**)&DAT_011de45c)->FUN_008df040());
+                ::FUN_005b5e40();
             }
             else if (uiNewPos < b + a)
             {
-                FUN_005b5e40(&DAT_01015440, (b + a) - uiNewPos, &DAT_0108a3f0, 0x290,
-                             (*(Save92**)&DAT_011de45c)->FUN_008df040());
+                ::FUN_005b5e40();
             }
         }
     }
 }
 }  // namespace fnv_0092e730
 
-bool FUN_00406d70(int aiValue, int aiFlag);
 
 struct Sub0092cec0
 {
-    void __thiscall FUN_00937480(unsigned char aucIndex, float afValue, int aiType);
+    void FUN_00937480(unsigned char aucIndex, float afValue, int aiType);
 };
 
 struct Owner0092cec0
@@ -1264,12 +1313,12 @@ struct Owner0092cec0
     int unkB4;
     Sub0092cec0 unkB8;
 
-    void FUN_0092cec0(int aiUnused, int aiIndex, float afValue);
+    void FUN_0092cec0(intptr_t aiUnused, int aiIndex, float afValue);
 };
 
 // Returns when FUN_00406d70(aiIndex, 0x100) is true; otherwise calls unkB8.FUN_00937480(aiIndex, afValue, 2).
 // @fnv 0x0092cec0
-void Owner0092cec0::FUN_0092cec0(int aiUnused, int aiIndex, float afValue)
+void Owner0092cec0::FUN_0092cec0(intptr_t aiUnused, int aiIndex, float afValue)
 {
     if (FUN_00406d70(aiIndex, 0x100))
         return;
@@ -1298,34 +1347,31 @@ struct ItemList
     void* m_pHead;
     void* m_pTail;
     bool IsEmpty();
-    Item** Head();
-    void Remove(Item** ppItem);
 };
 
 struct TargetInfo
 {
     int FUN_0067f390_dummy;
     Ext* GetTarget();
-    int GetKind();
 };
 
 struct Ext
 {
     int unk00;
-    int GetRace();
     Pt3* GetPos();
 };
 
 struct ProcData
 {
     int unk00;
-    int GetInt();
+    char pad04[0x4];
+    int iValue;
 };
 
 struct DurInfo
 {
     int unk00;
-    int GetEnd();
+    int unk04;
 };
 
 struct BaseObj
@@ -1656,19 +1702,16 @@ struct BaseObj
     virtual void b_50c();
     virtual void b_510();
     virtual Ext* Get514();
-    int GetLevel();
 };
 
 struct Spell
 {
     int unk00;
-    float GetDur();
 };
 
 struct Owner
 {
     int unk00;
-    bool IsSet();
 };
 
 struct Ref
@@ -1851,20 +1894,8 @@ struct Ref
     virtual void r_2bc();
     virtual void r_2c0();
     virtual void SetAngle(float z);
-    void ClearState();
-    BaseObj* GetBase();
-    bool IsBusy();
-    void ApplyThing(const Pt3& p, int a, int b);
     Owner* GetOwner();
-    void Reset(int a);
-    const char* GetName();
-    float GetDistance(Ref* r, int a, int b);
     int GetMode();
-    int GetFlags();
-    bool IsDone();
-    bool IsBlocked();
-    bool HasMember(Ref* r);
-    int CountMembers();
 };
 
 struct Pkg
@@ -1950,43 +1981,24 @@ struct Pkg
     virtual void k_138();
     virtual bool CheckA(Ref* r, int a, float f, int b);
     virtual bool CheckB(Ref* t, Ref* r, int a, float f, int b);
-    int GetType();
-    bool IsDone();
     TargetInfo* GetTarget();
-    float GetRange(Ref* r, int a);
-    int GetProcType();
-    int GetA(Ref* r, float f, int b);
-    int GetB(Ref* r);
     Pt3 GetC(Ref* r);
-    bool FlagA();
-    bool FlagB();
-    int GetLocationPointer();
-    ProcData* GetData();
-    void MarkDone(int a);
-    bool FlagC();
-    bool FlagD();
-    DurInfo* GetDur();
 };
 
 struct GameTime
 {
-    float GetGameTime();
-    bool IsSet();
 };
 
 struct Lock
 {
-    void Enter();
 };
 
 struct IntSetting
 {
-    int* Get();
 };
 
 struct FloatSetting
 {
-    float* Get();
 };
 
 struct Queue
@@ -1994,31 +2006,7 @@ struct Queue
     void Add(Owner* o, int b, int c, void (*fn)(), Ref* r);
 };
 
-extern Lock DAT_011e0528;
-extern GameTime DAT_011de7b8;
-extern int* DAT_011a3ff0[];
-extern float DAT_01012054;
-extern float DAT_01030020;
-extern double DAT_010356d8;
-extern double DAT_01012640;
-extern double DAT_01012060;
-extern double DAT_01011590;
-extern Queue* DAT_011c3f2c;
-extern int DAT_011ca248;
-extern Ref* DAT_011dea3c;
-extern IntSetting DAT_011cdad0;
-extern FloatSetting DAT_011cdbac;
-extern FloatSetting DAT_011cd82c;
-extern int DAT_0119bcb0[];
 
-Spell* FUN_004839c0(int id);
-void FUN_0090d480();
-void FUN_0090d570();
-Ref* FUN_00703180();
-const char* FUN_00464f30(int a, int b);
-int FUN_00ec623a(char* buf, const char* fmt, ...);
-void FUN_00703c00(const char* s);
-void FUN_005ac750(Pkg* p, int a, int b);
 
 struct ProcStandIn
 {
@@ -2561,21 +2549,19 @@ struct ProcStandIn
     int unk58;
     ItemList m_kUnsortedGeometryList;
     Item* m_pInventoryEntryData;
-    void Prepare();
-    float GetTime();
     void FUN_0092d050(Ref* apRef);
 };
 
 // @fnv 0x0092d050
 void ProcStandIn::FUN_0092d050(Ref* apRef)
 {
-    DAT_011e0528.Enter();
+    reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::fnv_0092d050::Lock *>(&::g_011e0528))))->ClearData();
     if (apRef == 0)
     {
         return;
     }
     Ref* pActor = apRef->IsActor() ? apRef : 0;
-    float fHour = DAT_011de7b8.GetGameTime();
+    float fHour = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_0092d050::GameTime *>(&::g_011de7b8))))->GetGameTime();
     {
         Pkg* pPkg;
         TargetInfo* pInfoA;
@@ -2585,69 +2571,71 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
             if (Eval(pActor, 0))
             {
                 Do524(pActor);
-                pActor->ClearState();
+                reinterpret_cast<::fnv_008a8f60::FUN_008a8f60_shell *>((pActor))->FUN_008a8f60();
                 Do090(pActor, 0);
             }
             pPkg = GetAssignedPackage();
-            if (GetAssignedPackage() != 0 && GetAssignedPackage()->GetType() != -1 && !pPkg->IsDone())
+            if (GetAssignedPackage() != 0 && reinterpret_cast<::FUN_009611e0_shell *>((GetAssignedPackage()))->FUN_009611e0() != -1 && !::FUN_008a6290((const ::FUN_008a6290_S *)(pPkg)))
             {
-                Prepare();
-                pInfoA = GetAssignedPackage()->GetTarget();
+                reinterpret_cast<::LowProcess *>(this)->UpdateTargetFromPackage();
+                pInfoA = ((::fnv_0092d050::TargetInfo *)(reinterpret_cast<::PackageFields *>((GetAssignedPackage()))->pLocation));
                 pExt = 0;
                 char acBuffer[304];
-                switch (DAT_011a3ff0[GetAssignedPackage()->GetType()][GetProcedureIndex()])
+                switch (::DAT_011a3ff0[reinterpret_cast<::FUN_009611e0_shell *>((GetAssignedPackage()))->FUN_009611e0()][GetProcedureIndex()])
                 {
                 case 0:
                     if (pInfoA != 0)
                     {
-                        pExt = pInfoA->GetTarget();
+                        pExt = ((::fnv_0092d050::Ext *)(reinterpret_cast<::LocationDescriptor *>((pInfoA))->GetLocationReference()));
                     }
                     if (pExt == 0)
                     {
-                        BaseObj* pBase = pActor->GetBase();
+                        BaseObj* pBase = ((::fnv_0092d050::BaseObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()));
                         pExt = pBase != 0 ? pBase->Get514() : 0;
                     }
-                    if (!GetAssignedPackage()->CheckA(pActor, 0, DAT_01012054, 0) && pActor->IsBusy())
+                    if (!GetAssignedPackage()->CheckA(pActor, 0, ::DAT_01012054, 0) && ((bool)(reinterpret_cast<::TeleportableReference *>((pActor))->GetTeleportDestinationForm())))
                     {
-                        Spell* m_pEffectInstance = FUN_004839c0(0x3a);
-                        float fNowVal = DAT_011de7b8.GetGameTime();
-                        if (fNowVal < GetTime())
+                        Spell* m_pEffectInstance = ((::fnv_0092d050::Spell *)(::FUN_004839c0(0x3a)));
+                        float fNowVal = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_0092d050::GameTime *>(&::g_011de7b8))))->GetGameTime();
+                        if (fNowVal < reinterpret_cast<::ActiveEffect *>(this)->GetDuration())
                         {
-                            fNowVal += DAT_010356d8;
+                            fNowVal += ::DAT_010356d8;
                         }
-                        float fElapsedX = fNowVal - GetTime();
-                        fElapsedX = DAT_01012640 / m_pEffectInstance->GetDur() * fElapsedX;
-                        float fImpulseRadiusSquared = GetAssignedPackage()->GetRange(pActor, 0);
-                        if (GetAssignedPackage()->GetProcType() == 5)
+                        float fElapsedX = fNowVal - reinterpret_cast<::ActiveEffect *>(this)->GetDuration();
+                        fElapsedX = ::DAT_01012640 / reinterpret_cast<::FUN_00526ac0_shell *>((m_pEffectInstance))->FUN_00526ac0() * fElapsedX;
+                        float fImpulseRadiusSquared = reinterpret_cast<::fnv_00678670::FUN_00678670_shell *>((GetAssignedPackage()))->FUN_00678670((::MobileObject *)(pActor), 0);
+                        if (reinterpret_cast<struct ::FUN_0041ca90 *>((GetAssignedPackage()))->get() == 5)
                         {
                             fImpulseRadiusSquared = 0.0f;
                         }
-                        pActor->ApplyThing(GetAssignedPackage()->GetC(pActor), GetAssignedPackage()->GetB(pActor),
-                                           GetAssignedPackage()->GetA(pActor, fImpulseRadiusSquared, 0));
+                        reinterpret_cast<::fnv_008b3690::TES *>((pActor))->FUN_008b3690((void *)&(const ::fnv_0092d050::Pt3 &)(GetAssignedPackage()->GetC(pActor)), (void *)(((intptr_t)(reinterpret_cast<::fnv_00675c20::PHost *>((GetAssignedPackage()))->FUN_00675c20((::fnv_00675c20::Ref *)(pActor))))),
+                                           (void *)(((intptr_t)(reinterpret_cast<::fnv_00675a50::FUN_00675a50_shell *>((GetAssignedPackage()))->FUN_00675a50((::MobileObject *)(pActor))))), {}, {});
                     }
-                    if (pActor->GetBase()->GetLevel() == 2 && GetAssignedPackage()->CheckA(pActor, 0, DAT_01012054, 0))
+                    if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_0092d050::BaseObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture()))))->FUN_0045cd60())) == 2 && GetAssignedPackage()->CheckA(pActor, 0, ::DAT_01012054, 0))
                     {
                         if (!Is1bc())
                         {
-                            if (GetAssignedPackage()->FlagA())
+                            if (reinterpret_cast<::TESPackage *>((GetAssignedPackage()))->FUN_00670f40())
                             {
-                                DAT_011c3f2c->Add(pActor->GetOwner(), pActor->GetNear(DAT_01030020),
-                                                  pActor->GetNear(DAT_01030020), FUN_0090d480, pActor);
+                                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_0092d050::Queue * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(::fnv_0092d050::Owner *)(pActor->GetOwner()), *(const ::NiPoint3 *)(std::intptr_t)pActor->GetNear(::runtimeFloatSettingDefault247),
+                                                  ::runtimeFloatSettingDefault247, *(const ::NiPoint3 *)(std::intptr_t)pActor->GetNear(::runtimeFloatSettingDefault247), 0.0f,
+                                                  (bool (*)(TESObjectREFR *, intptr_t))::LowProcess::HandlePackageLocationLoaded, (long)(std::intptr_t)pActor);
                             }
                             Set1c0(1);
                         }
-                        if (GetAssignedPackage()->FlagB())
+                        if (reinterpret_cast<::TESPackage *>((GetAssignedPackage()))->FUN_00670f60())
                         {
-                            DAT_011c3f2c->Add(pActor->GetOwner(), pActor->GetNear(DAT_01030020),
-                                              pActor->GetNear(DAT_01030020), FUN_0090d570, pActor);
+                            reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_0092d050::Queue * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(::fnv_0092d050::Owner *)(pActor->GetOwner()), *(const ::NiPoint3 *)(std::intptr_t)pActor->GetNear(::runtimeFloatSettingDefault247),
+                                                  ::runtimeFloatSettingDefault247, *(const ::NiPoint3 *)(std::intptr_t)pActor->GetNear(::runtimeFloatSettingDefault247), 0.0f,
+                                                  (bool (*)(TESObjectREFR *, intptr_t))::LowProcess::HandlePackageTargetLoaded, (long)(std::intptr_t)pActor);
                         }
-                        if ((pExt != 0 && pExt->GetRace() == DAT_011ca248) ||
-                            (GetAssignedPackage()->GetTarget() != 0 && GetAssignedPackage()->GetTarget()->GetKind() == 3))
+                        if ((pExt != 0 && ((intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pExt))->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca248))) ||
+                            (((::fnv_0092d050::TargetInfo *)(reinterpret_cast<::PackageFields *>((GetAssignedPackage()))->pLocation)) != 0 && reinterpret_cast<::DurationData *>((((::fnv_0092d050::TargetInfo *)(reinterpret_cast<::PackageFields *>((GetAssignedPackage()))->pLocation))))->FUN_00678ca0() == 3))
                         {
                             float fAngleDifference = 0.0f;
                             if (pExt != 0)
                             {
-                                fAngleDifference = pExt->GetPos()->z;
+                                fAngleDifference = ((::fnv_0092d050::Pt3 *)(reinterpret_cast<::TESRecipe *>((pExt))->GetData()))->z;
                             }
                             else
                             {
@@ -2668,7 +2656,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     Proc7e0(pActor);
                     break;
                 case 12:
-                    pActor->Reset(0);
+                    reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((pActor))->FUN_00881680(0);
                     break;
                 case 49: {
                     Ref* pTarget = 0;
@@ -2678,8 +2666,8 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     }
                     if (pTarget != 0)
                     {
-                        if (GetAssignedPackage()->GetLocationPointer() == 0 ||
-                            GetAssignedPackage()->CheckB(pTarget, pActor, 0, DAT_01012054, 1))
+                        if (((intptr_t)(reinterpret_cast<::FUN_00672dd0_shell *>((GetAssignedPackage()))->FUN_00672dd0())) == 0 ||
+                            GetAssignedPackage()->CheckB(pTarget, pActor, 0, ::DAT_01012054, 1))
                         {
                             Proc7c8(pActor, 1);
                         }
@@ -2694,7 +2682,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     {
                         Do08c(pActor);
                     }
-                    if (m_pFlagTarget != 0 && m_pFlagTarget != DAT_011dea3c)
+                    if (m_pFlagTarget != 0 && m_pFlagTarget != (*reinterpret_cast<::fnv_0092d050::Ref * *>(&::_g_thePlayer)))
                     {
                         Do0c8(pActor, pPkg, 1);
                     }
@@ -2738,25 +2726,25 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     Proc7c8(pActor, 1);
                     break;
                 case 1:
-                    if (GetAssignedPackage()->GetType() == 0x1a)
+                    if (reinterpret_cast<::FUN_009611e0_shell *>((GetAssignedPackage()))->FUN_009611e0() == 0x1a)
                     {
                         Done(pActor, -1);
                     }
                     break;
                 case 4:
-                    if (FUN_00703180() == pActor)
+                    if (((::fnv_0092d050::Ref *)(::fnv_00703180::FUN_00703180())) == pActor)
                     {
-                        FUN_00ec623a(acBuffer, "%s is sleeping with %s", pActor->GetName(),
-                                     FUN_00464f30(DAT_0119bcb0[GetAssignedPackage()->GetProcType()], 0));
-                        FUN_00703c00(acBuffer);
+                        std::sprintf(acBuffer, "%s is sleeping with %s", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520(),
+                                     ((const char *)(::FUN_00464f30((*reinterpret_cast<int (*)[]>((void *)&::g_packageTypeNames))[reinterpret_cast<struct ::FUN_0041ca90 *>((GetAssignedPackage()))->get()]))));
+                        ::FUN_00703c00(acBuffer, {});
                     }
                     break;
                 case 5:
-                    if (FUN_00703180() == pActor)
+                    if (((::fnv_0092d050::Ref *)(::fnv_00703180::FUN_00703180())) == pActor)
                     {
-                        FUN_00ec623a(acBuffer, "%s is eating with %s", pActor->GetName(),
-                                     FUN_00464f30(DAT_0119bcb0[GetAssignedPackage()->GetProcType()], 0));
-                        FUN_00703c00(acBuffer);
+                        std::sprintf(acBuffer, "%s is eating with %s", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520(),
+                                     ((const char *)(::FUN_00464f30((*reinterpret_cast<int (*)[]>((void *)&::g_packageTypeNames))[reinterpret_cast<struct ::FUN_0041ca90 *>((GetAssignedPackage()))->get()]))));
+                        ::FUN_00703c00(acBuffer, {});
                     }
                     break;
                 case 6:
@@ -2773,23 +2761,23 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     {
                         Do08c(pActor);
                     }
-                    if (m_pFlagTarget == 0 || m_pFlagTarget->IsBlocked())
+                    if (m_pFlagTarget == 0 || reinterpret_cast<::FUN_00440d80_shell *>((m_pFlagTarget))->FUN_00440d80())
                     {
                         Done(pActor, 1);
                     }
-                    else if (pPkg->IsDone())
+                    else if (::FUN_008a6290((const ::FUN_008a6290_S *)(pPkg)))
                     {
-                        if (!DAT_011dea3c->HasMember(pActor) && DAT_011dea3c->CountMembers() < *DAT_011cdad0.Get())
+                        if (!reinterpret_cast<::FUN_00962720_shell *>(((*reinterpret_cast<::fnv_0092d050::Ref * *>(&::_g_thePlayer))))->HasExtraFollowerForm((char *)(pActor)) && reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>(((*reinterpret_cast<::fnv_0092d050::Ref * *>(&::_g_thePlayer))))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0092d050::IntSetting *>(&::g_011cdad0)))))))
                         {
-                            pPkg->MarkDone(0);
+                            reinterpret_cast<::fnv_00674f30::FUN_00674f30_shell *>((pPkg))->SetFlag10000(0);
                         }
                     }
-                    else if (pPkg->GetProcType() != 0x1c && !pPkg->IsDone())
+                    else if (reinterpret_cast<struct ::FUN_0041ca90 *>((pPkg))->get() != 0x1c && !::FUN_008a6290((const ::FUN_008a6290_S *)(pPkg)))
                     {
-                        if (pPkg->GetProcType() == 1)
+                        if (reinterpret_cast<struct ::FUN_0041ca90 *>((pPkg))->get() == 1)
                         {
-                            float fLimit = (float)pPkg->GetData()->GetInt();
-                            if (fLimit >= pActor->GetDistance(m_pFlagTarget, 0, 0))
+                            float fLimit = (float)((int)(((((::fnv_0092d050::ProcData *)(reinterpret_cast<::Script *>((pPkg))->GetData()))))->iValue));
+                            if (fLimit >= reinterpret_cast<::RefS *>((pActor))->FUN_005723b0((::RefS *)(m_pFlagTarget), 0, 0))
                             {
                                 Done(pActor, 1);
                             }
@@ -2797,20 +2785,20 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                         else
                         {
                             float fDist = 0.0f;
-                            int iMaxA = GetAssignedPackage()->GetData()->GetInt();
+                            int iMaxA = ((int)(((((::fnv_0092d050::ProcData *)(reinterpret_cast<::Script *>((GetAssignedPackage()))->GetData()))))->iValue));
                             if (iMaxA <= 0)
                             {
                                 iMaxA = 200;
                             }
-                            if (fDist == DAT_01012060 && pActor->GetOwner() != 0 && pActor->GetOwner()->IsSet())
+                            if (fDist == ::_DAT_01012060 && pActor->GetOwner() != 0 && reinterpret_cast<::TESObjectCELL *>((pActor->GetOwner()))->IsCellInterior())
                             {
-                                fDist = *DAT_011cdbac.Get();
+                                fDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092d050::FloatSetting *>(&::originalRuntimeFloatSetting173))))));
                             }
-                            else if (fDist == DAT_01012060)
+                            else if (fDist == ::_DAT_01012060)
                             {
-                                fDist = *DAT_011cd82c.Get();
+                                fDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092d050::FloatSetting *>(&::originalRuntimeFloatSetting172))))));
                             }
-                            if (pActor->GetDistance(m_pFlagTarget, 0, 0) <= fDist / DAT_01011590)
+                            if (reinterpret_cast<::RefS *>((pActor))->FUN_005723b0((::RefS *)(m_pFlagTarget), 0, 0) <= fDist / ::DAT_01011590)
                             {
                                 Done(pActor, 1);
                             }
@@ -2832,44 +2820,44 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     break;
                 }
                 if (pActor->GetMode() == 2 && GetAssignedPackage() != 0 &&
-                    DAT_011a3ff0[GetAssignedPackage()->GetType()][GetProcedureIndex()] == 0x36)
+                    ::DAT_011a3ff0[reinterpret_cast<::FUN_009611e0_shell *>((GetAssignedPackage()))->FUN_009611e0()][GetProcedureIndex()] == 0x36)
                 {
                     if (!Is5a4())
                     {
-                        FUN_005ac750(GetAssignedPackage(), pActor->GetFlags(), 0x400);
+                        ::FUN_005ac750((::TESForm *)(::fnv_0092d050::Pkg *)(GetAssignedPackage()), (::ExtraDataList *)(((intptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((pActor))->FUN_005d43c0()))), 0x400);
                         Do5a0(pActor, GetAssignedPackage());
                         Set5a8(1);
                     }
                     Set1c8(0);
-                    if (GetAssignedPackage() != 0 && GetAssignedPackage()->GetType() == 0 &&
-                        !GetAssignedPackage()->CheckA(pActor, 0, DAT_01012054, 0))
+                    if (GetAssignedPackage() != 0 && reinterpret_cast<::FUN_009611e0_shell *>((GetAssignedPackage()))->FUN_009611e0() == 0 &&
+                        !GetAssignedPackage()->CheckA(pActor, 0, ::DAT_01012054, 0))
                     {
                         Done(pActor, -1);
                         return;
                     }
-                    if (GetAssignedPackage() != 0 && GetAssignedPackage()->FlagC())
+                    if (GetAssignedPackage() != 0 && reinterpret_cast<::TESPackage *>((GetAssignedPackage()))->IsMustReachLocation())
                     {
-                        pActor->SetPkgState(GetAssignedPackage(), DAT_011de7b8.IsSet());
+                        pActor->SetPkgState(GetAssignedPackage(), ((bool)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_0092d050::GameTime *>(&::g_011de7b8))))->GetDayOfMonth())));
                     }
-                    if (GetAssignedPackage() != 0 && GetAssignedPackage()->FlagD())
+                    if (GetAssignedPackage() != 0 && reinterpret_cast<::TESPackage *>((GetAssignedPackage()))->IsMustComplete())
                     {
-                        pActor->Reset(0);
+                        reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((pActor))->FUN_00881680(0);
                     }
-                    if (FUN_00703180() == pActor)
+                    if (((::fnv_0092d050::Ref *)(::fnv_00703180::FUN_00703180())) == pActor)
                     {
-                        FUN_00ec623a(acBuffer, "%s is done with %s", pActor->GetName(),
-                                     FUN_00464f30(DAT_0119bcb0[GetAssignedPackage()->GetProcType()], 0));
-                        FUN_00703c00(acBuffer);
+                        std::sprintf(acBuffer, "%s is done with %s", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520(),
+                                     ((const char *)(::FUN_00464f30((*reinterpret_cast<int (*)[]>((void *)&::g_packageTypeNames))[reinterpret_cast<struct ::FUN_0041ca90 *>((GetAssignedPackage()))->get()]))));
+                        ::FUN_00703c00(acBuffer, {});
                     }
                     delete m_pInventoryEntryData;
                     m_pInventoryEntryData = 0;
                     while (!m_kUnsortedGeometryList.IsEmpty())
                     {
-                        Item* pItem = *m_kUnsortedGeometryList.Head();
+                        Item* pItem = *((::fnv_0092d050::Item **)(((::Vec3 *)(void *)&(m_kUnsortedGeometryList))));
                         delete pItem;
-                        m_kUnsortedGeometryList.Remove(&pItem);
+                        reinterpret_cast<::ItemChangeListNode *>(&(m_kUnsortedGeometryList))->FUN_00905330((*(::InventoryStackRecord *const *)(&pItem)));
                     }
-                    if (GetAssignedPackage() != 0 && GetAssignedPackage()->GetDur()->GetEnd() == 0)
+                    if (GetAssignedPackage() != 0 && ((int)(((((::fnv_0092d050::DurInfo *)(reinterpret_cast<::FUN_0041d8a0_shell *>((GetAssignedPackage()))->FUN_0041d8a0()))))->unk04)) == 0)
                     {
                         Pkg* pOld = GetAssignedPackage();
                         Eval(pActor, 1);
@@ -2881,15 +2869,60 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     }
                 }
             }
-            if (!pActor->IsDone())
+            if (!reinterpret_cast<::FUN_008b3bf0_shell *>((pActor))->FUN_008b3bf0())
             {
-                apRef->GetBase()->Update28();
+                ((::fnv_0092d050::BaseObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apRef))->GetBaseTexture()))->Update28();
             }
         }
         else
         {
-            apRef->GetBase()->Update28();
+            ((::fnv_0092d050::BaseObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apRef))->GetBaseTexture()))->Update28();
         }
     }
 }
 }  // namespace fnv_0092d050
+
+
+template <class Collection> class SettingT
+{
+  public:
+    float* Float();
+};
+// @fnv 0x0092cab0
+void LowProcess::FUN_0092cab0(Actor* source)
+{
+    int iterations = (int)(*((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting236)))) * 2);
+    Actor* actor = 0;
+    actor = dynamic_cast<Actor*>(pTarget);
+    bool bUpdated = false;
+    if (!pTarget || actor->GetDisabled() || reinterpret_cast<::FUN_00440d80_shell *>((void *)(actor))->FUN_00440d80() || actor->Unk_8B(false))
+    {
+        (source->*reinterpret_cast<void (Actor::*)(Actor*)>(&Actor::Unk_10D))(0);
+        reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((source))->FUN_00881680(false);
+    }
+    else if (actor && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) == 2)
+    {
+        while (iterations)
+        {
+            if (source->Unk_8B(false))
+                break;
+            source->Unk_10E();
+            actor = dynamic_cast<Actor*>(pTarget);
+            if (actor && !actor->Unk_8B(false) && (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) == 2)
+            {
+                actor->Unk_10E();
+                bUpdated = true;
+            }
+            iterations--;
+        }
+        if (bUpdated && actor)
+        {
+            ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->ResetPackageState();
+            bUpdated = false;
+        }
+    }
+    else
+    {
+        UpdateActorPackage(source, true, 0x101, false);
+    }
+}

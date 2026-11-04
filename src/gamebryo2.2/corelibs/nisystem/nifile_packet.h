@@ -2,6 +2,7 @@
 #ifndef NIFILE_PACKET_H
 #define NIFILE_PACKET_H
 
+#include "fnv/symbols_00aa8000.h"
 class NiFile
 {
   public:
@@ -25,5 +26,4 @@ struct NiFileAccessRequest
     unsigned int reserved1;
     unsigned int result;
 };
-void __cdecl CompleteJob(NiFileAccessRequest*);
 #endif

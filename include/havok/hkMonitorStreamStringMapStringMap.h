@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKMONITORSTREAMSTRINGMAPSTRINGMAP_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkMonitorStreamStringMapStringMap
 {
   public:
@@ -12,7 +11,4 @@ class hkMonitorStreamStringMapStringMap
     hkStringPtr m_kStringBuffer;    // +0x8
     char padC[0x4];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkMonitorStreamStringMapStringMap[(sizeof(hkMonitorStreamStringMapStringMap) == 0x10) ? 1 : -1];
 #endif

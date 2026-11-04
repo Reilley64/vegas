@@ -1,11 +1,57 @@
 // bssystem/bsfile.cpp: BSFile, BSFileW (21 functions)
 
+#include <cstdio>
+#include <limits>
+#include <cstring>
+#include <cwchar>
+#include "runtime/crt.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/WStr.h"
+#include "fnv/decl/WideString.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsfile_decls.h"
+#include "fnv/decl/NiLODData.h"
+#include "fnv/symbols_01272000.h"
+#include <string.h>
+
+class FileObject
+{
+  public:
+    virtual ~FileObject();
+    virtual void vfn04();
+    virtual void vfn08();
+    virtual void vfn0c();
+    virtual void vfn10();
+    virtual void vfn14();
+    virtual void vfn18();
+    virtual unsigned int GetFileSize();
+
+    unsigned int unk04;
+    void* m_pReadHandler;
+    void* m_pWriteHandler;
+    unsigned int m_uiBufferAllocSize;
+    unsigned int m_uiBufferReadSize;
+    unsigned int m_uiPos;
+    unsigned int unk1c;
+    char* m_pBuffer;
+    void* m_pFile;
+    unsigned int m_eMode;
+    bool m_bGood;
+
+    bool IsOpen() const
+    {
+        return m_pFile != 0;
+    }
+    void FUN_00aff490();
+};
+
 
 // @fnv 0x00affc60
 bool BSFile::Write()
 {
-    return FUN_00ecbf05(pathStorage.pFileName, 0) != -1;
+    return fnv::crt::access(pathStorage.pFileName, 0) != -1;
 }
 
 // @fnv 0x00afb780
@@ -27,10 +73,10 @@ void BSFile::Close()
     if (m_bGood && m_pFile)
     {
         Flush();
-        _fclose_nolock(m_pFile);
+        std::fclose((std::FILE *)(m_pFile));
     }
     void* buffer = m_pBuffer;
-    g_memoryManager.Deallocate(buffer);
+    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(buffer);
     m_pBuffer = 0;
     m_pFile = 0;
 }
@@ -81,7 +127,7 @@ bool BSFile::AttachFileStream(bool, bool)
     if (bufferSize > 0 && !m_pBuffer)
     {
         unsigned int uiSize = bufferSize;
-        buffer = g_memoryManager.Allocate(uiSize);
+        buffer = reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
         m_pBuffer = buffer;
     }
     m_bGood = true;
@@ -92,15 +138,16 @@ bool BSFile::AttachFileStream(bool, bool)
 unsigned int BSFile::GetFileSize()
 {
     fileSizeAt154 = 0;
-    if (openMode == 1)
-        Flush();
+    if (openMode == 1 && !Flush())
+        return 0;
     Open(false, false);
-    if (static_cast<bool>(static_cast<int>(m_pFile != 0)))
+    if (m_pFile)
     {
-        long position = ftell(m_pFile);
-        fseek(m_pFile, 0, 2);
-        fileSizeAt154 = ftell(m_pFile);
-        fseek(m_pFile, position, 0);
+        std::int64_t size = fnv::crt::file_size((std::FILE *)(m_pFile));
+        // The reconstructed interface and cache still have a 32-bit limit.
+        if (size < 0 || size > std::numeric_limits<unsigned int>::max())
+            return 0;
+        fileSizeAt154 = static_cast<unsigned int>(size);
     }
     return fileSizeAt154;
 }
@@ -128,7 +175,7 @@ bool BSFile::Open(bool, bool textMode)
         break;
     }
     m_pFile = 0;
-    fopen_s(&m_pFile, pathStorage.pFileName, mode);
+    fnv::crt::fopen_s((std::FILE **)(&m_pFile), pathStorage.pFileName, mode);
     if (!m_pFile && openMode == 1)
     {
         m_pFile = 0;
@@ -136,13 +183,13 @@ bool BSFile::Open(bool, bool textMode)
             fallbackMode = "wt";
         else
             fallbackMode = "wb";
-        fopen_s(&m_pFile, pathStorage.pFileName, fallbackMode);
+        fnv::crt::fopen_s((std::FILE **)(&m_pFile), pathStorage.pFileName, fallbackMode);
         if (m_pFile)
-            _fclose_nolock(m_pFile);
+            std::fclose((std::FILE *)(m_pFile));
         m_pFile = 0;
-        fopen_s(&m_pFile, pathStorage.pFileName, mode);
+        fnv::crt::fopen_s((std::FILE **)(&m_pFile), pathStorage.pFileName, mode);
     }
-    CheckIsGood();
+    reinterpret_cast<::FileObject *>(this)->FUN_00aff490();
     return m_bGood;
 }
 
@@ -176,13 +223,16 @@ int __cdecl ForwardVTableCall(DummyVTable_00aff9d0* apObject, int aiArg1, int ai
 
 struct FUN_005d43c0_
 {
+    char pad00[0x44];
+    char m_kExtraList;
     void* FUN_005d43c0();
 };
 
+// Returns the address of the reference's extra data list.
 // @fnv 0x005d43c0
 void* FUN_005d43c0_::FUN_005d43c0()
 {
-    return (char*)this + 0x44;
+    return &m_kExtraList;
 }
 
 struct FUN_00afbf60_shell
@@ -199,15 +249,22 @@ bool FUN_00afbf60_shell::IsField158NonZero()
 }
 
 // @fnv 0x00afc410
-bool __fastcall FUN_00afc410(void* this_ptr)
+bool FUN_00afc410(void* this_ptr)
 {
-    return *reinterpret_cast<int*>(reinterpret_cast<char*>(this_ptr) + 0x158) != 0;
+    return static_cast<FUN_00afbf60_shell*>(this_ptr)->field_158 != 0;
 }
+
+// The virtual function table entry CallVirtualMethodAtOffset48 calls (slot 18).
+struct VTableSlot48
+{
+    void* apSlots[18];
+    void (*pfnSlot48)(void*, int, int);
+};
 
 // @fnv 0x00aff9f0
 void __cdecl CallVirtualMethodAtOffset48(void* apObject, int aiArg1, int aiArg2)
 {
-    (*(void(__thiscall**)(void*, int, int))(*(char**)apObject + 0x48))(apObject, aiArg1, aiArg2);
+    (*(VTableSlot48**)apObject)->pfnSlot48(apObject, aiArg1, aiArg2);
 }
 
 struct FUN_00affa10_V
@@ -232,17 +289,16 @@ struct FUN_00affa10_V
     virtual int v17(void*, unsigned int);
 };
 
-int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 
 // If p3 is positive, calls p1->v17(p2, p3), then if p4 is set calls SwapBufferBySizes(p2, p3, p4, p5), and returns the v17 result.
 // @fnv 0x00affa10
-int __cdecl FUN_00affa10(FUN_00affa10_V* p1, void* apData, unsigned int auiSize, void* apExtra, void* apExtraArg)
+int __cdecl FUN_00affa10(FUN_00affa10_V* p1, void* apData, unsigned int auiSize, void* apExtra, unsigned int auiExtraCount)
 {
     if (auiSize <= 0)
         return 0;
     int result = p1->v17(apData, auiSize);
     if (apExtra)
-        SwapBufferBySizes(apData, auiSize, apExtra, apExtraArg);
+        ::SwapBufferBySizes((char *)(apData), auiSize, (const unsigned int *)(apExtra), auiExtraCount);
     return result;
 }
 
@@ -310,13 +366,12 @@ struct S_00aff2a0_Class
     int unk28;
     unsigned char unk2c;
 
-    void FUN_00aff490();
-    unsigned char __thiscall FUN_00aff2a0(int);
+    unsigned char FUN_00aff2a0(int);
 };
 
 // If unk24 is already set returns 1; otherwise clears unk18, unk14 and unk20, stores a1 in unk24, calls FUN_00aff490 and returns unk2c.
 // @fnv 0x00aff2a0
-unsigned char __thiscall S_00aff2a0_Class::FUN_00aff2a0(int a1)
+unsigned char S_00aff2a0_Class::FUN_00aff2a0(int a1)
 {
     if ((bool)(int)(unk24 != 0))
     {
@@ -328,7 +383,7 @@ unsigned char __thiscall S_00aff2a0_Class::FUN_00aff2a0(int a1)
     unk20 = 0;
     unk24 = a1;
 
-    FUN_00aff490();
+    reinterpret_cast<::FileObject *>(this)->FUN_00aff490();
 
     return unk2c;
 }
@@ -356,11 +411,9 @@ struct VTableV18_b7074
     virtual int v18(void* p, unsigned int n);
 };
 
-void __cdecl FUN_00ec44d0(void* p, unsigned int a, unsigned int b);
-int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 
 // @fnv 0x00affa60
-int __cdecl FUN_00affa60(VTableV18_b7074* self, unsigned int a1, unsigned int auiSize, void* apExtra, void* a4)
+int __cdecl FUN_00affa60(VTableV18_b7074* self, const void* apSource, unsigned int auiSize, void* apExtra, unsigned int auiExtraCount)
 {
     if (auiSize <= 0)
     {
@@ -369,37 +422,29 @@ int __cdecl FUN_00affa60(VTableV18_b7074* self, unsigned int a1, unsigned int au
     void* p;
     int kRet;
     {
-        void* tmp = g_memoryManager.Allocate(auiSize);
+        void* tmp = reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(auiSize);
         p = tmp;
     }
-    FUN_00ec44d0(p, a1, auiSize);
+    std::memmove(p, apSource, auiSize);
     if (apExtra != 0)
     {
-        SwapBufferBySizes(p, auiSize, apExtra, a4);
+        ::SwapBufferBySizes((char *)(p), auiSize, (const unsigned int *)(apExtra), auiExtraCount);
     }
     kRet = self->v18(p, auiSize);
     {
         void* tmp2 = p;
-        g_memoryManager.Deallocate(tmp2);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(tmp2);
     }
     return kRet;
 }
 
 struct FUN_00affaf0_H
 {
-    unsigned int handle;
+    const wchar_t* handle;
     unsigned short index;
 };
 
-int __cdecl FUN_00ecdb00(unsigned int handle);
-
-struct FUN_00affaf0_W
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int(__cdecl* m_pfnWrite)(void* self, unsigned int h, unsigned int n, int* flag, int x);
-};
+typedef unsigned int(__cdecl* FUN_00affaf0_WriteFn)(void* self, const void* buffer, unsigned int n, int* flag, int x);
 
 struct FUN_00affaf0_cls : public BSFile
 {
@@ -409,16 +454,14 @@ struct FUN_00affaf0_cls : public BSFile
 // @fnv 0x00affaf0
 unsigned int FUN_00affaf0_cls::FUN_00affaf0(FUN_00affaf0_H* pEntry, bool bIncrement)
 {
-    unsigned int key;
-    unsigned int h4;
+    const wchar_t* key;
+    const wchar_t* h4;
     int flag;
-    unsigned int r3 = ((FUN_00affaf0_W*)this)
-                          ->m_pfnWrite(this, (h4 = pEntry->handle, flag = 1, h4),
-                                       ((pEntry->index == 0xffff ? FUN_00ecdb00(key = pEntry->handle) : pEntry->index) +
-                                        (bIncrement ? 1 : 0)) *
-                                           2,
-                                       &flag, 1);
-    *(unsigned int*)((char*)this + 4) += r3;
+    unsigned int r3 = reinterpret_cast<FUN_00affaf0_WriteFn>(writeHandler)(
+        this, (h4 = pEntry->handle, flag = 1, h4),
+        ((pEntry->index == 0xffff ? std::wcslen(key = pEntry->handle) : pEntry->index) + (bIncrement ? 1 : 0)) * 2,
+        &flag, 1);
+    m_uiAbsoluteCurrentPos += r3;
     unsigned int t = r3;
     unsigned int s = t;
     this->fileOffsetAt150 += s;
@@ -429,8 +472,6 @@ typedef unsigned int(__cdecl* ReadFn)(void* stream, void* buffer, unsigned int b
                                       unsigned int numComponents);
 struct WStrOut
 {
-    void AddChunkText(const wchar_t* text);
-    void SetChunkText(const wchar_t* text, unsigned int length);
 };
 struct AnsiConvState
 {
@@ -520,9 +561,9 @@ unsigned int BSFileW::ReadWideString(WStrOut* out, unsigned int maxBytes)
         if (count == 260 || ch_ == 0)
         {
             if (kTotal)
-                out->AddChunkText(buffer_);
+                reinterpret_cast<::WStr *>((out))->Append(buffer_);
             else
-                out->SetChunkText(buffer_, 0);
+                reinterpret_cast<::WideString *>((out))->FUN_00afff50((const unsigned short *)(buffer_), 0);
             kTotal += count;
             if (ch_ == 0)
                 break;
@@ -531,3 +572,208 @@ unsigned int BSFileW::ReadWideString(WStrOut* out, unsigned int maxBytes)
     }
     return bytesReadB >> 1;
 }
+
+inline int GetMemContext()
+{
+    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+}
+
+inline void SetMemContext(int aiMemoryContext)
+{
+    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+}
+
+struct MemContextGuard
+{
+    int m_iSaved;
+    MemContextGuard(int aiMemoryContext)
+    {
+        m_iSaved = GetMemContext();
+        SetMemContext(aiMemoryContext);
+    }
+    ~MemContextGuard()
+    {
+        SetMemContext(m_iSaved);
+    }
+};
+
+struct GlobalAllocator
+{
+};
+
+inline void* FileAlloc(unsigned int uiSize)
+{
+    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::GlobalAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
+}
+
+
+
+// @fnv 0x00aff490
+void FileObject::FUN_00aff490()
+{
+    if (IsOpen())
+    {
+        m_bGood = true;
+        if (m_uiBufferAllocSize > 0 && m_pBuffer == 0)
+        {
+            MemContextGuard kGuard(0x17);
+            bool bReadAllX = (m_uiBufferAllocSize == 0xffffffff);
+            unsigned int uiRead;
+            if (bReadAllX)
+                m_uiBufferAllocSize = GetFileSize();
+            void* pMem2 = FileAlloc(m_uiBufferAllocSize);
+            m_pBuffer = (char*)pMem2;
+            if (bReadAllX)
+            {
+                m_uiBufferReadSize = m_uiBufferAllocSize;
+                m_uiPos = 0;
+                uiRead = reinterpret_cast<::NiLODData *>(this)->Write(m_pBuffer, m_uiBufferAllocSize);
+                if (uiRead != m_uiBufferAllocSize)
+                    m_bGood = false;
+            }
+        }
+    }
+    else
+    {
+        m_bGood = false;
+    }
+}
+
+struct StreamString
+{
+    const char* data;
+    unsigned short length;
+    __forceinline const char* Buffer() const
+    {
+        const char* buffer = data;
+        return buffer;
+    }
+    __forceinline unsigned int Length() const
+    {
+        return length == 0xffff ? strlen(Buffer()) : length;
+    }
+};
+
+struct BinaryWriter;
+
+typedef unsigned int(__cdecl* WriteCallback)(BinaryWriter*, const char*, unsigned int, unsigned int*, unsigned int);
+
+struct BinaryWriter
+{
+    int unk00;
+    unsigned int absolutePosition;
+    int unk08;
+    WriteCallback unk0c;
+
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    int unkf0;
+    int unkf4;
+    int unkf8;
+    int unkfc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    unsigned int filePosition;
+
+    __forceinline unsigned int BinaryWrite(const char* data, unsigned int bytes, unsigned int* components,
+                                           unsigned int count)
+    {
+        unsigned int written = unk0c(this, data, bytes, components, count);
+        absolutePosition += written;
+        return written;
+    }
+    __forceinline unsigned int Write(const char* data, unsigned int bytes)
+    {
+        unsigned int componentSize = 1;
+        unsigned int result = BinaryWrite(data, bytes, &componentSize, 1);
+        return result;
+    }
+    __forceinline unsigned int WriteString(const StreamString& string, bool abWriteNullTerminator)
+    {
+        return Write(string.Buffer(), string.Length() + (abWriteNullTerminator != 0));
+    }
+    unsigned int FUN_00affbb0(const StreamString* string, bool abWriteNullTerminator);
+};
+
+// @fnv 0x00affbb0
+unsigned int BinaryWriter::FUN_00affbb0(const StreamString* string, bool abWriteNullTerminator)
+{
+    unsigned int result = WriteString(*string, abWriteNullTerminator);
+    filePosition += result;
+    return result;
+}
+
+#include "generated/data/bssystem/bsfile.inc"
+#include "generated/data/bssystem/bsfile_ob1_variant.inc"

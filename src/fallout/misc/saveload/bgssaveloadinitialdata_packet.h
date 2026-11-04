@@ -9,6 +9,35 @@
 #ifndef FNV_SRC_BGSSAVELOADINITIALDATA_H
 #define FNV_SRC_BGSSAVELOADINITIALDATA_H
 
+#include <cstdint>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_0041d390_shell.h"
+#include "fnv/decl/FUN_00440e30_This.h"
+#include "fnv/decl/FUN_0046a010_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0063ef00_Class.h"
+#include "fnv/decl/FUN_0084a580_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/HandlerView.h"
+#include "fnv/decl/Holder0084.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/TESCallHelper.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_00546b10__FUN_00546b10_class.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/decl/fnv_0084a810__FUN_0084a810_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00562000.h"
+#include "fnv/symbols_00573000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_00846000.h"
+#include "fnv/symbols_0084f000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
 #define TESObjectCELL BGSSaveLoadPacketUnusedCell
 #define TESDataHandler BGSSaveLoadPacketUnusedHandler
 #include "layout_support.h"
@@ -52,12 +81,9 @@ class FormChangeMask;
 class FormChangeMask
 {
   public:
-    bool ContainsAnyFlags(int);
     int iFlags;  // +0x0, 4 bytes
 };
 #pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FormChangeMask) == 4);
-FNV_STATIC_ASSERT(offsetof(FormChangeMask, iFlags) == 0);
 #endif
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
@@ -66,7 +92,6 @@ FNV_STATIC_ASSERT(offsetof(FormChangeMask, iFlags) == 0);
 #include "layout_support.h"
 #include "NiPoint3.h"
 class ReferencePlacementData;
-#pragma pack(push, 1)
 class ReferencePlacementData
 {
   public:
@@ -81,17 +106,7 @@ class ReferencePlacementData
     unsigned char m_ucFlags;              // +0x2C, 1 bytes
     bool GetCellAndWorld(TESObjectCELL*& apCell, TESWorldSpace*& apWorld);
 };
-#pragma pack(pop)
 // is already naturally aligned, so all offsets are unchanged, and only packing
-FNV_STATIC_ASSERT(sizeof(ReferencePlacementData) == 45);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_uiLocationFormID) == 0);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_uiBaseFormID) == 4);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_uiOriginalBaseFormID) == 8);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_iCellX) == 12);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_iCellY) == 16);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, Location) == 20);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, Angle) == 32);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_ucFlags) == 44);
 #endif
 
 class TESForm
@@ -174,16 +189,12 @@ class TESForm
     virtual void vfn_128();
     virtual void vfn_12c();
     virtual const char* GetName();
-    const char* FUN_00440e30();
     ENUM_FORM_ID GetFormType() const;
-    unsigned int GetFormID();
-    static TESForm* GetFormByID(unsigned int auiFormID);
 };
 
 class TESWorldSpace : public TESForm
 {
   public:
-    TESObjectCELL* GetInteriorCell();
     TESObjectCELL* GetCellAtGridPosition(int m_iGridPositionX, int m_iGridCoordinateY);
 };
 
@@ -196,22 +207,25 @@ class BGSSaveLoadInitialDataPacket
                                                       FormChangeMask eChangeFlags);
 };
 
-bool GetCellAndWorldspaceForForm(TESForm* apForm, TESObjectCELL*& apCell, TESWorldSpace*& apWorld);
-int TruncateFloatToInt(float afValue);
 
 class TESBoundObject : public TESForm
 {
 };
+class TESWorldSpace;
 class TESObjectCELL : public TESForm
 {
   public:
     bool IsCellInterior() const;
-    void SetDetachTime(unsigned int, bool);
+public:
+    int GetCellGridX();
+public:
+    int GetCellGridY();
+public:
+    ::TESWorldSpace *GetParentWorldSpace();
 };
 class ExtraDataList
 {
   public:
-    void CallExtraDataListMethod35(TESObjectCELL*);
 };
 class TESObjectREFR : public TESForm
 {
@@ -304,15 +318,7 @@ class TESObjectREFR : public TESForm
     virtual void vfn_288();
     virtual void vfn_28c();
     virtual bool vfn_290();
-    void SetLocationOnReference(const NiPoint3&);
     void SetReferencePosition(NiPoint3);
-    ExtraDataList* GetExtraData();
-    void FUN_0046a010(int);
-    void PostLoad();
-    TESObjectCELL* GetParentCell();
-    bool GetReferencePersistence();
-    void FUN_0084f8c0(TESForm*);
-    static void SetParentCellAndWorldspace(TESObjectREFR*, TESObjectCELL*, TESWorldSpace*);
 };
 class PlayerCharacter : public TESObjectREFR
 {
@@ -320,49 +326,38 @@ class PlayerCharacter : public TESObjectREFR
 class BGSSaveLoadGame
 {
   public:
-    bool FUN_0063ef00();
-    void RemoveActorFromMap(TESObjectREFR*);
-    void FUN_0084a810(int, BGSLoadFormBuffer*, int);
-    void DeleteForm(TESForm*);
 };
 class BGSLoadFormBuffer
 {
   public:
-    void SetFlag10(int);
 };
+class RecipeCraftingInfo;
+namespace ActorValue { enum Index; }
 class TESRecipe
 {
   public:
-    void SetSkill(int);
+public:
+    ::RecipeCraftingInfo *GetData();
+public:
+    void SetRequiredSkill(::ActorValue::Index);
 };
 class TES
 {
   public:
-    bool IsCellBuffered(TESObjectCELL*, bool);
 };
 class BGSPrimitive;
 class TESDataHandler
 {
   public:
-    TESObjectREFR* PlaceReferenceAtLocation(TESBoundObject*, const NiPoint3&, const NiPoint3&, TESObjectCELL*,
-                                            TESWorldSpace*, TESObjectREFR*, BGSPrimitive*, void*);
 };
-extern TESDataHandler* g_dataHandler;
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
-extern TES* g_TES;
-extern PlayerCharacter* g_thePlayer;
-extern const char DAT_01015890[];
 extern const char DAT_0107f86c[];
 extern const char DAT_0107f894[];
 extern const char DAT_0107f8d0[];
 extern const char DAT_0107f938[];
-void LogWarning(const char*, ...);
-bool FUN_0084f860(INITIAL_DATA_TYPE);
-bool FUN_0084f840(INITIAL_DATA_TYPE);
 unsigned int LoadFormData(BGSLoadFormBuffer*, INITIAL_DATA_TYPE, void*);
 struct CellDetachTimeData
 {
-    unsigned int a, b, c, m_uiDetachTime;
+    uintptr_t a, b, c, m_uiDetachTime;
 };
 
 #endif

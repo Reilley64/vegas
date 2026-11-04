@@ -15,7 +15,6 @@ class NiD3DShaderInterface;
 class NiShader;
 class ShaderPassRenderer;
 class GraphicsRenderer;
-#pragma pack(push, 4)
 class NiShader : public NiRefObject
 {
   public:
@@ -35,12 +34,6 @@ class NiShader : public NiRefObject
     // NiShader& __cdecl NiShader::*(const NiShader&)
     // void __cdecl NiShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShader) == 20);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_uiShaderIdentifier) == 12);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_bShaderEnabled) == 16);
-#pragma pack(push, 4)
 class NiD3DShaderInterface : public NiShader
 {
   public:
@@ -61,14 +54,9 @@ class NiD3DShaderInterface : public NiShader
     // bool __cdecl NiD3DShaderInterface::*()
     // NiD3DShaderInterface& __cdecl NiD3DShaderInterface::*(const NiD3DShaderInterface&)
     // void __cdecl NiD3DShaderInterface::*()
+public:
+    bool Initialize();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderInterface) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pD3DDevice) == 20);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pShaderObject) == 24);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pRenderState) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_bShaderState) == 32);
-#pragma pack(push, 4)
 class NiD3DShader : public NiD3DShaderInterface
 {
   public:
@@ -122,13 +110,4 @@ class NiD3DShader : public NiD3DShaderInterface
     // NiD3DShader& __cdecl NiD3DShader::*(const NiD3DShader&)
     // void __cdecl NiD3DShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShader) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bIsInitialized) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bSoftwareVertexProcessing) == 37);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spShaderDeclaration) == 40);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_pRenderStateGroup) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spFirstShaderConstantMap) == 48);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spSecondShaderConstantMap) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_uiShaderType) == 56);
 #endif

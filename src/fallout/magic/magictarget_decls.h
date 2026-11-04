@@ -2,6 +2,36 @@
 #ifndef FNV_MAGICTARGET_DECLS_H
 #define FNV_MAGICTARGET_DECLS_H
 
+#include <cstdint>
+#include <cstdio>
+#include "fnv/decl/ActiveEffectUpdateShell.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_00589f50_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00693d50_shell.h"
+#include "fnv/decl/FUN_007df210_shell.h"
+#include "fnv/decl/FUN_00824080_Class.h"
+#include "fnv/decl/FUN_00833c20_shell.h"
+#include "fnv/decl/Node406.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/Twin_00639b40.h"
+#include "fnv/decl/fnv_00804210__ActiveEffectUpdateShell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_00529000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_007e0000.h"
+#include "fnv/symbols_00804000.h"
+#include "fnv/symbols_00824000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011de000.h"
 class MagicTarget;
 class MagicCaster;
 class MagicItem;
@@ -51,48 +81,43 @@ class TESForm
     virtual void vfn_0();
     unsigned int GetFormID();
     ENUM_FORM_ID GetFormType() const;
-    static TESForm* GetFormByID(unsigned int);
 };
 class TESObjectREFR
 {
   public:
     virtual ~TESObjectREFR();  // polymorphic: its RTTI is used (rtti_fix.py)
   public:
-    ExtraDataList* GetExtraData();
-    const char* GetFullName();
 };
 class TESSoundFile
 {
   public:
-    const char* GetSoundFile() const;
 };
 class TESTopicInfo
 {
   public:
-    TESActorBase* GetSpeaker();
 };
+namespace ActorValue { enum Index; }
 class TESRecipe
 {
   public:
-    void SetSkill(int);
+public:
+    void SetRequiredSkill(::ActorValue::Index);
 };
 class BGSImpactData
 {
   public:
-    void SetSound1(class TESSound*);
 };
 class Script
 {
   public:
-    static bool GetLocalData(TESForm*, ExtraDataList*, unsigned int);
 };
 class EffectSetting
 {
   public:
-    bool FUN_007df1b0();
     bool GetFlag(unsigned int) const;
-    bool FUN_00403e60(unsigned int);
     int GetArchetype();
+public:
+    bool IsScriptEffect();
 };
 class EffectItem
 {
@@ -112,7 +137,8 @@ class EffectItem
 class EffectItemList
 {
   public:
-    EffectItem* GetScriptEffect();
+public:
+    bool FUN_00405da0();
 };
 class MagicItem
 {
@@ -134,7 +160,7 @@ class AlchemyItem : public MagicItem
   public:
     virtual ~AlchemyItem();  // polymorphic: its RTTI is used (rtti_fix.py)
   public:
-    int FUN_004030b0();
+    intptr_t FUN_004030b0();
 };
 class IngredientItem : public MagicItem
 {
@@ -142,8 +168,8 @@ class IngredientItem : public MagicItem
 class SpellItem
 {
   public:
-    bool FUN_00823c20();
 };
+class EffectSetting;
 class ActiveEffect
 {
   public:
@@ -167,23 +193,16 @@ class ActiveEffect
     virtual void CopyFrom(ActiveEffect*);
     virtual bool Unk_12(unsigned int);
     virtual bool IsEffectValid(MagicTarget*);
-    EffectSetting* GetEffectSetting();
-    float GetFloatAtOffset1C();
-    float FUN_007df1f0();
-    void FUN_00804cb0(float);
-    void FUN_004f5d90(float);
-    void FUN_00693d50(float);
     bool IsFlagged();
-    bool FUN_008240f0();
-    bool GetByteAtOffset17();
-    bool FUN_007df210();
-    bool FUN_00705cf0();
-    void SetFlag(bool);
-    bool FUN_00833c20();
-    bool IsFlag200Set();
-    void UpdateEffect(float);
     void SetEffectiveness(float);
-    void Dispel(bool);
+public:
+    bool IsDone() const;
+public:
+    ::EffectSetting *GetEffectSetting() const;
+public:
+    float GetDuration() const;
+public:
+    void AdvanceEffect(float, bool);
 };
 class ValueAndConditionsEffect : public ActiveEffect
 {
@@ -205,15 +224,13 @@ class PlayerCharacter
     char baseLayout[0xa4];
     ActorValueOwner actorValues;
 };
-extern PlayerCharacter* g_thePlayer;
 void DebugLog(const char*, ...);
-void ApplyPerkModifiers(int, Actor*, ...);
-int GetStatusResult();
 bool FUN_0040dfa0(EffectItem*, EffectItem*);
 // Getter bodies are folded in the original executable. These expressions use
 // their existing canonical bindings while retaining each receiver's layout.
-#define EFFECT_ITEM(e) ((EffectItem*)((TESForm*)(e))->GetFormID())
-#define EFFECT_SPELL(e) ((MagicItem*)((BSSimpleArray<ParentSpaceNode, 1024>*)(e))->GetSize())
+#include "fnv/active_effect_fields.h"
+#define EFFECT_ITEM(e) (reinterpret_cast<::ActiveEffectFields*>(e)->effect)
+#define EFFECT_SPELL(e) (reinterpret_cast<::ActiveEffectFields*>(e)->spell)
 class ParentSpaceNode;
 template <class T, unsigned int N> class BSSimpleArray
 {
@@ -224,22 +241,25 @@ class BSFileEntry;
 class LocationDescriptor
 {
   public:
-    BSFileEntry* SetLocRef();
 };
 class ActorMover
 {
   public:
     unsigned int GetCurrentMoveModeType();
 };
+class TESObjectREFR;
 class LowProcess
 {
   public:
     TESObjectREFR* GetActiveCombatTarget();
+public:
+    ::TESObjectREFR *GetTarget();
+public:
+    void SetCurrentCombatTarget(::TESObjectREFR *);
 };
 class PlayerQuestData
 {
   public:
-    class Date* GetLogDate();
 };
 class TESSpellList
 {
@@ -251,8 +271,6 @@ class StartMenu
   public:
     const char* GetMenuTitle();
 };
-extern StartMenu DAT_011d1fc8, DAT_011d3c04;
-extern "C" int sprintf_s(char*, unsigned int, const char*, ...);
 class Interface
 {
   public:
@@ -261,22 +279,22 @@ class Interface
 class TESImageSpaceModifier : public TESForm
 {
 };
+class TESForm;
+enum DEFAULT_OBJECT;
 class BGSDefaultObjectManager
 {
   public:
-    static TESForm* GetDefaultObjectByIndex(int);
+public:
+    static ::TESForm *GetDefaultObjectByIndex(::DEFAULT_OBJECT);
 };
 class ImageSpaceModifierInstanceForm
 {
   public:
-    static ImageSpaceModifierInstanceForm* ApplyImageSpaceModifier(TESImageSpaceModifier*, float, class NiAVObject*);
 };
-extern "C" int sprintf(char*, const char*, ...);
 extern "C" int _mbsicmp(const unsigned char*, const unsigned char*);
 class TESResponse
 {
   public:
-    TESResponse* GetNext();
 };
 class MagicTargetFormDispatch
 {
@@ -418,7 +436,6 @@ class MagicSystem
 {
   public:
     static SpellItem* GetPipBoyLightSpell();
-    static SpellItem* ms_pPipBoyLightSpell;
 };
 class MagicTargetActorDispatch
 {

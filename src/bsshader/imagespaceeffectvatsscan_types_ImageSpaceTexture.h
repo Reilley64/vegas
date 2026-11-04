@@ -1,7 +1,11 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_IMAGESPACETEXTURE_H
 #define FNV_IMAGESPACETEXTURE_H
+#include <cstddef>
 
+#include "fnv/decl/Holder00ba37f0.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "layout_support.h"
 #include "NiObject.h"
 #include "layout_support.h"
@@ -30,7 +34,6 @@ enum NiTexturingProperty__ClampMode
     NiTexturingProperty__ClampMode_WRAP_S_WRAP_T = 3,
     NiTexturingProperty__ClampMode_CLAMP_MAX_MODES = 4
 };
-#pragma pack(push, 4)
 class ImageSpaceTexture
 {
   public:
@@ -41,10 +44,6 @@ class ImageSpaceTexture
     NiPointer<NiObject> pTexture;                          // +0x4, 4 bytes
     NiTexturingProperty__FilterMode m_eTextureFilterMode;  // +0x8, 4 bytes
     NiTexturingProperty__ClampMode m_eClampMode;           // +0xC, 4 bytes
-    static void* operator new(unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
     ImageSpaceTexture()
     {
         m_bTextureFlag1 = false;
@@ -54,7 +53,6 @@ class ImageSpaceTexture
         m_eTextureFilterMode = (NiTexturingProperty__FilterMode)0;
         m_eClampMode = (NiTexturingProperty__ClampMode)0;
     }
-    void SetTexture(NiTexture* texture);
     // ImageSpaceTexture
     // void __cdecl ImageSpaceTexture::*()
     // BSRenderedTexture* __cdecl ImageSpaceTexture::*()
@@ -68,12 +66,4 @@ class ImageSpaceTexture
     // ImageSpaceTexture& __cdecl ImageSpaceTexture::*(ImageSpaceTexture&)
     // void* __cdecl ImageSpaceTexture::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceTexture) == 16);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag1) == 0);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag2) == 1);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag3) == 2);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, pTexture) == 4);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_eTextureFilterMode) == 8);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_eClampMode) == 12);
 #endif

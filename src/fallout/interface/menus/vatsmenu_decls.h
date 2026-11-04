@@ -1,17 +1,17 @@
 // fallout/interface/menus/vatsmenu_decls.h: declares TileListBoxCalls, VATSMenu
 
+#include "fnv/symbols_00726000.h"
+#include "fnv/symbols_00a00000.h"
 class TileListBoxCalls
 {
   public:
     float GetFloat(int);
 };
-int GetTileValueID(const char*, int);
 class VATSMenu
 {
   public:
     char padding[12];
     TileListBoxCalls* tile;
-    int GetSelectedTargetIndex();
     unsigned int Create();
     char _pdbpad_10[24];
     char m_pTiles[128];
@@ -44,4 +44,6 @@ class VATSMenu
     bool m_bStateFlag7;
     char _pdbpad_119[3];
     char m_acTargetText[40];
+public:
+    unsigned int GetFilteredCount();
 };

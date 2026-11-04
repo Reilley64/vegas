@@ -2,24 +2,13 @@
 // src/havok/animation/animation/rig/hkapose.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/rig/hkapose.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
+
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 
 typedef short hkInt16;
 typedef unsigned int hkUint32;
 
-extern "C" __m128 DAT_010c71e0;
 
 struct VectorComponentValue
 {
@@ -86,7 +75,6 @@ struct hkQuaternion
     {
         return m_vec;
     }
-    void FUN_00c66320(const hkQuaternion& q0, const hkQuaternion& q1);
 };
 
 __forceinline void SetRotatedDirection(hkVector4& out, const hkQuaternion& quat, const hkVector4& direction)
@@ -94,7 +82,7 @@ __forceinline void SetRotatedDirection(hkVector4& out, const hkQuaternion& quat,
     hkVector4 qreal;
     qreal.setBroadcast3(quat.m_vec);
     hkVector4 q2minus1;
-    q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), DAT_010c71e0);
+    q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), ::DAT_010c71e0);
 
     hkVector4 ret;
     ret.setMul4(q2minus1, direction);
@@ -120,7 +108,7 @@ struct hkQsTransform
         hkVector4 rotated;
         SetRotatedDirection(rotated, t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(rotated, t1.m_vTranslation);
-        m_rotation.FUN_00c66320(t1.m_rotation, t2.m_rotation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), nullptr, (const ::fnv_00c66320::__m128 *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation));
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 };

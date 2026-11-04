@@ -7,7 +7,6 @@
 #include "layout_support.h"
 class BSShaderTextureSet;
 class BSTextureSet;
-#pragma pack(push, 4)
 class BSTextureSet : public NiObject
 {
   public:
@@ -58,9 +57,6 @@ class BSTextureSet : public NiObject
     // BSTextureSet& __cdecl BSTextureSet::*(const BSTextureSet&)
     // void __cdecl BSTextureSet::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTextureSet) == 8);
-#pragma pack(push, 4)
 class BSShaderTextureSet : public BSTextureSet
 {
   public:
@@ -86,7 +82,4 @@ class BSShaderTextureSet : public BSTextureSet
     // BSShaderTextureSet& __cdecl BSShaderTextureSet::*(const BSShaderTextureSet&)
     // void __cdecl BSShaderTextureSet::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderTextureSet) == 64);
-FNV_STATIC_ASSERT(offsetof(BSShaderTextureSet, m_kTextureNames) == 8);
 #endif

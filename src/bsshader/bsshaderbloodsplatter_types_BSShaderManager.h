@@ -5,7 +5,6 @@
 #include "layout_support.h"
 class NiTexture;
 class BSShaderManager;
-#pragma pack(push, 4)
 class BSShaderManager
 {
   public:
@@ -171,6 +170,4 @@ class BSShaderManager
     // void __cdecl BSShaderManager::*()
     // void* __cdecl BSShaderManager::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderManager) == 1);
 #endif

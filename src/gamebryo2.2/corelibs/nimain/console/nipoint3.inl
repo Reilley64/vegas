@@ -2,6 +2,7 @@
 #define FNV_CONSOLE_NIPOINT3_INL
 
 
+#include "fnv/decl/Point3_0053d280.h"
 #include "nipoint3_decls.h"
 
 // @fnv 0x00457990
@@ -40,7 +41,7 @@ NiPoint3 NiPoint3::CrossProduct(const NiPoint3& kPoint) const
         x * kPoint.y - y * kPoint.x);
     float fScaleMultiplier = kCross.ComputeMagnitude();
     if (fScaleMultiplier > DAT_01017cf8)
-        return kCross.FUN_0053d280(fScaleMultiplier);
+        return reinterpret_cast<::Point3_0053d280 *>((void *)&(kCross))->FUN_0053d280(fScaleMultiplier);
     else
         return NiPoint3(0.0f, 0.0f, 0.0f);
 }

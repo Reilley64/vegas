@@ -1,5 +1,83 @@
 // fallout_shared/testopicinfo.cpp: TESTopicInfo, DelStandIn, TopicLinkLists, TopicInfoCompare and more (52 functions)
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSTempEffectDebris.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401280_Class.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00440e30_This.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004610d0_shell.h"
+#include "fnv/decl/FUN_00462e80_shell.h"
+#include "fnv/decl/FUN_00471870_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00484150_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_00619b20_shell.h"
+#include "fnv/decl/FUN_00619c50_shell.h"
+#include "fnv/decl/FUN_00619d00_shell.h"
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_009527b0_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Scr.h"
+#include "fnv/decl/TESFormSortProxy.h"
+#include "fnv/decl/TESOffsetWorker.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/TopicMethods.h"
+#include "fnv/decl/Twin_00639b40.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00484730__FUN_00484730_shell.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
+#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/form_load_legacy__TESFormLoadProxy.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b1000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_0061b000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01187000.h"
+#include "fnv/symbols_011cb000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011de000.h"
 #include "testopicinfo_topicinfo_helpers.h"
 #include "testopicinfo_topicinfo_TESTopicInfo.h"
 #include "testopicinfo_topicinfo_forms.h"
@@ -21,177 +99,8 @@
 extern TESTopicInfo* g_cachedResultScriptInfo;
 extern Script g_resultScripts[2];
 extern ScriptVariableInfo* g_loadedScriptVariable;
-extern const char g_emptyTopicInfoPrompt[];
-extern TESResponseList g_topicInfoResponses;
 extern TESTopicInfo* g_cachedResponseInfo;
-extern TESTopic* g_loadingTopic;
 extern const char g_topicInfoLoadWarning[];
-
-// @fnv 0x0061dbd0
-bool TESTopicInfo::LoadForm(TESFile* file)
-{
-    unsigned int previousInfoID;
-    int responseCount;
-    {
-        unsigned char m_ucFormType = file->GetTESForm();
-        if (m_ucFormType != kTopicInfoFormType)
-            return false;
-        if (!file->GetCached())
-            m_ulTopicFlags = file->GetOffset();
-        previousInfoID = kNoPreviousTopicInfo;
-        struct TopicRecord
-        {
-            int chunk;
-            unsigned int uiChunkType;
-        } record;
-        record.uiChunkType = 0;
-        LoadRecordHeader(file);
-        responseCount = 0;
-        while (record.chunk = file->GetChunkID())
-        {
-            switch (record.chunk)
-            {
-            case kConditionDataChunk:
-                GetInfoConditions()->Load(file);
-                break;
-            case kPreviousTopicInfoChunk:
-                file->GetChunkData(&previousInfoID);
-                if (previousInfoID)
-                    RemapFormIDForFile(previousInfoID, file);
-                break;
-            case kTopicInfoDataChunk:
-                file->GetChunkData(&m_Data, sizeof(m_Data));
-                if (m_Data.type >= DIALOGUE_TYPE_DIALOGUE_TYPE_COUNT)
-                    MarkForDeletion(true);
-                if (m_Data.type == DIALOGUE_TYPE_DT_CONVERSATION)
-                    SetTopicInfoData(0);
-                break;
-            case kAdditionalTopicChunk: {
-                unsigned int topicID = 0;
-                file->GetChunkData(&topicID);
-                GetAddTopicList()->AddTail(reinterpret_cast<TESTopic*>(topicID));
-                break;
-            }
-            case kTopicInfoQuestChunk:
-                file->GetChunkData(&record.uiChunkType);
-                RemapFormIDForFile(record.uiChunkType, file);
-                break;
-            case kConversationLinkToChunk: {
-                if (!GetConversationData())
-                    SetTopicInfoData(0);
-                unsigned int topicID = 0;
-                file->GetChunkData(&topicID);
-                GetConversationData()->GetLinkToList()->AddTail(reinterpret_cast<TESTopic*>(topicID));
-                break;
-            }
-            case kConversationLinkFromChunk: {
-                if (!GetConversationData())
-                    SetTopicInfoData(0);
-                unsigned int topicID = 0;
-                file->GetChunkData(&topicID);
-                GetConversationData()->GetLinkFromList()->AddTail(reinterpret_cast<TESTopic*>(topicID));
-                break;
-            }
-            case kConversationFollowUpChunk: {
-                if (!GetConversationData())
-                    SetTopicInfoData(0);
-                unsigned int infoID = 0;
-                file->GetChunkData(&infoID);
-                GetConversationData()->GetFollowUpInfoList()->AddTail(reinterpret_cast<TESTopicInfo*>(infoID));
-                break;
-            }
-            case kTopicInfoPromptChunk: {
-                char prompt[kTopicInfoPromptReadSize];
-                file->GetChunkData(prompt, sizeof(prompt));
-                SetPrompt(prompt);
-                break;
-            }
-            case kTopicInfoPerkSkillChunk: {
-                unsigned int formID = 0;
-                file->GetChunkData(&formID);
-                m_pPerkSkillStat = reinterpret_cast<TESForm*>(formID);
-                break;
-            }
-            case kTopicInfoSpeakerChunk: {
-                unsigned int speakerID = 0;
-                file->GetChunkData(&speakerID);
-                m_pDialogueSpeaker = reinterpret_cast<TESActorBase*>(speakerID);
-                break;
-            }
-            case kTopicInfoDifficultyChunk: {
-                unsigned int difficulty;
-                file->GetChunkData(&difficulty);
-                if (difficulty < SPEECH_CHALLENGE_LEVEL_SCL_COUNT)
-                    SetDifficultyLevel(static_cast<SPEECH_CHALLENGE_LEVEL>(difficulty));
-                if (m_eDifficultyLevel == SPEECH_CHALLENGE_LEVEL_SCL_NONE)
-                    m_eDifficultyLevel = SPEECH_CHALLENGE_LEVEL_SCL_VERYEASY;
-                break;
-            }
-            }
-            if (!file->NextChunk())
-                break;
-        }
-        if (m_Data.type == DIALOGUE_TYPE_DT_PERSUASION)
-            m_Data.type = DIALOGUE_TYPE_DT_TOPIC;
-        if (!IsDeleted())
-        {
-            if (!g_loadingTopic->InsertInfoAfter(reinterpret_cast<TESQuest*>(record.uiChunkType), this, previousInfoID))
-                Warning(g_topicInfoLoadWarning, GetFormID(), g_loadingTopic->GetName(), g_loadingTopic->GetFormID(),
-                        record.uiChunkType);
-        }
-        return true;
-    }
-}
-
-// @fnv 0x0061ccd0
-TESTopicInfo::TESTopicInfo(DIALOGUE_TYPE type)
-{
-    InitializeComponent();
-    m_Data.type = static_cast<char>(type);
-    if (type == DIALOGUE_TYPE_DT_CONVERSATION)
-    {
-        m_pResponseData = new TESTopicInfoData;
-        SetRandom(true);
-    }
-}
-
-// @fnv 0x0061e180
-void TESTopicInfo::SetTopicInfoData(TESTopicInfoData* data)
-{
-    if (data)
-    {
-        if (!m_pResponseData)
-            m_pResponseData = new TESTopicInfoData;
-        m_pResponseData->Copy(this, data);
-    }
-    else
-    {
-        if (m_pResponseData)
-        {
-            delete m_pResponseData;
-            m_pResponseData = 0;
-        }
-        m_pResponseData = new TESTopicInfoData;
-    }
-}
-
-// Clears m_Data and the topic-info fields, sets the form type, prompt, speaker, actor value, perk and difficulty level to defaults.
-// @fnv 0x0061cf40
-void TESTopicInfo::InitializeComponent()
-{
-    memset(&m_Data, 0, sizeof(m_Data));
-    m_ulTopicFlags = 0;
-    m_bGoodbye = false;
-    m_uiInfoIndex = kInvalidTopicInfoIndex;
-    SetFormType(static_cast<ENUM_FORM_ID>(kTopicInfoFormType));
-    m_pResponseData = 0;
-    m_pOwnerQuest = 0;
-    SetPrompt(g_emptyTopicInfoPrompt);
-    SetSpeaker(0);
-    SetActorValue(0);
-    SetPerk(0);
-    SetDifficultyLevel(SPEECH_CHALLENGE_LEVEL_SCL_VERYEASY);
-}
 
 // Removes every entry from the add-topic list returned by GetAddTopicList until the list is empty.
 // @fnv 0x0061d250
@@ -205,26 +114,26 @@ void TESTopicInfo::ResetResponseList()
 // @fnv 0x0061d230
 void TESTopicInfo::ClearResponses()
 {
-    g_topicInfoResponses.ClearResponses();
+    (*reinterpret_cast<::TESResponseList *>(&::g_011cc07c)).ClearResponses();
 }
 
 // @fnv 0x0061cff0
 void TESTopicInfo::ClearData()
 {
-    if (!IsTemporary())
+    if (!reinterpret_cast<::FUN_004077c0_shell *>((void *)this)->FUN_004077c0())
     {
-        if (GetInfoIndex() != kInvalidTopicInfoIndex)
+        if (reinterpret_cast<::FUN_00619a70_shell *>(this)->FUN_00619a70() != kInvalidTopicInfoIndex)
         {
-            TESTopic* owner = TESTopic::GetTopicFromInfo(this);
+            TESTopic* owner = ::fnv_0061a310::FindTopicByInfo(this);
             if (owner)
                 SetOwnerTopic(owner);
         }
-        GetInfoConditions()->InitializeConditionItems();
+        reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()->InitializeConditionItems();
         ClearResponses();
         ResetResponseList();
         Script emptyScript;
-        g_resultScripts[0].CopyScriptContents(&emptyScript);
-        g_resultScripts[1].CopyScriptContents(&emptyScript);
+        reinterpret_cast<::FUN_005aa420_shell *>(&(g_resultScripts[0]))->CopyFromScript(&emptyScript);
+        reinterpret_cast<::FUN_005aa420_shell *>(&(g_resultScripts[1]))->CopyFromScript(&emptyScript);
     }
     g_cachedResponseInfo = 0;
     g_cachedResultScriptInfo = 0;
@@ -235,19 +144,19 @@ void TESTopicInfo::ClearData()
 // @fnv 0x0061d140
 void TESTopicInfo::SetOwnerTopic(TESTopic* owner)
 {
-    if (owner && GetInfoIndex() != kInvalidTopicInfoIndex)
+    if (owner && reinterpret_cast<::FUN_00619a70_shell *>(this)->FUN_00619a70() != kInvalidTopicInfoIndex)
     {
-        QuestDialogueInfo* questInfo = owner->GetQuestInfoForInfo(this);
+        QuestDialogueInfo* questInfo = ((::QuestDialogueInfo *)(reinterpret_cast<::FUN_00619c50_shell *>((owner))->FindTopicByInfoID((std::uintptr_t)(this))));
         if (questInfo)
         {
-            TopicInfoArray* infoArray = questInfo->GetInfoArray();
+            TopicInfoArray* infoArray = ((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((questInfo))->GetCurrentProcessData()));
             int iCount;
-            if (infoArray->GetAt(GetInfoIndex()) == this)
-                infoArray->RemoveAt(GetInfoIndex());
+            if (infoArray->GetAt(reinterpret_cast<::FUN_00619a70_shell *>(this)->FUN_00619a70()) == this)
+                infoArray->RemoveAt(reinterpret_cast<::FUN_00619a70_shell *>(this)->FUN_00619a70());
             else
             {
                 bool bFound = false;
-                iCount = infoArray->GetSize();
+                iCount = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((infoArray))->FUN_0084e3a0()));
                 for (int index = 0; index < iCount; index++)
                 {
                     if (infoArray->GetAt(index) == this)
@@ -259,7 +168,7 @@ void TESTopicInfo::SetOwnerTopic(TESTopic* owner)
                 }
             }
             infoArray->Compact();
-            TESTopic::CompactTopicInfos(infoArray);
+            ::FUN_00619fe0(infoArray);
         }
     }
 }
@@ -267,508 +176,23 @@ void TESTopicInfo::SetOwnerTopic(TESTopic* owner)
 // @fnv 0x0061db30
 void TESTopicInfo::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    TESForm::LoadGame(buffer);
-    if (buffer->GetChangeFlags().ContainsAnyFlags(0x80000000))
+    reinterpret_cast<::TESForm *>(this)->LoadGame(buffer);
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags()))->FUN_004280f0(0x80000000))
         m_bGoodbye = true;
 }
 
 // @fnv 0x0061db80
 void TESTopicInfo::Revert(BGSLoadFormBuffer* buffer)
 {
-    TESForm::Revert(buffer);
-    if (buffer->GetOldChangeFlags().ContainsAnyFlags(0x80000000))
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)(buffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags()))->FUN_004280f0(0x80000000))
         m_bGoodbye = false;
 }
 
 // @fnv 0x0061f150
 void TESTopicInfo::AddTopicList()
 {
-    pPlayer->AddTopics(GetAddTopicList());
-}
-
-// Loads TESResponse records from the file's response chunk into list or g_topicInfoResponses, caching this as g_cachedResponseInfo when list is null.
-// @fnv 0x0061e780
-TESResponseList* TESTopicInfo::DuplicateResponseList(TESResponseList* pResponseList)
-{
-    unsigned char form;
-    {
-        struct ResponseRead
-        {
-            TESResponse* response;
-            int chunk;
-            TESFile* file;
-        } responseReader;
-        if (this == g_cachedResponseInfo)
-        {
-            if (pResponseList)
-            {
-                pResponseList->SetResponseList(g_topicInfoResponses.QResponseList());
-                return pResponseList;
-            }
-            else
-                return &g_topicInfoResponses;
-        }
-        if (!pResponseList)
-        {
-            g_cachedResponseInfo = this;
-            ClearResponses();
-        }
-        responseReader.file = GetFile(-1);
-        if (!responseReader.file || !m_ulTopicFlags)
-            return pResponseList ? pResponseList : &g_topicInfoResponses;
-        responseReader.file = responseReader.file->GetParentTESFile();
-        if (!responseReader.file->SetOffset(m_ulTopicFlags))
-            return pResponseList ? pResponseList : &g_topicInfoResponses;
-        form = responseReader.file->GetTESForm();
-        if (form != kTopicInfoFormType)
-            return pResponseList ? pResponseList : &g_topicInfoResponses;
-        responseReader.response = 0;
-        while (responseReader.chunk = responseReader.file->GetChunkID())
-        {
-            switch (responseReader.chunk)
-            {
-            case 0x54445254:  // TRDT reader.response data
-                responseReader.response = new TESResponse;
-                responseReader.response->Load(responseReader.file);
-                responseReader.response->InitItem(this);
-                if (pResponseList)
-                    pResponseList->AddTail(responseReader.response);
-                else
-                    g_topicInfoResponses.AddTail(responseReader.response);
-                break;
-            case 0x314d414e:  // NAM1 reader.response text
-                if (responseReader.response)
-                {
-                    unsigned int size = responseReader.file->GetChunkSize();
-                    char* text = static_cast<char*>(_alloca(size));
-                    responseReader.file->GetChunkData(text, size);
-                    responseReader.response->SetResponseText(text);
-                }
-                break;
-            case 0x4d414e53:  // SNAM speaker idle
-                if (responseReader.response)
-                {
-                    struct IdleReference
-                    {
-                        unsigned int formID;
-                        TESForm* form;
-                    } reference;
-                    reference.formID = 0;
-                    responseReader.file->GetChunkData(&reference.formID);
-                    RemapFormIDForFile(reference.formID, responseReader.file);
-                    TESIdleForm* idle = 0;
-                    reference.form = GetFormByID(reference.formID);
-                    if (reference.form && reference.form->GetFormType() == 72)
-                        idle = static_cast<TESIdleForm*>(reference.form);
-                    if (reference.formID && !idle)
-                        Warning("DEFAULT: Unable to find idle (%08X) for info (%08X).", reference.formID, GetFormID());
-                    responseReader.response->SetSpeakerIdle(idle);
-                }
-                break;
-            case 0x4d414e4c:  // LNAM listener idle
-                if (responseReader.response)
-                {
-                    struct IdleReference
-                    {
-                        unsigned int formID;
-                        TESForm* form;
-                    } reference;
-                    reference.formID = 0;
-                    responseReader.file->GetChunkData(&reference.formID);
-                    RemapFormIDForFile(reference.formID, responseReader.file);
-                    TESIdleForm* idle = 0;
-                    reference.form = GetFormByID(reference.formID);
-                    if (reference.form && reference.form->GetFormType() == 72)
-                        idle = static_cast<TESIdleForm*>(reference.form);
-                    if (reference.formID && !idle)
-                        Warning("DEFAULT: Unable to find idle (%08X) for info (%08X).", reference.formID, GetFormID());
-                    responseReader.response->GetListenerIdle(idle);
-                }
-                break;
-            }
-            if (!responseReader.file->NextChunk())
-                break;
-        }
-        return pResponseList ? pResponseList : &g_topicInfoResponses;
-    }
-}
-
-// @fnv 0x0061d290
-void TESTopicInfo::InitItem()
-{
-    if (IsFormInitialized())
-        return;
-    TESFile* pFile = GetFile(-1);
-    {
-        BSSimpleList<TESTopic*>* previous = 0;
-        TESResponse* pResponse;
-        {
-            BSSimpleList<TESTopic*>* pTopics = GetAddTopicList();
-            while (pTopics && pTopics->GetItem())
-            {
-                unsigned int formID = reinterpret_cast<unsigned int>(pTopics->GetItem());
-                RemapFormIDForFile(formID, pFile);
-                TESTopic* topic = dynamic_cast<TESTopic*>(GetFormByID(formID));
-                if (!topic)
-                {
-                    if (pTopics->GetNext() || !previous)
-                        pTopics->RemoveHead();
-                    else
-                    {
-                        previous->Remove(reinterpret_cast<TESTopic*>(formID));
-                        pTopics = previous->GetNext();
-                    }
-                    TESTopic* ownerTopic = TESTopic::GetTopicFromInfo(this);
-                    TESQuest* ownerQuest = 0;
-                    if (ownerTopic)
-                        ownerQuest = ownerTopic->GetParentQuest(this);
-                    {
-                        BSStringT<char> text;
-                        FormatDebugInfo(text, true);
-                        char description[260];
-                        if (ownerTopic && ownerQuest)
-                            sprintf(description, "TopicInfo %08X \"%s\" in Quest %s (%08x) Topic %s (%08x)",
-                                    GetFormID(), text.String(), ownerQuest->GetEditorName(), ownerQuest->GetFormID(),
-                                    ownerTopic->GetName(), ownerTopic->GetFormID());
-                        else
-                            sprintf(description, "TopicInfo %08X \"%s\"", GetFormID(), text.String());
-                        Warning("MASTERFILE: Unable to find topic (%08X) for %s", formID, description);
-                    }
-                }
-                else
-                {
-                    pTopics->SetItem(topic);
-                    previous = pTopics;
-                    pTopics = pTopics->GetNext();
-                }
-            }
-            unsigned int speakerID = reinterpret_cast<unsigned int>(GetSpeaker());
-            if (speakerID)
-            {
-                RemapFormIDForFile(speakerID, GetFile(-1));
-                SetSpeaker(dynamic_cast<TESActorBase*>(GetFormByID(speakerID)));
-            }
-            if (GetInfoConditions())
-                GetInfoConditions()->InitItem(this);
-            if (GetConversationData())
-                GetConversationData()->InitItem(this);
-            pResponse = g_topicInfoResponses.QResponseList();
-            while (pResponse)
-            {
-                pResponse->InitItem(this);
-                pResponse = pResponse->GetNext();
-            }
-            if (m_pPerkSkillStat)
-            {
-                struct PerkSkillResolution
-                {
-                    unsigned int formID;
-                    TESForm* form;
-                    ActorValueInfo* actorValue;
-                } resolved;
-                resolved.formID = reinterpret_cast<unsigned int>(m_pPerkSkillStat);
-                RemapFormIDForFile(resolved.formID, GetFile(-1));
-                resolved.form = GetFormByID(resolved.formID);
-                resolved.actorValue = dynamic_cast<ActorValueInfo*>(resolved.form);
-                if (resolved.actorValue)
-                    m_pPerkSkillStat = resolved.actorValue;
-                else
-                {
-                    BGSPerk* perk = dynamic_cast<BGSPerk*>(resolved.form);
-                    m_pPerkSkillStat = perk;
-                }
-            }
-            SetInitializationState(true);
-        }
-    }
-}
-
-// @fnv 0x0061c360
-void TESTopicInfoData::InitItem(TESForm* owner)
-{
-    BSSimpleList<TESTopic*>* pPreviousTopic = 0;
-    BSSimpleList<TESTopic*>* pTopicList = GetLinkToList();
-    TESFile* pFile = owner ? owner->GetFile(-1) : 0;
-    {
-        struct InfoCursor
-        {
-            BSSimpleList<TESTopicInfo*>* current;
-            BSSimpleList<TESTopicInfo*>* previous;
-        } infoCursor;
-
-        while (pTopicList && pTopicList->GetItem())
-        {
-            struct TopicResolution
-            {
-                TESTopic* topic;
-                unsigned int formID;
-                TESForm* form;
-            } resolved;
-            resolved.formID = reinterpret_cast<unsigned int>(pTopicList->GetItem());
-            TESForm::RemapFormIDForFile(resolved.formID, pFile);
-            resolved.topic = 0;
-            resolved.form = TESForm::GetFormByID(resolved.formID);
-            if (resolved.form && resolved.form->GetFormType() == ENUM_FORM_ID_DIAL_ID)
-                resolved.topic = static_cast<TESTopic*>(resolved.form);
-
-            if (!resolved.topic)
-            {
-                if (pTopicList->GetNext() || !pPreviousTopic)
-                    pTopicList->RemoveHead();
-                else
-                {
-                    pPreviousTopic->Remove(reinterpret_cast<TESTopic*>(resolved.formID));
-                    pTopicList = pPreviousTopic->GetNext();
-                }
-
-                struct DiagnosticContext
-                {
-                    TESTopicInfo* info;
-                    TESTopic* topic;
-                    TESQuest* quest;
-                } context;
-                context.info = 0;
-                if (owner && owner->GetFormType() == ENUM_FORM_ID_INFO_ID)
-                    context.info = static_cast<TESTopicInfo*>(owner);
-                context.topic = TESTopic::GetTopicFromInfo(context.info);
-                context.quest = 0;
-                if (context.topic)
-                    context.quest = context.topic->GetParentQuest(context.info);
-                {
-                    BSStringT<char> text;
-                    context.info->FormatDebugInfo(text, true);
-                    char description[1024];
-                    if (context.topic && context.quest)
-                        sprintf(description, "TopicInfo %08X \"%s\" in Quest %s (%08x) Topic %s (%08x)",
-                                context.info->GetFormID(), text.String(), context.quest->GetEditorName(),
-                                context.quest->GetFormID(), context.topic->GetName(), context.topic->GetFormID());
-                    else
-                        sprintf(description, "TopicInfo %08X \"%s\"", context.info->GetFormID(), text.String());
-                    Warning("MASTERFILE: Unable to find topic (%08X) for conversation data 'Link To' on %s",
-                            resolved.formID, description);
-                }
-            }
-            else
-            {
-                pTopicList->SetItem(resolved.topic);
-                pPreviousTopic = pTopicList;
-                pTopicList = pTopicList->GetNext();
-            }
-        }
-
-        pPreviousTopic = 0;
-        pTopicList = GetLinkFromList();
-        while (pTopicList && pTopicList->GetItem())
-        {
-            struct TopicResolution
-            {
-                TESTopic* topic;
-                unsigned int formID;
-                TESForm* form;
-            } resolved;
-            resolved.formID = reinterpret_cast<unsigned int>(pTopicList->GetItem());
-            TESForm::RemapFormIDForFile(resolved.formID, pFile);
-            resolved.topic = 0;
-            resolved.form = TESForm::GetFormByID(resolved.formID);
-            if (resolved.form && resolved.form->GetFormType() == ENUM_FORM_ID_DIAL_ID)
-                resolved.topic = static_cast<TESTopic*>(resolved.form);
-
-            if (!resolved.topic)
-            {
-                if (pTopicList->GetNext() || !pPreviousTopic)
-                    pTopicList->RemoveHead();
-                else
-                {
-                    pPreviousTopic->Remove(reinterpret_cast<TESTopic*>(resolved.formID));
-                    pTopicList = pPreviousTopic->GetNext();
-                }
-
-                struct DiagnosticContext
-                {
-                    TESTopicInfo* info;
-                    TESTopic* topic;
-                    TESQuest* quest;
-                } context;
-                context.info = 0;
-                if (owner && owner->GetFormType() == ENUM_FORM_ID_INFO_ID)
-                    context.info = static_cast<TESTopicInfo*>(owner);
-                context.topic = TESTopic::GetTopicFromInfo(context.info);
-                context.quest = 0;
-                if (context.topic)
-                    context.quest = context.topic->GetParentQuest(context.info);
-                {
-                    BSStringT<char> text;
-                    context.info->FormatDebugInfo(text, true);
-                    char description[1024];
-                    if (context.topic && context.quest)
-                        sprintf(description, "TopicInfo %08X \"%s\" in Quest %s (%08x) Topic %s (%08x)",
-                                context.info->GetFormID(), text.String(), context.quest->GetEditorName(),
-                                context.quest->GetFormID(), context.topic->GetName(), context.topic->GetFormID());
-                    else
-                        sprintf(description, "TopicInfo %08X \"%s\"", context.info->GetFormID(), text.String());
-                    Warning("MASTERFILE: Unable to find topic (%08X) for conversation data 'Link From' on %s",
-                            resolved.formID, description);
-                }
-            }
-            else
-            {
-                pTopicList->SetItem(resolved.topic);
-                pPreviousTopic = pTopicList;
-                pTopicList = pTopicList->GetNext();
-            }
-        }
-
-        infoCursor.current = GetFollowUpInfoList();
-        infoCursor.previous = 0;
-        while (infoCursor.current && infoCursor.current->GetItem())
-        {
-            struct InfoResolution
-            {
-                TESTopicInfo* followUp;
-                unsigned int formID;
-                TESForm* form;
-            } resolved;
-            resolved.formID = reinterpret_cast<unsigned int>(infoCursor.current->GetItem());
-            TESForm::RemapFormIDForFile(resolved.formID, pFile);
-            resolved.followUp = 0;
-            resolved.form = TESForm::GetFormByID(resolved.formID);
-            if (resolved.form && resolved.form->GetFormType() == ENUM_FORM_ID_INFO_ID)
-                resolved.followUp = static_cast<TESTopicInfo*>(resolved.form);
-
-            if (!resolved.followUp)
-            {
-                if (infoCursor.current->GetNext() || !infoCursor.previous)
-                    infoCursor.current->RemoveHead();
-                else
-                {
-                    infoCursor.previous->Remove(reinterpret_cast<TESTopicInfo*>(resolved.formID));
-                    infoCursor.current = infoCursor.previous->GetNext();
-                }
-
-                struct DiagnosticContext
-                {
-                    TESTopicInfo* info;
-                    TESTopic* topic;
-                    TESQuest* quest;
-                } context;
-                context.info = 0;
-                if (owner && owner->GetFormType() == ENUM_FORM_ID_INFO_ID)
-                    context.info = static_cast<TESTopicInfo*>(owner);
-                context.topic = TESTopic::GetTopicFromInfo(context.info);
-                context.quest = 0;
-                if (context.topic)
-                    context.quest = context.topic->GetParentQuest(context.info);
-                {
-                    BSStringT<char> text;
-                    context.info->FormatDebugInfo(text, true);
-                    char description[1024];
-                    if (context.topic && context.quest)
-                        sprintf(description, "TopicInfo %08X \"%s\" in Quest %s (%08x) Topic %s (%08x)",
-                                context.info->GetFormID(), text.String(), context.quest->GetEditorName(),
-                                context.quest->GetFormID(), context.topic->GetName(), context.topic->GetFormID());
-                    else
-                        sprintf(description, "TopicInfo %08X \"%s\"", context.info->GetFormID(), text.String());
-                    Warning("MASTERFILE: Unable to find topic (%08X) for conversation data 'Follow Up' on %s",
-                            resolved.formID, description);
-                }
-            }
-            else
-            {
-                infoCursor.current->SetItem(resolved.followUp);
-                infoCursor.previous = infoCursor.current;
-                infoCursor.current = infoCursor.current->GetNext();
-            }
-        }
-    }
-}
-
-// @fnv 0x0061eb60
-Script* TESTopicInfo::GetResultScript(unsigned int onEnd)
-{
-    unsigned int resultIndex = onEnd;
-    if (this == g_cachedResultScriptInfo)
-        return &g_resultScripts[resultIndex];
-    g_cachedResultScriptInfo = this;
-    Script emptyScript;
-    g_resultScripts[0].CopyScriptContents(&emptyScript);
-    g_resultScripts[0].NotifySaveLoadGameOfFormChange();
-    g_resultScripts[0].GetHeader()->m_bQuest = false;
-    g_resultScripts[1].CopyScriptContents(&emptyScript);
-    g_resultScripts[1].NotifySaveLoadGameOfFormChange();
-    g_resultScripts[1].GetHeader()->m_bQuest = false;
-    if (!HasResultScript())
-        return &g_resultScripts[resultIndex];
-    g_resultScripts[0].SetInitializationState(false);
-    g_resultScripts[1].SetInitializationState(false);
-    TESFile* file = GetFile(-1);
-    if (!file || !m_ulTopicFlags)
-        return &g_resultScripts[resultIndex];
-    file = file->GetParentTESFile();
-    if (!file->SetOffset(m_ulTopicFlags))
-        return &g_resultScripts[resultIndex];
-    unsigned char form = file->GetTESForm();
-    if (form != kTopicInfoFormType)
-        return &g_resultScripts[resultIndex];
-    unsigned int scriptIndex = 0;
-    int chunk;
-    while (chunk = file->GetChunkID())
-    {
-        switch (chunk)
-        {
-        case kNextScriptChunk:
-            scriptIndex++;
-            break;
-        case kScriptVariableDataChunk:
-        case kScriptVariableNameChunk:
-            if (file->GetChunkID() == kScriptVariableDataChunk)
-            {
-                g_loadedScriptVariable = new ScriptVariableInfo;
-                g_loadedScriptVariable->Load(file);
-                g_resultScripts[scriptIndex].GetVariableList()->AddTail(g_loadedScriptVariable);
-            }
-            else if (g_loadedScriptVariable)
-            {
-                char* variableName = static_cast<char*>(_alloca(file->GetChunkSize()));
-                file->GetChunkData(variableName, kScriptVariableNameReadSize);
-                g_loadedScriptVariable->m_kName.Set(variableName, 0);
-            }
-            break;
-        case kScriptHeaderChunk:
-            file->GetChunkData(g_resultScripts[scriptIndex].GetHeader(), 0);
-            if (file->IsEndianConversionRequired())
-                g_resultScripts[scriptIndex].GetHeader()->Endian();
-            break;
-        case kScriptCompiledDataChunk: {
-            unsigned int size = file->GetChunkSize();
-            char* data = static_cast<char*>(_alloca(size));
-            memset(data, 0, size);
-            file->GetChunkData(data, 0);
-            g_resultScripts[scriptIndex].SetScriptData(size, data);
-            break;
-        }
-        case kScriptFormReferenceChunk: {
-            ScriptReferencedObject* reference = new ScriptReferencedObject;
-            unsigned int formID;
-            file->GetChunkData(&formID);
-            reference->pForm = reinterpret_cast<TESForm*>(formID);
-            g_resultScripts[scriptIndex].GetReferencedObjectList()->AddTail(reference);
-            break;
-        }
-        case kScriptVariableReferenceChunk: {
-            ScriptReferencedObject* reference = new ScriptReferencedObject;
-            unsigned int variableID;
-            file->GetChunkData(&variableID);
-            reference->m_uiFormID = variableID;
-            g_resultScripts[scriptIndex].GetReferencedObjectList()->AddTail(reference);
-            break;
-        }
-        }
-        if (!file->NextChunk())
-            break;
-    }
-    g_resultScripts[0].InitItem(this);
-    g_resultScripts[1].InitItem(this);
-    return &g_resultScripts[resultIndex];
+    reinterpret_cast<::FUN_009527b0_Class *>((::_g_thePlayer))->AddTopics((::FUN_00952b30_BSSimpleList *)(::BSSimpleList< ::TESTopic *> *)(GetAddTopicList()));
 }
 
 struct FUN_00409480_shell : public TESTopicInfo
@@ -779,13 +203,101 @@ struct FUN_00409480_shell : public TESTopicInfo
 // @fnv 0x00409480
 void FUN_00409480_shell::FUN_00409480(TESActorBase* apActor)
 {
-    *reinterpret_cast<TESActorBase**>(reinterpret_cast<char*>(this) + 0x3C) = apActor;
+    this->m_pDialogueSpeaker = apActor;
 }
 
 struct FUN_00508d70_shell : public TESForm
 {
     bool FUN_00508d70();
 };
+// @fnv 0x0061eb60
+Script* TESTopicInfo::GetResultScript(uintptr_t onEnd)
+{
+    unsigned int resultIndex = onEnd;
+    if (this == g_cachedResultScriptInfo)
+        return &g_resultScripts[resultIndex];
+    g_cachedResultScriptInfo = this;
+    Script emptyScript;
+    reinterpret_cast<::FUN_005aa420_shell *>(&(g_resultScripts[0]))->CopyFromScript(&emptyScript);
+    g_resultScripts[0].NotifySaveLoadGameOfFormChange();
+    ((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(&(g_resultScripts[0]))->GetConditions()))->m_bQuest = false;
+    reinterpret_cast<::FUN_005aa420_shell *>(&(g_resultScripts[1]))->CopyFromScript(&emptyScript);
+    g_resultScripts[1].NotifySaveLoadGameOfFormChange();
+    ((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(&(g_resultScripts[1]))->GetConditions()))->m_bQuest = false;
+    if (!reinterpret_cast<::FUN_00508d70_shell *>(this)->FUN_00508d70())
+        return &g_resultScripts[resultIndex];
+    g_resultScripts[0].SetInitializationState(false);
+    g_resultScripts[1].SetInitializationState(false);
+    TESFile* file = GetFile(-1);
+    if (!file || !m_ulTopicFlags)
+        return &g_resultScripts[resultIndex];
+    file = file->GetParentTESFile();
+    if (!reinterpret_cast<::TESOffsetWorker *>((file))->FUN_004723a0(m_ulTopicFlags))
+        return &g_resultScripts[resultIndex];
+    unsigned char form = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
+    if (form != kTopicInfoFormType)
+        return &g_resultScripts[resultIndex];
+    unsigned int scriptIndex = 0;
+    int chunk;
+    while (chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
+    {
+        switch (chunk)
+        {
+        case kNextScriptChunk:
+            scriptIndex++;
+            break;
+        case kScriptVariableDataChunk:
+        case kScriptVariableNameChunk:
+            if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == kScriptVariableDataChunk)
+            {
+                g_loadedScriptVariable = new ScriptVariableInfo;
+                g_loadedScriptVariable->Load(file);
+                reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(&(g_resultScripts[scriptIndex]))->FUN_005d43e0()))))->FUN_00905820((void *)&(g_loadedScriptVariable));
+            }
+            else if (g_loadedScriptVariable)
+            {
+                char* variableName = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(variableName), kScriptVariableNameReadSize);
+                reinterpret_cast<::TextString *>(&(g_loadedScriptVariable->m_kName))->FUN_004037f0(variableName, 0);
+            }
+            break;
+        case kScriptHeaderChunk:
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(&(g_resultScripts[scriptIndex]))->GetConditions()))), 0);
+            if (file->IsEndianConversionRequired())
+                reinterpret_cast<::FUN_00414220_shell *>((((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(&(g_resultScripts[scriptIndex]))->GetConditions()))))->FUN_00414220();
+            break;
+        case kScriptCompiledDataChunk: {
+            unsigned int size = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
+            char* data = static_cast<char*>(_alloca(size));
+            memset(data, 0, size);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(data), 0);
+            reinterpret_cast<::FUN_005aae70_shell *>(&(g_resultScripts[scriptIndex]))->FUN_005aae70(size, data);
+            break;
+        }
+        case kScriptFormReferenceChunk: {
+            ScriptReferencedObject* reference = new ScriptReferencedObject;
+            unsigned int formID;
+            file->GetChunkData(&formID);
+            reference->pForm = reinterpret_cast<TESForm*>(formID);
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(&(g_resultScripts[scriptIndex]))->FUN_005d43c0()))))->FUN_00905820((void *)&(reference));
+            break;
+        }
+        case kScriptVariableReferenceChunk: {
+            ScriptReferencedObject* reference = new ScriptReferencedObject;
+            unsigned int variableID;
+            file->GetChunkData(&variableID);
+            reference->m_uiFormID = variableID;
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(&(g_resultScripts[scriptIndex]))->FUN_005d43c0()))))->FUN_00905820((void *)&(reference));
+            break;
+        }
+        }
+        if (!file->NextChunk())
+            break;
+    }
+    reinterpret_cast<::Scr *>(&(g_resultScripts[0]))->FUN_005ab400(this);
+    reinterpret_cast<::Scr *>(&(g_resultScripts[1]))->FUN_005ab400(this);
+    return &g_resultScripts[resultIndex];
+}
 
 // @fnv 0x00508d70
 bool FUN_00508d70_shell::FUN_00508d70()
@@ -793,7 +305,6 @@ bool FUN_00508d70_shell::FUN_00508d70()
     return (m_uiFormFlags & 0x2000) ? true : false;
 }
 
-void __fastcall RemoveAllLists(void*);
 
 struct FUN_0061c190
 {
@@ -804,36 +315,14 @@ struct FUN_0061c190
     ~FUN_0061c190();
 };
 
-// Destructor that calls RemoveAllLists on this object.
-// @fnv 0x0061c190
-FUN_0061c190::~FUN_0061c190()
-{
-    RemoveAllLists(this);
-}
-
 struct FUN_0061cc60_node
 {
-    void AppendResponse(int);
 };
 struct FUN_0061cc60_holder
 {
     FUN_0061cc60_node* head;
-    void AddNode(int a);
+    void AddNode(std::intptr_t a);
 };
-// If head is null, stores a as the head node; otherwise forwards a to head->AppendResponse.
-// @fnv 0x0061cc60
-void FUN_0061cc60_holder::AddNode(int pNode)
-{
-    if (head == 0)
-    {
-        head = (FUN_0061cc60_node*)pNode;
-    }
-    else
-    {
-        head->AppendResponse(pNode);
-    }
-}
-
 struct RecursiveSpinLock
 {
     int x[2];
@@ -855,16 +344,147 @@ struct FUN_0061cfd0_shell : public TESTopicInfo
 {
     void FUN_0061cfd0(char*);
 };
+// @fnv 0x0061dbd0
+bool TESTopicInfo::LoadForm(TESFile* file)
+{
+    unsigned int previousInfoID;
+    int responseCount;
+    {
+        unsigned char m_ucFormType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
+        if (m_ucFormType != kTopicInfoFormType)
+            return false;
+        if (!file->GetOptimizedFile())
+            m_ulTopicFlags = file->GetOffset();
+        previousInfoID = kNoPreviousTopicInfo;
+        struct TopicRecord
+        {
+            int chunk;
+            unsigned int uiChunkType;
+        } record;
+        record.uiChunkType = 0;
+        reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+        responseCount = 0;
+        while (record.chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
+        {
+            switch (record.chunk)
+            {
+            case kConditionDataChunk:
+                reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()->Load(file);
+                break;
+            case kPreviousTopicInfoChunk:
+                file->GetChunkData(&previousInfoID);
+                if (previousInfoID)
+                    ::ResolveFormID((unsigned int *)&(previousInfoID), file);
+                break;
+            case kTopicInfoDataChunk:
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&m_Data), sizeof(m_Data));
+                if (m_Data.type >= DIALOGUE_TYPE_DIALOGUE_TYPE_COUNT)
+                    MarkForDeletion(true);
+                if (m_Data.type == DIALOGUE_TYPE_DT_CONVERSATION)
+                    SetTopicInfoData(0);
+                break;
+            case kAdditionalTopicChunk: {
+                unsigned int topicID = 0;
+                file->GetChunkData(&topicID);
+                reinterpret_cast<::Callees *>((GetAddTopicList()))->FUN_00905820((void *)&(const ::TESTopic *const &)(reinterpret_cast<TESTopic*>(topicID)));
+                break;
+            }
+            case kTopicInfoQuestChunk:
+                file->GetChunkData(&record.uiChunkType);
+                ::ResolveFormID((unsigned int *)&(record.uiChunkType), file);
+                break;
+            case kConversationLinkToChunk: {
+                if (!((::TESTopicInfoData *)(::GetField38((char *)this))))
+                    SetTopicInfoData(0);
+                unsigned int topicID = 0;
+                file->GetChunkData(&topicID);
+                reinterpret_cast<::Callees *>((((::TESTopicInfoData *)(::GetField38((char *)this)))->GetLinkToList()))->FUN_00905820((void *)&(const ::TESTopic *const &)(reinterpret_cast<TESTopic*>(topicID)));
+                break;
+            }
+            case kConversationLinkFromChunk: {
+                if (!((::TESTopicInfoData *)(::GetField38((char *)this))))
+                    SetTopicInfoData(0);
+                unsigned int topicID = 0;
+                file->GetChunkData(&topicID);
+                reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESTopic *> *)((void *)(((::TESTopicInfoData *)(::GetField38((char *)this))))))))->FUN_00905820((void *)&(const ::TESTopic *const &)(reinterpret_cast<TESTopic*>(topicID)));
+                break;
+            }
+            case kConversationFollowUpChunk: {
+                if (!((::TESTopicInfoData *)(::GetField38((char *)this))))
+                    SetTopicInfoData(0);
+                unsigned int infoID = 0;
+                file->GetChunkData(&infoID);
+                reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESTopicInfo *> *)(::FUN_00460140((std::intptr_t)(((::TESTopicInfoData *)(::GetField38((char *)this)))))))))->FUN_00905820((void *)&(const ::TESTopicInfo *const &)(reinterpret_cast<TESTopicInfo*>(infoID)));
+                break;
+            }
+            case kTopicInfoPromptChunk: {
+                char prompt[kTopicInfoPromptReadSize];
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(prompt), sizeof(prompt));
+                reinterpret_cast<::FUN_0061cfd0_shell *>(this)->FUN_0061cfd0((char *)(prompt));
+                break;
+            }
+            case kTopicInfoPerkSkillChunk: {
+                unsigned int formID = 0;
+                file->GetChunkData(&formID);
+                m_pPerkSkillStat = reinterpret_cast<TESForm*>(formID);
+                break;
+            }
+            case kTopicInfoSpeakerChunk: {
+                unsigned int speakerID = 0;
+                file->GetChunkData(&speakerID);
+                m_pDialogueSpeaker = reinterpret_cast<TESActorBase*>(speakerID);
+                break;
+            }
+            case kTopicInfoDifficultyChunk: {
+                unsigned int difficulty;
+                file->GetChunkData(&difficulty);
+                if (difficulty < SPEECH_CHALLENGE_LEVEL_SCL_COUNT)
+                    reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((*(::TESObjectREFR * *)&(const ::SPEECH_CHALLENGE_LEVEL &)(static_cast<SPEECH_CHALLENGE_LEVEL>(difficulty))));
+                if (m_eDifficultyLevel == SPEECH_CHALLENGE_LEVEL_SCL_NONE)
+                    m_eDifficultyLevel = SPEECH_CHALLENGE_LEVEL_SCL_VERYEASY;
+                break;
+            }
+            }
+            if (!file->NextChunk())
+                break;
+        }
+        if (m_Data.type == DIALOGUE_TYPE_DT_PERSUASION)
+            m_Data.type = DIALOGUE_TYPE_DT_TOPIC;
+        if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)this)->FUN_00440d80())
+        {
+            if (!reinterpret_cast<::TopicMethods *>((g_loadingTopic))->AddTopicInfo(reinterpret_cast<TESQuest*>(record.uiChunkType), this, previousInfoID))
+                ::FUN_005b5e40();
+        }
+        return true;
+    }
+}
+// Clears m_Data and the topic-info fields, sets the form type, prompt, speaker, actor value, perk and difficulty level to defaults.
+// @fnv 0x0061cf40
+void TESTopicInfo::InitializeComponent()
+{
+    memset(&m_Data, 0, sizeof(m_Data));
+    m_ulTopicFlags = 0;
+    m_bGoodbye = false;
+    m_uiInfoIndex = kInvalidTopicInfoIndex;
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(static_cast<ENUM_FORM_ID>(kTopicInfoFormType))));
+    m_pResponseData = 0;
+    m_pOwnerQuest = 0;
+    reinterpret_cast<::FUN_0061cfd0_shell *>(this)->FUN_0061cfd0((char *)(::DAT_01011584));
+    reinterpret_cast<::FUN_00409480_shell *>(this)->FUN_00409480(0);
+    reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(::ActorValueInfo *)(0));
+    reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(::BGSPerk *)(0));
+    reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((*(::TESObjectREFR * *)&(const ::SPEECH_CHALLENGE_LEVEL &)(SPEECH_CHALLENGE_LEVEL_SCL_VERYEASY)));
+}
 
 // @fnv 0x0061cfd0
 void FUN_0061cfd0_shell::FUN_0061cfd0(char* apPrompt)
 {
-    reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 0x28)->Set(apPrompt, 0);
+    reinterpret_cast<::TextString *>((&this->m_kPrompt))->FUN_004037f0(apPrompt, 0);
 }
 
 // Reads the flags byte at offset 0x26 and returns 1 if bit 0x10 is set, 3 if bit 0x20 is set, otherwise 2.
 // @fnv 0x0061e720
-int __fastcall FUN_0061e720(const char* pThis)
+int FUN_0061e720(const char* pThis)
 {
     return (pThis[0x26] & 0x10) ? 1 : ((pThis[0x26] & 0x20) ? 3 : 2);
 }
@@ -888,7 +508,7 @@ struct FUN_0061eb40_shell : public TESResponse
 // @fnv 0x0061eb40
 void FUN_0061eb40_shell::FUN_0061eb40(char* apResponseText)
 {
-    reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 0x18)->Set(apResponseText, 0);
+    reinterpret_cast<::TextString *>((&this->m_kResponseText))->FUN_004037f0(apResponseText, 0);
 }
 
 struct FUN_0061f260_shell : public TESTopicInfo
@@ -899,7 +519,7 @@ struct FUN_0061f260_shell : public TESTopicInfo
 // @fnv 0x0061f260
 bool FUN_0061f260_shell::FUN_0061f260()
 {
-    return (bool)(*reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x25) & 0x10);
+    return (bool)(this->m_Data.flags & 0x10);
 }
 
 struct FUN_0061f340_shell : public TESTopicInfo
@@ -910,36 +530,32 @@ struct FUN_0061f340_shell : public TESTopicInfo
 // @fnv 0x0061f340
 void FUN_0061f340_shell::FUN_0061f340(unsigned short usIndex)
 {
-    *(unsigned short*)((char*)this + 0x20) = usIndex;
+    this->m_uiInfoIndex = usIndex;
 }
 
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
-    void FUN_0083dec0();
 };
 struct DelStandIn
 {
-    void* DestroyAndFree(unsigned int flags);
+    void* DestroyAndFree_0061cb30(unsigned int flags);
 };
 // Runs the destructor on this, then frees this when flags has bit 0 set, and returns this.
 // @fnv 0x0061cb30
-void* DelStandIn::DestroyAndFree(unsigned int flags)
+void* DelStandIn::DestroyAndFree_0061cb30(unsigned int flags)
 {
-    ((DtorStandIn*)this)->FUN_0083dec0();
+    reinterpret_cast<::TESResponse *>((((DtorStandIn*)this)))->TESResponse::~TESResponse();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
 
 namespace fnv_0061d110 {
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
-    void FUN_0083dec0();
 };
 struct DelStandIn
 {
@@ -949,9 +565,9 @@ struct DelStandIn
 // @fnv 0x0061d110
 void* DelStandIn::DestroyAndDeallocate(unsigned int flags)
 {
-    ((DtorStandIn*)this)->FUN_0083dec0();
+    reinterpret_cast<::FUN_0061c190 *>((((DtorStandIn*)this)))->FUN_0061c190::~FUN_0061c190();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
@@ -959,7 +575,6 @@ void* DelStandIn::DestroyAndDeallocate(unsigned int flags)
 
 struct List_009e03e0
 {
-    void RemoveAll();
 };
 
 struct FUN_0061c330_shell
@@ -970,23 +585,29 @@ struct FUN_0061c330_shell
     List_009e03e0 m_list16;
     void RemoveAllLists();
 };
+// Destructor that calls RemoveAllLists on this object.
+// @fnv 0x0061c190
+FUN_0061c190::~FUN_0061c190()
+{
+    reinterpret_cast<::FUN_0061c330_shell *>((this))->RemoveAllLists();
+}
 
 // Calls RemoveAll on the list at offset 8, on this object's own list, and on the list at offset 0x10.
 // @fnv 0x0061c330
 void FUN_0061c330_shell::RemoveAllLists()
 {
-    m_list8.RemoveAll();
-    ((List_009e03e0*)this)->RemoveAll();
-    ((List_009e03e0*)((char*)this + 0x10))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_list8))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((List_009e03e0*)this)))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((List_009e03e0*)((char*)this + 0x10))))->RemoveAll();
 }
 
-struct FUN_0061cc40_shell
+struct FUN_0061cc40_shell : ::TESTopicInfo
 {
-    void FUN_0061cc40(int askilllevel);
+    void FUN_0061cc40(std::intptr_t askilllevel);
 };
 
 // @fnv 0x0061cc40
-void FUN_0061cc40_shell::FUN_0061cc40(int askilllevel)
+void FUN_0061cc40_shell::FUN_0061cc40(std::intptr_t askilllevel)
 {
     reinterpret_cast<int*>(this)[10] = askilllevel;
 }
@@ -995,15 +616,28 @@ struct FUN_0061cc90_shell : TESResponse
 {
     void AppendResponse(TESResponse* a);
 };
+// If head is null, stores a as the head node; otherwise forwards a to head->AppendResponse.
+// @fnv 0x0061cc60
+void FUN_0061cc60_holder::AddNode(std::intptr_t pNode)
+{
+    if (head == 0)
+    {
+        head = (FUN_0061cc60_node*)pNode;
+    }
+    else
+    {
+        reinterpret_cast<::FUN_0061cc90_shell *>((head))->AppendResponse((::TESResponse *)(pNode));
+    }
+}
 
 // Walks the response chain to its last node and links the given response onto the end of it.
 // @fnv 0x0061cc90
-void __thiscall FUN_0061cc90_shell::AppendResponse(TESResponse* apResponse)
+void FUN_0061cc90_shell::AppendResponse(TESResponse* apResponse)
 {
     TESResponse* next = this;
-    while (next->GetNext() != 0)
+    while (((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((next))->FUN_0045cd60())) != 0)
     {
-        next = next->GetNext();
+        next = ((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((next))->FUN_0045cd60()));
     }
     next->pNext = apResponse;
 }
@@ -1024,39 +658,40 @@ char* FUN_0061e5e0_shell::GetFieldPtr()
 
 struct TESFormStub
 {
-    void __thiscall FUN_00484c50(unsigned int, unsigned int);
 };
 
-struct FUN_0061dad0_shell
+struct FUN_0061dad0_shell : ::TESTopicInfo
 {
-    void __thiscall FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurrentFlags);
+    void FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurrentFlags);
 };
 
 // @fnv 0x0061dad0
-void __thiscall FUN_0061dad0_shell::FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurrentFlags)
+void FUN_0061dad0_shell::FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurrentFlags)
 {
-    ((TESFormStub*)this)->FUN_00484c50(aiFlags, aiCurrentFlags);
+    reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((((TESFormStub*)this)))->FUN_00484c50(aiFlags, aiCurrentFlags);
     if (aiFlags & 0x80000000)
-        ((unsigned char*)this)[0x22] = 1;
+        (*(unsigned char*)&this->m_bGoodbye) = 1;
 }
 
-struct FUN_0061db00_shell : TESForm
+struct FUN_0061db00_shell : ::TESTopicInfo
 {
-    void Revert(unsigned int);
+    void Revert(std::uintptr_t);
 };
 
 // Calls TESForm::Revert with the given buffer and, if the high bit of aiFlags is set, clears byte at offset 0x22.
 // @fnv 0x0061db00
-void FUN_0061db00_shell::Revert(unsigned int aiFlags)
+void FUN_0061db00_shell::Revert(std::uintptr_t aiFlags)
 {
-    TESForm::Revert((BGSLoadFormBuffer*)aiFlags);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)((BGSLoadFormBuffer*)aiFlags));
     if (aiFlags & 0x80000000)
-        ((char*)this)[0x22] = 0;
+        (*(char*)&this->m_bGoodbye) = 0;
 }
 
+namespace ActorValue { enum Index; }
 struct TESRecipe
 {
-    void SetSkillLevel(int);
+public:
+    void SetRequiredSkill(::ActorValue::Index);
 };
 
 struct FUN_006174d0_shell
@@ -1068,6 +703,112 @@ struct FUN_0061cb60_shell : TESResponseList
 {
     void FUN_0061cb60(TESResponse* head);
 };
+// Loads TESResponse records from the file's response chunk into list or g_topicInfoResponses, caching this as g_cachedResponseInfo when list is null.
+// @fnv 0x0061e780
+TESResponseList* TESTopicInfo::DuplicateResponseList(TESResponseList* pResponseList)
+{
+    unsigned char form;
+    {
+        struct ResponseRead
+        {
+            TESResponse* response;
+            int chunk;
+            TESFile* file;
+        } responseReader;
+        if (this == g_cachedResponseInfo)
+        {
+            if (pResponseList)
+            {
+                reinterpret_cast<::FUN_0061cb60_shell *>((pResponseList))->FUN_0061cb60(((::TESResponse *)(::FUN_00559450((int *)&((*reinterpret_cast<::TESResponseList *>(&::g_011cc07c)))))));
+                return pResponseList;
+            }
+            else
+                return &(*reinterpret_cast<::TESResponseList *>(&::g_011cc07c));
+        }
+        if (!pResponseList)
+        {
+            g_cachedResponseInfo = this;
+            ClearResponses();
+        }
+        responseReader.file = GetFile(-1);
+        if (!responseReader.file || !m_ulTopicFlags)
+            return pResponseList ? pResponseList : &(*reinterpret_cast<::TESResponseList *>(&::g_011cc07c));
+        responseReader.file = responseReader.file->GetParentTESFile();
+        if (!reinterpret_cast<::TESOffsetWorker *>((responseReader.file))->FUN_004723a0(m_ulTopicFlags))
+            return pResponseList ? pResponseList : &(*reinterpret_cast<::TESResponseList *>(&::g_011cc07c));
+        form = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((responseReader.file))->FUN_00472660()));
+        if (form != kTopicInfoFormType)
+            return pResponseList ? pResponseList : &(*reinterpret_cast<::TESResponseList *>(&::g_011cc07c));
+        responseReader.response = 0;
+        while (responseReader.chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((responseReader.file))->FUN_004726b0())))
+        {
+            switch (responseReader.chunk)
+            {
+            case 0x54445254:  // TRDT reader.response data
+                responseReader.response = new TESResponse;
+                responseReader.response->Load(responseReader.file);
+                responseReader.response->InitItem(this);
+                if (pResponseList)
+                    reinterpret_cast<::FUN_0061cc60_holder *>((pResponseList))->AddNode((std::intptr_t)(responseReader.response));
+                else
+                    reinterpret_cast<::FUN_0061cc60_holder *>(&((*reinterpret_cast<::TESResponseList *>(&::g_011cc07c))))->AddNode((std::intptr_t)(responseReader.response));
+                break;
+            case 0x314d414e:  // NAM1 reader.response text
+                if (responseReader.response)
+                {
+                    unsigned int size = reinterpret_cast<::FUN_00401660_Class *>((responseReader.file))->GetField25C();
+                    char* text = static_cast<char*>(_alloca(size));
+                    reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((responseReader.file))->FUN_00472890((char *)(text), size);
+                    reinterpret_cast<::FUN_0061eb40_shell *>((responseReader.response))->FUN_0061eb40((char *)(text));
+                }
+                break;
+            case 0x4d414e53:  // SNAM speaker idle
+                if (responseReader.response)
+                {
+                    struct IdleReference
+                    {
+                        unsigned int formID;
+                        TESForm* form;
+                    } reference;
+                    reference.formID = 0;
+                    responseReader.file->GetChunkData(&reference.formID);
+                    ::ResolveFormID((unsigned int *)&(reference.formID), responseReader.file);
+                    TESIdleForm* idle = 0;
+                    reference.form = ::FUN_004839c0(reference.formID);
+                    if (reference.form && reference.form->GetFormType() == 72)
+                        idle = static_cast<TESIdleForm*>(reference.form);
+                    if (reference.formID && !idle)
+                        ::FUN_005b5e40();
+                    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((responseReader.response))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(idle));
+                }
+                break;
+            case 0x4d414e4c:  // LNAM listener idle
+                if (responseReader.response)
+                {
+                    struct IdleReference
+                    {
+                        unsigned int formID;
+                        TESForm* form;
+                    } reference;
+                    reference.formID = 0;
+                    responseReader.file->GetChunkData(&reference.formID);
+                    ::ResolveFormID((unsigned int *)&(reference.formID), responseReader.file);
+                    TESIdleForm* idle = 0;
+                    reference.form = ::FUN_004839c0(reference.formID);
+                    if (reference.form && reference.form->GetFormType() == 72)
+                        idle = static_cast<TESIdleForm*>(reference.form);
+                    if (reference.formID && !idle)
+                        ::FUN_005b5e40();
+                    responseReader.response->m_pSecondIdleForm = idle;
+                }
+                break;
+            }
+            if (!responseReader.file->NextChunk())
+                break;
+        }
+        return pResponseList ? pResponseList : &(*reinterpret_cast<::TESResponseList *>(&::g_011cc07c));
+    }
+}
 
 // @fnv 0x0061cb60
 void FUN_0061cb60_shell::FUN_0061cb60(TESResponse* head)
@@ -1079,11 +820,11 @@ void FUN_0061cb60_shell::FUN_0061cb60(TESResponse* head)
         TESResponse* response = new TESResponse;
         ((FUN_006174d0_shell*)response)->CopyResponse(head);
         if (previous)
-            ((TESRecipe*)previous)->SetSkillLevel((int)response);
+            reinterpret_cast<::FUN_0061cc40_shell *>((((TESRecipe*)previous)))->FUN_0061cc40((std::intptr_t)response);
         else
-            AddTail(response);
+            reinterpret_cast<::FUN_0061cc60_holder *>(this)->AddNode((std::intptr_t)(response));
         previous = response;
-        head = head->GetNext();
+        head = ((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((head))->FUN_0045cd60()));
     }
 }
 
@@ -1095,26 +836,26 @@ struct FUN_0061d6a0_shell : public TESTopicInfo
 // @fnv 0x0061d6a0
 void FUN_0061d6a0_shell::FUN_0061d6a0(bool set)
 {
-    if (!IsTemporary() && set && IsFormInitialized())
+    if (!reinterpret_cast<::FUN_004077c0_shell *>((void *)this)->FUN_004077c0() && set && reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
     {
-        TESTopic* owner = TESTopic::GetTopicFromInfo(this);
+        TESTopic* owner = ::fnv_0061a310::FindTopicByInfo(this);
         if (owner)
             owner->SetAltered(true);
     }
-    TESForm::SetAltered(set);
+    reinterpret_cast<::fnv_00484730::FUN_00484730_shell *>(this)->FUN_00484730(set);
 }
 
 extern "C" void* _data_011c16bc;
 struct FUN_00680a70_shell
 {
-    void __thiscall CopyConditions(PerkEntryConditionSet* dst, PerkEntryConditionSet* src);
+    void CopyConditions(PerkEntryConditionSet* dst, PerkEntryConditionSet* src);
 };
 struct FUN_0061e0f0_shell : TESTopicInfo
 {
-    void __thiscall FUN_0061e0f0(PerkEntryConditionSet* apCond);
+    void FUN_0061e0f0(PerkEntryConditionSet* apCond);
 };
 // @fnv 0x0061e0f0
-void __thiscall FUN_0061e0f0_shell::FUN_0061e0f0(PerkEntryConditionSet* apCond)
+void FUN_0061e0f0_shell::FUN_0061e0f0(PerkEntryConditionSet* apCond)
 {
     if (apCond)
         ((FUN_00680a70_shell*)((char*)this + 0x18))->CopyConditions(apCond, (PerkEntryConditionSet*)this);
@@ -1127,7 +868,6 @@ void __thiscall FUN_0061e0f0_shell::FUN_0061e0f0(PerkEntryConditionSet* apCond)
 
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
 struct BSStringT_char
 {
@@ -1135,25 +875,308 @@ struct BSStringT_char
 };
 struct TESResponse_shell : TESResponse
 {
-    const char* GetDialogueText();
 };
 struct FUN_0061e2b0_shell : TESTopicInfo
 {
     void BuildResponseText(BSStringT<char>& text, bool firstOnly);
 };
+// @fnv 0x0061d290
+void TESTopicInfo::InitItem()
+{
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
+        return;
+    TESFile* pFile = GetFile(-1);
+    {
+        BSSimpleList<TESTopic*>* previous = 0;
+        TESResponse* pResponse;
+        {
+            BSSimpleList<TESTopic*>* pTopics = GetAddTopicList();
+            while (pTopics && (pTopics->m_item))
+            {
+                unsigned int formID = (unsigned int)(std::uintptr_t)((pTopics->m_item));
+                ::ResolveFormID((unsigned int *)&(formID), pFile);
+                TESTopic* topic = dynamic_cast<TESTopic*>(::FUN_004839c0(formID));
+                if (!topic)
+                {
+                    if (((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((pTopics))->FUN_00726070())) || !previous)
+                        pTopics->RemoveHead();
+                    else
+                    {
+                        reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((const ::TESTopic *const &)(reinterpret_cast<TESTopic*>(formID))));
+                        pTopics = ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+                    }
+                    TESTopic* ownerTopic = ::fnv_0061a310::FindTopicByInfo(this);
+                    TESQuest* ownerQuest = 0;
+                    if (ownerTopic)
+                        ownerQuest = reinterpret_cast<::FUN_00619d00_shell *>((ownerTopic))->FindQuestForTopicInfo(this);
+                    {
+                        BSStringT<char> text;
+                        reinterpret_cast<::FUN_0061e2b0_shell *>(this)->BuildResponseText(text, true);
+                        char description[260];
+                        if (ownerTopic && ownerQuest)
+                            sprintf(description, "TopicInfo %08X \"%s\" in Quest %s (%08x) Topic %s (%08x)",
+                                    ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())), ((const char *)(::FUN_00559450((int *)&(text)))), ownerQuest->GetEditorName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((ownerQuest))->FUN_0084e3a0())),
+                                    ownerTopic->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((ownerTopic))->FUN_0084e3a0())));
+                        else
+                            sprintf(description, "TopicInfo %08X \"%s\"", ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())), ((const char *)(::FUN_00559450((int *)&(text)))));
+                        ::FUN_005b5e40();
+                    }
+                }
+                else
+                {
+                    pTopics->SetItem(topic);
+                    previous = pTopics;
+                    pTopics = ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((pTopics))->FUN_00726070()));
+                }
+            }
+            unsigned int speakerID = (unsigned int)(std::uintptr_t)(((::TESActorBase *)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())));
+            if (speakerID)
+            {
+                ::ResolveFormID((unsigned int *)&(speakerID), GetFile(-1));
+                reinterpret_cast<::FUN_00409480_shell *>(this)->FUN_00409480(dynamic_cast<TESActorBase*>(::FUN_004839c0(speakerID)));
+            }
+            if (reinterpret_cast<::BGSCameraPath *>(this)->GetConditions())
+                reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()->InitItem(this);
+            if (((::TESTopicInfoData *)(::GetField38((char *)this))))
+                ((::TESTopicInfoData *)(::GetField38((char *)this)))->InitItem(this);
+            pResponse = ((::TESResponse *)(::FUN_00559450((int *)&((*reinterpret_cast<::TESResponseList *>(&::g_011cc07c))))));
+            while (pResponse)
+            {
+                pResponse->InitItem(this);
+                pResponse = ((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((pResponse))->FUN_0045cd60()));
+            }
+            if (m_pPerkSkillStat)
+            {
+                struct PerkSkillResolution
+                {
+                    unsigned int formID;
+                    TESForm* form;
+                    ActorValueInfo* actorValue;
+                } resolved;
+                resolved.formID = (unsigned int)(std::uintptr_t)(m_pPerkSkillStat);
+                ::ResolveFormID((unsigned int *)&(resolved.formID), GetFile(-1));
+                resolved.form = ::FUN_004839c0(resolved.formID);
+                resolved.actorValue = dynamic_cast<ActorValueInfo*>(resolved.form);
+                if (resolved.actorValue)
+                    m_pPerkSkillStat = resolved.actorValue;
+                else
+                {
+                    BGSPerk* perk = dynamic_cast<BGSPerk*>(resolved.form);
+                    m_pPerkSkillStat = perk;
+                }
+            }
+            SetInitializationState(true);
+        }
+    }
+}
+// @fnv 0x0061c360
+void TESTopicInfoData::InitItem(TESForm* owner)
+{
+    BSSimpleList<TESTopic*>* pPreviousTopic = 0;
+    BSSimpleList<TESTopic*>* pTopicList = GetLinkToList();
+    TESFile* pFile = owner ? owner->GetFile(-1) : 0;
+    {
+        struct InfoCursor
+        {
+            BSSimpleList<TESTopicInfo*>* current;
+            BSSimpleList<TESTopicInfo*>* previous;
+        } infoCursor;
+
+        while (pTopicList && (pTopicList->m_item))
+        {
+            struct TopicResolution
+            {
+                TESTopic* topic;
+                unsigned int formID;
+                TESForm* form;
+            } resolved;
+            resolved.formID = (unsigned int)(std::uintptr_t)((pTopicList->m_item));
+            ::ResolveFormID((unsigned int *)&(resolved.formID), pFile);
+            resolved.topic = 0;
+            resolved.form = ::FUN_004839c0(resolved.formID);
+            if (resolved.form && resolved.form->GetFormType() == ENUM_FORM_ID_DIAL_ID)
+                resolved.topic = static_cast<TESTopic*>(resolved.form);
+
+            if (!resolved.topic)
+            {
+                if (((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((pTopicList))->FUN_00726070())) || !pPreviousTopic)
+                    pTopicList->RemoveHead();
+                else
+                {
+                    reinterpret_cast<::ItemChangeListNode *>((pPreviousTopic))->FUN_00905330((::InventoryStackRecord *const &)((const ::TESTopic *const &)(reinterpret_cast<TESTopic*>(resolved.formID))));
+                    pTopicList = ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((pPreviousTopic))->FUN_00726070()));
+                }
+
+                struct DiagnosticContext
+                {
+                    TESTopicInfo* info;
+                    TESTopic* topic;
+                    TESQuest* quest;
+                } context;
+                context.info = 0;
+                if (owner && owner->GetFormType() == ENUM_FORM_ID_INFO_ID)
+                    context.info = static_cast<TESTopicInfo*>(owner);
+                context.topic = ::fnv_0061a310::FindTopicByInfo(context.info);
+                context.quest = 0;
+                if (context.topic)
+                    context.quest = reinterpret_cast<::FUN_00619d00_shell *>((context.topic))->FindQuestForTopicInfo(context.info);
+                {
+                    BSStringT<char> text;
+                    reinterpret_cast<::FUN_0061e2b0_shell *>((context.info))->BuildResponseText(text, true);
+                    char description[1024];
+                    if (context.topic && context.quest)
+                        sprintf(description, "TopicInfo %08X \"%s\" in Quest %s (%08x) Topic %s (%08x)",
+                                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.info))->FUN_0084e3a0())), ((const char *)(::FUN_00559450((int *)&(text)))), context.quest->GetEditorName(),
+                                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.quest))->FUN_0084e3a0())), context.topic->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.topic))->FUN_0084e3a0())));
+                    else
+                        sprintf(description, "TopicInfo %08X \"%s\"", ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.info))->FUN_0084e3a0())), ((const char *)(::FUN_00559450((int *)&(text)))));
+                    ::FUN_005b5e40();
+                }
+            }
+            else
+            {
+                pTopicList->SetItem(resolved.topic);
+                pPreviousTopic = pTopicList;
+                pTopicList = ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((pTopicList))->FUN_00726070()));
+            }
+        }
+
+        pPreviousTopic = 0;
+        pTopicList = ((::BSSimpleList< ::TESTopic *> *)((void *)this));
+        while (pTopicList && (pTopicList->m_item))
+        {
+            struct TopicResolution
+            {
+                TESTopic* topic;
+                unsigned int formID;
+                TESForm* form;
+            } resolved;
+            resolved.formID = (unsigned int)(std::uintptr_t)((pTopicList->m_item));
+            ::ResolveFormID((unsigned int *)&(resolved.formID), pFile);
+            resolved.topic = 0;
+            resolved.form = ::FUN_004839c0(resolved.formID);
+            if (resolved.form && resolved.form->GetFormType() == ENUM_FORM_ID_DIAL_ID)
+                resolved.topic = static_cast<TESTopic*>(resolved.form);
+
+            if (!resolved.topic)
+            {
+                if (((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((pTopicList))->FUN_00726070())) || !pPreviousTopic)
+                    pTopicList->RemoveHead();
+                else
+                {
+                    reinterpret_cast<::ItemChangeListNode *>((pPreviousTopic))->FUN_00905330((::InventoryStackRecord *const &)((const ::TESTopic *const &)(reinterpret_cast<TESTopic*>(resolved.formID))));
+                    pTopicList = ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((pPreviousTopic))->FUN_00726070()));
+                }
+
+                struct DiagnosticContext
+                {
+                    TESTopicInfo* info;
+                    TESTopic* topic;
+                    TESQuest* quest;
+                } context;
+                context.info = 0;
+                if (owner && owner->GetFormType() == ENUM_FORM_ID_INFO_ID)
+                    context.info = static_cast<TESTopicInfo*>(owner);
+                context.topic = ::fnv_0061a310::FindTopicByInfo(context.info);
+                context.quest = 0;
+                if (context.topic)
+                    context.quest = reinterpret_cast<::FUN_00619d00_shell *>((context.topic))->FindQuestForTopicInfo(context.info);
+                {
+                    BSStringT<char> text;
+                    reinterpret_cast<::FUN_0061e2b0_shell *>((context.info))->BuildResponseText(text, true);
+                    char description[1024];
+                    if (context.topic && context.quest)
+                        sprintf(description, "TopicInfo %08X \"%s\" in Quest %s (%08x) Topic %s (%08x)",
+                                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.info))->FUN_0084e3a0())), ((const char *)(::FUN_00559450((int *)&(text)))), context.quest->GetEditorName(),
+                                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.quest))->FUN_0084e3a0())), context.topic->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.topic))->FUN_0084e3a0())));
+                    else
+                        sprintf(description, "TopicInfo %08X \"%s\"", ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.info))->FUN_0084e3a0())), ((const char *)(::FUN_00559450((int *)&(text)))));
+                    ::FUN_005b5e40();
+                }
+            }
+            else
+            {
+                pTopicList->SetItem(resolved.topic);
+                pPreviousTopic = pTopicList;
+                pTopicList = ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((pTopicList))->FUN_00726070()));
+            }
+        }
+
+        infoCursor.current = ((::BSSimpleList< ::TESTopicInfo *> *)(::FUN_00460140((std::intptr_t)this)));
+        infoCursor.previous = 0;
+        while (infoCursor.current && (infoCursor.current->m_item))
+        {
+            struct InfoResolution
+            {
+                TESTopicInfo* followUp;
+                unsigned int formID;
+                TESForm* form;
+            } resolved;
+            resolved.formID = (unsigned int)(std::uintptr_t)((infoCursor.current->m_item));
+            ::ResolveFormID((unsigned int *)&(resolved.formID), pFile);
+            resolved.followUp = 0;
+            resolved.form = ::FUN_004839c0(resolved.formID);
+            if (resolved.form && resolved.form->GetFormType() == ENUM_FORM_ID_INFO_ID)
+                resolved.followUp = static_cast<TESTopicInfo*>(resolved.form);
+
+            if (!resolved.followUp)
+            {
+                if (((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((infoCursor.current))->FUN_00726070())) || !infoCursor.previous)
+                    infoCursor.current->RemoveHead();
+                else
+                {
+                    reinterpret_cast<::ItemChangeListNode *>((infoCursor.previous))->FUN_00905330((::InventoryStackRecord *const &)((const ::TESTopicInfo *const &)(reinterpret_cast<TESTopicInfo*>(resolved.formID))));
+                    infoCursor.current = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((infoCursor.previous))->FUN_00726070()));
+                }
+
+                struct DiagnosticContext
+                {
+                    TESTopicInfo* info;
+                    TESTopic* topic;
+                    TESQuest* quest;
+                } context;
+                context.info = 0;
+                if (owner && owner->GetFormType() == ENUM_FORM_ID_INFO_ID)
+                    context.info = static_cast<TESTopicInfo*>(owner);
+                context.topic = ::fnv_0061a310::FindTopicByInfo(context.info);
+                context.quest = 0;
+                if (context.topic)
+                    context.quest = reinterpret_cast<::FUN_00619d00_shell *>((context.topic))->FindQuestForTopicInfo(context.info);
+                {
+                    BSStringT<char> text;
+                    reinterpret_cast<::FUN_0061e2b0_shell *>((context.info))->BuildResponseText(text, true);
+                    char description[1024];
+                    if (context.topic && context.quest)
+                        sprintf(description, "TopicInfo %08X \"%s\" in Quest %s (%08x) Topic %s (%08x)",
+                                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.info))->FUN_0084e3a0())), ((const char *)(::FUN_00559450((int *)&(text)))), context.quest->GetEditorName(),
+                                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.quest))->FUN_0084e3a0())), context.topic->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.topic))->FUN_0084e3a0())));
+                    else
+                        sprintf(description, "TopicInfo %08X \"%s\"", ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((context.info))->FUN_0084e3a0())), ((const char *)(::FUN_00559450((int *)&(text)))));
+                    ::FUN_005b5e40();
+                }
+            }
+            else
+            {
+                infoCursor.current->SetItem(resolved.followUp);
+                infoCursor.previous = infoCursor.current;
+                infoCursor.current = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((infoCursor.current))->FUN_00726070()));
+            }
+        }
+    }
+}
 // @fnv 0x0061e2b0
 void FUN_0061e2b0_shell::BuildResponseText(BSStringT<char>& text, bool firstOnly)
 {
-    ((BSStr*)&text)->Set(0, 0);
-    TESResponse* response = DuplicateResponseList(0)->QResponseList();
+    reinterpret_cast<::TextString *>((((BSStr*)&text)))->FUN_004037f0(0, 0);
+    TESResponse* response = ((::TESResponse *)(::FUN_00559450((int *)(DuplicateResponseList(0)))));
     while (response)
     {
-        ((BSStringT_char*)&text)->operator+=(((TESResponse_shell*)response)->GetDialogueText());
-        if (response->GetNext())
+        ((BSStringT_char*)&text)->operator+=(reinterpret_cast<::TESResponse *>((((TESResponse_shell*)response)))->GetDialogueText());
+        if (((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((response))->FUN_0045cd60())))
             ((BSStringT_char*)&text)->operator+=(" | ");
         if (firstOnly)
             break;
-        response = response->GetNext();
+        response = ((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((response))->FUN_0045cd60()));
     }
 }
 
@@ -1163,6 +1186,17 @@ struct FUN_0061cdc0_shell
     signed char m_flags;  // +0x25
     void FUN_0061cdc0(bool value);
 };
+// @fnv 0x0061ccd0
+TESTopicInfo::TESTopicInfo(DIALOGUE_TYPE type)
+{
+    InitializeComponent();
+    m_Data.type = static_cast<char>(type);
+    if (type == DIALOGUE_TYPE_DT_CONVERSATION)
+    {
+        m_pResponseData = new TESTopicInfoData;
+        reinterpret_cast<::FUN_0061cdc0_shell *>(this)->FUN_0061cdc0(true);
+    }
+}
 
 // @fnv 0x0061cdc0
 void FUN_0061cdc0_shell::FUN_0061cdc0(bool abSet)
@@ -1225,17 +1259,13 @@ void FUN_0061f280_This::FUN_0061f280()
 
 struct GlobalObject2_0040c150
 {
-    int* Int();
 };
-extern GlobalObject2_0040c150 g_011d0dc8;
-int __fastcall FUN_0061e720(const char*);
+int FUN_0061e720(const char*);
 struct CondOps
 {
-    bool ContainsTrait(TESObjectREFR*, TESObjectREFR*, bool&, bool);
 };
 struct QuestOps
 {
-    CondOps* GetConditions();
 };
 struct AVOwner
 {
@@ -1250,8 +1280,6 @@ struct ActorS
 };
 struct FUN_0061e600_t : public TESTopicInfo
 {
-    bool FUN_00619b20();
-    bool IsNew();
     bool FUN_0061e600(bool& rbDeferred, TESQuest* apQuest, TESObjectREFR* apSpeaker, TESObjectREFR* apListener);
 };
 
@@ -1261,16 +1289,16 @@ bool FUN_0061e600_t::FUN_0061e600(bool& rbDeferred, TESQuest* apQuest, TESObject
 {
     bool bResult;
     ActorS* pActor;
-    if (IsDeleted())
+    if (reinterpret_cast<::FUN_00440d80_shell *>((void *)this)->FUN_00440d80())
         return false;
-    if (FUN_00619b20() && IsNew())
+    if (reinterpret_cast<::FUN_00619b20_shell *>(this)->FUN_00619b20() && reinterpret_cast<::BSTempEffectDebris *>(this)->ShouldDelete())
         return false;
     {
         int iType = FUN_0061e720((const char*)this);
         pActor = 0;
         if (apListener && ((TESForm*)apListener)->IsActor())
             pActor = (ActorS*)apListener;
-        if (pActor && pActor->avOwner.GetActorValue(9) <= *g_011d0dc8.Int())
+        if (pActor && pActor->avOwner.GetActorValue(9) <= *((int *)&(::FUN_0043d4d0((int *)&(::g_011d0dc8)))))
         {
             if (iType == 3)
                 return false;
@@ -1282,10 +1310,10 @@ bool FUN_0061e600_t::FUN_0061e600(bool& rbDeferred, TESQuest* apQuest, TESObject
             bool bQuestOK = true;
             if (apQuest)
                 bQuestOK =
-                    ((QuestOps*)apQuest)->GetConditions()->ContainsTrait(apSpeaker, apListener, rbDeferred, false);
+                    reinterpret_cast<::PerkEntryConditionSet *>((((::CondOps *)(reinterpret_cast<::TESQuest *>((((QuestOps*)apQuest)))->GetConditions()))))->ContainsTrait(apSpeaker, apListener, rbDeferred, false);
             if (bQuestOK)
                 bResult =
-                    ((CondOps*)((Script*)this)->GetHeader())->ContainsTrait(apSpeaker, apListener, rbDeferred, false);
+                    reinterpret_cast<::PerkEntryConditionSet *>((((CondOps*)((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>((((Script*)this)))->GetConditions())))))->ContainsTrait(apSpeaker, apListener, rbDeferred, false);
         }
     }
     return bResult;
@@ -1325,7 +1353,6 @@ FUN_0061ceb0::~FUN_0061ceb0()
     ((TESTopicInfo*)this)->TESTopicInfo::ClearData();
 }
 
-extern unsigned int kGroupFormType;
 
 struct FUN_00485b60
 {
@@ -1419,9 +1446,9 @@ bool FUN_0061d820_shell::CheckGroupForm(FormRecordHeader* apGroupFORM, bool abAl
     bretval = false;
     if (apGroupFORM)
     {
-        if (reinterpret_cast<unsigned int*>(apGroupFORM)[0] == kGroupFormType)
+        if (reinterpret_cast<unsigned int*>(apGroupFORM)[0] == ::fnv_00543df0::kGroupFormType)
         {
-            pparenttopic = TESTopic::GetTopicFromInfo(reinterpret_cast<TESTopicInfo*>(this));
+            pparenttopic = ::fnv_0061a310::FindTopicByInfo(reinterpret_cast<TESTopicInfo*>(this));
 
             if (pparenttopic)
             {
@@ -1431,9 +1458,9 @@ bool FUN_0061d820_shell::CheckGroupForm(FormRecordHeader* apGroupFORM, bool abAl
                                   ->CheckFormGRUP(apGroupFORM, abAllowParentGroups, abCurrentOnly);
                 }
 
-                if (!bretval && reinterpret_cast<unsigned int*>(apGroupFORM)[3] == 7 &&
+                if (!bretval && apGroupFORM->iFormID == 7 &&
                     reinterpret_cast<FUN_00485b60*>(pparenttopic)
-                        ->FUN_00485be0(reinterpret_cast<unsigned int*>(apGroupFORM)[2]))
+                        ->FUN_00485be0(apGroupFORM->flags))
                 {
                     bretval = true;
                 }
@@ -1446,45 +1473,60 @@ bool FUN_0061d820_shell::CheckGroupForm(FormRecordHeader* apGroupFORM, bool abAl
 
 struct TopicLinkLists
 {
-    BSSimpleList<int>* GetLinkFromList();
-    BSSimpleList<int>* GetLinkToList();
-    BSSimpleList<int>* GetFollowUpList();
-    void ClearLinks();
-    void CopyLinksFrom(int unused, TopicLinkLists* source);
+    void CopyLinksFrom(std::intptr_t unused, TopicLinkLists* source);
 };
+// @fnv 0x0061e180
+void TESTopicInfo::SetTopicInfoData(TESTopicInfoData* data)
+{
+    if (data)
+    {
+        if (!m_pResponseData)
+            m_pResponseData = new TESTopicInfoData;
+        reinterpret_cast<::TopicLinkLists *>((m_pResponseData))->CopyLinksFrom((std::intptr_t)(this), (::TopicLinkLists *)(data));
+    }
+    else
+    {
+        if (m_pResponseData)
+        {
+            delete m_pResponseData;
+            m_pResponseData = 0;
+        }
+        m_pResponseData = new TESTopicInfoData;
+    }
+}
 
 // Clears this object's link lists, then copies the source's from-list, to-list and follow-up-list items into them.
 // @fnv 0x0061c210
-void TopicLinkLists::CopyLinksFrom(int unused, TopicLinkLists* source)
+void TopicLinkLists::CopyLinksFrom(std::intptr_t unused, TopicLinkLists* source)
 {
     if (!source)
         return;
-    ClearLinks();
+    reinterpret_cast<::FUN_0061c330_shell *>(this)->RemoveAllLists();
     int item9;
     {
         BSSimpleList<int>* iter = 0;
         item9 = 0;
-        for (iter = source->GetLinkFromList(); iter && iter->GetItem();)
+        for (iter = ((::BSSimpleList<int> *)(reinterpret_cast<::TESTopicInfoData *>((source))->GetLinkToList())); iter && (iter->m_item);)
         {
-            item9 = iter->GetItem();
-            iter = iter->GetNext();
-            GetLinkFromList()->AddTail(item9);
+            item9 = (iter->m_item);
+            iter = ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
+            reinterpret_cast<::Callees *>((((::BSSimpleList<int> *)(reinterpret_cast<::TESTopicInfoData *>(this)->GetLinkToList()))))->FUN_00905820((void *)&(item9));
         }
-        iter = source->GetLinkToList();
+        iter = ((::BSSimpleList<int> *)((void *)(source)));
         item9 = 0;
-        for (; iter && iter->GetItem();)
+        for (; iter && (iter->m_item);)
         {
-            item9 = iter->GetItem();
-            iter = iter->GetNext();
-            GetLinkToList()->AddTail(item9);
+            item9 = (iter->m_item);
+            iter = ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
+            reinterpret_cast<::Callees *>((((::BSSimpleList<int> *)((void *)this))))->FUN_00905820((void *)&(item9));
         }
     }
-    BSSimpleList<int>* follow2 = source->GetFollowUpList();
+    BSSimpleList<int>* follow2 = ((::BSSimpleList<int> *)(::FUN_00460140((std::intptr_t)(source))));
     int followItem4;
-    while (follow2 && (followItem4 = follow2->GetItem()) != 0)
+    while (follow2 && (followItem4 = (follow2->m_item)) != 0)
     {
-        follow2 = follow2->GetNext();
-        GetFollowUpList()->AddTail(followItem4);
+        follow2 = ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((follow2))->FUN_00726070()));
+        reinterpret_cast<::Callees *>((((::BSSimpleList<int> *)(::FUN_00460140((std::intptr_t)this)))))->FUN_00905820((void *)&(followItem4));
     }
 }
 
@@ -1511,10 +1553,8 @@ struct DialogueTopicCompare
     virtual void Slot14();
     virtual bool Compare(TESTopic*);
 };
-TESTopic* FindTopicByInfo(TESForm*);
 struct TopicInfoCompare : TESTopicInfo
 {
-    bool IsLessThan(TESForm*);
     bool FUN_0061d710(TESForm*);
 };
 // @fnv 0x0061d710
@@ -1527,8 +1567,8 @@ bool TopicInfoCompare::FUN_0061d710(TESForm* form)
         TESTopicInfo* pOtherInfo = dynamic_cast<TESTopicInfo*>(form);
         if (pOtherInfo)
         {
-            TESTopic* pSourceTopic = FindTopicByInfo(this);
-            TESTopic* otherOwner = FindTopicByInfo(pOtherInfo);
+            TESTopic* pSourceTopic = ::fnv_0061a310::FindTopicByInfo((::TESTopicInfo *)(::TESForm *)(this));
+            TESTopic* otherOwner = ::fnv_0061a310::FindTopicByInfo((::TESTopicInfo *)(pOtherInfo));
             if (otherOwner && pSourceTopic && otherOwner != pSourceTopic)
             {
                 bResult = reinterpret_cast<DialogueTopicCompare*>(pSourceTopic)->Compare(otherOwner);
@@ -1540,14 +1580,14 @@ bool TopicInfoCompare::FUN_0061d710(TESForm* form)
         TESTopic* topic = dynamic_cast<TESTopic*>(form);
         if (topic)
         {
-            TESTopic* owner = FindTopicByInfo(this);
+            TESTopic* owner = ::fnv_0061a310::FindTopicByInfo((::TESTopicInfo *)(::TESForm *)(this));
             if (owner && owner != topic)
                 bResult = reinterpret_cast<DialogueTopicCompare*>(owner)->Compare(topic);
         }
         break;
     }
     default:
-        bResult = IsLessThan(form);
+        bResult = reinterpret_cast<::TESFormSortProxy *>(this)->IsLessThan(form);
     }
     return bResult;
 }
@@ -1570,8 +1610,6 @@ struct FUN_0061d8c0_output
 };
 
 extern TESTopicInfo* DAT_01187344;
-extern TESResponse* DAT_01187020;
-int __cdecl FindTopicByInfo(void* object);
 
 struct FUN_0061d8c0_shell
 {
@@ -1581,7 +1619,7 @@ struct FUN_0061d8c0_shell
 // @fnv 0x0061d8c0
 void FUN_0061d8c0_shell::GetResponseForTopicInfo(FUN_0061d8c0_output* output, FUN_0061d8c0_input* input)
 {
-    int iVar1;
+    std::intptr_t iVar1;
 
     if (output != 0)
     {
@@ -1593,12 +1631,12 @@ void FUN_0061d8c0_shell::GetResponseForTopicInfo(FUN_0061d8c0_output* output, FU
             case 0:
                 if (input->unk08 == DAT_01187344)
                 {
-                    iVar1 = FindTopicByInfo(this);
+                    iVar1 = ((std::intptr_t)(::fnv_0061a310::FindTopicByInfo((::TESTopicInfo *)(void *)(this))));
                     if (iVar1 != 0)
                     {
-                        output->pResponse = DAT_01187020;
+                        output->pResponse = (*reinterpret_cast<::TESResponse * *>(&::fnv_00543df0::kGroupFormType));
                         output->unk0C = 7;
-                        output->formID = ((TESForm*)iVar1)->GetFormID();
+                        output->formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)iVar1)))->FUN_0084e3a0()));
                         output->unk04 = 0;
                         output->unk10 = 0;
                     }
@@ -1610,23 +1648,17 @@ void FUN_0061d8c0_shell::GetResponseForTopicInfo(FUN_0061d8c0_output* output, FU
 }
 
 struct DebugTextOut;
-int __cdecl DebugTextPrintf(DebugTextOut* out, const char* fmt, ...);
 
 struct TESResponseText : TESResponse
 {
-    const char* GetDialogueText();
 };
 
 struct ResponseListHolder
 {
-    TESResponseText* QHead();
 };
 
 struct TopicInfoDebug : TESTopicInfo
 {
-    ResponseListHolder* GetResponses(int list);
-    const char* GetFormTypeName();
-    const char* GetEditorIDText();
     void PrintDebugInfo(DebugTextOut* out);
 };
 
@@ -1636,57 +1668,42 @@ void TopicInfoDebug::PrintDebugInfo(DebugTextOut* out)
 {
     char topicText3[260];
     topicText3[0] = 0;
-    TESTopic* topicA = TESTopic::GetTopicFromInfo(this);
+    TESTopic* topicA = ::fnv_0061a310::FindTopicByInfo(this);
     if (topicA)
     {
-        sprintf(topicText3, ", Topic '%s' (%08X)", topicA->GetName(), topicA->GetFormID());
+        sprintf(topicText3, ", Topic '%s' (%08X)", topicA->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((topicA))->FUN_0084e3a0())));
     }
     char questText2[260];
     questText2[0] = 0;
-    if (topicA && IsFormInitialized())
+    if (topicA && reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
     {
-        TESQuest* quest = topicA->GetParentQuest(this);
+        TESQuest* quest = reinterpret_cast<::FUN_00619d00_shell *>((topicA))->FindQuestForTopicInfo(this);
         if (quest)
         {
-            sprintf(questText2, "Quest '%s' (%08X)", quest->GetEditorName(), quest->GetFormID());
+            sprintf(questText2, "Quest '%s' (%08X)", quest->GetEditorName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((quest))->FUN_0084e3a0())));
         }
     }
     char responseText9[260];
     responseText9[0] = 0;
-    TESResponseText* response = GetResponses(0)->QHead();
+    TESResponseText* response = ((::TESResponseText *)(::FUN_00559450((int *)(((::ResponseListHolder *)(reinterpret_cast<::TESTopicInfo *>(this)->DuplicateResponseList((::TESResponseList *)(0))))))));
     if (response)
     {
-        sprintf(responseText9, ", Text: \"%s\"", response->GetDialogueText());
+        sprintf(responseText9, ", Text: \"%s\"", reinterpret_cast<::TESResponse *>((response))->GetDialogueText());
     }
-    DebugTextPrintf(out, "%s Form '%s' (%08X): %s%s%s", GetFormTypeName(), GetEditorIDText(), GetFormID(), questText2,
+    ::FUN_00406f60((::FUN_00406f90_this *)(out), "%s Form '%s' (%08X): %s%s%s", ((const char *)(reinterpret_cast<::FUN_00440e30_This *>(this)->FUN_00440e30())), ((const char *)(reinterpret_cast<::FUN_00401280_Class *>(this)->FUN_00401280())), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())), questText2,
                     topicText3, responseText9);
 }
 
 struct TopicInfoCopy : TESTopicInfo
 {
     void FUN_0061e330(TESForm* form);
-    void FUN_004851b0(TESForm* form);
-    TopicInfoData* GetFieldPtr();
-    void FUN_0061d250();
-    void FUN_0061d230();
-    TESResponseList* FUN_0061e780(int create);
-    BSStringT<char>* GetExtraDataList();
-    SPEECH_CHALLENGE_LEVEL FUN_008041a0();
-    PerkEntryConditionSet* FUN_00500940();
-    TESTopicInfoData* GetField38();
-    void FUN_0061e180(TESTopicInfoData* data);
     TESQuest* FUN_006733e0();
-    void FUN_00673400(TESQuest* quest);
-    bool FUN_004013e0();
-    void FUN_00484ab0(bool value);
 };
 struct ResponseCopy : TESResponse
 {
-    void CopyResponse(TESResponse* source);
 };
 struct ScriptCopy : Script
 {
-    void CopyFromScript(Script* source);
 };
 // Copies topic info data from another TESTopicInfo: add-topic list, responses, prompt, perk/actor value, difficulty, speaker, result scripts and quest.
 // @fnv 0x0061e330
@@ -1697,35 +1714,35 @@ void TopicInfoCopy::FUN_0061e330(TESForm* form)
         return;
     BSSimpleList<TESTopic*>* source = 0;
     TESTopic* node = 0;
-    FUN_004851b0(form);
-    m_Data = static_cast<TopicInfoCopy*>(topic)->GetFieldPtr()[0];
-    FUN_0061d250();
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(form);
+    m_Data = ((::TopicInfoData *)(reinterpret_cast<::FUN_0061e5e0_shell *>((static_cast<TopicInfoCopy*>(topic)))->GetFieldPtr()))[0];
+    reinterpret_cast<::TESTopicInfo *>(this)->ResetResponseList();
     source = topic->GetAddTopicList();
-    while (source && source->GetItem())
+    while (source && (source->m_item))
     {
-        node = source->GetItem();
-        source = source->GetNext();
-        GetAddTopicList()->AddTail(node);
+        node = (source->m_item);
+        source = ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((source))->FUN_00726070()));
+        reinterpret_cast<::Callees *>((GetAddTopicList()))->FUN_00905820((void *)&(node));
     }
-    FUN_0061d230();
-    TESResponse* response = static_cast<TopicInfoCopy*>(topic)->FUN_0061e780(0)->QResponseList();
+    reinterpret_cast<::TESTopicInfo *>(this)->ClearResponses();
+    TESResponse* response = ((::TESResponse *)(::FUN_00559450((int *)(reinterpret_cast<::TESTopicInfo *>((static_cast<TopicInfoCopy*>(topic)))->DuplicateResponseList((::TESResponseList *)(0))))));
     while (response)
     {
         TESResponse* copy = new TESResponse;
-        static_cast<ResponseCopy*>(copy)->CopyResponse(response);
-        FUN_0061e780(0)->AddTail(copy);
-        response = response->GetNext();
+        reinterpret_cast<::FUN_006174d0_shell *>((static_cast<ResponseCopy*>(copy)))->CopyResponse(response);
+        reinterpret_cast<::FUN_0061cc60_holder *>((reinterpret_cast<::TESTopicInfo *>(this)->DuplicateResponseList((::TESResponseList *)(0))))->AddNode((std::intptr_t)(copy));
+        response = ((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((response))->FUN_0045cd60()));
     }
-    SetPrompt(static_cast<TopicInfoCopy*>(topic)->GetExtraDataList()->String());
+    reinterpret_cast<::FUN_0061cfd0_shell *>(this)->FUN_0061cfd0((char *)(((const char *)(::FUN_00559450((int *)(((::BSStringT<char> *)(reinterpret_cast<::FUN_004610d0_shell *>((static_cast<TopicInfoCopy*>(topic)))->GetExtraDataList()))))))));
     if (topic->m_pPerkSkillStat)
     {
         switch (topic->m_pPerkSkillStat->GetFormType())
         {
         case ENUM_FORM_ID_PERK_ID:
-            SetPerk(reinterpret_cast<BGSPerk*>(topic->m_pPerkSkillStat));
+            reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(::BGSPerk *)(reinterpret_cast<BGSPerk*>(topic->m_pPerkSkillStat)));
             break;
         case ENUM_FORM_ID_AVIF_ID:
-            SetActorValue(reinterpret_cast<ActorValueInfo*>(topic->m_pPerkSkillStat));
+            reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(::ActorValueInfo *)(reinterpret_cast<ActorValueInfo*>(topic->m_pPerkSkillStat)));
             break;
         default:
             m_pPerkSkillStat = topic->m_pPerkSkillStat;
@@ -1733,30 +1750,25 @@ void TopicInfoCopy::FUN_0061e330(TESForm* form)
     }
     else
     {
-        SetPerk(0);
+        reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(::BGSPerk *)(0));
     }
-    SetDifficultyLevel(static_cast<TopicInfoCopy*>(topic)->FUN_008041a0());
-    SetSpeaker(topic->GetSpeaker());
-    static_cast<ScriptCopy*>(GetResultScript(0))->CopyFromScript(topic->GetResultScript(0));
-    static_cast<ScriptCopy*>(GetResultScript(1))->CopyFromScript(topic->GetResultScript(1));
-    reinterpret_cast<FUN_0061f340_shell*>(this)->FUN_0061f340(topic->GetInfoIndex());
-    reinterpret_cast<FUN_0061e0f0_shell*>(this)->FUN_0061e0f0(static_cast<TopicInfoCopy*>(topic)->FUN_00500940());
-    if (static_cast<TopicInfoCopy*>(topic)->GetField38())
-        FUN_0061e180(static_cast<TopicInfoCopy*>(topic)->GetField38());
-    FUN_00673400(static_cast<TopicInfoCopy*>(topic)->FUN_006733e0());
-    FUN_00484ab0(static_cast<TopicInfoCopy*>(topic)->FUN_004013e0());
+    reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((*(::TESObjectREFR * *)&(const ::SPEECH_CHALLENGE_LEVEL &)((*(::SPEECH_CHALLENGE_LEVEL *)(reinterpret_cast<::LowProcess *>((static_cast<TopicInfoCopy*>(topic)))->GetActiveCombatTarget())))));
+    reinterpret_cast<::FUN_00409480_shell *>(this)->FUN_00409480(((::TESActorBase *)(reinterpret_cast<::Twin_00639b40 *>((topic))->GetEntryPoint())));
+    reinterpret_cast<::FUN_005aa420_shell *>((static_cast<ScriptCopy*>(GetResultScript(0))))->CopyFromScript(topic->GetResultScript(0));
+    reinterpret_cast<::FUN_005aa420_shell *>((static_cast<ScriptCopy*>(GetResultScript(1))))->CopyFromScript(topic->GetResultScript(1));
+    reinterpret_cast<FUN_0061f340_shell*>(this)->FUN_0061f340(reinterpret_cast<::FUN_00619a70_shell *>((topic))->FUN_00619a70());
+    reinterpret_cast<FUN_0061e0f0_shell*>(this)->FUN_0061e0f0(reinterpret_cast<::BGSCameraPath *>((static_cast<TopicInfoCopy*>(topic)))->GetConditions());
+    if (((::TESTopicInfoData *)(::GetField38((char *)(static_cast<TopicInfoCopy*>(topic))))))
+        reinterpret_cast<::TESTopicInfo *>(this)->SetTopicInfoData(((::TESTopicInfoData *)(::GetField38((char *)(static_cast<TopicInfoCopy*>(topic))))));
+    m_pOwnerQuest = topic->m_pOwnerQuest;
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(reinterpret_cast<::TESForm *>((static_cast<TopicInfoCopy*>(topic)))->GetInitialized());
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
-void FUN_00403d30(void*, int, unsigned int);
 struct ScriptOps : Script
 {
-    void FUN_00484490();
-    void FUN_00484ab0(int);
 };
 struct FileOps : TESFile
 {
-    bool GetChunkData();
 };
 struct FUN_0061eb60_class : TESTopicInfo
 {
@@ -1771,28 +1783,28 @@ Script* FUN_0061eb60_class::FUN_0061eb60(unsigned int auiIndex)
         return &g_resultScripts[h];
     g_cachedResultScriptInfo = this;
     Script i;
-    g_resultScripts[0].CopyScriptContents(&i);
-    ((ScriptOps*)&g_resultScripts[0])->FUN_00484490();
-    g_resultScripts[0].GetHeader()->m_bQuest = false;
-    g_resultScripts[1].CopyScriptContents(&i);
-    ((ScriptOps*)&g_resultScripts[1])->FUN_00484490();
-    g_resultScripts[1].GetHeader()->m_bQuest = false;
-    if (!HasResultScript())
+    reinterpret_cast<::FUN_005aa420_shell *>(&(g_resultScripts[0]))->CopyFromScript(&i);
+    reinterpret_cast<::TESForm *>((((ScriptOps*)&g_resultScripts[0])))->NotifySaveLoadGameOfFormChange();
+    ((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(&(g_resultScripts[0]))->GetConditions()))->m_bQuest = false;
+    reinterpret_cast<::FUN_005aa420_shell *>(&(g_resultScripts[1]))->CopyFromScript(&i);
+    reinterpret_cast<::TESForm *>((((ScriptOps*)&g_resultScripts[1])))->NotifySaveLoadGameOfFormChange();
+    ((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(&(g_resultScripts[1]))->GetConditions()))->m_bQuest = false;
+    if (!reinterpret_cast<::FUN_00508d70_shell *>(this)->FUN_00508d70())
         return &g_resultScripts[h];
-    ((ScriptOps*)&g_resultScripts[0])->FUN_00484ab0(0);
-    ((ScriptOps*)&g_resultScripts[1])->FUN_00484ab0(0);
+    reinterpret_cast<::TESForm *>((((ScriptOps*)&g_resultScripts[0])))->SetInitializationState(0);
+    reinterpret_cast<::TESForm *>((((ScriptOps*)&g_resultScripts[1])))->SetInitializationState(0);
     TESFile* a = GetFile(-1);
     if (!a || !m_ulTopicFlags)
         return &g_resultScripts[h];
     a = a->GetParentTESFile();
-    if (!a->SetOffset(m_ulTopicFlags))
+    if (!reinterpret_cast<::TESOffsetWorker *>((a))->FUN_004723a0(m_ulTopicFlags))
         return &g_resultScripts[h];
-    unsigned char p = a->GetTESForm();
+    unsigned char p = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((a))->FUN_00472660()));
     if (p != 0x46)
         return &g_resultScripts[h];
     int s = 0;
     int f;
-    while (f = a->GetChunkID())
+    while (f = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((a))->FUN_004726b0())))
     {
         switch (f)
         {
@@ -1801,38 +1813,38 @@ Script* FUN_0061eb60_class::FUN_0061eb60(unsigned int auiIndex)
             break;
         case 0x44534c53:
         case 0x52564353:
-            if (a->GetChunkID() == 0x44534c53)
+            if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((a))->FUN_004726b0())) == 0x44534c53)
             {
                 g_loadedScriptVariable = new ScriptVariableInfo;
                 g_loadedScriptVariable->Load(a);
-                g_resultScripts[s].GetVariableList()->AddTail(g_loadedScriptVariable);
+                reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(&(g_resultScripts[s]))->FUN_005d43e0()))))->FUN_00905820((void *)&(g_loadedScriptVariable));
             }
             else if (g_loadedScriptVariable)
             {
-                char* name = (char*)_alloca(a->GetChunkSize());
-                a->GetChunkData(name, 0x200);
-                g_loadedScriptVariable->m_kName.Set(name, 0);
+                char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((a))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((a))->FUN_00472890((char *)(name), 0x200);
+                reinterpret_cast<::TextString *>(&(g_loadedScriptVariable->m_kName))->FUN_004037f0(name, 0);
             }
             break;
         case 0x52484353:
-            a->GetChunkData(g_resultScripts[s].GetHeader(), 0);
-            if (((FileOps*)a)->GetChunkData())
-                g_resultScripts[s].GetHeader()->Endian();
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((a))->FUN_00472890((char *)(void *)(((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(&(g_resultScripts[s]))->GetConditions()))), 0);
+            if (reinterpret_cast<::TESFile *>((((FileOps*)a)))->IsEndianConversionRequired())
+                reinterpret_cast<::FUN_00414220_shell *>((((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(&(g_resultScripts[s]))->GetConditions()))))->FUN_00414220();
             break;
         case 0x41444353: {
-            unsigned int size = a->GetChunkSize();
+            unsigned int size = reinterpret_cast<::FUN_00401660_Class *>((a))->GetField25C();
             char* data = (char*)_alloca(size);
             FUN_00403d30(data, 0, size);
-            a->GetChunkData(data, 0);
-            g_resultScripts[s].SetScriptData(size, data);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((a))->FUN_00472890((char *)(data), 0);
+            reinterpret_cast<::FUN_005aae70_shell *>(&(g_resultScripts[s]))->FUN_005aae70(size, data);
             break;
         }
         case 0x4f524353: {
             ScriptReferencedObject* reference = new ScriptReferencedObject;
             unsigned int id;
             a->GetChunkData(&id);
-            reference->pForm = (TESForm*)id;
-            g_resultScripts[s].GetReferencedObjectList()->AddTail(reference);
+            reference->pForm = (TESForm*)(std::uintptr_t)id;
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(&(g_resultScripts[s]))->FUN_005d43c0()))))->FUN_00905820((void *)&(reference));
             break;
         }
         case 0x56524353: {
@@ -1840,23 +1852,18 @@ Script* FUN_0061eb60_class::FUN_0061eb60(unsigned int auiIndex)
             unsigned int id;
             a->GetChunkData(&id);
             variable->m_uiFormID = id;
-            g_resultScripts[s].GetReferencedObjectList()->AddTail(variable);
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(&(g_resultScripts[s]))->FUN_005d43c0()))))->FUN_00905820((void *)&(variable));
             break;
         }
         }
         if (!a->NextChunk())
             break;
     }
-    g_resultScripts[0].InitItem(this);
-    g_resultScripts[1].InitItem(this);
+    reinterpret_cast<::Scr *>(&(g_resultScripts[0]))->FUN_005ab400(this);
+    reinterpret_cast<::Scr *>(&(g_resultScripts[1]))->FUN_005ab400(this);
     return &g_resultScripts[h];
 }
 
-extern GlobalObject2_0040c150 g_011cc06c;
-extern GlobalObject2_0040c150 g_011cc03c;
-extern GlobalObject2_0040c150 g_011cc058;
-extern GlobalObject2_0040c150 g_011cc024;
-extern GlobalObject2_0040c150 g_011cbf54;
 
 class B61F2B0Object
 {
@@ -1889,21 +1896,19 @@ int B61F2B0Object::FUN_0061f2b0()
     switch (m_iZ)
     {
     case 1:
-        return *g_011cc06c.Int();
+        return *((int *)&(::FUN_0043d4d0((int *)&(::g_011cc06c))));
     case 2:
-        return *g_011cc03c.Int();
+        return *((int *)&(::FUN_0043d4d0((int *)&(::g_011cc03c))));
     case 3:
-        return *g_011cc058.Int();
+        return *((int *)&(::FUN_0043d4d0((int *)&(::g_011cc058))));
     case 4:
-        return *g_011cc024.Int();
+        return *((int *)&(::FUN_0043d4d0((int *)&(::g_011cc024))));
     case 5:
-        return *g_011cbf54.Int();
+        return *((int *)&(::FUN_0043d4d0((int *)&(::g_011cbf54))));
     }
     return -1;
 }
 
-extern unsigned int kGroupFormType;
-TESForm* FUN_004839c0(unsigned int id);
 struct S_00619510_Obj
 {
     unsigned int unk00;
@@ -1929,19 +1934,18 @@ struct FUN_00619510_shell
     virtual void v13();
     virtual void v14();
     virtual bool v15(TESTopic* t);
-    bool IsFormTypeBelowThreshold(S_00619510_Obj* o);
     bool IsFormInGroup(S_00619510_Obj* arg);
 };
 // @fnv 0x00619510
 bool FUN_00619510_shell::IsFormInGroup(S_00619510_Obj* pGroupObj)
 {
     bool result = false;
-    if (pGroupObj != 0 && pGroupObj->unk00 == kGroupFormType)
+    if (pGroupObj != 0 && pGroupObj->unk00 == ::fnv_00543df0::kGroupFormType)
     {
         switch (pGroupObj->unk0C)
         {
         case 0:
-            result = IsFormTypeBelowThreshold(pGroupObj);
+            result = reinterpret_cast<::FUN_00484150_shell *>(this)->IsFormTypeBelowThreshold((::FormRecordHeader *)(pGroupObj));
             break;
         case 1:
         case 2:
@@ -1970,3 +1974,5 @@ struct FUN_0061ce10
 // @fnv 0x0061ce10
 FUN_0061ce10::~FUN_0061ce10()
 {}
+
+#include "generated/data/fallout_shared/testopicinfo.inc"

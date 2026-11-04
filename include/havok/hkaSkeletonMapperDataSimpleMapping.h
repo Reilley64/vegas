@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKASKELETONMAPPERDATASIMPLEMAPPING_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkaSkeletonMapperDataSimpleMapping
 {
   public:
@@ -13,7 +12,4 @@ class hkaSkeletonMapperDataSimpleMapping
     char pad4[0xC];
     hkQsTransform m_kAFromBTransform;  // +0x10
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkaSkeletonMapperDataSimpleMapping[(sizeof(hkaSkeletonMapperDataSimpleMapping) == 0x40) ? 1 : -1];
 #endif

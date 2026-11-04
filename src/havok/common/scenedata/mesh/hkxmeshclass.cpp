@@ -2,10 +2,13 @@
 // src/havok/common/scenedata/mesh/hkxmeshclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxmeshclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include "fnv/decl/FUN_00e3eaa0.h"
+#include "fnv/symbols_00cb0000.h"
 struct FUN_00cb0c00_class
 {
     int unk00;
-    void FUN_00cb0c00();
 };
 struct Allocator
 {
@@ -15,10 +18,9 @@ struct Allocator
 };
 struct Manager
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     Allocator* unk10;
 };
-extern Manager* __cdecl FUN_00c85750();
 struct Owner
 {
     virtual void V();
@@ -26,18 +28,17 @@ struct Owner
     int unk08, unk0C, unk10;
     FUN_00cb0c00_class unk14;
     FUN_00cb0c00_class unk18;
-    void FUN_00e3eaa0();
     void* Destroy(unsigned int flags);
 };
 // @fnv 0x00e01ef0
 void* Owner::Destroy(unsigned int flags)
 {
-    unk18.FUN_00cb0c00();
-    unk14.FUN_00cb0c00();
-    FUN_00e3eaa0();
+    ::FUN_00cb0c00((intptr_t)&(unk18));
+    ::FUN_00cb0c00((intptr_t)&(unk14));
+    reinterpret_cast<::FUN_00e3eaa0 *>(this)->FUN_00e3eaa0::~FUN_00e3eaa0();
     if (flags & 1)
     {
-        Manager* manager = FUN_00c85750();
+        Manager* manager = static_cast<Manager*>(::FUN_00c85750());
         Allocator* allocator = manager->unk10;
         unsigned short size = unk04;
         allocator->Free(this, size);

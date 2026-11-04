@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpPulleyConstraintAtom : public hkpConstraintAtom
 {
   public:
@@ -16,6 +15,4 @@ class hkpPulleyConstraintAtom : public hkpConstraintAtom
     hkReal m_fRopeLength;       // +0x34
     char pad38[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPulleyConstraintAtom[(sizeof(hkpPulleyConstraintAtom) == 0x40) ? 1 : -1];
 #endif

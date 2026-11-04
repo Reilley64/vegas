@@ -2,12 +2,23 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202580;
 
 // @fnv 0x00c25870
+#include <new>
+#include <windows.h>
+#include "fnv/decl/ActiveArray.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a311e0_s.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e7f000.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
+#include <cstddef>
 void* __cdecl FUN_00c25870()
 {
-    return &g_01202580;
+    return &(*reinterpret_cast<void * *>(&::g_01202580));
 }
 
 struct NiRefObject
@@ -16,7 +27,7 @@ struct NiRefObject
 };
 extern int DAT_010be45c;
 extern int DAT_01069674;
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 struct Obj
 {
     virtual void u0();
@@ -34,7 +45,7 @@ struct S
 // @fnv 0x00c25880
 void S::Destroy()
 {
-    int(__stdcall * f)(void*) = DAT_00fdf1c4;
+    int(* f)(void*) = DAT_00fdf1c4;
     *(void* volatile*)this = (void*)&DAT_010be45c;
     Obj* p = _c;
     if (p)
@@ -53,8 +64,6 @@ void S::Destroy()
     ((NiRefObject*)this)->~NiRefObject();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Ref_00c258e0
 {
     virtual void F0();
@@ -92,7 +101,6 @@ void Host_00c258e0::AssignRefAndValue(Ref_00c258e0* pkObject, float afValue)
 }
 
 extern unsigned char DAT_011f5b08;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct FakeSys
 {
     void** vtbl;
@@ -113,36 +121,32 @@ void Task::ReleaseSysAndDispatch()
     FakeSys* p = sys;
     if (p && !DAT_011f5b08)
     {
-        ((void(__thiscall*)(FakeSys*, float))p->vtbl[61])(p, tm);
+        ((void(*)(FakeSys*, float))p->vtbl[61])(p, tm);
         FakeSys* pSysRef = sys;
         if (pSysRef)
         {
             if (InterlockedDecrement(&pSysRef->ref) == 0)
-                ((void(__thiscall*)(FakeSys*))pSysRef->vtbl[1])(pSysRef);
+                ((void(*)(FakeSys*))pSysRef->vtbl[1])(pSysRef);
             sys = 0;
         }
     }
-    ((void(__thiscall*)(Task*))vtbl[37])(this);
+    ((void(*)(Task*))vtbl[37])(this);
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct NiPSysUpdateTask
 {
 };
 struct PoolHelper
 {
-    void __thiscall AppendRecords(int);
+    void AppendRecords(int);
 };
 extern void* DAT_011aeb98;
-extern int DAT_011aeba0;
-extern int DAT_011aeba8;
 extern int DAT_01202600;
 // Under a critical section, grows the pool when empty, pops the last task into slot 0 and returns the previous slot-0 task.
 // @fnv 0x00c25c40
 NiPSysUpdateTask* PopNiPSysUpdateTask()
 {
-    EnterCriticalSection((void*)&DAT_01202600);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)&DAT_01202600));
     if (DAT_011aeba0 == 0)
     {
         ((PoolHelper*)&DAT_011aeb98)->AppendRecords(DAT_011aeba8);
@@ -151,7 +155,7 @@ NiPSysUpdateTask* PopNiPSysUpdateTask()
     NiPSysUpdateTask* pkTask = ((NiPSysUpdateTask**)DAT_011aeb98)[0];
     DAT_011aeba0--;
     ((NiPSysUpdateTask**)DAT_011aeb98)[0] = ((NiPSysUpdateTask**)DAT_011aeb98)[DAT_011aeba0];
-    LeaveCriticalSection((void*)&DAT_01202600);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)&DAT_01202600));
     return pkTask;
 }
 
@@ -159,18 +163,8 @@ typedef unsigned int C25AC0size_t;
 
 struct C25AC0MemoryManager
 {
-    void Deallocate(void* pvMem);
 };
-extern C25AC0MemoryManager g_C25AC0MemoryManager;
 
-inline void __cdecl operator delete(void* pvMem)
-{
-    g_C25AC0MemoryManager.Deallocate(pvMem);
-}
-inline void __cdecl operator delete[](void* pvMem)
-{
-    g_C25AC0MemoryManager.Deallocate(pvMem);
-}
 
 struct C25AC0MemObject
 {
@@ -183,7 +177,6 @@ struct C25AC0Entry : C25AC0MemObject
 
 struct C25AC0Helper : C25AC0MemObject
 {
-    void DeleteThis(int iFlags);
 };
 
 struct C25AC0Manager : C25AC0MemObject
@@ -196,13 +189,11 @@ struct C25AC0Manager : C25AC0MemObject
     {
         delete[] m_pkEntryArray;
         if (m_pkHelper)
-            m_pkHelper->DeleteThis(1);
+            ::fnv_00e7f900::FUN_00e7f900((void *)(m_pkHelper), 1, {});
     }
 };
 
 extern C25AC0Manager* g_C25AC0Instance;
-extern int g_C25AC0Count;
-extern int g_C25AC0Current;
 extern int g_C25AC0Default;
 
 // Resets the count to zero, deletes the global manager instance, and restores the current value from the default.
@@ -210,9 +201,9 @@ extern int g_C25AC0Default;
 void __cdecl DestroyManager()
 {
     C25AC0Manager* pkManager = g_C25AC0Instance;
-    g_C25AC0Count = 0;
+    ::DAT_011aeba0 = 0;
     delete pkManager;
-    g_C25AC0Current = g_C25AC0Default;
+    ::DAT_011aeba8 = g_C25AC0Default;
 }
 
 // The per-count link record the game allocates: { data, count, next }.
@@ -226,9 +217,7 @@ struct LinkRec_00c25b30
 // The game's global memory manager object.
 struct PoolAlloc_00c25b30
 {
-    void* Alloc(unsigned int size);
 };
-extern PoolAlloc_00c25b30 DAT_011f6238;
 
 // Builds the array of 20-byte link records (lives in another unit of the game).
 void* __cdecl FUN_00c25990(unsigned int count);
@@ -241,7 +230,6 @@ struct LinkIDSet_00c25b30
     unsigned int m_iElementCount;
     LinkRec_00c25b30* m_pFirstNode;
 
-    void Grow(unsigned int newCapacity);
     void AppendRecords(unsigned int count);
 };
 
@@ -251,7 +239,7 @@ void LinkIDSet_00c25b30::AppendRecords(unsigned int count)
 {
     LinkRec_00c25b30* pBlock;
     unsigned int i;
-    LinkRec_00c25b30* pNewBlock = (LinkRec_00c25b30*)DAT_011f6238.Alloc(0xc);
+    LinkRec_00c25b30* pNewBlock = (LinkRec_00c25b30*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolAlloc_00c25b30 *>(&::g_memoryManager))))->FUN_00aa3e40(0xc);
     if (pNewBlock != 0)
     {
         pNewBlock->m_uiItemCount = count;
@@ -285,7 +273,7 @@ void LinkIDSet_00c25b30::AppendRecords(unsigned int count)
                     newCap = m_cap * 2;
                 else
                     newCap = 1;
-                Grow(newCap);
+                reinterpret_cast<::FUN_00a311e0_s *>(this)->FUN_00a311e0(newCap);
             }
             m_items[m_iElementCount] = p;
             m_iElementCount++;
@@ -308,11 +296,10 @@ struct S_00c25be0
 
 struct S_00e7ec00
 {
-    void __thiscall FindOrAdd(void*);
 };
 
-extern void(__stdcall* DAT_00fdf05c)(void*);
-extern void(__stdcall* DAT_00fdf100)(void*);
+extern void(* DAT_00fdf05c)(void*);
+extern void(* DAT_00fdf100)(void*);
 
 // @fnv 0x00c25be0
 bool S_00c25be0::FUN_00c25be0()
@@ -321,7 +308,7 @@ bool S_00c25be0::FUN_00c25be0()
 
     if (pObj != 0)
     {
-        if (DAT_00fdf1c4(reinterpret_cast<void*>(reinterpret_cast<char*>(pObj) + 4)) == 0)
+        if (DAT_00fdf1c4(reinterpret_cast<void*>(reinterpret_cast<char*>(&pObj->m_ref))) == 0)
         {
             pObj->u1();
         }
@@ -332,7 +319,7 @@ bool S_00c25be0::FUN_00c25be0()
     DAT_00fdf05c(&DAT_01202600);
 
     S_00c25be0* pSelf = this;
-    reinterpret_cast<S_00e7ec00*>(&DAT_011aeb98)->FindOrAdd(&pSelf);
+    reinterpret_cast<::ActiveArray *>((reinterpret_cast<S_00e7ec00*>(&DAT_011aeb98)))->FindOrAdd((*(void *const *)(&pSelf)));
 
     DAT_00fdf100(&DAT_01202600);
 
@@ -344,8 +331,6 @@ class FUN_00a5d3d0
   public:
     ~FUN_00a5d3d0();
 };
-void __cdecl operator delete(void* pv, int iSize);
-void __cdecl FUN_00aa1490(void* pv, unsigned int uiSize);
 
 struct Elem_c25 : FUN_00a5d3d0
 {
@@ -395,6 +380,37 @@ void* Elem_c25::DestroyElements(unsigned int uiFlags)
     }
     ((S*)this)->Destroy();
     if (uiFlags & 1)
-        operator delete(this, 0x14);
+        ::FUN_00aa1460(this, 0x14);
     return this;
 }
+
+void* __cdecl FUN_00c25870();
+NiPSysUpdateTask* PopNiPSysUpdateTask();
+void __cdecl DestroyManager();
+void __cdecl FUN_00aa1490(void* pv, unsigned int uiSize);
+
+
+struct C25990Elem
+{
+    void* m_vf;
+    int m_iWordAt04;
+    int m_8;
+    int m_iThirdValue;
+    int m_10;
+    C25990Elem();
+    ~C25990Elem()
+    {}
+    static void* operator new[](std::size_t size, unsigned int count)
+    {
+        if (count == 0)
+            return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolAlloc_00c25b30 *>(&::g_memoryManager))))->FUN_00aa3e40(4);
+        return FUN_00aa1420(size);
+    }
+    static void operator delete[](void* p);
+};
+// @fnv 0x00c25990
+void* __cdecl FUN_00c25990(unsigned int count)
+{
+    return new (count) C25990Elem[count];
+}
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.inc"

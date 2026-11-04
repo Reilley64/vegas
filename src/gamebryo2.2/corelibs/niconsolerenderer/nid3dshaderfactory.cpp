@@ -1,6 +1,40 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderfactory.cpp: NiD3DShaderFactory, ShaderFactoryView, TMapHolder, FakeCls and more (46 functions)
 
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/ConsoleRendererShaders.h"
+#include "fnv/decl/Dummy_00cc0760.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/decl/FUN_00aa0390.h"
+#include "fnv/decl/FUN_00aa05a0.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/FUN_00e752b0_shell.h"
+#include "fnv/decl/FUN_00e93fb0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/ProgFactoryDirs.h"
+#include "fnv/decl/RefCountedNamedObject.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/decl/ShaderEntryOwner.h"
+#include "fnv/decl/fnv_00e93bb0__NiD3DShaderProgramFactory_Shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e92000.h"
+#include "fnv/symbols_010f0000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
 #include "nid3dshaderfactory_decls.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
 
 const char kFailedShaderFactoryMessage[] = "Failed to create shader factory!";
 
@@ -18,7 +52,7 @@ void NiD3DShaderFactory::InitializePoint3()
 {
     if (DAT_0126fa0c == 0)
     {
-        NiD3DShaderFactory* factory = static_cast<NiD3DShaderFactory*>(NiMemObject::operator new(0x100));
+        NiD3DShaderFactory* factory = static_cast<NiD3DShaderFactory*>(::operator new(0x100));
         NiShaderFactory* result;
         if (factory)
             result = factory->Create();
@@ -28,28 +62,28 @@ void NiD3DShaderFactory::InitializePoint3()
         DAT_011f6044 = result;
     }
     if (DAT_011f6044 == 0)
-        NiD3DDefaultShader::SetShaderName(kFailedShaderFactoryMessage);
+        ::FUN_00a29680();
 }
 
 // Initializes the shader factory's vtable and state, allocates two string-map storages for shaders and libraries, and returns this.
 // @fnv 0x00e92cf0
 NiShaderFactory* NiD3DShaderFactory::Create()
 {
-    FUN_00aa0390();
+    new ((void *)this) ::FUN_00aa0390();
     m_ppVirtualMethodTable = &kVtbl_NiD3DShaderFactory;
     m_pOwnerShader = 0;
     DAT_00fdf054(m_kShaderMap);
 
     NiStringMapStorage* shaderMap;
     NiStringMapStorage* shaderStorage =
-        static_cast<NiStringMapStorage*>(g_memoryManager.Allocate(sizeof(NiStringMapStorage)));
+        static_cast<NiStringMapStorage*>(reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(sizeof(NiStringMapStorage)));
     if (shaderStorage)
     {
         shaderStorage->m_ppVirtualMethodTable = &DAT_010f0bc0;
         shaderStorage->m_hashSize = 0x3b;
         shaderStorage->m_unused = 0;
-        shaderStorage->m_hashTable = NiMalloc(0xec);
-        fnv_zlib_memset(shaderStorage->m_hashTable, 0, shaderStorage->m_hashSize * 4);
+        shaderStorage->m_hashTable = ::FUN_00aa1070(0xec);
+        std::memset(shaderStorage->m_hashTable, 0, shaderStorage->m_hashSize * 4);
         shaderStorage->m_sState = true;
         shaderStorage->m_ppVirtualMethodTable = &DAT_010f0c80;
         shaderMap = shaderStorage;
@@ -59,14 +93,14 @@ NiShaderFactory* NiD3DShaderFactory::Create()
     m_pShaderMapStorage = shaderMap;
 
     NiStringMapStorage* libraryStorage =
-        static_cast<NiStringMapStorage*>(g_memoryManager.Allocate(sizeof(NiStringMapStorage)));
+        static_cast<NiStringMapStorage*>(reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(sizeof(NiStringMapStorage)));
     if (libraryStorage)
     {
         libraryStorage->m_ppVirtualMethodTable = &DAT_010f0c20;
         libraryStorage->m_hashSize = 0x25;
         libraryStorage->m_unused = 0;
-        libraryStorage->m_hashTable = NiMalloc(0x94);
-        fnv_zlib_memset(libraryStorage->m_hashTable, 0, libraryStorage->m_hashSize * 4);
+        libraryStorage->m_hashTable = ::FUN_00aa1070(0x94);
+        std::memset(libraryStorage->m_hashTable, 0, libraryStorage->m_hashSize * 4);
         libraryStorage->m_sState = false;
         libraryStorage->m_ppVirtualMethodTable = &DAT_010f0ca0;
         m_pShaderLibraryStorage = libraryStorage;
@@ -87,12 +121,11 @@ class NiD3DShaderProgramFactory
     const char* GetNextName(void*&);
 };
 
-NiD3DShaderProgramFactory* __cdecl FUN_00e92eb0();
 
 // @fnv 0x00e91f40
 char* FUN_00e91f40_shell::FUN_00e91f40(void** kIter)
 {
-    NiD3DShaderProgramFactory* pkSPFactory = FUN_00e92eb0();
+    NiD3DShaderProgramFactory* pkSPFactory = ((::NiD3DShaderProgramFactory *)(::FUN_00e92eb0()));
     if (!pkSPFactory)
         return 0;
     return (char*)pkSPFactory->GetNextName(*kIter);
@@ -104,21 +137,18 @@ struct FUN_00e91fa0_shell : public NiD3DShaderFactory
     void FUN_00e91fa0();
 };
 
-void* __cdecl FUN_00e92eb0();
-void __fastcall FUN_00e93cc0(void* pThis);
 
 // @fnv 0x00e91fa0
 void FUN_00e91fa0_shell::FUN_00e91fa0()
 {
-    void* pkFactory = FUN_00e92eb0();
+    void* pkFactory = ((void *)(::FUN_00e92eb0()));
     if (pkFactory)
-        FUN_00e93cc0(pkFactory);
+        reinterpret_cast<::ShaderEntryOwner *>((pkFactory))->FUN_00e93cc0();
 }
 }  // namespace fnv_00e91fa0
 
 struct NiConsoleRendererStub
 {
-    void FUN_00e75380();
 };
 struct FUN_00e91ea0_cls
 {
@@ -126,32 +156,32 @@ struct FUN_00e91ea0_cls
     NiConsoleRendererStub* renderer;
 };
 // @fnv 0x00e91ea0
-void __fastcall FUN_00e91ea0(FUN_00e91ea0_cls* self, int)
+void FUN_00e91ea0(FUN_00e91ea0_cls* self, int)
 {
     if (self->renderer)
-        self->renderer->FUN_00e75380();
+        reinterpret_cast<::ConsoleRendererShaders *>((self->renderer))->FUN_00e75380();
 }
 
 // @fnv 0x00e91eb0
-unsigned int __stdcall FUN_00e91eb0(unsigned int uiVersion)
+unsigned int FUN_00e91eb0(unsigned int uiVersion)
 {
     return uiVersion & 0xFF;
 }
 
 // @fnv 0x00e91ec0
-unsigned int __stdcall MakeVersionCode(unsigned int uiMajor, unsigned int uiMinor)
+unsigned int MakeVersionCode(unsigned int uiMajor, unsigned int uiMinor)
 {
     return ((0xFFFFFF00 | uiMajor) << 8) | uiMinor;
 }
 
 // @fnv 0x00e91ee0
-unsigned int __stdcall FUN_00e91ee0(unsigned int uiVersion)
+unsigned int FUN_00e91ee0(unsigned int uiVersion)
 {
     return (uiVersion >> 8) & 0xFF;
 }
 
 // @fnv 0x00e91ef0
-unsigned int __stdcall FUN_00e91ef0(unsigned int a, unsigned int b)
+unsigned int FUN_00e91ef0(unsigned int a, unsigned int b)
 {
     return ((0xFFFFFE00 | a) << 8) | b;
 }
@@ -170,51 +200,45 @@ struct FUN_00e91f20_shell : public NiD3DShaderFactory
 
 struct NiD3DShaderProgramFactory
 {
-    char* FUN_00e92fe0(void**);
 };
 
-extern NiD3DShaderProgramFactory* __cdecl FUN_00e92eb0(void);
 
 // @fnv 0x00e91f20
 char* FUN_00e91f20_shell::FUN_00e91f20(void** kIter)
 {
-    NiD3DShaderProgramFactory* pkSPFactory = FUN_00e92eb0();
+    NiD3DShaderProgramFactory* pkSPFactory = ((::fnv_00e91f20::NiD3DShaderProgramFactory *)(::FUN_00e92eb0()));
     if (!pkSPFactory)
         return 0;
-    return pkSPFactory->FUN_00e92fe0(kIter);
+    return ((char *)(::FUN_00e92fe0((::Lst *)(pkSPFactory), (intptr_t)(kIter), {})));
 }
 }  // namespace fnv_00e91f20
 
 namespace fnv_00e91f60 {
 struct NiD3DShaderProgramFactory
 {
-    void __thiscall AddDirectory(const char* pacDirectory);
 };
-NiD3DShaderProgramFactory* __cdecl FUN_00e92eb0(void);
 
 // @fnv 0x00e91f60
-void __stdcall FUN_00e91f60(const char* pacDirectory)
+void FUN_00e91f60(const char* pacDirectory)
 {
-    NiD3DShaderProgramFactory* pkFactory = FUN_00e92eb0();
+    NiD3DShaderProgramFactory* pkFactory = ((::fnv_00e91f60::NiD3DShaderProgramFactory *)(::FUN_00e92eb0()));
     if (pkFactory)
-        pkFactory->AddDirectory(pacDirectory);
+        reinterpret_cast<::ProgFactoryDirs *>((pkFactory))->AddDirectory(pacDirectory);
 }
 }  // namespace fnv_00e91f60
 
 namespace fnv_00e91f80 {
 struct NiD3DShaderProgramFactory
 {
-    void __thiscall LoadProgramByName(const char*);
 };
 
-NiD3DShaderProgramFactory* __cdecl FUN_00e92eb0();
 
 // @fnv 0x00e91f80
-void __stdcall FUN_00e91f80(char* pacDirectory)
+void FUN_00e91f80(char* pacDirectory)
 {
-    NiD3DShaderProgramFactory* pkFactory = FUN_00e92eb0();
+    NiD3DShaderProgramFactory* pkFactory = ((::fnv_00e91f80::NiD3DShaderProgramFactory *)(::FUN_00e92eb0()));
     if (pkFactory)
-        pkFactory->LoadProgramByName(pacDirectory);
+        reinterpret_cast<::fnv_00e93bb0::NiD3DShaderProgramFactory_Shell *>((pkFactory))->RemoveDirectoryEntry(pacDirectory);
 }
 }  // namespace fnv_00e91f80
 
@@ -225,23 +249,22 @@ const char* __cdecl FUN_00e91fc0()
 }
 
 extern char $SG6379[];
-extern int __cdecl NiSprintf(char*, unsigned int, char const*, ...);
 extern int _ref_00ec408c;
 
 struct NiTMapBase
 {
-    bool __thiscall RemoveAt(char const*);
+    bool RemoveAt(char const*);
 };
 
 struct NiD3DShaderFactory_shell
 {
     NiTMapBase* m_pShaderMapStorage;
-    void __thiscall FUN_00e923f0(const char* pcName, unsigned int uiImplementation);
+    void FUN_00e923f0(const char* pcName, unsigned int uiImplementation);
 };
 
 // Builds a name from pcName and uiImplementation and removes the matching entry from the map at offset 0x28 if present.
 // @fnv 0x00e923f0
-void __thiscall NiD3DShaderFactory_shell::FUN_00e923f0(const char* pcName, unsigned int uiImplementation)
+void NiD3DShaderFactory_shell::FUN_00e923f0(const char* pcName, unsigned int uiImplementation)
 {
     char acFullName[260];
     if (*(NiTMapBase**)((char*)this + 0x28))
@@ -261,14 +284,14 @@ struct FUN_00e92460_cls
     NiTMapBaseStub* map;
 };
 // @fnv 0x00e92460
-void __fastcall FUN_00e92460(FUN_00e92460_cls* self, int)
+void FUN_00e92460(FUN_00e92460_cls* self, int)
 {
     if (self->map)
-        self->map->RemoveAll();
+        reinterpret_cast<::S_00b601a0_Map *>((self->map))->FUN_00b601a0();
 }
 
 // @fnv 0x00e92590
-unsigned int __stdcall FUN_00e92590(unsigned int auiLeft, unsigned int auiRight)
+unsigned int FUN_00e92590(unsigned int auiLeft, unsigned int auiRight)
 {
     return auiLeft == auiRight;
 }
@@ -278,11 +301,11 @@ struct Obj_00e92690
     void Destroy();
 };
 // @fnv 0x00e92690
-Obj_00e92690* __fastcall FUN_00e92690(Obj_00e92690* self, int, unsigned int flags)
+Obj_00e92690* FUN_00e92690(Obj_00e92690* self, int, unsigned int flags)
 {
     self->Destroy();
     if (flags & 1)
-        g_memoryManager.Deallocate(self);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(self);
     return self;
 }
 
@@ -292,24 +315,21 @@ struct Obj_00e92cd0
 };
 // Calls the object's cleanup method, frees it via g_memoryManager when flags has bit 0 set, and returns the object pointer.
 // @fnv 0x00e92cd0
-Obj_00e92cd0* __fastcall FUN_00e92cd0(Obj_00e92cd0* self, int, unsigned int flags)
+Obj_00e92cd0* FUN_00e92cd0(Obj_00e92cd0* self, int, unsigned int flags)
 {
     self->FUN_00e925a0();
     if (flags & 1)
-        g_memoryManager.Deallocate(self);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(self);
     return self;
 }
 
 namespace fnv_00e92520 {
-void __cdecl NiFreeAlias(void*);
 
 struct NiTMapBaseStub
 {
     void RemoveAll();
 };
 
-extern void* DAT_010f0bc0;
-extern void* DAT_010f0be0;
 extern void* DAT_010f0c00;
 
 struct FUN_00e92520_shell
@@ -333,15 +353,15 @@ void FUN_00e92520_shell::Destroy()
             {
                 void* node = item;
                 item = *(void**)node;
-                NiFreeAlias(*(void**)((char*)node + 4));
+                ::FUN_00aa10f0(*(void**)((char*)node + 4));
             }
         }
     }
     m_vtbl = &DAT_010f0be0;
-    ((NiTMapBaseStub*)this)->RemoveAll();
-    m_vtbl = &DAT_010f0bc0;
-    ((NiTMapBaseStub*)this)->RemoveAll();
-    NiFreeAlias(m_items);
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
+    m_vtbl = &::DAT_010f0bc0;
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
+    ::FUN_00aa10f0(m_items);
 }
 }  // namespace fnv_00e92520
 
@@ -350,7 +370,6 @@ struct NiTMapBaseStub
 {
     void RemoveAll();
 };
-void __cdecl _NiFreeAlias(void*);
 struct TMapHolder
 {
     void* f0;
@@ -363,10 +382,10 @@ struct TMapHolder
 void* TMapHolder::DestroyTMapHolder(unsigned int flags)
 {
     f0 = (void*)&DAT_010f0bc0;
-    ((NiTMapBaseStub*)(void*)this)->RemoveAll();
-    _NiFreeAlias(f8);
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)(void*)this)))->FUN_00b601a0();
+    ::FUN_00aa10f0(f8);
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00e92610
@@ -376,8 +395,6 @@ struct NiTMapBaseStub
 {
     void RemoveAll();
 };
-extern void* DAT_010f0be0;
-void __cdecl _NiFreeAlias(void*);
 struct FUN_00e92650_Holder
 {
     void* unk0;
@@ -389,20 +406,18 @@ struct FUN_00e92650_Holder
 // @fnv 0x00e92650
 void* FUN_00e92650_Holder::DestroyHolder(unsigned int flags)
 {
-    unk0 = &DAT_010f0be0;
-    ((NiTMapBaseStub*)this)->RemoveAll();
+    unk0 = &::fnv_00e92520::DAT_010f0be0;
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     unk0 = &DAT_010f0bc0;
-    ((NiTMapBaseStub*)this)->RemoveAll();
-    _NiFreeAlias(unk8);
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
+    ::FUN_00aa10f0(unk8);
     if (flags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00e92650
 
 namespace fnv_00e926b0 {
-extern void* DAT_010f0c20;
-void NiFreeAlias(void* p);
 struct NiTMapBaseStub
 {
     void RemoveAll();
@@ -418,11 +433,11 @@ struct FUN_00e926b0_shell : NiTMapBaseStub
 // @fnv 0x00e926b0
 void* FUN_00e926b0_shell::FUN_00e926b0(bool abFree)
 {
-    vftable = &DAT_010f0c20;
-    RemoveAll();
-    NiFreeAlias(field);
+    vftable = &::DAT_010f0c20;
+    reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
+    ::FUN_00aa10f0(field);
     if (abFree & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00e926b0
@@ -433,7 +448,6 @@ struct NiTMapBaseStub
     void RemoveAll();
 };
 extern int DAT_010f0c40;
-void __cdecl _NiFreeAlias(void*);
 struct FakeCls
 {
     void* vf;
@@ -446,12 +460,12 @@ struct FakeCls
 void* FakeCls::FUN_00e926f0(unsigned int auiFlags)
 {
     vf = (void*)&DAT_010f0c40;
-    ((NiTMapBaseStub*)this)->RemoveAll();
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     vf = (void*)&DAT_010f0c20;
-    ((NiTMapBaseStub*)this)->RemoveAll();
-    _NiFreeAlias(f08);
+    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
+    ::FUN_00aa10f0(f08);
     if (auiFlags & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 }  // namespace fnv_00e926f0
@@ -462,7 +476,7 @@ class NiShader
   public:
     class NiShader* DynamicCast(class NiRTTI const*);
 };
-extern char const* const g_0126f754_arg1;
+class GraphicsRenderer;
 class NiD3DShaderInterface
 {
   public:
@@ -524,39 +538,29 @@ class NiD3DShaderInterface
     virtual void f55();
     virtual void f56();
     virtual bool IsDefault();
+public:
+    void SetShaderObject(::GraphicsRenderer *);
 };
 // Casts pkShader to NiD3DShaderInterface and returns whether it is the default shader, or false if the cast fails.
 // @fnv 0x00e92730
-bool __stdcall IsDefaultShader(class NiShader* pkShader)
+bool IsDefaultShader(class NiShader* pkShader)
 {
     if (pkShader)
     {
         NiD3DShaderInterface* pkShaderIf =
-            (NiD3DShaderInterface*)pkShader->DynamicCast((NiRTTI const*)&g_0126f754_arg1);
+            (NiD3DShaderInterface*)pkShader->DynamicCast((NiRTTI const*)&(*reinterpret_cast<const char *const *>(&::g_0126f75c)));
         if (pkShaderIf)
             return pkShaderIf->IsDefault();
     }
     return false;
 }
 
-void __cdecl operator delete(void* p, unsigned int);
 
-void __cdecl FUN_00e92dc0();
 
 struct FUN_00e92e30_shell : public NiD3DShaderFactory
 {
-    void* __thiscall DestroyShaderFactory(unsigned int flags);
+    void* DestroyShaderFactory(unsigned int flags);
 };
-
-// Calls FUN_00e92dc0, frees this with operator delete when flags has bit 0 set, and returns this.
-// @fnv 0x00e92e30
-void* __thiscall FUN_00e92e30_shell::DestroyShaderFactory(unsigned int flags)
-{
-    FUN_00e92dc0();
-    if (flags & 1)
-        operator delete(this, 0x100);
-    return this;
-}
 
 struct GraphicsRenderer;
 struct FUN_00e91e60_shell : public NiD3DShaderFactory
@@ -598,9 +602,9 @@ struct FakeFactory374
 void FUN_00e91e60_shell::FUN_00e91e60(GraphicsRenderer* pkRenderer)
 {
     ShaderConstantInterface* pkLibrary;
-    if (*(GraphicsRenderer**)((char*)this + 0x24) != pkRenderer)
+    if (*(GraphicsRenderer**)&this->m_pOwnerShader != pkRenderer)
     {
-        *(GraphicsRenderer**)((char*)this + 0x24) = pkRenderer;
+        *(GraphicsRenderer**)&this->m_pOwnerShader = pkRenderer;
         pkLibrary = ((FakeFactory374*)this)->GetVertexShaderConstantInterface();
         if (pkLibrary)
         {
@@ -614,7 +618,6 @@ void FUN_00e91e60_shell::FUN_00e91e60(GraphicsRenderer* pkRenderer)
 }
 
 namespace fnv_00e921d0 {
-int __cdecl NiSprintf(char* buf, int size, const char* fmt, ...);
 struct NiShader
 {
     int m_iRefCount;
@@ -636,8 +639,8 @@ NiShader* FUN_00e921d0_shell::GetShaderByNameAndImplementation(const char* pcNam
         return 0;
     NiShader* pkShader = 0;
     char acFullName[260];
-    NiSprintf(acFullName, 260, "%s%d", pcName, uiImplementation);
-    return (*(NiTStringPointerMap_00e93020**)((char*)this + 0x28))->GetAt(acFullName, &pkShader) ? pkShader : 0;
+    ::NiSprintf(acFullName, 260, "%s%d", pcName, uiImplementation);
+    return reinterpret_cast<::A54440Hash *>(((*(NiTStringPointerMap_00e93020**)((char*)this + 0x28))))->FUN_00a53c30((::A54440Manager *)(acFullName), (::A54440Manager **)(::fnv_00e921d0::NiShader **)(&pkShader)) ? pkShader : 0;
 }
 }  // namespace fnv_00e921d0
 
@@ -650,7 +653,6 @@ struct NiFixedString
 
 struct NiShader
 {
-    NiFixedString const& GetFilename() const;
 };
 
 struct NiTStringTemplateMap
@@ -658,7 +660,6 @@ struct NiTStringTemplateMap
     void SetAt(char const*, NiShader*);
 };
 
-int NiSprintf(char*, int, const char*, ...);
 
 extern const char $SG6456[];
 extern unsigned int _data_011c16bc;
@@ -677,7 +678,7 @@ void FUN_00e929c0_shell::RegisterShaderImplementation(NiShader* pkShader, unsign
 
     if (pkShader)
     {
-        NiSprintf(acFullName, 260, $SG6456, pkShader->GetFilename().m_pcString, uiImplementation);
+        ::NiSprintf(acFullName, 260, $SG6456, (*(const ::fnv_00e929c0::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((void *)(pkShader))->FUN_00a62660())).m_pcString, uiImplementation);
 
         NiTStringTemplateMap* pkMap = *(NiTStringTemplateMap**)((char*)this + 0x28);
         if (pkMap)
@@ -699,7 +700,7 @@ struct Tbl00b57f20
     void** m_aiIndexedValues;
     void AdvanceToNextEntry(Ent00b57f20** pp, int* o1, int* o2);
 };
-typedef unsigned int(__thiscall* VF00b57f20)(void*, int);
+typedef unsigned int(* VF00b57f20)(void*, int);
 // @fnv 0x00b57f20
 void Tbl00b57f20::AdvanceToNextEntry(Ent00b57f20** ppEntry, int* piFirst, int* piSecond)
 {
@@ -799,8 +800,8 @@ void FUN_00e6e630_cls::AdvanceIterator(MapItemNode** apIter, unsigned int* key, 
     *apIter = 0;
 }
 
-extern "C" void(__stdcall* fnv_EnterCriticalSection)(void* pkSection);
-extern "C" void(__stdcall* fnv_LeaveCriticalSection)(void* pkSection);
+extern "C" void(* fnv_EnterCriticalSection)(void* pkSection);
+extern "C" void(* fnv_LeaveCriticalSection)(void* pkSection);
 
 struct E92270CriticalSection
 {
@@ -815,7 +816,6 @@ struct E92270CriticalSection
 class E92270Program
 {
   public:
-    unsigned int GetID();
 };
 
 class E92270Entry
@@ -894,7 +894,7 @@ bool E92270Library::HasEntry(const char* pcName, unsigned int uiID)
     if (!FindProgram(pcName, uiID))
     {
         E92270Program* pkProgram = FindProgram(pcName, 0xffffffff);
-        if (!pkProgram || pkProgram->GetID() != uiID)
+        if (!pkProgram || ((unsigned int)(reinterpret_cast<::Dummy_00cc0760 *>((pkProgram))->FUN_00cc0760())) != uiID)
             return false;
     }
 
@@ -970,7 +970,6 @@ struct ShaderLibrary
     virtual void vf51();
     virtual void ReleaseResources();
 
-    void FUN_00e818d0(void* renderer);
 };
 struct LibraryMap
 {
@@ -994,11 +993,9 @@ struct LibraryMap
         }
         return 0;
     }
-    void AdvanceToNextEntry(ShaderLibrary** current, void** position, ShaderLibrary** result);
 };
 struct ShaderRenderer
 {
-    void FUN_00e752b0(ShaderLibrary* library);
 };
 struct ShaderFactoryShell : NiD3DShaderFactory
 {
@@ -1017,29 +1014,23 @@ void ShaderFactoryShell::FUN_00e92470()
         void* position;
         while (current)
         {
-            static_cast<LibraryMap*>(m_pShaderMapStorage)
-                ->AdvanceToNextEntry(&current, &position, const_cast<ShaderLibrary**>(&pCurrentShader));
+            reinterpret_cast<::Tbl00b57f20 *>((static_cast<LibraryMap*>(m_pShaderMapStorage)))->AdvanceToNextEntry((::Ent00b57f20 **)(::ShaderLibrary **)(&current), (int *)(void **)(&position), (int *)(::ShaderLibrary **)(const_cast<ShaderLibrary**>(&pCurrentShader)));
             ShaderLibrary* activeShader = pCurrentShader;
             if (activeShader)
             {
                 ShaderLibrary& library = *activeShader;
                 if (!library.IsDefault())
                 {
-                    library.FUN_00e818d0(m_pOwnerShader);
+                    reinterpret_cast<::NiD3DShaderInterface *>(&(library))->SetShaderObject((::GraphicsRenderer *)(m_pOwnerShader));
                     library.ReleaseResources();
-                    static_cast<ShaderRenderer*>(m_pOwnerShader)->FUN_00e752b0(&library);
+                    reinterpret_cast<::FUN_00e752b0_shell *>((static_cast<ShaderRenderer*>(m_pOwnerShader)))->FUN_00e752b0(&library);
                 }
             }
         }
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" unsigned int __cdecl strlen(const char* pcString);
-extern "C" int __cdecl strcpy_s(char* pcDest, unsigned int uiSize, const char* pcSrc);
 
-void* __cdecl NiMalloc(unsigned int uiSize);
 
 class BE92910RefObject
 {
@@ -1112,9 +1103,9 @@ void FUN_00e92910_cls::SetEntryNameAndObject(BE92910Entry* pkEntry, const char* 
     if (m_bCopyStrings)
     {
         unsigned int uiLen = strlen(pcName) + 1;
-        char* pcCopy = (char*)NiMalloc(uiLen);
+        char* pcCopy = (char*)::FUN_00aa1070(uiLen);
         pkEntry->m_pcName = pcCopy;
-        strcpy_s(pcCopy, uiLen, pcName);
+        fnv::crt::strcpy_s(pcCopy, uiLen, pcName);
     }
     else
     {
@@ -1125,7 +1116,6 @@ void FUN_00e92910_cls::SetEntryNameAndObject(BE92910Entry* pkEntry, const char* 
 
 struct ShaderLibrary_92c40
 {
-    const char* FUN_00d47a30();
 };
 struct ReferenceObject_92c40
 {
@@ -1136,8 +1126,6 @@ struct ReferenceObject_92c40
 struct LibraryMap_92c40
 {
     void FUN_00e91fd0(const char*);
-    void AdvanceIterator(void**, void**, ReferenceObject_92c40**);
-    void FUN_00b601a0();
 };
 struct FUN_00e92c40_shell : NiD3DShaderFactory
 {
@@ -1154,35 +1142,40 @@ void FUN_00e92c40_shell::FUN_00e92c40()
     {
         do
         {
-            ((LibraryMap_92c40*)m_pShaderLibraryStorage)->FUN_00e91fd0(current->FUN_00d47a30());
+            ((LibraryMap_92c40*)m_pShaderLibraryStorage)->FUN_00e91fd0(reinterpret_cast<::RefCountedNamedObject *>((current))->GetName());
             if (!m_pShaderLibraryStorage || !m_pShaderLibraryIterator)
                 break;
             ReferenceObject_92c40* next = 0;
             void* scratch;
-            ((LibraryMap_92c40*)m_pShaderLibraryStorage)->AdvanceIterator(&m_pShaderLibraryIterator, &scratch, &next);
+            reinterpret_cast<::FUN_00e6e630_cls *>((((LibraryMap_92c40*)m_pShaderLibraryStorage)))->AdvanceIterator((::MapItemNode **)(void **)(&m_pShaderLibraryIterator), (unsigned int *)(void **)(&scratch), (::MapValueObject **)(::ReferenceObject_92c40 **)(&next));
             ReferenceObject_92c40* savedNext = *(ReferenceObject_92c40* volatile*)&next;
             if (savedNext && InterlockedDecrement(&savedNext->referenceCount) == 0)
                 savedNext->Release();
             current = (ShaderLibrary_92c40*)savedNext;
         } while (current);
     }
-    ((LibraryMap_92c40*)m_pShaderLibraryStorage)->FUN_00b601a0();
+    reinterpret_cast<::S_00b601a0_Map *>((((LibraryMap_92c40*)m_pShaderLibraryStorage)))->FUN_00b601a0();
 }
 
 struct ShaderMap
 {
     virtual void Dispose(unsigned int flags);
-    void FUN_00b601a0();
 };
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* criticalSection);
 
 struct ShaderFactoryShutdown : NiD3DShaderFactory
 {
-    void FUN_00e92c40();
-    void FUN_00aa05a0();
     void FUN_00e92dc0();
 };
+// Calls FUN_00e92dc0, frees this with operator delete when flags has bit 0 set, and returns this.
+// @fnv 0x00e92e30
+void* FUN_00e92e30_shell::DestroyShaderFactory(unsigned int flags)
+{
+    static_cast<::ShaderFactoryShutdown *>(nullptr)->FUN_00e92dc0();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x100);
+    return this;
+}
 
 // @fnv 0x00e92dc0
 void ShaderFactoryShutdown::FUN_00e92dc0()
@@ -1190,9 +1183,9 @@ void ShaderFactoryShutdown::FUN_00e92dc0()
     ShaderMap* shaderMap = static_cast<ShaderMap*>(m_pShaderMapStorage);
     m_ppVirtualMethodTable = &kVtbl_NiD3DShaderFactory;
     if (shaderMap)
-        shaderMap->FUN_00b601a0();
+        reinterpret_cast<::S_00b601a0_Map *>((shaderMap))->FUN_00b601a0();
 
-    FUN_00e92c40();
+    reinterpret_cast<::FUN_00e92c40_shell *>(this)->FUN_00e92c40();
 
     if (m_pShaderMapStorage)
         static_cast<ShaderMap*>(m_pShaderMapStorage)->Dispose(1);
@@ -1202,16 +1195,14 @@ void ShaderFactoryShutdown::FUN_00e92dc0()
     m_pShaderMapStorage = 0;
     m_pShaderLibraryStorage = 0;
     m_pOwnerShader = 0;
-    DeleteCriticalSection(m_kShaderMap);
-    FUN_00aa05a0();
+    DeleteCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(m_kShaderMap));
+    reinterpret_cast<::FUN_00aa05a0 *>(this)->FUN_00aa05a0::~FUN_00aa05a0();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct FUN_00d47a30_class
 {
     void* m_ppVirtualMethodTable;
     long m_iObjectReferenceCount;
-    void* FUN_00d47a30();
 };
 struct ShaderObjRef_e92a40
 {
@@ -1229,18 +1220,43 @@ struct ShaderObjRef_e92a40
 };
 struct FUN_00e927f0_class
 {
-    void FUN_00e927f0(void* a, ShaderObjRef_e92a40 b);
 };
 struct ShaderFactory_e92a40 : NiD3DShaderFactory
 {
     void FUN_00e92a40(FUN_00d47a30_class* p);
+};
+class ShaderRefObject;
+struct ShaderMapItem
+{
+    ShaderMapItem* m_pkNext;
+    const char* m_key;
+    NiPointer<ShaderRefObject> m_val;
+};
+struct ShaderMapAllocator
+{
+    unsigned int m_uiCount;
+};
+class ShaderStringPointerMap
+{
+  public:
+    virtual ~ShaderStringPointerMap();
+    virtual unsigned int KeyToHashIndex(const char* key) const;
+    virtual bool IsKeysEqual(const char* key1, const char* key2) const;
+    virtual void SetValue(ShaderMapItem* pkItem, const char* key, NiPointer<ShaderRefObject> val);
+
+    unsigned int m_uiHashSize;
+    ShaderMapItem** m_ppkHashTable;
+    ShaderMapAllocator m_kItemCount;
+    bool m_bCopy;
+
+    void FUN_00e927f0(const char* key, NiPointer<ShaderRefObject> val) throw();
 };
 // @fnv 0x00e92a40
 void ShaderFactory_e92a40::FUN_00e92a40(FUN_00d47a30_class* p)
 {
     if (p)
     {
-        reinterpret_cast<FUN_00e927f0_class*>(m_pShaderLibraryStorage)->FUN_00e927f0(p->FUN_00d47a30(), p);
+        reinterpret_cast<::ShaderStringPointerMap *>((reinterpret_cast<FUN_00e927f0_class*>(m_pShaderLibraryStorage)))->FUN_00e927f0((const char *)(void *)(((void *)(reinterpret_cast<::RefCountedNamedObject *>((p))->GetName()))), (*(::NiPointer< ::ShaderRefObject> *)&(const ::ShaderObjRef_e92a40 &)(p)));
     }
 }
 
@@ -1250,14 +1266,13 @@ struct ShaderMapNode305
     const char* key;
     void* value;
 };
-extern "C" void __cdecl FUN_00aa10f0(void*);
 class MapBase305
 {
   public:
     virtual ~MapBase305()
     {
-        RemoveAll();
-        FUN_00aa10f0(buckets);
+        reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
+        ::FUN_00aa10f0(buckets);
     }
     virtual void Hash();
     virtual void Equal();
@@ -1275,7 +1290,7 @@ class PointerMap305 : public MapBase305
   public:
     virtual ~PointerMap305()
     {
-        RemoveAll();
+        reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     }
     virtual void* NewItem();
     virtual void DeleteItem(ShaderMapNode305*);
@@ -1302,7 +1317,7 @@ FUN_00e925a0::~FUN_00e925a0()
             {
                 ShaderMapNode305* current = item;
                 item = item->next;
-                FUN_00aa10f0(const_cast<char*>(current->key));
+                ::FUN_00aa10f0(const_cast<char*>(current->key));
             }
         }
     }
@@ -1367,7 +1382,6 @@ ShaderRefObject* ShaderFactoryView::GetShaderRefObject(const char* pcName) throw
     return 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class NiRefObjE92A
 {
@@ -1488,7 +1502,6 @@ class ShaderStringPointerMap
     ShaderMapItem** m_ppkHashTable;
     ShaderMapAllocator m_kItemCount;
     bool m_bCopy;
-    void AdvanceIterator(void*&, const char*&, ShaderResult&) throw();
     void* GetFirstPos() const
     {
         for (unsigned int i = 0; i < m_uiHashSize; ++i)
@@ -1531,7 +1544,7 @@ ShaderRefObject* ShaderFactoryView::FUN_00e92b50()
         {
             const char* key;
             ShaderResult object = {0};
-            map->AdvanceIterator(m_pShaderLibraryIterator, key, object);
+            reinterpret_cast<::FUN_00e6e630_cls *>((map))->AdvanceIterator((::MapItemNode **)&(m_pShaderLibraryIterator), (unsigned int *)&(key), (::MapValueObject **)&(object));
             ShaderRefObject* result = static_cast<volatile ShaderResult&>(object).pointer;
             if (result != 0)
             {
@@ -1547,7 +1560,6 @@ ShaderRefObject* ShaderFactoryView::FUN_00e92b50()
 
 struct S_00e92be0_Callee
 {
-    void* __thiscall AdvanceIterator(void* key, void** outA, void** outB);
 };
 
 struct S_00e92be0_Ref
@@ -1592,7 +1604,7 @@ S_00e92be0_Ref* S_00e92be0_Factory::FUN_00e92be0()
         void* pOut = 0;
         void* local4;
 
-        callee->AdvanceIterator(&unk2c, &local4, &pOut);
+        reinterpret_cast<::FUN_00e6e630_cls *>((callee))->AdvanceIterator((::MapItemNode **)(void *)(&unk2c), (unsigned int *)(void **)(&local4), (::MapValueObject **)(void **)(&pOut));
         S_00e92be0_Ref* object = reinterpret_cast<S_00e92be0_Ref*>(*static_cast<void* volatile*>(&pOut));
 
         if (object != 0)
@@ -1638,7 +1650,7 @@ class ShaderMaterialCache : public NiMemObject
     unsigned int revision;
     ShaderMaterialCache(ShaderMaterialSource* material) : revision(0)
     {
-        CopyColorIfChanged(material);
+        reinterpret_cast<::FUN_00e93fb0_Class *>(this)->CopyColorIfChanged((::FUN_00e93fb0_Class *)(material));
     }
     __declspec(noinline) bool CopyColorIfChanged(ShaderMaterialSource* material);
 };
@@ -1684,7 +1696,7 @@ void NiD3DShaderFactory::UpdateShaderMaterialCache(void* parameter)
         material->cache = object;
         m_shutdown = true;
     }
-    if (object->CopyColorIfChanged(material))
+    if (((bool)(reinterpret_cast<::FUN_00e93fb0_Class *>((object))->CopyColorIfChanged((::FUN_00e93fb0_Class *)(material)))))
         m_shutdown = true;
     if (object != m_ppVirtualMethodTable)
     {
@@ -1693,9 +1705,6 @@ void NiD3DShaderFactory::UpdateShaderMaterialCache(void* parameter)
     }
 }
 
-extern "C" void __cdecl FUN_00aa0020(int, int, const char*, ...);
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 extern "C" char UNK_010f0b84[];
 extern "C" char UNK_010f0b20[];
 extern "C" char UNK_010f0b54[];
@@ -1717,7 +1726,6 @@ class Logger
     virtual void Reserved4();
     virtual void Log(int, const char*, int, int, int);
 };
-extern "C" Logger* DAT_011f6388;
 
 class ShaderFactory
 {
@@ -1780,20 +1788,20 @@ ShaderLibrary* ShaderFactory::FUN_00e920a0(const char* pcName, unsigned int uiIm
 {
     if (!m_pOwnerShader)
     {
-        if (DAT_011f6388)
-            DAT_011f6388->Log(4, UNK_010f0b84, 0, 0, 0);
+        if ((*reinterpret_cast<::Logger * *>(&::DAT_011f6388)))
+            (*reinterpret_cast<::Logger * *>(&::DAT_011f6388))->Log(4, UNK_010f0b84, 0, 0, 0);
         return 0;
     }
     if (!pcName || !*pcName)
     {
-        FUN_00aa0020(1, 0, UNK_010f0b20);
+        ::FUN_00aa0020(1, 0, UNK_010f0b20);
         return 0;
     }
     ShaderLibrary* pkShader = AcquireShader(pcName, uiImplementation);
     if (!pkShader)
     {
         void* pCriticalSection = &m_kShaderMap;
-        EnterCriticalSection(pCriticalSection);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(pCriticalSection));
         ShaderLibraryProducer* pkLibrary = GetVertexShaderConstantInterface();
         pkShader = AcquireShader(pcName, uiImplementation);
         if (!pkShader)
@@ -1804,25 +1812,23 @@ ShaderLibrary* ShaderFactory::FUN_00e920a0(const char* pcName, unsigned int uiIm
                 if (pkShader)
                 {
                     RegisterShader(pkShader, uiImplementation);
-                    m_pOwnerShader->FUN_00e752b0(pkShader);
-                    pkShader->FUN_00e818d0(m_pOwnerShader);
+                    reinterpret_cast<::FUN_00e752b0_shell *>((m_pOwnerShader))->FUN_00e752b0(pkShader);
+                    reinterpret_cast<::NiD3DShaderInterface *>((pkShader))->SetShaderObject((::GraphicsRenderer *)(m_pOwnerShader));
                     break;
                 }
                 pkLibrary = GetPixelShaderConstantInterface();
             }
         }
-        LeaveCriticalSection(pCriticalSection);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(pCriticalSection));
     }
     if (bReportFailure && !pkShader)
-        FUN_00aa0020(1, 0, UNK_010f0b54, pcName, uiImplementation);
+        ::FUN_00aa0020(1, 0, UNK_010f0b54, pcName, uiImplementation);
     return pkShader;
 }
 
 // Today's tree does not provide the CRITICAL_SECTION typedef (windows.h include is
 // dropped when merged); declare the lock functions the way the tree does and use a
 // stand-in with the 24-byte x86 CRITICAL_SECTION layout.
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct FUN_00e92330_critsec
 {
@@ -1831,8 +1837,6 @@ struct FUN_00e92330_critsec
 
 struct FUN_00e92330_arg
 {
-    unsigned int* FUN_00a62660();
-    unsigned int FUN_00cc0760();
 };
 
 struct FUN_00e92330_item
@@ -1863,34 +1867,34 @@ struct FUN_00e92330_cls
     virtual FUN_00e92330_item* GetNext();
     unsigned int unk04[31];
     FUN_00e92330_critsec m_lock;
-    bool FUN_00e92330(unsigned int a1);
+    bool FUN_00e92330(uintptr_t a1);
 };
 
-typedef FUN_00e92330_item*(__thiscall* FUN_00e92330_match)(FUN_00e92330_cls*, unsigned int, unsigned int);
+typedef FUN_00e92330_item*(* FUN_00e92330_match)(FUN_00e92330_cls*, unsigned int, unsigned int);
 
 // Checks whether the collection contains the item identified by a1, using a virtual Match lookup and a Test predicate under a critical section.
 // @fnv 0x00e92330
-bool FUN_00e92330_cls::FUN_00e92330(unsigned int apItem)
+bool FUN_00e92330_cls::FUN_00e92330(uintptr_t apItem)
 {
     if (apItem == 0)
     {
         return false;
     }
-    unsigned int key = *((FUN_00e92330_arg*)apItem)->FUN_00a62660();
+    unsigned int key = *((unsigned int *)&(reinterpret_cast<::FUN_00a62660_cls *>((((FUN_00e92330_arg*)apItem)))->FUN_00a62660()));
     void** pVTable = *(void***)this;
     void** pMatchSlot = pVTable + 3;
-    unsigned int ref = ((FUN_00e92330_arg*)apItem)->FUN_00cc0760();
+    unsigned int ref = ((unsigned int)(reinterpret_cast<::Dummy_00cc0760 *>((((FUN_00e92330_arg*)apItem)))->FUN_00cc0760()));
     FUN_00e92330_item* r = ((FUN_00e92330_match)*pMatchSlot)(this, key, ref);
-    if (!(r && (unsigned int)r == apItem))
+    if (!(r && (uintptr_t)r == apItem))
     {
-        unsigned int key2 = *((FUN_00e92330_arg*)apItem)->FUN_00a62660();
+        unsigned int key2 = *((unsigned int *)&(reinterpret_cast<::FUN_00a62660_cls *>((((FUN_00e92330_arg*)apItem)))->FUN_00a62660()));
         r = ((FUN_00e92330_match)(*(void***)this)[3])(this, key2, 0xffffffff);
-        if (!(r && (unsigned int)r == apItem))
+        if (!(r && (uintptr_t)r == apItem))
         {
             return false;
         }
     }
-    EnterCriticalSection(&m_lock);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_lock));
     FUN_00e92330_item* pItem = GetFirst();
     bool result = false;
     while (pItem)
@@ -1902,6 +1906,48 @@ bool FUN_00e92330_cls::FUN_00e92330(unsigned int apItem)
         }
         pItem = GetNext();
     }
-    LeaveCriticalSection(&m_lock);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_lock));
     return result;
 }
+
+
+
+
+
+// @fnv 0x00e927f0
+void ShaderStringPointerMap::FUN_00e927f0(const char* key, NiPointer<ShaderRefObject> val)
+{
+    unsigned int uiIndex = KeyToHashIndex(key);
+    ShaderMapItem* pkItem = m_ppkHashTable[uiIndex];
+    while (pkItem)
+    {
+        if (IsKeysEqual(key, pkItem->m_key))
+        {
+            if (!m_bCopy)
+                pkItem->m_key = key;
+            pkItem->m_val = val;
+            return;
+        }
+        pkItem = pkItem->m_pkNext;
+    }
+
+    pkItem = (ShaderMapItem*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(m_kItemCount))->FUN_0043a010()));
+    SetValue(pkItem, key, val);
+    pkItem->m_pkNext = m_ppkHashTable[uiIndex];
+    m_ppkHashTable[uiIndex] = pkItem;
+    m_kItemCount.m_uiCount++;
+}
+
+
+
+struct FUN_00a1e740_Class
+{
+    bool FUN_00a1e740(const char*, const char*);
+};
+
+// @fnv 0x00a1e740
+bool FUN_00a1e740_Class::FUN_00a1e740(const char* pcKey1, const char* pcKey2)
+{
+    return NiStricmp(pcKey1, pcKey2) == 0;
+}
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderfactory.inc"

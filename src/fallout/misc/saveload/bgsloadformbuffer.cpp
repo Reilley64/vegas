@@ -1,5 +1,29 @@
 // fallout/misc/saveload/bgsloadformbuffer.cpp: BGSLoadFormBuffer (16 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C42CE30.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_00846490_t.h"
+#include "fnv/decl/FUN_00853500_shell.h"
+#include "fnv/decl/FUN_00864790_shell.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008649a0__FUN_008649a0_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_0044d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_0084e000.h"
+#include "fnv/symbols_00864000.h"
 #include "bgsloadformbuffer_decls.h"
 
 // @fnv 0x008a81c0
@@ -35,7 +59,7 @@ Actor* BGSLoadFormBuffer::GetActor()
 TESForm* BGSLoadFormBuffer::GetForm()
 {
     if (!pForm && IsFlag2Set())
-        pForm = GetFormByID(iFormID);
+        pForm = ::FUN_004839c0(iFormID);
     return pForm;
 }
 
@@ -44,31 +68,29 @@ void BGSLoadFormBuffer::SkipData(SaveLoadFile* file, unsigned int size)
 {
     unsigned int remaining;
     if (remaining = iSize - size)
-        file->AdvancePosition(iSize - size);
+        reinterpret_cast<::FUN_00846490_t *>((file))->AdvancePosition(iSize - size);
 }
 
 struct Dummy84eaf0
 {
-    void ClearNumericIDIndex();
 };
 
 struct Dummy864490
 {
-    void FUN_00864490();
 };
 
 // @fnv 0x00864450
-FormLoadContext* __fastcall FUN_00864450(FormLoadContext* apObject)
+FormLoadContext* FUN_00864450(FormLoadContext* apObject)
 {
-    reinterpret_cast<Dummy84eaf0*>(apObject)->ClearNumericIDIndex();
-    reinterpret_cast<FormChangeMask*>(reinterpret_cast<char*>(apObject) + 3)->FormChangeMask::FormChangeMask();
-    reinterpret_cast<Dummy864490*>(reinterpret_cast<char*>(apObject) + 7)->FUN_00864490();
-    *(reinterpret_cast<unsigned char*>(apObject) + 8) = 0;
+    ::ClearNumericIDIndex((::BGSNumericIDIndex3 *)(reinterpret_cast<Dummy84eaf0*>(apObject)));
+    ::FUN_0044dee0((::BGSLoadGameSubBuffer *)(&apObject->m_pDeathItem));
+    ::FUN_00864490((char *)(reinterpret_cast<Dummy864490*>(&apObject->FormInfo.cData)));
+    apObject->cVersion = 0;
     return apObject;
 }
 
 // @fnv 0x00864490
-char* __fastcall FUN_00864490(char* p)
+char* FUN_00864490(char* p)
 {
     *p = 0;
     return p;
@@ -82,13 +104,10 @@ struct FUN_008644b0_shell : public BGSLoadFormBuffer
 enum SIZE_TYPE
 {
 };
-unsigned int __cdecl ReadSizedUnsignedInt(SaveLoadFile*, unsigned int&, SIZE_TYPE);
-unsigned int __fastcall FUN_00853500(void*);
-SIZE_TYPE __fastcall FUN_00864520(void*);
+SIZE_TYPE FUN_00864520(void*);
 
 struct BGSSaveLoadFile_Read_shell : public SaveLoadFile
 {
-    unsigned int Read(void*, unsigned int);
 };
 
 // @fnv 0x008644b0
@@ -97,11 +116,11 @@ int FUN_008644b0_shell::FUN_008644b0(SaveLoadFile* apFile)
     SIZE_TYPE esizeType;
     unsigned int iLoadedSize;
 
-    ((BGSSaveLoadFile_Read_shell*)apFile)->Read((char*)this + 0x14, 9);
-    *(unsigned int*)((char*)this + 0x10) = FUN_00853500((char*)this + 0x14);
-    esizeType = FUN_00864520((char*)this + 0x1b);
-    iLoadedSize = ReadSizedUnsignedInt(apFile, *(unsigned int*)((char*)this + 0x20), esizeType);
-    if (iLoadedSize != *(unsigned int*)((char*)this + 0x20))
+    reinterpret_cast<::SaveLoadFile *>((((BGSSaveLoadFile_Read_shell*)apFile)))->Read((char*)&this->Header, 9);
+    this->iFormID = reinterpret_cast<::FUN_00853500_shell *>(&this->Header.m_kFormIDIndex.m_ucIDByte0)->FUN_00853500();
+    esizeType = FUN_00864520((char*)&this->Header.FormInfo);
+    iLoadedSize = ReadSizedUnsignedInt(apFile, this->iSize, esizeType);
+    if (iLoadedSize != this->iSize)
         return -1;
     return iLoadedSize;
 }
@@ -121,14 +140,13 @@ struct S_00864540
 {
     int pad[8];
     int f20;
-    int ReadFromFile(int, int);
-    int CheckValueMatchesField(int);
+    int CheckValueMatchesField(void*);
 };
 // Calls ReadFromFile with a and f20; returns -1 if the result differs from f20, otherwise returns the result.
 // @fnv 0x00864540
-int S_00864540::CheckValueMatchesField(int a)
+int S_00864540::CheckValueMatchesField(void* a)
 {
-    int r = ReadFromFile(a, f20);
+    int r = reinterpret_cast<::FUN_00864790_shell *>(this)->ReadFromFile((::SaveLoadFile *)(a), f20);
     if (r != f20)
         return -1;
     return r;
@@ -144,9 +162,9 @@ void FUN_00864580_shell::FUN_00864580(SaveLoadFile* apFile, unsigned int aiAlrea
 {
     unsigned int uiRemaining;
     if ((uiRemaining =
-             *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x20) - aiAlreadyLoadedAmount) != 0)
+             this->iSize - aiAlreadyLoadedAmount) != 0)
     {
-        apFile->AdvancePosition(*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x20) -
+        reinterpret_cast<::FUN_00846490_t *>((apFile))->AdvancePosition(this->iSize -
                                 aiAlreadyLoadedAmount);
     }
 }
@@ -156,20 +174,19 @@ struct FUN_008645b0_shell : public BGSLoadFormBuffer
     TESForm* FUN_008645b0();
 };
 
-// @fnv 0x008645b0
-TESForm* FUN_008645b0_shell::FUN_008645b0()
-{
-    if (pForm == 0 && IsFlag2Set())
-    {
-        pForm = GetFormByID(iFormID);
-    }
-    return pForm;
-}
-
 struct FUN_008645f0_shell : public BGSLoadFormBuffer
 {
     bool IsFlag2Set();
 };
+// @fnv 0x008645b0
+TESForm* FUN_008645b0_shell::FUN_008645b0()
+{
+    if (pForm == 0 && reinterpret_cast<::FUN_008645f0_shell *>(this)->IsFlag2Set())
+    {
+        pForm = ::FUN_004839c0(iFormID);
+    }
+    return pForm;
+}
 
 // @fnv 0x008645f0
 bool FUN_008645f0_shell::IsFlag2Set()
@@ -354,7 +371,6 @@ struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct FUN_00864660_shell : public BGSLoadFormBuffer
 {
     Actor* GetReferenceAsActor();

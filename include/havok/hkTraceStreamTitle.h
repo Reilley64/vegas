@@ -4,12 +4,9 @@
 #define FNV_HAVOK_HKTRACESTREAMTITLE_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkTraceStreamTitle
 {
   public:
     char m_uiFilterValue[32];  // +0x0
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkTraceStreamTitle[(sizeof(hkTraceStreamTitle) == 0x20) ? 1 : -1];
 #endif

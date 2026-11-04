@@ -1,14 +1,14 @@
 // bsshader/distantlodshader_decls.h: declares NiMemObject, NiRefObject, NiD3DShaderConstantMap, DistantLODShader, NiD3DShader
 #ifndef DISTANTLODSHADER_DECLS_H
 #define DISTANTLODSHADER_DECLS_H
+#include <cstddef>
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
+#include <windows.h>
+#include "fnv/symbols_011fa000.h"
 
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
 };
 
 class NiRefObject : public NiMemObject
@@ -30,8 +30,6 @@ class NiRefObject : public NiMemObject
 
 class GraphicsRenderer;
 extern const float DAT_011ad860;
-extern const float DAT_011fa280[];
-extern const float DAT_011fa290[];
 class NiD3DShaderConstantMap : public NiRefObject
 {
   public:

@@ -6,6 +6,10 @@
 // Signatures follow the canonical bindings from IDENTITIES.md / lookup sym;
 // layouts here are minimal and private to this translation unit.
 
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011f6000.h"
 union SETTING_VALUE
 {
     float f;
@@ -17,13 +21,10 @@ template <class T> class SettingT
   public:
     SETTING_VALUE* Float();
 };
-extern SettingT<GameSettingCollection> DAT_011f6da8;
-extern SettingT<GameSettingCollection> DAT_011f6db4;
 
 class GlobalObject_00559cc0
 {
   public:
-    bool RemoveAt(unsigned int);
 };
 extern GlobalObject_00559cc0 g_011ca304;
 
@@ -44,19 +45,39 @@ extern GlobalObject_00878030 g_011deffc;
 class GarbageCollectorUpdateState;
 
 class BGSEncounterZone;
-extern BGSEncounterZone* DAT_011c9520;
-extern unsigned char DAT_011c7a58;
 extern unsigned char DAT_011dd435;
 
+class BSExtraData;
+class ExtraRadioData;
+class TESObjectCELL;
+class TESModel;
 class TESObjectREFR
 {
   public:
     virtual ~TESObjectREFR();  // polymorphic: its RTTI is used (rtti_fix.py)
   public:
-    unsigned char pad[0x38];
+    unsigned char pad[0x14];
+    void* kChildCell;      // +0x18, the TESChildCell base
+    void* pLoopSound;      // +0x1C
+    void* unk20;
+    float unk24;
+    float fRotY;           // +0x28
+    float unk2c;
+    float afPosition[3];   // +0x30
     float m_fObjectScale;  // +0x3C
-    static BGSEncounterZone* FindEncounterZone();
+    TESObjectCELL* pParentCell;     // +0x40
+    unsigned char kExtraList[0x20];  // +0x44, an ExtraDataList
+    void* pLoadedData;              // +0x64
+    static BGSEncounterZone* GetDefaultEncounterZone();
     float GetScale();
+public:
+    ::BSExtraData *GetExtraData(unsigned char) const;
+public:
+    ::ExtraRadioData *GetExtraRadioData();
+public:
+    const char *GetModelFilePath();
+public:
+    ::TESModel *GetTESModel();
 };
 
 class DurationData

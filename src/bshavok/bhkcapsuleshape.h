@@ -2,6 +2,8 @@
 #ifndef FNV_BSHAVOK_BHKCAPSULESHAPE_H
 #define FNV_BSHAVOK_BHKCAPSULESHAPE_H
 
+#include "fnv/symbols_00caa000.h"
+#include "fnv/symbols_01268000.h"
 #include "layout_support.h"
 
 class NiRTTI;
@@ -55,7 +57,6 @@ class bhkCapsuleShape : public bhkConvexShape
     hkpCapsuleShape* Gethk();
     hkpCapsuleShape* operator*();
     RigidBodyShape& GetCinfo();
-    static NiObject* CreateObject();
     virtual NiObject* MakeClone(CloningProcess& cloningProcess);
     virtual void CopyMemberData(bhkSerializable* serializable, CloningProcess& cloningProcess);
     virtual hkSerializableCinfo& CreateCinfo(bool& cinfo);
@@ -83,6 +84,6 @@ class bhkCapsuleShape : public bhkConvexShape
 // @fnv 0x0066d720
 const NiRTTI* bhkCapsuleShape::GetRTTI() const
 {
-    return &ms_kRTTI;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_0126832c));
 }
 #endif

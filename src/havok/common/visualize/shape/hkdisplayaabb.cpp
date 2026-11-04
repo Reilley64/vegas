@@ -2,15 +2,17 @@
 // src/havok/common/visualize/shape/hkdisplayaabb.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplayaabb.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include <cstdint>
 #include <xmmintrin.h>
+#include "fnv/symbols_01011000.h"
 struct VertexBuffer
 {
     __m128* values;
     unsigned int count;
     unsigned int capacityFlags;
 };
-extern "C" void __cdecl FUN_00c908c0(unsigned int allocator, VertexBuffer* output, unsigned int capacity,
-                                     unsigned int alignment);
 struct BoundsWriter
 {
     unsigned int unk00;
@@ -44,11 +46,11 @@ struct BoundsWriter
     float maxX;
     float maxY;
     float maxZ;
-    void WriteBoundsVertices(VertexBuffer* output, unsigned int allocator);
+    void WriteBoundsVertices(VertexBuffer* output, void* allocator);
 };
 // Expands output capacity to at least 24, then writes 24 SIMD vertex values from the bounds min/max into output->values.
 // @fnv 0x00de1260
-void BoundsWriter::WriteBoundsVertices(VertexBuffer* output, unsigned int allocator)
+void BoundsWriter::WriteBoundsVertices(VertexBuffer* output, void* allocator)
 {
     int oldCapacity = output->capacityFlags & 0x3FFFFFFF;
     if (oldCapacity < 24)
@@ -56,7 +58,7 @@ void BoundsWriter::WriteBoundsVertices(VertexBuffer* output, unsigned int alloca
         int newCapacity = oldCapacity * 2;
         if (newCapacity <= 24)
             newCapacity = 24;
-        FUN_00c908c0(allocator, output, newCapacity, 16);
+        FUN_00c908c0((::SpawnedObject*)allocator, (::SpawnedArray*)output, newCapacity, 16);
     }
     output->count = 24;
     output->values[0] = _mm_setr_ps(this->minX, this->minY, this->minZ, 0.0f);
@@ -86,12 +88,12 @@ void BoundsWriter::WriteBoundsVertices(VertexBuffer* output, unsigned int alloca
 }
 
 namespace fnv_00de15c0 {
-// InitBoxMesh worker9 v1: __thiscall, no stack args, no frame in ORIG.
+// InitBoxMesh worker9 v1: , no stack args, no frame in ORIG.
 // Allocates a 24B Pair { VertArr verts; FaceArr faces; } via the singleton
 // allocator vtable slot +4, stores it at this->m_08, then pushes the 8 box
 // corners (this->m_60 / this->m_70) into verts and 12 index triples into faces.
 
-extern "C" const float DAT_01011d78;  // 0.0f (w component source)
+  // 0.0f (w component source)
 
 struct __declspec(align(16)) Vec4f
 {
@@ -105,7 +107,7 @@ struct __declspec(align(16)) Vec4f
 struct AllocVt
 {
     void* f0;
-    void*(__thiscall* allocFn)(void* self, int bytes);
+    void*(* allocFn)(void* self, int bytes);
 };
 struct AllocObj
 {
@@ -113,19 +115,17 @@ struct AllocObj
 };
 struct Singleton
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     AllocObj* m_10;
 };
 
-extern "C" Singleton* FUN_00c85750();
 static void StorePs(Vec4f* dst, __m128 v)
 {
     dst->v = v;
 }
-extern "C" void FUN_00c908c0(void* ctx, void* arr, int newcap, int elemSize);
 
 struct VertArr
 {
@@ -198,7 +198,7 @@ struct ThisCls
 // @fnv 0x00de15c0
 void ThisCls::InitBoxMesh()
 {
-    Singleton* s = FUN_00c85750();
+    Singleton* s = static_cast<Singleton*>(::FUN_00c85750());
     AllocObj* ao = s->m_10;
     Pair* p = (Pair*)ao->vt->allocFn(ao, 24);
     Pair* result;
@@ -223,7 +223,7 @@ void ThisCls::InitBoxMesh()
     // 8 box corners into verts
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -232,14 +232,14 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.ay, m_60.az, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.ay, m_60.az, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -248,14 +248,14 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.ay, m_60.bz, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.ay, m_60.bz, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -264,14 +264,14 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.ay, m_60.bz, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.ay, m_60.bz, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -280,14 +280,14 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.ay, m_60.az, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.ay, m_60.az, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -296,14 +296,14 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.by, m_60.az, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.by, m_60.az, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -312,14 +312,14 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.by, m_60.bz, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.ax, m_60.by, m_60.bz, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -328,14 +328,14 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.by, m_60.bz, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.by, m_60.bz, ::DAT_01011d78));
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -344,16 +344,16 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
-        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.by, m_60.az, DAT_01011d78));
+        StorePs(&a->data[sz], _mm_setr_ps(m_60.bx, m_60.by, m_60.az, ::DAT_01011d78));
     }
 
     // 12 index triples into faces
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -362,7 +362,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];
@@ -373,7 +373,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -382,7 +382,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];
@@ -393,7 +393,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -402,7 +402,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];
@@ -413,7 +413,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -422,7 +422,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];
@@ -433,7 +433,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -442,7 +442,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];
@@ -453,7 +453,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -462,7 +462,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];
@@ -473,7 +473,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -482,7 +482,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];
@@ -493,7 +493,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -502,7 +502,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];
@@ -513,7 +513,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -522,7 +522,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];
@@ -533,7 +533,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -542,7 +542,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];
@@ -553,7 +553,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -562,7 +562,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];
@@ -573,7 +573,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -582,7 +582,7 @@ void ThisCls::InitBoxMesh()
             int dbl = (a->cap & 0x3fffffff) * 2;
             if (newSize < dbl)
                 newSize = dbl;
-            FUN_00c908c0(ctx, a, newSize, 16);
+            FUN_00c908c0((::SpawnedObject*)ctx, (::SpawnedArray*)a, newSize, 16);
         }
         a->size += 1;
         Face* fp = &a->data[sz];

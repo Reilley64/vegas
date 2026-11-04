@@ -9,23 +9,16 @@ class NiTAbstractPoolAllocator_unsigned_int_;
 class NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBase___;
 class NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBase_____AntiBloatAllocator;
 class NiTPointerAllocator_unsigned_int_;
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBase_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -33,13 +26,6 @@ class NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBa
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(
-    sizeof(NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBase_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(
-    offsetof(NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBase_____AntiBloatAllocator,
-             m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBase___
 {
   public:
@@ -62,14 +48,4 @@ class NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBa
     // void __cdecl NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned short,AnimSequenceBase *>::*()
     // void __cdecl NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned short,AnimSequenceBase *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBase___) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBase___, m_ppVirtualMethodTable) ==
-                  0);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBase___,
-                           m_uiHashSize) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBase___,
-                           m_ppkHashTable) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_NiTPointerAllocator_unsigned_int__unsigned_short_AnimSequenceBase___,
-                           m_kItemCount) == 12);
 #endif

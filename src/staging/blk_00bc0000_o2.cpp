@@ -2,14 +2,148 @@
 // src/staging/blk_00bc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00ba8000.h"
+#include "fnv/symbols_00bc3000.h"
+#include "fnv/tls.h"
+#include <cstdint>
+#include <new>
+#include <cstddef>
+#include <windows.h>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include "fnv/decl/A72BB0_DataStreamOwner.h"
+#include "fnv/decl/BSShader.h"
+#include "fnv/decl/BSShaderLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BoneHost.h"
+#include "fnv/decl/CamLook.h"
+#include "fnv/decl/Camera.h"
+#include "fnv/decl/CullerOwner.h"
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/E7DE90Owner.h"
+#include "fnv/decl/E7DEF0TextureStage.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004bc320_shell.h"
+#include "fnv/decl/FUN_00589850_Class.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a57630.h"
+#include "fnv/decl/FUN_00a57640_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5dbe0_shell.h"
+#include "fnv/decl/FUN_00a698a0_class.h"
+#include "fnv/decl/FUN_00a726a0_cls.h"
+#include "fnv/decl/FUN_00a72ca0_Class.h"
+#include "fnv/decl/FUN_00b66700_class.h"
+#include "fnv/decl/FUN_00b719e0_class.h"
+#include "fnv/decl/FUN_00b71b90_class.h"
+#include "fnv/decl/FUN_00ba3770_struct.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/FUN_00ba3a00.h"
+#include "fnv/decl/FUN_00ba8e50_cls.h"
+#include "fnv/decl/FUN_00ba9380_cls.h"
+#include "fnv/decl/FUN_00baa0e0.h"
+#include "fnv/decl/FUN_00bdac00_t.h"
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/decl/FUN_00c5faa0.h"
+#include "fnv/decl/FUN_00c5fb60_class.h"
+#include "fnv/decl/FUN_00c663d0.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/Fake_FUN_004a2020.h"
+#include "fnv/decl/H_00ba3840.h"
+#include "fnv/decl/H_00ba39a0.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/Holder00ba37f0.h"
+#include "fnv/decl/HolderForAccum.h"
+#include "fnv/decl/Host200.h"
+#include "fnv/decl/LightView.h"
+#include "fnv/decl/Manager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiAlphaController.h"
+#include "fnv/decl/NiGPUProgramOwner.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/NiNodeEq.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/S654.h"
+#include "fnv/decl/S694a0.h"
+#include "fnv/decl/S_00ba92c0_Prop.h"
+#include "fnv/decl/SelfObj.h"
+#include "fnv/decl/SelfStub.h"
+#include "fnv/decl/ShaderPropertyRecord.h"
+#include "fnv/decl/ShaderStageManager.h"
+#include "fnv/decl/SpeedTreeLeafShaderConstantMapSetup.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/decl/TallGrassShader.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_004a4c90__FUN_004a4c90_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00b7af80__ShaderSelector.h"
+#include "fnv/decl/fnv_00b7dab0__RX.h"
+#include "fnv/decl/fnv_00ba3d30__FUN_00ba3d30.h"
+#include "fnv/decl/fnv_00bdf3e0__Bdf3e0_cls.h"
+#include "fnv/decl/fnv_00e814b0__UnkShader.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005bf000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a92000.h"
+#include "fnv/symbols_00b4f000.h"
+#include "fnv/symbols_00b54000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_00b70000.h"
+#include "fnv/symbols_00b7c000.h"
+#include "fnv/symbols_00b8b000.h"
+#include "fnv/symbols_00bc0000.h"
+#include "fnv/symbols_00bd9000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00c03000.h"
+#include "fnv/symbols_00c9a000.h"
+#include "fnv/symbols_00d3d000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_010a9000.h"
+#include "fnv/symbols_010ae000.h"
+#include "fnv/symbols_010af000.h"
+#include "fnv/symbols_010ba000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011ae000.h"
+#include "fnv/symbols_011bf000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
+#include "fnv/symbols_011fd000.h"
+#include "fnv/symbols_011fe000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_01201000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 
-extern "C" void* g_01201f5c;
 
 // @fnv 0x00bc0f70
 void* __cdecl FUN_00bc0f70()
 {
-    return &g_01201f5c;
+    return &(*reinterpret_cast<void * *>(&::g_01201f5c));
 }
 
 struct MemoryManager
@@ -20,18 +154,16 @@ struct MM
 {
     void Deallocate(void*);
 };
-extern MM g_memoryManager;
 extern void* DAT_01201f4c;
 
 // @fnv 0x00bc0c50
 void __cdecl FUN_00bc0c50()
 {
     if (DAT_01201f4c)
-        g_memoryManager.Deallocate(DAT_01201f4c);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(DAT_01201f4c);
     DAT_01201f4c = 0;
 }
 
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00bc1fa0_class
 {
@@ -41,16 +173,6 @@ struct FUN_00bc2510_class : FUN_00bc1fa0_class
 {
     void* FUN_00bc2510(int a);
 };
-// Calls FUN_00bc1fa0, then deletes this with size 0x190 when bit 0 of a is set, and returns this.
-// @fnv 0x00bc2510
-void* FUN_00bc2510_class::FUN_00bc2510(int aiFlags)
-{
-    FUN_00bc1fa0();
-    if (aiFlags & 1)
-        operator delete(this, 0x190);
-    return this;
-}
-
 extern bool DAT_01201f70;
 void __cdecl ReleaseFadeNodeResources();
 void __cdecl ReleaseStringHolders();
@@ -67,8 +189,6 @@ void __cdecl FUN_00bc2960()
 }
 
 extern int DAT_010ba730;
-void __cdecl FUN_00c5faa0();
-extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00bc2c20_class
 {
@@ -80,7 +200,7 @@ struct FUN_00bc2c20_class
 void* FUN_00bc2c20_class::FUN_00bc2c20(int aiFlags)
 {
     m_pVT = &DAT_010ba730;
-    FUN_00c5faa0();
+    reinterpret_cast<struct ::FUN_00c5faa0 *>(this)->FUN_00a5e930();
     if (aiFlags & 1)
         operator delete(this, 0xc0);
     return this;
@@ -105,53 +225,61 @@ FUN_00bc3350_Class* FUN_00bc3350_Class::FUN_00bc3350(int aiFlags)
     return this;
 }
 
+struct FUN_00bc34a0_Target
+{
+    char pad00[0xe0];
+    float unke0;
+};
 struct FUN_00bc34a0_class
 {
-    void* __thiscall FUN_00bc34a0(float* out);
+    char pad00[0x2c];
+    FUN_00bc34a0_Target* unk2c;
+    void* FUN_00bc34a0(float* out);
 };
 
 // @fnv 0x00bc34a0
-void* __thiscall FUN_00bc34a0_class::FUN_00bc34a0(float* out)
+void* FUN_00bc34a0_class::FUN_00bc34a0(float* out)
 {
-    *out = *(float*)((char*)*(void**)((char*)this + 0x2c) + 0xe0);
-    return *(void**)((char*)this + 0x2c);
+    *out = this->unk2c->unke0;
+    return this->unk2c;
 }
 
 struct NiStream;
+class NiStream;
 struct RgbaColor
 {
-    void SaveBinary(NiStream&);
+public:
+    char *ToString(const char *);
+public:
+    void LoadBinary(::NiStream &);
 };
 struct NiColorA_SaveHelper
 {
-    void SaveBinary(NiStream&);
 };
 struct FUN_00bc3780_Class
 {
-    void __thiscall FUN_00ba9380(NiStream&);
-    void __thiscall FUN_00bc3780(NiStream& stream);
+    char pad00[0x60];
+    NiColorA_SaveHelper m_kColor;
+    void FUN_00bc3780(NiStream& stream);
 };
 // @fnv 0x00bc3780
-void __thiscall FUN_00bc3780_Class::FUN_00bc3780(NiStream& stream)
+void FUN_00bc3780_Class::FUN_00bc3780(NiStream& stream)
 {
-    FUN_00ba9380(stream);
-    ((NiColorA_SaveHelper*)((char*)this + 0x60))->SaveBinary(stream);
+    reinterpret_cast<::FUN_00ba9380_cls *>(this)->FUN_00ba9380((void *)&(stream));
+    reinterpret_cast<::FUN_00a698a0_class *>(&m_kColor)->FUN_00a698a0((void *)&(stream));
 }
 
-extern void* __cdecl operator new(unsigned int);
-extern void __cdecl operator delete(void*, unsigned int);
 extern int DAT_010bab28;
-void __fastcall FUN_00baa0e0(void*);
 struct FUN_00bc3800_Class
 {
     void* m_p;
-    void* __thiscall FUN_00bc3800(int flags);
+    void* FUN_00bc3800(int flags);
 };
 // @fnv 0x00bc3800
-void* __thiscall FUN_00bc3800_Class::FUN_00bc3800(int flags)
+void* FUN_00bc3800_Class::FUN_00bc3800(int flags)
 {
     m_p = &DAT_010bab28;
-    FUN_00baa0e0(this);
+    reinterpret_cast<class ::FUN_00baa0e0 *>((this))->FUN_00baa0e0::~FUN_00baa0e0();
     if (flags & 1)
         operator delete(this, 0x70);
     return this;
@@ -159,27 +287,30 @@ void* __thiscall FUN_00bc3800_Class::FUN_00bc3800(int flags)
 
 struct FUN_00bc4980_class
 {
-    void __thiscall FUN_00bc4980(void* p, char c);
+    char pad[0x64];
+    char unk64;
+    char pad65[0x7];
+    void* unk6c;
+    void FUN_00bc4980(void* p, char c);
 };
 
 // @fnv 0x00bc4980
-void __thiscall FUN_00bc4980_class::FUN_00bc4980(void* p, char c)
+void FUN_00bc4980_class::FUN_00bc4980(void* p, char c)
 {
-    *(void**)((char*)this + 0x6c) = p;
-    *(char*)((char*)this + 0x64) = c;
+    this->unk6c = p;
+    this->unk64 = c;
 }
 
 void __cdecl FUN_00bc5320();
 
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00bc5980_cls
 {
-    void* __thiscall FUN_00bc5980(int flags);
+    void* FUN_00bc5980(int flags);
 };
 
 // @fnv 0x00bc5980
-void* __thiscall FUN_00bc5980_cls::FUN_00bc5980(int flags)
+void* FUN_00bc5980_cls::FUN_00bc5980(int flags)
 {
     FUN_00bc5320();
     if (flags & 1)
@@ -191,28 +322,17 @@ extern "C" void __cdecl _delete(void*, unsigned int);
 
 struct FUN_00bd0440_class
 {
-    void __thiscall FUN_00bcf920();
-    void* __thiscall FUN_00bd0440(int);
+    void FUN_00bcf920();
+    void* FUN_00bd0440(int);
 };
-
-// Calls FUN_00bcf920, then deletes this with size 0x128 when bit 0 of a is set, and returns this.
-// @fnv 0x00bd0440
-void* __thiscall FUN_00bd0440_class::FUN_00bd0440(int aiFlags)
-{
-    FUN_00bcf920();
-    if (aiFlags & 1)
-        _delete(this, 0x128);
-    return this;
-}
 
 void __cdecl FUN_00bd2c40();
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00bd2fd0_class
 {
-    void* __thiscall FUN_00bd2fd0(int flags);
+    void* FUN_00bd2fd0(int flags);
 };
 // @fnv 0x00bd2fd0
-void* __thiscall FUN_00bd2fd0_class::FUN_00bd2fd0(int flags)
+void* FUN_00bd2fd0_class::FUN_00bd2fd0(int flags)
 {
     FUN_00bd2c40();
     if (flags & 1)
@@ -222,19 +342,18 @@ void* __thiscall FUN_00bd2fd0_class::FUN_00bd2fd0(int flags)
 
 struct FUN_00bd4570_t
 {
-    void __thiscall FUN_00bd4570();
+    void FUN_00bd4570();
 };
 
-void __cdecl operator delete(void* p, size_t n);
 
 struct FUN_00bd4d00_class
 {
-    FUN_00bd4d00_class* __thiscall FUN_00bd4d00(int flag);
+    FUN_00bd4d00_class* FUN_00bd4d00(int flag);
 };
 
 // Calls FUN_00bd4570 on this, frees this with operator delete when flag has bit 0 set, and returns this.
 // @fnv 0x00bd4d00
-FUN_00bd4d00_class* __thiscall FUN_00bd4d00_class::FUN_00bd4d00(int aiFlags)
+FUN_00bd4d00_class* FUN_00bd4d00_class::FUN_00bd4d00(int aiFlags)
 {
     ((FUN_00bd4570_t*)this)->FUN_00bd4570();
     if (aiFlags & 1)
@@ -243,19 +362,20 @@ FUN_00bd4d00_class* __thiscall FUN_00bd4d00_class::FUN_00bd4d00(int aiFlags)
 }
 
 extern char DAT_012023d4;
-void* __cdecl GetImageSpaceTexture();
 struct FUN_00bd6ab0_Class
 {
     float m_f;
     int FUN_00bd6ab0();
+    char pad04[0x6c];
+    float unk70;
 };
 // Returns 1 if the float at offset 0x70 is positive, DAT_012023d4 is set, and GetImageSpaceTexture returns non-null; otherwise 0.
 // @fnv 0x00bd6ab0
 int FUN_00bd6ab0_Class::FUN_00bd6ab0()
 {
-    if (*(float*)((char*)this + 0x70) > 0.0f && DAT_012023d4)
+    if (this->unk70 > 0.0f && DAT_012023d4)
     {
-        void* p = GetImageSpaceTexture();
+        void* p = ((void *)(::GetImageSpaceTexture()));
         if (p)
             return 1;
     }
@@ -263,16 +383,15 @@ int FUN_00bd6ab0_Class::FUN_00bd6ab0()
 }
 
 void __cdecl FUN_00bd74a0();
-void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00bd8480_Class
 {
-    void* __thiscall FUN_00bd8480(int flags);
+    void* FUN_00bd8480(int flags);
 };
 
 // Calls FUN_00bd74a0, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00bd8480
-void* __thiscall FUN_00bd8480_Class::FUN_00bd8480(int flags)
+void* FUN_00bd8480_Class::FUN_00bd8480(int flags)
 {
     FUN_00bd74a0();
     if (flags & 1)
@@ -282,83 +401,83 @@ void* __thiscall FUN_00bd8480_Class::FUN_00bd8480(int flags)
 
 struct LodShaderBase
 {
-    void FUN_00e814b0();
 };
 struct FUN_00bc0970_class : LodShaderBase
 {
     void FUN_00bc0970();
+    char pad00[0x28];
+    int unk28;
+    char pad2c[0x160];
+    void* unk18c;
+    void* unk190;
 };
 // @fnv 0x00bc0970
 void FUN_00bc0970_class::FUN_00bc0970()
 {
-    if (*(int*)((char*)this + 0x28))
+    if (this->unk28)
     {
-        void(__thiscall * f1)(void*) = (void(__thiscall*)(void*))(*(int**)(*(int*)((char*)this + 0x18c)))[0x28];
-        f1(*(void**)((char*)this + 0x18c));
-        void(__thiscall * f2)(void*) = (void(__thiscall*)(void*))(*(int**)(*(int*)((char*)this + 0x190)))[0x22];
-        f2(*(void**)((char*)this + 0x190));
+        void(* f1)(void*) = (void(*)(void*))(*(void***)this->unk18c)[0x28];
+        f1(this->unk18c);
+        void(* f2)(void*) = (void(*)(void*))(*(void***)this->unk190)[0x22];
+        f2(this->unk190);
     }
-    FUN_00e814b0();
+    reinterpret_cast<::fnv_00e814b0::UnkShader *>(this)->FUN_00e814b0();
 }
 
 extern "C" void __cdecl FUN_00c5f570();
 extern int DAT_010ba730;
-extern float _NiPoint3_ZERO;
-extern int _DAT_011f4270;
-extern int _DAT_011f4274;
 
 struct FUN_00bc2bd0_class
 {
-    int* __thiscall FUN_00bc2bd0();
+    char pad00[0xac];
+    int unkac;
+    int unkb0;
+    int unkb4;
+    float unkb8;
+    char unkbc;
+    int* FUN_00bc2bd0();
 };
 
-// @fnv 0x00bc2bd0
-int* __thiscall FUN_00bc2bd0_class::FUN_00bc2bd0()
+struct FUN_00bc3040_Target
 {
-    FUN_00c5f570();
-    *(int**)(char*)this = &DAT_010ba730;
-    *(int*)((char*)this + 0xac) = *(int*)&_NiPoint3_ZERO;
-    *(int*)((char*)this + 0xb0) = _DAT_011f4270;
-    *(int*)((char*)this + 0xb4) = _DAT_011f4274;
-    *(float*)((char*)this + 0xb8) = 0.0f;
-    *(char*)((char*)this + 0xbc) = 0;
-    return (int*)this;
-}
+    char pad00[0x40];
+    float unk40;
+};
+struct FUN_00bc3040_Self
+{
+    char pad00[0x2c];
+    FUN_00bc3040_Target* unk2c;
+};
 
 // @fnv 0x00bc3040
-void __fastcall FUN_00bc3040(void* self, int, float* out)
+void FUN_00bc3040(void* self, int, float* out)
 {
-    *out = *(float*)((char*)*(int**)((char*)self + 0x2c) + 0x40);
+    *out = ((FUN_00bc3040_Self*)self)->unk2c->unk40;
 }
 
-struct StrArr
+struct StrArr : ::NiTArray<char*, ::NiTMallocInterface<char*>>
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a576c0(StrArr*);
 struct GlobalObjectO2_00a7b610
 {
     char* pData;
 };
-extern GlobalObjectO2_00a7b610 g_01201f90;
-char* __cdecl FUN_00a7d330(char*);
 // @fnv 0x00bc31f0
-void __stdcall FUN_00bc31f0(StrArr* pStrArr)
+void FUN_00bc31f0(StrArr* pStrArr)
 {
-    FUN_00a576c0(pStrArr);
-    char* p = FUN_00a7d330(g_01201f90.pData);
-    unsigned int i = *(unsigned short*)((char*)pStrArr + 0xa);
-    unsigned int j = *(unsigned short*)((char*)pStrArr + 0x8);
+    ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pStrArr));
+    char* p = ::FUN_00a7d330(::g_01201f90.pData);
+    unsigned int i = pStrArr->m_usSize;
+    unsigned int j = pStrArr->m_usMaxSize;
     if (i >= j)
-        pStrArr->SetSize(*(unsigned short*)((char*)pStrArr + 0xe) + i);
-    pStrArr->SetAt(i, p);
+        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(pStrArr->m_usGrowBy + i);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(i, p);
 }
 
 // @fnv 0x00bd9150
-void __fastcall FUN_00bd9150(void* p)
+void FUN_00bd9150(void* p)
 {
-    g_memoryManager.Deallocate(*(void**)p);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(*(void**)p);
 }
 
 struct NiGeometry;
@@ -471,7 +590,6 @@ int Shader_00bd9540::FUN_00bd9540(NiGeometry* geom, ShadowSceneLight* light, uns
 struct NiTexture;
 struct ImageSpaceTexture
 {
-    void SetTexture(NiTexture*);
 };
 struct ImageSpaceShaderParam
 {
@@ -480,25 +598,22 @@ struct ImageSpaceShaderParam
 extern float DAT_011ae614;
 extern float DAT_011ae618;
 extern float DAT_01201f2c;
-extern float DAT_01201f30;
-extern float DAT_01201f34;
-extern float DAT_01201f38;
-extern float DAT_01201f3c;
-extern NiTexture* DAT_01201f40;
-extern NiTexture* DAT_01201f44;
-extern NiTexture* DAT_01201f48;
 struct FUN_00bc0550_class
 {
+    char pad00[0x1c];
+    char * unk1c;
+    char pad20[0xc];
+    char * unk2c;
     char ApplyImageSpaceTextures(int);
 };
 // @fnv 0x00bc0550
 char FUN_00bc0550_class::ApplyImageSpaceTextures(int)
 {
-    char* pTileTexture = (char*)*(char**)((char*)this + 0x2c);
-    ((ImageSpaceTexture*)(*(char**)(pTileTexture + 0xc)))->SetTexture(DAT_01201f40);
-    ((ImageSpaceTexture*)(*(char**)(*(char**)((char*)this + 0x2c) + 0x10)))->SetTexture(DAT_01201f48);
-    ((ImageSpaceTexture*)(*(char**)(*(char**)((char*)this + 0x2c) + 8)))->SetTexture(DAT_01201f44);
-    ImageSpaceShaderParam* p = (ImageSpaceShaderParam*)*(char**)*(char**)((char*)this + 0x1c);
+    char* pTileTexture = (char*)this->unk2c;
+    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(pTileTexture + 0xc)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::DAT_01201f40))));
+    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(this->unk2c + 0x10)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::DAT_01201f48))));
+    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(this->unk2c + 8)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::g_spBC0500Shared))));
+    ImageSpaceShaderParam* p = (ImageSpaceShaderParam*)*(char**)this->unk1c;
     p->SetShaderConstantVector4(1, DAT_011ae614, DAT_01201f2c, DAT_011ae618, 0.0f);
     p->SetShaderConstantVector4(2, DAT_01201f30, DAT_01201f34, DAT_01201f38, DAT_01201f3c);
     return 0;
@@ -508,27 +623,23 @@ struct GlobalObjectO2_00a7b610_2
 {
     char* pData;
 };
-extern GlobalObjectO2_00a7b610_2 g_01201f9c;
-char* __cdecl FUN_00a7d330(char*);
-struct StrArr_00bc3450
+struct StrArr_00bc3450 : ::NiTArray<char*, ::NiTMallocInterface<char*>>
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 // @fnv 0x00bc3450
-void __stdcall FUN_00bc3450(StrArr_00bc3450* pArray)
+void FUN_00bc3450(StrArr_00bc3450* pArray)
 {
-    FUN_00a576c0((StrArr*)pArray);
-    char* s = FUN_00a7d330(g_01201f9c.pData);
-    unsigned int i = *(unsigned short*)((char*)pArray + 0xa);
-    if (i >= *(unsigned short*)((char*)pArray + 8))
-        pArray->SetSize(i + *(unsigned short*)((char*)pArray + 0xe));
-    pArray->SetAt(i, s);
+    ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(::StrArr *)((StrArr*)pArray));
+    char* s = ::FUN_00a7d330((*reinterpret_cast<::GlobalObjectO2_00a7b610_2 *>(&::g_01201f9c)).pData);
+    unsigned int i = pArray->m_usSize;
+    if (i >= pArray->m_usMaxSize)
+        reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(i + pArray->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(i, s);
 }
 
 // Adds a pass (0x1e5 or 0x1e6 depending on a and type) to pPasses, or increments count when type is not 1; clears out and returns 0.
 // @fnv 0x00bd9e60
-int __fastcall FUN_00bd9e60(Shader_00bd9540* self, int edx, NiGeometry* geom, unsigned short* count, unsigned char type,
+int FUN_00bd9e60(Shader_00bd9540* self, int edx, NiGeometry* geom, unsigned short* count, unsigned char type,
                             bool* pbOut, bool a)
 {
     if (!a)
@@ -592,34 +703,39 @@ int FUN_00bd9f90_class::FUN_00bd9f90(NiGeometry* geom, unsigned short* count, un
     return 0;
 }
 
+struct Shader_00bdf650_LightView
+{
+    char pad000[0x1a0];
+    ShadowSceneLight* m_pLight;
+};
 struct Shader_00bdf650
 {
+    char pad00[0x40];
     BSShaderProperty::ShaderPassList* pPasses;
     void FUN_00bdf650(NiGeometry* geom, bool a, bool b, ShadowSceneLight* light);
 };
 
-// Selects a pass index from the two bool flags and adds geom to the pass list at this+0x40 with the light from light+0x1a0.
+// Selects a pass index from the two bool flags and adds geom to pPasses with the light's m_pLight.
 // @fnv 0x00bdf650
 void Shader_00bdf650::FUN_00bdf650(NiGeometry* geom, bool abFirstFlag, bool abSecondFlag, ShadowSceneLight* light)
 {
-    ShadowSceneLight* l = (ShadowSceneLight*)*(int*)((char*)light + 0x1a0);
+    ShadowSceneLight* l = ((Shader_00bdf650_LightView*)light)->m_pLight;
     if (!abFirstFlag)
     {
         if (!abSecondFlag)
-            ((BSShaderProperty::ShaderPassList*)*(int*)((char*)this + 0x40))->Add(geom, 0x10, true, 1, l, 0, 0, 0);
+            pPasses->Add(geom, 0x10, true, 1, l, 0, 0, 0);
         else
-            ((BSShaderProperty::ShaderPassList*)*(int*)((char*)this + 0x40))->Add(geom, 0x11, true, 1, l, 0, 0, 0);
+            pPasses->Add(geom, 0x11, true, 1, l, 0, 0, 0);
     }
     else
     {
         if (!abSecondFlag)
-            ((BSShaderProperty::ShaderPassList*)*(int*)((char*)this + 0x40))->Add(geom, 0x12, true, 1, l, 0, 0, 0);
+            pPasses->Add(geom, 0x12, true, 1, l, 0, 0, 0);
         else
-            ((BSShaderProperty::ShaderPassList*)*(int*)((char*)this + 0x40))->Add(geom, 0x13, true, 1, l, 0, 0, 0);
+            pPasses->Add(geom, 0x13, true, 1, l, 0, 0, 0);
     }
 }
 
-extern int DAT_011f91c0;
 extern unsigned int DAT_01201f50;
 
 // Initializes DAT_01201f50 to 75 plus 160 when DAT_011f91c0 is at least 2, then returns it.
@@ -879,14 +995,16 @@ struct FUN_00bc0c70_class
     virtual void vfd();
     virtual void vfe();
     virtual void vff();
+    char pad004[0x168 - 0x4];
+    void* unk168;
     int CallVirtual128WithField168();
 };
 // @fnv 0x00bc0c70
 int FUN_00bc0c70_class::CallVirtual128WithField168()
 {
     void** vt = *(void***)this;
-    void* e = *(void**)((char*)this + 0x168);
-    return ((int(__thiscall*)(void*, void*))vt[0x128 / 4])(this, e);
+    void* e = unk168;
+    return ((int(*)(void*, void*))vt[0x128 / 4])(this, e);
 }
 
 struct FUN_00bc1c70_class
@@ -937,12 +1055,12 @@ struct FUN_00bc1cc0_class
     int m_i184;
     int m_i188;
 
-    void __thiscall FUN_00bc1cc0(float f1, float f2);
+    void FUN_00bc1cc0(float f1, float f2);
 };
 
 // Advances m_i78 by a remainder derived from f1 and m_i188/m_f70, clamps it, decrements m_i184 and adds f1*f2 to m_f180.
 // @fnv 0x00bc1cc0
-void __thiscall FUN_00bc1cc0_class::FUN_00bc1cc0(float f1, float f2)
+void FUN_00bc1cc0_class::FUN_00bc1cc0(float f1, float f2)
 {
     float fProduct = f1 * f2;
     int iValue = (int)(f1 * (m_i188 / m_f70));
@@ -967,56 +1085,56 @@ void __thiscall FUN_00bc1cc0_class::FUN_00bc1cc0(float f1, float f2)
 
 struct FUN_00bc3240_class
 {
+    char pad00[0x2c];
+    int unk2c;
     void FUN_00bc3240(float* out);
 };
 // @fnv 0x00bc3240
 void FUN_00bc3240_class::FUN_00bc3240(float* out)
 {
-    *out = *reinterpret_cast<long*>(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x2c) + 0xe4);
+    *out = *reinterpret_cast<long*>(this->unk2c + 0xe4);
 }
 
 // @fnv 0x00bc3340
 GlobalObjectO2_00a7b610_2* __cdecl FUN_00bc3340()
 {
-    return &g_01201f9c;
+    return &(*reinterpret_cast<::GlobalObjectO2_00a7b610_2 *>(&::g_01201f9c));
 }
 
 struct GlobalObjectO2_00a7b610_3
 {
     char* pData;
 };
-extern GlobalObjectO2_00a7b610_3 g_01201fa8;
-char* __cdecl FUN_00a7d330(char*);
 
 // @fnv 0x00bc3700
-void __stdcall FUN_00bc3700(StrArr* pStrArr)
+void FUN_00bc3700(StrArr* pStrArr)
 {
-    FUN_00a576c0(pStrArr);
-    char* p = FUN_00a7d330(g_01201fa8.pData);
-    unsigned int idx = *(unsigned short*)((char*)pStrArr + 0xa);
-    unsigned int size = *(unsigned short*)((char*)pStrArr + 8);
+    ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pStrArr));
+    char* p = ::FUN_00a7d330((*reinterpret_cast<::GlobalObjectO2_00a7b610_3 *>(&::g_01201fa8)).pData);
+    unsigned int idx = pStrArr->m_usSize;
+    unsigned int size = pStrArr->m_usMaxSize;
     if (idx >= size)
-        pStrArr->SetSize(*(unsigned short*)((char*)pStrArr + 0xe) + idx);
-    pStrArr->SetAt(idx, p);
+        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(pStrArr->m_usGrowBy + idx);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(idx, p);
 }
 
 struct NiColorA_LoadHelper
 {
-    void LoadBinary(NiStream&);
 };
 struct FUN_00ba92c0_class
 {
-    void FUN_00ba92c0(NiStream&);
 };
 struct FUN_00bc3750_class : FUN_00ba92c0_class
 {
     void LoadFromStream(NiStream& stream);
+    char pad00[0x60];
+    NiColorA_LoadHelper unk60;
 };
 // @fnv 0x00bc3750
 void FUN_00bc3750_class::LoadFromStream(NiStream& stream)
 {
-    FUN_00ba92c0_class::FUN_00ba92c0(stream);
-    ((NiColorA_LoadHelper*)((char*)this + 0x60))->LoadBinary(stream);
+    reinterpret_cast<::S_00ba92c0_Prop *>(this)->FUN_00ba92c0((::S_00ba92c0_Stream &)(stream));
+    reinterpret_cast<::RgbaColor *>(((&this->unk60)))->LoadBinary(stream);
 }
 
 void __cdecl FUN_00bc39f0();
@@ -1036,21 +1154,23 @@ void* FUN_00bc3d80_class::FUN_00bc3d80(int flags)
 
 struct FUN_00bc4810_class
 {
-    int* vtbl;
+    uintptr_t* vtbl;
     void CallVtblSlot74WithFieldB4();
+    char pad04[0xb0];
+    int unkb4;
 };
 
 // @fnv 0x00bc4810
 void FUN_00bc4810_class::CallVtblSlot74WithFieldB4()
 {
-    ((void(__thiscall*)(void*, int))(vtbl[74]))(this, *(int*)((char*)this + 0xb4));
+    ((void(*)(void*, int))(vtbl[74]))(this, this->unkb4);
 }
 
 void __cdecl FUN_00bcd4a0();
 
 struct FUN_00bce7d0_class
 {
-    FUN_00bce7d0_class* __thiscall FUN_00bce7d0(int flags);
+    FUN_00bce7d0_class* FUN_00bce7d0(int flags);
 };
 
 // @fnv 0x00bce7d0
@@ -1062,7 +1182,6 @@ FUN_00bce7d0_class* FUN_00bce7d0_class::FUN_00bce7d0(int flags)
     return this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct NiShader
 {
@@ -1077,16 +1196,19 @@ struct RefObject
     long m_iObjectReferenceCount;
 };
 
+template <class> class NiPointer;
 struct NiD3DPass
 {
     char m_auiShapeKeys[0x64];
     int m_iObjectReferenceCount;
 
-    void __thiscall DestroyPass();
+    void DestroyPass();
+public:
+    bool ApplyRenderStateChanges(bool);
+public:
+    static void CreateD3DPass(::NiPointer< ::NiD3DPass> &);
 };
 
-extern NiD3DPass* DAT_012022c0;
-extern GlobalObjectO2_00a7b610 g_01202328;
 
 struct FUN_00bcfa50_class : NiShader
 {
@@ -1101,7 +1223,7 @@ struct FUN_00bcfa50_class : NiShader
 // @fnv 0x00bcfa50
 bool FUN_00bcfa50_class::ReleaseAllReferences()
 {
-    NiShader::Initialize();
+    reinterpret_cast<::BSShader *>(this)->Initialize();
 
     for (int i = 0; i < 26; ++i)
     {
@@ -1125,8 +1247,8 @@ bool FUN_00bcfa50_class::ReleaseAllReferences()
         }
     }
 
-    NiD3DPass** pass = &DAT_012022c0;
-    NiD3DPass** end = (NiD3DPass**)&g_01202328;
+    NiD3DPass** pass = &(*reinterpret_cast<::NiD3DPass * *>(&::g_aiPassIndex_fd20));
+    NiD3DPass** end = (NiD3DPass**)&::g_01202328;
     do
     {
         NiD3DPass* pPass = *pass;
@@ -1137,7 +1259,7 @@ bool FUN_00bcfa50_class::ReleaseAllReferences()
             *pass = 0;
         }
         ++pass;
-    } while (reinterpret_cast<long>(pass) < reinterpret_cast<long>(end));
+    } while (reinterpret_cast<intptr_t>(pass) < reinterpret_cast<intptr_t>(end));
 
     return true;
 }
@@ -1147,16 +1269,6 @@ struct FUN_00bd1480_t
     void FUN_00bd0ce0();
     void* FUN_00bd1480(int flags);
 };
-// Calls FUN_00bd0ce0, then deletes this with size 0xec when flags has bit 0 set, and returns this.
-// @fnv 0x00bd1480
-void* FUN_00bd1480_t::FUN_00bd1480(int flags)
-{
-    FUN_00bd0ce0();
-    if (flags & 1)
-        operator delete(this, 0xec);
-    return this;
-}
-
 struct FUN_00bd5d70_Class
 {
     char pad[0xc];
@@ -1167,17 +1279,18 @@ struct FUN_00bd5d70_Class
     char FUN_00bd5d70(void* src, unsigned int idx);
 };
 
+// A 16-byte shader constant (four 32-bit words), copied as a unit.
+struct ConstantEntry16
+{
+    unsigned int words[4];
+};
+
 // @fnv 0x00bd5d70
 char FUN_00bd5d70_Class::FUN_00bd5d70(void* pSource, unsigned int uiIndex)
 {
     if (m_usMax == m_usElementCount || pSource == 0)
         return 0;
-    unsigned int off = (unsigned int)m_usMax << 4;
-    char* dst = (char*)m_pData + off;
-    *(unsigned int*)(dst + 0) = *(unsigned int*)((char*)pSource + 0);
-    *(unsigned int*)(dst + 4) = *(unsigned int*)((char*)pSource + 4);
-    *(unsigned int*)(dst + 8) = *(unsigned int*)((char*)pSource + 8);
-    *(unsigned int*)(dst + 0xc) = *(unsigned int*)((char*)pSource + 0xc);
+    ((ConstantEntry16*)m_pData)[m_usMax] = *(const ConstantEntry16*)pSource;
     ((unsigned int*)m_pDataEnd)[m_usMax] = uiIndex;
     m_usMax++;
     return 1;
@@ -1186,18 +1299,15 @@ char FUN_00bd5d70_Class::FUN_00bd5d70(void* pSource, unsigned int uiIndex)
 struct ISTex
 {
     char pad[0x10];
-    void CreateRenderTargetTexture(unsigned int);
 };
 
 struct NiTPrimitiveArray_int___
 {
     char pad[0x34];
-    void SetAt(unsigned int, int&);
 };
 
 struct ImageSpaceTextureReturnHelper
 {
-    void AddRenderedTexture();
 };
 
 struct FUN_00bd6980_class
@@ -1217,31 +1327,31 @@ struct FUN_00bd6980_class
 // @fnv 0x00bd6980
 void FUN_00bd6980_class::UpdateTextures(int)
 {
-    int value;
+    intptr_t value;
 
-    value = reinterpret_cast<int>(&m_Texture1);
-    m_Texture1.CreateRenderTargetTexture(0x25);
-    m_Array.SetAt(2, value);
+    value = reinterpret_cast<intptr_t>(&m_Texture1);
+    reinterpret_cast<::H_00ba3840 *>(&(m_Texture1))->FUN_00ba3840(0x25);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(2, (::KeyPair **)&(value));
 
-    value = reinterpret_cast<int>(&m_Texture2);
-    m_Texture2.CreateRenderTargetTexture(0x26);
-    m_Array.SetAt(3, value);
+    value = reinterpret_cast<intptr_t>(&m_Texture2);
+    reinterpret_cast<::H_00ba3840 *>(&(m_Texture2))->FUN_00ba3840(0x26);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(3, (::KeyPair **)&(value));
 
     if (m_pFlagOwner[3] != 0)
     {
-        value = reinterpret_cast<int>(m_RenderedTexture);
-        m_Array.SetAt(5, value);
+        value = reinterpret_cast<intptr_t>(m_RenderedTexture);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(5, (::KeyPair **)&(value));
     }
     else
     {
-        reinterpret_cast<ImageSpaceTextureReturnHelper*>(m_RenderedTexture)->AddRenderedTexture();
+        reinterpret_cast<::H_00ba39a0 *>((reinterpret_cast<ImageSpaceTextureReturnHelper*>(m_RenderedTexture)))->FUN_00ba39a0();
         value = 0;
-        m_Array.SetAt(5, value);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(5, (::KeyPair **)&(value));
     }
 
-    value = reinterpret_cast<int>(m_Texture);
-    reinterpret_cast<ImageSpaceTexture*>(m_Texture)->SetTexture(reinterpret_cast<NiTexture*>(GetImageSpaceTexture()));
-    m_Array.SetAt(4, value);
+    value = reinterpret_cast<intptr_t>(m_Texture);
+    reinterpret_cast<::Holder00ba37f0 *>((reinterpret_cast<ImageSpaceTexture*>(m_Texture)))->FUN_00ba37f0((::Tex00ba37f0 *)(::NiTexture *)(reinterpret_cast<NiTexture*>(((void *)(::GetImageSpaceTexture())))));
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(4, (::KeyPair **)&(value));
 }
 
 struct FUN_00bd6f30_class
@@ -1257,25 +1367,15 @@ FUN_00bd6fa0_class* FUN_00bd6fa0_class::FUN_00bd6fa0(char aFlag)
 {
     FUN_00bd6f30();
     if (aFlag & 1)
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 
-extern MM g_memoryManager;
 struct FUN_00bd71e0_class
 {
     void FUN_00bd6fc0();
     void* FUN_00bd71e0(int bFlag);
 };
-// @fnv 0x00bd71e0
-void* FUN_00bd71e0_class::FUN_00bd71e0(int bFlag)
-{
-    FUN_00bd6fc0();
-    if (bFlag & 1)
-        g_memoryManager.Deallocate(this);
-    return this;
-}
-
 struct FUN_00bd8550_Class
 {
     char pad0[0x10];
@@ -1283,20 +1383,15 @@ struct FUN_00bd8550_Class
     unsigned short m_usIndex;         // +0x12
     void* m_pData;                    // +0x14
     int* m_pEntryData;                // +0x18
-    bool PushEntry(void* src, int value);
+    bool PushEntry(void* src, std::intptr_t value);
 };
 
 // @fnv 0x00bd8550
-bool FUN_00bd8550_Class::PushEntry(void* src, int value)
+bool FUN_00bd8550_Class::PushEntry(void* src, std::intptr_t value)
 {
     if (m_usIndex != m_usElementCount && src)
     {
-        unsigned int idx = m_usIndex;
-        void* dst = (char*)m_pData + (idx << 4);
-        *(int*)dst = *(int*)src;
-        *(int*)((char*)dst + 4) = *(int*)((char*)src + 4);
-        *(int*)((char*)dst + 8) = *(int*)((char*)src + 8);
-        *(int*)((char*)dst + 0xc) = *(int*)((char*)src + 0xc);
+        ((ConstantEntry16*)m_pData)[m_usIndex] = *(const ConstantEntry16*)src;
         m_pEntryData[m_usIndex] = value;
         m_usIndex++;
         return true;
@@ -1307,12 +1402,14 @@ bool FUN_00bd8550_Class::PushEntry(void* src, int value)
 namespace fnv_00bd9230 {
 struct ISTex
 {
+    char pad00[0x58];
+    char m_kTexture58[0x10];
     void* GetTexture();
 };
 // @fnv 0x00bd9230
-int __fastcall FUN_00bd9230(ISTex* p, int)
+int FUN_00bd9230(ISTex* p, int)
 {
-    return !((ISTex*)((char*)p + 0x58))->GetTexture() ? 0 : 1;
+    return !((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(p->m_kTexture58)->FUN_00ba3780())) ? 0 : 1;
 }
 }  // namespace fnv_00bd9230
 
@@ -1321,12 +1418,12 @@ struct FUN_00bd9d00_class
     char pad[0x3c];
     BSShaderProperty::ShaderPassList* pPasses;
 
-    int __thiscall FUN_00bd9d00(NiGeometry* geom, unsigned short* count, unsigned char type, bool* enabled, bool flag);
+    int FUN_00bd9d00(NiGeometry* geom, unsigned short* count, unsigned char type, bool* enabled, bool flag);
 };
 
 // Adds a pass to pPasses for type 1 (0x24f when flag is set, else 0x24e), otherwise increments *count, and clears *enabled; returns 0.
 // @fnv 0x00bd9d00
-int __thiscall FUN_00bd9d00_class::FUN_00bd9d00(NiGeometry* geom, unsigned short* count, unsigned char type,
+int FUN_00bd9d00_class::FUN_00bd9d00(NiGeometry* geom, unsigned short* count, unsigned char type,
                                                 bool* enabled, bool flag)
 {
     if (flag)
@@ -1364,12 +1461,12 @@ struct FUN_00bdc030_class
     char pad[0x3c];
     BSShaderProperty::ShaderPassList* pPasses;
 
-    int __thiscall FUN_00bdc030(NiGeometry* geometry, unsigned short* count, unsigned char type, bool* out, bool flag);
+    int FUN_00bdc030(NiGeometry* geometry, unsigned short* count, unsigned char type, bool* out, bool flag);
 };
 
 // Adds geometry to pPasses with pass id 0x251 or 0x250 when type is 1, otherwise increments count; always clears out and returns 0.
 // @fnv 0x00bdc030
-int __thiscall FUN_00bdc030_class::FUN_00bdc030(NiGeometry* geometry, unsigned short* count, unsigned char type,
+int FUN_00bdc030_class::FUN_00bdc030(NiGeometry* geometry, unsigned short* count, unsigned char type,
                                                 bool* out, bool flag)
 {
     if (flag)
@@ -1406,25 +1503,32 @@ struct FUN_00bd0f70_RefObject
     {}
     virtual void DeleteThis()
     {}
+    long m_lRefCount;
 };
 
 struct FUN_00bd0f70_class : public NiShader
 {
+    char pad004[0x8c - 0x4];
+    NiD3DPass* m_apkPasses[2];
+    FUN_00bd0f70_RefObject* m_apkObjects94[7];
+    FUN_00bd0f70_RefObject* m_apkObjectsB0[3];
+    FUN_00bd0f70_RefObject* m_apkObjectsBC[7];
+    FUN_00bd0f70_RefObject* m_apkObjectsD8[3];
     bool FUN_00bd0f70();
 };
 
 bool FUN_00bd0f70_class::FUN_00bd0f70()
 {
-    NiShader::Initialize();
+    reinterpret_cast<::BSShader *>(this)->Initialize();
 
-    FUN_00bd0f70_RefObject** objects = reinterpret_cast<FUN_00bd0f70_RefObject**>(reinterpret_cast<char*>(this) + 0x94);
+    FUN_00bd0f70_RefObject** objects = m_apkObjects94;
     int count = 7;
     do
     {
         FUN_00bd0f70_RefObject* object = *objects;
         if (object)
         {
-            if (InterlockedDecrement(reinterpret_cast<volatile long*>(reinterpret_cast<char*>(object) + 4)) == 0)
+            if (InterlockedDecrement(&object->m_lRefCount) == 0)
                 object->DeleteThis();
             *objects = 0;
         }
@@ -1432,14 +1536,14 @@ bool FUN_00bd0f70_class::FUN_00bd0f70()
         --count;
     } while (count);
 
-    objects = reinterpret_cast<FUN_00bd0f70_RefObject**>(reinterpret_cast<char*>(this) + 0xBC);
+    objects = m_apkObjectsBC;
     count = 7;
     do
     {
         FUN_00bd0f70_RefObject* object = *objects;
         if (object)
         {
-            if (InterlockedDecrement(reinterpret_cast<volatile long*>(reinterpret_cast<char*>(object) + 4)) == 0)
+            if (InterlockedDecrement(&object->m_lRefCount) == 0)
                 object->DeleteThis();
             *objects = 0;
         }
@@ -1447,14 +1551,14 @@ bool FUN_00bd0f70_class::FUN_00bd0f70()
         --count;
     } while (count);
 
-    objects = reinterpret_cast<FUN_00bd0f70_RefObject**>(reinterpret_cast<char*>(this) + 0xB0);
+    objects = m_apkObjectsB0;
     count = 3;
     do
     {
         FUN_00bd0f70_RefObject* object = *objects;
         if (object)
         {
-            if (InterlockedDecrement(reinterpret_cast<volatile long*>(reinterpret_cast<char*>(object) + 4)) == 0)
+            if (InterlockedDecrement(&object->m_lRefCount) == 0)
                 object->DeleteThis();
             *objects = 0;
         }
@@ -1462,14 +1566,14 @@ bool FUN_00bd0f70_class::FUN_00bd0f70()
         --count;
     } while (count);
 
-    objects = reinterpret_cast<FUN_00bd0f70_RefObject**>(reinterpret_cast<char*>(this) + 0xD8);
+    objects = m_apkObjectsD8;
     count = 3;
     do
     {
         FUN_00bd0f70_RefObject* object = *objects;
         if (object)
         {
-            if (InterlockedDecrement(reinterpret_cast<volatile long*>(reinterpret_cast<char*>(object) + 4)) == 0)
+            if (InterlockedDecrement(&object->m_lRefCount) == 0)
                 object->DeleteThis();
             *objects = 0;
         }
@@ -1477,14 +1581,14 @@ bool FUN_00bd0f70_class::FUN_00bd0f70()
         --count;
     } while (count);
 
-    NiD3DPass** passes = reinterpret_cast<NiD3DPass**>(reinterpret_cast<char*>(this) + 0x8C);
+    NiD3DPass** passes = m_apkPasses;
     count = 2;
     do
     {
         NiD3DPass* pass = *passes;
         if (pass)
         {
-            int* refCount = reinterpret_cast<int*>(reinterpret_cast<char*>(pass) + 0x64);
+            int* refCount = &pass->m_iObjectReferenceCount;
             if (--*refCount == 0)
                 pass->DestroyPass();
             *passes = 0;
@@ -1515,7 +1619,6 @@ class BC0500RefObject
     }
 };
 
-extern NiPointer<BC0500RefObject> g_spBC0500Shared;
 
 class BC0500Effect
 {
@@ -1545,13 +1648,13 @@ void BC0500Effect::ReleaseTextures()
     {
         ImageSpaceTexture* pkTexture = m_ppTextures[i];
         if (pkTexture)
-            pkTexture->SetTexture(0);
+            reinterpret_cast<::Holder00ba37f0 *>((pkTexture))->FUN_00ba37f0((::Tex00ba37f0 *)(::NiTexture *)(0));
     }
 }
 
 struct S_00bc0920_Class;
 
-typedef void(__thiscall* S_00bc0920_FN)(S_00bc0920_Class*);
+typedef void(* S_00bc0920_FN)(S_00bc0920_Class*);
 
 struct S_00bc0920_VTable
 {
@@ -1651,8 +1754,6 @@ void S_00bc0920_Class::CallVTableSlots13cAnd140()
     this->vtbl->unk140(this);
 }
 
-extern "C" void* __cdecl fnv_zlib_memset(void* dst, int value, unsigned int size);
-int __cdecl sprintf_s(char* buffer, unsigned int size, const char* format, ...);
 
 struct ShaderObject
 {
@@ -1675,7 +1776,6 @@ struct NiD3DGPUProgramCache
     static const char* __cdecl GetPixelShaderProfile(bool bLatest);
 };
 
-void __cdecl FUN_00be0c00(const char* src, char* dst);
 
 struct ShaderMacroInfo
 {
@@ -1692,7 +1792,7 @@ struct ShaderDesc
     {
         kInfo.iCount = 0;
         kInfo.iFlags = 0;
-        fnv_zlib_memset(kInfo.acData, 0, sizeof(kInfo.acData));
+        std::memset(kInfo.acData, 0, sizeof(kInfo.acData));
     }
 };
 
@@ -1800,8 +1900,6 @@ struct BoltShader
     NiPointer<ShaderObject> m_spTreeVertexShader;
     NiPointer<ShaderObject> m_spPixelShaderVariants;
 
-    ShaderObject* CreateVS(char* path, ShaderMacroInfo* info, const char* profile, char* name);
-    ShaderObject* CreatePS(char* path, ShaderMacroInfo* info, const char* profile, char* name);
     void CreateShaders();
 };
 
@@ -1814,14 +1912,14 @@ void BoltShader::CreateShaders()
 
     ShaderDesc kVS("bolt\\v\\bolt.v.hlsl");
     FUN_00be0c00(kVS.pcFile, acPath);
-    sprintf_s(acName, 260, "BOLT.vso");
-    m_spTreeVertexShader = CreateVS(acPath, &kVS.kInfo, "vs_1_1", acName);
+    ::FUN_00406d00(acName, 260, "BOLT.vso");
+    m_spTreeVertexShader = ((::ShaderObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(acPath), (::_D3DXMACRO *)(&kVS.kInfo), "vs_1_1", (const char *)(acName))));
 
     const char* pcPixelProfile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     ShaderDesc kPS("bolt\\p\\bolt.p.hlsl");
     FUN_00be0c00(kPS.pcFile, acPath);
-    sprintf_s(acName, 260, "BOLT.pso");
-    m_spPixelShaderVariants = CreatePS(acPath, &kPS.kInfo, pcPixelProfile, acName);
+    ::FUN_00406d00(acName, 260, "BOLT.pso");
+    m_spPixelShaderVariants = ((::ShaderObject *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(acPath, &kPS.kInfo, (char *)(pcPixelProfile), acName)));
 }
 
 struct BC1BA0Cell
@@ -2085,11 +2183,10 @@ void BC1C10Graph::RemoveFromEnd(int iCount)
 }
 
 // FUN_00bc1f90 : a one-line function - getter
-extern int g_target_00bc1f90;
 // @fnv 0x00bc1f90
 void* FUN_00bc1f90()
 {
-    return &g_target_00bc1f90;
+    return &(*reinterpret_cast<int *>(&::g_01201f68));
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -2102,24 +2199,19 @@ struct SpawnedBase_b10020
 struct SpawnedObj_b10020 : SpawnedBase_b10020
 {
     SpawnedObj_b10020();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct FUN_00bc2020_cls
 {
-    void FUN_00ba8b10(SpawnedBase_b10020* p, unsigned int arg);
-    SpawnedBase_b10020* FUN_00bc2020(unsigned int arg);
+    SpawnedBase_b10020* FUN_00bc2020(uintptr_t arg);
 };
 
 // Allocates a SpawnedObj_b10020, initializes it via FUN_00ba8b10 with arg, and returns it as a SpawnedBase_b10020 pointer.
 // @fnv 0x00bc2020
-SpawnedBase_b10020* FUN_00bc2020_cls::FUN_00bc2020(unsigned int arg)
+SpawnedBase_b10020* FUN_00bc2020_cls::FUN_00bc2020(uintptr_t arg)
 {
     SpawnedBase_b10020* obj = new SpawnedObj_b10020();
-    FUN_00ba8b10(obj, arg);
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(obj), (::CloningProcess *)(arg));
     return obj;
 }
 
@@ -2155,13 +2247,12 @@ struct FUN_00bc2540_class
     int unk34;
     int unk38;
     FUN_00bc2540_passes* m_pPassList;
-    void FUN_00ba95e0(int a);
-    FUN_00bc2540_passes* __thiscall FUN_00bc2540(NiGeometry* geom, int a0C, int a10, int a14, int a18, int a1C);
+    FUN_00bc2540_passes* FUN_00bc2540(NiGeometry* geom, int a0C, int a10, int a14, int a18, int a1C);
 };
 // @fnv 0x00bc2540
 FUN_00bc2540_passes* FUN_00bc2540_class::FUN_00bc2540(NiGeometry* geom, int a0C, int a10, int a14, int a18, int a1C)
 {
-    FUN_00ba95e0(1);
+    reinterpret_cast<::TallGrassShader *>(this)->InitializeConstants(1);
     FUN_00bc2540_passes* passes = m_pPassList;
     if (passes->m_uiItemCount == 0)
     {
@@ -2274,61 +2365,8 @@ class FUN_00bc2590_cls
     unsigned char unk175;
     unsigned char unk176;
     unsigned char unk177;
-    void FUN_00bc20a0(int i, int cursor, int prev, int wrap);
     void FUN_00bc2590(int count);
 };
-
-// Advances m_7c by count steps, wraps it at m_140, keeps m_78 in sync, sets m_174, and calls FUN_00bc20a0 for each of m_128 entries.
-// @fnv 0x00bc2590
-void FUN_00bc2590_cls::FUN_00bc2590(int count)
-{
-    int step = 1;
-    if (count > 0)
-    {
-        int remaining = count;
-        do
-        {
-            m_7c += step;
-            if (m_7c >= m_140)
-            {
-                m_7c = 0;
-            }
-            int cursor = m_7c;
-            if (cursor == m_78)
-            {
-                m_78 += step;
-                if (m_78 >= m_140)
-                {
-                    m_78 -= m_140;
-                }
-            }
-            m_174 = m_78 > cursor;
-            for (int i = 0; i < m_128; i += step)
-            {
-                int prev;
-                if (cursor == 0)
-                {
-                    prev = m_174 ? m_140 - step : 0;
-                }
-                else
-                {
-                    prev = cursor - step;
-                }
-                int wrap;
-                if (cursor < m_74)
-                {
-                    wrap = m_174 ? m_140 - m_74 + cursor : 0;
-                }
-                else
-                {
-                    wrap = cursor - m_74;
-                }
-                FUN_00bc20a0(i, cursor, prev, wrap);
-            }
-            remaining -= step;
-        } while (remaining != 0);
-    }
-}
 
 struct S_00bc2ae0_Target
 {
@@ -2422,10 +2460,9 @@ struct S_00bc2ae0_Foo
     S_00bc2ae0_Target* unkC4;
 };
 
-extern void __stdcall FUN_00a5dbe0(S_00bc2ae0_Foo*);
 
 // @fnv 0x00bc2ae0
-void __stdcall FUN_00bc2ae0(S_00bc2ae0_Foo* pFoo)
+void FUN_00bc2ae0(S_00bc2ae0_Foo* pFoo)
 {
     S_00bc2ae0_Target* target = pFoo->unkC4;
 
@@ -2435,7 +2472,7 @@ void __stdcall FUN_00bc2ae0(S_00bc2ae0_Foo* pFoo)
         target->unk34 = 2;
     }
 
-    FUN_00a5dbe0(pFoo);
+    reinterpret_cast<::FUN_00a5dbe0_shell *>((pFoo))->FUN_00a5dbe0({});
 
     if (target)
     {
@@ -2495,16 +2532,15 @@ struct FUN_00bc2c50_class
     float unkB8;
     unsigned char unkBC;
 
-    void __thiscall ForwardToBase(FUN_00bc2c50_class* destination, int value);
 
-    void __thiscall CopyTailFields(FUN_00bc2c50_class* destination, int value);
+    void CopyTailFields(FUN_00bc2c50_class* destination, std::intptr_t value);
 };
 
 // Calls ForwardToBase, then copies unkAC through unkBC from this object into destination.
 // @fnv 0x00bc2c50
-void __thiscall FUN_00bc2c50_class::CopyTailFields(FUN_00bc2c50_class* destination, int value)
+void FUN_00bc2c50_class::CopyTailFields(FUN_00bc2c50_class* destination, std::intptr_t value)
 {
-    ForwardToBase(destination, value);
+    reinterpret_cast<::FUN_00c5fb60_class *>(this)->ForwardToBase((::S_00a953b0_Node *)(destination), (void *)(value));
 
     float copiedValue = unkB8;
 
@@ -2568,10 +2604,6 @@ struct SpawnedObj_b9965
     unsigned int unkB8;
     unsigned int unkBC;
     SpawnedObj_b9965();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 // Allocates and constructs a new SpawnedObj_b9965 via its operator new and returns the pointer.
@@ -2587,7 +2619,6 @@ struct FUN_00bc2d20_sub
     int unk04;
     int unk08;
     int unk0C;
-    bool FUN_00a92660(void* other);
 };
 
 struct FUN_00bc2d20_cls
@@ -2637,7 +2668,6 @@ struct FUN_00bc2d20_cls
     int unkA8;
     FUN_00bc2d20_sub m_ac;
     unsigned char m_bc;
-    bool FUN_00a5e600(FUN_00bc2d20_cls* other);
     unsigned char Equals(FUN_00bc2d20_cls* other);
 };
 
@@ -2645,24 +2675,23 @@ struct FUN_00bc2d20_cls
 // @fnv 0x00bc2d20
 unsigned char FUN_00bc2d20_cls::Equals(FUN_00bc2d20_cls* other)
 {
-    unsigned char ok = FUN_00a5e600(other);
+    unsigned char ok = reinterpret_cast<::NiNodeEq *>(this)->FUN_00a5e600((::NiAVObject *)(other));
     if (ok)
     {
         if (m_bc != other->m_bc)
             return 0;
         if (m_bc != 0)
-            return m_ac.FUN_00a92660(&other->m_ac);
+            return ((bool)(::FUN_00a92660((const float *)&(m_ac), 0, (const float *)(&other->m_ac))));
         ok = 1;
     }
     return ok;
 }
 
 struct CpuOpaque;
-extern CpuOpaque DAT_01201f90;
 // @fnv 0x00bc3100
 CpuOpaque* __cdecl FUN_00bc3100()
 {
-    return &DAT_01201f90;
+    return &(*reinterpret_cast<::CpuOpaque *>(&::g_01201f90));
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -2676,24 +2705,19 @@ struct SpawnedBase_b9523
 
 struct SpawnedObj_b9523 : SpawnedBase_b9523
 {
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct FUN_00bc3110_cls
 {
-    void FUN_00a57620(SpawnedBase_b9523* p, unsigned int arg);
-    SpawnedBase_b9523* FUN_00bc3110(unsigned int arg);
+    SpawnedBase_b9523* FUN_00bc3110(uintptr_t arg);
 };
 
 // Allocates a SpawnedObj_b9523, initializes it via FUN_00a57620 with arg, and returns it as a SpawnedBase_b9523 pointer.
 // @fnv 0x00bc3110
-SpawnedBase_b9523* FUN_00bc3110_cls::FUN_00bc3110(unsigned int arg)
+SpawnedBase_b9523* FUN_00bc3110_cls::FUN_00bc3110(uintptr_t arg)
 {
     SpawnedBase_b9523* p = new SpawnedObj_b9523();
-    FUN_00a57620(p, arg);
+    reinterpret_cast<::NiAlphaController *>(this)->CopyMemberData((::NiAlphaController *)(p), (*(::CloningProcess *)(arg)));
     return p;
 }
 
@@ -2710,18 +2734,17 @@ struct StrListOwner
     virtual StrListNode* v2();
 };
 
-extern char g_sentinel_011fa010;
 
 // Walks the linked list returned by the object's v2() and returns true if it reaches the sentinel node, false otherwise or when pObj is null.
 // @fnv 0x00bc3260
-bool __stdcall ContainsSentinelNode(void* apListOwner)
+bool ContainsSentinelNode(void* apListOwner)
 {
     if (apListOwner == 0)
         return false;
     StrListNode* pNode = ((StrListOwner*)apListOwner)->v2();
     while (pNode != 0)
     {
-        if (pNode == (StrListNode*)&g_sentinel_011fa010)
+        if (pNode == (StrListNode*)&(*reinterpret_cast<char *>(&::g_011fa010)))
             return true;
         pNode = pNode->m_pNext;
     }
@@ -2733,8 +2756,6 @@ class BBC3370CloningProcess;
 class BBC3370Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 };
 
 class BBC3370Controller : public BBC3370Object
@@ -2743,7 +2764,6 @@ class BBC3370Controller : public BBC3370Object
     BBC3370Controller();
     virtual ~BBC3370Controller();
 
-    void CopyMemberData(BBC3370Controller* pkDest, BBC3370CloningProcess& kCloning);
 
     int unk04;
     int unk08;
@@ -2774,18 +2794,13 @@ class BBC3370DerivedController : public BBC3370Controller
 BBC3370Controller* BBC3370DerivedController::FUN_00bc3370(BBC3370CloningProcess& kCloning)
 {
     BBC3370DerivedController* pkClone = new BBC3370DerivedController;
-    CopyMemberData(pkClone, kCloning);
+    reinterpret_cast<::NiAlphaController *>(this)->CopyMemberData((::NiAlphaController *)(pkClone), (::CloningProcess &)(kCloning));
     return pkClone;
 }
 
 extern void* __cdecl FUN_00aa13e0(unsigned int size);
-extern void __fastcall FUN_00a57640(void* self);
 extern void* DAT_010ba948;
 
-void* __cdecl operator new(unsigned int size)
-{
-    return FUN_00aa13e0(size);
-}
 
 struct Base_00a57640
 {
@@ -2798,7 +2813,7 @@ struct Derived_00bc33f0 : Base_00a57640
 
     Derived_00bc33f0()
     {
-        FUN_00a57640(this);
+        reinterpret_cast<::FUN_00a57640_shell *>((this))->FUN_00a57640();
         m_pvt = (void*)&DAT_010ba948;
     }
 };
@@ -2811,11 +2826,10 @@ Derived_00bc33f0* __cdecl CreateDerived()
 }
 
 struct CpuOpaque;
-extern CpuOpaque DAT_01201fa8;
 // @fnv 0x00bc3610
 CpuOpaque* __cdecl FUN_00bc3610()
 {
-    return &DAT_01201fa8;
+    return &(*reinterpret_cast<::CpuOpaque *>(&::g_01201fa8));
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -2843,25 +2857,21 @@ struct Obj_b9218 : Base_b9218
     int unk34;
     Obj_b9218()
     {}
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct FUN_00bc3620_cls
 {
 
     void Attach(Obj_b9218* o, int p);
-    Obj_b9218* CreateAndAttach(int p);
+    Obj_b9218* CreateAndAttach(intptr_t p);
 };
 
 // Allocates a new Obj_b9218, attaches it with the given parameter, and returns the new object.
 // @fnv 0x00bc3620
-Obj_b9218* FUN_00bc3620_cls::CreateAndAttach(int p)
+Obj_b9218* FUN_00bc3620_cls::CreateAndAttach(intptr_t p)
 {
     Obj_b9218* o = new Obj_b9218();
-    Attach(o, p);
+    reinterpret_cast<::NiAlphaController *>(this)->CopyMemberData((::NiAlphaController *)(o), (*(::CloningProcess *)(p)));
     return o;
 }
 
@@ -2869,7 +2879,6 @@ struct NiFloatInterpController
 {
     virtual ~NiFloatInterpController();
     NiFloatInterpController();
-    static void* __cdecl operator new(unsigned int size);
     int unk04;
     int unk08;
     int unk0C;
@@ -2894,12 +2903,11 @@ void* __cdecl CreateInterpDerivedBc36()
     return new InterpDerivedBc36;
 }
 
-extern unsigned char DAT_01201fb0;
 
 // @fnv 0x00bc37a0
 void* __cdecl FUN_00bc37a0()
 {
-    return &DAT_01201fb0;
+    return &(*reinterpret_cast<unsigned char *>(&::g_01201fb0));
 }
 
 struct Color4
@@ -2911,39 +2919,40 @@ struct RGBWords
     unsigned int r, g, b;
 };
 extern int DAT_010bab28;
-extern RGBWords DAT_011a9be0;
-extern float DAT_01016410;
 struct FUN_00bc37b0_class
 {
+    int* vtbl;
+    char pad04[0x1c - 0x4];
+    int unk1c;
+    char pad20[0x60 - 0x20];
+    Color4 m_kColor;
     void FUN_00ba8e50();
     void* FUN_00bc37b0();
 };
 // @fnv 0x00bc37b0
 void* FUN_00bc37b0_class::FUN_00bc37b0()
 {
-    FUN_00ba8e50();
-    *reinterpret_cast<int**>(this) = &DAT_010bab28;
-    Color4& color = *reinterpret_cast<Color4*>(reinterpret_cast<char*>(this) + 0x60);
+    reinterpret_cast<::FUN_00ba8e50_cls *>(this)->FUN_00ba8e50();
+    vtbl = &DAT_010bab28;
+    Color4& color = m_kColor;
     color.a = color.b = color.g = color.r = 0.0f;
     RGBWords& rgb = *reinterpret_cast<RGBWords*>(&color);
-    unsigned int red = DAT_011a9be0.r;
+    unsigned int red = (*reinterpret_cast<::RGBWords *>(&::DAT_011a9be0)).r;
     double alpha = DAT_01016410;
     rgb.r = red;
-    rgb.g = DAT_011a9be0.g;
-    rgb.b = DAT_011a9be0.b;
+    rgb.g = (*reinterpret_cast<::RGBWords *>(&::DAT_011a9be0)).g;
+    rgb.b = (*reinterpret_cast<::RGBWords *>(&::DAT_011a9be0)).b;
     *reinterpret_cast<volatile float*>(&color.a) = alpha;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1c) = 0x16;
+    unk1c = 0x16;
     return this;
 }
 
 struct _Helper_00ba8b10
 {
-    void FUN_00ba8b10(char* p, void* q);
 };
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 
 struct FUN_00bc37b0 : BSFadeNode
@@ -3017,15 +3026,15 @@ struct Bc38Owner
     int unk64;
     int unk68;
     int unk6c;
-    FUN_00bc37b0* CreateFadeNode(int aArg);
+    FUN_00bc37b0* CreateFadeNode(intptr_t aArg);
 };
 
 // Allocates a FUN_00bc37b0, initializes it via FUN_00ba8b10 with aArg, copies the quad at unk60 into the new object, and returns it.
 // @fnv 0x00bc3830
-FUN_00bc37b0* Bc38Owner::CreateFadeNode(int aArg)
+FUN_00bc37b0* Bc38Owner::CreateFadeNode(intptr_t aArg)
 {
     FUN_00bc37b0* pNode = new FUN_00bc37b0();
-    ((_Helper_00ba8b10*)this)->FUN_00ba8b10((char*)pNode, (void*)aArg);
+    ::FUN_00ba8b10((::BSSP_stub4 *)(((_Helper_00ba8b10*)this)), 0, (::BSSP_stub4 *)(pNode), (::CloningProcess *)(aArg));
     Bc38Quad* pQuad = (Bc38Quad*)&unk60;
     *(Bc38Quad*)&pNode->unk60 = *pQuad;
     return pNode;
@@ -3064,10 +3073,6 @@ struct SpawnedObj_b9755
     unsigned int unk68;
     unsigned int unk6C;
     SpawnedObj_b9755();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 // Allocates and constructs a new SpawnedObj_b9755, returning the pointer.
@@ -3088,7 +3093,6 @@ class BC3930Key
 class BC3930Base
 {
   public:
-    bool IsEqual(BC3930Base* pkOther);
     int unk00;
     int unk04;
     int unk08;
@@ -3127,14 +3131,12 @@ class BC3930Property : public BC3930Base
 // @fnv 0x00bc3930
 bool BC3930Property::FUN_00bc3930(BC3930Property* pkOther)
 {
-    if (pkOther->m_kControlPoint != m_kControlPoint)
+    if (reinterpret_cast<::fnv_004a4c90::FUN_004a4c90_shell *>((void *)&(const ::BC3930Key &)(pkOther->m_kControlPoint))->FUN_004a4c90((void *)&(m_kControlPoint)))
         return false;
-    return BC3930Base::IsEqual(pkOther);
+    return ::FUN_00c9a420((void *)this);
 }
 
-extern const char* g_01201fb0;
 extern const char DAT_010babec[];
-char* __cdecl FUN_00a7d330(const char*);
 
 struct StrArr_bc3960
 {
@@ -3144,49 +3146,60 @@ struct StrArr_bc3960
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int uiSize);
-    void SetAt(unsigned int uiIndex, char*& pcStr);
     void Add(char* pcStr)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
         {
-            SetSize(uiIndex + m_usGrowBy);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
         }
-        SetAt(uiIndex, pcStr);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, pcStr);
     }
 };
 
 struct Color_bc3960
 {
     float r, g, b, a;
-    char* FormatToBuffer(const char* pcPrefix);
 };
 
 struct Prop_bc3960
 {
     int unk[24];
     Color_bc3960 m_kColor60;
-    void WriteToSettingArray(StrArr_bc3960* pkStrings);
     void AppendStrings(StrArr_bc3960* pkStrings);
 };
 
 // @fnv 0x00bc3960
 void Prop_bc3960::AppendStrings(StrArr_bc3960* pkStrings)
 {
-    WriteToSettingArray(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_01201fb0));
-    pkStrings->Add(m_kColor60.FormatToBuffer(DAT_010babec));
+    reinterpret_cast<::ShaderPropertyRecord *>(this)->WriteToSettingArray((::SettingArray *)(pkStrings));
+    pkStrings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01201fb0))));
+    pkStrings->Add(reinterpret_cast<::RgbaColor *>(&(m_kColor60))->ToString(DAT_010babec));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 class NiPoint3
 {
   public:
     float x, y, z;
+public:
+    bool FUN_004390c0(const ::NiPoint3 &);
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
 };
-extern const NiPoint3 NiPoint3_ZERO;
+// @fnv 0x00bc2bd0
+int* FUN_00bc2bd0_class::FUN_00bc2bd0()
+{
+    FUN_00c5f570();
+    *(int**)(char*)this = &DAT_010ba730;
+    this->unkac = *(int*)&(*reinterpret_cast<float *>((void *)&::NiPoint3::ZERO));
+    this->unkb0 = _DAT_011f4270;
+    this->unkb4 = _DAT_011f4274;
+    this->unkb8 = 0.0f;
+    this->unkbc = 0;
+    return (int*)this;
+}
 struct RefObj
 {
     virtual ~RefObj();
@@ -3304,17 +3317,16 @@ FUN_00bc39f0::~FUN_00bc39f0()
     m_sp108 = 0;
     for (int i = 0; i < 3; i++)
     {
-        m_akPts[i] = NiPoint3_ZERO;
+        m_akPts[i] = ::NiPoint3::ZERO;
         m_afVals[i] = 0.0f;
     }
 }
 
-extern int DAT_01201fb8;
 
 // @fnv 0x00bc3ba0
 void* __cdecl FUN_00bc3ba0()
 {
-    return &DAT_01201fb8;
+    return &(*reinterpret_cast<int *>(&::g_01201fb8));
 }
 
 class BC3DB0RefObject
@@ -3441,7 +3453,6 @@ class BC3DB0Base
     int unk164;
     int unk168;
 
-    void FUN_00b665d0(BC3DB0Base* pkDest, BC3DB0CloningProcess& kCloning);
 };
 
 class BC3DB0Property : public BC3DB0Base
@@ -3458,7 +3469,7 @@ class BC3DB0Property : public BC3DB0Base
 // @fnv 0x00bc3db0
 void BC3DB0Property::CloneTo(BC3DB0Property* pkDest, BC3DB0CloningProcess& kCloning)
 {
-    FUN_00b665d0(pkDest, kCloning);
+    reinterpret_cast<::SelfStub *>(this)->FUN_00b665d0((char *)(pkDest), (void *)&(kCloning));
     pkDest->m_spTexture = m_spTexture;
     pkDest->m_kFogTint = m_kFogTint;
 }
@@ -3564,10 +3575,6 @@ struct SpawnedObj9441
     unsigned int unk178;
     unsigned int unk17C;
     SpawnedObj9441();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 // Allocates and constructs a new SpawnedObj9441 via its operator new and returns the pointer.
@@ -3577,185 +3584,6 @@ SpawnedObj9441* CreateSpawnedObj9441()
     return new SpawnedObj9441();
 }
 
-struct TlsBlock_t
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    int unk1A0;
-    int unk1A4;
-    int unk1A8;
-    int unk1AC;
-    int unk1B0;
-    int unk1B4;
-    int unk1B8;
-    int unk1BC;
-    int unk1C0;
-    int unk1C4;
-    int unk1C8;
-    int unk1CC;
-    int unk1D0;
-    int unk1D4;
-    int unk1D8;
-    int unk1DC;
-    int unk1E0;
-    int unk1E4;
-    int unk1E8;
-    int unk1EC;
-    int unk1F0;
-    int unk1F4;
-    int unk1F8;
-    int unk1FC;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20C;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21C;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22C;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23C;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24C;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25C;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26C;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27C;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28C;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29C;
-    int unk2A0;
-    int unk2A4;
-    int unk2A8;
-    int unk2AC;
-    int unk2B0;
-    int m_2b4;
-};
-
-__declspec(thread) TlsBlock_t g_tlsBlock;
 
 struct TlsGuard_t
 {
@@ -3763,13 +3591,13 @@ struct TlsGuard_t
 
     TlsGuard_t(int value)
     {
-        m_saved = g_tlsBlock.m_2b4;
-        g_tlsBlock.m_2b4 = value;
+        m_saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = value;
     }
 
     ~TlsGuard_t()
     {
-        g_tlsBlock.m_2b4 = m_saved;
+        g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -3777,7 +3605,7 @@ void* FUN_00aa13e0(unsigned int size);
 
 struct Spawned_t
 {
-    void* operator new(unsigned int size)
+    void* operator new(std::size_t size)
     {
         return FUN_00aa13e0(0x180);
     }
@@ -3787,7 +3615,6 @@ struct Spawned_t
 struct FUN_00bc43b0_cls
 {
     int unk00;
-    void CloneTo(Spawned_t* obj, bool flag);
     Spawned_t* CreateSpawned(bool flag);
 };
 
@@ -3799,28 +3626,26 @@ Spawned_t* FUN_00bc43b0_cls::CreateSpawned(bool flag)
     Spawned_t* obj = new Spawned_t();
     bool take = flag;
     flag = false;
-    CloneTo(obj, take);
+    reinterpret_cast<::BC3DB0Property *>(this)->CloneTo((::BC3DB0Property *)(obj), (*(::BC3DB0CloningProcess *)(take)));
     return obj;
 }
 
 class SomeObj
 {
   public:
-    unsigned int Query(unsigned int key);
     void Apply(unsigned int value);
 };
 
-unsigned char __stdcall ProbeObj(SomeObj* obj);
 
 // Calls ProbeObj on obj, queries key 0xa, and applies the value if it is nonzero; returns the probe result.
 // @fnv 0x00bc45d0
-unsigned char __stdcall ProbeAndApply(SomeObj* obj)
+unsigned char ProbeAndApply(SomeObj* obj)
 {
-    unsigned char result = ProbeObj(obj);
-    unsigned int value = obj->Query(0xa);
+    unsigned char result = ((unsigned char)(reinterpret_cast<::SelfObj *>((obj))->FUN_00b67a40({})));
+    uintptr_t value = ((uintptr_t)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30(0xa)));
     if (value != 0)
     {
-        obj->Apply(value);
+        reinterpret_cast<::S654 *>((obj))->ForwardToSubobject(value);
     }
     return result;
 }
@@ -3843,7 +3668,6 @@ class NiRefObject
     }
 };
 
-extern NiPointer<NiRefObject> DAT_01201fc4;
 
 // @fnv 0x00bc4610
 void __cdecl ClearRefObject()
@@ -3994,14 +3818,9 @@ void FUN_00bc4640_cls::FUN_00bc4640()
         m_b8->v28();
         m_bc->v22();
     }
-    LodShaderBase::FUN_00e814b0();
+    reinterpret_cast<::fnv_00e814b0::UnkShader *>(this)->FUN_00e814b0();
 }
 
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl FUN_00406d00(char*, int, const char*, ...);
-const char* __cdecl FUN_00b4f380(bool);
 struct BeamDesc
 {
     const char* file;
@@ -4010,7 +3829,7 @@ struct BeamDesc
     char arguments[64];
     BeamDesc(const char* name) : file(name), count(0), flags(0)
     {
-        FUN_00ec61c0(arguments, 0, 64);
+        std::memset(arguments, 0, 64);
     }
 };
 struct BeamPtr
@@ -4079,8 +3898,6 @@ struct TargetBeam
     int unkb4;
     BeamPtr vertex;
     BeamPtr pixel;
-    RefObject* FUN_00be0fe0(const char*, unsigned int*, const char*, const char*);
-    RefObject* FUN_00be1750(const char*, unsigned int*, const char*, const char*);
     void FUN_00bc4680();
 };
 // Builds source and binary paths for the beam vertex and pixel shaders and assigns the compiled shader objects to vertex and pixel.
@@ -4092,16 +3909,14 @@ void TargetBeam::FUN_00bc4680()
     char binaryPath[260];
     FUN_00be0c00(vertexDesc.file, sourcePath);
     FUN_00406d00(binaryPath, 260, "BEAM.vso");
-    vertex.Assign(FUN_00be0fe0(sourcePath, &vertexDesc.count, "vs_1_1", binaryPath));
-    const char* profile = FUN_00b4f380(true);
+    vertex.Assign(((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(sourcePath), (::_D3DXMACRO *)(&vertexDesc.count), (const char *)("vs_1_1"), binaryPath))));
+    const char* profile = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     BeamDesc pixelDesc("beam\\p\\beam.p.hlsl");
     FUN_00be0c00(pixelDesc.file, sourcePath);
     FUN_00406d00(binaryPath, 260, "BEAM.pso");
-    pixel.Assign(FUN_00be1750(sourcePath, &pixelDesc.count, profile, binaryPath));
+    pixel.Assign(((::RefObject *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(sourcePath), &pixelDesc.count, (char *)(profile), (char *)(binaryPath)))));
 }
 
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct CountedRef
 {
     virtual void unused();
@@ -4136,7 +3951,6 @@ struct PassView
     int unk5c;
     int unk60;
     int references;
-    void FUN_00e80190();
 };
 struct PassPtr
 {
@@ -4146,7 +3960,7 @@ struct PassPtr
     ~PassPtr()
     {
         if (ptr && --ptr->references == 0)
-            ptr->FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>((ptr))->DestroyPass();
     }
     void clear()
     {
@@ -4154,7 +3968,7 @@ struct PassPtr
         if (old)
         {
             if (--old->references == 0)
-                old->FUN_00e80190();
+                reinterpret_cast<::NiD3DPass *>((old))->DestroyPass();
             ptr = 0;
         }
     }
@@ -4245,15 +4059,14 @@ FUN_00bc4830::FUN_00bc4830(CountedRef* pSource)
     first.clear();
     second.clear();
     value = 0.0f;
-    FUN_00ec61c0(matrix, 0, 0x40);
+    std::memset(matrix, 0, 0x40);
 }
 
-extern char DAT_01201fc8;
 
 // @fnv 0x00bc4970
 void* FUN_00bc4970()
 {
-    return &DAT_01201fc8;
+    return &(*reinterpret_cast<char *>(&::g_01201fc8));
 }
 
 // FUN_00bc5030: thiscall member that calls virtual slot 0x140 and then
@@ -4462,11 +4275,11 @@ struct FUN_00bc52f0_class
     int field70;
     int field74;
 
-    void __thiscall FUN_00bc52f0();
+    void FUN_00bc52f0();
 };
 
 // @fnv 0x00bc52f0
-void __thiscall FUN_00bc52f0_class::FUN_00bc52f0()
+void FUN_00bc52f0_class::FUN_00bc52f0()
 {
     int* p = &field6c;
     int count = 3;
@@ -4538,18 +4351,16 @@ FUN_00bc5320_Class::~FUN_00bc5320_Class()
 }
 
 // FUN_00bc5440 : a one-line function - getter
-extern int g_target_00bc5440;
 // @fnv 0x00bc5440
 void* FUN_00bc5440()
 {
-    return &g_target_00bc5440;
+    return &(*reinterpret_cast<int *>(&::g_01201fd8));
 }
 
 struct RefList0
 {
     char pad[0x64];
     int m_refs;
-    void FUN_00e80190();
 };
 struct RefEnt
 {
@@ -4564,7 +4375,6 @@ struct FUN_00bc5450_cls
     RefList0* m_pRefs[3];
     RefEnt* m_pRefs2[2];
     RefEnt* m_pRefs3[2];
-    bool FUN_00be0870();
     bool ReleaseAllRefs();
 };
 
@@ -4572,7 +4382,7 @@ struct FUN_00bc5450_cls
 // @fnv 0x00bc5450
 bool FUN_00bc5450_cls::ReleaseAllRefs()
 {
-    bool b = FUN_00be0870();
+    bool b = reinterpret_cast<::BSShader *>(this)->Initialize();
 
     int delta = -1;
     RefList0** pCur = m_pRefs;
@@ -4583,7 +4393,7 @@ bool FUN_00bc5450_cls::ReleaseAllRefs()
         {
             if ((p->m_refs += delta) == 0)
             {
-                p->FUN_00e80190();
+                reinterpret_cast<::NiD3DPass *>((p))->DestroyPass();
             }
             *pCur = 0;
         }
@@ -4687,12 +4497,11 @@ FUN_00bc58a0::FUN_00bc58a0()
 }
 }  // namespace fnv_00bc58a0
 
-extern int DAT_01202228;
 
 // @fnv 0x00bcb450
 void* __cdecl FUN_00bcb450()
 {
-    return &DAT_01202228;
+    return &(*reinterpret_cast<int *>(&::g_01202228));
 }
 
 struct BlockRecord
@@ -4775,7 +4584,7 @@ struct DispatchRegistry
     unsigned int unk38;
     unsigned int unk3c;
     unsigned int unk40;
-    unsigned int unk44;
+    uintptr_t unk44;
     unsigned int unk48;
     unsigned int unk4c;
     unsigned int unk50;
@@ -4783,12 +4592,9 @@ struct DispatchRegistry
     unsigned int unk58;
     DispatchHandler* handler;
 };
-extern DispatchRegistry* DAT_0126f74c;
 struct EventSystem
 {
-    void FUN_00e6fe30(BlockRecord* block, unsigned int token, int zero, int type, int enabled);
 };
-extern EventSystem* DAT_011f9508;
 struct EventInvoker
 {
     unsigned int unk00;
@@ -4828,16 +4634,16 @@ struct EventInvoker
     unsigned int unk88;
     void* channel;
     int DispatchEvent(int unused1, BlockRecord* block, DispatchInfo* info, int unused4, int unused5, int unused6,
-                      unsigned int token, int unused8);
+                      uintptr_t token, int unused8);
 };
 // @fnv 0x00bcb460
 int EventInvoker::DispatchEvent(int unused1, BlockRecord* block, DispatchInfo* info, int unused4, int unused5,
-                                int unused6, unsigned int token, int unused8)
+                                int unused6, uintptr_t token, int unused8)
 {
     if (block != 0 && info != 0 && disabledFlag == 0 && channel != 0)
     {
-        DAT_011f9508->FUN_00e6fe30(block, token, 0, 3, 1);
-        DAT_0126f74c->handler->Dispatch(channel, block->eventType, info->eventCode, 3, info->unk04);
+        reinterpret_cast<::BoneHost *>(((*reinterpret_cast<::EventSystem * *>(&::DAT_011f9508))))->FUN_00e6fe30((::SkinMatrixBlock *)(block), (::Xf *)(token), 0, 3, 1);
+        (*reinterpret_cast<::DispatchRegistry * *>(&::DAT_0126f74c))->handler->Dispatch(channel, block->eventType, info->eventCode, 3, info->unk04);
     }
     return 0;
 }
@@ -4932,17 +4738,16 @@ struct FUN_00bcc570_class
     virtual void V85() = 0;
     virtual void V86() = 0;
 
-    void __thiscall CallV81ThenV86();
+    void CallV81ThenV86();
 };
 
 // @fnv 0x00bcc570
-void __thiscall FUN_00bcc570_class::CallV81ThenV86()
+void FUN_00bcc570_class::CallV81ThenV86()
 {
     V81();
     return V86();
 }
 
-extern int DAT_01202230[33];
 
 struct S_00bcce10
 {
@@ -5029,11 +4834,9 @@ struct S_00bcce10
 void S_00bcce10::FUN_00bcce10()
 {
     for (int i = 0; i < 33; ++i)
-        vf74(DAT_01202230[i]);
+        vf74((*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[i]);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 struct RefObj_bcd
 {
@@ -5108,11 +4911,10 @@ FUN_00bcd390::FUN_00bcd390(RefObj_bcd* apRefObj) : Base_bcd(apRefObj, 0, 0, 0)
     m_i60 = 0;
 }
 
-extern int DAT_012022b4;
 // @fnv 0x00bcd490
 int* __cdecl FUN_00bcd490()
 {
-    return &DAT_012022b4;
+    return &(*reinterpret_cast<int *>(&::g_012022b4));
 }
 
 namespace fnv_00bcd5d0 {
@@ -5120,7 +4922,6 @@ struct FUN_00bcd5d0_Item
 {
     char pad[0x64];
     int m_refs;
-    void FUN_00e80190();
 };
 struct FUN_00bcd5d0_Obj
 {
@@ -5129,7 +4930,6 @@ struct FUN_00bcd5d0_Obj
     volatile long m_iObjectReferenceCount;
 };
 
-extern FUN_00bcd5d0_Item* DAT_01202230[33];
 
 struct FUN_00bcd5d0_cls
 {
@@ -5137,14 +4937,13 @@ struct FUN_00bcd5d0_cls
     FUN_00bcd5d0_Obj* m_slots[20];
     FUN_00bcd5d0_Obj* m_slots2[33];
 
-    void FUN_00be0870();
     bool ClearAllSlots();
 };
 
 // @fnv 0x00bcd5d0
 bool FUN_00bcd5d0_cls::ClearAllSlots()
 {
-    FUN_00be0870();
+    reinterpret_cast<::BSShader *>(this)->Initialize();
 
     int i;
     FUN_00bcd5d0_Obj** pCur = m_slots;
@@ -5178,7 +4977,7 @@ bool FUN_00bcd5d0_cls::ClearAllSlots()
     }
 
     int delta = -1;
-    FUN_00bcd5d0_Item** pItem = DAT_01202230;
+    FUN_00bcd5d0_Item** pItem = (*reinterpret_cast<fnv_00bcd5d0::FUN_00bcd5d0_Item * (*)[33]>(&::DAT_01202230));
     for (i = 0; i < 33; i++)
     {
         FUN_00bcd5d0_Item* it = pItem[i];
@@ -5186,7 +4985,7 @@ bool FUN_00bcd5d0_cls::ClearAllSlots()
         {
             if ((it->m_refs += delta) == 0)
             {
-                it->FUN_00e80190();
+                reinterpret_cast<::NiD3DPass *>((it))->DestroyPass();
             }
             pItem[i] = 0;
         }
@@ -5197,7 +4996,6 @@ bool FUN_00bcd5d0_cls::ClearAllSlots()
 
 namespace fnv_00bcd680 {
 struct RendererStub;
-extern RendererStub* DAT_011f9508;
 struct PassStub
 {
     virtual void v00();
@@ -5247,7 +5045,6 @@ struct PassStub
     virtual void v2c();
     virtual void Finish();
 };
-PassStub* __cdecl FUN_00e76700(RendererStub* r, int a, int b);
 struct ShaderObj
 {
     virtual void v00();
@@ -5336,8 +5133,6 @@ struct ShaderObj
     virtual void v53();
     virtual void Init84();
     ShaderObj(PassStub* p);
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     int unk04;
     int unk08;
     int unk0c;
@@ -5431,7 +5226,7 @@ struct ShaderObj
 // @fnv 0x00bcd680
 ShaderObj* __cdecl FUN_00bcd680()
 {
-    PassStub* pass = FUN_00e76700(DAT_011f9508, 6, 1);
+    PassStub* pass = ((::fnv_00bcd680::PassStub *)(::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<::fnv_00bcd680::RendererStub * *>(&::DAT_011f9508))), 6, 1)));
     pass->SetStage(0, 0, 0, 2, 0);
     pass->SetStage(1, 3, 3, 2, 0);
     pass->SetStage(2, 5, 4, 3, 0);
@@ -5449,7 +5244,6 @@ ShaderObj* __cdecl FUN_00bcd680()
 }
 }  // namespace fnv_00bcd680
 
-extern unsigned int g_b3804_table[26];
 
 struct FUN_00bcf7c0_cls
 {
@@ -5535,8 +5329,8 @@ struct FUN_00bcf7c0_cls
 // @fnv 0x00bcf7c0
 void FUN_00bcf7c0_cls::DispatchAllTableEntries()
 {
-    unsigned int* p = g_b3804_table;
-    while ((int)p < (int)(g_b3804_table + 26))
+    unsigned int* p = (*reinterpret_cast<unsigned int (*)[26]>(&::g_aiPassIndex_fd20));
+    while ((intptr_t)p < (intptr_t)((*reinterpret_cast<unsigned int (*)[26]>(&::g_aiPassIndex_fd20)) + 26))
     {
         Dispatch(*p);
         ++p;
@@ -5544,11 +5338,10 @@ void FUN_00bcf7c0_cls::DispatchAllTableEntries()
 }
 
 struct CpuOpaque;
-extern CpuOpaque DAT_01202328;
 // @fnv 0x00bcf910
 CpuOpaque* __cdecl FUN_00bcf910()
 {
-    return &DAT_01202328;
+    return &(*reinterpret_cast<::CpuOpaque *>(&::g_01202328));
 }
 
 class NiD3DVertexShader : public RefObject
@@ -5607,6 +5400,15 @@ struct FUN_00bcf920 : ShaderBase
     virtual void Initialize();
     ~FUN_00bcf920();
 };
+// Calls FUN_00bcf920, then deletes this with size 0x128 when bit 0 of a is set, and returns this.
+// @fnv 0x00bd0440
+void* FUN_00bd0440_class::FUN_00bd0440(int aiFlags)
+{
+    reinterpret_cast<::FUN_00bcf920 *>(this)->FUN_00bcf920::~FUN_00bcf920();
+    if (aiFlags & 1)
+        _delete(this, 0x128);
+    return this;
+}
 // @fnv 0x00bcf920
 FUN_00bcf920::~FUN_00bcf920()
 {
@@ -5630,7 +5432,7 @@ FUN_00bcf920::~FUN_00bcf920()
             pixel[j].m_pObject = 0;
         }
     }
-    NiD3DPass** p = &DAT_012022c0;
+    NiD3DPass** p = &(*reinterpret_cast<::NiD3DPass * *>(&::g_aiPassIndex_fd20));
     do
     {
         NiD3DPass* pass = *p;
@@ -5641,7 +5443,7 @@ FUN_00bcf920::~FUN_00bcf920()
             *p = 0;
         }
         ++p;
-    } while ((int)p < (int)&g_01202328);
+    } while ((intptr_t)p < (intptr_t)&::g_01202328);
 }
 
 // FUN_00bd0470: thiscall member that calls virtual slot 0x148 and tail-jumps to slot 0x14c
@@ -5923,7 +5725,6 @@ struct S_00bd04a0_Obj
     S_00bd04a0_Res* m_b0[3];
     S_00bd04a0_Res* m_bc[7];
     S_00bd04a0_Res* m_d8[3];
-    void FUN_00b71b90();
     void FUN_00bd04a0();
 };
 // @fnv 0x00bd04a0
@@ -5953,7 +5754,7 @@ void S_00bd04a0_Obj::FUN_00bd04a0()
         if (q)
             q->vf88();
     }
-    FUN_00b71b90();
+    reinterpret_cast<::FUN_00b71b90_class *>(this)->FUN_00b71b90();
 }
 
 namespace fnv_00bd0540 {
@@ -5966,13 +5767,6 @@ extern const char str_010bbb1c[];
 extern const char str_010bbb08[];
 extern const char str_010bbaf8[];
 extern const char str_010bbae8[];
-extern const char str_010a93ec[];
-extern const char str_010a93e4[];
-extern char DAT_01011584;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-void* __cdecl FUN_00ec61c0(void* dst, int val, unsigned int n);
-void __cdecl FUN_00be0c00(void* val, void* buf);
-void __cdecl FUN_00406d00(char* dst, unsigned int n, const char* fmt, int i);
 
 struct Elem540
 {
@@ -6003,7 +5797,6 @@ struct FUN_00bd0540_class
     RefObject* m_arr94[7];
     char padb0[0x0c];
     RefObject* m_arrBC[7];
-    RefObject* __thiscall FUN_00be0fe0(void* buf, void* pField, const char* str, char* buf2);
     void InitRefObjects();
 };
 
@@ -6017,119 +5810,119 @@ void FUN_00bd0540_class::InitRefObjects()
 
     arrA[0].f00 = str_010bbb38;
     arrA[0].f04 = str_010bbb30;
-    arrA[0].f08 = &DAT_01011584;
+    arrA[0].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[0].f0c = 0;
-    FUN_00ec61c0(&arrA[0].f10, 0, 0x3c);
+    std::memset(&arrA[0].f10, 0, 0x3c);
     arrA[1].f00 = str_010bbb38;
     arrA[1].f04 = str_010bbb30;
-    arrA[1].f08 = &DAT_01011584;
+    arrA[1].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[1].f0c = str_010bbb2c;
-    arrA[1].f10 = &DAT_01011584;
+    arrA[1].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[1].f14 = 0;
-    FUN_00ec61c0(&arrA[1].f18, 0, 0x34);
+    std::memset(&arrA[1].f18, 0, 0x34);
     arrA[2].f00 = str_010bbb38;
     arrA[2].f04 = str_010bbb28;
-    arrA[2].f08 = &DAT_01011584;
+    arrA[2].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[2].f0c = str_010bbb20;
-    arrA[2].f10 = &DAT_01011584;
+    arrA[2].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[2].f14 = 0;
-    FUN_00ec61c0(&arrA[2].f18, 0, 0x34);
+    std::memset(&arrA[2].f18, 0, 0x34);
     arrA[3].f00 = str_010bbb38;
     arrA[3].f04 = str_010bbb30;
-    arrA[3].f08 = &DAT_01011584;
+    arrA[3].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[3].f0c = str_010bbb2c;
-    arrA[3].f10 = &DAT_01011584;
+    arrA[3].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[3].f14 = str_010bbb1c;
-    arrA[3].f18 = &DAT_01011584;
+    arrA[3].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[3].f1c = 0;
-    FUN_00ec61c0(&arrA[3].f20, 0, 0x2c);
+    std::memset(&arrA[3].f20, 0, 0x2c);
     arrA[4].f00 = str_010bbb38;
     arrA[4].f04 = str_010bbb28;
-    arrA[4].f08 = &DAT_01011584;
+    arrA[4].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[4].f0c = str_010bbb20;
-    arrA[4].f10 = &DAT_01011584;
+    arrA[4].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[4].f14 = str_010bbb1c;
-    arrA[4].f18 = &DAT_01011584;
+    arrA[4].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[4].f1c = 0;
-    FUN_00ec61c0(&arrA[4].f20, 0, 0x2c);
+    std::memset(&arrA[4].f20, 0, 0x2c);
     arrA[5].f00 = str_010bbb38;
     arrA[5].f04 = str_010bbb28;
-    arrA[5].f08 = &DAT_01011584;
+    arrA[5].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[5].f0c = str_010bbb2c;
-    arrA[5].f10 = &DAT_01011584;
+    arrA[5].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[5].f14 = str_010bbb1c;
-    arrA[5].f18 = &DAT_01011584;
+    arrA[5].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[5].f1c = 0;
-    FUN_00ec61c0(&arrA[5].f20, 0, 0x2c);
+    std::memset(&arrA[5].f20, 0, 0x2c);
     arrA[6].f00 = str_010bbb38;
     arrA[6].f04 = str_010bbb28;
-    arrA[6].f08 = &DAT_01011584;
+    arrA[6].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[6].f0c = str_010bbb2c;
-    arrA[6].f10 = &DAT_01011584;
+    arrA[6].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[6].f14 = 0;
-    FUN_00ec61c0(&arrA[6].f18, 0, 0x34);
+    std::memset(&arrA[6].f18, 0, 0x34);
 
     arrB[0].f00 = str_010bbb08;
     arrB[0].f04 = str_010bbb30;
-    arrB[0].f08 = &DAT_01011584;
+    arrB[0].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[0].f0c = 0;
-    FUN_00ec61c0(&arrB[0].f10, 0, 0x3c);
+    std::memset(&arrB[0].f10, 0, 0x3c);
     arrB[1].f00 = str_010bbb08;
     arrB[1].f04 = str_010bbb30;
-    arrB[1].f08 = &DAT_01011584;
+    arrB[1].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[1].f0c = str_010bbb2c;
-    arrB[1].f10 = &DAT_01011584;
+    arrB[1].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[1].f14 = 0;
-    FUN_00ec61c0(&arrB[1].f18, 0, 0x34);
+    std::memset(&arrB[1].f18, 0, 0x34);
     arrB[2].f00 = str_010bbb08;
     arrB[2].f04 = str_010bbb28;
-    arrB[2].f08 = &DAT_01011584;
+    arrB[2].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[2].f0c = str_010bbb20;
-    arrB[2].f10 = &DAT_01011584;
+    arrB[2].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[2].f14 = 0;
-    FUN_00ec61c0(&arrB[2].f18, 0, 0x34);
+    std::memset(&arrB[2].f18, 0, 0x34);
     arrB[3].f00 = str_010bbb08;
     arrB[3].f04 = str_010bbb30;
-    arrB[3].f08 = &DAT_01011584;
+    arrB[3].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[3].f0c = str_010bbb2c;
-    arrB[3].f10 = &DAT_01011584;
+    arrB[3].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[3].f14 = str_010bbb1c;
-    arrB[3].f18 = &DAT_01011584;
+    arrB[3].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[3].f1c = 0;
-    FUN_00ec61c0(&arrB[3].f20, 0, 0x2c);
+    std::memset(&arrB[3].f20, 0, 0x2c);
     arrB[4].f00 = str_010bbb08;
     arrB[4].f04 = str_010bbb28;
-    arrB[4].f08 = &DAT_01011584;
+    arrB[4].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[4].f0c = str_010bbb20;
-    arrB[4].f10 = &DAT_01011584;
+    arrB[4].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[4].f14 = str_010bbb1c;
-    arrB[4].f18 = &DAT_01011584;
+    arrB[4].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[4].f1c = 0;
-    FUN_00ec61c0(&arrB[4].f20, 0, 0x2c);
+    std::memset(&arrB[4].f20, 0, 0x2c);
     arrB[5].f00 = str_010bbb08;
     arrB[5].f04 = str_010bbb28;
-    arrB[5].f08 = &DAT_01011584;
+    arrB[5].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[5].f0c = str_010bbb2c;
-    arrB[5].f10 = &DAT_01011584;
+    arrB[5].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[5].f14 = str_010bbb1c;
-    arrB[5].f18 = &DAT_01011584;
+    arrB[5].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[5].f1c = 0;
-    FUN_00ec61c0(&arrB[5].f20, 0, 0x2c);
+    std::memset(&arrB[5].f20, 0, 0x2c);
     arrB[6].f00 = str_010bbb08;
     arrB[6].f04 = str_010bbb28;
-    arrB[6].f08 = &DAT_01011584;
+    arrB[6].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[6].f0c = str_010bbb2c;
-    arrB[6].f10 = &DAT_01011584;
+    arrB[6].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[6].f14 = 0;
-    FUN_00ec61c0(&arrB[6].f18, 0, 0x34);
+    std::memset(&arrB[6].f18, 0, 0x34);
 
     for (int i = 0; i < 7; i++)
     {
         if (arrA[i].f00 != 0)
         {
-            FUN_00be0c00((void*)arrA[i].f00, bufB);
-            FUN_00406d00(bufA, 0x104, str_010bbaf8, i);
-            RefObject* nv = FUN_00be0fe0(bufB, &arrA[i].f04, str_010a93ec, bufA);
+            ::FUN_00be0c00((const char *)(void *)((void*)arrA[i].f00), (char *)(bufB));
+            ::FUN_00406d00(bufA, 0x104, str_010bbaf8, i);
+            RefObject* nv = ((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(bufB), (::_D3DXMACRO *)(&arrA[i].f04), (const char *)(&str_010a93ec), bufA)));
             RefObject* old = m_arr94[i];
             if (old != nv)
             {
@@ -6148,9 +5941,9 @@ void FUN_00bd0540_class::InitRefObjects()
     {
         for (int i = 0; i < 7; i++)
         {
-            FUN_00be0c00((void*)arrB[i].f00, bufB);
-            FUN_00406d00(bufA, 0x104, str_010bbae8, i);
-            RefObject* nv = FUN_00be0fe0(bufB, &arrB[i].f04, str_010a93e4, bufA);
+            ::FUN_00be0c00((const char *)(void *)((void*)arrB[i].f00), (char *)(bufB));
+            ::FUN_00406d00(bufA, 0x104, str_010bbae8, i);
+            RefObject* nv = ((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(bufB), (::_D3DXMACRO *)(&arrB[i].f04), (const char *)(::ShaderInit::DAT_010a93e4), bufA)));
             RefObject* old = m_arrBC[i];
             if (old != nv)
             {
@@ -6196,11 +5989,10 @@ struct StageReturn
     int unk58;
     int unk5c;
     int m_iObjectReferenceCount;
-    void ReturnToPool();
     void DecRef()
     {
         if (--m_iObjectReferenceCount == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 
@@ -6220,7 +6012,6 @@ struct StageReturnPtr
     }
 };
 
-void __cdecl CreateNewStage_e7edf0(StageReturnPtr& out);
 struct ShaderPassOwner
 {
     int unk00;
@@ -6229,7 +6020,6 @@ struct ShaderPassOwner
     int unk0c;
     int unk10;
     void* m_pDirectInputDevice;
-    void InsertStage(void* list, StageReturn* stage);
 };
 
 struct ShaderPassOwnerPtr
@@ -6240,8 +6030,6 @@ struct ShaderPassOwnerPtr
         return m_p;
     }
 };
-void __cdecl ShaderPassHelper_e804d0(ShaderPassOwnerPtr& owner);
-void __cdecl ShaderPassSetup_be0cf0(StageReturn* pass, int index, int a, int b, int c);
 
 int __cdecl ShaderQuery_4dc060(int arg);
 
@@ -6301,34 +6089,34 @@ bool FUN_00bd0ae0_class::FUN_00bd0ae0()
 {
     for (int i = 0; i < 2; i++)
     {
-        ShaderPassHelper_e804d0(m_spOwners[i]);
+        ::NiD3DPass::CreateD3DPass((::NiPointer< ::NiD3DPass> &)(m_spOwners[i]));
         StageReturnPtr spRenderPass;
 
-        CreateNewStage_e7edf0(spRenderPass);
-        ShaderPassSetup_be0cf0(spRenderPass.m_p, 0, 1, 2, 1);
-        m_spOwners[i]->InsertStage(m_spOwners[i]->m_pDirectInputDevice, spRenderPass);
+        ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
+        ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
 
-        CreateNewStage_e7edf0(spRenderPass);
-        ShaderPassSetup_be0cf0(spRenderPass.m_p, 1, 1, 2, 1);
-        m_spOwners[i]->InsertStage(m_spOwners[i]->m_pDirectInputDevice, spRenderPass);
+        ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
+        ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 1, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
 
-        CreateNewStage_e7edf0(spRenderPass);
-        ShaderPassSetup_be0cf0(spRenderPass.m_p, 2, 1, 2, 1);
-        m_spOwners[i]->InsertStage(m_spOwners[i]->m_pDirectInputDevice, spRenderPass);
+        ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
+        ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 2, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
 
-        CreateNewStage_e7edf0(spRenderPass);
-        ShaderPassSetup_be0cf0(spRenderPass.m_p, 3, 3, 2, 1);
-        m_spOwners[i]->InsertStage(m_spOwners[i]->m_pDirectInputDevice, spRenderPass);
+        ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
+        ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 3, 3, 2, 1);
+        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
 
-        CreateNewStage_e7edf0(spRenderPass);
-        ShaderPassSetup_be0cf0(spRenderPass.m_p, 4, 1, 2, 1);
-        m_spOwners[i]->InsertStage(m_spOwners[i]->m_pDirectInputDevice, spRenderPass);
+        ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
+        ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 4, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
 
         if (ShaderQuery_4dc060(0) >= 2)
         {
-            CreateNewStage_e7edf0(spRenderPass);
-            ShaderPassSetup_be0cf0(spRenderPass.m_p, 5, 3, 2, 1);
-            m_spOwners[i]->InsertStage(m_spOwners[i]->m_pDirectInputDevice, spRenderPass);
+            ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
+            ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 5, 3, 2, 1);
+            reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
         }
     }
     DAT_011fcf84 = DAT_011fcf88 = 0x482;
@@ -6338,8 +6126,6 @@ bool FUN_00bd0ae0_class::FUN_00bd0ae0()
 }
 }  // namespace fnv_00bd0ae0
 
-extern int DAT_011fdff8;
-extern int DAT_011fe000;
 
 class FUN_00bd0cb0_base
 {
@@ -6424,33 +6210,32 @@ class FUN_00bd0cb0_class : public FUN_00bd0cb0_base
 {
   public:
     virtual void v74(int) = 0;
-    void __thiscall CallVirtualOnGlobalRange();
+    void CallVirtualOnGlobalRange();
 };
 
 // Calls v74 on this for each int in the global range from DAT_011fdff8 up to DAT_011fe000.
 // @fnv 0x00bd0cb0
-void __thiscall FUN_00bd0cb0_class::CallVirtualOnGlobalRange()
+void FUN_00bd0cb0_class::CallVirtualOnGlobalRange()
 {
-    int* p = &DAT_011fdff8;
+    int* p = &(*reinterpret_cast<int *>(&::fnv_00b7a730::DAT_011fdff8));
     int* end = &DAT_011fe000;
 
     do
     {
         this->v74(*p);
         ++p;
-    } while ((long)p < (long)end);
+    } while ((intptr_t)p < (intptr_t)end);
 }
 
 struct GlobalObjectO2_00bd0f60
 {
     char* pData;
 };
-extern GlobalObjectO2_00bd0f60 g_01202330;
 
 // @fnv 0x00bd0f60
 GlobalObjectO2_00bd0f60* __cdecl FUN_00bd0f60()
 {
-    return &g_01202330;
+    return &(*reinterpret_cast<::GlobalObjectO2_00bd0f60 *>(&::g_01202330));
 }
 
 struct BdElem
@@ -6529,16 +6314,13 @@ FUN_00bd2b60_cls::FUN_00bd2b60_cls()
     *(volatile int*)&m_68 = 8;
 }
 
-extern int DAT_0120233c;
 
 // @fnv 0x00bd2c30
 void* __cdecl FUN_00bd2c30()
 {
-    return &DAT_0120233c;
+    return &(*reinterpret_cast<int *>(&::g_0120233c));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
 struct ShaderRefObject
 {
@@ -6595,11 +6377,10 @@ struct StageReturn
     int unk58;
     int unk5c;
     int m_iObjectReferenceCount;
-    void ReturnToPool();
     void DecRefCount()
     {
         if (--m_iObjectReferenceCount == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 
@@ -6655,9 +6436,6 @@ struct ShaderPassPtr
     }
 };
 
-void __cdecl ShaderCreatePass(ShaderPassPtr& pass);
-void __cdecl AssignStageFromPool(StagePtr& stage);
-void __cdecl ShaderSetupStage(StageReturn* stage, int a, int b, int c, int d);
 
 struct FUN_00bd2d50_class
 {
@@ -6702,16 +6480,15 @@ struct FUN_00bd2d50_class
 // @fnv 0x00bd2d50
 void FUN_00bd2d50_class::CreateShaderPassWithStage()
 {
-    ShaderCreatePass(m_spPass);
+    ::NiD3DPass::CreateD3DPass((::NiPointer< ::NiD3DPass> &)(m_spPass));
     StagePtr stage;
-    AssignStageFromPool(stage);
-    ShaderSetupStage(stage.m_pObject, 0, 3, 2, 1);
-    m_spPass->SetStage(m_spPass->m_kTextureStages, stage.m_pObject);
+    ::AssignStageFromPool((::StageReturn *&)(stage));
+    ::ConfigureBeamStage((::BeamStage *)(stage.m_pObject), 0, 3, 2, 1);
+    reinterpret_cast<::StageSet *>(((m_spPass).operator->()))->FUN_00e802b0(m_spPass->m_kTextureStages, (::Stage321 *)(stage.m_pObject));
     m_spPass->m_spObject5c = m_pObject6c;
     m_spPass->m_spObject44 = m_pObject7c;
 }
 
-extern void* g_apvBD4000Shaders[30];
 
 class BD4000Renderer
 {
@@ -6800,43 +6577,10 @@ class BD4000Renderer
 void BD4000Renderer::RegisterAllShaders()
 {
     for (int i = 0; i < 30; i++)
-        Register(g_apvBD4000Shaders[i]);
+        Register((*reinterpret_cast<void * (*)[30]>(&::DAT_01202350))[i]);
 }
 
 namespace fnv_00bd4030 {
-extern void* DAT_01202350;
-extern void* DAT_01202354;
-extern void* DAT_01202358;
-extern void* DAT_0120235C;
-extern void* DAT_01202360;
-extern void* DAT_01202364;
-extern void* DAT_01202368;
-extern void* DAT_0120236C;
-extern void* DAT_01202370;
-extern void* DAT_01202374;
-extern void* DAT_01202378;
-extern void* DAT_0120237C;
-extern void* DAT_01202380;
-extern void* DAT_01202384;
-extern void* DAT_01202388;
-extern void* DAT_0120238C;
-extern void* DAT_01202390;
-extern void* DAT_01202394;
-extern void* DAT_01202398;
-extern void* DAT_0120239C;
-extern void* DAT_012023A0;
-extern void* DAT_012023A4;
-extern void* DAT_012023A8;
-extern void* DAT_012023AC;
-extern void* DAT_012023B0;
-extern void* DAT_012023B4;
-extern void* DAT_012023B8;
-extern void* DAT_012023BC;
-extern void* DAT_012023C0;
-extern void* DAT_012023C4;
-extern void* DAT_0126F74C;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct RefObj
 {
     virtual void v0();
@@ -6857,94 +6601,94 @@ void FUN_00bd4030_class::FUN_00bd4030(unsigned int code)
     switch (code)
     {
     case 0x151:
-        DAT_0126F74C = DAT_01202368;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202368));
         break;
     case 0xdf:
-        DAT_0126F74C = DAT_01202378;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202378));
         break;
     case 0xe8:
-        DAT_0126F74C = DAT_0120237C;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_0120237c));
         break;
     case 0xf1:
-        DAT_0126F74C = DAT_01202380;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202380));
         break;
     case 0xfa:
-        DAT_0126F74C = DAT_01202384;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202384));
         break;
     case 0x108:
-        DAT_0126F74C = DAT_01202388;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202388));
         break;
     case 0x114:
-        DAT_0126F74C = DAT_0120238C;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_0120238c));
         break;
     case 0x11f:
-        DAT_0126F74C = DAT_01202390;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202390));
         break;
     case 0x12a:
-        DAT_0126F74C = DAT_01202394;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202394));
         break;
     case 0x9f:
-        DAT_0126F74C = DAT_01202398;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202398));
         break;
     case 0xaa:
-        DAT_0126F74C = DAT_0120239C;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_0120239c));
         break;
     case 0xb5:
-        DAT_0126F74C = DAT_012023A0;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_012023a0));
         break;
     case 0xc0:
-        DAT_0126F74C = DAT_012023A4;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_012023a4));
         break;
     case 0x137:
-        DAT_0126F74C = DAT_012023A8;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_012023a8));
         break;
     case 0x143:
-        DAT_0126F74C = DAT_012023AC;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_012023ac));
         break;
     case 0x60:
-        DAT_0126F74C = DAT_01202350;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202350));
         break;
     case 0x7a:
-        DAT_0126F74C = DAT_01202354;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202354));
         break;
     case 0x7b:
-        DAT_0126F74C = DAT_01202358;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202358));
         break;
     case 0x7e:
-        DAT_0126F74C = DAT_0120235C;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_0120235c));
         break;
     case 0x130:
-        DAT_0126F74C = DAT_01202360;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202360));
         break;
     case 0x131:
-        DAT_0126F74C = DAT_01202364;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202364));
         break;
     case 0x158:
-        DAT_0126F74C = DAT_0120236C;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_0120236c));
         break;
     case 0x159:
-        DAT_0126F74C = DAT_01202370;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202370));
         break;
     case 0x15f:
-        DAT_0126F74C = DAT_012023B0;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_012023b0));
         break;
     case 0x256:
-        DAT_0126F74C = DAT_01202374;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_01202374));
         break;
     case 0x165:
-        DAT_0126F74C = DAT_012023B4;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_012023b4));
         break;
     case 0x16b:
-        DAT_0126F74C = DAT_012023B8;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_012023b8));
         break;
     case 0x171:
-        DAT_0126F74C = DAT_012023BC;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_012023bc));
         break;
     case 0x177:
-        DAT_0126F74C = DAT_012023C0;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_012023c0));
         break;
     case 0x234:
-        DAT_0126F74C = DAT_012023C4;
+        (*reinterpret_cast<void * *>(&::DAT_0126f74c)) = (*reinterpret_cast<void * *>(&::DAT_012023c4));
         break;
     }
     RefObj* nv = m_p6c;
@@ -6988,10 +6732,12 @@ class NiD3DVertexShader
             DeleteThis();
     }
 };
-template <> class NiPointer<NiD3DPixelShader>
+}  // namespace fnv_00bd44c0
+
+template <> class NiPointer<fnv_00bd44c0::NiD3DPixelShader>
 {
   public:
-    NiD3DPixelShader* m_pObject;
+    fnv_00bd44c0::NiD3DPixelShader* m_pObject;
     NiPointer()
     {
         m_pObject = 0;
@@ -7002,10 +6748,10 @@ template <> class NiPointer<NiD3DPixelShader>
             m_pObject->DecRefCount();
     }
 };
-template <> class NiPointer<NiD3DVertexShader>
+template <> class NiPointer<fnv_00bd44c0::NiD3DVertexShader>
 {
   public:
-    NiD3DVertexShader* m_pObject;
+    fnv_00bd44c0::NiD3DVertexShader* m_pObject;
     NiPointer()
     {
         m_pObject = 0;
@@ -7016,6 +6762,8 @@ template <> class NiPointer<NiD3DVertexShader>
             m_pObject->DecRefCount();
     }
 };
+
+namespace fnv_00bd44c0 {
 
 struct FUN_00b79b00
 {
@@ -7073,16 +6821,14 @@ FUN_00bd44c0::FUN_00bd44c0(int a) : FUN_00b79b00(a, 0, 0, 0)
 }
 }  // namespace fnv_00bd44c0
 
-extern int DAT_01202348;
 
 // @fnv 0x00bd4560
 void* __cdecl FUN_00bd4560()
 {
-    return &DAT_01202348;
+    return &(*reinterpret_cast<int *>(&::g_01202348));
 }
 
 namespace fnv_00bd4570 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct ShaderRef
 {
     virtual void v00();
@@ -7167,9 +6913,7 @@ struct GlobalRef
     int unk5c;
     int unk60;
     int refs;
-    void FUN_00e80190();
 };
-extern GlobalRef* DAT_01202350[30];
 struct FUN_00bd4570 : FUN_00b79de0
 {
     NiPointer<NiD3DPixelShader> pixels[30];
@@ -7185,12 +6929,12 @@ FUN_00bd4570::~FUN_00bd4570()
         vertices[i] = (NiD3DVertexShader*)0;
     for (int i = 0; i < 30; ++i)
     {
-        GlobalRef* object = DAT_01202350[i];
+        GlobalRef* object = (*reinterpret_cast<fnv_00bd4570::GlobalRef * (*)[30]>(&::DAT_01202350))[i];
         if (object)
         {
             if (--object->refs == 0)
-                object->FUN_00e80190();
-            DAT_01202350[i] = 0;
+                reinterpret_cast<::NiD3DPass *>((object))->DestroyPass();
+            (*reinterpret_cast<fnv_00bd4570::GlobalRef * (*)[30]>(&::DAT_01202350))[i] = 0;
         }
     }
 }
@@ -7208,7 +6952,6 @@ struct FUN_00bd46a0_Item
     char pad_00[0x64];
     int m_uiItemCount;
 
-    void __thiscall OnLastRef();
 };
 
 struct FUN_00bd46a0_cls
@@ -7217,20 +6960,18 @@ struct FUN_00bd46a0_cls
     FUN_00bd46a0_Obj* m_slots[30];
     FUN_00bd46a0_Obj* m_slots2[10];
 
-    bool __thiscall ClearAllReferences();
-    void __thiscall FUN_00be0870();
+    bool ClearAllReferences();
 };
 
-extern FUN_00bd46a0_Item* DAT_01202350[30];
 
 // @fnv 0x00bd46a0
-bool __thiscall FUN_00bd46a0_cls::ClearAllReferences()
+bool FUN_00bd46a0_cls::ClearAllReferences()
 {
     int i;
     FUN_00bd46a0_Obj* obj;
     FUN_00bd46a0_Item* item;
 
-    FUN_00be0870();
+    reinterpret_cast<::BSShader *>(this)->Initialize();
     for (i = 0; i < 30; i++)
     {
         obj = m_slots[i];
@@ -7257,15 +6998,15 @@ bool __thiscall FUN_00bd46a0_cls::ClearAllReferences()
     }
     for (i = 0; i < 30; i++)
     {
-        item = DAT_01202350[i];
+        item = (*reinterpret_cast<FUN_00bd46a0_Item * (*)[30]>(&::DAT_01202350))[i];
         if (item != 0)
         {
             item->m_uiItemCount += -1;
             if (item->m_uiItemCount == 0)
             {
-                item->OnLastRef();
+                reinterpret_cast<::NiD3DPass *>((item))->DestroyPass();
             }
-            DAT_01202350[i] = 0;
+            (*reinterpret_cast<FUN_00bd46a0_Item * (*)[30]>(&::DAT_01202350))[i] = 0;
         }
     }
     return true;
@@ -7273,15 +7014,15 @@ bool __thiscall FUN_00bd46a0_cls::ClearAllReferences()
 
 struct S_00bd6150_Foo
 {
-    int unk00;
-    int unk04;
+    intptr_t unk00;
+    intptr_t unk04;
     int unk08;
     short unk0c;
     unsigned short m_uiItemCount;
     float* m_kFloatData;
     int* m_intData;
 
-    void __thiscall FUN_00bd5e40();
+    void FUN_00bd5e40();
     void ResetEntries();
 };
 
@@ -7299,7 +7040,6 @@ void S_00bd6150_Foo::ResetEntries()
     FUN_00bd5e40();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 struct CallbackOwner;
 struct ReleaseCallback
@@ -7408,7 +7148,6 @@ struct FUN_00bd6570
     void* unknown0c;
     void* allocation10;
     void* allocation14;
-    void ResetEntries();
     ~FUN_00bd6570();
 };
 // Releases the three object references, detaches the owner's callback, frees allocation10 and allocation14, and calls ResetEntries.
@@ -7420,15 +7159,15 @@ FUN_00bd6570::~FUN_00bd6570()
     if (owner.object->callback)
         owner.object->callback->OnDetach(owner.object);
     owner.Reset();
-    ResetEntries();
+    reinterpret_cast<::S_00bd6150_Foo *>(this)->ResetEntries();
     if (allocation10)
     {
-        g_memoryManager.Deallocate(allocation10);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(allocation10);
         allocation10 = 0;
     }
     {
         void* buffer = allocation14;
-        g_memoryManager.Deallocate(buffer);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(buffer);
     }
     allocation14 = 0;
 }
@@ -7439,13 +7178,11 @@ class BdQuery
 {
   public:
     unsigned int unk00;
-    void Query(int slot, unsigned int* out);
 };
 class BdRef
 {
   public:
     unsigned int unk00;
-    void Touch();
 };
 class BdData
 {
@@ -7498,19 +7235,19 @@ class FUN_00bd6a30_cls
 // @fnv 0x00bd6a30
 void FUN_00bd6a30_cls::TouchRefsAndQuery()
 {
-    m_2c->m_08->Touch();
+    reinterpret_cast<::H_00ba39a0 *>((m_2c->m_08))->FUN_00ba39a0();
     unsigned int v = 0;
-    m_28.Query(2, &v);
-    m_2c->m_0c->Touch();
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_28))->FUN_00ba3aa0(2, (::KeyPair **)(unsigned int *)(&v));
+    reinterpret_cast<::H_00ba39a0 *>((m_2c->m_0c))->FUN_00ba39a0();
     v = 0;
-    m_28.Query(3, &v);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_28))->FUN_00ba3aa0(3, (::KeyPair **)(unsigned int *)(&v));
     v = 0;
-    m_28.Query(4, &v);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_28))->FUN_00ba3aa0(4, (::KeyPair **)(unsigned int *)(&v));
     if (m_2c->m_14 != 0)
     {
-        m_7c.Touch();
+        reinterpret_cast<::H_00ba39a0 *>(&(m_7c))->FUN_00ba39a0();
         v = 0;
-        m_28.Query(5, &v);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_28))->FUN_00ba3aa0(5, (::KeyPair **)(unsigned int *)(&v));
     }
 }
 
@@ -7608,7 +7345,6 @@ FNV_Elem_00bd7120::FNV_Elem_00bd7120()
 
 struct FNV_Sub28_00bd7120
 {
-    void FNV_SetSize_00bd7120(int n);
     char pad[0x10];
 };
 
@@ -7626,7 +7362,6 @@ struct FNV_Base_00bd7120
     FNV_Sub58_00bd7120 m_58;
     FNV_Base_00bd7120();
     virtual ~FNV_Base_00bd7120();
-    void FNV_Final_00bd7120();
 };
 
 struct FUN_00bd7120_Class : FNV_Base_00bd7120
@@ -7647,16 +7382,15 @@ struct FUN_00bd7120_Class : FNV_Base_00bd7120
 // @fnv 0x00bd7120
 FUN_00bd7120_Class::FUN_00bd7120_Class()
 {
-    m_28.FNV_SetSize_00bd7120(6);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_28))->FUN_00a90180(6);
     m_f68 = 0.0f;
     m_f6c = 0.0f;
     m_f70 = 0.0f;
     m_i74 = 0;
     m_58.FNV_SetSize_00bd7120(4);
-    FNV_Final_00bd7120();
+    ::FUN_00b8bc20((char *)this, {});
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 struct RefObj_bd74a0
 {
@@ -7769,16 +7503,13 @@ FUN_00bd74a0::~FUN_00bd74a0()
 }
 
 // Accessor for the global object at 0x012023e8.
-extern int DAT_012023e8;
 
 // @fnv 0x00bd7610
 int* __cdecl FUN_00bd7610()
 {
-    return &DAT_012023e8;
+    return &(*reinterpret_cast<int *>(&::g_012023e8));
 }
 
-extern float DAT_0104eb20;
-extern int DAT_011f9ef8;
 
 struct RemovableEntry
 {
@@ -7814,11 +7545,11 @@ int FUN_00bd85b0_cls::RemoveEntry(unsigned short index)
         }
         m_pEntries[m_uiItemCount - 1].m_f00 = 0.0f;
         m_pEntries[m_uiItemCount - 1].m_f04 = 0.0f;
-        m_pEntries[m_uiItemCount - 1].m_f08 = DAT_0104eb20;
+        m_pEntries[m_uiItemCount - 1].m_f08 = ::g_011cc974_arg1;
         m_pEntries[m_uiItemCount - 1].m_f0C = 0.0f;
         m_pKeys[m_uiItemCount - 1] = 0;
         m_uiItemCount--;
-        DAT_011f9ef8--;
+        (*reinterpret_cast<int *>(&::DAT_011f9ef8))--;
     }
     return m_uiItemCount;
 }
@@ -7831,18 +7562,14 @@ int FUN_00bd85b0_cls::RemoveEntry(unsigned short index)
 
 struct Bd9120Allocator
 {
-    void* FUN_00aa3e40(unsigned int size);  // allocates size bytes, callee pops
+      // allocates size bytes, callee pops
 };
 
-extern Bd9120Allocator DAT_011f6238;  // the global allocator holder
-extern int DAT_011bf558;              // number of elements to build
+  // the global allocator holder
+              // number of elements to build
 
 struct Bd9120Element
 {
-    static void* operator new[](unsigned int bytes)
-    {
-        return DAT_011f6238.FUN_00aa3e40(bytes);
-    }
     int m_uiFilterValue;
 };
 
@@ -7857,7 +7584,7 @@ struct Bd9120Buffer
 // @fnv 0x00bd9120
 void* Bd9120Buffer::FUN_00bd9120()
 {
-    m_pElements = new Bd9120Element[DAT_011bf558];
+    m_pElements = new Bd9120Element[(*reinterpret_cast<int *>(&::DAT_011bf558))];
     return this;
 }
 
@@ -7875,11 +7602,9 @@ struct Global_00bd9240
     Vec4_00bd9240 m_2f8;
 };
 
-extern Global_00bd9240* DAT_011f91ac;
 
 struct Callee_00b8a790
 {
-    int Run(int flag, float x, float y, float z, float w);
 };
 
 struct Inner_00bd9240
@@ -7900,8 +7625,8 @@ struct FUN_00bd9240_cls
 bool FUN_00bd9240_cls::RunWithGlobalVector(unsigned char flag)
 {
     Vec4_00bd9240 tmp;
-    tmp = DAT_011f91ac->m_2f8;
-    m_1c->m_00->Run(0, tmp.x, tmp.y, tmp.z, tmp.w);
+    tmp = (*reinterpret_cast<::Global_00bd9240 * *>(&::DAT_011f91ac))->m_2f8;
+    reinterpret_cast<::ImageSpaceShaderParam *>((m_1c->m_00))->SetShaderConstantVector4(0, tmp.x, tmp.y, tmp.z, tmp.w);
     return true;
 }
 
@@ -7909,17 +7634,12 @@ struct FUN_00bd92b0_mgr
 {
     virtual void v0();
     virtual void v1(int a, int b, int c, int d);
-    void SetAccumulatorAt(int idx, int val, int flag);
-    void FUN_00b6da10(int v);
 };
 
 struct FUN_00bd92b0_sub
 {
-    void FUN_00ba38b0();
-    int FUN_00ba3770();
 };
 
-extern int DAT_011f91a8;
 
 struct FUN_00bd92b0_class
 {
@@ -7934,13 +7654,15 @@ struct FUN_00bd92b0_class
     char m_pad4;
     unsigned char m_b5;
     char unk06[6];
-    int* m_p0c;
+    intptr_t* m_p0c;
     char unk10[0x0c];
     int* m_p1c;
     char unk20[0x0c];
-    int* m_p2c;
+    intptr_t* m_p2c;
 
     void FUN_00bd92b0(int a1, int a2, int a3, int a4);
+    char pad30[0x28];
+    FUN_00bd92b0_sub unk58;
 };
 
 // @fnv 0x00bd92b0
@@ -7949,37 +7671,36 @@ void FUN_00bd92b0_class::FUN_00bd92b0(int a1, int a2, int a3, int a4)
     if (m_b5)
         m_b5 = v7(a3);
 
-    int inner = *m_p0c;
-    char* base = inner ? (char*)inner - 0x6c : 0;
-    FUN_00bd92b0_mgr* pMgr = (FUN_00bd92b0_mgr*)(base + 0x6c);
+    intptr_t inner = *m_p0c;
+    FUN_00bd92b0_mgr* pMgr = (FUN_00bd92b0_mgr*)inner;
 
-    int* pField2c = m_p2c;
+    intptr_t* pField2c = m_p2c;
     int* pField1c = m_p1c;
-    int iField2c0 = *pField2c;
+    intptr_t iField2c0 = *pField2c;
     int b = *pField1c;
 
-    pMgr->SetAccumulatorAt(0, iField2c0, 0);
-    pMgr->SetAccumulatorAt(1, m_p2c[1], 0);
-    FUN_00bd92b0_sub* sub = (FUN_00bd92b0_sub*)((char*)this + 0x58);
-    pMgr->SetAccumulatorAt(2, (int)sub, 0);
+    reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(0, (::NiAccumulator *)(iField2c0), (const ::NiCamera *)(0));
+    reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(1, (::NiAccumulator *)(m_p2c[1]), (const ::NiCamera *)(0));
+    FUN_00bd92b0_sub* sub = &this->unk58;
+    reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(2, (::NiAccumulator *)((intptr_t)sub), (const ::NiCamera *)(0));
 
     pMgr->v1(a1, a2, b, 1);
 
-    pMgr->SetAccumulatorAt(0, 0, 0);
-    pMgr->SetAccumulatorAt(1, 0, 0);
-    pMgr->SetAccumulatorAt(2, 0, 0);
+    reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(0, (::NiAccumulator *)(0), (const ::NiCamera *)(0));
+    reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(1, (::NiAccumulator *)(0), (const ::NiCamera *)(0));
+    reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(2, (::NiAccumulator *)(0), (const ::NiCamera *)(0));
 
-    FUN_00bd92b0_mgr* g = (FUN_00bd92b0_mgr*)DAT_011f91a8;
-    int r = sub->FUN_00ba3770();
-    g->FUN_00b6da10(r);
-    sub->FUN_00ba38b0();
+    FUN_00bd92b0_mgr* g = (FUN_00bd92b0_mgr*)(*reinterpret_cast<uintptr_t *>(&::DAT_011f91a8));
+    void* r = reinterpret_cast<::FUN_00ba3770_struct *>((sub))->FUN_00ba3770();
+    reinterpret_cast<::Manager *>((g))->FUN_00b6da10((::Item *)(r));
+    reinterpret_cast<::Holder *>((sub))->FUN_00ba38b0();
 }
 
 struct NiGeometry;
 struct ShadowSceneLight;
 struct PassArray9840
 {
-    void __thiscall FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
+    void FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
                                  ShadowSceneLight*, ShadowSceneLight*);
 };
 struct Shader9840
@@ -8000,7 +7721,7 @@ struct Shader9840
     void* field34;
     void* field38;
     PassArray9840* passes;
-    int __thiscall FUN_00bd9840(NiGeometry*, ShadowSceneLight*, unsigned short*, unsigned char, bool&, bool, bool, bool,
+    int FUN_00bd9840(NiGeometry*, ShadowSceneLight*, unsigned short*, unsigned char, bool&, bool, bool, bool,
                                 bool);
 };
 // Chooses a pass index from the boolean flags and type, calls the pass array for type 1 or increments count otherwise, then clears out and returns 0.
@@ -8174,12 +7895,12 @@ struct ShaderPassSelection : Shader_00bd9540
     unsigned int unk44;
     unsigned int unk48;
     BSShaderProperty::ShaderPassList* additionalPasses;
-    int AddAdditionalPass(NiGeometry* geometry, unsigned int unused, bool enabled, bool alternate);
+    int AddAdditionalPass(NiGeometry* geometry, uintptr_t unused, bool enabled, bool alternate);
 };
 
 // If enabled and additionalPasses is set, adds geometry to additionalPasses with pass id 21 when alternate is true, otherwise 20, and returns 0.
 // @fnv 0x00bda030
-int ShaderPassSelection::AddAdditionalPass(NiGeometry* geometry, unsigned int unused, bool enabled, bool alternate)
+int ShaderPassSelection::AddAdditionalPass(NiGeometry* geometry, uintptr_t unused, bool enabled, bool alternate)
 {
     if (enabled && additionalPasses)
         additionalPasses->Add(geometry, alternate ? 21 : 20, false, 0, 0, 0, 0, 0);
@@ -8188,7 +7909,7 @@ int ShaderPassSelection::AddAdditionalPass(NiGeometry* geometry, unsigned int un
 
 struct FUN_00ba9ee0_Class
 {
-    void __thiscall FUN_00ba9ee0(int a, int b, int c, int d, int e, int f, int g, int h);
+    void FUN_00ba9ee0(int a, int b, int c, int d, int e, int f, int g, int h);
 };
 
 struct FUN_00bda060_Class
@@ -8196,11 +7917,11 @@ struct FUN_00bda060_Class
     char pad[0x44];
     FUN_00ba9ee0_Class* m_44;
 
-    void __thiscall FUN_00bda060(int a, bool b, bool c);
+    void FUN_00bda060(int a, bool b, bool c);
 };
 
 // @fnv 0x00bda060
-void __thiscall FUN_00bda060_Class::FUN_00bda060(int a, bool abUseMode8, bool abUseMode7)
+void FUN_00bda060_Class::FUN_00bda060(int a, bool abUseMode8, bool abUseMode7)
 {
     if (abUseMode8)
     {
@@ -8216,19 +7937,17 @@ namespace fnv_00bdb380 {
 struct Key
 {
     unsigned int first, second, third;
-    bool FUN_00439090(const Key* other);
 };
-extern "C" Key DAT_011f4998;
 struct AllocationManager
 {
-    void* FUN_00aa3e40(unsigned int count);
 };
-extern "C" AllocationManager DAT_011f6238;
 struct ShaderPassEntry
 {
+    char pad00[8];
+    unsigned char m_bEnabled;
     void SetEnabled()
     {
-        *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 8) = 1;
+        m_bEnabled = 1;
     }
 };
 struct RenderPassStack
@@ -8250,13 +7969,22 @@ struct Message
     unsigned int data;
     unsigned int state;
     __cdecl Message(void* actor, unsigned int code, int first, int second, int third, ...);
-    static void* operator new(unsigned int count)
-    {
-        return DAT_011f6238.FUN_00aa3e40(count);
-    }
+};
+struct PassResource
+{
+    char pad00[0x28];
+    Key m_kKey;
+    Key* m_pKey;
+};
+struct PassActor
+{
+    char pad00[0xa4];
+    PassResource* m_pResource;
 };
 struct Shader
 {
+    char pad00[0x3c];
+    RenderPassStack* m_pPassStack;
     Message* CreatePassMessage(void* actor, unsigned short* missed, unsigned char passType, unsigned char useAlternate,
                                unsigned int context);
 };
@@ -8266,15 +7994,15 @@ Message* Shader::CreatePassMessage(void* actor, unsigned short* missed, unsigned
                                    unsigned char useAlternate, unsigned int context)
 {
     Message* result = 0;
-    void* resource = *reinterpret_cast<void**>(reinterpret_cast<char*>(actor) + 0xa4);
+    PassResource* resource = ((PassActor*)actor)->m_pResource;
     if (resource)
     {
-        Key* key = *reinterpret_cast<Key**>(reinterpret_cast<char*>(resource) + 0x34);
+        Key* key = resource->m_pKey;
         if (!key)
-            key = reinterpret_cast<Key*>(reinterpret_cast<char*>(resource) + 0x28);
-        if (Key(*key).FUN_00439090(&DAT_011f4998))
+            key = &resource->m_kKey;
+        if (reinterpret_cast<::NiPlane *>((void *)&(const ::fnv_00bdb380::Key &)(Key(*key)))->operator==((*(const ::NiPlane *)(&(*reinterpret_cast<::fnv_00bdb380::Key *>(&::DAT_011f4998))))))
         {
-            RenderPassStack* stack = *reinterpret_cast<RenderPassStack**>(reinterpret_cast<char*>(this) + 0x3c);
+            RenderPassStack* stack = m_pPassStack;
             ShaderPassEntry* last = stack->Last();
             if (last)
                 last->SetEnabled();
@@ -8618,9 +8346,6 @@ class BDD80RenderPassArray
 class BDD80ShaderPropertyBase
 {
   public:
-    int CreateRenderPasses(BDD80Geometry* pkGeometry, int iRenderMode, unsigned short* pusPassCount,
-                           unsigned char ucMode, bool* pbFirst, bool bSkip, int iArg6, int iArg7, int iArg8, int iArg9,
-                           int iArg12);
 };
 
 class BDD80ShaderProperty : public BDD80ShaderPropertyBase
@@ -8643,13 +8368,13 @@ class BDD80ShaderProperty : public BDD80ShaderPropertyBase
     int unk38;
     BDD80RenderPassArray* m_pkRenderPasses;
 
-    int AddRenderPass(BDD80Geometry* pkGeometry, int iRenderMode, unsigned short* pusPassCount, unsigned char ucMode,
+    int AddRenderPass(BDD80Geometry* pkGeometry, intptr_t iRenderMode, unsigned short* pusPassCount, unsigned char ucMode,
                       bool* pbFirst, bool bSkip, int iArg6, int iArg7, int iArg8, int iArg9, int iArg10, bool bOverride,
                       int iArg12);
 };
 
 // @fnv 0x00bddd80
-int BDD80ShaderProperty::AddRenderPass(BDD80Geometry* pkGeometry, int iRenderMode, unsigned short* pusPassCount,
+int BDD80ShaderProperty::AddRenderPass(BDD80Geometry* pkGeometry, intptr_t iRenderMode, unsigned short* pusPassCount,
                                        unsigned char ucMode, bool* pbFirst, bool bSkip, int iArg6, int iArg7, int iArg8,
                                        int iArg9, int iArg10, bool bOverride, int iArg12)
 {
@@ -8666,8 +8391,8 @@ int BDD80ShaderProperty::AddRenderPass(BDD80Geometry* pkGeometry, int iRenderMod
         }
         return 0;
     }
-    return CreateRenderPasses(pkGeometry, iRenderMode, pusPassCount, ucMode, pbFirst, bSkip, iArg6, iArg7, iArg8, iArg9,
-                              iArg12);
+    return ((int)(intptr_t)(reinterpret_cast<::FUN_00bdac00_t *>(this)->FUN_00bdac00((::NiGeometry *)(pkGeometry), (::ShadowSceneLight *)(iRenderMode), pusPassCount, ucMode, pbFirst, bSkip, iArg6, iArg7, iArg8, iArg9,
+                              iArg12)));
 }
 
 struct Shader_00bdde10
@@ -8906,9 +8631,6 @@ struct ISTexPtr
         return *this;
     }
 };
-extern ISTexPtr g_ISTex0;
-extern ISTexPtr g_ISTex1;
-extern ISTexPtr g_ISTex2;
 
 struct ISParam
 {
@@ -8917,10 +8639,6 @@ struct ISParam
 struct ISTexObj
 {
     ~ISTexObj();
-    static void operator delete(void* p)
-    {
-        g_memoryManager.Deallocate(p);
-    }
 };
 
 struct ISParamArr
@@ -8929,7 +8647,6 @@ struct ISParamArr
     ISParam** m_pBase;
     int unk08;
     int unk0c;
-    void SetAt(unsigned int index, ISParam* const& item);
 };
 struct ISTexArr
 {
@@ -8937,7 +8654,6 @@ struct ISTexArr
     ISTexObj** m_pBase;
     int unk08;
     int unk0c;
-    void SetAt(unsigned int index, ISTexObj* const& item);
 };
 
 struct ISEffectBase
@@ -8961,32 +8677,31 @@ struct FUN_00bc0360 : ISEffectBase
 // @fnv 0x00bc0360
 FUN_00bc0360::~FUN_00bc0360()
 {
-    g_ISTex0 = 0;
-    g_ISTex1 = 0;
-    g_ISTex2 = 0;
+    (*reinterpret_cast<::ISTexPtr *>(&::DAT_01201f40)) = 0;
+    (*reinterpret_cast<::ISTexPtr *>(&::g_spBC0500Shared)) = 0;
+    (*reinterpret_cast<::ISTexPtr *>(&::DAT_01201f48)) = 0;
     if (m_params.m_pBase[0])
     {
         delete m_params.m_pBase[0];
-        m_params.SetAt(0, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(0, (::KeyPair **)&(const ::ISParam *const &)(0));
     }
     if (m_textures.m_pBase[3])
     {
         delete m_textures.m_pBase[3];
-        m_textures.SetAt(3, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_textures))->FUN_00ba3aa0(3, (::KeyPair **)&(const ::ISTexObj *const &)(0));
     }
     if (m_textures.m_pBase[4])
     {
         delete m_textures.m_pBase[4];
-        m_textures.SetAt(4, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_textures))->FUN_00ba3aa0(4, (::KeyPair **)&(const ::ISTexObj *const &)(0));
     }
     if (m_textures.m_pBase[2])
     {
         delete m_textures.m_pBase[2];
-        m_textures.SetAt(2, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_textures))->FUN_00ba3aa0(2, (::KeyPair **)&(const ::ISTexObj *const &)(0));
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 
 class FUN_00bc0940_obj
 {
@@ -8996,7 +8711,6 @@ class FUN_00bc0940_obj
     long m_iObjectReferenceCount;
 };
 
-extern FUN_00bc0940_obj* DAT_01201f58;
 
 // Decrements the reference count of the global object at DAT_01201f58 and calls its v01() when the count reaches zero, then clears the pointer.
 // @fnv 0x00bc0940
@@ -9014,7 +8728,6 @@ void __cdecl FUN_00bc0940()
 class NiObjectNETBC3
 {
   public:
-    void SetShaderFloat(float fValue);
 };
 
 class NiInterpolatorBC3
@@ -9081,7 +8794,6 @@ struct NiUpdateDataBC3
     float m_fTime;
 };
 
-extern const float g_fInvalidTimeBC3;
 
 class NiTimeControllerBC3
 {
@@ -9100,7 +8812,6 @@ class NiTimeControllerBC3
     {
         return (bool)(GetField(MANAGERCONTROLLED_MASK, MANAGERCONTROLLED_POS) & 1);
     }
-    bool AdvanceController(float fTime);
 
     int unk00;
     int unk04;
@@ -9131,9 +8842,9 @@ void NiFloatControllerBC3::UpdateFloatController(NiUpdateDataBC3& kUpdateData)
 {
     if (GetManagerControlled())
     {
-        m_fControllerTime = g_fInvalidTimeBC3;
+        m_fControllerTime = ::DAT_01096324;
     }
-    else if (AdvanceController(kUpdateData.m_fTime) &&
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(kUpdateData.m_fTime) &&
              (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;
@@ -9143,13 +8854,12 @@ void NiFloatControllerBC3::UpdateFloatController(NiUpdateDataBC3& kUpdateData)
     {
         float fValue;
         if (m_spControllerInterpolator->Update(m_fControllerTime, m_pkTarget, fValue))
-            m_pkTarget->SetShaderFloat(fValue);
+            reinterpret_cast<::FUN_00b66700_class *>((m_pkTarget))->SetClamped(fValue);
     }
 }
 
 struct NiMemObject
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct NiFloatData;
 struct NiFloatInterpolator : NiMemObject
@@ -9211,7 +8921,6 @@ struct NiFloatInterpolator : NiMemObject
 };
 struct FUN_00a63430_class
 {
-    NiFloatData* FUN_00a63430();
 };
 struct FUN_00bc3540_class
 {
@@ -9229,16 +8938,20 @@ struct FUN_00bc3540_class
     int unk2c;
     int unk30;
     NiFloatInterpolator* m_object34;
-    void FUN_00a57630(void* value);
     void SetInterpolatorFromValue(void* value);
+};
+struct FUN_00bc3540_StreamView
+{
+    char pad00[0xd8];
+    unsigned int m_uiNifFileVersion;
 };
 // @fnv 0x00bc3540
 void FUN_00bc3540_class::SetInterpolatorFromValue(void* value)
 {
-    FUN_00a57630(value);
-    if (*(unsigned int*)((char*)value + 0xd8) < 0x0a010068u)
+    reinterpret_cast<struct ::FUN_00a57630 *>(this)->LinkObject((*(::NiStream *)(value)));
+    if (((FUN_00bc3540_StreamView*)value)->m_uiNifFileVersion < 0x0a010068u)
     {
-        NiFloatData* data = ((FUN_00a63430_class*)value)->FUN_00a63430();
+        NiFloatData* data = ((::NiFloatData *)(reinterpret_cast<::NiStream *>((((FUN_00a63430_class*)value)))->GetLoadedObject()));
         NiFloatInterpolator* replacement = new NiFloatInterpolator(data);
         NiFloatInterpolator* old = m_object34;
         if (old != replacement)
@@ -9255,7 +8968,6 @@ void FUN_00bc3540_class::SetInterpolatorFromValue(void* value)
 
 extern "C" void _ReadWriteBarrier();
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct EffectRef
 {
     virtual ~EffectRef();
@@ -9292,7 +9004,6 @@ struct EffectVector
 {
     float x, y, z;
 };
-extern EffectVector DAT_011f426c;
 struct EffectQuad
 {
     float x, y, z, w;
@@ -9385,11 +9096,11 @@ FUN_00bc3bb0::FUN_00bc3bb0()
     third = 0;
     first = 0;
     second = 0;
-    a = DAT_011f426c;
+    a = (*reinterpret_cast<::EffectVector *>((void *)&::NiPoint3::ZERO));
     d = 0.0f;
-    b = DAT_011f426c;
+    b = (*reinterpret_cast<::EffectVector *>((void *)&::NiPoint3::ZERO));
     e = 0.0f;
-    c = DAT_011f426c;
+    c = (*reinterpret_cast<::EffectVector *>((void *)&::NiPoint3::ZERO));
     f = 0.0f;
     unk1c = 9;
 }
@@ -9402,14 +9113,12 @@ struct StrArray
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     unsigned int Add(char* item)
     {
         unsigned int idx = m_usSize;
         if (idx >= m_usMaxSize)
-            SetSize(idx + m_usGrowBy);
-        SetAt(idx, item);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(idx + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(idx, item);
         return idx;
     }
 };
@@ -9426,14 +9135,9 @@ struct DebugStrGlobal
 {
     char* pData;
 };
-extern DebugStrGlobal g_01201fb8;
-char* __cdecl FUN_00a7d330(char*);
-char* __cdecl FUN_00a7d5a0(const char*, void*);
-char* __cdecl FUN_00a7d370(const char*, bool);
 
 struct ShaderBase_00b690d0
 {
-    void GetDebugInfo_b690d0(StrArray* arr);
 };
 struct TerrainShader : ShaderBase_00b690d0
 {
@@ -9544,8 +9248,8 @@ struct TerrainShader : ShaderBase_00b690d0
 // @fnv 0x00bc4460
 void TerrainShader::FUN_00bc4460(StrArray* arr)
 {
-    GetDebugInfo_b690d0(arr);
-    arr->Add(FUN_00a7d330(g_01201fb8.pData));
+    reinterpret_cast<::Target *>(this)->FUN_00b690d0((::StrArr *)(arr));
+    arr->Add(::FUN_00a7d330((*reinterpret_cast<::DebugStrGlobal *>(&::g_01201fb8)).pData));
     arr->Add(FUN_00a7d5a0("height map", m_kTerrainTexture));
     arr->Add(FUN_00a7d370("primary light is point", GetFlag(0x80)));
     arr->Add(FUN_00a7d370("second light", GetFlag(0x100)));
@@ -9651,8 +9355,6 @@ void FUN_00bc5050_class::FUN_00bc5050()
     vf52();
 }
 
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct ShaderRef_bc5070 : RefObject
 {
     void IncRefCount()
@@ -9674,12 +9376,9 @@ struct Config_bc5070
     {
         filename = path;
         flags = 0;
-        FUN_00ec61c0(macros, 0, 0x44);
+        std::memset(macros, 0, 0x44);
     }
 };
-void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
-extern bool DAT_011ad80e;
 struct FUN_00bc5070_shell
 {
     int unk00;
@@ -9713,7 +9412,6 @@ struct FUN_00bc5070_shell
     int unk70;
     int unk74;
     NiPointer<ShaderRef_bc5070> shaders[2];
-    ShaderRef_bc5070* FUN_00be0fe0(const char*, unsigned int*, const char*, const char*);
     void LoadVolumetricFogShaders();
 };
 // @fnv 0x00bc5070
@@ -9729,15 +9427,11 @@ void FUN_00bc5070_shell::LoadVolumetricFogShaders()
         if (i == 1 && !DAT_011ad80e)
             continue;
         FUN_00be0c00(configs[i].filename, sourceName);
-        sprintf_s(binaryName, 260, "VolumetricFog%03d.vso", i);
-        shaders[i] = FUN_00be0fe0(sourceName, &configs[i].flags, profileNames[i], binaryName);
+        ::FUN_00406d00(binaryName, 260, "VolumetricFog%03d.vso", i);
+        shaders[i] = ((::ShaderRef_bc5070 *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(sourceName), (::_D3DXMACRO *)(&configs[i].flags), (const char *)(profileNames[i]), binaryName)));
     }
 }
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern bool DAT_011ad80e;
-void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl FUN_00406d00(char*, int, const char*, ...);
 
 struct ShaderMacro
 {
@@ -9787,7 +9481,6 @@ struct VolumetricFog
     int unk7c;
     BeamPtr pixelShaders[2];
 
-    RefObject* FUN_00be1750(const char*, unsigned int*, const char*, const char*);
     void CreatePixelShaders();
 };
 
@@ -9801,13 +9494,13 @@ void VolumetricFog::CreatePixelShaders()
     FogShaderDesc shaderDescs[2];
     shaderDescs[0].filename = "vfog\\VolumetricFog.p.hlsl";
     shaderDescs[0].macros[0].Name = 0;
-    fnv_zlib_memset(&shaderDescs[0].macros[0].Definition, 0, 0x44);
+    std::memset(&shaderDescs[0].macros[0].Definition, 0, 0x44);
 
     shaderDescs[1].filename = "vfog\\VolumetricFog.p.hlsl";
     shaderDescs[1].macros[0].Name = "SINGLE_PASS";
     shaderDescs[1].macros[0].Definition = "";
     shaderDescs[1].macros[1].Name = 0;
-    fnv_zlib_memset(&shaderDescs[1].macros[1].Definition, 0, 0x3c);
+    std::memset(&shaderDescs[1].macros[1].Definition, 0, 0x3c);
 
     for (int i = 0; i < 2; ++i)
     {
@@ -9821,7 +9514,7 @@ void VolumetricFog::CreatePixelShaders()
         FUN_00406d00(szShaderName, 260, "VolumetricFog%03d.pso", i);
 
         RefObject* pShader =
-            FUN_00be1750(szFullPath, (unsigned int*)shaderDescs[i].macros, shaderTargets[i], szShaderName);
+            ((::RefObject *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(szFullPath), (unsigned int*)shaderDescs[i].macros, (char *)(shaderTargets[i]), (char *)(szShaderName))));
         pixelShaders[i].Assign(pShader);
     }
 }
@@ -9830,10 +9523,8 @@ struct PassStates
 {
     void Set(int state, int value, int enabled);
 };
-PassStates* __cdecl MakeStates();
 struct LocalStage : StageReturn
 {
-    void Setup(int);
 };
 
 struct LocalPass
@@ -9862,11 +9553,10 @@ struct LocalPass
     int unk54;
     int unk58;
     ShaderRefPtr<ShaderRefObject> object5c;
-    void SetPassStage(int stages, StageReturn* stage);
     PassStates* GetStates()
     {
         if (!states)
-            states = MakeStates();
+            states = ((::PassStates *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
         return states;
     }
 };
@@ -9878,8 +9568,6 @@ struct LocalPassPtr
         return object;
     }
 };
-void __cdecl CreateLocalPass(LocalPassPtr&);
-extern bool DAT_011ad80e;
 struct ShaderConfig
 {
     int unk00;
@@ -9926,12 +9614,12 @@ bool ShaderConfig::FUN_00bc5510()
         LocalPassPtr& pass = passes[index];
         if (!pass.object)
         {
-            CreateLocalPass(pass);
+            ::NiD3DPass::CreateD3DPass((::NiPointer< ::NiD3DPass> &)(pass));
             StagePtr stage;
-            AssignStageFromPool(stage);
-            ShaderSetupStage(stage.m_pObject, 0, 3, 2, 1);
-            ((LocalStage*)stage.m_pObject)->Setup(0);
-            pass->SetPassStage(pass->stages, stage.m_pObject);
+            ::AssignStageFromPool((::StageReturn *&)(stage));
+            ::ConfigureBeamStage((::BeamStage *)(stage.m_pObject), 0, 3, 2, 1);
+            reinterpret_cast<::E7DEF0TextureStage *>((((LocalStage*)stage.m_pObject)))->FUN_00e7def0(0);
+            reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->stages, (::Stage321 *)(stage.m_pObject));
         }
         switch (index)
         {
@@ -9945,31 +9633,29 @@ bool ShaderConfig::FUN_00bc5510()
             pass->object5c = object7c;
             break;
         }
-        pass->GetStates()->Set(168, 15, 1);
-        pass->GetStates()->Set(7, 0, 1);
-        pass->GetStates()->Set(14, 0, 1);
-        pass->GetStates()->Set(23, 8, 1);
-        pass->GetStates()->Set(27, 1, 1);
+        reinterpret_cast<::StateGroup *>((pass->GetStates()))->SetNodeValue(168, 15, 1);
+        reinterpret_cast<::StateGroup *>((pass->GetStates()))->SetNodeValue(7, 0, 1);
+        reinterpret_cast<::StateGroup *>((pass->GetStates()))->SetNodeValue(14, 0, 1);
+        reinterpret_cast<::StateGroup *>((pass->GetStates()))->SetNodeValue(23, 8, 1);
+        reinterpret_cast<::StateGroup *>((pass->GetStates()))->SetNodeValue(27, 1, 1);
         LocalPass* cachedPass = pass.object;
-        cachedPass->GetStates()->Set(19, 2, 1);
-        cachedPass->GetStates()->Set(20, 2, 1);
+        reinterpret_cast<::StateGroup *>((cachedPass->GetStates()))->SetNodeValue(19, 2, 1);
+        reinterpret_cast<::StateGroup *>((cachedPass->GetStates()))->SetNodeValue(20, 2, 1);
         if (index == 1)
-            passes[1]->GetStates()->Set(22, 3, 1);
+            reinterpret_cast<::StateGroup *>((passes[1]->GetStates()))->SetNodeValue(22, 3, 1);
         else if (index == 0)
-            passes[0]->GetStates()->Set(22, 2, 1);
+            reinterpret_cast<::StateGroup *>((passes[0]->GetStates()))->SetNodeValue(22, 2, 1);
         else if (index == 2)
-            passes[2]->GetStates()->Set(22, 1, 1);
-        pass->GetStates()->Set(52, 1, 1);
-        pass->GetStates()->Set(56, 8, 1);
-        pass->GetStates()->Set(57, 1, 1);
-        pass->GetStates()->Set(55, 3, 1);
-        pass->GetStates()->Set(54, 3, 1);
+            reinterpret_cast<::StateGroup *>((passes[2]->GetStates()))->SetNodeValue(22, 1, 1);
+        reinterpret_cast<::StateGroup *>((pass->GetStates()))->SetNodeValue(52, 1, 1);
+        reinterpret_cast<::StateGroup *>((pass->GetStates()))->SetNodeValue(56, 8, 1);
+        reinterpret_cast<::StateGroup *>((pass->GetStates()))->SetNodeValue(57, 1, 1);
+        reinterpret_cast<::StateGroup *>((pass->GetStates()))->SetNodeValue(55, 3, 1);
+        reinterpret_cast<::StateGroup *>((pass->GetStates()))->SetNodeValue(54, 3, 1);
     }
     return true;
 }
 
-extern NiPointer<NiRefObject> DAT_012021e0;
-extern NiPointer<NiRefObject> DAT_012021e4;
 struct FUN_00bcb210 : ShaderBase5320
 {
     PassPtr passes[2];
@@ -9993,8 +9679,8 @@ FUN_00bcb210::~FUN_00bcb210()
         vertex[i] = 0;
         pixel[i] = 0;
     }
-    DAT_012021e0 = 0;
-    DAT_012021e4 = 0;
+    (*reinterpret_cast<::NiPointer< ::NiRefObject> *>(&::DAT_012021e0)) = 0;
+    (*reinterpret_cast<::NiPointer< ::NiRefObject> *>(&::DAT_012021e4)) = 0;
 }
 
 struct FUN_00bcd4a0 : ShaderBase
@@ -10029,14 +9715,11 @@ FUN_00bcd4a0::~FUN_00bcd4a0()
             pixel[i].m_pObject = 0;
         }
     }
-    PassPtr* passes = (PassPtr*)DAT_01202230;
+    PassPtr* passes = (PassPtr*)(*reinterpret_cast<int (*)[33]>(&::DAT_01202230));
     for (int i = 0; i < 33; i++)
         passes[i].clear();
 }
 
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct PixelRef
 {
     virtual void Destroy();
@@ -10068,7 +9751,6 @@ struct PixelPtr
         }
     }
 };
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct Macro
 {
     const char* name;
@@ -10079,9 +9761,6 @@ struct PixelDesc
     const char* file;
     const char* macros[18];
 };
-extern int DAT_011f91c0;
-void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 struct PixelLoader
 {
     int unk000;
@@ -10140,7 +9819,6 @@ struct PixelLoader
     int unk0d4;
     int unk0d8;
     PixelPtr shaders[33];
-    PixelRef* FUN_00be1750(char*, const char**, const char*, char*);
     void FUN_00bcd7c0();
 };
 // @fnv 0x00bcd7c0
@@ -10151,28 +9829,28 @@ void PixelLoader::FUN_00bcd7c0()
     desc[0].macros[0] = "PARALLAX";
     desc[0].macros[1] = "";
     desc[0].macros[2] = 0;
-    fnv_zlib_memset(&desc[0].macros[3], 0, 60);
+    std::memset(&desc[0].macros[3], 0, 60);
     desc[1].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[1].macros[0] = "PARALLAX";
     desc[1].macros[1] = "";
     desc[1].macros[2] = "OPT";
     desc[1].macros[3] = "";
     desc[1].macros[4] = 0;
-    fnv_zlib_memset(&desc[1].macros[5], 0, 52);
+    std::memset(&desc[1].macros[5], 0, 52);
     desc[2].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[2].macros[0] = "PARALLAX";
     desc[2].macros[1] = "";
     desc[2].macros[2] = "SI";
     desc[2].macros[3] = "";
     desc[2].macros[4] = 0;
-    fnv_zlib_memset(&desc[2].macros[5], 0, 52);
+    std::memset(&desc[2].macros[5], 0, 52);
     desc[3].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[3].macros[0] = "PARALLAX";
     desc[3].macros[1] = "";
     desc[3].macros[2] = "PROJ_SHADOW";
     desc[3].macros[3] = "";
     desc[3].macros[4] = 0;
-    fnv_zlib_memset(&desc[3].macros[5], 0, 52);
+    std::memset(&desc[3].macros[5], 0, 52);
     desc[4].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[4].macros[0] = "PARALLAX";
     desc[4].macros[1] = "";
@@ -10181,14 +9859,14 @@ void PixelLoader::FUN_00bcd7c0()
     desc[4].macros[4] = "PROJ_SHADOW";
     desc[4].macros[5] = "";
     desc[4].macros[6] = 0;
-    fnv_zlib_memset(&desc[4].macros[7], 0, 44);
+    std::memset(&desc[4].macros[7], 0, 44);
     desc[5].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[5].macros[0] = "LIGHTS";
     desc[5].macros[1] = "2";
     desc[5].macros[2] = "PARALLAX";
     desc[5].macros[3] = "";
     desc[5].macros[4] = 0;
-    fnv_zlib_memset(&desc[5].macros[5], 0, 52);
+    std::memset(&desc[5].macros[5], 0, 52);
     desc[6].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[6].macros[0] = "LIGHTS";
     desc[6].macros[1] = "2";
@@ -10197,7 +9875,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[6].macros[4] = "SI";
     desc[6].macros[5] = "";
     desc[6].macros[6] = 0;
-    fnv_zlib_memset(&desc[6].macros[7], 0, 44);
+    std::memset(&desc[6].macros[7], 0, 44);
     desc[7].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[7].macros[0] = "LIGHTS";
     desc[7].macros[1] = "2";
@@ -10206,7 +9884,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[7].macros[4] = "PROJ_SHADOW";
     desc[7].macros[5] = "";
     desc[7].macros[6] = 0;
-    fnv_zlib_memset(&desc[7].macros[7], 0, 44);
+    std::memset(&desc[7].macros[7], 0, 44);
     desc[8].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[8].macros[0] = "LIGHTS";
     desc[8].macros[1] = "2";
@@ -10224,7 +9902,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[9].macros[2] = "PARALLAX";
     desc[9].macros[3] = "";
     desc[9].macros[4] = 0;
-    fnv_zlib_memset(&desc[9].macros[5], 0, 52);
+    std::memset(&desc[9].macros[5], 0, 52);
     desc[10].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[10].macros[0] = "SPECULAR";
     desc[10].macros[1] = "";
@@ -10233,7 +9911,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[10].macros[4] = "SI";
     desc[10].macros[5] = "";
     desc[10].macros[6] = 0;
-    fnv_zlib_memset(&desc[10].macros[7], 0, 44);
+    std::memset(&desc[10].macros[7], 0, 44);
     desc[11].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[11].macros[0] = "SPECULAR";
     desc[11].macros[1] = "";
@@ -10242,7 +9920,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[11].macros[4] = "PROJ_SHADOW";
     desc[11].macros[5] = "";
     desc[11].macros[6] = 0;
-    fnv_zlib_memset(&desc[11].macros[7], 0, 44);
+    std::memset(&desc[11].macros[7], 0, 44);
     desc[12].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[12].macros[0] = "SPECULAR";
     desc[12].macros[1] = "";
@@ -10260,7 +9938,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[13].macros[2] = "PARALLAX";
     desc[13].macros[3] = "";
     desc[13].macros[4] = 0;
-    fnv_zlib_memset(&desc[13].macros[5], 0, 52);
+    std::memset(&desc[13].macros[5], 0, 52);
     desc[14].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[14].macros[0] = "LIGHTS";
     desc[14].macros[1] = "2";
@@ -10269,7 +9947,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[14].macros[4] = "SI";
     desc[14].macros[5] = "";
     desc[14].macros[6] = 0;
-    fnv_zlib_memset(&desc[14].macros[7], 0, 44);
+    std::memset(&desc[14].macros[7], 0, 44);
     desc[15].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[15].macros[0] = "LIGHTS";
     desc[15].macros[1] = "2";
@@ -10278,7 +9956,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[15].macros[4] = "PROJ_SHADOW";
     desc[15].macros[5] = "";
     desc[15].macros[6] = 0;
-    fnv_zlib_memset(&desc[15].macros[7], 0, 44);
+    std::memset(&desc[15].macros[7], 0, 44);
     desc[16].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[16].macros[0] = "LIGHTS";
     desc[16].macros[1] = "2";
@@ -10296,7 +9974,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[17].macros[2] = "PARALLAX";
     desc[17].macros[3] = "";
     desc[17].macros[4] = 0;
-    fnv_zlib_memset(&desc[17].macros[5], 0, 52);
+    std::memset(&desc[17].macros[5], 0, 52);
     desc[18].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[18].macros[0] = "LIGHTS";
     desc[18].macros[1] = "3";
@@ -10305,7 +9983,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[18].macros[4] = "SI";
     desc[18].macros[5] = "";
     desc[18].macros[6] = 0;
-    fnv_zlib_memset(&desc[18].macros[7], 0, 44);
+    std::memset(&desc[18].macros[7], 0, 44);
     desc[19].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[19].macros[0] = "LIGHTS";
     desc[19].macros[1] = "3";
@@ -10314,7 +9992,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[19].macros[4] = "PROJ_SHADOW";
     desc[19].macros[5] = "";
     desc[19].macros[6] = 0;
-    fnv_zlib_memset(&desc[19].macros[7], 0, 44);
+    std::memset(&desc[19].macros[7], 0, 44);
     desc[20].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[20].macros[0] = "LIGHTS";
     desc[20].macros[1] = "3";
@@ -10332,38 +10010,38 @@ void PixelLoader::FUN_00bcd7c0()
     desc[21].macros[2] = "PARALLAX";
     desc[21].macros[3] = "";
     desc[21].macros[4] = 0;
-    fnv_zlib_memset(&desc[21].macros[5], 0, 52);
+    std::memset(&desc[21].macros[5], 0, 52);
     desc[22].file = "lighting\\2x\\p\\DiffusePt.p.hlsl";
     desc[22].macros[0] = "LIGHTS";
     desc[22].macros[1] = "3";
     desc[22].macros[2] = "PARALLAX";
     desc[22].macros[3] = "";
     desc[22].macros[4] = 0;
-    fnv_zlib_memset(&desc[22].macros[5], 0, 52);
+    std::memset(&desc[22].macros[5], 0, 52);
     desc[23].file = "lighting\\2x\\p\\Texture.p.hlsl";
     desc[23].macros[0] = "PARALLAX";
     desc[23].macros[1] = "";
     desc[23].macros[2] = 0;
-    fnv_zlib_memset(&desc[23].macros[3], 0, 60);
+    std::memset(&desc[23].macros[3], 0, 60);
     desc[24].file = "lighting\\2x\\p\\Specular.p.hlsl";
     desc[24].macros[0] = "PARALLAX";
     desc[24].macros[1] = "";
     desc[24].macros[2] = 0;
-    fnv_zlib_memset(&desc[24].macros[3], 0, 60);
+    std::memset(&desc[24].macros[3], 0, 60);
     desc[25].file = "lighting\\2x\\p\\Specular.p.hlsl";
     desc[25].macros[0] = "PARALLAX";
     desc[25].macros[1] = "";
     desc[25].macros[2] = "PROJ_SHADOW";
     desc[25].macros[3] = "";
     desc[25].macros[4] = 0;
-    fnv_zlib_memset(&desc[25].macros[5], 0, 52);
+    std::memset(&desc[25].macros[5], 0, 52);
     desc[26].file = "lighting\\2x\\p\\Specular.p.hlsl";
     desc[26].macros[0] = "POINT";
     desc[26].macros[1] = "";
     desc[26].macros[2] = "PARALLAX";
     desc[26].macros[3] = "";
     desc[26].macros[4] = 0;
-    fnv_zlib_memset(&desc[26].macros[5], 0, 52);
+    std::memset(&desc[26].macros[5], 0, 52);
     desc[27].file = "lighting\\2x\\p\\Specular.p.hlsl";
     desc[27].macros[0] = "NUM_PT_LIGHTS";
     desc[27].macros[1] = "2";
@@ -10372,7 +10050,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[27].macros[4] = "PARALLAX";
     desc[27].macros[5] = "";
     desc[27].macros[6] = 0;
-    fnv_zlib_memset(&desc[27].macros[7], 0, 44);
+    std::memset(&desc[27].macros[7], 0, 44);
     desc[28].file = "lighting\\2x\\p\\Specular.p.hlsl";
     desc[28].macros[0] = "NUM_PT_LIGHTS";
     desc[28].macros[1] = "3";
@@ -10381,7 +10059,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[28].macros[4] = "PARALLAX";
     desc[28].macros[5] = "";
     desc[28].macros[6] = 0;
-    fnv_zlib_memset(&desc[28].macros[7], 0, 44);
+    std::memset(&desc[28].macros[7], 0, 44);
     desc[29].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[29].macros[0] = "SPECULAR";
     desc[29].macros[1] = "";
@@ -10390,7 +10068,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[29].macros[4] = "PARALLAX";
     desc[29].macros[5] = "";
     desc[29].macros[6] = 0;
-    fnv_zlib_memset(&desc[29].macros[7], 0, 44);
+    std::memset(&desc[29].macros[7], 0, 44);
     desc[30].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[30].macros[0] = "SPECULAR";
     desc[30].macros[1] = "";
@@ -10435,16 +10113,16 @@ void PixelLoader::FUN_00bcd7c0()
         for (int index = 0; index < 29; ++index)
         {
             FUN_00be0c00(desc[index].file, path);
-            sprintf_s(name, 260, format, index);
-            shaders[index] = FUN_00be1750(path, desc[index].macros, "ps_2_0", name);
+            ::FUN_00406d00(name, 260, format, index);
+            shaders[index] = ((::PixelRef *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(path, (void *)(desc[index].macros), (char *)("ps_2_0"), name)));
         }
         if (shaderLevel >= 5)
         {
             for (int index = 29; index < 33; ++index)
             {
                 FUN_00be0c00(desc[index].file, path);
-                sprintf_s(name, 260, format, index);
-                shaders[index] = FUN_00be1750(path, desc[index].macros, "ps_2_0", name);
+                ::FUN_00406d00(name, 260, format, index);
+                shaders[index] = ((::PixelRef *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(path, (void *)(desc[index].macros), (char *)("ps_2_0"), name)));
             }
         }
     }
@@ -10460,7 +10138,6 @@ struct SPPassInfo
     SPGeom* pGeom;
 };
 
-extern unsigned int g_uiSPCurrentPass;
 
 struct SPShaderBase
 {
@@ -10532,13 +10209,6 @@ struct SPShaderBase
     virtual void v104();
     virtual void FinishSetup();
 
-    void SetupStage(SPGeom* apGeom, int aiStage, int aiUnk, bool abFlag);
-    void SetSamplerA(SPGeom* apGeom, int aiValue, int aiUnk);
-    void SetSamplerB(SPGeom* apGeom, int aiValue, int aiUnk);
-    void SetTextureStage(SPGeom* apGeom, int aiStage, int aiUnk, bool abFlag);
-    void SetExtraStage(SPGeom* apGeom, int aiStage, int aiUnk, bool abFlag);
-    void SetAlphaStage(int aiStage);
-    void BaseSetup(SPPassInfo* apPass);
 };
 
 struct SPShader : SPShaderBase
@@ -10551,112 +10221,97 @@ struct SPShader : SPShaderBase
 void SPShader::SetupShaderPass(SPPassInfo* apPass)
 {
     SPGeom* pGeom = apPass->pGeom;
-    switch (g_uiSPCurrentPass)
+    switch (::DAT_011f91e4)
     {
     case 0xDA:
     case 0xE3:
     case 0xEC:
     case 0xF5:
-        SetupStage(pGeom, 3, 0, true);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pGeom), 3, 0, 1);
     case 0xD9:
     case 0xE2:
     case 0xEB:
     case 0xF4:
-        SetSamplerA(pGeom, 0, 0);
-        SetSamplerB(pGeom, 1, 0);
-        SetTextureStage(pGeom, 2, 0, true);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 0, 0);
+        reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 1, 0);
+        ::FUN_00b7c230((char *)(pGeom), 2, 0, true);
         break;
     case 0x103:
     case 0x10F:
     case 0x11A:
     case 0x125:
-        SetupStage(pGeom, 4, 0, true);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pGeom), 4, 0, 1);
     case 0x101:
     case 0x10E:
     case 0x119:
     case 0x124:
-        SetSamplerA(pGeom, 0, 0);
-        SetSamplerB(pGeom, 1, 0);
-        SetTextureStage(pGeom, 3, 0, true);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 0, 0);
+        reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 1, 0);
+        ::FUN_00b7c230((char *)(pGeom), 3, 0, true);
         break;
     case 0x9A:
     case 0xA5:
     case 0xB0:
     case 0xBB:
-        SetupStage(pGeom, 4, 0, true);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pGeom), 4, 0, 1);
     case 0x99:
     case 0xA4:
     case 0xAF:
     case 0xBA:
-        SetSamplerA(pGeom, 0, 0);
-        SetSamplerB(pGeom, 1, 0);
-        SetTextureStage(pGeom, 3, 0, true);
-        SetExtraStage(pGeom, 2, 0, true);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 0, 0);
+        reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 1, 0);
+        ::FUN_00b7c230((char *)(pGeom), 3, 0, true);
+        ::FUN_00d3dd00((intptr_t)(pGeom), 2, 0, 1);
         break;
     case 0x134:
     case 0x140:
-        SetSamplerA(pGeom, 1, 0);
-        SetSamplerB(pGeom, 0, 0);
-        SetTextureStage(pGeom, 2, 0, true);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 1, 0);
+        reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 0, 0);
+        ::FUN_00b7c230((char *)(pGeom), 2, 0, true);
         break;
     case 0x153:
-        SetSamplerA(pGeom, 0, 0);
-        SetTextureStage(pGeom, 2, 0, true);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 0, 0);
+        ::FUN_00b7c230((char *)(pGeom), 2, 0, true);
         break;
     case 0x15C:
     case 0x162:
     case 0x168:
     case 0x16E:
     case 0x174:
-        SetSamplerA(pGeom, 1, 0);
-        SetSamplerB(pGeom, 0, 0);
-        SetTextureStage(pGeom, 2, 0, true);
-        SetExtraStage(pGeom, 6, 0, true);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 1, 0);
+        reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 0, 0);
+        ::FUN_00b7c230((char *)(pGeom), 2, 0, true);
+        ::FUN_00d3dd00((intptr_t)(pGeom), 6, 0, 1);
         break;
     case 0x231:
     case 0x232:
     case 0x233:
-        SetSamplerA(pGeom, 0, 0);
-        SetAlphaStage(6);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 0, 0);
+        ::FUN_00b7c120(6);
         break;
     default:
-        BaseSetup(apPass);
+        reinterpret_cast<::Host200 *>(this)->FUN_00b7d200((::Arg200 *)(apPass));
         return;
     }
     FinishSetup();
 }
 
-extern char str_010af114;
 
-extern char str_010aed54;
 
-extern char DAT_01011584;
 
-extern char str_010aeba0;
 
-extern char str_010aeb98;
 
-extern char DAT_01063f3c;
 
-extern char str_010af0b0;
 
-extern char DAT_01063f30;
 
-extern char str_010af090;
 
-extern char str_010af0c8;
 
-extern char DAT_01063ee8;
 
-extern char DAT_01063f24;
 
-extern char str_010aeb8c;
 
 extern char DAT_010bb96c;
 
-extern char str_010a93cc;
 
-extern int DAT_011f91c0;
 
 struct FeatureDescription
 {
@@ -10707,15 +10362,10 @@ struct FeatureObject
     volatile long references;
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
-void __cdecl FUN_00be0c00(const char*, char*);
 
-int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
 
 struct FeatureManager
 {
@@ -10781,8 +10431,7 @@ struct FeatureManager
     int unkec;
     int unkf0;
     FeatureObject* features[13];
-    FeatureObject* __thiscall LoadFeature(char*, const char**, const char*, char*);
-    void __thiscall LoadAllFeatures();
+    void LoadAllFeatures();
 };
 
 // Builds 13 feature descriptors and, when DAT_011f91c0 >= 2, loads each named feature into the features array with reference counting.
@@ -10792,196 +10441,196 @@ void FeatureManager::LoadAllFeatures()
 
     FeatureDescription descriptors[13];
 
-    descriptors[0].name = &str_010af114;
+    descriptors[0].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS_p_hlsl));
 
-    descriptors[0].family = &str_010aed54;
+    descriptors[0].family = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
-    descriptors[0].source = &DAT_01011584;
+    descriptors[0].source = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
     descriptors[0].variant = 0;
 
-    fnv_zlib_memset(&descriptors[0].suffix, 0, 60);
+    std::memset(&descriptors[0].suffix, 0, 60);
 
-    descriptors[1].name = &str_010af114;
+    descriptors[1].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS_p_hlsl));
 
-    descriptors[1].family = &str_010aed54;
+    descriptors[1].family = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
-    descriptors[1].source = &DAT_01011584;
+    descriptors[1].source = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
-    descriptors[1].variant = &str_010aeba0;
+    descriptors[1].variant = &(*reinterpret_cast<char *>((void *)&::shader_PROJ_SHADOW));
 
-    descriptors[1].suffix = &DAT_01011584;
+    descriptors[1].suffix = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
     descriptors[1].selection = 0;
 
-    fnv_zlib_memset(&descriptors[1].support, 0, 52);
+    std::memset(&descriptors[1].support, 0, 52);
 
-    descriptors[2].name = &str_010af114;
+    descriptors[2].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS_p_hlsl));
 
-    descriptors[2].family = &str_010aeb98;
+    descriptors[2].family = &(*reinterpret_cast<char *>((void *)&::shader_LIGHTS));
 
     descriptors[2].source = &DAT_01063f3c;
 
-    descriptors[2].variant = &str_010aed54;
+    descriptors[2].variant = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
-    descriptors[2].suffix = &DAT_01011584;
+    descriptors[2].suffix = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
     descriptors[2].selection = 0;
 
-    fnv_zlib_memset(&descriptors[2].support, 0, 52);
+    std::memset(&descriptors[2].support, 0, 52);
 
-    descriptors[3].name = &str_010af114;
+    descriptors[3].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS_p_hlsl));
 
-    descriptors[3].family = &str_010aeb98;
+    descriptors[3].family = &(*reinterpret_cast<char *>((void *)&::shader_LIGHTS));
 
     descriptors[3].source = &DAT_01063f3c;
 
-    descriptors[3].variant = &str_010aed54;
+    descriptors[3].variant = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
-    descriptors[3].suffix = &DAT_01011584;
+    descriptors[3].suffix = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
-    descriptors[3].selection = &str_010aeba0;
+    descriptors[3].selection = &(*reinterpret_cast<char *>((void *)&::shader_PROJ_SHADOW));
 
-    descriptors[3].support = &DAT_01011584;
+    descriptors[3].support = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
     descriptors[3].fallback = 0;
 
-    fnv_zlib_memset(&descriptors[3].p08, 0, 44);
+    std::memset(&descriptors[3].p08, 0, 44);
 
-    descriptors[4].name = &str_010af0b0;
+    descriptors[4].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_AD_p_hlsl));
 
-    descriptors[4].family = &str_010aeb98;
+    descriptors[4].family = &(*reinterpret_cast<char *>((void *)&::shader_LIGHTS));
 
     descriptors[4].source = &DAT_01063f3c;
 
-    descriptors[4].variant = &str_010aed54;
+    descriptors[4].variant = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
-    descriptors[4].suffix = &DAT_01011584;
+    descriptors[4].suffix = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
     descriptors[4].selection = 0;
 
-    fnv_zlib_memset(&descriptors[4].support, 0, 52);
+    std::memset(&descriptors[4].support, 0, 52);
 
-    descriptors[5].name = &str_010af0b0;
+    descriptors[5].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_AD_p_hlsl));
 
-    descriptors[5].family = &str_010aeb98;
+    descriptors[5].family = &(*reinterpret_cast<char *>((void *)&::shader_LIGHTS));
 
     descriptors[5].source = &DAT_01063f3c;
 
-    descriptors[5].variant = &str_010aed54;
+    descriptors[5].variant = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
-    descriptors[5].suffix = &DAT_01011584;
+    descriptors[5].suffix = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
-    descriptors[5].selection = &str_010aeba0;
+    descriptors[5].selection = &(*reinterpret_cast<char *>((void *)&::shader_PROJ_SHADOW));
 
-    descriptors[5].support = &DAT_01011584;
+    descriptors[5].support = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
     descriptors[5].fallback = 0;
 
-    fnv_zlib_memset(&descriptors[5].p08, 0, 44);
+    std::memset(&descriptors[5].p08, 0, 44);
 
-    descriptors[6].name = &str_010af0b0;
+    descriptors[6].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_AD_p_hlsl));
 
-    descriptors[6].family = &str_010aeb98;
+    descriptors[6].family = &(*reinterpret_cast<char *>((void *)&::shader_LIGHTS));
 
-    descriptors[6].source = &DAT_01063f30;
+    descriptors[6].source = &(*reinterpret_cast<char *>(&::DAT_01063f30));
 
-    descriptors[6].variant = &str_010aed54;
+    descriptors[6].variant = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
-    descriptors[6].suffix = &DAT_01011584;
+    descriptors[6].suffix = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
     descriptors[6].selection = 0;
 
-    fnv_zlib_memset(&descriptors[6].support, 0, 52);
+    std::memset(&descriptors[6].support, 0, 52);
 
-    descriptors[7].name = &str_010af0b0;
+    descriptors[7].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_AD_p_hlsl));
 
-    descriptors[7].family = &str_010aeb98;
+    descriptors[7].family = &(*reinterpret_cast<char *>((void *)&::shader_LIGHTS));
 
-    descriptors[7].source = &DAT_01063f30;
+    descriptors[7].source = &(*reinterpret_cast<char *>(&::DAT_01063f30));
 
-    descriptors[7].variant = &str_010aed54;
+    descriptors[7].variant = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
-    descriptors[7].suffix = &DAT_01011584;
+    descriptors[7].suffix = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
-    descriptors[7].selection = &str_010aeba0;
+    descriptors[7].selection = &(*reinterpret_cast<char *>((void *)&::shader_PROJ_SHADOW));
 
-    descriptors[7].support = &DAT_01011584;
+    descriptors[7].support = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
     descriptors[7].fallback = 0;
 
-    fnv_zlib_memset(&descriptors[7].p08, 0, 44);
+    std::memset(&descriptors[7].p08, 0, 44);
 
-    descriptors[8].name = &str_010af090;
+    descriptors[8].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_DiffusePt_p_hlsl));
 
-    descriptors[8].family = &str_010aeb98;
+    descriptors[8].family = &(*reinterpret_cast<char *>((void *)&::shader_LIGHTS));
 
     descriptors[8].source = &DAT_01063f3c;
 
-    descriptors[8].variant = &str_010aed54;
+    descriptors[8].variant = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
-    descriptors[8].suffix = &DAT_01011584;
+    descriptors[8].suffix = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
     descriptors[8].selection = 0;
 
-    fnv_zlib_memset(&descriptors[8].support, 0, 52);
+    std::memset(&descriptors[8].support, 0, 52);
 
-    descriptors[9].name = &str_010af090;
+    descriptors[9].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_DiffusePt_p_hlsl));
 
-    descriptors[9].family = &str_010aeb98;
+    descriptors[9].family = &(*reinterpret_cast<char *>((void *)&::shader_LIGHTS));
 
-    descriptors[9].source = &DAT_01063f30;
+    descriptors[9].source = &(*reinterpret_cast<char *>(&::DAT_01063f30));
 
-    descriptors[9].variant = &str_010aed54;
+    descriptors[9].variant = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
-    descriptors[9].suffix = &DAT_01011584;
+    descriptors[9].suffix = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
     descriptors[9].selection = 0;
 
-    fnv_zlib_memset(&descriptors[9].support, 0, 52);
+    std::memset(&descriptors[9].support, 0, 52);
 
-    descriptors[10].name = &str_010af0c8;
+    descriptors[10].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS10_p_hlsl));
 
-    descriptors[10].family = &str_010aeb98;
+    descriptors[10].family = &(*reinterpret_cast<char *>((void *)&::shader_LIGHTS));
 
     descriptors[10].source = &DAT_01063ee8;
 
-    descriptors[10].variant = &str_010aed54;
+    descriptors[10].variant = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
     descriptors[10].suffix = 0;
     descriptors[10].selection = 0;
 
-    fnv_zlib_memset(&descriptors[10].support, 0, 52);
+    std::memset(&descriptors[10].support, 0, 52);
 
-    descriptors[11].name = &str_010af0c8;
+    descriptors[11].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS10_p_hlsl));
 
-    descriptors[11].family = &str_010aeb98;
+    descriptors[11].family = &(*reinterpret_cast<char *>((void *)&::shader_LIGHTS));
 
     descriptors[11].source = &DAT_01063f24;
 
-    descriptors[11].variant = &str_010aed54;
+    descriptors[11].variant = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
     descriptors[11].suffix = 0;
     descriptors[11].selection = 0;
 
-    fnv_zlib_memset(&descriptors[11].support, 0, 52);
+    std::memset(&descriptors[11].support, 0, 52);
 
-    descriptors[12].name = &str_010af0c8;
+    descriptors[12].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS10_p_hlsl));
 
-    descriptors[12].family = &str_010aeb8c;
+    descriptors[12].family = &(*reinterpret_cast<char *>((void *)&::shader_SPECULAR));
 
-    descriptors[12].source = &DAT_01011584;
+    descriptors[12].source = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
 
-    descriptors[12].variant = &str_010aeb98;
+    descriptors[12].variant = &(*reinterpret_cast<char *>((void *)&::shader_LIGHTS));
 
     descriptors[12].suffix = &DAT_01063f24;
 
-    descriptors[12].selection = &str_010aed54;
+    descriptors[12].selection = &(*reinterpret_cast<char *>((void *)&::shader_FACEGENBLEND));
 
     descriptors[12].support = 0;
     descriptors[12].fallback = 0;
 
-    fnv_zlib_memset(&descriptors[12].p08, 0, 44);
+    std::memset(&descriptors[12].p08, 0, 44);
 
     if (DAT_011f91c0 >= 2)
     {
@@ -11004,7 +10653,7 @@ void FeatureManager::LoadAllFeatures()
 
             FUN_00406d00(formatBuffer, 0x104, &DAT_010bb96c, index);
 
-            FeatureObject* next = LoadFeature(qualifiedName, &descriptor->family, &str_010a93cc, formatBuffer);
+            FeatureObject* next = ((::FeatureObject *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(qualifiedName, (void *)(&descriptor->family), (char *)(&::str_010a93cc), formatBuffer)));
 
             FeatureObject* old = *destination;
 
@@ -11026,7 +10675,6 @@ void FeatureManager::LoadAllFeatures()
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int auiSize);
 };
 
 struct FUN_00e76700_desc
@@ -11078,7 +10726,6 @@ struct FUN_00e76700_desc
     virtual void v044();
     virtual void v045();
 };
-FUN_00e76700_desc* __cdecl FUN_00e76700(void* apRenderer, int aiType, int aiFlag);
 
 class FUN_00bcf7f0 : public BSFaceGenMorphData
 {
@@ -11176,8 +10823,8 @@ class FUN_00bcf7f0 : public BSFaceGenMorphData
 // @fnv 0x00bcfb00
 FUN_00bcf7f0* __cdecl CreateFaceGenMorphShader()
 {
-    FUN_00e76700_desc* pVertexDesc = FUN_00e76700(DAT_011f9508, 6, 1);
-    FUN_00e76700_desc* pPixelDesc = FUN_00e76700(DAT_011f9508, 8, 1);
+    FUN_00e76700_desc* pVertexDesc = ((::FUN_00e76700_desc *)(::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<::EventSystem * *>(&::DAT_011f9508))), 6, 1)));
+    FUN_00e76700_desc* pPixelDesc = ((::FUN_00e76700_desc *)(::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<::EventSystem * *>(&::DAT_011f9508))), 8, 1)));
     pVertexDesc->v035(0, 0, 0, 2, 0);
     pVertexDesc->v035(1, 3, 3, 2, 0);
     pVertexDesc->v035(2, 5, 4, 3, 0);
@@ -11216,6 +10863,15 @@ struct FUN_00bd0ce0 : ShaderBase
     virtual void Initialize();
     ~FUN_00bd0ce0();
 };
+// Calls FUN_00bd0ce0, then deletes this with size 0xec when flags has bit 0 set, and returns this.
+// @fnv 0x00bd1480
+void* FUN_00bd1480_t::FUN_00bd1480(int flags)
+{
+    reinterpret_cast<::FUN_00bd0ce0 *>(this)->FUN_00bd0ce0::~FUN_00bd0ce0();
+    if (flags & 1)
+        operator delete(this, 0xec);
+    return this;
+}
 
 // Releases the shader's vertex/pixel shader pointers, clears both passes and resets the remaining references to null.
 // @fnv 0x00bd0ce0
@@ -11236,7 +10892,6 @@ FUN_00bd0ce0::~FUN_00bd0ce0()
     unk060 = 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Ref1090
 {
     virtual void vf00();
@@ -11321,11 +10976,10 @@ struct Obj1090
     Ptr1090 m_88;
     void FUN_00bd1090();
 };
-Obj1090* __cdecl FUN_00b55560(int);
 // @fnv 0x00bd1090
 void Obj1090::FUN_00bd1090()
 {
-    Obj1090* source = FUN_00b55560(1);
+    Obj1090* source = ((::Obj1090 *)(::FUN_00b55560(1)));
     Ptr1090 first(source->m_30);
     Ptr1090 second(source->m_34);
     m_34 = second.value;
@@ -11481,7 +11135,6 @@ struct ShaderLayout
     virtual void Finish();
 };
 
-ShaderLayout* __cdecl FUN_00e76700(EventSystem*, int, int);
 struct CreatedShader
 {
     virtual void slot0();
@@ -11627,15 +11280,13 @@ struct CreatedShader
     int unke0;
     int unke4;
     int unke8;
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     CreatedShader(ShaderLayout*, ShaderLayout*);
 };
 // @fnv 0x00bd14b0
 CreatedShader* __cdecl FUN_00bd14b0()
 {
-    ShaderLayout* first = FUN_00e76700(DAT_011f9508, 6, 1);
-    ShaderLayout* second = FUN_00e76700(DAT_011f9508, 8, 1);
+    ShaderLayout* first = ((::ShaderLayout *)(::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<::EventSystem * *>(&::DAT_011f9508))), 6, 1)));
+    ShaderLayout* second = ((::ShaderLayout *)(::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<::EventSystem * *>(&::DAT_011f9508))), 8, 1)));
     first->Set(0, 0, 0, 2, 0);
     first->Set(1, 3, 3, 2, 0);
     first->Set(2, 5, 4, 3, 0);
@@ -11668,7 +11319,7 @@ struct NiD3DPassPtr
     {
         PassView* pkPass = m_pObject;
         if (pkPass && --pkPass->references == 0)
-            pkPass->FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>((pkPass))->DestroyPass();
     }
 };
 struct FUN_00be0f10
@@ -11712,206 +11363,25 @@ FUN_00bd2c40::~FUN_00bd2c40()
 }
 
 namespace fnv_00bd2e70 {
-struct TLSData
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
-    int unk2a4;
-    int unk2a8;
-    int unk2ac;
-    int unk2b0;
-    int iAllocType;
-};
-extern __declspec(thread) TLSData g_tlsData;
 
 struct MemContextGuard
 {
     int iSaved;
     MemContextGuard(int iType)
     {
-        iSaved = g_tlsData.iAllocType;
-        g_tlsData.iAllocType = iType;
+        iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = iType;
     }
     ~MemContextGuard()
     {
-        g_tlsData.iAllocType = iSaved;
+        ::g_tlsBlock.memoryContext = iSaved;
     }
 };
 
 struct NiRenderer;
-extern NiRenderer* DAT_011f9508;
 
 struct ShaderDecl
 {
-    static ShaderDecl* __cdecl Create(NiRenderer* pRenderer, unsigned int uiMaxStreamEntryCount,
-                                      unsigned int uiStreamCount);
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -11965,10 +11435,7 @@ struct ShaderDecl
 
 struct ShaderObj
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* p);
     ShaderObj();
-    void Setup();
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -12096,7 +11563,7 @@ struct ShaderObj
 ShaderObj* __cdecl FUN_00bd2e70()
 {
     MemContextGuard kGuard(0x1f);
-    ShaderDecl* pDecl = ShaderDecl::Create(DAT_011f9508, 5, 1);
+    ShaderDecl* pDecl = ((::fnv_00bd2e70::ShaderDecl *)(::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<::fnv_00bd2e70::NiRenderer * *>(&::DAT_011f9508))), 5, 1)));
     pDecl->SetEntry(0, 0, 0, 2, 0);
     pDecl->SetEntry(1, 3, 3, 2, 0);
     pDecl->SetEntry(2, 5, 4, 3, 0);
@@ -12106,7 +11573,7 @@ ShaderObj* __cdecl FUN_00bd2e70()
     ShaderObj* pShader = new ShaderObj;
     pShader->Initialize();
     pShader->CreatePasses();
-    pShader->Setup();
+    reinterpret_cast<::FUN_00bd2d50_class *>((pShader))->CreateShaderPassWithStage();
     pShader->InitPasses();
     pShader->SetShaderDeclaration(pDecl);
     return pShader;
@@ -12248,11 +11715,6 @@ struct PassOwner
     PassShader* unk30;
     PassShader* unk34;
 };
-extern GeomStub** DAT_011f91e0;
-extern BoundStub DAT_011f4288;
-extern unsigned char DAT_011f91c4;
-FogStub* __cdecl FUN_00b55520(int idx);
-PassOwner* __cdecl FUN_00b55560(int idx);
 struct FUN_00bd4ba0_class
 {
     virtual void v00();
@@ -12354,7 +11816,6 @@ struct FUN_00bd4ba0_class
     int unk2c;
     PassShader* unk30;
     PassShader* unk34;
-    void Method_00b7dab0(PassArg* arg);
     void ApplyPasses(PassArg* arg);
 };
 
@@ -12362,30 +11823,30 @@ struct FUN_00bd4ba0_class
 // @fnv 0x00bd4ba0
 void FUN_00bd4ba0_class::ApplyPasses(PassArg* pPassArg)
 {
-    GeomStub* geom = *DAT_011f91e0;
+    GeomStub* geom = *(*reinterpret_cast<::fnv_00bd4ba0::GeomStub ** *>(&::DAT_011f91e0));
     BoundStub* bound = geom->bound;
     if (!bound)
-        bound = &DAT_011f4288;
+        bound = &(*reinterpret_cast<::fnv_00bd4ba0::BoundStub *>(&::g_defaultBound));
     int b8 = geom->unkb8->unk34;
     int bc = geom->unkbc;
     int x = pPassArg->unk08;
-    Method_00b7dab0(pPassArg);
-    FogStub* fog = FUN_00b55520(DAT_011f91c4);
+    reinterpret_cast<::fnv_00b7dab0::RX *>(this)->UpdateRenderPass((::fnv_00b7dab0::ArgX *)(pPassArg));
+    FogStub* fog = ((::fnv_00bd4ba0::FogStub *)(::FUN_00b55520(::DAT_011f91c4)));
     Apply(geom, fog, x);
-    PassOwner* owner = FUN_00b55560(1);
-    owner->unk30->SetupPass((void*)DAT_0126f74c->unk44, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
-    owner->unk34->SetupPass(DAT_0126f74c->handler, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
+    PassOwner* owner = ((::fnv_00bd4ba0::PassOwner *)(::FUN_00b55560(1)));
+    owner->unk30->SetupPass((void*)(*reinterpret_cast<::DispatchRegistry * *>(&::DAT_0126f74c))->unk44, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
+    owner->unk34->SetupPass((*reinterpret_cast<::DispatchRegistry * *>(&::DAT_0126f74c))->handler, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
     PassShader* pShader30 = unk30;
     if (pShader30)
     {
-        void* h = (void*)DAT_0126f74c->unk44;
+        void* h = (void*)(*reinterpret_cast<::DispatchRegistry * *>(&::DAT_0126f74c))->unk44;
         if (h)
             pShader30->SetupPass(h, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
     }
     PassShader* pShader34 = unk34;
     if (pShader34)
     {
-        void* h = DAT_0126f74c->handler;
+        void* h = (*reinterpret_cast<::DispatchRegistry * *>(&::DAT_0126f74c))->handler;
         if (h)
             pShader34->SetupPass(h, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
     }
@@ -12415,8 +11876,6 @@ class NiD3DShaderConstantMap
     int unk40;
 
     NiD3DShaderConstantMap(void* pkD3DDevice, int eType);
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 
     void IncRefCount()
     {
@@ -12429,7 +11888,6 @@ class NiD3DShaderConstantMap
     }
 };
 
-void __cdecl FUN_00bb2f50(NiD3DShaderConstantMap* map, int count);
 
 struct FUN_00bd4d30_class
 {
@@ -12481,12 +11939,10 @@ void FUN_00bd4d30_class::InitShaderConstantMaps()
         m_spFirstShaderConstantMap = new NiD3DShaderConstantMap(m_pD3DDevice, 2);
     m_spCurrPixelConstantMap = m_spFirstShaderConstantMap;
     m_spCurrVertexConstantMap = m_spSecondShaderConstantMap;
-    FUN_00bb2f50(m_spSecondShaderConstantMap, 0x2a);
+    ::SpeedTreeLeafShaderConstantMapSetup::ConfigureShaderConstantMap(m_spSecondShaderConstantMap, 0x2a);
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct Ref
 {
@@ -12549,18 +12005,10 @@ template <class T> struct Ptr
 struct Vec
 {
     float x, y, z, w;
-    static void* operator new[](unsigned n)
-    {
-        return DAT_011f6238.FUN_00aa3e40(n);
-    }
 };
 struct IntElement
 {
     void* value;
-    static void* operator new[](unsigned n)
-    {
-        return DAT_011f6238.FUN_00aa3e40(n);
-    }
 };
 struct Member
 {
@@ -12571,7 +12019,7 @@ struct Source : Ref
 {
     int data;
     unsigned char mode;
-    int indices;
+    intptr_t indices;
     int multiplier;
     Ptr<Ref> texture;
     Ref* prop1;
@@ -12584,14 +12032,7 @@ struct Source : Ref
 struct FUN_00ba63e0
 {
     FUN_00ba63e0(int, bool);
-    static void* operator new(unsigned size)
-    {
-        return FUN_00aa13e0(size);
-    }
     int u00, u04, u08, u0c, u10, u14, u18, u1c, u20, u24, u28;
-    void FUN_00a72ca0(bool);
-    void FUN_00a72bb0(int, int, unsigned, int);
-    void FUN_00a726a0(int, int, int, int, int, int, int);
 };
 struct Owner
 {
@@ -12608,7 +12049,6 @@ struct Owner
     int unk28;
     int unk2c;
     FUN_00ba63e0* program;
-    void FUN_00a67260(FUN_00ba63e0*);
 };
 struct Geometry : Ref
 {
@@ -12664,11 +12104,6 @@ struct Geometry : Ref
     int unkcc;
     int unkd0;
     int unkd4;
-    static void* operator new(unsigned size)
-    {
-        return FUN_00aa13e0(size);
-    }
-    void FUN_00439410(Ref*);
 };
 struct FUN_00c1a480 : Geometry
 {
@@ -12712,13 +12147,7 @@ struct FUN_00b57f90 : Ref
     Ptr<Ref> texture;
     int unk84, unk88;
     FUN_00b57f90();
-    static void* operator new(unsigned size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
-extern int DAT_011f91c0;
-void __cdecl FUN_00b57e30(Geometry*, int, int);
 struct FUN_00bd6190
 {
     Ptr<Geometry> geometry;
@@ -12730,93 +12159,14 @@ struct FUN_00bd6190
     Member member;
     int arg;
     FUN_00bd6190(Source*, int, bool);
-    void FUN_00bd5e40();
 };
-// @fnv 0x00bd6190
-FUN_00bd6190::FUN_00bd6190(Source* src, int argValue, bool flag)
-{
-    capacity = src->count;
-    source = src;
-    arg = argValue;
-    values = new Vec[capacity];
-    indices = new IntElement[capacity];
-    for (int index = 0; index < capacity; ++index)
-    {
-        values[index].x = 0;
-        values[index].y = 0;
-        values[index].z = 0;
-        values[index].w = 0;
-        indices[index].value = 0;
-    }
-    count = capacity;
-    for (int index = 0; index < count; ++index)
-    {
-        values[index].z = 0;
-        values[index].w = 0;
-        indices[index].value = 0;
-    }
-    count = 0;
-    FUN_00bd5e40();
-    geometry = (Geometry*)0;
-    int data = src->data;
-    if (src->mode == 1)
-        geometry = new FUN_00c1a480(data);
-    else
-        geometry = new FUN_00c1a660(data);
-    Ref* prop = DAT_011f91c0 < 2 ? src->prop2 : src->prop1;
-    if (prop)
-        geometry->FUN_00439410(prop);
-    if (src->prop3)
-        geometry->FUN_00439410(src->prop3);
-    FUN_00b57f90* shader = new FUN_00b57f90;
-    shader->texture = src->texture;
-    shader->parent = this;
-    if (flag)
-    {
-        if (!(shader->flags20 & 4))
-            shader->dirty = 0;
-        shader->flags20 |= 4;
-    }
-    else
-    {
-        if (shader->flags20 & 4)
-            shader->dirty = 0;
-        shader->flags20 &= ~4;
-    }
-    if (src->flag)
-    {
-        if (!(shader->flags24 & 0x2000))
-            shader->dirty = 0;
-        shader->flags24 |= 0x2000;
-    }
-    else
-    {
-        if (shader->flags24 & 0x2000)
-            shader->dirty = 0;
-        shader->flags24 &= ~0x2000;
-    }
-    geometry->FUN_00439410(shader);
-    property = shader;
-    FUN_00b57e30(geometry, 0, 0);
-    Owner* owner = geometry->owner;
-    if (!owner || !owner->program)
-    {
-        int total = src->multiplier * src->count;
-        FUN_00ba63e0* program = new FUN_00ba63e0(total, true);
-        program->FUN_00a72ca0(true);
-        program->FUN_00a72bb0(0, src->indices, total * 4, 0);
-        program->FUN_00a726a0(0, 0, 0, 1, total, 4, 4);
-        geometry->owner->FUN_00a67260(program);
-    }
-}
-
 class ImageSpaceEffectParam
 {
   public:
     virtual ~ImageSpaceEffectParam();
 };
 
-template <class T> class NiTPrimitiveArray
+template <class T, class TAlloc = NiTMallocInterface<T>> class NiTPrimitiveArray
 {
   public:
     void* m_vptr;
@@ -12854,6 +12204,14 @@ struct FUN_00bd6fc0 : FUN_00bd6f30
     ISTexture_bd6fc0 m_akTextures[3];
     virtual ~FUN_00bd6fc0();
 };
+// @fnv 0x00bd71e0
+void* FUN_00bd71e0_class::FUN_00bd71e0(int bFlag)
+{
+    reinterpret_cast<::FUN_00bd6fc0 *>(this)->FUN_00bd6fc0::~FUN_00bd6fc0();
+    if (bFlag & 1)
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
+    return this;
+}
 
 // Deletes the effect parameter objects stored in m_Array at indices 2, 1, 0, 0 and 3, clearing each slot to null.
 // @fnv 0x00bd6fc0
@@ -12862,33 +12220,30 @@ FUN_00bd6fc0::~FUN_00bd6fc0()
     if (m_Array.GetAt(2))
     {
         delete m_Array.GetAt(2);
-        m_Array.SetAt(2, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(2, (::KeyPair **)&(const ::ImageSpaceEffectParam *const &)(0));
     }
     if (m_Array.GetAt(1))
     {
         delete m_Array.GetAt(1);
-        m_Array.SetAt(1, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(1, (::KeyPair **)&(const ::ImageSpaceEffectParam *const &)(0));
     }
     if (m_Array.GetAt(0))
     {
         delete m_Array.GetAt(0);
-        m_Array.SetAt(0, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(0, (::KeyPair **)&(const ::ImageSpaceEffectParam *const &)(0));
     }
     if (m_Array.GetAt(0))
     {
         delete m_Array.GetAt(0);
-        m_Array.SetAt(0, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(0, (::KeyPair **)&(const ::ImageSpaceEffectParam *const &)(0));
     }
     if (m_Array.GetAt(3))
     {
         delete m_Array.GetAt(3);
-        m_Array.SetAt(3, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(3, (::KeyPair **)&(const ::ImageSpaceEffectParam *const &)(0));
     }
 }
 
-extern NiPoint3 DAT_011a946c;
-extern NiPoint3 DAT_011a9478;
-extern const NiPoint3 DAT_011a9484;
 
 struct ViewCamera
 {
@@ -12928,7 +12283,6 @@ struct ViewCamera
     int unk84;
     int unk88;
     NiPoint3 position;
-    void SetLookAt(const NiPoint3& position, const NiPoint3& direction);
     void FUN_00bd7200(unsigned int face);
 };
 
@@ -12943,28 +12297,28 @@ void ViewCamera::FUN_00bd7200(unsigned int face)
         direction0.x = -DAT_011a9478.x;
         direction0.y = -DAT_011a9478.y;
         direction0.z = -DAT_011a9478.z;
-        position0.x = position.x - DAT_011a946c.x;
-        position0.y = position.y - DAT_011a946c.y;
-        position0.z = position.z - DAT_011a946c.z;
-        SetLookAt(position0, direction0);
+        position0.x = position.x - (*reinterpret_cast<::NiPoint3 *>(&::DAT_011a946c)).x;
+        position0.y = position.y - (*reinterpret_cast<::NiPoint3 *>(&::DAT_011a946c)).y;
+        position0.z = position.z - (*reinterpret_cast<::NiPoint3 *>(&::DAT_011a946c)).z;
+        reinterpret_cast<::CamLook *>(this)->SetLookAt((const ::CamPoint &)(position0), (const ::CamPoint &)(direction0));
         break;
     }
     case 1: {
         direction1.x = -DAT_011a9478.x;
         direction1.y = -DAT_011a9478.y;
         direction1.z = -DAT_011a9478.z;
-        double globalX = *(const volatile float*)&DAT_011a946c.x;
+        double globalX = *(const volatile float*)&(*reinterpret_cast<::NiPoint3 *>(&::DAT_011a946c)).x;
         position1.x = globalX + position.x;
-        position1.y = position.y + DAT_011a946c.y;
-        position1.z = position.z + DAT_011a946c.z;
-        SetLookAt(position1, direction1);
+        position1.y = position.y + (*reinterpret_cast<::NiPoint3 *>(&::DAT_011a946c)).y;
+        position1.z = position.z + (*reinterpret_cast<::NiPoint3 *>(&::DAT_011a946c)).z;
+        reinterpret_cast<::CamLook *>(this)->SetLookAt((const ::CamPoint &)(position1), (const ::CamPoint &)(direction1));
         break;
     }
     case 2: {
         position2.x = position.x - DAT_011a9478.x;
         position2.y = position.y - DAT_011a9478.y;
         position2.z = position.z - DAT_011a9478.z;
-        SetLookAt(position2, DAT_011a9484);
+        reinterpret_cast<::CamLook *>(this)->SetLookAt((const ::CamPoint &)(position2), (const ::CamPoint &)(DAT_011a9484));
         break;
     }
     case 3: {
@@ -12974,7 +12328,7 @@ void ViewCamera::FUN_00bd7200(unsigned int face)
         position3.x = position.x + DAT_011a9478.x;
         position3.y = position.y + DAT_011a9478.y;
         position3.z = position.z + DAT_011a9478.z;
-        SetLookAt(position3, direction3);
+        reinterpret_cast<::CamLook *>(this)->SetLookAt((const ::CamPoint &)(position3), (const ::CamPoint &)(direction3));
         break;
     }
     case 4: {
@@ -12984,7 +12338,7 @@ void ViewCamera::FUN_00bd7200(unsigned int face)
         position4.x = position.x - DAT_011a9484.x;
         position4.y = position.y - DAT_011a9484.y;
         position4.z = position.z - DAT_011a9484.z;
-        SetLookAt(position4, direction4);
+        reinterpret_cast<::CamLook *>(this)->SetLookAt((const ::CamPoint &)(position4), (const ::CamPoint &)(direction4));
         break;
     }
     case 5: {
@@ -12994,7 +12348,7 @@ void ViewCamera::FUN_00bd7200(unsigned int face)
         position5.x = position.x + DAT_011a9484.x;
         position5.y = position.y + DAT_011a9484.y;
         position5.z = position.z + DAT_011a9484.z;
-        SetLookAt(position5, direction5);
+        reinterpret_cast<::CamLook *>(this)->SetLookAt((const ::CamPoint &)(position5), (const ::CamPoint &)(direction5));
         break;
     }
     }
@@ -13002,8 +12356,6 @@ void ViewCamera::FUN_00bd7200(unsigned int face)
 
 struct Bd84Owner : FUN_00bd74a0
 {
-    void RenderFaces();
-    void FUN_00bd7bb0(int arg);
     void FUN_00bd84b0(int arg);
 };
 // @fnv 0x00bd84b0
@@ -13012,14 +12364,14 @@ void Bd84Owner::FUN_00bd84b0(int arg)
     switch (unk114)
     {
     case 0:
-        RenderFaces();
+        reinterpret_cast<::LightView *>(this)->RenderFaces();
         break;
     case 1:
         goto done;
     case 2:
         goto done;
     case 3:
-        FUN_00bd7bb0(arg);
+        reinterpret_cast<::Camera *>(this)->FUN_00bd7bb0(arg);
         break;
     }
 done:
@@ -13952,6 +13304,9 @@ struct Passes
     void FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
                       ShadowSceneLight*, ShadowSceneLight*);
 };
+struct Context;
+struct Geom;
+struct Passes;
 struct Shader
 {
     int unk00;
@@ -13972,6 +13327,8 @@ struct Shader
     Passes* passes;
     int FUN_00bdd050(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count, unsigned char type, bool* out,
                      bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h);
+public:
+    ::Passes *GetPasses(::Geom *, unsigned int, unsigned short *, unsigned int, ::Context *, unsigned char);
 };
 // @fnv 0x00bdd050
 int Shader::FUN_00bdd050(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count, unsigned char type,
@@ -14443,10 +13800,7 @@ int ShaderPassBuilder::FUN_00bdd520(NiGeometry* geometry, ShadowSceneLight* ligh
 struct SelectColor
 {
     float r, g, b;
-    bool FUN_004390c0(const SelectColor&);
 };
-extern SelectColor DAT_011f4998;
-extern bool DAT_011ad80d;
 struct SelectMaterial
 {
     int unk00;
@@ -14476,7 +13830,6 @@ struct SelectLighting
     int unk24;
     float alpha;
     float otherAlpha;
-    bool FUN_004a2020(int);
 };
 struct SelectGeometry
 {
@@ -14652,11 +14005,10 @@ int SelectShader::FUN_00bde1d0(NiGeometry* geom, ShadowSceneLight* light, unsign
                                         SelectMaterial* mat = ((SelectGeometry*)geom)->material;
                                         SelectLighting* prop = ((SelectGeometry*)geom)->lighting;
                                         if (DAT_011ad80d &&
-                                            (!mat || (mat->externalColor ? mat->externalColor : &mat->color)
-                                                         ->FUN_004390c0(DAT_011f4998)) &&
-                                            !(prop->alpha < 1.0f) && prop->FUN_004a2020(37))
+                                            (!mat || reinterpret_cast<::NiPoint3 *>(((mat->externalColor ? mat->externalColor : &mat->color)))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<::SelectColor *>(&::DAT_011f4998))))) &&
+                                            !(prop->alpha < 1.0f) && reinterpret_cast<::Fake_FUN_004a2020 *>((prop))->GetFlag(37))
                                         {
-                                            passes->Add(geom, (prop->FUN_004a2020(34) ? 253 : 252), true, 1, light, 0,
+                                            passes->Add(geom, (reinterpret_cast<::Fake_FUN_004a2020 *>((prop))->GetFlag(34) ? 253 : 252), true, 1, light, 0,
                                                         0, 0);
                                         }
                                         else
@@ -14783,8 +14135,8 @@ int SelectShader::FUN_00bde1d0(NiGeometry* geom, ShadowSceneLight* light, unsign
                             SelectLighting* prop = ((SelectGeometry*)geom)->lighting;
                             if (DAT_011ad80d &&
                                 (!mat ||
-                                 (mat->externalColor ? mat->externalColor : &mat->color)->FUN_004390c0(DAT_011f4998)) &&
-                                prop->FUN_004a2020(37) && !(prop->otherAlpha < 1.0f))
+                                 reinterpret_cast<::NiPoint3 *>(((mat->externalColor ? mat->externalColor : &mat->color)))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<::SelectColor *>(&::DAT_011f4998))))) &&
+                                reinterpret_cast<::Fake_FUN_004a2020 *>((prop))->GetFlag(37) && !(prop->otherAlpha < 1.0f))
                             {
                                 passes->Add(geom, 258, true, 1, light, 0, 0, 0);
                             }
@@ -14933,11 +14285,7 @@ namespace fnv_00bde9b0 {
 struct Vec91
 {
     float x, y, z;
-    bool FUN_004390c0(const Vec91&);
-    bool FUN_00439090(const Vec91&);
 };
-extern Vec91 DAT_011f4998;
-extern bool DAT_011ad80d;
 struct Color91
 {
     int unk00;
@@ -14989,7 +14337,6 @@ struct Flags91
     {
         return alpha;
     }
-    bool FUN_004a2020(int);
 };
 struct Geometry91
 {
@@ -15167,8 +14514,6 @@ struct Pass91
     unsigned short unk06;
     unsigned char unk08, count, capacity, unk0b;
     Light91** lights;
-    void FUN_00ba8c30();
-    void AllocateElemArray(unsigned int);
 };
 struct Passes91
 {
@@ -15196,10 +14541,6 @@ struct Shader91
     int unk34;
     int unk38;
     Passes91* passes;
-    unsigned char FUN_00b707d0();
-    Light91* FUN_00b70600(void*&);
-    Light91* FUN_00b70700(void*&);
-    bool FUN_004a2020(int);
     Pass91* FUN_00bde9b0(Geometry91*, Light91*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool);
 };
 // Builds a light pass from the shader's passes, fills its light list, and picks a pass type from the mode, light count and flags; returns the pass.
@@ -15212,9 +14553,9 @@ Pass91* Shader91::FUN_00bde9b0(Geometry91* geometry, Light91* light, unsigned sh
     {
         passes->FUN_00ba9ee0(geometry, 0, true, 0, 0, 0, 0, 0);
         pass = passes->entries[passes->size - 1];
-        pass->capacity = pass->count = FUN_00b707d0() + 1;
-        pass->FUN_00ba8c30();
-        pass->AllocateElemArray(pass->count);
+        pass->capacity = pass->count = ((unsigned char)(::FUN_00b707d0((void *)this))) + 1;
+        ::FUN_00ba8c30((::FUN_00ba8c30_shell2 *)(pass), {});
+        ::AllocateElemArray((::BSSP_stub2 *)(pass), pass->count, {});
         pass->lights[0] = light;
         int lights = pass->count;
         int limit = extra ? 2 : 1;
@@ -15233,12 +14574,12 @@ Pass91* Shader91::FUN_00bde9b0(Geometry91* geometry, Light91* light, unsigned sh
         }
         pass->count = lights;
         void* position = 0;
-        Light91* next = FUN_00b70600(position);
+        Light91* next = ((::fnv_00bde9b0::Light91 *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&position))));
         int i = 1;
         while (next && i < pass->count)
         {
             pass->lights[i++] = next;
-            next = FUN_00b70700(position);
+            next = ((::fnv_00bde9b0::Light91 *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&position))));
         }
     }
     int lights = pass->count;
@@ -15284,11 +14625,11 @@ Pass91* Shader91::FUN_00bde9b0(Geometry91* geometry, Light91* light, unsigned sh
                     Color91* color = geometry->color;
                     Flags91* shader = geometry->shader;
                     Alpha91* alpha = geometry->alpha;
-                    if (DAT_011ad80d && (!color || color->GetColor().FUN_004390c0(DAT_011f4998)) &&
-                        !light->data->color.FUN_00439090(DAT_011f4998) && shader->FUN_004a2020(37) &&
-                        (!alpha || !alpha->Enabled() || !(shader->GetAlpha() < 1.0f)) && !FUN_004a2020(7) &&
-                        !FUN_004a2020(21) && !FUN_004a2020(17) && !shader->FUN_004a2020(26) &&
-                        !shader->FUN_004a2020(27))
+                    if (::DAT_011ad80d && (!color || reinterpret_cast<::NiPoint3 *>(&(color->GetColor()))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<::fnv_00bde9b0::Vec91 *>(&::DAT_011f4998))))) &&
+                        !reinterpret_cast<::NiPlane *>(&(light->data->color))->operator==((const ::NiPlane &)((*reinterpret_cast<::fnv_00bde9b0::Vec91 *>(&::DAT_011f4998)))) && reinterpret_cast<::Fake_FUN_004a2020 *>((shader))->GetFlag(37) &&
+                        (!alpha || !alpha->Enabled() || !(shader->GetAlpha() < 1.0f)) && !reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(7) &&
+                        !reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(21) && !reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(17) && !reinterpret_cast<::Fake_FUN_004a2020 *>((shader))->GetFlag(26) &&
+                        !reinterpret_cast<::Fake_FUN_004a2020 *>((shader))->GetFlag(27))
                         pass->type = 209;
                     else
                         pass->type = 208;
@@ -15320,10 +14661,10 @@ Pass91* Shader91::FUN_00bde9b0(Geometry91* geometry, Light91* light, unsigned sh
             {
                 Color91* color = geometry->color;
                 Flags91* shader = geometry->shader;
-                if (DAT_011ad80d && (!color || color->GetColor().FUN_004390c0(DAT_011f4998)) &&
-                    !light->data->color.FUN_00439090(DAT_011f4998) && shader->FUN_004a2020(37) &&
-                    !(shader->GetAlpha() < 1.0f) && !FUN_004a2020(7) && !FUN_004a2020(21) && !FUN_004a2020(17) &&
-                    !shader->FUN_004a2020(26) && !shader->FUN_004a2020(27))
+                if (::DAT_011ad80d && (!color || reinterpret_cast<::NiPoint3 *>(&(color->GetColor()))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<::fnv_00bde9b0::Vec91 *>(&::DAT_011f4998))))) &&
+                    !reinterpret_cast<::NiPlane *>(&(light->data->color))->operator==((const ::NiPlane &)((*reinterpret_cast<::fnv_00bde9b0::Vec91 *>(&::DAT_011f4998)))) && reinterpret_cast<::Fake_FUN_004a2020 *>((shader))->GetFlag(37) &&
+                    !(shader->GetAlpha() < 1.0f) && !reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(7) && !reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(21) && !reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(17) &&
+                    !reinterpret_cast<::Fake_FUN_004a2020 *>((shader))->GetFlag(26) && !reinterpret_cast<::Fake_FUN_004a2020 *>((shader))->GetFlag(27))
                     pass->type = 202;
                 else
                     pass->type = 201;
@@ -15428,7 +14769,6 @@ struct Vec98
         return x == v.x && y == v.y && z == v.z;
     }
 };
-extern Vec98 DAT_011f4998;
 struct Data98
 {
     int unk00;
@@ -15583,7 +14923,7 @@ int Shader98::FUN_00bdef40(NiGeometry* geom, Light98* light, unsigned short* cou
                            bool alternate, bool unused, bool flagA, bool flagB, bool flagC, bool flagD)
 {
     bool special = light->special;
-    if (!light->data->color.Equal(DAT_011f4998))
+    if (!light->data->color.Equal((*reinterpret_cast<::fnv_00bdef40::Vec98 *>(&::DAT_011f4998))))
     {
         if (!alternate)
         {
@@ -15815,7 +15155,6 @@ struct ParallaxShader
     int unk84;
     int unk88;
     BeamPtr shaders[20];
-    RefObject* FUN_00be0fe0(const char*, unsigned int*, const char*, const char*);
     void CreateParallaxShaders();
 };
 // Builds 20 parallax vertex-shader descriptors and, when DAT_011f91c0 >= 2, compiles each into shaders[i].
@@ -15827,21 +15166,21 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[0].macros[0] = "PARALLAX";
     descriptors[0].macros[1] = "";
     descriptors[0].macros[2] = 0;
-    FUN_00ec61c0(&descriptors[0].macros[3], 0, 60);
+    std::memset(&descriptors[0].macros[3], 0, 60);
     descriptors[1].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[1].macros[0] = "PARALLAX";
     descriptors[1].macros[1] = "";
     descriptors[1].macros[2] = "PROJ_SHADOW";
     descriptors[1].macros[3] = "";
     descriptors[1].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[1].macros[5], 0, 52);
+    std::memset(&descriptors[1].macros[5], 0, 52);
     descriptors[2].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[2].macros[0] = "LIGHTS";
     descriptors[2].macros[1] = "2";
     descriptors[2].macros[2] = "PARALLAX";
     descriptors[2].macros[3] = "";
     descriptors[2].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[2].macros[5], 0, 52);
+    std::memset(&descriptors[2].macros[5], 0, 52);
     descriptors[3].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[3].macros[0] = "LIGHTS";
     descriptors[3].macros[1] = "2";
@@ -15850,14 +15189,14 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[3].macros[4] = "PROJ_SHADOW";
     descriptors[3].macros[5] = "";
     descriptors[3].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[3].macros[7], 0, 44);
+    std::memset(&descriptors[3].macros[7], 0, 44);
     descriptors[4].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[4].macros[0] = "SPECULAR";
     descriptors[4].macros[1] = "";
     descriptors[4].macros[2] = "PARALLAX";
     descriptors[4].macros[3] = "";
     descriptors[4].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[4].macros[5], 0, 52);
+    std::memset(&descriptors[4].macros[5], 0, 52);
     descriptors[5].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[5].macros[0] = "SPECULAR";
     descriptors[5].macros[1] = "";
@@ -15866,7 +15205,7 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[5].macros[4] = "PROJ_SHADOW";
     descriptors[5].macros[5] = "";
     descriptors[5].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[5].macros[7], 0, 44);
+    std::memset(&descriptors[5].macros[7], 0, 44);
     descriptors[6].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[6].macros[0] = "SPECULAR";
     descriptors[6].macros[1] = "";
@@ -15875,7 +15214,7 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[6].macros[4] = "PARALLAX";
     descriptors[6].macros[5] = "";
     descriptors[6].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[6].macros[7], 0, 44);
+    std::memset(&descriptors[6].macros[7], 0, 44);
     descriptors[7].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[7].macros[0] = "SPECULAR";
     descriptors[7].macros[1] = "";
@@ -15893,7 +15232,7 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[8].macros[2] = "PARALLAX";
     descriptors[8].macros[3] = "";
     descriptors[8].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[8].macros[5], 0, 52);
+    std::memset(&descriptors[8].macros[5], 0, 52);
     descriptors[9].file = "lighting\\2x\\v\\AD.v.hlsl";
     descriptors[9].macros[0] = "LIGHTS";
     descriptors[9].macros[1] = "2";
@@ -15902,14 +15241,14 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[9].macros[4] = "PROJ_SHADOW";
     descriptors[9].macros[5] = "";
     descriptors[9].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[9].macros[7], 0, 44);
+    std::memset(&descriptors[9].macros[7], 0, 44);
     descriptors[10].file = "lighting\\2x\\v\\AD.v.hlsl";
     descriptors[10].macros[0] = "LIGHTS";
     descriptors[10].macros[1] = "3";
     descriptors[10].macros[2] = "PARALLAX";
     descriptors[10].macros[3] = "";
     descriptors[10].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[10].macros[5], 0, 52);
+    std::memset(&descriptors[10].macros[5], 0, 52);
     descriptors[11].file = "lighting\\2x\\v\\AD.v.hlsl";
     descriptors[11].macros[0] = "LIGHTS";
     descriptors[11].macros[1] = "3";
@@ -15918,45 +15257,45 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[11].macros[4] = "PROJ_SHADOW";
     descriptors[11].macros[5] = "";
     descriptors[11].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[11].macros[7], 0, 44);
+    std::memset(&descriptors[11].macros[7], 0, 44);
     descriptors[12].file = "lighting\\2x\\v\\DiffusePt.v.hlsl";
     descriptors[12].macros[0] = "LIGHTS";
     descriptors[12].macros[1] = "2";
     descriptors[12].macros[2] = "PARALLAX";
     descriptors[12].macros[3] = "";
     descriptors[12].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[12].macros[5], 0, 52);
+    std::memset(&descriptors[12].macros[5], 0, 52);
     descriptors[13].file = "lighting\\2x\\v\\DiffusePt.v.hlsl";
     descriptors[13].macros[0] = "LIGHTS";
     descriptors[13].macros[1] = "3";
     descriptors[13].macros[2] = "PARALLAX";
     descriptors[13].macros[3] = "";
     descriptors[13].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[13].macros[5], 0, 52);
+    std::memset(&descriptors[13].macros[5], 0, 52);
     descriptors[14].file = "lighting\\2x\\v\\Texture.v.hlsl";
     descriptors[14].macros[0] = "PARALLAX";
     descriptors[14].macros[1] = "";
     descriptors[14].macros[2] = 0;
-    FUN_00ec61c0(&descriptors[14].macros[3], 0, 60);
+    std::memset(&descriptors[14].macros[3], 0, 60);
     descriptors[15].file = "lighting\\2x\\v\\Specular.v.hlsl";
     descriptors[15].macros[0] = "PARALLAX";
     descriptors[15].macros[1] = "";
     descriptors[15].macros[2] = 0;
-    FUN_00ec61c0(&descriptors[15].macros[3], 0, 60);
+    std::memset(&descriptors[15].macros[3], 0, 60);
     descriptors[16].file = "lighting\\2x\\v\\Specular.v.hlsl";
     descriptors[16].macros[0] = "PARALLAX";
     descriptors[16].macros[1] = "";
     descriptors[16].macros[2] = "PROJ_SHADOW";
     descriptors[16].macros[3] = "";
     descriptors[16].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[16].macros[5], 0, 52);
+    std::memset(&descriptors[16].macros[5], 0, 52);
     descriptors[17].file = "lighting\\2x\\v\\Specular.v.hlsl";
     descriptors[17].macros[0] = "POINT";
     descriptors[17].macros[1] = "";
     descriptors[17].macros[2] = "PARALLAX";
     descriptors[17].macros[3] = "";
     descriptors[17].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[17].macros[5], 0, 52);
+    std::memset(&descriptors[17].macros[5], 0, 52);
     descriptors[18].file = "lighting\\2x\\v\\Specular.v.hlsl";
     descriptors[18].macros[0] = "NUM_PT_LIGHTS";
     descriptors[18].macros[1] = "2";
@@ -15965,7 +15304,7 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[18].macros[4] = "PARALLAX";
     descriptors[18].macros[5] = "";
     descriptors[18].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[18].macros[7], 0, 44);
+    std::memset(&descriptors[18].macros[7], 0, 44);
     descriptors[19].file = "lighting\\2x\\v\\Specular.v.hlsl";
     descriptors[19].macros[0] = "NUM_PT_LIGHTS";
     descriptors[19].macros[1] = "3";
@@ -15974,7 +15313,7 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[19].macros[4] = "PARALLAX";
     descriptors[19].macros[5] = "";
     descriptors[19].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[19].macros[7], 0, 44);
+    std::memset(&descriptors[19].macros[7], 0, 44);
 
     char sourceName[260];
     char binaryName[260];
@@ -15984,19 +15323,14 @@ void ParallaxShader::CreateParallaxShaders()
         {
             FUN_00be0c00(descriptors[i].file, sourceName);
             FUN_00406d00(binaryName, 260, "PAR2%03i.vso", i);
-            shaders[i].Assign(FUN_00be0fe0(sourceName, (unsigned int*)descriptors[i].macros, "vs_2_0", binaryName));
+            shaders[i].Assign(((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(sourceName), (::_D3DXMACRO *)((unsigned int*)descriptors[i].macros), (const char *)("vs_2_0"), binaryName))));
         }
     }
 }
 
-extern int DAT_011ae61c;
 struct FloatElem
 {
     float v;
-    static void* operator new[](unsigned int bytes)
-    {
-        return DAT_011f6238.FUN_00aa3e40(bytes);
-    }
 };
 static inline unsigned int GetTableCount()
 {
@@ -16032,40 +15366,53 @@ void* GetOrCreateTable()
     return DAT_01201f4c;
 }
 
-void __cdecl FUN_00ba8a80();
 // @fnv 0x00bc3770
-void __cdecl FUN_00bc3770()
+bool FUN_00bc3770_shell::FUN_00bc3770(::NiStream& kStream)
 {
-    FUN_00ba8a80();
+    return reinterpret_cast<::FUN_00ba8a80_shell *>(this)->FUN_00ba8a80(kStream);
 }
 
-void __cdecl FUN_00be0870();
-// @fnv 0x00bc4600
-void __cdecl FUN_00bc4600()
+struct FUN_00bc4600_shell
 {
-    FUN_00be0870();
+    bool FUN_00bc4600();
+};
+
+// @fnv 0x00bc4600
+bool FUN_00bc4600_shell::FUN_00bc4600()
+{
+    return reinterpret_cast<::BSShader *>(this)->Initialize();
 }
 
 struct FUN_00bcd380_class
 {
-    int __thiscall FUN_00bcd380(int, int);
+    char pad00[0x6c];
+    int unk6c;
+    int FUN_00bcd380(int, int);
 };
 // @fnv 0x00bcd380
 int FUN_00bcd380_class::FUN_00bcd380(int, int)
 {
-    return *(int*)((char*)this + 0x6c);
+    return this->unk6c;
 }
 
 struct FUN_00bd0420_StandIn
 {
-    int __fastcall FUN_00bd0420(int edx, void* a, void* b);
+    char pad00[0x6c];
+    int unk6c;
+    int unk70;
+    int FUN_00bd0420(int edx, void* a, void* b);
+};
+struct FUN_00bd0420_Arg
+{
+    char pad00[0xbc];
+    int unkbc;
 };
 // @fnv 0x00bd0420
-int __fastcall FUN_00bd0420_StandIn::FUN_00bd0420(int edx, void* a, void* apUnused)
+int FUN_00bd0420_StandIn::FUN_00bd0420(int edx, void* a, void* apUnused)
 {
-    if (*(int*)((char*)a + 0xbc))
-        return *(int*)((char*)this + 0x70);
-    return *(int*)((char*)this + 0x6c);
+    if (((FUN_00bd0420_Arg*)a)->unkbc)
+        return this->unk70;
+    return this->unk6c;
 }
 
 struct FUN_00e81880_shell
@@ -16302,10 +15649,6 @@ struct SceneStub
 };
 
 // extern PassOwner* DAT_0126f74c;
-extern unsigned int DAT_011f91e4;
-extern NiTexture* DAT_011f95e4;
-extern NiTexture* DAT_011f95e8;
-extern SceneStub* DAT_011f91e0;
 
 struct ShaderStub
 {
@@ -16377,7 +15720,6 @@ struct ShaderStub
     virtual void v41();
     virtual void UpdateConstants();
 
-    NiTexture* LoadTexture(PropStub* prop, int i);
     void SetupPassTextures(GeomArg* geom);
 };
 
@@ -16386,7 +15728,7 @@ struct ShaderStub
 void ShaderStub::SetupPassTextures(GeomArg* geom)
 {
     PropStub* prop = geom->pProp;
-    PassOwner* owner = (PassOwner*)DAT_0126f74c;
+    PassOwner* owner = (PassOwner*)(*reinterpret_cast<::DispatchRegistry * *>(&::DAT_0126f74c));
     unsigned int pass = DAT_011f91e4;
 
     switch (pass)
@@ -16404,7 +15746,7 @@ void ShaderStub::SetupPassTextures(GeomArg* geom)
     case 0x171:
     case 0x177: {
         PassTexSlot* slot = owner->pPasses->pSlot0;
-        slot->pTexture = LoadTexture(prop, 0);
+        slot->pTexture = ::GetTextureByIndex((char *)(prop), 0);
     }
     break;
     case 0x7a:
@@ -16424,7 +15766,7 @@ void ShaderStub::SetupPassTextures(GeomArg* geom)
         owner->pPasses->pSlot0->pTexture = prop->pTexHolder->pTexture;
         {
             PassTexSlot* slot = owner->pPasses->pSlot1;
-            slot->pTexture = LoadTexture(prop, 0);
+            slot->pTexture = ::GetTextureByIndex((char *)(prop), 0);
         }
         break;
     case 0x151:
@@ -16437,26 +15779,26 @@ void ShaderStub::SetupPassTextures(GeomArg* geom)
     {
     case 0xe8:
     case 0xfa:
-        owner->pPasses->pSlot5->pTexture = DAT_011f95e4;
-        owner->pPasses->pSlot6->pTexture = DAT_011f95e8;
+        owner->pPasses->pSlot5->pTexture = (*reinterpret_cast<::NiTexture * *>(&::DAT_011f95e4));
+        owner->pPasses->pSlot6->pTexture = (*reinterpret_cast<::NiTexture * *>(&::DAT_011f95e8));
         break;
     case 0xaa:
     case 0xc0:
     case 0x114:
     case 0x12a:
-        owner->pPasses->pSlot6->pTexture = DAT_011f95e4;
-        owner->pPasses->pSlot7->pTexture = DAT_011f95e8;
+        owner->pPasses->pSlot6->pTexture = (*reinterpret_cast<::NiTexture * *>(&::DAT_011f95e4));
+        owner->pPasses->pSlot7->pTexture = (*reinterpret_cast<::NiTexture * *>(&::DAT_011f95e8));
         break;
     case 0x165:
-        owner->pPasses->pSlot1->pTexture = DAT_011f95e4;
-        owner->pPasses->pSlot2->pTexture = DAT_011f95e8;
+        owner->pPasses->pSlot1->pTexture = (*reinterpret_cast<::NiTexture * *>(&::DAT_011f95e4));
+        owner->pPasses->pSlot2->pTexture = (*reinterpret_cast<::NiTexture * *>(&::DAT_011f95e8));
         break;
     }
 
     if (pass == 0x234)
     {
         PassTexSlot* slot = owner->pPasses->pSlot6;
-        slot->pTexture = DAT_011f91e0->pHolder->pObj->m_pReceiver->GetTexture(0);
+        slot->pTexture = ((::NiTexture *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>(((*reinterpret_cast<::SceneStub * *>(&::DAT_011f91e0))->pHolder->pObj->m_pReceiver))->FUN_004bc320(0)));
     }
 
     UpdateConstants();
@@ -16590,9 +15932,7 @@ extern int DAT_010bc560;
 
 struct TextureManager_9160
 {
-    void FUN_00b6da10(int texture);
 };
-extern int DAT_011f91a8;
 
 struct TextureResource_9160
 {
@@ -16602,24 +15942,19 @@ struct TextureList_9160
 {
     int m_version;
     TextureResource_9160** m_data;
-    void FUN_00ba3aa0(unsigned int index, TextureResource_9160*& value);
 };
 struct TextureWrapper_9160
 {
-    int FUN_00ba3780();
-    int FUN_00ba3770();
-    void FUN_00ba38b0();
-    void FUN_00ba3a00();
     ~TextureWrapper_9160()
     {
-        FUN_00ba3a00();
+        reinterpret_cast<::FUN_00ba3a00 *>(this)->FUN_00ba3a00::~FUN_00ba3a00();
     }
 };
 struct __declspec(novtable) Base_9160
 {
     virtual ~Base_9160()
     {
-        FUN_00ba3d30();
+        reinterpret_cast<::fnv_00ba3d30::FUN_00ba3d30 *>(this)->fnv_00ba3d30::FUN_00ba3d30::~FUN_00ba3d30();
     }
     int m_04;
     int m_08;
@@ -16641,7 +15976,6 @@ struct __declspec(novtable) Base_9160
     int m_4c;
     int m_50;
     int m_54;
-    void FUN_00ba3d30();
 };
 struct FUN_00bd9160 : Base_9160
 {
@@ -16657,13 +15991,13 @@ FUN_00bd9160::~FUN_00bd9160()
         if (entry)
             entry->Release(1);
         TextureResource_9160* empty = 0;
-        m_ppData.FUN_00ba3aa0(0, empty);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(m_ppData))->FUN_00ba3aa0(0, (::KeyPair **)&(empty));
     }
-    if (m_texture.FUN_00ba3780())
+    if (((intptr_t)(reinterpret_cast<::FUN_00ba3780_struct *>(&(m_texture))->FUN_00ba3780())))
     {
-        TextureManager_9160* manager = reinterpret_cast<TextureManager_9160*>(DAT_011f91a8);
-        manager->FUN_00b6da10(m_texture.FUN_00ba3770());
-        m_texture.FUN_00ba38b0();
+        TextureManager_9160* manager = reinterpret_cast<TextureManager_9160*>((*reinterpret_cast<int *>(&::DAT_011f91a8)));
+        reinterpret_cast<::Manager *>((manager))->FUN_00b6da10((::Item *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(m_texture))->FUN_00ba3770()));
+        reinterpret_cast<::Holder *>(&(m_texture))->FUN_00ba38b0();
     }
 }
 
@@ -16676,7 +16010,7 @@ struct ShaderPassList
     int unk08;
     int unk0c;
     int unk10;
-    void __thiscall FUN_00ba9ee0(NiGeometry* geometry, unsigned short pass, bool enabled, unsigned char lightCount,
+    void FUN_00ba9ee0(NiGeometry* geometry, unsigned short pass, bool enabled, unsigned char lightCount,
                                  ShadowSceneLight* light0, ShadowSceneLight* light1, ShadowSceneLight* light2,
                                  ShadowSceneLight* light3);
 };
@@ -16686,7 +16020,7 @@ struct ShaderPassController
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     int unk40, unk44;
     ShaderPassList* passes;
-    void __thiscall SetPassEnabled(NiGeometry* geometry, bool alternate, bool enabled);
+    void SetPassEnabled(NiGeometry* geometry, bool alternate, bool enabled);
 };
 // If the first pass has no unk10 set, applies pass 0x1ee when enabled, else 0x1ec or 0x1ed depending on alternate.
 // @fnv 0x00bde170
@@ -16703,14 +16037,10 @@ void ShaderPassController::SetPassEnabled(NiGeometry* geometry, bool alternate, 
         pPass->FUN_00ba9ee0(geometry, 0x1ed, true, 0, 0, 0, 0, 0);
 }
 
-extern float DAT_010ba600;
-extern float DAT_01016410;
 
 class FUN_00aa13e0
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 };
 
 class NiSortAdjustNode : public FUN_00aa13e0
@@ -16753,16 +16083,15 @@ class FUN_00bc29e0 : public NiSortAdjustNode, public FUN_00bc29e0Tail
 class OwnerBC2A
 {
   public:
-    void FUN_00a5dc80(NiSortAdjustNode* pkNode, int iArg);
-    FUN_00bc29e0* CreateNode(int iArg);
+    FUN_00bc29e0* CreateNode(intptr_t iArg);
 };
 
 // Allocates and constructs a FUN_00bc29e0 node, passes it and iArg to FUN_00a5dc80, and returns the node.
 // @fnv 0x00bc2a30
-FUN_00bc29e0* OwnerBC2A::CreateNode(int iArg)
+FUN_00bc29e0* OwnerBC2A::CreateNode(intptr_t iArg)
 {
     FUN_00bc29e0* pkNode = new FUN_00bc29e0();
-    FUN_00a5dc80(pkNode, iArg);
+    reinterpret_cast<::NiNode *>(this)->CopyMemberData((::NiNode *)(pkNode), (*(::CloningProcess *)(iArg)));
     return pkNode;
 }
 
@@ -16855,7 +16184,6 @@ class hkSlotBBCE8
 class hkBaseBCE8
 {
   public:
-    void FUN_00b71b90();
 };
 
 class hkObjBCE8 : public hkBaseBCE8
@@ -16917,26 +16245,14 @@ void hkObjBCE8::FUN_00bce8f0()
         if (object)
             object->reset();
     }
-    FUN_00b71b90();
+    reinterpret_cast<::FUN_00b71b90_class *>(this)->FUN_00b71b90();
 }
 
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern int DAT_011f91c0;
 extern const char DAT_010bb95c;
-extern const char DAT_010a93e4;
 extern const char DAT_010aeb34;
 extern const char DAT_010aeb54;
 extern const char DAT_010aeb70;
-extern const char DAT_010aeb8c;
-extern const char DAT_010aeb98;
-extern const char DAT_010aeba0;
 extern const char DAT_010aebf4;
-extern const char DAT_010aec10;
-extern const char DAT_010aed54;
-void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
 struct ShaderTail
 {
     const char* arg12;
@@ -17001,7 +16317,6 @@ struct ShaderManager
     unsigned int unk84;
     unsigned int unk88;
     NiPointer<ShaderObject> m_programs[26];
-    ShaderObject* FUN_00be0fe0(const char*, const char* const*, const char*, const char*);
     void InitShaderPrograms();
 };
 // Builds a table of 26 ShaderEntry records and, when DAT_011f91c0 >= 2, creates m_programs entries via FUN_00be0fe0.
@@ -17011,74 +16326,74 @@ void ShaderManager::InitShaderPrograms()
     ShaderEntry entries[26];
     // Shader variant 0
     entries[0].filename = &DAT_010aebf4;
-    entries[0].arg00 = &DAT_010aed54;
-    entries[0].arg01 = &DAT_01011584;
+    entries[0].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[0].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[0].arg02 = 0;
-    FUN_00ec61c0(&entries[0].arg03, 0, 60);
+    std::memset(&entries[0].arg03, 0, 60);
     // Shader variant 1
     entries[1].filename = &DAT_010aebf4;
-    entries[1].arg00 = &DAT_010aec10;
-    entries[1].arg01 = &DAT_01011584;
-    entries[1].arg02 = &DAT_010aed54;
-    entries[1].arg03 = &DAT_01011584;
+    entries[1].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[1].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[1].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[1].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[1].arg04 = 0;
-    FUN_00ec61c0(&entries[1].arg05, 0, 52);
+    std::memset(&entries[1].arg05, 0, 52);
     // Shader variant 2
     entries[2].filename = &DAT_010aebf4;
-    entries[2].arg00 = &DAT_010aed54;
-    entries[2].arg01 = &DAT_01011584;
-    entries[2].arg02 = &DAT_010aeba0;
-    entries[2].arg03 = &DAT_01011584;
+    entries[2].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[2].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[2].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
+    entries[2].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[2].arg04 = 0;
-    FUN_00ec61c0(&entries[2].arg05, 0, 52);
+    std::memset(&entries[2].arg05, 0, 52);
     // Shader variant 3
     entries[3].filename = &DAT_010aebf4;
-    entries[3].arg00 = &DAT_010aec10;
-    entries[3].arg01 = &DAT_01011584;
-    entries[3].arg02 = &DAT_010aed54;
-    entries[3].arg03 = &DAT_01011584;
-    entries[3].arg04 = &DAT_010aeba0;
-    entries[3].arg05 = &DAT_01011584;
+    entries[3].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[3].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[3].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[3].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[3].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
+    entries[3].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[3].arg06 = 0;
-    FUN_00ec61c0(&entries[3].arg07, 0, 44);
+    std::memset(&entries[3].arg07, 0, 44);
     // Shader variant 4
     entries[4].filename = &DAT_010aebf4;
-    entries[4].arg00 = &DAT_010aeb98;
+    entries[4].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[4].arg01 = &DAT_01063f3c;
-    entries[4].arg02 = &DAT_010aed54;
-    entries[4].arg03 = &DAT_01011584;
+    entries[4].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[4].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[4].arg04 = 0;
-    FUN_00ec61c0(&entries[4].arg05, 0, 52);
+    std::memset(&entries[4].arg05, 0, 52);
     // Shader variant 5
     entries[5].filename = &DAT_010aebf4;
-    entries[5].arg00 = &DAT_010aec10;
-    entries[5].arg01 = &DAT_01011584;
-    entries[5].arg02 = &DAT_010aeb98;
+    entries[5].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[5].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[5].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[5].arg03 = &DAT_01063f3c;
-    entries[5].arg04 = &DAT_010aed54;
-    entries[5].arg05 = &DAT_01011584;
+    entries[5].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[5].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[5].arg06 = 0;
-    FUN_00ec61c0(&entries[5].arg07, 0, 44);
+    std::memset(&entries[5].arg07, 0, 44);
     // Shader variant 6
     entries[6].filename = &DAT_010aebf4;
-    entries[6].arg00 = &DAT_010aeb98;
+    entries[6].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[6].arg01 = &DAT_01063f3c;
-    entries[6].arg02 = &DAT_010aed54;
-    entries[6].arg03 = &DAT_01011584;
-    entries[6].arg04 = &DAT_010aeba0;
-    entries[6].arg05 = &DAT_01011584;
+    entries[6].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[6].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[6].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
+    entries[6].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[6].arg06 = 0;
-    FUN_00ec61c0(&entries[6].arg07, 0, 44);
+    std::memset(&entries[6].arg07, 0, 44);
     // Shader variant 7
     entries[7].filename = &DAT_010aebf4;
-    entries[7].arg00 = &DAT_010aec10;
-    entries[7].arg01 = &DAT_01011584;
-    entries[7].arg02 = &DAT_010aeb98;
+    entries[7].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[7].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[7].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[7].arg03 = &DAT_01063f3c;
-    entries[7].arg04 = &DAT_010aed54;
-    entries[7].arg05 = &DAT_01011584;
-    entries[7].arg06 = &DAT_010aeba0;
-    entries[7].arg07 = &DAT_01011584;
+    entries[7].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[7].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[7].arg06 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
+    entries[7].arg07 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[7].arg08 = 0;
     entries[7].arg09 = 0;
     entries[7].arg10 = 0;
@@ -17086,42 +16401,42 @@ void ShaderManager::InitShaderPrograms()
     entries[7].tail = ShaderTail();
     // Shader variant 8
     entries[8].filename = &DAT_010aeb54;
-    entries[8].arg00 = &DAT_010aeb98;
+    entries[8].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[8].arg01 = &DAT_01063f3c;
-    entries[8].arg02 = &DAT_010aed54;
-    entries[8].arg03 = &DAT_01011584;
+    entries[8].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[8].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[8].arg04 = 0;
-    FUN_00ec61c0(&entries[8].arg05, 0, 52);
+    std::memset(&entries[8].arg05, 0, 52);
     // Shader variant 9
     entries[9].filename = &DAT_010aeb54;
-    entries[9].arg00 = &DAT_010aec10;
-    entries[9].arg01 = &DAT_01011584;
-    entries[9].arg02 = &DAT_010aeb98;
+    entries[9].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[9].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[9].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[9].arg03 = &DAT_01063f3c;
-    entries[9].arg04 = &DAT_010aed54;
-    entries[9].arg05 = &DAT_01011584;
+    entries[9].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[9].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[9].arg06 = 0;
-    FUN_00ec61c0(&entries[9].arg07, 0, 44);
+    std::memset(&entries[9].arg07, 0, 44);
     // Shader variant 10
     entries[10].filename = &DAT_010aeb54;
-    entries[10].arg00 = &DAT_010aeb98;
+    entries[10].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[10].arg01 = &DAT_01063f3c;
-    entries[10].arg02 = &DAT_010aed54;
-    entries[10].arg03 = &DAT_01011584;
-    entries[10].arg04 = &DAT_010aeba0;
-    entries[10].arg05 = &DAT_01011584;
+    entries[10].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[10].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[10].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
+    entries[10].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[10].arg06 = 0;
-    FUN_00ec61c0(&entries[10].arg07, 0, 44);
+    std::memset(&entries[10].arg07, 0, 44);
     // Shader variant 11
     entries[11].filename = &DAT_010aeb54;
-    entries[11].arg00 = &DAT_010aec10;
-    entries[11].arg01 = &DAT_01011584;
-    entries[11].arg02 = &DAT_010aeb98;
+    entries[11].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[11].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[11].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[11].arg03 = &DAT_01063f3c;
-    entries[11].arg04 = &DAT_010aed54;
-    entries[11].arg05 = &DAT_01011584;
-    entries[11].arg06 = &DAT_010aeba0;
-    entries[11].arg07 = &DAT_01011584;
+    entries[11].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[11].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[11].arg06 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
+    entries[11].arg07 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[11].arg08 = 0;
     entries[11].arg09 = 0;
     entries[11].arg10 = 0;
@@ -17129,42 +16444,42 @@ void ShaderManager::InitShaderPrograms()
     entries[11].tail = ShaderTail();
     // Shader variant 12
     entries[12].filename = &DAT_010aeb54;
-    entries[12].arg00 = &DAT_010aeb98;
-    entries[12].arg01 = &DAT_01063f30;
-    entries[12].arg02 = &DAT_010aed54;
-    entries[12].arg03 = &DAT_01011584;
+    entries[12].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
+    entries[12].arg01 = &(*reinterpret_cast<char *>(&::DAT_01063f30));
+    entries[12].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[12].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[12].arg04 = 0;
-    FUN_00ec61c0(&entries[12].arg05, 0, 52);
+    std::memset(&entries[12].arg05, 0, 52);
     // Shader variant 13
     entries[13].filename = &DAT_010aeb54;
-    entries[13].arg00 = &DAT_010aec10;
-    entries[13].arg01 = &DAT_01011584;
-    entries[13].arg02 = &DAT_010aeb98;
-    entries[13].arg03 = &DAT_01063f30;
-    entries[13].arg04 = &DAT_010aed54;
-    entries[13].arg05 = &DAT_01011584;
+    entries[13].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[13].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[13].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
+    entries[13].arg03 = &(*reinterpret_cast<char *>(&::DAT_01063f30));
+    entries[13].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[13].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[13].arg06 = 0;
-    FUN_00ec61c0(&entries[13].arg07, 0, 44);
+    std::memset(&entries[13].arg07, 0, 44);
     // Shader variant 14
     entries[14].filename = &DAT_010aeb54;
-    entries[14].arg00 = &DAT_010aeb98;
-    entries[14].arg01 = &DAT_01063f30;
-    entries[14].arg02 = &DAT_010aed54;
-    entries[14].arg03 = &DAT_01011584;
-    entries[14].arg04 = &DAT_010aeba0;
-    entries[14].arg05 = &DAT_01011584;
+    entries[14].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
+    entries[14].arg01 = &(*reinterpret_cast<char *>(&::DAT_01063f30));
+    entries[14].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[14].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[14].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
+    entries[14].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[14].arg06 = 0;
-    FUN_00ec61c0(&entries[14].arg07, 0, 44);
+    std::memset(&entries[14].arg07, 0, 44);
     // Shader variant 15
     entries[15].filename = &DAT_010aeb54;
-    entries[15].arg00 = &DAT_010aec10;
-    entries[15].arg01 = &DAT_01011584;
-    entries[15].arg02 = &DAT_010aeb98;
-    entries[15].arg03 = &DAT_01063f30;
-    entries[15].arg04 = &DAT_010aed54;
-    entries[15].arg05 = &DAT_01011584;
-    entries[15].arg06 = &DAT_010aeba0;
-    entries[15].arg07 = &DAT_01011584;
+    entries[15].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[15].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[15].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
+    entries[15].arg03 = &(*reinterpret_cast<char *>(&::DAT_01063f30));
+    entries[15].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[15].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[15].arg06 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
+    entries[15].arg07 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[15].arg08 = 0;
     entries[15].arg09 = 0;
     entries[15].arg10 = 0;
@@ -17172,95 +16487,95 @@ void ShaderManager::InitShaderPrograms()
     entries[15].tail = ShaderTail();
     // Shader variant 16
     entries[16].filename = &DAT_010aeb34;
-    entries[16].arg00 = &DAT_010aeb98;
+    entries[16].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[16].arg01 = &DAT_01063f3c;
-    entries[16].arg02 = &DAT_010aed54;
-    entries[16].arg03 = &DAT_01011584;
+    entries[16].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[16].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[16].arg04 = 0;
-    FUN_00ec61c0(&entries[16].arg05, 0, 52);
+    std::memset(&entries[16].arg05, 0, 52);
     // Shader variant 17
     entries[17].filename = &DAT_010aeb34;
-    entries[17].arg00 = &DAT_010aeb98;
+    entries[17].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[17].arg01 = &DAT_01063f3c;
-    entries[17].arg02 = &DAT_010aec10;
-    entries[17].arg03 = &DAT_01011584;
-    entries[17].arg04 = &DAT_010aed54;
-    entries[17].arg05 = &DAT_01011584;
+    entries[17].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[17].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[17].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[17].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[17].arg06 = 0;
-    FUN_00ec61c0(&entries[17].arg07, 0, 44);
+    std::memset(&entries[17].arg07, 0, 44);
     // Shader variant 18
     entries[18].filename = &DAT_010aeb34;
-    entries[18].arg00 = &DAT_010aeb98;
-    entries[18].arg01 = &DAT_01063f30;
-    entries[18].arg02 = &DAT_010aed54;
-    entries[18].arg03 = &DAT_01011584;
+    entries[18].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
+    entries[18].arg01 = &(*reinterpret_cast<char *>(&::DAT_01063f30));
+    entries[18].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[18].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[18].arg04 = 0;
-    FUN_00ec61c0(&entries[18].arg05, 0, 52);
+    std::memset(&entries[18].arg05, 0, 52);
     // Shader variant 19
     entries[19].filename = &DAT_010aeb34;
-    entries[19].arg00 = &DAT_010aeb98;
-    entries[19].arg01 = &DAT_01063f30;
-    entries[19].arg02 = &DAT_010aec10;
-    entries[19].arg03 = &DAT_01011584;
-    entries[19].arg04 = &DAT_010aed54;
-    entries[19].arg05 = &DAT_01011584;
+    entries[19].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
+    entries[19].arg01 = &(*reinterpret_cast<char *>(&::DAT_01063f30));
+    entries[19].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[19].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[19].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[19].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[19].arg06 = 0;
-    FUN_00ec61c0(&entries[19].arg07, 0, 44);
+    std::memset(&entries[19].arg07, 0, 44);
     // Shader variant 20
     entries[20].filename = &DAT_010aeb70;
-    entries[20].arg00 = &DAT_010aeb98;
+    entries[20].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[20].arg01 = &DAT_01063ee8;
-    entries[20].arg02 = &DAT_010aed54;
-    entries[20].arg03 = &DAT_01011584;
+    entries[20].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[20].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[20].arg04 = 0;
-    FUN_00ec61c0(&entries[20].arg05, 0, 52);
+    std::memset(&entries[20].arg05, 0, 52);
     // Shader variant 21
     entries[21].filename = &DAT_010aeb70;
-    entries[21].arg00 = &DAT_010aeb98;
+    entries[21].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[21].arg01 = &DAT_01063ee8;
-    entries[21].arg02 = &DAT_010aec10;
-    entries[21].arg03 = &DAT_01011584;
-    entries[21].arg04 = &DAT_010aed54;
+    entries[21].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[21].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[21].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[21].arg05 = 0;
     entries[21].arg06 = 0;
-    FUN_00ec61c0(&entries[21].arg07, 0, 44);
+    std::memset(&entries[21].arg07, 0, 44);
     // Shader variant 22
     entries[22].filename = &DAT_010aeb70;
-    entries[22].arg00 = &DAT_010aeb98;
+    entries[22].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[22].arg01 = &DAT_01063f24;
-    entries[22].arg02 = &DAT_010aed54;
-    entries[22].arg03 = &DAT_01011584;
+    entries[22].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
+    entries[22].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[22].arg04 = 0;
-    FUN_00ec61c0(&entries[22].arg05, 0, 52);
+    std::memset(&entries[22].arg05, 0, 52);
     // Shader variant 23
     entries[23].filename = &DAT_010aeb70;
-    entries[23].arg00 = &DAT_010aeb98;
+    entries[23].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[23].arg01 = &DAT_01063f24;
-    entries[23].arg02 = &DAT_010aec10;
-    entries[23].arg03 = &DAT_01011584;
-    entries[23].arg04 = &DAT_010aed54;
+    entries[23].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[23].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[23].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[23].arg05 = 0;
     entries[23].arg06 = 0;
-    FUN_00ec61c0(&entries[23].arg07, 0, 44);
+    std::memset(&entries[23].arg07, 0, 44);
     // Shader variant 24
     entries[24].filename = &DAT_010aeb70;
-    entries[24].arg00 = &DAT_010aeb8c;
-    entries[24].arg01 = &DAT_01011584;
-    entries[24].arg02 = &DAT_010aeb98;
+    entries[24].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SPECULAR));
+    entries[24].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[24].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[24].arg03 = &DAT_01063f24;
-    entries[24].arg04 = &DAT_010aed54;
+    entries[24].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[24].arg05 = 0;
     entries[24].arg06 = 0;
-    FUN_00ec61c0(&entries[24].arg07, 0, 44);
+    std::memset(&entries[24].arg07, 0, 44);
     // Shader variant 25
     entries[25].filename = &DAT_010aeb70;
-    entries[25].arg00 = &DAT_010aeb8c;
-    entries[25].arg01 = &DAT_01011584;
-    entries[25].arg02 = &DAT_010aeb98;
+    entries[25].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SPECULAR));
+    entries[25].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[25].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
     entries[25].arg03 = &DAT_01063f24;
-    entries[25].arg04 = &DAT_010aec10;
-    entries[25].arg05 = &DAT_01011584;
-    entries[25].arg06 = &DAT_010aed54;
+    entries[25].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
+    entries[25].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
+    entries[25].arg06 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[25].arg07 = 0;
     entries[25].arg08 = 0;
     entries[25].arg09 = 0;
@@ -17278,7 +16593,7 @@ void ShaderManager::InitShaderPrograms()
             {
                 FUN_00be0c00(entry.filename, path);
                 FUN_00406d00(name, 260, &DAT_010bb95c, i);
-                m_programs[i] = FUN_00be0fe0(path, &entry.arg00, &DAT_010a93e4, name);
+                m_programs[i] = ((::ShaderObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(path), (::_D3DXMACRO *)(&entry.arg00), (const char *)(::ShaderInit::DAT_010a93e4), name)));
             }
         }
     }
@@ -17337,14 +16652,13 @@ class PropBD3F
 class ObjBD3F
 {
   public:
-    PropBD3F* FUN_00a59d30(unsigned int uiType);
 };
 
 // Gets the type-3 property of pkObj, uses it only if m_iShaderType is 10, sets m_i58 to 4, calls vf9C(pkObj) and always returns true.
 // @fnv 0x00bd3fc0
-bool __stdcall FUN_00bd3fc0(ObjBD3F* pkObj)
+bool FUN_00bd3fc0(ObjBD3F* pkObj)
 {
-    PropBD3F* pkProp = pkObj->FUN_00a59d30(3);
+    PropBD3F* pkProp = ((::PropBD3F *)(reinterpret_cast<::FUN_00a59d30_C *>((pkObj))->FUN_00a59d30(3)));
     PropBD3F* pkShader = (pkProp ? pkProp->m_iShaderType == 10 : false) ? pkProp : 0;
     pkShader->m_i58 = 4;
     pkShader->vf9C(pkObj);
@@ -17363,14 +16677,6 @@ struct NiFrustum
 
     NiFrustum(bool bOrtho);
 };
-
-extern "C" double __cdecl tan(double);
-inline float tanf(float _X)
-{
-    return (float)tan((double)_X);
-}
-
-extern float g_011c7b14_arg1;
 
 class FUN_00a712f0
 {
@@ -17447,19 +16753,97 @@ class FUN_00a712f0
     }
 };
 
+class NiAVObject;
 struct BSShaderManager
 {
     enum BATCHRENDERER_CREATION_MODE
     {
         BRCM_DEFAULT
     };
+public:
+    static void UpdateObjectTypeRecurse(::NiAVObject *, bool, bool);
 };
+// @fnv 0x00bd6190
+FUN_00bd6190::FUN_00bd6190(Source* src, int argValue, bool flag)
+{
+    capacity = src->count;
+    source = src;
+    arg = argValue;
+    values = new Vec[capacity];
+    indices = new IntElement[capacity];
+    for (int index = 0; index < capacity; ++index)
+    {
+        values[index].x = 0;
+        values[index].y = 0;
+        values[index].z = 0;
+        values[index].w = 0;
+        indices[index].value = 0;
+    }
+    count = capacity;
+    for (int index = 0; index < count; ++index)
+    {
+        values[index].z = 0;
+        values[index].w = 0;
+        indices[index].value = 0;
+    }
+    count = 0;
+    reinterpret_cast<::S_00bd6150_Foo *>(this)->FUN_00bd5e40();
+    geometry = (Geometry*)0;
+    int data = src->data;
+    if (src->mode == 1)
+        geometry = new FUN_00c1a480(data);
+    else
+        geometry = new FUN_00c1a660(data);
+    Ref* prop = DAT_011f91c0 < 2 ? src->prop2 : src->prop1;
+    if (prop)
+        reinterpret_cast<::FUN_00439410_cls *>(((geometry).operator->()))->FUN_00439410((::ArgObject *)(prop));
+    if (src->prop3)
+        reinterpret_cast<::FUN_00439410_cls *>(((geometry).operator->()))->FUN_00439410((::ArgObject *)(src->prop3));
+    FUN_00b57f90* shader = new FUN_00b57f90;
+    shader->texture = src->texture;
+    shader->parent = this;
+    if (flag)
+    {
+        if (!(shader->flags20 & 4))
+            shader->dirty = 0;
+        shader->flags20 |= 4;
+    }
+    else
+    {
+        if (shader->flags20 & 4)
+            shader->dirty = 0;
+        shader->flags20 &= ~4;
+    }
+    if (src->flag)
+    {
+        if (!(shader->flags24 & 0x2000))
+            shader->dirty = 0;
+        shader->flags24 |= 0x2000;
+    }
+    else
+    {
+        if (shader->flags24 & 0x2000)
+            shader->dirty = 0;
+        shader->flags24 &= ~0x2000;
+    }
+    reinterpret_cast<::FUN_00439410_cls *>(((geometry).operator->()))->FUN_00439410((::ArgObject *)(shader));
+    property = shader;
+    ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::Geometry *)(geometry), 0, 0);
+    Owner* owner = geometry->owner;
+    if (!owner || !owner->program)
+    {
+        int total = src->multiplier * src->count;
+        FUN_00ba63e0* program = new FUN_00ba63e0(total, true);
+        reinterpret_cast<::FUN_00a72ca0_Class *>((program))->FUN_00a72ca0(true);
+        reinterpret_cast<::A72BB0_DataStreamOwner *>((program))->FUN_00a72bb0(0, (void *)(src->indices), total * 4, 0);
+        reinterpret_cast<::FUN_00a726a0_cls *>((program))->FUN_00a726a0(0, 0, 0, (void *)(1), total, 4, 4);
+        reinterpret_cast<::NiGPUProgramOwner *>((geometry->owner))->SetProgram((::NiGPUProgram *)(program));
+    }
+}
 
 class BSShaderAccumulator : public RefObj_bd74a0
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
     BSShaderAccumulator(BSShaderManager::BATCHRENDERER_CREATION_MODE eMode, unsigned int uiA, unsigned int uiB);
 
     int unk008;
@@ -17650,14 +17034,14 @@ FUN_00bd8290::FUN_00bd8290(int iArg)
 
     NiFrustum kFrustum(false);
     kFrustum.m_bOrthographic = false;
-    double dTan = tanf(0.7853982f);
+    double dTan = static_cast<float>(std::tan(static_cast<double>(0.7853982f)));
     float fTan = (float)dTan;
     kFrustum.m_fLeftBound = -fTan;
     kFrustum.m_fRightBound = fTan;
     kFrustum.m_fTopBound = fTan;
     kFrustum.m_fBottomBound = -fTan;
     kFrustum.m_fNearPlane = 1.0f;
-    kFrustum.m_fFarPlane = g_011c7b14_arg1;
+    kFrustum.m_fFarPlane = ::g_011c7b14_arg1;
     UpdateViewFrustum(kFrustum);
 
     m_sp13c = new BSShaderAccumulator((BSShaderManager::BATCHRENDERER_CREATION_MODE)0x63, 1, 0x2f7);
@@ -17666,10 +17050,6 @@ FUN_00bd8290::FUN_00bd8290(int iArg)
 struct NiGeometry;
 struct ShadowSceneLight;
 
-extern SelectColor DAT_011f4998;
-extern int DAT_011f91c0;
-extern unsigned int DAT_011ad828;
-extern unsigned char DAT_011f91a7;
 
 struct PassElem
 {
@@ -17687,7 +17067,7 @@ struct PassSinkBdaf10
     int unk08;
     int unk0c;
     int m_10;
-    void __thiscall FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
+    void FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
                                  ShadowSceneLight*, ShadowSceneLight*);
 };
 
@@ -17868,7 +17248,6 @@ struct IterObj
 
 struct NiGeometry
 {
-    GeomInfo* __thiscall FUN_00a59d30(int);
 };
 
 struct ShaderBdaf10
@@ -17925,21 +17304,19 @@ struct ShaderBdaf10
     int unkc4;
     unsigned short m_c8;
     short unk_ca;
-    IterObj* __thiscall FUN_00b70600(void*);
-    IterObj* __thiscall FUN_00b70700(void*);
-    void __thiscall EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
+    void EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
                                      unsigned char type, bool* out, bool flag6);
 };
 
 // Emits shadow rendering passes for geom and light into m_3c, or increments *count when type is not 1.
 // @fnv 0x00bdaf10
-void __thiscall ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
+void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
                                                unsigned char type, bool* out, bool flag6)
 {
-    GeomInfo* info = geom->FUN_00a59d30(3);
+    GeomInfo* info = ((::GeomInfo *)(reinterpret_cast<::FUN_00a59d30_C *>((geom))->FUN_00a59d30(3)));
     bool* pOut = out;
     bool flag = DAT_011f91c0 <= 1;
-    unsigned short n = (m_c8 < DAT_011ad828) ? m_c8 : DAT_011ad828;
+    unsigned short n = (m_c8 < (*reinterpret_cast<unsigned int *>(&::DAT_011ad828))) ? m_c8 : (*reinterpret_cast<unsigned int *>(&::DAT_011ad828));
     if (DAT_011f91a7)
     {
         if (type == 1)
@@ -17989,20 +17366,20 @@ void __thiscall ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLigh
     if (flag)
     {
         void* cursor;
-        IterObj* obj = FUN_00b70600(&cursor);
+        IterObj* obj = ((::IterObj *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
         while (obj)
         {
             if (!obj)
                 break;
             SelectColor& col = obj->m_f8->m_d4;
-            if (!(col.r == DAT_011f4998.r && col.g == DAT_011f4998.g && col.b == DAT_011f4998.b))
+            if (!(col.r == (*reinterpret_cast<::SelectColor *>(&::DAT_011f4998)).r && col.g == (*reinterpret_cast<::SelectColor *>(&::DAT_011f4998)).g && col.b == (*reinterpret_cast<::SelectColor *>(&::DAT_011f4998)).b))
             {
                 if (type == 1)
                     m_3c->FUN_00ba9ee0(geom, 0x1ef, *pOut, 1, (ShadowSceneLight*)obj, 0, 0, 0);
                 else
                     ++*count;
             }
-            obj = FUN_00b70700(&cursor);
+            obj = ((::IterObj *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
         }
     }
     for (unsigned char i = 0; i < n; ++i)
@@ -18054,13 +17431,13 @@ void __thiscall ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLigh
         if (flag)
         {
             void* cursor;
-            IterObj* obj = FUN_00b70600(&cursor);
+            IterObj* obj = ((::IterObj *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
             while (obj)
             {
                 if (!obj)
                     break;
                 SelectColor& col = obj->m_f8->m_d4;
-                if (!(col.r == DAT_011f4998.r && col.g == DAT_011f4998.g && col.b == DAT_011f4998.b))
+                if (!(col.r == (*reinterpret_cast<::SelectColor *>(&::DAT_011f4998)).r && col.g == (*reinterpret_cast<::SelectColor *>(&::DAT_011f4998)).g && col.b == (*reinterpret_cast<::SelectColor *>(&::DAT_011f4998)).b))
                 {
                     if (type == 1)
                     {
@@ -18072,7 +17449,7 @@ void __thiscall ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLigh
                         ++*count;
                     }
                 }
-                obj = FUN_00b70700(&cursor);
+                obj = ((::IterObj *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
             }
         }
     }
@@ -18096,13 +17473,13 @@ struct BDBF60_Shader
     int unk34;
     int unk38;
     BSShaderProperty::ShaderPassList* pPasses;
-    int __thiscall FUN_00bdbf60(NiGeometry* geom, ShadowSceneLight* light, ShadowSceneLight* alternateLight,
+    int FUN_00bdbf60(NiGeometry* geom, ShadowSceneLight* light, ShadowSceneLight* alternateLight,
                                 unsigned short* count, unsigned char type, bool* enabled, bool sharedPass,
                                 bool useAlternatePass, bool useSpecialPass);
 };
 // If type is 1, adds a pass to pPasses for geom, with the pass id and light chosen by the flags; otherwise increments *count.
 // @fnv 0x00bdbf60
-int __thiscall BDBF60_Shader::FUN_00bdbf60(NiGeometry* geom, ShadowSceneLight* light, ShadowSceneLight* alternateLight,
+int BDBF60_Shader::FUN_00bdbf60(NiGeometry* geom, ShadowSceneLight* light, ShadowSceneLight* alternateLight,
                                            unsigned short* count, unsigned char type, bool* enabled, bool sharedPass,
                                            bool useAlternatePass, bool useSpecialPass)
 {
@@ -18166,14 +17543,14 @@ struct ShaderPassOwner
     unsigned int unk38;
     BSShaderProperty::ShaderPassList* pPasses;
     typedef BSShaderProperty::ShaderPassList RPA;
-    int __thiscall AddShadowPass(NiGeometry* geom, ShadowSceneLight* l0, ShadowSceneLight* l1, ShadowSceneLight* l2,
+    int AddShadowPass(NiGeometry* geom, ShadowSceneLight* l0, ShadowSceneLight* l1, ShadowSceneLight* l2,
                                  unsigned short* count, bool flag, bool* out, bool b8, bool b9, bool b10, bool b11,
                                  bool b12, bool b13, bool b14);
 };
 extern "C" void _ReadWriteBarrier();
 // Picks a pass id (233-250) from the b8-b14 flags and adds it to pPasses with the lights when flag is true, else increments *count; always clears *out.
 // @fnv 0x00bdc530
-int __thiscall ShaderPassOwner::AddShadowPass(NiGeometry* apGeometry, ShadowSceneLight* apLight0,
+int ShaderPassOwner::AddShadowPass(NiGeometry* apGeometry, ShadowSceneLight* apLight0,
                                               ShadowSceneLight* apLight1, ShadowSceneLight* apLight2,
                                               unsigned short* count, bool flag, bool* out, bool b8, bool b9, bool b10,
                                               bool b11, bool b12, bool b13, bool b14)
@@ -18402,8 +17779,6 @@ done:
 }
 
 // FUN_00bc2660: thiscall, /MT /O2 /GS /EHsc /Gy, 2 float stack args, returns void
-extern const double DAT_01012060;
-float __cdecl FUN_00ec9e10(double x);
 int __cdecl FUN_00ec62c0();
 
 class FUN_00bc2660_cls
@@ -18508,7 +17883,6 @@ class FUN_00bc2660_cls
     float m_180;
     int unk184;
     int m_188;
-    void FUN_00bc2590(int n);
     void FUN_00bc2660(float a1, float a2);
 };
 
@@ -18519,16 +17893,16 @@ void FUN_00bc2660_cls::FUN_00bc2660(float a1, float a2)
     m_070 = m_070 + a1;
     float t1 = a2 - m_084;
     float x = t1 / m_144;
-    volatile float t3v = FUN_00ec9e10(x);
+    volatile float t3v = std::ceil(x);
     float t3 = t3v;
     m_084 = t3 * m_144 + m_084;
     int n = (int)t3;
-    FUN_00bc2590(n);
+    reinterpret_cast<::FUN_00bc2590_cls *>(this)->FUN_00bc2590(n);
     float t4 = m_084;
     float t5 = (float)m_140 * m_144;
     float t6 = (t4 < t5) ? t4 : t5;
     float t7 = m_084 - t6;
-    float t8 = (t7 < DAT_01012060) ? 0.0f : t7;
+    float t8 = (t7 < ::_DAT_01012060) ? 0.0f : t7;
     m_188 += n;
     m_180 = t8;
 }
@@ -18563,9 +17937,9 @@ void FloatController3080::FUN_00bc3080(NiUpdateDataBC3& kUpdateData)
 {
     if (GetManagerControlled())
     {
-        m_fControllerTime = g_fInvalidTimeBC3;
+        m_fControllerTime = ::DAT_01096324;
     }
-    else if (AdvanceController(kUpdateData.m_fTime) &&
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(kUpdateData.m_fTime) &&
              (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;
@@ -18654,9 +18028,9 @@ void IntControllerBC3::FUN_00bc3290(NiUpdateDataBC3& kUpdateData)
 {
     if (GetManagerControlled())
     {
-        m_fControllerTime = g_fInvalidTimeBC3;
+        m_fControllerTime = ::DAT_01096324;
     }
-    else if (AdvanceController(kUpdateData.m_fTime) &&
+    else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(kUpdateData.m_fTime) &&
              (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;
@@ -18747,8 +18121,6 @@ struct Target
     int unk004;
     void* m_pvTexture;
 
-    void ApplyPairToState(int iFlags);
-    void FUN_00e7eb00(int iArg);
 };
 
 struct TargetHolder
@@ -18765,13 +18137,12 @@ struct TargetHolder
     Target** m_ppkTarget;
 };
 
-extern TargetHolder* DAT_0126f74c;
 
 // If the event's source has a texture, stores it in the target at *DAT_0126f74c->m_ppkTarget, calls ApplyPairToState with the source flags, then FUN_00e7eb00(0).
 // @fnv 0x00bc8d40
-void __stdcall OnTextureEvent(Event* pkEvent)
+void OnTextureEvent(Event* pkEvent)
 {
-    Target* pkTarget = *DAT_0126f74c->m_ppkTarget;
+    Target* pkTarget = *(*reinterpret_cast<::sbc8d40::TargetHolder * *>(&::DAT_0126f74c))->m_ppkTarget;
     if (pkTarget)
     {
         Source* pkSource = pkEvent->m_pkSource;
@@ -18779,8 +18150,8 @@ void __stdcall OnTextureEvent(Event* pkEvent)
         if (pvTexture)
         {
             pkTarget->m_pvTexture = pvTexture;
-            pkTarget->ApplyPairToState(pkSource->GetFlags());
-            pkTarget->FUN_00e7eb00(0);
+            reinterpret_cast<::E7DE90Owner *>((pkTarget))->ApplyPairToState(pkSource->GetFlags());
+            reinterpret_cast<::NiD3DPass *>((pkTarget))->ApplyRenderStateChanges(0);
         }
     }
 }
@@ -18789,9 +18160,6 @@ void __stdcall OnTextureEvent(Event* pkEvent)
 
 struct S_00bcc590_Foo
 {
-    void SetEntryField(int);
-    void FUN_00b7c170(int);
-    void SetPassValues(unsigned int);
     void FUN_00bcc590(unsigned int);
 };
 // Switches on value: some set SetEntryField/FUN_00b7c170 to 4/5, 5/6 or 6/7, a listed set does nothing, and the rest call SetPassValues(value).
@@ -18819,15 +18187,15 @@ void S_00bcc590_Foo::FUN_00bcc590(unsigned int value)
     case 0x174:
         break;
     case 0x162:
-        SetEntryField(4);
-        FUN_00b7c170(5);
+        ::SetEntryField(4);
+        ::FUN_00b7c170(5);
         break;
     case 0xe2:
     case 0xe3:
     case 0xf4:
     case 0xf5:
-        SetEntryField(5);
-        FUN_00b7c170(6);
+        ::SetEntryField(5);
+        ::FUN_00b7c170(6);
         break;
     case 0xa4:
     case 0xa5:
@@ -18837,18 +18205,17 @@ void S_00bcc590_Foo::FUN_00bcc590(unsigned int value)
     case 0x10f:
     case 0x124:
     case 0x125:
-        SetEntryField(6);
-        FUN_00b7c170(7);
+        ::SetEntryField(6);
+        ::FUN_00b7c170(7);
         break;
     default:
-        SetPassValues(value);
+        ::SetPassValues(value);
         break;
     }
 }
 
 struct ManagerBase
 {
-    void FUN_00b71b90();
 };
 
 namespace sbcc6f0 {
@@ -18998,7 +18365,7 @@ void Manager::ResetAllPasses()
         if (pkPass)
             pkPass->Reset();
     }
-    FUN_00b71b90();
+    reinterpret_cast<::FUN_00b71b90_class *>(this)->FUN_00b71b90();
 }
 
 }
@@ -19103,10 +18470,7 @@ class Renderer_ce40
     virtual void v3b();
     virtual void SetShaderTechnique(unsigned int uiTechnique);
 };
-Renderer_ce40* __cdecl GetShaderRenderer_ce40(int);
 
-extern int g_iCurrentPass_ce40;
-extern int g_aiPassIndex_ce40[33];
 
 class TechniqueShader_ce40
 {
@@ -19117,7 +18481,6 @@ class TechniqueShader_ce40
     unsigned int unk60, unk64, unk68;
     PassObject_ce40* m_pkDefaultPass;
 
-    void SelectShaderProgram(unsigned int uiTechnique);
     void SetTechniquePass(unsigned int uiTechnique);
 };
 
@@ -19128,122 +18491,119 @@ void TechniqueShader_ce40::SetTechniquePass(unsigned int uiTechnique)
     switch (uiTechnique)
     {
     case 0xd9:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[0];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[0];
         break;
     case 0xda:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[1];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[1];
         break;
     case 0xe2:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[2];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[2];
         break;
     case 0xe3:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[3];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[3];
         break;
     case 0xeb:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[4];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[4];
         break;
     case 0xec:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[5];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[5];
         break;
     case 0xf4:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[6];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[6];
         break;
     case 0xf5:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[7];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[7];
         break;
     case 0x99:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[17];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[17];
         break;
     case 0x9a:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[18];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[18];
         break;
     case 0xa4:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[19];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[19];
         break;
     case 0xa5:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[20];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[20];
         break;
     case 0xaf:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[21];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[21];
         break;
     case 0xb0:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[22];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[22];
         break;
     case 0xba:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[23];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[23];
         break;
     case 0xbb:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[24];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[24];
         break;
     case 1:
     case 2:
-        SelectShaderProgram(uiTechnique);
-        GetShaderRenderer_ce40(1)->SetShaderTechnique(uiTechnique);
+        reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
+        ((::Renderer_ce40 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         m_pkTechniquePass = m_pkDefaultPass;
         break;
     case 0x101:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[8];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[8];
         break;
     case 0x102:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[9];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[9];
         break;
     case 0x103:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[10];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[10];
         break;
     case 0x10e:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[11];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[11];
         break;
     case 0x10f:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[12];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[12];
         break;
     case 0x119:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[13];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[13];
         break;
     case 0x11a:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[14];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[14];
         break;
     case 0x124:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[15];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[15];
         break;
     case 0x125:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[16];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[16];
         break;
     case 0x134:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[25];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[25];
         break;
     case 0x140:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[26];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[26];
         break;
     case 0x153:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[27];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[27];
         break;
     case 0x15c:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[28];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[28];
         break;
     case 0x162:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[29];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[29];
         break;
     case 0x168:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[30];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[30];
         break;
     case 0x16e:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[31];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[31];
         break;
     case 0x174:
-        g_iCurrentPass_ce40 = g_aiPassIndex_ce40[32];
+        ::DAT_0126f74c = (*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[32];
         break;
     default:
-        SelectShaderProgram(uiTechnique);
-        GetShaderRenderer_ce40(1)->SetShaderTechnique(uiTechnique);
+        reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
+        ((::Renderer_ce40 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         break;
     }
 }
 
 struct ShaderPassSetup_bce800
 {
-    void SetVertexShaderSlot(int iSlot);
-    void SetPixelShaderSlot(int iSlot);
-    void SetupDefaultPass(unsigned int uiPass);
     void FUN_00bce800(unsigned int uiPass);
 };
 
@@ -19276,18 +18636,18 @@ void ShaderPassSetup_bce800::FUN_00bce800(unsigned int uiPass)
     case 0xe7:
     case 0xf6:
     case 0xf9:
-        SetVertexShaderSlot(5);
-        SetPixelShaderSlot(6);
+        ::SetEntryField(5);
+        ::FUN_00b7c170(6);
         break;
     case 0x10d:
     case 0x113:
     case 0x123:
     case 0x129:
-        SetVertexShaderSlot(6);
-        SetPixelShaderSlot(7);
+        ::SetEntryField(6);
+        ::FUN_00b7c170(7);
         break;
     default:
-        SetupDefaultPass(uiPass);
+        ::SetPassValues(uiPass);
         break;
     }
 }
@@ -19404,7 +18764,6 @@ class Renderer_fd20
     virtual void v3b();
     virtual void SetShaderTechnique(unsigned int uiTechnique);
 };
-Renderer_fd20* __cdecl GetShaderRenderer_fd20(int);
 
 class Program_fd20
 {
@@ -19423,8 +18782,6 @@ class Program_fd20
     }
 };
 
-extern int g_iCurrentPass_fd20;
-extern int g_aiPassIndex_fd20[26];
 
 class TechniqueShader_fd20
 {
@@ -19443,7 +18800,6 @@ class TechniqueShader_fd20
     PassPointer_fd20<Program_fd20> m_spVertexProgramDefault;
     PassPointer_fd20<Program_fd20> m_spPixelProgramDefault;
 
-    void SelectShaderProgram(unsigned int uiTechnique);
     void FUN_00bcfd20(unsigned int uiTechnique);
 };
 
@@ -19454,138 +18810,137 @@ void TechniqueShader_fd20::FUN_00bcfd20(unsigned int uiTechnique)
     switch (uiTechnique)
     {
     case 0xdb:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[0];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[0];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0xde:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[1];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[1];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0xe4:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[2];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[2];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0xe7:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[3];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[3];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0xed:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[4];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[4];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0xf0:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[5];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[5];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0xf6:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[6];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[6];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0xf9:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[7];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[7];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0xc5:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[20];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[20];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0xc8:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[21];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[21];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0xcc:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[22];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[22];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0xcf:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[23];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[23];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0xd3:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[24];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[24];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0xd6:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[25];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[25];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 1:
     case 2:
-        SelectShaderProgram(uiTechnique);
-        GetShaderRenderer_fd20(1)->SetShaderTechnique(uiTechnique);
+        reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
+        ((::Renderer_fd20 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 3:
-        SelectShaderProgram(uiTechnique);
-        GetShaderRenderer_fd20(1)->SetShaderTechnique(uiTechnique);
+        reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
+        ((::Renderer_fd20 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0x100:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[8];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[8];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0x107:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[9];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[9];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0x10d:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[10];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[10];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0x113:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[11];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[11];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0x118:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[12];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[12];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0x11e:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[13];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[13];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0x123:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[14];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[14];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0x129:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[15];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[15];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0x133:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[16];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[16];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0x136:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[17];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[17];
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0x13f:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[18];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[18];
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 0x142:
-        g_iCurrentPass_fd20 = g_aiPassIndex_fd20[19];
+        ::DAT_0126f74c = g_aiPassIndex_fd20[19];
         m_pkTechniquePass = m_pkPass70;
         break;
     default:
-        SelectShaderProgram(uiTechnique);
-        GetShaderRenderer_fd20(1)->SetShaderTechnique(uiTechnique);
+        reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
+        ((::Renderer_fd20 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         break;
     }
     if (uiTechnique == 0x250 || uiTechnique == 0x251)
     {
-        m_spVertexProgram = m_spVertexProgram250;
-        m_spPixelProgram = m_spPixelProgram250;
+        reinterpret_cast<::FUN_00c663d0 *>((void *)&(const ::PassPointer_fd20< ::Program_fd20> &)(m_spVertexProgram))->operator=((const ::FUN_00c663d0 &)(m_spVertexProgram250));
+        reinterpret_cast<::FUN_00c663d0 *>((void *)&(const ::PassPointer_fd20< ::Program_fd20> &)(m_spPixelProgram))->operator=((const ::FUN_00c663d0 &)(m_spPixelProgram250));
     }
     else
     {
-        m_spVertexProgram = m_spVertexProgramDefault;
-        m_spPixelProgram = m_spPixelProgramDefault;
+        reinterpret_cast<::FUN_00c663d0 *>((void *)&(const ::PassPointer_fd20< ::Program_fd20> &)(m_spVertexProgram))->operator=((const ::FUN_00c663d0 &)(m_spVertexProgramDefault));
+        reinterpret_cast<::FUN_00c663d0 *>((void *)&(const ::PassPointer_fd20< ::Program_fd20> &)(m_spPixelProgram))->operator=((const ::FUN_00c663d0 &)(m_spPixelProgramDefault));
     }
 }
 
-extern unsigned int DAT_011f91e4;
 struct RenderArgument625
 {
     int unk00;
@@ -19662,10 +19017,6 @@ struct RenderShader625
     virtual void v64();
     virtual void v65();
     virtual void v66();
-    void FUN_00b7c0a0(void*, unsigned int, unsigned int);
-    void FUN_00b7c0e0(void*, unsigned int, unsigned int);
-    void FUN_00b7c1f0(void*, unsigned int, unsigned int, unsigned int);
-    void FUN_00b7d200(RenderArgument625*);
     void SetShaderPasses(RenderArgument625*);
 };
 // @fnv 0x00bd02e0
@@ -19682,9 +19033,9 @@ void RenderShader625::SetShaderPasses(RenderArgument625* arg)
     case 240:
     case 246:
     case 249:
-        FUN_00b7c0a0(pass, 0, 0);
-        FUN_00b7c0e0(pass, 1, 0);
-        FUN_00b7c1f0(pass, 3, 0, 1);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pass), 0, 0);
+        reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 1, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pass), 3, 0, 1);
         break;
     case 197:
     case 200:
@@ -19700,21 +19051,21 @@ void RenderShader625::SetShaderPasses(RenderArgument625* arg)
     case 286:
     case 291:
     case 297:
-        FUN_00b7c0a0(pass, 0, 0);
-        FUN_00b7c0e0(pass, 1, 0);
-        FUN_00b7c0a0(pass, 2, 1);
-        FUN_00b7c0e0(pass, 3, 1);
-        FUN_00b7c1f0(pass, 4, 0, 1);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pass), 0, 0);
+        reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 1, 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pass), 2, 1);
+        reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 3, 1);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pass), 4, 0, 1);
         break;
     case 307:
     case 310:
     case 319:
     case 322:
-        FUN_00b7c0e0(pass, 0, 0);
-        FUN_00b7c1f0(pass, 4, 0, 1);
+        reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 0, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pass), 4, 0, 1);
         break;
     default:
-        FUN_00b7d200(arg);
+        reinterpret_cast<::Host200 *>(this)->FUN_00b7d200((::Arg200 *)(arg));
         return;
     }
     v66();
@@ -19785,11 +19136,6 @@ class NiCamera
     float fieldec;
     float fieldf0;
 };
-extern NiCamera* DAT_011f917c;
-extern float DAT_012023e0;
-extern "C" NiPoint3 DAT_012004f0;
-extern "C" float DAT_011f9410;
-extern "C" float DAT_012003c4;
 struct ShaderPair66
 {
     void* field00;
@@ -19843,13 +19189,13 @@ bool Shader66::UpdateShaderParameters(int unused)
     Callee_00b8a790* shader = shaders->first;
     float low = center - radius;
     float high = radius + center;
-    shader->Run(0, low, high, center, DAT_012023e0);
-    shader->Run(1, parameter, firstFlag, secondFlag, 0.0f);
-    shader->Run(2, -100000000.0f, nearClip, range, product);
+    reinterpret_cast<::ImageSpaceShaderParam *>((shader))->SetShaderConstantVector4(0, low, high, center, DAT_012023e0);
+    reinterpret_cast<::ImageSpaceShaderParam *>((shader))->SetShaderConstantVector4(1, parameter, firstFlag, secondFlag, 0.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((shader))->SetShaderConstantVector4(2, -100000000.0f, nearClip, range, product);
     shader = shaders->second;
-    shader->Run(0, low, high, center, DAT_012023e0);
-    shader->Run(1, parameter, firstFlag, secondFlag, 0.0f);
-    shader->Run(2, -100000000.0f, nearClip, range, product);
+    reinterpret_cast<::ImageSpaceShaderParam *>((shader))->SetShaderConstantVector4(0, low, high, center, DAT_012023e0);
+    reinterpret_cast<::ImageSpaceShaderParam *>((shader))->SetShaderConstantVector4(1, parameter, firstFlag, secondFlag, 0.0f);
+    reinterpret_cast<::ImageSpaceShaderParam *>((shader))->SetShaderConstantVector4(2, -100000000.0f, nearClip, range, product);
     Point3 kUp;
     kUp.x = DAT_011f917c->field6c;
     kUp.y = DAT_011f917c->field78;
@@ -19859,11 +19205,11 @@ bool Shader66::UpdateShaderParameters(int unused)
     kRight.y = DAT_011f917c->field7c;
     kRight.z = DAT_011f917c->field88;
     Point3 kPos = *(const Point3*)&DAT_012004f0;
-    float scale = DAT_011f9410;
+    float scale = ::DAT_011f9410;
     if (scale > 0.0f)
     {
         const float& ratio = distance / (30.0 * scale);
-        shader->Run(3, kRight * kPos, -kUp * kPos, ratio, 0.0f);
+        reinterpret_cast<::ImageSpaceShaderParam *>((shader))->SetShaderConstantVector4(3, kRight * kPos, -kUp * kPos, ratio, 0.0f);
     }
     DAT_012003c4 = 3.0f;
     return true;
@@ -20135,7 +19481,6 @@ struct Renderer_bd7620
     int unk204;
     bool unk208;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 struct NiMemObject_bd7620
 {
 };
@@ -20267,11 +19612,9 @@ struct Culler_bd7620
     int unk08c;
     Culler_bd7620(void* vis);
     ~Culler_bd7620();
-    void SetFrustum(const Frustum_bd7620* fr);
 };
 struct Scene_bd7620
 {
-    void Cull(Culler_bd7620* c);
 };
 struct Cam_bd7620
 {
@@ -20356,7 +19699,7 @@ void Cam_bd7620::CullScene(Scene_bd7620* scene)
         return;
     Pt_bd7620 kRight;
     kRight.x = r02;
-    Renderer_bd7620* r = (Renderer_bd7620*)DAT_011f9508;
+    Renderer_bd7620* r = (Renderer_bd7620*)(*reinterpret_cast<::EventSystem * *>(&::DAT_011f9508));
     int mode = r->unk200;
     kRight.y = r12;
     kRight.z = r22;
@@ -20369,10 +19712,10 @@ void Cam_bd7620::CullScene(Scene_bd7620* scene)
     acc->unk84 = true;
     Culler_bd7620 kCuller(0);
     UpdData_bd7620 kData(0.0f);
-    Update(kData);
+    reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((std::intptr_t)&(kData));
     kCuller.m_pkAccumulationCamera = this;
-    kCuller.SetFrustum(&m_kCameraFrustum);
-    scene->Cull(&kCuller);
+    reinterpret_cast<::S694a0 *>(&(kCuller))->FUN_00a694a0((void *)(&m_kCameraFrustum));
+    reinterpret_cast<::CullerOwner *>((scene))->CullSceneObjects((*(::NiCullingProcess *)(&kCuller)));
     m_p13c->End();
     if (m_p13c->GetRefCount() < 2)
         m_p13c->IncRefCount();
@@ -20468,7 +19811,6 @@ int Shader_00bd9f00::FUN_00bd9f00(NiGeometry* pkGeometry, unsigned short* puiPas
 }
 
 namespace fnv_00bc0c90 {
-extern "C" double __cdecl FUN_00ec9e10(double);
 
 struct Vec2A
 {
@@ -20491,10 +19833,6 @@ struct Color4A
 struct BoltAllocElem
 {
     float x, y, z, w;
-    static void* operator new[](unsigned int bytes)
-    {
-        return DAT_011f6238.FUN_00aa3e40(bytes);
-    }
 };
 
 struct FUN_00bc0c90 : FUN_00be2200
@@ -20574,21 +19912,21 @@ FUN_00bc0c90::FUN_00bc0c90(CountedRef* apSource)
 
     matrix[0] = 0.0f;
     *(Color4A*)&pt1 = Color4A(0.0f, 0.0f, 0.0f, 0.0f);
-    *(Color4A*)&f16C = *(Color4A*)&DAT_011a9be0;
-    *(Color4A*)&f17C = *(Color4A*)&DAT_011a9be0;
+    *(Color4A*)&f16C = *(Color4A*)&(*reinterpret_cast<::RGBWords *>(&::DAT_011a9be0));
+    *(Color4A*)&f17C = *(Color4A*)&(*reinterpret_cast<::RGBWords *>(&::DAT_011a9be0));
 
     if (!DAT_01201f50)
     {
         DAT_01201f50 = (DAT_011f91c0 < 2 ? 0 : 0xa0) + 0x4b;
     }
     float fVal = (float)DAT_01201f50 * 0.25;
-    unsigned int count = (unsigned int)(float)FUN_00ec9e10(fVal);
+    unsigned int count = (unsigned int)(float)std::ceil(fVal);
     count *= 4;
     BoltAllocElem* p = new BoltAllocElem[count];
     *(void**)&value = p;
-    fnv_zlib_memset(p, 0, count * sizeof(BoltAllocElem));
-    fnv_zlib_memset(&unk128, 0, 0x40);
-    fnv_zlib_memset(&matrix[1], 0, 0xa0);
+    std::memset(p, 0, count * sizeof(BoltAllocElem));
+    std::memset(&unk128, 0, 0x40);
+    std::memset(&matrix[1], 0, 0xa0);
 }
 }  // namespace fnv_00bc0c90
 
@@ -20609,10 +19947,6 @@ struct Lighting30Packet4
 {
     float x, y, z, w;
 };
-extern NLPt4 DAT_01202148;
-extern NLPt4 DAT_01202158;
-extern Lighting30Packet4 DAT_011a9bd0;
-extern unsigned char DAT_011f91c4;
 class BSFogProperty
 {
   public:
@@ -20639,7 +19973,6 @@ class BSFogProperty
     int unk5c;
     float density;
 };
-BSFogProperty* __cdecl FUN_00b55520(int);
 struct FogFlag
 {
     int unk0;
@@ -20767,7 +20100,7 @@ void FogShader::SetFogMode(unsigned int mode)
         if (end == 0.0f && start == 0.0f)
         {
             DAT_01202148 = NLPt4(500000.0f, 0.0f, density, 0.0f);
-            memcpy(&DAT_01202158, &DAT_011a9bd0, sizeof(DAT_01202158));
+            memcpy(&DAT_01202158, &(*reinterpret_cast<::Lighting30Packet4 *>(&::DAT_011a9bd0)), sizeof(DAT_01202158));
         }
         else
         {
@@ -20935,18 +20268,16 @@ struct S3e40_Vec
 {
     float x, y, z;
     float ComputeWeightedSum();
-    float FUN_00457990();
 };
 __forceinline float S3e40_Len(const S3e40_Color& v)
 {
     S3e40_Color t = v;
-    return t.ComputeWeightedSum();
+    return reinterpret_cast<::FUN_00b719e0_class *>(&(t))->ComputeWeightedSum();
 }
 struct S3e40_Xform
 {
     float px, py, pz, angle;
 };
-extern const S3e40_Xform DAT_011f4288;
 struct S3e40_State
 {
     int unk00;
@@ -21142,7 +20473,6 @@ struct S3e40_Geom
     int unkb4;
     int unkb8;
     void* shader;
-    S3e40_Ref* FUN_00a59d30(bool b);
 };
 struct S3e40_Root
 {
@@ -21319,9 +20649,6 @@ struct S3e40_Passes
     void FUN_00ba9ee0(S3e40_Geom*, unsigned short, bool, unsigned char, S3e40_Light*, S3e40_Light*, S3e40_Light*,
                       S3e40_Light*);
 };
-S3e40_View* __cdecl FUN_00b4f5c0();
-float __cdecl FUN_00404010(float, float);
-bool __cdecl FUN_005bf7b0();
 struct S3e40_Shader
 {
     int unk00;
@@ -21393,15 +20720,7 @@ struct S3e40_Shader
     {
         SetBit(lightFlags, mask, on);
     }
-    S3e40_Light* GetPasses(S3e40_Geom*, unsigned int, unsigned short*, int, S3e40_Light*, bool);
-    void SetPassEnabled(S3e40_Geom*, bool, int);
-    void FUN_00ba95e0(int);
-    unsigned short FUN_00b707d0();
-    S3e40_Light* FUN_00b70600(int*);
-    S3e40_Light* FUN_00b70700(int*);
     void FUN_00441130(unsigned int, bool);
-    void FUN_00bdf650(S3e40_Geom*, bool, bool, S3e40_Light*);
-    void FUN_00bd9d00(S3e40_Geom*, unsigned short*, bool, bool*, int);
     S3e40_Light* FUN_00bc3e40(S3e40_Geom* geom, unsigned int subType, S3e40_Count counter, int passType,
                               S3e40_Light* preferred, bool insert);
 };
@@ -21420,7 +20739,7 @@ S3e40_Light* S3e40_Shader::FUN_00bc3e40(S3e40_Geom* geom, unsigned int subType, 
         goto delegated;
     goto regular;
 delegated:
-    return GetPasses(geom, subType, counter.ptr, passType, preferred, insert);
+    return ((::S3e40_Light *)(reinterpret_cast<::Shader *>(this)->GetPasses((::Geom *)(geom), subType, counter.ptr, passType, (::Context *)(preferred), insert)));
 regular:
 
     unsigned int key = (passType << 8) | subType;
@@ -21430,7 +20749,7 @@ regular:
         return pass8;
     if (passType == 9)
     {
-        SetPassEnabled(geom, geom->shader != 0, 0);
+        reinterpret_cast<::ShaderPassController *>(this)->SetPassEnabled((::NiGeometry *)(geom), geom->shader != 0, 0);
         return pass9;
     }
 
@@ -21438,7 +20757,7 @@ regular:
     {
         if (insert == true)
         {
-            FUN_00ba95e0(-1);
+            reinterpret_cast<::TallGrassShader *>(this)->InitializeConstants(-1);
             passes->count = 0;
             passState = key;
         }
@@ -21447,8 +20766,8 @@ regular:
             *counter.ptr = 0;
         }
 
-        S3e40_Light* sceneLight = FUN_00b4f5c0()->root->currentLight;
-        if (FUN_00b707d0() == 0)
+        S3e40_Light* sceneLight = ((::S3e40_View *)(::FUN_00b4f5c0()))->root->currentLight;
+        if (((unsigned short)(::FUN_00b707d0((void *)this))) == 0)
         {
             if (insert == true)
             {
@@ -21466,7 +20785,7 @@ regular:
         {
             float dist;
             passType = 0;
-            S3e40_Light* __restrict primary = FUN_00b70600(&passType);
+            S3e40_Light* __restrict primary = ((::S3e40_Light *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&passType))));
             {
                 S3e40_State* ss = sceneLight->state;
                 dist = S3e40_Len(ss->dir);
@@ -21476,12 +20795,12 @@ regular:
             {
                 const S3e40_Xform* wp = geom->world;
                 if (!wp)
-                    wp = &DAT_011f4288;
+                    wp = &(*reinterpret_cast<const ::S3e40_Xform *>(&::g_defaultBound));
                 SharedWork world(*wp);
                 ps = primary->state;
                 {
                     S3e40_Vec delta = {ps->posX - world.bound.px, ps->posY - world.bound.py, ps->posZ - world.bound.pz};
-                    quality = FUN_00404010(0.0f, delta.FUN_00457990() - world.bound.angle);
+                    quality = FUN_00404010(0.0f, reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude() - world.bound.angle);
                 }
             }
             {
@@ -21490,7 +20809,7 @@ regular:
                 S3e40_Light* secondary;
                 {
 
-                    if ((double)dist > (float)((1.0 / quality * quality) * work.color.ComputeWeightedSum()))
+                    if ((double)dist > (float)((1.0 / quality * quality) * reinterpret_cast<::FUN_00b719e0_class *>(&(work.color))->ComputeWeightedSum()))
                     {
                         work.first = sceneLight;
                         secondLight = 0;
@@ -21503,7 +20822,7 @@ regular:
                             secondLight = primary;
                             SetFlag(0x100, true);
                         }
-                        primary = FUN_00b70700(&passType);
+                        primary = ((::S3e40_Light *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&passType))));
                         if (primary)
                         {
                             secondary = primary;
@@ -21516,7 +20835,7 @@ regular:
                         SetFlag(0x80, true);
                         if (dist > 0.0f)
                         {
-                            primary = FUN_00b70700(&passType);
+                            primary = ((::S3e40_Light *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&passType))));
                             if (primary)
                             {
                                 secondLight = sceneLight;
@@ -21534,11 +20853,11 @@ regular:
                         }
                         else
                         {
-                            primary = FUN_00b70700(&passType);
+                            primary = ((::S3e40_Light *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&passType))));
                             if (primary)
                             {
                                 secondLight = primary;
-                                primary = FUN_00b70700(&passType);
+                                primary = ((::S3e40_Light *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&passType))));
                                 secondary = primary;
                                 SetFlag(0x100, true);
                                 FUN_00441130(0x29, primary != 0);
@@ -21559,19 +20878,19 @@ regular:
                     ++*counter.ptr;
             }
         }
-        if (FUN_005bf7b0() && insert)
+        if (((bool)(::fnv_005bf7b0::FUN_005bf7b0())) && insert)
         {
-            S3e40_Ref* ref = geom->FUN_00a59d30(false);
+            S3e40_Ref* ref = ((::S3e40_Ref *)(reinterpret_cast<::FUN_00a59d30_C *>((geom))->FUN_00a59d30(false)));
             if (!ref)
                 ref = geom->fallback;
             bool marked = ref && (ref->Mode() != 0);
-            FUN_00bdf650(geom, geom->shader != 0, marked, preferred);
+            reinterpret_cast<::Shader_00bdf650 *>(this)->FUN_00bdf650((::NiGeometry *)(geom), geom->shader != 0, marked, (::ShadowSceneLight *)(preferred));
         }
     }
     if (callback)
     {
         bool changed = true;
-        FUN_00bd9d00(geom, counter.ptr, insert, &changed, 0);
+        reinterpret_cast<::FUN_00bd9d00_class *>(this)->FUN_00bd9d00((::NiGeometry *)(geom), counter.ptr, insert, &changed, 0);
     }
     return reinterpret_cast<S3e40_Light*>(passes);
 }
@@ -21584,11 +20903,6 @@ static __forceinline float Lower(float a, float b)
 static __forceinline float Upper(float a, float b)
 {
     return a > b ? a : b;
-}
-extern "C" double __cdecl sqrt(double);
-inline float sqrtf(float value)
-{
-    return (float)sqrt((double)value);
 }
 struct Vec3
 {
@@ -21663,8 +20977,6 @@ struct NiRTTI
         return m_pBaseRTTI;
     }
 };
-extern NiRTTI DAT_012024c0;
-extern NiRTTI DAT_012024b8;
 extern float DAT_010bc3ec;
 struct NiObject
 {
@@ -21818,7 +21130,7 @@ struct RendererCountTable
     void* slot_0f4;
     void* slot_0f8;
     void* sphere;
-    void(__thiscall* count)(SphereRenderer*, unsigned short);
+    void(* count)(SphereRenderer*, unsigned short);
 };
 struct RendererCountView
 {
@@ -21995,9 +21307,9 @@ void GeometryBounds::UpdateBounds()
         if (primary != 0)
         {
             Vec3 center = min + (max - min) * 0.5;
-            sphere.Set(center, (max - center).Length() + radiusData->m_fRadiusAdjustment);
+            sphere.Set(center, reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::Vec3 &)((max - center)))->FUN_00589850() + radiusData->m_fRadiusAdjustment);
 
-            SphereRenderer* renderer = primary->IsKindOfType(&DAT_012024c0) ? (SphereRenderer*)primary : 0;
+            SphereRenderer* renderer = primary->IsKindOfType(&(*reinterpret_cast<::NiRTTI *>(&::g_012024c0))) ? (SphereRenderer*)primary : 0;
             if (renderer)
             {
                 renderer->SetSphere(sphere);
@@ -22007,7 +21319,7 @@ void GeometryBounds::UpdateBounds()
             else
             {
                 NiObject* fallback = this->m_pPrimary;
-                SphereRenderer* alternate = fallback ? (SphereRenderer*)fallback->DynamicCast(&DAT_012024b8) : 0;
+                SphereRenderer* alternate = fallback ? (SphereRenderer*)fallback->DynamicCast(&(*reinterpret_cast<::NiRTTI *>(&::g_012024b8))) : 0;
                 if (alternate)
                 {
                     alternate->SetSphere(sphere);
@@ -22026,7 +21338,7 @@ void GeometryBounds::UpdateBounds()
 namespace fnv_00bc0f80 {
 struct Pass_bc0f80
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -22052,7 +21364,6 @@ struct Pass_bc0f80
     int unk5c;
     int unk60;
     int count;
-    void FUN_00e80190();
     void IncRefCount()
     {
         ++count;
@@ -22060,11 +21371,10 @@ struct Pass_bc0f80
     void DecRefCount()
     {
         if (--count == 0)
-            FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>(this)->DestroyPass();
     }
 };
 
-extern NiPointer<ShaderObject> DAT_01201f58;
 struct FUN_00be0f10
 {
     virtual ~FUN_00be0f10();
@@ -22177,8 +21487,8 @@ struct FUN_00bc0f80 : FUN_00be0f10
 // @fnv 0x00bc0f80
 FUN_00bc0f80::~FUN_00bc0f80()
 {
-    DAT_01201f58 = 0;
-    g_memoryManager.Deallocate(unk070);
+    (*reinterpret_cast<::NiPointer< ::ShaderObject> *>(&::DAT_01201f58)) = 0;
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(unk070);
     unk070 = 0;
     pass = 0;
     if (ShaderObject* obj = refA)
@@ -22193,8 +21503,6 @@ FUN_00bc0f80::~FUN_00bc0f80()
 }  // namespace fnv_00bc0f80
 
 namespace fnv_00bcf7f0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct ShaderRefObject
 {
@@ -22320,7 +21628,7 @@ struct RenderPassCollection
 };
 struct GeometryState
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -22330,7 +21638,7 @@ struct GeometryState
 };
 struct GeometryData
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -22344,7 +21652,7 @@ struct GeometryData
 };
 struct GeometryProperty
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -22354,11 +21662,10 @@ struct GeometryProperty
 };
 struct PropHelper
 {
-    void* GetProperty(unsigned int);
 };
 struct SceneGeometry : PropHelper
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -22408,11 +21715,10 @@ struct SceneGeometry : PropHelper
 };
 struct AttributeTester
 {
-    bool FUN_00439090(const void* property);
 };
 struct LightProperties
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -22474,8 +21780,8 @@ struct LightProperties
 };
 struct DrawLight
 {
-    unsigned int unk00;
-    unsigned int unk04;
+    uintptr_t unk00;
+    uintptr_t unk04;
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
@@ -22539,17 +21845,17 @@ struct DrawLight
     LightProperties* properties;
     bool Matches(const void* property)
     {
-        return properties->primary.FUN_00439090(property);
+        return reinterpret_cast<::NiPlane *>(&(properties->primary))->operator==((*(const ::NiPlane *)(property)));
     }
     bool MatchesAlternate(const void* property)
     {
-        return properties->alternate.FUN_00439090(property);
+        return reinterpret_cast<::NiPlane *>(&(properties->alternate))->operator==((*(const ::NiPlane *)(property)));
     }
 };
 struct ExtraPassContext
 {
-    unsigned int unk00;
-    unsigned int unk04;
+    uintptr_t unk00;
+    uintptr_t unk04;
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
@@ -22604,7 +21910,7 @@ struct ConfigurationArg
 };
 struct ShaderPassBuilder : DynCastHelper
 {
-    unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    uintptr_t unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     unsigned int renderFlags;
     unsigned int propertyFlags;
     float alphaCutoff;
@@ -22620,26 +21926,8 @@ struct ShaderPassBuilder : DynCastHelper
     int* renderContext;
     unsigned int unkb8, unkbc, unkc0, unkc4, unkc8, unkcc, unkd0, unkd4, unkd8;
     ExtraPassContext* extraContext;
-    unsigned short FUN_00b707d0();
-    DrawLight* FUN_00b70600(void**);
-    DrawLight* FUN_00b70700(void**);
-    ShaderPassEntry* FUN_00bd9f00(SceneGeometry*, unsigned short*, unsigned char, bool*, bool, bool);
-    ShaderPassEntry* FUN_00bd9e60(SceneGeometry*, unsigned short*, unsigned char, bool*, bool);
-    void FUN_00bd9770(SceneGeometry*, DrawLight*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool);
-    void FUN_00bd9540(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool);
-    void FUN_00bd9840(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool);
-    void FUN_00bdac00(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool,
-                      bool);
     void FUN_00bd99c0(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool,
                       bool);
-    void FUN_00bd9ac0(SceneGeometry*, unsigned short*, unsigned char, bool*, bool, bool);
-    void EmitShadowPasses(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool);
-    void FUN_00bd9bc0(SceneGeometry*, unsigned short*, unsigned char, bool*, bool, bool, bool);
-    ShaderPassEntry* FUN_00bd9f90(SceneGeometry*, unsigned short*, unsigned char, bool*, bool);
-    ShaderPassEntry* FUN_00bd9d00(SceneGeometry*, unsigned short*, unsigned char, bool*, bool);
-    void CreatePassMessage(SceneGeometry*, unsigned short*, unsigned char, bool, bool);
-    void FUN_00bda0a0(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool,
-                      bool, bool);
     ShaderPassEntry* FUN_00bd9da0(SceneGeometry* geometry, unsigned short* count, unsigned char type, bool* first,
                                   bool overlay, bool effect)
     {
@@ -22674,7 +21962,7 @@ struct ShaderPassBuilder : DynCastHelper
     ShaderPassEntry* AddEffectPass(SceneGeometry* geometry, unsigned short* count, unsigned char type, bool* first,
                                    bool overlay, bool effect)
     {
-        FUN_00bd9da0(geometry, count, type, first, overlay, effect);
+        reinterpret_cast<::ShaderPropertyBD9 *>(this)->FUN_00bd9da0((::NiGeometryBD9 *)(geometry), count, type, first, overlay, effect);
         return 0;
     }
     __forceinline void GenerateLightingPasses(SceneGeometry* geometry, unsigned int passMask, unsigned short* count,
@@ -22688,21 +21976,10 @@ struct ShaderPassBuilder : DynCastHelper
     void FUN_00bdb4a0(SceneGeometry* geometry, unsigned int passMask, unsigned short* count, int mode,
                       LightConfiguration* config, unsigned char effectType);
 };
-extern unsigned int DAT_010a91d4;
-extern unsigned char DAT_011f91a7;
-extern unsigned char DAT_011f9422;
-extern float DAT_011f9458;
-extern float DAT_011f9460;
-extern float DAT_011f9468;
-extern int DAT_011f4998;
-extern int DAT_01200788;
-extern int DAT_012024c8;
-extern int DAT_012007a0;
-extern void* __cdecl FUN_00b4f5c0();
 struct DefaultRenderer
 {
-    unsigned int unk00;
-    unsigned int unk04;
+    uintptr_t unk00;
+    uintptr_t unk04;
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
@@ -22761,8 +22038,8 @@ struct DefaultRenderer
 };
 struct ShaderEngine
 {
-    unsigned int unk00;
-    unsigned int unk04;
+    uintptr_t unk00;
+    uintptr_t unk04;
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
@@ -22860,13 +22137,13 @@ struct ShaderEngine
     unsigned int unk180;
     unsigned int unk184;
     unsigned int unk188;
-    unsigned int unk18c;
-    unsigned int unk190;
+    void* unk18c;
+    void* unk190;
     DefaultRenderer* renderer;
 };
 static DrawLight* GetDefaultLight()
 {
-    return static_cast<ShaderEngine*>(FUN_00b4f5c0())->renderer->light;
+    return static_cast<ShaderEngine*>(((void *)(::FUN_00b4f5c0())))->renderer->light;
 }
 __forceinline void ShaderPassBuilder::GenerateLightingPasses(
     SceneGeometry* geometry, unsigned int passMask, unsigned short* count, unsigned char effectType, bool hasNoBasePass,
@@ -22882,8 +22159,8 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
         return;
     }
     if ((propertyFlags & 0x40) > 0)
-        FUN_00bd9e60(geometry, count, effectType, &first, hasNoOverlay)->status = 7;
-    unsigned short numLights = FUN_00b707d0();
+        ((::fnv_00bdb4a0::ShaderPassEntry *)(intptr_t)(::FUN_00bd9e60((::Shader_00bd9540 *)this, 0, (::NiGeometry *)(geometry), (unsigned short *)(count), (unsigned char)(effectType), (bool *)(&first), (bool)(hasNoOverlay))))->status = 7;
+    unsigned short numLights = ((unsigned short)(::FUN_00b707d0((void *)this)));
     if (allowFirstPass && (needsShadow || passMask == DAT_010a91d4))
     {
         if (!needsShadow && opaque)
@@ -22892,32 +22169,32 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
         {
             DrawLight* light;
             void* cursor = 0;
-            light = FUN_00b70600(&cursor);
+            light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
             if (!extraLight && !hasNoOverlay && !hasRenderContext)
             {
-                FUN_00bd9770(geometry, primaryLight, light, count, effectType, &first, false, attr0);
+                reinterpret_cast<::Shader_00bd9770 *>(this)->FUN_00bd9770((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), (::ShadowSceneLight *)(light), count, effectType, &first, false, attr0);
             }
             else
             {
                 if ((passMask & 1) != 0)
-                    FUN_00bd9540(geometry, primaryLight, count, effectType, &first, hasNoOverlay, extraLight,
+                    reinterpret_cast<::Shader_00bd9540 *>(this)->FUN_00bd9540((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), count, effectType, &first, hasNoOverlay, extraLight,
                                  hasRenderContext, attr0);
-                if (primaryLight->Matches(&DAT_011f4998))
-                    FUN_00bd9840(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, false, attr0);
-                if (light->Matches(&DAT_011f4998))
-                    FUN_00bd9840(geometry, light, count, effectType, &first, hasNoOverlay, true, false, attr0);
+                if (primaryLight->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
+                    reinterpret_cast<::Shader9840 *>(this)->FUN_00bd9840((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), count, effectType, (*(bool *)(&first)), hasNoOverlay, false, false, attr0);
+                if (light->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
+                    reinterpret_cast<::Shader9840 *>(this)->FUN_00bd9840((::NiGeometry *)(geometry), (::ShadowSceneLight *)(light), count, effectType, (*(bool *)(&first)), hasNoOverlay, true, false, attr0);
             }
-            for (light = FUN_00b70700(&cursor); light; light = FUN_00b70700(&cursor))
+            for (light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor)))); light; light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor)))))
             {
-                if (light->Matches(&DAT_011f4998))
-                    FUN_00bd9840(geometry, light, count, effectType, &first, hasNoOverlay, true, false, attr0);
+                if (light->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
+                    reinterpret_cast<::Shader9840 *>(this)->FUN_00bd9840((::NiGeometry *)(geometry), (::ShadowSceneLight *)(light), count, effectType, (*(bool *)(&first)), hasNoOverlay, true, false, attr0);
             }
-            FUN_00bdac00(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, needsExtraPass,
+            reinterpret_cast<::FUN_00bdac00_t *>(this)->FUN_00bdac00((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), count, effectType, &first, hasNoOverlay, false, needsExtraPass,
                          needsNormal, attr0, specialBlend);
             if (basePass)
             {
-                light = FUN_00b70600(&cursor);
-                if (useAlternate && primaryLight->Matches(&DAT_011f4998))
+                light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
+                if (useAlternate && primaryLight->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
                 {
                     FUN_00bd99c0(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, false,
                                  hasNoBasePass, false, attr0);
@@ -22926,37 +22203,37 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
                 {
                     FUN_00bd99c0(geometry, light, count, effectType, &first, hasNoOverlay, true, false, hasNoBasePass,
                                  false, attr0);
-                    light = FUN_00b70700(&cursor);
+                    light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
                 }
                 while (light)
                 {
-                    if (light->Matches(&DAT_011f4998))
+                    if (light->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
                         FUN_00bd99c0(geometry, light, count, effectType, &first, hasNoOverlay, true, false,
                                      hasNoBasePass, false, attr0);
-                    light = FUN_00b70700(&cursor);
+                    light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
                 }
             }
             if (addAdditional)
-                FUN_00bd9ac0(geometry, count, effectType, &first, hasNoOverlay, needsNormal);
+                reinterpret_cast<::Cand_bd9ac0 *>(this)->FUN_00bd9ac0((::NiGeometry *)(geometry), count, effectType, &first, hasNoOverlay, needsNormal);
         }
         else
         {
             if ((needsShadow || !useAlternate) && !attr1 && !attr2)
             {
-                FUN_00bda0a0(geometry, primaryLight, count, effectType, &first, hasNoOverlay, extraLight,
+                reinterpret_cast<::ShaderSelector *>(this)->FUN_00bda0a0((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), count, effectType, &first, hasNoOverlay, extraLight,
                              hasRenderContext, needsExtraPass, true, needsNormal, attr0);
                 needsShadow = true;
             }
             else
             {
-                FUN_00bda0a0(geometry, primaryLight, count, effectType, &first, hasNoOverlay, extraLight,
+                reinterpret_cast<::ShaderSelector *>(this)->FUN_00bda0a0((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), count, effectType, &first, hasNoOverlay, extraLight,
                              hasRenderContext, needsExtraPass, false, needsNormal, attr0);
             }
             if (useAlternate && !needsShadow)
                 FUN_00bd99c0(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, false,
                              hasNoBasePass, false, attr0);
             if (addAdditional)
-                FUN_00bd9ac0(geometry, count, effectType, &first, hasNoOverlay, needsNormal);
+                reinterpret_cast<::Cand_bd9ac0 *>(this)->FUN_00bd9ac0((::NiGeometry *)(geometry), count, effectType, &first, hasNoOverlay, needsNormal);
         }
     }
     else
@@ -22965,62 +22242,62 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
             goto afterLighting;
         first = true;
         if (passMask & 1)
-            FUN_00bd9540(geometry, primaryLight, count, effectType, &first, hasNoOverlay, extraLight, hasRenderContext,
+            reinterpret_cast<::Shader_00bd9540 *>(this)->FUN_00bd9540((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), count, effectType, &first, hasNoOverlay, extraLight, hasRenderContext,
                          attr0);
         if (passMask & 2)
         {
             DrawLight* light;
-            if (primaryLight->Matches(&DAT_011f4998))
-                FUN_00bd9840(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, false, attr0);
+            if (primaryLight->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
+                reinterpret_cast<::Shader9840 *>(this)->FUN_00bd9840((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), count, effectType, (*(bool *)(&first)), hasNoOverlay, false, false, attr0);
             void* cursor = 0;
-            for (light = FUN_00b70600(&cursor); light; light = FUN_00b70700(&cursor))
-                if (light->Matches(&DAT_011f4998))
-                    FUN_00bd9840(geometry, light, count, effectType, &first, hasNoOverlay, true, false, attr0);
+            for (light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor)))); light; light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor)))))
+                if (light->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
+                    reinterpret_cast<::Shader9840 *>(this)->FUN_00bd9840((::NiGeometry *)(geometry), (::ShadowSceneLight *)(light), count, effectType, (*(bool *)(&first)), hasNoOverlay, true, false, attr0);
         }
         if (passMask & 4)
-            FUN_00bdac00(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, needsExtraPass,
+            reinterpret_cast<::FUN_00bdac00_t *>(this)->FUN_00bdac00((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), count, effectType, &first, hasNoOverlay, false, needsExtraPass,
                          needsNormal, attr0, specialBlend);
         if (basePass && (passMask & 8))
         {
             DrawLight* light;
             void* cursor = 0;
-            light = FUN_00b70600(&cursor);
-            if (useAlternate && primaryLight->Matches(&DAT_011f4998))
+            light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&cursor))));
+            if (useAlternate && primaryLight->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
             {
                 FUN_00bd99c0(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, false,
                              hasNoBasePass, false, attr0);
                 first = false;
             }
-            else if (light && light->Matches(&DAT_011f4998))
+            else if (light && light->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
             {
                 FUN_00bd99c0(geometry, light, count, effectType, &first, hasNoOverlay, true, false, hasNoBasePass,
                              false, attr0);
-                light = FUN_00b70700(&cursor);
+                light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
             }
             while (light)
             {
-                if (light->Matches(&DAT_011f4998))
+                if (light->Matches(&(*reinterpret_cast<int *>(&::DAT_011f4998))))
                     FUN_00bd99c0(geometry, light, count, effectType, &first, hasNoOverlay, true, false, hasNoBasePass,
                                  false, attr0);
-                light = FUN_00b70700(&cursor);
+                light = ((::fnv_00bdb4a0::DrawLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&cursor))));
             }
         }
         if (addAdditional && (8 & passMask))
-            FUN_00bd9ac0(geometry, count, effectType, &first, hasNoOverlay, needsNormal);
+            reinterpret_cast<::Cand_bd9ac0 *>(this)->FUN_00bd9ac0((::NiGeometry *)(geometry), count, effectType, &first, hasNoOverlay, needsNormal);
     }
 afterLighting:
     if (opaque)
-        EmitShadowPasses(geometry, primaryLight, count, effectType, &first, false);
+        reinterpret_cast<::ShaderBdaf10 *>(this)->EmitShadowPasses((::NiGeometry *)(geometry), (::ShadowSceneLight *)(primaryLight), count, effectType, &first, false);
     if (passMask == DAT_010a91d4 && !needsShadow)
-        FUN_00bd9bc0(geometry, count, effectType, &first, hasNoOverlay, attr0, useAlpha);
+        reinterpret_cast<::Shader_00bd9bc0 *>(this)->FUN_00bd9bc0((::NiGeometry *)(geometry), count, effectType, &first, hasNoOverlay, attr0, useAlpha);
     if (extraContext)
     {
         if (0 != extraContext->enabled)
-            FUN_00bd9f90(geometry, count, effectType, &first, hasNoOverlay)->status = 1;
-        FUN_00bd9d00(geometry, count, effectType, &first, hasNoOverlay)->status = 1;
+            ((::fnv_00bdb4a0::ShaderPassEntry *)(intptr_t)(reinterpret_cast<::FUN_00bd9f90_class *>(this)->FUN_00bd9f90((::NiGeometry *)(geometry), count, effectType, &first, hasNoOverlay)))->status = 1;
+        ((::fnv_00bdb4a0::ShaderPassEntry *)(intptr_t)(reinterpret_cast<::FUN_00bd9d00_class *>(this)->FUN_00bd9d00((::NiGeometry *)(geometry), count, effectType, &first, hasNoOverlay)))->status = 1;
     }
-    if (DAT_011f9422 && (passMask & 1))
-        CreatePassMessage(geometry, count, effectType, hasNoOverlay, hasRenderContext);
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_011f9422)) && (passMask & 1))
+        reinterpret_cast<::fnv_00bdb380::Shader *>(this)->CreatePassMessage(geometry, count, effectType, hasNoOverlay, hasRenderContext);
     unsigned long missingPassStatus = 0;
     if (lightingCondition)
         missingPassStatus = 10;
@@ -23049,16 +22326,16 @@ void ShaderPassBuilder::FUN_00bdb4a0(SceneGeometry* geometry, unsigned int passM
     if (0 != geometry->data->normalCount)
         needsNormal = true;
     needsNormal |= (propertyFlags & 0x20) > 0;
-    bool attr0 = DynamicCast(&DAT_01200788) != 0;
-    bool attr1 = DynamicCast(&DAT_012024c8) != 0;
-    bool attr2 = DynamicCast(&DAT_012007a0) != 0;
+    bool attr0 = DynamicCast(&(*reinterpret_cast<int *>(&::g_01200788))) != 0;
+    bool attr1 = DynamicCast(&(*reinterpret_cast<int *>(&::g_012024c8))) != 0;
+    bool attr2 = DynamicCast(&(*reinterpret_cast<int *>(&::g_012007a0))) != 0;
     const unsigned long activeFlags = renderFlags;
     bool opaque = (activeFlags & 0x4000) > 0;
     bool translucent = (activeFlags & 0x8000) > 0;
     bool blockedByEffect = (activeFlags & 0x10000) > 0;
     bool shadowPass;
     shadowPass = (activeFlags & 0x200) > 0;
-    bool allowFirstPass = !((activeFlags & 0x100000) > 0) || DAT_011f91a7 != 0;
+    bool allowFirstPass = !((activeFlags & 0x100000) > 0) || ::DAT_011f91a7 != 0;
     bool specialBlend = (activeFlags & 0x40000) > 0;
     bool hasHighFlags = ((activeFlags & 0x4000000) > 0) || ((activeFlags & 0x8000000) > 0);
     bool lightingCondition;
@@ -23067,31 +22344,31 @@ void ShaderPassBuilder::FUN_00bdb4a0(SceneGeometry* geometry, unsigned int passM
         lightingCondition = true;
     else
         lightingCondition = false;
-    GeometryProperty* property = static_cast<GeometryProperty*>(geometry->GetProperty(0));
+    GeometryProperty* property = static_cast<GeometryProperty*>(((void *)(reinterpret_cast<::FUN_00a59d30_C *>((geometry))->FUN_00a59d30(0))));
     bool extraLight = property && ((static_cast<unsigned char>(property->flags >> 9) & 1) != 0);
     bool useAlpha = (property && ((property->flags & 1) != 0)) || AlphaOrdered(alphaCutoff, 1.0f);
     if ((renderFlags & 0x20000) > 0)
     {
-        if (DAT_011f9468 != 0.0f && DAT_011f9468 <= fade)
+        if (::DAT_011f9468 != 0.0f && ::DAT_011f9468 <= fade)
             addAdditional = false;
         else
             addAdditional = true;
         basePass = false;
     }
-    else if (DAT_011f9460 != 0.0f && DAT_011f9460 <= fade)
+    else if (::DAT_011f9460 != 0.0f && ::DAT_011f9460 <= fade)
     {
         addAdditional = false;
     }
-    if (DAT_011f9458 != 0.0f && fade >= DAT_011f9458)
+    if (::DAT_011f9458 != 0.0f && fade >= ::DAT_011f9458)
         basePass = false;
     DrawLight* primaryLight = GetDefaultLight();
-    bool useAlternate = basePass && primaryLight->MatchesAlternate(&DAT_011f4998);
+    bool useAlternate = basePass && primaryLight->MatchesAlternate(&(*reinterpret_cast<int *>(&::DAT_011f4998)));
     if (useAlpha)
     {
         bool alphaFirst = true;
         if (shadowPass)
         {
-            FUN_00bd9f00(geometry, count, effectType, &alphaFirst, hasNoOverlay, extraLight);
+            reinterpret_cast<::Shader_00bd9f00 *>(this)->FUN_00bd9f00((::NiGeometry *)(geometry), count, effectType, &alphaFirst, hasNoOverlay, extraLight);
             basePass = false;
         }
         needsShadow = true;
@@ -23114,14 +22391,11 @@ struct PColor
     int unk000;
     int unk004;
     int unk008;
-    bool FUN_00439090(const NiColor&);
-    bool FUN_004390c0(const NiColor&);
 };
 struct NiColor
 {
     float r, g, b;
 };
-extern NiColor DAT_011f4998;
 struct PAlpha
 {
     int unk000;
@@ -23217,7 +22491,6 @@ struct PGeom
     int unk0b4;
     PData* data;
     int unk0bc;
-    PAlpha* FUN_00a59d30(unsigned int);
 };
 struct PLight
 {
@@ -23877,62 +23150,11 @@ struct PShader
     virtual void fallback(PGeom*, int, unsigned short*, int, PRenderer*, unsigned char);
     void FUN_00bdf790(PGeom*, int, unsigned short*, int, PRenderer*, unsigned char);
     void* FUN_00653290(const void*);
-    bool FUN_004a2020(unsigned int);
     bool IsSpecial() const
     {
         return (flags2 & 0x800000) > 0;
     }
-    unsigned short FUN_00b707d0();
-    PLight* FUN_00b70600(PNode**);
-    PLight* FUN_00b70700(PNode**);
-    PLight* FUN_00b70590(PNode**);
-    PLight* FUN_00b70680(PNode**);
-    void FUN_00bd9f00(PGeom*, unsigned short*, unsigned char, bool*, bool, bool);
-    void FUN_00bd9f90(PGeom*, unsigned short*, unsigned char, bool*, bool);
-    void FUN_00bd9e60(PGeom*, unsigned short*, unsigned char, bool*, bool);
-    void FUN_00bd9da0(PGeom*, unsigned short*, unsigned char, bool*, bool, bool);
-    void FUN_00bdd050(PGeom*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool, bool, bool,
-                      bool);
-    void FUN_00bdd520(PGeom*, PLight*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool,
-                      bool, bool, bool);
-    void FUN_00bde1d0(PGeom*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool, bool, bool,
-                      bool, bool, bool, bool);
-    void SelectTwoLightPass(PGeom*, PLight*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool,
-                      bool, bool, bool);
-    void FUN_00bde9b0(PGeom*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool);
-    void FUN_00bdc0d0(PGeom*, PLight*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool,
-                      bool, bool);
-    void AddShadowPass(PGeom*, PLight*, PLight*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool,
-                       bool, bool, bool);
-    void FUN_00bd9540(PGeom*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool);
-    void FUN_00bd9840(PGeom*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool);
-    void FUN_00bdda20(PGeom*, PLight*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool);
-    void FUN_00bddbc0(PGeom*, PLight*, PLight*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool,
-                      bool);
-    void AddRenderPass(PGeom*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool, bool, bool,
-                      bool);
-    void FUN_00bdef40(PGeom*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool, bool);
-    void FUN_00bddfb0(PGeom*, PLight*, PLight*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool);
-    void FUN_00bdde10(PGeom*, PLight*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool);
-    void FUN_00bdbf60(PGeom*, PLight*, PLight*, unsigned short*, unsigned char, bool*, bool, bool, bool);
-    void FUN_00bdf3e0(PGeom*, PLight*, unsigned short*, unsigned char, bool*, bool, bool);
-    void FUN_00bd9bc0(PGeom*, unsigned short*, unsigned char, bool*, bool, bool, bool);
-    void FUN_00bdc030(PGeom*, unsigned short*, unsigned char, bool*, bool);
-    void CreatePassMessage(PGeom*, unsigned short*, unsigned char, bool, bool);
-    void AddAdditionalPass(PGeom*, unsigned short*, unsigned char, bool);
 };
-extern unsigned char DAT_011f9427;
-extern int DAT_011f95e4;
-extern unsigned char DAT_011f91d8;
-extern int DAT_011f91c0;
-extern float DAT_011fd890;
-extern unsigned char DAT_011f91a7;
-extern float DAT_011f9468, DAT_011f9460, DAT_011f9458;
-extern unsigned int DAT_010a91d4;
-extern char DAT_011f9422, DAT_011ad80d;
-extern GlobalObjectO2_00a7b610 g_01200788, g_012024c8, g_012007a0;
-PContext* __cdecl FUN_00b4f5c0();
-bool __cdecl FUN_005bf7b0();
 // @fnv 0x00bdf790
 void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, int mode, PRenderer* renderer,
                            unsigned char passMode)
@@ -23950,12 +23172,12 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
     if (geom->data->value)
         data = true;
     data |= ((flags2 & 0x20) > 0);
-    bool special = !DAT_011f9427 && DAT_011f95e4 && (DAT_011f91d8 & 0x20) && DAT_011f91c0 >= 2 &&
-                   !((flags & 0x2000) > 0) && (unsigned int)DAT_011fd890 && FUN_00b4f5c0()->state->mode != 1 &&
-                   FUN_00b4f5c0()->state->mode != 3;
-    bool castA = FUN_00653290(&g_01200788) != 0;
-    bool castB = FUN_00653290(&g_012024c8) != 0;
-    bool castC = FUN_00653290(&g_012007a0) != 0;
+    bool special = !::DAT_011f9427 && ::DAT_011f95e4 && ((*reinterpret_cast<unsigned char *>(&::fnv_005bf7b0::DAT_011f91d8)) & 0x20) && ::DAT_011f91c0 >= 2 &&
+                   !((flags & 0x2000) > 0) && (unsigned int)::DAT_011fd890 && ((::fnv_00bdf790::PContext *)(::FUN_00b4f5c0()))->state->mode != 1 &&
+                   ((::fnv_00bdf790::PContext *)(::FUN_00b4f5c0()))->state->mode != 3;
+    bool castA = FUN_00653290(&::g_01200788) != 0;
+    bool castB = FUN_00653290(&::g_012024c8) != 0;
+    bool castC = FUN_00653290(&::g_012007a0) != 0;
     bool flag22 = (flags & 0x400000) > 0;
     bool flag11 = (flags & 0x800) > 0;
     bool flag12 = (flags & 0x1000) > 0;
@@ -23963,12 +23185,12 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
     bool flag15 = (flags & 0x8000) > 0;
     bool flag16 = (flags & 0x10000) > 0;
     bool flag9 = (flags & 0x200) > 0;
-    bool enabled = !((flags & 0x100000) > 0) || DAT_011f91a7;
+    bool enabled = !((flags & 0x100000) > 0) || ::DAT_011f91a7;
     bool flag18 = (flags & 0x40000) > 0;
     bool flag26 = (flags & 0x4000000) > 0 || (flags & 0x8000000) > 0;
     bool decal = !(geom->alpha->flags & 1) && (renderer->mode == 2 || (flags2 & 4) > 0 || (flags2 & 2) > 0);
     PAlpha** alphaPtr = &geom->alpha;
-    PAlpha* alphaProp = geom->FUN_00a59d30(0);
+    PAlpha* alphaProp = ((::fnv_00bdf790::PAlpha *)(reinterpret_cast<::FUN_00a59d30_C *>((geom))->FUN_00a59d30(0)));
     if (!alphaProp)
         alphaProp = alphaPtr ? *alphaPtr : 0;
     bool transparent = (alphaProp && (alphaProp->flags & 1)) || alpha < 1.0 || opacity < 1.0;
@@ -23980,20 +23202,20 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
     {
         if (projected != flag23)
         {
-            if (DAT_011f9468 != 0.0 && intensity >= DAT_011f9468)
+            if (::DAT_011f9468 != 0.0 && intensity >= ::DAT_011f9468)
                 ambientPass = false;
             else
                 ambientPass = true;
             diffusePass = false;
         }
-        else if (DAT_011f9460 != 0.0 && intensity >= DAT_011f9460)
+        else if (::DAT_011f9460 != 0.0 && intensity >= ::DAT_011f9460)
             ambientPass = false;
-        if (DAT_011f9458 != 0.0 && intensity >= DAT_011f9458)
+        if (::DAT_011f9458 != 0.0 && intensity >= ::DAT_011f9458)
             diffusePass = false;
     }
-    PScene* scene = (PScene*)FUN_00b4f5c0()->state->scene;
+    PScene* scene = (PScene*)((::fnv_00bdf790::PContext *)(::FUN_00b4f5c0()))->state->scene;
     PLight* sceneLight = (PLight*)scene;
-    bool blackAmbient = diffusePass && ((PSceneColors*)scene->colors)->ambient.FUN_00439090(DAT_011f4998);
+    bool blackAmbient = diffusePass && reinterpret_cast<::NiPlane *>(&(((PSceneColors*)scene->colors)->ambient))->operator==((const ::NiPlane &)((*reinterpret_cast<::fnv_00bdf790::NiColor *>(&::DAT_011f4998))));
     bool first = true;
     if (transparent)
     {
@@ -24001,7 +23223,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
         if ((flag9 || opacity < 1.0) && !(alphaProp && (alphaProp->flags & 1)) && !((flags & 0x8000) > 0) &&
             !((flags & 0x10000) > 0))
         {
-            FUN_00bd9f00(geom, count, passMode, &transparentFirst, skinned, alphaTest);
+            reinterpret_cast<::Shader_00bd9f00 *>(this)->FUN_00bd9f00((::NiGeometry *)(geom), count, passMode, &transparentFirst, skinned, alphaTest);
             if (opacity < 1.0 || alpha < 1.0)
                 passes->items[passes->count - 1]->type = 14;
             diffusePass = false;
@@ -24011,28 +23233,28 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
     bool firstPass = true;
     if (effect && effect->value)
     {
-        FUN_00bd9f90(geom, count, passMode, &firstPass, skinned);
+        reinterpret_cast<::FUN_00bd9f90_class *>(this)->FUN_00bd9f90((::NiGeometry *)(geom), count, passMode, &firstPass, skinned);
         passes->items[passes->count - 1]->type = 14;
     }
-    unsigned short lightCount = FUN_00b707d0();
+    unsigned short lightCount = ((unsigned short)(::FUN_00b707d0((void *)this)));
     bool doBase = (renderFlags & 1) > 0;
     bool doDiffuse = (renderFlags & 2) > 0;
     bool doSpecular = (renderFlags & 4) > 0;
     bool doAmbient = (renderFlags & 8) > 0 && diffusePass;
     bool doAmbientExtra = ambientPass && (renderFlags & 8) > 0;
     first = true;
-    bool allFlags = (DAT_010a91d4 & renderFlags) == DAT_010a91d4;
+    bool allFlags = (::fnv_00bdb4a0::DAT_010a91d4 & renderFlags) == ::fnv_00bdb4a0::DAT_010a91d4;
     unsigned short integerLightCount = lightCount;
     unsigned int remaining = lightCount;
     if (flag15 || flag16)
     {
-        FUN_00bd9da0(geom, count, passMode, &firstPass, skinned, flag16);
+        reinterpret_cast<::ShaderPropertyBD9 *>(this)->FUN_00bd9da0((::NiGeometryBD9 *)(geom), count, passMode, &firstPass, skinned, flag16);
         passes->items[passes->count - 1]->type = 6;
         return;
     }
     if ((flags2 & 0x40) > 0)
     {
-        FUN_00bd9e60(geom, count, passMode, &firstPass, skinned);
+        ::FUN_00bd9e60((::Shader_00bd9540 *)this, 0, (::NiGeometry *)(geom), (unsigned short *)(count), (unsigned char)(passMode), (bool *)(&firstPass), (bool)(skinned));
         passes->items[passes->count - 1]->type = 7;
     }
     if (castB || castC)
@@ -24041,10 +23263,10 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
         return;
     }
     PNode* lightPosition = 0;
-    if (FUN_005bf7b0() && !decal && !flag12)
+    if (((bool)(::fnv_005bf7b0::FUN_005bf7b0())) && !decal && !flag12)
     {
         PNode* activePosition = 0;
-        PLight* light = FUN_00b70590(&activePosition);
+        PLight* light = ((::fnv_00bdf790::PLight *)(reinterpret_cast<::BSShaderLightingProperty *>(this)->GetFirstActiveLight((*(void * *)(&activePosition)))));
         if (light)
         {
             do
@@ -24063,7 +23285,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                     pass->shader = shader;
                     pass->enabled = true;
                 }
-                light = FUN_00b70680(&activePosition);
+                light = ((::fnv_00bdf790::PLight *)(::FUN_00b70680(*reinterpret_cast<::NiTListItem< ::ShadowSceneLight *> **>(&activePosition))));
             } while (light);
         }
     }
@@ -24073,7 +23295,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
         {
             if (doBase)
             {
-                if (!DAT_011f9422)
+                if (!::DAT_011f9422)
                 {
                     if (!vertex && !transparent)
                     {
@@ -24093,13 +23315,13 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                     {
                         if (!lightCount)
                         {
-                            FUN_00bdd050(geom, sceneLight, count, passMode, &firstPass, skinned, hasValue, flag10,
+                            reinterpret_cast<::Shader *>(this)->FUN_00bdd050((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), count, passMode, &firstPass, skinned, hasValue, flag10,
                                          false, special, flag11, castA, flag18);
                         }
                         else
                         {
-                            PLight* light = FUN_00b70600(&lightPosition);
-                            FUN_00bdd520(geom, sceneLight, light, count, passMode, &firstPass, skinned, hasValue,
+                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
+                            reinterpret_cast<::ShaderPassBuilder *>(this)->FUN_00bdd520((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), count, passMode, &firstPass, skinned, hasValue,
                                          flag10, false, special, flag11, castA, flag18);
                         }
                         allFlags = false;
@@ -24108,13 +23330,13 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                 combinedNormal:
                     if (lightCount == 0)
                     {
-                        FUN_00bde1d0(geom, sceneLight, count, passMode, &firstPass, skinned, hasValue, flag10, false,
+                        reinterpret_cast<::SelectShader *>(this)->FUN_00bde1d0((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), count, passMode, &firstPass, skinned, hasValue, flag10, false,
                                      special, flag11, flag12, castA, flag22, flag18, alphaTest);
                     }
                     else
                     {
-                        PLight* light = FUN_00b70600(&lightPosition);
-                        SelectTwoLightPass(geom, sceneLight, light, count, passMode, &firstPass, skinned, hasValue, flag10,
+                        PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
+                        reinterpret_cast<::ShaderTwoLightSelector *>(this)->SelectTwoLightPass((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), count, passMode, &firstPass, skinned, hasValue, flag10,
                                      false, special, flag11, castA, flag18);
                     }
                     allFlags = false;
@@ -24122,12 +23344,12 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                 materialPass:
                     int extraPass = 1;
                     PMaterial* material = geom->material;
-                    if (!DAT_011ad80d ||
+                    if (!(*reinterpret_cast<char *>(&::DAT_011ad80d)) ||
                         (material &&
-                         !(material->alternate ? material->alternate : &material->color)->FUN_004390c0(DAT_011f4998)) ||
-                        ((PSceneColors*)scene->colors)->diffuse.FUN_00439090(DAT_011f4998) || !FUN_004a2020(0x25) ||
-                        (alphaProp && (alphaProp->GetMode() != 0) && opacity < 1.0) || FUN_004a2020(0x1a) ||
-                        FUN_004a2020(0x1b) || FUN_004a2020(7) || FUN_004a2020(0x15) || FUN_004a2020(0x11) ||
+                         !reinterpret_cast<::NiPoint3 *>(((material->alternate ? material->alternate : &material->color)))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<::fnv_00bdf790::NiColor *>(&::DAT_011f4998))))) ||
+                        reinterpret_cast<::NiPlane *>(&(((PSceneColors*)scene->colors)->diffuse))->operator==((const ::NiPlane &)((*reinterpret_cast<::fnv_00bdf790::NiColor *>(&::DAT_011f4998)))) || !reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x25) ||
+                        (alphaProp && (alphaProp->GetMode() != 0) && opacity < 1.0) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1a) ||
+                        reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1b) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(7) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x15) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x11) ||
                         geom->unk0bc)
                         extraPass = 0;
                     if (vertex || (((integerLightCount <= extraPass + 5 && !doAmbient && !flag10) ||
@@ -24136,7 +23358,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                                    (lightCount > 1 || diffusePass) && !flag11 && !flag18 && !special && !flag12 &&
                                    !castA && !hasValue))
                     {
-                        FUN_00bde9b0(geom, sceneLight, count, passMode, &firstPass, skinned, hasValue, doAmbient,
+                        reinterpret_cast<::fnv_00bde9b0::Shader91 *>(this)->FUN_00bde9b0((::fnv_00bde9b0::Geometry91 *)(geom), (::fnv_00bde9b0::Light91 *)(sceneLight), count, passMode, &firstPass, skinned, hasValue, doAmbient,
                                      flag10, extraPass != 0);
                         allFlags = false;
                         goto ambientExtra;
@@ -24145,18 +23367,18 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
             standardBase:
                 if (doDiffuse)
                 {
-                    unsigned char globalMode = DAT_011f9427;
+                    unsigned char globalMode = ::DAT_011f9427;
                     if (doSpecular && (!flag10 || !globalMode) && (lightCount <= 1 || vertex))
                     {
                         if (!lightCount)
                         {
-                            FUN_00bde1d0(geom, sceneLight, count, passMode, &firstPass, skinned, hasValue, flag10,
+                            reinterpret_cast<::SelectShader *>(this)->FUN_00bde1d0((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), count, passMode, &firstPass, skinned, hasValue, flag10,
                                          false, special, flag11, flag12, castA, flag22, flag18, alphaTest);
                         }
                         else
                         {
-                            PLight* light = FUN_00b70600(&lightPosition);
-                            SelectTwoLightPass(geom, sceneLight, light, count, passMode, &firstPass, skinned, hasValue,
+                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
+                            reinterpret_cast<::ShaderTwoLightSelector *>(this)->SelectTwoLightPass((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), count, passMode, &firstPass, skinned, hasValue,
                                          flag10, false, special, flag11, castA, flag18);
                         }
                         if (doAmbient)
@@ -24168,16 +23390,16 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                     {
                         if (lightCount <= 1)
                         {
-                            PLight* light = FUN_00b70600(&lightPosition);
-                            FUN_00bdc0d0(geom, sceneLight, light, count, passMode, &firstPass, skinned, hasValue,
+                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
+                            reinterpret_cast<::ShaderTarget *>(this)->FUN_00bdc0d0((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), count, passMode, &firstPass, skinned, hasValue,
                                          flag10, false, special, flag11, castA);
                             remaining = 0;
                         }
                         else
                         {
-                            PLight* light = FUN_00b70600(&lightPosition);
-                            PLight* light2 = FUN_00b70700(&lightPosition);
-                            AddShadowPass(geom, sceneLight, light, light2, count, passMode, &firstPass, skinned,
+                            PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
+                            PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
+                            reinterpret_cast<::ShaderPassOwner *>(this)->AddShadowPass((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), (::ShadowSceneLight *)(light2), count, passMode, &firstPass, skinned,
                                           hasValue, flag10, false, special, flag11, castA);
                             remaining -= 2;
                         }
@@ -24186,7 +23408,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                     }
                 }
             baseOnly:
-                FUN_00bd9540(geom, sceneLight, count, passMode, &firstPass, skinned, alphaTest, hasValue, castA);
+                reinterpret_cast<::Shader_00bd9540 *>(this)->FUN_00bd9540((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), count, passMode, &firstPass, skinned, alphaTest, hasValue, castA);
             }
         diffuseLighting:
             if (doDiffuse)
@@ -24194,17 +23416,17 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                 PLight* light;
                 if (first)
                 {
-                    FUN_00bd9840(geom, sceneLight, count, passMode, &firstPass, skinned, false, false, castA);
-                    light = FUN_00b70600(&lightPosition);
+                    reinterpret_cast<::Shader9840 *>(this)->FUN_00bd9840((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), count, passMode, (*(bool *)(&firstPass)), skinned, false, false, castA);
+                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
                 }
                 else
-                    light = FUN_00b70700(&lightPosition);
+                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
                 while (light)
                 {
                     if (remaining <= 2)
                     {
-                        PLight* light2 = FUN_00b70700(&lightPosition);
-                        FUN_00bdda20(geom, light, light2, count, passMode, &firstPass, skinned, flag10, false, flag11,
+                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
+                        reinterpret_cast<::ShaderPassSelector *>(this)->FUN_00bdda20((::NiGeometry *)(geom), (::ShadowSceneLight *)(light), (::ShadowSceneLight *)(light2), count, passMode, &firstPass, skinned, flag10, false, flag11,
                                      castA);
                         if (remaining <= 1)
                             remaining = 0;
@@ -24213,63 +23435,63 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                     }
                     else
                     {
-                        PLight* light2 = FUN_00b70700(&lightPosition);
-                        PLight* light3 = FUN_00b70700(&lightPosition);
-                        FUN_00bddbc0(geom, light, light2, light3, count, passMode, &firstPass, skinned, flag10, false,
+                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
+                        PLight* light3 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
+                        reinterpret_cast<::FUN_00bddbc0_class *>(this)->FUN_00bddbc0((::NiGeometry *)(geom), (::ShadowSceneLight *)(light), (::ShadowSceneLight *)(light2), (::ShadowSceneLight *)(light3), count, passMode, &firstPass, skinned, flag10, false,
                                      flag11, castA);
                         remaining -= 3;
                     }
-                    light = FUN_00b70700(&lightPosition);
+                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
                 }
             }
             if (doSpecular)
-                AddRenderPass(geom, sceneLight, count, passMode, &firstPass, skinned, false, flag10, data, castA, false,
+                reinterpret_cast<::BDD80ShaderProperty *>(this)->AddRenderPass((::BDD80Geometry *)(geom), (intptr_t)(sceneLight), count, passMode, &firstPass, skinned, false, flag10, data, castA, false,
                              flag11, flag18);
             if (doAmbient)
             {
             ambientLighting:
                 int ambientRemaining = integerLightCount;
                 if (blackAmbient)
-                    FUN_00bdef40(geom, sceneLight, count, passMode, &firstPass, skinned, false, special, flag11, castA,
+                    reinterpret_cast<::fnv_00bdef40::Shader98 *>(this)->FUN_00bdef40((::NiGeometry *)(geom), (::fnv_00bdef40::Light98 *)(sceneLight), count, passMode, &firstPass, skinned, false, special, flag11, castA,
                                  flag18);
-                PLight* light = FUN_00b70600(&lightPosition);
+                PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
                 while (light)
                 {
                     if (ambientRemaining > 2)
                     {
-                        PLight* light2 = FUN_00b70700(&lightPosition);
-                        PLight* light3 = FUN_00b70700(&lightPosition);
-                        FUN_00bddfb0(geom, light, light2, light3, count, passMode, &firstPass, skinned, flag11, castA,
+                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
+                        PLight* light3 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
+                        reinterpret_cast<::Shader_bddfb0 *>(this)->FUN_00bddfb0((::NiGeometry *)(geom), (::ShadowSceneLight *)(light), (::ShadowSceneLight *)(light2), (::ShadowSceneLight *)(light3), count, passMode, &firstPass, skinned, flag11, castA,
                                      flag18);
                         ambientRemaining -= 3;
                     }
                     else if (ambientRemaining > 1)
                     {
-                        PLight* light2 = FUN_00b70700(&lightPosition);
-                        FUN_00bdde10(geom, light, light2, count, passMode, &firstPass, skinned, flag11, castA, flag18);
+                        PLight* light2 = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
+                        reinterpret_cast<::Shader_00bdde10 *>(this)->FUN_00bdde10((::NiGeometry *)(geom), (::ShadowSceneLight *)(light), (::ShadowSceneLight *)(light2), count, passMode, &firstPass, skinned, flag11, castA, flag18);
                         ambientRemaining -= 2;
                     }
                     else if (ambientRemaining > 0)
                     {
-                        FUN_00bdef40(geom, light, count, passMode, &firstPass, skinned, false, special, flag11, castA,
+                        reinterpret_cast<::fnv_00bdef40::Shader98 *>(this)->FUN_00bdef40((::NiGeometry *)(geom), (::fnv_00bdef40::Light98 *)(light), count, passMode, &firstPass, skinned, false, special, flag11, castA,
                                      flag18);
                         --ambientRemaining;
                     }
-                    light = FUN_00b70700(&lightPosition);
+                    light = ((::fnv_00bdf790::PLight *)(::FUN_00b70700(*reinterpret_cast<::ListItem_b70700 **>(&lightPosition))));
                 }
             }
         ambientExtra:
             if (doAmbientExtra)
             {
-                PLight* light = FUN_00b70600(&lightPosition);
-                FUN_00bdbf60(geom, sceneLight, light, count, passMode, &firstPass, skinned, projected, flag21);
+                PLight* light = ((::fnv_00bdf790::PLight *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&lightPosition))));
+                reinterpret_cast<::BDBF60_Shader *>(this)->FUN_00bdbf60((::NiGeometry *)(geom), (::ShadowSceneLight *)(sceneLight), (::ShadowSceneLight *)(light), count, passMode, &firstPass, skinned, projected, flag21);
                 goto extraPass;
             }
         }
     }
     else
     {
-        FUN_00bdf3e0(geom, sceneLight, count, passMode, &firstPass, diffusePass, special);
+        reinterpret_cast<::fnv_00bdf3e0::Bdf3e0_cls *>(this)->FUN_00bdf3e0((void *)(geom), (void *)(sceneLight), count, passMode, (char *)(bool *)(&firstPass), diffusePass, special);
     }
 afterLighting:
     if (!allFlags)
@@ -24284,19 +23506,19 @@ afterLighting:
     else if (!flag14)
     {
     extraPass:
-        FUN_00bd9bc0(geom, count, passMode, &firstPass, skinned, castA, transparent);
+        reinterpret_cast<::Shader_00bd9bc0 *>(this)->FUN_00bd9bc0((::NiGeometry *)(geom), count, passMode, &firstPass, skinned, castA, transparent);
     }
     if (effect)
     {
-        FUN_00bdc030(geom, count, passMode, &firstPass, skinned);
+        reinterpret_cast<::FUN_00bdc030_class *>(this)->FUN_00bdc030((::NiGeometry *)(geom), count, passMode, &firstPass, skinned);
         passes->items[passes->count - 1]->type = 1;
     }
-    if (DAT_011f9422)
+    if (::DAT_011f9422)
     {
         if (renderFlags & 1)
-            CreatePassMessage(geom, count, passMode, skinned, hasValue);
+            reinterpret_cast<::fnv_00bdb380::Shader *>(this)->CreatePassMessage(geom, count, passMode, skinned, hasValue);
         if (!castA && !flag22 && !flag11 && !flag12 && !flag14 && !flag18)
-            AddAdditionalPass(geom, count, passMode, skinned);
+            reinterpret_cast<::ShaderPassSelection *>(this)->AddAdditionalPass((::NiGeometry *)(geom), (uintptr_t)(count), passMode, skinned);
     }
     unsigned int passType = 0;
     if (decal)
@@ -24314,9 +23536,6 @@ afterLighting:
 }
 }  // namespace fnv_00bdf790
 
-extern "C" int __cdecl rand(void);
-extern "C" double __cdecl fabs(double);
-
 inline void BoltScale(float& x, float& y, double s)
 {
     x *= s;
@@ -24324,7 +23543,6 @@ inline void BoltScale(float& x, float& y, double s)
 }
 struct BoltDirection : public Vec3
 {
-    void FUN_004a0c10();
 };
 
 struct Point4
@@ -24418,6 +23636,57 @@ struct ShellBC
     float unk148;
     void FUN_00bc20a0(int row, int col, int previous, int next);
 };
+// Advances m_7c by count steps, wraps it at m_140, keeps m_78 in sync, sets m_174, and calls FUN_00bc20a0 for each of m_128 entries.
+// @fnv 0x00bc2590
+void FUN_00bc2590_cls::FUN_00bc2590(int count)
+{
+    int step = 1;
+    if (count > 0)
+    {
+        int remaining = count;
+        do
+        {
+            m_7c += step;
+            if (m_7c >= m_140)
+            {
+                m_7c = 0;
+            }
+            int cursor = m_7c;
+            if (cursor == m_78)
+            {
+                m_78 += step;
+                if (m_78 >= m_140)
+                {
+                    m_78 -= m_140;
+                }
+            }
+            m_174 = m_78 > cursor;
+            for (int i = 0; i < m_128; i += step)
+            {
+                int prev;
+                if (cursor == 0)
+                {
+                    prev = m_174 ? m_140 - step : 0;
+                }
+                else
+                {
+                    prev = cursor - step;
+                }
+                int wrap;
+                if (cursor < m_74)
+                {
+                    wrap = m_174 ? m_140 - m_74 + cursor : 0;
+                }
+                else
+                {
+                    wrap = cursor - m_74;
+                }
+                reinterpret_cast<::ShellBC *>(this)->FUN_00bc20a0(i, cursor, prev, wrap);
+            }
+            remaining -= step;
+        } while (remaining != 0);
+    }
+}
 // Computes points[row*width+col] from the previous point plus a scaled direction and random x/z jitter, then pulls its x/z toward a target when beyond unk130.
 // @fnv 0x00bc20a0
 void ShellBC::FUN_00bc20a0(int row, int col, int previous, int next)
@@ -24431,18 +23700,18 @@ void ShellBC::FUN_00bc20a0(int row, int col, int previous, int next)
     dir.y = a.y - b.y;
     dir.z = a.z - b.z;
     if (dir.y < 0.0f)
-        *(NiPoint3*)&dir = NiPoint3_ZERO;
+        *(NiPoint3*)&dir = ::NiPoint3::ZERO;
     dir.y += 1.0;
-    dir.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(dir))->FUN_004a0c10();
     float speed = unk144;
     dir.x *= speed;
     dir.y *= speed;
     dir.z *= speed;
     float ratio = (float)col / width;
-    float random = (float)(rand() / 32767.0);
+    float random = (float)(std::rand() / 32767.0);
     points[index].x = (float)(dir.x + a.x + unk148 * random - unk148 * 0.5);
     points[index].y = dir.y + a.y;
-    random = (float)(rand() / 32767.0);
+    random = (float)(std::rand() / 32767.0);
     points[index].z = (float)(dir.z + a.z + unk148 * random - unk148 * 0.5);
     dir.x = unk64 * ratio - points[index].x;
     dir.y = unk6c * ratio - points[index].z;
@@ -24515,7 +23784,6 @@ struct NiD3DShaderDeclaration
 };
 struct FUN_00bd44c0 : NiMemObject
 {
-    static void operator delete(void* pvMem);
     FUN_00bd44c0(NiD3DShaderDeclaration* apDecl);
     virtual ~FUN_00bd44c0();
     virtual void Unk_01();
@@ -24602,7 +23870,7 @@ struct FUN_00bd44c0 : NiMemObject
     virtual void Unk_52();
     virtual void Unk_53();
     virtual void Unk_54();
-    int unk04;
+    intptr_t unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -24681,7 +23949,7 @@ struct FUN_00bd44c0 : NiMemObject
 // @fnv 0x00bd4750
 FUN_00bd44c0* FUN_00bd4750()
 {
-    NiD3DShaderDeclaration* pDecl = (NiD3DShaderDeclaration*)FUN_00e76700(DAT_011f9508, 6, 1);
+    NiD3DShaderDeclaration* pDecl = (NiD3DShaderDeclaration*)((::ShaderLayout *)(::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<::EventSystem * *>(&::DAT_011f9508))), 6, 1)));
     pDecl->SetEntry(0, 0, 0, 2, 0);
     pDecl->SetEntry(1, 3, 3, 2, 0);
     pDecl->SetEntry(2, 7, 5, 1, 0);
@@ -24714,11 +23982,11 @@ int RemovalOwnerBd8670::RemoveEntry(unsigned short index)
         }
         m_pEntries[m_uiItemCount - 1].m_f00 = 0.0f;
         m_pEntries[m_uiItemCount - 1].m_f04 = 0.0f;
-        m_pEntries[m_uiItemCount - 1].m_f08 = DAT_0104eb20;
+        m_pEntries[m_uiItemCount - 1].m_f08 = ::g_011cc974_arg1;
         m_pEntries[m_uiItemCount - 1].m_f0C = 0.0f;
         m_pKeys[m_uiItemCount - 1] = 0;
         m_uiItemCount--;
-        DAT_011f9ef8--;
+        (*reinterpret_cast<int *>(&::DAT_011f9ef8))--;
     }
     return m_uiItemCount;
 }
@@ -24734,7 +24002,7 @@ int Owner_bd8670::FUN_00bd8670(unsigned int key)
     for (int i = m_uiItemCount - 1; i >= 0; i--)
     {
         if (key == m_pKeys[i])
-            RemoveEntry(i);
+            reinterpret_cast<::FUN_00bd85b0_cls *>(this)->RemoveEntry(i);
     }
     return m_uiItemCount;
 }
@@ -24789,12 +24057,10 @@ int SingleLightPassSelector::FUN_00bd99c0(NiGeometry* geom, ShadowSceneLight* li
     return 0;
 }
 
-extern int DAT_01201f64;
 __declspec(noinline) void __cdecl FUN_00bc0c50();
 
 struct PoolFreeStandIn
 {
-    void FUN_00aa4060(void* p);
 };
 
 class ShadowBase_bc1fa0
@@ -24807,7 +24073,7 @@ class FUN_00bc1fa0 : public ShadowBase_bc1fa0
 {
   public:
     virtual ~FUN_00bc1fa0();
-    int unk04;
+    intptr_t unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -24832,12 +24098,21 @@ class FUN_00bc1fa0 : public ShadowBase_bc1fa0
     int unk5c;
     void* m_p60;
 };
+// Calls FUN_00bc1fa0, then deletes this with size 0x190 when bit 0 of a is set, and returns this.
+// @fnv 0x00bc2510
+void* FUN_00bc2510_class::FUN_00bc2510(int aiFlags)
+{
+    reinterpret_cast<::FUN_00bc1fa0 *>(this)->FUN_00bc1fa0::~FUN_00bc1fa0();
+    if (aiFlags & 1)
+        operator delete(this, 0x190);
+    return this;
+}
 
 // Frees the m_p60 resource via the pool and calls FUN_00bc0c50 when the global count DAT_01201f64 reaches zero.
 // @fnv 0x00bc1fa0
 FUN_00bc1fa0::~FUN_00bc1fa0()
 {
-    reinterpret_cast<PoolFreeStandIn*>(&DAT_011f6238)->FUN_00aa4060(m_p60);
+    reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<PoolFreeStandIn*>(&(*reinterpret_cast<::Bd9120Allocator *>(&::g_memoryManager)))))->FUN_00aa4060(m_p60);
     if (--DAT_01201f64 == 0)
         FUN_00bc0c50();
 }
@@ -24972,11 +24247,9 @@ class ParticleNiObject
         return false;
     }
 };
-extern GlobalObjectO2_00a7b610 g_012024b8;
-extern GlobalObjectO2_00a7b610 g_012024c0;
 struct BoundDataBlock
 {
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
+    intptr_t unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
     float radius;
 };
 inline float m_kBoundMin(float a, float b)
@@ -25023,7 +24296,7 @@ void S_00bd6150_Foo::FUN_00bd5e40()
             ParticleBound bound;
             bound.center = minimum;
             bound.radius = difference.Length() + data->radius;
-            bool compatible = object->IsKindOfType((const ParticleRTTI*)&g_012024c0);
+            bool compatible = object->IsKindOfType((const ParticleRTTI*)&::g_012024c0);
             ParticleNiObject* geometry = compatible ? object : 0;
             if (geometry)
             {
@@ -25033,7 +24306,7 @@ void S_00bd6150_Foo::FUN_00bd5e40()
             else
             {
                 object = (ParticleNiObject*)unk00;
-                geometry = object ? object->DynamicCast(&g_012024b8) : 0;
+                geometry = object ? object->DynamicCast(&::g_012024b8) : 0;
                 if (geometry)
                 {
                     geometry->SetObjectBound(bound);
@@ -25077,10 +24350,6 @@ FUN_00bd6f30::~FUN_00bd6f30()
 namespace fnv_00bc1d40 {
 #include <stdlib.h>
 
-extern int DAT_011ae61c;
-extern int DAT_01201f64;
-void __cdecl GetOrCreateTable();
-__declspec(noinline) unsigned int __cdecl FUN_00bc0b40();
 struct C04Color
 {
     float r, g, b, a;
@@ -25099,7 +24368,6 @@ struct C04Vec
     C04Vec(float a, float b, float c) : x(a), y(b), z(c)
     {}
 };
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00ba8e50
 {
     FUN_00ba8e50();
@@ -25178,10 +24446,10 @@ FUN_00bc1d40::FUN_00bc1d40()
     flag177 = 1;
     position = initialPosition;
     field074 = 4;
-    field140 = FUN_00bc0b40();
+    field140 = ::FUN_00bc0b40();
     field144 = 1;
     field148 = 1;
-    field14c = DAT_011ae61c;
+    field14c = ::DAT_011ae61c;
     field150 = 1;
     field128 = 1;
     field12c = 2048.0f;
@@ -25190,20 +24458,22 @@ FUN_00bc1d40::FUN_00bc1d40()
     field138 = 3.0f;
     field13c = 1;
     field188 = 0;
-    color154 = *(C04Color*)&DAT_011a9be0;
-    color164 = *(C04Color*)&DAT_011a9be0;
+    color154 = *(C04Color*)&(*reinterpret_cast<::RGBWords *>(&::DAT_011a9be0));
+    color164 = *(C04Color*)&(*reinterpret_cast<::RGBWords *>(&::DAT_011a9be0));
     flag175 = 1;
-    GetOrCreateTable();
+    ::GetOrCreateTable();
     field178 = 0;
-    unsigned int count = FUN_00bc0b40();
+    unsigned int count = ::FUN_00bc0b40();
     field060 = new Vec[count];
-    _fnv_zlib_memset(field060, 0, count * sizeof(Vec));
+    std::memset(field060, 0, count * sizeof(Vec));
     for (unsigned int i = 0; i < 40; ++i)
-        randomValues[i] = rand() / 32767.0;
-    ++DAT_01201f64;
+        randomValues[i] = std::rand() / 32767.0;
+    ++::DAT_01201f64;
     field188 = 0;
     field18c = 1;
     field058 = 25;
     field01c = 15;
 }
 }  // namespace fnv_00bc1d40
+
+#include "generated/data/staging/blk_00bc0000_o2.inc"

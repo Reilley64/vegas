@@ -3,18 +3,35 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00a53070
-int __stdcall FUN_00a53070(unsigned short usChannel)
+#include <cstdint>
+#include <windows.h>
+#include "fnv/decl/A53480Object.h"
+#include "fnv/decl/FUN_00a95ca0_shell.h"
+#include "fnv/decl/StandIn_00a537a0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a3cbf0__NiKeyBasedInterpolator.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109a000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/decl/FUN_00a53910_shell.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00c85000.h"
+int FUN_00a53070(unsigned short usChannel)
 {
     return 5;
 }
 
 struct FUN_00a53080_shell
 {
-    int __thiscall GetThirdValue(int arg);
+    int GetThirdValue(int arg);
 };
 
 // @fnv 0x00a53080
-int __thiscall FUN_00a53080_shell::GetThirdValue(int arg)
+int FUN_00a53080_shell::GetThirdValue(int arg)
 {
     int* p = *(int**)((char*)this + 0x10);
     if (!p)
@@ -24,11 +41,11 @@ int __thiscall FUN_00a53080_shell::GetThirdValue(int arg)
 
 struct FUN_00a53090_shell
 {
-    int __thiscall GetValueFromMember(void* arg);
+    int GetValueFromMember(void* arg);
 };
 
 // @fnv 0x00a53090
-int __thiscall FUN_00a53090_shell::GetValueFromMember(void* apUnused)
+int FUN_00a53090_shell::GetValueFromMember(void* apUnused)
 {
     void* p = *(void**)((char*)this + 0x10);
     if (!p)
@@ -36,14 +53,17 @@ int __thiscall FUN_00a53090_shell::GetValueFromMember(void* apUnused)
     return *(int*)((char*)p + 0xc);
 }
 
+class NiObject;
 struct NiStream
 {
     int _d;
+public:
+    ::NiObject *DeserializeObject();
 };
 struct HC1Base
 {
     int _p[4];
-    bool __thiscall FUN_00aa0ad0(NiStream*);
+    bool FUN_00aa0ad0(NiStream*);
 };
 struct NiBoolData
 {
@@ -77,10 +97,10 @@ template <class T> struct NiPointer
 struct NiBoolInterpolator : HC1Base
 {
     NiPointer<NiBoolData> m_spBoolData;
-    bool __thiscall FUN_00a3c5b0(NiStream*);
+    bool FUN_00a3c5b0(NiStream*);
 };
 // @fnv 0x00a3c5b0
-bool __thiscall NiBoolInterpolator::FUN_00a3c5b0(NiStream* kStream)
+bool NiBoolInterpolator::FUN_00a3c5b0(NiStream* kStream)
 {
     if (!HC1Base::FUN_00aa0ad0(kStream))
         return false;
@@ -91,7 +111,6 @@ bool __thiscall NiBoolInterpolator::FUN_00a3c5b0(NiStream* kStream)
 }
 
 namespace fnv_00a531a0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct NiBoolData
 {
     virtual void F0();
@@ -123,11 +142,11 @@ struct FUN_00a531a0_shell
     unsigned char m_bBoolValue;
     char _pad[3];
     NiPointer m_spBoolData;
-    void __thiscall SetBoolValue(bool bPoseValue);
+    void SetBoolValue(bool bPoseValue);
 };
 // Clears the NiPointer member and stores the given bool into m_bBoolValue.
 // @fnv 0x00a531a0
-void __thiscall FUN_00a531a0_shell::SetBoolValue(bool abValue)
+void FUN_00a531a0_shell::SetBoolValue(bool abValue)
 {
     m_spBoolData = 0;
     m_bBoolValue = abValue;
@@ -138,7 +157,6 @@ void __cdecl FUN_00a537a0(float m_fStartTime, float m_fMaximumDistance);
 
 struct NiBoolData_shell
 {
-    void AddBooleanKey(float m_fStartTime, float m_fMaximumDistance);
 };
 
 struct NiBoolInterpolator_shell
@@ -153,7 +171,7 @@ void NiBoolInterpolator_shell::FUN_00a531f0(float afArg1, float afArg2)
 {
     if (m_spBoolData)
     {
-        m_spBoolData->AddBooleanKey(afArg1, afArg2);
+        reinterpret_cast<::StandIn_00a537a0 *>((m_spBoolData))->FUN_00a537a0(afArg1, afArg2);
     }
 }
 
@@ -165,13 +183,12 @@ struct FUN_00a530a0_shell
     volatile unsigned char unk0c;
     int unk10;
 
-    unsigned char __thiscall FUN_00a530a0(int unused);
+    unsigned char FUN_00a530a0(int unused);
 };
 
-extern unsigned char DAT_0109a914;
 
 // @fnv 0x00a530a0
-unsigned char __thiscall FUN_00a530a0_shell::FUN_00a530a0(int unused)
+unsigned char FUN_00a530a0_shell::FUN_00a530a0(int unused)
 {
     if (unk10 != 0)
         return 0;
@@ -364,7 +381,6 @@ struct S_00a53680_Base
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00a95ca0(S_00a53680_Stream* s);
 };
 struct S_00a53680_Child : S_00a53680_Base
 {
@@ -375,7 +391,7 @@ struct S_00a53680_Child : S_00a53680_Base
 // @fnv 0x00a53680
 void S_00a53680_Child::SaveToStream(S_00a53680_Stream* kStream)
 {
-    FUN_00a95ca0(kStream);
+    reinterpret_cast<::FUN_00a95ca0_shell *>(this)->FUN_00a95ca0((*(::S_00a58160_Stream *)(kStream)));
     S_00a53680_Save(kStream->unk250, &unk0C, 1, 1);
     kStream->vf12(unk10);
 }
@@ -388,8 +404,6 @@ struct FUN_00a536d0_arr
     unsigned short m_usElementCount;
     unsigned short unk0c;
     unsigned short m_usGrowBy;
-    void FUN_0096ad30(unsigned int newSize);
-    void FUN_0096ae90(unsigned int index, void* item);
 };
 
 struct FUN_00a536d0_self
@@ -398,13 +412,8 @@ struct FUN_00a536d0_self
     unsigned char m_bBoolValue;
     unsigned char unk0d[3];
     void* m_spBoolData;
-    void FUN_00a3cbf0(FUN_00a536d0_arr* pArr);
 };
 
-void* FUN_00a7d330(int value);
-void* FUN_00a7d410(const char* fmt, unsigned int value);
-void* FUN_00a7d5a0(const char* fmt, void* value);
-extern int DAT_011f404c;
 
 struct FUN_00a536d0_cls
 {
@@ -418,31 +427,31 @@ void FUN_00a536d0_cls::FUN_00a536d0(FUN_00a536d0_arr* pArr)
     void* v;
     unsigned int idx;
 
-    self->FUN_00a3cbf0(pArr);
-    v = FUN_00a7d330(DAT_011f404c);
+    reinterpret_cast<::fnv_00a3cbf0::NiKeyBasedInterpolator *>((self))->FUN_00a3cbf0((::fnv_00a3cbf0::StrArr *)(pArr));
+    v = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_011f404c))))));
     idx = pArr->m_usElementCount;
     if (idx >= pArr->m_usCapacity)
     {
-        pArr->FUN_0096ad30(idx + pArr->m_usGrowBy);
+        reinterpret_cast<::ViewerStrings *>((pArr))->SetSize(idx + pArr->m_usGrowBy);
     }
-    pArr->FUN_0096ae90(idx, &v);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArr))->SetAt(idx, (*(char * *)(&v)));
 
-    v = FUN_00a7d410("m_bBoolValue", self->m_bBoolValue);
+    v = ((void *)(::FUN_00a7d410("m_bBoolValue", self->m_bBoolValue)));
     idx = pArr->m_usElementCount;
     if (idx >= pArr->m_usCapacity)
     {
-        pArr->FUN_0096ad30(idx + pArr->m_usGrowBy);
+        reinterpret_cast<::ViewerStrings *>((pArr))->SetSize(idx + pArr->m_usGrowBy);
     }
-    pArr->FUN_0096ae90(idx, &v);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArr))->SetAt(idx, (*(char * *)(&v)));
 
     void* pBoolData = self->m_spBoolData;
-    v = FUN_00a7d5a0("m_spBoolData", pBoolData);
+    v = ((void *)(::FUN_00a7d5a0("m_spBoolData", pBoolData)));
     idx = pArr->m_usElementCount;
     if (idx >= pArr->m_usCapacity)
     {
-        pArr->FUN_0096ad30(idx + pArr->m_usGrowBy);
+        reinterpret_cast<::ViewerStrings *>((pArr))->SetSize(idx + pArr->m_usGrowBy);
     }
-    pArr->FUN_0096ae90(idx, &v);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArr))->SetAt(idx, (*(char * *)(&v)));
 }
 
 // Based on unverified previous work by another contributor (2026-10-22).
@@ -536,9 +545,6 @@ class FUN_00a532d0 : public A32D0KeyBasedInterpolator
 FUN_00a532d0::FUN_00a532d0(bool bFlag) : m_bFlag(bFlag)
 {}
 
-extern unsigned char DAT_0109a914;
-int __cdecl InterpolateBooleanKey(float fValue, unsigned int uiArg1, unsigned int uiArg2, unsigned int uiArg3,
-                                  void* pArg4, unsigned char ucArg5);
 struct S_00a533c0_Data
 {
     int unk00;
@@ -556,10 +562,10 @@ struct S_00a533c0_Class
     unsigned char unk0c;
     S_00a533c0_Data* unk10;
     unsigned char unk14;
-    bool __thiscall UpdateValue(float fValue, int iValue, unsigned char* pOut);
+    bool UpdateValue(float fValue, int iValue, unsigned char* pOut);
 };
 // @fnv 0x00a533c0
-bool __thiscall S_00a533c0_Class::UpdateValue(float fValue, int iValue, unsigned char* pucOut)
+bool S_00a533c0_Class::UpdateValue(float fValue, int iValue, unsigned char* pucOut)
 {
     if (unk08 == fValue)
     {
@@ -578,10 +584,10 @@ bool __thiscall S_00a533c0_Class::UpdateValue(float fValue, int iValue, unsigned
         unsigned int uiOther = pData->unk10;
         unsigned int ItemUpdateArray = pData->unk08;
         unsigned char ucFlag = pData->unk14;
-        unsigned int uiKey = pData->unk0c;
+        uintptr_t uiKey = pData->unk0c;
         if (ItemUpdateArray > 0)
         {
-            unk0c = ((unsigned char)InterpolateBooleanKey(fValue, uiKey, uiOther, ItemUpdateArray, &unk14, ucFlag) != 0);
+            unk0c = ((unsigned char)((int)(::InterpolateBooleanKey(fValue, (const ::AnimationKey *)(uiKey), uiOther, ItemUpdateArray, (unsigned int *)(void *)(&unk14), ucFlag))) != 0);
         }
     }
 
@@ -595,7 +601,6 @@ bool __thiscall S_00a533c0_Class::UpdateValue(float fValue, int iValue, unsigned
     return true;
 }
 
-void __cdecl FUN_00aa1000();
 
 // @fnv 0x00aa0ab0
 void __cdecl FUN_00aa0ab0()
@@ -608,7 +613,6 @@ class CloningProcessA535;
 class TESObjectDoorController
 {
   public:
-    static void* operator new(unsigned int n);
 };
 
 class FUN_00a3ca10
@@ -620,7 +624,6 @@ class FUN_00a3ca10
 };
 
 namespace ni535 {
-extern bool DAT_0109a914;
 }
 
 template <class T> class NiPointerA535
@@ -634,22 +637,17 @@ template <class T> class NiPointerA535
 class NiBoolInterpA535 : public FUN_00a3ca10
 {
   public:
-    NiBoolInterpA535() throw() : m_bBoolValue(ni535::DAT_0109a914)
+    NiBoolInterpA535() throw() : m_bBoolValue((*reinterpret_cast<bool *>(&::DAT_0109a914)))
     {
         m_uiLastKeyIndex = 0;
     }
     virtual ~NiBoolInterpA535() throw();
 
-    static void* operator new(unsigned int n)
-    {
-        return TESObjectDoorController::operator new(n);
-    }
 
     bool m_bBoolValue;
     NiPointerA535<void> m_spBoolData;
     unsigned int m_uiLastKeyIndex;
 
-    void CloneTo(NiBoolInterpA535* dest, CloningProcessA535& cloning);
     NiBoolInterpA535* FUN_00a53590(CloningProcessA535& cloning);
 };
 
@@ -658,12 +656,10 @@ class NiBoolInterpA535 : public FUN_00a3ca10
 NiBoolInterpA535* NiBoolInterpA535::FUN_00a53590(CloningProcessA535& cloning)
 {
     NiBoolInterpA535* p = new NiBoolInterpA535;
-    CloneTo(p, cloning);
+    reinterpret_cast<::A53480Object *>(this)->CloneTo((::A53480Object *)(p), (::A53480CloningProcess &)(cloning));
     return p;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 namespace A536 {
 
@@ -739,7 +735,6 @@ struct NiStreamData
     int unk240, unk244, unk248;
     NiBinaryStream* m_pUnderlyingStream;
 
-    NiBoolData* FUN_00a64620();
 };
 
 }
@@ -765,14 +760,12 @@ class NiBoolInterpolatorA536 : public NiKeyBasedInterpolator_LoadBinary_Helper
 // @fnv 0x00a53600
 void NiBoolInterpolatorA536::FUN_00a53600(NiStream& kStream)
 {
-    NiKeyBasedInterpolator_LoadBinary_Helper::LoadBinary(kStream);
+    ::FUN_00aa0ac0();
     A536::NiStreamData& kData = reinterpret_cast<A536::NiStreamData&>(kStream);
     kData.m_pUnderlyingStream->Read(m_bBoolValue);
-    m_spBoolData = kData.FUN_00a64620();
+    m_spBoolData = ((::A536::NiBoolData *)(reinterpret_cast<::NiStream *>(&(kData))->DeserializeObject()));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern unsigned char DAT_0109a914;
 
 struct BRef
 {
@@ -879,4 +872,86 @@ void BInterp::FinalizeBoolValue()
             }
         }
     }
+}
+
+int FUN_00a53070(unsigned short usChannel);
+
+
+class NiRefObject3300
+{
+  public:
+    virtual ~NiRefObject3300();
+    virtual void DeleteThis();
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+    long m_uiRefCount;
+};
+
+template <class T> class NiPointer3300
+{
+  public:
+    NiPointer3300(T* pObject = 0)
+    {
+        m_pObject = pObject;
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+    ~NiPointer3300()
+    {
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+    NiPointer3300& operator=(const NiPointer3300& ptr)
+    {
+        T* pObject = ptr.m_pObject;
+        if (m_pObject != pObject)
+        {
+            if (m_pObject)
+                m_pObject->DecRefCount();
+            m_pObject = pObject;
+            if (m_pObject)
+                m_pObject->IncRefCount();
+        }
+        return *this;
+    }
+    T* m_pObject;
+};
+
+class Interpolator3300 : public NiRefObject3300
+{
+  public:
+};
+
+class Controller3300
+{
+  public:
+    Controller3300* FUN_00a53300(float fA, float fB);
+
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    NiPointer3300<Interpolator3300> m_spInterp;
+    int m_iFadeIndex;
+};
+
+// @fnv 0x00a53300
+Controller3300* Controller3300::FUN_00a53300(float fA, float fB)
+{
+    Controller3300* pkCopy = ((::Controller3300 *)(::FUN_00a57050((intptr_t)this, fA)));
+    if (m_spInterp.m_pObject)
+    {
+        NiPointer3300<Interpolator3300> spInterp;
+        reinterpret_cast<::FUN_00a53910_shell *>((m_spInterp.m_pObject))->FUN_00a53910(fA, fB, (::NiPointer< ::NiBoolData> &)(spInterp));
+        pkCopy->m_spInterp = spInterp;
+        pkCopy->m_iFadeIndex = 0;
+    }
+    return pkCopy;
 }

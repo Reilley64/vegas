@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpConstraintData.h"
 #include "hkpWheelConstraintDataAtoms.h"
-#pragma pack(push, 1)
 class hkpWheelConstraintData : public hkpConstraintData
 {
   public:
@@ -15,6 +14,4 @@ class hkpWheelConstraintData : public hkpConstraintData
     hkVector4 m_kAxleDirectionInBodyB;           // +0x140
     hkVector4 m_kSteeringDirectionInBodyB;       // +0x150
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpWheelConstraintData[(sizeof(hkpWheelConstraintData) == 0x160) ? 1 : -1];
 #endif

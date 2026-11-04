@@ -2,32 +2,8 @@
 // src/havok/physics/collide/query/collector/aabbtreecollector/hkpaabbtreecollidableraycaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/aabbtreecollector/hkpaabbtreecollidableraycaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct hkpAabbTreeCollidableRaycaster
-{
-    void CollectRayHit(int);
-    float FUN_00d9a220(int);
-};
-// @fnv 0x00d9a220
-float hkpAabbTreeCollidableRaycaster::FUN_00d9a220(int a)
-{
-    CollectRayHit(*(int*)(a + 0x20));
-    return *(float*)((char*)this + 0x1c);
-}
-
-namespace fnv_00d9a240 {
-struct hkpAabbTreeCollidableRaycaster
-{
-    void __thiscall CollectRayHit(void*);
-    float __thiscall FUN_00d9a240(void* arg);
-};
-// @fnv 0x00d9a240
-float __thiscall hkpAabbTreeCollidableRaycaster::FUN_00d9a240(void* arg)
-{
-    ((hkpAabbTreeCollidableRaycaster*)((char*)this - 4))->CollectRayHit(*(void**)((char*)arg + 12));
-    return *(float*)((char*)this + 0x18);
-}
-}  // namespace fnv_00d9a240
-
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 struct FnvRayInput
 {
@@ -52,13 +28,14 @@ __declspec(align(16)) struct FnvQuery
     int fraction;
     void* filterScale;
 };
+struct FnvCollidable;
 struct FnvHit
 {
     __m128 position;
     float fraction;
     int unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30;
     int unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
-    int* object;
+    const FnvCollidable* object;
 };
 struct FnvExistingHit
 {
@@ -68,7 +45,7 @@ struct FnvExistingHit
 struct FnvFilter
 {
     virtual void ReportDiagnostic();
-    virtual unsigned char* accepts(unsigned char*, FnvRayInput*, int*);
+    virtual unsigned char* accepts(unsigned char*, FnvRayInput*, const FnvCollidable*);
 };
 struct FnvRayNode
 {
@@ -81,7 +58,7 @@ struct FnvRayNode
     virtual void unused6();
     virtual void unused7();
     virtual void collect(unsigned char*, FnvQuery*, FnvHit*);
-    virtual void update(FnvQuery*, int*, FnvExistingHit*);
+    virtual void update(FnvQuery*, const FnvCollidable*, FnvExistingHit*);
 };
 
 static __forceinline __m128 inversePoint(__m128 v, const FnvTransform* t)
@@ -98,10 +75,25 @@ static __forceinline __m128 inversePoint(__m128 v, const FnvTransform* t)
     return _mm_add_ps(_mm_add_ps(y, x), z);
 }
 
-struct FnvRaycasterState
+struct FnvCollidable
 {
-    int unk00;
+    FnvRayNode* m_shape;
     int unk04;
+    FnvTransform* m_motion;
+};
+
+struct FnvRaycasterPrimary
+{
+    void* m_vtbl;
+};
+
+struct FnvRaycasterSecondary
+{
+    void* m_vtbl;
+};
+
+struct FnvRaycasterState : FnvRaycasterPrimary, FnvRaycasterSecondary
+{
     FnvRayInput* ray;
     FnvFilter* filter;
     void* filterScale;
@@ -110,19 +102,56 @@ struct FnvRaycasterState
     float fraction;
 };
 
+struct D9a220Item
+{
+    int unk00[8];
+    const FnvCollidable* m_collidable;
+};
+
+struct D9a240Item
+{
+    int unk00[3];
+    const FnvCollidable* m_collidable;
+};
+
+struct hkpAabbTreeCollidableRaycaster : FnvRaycasterState
+{
+    void CollectRayHit(const FnvCollidable*);
+    float FUN_00d9a220(const D9a220Item*);
+};
+// @fnv 0x00d9a220
+float hkpAabbTreeCollidableRaycaster::FUN_00d9a220(const D9a220Item* a)
+{
+    CollectRayHit(a->m_collidable);
+    return fraction;
+}
+
+namespace fnv_00d9a240 {
+struct hkpAabbTreeCollidableRaycaster : FnvRaycasterSecondary
+{
+    float FUN_00d9a240(void* arg);
+};
+// @fnv 0x00d9a240
+float hkpAabbTreeCollidableRaycaster::FUN_00d9a240(void* arg)
+{
+    ::hkpAabbTreeCollidableRaycaster* self = static_cast<::hkpAabbTreeCollidableRaycaster*>(static_cast<FnvRaycasterSecondary*>(this));
+    self->CollectRayHit(static_cast<D9a240Item*>(arg)->m_collidable);
+    return self->fraction;
+}
+}  // namespace fnv_00d9a240
+
 // If the filter accepts, transforms the ray into the source's space and calls node->update or node->collect, rotating a collected hit position back.
 // @fnv 0x00d9a070
-void hkpAabbTreeCollidableRaycaster::CollectRayHit(int request)
+void hkpAabbTreeCollidableRaycaster::CollectRayHit(const FnvCollidable* source)
 {
-    FnvRaycasterState* st = (FnvRaycasterState*)this;
-    int* source = (int*)request;
-    FnvRayNode* node = (FnvRayNode*)source[0];
+    FnvRaycasterState* st = this;
+    FnvRayNode* node = source->m_shape;
     if (!node)
         return;
     unsigned char accepted;
     if (st->filter && !*st->filter->accepts(&accepted, st->ray, source))
         return;
-    FnvTransform* t = (FnvTransform*)source[2];
+    FnvTransform* t = source->m_motion;
     FnvQuery query;
     _mm_store_ps(&query.startX, inversePoint(st->ray->from, t));
     _mm_store_ps(&query.endX, inversePoint(st->ray->to, t));
@@ -168,34 +197,15 @@ struct DerivedA : PrimaryBaseA, SecondaryBaseA
 DerivedA::DerivedA()
 {}
 
-struct S_00d9a270_Heap
-{
-    virtual void unk0();
-    virtual void unk4();
-    virtual void ReleaseBlock(void* p, int nbytes);
-};
 
-struct S_00d9a270_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00d9a270_Heap* m_pStreamAllocator;
-    static S_00d9a270_Router* FUN_00c85750();
-    S_00d9a270_Heap& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 struct S_00d9a270_Base
 {
     virtual ~S_00d9a270_Base()
     {}
-    void operator delete(void* p, unsigned int nbytes)
+    void operator delete(void* p, size_t nbytes)
     {
-        S_00d9a270_Router::FUN_00c85750()->heap().ReleaseBlock(p, nbytes);
+        hkMemoryRouter::getInstance().heap().blockFree(p, nbytes);
     }
 };
 

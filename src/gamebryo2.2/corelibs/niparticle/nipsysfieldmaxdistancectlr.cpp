@@ -1,12 +1,22 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysfieldmaxdistancectlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysfieldmaxdistancectlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern const void* g_01202710;
 
 // @fnv 0x00c2b040
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
+#include "fnv/decl/FUN_00c32d80.h"
+#include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c32000.h"
+#include "fnv/symbols_010bf000.h"
+#include "fnv/symbols_01202000.h"
 const void* __cdecl FUN_00c2b040()
 {
-    return &g_01202710;
+    return &(*reinterpret_cast<const void * *>(&::g_01202710));
 }
 
 struct NiPSysModifierFloatCtlr
@@ -33,28 +43,22 @@ struct StrArr
     unsigned short m_usSize;
     unsigned char _c[2];
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
 // @fnv 0x00c2b0c0
-void __stdcall FUN_00c2b0c0(StrArr* pkStrings)
+void FUN_00c2b0c0(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
-    char* psz = _FUN_00a7d330((const char*)g_01202710);
+    char* psz = ::FUN_00a7d330((const char*)(*reinterpret_cast<const void * *>(&::g_01202710)));
     unsigned int uSize = pkStrings->m_usSize;
     if (uSize >= pkStrings->m_usMaxSize)
-        pkStrings->SetSize(uSize + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(uSize, psz);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uSize + pkStrings->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uSize, psz);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
-extern char DAT_010bf354[];
+
 
 struct CtorBase_cls
 {
-    void ctorBase();
 };
 
 struct FUN_00c2b070_cls
@@ -62,24 +66,23 @@ struct FUN_00c2b070_cls
     void* m_vtbl;
     unsigned int unk04;
     unsigned int unk08;
-    void FUN_00c32de0(void* obj, unsigned int a1);
-    void* FUN_00c2b070(unsigned int a1);
+    void* FUN_00c2b070(uintptr_t a1);
 };
 
 // Allocates a 0x40-byte object, runs its base constructor and sets its vtable, then passes it with a1 to FUN_00c32de0 and returns it.
 // @fnv 0x00c2b070
-void* FUN_00c2b070_cls::FUN_00c2b070(unsigned int a1)
+void* FUN_00c2b070_cls::FUN_00c2b070(uintptr_t a1)
 {
     FUN_00c2b070_cls* p = (FUN_00c2b070_cls*)FUN_00aa13e0(0x40);
     if (p != 0)
     {
-        ((CtorBase_cls*)p)->ctorBase();
+        new ((void *)(((CtorBase_cls*)p))) ::FUN_00c32d80();
         p->m_vtbl = (void*)&DAT_010bf354;
     }
     else
     {
         p = 0;
     }
-    this->FUN_00c32de0(p, a1);
+    reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>((this))->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(p), (*(::CloningProcess *)(a1)));
     return p;
 }

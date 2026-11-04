@@ -2,10 +2,14 @@
 // src/havok/common/geometryutilities/mesh/memory/hkmemorymeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/geometryutilities/mesh/memory/hkmemorymeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00e60000.h"
 #include "havok/hkMemoryMeshShape.h"
 
 // @fnv 0x00e4a020
-void __stdcall FUN_00e4a020(void* unused)
+void FUN_00e4a020(void* unused)
 {}
 
 class hkMemMeshShapeCand : public hkMemoryMeshShape
@@ -20,7 +24,6 @@ int hkMemMeshShapeCand::FUN_00e4a030()
     return m_sections.m_iElementCount;
 }
 
-int FUN_00d06f80(const void* pvData, int iSize) throw();
 
 template <typename T> inline int hkGetSize(const hkArray<T>& a)
 {
@@ -58,7 +61,7 @@ class hkStatisticsCollectorE4A0
         if (!(kArray.m_iCapacityState & 0x80000000) || m_bExternalMemory)
         {
             const T* pData = kArray.m_data;
-            int iAllocatedSize = FUN_00d06f80(pData, hkGetCapacity(kArray) * sizeof(T));
+            int iAllocatedSize = ::fnv_00d06f80::FUN_00d06f80((const char *)(pData), hkGetCapacity(kArray) * sizeof(T));
             AddMemoryChunk(3, pcFieldName, kArray.m_data, hkGetSize(kArray) * sizeof(T), iAllocatedSize);
         }
     }
@@ -106,7 +109,6 @@ enum PrimitiveTypeE4A
     PRIMITIVE_TYPE_UNKNOWN
 };
 
-int __cdecl FUN_00e60cb0(PrimitiveTypeE4A type, int numPrimitives);
 
 struct hkMeshSectionCinfoE4A
 {
@@ -151,7 +153,7 @@ void hkMemoryMeshShapeE4A::GetSection(int sectionIndex, unsigned char accessFlag
     const hkMeshSectionCinfoE4A& cinfo = m_sections[sectionIndex];
     sectionOut.m_ePrimitiveType = cinfo.m_ePrimitiveType;
     sectionOut.m_iNumPrimitives = cinfo.m_iNumPrimitives;
-    sectionOut.m_iIndexCount = FUN_00e60cb0(cinfo.m_ePrimitiveType, cinfo.m_iNumPrimitives);
+    sectionOut.m_iIndexCount = ::FUN_00e60cb0((*(int *)&(const ::PrimitiveTypeE4A &)(cinfo.m_ePrimitiveType)), cinfo.m_iNumPrimitives);
     sectionOut.m_iIndexType = cinfo.m_iIndexType;
     sectionOut.m_hasIndices = cinfo.m_hasIndices;
     sectionOut.m_iSectionVertexCount = cinfo.m_iSectionVertexCount;
@@ -163,8 +165,6 @@ void hkMemoryMeshShapeE4A::GetSection(int sectionIndex, unsigned char accessFlag
     sectionOut.m_iVertexOffset = sectionIndex;
 }
 
-void __cdecl EnterTlsGuard() throw();
-void __cdecl FUN_00c904e0() throw();
 
 class hkBoolC
 {
@@ -216,7 +216,6 @@ class RefObject : public BaseObj
         m_sReferenceCount = 1;
     }
     ~RefObject() throw();
-    void FUN_00c90510() throw();
 
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
@@ -282,11 +281,11 @@ FUN_00cf3ea0::FUN_00cf3ea0(ConstraintEntity* entityA, ConstraintEntity* entityB,
     m_pConstraintModifier = 0;
 
     EnterTlsGuard();
-    m_kActorEntries[0]->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((m_kActorEntries[0]))->FUN_00c90510();
     if (m_kActorEntries[1])
     {
-        m_kActorEntries[1]->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((m_kActorEntries[1]))->FUN_00c90510();
     }
-    m_data->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((m_data))->FUN_00c90510();
     FUN_00c904e0();
 }

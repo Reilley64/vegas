@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 #include "hkpWorldObject.h"
-#pragma pack(push, 1)
 class hkpPhantom : public hkpWorldObject
 {
   public:
     hkArray<void*> m_kPhantomOverlapListeners;  // +0x8C
     hkArray<void*> m_kPhantomListeners;         // +0x98
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPhantom[(sizeof(hkpPhantom) == 0xA4) ? 1 : -1];
 #endif

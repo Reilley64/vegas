@@ -2,6 +2,46 @@
 // src/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include <cstring>
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0045bb20_cls.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00532e40_s.h"
+#include "fnv/decl/FUN_00534780_Class.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_00a673d0_shell.h"
+#include "fnv/decl/FUN_00a67660_cls.h"
+#include "fnv/decl/FUN_00a67720_cls.h"
+#include "fnv/decl/FUN_00ea0820.h"
+#include "fnv/decl/FnvCpu_FUN_00a7b850_CpuObject.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiGeometryData.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/Proxy00eab8a0.h"
+#include "fnv/decl/RayTriangleIntersector.h"
+#include "fnv/decl/RenderOwner.h"
+#include "fnv/decl/S00a67410.h"
+#include "fnv/decl/TexturePoolE993.h"
+#include "fnv/decl/TransformRecord.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_00a75000.h"
+#include "fnv/symbols_00e99000.h"
+#include "fnv/symbols_00e9a000.h"
+#include "fnv/symbols_00e9b000.h"
+#include "fnv/symbols_00e9c000.h"
+#include "fnv/symbols_00ead000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/decl/Builder.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01050000.h"
+#include "fnv/symbols_01203000.h"
 extern int DAT_0126fa68;
 extern int DAT_0126fa6c;
 extern int DAT_0126fa70;
@@ -21,9 +61,7 @@ int* __cdecl FUN_00e9c7d0(float afValue, int* apComponents)
 
 struct P03MM
 {
-    void* Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
 extern int _NiPoint3_ZERO;
 struct Obj
 {
@@ -32,15 +70,14 @@ struct Obj
     int f8;
     int fC;
     float f10;
-    Obj* InitFromParams(float, int*);
 };
 // @fnv 0x00e9c800
 Obj* FUN_00e9c800(float afValue, int* p)
 {
-    void* pMemory = g_memoryManager.Allocate(20);
+    void* pMemory = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(20);
     Obj* pObj;
     if (pMemory)
-        pObj = ((Obj*)pMemory)->InitFromParams(1.0f, &_NiPoint3_ZERO);
+        pObj = ((::Obj *)(reinterpret_cast<::Proxy00eab8a0 *>((((Obj*)pMemory)))->InitFromParams(1.0f, &_NiPoint3_ZERO)));
     else
         pObj = 0;
     pObj->f10 = afValue;
@@ -117,10 +154,9 @@ struct ItemOwner
     int m_uiEdgeIndex;
 };
 
-bool __cdecl FUN_00e9c490(int a1, int a2, SpawnParam* p, int item);
 
 // @fnv 0x00e9c680
-bool __cdecl FUN_00e9c680(int a1, int a2, SpawnParam* p, ItemOwner* owner)
+bool __cdecl FUN_00e9c680(intptr_t a1, intptr_t a2, SpawnParam* p, ItemOwner* owner)
 {
     bool result = false;
     int idx = owner->m_uiEdgeIndex;
@@ -141,12 +177,12 @@ bool __cdecl FUN_00e9c680(int a1, int a2, SpawnParam* p, ItemOwner* owner)
         goto done;
     }
     {
-        int item = owner->m_pItems[idx];
+        intptr_t item = owner->m_pItems[idx];
         if (item == 0)
         {
             goto done;
         }
-        if (FUN_00e9c490(a1, a2, p, item))
+        if (::FUN_00e9c490((::S_00e9c490_Pt *)(a1), (::S_00e9c490_Pt *)(a2), (::S_00e9c490_Ctx *)(p), (::S_00e9c490_Node *)(item)))
         {
             result = true;
         }
@@ -156,7 +192,6 @@ done:
 }
 
 namespace fnv_00e9c6f0 {
-extern int DAT_011f5eb4;
 
 struct ListNode
 {
@@ -215,7 +250,6 @@ struct ItemOwner
 
 struct Dispatch
 {
-    void Run(ItemOwner* owner);
 };
 
 struct SpawnParam
@@ -233,15 +267,13 @@ struct SpawnParam
     int unk28;
 };
 
-bool __cdecl FUN_00e9c490(int a1, int a2, SpawnParam* p, int item);
-bool __cdecl FUN_00e9c680(int a1, int a2, SpawnParam* p, ItemOwner* owner);
 
 // @fnv 0x00e9c6f0
-bool __cdecl FUN_00e9c6f0(int a1, int a2, SpawnParam* pSpawnParam, ItemOwner* owner)
+bool __cdecl FUN_00e9c6f0(intptr_t a1, intptr_t a2, SpawnParam* pSpawnParam, ItemOwner* owner)
 {
     if (pSpawnParam->unk08 == 0 && pSpawnParam->m_iType == 1)
     {
-        pSpawnParam->m_sub.Run(owner);
+        reinterpret_cast<::TexturePoolE993 *>(&(pSpawnParam->m_sub))->GetTexture((intptr_t)(owner));
         return true;
     }
 
@@ -252,9 +284,9 @@ bool __cdecl FUN_00e9c6f0(int a1, int a2, SpawnParam* pSpawnParam, ItemOwner* ow
         {
             do
             {
-                if (node == (ListNode*)&DAT_011f5eb4)
+                if (node == (ListNode*)&(*reinterpret_cast<int *>(&::g_011f5eb4)))
                 {
-                    return FUN_00e9c680(a1, a2, pSpawnParam, owner);
+                    return ::FUN_00e9c680(a1, a2, (::SpawnParam *)(pSpawnParam), (::ItemOwner *)(owner));
                 }
                 node = node->m_pNext;
             } while (node != 0);
@@ -268,10 +300,10 @@ bool __cdecl FUN_00e9c6f0(int a1, int a2, SpawnParam* pSpawnParam, ItemOwner* ow
         {
             return true;
         }
-        int item = owner->m_pItems[i];
+        intptr_t item = owner->m_pItems[i];
         if (item != 0)
         {
-            if (FUN_00e9c490(a1, a2, pSpawnParam, item))
+            if (::FUN_00e9c490((::S_00e9c490_Pt *)(a1), (::S_00e9c490_Pt *)(a2), (::S_00e9c490_Ctx *)(pSpawnParam), (::S_00e9c490_Node *)(item)))
             {
                 result = true;
             }
@@ -284,10 +316,6 @@ bool __cdecl FUN_00e9c6f0(int a1, int a2, SpawnParam* pSpawnParam, ItemOwner* ow
 struct S_00e9c490_Pt
 {
     float x, y, z;
-    S_00e9c490_Pt FUN_00439ef0(const S_00e9c490_Pt& o) const;
-    S_00e9c490_Pt FUN_00439e90(const S_00e9c490_Pt& o) const;
-    S_00e9c490_Pt* ApplyScaled(S_00e9c490_Pt* out, float s) const;
-    float DotProduct(const S_00e9c490_Pt& o) const;
     float FUN_00457990() const;
 };
 struct S_00e9c490_Entry
@@ -300,7 +328,6 @@ struct S_00e9c490_Entry
 struct S_00e9c490_Pool
 {
     int unk00;
-    S_00e9c490_Entry* GetTexture(void* node);
 };
 struct S_00e9c490_Ctx
 {
@@ -378,13 +405,7 @@ struct S_00e9c490_Node
 };
 extern char DAT_0126fa64;
 extern char DAT_0126fa65;
-extern int DAT_011f4a48;
-extern int DAT_011f5f64;
 static const float DAT_01011d78 = 0.0f;
-bool __cdecl RayIntersectsBound(S_00e9c490_Node* node, S_00e9c490_Pt* p1, S_00e9c490_Pt* p2);
-bool __cdecl FUN_00e9c6f0(S_00e9c490_Pt* p1, S_00e9c490_Pt* p2, S_00e9c490_Ctx* ctx, S_00e9c490_Node* node);
-bool __cdecl RaycastShape(S_00e9c490_Pt* p1, S_00e9c490_Pt* p2, S_00e9c490_Ctx* ctx, S_00e9c490_Node* node);
-bool __cdecl FUN_0043b300(const void* rtti, S_00e9c490_Node* node);
 
 // @fnv 0x00e9c490
 bool __cdecl FUN_00e9c490(S_00e9c490_Pt* pPoint1, S_00e9c490_Pt* pPoint2, S_00e9c490_Ctx* pContext,
@@ -397,32 +418,32 @@ bool __cdecl FUN_00e9c490(S_00e9c490_Pt* pPoint1, S_00e9c490_Pt* pPoint2, S_00e9
     S_00e9c490_Ref* ref = node->v3();
     if (ref && (unsigned char)(ref->unk30 >> 21) & 1)
         return false;
-    if (RayIntersectsBound(node, pPoint1, pPoint2) || (ref && (unsigned char)(ref->unk30 >> 13) & 1))
+    if (::RayIntersectsBound((::BoundedObject *)(node), (*(const ::Vector3 *)(pPoint1)), (*(const ::Vector3 *)(pPoint2))) || (ref && (unsigned char)(ref->unk30 >> 13) & 1))
     {
         if (ref)
-            return FUN_00e9c6f0(pPoint1, pPoint2, pContext, node);
+            return ::fnv_00e9c6f0::FUN_00e9c6f0((intptr_t)(pPoint1), (intptr_t)(pPoint2), (::fnv_00e9c6f0::SpawnParam *)(pContext), (::fnv_00e9c6f0::ItemOwner *)(node));
         if (node->v7())
-            return RaycastShape(pPoint1, pPoint2, pContext, node);
-        if (DAT_0126fa65 && FUN_0043b300(&DAT_011f4a48, node))
+            return ::fnv_00e9b4f0::RaycastShape((const ::fnv_00e9b4f0::NiPoint3 *)(pPoint1), (const ::fnv_00e9b4f0::NiPoint3 *)(pPoint2), (::fnv_00e9b4f0::Options *)(pContext), (::fnv_00e9b4f0::Shape *)(node));
+        if (DAT_0126fa65 && ::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f4a48))), (::NiAVObject *)(node)))
         {
-            S_00e9c490_Pt d = node->unk8c.FUN_00439ef0(*pPoint1);
-            if (pPoint2->DotProduct(d) < DAT_01011d78)
+            S_00e9c490_Pt d = (*(::S_00e9c490_Pt *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(node->unk8c))->FUN_00439ef0((::NiPoint3 *)&(*pPoint1), *(const ::NiPoint3 *)nullptr)));
+            if (reinterpret_cast<::FUN_004b6190_shell *>((void *)(pPoint2))->DotProduct((void *)&(d)) < DAT_01011d78)
                 return false;
             float len = d.FUN_00457990();
-            pContext->unk18.GetTexture(node)->unk14 = len;
+            ((::S_00e9c490_Entry *)(reinterpret_cast<::TexturePoolE993 *>(&(pContext->unk18))->GetTexture((intptr_t)(node))))->unk14 = len;
             return false;
         }
-        if (DAT_0126fa64 && FUN_0043b300(&DAT_011f5f64, node))
+        if (DAT_0126fa64 && ::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f5f64))), (::NiAVObject *)(node)))
         {
-            S_00e9c490_Pt d = node->unk8c.FUN_00439ef0(*pPoint1);
-            if (pPoint2->DotProduct(d) < DAT_01011d78)
+            S_00e9c490_Pt d = (*(::S_00e9c490_Pt *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(node->unk8c))->FUN_00439ef0((::NiPoint3 *)&(*pPoint1), *(const ::NiPoint3 *)nullptr)));
+            if (reinterpret_cast<::FUN_004b6190_shell *>((void *)(pPoint2))->DotProduct((void *)&(d)) < DAT_01011d78)
                 return false;
-            S_00e9c490_Entry* pEntry = pContext->unk18.GetTexture(node);
+            S_00e9c490_Entry* pEntry = ((::S_00e9c490_Entry *)(reinterpret_cast<::TexturePoolE993 *>(&(pContext->unk18))->GetTexture((intptr_t)(node))));
             float len = d.FUN_00457990();
             pEntry->unk14 = len;
             if (pContext->unk08 == 1)
             {
-                pEntry->unk08 = pPoint1->FUN_00439e90(*pPoint2->ApplyScaled(&d, len));
+                pEntry->unk08 = (*(::S_00e9c490_Pt *)(reinterpret_cast<::Point3Offset *>((void *)(pPoint1))->ProjectileLaunched((::NiPoint3 *)&(*((::S_00e9c490_Pt *)(reinterpret_cast<::FUN_0045bb20_cls *>((void *)(pPoint2))->ApplyScaled((::FUN_0045bb20_target *)(::S_00e9c490_Pt *)(&d), len)))), {})));
             }
             return false;
         }
@@ -491,7 +512,6 @@ struct P3
         r.z = x * b.y - y * b.x;
         return r;
     }
-    __declspec(noalias) void FUN_004a0c10();
 };
 P3 operator*(float f, const P3& p)
 {
@@ -524,11 +544,8 @@ struct P4
         c.a += d.a;
         return c;
     }
-    P4 AddDelta(const P4&);
 };
 P4 __cdecl FUN_00532f40(float, const P4&);
-extern NiPoint2 DAT_011f4980;
-extern P4 DAT_011a9be0;
 struct Matrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
@@ -581,7 +598,6 @@ struct Buffer
     {
         return *reinterpret_cast<NiPoint2*>(data + stride * i);
     }
-    void FUN_00534780(unsigned, P4*);
 };
 struct GeometryData
 {
@@ -640,13 +656,6 @@ struct GeometryData
     P4* colors;
     NiPoint2* texcoords;
     struct Provider* provider;
-    bool FUN_00a67360(bool);
-    void FUN_00a673d0();
-    void FUN_00a67410(Buffer*);
-    void GetBounds(Buffer*);
-    void FUN_00a67660(Buffer*);
-    void GetKeyAndMode(unsigned, Buffer*);
-    unsigned short* FUN_00a7b850();
 };
 struct Provider
 {
@@ -738,7 +747,6 @@ struct Hit
 struct HitList
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
-    Hit* GetTexture(Geometry*);
 };
 struct Pick
 {
@@ -769,7 +777,6 @@ struct Pick
         return wantColor;
     }
 };
-bool __cdecl FUN_00eadb90(const P3*, const P3*, const P3*, const P3*, const P3*, bool, P3*, float*, float*, float*);
 // Tests a ray against geometry triangles when available and fills hit data, including optional interpolated attributes.
 // @fnv 0x00e9a280
 bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, Geometry* geometry)
@@ -796,15 +803,15 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
         Provider* provider = data->provider;
         if (provider && provider->Available())
         {
-            locked = data->FUN_00a67360(true);
-            data->FUN_00a67410(&positionBuffer);
+            locked = reinterpret_cast<::NiGeometryData *>((data))->IsGeometryDataStreamable(true);
+            reinterpret_cast<::S00a67410 *>((data))->FUN_00a67410((::BSFaceGenMorphData *)(::Buffer *)(&positionBuffer));
         }
     }
-    unsigned short* triangles = data->FUN_00a7b850();
+    unsigned short* triangles = ((unsigned short *)(reinterpret_cast<::FnvCpu_FUN_00a7b850_CpuObject *>((data))->FUN_00a7b850()));
     if (!triangles || (!positions && !positionBuffer.data))
     {
         Hit* hit;
-        hit = pick->hits.GetTexture(geometry);
+        hit = ((::Hit *)(reinterpret_cast<::TexturePoolE993 *>(&(pick->hits))->GetTexture((intptr_t)(geometry))));
         P3 offset = geometry->world.translation - *origin;
         float distance;
         float squared = offset.x * offset.x + offset.y * offset.y + offset.z * offset.z;
@@ -835,11 +842,11 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
         }
         P3 intersection;
         float distance, b1, b2;
-        if (!FUN_00eadb90(&localOrigin, &localDirection, &p0, &p1, &p2, pick->GetFrontOnly(), &intersection, &distance,
-                          &b1, &b2))
+        if (!::RayTriangleIntersector::IntersectRayTriangle((*(const ::NiPoint3 *)(&localOrigin)), (*(const ::NiPoint3 *)(&localDirection)), (*(const ::NiPoint3 *)(&p0)), (*(const ::NiPoint3 *)(&p1)), (*(const ::NiPoint3 *)(&p2)), pick->GetFrontOnly(), (*(::NiPoint3 *)(&intersection)), (*(float *)(&distance)),
+                          (*(float *)(&b1)), (*(float *)(&b2))))
             continue;
         found = true;
-        Hit* hit = pick->hits.GetTexture(geometry);
+        Hit* hit = ((::Hit *)(reinterpret_cast<::TexturePoolE993 *>(&(pick->hits))->GetTexture((intptr_t)(geometry))));
         if (pick->coordinates == 1)
             intersection =
                 worldTransform.translation + worldTransform.rotation.Apply(intersection) * worldTransform.scale;
@@ -854,7 +861,7 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
         if (pick->GetUV())
         {
             Buffer uv;
-            data->GetKeyAndMode(0, &uv);
+            reinterpret_cast<::FUN_00a67720_cls *>((data))->GetKeyAndMode(0, (::FUN_00a67720_res *)(::Buffer *)(&uv));
             if (uv.data)
             {
                 const NiPoint2& uv0 = uv.UV(i0);
@@ -876,7 +883,7 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
         if (pick->GetPlaneNormal())
         {
             Buffer normalBuffer;
-            data->GetBounds(&normalBuffer);
+            reinterpret_cast<::RenderOwner *>((data))->GetBounds((::BoundOut *)(::Buffer *)(&normalBuffer));
             if (normalBuffer.data)
             {
                 P3 n0 = normalBuffer.Point(i0), n1 = normalBuffer.Point(i1), n2 = normalBuffer.Point(i2);
@@ -896,7 +903,7 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
                 edge2 = p2 - p0;
                 normal = edge1.Cross(edge2);
             }
-            normal.FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(normal))->FUN_004a0c10();
             if (pick->coordinates == 1)
                 normal = worldTransform.rotation.FUN_004b4500(&normal);
             hit->normal = normal;
@@ -906,13 +913,13 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
         if (pick->GetColor())
         {
             Buffer colorBuffer;
-            data->FUN_00a67660(&colorBuffer);
+            reinterpret_cast<::FUN_00a67660_cls *>((data))->FUN_00a67660((::StreamOut_a676 *)(::Buffer *)(&colorBuffer));
             if (colorBuffer.data)
             {
                 P4 c0, c1, c2;
-                colorBuffer.FUN_00534780(i0, &c0);
-                colorBuffer.FUN_00534780(i1, &c1);
-                colorBuffer.FUN_00534780(i2, &c2);
+                reinterpret_cast<::FUN_00534780_Class *>(&(colorBuffer))->FUN_00534780(i0, (::RgbaColor *)(::P4 *)(&c0));
+                reinterpret_cast<::FUN_00534780_Class *>(&(colorBuffer))->FUN_00534780(i1, (::RgbaColor *)(::P4 *)(&c1));
+                reinterpret_cast<::FUN_00534780_Class *>(&(colorBuffer))->FUN_00534780(i2, (::RgbaColor *)(::P4 *)(&c2));
                 hit->color = c0 * b0 + c1 * b1 + c2 * b2;
             }
             else
@@ -920,31 +927,27 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
                 P4* colors = geometry->data->colors;
                 if (colors)
                 {
-                    P4 blended = FUN_00532f40(b0, colors[i0])
-                                     .AddDelta(FUN_00532f40(b1, colors[i1]))
-                                     .AddDelta(FUN_00532f40(b2, colors[i2]));
+                    P4 blended = (*(::P4 *)(reinterpret_cast<::FUN_00532e40_s *>((void *)&(const ::P4 &)((*(::P4 *)(reinterpret_cast<::FUN_00532e40_s *>((void *)&(const ::P4 &)(FUN_00532f40(b0, colors[i0])))->AddDelta((::FUN_00532e40_s *)&(const ::P4 &)(FUN_00532f40(b1, colors[i1])), {})))))->AddDelta((::FUN_00532e40_s *)&(const ::P4 &)(FUN_00532f40(b2, colors[i2])), {})));
                     hit->color = blended;
                 }
                 else
-                    hit->color = DAT_011a9be0;
+                    hit->color = (*reinterpret_cast<::P4 *>(&::DAT_011a9be0));
             }
         }
         else
-            hit->color = DAT_011a9be0;
+            hit->color = (*reinterpret_cast<::P4 *>(&::DAT_011a9be0));
         if (1 == pick->mode && pick->sort == 1)
         {
             if (locked)
-                data->FUN_00a673d0();
+                reinterpret_cast<::FUN_00a673d0_shell *>((data))->FUN_00a673d0();
             return true;
         }
     }
     if (locked)
-        data->FUN_00a673d0();
+        reinterpret_cast<::FUN_00a673d0_shell *>((data))->FUN_00a673d0();
     return found;
 }
 
-extern char DAT_011f4248;
-extern "C" void* memcpy(void* dst, const void* src, unsigned int n);
 struct NiPoint3
 {
     float x, y, z;
@@ -970,6 +973,33 @@ struct NiPoint3
     __forceinline float Dot(const NiPoint3& pt) const
     {
         return x * pt.x + y * pt.y + z * pt.z;
+    }
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
+public:
+    inline NiPoint3 operator+(const NiPoint3& o) const
+    {
+        return NiPoint3(x + o.x, y + o.y, z + o.z);
+    }
+    float Length() const;
+    inline void FUN_004a0c10()
+    {
+        float len = Length();
+        if (len > ::DAT_01017cf8)
+        {
+            float inv = 1.0f / len;
+            x *= inv;
+            y *= inv;
+            z *= inv;
+        }
+        else
+        {
+            x = 0.0f;
+            y = 0.0f;
+            z = 0.0f;
+        }
     }
 };
 
@@ -1002,7 +1032,6 @@ struct ThreeByThreeMatrix
     float m00, m01, m02;
     float m10, m11, m12;
     float m20, m21, m22;
-    void GetMatrix(float* a, float* b);
 };
 struct OrientedBoxBound
 {
@@ -1034,7 +1063,7 @@ void OrientedBoxBound::ComputeFromPoints(unsigned short count, const NiPoint3* a
     m_kCenter = points[0];
     for (unsigned short i = 1; i < count; ++i)
     {
-        m_kCenter += points[i];
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(m_kCenter))->FUN_0063c8a0((void *)&(points[i]));
         if (points[i].x < minX)
             minX = points[i].x;
         else if (maxX < points[i].x)
@@ -1066,7 +1095,7 @@ void OrientedBoxBound::ComputeFromPoints(unsigned short count, const NiPoint3* a
         mat[3] = mat[1];
         mat[6] = mat[2];
         mat[7] = mat[5];
-        ((ThreeByThreeMatrix*)mat)->GetMatrix(afEigenvalue, (float*)&m_akAxis0);
+        reinterpret_cast<::TransformRecord *>((((ThreeByThreeMatrix*)mat)))->GetMatrix((uintptr_t)(afEigenvalue), (float*)&m_akAxis0);
         afMin[0] = points[0].x - m_kCenter.x;
         afMin[1] = points[0].y - m_kCenter.y;
         afMin[2] = points[0].z - m_kCenter.z;
@@ -1097,19 +1126,19 @@ void OrientedBoxBound::ComputeFromPoints(unsigned short count, const NiPoint3* a
         {
             NiPoint3 offset;
             ScaleOut(mid0, offset, m_akAxis0);
-            m_kCenter += offset;
+            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(m_kCenter))->FUN_0063c8a0((void *)&(offset));
         }
         float mid1 = (afMax[1] + afMin[1]) * 0.5;
         {
             NiPoint3 offset;
             ScaleOut(mid1, offset, m_akAxis1);
-            m_kCenter += offset;
+            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(m_kCenter))->FUN_0063c8a0((void *)&(offset));
         }
         float mid2 = (afMax[2] + afMin[2]) * 0.5;
         {
             NiPoint3 offset;
             ScaleOut(mid2, offset, m_akAxis2);
-            m_kCenter += offset;
+            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(m_kCenter))->FUN_0063c8a0((void *)&(offset));
         }
         m_afExtent0 = (afMax[0] - afMin[0]) * 0.5;
         m_afExtent1 = (afMax[1] - afMin[1]) * 0.5;
@@ -1157,7 +1186,6 @@ struct Vec3
     {}
     Vec3 operator+(const Vec3&) const;
     Vec3 FUN_004b3800(const Vec3&) const;
-    __declspec(noalias) void FUN_004a0c10();
     Vec3 operator-(const Vec3& v) const
     {
         Vec3 r(x - v.x, y - v.y, z - v.z);
@@ -1278,7 +1306,6 @@ struct Output
 
     int unk00;
 
-    QueryResult* GetTexture(void*);
 };
 
 struct Options
@@ -1306,7 +1333,6 @@ struct BufferView
     int stride;
 
     bool owned;
-    void FUN_00534780(unsigned int, Vec4*);
 };
 
 struct Stream
@@ -1418,19 +1444,12 @@ struct Mesh
 
     Stream* stream;
 
-    bool FUN_00a67360(int);
 
-    void FUN_00a67410(BufferView*);
 
-    unsigned short* FUN_00a75f10();
 
-    void FUN_00a673d0();
 
-    void GetKeyAndMode(int, BufferView*);
 
-    void GetBounds(BufferView*);
 
-    void FUN_00a67660(BufferView*);
 };
 
 struct Shape
@@ -1451,12 +1470,7 @@ struct Shape
     Mesh* mesh;
 };
 
-extern bool __cdecl FUN_00eadb90(const Vec3*, const Vec3*, const Vec3*, const Vec3*, const Vec3*, bool, Vec3*, float*,
-                                 float*, float*);
 
-extern Vec4 DAT_011a9be0;
-extern Vec3 DAT_011f426c;
-extern Vec2 DAT_011f4980;
 // @fnv 0x00e993d0
 bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Options* options, Shape* shape)
 {
@@ -1481,11 +1495,11 @@ bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Opti
         Stream* stream = mesh->stream;
         if (stream && stream->Available())
         {
-            ownsPositions = mesh->FUN_00a67360(1);
-            mesh->FUN_00a67410(&positions);
+            ownsPositions = reinterpret_cast<::NiGeometryData *>((mesh))->IsGeometryDataStreamable(1);
+            reinterpret_cast<::S00a67410 *>((mesh))->FUN_00a67410((::BSFaceGenMorphData *)(::fnv_00e993d0::BufferView *)(&positions));
         }
     }
-    unsigned short* triangles = mesh->FUN_00a75f10();
+    unsigned short* triangles = ((unsigned short *)(::FUN_00a75f10((char *)(mesh))));
     if (triangles && (directVertices || positions.data))
     {
         for (unsigned short tri = 0; tri < triangleCount; ++tri)
@@ -1523,10 +1537,10 @@ bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Opti
             Vec3 point;
             float distance, u, v;
             bool frontOnly = options->unk10;
-            if (!FUN_00eadb90(&localStart, &localDirection, &va, &vb, &vc, frontOnly, &point, &distance, &u, &v))
+            if (!::RayTriangleIntersector::IntersectRayTriangle((*(const ::NiPoint3 *)(&localStart)), (*(const ::NiPoint3 *)(&localDirection)), (*(const ::NiPoint3 *)(&va)), (*(const ::NiPoint3 *)(&vb)), (*(const ::NiPoint3 *)(&vc)), frontOnly, (*(::NiPoint3 *)(&point)), (*(float *)(&distance)), (*(float *)(&u)), (*(float *)(&v))))
                 continue;
             anyHit = true;
-            QueryResult* result = options->output.GetTexture(shape);
+            QueryResult* result = ((::fnv_00e993d0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((intptr_t)(shape))));
             if (options->coordinateMode == 1)
             {
                 point = ScalePoint(xform.scale, xform.rotation.FUN_004b4500(point)).Added(xform.translation);
@@ -1541,7 +1555,7 @@ bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Opti
             if (options->needsUV)
             {
                 BufferView uv = {0, 0, false};
-                mesh->GetKeyAndMode(0, &uv);
+                reinterpret_cast<::FUN_00a67720_cls *>((mesh))->GetKeyAndMode(0, (::FUN_00a67720_res *)(::fnv_00e993d0::BufferView *)(&uv));
                 if (uv.data)
                 {
                     const Vec2* pa = (Vec2*)((unsigned char*)uv.data + a * uv.stride);
@@ -1569,17 +1583,17 @@ bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Opti
                         result->uv = sum;
                     }
                     else
-                        result->uv = DAT_011f4980;
+                        result->uv = (*reinterpret_cast<::fnv_00e993d0::Vec2 *>(&::DAT_011f4980));
                 }
             }
             else
             {
-                result->uv = DAT_011f4980;
+                result->uv = (*reinterpret_cast<::fnv_00e993d0::Vec2 *>(&::DAT_011f4980));
             }
             if (options->needsNormal)
             {
                 BufferView normals = {0, 0, false};
-                mesh->GetBounds(&normals);
+                reinterpret_cast<::RenderOwner *>((mesh))->GetBounds((::BoundOut *)(::fnv_00e993d0::BufferView *)(&normals));
                 Normal normal;
                 if (normals.data)
                 {
@@ -1603,23 +1617,23 @@ bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Opti
                         normal = edge1.FUN_004b3800(edge2);
                     }
                 }
-                normal.FUN_004a0c10();
+                reinterpret_cast<::FUN_004a0c10_s *>(&(normal))->FUN_004a0c10();
                 if (options->coordinateMode == 1)
                     static_cast<Vec3&>(normal) = xform.rotation.FUN_004b4500(normal);
                 result->normal.AssignOutput(normal);
             }
             else
-                result->normal = DAT_011f426c;
+                result->normal = (*reinterpret_cast<::fnv_00e993d0::Vec3 *>((void *)&::NiPoint3::ZERO));
             if (options->needsColor)
             {
                 BufferView colors = {0, 0, false};
-                mesh->FUN_00a67660(&colors);
+                reinterpret_cast<::FUN_00a67660_cls *>((mesh))->FUN_00a67660((::StreamOut_a676 *)(::fnv_00e993d0::BufferView *)(&colors));
                 if (colors.data)
                 {
                     Vec4 ca, cb, cc;
-                    colors.FUN_00534780(a, &ca);
-                    colors.FUN_00534780(b, &cb);
-                    colors.FUN_00534780(c, &cc);
+                    reinterpret_cast<::FUN_00534780_Class *>(&(colors))->FUN_00534780(a, (::RgbaColor *)(::fnv_00e993d0::Vec4 *)(&ca));
+                    reinterpret_cast<::FUN_00534780_Class *>(&(colors))->FUN_00534780(b, (::RgbaColor *)(::fnv_00e993d0::Vec4 *)(&cb));
+                    reinterpret_cast<::FUN_00534780_Class *>(&(colors))->FUN_00534780(c, (::RgbaColor *)(::fnv_00e993d0::Vec4 *)(&cc));
                     Vec4 sum = FUN_00532f40(weight, ca) + FUN_00532f40(u, cb) + FUN_00532f40(v, cc);
                     result->tangent = sum;
                 }
@@ -1633,24 +1647,24 @@ bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Opti
                         result->tangent = sum;
                     }
                     else
-                        result->tangent = DAT_011a9be0;
+                        result->tangent = (*reinterpret_cast<::fnv_00e993d0::Vec4 *>(&::DAT_011a9be0));
                 }
             }
             else
-                result->tangent = DAT_011a9be0;
+                result->tangent = (*reinterpret_cast<::fnv_00e993d0::Vec4 *>(&::DAT_011a9be0));
             if (options->mode == 1 && options->stopAtFirst == 1)
             {
                 if (ownsPositions)
-                    mesh->FUN_00a673d0();
+                    reinterpret_cast<::FUN_00a673d0_shell *>((mesh))->FUN_00a673d0();
                 return true;
             }
         }
         if (ownsPositions)
-            mesh->FUN_00a673d0();
+            reinterpret_cast<::FUN_00a673d0_shell *>((mesh))->FUN_00a673d0();
         return anyHit;
     }
 
-    QueryResult* result = options->output.GetTexture(shape);
+    QueryResult* result = ((::fnv_00e993d0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((intptr_t)(shape))));
     Vec3 delta = shape->world.translation - *rayStart;
     float squared = delta.y * delta.y + delta.x * delta.x + delta.z * delta.z;
     squared = sqrt(squared);
@@ -1674,11 +1688,7 @@ class NiPoint3
     }
     NiPoint3(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    NiPoint3 FUN_00439ef0(const NiPoint3&) const;
-    NiPoint3 FUN_00439e90(const NiPoint3&) const;
-    float FUN_00457990() const;
     NiPoint3 FUN_004b3800(const NiPoint3&) const;
-    __declspec(noalias) void FUN_004a0c10();
     NiPoint3 operator-(const NiPoint3& v) const
     {
         NiPoint3 r(x - v.x, y - v.y, z - v.z);
@@ -1736,7 +1746,6 @@ struct Vec4
 extern Vec2 __cdecl FUN_00532fd0(float, const Vec2&);
 extern NiPoint3 __cdecl FUN_004a3760(float, const NiPoint3&);
 extern Vec4 __cdecl FUN_00532f40(float, const Vec4&);
-extern __declspec(noalias) NiPoint3 __cdecl FUN_004b3ae0(const NiPoint3&, const float*);
 
 struct Mat3
 {
@@ -1779,7 +1788,6 @@ struct QueryResult
 struct Output
 {
     int unk00;
-    QueryResult* GetTexture(void*);
 };
 
 struct Options
@@ -1798,7 +1806,6 @@ struct BufferView
     NiPoint3* data;
     int stride;
     bool owned;
-    void FUN_00534780(unsigned int, Vec4*);
 };
 
 struct Stream
@@ -1894,12 +1901,6 @@ struct Mesh
     Stream* stream;
     int unk34, unk38, unk3C, unk40;
     unsigned short unk44;
-    bool FUN_00a67360(int);
-    void FUN_00a67410(BufferView*);
-    void FUN_00a673d0();
-    void GetKeyAndMode(int, BufferView*);
-    void GetBounds(BufferView*);
-    void FUN_00a67660(BufferView*);
 };
 
 struct RTTI
@@ -1925,19 +1926,8 @@ struct Shape
 };
 
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f4a20;
-extern GlobalObjectO2_00a7b610 g_011f4a40;
-bool FUN_0043b300(const void*, Shape*);
-bool __cdecl RaycastGeometry(const NiPoint3*, const NiPoint3*, Options*, Shape*);
-bool __cdecl IntersectShape(const NiPoint3*, const NiPoint3*, Options*, Shape*);
 
-extern bool __cdecl FUN_00eadb90(const NiPoint3*, const NiPoint3*, const NiPoint3*, const NiPoint3*, const NiPoint3*,
-                                 bool, NiPoint3*, float*, float*, float*);
 
-extern Vec4 DAT_011a9be0;
-extern NiPoint3 DAT_011f426c;
-extern Vec2 DAT_011f4980;
-extern Bound DAT_011f4288;
 
 inline bool IsKindOfType(const void* rtti, Shape* shape)
 {
@@ -1955,18 +1945,18 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
     NiPoint3 normal;
     if (options->unk08 && !shape->unkBC)
     {
-        if (IsKindOfType(&g_011f4a20, shape))
+        if (IsKindOfType(&(*reinterpret_cast<::fnv_00e9b4f0::GlobalObjectO2_00a7b610 *>(&::g_011f4a20)), shape))
         {
             if (shape->mesh->unk44 == 1)
-                return IntersectShape(rayStart, rayDirection, options, shape);
+                return ::fnv_00e993d0::IntersectShape((const ::fnv_00e993d0::Vec3 *)(rayStart), (const ::fnv_00e993d0::Vec3 *)(rayDirection), (::fnv_00e993d0::Options *)(options), (::fnv_00e993d0::Shape *)(shape));
         }
-        else if (FUN_0043b300(&g_011f4a40, shape))
-            return RaycastGeometry(rayStart, rayDirection, options, shape);
+        else if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<::fnv_00e9b4f0::GlobalObjectO2_00a7b610 *>(&::g_011f4a40))), (::NiAVObject *)(shape)))
+            return ::RaycastGeometry((const ::P3 *)(rayStart), (const ::P3 *)(rayDirection), (::Pick *)(options), (::Geometry *)(shape));
         const Transform& xform = shape->world;
         NiPoint3 difference = *rayStart - xform.translation;
         float invScale = (float)(1.0f / xform.scale);
-        NiPoint3 localStart = FUN_004b3ae0(difference, &xform.rotation.m00) * invScale;
-        NiPoint3 localDirection = FUN_004b3ae0(*rayDirection, &xform.rotation.m00) * invScale;
+        NiPoint3 localStart = (*(::fnv_00e9b4f0::NiPoint3 *)(::FUN_004b3ae0((::NiPoint3 *)&(difference), (*(const ::NiPoint3 *)(&xform.rotation.m00)), {}))) * invScale;
+        NiPoint3 localDirection = (*(::fnv_00e9b4f0::NiPoint3 *)(::FUN_004b3ae0((::NiPoint3 *)&(*rayDirection), (*(const ::NiPoint3 *)(&xform.rotation.m00)), {}))) * invScale;
         bool anyHit = false;
         const unsigned short triangleCount = shape->mesh->GetTriangleTotal();
         bool ownsPositions = false;
@@ -1978,14 +1968,14 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
             Stream* stream = mesh->stream;
             if (stream && stream->Available())
             {
-                ownsPositions = mesh->FUN_00a67360(1);
-                mesh->FUN_00a67410(&positions);
+                ownsPositions = reinterpret_cast<::NiGeometryData *>((mesh))->IsGeometryDataStreamable(1);
+                reinterpret_cast<::S00a67410 *>((mesh))->FUN_00a67410((::BSFaceGenMorphData *)(::fnv_00e9b4f0::BufferView *)(&positions));
             }
             if (!positions.data)
             {
-                QueryResult* result = options->output.GetTexture(shape);
-                NiPoint3 offset = shape->world.translation.FUN_00439ef0(*rayStart);
-                result->distance = offset.FUN_00457990();
+                QueryResult* result = ((::fnv_00e9b4f0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((intptr_t)(shape))));
+                NiPoint3 offset = (*(::fnv_00e9b4f0::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(shape->world.translation))->FUN_00439ef0((::NiPoint3 *)&(*rayStart), *(const ::NiPoint3 *)nullptr)));
+                result->distance = reinterpret_cast<::NiPoint3 *>((void *)&(offset))->ComputeMagnitude();
                 return true;
             }
         }
@@ -2008,10 +1998,10 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
             NiPoint3 point;
             float distance, u, v;
             bool frontOnly = options->unk10;
-            if (FUN_00eadb90(&localStart, &localDirection, &va, &vb, &vc, frontOnly, &point, &distance, &u, &v))
+            if (::RayTriangleIntersector::IntersectRayTriangle((*(const ::NiPoint3 *)(&localStart)), (*(const ::NiPoint3 *)(&localDirection)), (*(const ::NiPoint3 *)(&va)), (*(const ::NiPoint3 *)(&vb)), (*(const ::NiPoint3 *)(&vc)), frontOnly, (*(::NiPoint3 *)(&point)), (*(float *)(&distance)), (*(float *)(&u)), (*(float *)(&v))))
             {
                 anyHit = true;
-                QueryResult* result = options->output.GetTexture(shape);
+                QueryResult* result = ((::fnv_00e9b4f0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((intptr_t)(shape))));
                 if (options->coordinateMode == 1)
                 {
                     point = ScalePoint(xform.scale, xform.rotation.FUN_004b4500(&point)).Added(xform.translation);
@@ -2024,7 +2014,7 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
                 if (options->needsUV)
                 {
                     BufferView uv = {0, 0, false};
-                    mesh->GetKeyAndMode(0, &uv);
+                    reinterpret_cast<::FUN_00a67720_cls *>((mesh))->GetKeyAndMode(0, (::FUN_00a67720_res *)(::fnv_00e9b4f0::BufferView *)(&uv));
                     if (uv.data)
                     {
                         const Vec2* pa = (Vec2*)((unsigned char*)uv.data + a * uv.stride);
@@ -2052,17 +2042,17 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
                             result->uv = sum;
                         }
                         else
-                            result->uv = DAT_011f4980;
+                            result->uv = (*reinterpret_cast<::fnv_00e9b4f0::Vec2 *>(&::DAT_011f4980));
                     }
                 }
                 else
                 {
-                    result->uv = DAT_011f4980;
+                    result->uv = (*reinterpret_cast<::fnv_00e9b4f0::Vec2 *>(&::DAT_011f4980));
                 }
                 if (options->needsNormal)
                 {
                     BufferView normals = {0, 0, false};
-                    mesh->GetBounds(&normals);
+                    reinterpret_cast<::RenderOwner *>((mesh))->GetBounds((::BoundOut *)(::fnv_00e9b4f0::BufferView *)(&normals));
                     if (normals.data)
                     {
                         NiPoint3 na = *(NiPoint3*)((unsigned char*)normals.data + a * normals.stride);
@@ -2074,9 +2064,7 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
                     {
                         NiPoint3* directNormals;
                         if (options->needsTangent && (directNormals = shape->mesh->normals) != 0)
-                            normal = FUN_004a3760(weight, directNormals[a])
-                                         .FUN_00439e90(FUN_004a3760(u, directNormals[b]))
-                                         .FUN_00439e90(FUN_004a3760(v, directNormals[c]));
+                            normal = (*(::fnv_00e9b4f0::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::fnv_00e9b4f0::NiPoint3 &)((*(::fnv_00e9b4f0::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::fnv_00e9b4f0::NiPoint3 &)(FUN_004a3760(weight, directNormals[a])))->ProjectileLaunched((::NiPoint3 *)&(const ::fnv_00e9b4f0::NiPoint3 &)(FUN_004a3760(u, directNormals[b])), {})))))->ProjectileLaunched((::NiPoint3 *)&(const ::fnv_00e9b4f0::NiPoint3 &)(FUN_004a3760(v, directNormals[c])), {})));
                         else
                         {
                             NiPoint3 edge1, edge2;
@@ -2085,23 +2073,23 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
                             normal = edge1.FUN_004b3800(edge2);
                         }
                     }
-                    normal.FUN_004a0c10();
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(normal))->FUN_004a0c10();
                     if (options->coordinateMode == 1)
                         normal = xform.rotation.FUN_004b4500(&normal);
                     result->normal.AssignOutput(normal);
                 }
                 else
-                    result->normal = DAT_011f426c;
+                    result->normal = (*reinterpret_cast<::fnv_00e9b4f0::NiPoint3 *>((void *)&::NiPoint3::ZERO));
                 if (options->needsColor)
                 {
                     BufferView colors = {0, 0, false};
-                    mesh->FUN_00a67660(&colors);
+                    reinterpret_cast<::FUN_00a67660_cls *>((mesh))->FUN_00a67660((::StreamOut_a676 *)(::fnv_00e9b4f0::BufferView *)(&colors));
                     if (colors.data)
                     {
                         Vec4 ca, cb, cc;
-                        colors.FUN_00534780(a, &ca);
-                        colors.FUN_00534780(b, &cb);
-                        colors.FUN_00534780(c, &cc);
+                        reinterpret_cast<::FUN_00534780_Class *>(&(colors))->FUN_00534780(a, (::RgbaColor *)(::fnv_00e9b4f0::Vec4 *)(&ca));
+                        reinterpret_cast<::FUN_00534780_Class *>(&(colors))->FUN_00534780(b, (::RgbaColor *)(::fnv_00e9b4f0::Vec4 *)(&cb));
+                        reinterpret_cast<::FUN_00534780_Class *>(&(colors))->FUN_00534780(c, (::RgbaColor *)(::fnv_00e9b4f0::Vec4 *)(&cc));
                         Vec4 sum = FUN_00532f40(weight, ca) + FUN_00532f40(u, cb) + FUN_00532f40(v, cc);
                         result->tangent = sum;
                     }
@@ -2117,26 +2105,26 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
                     }
                 }
                 else
-                    result->tangent = DAT_011a9be0;
+                    result->tangent = (*reinterpret_cast<::fnv_00e9b4f0::Vec4 *>(&::DAT_011a9be0));
                 if (options->mode == 1 && options->stopAtFirst == 1)
                 {
                     if (ownsPositions)
-                        mesh->FUN_00a673d0();
+                        reinterpret_cast<::FUN_00a673d0_shell *>((mesh))->FUN_00a673d0();
                     return true;
                 }
             }
         }
         if (ownsPositions)
-            mesh->FUN_00a673d0();
+            reinterpret_cast<::FUN_00a673d0_shell *>((mesh))->FUN_00a673d0();
         return anyHit;
     }
 
-    Bound sphere = shape->bound ? *shape->bound : DAT_011f4288;
+    Bound sphere = shape->bound ? *shape->bound : (*reinterpret_cast<::fnv_00e9b4f0::Bound *>(&::g_defaultBound));
     normal = sphere.center - *rayStart;
     float along = rayDirection->y * normal.y + normal.x * rayDirection->x + normal.z * rayDirection->z;
     if (along < 0.0f)
         return false;
-    QueryResult* result = options->output.GetTexture(shape);
+    QueryResult* result = ((::fnv_00e9b4f0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((intptr_t)(shape))));
     along = normal.x * normal.x + normal.y * normal.y + normal.z * normal.z;
     result->distance = (float)sqrt((double)along);
     if (options->unk08 == 1)
@@ -2152,11 +2140,6 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
 }
 }  // namespace fnv_00e9b4f0
 
-extern int DAT_011a946c;
-extern int DAT_011a9478;
-extern int DAT_011a9484;
-extern int DAT_011a9490;
-extern int DAT_011f426c;
 struct TempBounds
 {
     int unk00;
@@ -2174,7 +2157,6 @@ struct TempBounds
     int unk30;
     int unk34;
     int unk38;
-    void ComputeFromPoints(unsigned int code, int* point);
 };
 
 struct NiBoundingVolume
@@ -2198,7 +2180,6 @@ struct NiBoundingVolume
 };
 struct Helper
 {
-    NiBoundingVolume* FUN_00ea0820(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&);
 };
 // Builds temporary bounds from code and point, allocates a NiBoundingVolume, then copies the bounds into it.
 // @fnv 0x00e9c850
@@ -2207,14 +2188,404 @@ NiBoundingVolume* __cdecl FUN_00e9c850(unsigned int code, int* point)
     if ((unsigned short)code == 0 || point == 0)
         return 0;
     TempBounds stBounds;
-    stBounds.ComputeFromPoints(code, point);
-    NiBoundingVolume* result = (NiBoundingVolume*)g_memoryManager.Allocate(0x40);
+    reinterpret_cast<::OrientedBoxBound *>(&(stBounds))->ComputeFromPoints(code, (const ::NiPoint3 *)(point));
+    NiBoundingVolume* result = (NiBoundingVolume*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x40);
     if (result != 0)
-        result = ((Helper*)result)
-                     ->FUN_00ea0820(*(NiPoint3*)&DAT_011a9490, *(NiPoint3*)&DAT_011f426c, *(NiPoint3*)&DAT_011a946c,
-                                    *(NiPoint3*)&DAT_011a9478, *(NiPoint3*)&DAT_011a9484);
+        result = ((::NiBoundingVolume *)(new ((void *)(((Helper*)result))) ::FUN_00ea0820(*(NiPoint3*)&(*reinterpret_cast<int *>(&::DAT_011a9490)), *(NiPoint3*)&(*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO)), *(NiPoint3*)&DAT_011a946c,
+                                    *(NiPoint3*)&(*reinterpret_cast<int *>(&::DAT_011a9478)), *(NiPoint3*)&(*reinterpret_cast<int *>((void *)&::DAT_011a9484)))));
     else
         result = 0;
-    memcpy((char*)result + 4, &stBounds, 60);
+    memcpy((char*)&result->unk04, &stBounds, 60);
     return result;
 }
+
+int* __cdecl FUN_00e9c7d0(float f, int* p);
+
+struct Vec4
+{
+    float x;
+    float y;
+    float z;
+    float w;
+    __forceinline Vec4()
+    {}
+    __forceinline Vec4(float a, float b, float c, float d) : x(a), y(b), z(c), w(d)
+    {}
+};
+struct PairB
+{
+    unsigned char a;
+    unsigned char b;
+};
+struct PtOp
+{
+    NiPoint3 operator-(const NiPoint3& o) const;
+};
+struct NiPoint3Ex
+{
+    NiPoint3 operator+(const NiPoint3& o) const;
+};
+struct NiPoint3_helper
+{
+    NiPoint3 operator*(float s) const;
+};
+typedef NiPoint3 Pt;
+struct Sub
+{
+    int u00;
+    int u04;
+    int u08;
+    int u0c;
+    int u10;
+    int u14;
+    int u18;
+    int u1c;
+    Pt* m20;
+    int u24;
+    Vec4* m28;
+    int u2c;
+    int u30;
+    int u34;
+    int u38;
+    int u3c;
+    struct PairB* m40;
+    __forceinline Pt* GetVertices()
+    {
+        return m20;
+    }
+    __forceinline Vec4* GetColors()
+    {
+        return m28;
+    }
+    __forceinline PairB* GetFlags()
+    {
+        return m40;
+    }
+};
+struct Obj_od_ob1
+{
+    int u00;
+    int u04;
+    int u08;
+    int u0c;
+    int u10;
+    int u14;
+    int u18;
+    int u1c;
+    int u20;
+    int u24;
+    int u28;
+    int u2c;
+    int u30;
+    int u34;
+    int u38;
+    int u3c;
+    int u40;
+    int u44;
+    int u48;
+    int u4c;
+    int u50;
+    int u54;
+    int u58;
+    int u5c;
+    int u60;
+    int u64;
+    int u68;
+    int u6c;
+    int u70;
+    int u74;
+    int u78;
+    int u7c;
+    int u80;
+    int u84;
+    int u88;
+    int u8c;
+    int u90;
+    int u94;
+    int u98;
+    int u9c;
+    int ua0;
+    int ua4;
+    int ua8;
+    int uac;
+    int ub0;
+    int ub4;
+    Sub* m_b8;
+    __forceinline Sub* GetMesh()
+    {
+        return m_b8;
+    }
+    __forceinline Pt* GetVertices()
+    {
+        return GetMesh()->GetVertices();
+    }
+    __forceinline Vec4* GetColors()
+    {
+        return GetMesh()->GetColors();
+    }
+    __forceinline PairB* GetFlags()
+    {
+        return GetMesh()->GetFlags();
+    }
+    __forceinline short* GetIndices()
+    {
+        return ((short *)(reinterpret_cast<::FnvCpu_FUN_00a7b850_CpuObject *>((GetMesh()))->FUN_00a7b850()));
+    }
+};
+struct VObj
+{
+    virtual void vtbl000();
+    virtual void vtbl001();
+    virtual int vt08();
+};
+struct FloatMatrix3
+{
+    Pt rows[3];
+    NiPoint3 FUN_004b4500(const NiPoint3* p);
+};
+struct Host
+{
+    int u00;
+    int u04;
+    Pt center;
+    float width;
+    float height;
+    FloatMatrix3 m1c;
+    int m40;
+    int u44;
+    int u48;
+    int u4c;
+    int u50;
+    int u54;
+    int u58;
+    int u5c;
+    int u60;
+    int u64;
+    int u68;
+    int u6c;
+    int u70;
+    int u74;
+    int u78;
+    int u7c;
+    int u80;
+    int u84;
+    int u88;
+    int u8c;
+    int u90;
+    int u94;
+    int u98;
+    int u9c;
+    int ua0;
+    int ua4;
+    Pt cached[4];
+    int ud8;
+    int udc;
+    int ue0;
+    unsigned char dirty;
+    unsigned char ue5;
+    unsigned char m_e6[16];
+    void FUN_00c35c10(Pt* v);
+    __forceinline int GetMode()
+    {
+        return m40;
+    }
+    __forceinline void GetColumn(int column, Pt& out)
+    {
+        Pt* rows = m1c.rows;
+        out.x = rows[column].x;
+        out.y = rows[column].y;
+        out.z = rows[column].z;
+    }
+    __forceinline bool IsType()
+    {
+        if (this == 0)
+            return false;
+        return ((VObj*)this)->vt08() == (intptr_t)&(*reinterpret_cast<int *>(&::g_012030b0));
+    }
+    void FUN_00c34ad0(Pt p0, Obj_od_ob1* pA, Obj_od_ob1* pB, Vec4 color, unsigned char flag);
+};
+inline void Host::FUN_00c35c10(Pt* v)
+{
+    Pt* output = v;
+    unsigned int byteCount = 4 * sizeof(Pt);
+    if (!dirty)
+    {
+        memmove(output, cached, byteCount);
+    }
+    else
+    {
+        float halfWidth = width;
+        float halfHeight = height;
+        FloatMatrix3* rotation = &m1c;
+        const Pt* origin = &center;
+        Pt side(halfWidth, 0.0f, 0.0f);
+        Pt up(0.0f, 0.0f, halfHeight);
+        side = rotation->FUN_004b4500(&side);
+        up = rotation->FUN_004b4500(&up);
+        output[3] = (*origin - side) + up;
+        output[2] = (*origin - side) - up;
+        output[1] = (*origin + side) - up;
+        output[0] = (*origin + side) + up;
+        memmove(cached, output, byteCount);
+        dirty = 0;
+    }
+}
+// @fnv 0x00c34ad0
+void Host::FUN_00c34ad0(Pt p0, Obj_od_ob1* pA, Obj_od_ob1* pB, Vec4 color, unsigned char flag)
+{
+    int count30 = 4;
+    int n21 = 2;
+    Pt aCorners[8];
+    Pt tmp4c;
+    reinterpret_cast<::Builder *>(this)->FUN_00c35c10((::Point *)(aCorners));
+    tmp4c = (aCorners[0] - p0);
+    reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
+    aCorners[4] = (aCorners[0] + (&tmp4c)->operator*(::g_011deba0_arg1));
+    tmp4c = (aCorners[1] - p0);
+    reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
+    aCorners[5] = (aCorners[1] + (&tmp4c)->operator*(::g_011deba0_arg1));
+    tmp4c = (aCorners[2] - p0);
+    reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
+    aCorners[6] = (aCorners[2] + (&tmp4c)->operator*(::g_011deba0_arg1));
+    tmp4c = (aCorners[3] - p0);
+    reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
+    aCorners[7] = (aCorners[3] + (&tmp4c)->operator*(::g_011deba0_arg1));
+    unsigned short t13[8][2];
+    t13[0][0] = 0;
+    t13[0][1] = 1;
+    t13[1][0] = 3;
+    t13[1][1] = 2;
+    t13[2][0] = 0;
+    t13[2][1] = 3;
+    t13[3][0] = 2;
+    t13[3][1] = 1;
+    t13[4][0] = 0;
+    t13[4][1] = 4;
+    t13[5][0] = 1;
+    t13[5][1] = 5;
+    t13[6][0] = 2;
+    t13[6][1] = 6;
+    t13[7][0] = 3;
+    t13[7][1] = 7;
+    unsigned short t23[10][3];
+    t23[0][0] = 0;
+    t23[0][1] = 1;
+    t23[0][2] = 2;
+    t23[1][0] = 2;
+    t23[1][1] = 3;
+    t23[1][2] = 0;
+    t23[2][0] = 5;
+    t23[2][1] = 0;
+    t23[2][2] = 4;
+    t23[3][0] = 5;
+    t23[3][1] = 1;
+    t23[3][2] = 0;
+    t23[4][0] = 5;
+    t23[4][1] = 2;
+    t23[4][2] = 1;
+    t23[5][0] = 6;
+    t23[5][1] = 2;
+    t23[5][2] = 5;
+    t23[6][0] = 6;
+    t23[6][1] = 7;
+    t23[6][2] = 2;
+    t23[7][0] = 7;
+    t23[7][1] = 3;
+    t23[7][2] = 2;
+    t23[8][0] = 0;
+    t23[8][1] = 3;
+    t23[8][2] = 7;
+    t23[9][0] = 7;
+    t23[9][1] = 4;
+    t23[9][2] = 0;
+    Vec4 colObj;
+    Vec4 colorA;
+    Vec4 colorB;
+    colObj = color;
+    colorA = (*reinterpret_cast<::Vec4 *>(&::DAT_011a9be0));
+    colorA.x = colObj.w;
+    colorA.y = colObj.w;
+    colorA.z = colObj.w;
+    colorB.x = 1.0f;
+    colorB.y = 0.7f;
+    colorB.z = 0.7f;
+    colorB.w = color.w;
+    Pt* pVertsTmp;
+    Vec4* colors8;
+    PairB* flags0;
+    pVertsTmp = pA->GetVertices();
+    colors8 = pA->GetColors();
+    flags0 = pA->GetFlags();
+    unsigned short fillA;
+    unsigned short idx46;
+    idx46 = 0;
+    for (; idx46 < count30; idx46++)
+    {
+        pVertsTmp[idx46 * 2] = aCorners[t13[idx46][0]];
+        colors8[idx46 * 2] = GetMode() == 1
+                                 ? (m_e6[idx46] ? Vec4(1.0f, 1.0f, 0.1f, color.w) : Vec4(0.1f, 1.0f, 0.1f, color.w))
+                                 : Vec4(0.7f, 0.15f, 0.15f, color.w);
+        pVertsTmp[idx46 * 2 + 1] = aCorners[t13[idx46][1]];
+        colors8[idx46 * 2 + 1] = GetMode() == 1
+                                     ? (m_e6[idx46] ? Vec4(1.0f, 1.0f, 0.1f, color.w) : Vec4(0.1f, 1.0f, 0.1f, color.w))
+                                     : Vec4(0.7f, 0.15f, 0.15f, color.w);
+        flags0[idx46].a = 1;
+        flags0[idx46].b = 0;
+    }
+    if (IsType())
+    {
+        Pt vec128 = ::NiPoint3::ZERO;
+        GetColumn(1, vec128);
+        pVertsTmp[idx46 * 2] = (aCorners[0] + (&vec128)->operator*(30.0f));
+        colors8[idx46 * 2] = colorA;
+        pVertsTmp[idx46 * 2 + 1] = (aCorners[0] - (&vec128)->operator*(30.0f));
+        colors8[idx46 * 2 + 1] = colorA;
+        flags0[idx46].a = 1;
+        flags0[idx46].b = 0;
+        idx46++;
+        pVertsTmp[idx46 * 2] = (aCorners[3] + (&vec128)->operator*(30.0f));
+        colors8[idx46 * 2] = colorA;
+        pVertsTmp[idx46 * 2 + 1] = (aCorners[3] - (&vec128)->operator*(30.0f));
+        colors8[idx46 * 2 + 1] = colorA;
+        flags0[idx46].a = 1;
+        flags0[idx46].b = 0;
+        idx46++;
+        count30++;
+    }
+    for (; idx46 < 8; idx46++)
+    {
+        flags0[idx46].a = 0;
+        flags0[idx46].b = 0;
+    }
+    pVertsTmp = pB->GetVertices();
+    colors8 = pB->GetColors();
+    if (flag)
+        colObj.w = 0.2f;
+    else
+        colObj.w = 0.1f;
+    short* indices_35;
+    indices_35 = pB->GetIndices();
+    idx46 = 0;
+    for (; idx46 < n21; idx46++)
+    {
+        pVertsTmp[idx46 * 3] = aCorners[t23[idx46][0]];
+        colors8[idx46 * 3] = colObj;
+        pVertsTmp[idx46 * 3 + 1] = aCorners[t23[idx46][1]];
+        colors8[idx46 * 3 + 1] = colObj;
+        pVertsTmp[idx46 * 3 + 2] = aCorners[t23[idx46][2]];
+        colors8[idx46 * 3 + 2] = colObj;
+        indices_35[idx46 * 3] = idx46 * 3;
+        indices_35[idx46 * 3 + 1] = idx46 * 3 + 1;
+        indices_35[idx46 * 3 + 2] = idx46 * 3 + 2;
+    }
+    {
+        fillA = (idx46 - 1) * 3 + 2;
+        for (; idx46 < 10; idx46++)
+        {
+            indices_35[idx46 * 3] = fillA;
+            indices_35[idx46 * 3 + 1] = fillA;
+            indices_35[idx46 * 3 + 2] = fillA;
+        }
+    }
+}
+#include "generated/data/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.inc"

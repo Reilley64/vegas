@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpParametricCurve.h"
-#pragma pack(push, 1)
 class hkpLinearParametricCurve : public hkpParametricCurve
 {
   public:
@@ -17,6 +16,4 @@ class hkpLinearParametricCurve : public hkpParametricCurve
     hkArray<hkReal> m_fClosestPointDistanceSquared;  // +0x2C
     char pad38[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpLinearParametricCurve[(sizeof(hkpLinearParametricCurve) == 0x40) ? 1 : -1];
 #endif

@@ -1,13 +1,48 @@
 // fallout_shared/aiformulas.cpp: AIFormulas (22 functions)
 
+#include <cstdint>
+#include <new>
+#include <cmath>
+#include <cstdlib>
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/ActorValueOwner.h"
+#include "fnv/decl/B6040D0NPC.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Context.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_00422700_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0087f4e0_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_006787e0__Package.h"
+#include "fnv/decl/fnv_00884350__FUN_00884350_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_004e4000.h"
+#include "fnv/symbols_00642000.h"
+#include "fnv/symbols_00643000.h"
+#include "fnv/symbols_00644000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_0066f000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011ce000.h"
 #include "aiformulas_decls.h"
 // Returns base plus the attribute and luck contributions, each scaled by a runtime float setting and passed through a helper.
 // @fnv 0x00643c20
 float __cdecl AIFormulas::CalculateSkillValue(float base, float attribute, float luck)
 {
     float result = base;
-    result += FUN_00406ce0(attribute * originalRuntimeFloatSetting326.Float()->f);
-    result += FUN_004e4450(luck * originalRuntimeFloatSetting314.Float()->f);
+    result += FUN_00406ce0(attribute * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting326))))->f);
+    result += FUN_004e4450(luck * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting314))))->f);
     return result;
 }
 
@@ -18,27 +53,22 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting293;
 int __cdecl FUN_00642e80(float afHeightOrLength)
 {
     int iresult = 1;
-    if (afHeightOrLength > *reinterpret_cast<float*>(originalRuntimeFloatSetting293.Float()))
+    if (afHeightOrLength > *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting293))))))
     {
         iresult =
-            static_cast<int>(afHeightOrLength / *reinterpret_cast<float*>(originalRuntimeFloatSetting293.Float()));
+            static_cast<int>(afHeightOrLength / *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting293))))));
     }
     return iresult;
 }
 
 struct SettingT_GameSettingCollection_
 {
-    float* Float();
 };
-extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting277;
-extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting272;
-extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting268;
 extern SettingT_GameSettingCollection_* DAT_0119b194[];
 extern SettingT_GameSettingCollection_* DAT_0119b1ac[];
-float __cdecl RandomFloat(float, float);
 // Computes a base duration from settings scaled by energy level and proc index, then returns a random duration within a jittered min/max range.
 // @fnv 0x006435c0
-float FUN_006435c0(int aiEngergyLevel, int aiProcIndex)
+float FUN_006435c0(intptr_t aiEngergyLevel, int aiProcIndex)
 {
     float fenergyMult;
     float fdurationMax;
@@ -47,11 +77,11 @@ float FUN_006435c0(int aiEngergyLevel, int aiProcIndex)
     float fenergy;
     float fduration;
     fenergy = (float)aiEngergyLevel;
-    fbaseDuration = *originalRuntimeFloatSetting268.Float() * *DAT_0119b194[aiProcIndex]->Float();
-    fenergyMult = *originalRuntimeFloatSetting272.Float() * *DAT_0119b1ac[aiProcIndex]->Float();
+    fbaseDuration = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting268)))))) * *((float *)&(::FUN_00403e20((float *)(DAT_0119b194[aiProcIndex]))));
+    fenergyMult = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting272)))))) * *((float *)&(::FUN_00403e20((float *)(DAT_0119b1ac[aiProcIndex]))));
     fbaseDuration = (1 + fenergy * fenergyMult) * fbaseDuration;
-    fdurationMin = (1 - *originalRuntimeFloatSetting277.Float()) * fbaseDuration;
-    fdurationMax = (1 + *originalRuntimeFloatSetting277.Float()) * fbaseDuration;
+    fdurationMin = (1 - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting277))))))) * fbaseDuration;
+    fdurationMax = (1 + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting277))))))) * fbaseDuration;
     fduration = RandomFloat(fdurationMin, fdurationMax);
     return fduration;
 }
@@ -64,33 +94,22 @@ extern SettingT<GameSettingCollection>* DAT_0119b17c[];
 void __cdecl GetSkillAttributeAndBase(int aiSkill, int* aiPrimaryAttribute, float* afBase)
 {
     *aiPrimaryAttribute = DAT_0119b144[aiSkill];
-    *afBase = *reinterpret_cast<float*>(DAT_0119b17c[aiSkill]->Float());
+    *afBase = *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)(DAT_0119b17c[aiSkill])))));
 }
 
-void __cdecl FUN_00ec6f20(int a, int b, int c, int d);
 struct FUN_006c8980_stand
 {
     int pad;
-    int a;
+    std::intptr_t a;
     int b;
-    void FUN_006c8980(int fn);
+    void FUN_006c8980(std::intptr_t fn);
 };
 // Calls FUN_00ec6f20 with the object's a and b fields, 0x10 and fn.
 // @fnv 0x006c8980
-void FUN_006c8980_stand::FUN_006c8980(int fn)
+void FUN_006c8980_stand::FUN_006c8980(std::intptr_t fn)
 {
-    FUN_00ec6f20(a, b, 0x10, fn);
+    std::qsort((void *)(a), b, 0x10, (int (*)(const void *, const void *))(fn));
 }
-
-struct ActorValue
-{
-    enum Index
-    {
-    };
-    static float __cdecl ClampValue(Index, float);
-};
-
-void __cdecl FUN_00643870(int*, float);
 
 struct VObj
 {
@@ -109,8 +128,8 @@ struct VObj
 void __cdecl FUN_00643820(int* pObj)
 {
     float result = ((VObj*)pObj)->m8(7);
-    result = ActorValue::ClampValue((ActorValue::Index)7, result);
-    FUN_00643870(pObj, result);
+    result = ::ActorValue::ClampValue((ActorValue::Index)7, result);
+    ::FUN_00643870((::S00643870_Base1 *)(pObj), result);
 }
 
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting310;
@@ -118,87 +137,70 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting310;
 // @fnv 0x00643a50
 float FUN_00643a50()
 {
-    return originalRuntimeFloatSetting310.Float()->f;
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting310))))->f;
 }
 
-float __cdecl GetSkillValue(void*, int, bool);
 
 // Calls GetSkillValue with arg2, arg3 and false, returning the resulting float.
 // @fnv 0x00643bd0
 float __cdecl FUN_00643bd0(void* arg2, int arg3)
 {
-    float result = GetSkillValue(arg2, arg3, 0);
+    float result = ::GetSkillValue((::ActorStub *)(arg2), arg3, 0);
     return result;
 }
 
 struct SettingFloat
 {
-    float* Float();
 };
 
-extern SettingFloat g_011cd48c;
-extern SettingFloat originalRuntimeFloatSetting154;
-extern SettingFloat g_011cd8e4;
-extern SettingFloat originalRuntimeFloatSetting157;
-extern SettingFloat g_011cda88;
-extern SettingFloat originalRuntimeFloatSetting153;
-extern SettingFloat g_011cdef8;
-extern SettingFloat originalRuntimeFloatSetting156;
 
 // Computes a weighted sum of three inputs using float settings, truncates it to int, and clamps it between two setting bounds.
 // @fnv 0x00643400
 int __cdecl ComputeClampedSettingSum(int aiFirst, int aiSecond, float afThird)
 {
     int iresult = 0;
-    float fTerm1 = *g_011cdef8.Float() + *g_011cd8e4.Float() * aiFirst;
-    float fTerm2 = *g_011cd48c.Float() + *originalRuntimeFloatSetting153.Float() * aiSecond;
-    float fTerm3 = *g_011cda88.Float() + *originalRuntimeFloatSetting154.Float() * afThird;
+    float fTerm1 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011cdef8)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011cd8e4)))))) * aiFirst;
+    float fTerm2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011cd48c)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting153)))))) * aiSecond;
+    float fTerm3 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011cda88)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting154)))))) * afThird;
     iresult = (int)(fTerm1 + fTerm2 + fTerm3);
-    if (iresult < *originalRuntimeFloatSetting156.Float())
-        iresult = (int)*originalRuntimeFloatSetting156.Float();
-    else if (iresult > *originalRuntimeFloatSetting157.Float())
-        iresult = (int)*originalRuntimeFloatSetting157.Float();
+    if (iresult < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting156)))))))
+        iresult = (int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting156))))));
+    else if (iresult > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting157)))))))
+        iresult = (int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting157))))));
     return iresult;
 }
 
 namespace fnv_00643a70 {
 struct ActorValueOwner
 {
-    int GetActorValueAsInteger(int aeIndex);
 };
 
 struct SettingFloat
 {
-    float* Float();
 };
 
-extern SettingFloat g_011cd4d8;
-extern SettingFloat g_011cd360;
-extern SettingFloat g_011cda10;
-extern SettingFloat originalRuntimeFloatSetting311;
-extern SettingFloat originalRuntimeFloatSetting312;
 
 // Reads actor value index 7 and returns the float from one of five settings based on the value (6-10), otherwise 0.
 // @fnv 0x00643a70
 float __cdecl FUN_00643a70(ActorValueOwner* apActor)
 {
     float fresult = 0.0f;
-    switch (apActor->GetActorValueAsInteger(7))
+    switch (reinterpret_cast<::ActorValueOwner *>((apActor))->GetActorValueAsInteger((::ActorValue::Index)(7)))
     {
     case 6:
-        fresult = *g_011cd4d8.Float();
+        fresult = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00643a70::SettingFloat *>(&::g_011cd4d8))))));
         break;
     case 7:
-        fresult = *g_011cd360.Float();
+        fresult = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00643a70::SettingFloat *>(&::g_011cd360))))));
         break;
     case 8:
-        fresult = *g_011cda10.Float();
+        fresult = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00643a70::SettingFloat *>(&::g_011cda10))))));
         break;
     case 9:
-        fresult = *originalRuntimeFloatSetting311.Float();
+        fresult = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00643a70::SettingFloat *>(&::originalRuntimeFloatSetting311))))));
         break;
     case 10:
-        fresult = *originalRuntimeFloatSetting312.Float();
+        fresult = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00643a70::SettingFloat *>(&::originalRuntimeFloatSetting312))))));
         break;
     }
     return fresult;
@@ -207,17 +209,13 @@ float __cdecl FUN_00643a70(ActorValueOwner* apActor)
 
 struct Setting_S
 {
-    float* Float();
 };
-extern Setting_S g_011cd550;
-extern Setting_S g_011cd7f0;
-extern Setting_S originalRuntimeFloatSetting155;
 // Computes a value from two float settings scaled by a, subtracts it from another setting, and halves the result.
 // @fnv 0x006434f0
-float FUN_006434f0(int aiValue)
+float FUN_006434f0(intptr_t aiValue)
 {
-    float fResult = *g_011cd550.Float() + *g_011cd7f0.Float() * aiValue;
-    fResult = (*originalRuntimeFloatSetting155.Float() - fResult) / 2.0;
+    float fResult = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011cd550)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011cd7f0)))))) * aiValue;
+    fResult = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting155)))))) - fResult) / 2.0;
     return fResult;
 }
 
@@ -228,7 +226,6 @@ struct ActorValue
     {
         VAL7 = 7
     };
-    static float __cdecl ClampValue(Index, float);
 };
 struct Dummy
 {
@@ -242,20 +239,18 @@ struct Dummy
     virtual void f7();
     virtual float Func(int);
 };
-void __cdecl ComputeActorLevel(Dummy*, float);
 // @fnv 0x00643670
 void __cdecl FUN_00643670(Dummy* p)
 {
     float f = p->Func(7);
-    f = ActorValue::ClampValue((ActorValue::Index)7, f);
-    ComputeActorLevel(p, f);
+    f = ::ActorValue::ClampValue((*(::ActorValue::Index *)&(const ::fnv_00643670::ActorValue::Index &)((ActorValue::Index)7)), f);
+    ::ComputeActorLevel((::ActorBase1 *)(p), f);
 }
 }  // namespace fnv_00643670
 
 namespace fnv_006439d0 {
 struct Setting_S
 {
-    float* Float();
 };
 struct ActorValue
 {
@@ -266,16 +261,13 @@ struct ActorValue
 };
 struct ActorValueOwner
 {
-    float GetActorValueFloatByIndex(ActorValue::Index);
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting306;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting307;
 // @fnv 0x006439d0
 float FUN_006439d0(ActorValueOwner* apActorValueOwner)
 {
-    return (float)((double)apActorValueOwner->GetActorValueFloatByIndex((ActorValue::Index)10) *
-                       *reinterpret_cast<Setting_S*>(&originalRuntimeFloatSetting306)->Float() +
-                   *reinterpret_cast<Setting_S*>(&originalRuntimeFloatSetting307)->Float());
+    return (float)((double)reinterpret_cast<::ActorValueOwner *>((apActorValueOwner))->GetActorValueFloatByIndex((*(::ActorValue::Index *)&(const ::fnv_006439d0::ActorValue::Index &)((ActorValue::Index)10))) *
+                       *((float *)&(::FUN_00403e20((float *)(reinterpret_cast<Setting_S*>(&::originalRuntimeFloatSetting306))))) +
+                   *((float *)&(::FUN_00403e20((float *)(reinterpret_cast<Setting_S*>(&::originalRuntimeFloatSetting307))))));
 }
 }  // namespace fnv_006439d0
 
@@ -289,20 +281,16 @@ struct ActorValue
 };
 struct ActorValueOwner
 {
-    float GetActorValueFloatByIndex(ActorValue::Index);
 };
 struct Setting_S
 {
-    float* Float();
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting308;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting309;
 // @fnv 0x00643a10
 float FUN_00643a10(ActorValueOwner* pActorValueOwner)
 {
-    return (double)pActorValueOwner->GetActorValueFloatByIndex((ActorValue::Index)5) *
-               *reinterpret_cast<Setting_S*>(&originalRuntimeFloatSetting308)->Float() +
-           *reinterpret_cast<Setting_S*>(&originalRuntimeFloatSetting309)->Float();
+    return (double)reinterpret_cast<::ActorValueOwner *>((pActorValueOwner))->GetActorValueFloatByIndex((*(::ActorValue::Index *)&(const ::fnv_00643a10::ActorValue::Index &)((ActorValue::Index)5))) *
+               *((float *)&(::FUN_00403e20((float *)(reinterpret_cast<Setting_S*>(&::originalRuntimeFloatSetting308))))) +
+           *((float *)&(::FUN_00403e20((float *)(reinterpret_cast<Setting_S*>(&::originalRuntimeFloatSetting309)))));
 }
 }  // namespace fnv_00643a10
 
@@ -310,18 +298,13 @@ namespace fnv_00643b50 {
 class Setting_S
 {
   public:
-    float* Float();
 };
 
 class ActorValueOwner
 {
   public:
-    float GetActorValueFloatByIndex(int);
 };
 
-extern Setting_S originalRuntimeFloatSetting313;
-extern Setting_S g_011cd12c;
-extern double _DAT_01012060;
 
 // @fnv 0x00643b50
 float FUN_00643b50(ActorValueOwner* owner, int value)
@@ -332,10 +315,10 @@ float FUN_00643b50(ActorValueOwner* owner, int value)
     {
     case 17: {
         float fClampedValue = FUN_00406ce0(static_cast<float>(
-            ((static_cast<double>(owner->GetActorValueFloatByIndex(5)) + *originalRuntimeFloatSetting313.Float()) *
-             *g_011cd12c.Float())));
+            ((static_cast<double>(reinterpret_cast<::ActorValueOwner *>((owner))->GetActorValueFloatByIndex((::ActorValue::Index)(5))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00643b50::Setting_S *>(&::originalRuntimeFloatSetting313))))))) *
+             *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00643b50::Setting_S *>(&::g_011cd12c)))))))));
 
-        if (fClampedValue > _DAT_01012060)
+        if (fClampedValue > ::_DAT_01012060)
             fResult += fClampedValue;
         break;
     }
@@ -348,7 +331,6 @@ float FUN_00643b50(ActorValueOwner* owner, int value)
 namespace fnv_00643540 {
 struct SettingFloat
 {
-    float* Float();
 };
 
 struct SettingSlot16
@@ -361,27 +343,22 @@ struct SettingSlot16
 
 extern SettingSlot16 DAT_011cd680[];
 
-float __cdecl FUN_006429e0(float a, float b);
-float __cdecl FUN_00476b70(float a, float b);
 
 // Reads four floats from the setting slot at aiIndex, combines the first two into afOutA and the last two into afOutB.
 // @fnv 0x00643540
 void __cdecl GetSettingPairValues(int aiIndex, float* afOutA, float* afOutB)
 {
     SettingSlot16* slot = &DAT_011cd680[aiIndex];
-    *afOutA = FUN_006429e0(*slot->m_00->Float(), *slot->m_04->Float());
-    *afOutB = FUN_00476b70(*slot->m_08->Float(), *slot->m_0c->Float());
+    *afOutA = ::FUN_006429e0(*((float *)&(::FUN_00403e20((float *)(slot->m_00)))), *((float *)&(::FUN_00403e20((float *)(slot->m_04)))));
+    *afOutB = ::RandomFloat(*((float *)&(::FUN_00403e20((float *)(slot->m_08)))), *((float *)&(::FUN_00403e20((float *)(slot->m_0c)))));
 }
 }  // namespace fnv_00643540
 
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting295;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting294;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting298;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting297;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting296;
 struct TESActorBaseS
 {
-    unsigned int GetLevelStub(int a);
 };
 struct ActorBase0
 {
@@ -660,8 +637,6 @@ struct ActorBase1
 };
 struct ActorS : ActorBase0, ActorBase1
 {
-    bool IsStub();
-    TESActorBaseS* GetActorBase();
 };
 // Computes a level value from afLevel and runtime float settings, branching on v218/v360 and adjusting for stub actors or positive GetLevel.
 // @fnv 0x006436c0
@@ -673,56 +648,34 @@ float __cdecl ComputeActorLevel(ActorBase1* apObj, float afLevel)
     bool b3 = pActor2->v360();
     if (b3)
     {
-        fResult = (afLevel + originalRuntimeFloatSetting295.Float()->f) * originalRuntimeFloatSetting294.Float()->f;
+        fResult = (afLevel + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting295))))->f) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting294))))->f;
     }
     else if (b4)
     {
-        fResult = (afLevel + originalRuntimeFloatSetting298.Float()->f) * originalRuntimeFloatSetting297.Float()->f;
+        fResult = (afLevel + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting298))))->f) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting297))))->f;
     }
-    if (pActor2->IsStub() && b4 && !b3)
+    if (reinterpret_cast<::FUN_0087f4e0_shell *>((pActor2))->FUN_0087f4e0() && b4 && !b3)
     {
-        TESActorBaseS* pBase2 = pActor2->GetActorBase();
-        fResult = (float)pBase2->GetLevelStub(0);
+        TESActorBaseS* pBase2 = ((::TESActorBaseS *)(reinterpret_cast<::Actor *>((pActor2))->GetActorBase()));
+        fResult = (float)((unsigned int)(reinterpret_cast<::Context *>((pBase2))->ComputeAttributeValue(0)));
     }
     else if (b3 && pActor2->GetLevel() > 0)
     {
-        fResult += (pActor2->GetLevel() - 1) * originalRuntimeFloatSetting296.Float()->f;
+        fResult += (pActor2->GetLevel() - 1) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting296))))->f;
     }
     return fResult;
 }
 
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting86;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting151;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting152;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting99;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting100;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting98;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting97;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting150;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting101;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting87;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting102;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting90;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting88;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting91;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting93;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting95;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting96;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting92;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting89;
-extern SettingT<GameSettingCollection> g_011cdc80;
-extern SettingT<GameSettingCollection> g_011cd080;
-extern SettingT<GameSettingCollection> g_011cdb84;
-extern SettingT<GameSettingCollection> g_011cdeec;
-extern SettingT<GameSettingCollection> g_011cd310;
 struct GlobalObject2_0040c150
 {
-    int* Int();
 };
-extern GlobalObject2_0040c150 g_011cd8c0, g_011cd13c, g_011cd4c0;
-int FUN_00647b70(int, int);
-float FUN_00404010(float, float);
-double FUN_00ec9ac0(double, double);
 // @fnv 0x00642ed0
 int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDamage, float afCurrentHealth, int a1c,
                                 int aiPercent, bool a24, int a28, bool abApplyAttackBonus, bool abApplyDeduction,
@@ -761,11 +714,11 @@ int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDa
     float level5;
 
     result7 = 0;
-    fTotal4 = originalRuntimeFloatSetting86.Float()->f;
+    fTotal4 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting86))))->f;
     base14 = aiBaseDamage;
-    extra6 = *g_011cd8c0.Int();
-    base14 += *g_011cd13c.Int() * (a64 - a60);
-    extra6 -= a64 * *g_011cd4c0.Int();
+    extra6 = *((int *)&(::FUN_0043d4d0((int *)&(::g_011cd8c0))));
+    base14 += *((int *)&(::FUN_0043d4d0((int *)&(::g_011cd13c)))) * (a64 - a60);
+    extra6 -= a64 * *((int *)&(::FUN_0043d4d0((int *)&(::g_011cd4c0))));
     base14 += FUN_00647b70(extra6, 0);
     base14 -= aiPenalty;
     flag6 = 0;
@@ -779,15 +732,15 @@ int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDa
         flag4c_2 = 1;
     bonusA = 0.0f;
     if (aiBonusType == 1)
-        bonusA = originalRuntimeFloatSetting151.Float()->f;
+        bonusA = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting151))))->f;
     else if (aiBonusType == 2.0)
-        bonusA = originalRuntimeFloatSetting152.Float()->f;
+        bonusA = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting152))))->f;
     fScaleTmp =
-        originalRuntimeFloatSetting99.Float()->f +
-        (originalRuntimeFloatSetting100.Float()->f - originalRuntimeFloatSetting99.Float()->f) * (aiLevel / 10.0f);
-    fScaleTmp *= 1.0 + flag6 * originalRuntimeFloatSetting98.Float()->f +
-                 flagVal5 * originalRuntimeFloatSetting97.Float()->f +
-                 flag4c_2 * originalRuntimeFloatSetting150.Float()->f + bonusA;
+        ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting99))))->f +
+        (((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting100))))->f - ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting99))))->f) * (aiLevel / 10.0f);
+    fScaleTmp *= 1.0 + flag6 * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting98))))->f +
+                 flagVal5 * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting97))))->f +
+                 flag4c_2 * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting150))))->f + bonusA;
     damage = aiDamage;
     if (a24)
         damage = 0;
@@ -803,33 +756,33 @@ int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDa
     flag2cB = 0;
     if (abApplyAttackBonus)
         flag2cB = 1;
-    maximum3 = abMaxHealth ? originalRuntimeFloatSetting101.Float()->f * originalRuntimeFloatSetting87.Float()->f
-                           : originalRuntimeFloatSetting87.Float()->f;
+    maximum3 = abMaxHealth ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting101))))->f * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting87))))->f
+                           : ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting87))))->f;
     ratio2 = FUN_00404010((maximum3 - afCurrentHealth) / maximum3, 0.0f);
-    ratio2 = FUN_00ec9ac0(ratio2, originalRuntimeFloatSetting102.Float()->f);
+    ratio2 = std::pow(ratio2, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting102))))->f);
     adjusted = ratio2;
     if (!flagA && aiBonusType != 1)
-        adjusted = ratio2 * originalRuntimeFloatSetting90.Float()->f;
-    attackVal = flag2cB * (originalRuntimeFloatSetting88.Float()->f + g_011cdc80.Float()->f * a28);
+        adjusted = ratio2 * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting90))))->f;
+    attackVal = flag2cB * (((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting88))))->f + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cdc80))))))->f * a28);
     multiplier9 = 1.0f;
     if (flag3)
-        multiplier9 = originalRuntimeFloatSetting91.Float()->f;
+        multiplier9 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting91))))->f;
     attackVal *= multiplier9;
-    count101 = (int)g_011cd080.Float()->f * aiCount;
-    first3 = FUN_00404010(adjusted * originalRuntimeFloatSetting93.Float()->f * (count101 + attackVal), 0.0f);
+    count101 = (int)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cd080))))))->f * aiCount;
+    first3 = FUN_00404010(adjusted * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting93))))->f * (count101 + attackVal), 0.0f);
     *apFirstDamage = first3;
     factors4 =
-        1.0 + flag2cB * originalRuntimeFloatSetting95.Float()->f + flag3 * originalRuntimeFloatSetting96.Float()->f;
-    level5 = (g_011cdb84.Float()->f + a1c) * originalRuntimeFloatSetting92.Float()->f;
+        1.0 + flag2cB * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting95))))->f + flag3 * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting96))))->f;
+    level5 = (((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cdb84))))))->f + a1c) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting92))))->f;
     percentTmp = (100 - aiPercent) / 100;
-    repeats4 = aiRepeats <= 1 ? 1.0 : 1.0 + (aiRepeats - 1.0) * g_011cdeec.Float()->f;
+    repeats4 = aiRepeats <= 1 ? 1.0 : 1.0 + (aiRepeats - 1.0) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cdeec))))))->f;
     secondary8 = FUN_00404010(damage * ratio2 * factors4 * level5 * percentTmp * repeats4, 0.0f);
     if (a24)
-        secondary8 *= g_011cd310.Float()->f;
+        secondary8 *= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cd310))))))->f;
     *apSecondaryDamage = secondary8;
     deduction2 = base14 * flagVal9;
     weighted9 = fScaleTmp * ratio2;
-    third_2 = originalRuntimeFloatSetting89.Float()->f * (weighted9 - deduction2);
+    third_2 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting89))))->f * (weighted9 - deduction2);
     *apThirdDamage = third_2;
     fTotal4 = fTotal4 + first3 + secondary8 + third_2;
     if (fTotal4 < 1.0 && fTotal4 > 0.0)
@@ -839,13 +792,12 @@ int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDa
     return result7;
 }
 
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting327;
-bool __cdecl FUN_0047f060(int);
 void __cdecl GetSkillAttributeAndBase(int aiSkill, int* aiPrimaryAttribute, float* afBase);
-float __cdecl CalcSkillBase(float, float, float);
+namespace ActorValue { enum Index; }
 struct TESClass
 {
-    bool IsTagSkill(ActorValue::Index);
+public:
+    bool IsTagSkill(::ActorValue::Index) const;
 };
 struct TESForm
 {
@@ -917,7 +869,6 @@ struct TESForm
 };
 struct TESNPC : TESForm
 {
-    TESClass* GetClass();
 };
 struct ActorStub
 {
@@ -931,7 +882,6 @@ struct ActorStub
     virtual void v7();
     virtual void v8();
     virtual TESForm* GetBaseForm();
-    float GetPermanentActorValue(int);
 };
 // @fnv 0x00643c90
 float __cdecl GetSkillValue(ActorStub* apActor, int aiSkill, bool abCurrent)
@@ -946,16 +896,16 @@ float __cdecl GetSkillValue(ActorStub* apActor, int aiSkill, bool abCurrent)
         {
             if (!abCurrent)
             {
-                fResult = CalcSkillBase(fResult, apActor->GetPermanentActorValue(iAttribute),
-                                        apActor->GetPermanentActorValue(11));
+                fResult = ::AIFormulas::CalculateSkillValue(fResult, reinterpret_cast<::ActorValueOwner *>((apActor))->GetActorValueFloatByIndex((::ActorValue::Index)(iAttribute)),
+                                        reinterpret_cast<::ActorValueOwner *>((apActor))->GetActorValueFloatByIndex((::ActorValue::Index)(11)));
             }
             else
             {
-                fResult = CalcSkillBase(
+                fResult = ::AIFormulas::CalculateSkillValue(
                     fResult,
-                    ActorValue::ClampValue((ActorValue::Index)iAttribute,
+                    ::ActorValue::ClampValue((ActorValue::Index)iAttribute,
                                            apActor->GetActorValue(iAttribute) + apActor->GetActorValueModifierAmount(iAttribute)),
-                    ActorValue::ClampValue((ActorValue::Index)11,
+                    ::ActorValue::ClampValue((ActorValue::Index)11,
                                            apActor->GetActorValue(11) + apActor->GetActorValueModifierAmount(11)));
             }
         }
@@ -966,9 +916,9 @@ float __cdecl GetSkillValue(ActorStub* apActor, int aiSkill, bool abCurrent)
             if (pForm->IsNPC())
             {
                 TESNPC* pNPC = (TESNPC*)pForm;
-                if (pNPC->GetClass() && pNPC->GetClass()->IsTagSkill((ActorValue::Index)aiSkill))
+                if (((::TESClass *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>((pNPC))->FUN_00884350())) && ((::TESClass *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>((pNPC))->FUN_00884350()))->IsTagSkill((ActorValue::Index)aiSkill))
                 {
-                    fResult += originalRuntimeFloatSetting327.Float()->f;
+                    fResult += ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting327))))->f;
                 }
             }
         }
@@ -981,7 +931,6 @@ struct NiPoint3
 {
     float x, y, z;
     NiPoint3 operator-(const NiPoint3&) const;
-    float FUN_004a7290() const;
 };
 class TESPackage;
 struct Actor
@@ -1112,23 +1061,17 @@ struct Actor
     virtual void virtual1EC();
     virtual void virtual1F0();
     virtual const NiPoint3& GetPosition();
-    struct ExtraData* FUN_005d43c0();
-    TESPackage* GetCurrentPackage();
     float FUN_008be1b0();
 };
 class TESPackage
 {
   public:
-    int GetPackType();
-    float GetPackageResult(Actor*, bool);
 };
 struct FollowerNode
 {
     Actor* actor;
     FollowerNode* next;
     bool FUN_008256d0();
-    Actor** FUN_006815c0();
-    FollowerNode* FUN_00726070();
 };
 struct ExtraFollower
 {
@@ -1139,7 +1082,6 @@ struct ExtraFollower
 };
 struct ExtraData
 {
-    ExtraFollower* FUN_00422700();
 };
 struct FollowerEntry
 {
@@ -1148,7 +1090,6 @@ struct FollowerEntry
     float spacing;
     float radius;
 };
-int __cdecl CompareObjects(const void*, const void*);
 struct FollowerArray
 {
     void* operations;
@@ -1158,24 +1099,18 @@ struct FollowerArray
     FollowerArray(unsigned int);
     ~FollowerArray();
     FollowerEntry& FUN_00558dd0(unsigned int);
-    void FUN_006c8980(int(__cdecl*)(const void*, const void*));
-    unsigned int FUN_0044ddc0();
 };
 class GlobalObject2_0040c150
 {
   public:
-    int* Int();
 };
-extern GlobalObject2_0040c150 g_011cde98;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting291;
-float __cdecl FUN_00404010(float, float);
 
 // Builds a sorted list of the leader's followers whose current package is type 1 and returns the accumulated spacing offset up to the given actor.
 // @fnv 0x00643ff0
 float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
 {
     float offset = 0.0f;
-    ExtraFollower* pExtraFollower = leader ? leader->FUN_005d43c0()->FUN_00422700() : 0;
+    ExtraFollower* pExtraFollower = leader ? ((::fnv_00643ff0::ExtraFollower *)(reinterpret_cast<::FUN_00422700_shell *>((((::fnv_00643ff0::ExtraData *)(reinterpret_cast<::FUN_005d43c0_ *>((leader))->FUN_005d43c0()))))->FUN_00422700())) : 0;
     if (pExtraFollower)
     {
         unsigned int count = 0;
@@ -1184,11 +1119,11 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
             FollowerNode* node = pExtraFollower->followers;
             while (node)
             {
-                Actor* follower = *node->FUN_006815c0();
-                TESPackage* package = follower->GetCurrentPackage();
-                if (package && package->GetPackType() == 1)
+                Actor* follower = *((::fnv_00643ff0::Actor **)((void *)(node)));
+                TESPackage* package = ((::fnv_00643ff0::TESPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((follower))->FUN_009344a0()));
+                if (package && reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 1)
                     ++count;
-                node = node->FUN_00726070();
+                node = ((::fnv_00643ff0::FollowerNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             }
         }
         if (count > 0)
@@ -1198,29 +1133,29 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
             FollowerNode* followers = pExtraFollower->followers;
             while (followers)
             {
-                Actor* follower = *followers->FUN_006815c0();
-                TESPackage* package = follower->GetCurrentPackage();
-                if (package && package->GetPackType() == 1)
+                Actor* follower = *((::fnv_00643ff0::Actor **)((void *)(followers)));
+                TESPackage* package = ((::fnv_00643ff0::TESPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((follower))->FUN_009344a0()));
+                if (package && reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 1)
                 {
                     FollowerEntry& entry = followerList.FUN_00558dd0(index);
                     entry.actor = follower;
-                    entry.distance = (leader->GetPosition() - follower->GetPosition()).FUN_004a7290();
-                    entry.spacing = (float)*g_011cde98.Int();
+                    entry.distance = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::fnv_00643ff0::NiPoint3 &)((leader->GetPosition() - follower->GetPosition())))->UpdateCombatStyle();
+                    entry.spacing = (float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00643ff0::GlobalObject2_0040c150 *>(&::g_011cde98))))));
                     entry.radius = follower->FUN_008be1b0();
-                    entry.spacing = package->GetPackageResult(actor, false);
+                    entry.spacing = reinterpret_cast<::fnv_006787e0::Package *>((package))->GetPackageResult((::fnv_006787e0::Obj *)(actor), false);
                     ++index;
                 }
-                followers = followers->FUN_00726070();
+                followers = ((::fnv_00643ff0::FollowerNode *)(reinterpret_cast<::Callees *>((followers))->FUN_00726070()));
             }
-            followerList.FUN_006c8980(CompareObjects);
+            reinterpret_cast<::FUN_006c8980_stand *>(&(followerList))->FUN_006c8980((std::intptr_t)(((int (&)(const void *, const void *))::CompareObjects)));
             float distance = 0.0f;
-            for (index = 0; index < followerList.FUN_0044ddc0(); ++index)
+            for (index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(followerList))->GetName())); ++index)
             {
                 FollowerEntry& entry = followerList.FUN_00558dd0(index);
                 if (index > 0)
                     distance += followerList.FUN_00558dd0(index - 1).radius + entry.radius +
-                                originalRuntimeFloatSetting291.Float()->f;
-                distance = FUN_00404010(distance, entry.spacing);
+                                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting291))))->f;
+                distance = ::FUN_00404010(distance, entry.spacing);
                 if (followerList.FUN_00558dd0(index).actor == actor)
                 {
                     offset = distance - followerList.FUN_00558dd0(index).spacing;
@@ -1235,28 +1170,22 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
 
 struct FloatSetting428
 {
-    SETTING_VALUE* FUN_00403e20();
 };
-extern "C" FloatSetting428 g_011cdee0;
-extern "C" FloatSetting428 g_011cdb48;
 class ActorValueOwner428
 {
   public:
-    float FUN_0066ef50(unsigned actorValue);
 };
 // Returns the sum of a base setting value and the owner's actor value 11 multiplied by another setting value.
 // @fnv 0x00643b10
 float __cdecl FUN_00643b10(ActorValueOwner428* apActorValueOwner)
 {
-    float result = g_011cdee0.FUN_00403e20()->f + apActorValueOwner->FUN_0066ef50(11) * g_011cdb48.FUN_00403e20()->f;
+    float result = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting428 *>(&::g_011cdee0))))))->f + reinterpret_cast<::ActorValueOwner *>((apActorValueOwner))->GetActorValueFloatByIndex((::ActorValue::Index)(11)) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting428 *>(&::g_011cdb48))))))->f;
     return result;
 }
 
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting300;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting301;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting302;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting303;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting304;
 
 struct S00643870_Primary
 {
@@ -1495,15 +1424,12 @@ struct S00643870_Base1
 };
 struct S00643870_TESActorBase
 {
-    unsigned int ComputeDerivedValue(int);
 };
 struct S00643870_Actor : S00643870_Primary, S00643870_Base1
 {
-    S00643870_TESActorBase* FUN_004181e0();
 };
 struct S00643870_FUN_0087f4e0_shell
 {
-    bool FUN_0087f4e0();
 };
 
 // Computes a float result from afValue and runtime settings based on actor traits, level, and a shell check.
@@ -1517,25 +1443,27 @@ float __cdecl FUN_00643870(S00643870_Base1* apObj, float afValue)
 
     if (bHasSpecial3)
     {
-        fResult = originalRuntimeFloatSetting300.Float()->f + afValue * originalRuntimeFloatSetting301.Float()->f;
+        fResult = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting300))))->f + afValue * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting301))))->f;
     }
     else if (bHasTrait4)
     {
-        fResult = originalRuntimeFloatSetting303.Float()->f + afValue * originalRuntimeFloatSetting304.Float()->f;
+        fResult = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting303))))->f + afValue * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting304))))->f;
     }
 
-    if (((S00643870_FUN_0087f4e0_shell*)pActor2)->FUN_0087f4e0() && bHasTrait4 && !bHasSpecial3)
+    if (reinterpret_cast<::FUN_0087f4e0_shell *>((((S00643870_FUN_0087f4e0_shell*)pActor2)))->FUN_0087f4e0() && bHasTrait4 && !bHasSpecial3)
     {
-        S00643870_TESActorBase* base2 = pActor2->FUN_004181e0();
-        fResult = (float)base2->ComputeDerivedValue(1);
+        S00643870_TESActorBase* base2 = ((::S00643870_TESActorBase *)(reinterpret_cast<::Actor *>((pActor2))->GetActorBase()));
+        fResult = (float)((unsigned int)(reinterpret_cast<::B6040D0NPC *>((base2))->ComputeDerivedValue(1)));
     }
     else if (bHasSpecial3)
     {
         if (pActor2->GetLevel() > 0)
         {
-            fResult = (double)(pActor2->GetLevel() - 1) * originalRuntimeFloatSetting302.Float()->f + fResult;
+            fResult = (double)(pActor2->GetLevel() - 1) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting302))))->f + fResult;
         }
     }
 
     return fResult;
 }
+
+#include "generated/data/fallout_shared/aiformulas.inc"

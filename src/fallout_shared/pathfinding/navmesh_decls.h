@@ -2,6 +2,8 @@
 #ifndef FNV_NAVMESH_DECLS_H
 #define FNV_NAVMESH_DECLS_H
 
+#include "fnv/decl/FUN_005582d0_shell.h"
+#include "fnv/decl/FUN_0068f0a0_shell.h"
 class NiPoint3
 {
   public:
@@ -12,14 +14,12 @@ class NiPoint3
 class NavMeshTriangle
 {
   public:
-    unsigned short FUN_005582d0(int);
 };
 extern float DAT_0102f200;
 class NavMesh
 {
   public:
     NavMeshTriangle* GetTriangle(unsigned short);
-    const NiPoint3& FUN_0068f0a0(unsigned short);
     NiPoint3 GetNavMeshData(unsigned short);
 };
 #endif

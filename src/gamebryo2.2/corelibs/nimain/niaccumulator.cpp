@@ -1,19 +1,20 @@
 // src/gamebryo2.2/corelibs/nimain/niaccumulator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niaccumulator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern char const* const g_011f6058_arg1;
 
 // @fnv 0x00aa0b00
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f6000.h"
 char const* const* __cdecl FUN_00aa0b00()
 {
-    return &g_011f6058_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f6060));
 }
 
 struct NiRefObject
 {
     virtual ~NiRefObject();
 };
-void __cdecl _delete(void*, unsigned int);
 extern int DAT_010a2304;
 struct NiAccumulator : NiRefObject
 {
@@ -24,8 +25,8 @@ struct NiAccumulator : NiRefObject
 void* NiAccumulator::FUN_00aa0b10(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_010a2304;
-    this->NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((this))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (auiFlags & 1)
-        _delete(this, 12);
+        ::FUN_00aa1460(this, 12);
     return this;
 }

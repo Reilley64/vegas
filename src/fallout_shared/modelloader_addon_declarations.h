@@ -37,12 +37,4 @@ class BGSAddonNode : public TESBoundObject, public TESModelTextureSwap
     bool IsMasterParticleSystem() const;
 };
 
-typedef char Assert_AddonFlags_Size[(sizeof(BGSAddonNode::_AddonNodeFlags) == 1) ? 1 : -1];
-typedef char Assert_AddonData_Size[(sizeof(BGSAddonNode::AddonData) == 4) ? 1 : -1];
-typedef char Assert_AddonData_Flags[(offsetof(BGSAddonNode::AddonData, m_ucEntryType) == 2) ? 1 : -1];
-typedef char Assert_Addon_Size[(sizeof(BGSAddonNode) == 0x60) ? 1 : -1];
-typedef char Assert_Addon_Index[(offsetof(BGSAddonNode, uiIndex) == 0x50) ? 1 : -1];
-typedef char Assert_Addon_Sound[(offsetof(BGSAddonNode, SoundAssetTmp) == 0x54) ? 1 : -1];
-typedef char Assert_Addon_Data[(offsetof(BGSAddonNode, kData) == 0x58) ? 1 : -1];
-typedef char Assert_Addon_ParticleIndex[(offsetof(BGSAddonNode, uiParticleSystemIndex) == 0x5C) ? 1 : -1];
 #endif

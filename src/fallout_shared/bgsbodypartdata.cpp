@@ -1,5 +1,28 @@
 // fallout_shared/bgsbodypartdata.cpp: BGSBodyPartData (10 functions)
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00485c10_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005e5190_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Obj5e5300.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00484730__FUN_00484730_shell.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c3000.h"
 #include "bgsbodypartdata.h"
 #include "string.h"
 #include <malloc.h>
@@ -21,7 +44,7 @@ static const char s_playerBodyPartData[] = "PlayerBodyPartData";
 // @fnv 0x005e4af0
 BGSBodyPartData::BGSBodyPartData()
 {
-    SetFormType(ENUM_FORM_ID_BPTD_ID);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(ENUM_FORM_ID_BPTD_ID)));
     ResetFormData();
 }
 
@@ -52,7 +75,7 @@ void BGSBodyPartData::ClearBodyParts()
 // @fnv 0x005e4c90
 void BGSBodyPartData::InitItem()
 {
-    if (static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))->IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
     for (int i = 0; i < 15; ++i)
     {
@@ -60,13 +83,13 @@ void BGSBodyPartData::InitItem()
         if (part)
             part->InitItem(this);
     }
-    unsigned int ragdollID = reinterpret_cast<unsigned int>(m_pRagdoll);
+    unsigned int ragdollID = (unsigned int)(std::uintptr_t)(m_pRagdoll);
     if (ragdollID)
     {
-        RemapFormIDForFile(ragdollID, GetFile(-1));
-        m_pRagdoll = dynamic_cast<BGSRagdoll*>(TESFormInitFlag::GetFormByID(ragdollID));
+        ::ResolveFormID((unsigned int *)&(ragdollID), GetFile(-1));
+        m_pRagdoll = dynamic_cast<BGSRagdoll*>(::FUN_004839c0(ragdollID));
         if (!m_pRagdoll)
-            Warning(s_ragdollWarning, ragdollID, GetName(), GetFormID());
+            ::FUN_005b5e40();
     }
     SetInitializationState(true);
 }
@@ -75,13 +98,13 @@ void BGSBodyPartData::InitItem()
 // @fnv 0x005e4d80
 bool BGSBodyPartData::Load(TESFile* file)
 {
-    if (static_cast<TESFileFormInt*>(file)->GetTESForm() != ENUM_FORM_ID_BPTD_ID)
+    if (reinterpret_cast<::FUN_00472660_shell *>((static_cast<TESFileFormInt*>(file)))->FUN_00472660() != ENUM_FORM_ID_BPTD_ID)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     int chunk;
     bool bRecovered;
 read_chunk:
-    chunk = file->GetChunkID();
+    chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()));
     if (chunk)
     {
         bRecovered = false;
@@ -89,8 +112,8 @@ read_chunk:
         {
         case 0x44494445:  // EDID
         {
-            char* buffer = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(buffer, 0x200);
+            char* buffer = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(buffer), 0x200);
             SetEditorID_AtRuntime(buffer);
             break;
         }
@@ -106,27 +129,27 @@ read_chunk:
         case 0x4E545042:  // BPTN
         {
             BGSBodyPart* part = new BGSBodyPart;
-            int warnings = Warning();
+            int warnings = ::FUN_0046e8a0();
             if (!part->Load(file))
             {
-                Warning(s_loadFailedWarning, GetName(), GetFormID());
+                ::FUN_005b5e40();
                 delete part;
                 return false;
                 goto check_warnings;
             }
-            switch (static_cast<int>(file->GetChunkID()))
+            switch (static_cast<int>(((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))))
             {
             case 0x4E4E5042:  // BPNN
             case 0x41474152:  // RAGA
             case 0x4D414E50:  // PNAM
             case 0x4E545042:  // BPTN
-                Warning(s_advancedTooFarWarning, GetName(), GetFormID());
+                ::FUN_005b5e40();
                 bRecovered = true;
                 break;
             }
         check_warnings:
-            if (Warning() != warnings)
-                Warning(s_partWarningsWarning, part->GetPartName(), GetName(), GetFormID());
+            if (::FUN_0046e8a0() != warnings)
+                ::FUN_005b5e40();
             AddBodyPart(part);
             break;
         }
@@ -152,18 +175,18 @@ void BGSBodyPartData::AddBodyPart(BGSBodyPart* part)
 {
     if (part)
     {
-        int index = part->GetLimb();
+        int index = ((int)(reinterpret_cast<::Obj5e5300 *>((part))->GetByte61()));
         if (index >= 0 && index < 15)
         {
             if (m_apBodyParts[index])
             {
-                Warning(s_alreadyInUseWarning, index, GetName(), GetFormID());
+                ::FUN_005b5e40();
                 delete m_apBodyParts[index];
             }
             m_apBodyParts[index] = part;
         }
         else
-            Warning(s_invalidIndexWarning, index, GetName(), GetFormID());
+            ::FUN_005b5e40();
     }
 }
 
@@ -182,22 +205,22 @@ void BGSBodyPartData::QueueResourceLoad(IO_TASK_PRIORITY priority, QueuedFile* f
 // @fnv 0x005e53a0
 void BGSBodyPartData::InitializeBodyPartData()
 {
-    ms_pBodyPartData = dynamic_cast<BGSBodyPartData*>(TESFormInitFlag::GetFormByID(0x1D));
+    ms_pBodyPartData = dynamic_cast<BGSBodyPartData*>(::FUN_004839c0(0x1D));
     if (!ms_pBodyPartData)
     {
         ms_pBodyPartData = new BGSBodyPartData;
         ms_pBodyPartData->SetRefID(0x1D, true);
         ms_pBodyPartData->SetEditorID_AtRuntime(s_defaultBodyPartData);
-        static_cast<TESDataHandlerForms*>(g_dataHandler)->AddFormToDataHandler(ms_pBodyPartData);
+        reinterpret_cast<::TESDataHandler *>((static_cast<TESDataHandlerForms*>((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->AddFormToDataHandler(ms_pBodyPartData);
         ms_pBodyPartData->SetAltered(false);
     }
-    ms_pBodyPartDataInstance = dynamic_cast<BGSBodyPartData*>(TESFormInitFlag::GetFormByID(0x1C));
+    ms_pBodyPartDataInstance = dynamic_cast<BGSBodyPartData*>(::FUN_004839c0(0x1C));
     if (!ms_pBodyPartDataInstance)
     {
         ms_pBodyPartDataInstance = new BGSBodyPartData;
         ms_pBodyPartDataInstance->SetRefID(0x1C, true);
         ms_pBodyPartDataInstance->SetEditorID_AtRuntime(s_playerBodyPartData);
-        static_cast<TESDataHandlerForms*>(g_dataHandler)->AddFormToDataHandler(ms_pBodyPartDataInstance);
+        reinterpret_cast<::TESDataHandler *>((static_cast<TESDataHandlerForms*>((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->AddFormToDataHandler(ms_pBodyPartDataInstance);
         ms_pBodyPartDataInstance->SetAltered(false);
         ms_pBodyPartDataInstance = 0;
     }
@@ -210,7 +233,6 @@ struct FUN_005e5130_Elem
     int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
     signed char flag;
     signed char unk61, unk62, unk63;
-    signed char GetByte63();
 };
 struct FUN_005e5130_Class
 {
@@ -229,7 +251,7 @@ FUN_005e5130_Elem* FUN_005e5130_Class::FUN_005e5130(int value)
         FUN_005e5130_Elem* pEntry = entries[index];
         if (!pEntry)
             continue;
-        if (pEntry->GetByte63() == value)
+        if (((signed char)(reinterpret_cast<::FUN_005e5190_Class *>((pEntry))->GetByte63())) == value)
         {
             pFound = pEntry;
             break;

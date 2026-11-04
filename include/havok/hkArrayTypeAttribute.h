@@ -3,7 +3,6 @@
 #ifndef FNV_HAVOK_HKARRAYTYPEATTRIBUTE_H
 #define FNV_HAVOK_HKARRAYTYPEATTRIBUTE_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkArrayTypeAttribute
 {
   public:
@@ -15,6 +14,4 @@ class hkArrayTypeAttribute
     };
     hkInt8 m_type;  // +0x0 (ArrayType)
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkArrayTypeAttribute[(sizeof(hkArrayTypeAttribute) == 0x1) ? 1 : -1];
 #endif

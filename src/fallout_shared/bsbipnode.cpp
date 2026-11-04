@@ -1,5 +1,24 @@
 // fallout_shared/bsbipnode.cpp: AnimationInterpolatorNode (5 functions)
 
+#include "fnv/tls.h"
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00456630_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004942c0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f0140_class.h"
+#include "fnv/decl/FUN_004f02e0_This.h"
+#include "fnv/decl/FUN_004f0320_class.h"
+#include "fnv/decl/NiUpdateData.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_011f3000.h"
 #include "bsbipnode_decls.h"
 
 // @fnv 0x004f0380
@@ -19,33 +38,33 @@ void AnimationInterpolatorNode::UpdateInterpolatorsAtTime(float time, bool selec
             target = m_ppTargetObjects[iIndex];
             if (!target)
                 continue;
-            if (!selective && !target->FUN_004f0140())
+            if (!selective && !reinterpret_cast<::FUN_004f0140_class *>((target))->FUN_004f0140())
                 continue;
-            else if (selective && target->FUN_004f0140())
+            else if (selective && reinterpret_cast<::FUN_004f0140_class *>((target))->FUN_004f0140())
                 continue;
 
             if (m_pkBlendInterpolators[iIndex].Update(time, target, transform))
             {
-                if (transform.IsTranslateXNotNegatedConstant())
-                    target->FUN_00440460(transform.GetTranslate());
-                if (transform.FUN_004f02e0())
+                if (reinterpret_cast<::FUN_004942c0_shell *>(&(transform))->IsTranslateXNotNegatedConstant())
+                    reinterpret_cast<::FUN_00440460_S *>((target))->FUN_00440460((const ::V3 *)&((*(const ::NiPoint3 *)((void *)&(transform)))));
+                if (reinterpret_cast<::FUN_004f02e0_This *>(&(transform))->FUN_004f02e0())
                     target->FUN_004f0160(transform.GetOffsetC());
-                if (transform.FUN_004f0320())
-                    target->FUN_00440490(transform.GetFloatAtOffset1C());
+                if (reinterpret_cast<::FUN_004f0320_class *>(&(transform))->FUN_004f0320())
+                    reinterpret_cast<::FUN_00440490_shell *>((target))->FUN_00440490(::GetFloatAtOffset1C((char *)&(transform)));
             }
         }
 
         target = m_ppTargetObjects[iIndex];
-        if (!target || (!selective && !target->FUN_004f0140()))
+        if (!target || (!selective && !reinterpret_cast<::FUN_004f0140_class *>((target))->FUN_004f0140()))
             return;
         if (m_pkBlendInterpolators[iIndex].Update(time, target, transform))
         {
-            if (transform.IsTranslateXNotNegatedConstant())
-                target->FUN_00440460(transform.GetTranslate());
-            if (transform.FUN_004f02e0())
+            if (reinterpret_cast<::FUN_004942c0_shell *>(&(transform))->IsTranslateXNotNegatedConstant())
+                reinterpret_cast<::FUN_00440460_S *>((target))->FUN_00440460((const ::V3 *)&((*(const ::NiPoint3 *)((void *)&(transform)))));
+            if (reinterpret_cast<::FUN_004f02e0_This *>(&(transform))->FUN_004f02e0())
                 target->FUN_004f0160(transform.GetOffsetC());
-            if (transform.FUN_004f0320())
-                target->FUN_00440490(transform.GetFloatAtOffset1C());
+            if (reinterpret_cast<::FUN_004f0320_class *>(&(transform))->FUN_004f0320())
+                reinterpret_cast<::FUN_00440490_shell *>((target))->FUN_00440490(::GetFloatAtOffset1C((char *)&(transform)));
         }
     }
 }
@@ -57,13 +76,12 @@ struct FUN_004f0000_shell : public NiAVObject
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
 };
 
 // @fnv 0x004f0000
 bool FUN_004f0000_shell::FUN_004f0000()
 {
-    return ((FUN_00456630_helper*)this)->FUN_00456630(0x40000);
+    return ((bool)(reinterpret_cast<::FUN_00456630_Class *>((((FUN_00456630_helper*)this)))->FUN_00456630(0x40000)));
 }
 
 struct FUN_004f00e0_shell : public NiAVObject
@@ -77,14 +95,11 @@ void FUN_004f00e0_shell::FUN_004f00e0(void* kTrn)
     *reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x8C) = *reinterpret_cast<const NiPoint3*>(kTrn);
 }
 
-extern int DAT_011f36bc;
-extern int g_011f36e4;
 struct UpdData
 {
     int a;
     int b;
     int c;
-    void NiUpdateData(float, bool, bool);
 };
 struct CtlV
 {
@@ -126,11 +141,9 @@ struct CtlV
     virtual void f23();
     virtual void f24();
     virtual void Update(UpdData*);
-    CtlV* GetNext() const;
 };
 struct ModelOps
 {
-    CtlV* GetObject3D();
 };
 struct FUN_004f0040_shell
 {
@@ -141,25 +154,24 @@ struct FUN_004f0040_shell
 void FUN_004f0040_shell::UpdateControls(float afTime)
 {
     CtlV* pkControl;
-    for (pkControl = ((ModelOps*)this)->GetObject3D(); pkControl; pkControl = pkControl->GetNext())
+    for (pkControl = ((::CtlV *)(::fnv_0043b230::FUN_0043b230((const char *)(((ModelOps*)this))))); pkControl; pkControl = ((::CtlV *)(::fnv_004a8a90::FUN_004a8a90((char *)(pkControl)))))
     {
-        if (pkControl->GetRTTI() == &DAT_011f36bc)
+        if (pkControl->GetRTTI() == &(*reinterpret_cast<int *>(&::g_011f36bc)))
         {
             ((AnimationInterpolatorNode*)pkControl)->UpdateInterpolatorsAtTime(afTime, false);
         }
-        else if (pkControl->GetRTTI() == &g_011f36e4)
+        else if (pkControl->GetRTTI() == &(*reinterpret_cast<int *>(&::g_011f36e4)))
         {
             UpdData updateData;
-            updateData.NiUpdateData(afTime, false, false);
+            new ((void *)&(updateData)) ::NiUpdateData(afTime, false, false);
             pkControl->Update(&updateData);
         }
     }
 }
 
-__declspec(thread) int DAT_tls_0x2c0;
 
 // @fnv 0x004f0020
 void FUN_004f0020(int value)
 {
-    DAT_tls_0x2c0 = value;
+    ::g_tlsBlock.collisionUpdateMode = value;
 }

@@ -2,9 +2,13 @@
 // src/bsshader/boltshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/boltshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern float DAT_0101e2bc;
-extern double DAT_0101ffa0;
 
+#include "fnv/decl/BC1BA0Graph.h"
+#include "fnv/decl/BC1C10Graph.h"
+#include "fnv/decl/FUN_00bc1c70_class.h"
+#include "fnv/decl/FUN_00bc2590_cls.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_0101f000.h"
 class Ring216
 {
   public:
@@ -108,10 +112,7 @@ class Ring216
     float m_180;
     int count184;
 
-    void AddValueToColumnRange(float v);
     void FUN_00bc1c70(int idx);
-    void FUN_00bc2590(int idx);
-    void RemoveFromEnd(int idx);
 
     void AddValue(float p1, float p2, float p3, float p4);
 };
@@ -133,9 +134,9 @@ void Ring216::FUN_00bc1c70(int idx)
 // @fnv 0x00bc2740
 void Ring216::AddValue(float afValue, float p2, float afScale, float afUnused)
 {
-    float fScaledValue = ((double)afValue > DAT_0101ffa0) ? DAT_0101e2bc : afValue;
+    float fScaledValue = ((double)afValue > ::DAT_0101ffa0) ? DAT_0101e2bc : afValue;
     fScaledValue = fScaledValue * afScale;
-    this->AddValueToColumnRange(fScaledValue);
+    reinterpret_cast<::BC1BA0Graph *>((this))->AddValueToColumnRange(fScaledValue);
     float c = this->m_144;
     if (c > p2)
         p2 = c;
@@ -147,21 +148,23 @@ void Ring216::AddValue(float afValue, float p2, float afScale, float afUnused)
     if (-this->m_144 >= z)
     {
         z = -z / this->m_144;
-        this->FUN_00bc1c70((int)z);
+        reinterpret_cast<::FUN_00bc1c70_class *>((this))->FUN_00bc1c70((int)z);
         this->m_180 = *(float*)(this->m_60 + (this->m_78 << 4) + 4);
     }
 
     if (p2 > this->m_84)
     {
         z = (p2 - this->m_84) / this->m_144;
-        this->FUN_00bc2590((int)z);
+        reinterpret_cast<::FUN_00bc2590_cls *>((this))->FUN_00bc2590((int)z);
         this->m_84 = *(float*)(this->m_60 + (this->m_7c << 4) + 4);
         return;
     }
     if (this->m_84 >= p2 + this->m_144)
     {
         z = (this->m_84 - (p2 + this->m_144)) / this->m_144;
-        this->RemoveFromEnd((int)z);
+        reinterpret_cast<::BC1C10Graph *>((this))->RemoveFromEnd((int)z);
         this->m_84 = *(float*)(this->m_60 + (this->m_7c << 4) + 4);
     }
 }
+
+#include "generated/data/bsshader/boltshaderproperty.inc"

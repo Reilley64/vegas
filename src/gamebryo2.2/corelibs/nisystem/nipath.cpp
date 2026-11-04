@@ -2,9 +2,13 @@
 // src/gamebryo2.2/corelibs/nisystem/nipath.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/nipath.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <string.h>
 // Converts forward slashes to backslashes, removes repeated backslashes after the first two characters, and returns whether either change occurred.
+#include <cstring>
+#include "runtime/crt.h"
 // @fnv 0x00aa2a00
+#include "fnv/symbols_00aa2000.h"
 bool FUN_00aa2a00(char* path)
 {
     bool changed = false;
@@ -37,36 +41,30 @@ bool FUN_00aa2a00(char* path)
     return changed;
 }
 
-char* __cdecl FUN_00ec7750(char*, const char*);
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
 // Replaces each backslash-dot-backslash sequence with a backslash by shifting the tail left, then rescans.
 // @fnv 0x00aa2a70
 void __cdecl RemoveDotSlash(char* pcPath)
 {
     const char acSlashDotSlash[4] = "\\.\\";
-    char* pcDotSlash = FUN_00ec7750(pcPath, acSlashDotSlash);
+    char* pcDotSlash = std::strstr(pcPath, acSlashDotSlash);
     while (pcDotSlash)
     {
         const char* pcAfterDot = pcDotSlash + 2;
         unsigned int uiLen = strlen(pcDotSlash);
-        _strcpy_s(pcDotSlash, uiLen, pcAfterDot);
-        pcDotSlash = FUN_00ec7750(pcPath, acSlashDotSlash);
+        fnv::crt::strcpy_s(pcDotSlash, uiLen, pcAfterDot);
+        pcDotSlash = std::strstr(pcPath, acSlashDotSlash);
     }
 }
 
 namespace fnv_00aa2ac0 {
-void __cdecl FUN_00aa2a00(char*);
-void __cdecl RemoveDotSlash(char*);
-char __cdecl FUN_00aa2cc0(char*);
-char* __cdecl SkipPathPrefix(char*);
 
 // Runs path helpers, then removes each `\..` occurrence and its preceding path component.
 // @fnv 0x00aa2ac0
 void __cdecl RemoveParentDirSegments(char* path)
 {
-    FUN_00aa2a00(path);
-    RemoveDotSlash(path);
-    if (FUN_00aa2cc0(path))
+    ::FUN_00aa2a00(path);
+    ::RemoveDotSlash(path);
+    if (((char)(::FUN_00aa2cc0(path))))
     {
         if (!path)
             return;
@@ -79,7 +77,7 @@ void __cdecl RemoveParentDirSegments(char* path)
     }
     else
     {
-        path = SkipPathPrefix(path);
+        path = ::SkipPathPrefix(path);
     }
     if (!path)
         return;
@@ -102,10 +100,10 @@ void __cdecl RemoveParentDirSegments(char* path)
                 found = 0;
             dst = path;
         }
-        int remaining = (int)end - (int)found;
+        intptr_t remaining = (intptr_t)end - (intptr_t)found;
         if (remaining > 0)
         {
-            int shift = (int)found - (int)dst;
+            intptr_t shift = (intptr_t)found - (intptr_t)dst;
             do
             {
                 *dst = dst[shift];
@@ -118,7 +116,6 @@ void __cdecl RemoveParentDirSegments(char* path)
 }
 }  // namespace fnv_00aa2ac0
 
-void __cdecl RemoveParentDirSegments(char* pcPath);
 
 // Concatenates pcRelativeToHere, a backslash if needed, and pcRelativePath into pcAbsolutePath, normalises it via RemoveParentDirSegments, and returns its length.
 // @fnv 0x00aa2ba0
@@ -138,6 +135,6 @@ size_t __cdecl BuildAbsolutePath(char* pcOutPath, size_t stOutSize, const char* 
     if (bAppendSlash)
         strcat_s(pcOutPath, stOutSize, "\\");
     strcat_s(pcOutPath, stOutSize, pcRelativePath);
-    RemoveParentDirSegments(pcOutPath);
+    ::fnv_00aa2ac0::RemoveParentDirSegments(pcOutPath);
     return strlen(pcOutPath);
 }

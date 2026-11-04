@@ -1,80 +1,136 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/bsshaderpplightingproperty.cpp: BSShaderPPLightingProperty, CopyProperty, Target, OwnerX and more (34 functions)
 
+#include <windows.h>
+#include "fnv/decl/BA97B0Owner.h"
+#include "fnv/decl/BBDF6C0Shader.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00b66700_class.h"
+#include "fnv/decl/FUN_00b66850_class.h"
+#include "fnv/decl/FUN_00b669f0.h"
+#include "fnv/decl/FUN_00b66ad0_cls.h"
+#include "fnv/decl/FUN_00b702b0_shell.h"
+#include "fnv/decl/FUN_00ba8ab0_shell.h"
+#include "fnv/decl/FUN_00ba96d0Owner.h"
+#include "fnv/decl/FUN_00ba9740_cls.h"
+#include "fnv/decl/FUN_00bda060_Class.h"
+#include "fnv/decl/LightSortOwner.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiMapBase.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/ShaderPassController.h"
+#include "fnv/decl/Shader_00bdf650.h"
+#include "fnv/decl/TallGrassShader.h"
+#include "fnv/decl/UnknownClass005bb9b0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00ba9660__FUN_00ba9660_cls.h"
+#include "fnv/decl/fnv_00ba9820__FUN_00ba9820_cls.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005bf000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b4f000.h"
+#include "fnv/symbols_00b54000.h"
+#include "fnv/symbols_00b66000.h"
+#include "fnv/symbols_00b68000.h"
+#include "fnv/symbols_00b70000.h"
+#include "fnv/symbols_00ba8000.h"
+#include "fnv/symbols_00c4b000.h"
+#include "fnv/symbols_01000000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_010a9000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
+#include "fnv/symbols_01200000.h"
 #include "bsshaderpplightingproperty_decls.h"
 // @fnv 0x00b68d30
 void BSShaderPPLightingProperty::EnsureNormalMap()
 {
     if (!normalMaps[0])
-        SetNormalMap(0, DAT_011f9510);
+        SetNormalMap(0, (*reinterpret_cast<::NiTexture * *>(&::DAT_011f9510)));
 }
 
-// @fnv 0x00b67260
-int __fastcall FUN_00b67260(char* pThis, int, int idx1, int idx2)
+struct PPLightingTextureSlots
 {
-    return ((int**)(pThis + 0xAC))[idx1][idx2];
+    char pad00[0xa8];
+    unsigned short m_usA8;
+    char padAA[0xac - 0xaa];
+    void** m_appTextureSlots[7];
+    unsigned short m_usC8;
+    char padCA[0xd8 - 0xca];
+    int m_iD8;
+};
+
+// @fnv 0x00b67260
+void* FUN_00b67260(char* pThis, int, int idx1, int idx2)
+{
+    return ((PPLightingTextureSlots*)pThis)->m_appTextureSlots[idx1][idx2];
 }
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct NewObj
 {
     char pad[0x104];
     NewObj();
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
 };
 struct SelfStub
 {
-    void FUN_00b702b0(NewObj*, int);
 };
 // @fnv 0x00b67610
-NewObj* __fastcall FUN_00b67610(SelfStub* self, int edx, int arg)
+NewObj* FUN_00b67610(SelfStub* self, int edx, void* arg)
 {
     NewObj* pObj = new NewObj();
-    self->FUN_00b702b0(pObj, arg);
-    (*(void(__thiscall***)(SelfStub*, NewObj*))self)[0x34](self, pObj);
+    reinterpret_cast<::FUN_00b702b0_shell *>((self))->FUN_00b702b0((char *)(pObj), arg);
+    (*(void(***)(SelfStub*, NewObj*))self)[0x34](self, pObj);
     return pObj;
 }
 
-extern char const* const g_0120043c_arg1;
 // @fnv 0x00b671b0
 char const* const* __cdecl FUN_00b671b0()
 {
-    return &g_0120043c_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011fa010));
 }
 
 // @fnv 0x00b671c0
-int __fastcall FUN_00b671c0(char* self, int)
+int FUN_00b671c0(char* self, int)
 {
-    return *reinterpret_cast<int*>(self + 0xd8);
+    return ((PPLightingTextureSlots*)self)->m_iD8;
 }
 
 // @fnv 0x00b671d0
-void __fastcall FUN_00b671d0(char* self, int, int v)
+void FUN_00b671d0(char* self, int, int v)
 {
-    *reinterpret_cast<int*>(self + 0xd8) = v;
+    ((PPLightingTextureSlots*)self)->m_iD8 = v;
 }
 
 // @fnv 0x00b671e0
-unsigned short __fastcall FUN_00b671e0(char* self, int)
+unsigned short FUN_00b671e0(char* self, int)
 {
-    return *reinterpret_cast<unsigned short*>(self + 0xa8);
+    return ((PPLightingTextureSlots*)self)->m_usA8;
 }
 
 // @fnv 0x00b671f0
-unsigned short __fastcall FUN_00b671f0(char* self, int)
+unsigned short FUN_00b671f0(char* self, int)
 {
-    return *reinterpret_cast<unsigned short*>(self + 0xc8);
+    return ((PPLightingTextureSlots*)self)->m_usC8;
 }
 
 extern "C"
 {
-    __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-    __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 }
 
 struct RefObject_00b67200
@@ -118,22 +174,23 @@ struct Container_00b67200
 
 // Assigns pObject into the smart-pointer array slot at [index1][index2], updating the reference count via SmartPtr assignment.
 // @fnv 0x00b67200
-void __fastcall SetArrayElement(Container_00b67200* this_ptr, int unused_edx, unsigned int index1, unsigned int index2,
+void SetArrayElement(Container_00b67200* this_ptr, int unused_edx, unsigned int index1, unsigned int index2,
                                 RefObject_00b67200* pObject)
 {
     this_ptr->m_apArray[index1][index2] = pObject;
 }
 
 // @fnv 0x00b67280
-int __fastcall FUN_00b67280(char* self, int)
+void* FUN_00b67280(char* self, int)
 {
-    return **reinterpret_cast<int**>(self + 0xac);
+    return reinterpret_cast<Container_00b67200*>(self)->m_apArray[0]->m_pObject;
 }
 
 struct ManagedObj
 {
     virtual void _v0();
     virtual void DecRefCount();
+    long m_uiRefCount;
 };
 
 struct ContainerClass
@@ -142,11 +199,11 @@ struct ContainerClass
     ManagedObj** m_ppData;
 };
 
-extern int(__stdcall* DAT_00fdf1c4)(void*);
-extern void(__stdcall* DAT_00fdf1c0)(void*);
+extern int(* DAT_00fdf1c4)(void*);
+extern void(* DAT_00fdf1c0)(void*);
 
 // @fnv 0x00b67290
-void __fastcall SetManagedObjectAt(ContainerClass* pThis, int, int index, ManagedObj* pNew)
+void SetManagedObjectAt(ContainerClass* pThis, int, int index, ManagedObj* pNew)
 {
     ManagedObj** pSlot = &pThis->m_ppData[index];
     ManagedObj* pOld = *pSlot;
@@ -154,40 +211,52 @@ void __fastcall SetManagedObjectAt(ContainerClass* pThis, int, int index, Manage
     {
         if (pOld)
         {
-            if (!DAT_00fdf1c4((void*)((char*)pOld + 4)))
+            if (!DAT_00fdf1c4(&pOld->m_uiRefCount))
                 pOld->DecRefCount();
         }
         *pSlot = pNew;
         if (pNew)
         {
-            DAT_00fdf1c0((void*)((char*)pNew + 4));
+            DAT_00fdf1c0(&pNew->m_uiRefCount);
         }
     }
 }
 
 namespace fnv_00b672e0 {
-extern int(__stdcall* DAT_00fdf1c4)(int*);
-extern void(__stdcall* DAT_00fdf1c0)(int*);
+extern int(* DAT_00fdf1c4)(int*);
+extern void(* DAT_00fdf1c0)(int*);
+
+struct TextureSlotOwner
+{
+    char pad[0xb0];
+    void** m_ppTextureSlot;
+};
+
+struct RefCounted
+{
+    void* m_pVtable;
+    int m_iRefCount;
+};
 
 // @fnv 0x00b672e0
-void __fastcall ReplaceArrayElement(void* pThis, int, int index, void* value)
+void ReplaceArrayElement(void* pThis, int, int index, void* value)
 {
-    void** arr = *(void***)((char*)pThis + 0xb0);
+    void** arr = ((TextureSlotOwner*)pThis)->m_ppTextureSlot;
     void** slot = &arr[index];
     void* pCurrent = *slot;
     if (pCurrent != value)
     {
         if (pCurrent)
         {
-            if (DAT_00fdf1c4((int*)((char*)pCurrent + 4)) == 0)
+            if (DAT_00fdf1c4(&((RefCounted*)pCurrent)->m_iRefCount) == 0)
             {
-                typedef void(__thiscall * DtorFn)(void*);
+                typedef void(* DtorFn)(void*);
                 ((DtorFn*)*(void**)pCurrent)[1](pCurrent);
             }
         }
         *slot = value;
         if (value)
-            DAT_00fdf1c0((int*)((char*)value + 4));
+            DAT_00fdf1c0(&((RefCounted*)value)->m_iRefCount);
     }
 }
 }  // namespace fnv_00b672e0
@@ -200,14 +269,20 @@ struct RefObj
     unsigned int m_uiRef;
 };
 
-extern int(__stdcall* DAT_00fdf1c4)(unsigned int*);
-extern int(__stdcall* DAT_00fdf1c0)(unsigned int*);
+extern int(* DAT_00fdf1c4)(unsigned int*);
+extern int(* DAT_00fdf1c0)(unsigned int*);
 
-// Replaces the RefObj pointer at index idx in the array at self+0xb4, releasing the old object and retaining the new one.
-// @fnv 0x00b67330
-void __fastcall SetRefAt(void* self, int, int idx, RefObj* pValue)
+struct TextureSlotOwner
 {
-    RefObj** arr = *(RefObj***)((char*)self + 0xb4);
+    char pad[0xb4];
+    RefObj** m_ppTextureSlot;
+};
+
+// Replaces the RefObj pointer at index idx in the third texture slot array, releasing the old object and retaining the new one.
+// @fnv 0x00b67330
+void SetRefAt(void* self, int, int idx, RefObj* pValue)
+{
+    RefObj** arr = ((TextureSlotOwner*)self)->m_ppTextureSlot;
     RefObj** slot = arr + idx;
     RefObj* old = *slot;
     if (old != pValue)
@@ -224,37 +299,27 @@ void __fastcall SetRefAt(void* self, int, int idx, RefObj* pValue)
 }
 }  // namespace fnv_00b67330
 
-void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-void __fastcall FUN_00b66850(void*);
 // Calls FUN_00b66850 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0 with self and 0x14, and returns self.
 // @fnv 0x00b67580
-void* __fastcall FUN_00b67580(void* self, int, unsigned char flags)
+void* FUN_00b67580(void* self, int, unsigned char flags)
 {
-    FUN_00b66850(self);
+    reinterpret_cast<::FUN_00b66850_class *>((self))->FUN_00b66850();
     if (flags & 1)
-        __Dummy_00b6fef0(self, 0x14);
+        ::FUN_00aa1460(self, 0x14);
     return self;
 }
 
-void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-void __fastcall FUN_00b669f0(void*);
 // Calls FUN_00b669f0 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0(self, 0x74), and returns self.
 // @fnv 0x00b675a0
-void* __fastcall FUN_00b675a0(void* self, int, unsigned char flags)
+void* FUN_00b675a0(void* self, int, unsigned char flags)
 {
-    FUN_00b669f0(self);
+    reinterpret_cast<struct ::FUN_00b669f0 *>((self))->FUN_00b669f0::~FUN_00b669f0();
     if (flags & 1)
-        __Dummy_00b6fef0(self, 0x74);
+        ::FUN_00aa1460(self, 0x74);
     return self;
 }
 
-extern void* DAT_010a91d4;
 extern void* DAT_010a91d8;
-extern int _fnv_particle_shader_renderer_level;
-extern unsigned char DAT_011f91d8;
-extern bool DAT_011f9427;
-extern int DAT_011f95e4;
-extern int __cdecl FUN_00b4f5c0();
 
 struct TargetClass_00b683e0
 {
@@ -298,39 +363,36 @@ struct TargetClass_00b683e0
     virtual void V37();
     virtual void V38();
     virtual void V39();
-    virtual void V40(void* arg1, void* ebx, void* pLocal, int zero1, int val, int zero2);
+    virtual void V40(void* arg1, void* ebx, void* pLocal, int zero1, void* val, int zero2);
 };
 
 // Selects a renderer pointer based on particle shader settings, calls V40 with it, and returns the low 16 bits of the resulting local value.
 // @fnv 0x00b683e0
-unsigned short __fastcall FUN_00b683e0(TargetClass_00b683e0* this_ptr, int unused_edx, void* arg1)
+unsigned short FUN_00b683e0(TargetClass_00b683e0* this_ptr, int unused_edx, void* arg1)
 {
     unsigned int uiResult = 0;
     void* ebx;
-    if (!DAT_011f9427 && DAT_011f95e4 != 0 && (DAT_011f91d8 & 0x20) != 0 && _fnv_particle_shader_renderer_level >= 2)
+    if (!(*reinterpret_cast<bool *>(&::DAT_011f9427)) && DAT_011f95e4 != 0 && ((*reinterpret_cast<unsigned char *>(&::fnv_005bf7b0::DAT_011f91d8)) & 0x20) != 0 && ::DAT_011f91c0 >= 2)
         ebx = DAT_010a91d8;
     else
-        ebx = DAT_010a91d4;
+        ebx = (*reinterpret_cast<void * *>(&::fnv_00bdb4a0::DAT_010a91d4));
 
     this_ptr->V40(arg1, ebx, &uiResult, 0, FUN_00b4f5c0(), 0);
     return (unsigned short)uiResult;
 }
 
-void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-void __fastcall FUN_00b67380(void*);
+void FUN_00b67380(void*);
 // Calls FUN_00b67380 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0(self, 0x104), and returns self.
 // @fnv 0x00b68fb0
-void* __fastcall FUN_00b68fb0(void* self, int, unsigned char flags)
+void* FUN_00b68fb0(void* self, int, unsigned char flags)
 {
     FUN_00b67380(self);
     if (flags & 1)
-        __Dummy_00b6fef0(self, 0x104);
+        ::FUN_00aa1460(self, 0x104);
     return self;
 }
 
 namespace fnv_00b675c0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 struct RefObj
 {
     virtual void u0() = 0;
@@ -372,21 +434,11 @@ void FUN_00b675c0_shell::AssignRefObj(RefObj* apRefObj)
 
 struct MemoryManager
 {
-    void Deallocate(void* p);
 };
-extern MemoryManager g_memoryManager;
-inline void operator delete[](void* p)
-{
-    g_memoryManager.Deallocate(p);
-}
 
 struct FUN_00ba8cd0
 {
     ~FUN_00ba8cd0();
-    static void operator delete(void* p)
-    {
-        g_memoryManager.Deallocate(p);
-    }
 };
 
 struct RefObj_b67380
@@ -457,7 +509,7 @@ struct FUN_00b67380 : FUN_00b71410
     NiPtr_b67380 m_spDC;              // +0xdc
     float m_fE0;                      // +0xe0
     int m_aiE4[7];                    // +0xe4
-    FUN_00ba8cd0* m_p100;             // +0x100
+    struct FUN_00ba8cd0* m_p100;      // +0x100
     virtual ~FUN_00b67380();
 };
 
@@ -489,28 +541,46 @@ struct BSShaderProperty__RenderPassArray
 {
     void Add(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*, ShadowSceneLight*,
              ShadowSceneLight*);
+    char pad00[0x10];
+    int m_iCount;
+};
+struct FUN_00b68c10_Skin
+{
+    char pad00[0x18];
+    unsigned short m_usFlags;
+};
+struct FUN_00b68c10_Geometry
+{
+    char pad00[0x9c];
+    FUN_00b68c10_Skin* m_pSkinInstance;
 };
 struct FUN_00b68c10_t
 {
-    void CreateChildIfMissing(int);
+    char pad00[0x20];
+    unsigned int m_uiFlags1;
+    unsigned int m_uiFlags2;
+    char pad28[0x50 - 0x28];
+    BSShaderProperty__RenderPassArray* m_pRenderPassArray;
+    char pad54[0xe0 - 0x54];
+    float m_fE0;
     BSShaderProperty__RenderPassArray* GetRenderPassArray(NiGeometry* pkGeometry);
 };
 
 // @fnv 0x00b68c10
 BSShaderProperty__RenderPassArray* FUN_00b68c10_t::GetRenderPassArray(NiGeometry* pkGeometry)
 {
-    if (*(float*)((char*)this + 0xe0) > 0.0f)
+    if (m_fE0 > 0.0f)
         return 0;
-    CreateChildIfMissing(1);
-    BSShaderProperty__RenderPassArray* pkPasses = *(BSShaderProperty__RenderPassArray**)((char*)this + 0x50);
-    if (*(int*)((char*)pkPasses + 0x10) == 0)
+    reinterpret_cast<::BA97B0Owner *>(this)->CreateChildIfMissing(1);
+    BSShaderProperty__RenderPassArray* pkPasses = m_pRenderPassArray;
+    if (pkPasses->m_iCount == 0)
     {
-        void* pkSkin = *(void**)((char*)pkGeometry + 0x9c);
+        FUN_00b68c10_Skin* pkSkin = ((FUN_00b68c10_Geometry*)pkGeometry)->m_pSkinInstance;
         bool bHasAnimation = false;
         if (pkSkin)
-            bHasAnimation = (*(unsigned short*)((char*)pkSkin + 0x18) >> 9) & 1;
-        bool bSpecular = (*(unsigned int*)((char*)this + 0x24) & 0x20) > 0;
-        if ((*(unsigned int*)((char*)this + 0x20) & 2) > 0)
+            bHasAnimation = (pkSkin->m_usFlags >> 9) & 1;
+        bool bSpecular = (m_uiFlags2 & 0x20) > 0;
+        if ((m_uiFlags1 & 2) > 0)
         {
             if (bSpecular)
             {
@@ -545,7 +615,7 @@ BSShaderProperty__RenderPassArray* FUN_00b68c10_t::GetRenderPassArray(NiGeometry
             }
         }
     }
-    return *(BSShaderProperty__RenderPassArray**)((char*)this + 0x50);
+    return m_pRenderPassArray;
 }
 
 struct NiBinaryStream
@@ -562,12 +632,10 @@ struct NiStream
     unsigned char m_ucPadding[0x244];
     NiBinaryStream* m_pUnderlyingStream;
 
-    void ResetStreamState();
 };
 
 struct Helper
 {
-    void FUN_00b70260(NiStream& stream);
 };
 
 template <class T> inline void NiBinaryStreamLoad(NiBinaryStream& stream, T& value)
@@ -594,11 +662,11 @@ struct FUN_00b68dc0_class
 // @fnv 0x00b68dc0
 void FUN_00b68dc0_class::LoadFromStream(NiStream& stream)
 {
-    reinterpret_cast<Helper*>(this)->FUN_00b70260(stream);
+    ::FUN_00b70260();
 
     NiBinaryStreamLoad(*stream.m_pUnderlyingStream, m_uiValueD8);
 
-    stream.ResetStreamState();
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
 
     if (stream.version < 0x17)
     {
@@ -854,13 +922,12 @@ struct S_00b68ed0_Obj
     int unke4;
     int unke8;
     int unkec;
-    void FUN_00bb7160(S_00b68ed0_Stream*);
     void ReadFromStream(S_00b68ed0_Stream* s);
 };
 // @fnv 0x00b68ed0
 void S_00b68ed0_Obj::ReadFromStream(S_00b68ed0_Stream* apStream)
 {
-    FUN_00bb7160(apStream);
+    reinterpret_cast<::NiMapBase *>(this)->FUN_00bb7160((::NiStream *)(apStream));
     S_BinRead(apStream->m_pBin, &unkd8, 4);
     apStream->LinkId(unka4);
     S_BinRead(apStream->m_pBin, &unke0, 4);
@@ -871,13 +938,7 @@ void S_00b68ed0_Obj::ReadFromStream(S_00b68ed0_Stream* apStream)
 
 struct CopyAllocator
 {
-    void* Allocate(unsigned int);
 };
-extern CopyAllocator copyAllocator;
-inline void* operator new[](unsigned int size)
-{
-    return copyAllocator.Allocate(size);
-}
 struct CopyPtr
 {
     RefObject_00b67200* ptr;
@@ -967,8 +1028,8 @@ void CopyProperty::CopyTo(CopyProperty* dest)
             delete[] dest->maps[map];
             dest->maps[map] = new CopyPtr[count];
         }
-        g_memoryManager.Deallocate(dest->modes);
-        g_memoryManager.Deallocate(dest->flags);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(dest->modes);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(dest->flags);
         dest->modes = new unsigned char[count];
         dest->flags = new unsigned char[count];
         dest->count = count;
@@ -1116,47 +1177,8 @@ struct TexSet_b68660
     unsigned short m_usElementCount;
     bool* m_pbCC;
 
-    void Grow();
     void FUN_00b68660(unsigned int uiIndex, TexSource_b68660* pSource);
 };
-
-// @fnv 0x00b68660
-void TexSet_b68660::FUN_00b68660(unsigned int uiIndex, TexSource_b68660* pSource)
-{
-    if (m_usCapacity < 10)
-        Grow();
-    m_pbCC[uiIndex] = false;
-    m_pbC4[uiIndex] = false;
-    for (int i = 0; i < 6; i++)
-    {
-        SmartPtr_00b67200<RefObject_00b67200>** ppRow = &m_apTextures[i];
-        SmartPtr_00b67200<RefObject_00b67200>* pSlot = &(*ppRow)[uiIndex];
-        if (pSource)
-            pSource->GetTexture(i, pSlot);
-        else
-            *pSlot = 0;
-        if (i == 1)
-        {
-            Texture_b68660* pTexture = (Texture_b68660*)(*ppRow)[uiIndex].m_pObject;
-            if (pTexture && pTexture->m_pData)
-            {
-                TexFormat_b68660* pFormat = &pTexture->m_pData->m_eFormat;
-                if (pFormat)
-                {
-                    int iType = pFormat->m_iType;
-                    m_pbCC[uiIndex] = iType == 5 || iType == 6 || iType == 1;
-                }
-            }
-        }
-    }
-    unsigned short n;
-    for (n = 0; n < 9; n++)
-    {
-        if (!m_apTextures[0][n].m_pObject)
-            break;
-    }
-    m_usElementCount = n > 0 ? n - 1 : 0;
-}
 
 struct ShaderProp_b68770
 {
@@ -1219,7 +1241,6 @@ struct ShaderProp_b68770
     int unkE0;
     int iValueE4;
     void SetFlag(unsigned int flag, bool on);
-    void SetFloat(float v);
 };
 
 struct NiNode_b68770;
@@ -1298,7 +1319,7 @@ void __cdecl FUN_00b68770(NiAVObject_b68770* obj, bool abFlag15, float afFloatVa
             prop->SetFlag(15, abFlag15);
             prop->SetFlag(16, abFlag15 && abFlag16);
             prop->SetFlag(36, abFlag15 && abFlag36);
-            prop->SetFloat(afFloatValue);
+            reinterpret_cast<::FUN_00b66700_class *>((prop))->SetClamped(afFloatValue);
             if (abFlag16)
                 prop->iValueE4 = (int)afValueE4;
         }
@@ -1401,12 +1422,9 @@ struct PropObj
     int m94;
     int m98;
     Prop18* m9c_arr[1];
-    Prop18* FUN_00a59d30(unsigned int);
-    void FUN_00a5a040();
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00bb4540 : NiMemObject
 {
@@ -1491,17 +1509,11 @@ struct NiAlphaProperty : NiMemObject
     unsigned short r18 : 15;
     short m1a;
 };
-extern unsigned char DAT_011f94a6;
-extern char DAT_011f9422;
-extern int DAT_012007b0;
-extern int DAT_011f3728;
-bool __cdecl FUN_0045bad0(void*, void*);
 __pragma(comment(
     linker,
     "/alternatename:?FUN_004a2020@BSPPL_b68880@@QAE_NH@Z=?FUN_004a2020@BSShaderPPLightingProperty@@QAE_NH@Z")) struct
     BSPPL_b68880
 {
-    bool FUN_004a2020(int);
     FUN_00bb4540* FUN_00b68880(PropObj*, int, int);
     int m00;
     int m04;
@@ -1534,86 +1546,6 @@ __pragma(comment(
     int m54;
     int m58;
 };
-// Checks the PropObj's flags and alpha property and returns a new FUN_00bb4540 built from this, or null after updating m58/m38/m20.
-// @fnv 0x00b68880
-FUN_00bb4540* BSPPL_b68880::FUN_00b68880(PropObj* pProp, int aiArg2, int aiArg3)
-{
-    if (pProp && !pProp->vfn_30())
-    {
-        Prop18** sub9c = pProp->m9c_arr;
-        if (sub9c == 0)
-            pProp->FUN_00a5a040();
-        if ((unsigned)(m24 & 2) > 0 || (unsigned)(m20 & 0x4000) > 0)
-        {
-            m58 = 1;
-        }
-        else if ((unsigned)(m20 & 0x800) > 0)
-        {
-            if (DAT_011f94a6)
-            {
-                if (FUN_004a2020(0x1c) || FUN_0045bad0(&DAT_012007b0, this) || DAT_011f9422)
-                    return new FUN_00bb4540(this);
-            }
-            m58 = 0xf;
-            if (FUN_004a2020(0x1a) || FUN_004a2020(0x1b))
-            {
-                if (!(m20b & 0x20))
-                    m38 = 0;
-                m20 |= 0x20;
-            }
-        }
-        else
-        {
-            if (FUN_004a2020(0x12))
-                return new FUN_00bb4540(this);
-            bool f13 = FUN_004a2020(0x13);
-            Prop18* prop = pProp->FUN_00a59d30(0);
-            if (!prop && !f13)
-                goto tail;
-            if (!prop)
-            {
-                NiAlphaProperty* alpha = new NiAlphaProperty();
-                alpha->b18 = 0;
-                prop = (Prop18*)alpha;
-            }
-            if ((((unsigned char*)prop)[0x18] & 1) || FUN_004a2020(0x1a) || FUN_004a2020(0x1b))
-            {
-                if (!(m20b & 0x20))
-                    m38 = 0;
-                m20 |= 0x20;
-            }
-            if ((((unsigned char*)prop)[0x18] & 1) && DAT_011f9422)
-                return new FUN_00bb4540(this);
-        tail:
-            if (FUN_004a2020(0x1a) || FUN_004a2020(0x1b))
-            {
-                if (DAT_011f9422)
-                    return new FUN_00bb4540(this);
-                if (!(m20b & 0x20))
-                    m38 = 0;
-                m20 |= 0x20;
-            }
-            if (DAT_011f94a6)
-            {
-                Node* node = pProp->m0c;
-                if (node)
-                {
-                    do
-                    {
-                        FUN_0045bad0(&DAT_011f3728, node);
-                        node = node->m30;
-                    } while (node);
-                }
-            }
-        }
-    }
-    else
-    {
-        m58 = 0;
-    }
-    return 0;
-}
-
 // Allocates and returns a new NewObj instance.
 // @fnv 0x00b68d50
 NewObj* __cdecl CreateNewObj()
@@ -1621,14 +1553,10 @@ NewObj* __cdecl CreateNewObj()
     return new NewObj();
 }
 
-extern const double DAT_01012060;
-extern int DAT_01000000;
 
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int auiSize);
-    static void operator delete(void* apMem);
 };
 
 class BSShaderTextureSet : public BSFaceGenMorphData
@@ -1722,8 +1650,6 @@ class ShaderProp_b68
     int unkDC;
     float m_fAlpha;
 
-    void FUN_00ba8be0(ShaderProp_b68* apOther);
-    void FUN_00b66ad0(float* apAlpha, int aiFlag);
     void FUN_00b68fe0(ShaderProp_b68* apOther);
 };
 
@@ -1747,15 +1673,15 @@ inline float NiClamp_b68(float fValue, float fMin, float fScaledValue)
 // @fnv 0x00b68fe0
 void ShaderProp_b68::FUN_00b68fe0(ShaderProp_b68* apOther)
 {
-    FUN_00ba8be0(apOther);
-    if (!((m_uiValue1 & (unsigned int)&DAT_01000000) > 0))
+    ::FUN_00ba8be0((::BSSP_stub *)this, 0, (std::intptr_t)((apOther)));
+    if (!((m_uiValue1 & 0x1000000u) > 0))
     {
         if (!m_spTextureSet)
             m_spTextureSet = new BSShaderTextureSet;
-        FUN_00b66ad0(&apOther->m_fAlpha, 0);
+        reinterpret_cast<::FUN_00b66ad0_cls *>(this)->FUN_00b66ad0((std::intptr_t)(&apOther->m_fAlpha), (::FnvTarget *)(0));
     }
     float fCurrentAlpha = m_fAlpha;
-    float fTemp = fCurrentAlpha < DAT_01012060 ? 0.0f : fCurrentAlpha;
+    float fTemp = fCurrentAlpha < ::_DAT_01012060 ? 0.0f : fCurrentAlpha;
     m_fAlpha = Min_b68(fTemp, 1.0f);
 }
 
@@ -1764,25 +1690,14 @@ struct StrArr
     void* vtable;
     char** data;
     unsigned short capacity, size, count, grow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-    void AddFirstEmpty(char*&);
     void Add(char*& value)
     {
         unsigned int i = size;
         if (i >= capacity)
-            SetSize(i + grow);
-        SetAt(i, value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(i + grow);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(i, value);
     }
 };
-char* __cdecl FUN_00a7d330(const char*);
-char* __cdecl FUN_00a7d370(const char*, bool);
-char* __cdecl FUN_00a7d490(const char*, unsigned short);
-char* __cdecl FUN_00a7d4d0(const char*, int);
-char* __cdecl FUN_00a7d550(const char*, float);
-char* __cdecl FUN_00a7d5a0(const char*, void*);
-char* __cdecl FUN_00a7d5e0(const char*, const char*);
-const char* __cdecl FUN_00c4bb40(void*);
 struct Extra
 {
     int unk00;
@@ -1963,15 +1878,15 @@ void Target::FUN_00b690d0(StrArr* apStrings)
     const char* name;
     FUN_00b71450(apStrings);
     {
-        value = FUN_00a7d330(g_0120043c_arg1);
+        value = FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011fa010)));
         apStrings->Add(value);
     }
     if (!((unk20 & 0x4000) > 0))
     {
-        if (name = FUN_00c4bb40(unkac[0]))
+        if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkac[0])))))
         {
             {
-                value = FUN_00a7d5e0("base diff", name);
+                value = ::fnv_00a7d5e0::FUN_00a7d5e0("base diff", name);
                 apStrings->Add(value);
             }
         }
@@ -1982,10 +1897,10 @@ void Target::FUN_00b690d0(StrArr* apStrings)
                 apStrings->Add(value);
             }
         }
-        if (name = FUN_00c4bb40(unkb0[0]))
+        if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb0[0])))))
         {
             {
-                value = FUN_00a7d5e0("base normal", name);
+                value = ::fnv_00a7d5e0::FUN_00a7d5e0("base normal", name);
                 apStrings->Add(value);
             }
         }
@@ -1998,28 +1913,28 @@ void Target::FUN_00b690d0(StrArr* apStrings)
         }
         if (unkac[1])
         {
-            if (name = FUN_00c4bb40(unkac[1]))
+            if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkac[1])))))
             {
-                value = FUN_00a7d5e0("multi diff", name);
-                apStrings->AddFirstEmpty(value);
+                value = ::fnv_00a7d5e0::FUN_00a7d5e0("multi diff", name);
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
             else
             {
                 value = FUN_00a7d5a0("multi diff", unkac[1]);
-                apStrings->AddFirstEmpty(value);
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
         }
         if (unkb0[1])
         {
-            if (name = FUN_00c4bb40(unkb0[1]))
+            if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb0[1])))))
             {
-                value = FUN_00a7d5e0("multi normal", name);
-                apStrings->AddFirstEmpty(value);
+                value = ::fnv_00a7d5e0::FUN_00a7d5e0("multi normal", name);
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
             else
             {
                 value = FUN_00a7d5a0("multi normal", unkb0[1]);
-                apStrings->AddFirstEmpty(value);
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
         }
     }
@@ -2037,10 +1952,10 @@ void Target::FUN_00b690d0(StrArr* apStrings)
         {
             if (unkac[i].object != 0)
             {
-                if (name = FUN_00c4bb40(unkac[i]))
+                if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkac[i])))))
                 {
                     {
-                        value = FUN_00a7d5e0("base tex", name);
+                        value = ::fnv_00a7d5e0::FUN_00a7d5e0("base tex", name);
                         apStrings->Add(value);
                     }
                 }
@@ -2053,15 +1968,15 @@ void Target::FUN_00b690d0(StrArr* apStrings)
                 }
                 if (unkb0[i])
                 {
-                    if (name = FUN_00c4bb40(unkb0[i]))
+                    if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb0[i])))))
                     {
-                        value = FUN_00a7d5e0(" normal map", name);
-                        apStrings->AddFirstEmpty(value);
+                        value = ::fnv_00a7d5e0::FUN_00a7d5e0(" normal map", name);
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                     else
                     {
                         value = FUN_00a7d5a0(" normal map", unkb0[i]);
-                        apStrings->AddFirstEmpty(value);
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                 }
                 if (unkcc[i])
@@ -2071,15 +1986,15 @@ void Target::FUN_00b690d0(StrArr* apStrings)
                 }
                 if (unkb4[i])
                 {
-                    if (name = FUN_00c4bb40(unkb4[i]))
+                    if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb4[i])))))
                     {
-                        value = FUN_00a7d5e0(" glow map", name);
-                        apStrings->AddFirstEmpty(value);
+                        value = ::fnv_00a7d5e0::FUN_00a7d5e0(" glow map", name);
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                     else
                     {
                         value = FUN_00a7d5a0(" glow map", unkb4[i]);
-                        apStrings->AddFirstEmpty(value);
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                 }
             }
@@ -2087,10 +2002,10 @@ void Target::FUN_00b690d0(StrArr* apStrings)
     }
     if (unkb8[0].object != 0)
     {
-        if (name = FUN_00c4bb40(unkb8[0]))
+        if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb8[0])))))
         {
             {
-                value = FUN_00a7d5e0("heightmap texture", name);
+                value = ::fnv_00a7d5e0::FUN_00a7d5e0("heightmap texture", name);
                 apStrings->Add(value);
             }
         }
@@ -2104,10 +2019,10 @@ void Target::FUN_00b690d0(StrArr* apStrings)
     }
     if (unkb4[0].object != 0)
     {
-        if (name = FUN_00c4bb40(unkb4[0]))
+        if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb4[0])))))
         {
             {
-                value = FUN_00a7d5e0("glow/skin sst/hair layer texture", name);
+                value = ::fnv_00a7d5e0::FUN_00a7d5e0("glow/skin sst/hair layer texture", name);
                 apStrings->Add(value);
             }
         }
@@ -2121,10 +2036,10 @@ void Target::FUN_00b690d0(StrArr* apStrings)
     }
     if (unkbc[0].object != 0)
     {
-        if (name = FUN_00c4bb40(unkbc[0]))
+        if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkbc[0])))))
         {
             {
-                value = FUN_00a7d5e0("envmap texture", name);
+                value = ::fnv_00a7d5e0::FUN_00a7d5e0("envmap texture", name);
                 apStrings->Add(value);
             }
         }
@@ -2138,10 +2053,10 @@ void Target::FUN_00b690d0(StrArr* apStrings)
     }
     if (unkc0[0].object != 0)
     {
-        if (name = FUN_00c4bb40(unkc0[0]))
+        if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkc0[0])))))
         {
             {
-                value = FUN_00a7d5e0("envmap mask texture", name);
+                value = ::fnv_00a7d5e0::FUN_00a7d5e0("envmap mask texture", name);
                 apStrings->Add(value);
             }
         }
@@ -2229,14 +2144,10 @@ void Target::FUN_00b690d0(StrArr* apStrings)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct MemoryManagerAllocHelper
 {
-    void* Allocate(unsigned int);
 };
-extern MemoryManagerAllocHelper _g_memoryManager;
-extern bool DAT_011fa00c;
 
 class NiTexture
 {
@@ -2276,12 +2187,6 @@ template <class T> class NiPointer
         }
         return *this;
     }
-    static void* operator new[](unsigned int size)
-    {
-        return _g_memoryManager.Allocate(size);
-    }
-    static void operator delete[](void* p)
-    {}
 };
 
 struct FUN_00b71720
@@ -2368,10 +2273,10 @@ FUN_00b66f50::FUN_00b66f50()
         for (int index = 0; index < count; ++index)
             textures[group][index] = (NiTexture*)0;
     }
-    enabled = (unsigned char*)_g_memoryManager.Allocate(2);
+    enabled = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(2);
     enabled[0] = 0;
     enabled[1] = 0;
-    channels = (unsigned char*)_g_memoryManager.Allocate(2);
+    channels = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(2);
     channels[0] = 30;
     channels[1] = 30;
     referenced0 = (NiTexture*)0;
@@ -2380,7 +2285,7 @@ FUN_00b66f50::FUN_00b66f50()
     fielde4 = 0;
     fieldd8 = 3;
     fieldd4 = 0;
-    if (DAT_011fa00c)
+    if ((*reinterpret_cast<bool *>(&::DAT_011fa00c)))
     {
         SetFlag(0x2000);
     }
@@ -2390,14 +2295,9 @@ FUN_00b66f50::FUN_00b66f50()
     valueec = 1.0f;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 struct Pool
 {
-    void* FUN_00aa3e40(unsigned int uiSize);
-    void FUN_00aa4060(void* p);
 };
-extern Pool DAT_011f6238;
 struct NiRefObject
 {
     virtual void v00();
@@ -2442,14 +2342,6 @@ struct NiPtrX
         }
         return *this;
     }
-    static void* operator new[](unsigned int s)
-    {
-        return DAT_011f6238.FUN_00aa3e40(s);
-    }
-    static void operator delete[](void* p)
-    {
-        DAT_011f6238.FUN_00aa4060(p);
-    }
 };
 struct OwnerX
 {
@@ -2462,6 +2354,43 @@ struct OwnerX
     void* m_pcc;
     void GrowArrays();
 };
+// @fnv 0x00b68660
+void TexSet_b68660::FUN_00b68660(unsigned int uiIndex, TexSource_b68660* pSource)
+{
+    if (m_usCapacity < 10)
+        reinterpret_cast<::OwnerX *>(this)->GrowArrays();
+    m_pbCC[uiIndex] = false;
+    m_pbC4[uiIndex] = false;
+    for (int i = 0; i < 6; i++)
+    {
+        SmartPtr_00b67200<RefObject_00b67200>** ppRow = &m_apTextures[i];
+        SmartPtr_00b67200<RefObject_00b67200>* pSlot = &(*ppRow)[uiIndex];
+        if (pSource)
+            pSource->GetTexture(i, pSlot);
+        else
+            *pSlot = 0;
+        if (i == 1)
+        {
+            Texture_b68660* pTexture = (Texture_b68660*)(*ppRow)[uiIndex].m_pObject;
+            if (pTexture && pTexture->m_pData)
+            {
+                TexFormat_b68660* pFormat = &pTexture->m_pData->m_eFormat;
+                if (pFormat)
+                {
+                    int iType = pFormat->m_iType;
+                    m_pbCC[uiIndex] = iType == 5 || iType == 6 || iType == 1;
+                }
+            }
+        }
+    }
+    unsigned short n;
+    for (n = 0; n < 9; n++)
+    {
+        if (!m_apTextures[0][n].m_pObject)
+            break;
+    }
+    m_usElementCount = n > 0 ? n - 1 : 0;
+}
 // @fnv 0x00b68450
 void OwnerX::GrowArrays()
 {
@@ -2482,15 +2411,13 @@ void OwnerX::GrowArrays()
         delete[] m_apArrays[i];
         m_apArrays[i] = apNew[i];
     }
-    DAT_011f6238.FUN_00aa4060(m_pcc);
-    m_pcc = DAT_011f6238.FUN_00aa3e40(10);
-    DAT_011f6238.FUN_00aa4060(m_pc4);
-    m_pc4 = DAT_011f6238.FUN_00aa3e40(10);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::Pool *>(&::g_memoryManager))))->FUN_00aa4060(m_pcc);
+    m_pcc = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::Pool *>(&::g_memoryManager))))->FUN_00aa3e40(10);
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::Pool *>(&::g_memoryManager))))->FUN_00aa4060(m_pc4);
+    m_pc4 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::Pool *>(&::g_memoryManager))))->FUN_00aa3e40(10);
     m_usSize = 10;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct RefObj
 {
     virtual void Unk00();
@@ -2614,16 +2541,9 @@ struct CallerArg
     unsigned int unkb0;
     unsigned int unkb4;
     Geometry* geometry;
-    void FUN_00a5a040();
-    AffectedObj* FUN_00a59d30(int);
 };
-extern RefObj* DAT_011f9528;
-extern char DAT_011f4aac;
-extern int DAT_011f91c0;
 extern char DAT_010ae238;
 extern char DAT_010ae1f0;
-extern void* __cdecl FUN_00b54b60(CallerArg*);
-extern void __cdecl FUN_005b5e40(void*, void*);
 struct RefHandle
 {
     void* ptr;
@@ -2777,7 +2697,7 @@ struct SelfObj
 bool SelfObj::FUN_00b67a40(CallerArg* arg)
 {
     if (arg->GetBoundingVolume() == 0)
-        arg->FUN_00a5a040();
+        reinterpret_cast<::FUN_00a5a040_Class *>((arg))->FUN_00a5a040();
     bool b = arg->geometry->enabled || GetSecondaryFlag(0x20);
     if (b)
         SetSecondaryFlag(0x20, true);
@@ -2786,20 +2706,20 @@ bool SelfObj::FUN_00b67a40(CallerArg* arg)
     Geometry* geom = arg->geometry;
     if (geom && !activeHandle.ptr && !((primaryFlags & 0x1000) > 0))
     {
-        bool bSameKind = geom->property ? geom->property->IsSameKind(&DAT_011f4aac) : false;
+        bool bSameKind = geom->property ? geom->property->IsSameKind(&(*reinterpret_cast<char *>(&::g_011f4aac))) : false;
         if (!bSameKind && !(geom->typeFlags & 0xf000))
         {
-            activeHandle.FUN_0066b0d0(FUN_00b54b60(arg));
+            activeHandle.FUN_0066b0d0(((void *)(::FUN_00b54b60((::NiGeometry *)(arg)))));
         }
     }
     if ((primaryFlags & 0x100000) > 0)
     {
-        *lightingPointer = DAT_011f9528;
+        *lightingPointer = (*reinterpret_cast<::RefObj * *>(&::DAT_011f9528));
         UpdateMode(3);
     }
     if ((primaryFlags & 0x40000) > 0)
     {
-        AffectedObj* pAffectedObj = arg->FUN_00a59d30(0);
+        AffectedObj* pAffectedObj = ((::AffectedObj *)(reinterpret_cast<::FUN_00a59d30_C *>((arg))->FUN_00a59d30(0)));
         if (pAffectedObj && DAT_011f91c0 < 5)
         {
             pAffectedObj->flags &= 0xfffe;
@@ -2812,14 +2732,14 @@ bool SelfObj::FUN_00b67a40(CallerArg* arg)
     {
         if ((flags & 0x10000000) <= 0 && geometry->opaqueTag)
         {
-            FUN_005b5e40(&DAT_010ae238, arg->debugName);
+            ::FUN_005b5e40();
             return true;
         }
     }
     if ((flags & 0x10000000) > 0 || (flags & 0x800) > 0)
     {
         if (!geometry->opaqueTag)
-            FUN_005b5e40(&DAT_010ae1f0, arg->debugName);
+            ::FUN_005b5e40();
     }
     return true;
 }
@@ -2828,7 +2748,6 @@ extern "C" void _ReadWriteBarrier(void);
 struct Vec
 {
     float x, y, z;
-    float FUN_00457990();
 };
 struct Bound
 {
@@ -2931,11 +2850,9 @@ struct Geom
     unsigned int unk0b4;
     unsigned int unk0b8;
     void* skin;
-    Prop* FUN_00a59d30(unsigned int);
 };
 struct Camera
 {
-    Vec& FUN_005bb9b0(Vec&);
 };
 struct Context
 {
@@ -3186,10 +3103,6 @@ struct GlobalRenderer
     unsigned int unk004;
     Renderer* renderer;
 };
-extern GlobalRenderer* DAT_011f4748;
-extern Bound DAT_011f4288;
-extern float DAT_011f9458, DAT_011f9460, DAT_011f9468, DAT_011f946c, DAT_011f9470;
-extern int _fnv_particle_shader_renderer_level;
 struct DistanceScale
 {
     unsigned int unk000;
@@ -3268,14 +3181,89 @@ struct ScaleContext
     unsigned int unk004;
     DistanceScale* object;
 };
-int FUN_00b4f5c0();
-float LinearInterpolate(float, float, float, float, float);
-bool FUN_005bf7b0();
-bool FUN_00b66760(unsigned int);
 struct Fake_FUN_004a2020
 {
     bool GetFlag(unsigned int) const;
 };
+// Checks the PropObj's flags and alpha property and returns a new FUN_00bb4540 built from this, or null after updating m58/m38/m20.
+// @fnv 0x00b68880
+FUN_00bb4540* BSPPL_b68880::FUN_00b68880(PropObj* pProp, int aiArg2, int aiArg3)
+{
+    if (pProp && !pProp->vfn_30())
+    {
+        Prop18** sub9c = pProp->m9c_arr;
+        if (sub9c == 0)
+            reinterpret_cast<::FUN_00a5a040_Class *>((pProp))->FUN_00a5a040();
+        if ((unsigned)(m24 & 2) > 0 || (unsigned)(m20 & 0x4000) > 0)
+        {
+            m58 = 1;
+        }
+        else if ((unsigned)(m20 & 0x800) > 0)
+        {
+            if (DAT_011f94a6)
+            {
+                if (reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1c) || ::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_012007b0))), (const ::fnv_0045bad0::NiObject *)(void *)(this)) || DAT_011f9422)
+                    return new FUN_00bb4540(this);
+            }
+            m58 = 0xf;
+            if (reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1a) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1b))
+            {
+                if (!(m20b & 0x20))
+                    m38 = 0;
+                m20 |= 0x20;
+            }
+        }
+        else
+        {
+            if (reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x12))
+                return new FUN_00bb4540(this);
+            bool f13 = reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x13);
+            Prop18* prop = ((::Prop18 *)(reinterpret_cast<::FUN_00a59d30_C *>((pProp))->FUN_00a59d30(0)));
+            if (!prop && !f13)
+                goto tail;
+            if (!prop)
+            {
+                NiAlphaProperty* alpha = new NiAlphaProperty();
+                alpha->b18 = 0;
+                prop = (Prop18*)alpha;
+            }
+            if (((*(unsigned char*)&prop->m18) & 1) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1a) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1b))
+            {
+                if (!(m20b & 0x20))
+                    m38 = 0;
+                m20 |= 0x20;
+            }
+            if (((*(unsigned char*)&prop->m18) & 1) && DAT_011f9422)
+                return new FUN_00bb4540(this);
+        tail:
+            if (reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1a) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1b))
+            {
+                if (DAT_011f9422)
+                    return new FUN_00bb4540(this);
+                if (!(m20b & 0x20))
+                    m38 = 0;
+                m20 |= 0x20;
+            }
+            if (DAT_011f94a6)
+            {
+                Node* node = pProp->m0c;
+                if (node)
+                {
+                    do
+                    {
+                        ::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f3728))), (const ::fnv_0045bad0::NiObject *)(node));
+                        node = node->m30;
+                    } while (node);
+                }
+            }
+        }
+    }
+    else
+    {
+        m58 = 0;
+    }
+    return 0;
+}
 struct Shader
 {
     virtual void v000();
@@ -3378,21 +3366,10 @@ struct Shader
     unsigned int unk06c;
     unsigned int unk070;
     bool dirty;
-    void EnsureNewObj(int);
-    void EnsureBa9740Obj(int);
-    void EnsureAllocated(int);
-    void CreateSpawnedObjectIfMissing(int);
-    void FUN_00ba95e0(int);
-    void FUN_00bdf650(Geom*, bool, bool, Context*);
-    void FUN_00bda060(Geom*, bool, bool);
-    void SetPassEnabled(Geom*, bool, bool);
-    void AddPasses(Geom*, bool);
     bool GetFlag(int n)
     {
         return ((Fake_FUN_004a2020*)this)->GetFlag(n);
     }
-    void FUN_00ba8ab0(float);
-    void SortShadowSceneLights(Bound*);
     Passes* GetPasses(Geom*, unsigned int, unsigned short*, unsigned int, Context*, unsigned char);
 };
 // Selects a pass list by type and may update distance, material alpha, or pass IDs before returning it.
@@ -3407,20 +3384,20 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
     {
         if ((flags & 0x8000) > 0 || (flags & 0x10000) > 0)
             return 0;
-        EnsureNewObj(1);
+        reinterpret_cast<::fnv_00ba9660::FUN_00ba9660_cls *>(this)->EnsureNewObj(1);
         if (0 != special7->count)
         {
             Pass* firstPass = special7->data[0];
             if (0 < firstPass->flag9)
-                *firstPass->stamp = DAT_011f4748->renderer->stamp;
+                *firstPass->stamp = (*reinterpret_cast<::GlobalRenderer * *>(&::NiRenderer::ms_pRenderer))->renderer->stamp;
         }
         else if (update && properties)
         {
-            Prop* prop = geom->FUN_00a59d30(0);
+            Prop* prop = ((::Prop *)(reinterpret_cast<::FUN_00a59d30_C *>((geom))->FUN_00a59d30(0)));
             if (prop == 0)
                 prop = properties->alpha;
             bool alphaTest = prop && (bool)(int)(prop->shifted() & 1);
-            FUN_00bdf650(geom, geom->skin != 0, alphaTest, context);
+            reinterpret_cast<::Shader_00bdf650 *>(this)->FUN_00bdf650((::NiGeometry *)(geom), geom->skin != 0, alphaTest, (::ShadowSceneLight *)(context));
         }
         return special7;
     }
@@ -3428,37 +3405,37 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
     {
         if ((flags & 0x8000) > 0 || (flags & 0x10000) > 0 || (flags2 & 0x10) > 0)
             return special8;
-        EnsureBa9740Obj(1);
+        reinterpret_cast<::FUN_00ba9740_cls *>(this)->EnsureBa9740Obj(1);
         if ((bool)special8->count)
         {
             Pass* firstPass = special8->data[0];
             if (firstPass->flag9 > 0)
-                *firstPass->stamp = DAT_011f4748->renderer->stamp;
+                *firstPass->stamp = (*reinterpret_cast<::GlobalRenderer * *>(&::NiRenderer::ms_pRenderer))->renderer->stamp;
         }
         if (special8->count == 0 && update && properties)
         {
-            Prop* prop = geom->FUN_00a59d30(0);
+            Prop* prop = ((::Prop *)(reinterpret_cast<::FUN_00a59d30_C *>((geom))->FUN_00a59d30(0)));
             if (prop == 0)
                 prop = properties->alpha;
             bool alphaTest = prop && (bool)(int)(prop->shifted() & 1);
-            FUN_00bda060(geom, geom->skin != 0, alphaTest);
+            reinterpret_cast<::FUN_00bda060_Class *>(this)->FUN_00bda060((std::intptr_t)(geom), geom->skin != 0, alphaTest);
         }
         return special8;
     }
     if (type == 9)
     {
-        EnsureAllocated(1);
-        SetPassEnabled(geom, (flags & 2) > 0, (flags & 0x100000) > 0);
+        reinterpret_cast<::FUN_00ba96d0Owner *>(this)->EnsureAllocated(1);
+        reinterpret_cast<::ShaderPassController *>(this)->SetPassEnabled((::NiGeometry *)(geom), (flags & 2) > 0, (flags & 0x100000) > 0);
         return special9;
     }
     if (15 == type)
     {
-        CreateSpawnedObjectIfMissing(1);
+        reinterpret_cast<::fnv_00ba9820::FUN_00ba9820_cls *>(this)->CreateSpawnedObjectIfMissing(1);
         if (!special15->count)
-            AddPasses(geom, geom->skin != 0);
+            reinterpret_cast<::BBDF6C0Shader *>(this)->AddPasses((::BBDF6C0Geometry *)(geom), geom->skin != 0);
         return special15;
     }
-    FUN_00ba95e0(-1);
+    reinterpret_cast<::TallGrassShader *>(this)->InitializeConstants(-1);
     float previousDistance = distance;
     bool fade20000;
     bool fade80 = (bool)(int)((flags & 0x80) > 0 && DAT_011f9460 > 0.0f);
@@ -3469,16 +3446,16 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
     bool stillFade;
     stillFade = fade4000000;
     Bound bound;
-    bound = geom->bound ? *geom->bound : DAT_011f4288;
+    bound = geom->bound ? *geom->bound : (*reinterpret_cast<::Bound *>(&::g_defaultBound));
     if ((fade20000 || fade80 || fade1 || fade4000000) && !skipFade)
     {
         Vec pos;
-        context->camera->FUN_005bb9b0(pos);
+        reinterpret_cast<::UnknownClass005bb9b0 *>((context->camera))->FUN_005bb9b0((::MyVec005bb9b0 &)(pos));
         Vec delta;
         delta.x = bound.center.x - pos.x;
         delta.y = bound.center.y - pos.y;
         delta.z = bound.center.z - pos.z;
-        distance = delta.FUN_00457990() - bound.radius;
+        distance = reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude() - bound.radius;
         if (((ScaleContext*)FUN_00b4f5c0())->object)
             distance *= ((ScaleContext*)FUN_00b4f5c0())->object->scale;
         if (distance != previousDistance)
@@ -3527,7 +3504,7 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
         }
         else
             materialAlpha = alpha;
-        FUN_00ba8ab0(materialAlpha);
+        reinterpret_cast<::FUN_00ba8ab0_shell *>(this)->FUN_00ba8ab0(materialAlpha);
     }
     unsigned char updatePasses = update;
     if (key != renderKey || !updatePasses || dirty)
@@ -3536,7 +3513,7 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
         _ReadWriteBarrier();  // Keep the dirty reset before inspecting rebuild flags.
         if ((((flags & 0x4000000) > 0 || GetFlag(5)) && (GetFlag(11) || GetFlag(28))) || GetFlag(5) ||
             (geom->props.alpha->flags & 1))
-            SortShadowSceneLights(&bound);
+            reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((const ::B9DBE0Bound *)(&bound));
         if (updatePasses == true)
         {
             mainPasses->count = 0;
@@ -3548,11 +3525,11 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
         }
         else
             *output = 0;
-        if (1 == _fnv_particle_shader_renderer_level)
+        if (1 == ::DAT_011f91c0)
             Build1(geom, pass, output, context->renderer, context, updatePasses);
-        else if (_fnv_particle_shader_renderer_level >= 2)
+        else if (::DAT_011f91c0 >= 2)
             Build2(geom, pass, output, context->renderer, context, updatePasses);
-        if (FUN_005bf7b0())
+        if (((bool)(::fnv_005bf7b0::FUN_005bf7b0())))
         {
             if (updatePasses)
             {
@@ -3560,15 +3537,15 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
                 propertyRef = &geom->props;
                 if (propertyRef)
                 {
-                    Prop* prop = geom->FUN_00a59d30(0);
+                    Prop* prop = ((::Prop *)(reinterpret_cast<::FUN_00a59d30_C *>((geom))->FUN_00a59d30(0)));
                     if (prop == 0)
                         prop = propertyRef->alpha;
                     bool alphaTest = prop && (bool)(int)(prop->shifted() & 1);
                     void* skin;
                     skin = geom->skin;
-                    EnsureNewObj(1);
+                    reinterpret_cast<::fnv_00ba9660::FUN_00ba9660_cls *>(this)->EnsureNewObj(1);
                     special7->count = 0;
-                    FUN_00bdf650(geom, skin != 0, alphaTest, context);
+                    reinterpret_cast<::Shader_00bdf650 *>(this)->FUN_00bdf650((::NiGeometry *)(geom), skin != 0, alphaTest, (::ShadowSceneLight *)(context));
                 }
             }
             else
@@ -3586,7 +3563,7 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
         if (passCount > 1)
         {
             Pass* firstPass = passList->data[0];
-            if (FUN_00b66760(firstPass->id))
+            if (((bool)(::FUN_00b66760(firstPass->id))))
             {
                 --firstPass->id;
                 return mainPasses;
@@ -3729,3 +3706,5 @@ tail: {
     g &= ~0x100u;
 }
 }
+
+#include "generated/data/bsshader/bsshaderpplightingproperty.inc"

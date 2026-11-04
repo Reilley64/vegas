@@ -2,17 +2,11 @@
 // src/havok/physics/internal/collide/gjk/agent/hkpgskagentutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/agent/hkpgskagentutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float f[4];
-};
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern const __m128 DAT_010c4c00;
+#include <xmmintrin.h>
+#include "fnv/symbols_00dad000.h"
+#include "fnv/symbols_00dae000.h"
+#include "fnv/symbols_00daf000.h"
+#include "fnv/symbols_simd.h"
 struct Node
 {
     virtual void s00();
@@ -3313,15 +3307,10 @@ __forceinline void Arg4::Commit(Arg6* cursor, unsigned int value)
     *(char**)&cursor->m_00 += 0x30;
 }
 extern int FUN_00dabca0(void* a, void* b, void* c, void* d);
-extern void ReleaseAllEntries(void* a, void* b, void* c);
-extern unsigned char FindAndPromoteEntry(void* a, void* b);
-extern void FUN_00dae3a0(void* a, void* b, int c, void* d, void* e);
-extern int FUN_00daf1e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g, void* h, void* i, int j);
-extern void FUN_00dae340(void* a, int b);
 static __forceinline int BuildContacts(void* a, void* b, void* c, void* d, void* e, void* f, void* g, void* h, void* i,
                                        int j)
 {
-    return FUN_00daf1e0(a, b, c, d, e, f, g, h, i, j);
+    return ::FUN_00daf1e0((::ContactManifold *)(a), b, c, d, (::ContactContext *)(e), (::S_00dad4d0_Key *)(f), (::ContactRecord *)(g), (::ContactCache *)(h), (::ContactManager *)(i), j);
 }
 static __forceinline unsigned short AddContact(Node* shape, void* a, void* b, void* c, void* d, void* e, void* f)
 {
@@ -3383,7 +3372,7 @@ void ProcessCollision(In* in, void* p1, Arg2* p2, Arg3* p3, Arg4* p4, VecS* p5, 
     {
         if (p4->m_02 == 0)
             return;
-        ReleaseAllEntries(p4, in->m_10, p6->m_04);
+        ::ReleaseAllEntries((::S_00dad640_Set *)(p4), (::S_00dad640_Target *)(in->m_10), p6->m_04);
         return;
     }
     vec = *(Vec4*)p5c;
@@ -3391,7 +3380,7 @@ void ProcessCollision(In* in, void* p1, Arg2* p2, Arg3* p3, Arg4* p4, VecS* p5, 
     int iSupport;
     if (hr->m_0c == 3)
     {
-        iSupport = QuerySupport((Node*)hr, (unsigned char*)p3 + p3->m_08 * 2, (unsigned char*)p3 + 9, &out,
+        iSupport = QuerySupport((Node*)hr, (unsigned char*)p3 + p3->m_08 * 2, (unsigned char*)&p3->m_09, &out,
                                 in->m_04->m_08, head.m_08, in->m_00->m_08, &vec);
     }
     else
@@ -3402,21 +3391,21 @@ void ProcessCollision(In* in, void* p1, Arg2* p2, Arg3* p3, Arg4* p4, VecS* p5, 
             goto AfterV;
         if (host->m_16 == 6)
             goto AfterV;
-        _mm_store_ps(vec.f, _mm_xor_ps(_mm_load_ps(vec.f), DAT_010c4c00));
+        _mm_store_ps(vec.f, _mm_xor_ps(_mm_load_ps(vec.f), ::DAT_010c4c00));
         iSupport =
-            QuerySupport((Node*)host, p3, (unsigned char*)p3 + 8, &out, in->m_00->m_08, hr, in->m_04->m_08, &vec);
-        _mm_store_ps(vec.f, _mm_xor_ps(_mm_load_ps(vec.f), DAT_010c4c00));
+            QuerySupport((Node*)host, p3, (unsigned char*)&p3->m_08, &out, in->m_00->m_08, hr, in->m_04->m_08, &vec);
+        _mm_store_ps(vec.f, _mm_xor_ps(_mm_load_ps(vec.f), ::DAT_010c4c00));
     }
     if (!iSupport)
     {
-        ReleaseAllEntries(p4, in->m_10, p6->m_04);
+        ::ReleaseAllEntries((::S_00dad640_Set *)(p4), (::S_00dad640_Target *)(in->m_10), p6->m_04);
         return;
     }
     if (iSupport == 1)
         p2->m_0b |= 0x10;
 AfterV:
     int iEntry;
-    iEntry = FindAndPromoteEntry(p4, p3);
+    iEntry = ((unsigned char)(::FindAndPromoteEntry((::S_00dad4d0_Set *)(p4), (::S_00dad4d0_Key *)(p3))));
     void* res = p6->m_00;
     int tailTest = iEntry;
     unsigned char countByte = p4->m_02;
@@ -3445,7 +3434,7 @@ AfterV:
             QueryVertices((Node*)r, ids + p4->m_00 * 2, p4->m_01, val);
             XformReverse(val, (Mat*)bodyB->m_08, p4->m_01);
         }
-        FUN_00dae3a0(p4, x.points, iEntry, p6, in->m_10);
+        ::FUN_00dae3a0((*(::Manifold *)(p4)), (*(const ::WorkData *)(x.points)), iEntry, (*(::ProcessOutput *)(p6)), (::Manager *)(in->m_10));
         tailTest = iEntry;
         (void)res;
     }
@@ -3504,7 +3493,7 @@ AfterV:
             *(char**)&p6->m_00 += 0x30;
             goto a;
         Dae340:
-            FUN_00dae340(p4, 0);
+            ::FUN_00dae340((::S_00dad640_Set *)(p4), 0);
             goto RestoreA;
         }
         if (rr == 5)

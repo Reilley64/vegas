@@ -2,8 +2,9 @@
 // src/fallout_shared/tempeffects/bstecreatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tempeffects/bstecreatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern char const* const g_011d6a18_arg1;
 
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 struct FUN_00682480_shell
 {
     char const* const* GetArg1Ptr();
@@ -12,25 +13,14 @@ struct FUN_00682480_shell
 // @fnv 0x00682480
 char const* const* FUN_00682480_shell::GetArg1Ptr()
 {
-    return &g_011d6a18_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f5afc));
 }
 
-extern "C" void __cdecl _delete(void* p, unsigned int size);
 struct FUN_00682490_shell
 {
-    void __thiscall FUN_006824c0();
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void FUN_006824c0();
+    void* DestroyIfFlagged(unsigned int flags);
 };
-// Calls FUN_006824c0, then frees this with _delete when flags has bit 0 set, and returns this.
-// @fnv 0x00682490
-void* __thiscall FUN_00682490_shell::DestroyIfFlagged(unsigned int flags)
-{
-    this->FUN_006824c0();
-    if (flags & 1)
-        _delete(this, 0xc);
-    return this;
-}
-
 struct NiTask
 {
     int m_eStatus;
@@ -60,6 +50,15 @@ class FUN_006824c0 : public C0NiObject
   public:
     virtual ~FUN_006824c0();
 };
+// Calls FUN_006824c0, then frees this with _delete when flags has bit 0 set, and returns this.
+// @fnv 0x00682490
+void* FUN_00682490_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006824c0 *>((this))->FUN_006824c0::~FUN_006824c0();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0xc);
+    return this;
+}
 
 // @fnv 0x006824c0
 FUN_006824c0::~FUN_006824c0()

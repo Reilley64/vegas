@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPSTIFFSPRINGCHAINDATACONSTRAINTINFO_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpStiffSpringChainDataConstraintInfo
 {
   public:
@@ -13,7 +12,4 @@ class hkpStiffSpringChainDataConstraintInfo
     hkReal m_fSpringRestLength;  // +0x20
     char pad24[0xC];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpStiffSpringChainDataConstraintInfo[(sizeof(hkpStiffSpringChainDataConstraintInfo) == 0x30) ? 1 : -1];
 #endif

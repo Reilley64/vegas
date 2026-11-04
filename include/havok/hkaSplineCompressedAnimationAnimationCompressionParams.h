@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKASPLINECOMPRESSEDANIMATIONANIMATIONCOMPRESSIONPARAMS_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkaSplineCompressedAnimationAnimationCompressionParams
 {
   public:
@@ -12,7 +11,4 @@ class hkaSplineCompressedAnimationAnimationCompressionParams
     hkBool m_bEnableSampleSingleTracks;  // +0x2
     char pad3[0x1];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaSplineCompressedAnimationAnimationCompressionParams
-    [(sizeof(hkaSplineCompressedAnimationAnimationCompressionParams) == 0x4) ? 1 : -1];
 #endif

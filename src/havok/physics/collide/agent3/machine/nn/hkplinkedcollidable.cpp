@@ -2,6 +2,13 @@
 // src/havok/physics/collide/agent3/machine/nn/hkplinkedcollidable.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkplinkedcollidable.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include <new>
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_00d08000.h"
 #include "havok/hkpLinkedCollidable.h"
 
 struct FUN_00d08210_Entry
@@ -16,9 +23,6 @@ struct FUN_00d08210_Pair
     FUN_00d08210_Entry* entry;
     unsigned int key;
 };
-int __cdecl CompareByNestedValue(const FUN_00d08210_Pair*, const FUN_00d08210_Pair*);
-void __cdecl QuickSortPairs(FUN_00d08210_Pair*, int, int,
-                            int(__cdecl*)(const FUN_00d08210_Pair*, const FUN_00d08210_Pair*));
 struct FUN_00d08210_Collidable : hkpLinkedCollidable
 {
     void UpdateCollisionIndices();
@@ -27,8 +31,8 @@ struct FUN_00d08210_Collidable : hkpLinkedCollidable
 void FUN_00d08210_Collidable::UpdateCollisionIndices()
 {
     if (m_kCollisionEntries.m_iElementCount > 1)
-        QuickSortPairs((FUN_00d08210_Pair*)m_kCollisionEntries.m_data, 0, m_kCollisionEntries.m_iElementCount - 1,
-                       CompareByNestedValue);
+        ::QuickSortPairs((::SortPair8 *)(::FUN_00d08210_Pair *)((FUN_00d08210_Pair*)m_kCollisionEntries.m_data), 0, m_kCollisionEntries.m_iElementCount - 1,
+                       (bool (*)(const SortPair8 *, const SortPair8 *))(((int (&)(const FUN_00d08210_Pair *, const FUN_00d08210_Pair *))::CompareByNestedValue)));
     for (int index = 0; index < m_kCollisionEntries.m_iElementCount; ++index)
     {
         volatile FUN_00d08210_Pair* pair = ((volatile FUN_00d08210_Pair*)m_kCollisionEntries.m_data) + index;
@@ -37,31 +41,12 @@ void FUN_00d08210_Collidable::UpdateCollisionIndices()
     }
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 
-class hkMemoryAllocatorD082;
 
-struct hkMemoryRouterD082
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorD082* m_pStreamAllocator;
-
-    hkMemoryAllocatorD082& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterD082 {
-extern "C" hkMemoryRouterD082& __cdecl FUN_00c85750() throw();
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocatorD082& kAlloc, void* pArray, int iNumElements, int iSizeElem);
 
 struct ItemD082
 {
@@ -69,8 +54,6 @@ struct ItemD082
     int m_kPointB;
 };
 
-bool __cdecl CompareByNestedValue(const ItemD082& a, const ItemD082& b);
-void __cdecl QuickSortPairs(ItemD082* pArr, int iLo, int iHi, bool(__cdecl* pfnCmp)(const ItemD082&, const ItemD082&));
 
 template <class T> __forceinline void copyD082(T* pDst, const T* pSrc, int n)
 {
@@ -104,9 +87,9 @@ template <class T> class hkArrayD082
         return m_data;
     }
 
-    __forceinline void _copyFromArray(hkMemoryRouterD082& kRouter, const hkArrayD082& a)
+    __forceinline void _copyFromArray(hkMemoryRouter& kRouter, const hkArrayD082& a)
     {
-        hkMemoryAllocatorD082& kAlloc = kRouter.heap();
+        hkMemoryAllocator& kAlloc = kRouter.heap();
         const int iSize = m_iElementCount;
         const int iSrcSize = a.m_iElementCount;
         int iCopiedCount = (iSrcSize > iSize) ? iSize : iSrcSize;
@@ -114,7 +97,7 @@ template <class T> class hkArrayD082
         {
             int iCap2 = 2 * getCapacity();
             int iNewCap = (iSrcSize < iCap2) ? iCap2 : iSrcSize;
-            FUN_00c908c0(kAlloc, this, iNewCap, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewCap, sizeof(T));
         }
         copyD082(m_data, a.m_data, iCopiedCount);
         constructWithArrayD082(m_data + iCopiedCount, iSrcSize - iCopiedCount, a.m_data + iCopiedCount);
@@ -122,7 +105,7 @@ template <class T> class hkArrayD082
     }
     __forceinline hkArrayD082& operator=(const hkArrayD082& a)
     {
-        _copyFromArray(hkRouterD082::FUN_00c85750(), a);
+        _copyFromArray(hkMemoryRouter::getInstance(), a);
         return *this;
     }
 };
@@ -130,7 +113,7 @@ template <class T> class hkArrayD082
 template <class T> inline void quickSortD082(T* pArr, int iSize, bool(__cdecl* pfnCmp)(const T&, const T&))
 {
     if (iSize > 1)
-        QuickSortPairs(pArr, 0, iSize - 1, pfnCmp);
+        ::QuickSortPairs((::SortPair8 *)(pArr), 0, iSize - 1, (bool (*)(const SortPair8 *, const SortPair8 *))(pfnCmp));
 }
 
 class ContainerD082
@@ -154,5 +137,5 @@ void ContainerD082::CopyAndSortGeometryList(hkArrayD082<ItemD082>& kOut) const
 {
     kOut = m_kUnsortedGeometryList;
     if (m_aucTypes[m_cIndex] == 5)
-        quickSortD082(kOut.begin(), kOut.GetLogicalSize(), CompareByNestedValue);
+        quickSortD082(kOut.begin(), kOut.GetLogicalSize(), ((bool (&)(const ItemD082 &, const ItemD082 &))::CompareByNestedValue));
 }

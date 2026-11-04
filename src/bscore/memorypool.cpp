@@ -1,5 +1,18 @@
+#include <cstdint>
+#include <cstddef>
 // bscore/memorypool.cpp: MemoryPool (13 functions)
 
+#include <cstring>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00aa6650_Class.h"
+#include "fnv/decl/FUN_00aa6680_class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NodeSorter.h"
+#include "fnv/decl/VirtualReservationSearch.h"
+#include "fnv/symbols_00aa6000.h"
+#include "fnv/symbols_01000000.h"
+#include "fnv/symbols_011f6000.h"
 #include "memorypool_decls.h"
 
 // @fnv 0x00aa6e00
@@ -24,7 +37,7 @@ struct DummyClass_00aa6db0
 };
 
 // @fnv 0x00aa6db0
-unsigned int __fastcall FUN_00aa6db0(DummyClass_00aa6db0* pThis)
+unsigned int FUN_00aa6db0(DummyClass_00aa6db0* pThis)
 {
     for (unsigned int i = 0; i < pThis->ItemUpdateArray; ++i)
     {
@@ -71,8 +84,6 @@ struct FUN_00aa6eb0_shell : public MemoryPool
 
 struct Helper_00aa6eb0
 {
-    void FUN_00aa7260();
-    void FreeMemory(unsigned int, void*);
 };
 
 struct DoublyLinkedListNode
@@ -81,41 +92,6 @@ struct DoublyLinkedListNode
     DoublyLinkedListNode* pNext;
 };
 
-// @fnv 0x00aa6eb0
-void FUN_00aa6eb0_shell::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequired)
-{
-    char* ppageAddress = *(char**)((char*)this + 0x4) + (aiPageIndex << 12);
-    if (abSortRequired)
-    {
-        ((Helper_00aa6eb0*)this)->FUN_00aa7260();
-    }
-    DoublyLinkedListNode* pfirstFreeBlock = (DoublyLinkedListNode*)ppageAddress;
-    unsigned int ientriesPerPage = 0x1000 / *(unsigned int*)((char*)this + 0x40);
-    DoublyLinkedListNode* plastFreeBlock =
-        (DoublyLinkedListNode*)(ppageAddress + (ientriesPerPage - 1) * *(unsigned int*)((char*)this + 0x40));
-
-    if (pfirstFreeBlock->pPrev != 0)
-    {
-        pfirstFreeBlock->pPrev->pNext = plastFreeBlock->pNext;
-    }
-    else
-    {
-        *(DoublyLinkedListNode**)((char*)this + 0x8) = plastFreeBlock->pNext;
-    }
-
-    if (plastFreeBlock->pNext != 0)
-    {
-        plastFreeBlock->pNext->pPrev = pfirstFreeBlock->pPrev;
-    }
-
-    *(unsigned int*)((char*)this + 0x54) -= ientriesPerPage;
-    ((Helper_00aa6eb0*)this)->FreeMemory(aiPageIndex, ppageAddress);
-    (*(unsigned short**)((char*)this + 0x48))[aiPageIndex] = 0xffff;
-    *(unsigned int*)((char*)this + 0x58) -= 1;
-}
-
-extern MemoryPool* DAT_011f67b8[];
-extern MemoryPool* ms_pPoolAddressMap[];
 struct FUN_00aa6980_stub
 {
     char pad[4];
@@ -130,7 +106,7 @@ struct FUN_00aa6980_stub
 void FUN_00aa6980_stub::RegisterInPools()
 {
     unsigned int index = f40 >> 2;
-    DAT_011f67b8[index] = (MemoryPool*)this;
+    ::DAT_011f67b8[index] = (MemoryPool*)this;
     unsigned int count = f50 >> 24;
     if (f50 % 0x1000000 != 0)
         count++;
@@ -153,9 +129,9 @@ void FUN_00aa6c70_shell::FUN_00aa6c70(void* apPointer)
     int u1, u2;
     if (!apPointer)
         return;
-    m_kCriticalSection.Lock("MemoryPool::Free");
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_kCriticalSection))->FUN_0040fbf0((char *)("MemoryPool::Free"));
     PushFreeBlock(apPointer);
-    ipageIndex = ((unsigned int)apPointer - (unsigned int)m_pPoolBase) >> 12;
+    ipageIndex = (unsigned int)(((char*)apPointer - (char*)m_pPoolBase) >> 12);
     m_pPageBlockCounts[ipageIndex]--;
     {
         RecursiveSpinLock* pl = &m_kCriticalSection;
@@ -173,7 +149,6 @@ struct FUN_00aa6f90_shell : public MemoryPool
 
 struct FUN_00aa6eb0_shell
 {
-    void FUN_00aa6eb0(unsigned int, bool);
 };
 struct Helper_00aa6eb0
 {
@@ -183,7 +158,7 @@ struct Helper_00aa6eb0
 void FUN_00aa6f90_shell::FUN_00aa6f90()
 {
     bool blistSorted;
-    m_kCriticalSection.Lock("MemoryPool::FreeUnusedPagesForAllPools()");
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_kCriticalSection))->FUN_0040fbf0((char *)("MemoryPool::FreeUnusedPagesForAllPools()"));
     blistSorted = false;
     for (unsigned int i = 0; i < m_uiPageCount; i++)
     {
@@ -195,7 +170,7 @@ void FUN_00aa6f90_shell::FUN_00aa6f90()
                 ((Helper_00aa6eb0*)this)->FUN_00aa7260();
                 blistSorted = true;
             }
-            ((FUN_00aa6eb0_shell*)this)->FUN_00aa6eb0(i, false);
+            reinterpret_cast<::FUN_00aa6eb0_shell *>((((FUN_00aa6eb0_shell*)this)))->FUN_00aa6eb0(i, false);
         }
     }
     {
@@ -216,13 +191,10 @@ struct FUN_00aa6aa0_shell : public MemoryPool
 struct Node_00aa6e60;
 struct FUN_00aa6e60_shell
 {
-    void UnlinkNode(Node_00aa6e60*);
 };
 struct DummyClass_00aa6db0;
-unsigned int __fastcall FUN_00aa6db0(DummyClass_00aa6db0*);
 struct MemoryPool_PCP
 {
-    bool CommitPage(unsigned int, char*&);
 };
 // Locks the pool, allocates a new page and free list if empty, pops a free block, updates page usage, and returns the block or null.
 // @fnv 0x00aa6aa0
@@ -251,10 +223,10 @@ void* FUN_00aa6aa0_shell::FUN_00aa6aa0(unsigned int requested)
                                             RecursiveSpinLock* l2;
                                             {
                                                 RecursiveSpinLock* l3;
-                                                m_kCriticalSection.Lock("MemoryPool::Allocate");
+                                                reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_kCriticalSection))->FUN_0040fbf0((char *)("MemoryPool::Allocate"));
                                                 if (!m_pFreeBlockHead)
                                                 {
-                                                    inewPageIndex = FUN_00aa6db0((DummyClass_00aa6db0*)this);
+                                                    inewPageIndex = ::FUN_00aa6db0((::DummyClass_00aa6db0 *)(::fnv_00aa6aa0::DummyClass_00aa6db0 *)((DummyClass_00aa6db0*)this));
                                                     if (inewPageIndex == -1)
                                                     {
                                                         l1 = &m_kCriticalSection;
@@ -265,8 +237,7 @@ void* FUN_00aa6aa0_shell::FUN_00aa6aa0(unsigned int requested)
                                                     }
                                                     pfirstFreePage = 0;
                                                     ientriesPerPage = 0x1000 / m_uiAllocationSize;
-                                                    if (!((MemoryPool_PCP*)this)
-                                                             ->CommitPage(inewPageIndex, pfirstFreePage))
+                                                    if (!reinterpret_cast<::MemoryPool *>((((MemoryPool_PCP*)this)))->CommitPage(inewPageIndex, pfirstFreePage))
                                                     {
                                                         l2 = &m_kCriticalSection;
                                                         l2->m_uiRecursionCount--;
@@ -287,7 +258,7 @@ void* FUN_00aa6aa0_shell::FUN_00aa6aa0(unsigned int requested)
                                                     pmem = m_pFreeBlockHead;
                                                     ptemp = m_pFreeBlockHead;
                                                     m_pFreeBlockHead = m_pFreeBlockHead->pNext;
-                                                    ((FUN_00aa6e60_shell*)this)->UnlinkNode((Node_00aa6e60*)ptemp);
+                                                    reinterpret_cast<::FUN_00aa6e60_shell *>((((FUN_00aa6e60_shell*)this)))->UnlinkNode((::Node_00aa6e60 *)(::fnv_00aa6aa0::Node_00aa6e60 *)((Node_00aa6e60*)ptemp));
                                                     ipageIndex = (unsigned int)((char*)pmem - m_pPoolBase) >> 12;
                                                     m_pPageBlockCounts[ipageIndex]++;
                                                 }
@@ -312,9 +283,7 @@ void* FUN_00aa6aa0_shell::FUN_00aa6aa0(unsigned int requested)
 
 struct MemoryManager
 {
-    void _DeallocateAlias(void* p);
 };
-extern MemoryManager g_memoryManager;
 
 struct FUN_00aa6800
 {
@@ -322,24 +291,9 @@ struct FUN_00aa6800
     char* m_pPoolBase;
     char pad1[0x40];
     void* pBlock;
-    void FreeAllocation();
-    void ClearPoolSlots();
     ~FUN_00aa6800();
 };
 
-// @fnv 0x00aa6800
-FUN_00aa6800::~FUN_00aa6800()
-{
-    if (m_pPoolBase)
-    {
-        FreeAllocation();
-        ClearPoolSlots();
-    }
-    void* block = pBlock;
-    g_memoryManager._DeallocateAlias(block);
-}
-
-void* _fnv_zlib_memset(void* dest, int value, unsigned int count);
 
 struct PoolInfo
 {
@@ -374,7 +328,7 @@ struct FUN_00aa6d00_holder
 PoolInfo FUN_00aa6d00_holder::GetPoolInfo()
 {
     PoolInfo info;
-    _fnv_zlib_memset(&info, 0, sizeof(PoolInfo));
+    std::memset(&info, 0, sizeof(PoolInfo));
     info.f0 = m0;
     info.f1 = m4c * 2 + 0x80;
     info.f2 = m40;
@@ -394,9 +348,40 @@ struct FUN_00aa7260_holder
     void* ptr;
     char pad1[0x48];
     unsigned int count;
-    void* SortList(void* p);
     void FUN_00aa7260();
 };
+// @fnv 0x00aa6eb0
+void FUN_00aa6eb0_shell::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequired)
+{
+    char* ppageAddress = this->m_pPoolBase + (aiPageIndex << 12);
+    if (abSortRequired)
+    {
+        reinterpret_cast<::FUN_00aa7260_holder *>((((Helper_00aa6eb0*)this)))->FUN_00aa7260();
+    }
+    DoublyLinkedListNode* pfirstFreeBlock = (DoublyLinkedListNode*)ppageAddress;
+    unsigned int ientriesPerPage = 0x1000 / this->m_uiAllocationSize;
+    DoublyLinkedListNode* plastFreeBlock =
+        (DoublyLinkedListNode*)(ppageAddress + (ientriesPerPage - 1) * this->m_uiAllocationSize);
+
+    if (pfirstFreeBlock->pPrev != 0)
+    {
+        pfirstFreeBlock->pPrev->pNext = plastFreeBlock->pNext;
+    }
+    else
+    {
+        *(DoublyLinkedListNode**)&this->m_pFreeBlockHead = plastFreeBlock->pNext;
+    }
+
+    if (plastFreeBlock->pNext != 0)
+    {
+        plastFreeBlock->pNext->pPrev = pfirstFreeBlock->pPrev;
+    }
+
+    this->m_uiFreeBlockCount -= ientriesPerPage;
+    reinterpret_cast<::FUN_00aa6650_Class *>((((Helper_00aa6eb0*)this)))->FreeMemory(aiPageIndex, ppageAddress);
+    (this->m_pPageBlockCounts)[aiPageIndex] = 0xffff;
+    this->m_uiAllocatedPageCount -= 1;
+}
 
 // If count is greater than 1, replaces ptr with the result of SortList(ptr).
 // @fnv 0x00aa7260
@@ -404,14 +389,11 @@ void FUN_00aa7260_holder::FUN_00aa7260()
 {
     if (count > 1)
     {
-        ptr = SortList(ptr);
+        ptr = ((void *)(reinterpret_cast<::NodeSorter *>(this)->SortList((::LinkedNode *)(ptr))));
     }
 }
 
 struct MemoryPool;
-extern MemoryPool* ms_pPoolAddressMap[];
-extern MemoryPool* DAT_011f67b8[];
-extern int DAT_01000000;
 
 struct FUN_00aa6a10_shell
 {
@@ -424,6 +406,17 @@ struct FUN_00aa6a10_shell
 
     void ClearPoolSlots();
 };
+// @fnv 0x00aa6800
+FUN_00aa6800::~FUN_00aa6800()
+{
+    if (m_pPoolBase)
+    {
+        reinterpret_cast<::FUN_00aa6680_class *>(this)->FreeAllocation();
+        reinterpret_cast<::FUN_00aa6a10_shell *>(this)->ClearPoolSlots();
+    }
+    void* block = pBlock;
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(block);
+}
 
 // Clears a pool entry indexed by f40>>2 and zeroes count slots starting at f4>>24, where count is f50>>24 plus one if f50 has a remainder.
 // @fnv 0x00aa6a10
@@ -431,10 +424,10 @@ void FUN_00aa6a10_shell::ClearPoolSlots()
 {
     unsigned int count;
     unsigned int base = f40 >> 2;
-    DAT_011f67b8[base] = 0;
+    ::DAT_011f67b8[base] = 0;
 
     count = f50 >> 24;
-    if (f50 % (unsigned int)&DAT_01000000)
+    if (f50 % 0x01000000u)
         count++;
 
     unsigned int index = f4 >> 24;
@@ -447,17 +440,11 @@ void FUN_00aa6a10_shell::ClearPoolSlots()
 namespace fnv_00aa66a0 {
 struct MemoryManager
 {
-    void* Allocate(unsigned int size);
 };
-extern MemoryManager g_memoryManager;
 
 struct PageRefCount66a0
 {
     unsigned short iCount;
-    static void* operator new[](unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
 };
 
 struct PoolSpinLock66a0
@@ -498,8 +485,6 @@ struct FUN_00aa66a0
     unsigned int iFirstReserve;
     unsigned int iSecondReserve;
     FUN_00aa66a0(unsigned int aiBlockSize, unsigned int aiPoolSize, const char* apDesc);
-    void FUN_00aa65b0();
-    void RegisterInPools();
 };
 
 // Initializes a memory pool: rounds the block size, allocates the page ref-count array, computes reserve counts and sets each page count to 0xffff.
@@ -514,7 +499,7 @@ FUN_00aa66a0::FUN_00aa66a0(unsigned int aiBlockSize, unsigned int aiPoolSize, co
     m_uiAllocationSize = aiBlockSize;
     if (m_uiAllocationSize)
         m_uiAllocationSize = (m_uiAllocationSize + 3) & ~3;
-    FUN_00aa65b0();
+    reinterpret_cast<::VirtualReservationSearch *>(this)->FUN_00aa65b0();
     if (!m_pPoolBase)
         return;
     m_pPageBlockCounts = (unsigned short*)new PageRefCount66a0[aiPoolSize >> 12];
@@ -523,6 +508,8 @@ FUN_00aa66a0::FUN_00aa66a0(unsigned int aiBlockSize, unsigned int aiPoolSize, co
     iSecondReserve = nA - iFirstReserve;
     for (i = 0; i < m_uiPageCount; i++)
         m_pPageBlockCounts[i] = 0xffff;
-    RegisterInPools();
+    reinterpret_cast<::FUN_00aa6980_stub *>(this)->RegisterInPools();
 }
 }  // namespace fnv_00aa66a0
+
+#include "generated/data/bscore/memorypool.inc"

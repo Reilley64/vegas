@@ -2,6 +2,69 @@
 #ifndef BGSSAVELOADMANAGER_DECLS_H
 #define BGSSAVELOADMANAGER_DECLS_H
 
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/decl/BSAudioManager.h"
+#include "fnv/decl/FUN_004f8960_shell.h"
+#include "fnv/decl/FUN_00525430_Class.h"
+#include "fnv/decl/FUN_00527fc0_cls.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_006ebcd0_shell.h"
+#include "fnv/decl/FUN_006ebcf0_cls.h"
+#include "fnv/decl/FUN_00714d70.h"
+#include "fnv/decl/FUN_0084cc40_shell.h"
+#include "fnv/decl/FUN_0084ff90_shell.h"
+#include "fnv/decl/FUN_00850030_shell.h"
+#include "fnv/decl/FUN_0086f670_shell.h"
+#include "fnv/decl/FUN_009ca410_shell.h"
+#include "fnv/decl/FUN_00aa4db0_shell.h"
+#include "fnv/decl/FUN_00ad7230_shell.h"
+#include "fnv/decl/FUN_00ad8740_shell.h"
+#include "fnv/decl/FadeAttachedTES.h"
+#include "fnv/decl/ReconstructSession.h"
+#include "fnv/decl/S457d70.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/fnv_00448420__ModelLoader.h"
+#include "fnv/decl/fnv_00448620__FUN_00448620_cls.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_006c3640__C006c3640.h"
+#include "fnv/decl/fnv_006c39c0__FUN_006c39c0_shell.h"
+#include "fnv/decl/fnv_0086f6a0__FUN_0086f6a0_shell.h"
+#include "fnv/decl/fnv_00877430__FUN_00877430_shell.h"
+#include "fnv/decl/fnv_00977660__FUN_00977660_shell.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_0047d000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_005a9000.h"
+#include "fnv/symbols_005ae000.h"
+#include "fnv/symbols_006c0000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00830000.h"
+#include "fnv/symbols_00846000.h"
+#include "fnv/symbols_0084d000.h"
+#include "fnv/symbols_00850000.h"
+#include "fnv/symbols_0086d000.h"
+#include "fnv/symbols_0093a000.h"
+#include "fnv/symbols_00a25000.h"
+#include "fnv/symbols_00c3b000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_0105d000.h"
+#include "fnv/symbols_011a2000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
+#include "fnv/symbols_011f6000.h"
 class TaskQueueInterface
 {
   public:
@@ -10,15 +73,8 @@ class TaskQueueInterface
 class TESFile
 {
   public:
-    static char* IsTempIDLoadable();
 };
-int __cdecl strcat_s(char*, unsigned int, const char*);
-char* __cdecl FUN_0086d480();
-char* __cdecl FUN_004dc110();
-char* __cdecl FUN_00c3bbd0();
 char* __cdecl FUN_00c3bc20();
-int __cdecl FUN_00ecbf05(const char*, int);
-extern const char g_011d3eb0_arg1[];
 extern const char g_011dece4_arg1[];
 extern const char DAT_01082d70[];
 extern const char DAT_01082d88[];
@@ -26,45 +82,33 @@ extern const char DAT_01082d94[];
 extern const char DAT_01082da0[];
 extern const char DAT_01082dac[];
 extern const char DAT_01082dc4[];
-extern const char* DAT_011a2ff0;
-extern const char* DAT_011a2ff4;
-extern int(__stdcall* DAT_00fdf0c4)(const char*, const char*, int, const char*);
-extern int(__stdcall* DAT_00fdf274)(void*, int, void*, unsigned int, char*);
-extern int(__stdcall* DAT_00fdf0b8)(const char*, void*);
+extern int(* DAT_00fdf0c4)(const char*, const char*, int, const char*);
+extern int(* DAT_00fdf274)(void*, int, void*, unsigned int, char*);
+extern int(* DAT_00fdf0b8)(const char*, void*);
 extern int(__cdecl* DAT_00fdf0d4)(char*);
-extern int(__stdcall* DAT_00fdf1b8)(const char*, const char*, int);
+extern int(* DAT_00fdf1b8)(const char*, const char*, int);
 
 class SaveLoadFile;
 class BGSLoadGameBuffer
 {
   public:
-    bool FUN_008463c0();
 };
 class SaveLoadHeader
 {
   public:
-    static int ReadHeaderFromFile(SaveLoadFile*);
-    SaveLoadFile* ReadHeaderFromFile(SaveLoadFile*, bool, unsigned int, unsigned int);
 };
 class BGSSaveLoadGame
 {
   public:
-    bool LoadGame(SaveLoadFile*, bool);
-    void FUN_0084cc40(bool);
 };
 class InterfaceManager
 {
   public:
-    void FUN_00714d70(int);
 };
 class Interface
 {
   public:
     static bool IsInterfaceActive();
-    static bool IsConsoleActive();
-    static void RestoreConsoleVisibility();
-    static bool ShowButtonDialog(const char*, const char*, const char*, void(__cdecl*)(), int, int, float, float,
-                                 const char*, ...);
 };
 union SETTING_VALUE
 {
@@ -81,7 +125,6 @@ template <class T> class SettingT
 class SettingT_GameSettingCollection_
 {
   public:
-    const char* String();
 };
 class GlobalObject_0040c150
 {
@@ -89,39 +132,28 @@ class GlobalObject_0040c150
 class GlobalObject_0045cf30
 {
 };
-extern GlobalObject_0040c150 g_011d2100, g_011d34f8, g_011d3684;
+extern GlobalObject_0040c150 g_011d2100;
 extern GlobalObject_0045cf30 g_011de248;
 class OSGlobals;
 class Main
 {
   public:
-    void RefreshAfterSave();
-    void RunScripts();
-    void OnGameLoaded();
 };
-extern OSGlobals* g_osGlobals;
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
-extern char DAT_011de138[260];
-extern int DAT_011a224c;
-extern bool DAT_011de23c;
-extern int DAT_011dea24;
-void __cdecl FUN_00850720();
 void __cdecl DumpTextAndOpen(const char*);
-InterfaceManager* __cdecl FUN_004b7210();
 
 enum FADER_ENUM
 {
     FADER_NONE = 0
 };
+enum FADER_ENUM;
 class FaderManager
 {
   public:
     bool HasFader(FADER_ENUM);
-    void BeginFade(FADER_ENUM, float, bool);
+public:
+    void AddFader(::FADER_ENUM, float, bool);
 };
-extern Interface* DAT_011d8804;
 class BGSSaveLoadManager;
-extern BGSSaveLoadManager* DAT_011de134;
 
 class ChallengeManager
 {
@@ -131,21 +163,19 @@ class ChallengeManager
 class ModelLoader
 {
   public:
-    void FUN_00448620(bool);
-    void FUN_00448420();
 };
 class TES
 {
   public:
-    void FUN_00459a00();
-    void RefreshWorldState(int, int, int);
+    void** m_ppVirtualMethodTable;
+    void* pGridDistantArray;
+    void* pGridCellArray;
 };
 class ActorMover
 {
   public:
-    void RefreshMovementState();
 };
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     unsigned int GetSize();
@@ -158,18 +188,22 @@ class GridCellArray
 class VATS
 {
   public:
-    void ProcessVATSCommands();
     void Update(int, bool);
+public:
+    void FUN_009c8950(bool, bool);
 };
 class GlobalObject_009c6a30
 {
 };
-extern GlobalObject_009c6a30 g_011f2250;
 class NiPoint3;
+struct NiPoint3;
 class BGSTerrainManager
 {
   public:
-    void Update(const NiPoint3&, int);
+public:
+    unsigned int GetMinLevel();
+public:
+    void FUN_006fca90(const ::NiPoint3 &, int);
 };
 class TESWorldSpace
 {
@@ -305,30 +339,21 @@ class TESObjectREFR
     virtual void vfn_1ec();
     virtual void vfn_1f0();
     virtual NiPoint3* GetPos() const;
-    const char* GetFullName();
-    TESWorldSpace* GetParentWorldSpace();
 };
 class PlayerCharacter : public TESObjectREFR
 {
   public:
-    bool GetUnderAIControl();
 };
-extern PlayerCharacter* g_thePlayer;
-extern TES* g_TES;
-extern ModelLoader* g_modelLoader;
 class BGSSaveLoadUI
 {
   public:
     void FUN_007d0bd0(bool);
     void FUN_007d0bb0();
 };
-BGSSaveLoadUI* __cdecl FUN_00a25920();
 class GameSettingCollection
 {
   public:
-    TESFile* FUN_004f8960();
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting16;
 class LoadingMenu
 {
   public:
@@ -337,54 +362,34 @@ class LoadingMenu
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
-    void FUN_00ad8740();
-    void FUN_00ad84e0(int, bool);
-    bool FUN_005bb4d0();
-    void SetUseMultipleThreads(bool);
     void Update(bool);
 };
-void __cdecl FUN_00830660();
 class GlobalObject_0096d020
 {
   public:
-    void FUN_00977660();
 };
-extern GlobalObject_0096d020 g_011e0e80;
 class NavMeshObstacleManager
 {
   public:
-    static NavMeshObstacleManager* GetSingleton();
-    void ResetObstacles();
-    void Update();
 };
 class PathManager
 {
   public:
-    static PathManager* GetRandomGenerator();
-    void FUN_006ebcd0();
     bool CallMemberFunction();
-    void CallInner();
 };
 
 class TESQueuedCellManager
 {
   public:
-    void SubmitQueuedItems();
 };
-extern TESQueuedCellManager* DAT_011c9618;
 void __cdecl FUN_005b4940();
-void __cdecl FUN_005ae270();
-void __cdecl FUN_005a9d60();
 class HUDMainMenu
 {
   public:
-    bool RefreshTargetDisplay();
 };
 class InventoryStackRecord
 {
   public:
-    void SetEquipmentState(bool, bool);
 };
 class NiPoint3Interpolator
 {
@@ -392,11 +397,9 @@ class NiPoint3Interpolator
     void CreateObject(int, bool);
 };
 class TimeGlobal;
-extern TimeGlobal g_timeGlobal;
 class GameTimerRecord
 {
   public:
-    void SetGlobalTimeMultiplier(float, bool);
 };
 class ScriptLocals
 {
@@ -409,9 +412,10 @@ class DownloadableContentManager
   public:
     const char* IsDLCAvailable();
 };
-extern GlobalObject_0040c150 g_011d38b8, g_011d3d0c;
+extern GlobalObject_0040c150 g_011d3d0c;
 extern const char DAT_0107fb78[];
 extern const char DAT_0107faf8[];
+class SaveLoadHeader;
 class BGSSaveLoadManager
 {
   public:
@@ -419,22 +423,24 @@ class BGSSaveLoadManager
     unsigned char m_cQueuedSaveLoad;
     unsigned char m_cAutosaveCountdown;
     unsigned char cQueuedQuicksave;
-    unsigned char reserved12[14];
+    unsigned char reserved12[0x2];
+    char* unk14;
+    int unk18;
+    unsigned char pad1c[0x4];
     SaveLoadFile* m_pSaveFile;
     bool m_bSaveOperationActive;
     bool m_bLoadOperationPending;
     bool m_bLoadingGame;
+    unsigned char pad27[0x9];
+    unsigned int unk30[2];
+    unsigned char pad38[0x754];
+    unsigned int unk78c;
     bool LoadGame(const char*, int, bool, bool);
     bool CanLoadSaveGame(SaveLoadFile*);
     void FinishLoadingGame();
     void ProcessQueuedLoads();
     void ProcessQueuedSaveLoad();
-    void Autosave();
-    void FUN_008503b0(const char*, int, bool);
     void FUN_00850a90();
-    void GetFullPath(char*, char*, bool);
-    void FUN_00850100(SaveLoadFile*, bool);
-    void SetSaveFileName(char*, int);
     static void GetSaveDirectory(char* output);
     bool IsQuickSaveFileName(const char* name);
     bool IsAutoSaveFileName(const char* name);
@@ -446,13 +452,11 @@ class BGSSaveLoadManager
     bool IsSaveFileNameCustom(const char*);
     void UpdateSaveTimestamp();
     static void BuildAutosaveName(char*);
+public:
+    void FUN_00850100(::SaveLoadHeader *, int);
 };
 extern const char DAT_0107fae0[];
-extern const char g_011d31e0_arg1[];
 extern GlobalObject_0040c150 g_011d4060;
-unsigned int gm_GetTickCount();
 unsigned int FUN_00702440();
-int FUN_00702400(unsigned int);
 unsigned int FUN_008510e0();
-extern const char DAT_01012058[];
 #endif

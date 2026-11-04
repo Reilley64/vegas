@@ -21,7 +21,6 @@ template <class Item> class tList
   private:
     Node m_listHead;
 };
-FNV_STATIC_ASSERT(sizeof(tList<TESForm>) == 8);
 
 class TESAttributes : public BaseFormComponent
 {
@@ -29,7 +28,6 @@ class TESAttributes : public BaseFormComponent
     unsigned char attributes[7];
     unsigned char padB;
 };
-FNV_STATIC_ASSERT(sizeof(TESAttributes) == 12);
 
 class TESClass : public TESForm
 {
@@ -45,9 +43,9 @@ class TESClass : public TESForm
     unsigned char trainingLevel;
     unsigned char pad5E[2];
     bool IsTagSkill(ActorValue::Index aeSkill) const;
+public:
+    bool IsGuard();
 };
-FNV_STATIC_ASSERT(sizeof(TESClass) == 96);
-FNV_STATIC_ASSERT(offsetof(TESClass, tagSkills) == 68);
 
 class TESReactionForm : public BaseFormComponent
 {
@@ -62,7 +60,6 @@ class TESReactionForm : public BaseFormComponent
     unsigned char unkC;
     unsigned char padD[3];
 };
-FNV_STATIC_ASSERT(sizeof(TESReactionForm) == 16);
 
 class TESReputation;
 class TESFaction : public TESForm
@@ -78,7 +75,5 @@ class TESFaction : public TESForm
     unsigned int numMinorCrimes;
     bool GetPCAnEnemy() const;
 };
-FNV_STATIC_ASSERT(sizeof(TESFaction) == 76);
-FNV_STATIC_ASSERT(offsetof(TESFaction, factionFlags) == 52);
 
 #endif

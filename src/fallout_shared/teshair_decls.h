@@ -3,6 +3,10 @@
 #define FNV_TESHAIR_DECLS_H
 
 
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004ac110_shell.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/symbols_0045b000.h"
 #include "TESForm.h"
 
 class TESActorBase;
@@ -23,31 +27,26 @@ template <> class BSSimpleList<BGSQuestObjective*>
   public:
     BGSQuestObjective* m_item;
     BSSimpleList<BGSQuestObjective*>* m_pkNext;
-    bool IsInList(BGSQuestObjective*& item);
 };
 
 class TESHairRaceResult
 {
   public:
-    BSSimpleList<BGSQuestObjective*>* FUN_0045bb80();
 };
 
 class TESHairCanBeNPCData
 {
   public:
-    TESHairRaceResult* FUN_004ac110();
 };
 
 class TESTextureLoader
 {
   public:
-    static void ReadTextureData(TESTexture* texture, TESFile* file);
 };
 
 class TESFileFormInt
 {
   public:
-    int GetTESForm();
 };
 
 #endif

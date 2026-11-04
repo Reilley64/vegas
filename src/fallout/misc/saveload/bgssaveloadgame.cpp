@@ -1,5 +1,155 @@
 // fallout/misc/saveload/bgssaveloadgame.cpp: BGSSaveLoadGame, DelStandIn, BGSSaveLoadGameImpl, FakeGame and more (59 functions)
 
+#include "fnv/tls.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/B45CDA0TES.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSChangeFlagsEx.h"
+#include "fnv/decl/BGSChangeFlagsState.h"
+#include "fnv/decl/BGSLoadGameBuffer.h"
+#include "fnv/decl/BGSSaveLoadInitialDataPacket.h"
+#include "fnv/decl/BGSSaveLoadManager.h"
+#include "fnv/decl/BSFlags.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Buffer866.h"
+#include "fnv/decl/C6A870_Self.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/Calendar.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_004226e0_shell.h"
+#include "fnv/decl/FUN_00428130_Class.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00440e30_This.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_00456520_Class.h"
+#include "fnv/decl/FUN_00459920_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004623f0_shell.h"
+#include "fnv/decl/FUN_0046a010_shell.h"
+#include "fnv/decl/FUN_00485c10_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00546af0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_00587e40_shell.h"
+#include "fnv/decl/FUN_007d6bd0_Class.h"
+#include "fnv/decl/FUN_00841100_shell.h"
+#include "fnv/decl/FUN_00843750_shell.h"
+#include "fnv/decl/FUN_00843bb0_shell.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_00845960_shell.h"
+#include "fnv/decl/FUN_00846330_shell.h"
+#include "fnv/decl/FUN_00846490_t.h"
+#include "fnv/decl/FUN_00846e70_shell.h"
+#include "fnv/decl/FUN_008471f0.h"
+#include "fnv/decl/FUN_00847db0_shell.h"
+#include "fnv/decl/FUN_00848cf0_Class.h"
+#include "fnv/decl/FUN_00849220_shell.h"
+#include "fnv/decl/FUN_00849240_class.h"
+#include "fnv/decl/FUN_0084b450_Class.h"
+#include "fnv/decl/FUN_0084b490_class.h"
+#include "fnv/decl/FUN_0084df30.h"
+#include "fnv/decl/FUN_0084e2c0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0084e6a0_shell.h"
+#include "fnv/decl/FUN_0084fec0_shell.h"
+#include "fnv/decl/FUN_00851110_shell.h"
+#include "fnv/decl/FUN_00852950_shell.h"
+#include "fnv/decl/FUN_00852c00_shell.h"
+#include "fnv/decl/FUN_00852cd0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_008644b0_shell.h"
+#include "fnv/decl/FUN_00864580_shell.h"
+#include "fnv/decl/FUN_00864740_shell.h"
+#include "fnv/decl/FUN_00865a30_owner.h"
+#include "fnv/decl/FUN_00865c40_shell.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00865e70_shell.h"
+#include "fnv/decl/FUN_008663e0_shell.h"
+#include "fnv/decl/FUN_00866480_shell.h"
+#include "fnv/decl/FUN_00866570_Class.h"
+#include "fnv/decl/FUN_008665d0_class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00c3e310_shell.h"
+#include "fnv/decl/FUN_00c3e340_cls.h"
+#include "fnv/decl/HashMap.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/LoadGameSubBufferQueue.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/MapH.h"
+#include "fnv/decl/NavMeshInfoArray84E.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/ReconstructMapHelper.h"
+#include "fnv/decl/ReferencePlacementData.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/S_00864540.h"
+#include "fnv/decl/SaveLoadFile.h"
+#include "fnv/decl/TESCallHelper.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0086cf00.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WorldReference.h"
+#include "fnv/decl/WorldSpaceRefShell.h"
+#include "fnv/decl/_FUN_00822510_Class.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
+#include "fnv/decl/fnv_0054ca90__Cell.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/decl/fnv_00570f00__FUN_00570f00_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00587550__FUN_00587550_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00843330__ArrSI.h"
+#include "fnv/decl/fnv_00843630__FUN_00843630_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_00846e00__FUN_00846e00_cls.h"
+#include "fnv/decl/fnv_0084b5c0__FUN_0084b5c0_Array.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008649a0__FUN_008649a0_shell.h"
+#include "fnv/decl/fnv_00865ad0__BGSSaveFormBuffer.h"
+#include "fnv/decl/fnv_00893340__FUN_00893340_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00526000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00587000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_00846000.h"
+#include "fnv/symbols_00847000.h"
+#include "fnv/symbols_00848000.h"
+#include "fnv/symbols_00849000.h"
+#include "fnv/symbols_0084b000.h"
+#include "fnv/symbols_0084c000.h"
+#include "fnv/symbols_0084f000.h"
+#include "fnv/symbols_00853000.h"
+#include "fnv/symbols_00867000.h"
+#include "fnv/symbols_00b60000.h"
+#include "fnv/symbols_00c6b000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_01202000.h"
 #include "bgssaveloadgame_decls.h"
 // @fnv 0x00847570
 unsigned char BGSSaveLoadGame::GetLoadState()
@@ -9,18 +159,18 @@ unsigned char BGSSaveLoadGame::GetLoadState()
 // @fnv 0x00849ce0
 bool BGSSaveLoadGame::ContainsReference(unsigned int formID)
 {
-    return ((NiTPointerMap<unsigned int, TESObjectREFR*>*)this)->GetAt(formID, (TESObjectREFR*&)formID);
+    return reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, TESObjectREFR*>*)this)))->FUN_00853130(formID, (::fnv_00853130::CombatThreatRecord *&)((TESObjectREFR*&)formID));
 }
 // @fnv 0x0084a6d0
 bool BGSSaveLoadGame::HasFormChangeFlags(TESForm* form, FormChangeMask flags)
 {
-    return m_pFormChangesMap->ContainsChangeFlags(form->GetFormID(), flags);
+    return m_pFormChangesMap->ContainsChangeFlags(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())), flags);
 }
 // Returns true if changes are allowed and the form is not temporary; otherwise false.
 // @fnv 0x0084a740
 bool BGSSaveLoadGame::IsFormChanged(TESForm* form)
 {
-    if (!GetAllowChanges() || form->IsTemporary())
+    if (!reinterpret_cast<::fnv_00570f00::FUN_00570f00_shell *>(this)->FUN_00570f00() || reinterpret_cast<::FUN_004077c0_shell *>((void *)(form))->FUN_004077c0())
         return false;
     return true;
 }
@@ -29,14 +179,14 @@ void BGSSaveLoadGame::ClearFormChangeFlags(TESForm* form, FormChangeMask flags)
 {
     if (!IsFormChanged(form))
         return;
-    m_pFormChangesMap->ClearChangeFlags(form->GetFormID(), flags);
+    m_pFormChangesMap->ClearChangeFlags(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())), flags);
 }
 // @fnv 0x0084a690
 void BGSSaveLoadGame::NotifyFormIDChanged(TESForm* form, FormChangeMask flags, bool force)
 {
     if (!ShouldSaveForm(form, force))
         return;
-    m_pFormChangesMap->AddFormChangeFlags(form->GetFormID(), flags);
+    m_pFormChangesMap->AddFormChangeFlags(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())), flags);
 }
 // @fnv 0x0084a7c0
 void BGSSaveLoadGame::HasFormChanges(TESForm* form)
@@ -46,9 +196,9 @@ void BGSSaveLoadGame::HasFormChanges(TESForm* form)
         unsigned int formID;
         FormChangeRecord* changes;
     } state;
-    state.formID = form->GetFormID();
+    state.formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0()));
     state.changes = m_pFormChangesMap->FUN_009a4250(state.formID);
-    if (state.changes && !state.changes->savedFlags.FUN_00559450())
+    if (state.changes && !((unsigned int)(::FUN_00559450((int *)&(state.changes->savedFlags)))))
         m_pFormChangesMap->HasFormChanges(state.formID);
 }
 // @fnv 0x0084a5b0
@@ -60,47 +210,27 @@ void BGSSaveLoadGame::ClearFormChanges()
         Actor* actor;
         void* pos;
     } state;
-    state.pos = ((BGSReconstructFormsInAllFilesMap*)((char*)this + 0x34))->GetFirstPos();
+    state.pos = (&this->unk34)->GetFirstPos();
     while (state.pos)
     {
         state.formID = 0;
         state.actor = 0;
-        ((BGSReconstructFormsInAllFilesMap*)((char*)this + 0x34))
-            ->GetNext(state.pos, (TESFile*&)state.formID, (BGSReconstructFormsInFileMap*&)state.actor);
-        if (state.actor->GetProcess())
-            state.actor->UpdateActorMovementState(true);
+        reinterpret_cast<::C6b7f20_Map *>(((&this->unk34)))->FUN_006b7f20((::C6b7f20_Node **)&(state.pos), (unsigned int *)&((TESFile*&)state.formID), (void **)&((BGSReconstructFormsInFileMap*&)state.actor));
+        if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((state.actor))->GetBaseTexture())))
+            reinterpret_cast<::fnv_00893340::FUN_00893340_shell *>((state.actor))->FUN_00893340(true);
     }
-    ((NiTPointerMap<unsigned int, unsigned int>*)((char*)this + 0x34))->RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>(((NiTPointerMap<unsigned int, unsigned int>*)&this->unk34))->FUN_00438af0();
 }
 // @fnv 0x0084a620
 bool BGSSaveLoadGame::ShouldSaveForm(TESForm* form, bool force)
 {
-    if ((!GetAllowChanges() && !force) || form->IsTemporary())
+    if ((!reinterpret_cast<::fnv_00570f00::FUN_00570f00_shell *>(this)->FUN_00570f00() && !force) || reinterpret_cast<::FUN_004077c0_shell *>((void *)(form))->FUN_004077c0())
         return false;
-    unsigned int formID = form->GetFormID();
-    if (form->IsDeleted() && reinterpret_cast<TESDataHandlerSaveLoad*>(g_dataHandler)->FormIDExists(formID))
+    unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0()));
+    if (reinterpret_cast<::FUN_00440d80_shell *>((void *)(form))->FUN_00440d80() && reinterpret_cast<::BSShaderRenderUtility *>((reinterpret_cast<TESDataHandlerSaveLoad*>((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->IsRenderTargetId(formID))
         return false;
     return true;
 }
-// @fnv 0x00849b10
-void BGSSaveLoadGame::FormReconstructionMap(TESObjectCELL* cell)
-{
-    if (FUN_0042ce10())
-        return;
-    LoadForm(reinterpret_cast<TESForm*>(cell));
-    BGSReconstructFormsInAllFilesMap forms;
-    m_pReferencesMap->LoadCellReferences(cell, &forms);
-    FUN_00849c00(true);
-    forms.BuildMap();
-    FUN_00849c00(false);
-    unsigned int iCount = forms.FUN_00849c80();
-    for (unsigned int index = 0; index < iCount; ++index)
-    {
-        TESForm* form = forms.FUN_00849ca0(index);
-        LoadForm(form);
-    }
-}
-
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct SaveLoadFile;
@@ -125,8 +255,9 @@ struct FormBufferContext
     void ReleaseBuffer();
     void ResetReadPosition();
     char* pBuffer;
+public:
+    char *FUN_00866390();
 };
-typedef char _sizecheck_BGSUnloadedFormBuffer[sizeof(FormBufferContext) == 4 ? 1 : -1];
 struct FUN_006665a0_shell : public FormBufferContext
 {
     void FUN_006665a0();
@@ -138,12 +269,11 @@ void FUN_006665a0_shell::FUN_006665a0()
     pBuffer = 0;
 }
 
-void* __cdecl memset(void*, int, unsigned int);
 
 // @fnv 0x00847d50
-void* __fastcall ClearObject(void* apObject)
+void* ClearObject(void* apObject)
 {
-    memset(apObject, 0, 0x6e);
+    ::FUN_00403d30(apObject, 0, 0x6e);
     return apObject;
 }
 
@@ -156,9 +286,9 @@ struct FUN_00848ca0_shell : public BGSSaveLoadGame
 void FUN_00848ca0_shell::FUN_00848ca0(bool abValue)
 {
     if (abValue)
-        *(unsigned int*)((char*)this + 0x244) |= 2;
+        this->unk244 |= 2;
     else
-        *(unsigned int*)((char*)this + 0x244) &= ~2;
+        this->unk244 &= ~2;
 }
 
 namespace fnv_00848dd0 {
@@ -208,7 +338,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -245,7 +374,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     FormChangeMask m_cReservedBytes;
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_00848dd0_shell : public BGSLoadFormBuffer
 {
     bool FUN_00848dd0();
@@ -261,12 +389,15 @@ bool FUN_00848dd0_shell::FUN_00848dd0()
 struct FUN_00848df0_shell : public TESDataHandler
 {
     void FUN_00848df0(bool);
+    char pad01[0x621];
+    bool unk621;
+    char pad622[0x1];
 };
 
 // @fnv 0x00848df0
 void FUN_00848df0_shell::FUN_00848df0(bool abValue)
 {
-    *((bool*)((char*)this + 0x621)) = abValue;
+    this->unk621 = abValue;
 }
 
 struct FUN_00849540_shell : public BGSSaveLoadGame
@@ -278,19 +409,26 @@ struct FUN_00849540_shell : public BGSSaveLoadGame
 void FUN_00849540_shell::SetFlag8(bool abValue)
 {
     if (abValue)
-        *(unsigned int*)((char*)this + 0x244) |= 8;
+        this->unk244 |= 8;
     else
-        *(unsigned int*)((char*)this + 0x244) &= ~8;
+        this->unk244 &= ~8;
 }
 
-// @fnv 0x00849590
-bool __fastcall FUN_00849590(int pObject)
+// The object FUN_00849590 tests, as far as it reads it.
+struct FUN_00849590_Object
 {
-    return (*(unsigned int*)(pObject + 0x28) & 0x10) ? true : false;
+    char pad00[0x28];
+    unsigned int unk28;
+};
+
+// @fnv 0x00849590
+bool FUN_00849590(const void* pObject)
+{
+    return (static_cast<const FUN_00849590_Object*>(pObject)->unk28 & 0x10) ? true : false;
 }
 
 // @fnv 0x008495b0
-void __fastcall FUN_008495b0(char* pThis)
+void FUN_008495b0(char* pThis)
 {
     *reinterpret_cast<int*>(pThis + 0x68) = 5;
 }
@@ -300,21 +438,14 @@ struct FUN_00849c00_shell : public BGSSaveLoadGame
     void FUN_00849c00(bool);
 };
 
-struct TLSData_00849c00
-{
-    char pad[0x294];
-    unsigned int uiFlags;
-};
-
-static __declspec(thread) TLSData_00849c00 g_tlsData_00849c00;
 
 // @fnv 0x00849c00
 void FUN_00849c00_shell::FUN_00849c00(bool abValue)
 {
     if (abValue)
-        g_tlsData_00849c00.uiFlags |= 2;
+        ::g_tlsBlock.threadFlags |= 2;
     else
-        g_tlsData_00849c00.uiFlags &= ~2;
+        ::g_tlsBlock.threadFlags &= ~2;
 }
 
 struct FUN_00849c80_shell : public BGSReconstructFormsInAllFilesMap
@@ -322,14 +453,10 @@ struct FUN_00849c80_shell : public BGSReconstructFormsInAllFilesMap
     unsigned int FUN_00849c80();
 };
 
-struct FormChangeMap
-{
-    unsigned int GetCombinedFlags();
-};
 // @fnv 0x00849c80
 unsigned int FUN_00849c80_shell::FUN_00849c80()
 {
-    return ((FormChangeMap*)((char*)this + 0x10))->GetCombinedFlags();
+    return reinterpret_cast<::FUN_00843bb0_shell *>((&this->unk10))->GetCombinedFlags();
 }
 
 struct ST_00849cc0
@@ -352,15 +479,13 @@ struct FUN_0084a580_shell : public BGSSaveLoadGame
 template <> class NiTPointerMap<unsigned int, void*>
 {
   public:
-    bool RemoveAt(unsigned int);
 };
 
 // Removes the actor's form ID from the pointer map at offset 0x34 of this object.
 // @fnv 0x0084a580
 void FUN_0084a580_shell::RemoveActorFromMap(Actor* apActor)
 {
-    reinterpret_cast<NiTPointerMap<unsigned int, void*>*>(reinterpret_cast<char*>(this) + 0x34)
-        ->RemoveAt(reinterpret_cast<TESForm*>(apActor)->GetFormID());
+    reinterpret_cast<::NiTMap_S *>((reinterpret_cast<NiTPointerMap<unsigned int, void*>*>(&this->unk34)))->RemoveKey(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(apActor)))->FUN_0084e3a0())));
 }
 
 namespace fnv_0084a810 {
@@ -410,7 +535,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -447,7 +571,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     FormChangeMask m_cReservedBytes;
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_0084a810_shell : public BGSSaveLoadGame
 {
     void FUN_0084a810(int, BGSLoadFormBuffer*, TESForm*);
@@ -457,14 +580,10 @@ enum QUEUED_SUB_BUFFER_TYPE
 {
     QSB_DUMMY
 };
-struct LoadGameSubBufferQueue
-{
-    void ProcessSubBuffer(QUEUED_SUB_BUFFER_TYPE, BGSLoadFormBuffer*, TESForm*);
-};
 // @fnv 0x0084a810
 void FUN_0084a810_shell::FUN_0084a810(int type, BGSLoadFormBuffer* buffer, TESForm* form)
 {
-    (*(LoadGameSubBufferQueue**)((char*)this + 0x14))->ProcessSubBuffer((QUEUED_SUB_BUFFER_TYPE)type, buffer, form);
+    this->unk14->ProcessSubBuffer((*(::QUEUED_SUB_BUFFER_TYPE *)&(const ::fnv_0084a810::QUEUED_SUB_BUFFER_TYPE &)((QUEUED_SUB_BUFFER_TYPE)type)), (::BGSLoadFormBuffer *)(buffer), form);
 }
 }  // namespace fnv_0084a810
 
@@ -515,7 +634,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -552,26 +670,22 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     FormChangeMask m_cReservedBytes;
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_008665b0_shell : public BGSLoadFormBuffer
 {
     int FUN_008665b0();
 };
 
-int __fastcall FUN_00853640(void* pThis);
 
 // @fnv 0x008665b0
 int FUN_008665b0_shell::FUN_008665b0()
 {
-    return FUN_00853640((char*)this + 0x1b);
+    return ::FUN_00853640((unsigned char *)(void *)((char*)&this->Header[7]));
 }
 }  // namespace fnv_008665b0
 
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
-    void FUN_0083dec0();
 };
 struct DelStandIn
 {
@@ -581,9 +695,9 @@ struct DelStandIn
 // @fnv 0x00847450
 void* DelStandIn::FUN_00847450(unsigned int flags)
 {
-    ((DtorStandIn*)this)->FUN_0083dec0();
+    reinterpret_cast<::FUN_0084df30 *>((((DtorStandIn*)this)))->FUN_0084df30::~FUN_0084df30();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
@@ -620,7 +734,6 @@ struct SaveLoadFile
     unsigned int m_uiBufferSize;
     unsigned int m_uiFilePosition;
 };
-typedef char _sizecheck_BGSSaveLoadFile[sizeof(SaveLoadFile) == 272 ? 1 : -1];
 struct BGSLoadGameBuffer
 {
     virtual unsigned char GetVersion();
@@ -657,7 +770,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -694,7 +806,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     FormChangeMask m_cReservedBytes;
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FormIDConverter
 {
     void Clear();
@@ -709,7 +820,6 @@ struct FormIDConverter
     char m_kTargetToSourceFormIDMap[16];
     unsigned int m_uiFormIDCount;
 };
-typedef char _sizecheck_BGSSaveLoadFormIDMap[sizeof(FormIDConverter) == 36 ? 1 : -1];
 struct FUN_00849d00_shell : public BGSSaveLoadGame
 {
     unsigned int LoadFormData(SaveLoadFile*, BGSLoadFormBuffer*, FormIDConverter*);
@@ -718,22 +828,18 @@ struct FUN_00849d00_shell : public BGSSaveLoadGame
 struct NiPoint3
 {
     float x, y, z;
-    static const NiPoint3 ZERO;
 };
 struct TESWorldSpace;
 struct ChangeFlagsT
 {
     unsigned int iFlags;
     ChangeFlagsT(int flags);
-    unsigned int FUN_00559450();
     static ChangeFlagsT HasFormChanged(ChangeFlagsT oldFlags, ChangeFlagsT newFlags, int formType, bool forced);
 };
 struct FormBufferContext
 {
     void* pData;
     FormBufferContext();
-    void* FUN_00559450();
-    void* FUN_00866390();
 };
 struct BGSSaveLoadInitialDataPacket
 {
@@ -750,8 +856,6 @@ struct ReferencePlacementData
     NiPoint3 kAngle;
     unsigned char cFlags;
     ReferencePlacementData();
-    bool GetCellAndWorld(TESObjectCELL*& cell, TESWorldSpace*& world);
-    void FUN_0084e6a0(TESObjectCELL*& cell, TESWorldSpace*& world);
 };
 struct TESObjectREFR
 {
@@ -834,9 +938,6 @@ struct TESObjectREFR
     virtual void Unk_4C();
     virtual void Unk_4D();
     virtual bool GetStartingPosition(NiPoint3* location, NiPoint3* angle, TESForm** space, TESForm* defaultSpace);
-    bool GetReferencePersistence();
-    TESForm* GetObjectReference();
-    TESObjectCELL* GetParentCell();
 };
 struct TESFormH
 {
@@ -844,30 +945,21 @@ struct TESFormH
 };
 struct TESObjectCELLH
 {
-    bool IsInterior();
-    void RemoveReference(TESObjectREFR* ref);
 };
 struct TESWorldSpace
 {
-    TESObjectCELL* GetCellByWorldPosition(const NiPoint3& location);
 };
 struct TES
 {
-    bool IsCellBuffered(TESObjectCELL* cell, bool unk);
 };
-extern TES* g_TES;
-extern TESObjectREFR* g_thePlayer;
 struct LoadFormBufferH : public BGSLoadFormBuffer
 {
-    int FUN_008665b0();
-    unsigned int FUN_0044edb0();
     ChangeFlagsT GetChangeFlags();
     ChangeFlagsT GetOldChangeFlags();
     void SetForm(TESForm* form);
     void SetChangeFlags(ChangeFlagsT flags);
     void FUN_00848d90(bool value);
     void FUN_0084a360(bool value);
-    void CombineFlags(bool value);
 };
 struct ChangesMapH
 {
@@ -877,17 +969,12 @@ struct ReferencesMapH
 {
     void ForwardToMember(unsigned int locationID, unsigned int formID);
     void SetAtKey(unsigned int formID);
-    void AddReferenceToCell(unsigned int locationID, unsigned int formID, NiPoint3* location);
 };
 struct ReconstructFormsH
 {
-    void FUN_00843750(TESObjectCELL* cell, unsigned int formID, bool unk);
-    void FUN_008438b0(TESWorldSpace* world, int x, int y, unsigned int formID, bool unk);
 };
 unsigned int __cdecl FUN_0084e850(SaveLoadFile* file, int type, ReferencePlacementData* data);
-TESForm* __cdecl ResolveReferenceForm(unsigned int formID, ReferencePlacementData* data, TESForm* form);
 int __cdecl FUN_0084e930(void* buffer, int type, ReferencePlacementData* data);
-void __cdecl LogWarning(const char* format, ...);
 struct BGSSaveLoadGameImpl : public BGSSaveLoadGame
 {
     unsigned int LoadFormData(SaveLoadFile* apFile, LoadFormBufferH* apLoadGameBuffer, FormIDConverter* apOldFormIDMap);
@@ -900,10 +987,10 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
                                                FormIDConverter* apOldFormIDMap)
 {
     unsigned int idataSizeLoaded = 0;
-    int eformType = apLoadGameBuffer->FUN_008665b0();
+    int eformType = reinterpret_cast<::fnv_008665b0::FUN_008665b0_shell *>((apLoadGameBuffer))->FUN_008665b0();
     ChangeFlagsT ichangeFlags = apLoadGameBuffer->GetChangeFlags();
     ChangeFlagsT ioldChangeFlags = apLoadGameBuffer->GetOldChangeFlags();
-    unsigned int iformID = apLoadGameBuffer->FUN_0044edb0();
+    uintptr_t iformID = ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((apLoadGameBuffer))->FUN_0044edb0()));
     TESForm* pform = apLoadGameBuffer->GetForm();
     int einitialDataType = BGSSaveLoadInitialDataPacket::DetermineInitialDataType(iformID, eformType, ichangeFlags);
     if (einitialDataType == 5 || einitialDataType == 6)
@@ -923,22 +1010,22 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
             else
             {
                 pref = (TESObjectREFR*)pform;
-                if (einitialDataType == 5 && pref->GetObjectReference()->GetFormID() != refData.iBaseFormID)
+                if (einitialDataType == 5 && ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pref))->FUN_007af430()))))->FUN_0084e3a0())) != refData.iBaseFormID)
                     bclearForm = true;
             }
             if (bclearForm)
             {
                 FUN_0084a880(pform);
-                apLoadGameBuffer->SetForm(0);
-                apLoadGameBuffer->SetChangeFlags(0);
+                reinterpret_cast<::TESRecipe *>((apLoadGameBuffer))->SetRequiredSkill((::ActorValue::Index)(0));
+                reinterpret_cast<::Twin_0086cf00 *>((apLoadGameBuffer))->SetD3DPixelShader((*(::GeometryRelatedType *const *)&(const ::fnv_00849d00::ChangeFlagsT &)(0)));
                 pform = 0;
                 pref = 0;
             }
         }
         pcell = 0;
         TESWorldSpace* pworld = 0;
-        refData.GetCellAndWorld(pcell, pworld);
-        if ((pcell && g_TES->IsCellBuffered(pcell, false)) || (refData.cFlags & 2))
+        reinterpret_cast<::ReferencePlacementData *>(&(refData))->GetCellAndWorld(pcell, (::TESWorldSpace *&)(pworld));
+        if ((pcell && reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00849d00::TES * *>(&::g_TES))))->IsCellBuffered(pcell, false)) || (refData.cFlags & 2))
         {
             if (einitialDataType == 5)
             {
@@ -946,14 +1033,14 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
                 {
                     ChangeFlagsT iunrevertibleChanges =
                         ChangeFlagsT::HasFormChanged(ioldChangeFlags, ichangeFlags, eformType, true);
-                    if (iunrevertibleChanges.FUN_00559450())
+                    if (((unsigned int)(::FUN_00559450((int *)&(iunrevertibleChanges)))))
                     {
                         DeleteForm(pform);
                         pform = 0;
-                        apLoadGameBuffer->SetChangeFlags(0);
+                        reinterpret_cast<::Twin_0086cf00 *>((apLoadGameBuffer))->SetD3DPixelShader((*(::GeometryRelatedType *const *)&(const ::fnv_00849d00::ChangeFlagsT &)(0)));
                     }
                 }
-                pform = ResolveReferenceForm(iformID, &refData, pform);
+                pform = ::ResolveReferenceForm(iformID, (::ReferencePlacementData *)(::fnv_00849d00::ReferencePlacementData *)(&refData), pform);
                 if (pform)
                     apLoadGameBuffer->SetForm(pform);
                 else
@@ -961,19 +1048,18 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
             }
             else if (einitialDataType == 6 && !pform)
             {
-                refData.FUN_0084e6a0(pcell, pworld);
+                reinterpret_cast<::FUN_0084e6a0_shell *>(&(refData))->FUN_0084e6a0(pcell, (::TESWorldSpace *&)(pworld));
                 if (pcell)
-                    (*(ReconstructFormsH**)((char*)this + 0x20))->FUN_00843750(pcell, iformID, false);
+                    reinterpret_cast<::FUN_00843750_shell *>(((ReconstructFormsH*)this->unk20))->FUN_00843750((::FUN_00843750_Form *)(pcell), iformID, false);
                 else
-                    (*(ReconstructFormsH**)((char*)this + 0x20))
-                        ->FUN_008438b0(pworld, refData.m_iGridPositionX, refData.m_iGridCoordinateY, iformID, false);
-                apLoadGameBuffer->CombineFlags(true);
+                    reinterpret_cast<::ReconstructMapHelper *>(((ReconstructFormsH*)this->unk20))->FUN_008438b0((::ExtendedForm *)(pworld), refData.m_iGridPositionX, refData.m_iGridCoordinateY, iformID, false);
+                reinterpret_cast<::BGSChangeFlagsState *>((apLoadGameBuffer))->CombineFlags(true);
                 apLoadGameBuffer->FUN_0084a360(true);
             }
         }
-        else if (!pref || (!pref->GetReferencePersistence() && pref != g_thePlayer))
+        else if (!pref || (!reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((pref))->FUN_005653d0() && pref != (*reinterpret_cast<::fnv_00849d00::TESObjectREFR * *>(&::_g_thePlayer))))
         {
-            if (pcell && ((TESObjectCELLH*)pcell)->IsInterior())
+            if (pcell && reinterpret_cast<::TESObjectCELL *>((((TESObjectCELLH*)pcell)))->IsCellInterior())
             {
                 ((ReferencesMapH*)m_pReferencesMap)->ForwardToMember(refData.iLocationFormID, iformID);
                 if (einitialDataType == 6)
@@ -981,25 +1067,24 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
             }
             else if (pworld)
             {
-                ((ReferencesMapH*)m_pReferencesMap)
-                    ->AddReferenceToCell(refData.iLocationFormID, iformID, &refData.kTargetPoint);
+                reinterpret_cast<::FUN_00852c00_shell *>((((ReferencesMapH*)m_pReferencesMap)))->AddReferenceToCell(refData.iLocationFormID, iformID, (*(const ::NiPoint3 *)(&refData.kTargetPoint)));
                 if (einitialDataType == 6)
                     ((ReferencesMapH*)m_pReferencesMap)->SetAtKey(iformID);
             }
             else
             {
-                LogWarning(
+                ::FUN_00845cc0(
                     "CELLS: Worldspace or Cell %08X could not be found while loading a %s reference.  Its loading will be skipped.",
                     refData.iLocationFormID, einitialDataType == 5 ? "created" : "moved");
                 apLoadGameBuffer->FUN_00848d90(true);
             }
             if (pref)
             {
-                if (pref->GetParentCell())
-                    ((TESObjectCELLH*)pref->GetParentCell())->RemoveReference(pref);
+                if (((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((pref))->GetTarget())))
+                    reinterpret_cast<::fnv_0054ca90::Cell *>((((TESObjectCELLH*)((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((pref))->GetTarget())))))->FUN_0054ca90((::fnv_0054ca90::Ref *)(pref));
                 DeleteForm(pform);
                 pform = 0;
-                apLoadGameBuffer->SetForm(0);
+                reinterpret_cast<::TESRecipe *>((apLoadGameBuffer))->SetRequiredSkill((::ActorValue::Index)(0));
             }
         }
     }
@@ -1012,32 +1097,32 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
             if (!pform)
             {
                 FormBufferContext unloadedFormBuffer = ((ChangesMapH*)m_pFormChangesMap)->FUN_00845760(iformID);
-                if (unloadedFormBuffer.FUN_00559450())
+                if (((void *)(::FUN_00559450((int *)&(unloadedFormBuffer)))))
                 {
-                    FormIDConverter* pcurrentFormIDMap = *(FormIDConverter**)((char*)this + 8);
-                    *(FormIDConverter**)((char*)this + 8) = apOldFormIDMap;
+                    FormIDConverter* pcurrentFormIDMap = (FormIDConverter*)this->unk08;
+                    this->unk08 = apOldFormIDMap;
                     ReferencePlacementData refData;
-                    FUN_0084e930(unloadedFormBuffer.FUN_00866390(), eoldInitialDataType, &refData);
+                    FUN_0084e930(((void *)(reinterpret_cast<::FormBufferContext *>(&(unloadedFormBuffer))->FUN_00866390())), eoldInitialDataType, &refData);
                     TESObjectCELL* pcell = 0;
                     TESWorldSpace* pworld = 0;
-                    refData.FUN_0084e6a0(pcell, pworld);
-                    if (pcell && g_TES->IsCellBuffered(pcell, false))
+                    reinterpret_cast<::FUN_0084e6a0_shell *>(&(refData))->FUN_0084e6a0(pcell, (::TESWorldSpace *&)(pworld));
+                    if (pcell && reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00849d00::TES * *>(&::g_TES))))->IsCellBuffered(pcell, false))
                     {
-                        (*(ReconstructFormsH**)((char*)this + 0x20))->FUN_00843750(pcell, iformID, false);
-                        apLoadGameBuffer->CombineFlags(true);
+                        reinterpret_cast<::FUN_00843750_shell *>(((ReconstructFormsH*)this->unk20))->FUN_00843750((::FUN_00843750_Form *)(pcell), iformID, false);
+                        reinterpret_cast<::BGSChangeFlagsState *>((apLoadGameBuffer))->CombineFlags(true);
                         apLoadGameBuffer->FUN_0084a360(true);
                     }
-                    *(FormIDConverter**)((char*)this + 8) = pcurrentFormIDMap;
+                    this->unk08 = pcurrentFormIDMap;
                 }
             }
             else if (((TESObjectREFR*)pform)->IsReference())
             {
                 TESObjectREFR* pref = (TESObjectREFR*)pform;
-                if (!pref->GetReferencePersistence())
+                if (!reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((pref))->FUN_005653d0())
                 {
                     TESForm* pspace = 0;
-                    NiPoint3 loc = NiPoint3::ZERO;
-                    NiPoint3 angle = NiPoint3::ZERO;
+                    NiPoint3 loc = (*reinterpret_cast<const ::fnv_00849d00::NiPoint3 *>((void *)&::NiPoint3::ZERO));
+                    NiPoint3 angle = (*reinterpret_cast<const ::fnv_00849d00::NiPoint3 *>((void *)&::NiPoint3::ZERO));
                     bool bdeleteRef = false;
                     if (!pref->GetStartingPosition(&loc, &angle, &pspace, 0))
                     {
@@ -1049,20 +1134,20 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
                         if (((TESFormH*)pspace)->GetFormType() == 0x41)
                         {
                             TESWorldSpace* pworld = (TESWorldSpace*)pspace;
-                            pcell = pworld->GetCellByWorldPosition(loc);
+                            pcell = reinterpret_cast<::fnv_00587550::FUN_00587550_shell *>((pworld))->FUN_00587550((const ::fnv_00587550::NiPoint3 &)(loc));
                         }
                         else
                         {
                             pcell = (TESObjectCELL*)pspace;
                         }
-                        if (!pcell || !g_TES->IsCellBuffered(pcell, false))
+                        if (!pcell || !reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00849d00::TES * *>(&::g_TES))))->IsCellBuffered(pcell, false))
                             bdeleteRef = true;
                     }
                     if (bdeleteRef)
                     {
                         DeleteForm(pform);
-                        apLoadGameBuffer->SetForm(0);
-                        apLoadGameBuffer->SetChangeFlags(0);
+                        reinterpret_cast<::TESRecipe *>((apLoadGameBuffer))->SetRequiredSkill((::ActorValue::Index)(0));
+                        reinterpret_cast<::Twin_0086cf00 *>((apLoadGameBuffer))->SetD3DPixelShader((*(::GeometryRelatedType *const *)&(const ::fnv_00849d00::ChangeFlagsT &)(0)));
                         pform = 0;
                     }
                 }
@@ -1093,12 +1178,12 @@ struct FUN_00848d90_shell
 {
     unsigned int pad[10];  // 0x00 - 0x27
     unsigned int m_flags;  // 0x28 - 0x2B
-    void __thiscall FUN_00848d90(bool value);
+    void FUN_00848d90(bool value);
 };
 
 // Sets or clears bit 0 of m_flags according to value.
 // @fnv 0x00848d90
-void __thiscall FUN_00848d90_shell::FUN_00848d90(bool abSet)
+void FUN_00848d90_shell::FUN_00848d90(bool abSet)
 {
     if (abSet)
         m_flags |= 1;
@@ -1106,8 +1191,6 @@ void __thiscall FUN_00848d90_shell::FUN_00848d90(bool abSet)
         m_flags &= ~1;
 }
 
-void* __cdecl operator new(unsigned int);
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 void __cdecl FUN_008535e0();
 
 struct FUN_00846f30 : BGSSaveLoadGame
@@ -1119,22 +1202,21 @@ struct FUN_00846f30 : BGSSaveLoadGame
 // @fnv 0x00847480
 void CreateSaveLoadGame()
 {
-    g_BGSSaveLoadGame = new FUN_00846f30;
+    ::g_BGSSaveLoadGame = new FUN_00846f30;
     FUN_008535e0();
 }
 
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 struct FUN_00847540_shell
 {
-    BGSSaveLoadGame* __thiscall FUN_00847540(int arg1);
+    BGSSaveLoadGame* FUN_00847540(int arg1);
 };
 
 // Calls FUN_00847540(1) on g_BGSSaveLoadGame if set, then clears g_BGSSaveLoadGame to null.
 // @fnv 0x00847500
 void FUN_00847500()
 {
-    BGSSaveLoadGame* local2 = g_BGSSaveLoadGame;
+    BGSSaveLoadGame* local2 = ::g_BGSSaveLoadGame;
     BGSSaveLoadGame* local_c = local2;
     BGSSaveLoadGame* local_4;
     if (local_c)
@@ -1145,22 +1227,18 @@ void FUN_00847500()
     {
         local_4 = 0;
     }
-    g_BGSSaveLoadGame = 0;
+    ::g_BGSSaveLoadGame = 0;
 }
 
 class TESFile
 {
   public:
-    const char* GetName();
 };
 class BGSSaveGameBuffer
 {
   public:
     BGSSaveGameBuffer();
     ~BGSSaveGameBuffer();
-    void SaveData(void* apData, int aiSize, int aiEndian);
-    void SaveGameString(const char* apString, int aiFlags);
-    void FUN_00865c40(void* apFile);
     unsigned int data[5];
 };
 
@@ -1174,49 +1252,46 @@ void FUN_00847590_shell::SaveCompiledFileList(void* apFile)
 {
     BGSSaveGameBuffer buffer;
     BGSSaveGameBuffer* pbuffer = &buffer;
-    unsigned char ucFileCount = reinterpret_cast<TESDataHandlerSaveLoad*>(g_dataHandler)->GetCompiledFileCount();
-    pbuffer->SaveData(&ucFileCount, 1, 0);
+    unsigned char ucFileCount = ((unsigned char)(reinterpret_cast<::TESDataHandler *>((reinterpret_cast<TESDataHandlerSaveLoad*>((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetCompiledFileCount()));
+    reinterpret_cast<::FUN_00865e50_shell *>((pbuffer))->FUN_00865e50(&ucFileCount, 1, 0);
     for (unsigned int i = 0; i < ucFileCount; ++i)
     {
-        TESFile* pFile = reinterpret_cast<TESDataHandlerSaveLoad*>(g_dataHandler)->GetCompiledFileByIndex(i);
-        const char* pFileName = pFile->GetName();
-        pbuffer->SaveGameString(pFileName, 0);
+        TESFile* pFile = reinterpret_cast<::TESDataHandler *>((reinterpret_cast<TESDataHandlerSaveLoad*>((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetCompiledFileByIndex(i);
+        const char* pFileName = ((const char *)(reinterpret_cast<::BGSCameraPath *>((pFile))->GetShotList()));
+        reinterpret_cast<::FUN_00865e70_shell *>((pbuffer))->FUN_00865e70(pFileName, 0);
     }
-    buffer.FUN_00865c40(apFile);
+    reinterpret_cast<::FUN_00865c40_shell *>(&(buffer))->FUN_00865c40((::FUN_00846330_shell *)(apFile));
 }
 
 struct FUN_00849ca0_shell
 {
-    void __thiscall FUN_00849ca0(int state);
-    void __thiscall GetElementAt(int state);
+    void FUN_00849ca0(int state);
+    char pad00[0x10];
+    unsigned int unk10[4];
 };
 
 // @fnv 0x00849ca0
-void __thiscall FUN_00849ca0_shell::FUN_00849ca0(int state)
+void FUN_00849ca0_shell::FUN_00849ca0(int state)
 {
-    ((FUN_00849ca0_shell*)((char*)this + 0x10))->GetElementAt(state);
+    reinterpret_cast<::fnv_00843330::ArrSI *>((&this->unk10))->GetElementAt(state);
 }
 
 struct TESSaveLoadGame
 {
     void ReadTypedData(void*, unsigned int);
-    void FUN_0085f010(void*, unsigned int);
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 // @fnv 0x0049ab00
 void __cdecl ReadAndDispatchSaveData(void* apData)
 {
     unsigned short s;
-    g_TESSaveLoadGame->ReadTypedData(&s, 2);
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&s, 2);
     if (s)
-        g_TESSaveLoadGame->FUN_0085f010(apData, s);
+        reinterpret_cast<::Holder *>((g_TESSaveLoadGame))->FUN_0085f010((::TESForm *)(apData), s);
 }
 
 struct H471F0
 {
-    void FUN_008471f0();
 };
-void _Deallocate(void*);
 struct H47540
 {
     void* FUN_00847540(unsigned int);
@@ -1225,9 +1300,9 @@ struct H47540
 // @fnv 0x00847540
 void* H47540::FUN_00847540(unsigned int flags)
 {
-    ((H471F0*)this)->FUN_008471f0();
+    reinterpret_cast<::FUN_008471f0 *>((((H471F0*)this)))->FUN_008471f0::~FUN_008471f0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -1245,19 +1320,18 @@ CF845 CF845::FUN_00847cd0(int a)
 
 struct S00852950
 {
-    void GetOrCreateEntryAdd(int, int);
 };
 struct S00849a70
 {
     int _pad[4];
     S00852950 _m;
-    void ForwardToMember(int, int);
+    void ForwardToMember(int, intptr_t);
 };
 // Calls GetOrCreateEntryAdd on the member _m, forwarding both integer arguments.
 // @fnv 0x00849a70
-void S00849a70::ForwardToMember(int aiFirst, int aiSecond)
+void S00849a70::ForwardToMember(int aiFirst, intptr_t aiSecond)
 {
-    _m.GetOrCreateEntryAdd(aiFirst, aiSecond);
+    reinterpret_cast<::FUN_00852950_shell *>(&(_m))->GetOrCreateEntryAdd(aiFirst, (void *)(aiSecond));
 }
 
 struct Class_0084a700
@@ -1271,16 +1345,14 @@ struct Class_0084a700
 bool Class_0084a700::HasChangeForForm(TESForm* pForm, FormChangeMask b)
 {
     if (_04 != 0)
-        return _04->ContainsChangeFlags(pForm->GetFormID(), b);
+        return _04->ContainsChangeFlags(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pForm))->FUN_0084e3a0())), b);
     return 0;
 }
 
 namespace fnv_0084a840 {
 struct FUN_00848ca0_shell
 {
-    void FUN_00848ca0(bool);
 };
-void __cdecl BGSSaveLoadHistory_Destroy(unsigned char);
 struct FUN_00848e70_shell
 {
     void FUN_00848e70(int, int);
@@ -1292,30 +1364,21 @@ struct FUN_0084a840_shell : BGSSaveLoadGame
 // @fnv 0x0084a840
 void FUN_0084a840_shell::FUN_0084a840()
 {
-    ((FUN_00848ca0_shell*)this)->FUN_00848ca0(true);
-    BGSSaveLoadHistory_Destroy(1);
+    reinterpret_cast<::FUN_00848ca0_shell *>((((FUN_00848ca0_shell*)this)))->FUN_00848ca0(true);
+    ::BGSSaveLoadHistory_Destroy(1);
     ((FUN_00848e70_shell*)this)->FUN_00848e70(0, 0);
     ClearFormChanges();
-    ((FUN_00848ca0_shell*)this)->FUN_00848ca0(false);
+    reinterpret_cast<::FUN_00848ca0_shell *>((((FUN_00848ca0_shell*)this)))->FUN_00848ca0(false);
 }
 }  // namespace fnv_0084a840
 
-void* __cdecl _GetFormByNumericID(unsigned int);
 struct FUN_0084a880_shell
 {
-    void FUN_0084a880(void*);
 };
 struct FUN_0084a9c0_shell
 {
     void LookupFormByID(unsigned int);
 };
-// Resolves the form for the given numeric ID and forwards it to FUN_0084a880 on this object.
-// @fnv 0x0084a9c0
-void FUN_0084a9c0_shell::LookupFormByID(unsigned int a1)
-{
-    ((FUN_0084a880_shell*)this)->FUN_0084a880(_GetFormByNumericID(a1));
-}
-
 struct Fake0084
 {
     virtual int v0();
@@ -1337,9 +1400,16 @@ void Holder0084::CallVirtualWithOne(Fake0084* apObject)
     a ? a->v4(1) : 0;
 }
 
+class SaveLoadFile;
 struct SaveLoadChangeHistory
 {
     void AddNoteWithArguments(char const*, char*);
+public:
+    void Init();
+public:
+    void AddNote(const char *, ...);
+public:
+    void Load(::SaveLoadFile *);
 };
 struct FUN_0084ab00_This
 {
@@ -1365,18 +1435,18 @@ struct FUN_0084b9c0 : public FUN_0084ba20
 // @fnv 0x0084b9c0
 FUN_0084b9c0::~FUN_0084b9c0()
 {
-    ((NiTPointerMap<unsigned int, unsigned int>*)this)->RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00438af0();
 }
 
 struct FUN_00849a50_shell : BGSSaveLoadChangesMap
 {
-    void SetAtKey(unsigned int key);
+    void SetAtKey(uintptr_t key);
 };
 
 // @fnv 0x00849a50
-void FUN_00849a50_shell::SetAtKey(unsigned int key)
+void FUN_00849a50_shell::SetAtKey(uintptr_t key)
 {
-    ((NiTPointerMap<unsigned int, FormChangeRecord*>*)this)->SetAt(key, (FormChangeRecord*)key);
+    reinterpret_cast<::FUN_00844700_Class *>((((NiTPointerMap<unsigned int, FormChangeRecord*>*)this)))->FUN_00844700(key, (uintptr_t)((FormChangeRecord*)key));
 }
 
 struct FUN_0084a360_shell
@@ -1398,9 +1468,7 @@ void FUN_0084a360_shell::FUN_0084a360(bool abSet)
 struct DummyPointerMap
 {
     bool GetAt(unsigned int, unsigned int&) const;
-    void SetAt(unsigned int, unsigned int);
 };
-void __cdecl _fnv_call_845cc0(const char*, ...);
 struct FakeGame
 {
     char _pad[0x18];
@@ -1411,11 +1479,11 @@ struct FakeGame
 void FakeGame::SetFormIDMapping(unsigned int aiOldFormID, unsigned int aiNewFormID)
 {
     unsigned int uiExistingFormID = 0;
-    if (pMap->GetAt(aiOldFormID, uiExistingFormID))
-        _fnv_call_845cc0(
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(pMap))->FUN_00853130(aiOldFormID, (::fnv_00853130::CombatThreatRecord *&)(uiExistingFormID)))
+        ::FUN_00845cc0(
             "FORMS: Trying to set new form ID %08X for old form ID %08X, but already in map with value %08X",
             aiNewFormID, aiOldFormID, uiExistingFormID);
-    pMap->SetAt(aiOldFormID, aiNewFormID);
+    reinterpret_cast<::FUN_00844700_Class *>((pMap))->FUN_00844700(aiOldFormID, aiNewFormID);
 }
 
 class AutoMemContext
@@ -1477,7 +1545,6 @@ class TESObjectREFR : public TESForm
     virtual void V123();
     virtual void V124();
     virtual NiPoint3* GetPos();
-    TESObjectCELL* GetParentCell();
 };
 
 class TESWorldSpace : public TESForm
@@ -1488,7 +1555,6 @@ struct UnloadFlags
 {
     unsigned int flags;
     UnloadFlags(unsigned int auiFlags);
-    unsigned int FUN_00559450() const;
     UnloadFlags FUN_00847cd0(unsigned int auiFlags);
 };
 
@@ -1505,16 +1571,12 @@ struct UnloadFormBuffer
     int unk20;
     UnloadFormBuffer();
     ~UnloadFormBuffer();
-    void InitFormEntry(unsigned int auiFormID, UnloadFlags aFlags, int aiFormType, int aiVersion);
-    void FUN_0050f9c0(TESForm* apForm);
     UnloadFlags FUN_00428110();
 };
 
 struct UnloadChangeData
 {
     UnloadFlags flags;
-    void InitFromInput(UnloadFormBuffer* apBuffer);
-    unsigned int FUN_00559450() const;
 };
 
 struct UnloadChanges
@@ -1526,98 +1588,23 @@ struct UnloadChanges
 struct UnloadChangesMap
 {
     UnloadChanges* FUN_009a4250(unsigned int auiFormID);
-    bool FUN_00845a80(unsigned int auiFormID, UnloadFlags aFlags);
 };
 
 struct UnloadRefsMap
 {
-    void ForwardToMember(unsigned int auiCellID, unsigned int auiFormID);
-    void SetAtKey(unsigned int auiFormID);
-    void AddReferenceToCell(unsigned int auiWorldID, unsigned int auiFormID, const NiPoint3& arPos);
 };
 
 struct UnloadManager
 {
-    int GetConstant27();
 };
-extern UnloadManager* DAT_011de134;
 
-bool __fastcall FUN_004226e0(TESDataHandler*);
-void __cdecl FUN_00845cc0(const char*, ...);
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 int __cdecl FUN_0084eb80(UnloadFormBuffer*, TESForm*, UnloadFlags);
-TESWorldSpace* __fastcall FUN_00575d70(TESObjectREFR*);
-bool __fastcall FUN_00425fd0(TESObjectCELL*);
 
 struct SLGameShell : public BGSSaveLoadGame
 {
-    bool FUN_00849a90(TESForm* apForm);
     void FUN_00849730(TESForm* apForm, bool abForce);
 };
-
-// Unloads a form into an UnloadFormBuffer, updates its change data, and records reference cell/worldspace info for reference forms.
-// @fnv 0x00849730
-void SLGameShell::FUN_00849730(TESForm* apForm, bool abForce)
-{
-    AutoMemContext m_uiMemoryContext(
-        MEM_CONTEXT_MEM_CONTEXT_SAVELOAD, true,
-        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\SaveLoad\\BGSSaveLoadGame.cpp", 894);
-    if (FUN_0042ce10() && !abForce)
-        return;
-    if (FUN_004226e0(g_dataHandler))
-        return;
-    if (!FUN_00849a90(apForm))
-        return;
-
-    unsigned int auiFormId = apForm->GetFormID();
-    UnloadChanges* changes = ((UnloadChangesMap*)m_pFormChangesMap)->FUN_009a4250(auiFormId);
-    if (changes)
-    {
-        if (changes->data.FUN_00559450())
-        {
-            FUN_00845cc0(
-                "FORMS: Form '%s' (%08X) is unloading, but it already has a buffer.  This unload will be skipped.",
-                apForm->GetName(), auiFormId);
-            return;
-        }
-
-        UnloadFormBuffer buffer;
-        buffer.InitFormEntry(auiFormId, changes->flags, FNV_GetFormType(apForm), DAT_011de134->GetConstant27());
-        buffer.FUN_0050f9c0(apForm);
-        apForm->Unk_20(&buffer);
-        UnloadFlags remainingFlags = changes->flags.FUN_00847cd0(buffer.FUN_00428110().FUN_00559450());
-        if (remainingFlags.FUN_00559450() &&
-            ((UnloadChangesMap*)m_pFormChangesMap)->FUN_00845a80(auiFormId, remainingFlags))
-            return;
-
-        int type = FUN_0084eb80(&buffer, apForm, changes->flags);
-        apForm->Unk_15(&buffer);
-        changes->data.InitFromInput(&buffer);
-        if (type == 5 || type == 6)
-        {
-            TESObjectREFR* ref = (TESObjectREFR*)apForm;
-            TESObjectCELL* cell = ref->GetParentCell();
-            TESWorldSpace* world = FUN_00575d70(ref);
-            if (cell && FUN_00425fd0(cell))
-            {
-                ((UnloadRefsMap*)m_pReferencesMap)->ForwardToMember(((TESForm*)cell)->GetFormID(), auiFormId);
-                if (type == 6)
-                    ((UnloadRefsMap*)m_pReferencesMap)->SetAtKey(auiFormId);
-            }
-            else if (world)
-            {
-                ((UnloadRefsMap*)m_pReferencesMap)->AddReferenceToCell(world->GetFormID(), auiFormId, *ref->GetPos());
-                if (type == 6)
-                    ((UnloadRefsMap*)m_pReferencesMap)->SetAtKey(auiFormId);
-            }
-            else
-            {
-                FUN_00845cc0("FORMS: No Worldspace or Cell could not be found while unloading reference '%s' (%08X)",
-                             ref->GetName(), auiFormId);
-            }
-        }
-    }
-}
 
 class FUN_00849a90_Iface
 {
@@ -1824,7 +1811,6 @@ class FUN_00849a90_Iface
     virtual unsigned char vSlot199();
     virtual unsigned char vSlot200();
     virtual unsigned char vSlot201();
-    unsigned char Probe77c0();
 };
 
 class FUN_00849a90_cls
@@ -1832,6 +1818,69 @@ class FUN_00849a90_cls
   public:
     bool FUN_00849a90(void* obj);
 };
+// Unloads a form into an UnloadFormBuffer, updates its change data, and records reference cell/worldspace info for reference forms.
+// @fnv 0x00849730
+void SLGameShell::FUN_00849730(TESForm* apForm, bool abForce)
+{
+    AutoMemContext m_uiMemoryContext(
+        MEM_CONTEXT_MEM_CONTEXT_SAVELOAD, true,
+        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\SaveLoad\\BGSSaveLoadGame.cpp", 894);
+    if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(this)->FUN_0042ce10() && !abForce)
+        return;
+    if (reinterpret_cast<::FUN_004226e0_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_004226e0())
+        return;
+    if (!reinterpret_cast<::FUN_00849a90_cls *>(this)->FUN_00849a90(apForm))
+        return;
+
+    unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apForm))->FUN_0084e3a0()));
+    UnloadChanges* changes = ((UnloadChangesMap*)m_pFormChangesMap)->FUN_009a4250(auiFormId);
+    if (changes)
+    {
+        if (((unsigned int)(::FUN_00559450((int *)&(changes->data)))))
+        {
+            FUN_00845cc0(
+                "FORMS: Form '%s' (%08X) is unloading, but it already has a buffer.  This unload will be skipped.",
+                apForm->GetName(), auiFormId);
+            return;
+        }
+
+        UnloadFormBuffer buffer;
+        reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>(&(buffer))->InitFormEntry(auiFormId, (*(unsigned int *)&(const ::UnloadFlags &)(changes->flags)), FNV_GetFormType(apForm), reinterpret_cast<::FUN_00851110_shell *>(((*reinterpret_cast<::UnloadManager * *>(&::DAT_011de134))))->GetConstant27());
+        reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>(&(buffer))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(apForm));
+        apForm->Unk_20(&buffer);
+        UnloadFlags remainingFlags = changes->flags.FUN_00847cd0(buffer.FUN_00428110().flags);
+        if (((unsigned int)(::FUN_00559450((int *)&(remainingFlags)))) &&
+            reinterpret_cast<::BGSSaveLoadChangesMap *>((((UnloadChangesMap*)m_pFormChangesMap)))->ClearChangeFlags(auiFormId, (*(::FormChangeMask *)&(const ::UnloadFlags &)(remainingFlags))))
+            return;
+
+        int type = FUN_0084eb80(&buffer, apForm, changes->flags);
+        apForm->Unk_15(&buffer);
+        reinterpret_cast<::FUN_00866570_Class *>(&(changes->data))->InitFromInput((::FUN_00866570_Input *)(::UnloadFormBuffer *)(&buffer));
+        if (type == 5 || type == 6)
+        {
+            TESObjectREFR* ref = (TESObjectREFR*)apForm;
+            TESObjectCELL* cell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()));
+            TESWorldSpace* world = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((ref))->FUN_00575d70()));
+            if (cell && reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
+            {
+                reinterpret_cast<::S00849a70 *>((((UnloadRefsMap*)m_pReferencesMap)))->ForwardToMember(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)cell)))->FUN_0084e3a0())), auiFormId);
+                if (type == 6)
+                    reinterpret_cast<::FUN_00849a50_shell *>((((UnloadRefsMap*)m_pReferencesMap)))->SetAtKey(auiFormId);
+            }
+            else if (world)
+            {
+                reinterpret_cast<::FUN_00852c00_shell *>((((UnloadRefsMap*)m_pReferencesMap)))->AddReferenceToCell(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((world))->FUN_0084e3a0())), auiFormId, *ref->GetPos());
+                if (type == 6)
+                    reinterpret_cast<::FUN_00849a50_shell *>((((UnloadRefsMap*)m_pReferencesMap)))->SetAtKey(auiFormId);
+            }
+            else
+            {
+                FUN_00845cc0("FORMS: No Worldspace or Cell could not be found while unloading reference '%s' (%08X)",
+                             ref->GetName(), auiFormId);
+            }
+        }
+    }
+}
 
 // Returns false if obj's Probe77c0 is nonzero, or if vSlot060 is nonzero and either vSlot137 is nonzero with vSlot201 zero; otherwise true.
 // @fnv 0x00849a90
@@ -1839,7 +1888,7 @@ bool FUN_00849a90_cls::FUN_00849a90(void* pObject)
 {
     FUN_00849a90_Iface* first;
     FUN_00849a90_Iface* second;
-    if (((FUN_00849a90_Iface*)pObject)->Probe77c0() != 0)
+    if (((unsigned char)(reinterpret_cast<::FUN_004077c0_shell *>((((FUN_00849a90_Iface*)pObject)))->FUN_004077c0())) != 0)
     {
         return false;
     }
@@ -1868,13 +1917,10 @@ struct ValueBase
 
 struct ParamOwner
 {
-    char* GetHolderBase();
-    unsigned int FUN_0084e3a0(ParamOwner* a);
 };
 
 struct Sub34
 {
-    void FUN_00844700(unsigned int v);
 };
 
 struct Outer
@@ -1884,15 +1930,14 @@ struct Outer
     void FUN_0084a520(ParamOwner* p);
 };
 
-extern const double DAT_01012060;
 
 // Calls v3(0x10) on the ValueBase at p's holder base + 0x100 and, if the result exceeds DAT_01012060, calls m_34.FUN_00844700 with p->FUN_0084e3a0(p).
 // @fnv 0x0084a520
 void Outer::FUN_0084a520(ParamOwner* apOwner)
 {
-    if (((ValueBase*)(apOwner->GetHolderBase() + 0x100))->v3(0x10) > DAT_01012060)
+    if (((ValueBase*)(((char *)(reinterpret_cast<::Actor *>((apOwner))->GetActorBase())) + 0x100))->v3(0x10) > ::_DAT_01012060)
     {
-        m_34.FUN_00844700(apOwner->FUN_0084e3a0(apOwner));
+        reinterpret_cast<::FUN_00844700_Class *>(&(m_34))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apOwner))->FUN_0084e3a0())), {});
     }
 }
 
@@ -1900,8 +1945,6 @@ struct Position
 {
     float x, y, z;
 };
-extern const Position NiPoint3_ZERO;
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 struct UpdateInfo
 {
     float time;
@@ -1914,13 +1957,9 @@ struct UpdateInfo
 };
 struct Scene
 {
-    void SetPosition(const Position*);
-    void Refresh();
-    void Update(UpdateInfo&);
 };
 struct ScenePointer
 {
-    Scene* Get();
 };
 struct LoadedData
 {
@@ -1933,8 +1972,6 @@ struct LoadedData
 };
 struct World
 {
-    void Remove(void*);
-    void Insert(void*);
 };
 struct Reference
 {
@@ -2078,20 +2115,16 @@ struct Reference
     int unk5c;
     int unk60;
     LoadedData* loaded;
-    bool IsExterior();
     void FUN_00575830(Position* input);
 };
-bool IsPersistent(void*);
-World* __fastcall FindWorld(Reference*);
-void UpdateScene(Scene*, bool);
 // Validates the input position against world bounds, falls back to GetFallback when invalid, removes/reinserts the reference in its world, and updates the scene.
 // @fnv 0x00575830
 void Reference::FUN_00575830(Position* apPosition)
 {
     bool changedVal = false;
-    Position fallbackX = NiPoint3_ZERO;
-    Position anglesB = NiPoint3_ZERO;
-    if (g_BGSSaveLoadGame && g_BGSSaveLoadGame->FUN_0042ce10())
+    Position fallbackX = (*reinterpret_cast<const ::Position *>((void *)&::NiPoint3::ZERO));
+    Position anglesB = (*reinterpret_cast<const ::Position *>((void *)&::NiPoint3::ZERO));
+    if (::g_BGSSaveLoadGame && reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
     {
         bool unusedFlag7 = false;
         if (apPosition->x == 3.4028234663852886e38 || apPosition->x == -3.4028234663852886e38 ||
@@ -2111,7 +2144,7 @@ void Reference::FUN_00575830(Position* apPosition)
         if (apPosition->x > 4096000.0 || apPosition->x < -4096000.0 || apPosition->y > 4096000.0 ||
             apPosition->y < -4096000.0)
         {
-            Position angles = NiPoint3_ZERO;
+            Position angles = (*reinterpret_cast<const ::Position *>((void *)&::NiPoint3::ZERO));
             int parent3 = 0;
             GetFallback(&fallbackX, &angles, &parent3, 0);
             fallbackX.z += 10.0;
@@ -2119,11 +2152,11 @@ void Reference::FUN_00575830(Position* apPosition)
         }
     }
     World* world7 = 0;
-    if (IsExterior() && IsPersistent(this))
+    if (reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>(this)->FUN_005653d0() && ::FUN_00587c80(this))
     {
-        world7 = FindWorld(this);
+        world7 = ((::World *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((this))->FUN_00575d70()));
         if (world7)
-            world7->Remove(this);
+            reinterpret_cast<::FUN_00587e40_shell *>((world7))->FUN_00587e40((::TESObjectREFR *)(void *)(this));
     }
     if (!changedVal)
         position = *apPosition;
@@ -2132,30 +2165,24 @@ void Reference::FUN_00575830(Position* apPosition)
         position = fallbackX;
         if (GetScene())
         {
-            GetScene()->SetPosition(&fallbackX);
-            UpdateScene(loaded->node.Get(), true);
-            loaded->node.Get()->Refresh();
+            reinterpret_cast<::FUN_00440460_S *>((GetScene()))->FUN_00440460((const ::V3 *)(const ::Position *)(&fallbackX));
+            ::FUN_00c6bd00((::TreeNode_cls *)(::Scene *)(((::Scene *)(::FUN_00559450((int *)&(loaded->node))))), true);
+            reinterpret_cast<::FUN_00a5a040_Class *>((((::Scene *)(::FUN_00559450((int *)&(loaded->node))))))->FUN_00a5a040();
             UpdateInfo info(0.0f, false, false);
-            loaded->node.Get()->Update(info);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::Scene *)(::FUN_00559450((int *)&(loaded->node))))))->FUN_00a59c60((std::intptr_t)&(info));
         }
     }
     if (world7)
-        world7->Insert(this);
+        reinterpret_cast<::WorldSpaceRefShell *>((world7))->FUN_00587d10((::TESObjectREFR *)(void *)(this));
     Mark(2);
 }
 
-void* __cdecl memset(void*, int, unsigned int);
-int __cdecl _stricmp(const char*, const char*);
-void __cdecl FUN_00845cc0(const char*, ...);
 
 struct SaveFileEntry
 {
-    const char* GetFilename();
 };
 struct SaveDataHandler
 {
-    unsigned char GetCompiledFileCount();
-    SaveFileEntry* GetCompiledFileByIndex(unsigned int index);
 };
 struct LoadGameBuffer
 {
@@ -2198,24 +2225,24 @@ struct SaveLoadFileIndexMap
 // @fnv 0x00847660
 bool SaveLoadFileIndexMap::ReadFileIndexMap(void* apData)
 {
-    unsigned char cFileCount2 = ((SaveDataHandler*)g_dataHandler)->GetCompiledFileCount();
+    unsigned char cFileCount2 = ((unsigned char)(reinterpret_cast<::TESDataHandler *>((((SaveDataHandler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetCompiledFileCount()));
     LoadGameBuffer kBuffer;
-    kBuffer.Open(apData);
+    reinterpret_cast<::FUN_00864740_shell *>(&(kBuffer))->ReadAndVerifySize((::SaveLoadFile *)(apData));
     LoadGameBuffer* pBuffer4 = &kBuffer;
     bool bResult2 = true;
-    memset(aSaveToLoaded, 0xff, 0xff);
-    memset(aLoadedToSave, 0xff, 0xff);
+    ::FUN_00403d30(aSaveToLoaded, 0xff, 0xff);
+    ::FUN_00403d30(aLoadedToSave, 0xff, 0xff);
     unsigned char cCount4 = 0;
-    pBuffer4->ReadTypedData(&cCount4, 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pBuffer4))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&cCount4), 1);
     for (unsigned int aI = 0; aI < cCount4; aI++)
     {
         char acName[260];
-        pBuffer4->LoadString(acName);
+        reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pBuffer4))->FUN_008649a0(acName);
         bool bFound = false;
         for (unsigned int jA = 0; jA < cFileCount2; jA++)
         {
-            SaveFileEntry* _pFile = ((SaveDataHandler*)g_dataHandler)->GetCompiledFileByIndex(jA);
-            if (!_stricmp(acName, _pFile->GetFilename()))
+            SaveFileEntry* _pFile = ((::SaveFileEntry *)(reinterpret_cast<::TESDataHandler *>((((SaveDataHandler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetCompiledFileByIndex(jA)));
+            if (!::FUN_00404dc0(acName, ((const char *)(reinterpret_cast<::BGSCameraPath *>((_pFile))->GetShotList()))))
             {
                 aSaveToLoaded[aI] = jA;
                 aLoadedToSave[jA] = aI;
@@ -2236,21 +2263,13 @@ bool SaveLoadFileIndexMap::ReadFileIndexMap(void* apData)
 namespace fnv_00847850 {
 struct W20File
 {
-    char* _ref_006815c0();
-    unsigned int FUN_00846400();
-    void WriteToFile(void*, int);
-    void FUN_00846440(unsigned int);
 };
 struct W20Manager
 {
-    void EnsureFosExtension(char*, char*);
-    void FUN_00851120(char*, int);
-    unsigned int GetConstant27();
 };
 struct W20Flags
 {
     unsigned int value;
-    unsigned int FUN_00559450();
     W20Flags FUN_00847cd0(unsigned int);
     void FUN_00866200(W20File*, unsigned int, W20Flags);
 };
@@ -2299,18 +2318,12 @@ struct W20Form
 };
 struct W20Map
 {
-    void* GetFirstPos();
-    void GetNext(void*&, unsigned int&, W20Change*&);
-    void FUN_008457b0(unsigned int, W20Flags);
-    bool FUN_00845a80(unsigned int, W20Flags);
 };
 struct W20OtherMap
 {
-    void FUN_00846e00(W20File*);
 };
 struct W20History
 {
-    void SaveTo(W20File*);
 };
 struct W20Header
 {
@@ -2342,7 +2355,6 @@ struct W20Header
     unsigned int unk64;
     unsigned int unk68;
     unsigned int unk6c;
-    void ClearObject();
 };
 struct W20Buffer
 {
@@ -2356,11 +2368,7 @@ struct W20Buffer
     unsigned int unk1c;
     W20Buffer();
     virtual ~W20Buffer();
-    void FUN_00847db0();
-    void InitFormEntry(unsigned int, unsigned int, int, unsigned char);
-    void SetSpeakerIdle(W20Form*);
     W20Flags FUN_00428110();
-    void FUN_00865a30(W20File*);
 };
 struct W20Save
 {
@@ -2370,88 +2378,81 @@ struct W20Save
     W20OtherMap* second;
     unsigned int unk10, unk14, unk18;
     W20History* history;
-    void SetFlag4(bool);
-    void SaveCompiledFileList(W20File*);
     void FUN_00847850(W20File*);
 };
-extern W20Manager* DAT_011de134;
-void FUN_0084dff0(W20History*, const char*, ...);
-void FUN_00845cc0(const char*, ...);
-void ForwardToShell(W20File*, void*, int);
 unsigned int FUN_00847d70(W20File*);
 unsigned int FUN_00847d90(W20File*);
-W20Form* FUN_004839c0(unsigned int);
 void FUN_0084eb80(W20Buffer*, W20Form*, unsigned int);
 
 // Writes the save file: logs the save, writes a header, serializes each changed form, then rewrites the header with offsets and sizes.
 // @fnv 0x00847850
 void W20Save::FUN_00847850(W20File* file)
 {
-    SetFlag4(true);
+    reinterpret_cast<::FUN_00847d00_shell *>(this)->SetFlag4(true);
     char k[260];
     char ba[260];
-    DAT_011de134->EnsureFosExtension(file->_ref_006815c0(), k);
-    DAT_011de134->FUN_00851120(ba, 260);
-    FUN_0084dff0(history, "***Saving game: %s (%s)", k, ba);
-    unsigned char j = DAT_011de134->GetConstant27();
-    ForwardToShell(file, &j, 1);
-    SaveCompiledFileList(file);
-    unsigned int e = file->FUN_00846400();
+    reinterpret_cast<::FUN_0084fec0_shell *>(((*reinterpret_cast<::fnv_00847850::W20Manager * *>(&::DAT_011de134))))->EnsureFosExtension(((char *)(static_cast<void *>(file))), k);
+    reinterpret_cast<::BGSSaveLoadManager *>(((*reinterpret_cast<::fnv_00847850::W20Manager * *>(&::DAT_011de134))))->GetFNVVersionInfo(ba, 260);
+    reinterpret_cast<::SaveLoadChangeHistory *>((history))->AddNote("***Saving game: %s (%s)", k, ba);
+    unsigned char j = ((unsigned int)(reinterpret_cast<::FUN_00851110_shell *>(((*reinterpret_cast<::fnv_00847850::W20Manager * *>(&::DAT_011de134))))->GetConstant27()));
+    ::ForwardToShell((::FUN_00846330_shell *)(file), (intptr_t)(&j), 1);
+    reinterpret_cast<::FUN_00847590_shell *>(this)->SaveCompiledFileList(file);
+    unsigned int e = reinterpret_cast<::SaveLoadFile *>((file))->GetFilePosition();
     W20Header c;
-    c.ClearObject();
-    file->WriteToFile(&c, 110);
-    c.unk08 = file->FUN_00846400();
+    ::ClearObject((void *)&(c));
+    reinterpret_cast<::FUN_00846330_shell *>((file))->WriteToFile(&c, 110);
+    c.unk08 = reinterpret_cast<::SaveLoadFile *>((file))->GetFilePosition();
     c.unk14 = FUN_00847d70(file);
-    c.unk0c = file->FUN_00846400();
+    c.unk0c = reinterpret_cast<::SaveLoadFile *>((file))->GetFilePosition();
     W20Buffer l;
-    void* p = changes->GetFirstPos();
+    void* p = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((changes))->GetFirstPos();
     while (p)
     {
         unsigned int j = 0;
         W20Change* e = 0;
-        changes->GetNext(p, j, e);
-        if (e->savedFlags.FUN_00559450())
+        reinterpret_cast<::C6b7f20_Map *>((changes))->FUN_006b7f20((::C6b7f20_Node **)&(p), (unsigned int *)&(j), (void **)&(e));
+        if (((unsigned int)(::FUN_00559450((int *)&(e->savedFlags)))))
         {
             e->savedFlags.FUN_00866200(file, j, e->flags);
             c.unk1c++;
         }
         else
         {
-            W20Form* form = FUN_004839c0(j);
+            W20Form* form = ((::fnv_00847850::W20Form *)(::FUN_004839c0(j)));
             if (form)
             {
-                l.FUN_00847db0();
-                l.InitFormEntry(j, e->flags.value, form->FNV_GetFormType(), DAT_011de134->GetConstant27());
-                l.SetSpeakerIdle(form);
+                reinterpret_cast<::FUN_00847db0_shell *>(&(l))->FUN_00847db0();
+                reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>(&(l))->InitFormEntry(j, e->flags.value, form->FNV_GetFormType(), ((unsigned int)(reinterpret_cast<::FUN_00851110_shell *>(((*reinterpret_cast<::fnv_00847850::W20Manager * *>(&::DAT_011de134))))->GetConstant27())));
+                reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>(&(l))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(form));
                 form->v80(&l);
-                W20Flags k = l.FUN_00428110().FUN_00847cd0(e->flags.FUN_00559450());
-                if (k.FUN_00559450())
-                    changes->FUN_008457b0(j, k);
-                W20Flags ba = e->flags.FUN_00847cd0(l.FUN_00428110().FUN_00559450());
-                if (ba.FUN_00559450() && changes->FUN_00845a80(j, ba))
+                W20Flags k = l.FUN_00428110().FUN_00847cd0(((unsigned int)(::FUN_00559450((int *)&(e->flags)))));
+                if (((unsigned int)(::FUN_00559450((int *)&(k)))))
+                    reinterpret_cast<::BGSSaveLoadChangesMap *>((changes))->AddFormChangeFlags(j, (*(::FormChangeMask *)&(const ::fnv_00847850::W20Flags &)(k)));
+                W20Flags ba = e->flags.FUN_00847cd0(l.FUN_00428110().value);
+                if (((unsigned int)(::FUN_00559450((int *)&(ba)))) && reinterpret_cast<::BGSSaveLoadChangesMap *>((changes))->ClearChangeFlags(j, (*(::FormChangeMask *)&(const ::fnv_00847850::W20Flags &)(ba))))
                     continue;
                 FUN_0084eb80(&l, form, e->flags.value);
                 form->v54(&l);
-                l.FUN_00865a30(file);
+                reinterpret_cast<::FUN_00865a30_owner *>(&(l))->FUN_00865a30(file);
                 c.unk1c++;
             }
             else
-                FUN_00845cc0(
+                ::FUN_00845cc0(
                     "SAVELOAD: Could not find form %08X with change flags %08X during BGSSaveLoadGame::SaveGame()", j,
-                    e->flags.FUN_00559450());
+                    ((unsigned int)(::FUN_00559450((int *)&(e->flags)))));
         }
     }
-    c.unk10 = file->FUN_00846400();
+    c.unk10 = reinterpret_cast<::SaveLoadFile *>((file))->GetFilePosition();
     c.unk18 = FUN_00847d90(file);
-    c.unk00 = file->FUN_00846400();
-    first->FUN_00846e00(file);
-    second->FUN_00846e00(file);
-    c.unk04 = file->FUN_00846400();
-    FUN_0084dff0(history, "---Finished saving game: %s", k);
-    history->SaveTo(file);
-    file->FUN_00846440(e);
-    file->WriteToFile(&c, 110);
-    SetFlag4(false);
+    c.unk00 = reinterpret_cast<::SaveLoadFile *>((file))->GetFilePosition();
+    reinterpret_cast<::fnv_00846e00::FUN_00846e00_cls *>((first))->FUN_00846e00((::fnv_00846e00::SaveLoadFile *)(file));
+    reinterpret_cast<::fnv_00846e00::FUN_00846e00_cls *>((second))->FUN_00846e00((::fnv_00846e00::SaveLoadFile *)(file));
+    c.unk04 = reinterpret_cast<::SaveLoadFile *>((file))->GetFilePosition();
+    reinterpret_cast<::SaveLoadChangeHistory *>((history))->AddNote("---Finished saving game: %s", k);
+    reinterpret_cast<::NavMeshInfoArray84E *>((history))->SaveTo((::SaveTarget84E *)(file));
+    reinterpret_cast<::SaveLoadFile *>((file))->SetFilePosition(e);
+    reinterpret_cast<::FUN_00846330_shell *>((file))->WriteToFile(&c, 110);
+    reinterpret_cast<::FUN_00847d00_shell *>(this)->SetFlag4(false);
 }
 }  // namespace fnv_00847850
 
@@ -2475,8 +2476,6 @@ struct FUN_0084ded0
     unsigned int size;
     FUN_0084ded0();
     void* FUN_00847450(unsigned int);
-    void FUN_0084e190(SaveFile*);
-    void AddAllNotes(FUN_0084ded0*);
 };
 struct FUN_00846b60
 {
@@ -2487,7 +2486,6 @@ struct FUN_00846b60
     void* secondEntries;
     unsigned int secondSize, flags;
     FUN_00846b60(unsigned int);
-    void LoadFormIDMap(SaveFile*);
     void* FUN_008473c0(unsigned int);
 };
 struct FUN_00845550
@@ -2497,9 +2495,6 @@ struct FUN_00845550
     unsigned int size;
     FUN_00845550();
     UnloadFlags GetFirstEntry(unsigned int);
-    void FUN_00845a20(unsigned int);
-    void ApplyFormQuantityChange(unsigned int, UnloadFlags);
-    void SetCombatTargetQuantity(unsigned int, UnloadFlags, unsigned int);
 };
 struct LoadHeader
 {
@@ -2507,25 +2502,16 @@ struct LoadHeader
     unsigned int unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54, unk58,
         unk5c, unk60, unk64, unk68;
     unsigned short unk6c;
-    void ClearObject();
 };
 struct SaveFile
 {
-    char* FUN_006815c0(char*);
-    void FUN_00846300(void*, unsigned int);
-    unsigned int FUN_00846400();
-    void FUN_00846440(unsigned int);
-    void AdvancePosition(unsigned int);
 };
 struct FormExtra : TESForm
 {
     unsigned int FUN_00401170();
-    const char* FUN_00440e30();
-    void FUN_0046a010(bool);
 };
 struct ReferenceExtra : FormExtra
 {
-    unsigned int FUN_007af430();
 };
 struct FUN_008c71b0;
 struct BGSLoadFormBuffer
@@ -2538,26 +2524,13 @@ struct BGSLoadFormBuffer
     FormExtra* form;
     unsigned int formId, changeFlags, type, version, size, end, loadFlags;
     BGSLoadFormBuffer();
-    void FUN_008644b0(SaveFile*);
-    unsigned int FUN_008665b0();
-    unsigned int FUN_0044edb0();
     UnloadFlags FUN_00428110();
-    void FUN_0086cf00(UnloadFlags);
-    void FUN_0086cf00(FUN_008c71b0);
-    void FUN_007037c0(FormExtra*);
-    void FUN_00864580(SaveFile*, unsigned int);
     UnloadFlags FUN_0042ce30();
-    void FUN_00848d90(bool);
-    void FUN_0042ce50(bool);
-    bool FUN_00848dd0();
     void* FUN_0081db60(unsigned int);
-    int CheckValueMatchesField(SaveFile*);
-    void FUN_00848d50();
 };
 struct FlagMethods
 {
     unsigned int flags;
-    void FUN_00841100(unsigned int);
 };
 struct FUN_008c71b0
 {
@@ -2569,26 +2542,19 @@ struct FUN_0044dee0
 {
     unsigned int formId;
     FUN_0044dee0();
-    void ReadBuffer(SaveFile*);
 };
 struct BufferArray
 {
     unsigned int vtable;
     BGSLoadFormBuffer** entries;
     unsigned int capacity, size;
-    void FUN_008454f0(bool);
-    void FUN_0084b5c0(unsigned int);
-    void FUN_007cb2e0(BGSLoadFormBuffer**);
-    BGSLoadFormBuffer*& FUN_006a7ad0(unsigned int);
     void FUN_0047a110(unsigned int, BGSLoadFormBuffer* const&);
 };
 struct FormQueue
 {
-    void FUN_00843630(FormExtra*, bool);
 };
 struct ReferenceMap
 {
-    void FUN_00852b60();
 };
 struct StatePrefix
 {
@@ -2607,18 +2573,13 @@ struct LoadManagerPrefix
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
     struct String
     {
-        void FUN_004037f0(char*, unsigned int);
     } name;
 };
 struct LoadManagerMethods
 {
-    void EnsureFosExtension(char*);
-    void FUN_00851120(char*, unsigned int);
-    void FUN_00850c20();
 };
 struct GlobalTask
 {
-    void FUN_00c3e310();
 };
 struct PlayerMethods : TESForm
 {
@@ -2683,276 +2644,24 @@ struct PlayerMethods : TESForm
     virtual void Reserved220();
     virtual void Reserved224();
     virtual void FinalizeLoad(bool);
-    void FUN_00848e10();
 };
 struct HandlerMethods
 {
-    bool FUN_00469860(unsigned int);
-    void FUN_00848df0(bool);
 };
 struct FinalizeMethods
 {
-    void FUN_00867a20();
 };
-extern GlobalTask* DAT_01202d98;
-extern PlayerMethods* DAT_011dea3c;
-extern FinalizeMethods DAT_011de7b8;
 extern const char DAT_0107f048[], DAT_0107efd0[], DAT_0107efb0[];
-extern void* __cdecl operator new(unsigned int);
-void __cdecl FUN_0084dff0(FUN_0084ded0*, const char*, ...);
-void __cdecl ReadFileIntoBuffer(SaveFile*, unsigned char*, unsigned int);
-void __cdecl FUN_00848e40(unsigned int);
-void __cdecl FUN_0084c270(unsigned int);
-void __cdecl LoadGlobalDataRanges(SaveFile*, unsigned int);
-FormExtra* __cdecl FUN_004839c0(unsigned int);
-const char* __cdecl GetStringForByte(unsigned int);
-void __cdecl FUN_00845cc0(const char*, ...);
 UnloadFlags __cdecl FUN_00841120(UnloadFlags, UnloadFlags, unsigned int, bool);
-void __cdecl FUN_0084f330(BGSLoadFormBuffer*, FormExtra*, UnloadFlags);
-void __cdecl FUN_00b60040();
 void __cdecl FUN_00848d10();
 void __cdecl FUN_00848d30();
-void __cdecl FUN_00850b40(char*);
 struct ReconstructSession : BGSSaveLoadGame
 {
     bool LoadSaveGame(SaveFile*, bool);
-    bool ReadFileIndexMap(SaveFile*);
-    void FUN_00848ca0(bool);
-    void FUN_007d6bd0(bool);
     unsigned int LoadFormData(SaveFile*, BGSLoadFormBuffer*, FUN_00846b60*);
-    void FUN_0084a880(FormExtra*);
-    bool RevertReference(FormExtra**, UnloadFlags, bool);
     void FUN_00848e70(FUN_00845550*, FUN_00846b60*);
-    void FUN_0084a5b0();
-    bool IsFlag80Set();
     void ResetLoadBuffers(bool);
 };
-// Loads a save file: reads the header, rebuilds form and change state, loads each form buffer, then finalizes; returns false on failure.
-// @fnv 0x00847df0
-bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
-{
-    unsigned int position5;
-    FUN_0084ded0* replacementState_2 = ((StatePrefix*)this)->state;
-    unsigned int position;
-    ((StatePrefix*)this)->state = new FUN_0084ded0;
-    char finalName[260];
-    char writeName[260];
-    ((LoadManagerMethods*)DAT_011de134)->EnsureFosExtension(pSaveFile->FUN_006815c0(finalName));
-    ((LoadManagerMethods*)DAT_011de134)->FUN_00851120(writeName, 260);
-    FUN_0084dff0(((StatePrefix*)this)->state, DAT_0107f048, finalName, writeName);
-    ReadFileIntoBuffer(pSaveFile, &m_ucSaveLoadState, 1);
-    {
-        FUN_00846b60* oldState5;
-        FUN_0084ded0* oldState9;
-        bool restoring = ReadFileIndexMap(pSaveFile);
-        if (!restoring && !restoreMode)
-        {
-            delete (FUN_00847450*)((StatePrefix*)this)->state;
-            ((StatePrefix*)this)->state = replacementState_2;
-            m_ucSaveLoadState = 255;
-            FUN_00848e40(1);
-            return false;
-        }
-        delete (FUN_00847450*)replacementState_2;
-        ((StatePrefix*)this)->references->FUN_00852b60();
-        ((LoadManagerMethods*)DAT_011de134)->FUN_00850c20();
-        DAT_01202d98->FUN_00c3e310();
-        FUN_00848ca0(true);
-        DAT_011dea3c->FUN_00848e10();
-        {
-            LoadHeader header;
-            {
-                char readName[260];
-                header.ClearObject();
-                pSaveFile->FUN_00846300(&header, 110);
-                position5 = pSaveFile->FUN_00846400();
-                pSaveFile->FUN_00846440(header.formOffset);
-                oldState5 = ((StatePrefix*)this)->forms;
-                ((StatePrefix*)this)->forms = new FUN_00846b60(5039);
-                ((StatePrefix*)this)->forms->LoadFormIDMap(pSaveFile);
-                ((StatePrefix*)this)->otherForms->LoadFormIDMap(pSaveFile);
-                oldState9 = ((StatePrefix*)this)->state;
-                ((StatePrefix*)this)->state = new FUN_0084ded0;
-                ((StatePrefix*)this)->state->FUN_0084e190(pSaveFile);
-                ((StatePrefix*)this)->state->AddAllNotes(oldState9);
-                delete (FUN_00847450*)oldState9;
-                pSaveFile->FUN_00846440(position5);
-                ((StatePrefix*)this)->previousChanges = ((StatePrefix*)this)->changes;
-                ((StatePrefix*)this)->changes = new FUN_00845550;
-                FUN_0084c270(0);
-                ((HandlerMethods*)g_dataHandler)->FUN_00848df0(true);
-                LoadGlobalDataRanges(pSaveFile, header.firstBlockOffset);
-                {
-                    FUN_00845550* pendingChanges = ((StatePrefix*)this)->changes;
-                    ((StatePrefix*)this)->changes = ((StatePrefix*)this)->previousChanges;
-                    ((StatePrefix*)this)->previousChanges = 0;
-                    position = pSaveFile->FUN_00846400();
-                    ((StatePrefix*)this)->buffers.FUN_008454f0(false);
-                    ((StatePrefix*)this)->buffers.FUN_0084b5c0(header.formCount);
-                    FUN_007d6bd0(false);
-                    for (unsigned int index2 = 0; index2 < header.formCount; index2++)
-                    {
-                        BGSLoadFormBuffer* current = new BGSLoadFormBuffer;
-                        current->FUN_008644b0(pSaveFile);
-                        unsigned int typeX = current->FUN_008665b0();
-                        unsigned int index = current->FUN_0044edb0();
-                        UnloadFlags changed = current->FUN_00428110();
-                        UnloadFlags currentVal = ((StatePrefix*)this)->changes->GetFirstEntry(index);
-                        UnloadFlags previous_ = pendingChanges->GetFirstEntry(index);
-                        if (previous_.FUN_00559450())
-                        {
-                            ((FlagMethods*)&currentVal)->FUN_00841100(previous_.FUN_00559450());
-                            pendingChanges->FUN_00845a20(index);
-                        }
-                        pendingChanges->ApplyFormQuantityChange(index, changed);
-                        current->FUN_0086cf00(currentVal);
-                        FormExtra* form_ = FUN_004839c0(index);
-                        current->FUN_007037c0(form_);
-                        unsigned int position3 = LoadFormData(pSaveFile, current, oldState5);
-                        current->FUN_00864580(pSaveFile, position3);
-                        form_ = current->GetForm();
-                        currentVal = current->FUN_0042ce30();
-                        bool overrideFlag3 = false;
-                        if (form_)
-                        {
-                            bool invalid = false;
-                            if (form_->FUN_00401170() != typeX)
-                                invalid = true;
-                            else if (form_->GetIsReference())
-                            {
-                                ReferenceExtra* reference = (ReferenceExtra*)form_;
-                                if (reference->FUN_007af430() == 0)
-                                    invalid = true;
-                            }
-                            if (invalid)
-                            {
-                                if (((HandlerMethods*)g_dataHandler)->FUN_00469860(index))
-                                {
-                                    FUN_0084a880(form_);
-                                    current->FUN_007037c0(0);
-                                    current->FUN_0086cf00(FUN_008c71b0(0));
-                                    overrideFlag3 = true;
-                                }
-                                else
-                                {
-                                    if (form_->FUN_00401170() != typeX)
-                                        FUN_00845cc0(DAT_0107efd0, form_->GetName(), index,
-                                                     GetStringForByte((unsigned char)typeX), form_->FUN_00440e30());
-                                    current->FUN_00848d90(true);
-                                }
-                            }
-                            else
-                            {
-                                form_->Revert(current);
-                                UnloadFlags combined = FUN_00841120(currentVal, changed, typeX, true);
-                                if (combined.FUN_00559450())
-                                {
-                                    if (!RevertReference((FormExtra**)&form_, combined, false))
-                                    {
-                                        ((StatePrefix*)this)->queue->FUN_00843630(form_, false);
-                                        current->FUN_0042ce50(true);
-                                    }
-                                }
-                                overrideFlag3 = true;
-                            }
-                        }
-                        else
-                            overrideFlag3 = true;
-                        if (overrideFlag3)
-                            ((StatePrefix*)this)->changes->FUN_00845a20(index);
-                        ((StatePrefix*)this)->buffers.FUN_007cb2e0(&current);
-                    }
-                    FUN_00848e70(pendingChanges, oldState5);
-                    FUN_00b60040();
-                    delete (FUN_008473c0*)oldState5;
-                    ((HandlerMethods*)g_dataHandler)->FUN_00848df0(false);
-                    FUN_0084a5b0();
-                    pSaveFile->FUN_00846440(position);
-                    for (unsigned int index2 = 0; index2 < header.formCount; index2++)
-                    {
-                        BGSLoadFormBuffer* current = ((StatePrefix*)this)->buffers.FUN_006a7ad0(index2);
-                        if (current->FUN_00848dd0())
-                        {
-                            ((StatePrefix*)this)->changes->FUN_00845a20(current->FUN_0044edb0());
-                            current->FUN_008644b0(pSaveFile);
-                            current->FUN_00864580(pSaveFile, 0);
-                            delete (FUN_0081db60*)current;
-                            ((StatePrefix*)this)->buffers.FUN_0047a110(index2, (BGSLoadFormBuffer*)0);
-                            continue;
-                        }
-                        unsigned int index = current->FUN_0044edb0();
-                        FormExtra* form_ = current->GetForm();
-                        if (form_)
-                        {
-                            current->FUN_008644b0(pSaveFile);
-                            unsigned int typeX = current->FUN_008665b0();
-                            bool invalid = false;
-                            if (form_->FUN_00401170() != typeX)
-                            {
-                                FUN_00845cc0(DAT_0107efd0, form_->GetName(), index,
-                                             GetStringForByte((unsigned char)typeX), form_->FUN_00440e30());
-                                invalid = true;
-                            }
-                            else if (form_->GetIsReference())
-                            {
-                                ReferenceExtra* reference = (ReferenceExtra*)form_;
-                                if (reference->FUN_007af430() == 0)
-                                    invalid = true;
-                            }
-                            if (invalid)
-                            {
-                                ((StatePrefix*)this)->changes->FUN_00845a20(current->FUN_0044edb0());
-                                current->FUN_00864580(pSaveFile, 0);
-                                delete (FUN_0081db60*)current;
-                                ((StatePrefix*)this)->buffers.FUN_0047a110(index2, (BGSLoadFormBuffer*)0);
-                                continue;
-                            }
-                            if (current->CheckValueMatchesField(pSaveFile) < 0 || IsFlag80Set())
-                            {
-                                current->FUN_00864580(pSaveFile, 0);
-                                delete (FUN_0081db60*)current;
-                                ((StatePrefix*)this)->buffers.FUN_0047a110(index2, (BGSLoadFormBuffer*)0);
-                                ((StatePrefix*)this)->buffers.FUN_008454f0(true);
-                                DAT_011dea3c->FinalizeLoad(false);
-                                FUN_007d6bd0(true);
-                                FUN_00848ca0(false);
-                                return false;
-                            }
-                            FUN_0084f330(current, form_, current->FUN_00428110());
-                            if (current->GetForm() && !IsFlag80Set())
-                            {
-                                form_->FUN_0046a010(true);
-                                form_->LoadGame(current);
-                            }
-                        }
-                        else
-                        {
-                            FUN_0044dee0 subBuffer;
-                            subBuffer.ReadBuffer(pSaveFile);
-                            ((StatePrefix*)this)
-                                ->changes->SetCombatTargetQuantity(index, current->FUN_00428110(), subBuffer.formId);
-                        }
-                        current->FUN_00848d50();
-                    }
-                    pSaveFile->AdvancePosition(header.tailOffset);
-                    FUN_00848d10();
-                    ResetLoadBuffers(true);
-                    FUN_00848d30();
-                    LoadGlobalDataRanges(pSaveFile, header.lastBlockOffset);
-                    m_ucSaveLoadState = 255;
-                    FUN_00850b40(readName);
-                    ((LoadManagerPrefix*)DAT_011de134)->name.FUN_004037f0(readName, 0);
-                    FUN_0084dff0(((StatePrefix*)this)->state, DAT_0107efb0, finalName);
-                    FUN_007d6bd0(true);
-                    DAT_011de7b8.FUN_00867a20();
-                    FUN_00848ca0(false);
-                    return true;
-                }
-            }
-        }
-    }
-}
-
 namespace fnv_008492b0 {
 class GlobalObject_008c71b0
 {
@@ -2972,41 +2681,32 @@ class BGSLoadGameBuffer
 class LoadBufferArray
 {
   public:
+    void** m_ppVirtualMethodTable;
+    void* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
     unsigned int GetSize();
-    BGSLoadGameBuffer*& FUN_006a7ad0(unsigned int);
     void Clear(bool);
 };
 class IOManager
 {
   public:
-    void FUN_008495b0();
-    void FUN_00c3e340();
-    void FUN_00456520();
 };
-extern IOManager* DAT_01202d98;
 class TES
 {
   public:
-    void FUN_00459920();
-    void FUN_0045cda0();
 };
-extern TES* g_TES;
-extern TESObjectREFR* _g_thePlayer;
 class CellPhysics
 {
   public:
-    void* FUN_004543c0();
-    void RemoveReference(TESObjectREFR*);
 };
 class PhysicsWorld
 {
   public:
-    void FUN_00c6a870();
 };
 class ChangeMap
 {
   public:
-    void FUN_00865360();
 };
 class LoadedMap
 {
@@ -3037,12 +2737,9 @@ class LoadReference : public TESObjectREFR
     virtual void V144();
     virtual void V145();
 };
-bool __fastcall FUN_00849590(int);
-void __cdecl FUN_00867f90(TESObjectREFR*);
 class FormState
 {
   public:
-    void FUN_0046a010(bool);
 };
 class FUN_008492b0_shell
 {
@@ -3057,20 +2754,17 @@ class FUN_008492b0_shell
     unsigned int field1c;
     unsigned int field20;
     LoadBufferArray buffers;
-    void SetFlag8(bool);
-    void FUN_0084a690(TESForm*, GlobalObject_008c71b0, bool);
-    void FUN_00849730(TESForm*, bool);
     void ResetLoadBuffers(bool resetWorld);
 };
 // @fnv 0x008492b0
 void FUN_008492b0_shell::ResetLoadBuffers(bool resetWorld)
 {
-    SetFlag8(true);
+    reinterpret_cast<::FUN_00849540_shell *>(this)->SetFlag8(true);
     if (resetWorld)
-        DAT_01202d98->FUN_008495b0();
-    for (unsigned int i = 0; i < buffers.GetSize(); ++i)
+        ::FUN_008495b0((char *)((*reinterpret_cast<::fnv_008492b0::IOManager * *>(&::DAT_01202d98))));
+    for (unsigned int i = 0; i < buffers.iSize; ++i)
     {
-        BGSLoadGameBuffer* buffer = buffers.FUN_006a7ad0(i);
+        BGSLoadGameBuffer* buffer = *reinterpret_cast<::fnv_008492b0::BGSLoadGameBuffer **>(reinterpret_cast<::S3e60 *>(&(buffers))->FUN_006a7ad0(i));
         if (buffer)
         {
             TESForm* form = buffer->GetForm();
@@ -3080,49 +2774,49 @@ void FUN_008492b0_shell::ResetLoadBuffers(bool resetWorld)
     }
     if (resetWorld)
     {
-        g_TES->FUN_00459920();
-        DAT_01202d98->FUN_00c3e340();
-        DAT_01202d98->FUN_00456520();
-        TESObjectCELL* cell = _g_thePlayer->GetParentCell();
-        PhysicsWorld* world = cell ? (PhysicsWorld*)((CellPhysics*)cell)->FUN_004543c0() : 0;
+        reinterpret_cast<::FUN_00459920_shell *>(((*reinterpret_cast<::fnv_008492b0::TES * *>(&::g_TES))))->FUN_00459920();
+        reinterpret_cast<::FUN_00c3e340_cls *>(((*reinterpret_cast<::fnv_008492b0::IOManager * *>(&::DAT_01202d98))))->FUN_00c3e340();
+        reinterpret_cast<::FUN_00456520_Class *>(((*reinterpret_cast<::fnv_008492b0::IOManager * *>(&::DAT_01202d98))))->FUN_00456520();
+        TESObjectCELL* cell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer))))->GetTarget()));
+        PhysicsWorld* world = cell ? (PhysicsWorld*)reinterpret_cast<::FUN_004543c0_cls *>((((CellPhysics*)cell)))->FUN_004543c0() : 0;
         if (world)
-            world->FUN_00c6a870();
-        g_TES->FUN_0045cda0();
+            reinterpret_cast<::C6A870_Self *>((world))->FUN_00c6a870();
+        reinterpret_cast<::B45CDA0TES *>(((*reinterpret_cast<::fnv_008492b0::TES * *>(&::g_TES))))->FUN_0045cda0();
     }
-    changes->FUN_00865360();
-    for (unsigned int j = 0; j < buffers.GetSize(); ++j)
+    reinterpret_cast<::LoadGameSubBufferQueue *>((changes))->QueueAnimationAndCharController();
+    for (unsigned int j = 0; j < buffers.iSize; ++j)
     {
-        BGSLoadGameBuffer* buffer = buffers.FUN_006a7ad0(j);
+        BGSLoadGameBuffer* buffer = *reinterpret_cast<::fnv_008492b0::BGSLoadGameBuffer **>(reinterpret_cast<::S3e60 *>(&(buffers))->FUN_006a7ad0(j));
         if (buffer)
         {
             TESForm* form = buffer->GetForm();
             if (form)
             {
                 form->Unk_21(buffer);
-                if (FUN_00849590((int)buffer))
+                if (::FUN_00849590(buffer))
                 {
                     TESObjectREFR* ref = buffer->GetReference();
-                    FUN_0084a690(ref, GlobalObject_008c71b0(8), true);
+                    reinterpret_cast<::BGSSaveLoadGame *>(this)->NotifyFormIDChanged(ref, (*(::FormChangeMask *)&(const ::fnv_008492b0::GlobalObject_008c71b0 &)(GlobalObject_008c71b0(8))), true);
                     if (ref->IsActor())
                     {
                         LoadReference* actor = (LoadReference*)ref;
-                        if (((Actor*)actor)->GetProcess())
+                        if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)actor)))->GetBaseTexture())))
                             actor->V145();
                     }
-                    FUN_00849730(ref, true);
-                    TESObjectCELL* cell = ref->GetParentCell();
+                    reinterpret_cast<::SLGameShell *>(this)->FUN_00849730(ref, true);
+                    TESObjectCELL* cell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()));
                     if (cell)
-                        ((CellPhysics*)cell)->RemoveReference(ref);
-                    FUN_00867f90(ref);
+                        reinterpret_cast<::fnv_0054ca90::Cell *>((((CellPhysics*)cell)))->FUN_0054ca90((::fnv_0054ca90::Ref *)(ref));
+                    ::FUN_00867f90((::GcRef *)(ref));
                 }
-                ((FormState*)form)->FUN_0046a010(false);
+                reinterpret_cast<::FUN_0046a010_shell *>((((FormState*)form)))->FUN_0046a010(false);
             }
             delete buffer;
         }
     }
-    buffers.Clear(true);
-    loaded->RemoveAll();
-    SetFlag8(false);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(buffers))->Clear(true);
+    reinterpret_cast<::FUN_00438af0_Class *>((loaded))->FUN_00438af0();
+    reinterpret_cast<::FUN_00849540_shell *>(this)->SetFlag8(false);
 }
 }  // namespace fnv_008492b0
 
@@ -3130,13 +2824,11 @@ struct LoadFormBuffer_8495d0
 {
     void SetForm(TESForm* apForm);
     void SetChangeFlags(unsigned int auiFlags);
-    void Finish();
 };
 
 struct UnloadedBuffer_8495d0
 {
     char* pBuffer;
-    const char* GetBuffer() const;
     int GetFormType();
     LoadFormBuffer_8495d0* CreateFormBuffer();
     void ResetReadPosition();
@@ -3151,7 +2843,6 @@ struct FormChanges_8495d0
 struct ChangesMap_8495d0
 {
     FormChanges_8495d0* GetChanges(unsigned int auiFormID);
-    void RemoveChangesFor(unsigned int auiFormID);
 };
 
 struct BufferArray_8495d0
@@ -3161,15 +2852,9 @@ struct BufferArray_8495d0
 
 struct FormRef_8495d0
 {
-    unsigned int GetID();
-    const char* GetFormTypeName();
-    void SetLoaded(bool abLoaded);
 };
 
-const char* GetFormTypeNameByID(unsigned char acType);
-void __cdecl FUN_00845cc0(const char*, ...);
-int __fastcall FNV_GetFormType(TESForm*);
-void __cdecl ApplyChanges_8495d0(LoadFormBuffer_8495d0* apBuffer, TESForm* apForm, FormChangeMask aFlags);
+int FNV_GetFormType(TESForm*);
 
 struct SaveLoadGame_8495d0
 {
@@ -3183,110 +2868,116 @@ struct SaveLoadGame_8495d0
     int unk1C;
     int unk20;
     BufferArray_8495d0 kLoadBuffers;
-    bool IsLoadingFromSave();
-    bool SetThreadAllowChanges(bool abAllow);
     void ApplyUnloadedChanges(TESForm* apForm);
 };
+// @fnv 0x00849b10
+void BGSSaveLoadGame::FormReconstructionMap(TESObjectCELL* cell)
+{
+    if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(this)->FUN_0042ce10())
+        return;
+    reinterpret_cast<::SaveLoadGame_8495d0 *>(this)->ApplyUnloadedChanges(reinterpret_cast<TESForm*>(cell));
+    BGSReconstructFormsInAllFilesMap forms;
+    m_pReferencesMap->LoadCellReferences(cell, &forms);
+    reinterpret_cast<::FUN_00849c00_shell *>(this)->FUN_00849c00(true);
+    forms.BuildMap();
+    reinterpret_cast<::FUN_00849c00_shell *>(this)->FUN_00849c00(false);
+    unsigned int iCount = reinterpret_cast<::FUN_00849c80_shell *>(&(forms))->FUN_00849c80();
+    for (unsigned int index = 0; index < iCount; ++index)
+    {
+        TESForm* form = forms.FUN_00849ca0(index);
+        reinterpret_cast<::SaveLoadGame_8495d0 *>(this)->ApplyUnloadedChanges(form);
+    }
+}
 
 // @fnv 0x008495d0
 void SaveLoadGame_8495d0::ApplyUnloadedChanges(TESForm* apForm)
 {
-    if (IsLoadingFromSave())
+    if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(this)->FUN_0042ce10())
         return;
 
-    unsigned int auiFormId = ((FormRef_8495d0*)apForm)->GetID();
+    unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormRef_8495d0*)apForm)))->FUN_0084e3a0()));
     FormChanges_8495d0* pChanges = m_pFormChangesMap->GetChanges(auiFormId);
-    if (pChanges && pChanges->kUnloaded.GetBuffer())
+    if (pChanges && ((const char *)(::FUN_00559450((int *)&(pChanges->kUnloaded)))))
     {
-        int iSavedFormType = pChanges->kUnloaded.GetFormType();
+        int iSavedFormType = reinterpret_cast<::FUN_00849220_shell *>(&(pChanges->kUnloaded))->FUN_00849220();
         if (FNV_GetFormType(apForm) != iSavedFormType)
         {
             FUN_00845cc0(
                 "SAVELOAD: (Load Error) Form '%s' (%08X) was saved with form type %s, but currently has form type %s.  Its loading will be skipped.",
-                apForm->GetName(), auiFormId, GetFormTypeNameByID((unsigned char)iSavedFormType),
-                ((FormRef_8495d0*)apForm)->GetFormTypeName());
-            m_pFormChangesMap->RemoveChangesFor(auiFormId);
+                apForm->GetName(), auiFormId, ::GetStringForByte((unsigned char)iSavedFormType),
+                ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((((FormRef_8495d0*)apForm)))->FUN_00440e30())));
+            reinterpret_cast<::BGSSaveLoadChangesMap *>((m_pFormChangesMap))->HasFormChanges(auiFormId);
             return;
         }
-        bool bPrevAllowChanges = SetThreadAllowChanges(false);
-        LoadFormBuffer_8495d0* pBuffer = pChanges->kUnloaded.CreateFormBuffer();
-        pChanges->kUnloaded.ResetReadPosition();
+        bool bPrevAllowChanges = reinterpret_cast<::FUN_004623f0_shell *>(this)->FUN_004623f0(false);
+        LoadFormBuffer_8495d0* pBuffer = ((::LoadFormBuffer_8495d0 *)(reinterpret_cast<::FUN_00866480_shell *>(&(pChanges->kUnloaded))->FUN_00866480()));
+        reinterpret_cast<::FUN_006665a0_shell *>(&(pChanges->kUnloaded))->FUN_006665a0();
         pBuffer->SetForm(apForm);
-        pBuffer->SetChangeFlags(pChanges->kFlags.flags);
-        ((FormRef_8495d0*)apForm)->SetLoaded(true);
-        ApplyChanges_8495d0(pBuffer, apForm, pChanges->kFlags);
+        reinterpret_cast<::FUN_00428130_Class *>((pBuffer))->SetValue(pChanges->kFlags.flags);
+        reinterpret_cast<::FUN_0046a010_shell *>((((FormRef_8495d0*)apForm)))->FUN_0046a010(true);
+        ::BGSSaveLoadInitialDataPacket::LoadInitialDataForForm((::BGSLoadFormBuffer *)(pBuffer), apForm, pChanges->kFlags);
         apForm->LoadGame(pBuffer);
-        pBuffer->Finish();
-        kLoadBuffers.Add(pBuffer);
-        SetThreadAllowChanges(bPrevAllowChanges);
+        reinterpret_cast<::BGSLoadGameBuffer *>((pBuffer))->ResetReadPosition();
+        reinterpret_cast<::FUN_00438690 *>(&(kLoadBuffers))->FUN_007cb2e0((unsigned int *)&(pBuffer));
+        reinterpret_cast<::FUN_004623f0_shell *>(this)->FUN_004623f0(bPrevAllowChanges);
     }
 }
 
 struct ChangeFlags84
 {
     unsigned int flags;
-    bool Test(unsigned int mask);
     void Clear(unsigned int mask);
-    unsigned int Get();
 };
 
 struct BoundObj84 : TESForm
 {
-    const char* GetEditorID84();
 };
 
 struct Ref84 : TESForm
 {
-    bool IsChangedLocation84(int unk);
-    bool IsPersistent84();
-    int HasName84();
-    const char* GetFullName84();
-    BoundObj84* GetObjectReference84();
 };
 
-extern Ref84* g_thePlayer;
 
 struct SaveLoad84 : BGSSaveLoadGame
 {
-    void QueueActor84(Ref84* actor);
     bool RevertReference(Ref84** appRef, ChangeFlags84 flags, bool bDelete);
 };
 
 // @fnv 0x0084a3a0
 bool SaveLoad84::RevertReference(Ref84** appRef, ChangeFlags84 flags, bool bDelete)
 {
-    if (*appRef == g_thePlayer)
+    if (*appRef == (*reinterpret_cast<::Ref84 * *>(&::_g_thePlayer)))
         return true;
     if ((*appRef)->GetIsReference())
     {
         Ref84* pRef = *appRef;
-        if (flags.Test(0xe))
+        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>(&(flags))->FUN_004280f0(0xe))
         {
-            if (g_dataHandler->FormIDExists((*appRef)->GetFormID()) || pRef->IsChangedLocation84(0))
+            if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*appRef)))->FUN_0084e3a0()))) || reinterpret_cast<::WorldReference *>((pRef))->FUN_00561ef0(0))
             {
-                flags.Clear(0xe);
-                if (!flags.Get() && pRef->IsActor())
+                reinterpret_cast<::BSFlags *>(&(flags))->Clear(0xe);
+                if (!((unsigned int)(::FUN_00559450((int *)&(flags)))) && pRef->IsActor())
                 {
                     Ref84* pActor = pRef;
-                    QueueActor84(pActor);
+                    reinterpret_cast<::Outer *>(this)->FUN_0084a520((::ParamOwner *)(pActor));
                 }
             }
-            else if (bDelete && !pRef->IsPersistent84())
+            else if (bDelete && !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((pRef))->FUN_005653d0())
             {
-                DeleteForm(pRef);
+                reinterpret_cast<::Holder0084 *>(this)->CallVirtualWithOne((::Fake0084 *)(pRef));
                 pRef = 0;
                 *appRef = 0;
             }
             else
             {
-                _fnv_call_845cc0(
+                ::FUN_00845cc0(
                     "Reference %s %08X with type %s and with changes %08X could not revert its changed location",
-                    pRef->HasName84() ? pRef->GetName() : pRef->GetFullName84(), pRef->GetFormID(),
-                    pRef->GetObjectReference84()->GetEditorID84(), flags.Get());
+                    reinterpret_cast<::BGSCameraPath *>((pRef))->HasNameForWarning() ? pRef->GetName() : reinterpret_cast<::FUN_0055d520_shell *>((pRef))->FUN_0055d520(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pRef))->FUN_0084e3a0())),
+                    ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((((::BoundObj84 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pRef))->FUN_007af430()))))->FUN_00440e30())), ((unsigned int)(::FUN_00559450((int *)&(flags)))));
             }
         }
     }
-    if (!flags.Get())
+    if (!((unsigned int)(::FUN_00559450((int *)&(flags)))))
         return true;
     return false;
 }
@@ -3300,8 +2991,6 @@ struct Pt3f
 };
 struct Obj84
 {
-    bool FUN_00425fd0();
-    unsigned int FUN_0084e3a0();
 };
 struct Form84
 {
@@ -3432,45 +3121,20 @@ struct Form84
     virtual void vfn_1f0();
     virtual Pt3f* vfn_1f4();
     int FUN_00401170();
-    unsigned int FUN_00546af0();
-    bool FUN_00425fd0();
-    Obj84* FUN_0054ddd0();
-    unsigned int FUN_00544c30();
-    unsigned int FUN_00544c60();
-    Obj84* FUN_008d6f30();
-    Obj84* FUN_00575d70();
-    void FUN_00561ef0(int);
 };
 struct Buf84
 {
-    unsigned int FUN_00559450();
-    int FUN_00849220();
-    void* FUN_00866390();
-    void FUN_006665a0();
-    unsigned char FUN_0084b450();
-    unsigned int FUN_008663e0();
-    void FUN_008665d0(unsigned int, unsigned int, unsigned int, unsigned char);
 };
 struct FormChanges84
 {
     FormChangeMask flags;
     Buf84 buffer;
-    bool FUN_004280f0(unsigned int);
-    unsigned int FUN_00559450();
-    bool FUN_00822510(int);
-    void FUN_00562210(unsigned int);
 };
 struct ChangesMap84 : public BGSSaveLoadChangesMap
 {
-    void* FUN_004b9ba0();
-    void FUN_006b7f20(void*&, unsigned int&, FormChanges84*&);
-    void FUN_00845a20(unsigned int);
 };
 struct RefMap84 : public BGSSaveLoadReferencesMap
 {
-    bool FUN_0084b470(unsigned int);
-    void RemoveReferenceFromCell(unsigned int, unsigned int, const Pt3f&);
-    void FUN_0084b490(unsigned int, unsigned int);
 };
 struct Map84 : public FUN_0084ba20
 {
@@ -3479,9 +3143,7 @@ struct Map84 : public FUN_0084ba20
     int f0c;
     Map84(int);
     virtual ~Map84();
-    void InsertOrUpdate(unsigned __int64, unsigned int);
     bool FUN_0084b8b0(unsigned __int64, unsigned int*);
-    void FUN_00438af0();
 };
 struct S84
 {
@@ -3495,7 +3157,6 @@ struct S84
     int f24;
     int f28;
     int f2c;
-    void FUN_00849280();
 };
 struct S84mini
 {
@@ -3506,63 +3167,52 @@ struct S84mini
 };
 struct Calendar
 {
-    unsigned int FUN_00867e30();
 };
-extern Calendar g_calendar;
 struct DH84
 {
-    bool FUN_00469860(unsigned int);
 };
 struct ThisHist84
 {
     char pad[0x1c];
     void* m_pNoteHandler;
 };
-Form84* __cdecl FUN_004839c0(unsigned int);
 int __cdecl FUN_0084e730(unsigned int, int, unsigned int);
 int __cdecl FUN_0084e930(void*, int, void*);
-unsigned int __cdecl FUN_00526100();
-int __cdecl PackShortPair(short, short);
-int __cdecl FUN_00406d90(float);
 unsigned int __cdecl FUN_0084e800(int);
-unsigned int __cdecl FUN_00846080(unsigned int, unsigned int*);
-void __cdecl FUN_0084dff0(void*, const char*, ...);
-void __cdecl _fnv_call_845cc0(const char*, ...);
 
 struct FUN_0084ab20_shell : public BGSSaveLoadGame
 {
-    bool FUN_004623f0(bool);
     void FUN_0084ab20();
 };
 
 // @fnv 0x0084ab20
 void FUN_0084ab20_shell::FUN_0084ab20()
 {
-    bool allowOld = FUN_004623f0(false);
+    bool allowOld = reinterpret_cast<::FUN_004623f0_shell *>(this)->FUN_004623f0(false);
     Map84 map(0x25);
-    unsigned int start = g_calendar.FUN_00867e30();
+    unsigned int start = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_0084ab20::Calendar *>(&::g_011de7b8))))->GetGameHoursPassed();
     int count1 = 0;
-    void* posA = ((ChangesMap84*)m_pFormChangesMap)->FUN_004b9ba0();
+    void* posA = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((ChangesMap84*)m_pFormChangesMap)))->GetFirstPos();
     while (posA != 0)
     {
         unsigned int fid = 0;
         FormChanges84* value = 0;
-        ((ChangesMap84*)m_pFormChangesMap)->FUN_006b7f20(posA, fid, value);
+        reinterpret_cast<::C6b7f20_Map *>((((ChangesMap84*)m_pFormChangesMap)))->FUN_006b7f20((::C6b7f20_Node **)&(posA), (unsigned int *)&(fid), (void **)&(value));
         unsigned int idCopy = fid;
-        if (value->FUN_004280f0(0x40000000))
+        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((value))->FUN_004280f0(0x40000000))
         {
             unsigned int size = 0;
             unsigned int maxXA = 0x7fffffff;
             unsigned int fi = 0x7fffffff;
-            if (value->buffer.FUN_00559450() != 0)
+            if (((unsigned int)(::FUN_00559450((int *)&(value->buffer)))) != 0)
             {
-                if (value->buffer.FUN_00849220() == 0x39)
+                if (reinterpret_cast<::FUN_00849220_shell *>(&(value->buffer))->FUN_00849220() == 0x39)
                 {
                     int res = FUN_0084e730(fid, 0x39, *(unsigned int*)value);
                     if (res != 0)
                     {
                         S84mini mini;
-                        FUN_0084e930(value->buffer.FUN_00866390(), res, &mini);
+                        FUN_0084e930(((void *)(reinterpret_cast<::FormBufferContext *>(&(value->buffer))->FUN_00866390())), res, &mini);
                         size = (unsigned int)mini.d;
                         if (res != 3)
                         {
@@ -3575,33 +3225,33 @@ void FUN_0084ab20_shell::FUN_0084ab20()
             }
             else
             {
-                Form84* form = FUN_004839c0(fid);
+                Form84* form = ((::fnv_0084ab20::Form84 *)(::FUN_004839c0(fid)));
                 if (form != 0)
                 {
                     if (form->FUN_00401170() == 0x39)
                     {
                         Form84* cell = form;
-                        size = cell->FUN_00546af0();
-                        if (!cell->FUN_00425fd0())
+                        size = reinterpret_cast<::FUN_00546af0_shell *>((cell))->FUN_00546af0();
+                        if (!reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
                         {
-                            idCopy = cell->FUN_0054ddd0()->FUN_0084e3a0();
-                            maxXA = cell->FUN_00544c30();
-                            fi = cell->FUN_00544c60();
+                            idCopy = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_0084ab20::Obj84 *)(reinterpret_cast<::TESObjectCELL *>((cell))->GetParentWorldSpace()))))->FUN_0084e3a0()));
+                            maxXA = ((unsigned int)(reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridX()));
+                            fi = ((unsigned int)(reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridY()));
                         }
                     }
                 }
             }
             if (size != 0)
             {
-                if (start - size > FUN_00526100())
+                if (start - size > ((unsigned int)(::fnv_00526100::FUN_00526100())))
                 {
                     unsigned __int64 key = (unsigned __int64)idCopy;
                     if (maxXA != 0x7fffffff)
                     {
-                        __int64 t = PackShortPair((short)maxXA, (short)fi);
+                        __int64 t = ::PackShortPair((short)maxXA, (short)fi);
                         key |= (t << 32);
                     }
-                    map.InsertOrUpdate(key, size);
+                    reinterpret_cast<::HashMap *>(&(map))->InsertOrUpdate(key, size, {});
                     count1 = count1 + 1;
                 }
             }
@@ -3612,7 +3262,7 @@ void FUN_0084ab20_shell::FUN_0084ab20()
         int countA = 0;
         int countB = 0;
         int countC = 0;
-        posA = ((ChangesMap84*)m_pFormChangesMap)->FUN_004b9ba0();
+        posA = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((ChangesMap84*)m_pFormChangesMap)))->GetFirstPos();
         while (posA != 0)
         {
             unsigned int fm;
@@ -3624,21 +3274,21 @@ void FUN_0084ab20_shell::FUN_0084ab20()
             unsigned int ek;
             fm = 0;
             ev = 0;
-            ((ChangesMap84*)m_pFormChangesMap)->FUN_006b7f20(posA, fm, ev);
-            if (((DH84*)g_dataHandler)->FUN_00469860(fm))
+            reinterpret_cast<::C6b7f20_Map *>((((ChangesMap84*)m_pFormChangesMap)))->FUN_006b7f20((::C6b7f20_Node **)&(posA), (unsigned int *)&(fm), (void **)&(ev));
+            if (reinterpret_cast<::BSShaderRenderUtility *>((((DH84*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->IsRenderTargetId(fm))
                 continue;
             eg = 0;
             es = 0;
             ej = 0;
             ft = 0;
             ek = 0;
-            if (ev->buffer.FUN_00559450() != 0)
+            if (((unsigned int)(::FUN_00559450((int *)&(ev->buffer)))) != 0)
             {
-                ek = (unsigned int)ev->buffer.FUN_00849220();
+                ek = (unsigned int)reinterpret_cast<::FUN_00849220_shell *>(&(ev->buffer))->FUN_00849220();
             }
             else
             {
-                Form84* formT = FUN_004839c0(fm);
+                Form84* formT = ((::fnv_0084ab20::Form84 *)(::FUN_004839c0(fm)));
                 if (formT != 0)
                 {
                     ek = (unsigned int)formT->FUN_00401170();
@@ -3649,40 +3299,40 @@ void FUN_0084ab20_shell::FUN_0084ab20()
                 }
                 else
                 {
-                    _fnv_call_845cc0(
+                    ::FUN_00845cc0(
                         "During cleanup, form %08X with changeflags %08X and no unloaded form buffer could not be found",
-                        fm, ev->FUN_00559450());
+                        fm, ((unsigned int)(::FUN_00559450((int *)(ev)))));
                 }
             }
             if (ek == 0x3a)
             {
-                if (ev->buffer.FUN_00559450() != 0)
+                if (((unsigned int)(::FUN_00559450((int *)&(ev->buffer)))) != 0)
                 {
                     int resA4 = FUN_0084e730(fm, (int)ek, *(unsigned int*)ev);
                     if (resA4 != 0)
                     {
                         S84 info;
-                        info.FUN_00849280();
-                        FUN_0084e930(ev->buffer.FUN_00866390(), resA4, &info);
+                        new ((void *)&(info)) ::ReferencePlacementData();
+                        FUN_0084e930(((void *)(reinterpret_cast<::FormBufferContext *>(&(ev->buffer))->FUN_00866390())), resA4, &info);
                         eg = (unsigned int)info.f00;
-                        es = (unsigned int)(FUN_00406d90(info.pt.x) >> 12);
-                        ej = (unsigned int)(FUN_00406d90(info.pt.y) >> 12);
+                        es = (unsigned int)(::FUN_00406d90(info.pt.x) >> 12);
+                        ej = (unsigned int)(::FUN_00406d90(info.pt.y) >> 12);
                     }
                 }
                 else if (ft != 0)
                 {
-                    Obj84* cellB = ft->FUN_008d6f30();
-                    Obj84* worldB = ft->FUN_00575d70();
-                    if (cellB != 0 && cellB->FUN_00425fd0())
+                    Obj84* cellB = ((::fnv_0084ab20::Obj84 *)(reinterpret_cast<::LowProcess *>((ft))->GetTarget()));
+                    Obj84* worldB = ((::fnv_0084ab20::Obj84 *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((ft))->FUN_00575d70()));
+                    if (cellB != 0 && reinterpret_cast<::TESObjectCELL *>((cellB))->IsCellInterior())
                     {
-                        eg = cellB->FUN_0084e3a0();
+                        eg = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((cellB))->FUN_0084e3a0()));
                     }
                     else if (worldB != 0)
                     {
-                        eg = worldB->FUN_0084e3a0();
+                        eg = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((worldB))->FUN_0084e3a0()));
                         Pt3f ptT = *ft->vfn_1f4();
-                        es = (unsigned int)(FUN_00406d90(ptT.x) >> 12);
-                        ej = (unsigned int)(FUN_00406d90(ptT.y) >> 12);
+                        es = (unsigned int)(::FUN_00406d90(ptT.x) >> 12);
+                        ej = (unsigned int)(::FUN_00406d90(ptT.y) >> 12);
                     }
                 }
             }
@@ -3691,84 +3341,81 @@ void FUN_0084ab20_shell::FUN_0084ab20()
                 unsigned __int64 key2 = (unsigned __int64)eg;
                 if (es != 0x7fffffff)
                 {
-                    __int64 t2 = PackShortPair((short)es, (short)ej);
+                    __int64 t2 = ::PackShortPair((short)es, (short)ej);
                     key2 |= (t2 << 32);
                 }
                 unsigned int outVal = 0;
-                if (map.FUN_0084b8b0(key2, &outVal) && ev->FUN_004280f0(4) && !ev->FUN_004280f0(2))
+                if (map.FUN_0084b8b0(key2, &outVal) && reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((ev))->FUN_004280f0(4) && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((ev))->FUN_004280f0(2))
                 {
                     countA = countA + 1;
                     int res100 = FUN_0084e730(fm, (int)ek, *(unsigned int*)ev);
                     S84 info2;
-                    info2.FUN_00849280();
-                    if (ev->buffer.FUN_00559450() != 0 && res100 == 6)
+                    new ((void *)&(info2)) ::ReferencePlacementData();
+                    if (((unsigned int)(::FUN_00559450((int *)&(ev->buffer)))) != 0 && res100 == 6)
                     {
-                        FUN_0084e930(ev->buffer.FUN_00866390(), res100, &info2);
-                        ((RefMap84*)m_pReferencesMap)->FUN_0084b470(fm);
-                        Form84* formX = FUN_004839c0((unsigned int)info2.f00);
+                        FUN_0084e930(((void *)(reinterpret_cast<::FormBufferContext *>(&(ev->buffer))->FUN_00866390())), res100, &info2);
+                        reinterpret_cast<::MapH *>((((RefMap84*)m_pReferencesMap)))->FUN_0084b470(fm);
+                        Form84* formX = ((::fnv_0084ab20::Form84 *)(::FUN_004839c0((unsigned int)info2.f00)));
                         if (formX != 0 && formX->FUN_00401170() == 0x41)
                         {
-                            ((RefMap84*)m_pReferencesMap)
-                                ->RemoveReferenceFromCell((unsigned int)info2.f00, fm, info2.pt);
+                            reinterpret_cast<::FUN_00852cd0_shell *>((((RefMap84*)m_pReferencesMap)))->RemoveReferenceFromCell((unsigned int)info2.f00, fm, (const ::NiPoint3 &)(info2.pt));
                         }
                         else
                         {
-                            ((RefMap84*)m_pReferencesMap)->FUN_0084b490((unsigned int)info2.f00, fm);
+                            reinterpret_cast<::FUN_0084b490_class *>((((RefMap84*)m_pReferencesMap)))->FUN_0084b490((unsigned int)info2.f00, fm);
                         }
                     }
-                    if (ev->FUN_00822510(4))
+                    if (reinterpret_cast<::_FUN_00822510_Class *>((ev))->operator==(4))
                     {
-                        ((ChangesMap84*)m_pFormChangesMap)->FUN_00845a20(fm);
+                        reinterpret_cast<::BGSSaveLoadChangesMap *>((((ChangesMap84*)m_pFormChangesMap)))->HasFormChanges(fm);
                         countB = countB + 1;
                     }
                     else
                     {
-                        if (ev->buffer.FUN_00559450() != 0 && res100 != 0)
+                        if (((unsigned int)(::FUN_00559450((int *)&(ev->buffer)))) != 0 && res100 != 0)
                         {
-                            unsigned int bx;
+                            uintptr_t bx;
                             unsigned int bo;
-                            unsigned int bb;
+                            std::uintptr_t bb;
                             unsigned int as;
                             unsigned int am;
                             unsigned int ah;
                             unsigned char pC;
                             unsigned int len;
                             unsigned int pA;
-                            bb = (unsigned int)ev->buffer.FUN_00866390();
+                            bb = (std::uintptr_t)(reinterpret_cast<::FormBufferContext *>(&(ev->buffer))->FUN_00866390());
                             len = FUN_0084e800(res100);
                             bb += len;
                             as = 0;
-                            am = FUN_00846080(bb, &as);
+                            am = ::ReadEncodedInteger((char *)(bb), (*(unsigned int *)(&as)));
                             bb = am + as + bb;
-                            ah = ev->buffer.FUN_00559450();
-                            pC = ev->buffer.FUN_0084b450();
-                            pA = ev->buffer.FUN_008663e0();
+                            ah = ((unsigned int)(::FUN_00559450((int *)&(ev->buffer))));
+                            pC = reinterpret_cast<::FUN_0084b450_Class *>(&(ev->buffer))->FUN_0084b450();
+                            pA = reinterpret_cast<::FUN_008663e0_shell *>(&(ev->buffer))->FUN_008663e0();
                             bo = pA - len - am - as;
-                            ev->buffer.FUN_006665a0();
-                            ev->buffer.FUN_008665d0(bb, bo, ek, pC);
+                            reinterpret_cast<::FUN_006665a0_shell *>(&(ev->buffer))->FUN_006665a0();
+                            reinterpret_cast<::FUN_008665d0_class *>(&(ev->buffer))->FUN_008665d0((void *)(bb), bo, ek, pC);
                             bx = ah;
-                            operator delete((void*)bx);
+                            ::FUN_00401030((void*)bx);
                             countC = countC + 1;
                         }
-                        ev->FUN_00562210(0xc);
+                        reinterpret_cast<::BSFlags *>((ev))->Clear(0xc);
                     }
                     if (ft != 0)
                     {
-                        ft->FUN_00561ef0(0);
+                        reinterpret_cast<::WorldReference *>((ft))->FUN_00561ef0(0);
                     }
                 }
             }
         }
         if (countA != 0)
         {
-            FUN_0084dff0(
-                ((ThisHist84*)this)->m_pNoteHandler,
-                "CleanupExpiredData removed havok from %i refs: %i removed all changes and %i unloaded refs removed partial changes",
+            reinterpret_cast<::SaveLoadChangeHistory *>((((ThisHist84*)this)->m_pNoteHandler))->AddNote("CleanupExpiredData removed havok from %i refs: %i removed all changes and %i unloaded refs removed partial changes",
                 countA, countB, countC);
         }
     }
-    map.FUN_00438af0();
-    FUN_004623f0(allowOld);
+    reinterpret_cast<::FUN_00438af0_Class *>(&(map))->FUN_00438af0();
+    reinterpret_cast<::FUN_004623f0_shell *>(this)->FUN_004623f0(allowOld);
 }
 }  // namespace fnv_0084ab20
 
@@ -3785,8 +3432,6 @@ class ChangesMap16
 class ChangesMapOps
 {
   public:
-    void FUN_00845a20(unsigned int id);
-    void FUN_008457b0(unsigned int id, unsigned int index);
 };
 class RevertLoadFormBuffer
 {
@@ -3806,18 +3451,12 @@ class RevertLoadFormBuffer
     RevertLoadFormBuffer();
     ~RevertLoadFormBuffer();
     void SetForm(TESForm*);
-    void SetSource(unsigned int);
-    void SetMode(int);
 };
 class RevertFormChangesView
 {
   public:
     unsigned int unk00;
     char* unk04;
-    bool TestFormChangeFlags(TESForm*);
-    void FUN_00843630(TESForm*, int);
-    void FUN_00843750(TESForm*, unsigned int, int);
-    void FUN_008439e0();
     void Clear();
 };
 class ReconstructScratch
@@ -3835,26 +3474,21 @@ class ReconstructScratch
     unsigned int unk24;
     unsigned int unk28;
     unsigned int unk2c;
-    void FUN_00849280();
-    void FUN_0084e6a0(TESForm**, unsigned int*);
 };
 class SourceData
 {
   public:
     unsigned int unk00;
-    char* FUN_00866390();
 };
 class StringRef
 {
   public:
     char* pString;
     const char* String() const;
-    char* FUN_00849220();
 };
 class DataHandlerOps
 {
   public:
-    bool FUN_00469860(unsigned int);
 };
 class MapOps
 {
@@ -3876,7 +3510,6 @@ class CF845
 class TES
 {
   public:
-    bool FUN_004511e0(TESForm*, int);
 };
 class ReconstructLoadContext
 {
@@ -3891,15 +3524,11 @@ class ReconstructLoadContext
     unsigned int unk1c;
     RevertFormChangesView* pFileMap;
     void FUN_0084a880(TESForm*);
-    bool RevertReference(TESForm**, const char*, int);
     void FUN_00848e70(BGSSaveLoadChangesMap*, TESFile*);
 };
-extern TESForm* __cdecl FUN_004839c0(unsigned int);
 
 extern int __cdecl FUN_0084e730(unsigned int, const char*, unsigned int);
 extern void __cdecl FUN_0084e930(char*, int, ReconstructScratch*);
-extern void __cdecl FUN_00841120(unsigned int*, unsigned int, CF845, int, int);
-extern TES* g_TES;
 
 // Iterates pMap, reverting or reconstructing forms into changes and pFileMap, then clears pFileMap and swaps pMap to changes.
 // @fnv 0x00848e70
@@ -3913,41 +3542,41 @@ void ReconstructLoadContext::FUN_00848e70(BGSSaveLoadChangesMap* changes, TESFil
         TESForm* current;
         unsigned int form = 0;
         RevertFormChangesView* key = 0;
-        pMap->GetNext(pos, *(TESFile**)&form, *(::BGSReconstructFormsInFileMap**)&key);
-        current = FUN_004839c0(form);
+        reinterpret_cast<::C6b7f20_Map *>((pMap))->FUN_006b7f20((::C6b7f20_Node **)&(pos), (unsigned int *)&(*(TESFile**)&form), (void **)&(*(::BGSReconstructFormsInFileMap**)&key));
+        current = ::FUN_004839c0(form);
         if (current)
         {
-            if (((DataHandlerOps*)g_dataHandler)->FUN_00469860(form))
+            if (reinterpret_cast<::BSShaderRenderUtility *>((((DataHandlerOps*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->IsRenderTargetId(form))
             {
                 FUN_0084a880(current);
-                ((ChangesMapOps*)changes)->FUN_00845a20(form);
+                reinterpret_cast<::BGSSaveLoadChangesMap *>((((ChangesMapOps*)changes)))->HasFormChanges(form);
                 continue;
             }
             RevertLoadFormBuffer buffer;
             buffer.SetForm(current);
-            buffer.SetSource(key->unk00);
-            buffer.SetMode(1);
+            reinterpret_cast<::Twin_0086cf00 *>(&(buffer))->SetD3DPixelShader((::GeometryRelatedType *const)(uintptr_t)(key->unk00));
+            reinterpret_cast<::FUN_00849240_class *>(&(buffer))->SetFlag4(1);
             current->Revert((BGSLoadFormBuffer*)&buffer);
             unsigned int name;
-            FUN_00841120(&name, key->unk00, CF845(0), ((FormTypeOps*)current)->FNV_GetFormType(), 0);
-            if (((BSStringT<char>*)&name)->String())
+            name = ::FormChangeMask::HasFormChanged(::FormChangeMask{key->unk00}, ::FormChangeMask{0}, ((FormTypeOps*)current)->FNV_GetFormType(), false).flags;
+            if (name)
             {
-                if (!RevertReference(&current, (const char*)name, 1))
+                if (!reinterpret_cast<::SaveLoad84 *>(this)->RevertReference((::Ref84 **)(::TESForm **)(&current), ::ChangeFlags84{name}, 1))
                 {
                     if (current)
-                        pFileMap->FUN_00843630(current, 8);
+                        reinterpret_cast<::fnv_00843630::FUN_00843630_shell *>((pFileMap))->FUN_00843630(current, 8);
                 }
             }
-            if (current && key->TestFormChangeFlags(current))
-                ((ChangesMapOps*)changes)->FUN_008457b0(form, key->unk00);
+            if (current && reinterpret_cast<::BGSChangeFlagsEx *>((key))->TestFormChangeFlags(current))
+                reinterpret_cast<::BGSSaveLoadChangesMap *>((((ChangesMapOps*)changes)))->AddFormChangeFlags(form, (::FormChangeMask)(key->unk00));
         }
         else if (!current && file)
         {
             StringRef name;
             name.pString = key->unk04;
-            if (name.String())
+            if (((const char *)(::FUN_00559450((int *)&(name)))))
             {
-                int type = FUN_0084e730(form, name.FUN_00849220(), key->unk00);
+                int type = FUN_0084e730(form, ((char *)(reinterpret_cast<::FUN_00849220_shell *>(&(name))->FUN_00849220())), key->unk00);
                 if (type == 6)
                 {
                     TESFile* source = currentFile;
@@ -3957,15 +3586,15 @@ void ReconstructLoadContext::FUN_00848e70(BGSSaveLoadChangesMap* changes, TESFil
                     ((MapOps*)pMap)->FUN_00845760(&more, form);
                     {
                         ReconstructScratch scratch;
-                        scratch.FUN_00849280();
-                        FUN_0084e930(more.FUN_00866390(), type, &scratch);
+                        new ((void *)&(scratch)) ::ReferencePlacementData();
+                        FUN_0084e930(reinterpret_cast<::FormBufferContext *>(&(more))->FUN_00866390(), type, &scratch);
                         TESForm* reconstructed = 0;
                         old = 0;
-                        scratch.FUN_0084e6a0(&reconstructed, &old);
+                        reinterpret_cast<::FUN_0084e6a0_shell *>(&(scratch))->FUN_0084e6a0((*(::TESObjectCELL * *)(&reconstructed)), (*(::TESWorldSpace * *)(&old)));
                         if (reconstructed)
                         {
-                            if (g_TES->FUN_004511e0(reconstructed, 0))
-                                pFileMap->FUN_00843750(reconstructed, form, 8);
+                            if (reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00848e70::TES * *>(&::g_TES))))->IsCellBuffered((::TESObjectCELL *)(reconstructed), 0))
+                                reinterpret_cast<::FUN_00843750_shell *>((pFileMap))->FUN_00843750((::FUN_00843750_Form *)(reconstructed), form, 8);
                         }
                     }
                     currentFile = source;
@@ -3973,8 +3602,8 @@ void ReconstructLoadContext::FUN_00848e70(BGSSaveLoadChangesMap* changes, TESFil
             }
         }
     }
-    pFileMap->FUN_008439e0();
-    pFileMap->Clear();
+    reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((pFileMap))->BuildMap();
+    reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((pFileMap))->Clear();
     delete pMap;
     pMap = (BGSReconstructFormsInAllFilesMap*)changes;
 }
@@ -3982,7 +3611,6 @@ void ReconstructLoadContext::FUN_00848e70(BGSSaveLoadChangesMap* changes, TESFil
 
 struct FUN_00853130_shell
 {
-    bool FUN_00853130(unsigned int key, unsigned int& value);
 };
 
 struct FUN_0084aa90_shell
@@ -3994,22 +3622,20 @@ struct FUN_0084aa90_shell
     int unk10;
     int unk14;
     FUN_00853130_shell* unk18;
-    unsigned int FUN_0084aa90(unsigned int aiOldFormID);
+    unsigned int FUN_0084aa90(uintptr_t aiOldFormID);
 };
 
 // Calls FUN_00853130 with aiOldFormID and returns its output value on success, or 0 on failure.
 // @fnv 0x0084aa90
-unsigned int FUN_0084aa90_shell::FUN_0084aa90(unsigned int aiOldFormID)
+unsigned int FUN_0084aa90_shell::FUN_0084aa90(uintptr_t aiOldFormID)
 {
     unsigned int value = 0;
-    if (unk18->FUN_00853130(aiOldFormID, value))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((unk18))->FUN_00853130(aiOldFormID, (::fnv_00853130::CombatThreatRecord *&)(value)))
         return value;
     return 0;
 }
 
-int __fastcall FNV_GetFormType(TESForm* form);
-const char* __cdecl GetStringForByte(unsigned char formType);
-void __cdecl _fnv_call_845cc0(const char*, ...);
+int FNV_GetFormType(TESForm* form);
 
 static const char kRenumberedMsg[] =
     "FORMS: Form %08X with form type %i %s was re-numbered by BGSSaveLoadGame::ClearForm()";
@@ -4018,6 +3644,237 @@ struct SLGame84a880 : public BGSSaveLoadGame
 {
     void FUN_0084a880(TESForm* form);
 };
+// Resolves the form for the given numeric ID and forwards it to FUN_0084a880 on this object.
+// @fnv 0x0084a9c0
+void FUN_0084a9c0_shell::LookupFormByID(unsigned int a1)
+{
+    reinterpret_cast<::SLGame84a880 *>((((FUN_0084a880_shell*)this)))->FUN_0084a880((::TESForm *)(void *)(((void *)(::FUN_004839c0(a1)))));
+}
+// Loads a save file: reads the header, rebuilds form and change state, loads each form buffer, then finalizes; returns false on failure.
+// @fnv 0x00847df0
+bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
+{
+    unsigned int position5;
+    FUN_0084ded0* replacementState_2 = ((StatePrefix*)this)->state;
+    unsigned int position;
+    ((StatePrefix*)this)->state = new FUN_0084ded0;
+    char finalName[260];
+    char writeName[260];
+    reinterpret_cast<::FUN_0084fec0_shell *>((((LoadManagerMethods*)(*reinterpret_cast<::UnloadManager * *>(&::DAT_011de134)))))->EnsureFosExtension(((char *)(static_cast<void *>(pSaveFile))), {});
+    reinterpret_cast<::BGSSaveLoadManager *>((((LoadManagerMethods*)(*reinterpret_cast<::UnloadManager * *>(&::DAT_011de134)))))->GetFNVVersionInfo(writeName, 260);
+    reinterpret_cast<::SaveLoadChangeHistory *>((((StatePrefix*)this)->state))->AddNote(DAT_0107f048, finalName, writeName);
+    ::ReadFileIntoBuffer((::SaveLoadFile *)(pSaveFile), (unsigned int *)(unsigned char *)(&m_ucSaveLoadState), 1);
+    {
+        FUN_00846b60* oldState5;
+        FUN_0084ded0* oldState9;
+        bool restoring = reinterpret_cast<::SaveLoadFileIndexMap *>(this)->ReadFileIndexMap(pSaveFile);
+        if (!restoring && !restoreMode)
+        {
+            delete (FUN_00847450*)((StatePrefix*)this)->state;
+            ((StatePrefix*)this)->state = replacementState_2;
+            m_ucSaveLoadState = 255;
+            ::FUN_00848e40(1);
+            return false;
+        }
+        delete (FUN_00847450*)replacementState_2;
+        reinterpret_cast<::BGSSaveLoadReferencesMap *>((((StatePrefix*)this)->references))->Clear();
+        reinterpret_cast<::BGSSaveLoadManager *>((((LoadManagerMethods*)(*reinterpret_cast<::UnloadManager * *>(&::DAT_011de134)))))->ProcessQueuedLoads();
+        reinterpret_cast<::FUN_00c3e310_shell *>(((*reinterpret_cast<::GlobalTask * *>(&::DAT_01202d98))))->FUN_00c3e310();
+        reinterpret_cast<::FUN_00848ca0_shell *>(this)->FUN_00848ca0(true);
+        reinterpret_cast<::SaveLoadChangeHistory *>(((*reinterpret_cast<::PlayerMethods * *>(&::_g_thePlayer))))->Init();
+        {
+            LoadHeader header;
+            {
+                char readName[260];
+                ::ClearObject((void *)&(header));
+                reinterpret_cast<::SaveLoadFile *>((pSaveFile))->Read(&header, 110);
+                position5 = reinterpret_cast<::SaveLoadFile *>((pSaveFile))->GetFilePosition();
+                reinterpret_cast<::SaveLoadFile *>((pSaveFile))->SetFilePosition(header.formOffset);
+                oldState5 = ((StatePrefix*)this)->forms;
+                ((StatePrefix*)this)->forms = new FUN_00846b60(5039);
+                reinterpret_cast<::FUN_00846e70_shell *>((((StatePrefix*)this)->forms))->LoadFormIDMap((::SaveLoadFile *)(pSaveFile));
+                reinterpret_cast<::FUN_00846e70_shell *>((((StatePrefix*)this)->otherForms))->LoadFormIDMap((::SaveLoadFile *)(pSaveFile));
+                oldState9 = ((StatePrefix*)this)->state;
+                ((StatePrefix*)this)->state = new FUN_0084ded0;
+                reinterpret_cast<::SaveLoadChangeHistory *>((((StatePrefix*)this)->state))->Load((::SaveLoadFile *)(pSaveFile));
+                reinterpret_cast<::FUN_0084e2c0_shell *>((((StatePrefix*)this)->state))->AddAllNotes((::SaveLoadChangeHistory *)(oldState9));
+                delete (FUN_00847450*)oldState9;
+                reinterpret_cast<::SaveLoadFile *>((pSaveFile))->SetFilePosition(position5);
+                ((StatePrefix*)this)->previousChanges = ((StatePrefix*)this)->changes;
+                ((StatePrefix*)this)->changes = new FUN_00845550;
+                ::BGSSaveLoadHistory_Destroy(0);
+                reinterpret_cast<::FUN_00848df0_shell *>((((HandlerMethods*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->FUN_00848df0(true);
+                ::LoadGlobalDataRanges((::SaveLoadFile *)(pSaveFile), header.firstBlockOffset);
+                {
+                    FUN_00845550* pendingChanges = ((StatePrefix*)this)->changes;
+                    ((StatePrefix*)this)->changes = ((StatePrefix*)this)->previousChanges;
+                    ((StatePrefix*)this)->previousChanges = 0;
+                    position = reinterpret_cast<::SaveLoadFile *>((pSaveFile))->GetFilePosition();
+                    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((StatePrefix*)this)->buffers))->Clear(false);
+                    reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>(&(((StatePrefix*)this)->buffers))->FUN_0084b5c0(header.formCount);
+                    reinterpret_cast<::FUN_007d6bd0_Class *>(this)->FUN_007d6bd0(false);
+                    for (unsigned int index2 = 0; index2 < header.formCount; index2++)
+                    {
+                        BGSLoadFormBuffer* current = new BGSLoadFormBuffer;
+                        reinterpret_cast<::FUN_008644b0_shell *>((current))->FUN_008644b0((::SaveLoadFile *)(pSaveFile));
+                        unsigned int typeX = ((unsigned int)(reinterpret_cast<::fnv_008665b0::FUN_008665b0_shell *>((current))->FUN_008665b0()));
+                        uintptr_t index = ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0()));
+                        UnloadFlags changed = current->FUN_00428110();
+                        UnloadFlags currentVal = ((StatePrefix*)this)->changes->GetFirstEntry(index);
+                        UnloadFlags previous_ = pendingChanges->GetFirstEntry(index);
+                        if (((unsigned int)(::FUN_00559450((int *)&(previous_)))))
+                        {
+                            reinterpret_cast<::FUN_00841100_shell *>((((FlagMethods*)&currentVal)))->FUN_00841100(((unsigned int)(::FUN_00559450((int *)&(previous_)))));
+                            reinterpret_cast<::BGSSaveLoadChangesMap *>((pendingChanges))->HasFormChanges(index);
+                        }
+                        reinterpret_cast<::BGSSaveLoadChangesMap *>((pendingChanges))->ApplyFormQuantityChange(index, (*(::FormChangeMask *)&(const ::UnloadFlags &)(changed)));
+                        reinterpret_cast<::Twin_0086cf00 *>((current))->SetD3DPixelShader((*(::GeometryRelatedType *const *)&(const ::UnloadFlags &)(currentVal)));
+                        FormExtra* form_ = ((::FormExtra *)(::FUN_004839c0(index)));
+                        current->form = form_;
+                        unsigned int position3 = reinterpret_cast<::fnv_00849d00::BGSSaveLoadGameImpl *>(this)->LoadFormData((::fnv_00849d00::SaveLoadFile *)(pSaveFile), (::fnv_00849d00::LoadFormBufferH *)(current), (::fnv_00849d00::FormIDConverter *)(oldState5));
+                        reinterpret_cast<::FUN_00864580_shell *>((current))->FUN_00864580((::SaveLoadFile *)(pSaveFile), position3);
+                        form_ = current->GetForm();
+                        currentVal = current->FUN_0042ce30();
+                        bool overrideFlag3 = false;
+                        if (form_)
+                        {
+                            bool invalid = false;
+                            if (form_->FUN_00401170() != typeX)
+                                invalid = true;
+                            else if (form_->GetIsReference())
+                            {
+                                ReferenceExtra* reference = (ReferenceExtra*)form_;
+                                if (((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) == 0)
+                                    invalid = true;
+                            }
+                            if (invalid)
+                            {
+                                if (reinterpret_cast<::BSShaderRenderUtility *>((((HandlerMethods*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->IsRenderTargetId(index))
+                                {
+                                    reinterpret_cast<::SLGame84a880 *>(this)->FUN_0084a880((::TESForm *)(form_));
+                                    reinterpret_cast<::TESRecipe *>((current))->SetRequiredSkill((::ActorValue::Index)(0));
+                                    reinterpret_cast<::Twin_0086cf00 *>((current))->SetD3DPixelShader((*(::GeometryRelatedType *const *)&(const ::FUN_008c71b0 &)(FUN_008c71b0(0))));
+                                    overrideFlag3 = true;
+                                }
+                                else
+                                {
+                                    if (form_->FUN_00401170() != typeX)
+                                        FUN_00845cc0(DAT_0107efd0, form_->GetName(), index,
+                                                     ::GetStringForByte((unsigned char)typeX), ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((form_))->FUN_00440e30())));
+                                    reinterpret_cast<::FUN_00848d90_shell *>((current))->FUN_00848d90(true);
+                                }
+                            }
+                            else
+                            {
+                                form_->Revert(current);
+                                UnloadFlags combined = FUN_00841120(currentVal, changed, typeX, true);
+                                if (((unsigned int)(::FUN_00559450((int *)&(combined)))))
+                                {
+                                    if (!reinterpret_cast<::SaveLoad84 *>(this)->RevertReference((::Ref84 **)(::FormExtra **)((FormExtra**)&form_), (*(::ChangeFlags84 *)&(const ::UnloadFlags &)(combined)), false))
+                                    {
+                                        reinterpret_cast<::fnv_00843630::FUN_00843630_shell *>((((StatePrefix*)this)->queue))->FUN_00843630((::TESForm *)(form_), false);
+                                        reinterpret_cast<::BGSChangeFlagsState *>((current))->CombineFlags(true);
+                                    }
+                                }
+                                overrideFlag3 = true;
+                            }
+                        }
+                        else
+                            overrideFlag3 = true;
+                        if (overrideFlag3)
+                            reinterpret_cast<::BGSSaveLoadChangesMap *>((((StatePrefix*)this)->changes))->HasFormChanges(index);
+                        reinterpret_cast<::FUN_00438690 *>(&(((StatePrefix*)this)->buffers))->FUN_007cb2e0((unsigned int *)(::BGSLoadFormBuffer **)(&current));
+                    }
+                    FUN_00848e70(pendingChanges, oldState5);
+                    FUN_00b60040();
+                    delete (FUN_008473c0*)oldState5;
+                    reinterpret_cast<::FUN_00848df0_shell *>((((HandlerMethods*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->FUN_00848df0(false);
+                    reinterpret_cast<::BGSSaveLoadGame *>(this)->ClearFormChanges();
+                    reinterpret_cast<::SaveLoadFile *>((pSaveFile))->SetFilePosition(position);
+                    for (unsigned int index2 = 0; index2 < header.formCount; index2++)
+                    {
+                        BGSLoadFormBuffer* current = *reinterpret_cast<::BGSLoadFormBuffer **>(reinterpret_cast<::S3e60 *>(&(((StatePrefix*)this)->buffers))->FUN_006a7ad0(index2));
+                        if (reinterpret_cast<::fnv_00848dd0::FUN_00848dd0_shell *>((current))->FUN_00848dd0())
+                        {
+                            reinterpret_cast<::BGSSaveLoadChangesMap *>((((StatePrefix*)this)->changes))->HasFormChanges(((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0())));
+                            reinterpret_cast<::FUN_008644b0_shell *>((current))->FUN_008644b0((::SaveLoadFile *)(pSaveFile));
+                            reinterpret_cast<::FUN_00864580_shell *>((current))->FUN_00864580((::SaveLoadFile *)(pSaveFile), 0);
+                            delete (FUN_0081db60*)current;
+                            ((StatePrefix*)this)->buffers.FUN_0047a110(index2, (BGSLoadFormBuffer*)0);
+                            continue;
+                        }
+                        uintptr_t index = ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0()));
+                        FormExtra* form_ = current->GetForm();
+                        if (form_)
+                        {
+                            reinterpret_cast<::FUN_008644b0_shell *>((current))->FUN_008644b0((::SaveLoadFile *)(pSaveFile));
+                            unsigned int typeX = ((unsigned int)(reinterpret_cast<::fnv_008665b0::FUN_008665b0_shell *>((current))->FUN_008665b0()));
+                            bool invalid = false;
+                            if (form_->FUN_00401170() != typeX)
+                            {
+                                FUN_00845cc0(DAT_0107efd0, form_->GetName(), index,
+                                             ::GetStringForByte((unsigned char)typeX), ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((form_))->FUN_00440e30())));
+                                invalid = true;
+                            }
+                            else if (form_->GetIsReference())
+                            {
+                                ReferenceExtra* reference = (ReferenceExtra*)form_;
+                                if (((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) == 0)
+                                    invalid = true;
+                            }
+                            if (invalid)
+                            {
+                                reinterpret_cast<::BGSSaveLoadChangesMap *>((((StatePrefix*)this)->changes))->HasFormChanges(((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0())));
+                                reinterpret_cast<::FUN_00864580_shell *>((current))->FUN_00864580((::SaveLoadFile *)(pSaveFile), 0);
+                                delete (FUN_0081db60*)current;
+                                ((StatePrefix*)this)->buffers.FUN_0047a110(index2, (BGSLoadFormBuffer*)0);
+                                continue;
+                            }
+                            if (reinterpret_cast<::S_00864540 *>((current))->CheckValueMatchesField(pSaveFile) < 0 || reinterpret_cast<::FUN_00848cf0_Class *>(this)->IsFlag80Set())
+                            {
+                                reinterpret_cast<::FUN_00864580_shell *>((current))->FUN_00864580((::SaveLoadFile *)(pSaveFile), 0);
+                                delete (FUN_0081db60*)current;
+                                ((StatePrefix*)this)->buffers.FUN_0047a110(index2, (BGSLoadFormBuffer*)0);
+                                reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((StatePrefix*)this)->buffers))->Clear(true);
+                                (*reinterpret_cast<::PlayerMethods * *>(&::_g_thePlayer))->FinalizeLoad(false);
+                                reinterpret_cast<::FUN_007d6bd0_Class *>(this)->FUN_007d6bd0(true);
+                                reinterpret_cast<::FUN_00848ca0_shell *>(this)->FUN_00848ca0(false);
+                                return false;
+                            }
+                            ::BGSSaveLoadInitialDataPacket::LoadInitialDataForForm(current, (::TESForm *)(form_), (*(::FormChangeMask *)&(const ::UnloadFlags &)(current->FUN_00428110())));
+                            if (current->GetForm() && !reinterpret_cast<::FUN_00848cf0_Class *>(this)->IsFlag80Set())
+                            {
+                                reinterpret_cast<::FUN_0046a010_shell *>((form_))->FUN_0046a010(true);
+                                form_->LoadGame(current);
+                            }
+                        }
+                        else
+                        {
+                            FUN_0044dee0 subBuffer;
+                            reinterpret_cast<::Buffer866 *>(&(subBuffer))->ReadBuffer((::SaveFile866 *)(pSaveFile));
+                            reinterpret_cast<::FUN_00845960_shell *>((((StatePrefix*)this)
+                                ->changes))->SetCombatTargetQuantity(index, (*(unsigned int *)&(const ::UnloadFlags &)(current->FUN_00428110())), subBuffer.formId);
+                        }
+                        reinterpret_cast<::BGSLoadGameBuffer *>((current))->ResetReadPosition();
+                    }
+                    reinterpret_cast<::FUN_00846490_t *>((pSaveFile))->AdvancePosition(header.tailOffset);
+                    FUN_00848d10();
+                    ResetLoadBuffers(true);
+                    FUN_00848d30();
+                    ::LoadGlobalDataRanges((::SaveLoadFile *)(pSaveFile), header.lastBlockOffset);
+                    m_ucSaveLoadState = 255;
+                    ::BGSSaveLoadManager::BuildAutosaveName(readName);
+                    reinterpret_cast<::TextString *>(&(((LoadManagerPrefix*)(*reinterpret_cast<::UnloadManager * *>(&::DAT_011de134)))->name))->FUN_004037f0(readName, 0);
+                    reinterpret_cast<::SaveLoadChangeHistory *>((((StatePrefix*)this)->state))->AddNote(DAT_0107efb0, finalName);
+                    reinterpret_cast<::FUN_007d6bd0_Class *>(this)->FUN_007d6bd0(true);
+                    ::FUN_00867a20((void *)&((*reinterpret_cast<::FinalizeMethods *>(&::g_011de7b8))));
+                    reinterpret_cast<::FUN_00848ca0_shell *>(this)->FUN_00848ca0(false);
+                    return true;
+                }
+            }
+        }
+    }
+}
 
 // Deletes forms of listed types, assigns new IDs to listed types and others, and logs for the default case.
 // @fnv 0x0084a880
@@ -4037,7 +3894,7 @@ void SLGame84a880::FUN_0084a880(TESForm* form)
     case ENUM_FORM_ID_PFLA_ID:
     case ENUM_FORM_ID_PACK_ID:
     case ENUM_FORM_ID_PCBE_ID:
-        DeleteForm(form);
+        reinterpret_cast<::Holder0084 *>(this)->CallVirtualWithOne((::Fake0084 *)(form));
         break;
     case ENUM_FORM_ID_TXST_ID:
     case ENUM_FORM_ID_SCPT_ID:
@@ -4047,12 +3904,13 @@ void SLGame84a880::FUN_0084a880(TESForm* form)
     case ENUM_FORM_ID_CELL_ID:
     case ENUM_FORM_ID_LAND_ID:
     case ENUM_FORM_ID_NAVM_ID:
-        form->SetRefID(((TESDataHandlerSaveLoad*)g_dataHandler)->GetNextID(), true);
+        form->SetRefID(reinterpret_cast<::TESDataHandler *>((((TESDataHandlerSaveLoad*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetNextID(), true);
         break;
     default:
-        _fnv_call_845cc0(kRenumberedMsg, form->GetFormID(), formType,
+        ::FUN_00845cc0(kRenumberedMsg, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())), formType,
                          GetStringForByte(static_cast<unsigned char>(formType)));
-        form->SetRefID(((TESDataHandlerSaveLoad*)g_dataHandler)->GetNextID(), true);
+        form->SetRefID(reinterpret_cast<::TESDataHandler *>((((TESDataHandlerSaveLoad*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetNextID(), true);
         break;
     }
 }
+#include "generated/data/fallout/misc/saveload/bgssaveloadgame.inc"

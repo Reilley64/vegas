@@ -1,8 +1,94 @@
 // fallout_shared/teslight.cpp: TESObjectLIGH, TESFullName, Owner, LightLoader and more (29 functions)
 
+#include <new>
+#include <cstring>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSDehydrationStage.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004036b0_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0041f810_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_00484a70_shell.h"
+#include "fnv/decl/FUN_00484bf0_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_0048ea80_Class.h"
+#include "fnv/decl/FUN_004bc280_S.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00693dc0_class.h"
+#include "fnv/decl/FUN_006e5ee0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FakeForm.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/Obj50DDB0.h"
+#include "fnv/decl/P3.h"
+#include "fnv/decl/PC7d.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SDSaveForm.h"
+#include "fnv/decl/S_0048cca0.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/decl/fnv_0048e9b0__TESValueForm.h"
+#include "fnv/decl/fnv_0048e9e0__TESValueForm.h"
+#include "fnv/decl/fnv_0048ea10__TESValueForm.h"
+#include "fnv/decl/fnv_0048ea40__TESValueForm.h"
+#include "fnv/decl/fnv_004bc2e0__NiDynamicEffect.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
+#include "fnv/decl/fnv_0050fe50__ModelOwner.h"
+#include "fnv/decl/fnv_00568cb0__FUN_00568cb0_shell.h"
+#include "fnv/decl/fnv_00572610__FUN_00572610_cls.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00b5c940__SSNode.h"
+#include "fnv/decl/form_load_legacy__TESFormLoadProxy.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_0050c000.h"
+#include "fnv/symbols_0050d000.h"
+#include "fnv/symbols_00578000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_006d2000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011c8000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
 #include "teslight_TESFullName.h"
 #include "teslight_TESForm.h"
 #include "teslight_TESScriptableForm.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/symbols_00472000.h"
 
 class TESSound : public TESForm
 {
@@ -10,18 +96,15 @@ class TESSound : public TESForm
 #include "teslight_r2d_types_TESObjectLIGH.h"
 #include "teslight_scene.h"
 
-extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
 extern "C" const char DAT_01029064[];
-extern int __cdecl Warning(const char* format, ...);
-extern float DAT_010249d8;
 
 // Returns the reference's model node, or a new NiSortAdjustNode when the model name is empty or the node has no children.
 // @fnv 0x0050d4c0
 NiAVObject* TESObjectLIGH::Get3DObject(TESObjectREFR* reference)
 {
     NiAVObject* result = 0;
-    if (BSStringLength(GetModelName()))
-        result = TESBoundObject::Get3DObject(reference);
+    if (::FUN_0044a670(GetModelName()))
+        result = ((::NiAVObject *)(reinterpret_cast<::fnv_0050fe50::ModelOwner *>(this)->GetModelNode((::fnv_0050fe50::ModelReference *)(reference))));
     else
         result = new NiSortAdjustNode(0);
 
@@ -44,7 +127,7 @@ NiLight* FindLightInNode(NiNode* node)
 
     for (unsigned int index = 0; index < node->FUN_0043b480(); ++index)
     {
-        NiPointer<NiAVObject> child(node->FUN_0043b4a0(index));
+        NiPointer<NiAVObject> child(node->GetAt(index));
         if (child)
         {
             if (static_cast<NiAVObject*>(child)->IsSceneNode())
@@ -53,7 +136,7 @@ NiLight* FindLightInNode(NiNode* node)
                 if (result)
                     return result;
             }
-            else if (FUN_0043b300(&DAT_011f4a28, static_cast<NiAVObject*>(child)))
+            else if (FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_011f4a28)), static_cast<NiAVObject*>(child)))
             {
                 return static_cast<NiLight*>(static_cast<NiAVObject*>(child));
             }
@@ -65,13 +148,13 @@ NiLight* FindLightInNode(NiNode* node)
 // @fnv 0x00489100
 void TESFullName::SetFullName(const char* name)
 {
-    m_kName.Set(name, 0);
+    reinterpret_cast<::TextString *>(&(m_kName))->FUN_004037f0(name, 0);
 }
 
 // @fnv 0x0050c990
 void TESObjectLIGH::ResetFormData()
 {
-    FUN_0050c9e0(0);
+    reinterpret_cast<::TESObjectLIGH *>(this)->SetSound((::TESSound *)(0));
     memset(&data, 0, 0x18);
     fFadeAmount = 1.0f;
     data.fFOV = DAT_010249d8;
@@ -80,7 +163,7 @@ void TESObjectLIGH::ResetFormData()
 // @fnv 0x0050ca00
 void TESObjectLIGH::InitItem()
 {
-    if (reinterpret_cast<const TESFormInitFlag*>(this)->IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)(reinterpret_cast<const TESFormInitFlag*>(this)))->GetInitialized())
         return;
 
     TESScriptableForm::InitItem(static_cast<TESForm*>(this));
@@ -89,11 +172,11 @@ void TESObjectLIGH::InitItem()
 
     if (m_pGameSound)
     {
-        unsigned int formID = reinterpret_cast<unsigned int>(m_pGameSound);
-        TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        m_pGameSound = dynamic_cast<TESSound*>(TESForm::GetFormByID(formID));
+        unsigned int formID = (unsigned int)(std::uintptr_t)(m_pGameSound);
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        m_pGameSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if (!m_pGameSound)
-            Warning(DAT_01029064, formID, GetName());
+            ::FUN_005b5e40();
     }
     SetInitializationState(true);
 }
@@ -126,7 +209,6 @@ void FUN_0050c630_helper::FUN_0050c630(float fC)
 namespace fnv_0050c660 {
 struct NiDynamicEffect
 {
-    void IncRevisionID();
 };
 
 struct FUN_0050c660_shell
@@ -139,7 +221,7 @@ struct FUN_0050c660_shell
 void FUN_0050c660_shell::FUN_0050c660(float fL)
 {
     *(float*)((char*)this + 0xf4) = fL;
-    ((NiDynamicEffect*)this)->IncRevisionID();
+    reinterpret_cast<::NiDynamicEffect *>((((NiDynamicEffect*)this)))->IncRevisionID();
 }
 }  // namespace fnv_0050c660
 
@@ -162,12 +244,12 @@ struct FUN_0050dd90_shell : public TESObjectLIGH
 // @fnv 0x0050dd90
 bool FUN_0050dd90_shell::FUN_0050dd90()
 {
-    return (*(unsigned int*)((char*)this + 0xa8) & 1) ? true : false;
+    return (this->data.flags & 1) ? true : false;
 }
 
 // Stores fQ at offset 0xf8 of the object and increments its revision ID.
 // @fnv 0x0050c690
-void __fastcall FUN_0050c690(NiDynamicEffect* this_ptr, float fQ)
+void FUN_0050c690(NiDynamicEffect* this_ptr, float fQ)
 {
     *(float*)((char*)this_ptr + 0xf8) = fQ;
     this_ptr->IncRevisionID();
@@ -185,7 +267,7 @@ struct FUN_0050dd50_arg
 };
 // Copies the color from a.c into the effect's field at offset 0xe0 and bumps the revision ID.
 // @fnv 0x0050dd50
-void __fastcall FUN_0050dd50(NiDynamicEffect* this_ptr, FUN_0050dd50_arg aColorArg)
+void FUN_0050dd50(NiDynamicEffect* this_ptr, FUN_0050dd50_arg aColorArg)
 {
     *(FUN_0050dd50_color*)((char*)this_ptr + 0xe0) = *aColorArg.c;
     this_ptr->IncRevisionID();
@@ -199,7 +281,7 @@ struct FUN_0050c820_shell : TESObjectLIGH
 // @fnv 0x0050c820
 NiColor* FUN_0050c820_shell::GetLightColor()
 {
-    return reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0xBC);
+    return &this->m_kDiffuseColor;
 }
 
 struct FUN_0050d100_shell
@@ -215,35 +297,31 @@ void* FUN_0050d100_shell::FUN_0050d100()
 
 struct FUN_00484bf0_stub
 {
-    unsigned short __thiscall FUN_00484bf0(unsigned int flags);
 };
 struct FUN_0048e9b0_stub
 {
-    unsigned short __thiscall FUN_0048e9b0(unsigned int flags);
 };
 
 struct FUN_0050e4f0_shell
 {
-    unsigned short __thiscall GetSize(unsigned int aiFlags);
+    unsigned short GetSize(unsigned int aiFlags);
 };
 
 // Returns the sum of the sizes reported by FUN_00484bf0 on this and FUN_0048e9b0 on the object at offset 0x8c, both called with aiFlags.
 // @fnv 0x0050e4f0
-unsigned short __thiscall FUN_0050e4f0_shell::GetSize(unsigned int aiFlags)
+unsigned short FUN_0050e4f0_shell::GetSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
-    isize += ((FUN_00484bf0_stub*)this)->FUN_00484bf0(aiFlags);
-    isize += ((FUN_0048e9b0_stub*)((char*)this + 0x8c))->FUN_0048e9b0(aiFlags);
+    isize += reinterpret_cast<::FUN_00484bf0_shell *>((((FUN_00484bf0_stub*)this)))->FUN_00484bf0(aiFlags);
+    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0_stub*)((char*)this + 0x8c))))->FUN_0048e9b0(aiFlags);
     return isize;
 }
 
 struct FUN_0051b070_shell
 {
-    void FUN_00484c20(unsigned int);
-    void FUN_0048e9e0(unsigned int);
 };
 
-struct FUN_0050e550_shell
+struct FUN_0050e550_shell : ::TESObjectLIGH
 {
     void FUN_0050e550(unsigned int);
 };
@@ -252,20 +330,18 @@ struct FUN_0050e550_shell
 // @fnv 0x0050e550
 void FUN_0050e550_shell::FUN_0050e550(unsigned int aiFlags)
 {
-    reinterpret_cast<FUN_0051b070_shell*>(this)->FUN_00484c20(aiFlags);
-    reinterpret_cast<FUN_0051b070_shell*>(reinterpret_cast<char*>(this) + 0x8c)->FUN_0048e9e0(aiFlags);
+    reinterpret_cast<::PC7d *>((reinterpret_cast<FUN_0051b070_shell*>(this)))->FUN_00484c20(aiFlags);
+    reinterpret_cast<::fnv_0048e9e0::TESValueForm *>((reinterpret_cast<FUN_0051b070_shell*>(static_cast<TESValueForm *>(this))))->FUN_0048e9e0(aiFlags);
 }
 
 struct TESFormStub
 {
-    void FUN_00484c50(unsigned int, unsigned int);
 };
 struct TESValueFormStub
 {
-    void FUN_0048ea10(unsigned int, unsigned int);
 };
 
-struct FUN_0050e580_shell
+struct FUN_0050e580_shell : ::TESObjectLIGH
 {
     void FUN_0050e580(unsigned int a1, unsigned int a2);
 };
@@ -273,39 +349,36 @@ struct FUN_0050e580_shell
 // @fnv 0x0050e580
 void FUN_0050e580_shell::FUN_0050e580(unsigned int a1, unsigned int a2)
 {
-    ((TESFormStub*)this)->FUN_00484c50(a1, a2);
-    ((TESValueFormStub*)((char*)this + 0x8c))->FUN_0048ea10(a1, a2);
+    reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((((TESFormStub*)this)))->FUN_00484c50(a1, a2);
+    reinterpret_cast<::fnv_0048ea10::TESValueForm *>((((TESValueFormStub*)static_cast<TESValueForm *>(this))))->FUN_0048ea10(a1, a2);
 }
 
 struct FUN_00484d60_holder
 {
-    void SaveIfChanged(unsigned int);
 };
 struct FUN_0048ea40_holder
 {
-    void FUN_0048ea40(unsigned int);
 };
 
-struct FUN_0050e5c0_shell
+struct FUN_0050e5c0_shell : ::TESObjectLIGH
 {
-    void FUN_0050e5c0(unsigned int aiFlags);
+    void FUN_0050e5c0(std::uintptr_t aiFlags);
 };
 
 // @fnv 0x0050e5c0
-void FUN_0050e5c0_shell::FUN_0050e5c0(unsigned int aiFlags)
+void FUN_0050e5c0_shell::FUN_0050e5c0(std::uintptr_t aiFlags)
 {
-    reinterpret_cast<FUN_00484d60_holder*>(this)->SaveIfChanged(aiFlags);
-    reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x8c)->FUN_0048ea40(aiFlags);
+    reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(aiFlags));
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(static_cast<TESValueForm *>(this))))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(aiFlags));
 }
 
 class BGSLoadFormBuffer;
 
 struct TESValueFormLoadGame
 {
-    void LoadGame(BGSLoadFormBuffer* arg);
 };
 
-struct FUN_0050e5f0_shell
+struct FUN_0050e5f0_shell : ::TESObjectLIGH
 {
     void LoadGame(BGSLoadFormBuffer* arg);
 };
@@ -315,7 +388,7 @@ struct FUN_0050e5f0_shell
 void FUN_0050e5f0_shell::LoadGame(BGSLoadFormBuffer* pBuffer)
 {
     reinterpret_cast<TESForm*>(this)->TESForm::LoadGame(pBuffer);
-    reinterpret_cast<TESValueFormLoadGame*>(reinterpret_cast<char*>(this) + 0x8c)->LoadGame(pBuffer);
+    reinterpret_cast<::FUN_0048ea80_Class *>((reinterpret_cast<TESValueFormLoadGame*>(static_cast<TESValueForm *>(this))))->FUN_0048ea80(pBuffer);
 }
 
 struct Owner
@@ -323,17 +396,6 @@ struct Owner
     void FUN_0050c870();
     void* DestroyIfFlagged(unsigned int);
 };
-void _Deallocate(void*);
-// Calls FUN_0050c870, then deallocates this when bit 0 of flags is set, and returns this.
-// @fnv 0x0050c840
-void* Owner::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_0050c870();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 namespace stand {
 struct TESBoundAnimObject
 {
@@ -424,7 +486,7 @@ struct FUN_0050c6c0 : public stand::TESBoundAnimObject,
 // @fnv 0x0050c6c0
 FUN_0050c6c0::FUN_0050c6c0() : m_kDiffuseColor(0.0f, 0.0f, 0.0f)
 {
-    ((TESForm*)this)->SetFormType((ENUM_FORM_ID)0x1e);
+    reinterpret_cast<::FUN_004f15a0_shell *>((((TESForm*)this)))->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x1e)));
     ((TESObjectLIGH*)this)->ResetFormData();
 }
 
@@ -432,23 +494,19 @@ struct TESObjectLIGH;
 struct TESLevItem;
 struct BGSTerrainManager
 {
-    unsigned int GetMinLevel();
+    std::uintptr_t GetMinLevel();
 };
 struct RegionPointList
 {
-    void SetDistanceInsideAtMax(unsigned int);
 };
 struct TESActorBaseData
 {
-    void FUN_0050f9a0(TESLevItem*);
 };
 struct CGBase
 {
-    void SetProcedureType(int);
 };
 struct GetNextObj
 {
-    unsigned int GetNext();
 };
 struct FUN_00510130_shell
 {
@@ -459,40 +517,37 @@ void FUN_00510130_shell::RemoveNode(NiNode* pNode)
 {
     if (pNode == *(NiNode**)((char*)this + 4))
     {
-        *(NiNode**)((char*)this + 4) = (NiNode*)((GetNextObj*)(*(NiNode**)((char*)this + 4)))->GetNext();
+        *(NiNode**)((char*)this + 4) = (NiNode*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)(*(NiNode**)((char*)this + 4)))))->FUN_007af430()));
     }
     if (pNode == *(NiNode**)((char*)this + 8))
     {
         *(NiNode**)((char*)this + 8) = (NiNode*)((BGSTerrainManager*)(*(NiNode**)((char*)this + 8)))->GetMinLevel();
     }
-    unsigned int n = ((BGSTerrainManager*)pNode)->GetMinLevel();
+    std::uintptr_t n = ((BGSTerrainManager*)pNode)->GetMinLevel();
     if (n)
     {
-        ((RegionPointList*)n)->SetDistanceInsideAtMax((unsigned int)((GetNextObj*)pNode)->GetNext());
+        reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((RegionPointList*)n)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)pNode)))->FUN_007af430()))));
     }
-    n = (unsigned int)((GetNextObj*)pNode)->GetNext();
+    n = ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)pNode)))->FUN_007af430()));
     if (n)
     {
-        ((TESActorBaseData*)n)->FUN_0050f9a0((TESLevItem*)((BGSTerrainManager*)pNode)->GetMinLevel());
+        reinterpret_cast<::BGSDehydrationStage *>((((TESActorBaseData*)n)))->FUN_0050f9a0((::SpellItem *)(::TESLevItem *)((TESLevItem*)((BGSTerrainManager*)pNode)->GetMinLevel()));
     }
-    ((CGBase*)pNode)->SetProcedureType(0);
+    reinterpret_cast<::TESPackage *>((((CGBase*)pNode)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(0));
     *(unsigned int*)this -= 1;
 }
 
 namespace fnv_0050d060 {
 struct S_004036b0
 {
-    int FUN_004036b0();
 };
 
 struct SetterB
 {
-    void FUN_006e5ee0(float value);
 };
 
 struct FUN_0050d100_shell
 {
-    void* FUN_0050d100();
 };
 
 struct FUN_005e78f0_t
@@ -510,11 +565,9 @@ struct FUN_005e78f0_t
     unsigned char padding[0x9c];
     Data data;
 
-    void FUN_004851b0(TESForm* form);
     void CopyFromLight(TESForm* form);
 };
 
-float __fastcall GetFieldB4Float(char* value);
 
 // Copies light data from apCopy after casting it to TESObjectLIGH, then sets a float value and the sound from the source light.
 // @fnv 0x0050d060
@@ -525,50 +578,43 @@ void FUN_005e78f0_t::CopyFromLight(TESForm* apCopy)
     if (!ligh)
         return;
 
-    FUN_004851b0(apCopy);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(apCopy);
 
-    data = *reinterpret_cast<Data*>(reinterpret_cast<FUN_0050d100_shell*>(ligh)->FUN_0050d100());
+    data = *reinterpret_cast<Data*>(reinterpret_cast<::FUN_0050d100_shell *>((reinterpret_cast<FUN_0050d100_shell*>(ligh)))->FUN_0050d100());
 
-    reinterpret_cast<SetterB*>(this)->FUN_006e5ee0(GetFieldB4Float(reinterpret_cast<char*>(ligh)));
+    reinterpret_cast<::FUN_006e5ee0_Class *>((reinterpret_cast<SetterB*>(this)))->FUN_006e5ee0(::GetFieldB4Float(reinterpret_cast<char*>(ligh)));
 
     reinterpret_cast<TESObjectLIGH*>(this)->SetSound(
-        reinterpret_cast<TESSound*>(reinterpret_cast<S_004036b0*>(ligh)->FUN_004036b0()));
+        reinterpret_cast<TESSound*>(((int)(reinterpret_cast<::FUN_004036b0_Class *>((reinterpret_cast<S_004036b0*>(ligh)))->FUN_004036b0()))));
 }
 }  // namespace fnv_0050d060
 
 struct FUN_004855a0
 {
-    void M();
 };
 
 struct FUN_00485680
 {
-    void M();
 };
 
 struct DoorPart3c
 {
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 
 struct DoorPart5c
 {
-    void FUN_0048cca0();
 };
 
 struct DoorPart68
 {
-    void FUN_00477f20();
 };
 
 struct DoorPart30
 {
-    void FUN_00487010();
 };
 
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
 };
 
 struct FUN_0047a240_shell
@@ -578,13 +624,8 @@ struct FUN_0047a240_shell
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
 };
 
-bool _FUN_00401500();
-void _FUN_00485910(unsigned int, float);
-void _FUN_00485910(unsigned int, unsigned int);
-void __fastcall SwapEndian(void*);
 
 struct FUN_0050cf20_shell
 {
@@ -602,17 +643,16 @@ struct FUN_0050cf20_shell
 // @fnv 0x0050cf20
 void FUN_0050cf20_shell::FUN_0050cf20()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
-    reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x3c)
-        ->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<DoorPart5c*>(reinterpret_cast<char*>(this) + 0x78)->FUN_0048cca0();
-    reinterpret_cast<DoorPart68*>(reinterpret_cast<char*>(this) + 0x94)->FUN_00477f20();
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x3c)))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::S_0048cca0 *>((reinterpret_cast<DoorPart5c*>(reinterpret_cast<char*>(this) + 0x78)))->FUN_0048cca0();
+    reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<DoorPart68*>(reinterpret_cast<char*>(this) + 0x94)))->FUN_00477f20();
 
     if (flags_00a8 & 2)
     {
-        reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x30)->FUN_00487010();
-        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x5c)->FUN_0048e370(0x4e4f4349);
+        reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x30)))->FUN_00487010();
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x5c)))->FUN_0048e370(0x4e4f4349);
         reinterpret_cast<FUN_0047a240_shell*>(reinterpret_cast<char*>(this) + 0x68)->FUN_0047a240(0x4f43494d);
     }
     else
@@ -621,23 +661,23 @@ void FUN_0050cf20_shell::FUN_0050cf20()
         value_009c = 0xffffffff;
     }
 
-    if (_FUN_00401500())
-        SwapEndian(&value_009c);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00693dc0_class *>((&value_009c))->SwapEndian();
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(reinterpret_cast<int>(&value_009c), 0x18);
+    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20((const void *)(reinterpret_cast<std::intptr_t>(&value_009c)), 0x18);
 
-    if (_FUN_00401500())
-        SwapEndian(&value_009c);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00693dc0_class *>((&value_009c))->SwapEndian();
 
-    _FUN_00485910(0x4d414e46, fade_00b4);
+    ::FUN_00485910(0x4d414e46, fade_00b4);
 
     if (sound_00b8)
     {
-        unsigned int formID = sound_00b8->GetFormID();
-        _FUN_00485910(0x4d414e53, formID);
+        unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound_00b8))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e53, formID);
     }
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
 struct FUN_0050c870 : stand::TESBoundAnimObject,
@@ -652,6 +692,15 @@ struct FUN_0050c870 : stand::TESBoundAnimObject,
 {
     virtual ~FUN_0050c870();
 };
+// Calls FUN_0050c870, then deallocates this when bit 0 of flags is set, and returns this.
+// @fnv 0x0050c840
+void* Owner::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0050c870 *>(this)->FUN_0050c870::~FUN_0050c870();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0050c870
 FUN_0050c870::~FUN_0050c870()
@@ -659,21 +708,16 @@ FUN_0050c870::~FUN_0050c870()
 
 struct NextFile
 {
-    bool GetNextChunk();
 };
 
 struct LightFileExtra
 {
-    unsigned short FUN_00403570();
-    bool FUN_00401680();
 };
 struct ModelLoad : TESModelTextureSwap
 {
-    bool LoadTextureSwapList(void*, unsigned int, unsigned int);
 };
 struct ComponentID : TESScriptableForm
 {
-    void FUN_006ecd40(unsigned int);
 };
 struct LightLoader : TESBoundAnimObject,
                      TESFullName,
@@ -688,36 +732,29 @@ struct LightLoader : TESBoundAnimObject,
     LightSourceData data;
     float fFadeAmount;
     TESSound* m_pGameSound;
-    void FUN_00484ab0(int);
-    void FUN_004861f0(TESFile*, void*, unsigned short);
     bool LoadLight(TESFile*);
 };
-void FUN_004892d0(TESModelTextureSwap*, TESFile*);
-void FUN_0048e3d0(TESIcon*, TESFile*);
-void FUN_0047a290(BGSMessageIcon*, TESFile*);
-void FUN_004781e0(BGSDestructibleObjectForm*, TESFile*);
 struct LightData
 {
-    void SwapEndian();
 };
 // @fnv 0x0050caf0
 bool LightLoader::LoadLight(TESFile* file)
 {
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (formType != 30)
         return false;
-    LoadRecordHeader(file);
-    FUN_00484ab0(0);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(0);
     data.fFOV = 0.0f;
     data.m_fLightFalloff = 0.0f;
     int chunk;
-    while ((chunk = file->GetChunkID()) != 0)
+    while ((chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunk)
         {
         case 0x44494445: {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 512);
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 512);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -725,40 +762,40 @@ bool LightLoader::LoadLight(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x4c4c5546:
-            TESFullNameLoader::LoadFullNameChunk(this, file);
+            ::ReadFullName(this, file);
             break;
         case 0x4c444f4d:
         case 0x54444f4d:
         case 0x44534f4d:
         case 0x44444f4d:
-            FUN_004892d0(this, file);
+            ::TESModel::LoadModelData((::TESModel *)(::TESModelTextureSwap *)(this), file);
             break;
         case 0x53444f4d: {
-            unsigned int dataSize = file->GetChunkSize();
+            unsigned int dataSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             void* swapData = _alloca(dataSize);
-            file->GetChunkData(swapData, dataSize);
-            ModelLoad::LoadTextureSwapList(swapData, dataSize, ((LightFileExtra*)file)->FUN_00403570());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(swapData), dataSize);
+            reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(swapData, dataSize, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((LightFileExtra*)file)))->FUN_00403570());
             break;
         }
         case 0x4e4f4349:
-            FUN_0048e3d0(this, file);
+            ::TESTexture::ReadTextureData((::TESTexture *)(::TESIcon *)(this), file);
             break;
         case 0x4f43494d:
-            FUN_0047a290(this, file);
+            ::FUN_0047a290((::TeleportableReference *)(::BGSMessageIcon *)(this), file);
             break;
         case 0x49524353: {
             unsigned int scriptID = 0;
             file->GetChunkData(&scriptID);
-            ComponentID::FUN_006ecd40(scriptID);
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(scriptID));
             TESScriptableForm::InitItem(this);
             break;
         }
         case 0x54534544:
         case 0x44545344:
-            FUN_004781e0(this, file);
+            ::FUN_004781e0(this, file);
             break;
         case 0x41544144:
-            FUN_004861f0(file, &data, 24);
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &data, 24);
             break;
         case 0x4d414e46:
             file->GetChunkData((unsigned int*)&fFadeAmount);
@@ -766,20 +803,20 @@ bool LightLoader::LoadLight(TESFile* file)
         case 0x4d414e53: {
             unsigned int soundID = 0;
             file->GetChunkData(&soundID);
-            m_pGameSound = (TESSound*)soundID;
+            m_pGameSound = (TESSound*)(std::uintptr_t)soundID;
             break;
         }
         }
         if (chunk == 0x41544144)
         {
-            if (((LightFileExtra*)file)->FUN_00401680())
-                ((LightData*)&data)->SwapEndian();
+            if (reinterpret_cast<::TESFile *>((((LightFileExtra*)file)))->IsEndianConversionRequired())
+                reinterpret_cast<::FUN_00693dc0_class *>((((LightData*)&data)))->SwapEndian();
             if (data.fFOV == 0.0)
                 data.fFOV = DAT_010249d8;
             if (data.m_fLightFalloff == 0.0)
                 data.m_fLightFalloff = 1.0f;
         }
-        if (!((NextFile*)file)->GetNextChunk())
+        if (!reinterpret_cast<::TESFile *>((((NextFile*)file)))->NextChunk())
             break;
     }
     return true;
@@ -790,7 +827,6 @@ struct Color
 {
     float r, g, b;
     Color(float, float, float);
-    Color FUN_004a0bd0();
 };
 struct FixedString
 {
@@ -865,21 +901,10 @@ struct FUN_00a7d670
     unsigned int unkf8;
 
     FUN_00a7d670();
-    static __forceinline void* operator new(unsigned int size);
-    static __forceinline void operator delete(void*, unsigned int)
-    {}
-    void AssignFixedString(const FixedString&);
-    void FUN_004bc280(const Color&);
-    void FUN_0050dd50(const Color&);
-    void SetEffectColor(const Color&);
     void FUN_0050dd20(float);
 };
 typedef FUN_00a7d670 Light;
 void* __cdecl FUN_00aa13e0(unsigned int);
-__forceinline void* FUN_00a7d670::operator new(unsigned int size)
-{
-    return FUN_00aa13e0(size);
-}
 struct Parent;
 struct Scene;
 struct Extra
@@ -947,7 +972,6 @@ struct Scene
     virtual void slotd4();
     virtual void slotd8();
     virtual void Attach(Light*, bool);
-    Parent* FUN_0043b230();
 };
 struct Parent
 {
@@ -991,7 +1015,6 @@ struct Parent
     virtual void slot94();
     virtual void slot98();
     virtual bool IsSpecial();
-    Parent* FUN_004a8a90();
 };
 struct BaseForm
 {
@@ -1007,7 +1030,6 @@ struct EntryListNode
 };
 struct ObjectPointerProvider
 {
-    EntryListNode* FUN_0041f810();
 };
 struct Reference
 {
@@ -1137,28 +1159,11 @@ struct Reference
     virtual void slot1ec();
     virtual void slot1f0();
     virtual Position* GetPosition();
-    BaseForm* FUN_007af430();
-    int FUN_008d6f30();
-    float FUN_0057b0a0();
-    void FUN_00484a70(bool);
-    void FUN_00572610(Light*);
-    float FUN_00568cb0();
-    ObjectPointerProvider* FUN_005d43c0();
 };
 struct Manager
 {
-    void FUN_00b5c940(Light*, bool);
 };
-Manager* __cdecl FUN_00450b80(int);
-bool __cdecl FUN_00578400(Scene*);
-void __cdecl ProcessListItems(Scene*);
-const char* __cdecl FUN_0050de10();
-Light* __cdecl FUN_0050d6d0(Scene*);
-void __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
-void __cdecl ConfigurePointLight(Light*, unsigned int);
 extern const char DAT_010290a4[];
-extern const Color DAT_011f4998;
-extern const double DAT_0101e568;
 struct LightForm
 {
     virtual void slot00();
@@ -1282,8 +1287,6 @@ struct LightForm
     unsigned int flags;
     unsigned int unkac, unkb0;
     float fade;
-    void FUN_0050ddb0(bool);
-    bool FUN_0050dd90();
     Light* FUN_0050d810(Reference*, Scene*, bool);
 };
 // @fnv 0x0050d810
@@ -1294,13 +1297,13 @@ Light* LightForm::FUN_0050d810(Reference* reference, Scene* pScene, bool force)
     BaseForm* base;
     if (reference)
     {
-        base = reference->FUN_007af430();
-        if ((flags & 0x20) || (reference->FUN_008d6f30() && reference->GetPosition()->z < reference->FUN_0057b0a0()))
+        base = ((::LightCreation::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
+        if ((flags & 0x20) || (((std::intptr_t)(reinterpret_cast<::LowProcess *>((reference))->GetTarget())) && reference->GetPosition()->z < reinterpret_cast<::FUN_0057b0a0_shell *>((reference))->FUN_0057b0a0()))
         {
-            if (base->FUN_00401170() == 30 && FUN_00578400(pScene))
+            if (base->FUN_00401170() == 30 && ::fnv_00578400::FUN_00578400((::fnv_00578400::_FakeNiNode *)(pScene)))
             {
-                reference->FUN_00484a70(true);
-                ProcessListItems(pScene);
+                reinterpret_cast<::FUN_00484a70_shell *>((reference))->FUN_00484a70(true);
+                ::ProcessListItems((::List *)(pScene));
             }
             if (!reference->IsPersistent() && (flags & 0x20))
                 return 0;
@@ -1308,51 +1311,51 @@ Light* LightForm::FUN_0050d810(Reference* reference, Scene* pScene, bool force)
     }
     Light* lightSlot12 = 0;
     Color tintSlot1(0.0f, 0.0f, 0.0f);
-    tintSlot1.r = (unsigned char)(color & 0xff) / DAT_0101e568;
-    tintSlot1.g = (unsigned char)(((unsigned short)color >> 8) & 0xff) / DAT_0101e568;
-    tintSlot1.b = (unsigned char)((color >> 16) & 0xff) / DAT_0101e568;
+    tintSlot1.r = (unsigned char)(color & 0xff) / ::DAT_0101e568;
+    tintSlot1.g = (unsigned char)(((unsigned short)color >> 8) & 0xff) / ::DAT_0101e568;
+    tintSlot1.b = (unsigned char)((color >> 16) & 0xff) / ::DAT_0101e568;
     if (flags & 4)
-        tintSlot1 = tintSlot1.FUN_004a0bd0();
+        tintSlot1 = (*(::LightCreation::Color *)(reinterpret_cast<::P3 *>(&(tintSlot1))->FUN_004a0bd0({})));
     Scene* rootSlot19 = 0;
-    Extra* extra = pScene->GetExtra(FUN_0050de10());
+    Extra* extra = pScene->GetExtra(((const char *)(std::uintptr_t)(::FUN_0050de10())));
     if (extra)
         rootSlot19 = extra->GetScene();
     if (!rootSlot19)
         rootSlot19 = pScene;
-    lightSlot12 = FUN_0050d6d0(rootSlot19);
+    lightSlot12 = ((::LightCreation::FUN_00a7d670 *)(::FindLightInNode((::NiNode *)(rootSlot19))));
     if (!lightSlot12)
     {
         char name[260];
-        FUN_00406d00(name, 260, DAT_010290a4, Name());
+        ::FUN_00406d00(name, 260, DAT_010290a4, Name());
         lightSlot12 = new Light;
-        lightSlot12->AssignFixedString(FixedString(name));
+        ::AssignFixedString((char *)(lightSlot12), (std::intptr_t)&(const ::LightCreation::FixedString &)(FixedString(name)), {});
         rootSlot19->Attach(lightSlot12, true);
     }
     if (reference)
-        reference->FUN_00572610(lightSlot12);
-    lightSlot12->FUN_004bc280(DAT_011f4998);
-    lightSlot12->FUN_0050dd50(DAT_011f4998);
+        reinterpret_cast<::fnv_00572610::FUN_00572610_cls *>((reference))->FUN_00572610(lightSlot12);
+    reinterpret_cast<::FUN_004bc280_S *>((lightSlot12))->FUN_004bc280((const ::C3 *)&((*reinterpret_cast<const ::LightCreation::Color *>(&::DAT_011f4998))));
+    ::FUN_0050dd50((::NiDynamicEffect *)(lightSlot12), (*(::FUN_0050dd50_arg *)&((*reinterpret_cast<const ::LightCreation::Color *>(&::DAT_011f4998)))));
     float radiusValueSlot21 = (float)radius;
     if (reference)
-        radiusValueSlot21 = reference->FUN_00568cb0();
-    lightSlot12->FUN_0050dd50(Color(radiusValueSlot21, radiusValueSlot21, radiusValueSlot21));
-    lightSlot12->SetEffectColor(tintSlot1);
+        radiusValueSlot21 = reinterpret_cast<::fnv_00568cb0::FUN_00568cb0_shell *>((reference))->FUN_00568cb0();
+    ::FUN_0050dd50((::NiDynamicEffect *)(lightSlot12), (*(::FUN_0050dd50_arg *)&(const ::LightCreation::Color &)(Color(radiusValueSlot21, radiusValueSlot21, radiusValueSlot21))));
+    reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((lightSlot12))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(tintSlot1));
     Parent* parentSlot6;
-    for (parentSlot6 = pScene->FUN_0043b230(); parentSlot6; parentSlot6 = parentSlot6->FUN_004a8a90())
+    for (parentSlot6 = ((::LightCreation::Parent *)(::fnv_0043b230::FUN_0043b230((const char *)(pScene)))); parentSlot6; parentSlot6 = ((::LightCreation::Parent *)(::fnv_004a8a90::FUN_004a8a90((char *)(parentSlot6)))))
     {
         if (parentSlot6->IsSpecial())
         {
-            FUN_0050ddb0(true);
+            reinterpret_cast<::Obj50DDB0 *>(this)->FUN_0050ddb0(true);
             break;
         }
     }
-    if (!(reference && reference->FUN_005d43c0()->FUN_0041f810()) ||
-        (reference && reference->FUN_005d43c0()->FUN_0041f810() &&
-         reference->FUN_005d43c0()->FUN_0041f810()->FUN_008256d0()))
-        FUN_00450b80(0)->FUN_00b5c940(lightSlot12, force ? true : FUN_0050dd90());
+    if (!(reference && ((::LightCreation::EntryListNode *)(reinterpret_cast<::FUN_0041f810_shell *>((((::LightCreation::ObjectPointerProvider *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_0041f810()))) ||
+        (reference && ((::LightCreation::EntryListNode *)(reinterpret_cast<::FUN_0041f810_shell *>((((::LightCreation::ObjectPointerProvider *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_0041f810())) &&
+         ((::LightCreation::EntryListNode *)(reinterpret_cast<::FUN_0041f810_shell *>((((::LightCreation::ObjectPointerProvider *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_0041f810()))->FUN_008256d0()))
+        reinterpret_cast<::fnv_00b5c940::SSNode *>((((::LightCreation::Manager *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(lightSlot12), force ? true : reinterpret_cast<::FUN_0050dd90_shell *>(this)->FUN_0050dd90());
     if (lightSlot12)
     {
-        ConfigurePointLight(lightSlot12, (unsigned int)radiusValueSlot21);
+        ::ConfigurePointLight((::NiAVObject *)(lightSlot12), (unsigned int)radiusValueSlot21);
         lightSlot12->FUN_0050dd20(fade);
     }
     return lightSlot12;
@@ -1370,21 +1373,15 @@ class TESObjectCELL;
 class NiPointLight
 {
   public:
-    void FUN_0050c630(float f);
-    void FUN_0050c660(float f);
-    void FUN_0050c690(float f);
 };
 
 class GlobalObject_0044f440
 {
   public:
-    float* Float();
-    float FUN_00450410();
 };
 class GlobalObject_0045cfe0
 {
   public:
-    int* Int();
 };
 class GlobalObject_0045cf30
 {
@@ -1392,66 +1389,58 @@ class GlobalObject_0045cf30
     bool FUN_0050e620(bool b);
 };
 
-extern GlobalObject_0044f440 g_011c8fb0;
 extern GlobalObject_0044f440 g_011c9000;
 extern GlobalObject_0044f440 g_011c9040;
-extern GlobalObject_0044f440 g_011c906c;
 extern GlobalObject_0044f440 g_011c908c;
-extern GlobalObject_0045cfe0 g_011c9054;
-extern GlobalObject_0045cfe0 g_011c907c;
 extern GlobalObject_0045cf30 g_011c8fc0;
 extern unsigned char DAT_011c8fa0;
-extern NiRTTI DAT_011f4a98;
 
 class TES
 {
   public:
-    TESObjectCELL* GetPrevPath();
 };
-extern TES* g_TES;
 
-NiAVObject* NiDynamicCast(const NiRTTI* type, NiAVObject* object);
 
 // @fnv 0x0050c350
 void ConfigurePointLight(NiAVObject* object, unsigned int count)
 {
-    NiPointLight* light = (NiPointLight*)NiDynamicCast(&DAT_011f4a98, object);
+    NiPointLight* light = (NiPointLight*)((::NiAVObject *)(::FUN_00653270(&(*reinterpret_cast<::NiRTTI *>(&::g_011f4a98)), (::NiObject *)(object))));
     if (light)
     {
-        light->FUN_0050c630((DAT_011c8fa0 & 1) ? *g_011c9000.Float() : 0.0f);
-        light->FUN_0050c660(0.0f);
-        light->FUN_0050c690(0.0f);
+        reinterpret_cast<::FUN_0050c630_helper *>((light))->FUN_0050c630((DAT_011c8fa0 & 1) ? *((float *)&(::FUN_00403e20((float *)&(g_011c9000)))) : 0.0f);
+        reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660(0.0f);
+        ::FUN_0050c690((::NiDynamicEffect *)(light), 0.0f);
 
-        if ((DAT_011c8fa0 & 2) || (g_TES->GetPrevPath() != 0 && g_011c8fc0.FUN_0050e620(true)))
+        if ((DAT_011c8fa0 & 2) || (((::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetPrevPath())) != 0 && g_011c8fc0.FUN_0050e620(true)))
         {
-            float a = (double)count * *g_011c8fb0.Float();
-            switch (*g_011c9054.Int())
+            float a = (double)count * *((float *)&(::FUN_00403e20((float *)&(g_011c8fb0))));
+            switch (*((int *)&(::FUN_0043d4d0((int *)&(g_011c9054)))))
             {
             case 0:
-                light->FUN_0050c660(*g_011c908c.Float());
+                reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660(*((float *)&(::FUN_00403e20((float *)&(g_011c908c)))));
                 break;
             default:
-                light->FUN_0050c660((a != 0.0) ? ((1.0 / a) * *g_011c908c.Float()) : 0.01f);
+                reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660((a != 0.0) ? ((1.0 / a) * *((float *)&(::FUN_00403e20((float *)&(g_011c908c))))) : 0.01f);
                 break;
             case 2:
-                light->FUN_0050c660((a != 0.0) ? (*g_011c908c.Float() / (a * a)) : 0.01f);
+                reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660((a != 0.0) ? (*((float *)&(::FUN_00403e20((float *)&(g_011c908c)))) / (a * a)) : 0.01f);
                 break;
             }
         }
 
-        if ((DAT_011c8fa0 & 4) || (g_TES->GetPrevPath() == 0 && g_011c8fc0.FUN_0050e620(true)))
+        if ((DAT_011c8fa0 & 4) || (((::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetPrevPath())) == 0 && g_011c8fc0.FUN_0050e620(true)))
         {
-            float b = (double)count * *g_011c906c.Float();
-            switch (*g_011c907c.Int())
+            float b = (double)count * *((float *)&(::FUN_00403e20((float *)&(g_011c906c))));
+            switch (*((int *)&(::FUN_0043d4d0((int *)&(g_011c907c)))))
             {
             case 0:
-                light->FUN_0050c690(*g_011c9040.Float());
+                ::FUN_0050c690((::NiDynamicEffect *)(light), *((float *)&(::FUN_00403e20((float *)&(g_011c9040)))));
                 break;
             case 1:
-                light->FUN_0050c690((b != 0.0) ? ((1.0 / (double)count) * g_011c9040.FUN_00450410()) : 0.01f);
+                ::FUN_0050c690((::NiDynamicEffect *)(light), (b != 0.0) ? ((1.0 / (double)count) * reinterpret_cast<::FUN_00450410_Class *>(&(g_011c9040))->FUN_00450410()) : 0.01f);
                 break;
             default:
-                light->FUN_0050c690((b != 0.0) ? (g_011c9040.FUN_00450410() / (b * b)) : 0.01f);
+                ::FUN_0050c690((::NiDynamicEffect *)(light), (b != 0.0) ? (reinterpret_cast<::FUN_00450410_Class *>(&(g_011c9040))->FUN_00450410() / (b * b)) : 0.01f);
                 break;
             }
         }
@@ -1460,18 +1449,13 @@ void ConfigurePointLight(NiAVObject* object, unsigned int count)
 
 struct LightSoundAccess
 {
-    TESSound* FUN_004036b0();
 };
 struct LightComponentComparison
 {
-    bool FUN_00485270(TESForm*);
 };
 struct LightDataAccess
 {
-    LightSourceData* FUN_0050d100();
 };
-extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
-extern float __fastcall GetFieldB4Float(char*);
 
 struct LightComparison : TESObjectLIGH
 {
@@ -1485,13 +1469,240 @@ bool LightComparison::FUN_0050d120(TESForm* form)
     TESObjectLIGH* pOtherLight = dynamic_cast<TESObjectLIGH*>(form);
     if (!pOtherLight)
         return true;
-    if (reinterpret_cast<LightComponentComparison*>(this)->FUN_00485270(pOtherLight))
+    if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<LightComponentComparison*>(this)))->FUN_00485270(pOtherLight))
         return true;
-    if (m_pGameSound != reinterpret_cast<LightSoundAccess*>(pOtherLight)->FUN_004036b0())
+    if (m_pGameSound != ((::TESSound *)(reinterpret_cast<::FUN_004036b0_Class *>((reinterpret_cast<LightSoundAccess*>(pOtherLight)))->FUN_004036b0())))
         return true;
-    if (_memcmp(&data, reinterpret_cast<LightDataAccess*>(pOtherLight)->FUN_0050d100(), sizeof(data)))
+    if (std::memcmp(&data, ((::LightSourceData *)(reinterpret_cast<::FUN_0050d100_shell *>((reinterpret_cast<LightDataAccess*>(pOtherLight)))->FUN_0050d100())), sizeof(data)))
         return true;
     if (GetFieldB4Float(reinterpret_cast<char*>(this)) != GetFieldB4Float(reinterpret_cast<char*>(pOtherLight)))
         return true;
     return false;
 }
+
+struct PrimaryBase
+{
+    virtual void FUN_0050e680();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0050e680();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0050e680
+    virtual void FUN_0050e680();
+};
+
+Derived::Derived()
+{}
+
+namespace fnv_0050e690 {
+// Adjustor thunk for FUN_0050e690: "sub ecx, 0x3c; jmp DestroyIfFlagged".
+//
+// This is the MSVC "this adjusting thunk" emitted for a virtual function that a
+// class inherits from a secondary base: the thunk converts the secondary base
+// sub-object pointer (this + 0x3c) back into the derived object pointer
+// (sub ecx, 0x3c) and then tail jumps to the final overrider.
+//
+// The subtracted constant is the size of the primary base, so the primary base
+// is laid out as a vtable pointer plus 14 int members (4 + 14 * 4 = 0x3c
+// bytes).  Both bases declare the same virtual function, the derived class
+// redeclares it and defines only its constructor, which is what makes the
+// compiler emit the vtables and the adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0050e690();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0050e690();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0050e690
+    virtual void FUN_0050e690();
+};
+
+Derived::Derived()
+{}
+}
+
+// namespace fnv_0050e690
+
+// FUN_0050e6a0 is an MSVC this-adjusting (adjustor) thunk:
+//     sub ecx, 0x8c ; jmp FUN_0050e580
+// It is emitted for a virtual that lives in the first base of a multiply
+// inherited class but is reached through the second base's vtable slot: the
+// slot holds a thunk that walks `this` back to the derived object (the size of
+// the primary base, 0x8c) and tail-jumps to the derived override.
+struct ThunkPrimaryBase
+{
+    virtual void* FUN_0050e6a0(unsigned int flags);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+};
+
+struct ThunkSecondaryBase
+{
+    virtual void* FUN_0050e6a0(unsigned int flags);
+};
+
+struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
+{
+    ThunkDerived();
+// @fnv 0x0050e6a0
+    virtual void* FUN_0050e6a0(unsigned int flags);
+};
+
+ThunkDerived::ThunkDerived()
+{}
+
+namespace fnv_0050e6b0 {
+// sub ecx,0x8c; jmp FUN_0050e550
+// MSVC this-adjusting (adjustor) thunk: a derived class declares a virtual that
+// both of its bases declare, so the secondary base's vtable slot holds a thunk
+// that walks `this` back to the secondary base subobject (the size of the
+// primary base, 0x8c) and tail-jumps to the base implementation.
+struct ThunkPrimaryBase
+{
+    virtual void FUN_0050e6b0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+};
+
+struct ThunkSecondaryBase
+{
+    virtual void FUN_0050e6b0();
+};
+
+struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
+{
+    ThunkDerived();
+// @fnv 0x0050e6b0
+    virtual void FUN_0050e6b0();
+};
+
+ThunkDerived::ThunkDerived()
+{}
+}
+
+#include "generated/data/fallout_shared/teslight.inc"

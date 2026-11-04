@@ -3,13 +3,26 @@
 #define FNV_BSAUDIO_WORKER_DECLS_H
 
 
+#include <cstdint>
+#include "fnv/decl/AudioManagerD570.h"
+#include "fnv/decl/AudioThreadHost_00ad9f30.h"
+#include "fnv/decl/BSAudioManager_.h"
+#include "fnv/decl/FUN_00ad8540_shell.h"
+#include "fnv/decl/FUN_00ada1d0_shell.h"
+#include "fnv/decl/FUN_00ada300_shell.h"
+#include "fnv/decl/FUN_00adeff0_cls.h"
+#include "fnv/decl/OwnerQ3.h"
+#include "fnv/decl/fnv_00adbf50__FUN_00adbf50_cls.h"
+#include "fnv/decl/fnv_00adca20__FUN_00adca20_cls.h"
+#include "fnv/decl/fnv_00add630__ADD630Manager.h"
+#include "fnv/symbols_011dc000.h"
+#include "fnv/symbols_0126f000.h"
 #include "layout_support.h"
 #include "BSAudioSyncTimer.h"
 #include "NiPoint3.h"
 
 class BSAudioListener;
 
-#pragma pack(push, 4)
 class BSAudio
 {
   public:
@@ -39,7 +52,6 @@ class BSAudio
     void SetAudioProperty(unsigned int, unsigned int, unsigned int);
 
     void Update(bool);
-    void SetUseMultipleThreads(bool);
     void Precache(char*, unsigned int);
 
     float GetMasterVolume();
@@ -53,11 +65,9 @@ class BSAudio
     void FUN_00ad7940(NiPoint3, NiPoint3);
     void FUN_00ad79b0(unsigned int);
     void FUN_00ad77f0(float, unsigned int);
-    void FUN_00ad8100(unsigned int, unsigned int, unsigned int);
-    void ForwardToManager(unsigned int, unsigned int);
+    void FUN_00ad8100(const char*, unsigned int, std::intptr_t);
+    void ForwardToManager(const char*, unsigned int);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSAudio) == 0x38);
 
 // BSAudioListener interface. Only the vtable slots this unit forwards to are
 // declared; the remaining slots keep their ordinal names so the introducing
@@ -103,12 +113,11 @@ struct BSAudioThreadState
     int m_uiMemoryContext;
 };
 
-extern "C" volatile unsigned int _tls_index;
 extern "C" unsigned long __readfsdword(unsigned long);
 
 __forceinline BSAudioThreadState* BSAudioGetThreadState()
 {
-    unsigned int index = _tls_index;
+    unsigned int index = ::DAT_0126fd98;
     return reinterpret_cast<BSAudioThreadState**>(__readfsdword(0x2c))[index];
 }
 
@@ -153,20 +162,9 @@ class BSAudioManager
     bool m_bUnderwater;                  // +0x175
 
     static BSAudioManager& GetRandomGenerator();
-    void DisableAudioPlayback(unsigned int, bool);
-    void SetAudioSettingValue(unsigned int, unsigned int, unsigned int);
     void SetListenerPosition(NiPoint3);
-    bool FUN_00adbf50(unsigned int);
 
-    void Update(bool);
-    void StartAudioThreads();
-    void StopAudioThreads();
-    void FUN_00add570(char*, unsigned int);
-    void FUN_00add630(unsigned int, unsigned int);
-    void FUN_00add6f0(unsigned int, unsigned int, unsigned int);
     void FUN_00ad9f30();
-    void FUN_00ada300(float, unsigned int);
-    void FUN_00adeff0(bool);
 };
 
 class SoundPlaybackHandle
@@ -178,7 +176,6 @@ class SoundPlaybackHandle
 
 extern "C"
 {
-    extern unsigned char DAT_011dcfa4;
 }
 
 #endif

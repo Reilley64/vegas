@@ -2,6 +2,8 @@
 // src/havok/common/scenedata/attributes/hkxsparselyanimatedenumclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxsparselyanimatedenumclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
 struct S_00dfdb90_Allocator
 {
     virtual ~S_00dfdb90_Allocator();
@@ -12,17 +14,16 @@ struct S_00dfdb90_Allocator
 };
 struct S_00dfdb90_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     S_00dfdb90_Allocator* m_pStreamAllocator;
     S_00dfdb90_Allocator& heap()
     {
         return *m_pStreamAllocator;
     }
 };
-S_00dfdb90_Router* FUN_00c85750();
 template <class T> struct S_00dfdb90_Array
 {
     T* m_data;
@@ -38,7 +39,7 @@ template <class T> struct S_00dfdb90_Array
     }
     __forceinline ~S_00dfdb90_Array() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<S_00dfdb90_Router*>(::FUN_00c85750())->heap());
     }
 };
 struct S_00dfdb90_Base
@@ -67,10 +68,10 @@ struct Heap
 };
 struct Holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     Heap* unk10;
 };
 struct Helper
@@ -90,15 +91,14 @@ struct Owner
     int unk1C;
     Owner* DestroyOwner(unsigned int flags);
 };
-extern Holder* FUN_00c85750();
 // Calls FUN_00dfdb90 on this, and if flags has bit 0 set, frees this through the holder's heap using unk04; returns this.
 // @fnv 0x00dfdc10
 Owner* Owner::DestroyOwner(unsigned int flags)
 {
-    ((Helper*)this)->FUN_00dfdb90();
+    reinterpret_cast<::FUN_00dfdb90 *>((((Helper*)this)))->FUN_00dfdb90::~FUN_00dfdb90();
     if (flags & 1)
     {
-        Holder* holder = FUN_00c85750();
+        Holder* holder = static_cast<Holder*>(::FUN_00c85750());
         holder->unk10->free(this, unk04);
     }
     return this;
@@ -116,17 +116,16 @@ struct S_00dfdc40_Allocator
 };
 struct S_00dfdc40_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     S_00dfdc40_Allocator* m_pStreamAllocator;
     S_00dfdc40_Allocator& heap()
     {
         return *m_pStreamAllocator;
     }
 };
-S_00dfdc40_Router* FUN_00c85750();
 template <class T> __forceinline void destruct(T* t, int n)
 {
     for (int i = 0; i < n; ++i)
@@ -148,7 +147,7 @@ template <class T> struct S_00dfdc40_Array
     }
     __forceinline ~S_00dfdc40_Array() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<S_00dfdc40_Router*>(::FUN_00c85750())->heap());
     }
 };
 struct S_00dfdc40_Str
@@ -181,7 +180,6 @@ FUN_00dfdc40::~FUN_00dfdc40() throw()
 namespace fnv_00dfdcb0 {
 struct Ref
 {
-    void removeReference();
 };
 struct Heap
 {
@@ -191,10 +189,10 @@ struct Heap
 };
 struct Holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     Heap* unk10;
 };
 struct Helper
@@ -215,18 +213,17 @@ struct Owner
     Ref* unk20;
     Owner* Destroy(unsigned int flags);
 };
-extern Holder* FUN_00c85750();
 // Releases the reference at unk20, calls FUN_00dfdb90, and if flags bit 0 is set frees this through the holder's heap using unk04.
 // @fnv 0x00dfdcb0
 Owner* Owner::Destroy(unsigned int flags)
 {
     if (unk20)
-        unk20->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((unk20))->FUN_00c905b0();
     unk20 = 0;
-    ((Helper*)this)->FUN_00dfdb90();
+    reinterpret_cast<::FUN_00dfdb90 *>((((Helper*)this)))->FUN_00dfdb90::~FUN_00dfdb90();
     if (flags & 1)
     {
-        Holder* holder = FUN_00c85750();
+        Holder* holder = static_cast<Holder*>(::FUN_00c85750());
         holder->unk10->free(this, unk04);
     }
     return this;
@@ -243,14 +240,13 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfdcf0_cls
 {
@@ -261,17 +257,16 @@ struct FUN_00dfdcf0_cls
     void FUN_00dfdc40();
 
     FUN_00dfdcf0_cls* FUN_00dfdcf0(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Calls FUN_00dfdc40, and if acFlags has bit 0 set, frees this via the AudioAllocator from FUN_00c85750, then returns this.
 // @fnv 0x00dfdcf0
 FUN_00dfdcf0_cls* FUN_00dfdcf0_cls::FUN_00dfdcf0(unsigned char acFlags)
 {
-    FUN_00dfdc40();
+    reinterpret_cast<::fnv_00dfdc40::FUN_00dfdc40 *>(this)->fnv_00dfdc40::FUN_00dfdc40::~FUN_00dfdc40();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }

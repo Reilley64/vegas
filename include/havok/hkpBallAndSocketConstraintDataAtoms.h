@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpBallSocketConstraintAtom.h"
 #include "hkpSetLocalTranslationsConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpBallAndSocketConstraintDataAtoms
 {
   public:
@@ -14,7 +13,4 @@ class hkpBallAndSocketConstraintDataAtoms
     hkpBallSocketConstraintAtom m_kBallSocket;                                    // +0x30
     char pad38[0x8];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpBallAndSocketConstraintDataAtoms[(sizeof(hkpBallAndSocketConstraintDataAtoms) == 0x40) ? 1 : -1];
 #endif

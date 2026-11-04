@@ -2,9 +2,25 @@
 // src/fallout_shared/havok/tesarrowtargetlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/tesarrowtargetlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_00444d00_Class.h"
+#include "fnv/decl/FUN_00563200_Struct.h"
+#include "fnv/decl/FUN_005be5c0_shell.h"
+#include "fnv/decl/Projectile.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/bhkCollisionObject.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_01268000.h"
 struct Obj;
-extern Obj DAT_011e0e80;
-extern int DAT_012681c0;
 
 struct Obj
 {
@@ -152,74 +168,15 @@ struct Obj
     int unk10;
     int unk14;
     int unk18;
-    int unk1c;
-    int MaskWithField(int a);
-    Obj* FUN_004ae750();
-    Obj* FUN_0044ddc0();
-    unsigned int FUN_005be5c0(int a);
-    Obj* FUN_00968670(unsigned int i);
-    bool FUN_00444d00(int a);
+    void* unk1c;
     int FUN_00401170();
-    Obj* GetNodeItem();
-    int FUN_00472380();
-    void FUN_009bc8f0();
-    Obj* FUN_00717e50();
 };
 
-Obj* FUN_004b5a80(int a);
-Obj* FUN_00653270(int* dat, Obj* o_tmp);
-Obj* FUN_004b5a20(Obj* o_tmp);
-int FUN_0056f930(Obj* o_tmp);
 
 struct FUN_0062a510_cls
 {
-    void FUN_0062a510(int a1);
+    void FUN_0062a510(void* a1);
 };
-
-// @fnv 0x0062a510
-void FUN_0062a510_cls::FUN_0062a510(int a1)
-{
-    Obj* o_tmp = FUN_004b5a80(a1);
-    Obj* p = FUN_00653270(&DAT_012681c0, o_tmp);
-    if (p != 0 && p->MaskWithField(0x100) != 0)
-    {
-        Obj* m_tmp = FUN_004b5a20(p->FUN_004ae750());
-        Obj* r = (m_tmp != 0) ? m_tmp->FUN_0044ddc0() : 0;
-        int g_tmp = FUN_0056f930(r);
-        Obj* t = DAT_011e0e80.FUN_00717e50();
-        for (unsigned int i = 0; i < t->FUN_005be5c0(0); ++i)
-        {
-            Obj* e = t->FUN_00968670(i);
-            if (e != 0)
-            {
-                if (e->v224())
-                {
-                    Obj* u = e;
-                    if (u != 0)
-                    {
-                        if (u->FUN_00444d00(0x80))
-                        {
-                            if (u->FUN_00401170() == 0x3d)
-                            {
-                                if (((int)u->FUN_0044ddc0() & 0x20) == 0)
-                                {
-                                    Obj* v = u->GetNodeItem();
-                                    if (v->unk1c == a1)
-                                    {
-                                        if (u->FUN_00472380() == 4)
-                                        {
-                                            u->FUN_009bc8f0();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
 
 struct UnknownBlock
 {
@@ -228,7 +185,6 @@ struct UnknownBlock
 struct ListNodeHelper
 {
     void* item;
-    void** FUN_006815c0();
 };
 struct Owner_0062a670
 {
@@ -244,10 +200,54 @@ struct Owner_0062a670
     ListNodeHelper node;
     void* GetNodeItem();
 };
+// @fnv 0x0062a510
+void FUN_0062a510_cls::FUN_0062a510(void* a1)
+{
+    Obj* o_tmp = ((::Obj *)(::FUN_004b5a80(a1)));
+    Obj* p = ((::Obj *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012681c0))), (::NiObject *)(o_tmp))));
+    if (p != 0 && reinterpret_cast<::FUN_00563200_Struct *>((p))->MaskWithField(0x100) != 0)
+    {
+        Obj* m_tmp = ((::Obj *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(::Obj *)(((::Obj *)(::FUN_004ae750((void *)(p))))))));
+        Obj* r = (m_tmp != 0) ? ((::Obj *)(reinterpret_cast<::Twin_0044ddc0 *>((m_tmp))->GetName())) : 0;
+        std::intptr_t g_tmp = ((std::intptr_t)(::FUN_0056f930((::NiAVObject *)(r))));
+        Obj* t = ((::Obj *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::Obj *>(&::g_011e0e80))))->GetCurrentProcessData()));
+        for (unsigned int i = 0; i < reinterpret_cast<::FUN_005be5c0_shell *>((t))->FUN_005be5c0(0); ++i)
+        {
+            Obj* e = ((::Obj *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((t))->FUN_00968670(i)));
+            if (e != 0)
+            {
+                if (e->v224())
+                {
+                    Obj* u = e;
+                    if (u != 0)
+                    {
+                        if (reinterpret_cast<::FUN_00444d00_Class *>((u))->FUN_00444d00(0x80))
+                        {
+                            if (u->FUN_00401170() == 0x3d)
+                            {
+                                if (((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((u))->GetName()) & 0x20) == 0)
+                                {
+                                    Obj* v = ((::Obj *)(reinterpret_cast<::Owner_0062a670 *>((u))->GetNodeItem()));
+                                    if (v->unk1c == a1)
+                                    {
+                                        if (::FUN_00472380((std::intptr_t)(u)) == 4)
+                                        {
+                                            reinterpret_cast<::Projectile *>((u))->FUN_009bc8f0();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 // @fnv 0x0062a670
 void* Owner_0062a670::GetNodeItem()
 {
-    return *node.FUN_006815c0();
+    return *((void **)&(node));
 }
 
 namespace fnv_0062a690 {
@@ -260,7 +260,7 @@ struct S_0062a690_Extra
     int unk10;
     int unk14;
     int unk18;
-    int unk1c;
+    void* unk1c;
 };
 
 struct S_0062a690_Actor
@@ -404,72 +404,56 @@ struct S_0062a690_Actor
     virtual void unk_136();
     virtual bool vfn_0224();
 
-    bool __thiscall FUN_00444d00(unsigned int flag);
-    unsigned int __thiscall FUN_00401170();
-    S_0062a690_Extra* __thiscall GetNodeItem();
-    int __thiscall FUN_00472380();
-    void __thiscall FUN_009bc8f0();
+    unsigned int FUN_00401170();
 };
 
 struct S_0062a690_ProcessArray
 {
-    unsigned int __thiscall FUN_005be5c0(int param);
-    S_0062a690_Actor* __thiscall FUN_00968670(unsigned int idx);
 };
 
 struct S_0062a690_ProcessLists
 {
-    S_0062a690_ProcessArray* __thiscall FUN_00717e50();
 };
 
-extern S_0062a690_ProcessLists DAT_011e0e80;
-extern int DAT_012681c0;
 
 struct S_0062a690_A
 {
-    int __thiscall MaskWithField(unsigned int flag);
-    void* __thiscall FUN_004ae750();
 };
 
 struct S_0062a690_B
 {
-    void* __thiscall FUN_0044ddc0();
 };
 
-void* __cdecl FUN_004b5a80(int id);
-S_0062a690_A* __cdecl FUN_00653270(void* rtti, void* obj);
-S_0062a690_B* __cdecl FUN_004b5a20(void* p);
-void* __cdecl FUN_0056f930(void* p);
 
 struct S_0062a690_Class
 {
-    void FUN_0062a690(int arg0);
+    void FUN_0062a690(void* arg0);
 };
 
 // @fnv 0x0062a690
-void S_0062a690_Class::FUN_0062a690(int arg0)
+void S_0062a690_Class::FUN_0062a690(void* arg0)
 {
-    void* v_08 = FUN_004b5a80(arg0);
-    S_0062a690_A* v_04 = FUN_00653270(&DAT_012681c0, v_08);
-    if (v_04 && v_04->MaskWithField(0x100))
+    void* v_08 = ::FUN_004b5a80(arg0);
+    S_0062a690_A* v_04 = ((::fnv_0062a690::S_0062a690_A *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_012681c0))), (::NiObject *)(v_08))));
+    if (v_04 && reinterpret_cast<::FUN_00563200_Struct *>((v_04))->MaskWithField(0x100))
     {
-        S_0062a690_B* v_18 = FUN_004b5a20(v_04->FUN_004ae750());
-        void* ptr = v_18 ? v_18->FUN_0044ddc0() : 0;
-        void* v_0c = FUN_0056f930(ptr);
-        S_0062a690_ProcessArray* v_14 = DAT_011e0e80.FUN_00717e50();
+        S_0062a690_B* v_18 = ((::fnv_0062a690::S_0062a690_B *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(void *)(((void *)(::FUN_004ae750((void *)(v_04))))))));
+        void* ptr = v_18 ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((v_18))->GetName())) : 0;
+        void* v_0c = ((void *)(::FUN_0056f930((::NiAVObject *)(ptr))));
+        S_0062a690_ProcessArray* v_14 = ((::fnv_0062a690::S_0062a690_ProcessArray *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::fnv_0062a690::S_0062a690_ProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()));
 
-        for (unsigned int v_1c = 0; v_1c < v_14->FUN_005be5c0(0); v_1c++)
+        for (unsigned int v_1c = 0; v_1c < reinterpret_cast<::FUN_005be5c0_shell *>((v_14))->FUN_005be5c0(0); v_1c++)
         {
-            S_0062a690_Actor* v_20 = v_14->FUN_00968670(v_1c);
+            S_0062a690_Actor* v_20 = ((::fnv_0062a690::S_0062a690_Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((v_14))->FUN_00968670(v_1c)));
             if (v_20 && v_20->vfn_0224())
             {
                 S_0062a690_Actor* v_24 = v_20;
-                if (v_24 && v_24->FUN_00444d00(0x80) && v_24->FUN_00401170() == 0x3d)
+                if (v_24 && reinterpret_cast<::FUN_00444d00_Class *>((v_24))->FUN_00444d00(0x80) && v_24->FUN_00401170() == 0x3d)
                 {
-                    S_0062a690_Extra* v_28 = v_24->GetNodeItem();
-                    if (v_28->unk1c == arg0 && v_24->FUN_00472380() == 4)
+                    S_0062a690_Extra* v_28 = ((::fnv_0062a690::S_0062a690_Extra *)(reinterpret_cast<::Owner_0062a670 *>((v_24))->GetNodeItem()));
+                    if (v_28->unk1c == arg0 && ::FUN_00472380((std::intptr_t)(v_24)) == 4)
                     {
-                        v_24->FUN_009bc8f0();
+                        reinterpret_cast<::Projectile *>((v_24))->FUN_009bc8f0();
                     }
                 }
             }

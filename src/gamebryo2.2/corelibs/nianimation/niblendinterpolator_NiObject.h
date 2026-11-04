@@ -25,8 +25,9 @@ class NiControllerManager;
 class NiObjectGroup;
 class NiBound;
 class NiRTTI;
-template <class T> class NiTPrimitiveArray;
-typedef NiTPrimitiveArray<const char*> NiViewerStringsArray;
+template <class T> class NiTMallocInterface;
+template <class T, class TAlloc> class NiTPrimitiveArray;
+typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*>> NiViewerStringsArray;
 class NiObject : public NiRefObject
 {
   public:
@@ -80,5 +81,4 @@ class NiObject : public NiRefObject
     virtual NiControllerManager* IsControllerManager()
         const;  // 34 | Returns this if it's a NiControllerManager, otherwise nullptr
 };
-FNV_STATIC_ASSERT(sizeof(NiObject) == 0x8);
 #endif

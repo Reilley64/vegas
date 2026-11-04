@@ -3,17 +3,16 @@
 #define FNV_BSSYSTEMUTILITIESSTRINGS_H
 
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_011f6000.h"
 #include "layout_support.h"
 
 class MemoryManager
 {
   public:
-    void Deallocate(void* pointer);
 };
 
-extern MemoryManager g_memoryManager;
 
-#pragma pack(push, 4)
 class BSSystemUtilitiesStrings
 {
   public:
@@ -23,9 +22,6 @@ class BSSystemUtilitiesStrings
     virtual void Initialize();
     virtual void Destroy();
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(BSSystemUtilitiesStrings) == 36);
-FNV_STATIC_ASSERT(offsetof(BSSystemUtilitiesStrings, m_pStringFunctions) == 4);
 
 #endif

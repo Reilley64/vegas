@@ -2,7 +2,7 @@
 
 class NavMeshTriangle;
 class EdgeExtraInfo;
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     NavMeshTriangle* FUN_00558dd0(unsigned short index);

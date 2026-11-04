@@ -6,7 +6,6 @@
 #include "hkBase.h"
 class hkpAabbPhantom;
 class hkpShape;
-#pragma pack(push, 1)
 class hkpVehicleLinearCastWheelCollideWheelState
 {
   public:
@@ -16,7 +15,4 @@ class hkpVehicleLinearCastWheelCollideWheelState
     hkTransform m_kMotionTransform;  // +0x10
     hkVector4 m_vTo;                 // +0x50
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleLinearCastWheelCollideWheelState
-    [(sizeof(hkpVehicleLinearCastWheelCollideWheelState) == 0x60) ? 1 : -1];
 #endif

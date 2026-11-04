@@ -1,6 +1,22 @@
 
 // NiFloatInterpolator constructor and binary loading for
 // gamebryo2.2/corelibs/nianimation/nifloatinterpolator.cpp.
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
+#include "fnv/decl/FORenderedMenu.h"
+#include "fnv/decl/FUN_00a3ce20_shell.h"
+#include "fnv/decl/FUN_00a95ca0_shell.h"
+#include "fnv/decl/S00a3cc40.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a3cbf0__NiKeyBasedInterpolator.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_0109a000.h"
+#include "fnv/symbols_011f3000.h"
 #include "nifloatinterpolator.h"
 
 // NOTE (matcher worker): the constructor below compiles byte-identically for
@@ -22,7 +38,7 @@ NiFloatInterpolator::NiFloatInterpolator(NiFloatData* pkFloatData)
 // @fnv 0x00a3c800
 void NiFloatInterpolator::LoadBinary(NiStream& kStream)
 {
-    NiKeyBasedInterpolator::LoadBinary(kStream);
+    ::FUN_00aa0ac0();
 
     ReadBinaryValue(kStream, m_fFloatValue);
 
@@ -40,7 +56,7 @@ void NiFloatInterpolator::LoadBinary(NiStream& kStream)
 }
 
 // @fnv 0x00a3c3c0
-int __fastcall FUN_00a3c3c0(void* thisPtr, int, unsigned short)
+int FUN_00a3c3c0(void* thisPtr, int, unsigned short)
 {
     void* pData = *(void**)((char*)thisPtr + 0x10);
     if (!pData)
@@ -49,7 +65,7 @@ int __fastcall FUN_00a3c3c0(void* thisPtr, int, unsigned short)
 }
 
 // @fnv 0x00a3c3d0
-unsigned char __fastcall FUN_00a3c3d0(const void* self, int, unsigned short)
+unsigned char FUN_00a3c3d0(const void* self, int, unsigned short)
 {
     const char* p = *(const char**)((const char*)self + 0x10);
     if (!p)
@@ -61,17 +77,15 @@ struct GlobalObjectO2_00a7b610
 {
     int pad;
 };
-extern GlobalObjectO2_00a7b610 g_011f3738;
 
 // @fnv 0x00a3c380
 const GlobalObjectO2_00a7b610* __cdecl FUN_00a3c380()
 {
-    return &g_011f3738;
+    return &::g_011f3738;
 }
 
 struct FloatDataHelper
 {
-    void FUN_00a3cc40(float a, float b);
 };
 struct FloatInterpView
 {
@@ -81,10 +95,10 @@ struct FloatInterpView
 
 // If m_spFloatData is set, forwards the two float arguments to its FUN_00a3cc40 method.
 // @fnv 0x00a3c540
-void __fastcall FUN_00a3c540(FloatInterpView* self, int edx, float m_fStartTime, float m_fMaximumDistance)
+void FUN_00a3c540(FloatInterpView* self, int edx, float m_fStartTime, float m_fMaximumDistance)
 {
     if (self->m_spFloatData)
-        self->m_spFloatData->FUN_00a3cc40(m_fStartTime, m_fMaximumDistance);
+        reinterpret_cast<::S00a3cc40 *>((self->m_spFloatData))->FUN_00a3cc40(m_fStartTime, m_fMaximumDistance);
 }
 
 struct FUN_00a3c500_shell : NiFloatInterpolator
@@ -96,18 +110,17 @@ struct FUN_00a3c500_shell : NiFloatInterpolator
 // @fnv 0x00a3c500
 void FUN_00a3c500_shell::SetFloatValue(float value)
 {
-    if (reinterpret_cast<NiPointer<NiFloatData>*>(reinterpret_cast<char*>(this) + 0x10)->m_pObject)
+    if (this->m_spFloatData.m_pObject)
     {
-        reinterpret_cast<NiPointer<NiFloatData>*>(reinterpret_cast<char*>(this) + 0x10)->m_pObject->DecRefCount();
-        reinterpret_cast<NiPointer<NiFloatData>*>(reinterpret_cast<char*>(this) + 0x10)->m_pObject = 0;
+        this->m_spFloatData.m_pObject->DecRefCount();
+        this->m_spFloatData.m_pObject = 0;
     }
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xc) = value;
+    this->m_fFloatValue = value;
 }
 
 extern char DAT_01096f34;
-extern float DAT_0109a918;
 
-extern void(__stdcall* FUN_00fdf1c0)(int);
+extern void(* FUN_00fdf1c0)(int);
 
 struct S_00a3c340_Class
 {
@@ -119,26 +132,8 @@ struct S_00a3c340_Class
     int unk14;
 
     void FUN_00a3ca10();
-    S_00a3c340_Class* Initialize(int arg);
+    S_00a3c340_Class* Initialize(intptr_t arg);
 };
-
-// @fnv 0x00a3c340
-S_00a3c340_Class* S_00a3c340_Class::Initialize(int arg)
-{
-    FUN_00a3ca10();
-
-    unk00 = &DAT_01096f34;
-    unk0c = DAT_0109a918;
-    unk10 = (void*)arg;
-
-    if (arg != 0)
-    {
-        FUN_00fdf1c0(arg + 4);
-    }
-
-    unk14 = 0;
-    return this;
-}
 
 // NiFloatInterpolator::NiFloatInterpolator(float)
 class FUN_00a3c390 : public NiKeyBasedInterpolator
@@ -158,7 +153,6 @@ FUN_00a3c390::FUN_00a3c390(float fPoseValue) : m_fFloatValue(fPoseValue), m_spFl
 {}
 
 namespace fnv_00a3c3f0 {
-extern const volatile float DAT_0109a918;
 
 struct NiFloatInterpolatorShell_00a3c3f0 : NiFloatInterpolator
 {
@@ -171,7 +165,7 @@ unsigned char NiFloatInterpolatorShell_00a3c3f0::FUN_00a3c3f0(unsigned int unuse
 {
     if (m_spFloatData.m_pObject)
         return 0;
-    if (m_fFloatValue == DAT_0109a918)
+    if (m_fFloatValue == ::DAT_0109a918)
         return 0;
     return 1;
 }
@@ -273,8 +267,6 @@ template <class T> class A3C640Pointer
 class A3C640FloatDataOps : public A3C640FloatData
 {
   public:
-    void FUN_00a3ce20(float m_fStartTime, float m_fMaximumDistance, A3C640Pointer<A3C640FloatData>& spNewData) const
-        throw();
 };
 
 class A3C640Interpolator
@@ -287,8 +279,6 @@ class A3C640Interpolator
     A3C640FloatDataOps* m_spFloatData;
     unsigned int m_uiLastKeyIndex;
 
-    A3C640Interpolator* FUN_00a57050(float m_fStartTime, float m_fMaximumDistance) const throw();
-    void SetFloatData(A3C640FloatData* pkFloatData) throw();
 
     A3C640Interpolator* FUN_00a3c640(float m_fStartTime, float m_fMaximumDistance) const;
 };
@@ -296,12 +286,12 @@ class A3C640Interpolator
 // @fnv 0x00a3c640
 A3C640Interpolator* A3C640Interpolator::FUN_00a3c640(float m_fStartTime, float m_fMaximumDistance) const
 {
-    A3C640Interpolator* pkSeqInterp = FUN_00a57050(m_fStartTime, m_fMaximumDistance);
+    A3C640Interpolator* pkSeqInterp = ((::A3C640Interpolator *)(::FUN_00a57050((intptr_t)this, m_fStartTime)));
     if (m_spFloatData && pkSeqInterp)
     {
         A3C640Pointer<A3C640FloatData> spNewFloatData;
-        m_spFloatData->FUN_00a3ce20(m_fStartTime, m_fMaximumDistance, spNewFloatData);
-        pkSeqInterp->SetFloatData(spNewFloatData);
+        reinterpret_cast<::FUN_00a3ce20_shell *>((void *)(m_spFloatData))->FUN_00a3ce20(m_fStartTime, m_fMaximumDistance, (::NiFloatData **)&(spNewFloatData));
+        reinterpret_cast<::FORenderedMenu *>((pkSeqInterp))->SetDefaultTexture((::NiTexture *)(::A3C640FloatData *)(spNewFloatData));
         pkSeqInterp->m_uiLastKeyIndex = 0;
     }
     return pkSeqInterp;
@@ -309,8 +299,6 @@ A3C640Interpolator* A3C640Interpolator::FUN_00a3c640(float m_fStartTime, float m
 
 struct BA3C6D0FloatKey
 {
-    static float InterpolatePosition(float fTime, BA3C6D0FloatKey* pkKeys, unsigned int eType, unsigned int uiNumKeys,
-                                     unsigned int& uiLastIdx, unsigned char ucSize);
 };
 
 class BA3C6D0FloatData
@@ -371,7 +359,7 @@ bool BA3C6D0Interpolator::EvaluateFloatAtTime(float fTime, void* pkInterpTarget,
         BA3C6D0FloatKey* pkKeys = m_spFloatData->ComputePositionAtTime(uiNumKeys, eType, ucSize);
         if (uiNumKeys > 0)
             m_fFloatValue =
-                BA3C6D0FloatKey::InterpolatePosition(fTime, pkKeys, eType, uiNumKeys, m_uiLastKeyIndex, ucSize);
+                ::InterpolateKey(fTime, (const ::S00a26b40_Key *)(pkKeys), eType, uiNumKeys, (unsigned int *)&(m_uiLastKeyIndex), ucSize);
     }
 
     if (m_fFloatValue == INVALID_FLOAT)
@@ -384,14 +372,13 @@ bool BA3C6D0Interpolator::EvaluateFloatAtTime(float fTime, void* pkInterpTarget,
 
 struct FUN_00a3c780_cls : NiFloatInterpolator
 {
-    void CopyBase(NiFloatInterpolator* dst, unsigned int uiArg);
     void FUN_00a3c780(NiFloatInterpolator* dst, unsigned int uiArg);
 };
 
 // @fnv 0x00a3c780
 void FUN_00a3c780_cls::FUN_00a3c780(NiFloatInterpolator* dst, unsigned int uiArg)
 {
-    CopyBase(dst, uiArg);
+    ::FUN_00aa0ab0();
     *(volatile float*)&dst->m_fFloatValue = m_fFloatValue;
     NiFloatData* pOld = *(NiFloatData* volatile*)&dst->m_spFloatData.m_pObject;
     if (pOld != m_spFloatData.m_pObject)
@@ -416,14 +403,12 @@ class C940StringArray
 {
   public:
     virtual ~C940StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
 
     unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcElement);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
         return uiIndex;
     }
     unsigned int Add(char* const& pcElement)
@@ -451,11 +436,7 @@ template <class T> class C940Pointer
 
 class C940FloatData;
 
-extern const char* g_pcC940ClassName;
 
-char* __cdecl C940GetViewerString(const char* pcName);
-char* __cdecl C940GetViewerString(const char* pcPrefix, float fValue);
-char* __cdecl C940GetViewerString(const char* pcPrefix, void* pvValue);
 
 class C940FloatInterpolator
 {
@@ -466,7 +447,6 @@ class C940FloatInterpolator
     float m_fFloatValue;
     C940Pointer<C940FloatData> m_spFloatData;
 
-    void BaseGetViewerStrings(C940StringArray* pkStrings);
     void FUN_00a3c940(C940StringArray* pkStrings);
 };
 
@@ -474,10 +454,10 @@ class C940FloatInterpolator
 // @fnv 0x00a3c940
 void C940FloatInterpolator::FUN_00a3c940(C940StringArray* pkStrings)
 {
-    BaseGetViewerStrings(pkStrings);
-    pkStrings->Add(C940GetViewerString(g_pcC940ClassName));
-    pkStrings->Add(C940GetViewerString("m_fFloatValue", m_fFloatValue));
-    pkStrings->Add(C940GetViewerString("m_spFloatData", m_spFloatData));
+    reinterpret_cast<::fnv_00a3cbf0::NiKeyBasedInterpolator *>(this)->FUN_00a3cbf0((::fnv_00a3cbf0::StrArr *)(pkStrings));
+    pkStrings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f3738))));
+    pkStrings->Add(::FUN_00a7d550("m_fFloatValue", m_fFloatValue));
+    pkStrings->Add(::FUN_00a7d5a0("m_spFloatData", m_spFloatData));
 }
 
 class NiStreamW;
@@ -539,7 +519,6 @@ template <class T> inline void SerializeValue(NiStreamW& kStream, const T& value
 class FUN_00a95ca0_helper
 {
   public:
-    void FUN_00a95ca0(NiStreamW* pkStream);
 };
 
 class NiFloatInterpolatorW : public FUN_00a95ca0_helper
@@ -557,7 +536,7 @@ class NiFloatInterpolatorW : public FUN_00a95ca0_helper
 // @fnv 0x00a3c880
 void NiFloatInterpolatorW::SaveToStream(NiStreamW& kStream)
 {
-    FUN_00a95ca0(&kStream);
+    reinterpret_cast<::FUN_00a95ca0_shell *>(this)->FUN_00a95ca0((*(::S_00a58160_Stream *)(&kStream)));
     SerializeValue(kStream, m_fFloatValue);
     kStream.SaveLinkID(m_spFloatData);
 }
@@ -603,7 +582,6 @@ template <class T> FNV_FORCEINLINE void NiPointerAssign(NiPointer<T>& sp, T* pOb
     }
 }
 
-extern float DAT_0109a918;
 
 class FUN_00a3c420_cls : public NiFloatInterpolator
 {
@@ -648,8 +626,7 @@ void FUN_00a3c420_cls::CollapseConstantKeys()
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
-extern float DAT_0109a918;
+
 class FUN_00a3ca10
 {
   public:
@@ -658,6 +635,23 @@ class FUN_00a3ca10
     int unk08;
     FUN_00a3ca10() throw();
 };
+// @fnv 0x00a3c340
+S_00a3c340_Class* S_00a3c340_Class::Initialize(intptr_t arg)
+{
+    new ((void *)this) ::FUN_00a3ca10();
+
+    unk00 = &DAT_01096f34;
+    unk0c = DAT_0109a918;
+    unk10 = (void*)arg;
+
+    if (arg != 0)
+    {
+        FUN_00fdf1c0(arg + 4);
+    }
+
+    unk14 = 0;
+    return this;
+}
 class A3C8D0_Object : public FUN_00a3ca10
 {
   public:
@@ -665,17 +659,12 @@ class A3C8D0_Object : public FUN_00a3ca10
     int m_10;
     NiPointer<NiObject> m_14;
 
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     A3C8D0_Object() : m_0C(DAT_0109a918), m_10(0)
     {}
     virtual void vf00();
 };
 struct A3C8D0_Owner
 {
-    void FUN_00a3c780(A3C8D0_Object* object, int arg);
     A3C8D0_Object* CreateObject(int arg);
 };
 // Allocates an A3C8D0_Object, calls FUN_00a3c780 with the object and arg, and returns the object.
@@ -683,6 +672,8 @@ struct A3C8D0_Owner
 A3C8D0_Object* A3C8D0_Owner::CreateObject(int arg)
 {
     A3C8D0_Object* object = new A3C8D0_Object;
-    FUN_00a3c780(object, arg);
+    reinterpret_cast<::FUN_00a3c780_cls *>(this)->FUN_00a3c780((::NiFloatInterpolator *)(object), arg);
     return object;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nifloatinterpolator.inc"

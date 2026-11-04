@@ -2,12 +2,28 @@
 // src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include <cstdint>
+#include <windows.h>
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d1a000.h"
+#include "fnv/symbols_00d29000.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00d72000.h"
+#include "fnv/symbols_00d8a000.h"
+#include "fnv/symbols_00d8d000.h"
+#include "fnv/symbols_00d92000.h"
+#include "fnv/symbols_00df0000.h"
+#include "fnv/symbols_01268000.h"
 struct State
 {
     int unk00;
     void* owner;
     int unk08;
-    int eventCode;
+    void* eventCode;
     int unk10;
     int unk14;
     int unk18;
@@ -20,12 +36,11 @@ struct State
     int unk34;
     void* desiredB;
     void* currentB;
-    int callbackFlags;
+    void* callbackFlags;
     int unk44;
     volatile float* end;
     volatile float* current;
 };
-void __cdecl FUN_00d8aac0(void* owner, void* current, int eventCode, int flags);
 // Optionally resets currentA/currentB to their reset values, zeroes the float range up to end, and notifies callbacks when current differs from desired.
 // @fnv 0x00d88340
 void __cdecl FUN_00d88340(State* state, int reset)
@@ -43,9 +58,9 @@ void __cdecl FUN_00d88340(State* state, int reset)
     }
     state->current = state->end;
     if (state->currentA != state->desiredA)
-        FUN_00d8aac0(state->owner, state->currentA, state->eventCode, state->callbackFlags);
+        ::FUN_00d8aac0((*(const ::ConstraintSolverInfo *)(state->owner)), (const ::SolverSchemaHeader *)(state->currentA), (::QuantizedBoundsData *)(state->eventCode), (::FloatRecord *)(state->callbackFlags));
     if (state->currentB != state->desiredB)
-        FUN_00d8aac0(state->owner, state->currentB, state->eventCode, state->callbackFlags);
+        ::FUN_00d8aac0((*(const ::ConstraintSolverInfo *)(state->owner)), (const ::SolverSchemaHeader *)(state->currentB), (::QuantizedBoundsData *)(state->eventCode), (::FloatRecord *)(state->callbackFlags));
     state->currentA = state->desiredA;
     state->currentB = state->desiredB;
 }
@@ -152,7 +167,7 @@ D88310Bool __cdecl CheckTotalsWithinLimits(D88470Obj* obj, D88470Elem** begin, i
     unsigned int uiSum1 = 0;
     unsigned int uiSum2 = 0;
     D88470Elem** end = begin + count;
-    int iCount = ((char*)end - (char*)begin + 3) / 4;
+    int iCount = (int)(end - begin);
     D88470Elem** p = begin;
     if (iCount >= 2)
     {
@@ -169,7 +184,7 @@ D88310Bool __cdecl CheckTotalsWithinLimits(D88470Obj* obj, D88470Elem** begin, i
             uiSum2 += s->amountB * 4;
             totals[uiTypeIndex] += s->amountA;
             p += 2;
-        } while ((int)p < (int)(end - 1));
+        } while (p < end - 1);
     }
     if (p < end)
     {
@@ -186,13 +201,7 @@ D88310Bool __cdecl CheckTotalsWithinLimits(D88470Obj* obj, D88470Elem** begin, i
         return false;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4D886
 {
@@ -268,9 +277,6 @@ struct hkpConstraintSolverResourcesD886
     hkpSolverSumVelocitiesD886* m_sumVelocities;
 };
 
-hkpVelocityAccumulatorD886* __cdecl FUN_00d29830(const hkStepInfoD886* pkInfo, hkpEntityD886* const* ppkEntities,
-                                                 unsigned int uiNumEntities, int iMotionOffset,
-                                                 hkpVelocityAccumulatorD886* pkAccumulatorsOut);
 
 // @fnv 0x00d88670
 void __cdecl FUN_00d88670(hkpConstraintSolverResourcesD886& kResources, hkpEntityD886* const* ppkEntities,
@@ -293,15 +299,15 @@ void __cdecl FUN_00d88670(hkpConstraintSolverResourcesD886& kResources, hkpEntit
 
     for (unsigned int i = 0; i < uiNumEntities; i++)
     {
-        ppkEntities[i]->m_uiFilterInfo = reinterpret_cast<unsigned int>(kResources.m_pVelocityAccumulatorC + i) -
-                                         reinterpret_cast<unsigned int>(kResources.m_pVelocityAccumulatorA);
+        ppkEntities[i]->m_uiFilterInfo = (unsigned int)((char*)(kResources.m_pVelocityAccumulatorC + i) -
+                                                        (char*)kResources.m_pVelocityAccumulatorA);
     }
 
     hkpVelocityAccumulatorD886* pkAccumulator = kResources.m_pVelocityAccumulatorC;
     hkpSolverSumVelocitiesD886* pkSumVel =
         kResources.m_sumVelocities + ppkEntities[0]->m_uiFilterInfo / sizeof(hkpVelocityAccumulatorD886);
     kResources.m_pVelocityAccumulatorC =
-        FUN_00d29830(kResources.m_pStepInfo, ppkEntities, uiNumEntities, 0xe0, pkAccumulator);
+        ((::hkpVelocityAccumulatorD886 *)(::FUN_00d29830((::ContextA0 *)(kResources.m_pStepInfo), (::SourceItem **)(ppkEntities), uiNumEntities, 0xe0, (::TargetItem *)(pkAccumulator))));
 
     for (unsigned int i = 0; i < uiNumEntities; i++)
     {
@@ -316,23 +322,7 @@ void __cdecl FUN_00d88670(hkpConstraintSolverResourcesD886& kResources, hkpEntit
     kResources.m_pVelocityAccumulatorC->m_type = 3;
 }
 
-struct S88_Allocator;
 
-struct S88_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    S88_Allocator* m_pStreamAllocator;
-    S88_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-S88_Router* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(S88_Allocator& a, void* array, int sizeElem);
 
 template <typename T> struct S88_PadSpu
 {
@@ -517,8 +507,8 @@ struct S88_Instance
     int unk08;
     S88_ConstraintData* m_data;
     int unk10;
-    int unk14;
-    int unk18;
+    struct S88b50_Entity* unk14;
+    struct S88b50_Entity* unk18;
     unsigned char m_priority;
     unsigned char unk1D;
     unsigned char unk1E;
@@ -640,10 +630,10 @@ struct S88_Array
     }
     S88_SchemaInfo& AllocatePair()
     {
-        S88_Allocator& alloc = FUN_00c85750()->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(alloc, this, sizeof(S88_SchemaInfo));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(S88_SchemaInfo));
         }
         return m_data[m_iElementCount++];
     }
@@ -659,19 +649,16 @@ template <typename T> inline T S88_min2(T x, T y)
     return x < y ? x : y;
 }
 
-void __cdecl FUN_00d92900(S88_ConstraintData* data, const S88_QueryIn* in, S88_Atom* atom, int type);
-void __cdecl FUN_00d72190(S88_Atom* atom, const S88_QueryIn& in, D88310Bool writeHeader, S88_QueryOut& out);
-void __cdecl FUN_00d6f460(const S88_Atom* atoms, int atomsSize, const S88_QueryIn& in, S88_QueryOut& out);
 
 inline void S88_buildJacobianFromAtoms(S88_Atom* atoms, int atomsSize, const S88_QueryIn& in, S88_QueryOut& out)
 {
     if (atoms->m_type == 0x16)
     {
-        FUN_00d72190(atoms, in, D88310Bool(true), out);
+        ::FUN_00d72190((::Node *)(atoms), (::Buffer *)&(in), (*(int *)&(const ::D88310Bool &)(D88310Bool(true))), (int *)&(out));
     }
     else
     {
-        FUN_00d6f460(atoms, atomsSize, in, out);
+        ::FUN_00d6f460((const ::Atom *)(atoms), atomsSize, (const ::QueryIn *)&(in), (::QueryOut *)&(out));
     }
 }
 
@@ -724,7 +711,7 @@ void __cdecl FUN_00d88760(S88_Resources& s, S88_Instance** constraints, int numC
         if (instance->getData()->getType() == 11)
         {
             S88_ConstraintData* data = instance->getDataRw();
-            FUN_00d92900(data, &in, data->m_pAtom, 1);
+            ::FUN_00d92900((::S00d92900_Data *)(data), (const ::S00d92900_QueryIn *)(const ::S88_QueryIn *)(&in), (::S00d92900_Atom *)(data->m_pAtom), 1);
         }
 
         if (instance->m_pConstraintInternal->m_ucCallbackRequest & 4)
@@ -917,76 +904,16 @@ int __cdecl FUN_00d883c0(const S883_Island& island, char* buffer, int bufferSize
     return size;
 }
 
-extern "C" void _mm_prefetch(char const*, int);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern const char str_010d3d70[];
 extern const char str_010d3d60[];
 
 // hkMemoryAllocator
-struct S88b50_Allocator
-{
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-    template <typename T> T* _bufAlloc(int& reqNumInOut)
-    {
-        int n = reqNumInOut;
-        void* p = AllocateBufferWithSize(n);
-        reqNumInOut = n;
-        return static_cast<T*>(p);
-    }
-    template <typename T> void _bufFree(void* p, int numElem)
-    {
-        ReturnMemory(p, numElem);
-    }
-};
-struct S88b50_Stack
-{
-    char* m_pTileTemplate;
-    int unk04;
-    int unk08;
-    void* allocateStack(int numBytes)
-    {
-        char* current = m_pTileTemplate;
-        m_pTileTemplate = current + numBytes;
-        return current;
-    }
-};
-struct S88b50_Router
-{
-    S88b50_Stack m_aiEntries;
-    S88b50_Allocator* m_pTemp;
-    S88b50_Allocator* m_pStreamAllocator;
-    S88b50_Allocator* m_pDebugAllocator;
-    S88b50_Allocator* m_pSolver;
-    S88b50_Stack& stack()
-    {
-        return m_aiEntries;
-    }
-    S88b50_Allocator& temp()
-    {
-        return *m_pTemp;
-    }
-    S88b50_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-    S88b50_Allocator& solver()
-    {
-        return *m_pSolver;
-    }
-    static S88b50_Router& GetMonitorStream()
-    {
-        return *(S88b50_Router*)FUN_00c85750();
-    }
-};
+
+
 static __forceinline char* S88b50_allocateStack(int n)
 {
-    S88b50_Router& mem = S88b50_Router::GetMonitorStream();
-    return static_cast<char*>(mem.stack().allocateStack((n + 127) & ~127));
+    hkMemoryRouter& mem = hkMemoryRouter::getInstance();
+    return static_cast<char*>(mem.allocateStack((n + 127) & ~127));
 }
 
 struct S88b50_ConstraintInternal
@@ -1164,11 +1091,11 @@ struct S88b50_Entity
 };
 static __forceinline S88b50_Entity* S88b50_getEntityA(const S88_Instance* i)
 {
-    return (S88b50_Entity*)i->unk14;
+    return i->unk14;
 }
 static __forceinline S88b50_Entity* S88b50_getEntityB(const S88_Instance* i)
 {
-    return (S88b50_Entity*)i->unk18;
+    return i->unk18;
 }
 
 // hkpSimulationIsland
@@ -1208,21 +1135,21 @@ struct S88b50_InplaceArray
     }
     void AddBack(const S88b50_ConstraintInternal* const& t)
     {
-        S88b50_Allocator& alloc = S88b50_Router::GetMonitorStream().heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(*(S88_Allocator*)&alloc, this, sizeof(t));
+            ::ResizeAudioStream((::AudioAllocator *)&alloc, (::AudioStream *)(void *)(this), sizeof(t));
         }
         m_data[m_iElementCount] = t;
         m_iElementCount++;
     }
     void destroy()
     {
-        S88b50_Allocator& alloc = S88b50_Router::GetMonitorStream().heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc._bufFree<const S88b50_ConstraintInternal*>(m_data, getCapacity() * 4);
+            alloc.bufFree(m_data, getCapacity() * int(sizeof(const S88b50_ConstraintInternal*)));
         }
     }
 };
@@ -1278,9 +1205,10 @@ struct S88b50_BreachedHeader
     int unk04;
     int unk08;
     int unk0C;
+    unsigned char m_elements[1];  // +0x10, 32-byte entries
     void* getElem(int index)
     {
-        return (char*)this + 16 + index * 32;
+        return m_elements + index * 32;
     }
 };
 
@@ -1289,13 +1217,6 @@ template <typename T> inline T S88b50_max2(T x, T y)
     return x > y ? x : y;
 }
 
-int __cdecl FUN_00d8d030(const void* solverInfo, char* schemas, hkpVelocityAccumulatorD886* accum, char* elemTemps);
-void __cdecl FUN_00df0680(const void* solverInfo, char* elemTemps, char* schemas, hkpVelocityAccumulatorD886* accum);
-int __cdecl FUN_00d29bf0(const void* solverInfo, const hkStepInfoD886* stepInfo,
-                         const hkpVelocityAccumulatorD886* accums, S88b50_Entity* const* bodies, int numBodies,
-                         int offset);
-void __cdecl FUN_00d1a330(const void* input, S88b50_Entity* const* bodies, int numBodies);
-void __cdecl FUN_00d01700(void* world, void* elems, int n);
 
 // hkMatrix3
 struct S88b50_Matrix3
@@ -1340,7 +1261,7 @@ static __forceinline void S88b50_buildAccumulators(const hkStepInfoD886& info, S
         }
     }
     hkpVelocityAccumulatorD886* accumEnd =
-        FUN_00d29830(&info, (hkpEntityD886* const*)bodies, numBodies, 0xe0, accumulators + 1);
+        ((::hkpVelocityAccumulatorD886 *)(::FUN_00d29830((::ContextA0 *)(&info), (::SourceItem **)(::hkpEntityD886 *const *)((hkpEntityD886* const*)bodies), numBodies, 0xe0, (::TargetItem *)(::hkpVelocityAccumulatorD886 *)(accumulators + 1))));
     accumEnd->m_type = 3;
 }
 
@@ -1420,7 +1341,7 @@ static __forceinline void S88b50_buildJacobianElements(S88_QueryIn& in, S88b50_E
                 {
                     S88_ConstraintData* data = c->m_pHavokConstraint->getDataRw();
                     S88_Atom* atom = data->m_pAtom;
-                    FUN_00d92900(data, &in, atom, 2);
+                    ::FUN_00d92900((::S00d92900_Data *)(data), (const ::S00d92900_QueryIn *)(const ::S88_QueryIn *)(&in), (::S00d92900_Atom *)(atom), 2);
                 }
                 if (c->m_ucCallbackRequest & 4)
                 {
@@ -1463,8 +1384,8 @@ static __forceinline int S88b50_integrate2(const void* solverInfo, const hkStepI
                                            const hkpVelocityAccumulatorD886* accumulators, S88b50_Entity* const* bodies,
                                            int numBodies)
 {
-    int numInactiveFrames = FUN_00d29bf0(solverInfo, &stepInfo, accumulators + 1, bodies, numBodies, 0xe0);
-    FUN_00d1a330(bodies[0]->getWorld()->getCollisionInput(), bodies, numBodies);
+    int numInactiveFrames = ::ApplyAccumulatorsPrivate::FUN_00d29bf0((*(const ::ApplyAccumulatorsPrivate::ConstraintSolverInfo *)(solverInfo)), (*(const ::ApplyAccumulatorsPrivate::hkStepInfo *)(&stepInfo)), (const ::ApplyAccumulatorsPrivate::QuantizedBoundsData *)(const ::hkpVelocityAccumulatorD886 *)(accumulators + 1), (::ApplyAccumulatorsPrivate::hkpMotion *const *)(bodies), numBodies, 0xe0);
+    ::FUN_00d1a330((const ::CollisionContext *)(const void *)(bodies[0]->getWorld()->getCollisionInput()), (::EntityNode *const *)(bodies), numBodies);
     return numInactiveFrames;
 }
 
@@ -1490,7 +1411,7 @@ int __cdecl FUN_00d88b50(const hkStepInfoD886& stepInfo, const void* solverInfo,
     char* bufferEnd;
     if (preallocatedBuffer == 0)
     {
-        scratch = S88b50_Router::GetMonitorStream().solver()._bufAlloc<char>(totalSize);
+        scratch = hkMemoryRouter::getInstance().solver()._bufAlloc<char>(totalSize);
         buffer = scratch;
         bufferEnd = buffer + totalSize;
     }
@@ -1524,7 +1445,7 @@ redoElemTemp:
         S88b50_buildJacobianElements(constraintQueryIn, bodies, numBodies, accumulators, (S88_Schema*)schemas,
                                      (S88_Schema*)schemasEnd, (S88_Schema*)schemasB);
 
-        int solveResult = FUN_00d8d030(solverInfo, schemas, accumulators, elemTemp);
+        int solveResult = ::FUN_00d8d030((*(const ::SInfo *)(solverInfo)), (::JSchema *)(schemas), (::SAccum *)(accumulators), (::SElem *)(elemTemp));
         {
             S88b50_MonitorStream& mStream = S88b50_MonitorStream::GetMonitorStream();
             if (mStream.memoryAvailable())
@@ -1532,7 +1453,7 @@ redoElemTemp:
                 S88b50_AddValueCommand* h = (S88b50_AddValueCommand*)mStream.GetStreamEnd();
                 h->m_pCommandName = str_010d3d70;
                 h->m_uiFilterValue = (float)island.m_iSolverResultCount;
-                mStream.setEnd((char*)(h + 1));
+                mStream.setEnd(reinterpret_cast<char*>(h + 1));
             }
         }
         {
@@ -1542,26 +1463,26 @@ redoElemTemp:
                 S88b50_AddValueCommand* h = (S88b50_AddValueCommand*)mStream.GetStreamEnd();
                 h->m_pCommandName = str_010d3d60;
                 h->m_uiFilterValue = (float)numBodies;
-                mStream.setEnd((char*)(h + 1));
+                mStream.setEnd(reinterpret_cast<char*>(h + 1));
             }
         }
         if (solveResult == 1)
         {
-            FUN_00df0680(solverInfo, elemTemp, schemas, accumulators);
+            ::FUN_00df0680();
             result = S88b50_integrate2(solverInfo, stepInfo, accumulators, bodies, numBodies);
             S88b50_BreachedHeader* h = (S88b50_BreachedHeader*)schemas;
             if (h->m_iBreachCount != 0)
             {
-                FUN_00d01700(island.m_pOwningWorld, h->getElem(0), h->m_iBreachCount);
+                ::FUN_00d01700((::hkpWorld *)(island.m_pOwningWorld), h->getElem(0), h->m_iBreachCount);
             }
         }
         if (scratch2 != 0)
         {
-            S88b50_Router::GetMonitorStream().temp().ReleaseBlock(scratch2, scratch2Size);
+            hkMemoryRouter::getInstance().temp().blockFree(scratch2, scratch2Size);
         }
         if (scratch != 0)
         {
-            S88b50_Router::GetMonitorStream().solver()._bufFree<char>(scratch, totalSize);
+            hkMemoryRouter::getInstance().solver()._bufFree<char>(scratch, totalSize);
         }
         return result;
     }
@@ -1570,7 +1491,7 @@ redoElemTemp:
         if (schemas >= bufferEnd)
         {
             scratch2Size = (int)(buffer - scratch);
-            scratch2 = (char*)S88b50_Router::GetMonitorStream().temp().AllocateMemoryBlock(scratch2Size);
+            scratch2 = (char*)hkMemoryRouter::getInstance().temp().blockAlloc(scratch2Size);
             buffer = scratch2;
             bufferEnd = buffer + scratch2Size;
             goto redoAll;
@@ -1582,7 +1503,7 @@ redoElemTemp:
             int maxFree = S88b50_max2(freeSchemaSpace, 0);
             int schemaBSize = island.m_iSchemaByteSize + minSchemaSize - maxFree;
             scratch2Size = elemTempSize + schemaBSize;
-            scratch2 = (char*)S88b50_Router::GetMonitorStream().temp().AllocateMemoryBlock(scratch2Size);
+            scratch2 = (char*)hkMemoryRouter::getInstance().temp().blockAlloc(scratch2Size);
             if (freeSchemaSpace < 0)
             {
                 buffer = scratch2;
@@ -1611,3 +1532,264 @@ redoElemTemp:
         goto redoElemTemp;
     }
 }
+
+// Moved from hkpconstraintsolversetup_gs_nogs_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00d88000.h"
+
+typedef hkVector4D886 hkVec4;
+
+struct hkAccum
+{
+    unsigned char m_type;
+    unsigned int m_uiDeactivationClass;
+    float m_fGravityFactor;
+    hkVec4 m_vLinearVelocity;
+    hkVec4 m_vAngularVelocity;
+    hkVec4 m_vInverseInertiaAndMass;
+    hkVec4 m_vCenterOfMass;
+    hkVec4 m_scratch1;
+    hkVec4 m_scratch2;
+    hkVec4 m_scratch3;
+};
+
+struct D88580World
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    void* unk10;
+    void* unk14;
+    void* unk18;
+    void* unk1C;
+    void* unk20;
+    void* unk24;
+    void* unk28;
+    void* unk2C;
+    void* unk30;
+    void* unk34;
+    void* unk38;
+    void* unk3C;
+    void* unk40;
+    void* unk44;
+    void* unk48;
+    void* unk4C;
+    void* unk50;
+    void* unk54;
+    void* unk58;
+    void* unk5C;
+    void* unk60;
+    void* unk64;
+    void* unk68;
+    void* unk6C;
+    void* unk70;
+    void* unk74;
+    void* m78;
+};
+
+struct D88580Sub
+{
+    void* unk00;
+    void* unk04;
+    unsigned char unk08;
+    unsigned char m09;
+};
+
+struct D88580Entity
+{
+    int unk00;
+    int unk04;
+    D88580World* m08;
+    void* unk0C;
+    void* unk10;
+    void* unk14;
+    void* unk18;
+    void* unk1C;
+    void* unk20;
+    void* unk24;
+    void* unk28;
+    void* unk2C;
+    void* unk30;
+    void* unk34;
+    void* unk38;
+    void* unk3C;
+    void* unk40;
+    void* unk44;
+    void* unk48;
+    void* unk4C;
+    void* unk50;
+    void* unk54;
+    void* unk58;
+    void* unk5C;
+    void* unk60;
+    void* unk64;
+    void* unk68;
+    void* unk6C;
+    void* unk70;
+    void* unk74;
+    void* unk78;
+    void* unk7C;
+    void* unk80;
+    void* unk84;
+    void* unk88;
+    void* unk8C;
+    void* unk90;
+    void* unk94;
+    void* unk98;
+    void* unk9C;
+    void* unkA0;
+    char* m_a4;
+    void* unkA8;
+    void* unkAC;
+    void* unkB0;
+    void* unkB4;
+    void* unkB8;
+    void* unkBC;
+    void* unkC0;
+    void* unkC4;
+    void* unkC8;
+    void* unkCC;
+    void* unkD0;
+    void* unkD4;
+    void* unkD8;
+    void* unkDC;
+    D88580Sub m_e0;
+};
+
+
+// @fnv 0x00d88580
+void __cdecl FUN_00d88580(void* a0, void* a1, int offset, D88580Entity** entities, int count)
+{
+    for (int i = 0; i < count; ++i)
+    {
+        D88580Entity* entity = entities[i];
+        D88580Sub* sub = &entity->m_e0;
+        hkAccum acc = *(hkAccum*)(entity->m_a4 + offset);
+        acc.m_vCenterOfMass = acc.m_vLinearVelocity;
+        acc.m_scratch1 = acc.m_vAngularVelocity;
+        unsigned char saved = sub->m09;
+        sub->m09 = 0xff;
+        ::ApplyAccumulatorsPrivate::FUN_00d29bf0((*(const ::ApplyAccumulatorsPrivate::ConstraintSolverInfo *)(a0)), (*(const ::ApplyAccumulatorsPrivate::hkStepInfo *)(a1)), (const ::ApplyAccumulatorsPrivate::QuantizedBoundsData *)(::hkAccum *)(&acc), (::ApplyAccumulatorsPrivate::hkpMotion *const *)(::D88580Sub **)(&sub), 1, 0);
+        ::FUN_00d1a330((const ::CollisionContext *)(entity->m08->m78), (::EntityNode *const *)(::D88580Entity **)(&entity), 1);
+        sub->m09 = saved;
+    }
+}
+
+// Moved from hkpconstraintsolversetup_rtm_variant.cpp (VEGAS-15).
+
+
+struct VectorComponentValue
+{
+    __m128 m_vValue;
+
+    VectorComponentValue(const float& x)
+    {
+        m_vValue = _mm_load_ps1(&x);
+    }
+    VectorComponentValue(const __m128& x)
+    {
+        m_vValue = x;
+    }
+};
+
+struct hkVector4
+{
+    __m128 m_vComponents;
+
+    void operator=(const hkVector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    void setAdd4(const hkVector4& a, const hkVector4& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void setSub4(const hkVector4& a, const hkVector4& b)
+    {
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void setMul4(const VectorComponentValue& r, const hkVector4& a)
+    {
+        m_vComponents = _mm_mul_ps(r.m_vValue, a.m_vComponents);
+    }
+    void setMul4(const hkVector4& a, const hkVector4& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void add4(const hkVector4& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents);
+    }
+    void mul4(const hkVector4& a)
+    {
+        m_vComponents = _mm_mul_ps(m_vComponents, a.m_vComponents);
+    }
+    void addMul4(const VectorComponentValue& r, const hkVector4& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.m_vValue, a.m_vComponents));
+    }
+    VectorComponentValue getSimdAt0() const
+    {
+        return _mm_shuffle_ps(m_vComponents, m_vComponents, 0);
+    }
+};
+
+struct D892Params
+{
+    hkVector4 unk00;
+    hkVector4 unk10;
+    hkVector4 unk20;
+    hkVector4 m_fGain;
+};
+
+struct D892State
+{
+    int unk00;
+    int unk04;
+    float m_dt;
+    int unk0c;
+    hkVector4 m_vContactPosition;
+    hkVector4 m_fVelocity;
+    hkVector4 unk30;
+    hkVector4 m_errorA;
+    hkVector4 m_errorB;
+};
+
+// @fnv 0x00d892f0
+static __declspec(noinline) void FUN_00d892f0(const D892Params* params, bool update, D892State* state,
+                                              const hkVector4* vel, const hkVector4* damping)
+{
+    __m128 dt = _mm_load_ss(&state->m_dt);
+    hkVector4 dtVel;
+    dtVel.setMul4(VectorComponentValue(_mm_shuffle_ps(dt, dt, 0)), *vel);
+    hkVector4 d0;
+    d0.setSub4(state->m_vContactPosition, state->m_errorA);
+    hkVector4 d1;
+    d1.setSub4(state->m_fVelocity, state->m_errorB);
+    state->m_errorA.addMul4(params->m_fGain.getSimdAt0(), d0);
+    state->m_errorB.addMul4(params->m_fGain.getSimdAt0(), d1);
+    if (!update)
+    {
+        state->m_fVelocity.setAdd4(state->m_errorB, d1);
+        hkVector4 pos;
+        pos.setAdd4(d0, state->m_errorA);
+        pos.add4(dtVel);
+        state->m_vContactPosition = pos;
+    }
+    else
+    {
+        state->m_errorA.mul4(*damping);
+        {
+            hkVector4& eB = state->m_errorB;
+            eB.setMul4(*damping, eB);
+        }
+        state->m_fVelocity = d1;
+        state->m_vContactPosition = d0;
+    }
+}
+
+void D892_Entry(const D892Params* params, bool update, D892State* state, const hkVector4* vel, const hkVector4* damping)
+{
+    FUN_00d892f0(params, update, state, vel, damping);
+}
+#include "generated/data/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.inc"

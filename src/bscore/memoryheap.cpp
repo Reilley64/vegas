@@ -1,11 +1,24 @@
 // bscore/memoryheap.cpp: MemoryHeap, FakeHeap (17 functions)
 
+#include <cstdint>
+#include <windows.h>
+#include "fnv/decl/AbstractHeapBlockInfo.h"
+#include "fnv/decl/AbstractHeapBuckets.h"
+#include "fnv/decl/AbstractHeapX.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_011f6000.h"
 #include "memoryheap_decls.h"
+
+struct FUN_00aa7c00_header
+{
+    FUN_00aa7c00_header* pPreviousBlock;
+    unsigned int uiSizeAndFlags;
+};
 
 // @fnv 0x00aa7be0
 unsigned int MemoryHeap::Size(const void* pointer, unsigned int)
 {
-    return ((const unsigned int*)pointer)[-1] & 0x0fffffff;
+    return ((const FUN_00aa7c00_header*)pointer - 1)->uiSizeAndFlags & 0x0fffffff;
 }
 
 // @fnv 0x00aa7b20
@@ -33,8 +46,7 @@ unsigned int MemoryHeap::CommitRange(void* base, unsigned int offset, unsigned i
     return size;
 }
 
-__declspec(dllimport) int __stdcall VirtualFree(void*, unsigned long, unsigned long);
-struct FUN_00aa7ab0_s
+struct FUN_00aa7ab0_s : MemoryHeap
 {
     unsigned int FUN_00aa7ab0(char* pBase, unsigned int uiElapsedMilliseconds, unsigned int uiSize);
 };
@@ -42,8 +54,8 @@ struct FUN_00aa7ab0_s
 // @fnv 0x00aa7ab0
 unsigned int FUN_00aa7ab0_s::FUN_00aa7ab0(char* pBase, unsigned int uiElapsedMilliseconds, unsigned int uiSize)
 {
-    uiSize &= ~(*(unsigned int*)((char*)this + 0x10) - 1);
-    if (uiSize >= *(unsigned int*)((char*)this + 0x10))
+    uiSize &= ~(m_uiHeapGrowthEnabled - 1);
+    if (uiSize >= m_uiHeapGrowthEnabled)
     {
         char* pAddr = pBase + uiElapsedMilliseconds - uiSize;
         if (!(bool)(int)(VirtualFree(pAddr, uiSize, 0x4000) == 1))
@@ -70,15 +82,15 @@ unsigned int FUN_00aa7a30_shell::FreeVirtualMemory(const void* apMemory)
 
 struct FUN_00aa7c00_shell
 {
-    unsigned int __thiscall FUN_00aa7c00(const void* apPointer);
+    unsigned int FUN_00aa7c00(const void* apPointer);
 };
 
-// Reads the low 28 bits of the word before apPointer, masks them, and returns that value plus 8.
+// Returns the size of the block at apPointer plus its header, read from the block header before it.
 // @fnv 0x00aa7c00
-unsigned int __thiscall FUN_00aa7c00_shell::FUN_00aa7c00(const void* apPointer)
+unsigned int FUN_00aa7c00_shell::FUN_00aa7c00(const void* apPointer)
 {
-    unsigned int offset = *(unsigned int*)((char*)apPointer - 4) & 0x0FFFFFFF;
-    return offset + 8;
+    const FUN_00aa7c00_header* pHeader = (const FUN_00aa7c00_header*)apPointer - 1;
+    return (pHeader->uiSizeAndFlags & 0x0FFFFFFF) + sizeof(FUN_00aa7c00_header);
 }
 
 struct FUN_00aa7c30_shell
@@ -107,7 +119,6 @@ struct FUN_00aa7c60_cls
 {
     char pad[0x20f0];
     bool m_bFlag;
-    void GetHeapStats(void* pStats, bool bFull);
     void UpdateStats(void* apStats, bool abFullBlockInfo);
 };
 // Clears the full-block-info request when m_bFlag is set, then forwards the stats pointer and the resulting flag to GetHeapStats.
@@ -115,7 +126,7 @@ struct FUN_00aa7c60_cls
 void FUN_00aa7c60_cls::UpdateStats(void* apStats, bool abFullBlockInfo)
 {
     abFullBlockInfo &= !m_bFlag;
-    GetHeapStats(apStats, abFullBlockInfo);
+    reinterpret_cast<::AbstractHeapX *>(this)->GetHeapStats((::HeapStatsX *)(apStats), abFullBlockInfo);
 }
 
 struct FUN_00aa7d60_blk
@@ -136,7 +147,7 @@ void FUN_00aa7d60_cls::FUN_00aa7d60(FUN_00aa7d60_blk* pBlock)
     if (uiSize >= m_uiPage)
     {
         char* pFirst = (char*)(pBlock + 1);
-        char* pAligned = (char*)(((unsigned int)pFirst + m_uiPage - 1) & ~(m_uiPage - 1));
+        char* pAligned = (char*)(((std::uintptr_t)pFirst + m_uiPage - 1) & ~(std::uintptr_t)(m_uiPage - 1));
         uiSize = (uiSize - (pAligned - pFirst)) & ~(m_uiPage - 1);
         if (uiSize >= m_uiPage)
         {
@@ -150,9 +161,7 @@ void FUN_00aa7d60_cls::FUN_00aa7d60(FUN_00aa7d60_blk* pBlock)
 
 struct MemoryManager
 {
-    void _DeallocateAlias(void*);
 };
-extern MemoryManager g_memoryManager;
 struct FakeHeap
 {
     void FUN_00aa7930();
@@ -163,12 +172,12 @@ void* FakeHeap::FUN_00aa7e20(unsigned int flags)
 {
     FUN_00aa7930();
     if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
 // @fnv 0x00aa9d10
-void __fastcall FUN_00aa9d10(void* this_ptr)
+void FUN_00aa9d10(void* this_ptr)
 {}
 
 struct FUN_00b02710_Cls
@@ -219,7 +228,6 @@ struct FUN_00aa7ca0_cls
 {
     char pad0[0x20f0];
     bool m_bFlag;
-    unsigned int WriteBucketInfo(FUN_00aa7ca0_obj* p);
     unsigned int FUN_00aa7ca0(FUN_00aa7ca0_obj* p);
 };
 
@@ -229,7 +237,7 @@ unsigned int FUN_00aa7ca0_cls::FUN_00aa7ca0(FUN_00aa7ca0_obj* pObj)
     unsigned int r = 0;
     if (!m_bFlag)
     {
-        r = WriteBucketInfo(pObj);
+        r = ((unsigned int)(reinterpret_cast<::AbstractHeapBuckets *>(this)->WriteBucketInfo((::HeapDumpFile *)(pObj))));
     }
     else
     {
@@ -2358,7 +2366,6 @@ struct AA7D00Saver
     int unk20EC;
     bool m_bSkip;
 
-    int ValueReferencePair(AA7D00Stream* pkStream, bool bFlag);
     int FUN_00aa7d00(AA7D00Stream* pkStream, bool bFlag);
 };
 
@@ -2368,7 +2375,7 @@ int AA7D00Saver::FUN_00aa7d00(AA7D00Stream* pkStream, bool bFlag)
     int iResult = 0;
     if (!m_bSkip)
     {
-        iResult = ValueReferencePair(pkStream, bFlag);
+        iResult = reinterpret_cast<::AbstractHeapBlockInfo *>(this)->WriteHeapBlockInfo((::IMemoryManagerFile *)(pkStream), bFlag);
     }
     else
     {
@@ -2376,4 +2383,45 @@ int AA7D00Saver::FUN_00aa7d00(AA7D00Stream* pkStream, bool bFlag)
         iResult = pkStream->Write(&iZero, 4);
     }
     return iResult;
+}
+
+void FUN_00aa9d10(void* this_ptr);
+
+struct BlockHeader
+{
+    unsigned int size;
+    unsigned int flags;
+
+    static __forceinline const BlockHeader* FromMemory(const void* pointer)
+    {
+        return (const BlockHeader*)((const char*)pointer - sizeof(BlockHeader));
+    }
+
+    __forceinline bool IsFree() const
+    {
+        return (flags & 0x40000000u) != 0;
+    }
+
+    __forceinline bool GuardIntact() const
+    {
+        return true;
+    }
+};
+
+class HeapValidator
+{
+  public:
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual bool Contains(const void* pointer);
+    bool FUN_00aa7b70(const void* pointer);
+};
+
+// @fnv 0x00aa7b70
+bool HeapValidator::FUN_00aa7b70(const void* pointer)
+{
+    const BlockHeader* header = BlockHeader::FromMemory(pointer);
+    return Contains(pointer) && !header->IsFree() && header->GuardIntact();
 }

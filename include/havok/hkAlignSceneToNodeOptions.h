@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkAlignSceneToNodeOptions : public hkReferencedObject
 {
   public:
@@ -20,6 +19,4 @@ class hkAlignSceneToNodeOptions : public hkReferencedObject
     hkInt32 m_iOptionValue;   // +0x10
     hkStringPtr m_kNodeName;  // +0x14
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkAlignSceneToNodeOptions[(sizeof(hkAlignSceneToNodeOptions) == 0x18) ? 1 : -1];
 #endif

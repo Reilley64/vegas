@@ -5,6 +5,44 @@
 #include <stdarg.h>
 #include <new>
 #include <malloc.h>
+#include "fnv/decl/ActorTaskManager.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_0041c8d0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_005e2730_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/GlobalObject_0044fae0.h"
+#include "fnv/decl/ItemChangeShell.h"
+#include "fnv/decl/Ref.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/fnv_006eae40__FUN_006eae40_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005aa000.h"
+#include "fnv/symbols_005ab000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b1000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0118c000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
 class TESQuest;
 class NiNode;
 class BSFadeNode;
@@ -25,7 +63,6 @@ class ExtraDataList;
 #define FNV_TESFORM_H
 #include "tesscript_layout.h"
 #include "BaseFormComponent.h"
-#pragma pack(push, 4)
 class TESForm : public BaseFormComponent
 {
   public:
@@ -108,27 +145,15 @@ class TESForm : public BaseFormComponent
     virtual char* GetName(void) const;
     virtual bool SetEditorID_AtRuntime(const char* edid);
     ENUM_FORM_ID GetFormType() const;
-    bool IsFormInitialized() const;
     void SetFile(TESFile* file);
-    static TESForm* GetFormByID(unsigned int id);
     TESForm();
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
     unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    bool GetInitialized() const;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 #endif
 // Source layout: Script. PC corrections are in generate_headers.py.
 #ifndef FNV_SCRIPT_H
@@ -136,7 +161,6 @@ FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 #include "layout_support.h"
 #include "ScriptHeaderData.h"
 #include "TESForm.h"
-#pragma pack(push, 4)
 class Script : public TESForm
 {
   public:
@@ -154,14 +178,7 @@ class Script : public TESForm
     virtual bool Load(TESFile* file);
     virtual void CopyFrom(const TESForm* form);
     void InitializeActionList();
-    static void CopyListToView(BSSimpleList<ScriptVariableInfo*>* source, BSSimpleList<ScriptVariableInfo*>* dest,
-                               Script* script);
-    static void CopyScriptReferences(BSSimpleList<ScriptReferencedObject*>* source,
-                                     BSSimpleList<ScriptReferencedObject*>* dest, Script* script);
-    void SetText(const char* text);
-    ScriptLocals* GetOrCreateScriptLocals();
     BSSimpleList<ScriptLocalVariable*>* GetScriptEntryList();
-    bool Run(TESObjectREFR* reference, ScriptLocals* locals, TESObjectREFR* container, bool flag);
     virtual void InitItem();
     static void CopyIdentifierBitsToValue(const unsigned int& id, double& value);
     static bool IsConsolePlatform();
@@ -174,42 +191,18 @@ class Script : public TESForm
     static void SetScriptLocalsFromExtraData(TESObjectREFR* ref, ExtraDataList* extra);
     void GetLocalData();
     void FUN_005aa2e0();
-    void FUN_005ae2e0();
-    void FUN_006eae40();
 
     Script();
     virtual ~Script();
     virtual void InitializeComponent();
     char* GetData();
-    char* GetText();
-    ScriptReferencedObject* GetReferencedForm(unsigned int index, ScriptLocals* locals);
-    ScriptHeaderData* GetHeader();
-    const char* GetVariableName(unsigned int index);
-    static bool GetValue(double& value, const char* data, unsigned int& offset, TESObjectREFR* reference,
-                         TESObjectREFR* container, Script* script, ScriptLocals* locals, bool skip);
-    void CopyScriptContents(Script* script);
-    void SetScriptData(unsigned int size, char* data);
-    BSSimpleList<ScriptReferencedObject*>* GetReferencedObjectList();
-    BSSimpleList<ScriptVariableInfo*>* GetVariableList();
     void InitItem(TESForm* form);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Script) == 0x54);
-FNV_STATIC_ASSERT(offsetof(Script, m_kHeader) == 0x18);
-FNV_STATIC_ASSERT(offsetof(Script, m_pText) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(Script, m_data) == 0x30);
-FNV_STATIC_ASSERT(offsetof(Script, m_fValueAtOffset34) == 0x34);
-FNV_STATIC_ASSERT(offsetof(Script, fValueAtOffset38) == 0x38);
-FNV_STATIC_ASSERT(offsetof(Script, m_fValueAtOffset3C) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(Script, m_pOwnerQuest) == 0x40);
-FNV_STATIC_ASSERT(offsetof(Script, m_kReferencedObjectList) == 0x44);
-FNV_STATIC_ASSERT(offsetof(Script, m_kVariableList) == 0x4C);
 #endif
 
 #ifndef FNV_SCRIPT_REFERENCED_OBJECT_H
 #define FNV_SCRIPT_REFERENCED_OBJECT_H
 #include "layout_support.h"
-#pragma pack(push, 4)
 class ScriptReferencedObject
 {
   public:
@@ -220,17 +213,11 @@ class ScriptReferencedObject
     ScriptReferencedObject(ScriptReferencedObject* source);
     ~ScriptReferencedObject();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ScriptReferencedObject) == 0x10);
-FNV_STATIC_ASSERT(offsetof(ScriptReferencedObject, m_kFormName) == 0x0);
-FNV_STATIC_ASSERT(offsetof(ScriptReferencedObject, pForm) == 0x8);
-FNV_STATIC_ASSERT(offsetof(ScriptReferencedObject, m_uiFormID) == 0xC);
 #endif
 
 #ifndef FNV_SCRIPT_LOCAL_H
 #define FNV_SCRIPT_LOCAL_H
 #include "layout_support.h"
-#pragma pack(push, 4)
 class ScriptLocalVariable
 {
   public:
@@ -241,11 +228,6 @@ class ScriptLocalVariable
     bool m_bIsString;  // +0x10
     unsigned char layoutPadding11[7];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ScriptLocalVariable) == 0x18);
-FNV_STATIC_ASSERT(offsetof(ScriptLocalVariable, uiID) == 0x0);
-FNV_STATIC_ASSERT(offsetof(ScriptLocalVariable, fValue) == 0x8);
-FNV_STATIC_ASSERT(offsetof(ScriptLocalVariable, m_bIsString) == 0x10);
 #endif
 
 #include "ScriptVariableInfo.h"
@@ -256,8 +238,11 @@ class SpellItem : public TESForm
 class MagicItem : public TESForm
 {
 };
+class TESSound;
 class EffectSetting : public TESForm
 {
+public:
+    ::TESSound *GetHitSound();
 };
 class EnchantmentItem;
 class TESEnchantableForm : public BaseFormComponent
@@ -267,7 +252,6 @@ class TESEnchantableForm : public BaseFormComponent
     unsigned short m_usEnchantmentAmount;
     unsigned short padding;
     int m_eCastingType;
-    EnchantmentItem* FindFormEnchantment();
 };
 class TESObjectBOOK : public TESForm
 {
@@ -282,15 +266,11 @@ struct ScriptParameterKind
     bool isReference;
     unsigned short reserved;
 };
-extern ScriptParameterKind DAT_0118cdd0[];
-int Warning(const char*, ...);
 class TESContainer
 {
   public:
     static bool IsValidContainerType(unsigned char type);
 };
-bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*,
-                 ScriptLocals*, ...);
 
 class ScriptLocals
 {
@@ -303,28 +283,22 @@ class ScriptLocals
     ScriptLocals();
     ~ScriptLocals();
     void Destroy();
-    double GetVariable(unsigned int index, Script* script);
-    void SetVariable(unsigned int index, double value);
     BSSimpleList<ScriptLocalVariable*>* GetLocalList();
     void CopyActionListFrom(ScriptLocals* locals);
     FormFlagRecord* FUN_005a90b0(ScriptLocals* locals, bool create);
     void ProcessPendingTasks();
     TESBoundObject* GetActionEntry();
     TESBoundObject* GetLocalData();
-    bool FUN_005a8e20(TESForm* form, unsigned int flag);
     void FUN_005a85c0();
 };
 class TESQuest : public TESForm
 {
   public:
     ScriptLocals* GetScriptLocalData();
-    float FUN_00792760();
 };
 class ExtraDataList
 {
   public:
-    TESObjectREFR* GetReplacementReference();
-    ScriptLocals* FUN_00418830();
 };
 class InventoryStackRecord
 {
@@ -333,13 +307,11 @@ class InventoryStackRecord
     int m_iCountChange;
     TESBoundObject* m_pItemObject;
     ~InventoryStackRecord();
-    ScriptLocals* GetScriptLocalData();
 };
 class TESObjectREFR : public TESForm
 {
   public:
     void Enable();
-    void FUN_00574400();
     virtual void vfn_138();
     virtual void vfn_13c();
     virtual void vfn_140();
@@ -379,16 +351,11 @@ class TESObjectREFR : public TESForm
     virtual void vfn_1c8();
     virtual void vfn_1cc();
     virtual NiNode* GetNiNode_v();
-    const char* GetFullName();
-    ExtraDataList* GetExtraData();
-    TESBoundObject* GetObjectReference();
     InventoryStackRecord* FindEntryForObject(TESBoundObject* object, unsigned int formID);
-    ScriptLocals* GetReferenceLocals();
 };
 class TESGlobalValueReader
 {
   public:
-    float GetValue();
 };
 enum SCRIPT_OUTPUT
 {
@@ -412,7 +379,6 @@ class ScriptFunctionInfo
     bool m_bFunctionFlag;
     bool m_bSetsExecutionFlag;
 };
-ScriptFunctionInfo* GetFunctionByOpcode(SCRIPT_OUTPUT output);
 
 enum MEM_CONTEXT
 {
@@ -436,9 +402,7 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
-extern SettingT_GameSettingCollection_ DAT_011cac68;
 extern float DAT_011cad20[8];
 extern int DAT_011cad40;
 char* AllocateZeroed(unsigned int count, unsigned int size);
@@ -450,18 +414,14 @@ class FormRecordMetadata
 class TESSaveLoadGame
 {
   public:
-    bool GetLoading();
     FormRecordMetadata* GetCurrentlyLoadingFormHeader();
-    const char* FUN_005a9460();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 #ifndef FNV_TESFULLNAME_H
 #define FNV_TESFULLNAME_H
 class TESFullName : public BaseFormComponent
 {
   public:
     BSStringT<char> m_kName;
-    static const char* GetFullName(TESForm* form);
 };
 #endif
 class NiNode
@@ -481,25 +441,15 @@ class BSFadeNode : public NiNode
 class RecursiveSpinLock
 {
   public:
-    void FUN_004538a0(unsigned int threadID);
-    void FUN_004538c0();
 };
-extern RecursiveSpinLock DAT_011cacf8;
-extern BSSimpleList<TESObjectREFR*> DAT_011caca8;
-extern BSSimpleList<TESObjectREFR*> DAT_011cac98;
-extern BSSimpleList<TESObjectREFR*> DAT_011cace8;
-extern BSSimpleList<TESObjectREFR*> DAT_011cacb8;
 class TimeGlobal
 {
   public:
-    float FUN_0084d030();
 };
-extern TimeGlobal g_timeGlobal;
 class ScriptExecutor
 {
   public:
     static ScriptExecutor* Instance();
-    void FUN_005e2730(Script* script, TESObjectREFR* ref, ScriptLocals* locals);
     bool Run(Script*, TESObjectREFR*, ScriptLocals*, TESObjectREFR*, bool, bool, bool, float);
 };
 extern int DAT_011cae50;
@@ -515,7 +465,6 @@ extern bool DAT_0118c685;
 class TESBoundObject
 {
   public:
-    bool IsBoundItem();
 };
 class ScriptActionView
 {

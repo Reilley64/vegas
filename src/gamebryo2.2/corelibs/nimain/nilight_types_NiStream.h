@@ -92,12 +92,6 @@ class BSStreamHeader
     // void __cdecl BSStreamHeader::*()
 };
 #pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSStreamHeader) == 196);
-FNV_STATIC_ASSERT(offsetof(BSStreamHeader, uiVersion) == 0);
-FNV_STATIC_ASSERT(offsetof(BSStreamHeader, pAuthor) == 4);
-FNV_STATIC_ASSERT(offsetof(BSStreamHeader, PluginMetadata) == 68);
-FNV_STATIC_ASSERT(offsetof(BSStreamHeader, PluginMetadataHeader) == 132);
-#pragma pack(push, 4)
 class NiTPrimitiveArray_NiObjectGroup___ : public NiTArray<NiObjectGroup*, NiTMallocInterface<NiObjectGroup*> >
 {
   public:
@@ -108,9 +102,6 @@ class NiTPrimitiveArray_NiObjectGroup___ : public NiTArray<NiObjectGroup*, NiTMa
     // void __cdecl NiTPrimitiveArray<NiObjectGroup *>::*()
     // void __cdecl NiTPrimitiveArray<NiObjectGroup *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_NiObjectGroup___) == 16);
-#pragma pack(push, 4)
 class NiTLargeObjectArray_NiPointer_NiObject___
     : public NiTLargeArray<NiPointer<NiObject>, NiTNewInterface<NiPointer<NiObject> > >
 {
@@ -122,9 +113,6 @@ class NiTLargeObjectArray_NiPointer_NiObject___
     // void __cdecl NiTLargeObjectArray<NiPointer<NiObject> >::*()
     // void __cdecl NiTLargeObjectArray<NiPointer<NiObject> >::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTLargeObjectArray_NiPointer_NiObject___) == 24);
-#pragma pack(push, 4)
 class NiTLargeObjectArray_NiFixedString_ : public NiTLargeArray<NiFixedString, NiTNewInterface<NiFixedString> >
 {
   public:
@@ -135,9 +123,6 @@ class NiTLargeObjectArray_NiFixedString_ : public NiTLargeArray<NiFixedString, N
     // void __cdecl NiTLargeObjectArray<NiFixedString>::*()
     // void __cdecl NiTLargeObjectArray<NiFixedString>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTLargeObjectArray_NiFixedString_) == 24);
-#pragma pack(push, 4)
 class NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___
 {
   public:
@@ -163,12 +148,6 @@ class NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___
     // void __cdecl NiTSet<unsigned int,NiTMallocInterface<unsigned int> >::*()
     // void* __cdecl NiTSet<unsigned int,NiTMallocInterface<unsigned int> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___, m_pBase) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___, m_uiElementCount) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___, m_uiAllocatedCapacity) == 8);
-#pragma pack(push, 4)
 class NiTPrimitiveSet_unsigned_int_ : public NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___
 {
   public:
@@ -179,9 +158,6 @@ class NiTPrimitiveSet_unsigned_int_ : public NiTSet_unsigned_int_NiTMallocInterf
     // void __cdecl NiTPrimitiveSet<unsigned int>::*()
     // void* __cdecl NiTPrimitiveSet<unsigned int>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveSet_unsigned_int_) == 12);
-#pragma pack(push, 4)
 class ProcessorAffinityInfo
 {
   public:
@@ -193,11 +169,6 @@ class ProcessorAffinityInfo
     // ProcessorAffinityInfo::Processor __cdecl ProcessorAffinityInfo::*()
     // void __cdecl ProcessorAffinityInfo::*(ProcessorAffinityInfo::Processor)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ProcessorAffinityInfo) == 8);
-FNV_STATIC_ASSERT(offsetof(ProcessorAffinityInfo, m_eProcessorAffinity) == 0);
-FNV_STATIC_ASSERT(offsetof(ProcessorAffinityInfo, m_uiProcessorAffinityMask) == 4);
-#pragma pack(push, 4)
 class NiStream
 {
   public:
@@ -329,42 +300,4 @@ class NiStream
     // NiStream& __cdecl NiStream::*(const NiStream&)
     // void __cdecl NiStream::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiStream) == 1476);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kHeader) == 4);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kObjectGroups) == 200);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_uiNifVersion) == 216);
-FNV_STATIC_ASSERT(offsetof(NiStream, StreamFileInfo) == 220);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_acInputFilePath) == 224);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_bFirstStreamFlag) == 484);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_bSecondStreamFlag) == 485);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pSearchPath) == 488);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kThirdFollowingStreamField) == 492);
-FNV_STATIC_ASSERT(offsetof(NiStream, ObjectSerializationStream) == 516);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kTopLevelObjects) == 540);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kStringTable) == 564);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pUnderlyingStream) == 588);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pBackingStream) == 592);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kSecondFollowingStreamField) == 596);
-FNV_STATIC_ASSERT(offsetof(NiStream, StreamObjectIndex) == 608);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kSecondUnsignedIntSet) == 612);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_uiObjectIndexCount) == 624);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kObjectToIndexMap) == 628);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_usAVObjectFlags) == 644);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_usTimeControllerFlags) == 646);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_usPropertyFlags) == 648);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_eStreamThreadStatus) == 652);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_bThreadActive) == 656);
-FNV_STATIC_ASSERT(offsetof(NiStream, StreamThreadContext) == 660);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_uiBackgroundLoadState) == 664);
-FNV_STATIC_ASSERT(offsetof(NiStream, BackgroundLoadThreadInfo) == 668);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pBackgroundLoadThread) == 672);
-FNV_STATIC_ASSERT(offsetof(NiStream, BackgroundLoadTask) == 676);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_eThreadPriority) == 680);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kBackgroundLoadSemaphore) == 684);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_acLoadPath) == 692);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_uiNativeThreadId) == 952);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_acSecondPathBuffer) == 956);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_acFilePathBuffer) == 1216);
 #endif

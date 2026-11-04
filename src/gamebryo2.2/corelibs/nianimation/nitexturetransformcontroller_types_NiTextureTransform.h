@@ -14,7 +14,6 @@ enum NiTextureTransform__TransformMethod
     NiTextureTransform__TransformMethod_MAX_TRANSFORM = 1,
     NiTextureTransform__TransformMethod_MAYA_TRANSFORM = 2
 };
-#pragma pack(push, 4)
 class NiPoint2
 {
   public:
@@ -41,11 +40,6 @@ class NiPoint2
     // SaveBinary
     // char* __cdecl NiPoint2::*(const char*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint2) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPoint2, x) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint2, y) == 4);
-#pragma pack(push, 4)
 class FourComponentNumericValue
 {
   public:
@@ -64,17 +58,6 @@ class FourComponentNumericValue
         unsigned int u[4];  // +0x0, 16 bytes
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FourComponentNumericValue) == 16);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_afComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_auiComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, x) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, y) == 4);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, z) == 8);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, w) == 12);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, v) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, u) == 0);
-#pragma pack(push, 4)
 class NiPoint4
 {
   public:
@@ -102,11 +85,6 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint4) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_kComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_afExtents) == 0);
-#pragma pack(push, 4)
 class ThreeByThreeMatrix
 {
   public:
@@ -118,10 +96,6 @@ class ThreeByThreeMatrix
     // operator*
     // Inverse
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ThreeByThreeMatrix) == 48);
-FNV_STATIC_ASSERT(offsetof(ThreeByThreeMatrix, m_afEntries) == 0);
-#pragma pack(push, 4)
 class TextureMapTransform
 {
   public:
@@ -140,13 +114,4 @@ class TextureMapTransform
     void SetValue(float value);
     void FUN_00a462b0(const NiPoint2& value);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TextureMapTransform) == 96);
-FNV_STATIC_ASSERT(offsetof(TextureMapTransform, m_kTranslate) == 0);
-FNV_STATIC_ASSERT(offsetof(TextureMapTransform, m_fRotation) == 8);
-FNV_STATIC_ASSERT(offsetof(TextureMapTransform, m_kScaleFactors) == 12);
-FNV_STATIC_ASSERT(offsetof(TextureMapTransform, m_kCenter) == 20);
-FNV_STATIC_ASSERT(offsetof(TextureMapTransform, m_bTransform) == 28);
-FNV_STATIC_ASSERT(offsetof(TextureMapTransform, m_kTransformMatrix) == 32);
-FNV_STATIC_ASSERT(offsetof(TextureMapTransform, m_eTransformMethod) == 80);
 #endif

@@ -1,15 +1,17 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" __declspec(dllimport) void __stdcall D3DXMatrixTranspose(void);
+#include "fnv/symbols_00ee6000.h"
+
+extern "C" __declspec(dllimport) void* __stdcall D3DXMatrixTranspose(void* pOut, const void* pM);
+
+// The import thunk for d3dx9 D3DXMatrixTranspose.
 // @fnv 0x00ee6dd4
-void FUN_00ee6dd4()
+void* FUN_00ee6dd4(void* pOut, const void* pM)
 {
-    D3DXMatrixTranspose();
+    return D3DXMatrixTranspose(pOut, pM);
 }
 
-float* __stdcall FUN_00ee6dda(float* pOut, float* pDeterminant, const float* pM);
-float* __stdcall FUN_00ee6dd4(float* pOut, const float* pM);
 
 // Builds a 4x4 matrix from a 2D affine transform (layout depends on iMode), optionally inverts and transposes it, or sets identity when affine is null.
 // @fnv 0x00e83550
@@ -44,9 +46,9 @@ void __cdecl SetAffineMatrix(float* afMatrix, const float* affine, bool bInvert,
         afMatrix[7] = 0.0f;
         afMatrix[3] = 0.0f;
         if (bInvert)
-            FUN_00ee6dda(afMatrix, 0, afMatrix);
+            ::FUN_00ee6dda(afMatrix, nullptr, afMatrix);
         if (bTranspose)
-            FUN_00ee6dd4(afMatrix, afMatrix);
+            ::FUN_00ee6dd4(afMatrix, afMatrix);
     }
     else
     {

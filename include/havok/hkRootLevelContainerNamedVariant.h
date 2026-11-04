@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 class hkReferencedObject;
-#pragma pack(push, 1)
 class hkRootLevelContainerNamedVariant
 {
   public:
@@ -13,6 +12,4 @@ class hkRootLevelContainerNamedVariant
     hkStringPtr m_pClassName;                   // +0x4
     hkReferencedObject* m_pReferencedResource;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkRootLevelContainerNamedVariant[(sizeof(hkRootLevelContainerNamedVariant) == 0xC) ? 1 : -1];
 #endif

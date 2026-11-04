@@ -9,16 +9,16 @@
 #define FNV_BSCORE_BSRANDOM_H
 
 
+#include "fnv/decl/FUN_00476b90_shell.h"
+#include "fnv/decl/FUN_00476be0_Class.h"
 class MersenneTwister
 {
   public:
     MersenneTwister();
     void Init(unsigned int seed);
     void Seed(unsigned int seed);
-    unsigned int GetRandomUInt();
     unsigned int GetRandomUInt(unsigned int bound);
     bool Bool(float chance);
-    float Float(float lo, float hi);
     float Float0To1();
     float FloatNeg1To1();
     float FloatNegPiToPi();

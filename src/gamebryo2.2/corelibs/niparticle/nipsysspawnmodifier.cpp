@@ -1,4 +1,32 @@
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
+#include <cstdlib>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00c1aee0_cls.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/NiPSysPositionModifier.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_005c5000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_010be000.h"
+#include "fnv/symbols_010c0000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsysspawnmodifier_decls.h"
 
 // Calls the base NiPSysModifier::LoadBinary, then loads eight values from kStream via a helper.
@@ -25,7 +53,7 @@ void NiPSysBoundUpdateModifier::LinkObject(NiStream& kStream)
 // @fnv 0x00c2d6e0
 bool NiPSysBoundUpdateModifier::IsEqual(NiObject* pkObject)
 {
-    if (!NiPSysModifier::IsEqual(pkObject))
+    if (!reinterpret_cast<::MyIsEqual *>(this)->FUN_00c31830(pkObject))
         return false;
 
     NiPSysBoundUpdateModifier* pkModifier = static_cast<NiPSysBoundUpdateModifier*>(pkObject);
@@ -35,29 +63,27 @@ bool NiPSysBoundUpdateModifier::IsEqual(NiObject* pkObject)
 // @fnv 0x00c2d710
 const NiRTTI* NiPSysBoundUpdateModifier::GetRTTI() const
 {
-    return &ms_kRTTI;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_01202788));
 }
 
-extern "C" const NiRTTI g_01202550;
 
 // @fnv 0x00c23ce0
 const NiRTTI* __cdecl FUN_00c23ce0()
 {
-    return &g_01202550;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_01202550));
 }
 
 extern "C" void __cdecl __Dummy_00b6fef0(void*, int);
-void __cdecl FUN_00c31750();
 
 struct FUN_00c23cf0_shell
 {
-    FUN_00c23cf0_shell* __thiscall FUN_00c23cf0(int param);
+    FUN_00c23cf0_shell* FUN_00c23cf0(int param);
 };
 
 // @fnv 0x00c23cf0
-FUN_00c23cf0_shell* __thiscall FUN_00c23cf0_shell::FUN_00c23cf0(int param)
+FUN_00c23cf0_shell* FUN_00c23cf0_shell::FUN_00c23cf0(int param)
 {
-    FUN_00c31750();
+    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (param & 1)
         __Dummy_00b6fef0(this, 0x34);
     return this;
@@ -65,7 +91,6 @@ FUN_00c23cf0_shell* __thiscall FUN_00c23cf0_shell::FUN_00c23cf0(int param)
 
 struct FUN_00c23b70_shell : NiObject
 {
-    bool __thiscall IsEqual(NiObject*) const;
     char pad[0x18 - sizeof(NiObject)];
     unsigned short m_usSpawnGenerationCount;
     float m_fSpawnPercentage;
@@ -75,14 +100,14 @@ struct FUN_00c23b70_shell : NiObject
     float m_fSpawnDirectionChaos;
     float m_fYValue;
     float m_fLifeSpanVariation;
-    bool __thiscall FUN_00c23b70(NiObject* pkObject);
+    bool FUN_00c23b70(NiObject* pkObject);
 };
 // Compares this object with pkObject: checks IsEqual and that eight stored values match, returning true only if all are equal.
 // @fnv 0x00c23b70
-bool __thiscall FUN_00c23b70_shell::FUN_00c23b70(NiObject* pkObject)
+bool FUN_00c23b70_shell::FUN_00c23b70(NiObject* pkObject)
 {
     FUN_00c23b70_shell* pkDest = static_cast<FUN_00c23b70_shell*>(pkObject);
-    if (IsEqual(pkObject) && pkDest->m_usSpawnGenerationCount == m_usSpawnGenerationCount &&
+    if (reinterpret_cast<::MyIsEqual *>((void *)this)->FUN_00c31830(pkObject) && pkDest->m_usSpawnGenerationCount == m_usSpawnGenerationCount &&
         pkDest->m_fSpawnPercentage == m_fSpawnPercentage &&
         pkDest->m_usMinimumParticlesToSpawn == m_usMinimumParticlesToSpawn &&
         pkDest->m_usMaximumParticlesToSpawn == m_usMaximumParticlesToSpawn &&
@@ -101,15 +126,12 @@ struct StrArr
     unsigned short m_usReserved;
     unsigned short m_usGrowth;
 
-    void __thiscall SetSize(unsigned int size);
-    void __thiscall SetAt(unsigned int index, char*& value);
 };
 
 struct Base00c319e0
 {
     unsigned char pad[0x18];
 
-    void __thiscall FUN_00c319e0(StrArr* strings);
 };
 
 struct FUN_00c24a50_shell : Base00c319e0
@@ -123,93 +145,90 @@ struct FUN_00c24a50_shell : Base00c319e0
     float m_fYValue;
     float m_fLifeSpanVariation;
 
-    void __thiscall AppendSpawnSettingsStrings(StrArr* strings);
+    void AppendSpawnSettingsStrings(StrArr* strings);
 };
 
-char* __cdecl _FUN_00a7d330(void* value);
-char* __cdecl FUN_00a7d490(char const* name, unsigned short value);
-char* __cdecl FUN_00a7d550(char const* name, float value);
 
 // Appends formatted spawn-setting name/value strings to the StrArr, growing it when full.
 // @fnv 0x00c24a50
-void __thiscall FUN_00c24a50_shell::AppendSpawnSettingsStrings(StrArr* strings)
+void FUN_00c24a50_shell::AppendSpawnSettingsStrings(StrArr* strings)
 {
-    Base00c319e0::FUN_00c319e0(strings);
+    reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0(strings);
 
     {
-        char* value = _FUN_00a7d330(*reinterpret_cast<void* const*>(&g_01202550));
+        char* value = ::FUN_00a7d330((const char *)(*reinterpret_cast<void* const*>(&(*reinterpret_cast<const ::NiRTTI *>(&::g_01202550)))));
         unsigned int index = strings->m_usSize;
         if (index >= strings->m_usCapacity)
-            strings->SetSize(index + strings->m_usGrowth);
-        strings->SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
     }
 
     {
         char* value = FUN_00a7d490("Num Spawn Generations", m_usSpawnGenerationCount);
         unsigned int index = strings->m_usSize;
         if (index >= strings->m_usCapacity)
-            strings->SetSize(index + strings->m_usGrowth);
-        strings->SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
     }
 
     {
         char* value = FUN_00a7d550("Percentage Spawned", m_fSpawnPercentage);
         unsigned int index = strings->m_usSize;
         if (index >= strings->m_usCapacity)
-            strings->SetSize(index + strings->m_usGrowth);
-        strings->SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
     }
 
     {
         char* value = FUN_00a7d490("Min Num to Spawn", m_usMinimumParticlesToSpawn);
         unsigned int index = strings->m_usSize;
         if (index >= strings->m_usCapacity)
-            strings->SetSize(index + strings->m_usGrowth);
-        strings->SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
     }
 
     {
         char* value = FUN_00a7d490("Max Num to Spawn", m_usMaximumParticlesToSpawn);
         unsigned int index = strings->m_usSize;
         if (index >= strings->m_usCapacity)
-            strings->SetSize(index + strings->m_usGrowth);
-        strings->SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
     }
 
     {
         char* value = FUN_00a7d550("Spawn Speed Chaos", m_fSpawnedSpeedChaos);
         unsigned int index = strings->m_usSize;
         if (index >= strings->m_usCapacity)
-            strings->SetSize(index + strings->m_usGrowth);
-        strings->SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
     }
 
     {
         char* value = FUN_00a7d550("Spawn Dir Chaos", m_fSpawnDirectionChaos);
         unsigned int index = strings->m_usSize;
         if (index >= strings->m_usCapacity)
-            strings->SetSize(index + strings->m_usGrowth);
-        strings->SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
     }
 
     {
         char* value = FUN_00a7d550("Life Span", m_fYValue);
         unsigned int index = strings->m_usSize;
         if (index >= strings->m_usCapacity)
-            strings->SetSize(index + strings->m_usGrowth);
-        strings->SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
     }
 
     {
         char* value = FUN_00a7d550("Life Span Variation", m_fLifeSpanVariation);
         unsigned int index = strings->m_usSize;
         if (index >= strings->m_usCapacity)
-            strings->SetSize(index + strings->m_usGrowth);
-        strings->SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usGrowth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_010be124;
 
 struct FUN_00c23d10_cls
@@ -230,22 +249,20 @@ struct FUN_00c23d10_cls
     float m_2C;
     float m_30;
 
-    void FUN_00c31720();
-    void FUN_00c31780(FUN_00c23d10_cls* pDst, int a1);
-    FUN_00c23d10_cls* Clone(int a1);
+    FUN_00c23d10_cls* Clone(intptr_t a1);
 };
 
 // @fnv 0x00c23d10
-FUN_00c23d10_cls* FUN_00c23d10_cls::Clone(int aiArg)
+FUN_00c23d10_cls* FUN_00c23d10_cls::Clone(intptr_t aiArg)
 {
     FUN_00c23d10_cls* pkNew = (FUN_00c23d10_cls*)FUN_00aa13e0(0x34);
     if (pkNew != 0)
     {
-        pkNew->FUN_00c31720();
+        new ((void *)(pkNew)) ::NiPSysPositionModifier();
         pkNew->m_1C = 1.0f;
         pkNew->m_24 = 0.0f;
         pkNew->m_28 = 0.0f;
-        *(int*)pkNew = (int)&DAT_010be124;
+        *(intptr_t*)pkNew = (intptr_t)&DAT_010be124;
         pkNew->m_2C = 0.0f;
         pkNew->m_18 = 1;
         pkNew->m_30 = 0.0f;
@@ -256,7 +273,7 @@ FUN_00c23d10_cls* FUN_00c23d10_cls::Clone(int aiArg)
     {
         pkNew = 0;
     }
-    this->FUN_00c31780(pkNew, aiArg);
+    reinterpret_cast<::NiPSysModifier *>((this))->CopyMemberData((::NiPSysModifier *)(pkNew), (*(::CloningProcess *)(aiArg)));
     pkNew->m_18 = this->m_18;
     pkNew->m_1C = this->m_1C;
     pkNew->m_20 = this->m_20;
@@ -302,15 +319,14 @@ template <class T> __forceinline void StreamSaveBinary(SaveStream& stream, const
 
 struct SpawnModifier : NiPSysSpawnModifier
 {
-    void __thiscall FUN_00c31950(SaveStream& stream);
-    void __thiscall FUN_00c24920(SaveStream& stream);
+    void FUN_00c24920(SaveStream& stream);
 };
 
 // Saves the SpawnModifier fields to the stream after calling the base class save routine.
 // @fnv 0x00c24920
 void SpawnModifier::FUN_00c24920(SaveStream& stream)
 {
-    FUN_00c31950(stream);
+    reinterpret_cast<::ParticleModifierBinary *>(this)->FUN_00c31950((::OutputStream &)(stream));
     StreamSaveBinary(stream, m_usSpawnGenerationCount);
     StreamSaveBinary(stream, m_fSpawnPercentage);
     StreamSaveBinary(stream, m_usMinimumParticlesToSpawn);
@@ -324,7 +340,7 @@ void SpawnModifier::FUN_00c24920(SaveStream& stream)
 #include <string.h>
 struct FUN_00c23c00_shell
 {
-    void __thiscall AddDelta(float*, float*);
+    void AddDelta(float*, float*);
 };
 
 // Copies 9 floats from the object into fTimeSinceScaleStart, then adds each element of fDelta2 to the corresponding element.
@@ -545,19 +561,8 @@ void SpawnModifierX::FUN_00c23db0(float afTime, float fTime, unsigned short usOl
     }
 }
 
-extern "C" int __cdecl rand();
-extern "C" const double DAT_01029790;
-extern "C" const double DAT_01012070;
-extern "C" const double DAT_0101ff40;
 extern "C" const double DAT_01028338;
-extern "C" const double DAT_01012060;
-extern "C" const double DAT_01011588;
 extern "C" const float DAT_011aeb34;
-extern "C" const float DAT_010c09c0;
-extern "C" const float DAT_01012054;
-extern "C" const float DAT_011f52e0[];
-extern "C" const float DAT_011f4ae0[];
-extern "C" const unsigned short DAT_010be248;
 
 struct Pt3
 {
@@ -584,7 +589,6 @@ struct ColA
 struct Mat3
 {
     float m[3][3];
-    static const Mat3 IDENTITY;
     Mat3()
     {}
     Mat3(const Pt3& c0, const Pt3& c1, const Pt3& c2);
@@ -633,7 +637,6 @@ struct Xform
     Pt3 m_kTranslation;
     float m_fScale;
     Pt3 operator*(const Pt3& p) const;
-    void Invert(Xform& dst) const;
 };
 
 struct PInfo
@@ -738,19 +741,18 @@ struct PSys
     Xform m_kWorldSpaceTransform;
     int unk9C, unkA0, unkA4, unkA8, unkAC, unkB0, unkB4;
     PSysData* m_spGeometryData;
-    void InitializeSpawnedParticle(unsigned short usNewParticle);
 };
 
 static inline float UnitRandom()
 {
-    return (float)(rand() / DAT_01029790);
+    return (float)(std::rand() / ::DAT_01029790);
 }
 
 static inline void FastSinCos(float f, float& sine, float& cosine)
 {
     int index = (int)(f * (DAT_01028338 / DAT_011aeb34)) & 0x1ff;
-    sine = DAT_011f52e0[index];
-    cosine = DAT_011f4ae0[index];
+    sine = (*reinterpret_cast<const float (*)[]>(&::DAT_011f52e0))[index];
+    cosine = ::DAT_011f4ae0[index];
 }
 
 static inline Pt3 MulMV(Mat3 m, const Pt3& p)
@@ -831,7 +833,7 @@ void SpawnWorker::FUN_00c23ee0(float afTime, float fTimeDelta, unsigned short us
         kPosition = kOldWorld * kPosition;
         kMotionVelocity = MulMV(kOldWorld.m_kOrientation, kMotionVelocity);
         Xform kTargetWorld = pkTarget->m_kWorldSpaceTransform;
-        kTargetWorld.Invert(kOldWorld);
+        reinterpret_cast<::NiTransform *>((void *)&(kTargetWorld))->CalculateInverse((::NiTransform &)(kOldWorld));
         kPosition = kOldWorld * kPosition;
         kMotionVelocity = InverseMulMV(kOldWorld.m_kOrientation, kMotionVelocity);
     }
@@ -856,9 +858,9 @@ void SpawnWorker::FUN_00c23ee0(float afTime, float fTimeDelta, unsigned short us
     float fLen = sqrtf(fLenSq);
 
     float fSpeedVar = m_fSpawnedSpeedChaos * UnitRandom();
-    float fSpeed = (fSpeedVar + DAT_01012070) * fLen;
+    float fSpeed = (fSpeedVar + ::g_01012070) * fLen;
 
-    float fDecl = (float)(m_fSpawnDirectionChaos * UnitRandom() * DAT_0101ff40);
+    float fDecl = (float)(m_fSpawnDirectionChaos * UnitRandom() * ::DAT_0101ff40);
     float fRand = UnitRandom();
     float fSinDecl, fCosDecl;
     FastSinCos(fDecl, fSinDecl, fCosDecl);
@@ -870,7 +872,7 @@ void SpawnWorker::FUN_00c23ee0(float afTime, float fTimeDelta, unsigned short us
     kWorldPosition.y = fSinDecl * fSinPlanar;
     kWorldPosition.z = fCosDecl;
 
-    Mat3 kRot = Mat3::IDENTITY;
+    Mat3 kRot = (*reinterpret_cast<const ::Mat3 *>(&::DAT_011a9448));
 
     {
         Pt3 kNeg = -kMotionVelocity;
@@ -890,7 +892,7 @@ void SpawnWorker::FUN_00c23ee0(float afTime, float fTimeDelta, unsigned short us
         kCross.x = kWorldPosition.y * kMotionVelocity.z - kWorldPosition.z * kMotionVelocity.y;
         kCross.y = kWorldPosition.z * kMotionVelocity.x - kWorldPosition.x * kMotionVelocity.z;
         kCross.z = kWorldPosition.x * kMotionVelocity.y - kWorldPosition.y * kMotionVelocity.x;
-        float fDot = (float)((double)(kCross.x * kAxis.x) + kAxis.y * kCross.y + kCross.z * DAT_01012060);
+        float fDot = (float)((double)(kCross.x * kAxis.x) + kAxis.y * kCross.y + kCross.z * ::_DAT_01012060);
 
         if (fDot > DAT_010c09c0)
         {
@@ -908,7 +910,7 @@ void SpawnWorker::FUN_00c23ee0(float afTime, float fTimeDelta, unsigned short us
         }
         else if (kMotionVelocity.z < kAxis.z)
         {
-            kRot = Mat3(Pt3(DAT_01012054, 0.0f, 0.0f), Pt3(0.0f, DAT_01012054, 0.0f), Pt3(0.0f, 0.0f, DAT_01012054));
+            kRot = Mat3(Pt3(::DAT_01012054, 0.0f, 0.0f), Pt3(0.0f, ::DAT_01012054, 0.0f), Pt3(0.0f, 0.0f, ::DAT_01012054));
         }
     }
 
@@ -925,7 +927,7 @@ void SpawnWorker::FUN_00c23ee0(float afTime, float fTimeDelta, unsigned short us
     kWorldPosition = MulMV(kScaled, kWorldPosition);
     pkNewInfo->m_kValue = kWorldPosition;
     pkNewInfo->m_fXValue = fPreviousTime;
-    pkNewInfo->m_fYValue = (float)((UnitRandom() - DAT_01011588) * m_fLifeSpanVariation + m_fYValue);
+    pkNewInfo->m_fYValue = (float)((UnitRandom() - ::DAT_01011588) * m_fLifeSpanVariation + m_fYValue);
     pkNewInfo->m_usFirstValue = pkOldInfo->m_usFirstValue + 1;
 
     pkNewVerts[usNewIndex] = kPosition;
@@ -945,5 +947,7 @@ void SpawnWorker::FUN_00c23ee0(float afTime, float fTimeDelta, unsigned short us
         pkNewRotAxes[usNewIndex] = pkOldRotAxes[usOldIndex];
 
     pkNewInfo->m_fZValue = afTime - pkNewInfo->m_fXValue;
-    ((PSys*)m_pkTarget)->InitializeSpawnedParticle(usNewIndex);
+    reinterpret_cast<::FUN_00c1aee0_cls *>((((PSys*)m_pkTarget)))->FUN_00c1aee0(usNewIndex);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysspawnmodifier.inc"

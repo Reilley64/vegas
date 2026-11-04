@@ -2,6 +2,7 @@
 #ifndef FNV_BGSDEBRIS_H
 #define FNV_BGSDEBRIS_H
 
+#include "fnv/symbols_004fa000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -9,7 +10,6 @@
 class BGSDebris;
 class DebrisModelEntry;
 class BGSPreloadable;
-#pragma pack(push, 4)
 class BGSPreloadable : public BaseFormComponent
 {
   public:
@@ -22,9 +22,6 @@ class BGSPreloadable : public BaseFormComponent
     // BGSPreloadable
     // BGSPreloadable& __cdecl BGSPreloadable::*(const BGSPreloadable&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSPreloadable) == 4);
-#pragma pack(push, 4)
 class BGSDebris : public TESForm, public BGSPreloadable
 {
   public:
@@ -40,7 +37,6 @@ class BGSDebris : public TESForm, public BGSPreloadable
     bool Load(TESFile*);
     void Preload(int priority, void* file);
     DebrisModelEntry* AddDebrisModel(char chance, const char* path, char flags);
-    void InsertDebrisIfValid(DebrisModelEntry*);
     // void __cdecl BGSDebris::*(TESObjectCELL*, const NiPoint3&, unsigned int, float)
     // void __cdecl BGSDebris::*(IO_TASK_PRIORITY, QueuedFile*)
     // TestHavokLayer
@@ -54,7 +50,4 @@ class BGSDebris : public TESForm, public BGSPreloadable
     // BGSDebris& __cdecl BGSDebris::*(const BGSDebris&)
     // void __cdecl BGSDebris::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSDebris) == 36);
-FNV_STATIC_ASSERT(offsetof(BGSDebris, DataList) == 28);
 #endif

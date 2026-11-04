@@ -2,6 +2,77 @@
 // src/fallout_shared/bgsautowater.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsautowater.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/water_shader_property.h"
+#include <new>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/CleanupOwner.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00439680_class.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0043b370_cls.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00456650_shell.h"
+#include "fnv/decl/FUN_0045cb90_cls.h"
+#include "fnv/decl/FUN_0049db00_Class.h"
+#include "fnv/decl/FUN_0049db30_Class.h"
+#include "fnv/decl/FUN_0049ec60.h"
+#include "fnv/decl/FUN_0049f190_Class.h"
+#include "fnv/decl/FUN_0049f510.h"
+#include "fnv/decl/FUN_0049f560_Holder.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_005471e0_shell.h"
+#include "fnv/decl/FUN_00547770_shell.h"
+#include "fnv/decl/FUN_00580130_shell.h"
+#include "fnv/decl/FUN_00586300_shell.h"
+#include "fnv/decl/FUN_006317a0_struct.h"
+#include "fnv/decl/FUN_00633ba0_Class.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_007b52d0_cls.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/Fn575690.h"
+#include "fnv/decl/LandForm.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/NiPosData.h"
+#include "fnv/decl/NiUpdateData.h"
+#include "fnv/decl/PlaneArray.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/S00546fb0_Cell.h"
+#include "fnv/decl/S_00c4e0a0_Class.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WaterRef.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_0049f210__FUN_0049f210_class.h"
+#include "fnv/decl/fnv_0056c7f0__Tile.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0049c000.h"
+#include "fnv/symbols_0049d000.h"
+#include "fnv/symbols_0049e000.h"
+#include <cmath>
+class NiPoint3;
+struct Pt
+{
+    float x, y, z;
+    Pt& operator+=(const NiPoint3& other);
+};
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_006b9000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0106c000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011cc000.h"
 struct NiProperty
 {
     virtual ~NiProperty();
@@ -12,20 +83,9 @@ struct NiStencilProperty : NiProperty
     void* FUN_0049ed40(unsigned int);
 };
 extern "C" void __cdecl FUN_0049ed70(NiStencilProperty*);
-extern void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-
-// @fnv 0x0049ed40
-void* NiStencilProperty::FUN_0049ed40(unsigned int flags)
-{
-    this->NiStencilProperty::~NiStencilProperty();
-    if (flags & 1)
-        __Dummy_00b6fef0(this, 0x24);
-    return this;
-}
 
 struct Flag512Receiver
 {
-    void FUN_00633ba0(bool, unsigned int);
 };
 
 struct FUN_0049ed90_shell : Flag512Receiver
@@ -34,9 +94,9 @@ struct FUN_0049ed90_shell : Flag512Receiver
 };
 
 // @fnv 0x0049ed90
-void __thiscall FUN_0049ed90_shell::FUN_0049ed90(bool bAlpha)
+void FUN_0049ed90_shell::FUN_0049ed90(bool bAlpha)
 {
-    this->FUN_00633ba0(bAlpha, 1);
+    reinterpret_cast<::FUN_00633ba0_Class *>((this))->FUN_00633ba0(bAlpha, 1);
 }
 
 struct NiObjectNET
@@ -55,7 +115,6 @@ void NiObjectNET::FUN_0049edb0(unsigned short argument0)
 namespace fnv_0049ede0 {
 struct NiObjectNET
 {
-    void __thiscall FUN_00439360(unsigned short, unsigned int, unsigned int);
 };
 
 struct FUN_0049ede0_shell : NiObjectNET
@@ -67,28 +126,26 @@ struct FUN_0049ede0_shell : NiObjectNET
 // @fnv 0x0049ede0
 void FUN_0049ede0_shell::FUN_0049ede0(unsigned short argument0)
 {
-    FUN_00439360(argument0, 0x380, 7);
+    reinterpret_cast<::NiObjectNET *>(this)->FUN_00439360(argument0, 0x380, 7);
 }
 }  // namespace fnv_0049ede0
 
 namespace fnv_0049ee10 {
 struct NiObjectNET
 {
-    void FUN_00439360(unsigned short, unsigned int, unsigned int);
     void FUN_0049ee10(unsigned short argument0);
 };
 
 // @fnv 0x0049ee10
 void NiObjectNET::FUN_0049ee10(unsigned short ausValue)
 {
-    FUN_00439360(ausValue, 0x70, 4);
+    reinterpret_cast<::NiObjectNET *>(this)->FUN_00439360(ausValue, 0x70, 4);
 }
 }  // namespace fnv_0049ee10
 
 namespace fnv_0049ee30 {
 struct NiObjectNET
 {
-    void FUN_00439360(unsigned short a, unsigned int b, unsigned int c);
     void FUN_0049ee30(unsigned short a);
 };
 
@@ -96,7 +153,7 @@ struct NiObjectNET
 // @fnv 0x0049ee30
 void NiObjectNET::FUN_0049ee30(unsigned short a)
 {
-    FUN_00439360(a, 0xc00, 0xa);
+    reinterpret_cast<::NiObjectNET *>(this)->FUN_00439360(a, 0xc00, 0xa);
 }
 }  // namespace fnv_0049ee30
 
@@ -112,7 +169,7 @@ void TaskQueueInterface::SetTaskFlagDWord(bool, unsigned int)
 // @fnv 0x0049ee80
 void TaskQueueInterface::SetEnabledFlag(bool enabled)
 {
-    SetTaskFlagDWord(enabled, 0x8000);
+    reinterpret_cast<::FUN_0043b370_cls *>(this)->FUN_0043b370(enabled, 0x8000);
 }
 
 struct FUN_004392c0_shell
@@ -126,6 +183,14 @@ struct FUN_0049ed70_shell : NiStencilProperty
 {
     void FUN_0049ed70();
 };
+// @fnv 0x0049ed40
+void* NiStencilProperty::FUN_0049ed40(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0049ed70_shell *>((this))->FUN_0049ed70();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x24);
+    return this;
+}
 
 // @fnv 0x0049ed70
 void FUN_0049ed70_shell::FUN_0049ed70()
@@ -158,6 +223,8 @@ struct NiPoint3
     float x;
     float y;
     float z;
+public:
+    bool FUN_004390c0(const ::NiPoint3 &);
 };
 
 struct FUN_0049eea0_shell
@@ -187,24 +254,21 @@ struct FUN_0049eed0_item
 
 struct FUN_0049eed0_list
 {
-    int FUN_0059bb30();
-    FUN_0049eed0_item* FUN_00559450(int index);
 };
 
 struct FUN_0049eed0_target
 {
-    bool ContainsMatchingTriple(Vec2 v);
 };
 
 // Iterates the list's items, builds a Vec2 from each item's NiPoint3 x/y, and returns true if the target accepts any of them.
 // @fnv 0x0049eed0
 bool AnyPointInListMatches(FUN_0049eed0_list* apList, FUN_0049eed0_target* apTarget)
 {
-    for (int i8 = 0; i8 < apList->FUN_0059bb30(); i8++)
+    for (int i8 = 0; i8 < ((int)(reinterpret_cast<::ActorMover *>((apList))->GetCurrentMoveModeType())); i8++)
     {
-        NiPoint3 p2 = *apList->FUN_00559450(i8)->FUN_006a7af0();
+        NiPoint3 p2 = *((::FUN_0049eed0_item *)(::FUN_00559450((int *)(apList))))->FUN_006a7af0();
         Vec2 v(p2.x, p2.y);
-        if (apTarget->ContainsMatchingTriple(v))
+        if (reinterpret_cast<::S_00c4e0a0_Class *>((apTarget))->ContainsMatchingTriple((*(int *)&(const ::Vec2 &)(v)), {}))
         {
             return true;
         }
@@ -215,16 +279,12 @@ bool AnyPointInListMatches(FUN_0049eed0_list* apList, FUN_0049eed0_target* apTar
 struct MeshPoint
 {
     float x, y, z;
-    bool FUN_00439090(const MeshPoint&);
-    bool FUN_004390c0(const MeshPoint&);
     MeshPoint* FUN_00416870(float, float, float);
-    void FUN_006815c0();
 };
 struct FUN_00a69990
 {
     float x, y, z, w;
     FUN_00a69990(const MeshPoint&, const MeshPoint&);
-    int ClassifyPoint(const MeshPoint*);
 };
 struct FUN_0049f1c0
 {
@@ -234,12 +294,6 @@ struct FUN_0049f1c0
     int allocator;
     FUN_0049f1c0();
     ~FUN_0049f1c0();
-    void FUN_008454f0(bool);
-    void AddItem(const MeshPoint&);
-    bool ContainsPlane(const MeshPoint&);
-    void FUN_0049f510();
-    void CallWithTwelve(bool(__cdecl*)(const MeshPoint&, const MeshPoint&));
-    int FUN_0044ddc0();
     MeshPoint& FUN_006a1440(int);
 };
 struct FUN_0049f640
@@ -250,64 +304,49 @@ struct FUN_0049f640
     int allocator;
     FUN_0049f640();
     ~FUN_0049f640();
-    void FUN_0049f690(int, const FUN_0049f1c0&);
     FUN_0049f1c0& FUN_00558dd0(int) const;
 };
 struct ScriptProgram
 {
-    bool FUN_0045cb90();
-    void FUN_00535b90(int);
-    void FUN_00536d80();
-    float FUN_0049db00();
-    MeshPoint** GetSecondPointer();
 };
 struct MeshMode
 {
-    unsigned char IsFlag80Set();
 };
 struct MeshInput
 {
-    ScriptProgram* FUN_00546fb0();
-    float FUN_005471e0();
-    MeshMode* FUN_0054ddd0();
 };
-extern FUN_0049f1c0* DAT_011c57ac;
 extern unsigned short DAT_0118ae90[];
 extern unsigned short DAT_0118ae92[];
 extern unsigned short DAT_0118ae94[];
-extern int __cdecl GetCellCornerFlags(MeshInput*, MeshPoint);
-extern int __cdecl FUN_006b9a10(const MeshPoint&, const MeshPoint&, const MeshPoint&, const MeshPoint&, MeshPoint&);
-extern bool __cdecl FUN_0049c800(const MeshPoint&, const MeshPoint&);
-extern bool __cdecl FUN_0049c7b0(const MeshPoint&, const MeshPoint&);
 // Builds triangle geometry from the mesh's vertex data, clipping against a plane and collecting boundary edges into DAT_011c57ac.
 // @fnv 0x0049c930
 void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
 {
-    ScriptProgram* mesh = pMeshInput->FUN_00546fb0();
-    float height = pMeshInput->FUN_005471e0();
+    ScriptProgram* mesh = ((::ScriptProgram *)(reinterpret_cast<::S00546fb0_Cell *>((pMeshInput))->FUN_00546fb0()));
+    float height = reinterpret_cast<::FUN_005471e0_shell *>((pMeshInput))->FUN_005471e0();
     if (!DAT_011c57ac)
         DAT_011c57ac = new FUN_0049f1c0;
     else
-        DAT_011c57ac->FUN_008454f0(true);
+        reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((DAT_011c57ac))->Clear(true);
     if (mesh)
     {
-        bool active8 = mesh->FUN_0045cb90();
+        bool active8 = reinterpret_cast<::FUN_0045cb90_cls *>((mesh))->FUN_0045cb90();
         if (!active8)
-            mesh->FUN_00535b90(0);
+            reinterpret_cast<::LandForm *>((mesh))->FUN_00535b90(0);
         FUN_0049f640 _list1;
         for (int i = 0; i < 4; i++)
         {
             FUN_0049f1c0 temporary;
-            _list1.FUN_0049f690(i, temporary);
+            reinterpret_cast<::PlaneArray *>(&(_list1))->FUN_0049f690(i, (const ::PlaneElem &)(temporary));
         }
         bool offset6 = false;
         float _saved = 0.0f;
-        if (pMeshInput->FUN_0054ddd0() && pMeshInput->FUN_0054ddd0()->IsFlag80Set())
+        if (((::MeshMode *)(reinterpret_cast<::TESObjectCELL *>((pMeshInput))->GetParentWorldSpace())) && ((unsigned char)(reinterpret_cast<::FUN_00586300_shell *>((((::MeshMode *)(reinterpret_cast<::TESObjectCELL *>((pMeshInput))->GetParentWorldSpace()))))->IsFlag80Set())))
         {
-            _saved = mesh->FUN_0049db00();
+            _saved = reinterpret_cast<::FUN_0049db00_Class *>((mesh))->FUN_0049db00();
             offset6 = true;
         }
-        MeshPoint** _readObject = mesh->GetSecondPointer();
+        MeshPoint** _readObject = ((::MeshPoint **)(reinterpret_cast<::FUN_0049db30_Class *>((mesh))->GetSecondPointer()));
         for (int side = 0; side < 4; side++)
         {
             for (int triangle = 0; triangle < 1019; triangle++)
@@ -324,7 +363,7 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                     _delta.z += _saved;
                     _point.z += _saved;
                 }
-                if (_cross.FUN_00439090(_delta) && _cross.FUN_00439090(_point) && _delta.FUN_00439090(_point))
+                if (reinterpret_cast<::NiPlane *>(&(_cross))->operator==((const ::NiPlane &)(_delta)) && reinterpret_cast<::NiPlane *>(&(_cross))->operator==((const ::NiPlane &)(_point)) && reinterpret_cast<::NiPlane *>(&(_delta))->operator==((const ::NiPlane &)(_point)))
                 {
                     MeshPoint origin6;
                     origin6.FUN_00416870(0.0f, 0.0f, height);
@@ -334,39 +373,38 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                     unsigned short count8 = 0;
                     bool _done = false;
                     bool _active = false;
-                    int _bound = GetCellCornerFlags(pMeshInput, _cross);
-                    int aCount2 = GetCellCornerFlags(pMeshInput, _delta);
-                    int _current = GetCellCornerFlags(pMeshInput, _point);
+                    int _bound = ((int)(::GetCellCornerFlags((::Cell *)(pMeshInput), (*(::Pt *)&(const ::MeshPoint &)(_cross)))));
+                    int aCount2 = ((int)(::GetCellCornerFlags((::Cell *)(pMeshInput), (*(::Pt *)&(const ::MeshPoint &)(_delta)))));
+                    int _current = ((int)(::GetCellCornerFlags((::Cell *)(pMeshInput), (*(::Pt *)&(const ::MeshPoint &)(_point)))));
                     MeshPoint _orient;
-                    _orient.FUN_006815c0();
-                    int result3 = FUN_006b9a10(_cross, _delta, origin6, normalVal, _orient);
+                    int result3 = ::FUN_006b9a10((const ::S006b9a10_Pt &)(_cross), (const ::S006b9a10_Pt &)(_delta), (const ::S006b9a10_Pt &)(origin6), (const ::S006b9a10_Pt &)(normalVal), (::S006b9a10_Pt &)(_orient));
                     if (result3 == 1)
                     {
-                        if (_cross.FUN_004390c0(_orient) || _delta.FUN_004390c0(_orient))
+                        if (reinterpret_cast<::NiPoint3 *>(&(_cross))->FUN_004390c0((const ::NiPoint3 &)(_orient)) || reinterpret_cast<::NiPoint3 *>(&(_delta))->FUN_004390c0((const ::NiPoint3 &)(_orient)))
                             _done = true;
-                        DAT_011c57ac->AddItem(_orient);
+                        reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                         ++count8;
                         if ((_bound & 1) && (aCount2 & 1))
-                            _list1.FUN_00558dd0(0).AddItem(_orient);
+                            reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(0)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                         else if ((_bound & 2) && (aCount2 & 2))
-                            _list1.FUN_00558dd0(1).AddItem(_orient);
+                            reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(1)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                         else if ((_bound & 4) && (aCount2 & 4))
-                            _list1.FUN_00558dd0(2).AddItem(_orient);
+                            reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(2)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                         else if ((_bound & 8) && (aCount2 & 8))
-                            _list1.FUN_00558dd0(3).AddItem(_orient);
+                            reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(3)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                     }
                     else if (result3 == -1)
                     {
                         _active = true;
-                        DAT_011c57ac->AddItem(_cross);
-                        DAT_011c57ac->AddItem(_delta);
+                        reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_cross));
+                        reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_delta));
                         count8 += 2;
                     }
-                    result3 = FUN_006b9a10(_cross, _point, origin6, normalVal, _orient);
+                    result3 = ::FUN_006b9a10((const ::S006b9a10_Pt &)(_cross), (const ::S006b9a10_Pt &)(_point), (const ::S006b9a10_Pt &)(origin6), (const ::S006b9a10_Pt &)(normalVal), (::S006b9a10_Pt &)(_orient));
                     if (result3 == 1)
                     {
                         bool add = true;
-                        if (_cross.FUN_004390c0(_orient) || _point.FUN_004390c0(_orient))
+                        if (reinterpret_cast<::NiPoint3 *>(&(_cross))->FUN_004390c0((const ::NiPoint3 &)(_orient)) || reinterpret_cast<::NiPoint3 *>(&(_point))->FUN_004390c0((const ::NiPoint3 &)(_orient)))
                         {
                             if (_done || _active)
                                 add = false;
@@ -375,210 +413,210 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         }
                         if (add)
                         {
-                            DAT_011c57ac->AddItem(_orient);
+                            reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                             ++count8;
                             if ((_bound & 1) && (_current & 1))
-                                _list1.FUN_00558dd0(0).AddItem(_orient);
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(0)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                             else if ((_bound & 2) && (_current & 2))
-                                _list1.FUN_00558dd0(1).AddItem(_orient);
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(1)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                             else if ((_bound & 4) && (_current & 4))
-                                _list1.FUN_00558dd0(2).AddItem(_orient);
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(2)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                             else if ((_bound & 8) && (_current & 8))
-                                _list1.FUN_00558dd0(3).AddItem(_orient);
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(3)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                         }
                     }
                     else if (result3 == -1)
                     {
                         _active = true;
                         for (int discard = 0; discard < count8; discard++)
-                            DAT_011c57ac->FUN_0049f510();
-                        DAT_011c57ac->AddItem(_cross);
-                        DAT_011c57ac->AddItem(_point);
+                            reinterpret_cast<::FUN_0049f510 *>((DAT_011c57ac))->FUN_0049f510_m();
+                        reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_cross));
+                        reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_point));
                         count8 = 2;
                     }
-                    result3 = FUN_006b9a10(_delta, _point, origin6, normalVal, _orient);
+                    result3 = ::FUN_006b9a10((const ::S006b9a10_Pt &)(_delta), (const ::S006b9a10_Pt &)(_point), (const ::S006b9a10_Pt &)(origin6), (const ::S006b9a10_Pt &)(normalVal), (::S006b9a10_Pt &)(_orient));
                     if (result3 == 1)
                     {
                         bool addThird = true;
-                        if (_delta.FUN_004390c0(_orient) || (_point.FUN_004390c0(_orient) && (_done || _active)))
+                        if (reinterpret_cast<::NiPoint3 *>(&(_delta))->FUN_004390c0((const ::NiPoint3 &)(_orient)) || (reinterpret_cast<::NiPoint3 *>(&(_point))->FUN_004390c0((const ::NiPoint3 &)(_orient)) && (_done || _active)))
                             addThird = false;
                         if (addThird)
                         {
-                            DAT_011c57ac->AddItem(_orient);
+                            reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                             ++count8;
                             if ((aCount2 & 1) && (_current & 1))
-                                _list1.FUN_00558dd0(0).AddItem(_orient);
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(0)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                             else if ((aCount2 & 2) && (_current & 2))
-                                _list1.FUN_00558dd0(1).AddItem(_orient);
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(1)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                             else if ((aCount2 & 4) && (_current & 4))
-                                _list1.FUN_00558dd0(2).AddItem(_orient);
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(2)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                             else if ((aCount2 & 8) && (_current & 8))
-                                _list1.FUN_00558dd0(3).AddItem(_orient);
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(3)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_orient));
                         }
                     }
                     else if (result3 == -1)
                     {
                         _active = true;
                         for (int discardThird = 0; discardThird < count8; discardThird++)
-                            DAT_011c57ac->FUN_0049f510();
-                        DAT_011c57ac->AddItem(_delta);
-                        DAT_011c57ac->AddItem(_point);
+                            reinterpret_cast<::FUN_0049f510 *>((DAT_011c57ac))->FUN_0049f510_m();
+                        reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_delta));
+                        reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_point));
                         count8 = 2;
                     }
                     if (count8 != 2)
                     {
                         for (int discardAll = 0; discardAll < count8; discardAll++)
-                            DAT_011c57ac->FUN_0049f510();
+                            reinterpret_cast<::FUN_0049f510 *>((DAT_011c57ac))->FUN_0049f510_m();
                     }
                     if (_bound == 9)
                     {
-                        if (_created.ClassifyPoint(&_cross) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_cross)) == 2)
                         {
                             _cross.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(0).AddItem(_cross);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(3).AddItem(_cross);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(0)))->ContainsPlane((const ::NiPlane &)(_cross)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(0)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_cross));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(3)))->ContainsPlane((const ::NiPlane &)(_cross)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(3)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_cross));
                         }
                     }
                     else if (_bound == 10)
                     {
-                        if (_created.ClassifyPoint(&_cross) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_cross)) == 2)
                         {
                             _cross.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(1).AddItem(_cross);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(3).AddItem(_cross);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(1)))->ContainsPlane((const ::NiPlane &)(_cross)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(1)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_cross));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(3)))->ContainsPlane((const ::NiPlane &)(_cross)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(3)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_cross));
                         }
                     }
                     else if (_bound == 5)
                     {
-                        if (_created.ClassifyPoint(&_cross) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_cross)) == 2)
                         {
                             _cross.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(0).AddItem(_cross);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(2).AddItem(_cross);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(0)))->ContainsPlane((const ::NiPlane &)(_cross)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(0)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_cross));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(2)))->ContainsPlane((const ::NiPlane &)(_cross)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(2)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_cross));
                         }
                     }
                     else if (_bound == 6)
                     {
-                        if (_created.ClassifyPoint(&_cross) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_cross)) == 2)
                         {
                             _cross.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(1).AddItem(_cross);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(2).AddItem(_cross);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(1)))->ContainsPlane((const ::NiPlane &)(_cross)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(1)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_cross));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(2)))->ContainsPlane((const ::NiPlane &)(_cross)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(2)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_cross));
                         }
                     }
                     if (aCount2 == 9)
                     {
-                        if (_created.ClassifyPoint(&_delta) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_delta)) == 2)
                         {
                             _delta.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(0).AddItem(_delta);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(3).AddItem(_delta);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(0)))->ContainsPlane((const ::NiPlane &)(_delta)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(0)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_delta));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(3)))->ContainsPlane((const ::NiPlane &)(_delta)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(3)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_delta));
                         }
                     }
                     else if (aCount2 == 10)
                     {
-                        if (_created.ClassifyPoint(&_delta) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_delta)) == 2)
                         {
                             _delta.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(1).AddItem(_delta);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(3).AddItem(_delta);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(1)))->ContainsPlane((const ::NiPlane &)(_delta)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(1)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_delta));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(3)))->ContainsPlane((const ::NiPlane &)(_delta)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(3)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_delta));
                         }
                     }
                     else if (aCount2 == 5)
                     {
-                        if (_created.ClassifyPoint(&_delta) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_delta)) == 2)
                         {
                             _delta.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(0).AddItem(_delta);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(2).AddItem(_delta);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(0)))->ContainsPlane((const ::NiPlane &)(_delta)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(0)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_delta));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(2)))->ContainsPlane((const ::NiPlane &)(_delta)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(2)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_delta));
                         }
                     }
                     else if (aCount2 == 6)
                     {
-                        if (_created.ClassifyPoint(&_delta) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_delta)) == 2)
                         {
                             _delta.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(1).AddItem(_delta);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(2).AddItem(_delta);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(1)))->ContainsPlane((const ::NiPlane &)(_delta)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(1)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_delta));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(2)))->ContainsPlane((const ::NiPlane &)(_delta)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(2)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_delta));
                         }
                     }
                     if (_current == 9)
                     {
-                        if (_created.ClassifyPoint(&_point) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_point)) == 2)
                         {
                             _point.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(0).AddItem(_point);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(3).AddItem(_point);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(0)))->ContainsPlane((const ::NiPlane &)(_point)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(0)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_point));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(3)))->ContainsPlane((const ::NiPlane &)(_point)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(3)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_point));
                         }
                     }
                     else if (_current == 10)
                     {
-                        if (_created.ClassifyPoint(&_point) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_point)) == 2)
                         {
                             _point.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(1).AddItem(_point);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(3).AddItem(_point);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(1)))->ContainsPlane((const ::NiPlane &)(_point)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(1)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_point));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(3)))->ContainsPlane((const ::NiPlane &)(_point)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(3)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_point));
                         }
                     }
                     else if (_current == 5)
                     {
-                        if (_created.ClassifyPoint(&_point) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_point)) == 2)
                         {
                             _point.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(0).AddItem(_point);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(2).AddItem(_point);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(0)))->ContainsPlane((const ::NiPlane &)(_point)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(0)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_point));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(2)))->ContainsPlane((const ::NiPlane &)(_point)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(2)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_point));
                         }
                     }
                     else if (_current == 6)
                     {
-                        if (_created.ClassifyPoint(&_point) == 2)
+                        if (reinterpret_cast<::NiCamera *>(&(_created))->ClassifyPoint((const ::NiPoint3 *)(const ::MeshPoint *)(&_point)) == 2)
                         {
                             _point.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(1).AddItem(_point);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(2).AddItem(_point);
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(1)))->ContainsPlane((const ::NiPlane &)(_point)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(1)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_point));
+                            if (!reinterpret_cast<::FUN_0049f190_Class *>(&(_list1.FUN_00558dd0(2)))->ContainsPlane((const ::NiPlane &)(_point)))
+                                reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>(&(_list1.FUN_00558dd0(2)))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_point));
                         }
                     }
                 }
             }
         }
         if (!active8)
-            mesh->FUN_00536d80();
+            reinterpret_cast<::CleanupOwner *>((mesh))->FUN_00536d80();
         for (int boundary = 0; boundary < 4; boundary++)
         {
             if (boundary == 0 || boundary == 1)
-                _list1.FUN_00558dd0(boundary).CallWithTwelve(FUN_0049c800);
+                reinterpret_cast<::FUN_0049f560_Holder *>(&(_list1.FUN_00558dd0(boundary)))->CallWithTwelve((std::intptr_t)(((bool (&)(const MeshPoint &, const MeshPoint &))::FUN_0049c800)));
             else
-                _list1.FUN_00558dd0(boundary).CallWithTwelve(FUN_0049c7b0);
-            for (int pair = 0; pair < _list1.FUN_00558dd0(boundary).FUN_0044ddc0(); pair += 2)
+                reinterpret_cast<::FUN_0049f560_Holder *>(&(_list1.FUN_00558dd0(boundary)))->CallWithTwelve((std::intptr_t)(((bool (&)(const MeshPoint &, const MeshPoint &))::FUN_0049c7b0)));
+            for (int pair = 0; pair < ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(_list1.FUN_00558dd0(boundary)))->GetName())); pair += 2)
             {
-                if (_list1.FUN_00558dd0(boundary).FUN_0044ddc0() > pair + 1)
+                if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(_list1.FUN_00558dd0(boundary)))->GetName())) > pair + 1)
                 {
-                    DAT_011c57ac->AddItem(_list1.FUN_00558dd0(boundary).FUN_006a1440(pair));
-                    DAT_011c57ac->AddItem(_list1.FUN_00558dd0(boundary).FUN_006a1440(pair + 1));
+                    reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_list1.FUN_00558dd0(boundary).FUN_006a1440(pair)));
+                    reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_list1.FUN_00558dd0(boundary).FUN_006a1440(pair + 1)));
                 }
             }
         }
@@ -590,20 +628,12 @@ struct NiPoint2
     float x, y;
     NiPoint2(float x, float y);
 };
-struct Pt
-{
-    float x, y, z;
-    Pt& operator+=(const NiPoint3& other);
-};
 struct CellOrigin
 {
     NiPoint3 FUN_00535b30(bool interior);
 };
 struct Cell
 {
-    CellOrigin* FUN_00546fb0();
-    int FUN_00544c30();
-    int FUN_00544c60();
 };
 // Offsets point by the cell origin, compares it against the four cell corners and returns a bitmask of which edges/corners it matches.
 // @fnv 0x0049ef60
@@ -611,13 +641,13 @@ unsigned int __cdecl GetCellCornerFlags(Cell* cell, Pt point)
 {
     unsigned int f = 0;  // Edge mask: west=1, east=2, north=4, south=8.
     // Translate the point into the cell's coordinate system.
-    NiPoint3 i = cell->FUN_00546fb0()->FUN_00535b30(false);
-    point += i;
+    NiPoint3 i = ((::CellOrigin *)(reinterpret_cast<::S00546fb0_Cell *>((cell))->FUN_00546fb0()))->FUN_00535b30(false);
+    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Pt &)(point))->FUN_0063c8a0((void *)&(i));
     // Cell corners: p=southwest, a=southeast, s=northwest, h=northeast.
-    NiPoint2 p(float(cell->FUN_00544c30() << 12), float(cell->FUN_00544c60() << 12));
-    NiPoint2 a(float((cell->FUN_00544c30() << 12) + 4096), float(cell->FUN_00544c60() << 12));
-    NiPoint2 s(float(cell->FUN_00544c30() << 12), float((cell->FUN_00544c60() << 12) + 4096));
-    NiPoint2 h(float((cell->FUN_00544c30() << 12) + 4096), float((cell->FUN_00544c60() << 12) + 4096));
+    NiPoint2 p(float(reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridX() << 12), float(reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridY() << 12));
+    NiPoint2 a(float((reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridX() << 12) + 4096), float(reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridY() << 12));
+    NiPoint2 s(float(reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridX() << 12), float((reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridY() << 12) + 4096));
+    NiPoint2 h(float((reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridX() << 12) + 4096), float((reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridY() << 12) + 4096));
     if (point.x == p.x && point.y == p.y)
         f |= 9;
     else if (point.x == a.x && point.y == a.y)
@@ -640,8 +670,6 @@ unsigned int __cdecl GetCellCornerFlags(Cell* cell, Pt point)
 // Adapted from earlier contributor's unverified source; revised using official checker.
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NiFixedString
 {
@@ -663,27 +691,19 @@ struct FUN_00416870_t
     float y;
     float z;
     FUN_00416870_t* FUN_00416870(float, float, float);
-    void* FUN_0063c8a0(void*);
 };
 struct UpdData
 {
     float m_00;
     bool m_04;
     float m_08;
-    void NiUpdateData(float, bool, bool);
 };
 struct AVObj
 {
-    void AssignFixedString(const NiFixedString&);
-    void FUN_00439410(void*);
-    int FUN_0049ec60();
-    unsigned short FUN_00456650() const;
 };
 struct NodeObj
 {
     ~NodeObj();
-    AVObj* FUN_0056c7f0();
-    AVObj* FUN_004a8a90();
     int FUN_0049e3e0(unsigned int);
 };
 struct BufObj
@@ -695,33 +715,18 @@ struct BufObj
 };
 struct WaterForm
 {
-    void* FUN_00580130();
 };
 struct ParamObj
 {
-    float FUN_005471e0();
-    BufObj FUN_00546fb0(int);
-    WaterForm* FUN_00547770();
-    void FUN_00548230(void*, bool);
 };
 struct Mgr
 {
-    void* FUN_00559450();
-    void* DereferenceIfNotNull(void*);
-    void* AddEight(void*);
     void* FUN_0049f590(void**);
 };
-extern Mgr* DAT_011c57b0;
 struct SettingObj
 {
     unsigned char* FUN_00408d60();
 };
-extern SettingObj DAT_011cc5a8;
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl FUN_00404010(float, float);
-namespace std {
-float abs(float);
-}
 struct FUN_0055a2f0
 {
     virtual void vslot00();
@@ -866,97 +871,6 @@ struct FUN_0055a2f0
     int m_5c;
     int m_60;
     int m_64;
-    void FUN_00575690(void*);
-    void FUN_00484490();
-    void FUN_0056c8f0();
-};
-struct FUN_00b6abb0 : NiMemObject
-{
-    FUN_00b6abb0();
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    int m_40;
-    int m_44;
-    int m_48;
-    int m_4c;
-    int m_50;
-    int m_54;
-    int m_58;
-    int m_5c;
-    int m_60;
-    int m_64;
-    int m_68;
-    int m_6c;
-    int m_70;
-    int m_74;
-    int m_78;
-    int m_7c;
-    int m_80;
-    int m_84;
-    int m_88;
-    int m_8c;
-    int m_90;
-    int m_94;
-    int m_98;
-    int m_9c;
-    int m_a0;
-    int m_a4;
-    int m_a8;
-    int m_ac;
-    int m_b0;
-    int m_b4;
-    int m_b8;
-    int m_bc;
-    int m_c0;
-    int m_c4;
-    int m_c8;
-    int m_cc;
-    int m_d0;
-    int m_d4;
-    int m_d8;
-    int m_dc;
-    int m_e0;
-    int m_e4;
-    int m_e8;
-    int m_ec;
-    int m_f0;
-    int m_f4;
-    int m_f8;
-    int m_fc;
-    int m_100;
-    int m_104;
-    int m_108;
-    int m_10c;
-    int m_110;
-    int m_114;
-    int m_118;
-    int m_11c;
-    int m_120;
-    int m_124;
-    int m_128;
-    int m_12c;
-    int m_130;
-    int m_134;
-    int m_138;
-    int m_13c;
-    int m_140;
-    int m_144;
-    int m_148;
-    int m_14c;
 };
 struct FUN_0049ec80 : NiMemObject
 {
@@ -970,7 +884,6 @@ struct FUN_0049ec80 : NiMemObject
     int m_18;
     int m_1c;
     int m_20;
-    void FUN_0049ee30(int);
 };
 struct BSFadeNode : NiMemObject
 {
@@ -1087,9 +1000,6 @@ struct BSFadeNode : NiMemObject
     int m_dc;
     int m_e0;
     BSFadeNode();
-    void FUN_0049ee60(bool);
-    void FUN_00440460(const FUN_00416870_t&);
-    void FUN_00a59c60(UpdData*);
 };
 struct FUN_00c37ec0 : NiMemObject
 {
@@ -1149,7 +1059,6 @@ struct FUN_00c37ec0 : NiMemObject
     int m_18;
     int m_1c;
     int m_20;
-    void FUN_00439680(const FUN_00416870_t&);
 };
 struct BSMultiBound : NiMemObject
 {
@@ -1263,9 +1172,7 @@ struct FUN_00c46970 : NiMemObject
     int m_a8;
     int m_ac;
     int m_b0;
-    void FUN_00439920(void*);
 };
-void __cdecl FUN_00b57e30(void*, int, int);
 
 // @fnv 0x0049e410
 void __cdecl CreateAutoWaterNode(ParamObj* a0)
@@ -1278,20 +1185,20 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
         FUN_00416870_t ptB;
         {
             NodeObj* nodeX;
-            if (0 != DAT_011c57b0)
+            if (0 != (*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0)))
             {
-                ptB.FUN_00416870(a0->FUN_00546fb0(0).FUN_00535b30()->x, a0->FUN_00546fb0(0).FUN_00535b30()->y,
-                                 a0->FUN_005471e0());
+                ptB.FUN_00416870((*(::BufObj *)(reinterpret_cast<::S00546fb0_Cell *>((a0))->FUN_00546fb0())).FUN_00535b30()->x, (*(::BufObj *)(reinterpret_cast<::S00546fb0_Cell *>((a0))->FUN_00546fb0())).FUN_00535b30()->y,
+                                 reinterpret_cast<::FUN_005471e0_shell *>((a0))->FUN_005471e0());
                 pForm = false;
-                s = DAT_011c57b0->FUN_00559450();
+                s = ((void *)(::FUN_00559450((int *)((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0))))));
                 i = 0;
                 while (0 != s)
                 {
-                    i = DAT_011c57b0->DereferenceIfNotNull(s);
+                    i = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0))))->DereferenceIfNotNull((int **)(s))));
                     if (!!s)
                     {
-                        nodeX = *(NodeObj**)DAT_011c57b0->AddEight(s);
-                        if (nodeX->FUN_0056c7f0() != 0 && nodeX->FUN_004a8a90() != 0)
+                        nodeX = *(NodeObj**)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0))))->AddEight((std::intptr_t)(s))));
+                        if (((::AVObj *)(std::uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0())) != 0 && ((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX)))) != 0)
                         {
                             {
                                 FUN_00416870_t n;
@@ -1334,48 +1241,38 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                         {
                                                                                                             FUN_00416870_t
                                                                                                                 oldNode;
-                                                                                                            nodeX
-                                                                                                                ->FUN_0056c7f0()
-                                                                                                                ->AssignFixedString(
-                                                                                                                    NiFixedString(
-                                                                                                                        "AutoWaterNode"));
-                                                                                                            nodeX
-                                                                                                                ->FUN_004a8a90()
-                                                                                                                ->AssignFixedString(
-                                                                                                                    NiFixedString(
-                                                                                                                        "AutoWater"));
+                                                                                                            ::AssignFixedString((char *)(((::AVObj *)(std::uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0()))),
+                                                                                                                    (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(
+                                                                                                                        "AutoWaterNode")), {});
+                                                                                                            ::AssignFixedString((char *)(((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX))))), 
+                                                                                                                    (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(
+                                                                                                                        "AutoWater")), {});
                                                                                                             p84 =
                                                                                                                 new FUN_0055a2f0;
                                                                                                             geom =
                                                                                                                 new FUN_00b6abb0;
-                                                                                                            nodeX
-                                                                                                                ->FUN_004a8a90()
-                                                                                                                ->FUN_00439410(
-                                                                                                                    geom);
-                                                                                                            FUN_00b57e30(
-                                                                                                                nodeX
-                                                                                                                    ->FUN_0056c7f0(),
+                                                                                                            reinterpret_cast<::FUN_00439410_cls *>((((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX))))))->FUN_00439410(
+                                                                                                                    (::ArgObject *)(geom));
+                                                                                                            ::BSShaderManager::UpdateObjectTypeRecurse(
+                                                                                                                (::NiAVObject *)(void *)(((::AVObj *)(std::uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0()))),
                                                                                                                 0, 0);
                                                                                                             minY =
                                                                                                                 new FUN_0049ec80;
-                                                                                                            minY->FUN_0049ee30(
+                                                                                                            reinterpret_cast<::fnv_0049ee30::NiObjectNET *>((minY))->FUN_0049ee30(
                                                                                                                 3);
-                                                                                                            nodeX
-                                                                                                                ->FUN_004a8a90()
-                                                                                                                ->FUN_00439410(
-                                                                                                                    minY);
-                                                                                                            p84->FUN_00575690(
-                                                                                                                a0->FUN_00547770()
-                                                                                                                    ->FUN_00580130());
+                                                                                                            reinterpret_cast<::FUN_00439410_cls *>((((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX))))))->FUN_00439410(
+                                                                                                                    (::ArgObject *)(minY));
+                                                                                                            reinterpret_cast<::Fn575690 *>((p84))->FUN_00575690(
+                                                                                                                ((void *)(reinterpret_cast<::FUN_00580130_shell *>((((::WaterForm *)(reinterpret_cast<::FUN_00547770_shell *>((a0))->FUN_00547770()))))->FUN_00580130())));
                                                                                                             p80 =
                                                                                                                 new BSFadeNode;
-                                                                                                            p80->FUN_0049ee60(
+                                                                                                            reinterpret_cast<::FUN_0049ee60_shell *>((p80))->FUN_0049ee60(
                                                                                                                 true);
                                                                                                             p84->FUN_vt1cc(
                                                                                                                 p80,
                                                                                                                 true);
-                                                                                                            p80->FUN_00440460(
-                                                                                                                ptB);
+                                                                                                            reinterpret_cast<::FUN_00440460_S *>((p80))->FUN_00440460(
+                                                                                                                (const ::V3 *)&(ptB));
                                                                                                             ((FUN_0049eea0_shell*)
                                                                                                                  p84)
                                                                                                                 ->FUN_0049eea0(
@@ -1389,16 +1286,13 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                             p50 = 0.0f;
                                                                                                             minZ = 0.0f;
                                                                                                             bufA =
-                                                                                                                nodeX
-                                                                                                                    ->FUN_004a8a90();
+                                                                                                                ((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX))));
                                                                                                             verts =
-                                                                                                                (FUN_00416870_t*)bufA
-                                                                                                                    ->FUN_0049ec60();
+                                                                                                                (FUN_00416870_t*)(std::uintptr_t)((int)(reinterpret_cast<::FUN_0049ec60 *>((bufA))->GetNext()));
                                                                                                             for (
                                                                                                                 b = 0;
                                                                                                                 b <
-                                                                                                                (int)bufA
-                                                                                                                    ->FUN_00456650();
+                                                                                                                (int)reinterpret_cast<::FUN_00456650_shell *>((void *)(bufA))->FUN_00456650();
                                                                                                                 b++)
                                                                                                             {
                                                                                                                 oldNode = verts
@@ -1470,50 +1364,47 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                     pt44.y,
                                                                                                                 minZ -
                                                                                                                     pt44.z);
-                                                                                                            n.FUN_0063c8a0(
+                                                                                                            reinterpret_cast<::FUN_0063c8a0_shell *>(&(n))->FUN_0063c8a0(
                                                                                                                 &ptB);
                                                                                                             p7c->FUN_vtb8(
                                                                                                                 &n);
-                                                                                                            p7c->FUN_00439680(
-                                                                                                                pt44);
+                                                                                                            reinterpret_cast<::FUN_00439680_class *>((p7c))->FUN_00439680(
+                                                                                                                (const ::NiPoint3 &)(pt44));
                                                                                                             p6c =
                                                                                                                 new BSMultiBound;
                                                                                                             p6c->FUN_004addc0(
                                                                                                                 p7c);
                                                                                                             oldNode2 =
                                                                                                                 new FUN_00c46970;
-                                                                                                            oldNode2
-                                                                                                                ->FUN_00439920(
-                                                                                                                    p6c);
+                                                                                                            reinterpret_cast<::BSFaceGenNiNode *>((oldNode2))->SetAnimationData(
+                                                                                                                    (::BSFaceGenAnimationData *)(p6c));
                                                                                                             p80->FUN_vtdc(
                                                                                                                 oldNode2,
                                                                                                                 true);
                                                                                                             oldNode2->FUN_vtdc(
-                                                                                                                nodeX
-                                                                                                                    ->FUN_0056c7f0(),
+                                                                                                                ((::AVObj *)(std::uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0())),
                                                                                                                 true);
-                                                                                                            res.NiUpdateData(
+                                                                                                            new ((void *)&(res)) ::NiUpdateData(
                                                                                                                 0.0f,
                                                                                                                 false,
                                                                                                                 false);
-                                                                                                            p80->FUN_00a59c60(
-                                                                                                                &res);
-                                                                                                            a0->FUN_00548230(
-                                                                                                                p84,
+                                                                                                            reinterpret_cast<::FUN_00a59c60_cls *>((p80))->FUN_00a59c60((std::intptr_t)(&res));
+                                                                                                            reinterpret_cast<::CellView *>((a0))->FUN_00548230(
+                                                                                                                (::RefView *)(p84),
                                                                                                                 false);
-                                                                                                            p84->FUN_00484490();
-                                                                                                            if (*DAT_011cc5a8
+                                                                                                            reinterpret_cast<::TESForm *>((p84))->NotifySaveLoadGameOfFormChange();
+                                                                                                            if (*(*reinterpret_cast<::SettingObj *>(&::g_011cc5a8))
                                                                                                                         .FUN_00408d60() !=
                                                                                                                     0 &&
                                                                                                                 !pForm)
                                                                                                             {
-                                                                                                                p84->FUN_0056c8f0();
+                                                                                                                reinterpret_cast<::WaterRef *>((p84))->FUN_0056c8f0();
                                                                                                                 pForm =
                                                                                                                     true;
                                                                                                             }
                                                                                                             delete nodeX;
                                                                                                             nodeX = 0;
-                                                                                                            DAT_011c57b0
+                                                                                                            (*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0))
                                                                                                                 ->FUN_0049f590(
                                                                                                                     &s);
                                                                                                         }
@@ -1545,15 +1436,10 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
     }
 }
 
-extern float DAT_0106c288;
-extern double DAT_01012060;
-extern double DAT_01012070;
 
 struct S006b9a10_Pt
 {
     float x, y, z;
-    void FUN_00439ef0(S006b9a10_Pt& out, const S006b9a10_Pt& src) const;
-    float DotProduct(S006b9a10_Pt& out) const;
     S006b9a10_Pt* FUN_00439e90(S006b9a10_Pt& out, S006b9a10_Pt* src) const;
 };
 
@@ -1575,7 +1461,7 @@ __declspec(noinline) S006b9a10_Pt* S006b9a10_Pt::FUN_00439e90(S006b9a10_Pt& out,
 int __cdecl FUN_006b9a10(const S006b9a10_Pt& apStart, const S006b9a10_Pt& apEnd, const S006b9a10_Pt& apPlanePoint,
                          const S006b9a10_Pt& apPlaneNormal, S006b9a10_Pt& out)
 {
-    float f3 = DAT_0106c288;
+    float f3 = ::DAT_0106c288;
     S006b9a10_Pt v1;
     S006b9a10_Pt v6;
     float f2;
@@ -1584,13 +1470,13 @@ int __cdecl FUN_006b9a10(const S006b9a10_Pt& apStart, const S006b9a10_Pt& apEnd,
     S006b9a10_Pt tmp5;
     S006b9a10_Pt v7;
 
-    apEnd.FUN_00439ef0(v1, apStart);
-    apStart.FUN_00439ef0(v6, apPlanePoint);
-    f28 = apPlaneNormal.DotProduct(v1);
-    f2 = -apPlaneNormal.DotProduct(v6);
+    reinterpret_cast<::FUN_00439ef0_class *>((void *)&(apEnd))->FUN_00439ef0((::NiPoint3 *)&(v1), (const ::NiPoint3 &)(apStart));
+    reinterpret_cast<::FUN_00439ef0_class *>((void *)&(apStart))->FUN_00439ef0((::NiPoint3 *)&(v6), (const ::NiPoint3 &)(apPlanePoint));
+    f28 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(apPlaneNormal))->DotProduct((void *)&(v1));
+    f2 = -reinterpret_cast<::FUN_004b6190_shell *>((void *)&(apPlaneNormal))->DotProduct((void *)&(v6));
     if (f3 > FUN_00408840(f28))
     {
-        if (f2 == DAT_01012060)
+        if (f2 == ::_DAT_01012060)
         {
             return -1;
         }
@@ -1600,36 +1486,36 @@ int __cdecl FUN_006b9a10(const S006b9a10_Pt& apStart, const S006b9a10_Pt& apEnd,
         }
     }
     f6 = f2 / f28;
-    if (f6 < DAT_01012060 || f6 > DAT_01012070)
+    if (f6 < ::_DAT_01012060 || f6 > ::g_01012070)
     {
         return 0;
     }
-    out = *apStart.FUN_00439e90(v7, FUN_004a3760(tmp5, f6, v1));
+    out = *((::S006b9a10_Pt *)(reinterpret_cast<::Point3Offset *>((void *)&(apStart))->ProjectileLaunched((::NiPoint3 *)&(v7), (::NiPoint3 *)(::S006b9a10_Pt *)(((::S006b9a10_Pt *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)&(tmp5), f6, (const ::NiPoint3 *)&(v1))))))));
     return 1;
 }
 
 struct MobileObjectCellAccess
 {
-    bool FUN_004518e0() const;
 };
-struct NiTPointerListBase
+struct NiTPointerListBaseRaw
 {
     void FUN_004ed900();
 };
-void BuildWaterSurfaces(MeshInput*);
 
 // Builds auto-water boundary geometry and creates the auto-water node for the given mesh input.
 // @fnv 0x0049c860
 void FUN_0049c860(MeshInput* apMeshInput)
 {
     AutoMemHelper context(29, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\BGSAutoWater.cpp", 83);
-    if (!apMeshInput || !reinterpret_cast<MobileObjectCellAccess*>(apMeshInput)->FUN_004518e0())
+    if (!apMeshInput || !reinterpret_cast<::fnv_004518e0::TESObjectCELL *>((void *)(reinterpret_cast<MobileObjectCellAccess*>(apMeshInput)))->FUN_004518e0())
         return;
     if (DAT_011c57ac)
-        DAT_011c57ac->FUN_008454f0(true);
-    if (DAT_011c57b0)
-        reinterpret_cast<NiTPointerListBase*>(DAT_011c57b0)->FUN_004ed900();
+        reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((DAT_011c57ac))->Clear(true);
+    if ((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0)))
+        reinterpret_cast<NiTPointerListBaseRaw*>((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0)))->FUN_004ed900();
     BuildMeshBoundaryGeometry(apMeshInput);
-    BuildWaterSurfaces(apMeshInput);
+    ::BuildWaterSurfaces((::CellView *)(apMeshInput));
     CreateAutoWaterNode(reinterpret_cast<ParamObj*>(apMeshInput));
 }
+
+#include "generated/data/fallout_shared/bgsautowater.inc"

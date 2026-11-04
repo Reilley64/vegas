@@ -1,5 +1,20 @@
 // gamebryo2.2/corelibs/nianimation/niquattransform.cpp: NiQuatTransform, QXform, QXformViewer, QXform2 (8 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004f0180_Class.h"
+#include "fnv/decl/FUN_00a6db50_V.h"
+#include "fnv/decl/FUN_00a6e190_shell.h"
+#include "fnv/decl/FUN_00a6e4a0_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f3000.h"
 #include "niquattransform_types_NiQuatTransform.h"
 #include "niquattransform_types_NiStream.h"
 #include "niquattransform_types_NiColor.h"
@@ -19,47 +34,43 @@ void NiQuatTransform::LoadBinary(NiStream& stream)
         unsigned char valid;
         stream.m_pUnderlyingStream->ReadScalar(&valid, 1);
         if (!valid)
-            m_kTranslate.x = kInvalidTransformValue;
+            m_kTranslate.x = ::DAT_01096b8c;
         stream.m_pUnderlyingStream->ReadScalar(&valid, 1);
         if (!valid)
-            m_kRotate.m_fVectorY = kInvalidTransformValue;
+            m_kRotate.m_fVectorY = ::DAT_01096b8c;
         stream.m_pUnderlyingStream->ReadScalar(&valid, 1);
         if (!valid)
-            m_fScale = kInvalidTransformValue;
+            m_fScale = ::DAT_01096b8c;
     }
 }
 
 struct Inner_00a6db50
 {
-    void __thiscall Set(float, float, float, float);
 };
 struct Outer_00a2bdb0
 {
     int _0;
     Inner_00a6db50 _4;
-    Outer_00a2bdb0* __thiscall FUN_00a2bdb0();
+    Outer_00a2bdb0* FUN_00a2bdb0();
 };
 // Calls the inner object's method with four zero floats and returns this.
 // @fnv 0x00a2bdb0
-Outer_00a2bdb0* __thiscall Outer_00a2bdb0::FUN_00a2bdb0()
+Outer_00a2bdb0* Outer_00a2bdb0::FUN_00a2bdb0()
 {
-    _4.Set(0.0f, 0.0f, 0.0f, 0.0f);
+    reinterpret_cast<::FUN_00a6db50_V *>(&(_4))->Set(0.0f, 0.0f, 0.0f, 0.0f);
     return this;
 }
 
-extern NiPoint3 DAT_011a8400;
-extern NiQuaternion DAT_011f3704;
 struct QQuatOps
 {
     NiQuaternion FUN_00a2bcf0(const NiQuaternion& q) const;
-    void FUN_00a38560();
 };
 struct QXform
 {
     NiPoint3 m_kTranslate;
     NiQuaternion m_kRotate;
     float m_fScale;
-    QXform() : m_kTranslate(DAT_011a8400), m_kRotate(DAT_011f3704), m_fScale(kInvalidTransformValue)
+    QXform() : m_kTranslate(DAT_011a8400), m_kRotate(DAT_011f3704), m_fScale(::DAT_01096b8c)
     {}
     bool IsScaleValid() const
     {
@@ -75,15 +86,15 @@ struct QXform
     }
     void MakeScaleInvalid()
     {
-        m_fScale = kInvalidTransformValue;
+        m_fScale = ::DAT_01096b8c;
     }
     void MakeRotateInvalid()
     {
-        m_kRotate.m_fVectorY = kInvalidTransformValue;
+        m_kRotate.m_fVectorY = ::DAT_01096b8c;
     }
     void MakeTranslateInvalid()
     {
-        m_kTranslate.x = kInvalidTransformValue;
+        m_kTranslate.x = ::DAT_01096b8c;
     }
     QXform FUN_00a38a00(const QXform& kXform) const;
 };
@@ -98,7 +109,7 @@ QXform QXform::FUN_00a38a00(const QXform& kXform) const
     if (IsRotateValid() && kXform.IsRotateValid())
     {
         NiQuaternion kRotate = ((const QQuatOps*)&m_kRotate)->FUN_00a2bcf0(kXform.m_kRotate);
-        ((QQuatOps*)&kRotate)->FUN_00a38560();
+        reinterpret_cast<::NiQuaternion *>((((QQuatOps*)&kRotate)))->MakeUnitLength();
         kResult.m_kRotate = kRotate;
     }
     else
@@ -116,16 +127,12 @@ QXform QXform::FUN_00a38a00(const QXform& kXform) const
     return kResult;
 }
 
-char* GetViewerStringName(const char* pcName);
-char* GetViewerStringFloat(const char* pcName, float fValue);
 
 struct ViewerPoint3 : NiPoint3
 {
-    char* FormatToBuffer(const char* pcName) const;
 };
 struct ViewerQuaternion : NiQuaternion
 {
-    char* FormatToBuffer(const char* pcName) const;
 };
 
 struct ViewerStrings
@@ -137,13 +144,12 @@ struct ViewerStrings
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
     void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char*& pcElement);
     unsigned int Add(char*& pcElement)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
             SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcElement);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, pcElement);
         return uiIndex;
     }
 };
@@ -157,27 +163,25 @@ struct QXformViewer : QXform
 // @fnv 0x00a38cb0
 void QXformViewer::FUN_00a38cb0(ViewerStrings* pkStrings)
 {
-    char* pcString = GetViewerStringName("NiQuatTransform");
+    char* pcString = ::FUN_00a7d330("NiQuatTransform");
     pkStrings->Add(pcString);
     if (IsTranslateValid())
     {
-        char* pcString = static_cast<ViewerPoint3&>(m_kTranslate).FormatToBuffer("m_kTranslate");
+        char* pcString = reinterpret_cast<::NiPoint3 *>((void *)&(static_cast<ViewerPoint3&>(m_kTranslate)))->FUN_00a59af0("m_kTranslate");
         pkStrings->Add(pcString);
     }
     if (IsRotateValid())
     {
-        char* pcString = static_cast<ViewerQuaternion&>(m_kRotate).FormatToBuffer("m_kRotate");
+        char* pcString = reinterpret_cast<::FUN_00a6e190_shell *>((void *)&(static_cast<ViewerQuaternion&>(m_kRotate)))->FUN_00a6e190("m_kRotate");
         pkStrings->Add(pcString);
     }
     if (IsScaleValid())
     {
-        char* pcString = GetViewerStringFloat("m_fScale", m_fScale);
+        char* pcString = ::FUN_00a7d550("m_fScale", m_fScale);
         pkStrings->Add(pcString);
     }
 }
 
-extern NiPoint3 DAT_011a8400;
-extern NiQuaternion DAT_011f3704;
 
 struct QMat3
 {
@@ -192,7 +196,6 @@ struct QMat3
     float m22;
     NiPoint3 MulPoint(const NiPoint3& p) const;
 };
-extern const QMat3 kQMat3Identity;
 
 inline NiPoint3 ScalePoint(float f, const NiPoint3& p)
 {
@@ -205,7 +208,6 @@ inline NiPoint3 ScalePoint(float f, const NiPoint3& p)
 
 struct QQuatRot
 {
-    void ToRotationMatrix(QMat3& m) const;
 };
 
 struct QXform2
@@ -213,7 +215,7 @@ struct QXform2
     NiPoint3 m_kTranslate;
     NiQuaternion m_kRotate;
     float m_fScale;
-    QXform2() : m_kTranslate(DAT_011a8400), m_kRotate(DAT_011f3704), m_fScale(kInvalidTransformValue)
+    QXform2() : m_kTranslate(DAT_011a8400), m_kRotate(DAT_011f3704), m_fScale(::DAT_01096b8c)
     {}
     bool IsScaleValid() const
     {
@@ -243,19 +245,19 @@ QXform2 QXform2::FUN_00a38830(const QXform2& kXform) const
     }
     else
     {
-        kRes.m_fScale = kInvalidTransformValue;
+        kRes.m_fScale = ::DAT_01096b8c;
     }
-    QMat3 kRot = kQMat3Identity;
+    QMat3 kRot = (*reinterpret_cast<const ::QMat3 *>(&::DAT_011a9448));
     if (IsRotateValid() && kXform.IsRotateValid())
     {
         NiQuaternion kQ = ((const QQuatOps*)&m_kRotate)->FUN_00a2bcf0(kXform.m_kRotate);
-        ((QQuatOps*)&kQ)->FUN_00a38560();
+        reinterpret_cast<::NiQuaternion *>((((QQuatOps*)&kQ)))->MakeUnitLength();
         kRes.m_kRotate = kQ;
-        ((const QQuatRot*)&m_kRotate)->ToRotationMatrix(kRot);
+        reinterpret_cast<::FUN_004f0180_Class *>((void *)(((const QQuatRot*)&m_kRotate)))->FUN_004f0180((::M3_ *)&(kRot));
     }
     else
     {
-        kRes.m_kRotate.m_fVectorY = kInvalidTransformValue;
+        kRes.m_kRotate.m_fVectorY = ::DAT_01096b8c;
     }
     if (IsTranslateValid() && kXform.IsTranslateValid())
     {
@@ -268,7 +270,7 @@ QXform2 QXform2::FUN_00a38830(const QXform2& kXform) const
     }
     else
     {
-        kRes.m_kTranslate.x = kInvalidTransformValue;
+        kRes.m_kTranslate.x = ::DAT_01096b8c;
     }
     return kRes;
 }
@@ -472,7 +474,6 @@ template <class T> inline void A38B60SaveBinary(NiStreamA38& kStream, const T& v
 class NiObjectA38
 {
   public:
-    void SaveBinary(NiStreamA38& kStream);
 
     int unk00;
     int unk04;
@@ -482,7 +483,6 @@ class NiObjectA38
 class KeyA38
 {
   public:
-    void SaveBinary(NiStreamA38* pkStream);
 
     int unk00;
     int unk04;
@@ -503,15 +503,14 @@ class DataA38 : public NiObjectA38
 // @fnv 0x00a38b60
 void DataA38::FUN_00a38b60(NiStreamA38& kStream)
 {
-    NiObjectA38::SaveBinary(kStream);
-    m_kControlPoint.SaveBinary(&kStream);
+    reinterpret_cast<::NiColor *>(this)->SaveBinary((::NiStream &)(kStream));
+    reinterpret_cast<::FUN_00a6e4a0_shell *>(&(m_kControlPoint))->FUN_00a6e4a0((*(::NiStream *)(&kStream)));
     A38B60SaveBinary(kStream, m_uiCurrentValue);
 }
 
 struct QQ
 {
     float m_fVectorX, m_fVectorY, m_fVectorZ, m_fScalarPart;
-    void Set(float w, float x, float y, float z);
     QQ FUN_00a2bcf0(const QQ& q) const;
 };
 // Multiplies this quaternion by q using the Hamilton product and returns the resulting quaternion.
@@ -519,7 +518,7 @@ struct QQ
 QQ QQ::FUN_00a2bcf0(const QQ& aQuat) const
 {
     QQ r;
-    r.Set(m_fVectorX * aQuat.m_fVectorX - m_fVectorY * aQuat.m_fVectorY - m_fVectorZ * aQuat.m_fVectorZ -
+    reinterpret_cast<::FUN_00a6db50_V *>(&(r))->Set(m_fVectorX * aQuat.m_fVectorX - m_fVectorY * aQuat.m_fVectorY - m_fVectorZ * aQuat.m_fVectorZ -
               m_fScalarPart * aQuat.m_fScalarPart,
           m_fVectorX * aQuat.m_fVectorY + m_fVectorY * aQuat.m_fVectorX + m_fVectorZ * aQuat.m_fScalarPart -
               m_fScalarPart * aQuat.m_fVectorZ,
@@ -540,7 +539,6 @@ struct NiQuaternionConjugateValue
         return *this;
     }
 };
-NiQuaternionConjugateValue NiQuaternionConjugate(const NiQuaternionConjugateValue& kQuat);
 struct QuatPoint
 {
     float x, y, z;
@@ -576,11 +574,8 @@ class ThreeByThreeMatrix
 };
 struct QuatRotate
 {
-    void FUN_004f0180(ThreeByThreeMatrix& kRot) const;
 };
-extern char DAT_011a9448;
 static const double DAT_010241b0 = -3.4028234663852886e+38;
-static const float DAT_01096b8c = -3.402823466e+38f;
 struct FUN_00a386a0_shell : NiQuatTransform
 {
     void Inverse(NiQuatTransform& kDest);
@@ -600,7 +595,7 @@ void FUN_00a386a0_shell::Inverse(NiQuatTransform& kDest)
         kDest.m_fScale = 1.0f / m_fScale;
         fInvScale = kDest.m_fScale;
     }
-    ThreeByThreeMatrix kRot = *(ThreeByThreeMatrix*)&DAT_011a9448;
+    ThreeByThreeMatrix kRot = *(ThreeByThreeMatrix*)&(*reinterpret_cast<char *>(&::DAT_011a9448));
     if (m_kRotate.m_fVectorY == DAT_010241b0)
     {
         kDest.m_kRotate.m_fVectorY = DAT_01096b8c;
@@ -609,7 +604,7 @@ void FUN_00a386a0_shell::Inverse(NiQuatTransform& kDest)
     {
         *(NiQuaternionConjugateValue*)&kDest.m_kRotate =
             NiQuaternionConjugate(*(NiQuaternionConjugateValue*)&m_kRotate);
-        ((QuatRotate*)&kDest.m_kRotate)->FUN_004f0180(kRot);
+        reinterpret_cast<::FUN_004f0180_Class *>((void *)(((QuatRotate*)&kDest.m_kRotate)))->FUN_004f0180((::M3_ *)&(kRot));
     }
     if (m_kTranslate.x == DAT_010241b0)
     {

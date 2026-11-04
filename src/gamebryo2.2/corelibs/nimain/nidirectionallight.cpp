@@ -1,5 +1,14 @@
 // gamebryo2.2/corelibs/nimain/nidirectionallight.cpp: NiDirectionalLight, NiDirectionalLightShell, LightDerived (8 functions)
 
+#include <new>
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/decl/FUN_00a71f60_cls.h"
+#include "fnv/decl/FUN_00a72010_owner.h"
+#include "fnv/decl/FUN_00a721e0_shell.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a75000.h"
+#include "fnv/symbols_00a7d000.h"
 #include "nidirectionallight_decls.h"
 // @fnv 0x00a71ec0
 void NiDirectionalLight::CopyMemberData(NiDirectionalLight* pDest, CloningProcess& process)
@@ -11,7 +20,6 @@ void NiDirectionalLight::CopyMemberData(NiDirectionalLight* pDest, CloningProces
     pDest->m_kSpec = m_kSpec;
 }
 
-void __fastcall FUN_00a71f60(void*);
 extern int DAT_0109d7b4;
 
 struct Vec3_00a75c20
@@ -25,9 +33,9 @@ struct Vec3_00a75c20
 
 // Calls FUN_00a71f60, sets the vtable to &DAT_0109d7b4, stores Vec3(1,0,0) at pThis+0xf0 and byte 3 at pThis+0x9d, then returns pThis.
 // @fnv 0x00a75c20
-void* __fastcall FUN_00a75c20(char* pObject)
+void* FUN_00a75c20(char* pObject)
 {
-    FUN_00a71f60(pObject);
+    new ((void *)(pObject)) ::FUN_00a71f60_cls();
     *(int**)pObject = &DAT_0109d7b4;
     Vec3_00a75c20 v(1.0f, 0.0f, 0.0f);
     *(Vec3_00a75c20*)(pObject + 0xf0) = v;
@@ -55,17 +63,16 @@ void* FUN_00a75c70_shell::FUN_00a75c70()
 
 struct NiDirectionalLightShell : NiDirectionalLight
 {
-    NiDirectionalLight* __thiscall FUN_00a75c80(int n);
+    NiDirectionalLight* FUN_00a75c80(int n);
 };
 
-extern "C" void __cdecl FUN_00a72010(void);
 extern "C" void __cdecl __Dummy_00b6fef0(void* p, int n);
 
 // Calls FUN_00a72010, then if bit 0 of n is set calls __Dummy_00b6fef0 on this with 0xfc, and returns this.
 // @fnv 0x00a75c80
-NiDirectionalLight* __thiscall NiDirectionalLightShell::FUN_00a75c80(int aiFlags)
+NiDirectionalLight* NiDirectionalLightShell::FUN_00a75c80(int aiFlags)
 {
-    FUN_00a72010();
+    static_cast<::FUN_00a72010_owner *>(nullptr)->FUN_00a72010();
     if (aiFlags & 1)
         __Dummy_00b6fef0(this, 0xfc);
     return this;
@@ -81,7 +88,6 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_00a75cb0_shell : public NiDirectionalLight
 {
     void FUN_00a75cb0(NiUpdateData*);
@@ -121,14 +127,12 @@ template <class T, class A> struct NiTPrimitiveArray
 };
 struct BaseLight
 {
-    void AppendEffectProperties(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 };
 struct GlobalObjectO2_00a7b610
 {
     const char* p;
 };
 extern GlobalObjectO2_00a7b610 g_011f4a68;
-char* _FUN_00a7d330(const char*);
 struct LightDerived : BaseLight
 {
     void FUN_00a75d70(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
@@ -136,20 +140,15 @@ struct LightDerived : BaseLight
 // @fnv 0x00a75d70
 void LightDerived::FUN_00a75d70(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* apArray)
 {
-    AppendEffectProperties(apArray);
-    char* s = _FUN_00a7d330(g_011f4a68.p);
+    reinterpret_cast<::FUN_00a721e0_shell *>(this)->AppendEffectProperties((::StrArr *)(apArray));
+    char* s = ::FUN_00a7d330(g_011f4a68.p);
     unsigned int sz = apArray->m_usSize;
     if (sz >= apArray->m_usMax)
-        apArray->SetSize(sz + apArray->m_usGrow);
-    apArray->SetAt(sz, s);
+        reinterpret_cast<::ViewerStrings *>((apArray))->SetSize(sz + apArray->m_usGrow);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apArray))->SetAt(sz, s);
 }
 }  // namespace fnv_00a75d70
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
-inline void* operator new(unsigned int, void* memory) throw()
-{
-    return memory;
-}
 // @fnv 0x00a75d50
 NiDirectionalLight* __cdecl CreateNiDirectionalLight()
 {
@@ -158,8 +157,8 @@ NiDirectionalLight* __cdecl CreateNiDirectionalLight()
 
 class NiObject;
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
-void* __fastcall FUN_00a75c20(char* pObject);
+
+void* FUN_00a75c20(char* pObject);
 
 struct FUN_00a75cf0_impl : public NiDirectionalLight
 {
@@ -181,3 +180,5 @@ NiObject* FUN_00a75cf0_impl::FUN_00a75cf0(CloningProcess* kCloning)
     pkObject->m_kWorldDir = m_kWorldDir;
     return (NiObject*)pkObject;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nidirectionallight.inc"

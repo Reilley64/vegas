@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 class hkpPoweredChainData;
-#pragma pack(push, 1)
 class hkpPoweredChainMapperTarget
 {
   public:
     hkpPoweredChainData* m_pChainInstance;  // +0x0
     hkInt32 m_targetIndex;                  // +0x4
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPoweredChainMapperTarget[(sizeof(hkpPoweredChainMapperTarget) == 0x8) ? 1 : -1];
 #endif

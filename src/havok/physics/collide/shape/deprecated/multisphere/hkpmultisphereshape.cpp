@@ -2,7 +2,15 @@
 // src/havok/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include <windows.h>
+#include "fnv/decl/FunctionContext.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpMultiSphereShape.h"
+#include "fnv/symbols_simd.h"
 
 class FnvShapeGetter : public hkpSphereRepShape
 {
@@ -18,7 +26,6 @@ hkInt32 FnvShapeGetter::FUN_00d2a5f0()
 }
 
 class GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_01268910;
 
 class hkStatisticsCollectorD2A6;
 
@@ -29,7 +36,6 @@ class hkReferencedObjectD2A6
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void FUN_00c90360(hkStatisticsCollectorD2A6* pkCollector, const GlobalObjectO2_00d472a0* pkClass) const;
 };
 
 class hkObjectD2A6 : public hkReferencedObjectD2A6
@@ -41,15 +47,11 @@ class hkObjectD2A6 : public hkReferencedObjectD2A6
 // @fnv 0x00d2a600
 void hkObjectD2A6::FUN_00d2a600(hkStatisticsCollectorD2A6* pkCollector, const GlobalObjectO2_00d472a0* pkClass) const
 {
-    FUN_00c90360(pkCollector, &g_01268910);
+    reinterpret_cast<::FunctionContext *>((void *)this)->FUN_00c90360(pkCollector, (void *)(&g_01268910));
 }
 
 extern int DAT_010ce4bc;
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 
 struct FUN_00d2a760
 {
@@ -79,29 +81,17 @@ FUN_00d2a760::FUN_00d2a760(const hkVector4* spheres, int count)
     m_iSphereCount = count;
 }
 
-extern "C" __m128 _mm_set_ps(float, float, float, float);
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
-extern "C" __m128 _mm_load_ps1(const float*);
 
-extern "C" __m128 _mm_move_ss(__m128, __m128);
 
-extern "C" __m128 _mm_load_ss(const float*);
 
-extern "C" __m128 _mm_set_ps1(float);
 
-extern "C" __m128 _mm_set_ss(float);
 
-extern "C" __m128 _mm_load_ps(const float*);
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 
 extern "C" void _ReadWriteBarrier();
 
@@ -137,7 +127,6 @@ struct __declspec(align(16)) Sph
     float x, y, z, w;
 };
 
-extern __m128 DAT_010ec7f0;
 
 // Finds the smallest fraction in fracs, writes the interpolated and scaled normal and sphere id into out, and returns the best index or -1.
 // @fnv 0x00d2a610
@@ -178,7 +167,7 @@ static __declspec(noinline) int FUN_00d2a610(Out* out, const Sph* spheres, const
         __m128 t = _mm_load_ss(&best);
         t = _mm_shuffle_ps(t, t, 0);
 
-        __m128 one = DAT_010ec7f0;
+        __m128 one = ::DAT_010ec7f0;
 
         __m128 center = _mm_load_ps(&base[id].x);
 
@@ -284,7 +273,7 @@ static __declspec(noinline) void* FUN_00d2a960(RayCtx* outB, RayCtx* in, hkVecto
     return outB;
 }
 
-static __declspec(noinline) int FUN_00d2a610(hkVector4* spheres, RayCtx* keyB, RayCtx* keyA, void* r, RayCtx* in,
+static __declspec(noinline) void* FUN_00d2a610(hkVector4* spheres, RayCtx* keyB, RayCtx* keyA, void* r, RayCtx* in,
                                              void* extra)
 {
     s00d2ab90_addr[4] = (void*)&spheres;
@@ -297,7 +286,7 @@ static __declspec(noinline) int FUN_00d2a610(hkVector4* spheres, RayCtx* keyB, R
         D2abExternCall();
         ((int*)extra)[i] = i;
     }
-    return (int)r;
+    return r;
 }
 
 // Performs a raycast against m_kSpheres using in and p3, storing whether a hit was found in *ok and returning ok.
@@ -306,8 +295,8 @@ char* S00d2ab90_Shape::FUN_00d2ab90(char* ok, RayCtx* in, void* p3)
 {
     RayCtx keys[2];
     void* r = FUN_00d2a960(&keys[0], in, m_kSpheres, m_disp, &keys[1]);
-    int v = FUN_00d2a610(m_kSpheres, &keys[1], &keys[0], r, in, p3);
-    *ok = (v != -1);
+    void* v = FUN_00d2a610(m_kSpheres, &keys[1], &keys[0], r, in, p3);
+    *ok = (v != reinterpret_cast<void*>(-1));
     return ok;
 }
 
@@ -315,16 +304,8 @@ char* S00d2ab90_Shape::FUN_00d2ab90(char* ok, RayCtx* in, void* p3)
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern unsigned long DAT_0126835c;
 extern const char str_010ce4f0[];
-extern const char str_010c41f8[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 
 struct Sph_Mon
 {
@@ -420,7 +401,7 @@ static __declspec(noinline) int FUN_00d2a960(const Sph_Seg* seg, const Sph_V* sp
         char* p = m->cur;
         if (p < m->end)
         {
-            *(const char**)p = str_010c41f8;
+            *(const char**)p = ::DAT_010c41f8;
             _ReadWriteBarrier();
             scratch.tick = (unsigned int)__rdtsc();
             *(unsigned int*)(p + 4) = scratch.tick;
@@ -543,8 +524,6 @@ void DummyMultiSphere::FUN_00d2abe0(const ShapeRayCastQuery& input, const hkpCdB
     } while (numHits != 0);
 }
 
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 
 struct Vec4
 {
@@ -597,8 +576,6 @@ static __forceinline void TransformPointArray(const hkTransformSimd& t, const Ve
     } while (--i >= 0);
 }
 
-extern float DAT_0104da48;
-extern float DAT_0104e148;
 
 struct MultiSphereShape
 {
@@ -622,8 +599,8 @@ void MultiSphereShape::FUN_00d2a7c0(const hkTransformSimd& localToWorld, float t
     Vec4 tmp[8];
     TransformPointArray(localToWorld, m_kSpheres, m_iSphereCount, tmp);
 
-    __m128 absMin = _mm_set_ps1(DAT_0104da48);
-    __m128 absMax = _mm_set_ps1(DAT_0104e148);
+    __m128 absMin = _mm_set_ps1(::DAT_0104da48);
+    __m128 absMax = _mm_set_ps1(::DAT_0104e148);
 
     for (int i = 0; i < m_iSphereCount; i++)
     {
@@ -637,3 +614,5 @@ void MultiSphereShape::FUN_00d2a7c0(const hkTransformSimd& localToWorld, float t
     out.m_kMinimumCorner.set(_mm_sub_ps(absMin, tol4));
     out.m_kMaximumCorner.set(_mm_add_ps(tol4, absMax));
 }
+
+#include "generated/data/havok/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.inc"

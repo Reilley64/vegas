@@ -2,196 +2,29 @@
 // src/havok/physics/dynamics/world/util/hkpworldcallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldcallbackutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" unsigned long _tls_index;
-struct AudioTlsState
-{
-    unsigned unk0;
-    unsigned unk4;
-    unsigned unk8;
-    unsigned unkC;
-    unsigned unk10;
-    unsigned unk14;
-    unsigned unk18;
-    unsigned unk1C;
-    unsigned unk20;
-    unsigned unk24;
-    unsigned unk28;
-    unsigned unk2C;
-    unsigned unk30;
-    unsigned unk34;
-    unsigned unk38;
-    unsigned unk3C;
-    unsigned unk40;
-    unsigned unk44;
-    unsigned unk48;
-    unsigned unk4C;
-    unsigned unk50;
-    unsigned unk54;
-    unsigned unk58;
-    unsigned unk5C;
-    unsigned unk60;
-    unsigned unk64;
-    unsigned unk68;
-    unsigned unk6C;
-    unsigned unk70;
-    unsigned unk74;
-    unsigned unk78;
-    unsigned unk7C;
-    unsigned unk80;
-    unsigned unk84;
-    unsigned unk88;
-    unsigned unk8C;
-    unsigned unk90;
-    unsigned unk94;
-    unsigned unk98;
-    unsigned unk9C;
-    unsigned unkA0;
-    unsigned unkA4;
-    unsigned unkA8;
-    unsigned unkAC;
-    unsigned unkB0;
-    unsigned unkB4;
-    unsigned unkB8;
-    unsigned unkBC;
-    unsigned unkC0;
-    unsigned unkC4;
-    unsigned unkC8;
-    unsigned unkCC;
-    unsigned unkD0;
-    unsigned unkD4;
-    unsigned unkD8;
-    unsigned unkDC;
-    unsigned unkE0;
-    unsigned unkE4;
-    unsigned unkE8;
-    unsigned unkEC;
-    unsigned unkF0;
-    unsigned unkF4;
-    unsigned unkF8;
-    unsigned unkFC;
-    unsigned unk100;
-    unsigned unk104;
-    unsigned unk108;
-    unsigned unk10C;
-    unsigned unk110;
-    unsigned unk114;
-    unsigned unk118;
-    unsigned unk11C;
-    unsigned unk120;
-    unsigned unk124;
-    unsigned unk128;
-    unsigned unk12C;
-    unsigned unk130;
-    unsigned unk134;
-    unsigned unk138;
-    unsigned unk13C;
-    unsigned unk140;
-    unsigned unk144;
-    unsigned unk148;
-    unsigned unk14C;
-    unsigned unk150;
-    unsigned unk154;
-    unsigned unk158;
-    unsigned unk15C;
-    unsigned unk160;
-    unsigned unk164;
-    unsigned unk168;
-    unsigned unk16C;
-    unsigned unk170;
-    unsigned unk174;
-    unsigned unk178;
-    unsigned unk17C;
-    unsigned unk180;
-    unsigned unk184;
-    unsigned unk188;
-    unsigned unk18C;
-    unsigned unk190;
-    unsigned unk194;
-    unsigned unk198;
-    unsigned unk19C;
-    unsigned unk1A0;
-    unsigned unk1A4;
-    unsigned unk1A8;
-    unsigned unk1AC;
-    unsigned unk1B0;
-    unsigned unk1B4;
-    unsigned unk1B8;
-    unsigned unk1BC;
-    unsigned unk1C0;
-    unsigned unk1C4;
-    unsigned unk1C8;
-    unsigned unk1CC;
-    unsigned unk1D0;
-    unsigned unk1D4;
-    unsigned unk1D8;
-    unsigned unk1DC;
-    unsigned unk1E0;
-    unsigned unk1E4;
-    unsigned unk1E8;
-    unsigned unk1EC;
-    unsigned unk1F0;
-    unsigned unk1F4;
-    unsigned unk1F8;
-    unsigned unk1FC;
-    unsigned unk200;
-    unsigned unk204;
-    unsigned unk208;
-    unsigned unk20C;
-    unsigned unk210;
-    unsigned unk214;
-    unsigned unk218;
-    unsigned unk21C;
-    unsigned unk220;
-    unsigned unk224;
-    unsigned unk228;
-    unsigned unk22C;
-    unsigned unk230;
-    unsigned unk234;
-    unsigned unk238;
-    unsigned unk23C;
-    unsigned unk240;
-    unsigned unk244;
-    unsigned unk248;
-    unsigned unk24C;
-    unsigned unk250;
-    unsigned unk254;
-    unsigned unk258;
-    unsigned unk25C;
-    unsigned unk260;
-    unsigned unk264;
-    unsigned unk268;
-    unsigned unk26C;
-    unsigned unk270;
-    unsigned unk274;
-    unsigned unk278;
-    unsigned unk27C;
-    unsigned unk280;
-    unsigned unk284;
-    unsigned unk288;
-    unsigned unk28C;
-    unsigned unk290;
-    unsigned unk294;
-    unsigned unk298;
-    unsigned unk29C;
-    unsigned unk2A0;
-    unsigned unk2A4;
-    unsigned unk2A8;
-    unsigned unk2AC;
-    unsigned unk2B0;
-    unsigned m_uiMemoryContext;
-};
-__declspec(thread) AudioTlsState threadData;
+#include <windows.h>
+#include <cstring>
+#include "fnv/decl/FUN_00c91120.h"
+#include "fnv/decl/FUN_00c91140_Class.h"
+#include "fnv/decl/World_RemovePhantomBatch.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
+#include "fnv/tls.h"
 struct ScopedContext
 {
     unsigned previous;
     __forceinline ScopedContext(unsigned value)
     {
-        previous = threadData.m_uiMemoryContext;
-        threadData.m_uiMemoryContext = value;
+        previous = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = value;
     }
     __forceinline ~ScopedContext()
     {
-        threadData.m_uiMemoryContext = previous;
+        g_tlsBlock.memoryContext = previous;
     }
 };
 struct Metadata
@@ -203,13 +36,10 @@ struct Reference
 {
     int unk00, unk04, unk08;
     Metadata* metadata;
-    void FUN_00c905b0();
 };
 struct World
 {
-    void FUN_00c95800(Reference**, unsigned);
 };
-void* FUN_00ec61c0(void*, int, unsigned);
 struct Owner
 {
     virtual void method0();
@@ -277,7 +107,7 @@ void Owner::ClearReferences()
         World* world = GetWorld();
         if (world)
         {
-            world->FUN_00c95800(references, count);
+            reinterpret_cast<::World_RemovePhantomBatch *>((world))->FUN_00c95800((::hkpPhantom **)(references), count);
             for (unsigned i = 0; i < count; ++i)
             {
                 Reference* reference = references[i];
@@ -287,9 +117,9 @@ void Owner::ClearReferences()
                     if (metadata)
                         metadata->flags &= ~32;
                 }
-                references[i]->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>((references[i]))->FUN_00c905b0();
             }
-            FUN_00ec61c0(references, 0, count * 4);
+            std::memset(references, 0, count * 4);
             count = 0;
         }
     }
@@ -334,7 +164,7 @@ void D00370CleanupBoth(D00370Array* a, D00370Array* b)
 
 struct FNV_SmallArray_00d00320
 {
-    int* m_pItems;
+    void** m_pItems;
     unsigned short m_uiItemCount;
 };
 
@@ -363,7 +193,6 @@ void KeepAlive_00d00320(FNV_SmallArray_00d00320* pArray)
 
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpAction;
 class hkpActionListener
@@ -525,7 +354,6 @@ void __cdecl NotifyActionAdded(World833* world, hkpAction* action)
 namespace fnv_00d00500 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpEntity;
 class hkpEntityListener
@@ -656,7 +484,7 @@ __forceinline void CaptureTicks833(volatile unsigned int& ticks)
 }
 __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 {
-    Stream833* stream = static_cast<Stream833*>(TlsGetValue(DAT_0126835c));
+    Stream833* stream = static_cast<Stream833*>(TlsGetValue(::DAT_0126835c));
     Timer833* command = stream->end;
     if (command < stream->capacityEnd)
     {
@@ -691,7 +519,6 @@ void __cdecl NotifyEntityAdded(World833* world, hkpEntity* entity)
 namespace fnv_00d006e0 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpEntity;
 class hkpEntityListener
@@ -822,7 +649,7 @@ __forceinline void CaptureTicks833(volatile unsigned int& ticks)
 }
 __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 {
-    Stream833* stream = static_cast<Stream833*>(TlsGetValue(DAT_0126835c));
+    Stream833* stream = static_cast<Stream833*>(TlsGetValue(::DAT_0126835c));
     Timer833* command = stream->end;
     if (command < stream->capacityEnd)
     {
@@ -857,7 +684,6 @@ void __cdecl NotifyEntitySetMotionType(World833* world, hkpEntity* entity)
 namespace fnv_00d00780 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpPhantom;
 class hkpPhantomListener
@@ -990,7 +816,7 @@ __forceinline void CaptureTicks833(volatile unsigned int& ticks)
 }
 __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 {
-    Stream833* stream = static_cast<Stream833*>(TlsGetValue(DAT_0126835c));
+    Stream833* stream = static_cast<Stream833*>(TlsGetValue(::DAT_0126835c));
     Timer833* command = stream->end;
     if (command < stream->capacityEnd)
     {
@@ -1149,11 +975,10 @@ struct D00CA0MonitorStream
     }
 };
 
-extern DWORD g_D00CA0TlsIndex;
 
 __forceinline D00CA0MonitorStream& D00CA0GetMonitorStream()
 {
-    return *(D00CA0MonitorStream*)TlsGetValue(g_D00CA0TlsIndex);
+    return *(D00CA0MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D00CA0TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -1164,7 +989,7 @@ __forceinline void D00CA0TimerBegin(const char* name, volatile unsigned int& tic
         D00CA0TimerCommand* h = (D00CA0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -1306,7 +1131,6 @@ struct D00CA0World
 };
 
 extern const char g_D00CA0TimerEntityCb[];
-extern const char g_D00CA0TimerEnd[];
 
 // Invokes entityCallback on each non-null listener in the world's entity listener array, then removes null entries.
 // @fnv 0x00d00ca0
@@ -1321,7 +1145,7 @@ void __cdecl FUN_00d00ca0(D00CA0World* world, void* entity)
             volatile unsigned int endTicks;
             D00CA0TimerBegin(g_D00CA0TimerEntityCb, beginTicks);
             listeners.m_data[i]->entityCallback(entity);
-            D00CA0TimerBegin(g_D00CA0TimerEnd, endTicks);
+            D00CA0TimerBegin(::DAT_010c41f8, endTicks);
         }
     }
     D00CA0CleanupNullPointers(listeners);
@@ -1330,7 +1154,6 @@ void __cdecl FUN_00d00ca0(D00CA0World* world, void* entity)
 namespace fnv_00d00d40 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class CollisionEvent;
 class NewCollisionListener
@@ -1487,7 +1310,7 @@ __forceinline void CaptureTicks833(volatile unsigned int& ticks)
 }
 __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 {
-    Stream833* stream = static_cast<Stream833*>(TlsGetValue(DAT_0126835c));
+    Stream833* stream = static_cast<Stream833*>(TlsGetValue(::DAT_0126835c));
     Timer833* command = stream->end;
     if (command < stream->capacityEnd)
     {
@@ -1546,11 +1369,10 @@ struct D00DE0MonitorStream
     }
 };
 
-extern DWORD g_D00DE0TlsIndex;
 
 __forceinline D00DE0MonitorStream& D00DE0GetMonitorStream()
 {
-    return *(D00DE0MonitorStream*)TlsGetValue(g_D00DE0TlsIndex);
+    return *(D00DE0MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D00DE0TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -1561,7 +1383,7 @@ __forceinline void D00DE0TimerBegin(const char* name, volatile unsigned int& tic
         D00DE0TimerCommand* h = (D00DE0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -1705,7 +1527,6 @@ struct D00DE0World
 };
 
 extern const char g_D00DE0TimerEntityCb[];
-extern const char g_D00DE0TimerEnd[];
 
 // Invokes entityCallback on each non-null listener in the world's entity listener array, then removes null entries.
 // @fnv 0x00d00de0
@@ -1720,7 +1541,7 @@ void __cdecl FUN_00d00de0(D00DE0World* world, void* entity)
             volatile unsigned int endTicks;
             D00DE0TimerBegin(g_D00DE0TimerEntityCb, beginTicks);
             listeners.m_data[i]->entityCallback(entity);
-            D00DE0TimerBegin(g_D00DE0TimerEnd, endTicks);
+            D00DE0TimerBegin(::DAT_010c41f8, endTicks);
         }
     }
     D00DE0CleanupNullPointers(listeners);
@@ -1753,11 +1574,10 @@ struct D00E80MonitorStream
     }
 };
 
-extern DWORD g_D00E80TlsIndex;
 
 __forceinline D00E80MonitorStream& D00E80GetMonitorStream()
 {
-    return *(D00E80MonitorStream*)TlsGetValue(g_D00E80TlsIndex);
+    return *(D00E80MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D00E80TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -1768,7 +1588,7 @@ __forceinline void D00E80TimerBegin(const char* name, volatile unsigned int& tic
         D00E80TimerCommand* h = (D00E80TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -1898,7 +1718,6 @@ struct D00E80World
 };
 
 extern const char g_D00E80TimerActionCb[];
-extern const char g_D00E80TimerEnd[];
 
 // Iterates the world's entity listener array in reverse, calling each non-null listener's actionCallback with the world, then compacts out null entries.
 // @fnv 0x00d00e80
@@ -1912,7 +1731,7 @@ void __cdecl FUN_00d00e80(D00E80World* world)
         {
             D00E80TimerBegin(g_D00E80TimerActionCb, kTicks.m_uiBegin);
             listeners.m_data[i]->actionCallback(world);
-            D00E80TimerBegin(g_D00E80TimerEnd, kTicks.m_uiEndTick);
+            D00E80TimerBegin(::DAT_010c41f8, kTicks.m_uiEndTick);
         }
     }
     D00E80CleanupNullPointers(listeners);
@@ -1921,7 +1740,6 @@ void __cdecl FUN_00d00e80(D00E80World* world)
 namespace fnv_00d00f30 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpPhantom;
 class WorldDeletionListener
@@ -2058,7 +1876,7 @@ __forceinline void CaptureTicks833(volatile unsigned int& ticks)
 }
 __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 {
-    Stream833* stream = static_cast<Stream833*>(TlsGetValue(DAT_0126835c));
+    Stream833* stream = static_cast<Stream833*>(TlsGetValue(::DAT_0126835c));
     Timer833* command = stream->end;
     if (command < stream->capacityEnd)
     {
@@ -2093,7 +1911,6 @@ void __cdecl NotifyWorldDeleted(World833* world)
 namespace fnv_00d01380 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpPhantom;
 class PostSimulationListener
@@ -2235,7 +2052,7 @@ __forceinline void CaptureTicks833(volatile unsigned int& ticks)
 }
 __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 {
-    Stream833* stream = static_cast<Stream833*>(TlsGetValue(DAT_0126835c));
+    Stream833* stream = static_cast<Stream833*>(TlsGetValue(::DAT_0126835c));
     Timer833* command = stream->end;
     if (command < stream->capacityEnd)
     {
@@ -2277,7 +2094,6 @@ void __cdecl FUN_00d01380(World833* world)
 namespace fnv_00d01440 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpPhantom;
 class PostIntegrationListener
@@ -2423,7 +2239,7 @@ __forceinline void CaptureTicks833(volatile unsigned int& ticks)
 }
 __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 {
-    Stream833* stream = static_cast<Stream833*>(TlsGetValue(DAT_0126835c));
+    Stream833* stream = static_cast<Stream833*>(TlsGetValue(::DAT_0126835c));
     Timer833* command = stream->end;
     if (command < stream->capacityEnd)
     {
@@ -2482,11 +2298,10 @@ struct D014F0MonitorStream
     }
 };
 
-extern DWORD g_D014F0TlsIndex;
 
 __forceinline D014F0MonitorStream& D014F0GetMonitorStream()
 {
-    return *(D014F0MonitorStream*)TlsGetValue(g_D014F0TlsIndex);
+    return *(D014F0MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D014F0TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -2497,7 +2312,7 @@ __forceinline void D014F0TimerBegin(const char* name, volatile unsigned int& tic
         D014F0TimerCommand* h = (D014F0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -2638,8 +2453,6 @@ struct D014F0World
     D014F0ListenerArray m_kEntityListenerArray;
 };
 
-extern const char g_D014F0TimerCollisionAddedCb[];
-extern const char g_D014F0TimerEnd[];
 
 // Iterates the world's entity listener array, invoking collisionAddedCallback on each non-null listener with timing markers, then removes null entries.
 // @fnv 0x00d014f0
@@ -2653,7 +2466,7 @@ void __cdecl FUN_00d014f0(D014F0World* world, void* pvEvent)
         {
             D014F0TimerBegin(g_D014F0TimerCollisionAddedCb, kTicks.m_uiBegin);
             listeners.m_data[i]->collisionAddedCallback(world, pvEvent);
-            D014F0TimerBegin(g_D014F0TimerEnd, kTicks.m_uiEndTick);
+            D014F0TimerBegin(::DAT_010c41f8, kTicks.m_uiEndTick);
         }
     }
     D014F0CleanupNullPointers(listeners);
@@ -2686,11 +2499,10 @@ struct D015A0MonitorStream
     }
 };
 
-extern DWORD g_D015A0TlsIndex;
 
 __forceinline D015A0MonitorStream& D015A0GetMonitorStream()
 {
-    return *(D015A0MonitorStream*)TlsGetValue(g_D015A0TlsIndex);
+    return *(D015A0MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D015A0TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -2701,7 +2513,7 @@ __forceinline void D015A0TimerBegin(const char* name, volatile unsigned int& tic
         D015A0TimerCommand* h = (D015A0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -2838,7 +2650,6 @@ struct D015A0World
 };
 
 extern const char g_D015A0TimerContactCb[];
-extern const char g_D015A0TimerEnd[];
 
 // Invokes contactCallback on each non-null listener in world->m_kContactListeners, then removes null entries from the array.
 // @fnv 0x00d015a0
@@ -2853,7 +2664,7 @@ void __cdecl FUN_00d015a0(D015A0World* world, void* apFirst, void* pkSecond)
             volatile unsigned int endTicks;
             D015A0TimerBegin(g_D015A0TimerContactCb, beginTicks);
             listeners.m_data[i]->contactCallback(apFirst, pkSecond);
-            D015A0TimerBegin(g_D015A0TimerEnd, endTicks);
+            D015A0TimerBegin(::DAT_010c41f8, endTicks);
         }
     }
     D015A0CleanupNullPointers(listeners);
@@ -2886,11 +2697,10 @@ struct D01650MonitorStream
     }
 };
 
-extern DWORD g_D01650TlsIndex;
 
 __forceinline D01650MonitorStream& D01650GetMonitorStream()
 {
-    return *(D01650MonitorStream*)TlsGetValue(g_D01650TlsIndex);
+    return *(D01650MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D01650TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -2901,7 +2711,7 @@ __forceinline void D01650TimerBegin(const char* name, volatile unsigned int& tic
         D01650TimerCommand* h = (D01650TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3040,8 +2850,6 @@ struct D01650World
     D01650ListenerArray m_kEntityListenerArray;
 };
 
-extern const char g_D01650TimerCollisionAddedCb[];
-extern const char g_D01650TimerEnd[];
 
 // Invokes collisionAddedCallback on each non-null listener in the array, then removes null entries.
 // @fnv 0x00d01650
@@ -3054,21 +2862,19 @@ void __cdecl FUN_00d01650(D01650World* world, void* pvEvent, void* pvContext)
         {
             volatile unsigned int beginTicks;
             volatile unsigned int endTicks;
-            D01650TimerBegin(g_D01650TimerCollisionAddedCb, beginTicks);
+            D01650TimerBegin(::g_D014F0TimerCollisionAddedCb, beginTicks);
             listeners.m_data[i]->collisionAddedCallback(pvEvent, pvContext);
-            D01650TimerBegin(g_D01650TimerEnd, endTicks);
+            D01650TimerBegin(::DAT_010c41f8, endTicks);
         }
     }
     D01650CleanupNullPointers(listeners);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern "C" unsigned long DAT_0126835c;
 
 struct Listener
 {
     virtual void vfunc0();
-    virtual void vfunc1(void* a1, void* a2);
+    virtual void vfunc1(void* a1, int a2);
 };
 
 struct ListenerArray
@@ -3118,7 +2924,7 @@ static __forceinline void writeTimestamp(char* cur, const char* tag, volatile un
 
 // Iterates hkpWorld listener array, writes start/end timestamps to TLS buffer, invokes each listener, then compacts the array.
 // @fnv 0x00d01700
-void __cdecl FUN_00d01700(hkpWorld* world, void* a1, void* a2)
+void __cdecl FUN_00d01700(hkpWorld* world, void* a1, int a2)
 {
     volatile unsigned int uiStartTsc;
     volatile unsigned int t1;
@@ -3174,11 +2980,10 @@ struct D017B0MonitorStream
     }
 };
 
-extern DWORD g_D017B0TlsIndex;
 
 __forceinline D017B0MonitorStream& D017B0GetMonitorStream()
 {
-    return *(D017B0MonitorStream*)TlsGetValue(g_D017B0TlsIndex);
+    return *(D017B0MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D017B0TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -3189,7 +2994,7 @@ __forceinline void D017B0TimerBegin(const char* name, volatile unsigned int& tic
         D017B0TimerCommand* h = (D017B0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3318,7 +3123,6 @@ struct D017B0World
 };
 
 extern const char g_D017B0TimerEntityRemovedCb[];
-extern const char g_D017B0TimerEnd[];
 
 // Invokes EntityRemovedCallback on each non-null listener in the world's entity listener array, then removes null entries.
 // @fnv 0x00d017b0
@@ -3333,7 +3137,7 @@ void __cdecl NotifyEntityRemoved(D017B0World* world, void* entity)
             volatile unsigned int endTicks;
             D017B0TimerBegin(g_D017B0TimerEntityRemovedCb, beginTicks);
             listeners.m_data[i]->EntityRemovedCallback(entity);
-            D017B0TimerBegin(g_D017B0TimerEnd, endTicks);
+            D017B0TimerBegin(::DAT_010c41f8, endTicks);
         }
     }
     D017B0CleanupNullPointers(listeners);
@@ -3366,11 +3170,10 @@ struct D019B0MonitorStream
     }
 };
 
-extern DWORD g_D019B0TlsIndex;
 
 __forceinline D019B0MonitorStream& D019B0GetMonitorStream()
 {
-    return *(D019B0MonitorStream*)TlsGetValue(g_D019B0TlsIndex);
+    return *(D019B0MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D019B0TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -3381,7 +3184,7 @@ __forceinline void D019B0TimerBegin(const char* name, volatile unsigned int& tic
         D019B0TimerCommand* h = (D019B0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3529,7 +3332,6 @@ struct D019B0World
 };
 
 extern const char g_D019B0TimerSetShapeCb[];
-extern const char g_D019B0TimerEnd[];
 
 struct D019B0Event
 {
@@ -3552,18 +3354,16 @@ void __cdecl NotifyShapeSetListeners(D019B0World* world, D019B0Event* event)
             volatile unsigned int endTicks;
             D019B0TimerBegin(g_D019B0TimerSetShapeCb, beginTicks);
             listeners.m_data[i]->shapeSetCallback(event);
-            D019B0TimerBegin(g_D019B0TimerEnd, endTicks);
+            D019B0TimerBegin(::DAT_010c41f8, endTicks);
         }
     }
     D019B0CleanupNullPointers(listeners);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern unsigned long DAT_0126835c;
 extern char DAT_010cca74[];
-extern char DAT_010c41f8[];
 struct TimerEntry
 {
     const char* m_name;
@@ -3587,7 +3387,7 @@ static inline void TimerWriteV(const char* name, volatile unsigned int& t)
         _ReadWriteBarrier();
         t = (unsigned int)__rdtsc();
         h->m_uiCommandId = t;
-        s->m_cur = (char*)(h + 1);
+        s->m_cur = reinterpret_cast<char*>(h + 1);
     }
 }
 struct ActionListener
@@ -3655,11 +3455,10 @@ struct D005A0MonitorStream
     }
 };
 
-extern DWORD g_D005A0TlsIndex;
 
 __forceinline D005A0MonitorStream& D005A0GetMonitorStream()
 {
-    return *(D005A0MonitorStream*)TlsGetValue(g_D005A0TlsIndex);
+    return *(D005A0MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D005A0TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -3670,7 +3469,7 @@ __forceinline void D005A0TimerBegin(const char* name, volatile unsigned int& tic
         D005A0TimerCommand* h = (D005A0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3784,7 +3583,6 @@ struct D005A0World
 };
 
 extern const char g_D005A0TimerEntityAddedCb[];
-extern const char g_D005A0TimerEnd[];
 
 // Iterates the world's entity listener array, calling EntityRemovedCallback on each non-null listener, then removes null entries.
 // @fnv 0x00d005a0
@@ -3799,7 +3597,7 @@ void __cdecl FUN_00d005a0(D005A0World* world, void* entity)
             volatile unsigned int endTicks;
             D005A0TimerBegin(g_D005A0TimerEntityAddedCb, beginTicks);
             listeners.m_data[i]->EntityRemovedCallback(entity);
-            D005A0TimerBegin(g_D005A0TimerEnd, endTicks);
+            D005A0TimerBegin(::DAT_010c41f8, endTicks);
         }
     }
     D005A0CleanupNullPointers(listeners);
@@ -3832,11 +3630,10 @@ struct D00640MonitorStream
     }
 };
 
-extern DWORD g_D00640TlsIndex;
 
 __forceinline D00640MonitorStream& D00640GetMonitorStream()
 {
-    return *(D00640MonitorStream*)TlsGetValue(g_D00640TlsIndex);
+    return *(D00640MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D00640TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -3847,7 +3644,7 @@ __forceinline void D00640TimerBegin(const char* name, volatile unsigned int& tic
         D00640TimerCommand* h = (D00640TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -3961,8 +3758,6 @@ struct D00640World
     D00640ListenerArray m_kEntityListenerArray;
 };
 
-extern const char g_D00640TimerSetShapeCb[];
-extern const char g_D00640TimerEnd[];
 
 // Iterates the entity listener array, calls shapeSetCallback on each non-null listener, then compacts out null entries.
 // @fnv 0x00d00640
@@ -3975,9 +3770,9 @@ void __cdecl NotifyShapeSet(D00640World* world, void* entity)
         {
             volatile unsigned int beginTicks;
             volatile unsigned int endTicks;
-            D00640TimerBegin(g_D00640TimerSetShapeCb, beginTicks);
+            D00640TimerBegin(::g_CFFCF0TimerBegin, beginTicks);
             listeners.m_data[i]->shapeSetCallback(entity);
-            D00640TimerBegin(g_D00640TimerEnd, endTicks);
+            D00640TimerBegin(::DAT_010c41f8, endTicks);
         }
     }
     D00640CleanupNullPointers(listeners);
@@ -4010,11 +3805,10 @@ struct D00820MonitorStream
     }
 };
 
-extern DWORD g_D00820TlsIndex;
 
 __forceinline D00820MonitorStream& D00820GetMonitorStream()
 {
-    return *(D00820MonitorStream*)TlsGetValue(g_D00820TlsIndex);
+    return *(D00820MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D00820TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -4025,7 +3819,7 @@ __forceinline void D00820TimerBegin(const char* name, volatile unsigned int& tic
         D00820TimerCommand* h = (D00820TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -4142,7 +3936,6 @@ struct D00820World
 };
 
 extern const char g_D00820TimerSetShapeCb[];
-extern const char g_D00820TimerEnd[];
 
 // Iterates the world's entity listener array, calls entityCallback on each non-null listener with the entity, then removes null entries.
 // @fnv 0x00d00820
@@ -4157,7 +3950,7 @@ void __cdecl FUN_00d00820(D00820World* world, void* entity)
             volatile unsigned int endTicks;
             D00820TimerBegin(g_D00820TimerSetShapeCb, beginTicks);
             listeners.m_data[i]->entityCallback(entity);
-            D00820TimerBegin(g_D00820TimerEnd, endTicks);
+            D00820TimerBegin(::DAT_010c41f8, endTicks);
         }
     }
     D00820CleanupNullPointers(listeners);
@@ -4190,11 +3983,10 @@ struct D008C0MonitorStream
     }
 };
 
-extern DWORD g_D008C0TlsIndex;
 
 __forceinline D008C0MonitorStream& D008C0GetMonitorStream()
 {
-    return *(D008C0MonitorStream*)TlsGetValue(g_D008C0TlsIndex);
+    return *(D008C0MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void D008C0TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -4205,7 +3997,7 @@ __forceinline void D008C0TimerBegin(const char* name, volatile unsigned int& tic
         D008C0TimerCommand* h = (D008C0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -4322,8 +4114,6 @@ struct D008C0World
     D008C0ListenerArray m_kEntityListenerArray;
 };
 
-extern const char g_D008C0TimerSetShapeCb[];
-extern const char g_D008C0TimerEnd[];
 
 // Iterates the world's entity listener array in reverse, invoking shapeSetCallback on each non-null listener, then compacts the array to remove null entries.
 // @fnv 0x00d008c0
@@ -4336,9 +4126,9 @@ void __cdecl FUN_00d008c0(D008C0World* world, void* entity)
         {
             volatile unsigned int beginTicks;
             volatile unsigned int endTicks;
-            D008C0TimerBegin(g_D008C0TimerSetShapeCb, beginTicks);
+            D008C0TimerBegin(::g_CFFCF0TimerBegin, beginTicks);
             listeners.m_data[i]->shapeSetCallback(entity);
-            D008C0TimerBegin(g_D008C0TimerEnd, endTicks);
+            D008C0TimerBegin(::DAT_010c41f8, endTicks);
         }
     }
     D008C0CleanupNullPointers(listeners);
@@ -4365,7 +4155,7 @@ class ProfTarget
   public:
     virtual void v0();
     virtual void v1();
-    virtual void v2(unsigned a1);
+    virtual void v2(void* a1);
     virtual void v3();
     virtual void v4();
 };
@@ -4394,7 +4184,7 @@ __forceinline void ProfMark(const char* name, volatile DWORD& outTick)
 }
 // Iterates m_kTargets in reverse, calling v2 on each non-null ProfTarget with a2, then calls FUN_00d00370 on the array.
 // @fnv 0x00d00a00
-void __cdecl NotifyTargets(ProfOwner* pOwner, DWORD a2)
+void __cdecl NotifyTargets(ProfOwner* pOwner, void* a2)
 {
     volatile DWORD beginTick, endTick;
     D00370Array& targets = pOwner->m_kTargets;
@@ -4414,19 +4204,17 @@ void __cdecl NotifyTargets(ProfOwner* pOwner, DWORD a2)
     FUN_00d00370(targets);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern unsigned long DAT_0126835c;
 extern char DAT_010ccab0[];
-extern char DAT_010c41f8[];
 struct Phantom
 {
     virtual void v00();
     virtual void v04();
     virtual void v08();
     virtual void v0c();
-    virtual void v10(int a);
+    virtual void v10(const void* a);
 };
 struct OwnerD
 {
@@ -4444,7 +4232,7 @@ struct OwnerD
 };
 // Iterates owner's m_kListeners in reverse, calling v10 with a2 on each non-null listener between timer samples, then calls FUN_00d00370 on the array.
 // @fnv 0x00d00aa0
-void __cdecl FUN_00d00aa0(OwnerD* owner, int a2)
+void __cdecl FUN_00d00aa0(OwnerD* owner, const void* a2)
 {
     D00370Array& listen = owner->m_kListeners;
     for (int i = listen.m_iElementCount - 1; i >= 0; i--)
@@ -4462,11 +4250,8 @@ void __cdecl FUN_00d00aa0(OwnerD* owner, int a2)
 }
 
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern "C" unsigned long DAT_0126835c;
 extern "C" char str_010ccaf8;
 extern "C" char str_010ccaec;
-extern "C" char str_010c41f8;
 struct Scene;
 struct Entity;
 struct Callback
@@ -4569,8 +4354,6 @@ struct Game
     unsigned int unk150;
     unsigned int unk154;
     D00370Array field158;
-    void FUN_00c91120();
-    void FUN_00c91140();
 };
 struct Entity
 {
@@ -4732,12 +4515,20 @@ struct Scene
     Entity** field48;
     int field4c;
 };
+// One hkMonitorStream timer record: the command name and the low 32 bits of the time-stamp counter.
+struct LogRecord
+{
+    const char* name;
+    unsigned int tick;
+    unsigned int unused;
+};
+
 struct LogBuffer
 {
     int ReportDiagnostic;
-    unsigned int* current;
+    LogRecord* current;
     int unused8;
-    unsigned int* limit;
+    LogRecord* limit;
 };
 static __declspec(noinline) void RemoveZeroEntries(CallbackList* list)
 {
@@ -4772,27 +4563,27 @@ void __cdecl ProcessSceneCallbacks(Game* game, Scene* scene)
         {
             {
                 LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                unsigned int* current = log->current;
+                LogRecord* current = log->current;
                 if (current < log->limit)
                 {
-                    current[0] = (unsigned int)&str_010ccaf8;
+                    current->name = (const char*)&str_010ccaf8;
                     _ReadWriteBarrier();
                     timer.tick1 = (unsigned int)__rdtsc();
-                    current[1] = timer.tick1;
-                    log->current = current + 3;
+                    current->tick = timer.tick1;
+                    log->current = current + 1;
                 }
             }
             ((Callback*)pSlots->m_data[i])->invoke(scene);
             {
                 LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                unsigned int* current = log->current;
+                LogRecord* current = log->current;
                 if (current < log->limit)
                 {
-                    current[0] = (unsigned int)&str_010c41f8;
+                    current->name = (const char*)&(*reinterpret_cast<char *>(&::DAT_010c41f8));
                     _ReadWriteBarrier();
                     timer.tick2 = (unsigned int)__rdtsc();
-                    current[1] = timer.tick2;
-                    log->current = current + 3;
+                    current->tick = timer.tick2;
+                    log->current = current + 1;
                 }
             }
         }
@@ -4810,27 +4601,27 @@ void __cdecl ProcessSceneCallbacks(Game* game, Scene* scene)
                 {
                     {
                         LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                        unsigned int* current = log->current;
+                        LogRecord* current = log->current;
                         if (current < log->limit)
                         {
-                            current[0] = (unsigned int)&str_010ccaec;
+                            current->name = (const char*)&str_010ccaec;
                             _ReadWriteBarrier();
                             timer.tick2 = (unsigned int)__rdtsc();
-                            current[1] = timer.tick2;
-                            log->current = current + 3;
+                            current->tick = timer.tick2;
+                            log->current = current + 1;
                         }
                     }
                     callbacks->slots[j]->execute(scene->field48[i]);
                     {
                         LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                        unsigned int* current = log->current;
+                        LogRecord* current = log->current;
                         if (current < log->limit)
                         {
-                            current[0] = (unsigned int)&str_010c41f8;
+                            current->name = (const char*)&(*reinterpret_cast<char *>(&::DAT_010c41f8));
                             _ReadWriteBarrier();
                             timer.tick1 = (unsigned int)__rdtsc();
-                            current[1] = timer.tick1;
-                            log->current = current + 3;
+                            current->tick = timer.tick1;
+                            log->current = current + 1;
                         }
                     }
                 }
@@ -4841,18 +4632,16 @@ void __cdecl ProcessSceneCallbacks(Game* game, Scene* scene)
     if (--game->field94 == 0 && !game->field9c)
     {
         if (game->field8c)
-            game->FUN_00c91120();
+            reinterpret_cast<::FUN_00c91120 *>((game))->ExecutePendingOperations();
         if (game->fielda4 == 1 && game->field90)
-            game->FUN_00c91140();
+            reinterpret_cast<::FUN_00c91140_Class *>((game))->FUN_00c91140();
     }
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern unsigned long DAT_0126835c;
 extern char DAT_010cca50[];
-extern char DAT_010c41f8[];
 struct ContactListener
 {
     virtual void v00();
@@ -4904,7 +4693,6 @@ void __cdecl FUN_00d01900(WorldD* world, RemovedEvent& event)
     FUN_00d00370(listen);
 }
 
-extern void*(__stdcall* DAT_00fdf044)(unsigned long);
 struct ProfRecQ
 {
     const char* m_pName;
@@ -4926,7 +4714,7 @@ class ListenerObjQ
     virtual void v02(void);
     virtual void v03(void);
     virtual void v04(void);
-    virtual void v05(unsigned long a1);
+    virtual void v05(void* a1);
 };
 struct ListenerArrayQ
 {
@@ -4949,7 +4737,7 @@ struct ListenerOwnerQ
 };
 // Iterates pOwner's listener array, profiling each call to v05(a2), then calls FUN_00d00370 on the array.
 // @fnv 0x00d00b40
-void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, unsigned long a2)
+void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, void* a2)
 {
     volatile unsigned long tick1;
     struct ProfileState
@@ -4962,7 +4750,7 @@ void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, unsigned long a2)
     int i = (int)state.arr->m_uiItemCount - 1;
     if (i >= 0)
     {
-        void*(__stdcall * getBuf)(unsigned long) = DAT_00fdf044;
+        decltype(&TlsGetValue) getBuf = &TlsGetValue;
         do
         {
             ListenerObjQ* pItem = state.arr->m_ppItems[i];
@@ -5001,7 +4789,6 @@ void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, unsigned long a2)
 // Based on an unverified 2026-10-22 contribution.
 extern "C" void _ReadWriteBarrier(void);
 extern DWORD DAT_0126835c;
-extern LPVOID(WINAPI* DAT_00fdf044)(DWORD);
 unsigned __int64 __cdecl __rdtsc(void);
 struct S00d01850_Out
 {
@@ -5144,7 +4931,7 @@ void __cdecl FUN_00d01850(S00d01850_Owner* pOwner, S00d01850_Out* pOut)
     int i = pCallbacks->m_iElementCount - 1;
     if (i >= 0)
     {
-        LPVOID(WINAPI * pfnTls)(DWORD) = DAT_00fdf044;
+        decltype(&TlsGetValue) pfnTls = &TlsGetValue;
         for (; i >= 0; --i)
         {
             if (pCallbacks->m_data[i] != 0)
@@ -5465,8 +5252,6 @@ struct S011b0_World
     DWORD unk0150;
     DWORD unk0154;
     D00370Array m_kNode;
-    void FUN_00c91120();
-    void FUN_00c91140();
 };
 
 // Calls the world's and each entity's listeners for isl with profiler records, then may run FUN_00c91120/FUN_00c91140 when w->m_94 returns to 0 and m_9c is clear.
@@ -5500,7 +5285,7 @@ void __cdecl FUN_00d011b0(S011b0_World* apWorld, S011b0_Island* apIsland)
                 if (pBuf->m_pCurrent < pBuf->m_pRecordEnd)
                 {
                     S011b0_Rec* pRec = pBuf->m_pCurrent;
-                    pRec->m_pTag = &str_010c41f8;
+                    pRec->m_pTag = &(*reinterpret_cast<char *>(&::DAT_010c41f8));
                     _ReadWriteBarrier();
                     timing.second = (DWORD)__rdtsc();
                     pRec->m_dwTime = timing.second;
@@ -5535,7 +5320,7 @@ void __cdecl FUN_00d011b0(S011b0_World* apWorld, S011b0_Island* apIsland)
                     if (pBuf->m_pCurrent < pBuf->m_pRecordEnd)
                     {
                         S011b0_Rec* pRec = pBuf->m_pCurrent;
-                        pRec->m_pTag = &str_010c41f8;
+                        pRec->m_pTag = &(*reinterpret_cast<char *>(&::DAT_010c41f8));
                         _ReadWriteBarrier();
                         timing.first = (DWORD)__rdtsc();
                         pRec->m_dwTime = timing.first;
@@ -5549,9 +5334,9 @@ void __cdecl FUN_00d011b0(S011b0_World* apWorld, S011b0_Island* apIsland)
     if (--apWorld->m_94 == 0 && !apWorld->m_9c)
     {
         if (apWorld->m_8c)
-            apWorld->FUN_00c91120();
+            reinterpret_cast<::FUN_00c91120 *>((apWorld))->ExecutePendingOperations();
         if (apWorld->m_a4 == 1 && apWorld->m_90)
-            apWorld->FUN_00c91140();
+            reinterpret_cast<::FUN_00c91140_Class *>((apWorld))->FUN_00c91140();
     }
 }
 
@@ -5601,3 +5386,5 @@ void __cdecl FUN_00d00960(::ProfOwner* owner, void* arg)
     }
     ::FUN_00d00370(*list);
 }
+
+#include "generated/data/havok/physics/dynamics/world/util/hkpworldcallbackutil.inc"

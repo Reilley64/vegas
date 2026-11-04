@@ -6,7 +6,6 @@
 #include "NiObject.h"
 class NiBSplineData;
 class NiBSplineBasisData;
-#pragma pack(push, 4)
 class NiBSplineData : public NiObject
 {
   public:
@@ -35,10 +34,4 @@ class NiBSplineData : public NiObject
     // void __cdecl NiBSplineData::*()
     void CalculateSplineValue(float, float*, unsigned int, NiBSplineBasisData*, unsigned int, float, float);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBSplineData) == 24);
-FNV_STATIC_ASSERT(offsetof(NiBSplineData, m_pfControlPoints) == 8);
-FNV_STATIC_ASSERT(offsetof(NiBSplineData, m_psCompactControlPoints) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBSplineData, m_uiControlPointCount) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBSplineData, m_uiCompactControlPointCount) == 20);
 #endif

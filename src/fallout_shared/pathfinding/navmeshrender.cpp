@@ -1,5 +1,65 @@
 // fallout_shared/pathfinding/navmeshrender.cpp: NavMeshObstacleManager, ObstacleTask, NavRenderX, RenderTask and more (12 functions)
 
+#include <cstdint>
+#include <new>
+#include <cstring>
+#include "fnv/decl/BSMultiBoundSphere.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C006c6030.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_0049f990_class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004def90_Class.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_0068f1d0_shell.h"
+#include "fnv/decl/FUN_0068f230_shell.h"
+#include "fnv/decl/FUN_00690e70_shell.h"
+#include "fnv/decl/FUN_00691040_shell.h"
+#include "fnv/decl/FUN_00691140_shell.h"
+#include "fnv/decl/FUN_00691620_shell.h"
+#include "fnv/decl/FUN_00691640_shell.h"
+#include "fnv/decl/FUN_00693b70_shell.h"
+#include "fnv/decl/FUN_00699790_shell.h"
+#include "fnv/decl/FUN_0069dfb0_class.h"
+#include "fnv/decl/FUN_006c6400_Node.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/Map62d0.h"
+#include "fnv/decl/Map6920.h"
+#include "fnv/decl/MyPoint439180.h"
+#include "fnv/decl/NavMesh.h"
+#include "fnv/decl/NavMeshInfo.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/S00693b90.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TESWorldSpace.h"
+#include "fnv/decl/TriHack.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00457070__FUN_00457070_shell.h"
+#include "fnv/decl/fnv_00631540__TargetClass.h"
+#include "fnv/decl/fnv_0069cea0__FUN_0069cea0_class.h"
+#include "fnv/decl/fnv_006a6660__FUN_006a69b0_Class.h"
+#include "fnv/decl/fnv_00990a60__FUN_00990a60_shell.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004b6000.h"
+#include "fnv/symbols_00552000.h"
+#include "fnv/symbols_00558000.h"
+#include "fnv/symbols_006a5000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c55000.h"
+#include "fnv/symbols_00c56000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011d6000.h"
+#include "fnv/symbols_011de000.h"
 #include "navmeshrender_decls.h"
 
 // The PC spans supplied for this unit are obstacle-management methods. The
@@ -13,13 +73,13 @@ void NavMeshObstacleManager::ProcessActivatedObstacles()
     for (unsigned int uiIndex = 0; uiIndex < count; ++uiIndex)
     {
         bhkRigidBody* body;
-        m_kActivatedRigidBodies.FUN_006c6030(body);
+        reinterpret_cast<::C006c6030 *>(&(m_kActivatedRigidBodies))->FUN_006c6030((void *)&(body));
         NiPointer<ObstacleData> obstacle;
-        if (RigidBodyObstacleLookup.GetAt(body, obstacle))
+        if (reinterpret_cast<::Map62d0 *>((void *)&(RigidBodyObstacleLookup))->FUN_006c62d0((std::uintptr_t)(body), (void **)&(obstacle)))
         {
-            if (m_kActiveObstacles.Contains(obstacle))
+            if (reinterpret_cast<::FUN_006c6400_Node *>(&(m_kActiveObstacles))->Contains((const ::NiPointer< ::NiAVObject> &)(obstacle)))
                 continue;
-            m_kActiveObstacles.AddHead(obstacle);
+            reinterpret_cast<::fnv_00631540::TargetClass *>(&(m_kActiveObstacles))->FUN_00631540((const ::NiPointer< ::NiNode> &)(obstacle));
         }
     }
 }
@@ -37,14 +97,13 @@ extern int DAT_010159d4;
 
 struct Dummy0042f800
 {
-    void FUN_0042fcb0(int, int);
 };
 
 // @fnv 0x0049f1c0
-void* __fastcall FUN_0049f1c0(int** pThis)
+void* FUN_0049f1c0(int** pThis)
 {
     *pThis = &DAT_010159d4;
-    reinterpret_cast<Dummy0042f800*>(pThis)->FUN_0042fcb0(0, 0);
+    reinterpret_cast<::FUN_0049f990_class *>((reinterpret_cast<Dummy0042f800*>(pThis)))->FUN_0049f990(0, 0);
     return pThis;
 }
 
@@ -62,9 +121,7 @@ struct NavMeshTriangle
     void GetTris(unsigned short*, unsigned short*, unsigned short*);
     void SetVerts(unsigned short, unsigned short, unsigned short);
     void SetTris(unsigned short, unsigned short, unsigned short);
-    bool GetFlag(int);
     void SetFlag(int);
-    void ClearFlag(int);
     unsigned int GetTriangleFlags();
     void SetTriangleFlags(unsigned int);
     unsigned short GetVert(unsigned int);
@@ -108,7 +165,6 @@ struct NavMeshTriangle
     char Triangles[6];
     unsigned int m_uiTriangleFlags;
 };
-typedef char _sizecheck_NavMeshTriangle[sizeof(NavMeshTriangle) == 16 ? 1 : -1];
 struct FUN_006a5ec0_shell : public NavMeshTriangle
 {
     bool FUN_006a5ec0();
@@ -117,7 +173,7 @@ struct FUN_006a5ec0_shell : public NavMeshTriangle
 // @fnv 0x006a5ec0
 bool FUN_006a5ec0_shell::FUN_006a5ec0()
 {
-    return GetFlag(0x200);
+    return reinterpret_cast<::FUN_00691140_shell *>(this)->FUN_00691140(0x200);
 }
 
 struct FUN_006a5b30_shell
@@ -130,7 +186,7 @@ struct FUN_006a5b30_shell
 
 // Copies the three short fields of this object into the three output pointers.
 // @fnv 0x006a5b30
-void __thiscall FUN_006a5b30_shell::GetTripleShorts(short* pFirst, short* pSecond, short* pThird)
+void FUN_006a5b30_shell::GetTripleShorts(short* pFirst, short* pSecond, short* pThird)
 {
     *pFirst = this->m_uiX;
     *pSecond = this->m_uiY;
@@ -178,13 +234,12 @@ struct NiUpdateData
 
 struct NiNode
 {
-    void Update(const NiUpdateData&);
-    void FUN_004def90();
 };
 
 struct NiAVObject : public NiNode
 {
-    void UpdateSceneObject();
+    void IncRefCount();
+    void DecRefCount();
 };
 
 struct GO
@@ -196,7 +251,6 @@ struct GlobalObject_00633c90 : public GO
 {
 };
 
-extern GlobalObject_00633c90 g_011d6e5c;
 
 struct PaddedBooleanState
 {
@@ -211,20 +265,20 @@ void PaddedBooleanState::FUN_006a36e0(bool abDraw)
 {
     if (abDraw)
     {
-        reinterpret_cast<NiAVObject*>(g_011d6e5c.operator unsigned int())->UpdateSceneObject();
+        reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(::g_011d6e5c.operator unsigned int())))->FUN_00a5a040();
 
         NiUpdateData UpdateData(0.0f, false, false);
-        reinterpret_cast<NiNode*>(g_011d6e5c.operator unsigned int())->Update(UpdateData);
+        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(::g_011d6e5c.operator unsigned int())))->FUN_00a59c60((std::intptr_t)&(UpdateData));
     }
     else
     {
-        reinterpret_cast<NiNode*>(g_011d6e5c.operator unsigned int())->FUN_004def90();
-        reinterpret_cast<NiAVObject*>(g_011d6e5c.operator unsigned int())->UpdateSceneObject();
+        reinterpret_cast<::FUN_004def90_Class *>((reinterpret_cast<NiNode*>(::g_011d6e5c.operator unsigned int())))->FUN_004def90();
+        reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(::g_011d6e5c.operator unsigned int())))->FUN_00a5a040();
 
         NiUpdateData UpdateData(0.0f, false, false);
-        reinterpret_cast<NiNode*>(g_011d6e5c.operator unsigned int())->Update(UpdateData);
+        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(::g_011d6e5c.operator unsigned int())))->FUN_00a59c60((std::intptr_t)&(UpdateData));
 
-        reinterpret_cast<NiTPointerMap<NiNode*, NiNode*>*>(reinterpret_cast<char*>(this) + 0x200)->RemoveAll();
+        reinterpret_cast<::FUN_00438af0_Class *>((reinterpret_cast<NiTPointerMap<NiNode*, NiNode*>*>(reinterpret_cast<char*>(this) + 0x200)))->FUN_00438af0();
     }
 
     m_bState = abDraw;
@@ -233,42 +287,32 @@ void PaddedBooleanState::FUN_006a36e0(bool abDraw)
 namespace fnv_006a5ca0 {
 struct CellH
 {
-    int GetCellGridX();
-    int GetCellGridY();
 };
 
 struct DoorH
 {
-    void* GetParentWorldSpace();
 };
 
 struct TESWorldSpace
 {
-    TESObjectCELL* GetCellAtGridPosition(int x, int y);
 };
 
 struct TES
 {
-    TESObjectCELL* GetDetailedActorPathHandler();
 };
 
 struct GlobalObject_0045cfe0
 {
-    int* Int();
 };
 
 struct PaddedBooleanState
 {
-    void FUN_006a36e0(bool value);
     void FUN_006a37a0(TESObjectCELL* cell, bool value);
     void FUN_006a5ca0();
 };
 
-bool __fastcall FUN_00425fd0(TESObjectCELL* cell);
-int __cdecl FUN_00552ba0(void);
 
 GlobalObject_0045cfe0 g_011c63cc;
-int g_TES;
 
 // @fnv 0x006a5ca0
 void PaddedBooleanState::FUN_006a5ca0()
@@ -279,31 +323,30 @@ void PaddedBooleanState::FUN_006a5ca0()
     int y3;
     TESObjectCELL* pgridCell4;
 
-    FUN_006a36e0(false);
-    pcellVal = reinterpret_cast<TES*>(g_TES)->GetDetailedActorPathHandler();
+    reinterpret_cast<::PaddedBooleanState *>(this)->FUN_006a36e0(false);
+    pcellVal = ((::TESObjectCELL *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>((reinterpret_cast<TES*>(::g_TES)))->FUN_00457070()));
     if (pcellVal)
     {
-        if (!FUN_00425fd0(pcellVal))
+        if (!reinterpret_cast<::TESObjectCELL *>((pcellVal))->IsCellInterior())
         {
-            d8 = (g_011c63cc.Int()[0] - 1) / 2;
-            x9 = reinterpret_cast<CellH*>(pcellVal)->GetCellGridX() - d8;
-            for (; x9 <= reinterpret_cast<CellH*>(pcellVal)->GetCellGridX() + d8; ++x9)
+            d8 = (((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_006a5ca0::GlobalObject_0045cfe0 *>(&::g_011c63cc))))))[0] - 1) / 2;
+            x9 = reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<CellH*>(pcellVal)))->GetCellGridX() - d8;
+            for (; x9 <= reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<CellH*>(pcellVal)))->GetCellGridX() + d8; ++x9)
             {
-                y3 = reinterpret_cast<CellH*>(pcellVal)->GetCellGridY() - d8;
-                for (; y3 <= reinterpret_cast<CellH*>(pcellVal)->GetCellGridY() + d8; ++y3)
+                y3 = reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<CellH*>(pcellVal)))->GetCellGridY() - d8;
+                for (; y3 <= reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<CellH*>(pcellVal)))->GetCellGridY() + d8; ++y3)
                 {
-                    pgridCell4 = reinterpret_cast<TESWorldSpace*>(reinterpret_cast<DoorH*>(pcellVal)->GetParentWorldSpace())
-                                     ->GetCellAtGridPosition(x9, y3);
+                    pgridCell4 = reinterpret_cast<::TESWorldSpace *>((reinterpret_cast<TESWorldSpace*>(((void *)(reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<DoorH*>(pcellVal)))->GetParentWorldSpace())))))->GetCellAtGridPosition(x9, y3);
                     FUN_006a37a0(pgridCell4, false);
                 }
             }
         }
         else
         {
-            reinterpret_cast<PaddedBooleanState*>(FUN_00552ba0())->FUN_006a37a0(pcellVal, false);
+            reinterpret_cast<PaddedBooleanState*>(::FUN_00552ba0())->FUN_006a37a0(pcellVal, false);
         }
     }
-    FUN_006a36e0(true);
+    reinterpret_cast<::PaddedBooleanState *>(this)->FUN_006a36e0(true);
 }
 }  // namespace fnv_006a5ca0
 
@@ -314,7 +357,6 @@ struct Pt3X
     Pt3X operator*(float afScale) const;
     Pt3X operator+(const Pt3X& arPt) const;
     Pt3X operator-(const Pt3X& arPt) const;
-    void Unitize();
     Pt3X& operator*=(float afScale);
 };
 struct EmptyX
@@ -323,7 +365,6 @@ struct EmptyX
 struct Pt3PodX : public EmptyX
 {
     float x, y, z;
-    Pt3PodX* Set(float afX, float afY, float afZ);
 };
 struct ColorX
 {
@@ -405,15 +446,10 @@ struct ObjX
     virtual void v0d4();
     virtual void v0d8();
     virtual void AttachChildInAvailableSlot(AVObjX* apChild, bool abFirstAvail);
-    static void* operator new(unsigned int auiSize);
-    static void operator delete(void* apMem, unsigned int);
 };
 struct AVObjX : public ObjX
 {
     void AttachProperty(AVObjX* apProperty);
-    void GetTransformScale(const Pt3PodX* apPos);
-    void SetName(const FixedStrX& arName);
-    void SetAlphaBlending(bool abBlend);
     void SetFlags(int aiFlags, int aiArg);
 };
 struct NodeX : public AVObjX
@@ -461,8 +497,6 @@ struct NodeX : public AVObjX
     unsigned int unk0a4;
     unsigned int unk0a8;
     NodeX(unsigned short ausChildren);
-    void Update(const UpdateDataX& arData);
-    void UpdateSceneObject();
 };
 struct LinesX : public AVObjX
 {
@@ -630,7 +664,6 @@ struct Pt3ArrX
     Pt3ArrX(int aiSize);
     ~Pt3ArrX();
     Pt3X& GetAt(unsigned int auiIndex);
-    void SetSize(int aiSize, int aiArg);
 };
 struct ColorArrX
 {
@@ -639,7 +672,6 @@ struct ColorArrX
     ColorArrX(int aiSize);
     ~ColorArrX();
     ColorX& GetAt(int aiIndex);
-    void SetSize(int aiSize, int aiArg);
 };
 struct BoolArrX
 {
@@ -651,7 +683,6 @@ struct BoolArrX
 };
 struct NavTriX
 {
-    bool GetFlag(int aiFlag);
     void GetVerts(unsigned short* apA, unsigned short* apB, unsigned short* apC);
     void GetTris(unsigned short* apA, unsigned short* apB, unsigned short* apC);
     bool EdgeHasExtraInfo(int aiEdge);
@@ -659,8 +690,6 @@ struct NavTriX
 };
 struct SphereX
 {
-    float GetRadius() const;
-    Pt3PodX* GetNavMeshData();
 };
 struct NavMeshX;
 struct NavMeshPtrX
@@ -675,8 +704,6 @@ struct NavMeshPtrX
 };
 struct NavInfoX
 {
-    bool IsLoaded() const;
-    void GetMesh(NavMeshPtrX& arMesh);
 };
 struct EdgeInfoX
 {
@@ -697,13 +724,6 @@ struct NavMeshX
     unsigned int unk020;
     unsigned int unk024;
     Pt3ArrX kVerts;
-    unsigned int GetTriCount();
-    unsigned int GetVertCount();
-    bool IsDisabled();
-    NavTriX* GetTriangle(unsigned short ausTri);
-    EdgeInfoX* GetEdgeInfo(unsigned short ausTri, int aiEdge);
-    unsigned int GetSphereCount();
-    SphereX& GetSphere(unsigned int auiIndex);
 };
 struct NavArrX
 {
@@ -711,12 +731,10 @@ struct NavArrX
 };
 struct CellX
 {
-    NavArrX* GetNavMeshArray();
 };
 struct CellMapX
 {
     bool GetAt(CellX* apCell, SpX<NodeX>& arNode);
-    void SetAt(CellX* apCell, SpX<NodeX> aspNode);
 };
 struct NavRenderX
 {
@@ -806,379 +824,9 @@ struct NavRenderX
     unsigned int unk1f8;
     unsigned int unk1fc;
     CellMapX kMap;
-    int GetTriColor(NavTriX* apTri);
     void FUN_006a37a0(CellX* apCell, bool abUpdate);
 };
-unsigned int __fastcall xGetNavMeshCount(NavArrX* apArray);
-void* __cdecl xNiMalloc(unsigned int auiSize);
-float __cdecl xGetCoverHeight(unsigned int auiCover);
-AVObjX* __cdecl xMakeLine(Pt3X& arA, Pt3X& arB, float afA, float afB, float afHeight, float afOffset, ColorX& arColor,
-                          int aiArg);
-AVObjX* __cdecl xMakeSphere(float afRadius, int aiSlices, int aiStacks, ColorX* apColor);
-void __cdecl xUpdateNode(NodeX* apNode);
-void __cdecl xPrepareNode(NodeX* apNode, int a, int b);
-extern "C" void* __cdecl memcpy(void* apDst, const void* apSrc, unsigned int auiSize);
-extern SpX<NodeX> xspNavRoot;
-extern bool xbShowPortals;
-extern bool xbShowCover;
 extern float xfCoverWidth, xfCoverScale, xfCoverOffset, xfCoverWidth2;
-// Builds and attaches a navmesh debug render node for the cell: lines, cover lines, triangles and spheres, then updates the nav root if requested.
-// @fnv 0x006a37a0
-void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
-{
-    NavArrX* qfTOqo;
-    unsigned int qQMZREG;
-    if (!apCell)
-        return;
-    qfTOqo = apCell->GetNavMeshArray();
-    if (!qfTOqo)
-        return;
-    qQMZREG = xGetNavMeshCount(qfTOqo);
-    SpX<NodeX> qAhbO(0);
-    if (!kMap.GetAt(apCell, qAhbO))
-    {
-        qAhbO = new NodeX(qQMZREG * 2);
-        ((NodeX*)xspNavRoot)->AttachChildInAvailableSlot(qAhbO, true);
-        kMap.SetAt(apCell, qAhbO);
-    }
-    else
-    {
-        return;
-    }
-    NavMeshPtrX qsSDDgz;
-    for (unsigned int qbfQdhM = 0; qbfQdhM < qQMZREG; qbfQdhM++)
-    {
-        unsigned int qXMUYT;
-        unsigned int qpia;
-        ColorX* qJDuOZ;
-        bool* qxQHW;
-        unsigned int qIpA;
-        unsigned int qArxcFu;
-        unsigned int qMBds;
-        unsigned short* qaGEwZ;
-        Pt3X* qFffvLe;
-        ColorX* qZAdkzg;
-        bool qfCsmZ;
-        unsigned int qVduN;
-        Pt3X* qbXcw;
-        unsigned int qBCzzXA;
-        qsSDDgz = qfTOqo->GetAt(qbfQdhM);
-        qMBds = ((NavMeshX*)qsSDDgz)->GetTriCount();
-        qBCzzXA = ((NavMeshX*)qsSDDgz)->GetVertCount();
-        if (!qMBds)
-            continue;
-        qfCsmZ = ((NavMeshX*)qsSDDgz)->IsDisabled();
-        Pt3ArrX qkJsUdT(qBCzzXA);
-        ColorArrX qrEZrs(qBCzzXA);
-        if (qfCsmZ)
-        {
-            for (unsigned int qAXSCg = 0; qAXSCg < qBCzzXA; qAXSCg++)
-            {
-                qkJsUdT.GetAt(qAXSCg) = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qAXSCg);
-                qrEZrs.GetAt(qAXSCg) = aColors[10];
-            }
-        }
-        else
-        {
-            for (unsigned int qBLsiu = 0; qBLsiu < qBCzzXA; qBLsiu++)
-            {
-                qkJsUdT.GetAt(qBLsiu) = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qBLsiu);
-                qrEZrs.GetAt(qBLsiu) = aColors[0];
-            }
-        }
-        qaGEwZ = (unsigned short*)xNiMalloc(qMBds * 3 * sizeof(unsigned short));
-        qXMUYT = qBCzzXA;
-        qVduN = 0;
-        qIpA = qMBds * 6;
-        Pt3ArrX qDdzMIp(qIpA);
-        BoolArrX qHXYKT(qIpA);
-        ColorArrX qGfbX(qIpA);
-        qpia = 0;
-        Pt3ArrX qZWI(qIpA);
-        BoolArrX qrKBG(qIpA);
-        ColorArrX qpqRa(qIpA);
-        qArxcFu = 0;
-        for (unsigned int qrUCJDN = 0; qrUCJDN < qMBds; qrUCJDN++)
-        {
-            NavTriX* qidnYUK = ((NavMeshX*)qsSDDgz)->GetTriangle(qrUCJDN);
-            if (qidnYUK->GetFlag(0x20))
-                continue;
-            unsigned short qxWmVch[3];
-            qidnYUK->GetVerts(&qxWmVch[0], &qxWmVch[1], &qxWmVch[2]);
-            if (qfCsmZ)
-            {
-                qaGEwZ[qVduN] = qxWmVch[0];
-                qVduN++;
-                qaGEwZ[qVduN] = qxWmVch[1];
-                qVduN++;
-                qaGEwZ[qVduN] = qxWmVch[2];
-                qVduN++;
-            }
-            else
-            {
-                int qhQRuW = GetTriColor(qidnYUK);
-                if (qhQRuW)
-                {
-                    qkJsUdT.SetSize(qXMUYT + 3, 1);
-                    qrEZrs.SetSize(qXMUYT + 3, 1);
-                    qkJsUdT.GetAt(qXMUYT) = qkJsUdT.GetAt(qxWmVch[0]);
-                    qrEZrs.GetAt(qXMUYT) = aColors[qhQRuW];
-                    qaGEwZ[qVduN] = qXMUYT;
-                    qVduN++;
-                    qXMUYT++;
-                    qkJsUdT.GetAt(qXMUYT) = qkJsUdT.GetAt(qxWmVch[1]);
-                    qrEZrs.GetAt(qXMUYT) = aColors[qhQRuW];
-                    qaGEwZ[qVduN] = qXMUYT;
-                    qVduN++;
-                    qXMUYT++;
-                    qkJsUdT.GetAt(qXMUYT) = qkJsUdT.GetAt(qxWmVch[2]);
-                    qrEZrs.GetAt(qXMUYT) = aColors[qhQRuW];
-                    qaGEwZ[qVduN] = qXMUYT;
-                    qVduN++;
-                    qXMUYT++;
-                }
-                else
-                {
-                    qaGEwZ[qVduN] = qxWmVch[0];
-                    qVduN++;
-                    qaGEwZ[qVduN] = qxWmVch[1];
-                    qVduN++;
-                    qaGEwZ[qVduN] = qxWmVch[2];
-                    qVduN++;
-                }
-            }
-            unsigned short qpydTG[3];
-            qidnYUK->GetTris(&qpydTG[0], &qpydTG[1], &qpydTG[2]);
-            for (unsigned short qOFvKuu = 0; qOFvKuu < 3; qOFvKuu++)
-            {
-                unsigned int qxDeKK = qpia + 1;
-                bool qZNIZJV = qidnYUK->EdgeHasExtraInfo(qOFvKuu);
-                if (xbShowPortals && qpydTG[qOFvKuu] != 0xffff)
-                {
-                    NavMeshPtrX qfpzU(qsSDDgz);
-                    NavTriX* qYdAnhh = 0;
-                    bool qoPB = false;
-                    unsigned short qQGWBE = 0xffff;
-                    if (qZNIZJV)
-                    {
-                        EdgeInfoX* qXSF = ((NavMeshX*)qsSDDgz)->GetEdgeInfo(qrUCJDN, qOFvKuu);
-                        if (qXSF && qXSF->pTarget && qXSF->pTarget->IsLoaded())
-                        {
-                            qXSF->pTarget->GetMesh(qfpzU);
-                            unsigned int qgqKr = qXSF->usTri;
-                            qYdAnhh = ((NavMeshX*)qfpzU)->GetTriangle(qgqKr);
-                            unsigned short qGTHx[3];
-                            qYdAnhh->GetTris(&qGTHx[0], &qGTHx[1], &qGTHx[2]);
-                            for (int qBMjHz = 0; qBMjHz < 3; qBMjHz++)
-                            {
-                                if (qYdAnhh->EdgeHasExtraInfo(qBMjHz))
-                                {
-                                    EdgeInfoX* qoqcoe = ((NavMeshX*)qfpzU)->GetEdgeInfo(qgqKr, qBMjHz);
-                                    if (qoqcoe)
-                                    {
-                                        NavMeshPtrX qVCM;
-                                        qoqcoe->pTarget->GetMesh(qVCM);
-                                        if (qVCM.Equals(qsSDDgz) && qoqcoe->usTri == qrUCJDN)
-                                        {
-                                            qoPB = true;
-                                            qQGWBE = qBMjHz;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        qYdAnhh = ((NavMeshX*)qsSDDgz)->GetTriangle(qpydTG[qOFvKuu]);
-                        unsigned short qRBAdC[3];
-                        qYdAnhh->GetTris(&qRBAdC[0], &qRBAdC[1], &qRBAdC[2]);
-                        for (int qQirx = 0; qQirx < 3; qQirx++)
-                        {
-                            if (qRBAdC[qQirx] == qrUCJDN)
-                            {
-                                qoPB = true;
-                                qQGWBE = qQirx;
-                            }
-                        }
-                    }
-                    if (qoPB)
-                    {
-                        unsigned int qdmSnI = qArxcFu + 1;
-                        unsigned short qSuoDt = qxWmVch[qOFvKuu];
-                        unsigned short qbGYp = qxWmVch[(qOFvKuu + 1) % 3];
-                        Pt3X qzzQr = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qSuoDt);
-                        Pt3X qsAu = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qbGYp);
-                        Pt3X qArJcY = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qxWmVch[(qOFvKuu + 2) % 3]);
-                        float qnuVZg = 0.37f;
-                        float qqtISP = 0.33f;
-                        float qdbVTq = 0.3f;
-                        Pt3X qHVMR = qsAu * qnuVZg + qzzQr * qqtISP + qArJcY * qdbVTq;
-                        unsigned short qhxpxJd[3];
-                        qYdAnhh->GetVerts(&qhxpxJd[0], &qhxpxJd[1], &qhxpxJd[2]);
-                        if (false && qQGWBE > 2)
-                        {
-                        }  // release build: index assert compiled out
-                        Pt3X qyFp = ((NavMeshX*)qfpzU)->kVerts.GetAt(qhxpxJd[qQGWBE]);
-                        Pt3X qVar = ((NavMeshX*)qfpzU)->kVerts.GetAt(qhxpxJd[(qQGWBE + 1) % 3]);
-                        Pt3X qOqnE = ((NavMeshX*)qfpzU)->kVerts.GetAt(qhxpxJd[(qQGWBE + 2) % 3]);
-                        Pt3X qkbsJ = qyFp * qnuVZg + qVar * qqtISP + qOqnE * qdbVTq;
-                        qZWI.GetAt(qArxcFu) = qHVMR;
-                        qZWI.GetAt(qdmSnI) = qkbsJ;
-                        qrKBG.GetAt(qArxcFu) = true;
-                        qrKBG.GetAt(qdmSnI) = false;
-                        qpqRa.GetAt(qArxcFu) = aColors[2];
-                        qpqRa.GetAt(qdmSnI) = aColors[9];
-                        qArxcFu += 2;
-                    }
-                }
-                if (qpydTG[qOFvKuu] > qrUCJDN || qZNIZJV)
-                {
-                    qDdzMIp.GetAt(qpia) = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qxWmVch[qOFvKuu]);
-                    qDdzMIp.GetAt(qxDeKK) = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qxWmVch[(qOFvKuu + 1) % 3]);
-                    qHXYKT.GetAt(qpia) = true;
-                    qHXYKT.GetAt(qxDeKK) = false;
-                    if (qpydTG[qOFvKuu] != 0xffff)
-                    {
-                        if (qZNIZJV)
-                        {
-                            qGfbX.GetAt(qpia) = aColors[0];
-                            qGfbX.GetAt(qxDeKK) = aColors[0];
-                        }
-                        else
-                        {
-                            qGfbX.GetAt(qpia) = aColors[0];
-                            qGfbX.GetAt(qxDeKK) = aColors[0];
-                        }
-                    }
-                    else
-                    {
-                        unsigned short qXGDO = 0;
-                        bool qnEqwa = false;
-                        bool qtOMjSX = false;
-                        if (qOFvKuu < 2u)
-                            qidnYUK->GetEdgeCoverData(qOFvKuu, &qXGDO, &qnEqwa, &qtOMjSX);
-                        switch (qXGDO)
-                        {
-                        case 0:
-                            qGfbX.GetAt(qpia) = aColors[6];
-                            qGfbX.GetAt(qxDeKK) = aColors[6];
-                            break;
-                        case 1:
-                            qGfbX.GetAt(qpia) = aColors[10];
-                            qGfbX.GetAt(qxDeKK) = aColors[10];
-                            break;
-                        case 2:
-                            qGfbX.GetAt(qpia) = aColors[5];
-                            qGfbX.GetAt(qxDeKK) = aColors[5];
-                            break;
-                        case 0xf:
-                            qGfbX.GetAt(qpia) = aColors[9];
-                            qGfbX.GetAt(qxDeKK) = aColors[9];
-                            break;
-                        default:
-                            qGfbX.GetAt(qpia) = aColors[7];
-                            qGfbX.GetAt(qxDeKK) = aColors[7];
-                            break;
-                        }
-                        if (xbShowCover && qXGDO > 1u)
-                        {
-                            float qObI = xGetCoverHeight(qXGDO);
-                            AVObjX* qYePyBl = xMakeLine(qDdzMIp.GetAt(qpia), qDdzMIp.GetAt(qxDeKK), xfCoverWidth,
-                                                        xfCoverWidth, qObI, 0.0f, qGfbX.GetAt(qpia), 0);
-                            ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qYePyBl, true);
-                            Pt3X qZgNzZy = qDdzMIp.GetAt(qpia) - qDdzMIp.GetAt(qxDeKK);
-                            qZgNzZy.Unitize();
-                            qZgNzZy *= xfCoverScale;
-                            if (qnEqwa)
-                            {
-                                Pt3X qqrLNms = qDdzMIp.GetAt(qxDeKK) - qZgNzZy;
-                                Pt3X qYvz = qDdzMIp.GetAt(qxDeKK) + qZgNzZy;
-                                AVObjX* qrBzVM = xMakeLine(qqrLNms, qYvz, xfCoverWidth2, xfCoverWidth2,
-                                                           qObI + xfCoverOffset, 0.0f, aColors[10], 0);
-                                ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qrBzVM, true);
-                            }
-                            if (qtOMjSX)
-                            {
-                                Pt3X qCVSV = qDdzMIp.GetAt(qpia) - qZgNzZy;
-                                Pt3X qOPw = qDdzMIp.GetAt(qpia) + qZgNzZy;
-                                AVObjX* qjThF = xMakeLine(qCVSV, qOPw, xfCoverWidth2, xfCoverWidth2,
-                                                          qObI + xfCoverOffset, 0.0f, aColors[10], 0);
-                                ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qjThF, true);
-                            }
-                        }
-                    }
-                    qpia += 2;
-                }
-            }
-        }
-        qbXcw = new Pt3X[qpia];
-        qJDuOZ = new ColorX[qpia];
-        qxQHW = new bool[qpia];
-        memcpy(qbXcw, &qDdzMIp.GetAt(0), qpia * sizeof(Pt3X));
-        memcpy(qJDuOZ, &qGfbX.GetAt(0), qpia * sizeof(ColorX));
-        memcpy(qxQHW, &qHXYKT.GetAt(0), qpia);
-        SpX<AVObjX> qrzAir(new LinesX(qpia, qbXcw, qJDuOZ, 0, 0, 0, qxQHW));
-        SpX<AVObjX> qdqWL(new PropX());
-        ((AVObjX*)qdqWL)->SetFlags(0x20, 0);
-        ((AVObjX*)qrzAir)->AttachProperty(qdqWL);
-        ((AVObjX*)qrzAir)->AttachProperty(spWireframe);
-        ((AVObjX*)qrzAir)->AttachProperty(spZBuffer);
-        ((AVObjX*)qrzAir)->GetTransformScale(Pt3PodX().Set(0.0f, 0.0f, 1.0f));
-        SpX<AVObjX> qvyWyw(0);
-        if (qArxcFu > 0)
-        {
-            Pt3X* qOHwfb = new Pt3X[qArxcFu];
-            ColorX* qkPflib = new ColorX[qArxcFu];
-            bool* qEXZLB = new bool[qArxcFu];
-            memcpy(qOHwfb, &qZWI.GetAt(0), qArxcFu * sizeof(Pt3X));
-            memcpy(qkPflib, &qpqRa.GetAt(0), qArxcFu * sizeof(ColorX));
-            memcpy(qEXZLB, &qrKBG.GetAt(0), qArxcFu);
-            qvyWyw = new LinesX(qArxcFu, qOHwfb, qkPflib, 0, 0, 0, qEXZLB);
-            qdqWL = new PropX();
-            ((AVObjX*)qdqWL)->SetFlags(0x20, 0);
-            ((AVObjX*)qvyWyw)->AttachProperty(qdqWL);
-            ((AVObjX*)qvyWyw)->AttachProperty(spZBuffer);
-            ((AVObjX*)qvyWyw)->GetTransformScale(Pt3PodX().Set(0.0f, 0.0f, 3.0f));
-        }
-        qFffvLe = new Pt3X[qXMUYT];
-        qZAdkzg = new ColorX[qXMUYT];
-        memcpy(qFffvLe, &qkJsUdT.GetAt(0), qXMUYT * sizeof(Pt3X));
-        memcpy(qZAdkzg, &qrEZrs.GetAt(0), qXMUYT * sizeof(ColorX));
-        SpX<AVObjX> qpTd(new TriShapeX(qXMUYT, qFffvLe, 0, qZAdkzg, 0, 0, 0, qMBds, qaGEwZ));
-        ((AVObjX*)qpTd)->SetName(FixedStrX("NavMesh Triangles"));
-        SpX<AVObjX> qSVM(new PropX());
-        ((AVObjX*)qSVM)->SetFlags(0x20, 0);
-        ((AVObjX*)qpTd)->AttachProperty(spVertexColor);
-        ((AVObjX*)qpTd)->AttachProperty(spZBuffer);
-        ((AVObjX*)qpTd)->AttachProperty(qSVM);
-        ((AVObjX*)qpTd)->GetTransformScale(Pt3PodX().Set(0.0f, 0.0f, 1.0f));
-        for (unsigned int qMFd = 0; qMFd < ((NavMeshX*)qsSDDgz)->GetSphereCount(); qMFd++)
-        {
-            SphereX* qsCroYH = &((NavMeshX*)qsSDDgz)->GetSphere(qMFd);
-            ColorX qODE(0.25f, 0.0f, 0.0f, 0.5f);
-            SpX<AVObjX> qFwpo(xMakeSphere(qsCroYH->GetRadius(), 10, 10, &qODE));
-            SpX<AVObjX> qmgeiw(new AlphaX());
-            ((AVObjX*)qmgeiw)->SetAlphaBlending(true);
-            ((AVObjX*)qFwpo)->AttachProperty(qmgeiw);
-            ((AVObjX*)qFwpo)->GetTransformScale(qsCroYH->GetNavMeshData());
-            ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qFwpo, true);
-        }
-        ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qrzAir, true);
-        ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qpTd, true);
-        if (qArxcFu > 0)
-            ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qvyWyw, true);
-        xUpdateNode(qAhbO);
-        xPrepareNode(qAhbO, 0, 0);
-    }
-    if (abUpdate)
-    {
-        UpdateDataX qBQkjNg(0.0f, false, false);
-        ((NodeX*)xspNavRoot)->Update(qBQkjNg);
-        ((NodeX*)xspNavRoot)->UpdateSceneObject();
-    }
-}
-
 struct WorldObject : public NiAVObject
 {
     virtual void DeleteThis();
@@ -1249,8 +897,6 @@ struct WorldPointer : public GO
 };
 struct QueryQueue
 {
-    bool FUN_006c62d0(int key, WorldPointer* result);
-    void RemoveKey(int key);
 };
 struct RenderTask
 {
@@ -1260,40 +906,390 @@ struct RenderTask
 void RenderTask::UpdateChildByKey(int key)
 {
     WorldPointer child(0);
-    if (reinterpret_cast<QueryQueue*>(reinterpret_cast<char*>(this) + 0x200)->FUN_006c62d0(key, &child))
+    if (reinterpret_cast<::Map62d0 *>((reinterpret_cast<QueryQueue*>(reinterpret_cast<char*>(this) + 0x200)))->FUN_006c62d0(key, (void **)(::WorldPointer *)(&child)))
     {
-        reinterpret_cast<WorldObject*>(static_cast<unsigned int>(g_011d6e5c))
+        reinterpret_cast<WorldObject*>(static_cast<unsigned int>(::g_011d6e5c))
             ->AttachChildInAvailableSlot(reinterpret_cast<WorldObject*>(static_cast<unsigned int>(child)));
         NiUpdateData updateData(0.0f, false, false);
-        reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(g_011d6e5c))->Update(updateData);
-        reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(g_011d6e5c))->UpdateSceneObject();
-        reinterpret_cast<QueryQueue*>(reinterpret_cast<char*>(this) + 0x200)->RemoveKey(key);
+        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(::g_011d6e5c))))->FUN_00a59c60((std::intptr_t)&(updateData));
+        reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(::g_011d6e5c))))->FUN_00a5a040();
+        reinterpret_cast<::NiTMap_S *>((reinterpret_cast<QueryQueue*>(reinterpret_cast<char*>(this) + 0x200)))->RemoveKey(key);
     }
 }
 
 struct NavTriStub
 {
-    unsigned short ObjCount();
-    bool Flag(unsigned int);
-    bool Check3b70();
-    bool Check0e70();
-    bool Check5ec0();
-    bool Check3b90();
 };
 
 struct NavRenderStub
 {
     int GetNavTriColor(NavTriStub* pTri);
 };
+// Builds and attaches a navmesh debug render node for the cell: lines, cover lines, triangles and spheres, then updates the nav root if requested.
+// @fnv 0x006a37a0
+void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
+{
+    NavArrX* qfTOqo;
+    unsigned int qQMZREG;
+    if (!apCell)
+        return;
+    qfTOqo = ((::NavArrX *)(std::uintptr_t)(::FUN_0070ec90((char *)(apCell))));
+    if (!qfTOqo)
+        return;
+    qQMZREG = reinterpret_cast<::FUN_00620b80_shell *>((qfTOqo))->GetReferenceFlags();
+    SpX<NodeX> qAhbO(0);
+    if (!reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_006c62d0((std::uintptr_t)(apCell), (void **)&(qAhbO)))
+    {
+        qAhbO = new NodeX(qQMZREG * 2);
+        ((NodeX*)(*reinterpret_cast<::SpX< ::NodeX> *>(&::g_011d6e5c)))->AttachChildInAvailableSlot(qAhbO, true);
+        reinterpret_cast<::Map6920 *>(&(kMap))->FUN_006c6920((std::uintptr_t)(apCell), (*(::NiPointer< ::NiAVObject> *)&(const ::SpX< ::NodeX> &)(qAhbO)));
+    }
+    else
+    {
+        return;
+    }
+    NavMeshPtrX qsSDDgz;
+    for (unsigned int qbfQdhM = 0; qbfQdhM < qQMZREG; qbfQdhM++)
+    {
+        unsigned int qXMUYT;
+        unsigned int qpia;
+        ColorX* qJDuOZ;
+        bool* qxQHW;
+        unsigned int qIpA;
+        unsigned int qArxcFu;
+        unsigned int qMBds;
+        unsigned short* qaGEwZ;
+        Pt3X* qFffvLe;
+        ColorX* qZAdkzg;
+        bool qfCsmZ;
+        unsigned int qVduN;
+        Pt3X* qbXcw;
+        unsigned int qBCzzXA;
+        reinterpret_cast<::NavMeshPtr *>((void *)&(const ::NavMeshPtrX &)(qsSDDgz))->operator=((const ::NavMeshPtr &)((const ::NavMeshPtrX &)(qfTOqo->GetAt(qbfQdhM))));
+        qMBds = ::FUN_00558200((char *)(((NavMeshX*)qsSDDgz)));
+        qBCzzXA = reinterpret_cast<::fnv_00990a60::FUN_00990a60_shell *>((((NavMeshX*)qsSDDgz)))->GetArrFlags();
+        if (!qMBds)
+            continue;
+        qfCsmZ = reinterpret_cast<::TESForm *>((((NavMeshX*)qsSDDgz)))->GetDisabled();
+        Pt3ArrX qkJsUdT(qBCzzXA);
+        ColorArrX qrEZrs(qBCzzXA);
+        if (qfCsmZ)
+        {
+            for (unsigned int qAXSCg = 0; qAXSCg < qBCzzXA; qAXSCg++)
+            {
+                qkJsUdT.GetAt(qAXSCg) = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qAXSCg);
+                qrEZrs.GetAt(qAXSCg) = aColors[10];
+            }
+        }
+        else
+        {
+            for (unsigned int qBLsiu = 0; qBLsiu < qBCzzXA; qBLsiu++)
+            {
+                qkJsUdT.GetAt(qBLsiu) = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qBLsiu);
+                qrEZrs.GetAt(qBLsiu) = aColors[0];
+            }
+        }
+        qaGEwZ = (unsigned short*)::FUN_00aa1070(qMBds * 3 * sizeof(unsigned short));
+        qXMUYT = qBCzzXA;
+        qVduN = 0;
+        qIpA = qMBds * 6;
+        Pt3ArrX qDdzMIp(qIpA);
+        BoolArrX qHXYKT(qIpA);
+        ColorArrX qGfbX(qIpA);
+        qpia = 0;
+        Pt3ArrX qZWI(qIpA);
+        BoolArrX qrKBG(qIpA);
+        ColorArrX qpqRa(qIpA);
+        qArxcFu = 0;
+        for (unsigned int qrUCJDN = 0; qrUCJDN < qMBds; qrUCJDN++)
+        {
+            NavTriX* qidnYUK = ((::NavTriX *)(reinterpret_cast<::NavMesh *>((((NavMeshX*)qsSDDgz)))->GetTriangle(qrUCJDN)));
+            if (reinterpret_cast<::FUN_00691140_shell *>((qidnYUK))->FUN_00691140(0x20))
+                continue;
+            unsigned short qxWmVch[3];
+            reinterpret_cast<::FUN_006a5b30_shell *>((qidnYUK))->GetTripleShorts((short *)(unsigned short *)(&qxWmVch[0]), (short *)(unsigned short *)(&qxWmVch[1]), (short *)(unsigned short *)(&qxWmVch[2]));
+            if (qfCsmZ)
+            {
+                qaGEwZ[qVduN] = qxWmVch[0];
+                qVduN++;
+                qaGEwZ[qVduN] = qxWmVch[1];
+                qVduN++;
+                qaGEwZ[qVduN] = qxWmVch[2];
+                qVduN++;
+            }
+            else
+            {
+                int qhQRuW = reinterpret_cast<::NavRenderStub *>(this)->GetNavTriColor((::NavTriStub *)(qidnYUK));
+                if (qhQRuW)
+                {
+                    reinterpret_cast<::fnv_0069cea0::FUN_0069cea0_class *>(&(qkJsUdT))->FUN_0069cea0(qXMUYT + 3, 1);
+                    reinterpret_cast<::fnv_006a6660::FUN_006a69b0_Class *>(&(qrEZrs))->FUN_006a6660(qXMUYT + 3, 1);
+                    qkJsUdT.GetAt(qXMUYT) = qkJsUdT.GetAt(qxWmVch[0]);
+                    qrEZrs.GetAt(qXMUYT) = aColors[qhQRuW];
+                    qaGEwZ[qVduN] = qXMUYT;
+                    qVduN++;
+                    qXMUYT++;
+                    qkJsUdT.GetAt(qXMUYT) = qkJsUdT.GetAt(qxWmVch[1]);
+                    qrEZrs.GetAt(qXMUYT) = aColors[qhQRuW];
+                    qaGEwZ[qVduN] = qXMUYT;
+                    qVduN++;
+                    qXMUYT++;
+                    qkJsUdT.GetAt(qXMUYT) = qkJsUdT.GetAt(qxWmVch[2]);
+                    qrEZrs.GetAt(qXMUYT) = aColors[qhQRuW];
+                    qaGEwZ[qVduN] = qXMUYT;
+                    qVduN++;
+                    qXMUYT++;
+                }
+                else
+                {
+                    qaGEwZ[qVduN] = qxWmVch[0];
+                    qVduN++;
+                    qaGEwZ[qVduN] = qxWmVch[1];
+                    qVduN++;
+                    qaGEwZ[qVduN] = qxWmVch[2];
+                    qVduN++;
+                }
+            }
+            unsigned short qpydTG[3];
+            reinterpret_cast<::FUN_006a5b70_shell *>((qidnYUK))->FUN_006a5b70((short *)(unsigned short *)(&qpydTG[0]), (short *)(unsigned short *)(&qpydTG[1]), (short *)(unsigned short *)(&qpydTG[2]));
+            for (unsigned short qOFvKuu = 0; qOFvKuu < 3; qOFvKuu++)
+            {
+                unsigned int qxDeKK = qpia + 1;
+                bool qZNIZJV = reinterpret_cast<::FUN_0068f1d0_shell *>((qidnYUK))->IsEdgeFlagSet(qOFvKuu);
+                if (::DAT_011d6e29 && qpydTG[qOFvKuu] != 0xffff)
+                {
+                    NavMeshPtrX qfpzU(qsSDDgz);
+                    NavTriX* qYdAnhh = 0;
+                    bool qoPB = false;
+                    unsigned short qQGWBE = 0xffff;
+                    if (qZNIZJV)
+                    {
+                        EdgeInfoX* qXSF = ((::EdgeInfoX *)(reinterpret_cast<::FUN_0068f230_shell *>((((NavMeshX*)qsSDDgz)))->FUN_0068f230(qrUCJDN, qOFvKuu)));
+                        if (qXSF && qXSF->pTarget && reinterpret_cast<::FUN_0069dfb0_class *>((void *)(qXSF->pTarget))->HasNonZeroAtOffset54())
+                        {
+                            reinterpret_cast<::NavMeshInfo *>((qXSF->pTarget))->AcquireNavMesh((::NavMeshPtr &)(qfpzU));
+                            unsigned int qgqKr = qXSF->usTri;
+                            qYdAnhh = ((::NavTriX *)(reinterpret_cast<::NavMesh *>((((NavMeshX*)qfpzU)))->GetTriangle(qgqKr)));
+                            unsigned short qGTHx[3];
+                            reinterpret_cast<::FUN_006a5b70_shell *>((qYdAnhh))->FUN_006a5b70((short *)(unsigned short *)(&qGTHx[0]), (short *)(unsigned short *)(&qGTHx[1]), (short *)(unsigned short *)(&qGTHx[2]));
+                            for (int qBMjHz = 0; qBMjHz < 3; qBMjHz++)
+                            {
+                                if (reinterpret_cast<::FUN_0068f1d0_shell *>((qYdAnhh))->IsEdgeFlagSet(qBMjHz))
+                                {
+                                    EdgeInfoX* qoqcoe = ((::EdgeInfoX *)(reinterpret_cast<::FUN_0068f230_shell *>((((NavMeshX*)qfpzU)))->FUN_0068f230(qgqKr, qBMjHz)));
+                                    if (qoqcoe)
+                                    {
+                                        NavMeshPtrX qVCM;
+                                        reinterpret_cast<::NavMeshInfo *>((qoqcoe->pTarget))->AcquireNavMesh((::NavMeshPtr &)(qVCM));
+                                        if (qVCM.Equals(qsSDDgz) && qoqcoe->usTri == qrUCJDN)
+                                        {
+                                            qoPB = true;
+                                            qQGWBE = qBMjHz;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        qYdAnhh = ((::NavTriX *)(reinterpret_cast<::NavMesh *>((((NavMeshX*)qsSDDgz)))->GetTriangle(qpydTG[qOFvKuu])));
+                        unsigned short qRBAdC[3];
+                        reinterpret_cast<::FUN_006a5b70_shell *>((qYdAnhh))->FUN_006a5b70((short *)(unsigned short *)(&qRBAdC[0]), (short *)(unsigned short *)(&qRBAdC[1]), (short *)(unsigned short *)(&qRBAdC[2]));
+                        for (int qQirx = 0; qQirx < 3; qQirx++)
+                        {
+                            if (qRBAdC[qQirx] == qrUCJDN)
+                            {
+                                qoPB = true;
+                                qQGWBE = qQirx;
+                            }
+                        }
+                    }
+                    if (qoPB)
+                    {
+                        unsigned int qdmSnI = qArxcFu + 1;
+                        unsigned short qSuoDt = qxWmVch[qOFvKuu];
+                        unsigned short qbGYp = qxWmVch[(qOFvKuu + 1) % 3];
+                        Pt3X qzzQr = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qSuoDt);
+                        Pt3X qsAu = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qbGYp);
+                        Pt3X qArJcY = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qxWmVch[(qOFvKuu + 2) % 3]);
+                        float qnuVZg = 0.37f;
+                        float qqtISP = 0.33f;
+                        float qdbVTq = 0.3f;
+                        Pt3X qHVMR = qsAu * qnuVZg + qzzQr * qqtISP + qArJcY * qdbVTq;
+                        unsigned short qhxpxJd[3];
+                        reinterpret_cast<::FUN_006a5b30_shell *>((qYdAnhh))->GetTripleShorts((short *)(unsigned short *)(&qhxpxJd[0]), (short *)(unsigned short *)(&qhxpxJd[1]), (short *)(unsigned short *)(&qhxpxJd[2]));
+                        if (false && qQGWBE > 2)
+                        {
+                        }  // release build: index assert compiled out
+                        Pt3X qyFp = ((NavMeshX*)qfpzU)->kVerts.GetAt(qhxpxJd[qQGWBE]);
+                        Pt3X qVar = ((NavMeshX*)qfpzU)->kVerts.GetAt(qhxpxJd[(qQGWBE + 1) % 3]);
+                        Pt3X qOqnE = ((NavMeshX*)qfpzU)->kVerts.GetAt(qhxpxJd[(qQGWBE + 2) % 3]);
+                        Pt3X qkbsJ = qyFp * qnuVZg + qVar * qqtISP + qOqnE * qdbVTq;
+                        qZWI.GetAt(qArxcFu) = qHVMR;
+                        qZWI.GetAt(qdmSnI) = qkbsJ;
+                        qrKBG.GetAt(qArxcFu) = true;
+                        qrKBG.GetAt(qdmSnI) = false;
+                        qpqRa.GetAt(qArxcFu) = aColors[2];
+                        qpqRa.GetAt(qdmSnI) = aColors[9];
+                        qArxcFu += 2;
+                    }
+                }
+                if (qpydTG[qOFvKuu] > qrUCJDN || qZNIZJV)
+                {
+                    qDdzMIp.GetAt(qpia) = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qxWmVch[qOFvKuu]);
+                    qDdzMIp.GetAt(qxDeKK) = ((NavMeshX*)qsSDDgz)->kVerts.GetAt(qxWmVch[(qOFvKuu + 1) % 3]);
+                    qHXYKT.GetAt(qpia) = true;
+                    qHXYKT.GetAt(qxDeKK) = false;
+                    if (qpydTG[qOFvKuu] != 0xffff)
+                    {
+                        if (qZNIZJV)
+                        {
+                            qGfbX.GetAt(qpia) = aColors[0];
+                            qGfbX.GetAt(qxDeKK) = aColors[0];
+                        }
+                        else
+                        {
+                            qGfbX.GetAt(qpia) = aColors[0];
+                            qGfbX.GetAt(qxDeKK) = aColors[0];
+                        }
+                    }
+                    else
+                    {
+                        unsigned short qXGDO = 0;
+                        bool qnEqwa = false;
+                        bool qtOMjSX = false;
+                        if (qOFvKuu < 2u)
+                            reinterpret_cast<::FUN_00691040_shell *>((qidnYUK))->GetPackedFlags(qOFvKuu, &qXGDO, &qnEqwa, &qtOMjSX);
+                        switch (qXGDO)
+                        {
+                        case 0:
+                            qGfbX.GetAt(qpia) = aColors[6];
+                            qGfbX.GetAt(qxDeKK) = aColors[6];
+                            break;
+                        case 1:
+                            qGfbX.GetAt(qpia) = aColors[10];
+                            qGfbX.GetAt(qxDeKK) = aColors[10];
+                            break;
+                        case 2:
+                            qGfbX.GetAt(qpia) = aColors[5];
+                            qGfbX.GetAt(qxDeKK) = aColors[5];
+                            break;
+                        case 0xf:
+                            qGfbX.GetAt(qpia) = aColors[9];
+                            qGfbX.GetAt(qxDeKK) = aColors[9];
+                            break;
+                        default:
+                            qGfbX.GetAt(qpia) = aColors[7];
+                            qGfbX.GetAt(qxDeKK) = aColors[7];
+                            break;
+                        }
+                        if (::DAT_011d6e28 && qXGDO > 1u)
+                        {
+                            float qObI = ::ScaleClampedValue(qXGDO);
+                            AVObjX* qYePyBl = ((::AVObjX *)(::FUN_00c55d50((::Point3 *)&(qDdzMIp.GetAt(qpia)), (::Point3 *)&(qDdzMIp.GetAt(qxDeKK)), xfCoverWidth,
+                                                        xfCoverWidth, qObI, 0.0f, (::FilterData *)&(qGfbX.GetAt(qpia)), (::FilterData *)(0))));
+                            ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qYePyBl, true);
+                            Pt3X qZgNzZy = qDdzMIp.GetAt(qpia) - qDdzMIp.GetAt(qxDeKK);
+                            reinterpret_cast<::FUN_004a0c10_s *>(&(qZgNzZy))->FUN_004a0c10();
+                            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::Pt3X &)(qZgNzZy))->FUN_00439180(xfCoverScale);
+                            if (qnEqwa)
+                            {
+                                Pt3X qqrLNms = qDdzMIp.GetAt(qxDeKK) - qZgNzZy;
+                                Pt3X qYvz = qDdzMIp.GetAt(qxDeKK) + qZgNzZy;
+                                AVObjX* qrBzVM = ((::AVObjX *)(::FUN_00c55d50((::Point3 *)&(qqrLNms), (::Point3 *)&(qYvz), xfCoverWidth2, xfCoverWidth2,
+                                                           qObI + xfCoverOffset, 0.0f, (::FilterData *)&(aColors[10]), (::FilterData *)(0))));
+                                ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qrBzVM, true);
+                            }
+                            if (qtOMjSX)
+                            {
+                                Pt3X qCVSV = qDdzMIp.GetAt(qpia) - qZgNzZy;
+                                Pt3X qOPw = qDdzMIp.GetAt(qpia) + qZgNzZy;
+                                AVObjX* qjThF = ((::AVObjX *)(::FUN_00c55d50((::Point3 *)&(qCVSV), (::Point3 *)&(qOPw), xfCoverWidth2, xfCoverWidth2,
+                                                          qObI + xfCoverOffset, 0.0f, (::FilterData *)&(aColors[10]), (::FilterData *)(0))));
+                                ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qjThF, true);
+                            }
+                        }
+                    }
+                    qpia += 2;
+                }
+            }
+        }
+        qbXcw = new Pt3X[qpia];
+        qJDuOZ = new ColorX[qpia];
+        qxQHW = new bool[qpia];
+        memcpy(qbXcw, &qDdzMIp.GetAt(0), qpia * sizeof(Pt3X));
+        memcpy(qJDuOZ, &qGfbX.GetAt(0), qpia * sizeof(ColorX));
+        memcpy(qxQHW, &qHXYKT.GetAt(0), qpia);
+        SpX<AVObjX> qrzAir(new LinesX(qpia, qbXcw, qJDuOZ, 0, 0, 0, qxQHW));
+        SpX<AVObjX> qdqWL(new PropX());
+        ((AVObjX*)qdqWL)->SetFlags(0x20, 0);
+        reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qrzAir)))->FUN_00439410((::ArgObject *)(::AVObjX *)(qdqWL));
+        reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qrzAir)))->FUN_00439410((::ArgObject *)(::AVObjX *)(spWireframe));
+        reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qrzAir)))->FUN_00439410((::ArgObject *)(::AVObjX *)(spZBuffer));
+        reinterpret_cast<::FUN_00440460_S *>((((AVObjX*)qrzAir)))->FUN_00440460((const ::V3 *)(const ::Pt3PodX *)(((::Pt3PodX *)(reinterpret_cast<::FUN_00416870_t *>((void *)&(const ::Pt3PodX &)(Pt3PodX()))->FUN_00416870(0.0f, 0.0f, 1.0f)))));
+        SpX<AVObjX> qvyWyw(0);
+        if (qArxcFu > 0)
+        {
+            Pt3X* qOHwfb = new Pt3X[qArxcFu];
+            ColorX* qkPflib = new ColorX[qArxcFu];
+            bool* qEXZLB = new bool[qArxcFu];
+            memcpy(qOHwfb, &qZWI.GetAt(0), qArxcFu * sizeof(Pt3X));
+            memcpy(qkPflib, &qpqRa.GetAt(0), qArxcFu * sizeof(ColorX));
+            memcpy(qEXZLB, &qrKBG.GetAt(0), qArxcFu);
+            qvyWyw = new LinesX(qArxcFu, qOHwfb, qkPflib, 0, 0, 0, qEXZLB);
+            qdqWL = new PropX();
+            ((AVObjX*)qdqWL)->SetFlags(0x20, 0);
+            reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qvyWyw)))->FUN_00439410((::ArgObject *)(::AVObjX *)(qdqWL));
+            reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qvyWyw)))->FUN_00439410((::ArgObject *)(::AVObjX *)(spZBuffer));
+            reinterpret_cast<::FUN_00440460_S *>((((AVObjX*)qvyWyw)))->FUN_00440460((const ::V3 *)(const ::Pt3PodX *)(((::Pt3PodX *)(reinterpret_cast<::FUN_00416870_t *>((void *)&(const ::Pt3PodX &)(Pt3PodX()))->FUN_00416870(0.0f, 0.0f, 3.0f)))));
+        }
+        qFffvLe = new Pt3X[qXMUYT];
+        qZAdkzg = new ColorX[qXMUYT];
+        memcpy(qFffvLe, &qkJsUdT.GetAt(0), qXMUYT * sizeof(Pt3X));
+        memcpy(qZAdkzg, &qrEZrs.GetAt(0), qXMUYT * sizeof(ColorX));
+        SpX<AVObjX> qpTd(new TriShapeX(qXMUYT, qFffvLe, 0, qZAdkzg, 0, 0, 0, qMBds, qaGEwZ));
+        ::AssignFixedString((char *)(((AVObjX*)qpTd)), (std::intptr_t)&(const ::FixedStrX &)(FixedStrX("NavMesh Triangles")), {});
+        SpX<AVObjX> qSVM(new PropX());
+        ((AVObjX*)qSVM)->SetFlags(0x20, 0);
+        reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qpTd)))->FUN_00439410((::ArgObject *)(::AVObjX *)(spVertexColor));
+        reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qpTd)))->FUN_00439410((::ArgObject *)(::AVObjX *)(spZBuffer));
+        reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qpTd)))->FUN_00439410((::ArgObject *)(::AVObjX *)(qSVM));
+        reinterpret_cast<::FUN_00440460_S *>((((AVObjX*)qpTd)))->FUN_00440460((const ::V3 *)(const ::Pt3PodX *)(((::Pt3PodX *)(reinterpret_cast<::FUN_00416870_t *>((void *)&(const ::Pt3PodX &)(Pt3PodX()))->FUN_00416870(0.0f, 0.0f, 1.0f)))));
+        for (unsigned int qMFd = 0; qMFd < reinterpret_cast<::FUN_00691620_shell *>((((NavMeshX*)qsSDDgz)))->GetFlags(); qMFd++)
+        {
+            SphereX* qsCroYH = &(*(::SphereX *)(reinterpret_cast<::FUN_00691640_shell *>((((NavMeshX*)qsSDDgz)))->FUN_00691640(qMFd)));
+            ColorX qODE(0.25f, 0.0f, 0.0f, 0.5f);
+            SpX<AVObjX> qFwpo(((::AVObjX *)(::FUN_00c56680(reinterpret_cast<::BSMultiBoundSphere *>((void *)(qsCroYH))->GetRadius(), 10, 10, (const ::Color4 *)(::ColorX *)(&qODE)))));
+            SpX<AVObjX> qmgeiw(new AlphaX());
+            reinterpret_cast<::FUN_0049ed90_shell *>((((AVObjX*)qmgeiw)))->FUN_0049ed90(true);
+            reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qFwpo)))->FUN_00439410((::ArgObject *)(::AVObjX *)(qmgeiw));
+            reinterpret_cast<::FUN_00440460_S *>((((AVObjX*)qFwpo)))->FUN_00440460((const ::V3 *)(const ::Pt3PodX *)(((::Pt3PodX *)((void *)(qsCroYH)))));
+            ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qFwpo, true);
+        }
+        ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qrzAir, true);
+        ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qpTd, true);
+        if (qArxcFu > 0)
+            ((NodeX*)qAhbO)->AttachChildInAvailableSlot(qvyWyw, true);
+        ::fnv_004b6e90::AttachLightingPropertyRecursive((::NiAVObject *)(::NodeX *)(qAhbO));
+        ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::NodeX *)(qAhbO), 0, 0);
+    }
+    if (abUpdate)
+    {
+        UpdateDataX qBQkjNg(0.0f, false, false);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NodeX*)(*reinterpret_cast<::SpX< ::NodeX> *>(&::g_011d6e5c)))))->FUN_00a59c60((std::intptr_t)&(qBQkjNg));
+        reinterpret_cast<::FUN_00a5a040_Class *>((((NodeX*)(*reinterpret_cast<::SpX< ::NodeX> *>(&::g_011d6e5c)))))->FUN_00a5a040();
+    }
+}
 
 // Returns a color code chosen from the triangle's object count and its flags/checks, defaulting to 0.
 // @fnv 0x006a5da0
 int NavRenderStub::GetNavTriColor(NavTriStub* pNavTri)
 {
     int iColorCode = 0;
-    if (pNavTri->ObjCount() > 0)
+    if (((unsigned short)(reinterpret_cast<::FUN_00699790_shell *>((pNavTri))->GetBits13To15())) > 0)
     {
-        if (pNavTri->Flag(0x100))
+        if (reinterpret_cast<::FUN_00691140_shell *>((pNavTri))->FUN_00691140(0x100))
         {
             iColorCode = 12;
         }
@@ -1302,13 +1298,13 @@ int NavRenderStub::GetNavTriColor(NavTriStub* pNavTri)
             iColorCode = 11;
         }
     }
-    else if (pNavTri->Check3b70())
+    else if (reinterpret_cast<::FUN_00693b70_shell *>((pNavTri))->HasFlag40())
     {
-        if (pNavTri->Check0e70())
+        if (reinterpret_cast<::FUN_00690e70_shell *>((pNavTri))->IsFlag400Set())
         {
             iColorCode = 5;
         }
-        else if (pNavTri->Check5ec0())
+        else if (reinterpret_cast<::FUN_006a5ec0_shell *>((pNavTri))->FUN_006a5ec0())
         {
             iColorCode = 8;
         }
@@ -1317,25 +1313,27 @@ int NavRenderStub::GetNavTriColor(NavTriStub* pNavTri)
             iColorCode = 13;
         }
     }
-    else if (pNavTri->Check5ec0())
+    else if (reinterpret_cast<::FUN_006a5ec0_shell *>((pNavTri))->FUN_006a5ec0())
     {
         iColorCode = 7;
     }
-    else if (pNavTri->Check3b90())
+    else if (reinterpret_cast<::S00693b90 *>((pNavTri))->FUN_00693b90())
     {
         iColorCode = 14;
     }
-    else if (pNavTri->Check0e70())
+    else if (reinterpret_cast<::FUN_00690e70_shell *>((pNavTri))->IsFlag400Set())
     {
         iColorCode = 4;
     }
-    else if (pNavTri->Flag(0x1000))
+    else if (reinterpret_cast<::FUN_00691140_shell *>((pNavTri))->FUN_00691140(0x1000))
     {
         iColorCode = 9;
     }
-    else if (pNavTri->Flag(0x80000000))
+    else if (reinterpret_cast<::FUN_00691140_shell *>((pNavTri))->FUN_00691140(0x80000000))
     {
         iColorCode = 16;
     }
     return iColorCode;
 }
+
+#include "generated/data/fallout_shared/pathfinding/navmeshrender.inc"

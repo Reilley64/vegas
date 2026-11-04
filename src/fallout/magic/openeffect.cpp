@@ -2,6 +2,13 @@
 // src/fallout/magic/openeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/openeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/LockExtraData.h"
+#include "fnv/decl/fnv_005691b0__P01RefA.h"
+#include "fnv/decl/fnv_005692a0__FUN_005692a0_shell.h"
+#include "fnv/symbols_00495000.h"
 struct FUN_008260b0
 {
     virtual void v00();
@@ -54,9 +61,6 @@ class MagicTarget
 
 struct S_00826190_Ref
 {
-    void* FUN_00569160();
-    int FUN_005691b0();
-    void FUN_005692a0();
 };
 
 struct S_00826190_RefHolder
@@ -69,28 +73,25 @@ class NonActorMagicTarget : public MagicTarget, public S_00826190_RefHolder
 {
 };
 
-int __cdecl FUN_00430b40(int value);
 
 struct S_00826190_Effect
 {
-    MagicTarget* FUN_0059bb30();
-    float GetFloatAtOffset1C();
     void FUN_00826190();
 };
 
 // @fnv 0x00826190
 void S_00826190_Effect::FUN_00826190()
 {
-    NonActorMagicTarget* target = dynamic_cast<NonActorMagicTarget*>(FUN_0059bb30());
+    NonActorMagicTarget* target = dynamic_cast<NonActorMagicTarget*>(((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)));
     if (!target || !target->GetRef())
     {
         return;
     }
-    void* pLock = target->GetRef()->FUN_00569160();
-    int a = FUN_00430b40((int)GetFloatAtOffset1C());
-    int lockLevel = FUN_00430b40(target->GetRef()->FUN_005691b0());
+    void* pLock = ((void *)(reinterpret_cast<::FUN_00569160_shell *>((target->GetRef()))->FUN_00569160()));
+    int a = ::LockExtraData::ConvertLockLevel((int)::GetFloatAtOffset1C((char *)this));
+    int lockLevel = ::LockExtraData::ConvertLockLevel(reinterpret_cast<::fnv_005691b0::P01RefA *>((target->GetRef()))->FUN_005691b0());
     if (pLock && a >= lockLevel)
     {
-        target->GetRef()->FUN_005692a0();
+        reinterpret_cast<::fnv_005692a0::FUN_005692a0_shell *>((target->GetRef()))->FUN_005692a0();
     }
 }

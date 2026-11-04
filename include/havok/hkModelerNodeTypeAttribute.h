@@ -3,7 +3,6 @@
 #ifndef FNV_HAVOK_HKMODELERNODETYPEATTRIBUTE_H
 #define FNV_HAVOK_HKMODELERNODETYPEATTRIBUTE_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkModelerNodeTypeAttribute
 {
   public:
@@ -14,6 +13,4 @@ class hkModelerNodeTypeAttribute
     };
     hkInt8 m_type;  // +0x0 (ModelerType)
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkModelerNodeTypeAttribute[(sizeof(hkModelerNodeTypeAttribute) == 0x1) ? 1 : -1];
 #endif

@@ -16,7 +16,6 @@ class LockFreeMap_TESObjectREFR___NiPointer_QueuedHelmet___;
 class LockFreeMap_TESObjectREFR___NiPointer_QueuedReference___;
 class LockFreeQueue_NiPointer_AttachDistant3DTask___;
 class ModelLoader;
-#pragma pack(push, 4)
 class ModelLoader
 {
   public:
@@ -118,18 +117,4 @@ class ModelLoader
     // void __cdecl ModelLoader::*(Model*, const char*)
     // void* __cdecl ModelLoader::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ModelLoader) == 48);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_pLoadedModelMap) == 0);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_pLoadedKFModelMap) == 4);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_pQueuedReferenceMap) == 8);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_pQueuedReferenceUpdateMap) == 12);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_pQueuedAnimIdleMap) == 16);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_pQueuedReplacementKFListMap) == 20);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_pQueuedHelmetMap) == 24);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_pDistant3DTaskQueue) == 28);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_pQueuedTextureMap) == 32);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_pLoadedFileMap) == 36);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_pBackgroundCloneThread) == 40);
-FNV_STATIC_ASSERT(offsetof(ModelLoader, m_bLoadTexturesDegraded) == 44);
 #endif

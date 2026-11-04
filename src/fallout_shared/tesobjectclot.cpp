@@ -2,10 +2,43 @@
 // src/fallout_shared/tesobjectclot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesobjectclot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <malloc.h>
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_00479350_shell.h"
+#include "fnv/decl/FUN_0047a380_shell.h"
+#include "fnv/decl/FUN_0047bd70_shell.h"
+#include "fnv/decl/FUN_00480610_shell.h"
+#include "fnv/decl/FUN_00485e00_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00512810_holder.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_0048cca0.h"
+#include "fnv/decl/TESFile.h"
+#include "fnv/decl/TESModel.h"
+#include "fnv/decl/TESModelTextureSwap.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_005b5000.h"
 struct MagicItem;
 struct MagicCaster
 {
-    void SetSelectedMagicItem(int);
 };
 struct TESObjectCLOT
 {
@@ -15,45 +48,36 @@ struct TESObjectCLOT
 // @fnv 0x005156b0
 void TESObjectCLOT::FUN_005156b0()
 {
-    ((MagicCaster*)((char*)this + 0x48))->SetSelectedMagicItem(3);
+    reinterpret_cast<::FUN_0041fd00_shell *>((((MagicCaster*)((char*)this + 0x48))))->FUN_0041fd00(3);
 }
 
 namespace fnv_00515f40 {
 struct S_00477f20
 {
-    void FUN_00477f20();
 };
 struct S_00487010
 {
-    void FUN_00487010();
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
 };
 struct FUN_0047bd70_shell
 {
-    void FUN_0047bd70();
 };
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e00();
 };
 struct FUN_00480610_shell
 {
-    void InitBipedModel();
 };
 struct FUN_00479350_shell
 {
-    void FUN_00479350();
 };
 
 struct TESObjectCLOT
@@ -64,39 +88,27 @@ struct TESObjectCLOT
 // @fnv 0x00515f40
 void TESObjectCLOT::FUN_00515f40()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
-    reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x30)->FUN_00487010();
-    reinterpret_cast<S_0048cca0*>(reinterpret_cast<char*>(this) + 0x3c)->FUN_0048cca0();
-    reinterpret_cast<FUN_0047bd70_shell*>(reinterpret_cast<char*>(this) + 0x48)->FUN_0047bd70();
-    reinterpret_cast<FUN_00480610_shell*>(reinterpret_cast<char*>(this) + 0x68)->InitBipedModel();
-    reinterpret_cast<S_00477f20*>(reinterpret_cast<char*>(this) + 0x144)->FUN_00477f20();
-    reinterpret_cast<FUN_00479350_shell*>(reinterpret_cast<char*>(this) + 0x14c)->FUN_00479350();
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e00();
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x30)))->FUN_00487010();
+    reinterpret_cast<::S_0048cca0 *>((reinterpret_cast<S_0048cca0*>(reinterpret_cast<char*>(this) + 0x3c)))->FUN_0048cca0();
+    reinterpret_cast<::FUN_0047bd70_shell *>((reinterpret_cast<FUN_0047bd70_shell*>(reinterpret_cast<char*>(this) + 0x48)))->FUN_0047bd70();
+    reinterpret_cast<::FUN_00480610_shell *>((reinterpret_cast<FUN_00480610_shell*>(reinterpret_cast<char*>(this) + 0x68)))->InitBipedModel();
+    reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<S_00477f20*>(reinterpret_cast<char*>(this) + 0x144)))->FUN_00477f20();
+    reinterpret_cast<::FUN_00479350_shell *>((reinterpret_cast<FUN_00479350_shell*>(reinterpret_cast<char*>(this) + 0x14c)))->FUN_00479350();
+    reinterpret_cast<::FUN_00485e00_shell *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e00();
+    reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 }  // namespace fnv_00515f40
 
 struct FUN_005155b0_shell
 {
-    void FUN_005155b0();
 };
 
-void __cdecl operator delete(void*);
 
 struct FUN_00515580_shell
 {
     void* DestroyIfFlagged(unsigned int flags);
 };
-
-// Calls the object's destructor and, when bit 0 of flags is set, frees the object, then returns this.
-// @fnv 0x00515580
-void* FUN_00515580_shell::DestroyIfFlagged(unsigned int flags)
-{
-    reinterpret_cast<FUN_005155b0_shell*>(this)->FUN_005155b0();
-    if (flags & 1)
-        operator delete(reinterpret_cast<FUN_005155b0_shell*>(this));
-    return this;
-}
 
 extern unsigned int _data_011c16bc;
 
@@ -126,20 +138,30 @@ struct TESFullName
     TESFullName();
     ~TESFullName()
     {}
+public:
+    void SetFullName(const char *);
 };
 
+class TESForm;
 struct TESScriptableForm
 {
     int* vtable;
     unsigned char padding[8];
     TESScriptableForm();
+public:
+    void InitItem(::TESForm *);
 };
 
+class TESForm;
 struct TESEnchantableForm
 {
     int* vtable;
     unsigned char padding[0xc];
     TESEnchantableForm();
+public:
+    void SetFormEnchantmentAmount(unsigned short);
+public:
+    void InitItem(::TESForm *);
 };
 
 struct TESValueForm
@@ -160,6 +182,7 @@ struct TESWeightForm
     {}
 };
 
+class TESForm;
 struct TESBipedModelForm
 {
     int* vtable;
@@ -167,8 +190,11 @@ struct TESBipedModelForm
     TESBipedModelForm();
     ~TESBipedModelForm()
     {}
+public:
+    void InitItem(::TESForm *);
 };
 
+class TESForm;
 struct BGSDestructibleObjectForm
 {
     int* vtable;
@@ -176,6 +202,8 @@ struct BGSDestructibleObjectForm
     BGSDestructibleObjectForm();
     ~BGSDestructibleObjectForm()
     {}
+public:
+    void InitItem(::TESForm *);
 };
 
 struct BGSEquipType
@@ -187,7 +215,6 @@ struct BGSEquipType
 
 struct SFTX
 {
-    void SetFormType(int);
 };
 
 struct FUN_00515440 : B1_4fe,
@@ -217,7 +244,7 @@ FUN_00515440::FUN_00515440()
     this->BGSDestructibleObjectForm::vtable = DAT_0102ab70;
     this->BGSEquipType::vtable = DAT_0102ab5c;
 
-    reinterpret_cast<SFTX*>(this)->SetFormType(0x1a);
+    reinterpret_cast<::FUN_004f15a0_shell *>((reinterpret_cast<SFTX*>(this)))->FUN_004f15a0(0x1a);
     reinterpret_cast<TESObjectCLOT*>(this)->FUN_005156b0();
 }
 
@@ -230,25 +257,20 @@ struct TESForm
 
 struct TESScriptableForm
 {
-    void InitItem(TESForm*);
 };
 
 struct TESEnchantableForm
 {
-    void InitItem(TESForm*);
 };
 
 struct BGSDestructibleObjectForm
 {
-    void InitItem(TESForm*);
 };
 
 struct TESBipedModelForm
 {
-    void InitItem(TESForm*);
 };
 
-void _FNV_Warning(const char*, const char*);
 
 struct FUN_005156d0_shell
 {
@@ -263,14 +285,13 @@ void FUN_005156d0_shell::FUN_005156d0()
 
     if (*(int*)((char*)this + 0x6c) == 0)
     {
-        _FNV_Warning("MASTERFILE: Clothing '%s' needs to have biped slots selected in the editor.",
-                     ((const char*(__thiscall*)(void*))(*(void***)this)[0x4c])((void*)this));
+        ::FUN_005b5e40();
     }
 
-    ((TESScriptableForm*)((char*)this + 0x3c))->InitItem((TESForm*)this);
-    ((TESEnchantableForm*)((char*)this + 0x48))->InitItem((TESForm*)this);
-    ((BGSDestructibleObjectForm*)((char*)this + 0x144))->InitItem((TESForm*)this);
-    ((TESBipedModelForm*)((char*)this + 0x68))->InitItem((TESForm*)this);
+    reinterpret_cast<::TESScriptableForm *>((((TESScriptableForm*)((char*)this + 0x3c))))->InitItem((::TESForm *)(::fnv_005156d0::TESForm *)((TESForm*)this));
+    reinterpret_cast<::TESEnchantableForm *>((((TESEnchantableForm*)((char*)this + 0x48))))->InitItem((::TESForm *)(::fnv_005156d0::TESForm *)((TESForm*)this));
+    reinterpret_cast<::BGSDestructibleObjectForm *>((((BGSDestructibleObjectForm*)((char*)this + 0x144))))->InitItem((::TESForm *)(::fnv_005156d0::TESForm *)((TESForm*)this));
+    reinterpret_cast<::TESBipedModelForm *>((((TESBipedModelForm*)((char*)this + 0x68))))->InitItem((::TESForm *)(::fnv_005156d0::TESForm *)((TESForm*)this));
 
     ((TESForm*)this)->SetInitializationState(true);
 }
@@ -409,44 +430,36 @@ struct FUN_005155b0_cls : FUN_005155b0_Primary,
 {
     virtual ~FUN_005155b0_cls();
 };
+// Calls the object's destructor and, when bit 0 of flags is set, frees the object, then returns this.
+// @fnv 0x00515580
+void* FUN_00515580_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005155b0_cls *>((reinterpret_cast<FUN_005155b0_shell*>(this)))->FUN_005155b0_cls::~FUN_005155b0_cls();
+    if (flags & 1)
+        ::FUN_00401030(reinterpret_cast<FUN_005155b0_shell*>(this));
+    return this;
+}
 
 // Destructor of the class; the body is empty, so it only runs the implicit destructors of its base classes.
 // @fnv 0x005155b0
 FUN_005155b0_cls::~FUN_005155b0_cls()
 {}
 
-extern "C" void* __cdecl _alloca(unsigned int);
-
 struct RecordReader
 {
-    unsigned char FUN_00472660();
-    int FUN_004726b0();
-    bool FUN_004726f0();
-    unsigned int GetField25C();
     void ReadChunkInt(unsigned int*);
-    void ReadChunkData(unsigned short*);
-    void FUN_00472890(void*, unsigned int);
-    unsigned short FUN_00403570();
-    bool FUN_00401680();
 };
 struct BipedFlags
 {
-    void FUN_00512810();
-    void FUN_00503210();
 };
 struct ScriptView
 {
-    void FUN_006ecd40(unsigned int);
-    void FUN_0048cd90(void*);
 };
 struct EnchantmentView
 {
-    void FUN_006ecd40(unsigned int);
-    void FUN_00483170(unsigned short);
 };
 struct EquipView
 {
-    void FUN_006ecd40(unsigned int);
 };
 struct ModelSegment
 {
@@ -485,7 +498,6 @@ struct IconSegment
     int description;
     int flags;
     int lastUpdate;
-    void FUN_00489100(char*);
 };
 struct TextureSegment
 {
@@ -493,7 +505,6 @@ struct TextureSegment
     int flags;
     int lastUpdate;
     int size;
-    void FUN_0047a380(char*);
 };
 struct BipedView
 {
@@ -593,11 +604,6 @@ struct ClothingVirtual
     virtual void Unknown76();
     virtual void ReadEditorID(char*);
 };
-void __cdecl ReadFullName(TESFullName*, RecordReader*);
-void __cdecl FUN_004781e0(BGSDestructibleObjectForm*, RecordReader*);
-void __cdecl FUN_004892d0(ModelSegment*, RecordReader*);
-void __cdecl FUN_004893e0(ModelSegment*, RecordReader*);
-void __cdecl FUN_0048a990(ModelSegment*, RecordReader*);
 struct ClothingLoader
 {
     B1_4fe base;
@@ -610,27 +616,30 @@ struct ClothingLoader
     BGSDestructibleObjectForm destructible;
     BGSEquipType equip;
 
-    void CallWithThis(RecordReader*);
-    void FUN_00484ab0(int);
-    void FUN_004861f0(RecordReader*, int, int);
     bool ReadFromStream(RecordReader*);
+};
+struct TESForm
+{
+    virtual ~TESForm();
+public:
+    void SetInitializationState(bool);
 };
 // @fnv 0x00515760
 bool ClothingLoader::ReadFromStream(RecordReader* reader)
 {
-    unsigned char marker = reader->FUN_00472660();
+    unsigned char marker = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((reader))->FUN_00472660()));
     if (marker != 0x1a)
         return false;
-    CallWithThis(reader);
-    FUN_00484ab0(0);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(reader));
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(0);
     int chunk;
-    while ((chunk = reader->FUN_004726b0()) != 0)
+    while ((chunk = reinterpret_cast<::FUN_004726b0_class *>((reader))->FUN_004726b0()) != 0)
     {
         switch (chunk)
         {
         case 0x44494445: {
-            char* pEditorId = (char*)_alloca(reader->GetField25C());
-            reader->FUN_00472890(pEditorId, 0x200);
+            char* pEditorId = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((reader))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(pEditorId), 0x200);
             reinterpret_cast<ClothingVirtual*>(this)->ReadEditorID(pEditorId);
             break;
         }
@@ -639,174 +648,168 @@ bool ClothingLoader::ReadFromStream(RecordReader* reader)
             break;
         }
         case 0x4c4c5546: {
-            ReadFullName(this ? &this->fullName : 0, reader);
+            ::ReadFullName(this ? &this->fullName : 0, (::TESFile *)(reader));
             break;
         }
         case 0x49524353: {
             unsigned int formID = 0;
             reader->ReadChunkInt(&formID);
-            reinterpret_cast<ScriptView*>(&this->scriptForm)->FUN_006ecd40(formID);
-            reinterpret_cast<ScriptView*>(&this->scriptForm)->FUN_0048cd90(this);
+            reinterpret_cast<::CombatProcedure *>((reinterpret_cast<ScriptView*>(&this->scriptForm)))->Initialize((::CombatController *)(std::uintptr_t)(formID));
+            reinterpret_cast<::TESScriptableForm *>((reinterpret_cast<ScriptView*>(&this->scriptForm)))->InitItem((::TESForm *)(void *)(this));
             break;
         }
         case 0x4d544945:
         case 0x4d414e45: {
             unsigned int formID = 0;
             reader->ReadChunkInt(&formID);
-            reinterpret_cast<EnchantmentView*>(&this->enchantment)->FUN_006ecd40(formID);
+            reinterpret_cast<::CombatProcedure *>((reinterpret_cast<EnchantmentView*>(&this->enchantment)))->Initialize((::CombatController *)(std::uintptr_t)(formID));
             break;
         }
         case 0x4d414e41:
         case 0x544d4145: {
             unsigned short amount = 0;
-            reader->ReadChunkData(&amount);
-            reinterpret_cast<EnchantmentView*>(&this->enchantment)->FUN_00483170(amount);
+            reinterpret_cast<::FUN_00472840_impl *>((reader))->ReadChunkData(&amount);
+            reinterpret_cast<::TESEnchantableForm *>((reinterpret_cast<EnchantmentView*>(&this->enchantment)))->SetFormEnchantmentAmount(amount);
             break;
         }
         case 0x54444d42: {
-            if (reader->FUN_00403570() < 11)
+            if (reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((reader))->FUN_00403570() < 11)
             {
                 unsigned int bipedData;
-                reader->FUN_00472890(&bipedData, 4);
-                if (reader->FUN_00401680())
-                    reinterpret_cast<BipedFlags*>(&bipedData)->FUN_00512810();
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(void *)(&bipedData), 4);
+                if (reinterpret_cast<::TESFile *>((reader))->IsEndianConversionRequired())
+                    reinterpret_cast<::FUN_00512810_holder *>((reinterpret_cast<BipedFlags*>(&bipedData)))->FUN_00512810();
                 (&this->biped)->bipedType = ((unsigned char*)&bipedData)[2];
                 (&this->biped)->bipedMask = *(unsigned short*)&bipedData;
             }
             else
             {
-                reader->FUN_00472890(&(&this->biped)->bipedMask, 8);
-                if (reader->FUN_00401680())
-                    reinterpret_cast<BipedFlags*>(&(&this->biped)->bipedMask)->FUN_00503210();
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(void *)(&(&this->biped)->bipedMask), 8);
+                if (reinterpret_cast<::TESFile *>((reader))->IsEndianConversionRequired())
+                    reinterpret_cast<::fnv_00503210::Unk *>((reinterpret_cast<BipedFlags*>(&(&this->biped)->bipedMask)))->FUN_00503210();
             }
             (&this->biped)->bipedType &= ~0x10;
             break;
         }
         case 0x54434d42: {
-            char* buffer = (char*)_alloca(reader->GetField25C());
-            reader->FUN_00472890(buffer, 0);
+            char* buffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((reader))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(buffer), 0);
             (&this->biped)->fifth.ReadModel(buffer);
             break;
         }
         case 0x4c444f4d: {
-            char* buffer = (char*)_alloca(reader->GetField25C());
-            reader->FUN_00472890(buffer, 0);
+            char* buffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((reader))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(buffer), 0);
             (&this->biped)->male.ReadModel(buffer);
             break;
         }
         case 0x54444f4d: {
-            FUN_004893e0(&(&this->biped)->male, reader);
+            ::FUN_004893e0((::TESModel *)(::ModelSegment *)(&(&this->biped)->male), (::TESFile *)(reader));
             break;
         }
         case 0x53444f4d: {
-            FUN_0048a990(&(&this->biped)->male, reader);
+            ::TESModelTextureSwap::ReadTextureSwapChunk((::TESModelTextureSwap *)(::ModelSegment *)(&(&this->biped)->male), (::TESFile *)(reader));
             break;
         }
         case 0x44444f4d: {
-            FUN_004892d0(&(&this->biped)->male, reader);
+            ::TESModel::LoadModelData((::TESModel *)(::ModelSegment *)(&(&this->biped)->male), (::TESFile *)(reader));
             break;
         }
         case 0x44534f4d: {
-            FUN_004892d0(&(&this->biped)->female, reader);
+            ::TESModel::LoadModelData((::TESModel *)(::ModelSegment *)(&(&this->biped)->female), (::TESFile *)(reader));
             break;
         }
         case 0x32444f4d: {
-            char* buffer = (char*)_alloca(reader->GetField25C());
-            reader->FUN_00472890(buffer, 0);
+            char* buffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((reader))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(buffer), 0);
             (&this->biped)->male4.ReadModel(buffer);
             break;
         }
         case 0x54324f4d: {
-            FUN_004893e0(&(&this->biped)->male4, reader);
+            ::FUN_004893e0((::TESModel *)(::ModelSegment *)(&(&this->biped)->male4), (::TESFile *)(reader));
             break;
         }
         case 0x53324f4d: {
-            FUN_0048a990(&(&this->biped)->male4, reader);
+            ::TESModelTextureSwap::ReadTextureSwapChunk((::TESModelTextureSwap *)(::ModelSegment *)(&(&this->biped)->male4), (::TESFile *)(reader));
             break;
         }
         case 0x4e4f4349: {
-            char* buffer = (char*)_alloca(reader->GetField25C());
-            reader->FUN_00472890(buffer, 0);
-            (&this->biped)->firstIcon.FUN_00489100(buffer);
+            char* buffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((reader))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(buffer), 0);
+            reinterpret_cast<::TESFullName *>(&((&this->biped)->firstIcon))->SetFullName(buffer);
             break;
         }
         case 0x4f43494d: {
-            char* buffer = (char*)_alloca(reader->GetField25C());
-            reader->FUN_00472890(buffer, 0);
-            (&this->biped)->firstTexture.FUN_0047a380(buffer);
+            char* buffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((reader))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(buffer), 0);
+            reinterpret_cast<::FUN_0047a380_shell *>(&((&this->biped)->firstTexture))->FUN_0047a380(buffer);
             break;
         }
         case 0x3243494d: {
-            char* buffer = (char*)_alloca(reader->GetField25C());
-            reader->FUN_00472890(buffer, 0);
-            (&this->biped)->secondTexture.FUN_0047a380(buffer);
+            char* buffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((reader))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(buffer), 0);
+            reinterpret_cast<::FUN_0047a380_shell *>(&((&this->biped)->secondTexture))->FUN_0047a380(buffer);
             break;
         }
         case 0x33444f4d: {
-            char* buffer = (char*)_alloca(reader->GetField25C());
-            reader->FUN_00472890(buffer, 0);
+            char* buffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((reader))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(buffer), 0);
             (&this->biped)->female.ReadModel(buffer);
             break;
         }
         case 0x54334f4d: {
-            FUN_004893e0(&(&this->biped)->female, reader);
+            ::FUN_004893e0((::TESModel *)(::ModelSegment *)(&(&this->biped)->female), (::TESFile *)(reader));
             break;
         }
         case 0x53334f4d: {
-            FUN_0048a990(&(&this->biped)->female, reader);
+            ::TESModelTextureSwap::ReadTextureSwapChunk((::TESModelTextureSwap *)(::ModelSegment *)(&(&this->biped)->female), (::TESFile *)(reader));
             break;
         }
         case 0x34444f4d: {
-            char* buffer = (char*)_alloca(reader->GetField25C());
-            reader->FUN_00472890(buffer, 0);
+            char* buffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((reader))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(buffer), 0);
             (&this->biped)->female4.ReadModel(buffer);
             break;
         }
         case 0x54344f4d: {
-            FUN_004893e0(&(&this->biped)->female4, reader);
+            ::FUN_004893e0((::TESModel *)(::ModelSegment *)(&(&this->biped)->female4), (::TESFile *)(reader));
             break;
         }
         case 0x53344f4d: {
-            FUN_0048a990(&(&this->biped)->female4, reader);
+            ::TESModelTextureSwap::ReadTextureSwapChunk((::TESModelTextureSwap *)(::ModelSegment *)(&(&this->biped)->female4), (::TESFile *)(reader));
             break;
         }
         case 0x324f4349: {
-            char* buffer = (char*)_alloca(reader->GetField25C());
-            reader->FUN_00472890(buffer, 0);
-            (&this->biped)->secondIcon.FUN_00489100(buffer);
+            char* buffer = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((reader))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((reader))->FUN_00472890((char *)(buffer), 0);
+            reinterpret_cast<::TESFullName *>(&((&this->biped)->secondIcon))->SetFullName(buffer);
             break;
         }
         case 0x44545344:
         case 0x54534544: {
-            FUN_004781e0(this ? &this->destructible : 0, reader);
+            ::FUN_004781e0(this ? &this->destructible : 0, (::TESFile *)(reader));
             break;
         }
         case 0x50595445: {
             unsigned int equipID = 0;
             reader->ReadChunkInt(&equipID);
-            reinterpret_cast<EquipView*>(&this->equip)->FUN_006ecd40(equipID);
+            reinterpret_cast<::CombatProcedure *>((reinterpret_cast<EquipView*>(&this->equip)))->Initialize((::CombatController *)(std::uintptr_t)(equipID));
             break;
         }
         case 0x41544144: {
-            FUN_004861f0(reader, 0, 0);
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0((::TESFile *)(reader), (void *)(0), 0);
             break;
         }
         default:
             break;
         }
-        if (!reader->FUN_004726f0())
+        if (!reinterpret_cast<::TESFile *>((reader))->NextChunk())
             break;
     }
     return true;
 }
-
-struct TESForm
-{
-    virtual ~TESForm();
-};
 struct FUN_005092f0_obj
 {
-    void FUN_004851b0(TESForm* apCopy);
 };
 
 struct ClothingCopyView : TESObjectCLOT
@@ -821,12 +824,11 @@ void ClothingCopyView::FUN_00515fb0(TESForm* apCopy)
     TESObjectCLOT* pSourceClothing = dynamic_cast<TESObjectCLOT*>(apCopy);
     if (!pSourceClothing)
         return;
-    ((FUN_005092f0_obj*)this)->FUN_004851b0(apCopy);
+    reinterpret_cast<::FormCloneOperation *>((((FUN_005092f0_obj*)this)))->FUN_004851b0(apCopy);
 }
 
 struct ClothingComparison
 {
-    bool FUN_00485270(TESForm*);
     bool FUN_00515ff0(TESForm*);
 };
 // Returns true if the given form is not a clothing item or if it passes the FUN_00485270 check.
@@ -836,7 +838,7 @@ bool ClothingComparison::FUN_00515ff0(TESForm* apForm)
     TESObjectCLOT* clothing = dynamic_cast<TESObjectCLOT*>(apForm);
     if (!clothing)
         return true;
-    if (FUN_00485270(reinterpret_cast<TESForm*>(clothing)))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(reinterpret_cast<TESForm*>(clothing)))
         return true;
     return false;
 }

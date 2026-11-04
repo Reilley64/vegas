@@ -2,29 +2,36 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // Placeholder declarations
-extern int DAT_010f1008;
-extern int DAT_0126fa34;
-void __cdecl FUN_00e98710();
-void __cdecl _delete(void*, unsigned int);
 
+#include <cstdint>
+#include <new>
+#include <cstring>
+#include "fnv/decl/FUN_00e98710_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00e98000.h"
+#include "fnv/symbols_010f1000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01400000.h"
 struct NiUnsharedGeometryGroup
 {
     void* m_ppVirtualMethodTable;
     virtual ~NiUnsharedGeometryGroup();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 // Restores the vtable, clears the global pointer if it refers to this object, calls FUN_00e98710, and optionally deletes the object.
 // @fnv 0x00e94d30
-void* __thiscall NiUnsharedGeometryGroup::Destroy(unsigned int flags)
+void* NiUnsharedGeometryGroup::Destroy(unsigned int flags)
 {
     NiUnsharedGeometryGroup* pThis = this;
     *(void**)pThis = &DAT_010f1008;
-    if (pThis == *(void**)&DAT_0126fa34)
-        *(void**)&DAT_0126fa34 = 0;
-    FUN_00e98710();
+    if (pThis == *(void**)&(*reinterpret_cast<int *>(&::DAT_0126fa34)))
+        *(void**)&(*reinterpret_cast<int *>(&::DAT_0126fa34)) = 0;
+    static_cast<::FUN_00e98710_cls *>(nullptr)->FUN_00e98710();
     if (flags & 1)
-        _delete(pThis, 0xc);
+        ::FUN_00aa1460(pThis, 0xc);
     return pThis;
 }
 
@@ -38,46 +45,38 @@ struct NiVBChip;
 
 struct P03MM
 {
-    void* __thiscall Allocate(unsigned int);
 };
-extern P03MM g_memoryManager;
-extern int DAT_01400000;
 struct NiGeometryBufferData
 {
     NiGeometryBufferData();
 };
-__forceinline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct S
 {
-    void __thiscall CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture);
-    void __thiscall FUN_00e98730(NiGeometryBufferData* pkBuffData);
+    void CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture);
 };
 // @fnv 0x00e94de0
-void __thiscall S::CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture)
+void S::CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture)
 {
     if (*(int*)((char*)pkScreenTexture + 0x1c) == 0)
     {
-        void* pMemory = g_memoryManager.Allocate(0x54);
+        void* pMemory = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x54);
         NiGeometryBufferData* pkBuffData = pMemory ? new (pMemory) NiGeometryBufferData() : 0;
         *(int*)((char*)pkBuffData + 0x3c) = 4;
         *(NiGeometryBufferData**)((char*)pkScreenTexture + 0x1c) = pkBuffData;
-        *(int*)((char*)pkBuffData + 4) = (int)&DAT_01400000;
-        FUN_00e98730(pkBuffData);
+        *(intptr_t*)((char*)pkBuffData + 4) = (intptr_t)&DAT_01400000;
+        ::FUN_00e98730((intptr_t)this, (intptr_t)(pkBuffData), {});
     }
 }
 
 struct FakeVB
 {
-    virtual void __stdcall F0();
-    virtual void __stdcall F1();
-    virtual unsigned long __stdcall Release();
+    virtual void F0();
+    virtual void F1();
+    virtual unsigned long Release();
 };
 // Releases the vertex buffer chip for the given stream index, clears its slot and deletes the chip.
 // @fnv 0x00e94ee0
-void __stdcall FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStreamIndex)
+void FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStreamIndex)
 {
     NiVBChip* pkChip;
     if (uiStreamIndex < *(unsigned int*)((char*)pkBuffData + 0x20))
@@ -90,12 +89,11 @@ void __stdcall FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStr
             if (uiStreamIndex < *(unsigned int*)((char*)pkBuffData + 0x20))
                 ((NiVBChip**)*(void**)((char*)pkBuffData + 0x28))[uiStreamIndex] = 0;
             *(void**)((char*)pkChip + 8) = 0;
-            _delete(pkChip, 0x20);
+            ::FUN_00aa1460(pkChip, 0x20);
         }
     }
 }
 
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct NiGeometryGroup
 {
     void RemoveObject(NiGeometryBufferData*);
@@ -117,7 +115,7 @@ void NiDynamicGeometryGroup::FUN_00e950f0(NiGeometryData* pkData)
     {
         NiGeometryGroup::RemoveObject(pkBuffData);
         if (*(void**)((char*)pkBuffData + 0x28))
-            _fnv_zlib_memset(*(void**)((char*)pkBuffData + 0x28), 0, *(unsigned int*)((char*)pkBuffData + 0x20) * 4);
+            std::memset(*(void**)((char*)pkBuffData + 0x28), 0, *(unsigned int*)((char*)pkBuffData + 0x20) * 4);
         delete (Deleter*)pkBuffData;
         *(NiGeometryBufferData**)((char*)pkData + 0x34) = 0;
     }
@@ -132,7 +130,6 @@ struct NiScreenTexture;
 struct NiSkinInstance;
 struct NiVBChip;
 
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct NiGeometryGroup
 {
     void RemoveObject(NiGeometryBufferData*);
@@ -158,7 +155,7 @@ void NiDynamicGeometryGroup::FUN_00e95140(NiGeometryData* pkData)
     {
         NiGeometryGroup::RemoveObject(pkBuffData);
         if (pkBuffData->m_ppkVertexBuffers)
-            _fnv_zlib_memset(pkBuffData->m_ppkVertexBuffers, 0, pkBuffData->m_uiRegisterStreamCount * 4);
+            std::memset(pkBuffData->m_ppkVertexBuffers, 0, pkBuffData->m_uiRegisterStreamCount * 4);
         delete pkBuffData;
         *(NiGeometryBufferData**)((char*)pkData + 0x28) = 0;
     }
@@ -174,7 +171,6 @@ struct NiDynamicGeometryGroup : NiGeometryGroup
 {
     void FUN_00e95190(NiGeometryData* pkData);
 };
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct DeleteHelper
 {
     virtual ~DeleteHelper();
@@ -188,17 +184,13 @@ void NiDynamicGeometryGroup::FUN_00e95190(NiGeometryData* pkData)
         RemoveObject(pkBuffData);
         void* p = *(void**)((char*)pkBuffData + 0x28);
         if (p)
-            _fnv_zlib_memset(p, 0, *(unsigned int*)((char*)pkBuffData + 0x20) * 4);
+            std::memset(p, 0, *(unsigned int*)((char*)pkBuffData + 0x20) * 4);
         delete (DeleteHelper*)pkBuffData;
         *(NiGeometryBufferData**)((char*)pkData + 0x1c) = 0;
     }
 }
 }  // namespace fnv_00e95190
 
-extern int DAT_010f1008;
-extern int DAT_0126fa34;
-void __cdecl FUN_00e98710();
-void __cdecl _delete(void*, unsigned int);
 struct Direct3DDeviceInterface;
 struct NiGeometryBufferData;
 struct NiGeometryData;
@@ -206,10 +198,7 @@ struct NiGeometryGroup;
 struct NiScreenTexture;
 struct NiSkinInstance;
 struct NiVBChip;
-extern P03MM g_memoryManager;
-extern int DAT_01400000;
-void __stdcall FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStream);
-void* _fnv_zlib_memset(void*, int, unsigned int);
+void FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStream);
 struct BufEntry
 {
     int unk00;
@@ -335,7 +324,7 @@ void BufferManager::ClearBuffers()
             vb = val->unk0C;
             if (vb)
                 vb->Release();
-            _delete(val, sizeof(BufEntry));
+            ::FUN_00aa1460(val, sizeof(BufEntry));
         }
     }
 
@@ -359,7 +348,7 @@ void BufferManager::ClearBuffers()
             vb = p->unk0C;
             if (vb)
                 vb->Release();
-            _delete(p, sizeof(BufEntry));
+            ::FUN_00aa1460(p, sizeof(BufEntry));
         }
         m_kOwnerArray.GetAt(i)->unk08 = 0;
     }
@@ -368,42 +357,40 @@ void BufferManager::ClearBuffers()
 struct IDirect3DVertexBuffer9_E94;
 struct IDirect3DDevice9_E94
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall TestCooperativeLevel();
-    virtual unsigned int __stdcall GetAvailableTextureMem();
-    virtual long __stdcall EvictManagedResources();
-    virtual long __stdcall GetDirect3D(void**);
-    virtual long __stdcall GetDeviceCaps(void*);
-    virtual long __stdcall GetDisplayMode(unsigned int, void*);
-    virtual long __stdcall GetCreationParameters(void*);
-    virtual long __stdcall SetCursorProperties(unsigned int, unsigned int, void*);
-    virtual void __stdcall SetCursorPosition(int, int, unsigned long);
-    virtual int __stdcall ShowCursor(int);
-    virtual long __stdcall CreateAdditionalSwapChain(void*, void**);
-    virtual long __stdcall GetSwapChain(unsigned int, void**);
-    virtual unsigned int __stdcall GetNumberOfSwapChains();
-    virtual long __stdcall Reset(void*);
-    virtual long __stdcall Present(const void*, const void*, void*, const void*);
-    virtual long __stdcall GetBackBuffer(unsigned int, unsigned int, int, void**);
-    virtual long __stdcall GetRasterStatus(unsigned int, void*);
-    virtual long __stdcall SetDialogBoxMode(int);
-    virtual void __stdcall SetGammaRamp(unsigned int, unsigned long, const void*);
-    virtual void __stdcall GetGammaRamp(unsigned int, void*);
-    virtual long __stdcall CreateTexture(unsigned int, unsigned int, unsigned int, unsigned long, int, int, void**,
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long TestCooperativeLevel();
+    virtual unsigned int GetAvailableTextureMem();
+    virtual long EvictManagedResources();
+    virtual long GetDirect3D(void**);
+    virtual long GetDeviceCaps(void*);
+    virtual long GetDisplayMode(unsigned int, void*);
+    virtual long GetCreationParameters(void*);
+    virtual long SetCursorProperties(unsigned int, unsigned int, void*);
+    virtual void SetCursorPosition(int, int, unsigned long);
+    virtual int ShowCursor(int);
+    virtual long CreateAdditionalSwapChain(void*, void**);
+    virtual long GetSwapChain(unsigned int, void**);
+    virtual unsigned int GetNumberOfSwapChains();
+    virtual long Reset(void*);
+    virtual long Present(const void*, const void*, void*, const void*);
+    virtual long GetBackBuffer(unsigned int, unsigned int, int, void**);
+    virtual long GetRasterStatus(unsigned int, void*);
+    virtual long SetDialogBoxMode(int);
+    virtual void SetGammaRamp(unsigned int, unsigned long, const void*);
+    virtual void GetGammaRamp(unsigned int, void*);
+    virtual long CreateTexture(unsigned int, unsigned int, unsigned int, unsigned long, int, int, void**,
                                          void**);
-    virtual long __stdcall CreateVolumeTexture(unsigned int, unsigned int, unsigned int, unsigned int, unsigned long,
+    virtual long CreateVolumeTexture(unsigned int, unsigned int, unsigned int, unsigned int, unsigned long,
                                                int, int, void**, void**);
-    virtual long __stdcall CreateCubeTexture(unsigned int, unsigned int, unsigned long, int, int, void**, void**);
-    virtual long __stdcall CreateVertexBuffer(unsigned int Length, unsigned long Usage, unsigned long FVF, int Pool,
+    virtual long CreateCubeTexture(unsigned int, unsigned int, unsigned long, int, int, void**, void**);
+    virtual long CreateVertexBuffer(unsigned int Length, unsigned long Usage, unsigned long FVF, int Pool,
                                               IDirect3DVertexBuffer9_E94** ppVB, void** pSharedHandle);
 };
-extern bool DAT_0126f0d0;
 class NiMemObject_E94
 {
   public:
-    static void* operator new(unsigned int uiSize);
 };
 class NiVBChipE94 : public NiMemObject_E94
 {
@@ -479,3 +466,5 @@ NiVBChipE94* NiUnsharedGeometryGroupE94::FUN_00e94e30(NiBuffDataE94* pkBuffData,
     }
     return pkChip;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/niunsharedgeometrygroup.inc"

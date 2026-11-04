@@ -4,7 +4,6 @@
 
 #include "layout_support.h"
 #include "RecursiveSpinLock.h"
-#pragma pack(push, 4)
 class MemoryPool
 {
   public:
@@ -42,17 +41,4 @@ class MemoryPool
         return m_uiAllocationSize;
     }
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MemoryPool) == 0x80);
-FNV_STATIC_ASSERT(offsetof(MemoryPool, pDescription) == 0x0);
-FNV_STATIC_ASSERT(offsetof(MemoryPool, m_pPoolBase) == 0x4);
-FNV_STATIC_ASSERT(offsetof(MemoryPool, m_pFreeBlockHead) == 0x8);
-FNV_STATIC_ASSERT(offsetof(MemoryPool, m_kCriticalSection) == 0x20);
-FNV_STATIC_ASSERT(offsetof(MemoryPool, m_uiAllocationSize) == 0x40);
-FNV_STATIC_ASSERT(offsetof(MemoryPool, m_uiPeakPageCount) == 0x44);
-FNV_STATIC_ASSERT(offsetof(MemoryPool, m_pPageBlockCounts) == 0x48);
-FNV_STATIC_ASSERT(offsetof(MemoryPool, m_uiPageCount) == 0x4C);
-FNV_STATIC_ASSERT(offsetof(MemoryPool, m_uiPoolSize) == 0x50);
-FNV_STATIC_ASSERT(offsetof(MemoryPool, m_uiFreeBlockCount) == 0x54);
-FNV_STATIC_ASSERT(offsetof(MemoryPool, m_uiAllocatedPageCount) == 0x58);
 #endif

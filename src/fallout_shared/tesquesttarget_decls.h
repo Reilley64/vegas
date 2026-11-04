@@ -2,18 +2,20 @@
 #ifndef FNV_TESQUESTTARGET_DECLS_H
 #define FNV_TESQUESTTARGET_DECLS_H
 
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_0041c8d0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/symbols_005b5000.h"
 #include "TESForm.h"
 
 class ExtraDataList
 {
   public:
-    TESObjectREFR* GetReplacementReference();
 };
 
 class TESObjectREFR : public TESForm
 {
   public:
-    ExtraDataList* GetExtraData();
 };
 
 class TESConditionItem;
@@ -23,7 +25,6 @@ class PerkEntryConditionSet
     BSSimpleList<TESConditionItem*> m_kConditionItems;
     void InitItem(TESForm* form);
 };
-FNV_STATIC_ASSERT(sizeof(PerkEntryConditionSet) == 8);
 
 // The target prefix accessed by these methods; the teleport path follows it.
 class RegionObjectEntry
@@ -34,10 +35,8 @@ class RegionObjectEntry
     PerkEntryConditionSet m_kInfoConditions;
     TESObjectREFR* m_pReference;
     void InitItem(TESForm* form);
-    PerkEntryConditionSet* GetConditions();
     TESObjectREFR* GetReference(bool resolveDeleted);
 };
-FNV_STATIC_ASSERT(offsetof(RegionObjectEntry, m_pReference) == 12);
 
 class AnimationClipStatus
 {
@@ -45,7 +44,6 @@ class AnimationClipStatus
     unsigned char m_ucClipIdentifier;
     bool m_bCompleted;
 };
-FNV_STATIC_ASSERT(sizeof(AnimationClipStatus) == 2);
 
 class PlayerQuestData;
 class QuestStage
@@ -55,8 +53,6 @@ class QuestStage
     BSSimpleList<PlayerQuestData*> m_kStageItems;
     void Load(TESFile* file);
 };
-FNV_STATIC_ASSERT(sizeof(QuestStage) == 12);
-FNV_STATIC_ASSERT(offsetof(QuestStage, m_kStageItems) == 4);
 
 // Older INDX chunks occupy eight bytes; the remaining payload is reserved.
 struct TESQuestStageLegacyData
@@ -64,7 +60,5 @@ struct TESQuestStageLegacyData
     AnimationClipStatus data;
     unsigned int reserved;
 };
-FNV_STATIC_ASSERT(sizeof(TESQuestStageLegacyData) == 8);
 
-int __cdecl Warning(const char* format, ...);
 #endif

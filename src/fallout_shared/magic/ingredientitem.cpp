@@ -1,5 +1,33 @@
 // fallout_shared/magic/ingredientitem.cpp: IngredientItem, LCItem (14 functions)
 
+#include <malloc.h>
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_00810570_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESModel.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00406340__EffectItemList.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_01183000.h"
 #include "ingredientitem.h"
 
 // @fnv 0x00409c40
@@ -7,13 +35,13 @@ void IngredientItem::ResetFormData()
 {
     data.m_iEffectIndex = -1;
     data.m_ucEntryType = 0;
-    InitializeComponent();
+    reinterpret_cast<::TESForm *>(this)->ClearData();
 }
 
 // @fnv 0x00409d40
 void IngredientItem::InitItem()
 {
-    if (IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
     {
         return;
     }
@@ -23,7 +51,7 @@ void IngredientItem::InitItem()
     MagicItemObject::InitItem();
 }
 
-struct FUN_00409a30_shell
+struct FUN_00409a30_shell : ::IngredientItem
 {
     bool FUN_00409a30(unsigned int aFlag);
 };
@@ -32,23 +60,22 @@ struct FUN_00409a30_shell
 // @fnv 0x00409a30
 bool FUN_00409a30_shell::FUN_00409a30(unsigned int aFlag)
 {
-    return (reinterpret_cast<unsigned char*>(this)[0xa0] & aFlag) != 0;
+    return (this->data.m_ucEntryType & aFlag) != 0;
 }
 
 struct BipedModelForm
 {
-    void __thiscall Endian(void);
 };
 
 struct FUN_0040a0f0_shell : BipedModelForm
 {
-    void __thiscall EndianAtOffset9C(void);
+    void EndianAtOffset9C(void);
 };
 
 // @fnv 0x0040a0f0
-void __thiscall FUN_0040a0f0_shell::EndianAtOffset9C(void)
+void FUN_0040a0f0_shell::EndianAtOffset9C(void)
 {
-    ((BipedModelForm*)((char*)this + 0x9c))->Endian();
+    reinterpret_cast<::fnv_00503210::Unk *>((((BipedModelForm*)((char*)this + 0x9c))))->FUN_00503210();
 }
 
 struct FUN_00409a10_shell : public FUN_00409a30_shell
@@ -72,59 +99,45 @@ bool FUN_00409a50_shell::FUN_00409a50()
     return !FUN_00409a30(1);
 }
 
-void _Deallocate(void*);
 struct FUN_00409b10_shell
 {
     void FUN_00409b40();
     void* FUN_00409b10(unsigned int);
 };
-// Calls FUN_00409b40, then frees this with _Deallocate when flags has bit 1 set, and returns this.
-// @fnv 0x00409b10
-void* FUN_00409b10_shell::FUN_00409b10(unsigned int flags)
-{
-    FUN_00409b40();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct S_00477f20
 {
-    void __thiscall FUN_00477f20();
 };
 struct S_0048a520
 {
-    void __thiscall ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void FUN_0048cca0();
 };
 struct FUN_00479350_shell
 {
-    void __thiscall FUN_00479350();
+    void FUN_00479350();
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e00();
+    void FUN_00485e00();
 };
 struct FUN_0048e370_obj
 {
-    void __thiscall FUN_0048e370(unsigned int);
 };
 
-struct FUN_00409c70_shell
+struct FUN_00409c70_shell : ::IngredientItem
 {
-    void __thiscall FUN_00409c70();
+    void FUN_00409c70();
 };
 
 // @fnv 0x00409c70
-void __thiscall FUN_00409c70_shell::FUN_00409c70()
+void FUN_00409c70_shell::FUN_00409c70()
 {
-    ((S_0048a520*)((char*)this + 0x1c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_0048e370_obj*)((char*)this + 0x3c))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x1c))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x3c))))->FUN_0048e370(0x4e4f4349);
     ((S_0048cca0*)((char*)this + 0x48))->FUN_0048cca0();
-    ((S_00477f20*)((char*)this + 0x64))->FUN_00477f20();
+    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)((char*)this + 0x64))))->FUN_00477f20();
     ((FUN_00479350_shell*)((char*)this + 0x5c))->FUN_00479350();
     ((FUN_00485e00_shell*)((char*)this - 0x30))->FUN_00485e00();
 }
@@ -191,7 +204,6 @@ struct FUN_00475350
 };
 struct S_004f15a0
 {
-    void FUN_004f15a0(int);
 };
 struct FUN_004098f0 : FUN_00402b40, B2_4fe, TESIcon, FUN_0048cc50, FUN_0048eac0, FUN_00479320, FUN_00475350
 {
@@ -201,7 +213,7 @@ struct FUN_004098f0 : FUN_00402b40, B2_4fe, TESIcon, FUN_0048cc50, FUN_0048eac0,
 // @fnv 0x004098f0
 FUN_004098f0::FUN_004098f0()
 {
-    ((S_004f15a0*)this)->FUN_004f15a0(0x1d);
+    reinterpret_cast<::FUN_004f15a0_shell *>((((S_004f15a0*)this)))->FUN_004f15a0(0x1d);
     ((IngredientItem*)(void*)this)->IngredientItem::ResetFormData();
 }
 
@@ -295,32 +307,36 @@ struct FUN_00409b40 : DtorBase00,
                       DtorBase94
 {
     virtual ~FUN_00409b40();
-    void Cleanup();
 };
+// Calls FUN_00409b40, then frees this with _Deallocate when flags has bit 1 set, and returns this.
+// @fnv 0x00409b10
+void* FUN_00409b10_shell::FUN_00409b10(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00409b40 *>(this)->FUN_00409b40::~FUN_00409b40();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x00409b40
 FUN_00409b40::~FUN_00409b40()
 {
-    Cleanup();
+    reinterpret_cast<::AlchemyItem *>(this)->ClearData();
 }
 
 struct S_00586150_obj
 {
     char unk00[0xa0];
     unsigned char m_a0;
-    void* __thiscall FUN_00586150();
 };
 
 struct S_00810570_obj
 {
-    void __thiscall SetAssociatedActorValue(void* arg);
 };
 
 void* __cdecl FUN_00ec43fb(unsigned int aFlag, unsigned int unk1, const char* unk2, const char* unk3,
                            unsigned int unk4);
 
-extern char DAT_011839dc[];
-extern char DAT_01183140[];
 
 struct FUN_0040a040_cls
 {
@@ -333,25 +349,20 @@ struct FUN_0040a040_cls
 // @fnv 0x0040a040
 void FUN_0040a040_cls::FUN_0040a040(unsigned int aFlag)
 {
-    S_00586150_obj* obj = (S_00586150_obj*)FUN_00ec43fb(aFlag, 0, DAT_01183140, DAT_011839dc, 0);
+    S_00586150_obj* obj = (S_00586150_obj*)FUN_00ec43fb(aFlag, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183140)), DAT_011839dc, 0);
     if (obj == 0)
     {
     }
     else
     {
-        ((S_00810570_obj*)((char*)this - 0x30))->SetAssociatedActorValue(obj->FUN_00586150());
+        reinterpret_cast<::FUN_00810570_shell *>((((S_00810570_obj*)((char*)this - 0x30))))->SetAssociatedActorValue((std::intptr_t)(((void *)(reinterpret_cast<::InterfaceManager *>((obj))->FUN_00586150()))));
         m_70 = obj->m_a0;
     }
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
-
 struct LCFile
 {
-    unsigned int GetChunkSize();
-    bool GetChunkData(void* apData, unsigned int auiSize);
     bool GetChunkData(unsigned int* apData);
-    unsigned short GetFormVersion();
 };
 
 struct LCForm
@@ -369,7 +380,6 @@ struct LCForm
     int unk28;
     int unk2C;
 
-    void ReadTypedData(LCFile* apFile, void* apUnk, unsigned short ausVersion);
 };
 
 struct LCLoader
@@ -394,7 +404,6 @@ struct LCModel
     int unk18;
     int unk1C;
 
-    bool LoadTextureSwaps(void* apData, unsigned int auiSize, unsigned int auiVersion);
 };
 
 struct LCIcon
@@ -412,7 +421,6 @@ struct LCScriptable
     int unk0C;
     int unk10;
 
-    void SetScriptID(unsigned int auiFormID);
     void InitItem(LCForm* apForm);
 };
 
@@ -421,7 +429,6 @@ struct LCEquipType
     int unk00;
     int unk04;
 
-    void SetEquipType(unsigned int auiType);
 };
 
 struct LCDestructible
@@ -429,9 +436,6 @@ struct LCDestructible
     int unk00;
 };
 
-void __cdecl LCLoadModel(LCModel* apModel, LCFile* apFile);
-void __cdecl LCLoadIcon(LCIcon* apIcon, LCFile* apFile);
-void __cdecl LCLoadDestructible(LCDestructible* apDestructible, LCFile* apFile);
 
 struct LCItem : LCForm, LCLoader, LCModel, LCIcon, LCScriptable, LCEquipType, LCDestructible
 {
@@ -447,37 +451,37 @@ void LCItem::FUN_00409da0(LCFile* apFile, int aiChunk)
     case 'DSOM':
     case 'DDOM':
     case 'TDOM':
-        LCLoadModel(this, apFile);
+        ::TESModel::LoadModelData((::TESModel *)(::LCModel *)(this), (::TESFile *)(apFile));
         break;
     case 'SDOM': {
-        unsigned int uiSize = apFile->GetChunkSize();
+        unsigned int uiSize = reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C();
         void* pBuffer = _alloca(uiSize);
-        apFile->GetChunkData(pBuffer, uiSize);
-        LCModel::LoadTextureSwaps(pBuffer, uiSize, apFile->GetFormVersion());
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pBuffer), uiSize);
+        reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(pBuffer, uiSize, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((apFile))->FUN_00403570());
         break;
     }
     case 'NOCI':
-        LCLoadIcon(this, apFile);
+        ::TESTexture::ReadTextureData((::TESTexture *)(::LCIcon *)(this), (::TESFile *)(apFile));
         break;
     case 'IRCS': {
         unsigned int uiScript = 0;
         apFile->GetChunkData(&uiScript);
-        SetScriptID(uiScript);
-        InitItem(this);
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiScript));
+        reinterpret_cast<::TESScriptableForm *>(this)->InitItem((::TESForm *)(::LCForm *)(this));
         break;
     }
     case 'DTSD':
     case 'TSED':
-        LCLoadDestructible(this, apFile);
+        ::FUN_004781e0((::BGSDestructibleObjectForm *)(::LCDestructible *)(this), (::TESFile *)(apFile));
         break;
     case 'PYTE': {
         unsigned int uiEquipType = 0;
         apFile->GetChunkData(&uiEquipType);
-        SetEquipType(uiEquipType);
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiEquipType));
         break;
     }
     case 'ATAD':
-        ReadTypedData(apFile, 0, 0);
+        reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0((::TESFile *)(apFile), 0, 0);
         break;
     }
 }
@@ -485,11 +489,8 @@ void LCItem::FUN_00409da0(LCFile* apFile, int aiChunk)
 namespace n40 {
 struct Blk
 {
-    void FUN_00503210();
 };
 }
-bool __cdecl FUN_00401500();
-void __cdecl AppendChunk(void* stream, void* data, unsigned int size);
 
 class PrimaryBase409
 {
@@ -527,11 +528,11 @@ class Obj409 : public PrimaryBase409, public StreamIface409
 // @fnv 0x00409ce0
 void Obj409::FUN_00409ce0()
 {
-    if (FUN_00401500())
-        m_70.FUN_00503210();
-    AppendChunk(v9(), &m_70, 8);
-    if (FUN_00401500())
-        m_70.FUN_00503210();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_00503210::Unk *>(&(m_70))->FUN_00503210();
+    ::AppendChunk((std::uintptr_t)(v9()), &m_70, 8);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_00503210::Unk *>(&(m_70))->FUN_00503210();
 }
 
 struct BaseZero
@@ -545,7 +546,6 @@ struct BaseTwelve
 {
     virtual void v0();
     ~BaseTwelve();
-    void FUN_00406340();
 };
 struct FUN_0040a140 : BaseZero, BaseTwelve
 {
@@ -555,5 +555,38 @@ struct FUN_0040a140 : BaseZero, BaseTwelve
 // @fnv 0x0040a140
 FUN_0040a140::~FUN_0040a140()
 {
-    BaseTwelve::FUN_00406340();
+    reinterpret_cast<::fnv_00406340::EffectItemList *>(this)->FUN_00406340();
 }
+
+// sub ecx,0x30; jmp <target>  ==  MSVC adjustor thunk for a second base.
+// PrimaryBase is vptr + 11 ints = 0x30 bytes. The shared virtual is named after the claim.
+struct PrimaryBase
+{
+    virtual void FUN_0040a120();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0040a120();
+};
+
+struct AdjustedDerived : PrimaryBase, SecondaryBase
+{
+    AdjustedDerived();
+// @fnv 0x0040a120
+    virtual void FUN_0040a120();
+};
+
+AdjustedDerived::AdjustedDerived()
+{}

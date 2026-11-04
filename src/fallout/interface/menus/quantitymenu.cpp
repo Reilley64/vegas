@@ -3,6 +3,43 @@
 //
 // Recovered quantity-menu translation unit. Every menu derives from Menu and
 // overrides the shared AssignTileByID slot with its own tile table.
+#include <cstdint>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_007abdb0_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TileListBoxCalls.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/decl/fnv_00a03da0__FUN_00a03da0_shell.h"
+#include "fnv/decl/fnv_00a1d9e0__FUN_00a1d9e0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_007ab000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011da000.h"
 #include "quantitymenu.h"
 
 // Stores tile into the tile array at index when index is within [0, NUM_TILES).
@@ -18,25 +55,20 @@ struct Tile
 {
     void Set(int, int);
 };
-int __cdecl FUN_00707ad0();
 struct Holder
 {
-    Tile* _ref_00726070();
-    void FUN_00a1d9e0();
-    void FUN_00a1d910();
 };
-extern Holder* DAT_011da618;
 // If DAT_011da618 is set, sets its tile to 0x1772/1, then calls FUN_00a1d9e0 or FUN_00a1d910 depending on FUN_00707ad0.
 // @fnv 0x007abdf0
 void FUN_007abdf0()
 {
-    if (DAT_011da618)
+    if ((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618)))
     {
-        DAT_011da618->_ref_00726070()->Set(0x1772, 1);
-        if (FUN_00707ad0())
-            DAT_011da618->FUN_00a1d9e0();
+        ((::fnv_007abdf0::Tile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00726070()))->Set(0x1772, 1);
+        if (((std::intptr_t)(::FUN_00707ad0())))
+            reinterpret_cast<::fnv_00a1d9e0::FUN_00a1d9e0_shell *>(((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00a1d9e0();
         else
-            DAT_011da618->FUN_00a1d910();
+            reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00a1d910();
     }
 }
 }  // namespace fnv_007abdf0
@@ -62,11 +94,8 @@ bool QuantityMenu::HandleButton(int aiButton, float afValue)
     return bhandled;
 }
 
-double __cdecl FUN_00408820(float value);
-void __cdecl FUN_00706f30(int message);
 struct MenuValueReader
 {
-    float FUN_00a011b0(unsigned int index);
 };
 struct MenuValueWatcher
 {
@@ -82,22 +111,16 @@ struct MenuValueWatcher
 // @fnv 0x007ac170
 void MenuValueWatcher::UpdateThresholdCheck()
 {
-    if (FUN_00408820(valueSource->FUN_00a011b0(0xfc4) - lastValue) >= thresholdSource->FUN_00a011b0(0x1007))
+    if (FUN_00408820(reinterpret_cast<::TileListBoxCalls *>((valueSource))->GetFloat(0xfc4) - lastValue) >= reinterpret_cast<::TileListBoxCalls *>((thresholdSource))->GetFloat(0x1007))
     {
         FUN_00706f30(4);
-        lastValue = valueSource->FUN_00a011b0(0xfc4);
+        lastValue = reinterpret_cast<::TileListBoxCalls *>((valueSource))->GetFloat(0xfc4);
     }
 }
 
 struct Tile_7aba00
 {
-    Tile_7aba00* FUN_00a01b00(const char* path);
-    struct Menu_7aba00* FUN_00a03c90();
-    Tile_7aba00* FUN_00a03da0(const char* name);
-    float FUN_00a011b0(unsigned int id);
     void FUN_00700320(int id, int value);
-    void FUN_00a012d0(int id, float value, bool propagate);
-    void FUN_00a01350(int id, const char* value, bool propagate);
 };
 struct Menu_7aba00
 {
@@ -115,7 +138,7 @@ struct Menu_7aba00
     virtual void v2c();
     virtual void v30();
     virtual int GetID();
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -130,14 +153,9 @@ struct Menu_7aba00
     int unk34;
     Tile_7aba00* tile38;
     Tile_7aba00* tile3c;
-    Tile_7aba00* FUN_00726070();
-    void FUN_00a1dc70(Tile_7aba00* tile, bool a2);
-    bool FUN_007abdb0();
-    void FUN_00a1dc20(bool a1);
 };
 struct IM_7aba00
 {
-    Tile_7aba00* FUN_00586150();
 };
 struct Sound_7aba00
 {
@@ -145,7 +163,6 @@ struct Sound_7aba00
     int unk04;
     int unk08;
     ~Sound_7aba00();
-    bool FUN_00ad8830(bool a1);
 };
 struct Audio_7aba00
 {
@@ -153,27 +170,12 @@ struct Audio_7aba00
 };
 struct SettingS_7aba00
 {
-    const char* FUN_00403df0();
 };
 struct SettingF_7aba00
 {
-    float* FUN_00403e20();
 };
-extern SettingS_7aba00 DAT_011d3ac8;
-extern SettingS_7aba00 DAT_011d38b8;
-extern SettingS_7aba00 DAT_011d29f4;
-extern SettingF_7aba00 DAT_011d3bc8;
-extern Menu_7aba00* DAT_011da618;
-extern void* DAT_011da614;
-IM_7aba00* FUN_004b7210();
-Audio_7aba00* FUN_00453a70();
 int FUN_007abda0();
-Menu_7aba00* __cdecl FUN_00a09030(int id);
-int FUN_007023c0();
-void FUN_005b5e40(const char* msg);
 float FUN_00a01530();
-int __cdecl MinInt(int a, int b);
-int __cdecl FUN_00647b70(int a, int b);
 static const char kMenuFile_7aba00[] = "Data\\Menus\\quantity_menu.xml";
 static const char kWarning_7aba00[] =
     "MENUS: Quantity Menu Creation Failed... Are your menu and art resources up to date?";
@@ -182,57 +184,55 @@ static const char kChild1_7aba00[] = "QM_HowManyText";
 static const char kChild2_7aba00[] = "QM_Background";
 // Loads quantity_menu.xml, builds the quantity menu, sets its max/initial/step values and labels, stores the callback, and returns the tile or 0 on failure.
 // @fnv 0x007aba00
-Tile_7aba00* __cdecl CreateQuantityMenu(int max, void* callback, int initial)
+Tile_7aba00* __cdecl CreateQuantityMenu(intptr_t max, void* callback, int initial)
 {
-    IM_7aba00* im4 = FUN_004b7210();
+    IM_7aba00* im4 = ((::IM_7aba00 *)(::fnv_004b7210::FUN_004b7210()));
     bool flag_ = false;
-    Menu_7aba00* old = FUN_00a09030(FUN_007abda0());
+    Menu_7aba00* old = ((::Menu_7aba00 *)(::FUN_00a09030(FUN_007abda0())));
     if (old)
         delete old;
-    if (FUN_007023c0())
+    if (::fnv_007023c0::FUN_007023c0())
         flag_ = true;
-    Tile_7aba00* tile6 = im4->FUN_00586150()->FUN_00a01b00(kMenuFile_7aba00);
-    DAT_011da618 = tile6->FUN_00a03c90();
-    if (DAT_011da618 && DAT_011da618->GetID() == FUN_007abda0())
+    Tile_7aba00* tile6 = ((::Tile_7aba00 *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::Tile_7aba00 *)(reinterpret_cast<::InterfaceManager *>((im4))->FUN_00586150()))))->FUN_00a01b00((void *)(kMenuFile_7aba00))));
+    (*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618)) = ((::Menu_7aba00 *)(reinterpret_cast<::FUN_00a03c90_shell *>((tile6))->FUN_00a03c90()));
+    if ((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618)) && (*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->GetID() == FUN_007abda0())
     {
-        DAT_011da618->FUN_00a1dc70(tile6, false);
-        if (!DAT_011da618->FUN_007abdb0())
+        reinterpret_cast<::FUN_00a1dc70_shell *>(((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00a1dc70((::TileMenu *)(tile6), false);
+        if (!reinterpret_cast<::FUN_007abdb0_shell *>(((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))))->FUN_007abdb0())
         {
-            FUN_005b5e40(kWarning_7aba00);
+            ::FUN_005b5e40();
             return 0;
         }
-        FUN_00453a70()->FUN_00ad7550(kSound_7aba00, 0x121).FUN_00ad8830(false);
-        if (tile6->FUN_00a011b0(0xfa7) == 6006.0 || tile6->FUN_00a011b0(0xfa7) == 102.0)
+        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound_7aba00 &)(((::Audio_7aba00 *)(::FUN_00453a70()))->FUN_00ad7550(kSound_7aba00, 0x121)))->FUN_00ad8830(false);
+        if (reinterpret_cast<::TileListBoxCalls *>((tile6))->GetFloat(0xfa7) == 6006.0 || reinterpret_cast<::TileListBoxCalls *>((tile6))->GetFloat(0xfa7) == 102.0)
         {
-            tile6->FUN_00a012d0(0xfad, FUN_00a01530(), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((tile6))->FUN_00a012d0(0xfad, FUN_00a01530(), true);
         }
         int value9 = MinInt(initial, max);
         int bigStep = FUN_00647b70(max / 20, 1);
         int smallStep = FUN_00647b70(max / 4, 1);
         if (bigStep > 10)
             bigStep -= bigStep % 10;
-        DAT_011da618->tile28->FUN_00700320(0x1004, max);
-        DAT_011da618->tile28->FUN_00700320(0x1006, value9);
-        DAT_011da618->tile28->FUN_00700320(0x1007, bigStep);
-        DAT_011da618->tile28->FUN_00700320(0x1008, smallStep);
-        DAT_011da618->tile28->FUN_00a012d0(0xff0, 0.0f, true);
-        DAT_011da614 = callback;
-        tile6->FUN_00a03da0(kChild1_7aba00)->FUN_00a01350(0xfc4, DAT_011d3ac8.FUN_00403df0(), true);
-        DAT_011da618->tile38->FUN_00a01350(0xfc4, DAT_011d38b8.FUN_00403df0(), true);
-        DAT_011da618->tile3c->FUN_00a01350(0xfc4, DAT_011d29f4.FUN_00403df0(), true);
+        (*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->tile28->FUN_00700320(0x1004, max);
+        (*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->tile28->FUN_00700320(0x1006, value9);
+        (*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->tile28->FUN_00700320(0x1007, bigStep);
+        (*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->tile28->FUN_00700320(0x1008, smallStep);
+        reinterpret_cast<::FUN_00a012d0_t *>(((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->tile28))->FUN_00a012d0(0xff0, 0.0f, true);
+        (*reinterpret_cast<void * *>(&::g_pSleepWaitCallback)) = callback;
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::Tile_7aba00 *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((tile6))->FUN_00a03da0((char *)(kChild1_7aba00))))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingS_7aba00 *>(&::g_011d3ac8))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->tile38))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingS_7aba00 *>(&::g_011d38b8))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->tile3c))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingS_7aba00 *>(&::g_011d29f4))))->GetMenuTitle()))), true);
         if (flag_)
         {
-            DAT_011da618->FUN_00726070()
-                ->FUN_00a03da0(kChild2_7aba00)
-                ->FUN_00a012d0(0xfa9, *DAT_011d3bc8.FUN_00403e20() * 255.0, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((((::Tile_7aba00 *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::Tile_7aba00 *)((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->unk04))))->FUN_00a03da0((char *)(kChild2_7aba00))))))->FUN_00a012d0(0xfa9, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF_7aba00 *>(&::g_011d3bc8)))))) * 255.0, true);
         }
-        DAT_011da618->FUN_00a1dc20(false);
+        reinterpret_cast<::Menu *>(((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))))->SetMenuVisibility(false);
         return tile6;
     }
     else
     {
-        if (DAT_011da618 && DAT_011da618->FUN_00726070())
-            delete DAT_011da618;
+        if ((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618)) && ((::Tile_7aba00 *)((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->unk04)))
+            delete (*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618));
     }
     return 0;
 }
@@ -240,16 +240,8 @@ Tile_7aba00* __cdecl CreateQuantityMenu(int max, void* callback, int initial)
 class Tile
 {
   public:
-    float GetValue(unsigned int id);
-    void SetFloat(int id, float value, bool propagate);
 };
 
-int TruncateFloatToInt(float value);
-float FUN_00404010(float a, float b);
-float FUN_0040ebd0(float a, float b);
-void __cdecl SleepWaitRefresh();
-extern void(__cdecl* g_pSleepWaitCallback)(int);
-extern const float kNegOne;
 
 struct SleepWaitMenuStub : public Menu
 {
@@ -260,7 +252,7 @@ struct SleepWaitMenuStub : public Menu
 // @fnv 0x007abe40
 void SleepWaitMenuStub::HandleTileInput(int index, Tile* tile)
 {
-    float fValue = m_pTiles[3]->GetValue(0xfc4);
+    float fValue = reinterpret_cast<::TileListBoxCalls *>((m_pTiles[3]))->GetFloat(0xfc4);
     if (!tile && index >= 0 && index < 6)
         tile = m_pTiles[index];
     switch (index)
@@ -268,27 +260,23 @@ void SleepWaitMenuStub::HandleTileInput(int index, Tile* tile)
     case 4:
     case 5:
         if (g_pSleepWaitCallback)
-            g_pSleepWaitCallback(index == 4 ? TruncateFloatToInt(fValue) : 0);
-        SleepWaitRefresh();
+            g_pSleepWaitCallback(index == 4 ? ::FUN_00406d90(fValue) : 0);
+        ::fnv_007abdf0::FUN_007abdf0();
         break;
     case 1:
     case 2: {
-        float fScaledValue = m_pTiles[0]->GetValue(0x1004);
-        m_pTiles[0]->SetFloat(
-            0x1006, FUN_0040ebd0(FUN_00404010(fValue + (index == 2 ? 1.0f : kNegOne), 0.0f), fScaledValue), true);
-        m_pTiles[0]->SetFloat(0xff0, 0.0f, true);
+        float fScaledValue = reinterpret_cast<::TileListBoxCalls *>((m_pTiles[0]))->GetFloat(0x1004);
+        reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[0]))->FUN_00a012d0(
+            0x1006, FUN_0040ebd0(FUN_00404010(fValue + (index == 2 ? 1.0f : ::DAT_01012054), 0.0f), fScaledValue), true);
+        reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[0]))->FUN_00a012d0(0xff0, 0.0f, true);
     }
     break;
     }
 }
 
-float FUN_00404010(float afA, float afB);
-float FUN_0040ebd0(float afA, float afB);
 
 struct QtyTile
 {
-    float GetValueFloat(int aiID);
-    void SetValueFloat(int aiID, float afValue, bool abPropagate);
 };
 
 struct QtyMenuStub : public Menu
@@ -309,26 +297,28 @@ bool QtyMenuStub::HandleQuantityKey(int aiKey, int aiUnused)
     {
     case 13:
     case 14: {
-        float fCur4 = pBarTile->GetValueFloat(0xFC4);
-        float fScaledValue = pScrollTile->GetValueFloat(0x1004);
-        float fStep = pScrollTile->GetValueFloat(0x1008);
-        pScrollTile->SetValueFloat(
+        float fCur4 = reinterpret_cast<::TileListBoxCalls *>((pBarTile))->GetFloat(0xFC4);
+        float fScaledValue = reinterpret_cast<::TileListBoxCalls *>((pScrollTile))->GetFloat(0x1004);
+        float fStep = reinterpret_cast<::TileListBoxCalls *>((pScrollTile))->GetFloat(0x1008);
+        reinterpret_cast<::FUN_00a012d0_t *>((pScrollTile))->FUN_00a012d0(
             0x1006, FUN_0040ebd0(FUN_00404010(fCur4 + (aiKey == 14 ? fStep : -fStep), 0.0f), fScaledValue), true);
-        pScrollTile->SetValueFloat(0xFF0, 0.0f, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((pScrollTile))->FUN_00a012d0(0xFF0, 0.0f, true);
         bHandled = true;
     }
     break;
     case 15:
     case 16: {
-        float fCur3 = pBarTile->GetValueFloat(0xFC4);
-        float fMax2 = pScrollTile->GetValueFloat(0x1004);
-        float fStep9 = pScrollTile->GetValueFloat(0x1007);
-        pScrollTile->SetValueFloat(
+        float fCur3 = reinterpret_cast<::TileListBoxCalls *>((pBarTile))->GetFloat(0xFC4);
+        float fMax2 = reinterpret_cast<::TileListBoxCalls *>((pScrollTile))->GetFloat(0x1004);
+        float fStep9 = reinterpret_cast<::TileListBoxCalls *>((pScrollTile))->GetFloat(0x1007);
+        reinterpret_cast<::FUN_00a012d0_t *>((pScrollTile))->FUN_00a012d0(
             0x1006, FUN_0040ebd0(FUN_00404010(fCur3 + (aiKey == 16 ? fStep9 : -fStep9), 0.0f), fMax2), true);
-        pScrollTile->SetValueFloat(0xFF0, 0.0f, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((pScrollTile))->FUN_00a012d0(0xFF0, 0.0f, true);
         bHandled = true;
     }
     break;
     }
     return bHandled;
 }
+
+#include "generated/data/fallout/interface/menus/quantitymenu.inc"

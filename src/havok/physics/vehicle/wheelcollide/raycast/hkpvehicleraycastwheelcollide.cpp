@@ -2,27 +2,44 @@
 // src/havok/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
+#include <new>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00c936a0_World.h"
+#include "fnv/decl/FUN_00cf2cb0.h"
+#include "fnv/decl/FUN_00e360f0.h"
+#include "fnv/decl/PhRemoveListener.h"
+#include "fnv/decl/PhantomBounds.h"
+#include "fnv/decl/Phantom_00cf26b0.h"
+#include "fnv/decl/WorldC92C.h"
+#include "fnv/decl/hkOwnerXd07de0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_0102e000.h"
 #include "havok/hkpVehicleRayCastWheelCollide.h"
+#include "havok/hkpWorldObject.h"
 
-struct FUN_00e41f10
+struct FUN_00e41f10 : hkpVehicleRayCastWheelCollide
 {
     void SetUserInfo(int a);
 };
 // @fnv 0x00e41f10
 void FUN_00e41f10::SetUserInfo(int aiValue)
 {
-    *(int*)((char*)this + 0xc) = aiValue;
-    int* p = *(int**)((char*)this + 0x10);
+    m_uiWheelCount = aiValue;
+    hkpWorldObject* p = reinterpret_cast<hkpWorldObject*>(m_pPhantom);
     if (p)
-        p[0x2c / 4] = aiValue;
+        p->m_kCollidable.m_kBroadPhaseHandle.m_uiCollisionFilterData = aiValue;
 }
 
 struct FUN_00c936a0_host
 {
-    void* FUN_00c936a0(void* phantom);
 };
 
-struct FUN_00e41ef0_self
+struct FUN_00e41ef0_self : hkpVehicleRayCastWheelCollide
 {
     void* FUN_00e41ef0(void* world);
 };
@@ -30,7 +47,7 @@ struct FUN_00e41ef0_self
 // @fnv 0x00e41ef0
 void* FUN_00e41ef0_self::FUN_00e41ef0(void* world)
 {
-    return ((FUN_00c936a0_host*)world)->FUN_00c936a0(*(void**)((char*)this + 0x10));
+    return ((void *)(reinterpret_cast<::FUN_00c936a0_World *>((((FUN_00c936a0_host*)world)))->FUN_00c936a0((::hkpPhantom *)(m_pPhantom))));
 }
 
 struct __declspec(align(16)) hkAabb
@@ -40,7 +57,6 @@ struct __declspec(align(16)) hkAabb
 
 struct FUN_00cf24a0_host
 {
-    void FUN_00cf24a0(hkAabb* aabb);
 };
 
 struct FUN_00e41e70_host
@@ -71,31 +87,27 @@ void FUN_00e41e70_host::FUN_00e41e70(unsigned int shape)
 {
     hkAabb aabb;
     this->FUN_00e41034(shape, &aabb);
-    this->m_pPhantom->FUN_00cf24a0(&aabb);
+    reinterpret_cast<::PhantomBounds *>((this->m_pPhantom))->FUN_00cf24a0((*(const ::hkAabb *)(&aabb)));
 }
 
 struct FUN_00c92c70_host
 {
-    void FUN_00c92c70(void* phantom);
 };
-struct FUN_00e41f00_self
+struct FUN_00e41f00_self : hkpVehicleRayCastWheelCollide
 {
     void FUN_00e41f00();
 };
 // @fnv 0x00e41f00
 void FUN_00e41f00_self::FUN_00e41f00()
 {
-    void* p = *(void**)((char*)this + 0x10);
-    ((FUN_00c92c70_host*)*(void**)((char*)p + 8))->FUN_00c92c70(p);
+    hkpWorldObject* p = reinterpret_cast<hkpWorldObject*>(m_pPhantom);
+    reinterpret_cast<::WorldC92C *>((((FUN_00c92c70_host*)p->m_pOwningWorld)))->FUN_00c92c70((::ActionC92C *)(p));
 }
 
 extern int DAT_010e5ae4;
-extern int DAT_0102e388;
 
 struct FUN_00e41fc0_phantom
 {
-    void __thiscall FUN_00d07c80(void* arg);
-    void __thiscall FUN_00c905b0();
 };
 
 struct FUN_00e41fc0_listener
@@ -104,7 +116,6 @@ struct FUN_00e41fc0_listener
     int unk04;
     void* unk08;
     void* unk0C;
-    void __thiscall FUN_00e360f0();
 };
 
 class FUN_00e41fc0_host
@@ -132,45 +143,29 @@ void FUN_00e41fc0_host::FUN_00e41fc0()
     {
         if (this->unk14.unk0C)
         {
-            void* listener = (char*)this + 0x14;
+            void* listener = (char*)&this->unk14;
             void* arg;
 
             if (listener)
             {
-                arg = (char*)this + 0x1c;
+                arg = (char*)&this->unk14.unk08;
             }
             else
             {
                 arg = 0;
             }
 
-            phantom->FUN_00d07c80(arg);
+            reinterpret_cast<::PhRemoveListener *>((phantom))->FUN_00d07c80(arg);
         }
 
-        this->unk10->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((this->unk10))->FUN_00c905b0();
     }
 
-    this->unk14.FUN_00e360f0();
-    *(int**)this = &DAT_0102e388;
+    reinterpret_cast<::FUN_00e360f0 *>(&(this->unk14))->FUN_00e360f0::~FUN_00e360f0();
+    *(int**)this = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-class hkMemoryAllocatorXe42610;
 
-struct hkMemoryRouterXe42610
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorXe42610* m_pStreamAllocator;
-    hkMemoryAllocatorXe42610& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterXe42610& __cdecl FUN_00c85750();
-
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
 template <class T> __forceinline void constructWithCopyXe42610(T* p, int n, const T& t)
 {
@@ -191,9 +186,9 @@ template <class T> class hkArrayXe42610
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorXe42610& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyXe42610(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -229,11 +224,6 @@ struct S00e41f30_arg
     int unk18;
 };
 
-struct FUN_00c85750_vt
-{
-    virtual void vf00();
-    virtual void* vf04(unsigned int size);
-};
 
 struct FUN_00c85750_obj
 {
@@ -303,18 +293,8 @@ struct FUN_00c85750_obj
     int unkF8;
     int unkFC;
 
-    void* __thiscall FUN_00cf2cb0(void* aabb, unsigned int filter);
-    void __thiscall FUN_00d07de0(void* value);
 };
 
-struct FUN_00c85750_host
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00c85750_vt* unk10;
-};
 
 struct S00e41f30_listener
 {
@@ -338,7 +318,7 @@ struct S00e41f30_impl
     virtual void vf28();
     virtual void vf2C();
     virtual void vf30();
-    virtual void vf34(unsigned int shape, hkAabb* aabb);
+    virtual void vf34(const void* shape, hkAabb* aabb);
 
     int unk04;
     int unk08;
@@ -347,11 +327,11 @@ struct S00e41f30_impl
     S00e41f30_listener m_kChassisRejectionListener;
     int unk20;
 
-    void __thiscall CreateWheelPhantom(S00e41f30_arg* arg);
+    void CreateWheelPhantom(S00e41f30_arg* arg);
 };
 
 namespace fnvc_adapt {
-FUN_00c85750_host* __cdecl FUN_00c85750();
+
 }
 
 // @fnv 0x00e41f30
@@ -359,16 +339,16 @@ void S00e41f30_impl::CreateWheelPhantom(S00e41f30_arg* arg)
 {
     hkAabb aabb;
 
-    this->vf34(reinterpret_cast<unsigned int>(arg), &aabb);
+    this->vf34(arg, &aabb);
 
-    FUN_00c85750_host* host = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* host = &hkMemoryRouter::getInstance();
 
-    FUN_00c85750_obj* allocated = reinterpret_cast<FUN_00c85750_obj*>(host->unk10->vf04(0xe0));
+    FUN_00c85750_obj* allocated = reinterpret_cast<FUN_00c85750_obj*>(host->m_heap->blockAlloc(0xe0));
 
     allocated->unk04 = 0xe0;
 
     FUN_00c85750_obj* pPhantom =
-        reinterpret_cast<FUN_00c85750_obj*>(allocated->FUN_00cf2cb0(&aabb, this->m_uiWheelCount));
+        reinterpret_cast<FUN_00c85750_obj*>(((void *)(new ((void *)(allocated)) ::FUN_00cf2cb0((*(const ::Aabb_cf2c *)(&aabb)), this->m_uiWheelCount))));
 
     this->m_pPhantom = reinterpret_cast<hkpAabbPhantom*>(pPhantom);
 
@@ -376,20 +356,12 @@ void S00e41f30_impl::CreateWheelPhantom(S00e41f30_arg* arg)
 
     S00e41f30_listener* l = &this->m_kChassisRejectionListener;
     void* v = l ? &this->m_kChassisRejectionListener.unk08 : 0;
-    pPhantom->FUN_00d07de0(v);
+    reinterpret_cast<::hkOwnerXd07de0 *>((pPhantom))->FUN_00d07de0(v);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+#include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
-extern const __m128 DAT_010c44d0;
 
 struct hkVector4E423
 {
@@ -472,13 +444,13 @@ struct CollisionDetectionWheelOutputE423
 
 struct hkpVehicleRayCastWheelCollideE423
 {
-    static void __stdcall RayCastWheelCollide(const hkpVehicleInstanceE423* pkVehicle, unsigned char ucWheelNum,
+    static void RayCastWheelCollide(const hkpVehicleInstanceE423* pkVehicle, unsigned char ucWheelNum,
                                               CollisionDetectionWheelOutputE423& kCdInfo);
 };
 
 // Copies contact point velocity, writes negated hard point components to the separating normal, and stores the wheel rest length.
 // @fnv 0x00e423d0
-void __stdcall hkpVehicleRayCastWheelCollideE423::RayCastWheelCollide(const hkpVehicleInstanceE423* pkVehicle,
+void hkpVehicleRayCastWheelCollideE423::RayCastWheelCollide(const hkpVehicleInstanceE423* pkVehicle,
                                                                       unsigned char ucWheelNum,
                                                                       CollisionDetectionWheelOutputE423& kCdInfo)
 {
@@ -550,30 +522,9 @@ FUN_00e42550::FUN_00e42550() : m_uiWheelCount(0), m_pPhantom(0)
 }
 
 namespace fnv_00e42590 {
-class hkMemoryAllocatorE42
-{
-  public:
-    virtual ~hkMemoryAllocatorE42() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterE42
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorE42* m_pStreamAllocator;
-
-    hkMemoryAllocatorE42& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterE42 {
-extern "C" hkMemoryRouterE42& __cdecl FUN_00c85750() throw();
+
 }
 
 class hkpEntityListenerE42
@@ -585,9 +536,6 @@ class hkpEntityListenerE42
 class hkpEntityE42
 {
   public:
-    void FUN_00c90510() throw();
-    void FUN_00d07c80(hkpEntityListenerE42* listener) throw();
-    void FUN_00d07de0(hkpEntityListenerE42* listener) throw();
 };
 
 class hkpActionListenerE42
@@ -629,9 +577,9 @@ class FUN_00e42550
     hkpListenerSetE42 m_kListeners;
     int* m_pCurrentSimulationIsland;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
-        FUN_00e42550* b = static_cast<FUN_00e42550*>(hkRouterE42::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        FUN_00e42550* b = static_cast<FUN_00e42550*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -647,9 +595,9 @@ FUN_00e42550* FUN_00e42550::Clone(hkpSimulationIslandE42* island, const hkEntity
 {
     FUN_00e42550* clone = new FUN_00e42550();
     clone->m_pEntity = entities.m_data[0];
-    clone->m_pEntity->FUN_00c90510();
-    clone->m_pEntity->FUN_00d07c80(&m_kListeners);
-    clone->m_pEntity->FUN_00d07de0(&clone->m_kListeners);
+    reinterpret_cast<::FUN_00c90510_class *>((clone->m_pEntity))->FUN_00c90510();
+    reinterpret_cast<::PhRemoveListener *>((clone->m_pEntity))->FUN_00d07c80(&m_kListeners);
+    reinterpret_cast<::hkOwnerXd07de0 *>((clone->m_pEntity))->FUN_00d07de0(&clone->m_kListeners);
     clone->m_pCurrentSimulationIsland = &island->m_data;
     clone->m_ulUserData = m_ulUserData;
     return clone;
@@ -659,7 +607,6 @@ FUN_00e42550* FUN_00e42550::Clone(hkpSimulationIslandE42* island, const hkEntity
 class hkpAabbPhantom
 {
   public:
-    void __thiscall FUN_00cf26b0(void* input, void* output);
 };
 
 struct __declspec(align(16)) Vec4
@@ -675,21 +622,30 @@ struct __declspec(align(16)) FUN_00e41eb0_Input
     unsigned int m_uiFilterInfo;
 };
 
+// hkpVehicleInstance::WheelInfo ray: hard point (+0x50) and ray end point (+0x60).
+struct WheelRayFields
+{
+    char pad00[0x50];
+    __m128 m_rayStart;  // +0x50
+    __m128 m_rayEnd;    // +0x60
+};
+
 struct FUN_00e41eb0_Host : public hkpVehicleRayCastWheelCollide
 {
-    void __thiscall FUN_00e41eb0(const void* source, void* output);
+    void FUN_00e41eb0(const void* source, void* output);
 };
 
 // Builds an input from vectors at source offsets 0x50 and 0x60 (filter info = m_uiWheelCount) and passes it with output to m_pPhantom's FUN_00cf26b0.
 // @fnv 0x00e41eb0
-void __thiscall FUN_00e41eb0_Host::FUN_00e41eb0(const void* source, void* output)
+void FUN_00e41eb0_Host::FUN_00e41eb0(const void* source, void* output)
 {
     FUN_00e41eb0_Input input;
-    *(__m128*)&input.m_vFrom = *(__m128*)((const char*)source + 0x50);
-    *(__m128*)&input.m_vTo = *(__m128*)((const char*)source + 0x60);
+    const WheelRayFields* wheel = static_cast<const WheelRayFields*>(source);
+    *(__m128*)&input.m_vFrom = wheel->m_rayStart;
+    *(__m128*)&input.m_vTo = wheel->m_rayEnd;
     input.m_uiFilterInfo = m_uiWheelCount;
     input.m_bEnableShapeCollectionFilter = 1;
-    m_pPhantom->FUN_00cf26b0(&input, output);
+    reinterpret_cast<::Phantom_00cf26b0 *>((m_pPhantom))->FUN_00cf26b0((*(const ::WorldRayCastInput *)(&input)), (*(::WorldRayCastOutput *)(output)));
 }
 
 struct hkpVehicleDataE420
@@ -806,10 +762,6 @@ void S00e420c0_Self::FUN_00e420c0(float deltaTime, const hkpVehicleInstanceE420*
     }
 }
 
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 struct FUN_00e42010_counts
 {
@@ -902,7 +854,7 @@ struct FUN_00e42010_self
 
 // Computes the min/max AABB from the m_kBounds of all items in the self->unk48 array, storing the result into aabb.
 // @fnv 0x00e42010
-void __stdcall FUN_00e42010(FUN_00e42010_self* self, hkAabb* aabb)
+void FUN_00e42010(FUN_00e42010_self* self, hkAabb* aabb)
 {
     _mm_store_ps(&aabb->m_data[0], _mm_min_ps(_mm_load_ps(&self->unk48[0].m_kBounds.m_data[0]),
                                               _mm_load_ps(&self->unk48[0].m_kBounds.m_data[4])));
@@ -1090,4 +1042,268 @@ int S00e42460_RayCastWheelCollide::FUN_00e42460(const S00e42460_VehicleInstance*
         return numWheels;
     }
     return 0;
+}
+
+// Moved from hkpvehicleraycastwheelcollide_rtm_variant.cpp (VEGAS-15).
+void FUN_00e42010(FUN_00e42010_self* self, hkAabb* aabb);
+
+struct Tab34
+{
+    int p00;
+    int p04;
+    float* f08;
+};
+struct VSub
+{
+    int p00;
+    int p04;
+    int p08;
+    int p0c;
+    int p10;
+    int p14;
+    int p18;
+    int p1c;
+    int p20;
+    int p24;
+    int p28;
+    int p2c;
+    int p30;
+    int p34;
+    int p38;
+    int p3c;
+    int p40;
+    int p44;
+    int p48;
+    int p4c;
+    int p50;
+    int p54;
+    int p58;
+    int p5c;
+    int p60;
+    int p64;
+    int p68;
+    int p6c;
+    int p70;
+    int p74;
+    int p78;
+    int p7c;
+    int p80;
+    float f84;
+    int p88;
+    float* f8c;
+};
+struct VecWork
+{
+    __m128 m_vComponents;
+    VecWork()
+    {}
+    VecWork(const VecWork& b)
+    {
+        m_vComponents = b.m_vComponents;
+    }
+    void operator=(const VecWork& b)
+    {
+        m_vComponents = b.m_vComponents;
+    }
+    void sub(const VecWork& a, const VecWork& b)
+    {
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void cross(const VecWork& a, const VecWork& b)
+    {
+        m_vComponents = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 0xc9),
+                                              _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xd2)),
+                                   _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 0xd2),
+                                              _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xc9)));
+    }
+    void add(const VecWork& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, b.m_vComponents);
+    }
+};
+struct CenterTrack
+{
+    VecWork center0, center1, orient0, orient1, localCenter;
+};
+struct MotionStateData
+{
+    VecWork transform0, transform1, transform2, transform3;
+    CenterTrack track;
+    VecWork unk90, unkA0, unkB0;
+    __forceinline const CenterTrack& trackData() const
+    {
+        return track;
+    }
+};
+struct MotionData
+{
+    VecWork unk00;
+    MotionStateData state;
+    VecWork linearVelocity, angularVelocity;
+    __forceinline const VecWork& worldCenter() const
+    {
+        return state.trackData().center1;
+    }
+    __forceinline const MotionStateData* stateData() const
+    {
+        return &state;
+    }
+};
+struct IntegerTriple
+{
+    __m128 unk00, unk10, unk20, unk30, unk40, unk50, unk60, unk70, unk80;
+    float friction;
+    float unk94, unk98, unk9C;
+    __m128 unkA0, unkB0, unkC0, unkD0;
+    MotionData motion;
+};
+struct VObj
+{
+    int p00;
+    int p04;
+    int p08;
+    int p0c;
+    int p10;
+    int p14;
+    IntegerTriple* f18;
+    VSub* f1c;
+    int p20;
+    int p24;
+    int p28;
+    int p2c;
+    int p30;
+    Tab34* f34;
+    int p38;
+    int p3c;
+    int p40;
+    int p44;
+    hkpVehicleWheelInfoE423* f48;
+};
+struct Node50
+{
+    int p00;
+    int p04;
+    int p08;
+    int p0c;
+    signed char c10;
+    char p11;
+    char p12;
+    char p13;
+    int p14;
+    char c18;
+};
+struct Src
+{
+    __m128 v0;
+    float f10;
+    float f14;
+    float f18;
+    float f1c;
+    unsigned int shapeKeys[8];
+    int p40;
+    int p44;
+    int p48;
+    int p4c;
+    Node50* f50;
+};
+struct Dst
+{
+    __m128 v0;
+    union
+    {
+        __m128 v1;
+        struct
+        {
+            float normalX, normalY, normalZ, distance;
+        };
+    };
+    float f20;
+    IntegerTriple* f24;
+    unsigned int shapeKeys[8];
+    float f48;
+    float f4c;
+    float f50;
+};
+
+__forceinline void CrossP(__m128& out, const __m128& angular, const __m128& offset)
+{
+    __m128 first = _mm_mul_ps(_mm_shuffle_ps(angular, angular, 0xC9), _mm_shuffle_ps(offset, offset, 0xD2));
+    __m128 second = _mm_mul_ps(_mm_shuffle_ps(angular, angular, 0xD2), _mm_shuffle_ps(offset, offset, 0xC9));
+    out = _mm_sub_ps(first, second);
+}
+__forceinline void PointVelocity(const MotionData& motion, const VecWork& point, VecWork& out)
+{
+    VecWork offset;
+    offset.sub(point, motion.worldCenter());
+    const VecWork& angular = motion.angularVelocity;
+    out.cross(angular, offset);
+    out.add(motion.linearVelocity);
+}
+// @fnv 0x00e42190
+void FUN_00e42190(VObj* a, unsigned char idx, Src* src, Dst* dst)
+{
+    float* table = a->f34->f08;
+    float slotA = table[idx * 12 + 8];
+    hkpVehicleWheelInfoE423* E2 = a->f48 + idx;
+
+    __m128 srcV = _mm_load_ps((float*)&src->v0);
+    __m128 oldV = _mm_load_ps((float*)&dst->v1);
+    __m128 t = _mm_unpackhi_ps(srcV, oldV);
+    __m128 r = _mm_shuffle_ps(srcV, t, 0xC4);
+    _mm_store_ps((float*)&dst->v1, r);
+    for (int key = 0; key < 8; ++key)
+        dst->shapeKeys[key] = src->shapeKeys[key];
+    Node50* np = src->f50;
+    IntegerTriple* link = (np->c18 == 1) ? (IntegerTriple*)((char*)np + np->c10) : 0;
+    dst->f24 = link;
+    float g = a->f1c->f8c[idx * 10];
+    float slotB = g;
+    slotB = (g + slotA) * src->f10;
+    float length = slotB - g;
+    dst->f48 = length;
+    __m128 bc0 = _mm_load_ss(&slotB);
+    __m128 bc = _mm_shuffle_ps(bc0, bc0, 0);
+    __m128 e80 = E2->m_vHardPointWs.m_vComponents;
+    __m128 p = _mm_mul_ps(bc, e80);
+    __m128 e50 = E2->m_vContactPoint[5].m_vComponents;
+    p = _mm_add_ps(p, e50);
+    _mm_store_ps((float*)&dst->v0, p);
+    dst->distance = length;
+    __m128 v1n = _mm_load_ps((float*)&dst->v1);
+    dst->f20 = dst->f24->friction;
+    __m128 e80b = E2->m_vHardPointWs.m_vComponents;
+    __m128 prod = _mm_mul_ps(v1n, e80b);
+    __m128 h1 = _mm_shuffle_ps(prod, prod, 0x55);
+    h1 = _mm_add_ss(h1, prod);
+    __m128 h2 = _mm_shuffle_ps(prod, prod, 0xAA);
+    h2 = _mm_add_ss(h2, h1);
+    float sum;
+    _mm_store_ss(&sum, h2);
+    if (sum < -a->f1c->f84)
+    {
+        IntegerTriple* W = a->f18;
+        VecWork d0;
+        d0.m_vComponents = dst->v0;
+        VecWork yVec;
+        PointVelocity(W->motion, d0, yVec);
+        VecWork xVec;
+        PointVelocity(link->motion, d0, xVec);
+        __m128 y0 = yVec.m_vComponents, x6 = xVec.m_vComponents;
+        float inv = (float)(-1.0 / sum);
+        y0 = _mm_sub_ps(y0, x6);
+        y0 = _mm_mul_ps(y0, v1n);
+        __m128 s1 = _mm_shuffle_ps(y0, y0, 0x55);
+        s1 = _mm_add_ss(s1, y0);
+        __m128 s2 = _mm_shuffle_ps(y0, y0, 0xAA);
+        s2 = _mm_add_ss(s2, s1);
+        float sum2;
+        _mm_store_ss(&sum2, s2);
+        dst->f4c = sum2 * inv;
+        dst->f50 = inv;
+    }
+    else
+    {
+        dst->f4c = 0.0f;
+        dst->f50 = 1.0f / a->f1c->f84;
+    }
 }

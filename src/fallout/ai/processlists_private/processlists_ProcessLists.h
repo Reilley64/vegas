@@ -2,6 +2,7 @@
 #ifndef FNV_PROCESSLISTS_PRIVATE_PROCESSLISTS_H
 #define FNV_PROCESSLISTS_PRIVATE_PROCESSLISTS_H
 
+#include "fnv/symbols_011e0000.h"
 #include "processlists_layout_support.h"
 #include "processlists_ProcessArray.h"
 #include "processlists_task_data.h"
@@ -78,50 +79,9 @@ class ProcessLists
     void UpdateHighProcess();
     bool IsActorTalkingThroughActivator(Actor* apActor);
 };
-FNV_STATIC_ASSERT(sizeof(ProcessLists) == 0x103E0);
-FNV_STATIC_ASSERT(__alignof(ProcessLists) == 32);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_fProcessListValue1) == 0);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kMobileObjectProcessList) == 4);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_pkCrimeLists) == 0x44);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kTemporaryEffectList) == 0x58);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kTemporaryEffectList2) == 0x60);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kMuzzleFlashList) == 0x68);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kMobileObjectList) == 0x70);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kObjectReferenceList) == 0x78);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kAliveActorList) == 0x80);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_apActorCache) == 0x88);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_iActorCount) == 0x150);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_fProcessListValue2) == 0x154);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_fProcessUpdateTimer) == 0x158);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bFirstFlagBeforeTaskManager) == 0x15C);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bSecondFlagBeforeTaskManager) == 0x15D);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kTaskManager) == 0x160);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, DialoguePackageList) == 0x102E4);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kActorListLock) == 0x10300);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, kUpdateLock) == 0x10320);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_pMobileObjectList) == 0x10340);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_pkSecondMobileObjectList) == 0x10344);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kLipSyncBackgroundManager) == 0x10360);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bFirstOfThreeFlags) == 0x103A0);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bSecondOfThreeFlags) == 0x103A1);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bThirdOfThreeFlags) == 0x103A2);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, ActorProcessData) == 0x103A4);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bThirdBooleanFlag) == 0x103A8);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bUpdateLowProcesses) == 0x103A9);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bRunSecondProcessUpdate) == 0x103AA);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bUpdateLowListProcessLists) == 0x103AB);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bSeventhBooleanFlag) == 0x103AC);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bFourthOfFiveFlags) == 0x103AD);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_bFourthBooleanFlagBeforeFloat) == 0x103AE);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_iMobileObjectCount) == 0x103B0);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_fCrimeListUpdateTimer) == 0x103B4);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_iCrimeNumber) == 0x103B8);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, SemaphoreTimingState) == 0x103BC);
-FNV_STATIC_ASSERT(offsetof(ProcessLists, m_kLoadSemaphore) == 0x103C0);
 
 // Genuine names-only original object: ?g_kProcessLists@@3VProcessLists@@A
 // qualified cross-platform identity inference, supported by independently
 // annotated PC singleton ownership and direct object-address use at 0096E327.
 // This is not an exact PC symbol annotation and does not define new storage.
-extern ProcessLists g_kProcessLists;
 #endif

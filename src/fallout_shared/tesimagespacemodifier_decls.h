@@ -2,6 +2,26 @@
 #ifndef TESIMAGESPACEMODIFIER_DECLS_H
 #define TESIMAGESPACEMODIFIER_DECLS_H
 
+#include <cstring>
+#include "fnv/decl/FORenderedMenu.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_004f5d90_shell.h"
+#include "fnv/decl/FUN_0052ce20_shell.h"
+#include "fnv/decl/FUN_0052cfc0_Class.h"
+#include "fnv/decl/FUN_00b8af10_shell.h"
+#include "fnv/decl/FUN_00b8af40_shell.h"
+#include "fnv/decl/FUN_00b8af60_shell.h"
+#include "fnv/decl/FUN_00b8af90_shell.h"
+#include "fnv/decl/FUN_00b8afb0_shell.h"
+#include "fnv/decl/FUN_00b8afe0_shell.h"
+#include "fnv/decl/FUN_00b8b760_cls.h"
+#include "fnv/decl/FUN_00b8cb30_cls.h"
+#include "fnv/decl/FUN_00b8cc20_class.h"
+#include "fnv/decl/fnv_00b8b8d0__ImageSpaceDistanceEffect.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_011c9000.h"
 #include "TESForm.h"
 #include "layout_support.h"
 class NiAVObject;
@@ -22,15 +42,9 @@ enum TESImageModifierChunks
     CHUNK_ID_VNAM_ID = 0x4d414e56,
     CHUNK_ID_WNAM_ID = 0x4d414e57
 };
-void* __cdecl operator new(unsigned int);
-void* __cdecl operator new[](unsigned int);
-void __cdecl operator delete(void*);
-void __cdecl operator delete[](void*);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 template <int N> struct EndianSizeTag
 {
 };
-void BSEndian(unsigned int*, EndianSizeTag<4>);
 class TimedAnimationKey
 {
   public:
@@ -42,8 +56,6 @@ class TimedFloatKey : public TimedAnimationKey
     float m_fValue;
     TimedFloatKey();
     ~TimedFloatKey();
-    void FUN_0052ce20(float);
-    void FUN_004f5d90(float);
 };
 class RgbaColor
 {
@@ -63,8 +75,6 @@ class AlphaColor : public ColorAnimationKey
   public:
     AlphaColor();
     ~AlphaColor();
-    void FUN_0052ce20(float);
-    void FUN_0052cfc0(const RgbaColor&);
 };
 class NiPoint2
 {
@@ -138,7 +148,6 @@ class NiFloatInterpolator
     NiFloatData* m_spFloatData;
     unsigned int m_uiLastKeyIndex;
     NiFloatInterpolator(NiFloatData* = 0);
-    void FUN_007fc2b0(NiFloatData*);
     void SetAnimationKeys(TimedAnimationKey*, unsigned int, AnimationKey::KeyType);
 };
 class NiColorInterpolator
@@ -209,7 +218,6 @@ class TESImageSpaceModifier : public TESForm
         unsigned int m_uiEffectEntryCountTenth, m_uiEffectEntryCountEleventh, m_uiEffectEntryCountTwelfth,
             m_uiEffectEntryCountThirteenth;
         ImageSpaceModifierEffectData();
-        void Endian();
     };
     TESSound* pOutroSound;
     TESSound* pIntroSound;
@@ -237,37 +245,31 @@ class TESImageSpaceModifier : public TESForm
     bool IsExpired(float);
     void InitializeModifierData();
 };
-FNV_STATIC_ASSERT(sizeof(TESImageSpaceModifier::ImageSpaceModifierEffectData) == 0xf4);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_akFloatInterpolators) == 0x114);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pEffectEntryTable) == 0x654);
 extern float DAT_0118aba0[2];
 extern float DAT_0118aba8[2];
 
 extern float DAT_011c96fc;
-extern const float DAT_01018f98;
 void FUN_005330e0(float&, float, float);
+class NiPoint2;
+class RgbaColor;
 class ImageSpaceManager
 {
   public:
     static ImageSpaceManager* FUN_004e3270();
-    void FUN_00b8cb30(int, int, float*, float);
-    void AccumulateComponentValues(int, int, float*, float);
-    void FUN_00b8b540(RgbaColor&);
-    void FUN_00b8b610(RgbaColor&);
-    void FUN_00b8b5c0(RgbaColor&);
-    void FUN_00b8b690(RgbaColor&);
-    void RaiseHighestBlurRadius(float);
-    void RaiseBlurRadius(float);
-    void FUN_00b8afb0(float);
-    void FUN_00b8af40(float);
-    void FUN_00b8af90(float);
-    void AddDoubleVision(float);
     void SetRadialBlurParameters(float, float, float, float, float, const NiPoint2&);
-    void FUN_00b8b760(float, float, float, float, float, const NiBound&);
     void SetDepthOfFieldParameters(float, unsigned int, float, float, float);
-    void SetDistanceEffect(float, unsigned int, float, const NiBound&);
-    void FUN_00b8b6e0(float, float, float, float, float, const NiPoint2&);
-    void FUN_00b8b130(float, unsigned int, float, float, float);
+public:
+    void ApplyDepthOfFieldParamModifierWeather(float, unsigned int, float, float, float);
+public:
+    void ApplyTintColorParamModifier(::RgbaColor &);
+public:
+    void ApplyTintColorParamModifierWeather(::RgbaColor &);
+public:
+    void SetFadeColorParamModifier(::RgbaColor &);
+public:
+    void ApplyFadeColorParamModifierWeather(::RgbaColor &);
+public:
+    void ApplyRadialBlurParamModifierWeather(float, float, float, float, float, const ::NiPoint2 &);
 };
 class NiAVObject
 {
@@ -320,12 +322,9 @@ class NiAVObject
     virtual void vfn_b4();
     virtual void vfn_b8();
     virtual void UpdateWorldBound();
-    const NiBound& FUN_0043d450() const;
 };
 
-extern TESImageSpaceModifier DAT_011c9750;
 class TESSound : public TESForm
 {
 };
-int __cdecl Warning(const char*, ...);
 #endif

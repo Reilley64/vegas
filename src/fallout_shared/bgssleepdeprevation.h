@@ -3,6 +3,13 @@
 #define FNV_BGSSLEEPDEPREVATION_H
 
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00402000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_011c3000.h"
 #include "TESForm.h"
 
 class SpellItem : public TESForm
@@ -23,8 +30,6 @@ class SpellItemValueEntry
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
-    static TESForm* GetFormByID(unsigned int formID);
 };
 
 class BGSSleepDeprevationStage
@@ -37,29 +42,23 @@ class BGSSleepDeprevationStage
     void ClearData();
     void InitItem();
     virtual bool Load(TESFile* file);
-    unsigned int FUN_00441110();
-    void FUN_0050f9a0(SpellItem* sickness);
 };
 
-void FUN_00402550(BGSSleepDeprevationStage* stage);
 
+class SpellItem;
 class BGSDehydrationStage
 {
   public:
     static BGSDehydrationStage** AllocateStageArray(unsigned int count);
-    void FUN_004861f0(TESFile* file, void* buffer);
-    void* FUN_00500940(unsigned int size);
+public:
+    void FUN_0050f9a0(::SpellItem *);
 };
 
 class FUN_005a71d0
 {
   public:
-    void FUN_00462230();
 };
 
-extern "C" unsigned int DAT_011c31b0;
-extern "C" BGSSleepDeprevationStage** DAT_011c31b4;
 
-void operator delete(void* pointer);
 
 #endif

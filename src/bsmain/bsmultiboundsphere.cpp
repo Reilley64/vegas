@@ -1,6 +1,5 @@
 // bsmain/bsmultiboundsphere.cpp: BSMultiBoundSphere (1 function)
 
-#pragma pack(push, 4)
 
 class BSMultiBoundSphere
 {
@@ -12,7 +11,6 @@ class BSMultiBoundSphere
     float m_fSphereRadius;
 };
 
-#pragma pack(pop)
 
 // @fnv 0x004a7bd0
 float BSMultiBoundSphere::GetRadius() const

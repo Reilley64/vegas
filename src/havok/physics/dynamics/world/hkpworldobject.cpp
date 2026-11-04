@@ -2,34 +2,27 @@
 // src/havok/physics/dynamics/world/hkpworldobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworldobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00d06fb0_cls.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_0105c000.h"
 #include "havok/hkpWorldObject.h"
 
 // @fnv 0x00cd2930
-int __stdcall FUN_00cd2930(int a1)
+int FUN_00cd2930(int a1)
 {
     return 1;
 }
 
-class hkMemoryAllocatorCD2B;
 
-struct hkMemoryRouterCD2B
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorCD2B* m_pStreamAllocator;
-    hkMemoryAllocatorCD2B& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterCD2B {
-extern "C" hkMemoryRouterCD2B& __cdecl FUN_00c85750() throw();
+
 }
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
 struct hkEntryCD2B
 {
@@ -56,9 +49,9 @@ template <class T> class hkArrayCD2B
     }
     T& AllocatePair()
     {
-        hkMemoryAllocatorCD2B& kAlloc = hkRouterCD2B::FUN_00c85750().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         return m_data[m_iElementCount++];
     }
 };
@@ -86,11 +79,9 @@ void hkOwnerCD2B::AddEntry(void* key, hkEntryCD2B::Value v)
     e.m_key = key;
 }
 
-extern char DAT_0105c390;
 extern char DAT_010cb2d8;
 extern char DAT_01020e44;
 extern char DAT_010cb2c8;
-void* __cdecl FUN_00d06f80(void* data, int bytes);
 
 struct hkStreamWriter
 {
@@ -99,50 +90,49 @@ struct hkStreamWriter
     virtual void v08();
     virtual void WriteField(const void* field, const void* data, int flags);
     virtual void v10();
-    virtual void WriteArray(int kind, const void* field, const void* data, int bytes, void* allocation);
+    virtual void WriteArray(int kind, const void* field, const void* data, int bytes, int allocatedBytes);
 
     int unk04;
     int unk08;
     int unk0C;
     unsigned char m_includeOwned;
 
-    void DispatchWithMode(const void* field, const void* data, int bytes, int flags);
 };
 
 struct FNVWorldObject : hkpWorldObject
 {
-    void WriteToStream(hkStreamWriter* writer, int unused);
+    void WriteToStream(hkStreamWriter* writer, const void* unused);
 };
 
 // Writes collision shape, collision entries, properties, and bounding volume child shape data to the stream writer.
 // @fnv 0x00cd2b00
-void FNVWorldObject::WriteToStream(hkStreamWriter* writer, int unused)
+void FNVWorldObject::WriteToStream(hkStreamWriter* writer, const void* unused)
 {
-    writer->WriteField(&DAT_0105c390, m_kCollidable.m_pCollisionShape, 0);
+    writer->WriteField(&(*reinterpret_cast<char *>((void *)&::g_011d26d0_arg1)), m_kCollidable.m_pCollisionShape, 0);
 
     hkArray<char>& collisionEntries = m_kCollidable.m_kCollisionEntries;
     int entryCap = collisionEntries.m_iCapacityState;
     if ((entryCap & 0x80000000) == 0 || writer->m_includeOwned)
     {
         void* entryData = collisionEntries.m_data;
-        void* copy = FUN_00d06f80(entryData, (entryCap & 0x3fffffff) * 8);
-        writer->WriteArray(3, &DAT_010cb2d8, collisionEntries.m_data, collisionEntries.m_iElementCount * 8, copy);
+        int allocatedBytes = ::fnv_00d06f80::FUN_00d06f80((const char *)(entryData), (entryCap & 0x3fffffff) * 8);
+        writer->WriteArray(3, &DAT_010cb2d8, collisionEntries.m_data, collisionEntries.m_iElementCount * 8, allocatedBytes);
     }
 
     int propCap = m_kProperties.m_iCapacityState;
     if ((propCap & 0x80000000) == 0 || writer->m_includeOwned)
     {
         void* propData = m_kProperties.m_data;
-        void* copy = FUN_00d06f80(propData, (propCap & 0x3fffffff) * 16);
-        writer->WriteArray(3, &DAT_01020e44, m_kProperties.m_data, m_kProperties.m_iElementCount * 16, copy);
+        int allocatedBytes = ::fnv_00d06f80::FUN_00d06f80((const char *)(propData), (propCap & 0x3fffffff) * 16);
+        writer->WriteArray(3, &DAT_01020e44, m_kProperties.m_data, m_kProperties.m_iElementCount * 16, allocatedBytes);
     }
 
     hkpCollidableBoundingVolumeData& bounds = m_kCollidable.m_kBoundingVolumeData;
     void* firstChild = bounds.m_pChildShapeAabbs;
     if (firstChild)
     {
-        writer->DispatchWithMode(&DAT_010cb2c8, firstChild, (unsigned int)bounds.m_uiCapacityChildShapeAabbs * 32, 0);
-        writer->DispatchWithMode(&DAT_010cb2c8, bounds.m_pChildShapeKeys,
+        reinterpret_cast<::FUN_00d06fb0_cls *>((writer))->DispatchWithMode((void *)(&DAT_010cb2c8), (void *)(firstChild), (unsigned int)bounds.m_uiCapacityChildShapeAabbs * 32, 0);
+        reinterpret_cast<::FUN_00d06fb0_cls *>((writer))->DispatchWithMode((void *)(&DAT_010cb2c8), (void *)(bounds.m_pChildShapeKeys),
                                  (unsigned int)bounds.m_uiCapacityChildShapeAabbs * 4, 0);
     }
 }
@@ -323,7 +313,6 @@ class hkStringPtr
 
 struct FUN_00c90510_s
 {
-    void FUN_00c90510() throw();
 };
 
 namespace hkCD2E {
@@ -446,6 +435,8 @@ hkpWorldObject::hkpWorldObject(const void* shape, int type)
 {
     m_kCollidable.SetOwnerPointer(this);
     if (shape)
-        ((FUN_00c90510_s*)shape)->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((((FUN_00c90510_s*)shape)))->FUN_00c90510();
 }
 }
+
+#include "generated/data/havok/physics/dynamics/world/hkpworldobject.inc"

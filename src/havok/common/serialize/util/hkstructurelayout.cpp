@@ -2,6 +2,31 @@
 // src/havok/common/serialize/util/hkstructurelayout.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkstructurelayout.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/ClassMember_d869.h"
+#include "fnv/decl/D10710Object.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cb18f0_t.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00d46e20_cls.h"
+#include "fnv/decl/FUN_00d46f00_s.h"
+#include "fnv/decl/FUN_00d46f60_Class.h"
+#include "fnv/decl/FUN_00d46f70_cls.h"
+#include "fnv/decl/FUN_00d46f80_class.h"
+#include "fnv/decl/FUN_00d470e0_Class.h"
+#include "fnv/decl/FUN_00d86b30_class.h"
+#include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
+#include "fnv/decl/HkClassNode.h"
+#include "fnv/decl/OwnerD869.h"
+#include "fnv/decl/ReflectObj.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/TestClass.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/hkClassMemberD86A.h"
+#include "fnv/symbols_00dc1000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00dc1680
 {
     int m_uiFilterValue;
@@ -52,19 +77,17 @@ __declspec(noinline) int Provider::FUN_00d470d0()
 // @fnv 0x00d86b40
 int Owner::GetTagValue()
 {
-    if (FUN_00d86b30() == 0x18 || FUN_00d86b30() == 0x1f)
+    if (((int)(reinterpret_cast<::FUN_00d86b30_class *>(this)->FUN_00d86b30())) == 0x18 || ((int)(reinterpret_cast<::FUN_00d86b30_class *>(this)->FUN_00d86b30())) == 0x1f)
         return -1;
-    if (FUN_00d86b30() != 0x19)
-        return g_011b6ab8[FUN_00d86b30()].value;
-    return FUN_00d86910()->FUN_00d470d0();
+    if (((int)(reinterpret_cast<::FUN_00d86b30_class *>(this)->FUN_00d86b30())) != 0x19)
+        return g_011b6ab8[((int)(reinterpret_cast<::FUN_00d86b30_class *>(this)->FUN_00d86b30()))].value;
+    return reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((((::Provider *)(reinterpret_cast<::TestClass *>(this)->FUN_00d86910()))))->FUN_00d470d0();
 }
 
 struct SizeNode;
 
 struct SizeNodeList
 {
-    int FUN_00d46f00();
-    SizeNode* FUN_00d46f20(int index);
 };
 
 struct SizeNode
@@ -78,7 +101,6 @@ struct SizeNode
     unsigned short unk10;
 
     int GetAlignment();
-    SizeNodeList* FUN_00d86910();
 };
 
 // Returns a value for the node based on its type, recursing for types 19 and 25, then clamps it to a minimum derived from node->unk10 flags.
@@ -110,7 +132,7 @@ extern "C" int __cdecl GetNodeValue(SizeNode* node, int type, int fallback)
     case 24:
     case 31:
     case 32:
-        result = node->GetAlignment();
+        result = reinterpret_cast<::hkClassMemberD86A *>((node))->GetAlignment();
         break;
     case 20:
     case 21:
@@ -130,10 +152,10 @@ extern "C" int __cdecl GetNodeValue(SizeNode* node, int type, int fallback)
     break;
     case 25: {
         int best = 1;
-        SizeNodeList* list = node->FUN_00d86910();
-        for (int iIndex = 0; iIndex < list->FUN_00d46f00(); iIndex++)
+        SizeNodeList* list = ((::SizeNodeList *)(reinterpret_cast<::TestClass *>((node))->FUN_00d86910()));
+        for (int iIndex = 0; iIndex < ((int)(reinterpret_cast<::FUN_00d46f00_s *>((list))->FUN_00d46f00())); iIndex++)
         {
-            SizeNode* child = list->FUN_00d46f20(iIndex);
+            SizeNode* child = ((::SizeNode *)(reinterpret_cast<::HkClassNode *>((list))->FUN_00d46f20(iIndex)));
             int t = child->unk0C;
             int r = GetNodeValue(child, t, fallback);
             if (r > best)
@@ -166,8 +188,6 @@ struct StrBuf_cls
     int m_00;
     int m_04;
     int m_08;
-    void Init(void* buf, unsigned int n);
-    void Assign(const char* s);
     void Free();
 };
 
@@ -178,16 +198,11 @@ struct Lay_cls
     int unk08;
     char unk0c;
     unsigned char m_type;
-    int F86980();
-    int F86940();
-    int F86910();
 };
 struct Mem_cls
 {
-    int F470d0();
 };
 
-extern Log_cls* DAT_01268360;
 int GetMemberSize(Lay_cls* a1, unsigned char* a2, int a3);
 
 // Returns the byte size of a structure member based on its type code, recursing for type 18 and logging an error for unknown types.
@@ -218,7 +233,7 @@ int GetMemberSize(Lay_cls* pLayout, unsigned char* pMemberData, int iType)
     case 23:
     case 30:
     case 31:
-        r = pLayout->F86980();
+        r = reinterpret_cast<::ClassMember_d869 *>((pLayout))->FUN_00d86980();
         break;
     case 19:
     case 20:
@@ -226,7 +241,7 @@ int GetMemberSize(Lay_cls* pLayout, unsigned char* pMemberData, int iType)
     case 29:
     case 32: {
         int m = *pMemberData;
-        r = (pLayout->F86940() != 0 ? pLayout->F86940() : 1) * m;
+        r = (reinterpret_cast<::OwnerD869 *>((pLayout))->FUN_00d86940() != 0 ? reinterpret_cast<::OwnerD869 *>((pLayout))->FUN_00d86940() : 1) * m;
         break;
     }
     case 27:
@@ -238,8 +253,8 @@ int GetMemberSize(Lay_cls* pLayout, unsigned char* pMemberData, int iType)
         r = r + *pMemberData + 4;
         break;
     case 24: {
-        int m = ((Mem_cls*)(pLayout->F86910()))->F470d0();
-        r = (pLayout->F86940() != 0 ? pLayout->F86940() : 1) * m;
+        int m = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((((Mem_cls*)(((intptr_t)(reinterpret_cast<::TestClass *>((pLayout))->FUN_00d86910()))))))->FUN_00d470d0();
+        r = (reinterpret_cast<::OwnerD869 *>((pLayout))->FUN_00d86940() != 0 ? reinterpret_cast<::OwnerD869 *>((pLayout))->FUN_00d86940() : 1) * m;
         break;
     }
     case 22:
@@ -255,11 +270,11 @@ int GetMemberSize(Lay_cls* pLayout, unsigned char* pMemberData, int iType)
     default: {
         unsigned int buf[0x80];
         StrBuf_cls s;
-        s.Init(buf, 0x200);
-        s.Assign("Unknown class member type in structureLayout::getMemberSize().");
-        if (DAT_01268360->v3(3, 0x50a18b58, (char*)buf, ".\\Util\\hkStructureLayout.cpp", 0xc3))
+        new ((void *)&(s)) ::FUN_00cb1600(buf, 0x200);
+        reinterpret_cast<::SinkOwner *>(&(s))->FUN_00cc01c0("Unknown class member type in structureLayout::getMemberSize().");
+        if ((*reinterpret_cast<::Log_cls * *>(&::DAT_01268360))->v3(3, 0x50a18b58, (char*)buf, ".\\Util\\hkStructureLayout.cpp", 0xc3))
             __debugbreak();
-        s.Free();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
         break;
     }
     }
@@ -272,27 +287,25 @@ struct FUN_00cb18f0_Obj
     int unk04;
     int unk08;
 
-    int __thiscall FindSlot(int value);
 };
 
-extern "C" void __cdecl FUN_00dc1960(unsigned int value1, void* value2, void* value3, int value4);
 
 class FUN_00dc1bb0_Class
 {
   public:
-    void FUN_00dc1bb0(unsigned int param1, unsigned int param2, int param3);
+    void FUN_00dc1bb0(uintptr_t param1, uintptr_t param2, int param3);
 };
 
 // Calls FindSlot on the object with param1 and, if the result exceeds object->unk08, calls FUN_00dc1960 with this, object and param3.
 // @fnv 0x00dc1bb0
-void FUN_00dc1bb0_Class::FUN_00dc1bb0(unsigned int uiValue, unsigned int pObject, int param3)
+void FUN_00dc1bb0_Class::FUN_00dc1bb0(uintptr_t uiValue, uintptr_t pObject, int param3)
 {
     FUN_00cb18f0_Obj* object = reinterpret_cast<FUN_00cb18f0_Obj*>(pObject);
-    int result = object->FindSlot(uiValue);
+    intptr_t result = reinterpret_cast<::FUN_00cb18f0_t *>((object))->FindSlot(uiValue);
 
     if (result > object->unk08)
     {
-        FUN_00dc1960(uiValue, this, object, param3);
+        ::FUN_00dc1960((*(::NodeListEx *)(uiValue)), (*(const ::LayoutOptions *)(this)), (*(::Arg2 *)(object)), param3);
     }
 }
 
@@ -337,13 +350,12 @@ struct Allocator
 };
 struct Manager
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     Allocator* allocator;
     void* unk10;
 };
-extern "C" Manager* __cdecl FUN_00c85750();
 struct NodeListEx;
 struct NodeEx
 {
@@ -368,7 +380,6 @@ struct NodeEx
         return (MemberKind)unk0C;
     }
     int GetAlignment();
-    NodeListEx* FUN_00d86910();
 };
 struct NodeListEx
 {
@@ -384,29 +395,19 @@ struct NodeListEx
     const void* attributes;
     unsigned int flags;
     int version;
-    int FUN_00d46f00() const;
-    const NodeEx& FUN_00d46f60(int index) const;
-    const NodeListEx* FUN_00d46d50() const;
-    int FUN_00d46e20() const;
-    int FUN_00d46f70() const;
-    const NodeEx& FUN_00d46f80(int index) const;
-    int FUN_00d470d0() const;
-    void FUN_00d470e0(int val);
 };
 struct Arg2
 {
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cb1870(void* unk10, NodeListEx* list, int zero);
-    int FindSlot(NodeListEx* sublist);
-    ByteBool Valid(int i) const
+    ByteBool Valid(intptr_t i) const
     {
         return i <= unk08;
     }
     ByteBool IsMissing(NodeListEx* p)
     {
-        return !Valid(FindSlot(p));
+        return !Valid(reinterpret_cast<::FUN_00cb18f0_t *>(this)->FindSlot((intptr_t)(p)));
     }
 };
 struct Array
@@ -414,10 +415,9 @@ struct Array
     NodeListEx** m_data;
     int m_iElementCount;
     int m_pRayCursor;
-    void CallWithFlag(Allocator* allocator, int index, NodeListEx* const& item);
     void Free()
     {
-        Manager* mgr = FUN_00c85750();
+        Manager* mgr = static_cast<Manager*>(::FUN_00c85750());
         Allocator* alloc = mgr->allocator;
         int cap = m_pRayCursor;
         m_iElementCount = 0;
@@ -431,11 +431,11 @@ struct Array
 // @fnv 0x00dc1960
 void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& visited, int arg3)
 {
-    Manager* i = FUN_00c85750();
-    visited.FUN_00cb1870(i->unk10, (&root), 0);
+    Manager* i = static_cast<Manager*>(::FUN_00c85750());
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(i->unk10)), (uintptr_t)((&root)), 0);
     if (0 != arg3)
     {
-        int fallback = root.FUN_00d46f00();
+        int fallback = ((int)(reinterpret_cast<::FUN_00d46f00_s *>((void *)&(root))->FUN_00d46f00()));
         long r;
         r = 0;
         if (0 < fallback)
@@ -443,12 +443,12 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
             do
             {
                 NodeEx* tmp;
-                tmp = const_cast<NodeEx*>(&root.FUN_00d46f60(r));
+                tmp = const_cast<NodeEx*>(&(*(const ::NodeEx *)(reinterpret_cast<::FUN_00d46f60_Class *>((void *)&(root))->FUN_00d46f60(r))));
                 if (tmp->child)
                 {
-                    if (visited.IsMissing(tmp->FUN_00d86910()))
+                    if (visited.IsMissing(((::NodeListEx *)(reinterpret_cast<::TestClass *>((tmp))->FUN_00d86910()))))
                     {
-                        FUN_00dc1960(*tmp->FUN_00d86910(), options, visited, arg3);
+                        FUN_00dc1960(*((::NodeListEx *)(reinterpret_cast<::TestClass *>((tmp))->FUN_00d86910())), options, visited, arg3);
                     }
                 }
                 r++;
@@ -463,9 +463,9 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
     while (pNodeList)
     {
         NodeListEx* pCurrent = pNodeList;
-        Manager* m = FUN_00c85750();
-        nodeArray.CallWithFlag(m->allocator, 0, pCurrent);
-        pNodeList = const_cast<NodeListEx*>(pNodeList->FUN_00d46d50());
+        Manager* m = static_cast<Manager*>(::FUN_00c85750());
+        reinterpret_cast<::D10710Object *>(&(nodeArray))->CallWithFlag(m->allocator, (void *)(0), (void *)&(pCurrent));
+        pNodeList = const_cast<NodeListEx*>(((const ::NodeListEx *)(reinterpret_cast<::ReflectObj *>((void *)(pNodeList))->FUN_00d46d50())));
     }
     int iPointerSize;
     arg3 = 1;
@@ -474,7 +474,7 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
     for (int tmp = 0; tmp < nodeArray.m_iElementCount; ++tmp)
     {
         NodeListEx* idx = nodeArray.m_data[tmp];
-        for (int r = 0; r < idx->FUN_00d46e20(); ++r)
+        for (int r = 0; r < reinterpret_cast<::FUN_00d46e20_cls *>((void *)(idx))->FUN_00d46e20(); ++r)
         {
             int iRemainder = n % iPointerSize;
             if (iRemainder != 0)
@@ -487,9 +487,9 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
                 arg3 = iPointerSize;
             }
         }
-        for (int k = 0; k < idx->FUN_00d46f70(); ++k)
+        for (int k = 0; k < reinterpret_cast<::FUN_00d46f70_cls *>((void *)(idx))->FUN_00d46f70(); ++k)
         {
-            NodeEx* kIter = const_cast<NodeEx*>(&idx->FUN_00d46f80(k));
+            NodeEx* kIter = const_cast<NodeEx*>(&(*(const ::NodeEx *)(reinterpret_cast<::FUN_00d46f80_class *>((void *)(idx))->FUN_00d46f80(k))));
             if (0 == n && tmp != 0 && options.emptyBase == 0)
             {
                 n = 1;
@@ -522,9 +522,9 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
             kIter += n;
         }
         long c = kIter ? kIter : 1;
-        if (idx->FUN_00d470d0() != c)
+        if (reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((void *)(idx))->FUN_00d470d0() != c)
         {
-            idx->FUN_00d470e0(c);
+            reinterpret_cast<::FUN_00d470e0_Class *>((idx))->FUN_00d470e0(c);
         }
         if (options.reusePadding == 0)
         {
@@ -533,3 +533,5 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
     }
     nodeArray.Free();
 }
+
+#include "generated/data/havok/common/serialize/util/hkstructurelayout.inc"

@@ -1,4 +1,5 @@
 // fallout_shared/sky/sun_decls.h: declares SkyObject, BSShaderManager, BSShaderAccumulator, Sun
+#include <new>
 #ifndef SUN_DECLS_H
 #define SUN_DECLS_H
 
@@ -29,8 +30,6 @@ class BSShaderManager
 class BSShaderAccumulator
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     BSShaderAccumulator(BSShaderManager::BATCHRENDERER_CREATION_MODE, unsigned int, unsigned int);
     char data[0x280];
 };

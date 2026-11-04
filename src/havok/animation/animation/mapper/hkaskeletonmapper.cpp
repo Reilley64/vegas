@@ -2,6 +2,16 @@
 // src/havok/animation/animation/mapper/hkaskeletonmapper.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/mapper/hkaskeletonmapper.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <xmmintrin.h>
+#include <new>
+#include "fnv/decl/AttributeFormatter.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00ce29e0_cls.h"
+#include "fnv/decl/FloatArgStream.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkaSkeletonMapper.h"
 
 struct FUN_00ce4ab0Allocator
@@ -18,7 +28,6 @@ struct FUN_00ce4ab0Router
 };
 
 FUN_00ce4ab0Router* _D1A0E0GetMemoryRouter();
-void FUN_00ce29e0();
 
 struct FUN_00ce4ab0Class
 {
@@ -29,7 +38,7 @@ struct FUN_00ce4ab0Class
 // @fnv 0x00ce4ab0
 FUN_00ce4ab0Class* FUN_00ce4ab0Class::Destroy(unsigned int flags)
 {
-    FUN_00ce29e0();
+    static_cast<::FUN_00ce29e0_cls *>(nullptr)->FUN_00ce29e0();
 
     if (flags & 1)
     {
@@ -42,16 +51,6 @@ FUN_00ce4ab0Class* FUN_00ce4ab0Class::Destroy(unsigned int flags)
     return this;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ss(float*, __m128);
 
 struct hkaBone
 {
@@ -83,11 +82,6 @@ struct hkOstream
     int unk00;
     int unk04;
     int unk08;
-    hkOstream* FUN_00cb1600(void* buf, int size);
-    void FUN_00cc00e0();
-    hkOstream& FUN_00cc01c0(const char*);
-    hkOstream& WriteName(const hkStringPtr&);
-    hkOstream& WriteFloat(hkReal);
 };
 
 struct hkError
@@ -98,7 +92,6 @@ struct hkError
     virtual int message(int type, int id, const char* description, const char* file, int line) = 0;
 };
 
-extern int DAT_01268360;
 
 static inline float getTranslationError(const hkVector4& t)
 {
@@ -133,17 +126,11 @@ void ValidateRagdollMapping(hkaSkeletonMapperData* apMapperData)
                 {
                     int buf[128];
                     hkOstream str;
-                    str.FUN_00cb1600(buf, sizeof(buf));
-                    str.FUN_00cc01c0("Bones A:")
-                        .WriteName(boneA.m_name)
-                        .FUN_00cc01c0(" and B:")
-                        .WriteName(boneB.m_name)
-                        .FUN_00cc01c0(" are not fully aligned (error :")
-                        .WriteFloat(len)
-                        .FUN_00cc01c0(").");
-                    ((hkError*)DAT_01268360)
+                    new ((void *)&(str)) ::FUN_00cb1600(buf, sizeof(buf));
+                    reinterpret_cast<::SinkOwner *>(&((*(::hkOstream *)(reinterpret_cast<::FloatArgStream *>(&((*(::hkOstream *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstream *)(reinterpret_cast<::AttributeFormatter *>(&((*(::hkOstream *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstream *)(reinterpret_cast<::AttributeFormatter *>(&((*(::hkOstream *)(reinterpret_cast<::SinkOwner *>(&(str))->FUN_00cc01c0("Bones A:")))))->WriteName((::NameReference *)&(boneA.m_name))))))->FUN_00cc01c0(" and B:")))))->WriteName((::NameReference *)&(boneB.m_name))))))->FUN_00cc01c0(" are not fully aligned (error :")))))->WriteFloat(len)))))->FUN_00cc01c0(").");
+                    ((hkError*)(*reinterpret_cast<intptr_t *>(&::DAT_01268360)))
                         ->message(1, 0xabbaefbf, (char*)buf, ".\\Mapper\\hkaSkeletonMapper.cpp", 499);
-                    str.FUN_00cc00e0();
+                    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(str))->FUN_00cc00e0::~FUN_00cc00e0();
                 }
             }
         }
@@ -160,11 +147,11 @@ void ValidateRagdollMapping(hkaSkeletonMapperData* apMapperData)
 
         int buf[128];
         hkOstream str;
-        str.FUN_00cb1600(buf, sizeof(buf));
-        str.FUN_00cc01c0(
+        new ((void *)&(str)) ::FUN_00cb1600(buf, sizeof(buf));
+        reinterpret_cast<::SinkOwner *>(&(str))->FUN_00cc01c0(
             "None of the bones in skeleton have translations locked - did you forget to lock translations ?.");
-        ((hkError*)DAT_01268360)->message(1, 0xabba77a5, (char*)buf, ".\\Mapper\\hkaSkeletonMapper.cpp", 521);
-        str.FUN_00cc00e0();
+        ((hkError*)(*reinterpret_cast<intptr_t *>(&::DAT_01268360)))->message(1, 0xabba77a5, (char*)buf, ".\\Mapper\\hkaSkeletonMapper.cpp", 521);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(str))->FUN_00cc00e0::~FUN_00cc00e0();
     }
 }
 

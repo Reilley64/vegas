@@ -2,6 +2,13 @@
 // src/havok/common/internal/kdtree/build/hkkdtreebuildingutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/kdtree/build/hkkdtreebuildingutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/FUN_00df3110.h"
+#include "fnv/symbols_00df3000.h"
+#include "fnv/symbols_00df5000.h"
+#include "fnv/symbols_01268000.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -11,14 +18,13 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct BufferPair
 {
@@ -34,12 +40,12 @@ void __cdecl FreeBufferPair(BufferPair* apPair, int aiCount)
         return;
 
     void* pSecond = apPair->m_pSecond;
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     pAllocator->Free(pSecond, aiCount * 16);
 
     void* pFirst = apPair->m_pFirst;
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     pAllocator2->Free(pFirst, aiCount * 16);
 }
@@ -66,7 +72,7 @@ struct __declspec(align(16)) MixDesc
 {
     void* p00;  // owner
     int v04;    // 0
-    void* p08;  // buffer
+    int v08;    // node capacity
     int v0c;    // 0
     int v10;    // channel count
     int v14;
@@ -88,29 +94,25 @@ struct __declspec(align(16)) SoundObject
     int unk104;
     int unk108;
     int unk10c;
-    void Start();
-    void Stop();
 };
 
 // The constant mask table the mixer ANDs the channel settings with.
-extern __declspec(align(16)) __m128 g_mixMask;
 
 // The mixer itself.
-int __cdecl Mix(MixDesc* desc, int** p2, int count, int* p4, int** p5);
 
 // Initializes a MixDesc and SoundObject, calls Mix with count, and stores its return value in out.
 // @fnv 0x00d9d880
-void __cdecl MixChannels(void* p1, int* p2, int count, void* p4, int channels, int* p6, int* apResult)
+void __cdecl MixChannels(void* p1, int* p2, intptr_t entries, int p4, int channels, int p6, int* apResult)
 {
     int* p2Copy;
     int one;
-    int* p6Copy;
+    int p6Copy;
     ChannelMix mix;
     MixDesc desc;
     SoundObject soundObj;
 
     // The mask is a plain sixteen byte block; copy it over as a vector.
-    *(__m128*)&desc.mask40 = g_mixMask;
+    *(__m128*)&desc.mask40 = (*reinterpret_cast<::__m128 *>(&::DAT_012684d0));
 
     // Mute the first three channels, keep the next three at full scale.
     mix.w00 = mix.w02 = mix.w04 = 0;
@@ -129,16 +131,16 @@ void __cdecl MixChannels(void* p1, int* p2, int count, void* p4, int channels, i
     // The channel settings travel to the mixer as a vector as well.
     *(__m128*)&desc.mix20 = *(__m128*)&mix;
 
-    desc.p08 = p4;
+    desc.v08 = p4;
 
     // Bring the sound object up, let the mixer know about it and run it.
-    soundObj.Start();
+    new ((void *)&(soundObj)) ::FUN_00df3110();
     desc.p30 = &soundObj;
     p6Copy = p6;
-    *apResult = Mix(&desc, &p2Copy, count, &one, &p6Copy);
+    *apResult = ::FUN_00df56a0((::Node56 *)(::MixDesc *)(&desc), (::Output56 **)(int **)(&p2Copy), entries, &one, &p6Copy);
 
     // And shut it down again.
-    soundObj.Stop();
+    ::FUN_00df3160();
 }
 
 struct __declspec(align(16)) S_00d9dab0_Aabb16
@@ -230,7 +232,7 @@ void __cdecl FUN_00d9d950(S9d950_Owner* apA, int aiB, const S9d950_Box* apC, con
             }
             else
             {
-                S9d950_Rel* left = (S9d950_Rel*)((unsigned long)&srcPair + (srcPair.m_off & 0x7ffffffc));
+                S9d950_Rel* left = (S9d950_Rel*)((uintptr_t)&srcPair + (srcPair.m_off & 0x7ffffffc));
                 dstPair = srcPair;
                 int d = left - (p + i);
                 dstPair.m_off = (d * 8) | (dstPair.m_off & 0x80000003);
@@ -249,3 +251,5 @@ void __cdecl FUN_00d9d950(S9d950_Owner* apA, int aiB, const S9d950_Box* apC, con
         apA->unk0c = x > y ? x : y;
     }
 }
+
+#include "generated/data/havok/common/internal/kdtree/build/hkkdtreebuildingutils.inc"

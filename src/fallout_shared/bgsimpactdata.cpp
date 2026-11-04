@@ -1,8 +1,41 @@
 // fallout_shared/bgsimpactdata.cpp: BGSImpactData, SelfX, OpaqueData (14 functions)
 
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004891d0_cls.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00589f50_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SDSaveForm.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0056a000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011cd000.h"
 #include "bgsimpactdata.h"
 #include <string.h>
 #include <malloc.h>
+#include "string.h"
 
 static const char s_textureSetWarning[] = "MASTERFILE: Unable to find texture set (%08X) on impact data %s (%08X).";
 static const char s_soundWarning[] = "MASTERFILE: Unable to find sound (%08X) on impact data %s (%08X).";
@@ -10,7 +43,7 @@ static const char s_soundWarning[] = "MASTERFILE: Unable to find sound (%08X) on
 // @fnv 0x0058db40
 BGSImpactData::BGSImpactData()
 {
-    SetFormType(ENUM_FORM_ID_IPCT_ID);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(ENUM_FORM_ID_IPCT_ID)));
     ResetFormData();
 }
 
@@ -28,160 +61,11 @@ void BGSImpactData::ResetFormData()
     Data.m_eSoundLevel = SOUND_LEVEL_SOUND_LEVEL_NORMAL;
 }
 
-// Loads a BGSImpactData record from a TESFile, reading the DATA chunk (old or new layout), editor ID, OBND, model, decal texture set and sound references.
-// @fnv 0x0058dea0
-bool BGSImpactData::Load(TESFile* file)
-{
-    if (static_cast<TESFileFormInt*>(file)->GetTESForm() != ENUM_FORM_ID_IPCT_ID)
-        return false;
-    LoadRecordHeader(file);
-    if (file->IsEndianConversionRequired())
-        Data.Endian();
-    int chunk;
-    while ((chunk = file->GetChunkID()) != 0)
-    {
-        switch (chunk)
-        {
-        case 0x44494445:  // EDID
-        {
-            char* buffer = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(buffer, 0x200);
-            SetEditorID_AtRuntime(buffer);
-            break;
-        }
-        case 0x444E424F:  // OBND
-            readOBNDSubRecord(file);
-            break;
-        case 0x4C444F4D:  // MODL
-        case 0x54444F4D:  // MODT
-            TESModel::LoadModelData(static_cast<TESModel*>(this), file);
-            break;
-        case 0x41544144:  // DATA
-            if (static_cast<TESFileFormVersion*>(file)->GetFormVersion() < 10)
-            {
-                BGSImpactData__OLD_IMPACT_DATA_DATA oldData;
-                memset(&oldData, 0, sizeof(oldData));
-                ReadTypedData(file, &oldData, sizeof(oldData));
-                if (file->IsEndianConversionRequired())
-                    oldData.Endian();
-                memset(&Data, 0, sizeof(Data));
-                Data.m_fEffectDuration = oldData.m_fEffectDuration;
-                Data.m_eOrientation = oldData.m_eOrientation;
-                Data.m_fAngleThreshold = oldData.m_fAngleThreshold;
-                Data.m_fPlacementRadius = oldData.m_fPlacementRadius;
-                Data.m_eSoundLevel = oldData.m_eSoundLevel;
-                ImpactDecalInfo.GetData()->m_fDecalMinWidth = oldData.m_fDecalMinWidth;
-                ImpactDecalInfo.GetData()->m_fDecalMaxWidth = oldData.m_fDecalMaxWidth;
-                ImpactDecalInfo.GetData()->m_fDecalMinHeight = oldData.m_fDecalMinHeight;
-                ImpactDecalInfo.GetData()->m_fDecalMaxHeight = oldData.m_fDecalMaxHeight;
-                ImpactDecalInfo.GetData()->m_fProjectionDepth = oldData.m_fProjectionDepth;
-                ImpactDecalInfo.GetData()->m_fShininess = oldData.m_fShininess;
-                ImpactDecalInfo.GetData()->m_fParallaxScale = oldData.m_fParallaxScale;
-                ImpactDecalInfo.GetData()->m_ucParallaxPasses = oldData.m_ucParallaxPasses;
-                ImpactDecalInfo.GetData()->cFlags = oldData.cFlags;
-                ImpactDecalInfo.GetData()->iColor = oldData.iColor;
-            }
-            else
-            {
-                memset(&Data, 0, sizeof(Data));
-                ReadTypedData(file, &Data, sizeof(Data));
-                if (file->IsEndianConversionRequired())
-                    Data.Endian();
-            }
-            break;
-        case 0x54444F44:  // DODT
-            ImpactDecalInfo.Load(file);
-            break;
-        case 0x4D414E44:  // DNAM
-        {
-            unsigned int textureSetID = 0;
-            file->GetChunkData(&textureSetID);
-            SetDecalTextureSet(reinterpret_cast<BGSTextureSet*>(textureSetID));
-            break;
-        }
-        case 0x4D414E53:  // SNAM
-        {
-            unsigned int sound1ID = 0;
-            file->GetChunkData(&sound1ID);
-            SetSound1(reinterpret_cast<TESSound*>(sound1ID));
-            break;
-        }
-        case 0x314D414E:  // NAM1
-        {
-            unsigned int sound2ID = 0;
-            file->GetChunkData(&sound2ID);
-            SetSound2(reinterpret_cast<TESSound*>(sound2ID));
-            break;
-        }
-        }
-        if (!file->NextChunk())
-            break;
-    }
-    return true;
-}
-
-// Resolves the texture set and two sound form IDs, warns on failed lookups, then copies decal data from the texture set and marks the form initialized.
-// @fnv 0x0058e560
-void BGSImpactData::InitItem()
-{
-    if (static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))->IsFormInitialized())
-        return;
-    unsigned int formID = reinterpret_cast<unsigned int>(m_pDecalTextureSet);
-    if (formID)
-    {
-        RemapFormIDForFile(formID, GetFile(-1));
-        m_pDecalTextureSet = dynamic_cast<BGSTextureSet*>(TESFormInitFlag::GetFormByID(formID));
-        if (m_pDecalTextureSet)
-        {
-            // Texture set resolved.
-        }
-        else
-            Warning(s_textureSetWarning, formID, GetName(), GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(m_pPrimaryImpactSound);
-    if (formID)
-    {
-        RemapFormIDForFile(formID, GetFile(-1));
-        m_pPrimaryImpactSound = dynamic_cast<TESSound*>(TESFormInitFlag::GetFormByID(formID));
-        if (m_pPrimaryImpactSound)
-        {
-            // Sound resolved.
-        }
-        else
-            Warning(s_soundWarning, formID, GetName(), GetFormID());
-    }
-    formID = reinterpret_cast<unsigned int>(m_pSecondaryImpactSound);
-    if (formID)
-    {
-        RemapFormIDForFile(formID, GetFile(-1));
-        m_pSecondaryImpactSound = dynamic_cast<TESSound*>(TESFormInitFlag::GetFormByID(formID));
-        if (m_pSecondaryImpactSound)
-        {
-            // Sound resolved.
-        }
-        else
-            Warning(s_soundWarning, formID, GetName(), GetFormID());
-    }
-    CopyDecalDataFromTextureSet();
-    SetInitializationState(true);
-}
-
-void __cdecl operator delete(void*);
 struct FUN_0058dbe0_class
 {
     void FUN_0058dc10();
     void* Free(unsigned int flags);
 };
-// Calls FUN_0058dc10, then deletes this if the low bit of flags is set, and returns this.
-// @fnv 0x0058dbe0
-void* FUN_0058dbe0_class::Free(unsigned int flags)
-{
-    FUN_0058dc10();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct FUN_00483630_Base : public TESForm
 {
     virtual ~FUN_00483630_Base();
@@ -199,25 +83,30 @@ struct FUN_0058dc10 : public FUN_00483630_Base, public TESModel
     FUN_00483710_Member ImpactDecalInfo;
     virtual ~FUN_0058dc10();
 };
+// Calls FUN_0058dc10, then deletes this if the low bit of flags is set, and returns this.
+// @fnv 0x0058dbe0
+void* FUN_0058dbe0_class::Free(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0058dc10 *>(this)->FUN_0058dc10::~FUN_0058dc10();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // The destructor body is empty; the class inherits TESForm and TESModel and contains impact data and decal-related fields.
 // @fnv 0x0058dc10
 FUN_0058dc10::~FUN_0058dc10()
 {}
 
-extern const char DAT_01183028[];
 extern const char DAT_011862fc[];
 
-void* __cdecl FUN_00ec43fb(int arg, int zero, const void* data1, const void* data2, int zero2);
-void* __cdecl FUN_00401460(void* dst, const void* src, unsigned int size);
 
 struct FUN_005054b0_shell
 {
-    void __thiscall FUN_004851b0(TESForm* form);
 };
 
 struct FUN_005932b0_decal
 {
-    void __thiscall FUN_005932b0(FUN_005932b0_decal* source);
+    void FUN_005932b0(FUN_005932b0_decal* source);
 };
 
 struct FUN_0058dd10_shell : public TESForm
@@ -248,22 +137,21 @@ struct FUN_0058dd10_shell : public TESForm
     void* unk50;
     FUN_005932b0_decal unk54;
 
-    void __thiscall FUN_0058dd10(int arg);
+    void FUN_0058dd10(int arg);
 };
 
 // @fnv 0x0058dd10
-void __thiscall FUN_0058dd10_shell::FUN_0058dd10(int arg)
+void FUN_0058dd10_shell::FUN_0058dd10(int arg)
 {
     FUN_0058dd10_shell* source =
-        reinterpret_cast<FUN_0058dd10_shell*>(FUN_00ec43fb(arg, 0, DAT_01183028, DAT_011862fc, 0));
+        reinterpret_cast<FUN_0058dd10_shell*>(dynamic_cast<::BGSImpactData *>(reinterpret_cast<::TESForm *>(arg)));
 
     if (source == 0)
         return;
 
-    reinterpret_cast<FUN_005054b0_shell*>(this)->FUN_004851b0(source);
-    FUN_00401460(reinterpret_cast<char*>(this) + 0x30, reinterpret_cast<char*>(source) + 0x30, 0x18);
-    reinterpret_cast<FUN_005932b0_decal*>(reinterpret_cast<char*>(this) + 0x54)
-        ->FUN_005932b0(reinterpret_cast<FUN_005932b0_decal*>(reinterpret_cast<char*>(source) + 0x54));
+    reinterpret_cast<::FormCloneOperation *>((reinterpret_cast<FUN_005054b0_shell*>(this)))->FUN_004851b0(source);
+    ::__memcpy(reinterpret_cast<char*>(&this->unk30), reinterpret_cast<char*>(&source->unk30), 0x18);
+    reinterpret_cast<::DecalData *>((&this->unk54))->Copy((::DecalData *)(::FUN_005932b0_decal *)(&source->unk54));
     unk48 = source->unk48;
     unk4C = source->unk4C;
     unk50 = source->unk50;
@@ -271,7 +159,6 @@ void __thiscall FUN_0058dd10_shell::FUN_0058dd10(int arg)
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
 };
 struct FUN_005932e0_shell
 {
@@ -279,13 +166,16 @@ struct FUN_005932e0_shell
 };
 struct FUN_0058de80_shell
 {
-    bool IsFlagSet();
 };
 struct FUN_0058dda0_shell : public BGSImpactData
 {
     bool IsDifferentFrom(TESForm* apCompare);
 };
 
+struct FUN_0058de80_class : ::BGSImpactData
+{
+    bool IsFlagSet();
+};
 // Returns true if apCompare is not BGSImpactData or a checked comparison reports a difference.
 // @fnv 0x0058dda0
 bool FUN_0058dda0_shell::IsDifferentFrom(TESForm* apCompare)
@@ -293,12 +183,12 @@ bool FUN_0058dda0_shell::IsDifferentFrom(TESForm* apCompare)
     BGSImpactData* pOther = dynamic_cast<BGSImpactData*>(apCompare);
     if (!pOther)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pOther))
+    if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pOther))
         return true;
-    if (memcmp((char*)this + 0x30, (char*)pOther + 0x30, 0x18) != 0)
+    if (memcmp((char*)&this->Data, (char*)&pOther->Data, 0x18) != 0)
         return true;
-    if (!((FUN_0058de80_shell*)this)->IsFlagSet() &&
-        ((FUN_005932e0_shell*)((char*)this + 0x54))->Compare((char*)pOther + 0x54))
+    if (!reinterpret_cast<::FUN_0058de80_class *>((((FUN_0058de80_shell*)this)))->IsFlagSet() &&
+        ((FUN_005932e0_shell*)&this->ImpactDecalInfo.Data.m_fDecalMinWidth)->Compare((char*)&pOther->ImpactDecalInfo))
         return true;
     if (m_pDecalTextureSet != pOther->m_pDecalTextureSet)
         return true;
@@ -309,21 +199,15 @@ bool FUN_0058dda0_shell::IsDifferentFrom(TESForm* apCompare)
     return false;
 }
 
-struct FUN_0058de80_class
-{
-    bool __thiscall IsFlagSet();
-};
-
 // @fnv 0x0058de80
-bool __thiscall FUN_0058de80_class::IsFlagSet()
+bool FUN_0058de80_class::IsFlagSet()
 {
-    return (reinterpret_cast<unsigned char*>(this)[0x44] & 1) ? true : false;
+    return (this->Data.cFlags & 1) ? true : false;
 }
 
 struct TagX
 {
 };
-void FUN_00401080(void* p, TagX t);
 class SelfX
 {
   public:
@@ -347,59 +231,145 @@ class SelfX
 // @fnv 0x0058e250
 void SelfX::FUN_0058e250()
 {
-    FUN_00401080(&m00, TagX());
-    FUN_00401080(&m14, TagX());
-    FUN_00401080(&m1c, TagX());
-    FUN_00401080(&m20, TagX());
-    FUN_00401080(&m04, TagX());
-    FUN_00401080(&m08, TagX());
-    FUN_00401080(&m0c, TagX());
-    FUN_00401080(&m18, TagX());
-    FUN_00401080(&m24, TagX());
-    FUN_00401080(&m28, TagX());
-    FUN_00401080(&m2c, TagX());
-    FUN_00401080(&m30, TagX());
-    FUN_00401080(&m34, TagX());
+    ::FUN_00401080((int *)(void *)(&m00));
+    ::FUN_00401080((int *)(void *)(&m14));
+    ::FUN_00401080((int *)(void *)(&m1c));
+    ::FUN_00401080((int *)(void *)(&m20));
+    ::FUN_00401080((int *)(void *)(&m04));
+    ::FUN_00401080((int *)(void *)(&m08));
+    ::FUN_00401080((int *)(void *)(&m0c));
+    ::FUN_00401080((int *)(void *)(&m18));
+    ::FUN_00401080((int *)(void *)(&m24));
+    ::FUN_00401080((int *)(void *)(&m28));
+    ::FUN_00401080((int *)(void *)(&m2c));
+    ::FUN_00401080((int *)(void *)(&m30));
+    ::FUN_00401080((int *)(void *)(&m34));
 }
 
 template <int N> struct EndianSizeTag
 {
 };
-void __cdecl BSEndian(unsigned char*, EndianSizeTag<1>);
 
 struct OpaqueData
 {
     void SwapEndian();
 };
+// Loads a BGSImpactData record from a TESFile, reading the DATA chunk (old or new layout), editor ID, OBND, model, decal texture set and sound references.
+// @fnv 0x0058dea0
+bool BGSImpactData::Load(TESFile* file)
+{
+    if (reinterpret_cast<::FUN_00472660_shell *>((static_cast<TESFileFormInt*>(file)))->FUN_00472660() != ENUM_FORM_ID_IPCT_ID)
+        return false;
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    if (file->IsEndianConversionRequired())
+        reinterpret_cast<::OpaqueData *>(&(Data))->SwapEndian();
+    int chunk;
+    while ((chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
+    {
+        switch (chunk)
+        {
+        case 0x44494445:  // EDID
+        {
+            char* buffer = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(buffer), 0x200);
+            SetEditorID_AtRuntime(buffer);
+            break;
+        }
+        case 0x444E424F:  // OBND
+            readOBNDSubRecord(file);
+            break;
+        case 0x4C444F4D:  // MODL
+        case 0x54444F4D:  // MODT
+            TESModel::LoadModelData(static_cast<TESModel*>(this), file);
+            break;
+        case 0x41544144:  // DATA
+            if (reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((static_cast<TESFileFormVersion*>(file)))->FUN_00403570() < 10)
+            {
+                BGSImpactData__OLD_IMPACT_DATA_DATA oldData;
+                memset(&oldData, 0, sizeof(oldData));
+                reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &oldData, sizeof(oldData));
+                if (file->IsEndianConversionRequired())
+                    reinterpret_cast<::SelfX *>(&(oldData))->FUN_0058e250();
+                memset(&Data, 0, sizeof(Data));
+                Data.m_fEffectDuration = oldData.m_fEffectDuration;
+                Data.m_eOrientation = oldData.m_eOrientation;
+                Data.m_fAngleThreshold = oldData.m_fAngleThreshold;
+                Data.m_fPlacementRadius = oldData.m_fPlacementRadius;
+                Data.m_eSoundLevel = oldData.m_eSoundLevel;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMinWidth = oldData.m_fDecalMinWidth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMaxWidth = oldData.m_fDecalMaxWidth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMinHeight = oldData.m_fDecalMinHeight;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMaxHeight = oldData.m_fDecalMaxHeight;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fProjectionDepth = oldData.m_fProjectionDepth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fShininess = oldData.m_fShininess;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fParallaxScale = oldData.m_fParallaxScale;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_ucParallaxPasses = oldData.m_ucParallaxPasses;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->cFlags = oldData.cFlags;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->iColor = oldData.iColor;
+            }
+            else
+            {
+                memset(&Data, 0, sizeof(Data));
+                reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(file, &Data, sizeof(Data));
+                if (file->IsEndianConversionRequired())
+                    reinterpret_cast<::OpaqueData *>(&(Data))->SwapEndian();
+            }
+            break;
+        case 0x54444F44:  // DODT
+            ImpactDecalInfo.Load(file);
+            break;
+        case 0x4D414E44:  // DNAM
+        {
+            unsigned int textureSetID = 0;
+            file->GetChunkData(&textureSetID);
+            m_pDecalTextureSet = reinterpret_cast<BGSTextureSet*>(static_cast<std::uintptr_t>(textureSetID));
+            break;
+        }
+        case 0x4D414E53:  // SNAM
+        {
+            unsigned int sound1ID = 0;
+            file->GetChunkData(&sound1ID);
+            reinterpret_cast<::FUN_00589f50_shell *>(this)->SetSound(reinterpret_cast<TESSound*>(sound1ID));
+            break;
+        }
+        case 0x314D414E:  // NAM1
+        {
+            unsigned int sound2ID = 0;
+            file->GetChunkData(&sound2ID);
+            SetSound2(reinterpret_cast<TESSound*>(sound2ID));
+            break;
+        }
+        }
+        if (!file->NextChunk())
+            break;
+    }
+    return true;
+}
 // Calls BSEndian on this object at byte offsets 0, 4, 8, 12, and 16.
 // @fnv 0x0058e3a0
 void OpaqueData::SwapEndian()
 {
-    BSEndian((unsigned char*)this, EndianSizeTag<1>());
-    BSEndian((unsigned char*)this + 4, EndianSizeTag<1>());
-    BSEndian((unsigned char*)this + 8, EndianSizeTag<1>());
-    BSEndian((unsigned char*)this + 12, EndianSizeTag<1>());
-    BSEndian((unsigned char*)this + 16, EndianSizeTag<1>());
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 4));
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 8));
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 12));
+    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 16));
 }
 
 struct FUN_004855a0
 {
-    void M();
 };
 
 struct FUN_00485680
 {
-    void M();
 };
 
 struct FUN_004891d0_obj
 {
-    void WriteToBuffer(unsigned int, unsigned int);
 };
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
 };
 
 struct FUN_00593320_shell
@@ -407,44 +377,37 @@ struct FUN_00593320_shell
     void FUN_00593320(void*);
 };
 
-struct FUN_0058e450_shell
+struct FUN_0058e450_shell : ::BGSImpactData
 {
-    unsigned char padding[0x48];
-    TESForm* m_pDecalTextureSet;
-    TESForm* m_pPrimaryImpactSound;
-    TESForm* m_pSecondaryImpactSound;
 
     void FUN_0058e450();
 };
 
-bool _FUN_00401500();
-void _FUN_00485910(int, int);
 
 // Calls base helpers, processes bytes at offset 0x30, and passes non-null form IDs to _FUN_00485910.
 // @fnv 0x0058e450
 void FUN_0058e450_shell::FUN_0058e450()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
-    reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<unsigned char*>(this) + 0x18)
-        ->WriteToBuffer(0x4c444f4d, 0x54444f4d);
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(static_cast<TESModel *>(this))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
 
-    if (_FUN_00401500())
+    if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<BGSImpactData__IMPACT_DATA_DATA*>(reinterpret_cast<unsigned char*>(this) + 0x30)->Endian();
+        reinterpret_cast<::OpaqueData *>((&this->Data))->SwapEndian();
     }
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(
-        reinterpret_cast<int>(reinterpret_cast<unsigned char*>(this) + 0x30), 0x18);
+    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
+        (const void *)(reinterpret_cast<std::intptr_t>(reinterpret_cast<unsigned char*>(&this->Data))), 0x18);
 
-    if (_FUN_00401500())
+    if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<BGSImpactData__IMPACT_DATA_DATA*>(reinterpret_cast<unsigned char*>(this) + 0x30)->Endian();
+        reinterpret_cast<::OpaqueData *>((&this->Data))->SwapEndian();
     }
 
-    if (!reinterpret_cast<FUN_0058de80_shell*>(this)->IsFlagSet())
+    if (!reinterpret_cast<::FUN_0058de80_class *>((reinterpret_cast<FUN_0058de80_shell*>(this)))->IsFlagSet())
     {
-        reinterpret_cast<FUN_00593320_shell*>(reinterpret_cast<unsigned char*>(this) + 0x54)
+        reinterpret_cast<FUN_00593320_shell*>(&this->ImpactDecalInfo.Data.m_fDecalMinWidth)
             ->FUN_00593320(reinterpret_cast<void*>(0x54444f44));
     }
 
@@ -453,8 +416,8 @@ void FUN_0058e450_shell::FUN_0058e450()
 
         if (m_pDecalTextureSet)
         {
-            itempint = m_pDecalTextureSet->GetFormID();
-            _FUN_00485910(0x4d414e44, itempint);
+            itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pDecalTextureSet))->FUN_0084e3a0()));
+            ::FUN_00485910(0x4d414e44, itempint);
         }
     }
 
@@ -463,8 +426,8 @@ void FUN_0058e450_shell::FUN_0058e450()
 
         if (m_pPrimaryImpactSound)
         {
-            itempint = m_pPrimaryImpactSound->GetFormID();
-            _FUN_00485910(0x4d414e53, itempint);
+            itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pPrimaryImpactSound))->FUN_0084e3a0()));
+            ::FUN_00485910(0x4d414e53, itempint);
         }
     }
 
@@ -473,62 +436,98 @@ void FUN_0058e450_shell::FUN_0058e450()
 
         if (m_pSecondaryImpactSound)
         {
-            itempint = m_pSecondaryImpactSound->GetFormID();
-            _FUN_00485910(0x314d414e, itempint);
+            itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pSecondaryImpactSound))->FUN_0084e3a0()));
+            ::FUN_00485910(0x314d414e, itempint);
         }
     }
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
 struct TESQuest;
 struct TopicInfo_Ext
 {
-    bool IsFlagSet();
     TESQuest* GetParentQuest();
     void FUN_005932b0(DecalData*);
 };
-void* __fastcall FUN_0056a880(char*);
 void* FUN_0056a8c0();
 struct DecalDataCopy
 {
-    void Copy(DecalData*);
 };
 
-struct FUN_0058e730Class
+struct FUN_0058e730Class : ::BGSImpactData
 {
     void CopyDecalData();
 };
+// Resolves the texture set and two sound form IDs, warns on failed lookups, then copies decal data from the texture set and marks the form initialized.
+// @fnv 0x0058e560
+void BGSImpactData::InitItem()
+{
+    if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
+        return;
+    unsigned int formID = (unsigned int)(std::uintptr_t)(m_pDecalTextureSet);
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        m_pDecalTextureSet = dynamic_cast<BGSTextureSet*>(::FUN_004839c0(formID));
+        if (m_pDecalTextureSet)
+        {
+            // Texture set resolved.
+        }
+        else
+            ::FUN_005b5e40();
+    }
+    formID = (unsigned int)(std::uintptr_t)(m_pPrimaryImpactSound);
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        m_pPrimaryImpactSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if (m_pPrimaryImpactSound)
+        {
+            // Sound resolved.
+        }
+        else
+            ::FUN_005b5e40();
+    }
+    formID = (unsigned int)(std::uintptr_t)(m_pSecondaryImpactSound);
+    if (formID)
+    {
+        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
+        m_pSecondaryImpactSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if (m_pSecondaryImpactSound)
+        {
+            // Sound resolved.
+        }
+        else
+            ::FUN_005b5e40();
+    }
+    reinterpret_cast<::FUN_0058e730Class *>(this)->CopyDecalData();
+    SetInitializationState(true);
+}
 
 // When the flag is set, copies data into offset 0x54 from a source selected by whether GetParentQuest() returns non-null.
 // @fnv 0x0058e730
 void FUN_0058e730Class::CopyDecalData()
 {
-    if (reinterpret_cast<TopicInfo_Ext*>(this)->IsFlagSet())
+    if (reinterpret_cast<::FUN_0058de80_class *>((reinterpret_cast<TopicInfo_Ext*>(this)))->IsFlagSet())
     {
         if (reinterpret_cast<TopicInfo_Ext*>(this)->GetParentQuest())
         {
-            reinterpret_cast<DecalDataCopy*>(reinterpret_cast<char*>(this) + 0x54)
-                ->Copy(reinterpret_cast<DecalData*>(
+            reinterpret_cast<::DecalData *>((reinterpret_cast<DecalDataCopy*>(&this->ImpactDecalInfo.Data.m_fDecalMinWidth)))->Copy(reinterpret_cast<DecalData*>(
                     FUN_0056a880(reinterpret_cast<char*>(reinterpret_cast<TopicInfo_Ext*>(this)->GetParentQuest()))));
         }
         else
         {
-            reinterpret_cast<DecalDataCopy*>(reinterpret_cast<char*>(this) + 0x54)
-                ->Copy(reinterpret_cast<DecalData*>(FUN_0056a8c0()));
+            reinterpret_cast<::DecalData *>((reinterpret_cast<DecalDataCopy*>(&this->ImpactDecalInfo.Data.m_fDecalMinWidth)))->Copy(reinterpret_cast<DecalData*>(FUN_0056a8c0()));
         }
     }
 }
 
 struct GlobalObject_0045cfe0
 {
-    int* Int();
 };
-extern GlobalObject_0045cfe0 g_011cd3b4;
-extern GlobalObject_0045cfe0 g_011cd538;
-extern GlobalObject_0045cfe0 g_011cdde0;
 
-struct FUN_0058e790_S
+struct FUN_0058e790_S : ::BGSImpactData
 {
     int GetGlobalValue();
 };
@@ -538,17 +537,19 @@ struct FUN_0058e790_S
 int FUN_0058e790_S::GetGlobalValue()
 {
     int result = 0;
-    switch (*(int*)((char*)this + 0x40))
+    switch (*(int*)&this->Data.m_eSoundLevel)
     {
     case 2:
-        result = *g_011cd3b4.Int();
+        result = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd3b4))))));
         break;
     case 1:
-        result = *g_011cd538.Int();
+        result = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd538))))));
         break;
     case 0:
-        result = *g_011cdde0.Int();
+        result = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cdde0))))));
         break;
     }
     return result;
 }
+
+

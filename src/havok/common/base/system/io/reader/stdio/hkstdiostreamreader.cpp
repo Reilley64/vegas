@@ -2,7 +2,11 @@
 // src/havok/common/base/system/io/reader/stdio/hkstdiostreamreader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/reader/stdio/hkstdiostreamreader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" size_t __cdecl fread(void* ptr, size_t size, size_t count, void* stream);
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <cstdio>
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010cc000.h"
 
 struct FUN_00d2bcd0_class
 {
@@ -18,32 +22,29 @@ struct FUN_00d2bcd0_class
 // @fnv 0x00d2bcd0
 void FUN_00d2bcd0_class::ReadOrMarkFailed(void* buffer, unsigned int count)
 {
-    if ((int)fread(buffer, 1, count, m_0c) > 0)
+    if ((int)std::fread(buffer, 1, count, (std::FILE *)(m_0c)) > 0)
         return;
     m_10 = 0;
 }
 
-extern int DAT_0102e388;
 extern int DAT_010ce6c0;
-extern int __cdecl _fclose(int);
 
 struct FUN_00d2bda0_cls
 {
-    void __thiscall DestroyFileHandle();
+    void DestroyFileHandle();
 };
 
 // Resets the vtable pointers and closes the stored file handle if present.
 // @fnv 0x00d2bda0
-void __thiscall FUN_00d2bda0_cls::DestroyFileHandle()
+void FUN_00d2bda0_cls::DestroyFileHandle()
 {
-    int file = *(int*)((char*)this + 0xc);
-    *(int*)this = (int)&DAT_010ce6c0;
+    intptr_t file = *(int*)((char*)this + 0xc);
+    *(int*)this = (intptr_t)&DAT_010ce6c0;
     if (file)
-        _fclose(file);
-    *(int*)this = (int)&DAT_0102e388;
+        std::fclose((std::FILE *)(file));
+    *(int*)this = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-long __cdecl _ftell(void*);
 struct FUN_00d2bd50_cls
 {
     void* m_00;
@@ -55,22 +56,21 @@ struct FUN_00d2bd50_cls
 // @fnv 0x00d2bd50
 long FUN_00d2bd50_cls::FUN_00d2bd50()
 {
-    return _ftell(m_0c);
+    return std::ftell((std::FILE *)(m_0c));
 }
 
 // @fnv 0x00d2bd10
-void __stdcall FUN_00d2bd10(unsigned char* output)
+void FUN_00d2bd10(unsigned char* output)
 {
     *output = 1;
 }
 
 // @fnv 0x00d2bd20
-void __stdcall FUN_00d2bd20(char* a1)
+void FUN_00d2bd20(char* a1)
 {
     *a1 = 1;
 }
 
-extern int __cdecl _fseek(void* stream, long offset, int origin);
 struct FileObject
 {
     void* unk00;
@@ -83,7 +83,7 @@ struct FileObject
 // @fnv 0x00d2bd30
 bool FileObject::Seek(long lOffset, int origin)
 {
-    return _fseek(stream, lOffset, origin) != 0;
+    return std::fseek((std::FILE *)(stream), lOffset, origin) != 0;
 }
 
 struct ReaderWithPosition
@@ -139,10 +139,9 @@ void Owner::FUN_00d2bdf0()
     invoke(unk08, 0);
 }
 
-extern int DAT_010cc2fc;
 struct Prefix
 {
-    int vtable;
+    intptr_t vtable;
     int unk04;
     int unk08;
     int unk0c;
@@ -163,7 +162,7 @@ struct FUN_00d2c7e0_class : Prefix
 // @fnv 0x00d2c7e0
 FUN_00d2c7e0_class::FUN_00d2c7e0_class(int value)
 {
-    vtable = (int)&DAT_010cc2fc;
+    vtable = (intptr_t)&DAT_010cc2fc;
     sub.FUN_00cb0a70(value);
 }
 
@@ -185,13 +184,12 @@ void FUN_00d2bd00_cls::FUN_00d2bd00(unsigned char* volatile out)
 }
 
 extern "C" void _ReadWriteBarrier(void);
-extern "C" void* __cdecl FUN_00ec9a47(const char* name, const char* mode);
 extern int DAT_010ce6c0;
 extern const char kModeReadBinary[];
 
 struct StdioStreamReader
 {
-    int m_vptr;
+    intptr_t m_vptr;
     unsigned short unk04;
     unsigned short refCount;
     int lastSeek;
@@ -206,9 +204,9 @@ StdioStreamReader* StdioStreamReader::OpenFile(const char* fname)
 {
     refCount = 1;
     lastSeek = -1;
-    m_vptr = (int)&DAT_010ce6c0;
+    m_vptr = (intptr_t)&DAT_010ce6c0;
     *(volatile unsigned char*)&IsStreamValid = 1;
-    handle = FUN_00ec9a47(fname, kModeReadBinary);
+    handle = std::fopen(fname, kModeReadBinary);
     IsStreamValid = handle != 0;
     return this;
 }
@@ -221,27 +219,25 @@ struct CpuAllocator
 };
 struct CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void DestroyFileHandle();
     CpuObject* FUN_00d2be00(unsigned int flags);
 };
 // @fnv 0x00d2be00
 CpuObject* CpuObject::FUN_00d2be00(unsigned int flags)
 {
-    DestroyFileHandle();
+    reinterpret_cast<::FUN_00d2bda0_cls *>(this)->DestroyFileHandle();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;

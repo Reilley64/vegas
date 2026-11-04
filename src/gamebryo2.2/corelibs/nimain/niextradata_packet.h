@@ -1,7 +1,13 @@
 // gamebryo2.2/corelibs/nimain/niextradata_packet.h: declares NiObject, NiFixedString, NiAccumulator, NiExtraData, NiBinaryStream and more
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long* value);
+#include <windows.h>
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_0109d000.h"
+#include "fnv/symbols_011f4000.h"
 class NiStream;
 class NiObject
 {
@@ -14,17 +20,15 @@ class NiObject
     virtual void LoadBinary(NiStream&);
 };
 class NiFixedString;
-extern NiFixedString EmptyFS;
-extern void* kVtbl_NiExtraData[];
 class NiFixedString
 {
   public:
     void* handle;
     NiFixedString& operator=(const NiFixedString& rhs)
     {
-        if (rhs.handle != EmptyFS.handle)
+        if (rhs.handle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).handle)
             InterlockedIncrement((long*)((char*)rhs.handle - 8));
-        if (handle != EmptyFS.handle)
+        if (handle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).handle)
             InterlockedDecrement((long*)((char*)handle - 8));
         handle = rhs.handle;
         return *this;
@@ -81,13 +85,8 @@ class NiStream
     char pad2[0x170];
     NiBinaryStream* input;
     NiObject* GetLoadedObject();
-    void ResetStreamState();
-    void ReadStringTableEntry(NiFixedString&);
-    void ReadFixedString(NiFixedString&);
 };
-void* _NiMalloc(unsigned int);
 template <class T> void ReadBinaryValue(NiStream&, T*, unsigned int);
-extern const char g_011c7820_arg1[];
 
 inline bool IsExactKindOf(const void* type, NiObject* object)
 {
@@ -104,7 +103,6 @@ inline void ReadCount(NiStream& stream, unsigned int& count)
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int) throw();
 };
 class NiBinaryExtraData : public NiExtraData, public NiMemObject
 {

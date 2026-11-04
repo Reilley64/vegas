@@ -2,9 +2,15 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpconstraintdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpconstraintdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkpConstraintDrawer.h"
+#include "havok/hkUlong.h"
+#include "fnv/decl/ArrowDraw__ArrowDrawObject.h"
+#include "fnv/decl/AxisDisplayOwner.h"
+#include "fnv/decl/FUN_00e10a00_cls.h"
+#include "fnv/symbols_00cab000.h"
+#include "fnv/symbols_01016000.h"
 struct ResetField
 {
-    void __thiscall FUN_00e10a00();
 };
 struct EmbeddedState
 {
@@ -61,13 +67,13 @@ struct FUN_00de4470_class
     float unk1C;
     EmbeddedState state;
     ResetField reset;
-    void* __thiscall InitializeDefaults();
+    void* InitializeDefaults();
 };
 // Resets the embedded state, then sets the float fields to fixed values and unk18 to 24, returning this.
 // @fnv 0x00de4470
-void* __thiscall FUN_00de4470_class::InitializeDefaults()
+void* FUN_00de4470_class::InitializeDefaults()
 {
-    reset.FUN_00e10a00();
+    reinterpret_cast<::FUN_00e10a00_cls *>(&(reset))->FUN_00e10a00();
     unk08 = 0.25f;
     unk18 = 24;
     unk04 = 0.75f;
@@ -89,8 +95,6 @@ struct DE44C0Vector4
 
 struct DE44C0Display
 {
-    void FUN_00e10bf0(const DE44C0Vector4* a, const DE44C0Vector4* b, float radius, unsigned int color, int id,
-                      int tag);
 };
 
 struct DE44C0Object
@@ -125,14 +129,14 @@ struct DE44C0Object
     {
         return m_fSphereRadius * m_vScale;
     }
-    void FUN_00de44c0(int id, int tag);
+    void FUN_00de44c0(hkUlong id, int tag);
 };
 
 // @fnv 0x00de44c0
-void DE44C0Object::FUN_00de44c0(int id, int tag)
+void DE44C0Object::FUN_00de44c0(hkUlong id, int tag)
 {
-    m_display.FUN_00e10bf0(&m_vFirstVector, &m_dirA, getScaledRadius(), 0xffff0000, id, tag);
-    m_display.FUN_00e10bf0(&m_vSecondVector, &m_dirB, getScaledRadius(), 0xffffffff, id, tag);
+    reinterpret_cast<::AxisDisplayOwner *>(&(m_display))->FUN_00e10bf0((*(const ::hkVector4 *)(&m_vFirstVector)), (*(const ::hkMatrix3 *)(&m_dirA)), getScaledRadius(), 0xffff0000, id, tag);
+    reinterpret_cast<::AxisDisplayOwner *>(&(m_display))->FUN_00e10bf0((*(const ::hkVector4 *)(&m_vSecondVector)), (*(const ::hkMatrix3 *)(&m_dirB)), getScaledRadius(), 0xffffffff, id, tag);
 }
 
 struct FUN_00de4780_cls
@@ -236,14 +240,10 @@ struct __declspec(align(16)) Vec4
     float w;
 };
 
-extern float DAT_01016248;
 
-unsigned int PackColorBigEndian(float r, float g, float b, float a);
 
 struct Struct00e10d50
 {
-    void FUN_00e10d50(const void* origin, const Vec4* from, const Vec4* to, unsigned int color, float width, int arg6,
-                      int arg7);
 };
 
 struct FUN_00de4530Owner
@@ -268,15 +268,15 @@ struct FUN_00de4530Owner
     Vec4 unkb0;
     Struct00e10d50 unkc0;
 
-    void FUN_00de4530(int arg1, int arg2);
+    void FUN_00de4530(hkUlong arg1, int arg2);
 };
 
 // Draws two triangles as six lines through unkc0.FUN_00e10d50, with width unk1c * unk0c * 0.2 and fixed or PackColorBigEndian colors.
 // @fnv 0x00de4530
-void FUN_00de4530Owner::FUN_00de4530(int arg1, int arg2)
+void FUN_00de4530Owner::FUN_00de4530(hkUlong arg1, int arg2)
 {
     unsigned int color1 = PackColorBigEndian(1.0f, 1.0f, 0.0f, 1.0f);
-    unsigned int color2 = PackColorBigEndian(1.0f, DAT_01016248, 0.0f, 1.0f);
+    unsigned int color2 = PackColorBigEndian(1.0f, ::fnv_00c88020::DAT_01016248, 0.0f, 1.0f);
     unsigned int color3 = PackColorBigEndian(1.0f, 0.0f, 1.0f, 1.0f);
 
     Vec4 a0;
@@ -295,52 +295,64 @@ void FUN_00de4530Owner::FUN_00de4530(int arg1, int arg2)
     float width;
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    unkc0.FUN_00e10d50(&unk20, &a0, &a1, 0xffff0000, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk20), (const ::ArrowDraw::ArrowDrawVector *)(&a0), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&a1), 0xffff0000, width, arg1, arg2);
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    unkc0.FUN_00e10d50(&unk20, &a1, &a2, 0xff008000, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk20), (const ::ArrowDraw::ArrowDrawVector *)(&a1), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&a2), 0xff008000, width, arg1, arg2);
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    unkc0.FUN_00e10d50(&unk20, &a2, &a0, 0xff0000ff, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk20), (const ::ArrowDraw::ArrowDrawVector *)(&a2), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&a0), 0xff0000ff, width, arg1, arg2);
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    unkc0.FUN_00e10d50(&unk30, &b0, &b1, color1, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk30), (const ::ArrowDraw::ArrowDrawVector *)(&b0), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&b1), color1, width, arg1, arg2);
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    unkc0.FUN_00e10d50(&unk30, &b1, &b2, color2, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk30), (const ::ArrowDraw::ArrowDrawVector *)(&b1), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&b2), color2, width, arg1, arg2);
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    unkc0.FUN_00e10d50(&unk30, &b2, &b0, color3, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk30), (const ::ArrowDraw::ArrowDrawVector *)(&b2), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&b0), color3, width, arg1, arg2);
 }
 
-class FUN_00de47e0_cls
+// The constraint's two bodies (hkpConstraintInstance::m_entities at +0x14/+0x18, 32-bit) and each body's world transform at +0xf0.
+struct DrawerBodyDE4
 {
-  public:
-    void FUN_00de47e0(char* a1, __m128* a2, __m128* a3);
+    unsigned char m_unk000[0xf0];
+    __m128 m_transform[4];
+};
+struct DrawerConstraintDE4
+{
+    void* m_vtable;
+    int m_memSizeAndFlags;
+    void* m_owner;
+    void* m_data;
+    void* m_constraintModifiers;
+    DrawerBodyDE4* m_entities[2];
 };
 
-// Copies 16-byte blocks from two objects at offset 0xf0 into a2 and a3, then stores them into this object at scattered offsets.
+
+// Copies the world transforms of the constraint's bodies into a2 and a3, then keeps their translations and rotations.
 // @fnv 0x00de47e0
-void FUN_00de47e0_cls::FUN_00de47e0(char* a1, __m128* apOutA, __m128* apOutB)
+void hkpConstraintDrawer::FUN_00de47e0(const void* a1, void* refLocalToWorld, void* attLocalToWorld)
 {
-    char* pFirst = *(char**)(a1 + 0x18);
-    char* pSecond = *(char**)(a1 + 0x14);
-    __m128* pSrcA = (__m128*)(pFirst + 0xf0);
+    const DrawerConstraintDE4* constraint = static_cast<const DrawerConstraintDE4*>(a1);
+    __m128* apOutA = static_cast<__m128*>(refLocalToWorld);
+    __m128* apOutB = static_cast<__m128*>(attLocalToWorld);
+    const __m128* pSrcA = constraint->m_entities[1]->m_transform;
     apOutA[0] = pSrcA[0];
     apOutA[1] = pSrcA[1];
     apOutA[2] = pSrcA[2];
     apOutA[3] = pSrcA[3];
-    __m128* pSrcB = (__m128*)(pSecond + 0xf0);
+    const __m128* pSrcB = constraint->m_entities[0]->m_transform;
     apOutB[0] = pSrcB[0];
     apOutB[1] = pSrcB[1];
     apOutB[2] = pSrcB[2];
     apOutB[3] = pSrcB[3];
-    *(__m128*)((char*)this + 0x90) = apOutA[0];
-    *(__m128*)((char*)this + 0xa0) = apOutA[1];
-    *(__m128*)((char*)this + 0xb0) = apOutA[2];
-    *(__m128*)((char*)this + 0x60) = apOutB[0];
-    *(__m128*)((char*)this + 0x70) = apOutB[1];
-    *(__m128*)((char*)this + 0x80) = apOutB[2];
-    *(__m128*)((char*)this + 0x30) = apOutA[3];
-    *(__m128*)((char*)this + 0x20) = apOutB[3];
+    m_RB[0] = apOutA[0];
+    m_RB[1] = apOutA[1];
+    m_RB[2] = apOutA[2];
+    m_RA[0] = apOutB[0];
+    m_RA[1] = apOutB[1];
+    m_RA[2] = apOutB[2];
+    m_bodyBWPos = apOutA[3];
+    m_bodyAWPos = apOutB[3];
 }

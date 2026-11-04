@@ -2,29 +2,62 @@
 // src/havok/common/internal/geometryprocessing/hkgeometryprocessing.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/hkgeometryprocessing.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl Deallocate(void*);
+#include <cstdint>
+#include "fnv_simd.h"
+#include <cstddef>
+#include <new>
+#include "fnv/decl/FUN_00d9be30_class.h"
+#include "fnv/decl/FUN_00e241a0_cls.h"
+#include "fnv/decl/HostE10.h"
+#include "fnv/decl/MapD9.h"
+#include "fnv/decl/S_00d9d650_Tree.h"
+#include "fnv/decl/S_e1ce10_Mesh.h"
+#include "fnv/decl/This_2.h"
+#include "fnv/decl/Z_E15E50.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d1d000.h"
+#include "fnv/symbols_00dea000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_00cbf000.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/FnvCpu_FUN_00d76d80_CpuOwner.h"
+#include "fnv/decl/FUN_00d5d660_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00de9000.h"
+#include "fnv/symbols_00ded000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_0106c000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/symbols_010d0000.h"
+#include "fnv/symbols_010d9000.h"
+#include "fnv/symbols_01267000.h"
 extern int DAT_010d9fc4;
 
 struct FUN_00dee620
 {
     void* m_pVTable;
-    __thiscall FUN_00dee620(int testFlag);
+    FUN_00dee620(int testFlag);
 };
 
 // @fnv 0x00dee620
-__thiscall FUN_00dee620::FUN_00dee620(int aiFlags)
+FUN_00dee620::FUN_00dee620(int aiFlags)
 {
     m_pVTable = &DAT_010d9fc4;
     if (aiFlags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
 }
 
-extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
 // Forwards the four pointers to FUN_00dedf10 with two trailing int arguments set to 0.
 // @fnv 0x00dee5f0
 void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth)
 {
-    FUN_00dedf10(first, second, third, fourth, 0, 0);
+    ::FUN_00dedf10((*(const ::Sdedf10_Geometry *)(first)), (intptr_t)(second), (*(::Sdedf10_Array< ::Sdedf10_Vector4, ::Sdedf10_TypeIsPod> *)(third)), (intptr_t)(fourth), 0, (const ::Sdedf10_IFunction *)(0));
 }
 
 struct FUN_00dee6b0_Class
@@ -39,7 +72,6 @@ float FUN_00dee6b0_Class::FUN_00dee6b0(int testFlag)
     return unk04;
 }
 
-extern int DAT_010cd664;
 
 struct AudioAllocator
 {
@@ -50,18 +82,17 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dee6c0_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
 
     FUN_00dee6c0_cls* FUN_00dee6c0(unsigned char acFlags);
 };
@@ -70,34 +101,16 @@ struct FUN_00dee6c0_cls
 // @fnv 0x00dee6c0
 FUN_00dee6c0_cls* FUN_00dee6c0_cls::FUN_00dee6c0(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_010cd664;
+    m_vptr = (intptr_t)&DAT_010cd664;
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, 0x40);
     }
     return this;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-
-extern "C"
-{
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_sub_ss(__m128 a, __m128 b);
-    __m128 _mm_div_ss(__m128 a, __m128 b);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    __m128 _mm_load_ps1(const float* p);
-    void _mm_store_ss(float* p, __m128 a);
-}
 
 struct VectorComponentValue
 {
@@ -132,6 +145,14 @@ struct hkVector4
     {
         m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
     }
+    __forceinline void setCross(const hkVector4& v1, const hkVector4& v2)
+    {
+        m_vComponents =
+            _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)),
+                                  _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2))),
+                       _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)),
+                                  _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1))));
+    }
     __forceinline void setAddMul4(const hkVector4& a, const hkVector4& b, const VectorComponentValue& r)
     {
         m_vComponents =
@@ -150,7 +171,6 @@ struct hkVector4
     }
 };
 
-extern const hkVector4 DAT_010c7160;
 
 // Computes the squared distance from point a to the segment bc, clamping the projection parameter to [0,1] and storing it in out.
 // @fnv 0x00de94b0
@@ -161,7 +181,7 @@ float __cdecl FUN_00de94b0(const hkVector4& a, const hkVector4& b, const hkVecto
     hkVector4 vSegmentVec;
     vSegmentVec.setSub4(c, b);
     const VectorComponentValue fLenSq = vSegmentVec.lengthSquared3();
-    const VectorComponentValue num = _mm_sub_ss(DAT_010c7160.m_vComponents, vSegmentVec.dot3(d1).m_vValue);
+    const VectorComponentValue num = _mm_sub_ss(::DAT_010c7160, vSegmentVec.dot3(d1).m_vValue);
     const float t = num / fLenSq;
     *pfT = t;
     if (t < 0.0f)
@@ -178,22 +198,7 @@ float __cdecl FUN_00de94b0(const hkVector4& a, const hkVector4& b, const hkVecto
 }
 
 namespace fnv_00dea810 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_or_ps(__m128, __m128);
 
-extern float DAT_0104e148;
 
 struct hkVector4Comparisonq
 {
@@ -248,7 +253,7 @@ struct hkVector4q
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return fnv_simd_as<float>(m_vComponents)[i];
     }
 };
 
@@ -263,8 +268,6 @@ struct FourPointsArray
     int m_iElementCount;
 };
 
-extern hkVector4q DAT_010d9fe0;
-extern hkVector4q DAT_010d0fa0;
 
 // Finds the vertex with the maximum dot product against direction, stores it in supportingVertexOut, and packs vertexId into the w component.
 // @fnv 0x00dea810
@@ -273,9 +276,9 @@ void __cdecl FUN_00dea810(const FourPointsArray& rotatedVertices, const hkVector
 {
 
     hkVector4q vBestDot;
-    vBestDot.set(DAT_0104e148, DAT_0104e148, DAT_0104e148, DAT_0104e148);
+    vBestDot.set(::DAT_0104e148, ::DAT_0104e148, ::DAT_0104e148, ::DAT_0104e148);
     hkVector4q vCurIndices;
-    vCurIndices = DAT_010d9fe0;
+    vCurIndices = (*reinterpret_cast<::fnv_00dea810::hkVector4q *>((void *)&::DAT_010d9fe0));
     hkVector4q vBestIndices;
     vBestIndices.setZero4();
 
@@ -303,7 +306,7 @@ void __cdecl FUN_00dea810(const FourPointsArray& rotatedVertices, const hkVector
             hkVector4Comparisonq comp = vBestDot.compareLessThan4(dot);
             vBestDot.setSelect4(comp, dot, vBestDot);
             vBestIndices.setSelect4(comp, vCurIndices, vBestIndices);
-            vCurIndices.add4(DAT_010d0fa0);
+            vCurIndices.add4((*reinterpret_cast<::fnv_00dea810::hkVector4q *>((void *)&::DAT_010d0fa0)));
             ++p;
         }
     }
@@ -315,8 +318,8 @@ void __cdecl FUN_00dea810(const FourPointsArray& rotatedVertices, const hkVector
 
     const hkFourTransposedPointsq& f = rotatedVertices.m_data[(unsigned int)vertexId >> 2];
     int c = vertexId & 3;
-    supportingVertexOut.set(f.m_kVertices[0].m_vComponents.m128_f32[c], f.m_kVertices[1].m_vComponents.m128_f32[c],
-                            f.m_kVertices[2].m_vComponents.m128_f32[c], 0.0f);
+    supportingVertexOut.set(fnv_simd_as<float>(f.m_kVertices[0].m_vComponents)[c], fnv_simd_as<float>(f.m_kVertices[1].m_vComponents)[c],
+                            fnv_simd_as<float>(f.m_kVertices[2].m_vComponents)[c], 0.0f);
     *(int*)&supportingVertexOut(3) = vertexId | 0x3f000000;
 }
 }  // namespace fnv_00dea810
@@ -357,7 +360,6 @@ float FUN_00dee640_cls::UpdateNearestDistance(void* pair)
     return 1.0f;
 }
 
-extern __m128 DAT_01267e30;
 
 struct Vertex
 {
@@ -385,18 +387,18 @@ struct Triangle
 struct Edge
 {
     Triangle* m_pkTriangle;
-    unsigned int m_uiEdgeIndex;
+    uintptr_t m_uiEdgeIndex;
 
     Edge(Triangle* t, unsigned int i) : m_pkTriangle(t), m_uiEdgeIndex(i)
     {}
-    Edge(unsigned int uid)
+    Edge(uintptr_t uid)
     {
         m_uiEdgeIndex = uid & 3;
         m_pkTriangle = (Triangle*)(uid & ~3u);
     }
-    unsigned int uid() const
+    uintptr_t uid() const
     {
-        return (unsigned int)m_pkTriangle + m_uiEdgeIndex;
+        return (uintptr_t)m_pkTriangle + m_uiEdgeIndex;
     }
     Edge link() const
     {
@@ -472,7 +474,7 @@ void FUN_00e19200_cls::FUN_00e19200(Triangle* apTriangle, const __m128* b, int a
     stBlock.m_40 = -1;
     stBlock.m_44 = -1;
     Vertex* v = m_08.PushFront(&stBlock);
-    v->m_vHitNormal = DAT_01267e30;
+    v->m_vHitNormal = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
     v->m_vContactPosition = *b;
     Triangle* pTriangle1 = m_20.FUN_00e241a0(apTriangle);
     Triangle* pTriangle2 = m_20.FUN_00e241a0(apTriangle);
@@ -487,16 +489,7 @@ void FUN_00e19200_cls::FUN_00e19200(Triangle* apTriangle, const __m128* b, int a
 }
 
 namespace fnv_00dea6b0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ss(float*, __m128);
+
 
 struct S00dea6b0_Vec
 {
@@ -569,13 +562,6 @@ bool __cdecl FUN_00dea6b0(const S00dea6b0_Vec& p, const S00dea6b0_Vec& a, const 
 }
 }  // namespace fnv_00dea6b0
 
-extern "C"
-{
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_setr_ps(float, float, float, float);
-}
-extern __m128 DAT_01017d10;
-extern float DAT_01011d78;
 
 struct CubeVector
 {
@@ -639,10 +625,7 @@ void __cdecl FUN_00de9590(CubeBox* box)
 
 #include <math.h>
 extern const float DAT_0104da4c = 1.1920928955078125e-7f;
-extern float DAT_0104da48;
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_load_ss(const float*);
+
 
 // Computes the closest distance between two line segments defined by start and end points, writing clamped parameters to the output pointers.
 // @fnv 0x00dea450
@@ -675,7 +658,7 @@ float __cdecl FUN_00dea450(const hkVector4& firstStart, const hkVector4& firstEn
         VectorComponentValue squaredLength = firstDirection.lengthSquared3();
         VectorComponentValue projected = offset.dot3(firstDirection);
         VectorComponentValue s =
-            _mm_sub_ss(DAT_010c7160.m_vComponents, _mm_div_ss(projected.m_vValue, squaredLength.m_vValue));
+            _mm_sub_ss(::DAT_010c7160, _mm_div_ss(projected.m_vValue, squaredLength.m_vValue));
         float rawFirst = s;
         float firstClamped = rawFirst < 0.0f ? 0.0f : (rawFirst > 1.0f ? 1.0f : rawFirst);
         *firstParameter = firstClamped;
@@ -689,10 +672,9 @@ float __cdecl FUN_00dea450(const hkVector4& firstStart, const hkVector4& firstEn
     }
     *secondParameter = 0.0f;
     *firstParameter = 0.0f;
-    return DAT_0104da48;
+    return ::DAT_0104da48;
 }
 
-extern const float DAT_0101622c;
 struct Vec4
 {
     __m128 value;
@@ -700,7 +682,7 @@ struct Vec4
 // @fnv 0x00de9b90
 Vec4 __cdecl FUN_00de9b90(const Vec4& a, const Vec4& b, const Vec4& c, const Vec4& d)
 {
-    __m128 scale = _mm_load_ss(&DAT_0101622c);
+    __m128 scale = _mm_load_ss(&::DAT_0101622c);
     __m128 cv = c.value;
     __m128 dv = d.value;
     __m128 bv = b.value;
@@ -714,15 +696,6 @@ Vec4 __cdecl FUN_00de9b90(const Vec4& a, const Vec4& b, const Vec4& c, const Vec
     return result;
 }
 
-extern "C"
-{
-    __m128 _mm_set_ss(float);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-}
-extern const float DAT_01012054, DAT_01012068, DAT_0106c2e0;
 
 class ScalarValue
 {
@@ -760,7 +733,7 @@ inline ScalarValue operator/(const ScalarValue& x, const ScalarValue& y)
 }
 inline ScalarValue operator-(const ScalarValue& x)
 {
-    return _mm_sub_ss(DAT_010c7160.m_vComponents, x.lanes());
+    return _mm_sub_ss(::DAT_010c7160, x.lanes());
 }
 
 class GeomVector
@@ -873,7 +846,6 @@ static __forceinline float doubleArea(const GeomVector& origin, const GeomVector
 {
     return offsetCross(origin, a, b).magnitude();
 }
-float __cdecl FUN_00de9e10(const GeomVector&, const GeomVector&, const GeomVector&, GeomVector&, float*);
 
 // Computes the squared distance from a point to a triangle, returning the closest normal and optional barycentric weights.
 // @fnv 0x00de9f10
@@ -893,9 +865,9 @@ float __cdecl FUN_00de9f10(const GeomVector& point, const GeomVector& a, const G
             weights->set(doubleArea(projected, b, c), doubleArea(projected, c, a), doubleArea(projected, a, b), 0);
             ScalarValue sum = weights->sum();
             if (sum > DAT_0104da4c)
-                weights->scale(ScalarValue(DAT_01012068) / sum);
+                weights->scale(ScalarValue(::DAT_01012068) / sum);
             else
-                weights->set(DAT_0106c2e0, DAT_0106c2e0, DAT_0106c2e0, 0);
+                weights->set(::DAT_0106c2e0, ::DAT_0106c2e0, ::DAT_0106c2e0, 0);
         }
         if (distance < 0)
             normal.scale(DAT_01012054);
@@ -906,9 +878,9 @@ float __cdecl FUN_00de9f10(const GeomVector& point, const GeomVector& a, const G
         GeomVector normals[3];
         float fractions[3];
         float distances[3];
-        distances[0] = FUN_00de9e10(point, a, b, normals[0], &fractions[0]);
-        distances[1] = FUN_00de9e10(point, b, c, normals[1], &fractions[1]);
-        distances[2] = FUN_00de9e10(point, c, a, normals[2], &fractions[2]);
+        distances[0] = ::FUN_00de9e10((float *)&(point), (float *)&(a), (float *)&(b), (float *)&(normals[0]), &fractions[0]);
+        distances[1] = ::FUN_00de9e10((float *)&(point), (float *)&(b), (float *)&(c), (float *)&(normals[1]), &fractions[1]);
+        distances[2] = ::FUN_00de9e10((float *)&(point), (float *)&(c), (float *)&(a), (float *)&(normals[2]), &fractions[2]);
         int edge =
             distances[0] < distances[1] ? (distances[0] < distances[2] ? 0 : 2) : (distances[1] < distances[2] ? 1 : 2);
         normal = normals[edge];
@@ -932,19 +904,6 @@ float __cdecl FUN_00de9f10(const GeomVector& point, const GeomVector& a, const G
 }
 
 #include <float.h>
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_div_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setr_ps(float, float, float, float);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct S00dea980_Vec
 {
@@ -1014,8 +973,6 @@ float FUN_00dea980(const S00dea980_Vec* apFirst, const S00dea980_Vec* apSecond, 
     return 0.0f;
 }
 
-extern float DAT_01016248;
-extern __m128 DAT_010ec7f0;
 static __forceinline void medianInterpolate(hkVector4& result, const hkVector4& first, const hkVector4& second,
                                             const VectorComponentValue& fraction)
 {
@@ -1029,13 +986,10 @@ static __forceinline void medianInterpolate(hkVector4& result, const hkVector4& 
 hkVector4 __cdecl FUN_00de9b10(const hkVector4& first, const hkVector4& second)
 {
     hkVector4 result;
-    medianInterpolate(result, first, second, VectorComponentValue(_mm_load_ss(&DAT_01016248)));
+    medianInterpolate(result, first, second, VectorComponentValue(_mm_load_ss(&::fnv_00c88020::DAT_01016248)));
     return result;
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-
-extern const float DAT_0106c2e0;
 
 struct CentroidVector
 {
@@ -1047,7 +1001,7 @@ CentroidVector __cdecl FUN_00de9b50(const CentroidVector* apCentroidA, const Cen
                                     const CentroidVector* apCentroidC)
 {
     __m128 vSum = _mm_load_ps((const float*)&apCentroidA->value);
-    __m128 scale = _mm_load_ss(&DAT_0106c2e0);
+    __m128 scale = _mm_load_ss(&::DAT_0106c2e0);
     __m128 vb = _mm_load_ps((const float*)&apCentroidB->value);
 
     vSum = _mm_add_ps(vSum, vb);
@@ -1060,3 +1014,1278 @@ CentroidVector __cdecl FUN_00de9b50(const CentroidVector* apCentroidA, const Cen
     result.value = vSum;
     return result;
 }
+
+
+struct Sdedf10_PlacementArg;
+
+struct Sdedf10_TypeIsPod
+{
+};
+struct Sdedf10_TypeIsClass
+{
+};
+
+struct Sdedf10_Allocator
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void ReturnMemory(void* p, int numBytes);
+};
+class Sdedf10_MemoryRouter
+{
+  public:
+    static Sdedf10_MemoryRouter& __cdecl GetMonitorStream()
+    {
+        return *static_cast<Sdedf10_MemoryRouter*>(::FUN_00c85750());
+    }
+    __forceinline Sdedf10_Allocator& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+
+  private:
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    Sdedf10_Allocator* m_pStreamAllocator;
+};
+__forceinline Sdedf10_Allocator& Sdedf10_heap()
+{
+    return Sdedf10_MemoryRouter::GetMonitorStream().heap();
+}
+
+
+template <typename T> __forceinline void Sdedf10_construct(T* t, int n, Sdedf10_TypeIsPod)
+{}
+template <typename T> __forceinline void Sdedf10_destruct(T* t, int n, Sdedf10_TypeIsPod)
+{}
+template <typename T> __forceinline void Sdedf10_constructWithCopy(T* t, int n, const T& tcopy, Sdedf10_TypeIsPod)
+{
+    for (int i = 0; i < n; ++i)
+    {
+        t[i] = tcopy;
+    }
+}
+template <typename T> __forceinline void Sdedf10_constructWithCopy(T* t, int n, const T& tcopy, Sdedf10_TypeIsClass)
+{
+    for (int i = 0; i < n; ++i)
+    {
+        new (reinterpret_cast<Sdedf10_PlacementArg*>(t + i)) T(tcopy);
+    }
+}
+
+template <typename T, typename Tag> struct Sdedf10_ArrayBase
+{
+    enum
+    {
+        CAPACITY_MASK = 0x3FFFFFFF,
+        DONT_DEALLOCATE_FLAG = 0x80000000
+    };
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    __forceinline Sdedf10_ArrayBase() : m_data(0), m_iElementCount(0), m_iCapacityState(DONT_DEALLOCATE_FLAG)
+    {}
+    __forceinline ~Sdedf10_ArrayBase()
+    {}
+    __forceinline int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    __forceinline int getCapacity() const
+    {
+        return m_iCapacityState & CAPACITY_MASK;
+    }
+    __forceinline T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    __forceinline const T& operator[](int i) const
+    {
+        return m_data[i];
+    }
+    __forceinline T* begin()
+    {
+        return m_data;
+    }
+    __forceinline void clear()
+    {
+        Sdedf10_destruct(m_data, m_iElementCount, Sdedf10_TypeIsPod());
+        m_iElementCount = 0;
+    }
+    __forceinline void _clearAndDeallocate(Sdedf10_Allocator& alloc)
+    {
+        clear();
+        if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0)
+        {
+            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+        }
+        m_data = 0;
+        m_iCapacityState = DONT_DEALLOCATE_FLAG;
+    }
+    __forceinline void _reserveExactly(Sdedf10_Allocator& alloc, int n)
+    {
+        if (getCapacity() < n)
+        {
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n, sizeof(T));
+        }
+    }
+    __forceinline void GrowArrayCapacity(Sdedf10_Allocator& alloc, int n)
+    {
+        const int capacity = getCapacity();
+        if (capacity < n)
+        {
+            int cap2 = 2 * capacity;
+            int newSize = (n < cap2) ? cap2 : n;
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
+        }
+    }
+    __forceinline void _pushBack(Sdedf10_Allocator& alloc, const T& t)
+    {
+        if (m_iElementCount == getCapacity())
+        {
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(T));
+        }
+        Sdedf10_constructWithCopy(m_data + m_iElementCount, 1, t, Tag());
+        m_iElementCount++;
+    }
+    __forceinline void _setSize(Sdedf10_Allocator& alloc, int n)
+    {
+        GrowArrayCapacity(alloc, n);
+        Sdedf10_destruct(m_data + n, m_iElementCount - n, Sdedf10_TypeIsPod());
+        Sdedf10_construct(m_data + m_iElementCount, n - m_iElementCount, Sdedf10_TypeIsPod());
+        m_iElementCount = n;
+    }
+};
+
+template <typename T, typename Tag = Sdedf10_TypeIsPod> struct Sdedf10_Array : Sdedf10_ArrayBase<T, Tag>
+{
+    __forceinline Sdedf10_Array()
+    {}
+    __forceinline ~Sdedf10_Array()
+    {
+        this->_clearAndDeallocate(Sdedf10_heap());
+    }
+    __forceinline void SetSizeAndGrow(int n)
+    {
+        this->_setSize(Sdedf10_heap(), n);
+    }
+    __forceinline void reserveExactly(int n)
+    {
+        this->_reserveExactly(Sdedf10_heap(), n);
+    }
+    __forceinline void AddBack(const T& t)
+    {
+        this->_pushBack(Sdedf10_heap(), t);
+    }
+};
+
+class Sdedf10_SimdReal
+{
+  public:
+    __forceinline Sdedf10_SimdReal(float x)
+    {
+        m_vValue = _mm_load_ss(&x);
+    }
+    __forceinline ::__m128 broadcast() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+
+  private:
+    ::__m128 m_vValue;
+};
+
+class Sdedf10_Vector4
+{
+  public:
+    __forceinline Sdedf10_Vector4()
+    {}
+    __forceinline void SetAllComponents(float a)
+    {
+        m_vComponents = _mm_set_ps1(a);
+    }
+    __forceinline void add4(const Sdedf10_Vector4& v)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, v.m_vComponents);
+    }
+    __forceinline void setAdd4(const Sdedf10_Vector4& a, const Sdedf10_Vector4& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void setSub4(const Sdedf10_Vector4& a, const Sdedf10_Vector4& b)
+    {
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void mul4(const Sdedf10_SimdReal& s)
+    {
+        m_vComponents = _mm_mul_ps(s.broadcast(), m_vComponents);
+    }
+    __forceinline float& operator()(int a)
+    {
+        return reinterpret_cast<float*>(&m_vComponents)[a];
+    }
+    ::__m128 m_vComponents;
+};
+
+class Sdedf10_Aabb
+{
+  public:
+    __forceinline static void* __cdecl operator new(std::size_t, Sdedf10_PlacementArg* p) throw()
+    {
+        return p;
+    }
+    __forceinline static void __cdecl operator delete(void*, Sdedf10_PlacementArg*) throw()
+    {}
+    __forceinline Sdedf10_Aabb()
+    {}
+    Sdedf10_Vector4 m_kMinimumCorner;
+    Sdedf10_Vector4 m_kMaximumCorner;
+};
+
+__forceinline void Sdedf10_calcAabb(const Sdedf10_Vector4& center, float innerRadius, Sdedf10_Aabb& aabbOut)
+{
+    Sdedf10_Vector4 ir;
+    ir.SetAllComponents(innerRadius);
+    aabbOut.m_kMinimumCorner.setSub4(center, ir);
+    aabbOut.m_kMaximumCorner.setAdd4(center, ir);
+    aabbOut.m_kMinimumCorner(3) = 0;
+    aabbOut.m_kMaximumCorner(3) = 0;
+}
+
+struct Sdedf10_IFunction
+{
+    __forceinline Sdedf10_IFunction()
+    {}
+    virtual ~Sdedf10_IFunction()
+    {}
+    virtual float evaluate(const Sdedf10_Vector4&) const = 0;
+};
+
+struct Sdedf10_ConstFunction : Sdedf10_IFunction
+{
+    Sdedf10_ConstFunction(const float& value) : m_uiFilterValue(value)
+    {}
+    float evaluate(const Sdedf10_Vector4&) const
+    {
+        return m_uiFilterValue;
+    }
+    float m_uiFilterValue;
+};
+
+struct Sdedf10_PseudoRandom
+{
+    __forceinline Sdedf10_PseudoRandom(int s)
+    {
+        m_uiState = (unsigned int)s;
+        m_pTileTemplate = m_uiState;
+    }
+    unsigned int m_uiState;
+    unsigned int m_pTileTemplate;
+};
+
+struct Sdedf10_Geometry;
+struct Sdedf10_Transform;
+
+struct __declspec(align(16)) Sdedf10_Mesh
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+
+    Sdedf10_Mesh();
+    ~Sdedf10_Mesh();
+};
+
+struct Sdedf10_NodeManager
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    ~Sdedf10_NodeManager();
+};
+
+struct Sdedf10_TreeNode
+{
+    Sdedf10_Aabb m_iBufferSize;
+    void* m_ulUserData;
+    template <typename T> __forceinline T getLeafData() const
+    {
+        return reinterpret_cast<T>(m_ulUserData);
+    }
+};
+
+class Sdedf10_Tree
+{
+  public:
+    Sdedf10_Tree();
+    virtual ~Sdedf10_Tree()
+    {
+        reinterpret_cast<::FUN_00d9be30_class *>(this)->FUN_00d9be30();
+    }
+    void clear();
+
+    Sdedf10_TreeNode* m_pAabbRootNode;
+    unsigned int m_usManagerValue;
+    int m_iNodeCount;
+    Sdedf10_NodeManager m_kNodeManager;
+    Sdedf10_Vector4 m_kAabbMin;
+    Sdedf10_Vector4 m_kAabbMaximum;
+    Sdedf10_Vector4 m_kAabbScale;
+    Sdedf10_Vector4 m_kAabbInverseScale;
+};
+
+struct Sdedf10_Collector
+{
+    __forceinline Sdedf10_Collector()
+    {}
+    virtual ~Sdedf10_Collector()
+    {}
+    virtual float GetHitDistance(const Sdedf10_TreeNode* leaf) = 0;
+};
+
+struct Sdedf10_ClosestPointCollector : Sdedf10_Collector
+{
+    __forceinline Sdedf10_ClosestPointCollector(const Sdedf10_Vector4& point, float initDistanceSquared)
+        : m_kPoint(point), m_fValue(initDistanceSquared)
+    {}
+    virtual ~Sdedf10_ClosestPointCollector()
+    {}
+    virtual float GetHitDistance(const Sdedf10_TreeNode* leaf) = 0;
+
+    Sdedf10_Vector4 m_kPoint;
+    float m_fValue;
+};
+
+struct Sdedf10_NearestFeaturePolicy : Sdedf10_ClosestPointCollector
+{
+    __forceinline Sdedf10_NearestFeaturePolicy(const Sdedf10_Vector4& point, float maxDistance)
+        : Sdedf10_ClosestPointCollector(point, maxDistance), m_nearest(0)
+    {}
+    virtual ~Sdedf10_NearestFeaturePolicy()
+    {}
+    virtual float GetHitDistance(const Sdedf10_TreeNode* leaf);
+
+    const Sdedf10_TreeNode* m_nearest;
+};
+
+
+// @fnv 0x00dedf10
+bool __cdecl FUN_00dedf10(const Sdedf10_Geometry& geometry, intptr_t numPoints, Sdedf10_Array<Sdedf10_Vector4>& points,
+                          intptr_t maxIterations, int seed, const Sdedf10_IFunction* densityFunction)
+{
+    static Sdedf10_ConstFunction unityFunction(1);
+    Sdedf10_PseudoRandom rng(seed);
+    if (!densityFunction)
+    {
+        densityFunction = &unityFunction;
+    }
+
+    Sdedf10_Mesh mesh;
+    reinterpret_cast<::S_e1ce10_Mesh *>(&(mesh))->FUN_00e1ce10((const ::S_e1ce10_Geometry &)(geometry), (const ::S_e1ce10_Transform &)((*reinterpret_cast<const ::Sdedf10_Transform *>(&::DAT_01268370))), -1);
+    reinterpret_cast<::HostE10 *>(&(mesh))->FUN_00e11e10();
+    reinterpret_cast<::Z_E15E50 *>(&(mesh))->FUN_00e15e50();
+
+    const int base = points.GetLogicalSize();
+    if (!::FUN_00dedbb0((::Owner *)&(mesh), numPoints, (::Vec4Array *)&(points), (::Obj *)&(rng)))
+    {
+        return false;
+    }
+
+    if (maxIterations > 0)
+    {
+        Sdedf10_Vector4* pts = &points[base];
+        Sdedf10_Array<unsigned int> leaves;
+        Sdedf10_Tree tree;
+        leaves.SetSizeAndGrow(numPoints);
+        Sdedf10_Array<Sdedf10_Aabb, Sdedf10_TypeIsClass> aabbs;
+        Sdedf10_Array<void*> datas;
+        for (int i = 0; i < numPoints; ++i)
+        {
+            Sdedf10_Aabb box;
+            Sdedf10_calcAabb(pts[i], 0, box);
+            aabbs.AddBack(box);
+            datas.AddBack(&pts[i]);
+            const float w = densityFunction->evaluate(pts[i]);
+            pts[i].mul4(w);
+            pts[i](3) = w;
+        }
+        reinterpret_cast<::S_00d9d650_Tree *>(&(tree))->BuildTree((const ::S_00d9d650_Aabb *)(::Sdedf10_Aabb *)(aabbs.begin()), (const int *)(void **)(datas.begin()), aabbs.GetLogicalSize(), (::S_00d9d650_Array<int> &)(leaves));
+
+        Sdedf10_Array<Sdedf10_Vector4> samples;
+        const intptr_t doubled = numPoints * 2;
+        const intptr_t numSamples = doubled < 0x100 ? 0x100 : (doubled > 0x2000 ? 0x2000 : doubled);
+        samples.reserveExactly(numSamples);
+
+        for (int iter = 0; iter < maxIterations; ++iter)
+        {
+            samples.clear();
+            if (!::FUN_00dedbb0((::Owner *)&(mesh), numSamples, (::Vec4Array *)&(samples), (::Obj *)&(rng)))
+            {
+                return false;
+            }
+            for (int j = 0; j < samples.GetLogicalSize(); ++j)
+            {
+                Sdedf10_NearestFeaturePolicy policy(samples[j], 3.40282e38f);
+                ::FUN_00d1dbb0((::AabbTree *)(&tree), (const ::VectorQ &)(samples[j]), (::ClosestCollector *)(::Sdedf10_Collector *)(&policy));
+                if (policy.m_nearest)
+                {
+                    Sdedf10_Vector4* target = policy.m_nearest->getLeafData<Sdedf10_Vector4*>();
+                    const float w = densityFunction->evaluate(samples[j]);
+                    samples[j].mul4(w);
+                    samples[j](3) = w;
+                    target->add4(samples[j]);
+                }
+            }
+            for (int k = 0; k < numPoints; ++k)
+            {
+                const float invW = 1.0f / pts[k](3);
+                pts[k].mul4(invW);
+                Sdedf10_Aabb box;
+                Sdedf10_calcAabb(pts[k], 0, box);
+                reinterpret_cast<::MapD9 *>(&(tree))->FUN_00d9be50(leaves[k], (const ::Block32 *)&(box));
+                const float w = densityFunction->evaluate(pts[k]);
+                pts[k].mul4(w);
+                pts[k](3) = w;
+            }
+        }
+    }
+    return true;
+}
+struct Vector3
+{
+    float x, y, z;
+};
+
+// @fnv 0x00de98c0
+void FUN_00de98c0(const Vector3* v, __m128* out)
+{
+    float ly = v->y;
+    float lx = v->x;
+    float a = (((double)(::Atan2(ly, lx))) * 2) / 3.1415927410125732;
+    float b;
+    if (v->z < 0)
+    {
+        float r = (float)(v->z + 1.0);
+        r = (float)sqrt(r);
+        if (a >= 0)
+        {
+            if (a <= 1)
+            {
+                a = 1.0 - a * r;
+                b = 2.0 - r - a;
+            }
+            else
+            {
+                a = (2.0 - a) * r - 1.0;
+                b = 2.0 - r + a;
+            }
+        }
+        else if (a >= -1.0f)
+        {
+            a = a * r + 1.0;
+            b = r - 2.0 + a;
+        }
+        else
+        {
+            a = (a + 2.0) * r - 1.0;
+            b = r - 2.0 - a;
+        }
+    }
+    else
+    {
+        float r = (float)(1.0 - v->z);
+        r = (float)sqrt(r);
+        if (a >= 0)
+        {
+            if (a < 1)
+            {
+                b = a * r;
+                a = r - b;
+            }
+            else
+            {
+                b = (2.0 - a) * r;
+                a = b - r;
+            }
+        }
+        else if (a > -1.0f)
+        {
+            b = a * r;
+            a = r + b;
+        }
+        else
+        {
+            b = (a + 2.0) * -r;
+            a = -(r + b);
+        }
+    }
+    a = (float)((a + 1.0) * 0.5);
+    b = (float)((b + 1.0) * 0.5);
+    *out = _mm_setr_ps(a, b, 0, 0);
+}
+
+struct Interval
+{
+    VectorComponentValue m_kMinimumCorner;
+    VectorComponentValue m_kMaximumCorner;
+};
+
+static __forceinline void projectTriangle(const hkVector4* tri, const hkVector4& axis, Interval& out)
+{
+    out.m_kMaximumCorner = tri[0].dot3(axis);
+    out.m_kMinimumCorner = out.m_kMaximumCorner;
+    for (int i = 1; i < 3; i++)
+    {
+        VectorComponentValue d = tri[i].dot3(axis);
+        if (d < out.m_kMinimumCorner)
+        {
+            out.m_kMinimumCorner = d;
+        }
+        else if (d > out.m_kMaximumCorner)
+        {
+            out.m_kMaximumCorner = d;
+        }
+    }
+}
+
+static __forceinline bool isSeparatingAxis(const hkVector4* triA, const hkVector4* triB, const hkVector4& axis,
+                                           Interval& a, Interval& b)
+{
+    projectTriangle(triA, axis, a);
+    projectTriangle(triB, axis, b);
+    return a.m_kMinimumCorner > b.m_kMaximumCorner || a.m_kMaximumCorner < b.m_kMinimumCorner;
+}
+
+static __forceinline void calcEdgeAxis(const hkVector4& a0, const hkVector4& a1, const hkVector4& b0,
+                                       const hkVector4& b1, hkVector4& axis)
+{
+    hkVector4 ea;
+    ea.setSub4(a1, a0);
+    hkVector4 eb;
+    eb.setSub4(b1, b0);
+    axis.setCross(ea, eb);
+}
+
+// @fnv 0x00deab10
+int __cdecl FUN_00deab10(const hkVector4* triA, const hkVector4* triB)
+{
+    hkVector4 axis;
+    Interval a;
+    Interval b;
+    {
+        hkVector4 e0;
+        e0.setSub4(triA[1], triA[0]);
+        hkVector4 e1;
+        e1.setSub4(triA[2], triA[0]);
+        axis.setCross(e0, e1);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        hkVector4 e0;
+        e0.setSub4(triB[1], triB[0]);
+        hkVector4 e1;
+        e1.setSub4(triB[2], triB[0]);
+        axis.setCross(e0, e1);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        calcEdgeAxis(triA[0], triA[1], triB[0], triB[1], axis);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        calcEdgeAxis(triA[0], triA[1], triB[1], triB[2], axis);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        calcEdgeAxis(triA[0], triA[1], triB[2], triB[0], axis);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        calcEdgeAxis(triA[1], triA[2], triB[0], triB[1], axis);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        calcEdgeAxis(triA[1], triA[2], triB[1], triB[2], axis);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        calcEdgeAxis(triA[1], triA[2], triB[2], triB[0], axis);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        calcEdgeAxis(triA[2], triA[0], triB[0], triB[1], axis);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        calcEdgeAxis(triA[2], triA[0], triB[1], triB[2], axis);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        calcEdgeAxis(triA[2], triA[0], triB[2], triB[0], axis);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        axis.setSub4(triA[0], triB[0]);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        axis.setSub4(triA[0], triB[1]);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        axis.setSub4(triA[0], triB[2]);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        axis.setSub4(triA[1], triB[0]);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        axis.setSub4(triA[1], triB[1]);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        axis.setSub4(triA[1], triB[2]);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        axis.setSub4(triA[2], triB[0]);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        axis.setSub4(triA[2], triB[1]);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    {
+        axis.setSub4(triA[2], triB[2]);
+        if (isSeparatingAxis(triA, triB, axis, a, b))
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+struct Point4;
+struct __declspec(align(16)) Point4
+{
+    float x, y, z, w;
+    __forceinline Point4()
+    {
+        *this = (*reinterpret_cast<::Point4 *>(&::DAT_01267e30));
+    }
+};
+struct VertexArray
+{
+    Point4* data;
+    int size;
+    int capacity;
+};
+struct FourPoints
+{
+    Point4 x, y, z;
+    __forceinline void transpose(const Point4* p)
+    {
+        _mm_store_ps(&x.x, _mm_setr_ps(p[0].x, p[1].x, p[2].x, p[3].x));
+        _mm_store_ps(&y.x, _mm_setr_ps(p[0].y, p[1].y, p[2].y, p[3].y));
+        _mm_store_ps(&z.x, _mm_setr_ps(p[0].z, p[1].z, p[2].z, p[3].z));
+    }
+};
+struct FourPointArray
+{
+    FourPoints* data;
+    int size;
+    int capacity;
+};
+// @fnv 0x00dedcf0
+void __cdecl FUN_00dedcf0(const VertexArray& vertices, FourPointArray& output)
+{
+    Point4 points[4];
+    int used = 0;
+    int count = (vertices.size + 3) >> 2;
+    AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
+    AudioAllocator* allocator = holder->m_pAllocator;
+    int start = output.size;
+    int required = start + count;
+    int capacity = output.capacity & 0x3fffffff;
+    if (capacity < required)
+    {
+        int grown = required >= capacity * 2 ? required : capacity * 2;
+        ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(void *)(&output), grown, sizeof(FourPoints));
+    }
+    output.size += count;
+    FourPoints* destination = output.data + start;
+    int vertexCount = vertices.size;
+    for (int i = 0; i < vertexCount; ++i)
+    {
+        _mm_store_ps(&points[used++].x, _mm_load_ps(&vertices.data[i].x));
+        if (used == 4)
+        {
+            destination->transpose(points);
+            used = 0;
+            ++destination;
+        }
+    }
+    if (used)
+    {
+        for (int i = used; i < 4;)
+            _mm_store_ps(&points[i++].x, _mm_load_ps(&points[0].x));
+        destination->transpose(points);
+    }
+}
+struct __declspec(align(16)) S_V4
+{
+    union
+    {
+        __m128 q;
+        float data[4];
+        struct
+        {
+            float x, y, z, w;
+        };
+    };
+    void FUN_00c7f700(const struct S_Rot* r, const S_V4* v);
+    S_V4()
+    {}
+    S_V4(const S_V4& o)
+    {
+        _mm_store_ps(&x, _mm_load_ps(&o.x));
+    }
+    S_V4& operator=(const S_V4& o)
+    {
+        _mm_store_ps(&x, _mm_load_ps(&o.x));
+        return *this;
+    }
+};
+
+static __forceinline void perpendicular(S_V4& out, const S_V4& src, S_V4& scratch)
+{
+    float a = fabs(src.x);
+    float b = fabs(src.y);
+    float c = fabs(src.z);
+    int i = 0, j = 1, k = 2;
+    if (b < a)
+    {
+        a = b;
+        j = 0;
+        i = 1;
+    }
+    if (c < a)
+    {
+        k = i;
+    }
+    _mm_store_ps(&out.x, _mm_setzero_ps());
+    out.data[j] = src.data[k];
+    out.data[k] = -src.data[j];
+    scratch = out;
+    __m128 m = _mm_load_ps(&scratch.x);
+    __m128 sq = _mm_mul_ps(m, m);
+    __m128 sum = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq);
+    sum = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), sum);
+    float len;
+    _mm_store_ss(&len, sum);
+    if (len != 0.0f)
+    {
+        float inv = 1.0f / (float)sqrt(len);
+        _mm_store_ps(&out.x, _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&inv), _mm_load_ss(&inv), 0), m));
+    }
+}
+
+struct S_Rot
+{
+    S_V4 r0;
+    S_V4 r1;
+    S_V4 r2;
+    S_V4 translation;
+};
+
+struct S_Body
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    S_V4 velocity;
+    S_V4 axis;  // 0xe0
+    int unkf0;
+    int unkf4;
+    int unkf8;
+    int unkfc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int type;
+};
+
+struct S_Self
+{
+    int unk00;
+    int unk04;
+    S_Body* body;
+};
+
+struct AxisOwner : S_Self
+{
+    S_V4 FUN_00d76d90();
+};
+
+// @fnv 0x00d76d90
+S_V4 AxisOwner::FUN_00d76d90()
+{
+    S_V4 out;
+    _mm_store_ps(&out.x, _mm_setzero_ps());
+    S_V4 zero;
+    _mm_store_ps(&zero.x, _mm_setzero_ps());
+    S_Body* bd = body;
+    switch (bd->type)
+    {
+    case 1: {
+        perpendicular(out, bd->velocity, zero);
+        break;
+    }
+    case 2:
+        out = bd->axis;
+        break;
+    case 3: {
+        float d[4];
+        S_Rot rot;
+        reinterpret_cast<::FnvCpu_FUN_00d76d80_CpuOwner *>(this)->FUN_00d76d80();
+        int idx;
+        if (d[0] < d[1])
+            idx = (d[2] > d[0]) ? 0 : 2;
+        else
+            idx = (d[2] > d[1]) ? 1 : 2;
+        S_V4 v;
+        v = zero;
+        ((float*)&v)[idx] = 1.0f;
+        out.FUN_00c7f700(&rot, &v);
+        break;
+    }
+    }
+    out.w = 0;
+    return out;
+}struct SphereInput276
+{
+    float a, b;
+};
+struct __declspec(align(16)) SphereOutput276
+{
+    __m128 value;
+};
+// @fnv 0x00de9650
+extern "C" void FUN_00de9650(SphereInput276* in, SphereOutput276* out)
+{
+    float u = 2.0 * in->a - 1.0;
+    float v = 2.0 * in->b - 1.0;
+    float sum = u + v;
+    float difference = v - u;
+    float radius, sign, angle;
+    if (v >= 0.0f)
+    {
+        if (u >= 0.0f)
+        {
+            if (sum <= 1.0f)
+            {
+                radius = sum;
+                sign = 1.0f;
+                angle = v / radius;
+            }
+            else
+            {
+                radius = 2.0 - sum;
+                sign = -1.0f;
+                angle = (1.0f - u) / radius;
+            }
+        }
+        else
+        {
+            if (difference <= 1.0f)
+            {
+                radius = difference;
+                sign = 1.0f;
+                angle = 1.0f - u / radius;
+            }
+            else
+            {
+                radius = 2.0 - difference;
+                sign = -1.0f;
+                angle = 1.0f + (1.0f - v) / radius;
+            }
+        }
+    }
+    else
+    {
+        if (u < 0.0f)
+        {
+            if (sum >= -1.0f)
+            {
+                radius = -sum;
+                sign = 1.0f;
+                angle = 2.0 - v / radius;
+            }
+            else
+            {
+                radius = sum + 2.0;
+                sign = -1.0f;
+                angle = 2.0 + (1.0f + u) / radius;
+            }
+        }
+        else
+        {
+            if (difference >= -1.0f)
+            {
+                radius = -difference;
+                sign = 1.0f;
+                angle = 3.0 + u / radius;
+            }
+            else
+            {
+                radius = difference + 2.0;
+                sign = -1.0f;
+                angle = 3.0 + (1.0f + v) / radius;
+            }
+        }
+    }
+    if (radius == 0.0f)
+        angle = 0.0f;
+    else
+        angle *= 1.5707963705062866;
+    float squared = radius * radius;
+    float radialSquared = 2.0 - squared;
+    float radialRoot = (float)sqrt(radialSquared);
+    radius = radialRoot * radius;
+    float cosine = (float)cos(angle);
+    float x = cosine * radius;
+    float sine = (float)sin(angle);
+    float z = sine * radius;
+    float y = (1.0f - squared) * sign;
+    out->value = _mm_setr_ps(x, z, y, 0.0f);
+}
+
+extern "C" void _ReadBarrier();
+
+__declspec(align(16)) struct Vec4Pair
+{
+    Vec4 a;
+    Vec4 b;
+};
+
+struct Vec4Array
+{
+    Vec4* m_00;
+    int m_04;
+    unsigned int m_08;
+};
+
+struct Owner
+{
+    void FUN_00e11530(Vec4Pair* out);
+    float FUN_00e13660(Vec4* p, Vec4* q, unsigned char* ok);
+};
+
+struct Obj
+{
+};
+
+
+// @fnv 0x00dedbb0
+bool __cdecl FUN_00dedbb0(Owner* self, intptr_t count, Vec4Array* out, Obj* obj)
+{
+    Vec4Pair pair;
+    Vec4 scratch;
+    Vec4 delta;
+    Vec4 base;
+    Vec4 cur;
+    intptr_t limit;
+    unsigned char flag;
+    int tries;
+
+    self->FUN_00e11530(&pair);
+    base = pair.a;
+    _mm_store_ps((float*)(void*)&delta,
+                 _mm_sub_ps(_mm_load_ps((const float*)&pair.b), _mm_load_ps((const float*)&pair.a)));
+    tries = 0;
+    limit = count * 8;
+    while (count != 0)
+    {
+        cur = (*reinterpret_cast<::Vec4 *>(&::DAT_01267e30));
+        flag = 1;
+        reinterpret_cast<::FUN_00d5d660_cls *>((obj))->NextFloat4((float *)(::Vec4 *)(&cur));
+        _mm_store_ps((float*)(void*)&cur, _mm_add_ps(_mm_mul_ps(*(__m128*)&cur, *(__m128*)&delta), *(__m128*)&base));
+        self->FUN_00e13660(&cur, &scratch, &flag);
+        if (flag != 0)
+        {
+            fnv_simd_as<float>(cur.value)[3] = 1.0f;
+            AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
+            if (out->m_04 == (int)(out->m_08 & 0x3fffffff))
+            {
+                ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(out), 0x10);
+            }
+            Vec4* __restrict dst = out->m_00 + out->m_04;
+            _mm_store_ps((float*)dst, _mm_load_ps((const float*)&cur));
+            count--;
+            _ReadBarrier();
+            out->m_04++;
+            tries = 0;
+        }
+        else
+        {
+            tries++;
+            if (tries > limit)
+            {
+                break;
+            }
+        }
+    }
+    return count == 0;
+}
+
+// @fnv 0x00de9e10
+float __cdecl FUN_00de9e10(float* arg1, float* arg2, float* arg3, float* result, float* optionalResult)
+{
+    __m128 b = _mm_load_ps(arg2);
+    __m128 a = _mm_load_ps(arg1);
+    __m128 d1 = _mm_sub_ps(b, a);
+    __m128 c = _mm_load_ps(arg3);
+    __m128 d2 = _mm_sub_ps(c, b);
+    __m128 n2 = _mm_mul_ps(d2, d2);
+    __m128 m = _mm_mul_ps(d2, d1);
+    __m128 xy = _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m);
+    __m128 sum = _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), xy);
+    __m128 num = _mm_sub_ss(_mm_load_ps((*reinterpret_cast<float (*)[4]>(&::DAT_010c7160))), sum);
+    __m128 nxy = _mm_add_ss(_mm_shuffle_ps(n2, n2, 0x55), n2);
+    __m128 nsum = _mm_add_ss(_mm_shuffle_ps(n2, n2, 0xaa), nxy);
+    float t;
+    _mm_store_ss(&t, _mm_div_ss(num, nsum));
+    float k = t < 0.0f ? 0.0f : t > 1.0f ? 1.0f : t;
+    __m128 factor = _mm_load_ss(&k);
+    __m128 v = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(factor, factor, 0), d2), d1);
+    __m128 neg = _mm_load_ss(&::DAT_01012054);
+    _mm_store_ps(result, _mm_mul_ps(_mm_shuffle_ps(neg, neg, 0), v));
+    if (optionalResult)
+        *optionalResult = k;
+    __m128 sq = _mm_mul_ps(v, v);
+    __m128 sqxy = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq);
+    __m128 sqsum = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), sqxy);
+    _mm_store_ss(&k, sqsum);
+    return k;
+}
+
+#include "generated/data/havok/common/internal/geometryprocessing/hkgeometryprocessing.inc"

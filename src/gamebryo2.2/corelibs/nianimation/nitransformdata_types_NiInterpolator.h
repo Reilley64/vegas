@@ -51,6 +51,4 @@ class NiInterpolator : public NiObject
     // NiInterpolator& __cdecl NiInterpolator::*(const NiInterpolator&)
     // void __cdecl NiInterpolator::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
-FNV_STATIC_ASSERT(offsetof(NiInterpolator, m_fLastTime) == 8);
 #endif

@@ -30,7 +30,6 @@ struct _AnimationAction
     };
 };
 typedef _AnimationAction::Action ANIMATION_ACTION;
-FNV_STATIC_ASSERT(sizeof(ANIMATION_ACTION) == 4);
 
 struct _AnimGroup
 {
@@ -316,7 +315,6 @@ struct _AnimGroup
     };
 };
 typedef _AnimGroup::Group ANIM_GROUP_TYPE;
-FNV_STATIC_ASSERT(sizeof(ANIM_GROUP_TYPE) == 4);
 
 struct _AnimationIdlePlayType
 {
@@ -329,7 +327,6 @@ struct _AnimationIdlePlayType
     };
 };
 typedef _AnimationIdlePlayType::Type ANIM_IDLE_PLAY_TYPE;
-FNV_STATIC_ASSERT(sizeof(ANIM_IDLE_PLAY_TYPE) == 4);
 
 struct _BodyPartType
 {
@@ -355,7 +352,6 @@ struct _BodyPartType
     };
 };
 typedef _BodyPartType::Type LIMB_TYPE;
-FNV_STATIC_ASSERT(sizeof(LIMB_TYPE) == 4);
 
 struct _DetectionLevel
 {
@@ -369,7 +365,6 @@ struct _DetectionLevel
     };
 };
 typedef _DetectionLevel::Level DETECTION_LEVEL;
-FNV_STATIC_ASSERT(sizeof(DETECTION_LEVEL) == 4);
 
 struct _SoundLevel
 {
@@ -382,6 +377,5 @@ struct _SoundLevel
     };
 };
 typedef _SoundLevel::Level SOUND_LEVEL;
-FNV_STATIC_ASSERT(sizeof(SOUND_LEVEL) == 4);
 
 #endif

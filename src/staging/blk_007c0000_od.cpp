@@ -2,6 +2,77 @@
 // src/staging/blk_007c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CamLook.h"
+#include "fnv/decl/DownloadableContentManager.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_00501c10_cls.h"
+#include "fnv/decl/FUN_00507700_cls.h"
+#include "fnv/decl/FUN_00733fd0_shell.h"
+#include "fnv/decl/FUN_00791750_cls.h"
+#include "fnv/decl/FUN_007b52a0_class.h"
+#include "fnv/decl/FUN_007d8700_shell.h"
+#include "fnv/decl/FUN_0093a7c0_Owner.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/NavMeshSearchLOSArray.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/SPECIALBookMenu_7c9dc0.h"
+#include "fnv/decl/SpecialBookMenuX.h"
+#include "fnv/decl/StrMem.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/_Cam_00712e60.h"
+#include "fnv/decl/fnv_005aa3f0__p07__DelStandIn.h"
+#include "fnv/decl/fnv_0070bbe0__BSAudio_.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0057d000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005cf000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00794000.h"
+#include "fnv/symbols_007c6000.h"
+#include "fnv/symbols_007d0000.h"
+#include "fnv/symbols_007d1000.h"
+#include "fnv/symbols_007d2000.h"
+#include "fnv/symbols_007d3000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_01070000.h"
+#include "fnv/symbols_01077000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01203000.h"
 #include "../../include/layout_support.h"
 
 extern "C" void* DAT_010771d8;
@@ -10,17 +81,16 @@ struct GlobalObject_00869f00
 {
     void* p;
     void Clear(bool b);
-    void ResetToGlobal();
+    void ResetToGlobal_007d9ff0();
 };
 
 // @fnv 0x007d9ff0
-void GlobalObject_00869f00::ResetToGlobal()
+void GlobalObject_00869f00::ResetToGlobal_007d9ff0()
 {
     p = &DAT_010771d8;
-    Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
-extern int DAT_010771ec;
 struct AX
 {
     void FUN_006b3eb0(unsigned int, unsigned int);
@@ -29,13 +99,12 @@ struct AX
 // @fnv 0x007da010
 AX* AX::FUN_007da010()
 {
-    *reinterpret_cast<int**>(this) = reinterpret_cast<int*>(&DAT_010771ec);
+    *reinterpret_cast<int**>(this) = reinterpret_cast<int*>(&(*reinterpret_cast<int *>(&::fnv_007da070::DAT_010771ec)));
     FUN_006b3eb0(0, 0);
     return this;
 }
 
 namespace fnv_007da070 {
-extern "C" void* DAT_010771ec;
 
 struct GlobalObject_00869f00
 {
@@ -51,37 +120,25 @@ void GlobalObject_00869f00::Clear(bool)
 void GlobalObject_00869f00::InitAndClear()
 {
     p = &DAT_010771ec;
-    Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 }  // namespace fnv_007da070
 
-extern void* DAT_01077200;
 struct FUN_007da090_Class
 {
     void* vtable;
-    void FUN_007da110(int a, int b);
     void* FUN_007da090();
 };
-// Sets the vtable to DAT_01077200, calls FUN_007da110 with 0, 0, and returns this.
-// @fnv 0x007da090
-void* FUN_007da090_Class::FUN_007da090()
-{
-    vtable = &DAT_01077200;
-    FUN_007da110(0, 0);
-    return this;
-}
-
 namespace fnv_007da0f0 {
 struct GlobalObject_007da090
 {
     void FUN_007d8e20(bool);
 };
 
-extern int DAT_01077200;
 
 struct NavMeshSearchLOSArray
 {
-    int m_p;
+    void* m_p;
     void FUN_007d8e20(bool);
     void Init();
 };
@@ -89,8 +146,8 @@ struct NavMeshSearchLOSArray
 // @fnv 0x007da0f0
 void NavMeshSearchLOSArray::Init()
 {
-    m_p = (int)&DAT_01077200;
-    FUN_007d8e20(true);
+    m_p = &DAT_01077200;
+    reinterpret_cast<::NavMeshSearchLOSArray *>(this)->FUN_007d8e20(true);
 }
 }  // namespace fnv_007da0f0
 
@@ -109,44 +166,71 @@ void __cdecl FUN_007c5fb0()
     FUN_007c5fc0(0x23);
 }
 
-extern int* DAT_011daa38;
+struct CallbackCollection
+{
+};
+
+struct FUN_007c9dc0_Slot
+{
+    CallbackCollection secondary;
+    char pad01[0xf];
+    CallbackCollection primary;
+    char pad11[0xf];
+};
+
 struct FUN_007c9dc0_Class
 {
-    void FUN_007c9dc0(int);
+    char pad00[0x48];
+    unsigned int unk48;
+    int unk4c;
+    char pad50[0x4];
+    unsigned char unk54;
+    char pad55[0x3];
+    int unk58;
+    char pad5c[0x4];
+    FUN_007c9dc0_Slot unk60[9];
+    char pad180[0x30];
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    char pad1bc[0x4];
+    int unk1c0;
+    char pad1c4[0x8];
+    int unk1cc;
+    int unk1d0;
     void InvokeCallbacksForSlot();
 };
 // If DAT_011daa38 is set and its byte at offset 0x54 is nonzero, calls FUN_007c9dc0(1) and InvokeCallbacksForSlot on it.
 // @fnv 0x007cabb0
 void FUN_007cabb0()
 {
-    if (DAT_011daa38 && *(unsigned char*)((unsigned char*)DAT_011daa38 + 0x54))
+    if (DAT_011daa38 && ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk54)
     {
-        ((FUN_007c9dc0_Class*)DAT_011daa38)->FUN_007c9dc0(1);
+        reinterpret_cast<::SPECIALBookMenu_7c9dc0 *>((((FUN_007c9dc0_Class*)DAT_011daa38)))->FUN_007c9dc0(1);
         ((FUN_007c9dc0_Class*)DAT_011daa38)->InvokeCallbacksForSlot();
     }
 }
 
 namespace fnv_007cabf0 {
-extern int* DAT_011daa38;
 struct FUN_007c9dc0_Class
 {
-    void FUN_007c9dc0(int a);
-    void InvokeCallbacksForSlot();
 };
 // If DAT_011daa38 is set and its byte at offset 0x54 is nonzero, calls FUN_007c9dc0(0) and InvokeCallbacksForSlot on it.
 // @fnv 0x007cabf0
 void FUN_007cabf0()
 {
-    if (DAT_011daa38 && *(unsigned char*)((char*)DAT_011daa38 + 0x54))
+    if (::DAT_011daa38 && ((::FUN_007c9dc0_Class*)::DAT_011daa38)->unk54)
     {
-        ((FUN_007c9dc0_Class*)DAT_011daa38)->FUN_007c9dc0(0);
-        ((FUN_007c9dc0_Class*)DAT_011daa38)->InvokeCallbacksForSlot();
+        reinterpret_cast<::SPECIALBookMenu_7c9dc0 *>((((FUN_007c9dc0_Class*)::DAT_011daa38)))->FUN_007c9dc0(0);
+        reinterpret_cast<::FUN_007c9dc0_Class *>((((FUN_007c9dc0_Class*)::DAT_011daa38)))->InvokeCallbacksForSlot();
     }
 }
 }  // namespace fnv_007cabf0
 
 struct FUN_007cc680_Class
 {
+    char pad00[0x244];
+    unsigned int unk244;
     void SetFlag80(bool set);
 };
 
@@ -154,9 +238,9 @@ struct FUN_007cc680_Class
 void FUN_007cc680_Class::SetFlag80(bool set)
 {
     if (set)
-        *(unsigned int*)((char*)this + 0x244) |= 0x80;
+        this->unk244 |= 0x80;
     else
-        *(unsigned int*)((char*)this + 0x244) &= ~0x80;
+        this->unk244 &= ~0x80;
 }
 
 struct FUN_00570f40_Class
@@ -165,6 +249,7 @@ struct FUN_00570f40_Class
 };
 struct FUN_007d6bd0_Class : FUN_00570f40_Class
 {
+    char pad00[0x244];
     unsigned int m_uiInitializationFlags;
     bool FUN_007d6bd0(bool abValue);
 };
@@ -174,9 +259,9 @@ bool FUN_007d6bd0_Class::FUN_007d6bd0(bool abValue)
 {
     bool bret = FUN_00570f40();
     if (!abValue)
-        ((unsigned int*)((char*)this + 0x244))[0] |= 1;
+        this->m_uiInitializationFlags |= 1;
     else
-        ((unsigned int*)((char*)this + 0x244))[0] &= ~1;
+        this->m_uiInitializationFlags &= ~1;
     return bret;
 }
 
@@ -190,72 +275,58 @@ struct GlobalObject_007da090
 // @fnv 0x007da0c0
 void* GlobalObject_007da090::Destroy(unsigned int flags)
 {
-    GlobalObject_007da090::~GlobalObject_007da090();
+    reinterpret_cast<::fnv_007da0f0::NavMeshSearchLOSArray *>(this)->Init();
     if (flags & 1)
         operator delete(this);
     return this;
 }
 
+struct FUN_007da240;
 struct FUN_007da110_StandIn
 {
     virtual void v0();
-    virtual int Write(unsigned int size);
-    void ConstructRecords(int size, unsigned int savedSize);
+    virtual FUN_007da240* Write(unsigned int size);
+    FUN_007da240* unk04;
+    int unk08;
+    int unk0c;
     void FUN_007da110(unsigned int requested, unsigned int savedSize);
 };
-
-// @fnv 0x007da110
-void FUN_007da110_StandIn::FUN_007da110(unsigned int uiRequestedSize, unsigned int savedSize)
+// Sets the vtable to DAT_01077200, calls FUN_007da110 with 0, 0, and returns this.
+// @fnv 0x007da090
+void* FUN_007da090_Class::FUN_007da090()
 {
-    ((int*)this)[1] = 0;
-    ((int*)this)[2] = 0;
-    ((int*)this)[3] = 0;
-    if (savedSize > uiRequestedSize)
-    {
-        uiRequestedSize = savedSize;
-    }
-    if (uiRequestedSize > 0)
-    {
-        ((int*)this)[1] = Write(uiRequestedSize);
-        ((int*)this)[3] = uiRequestedSize;
-    }
-    if (savedSize > 0)
-    {
-        ConstructRecords(((int*)this)[1], savedSize);
-        ((int*)this)[2] = savedSize;
-    }
+    vtable = &(*reinterpret_cast<void * *>(&::fnv_007da0f0::DAT_01077200));
+    reinterpret_cast<::FUN_007da110_StandIn *>(this)->FUN_007da110(0, 0);
+    return this;
 }
 
 struct Tile
 {
     void Set(int x, int y);
 };
+class TileMenu;
 struct StartMenu
 {
     bool IsFlagSet(int f);
+public:
+    ::TileMenu *GetMenuTitle();
 };
 struct SM7d6 : StartMenu
 {
-    void* GetNext();
 };
-extern SM7d6* DAT_011daac0;
-bool __cdecl FUN_004b71d0();
-void __cdecl FUN_007d30b0(char);
-void __cdecl HandleBackAction();
 // If DAT_011daac0 exists, sets its next tile to (0x1009, FUN_004b71d0()), calls FUN_007d30b0 with that value, and calls HandleBackAction when flag 0x1000 is set.
 // @fnv 0x007d6c30
 void __cdecl UpdateStartMenuTile()
 {
-    if (DAT_011daac0)
+    if ((*reinterpret_cast<::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0)))
     {
-        ((Tile*)DAT_011daac0->GetNext())->Set(0x1009, FUN_004b71d0());
+        ((Tile*)reinterpret_cast<::Callees *>(((*reinterpret_cast<::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0))))->FUN_00726070())->Set(0x1009, FUN_004b71d0());
         FUN_007d30b0(FUN_004b71d0());
-        if (DAT_011daac0->IsFlagSet(0x1000))
+        if ((*reinterpret_cast<::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(0x1000))
             HandleBackAction();
     }
 }
 
-int __cdecl FUN_00408b20(char const* a, char const* b);
 struct AVH
 {
     enum Index
@@ -263,7 +334,6 @@ struct AVH
         kAVHealth,
         kAVDamageResist
     };
-    static char const* GetActorValueName(Index index);
 };
 struct FUN_007da270_T
 {
@@ -274,8 +344,8 @@ struct FUN_007da270_T
 // @fnv 0x007da270
 int CompareActorValueNames(FUN_007da270_T* apLeft, FUN_007da270_T* apRight)
 {
-    char const* nameA = AVH::GetActorValueName(apLeft->index);
-    char const* nameB6 = AVH::GetActorValueName(apRight->index);
+    char const* nameA = ::ActorValue::GetActorValueName((*(::ActorValue::Index *)&(apLeft->index)));
+    char const* nameB6 = ::ActorValue::GetActorValueName((*(::ActorValue::Index *)&(apRight->index)));
     int result = FUN_00408b20(nameA, nameB6);
     return result;
 }
@@ -285,7 +355,6 @@ struct GO
     operator unsigned int() const;
 };
 
-int __fastcall FUN_00794d80(void* value);
 
 struct FUN_007ca530_CallbackBase
 {
@@ -429,25 +498,25 @@ struct FUN_007ca530_Params
 // @fnv 0x007ca530
 void DispatchStateCallback(FUN_007ca530_Params* params)
 {
-    int state = *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(DAT_011daa38) + 0x58) -
+    int state = ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk58 -
                 FUN_00794d80(reinterpret_cast<void*>(DAT_011daa38));
 
     if (state > 1)
     {
         params->callback->FUN_000000fc(
-            0, reinterpret_cast<GO*>(reinterpret_cast<unsigned char*>(DAT_011daa38) + 0x1b0)->operator unsigned int());
+            0, reinterpret_cast<GO*>(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1b0)->operator unsigned int());
     }
     else if (state == 1)
     {
         params->callback->FUN_000000f0(
             0, 0,
-            reinterpret_cast<GO*>(reinterpret_cast<unsigned char*>(DAT_011daa38) + 0x1b4)->operator unsigned int());
+            reinterpret_cast<GO*>(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1b4)->operator unsigned int());
     }
     else if (state == 0)
     {
         params->callback->FUN_000000f0(
             0, 0,
-            reinterpret_cast<GO*>(reinterpret_cast<unsigned char*>(DAT_011daa38) + 0x1b8)->operator unsigned int());
+            reinterpret_cast<GO*>(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1b8)->operator unsigned int());
     }
 }
 
@@ -460,7 +529,6 @@ struct GO
 
 struct LodObject
 {
-    void SetAppCulled(bool);
 };
 
 struct VirtualBase
@@ -608,7 +676,6 @@ struct FUN_007ca5f0_Argument
     LodObject* field10;
 };
 
-int __fastcall FUN_00794d80(void*);
 
 // @fnv 0x007ca5f0
 void UpdateLodVisibility(FUN_007ca5f0_Argument* p)
@@ -616,12 +683,12 @@ void UpdateLodVisibility(FUN_007ca5f0_Argument* p)
     if (!p->field4 || !p->field8)
         return;
 
-    int difference = reinterpret_cast<GameGlobal*>(DAT_011daa38)->timestamp - FUN_00794d80(DAT_011daa38);
+    int difference = reinterpret_cast<GameGlobal*>(DAT_011daa38)->timestamp - ::FUN_00794d80(DAT_011daa38);
 
     if (difference == 0)
     {
-        p->fieldC->SetAppCulled(true);
-        p->field10->SetAppCulled(true);
+        reinterpret_cast<::TaskQueueInterface *>((p->fieldC))->QueueActorDisarm(true);
+        reinterpret_cast<::TaskQueueInterface *>((p->field10))->QueueActorDisarm(true);
         return;
     }
 
@@ -632,15 +699,15 @@ void UpdateLodVisibility(FUN_007ca5f0_Argument* p)
 
     if (remainder > 0)
     {
-        p->fieldC->SetAppCulled(false);
+        reinterpret_cast<::TaskQueueInterface *>((p->fieldC))->QueueActorDisarm(false);
         p->field4->v60(0, 0, reinterpret_cast<GameGlobal*>(DAT_011daa38)->gos[remainder].operator unsigned int());
     }
     else
     {
-        p->fieldC->SetAppCulled(true);
+        reinterpret_cast<::TaskQueueInterface *>((p->fieldC))->QueueActorDisarm(true);
     }
 
-    p->field10->SetAppCulled(false);
+    reinterpret_cast<::TaskQueueInterface *>((p->field10))->QueueActorDisarm(false);
     p->field8->v60(0, 0, reinterpret_cast<GameGlobal*>(DAT_011daa38)->gos[quotient].operator unsigned int());
 }
 }  // namespace fnv_007ca5f0
@@ -649,16 +716,15 @@ struct SoundPlaybackHandle
 {
     unsigned int handle;
     ~SoundPlaybackHandle();
-    void Play(bool play);
+public:
+    ::SoundPlaybackHandle &operator=(const ::SoundPlaybackHandle &);
 };
 
 struct BSAudio
 {
-    static BSAudio* __cdecl GetSingleton();
-    SoundPlaybackHandle __thiscall GetSoundHandleByEditorID(char const* editorID, unsigned int flags);
+    SoundPlaybackHandle GetSoundHandleByEditorID(char const* editorID, unsigned int flags);
 };
 
-int __fastcall FUN_00794d80(void* object);
 void __cdecl FUN_007c6120();
 
 // If DAT_011daa38 is set and FUN_00794d80 returns its element 22, calls FUN_007c6120; otherwise plays the "UIActivateNothing" sound via BSAudio.
@@ -673,13 +739,12 @@ void __cdecl FUN_007cac30()
     }
     else
     {
-        BSAudio::GetSingleton()->GetSoundHandleByEditorID("UIActivateNothing", 0x121).Play(false);
+        reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("UIActivateNothing", 0x121)))->FUN_00ad8830(false);
     }
 }
 
 struct FUN_005aa3f0_Class
 {
-    void FUN_005aa3f0(int);
 };
 
 struct FUN_007d9e80_Class
@@ -692,7 +757,7 @@ struct FUN_007d9e80_Class
 void FUN_007d9e80_Class::FUN_007d9e80(FUN_005aa3f0_Class* apArray, unsigned int aiCount)
 {
     for (unsigned int i = 0; i < aiCount; ++i)
-        ((FUN_005aa3f0_Class*)((char*)apArray + i * 12))->FUN_005aa3f0(0);
+        reinterpret_cast<::fnv_005aa3f0::p07::DelStandIn *>((((FUN_005aa3f0_Class*)((char*)apArray + i * 12))))->FUN_005aa3f0(0);
 }
 
 struct FUN_007d9f90 : AX
@@ -711,14 +776,13 @@ FUN_007d9f90::FUN_007d9f90()
 
 struct GlobalObject_007d9f90
 {
-    void ResetToGlobal();
     void* FUN_007d9fc0(unsigned int flags);
 };
 // Calls ResetToGlobal, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x007d9fc0
 void* GlobalObject_007d9f90::FUN_007d9fc0(unsigned int flags)
 {
-    ResetToGlobal();
+    reinterpret_cast<::GlobalObject_00869f00 *>(this)->ResetToGlobal_007d9ff0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -726,7 +790,6 @@ void* GlobalObject_007d9f90::FUN_007d9fc0(unsigned int flags)
 
 struct GlobalObject_007da010
 {
-    void* FUN_007da010();
     void* FUN_007da040(unsigned int flags);
     ~GlobalObject_007da010();
 };
@@ -735,7 +798,7 @@ struct GlobalObject_007da010
 // @fnv 0x007da040
 void* GlobalObject_007da010::FUN_007da040(unsigned int flags)
 {
-    FUN_007da010();
+    reinterpret_cast<::fnv_007da070::GlobalObject_00869f00 *>(this)->InitAndClear();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -747,8 +810,6 @@ int __cdecl FUN_007c6110()
     return (int)1060u;
 }
 
-extern char* DAT_011dea3c;
-extern int* DAT_011daa38;
 
 struct FUN_007ca700_Virt
 {
@@ -764,35 +825,46 @@ struct FUN_007ca700_Virt
 
 struct FUN_00450f90_Obj
 {
-    void FUN_00450f90();
 };
 
 struct FUN_00559450_Owner
 {
-    FUN_00450f90_Obj* FUN_00559450(int flag);
 };
 
-bool __cdecl FUN_004b71d0();
+
+struct FUN_007ca960_Owner
+{
+    int unk00[41];
+    FUN_007ca700_Virt kSub;
+};
+
+struct FUN_007ca700_Item
+{
+    char pad00[0x8];
+    int unk08;
+    char pad0c[0x18];
+    int unk24;
+};
 
 // @fnv 0x007ca700
 void __cdecl FUN_007ca700(void* pObject)
 {
-    int iValue = *(int*)((char*)pObject + 0x24);
-    if (((FUN_007ca700_Virt*)(DAT_011dea3c + 0xa4))->v07(iValue) > 1)
+    int iValue = ((FUN_007ca700_Item*)pObject)->unk24;
+    if (((FUN_007ca960_Owner*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))->kSub.v07(iValue) > 1)
     {
-        ((FUN_00559450_Owner*)((char*)pObject + 8))->FUN_00559450(0)->FUN_00450f90();
+        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450(&((FUN_007ca700_Item*)pObject)->unk08)))))->QueueActorDisarm(false);
     }
     else
     {
-        ((FUN_00559450_Owner*)((char*)pObject + 8))->FUN_00559450(1)->FUN_00450f90();
+        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450(&((FUN_007ca700_Item*)pObject)->unk08)))))->QueueActorDisarm(true);
     }
     if (FUN_004b71d0())
     {
-        if (*(int*)((char*)DAT_011daa38 + 0x48) == 8)
+        if ((int)((::FUN_007c9dc0_Class*)DAT_011daa38)->unk48 == 8)
         {
-            if (iValue != *(int*)((char*)DAT_011daa38 + 0x4c) + 4)
+            if (iValue != ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk4c + 4)
             {
-                ((FUN_00559450_Owner*)((char*)pObject + 8))->FUN_00559450(1)->FUN_00450f90();
+                reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450(&((FUN_007ca700_Item*)pObject)->unk08)))))->QueueActorDisarm(true);
             }
         }
     }
@@ -800,7 +872,6 @@ void __cdecl FUN_007ca700(void* pObject)
 
 struct FUN_007ca860_Obj
 {
-    void* FUN_00559450();
 };
 struct FUN_007ca860_Vt
 {
@@ -873,19 +944,17 @@ struct FUN_007ca860_Arg
     int unk08;
     FUN_007ca860_Vt* unk0C;
 };
-extern int* DAT_011daa38;
 
-// Calls vfunc60 on arg->unk0C with (0, 0, result of FUN_00559450 on DAT_011daa38 + 0x1c0).
+// Calls vfunc60 on arg->unk0C with (0, 0, result of FUN_00559450 on the SPECIAL book menu field at 0x1c0).
 // @fnv 0x007ca860
 void __cdecl CallVfunc60WithGlobalOffset(FUN_007ca860_Arg* arg)
 {
     arg->unk0C->vfunc60(
-        0, 0, reinterpret_cast<FUN_007ca860_Obj*>(reinterpret_cast<char*>(DAT_011daa38) + 0x1c0)->FUN_00559450());
+        0, 0, ((void *)(::FUN_00559450(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1c0))));
 }
 
 struct FUN_00559450_Source
 {
-    unsigned int __thiscall FUN_00559450();
 };
 struct FUN_007ca8e0_Params
 {
@@ -898,13 +967,13 @@ struct FUN_007ca8e0_Params
 // @fnv 0x007ca8e0
 void __cdecl DispatchSourceCallback(FUN_007ca8e0_Params* params)
 {
-    if (FUN_00794d80(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58))
+    if (FUN_00794d80(DAT_011daa38) < ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk58)
     {
-        params->callback->FUN_000000f0(0, 0, ((FUN_00559450_Source*)((char*)DAT_011daa38 + 0x1d0))->FUN_00559450());
+        params->callback->FUN_000000f0(0, 0, ((unsigned int)(::FUN_00559450(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1d0))));
     }
     else
     {
-        params->callback->FUN_000000f0(0, 0, ((FUN_00559450_Source*)((char*)DAT_011daa38 + 0x1cc))->FUN_00559450());
+        params->callback->FUN_000000f0(0, 0, ((unsigned int)(::FUN_00559450(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1cc))));
     }
 }
 
@@ -913,46 +982,24 @@ struct Callback
     void(__cdecl* onPrimary)(Callback*);
     void(__cdecl* onSecondary)(Callback*);
 };
-struct CallbackCollection
-{
-    unsigned int FUN_0044ddc0();
-    Callback** FUN_006a7ad0(unsigned int index);
-};
+
 // @fnv 0x007cacd0
 void FUN_007c9dc0_Class::InvokeCallbacksForSlot()
 {
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x48) < 9)
+    if ((int)this->unk48 < 9)
     {
-        for (unsigned int i = 0; i < reinterpret_cast<CallbackCollection*>(
-                                         reinterpret_cast<char*>(this) + 0x70 +
-                                         (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))
-                                         ->FUN_0044ddc0();
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((&this->unk60[this->unk48].primary)))->GetName()));
              ++i)
         {
-            (*reinterpret_cast<CallbackCollection*>(
-                  reinterpret_cast<char*>(this) + 0x70 +
-                  (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))
-                  ->FUN_006a7ad0(i))
-                ->onPrimary(*reinterpret_cast<CallbackCollection*>(
-                                 reinterpret_cast<char*>(this) + 0x70 +
-                                 (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))
-                                 ->FUN_006a7ad0(i));
+            (SimpleArrayItem<::Callback*>(((&this->unk60[this->unk48].primary)), i))
+                ->onPrimary(SimpleArrayItem<::Callback*>(((&this->unk60[this->unk48].primary)), i));
         }
         for (unsigned int uiSecondaryIndex = 0;
-             uiSecondaryIndex < reinterpret_cast<CallbackCollection*>(
-                                    reinterpret_cast<char*>(this) + 0x60 +
-                                    (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))
-                                    ->FUN_0044ddc0();
+             uiSecondaryIndex < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((&this->unk60[this->unk48].secondary)))->GetName()));
              ++uiSecondaryIndex)
         {
-            (*reinterpret_cast<CallbackCollection*>(
-                  reinterpret_cast<char*>(this) + 0x60 +
-                  (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))
-                  ->FUN_006a7ad0(uiSecondaryIndex))
-                ->onSecondary(*reinterpret_cast<CallbackCollection*>(
-                                   reinterpret_cast<char*>(this) + 0x60 +
-                                   (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))
-                                   ->FUN_006a7ad0(uiSecondaryIndex));
+            (SimpleArrayItem<::Callback*>(((&this->unk60[this->unk48].secondary)), uiSecondaryIndex))
+                ->onSecondary(SimpleArrayItem<::Callback*>(((&this->unk60[this->unk48].secondary)), uiSecondaryIndex));
         }
     }
 }
@@ -970,6 +1017,8 @@ struct Menu
     int unk1c;
     int unk20;
     int unk24;
+public:
+    void SetMenuVisibility(bool);
 };
 struct FUN_007cb540
 {
@@ -1025,16 +1074,11 @@ struct FUN_007d7c60
 struct GlobalObject_00633c90
 {
     int p;
-    GlobalObject_00633c90(int);
+    GlobalObject_00633c90(intptr_t);
     ~GlobalObject_00633c90();
 };
-extern int DAT_011daab4;
-extern char DAT_01070244;
-void* __cdecl FUN_00a00940(const char*, int);
-void __cdecl FUN_00403d30(void*, int, unsigned);
 struct AudioView
 {
-    void FUN_0070bbe0();
 };
 struct FUN_007cb330 : Menu
 {
@@ -1085,7 +1129,7 @@ struct FUN_007cb330 : Menu
 // @fnv 0x007cb330
 FUN_007cb330::FUN_007cb330() : unk1b8(0)
 {
-    unk1d0 = FUN_00a00940(&DAT_01070244, -1);
+    unk1d0 = ((void *)(intptr_t)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1)));
     FUN_00403d30(&unk028, 0, 0x5c);
     unk1a8 = 0;
     unk1a4 = 0;
@@ -1098,7 +1142,7 @@ FUN_007cb330::FUN_007cb330() : unk1b8(0)
     unk1cc = 0;
     DAT_011daab4 = 0;
     unk1b4 = 0;
-    ((AudioView*)BSAudio::GetSingleton())->FUN_0070bbe0();
+    reinterpret_cast<::fnv_0070bbe0::BSAudio_ *>((((AudioView*)::FUN_00453a70())))->FUN_0070bbe0();
 }
 
 // @fnv 0x007cc5f0
@@ -1161,7 +1205,6 @@ class C7D8EE0List
     virtual void vfunc04();
     virtual void SetSelection(int iIndex);
 
-    int GetCount(int iFilter);
     void SelectLast();
 };
 
@@ -1169,11 +1212,9 @@ class C7D8EE0List
 // @fnv 0x007d8ee0
 void C7D8EE0List::SelectLast()
 {
-    SetSelection(GetCount(0) - 1);
+    SetSelection(((int)(reinterpret_cast<::FUN_007d8700_shell *>(this)->GetFilteredItemCount())) - 1);
 }
 
-void* __cdecl operator new(unsigned int size, void* location);
-void __cdecl operator delete(void* object, void* location);
 struct FUN_007da240
 {
     int first;
@@ -1185,6 +1226,27 @@ struct CopyCollection
 {
     void ConstructRecords(FUN_007da240* records, unsigned count);
 };
+// @fnv 0x007da110
+void FUN_007da110_StandIn::FUN_007da110(unsigned int uiRequestedSize, unsigned int savedSize)
+{
+    this->unk04 = nullptr;
+    this->unk08 = 0;
+    this->unk0c = 0;
+    if (savedSize > uiRequestedSize)
+    {
+        uiRequestedSize = savedSize;
+    }
+    if (uiRequestedSize > 0)
+    {
+        this->unk04 = Write(uiRequestedSize);
+        this->unk0c = uiRequestedSize;
+    }
+    if (savedSize > 0)
+    {
+        reinterpret_cast<::CopyCollection *>(this)->ConstructRecords(this->unk04, savedSize);
+        this->unk08 = savedSize;
+    }
+}
 // Default-constructs each of the count FUN_007da240 records in place via placement new.
 // @fnv 0x007da1a0
 void CopyCollection::ConstructRecords(FUN_007da240* records, unsigned count)
@@ -1195,10 +1257,11 @@ void CopyCollection::ConstructRecords(FUN_007da240* records, unsigned count)
     }
 }
 
+
 struct FUN_00501c10_Class
 {
-    void CallAndReturnSelf(int a);
 };
+
 struct FUN_007df120_Class
 {
     int unk00;
@@ -1209,12 +1272,13 @@ struct FUN_007df120_Class
     int unk14;
     int unk18;
     int unk1c;
-    void FUN_007df120(int a);
+    FUN_00501c10_Class unk20;
+    void FUN_007df120(intptr_t a);
 };
 // @fnv 0x007df120
-void FUN_007df120_Class::FUN_007df120(int aiValue)
+void FUN_007df120_Class::FUN_007df120(intptr_t aiValue)
 {
-    ((FUN_00501c10_Class*)((char*)this + 0x20))->CallAndReturnSelf(aiValue);
+    reinterpret_cast<::FUN_00501c10_cls *>(&this->unk20)->CallAndReturnSelf(aiValue);
 }
 
 struct ImageSpaceEffectParam
@@ -1320,17 +1384,7 @@ struct FUN_00a712f0
     unsigned int unk108;
     unsigned int unk10c;
     unsigned int unk110;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     FUN_00a712f0();
-    void FUN_00712e60(const ImageSpaceEffectParam&);
-    void FUN_00507700(float);
-    void FUN_00a6faf0(const NiFrustum&);
-    void FUN_004bc1f0(float, float, float);
-    void FUN_00a59c60(NiUpdateData&);
-    void SetLookAt(const NiPoint3&, const NiPoint3&);
-    void FUN_00733fd0(float);
-    void AssignFixedString(const NiFixedString&);
 };
 struct CameraContext
 {
@@ -1404,19 +1458,9 @@ struct Renderer
     virtual void slot63();
     virtual float GetScale();
 };
-Renderer* FUN_0045c670();
 struct SettingFloat
 {
-    float* Float();
 };
-extern SettingFloat DAT_01203144;
-extern SettingFloat DAT_01203150;
-extern bool DAT_011f9426;
-extern int DAT_011f9434;
-extern ImageSpaceEffectParam DAT_011ad840;
-int FUN_004dc200();
-int FUN_004dc1f0();
-float FUN_0057dd70(float);
 
 // Allocates a camera object, configures its viewport, frustum, aspect ratio, transform and name, and returns it.
 // @fnv 0x007c99c0
@@ -1427,27 +1471,27 @@ FUN_00a712f0* CameraContext::CreateSurgery3DCamera()
     FUN_00a712f0* distance = new FUN_00a712f0;  // Newly allocated camera.
     ImageSpaceEffectParam viewport(0.0f, 1.0f, 1.0f, 0.0f);
     if (DAT_011f9426)
-        viewport = DAT_011ad840;
-    distance->FUN_00712e60(viewport);
+        viewport = (*reinterpret_cast<::ImageSpaceEffectParam *>(&::DAT_011ad840));
+    reinterpret_cast<::_Cam_00712e60 *>((distance))->FUN_00712e60((const ::_Rect16_00712e60 &)(viewport));
     NiFrustum angle(false);  // Perspective frustum.
-    angle.farPlane = FUN_0045c670()->GetScale();
-    angle.nearPlane = *DAT_01203144.Float();
-    distance->FUN_00507700(angle.farPlane / angle.nearPlane);
-    frustum = float(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / FUN_004dc1f0();
+    angle.farPlane = ((::Renderer *)(::FUN_0045c670()))->GetScale();
+    angle.nearPlane = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_01203144))))));
+    reinterpret_cast<::FUN_00507700_cls *>((distance))->FUN_00507700(angle.farPlane / angle.nearPlane);
+    frustum = float(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / ((int)(::FUN_004dc1f0()));
     float camera = 0.75f;  // Frustum scale.
-    float update = *DAT_01203150.Float() * 0.01745329238474369 * 0.15000000596046448;
+    float update = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_01203150)))))) * 0.01745329238474369 * 0.15000000596046448;
     angle.left = -FUN_0057dd70(update) * camera;
     angle.right = FUN_0057dd70(update) * camera;
     angle.bottom = -FUN_0057dd70(update) * frustum * camera;
     angle.top = FUN_0057dd70(update) * frustum * camera;
     angle.orthographic = false;
-    distance->FUN_00a6faf0(angle);
-    distance->FUN_004bc1f0(0.0f, 0.0f, 1.0f);
+    reinterpret_cast<::NiCamera *>((distance))->UpdateViewFrustum(angle);
+    reinterpret_cast<::FUN_004bc1f0_S *>((distance))->FUN_004bc1f0(0.0f, 0.0f, 1.0f);
     NiUpdateData aspect(0.0f, false, false);  // Initial scene update.
-    distance->FUN_00a59c60(aspect);
-    distance->SetLookAt(NiPoint3(0.0f, 0.0f, 0.0f), NiPoint3(0.0f, 1.0f, 0.0f));
-    distance->FUN_00733fd0(1.0f);
-    distance->AssignFixedString(NiFixedString("Surgery3DCamera"));
+    reinterpret_cast<::FUN_00a59c60_cls *>((distance))->FUN_00a59c60((std::intptr_t)&(aspect));
+    reinterpret_cast<::CamLook *>((distance))->SetLookAt((const ::CamPoint &)((const ::NiPoint3 &)(NiPoint3(0.0f, 0.0f, 0.0f))), (const ::CamPoint &)((const ::NiPoint3 &)(NiPoint3(0.0f, 1.0f, 0.0f))));
+    reinterpret_cast<::FUN_00733fd0_shell *>((distance))->FUN_00733fd0(1.0f);
+    ::AssignFixedString((char *)(distance), 0, (char **)&(const ::NiFixedString &)(NiFixedString("Surgery3DCamera")));
     return distance;
 }
 
@@ -1512,12 +1556,10 @@ class CA4D0Player
     int unkA0;
     CA4D0AVOwner m_kAVOwner;
 };
-extern CA4D0Player* g_pkCA4D0Player;
 
 class CA4D0Title
 {
   public:
-    const char* GetText();
     int m_iData;
 };
 
@@ -1622,7 +1664,6 @@ class CA4D0RankData
     int unk17C;
     CA4D0Title m_akTitles[8];
 };
-extern CA4D0RankData* g_pkCA4D0RankData;
 
 class CA4D0Tile
 {
@@ -1704,8 +1745,8 @@ struct CA4D0Entry
 // @fnv 0x007ca4d0
 void __cdecl UpdateEntryRankText(CA4D0Entry* pkEntry)
 {
-    int m_iRank = g_pkCA4D0Player->m_kAVOwner.GetRank(pkEntry->m_iActorValue);
-    pkEntry->m_pkTile->SetText(0, 0, g_pkCA4D0RankData->m_akTitles[m_iRank].GetText());
+    int m_iRank = (*reinterpret_cast<::CA4D0Player * *>(&::_g_thePlayer))->m_kAVOwner.GetRank(pkEntry->m_iActorValue);
+    pkEntry->m_pkTile->SetText(0, 0, ((const char *)(::FUN_00559450((int *)&((*reinterpret_cast<::CA4D0RankData * *>(&::DAT_011daa38))->m_akTitles[m_iRank])))));
 }
 
 struct CsVObj
@@ -1721,11 +1762,9 @@ struct CsVObj
 };
 struct CsTarget
 {
-    void FUN_00450f90();
 };
 struct CsSub
 {
-    CsTarget* FUN_00559450(int flag);
 };
 struct CsParam
 {
@@ -1740,27 +1779,26 @@ struct CsParam
     int unk20;
     int unk24;
 };
-extern char* DAT_011dea3c;
 
 // @fnv 0x007ca7a0
 void __cdecl FUN_007ca7a0(CsParam* param_1)
 {
     int iValue = param_1->unk24;
-    if (((CsVObj*)(DAT_011dea3c + 0xa4))->vf07(iValue) < 10 &&
-        (DAT_011daa38 == 0 || FUN_00794d80(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58)))
+    if (((CsVObj*)((*reinterpret_cast<char * *>(&::_g_thePlayer)) + 0xa4))->vf07(iValue) < 10 &&
+        (DAT_011daa38 == 0 || FUN_00794d80(DAT_011daa38) < ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk58))
     {
-        param_1->sub08.FUN_00559450(0)->FUN_00450f90();
+        reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(false);
     }
     else
     {
-        param_1->sub08.FUN_00559450(1)->FUN_00450f90();
+        reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(true);
     }
 
-    if (FUN_004b71d0() && *(int*)((char*)DAT_011daa38 + 0x48) == 8)
+    if (FUN_004b71d0() && (int)((::FUN_007c9dc0_Class*)DAT_011daa38)->unk48 == 8)
     {
-        if (iValue != *(int*)((char*)DAT_011daa38 + 0x4c) + 4)
+        if (iValue != ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk4c + 4)
         {
-            param_1->sub08.FUN_00559450(1)->FUN_00450f90();
+            reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(true);
         }
     }
 }
@@ -1770,7 +1808,6 @@ class Obj7CA;
 class Handle7CA
 {
   public:
-    Obj7CA* Get() const;
 
     Obj7CA* m_pPointer;
 };
@@ -1960,7 +1997,6 @@ class Owner7CA
     Handle7CA m_kHandle;
 };
 
-extern Owner7CA* g_pkOwner7CA;
 
 class Event7CA
 {
@@ -1975,44 +2011,13 @@ class Event7CA
 // @fnv 0x007ca8a0
 void __cdecl FUN_007ca8a0(Event7CA* pkEvent)
 {
-    pkEvent->m_pkTarget->Apply(0, 0, g_pkOwner7CA->m_kHandle.Get());
+    pkEvent->m_pkTarget->Apply(0, 0, ((::Obj7CA *)(::FUN_00559450((int *)&((*reinterpret_cast<::Owner7CA * *>(&::DAT_011daa38))->m_kHandle)))));
 }
 
 class Mgr
 {
   public:
-    int FUN_00559450();
-    void FUN_004037f0(int v);
-    void FUN_007b52a0();
-    int FUN_00403df0(int v);
-    int FUN_00403df0();
-    char* FUN_004c69f0();
-    void FUN_007cb2e0(void* const& pp);
 };
-extern Mgr DAT_011d1e84;
-extern Mgr DAT_011d1f50;
-extern Mgr DAT_011d1fe0;
-extern Mgr DAT_011d216c;
-extern Mgr DAT_011d219c;
-extern Mgr DAT_011d2580;
-extern Mgr DAT_011d2730;
-extern Mgr DAT_011d29f4;
-extern Mgr DAT_011d34f8;
-extern Mgr DAT_011d3564;
-extern Mgr DAT_011d3684;
-extern Mgr DAT_011d375c;
-extern Mgr DAT_011d3828;
-extern Mgr DAT_011d3b8c;
-extern Mgr DAT_011d3d90;
-extern Mgr DAT_011d42e8;
-extern Mgr DAT_011d433c;
-extern Mgr DAT_011d4354;
-extern Mgr DAT_011d4630;
-extern Mgr DAT_011d46b4;
-extern Mgr DAT_011d4888;
-extern Mgr DAT_011daad0;
-extern Mgr DAT_011dab88;
-extern Mgr DAT_011dabcc;
 class Holder
 {
   public:
@@ -2045,224 +2050,123 @@ class FUN_007d6350
     FUN_007d6350(char*, char*, int, ...);
 };
 void __cdecl ClearStartMenuEntries();
-void* __cdecl FUN_00401000(int size);
-extern char DAT_007d0440[];
-extern char DAT_007d0490[];
-extern char DAT_007d04d0[];
-extern char DAT_007d0550[];
-extern char DAT_007d0680[];
-extern char DAT_007d06c0[];
-extern char DAT_007d0700[];
-extern char DAT_007d0770[];
-extern char DAT_007d0a10[];
-extern char DAT_007d0a70[];
-extern char DAT_007d0bf0[];
-extern char DAT_007d0c50[];
-extern char DAT_007d0d40[];
-extern char DAT_007d0d70[];
-extern char DAT_007d0dc0[];
-extern char DAT_007d0df0[];
-extern char DAT_007d0e40[];
-extern char DAT_007d3190[];
-extern char DAT_007d32b0[];
-extern char DAT_007d3470[];
-extern char DAT_007d35c0[];
-extern char DAT_007d3620[];
+void* __cdecl FUN_00401000(intptr_t size);
 
-extern Mgr DAT_011d4fc0;
-extern Mgr DAT_011d466c;
-extern Mgr DAT_011d4ed0;
-extern Mgr DAT_011d366c;
-extern Mgr DAT_011dab50;
-extern Mgr DAT_011d4dec;
-extern Mgr DAT_011d258c;
-extern Mgr DAT_011d1d78;
-extern Mgr DAT_011c39a8;
-extern Mgr DAT_011c3a94;
-extern Mgr DAT_011d2fc4;
-extern Mgr DAT_011c3a70;
-extern Mgr DAT_011c39e8;
-extern Mgr DAT_011d1e30;
-extern char DAT_007d1260[];
-extern char DAT_007d13a0[];
-extern char DAT_007d11d0[];
-extern char DAT_007d1440[];
-extern char DAT_007d1510[];
-extern char DAT_007d1570[];
-extern char DAT_007d15d0[];
-extern char DAT_007d1630[];
-extern char DAT_007d1690[];
-extern char DAT_007d16f0[];
-extern char DAT_007d1750[];
-extern char DAT_007d1840[];
-extern char DAT_007d1900[];
 extern char DAT_007d19c0[];
-extern char DAT_007d1b40[];
 extern char DAT_007d1bb0[];
 extern char DAT_007d1d10[];
 extern char DAT_007d1e60[];
 extern char DAT_007d1fb0[];
 extern char DAT_007d20f0[];
 extern char DAT_007d2250[];
-extern char DAT_007d23b0[];
 extern char DAT_007d2510[];
 extern char DAT_007d2650[];
 extern char DAT_007d2790[];
-extern char DAT_007d28b0[];
-extern char DAT_007d29d0[];
 extern char DAT_007d2af0[];
 extern char DAT_007d2c10[];
-extern char DAT_007d2d30[];
-extern char DAT_007d2e50[];
-extern char DAT_007d2eb0[];
-extern char DAT_007d2fc0[];
-extern char DAT_007d30e0[];
-extern Mgr DAT_011d1dc0;
-extern Mgr DAT_011d2124;
-extern Mgr DAT_011d21f0;
-extern Mgr DAT_011d22bc;
-extern Mgr DAT_011d23c4;
-extern Mgr DAT_011d2430;
-extern Mgr DAT_011d2484;
-extern Mgr DAT_011d24e4;
-extern Mgr DAT_011d2520;
-extern Mgr DAT_011d25c8;
-extern Mgr DAT_011d2610;
-extern Mgr DAT_011d28f8;
-extern Mgr DAT_011d2940;
-extern Mgr DAT_011d2afc;
-extern Mgr DAT_011d2bec;
-extern Mgr DAT_011d2cdc;
-extern Mgr DAT_011d2e5c;
-extern Mgr DAT_011d2e8c;
-extern Mgr DAT_011d2f34;
-extern Mgr DAT_011d3054;
-extern Mgr DAT_011d31b0;
-extern Mgr DAT_011d34d4;
-extern Mgr DAT_011d3750;
-extern Mgr DAT_011d399c;
-extern Mgr DAT_011d3a50;
-extern Mgr DAT_011d3b98;
-extern Mgr DAT_011d3bec;
-extern Mgr DAT_011d3c28;
-extern Mgr DAT_011d3ef8;
-extern Mgr DAT_011d4270;
-extern Mgr DAT_011d4648;
-extern Mgr DAT_011d49fc;
-extern Mgr DAT_011d4a20;
-extern Mgr DAT_011d4abc;
-extern Mgr DAT_011d4e40;
-extern Mgr DAT_011d5074;
 // @fnv 0x007cc6e0
 void __cdecl FUN_007cc6e0()
 {
-    if (!DAT_011dabcc.FUN_00559450())
+    if (!::FUN_00559450((int *)&((*reinterpret_cast<::Mgr *>(&::g_011dabcc)))))
     {
-        DAT_011dabcc.FUN_004037f0(DAT_011d4630.FUN_00403df0(0));
-        DAT_011dabcc.FUN_007b52a0();
-        DAT_011daad0.FUN_004037f0(DAT_011d4354.FUN_00403df0(0));
-        DAT_011daad0.FUN_007b52a0();
+        reinterpret_cast<::TextString *>(&((*reinterpret_cast<::Mgr *>(&::g_011dabcc))))->FUN_004037f0((const char *)(((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4630))))->GetMenuTitle()))), {});
+        reinterpret_cast<::FUN_007b52a0_class *>(&((*reinterpret_cast<::Mgr *>(&::g_011dabcc))))->FUN_007b52a0();
+        reinterpret_cast<::TextString *>(&((*reinterpret_cast<::Mgr *>(&::g_011daad0))))->FUN_004037f0((const char *)(((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4354))))->GetMenuTitle()))), {});
+        reinterpret_cast<::FUN_007b52a0_class *>(&((*reinterpret_cast<::Mgr *>(&::g_011daad0))))->FUN_007b52a0();
     }
     ClearStartMenuEntries();
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d3564.FUN_004c69f0(), DAT_007d0440, 3));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d216c.FUN_004c69f0(), DAT_007d0490, 1));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d3b8c.FUN_004c69f0(), DAT_007d06c0, 2));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d4888.FUN_004c69f0(), DAT_007d0680, 3));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d1fe0.FUN_004c69f0(), DAT_007d0700, 3));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d2580.FUN_004c69f0(), DAT_007d0770, 2));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d46b4.FUN_004c69f0(), DAT_007d04d0, 1));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d433c.FUN_004c69f0(), DAT_007d0550, 1));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d42e8.FUN_004c69f0(), DAT_007d0a10, 3));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d3d90.FUN_004c69f0(), DAT_007d0d40, 4));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d375c.FUN_004c69f0(), DAT_007d0d70, 4));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d219c.FUN_004c69f0(), DAT_007d0dc0, 4));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d1f50.FUN_004c69f0(), DAT_007d0df0, 4));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d34f8.FUN_004c69f0(), DAT_007d32b0, 128));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d34f8.FUN_004c69f0(), DAT_007d3190, 256));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d34f8.FUN_004c69f0(), DAT_007d3470, 512));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d34f8.FUN_004c69f0(), DAT_007d35c0, 1024));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d34f8.FUN_004c69f0(), DAT_007d3620, 2048));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d3684.FUN_004c69f0(), DAT_007d0e40, 3968));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d2730.FUN_004c69f0(), DAT_007d0a70, 8192));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d1e84.FUN_004c69f0(), DAT_007d0bf0, 12288));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d29f4.FUN_004c69f0(), DAT_007d0e40, 12288));
-    DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d3828.FUN_004c69f0(), DAT_007d0c50, 64));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3564))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0440::FUN_007d0440)), 3)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d216c))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0490::FUN_007d0490)), 1)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3b8c))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d06c0)), 2)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4888))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0680::FUN_007d0680)), 3)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d1fe0))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0700::FUN_007d0700)), 3)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2580))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::ShowSelectedMenuMessage)), 2)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d46b4))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d04d0::FUN_007d04d0)), 1)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d433c))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::PopulateFileList)), 1)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d42e8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0a10::FUN_007d0a10)), 3)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3d90))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0d40::FUN_007d0d40)), 4)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d375c))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0d70::FUN_007d0d70)), 4)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d219c))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0dc0::FUN_007d0dc0)), 4)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d1f50))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0df0::FUN_007d0df0)), 4)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d34f8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::StartCharacterGeneration)), 128)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d34f8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::HandleSaveLoadMenuAction)), 256)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d34f8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d3470)), 512)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d34f8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d35c0)), 1024)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d34f8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::UpdateSaveListSelection)), 2048)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3684))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::HandleBackAction)), 3968)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2730))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d0a70)), 8192)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d1e84))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0bf0::FUN_007d0bf0)), 12288)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d29f4))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::HandleBackAction)), 12288)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3828))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0c50::FUN_007d0c50)), 64)));
 
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d366c.FUN_004c69f0(), DAT_007d1260, 8, 0, 3, 0x55,
-                                               DAT_011d4ed0.FUN_00403df0(), DAT_011d466c.FUN_00403df0(),
-                                               DAT_011d4fc0.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d1d78.FUN_004c69f0(), DAT_007d13a0, 8, 0, 2, 0,
-                                               DAT_011d258c.FUN_00403df0(), DAT_011d4dec.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d1e30.FUN_004c69f0(), DAT_007d11d0, 8, 0, 5, 0x55,
-                                               DAT_011c39e8.FUN_00403df0(), DAT_011c3a70.FUN_00403df0(),
-                                               DAT_011d2fc4.FUN_00403df0(), DAT_011c3a94.FUN_00403df0(),
-                                               DAT_011c39a8.FUN_00403df0()));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d366c))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d1260::FUN_007d1260)), 8, 0, 3, 0x55,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4ed0))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d466c))))->GetMenuTitle())),
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4fc0))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d1d78))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d13a0::FUN_007d13a0)), 8, 0, 2, 0,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d1e30))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d11d0)), 8, 0, 5, 0x55,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c39e8))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c3a70))))->GetMenuTitle())),
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2fc4))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c3a94))))->GetMenuTitle())),
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c39a8))))->GetMenuTitle())))));
 
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d4a20.FUN_004c69f0(), DAT_007d1510, 8, 0, 2, 0,
-                                               DAT_011d258c.FUN_00403df0(), DAT_011d4dec.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d3bec.FUN_004c69f0(), DAT_007d1570, 8, 0, 2, 0,
-                                               DAT_011d258c.FUN_00403df0(), DAT_011d4dec.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d3a50.FUN_004c69f0(), DAT_007d15d0, 8, 0, 2, 0,
-                                               DAT_011d258c.FUN_00403df0(), DAT_011d4dec.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d3ef8.FUN_004c69f0(), DAT_007d16f0, 8, 0, 2, 0,
-                                               DAT_011d258c.FUN_00403df0(), DAT_011d4dec.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2520.FUN_004c69f0(), DAT_007d19c0, 0x10, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2f34.FUN_004c69f0(), DAT_007d1750, 0x10, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2940.FUN_004c69f0(), DAT_007d1840, 0x10, 0, 4, 0x37,
-                                               DAT_011daad0.FUN_00559450(), DAT_011dabcc.FUN_00559450(),
-                                               DAT_011d5074.FUN_00403df0(), DAT_011d2124.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d23c4.FUN_004c69f0(), DAT_007d1900, 0x10, 0, 4, 0x37,
-                                               DAT_011daad0.FUN_00559450(), DAT_011dabcc.FUN_00559450(),
-                                               DAT_011d5074.FUN_00403df0(), DAT_011d2124.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d21f0.FUN_004c69f0(), DAT_007d1b40, 0x10, 0, 3, 0x37,
-                                               DAT_011d4270.FUN_00403df0(), DAT_011d2cdc.FUN_00403df0(),
-                                               DAT_011d2430.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d4e40.FUN_004c69f0(), DAT_007d1bb0, 0x10, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d22bc.FUN_004c69f0(), DAT_007d1d10, 0x10, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d31b0.FUN_004c69f0(), DAT_007d1e60, 0x10, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d3b98.FUN_004c69f0(), DAT_007d1fb0, 0x10, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2610.FUN_004c69f0(), DAT_007d20f0, 0x10, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d34d4.FUN_004c69f0(), DAT_007d2250, 0x10, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2484.FUN_004c69f0(), DAT_007d23b0, 0x10, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2bec.FUN_004c69f0(), DAT_007d2510, 0x10, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2afc.FUN_004c69f0(), DAT_007d2650, 0x10, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d28f8.FUN_004c69f0(), DAT_007d1440, 0x10, 0, 2, 0,
-                                               DAT_011d258c.FUN_00403df0(), DAT_011d4dec.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2e5c.FUN_004c69f0(), DAT_007d1630, 0x10, 0, 2, 0,
-                                               DAT_011d258c.FUN_00403df0(), DAT_011d4dec.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d3c28.FUN_004c69f0(), DAT_007d1690, 0x10, 0, 2, 0,
-                                               DAT_011d258c.FUN_00403df0(), DAT_011d4dec.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2e8c.FUN_004c69f0(), DAT_007d2790, 0x20, 2, 0x1a, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d3054.FUN_004c69f0(), DAT_007d29d0, 0x20, 2, 0x1a, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d4abc.FUN_004c69f0(), DAT_007d28b0, 0x20, 2, 0x1a, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d24e4.FUN_004c69f0(), DAT_007d2af0, 0x20, 2, 0x1a, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d399c.FUN_004c69f0(), DAT_007d2c10, 0x20, 2, 0x1a, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d1dc0.FUN_004c69f0(), DAT_007d2d30, 0x20, 2, 0x1a, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d4648.FUN_004c69f0(), DAT_007d2e50, 0x40, 0, 2, 0,
-                                               DAT_011d258c.FUN_00403df0(), DAT_011d4dec.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d25c8.FUN_004c69f0(), DAT_007d2eb0, 0x40, 2, 0x10, 0));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d49fc.FUN_004c69f0(), DAT_007d2fc0, 0x40, 0, 2, 0,
-                                               DAT_011d258c.FUN_00403df0(), DAT_011d4dec.FUN_00403df0()));
-    DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d3750.FUN_004c69f0(), DAT_007d30e0, 0x40, 0, 2, 0,
-                                               DAT_011d258c.FUN_00403df0(), DAT_011d4dec.FUN_00403df0()));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4a20))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d1510)), 8, 0, 2, 0,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3bec))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d1570::FUN_007d1570)), 8, 0, 2, 0,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3a50))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d15d0::FUN_007d15d0)), 8, 0, 2, 0,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3ef8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d16f0::FUN_007d16f0)), 8, 0, 2, 0,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2520))))->IsDLCAvailable())), DAT_007d19c0, 0x10, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2f34))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d1750::FUN_007d1750)), 0x10, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2940))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::UpdateColorSlotIndex)), 0x10, 0, 4, 0x37,
+                                               ::FUN_00559450((int *)&((*reinterpret_cast<::Mgr *>(&::g_011daad0)))), ::FUN_00559450((int *)&((*reinterpret_cast<::Mgr *>(&::g_011dabcc)))),
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d5074))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2124))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d23c4))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d1900::ApplyOrSyncColorSlot)), 0x10, 0, 4, 0x37,
+                                               ::FUN_00559450((int *)&((*reinterpret_cast<::Mgr *>(&::g_011daad0)))), ::FUN_00559450((int *)&((*reinterpret_cast<::Mgr *>(&::g_011dabcc)))),
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d5074))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2124))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d21f0))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d1b40)), 0x10, 0, 3, 0x37,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4270))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2cdc))))->GetMenuTitle())),
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2430))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4e40))))->IsDLCAvailable())), DAT_007d1bb0, 0x10, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d22bc))))->IsDLCAvailable())), DAT_007d1d10, 0x10, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d31b0))))->IsDLCAvailable())), DAT_007d1e60, 0x10, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3b98))))->IsDLCAvailable())), DAT_007d1fb0, 0x10, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2610))))->IsDLCAvailable())), DAT_007d20f0, 0x10, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d34d4))))->IsDLCAvailable())), DAT_007d2250, 0x10, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2484))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d23b0)), 0x10, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2bec))))->IsDLCAvailable())), DAT_007d2510, 0x10, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2afc))))->IsDLCAvailable())), DAT_007d2650, 0x10, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d28f8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::UpdateSaveOptionsMenu)), 0x10, 0, 2, 0,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2e5c))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d1630)), 0x10, 0, 2, 0,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3c28))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d1690)), 0x10, 0, 2, 0,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2e8c))))->IsDLCAvailable())), DAT_007d2790, 0x20, 2, 0x1a, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3054))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d29d0::FUN_007d29d0)), 0x20, 2, 0x1a, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4abc))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d28b0)), 0x20, 2, 0x1a, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d24e4))))->IsDLCAvailable())), DAT_007d2af0, 0x20, 2, 0x1a, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d399c))))->IsDLCAvailable())), DAT_007d2c10, 0x20, 2, 0x1a, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d1dc0))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d2d30::FUN_007d2d30)), 0x20, 2, 0x1a, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4648))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::UpdateMenuSaveOptions)), 0x40, 0, 2, 0,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d25c8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d2eb0::SyncSliderWithSetting)), 0x40, 2, 0x10, 0)));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d49fc))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d2fc0::UpdateSaveOption)), 0x40, 0, 2, 0,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+    reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3750))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d30e0)), 0x40, 0, 2, 0,
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
 }
 
 struct BookMenu;
 struct BookTile
 {
     virtual ~BookTile();
-    BookTile* FUN_00a01b00(const char*);
-    BookMenu* FUN_00a03c90();
 };
 struct BookInterface
 {
-    BookTile* FUN_00586150();
 };
-BookInterface* FUN_004b7210();
 int FUN_007c6110();
-void FUN_005b5e40(const char*, ...);
-void FUN_007037e0();
-void FUN_005cfcb0(bool);
 struct BookMenu
 {
     virtual ~BookMenu();
@@ -2301,43 +2205,36 @@ struct BookMenu
     int unk50;
     int unk54;
     int bookValue;
-    void FUN_00a1dc70(BookTile*, bool);
-    bool HasAllFlagsSet(int*);
-    void InitMenu();
-    void* CreateSurgery3DCamera();
-    void FUN_00a1dc20(bool);
-    void* FUN_00726070();
 };
 struct BookNodePointer
 {
     void FUN_0066b0d0(void*);
 };
-extern BookNodePointer DAT_011daa9c;
 // Creates the SPECIAL book menu from its XML, checks its ID, stores the value, and reports a missing index on failure.
 // @fnv 0x007c5fc0
 extern "C" void FUN_007c5fc0(int value)
 {
-    BookTile* menu = FUN_004b7210()->FUN_00586150()->FUN_00a01b00("Data\\Menus\\CharGen\\SPECIALBookMenu.xml");
-    BookMenu* tile = menu->FUN_00a03c90();
+    BookTile* menu = ((::BookTile *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::BookTile *)(reinterpret_cast<::InterfaceManager *>((((::BookInterface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150()))))->FUN_00a01b00((void *)("Data\\Menus\\CharGen\\SPECIALBookMenu.xml"))));
+    BookMenu* tile = ((::BookMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((menu))->FUN_00a03c90()));
     if (tile && tile->GetID() == FUN_007c6110())
     {
-        tile->FUN_00a1dc70(menu, false);
+        reinterpret_cast<::FUN_00a1dc70_shell *>((tile))->FUN_00a1dc70((::TileMenu *)(menu), false);
         DAT_011daa38 = reinterpret_cast<int*>(tile);
         int index;
-        if (!reinterpret_cast<BookMenu*>(DAT_011daa38)->HasAllFlagsSet(&index))
+        if (!reinterpret_cast<::FUN_00791750_cls *>((reinterpret_cast<BookMenu*>(DAT_011daa38)))->HasAllFlagsSet(&index))
         {
-            FUN_005b5e40("MENUS:  Special book menu creation failed... Missing index = #%d", index);
+            ::FUN_005b5e40();
             delete menu;
-            FUN_007037e0();
+            ::fnv_007037e0::FUN_007037e0();
             return;
         }
         reinterpret_cast<BookMenu*>(DAT_011daa38)->bookValue = value;
-        reinterpret_cast<BookMenu*>(DAT_011daa38)->InitMenu();
-        DAT_011daa9c.FUN_0066b0d0(reinterpret_cast<BookMenu*>(DAT_011daa38)->CreateSurgery3DCamera());
+        reinterpret_cast<::SpecialBookMenuX *>((reinterpret_cast<BookMenu*>(DAT_011daa38)))->InitMenu();
+        (*reinterpret_cast<::BookNodePointer *>(&::g_011daa9c)).FUN_0066b0d0(((void *)(reinterpret_cast<::CameraContext *>((reinterpret_cast<BookMenu*>(DAT_011daa38)))->CreateSurgery3DCamera())));
         FUN_005cfcb0(true);
-        tile->FUN_00a1dc20(false);
+        reinterpret_cast<::Menu *>((tile))->SetMenuVisibility(false);
     }
-    else if (tile && tile->FUN_00726070())
+    else if (tile && reinterpret_cast<::Callees *>((tile))->FUN_00726070())
     {
         delete tile;
     }
@@ -2346,12 +2243,10 @@ extern "C" void FUN_007c5fc0(int value)
 struct SH_00418890
 {
     int unk00[3];
-    void FUN_copy(const void* apOther);
 };
 struct BSSoundHandleEx : SH_00418890
 {
     ~BSSoundHandleEx();
-    bool Play(bool abUnk);
 };
 struct GlobalObject_0041a250 : BSSoundHandleEx
 {
@@ -2362,32 +2257,26 @@ struct FUN_00ad7550_shell
 {
     BSSoundHandleEx FUN_00ad7550(const char* apEditorID, unsigned int auiFlags);
 };
-int __cdecl FUN_00647b70(int a, int b);
 
-struct FUN_007ca960_Owner
-{
-    int unk00[41];
-    FUN_007ca700_Virt kSub;
-    void FUN_0093a7c0(int a, int b);
-};
+
 
 // @fnv 0x007ca960
 void __cdecl FUN_007ca960(void* apSelf)
 {
     if (!DAT_011daa38)
         return;
-    int m_uiSoundID = ((int*)apSelf)[9];
+    int m_uiSoundID = ((FUN_007ca700_Item*)apSelf)->unk24;
     if (m_uiSoundID != -1)
     {
-        int iCount = ((FUN_007ca960_Owner*)DAT_011dea3c)->kSub.v07(m_uiSoundID);
+        int iCount = ((FUN_007ca960_Owner*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))->kSub.v07(m_uiSoundID);
         if (iCount > 1)
         {
             GlobalObject_0041a250 kSound;
-            kSound.FUN_copy(
-                &((FUN_00ad7550_shell*)BSAudio::GetSingleton())->FUN_00ad7550("OBJBookSpecialNumber", 0x121));
-            kSound.Play(false);
+            BSSoundHandleEx kNewSound = ((FUN_00ad7550_shell*)::FUN_00453a70())->FUN_00ad7550("OBJBookSpecialNumber", 0x121);
+            reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->operator=((*(const ::SoundPlaybackHandle *)(&kNewSound)));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(kSound))->FUN_00ad8830(false);
         }
-        ((FUN_007ca960_Owner*)DAT_011dea3c)->FUN_0093a7c0(m_uiSoundID, FUN_00647b70(iCount - 1, 1));
+        reinterpret_cast<::FUN_0093a7c0_Owner *>((((FUN_007ca960_Owner*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(uintptr_t)(m_uiSoundID), FUN_00647b70(iCount - 1, 1));
     }
     ((FUN_007c9dc0_Class*)DAT_011daa38)->InvokeCallbacksForSlot();
 }
@@ -2399,7 +2288,6 @@ struct FUN_007da240_Class
     unsigned short unk08;
     unsigned short unk0A;
 
-    void FUN_004037b0();
     void* FUN_007da240();
 };
 
@@ -2407,7 +2295,7 @@ struct FUN_007da240_Class
 // @fnv 0x007da240
 void* FUN_007da240_Class::FUN_007da240()
 {
-    this->FUN_004037b0();
+    new ((void *)(this)) ::StrMem();
     this->unk08 = 0;
     this->unk0A = 0;
     return this;

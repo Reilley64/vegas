@@ -81,6 +81,8 @@ class BGSTerrainChunkLoadTask : public LocationDescriptor
 template <class T> class BSSimpleList
 {
   public:
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
     T& GetItem();
     BSSimpleList<T>* GetNext();
     void RemoveHead();
@@ -141,10 +143,6 @@ struct QueueKFListLocals
     const char* pathToQueue;
     char path[260];
 };
-
-extern int __cdecl strcat_s(char*, unsigned int, const char*);
-extern void __cdecl operator delete(void*);
-
 class InventoryStackRecord;
 class IOTask
 {

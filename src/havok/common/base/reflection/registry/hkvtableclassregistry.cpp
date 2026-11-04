@@ -2,6 +2,16 @@
 // src/havok/common/base/reflection/registry/hkvtableclassregistry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/reflection/registry/hkvtableclassregistry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/S_00d49350.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d48000.h"
+#include "fnv/symbols_00dc0000.h"
+#include "fnv/symbols_011b7000.h"
+#include "fnv/symbols_01269000.h"
 struct BoolResult
 {
     char value;
@@ -24,9 +34,6 @@ struct Object
 struct Buffer
 {
     int value;
-    void FUN_00cb0a60();
-    void FUN_00cb0c00();
-    int Equals(int);
 };
 struct Manager
 {
@@ -36,12 +43,7 @@ struct Manager
     virtual void vf0c();
     virtual int vf10(int*);
 };
-extern Manager* DAT_01269b74;
-extern int DAT_011b7b88;
 IntResult FUN_00dcca60(Object*);
-void FUN_00d48af0(Object*, int*);
-int FUN_00cb1290(void*, const void*, int);
-int FUN_00dc0fb0();
 struct ParseState
 {
     int status;
@@ -57,15 +59,15 @@ int FUN_00d49240(Object* object)
     if (FUN_00dcca60(object).value > 1)
         return 1;
     ParseState parseState;
-    parseState.buffer.FUN_00cb0a60();
-    FUN_00d48af0(object, &parseState.status);
+    new ((void *)&(parseState.buffer)) struct ::FUN_00cb0a60();
+    ::FUN_00d48af0(object, &parseState.status);
     if (parseState.status == 2)
     {
-        if (FUN_00cb1290(&parseState.bits, &DAT_011b7b88, 4) != 0)
+        if (::FUN_00cb1290((const unsigned char *)(void *)(&parseState.bits), (const unsigned char *)(const void *)(&DAT_011b7b88), 4) != 0)
             goto check3;
-        if (parseState.buffer.Equals(FUN_00dc0fb0()) != 0)
+        if (reinterpret_cast<::S_00d49350 *>(&(parseState.buffer))->Equals((const char *)(((intptr_t)(::FUN_00dc0fb0())))) != 0)
         {
-            parseState.buffer.FUN_00cb0c00();
+            ::FUN_00cb0c00((intptr_t)&(parseState.buffer));
             return 1;
         }
         goto manager;
@@ -74,12 +76,14 @@ check3:
     if (parseState.status != 3)
         goto failure;
 manager:
-    if (DAT_01269b74->vf10(&parseState.status))
+    if ((*reinterpret_cast<::Manager * *>(&::DAT_01269b74))->vf10(&parseState.status))
     {
-        parseState.buffer.FUN_00cb0c00();
+        ::FUN_00cb0c00((intptr_t)&(parseState.buffer));
         return 1;
     }
 failure:
-    parseState.buffer.FUN_00cb0c00();
+    ::FUN_00cb0c00((intptr_t)&(parseState.buffer));
     return 0;
 }
+
+#include "generated/data/havok/common/base/reflection/registry/hkvtableclassregistry.inc"

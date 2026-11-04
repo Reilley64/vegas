@@ -12,6 +12,8 @@
 #define FNV_NITEXTUREEFFECT_UNIT_H
 
 
+#include <windows.h>
+#include "fnv/symbols_0109b000.h"
 #include "NiFixedString.h"
 
 typedef long LONG;
@@ -22,9 +24,7 @@ class NiGlobalStringTable
     static char* AddString(const char* pcString);
 };
 
-extern "C" __declspec(dllimport) LONG __stdcall InterlockedDecrement(LONG volatile* lpAddend);
 
-extern NiFixedString EmptyFS;
 
 class NiTextureEffect
 {

@@ -2,6 +2,13 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/S_00dd9380.h"
+#include "fnv/decl/SearchArray.h"
+#include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
+#include "fnv/symbols_00d6a000.h"
+#include "fnv/symbols_01269000.h"
 struct FullObject;
 struct Receiver;
 
@@ -17,11 +24,18 @@ struct HeadPart
     int unk1c;
 };
 
+struct Target
+{
+    int Handle(void* apValue);
+};
+
+// The mid-phase viewer's world listener part, at +0x20 after hkReferencedObject and hkProcess (HeadPart).
 struct FirstBase
 {
     int unk00;
     int unk04;
     void FUN_00d6a250(Receiver* apReceiver);
+    int HandleWithSelfOffset(Target* apTarget);
 };
 
 struct SecondBase
@@ -33,41 +47,25 @@ struct FullObject : HeadPart, FirstBase, SecondBase
 {
 };
 
-typedef char _check_offsets[sizeof(FullObject) == 0x2c ? 1 : -1];
 
 struct Receiver
 {
-    void ClearValue(SecondBase* apObject);
 };
 
-// Passes the enclosing FullObject (this minus 0x20) to the receiver's ClearValue.
+// Passes the enclosing FullObject to the receiver's ClearValue.
 // @fnv 0x00d6a250
 void FirstBase::FUN_00d6a250(Receiver* apReceiver)
 {
-    apReceiver->ClearValue((FullObject*)((char*)this - 0x20));
+    reinterpret_cast<::SearchArray *>((apReceiver))->ClearValue(static_cast<FullObject*>(this));
 }
 
-struct hkMemoryAllocator
+// @fnv 0x00d6a220
+int FirstBase::HandleWithSelfOffset(Target* apTarget)
 {
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytes);
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* m_pStreamAllocator;
-    hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-NineIntegerRecord* FUN_00c85750() throw();
+    SecondBase* listener = static_cast<FullObject*>(this);
+    return apTarget->Handle(listener);
+}
+
 struct S_00d6a750_Element
 {
     virtual ~S_00d6a750_Element() throw();
@@ -115,7 +113,7 @@ template <class T> struct hkArray
     int m_iCapacityState;
     __forceinline ~hkArray() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
     __forceinline void clear()
     {
@@ -126,7 +124,7 @@ template <class T> struct hkArray
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -148,7 +146,6 @@ struct S_00d6a750_Base1
 struct S_00d6a750_Listener;
 struct S_00d6a750_Source
 {
-    void ClearValue(S_00d6a750_Listener* m_pAudioListener) throw();
 };
 struct S_00d6a750_Owner
 {
@@ -203,33 +200,11 @@ FUN_00d6a750::~FUN_00d6a750()
     if (m_pSharedOwner)
     {
         for (int i = 0; i < m_pSharedOwner->m_iNumSources; i++)
-            m_pSharedOwner->m_ppSources[i]->ClearValue(this);
+            reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppSources[i]))->ClearValue((this));
     }
 }
 
 namespace fnv_00d6a810 {
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
-
-struct AudioMgr
-{
-    int unk00, unk04, unk08, unk0c;
-    hkMemoryAllocator* unk10;
-    hkMemoryAllocator& heap()
-    {
-        return *unk10;
-    }
-};
-
-struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
-inline AudioMgr* audio()
-{
-    return (AudioMgr*)FUN_00c85750();
-}
 
 struct RefObj
 {
@@ -238,15 +213,22 @@ struct RefObj
     short m_sReferenceCount;
 };
 
-struct Obj : RefObj
+// The viewer's hkProcess part.
+struct ObjProcess
 {
-    int pad[12];
+    void* vtbl;
+    int unk04[5];
+};
+
+struct Obj : RefObj, ObjProcess
+{
+    int pad[6];
     Obj* FUN_00d6a280(int);
 };
 
 inline void* hkAlloc(int n)
 {
-    RefObj* p = (RefObj*)audio()->heap().AllocateMemoryBlock(n);
+    RefObj* p = static_cast<RefObj*>(hkMemoryRouter::getInstance().heap().blockAlloc(n));
     p->m_usMemSizeAndFlags = (short)n;
     return p;
 }
@@ -255,50 +237,22 @@ inline void* hkAlloc(int n)
 void* __cdecl FUN_00d6a810(int a)
 {
     Obj* o = ((Obj*)hkAlloc(sizeof(Obj)))->FUN_00d6a280(a);
-    return o ? (char*)o + 8 : 0;
+    return static_cast<ObjProcess*>(o);
 }
 }  // namespace fnv_00d6a810
 
 struct Registry_00dd9380
 {
-    void* Register(const char* name, void (*fn)());
 };
 
-extern Registry_00dd9380* DAT_01269cd0;
 extern char DAT_010d22e0[];
-extern void* DAT_01269024;
-void FUN_00d6a810();
 
 // @fnv 0x00d6a850
 void FUN_00d6a850()
 {
-    DAT_01269024 = DAT_01269cd0->Register(DAT_010d22e0, FUN_00d6a810);
+    DAT_01269024 = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::Registry_00dd9380 * *>(&::DAT_01269cd0))))->FUN_00dd9380(DAT_010d22e0, reinterpret_cast<intptr_t>(((void (&)())::fnv_00d6a810::FUN_00d6a810)))));
 }
 
-struct Target
-{
-    int Handle(void* apValue);
-};
-
-struct FUN_00d6a220_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-
-    int HandleWithSelfOffset(Target* apTarget);
-};
-
-// @fnv 0x00d6a220
-int FUN_00d6a220_cls::HandleWithSelfOffset(Target* apTarget)
-{
-    return apTarget->Handle(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
-}
 
 struct S_d6a280_Elem;
 
@@ -380,7 +334,6 @@ struct S_d6a280_Mx
 
 struct S_d6a280_Elem
 {
-    void FUN_00c93920(S_d6a280_Mx* m);
 };
 
 struct FUN_00d6a280 : FUN_00ddccb0, S_d6a280_Mx
@@ -400,7 +353,7 @@ FUN_00d6a280::FUN_00d6a280(int a) : FUN_00ddccb0(a)
     if (m_24 != 0)
     {
         for (int i = 0; i < m_24->m_uiItemCount; i++)
-            m_24->m_items[i]->FUN_00c93920((S_d6a280_Mx*)this);
+            reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((m_24->m_items[i]))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::S_d6a280_Mx *)((S_d6a280_Mx*)this));
     }
 }
 
@@ -529,35 +482,19 @@ hkpMidphaseViewer::hkpMidphaseViewer() : hkpShape(), hkpMidphaseViewerBase()
 {}
 
 namespace fnv_00d6a870 {
-extern int DAT_01269024;
 
 // @fnv 0x00d6a870
 int __cdecl FUN_00d6a870()
 {
-    return DAT_01269024;
+    return (*reinterpret_cast<int *>(&::DAT_01269024));
 }
 }  // namespace fnv_00d6a870
 
 namespace fnv_00d6a8b0 {
 // FUN_00d6a8b0 - hkpMidphaseViewer: tears the viewer down and, when the
 // deleting flag is set, unregisters it from the physics world.
-struct hkpWorldViewerRegistry
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void removeViewer(void* viewer, unsigned short viewerId);
-};
 
-struct hkpPhysicsWorld
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    hkpWorldViewerRegistry* unk10;
-};
 
-extern hkpPhysicsWorld* FUN_00c85750();
 
 struct hkpMidphaseViewer
 {
@@ -571,12 +508,304 @@ struct hkpMidphaseViewer
 // @fnv 0x00d6a8b0
 void* hkpMidphaseViewer::FUN_00d6a8b0(int flags)
 {
-    FUN_00d6a750();
+    reinterpret_cast<::FUN_00d6a750 *>(this)->FUN_00d6a750::~FUN_00d6a750();
     if (flags & 1)
     {
-        hkpPhysicsWorld* world = FUN_00c85750();
-        world->unk10->removeViewer(this, unk04);
+        hkMemoryRouter* world = &hkMemoryRouter::getInstance();
+        world->m_heap->blockFree(this, unk04);
     }
     return this;
 }
 }  // namespace fnv_00d6a8b0
+
+// Moved from hkpmidphaseviewer_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+
+// src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-29 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
+#include <windows.h>
+#include <new>
+#include "fnv/decl/FUN_00de1210.h"
+#include "fnv/decl/FnvCpu_FUN_00de1170_CpuObject.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01268000.h"
+void FUN_00d6a850();
+
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+struct EventStamp {
+    const void* marker;
+    unsigned tick;
+    unsigned unk08;
+};
+struct EventSample {
+    const void* marker;
+    unsigned tick;
+};
+struct EventStorage {
+    unsigned unk00;
+    EventStamp* m_next;
+    unsigned unk08;
+    EventStamp* m_pFreeList;
+};
+extern char DAT_010d233c[];
+
+static __forceinline void TimerMark(char* marker)
+{
+    EventStorage* s = (EventStorage*)TlsGetValue(DAT_0126835c);
+    EventStamp* next = s->m_next;
+    if (next < s->m_pFreeList) {
+        next->marker = marker;
+        unsigned int ticks;
+        ticks = static_cast<unsigned int>(__rdtsc());
+        next->tick = ticks;
+        s->m_next = next + 1;
+    }
+}
+
+struct __declspec(align(16)) Vec4 {
+    float x, y, z, w;
+};
+struct __declspec(align(16)) UInt4 {
+    unsigned x, y, z, w;
+};
+static __forceinline void SetVec(Vec4& v,float x,float y,float z,float w) { *(__m128*)&v=_mm_setr_ps(x,y,z,w); }
+struct Bounds { Vec4 min; Vec4 max; };
+struct QuantizedBounds { UInt4 min; UInt4 max; };
+struct Elem80 {
+    virtual ~Elem80();
+    int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
+    int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
+    int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c;
+    int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c;
+};
+struct ListEntry {
+    int m_00;
+    int m_04;
+    int m_08;
+    unsigned char b0c;
+    unsigned char b0d;
+    unsigned char b0e;
+    unsigned char b0f;
+    int m_10;
+    int m_14;
+    int m_18;
+    unsigned char b1c;
+    unsigned char b1d;
+    unsigned char b1e;
+    unsigned char b1f;
+};
+static __forceinline void Decode(const ListEntry* list, QuantizedBounds& quantized) {
+    unsigned cl = list->b0f;
+    quantized.min.x = list->m_00 - (int)(list->b0c << cl);
+    quantized.min.y = list->m_04 - (int)(list->b0d << cl);
+    quantized.min.z = list->m_08 - (int)(list->b0e << cl);
+    quantized.max.x = (int)(list->b1c << cl) + list->m_10;
+    quantized.max.y = (int)(list->b1d << cl) + list->m_14;
+    quantized.max.z = (int)(list->b1e << cl) + list->m_18;
+}
+struct Node {
+    int unk00; int unk04; int unk08; int unk0c;
+    int unk10; int unk14; int unk18; int unk1c;
+    unsigned short m_uiItemCount;
+    unsigned short unk22;
+    ListEntry* m_kNode;
+    int unk28;
+    int unk2c;
+};
+struct SubEntry {
+    int unk00; int unk04; int unk08; int unk0c;
+    int unk10; int unk14; int unk18; int unk1c;
+    int unk20; int unk24; int unk28; int unk2c;
+    Node m_node;
+};
+struct PtrArray {
+    void** m_data;
+    int m_iElementCount;
+    unsigned int m_cap;
+};
+struct Entry {
+    int unk00; int unk04; int unk08; int unk0c;
+    int unk10; int unk14; int unk18; int unk1c;
+    int unk20; int unk24; int unk28; int unk2c;
+    int unk30; int unk34; int unk38; int unk3c;
+    int unk40; int unk44;
+    PtrArray m_sub;
+    int unk54;
+    int unk58;
+    int unk5c;
+};
+struct Param {
+    int unk00; int unk04; int unk08; int unk0c;
+    int unk10; int unk14; int unk18; int unk1c;
+    int unk20; int unk24;
+    PtrArray m_arrs[2];
+    int unk40; int unk44; int unk48; int unk4c;
+    int unk50; int unk54; int unk58; int unk5c;
+    int unk60; int unk64; int unk68; int unk6c;
+    int unk70; int unk74;
+    float* m_matrix;
+};
+struct ParamRef {
+    Param* p;
+    __forceinline Param* operator->() const { return p; }
+};
+struct ElemArray {
+    Elem80* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+struct PtrArrayLocal {
+    Elem80** m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+static __forceinline Elem80** AllocatePointers(hkMemoryAllocator& alloc, int& count)
+{
+    if (count) {
+        int bytes = count * 4;
+        Elem80** result = (Elem80**)alloc.bufAlloc(bytes);
+        count = bytes / 4;
+        return result;
+    }
+    return 0;
+}
+struct Dispatch {
+    virtual ~Dispatch();
+    virtual void d01();
+    virtual void d02();
+    virtual void d03();
+    virtual void d04();
+    virtual void d05();
+    virtual void d06();
+    virtual void d07();
+    virtual void d08();
+    virtual void d09();
+    virtual void d10();
+    virtual void d11();
+    virtual void d12();
+    virtual void d13();
+    virtual void FUN_dispatch(PtrArrayLocal* arr, int a, int b, void* c);
+};
+struct Self {
+    int unk00;
+    ElemArray m_aiIndexedValues;
+    int unk14;
+    int unk18;
+    int unk1c;
+    void FUN_00d6a2f0(Param* apParam);
+};
+
+struct ViewerPrefix { Dispatch* m_dispatch; int unk04; int unk08; int unk0c; };
+struct Viewer : ViewerPrefix, Self {};
+
+// @fnv 0x00d6a2f0
+void Self::FUN_00d6a2f0(Param* apParam)
+{
+    TimerMark(DAT_010d233c);
+    hkArrayUtil_destruct(m_aiIndexedValues.m_data, m_aiIndexedValues.m_iElementCount);
+    m_aiIndexedValues.m_iElementCount = 0;
+    PtrArray* arr = &apParam->m_arrs[0];
+    int passes = 2;
+    do {
+        int ai = 0;
+        if (arr->m_iElementCount > 0) {
+            do {
+                Entry* entry = (Entry*)arr->m_data[ai];
+                PtrArray* sub = &entry->m_sub;
+                int bi = 0;
+                if (sub->m_iElementCount > 0) {
+                    do {
+                        SubEntry* se = (SubEntry*)sub->m_data[bi];
+                        Node* node = &se->m_node;
+                        ListEntry* list = node->m_kNode;
+                        if (list) {
+                            int k = 0;
+                            if ((unsigned short)k < node->m_uiItemCount) {
+                                do {
+                                    float* mat = apParam->m_matrix + 8;
+                                    Bounds bounds;
+                                    QuantizedBounds quantized;
+                                    Decode(list,quantized);
+                                    float f0 = (float)quantized.min.x;
+                                    float f1 = (float)quantized.min.y;
+                                    float f2 = (float)quantized.min.z;
+                                    *(__m128*)&bounds.min = _mm_setr_ps(f0,f1,f2,0.0f);
+                                    float f3 = (float)quantized.max.x;
+                                    float f4 = (float)quantized.max.y;
+                                    float f5 = (float)quantized.max.z;
+                                    SetVec(bounds.max,f3,f4,f5,0.0f);
+                                    __m128 row1 = _mm_load_ps(mat + 8);
+                                    __m128 t = _mm_shuffle_ps(row1, _mm_unpackhi_ps(row1, ::DAT_010c7170), 0xc4);
+                                    __m128 r = _mm_rcp_ps(t);
+                                    __m128 inv = _mm_sub_ps(_mm_add_ps(r, r), _mm_mul_ps(_mm_mul_ps(r, t), r));
+                                    *(__m128*)&bounds.min = _mm_mul_ps(*(__m128*)&bounds.min, inv);
+                                    *(__m128*)&bounds.max = _mm_mul_ps(*(__m128*)&bounds.max, inv);
+                                    *(__m128*)&bounds.min = _mm_sub_ps(*(__m128*)&bounds.min, _mm_load_ps(mat));
+                                    *(__m128*)&bounds.max = _mm_sub_ps(*(__m128*)&bounds.max, _mm_load_ps(mat));
+                                    hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
+                                    ElemArray* output = &m_aiIndexedValues;
+                                    int oldSize = output->m_iElementCount;
+                                    int newSize = oldSize + 1;
+                                    if ((output->m_iCapacityState & 0x3fffffff) < newSize) {
+                                        int dbl = (output->m_iCapacityState & 0x3fffffff) * 2;
+                                        if (newSize < dbl) newSize = dbl;
+                                        ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&alloc), (::SpawnedArray *)(output), newSize, 0x80);
+                                    }
+                                    Elem80* elem = &output->m_data[output->m_iElementCount];
+                                    if (elem) new ((void *)(elem)) ::FUN_00de1210();
+                                    output->m_iElementCount++;
+                                    reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>(&(output->m_data[oldSize]))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)&(bounds.min), (::FnvCpu_FUN_00de1170_CpuData1 *)&(bounds.max));
+                                    k++;
+                                    list++;
+                                } while (k < node->m_uiItemCount);
+                            }
+                        }
+                        bi++;
+                    } while (bi < sub->m_iElementCount);
+                }
+                ai++;
+            } while (ai < arr->m_iElementCount);
+        }
+        arr = &apParam->m_arrs[1];
+        passes--;
+    } while (passes != 0);
+
+    int count = m_aiIndexedValues.m_iElementCount;
+    int allocatedCount = count;
+    PtrArrayLocal indices;
+    indices.m_data = 0;
+    indices.m_iElementCount = 0;
+    indices.m_iCapacityState = 0x80000000;
+    hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
+    Elem80** buf = AllocatePointers(alloc, allocatedCount);
+    int capacity = allocatedCount ? allocatedCount : (int)0x80000000;
+    indices.m_data = buf;
+    indices.m_iElementCount = allocatedCount;
+    indices.m_iCapacityState = capacity;
+    hkMemoryAllocator& alloc2 = hkMemoryRouter::getInstance().heap();
+    if ((indices.m_iCapacityState & 0x3fffffff) < count) {
+        int ns = (indices.m_iCapacityState & 0x3fffffff) * 2;
+        if (count >= ns) ns = count;
+        ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&alloc2), (::SpawnedArray *)(void *)(&indices), ns, sizeof(void*));
+    }
+    indices.m_iElementCount = count;
+    for (int i = 0; i < count; i++) {
+        indices.m_data[i] = &m_aiIndexedValues.m_data[i];
+    }
+    Dispatch* disp = static_cast<Viewer*>(this)->m_dispatch;
+    disp->FUN_dispatch(&indices, -0x5b00, 0, DAT_01269024);
+    TimerMark(DAT_010c41f8);
+    hkMemoryAllocator& cleanupAlloc = hkMemoryRouter::getInstance().heap();
+    indices.m_iElementCount = 0;
+    if ((indices.m_iCapacityState & 0x80000000u) == 0)
+        cleanupAlloc.bufFree(indices.m_data, (indices.m_iCapacityState & 0x3fffffff) * (int)sizeof(indices.m_data[0]));
+    return;
+}
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.inc"

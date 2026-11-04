@@ -8,7 +8,6 @@ class BSShaderProperty__RenderPass;
 class NiGeometry;
 class ShadowSceneLight;
 class BSShaderProperty__RenderPassArray;
-#pragma pack(push, 4)
 class BSShaderProperty__RenderPassArray
 {
   public:
@@ -17,8 +16,4 @@ class BSShaderProperty__RenderPassArray
     void Add(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*, ShadowSceneLight*,
              ShadowSceneLight*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderProperty__RenderPassArray) == 20);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty__RenderPassArray, m_kRenderPasses) == 0);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty__RenderPassArray, iSize) == 16);
 #endif

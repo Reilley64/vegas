@@ -1,5 +1,10 @@
 // bscore/zerooverheadheap.cpp: ZeroOverheadHeap (5 functions)
 
+#include <cstdint>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #include "ZeroOverheadHeap.h"
 
 // @fnv 0x00aa7530
@@ -18,7 +23,7 @@ void* ZeroOverheadHeap::Allocate(unsigned int size, unsigned int alignment)
     local.allocation = 0;
     if (static_cast<char*>(m_pCurrent) + size + sizeof(unsigned int) < static_cast<char*>(m_pPoolBase) + iSize)
     {
-        lock.Lock(0);
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
         *static_cast<unsigned int*>(m_pCurrent) = size;
         local.allocation = static_cast<char*>(m_pCurrent) + sizeof(unsigned int);
         m_pCurrent = static_cast<char*>(local.allocation) + size;
@@ -78,11 +83,11 @@ void FUN_00aa7630_t::FUN_00aa7630(MemoryHeapStats* apStats, bool abFullBlockInfo
     apStats->m_pHeapName = GetName();
     apStats->m_uiMaximumHeapSize = iSize;
     apStats->m_uiHeapCommitted = iSize;
-    apStats->m_iAllocatedToBlocks = (int)m_pCurrent - (int)m_pPoolBase;
+    apStats->m_iAllocatedToBlocks = (int)((char*)m_pCurrent - (char*)m_pPoolBase);
     apStats->m_iFreeBlockCount = m_iAllocationCount;
     apStats->m_uiFreeBlockCount = 0;
     apStats->m_iFreeInBlocks = 0;
-    apStats->m_iUsedInBlocks = (int)m_pCurrent - (int)m_pPoolBase;
+    apStats->m_iUsedInBlocks = (int)((char*)m_pCurrent - (char*)m_pPoolBase);
     apStats->m_iSmallestFreeBlock = 0;
     apStats->m_iLargestFreeBlock = 0;
     apStats->m_iHeapOverhead = 0x40;

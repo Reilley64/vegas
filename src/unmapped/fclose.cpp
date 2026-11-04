@@ -1,8 +1,8 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" int __cdecl _fclose(void*);
 
+#include <cstdio>
 struct FUN_00d2be50
 {
     int m_iWordAt00;
@@ -16,6 +16,6 @@ struct FUN_00d2be50
 void FUN_00d2be50::Close()
 {
     if (m_8 && m_iThirdValue)
-        _fclose(m_8);
+        std::fclose((std::FILE *)(m_8));
     m_8 = 0;
 }

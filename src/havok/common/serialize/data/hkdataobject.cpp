@@ -2,19 +2,35 @@
 // src/havok/common/serialize/data/hkdataobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/data/hkdataobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/FUN_00dc72e0_class.h"
+#include "fnv/decl/FUN_00dc73a0_Holder.h"
+#include "fnv/decl/FUN_00dc73c0_class.h"
+#include "fnv/decl/FUN_00dc7cc0_Class.h"
+#include "fnv/decl/FUN_00dc7dc0_StandIn.h"
+#include "fnv/decl/Owner7320.h"
+#include "fnv/decl/S00dc7d20_Cls.h"
+#include "fnv/decl/hkDataWorldDC76.h"
+#include "fnv/decl/hkDataWorldDictDC7.h"
+#include "fnv/decl/hkObjDC88.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00dba000.h"
 struct FUN_00dba680_cls
 {
     void* vtbl;
     void* p1;
     void* p2;
-    void __thiscall FUN_00dba680();
+    void FUN_00dba680();
 };
 // @fnv 0x00dba680
-void __thiscall FUN_00dba680_cls::FUN_00dba680()
+void FUN_00dba680_cls::FUN_00dba680()
 {
     void* self = *(void**)this;
     void** vt = *(void***)self;
-    void(__thiscall * f)(FUN_00dba680_cls*) = *(void(__thiscall*)(FUN_00dba680_cls*))vt[2];
+    void(* f)(FUN_00dba680_cls*) = *(void(*)(FUN_00dba680_cls*))vt[2];
     f((FUN_00dba680_cls*)self);
 }
 
@@ -22,18 +38,18 @@ struct FUN_00dbaab0_cls
 {
     void* vtbl;
     void* p1;
-    void __thiscall DispatchFloatToVtbl(float f);
+    void DispatchFloatToVtbl(float f);
 };
 
 // @fnv 0x00dbaab0
-void __thiscall FUN_00dbaab0_cls::DispatchFloatToVtbl(float f)
+void FUN_00dbaab0_cls::DispatchFloatToVtbl(float f)
 {
     void* obj = this;
     void* vt = *(void**)(obj);
     void* p = *(void**)(vt);
     void* a = *(void**)((char*)obj + 4);
     void* fn = *(void**)((char*)p + 0x4c);
-    ((void(__thiscall*)(void*, void*, float))fn)(vt, a, f);
+    ((void(*)(void*, void*, float))fn)(vt, a, f);
 }
 
 struct Inner
@@ -90,7 +106,7 @@ struct dba6d0_Target
 struct FUN_00dba6d0_cls
 {
     dba6d0_Target* m_p;
-    dba6d0_Ret __thiscall CallVirtualV5(const int& h);
+    dba6d0_Ret CallVirtualV5(const int& h);
 };
 // @fnv 0x00dba6d0
 dba6d0_Ret FUN_00dba6d0_cls::CallVirtualV5(const int& h)
@@ -236,7 +252,7 @@ struct FirstInterface
 {
     virtual void slot0();
     virtual void slot1();
-    virtual int acquire();
+    virtual intptr_t acquire();
 };
 struct SecondInterface
 {
@@ -448,16 +464,16 @@ struct AudioInterface
     virtual void Reserved14();
     virtual void Reserved15();
     virtual void Reserved16();
-    virtual void Apply(void*, unsigned int, unsigned int);
+    virtual void Apply(void*, uintptr_t, unsigned int);
 };
 struct AudioHandle
 {
     AudioInterface* system;
     void* object;
-    void FUN_00dbab10(unsigned int, unsigned int);
+    void FUN_00dbab10(uintptr_t, unsigned int);
 };
 // @fnv 0x00dbab10
-void AudioHandle::FUN_00dbab10(unsigned int a, unsigned int b)
+void AudioHandle::FUN_00dbab10(uintptr_t a, unsigned int b)
 {
     system->Apply(object, a, b);
 }
@@ -484,16 +500,16 @@ struct S_00dbab30_Target
     virtual void unk44();
     virtual void unk48();
     virtual void unk4C();
-    virtual int unk50(int a, int b);
+    virtual int unk50(int a, intptr_t b);
 };
 struct S_00dbab30_Ref
 {
     S_00dbab30_Target* m_target;
     int m_04;
-    int FUN_00dbab30(int b);
+    int FUN_00dbab30(intptr_t b);
 };
 // @fnv 0x00dbab30
-int S_00dbab30_Ref::FUN_00dbab30(int b)
+int S_00dbab30_Ref::FUN_00dbab30(intptr_t b)
 {
     return m_target->unk50(m_04, b);
 }
@@ -620,7 +636,7 @@ struct FUN_00dbac70_cls
 {
     dbac70_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbac70();
+    void FUN_00dbac70();
 };
 // @fnv 0x00dbac70
 void FUN_00dbac70_cls::FUN_00dbac70()
@@ -717,7 +733,6 @@ struct ValueProvider
 struct FUN_00dba760_cls
 {
     void* value;
-    void FUN_00dba760(void* newValue);
 };
 struct FUN_00dbaca0_cls
 {
@@ -725,14 +740,6 @@ struct FUN_00dbaca0_cls
     void* source;
     FUN_00dba760_cls* CreateValueInto(FUN_00dba760_cls* output);
 };
-// Calls provider->CreateValue(source) and stores the result into output via FUN_00dba760, then returns output.
-// @fnv 0x00dbaca0
-FUN_00dba760_cls* FUN_00dbaca0_cls::CreateValueInto(FUN_00dba760_cls* output)
-{
-    output->FUN_00dba760(provider->CreateValue(source));
-    return output;
-}
-
 struct dbad00_Target
 {
     virtual void v0();
@@ -762,7 +769,7 @@ struct FUN_00dbad00_cls
 {
     dbad00_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbad00(int* a);
+    void FUN_00dbad00(int* a);
 };
 // @fnv 0x00dbad00
 void FUN_00dbad00_cls::FUN_00dbad00(int* piValue)
@@ -845,16 +852,16 @@ struct dbad60_Target
     virtual void v6();
     virtual void v7();
     virtual void v8();
-    virtual void v9(int a, int b);
+    virtual void v9(int a, intptr_t b);
 };
 struct FUN_00dbad60_cls
 {
     dbad60_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbad60(int a, int b);
+    void FUN_00dbad60(intptr_t a, int b);
 };
 // @fnv 0x00dbad60
-void FUN_00dbad60_cls::FUN_00dbad60(int aiArg, int aiUnused)
+void FUN_00dbad60_cls::FUN_00dbad60(intptr_t aiArg, int aiUnused)
 {
     m_p->v9(m_f, aiArg);
 }
@@ -959,17 +966,17 @@ struct Inner
     virtual void v74();
     virtual void v78();
     virtual void v7c();
-    virtual int v80(int a);
+    virtual int v80(intptr_t a);
 };
 
 struct Outer
 {
     Inner* unk00;
-    int FUN_00dbae10(int a);
+    int FUN_00dbae10(intptr_t a);
 };
 
 // @fnv 0x00dbae10
-int Outer::FUN_00dbae10(int a)
+int Outer::FUN_00dbae10(intptr_t a)
 {
     return unk00->v80(a);
 }
@@ -988,21 +995,13 @@ struct Callback
 };
 struct FUN_00dbab50_cls
 {
-    void __thiscall FUN_00dbab50(void* value);
+    void FUN_00dbab50(void* value);
 };
 struct FUN_00dbaea0_cls
 {
     Callback* target;
-    FUN_00dbab50_cls* __thiscall InvokeCallbackInto(FUN_00dbab50_cls* output, void* argument);
+    FUN_00dbab50_cls* InvokeCallbackInto(FUN_00dbab50_cls* output, void* argument);
 };
-// Calls invoke on the stored callback with argument, passes the result to output's FUN_00dbab50, and returns output.
-// @fnv 0x00dbaea0
-FUN_00dbab50_cls* __thiscall FUN_00dbaea0_cls::InvokeCallbackInto(FUN_00dbab50_cls* output, void* argument)
-{
-    output->FUN_00dbab50(this->target->invoke(argument));
-    return output;
-}
-
 struct FUN_00dbaf10_callback
 {
     virtual void f0();
@@ -1019,11 +1018,11 @@ struct FUN_00dbaf10_cls
     FUN_00dbaf10_callback* vtbl;
     void* p1;
     void* p2;
-    int __thiscall FUN_00dba6f0();
-    void __thiscall DispatchRecords(void* records);
+    int FUN_00dba6f0();
+    void DispatchRecords(void* records);
 };
 // @fnv 0x00dbaf10
-void __thiscall FUN_00dbaf10_cls::DispatchRecords(void* records)
+void FUN_00dbaf10_cls::DispatchRecords(void* records)
 {
     int count = FUN_00dba6f0();
     int index = 0;
@@ -1039,9 +1038,9 @@ void __thiscall FUN_00dbaf10_cls::DispatchRecords(void* records)
     }
 }
 
-extern char __stdcall Equals(void*);
+extern char Equals(void*);
 // @fnv 0x00dbaf90
-bool __stdcall FUN_00dbaf90(void* param_1)
+bool FUN_00dbaf90(void* param_1)
 {
     char result = Equals(param_1);
     return result == 0;
@@ -1087,12 +1086,12 @@ DBAFB0Result DBAFB0Handle::GetResult()
 
 struct FUN_00dba650_cls
 {
-    unsigned int m_00;
-    FUN_00dba650_cls* FUN_00dba650(unsigned int value);
+    uintptr_t m_00;
+    FUN_00dba650_cls* FUN_00dba650(uintptr_t value);
 };
 
 // @fnv 0x00dba650
-FUN_00dba650_cls* FUN_00dba650_cls::FUN_00dba650(unsigned int value)
+FUN_00dba650_cls* FUN_00dba650_cls::FUN_00dba650(uintptr_t value)
 {
     this->m_00 = value;
     return this;
@@ -1121,25 +1120,25 @@ struct VirtualTarget
 struct ValueHolder
 {
     void* m_uiFilterValue;
-    __declspec(noinline) void __thiscall SetValue(void* p);
+    __declspec(noinline) void SetValue(void* p);
 };
 
-void __thiscall ValueHolder::SetValue(void* p)
+void ValueHolder::SetValue(void* p)
 {
-    m_uiFilterValue = (void*)((unsigned int)m_uiFilterValue << ((unsigned int)p & 31));
+    m_uiFilterValue = (void*)((uintptr_t)m_uiFilterValue << ((uintptr_t)p & 31));
 }
 
 struct FUN_00dba6a0_cls
 {
     VirtualTarget* m_00;
-    void* __thiscall SetShiftedValue(void* a1);
+    void* SetShiftedValue(void* a1);
 };
 
 // @fnv 0x00dba6a0
-void* __thiscall FUN_00dba6a0_cls::SetShiftedValue(void* pTarget)
+void* FUN_00dba6a0_cls::SetShiftedValue(void* pTarget)
 {
     void* r = m_00->v10();
-    reinterpret_cast<ValueHolder*>(pTarget)->SetValue(r);
+    reinterpret_cast<::FUN_00dba650_cls *>((reinterpret_cast<ValueHolder*>(pTarget)))->FUN_00dba650((uintptr_t)(r));
     return pTarget;
 }
 
@@ -1165,11 +1164,11 @@ struct Sub_dba700
 struct Owner_dba700
 {
     Sub_dba700* m_target;
-    void __thiscall FUN_00dba700(void* a);
+    void FUN_00dba700(void* a);
 };
 
 // @fnv 0x00dba700
-void __thiscall Owner_dba700::FUN_00dba700(void* a)
+void Owner_dba700::FUN_00dba700(void* a)
 {
     m_target->v20(a);
 }
@@ -1236,11 +1235,11 @@ struct RefCountedObj
 struct FUN_00dba7a0_cls
 {
     RefCountedObj* m_pEntryObject;
-    void __thiscall AssignRefCounted(FUN_00dba7a0_cls* src);
+    void AssignRefCounted(FUN_00dba7a0_cls* src);
 };
 
 // @fnv 0x00dba7a0
-void __thiscall FUN_00dba7a0_cls::AssignRefCounted(FUN_00dba7a0_cls* src)
+void FUN_00dba7a0_cls::AssignRefCounted(FUN_00dba7a0_cls* src)
 {
     RefCountedObj* newObj = src->m_pEntryObject;
     if (newObj)
@@ -1346,7 +1345,7 @@ struct VTarget
 struct FUN_00dba870_cls
 {
     VTarget* m_pFlagTarget;
-    void* __thiscall FUN_00dba870(void* a, void* b);
+    void* FUN_00dba870(void* a, void* b);
 };
 
 // @fnv 0x00dba870
@@ -1370,7 +1369,7 @@ struct FUN_00dba8b0_tgt
 struct FUN_00dba8b0_cls
 {
     FUN_00dba8b0_tgt* m_00;
-    void __thiscall FUN_00dba8b0();
+    void FUN_00dba8b0();
 };
 
 // @fnv 0x00dba8b0
@@ -1416,7 +1415,7 @@ void FnvCpu_FUN_00dba8d0_CpuOwner::FUN_00dba8d0(int arg0)
 // [vftable-4]), so the virtual at vtable offset 0x20 is the NINTH one: eight
 // dummies plus the real one.
 //
-// The tail-jump target register follows the callee's stack arguments: a
+// The tail-jump target follows the callee's stack arguments: a
 // virtual call with NO stack argument gets its target in EDX (jmp edx), a
 // call with one 4-byte stack argument forwarded in place gets it in EAX
 // (jmp eax) - which is what the original does.  The virtual therefore takes
@@ -1438,11 +1437,11 @@ struct Sub_dba8e0
 struct Owner_dba8e0
 {
     Sub_dba8e0* m_target;
-    void __thiscall FUN_00dba8e0(void* a);
+    void FUN_00dba8e0(void* a);
 };
 
 // @fnv 0x00dba8e0
-void __thiscall Owner_dba8e0::FUN_00dba8e0(void* a)
+void Owner_dba8e0::FUN_00dba8e0(void* a)
 {
     m_target->v20(a);
 }
@@ -1547,19 +1546,8 @@ struct FUN_00dba9d0_cls
 {
     InnerObj* m_00;
     void* m_04;
-    void* __thiscall FUN_00dba9d0(FUN_00dba760_cls* arg);
+    void* FUN_00dba9d0(FUN_00dba760_cls* arg);
 };
-
-// Calls v13 on m_00 with m_04, passes the result to arg's FUN_00dba760, and returns arg.
-// @fnv 0x00dba9d0
-void* __thiscall FUN_00dba9d0_cls::FUN_00dba9d0(FUN_00dba760_cls* arg)
-{
-    void* result = m_00->v13(m_04);
-
-    arg->FUN_00dba760(result);
-
-    return arg;
-}
 
 struct FUN_00dbaa30_target
 {
@@ -1586,11 +1574,11 @@ struct FUN_00dbaa30_cls
 {
     FUN_00dbaa30_target* m_00;
     void* m_04;
-    void __thiscall FUN_00dbaa30(int a1);
+    void FUN_00dbaa30(int a1);
 };
 
 // @fnv 0x00dbaa30
-void __thiscall FUN_00dbaa30_cls::FUN_00dbaa30(int aiValue)
+void FUN_00dbaa30_cls::FUN_00dbaa30(int aiValue)
 {
     m_00->v40(m_04, (__int64)aiValue);
 }
@@ -1627,11 +1615,11 @@ struct FUN_00dbaa50_cls
 {
     void* m_pObject;
     void* m_pParam;
-    void __thiscall DispatchToObject(void** pArg);
+    void DispatchToObject(void** pArg);
 };
 
 // @fnv 0x00dbaa50
-void __thiscall FUN_00dbaa50_cls::DispatchToObject(void** pArg)
+void FUN_00dbaa50_cls::DispatchToObject(void** pArg)
 {
     VirtDispatchIface* obj = (VirtDispatchIface*)m_pObject;
     obj->Dispatch(m_pParam, *pArg);
@@ -1738,7 +1726,7 @@ struct FUN_00dbaad0_cls
 {
     FUN_00dbaad0_target* m_00;
     void* m_04;
-    void __thiscall FUN_00dbaad0(int a1);
+    void FUN_00dbaad0(int a1);
 };
 
 // @fnv 0x00dbaad0
@@ -1757,7 +1745,7 @@ struct FUN_00dbab90_cls
 {
     void* m_pObservedSource;
 
-    SpawnedPair __thiscall FUN_00dbab90(void* value);
+    SpawnedPair FUN_00dbab90(void* value);
 };
 
 // @fnv 0x00dbab90
@@ -1837,11 +1825,11 @@ struct FUN_00dbad80_cls
 {
     VirtualTarget00* m_pFlagTarget;
     void* m_pArg;
-    void __thiscall FUN_00dbad80(int a1, int a2);
+    void FUN_00dbad80(int a1, int a2);
 };
 
 // @fnv 0x00dbad80
-void __thiscall FUN_00dbad80_cls::FUN_00dbad80(int aiArg1, int aiArg2)
+void FUN_00dbad80_cls::FUN_00dbad80(int aiArg1, int aiArg2)
 {
     m_pFlagTarget->v19(m_pArg, aiArg1, aiArg2);
 }
@@ -1889,7 +1877,7 @@ struct FUN_00dbade0_obj
 struct FUN_00dbade0_cls
 {
     FUN_00dbade0_obj* m_00;
-    void __thiscall FUN_00dbade0(int a);
+    void FUN_00dbade0(int a);
 };
 
 // @fnv 0x00dbade0
@@ -2075,7 +2063,7 @@ struct FUN_00dbae60_Inner
 struct FUN_00dbae60_cls
 {
     FUN_00dbae60_Inner* m_00;
-    void __thiscall FUN_00dbae60(int a);
+    void FUN_00dbae60(int a);
 };
 
 // @fnv 0x00dbae60
@@ -2122,11 +2110,11 @@ struct FUN_00dbae80_cls
 {
     Controller_cls* controller;  // +0x00
     void* p1;                    // +0x04
-    void __thiscall FUN_00dbae80(void* a, void* b);
+    void FUN_00dbae80(void* a, void* b);
 };
 
 // @fnv 0x00dbae80
-void __thiscall FUN_00dbae80_cls::FUN_00dbae80(void* a, void* b)
+void FUN_00dbae80_cls::FUN_00dbae80(void* a, void* b)
 {
     controller->v25(a, b);
 }
@@ -2166,10 +2154,10 @@ struct Sub_dbae90
 struct Own_dbae90
 {
     Sub_dbae90* m_sub;
-    void __thiscall FUN_00dbae90(void* a);
+    void FUN_00dbae90(void* a);
 };
 // @fnv 0x00dbae90
-void __thiscall Own_dbae90::FUN_00dbae90(void* a)
+void Own_dbae90::FUN_00dbae90(void* a)
 {
     m_sub->v60(a);
 }
@@ -2223,7 +2211,6 @@ struct SpawnedPair
 
 struct FUN_00dbaf50_cls
 {
-    void Fill(SpawnedPair* apOut);
     bool Equals(FUN_00dbaf50_cls* apOther);
 };
 
@@ -2233,8 +2220,8 @@ bool FUN_00dbaf50_cls::Equals(FUN_00dbaf50_cls* apOther)
 {
     SpawnedPair aLeft;
     SpawnedPair aRight;
-    this->Fill(&aLeft);
-    apOther->Fill(&aRight);
+    reinterpret_cast<::FUN_00dba810_cls *>((this))->GetSourcePair();
+    reinterpret_cast<::FUN_00dba810_cls *>((apOther))->GetSourcePair();
     return aLeft.unk00 == aRight.unk00 && aLeft.unk04 == aRight.unk04;
 }
 }  // namespace fnv_00dbaf50
@@ -2245,18 +2232,16 @@ struct S_Alloc
 };
 struct S_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkc;
     S_Alloc* m10;
     S_Alloc& heap()
     {
         return *m10;
     }
 };
-S_Router* FUN_00c85750();
-void FUN_00c908c0(S_Alloc& a, void* arr, int n, int esz);
 
 struct S_Obj
 {
@@ -2326,12 +2311,12 @@ struct S_Arr
         if (c < n)
         {
             int c2 = c + c;
-            FUN_00c908c0(a, this, (n < c2) ? c2 : n, 16);
+            ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), (n < c2) ? c2 : n, 16);
         }
     }
     void SetSizeAndGrow(int n)
     {
-        reserve(FUN_00c85750()->heap(), n);
+        reserve(static_cast<S_Router*>(::FUN_00c85750())->heap(), n);
         size = n;
     }
 };
@@ -2384,9 +2369,9 @@ struct FUN_00dbac50_cls
 {
     Fnv299VTarget* m_00;
     int m_04;
-    void __thiscall DispatchToVTableSlot8(int a1);
+    void DispatchToVTableSlot8(int a1);
 };
-typedef void(__thiscall* Fnv299Dispatch)(Fnv299VTarget*, int);
+typedef void(* Fnv299Dispatch)(Fnv299VTarget*, int);
 // @fnv 0x00dbac50
 void FUN_00dbac50_cls::DispatchToVTableSlot8(int aiArg)
 {
@@ -2444,6 +2429,13 @@ struct FUN_00dbab50
 
     FUN_00dbab50(DBAB50Object* p);
 };
+// Calls invoke on the stored callback with argument, passes the result to output's FUN_00dbab50, and returns output.
+// @fnv 0x00dbaea0
+FUN_00dbab50_cls* FUN_00dbaea0_cls::InvokeCallbackInto(FUN_00dbab50_cls* output, void* argument)
+{
+    new ((void *)(output)) ::FUN_00dbab50((::DBAB50Object *)(void *)(this->target->invoke(argument)));
+    return output;
+}
 
 // @fnv 0x00dbab50
 FUN_00dbab50::FUN_00dbab50(DBAB50Object* apObject)
@@ -2481,15 +2473,12 @@ struct DB8000_Router
 struct DB8000_Handle
 {
     unsigned int m_00;
-    DB8000_Handle* FUN_00dba650(unsigned int value);
-    void FUN_00dba660();
 };
 
 struct DB8000_Ref
 {
     void* m_pRetainedObject;
     void FUN_00dba760(void* p);
-    void FUN_00dba7f0();
 };
 
 struct DB8000_PtrArray
@@ -2507,7 +2496,7 @@ struct DB8000_PtrArray
 
     void ClearAndRelease()
     {
-        DB8000_Alloc& alloc = ((DB8000_Router*)FUN_00c85750())->heap();
+        DB8000_Alloc& alloc = ((DB8000_Router*)static_cast<S_Router*>(::FUN_00c85750()))->heap();
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
@@ -2540,7 +2529,7 @@ struct DB8000_Out
 
     void ClearAndRelease()
     {
-        DB8000_Alloc& alloc = ((DB8000_Router*)FUN_00c85750())->heap();
+        DB8000_Alloc& alloc = ((DB8000_Router*)static_cast<S_Router*>(::FUN_00c85750()))->heap();
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
@@ -2556,9 +2545,9 @@ typedef void(__cdecl* DB8000_Callback)(DB8000_Ref*);
 
 struct DB8000_OpData
 {
-    int m_00;
-    int m_04;
-    int m_08;
+    intptr_t m_00;
+    intptr_t m_04;
+    intptr_t m_08;
     int m_0c;
 };
 
@@ -2585,7 +2574,6 @@ struct DB8000_ItemArray
     int m_iCapacityState;
 };
 
-extern int __cdecl FUN_00cb0fa0(const char* a, const char* b);
 
 struct DB8000_Self
 {
@@ -2600,16 +2588,6 @@ struct DB8000_Self
     virtual void v8();
     virtual unsigned int vfn9(const char* name);
 
-    void FUN_00dc7320(DB8000_Handle* h, const char* name);
-    void FUN_00dc73f0(DB8000_Handle* h, int a, int b);
-    void FUN_00dc7d20(DB8000_Handle* h, int a, int b, int c, int d);
-    void FUN_00dc7600(DB8000_Handle* h, int a);
-    void InitAndRun(const char* name, DB8000_PtrArray* out);
-    void AssignRefCountedSlot(DB8000_Handle* h1, DB8000_Handle* h2);
-    void CallWithReset(const char* name, DB8000_PtrArray* out);
-    void FUN_00dc7dc0(DB8000_Ref* ref, DB8000_Handle* h);
-    void ReleaseRef(DB8000_Handle* h);
-    void FUN_00dc72e0(DB8000_Handle* h, int a);
 };
 
 // Iterates items, selects a name, and dispatches recognized operations through self; some item fields also control reference handling.
@@ -2646,11 +2624,11 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
             }
 
             DB8000_Handle hMain;
-            hMain.FUN_00dba650(self->vfn9(name));
+            reinterpret_cast<::FUN_00dba650_cls *>(&(hMain))->FUN_00dba650(self->vfn9(name));
 
-            if (item->m_name0 != 0 && item->m_name1 != 0 && FUN_00cb0fa0(item->m_name0, item->m_name1) != 0)
+            if (item->m_name0 != 0 && item->m_name1 != 0 && ::fnv_00cb0fa0::FUN_00cb0fa0(item->m_name0, item->m_name1) != 0)
             {
-                self->FUN_00dc7320(&hMain, item->m_name1);
+                reinterpret_cast<::Owner7320 *>((self))->FUN_00dc7320((const ::ClassInfo7320 *)(::DB8000_Handle *)(&hMain), item->m_name1);
             }
 
             int jIndex = 0;
@@ -2662,26 +2640,26 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
                     switch (op->m_type)
                     {
                     case 3:
-                        self->FUN_00dc73f0(&hMain, op->m_data->m_00, op->m_data->m_04);
+                        reinterpret_cast<::hkDataWorldDictDC7 *>((self))->FUN_00dc73f0((*(::hkDataClassDC7 *)(&hMain)), (const char *)(op->m_data->m_00), (const char *)(op->m_data->m_04));
                         break;
                     case 1:
-                        self->FUN_00dc7d20(&hMain, op->m_data->m_00, op->m_data->m_04, op->m_data->m_08,
+                        reinterpret_cast<::S00dc7d20_Cls *>((self))->FUN_00dc7d20((::S00dc7d20_Class **)(::DB8000_Handle *)(&hMain), (const char *)(op->m_data->m_00), op->m_data->m_04, (const char *)(op->m_data->m_08),
                                            op->m_data->m_0c);
                         break;
                     case 2:
-                        self->FUN_00dc7600(&hMain, op->m_data->m_00);
+                        reinterpret_cast<::hkDataWorldDC76 *>((self))->FUN_00dc7600((*(::FUN_00dba680_cls *)(&hMain)), (const char *)(op->m_data->m_00));
                         break;
                     case 4: {
                         DB8000_Callback pCallback = (DB8000_Callback)op->m_data->m_04;
                         DB8000_PtrArray arr4;
                         arr4.init();
-                        self->InitAndRun(name, &arr4);
+                        reinterpret_cast<::FUN_00dc73c0_class *>((self))->InitAndRun((intptr_t)(name), (intptr_t)(&arr4));
                         for (int kIndex = 0; kIndex < arr4.m_iElementCount; ++kIndex)
                         {
                             DB8000_Ref ref4;
                             ref4.FUN_00dba760(arr4.m_data[kIndex]);
                             pCallback(&ref4);
-                            ref4.FUN_00dba7f0();
+                            reinterpret_cast<::DBA7F0Ref *>(&(ref4))->FUN_00dba7f0();
                         }
                         arr4.ClearAndRelease();
                         break;
@@ -2690,27 +2668,27 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
                         const char* pString = (const char*)op->m_data->m_04;
                         unsigned int val = pString ? self->vfn9(pString) : 0;
                         DB8000_Handle hSub7;
-                        hSub7.FUN_00dba650(val);
-                        self->AssignRefCountedSlot(&hMain, &hSub7);
-                        hSub7.FUN_00dba660();
+                        reinterpret_cast<::FUN_00dba650_cls *>(&(hSub7))->FUN_00dba650(val);
+                        reinterpret_cast<::FUN_00dc7cc0_Class *>((self))->AssignRefCountedSlot((void **)(::DB8000_Handle *)(&hMain), (void **)(::DB8000_Handle *)(&hSub7));
+                        ::FUN_00dba660();
                         break;
                     }
                     case 5: {
                         DB8000_OpData* d = op->m_data;
                         DB8000_Handle hSub5;
-                        hSub5.FUN_00dba650(self->vfn9((const char*)d->m_00));
+                        reinterpret_cast<::FUN_00dba650_cls *>(&(hSub5))->FUN_00dba650(self->vfn9((const char*)d->m_00));
                         DB8000_PtrArray arr5;
                         arr5.init();
-                        self->CallWithReset(name, &arr5);
+                        reinterpret_cast<::FUN_00dc73a0_Holder *>((self))->CallWithReset((intptr_t)(name), (int *)(::DB8000_PtrArray *)(&arr5));
                         for (int kIndex = 0; kIndex < arr5.m_iElementCount; ++kIndex)
                         {
                             DB8000_Ref ref5;
                             ref5.FUN_00dba760(arr5.m_data[kIndex]);
-                            self->FUN_00dc7dc0(&ref5, &hSub5);
-                            ref5.FUN_00dba7f0();
+                            reinterpret_cast<::FUN_00dc7dc0_StandIn *>((self))->FUN_00dc7dc0((intptr_t)(&ref5), (intptr_t)(&hSub5));
+                            reinterpret_cast<::DBA7F0Ref *>(&(ref5))->FUN_00dba7f0();
                         }
                         arr5.ClearAndRelease();
-                        hSub5.FUN_00dba660();
+                        ::FUN_00dba660();
                         break;
                     }
                     default:
@@ -2720,17 +2698,17 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
                 } while (jIndex < item->m_numOps);
             }
 
-            int unk0c = item->m_unk0c;
+            intptr_t unk0c = item->m_unk0c;
             if (unk0c == -1)
             {
-                self->ReleaseRef(&hMain);
+                reinterpret_cast<::hkObjDC88 *>((self))->ReleaseRef((*(struct ::FUN_00dba660 *)(&hMain)));
             }
             else if (item->m_unk08 != -1 && item->m_unk08 != unk0c)
             {
-                self->FUN_00dc72e0(&hMain, unk0c);
+                reinterpret_cast<::FUN_00dc72e0_class *>((self))->FUN_00dc72e0(&hMain, (void *)(unk0c));
             }
 
-            hMain.FUN_00dba660();
+            ::FUN_00dba660();
             ++i;
         } while (i < items->m_iElementCount);
     }
@@ -2962,7 +2940,7 @@ void ArrayBulkHandle::FUN_00dbae50(const unsigned int* values, int count)
 }
 
 struct ArrayBulkTarget;
-typedef void(__fastcall* ArrayBulkSlot)(ArrayBulkTarget*, int);
+typedef void(* ArrayBulkSlot)(ArrayBulkTarget*, int);
 struct ArrayBulkTarget
 {
     ArrayBulkSlot* vtbl;
@@ -2973,7 +2951,7 @@ struct ArrayBulkOwner
 };
 
 // @fnv 0x00dbae70
-void __fastcall FUN_00dbae70(ArrayBulkOwner* self, int forwarded)
+void FUN_00dbae70(ArrayBulkOwner* self, int forwarded)
 {
     ArrayBulkTarget* object = self->object;
     object->vtbl[26](object, forwarded);
@@ -2982,8 +2960,25 @@ void __fastcall FUN_00dbae70(ArrayBulkOwner* self, int forwarded)
 struct DataObjectHandle
 {
     RefObj* object;
-    DataObjectHandle* __thiscall FUN_00dba760(RefObj* p);
+    DataObjectHandle* FUN_00dba760(RefObj* p);
 };
+// Calls provider->CreateValue(source) and stores the result into output via FUN_00dba760, then returns output.
+// @fnv 0x00dbaca0
+FUN_00dba760_cls* FUN_00dbaca0_cls::CreateValueInto(FUN_00dba760_cls* output)
+{
+    reinterpret_cast<::DataObjectHandle *>((output))->FUN_00dba760((::RefObj *)(void *)(provider->CreateValue(source)));
+    return output;
+}
+// Calls v13 on m_00 with m_04, passes the result to arg's FUN_00dba760, and returns arg.
+// @fnv 0x00dba9d0
+void* FUN_00dba9d0_cls::FUN_00dba9d0(FUN_00dba760_cls* arg)
+{
+    void* result = m_00->v13(m_04);
+
+    reinterpret_cast<::DataObjectHandle *>((arg))->FUN_00dba760((::RefObj *)(result));
+
+    return arg;
+}
 
 // @fnv 0x00dba760
 DataObjectHandle* DataObjectHandle::FUN_00dba760(RefObj* apObject)
@@ -3002,7 +2997,7 @@ struct DataClassResult : FUN_00dba650_cls
     DataClassResult* FUN_00dba650(unsigned int value);
     DataClassResult(unsigned int value)
     {
-        FUN_00dba650(value);
+        reinterpret_cast<::FUN_00dba650_cls *>(this)->FUN_00dba650(value);
     }
 };
 
@@ -3033,4 +3028,45 @@ struct DataClassAccess
 DataClassResult DataClassAccess::FUN_00dbac20()
 {
     return DataClassResult(provider->getClassValue());
+}
+
+
+struct MemberArrayProvider
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual DBAB50Object* getArray(const char* name);
+};
+
+struct MemberArrayValue
+{
+    MemberArrayProvider* provider;
+    const char* name;
+    FUN_00dbab50 FUN_00dbacd0() const;
+};
+
+// @fnv 0x00dbacd0
+FUN_00dbab50 MemberArrayValue::FUN_00dbacd0() const
+{
+    return FUN_00dbab50(provider->getArray(name));
 }

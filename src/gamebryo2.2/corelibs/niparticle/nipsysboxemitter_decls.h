@@ -1,10 +1,10 @@
 
+#include "fnv/symbols_011a9000.h"
 class RgbaColor
 {
   public:
     float r, g, b, a;
 };
-extern RgbaColor DAT_011a9be0;
 class NiPSysPositionModifier
 {
   public:
@@ -21,11 +21,14 @@ class NiPSysEmitter : public NiPSysPositionModifier
     RgbaColor color;
     float radius, radiusVar, lifespan, lifespanVar, unknown;
 };
+class NiStream;
 class NiPSysVolumeEmitter : public NiPSysEmitter
 {
   public:
     virtual void LoadBinary(class NiStream&);
     void* emitterObject;
+public:
+    void LinkObject(::NiStream &);
 };
 class NiPSysBoxEmitter : public NiPSysVolumeEmitter
 {

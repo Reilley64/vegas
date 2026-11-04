@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPCOLLIDABLEBOUNDINGVOLUMEDATA_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpCollidableBoundingVolumeData
 {
   public:
@@ -19,6 +18,4 @@ class hkpCollidableBoundingVolumeData
     void* m_pChildShapeAabbs;              // +0x24
     void* m_pChildShapeKeys;               // +0x28
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCollidableBoundingVolumeData[(sizeof(hkpCollidableBoundingVolumeData) == 0x2C) ? 1 : -1];
 #endif

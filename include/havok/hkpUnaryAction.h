@@ -6,12 +6,9 @@
 #include "hkBase.h"
 #include "hkpAction.h"
 class hkpEntity;
-#pragma pack(push, 1)
 class hkpUnaryAction : public hkpAction
 {
   public:
     hkpEntity* m_pEntity;  // +0x18
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpUnaryAction[(sizeof(hkpUnaryAction) == 0x1C) ? 1 : -1];
 #endif

@@ -2,20 +2,18 @@
 #ifndef FNV_EXTRADATALIST_H
 #define FNV_EXTRADATALIST_H
 
+#include "fnv/decl/BaseExtraList_shell.h"
 #include "layout_support.h"
 #include "BaseExtraList.h"
 class ExtraDismemberedLimbs;
-#pragma pack(push, 4)
 class ExtraDataList : public BaseExtraList
 {
   public:
-    void AddOrCreateExtraItem(void* crime, float stamp);  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
 
   public:
     InventoryChanges* GetContainerChangeData();
     void SetContainerChanges(InventoryChanges* changes);
     ExtraDismemberedLimbs* GetDismemberedLimbs();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraDataList) == 0x20);
 #endif

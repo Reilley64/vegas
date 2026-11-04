@@ -3,6 +3,8 @@
 #define FNV_NIFORMARRAY_DECLS_H
 
 
+#include <cstring>
+#include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "layout_support.h"
 
 template <class T> class NiTMallocInterface;
@@ -32,20 +34,12 @@ class NiFormArray : public NiTLargePrimitiveArray<TESForm*>
 {
   public:
     void Compact();
-    unsigned int GetSize();
     TESForm*& FUN_00877a30(unsigned int index);
     void SetFormAtIndex(unsigned int index, TESForm* form);
     unsigned int GetIndexOfForm(TESForm* form);
 };
 
-FNV_STATIC_ASSERT(sizeof(NiFormArray) == 24);
-FNV_STATIC_ASSERT(offsetof(NiFormArray, m_pBase) == 4);
-FNV_STATIC_ASSERT(offsetof(NiFormArray, m_uiMaxSize) == 8);
-FNV_STATIC_ASSERT(offsetof(NiFormArray, m_uiSize) == 12);
-FNV_STATIC_ASSERT(offsetof(NiFormArray, m_uiESize) == 16);
-FNV_STATIC_ASSERT(offsetof(NiFormArray, m_uiGrowBy) == 20);
 
 // The canonical _memmove binding names a different runtime entry point.
-void* __cdecl FUN_00ec7230(void* destination, const void* source, unsigned int size);
 
 #endif

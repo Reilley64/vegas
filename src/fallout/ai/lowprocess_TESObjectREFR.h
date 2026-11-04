@@ -1,4 +1,23 @@
 // fallout/ai/lowprocess_TESObjectREFR.h: declares TESObjectREFR
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00568680_shell.h"
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/FUN_00569250_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00575770_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/OwnershipReferenceView.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_00565870__FUN_00565870_shell.h"
+#include "fnv/decl/fnv_005692a0__FUN_005692a0_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/s56ae10__Owner.h"
+#include "fnv/symbols_00573000.h"
 class ExtraRadioData;
 class LockExtraData;
 class ExtraLock;
@@ -10,31 +29,14 @@ class ExtraLock;
 #include "PlacedObjectInfo.h"
 #include "TESChildCell.h"
 #include "lowprocess_TESForm.h"
-#pragma pack(push, 4)
 class TESObjectREFR : public TESForm
 {
   public:
     ExtraRadioData* GetExtraRadioData();
-    LockExtraData* GetLock();
-    bool CanBeUsed(Actor*, bool);
     int IsLocked();
-    void Lock();
-    void Unlock();
-    void FUN_00564db0(bool);
     const NiPoint3* FUN_00430830();
-    TESObjectREFR* GetLinkedRef();
-    TESForm* GetOwner();
-    bool FUN_00568680();
-    void FUN_00565870();
 
-    TESWorldSpace* GetParentWorldSpace();
-    const char* GetFullName();
-    float GetDistanceToReference(TESObjectREFR*, bool, bool);
     bool Activate(TESObjectREFR*, bool, TESBoundObject*, int);
-    static void SetParentCellAndWorldspace(TESObjectREFR*, TESObjectCELL*, TESWorldSpace*);
-    void SetLocationOnReference(const NiPoint3&);
-    void RelocateTo(TESWorldSpace*, TESObjectCELL*, const NiPoint3&, float);
-    void FUN_00575770(float);
 
     TESChildCell tESChildCellComponent;  // +0x18
     TESSound* m_pSoundForm;              // +0x1C
@@ -115,18 +117,5 @@ class TESObjectREFR : public TESForm
     {
         CHANGE_SCRIPT_VARIABLES = 0x80000000u
     };
-    ScriptLocals* GetReferenceLocals();
-    TESObjectCELL* GetParentCell();
-    TESBoundObject* GetObjectReference();
-    ExtraDataList* GetExtraData();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, tESChildCellComponent) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pSoundForm) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, data) == 0x20);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_fObjectScale) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pOwningCell) == 0x40);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_kExtraDataCollection) == 0x44);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pRenderData) == 0x64);
 #endif

@@ -1,6 +1,16 @@
 // gamebryo2.2/corelibs/nisystem/console/nifile_console.cpp: NiFile, NiBinaryStream (9 functions)
 
+#include <windows.h>
+#include <cstdio>
+#include <limits>
+#include "runtime/crt.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FileTransferCallbacks.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0106e000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nifile_console.h"
+#include "fnv/symbols_011f8000.h"
 
 // Destructor: if the file is good and open, flushes and closes m_pFile, then frees m_pBuffer.
 // @fnv 0x00aa1690
@@ -9,9 +19,9 @@ NiFile::~NiFile()
     if (m_bGood && m_pFile)
     {
         Flush();
-        fclose(m_pFile);
+        std::fclose((std::FILE *)(m_pFile));
     }
-    NiFree(m_pBuffer);
+    ::FUN_00aa10f0(m_pBuffer);
 }
 
 // @fnv 0x00aa15a0
@@ -59,8 +69,6 @@ unsigned int NiBinaryStream::GetLine(char* buffer, unsigned int maxChars)
     return total;
 }
 
-int __cdecl _ftell(void*);
-int __cdecl _fseek(void*, int, int);
 struct S_00aa15f0
 {
     unsigned char _pad[0x24];
@@ -70,13 +78,10 @@ struct S_00aa15f0
 // @fnv 0x00aa15f0
 int S_00aa15f0::GetFileSize()
 {
-    int cur = _ftell(_f);
-    if (cur < 0)
+    std::int64_t size = fnv::crt::file_size((std::FILE *)(_f));
+    if (size < 0 || size > std::numeric_limits<int>::max())
         return 0;
-    _fseek(_f, 0, 2);
-    int len = _ftell(_f);
-    _fseek(_f, cur, 0);
-    return len < 0 ? 0 : len;
+    return static_cast<int>(size);
 }
 
 // FUN_00aa14d0 : NiFile constructor (name, open mode, buffer size).
@@ -85,12 +90,9 @@ int S_00aa15f0::GetFileSize()
 
 extern int DAT_010a2490;
 extern const char kModeReadBinary[];
-extern const char kModeWriteBinary[];
 
 typedef struct _iobuf FILE;
 
-extern "C" int __cdecl FUN_00ec9a5e(FILE** ppFile, const char* name, const char* mode);
-void* __cdecl FUN_00aa1070(unsigned int size);
 
 struct NiBinaryStreamBase
 {
@@ -113,23 +115,22 @@ struct FUN_00aa14d0_cls : NiBinaryStreamBase
     unsigned char m_bGood;
 
     FUN_00aa14d0_cls(const char* name, unsigned int mode, unsigned int bufSize);
-    void FUN_00aa1b30(unsigned int);
 };
 
 // @fnv 0x00aa14d0
 FUN_00aa14d0_cls::FUN_00aa14d0_cls(const char* name, unsigned int mode, unsigned int bufSize)
 {
-    FUN_00aa1b30(0);
+    reinterpret_cast<::FileTransferCallbacks *>(this)->FUN_00aa1b30(0);
     m_uiTotalFileSize = 0;
     m_eMode = mode;
     const char* openMode;
     if (mode == 0)
         openMode = kModeReadBinary;
     else if (mode == 1)
-        openMode = kModeWriteBinary;
+        openMode = (*reinterpret_cast<const char (*)[]>((void *)&::DAT_0106e798));
     else
         openMode = "ab";
-    int bOpened = (FUN_00ec9a5e(&m_pFile, name, openMode) == 0 && m_pFile != 0) ? 1 : 0;
+    int bOpened = (fnv::crt::fopen_s((std::FILE **)(&m_pFile), name, openMode) == 0 && m_pFile != 0) ? 1 : 0;
     m_bGood = (unsigned char)bOpened;
     m_uiBufferAllocSize = bufSize;
     m_uiBufferReadSize = 0;
@@ -140,7 +141,6 @@ FUN_00aa14d0_cls::FUN_00aa14d0_cls(const char* name, unsigned int mode, unsigned
         m_pBuffer = 0;
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetFileAttributesA(const char* lpFileName);
 
 // @fnv 0x00aa1670
 bool __cdecl IsDirectory(const char* pcPath)
@@ -151,7 +151,6 @@ bool __cdecl IsDirectory(const char* pcPath)
     return (uiAttributes & 0x10) != 0;
 }
 
-int __cdecl FUN_00aa85c0(void*, int, int);
 
 struct FUN_00aa16d0_cls : NiFile
 {
@@ -181,10 +180,10 @@ void FUN_00aa16d0_cls::FUN_00aa16d0(unsigned int offset, unsigned int whence)
         }
     }
     Flush();
-    m_bGood = FUN_00aa85c0(m_pFile, offset, whence) == 0;
+    m_bGood = ((int)(::NiFile::RequestFileAccess((const char *)(m_pFile), offset, whence))) == 0;
     if (m_bGood)
     {
-        m_uiTotalFileSize = _ftell(m_pFile);
+        m_uiTotalFileSize = std::ftell((std::FILE *)(m_pFile));
         m_uiStreamFlags = m_uiTotalFileSize;
     }
 }
@@ -240,12 +239,9 @@ unsigned char __cdecl FUN_00aa1650(char* path)
     return CreateDirectoryA(path, 0) != 0;
 }
 
-int __cdecl _fclose(void*);
 struct P03MM
 {
-    void __thiscall _DeallocateAlias(void*);
 };
-extern P03MM g_memoryManager;
 struct NiFileFlushExposer : NiFile
 {
     bool CallFlush()
@@ -264,10 +260,6 @@ struct FUN_00aa18c0 : NiBinaryStream
     NiFile::OpenMode m_eMode;
     bool m_bGood;
     virtual ~FUN_00aa18c0();
-    void operator delete(void* p)
-    {
-        g_memoryManager._DeallocateAlias(p);
-    }
 };
 // When m_bGood and m_pFile are set, flushes and closes the file, then frees m_pBuffer.
 // @fnv 0x00aa18c0
@@ -276,7 +268,63 @@ FUN_00aa18c0::~FUN_00aa18c0()
     if (m_bGood && m_pFile)
     {
         ((NiFileFlushExposer*)(void*)this)->CallFlush();
-        _fclose(m_pFile);
+        std::fclose((std::FILE *)(m_pFile));
     }
-    NiFree(m_pBuffer);
+    ::FUN_00aa10f0(m_pBuffer);
 }
+
+
+struct MersenneTwister
+{
+    int _0;
+    int _4;
+    char _8[0x9C0];
+    int _9C8;
+    void FUN_00aa5170(unsigned int);
+    void Seed(unsigned int);
+};
+// @fnv 0x00aa5170
+void MersenneTwister::FUN_00aa5170(unsigned int a)
+{
+    _4 = 0;
+    _9C8 = 0x271;
+    Seed(a);
+}
+
+
+struct ArchiveManager
+{
+    void* FUN_00afe0d0(const char* name, unsigned int a, unsigned int b, unsigned int c);
+};
+
+
+class FileStream
+{
+  public:
+    virtual ~FileStream();
+    virtual operator bool() const;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    char* unk20;
+    FILE* unk24;
+    int unk28;
+    bool unk2C;
+    FileStream(const char* name, int mode, unsigned int bufferSize);
+};
+
+// @fnv 0x00afde50
+bool FUN_00afde50(const char* name, int mode)
+{
+    if (mode == 0)
+    {
+        return (*reinterpret_cast<::ArchiveManager * *>(&::g_fileFinder)) ? (*reinterpret_cast<::ArchiveManager * *>(&::g_fileFinder))->FUN_00afe0d0(name, 0, 0, 0xffffffff) : 0;
+    }
+    FileStream kFile(name, mode, 0);
+    return kFile;
+}
+#include "generated/data/gamebryo2.2/corelibs/nisystem/console/nifile_console.inc"

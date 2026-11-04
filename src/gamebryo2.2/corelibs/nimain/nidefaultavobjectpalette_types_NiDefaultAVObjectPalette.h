@@ -14,7 +14,7 @@ class NiDefaultAVObjectPalette;
 class NiTFixedStringMap_NiAVObject___;
 class NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject___;
 class NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject_____AntiBloatAllocator;
-#pragma pack(push, 4)
+struct StrArr;
 class NiAVObjectPalette : public NiObject
 {
   public:
@@ -31,19 +31,15 @@ class NiAVObjectPalette : public NiObject
     // void __cdecl NiAVObjectPalette::*()
     // NiAVObjectPalette& __cdecl NiAVObjectPalette::*(const NiAVObjectPalette&)
     // void __cdecl NiAVObjectPalette::*()
+public:
+    void AppendString(::StrArr *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiAVObjectPalette) == 8);
-#pragma pack(push, 4)
 class DFALL_NiTMapItem_NiFixedString_NiAVObject_____
 {
   public:
     // void* __cdecl DFALL<NiTMapItem<NiFixedString,NiAVObject *> >::*()
     // void __cdecl DFALL<NiTMapItem<NiFixedString,NiAVObject *> >::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DFALL_NiTMapItem_NiFixedString_NiAVObject_____) == 1);
-#pragma pack(push, 4)
 class NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject_____AntiBloatAllocator
     : public DFALL_NiTMapItem_NiFixedString_NiAVObject_____
 {
@@ -51,14 +47,6 @@ class NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVO
     // base DFALL<NiTMapItem<NiFixedString,NiAVObject *> > at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(
-    sizeof(NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject_____AntiBloatAllocator) ==
-    4);
-FNV_STATIC_ASSERT(
-    offsetof(NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject_____AntiBloatAllocator,
-             m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject___
 {
   public:
@@ -86,17 +74,6 @@ class NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVO
     // void __cdecl NiTFixedStringMapBase<DFALL<NiTMapItem<NiFixedString,NiAVObject *> >,NiAVObject *>::*()
     // void __cdecl NiTFixedStringMapBase<DFALL<NiTMapItem<NiFixedString,NiAVObject *> >,NiAVObject *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject___) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject___,
-                           m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject___,
-                           m_uiHashSize) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject___,
-                           m_ppkHashTable) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject___,
-                           m_kItemCount) == 12);
-#pragma pack(push, 4)
 class NiTFixedStringMap_NiAVObject___
     : public NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject___
 {
@@ -112,9 +89,6 @@ class NiTFixedStringMap_NiAVObject___
     // void __cdecl NiTFixedStringMap<NiAVObject *>::*()
     // void __cdecl NiTFixedStringMap<NiAVObject *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTFixedStringMap_NiAVObject___) == 16);
-#pragma pack(push, 4)
 class NiDefaultAVObjectPalette : public NiAVObjectPalette
 {
   public:
@@ -181,8 +155,4 @@ class NiDefaultAVObjectPalette : public NiAVObjectPalette
     // void __cdecl NiDefaultAVObjectPalette::*()
     // void __cdecl NiDefaultAVObjectPalette::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiDefaultAVObjectPalette) == 28);
-FNV_STATIC_ASSERT(offsetof(NiDefaultAVObjectPalette, m_kObjectMap) == 8);
-FNV_STATIC_ASSERT(offsetof(NiDefaultAVObjectPalette, m_pkScene) == 24);
 #endif

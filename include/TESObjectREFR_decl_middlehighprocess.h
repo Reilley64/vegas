@@ -2,6 +2,14 @@
 #ifndef FNV_TESOBJECTREFR_H
 #define FNV_TESOBJECTREFR_H
 
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/RefS.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/s56ae10__Owner.h"
 #include "layout_support.h"
 #include "ExtraDataList.h"
 #include "PlacedObjectInfo.h"
@@ -9,11 +17,10 @@
 #include "TESForm.h"
 class BGSLoadFormBuffer;
 class TESWorldSpace;
-#pragma pack(push, 4)
 class TESObjectREFR : public TESForm
 {
   public:
-    float FUN_005723b0(TESObjectREFR* ref, int a, int b);  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
 
   public:
     TESChildCell tESChildCellComponent;  // +0x18
@@ -95,24 +102,8 @@ class TESObjectREFR : public TESForm
     {
         CHANGE_SCRIPT_VARIABLES = 0x80000000u
     };
-    ScriptLocals* GetReferenceLocals();
     TESObjectCELL* GetParentCell();
-    TESBoundObject* GetObjectReference();
-    ExtraDataList* GetExtraData();
     void Revert(BGSLoadFormBuffer* buffer);
-    const NiPoint3& GetAngleOnReference() const;
-    TESWorldSpace* GetParentWorldSpace() const;
-    void RelocateTo(TESWorldSpace* worldSpace, TESObjectCELL* cell, const NiPoint3& location, float angle);
     bool IsLimbMissing(int limb);
-    TESObjectREFR* GetLinkedRef();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, tESChildCellComponent) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pSoundForm) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, data) == 0x20);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_fObjectScale) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pOwningCell) == 0x40);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_kExtraDataCollection) == 0x44);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pRenderData) == 0x64);
 #endif

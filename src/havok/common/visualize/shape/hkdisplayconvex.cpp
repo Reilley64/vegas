@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00de1d10
+#include "fnv/symbols_00c90000.h"
 void __cdecl FUN_00de1d10()
 {}
 
@@ -60,12 +61,12 @@ struct S_00de1d20_Base
 
 struct S_00de1d20_Mid : S_00de1d20_Base
 {
-    int unk8;
+    void* unk8;
     S_00de1d20_Matrix3 unk10;
     S_00de1d20_Vector4 unk40;
     int unk50;
 
-    __forceinline S_00de1d20_Mid(int a)
+    __forceinline S_00de1d20_Mid(void* a)
     {
         unk50 = 6;
         unk10.setIdentity();
@@ -75,26 +76,21 @@ struct S_00de1d20_Mid : S_00de1d20_Base
 
 struct FUN_00de1d20 : S_00de1d20_Mid
 {
-    FUN_00de1d20(int a);
+    FUN_00de1d20(void* a);
     virtual void v1();
 };
 
 // Constructor that initializes the base class with the given int and stores it in the unk8 field.
 // @fnv 0x00de1d20
-FUN_00de1d20::FUN_00de1d20(int aiValue) : S_00de1d20_Mid(aiValue)
+FUN_00de1d20::FUN_00de1d20(void* aiValue) : S_00de1d20_Mid(aiValue)
 {
     unk8 = aiValue;
 }
 
 namespace fnv_00de1d70 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 
 struct hkMemoryAllocator;
-void __cdecl ResizeAudioStream(void* alloc, void* array, int elemSize);
 
 struct hkVector4
 {
@@ -128,7 +124,7 @@ template <typename T> struct hkArr
     {
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(&alloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
         }
         hkConstructWithCopy(m_data + m_iElementCount, 1, t);
         m_iElementCount++;

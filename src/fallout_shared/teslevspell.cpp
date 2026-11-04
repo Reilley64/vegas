@@ -2,32 +2,44 @@
 // src/fallout_shared/teslevspell.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/teslevspell.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl Deallocate(void*);
 
+#include <new>
+#include <cstdint>
+#include <malloc.h>
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Owner487a60.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040c000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_01183000.h"
 struct FUN_0050b980_shell
 {
-    void __thiscall FUN_0050b9b0();
-    void* __thiscall Destroy(unsigned int flags);
+    void FUN_0050b9b0();
+    void* Destroy(unsigned int flags);
 };
-
-// Calls FUN_0050b9b0, then frees this with Deallocate if flags has bit 1 set, and returns this.
-// @fnv 0x0050b980
-void* __thiscall FUN_0050b980_shell::Destroy(unsigned int flags)
-{
-    FUN_0050b9b0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
 
 struct TESForm
 {
     virtual ~TESForm()
     {}
+public:
+    void ClearData();
+public:
+    void SetInitializationState(bool);
 };
 struct FUN_005e78f0_t : TESForm
 {
-    void FUN_004851b0(TESForm*);
 };
 struct TESLevSpell : FUN_005e78f0_t
 {
@@ -40,11 +52,9 @@ void TESLevSpell::FUN_0050bcd0(TESForm* apCopy)
     TESLevSpell* pllcopy = dynamic_cast<TESLevSpell*>(apCopy);
     if (!pllcopy)
         return;
-    FUN_004851b0(apCopy);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(apCopy);
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
-void* memset(void*, int, unsigned int);
 enum ENUM_FORM_ID
 {
 };
@@ -52,17 +62,14 @@ class TESFile
 {
   public:
     ENUM_FORM_ID GetTESForm();
-    int GetChunkID();
     bool NextChunk();
-    unsigned int GetChunkSize();
-    bool GetChunkData();
-    bool GetChunkData(void*, unsigned int);
     bool GetChunkData(unsigned int*);
+public:
+    bool IsEndianConversionRequired();
 };
 class ContainerItemExtra
 {
   public:
-    static void* operator new(unsigned int);
     ContainerItemExtra();
     bool Load(TESFile*);
     void* data[3];
@@ -85,8 +92,11 @@ struct TmpEndian
 };
 struct TESLeveledList
 {
-    LeveledObject* CreateLeveledObject(unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
     void FUN_0042e680(unsigned char);
+public:
+    bool GetAllBelow();
+public:
+    bool GetUseAll();
 };
 struct T00485110;
 struct S00485110
@@ -95,7 +105,6 @@ struct S00485110
 };
 struct ScriptS
 {
-    void FUN_00484ab0(int);
 };
 extern LeveledObject* DAT_011c8f98;
 struct LevSpellS
@@ -189,11 +198,11 @@ bool LevSpellS::FUN_0050ba30(TESFile* apFile)
     ((S00485110*)this)->CallWithThis((T00485110*)apFile);
     do
     {
-        switch (apFile->GetChunkID())
+        switch (reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0())
         {
         case 'DIDE': {
-            char* pEditorID = (char*)_alloca(apFile->GetChunkSize());
-            apFile->GetChunkData(pEditorID, 0x200);
+            char* pEditorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pEditorID), 0x200);
             SetEditorID(pEditorID);
             break;
         }
@@ -202,16 +211,15 @@ bool LevSpellS::FUN_0050ba30(TESFile* apFile)
             break;
         case 'OLVL':
         case 'DEOC':
-            switch (apFile->GetChunkID())
+            switch (reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0())
             {
             case 'OLVL': {
                 LeveledFormEntry levObj;
-                memset(&levObj, 0, 0xc);
-                apFile->GetChunkData(&levObj, 0xc);
-                if (apFile->GetChunkData())
+                ::FUN_00403d30(&levObj, 0, 0xc);
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&levObj), 0xc);
+                if (apFile->IsEndianConversionRequired())
                     ((TmpEndian*)&levObj)->SwapEndian();
-                DAT_011c8f98 = ((TESLeveledList*)((char*)this + 0x30))
-                                   ->CreateLeveledObject(levObj.sLevel, levObj.m_sCount, levObj.pForm, 0);
+                DAT_011c8f98 = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>((((TESLeveledList*)((char*)this + 0x30))))->InsertEntryByPriority(levObj.sLevel, levObj.m_sCount, (std::intptr_t)(levObj.pForm), (int)(0))));
                 break;
             }
             case 'DEOC':
@@ -227,12 +235,12 @@ bool LevSpellS::FUN_0050ba30(TESFile* apFile)
             break;
         case 'DLVL': {
             unsigned char cdata = 0;
-            apFile->GetChunkData(&cdata, 0);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&cdata), 0);
             ((TESLeveledList*)((char*)this + 0x30))->FUN_0042e680(cdata);
             break;
         }
         case 'FLVL':
-            apFile->GetChunkData((char*)this + 0x3d, 0);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)((char*)this + 0x3d), 0);
             break;
         case 'GLVL': {
             unsigned int itempint = 0;
@@ -242,7 +250,7 @@ bool LevSpellS::FUN_0050ba30(TESFile* apFile)
         }
         }
     } while (apFile->NextChunk());
-    ((ScriptS*)this)->FUN_00484ab0(0);
+    reinterpret_cast<::TESForm *>((((ScriptS*)this)))->SetInitializationState(0);
     return true;
 }
 
@@ -252,7 +260,6 @@ class B9B0Form
 {
   public:
     virtual ~B9B0Form();
-    void Cleanup();
     int unk04;
     int unk08;
     int unk0C;
@@ -278,43 +285,34 @@ class FUN_0050b9b0 : public B9B0Form, public B9B0Component
   public:
     virtual ~FUN_0050b9b0();
 };
+// Calls FUN_0050b9b0, then frees this with Deallocate if flags has bit 1 set, and returns this.
+// @fnv 0x0050b980
+void* FUN_0050b980_shell::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0050b9b0 *>(this)->FUN_0050b9b0::~FUN_0050b9b0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0050b9b0
 FUN_0050b9b0::~FUN_0050b9b0()
 {
-    Cleanup();
+    reinterpret_cast<::TESForm *>(this)->ClearData();
 }
 
 struct FUN_0050bf90_cls
 {
-    int SelectLeveledSpell(void* a1, unsigned short a2, unsigned int* a3, unsigned short* a4, int a5);
-    unsigned int FUN_0050bf90(void* a1, unsigned short a2);
+    std::uintptr_t FUN_0050bf90(void* a1, unsigned short a2);
 };
 
-extern int DAT_01183060;
-extern int DAT_01183028;
-unsigned int __cdecl FUN_00ec43fb(unsigned int, int, void*, void*, int);
-
-// @fnv 0x0050bf90
-unsigned int FUN_0050bf90_cls::FUN_0050bf90(void* a1, unsigned short a2)
-{
-    unsigned int aa = 0;
-    unsigned int zz = 0;
-    unsigned short word = 0;
-    this->SelectLeveledSpell(a1, a2, &zz, &word, 1);
-    if (zz != 0)
-    {
-        aa = FUN_00ec43fb(zz, 0, &DAT_01183028, &DAT_01183060, 0);
-    }
-    return aa;
-}
+std::uintptr_t __cdecl FUN_00ec43fb(std::uintptr_t, int, void*, void*, int);
 
 struct SpellItem : TESForm
 {
 };
 struct SpellChoice : TESLevSpell
 {
-    SpellItem* FUN_0050bf90(void*, unsigned short);
 };
 struct SpellEntry
 {
@@ -322,13 +320,9 @@ struct SpellEntry
 };
 struct SpellEntryNode
 {
-    SpellEntry** FUN_006815c0();
-    SpellEntryNode* FUN_00726070();
 };
 struct SpellChoices
 {
-    bool FUN_004878a0();
-    SpellEntryNode* FUN_00717e50();
 };
 struct FUN_0096a2d0
 {
@@ -337,7 +331,6 @@ struct FUN_0096a2d0
     FUN_0096a2d0();
     void FUN_005ae3d0(SpellItem*&);
 };
-void* operator new(unsigned int);
 struct SpellSelector
 {
     int unk00;
@@ -353,7 +346,6 @@ struct SpellSelector
     int unk28;
     int unk2c;
     SpellChoices choices;
-    SpellItem* FUN_0050bf90(void*, unsigned short);
     FUN_0096a2d0* FUN_0050c000(void*, unsigned short);
 };
 // Builds a spell list from the selector's choices, resolving nested level spells via FUN_0050bf90, or falls back to a single spell; returns the new list or null.
@@ -361,12 +353,12 @@ struct SpellSelector
 FUN_0096a2d0* SpellSelector::FUN_0050c000(void* actor, unsigned short level)
 {
     FUN_0096a2d0* result = 0;
-    if (choices.FUN_004878a0())
+    if (reinterpret_cast<::TESLeveledList *>(&(choices))->GetUseAll())
     {
-        SpellEntryNode* node = choices.FUN_00717e50();
+        SpellEntryNode* node = ((::SpellEntryNode *)(reinterpret_cast<::BaseProcess *>(&(choices))->GetCurrentProcessData()));
         while (node)
         {
-            SpellEntry* entry = *node->FUN_006815c0();
+            SpellEntry* entry = *((::SpellEntry **)((void *)(node)));
             if (entry)
             {
                 if (!result)
@@ -381,18 +373,18 @@ FUN_0096a2d0* SpellSelector::FUN_0050c000(void* actor, unsigned short level)
                     TESLevSpell* nested = dynamic_cast<TESLevSpell*>(entry->form);
                     if (nested)
                     {
-                        spell = static_cast<SpellChoice*>(nested)->FUN_0050bf90(actor, level);
+                        spell = ((::SpellItem *)(reinterpret_cast<::FUN_0050bf90_cls *>((static_cast<SpellChoice*>(nested)))->FUN_0050bf90(actor, level)));
                         if (spell)
                             result->FUN_005ae3d0(spell);
                     }
                 }
             }
-            node = node->FUN_00726070();
+            node = ((::SpellEntryNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
     }
     else
     {
-        SpellItem* spell = FUN_0050bf90(actor, level);
+        SpellItem* spell = ((::SpellItem *)(reinterpret_cast<::FUN_0050bf90_cls *>(this)->FUN_0050bf90(actor, level)));
         if (spell)
         {
             result = new FUN_0096a2d0;
@@ -409,19 +401,14 @@ struct List_009e03e0
     BGSHeadPart* m_item;
     List_009e03e0* m_pkNext;
     ~List_009e03e0();
-    BGSHeadPart*& FUN_006815c0();
-    List_009e03e0* FUN_00726070();
-    void RemoveAll();
 };
 struct FUN_0096a2d0
 {
     BGSHeadPart* m_item;
     FUN_0096a2d0* m_pkNext;
     FUN_0096a2d0();
-    bool FUN_005f65d0(BGSHeadPart*& pkItem);
     void FUN_005ae3d0(BGSHeadPart*& pkItem);
 };
-int GetMinusOne(int iIndex);
 struct SpellSource
 {
     virtual void v0();
@@ -435,7 +422,6 @@ struct SpellOwner
 };
 struct FUN_0050c1d0_shell
 {
-    List_009e03e0* FUN_0050c000(int iIndex, void* pkEntry);
     FUN_0096a2d0* CollectHeadParts(SpellOwner* pkOwner);
 };
 // Iterates six source entries, gathers non-null BGSHeadPart items into a deduplicated FUN_0096a2d0 list, frees each temporary list, and returns the result.
@@ -443,50 +429,44 @@ struct FUN_0050c1d0_shell
 FUN_0096a2d0* FUN_0050c1d0_shell::CollectHeadParts(SpellOwner* pkOwner)
 {
     FUN_0096a2d0* pkResult = 0;
-    for (int i = 0; i < 6; i++)
+    for (std::intptr_t i = 0; i < 6; i++)
     {
-        List_009e03e0* pkIter = FUN_0050c000(i, pkOwner->m_kSource.GetEntry(GetMinusOne(i)));
+        List_009e03e0* pkIter = ((::fnv_0050c1d0::List_009e03e0 *)(reinterpret_cast<::SpellSelector *>(this)->FUN_0050c000((void *)(i), (unsigned short)(std::uintptr_t)(pkOwner->m_kSource.GetEntry(::GetMinusOne())))));
         List_009e03e0* pkListCur = pkIter;
         while (pkIter)
         {
-            BGSHeadPart* pkItem = pkIter->FUN_006815c0();
+            BGSHeadPart* pkItem = ((::fnv_0050c1d0::BGSHeadPart *)((void *)(pkIter)));
             if (pkItem)
             {
                 bool bAppend = true;
                 if (!pkResult)
                     pkResult = new FUN_0096a2d0;
                 else
-                    bAppend = !pkResult->FUN_005f65d0(pkItem);
+                    bAppend = !reinterpret_cast<::RefList *>((pkResult))->FUN_005f65d0((void **)&(pkItem));
                 if (bAppend)
                     pkResult->FUN_005ae3d0(pkItem);
             }
-            pkIter = pkIter->FUN_00726070();
+            pkIter = ((::fnv_0050c1d0::List_009e03e0 *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
         }
         if (pkListCur)
-            pkListCur->RemoveAll();
+            reinterpret_cast<::FileMatchList *>((pkListCur))->RemoveAll();
         delete pkListCur;
     }
     return pkResult;
 }
 }  // namespace fnv_0050c1d0
 
-extern int DAT_01183028;
-extern int DAT_01183140;
 extern int DAT_01187818;
-unsigned int __cdecl FUN_00487f50();
-unsigned int __cdecl FUN_00ec43fb(unsigned int, int, void*, void*, int);
-void* __cdecl GetSix(unsigned int);
+std::uintptr_t __cdecl FUN_00ec43fb(std::uintptr_t, int, void*, void*, int);
 
 struct Entry
 {
-    unsigned int form;
+    std::uintptr_t form;
     unsigned short count;
     unsigned short level;
 };
 struct ListNode
 {
-    Entry** FUN_006815c0();
-    ListNode* FUN_00726070();
 };
 struct ListData
 {
@@ -495,12 +475,9 @@ struct ListData
     virtual void v2();
     virtual void v3();
     virtual unsigned char ChanceNone();
-    ListNode* FUN_00717e50();
-    unsigned char FUN_004877e0();
 };
 struct FormHandle
 {
-    unsigned int FUN_004065e0();
 };
 struct FieldLayout
 {
@@ -520,10 +497,23 @@ struct FieldLayout
 };
 struct LeveledSpellList : FUN_0050bf90_cls
 {
-    void SelectLeveledSpell(void*, unsigned short, unsigned int*, unsigned short*, unsigned char);
+    void SelectLeveledSpell(void*, unsigned short, std::uintptr_t*, unsigned short*, unsigned char);
 };
+// @fnv 0x0050bf90
+std::uintptr_t FUN_0050bf90_cls::FUN_0050bf90(void* a1, unsigned short a2)
+{
+    std::uintptr_t aa = 0;
+    std::uintptr_t zz = 0;
+    unsigned short word = 0;
+    reinterpret_cast<::LeveledSpellList *>((this))->SelectLeveledSpell(a1, a2, &zz, &word, 1);
+    if (zz != 0)
+    {
+        aa = reinterpret_cast<std::uintptr_t>(dynamic_cast<::SpellItem *>(reinterpret_cast<::TESForm *>(zz)));
+    }
+    return aa;
+}
 // @fnv 0x0050bd60
-void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short level, unsigned int* outForm,
+void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short level, std::uintptr_t* outForm,
                                           unsigned short* outCount, unsigned char recurse)
 {
     *outForm = 0;
@@ -535,7 +525,7 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
     unsigned char chanceNone = ((FieldLayout*)this)->list30.ChanceNone();
     if (chanceNone > 0)
     {
-        int chanceRoll = (int)(FUN_00487f50() % 100);
+        int chanceRoll = (int)(::DialogueRandom() % 100);
         if (chanceRoll < chanceNone)
             return;
     }
@@ -543,16 +533,16 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
     candidateCount = 1;
     maxLevel = 0;
     best = 0;
-    node = ((FieldLayout*)this)->list30.FUN_00717e50();
-    while (node != 0 && *node->FUN_006815c0() != 0)
+    node = ((::ListNode *)(reinterpret_cast<::BaseProcess *>(&(((FieldLayout*)this)->list30))->GetCurrentProcessData()));
+    while (node != 0 && *((::Entry **)((void *)(node))) != 0)
     {
-        Entry* entryLevel = *node->FUN_006815c0();
+        Entry* entryLevel = *((::Entry **)((void *)(node)));
         FUN_0050bf90_cls* mapped =
             (FUN_0050bf90_cls*)FUN_00ec43fb(entryLevel->form, 0, &DAT_01183028, &DAT_01183140, 0);
         int entry = entryLevel->level;
-        if (entry > level || (mapped != 0 && GetSix(((FieldLayout*)mapped)->form0c.FUN_004065e0()) != desiredForm))
+        if (entry > level || (mapped != 0 && ((void *)(std::uintptr_t)(::GetSix())) != desiredForm))
             break;
-        if (entry > maxLevel && (maxLevel == 0 || !((FieldLayout*)this)->list30.FUN_004877e0()))
+        if (entry > maxLevel && (maxLevel == 0 || !((unsigned char)(reinterpret_cast<::TESLeveledList *>(&(((FieldLayout*)this)->list30))->GetAllBelow()))))
         {
             candidateCount = 1;
             best = node;
@@ -562,31 +552,31 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
         {
             ++candidateCount;
         }
-        node = node->FUN_00726070();
+        node = ((::ListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     if (best != 0)
     {
-        unsigned int skip = FUN_00487f50() % candidateCount;
+        unsigned int skip = ::DialogueRandom() % candidateCount;
         node = best;
         while (skip != 0)
         {
-            node = node->FUN_00726070();
+            node = ((::ListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             --skip;
             if (node == 0)
                 return;
         }
         unsigned short nestedRecord;
-        Entry* chosen = *node->FUN_006815c0();
-        unsigned int foundForm = chosen->form;
+        Entry* chosen = *((::Entry **)((void *)(node)));
+        std::uintptr_t foundForm = chosen->form;
         nestedRecord = chosen->count;
         FUN_0050bf90_cls* selectedEntry =
-            (FUN_0050bf90_cls*)FUN_00ec43fb(chosen->form, 0, &DAT_01183028, &DAT_01187818, 0);
+            (FUN_0050bf90_cls*)((std::uintptr_t)(dynamic_cast<::TESLevSpell *>(reinterpret_cast<::TESForm *>(chosen->form))));
         if (selectedEntry != 0 && recurse != 0)
         {
             unsigned short recursiveCount;
-            unsigned int recursiveForm = 0;
+            std::uintptr_t recursiveForm = 0;
             recursiveCount = 0;
-            selectedEntry->SelectLeveledSpell(desiredForm, level, &recursiveForm, &recursiveCount, recurse);
+            reinterpret_cast<::LeveledSpellList *>((selectedEntry))->SelectLeveledSpell(desiredForm, level, &recursiveForm, &recursiveCount, recurse);
             foundForm = recursiveForm;
             nestedRecord *= recursiveCount;
         }
@@ -597,7 +587,6 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
 
 struct LeveledSpellComparison : TESLevSpell
 {
-    bool FUN_00485270(TESForm*);
     bool FUN_0050bd10(TESForm*);
 };
 
@@ -608,7 +597,9 @@ bool LeveledSpellComparison::FUN_0050bd10(TESForm* apCompare)
     TESLevSpell* pLevSpell = dynamic_cast<TESLevSpell*>(apCompare);
     if (!pLevSpell)
         return true;
-    if (FUN_00485270(pLevSpell))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(pLevSpell))
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/teslevspell.inc"

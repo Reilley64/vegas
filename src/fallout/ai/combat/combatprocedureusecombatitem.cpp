@@ -2,6 +2,31 @@
 // src/fallout/ai/combat/combatprocedureusecombatitem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureusecombatitem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/CPStandIn009caae0.h"
+#include "fnv/decl/FUN_00440e30_This.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00498d30_t.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008c1f80_shell.h"
+#include "fnv/decl/FUN_0097f450_shell.h"
+#include "fnv/decl/FUN_00996de0_Class.h"
+#include "fnv/decl/FUN_00996ef0_shell.h"
+#include "fnv/decl/FUN_009ca6c0_class.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/ProcessProxy.h"
+#include "fnv/decl/fnv_004985f0__FUN_004985f0_s.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_0099a840__FUN_0099a840_shell.h"
+#include "fnv/decl/fnv_009ca680__FUN_009ca680.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
 struct CombatProcedure
 {
     enum COMBAT_PROCEDURES
@@ -23,7 +48,6 @@ CombatProcedure::COMBAT_PROCEDURES CombatProcedureUseCombatItem::GetProcedureTyp
 
 struct FUN_009ca6c0_shell
 {
-    void FUN_009ca6c0(void);
 };
 
 extern void* DAT_0109214c;
@@ -37,7 +61,7 @@ struct FUN_009daa90_shell
 void FUN_009daa90_shell::SetVtableAndInit()
 {
     *reinterpret_cast<void**>(this) = &DAT_0109214c;
-    reinterpret_cast<FUN_009ca6c0_shell*>(this)->FUN_009ca6c0();
+    reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FUN_009ca6c0_shell*>(this)))->FUN_009ca6c0();
 }
 
 struct FUN_009daa60_shell : FUN_009daa90_shell
@@ -51,14 +75,13 @@ void* FUN_009daa60_shell::DestroyIfFlagged(unsigned int flags)
 {
     SetVtableAndInit();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct TESBoundObject;
 struct Base_009daa10
 {
-    void FUN_009ca680();
     char _pad[16];
 };
 struct FUN_009daa10 : Base_009daa10
@@ -71,16 +94,14 @@ struct FUN_009daa10 : Base_009daa10
 // @fnv 0x009daa10
 FUN_009daa10::FUN_009daa10(TESBoundObject* apItem)
 {
-    FUN_009ca680();
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_0109214c);
+    new ((void *)this) ::fnv_009ca680::FUN_009ca680();
+    *reinterpret_cast<uintptr_t*>(this) = reinterpret_cast<uintptr_t>(&DAT_0109214c);
     pItem = apItem;
     m_bItemFlag = 0;
 }
 
 struct BGSLoadFormBuffer
 {
-    void ReadTypedData(void* apData, unsigned int aiSize);
-    unsigned int ReadFormIdentifier();
 };
 struct TESForm
 {
@@ -90,18 +111,16 @@ struct TESBoundObject : TESForm
 {
     virtual ~TESBoundObject();
 };
-TESForm* __cdecl _ref_004839c0(unsigned int aiID);
 struct CombatProcedureUseCombatItem_LoadGame : CombatProcedureUseCombatItem
 {
-    void LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
     void FUN_009dac80(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x009dac80
 void CombatProcedureUseCombatItem_LoadGame::FUN_009dac80(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    LoadGame(apLoadGameBuffer);
-    ((FUN_009daa10*)this)->pItem = dynamic_cast<TESBoundObject*>(_ref_004839c0(apLoadGameBuffer->ReadFormIdentifier()));
-    apLoadGameBuffer->ReadTypedData(&((FUN_009daa10*)this)->m_bItemFlag, 1);
+    reinterpret_cast<::FUN_00996ef0_shell *>(this)->FUN_00996ef0(apLoadGameBuffer);
+    ((FUN_009daa10*)this)->pItem = dynamic_cast<TESBoundObject*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apLoadGameBuffer))->FUN_008648a0()));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&((FUN_009daa10*)this)->m_bItemFlag), 1);
 }
 
 typedef void(__cdecl* FnPrint4)(void*, unsigned int, unsigned int, const char*);
@@ -186,11 +205,8 @@ struct FUN_009dabd0_item
     virtual void v74();
     virtual void v75();
     virtual const char* v76();
-    unsigned int FUN_00474cb0();
-    unsigned int FUN_0084e3a0();
 };
 
-const char* __cdecl FUN_00482720(FUN_009dabd0_item* p);
 
 struct FUN_009dabd0_obj
 {
@@ -221,28 +237,23 @@ void FUN_009dabd0_cls::PrintDebugInfo(FUN_009dabd0_obj* pPrinter, unsigned int a
     if (this->pItem != 0)
     {
         pPrinter->v05(a2, a3, "Item: '%s' (%08X)",
-                      (this->pItem->FUN_00474cb0() != 0) ? this->pItem->v76() : FUN_00482720(this->pItem),
-                      this->pItem->FUN_0084e3a0());
+                      (((unsigned int)(reinterpret_cast<::BGSCameraPath *>((this->pItem))->HasNameForWarning())) != 0) ? this->pItem->v76() : ::FUN_00482720((::TESForm *)(this->pItem)),
+                      ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this->pItem))->FUN_0084e3a0())));
     }
 }
 
 struct UCIItem
 {
     int FUN_00401170();
-    const char* FUN_00440e30();
 };
 struct UCIWeapon : UCIItem
 {
 };
 struct UCICombatProcess
 {
-    int FUN_0045cd60();
-    void FUN_008ff0b0(struct UCIActor* apActor, UCIItem* apItem, int aiUnk);
 };
 struct UCIAmmo
 {
-    bool FUN_004985f0();
-    bool HasIdleForm(int aiUnk);
 };
 struct UCIActor
 {
@@ -368,19 +379,13 @@ struct UCIActor
     virtual void v1DC();
     virtual void v1E0();
     virtual UCIAmmo* GetAmmo();
-    UCICombatProcess* FUN_008d8520();
-    void EquipItemWithCaster(UCIWeapon* apWeapon, int aiUnk, int aiFlag);
 };
 struct UCICombatState
 {
-    void FUN_0099a840(UCIItem* apItem);
-    void SetAttacker(int aiFlag);
 };
 struct UCIController
 {
-    UCICombatState* FUN_00586150();
 };
-void __cdecl FNV_Warning(const char* apFormat, ...);
 
 struct FUN_009daab0_Proc
 {
@@ -391,8 +396,6 @@ struct FUN_009daab0_Proc
     UCIItem* pItem;
     bool m_bItemFlag;
 
-    UCIActor* FUN_00996de0();
-    void SetState();
     void UpdateCombatItemUse();
 };
 
@@ -404,33 +407,33 @@ void FUN_009daab0_Proc::UpdateCombatItemUse()
     UCICombatState* pState2;
     UCIAmmo* pAmmo;
 
-    pActor2 = FUN_00996de0();
-    pState2 = pController->FUN_00586150();
-    if (!pActor2->FUN_008d8520()->FUN_0045cd60())
+    pActor2 = ((::UCIActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
+    pState2 = ((::UCICombatState *)(reinterpret_cast<::InterfaceManager *>((pController))->FUN_00586150()));
+    if (!((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::UCICombatProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor2))->GetBaseTexture()))))->FUN_0045cd60())))
     {
         pAmmo = pActor2->GetAmmo();
-        if (pAmmo && (!pAmmo->FUN_004985f0() || pAmmo->HasIdleForm(0)))
+        if (pAmmo && (!reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((pAmmo))->FUN_004985f0() || reinterpret_cast<::FUN_00498d30_t *>((pAmmo))->HasIdleForm((::TESIdleForm *)(0))))
             return;
         if (!m_bItemFlag)
         {
-            UCICombatProcess* pProcess = pActor2->FUN_008d8520();
-            pProcess->FUN_008ff0b0(pActor2, pItem, 0);
+            UCICombatProcess* pProcess = ((::UCICombatProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor2))->GetBaseTexture()));
+            reinterpret_cast<::ProcessProxy *>((pProcess))->FUN_008ff0b0((::ActorProxy *)(pActor2), (intptr_t)(pItem), (::ActorProxy *)(0));
             m_bItemFlag = true;
             return;
         }
     }
 
-    pState2->FUN_0099a840(pItem);
+    reinterpret_cast<::fnv_0099a840::FUN_0099a840_shell *>((pState2))->FUN_0099a840(pItem);
     switch (pItem->FUN_00401170())
     {
     case 0x2f: {
         UCIWeapon* pWeapon = static_cast<UCIWeapon*>(pItem);
-        pActor2->EquipItemWithCaster(pWeapon, 0, 1);
-        pState2->SetAttacker(1);
+        reinterpret_cast<::FUN_008c1f80_shell *>((pActor2))->EquipItemWithCaster((::FUN_008c1de0_item *)(pWeapon), 0, 1);
+        reinterpret_cast<::FUN_0097f450_shell *>((pState2))->SetAttacker(1);
         break;
     }
     default:
-        FNV_Warning("COMBAT: Unhandled form type %s in CombatProcedureUseCombatItem::Update()", pItem->FUN_00440e30());
+        ::FUN_005b5e40();
     }
-    SetState();
+    reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
 }

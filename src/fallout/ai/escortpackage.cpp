@@ -1,13 +1,33 @@
 // fallout/ai/escortpackage.cpp: EscortActorPackageData (10 functions)
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/ActorPackageData.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00865f20_shell.h"
+#include "fnv/decl/FUN_00865ff0_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0055d3b0__FUN_0055d3b0.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_008bc860__FUN_008bc860_StandIn.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_01068000.h"
 #include "escortpackage_decls.h"
 
 // Initializes the EscortActorPackageData object by calling FUN_0067d920, setting its vtable to kVtbl_UseWeaponActorPackageData, and clearing pActor.
 // @fnv 0x0067d8f0
 EscortActorPackageData::EscortActorPackageData()
 {
-    FUN_0067d920();
-    m_ppVirtualMethodTable = kVtbl_UseWeaponActorPackageData;
+    new ((void *)this) ::ActorPackageData();
+    m_ppVirtualMethodTable = (*reinterpret_cast<void * (*)[]>(&::DAT_01068a88));
     pActor = 0;
 }
 
@@ -17,7 +37,6 @@ struct G2
 };
 struct LH
 {
-    bool IsInList(Actor* const&);
 };
 struct FUN_009f0a20
 {
@@ -26,28 +45,16 @@ struct FUN_009f0a20
 };
 // Adds apActor to the head of the list at offset 0x10 only if it is not already in that list.
 // @fnv 0x009f0a20
-void __thiscall FUN_009f0a20::RegisterActor(Actor* apActor)
+void FUN_009f0a20::RegisterActor(Actor* apActor)
 {
-    if (!(((LH*)((char*)this + 0x10))->IsInList(apActor)))
+    if (!(reinterpret_cast<::RefList *>((((LH*)((char*)this + 0x10))))->FUN_005f65d0((void **)&(apActor))))
         ((G2*)((char*)this + 0x10))->AddHead(apActor);
 }
 
 struct S0980
 {
-    void FUN_009f09b0();
     void* FUN_009f0980(unsigned int);
 };
-void __cdecl _Deallocate(void*);
-// Calls FUN_009f09b0, then deallocates this when flags has bit 1 set, and returns this.
-// @fnv 0x009f0980
-void* S0980::FUN_009f0980(unsigned int flags)
-{
-    FUN_009f09b0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct TESObjectREFR
 {
     virtual void f00();
@@ -144,32 +151,26 @@ struct BSSimpleList_Actor
 // @fnv 0x009f0a60
 void H_9f0b70::RemoveActorFromList(Actor* actor)
 {
-    ((BSSimpleList_Actor*)((char*)this + 0x10))->Remove(actor);
+    reinterpret_cast<::ItemChangeListNode *>((((BSSimpleList_Actor*)((char*)this + 0x10))))->FUN_00905330((::InventoryStackRecord *const &)(actor));
 }
 
 struct RefH
 {
-    bool IsDeleted() const;
 };
 
 struct FUN_008bc860_class
 {
-    bool FUN_008bc860(Actor*);
 };
 
 struct FUN_0055d3b0_class
 {
-    bool FUN_0055d3b0(void*);
 };
 
 struct ListStandin
 {
-    void _ref_00905330(Actor* const&);
     bool _ref_008256d0();
 };
 
-extern void** __fastcall _ref_006815c0(void*);
-extern void* __fastcall _ref_00726070(void*);
 
 struct FUN_009f0a80_shell
 {
@@ -185,13 +186,13 @@ int FUN_009f0a80_shell::FUN_009f0a80(Actor* apEscorter, void* apType)
     pNode = (void*)((char*)this + 0x10);
     while (pNode)
     {
-        Actor* pactor = (Actor*)*_ref_006815c0(pNode);
-        pNode = _ref_00726070(pNode);
+        Actor* pactor = (Actor*)*((void **)(((::Vec3 *)(void *)(pNode))));
+        pNode = reinterpret_cast<::Callees *>((pNode))->FUN_00726070();
         if (pactor)
         {
-            if (((RefH*)pactor)->IsDeleted() || !((FUN_008bc860_class*)pactor)->FUN_008bc860(apEscorter))
+            if (reinterpret_cast<::FUN_00440d80_shell *>((void *)(((RefH*)pactor)))->FUN_00440d80() || !reinterpret_cast<::fnv_008bc860::FUN_008bc860_StandIn *>((((FUN_008bc860_class*)pactor)))->FUN_008bc860(apEscorter))
             {
-                ((ListStandin*)((char*)this + 0x10))->_ref_00905330(pactor);
+                reinterpret_cast<::ItemChangeListNode *>((((ListStandin*)((char*)this + 0x10))))->FUN_00905330((::InventoryStackRecord *const &)(pactor));
                 if (!((ListStandin*)((char*)this + 0x10))->_ref_008256d0())
                 {
                     pNode = (void*)((char*)this + 0x10);
@@ -201,10 +202,10 @@ int FUN_009f0a80_shell::FUN_009f0a80(Actor* apEscorter, void* apType)
     }
 
     iCount = 0;
-    for (pNode = (void*)((char*)this + 0x10); pNode; pNode = _ref_00726070(pNode))
+    for (pNode = (void*)((char*)this + 0x10); pNode; pNode = reinterpret_cast<::Callees *>((pNode))->FUN_00726070())
     {
-        Actor* pactor = (Actor*)*_ref_006815c0(pNode);
-        if (pactor && ((FUN_0055d3b0_class*)pactor)->FUN_0055d3b0(apType))
+        Actor* pactor = (Actor*)*((void **)(((::Vec3 *)(void *)(pNode))));
+        if (pactor && reinterpret_cast<::fnv_0055d3b0::FUN_0055d3b0 *>((((FUN_0055d3b0_class*)pactor)))->IsOfType(apType))
         {
             iCount++;
         }
@@ -215,46 +216,40 @@ int FUN_009f0a80_shell::FUN_009f0a80(Actor* apEscorter, void* apType)
 
 struct BGSSaveFormBuffer
 {
-    void SerializeFormData(void* form, int flags);
-    unsigned int FUN_00865f20();
-    void FUN_00865ff0(int count, unsigned int pos);
 };
 
-extern void** __fastcall _ref_006815c0(void*);
-extern void* __fastcall _ref_00726070(void*);
 
 struct FUN_009f0bb0_shell
 {
     void SaveFormList(BGSSaveFormBuffer* apSaveGameBuffer);
+    unsigned int pad00[0x2];
+    void* unk08;
 };
 
 // Writes the form at offset 8, then each non-null form from the list at offset 0x10, and stores the count at the saved buffer position.
 // @fnv 0x009f0bb0
 void FUN_009f0bb0_shell::SaveFormList(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    apSaveGameBuffer->SerializeFormData(*(void**)((char*)this + 8), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(this->unk08), 0);
 
     unsigned int isaveGameCount = 0;
-    unsigned int isaveGameBufferPos = apSaveGameBuffer->FUN_00865f20();
+    unsigned int isaveGameBufferPos = reinterpret_cast<::FUN_00865f20_shell *>((apSaveGameBuffer))->FUN_00865f20();
     void* pCurrentElementNext = (void*)((char*)this + 0x10);
     while (pCurrentElementNext)
     {
-        void* pForm = *_ref_006815c0(pCurrentElementNext);
+        void* pForm = *((void **)(((::Vec3 *)(void *)(pCurrentElementNext))));
         if (pForm)
         {
-            apSaveGameBuffer->SerializeFormData(pForm, 0);
+            reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pForm), 0);
             isaveGameCount++;
         }
-        pCurrentElementNext = _ref_00726070(pCurrentElementNext);
+        pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
     }
-    apSaveGameBuffer->FUN_00865ff0(isaveGameCount, isaveGameBufferPos);
+    reinterpret_cast<::FUN_00865ff0_shell *>((apSaveGameBuffer))->FUN_00865ff0(isaveGameCount, isaveGameBufferPos);
 }
 
 struct BGSLoadGameBuffer
 {
-    unsigned int ReadFormIdentifier();
-    bool ReadFormIdentifier(void*);
-    int ReadElementCount();
 };
 
 struct TESForm
@@ -266,7 +261,6 @@ struct TESPackage : public TESForm
 {
 };
 
-extern TESForm* _ref_004839c0(unsigned int);
 
 struct StandIn006759b0
 {
@@ -288,14 +282,14 @@ struct FUN_009f0c40_shell
 // @fnv 0x009f0c40
 void FUN_009f0c40_shell::LoadPackageAndActors(BGSLoadGameBuffer* apLoadGameBuffer)
 {
-    pPackage = dynamic_cast<TESPackage*>(_ref_004839c0(apLoadGameBuffer->ReadFormIdentifier()));
+    pPackage = dynamic_cast<TESPackage*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apLoadGameBuffer))->FUN_008648a0()));
     m_pEscortPackageData = pPackage ? ((StandIn006759b0*)pPackage)->FUN_006759b0() : 0;
 
-    unsigned int isaveGameCount = apLoadGameBuffer->ReadElementCount();
+    unsigned int isaveGameCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
     for (unsigned int uiIndex = 0; uiIndex < isaveGameCount; uiIndex++)
     {
         Actor* pForm = 0;
-        apLoadGameBuffer->ReadFormIdentifier(&pForm);
+        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&pForm));
         m_kNode.AddHead(pForm);
     }
 }
@@ -327,12 +321,21 @@ class FUN_009f09b0_cls : public B9F09B0Base
 
     B9F09B0List<void*> m_kEntries;
 };
+// Calls FUN_009f09b0, then deallocates this when flags has bit 1 set, and returns this.
+// @fnv 0x009f0980
+void* S0980::FUN_009f0980(unsigned int flags)
+{
+    reinterpret_cast<::FUN_009f09b0_cls *>(this)->FUN_009f09b0_cls::~FUN_009f09b0_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor that removes all entries from the m_kEntries list.
 // @fnv 0x009f09b0
 FUN_009f09b0_cls::~FUN_009f09b0_cls()
 {
-    m_kEntries.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kEntries))->RemoveAll();
 }
 
 class Actor : public TESForm
@@ -342,10 +345,7 @@ class Actor : public TESForm
 struct ActorListNode
 {
     bool IsEmpty();
-    Actor** GetItemPtr();
     void SetItem(Actor* const&);
-    void RemoveItem(Actor* const&);
-    ActorListNode* GetNext();
     void RemoveHead();
 };
 
@@ -376,11 +376,11 @@ void FUN_009f0cf0_shell::PruneActorList(FUN_009f0cf0_arg* apArg)
     ActorListNode* pPrev = 0;
     while (pNode && !pNode->IsEmpty())
     {
-        Actor* pActor = *pNode->GetItemPtr();
+        Actor* pActor = *((::Actor **)(((::Vec3 *)(void *)(pNode))));
         bool bRemove = false;
         if (pActor)
         {
-            pActor = pActor ? dynamic_cast<Actor*>(_ref_004839c0((unsigned int)pActor)) : 0;
+            pActor = pActor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)pActor)) : 0;
             if (pActor)
                 pNode->SetItem(pActor);
             else
@@ -394,8 +394,8 @@ void FUN_009f0cf0_shell::PruneActorList(FUN_009f0cf0_arg* apArg)
         {
             if (pPrev)
             {
-                pPrev->RemoveItem(*pNode->GetItemPtr());
-                pNode = pPrev->GetNext();
+                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((::InventoryStackRecord *const &)(*((::Actor **)(((::Vec3 *)(void *)(pNode))))));
+                pNode = ((::ActorListNode *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
             }
             else
             {
@@ -405,7 +405,7 @@ void FUN_009f0cf0_shell::PruneActorList(FUN_009f0cf0_arg* apArg)
         else
         {
             pPrev = pNode;
-            pNode = pNode->GetNext();
+            pNode = ((::ActorListNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
     }
     unk04 = apArg->f03();

@@ -9,6 +9,146 @@
 // Unit-local on purpose (canonical headers lack members the matched functions call; listed for the header owner):
 //     GetDataSizeAdjustment/ReadTypedData; TESObjectREFR/Actor lack the non-virtual helpers and typed slots used here.
 //   NiPointer, BSSimpleArray: out-of-line ctor/operator= calls (canonical versions are inline or have no ctor).
+#include <cstdio>
+#include <cstring>
+#include <malloc.h>
+#include "fnv/decl/ActorSpellView.h"
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/B441420Owner.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BipedAnimWeap.h"
+#include "fnv/decl/C42CE30.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0041c930_shell.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041cb10_shell.h"
+#include "fnv/decl/FUN_0041cb70_shell.h"
+#include "fnv/decl/FUN_0041d8a0_shell.h"
+#include "fnv/decl/FUN_00437bd0_stub.h"
+#include "fnv/decl/FUN_00437bf0_shell.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004623f0_shell.h"
+#include "fnv/decl/FUN_00472840_impl.h"
+#include "fnv/decl/FUN_0047bdd0_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_0047d800_shell.h"
+#include "fnv/decl/FUN_0047ded0_shell.h"
+#include "fnv/decl/FUN_0047fb50_shell.h"
+#include "fnv/decl/FUN_00480000_shell.h"
+#include "fnv/decl/FUN_00480160_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_004870f0_shell.h"
+#include "fnv/decl/FUN_00487240_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_004bfe50_t.h"
+#include "fnv/decl/FUN_004c8220_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00503240_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_00565210_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005f7b50_Class.h"
+#include "fnv/decl/FUN_0060b370_shell.h"
+#include "fnv/decl/FUN_00613870_Class.h"
+#include "fnv/decl/FUN_00619df0_shell.h"
+#include "fnv/decl/FUN_0061b320_shell.h"
+#include "fnv/decl/FUN_00634890_shell.h"
+#include "fnv/decl/FUN_006727b0_shell.h"
+#include "fnv/decl/FUN_0083c7e0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0087f3d0_shell.h"
+#include "fnv/decl/FUN_008ace90_shell.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00c748d0_C.h"
+#include "fnv/decl/FlagSet.h"
+#include "fnv/decl/FleeActorEntry.h"
+#include "fnv/decl/Fn575690.h"
+#include "fnv/decl/Header47cb90.h"
+#include "fnv/decl/HealthReferenceEntry.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/ModelCopyView.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S9fb0.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESEnchantableForm.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/Thing575.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Unk_0097fa10.h"
+#include "fnv/decl/VATS.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_0047d220__ABD_47d220.h"
+#include "fnv/decl/fnv_0047f500__FUN_0047f500_shell.h"
+#include "fnv/decl/fnv_004817f0__FUN_004817f0_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048cce0__FUN_0048cce0_shell.h"
+#include "fnv/decl/fnv_0048d290__FUN_0048d290_shell.h"
+#include "fnv/decl/fnv_0048d630__SpellListAccess.h"
+#include "fnv/decl/fnv_00496940__FUN_00496940_shell.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/decl/fnv_0057b7c0__Actor57.h"
+#include "fnv/decl/fnv_00613c50__FUN_00613c50_C.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_0088c830__ThisC.h"
+#include "fnv/decl/fnv_008a7a90__ActorAnimView.h"
+#include "fnv/decl/fnv_008a8e50__ActorP_S.h"
+#include "fnv/decl/fnv_008b3c30__FUN_008b3c30_shell.h"
+#include "fnv/decl/fnv_008bb520__TES.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00407000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_004c0000.h"
+#include "fnv/symbols_00505000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00605000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00643000.h"
+#include "fnv/symbols_00648000.h"
+#include "fnv/symbols_00649000.h"
+#include "fnv/symbols_00652000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00754000.h"
+#include "fnv/symbols_008f2000.h"
+#include "fnv/symbols_009a3000.h"
+#include "fnv/symbols_00a6e000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011cb000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
 #define NiPointer FNV_NiPointer_Canonical
 #define BSSimpleArray FNV_BSSimpleArray_Canonical
 #include "../../include/layout_support.h"
@@ -26,7 +166,6 @@ class TESFullName;
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName* apName, TESFile* apFile);
 };
 class TESObjectWEAP;
 class QuestDialogueInfo;
@@ -41,11 +180,9 @@ enum Section
     Attributes = 0,
     Skills = 2
 };
-Index GetActorValueForSectionIndex(Section, unsigned char);
-bool GetFlag(Index, unsigned int);
-bool IsSkill(Index);
 }
 class TESForm;
+class TESFile;
 class TESForm : public BaseFormComponent
 {
   public:
@@ -128,21 +265,14 @@ class TESForm : public BaseFormComponent
     virtual char* GetName(void) const;
     virtual bool SetEditorID_AtRuntime(const char* edid);
     ENUM_FORM_ID GetFormType() const;
-    bool IsFormInitialized() const;
     TESForm();
-    static TESForm* GetFormByID(unsigned int auiFormID);
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID();
-    unsigned int GetDataSizeAdjustment();
-    void ReadTypedData(TESFile*, void*, unsigned short);
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    bool GetInitialized() const;
+public:
+    ::TESFile *GetOwnerMaster();
 };
 
 #include "../../include/NiPoint3.h"
@@ -370,31 +500,15 @@ class TESObjectREFR : public TESForm
     virtual void vfn_424();
     virtual CombatController* GetCombatController();
     unsigned char refrData[0x68 - 0x18];
-    ExtraDataList* GetExtraData();
-    const char* GetFullName();
-    NiAVObject* Get3DSimple();
-    float GetHealth();
-    void FUN_00571b50();
-    bool FUN_00575400(TESBoundObject*);
-    void EquipObject(TESBoundObject*, int, ExtraDataList*, bool, bool, bool);
-    void UpdateSpells(bool);
     bool GetIsUnconscious();
     int IsFleeing();
     bool IsBlocking();
-    bool IsMovementActive();
     bool SetReferenceHeading(NiPoint3, bool);
-    void SetReferenceState(TESTopic*, bool, bool);
-    void FUN_008a8e50();
-    void ClearReferenceState(TESBoundObject*);
-    TESBoundObject* GetObjectReference();
-    void FUN_008a7a90();
-    void InitializeReference(TESObjectREFR*, TESBoundObject*, int);
 };
 class MobileObject : public TESObjectREFR
 {
   public:
     unsigned char mobileData[32];
-    const char* GetFullName();
     bool IsCombatStateActive() const;
 };
 class MagicCaster
@@ -404,34 +518,33 @@ class MagicCaster
     unsigned char casterData[8];
     void RemoveCastingArt();
 };
+class TESActorBase;
+class TESObjectREFR;
 class Actor : public MobileObject, public MagicCaster
 {
   public:
-    BaseProcess* GetProcess();
     TESPackage* GetCurrentPackage();
     TESObjectWEAP* GetActiveWeapon();
-    bool FUN_00437bd0();
-    bool FUN_00437bf0();
     bool IsSneaking();
-    bool IsPlayerTeammate();
-    bool FUN_00608d80();
-    bool IsEssentialActor();
-    bool IsInDeadState();
-    bool IsWithinRadius(int);
-    bool GetGhost();
-    bool IsHostileToActor(Actor*, int, int*, bool);
-    bool HasEssentialStatus();
     unsigned char actorData[0xac - 0x94];
     BSFaceGenAnimationData* pFaceGenAnimationData;
     unsigned char actorTail[0x20c - 0xb0];
     bool bPreventActivation;
+public:
+    ::TESActorBase *GetActorBase();
+public:
+    void FUN_008c00e0(::TESObjectREFR *, int, int);
 };
+struct Biped;
 class PlayerCharacter : public Actor
 {
   public:
+    unsigned char playerData[0x7c5 - 0x210];
+    bool unk7c5;
     TESActorBase* GetActorBase();
     BipedAnim* GetBipedAnim(bool);
-    bool HasCombatState();
+public:
+    ::Biped *FUN_00950b00(bool);
 };
 class TESObjectARMO : public TESBoundObject
 {
@@ -448,13 +561,11 @@ class TESPackage
     unsigned char m_cEventActionValue;
     unsigned char packageTail[0x8c - 0xf];
     TESTopic* pTopic;
-    int GetPackType();
     bool IsMustReachLocation();
     bool IsPackageBlockingGreeting();
     bool RunPackage();
-    bool FUN_00441b00();
-    bool FUN_006727b0();
-    BSSimpleList<Actor*>* FUN_0041d8a0();
+public:
+    bool GetForceUnequipWeapon() const;
 };
 class TESDialoguePackage : public TESPackage
 {
@@ -462,16 +573,12 @@ class TESDialoguePackage : public TESPackage
 class CombatController
 {
   public:
-    bool GetLoading();
     bool SetActive(Actor*);
 };
 class ExtraDataList
 {
   public:
     ExtraDismemberedLimbs* GetDismemberedLimbs();
-    TESPackage* GetPackageOverride();
-    Actor* GetTalkingActor();
-    void SetPackageOverride(TESPackage*, int, Actor*, bool, bool, bool);
 };
 class Calendar
 {
@@ -479,41 +586,25 @@ class Calendar
     unsigned char GetDayOfMonth();
     float GetGameTime();
 };
-extern Calendar g_calendar;
 class SettingActivationText
 {
   public:
-    const char* IsContentAvailable();
 };
-extern SettingActivationText DAT_011d210c, DAT_011d2538, DAT_011d2394, DAT_011cf594;
 class ActivationMenuState
 {
   public:
-    void SetEquipmentState(int, int);
 };
-extern ActivationMenuState DAT_011f2250;
 class DialogueItem
 {
   public:
     ~DialogueItem();
-    TESTopic* Deallocate();
     bool SelectDefaultResponseList();
-    bool NextResponse();
 };
 class TESTopic
 {
   public:
-    static TESTopic* GetAudioBackendData(int, int);
-    DialogueItem* CreateDialogueItem(Actor*, Actor*, TESTopic*, BSSimpleList<Actor*>*, bool);
-    bool IsRemappedRumors() const;
 };
 BSAudio* GetAudioSystem();
-extern PlayerCharacter* g_thePlayer;
-bool FUN_00754d90(Actor*);
-void OpenDialogueMenu(int, TESObjectREFR*, TESTopic*, void*, int, bool);
-bool ShowMessage(const char*, int, const char*, const char*, float, bool);
-int FUN_00702640();
-extern "C" int sprintf(char*, const char*, ...);
 class ContainerItemExtra
 {
   public:
@@ -543,7 +634,6 @@ struct ActorBaseAttributes
     unsigned short m_usField04, m_usField06, sLevel, m_usField0A, m_usField0C, m_usField0E;
     float m_fField10;
     unsigned short m_usField14, m_usField16;
-    void SwapEndianness();
 };
 struct PackedRecordData
 {
@@ -553,13 +643,11 @@ struct PackedRecordData
     unsigned char m_ucField0C, m_ucField0D, m_ucField0E;
     bool m_bField0F;
     unsigned int m_uiField10;
-    void SwapEndianFields();
 };
 struct FactionReaction
 {
     TESFaction* pFaction;
     char m_ucRank;
-    void Endian();
 };
 class TESActorBaseData : public BaseFormComponent
 {
@@ -586,19 +674,17 @@ class TESActorBaseData : public BaseFormComponent
     virtual void vfn_54();
     virtual unsigned int vfn_58();
     virtual void vfn_5c(unsigned int);
-    unsigned short FUN_0047ded0();
     ActorBaseAttributes actorData;
-    TESForm* m_pBaseTemplateForm;
-    TESForm* m_kFactionList;
-    TESForm* m_ppTemplateForms;
-    int m_pDeathItem;
-    BSSimpleList<FactionReaction*> m_pVoiceType;
-    void UpdateFlagBit(int, bool);
-    void SetFactionRank(TESFaction*, char);
-    unsigned short GetShortAtOffset12();
-    void UpdateFlagBit(int, bool, bool);
+    TESForm* pDeathItem;
+    TESForm* pVoiceType;
+    TESForm* pTemplateForm;
+    int unk28;
+    BSSimpleList<FactionReaction*> factionList;
     bool GetFlag(unsigned int) const;
+public:
+    void SetMatchesPCLevel(bool);
 };
+class BaseFormComponent;
 class TESContainer : public BaseFormComponent
 {
   public:
@@ -606,7 +692,8 @@ class TESContainer : public BaseFormComponent
     void InitItem(TESForm*);
     unsigned int count;
     InventoryItemEntry** objects;
-    InventoryItemEntry* AddContainerObject(ContainerItem*);
+public:
+    void CopyFromBase(::BaseFormComponent *);
 };
 class BGSTouchSpellForm : public BaseFormComponent
 {
@@ -615,8 +702,6 @@ class BGSTouchSpellForm : public BaseFormComponent
     void InitItem(TESForm*);
     unsigned int pSpell;
     unsigned short usValue, pad;
-    void Initialize(unsigned int);
-    void FUN_00483170(unsigned short);
 };
 class TESSpellList : public BaseFormComponent
 {
@@ -624,8 +709,8 @@ class TESSpellList : public BaseFormComponent
     void BaseFormRecord(BaseFormComponent*);
     void InitItem(TESForm*);
     unsigned char listData[16];
-    void FUN_0048d290(unsigned int);
 };
+struct PackedRecordData;
 class TESAIForm : public BaseFormComponent
 {
   public:
@@ -633,44 +718,50 @@ class TESAIForm : public BaseFormComponent
     void InitItem(TESForm*);
     PackedRecordData m_kAIData;
     unsigned char packages[8];
-    void FUN_0047f0b0(PackedRecordData*);
-    void FUN_0047f500(unsigned int);
     void SetServiceFlags(unsigned int, bool);
-    void FUN_0047ef50(int, bool);
-    void FUN_0047ee00(int, bool);
-    void FUN_0047eed0(int, bool);
-    void FUN_0047ef00(int, bool);
+public:
+    void SetAggression(unsigned char, bool);
+public:
+    void SetConfidence(unsigned char, bool);
+public:
+    void SetEnergy(unsigned char, bool);
+public:
+    void SetResponsibility(unsigned char, bool);
+public:
+    void CopyAIDataFromAIDATA(::PackedRecordData *);
+public:
+    void CopyAISettings(::TESAIForm *);
+public:
+    void CopyAIPackageList(const ::TESAIForm *);
 };
 class TESHealthForm : public BaseFormComponent
 {
   public:
     void BaseFormRecord(BaseFormComponent*);
     int health;
-    void FUN_006ecd40(int);
-    unsigned int FUN_00726070();
 };
 class TESAttributes : public BaseFormComponent
 {
   public:
     void BaseFormRecord(BaseFormComponent*);
     unsigned char attributes[8];
-    unsigned char GetAttributeValue(int);
-    void SetAttributeValue(ActorValue::Index, unsigned char, bool);
 };
+class TESFile;
+class TESForm;
 class TESAnimation : public BaseFormComponent
 {
   public:
     void BaseFormRecord(BaseFormComponent*);
     BSSimpleList<const char*> m_kKFFileList;
     void BaseFormRecord(TESAnimation*, TESFile*);
+public:
+    void LoadComponent(::TESForm *, ::TESFile *);
 };
 class TESFullName : public BaseFormComponent
 {
   public:
     void BaseFormRecord(BaseFormComponent*);
     BSStringT<char> m_kName;
-    static const char* GetFullName(TESForm*);
-    const char* GetFullName();
 };
 
 class TESModel : public BaseFormComponent
@@ -686,16 +777,17 @@ class TESScriptableForm : public BaseFormComponent
     void BaseFormRecord(BaseFormComponent*);
     unsigned int script;
     unsigned char data[4];
-    void Initialize(unsigned int);
     void InitItem(TESForm*);
 };
+class BaseFormComponent;
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
     void BaseFormRecord(BaseFormComponent*);
     void InitItem(TESForm*);
     void* pData;
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
+public:
+    void FUN_004786e0(::BaseFormComponent *);
 };
 class TESRaceForm : public BaseFormComponent
 {
@@ -704,10 +796,8 @@ class TESRaceForm : public BaseFormComponent
     void InitItem(TESForm*);
     TESRace* m_pRace;
     TESRaceForm();
-    TESRace* GetFormRace() const;
-    void Initialize(unsigned int);
-    void SetFormRace(TESRace*);
 };
+enum SEX;
 class TESActorBase : public TESBoundObject,
                      public TESActorBaseData,
                      public TESContainer,
@@ -748,14 +838,15 @@ class TESActorBase : public TESBoundObject,
     virtual void SetCombatStyle(TESCombatStyle*);
     TESActorBase();
     ~TESActorBase();
-    void SetEssentialState(bool);
     void LoadGame(BGSLoadFormBuffer*);
     void Revert(BGSLoadFormBuffer*);
-    SEX GetSex();
     void Copy(TESForm*);
     void InitItem();
-    TESClass* GetClass();
     bool ShouldUseDefaultAppearance(TESObjectREFR*);
+public:
+    ::SEX GetSex() const;
+public:
+    void FUN_005f20a0(bool);
 };
 struct FaceGenCoordinateValue
 {
@@ -810,20 +901,23 @@ class FaceGenUndo;
 class TESRace : public TESForm
 {
   public:
-    TESHair* FUN_00613870(SEX);
+    unsigned char raceData18[0x60 - 0x18];
+    float m_fGlyphExtent[2];
+    float fWeight[2];
+    unsigned char raceData70[0x4f8 - 0x70];
+    unsigned short m_usRaceAttribute;
+    TESForm* m_apDefaultVoiceTypes[2];
     float GetHeight(SEX);
     float GetWeight(SEX);
-    bool BuildFaceGenHead(BSFaceGenNiNode*&, BSFaceGenNiNode*&, TESNPC*, bool, bool, SEX);
-    unsigned short FUN_00607350();
-    FaceGenMatrix<float> (*GetMeanFaceCoord(SEX))[2];
 };
+namespace ActorValue { enum Index; }
 class TESClass : public TESForm
 {
   public:
     unsigned char classData[0x38 - 0x18];
     TESAttributes classAttributes;
-    bool IsTagSkill(ActorValue::Index);
-    unsigned int FUN_006286d0();
+public:
+    bool IsTagSkill(::ActorValue::Index) const;
 };
 class TESHair : public TESForm
 {
@@ -846,6 +940,7 @@ struct TESNPCFaceCoordinates
 {
     FaceGenMatrix<float> matrices[2][2];
 };
+class TESObjectREFR;
 class TESNPC : public TESActorBase, public TESRaceForm
 {
   public:
@@ -886,12 +981,8 @@ class TESNPC : public TESActorBase, public TESRaceForm
     void Copy(TESForm*);
     void CopyActorBaseData(TESNPC*);
     void CollectNPCsByRaceAndSex(TESRace*, SEX, BSSimpleArray<TESNPC*, 1024>*);
-    float FUN_00602130();
-    TESEyes* FUN_00602150();
-    unsigned int FUN_004169d0();
     void SetField1F0(TESNPC*);
     BipedAnim* GetBipedAnimationForReference(TESObjectREFR*);
-    void UpdateHeadParts(TESObjectREFR*, BipedAnim*);
     bool InitWornObject(TESObjectREFR*, BipedAnim*, TESBoundObject*);
     void GetFaceGenNodes(BSFaceGenNiNode*&, BSFaceGenNiNode*&);
     TESHair* GetHair();
@@ -902,50 +993,31 @@ class TESNPC : public TESActorBase, public TESRaceForm
     TESCombatStyle* GetCombatStyle();
     void SetCombatStyle(TESCombatStyle*);
     void SetActorValue(ActorValue::Index, int);
-    ActorSkillData* GetTextureManager();
-    void UpdateBodyModel(TESObjectREFR*, BipedAnim*);
     BSSimpleList<BGSHeadPart*>* FUN_00602170();
     void SetHair(TESHair*);
     void SetEyes(TESEyes*);
     void FUN_00601c10(float);
     void ResetFaceGen();
-    void FUN_005f20a0(unsigned char);
-    FaceGenMatrix<float> (*GetOffsetFaceCoord())[2];
+public:
+    void FUN_006047c0(::TESObjectREFR *, bool, bool, bool, bool);
 };
-FNV_STATIC_ASSERT(sizeof(TESActorBase) == 0x10c);
-FNV_STATIC_ASSERT(offsetof(TESNPC, m_pClass) == 0x130);
-FNV_STATIC_ASSERT(offsetof(TESNPC, m_pHair) == 0x1b8);
-FNV_STATIC_ASSERT(offsetof(TESNPC, fWeight) == 0x1f8);
 class TESFileChunkData16 : public TESFile
 {
   public:
-    bool GetChunkData(unsigned short*);
 };
 class TESFileFormVersion : public TESFile
 {
   public:
-    unsigned short GetFormVersion();
 };
 // The shared TESFile declaration lacks these methods, so use a private extension.
 class TESNPCFileAccess : public TESFileFormVersion
 {
   public:
-    unsigned int GetOffset();
-    const char* GetFilename();
 };
 
-extern "C" void* __cdecl _alloca(unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-void __cdecl operator delete[](void*);
 template <int N> struct EndianSizeTag
 {
 };
-void BSEndian(float*, EndianSizeTag<4>);
-void BSEndian(unsigned short*, EndianSizeTag<2>);
-TESForm* GetFormByID(unsigned int);
-int Warning(const char*, ...);
 
 class FormChangeMask
 {
@@ -959,26 +1031,23 @@ class BGSLoadFormBuffer
     virtual unsigned char GetVersion();
     FormChangeMask GetOldChangeFlags(unsigned int);
     FormChangeMask GetChangeFlags(unsigned int);
-    void ReadTypedData(void*, unsigned int);
-    unsigned int ReadFormIdentifier();
-    int ReadElementCount();
     bool FUN_0042ce90();
 };
 
-bool FUN_009a3830(BGSHeadPart*&, BGSHeadPart*&);
 struct FaceGenCoordinates
 {
     FaceGenMatrix<float> values[2][2];
 };
+struct FaceGenCoordinates;
 class BSFaceGenManager
 {
   public:
     static FaceGenCoordinates* GetFaceGenCoordinates();
-    static void CopyFaceGenCoordinates(FaceGenMatrix<float> (*)[2], FaceGenMatrix<float> (*)[2], bool, bool);
-    static void BlendFaceGenCoordinates(FaceGenMatrix<float> (*)[2], FaceGenMatrix<float> (*)[2],
-                                        FaceGenMatrix<float> (*)[2], bool, float);
-    static void InitializeFaceGenCoordinates(FaceGenMatrix<float> (*)[2]);
     static char* BuildFaceGenPartPath(char*, int);
+public:
+    static ::BSFaceGenManager *GetFaceGenManager();
+public:
+    static void InitializeFaceGenCoordinates(::FaceGenCoordinates *);
 };
 class NiUpdateData
 {
@@ -994,8 +1063,8 @@ class ThreeByThreeMatrix
     float m[3][3];
     ThreeByThreeMatrix();
 };
-extern unsigned char DAT_011a9448;
-extern "C" const NiPoint3 NiPoint3_ZERO;
+class NiExtraData;
+class NiFixedString;
 class NiAVObject
 {
   public:
@@ -1074,14 +1143,15 @@ class NiAVObject
     virtual void vfn_120();
     virtual void vfn_124();
     virtual void vfn_128(NiNode*, bool);
-    void FUN_00440460(const NiPoint3&);
-    void SetLocalRotation(const ThreeByThreeMatrix&);
-    void UpdateSceneObject();
     void Update(const NiUpdateData&);
-    void FUN_00450f90(bool);
+public:
+    ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
+class NiAVObject;
 class NiNode : public NiAVObject
 {
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class BSFaceGenNiNode : public NiNode
 {
@@ -1089,19 +1159,16 @@ class BSFaceGenNiNode : public NiNode
 class ActorAnimData
 {
   public:
-    class NiControllerManager* FUN_00496940();
 };
 class NiControllerManager
 {
   public:
-    NiControllerManager* GetStringAtOffset();
 };
 class BSFaceGenAnimationData : public NiAVObject
 {
   public:
     void FUN_00607830(float);
     void SetBoneMaxAngle(int, float);
-    void SetSlotFloats(int, float, float);
 };
 struct BIPED_OBJECT_DATA
 {
@@ -1118,57 +1185,54 @@ class BipedAnim
 {
   public:
     BipedAnim(TESObjectREFR*, bool);
-    void AddBipedWeapon(TESObjectWEAP*, unsigned char);
     unsigned char bipedData[0x2b4];
     NiNode* GetBoneNode(BIPED_BONE);
-    BIPED_OBJECT_DATA* FUN_00606800();
     void UpdateRaceSex(TESRace*, SEX);
+public:
+    static bool CanLoadHiddenBipedObjects();
+public:
+    void AttachFaceGenNode();
 };
-void AddObjectToPalette(NiAVObject*, NiDefaultAVObjectPalette*);
 void ComputeAngleRange(float*, float*);
-void ClampMinMaxFromSetting(float*, float*);
 void FUN_00649fe0(float*, float*);
 void GetEyeAngleLimits(float*, float*);
 
 class BGSSaveLoadGame
 {
   public:
-    bool SetThreadAllowChanges(bool);
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 class InventoryStackRecord
 {
   public:
     ~InventoryStackRecord();
-    TESBoundObject* FUN_0044ddc0();
-    int FUN_00726070();
-    BSSimpleList<ExtraDataList*>* FUN_00559450();
-    void SetEquipmentState(bool, bool);
 };
+class TESObjectREFR;
 class InventoryChanges
 {
   public:
-    static InventoryChanges* GetOrAddInventoryChanges(TESObjectREFR*);
-    void RemoveWornItems(bool, TESObjectREFR*);
-    InventoryStackRecord* GetInventoryEntryData(int, bool);
-    InventoryStackRecord* FindBestArmor(TESActorBase*, int, bool);
-    InventoryStackRecord* GetBestWeapon(TESActorBase*, float*, int, bool);
+public:
+    static ::InventoryChanges *CreateForReference(::TESObjectREFR *);
 };
+class BGSBipedModelList;
+class BipedAnim;
+class TESForm;
+enum BIPED_OBJECT;
+enum SEX;
 class TESBipedModelForm : public BaseFormComponent
 {
   public:
-    void SetBipedModel(BipedAnim*, SEX, int);
-    bool HasBipedModel(int, bool, void*);
-    static TESBipedModelForm* GetFormAsBipedModel(TESForm*);
+public:
+    bool HasBipedModel(::BIPED_OBJECT, bool, ::BGSBipedModelList *);
+public:
+    void SetBipedModel(::BipedAnim *, ::SEX, ::BIPED_OBJECT);
+public:
+    static ::TESBipedModelForm *GetFormAsBipedModel(const ::TESForm *);
 };
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Int();
     SETTING_VALUE* Float();
-    const char* String();
 };
-extern SettingT_GameSettingCollection_ DAT_011d0e7c, DAT_011cd6c0;
 class GameSettingCollection;
 template <class T> class SettingT
 {
@@ -1176,10 +1240,6 @@ template <class T> class SettingT
     SETTING_VALUE* Float();
 };
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting327;
-int TruncateFloatToInt(float);
-double FUN_00404040(float);
-int ComputeIntelligenceResult(int, bool);
-void GetSkillAttributeAndBase(ActorValue::Index, int*, float*);
 class AIFormulas
 {
   public:
@@ -1199,44 +1259,31 @@ class ExtraDismemberedLimbs
   public:
     unsigned char extraData[0x20];
     BSSimpleArray<DismembermentPart*, 1024> parts;
-    DismembermentPart* GetInfoAt(unsigned int);
 };
-bool FUN_004abfa0();
-extern BSSimpleList<TESNPC*> DAT_011cb764;
-TESCombatStyle* FUN_00505000();
 class SceneObjectLookup
 {
   public:
-    static NiAVObject* GetObjectByName(NiAVObject*, const char*);
 };
-const char* FUN_00605d40(bool);
 class TESSaveLoadGame
 {
   public:
-    bool GetLoading();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 class BGSListForm
 {
   public:
-    BSSimpleList<TESForm*>* GetList();
 };
 class BGSBipedModelList
 {
   public:
     static BGSBipedModelList* GetBipedModelList(TESForm*);
-    BGSListForm* GetList();
 };
 extern const char* DAT_01188b98[];
 class TESHairRaceResult
 {
   public:
-    float FUN_00604210(SEX);
 };
 class TESHairCanBeNPCData
 {
   public:
-    TESHairRaceResult* FUN_004ac110();
 };
 #endif

@@ -3,6 +3,22 @@
 #define TESIDLEMANAGER_DECLS_H
 
 
+#include <cstring>
+#include <string.h>
+#include "runtime/crt.h"
+#include "fnv/decl/FUN_00447850_shell.h"
+#include "fnv/decl/FUN_004d6170_shell.h"
+#include "fnv/decl/FUN_005ff1d0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/TMapStandIn.h"
+#include "fnv/decl/fnv_00447330__FUN_00447330_shell.h"
+#include "fnv/symbols_0040a000.h"
+#include "fnv/symbols_00481000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_005f3000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011cb000.h"
 enum ANIM_GROUP_WEAPON_ENUM
 {
     ANIM_GROUP_WEAPON_ENUM_AGW_NONE = 0,
@@ -22,8 +38,9 @@ enum ANIM_GROUP_WEAPON_ENUM
 
 template <class T> class BSSimpleList
 {
-    void* first;
-    void* last;
+  public:
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
 
   public:
     BSSimpleList();
@@ -61,8 +78,6 @@ enum ANIM_GROUP_MOVE_ENUM
 class TESAnimGroup
 {
   public:
-    static void ParseAnimationGroupFilename(const char* filename, ANIM_GROUP_MOVE_ENUM& move,
-                                            ANIM_GROUP_WEAPON_ENUM& weapon, bool& flag);
 };
 
 class BGSCameraPath;
@@ -73,8 +88,6 @@ class NiFormArray
 {
   public:
     TESForm*& FUN_00877a30(unsigned int);
-    unsigned int GetSize();
-    TESForm* GetFormAt(unsigned int);
 };
 
 template <class T, class Interface> class NiTArray : public NiFormArray
@@ -91,7 +104,6 @@ class BGSCameraPath;
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
 };
 
 class TESFormVTable
@@ -145,7 +157,6 @@ class TESIdleForm : public TESForm
 {
   public:
     bool HasMissingPathArray();
-    bool FUN_005ff1d0();
     bool IsIdleFile();
     TESIdleForm* FindIdleFormForObject(TESObjectREFR*, TESObjectREFR*, BSSimpleList<IdleReplayDelayEntry*>*);
 };
@@ -157,7 +168,6 @@ class NiFormArray;
 class TESModel
 {
   public:
-    static const char* GetModelFilePath(TESObject*);
 };
 
 class AnimData
@@ -306,44 +316,29 @@ class IdleAnimationManager : public NiTMap<const char*, IdleAnimationDirectoryEn
     NiFormArray* GetFormArrayForIdleDir(const char*);
     TESIdleForm* FindIdleFormForObject(TESObjectREFR*, TESObjectREFR*);
     IdleAnimationDirectoryEntry* ClearIdleData(const char*, BSSimpleList<const char*>*, bool);
-    void InsertOrUpdate(const char*, IdleAnimationDirectoryEntry*);
     BSSimpleList<const char*>* FindIdleArrayEntry(const char* directory, ANIM_GROUP_WEAPON_ENUM weapon);
     static void BuildIdlePath(const char* source, char* destination);
     static TESObject* GetCurrentUsedItem();
     static bool GetUsedItemActivate();
 };
 
-extern "C" TESObject* fnv_tesidlemanager_used_item;
-extern "C" bool fnv_tesidlemanager_used_item_activate;
-extern "C" const char fnv_tesidlemanager_idle_anims[];
 class TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-char* FUN_0040ab30(char*, int);
-char* FUN_004812f0(const char*, const char*);
 void FUN_00406d50(char*, unsigned int, const char*);
-char* strrchr(const char* string, int character);
 namespace CRT {
-extern "C" char* strrchr(const char* string, int character);
-extern "C" int _stricmp(const char* left, const char* right);
 }
-extern "C" char* strstr(const char* string, const char* substring);
-int strcat_s(char* destination, unsigned int size, const char* source);
 extern "C" const char fnv_idle_1hm_fast_left[];
 extern "C" const char fnv_idle_1hm_left[];
 extern "C" const char fnv_idle_1hp_fast_left[];
 extern "C" const char fnv_idle_1hp_left[];
 template <class T> unsigned int BSStringLength(const T* string);
 
-void* operator new(unsigned int);
 class ModelLoader
 {
   public:
-    BSSimpleList<const char*>* FindNIFFileListEntry(BSSimpleList<const char*>*, BSSimpleList<const char*>*);
-    BSSimpleList<const char*>* GetModelFileList(const char*, bool, bool, int);
 };
-extern ModelLoader* g_modelLoader;
 extern bool DAT_011cb71c;
 #endif

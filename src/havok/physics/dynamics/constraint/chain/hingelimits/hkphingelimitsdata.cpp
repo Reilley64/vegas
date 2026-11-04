@@ -2,17 +2,17 @@
 // src/havok/physics/dynamics/constraint/chain/hingelimits/hkphingelimitsdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/hingelimits/hkphingelimitsdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
 #include "havok/hkpHingeLimitsData.h"
 
-extern "C" void __cdecl FUN_00d21a60(void* a, int b, int c);
-struct hkPhingeLimitsData
+struct hkPhingeLimitsData : public hkpHingeLimitsData
 {
-    void __thiscall FUN_00d52f10(int arg);
+    void FUN_00d52f10(::GenericConstraintAtomScheme* arg) const;
 };
 // @fnv 0x00d52f10
-void __thiscall hkPhingeLimitsData::FUN_00d52f10(int arg)
+void hkPhingeLimitsData::FUN_00d52f10(::GenericConstraintAtomScheme* arg) const
 {
-    FUN_00d21a60((char*)this + 0x10, 0x84, arg);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x84, arg);
 }
 
 struct hkHingeLimitsData
@@ -22,7 +22,7 @@ struct hkHingeLimitsData
 };
 
 // @fnv 0x00d52f30
-void __stdcall InitHingeLimitsData(const char* a, hkHingeLimitsData* pHingeLimitsData)
+void InitHingeLimitsData(const char* a, hkHingeLimitsData* pHingeLimitsData)
 {
     pHingeLimitsData->m_fMaxAngle = 3;
     pHingeLimitsData->m_fMinAngle = 0x1c;

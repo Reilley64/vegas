@@ -2,8 +2,82 @@
 // src/fallout/interface/menus/specialbookmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/specialbookmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" bool __cdecl _FUN_004b71d0();
 
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include <new>
+#include "fnv/decl/AnimationSequence.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSFaceGenMorphData.h"
+#include "fnv/decl/CameraWindowRay.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00458b30_class.h"
+#include "fnv/decl/FUN_0045a5e0_shell.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_004def90_Class.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00792760_shell.h"
+#include "fnv/decl/FUN_00792780_Class.h"
+#include "fnv/decl/FUN_007c9dc0_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_0093a7c0_Owner.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00a24180_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/MultiBoundManagerB5D.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiPointLight.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/SSN_b5.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESTexLoader.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_004bc2e0__NiDynamicEffect.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/decl/fnv_00b5c940__SSNode.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00709000.h"
+#include "fnv/symbols_00794000.h"
+#include "fnv/symbols_007c6000.h"
+#include "fnv/symbols_007ca000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a6d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0101f000.h"
+#include "fnv/symbols_01074000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 struct FUN_007ca030_shell
 {
     int m_00;
@@ -26,16 +100,16 @@ struct FUN_007ca030_shell
     int m_44;
     int m_48;
     int m_4c;
-    int FUN_007ca030();
+    intptr_t FUN_007ca030();
 };
 
 // Returns m_48 + 4 when m_48 is between 1 and 8, adding 4 more for slot 8 if _FUN_004b71d0() is true; otherwise returns -1.
 // @fnv 0x007ca030
-int FUN_007ca030_shell::FUN_007ca030()
+intptr_t FUN_007ca030_shell::FUN_007ca030()
 {
     if (this->m_48 > 0 && this->m_48 < 9)
     {
-        if (_FUN_004b71d0())
+        if (::FUN_004b71d0())
         {
             if (this->m_48 == 8)
                 return this->m_4c + 4;
@@ -45,9 +119,10 @@ int FUN_007ca030_shell::FUN_007ca030()
     return -1;
 }
 
-extern "C" int __cdecl FUN_007c6110();
 struct NiAVObject
 {
+public:
+    void SetLocalRotation(float, float, float, float);
 };
 struct NiAdditionalGeometryData
 {
@@ -55,11 +130,9 @@ struct NiAdditionalGeometryData
 };
 struct NiNode
 {
-    void FUN_004def90();
 };
 struct ModelLoader
 {
-    void FUN_0045a5e0(const char*);
 };
 struct GlobalObject_00633c90
 {
@@ -71,7 +144,6 @@ struct GO
 };
 struct GlobalObject_00869f00
 {
-    void Clear(bool);
 };
 struct Tile
 {
@@ -79,39 +151,33 @@ struct Tile
 };
 struct Menu
 {
-    void LoadMenuData();
 };
 struct FUN_00b5ddb0_self
 {
-    void FUN_00b5d180();
 };
-extern ModelLoader* g_modelLoader;
-extern int* DAT_011daa38;
-extern GlobalObject_00633c90 g_011daa9c;
-Menu* __cdecl FindMenuById(int);
 
 // @fnv 0x007c6120
 void __cdecl FUN_007c6120()
 {
     int i;
-    Menu* menu5 = FindMenuById(FUN_007c6110());
+    Menu* menu5 = ((::Menu *)(::FUN_00a09030(::FUN_007c6110())));
     if (!menu5)
         return;
-    g_modelLoader->FUN_0045a5e0("Meshes\\Terminals\\Babybook02.NIF");
-    ((NiNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))->FUN_004def90();
-    ((FUN_00b5ddb0_self*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))->FUN_00b5d180();
+    reinterpret_cast<::FUN_0045a5e0_shell *>((::g_modelLoader))->FUN_0045a5e0((char *)("Meshes\\Terminals\\Babybook02.NIF"));
+    reinterpret_cast<::FUN_004def90_Class *>((((NiNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->FUN_004def90();
+    reinterpret_cast<::MultiBoundManagerB5D *>((((FUN_00b5ddb0_self*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->FUN_00b5d180();
     *(int*)((char*)DAT_011daa38 + 0x5c) = 0;
-    ((GO*)&g_011daa9c)->operator=(0);
+    ((GO*)&::g_011daa9c)->operator=(0);
     i = 0;
     for (; i < 9; ++i)
     {
-        ((GlobalObject_00869f00*)((char*)DAT_011daa38 + i * 32 + 0x60))->Clear(true);
-        ((GlobalObject_00869f00*)((char*)DAT_011daa38 + i * 32 + 0x70))->Clear(true);
+        reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)DAT_011daa38 + i * 32 + 0x60))))->Clear(true);
+        reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)DAT_011daa38 + i * 32 + 0x70))))->Clear(true);
     }
     if (DAT_011daa38)
     {
         ((Tile*)menu5)->Set(0x1772, 1);
-        ((Menu*)DAT_011daa38)->LoadMenuData();
+        reinterpret_cast<::FUN_00a1d910_shell *>((((Menu*)DAT_011daa38)))->FUN_00a1d910();
     }
 }
 
@@ -121,18 +187,17 @@ struct FUN_00794d30_shell
     int m_48;
     int m_4c;
 
-    int FUN_00794d30();
+    intptr_t FUN_00794d30();
 };
 
-extern "C" bool __cdecl _FUN_004b71d0(void);
 
 // Returns m_4c + 4 when m_48 is 8 and _FUN_004b71d0() is true, m_48 + 4 when m_48 is between 1 and 7, otherwise -1.
 // @fnv 0x00794d30
-int FUN_00794d30_shell::FUN_00794d30()
+intptr_t FUN_00794d30_shell::FUN_00794d30()
 {
     if (m_48 == 8)
     {
-        if (_FUN_004b71d0())
+        if (::FUN_004b71d0())
             return m_4c + 4;
     }
     if (m_48 > 0 && m_48 < 8)
@@ -158,11 +223,9 @@ class NiFixedString
 };
 struct PropHelper
 {
-    void* GetProperty(unsigned int);
 };
 struct NiTimeController
 {
-    int FUN_00441110();
 };
 struct SceneRoot_007ca080
 {
@@ -251,11 +314,11 @@ FUN_007ca080::FUN_007ca080(int aiValueA, int aiValueB, const char* name) : m_pCo
     m_04 = aiValueB;
     m_pController = ((Holder_007ca080*)DAT_011daa38)->pRoot->GetObjectByName(NiFixedString(name));
     AnimIdle* pAnimIdle = ((Holder_007ca080*)DAT_011daa38)->pRoot->GetObjectByName(NiFixedString(name));
-    m_0c = (!((PropHelper*)pAnimIdle)->GetProperty(3)
+    m_0c = (!((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)pAnimIdle)))->FUN_00a59d30(3)))
                 ? 0
-                : (((NiTimeController*)((PropHelper*)pAnimIdle)->GetProperty(3))->FUN_00441110() >= 8 &&
-                   ((NiTimeController*)((PropHelper*)pAnimIdle)->GetProperty(3))->FUN_00441110() <= 12))
-               ? ((PropHelper*)pAnimIdle)->GetProperty(3)
+                : (((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)pAnimIdle)))->FUN_00a59d30(3))))))->GetMinLevel())) >= 8 &&
+                   ((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)pAnimIdle)))->FUN_00a59d30(3))))))->GetMinLevel())) <= 12))
+               ? ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)pAnimIdle)))->FUN_00a59d30(3)))
                : 0;
 }
 
@@ -314,8 +377,6 @@ struct NiUpdateData
 struct NiControllerSequence
 {
     void Update(float, bool);
-    float FUN_00508100();
-    float FUN_00508120();
 };
 struct MenuController
 {
@@ -357,40 +418,27 @@ struct MenuController
     virtual void slot35();
     virtual void slot36();
     virtual void Update(const NiUpdateData&);
-    MenuController* GetNext() const;
-    NiControllerSequence* FUN_0047a520(const NiFixedString&);
 };
 struct MenuScene
 {
-    MenuController* GetControllers() const;
     void Update(const NiUpdateData&);
 };
 struct MenuInput
 {
-    int FUN_00a24180(int, int);
 };
 struct MenuOS
 {
-    MenuInput* FUN_00877720();
 };
 struct MenuLocale
 {
-    const char* FUN_00403df0();
 };
 struct MenuTime
 {
-    float FUN_0084d030();
 };
-extern MenuOS* g_osGlobals;
-extern MenuLocale g_011c3cb4;
-extern MenuTime g_timeGlobal;
 extern bool DAT_011a0854;
 extern const char* DAT_011a0858[];
 extern const char* DAT_011a0878[];
-extern int DAT_011f36bc;
 bool __cdecl FUN_00702450(int);
-int __cdecl FUN_00408b20(const char*, const char*);
-MenuController* __cdecl FUN_00653270(const int*, MenuController*);
 struct MenuUpdate
 {
     virtual void slot00();
@@ -428,31 +476,31 @@ void MenuUpdate::FUN_007c6200()
 {
     if (!FUN_00702450(0x424))
         return;
-    MenuInput* pInput = g_osGlobals->FUN_00877720();
+    MenuInput* pInput = ((::MenuInput *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::MenuOS * *>(&::g_osGlobals))))->FUN_00877720()));
     {
         MenuController* pController;
         {
             int scanCode = 30;
-            if (FUN_00408b20(g_011c3cb4.FUN_00403df0(), "FRENCH") == 0)
+            if (FUN_00408b20(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MenuLocale *>(&::g_011c3cb4))))->GetMenuTitle())), "FRENCH") == 0)
                 scanCode = 16;
-            if (pInput->FUN_00a24180(scanCode, 1))
+            if (reinterpret_cast<::FUN_00a24180_shell *>((pInput))->FUN_00a24180(scanCode, 1))
             {
                 Handle(4, 0);
                 return;
             }
-            pController = scene->GetControllers();
+            pController = ((::MenuController *)(::fnv_0043b230::FUN_0043b230((const char *)(scene))));
             if (pController)
             {
                 MenuController* manager = pController;
                 NiControllerSequence* sequence = 0;
                 if (!DAT_011a0854 || selection > 0)
-                    sequence = manager->FUN_0047a520(
-                        NiFixedString(DAT_011a0854 ? DAT_011a0878[selection] : DAT_011a0858[selection]));
-                elapsed += g_timeGlobal.FUN_0084d030();
+                    sequence = ((::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((manager))->FUN_0047a520(
+                        (::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString(DAT_011a0854 ? DAT_011a0878[selection] : DAT_011a0858[selection])))));
+                elapsed += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::MenuTime *>(&::g_timeGlobal))))->GetStoredFloatValue();
                 if (sequence)
                 {
-                    sequence->Update(elapsed, true);
-                    if (sequence->FUN_00508120() < sequence->FUN_00508100() && selection > 0)
+                    reinterpret_cast<::AnimationSequence *>((sequence))->FUN_00a34ba0(elapsed, true);
+                    if (reinterpret_cast<::BSFaceGenMorphData *>((sequence))->FUN_00508120() < reinterpret_cast<::FUN_00508100_shell *>((sequence))->FUN_00508100() && selection > 0)
                         finished = false;
                     else
                         finished = true;
@@ -461,9 +509,9 @@ void MenuUpdate::FUN_007c6200()
                 {
                     finished = true;
                 }
-                for (; pController; pController = pController->GetNext())
+                for (; pController; pController = ((::MenuController *)(::fnv_004a8a90::FUN_004a8a90((char *)(pController)))))
                 {
-                    MenuController* castController = FUN_00653270(&DAT_011f36bc, pController);
+                    MenuController* castController = ((::MenuController *)(::FUN_00653270((const ::NiRTTI *)(const int *)(&(*reinterpret_cast<int *>(&::g_011f36bc))), (::NiObject *)(pController))));
                     if (castController)
                     {
                         NiUpdateData updateData(elapsed, false, false);
@@ -473,7 +521,7 @@ void MenuUpdate::FUN_007c6200()
                 }
             }
             NiUpdateData updateData(0.0f, false, false);
-            scene->Update(updateData);
+            reinterpret_cast<::FUN_00a59c60_cls *>((scene))->FUN_00a59c60((std::intptr_t)&(updateData));
         }
     }
 }
@@ -535,7 +583,6 @@ struct Player6440
     int unka0;
     Values6440 values;
 };
-extern Player6440* g_thePlayer;
 struct Target6440 : SPECIALBookMenu
 {
     int unk04;
@@ -560,8 +607,6 @@ struct Target6440 : SPECIALBookMenu
     int unk50;
     int unk54;
     int unk58;
-    int FUN_007ca030();
-    int FUN_00794d80();
     bool HandleSpecialBookKey(unsigned int key, int unused);
 };
 // @fnv 0x007c6440
@@ -569,17 +614,17 @@ bool Target6440::HandleSpecialBookKey(unsigned int key, int unused)
 {
     if (FUN_00702450(0x424))
     {
-        int index = FUN_007ca030();
+        int index = reinterpret_cast<::FUN_007ca030_shell *>(this)->FUN_007ca030();
         switch (key)
         {
         case 4:
         case 10:
-            if (index != -1 && g_thePlayer->values.GetValue(index) > 1)
+            if (index != -1 && (*reinterpret_cast<::Player6440 * *>(&::_g_thePlayer))->values.GetValue(index) > 1)
                 v03(3, 0);
             return true;
         case 3:
         case 9:
-            if (index != -1 && FUN_00794d80() < unk58 && g_thePlayer->values.GetValue(index) < 10)
+            if (index != -1 && ::FUN_00794d80((void *)this) < unk58 && (*reinterpret_cast<::Player6440 * *>(&::_g_thePlayer))->values.GetValue(index) < 10)
                 v03(2, 0);
             return true;
         }
@@ -608,7 +653,6 @@ class C7CA200NavMeshArray
     C7CA200NavMeshArray();
     ~C7CA200NavMeshArray();
 
-    unsigned int Add(C7CA200NavMesh*& rpkNavMesh);
 
     int unk00;
     int unk04;
@@ -634,7 +678,7 @@ FUN_007ca200::FUN_007ca200(int iArg1, int iArg2, int iArg3, int iArg4, int iNumN
 
     char* pcArgs = (char*)&iNumNavMeshes + sizeof(iNumNavMeshes);
     for (int i = 0; i < iNumNavMeshes; i++)
-        m_kNavMeshes.Add(*(C7CA200NavMesh**)((pcArgs += sizeof(C7CA200NavMesh*)) - sizeof(C7CA200NavMesh*)));
+        reinterpret_cast<::FUN_00438690 *>(&(m_kNavMeshes))->FUN_007cb2e0((unsigned int *)&(*(C7CA200NavMesh**)((pcArgs += sizeof(C7CA200NavMesh*)) - sizeof(C7CA200NavMesh*))));
     pcArgs = 0;
 }
 
@@ -655,79 +699,57 @@ FUN_007ca2c0::FUN_007ca2c0(int a, const char* apFirstName, const char* apSecondN
     m_00 = a;
     m_14 = d;
     m_0c = (PropHelper*)((Holder_007ca080*)DAT_011daa38)->pRoot->GetObjectByName(NiFixedString(apFirstName));
-    m_04 = (!m_0c->GetProperty(3) ? 0
-                                  : (((NiTimeController*)m_0c->GetProperty(3))->FUN_00441110() >= 8 &&
-                                     ((NiTimeController*)m_0c->GetProperty(3))->FUN_00441110() <= 12))
-               ? (NiTimeController*)m_0c->GetProperty(3)
+    m_04 = (!((void *)(reinterpret_cast<::FUN_00a59d30_C *>((m_0c))->FUN_00a59d30(3))) ? 0
+                                  : (((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((m_0c))->FUN_00a59d30(3))))))->GetMinLevel())) >= 8 &&
+                                     ((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((m_0c))->FUN_00a59d30(3))))))->GetMinLevel())) <= 12))
+               ? (NiTimeController*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((m_0c))->FUN_00a59d30(3)))
                : 0;
     if (apSecondName)
     {
         m_10 = (PropHelper*)((Holder_007ca080*)DAT_011daa38)->pRoot->GetObjectByName(NiFixedString(apSecondName));
-        m_08 = (!m_10->GetProperty(3) ? 0
-                                      : (((NiTimeController*)m_10->GetProperty(3))->FUN_00441110() >= 8 &&
-                                         ((NiTimeController*)m_10->GetProperty(3))->FUN_00441110() <= 12))
-                   ? (NiTimeController*)m_10->GetProperty(3)
+        m_08 = (!((void *)(reinterpret_cast<::FUN_00a59d30_C *>((m_10))->FUN_00a59d30(3))) ? 0
+                                      : (((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((m_10))->FUN_00a59d30(3))))))->GetMinLevel())) >= 8 &&
+                                         ((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((m_10))->FUN_00a59d30(3))))))->GetMinLevel())) <= 12))
+                   ? (NiTimeController*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((m_10))->FUN_00a59d30(3)))
                    : 0;
     }
 }
 
 // Candidate for FUN_007cadd0 (FNV decompilation, official checker)
 
-// __thiscall, no stack args (caller pops 0). /Od /Oy- /GS /EHsc.
+// , no stack args (caller pops 0). /Od /Oy- /GS /EHsc.
 
 // Based on an unverified GLM (Z.ai) / zai_glm_01 draft, round 4.
 
 struct G_011dea10_cls
 {
 
-    void FUN_004568c0(char* a, int* b, int c, int d);
 };
 
-extern G_011dea10_cls* g_011dea10;
 
-void __cdecl FUN_00406d00(char* dst, int size, const char* a, const char* b, const char* c, ...);
 
-void __cdecl FUN_00406d30(char* dst, int n, const char* src);
 
-void __cdecl FUN_004b7240(char* src, char* dst, int n);
 
-bool __cdecl FUN_00709d40();
 
-extern const char str_01074c4c[];
 
 extern const char str_01076cc0[];
 
-extern const char str_01074c6c[];
 
 extern const char str_01076ca4[];
 
-extern const char str_01074c40[];
 
-extern const char str_0101fd1c[];
 
-extern const char str_0101fd24[];
 
-extern const char str_01074c38[];
 
-extern const char str_01074c24[];
 
-extern const char str_01074c08[];
 
-extern const char str_01074c1c[];
 
-extern const char str_01074c14[];
 
-extern const char str_01074c00[];
 
-extern const char str_01074bf8[];
 
-extern const char str_01074be8[];
 
-extern const char str_01074bd8[];
 
-extern const char str_01074bc8[];
 
-extern const char str_01074bb8[];
 
 extern const char str_01076c94[];
 
@@ -971,101 +993,100 @@ void FUN_007cadd0_self::FUN_007cadd0()
     for (auStack_110 = 0; auStack_110 < 0xb; auStack_110++)
     {
 
-        FUN_00406d00(auStack_220, 0x104, str_01074c4c, str_01076cc0, str_01074c6c, auStack_110);
+        ::FUN_00406d00(auStack_220, 0x104, ::fnv_00796100::str_01074c4c, str_01076cc0, ::fnv_00796100::str_01074c6c, auStack_110);
 
-        FUN_004b7240(auStack_220, auStack_218, 0x104);
+        ::ConvertLocalizedString(auStack_220, auStack_218, 0x104);
 
-        g_011dea10->FUN_004568c0(auStack_218, &m180[auStack_110], 0, 0);
+        reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m180[auStack_110])), 0, 0);
     }
 
     for (iStack_228 = 1; iStack_228 < 5; iStack_228++)
     {
 
-        FUN_00406d00(auStack_220, 0x104, str_01074c4c, str_01076ca4, str_01074c40, iStack_228);
+        ::FUN_00406d00(auStack_220, 0x104, ::fnv_00796100::str_01074c4c, str_01076ca4, ::fnv_00796100::str_01074c40, iStack_228);
 
-        FUN_004b7240(auStack_220, auStack_218, 0x104);
+        ::ConvertLocalizedString(auStack_220, auStack_218, 0x104);
 
-        g_011dea10->FUN_004568c0(auStack_218, &m1a8[iStack_228], 0, 0);
+        reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m1a8[iStack_228])), 0, 0);
     }
 
     if (FUN_00709d40())
 
-        FUN_00406d30(iStack_224, 5, str_0101fd1c);
+        ::TaskQueueInterface::CopyStringToBuffer(iStack_224, 5, ::fnv_00796100::str_0101fd1c);
 
     else
 
-        FUN_00406d30(iStack_224, 5, str_0101fd24);
+        ::TaskQueueInterface::CopyStringToBuffer(iStack_224, 5, ::fnv_00796100::str_0101fd24);
 
-    FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c38);
+    ::FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, ::fnv_00796100::str_01074c38);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1c0, 0, 0);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m1c0)), 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074c24);
+    ::FUN_00406d00(auStack_220, 0x104, ::fnv_00796100::str_01074c08, str_01076cc0, ::fnv_00796100::str_01074c24);
 
-    FUN_004b7240(auStack_220, auStack_218, 0x104);
+    ::ConvertLocalizedString(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1bc, 0, 0);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m1bc)), 0, 0);
 
-    FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c1c);
+    ::FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, ::fnv_00796100::str_01074c1c);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1c4, 0, 0);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m1c4)), 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074c14);
+    ::FUN_00406d00(auStack_220, 0x104, ::fnv_00796100::str_01074c08, str_01076cc0, ::fnv_00796100::str_01074c14);
 
-    FUN_004b7240(auStack_220, auStack_218, 0x104);
+    ::ConvertLocalizedString(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1c8, 0, 0);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m1c8)), 0, 0);
 
-    FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c00);
+    ::FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, ::fnv_00796100::str_01074c00);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1cc, 0, 0);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m1cc)), 0, 0);
 
-    FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074bf8);
+    ::FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, ::fnv_00796100::str_01074bf8);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1d0, 0, 0);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m1d0)), 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074be8);
+    ::FUN_00406d00(auStack_220, 0x104, ::fnv_00796100::str_01074c08, str_01076cc0, ::fnv_00796100::str_01074be8);
 
-    FUN_004b7240(auStack_220, auStack_218, 0x104);
+    ::ConvertLocalizedString(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1d4, 0, 0);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m1d4)), 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bd8);
+    ::FUN_00406d00(auStack_220, 0x104, ::fnv_00796100::str_01074c08, str_01076cc0, ::fnv_00796100::str_01074bd8);
 
-    FUN_004b7240(auStack_220, auStack_218, 0x104);
+    ::ConvertLocalizedString(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1d8, 0, 0);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m1d8)), 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bc8);
+    ::FUN_00406d00(auStack_220, 0x104, ::fnv_00796100::str_01074c08, str_01076cc0, ::fnv_00796100::str_01074bc8);
 
-    FUN_004b7240(auStack_220, auStack_218, 0x104);
+    ::ConvertLocalizedString(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1dc, 0, 0);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m1dc)), 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bb8);
+    ::FUN_00406d00(auStack_220, 0x104, ::fnv_00796100::str_01074c08, str_01076cc0, ::fnv_00796100::str_01074bb8);
 
-    FUN_004b7240(auStack_220, auStack_218, 0x104);
+    ::ConvertLocalizedString(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1e0, 0, 0);
+    reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::G_011dea10_cls * *>(&::g_TES))))->FUN_004568c0(auStack_218, (*(::TexPtr< ::NiSourceTexture> *)(&m1e0)), 0, 0);
 }
 
 struct NiRTTI
 {
     int unk00;
 };
-extern NiRTTI DAT_011f36ac;
 
+class NiControllerSequence;
 struct NiControllerManager
 {
-    NiControllerSequence* FindSequenceByName(const NiFixedString& name);
-    void FUN_0048fef0(float f);
-    void ActivateControllerSequence(NiControllerSequence* seq, int a, bool b, float w, float t, int c);
-    void FUN_0047aa40(bool b);
+public:
+    bool ActivateControllerSequence(::NiControllerSequence *, int, bool, float, float, ::NiControllerSequence *);
+public:
+    void DeactivateAllSequences(float);
 };
 
 struct AVObject_7c9dc0
 {
-    void* GetController(const NiRTTI* rtti) const;
 };
 
 struct SceneHolder
@@ -1095,7 +1116,6 @@ struct SceneHolder
     int unk58;
     AVObject_7c9dc0* pRoot;
 };
-extern SceneHolder* g_sceneHolder_7c9dc0;
 
 struct BSSoundHandleEx
 {
@@ -1105,16 +1125,13 @@ struct BSSoundHandleEx
     BSSoundHandleEx();
     ~BSSoundHandleEx();
     BSSoundHandleEx& operator=(const BSSoundHandleEx& o);
-    bool Play(bool b);
 };
 
 struct BSAudio
 {
-    static BSAudio* __cdecl GetSingleton();
     BSSoundHandleEx GetSoundHandleByEditorID(const char* id, unsigned int flags);
 };
 
-void __fastcall SetNegatedGlobal(void* p);
 
 extern bool DAT_011a0854;
 extern const char* DAT_011a0858[8];
@@ -1156,8 +1173,8 @@ bool SPECIALBookMenu_7c9dc0::FUN_007c9dc0(bool forward)
             pageIndex++;
             turned = true;
             BSSoundHandleEx sound;
-            sound = BSAudio::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121);
-            sound.Play(false);
+            reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleEx &)(sound))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121))));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
         }
         else
         {
@@ -1172,8 +1189,8 @@ bool SPECIALBookMenu_7c9dc0::FUN_007c9dc0(bool forward)
             pageIndex--;
             turned = true;
             BSSoundHandleEx sound;
-            sound = BSAudio::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121);
-            sound.Play(false);
+            reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleEx &)(sound))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121))));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
         }
         else
         {
@@ -1182,21 +1199,21 @@ bool SPECIALBookMenu_7c9dc0::FUN_007c9dc0(bool forward)
     }
     if (turned)
     {
-        NiControllerManager* found = (NiControllerManager*)g_sceneHolder_7c9dc0->pRoot->GetController(&DAT_011f36ac);
+        NiControllerManager* found = (NiControllerManager*)((void *)(reinterpret_cast<::MyHost *>((void *)((*reinterpret_cast<::SceneHolder * *>(&::DAT_011daa38))->pRoot))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
         if (found)
         {
             NiControllerManager* manager = found;
             NiControllerSequence* sequence = 0;
             if (!DAT_011a0854 || pageIndex > 0)
             {
-                sequence = manager->FindSequenceByName(
-                    NiFixedString(DAT_011a0854 ? DAT_011a0878[pageIndex] : DAT_011a0858[pageIndex]));
+                sequence = ((::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((manager))->FUN_0047a520(
+                    (::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString(DAT_011a0854 ? DAT_011a0878[pageIndex] : DAT_011a0858[pageIndex])))));
             }
             if (sequence)
             {
-                manager->FUN_0048fef0(0.0f);
-                manager->ActivateControllerSequence(sequence, 0, true, 1.0f, 0.0f, 0);
-                manager->FUN_0047aa40(true);
+                manager->DeactivateAllSequences(0.0f);
+                manager->ActivateControllerSequence(sequence, 0, true, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+                reinterpret_cast<::TaskQueueInterface *>((manager))->QueueReferenceStateTask(true);
                 SetNegatedGlobal(sequence);
             }
         }
@@ -1204,29 +1221,15 @@ bool SPECIALBookMenu_7c9dc0::FUN_007c9dc0(bool forward)
     return true;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
-extern "C" void* __cdecl FUN_00401000(unsigned int size);
 
-void __cdecl CallVfunc60WithGlobalOffset(void* p);
-void __cdecl FUN_007cabb0(void* p);
-void __cdecl FUN_007ca8a0(void* p);
-void __cdecl FUN_007cabf0(void* p);
-void __cdecl DispatchSourceCallback(void* p);
-void __cdecl FUN_007cac30(void* p);
-void __cdecl UpdateEntryRankText(void* p);
-void __cdecl DispatchStateCallback(void* p);
-void __cdecl UpdateLodVisibility(void* p);
 void __cdecl FUN_007ca700(void* p);
 void __cdecl FUN_007ca960(void* p);
-void __cdecl FUN_007ca7a0(void* p);
-void __cdecl PlaySpecialBookSoundAndSetStat(void* p);
 
 typedef void(__cdecl* ItemCb)(void* p);
 
 struct BkPoint3
 {
     float x, y, z;
-    BkPoint3* Init(float ax, int ay, int az);
 };
 struct BkColor
 {
@@ -1241,18 +1244,12 @@ struct BkFixedStr
 };
 struct BkTimer
 {
-    float FUN_0084d030();
 };
 struct BkAnimSeq
 {
-    void SetNegatedGlobal();
 };
 struct BkAnimCtrl
 {
-    BkAnimSeq* FUN_0047a520(const BkFixedStr& name);
-    void FUN_0048fef0(float t);
-    void FUN_0047aab0(BkAnimSeq* seq, int a, int b, float c, float d, int e);
-    void FUN_0047aa40(int a);
 };
 struct BkCtrl
 {
@@ -1294,32 +1291,19 @@ struct BkCtrl
     virtual void v35();
     virtual void v36();
     virtual void SetPos(const BkPoint3& p);
-    BkCtrl* FUN_004a8a90();
 };
 struct BkNode
 {
     virtual void v00();
     virtual void v01();
     virtual void v02();
-    virtual int v03(float f);
-    void FUN_00440490(float s);
-    void FUN_004bc1f0(float x, float y, float z);
-    void FUN_006404b0(float a, float b, float c, float d);
-    void FUN_00a59c60(const BkPoint3& p);
-    BkCtrl* FUN_00a5c570(void* rtti);
-    BkTimer* FUN_0043d450();
+    virtual intptr_t v03(float f);
 };
 struct BkLight
 {
     char pad[0xfc];
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
     BkLight();
-    void FUN_00440460(const BkColor& c);
-    void SetEffectColor(const BkColor& c);
     void FUN_0050dd50(const BkColor& c);
-    void FUN_0050dd20(float f);
-    void FUN_00a59c60(const BkPoint3& p);
 };
 struct BkScene
 {
@@ -1379,18 +1363,13 @@ struct BkScene
     virtual void v53();
     virtual void v54();
     virtual void AttachChildInAvailableSlot(void* child, int firstAvail);
-    void* FUN_00b5ca70(int a);
-    void FUN_00b5c940(BkLight* l, int a);
 };
 struct BkLoader
 {
-    BkNode* FUN_00447080(const char* path, int a, int b, int c, int d, int e);
 };
 
 struct BkItemBase
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void*);
 };
 struct BkButton : BkItemBase
 {
@@ -1426,9 +1405,6 @@ struct BkButtonList
     int m_iCapacity;
     int m_iArrayLength;
     int m_iGrow;
-    unsigned int FUN_0044ddc0();
-    BkButton*& FUN_006a7ad0(unsigned int index);
-    void FUN_007cb2e0(BkButton* const& item);
 };
 struct BkDisplayList
 {
@@ -1436,9 +1412,6 @@ struct BkDisplayList
     int m_iCapacity;
     int m_iArrayLength;
     int m_iGrow;
-    unsigned int FUN_0044ddc0();
-    BkDisplay*& FUN_006a7ad0(unsigned int index);
-    void FUN_007cb2e0(BkDisplay* const& item);
 };
 struct BkGroup
 {
@@ -1454,12 +1427,6 @@ struct BkMenuG
     BkNode* m_pReferencedNode;
 };
 
-extern int* DAT_011daa38;
-extern BkLoader* DAT_011c3b3c;
-extern BkTimer DAT_011f6394;
-void __cdecl FUN_004b7660(BkNode* node);
-void __cdecl FUN_00a6d2d0(BkNode* node);
-void* __cdecl FUN_00653270(void* rtti, BkCtrl* obj);
 BkScene* __cdecl FUN_00450b80(int a);
 
 struct SpecialBookMenuX
@@ -1471,7 +1438,6 @@ struct SpecialBookMenuX
     BkNode* m_pReferencedNode;
     BkGroup m_groups[9];
     void InitMenu();
-    void FUN_007cadd0();
 };
 
 // Unused, never emitted: keeps the per-TU $SG literal numbering clear of the checker's fixed $SG bindings (KB k8552).
@@ -1499,255 +1465,252 @@ void SpecialBookMenuX::InitMenu()
     BkDisplay* kMsg;
 
     ((BkMenuG*)DAT_011daa38)->m_pReferencedNode =
-        DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\Babybook02.NIF", 0, 1, 0, 0, 0);
-    FUN_004b7660(((BkMenuG*)DAT_011daa38)->m_pReferencedNode);
-    ((BkMenuG*)DAT_011daa38)->m_pReferencedNode->FUN_00440490(0.05f);
-    ((BkMenuG*)DAT_011daa38)->m_pReferencedNode->FUN_004bc1f0(0.0f, 0.0f, -60.0f);
-    ((BkMenuG*)DAT_011daa38)->m_pReferencedNode->FUN_006404b0(1.5707964f, 1.0f, 0.0f, 0.0f);
-    akStart.Init(0.0f, 0, 0);
-    ((BkMenuG*)DAT_011daa38)->m_pReferencedNode->FUN_00a59c60(akStart);
-    ((BkMenuG*)DAT_011daa38)->m_fTime += DAT_011f6394.FUN_0084d030();
-    aPCtrl = ((BkMenuG*)DAT_011daa38)->m_pReferencedNode->FUN_00a5c570(&DAT_011f36ac);
+        ((::BkNode *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::BkLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)("Meshes\\Terminals\\Babybook02.NIF"), 0, 1, 0, 0, 0)));
+    ::UpdateObjectVisibility((::NiAVObject *)(((BkMenuG*)DAT_011daa38)->m_pReferencedNode));
+    reinterpret_cast<::FUN_00440490_shell *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_00440490(0.05f);
+    reinterpret_cast<::FUN_004bc1f0_S *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_004bc1f0(0.0f, 0.0f, -60.0f);
+    reinterpret_cast<::NiAVObject *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
+    new ((void *)&(akStart)) ::NiUpdateData(0.0f, 0, 0);
+    reinterpret_cast<::FUN_00a59c60_cls *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_00a59c60((std::intptr_t)&(akStart));
+    ((BkMenuG*)DAT_011daa38)->m_fTime += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::BkTimer *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    aPCtrl = ((::BkCtrl *)(reinterpret_cast<::MyHost *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_00a5c570((const ::MyRTTI *)(void *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
     if (aPCtrl)
     {
         BkAnimCtrl* mgr5 = (BkAnimCtrl*)aPCtrl;
-        BkAnimSeq* pForwardSequence = mgr5->FUN_0047a520(BkFixedStr("Forward"));
+        BkAnimSeq* pForwardSequence = ((::BkAnimSeq *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((mgr5))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::BkFixedStr &)(BkFixedStr("Forward")))));
         if (pForwardSequence)
         {
-            mgr5->FUN_0048fef0(0.0f);
-            mgr5->FUN_0047aab0(pForwardSequence, 0, 1, 1.0f, 0.0f, 0);
-            mgr5->FUN_0047aa40(1);
-            pForwardSequence->SetNegatedGlobal();
+            reinterpret_cast<::NiControllerManager *>((mgr5))->DeactivateAllSequences(0.0f);
+            reinterpret_cast<::NiControllerManager *>((mgr5))->ActivateControllerSequence((::NiControllerSequence *)(pForwardSequence), 0, 1, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+            reinterpret_cast<::TaskQueueInterface *>((mgr5))->QueueReferenceStateTask(1);
+            ::SetNegatedGlobal((void *)(pForwardSequence));
         }
     }
-    FUN_00a6d2d0(m_pReferencedNode);
-    for (; aPCtrl; aPCtrl = aPCtrl->FUN_004a8a90())
+    ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(m_pReferencedNode));
+    for (; aPCtrl; aPCtrl = ((::BkCtrl *)(::fnv_004a8a90::FUN_004a8a90((char *)(aPCtrl)))))
     {
-        void* pMatch = FUN_00653270(&DAT_011f36bc, aPCtrl);
+        void* pMatch = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f36bc))), (::NiObject *)(aPCtrl))));
         if (pMatch)
         {
             BkPoint3 pT4;
-            pT4.Init(0.0f, 0, 0);
+            new ((void *)&(pT4)) ::NiUpdateData(0.0f, 0, 0);
             aPCtrl->SetPos(pT4);
             break;
         }
     }
-    pos.Init(0.0f, 0, 0);
-    m_pReferencedNode->FUN_00a59c60(pos);
-    aScale = ((BkMenuG*)DAT_011daa38)->m_pReferencedNode->FUN_0043d450()->FUN_0084d030() * 20.0;
-    found = FUN_00450b80(1)->FUN_00b5ca70(((BkMenuG*)DAT_011daa38)->m_pReferencedNode->v03(aScale));
+    new ((void *)&(pos)) ::NiUpdateData(0.0f, 0, 0);
+    reinterpret_cast<::FUN_00a59c60_cls *>((m_pReferencedNode))->FUN_00a59c60((std::intptr_t)&(pos));
+    aScale = reinterpret_cast<::Twin_0084d030 *>((((::BkTimer *)(reinterpret_cast<::FUN_0043d450_Owner *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_0043d450()))))->GetStoredFloatValue() * 20.0;
+    found = ((void *)(reinterpret_cast<::SSN_b5 *>((FUN_00450b80(1)))->FUN_00b5ca70((::Node_b5 *)(((BkMenuG*)DAT_011daa38)->m_pReferencedNode->v03(aScale)), {})));
     if (found == 0)
     {
         BkLight* apTargetLight = new BkLight();
-        apTargetLight->FUN_00440460(BkColor(0.0f, 0.0f, 0.0f));
-        apTargetLight->SetEffectColor(BkColor(0.85f, 0.85f, 0.85f));
+        reinterpret_cast<::FUN_00440460_S *>((apTargetLight))->FUN_00440460((const ::V3 *)&(const ::BkColor &)(BkColor(0.0f, 0.0f, 0.0f)));
+        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((apTargetLight))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)((const ::BkColor &)(BkColor(0.85f, 0.85f, 0.85f))));
         apTargetLight->FUN_0050dd50(BkColor(aScale, 0.0f, 0.0f));
-        apTargetLight->FUN_0050dd20(1.0f);
+        reinterpret_cast<::NiPointLight *>((apTargetLight))->FUN_0050dd20(1.0f);
         BkPoint3 kLightPos;
-        kLightPos.Init(0.0f, 0, 0);
-        apTargetLight->FUN_00a59c60(kLightPos);
+        new ((void *)&(kLightPos)) ::NiUpdateData(0.0f, 0, 0);
+        reinterpret_cast<::FUN_00a59c60_cls *>((apTargetLight))->FUN_00a59c60((std::intptr_t)&(kLightPos));
         FUN_00450b80(1)->AttachChildInAvailableSlot(apTargetLight, 1);
-        FUN_00450b80(1)->FUN_00b5c940(apTargetLight, 0);
+        reinterpret_cast<::fnv_00b5c940::SSNode *>((FUN_00450b80(1)))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(apTargetLight), 0);
     }
     FUN_00450b80(1)->AttachChildInAvailableSlot(((BkMenuG*)DAT_011daa38)->m_pReferencedNode, 1);
 
-    next = new BkButton(FUN_007cabb0, CallVfunc60WithGlobalOffset, "LookInside_Btn:0");
-    m_groups[0].buttons.FUN_007cb2e0(next);
+    next = new BkButton(((void (&)(void *))::FUN_007cabb0), ((void (&)(void *))::CallVfunc60WithGlobalOffset), "LookInside_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[0].buttons))->FUN_007cb2e0((unsigned int *)&(next));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "P1_PointVal:0", 0, 5);
-    kMsg = new BkDisplay(DispatchStateCallback, "P1_Message:0", 0, -1);
-    pDigits = new BkDisplay(UpdateLodVisibility, "P1_PointsRemainDigit1:0", "P1_PointsRemainDigit2:0", -1);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "P1_PointVal:0", 0, 5);
+    kMsg = new BkDisplay(((void (&)(void *))::DispatchStateCallback), "P1_Message:0", 0, -1);
+    pDigits = new BkDisplay(((void (&)(void *))::fnv_007ca5f0::UpdateLodVisibility), "P1_PointsRemainDigit1:0", "P1_PointsRemainDigit2:0", -1);
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "P1_Decrease_Btn:0", 5, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "P1_Increase_Btn:0", 5, 2, valueX, pDigits);
-    next = new BkButton(FUN_007cabb0, CallVfunc60WithGlobalOffset, "P1_RT_Btn:0");
-    pLeft = new BkButton(FUN_007cabf0, FUN_007ca8a0, "P1_LT_Btn:0");
-    m_groups[1].displays.FUN_007cb2e0(valueX);
-    m_groups[1].displays.FUN_007cb2e0(kMsg);
-    m_groups[1].displays.FUN_007cb2e0(pDigits);
-    m_groups[1].buttons.FUN_007cb2e0(declA);
-    m_groups[1].buttons.FUN_007cb2e0(pIncrease);
-    m_groups[1].buttons.FUN_007cb2e0(next);
-    m_groups[1].buttons.FUN_007cb2e0(pLeft);
+        new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "P1_Increase_Btn:0", 5, 2, valueX, pDigits);
+    next = new BkButton(((void (&)(void *))::FUN_007cabb0), ((void (&)(void *))::CallVfunc60WithGlobalOffset), "P1_RT_Btn:0");
+    pLeft = new BkButton(((void (&)(void *))::fnv_007cabf0::FUN_007cabf0), ((void (&)(void *))::FUN_007ca8a0), "P1_LT_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[1].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[1].displays))->FUN_007cb2e0((unsigned int *)&(kMsg));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[1].displays))->FUN_007cb2e0((unsigned int *)&(pDigits));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[1].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[1].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[1].buttons))->FUN_007cb2e0((unsigned int *)&(next));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[1].buttons))->FUN_007cb2e0((unsigned int *)&(pLeft));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "P2_PointVal:0", 0, 6);
-    kMsg = new BkDisplay(DispatchStateCallback, "P2_Message:0", 0, -1);
-    pDigits = new BkDisplay(UpdateLodVisibility, "P2_PointsRemainDigit1:0", "P2_PointsRemainDigit2:0", -1);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "P2_PointVal:0", 0, 6);
+    kMsg = new BkDisplay(((void (&)(void *))::DispatchStateCallback), "P2_Message:0", 0, -1);
+    pDigits = new BkDisplay(((void (&)(void *))::fnv_007ca5f0::UpdateLodVisibility), "P2_PointsRemainDigit1:0", "P2_PointsRemainDigit2:0", -1);
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "P2_Decrease_Btn:0", 6, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "P2_Increase_Btn:0", 6, 2, valueX, pDigits);
-    next = new BkButton(FUN_007cabb0, CallVfunc60WithGlobalOffset, "P2_RT_Btn:0");
-    pLeft = new BkButton(FUN_007cabf0, FUN_007ca8a0, "P2_LT_Btn:0");
-    m_groups[2].displays.FUN_007cb2e0(valueX);
-    m_groups[2].displays.FUN_007cb2e0(kMsg);
-    m_groups[2].displays.FUN_007cb2e0(pDigits);
-    m_groups[2].buttons.FUN_007cb2e0(declA);
-    m_groups[2].buttons.FUN_007cb2e0(pIncrease);
-    m_groups[2].buttons.FUN_007cb2e0(next);
-    m_groups[2].buttons.FUN_007cb2e0(pLeft);
+        new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "P2_Increase_Btn:0", 6, 2, valueX, pDigits);
+    next = new BkButton(((void (&)(void *))::FUN_007cabb0), ((void (&)(void *))::CallVfunc60WithGlobalOffset), "P2_RT_Btn:0");
+    pLeft = new BkButton(((void (&)(void *))::fnv_007cabf0::FUN_007cabf0), ((void (&)(void *))::FUN_007ca8a0), "P2_LT_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[2].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[2].displays))->FUN_007cb2e0((unsigned int *)&(kMsg));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[2].displays))->FUN_007cb2e0((unsigned int *)&(pDigits));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[2].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[2].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[2].buttons))->FUN_007cb2e0((unsigned int *)&(next));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[2].buttons))->FUN_007cb2e0((unsigned int *)&(pLeft));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "P3_PointVal:0", 0, 7);
-    kMsg = new BkDisplay(DispatchStateCallback, "P3_Message:0", 0, -1);
-    pDigits = new BkDisplay(UpdateLodVisibility, "P3_PointsRemainDigit1:0", "P3_PointsRemainDigit2:0", -1);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "P3_PointVal:0", 0, 7);
+    kMsg = new BkDisplay(((void (&)(void *))::DispatchStateCallback), "P3_Message:0", 0, -1);
+    pDigits = new BkDisplay(((void (&)(void *))::fnv_007ca5f0::UpdateLodVisibility), "P3_PointsRemainDigit1:0", "P3_PointsRemainDigit2:0", -1);
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "P3_Decrease_Btn:0", 7, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "P3_Increase_Btn:0", 7, 2, valueX, pDigits);
-    next = new BkButton(FUN_007cabb0, CallVfunc60WithGlobalOffset, "P3_RT_Btn:0");
-    pLeft = new BkButton(FUN_007cabf0, FUN_007ca8a0, "P3_LT_Btn:0");
-    m_groups[3].displays.FUN_007cb2e0(valueX);
-    m_groups[3].displays.FUN_007cb2e0(kMsg);
-    m_groups[3].displays.FUN_007cb2e0(pDigits);
-    m_groups[3].buttons.FUN_007cb2e0(declA);
-    m_groups[3].buttons.FUN_007cb2e0(pIncrease);
-    m_groups[3].buttons.FUN_007cb2e0(next);
-    m_groups[3].buttons.FUN_007cb2e0(pLeft);
+        new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "P3_Increase_Btn:0", 7, 2, valueX, pDigits);
+    next = new BkButton(((void (&)(void *))::FUN_007cabb0), ((void (&)(void *))::CallVfunc60WithGlobalOffset), "P3_RT_Btn:0");
+    pLeft = new BkButton(((void (&)(void *))::fnv_007cabf0::FUN_007cabf0), ((void (&)(void *))::FUN_007ca8a0), "P3_LT_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[3].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[3].displays))->FUN_007cb2e0((unsigned int *)&(kMsg));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[3].displays))->FUN_007cb2e0((unsigned int *)&(pDigits));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[3].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[3].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[3].buttons))->FUN_007cb2e0((unsigned int *)&(next));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[3].buttons))->FUN_007cb2e0((unsigned int *)&(pLeft));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "P4_PointVal:0", 0, 8);
-    kMsg = new BkDisplay(DispatchStateCallback, "P4_Message:0", 0, -1);
-    pDigits = new BkDisplay(UpdateLodVisibility, "P4_PointsRemainDigit1:0", "P4_PointsRemainDigit2:0", -1);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "P4_PointVal:0", 0, 8);
+    kMsg = new BkDisplay(((void (&)(void *))::DispatchStateCallback), "P4_Message:0", 0, -1);
+    pDigits = new BkDisplay(((void (&)(void *))::fnv_007ca5f0::UpdateLodVisibility), "P4_PointsRemainDigit1:0", "P4_PointsRemainDigit2:0", -1);
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "P4_Decrease_Btn:0", 8, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "P4_Increase_Btn:0", 8, 2, valueX, pDigits);
-    next = new BkButton(FUN_007cabb0, CallVfunc60WithGlobalOffset, "P4_RT_Btn:0");
-    pLeft = new BkButton(FUN_007cabf0, FUN_007ca8a0, "P4_LT_Btn:0");
-    m_groups[4].displays.FUN_007cb2e0(valueX);
-    m_groups[4].displays.FUN_007cb2e0(kMsg);
-    m_groups[4].displays.FUN_007cb2e0(pDigits);
-    m_groups[4].buttons.FUN_007cb2e0(declA);
-    m_groups[4].buttons.FUN_007cb2e0(pIncrease);
-    m_groups[4].buttons.FUN_007cb2e0(next);
-    m_groups[4].buttons.FUN_007cb2e0(pLeft);
+        new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "P4_Increase_Btn:0", 8, 2, valueX, pDigits);
+    next = new BkButton(((void (&)(void *))::FUN_007cabb0), ((void (&)(void *))::CallVfunc60WithGlobalOffset), "P4_RT_Btn:0");
+    pLeft = new BkButton(((void (&)(void *))::fnv_007cabf0::FUN_007cabf0), ((void (&)(void *))::FUN_007ca8a0), "P4_LT_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[4].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[4].displays))->FUN_007cb2e0((unsigned int *)&(kMsg));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[4].displays))->FUN_007cb2e0((unsigned int *)&(pDigits));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[4].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[4].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[4].buttons))->FUN_007cb2e0((unsigned int *)&(next));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[4].buttons))->FUN_007cb2e0((unsigned int *)&(pLeft));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "P5_PointVal:0", 0, 9);
-    kMsg = new BkDisplay(DispatchStateCallback, "P5_Message:0", 0, -1);
-    pDigits = new BkDisplay(UpdateLodVisibility, "P5_PointsRemainDigit1:0", "P5_PointsRemainDigit2:0", -1);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "P5_PointVal:0", 0, 9);
+    kMsg = new BkDisplay(((void (&)(void *))::DispatchStateCallback), "P5_Message:0", 0, -1);
+    pDigits = new BkDisplay(((void (&)(void *))::fnv_007ca5f0::UpdateLodVisibility), "P5_PointsRemainDigit1:0", "P5_PointsRemainDigit2:0", -1);
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "P5_Decrease_Btn:0", 9, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "P5_Increase_Btn:0", 9, 2, valueX, pDigits);
-    next = new BkButton(FUN_007cabb0, CallVfunc60WithGlobalOffset, "P5_RT_Btn:0");
-    pLeft = new BkButton(FUN_007cabf0, FUN_007ca8a0, "P5_LT_Btn:0");
-    m_groups[5].displays.FUN_007cb2e0(valueX);
-    m_groups[5].displays.FUN_007cb2e0(kMsg);
-    m_groups[5].displays.FUN_007cb2e0(pDigits);
-    m_groups[5].buttons.FUN_007cb2e0(declA);
-    m_groups[5].buttons.FUN_007cb2e0(pIncrease);
-    m_groups[5].buttons.FUN_007cb2e0(next);
-    m_groups[5].buttons.FUN_007cb2e0(pLeft);
+        new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "P5_Increase_Btn:0", 9, 2, valueX, pDigits);
+    next = new BkButton(((void (&)(void *))::FUN_007cabb0), ((void (&)(void *))::CallVfunc60WithGlobalOffset), "P5_RT_Btn:0");
+    pLeft = new BkButton(((void (&)(void *))::fnv_007cabf0::FUN_007cabf0), ((void (&)(void *))::FUN_007ca8a0), "P5_LT_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[5].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[5].displays))->FUN_007cb2e0((unsigned int *)&(kMsg));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[5].displays))->FUN_007cb2e0((unsigned int *)&(pDigits));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[5].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[5].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[5].buttons))->FUN_007cb2e0((unsigned int *)&(next));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[5].buttons))->FUN_007cb2e0((unsigned int *)&(pLeft));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "P6_PointVal:0", 0, 10);
-    kMsg = new BkDisplay(DispatchStateCallback, "P6_Message:0", 0, -1);
-    pDigits = new BkDisplay(UpdateLodVisibility, "P6_PointsRemainDigit1:0", "P6_PointsRemainDigit2:0", -1);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "P6_PointVal:0", 0, 10);
+    kMsg = new BkDisplay(((void (&)(void *))::DispatchStateCallback), "P6_Message:0", 0, -1);
+    pDigits = new BkDisplay(((void (&)(void *))::fnv_007ca5f0::UpdateLodVisibility), "P6_PointsRemainDigit1:0", "P6_PointsRemainDigit2:0", -1);
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "P6_Decrease_Btn:0", 10, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "P6_Increase_Btn:0", 10, 2, valueX, pDigits);
-    next = new BkButton(FUN_007cabb0, CallVfunc60WithGlobalOffset, "P6_RT_Btn:0");
-    pLeft = new BkButton(FUN_007cabf0, FUN_007ca8a0, "P6_LT_Btn:0");
-    m_groups[6].displays.FUN_007cb2e0(valueX);
-    m_groups[6].displays.FUN_007cb2e0(kMsg);
-    m_groups[6].displays.FUN_007cb2e0(pDigits);
-    m_groups[6].buttons.FUN_007cb2e0(declA);
-    m_groups[6].buttons.FUN_007cb2e0(pIncrease);
-    m_groups[6].buttons.FUN_007cb2e0(next);
-    m_groups[6].buttons.FUN_007cb2e0(pLeft);
+        new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "P6_Increase_Btn:0", 10, 2, valueX, pDigits);
+    next = new BkButton(((void (&)(void *))::FUN_007cabb0), ((void (&)(void *))::CallVfunc60WithGlobalOffset), "P6_RT_Btn:0");
+    pLeft = new BkButton(((void (&)(void *))::fnv_007cabf0::FUN_007cabf0), ((void (&)(void *))::FUN_007ca8a0), "P6_LT_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[6].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[6].displays))->FUN_007cb2e0((unsigned int *)&(kMsg));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[6].displays))->FUN_007cb2e0((unsigned int *)&(pDigits));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[6].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[6].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[6].buttons))->FUN_007cb2e0((unsigned int *)&(next));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[6].buttons))->FUN_007cb2e0((unsigned int *)&(pLeft));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "P7_PointVal:0", 0, 11);
-    kMsg = new BkDisplay(DispatchStateCallback, "P7_Message:0", 0, -1);
-    pDigits = new BkDisplay(UpdateLodVisibility, "P7_PointsRemainDigit1:0", "P7_PointsRemainDigit2:0", -1);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "P7_PointVal:0", 0, 11);
+    kMsg = new BkDisplay(((void (&)(void *))::DispatchStateCallback), "P7_Message:0", 0, -1);
+    pDigits = new BkDisplay(((void (&)(void *))::fnv_007ca5f0::UpdateLodVisibility), "P7_PointsRemainDigit1:0", "P7_PointsRemainDigit2:0", -1);
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "P7_Decrease_Btn:0", 11, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "P7_Increase_Btn:0", 11, 2, valueX, pDigits);
-    next = new BkButton(FUN_007cabb0, CallVfunc60WithGlobalOffset, "P7_RT_Btn:0");
-    pLeft = new BkButton(FUN_007cabf0, FUN_007ca8a0, "P7_LT_Btn:0");
-    m_groups[7].displays.FUN_007cb2e0(valueX);
-    m_groups[7].displays.FUN_007cb2e0(kMsg);
-    m_groups[7].displays.FUN_007cb2e0(pDigits);
-    m_groups[7].buttons.FUN_007cb2e0(declA);
-    m_groups[7].buttons.FUN_007cb2e0(pIncrease);
-    m_groups[7].buttons.FUN_007cb2e0(next);
-    m_groups[7].buttons.FUN_007cb2e0(pLeft);
+        new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "P7_Increase_Btn:0", 11, 2, valueX, pDigits);
+    next = new BkButton(((void (&)(void *))::FUN_007cabb0), ((void (&)(void *))::CallVfunc60WithGlobalOffset), "P7_RT_Btn:0");
+    pLeft = new BkButton(((void (&)(void *))::fnv_007cabf0::FUN_007cabf0), ((void (&)(void *))::FUN_007ca8a0), "P7_LT_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[7].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[7].displays))->FUN_007cb2e0((unsigned int *)&(kMsg));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[7].displays))->FUN_007cb2e0((unsigned int *)&(pDigits));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[7].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[7].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[7].buttons))->FUN_007cb2e0((unsigned int *)&(next));
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[7].buttons))->FUN_007cb2e0((unsigned int *)&(pLeft));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "Index_StrengthPointVal:0", 0, 5);
-    m_groups[8].displays.FUN_007cb2e0(valueX);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "Index_StrengthPointVal:0", 0, 5);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "Index_StrengthDecrease_Btn:0", 5, 2, valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "Index_StrengthIncrease_Btn:0", 5, 2,
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    pIncrease = new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "Index_StrengthIncrease_Btn:0", 5, 2,
                                  valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(pIncrease);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "Index_PerceptionPointVal:0", 0, 6);
-    m_groups[8].displays.FUN_007cb2e0(valueX);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "Index_PerceptionPointVal:0", 0, 6);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "Index_PerceptionDecrease_Btn:0", 6, 2, valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "Index_PerceptionIncrease_Btn:0", 6, 2,
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    pIncrease = new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "Index_PerceptionIncrease_Btn:0", 6, 2,
                                  valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(pIncrease);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "Index_EndurancePointVal:0", 0, 7);
-    m_groups[8].displays.FUN_007cb2e0(valueX);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "Index_EndurancePointVal:0", 0, 7);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "Index_EnduranceDecrease_Btn:0", 7, 2, valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "Index_EnduranceIncrease_Btn:0", 7, 2,
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    pIncrease = new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "Index_EnduranceIncrease_Btn:0", 7, 2,
                                  valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(pIncrease);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "Index_CharismaPointVal:0", 0, 8);
-    m_groups[8].displays.FUN_007cb2e0(valueX);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "Index_CharismaPointVal:0", 0, 8);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "Index_CharismaDecrease_Btn:0", 8, 2, valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "Index_CharismaIncrease_Btn:0", 8, 2,
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    pIncrease = new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "Index_CharismaIncrease_Btn:0", 8, 2,
                                  valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(pIncrease);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "Index_IntelligencePointVal:0", 0, 9);
-    m_groups[8].displays.FUN_007cb2e0(valueX);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "Index_IntelligencePointVal:0", 0, 9);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "Index_IntelligenceDecrease_Btn:0", 9, 2, valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "Index_IntelligenceIncrease_Btn:0", 9, 2,
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    pIncrease = new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "Index_IntelligenceIncrease_Btn:0", 9, 2,
                                  valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(pIncrease);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "Index_AgilityPointVal:0", 0, 10);
-    m_groups[8].displays.FUN_007cb2e0(valueX);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "Index_AgilityPointVal:0", 0, 10);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "Index_AgilityDecrease_Btn:0", 10, 2, valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "Index_AgilityIncrease_Btn:0", 10, 2,
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    pIncrease = new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "Index_AgilityIncrease_Btn:0", 10, 2,
                                  valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(pIncrease);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
 
-    valueX = new BkDisplay(UpdateEntryRankText, "Index_LuckPointVal:0", 0, 11);
-    m_groups[8].displays.FUN_007cb2e0(valueX);
+    valueX = new BkDisplay(((void (&)(void *))::UpdateEntryRankText), "Index_LuckPointVal:0", 0, 11);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].displays))->FUN_007cb2e0((unsigned int *)&(valueX));
     declA = new BkStepButton(FUN_007ca960, FUN_007ca700, "Index_LuckDecrease_Btn:0", 11, 2, valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, FUN_007ca7a0, "Index_LuckIncrease_Btn:0", 11, 2,
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(declA));
+    pIncrease = new BkStepButton(((void (&)(void *))::fnv_007caa80::PlaySpecialBookSoundAndSetStat), ((void (&)(void *))::FUN_007ca7a0), "Index_LuckIncrease_Btn:0", 11, 2,
                                  valueX, pDigits);
-    m_groups[8].buttons.FUN_007cb2e0(pIncrease);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(pIncrease));
 
-    kMsg = new BkDisplay(DispatchStateCallback, (char*)"Index_Message:0", 0, -1);
-    m_groups[8].displays.FUN_007cb2e0(kMsg);
-    pDigits = new BkDisplay(UpdateLodVisibility, (char*)"Index_PointsRemainDigit1:0", "Index_PointsRemainDigit2:0", -1);
-    m_groups[8].displays.FUN_007cb2e0(pDigits);
-    next = new BkButton(FUN_007cac30, DispatchSourceCallback, "AllDone_Btn:0");
-    m_groups[8].buttons.FUN_007cb2e0(next);
-    pLeft = new BkButton(FUN_007cabf0, FUN_007ca8a0, "Index_LT_Btn:0");
-    m_groups[8].buttons.FUN_007cb2e0(pLeft);
+    kMsg = new BkDisplay(((void (&)(void *))::DispatchStateCallback), (char*)"Index_Message:0", 0, -1);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].displays))->FUN_007cb2e0((unsigned int *)&(kMsg));
+    pDigits = new BkDisplay(((void (&)(void *))::fnv_007ca5f0::UpdateLodVisibility), (char*)"Index_PointsRemainDigit1:0", "Index_PointsRemainDigit2:0", -1);
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].displays))->FUN_007cb2e0((unsigned int *)&(pDigits));
+    next = new BkButton(((void (&)(void *))::FUN_007cac30), ((void (&)(void *))::DispatchSourceCallback), "AllDone_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(next));
+    pLeft = new BkButton(((void (&)(void *))::fnv_007cabf0::FUN_007cabf0), ((void (&)(void *))::FUN_007ca8a0), "Index_LT_Btn:0");
+    reinterpret_cast<::FUN_00438690 *>(&(m_groups[8].buttons))->FUN_007cb2e0((unsigned int *)&(pLeft));
 
-    FUN_007cadd0();
+    reinterpret_cast<::FUN_007cadd0_self *>(this)->FUN_007cadd0();
     for (int iGroup = 0; iGroup < 9; iGroup++)
     {
-        for (unsigned int iItem = 0; iItem < m_groups[iGroup].displays.FUN_0044ddc0(); iItem++)
+        for (unsigned int iItem = 0; iItem < ((std::uintptr_t)(m_groups[iGroup].displays.m_iArrayLength)); iItem++)
         {
-            m_groups[iGroup].displays.FUN_006a7ad0(iItem)->m_cb(m_groups[iGroup].displays.FUN_006a7ad0(iItem));
+            ((::BkDisplay *)(SimpleArrayItem<void *>((void *)(&(m_groups[iGroup].displays)), iItem)))->m_cb(((::BkDisplay *)(SimpleArrayItem<void *>((void *)(&(m_groups[iGroup].displays)), iItem))));
         }
-        for (unsigned int iButton = 0; iButton < m_groups[iGroup].buttons.FUN_0044ddc0(); iButton++)
+        for (unsigned int iButton = 0; iButton < ((std::uintptr_t)(m_groups[iGroup].buttons.m_iArrayLength)); iButton++)
         {
-            m_groups[iGroup].buttons.FUN_006a7ad0(iButton)->m_cb4(m_groups[iGroup].buttons.FUN_006a7ad0(iButton));
+            ((::BkButton *)(SimpleArrayItem<void *>((void *)(&(m_groups[iGroup].buttons)), iButton)))->m_cb4(((::BkButton *)(SimpleArrayItem<void *>((void *)(&(m_groups[iGroup].buttons)), iButton))));
         }
     }
 }
 
-int __fastcall FUN_00794d80(void*);
-int __cdecl MinInt(int, int);
-int __cdecl FUN_00647b70(int, int);
 
 struct StatValues
 {
@@ -1804,11 +1767,9 @@ struct BookPlayer
     int unk9c;
     int unka0;
     StatValues values;
-    void FUN_0093a7c0(int stat, int value);
 };
 struct RawBookPtr
 {
-    void* FUN_00559450();
 };
 struct BookButton
 {
@@ -1822,8 +1783,6 @@ struct BookButtonList
 {
     BookButton** data;
     int capacity, count, grow;
-    unsigned int FUN_0044ddc0();
-    BookButton*& FUN_006a7ad0(unsigned int);
 };
 struct BookGroup
 {
@@ -1832,13 +1791,9 @@ struct BookGroup
 };
 struct BookInterface
 {
-    float FUN_009a9350();
-    float FUN_00792760();
 };
-BookInterface* __cdecl FUN_004b7210();
 struct RenderBuffer
 {
-    unsigned int FUN_0084e3a0();
 };
 struct BookRenderer
 {
@@ -1897,10 +1852,6 @@ struct BookRenderer
     virtual void v52();
     virtual RenderBuffer* GetBuffer();
 };
-BookRenderer* __cdecl FUN_0043c4b0();
-extern bool DAT_011f9426;
-extern float DAT_011ad84c;
-extern float DAT_011ad848;
 struct FUN_006815c0
 {
     float x, y, z;
@@ -1908,8 +1859,8 @@ struct FUN_006815c0
 };
 struct BookPickResult
 {
-    void* FUN_00968670();
 };
+class NiPoint3;
 struct NiPick
 {
     int unk00;
@@ -1927,16 +1878,12 @@ struct NiPick
     int unk30;
     NiPick(int, int);
     ~NiPick();
-    void SetByteAtOffset17(int);
     void FUN_00705fc0(void*);
-    void FUN_006ecd40(int);
-    void SetByteAtOffset30(int);
-    bool FUN_00e98e20(const FUN_006815c0&, const FUN_006815c0&, int);
-    BookPickResult* FUN_00500940(unsigned int);
+public:
+    bool PerformPick(const ::NiPoint3 &, const ::NiPoint3 &, bool);
 };
 struct BookScene
 {
-    void MapScreenToRay(int, int, FUN_006815c0*, FUN_006815c0*, int);
 };
 struct BookMenu
 {
@@ -1965,9 +1912,6 @@ struct BookMenu
     int limit;
     void* scene;
     BookGroup groups[9];
-    int FUN_007ca030();
-    bool FUN_007c9dc0(bool);
-    void InvokeCallbacksForSlot();
     void HandleKey(unsigned int key, int unused);
 };
 
@@ -1982,88 +1926,87 @@ void BookMenu::HandleKey(unsigned int key, int unused)
         if (FUN_00794d80(this) == limit)
             FUN_007c6120();
         else
-            BSAudio::GetSingleton()->GetSoundHandleByEditorID("UIActivateNothing", 0x121).Play(false);
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("UIActivateNothing", 0x121)))->FUN_00ad8830(false);
         break;
     case 0:
     case 1:
         if (finished)
         {
             if (key == 0)
-                turned = FUN_007c9dc0(true);
+                turned = reinterpret_cast<::SPECIALBookMenu_7c9dc0 *>(this)->FUN_007c9dc0(true);
             else
-                turned = FUN_007c9dc0(false);
-            InvokeCallbacksForSlot();
+                turned = reinterpret_cast<::SPECIALBookMenu_7c9dc0 *>(this)->FUN_007c9dc0(false);
+            reinterpret_cast<::FUN_007c9dc0_Class *>(this)->InvokeCallbacksForSlot();
         }
         break;
     case 2:
     case 3: {
         int oldValue9 = 0;
         int newValue = 0;
-        if (FUN_007ca030() != -1)
+        if (reinterpret_cast<::FUN_007ca030_shell *>(this)->FUN_007ca030() != -1)
         {
-            oldValue9 = ((BookPlayer*)g_thePlayer)->values.GetBaseValue(FUN_007ca030());
+            oldValue9 = ((BookPlayer*)(*reinterpret_cast<::Player6440 * *>(&::_g_thePlayer)))->values.GetBaseValue(reinterpret_cast<::FUN_007ca030_shell *>(this)->FUN_007ca030());
             if (key == 2)
             {
                 if (FUN_00794d80(this) < limit)
-                    ((BookPlayer*)g_thePlayer)->FUN_0093a7c0(FUN_007ca030(), MinInt(oldValue9 + 1, 10));
+                    reinterpret_cast<::FUN_0093a7c0_Owner *>((((BookPlayer*)(*reinterpret_cast<::Player6440 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(reinterpret_cast<::FUN_007ca030_shell *>(this)->FUN_007ca030()), MinInt(oldValue9 + 1, 10));
             }
             else
             {
-                ((BookPlayer*)g_thePlayer)->FUN_0093a7c0(FUN_007ca030(), FUN_00647b70(oldValue9 - 1, 1));
+                reinterpret_cast<::FUN_0093a7c0_Owner *>((((BookPlayer*)(*reinterpret_cast<::Player6440 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(reinterpret_cast<::FUN_007ca030_shell *>(this)->FUN_007ca030()), FUN_00647b70(oldValue9 - 1, 1));
             }
-            newValue = ((BookPlayer*)g_thePlayer)->values.GetValue(FUN_007ca030());
+            newValue = ((BookPlayer*)(*reinterpret_cast<::Player6440 * *>(&::_g_thePlayer)))->values.GetValue(reinterpret_cast<::FUN_007ca030_shell *>(this)->FUN_007ca030());
         }
-        else if (_FUN_004b71d0() && pageIndex == 8)
+        else if (::FUN_004b71d0() && pageIndex == 8)
         {
-            int stat = selectedStat + 4;
-            oldValue9 = ((BookPlayer*)g_thePlayer)->values.GetBaseValue(stat);
+            intptr_t stat = selectedStat + 4;
+            oldValue9 = ((BookPlayer*)(*reinterpret_cast<::Player6440 * *>(&::_g_thePlayer)))->values.GetBaseValue(stat);
             if (key == 2)
             {
                 if (FUN_00794d80(this) < limit)
-                    ((BookPlayer*)g_thePlayer)->FUN_0093a7c0(stat, MinInt(oldValue9 + 1, 10));
+                    reinterpret_cast<::FUN_0093a7c0_Owner *>((((BookPlayer*)(*reinterpret_cast<::Player6440 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(stat), MinInt(oldValue9 + 1, 10));
             }
             else
             {
-                ((BookPlayer*)g_thePlayer)->FUN_0093a7c0(stat, FUN_00647b70(oldValue9 - 1, 1));
+                reinterpret_cast<::FUN_0093a7c0_Owner *>((((BookPlayer*)(*reinterpret_cast<::Player6440 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(stat), FUN_00647b70(oldValue9 - 1, 1));
             }
-            newValue = ((BookPlayer*)g_thePlayer)->values.GetValue(stat);
+            newValue = ((BookPlayer*)(*reinterpret_cast<::Player6440 * *>(&::_g_thePlayer)))->values.GetValue(stat);
         }
         if (oldValue9 != newValue)
         {
             BSSoundHandleEx sound;
-            sound = BSAudio::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialNumber", 0x121);
-            sound.Play(false);
+            reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleEx &)(sound))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("OBJBookSpecialNumber", 0x121))));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
         }
-        InvokeCallbacksForSlot();
+        reinterpret_cast<::FUN_007c9dc0_Class *>(this)->InvokeCallbacksForSlot();
         break;
     }
     case 5:
         if (pageIndex < 9)
         {
-            BookInterface* interfaceManager3 = FUN_004b7210();
-            int mouseX = (int)interfaceManager3->FUN_009a9350();
-            int mouseY = (int)interfaceManager3->FUN_00792760();
+            BookInterface* interfaceManager3 = ((::BookInterface *)(::fnv_004b7210::FUN_004b7210()));
+            int mouseX = (int)reinterpret_cast<::BGSImpactData *>((interfaceManager3))->FUN_009a9350();
+            int mouseY = (int)reinterpret_cast<::FUN_00792760_shell *>((interfaceManager3))->FUN_00792760();
             if (DAT_011f9426)
                 mouseY = (int)(mouseY * (DAT_011ad848 - DAT_011ad84c) +
-                               FUN_0043c4b0()->GetBuffer()->FUN_0084e3a0() * DAT_011ad84c);
-            for (unsigned int i = 0; i < groups[pageIndex].buttons.FUN_0044ddc0(); i++)
+                               ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::BookRenderer *)(::FUN_0043c4b0()))->GetBuffer()))->FUN_0084e3a0())) * DAT_011ad84c);
+            for (unsigned int i = 0; i < ((std::uintptr_t)(groups[pageIndex].buttons.count)); i++)
             {
                 FUN_006815c0 origin20;
                 FUN_006815c0 direction1;
                 NiPick pick(0, 8);
-                pick.SetByteAtOffset17(1);
-                pick.FUN_00705fc0(groups[pageIndex].buttons.FUN_006a7ad0(i)->object.FUN_00559450());
-                pick.FUN_006ecd40(0);
-                pick.SetByteAtOffset30(1);
-                ((BookScene*)((RawBookPtr*)&g_011daa9c)->FUN_00559450())
-                    ->MapScreenToRay(mouseX, mouseY, &origin20, &direction1, 0);
-                if (pick.FUN_00e98e20(origin20, direction1, 0))
+                reinterpret_cast<::FUN_00458b30_class *>(&(pick))->SetByteAtOffset17(1);
+                pick.FUN_00705fc0(((void *)(::FUN_00559450((int *)&(((::BookButton *)(SimpleArrayItem<void *>((void *)(&(groups[pageIndex].buttons)), i)))->object)))));
+                reinterpret_cast<::CombatProcedure *>(&(pick))->Initialize((::CombatController *)(0));
+                reinterpret_cast<::FUN_00792780_Class *>(&(pick))->SetByteAtOffset30(1);
+                reinterpret_cast<::CameraWindowRay *>((((BookScene*)((void *)(::FUN_00559450((int *)(((RawBookPtr*)&::g_011daa9c))))))))->MapScreenToRay(mouseX, mouseY, (*(::NiPoint3 *)(&origin20)), (*(::NiPoint3 *)(&direction1)), (const ::NiRenderTargetGroup *)(0));
+                if (reinterpret_cast<::NiPick *>(&(pick))->PerformPick((const ::NiPoint3 &)(origin20), (const ::NiPoint3 &)(direction1), 0))
                 {
                     unsigned int resultIndex = 0;
-                    void* hit = pick.FUN_00500940(resultIndex)->FUN_00968670();
+                    void* hit = ((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::BookPickResult *)(reinterpret_cast<::BGSCameraPath *>(&(pick))->GetConditions()))))->FUN_00968670({})));
                     if (hit)
                     {
-                        groups[pageIndex].buttons.FUN_006a7ad0(i)->activate(groups[pageIndex].buttons.FUN_006a7ad0(i));
+                        ((::BookButton *)(SimpleArrayItem<void *>((void *)(&(groups[pageIndex].buttons)), i)))->activate(((::BookButton *)(SimpleArrayItem<void *>((void *)(&(groups[pageIndex].buttons)), i))));
                         break;
                     }
                 }
@@ -2074,17 +2017,19 @@ void BookMenu::HandleKey(unsigned int key, int unused)
         if (pageIndex == 8 && selectedStat > 1)
         {
             selectedStat--;
-            BSAudio::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialFocus", 0x121).Play(false);
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("OBJBookSpecialFocus", 0x121)))->FUN_00ad8830(false);
         }
-        InvokeCallbacksForSlot();
+        reinterpret_cast<::FUN_007c9dc0_Class *>(this)->InvokeCallbacksForSlot();
         break;
     case 7:
         if (pageIndex == 8 && selectedStat < 7)
         {
             selectedStat++;
-            BSAudio::GetSingleton()->GetSoundHandleByEditorID("OBJBookSpecialFocus", 0x121).Play(false);
+            reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("OBJBookSpecialFocus", 0x121)))->FUN_00ad8830(false);
         }
-        InvokeCallbacksForSlot();
+        reinterpret_cast<::FUN_007c9dc0_Class *>(this)->InvokeCallbacksForSlot();
         break;
     }
 }
+
+#include "generated/data/fallout/interface/menus/specialbookmenu.inc"

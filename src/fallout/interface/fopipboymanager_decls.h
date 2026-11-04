@@ -3,6 +3,38 @@
 #define FOPIPBOYMANAGER_DECLS_H
 
 #include <stddef.h>
+#include "fnv/decl/DecalStub.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00444020_Class.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_004bc280_S.h"
+#include "fnv/decl/FUN_0050c630_helper.h"
+#include "fnv/decl/FUN_007f7fb0_Class.h"
+#include "fnv/decl/FUN_007f7fe0_cls.h"
+#include "fnv/decl/FUN_00810530_c.h"
+#include "fnv/decl/FUN_00950bb0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00ba8ab0_shell.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/StrOwner.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_004bc2e0__NiDynamicEffect.h"
+#include "fnv/decl/fnv_0050c660__FUN_0050c660_shell.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_004af000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_0050c000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_00718000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f4000.h"
 class NiFixedString
 {
   public:
@@ -21,6 +53,8 @@ class ThreeByThreeMatrix
     float m[3][3];
     ThreeByThreeMatrix();
     ThreeByThreeMatrix operator*(const ThreeByThreeMatrix&) const;
+public:
+    ::ThreeByThreeMatrix operator+(const ::ThreeByThreeMatrix &) const;
 };
 class NiUpdateData
 {
@@ -37,47 +71,37 @@ class NiPoint3
 {
   public:
     float x, y, z;
+    NiPoint3();
     NiPoint3(float, float, float);
 };
 class NiDirectionalLight
 {
   public:
-    void FUN_004bc280(const NiPoint3&);
 };
 class PathingGraphNode
 {
   public:
-    void FUN_006b0570(const NiPoint3&);
 };
 class NiPointLight : public NiDirectionalLight
 {
   public:
-    void SetEffectColor(const NiPoint3&);
-    void FUN_0050c630(float);
-    void FUN_0050c660(float);
-    void FUN_0050c690(float);
     void FUN_0050dd20(float);
     void FUN_0050dd50(const NiPoint3&);
 };
 class BGSBodyPart
 {
   public:
-    const char* GetPartName();
 };
 class NiNode;
 class NiProperty
 {
   public:
-    void FUN_0068c9f0(float);
 };
 class BSShaderProperty : public NiProperty
 {
   public:
-    void SetAlpha(float);
 };
 class NiGeometry;
-unsigned int FUN_004af350();
-unsigned int FUN_00438220();
 class NiAVObject
 {
   public:
@@ -121,13 +145,6 @@ class NiAVObject
     virtual void vfn_94();
     virtual void vfn_98();
     virtual NiAVObject* GetObjectByName(const NiFixedString&);
-    NiNode* GetParent();
-    void Update(const NiUpdateData&);
-    void UpdateSceneObject();
-    void FUN_00450f90(bool);
-    NiProperty* GetProperty(unsigned int);
-    const ThreeByThreeMatrix& GetRotate() const;
-    void SetLocalRotation(const ThreeByThreeMatrix&);
     void SetLocalRotation(float, float, float, float);
 };
 class NiGeometry : public NiAVObject
@@ -136,12 +153,8 @@ class NiGeometry : public NiAVObject
 class NiNode : public NiAVObject
 {
   public:
-    NiAVObject* FUN_0045bc00(unsigned int);
     NiAVObject* GetAt(unsigned int);
-    unsigned int FUN_00453470();
 };
-NiAVObject* NiDynamicCast(const NiRTTI*, NiAVObject*);
-extern NiRTTI DAT_011f4428;
 template <class T> class NiPointer
 {
   public:
@@ -166,22 +179,21 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
-extern SettingT_GameSettingCollection_ DAT_011db33c, DAT_011db34c;
 class StatsMenu
 {
   public:
     static float GetChartScale();
 };
+class Animation;
 class PlayerCharacter
 {
   public:
     unsigned char prefix[0xa4];
     ActorValueOwner actorValues;
-    NiNode* GetNode(bool);
+public:
+    ::Animation *GetAnimation(bool) const;
 };
-extern PlayerCharacter* g_thePlayer;
 class RgbaColor
 {
   public:
@@ -194,9 +206,6 @@ template <class T> class SettingT
   public:
     SETTING_VALUE* Bool();
 };
-extern SettingT<INISettingCollection> DAT_011db2cc;
-extern SettingT_GameSettingCollection_ DAT_011db2dc, DAT_011db328, DAT_011db274;
-extern NiRTTI DAT_011f4acc;
 class FOPipboyManager;
 class Interface
 {
@@ -204,14 +213,15 @@ class Interface
     unsigned char interfaceState[0x174];
     FOPipboyManager* pPipboyManager;
     FOPipboyManager* GetPipboyManager();
-    static Interface* FUN_004b7210();
-    NiNode* GetRoot();
+public:
+    static bool IsInterfaceActive();
 };
+class NiColor;
 class SystemColorManager
 {
   public:
-    static SystemColorManager* GetSingleton();
-    bool GetColor(unsigned int, RgbaColor&);
+public:
+    bool GetColor(int, ::NiColor &);
 };
 class FORenderedMenu
 {
@@ -274,6 +284,8 @@ class FORenderedMenu
     char m_pMenuLightNode[4];
     bool CreateMenuLight(const char*, class ShadowSceneNode*);
     void OnMenuOpen();
+public:
+    void StartBurst(float, float, float);
 };
 class FOPipboyManager : public FORenderedMenu
 {
@@ -298,33 +310,21 @@ class FOPipboyManager : public FORenderedMenu
     bool b3rdPersonLightOn;
     void OnMenuOpen();
     bool IsUnk28Set();
-    void FUN_00705fc0(NiNode*);
-    void FUN_004dc540(NiNode*);
     void FUN_007fc2d0(NiAVObject*);
     void SetScreen(NiAVObject*);
     void InitializeMenuLight();
     void SetScreenLightFlickerIntensity(float);
-    void SetIntensity(float);
-    void SetQuad(const RgbaColor&);
-    void FUN_007f7fb0(const RgbaColor&);
     void SetBlurIntensity(float);
-    void FUN_00444020(float);
     void SetScanlines(bool, float);
-    void FUN_00810530(bool);
     void SetPipBoyObjectVisibility(bool, bool, bool);
     void UpdateScrollKnob();
     void UpdatePipBoyButton();
-    void SetDataGlowEnabled(bool);
+    bool FUN_007f8720(bool press, bool release, float& x, float& y, int& button);
     float m_fFirstPersonLightIntensity;
     float m_fThirdPersonLightIntensity;
     bool m_bPipBoyLightEnabled;
     char _pdbpad_16d[3];
+public:
+    void ActivateButton(const unsigned int);
 };
-typedef char FOPipboyManagerButtonsOffset[(offsetof(FOPipboyManager, m_cPipBoyButtonAvailability) == 0xe8) ? 1 : -1];
-typedef char FOPipboyManagerKnobsOffset[(offsetof(FOPipboyManager, m_pGaugeObjects) == 0x100) ? 1 : -1];
-typedef char FOPipboyManagerLightOffset[(offsetof(FOPipboyManager, b1stPersonLightOn) == 0x160) ? 1 : -1];
-typedef char InterfacePipboyManagerOffset[(offsetof(Interface, pPipboyManager) == 0x174) ? 1 : -1];
-typedef char NiUpdateDataSize[(sizeof(NiUpdateData) == 12) ? 1 : -1];
-typedef char NiMatrix3Size[(sizeof(ThreeByThreeMatrix) == 36) ? 1 : -1];
-extern SettingT_GameSettingCollection_ DAT_011db514;
 #endif

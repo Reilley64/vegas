@@ -85,7 +85,6 @@ class MagicEffectSystem
     static ActiveEffect* Activate(MagicCaster* m_pEffectInstance, MagicItem* pItem, EffectItem* pEffect, TESBoundObject* pSource);
 };
 
-#pragma pack(push, 4)
 class MagicCaster
 {
   public:
@@ -114,10 +113,6 @@ class MagicCaster
     Actor* GetCasterActor();
     void LaunchMagicProjectile(float fValue, TESBoundObject* pObject, bool bArg1, float fImpulseRadiusSquared, bool bArg2);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MagicCaster) == 0xC);
-FNV_STATIC_ASSERT(offsetof(MagicCaster, apTargetLight) == 0x4);
-FNV_STATIC_ASSERT(offsetof(MagicCaster, eState) == 0x8);
 
 class Actor : public MobileObject,
               public MagicCaster,

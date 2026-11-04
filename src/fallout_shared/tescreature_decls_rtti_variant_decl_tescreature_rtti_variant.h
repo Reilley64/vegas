@@ -2,6 +2,31 @@
 #define TESCREATURE_DECLS_H
 
 
+#include "fnv/decl/FUN_004516b0_shell.h"
+#include "fnv/decl/FUN_0047d800_shell.h"
+#include "fnv/decl/FUN_00489a60.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_005f06f0_shell.h"
+#include "fnv/decl/FUN_005f75e0.h"
+#include "fnv/decl/FUN_005f77b0.h"
+#include "fnv/decl/FUN_005f7b50_Class.h"
+#include "fnv/decl/FUN_005f9100_shell.h"
+#include "fnv/decl/FUN_005f91d0_shell.h"
+#include "fnv/decl/FUN_005f9ad0_shell.h"
+#include "fnv/decl/FUN_005f9b30_shell.h"
+#include "fnv/decl/FUN_005f9b70_shell.h"
+#include "fnv/decl/FUN_00821640_shell.h"
+#include "fnv/decl/FUN_00821660_shell.h"
+#include "fnv/decl/FlagSet.h"
+#include "fnv/decl/Twin_009c0070.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_00567000.h"
+#include "fnv/symbols_005f9000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011c3000.h"
 namespace TESDataHandlerTypes {
 class TESFaction;
 }
@@ -19,8 +44,6 @@ class FormChangeMask
 class BGSLoadFormBuffer
 {
   public:
-    FormChangeMask GetChangeFlags(unsigned int flag);
-    void ReadTypedData(void* data, unsigned int size);
 };
 
 class TESAttackDamageForm
@@ -38,7 +61,6 @@ class TESModelList
     virtual void vfn_00() = 0;
     unsigned char modelListLayout[0x10];
     TESModelList();
-    void FUN_00489a60();
     ~TESModelList();
 };
 
@@ -56,7 +78,6 @@ class BGSImpactDataSet;
 class BGSListForm;
 class CombatController;
 
-extern "C" const float gCreatureFootWeight;
 extern "C" char gVtable_TESCreature;
 extern "C" char gVtable_30;
 extern "C" char gVtable_64;
@@ -74,18 +95,11 @@ extern "C" char gVtable_104;
 extern "C" char gVtable_10c;
 extern "C" char gVtable_114;
 extern "C" char gDestructorEhHandler;
-extern "C" void FnvActorBaseCtorAlias();
-extern "C" void FnvAttackCtorAlias();
-extern "C" void FnvClearDataAlias();
-extern "C" void FnvModelListDtorAlias();
-extern "C" void FnvAttackDtorAlias();
-extern "C" void FnvActorBaseDtorAlias();
-extern "C" unsigned int __security_cookie;
 
 class CreatureSoundCollection
 {
   public:
-    bool IsDifferentFrom(CreatureSoundCollection* other);  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
   public:
     unsigned char soundLists[0x58];
     CreatureSoundCollection();
@@ -118,12 +132,8 @@ class TESActorBaseData
     virtual void D20();
     virtual void D21();
     virtual int GetBloodImpactMaterial();
-    bool FUN_00461580(unsigned int flag);
     unsigned char componentLayout[0x30];
-    void SetFactionRank(TESDataHandlerTypes::TESFaction*, char);
     bool GetFlag(unsigned int flag) const;
-    void UpdateFlagBit(int flag, bool value, bool addChange);
-    void UpdateFlagBit(bool value, bool addChange);
 };
 
 class CombatProcedure
@@ -147,15 +157,12 @@ class TESForm
   public:
     virtual ~TESForm();  // the original class is polymorphic (rtti_variants.py)
   public:
-    void SetFormType(ENUM_FORM_ID);
 };
 extern TESDataHandlerTypes::TESFaction* DAT_011cb550;
 class TESDataHandler
 {
   public:
-    bool FUN_004516b0();
 };
-extern TESDataHandler* g_dataHandler;
 class TESAIForm
 {
   public:
@@ -255,7 +262,6 @@ class TESActorBase : public TESBoundAnimObject,
   public:
     TESActorBase();
     ~TESActorBase();
-    void LoadGame(BGSLoadFormBuffer*);
 };
 
 class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESModelList
@@ -360,17 +366,7 @@ class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESM
     virtual void C97();
     virtual TESCombatStyle* GetCombatStyle();
     bool FUN_005f9b90(TESForm* otherForm);
-    bool FUN_00485270(TESCreature* other);
-    const void* GetOffset12C();
-    bool FUN_005f9ad0();
-    float FUN_00821640();
-    float FUN_00567470();
-    float FUN_00821660();
-    int FUN_009c0070();
-    CreatureSoundCollection* GetCreatureSounds();
-    TESCreature* GetSoundCreature();
-    int GetImpactDataSet();
-    int GetField158();  // declared for the original code (decl_variants.py)
+      // declared for the original code (decl_variants.py)
   public:
     union
     {

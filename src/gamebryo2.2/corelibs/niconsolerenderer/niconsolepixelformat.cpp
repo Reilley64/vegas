@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/niconsolerenderer/niconsolepixelformat.cpp: NiD3DTextureData (1 function)
 
+#include "fnv/decl/A62190PixelFormat.h"
+#include "fnv/decl/FUN_00a77980_shell.h"
 #include "niconsolepixelformat_pc_types.h"
 
 // Maps a NiPixelFormat to a D3DFORMAT: returns the renderer hint if set, otherwise selects a format from the pixel format, bit depth and channel masks.
@@ -18,30 +20,30 @@ D3DFORMAT __cdecl NiD3DTextureData::ConvertPixelFormatToD3DFormat(const NiPixelF
         switch (ucBitsPerPixel)
         {
         case 8:
-            if (kPixelFormat.GetMask(COMP_RED) == 0xe0)
+            if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0xe0)
                 eD3DFormat = D3DFMT_R3G3B2;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0)
                 eD3DFormat = D3DFMT_L8;
             break;
         case 16:
-            if (kPixelFormat.GetMask(COMP_RED) == 0xf800)
+            if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0xf800)
                 eD3DFormat = D3DFMT_R5G6B5;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0x7c00)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0x7c00)
                 eD3DFormat = D3DFMT_X1R5G5B5;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0x0f00)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0x0f00)
                 eD3DFormat = D3DFMT_X4R4G4B4;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0)
                 eD3DFormat = D3DFMT_L16;
             break;
         case 24:
             eD3DFormat = D3DFMT_R8G8B8;
             break;
         case 32:
-            if (kPixelFormat.GetMask(COMP_RED) == 0x00ff0000)
+            if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0x00ff0000)
                 eD3DFormat = D3DFMT_X8R8G8B8;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0x000000ff)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0x000000ff)
                 eD3DFormat = D3DFMT_X8B8G8R8;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0xffff0000)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0xffff0000)
                 eD3DFormat = D3DFMT_G16R16;
             break;
         default:
@@ -53,32 +55,32 @@ D3DFORMAT __cdecl NiD3DTextureData::ConvertPixelFormatToD3DFormat(const NiPixelF
         switch (ucBitsPerPixel)
         {
         case 8:
-            if (kPixelFormat.GetMask(COMP_LUMA) == 0)
+            if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_LUMA))) == 0)
                 eD3DFormat = D3DFMT_A8;
-            else if (kPixelFormat.GetMask(COMP_LUMA) == 0x0f)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_LUMA))) == 0x0f)
                 eD3DFormat = D3DFMT_A4L4;
             break;
         case 16:
-            if (kPixelFormat.GetMask(COMP_RED) == 0x7c00)
+            if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0x7c00)
                 eD3DFormat = D3DFMT_A1R5G5B5;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0x0f00)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0x0f00)
                 eD3DFormat = D3DFMT_A4R4G4B4;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0xe0)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0xe0)
                 eD3DFormat = D3DFMT_A8R3G3B2;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0)
                 eD3DFormat = D3DFMT_A8L8;
             break;
         case 24:
             eD3DFormat = D3DFMT_UNKNOWN;
             break;
         case 32:
-            if (kPixelFormat.GetMask(COMP_RED) == 0x00ff0000)
+            if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0x00ff0000)
                 eD3DFormat = D3DFMT_A8R8G8B8;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0x000003ff)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0x000003ff)
                 eD3DFormat = D3DFMT_A2B10G10R10;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0x000000ff)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0x000000ff)
                 eD3DFormat = D3DFMT_A8B8G8R8;
-            else if (kPixelFormat.GetMask(COMP_RED) == 0x3ff00000)
+            else if (reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_RED))) == 0x3ff00000)
                 eD3DFormat = D3DFMT_A2R10G10B10;
             break;
         case 64:
@@ -125,7 +127,7 @@ D3DFORMAT __cdecl NiD3DTextureData::ConvertPixelFormatToD3DFormat(const NiPixelF
         switch (ucBitsPerPixel)
         {
         case 8:
-            eD3DFormat = kPixelFormat.GetMask(COMP_ALPHA) == 0 ? D3DFMT_L8 : D3DFMT_A8;
+            eD3DFormat = reinterpret_cast<::A62190PixelFormat *>((void *)&(kPixelFormat))->GetComponentMask((*(int *)&(const ::NiPixelFormat::Component &)(COMP_ALPHA))) == 0 ? D3DFMT_L8 : D3DFMT_A8;
             break;
         case 16:
             eD3DFormat = D3DFMT_R16F;
@@ -170,9 +172,9 @@ D3DFORMAT __cdecl NiD3DTextureData::ConvertPixelFormatToD3DFormat(const NiPixelF
         switch (ucBitsPerPixel)
         {
         case 16:
-            return kPixelFormat.GetPixelBitData(COMP_STENCIL) == 1 ? D3DFMT_D15S1 : D3DFMT_D16;
+            return reinterpret_cast<::FUN_00a77980_shell *>((void *)&(kPixelFormat))->FUN_00a77980((*(int *)&(const ::NiPixelFormat::Component &)(COMP_STENCIL))) == 1 ? D3DFMT_D15S1 : D3DFMT_D16;
         case 32: {
-            unsigned char ucStencilBits = kPixelFormat.GetPixelBitData(COMP_STENCIL);
+            unsigned char ucStencilBits = reinterpret_cast<::FUN_00a77980_shell *>((void *)&(kPixelFormat))->FUN_00a77980((*(int *)&(const ::NiPixelFormat::Component &)(COMP_STENCIL)));
             switch (ucStencilBits)
             {
             case 4:
@@ -180,7 +182,7 @@ D3DFORMAT __cdecl NiD3DTextureData::ConvertPixelFormatToD3DFormat(const NiPixelF
             case 8:
                 return D3DFMT_D24S8;
             default:
-                return kPixelFormat.GetPixelBitData(COMP_DEPTH) == 24 ? D3DFMT_D24X8 : D3DFMT_D32;
+                return reinterpret_cast<::FUN_00a77980_shell *>((void *)&(kPixelFormat))->FUN_00a77980((*(int *)&(const ::NiPixelFormat::Component &)(COMP_DEPTH))) == 24 ? D3DFMT_D24X8 : D3DFMT_D32;
             }
         }
         }

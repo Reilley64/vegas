@@ -2,11 +2,57 @@
 // src/staging/blk_00780000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/BSSimpleArrayActor.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00438b90_class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004bddd0_shell.h"
+#include "fnv/decl/FUN_00572160_shell.h"
+#include "fnv/decl/FUN_0078b9b0_shell.h"
+#include "fnv/decl/FUN_00821600_shell.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_009a3910_cls.h"
+#include "fnv/decl/FUN_009a3c50_cls.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/HotkeyWheelDisplay.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/List7313.h"
+#include "fnv/decl/LoadingMenu.h"
+#include "fnv/decl/MultiBoundManagerB5D.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_007928e0__Menu109.h"
+#include "fnv/decl/fnv_007945f0__SurgeryCameraMenu.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005cf000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_0078d000.h"
+#include "fnv/symbols_00791000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011da000.h"
+#include "fnv/symbols_011de000.h"
 #include "../../include/layout_support.h"
 
 struct FUN_007832e0_class
 {
-    void UpdateCurrentValueTile(int a);
+    char pad00[0x24];
+    float unk24;
+    float unk28;
     void FUN_007832e0(float a, float b);
 };
 
@@ -14,26 +60,28 @@ struct FUN_007832e0_class
 // @fnv 0x007832e0
 void FUN_007832e0_class::FUN_007832e0(float afFirst, float afSecond)
 {
-    ((float*)this)[9] = afFirst;
-    ((float*)this)[10] = afSecond;
-    UpdateCurrentValueTile(1);
+    this->unk24 = afFirst;
+    this->unk28 = afSecond;
+    reinterpret_cast<::List7313 *>(this)->UpdateCurrentValueTile(1);
 }
 
 struct FUN_00788330
 {
-    void* __thiscall Alloc(int a);
+    void* Alloc(int a);
 };
 
 // Allocates a block of a * 20 bytes via operator new and returns the pointer.
 // @fnv 0x00788330
-void* __thiscall FUN_00788330::Alloc(int a)
+void* FUN_00788330::Alloc(int a)
 {
-    void* result = operator new(a * 20);
+    void* result = ::FUN_00401000(a * 20);
     return result;
 }
 
 struct BSSystemUtility
 {
+    char pad00[0x4a];
+    char unk4a;
     void Update();
     static BSSystemUtility* ms_pSystemUtility;
 };
@@ -44,67 +92,69 @@ void UpdateSystemUtility()
 {
     if (BSSystemUtility::ms_pSystemUtility)
     {
-        ((char*)BSSystemUtility::ms_pSystemUtility)[0x4a] = 1;
+        BSSystemUtility::ms_pSystemUtility->unk4a = 1;
         BSSystemUtility::ms_pSystemUtility->Update();
     }
 }
 
 struct FUN_00792780_Class
 {
+    char pad00[0x30];
+    unsigned char unk30;
     void SetByteAtOffset30(unsigned char param);
 };
 
 // @fnv 0x00792780
 void FUN_00792780_Class::SetByteAtOffset30(unsigned char aucValue)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x30) = aucValue;
+    this->unk30 = aucValue;
 }
 
 struct GlobalObject_00788300
 {
     ~GlobalObject_00788300();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 // Runs the destructor and, when flags has bit 0 set, frees the object with operator delete; returns this.
 // @fnv 0x00788360
-void* __thiscall GlobalObject_00788300::Destroy(unsigned int flags)
+void* GlobalObject_00788300::Destroy(unsigned int flags)
 {
-    GlobalObject_00788300::~GlobalObject_00788300();
+    reinterpret_cast<::BSSimpleArrayActor *>(this)->FUN_00788390();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct FUN_0078d8d0_Class
 {
-    void __thiscall FUN_0078d8b0();
-    void* __thiscall FUN_0078d8d0(unsigned int flags);
+    void* FUN_0078d8d0(unsigned int flags);
 };
 
-void __cdecl Deallocate(void*);
 
 // Calls FUN_0078d8b0, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x0078d8d0
-void* __thiscall FUN_0078d8d0_Class::FUN_0078d8d0(unsigned int flags)
+void* FUN_0078d8d0_Class::FUN_0078d8d0(unsigned int flags)
 {
-    FUN_0078d8b0();
+    ::FUN_0078d8b0((::GlobalObject_00869f00 *)this);
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct FUN_0078e090_class
 {
-    char __thiscall FUN_0078e090();
+    char pad00[0x2c];
+    char unk2c;
+    char FUN_0078e090();
 };
 
 // Checks the 16 int slots at offset 0x2c and returns 1 only if every one is non-zero, otherwise 0.
 // @fnv 0x0078e090
-char __thiscall FUN_0078e090_class::FUN_0078e090()
+char FUN_0078e090_class::FUN_0078e090()
 {
     for (int i = 0; i < 16; ++i)
     {
-        if (!(*(int*)((char*)this + 0x2c + i * 4)))
+        if (!(*(int*)((char*)&this->unk2c + i * 4)))
             return 0;
     }
     return 1;
@@ -126,109 +176,81 @@ struct NiNode
 };
 struct PropHelper
 {
-    void* GetProperty(unsigned int id);
 };
 struct TileShaderProperty
 {
-    void SetAlpha(float alpha);
 };
-int __cdecl FUN_00438220(void);
 struct FUN_0078cf10_Class
 {
-    void __thiscall SetAlphaRecursive(NiAVObject* object, float alpha);
+    void SetAlphaRecursive(NiAVObject* object, float alpha);
 };
 // Recursively applies alpha to the object's children and, if the object has a shader property, sets its alpha.
 // @fnv 0x0078cf10
-void __thiscall FUN_0078cf10_Class::SetAlphaRecursive(NiAVObject* object, float alpha)
+void FUN_0078cf10_Class::SetAlphaRecursive(NiAVObject* object, float alpha)
 {
     if (!object)
         return;
-    NiNode* node = ((NiNode * (__thiscall*)(void*))(*(void***)object)[3])(object);
+    NiNode* node = ((NiNode * (*)(void*))(*(void***)object)[3])(object);
     for (unsigned int i = 0; node && i < node->GetNumChildren(); ++i)
         SetAlphaRecursive(node->GetAt(i), alpha);
-    if (((int(__thiscall*)(void*))(*(void***)object)[6])(object))
+    if (((int(*)(void*))(*(void***)object)[6])(object))
     {
-        TileShaderProperty* pShaderProp = (TileShaderProperty*)((PropHelper*)object)->GetProperty(FUN_00438220());
+        TileShaderProperty* pShaderProp = (TileShaderProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)object)))->FUN_00a59d30(FUN_00438220())));
         if (pShaderProp)
-            pShaderProp->SetAlpha(alpha);
+            reinterpret_cast<::FUN_00821600_shell *>((pShaderProp))->FUN_00821600(alpha);
     }
 }
 
 struct S5460
 {
     virtual void v0();
-    virtual unsigned int v1(unsigned int a);
-    bool FUN_00438b90();
-    unsigned int FUN_009a3910();
+    virtual void* v1(unsigned int a);
+    void* unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
     unsigned int FUN_007881d0();
 };
 struct FUN_0098f040_shell
 {
-    void UpdateThreat(unsigned int a, unsigned int b);
 };
 // If FUN_00438b90 succeeds, initializes or advances the id at offset 0xc, then increments the counter at offset 8 and returns its previous value.
 // @fnv 0x007881d0
 unsigned int S5460::FUN_007881d0()
 {
-    if (FUN_00438b90())
+    if (((bool)(reinterpret_cast<::FUN_00438b90_class *>(this)->FUN_00438b90())))
     {
-        if (!*(unsigned int*)((char*)this + 0xc))
+        if (!this->unk0c)
         {
             unsigned int id = 4;
-            *(unsigned int*)((char*)this + 4) = v1(id);
-            *(unsigned int*)((char*)this + 0xc) = id;
+            this->unk04 = v1(id);
+            this->unk0c = id;
         }
         else
         {
-            unsigned int id = FUN_009a3910();
-            ((FUN_0098f040_shell*)this)->UpdateThreat(id, *(unsigned int*)((char*)this + 8));
-            *(unsigned int*)((char*)this + 0xc) = id;
+            unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_009a3910_cls *>(this)->FUN_009a3910()));
+            reinterpret_cast<::FUN_009a3c50_cls *>((((FUN_0098f040_shell*)this)))->UpdateThreat(id, this->unk08);
+            this->unk0c = id;
         }
     }
-    *(unsigned int*)((char*)this + 8) += 1;
-    return *(unsigned int*)((char*)this + 8) - 1;
+    this->unk08 += 1;
+    return this->unk08 - 1;
 }
 
 struct FUN_007883b0
 {
     virtual ~FUN_007883b0();
     virtual void* Write(unsigned int size);
-    void ConstructElems(void* data, unsigned int size);
     void RecordRequestedSize(unsigned int requested, unsigned int savedSize);
     void* iSize;
     unsigned int iPosition;
     unsigned int iDataLength;
 };
 
-// @fnv 0x007883b0
-void FUN_007883b0::RecordRequestedSize(unsigned int requested, unsigned int savedSize)
-{
-    iSize = 0;
-    iPosition = 0;
-    iDataLength = 0;
-    if (savedSize > requested)
-    {
-        requested = savedSize;
-    }
-    if (requested > 0)
-    {
-        iSize = Write(requested);
-        iDataLength = requested;
-    }
-    if (savedSize > 0)
-    {
-        ConstructElems(iSize, savedSize);
-        iPosition = savedSize;
-    }
-}
-
 struct GlobalObject_0045cfe0
 {
-    int* Int();
 };
 struct Actor
 {
-    unsigned short GetLevel();
 };
 struct ActorValueUtility
 {
@@ -241,37 +263,31 @@ struct Player
     virtual void v2();
     virtual float v3(int);
 };
-extern Actor* g_thePlayer;
-extern GlobalObject_0045cfe0 g_011d0c60;
-void FNV_Warning(int a, const char* format, int b, int c, double d);
 
 // Returns the player's progress fraction between the current and next level XP thresholds, warning if current XP is below the low threshold.
 // @fnv 0x0078d5a0
 float GetLevelProgress()
 {
-    if (g_thePlayer->GetLevel() >= *g_011d0c60.Int())
+    if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_0087f9f0() >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011d0c60)))))))
         return 0.0f;
 
     int lowXP;
     int highXP;
-    int level = g_thePlayer->GetLevel();
+    int level = reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_0087f9f0();
     lowXP = ActorValueUtility::ConvertActorValue(level);
     highXP = ActorValueUtility::ConvertActorValue(level + 1);
-    float currentXP = ((Player*)(char*)g_thePlayer + 0xa4 / 4)->v3(0x18);
+    float currentXP = ((Player*)(char*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) + 0xa4 / 4)->v3(0x18);
     if (currentXP < lowXP)
-        FNV_Warning(0x12, "Loading Menu:  Invalid Level Progress Values\n  LowXP=%d, HighXP=%d, CurrXP=%.2f", lowXP,
-                    highXP, currentXP);
+        ::FUN_005b5e40();
     return (currentXP - lowXP) / (highXP - lowXP);
 }
 
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct FUN_004bddd0_t : public ArrSI
 {
-    bool FUN_004bddd0(bool a);
 };
 
 struct G2
@@ -281,6 +297,9 @@ struct G2
 
 struct InventoryMenu
 {
+    char pad00[0x11c];
+    G2 unk11c;
+    char pad11d[0x3];
     static InventoryMenu* ms_pInventoryMenu;
 };
 
@@ -292,10 +311,10 @@ struct FUN_007832a0_class
 // @fnv 0x007832a0
 void __cdecl FUN_007832a0_class::FUN_007832a0(FUN_004bddd0_t* a)
 {
-    if (a != 0 && a->FUN_004bddd0(false))
+    if (a != 0 && reinterpret_cast<::FUN_004bddd0_shell *>((a))->FUN_004bddd0(false))
     {
-        int flags = static_cast<int>(a->GetFlags());
-        reinterpret_cast<G2*>(reinterpret_cast<char*>(InventoryMenu::ms_pInventoryMenu) + 0x11c)->AddHead(&flags);
+        int flags = static_cast<int>(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((a))->GetName())));
+        InventoryMenu::ms_pInventoryMenu->unk11c.AddHead(&flags);
     }
 }
 
@@ -375,12 +394,10 @@ struct GO
 
 struct FUN_00b5ddb0_self
 {
-    void FUN_00b5d180();
 };
 
 struct NiNodeDetachHelper
 {
-    void __thiscall DetachAllChildren();
 };
 
 struct Menu_007a8b10
@@ -388,9 +405,6 @@ struct Menu_007a8b10
     virtual ~Menu_007a8b10();
 };
 
-extern GO DAT_011da24c;
-extern GO g_011da224;
-extern int DAT_011da204;
 
 struct FUN_0078e0f0 : Menu_007a8b10
 {
@@ -401,19 +415,17 @@ struct FUN_0078e0f0 : Menu_007a8b10
 FUN_0078e0f0::~FUN_0078e0f0()
 {
     ((ShadowSceneNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))
-        ->v58(DAT_011da24c.operator unsigned int());
+        ->v58((*reinterpret_cast<::GO *>(&::g_011da24c)).operator unsigned int());
 
-    ((NiNodeDetachHelper*)(NiNode*)(unsigned int)DAT_011da24c.operator unsigned int())->DetachAllChildren();
+    reinterpret_cast<::FUN_00572160_shell *>((((NiNodeDetachHelper*)(NiNode*)(uintptr_t)(*reinterpret_cast<::GO *>(&::g_011da24c)).operator unsigned int())))->FUN_00572160();
 
-    DAT_011da24c.operator=(0);
-    g_011da224.operator=(0);
+    (*reinterpret_cast<::GO *>(&::g_011da24c)).operator=(0);
+    (*reinterpret_cast<::GO *>(&::g_011da224)).operator=(0);
     DAT_011da204 = 0;
 
-    ((FUN_00b5ddb0_self*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))->FUN_00b5d180();
+    reinterpret_cast<::MultiBoundManagerB5D *>((((FUN_00b5ddb0_self*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->FUN_00b5d180();
 }
 
-void* operator new(unsigned int size, void* place);
-void operator delete(void* object, void* place);
 
 struct Elem_788
 {
@@ -425,6 +437,27 @@ struct Owner_788
 {
     void ConstructElems(Elem_788* pData, unsigned int ItemUpdateArray);
 };
+// @fnv 0x007883b0
+void FUN_007883b0::RecordRequestedSize(unsigned int requested, unsigned int savedSize)
+{
+    iSize = 0;
+    iPosition = 0;
+    iDataLength = 0;
+    if (savedSize > requested)
+    {
+        requested = savedSize;
+    }
+    if (requested > 0)
+    {
+        iSize = Write(requested);
+        iDataLength = requested;
+    }
+    if (savedSize > 0)
+    {
+        reinterpret_cast<::Owner_788 *>(this)->ConstructElems((::Elem_788 *)(iSize), savedSize);
+        iPosition = savedSize;
+    }
+}
 
 // @fnv 0x00788260
 void Owner_788::ConstructElems(Elem_788* pData, unsigned int auiCount)
@@ -453,9 +486,6 @@ struct MenuStub
     virtual void v11();
     virtual void v12();
     virtual int GetID();
-    void SetTile(TileStub* tile, bool flag);
-    void SetVisible(bool flag);
-    void* GetTileRef();
 };
 
 struct LoveTesterMenu : MenuStub
@@ -482,21 +512,15 @@ struct LoveTesterMenu : MenuStub
     int unk50;
     int unk54;
     int unk58;
-    bool InitializeCollection(int* missingIndex);
-    void Setup();
-    void* GetNode();
 };
 
 struct TileStub
 {
     virtual ~TileStub();
-    TileStub* ReadXML(const char* path);
-    MenuStub* GetParentMenu();
 };
 
 struct IMStub
 {
-    TileStub* GetMenuRoot();
 };
 
 struct NodePtr
@@ -504,43 +528,7 @@ struct NodePtr
     NodePtr& operator=(void* p);
 };
 
-IMStub* GetInterfaceManager();
-int GetLoveTesterMenuID();
-void FNV_Warning(const char* fmt, ...);
-void CloseLoveTester();
-void SetLoveTesterEnabled(bool b);
 
-extern LoveTesterMenu* DAT_011da2c8;
-extern NodePtr g_011da2f4;
-
-// @fnv 0x007915f0
-void __cdecl CreateLoveTesterMenu(int aiValue)
-{
-    TileStub* pTile = GetInterfaceManager()->GetMenuRoot()->ReadXML("Data\\Menus\\CharGen\\love_tester_menu.xml");
-    MenuStub* menu = pTile->GetParentMenu();
-    if (menu && menu->GetID() == GetLoveTesterMenuID())
-    {
-        menu->SetTile(pTile, false);
-        DAT_011da2c8 = (LoveTesterMenu*)menu;
-        int missing;
-        if (!DAT_011da2c8->InitializeCollection(&missing))
-        {
-            FNV_Warning("MENUS:  Special book menu creation failed... Missing index = #%d", missing);
-            delete pTile;
-            CloseLoveTester();
-            return;
-        }
-        DAT_011da2c8->unk58 = aiValue;
-        DAT_011da2c8->Setup();
-        g_011da2f4 = DAT_011da2c8->GetNode();
-        SetLoveTesterEnabled(true);
-        menu->SetVisible(false);
-    }
-    else if (menu && menu->GetTileRef())
-    {
-        delete menu;
-    }
-}
 
 // @fnv 0x00791740
 int FUN_00791740()
@@ -593,7 +581,37 @@ struct Menu
     int unk1c;
     int unk20;
     int unk24;
+public:
+    void SetMenuVisibility(bool);
 };
+// @fnv 0x007915f0
+void __cdecl CreateLoveTesterMenu(int aiValue)
+{
+    TileStub* pTile = ((::TileStub *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::TileStub *)(reinterpret_cast<::InterfaceManager *>((((::IMStub *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150()))))->FUN_00a01b00((void *)("Data\\Menus\\CharGen\\love_tester_menu.xml"))));
+    MenuStub* menu = ((::MenuStub *)(reinterpret_cast<::FUN_00a03c90_shell *>((pTile))->FUN_00a03c90()));
+    if (menu && menu->GetID() == ::FUN_00791740())
+    {
+        reinterpret_cast<::FUN_00a1dc70_shell *>((menu))->FUN_00a1dc70((::TileMenu *)(pTile), false);
+        (*reinterpret_cast<::LoveTesterMenu * *>(&::DAT_011da2c8)) = (LoveTesterMenu*)menu;
+        int missing;
+        if (!reinterpret_cast<::FUN_00791750_cls *>(((*reinterpret_cast<::LoveTesterMenu * *>(&::DAT_011da2c8))))->HasAllFlagsSet(&missing))
+        {
+            ::FUN_005b5e40();
+            delete pTile;
+            ::fnv_007037e0::FUN_007037e0();
+            return;
+        }
+        (*reinterpret_cast<::LoveTesterMenu * *>(&::DAT_011da2c8))->unk58 = aiValue;
+        reinterpret_cast<::fnv_007928e0::Menu109 *>(((*reinterpret_cast<::LoveTesterMenu * *>(&::DAT_011da2c8))))->Init();
+        (*reinterpret_cast<::NodePtr *>(&::g_011da2f4)) = ((void *)(reinterpret_cast<::fnv_007945f0::SurgeryCameraMenu *>(((*reinterpret_cast<::LoveTesterMenu * *>(&::DAT_011da2c8))))->CreateSurgeryCamera()));
+        ::FUN_005cfcb0(true);
+        reinterpret_cast<::Menu *>((menu))->SetMenuVisibility(false);
+    }
+    else if (menu && reinterpret_cast<::Callees *>((menu))->FUN_00726070())
+    {
+        delete menu;
+    }
+}
 struct MemberList
 {
     int a, b, c;
@@ -613,7 +631,6 @@ struct ViewParam
 };
 struct ItemValue
 {
-    void* Get();
 };
 struct ListMember
 {
@@ -621,7 +638,6 @@ struct ListMember
     ListMember* next;
     ListMember();
     ~ListMember();
-    ItemValue** GetItem();
 };
 struct SmallMember
 {
@@ -691,9 +707,6 @@ struct Renderer
     virtual void v44();
     virtual void GetView(ViewParam*);
 };
-Renderer* GetRenderer();
-bool extern DAT_011a0294;
-void* memset(void*, int, unsigned int);
 struct FUN_00788440 : Menu
 {
     int unk028;
@@ -983,14 +996,12 @@ struct FUN_00788440 : Menu
     int unk5bc;
     FUN_00788440();
     virtual ~FUN_00788440();
-    void SetFlag(int, bool);
-    void Apply(void*);
 };
 // Initializes the view, clears the node and index arrays, queries the renderer view, sets flags, and applies the first item's data.
 // @fnv 0x00788440
 FUN_00788440::FUN_00788440() : view(0.0f, 0.0f, 0.0f, 0.0f)
 {
-    memset(&unk028, 0, 0x98);
+    ::FUN_00403d30(&unk028, 0, 0x98);
     unk1e4 = 0;
     unk1e0 = 0;
     unk222 = 0;
@@ -1003,19 +1014,19 @@ FUN_00788440::FUN_00788440() : view(0.0f, 0.0f, 0.0f, 0.0f)
     unk1e8 = 0;
     for (int entryIndex = 0; entryIndex < 43; ++entryIndex)
         indices[entryIndex] = 43;
-    GetRenderer()->GetView(&view);
+    ((::Renderer *)(::FUN_0043c4b0()))->GetView(&view);
     unk1f0 = 0;
     unk1ec = 0;
     current = &items;
     unk5b4 = 0;
-    SetFlag(0, !DAT_011a0294);
-    SetFlag(4, true);
-    selected = *current->GetItem();
+    reinterpret_cast<::LoadingMenu *>(this)->SetFloatFlag(0, !DAT_011a0294);
+    reinterpret_cast<::LoadingMenu *>(this)->SetFloatFlag(4, true);
+    selected = *((::ItemValue **)(new ((void *)(current)) ::Vec3()));
     if (selected)
     {
-        void* data = selected->Get();
+        void* data = ((void *)(reinterpret_cast<::BGSCameraPath *>((selected))->GetPrevPath()));
         if (data)
-            Apply(&static_cast<Menu*>(data)->unk18);
+            reinterpret_cast<::FUN_0078b9b0_shell *>(this)->FUN_0078b9b0(&static_cast<Menu*>(data)->unk18);
     }
 }
 
@@ -1024,15 +1035,12 @@ FUN_00788440::FUN_00788440() : view(0.0f, 0.0f, 0.0f, 0.0f)
 class C1540InputManager
 {
   public:
-    int GetControlState(int iControlSlot, int iControl);
 };
 
 class C1540OSGlobals
 {
   public:
-    C1540InputManager* GetInputManager();
 };
-extern C1540OSGlobals* g_pkC1540OSGlobals;
 
 class C1540Menu
 {
@@ -1044,13 +1052,13 @@ class C1540Menu
 // @fnv 0x00791540
 bool C1540Menu::FUN_00791540(int iControl)
 {
-    return g_pkC1540OSGlobals->GetInputManager()->GetControlState(2, iControl) ||
-           g_pkC1540OSGlobals->GetInputManager()->GetControlState(3, iControl) ||
-           g_pkC1540OSGlobals->GetInputManager()->GetControlState(0, iControl) ||
-           g_pkC1540OSGlobals->GetInputManager()->GetControlState(1, iControl);
+    return reinterpret_cast<::HotkeyWheelDisplay *>((((::C1540InputManager *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::C1540OSGlobals * *>(&::g_osGlobals))))->FUN_00877720()))))->SetHotkeyItem(2, iControl) ||
+           reinterpret_cast<::HotkeyWheelDisplay *>((((::C1540InputManager *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::C1540OSGlobals * *>(&::g_osGlobals))))->FUN_00877720()))))->SetHotkeyItem(3, iControl) ||
+           reinterpret_cast<::HotkeyWheelDisplay *>((((::C1540InputManager *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::C1540OSGlobals * *>(&::g_osGlobals))))->FUN_00877720()))))->SetHotkeyItem(0, iControl) ||
+           reinterpret_cast<::HotkeyWheelDisplay *>((((::C1540InputManager *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::C1540OSGlobals * *>(&::g_osGlobals))))->FUN_00877720()))))->SetHotkeyItem(1, iControl);
 }
 
-extern int(__stdcall* DAT_00fdf1b0)(void*);
+extern int(* DAT_00fdf1b0)(void*);
 
 class CriticalSectionEntry
 {
@@ -1063,3 +1071,5 @@ void CriticalSectionEntry::FUN_0078d1d0()
 {
     DAT_00fdf1b0(this);
 }
+
+#include "generated/data/staging/blk_00780000_od.inc"

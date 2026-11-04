@@ -1,7 +1,50 @@
 // fallout_shared/doorlock.cpp: DoorAccessData, Copy9, LockAccess (15 functions)
 
+#include "fnv_result_slot.h"
+#include <cstdint>
+#include <cstring>
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/Arr16.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/CellOwnerCheck.h"
+#include "fnv/decl/DoorLock5021c0.h"
+#include "fnv/decl/DoorSearchInit.h"
+#include "fnv/decl/ExtraDataList.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0043a590_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004cffe0_t.h"
+#include "fnv/decl/FUN_00526ac0_shell.h"
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_006cf4c0_Array.h"
+#include "fnv/decl/InteriorCellLookup.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/PathingLocationProxy.h"
+#include "fnv/decl/QuantityData.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047d680__FUN_0047d680_shell.h"
+#include "fnv/decl/fnv_00546ee0__CellOwnerCheck.h"
+#include "fnv/decl/fnv_00567960__FUN_00567960_shell.h"
+#include "fnv/decl/fnv_006b8c50__FUN_006b8c50_shell.h"
+#include "fnv/decl/s5679f0__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00690000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011de000.h"
 #include "layout_support.h"
 #include "doorlock_decls.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 
 class TESObjectCELL;
 class LockExtraData;
@@ -9,7 +52,6 @@ class TESGlobal;
 class TESClass;
 class TESActorBase;
 class InventoryChanges;
-#pragma pack(push, 4)
 class DoorAccessData
 {
   public:
@@ -21,28 +63,11 @@ class DoorAccessData
     TESGlobal* m_pLockLevelGlobal;      // +0x14, 4 bytes
     DoorAccessData(TESObjectREFR* pRef);
     ~DoorAccessData();
-    void SetDoorReference(TESObjectREFR* pRef);
     bool ReadState98();
     bool CanActorUseDoor(const PathingActorData* pActorData, bool bFlag);
     bool CanActorOpenDoor(const PathingActorData* pActorData, bool bFlag);
     bool CanUnlockDoor(const PathingActorData* pActorData, TESObjectREFR* pRef, bool& bNeedsKey);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DoorAccessData) == 24);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pSourceCell) == 0);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pDestinationCell) == 4);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pTeleportData) == 8);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pKeyForm) == 12);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_iLockLevel) == 16);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pLockLevelGlobal) == 20);
-
-// Copy-assigns another actor's data into this object's actor-data member at offset 0x5c via FUN_00502630 and returns it.
-// @fnv 0x006e2b20
-PathingActorData& PathingActorData::operator=(const PathingActorData& other)
-{
-    return reinterpret_cast<PathingActorData*>(reinterpret_cast<char*>(this) + 0x5c)
-        ->FUN_00502630(ActorData(reinterpret_cast<Actor*>(const_cast<PathingActorData*>(&other))));
-}
 
 // @fnv 0x0073cb80
 bool DoorAccessData::ReadState98()
@@ -62,7 +87,6 @@ class TESFaction : public TESForm
 class TESGlobalValueReader
 {
   public:
-    float GetValue();
 };
 class TESGlobal : public TESGlobalValueReader
 {
@@ -70,12 +94,10 @@ class TESGlobal : public TESGlobalValueReader
 class TESActorBaseData
 {
   public:
-    int GetFactionRank(TESFaction* pFaction, bool m_bFaceGenDataValid);
 };
 class TESActorBase : public TESForm
 {
   public:
-    TESClass* GetClass();
 };
 class TESClass
 {
@@ -85,7 +107,6 @@ class TESClass
 class DoorCell
 {
   public:
-    bool IsOwnedByActor(TESActorBase* m_pActorBaseFormItem);
     TESForm* GetOwner();
 };
 struct FactionOwnership
@@ -103,7 +124,6 @@ struct KeySearch
     int iCount;
 };
 class TESKey;
-#pragma pack(push, 4)
 class LockExtraData
 {
   public:
@@ -117,13 +137,6 @@ class LockExtraData
     int GetLockLevel(TESObjectREFR* pRef);
     bool IsLocked();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LockExtraData) == 20);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockState) == 0);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, pKey) == 4);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, cFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockDifficulty) == 12);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockValue) == 16);
 
 // @fnv 0x005021a0
 bool LockExtraData::IsLocked()
@@ -143,34 +156,6 @@ struct DoorLockCtorLocals
     LockExtraData* pSourceLock;
 };
 
-// @fnv 0x00501d20
-DoorAccessData::DoorAccessData(TESObjectREFR* pRef)
-{
-    DoorLockCtorLocals data;
-    m_pSourceCell = reinterpret_cast<TESObjectCELL*>(reinterpret_cast<LowProcess*>(pRef)->GetTarget());
-
-    data.pRadioData = pRef->GetExtraRadioData();
-    if (data.pRadioData != 0)
-        m_pDestinationCell = data.pRadioData->FUN_0043a2b0();
-    else
-        m_pDestinationCell = 0;
-
-    data.pSourceLock = pRef->GetLock();
-    if (data.pSourceLock != 0)
-    {
-        m_pTeleportData = new FUN_00411b00;
-        m_pTeleportData->pKey = data.pSourceLock->pKey;
-        m_pTeleportData->m_uiLockState = data.pSourceLock->m_uiLockState;
-        m_pTeleportData->cFlags = data.pSourceLock->cFlags;
-    }
-    else
-        m_pTeleportData = 0;
-
-    m_pKeyForm = pRef->GetOwner();
-    m_iLockLevel = pRef->GetReferenceLockLevel();
-    m_pLockLevelGlobal = pRef->GetLockLevelGlobal();
-}
-
 // Frees the memory block held by the object if it is non-null, then returns.
 // @fnv 0x00501e50
 DoorAccessData::~DoorAccessData()
@@ -178,7 +163,7 @@ DoorAccessData::~DoorAccessData()
     if (m_pTeleportData != 0)
     {
         void* pMem = m_pTeleportData;
-        MemoryManager::Deallocate(pMem);
+        ::FUN_00401030(pMem);
     }
 }
 
@@ -191,10 +176,7 @@ class TESKey : public TESBoundObject
 class InventoryChanges
 {
   public:
-    bool FindItemInInventory(TESBoundObject* pItem, int iArg1, int iArg2, int& iOut, unsigned int uiArg,
-                             TESObjectREFR* pRef);
 };
-extern TESBoundObject* g_pLockpickItem;
 
 // @fnv 0x00502550
 bool DoorAccessData::CanActorUseDoor(const PathingActorData* pActorData, bool bFlag)
@@ -212,13 +194,12 @@ bool DoorAccessData::CanActorUseDoor(const PathingActorData* pActorData, bool bF
             own.m_iRank = 0;
             if (own.pFaction == 0 || !bFlag)
             {
-                if (m_pLockLevelGlobal == 0 || m_pLockLevelGlobal->GetValue() == 0.0)
+                if (m_pLockLevelGlobal == 0 || reinterpret_cast<::FUN_00526ac0_shell *>((m_pLockLevelGlobal))->FUN_00526ac0() == 0.0)
                     bIsOwner = false;
             }
             if (own.pFaction != 0 && pActorData->m_pActorBaseFormItem != 0)
             {
-                own.m_iRank = reinterpret_cast<TESActorBaseData*>(reinterpret_cast<char*>(pActorData->m_pActorBaseFormItem) + 0x30)
-                                ->GetFactionRank(own.pFaction, false);
+                own.m_iRank = reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((reinterpret_cast<TESActorBaseData*>(reinterpret_cast<char*>(pActorData->m_pActorBaseFormItem) + 0x30)))->GetFactionRank((::fnv_0047d680::TESFaction *)(own.pFaction), false);
                 if (own.m_iRank < m_iLockLevel)
                     bIsOwner = false;
             }
@@ -240,10 +221,10 @@ bool DoorAccessData::CanActorOpenDoor(const PathingActorData* pActorData, bool b
         else if (m_pTeleportData->pKey == 0 && bFlag)
             bCanIgnore = true;
         else if (m_pSourceCell != 0 &&
-                 reinterpret_cast<DoorCell*>(m_pSourceCell)->IsOwnedByActor(pActorData->m_pActorBaseFormItem))
+                 reinterpret_cast<::fnv_00546ee0::CellOwnerCheck *>((reinterpret_cast<DoorCell*>(m_pSourceCell)))->FUN_00546ee0((::fnv_00546ee0::TESActorBase *)(pActorData->m_pActorBaseFormItem)))
         {
             if (m_pDestinationCell == 0 || reinterpret_cast<DoorCell*>(m_pDestinationCell)->GetOwner() == 0 ||
-                reinterpret_cast<DoorCell*>(m_pDestinationCell)->IsOwnedByActor(pActorData->m_pActorBaseFormItem))
+                reinterpret_cast<::fnv_00546ee0::CellOwnerCheck *>((reinterpret_cast<DoorCell*>(m_pDestinationCell)))->FUN_00546ee0((::fnv_00546ee0::TESActorBase *)(pActorData->m_pActorBaseFormItem)))
                 bCanIgnore = true;
         }
         else if (CanActorUseDoor(pActorData, true))
@@ -255,7 +236,7 @@ bool DoorAccessData::CanActorOpenDoor(const PathingActorData* pActorData, bool b
             {
                 data.m_pActorBaseFormItem = pActorData->m_pActorBaseFormItem;
                 if (data.m_pActorBaseFormItem != 0)
-                    data.pClass = data.m_pActorBaseFormItem->GetClass();
+                    data.pClass = ((::TESClass *)(reinterpret_cast<::MiddleHighProcess *>((data.m_pActorBaseFormItem))->GetSceneRoot()));
                 if (data.pClass != 0 && data.pClass->IsGuard() && pActorData->m_bCanIgnoreLocks)
                     bCanIgnore = true;
             }
@@ -278,12 +259,12 @@ bool DoorAccessData::CanUnlockDoor(const PathingActorData* pActorData, TESObject
         else if (m_pTeleportData->IsLocked())
         {
             if (m_pTeleportData->pKey != 0 && pActorData->m_pInventoryChangesValue != 0 &&
-                pActorData->m_pInventoryChangesValue->FindItemInInventory(m_pTeleportData->pKey, 0, 1, kSearch.iCount,
-                                                                          0, 0))
+                reinterpret_cast<::FUN_004cffe0_t *>((pActorData->m_pInventoryChangesValue))->CheckItemRequirement(m_pTeleportData->pKey, (void *)(0), 1, (int *)&(kSearch.iCount),
+                                                                          (void *)(0), (::Actor6 *)(::TESObjectREFR *)(0)))
                 bCanUnlock = true;
             else if (m_pTeleportData->GetLockLevel(pRef) != 5 && pActorData->m_pInventoryChangesValue != 0 &&
-                     pActorData->m_pInventoryChangesValue->FindItemInInventory(g_pLockpickItem, 0, 1, kSearch.iCount, 0,
-                                                                               0))
+                     reinterpret_cast<::FUN_004cffe0_t *>((pActorData->m_pInventoryChangesValue))->CheckItemRequirement(g_pLockpickItem, (void *)(0), 1, (int *)&(kSearch.iCount), (void *)(0),
+                                                                               (::Actor6 *)(::TESObjectREFR *)(0)))
             {
                 bCanUnlock = true;
                 bNeedsKey = true;
@@ -298,13 +279,9 @@ bool DoorAccessData::CanUnlockDoor(const PathingActorData* pActorData, TESObject
 struct XCont;
 struct XExtraList
 {
-    XCont* GetContainerChangeData();
 };
 struct XActor
 {
-    void* GetActorBase();
-    const XExtraList* GetExtra() const;
-    bool IsInDeadState();
 };
 struct FUN_00502670_stand
 {
@@ -317,9 +294,9 @@ struct FUN_00502670_stand
 // @fnv 0x00502670
 FUN_00502670_stand* FUN_00502670_stand::InitFromActor(XActor* apActor)
 {
-    pBase = apActor->GetActorBase();
-    pChanges = ((XExtraList*)apActor->GetExtra())->GetContainerChangeData();
-    bAlarmed = apActor->IsInDeadState();
+    pBase = ((void *)(reinterpret_cast<::Actor *>((apActor))->GetActorBase()));
+    pChanges = ((::XCont *)(reinterpret_cast<::ExtraDataList *>((((XExtraList*)((const ::XExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(apActor))->FUN_005d43c0())))))->GetContainerChangeData()));
+    bAlarmed = reinterpret_cast<::ActorStandIn008a *>((apActor))->FUN_008a61b0();
     return this;
 }
 
@@ -327,8 +304,6 @@ struct FUN_00996800_shell : public DoorAccessData
 {
     void FUN_00996800();
 };
-
-void* __cdecl memset(void*, int, unsigned int);
 
 // If the int at offset 0x1fdc is nonzero, zeroes the first 0x1fdc bytes of the object and resets that int to 0.
 // @fnv 0x00996800
@@ -349,9 +324,9 @@ struct blob16
 {
     char b[16];
 };
+class DoorCell;
 struct TeleportableReference
 {
-    TESObjectREFR* GetLinkedDoor();
     void* GetTeleportPosition();
     void* GetTeleportRotation();
     TESObjectCELL* GetTeleportCell();
@@ -367,8 +342,6 @@ struct TeleportableReference
     void SetLinkedDoorReference(TESObjectREFR*, bool);
     void Save();
     void Load(TESFile*);
-    bool InitItem(TESForm*);
-    void Copy(TeleportableReference*);
     bool Compare(TeleportableReference*);
     unsigned short GetSaveSize();
     void SaveGame(BGSSaveGameBuffer*);
@@ -384,8 +357,36 @@ struct TeleportableReference
     char rotation[12];
     unsigned char cFlags;
     char _pad_1d[3];
+public:
+    ::DoorCell *FUN_0043a2b0();
 };
-typedef char _sizecheck_DoorTeleportData[sizeof(TeleportableReference) == 32 ? 1 : -1];
+// @fnv 0x00501d20
+DoorAccessData::DoorAccessData(TESObjectREFR* pRef)
+{
+    DoorLockCtorLocals data;
+    m_pSourceCell = reinterpret_cast<TESObjectCELL*>(reinterpret_cast<LowProcess*>(pRef)->GetTarget());
+
+    data.pRadioData = pRef->GetExtraRadioData();
+    if (data.pRadioData != 0)
+        m_pDestinationCell = ((::TESObjectCELL *)(reinterpret_cast<::TeleportableReference *>((data.pRadioData))->FUN_0043a2b0()));
+    else
+        m_pDestinationCell = 0;
+
+    data.pSourceLock = reinterpret_cast<::FUN_00569160_shell *>((pRef))->FUN_00569160();
+    if (data.pSourceLock != 0)
+    {
+        m_pTeleportData = new FUN_00411b00;
+        m_pTeleportData->pKey = data.pSourceLock->pKey;
+        m_pTeleportData->m_uiLockState = data.pSourceLock->m_uiLockState;
+        m_pTeleportData->cFlags = data.pSourceLock->cFlags;
+    }
+    else
+        m_pTeleportData = 0;
+
+    m_pKeyForm = reinterpret_cast<::OwnerLookupView *>((pRef))->FUN_00567790();
+    m_iLockLevel = reinterpret_cast<::s5679f0::Owner *>((pRef))->FUN_005679f0();
+    m_pLockLevelGlobal = ((::TESGlobal *)(reinterpret_cast<::fnv_00567960::FUN_00567960_shell *>((pRef))->FUN_00567960()));
+}
 struct FUN_00501e80_shell : public DoorAccessData
 {
     void FUN_00501e80(TESObjectREFR*);
@@ -399,10 +400,10 @@ void FUN_00501e80_shell::FUN_00501e80(TESObjectREFR* apDoorRef)
     m_pSourceCell = (TESObjectCELL*)((LowProcess*)apDoorRef)->GetTarget();
     ptel = apDoorRef->GetExtraRadioData();
     if (ptel)
-        m_pDestinationCell = ptel->FUN_0043a2b0();
+        m_pDestinationCell = ((::TESObjectCELL *)(reinterpret_cast<::TeleportableReference *>((ptel))->FUN_0043a2b0()));
     else
         m_pDestinationCell = 0;
-    pDoorLock = apDoorRef->GetLock();
+    pDoorLock = reinterpret_cast<::FUN_00569160_shell *>((apDoorRef))->FUN_00569160();
     if (pDoorLock)
     {
         if (!m_pTeleportData)
@@ -416,9 +417,9 @@ void FUN_00501e80_shell::FUN_00501e80(TESObjectREFR* apDoorRef)
         delete m_pTeleportData;
         m_pTeleportData = 0;
     }
-    m_pKeyForm = apDoorRef->GetOwner();
-    m_iLockLevel = apDoorRef->GetReferenceLockLevel();
-    m_pLockLevelGlobal = apDoorRef->GetLockLevelGlobal();
+    m_pKeyForm = reinterpret_cast<::OwnerLookupView *>((apDoorRef))->FUN_00567790();
+    m_iLockLevel = reinterpret_cast<::s5679f0::Owner *>((apDoorRef))->FUN_005679f0();
+    m_pLockLevelGlobal = ((::TESGlobal *)(reinterpret_cast<::fnv_00567960::FUN_00567960_shell *>((apDoorRef))->FUN_00567960()));
 }
 
 struct Copy9
@@ -428,6 +429,12 @@ struct Copy9
     unsigned char f8;
     Copy9* FUN_00502630(const Copy9* other);
 };
+// Copy-assigns another actor's data into this object's actor-data member at offset 0x5c via FUN_00502630 and returns it.
+// @fnv 0x006e2b20
+PathingActorData& PathingActorData::operator=(const PathingActorData& other)
+{
+    return (*(::PathingActorData *)(reinterpret_cast<::Copy9 *>((reinterpret_cast<PathingActorData*>(reinterpret_cast<char*>(this) + 0x5c)))->FUN_00502630((const ::Copy9 *)&(const ::ActorData &)(ActorData(reinterpret_cast<Actor*>(const_cast<PathingActorData*>(&other)))))));
+}
 // Copies f0, f4 and f8 from other into this and returns this.
 // @fnv 0x00502630
 Copy9* Copy9::FUN_00502630(const Copy9* other)
@@ -451,10 +458,6 @@ bool FUN_00502180_shell::IsFlag20Set()
 struct LockActor;
 struct LockCell
 {
-    void* GetOwner();
-    bool FUN_00546ca0(LockActor*);
-    bool IsInterior();
-    bool IsFlag20Set();
 };
 struct LockActor
 {
@@ -733,21 +736,16 @@ struct LockActor
     virtual void vf272();
     virtual void vf273();
     virtual bool vf274();
-    LockCell* GetParentCell();
-    bool FUN_008a61b0();
 };
-extern LockActor* DAT_011dea3c;
 struct DoorState
 {
     unsigned char level;
-    bool FUN_005021a0();
 };
 struct LockAccess
 {
     LockCell* unk00;
     LockCell* cell;
     DoorState* state;
-    bool FUN_005021c0(LockActor*, bool);
     bool CanAccessLock(LockActor*, int, bool);
 };
 // Returns whether actor may access the lock: checks state, cell ownership, parent cell, and the global actor, returning true if any condition passes.
@@ -759,21 +757,21 @@ bool LockAccess::CanAccessLock(LockActor* actor, int unused, bool flag)
     {
         if (!state && flag)
             a = true;
-        else if (state && !state->FUN_005021a0() && flag)
+        else if (state && !reinterpret_cast<::LockExtraData *>((state))->IsLocked() && flag)
             a = true;
-        else if (actor != DAT_011dea3c && actor->GetParentCell() && actor->GetParentCell()->GetOwner() &&
-                 actor->GetParentCell()->FUN_00546ca0(actor))
+        else if (actor != (*reinterpret_cast<::LockActor * *>(&::_g_thePlayer)) && ((::LockCell *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget())) && ((void *)(reinterpret_cast<::DoorCell *>((((::LockCell *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()))))->GetOwner())) &&
+                 reinterpret_cast<::CellOwnerCheck *>((((::LockCell *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()))))->FUN_00546ca0((::Actor *)(actor)))
         {
-            if (!cell || !cell->GetOwner() || cell->FUN_00546ca0(actor))
+            if (!cell || !((void *)(reinterpret_cast<::DoorCell *>((cell))->GetOwner())) || reinterpret_cast<::CellOwnerCheck *>((cell))->FUN_00546ca0((::Actor *)(actor)))
                 a = true;
         }
-        else if (actor != DAT_011dea3c && FUN_005021c0(actor, true))
+        else if (actor != (*reinterpret_cast<::LockActor * *>(&::_g_thePlayer)) && reinterpret_cast<::DoorLock5021c0 *>(this)->FUN_005021c0((::Actor *)(actor), true))
             a = true;
-        else if (actor->vf193() && actor->FUN_008a61b0())
+        else if (actor->vf193() && reinterpret_cast<::ActorStandIn008a *>((actor))->FUN_008a61b0())
             a = true;
-        else if (actor == DAT_011dea3c && DAT_011dea3c->vf274() && cell && state && state->level != 100)
+        else if (actor == (*reinterpret_cast<::LockActor * *>(&::_g_thePlayer)) && (*reinterpret_cast<::LockActor * *>(&::_g_thePlayer))->vf274() && cell && state && state->level != 100)
         {
-            if (!cell->IsInterior() || cell->IsFlag20Set())
+            if (!reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior() || reinterpret_cast<::FUN_00502180_shell *>((cell))->IsFlag20Set())
                 a = true;
         }
     }
@@ -786,22 +784,15 @@ struct Point
 };
 struct Nav
 {
-    void* FUN_00690800();
-    void* GetInteriorCell();
 };
 struct Position
 {
-    Point& FUN_00717e50();
 };
 struct Door
 {
-    Position* FUN_00568e50();
 };
 struct Location
 {
-    bool FUN_006dd6f0(int);
-    Nav* FUN_0044edb0();
-    Point FUN_005c3420() const;
 };
 struct ParentSpaceNode
 {
@@ -820,14 +811,12 @@ struct DoorArray
     int unk00, unk04, unk08, unk0C;
     unsigned FUN_0044ddc0();
     Door*& FUN_00877a30(unsigned);
-    void FUN_006dae00(const FUN_006d5320&);
 };
 struct Result
 {
     int unk00, unk04, unk08, unk0C;
     DoorArray unk10;
     Point unk20, unk2C;
-    unsigned FUN_006cf4c0(const ParentSpaceNode&);
 };
 struct PathBuilderDetailedPathInfos
 {
@@ -1895,8 +1884,6 @@ struct FUN_006b8340 : BuilderBase
     int unk2098, unk209C;
     FUN_006b8340();
     ~FUN_006b8340();
-    bool SetupNavMeshSearch(int, const Point&, Nav*, const Point&, Nav*, PathBuilderDetailedPathInfos&, FUN_005e04c0&,
-                            int);
 };
 struct FUN_006f33b0 : BuilderBase
 {
@@ -1914,45 +1901,295 @@ struct FUN_006f33b0 : BuilderBase
     int unk20B0;
     FUN_006f33b0();
     ~FUN_006f33b0();
-    bool InitDoorSearch(Location*, Location*, Result*, int, float, int, int);
 };
 // Builds a path between two locations via a door-aware builder, records parent-space nodes and door entries in result, else falls back to InitDoorSearch.
 // @fnv 0x006d4f70
-bool BuildPathWithDoors(Location* start, Location* end, Result* result, int a4, int a5)
+bool BuildPathWithDoors(Location* start, Location* end, Result* result, std::intptr_t a4, int a5)
 {
-    if (start->FUN_006dd6f0(0) && end->FUN_006dd6f0(0))
+    if (reinterpret_cast<::PathingLocationProxy *>((start))->FindContainingTriangle((::FindTriangleForLocationFilter *)(0)) && reinterpret_cast<::PathingLocationProxy *>((end))->FindContainingTriangle((::FindTriangleForLocationFilter *)(0)))
     {
         FUN_006b8340 builder;
         PathBuilderDetailedPathInfos infos;
         FUN_005e04c0 doors;
-        if (builder.SetupNavMeshSearch(a4, start->FUN_005c3420(), start->FUN_0044edb0(), end->FUN_005c3420(),
-                                       end->FUN_0044edb0(), infos, doors, a5))
+        if (reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(builder))->SetupNavMeshSearch((::fnv_006b8c50::PathingActorData *)(a4), (void *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)&::ResultSlot<::Point>())))), ((::Nav *)(reinterpret_cast<::MagicCaster_shell *>((start))->FUN_0044edb0())), (void *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)&::ResultSlot<::Point>())))),
+                                       ((::Nav *)(reinterpret_cast<::MagicCaster_shell *>((end))->FUN_0044edb0())), (void *)&(infos), (void *)&(doors), a5))
         {
             ParentSpaceNode node;
-            node.unk04 = infos.FUN_00877a30(0)->FUN_00690800();
-            node.unk08 = infos.FUN_00877a30(0)->GetInteriorCell();
-            node.unk00 = infos.FUN_00877a30(0)->FUN_00690800() != 0;
-            result->FUN_006cf4c0(node);
-            for (unsigned i = 0; i < doors.FUN_0044ddc0(); ++i)
+            node.unk04 = ((void *)(::FUN_00690800((const ::NavMeshInfo *)(infos.FUN_00877a30(0)))));
+            node.unk08 = ((void *)(reinterpret_cast<::InteriorCellLookup *>((infos.FUN_00877a30(0)))->FUN_006b77b0()));
+            node.unk00 = ((void *)(::FUN_00690800((const ::NavMeshInfo *)(infos.FUN_00877a30(0))))) != 0;
+            reinterpret_cast<::FUN_006cf4c0_Array *>((result))->FUN_006cf4c0(node);
+            for (unsigned i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(doors))->GetName())); ++i)
             {
                 if (doors.FUN_00877a30(i))
                 {
                     FUN_006d5320 entry;
                     entry.unk00 = doors.FUN_00877a30(i);
-                    entry.unk04 = doors.FUN_00877a30(i)->FUN_00568e50()->FUN_00717e50();
-                    result->unk10.FUN_006dae00(entry);
+                    entry.unk04 = (*(::Point *)(reinterpret_cast<::BaseProcess *>((((::Position *)(reinterpret_cast<::TESObjectREFR *>((doors.FUN_00877a30(i)))->GetExtraRadioData()))))->GetCurrentProcessData()));
+                    reinterpret_cast<::Arr16 *>(&(result->unk10))->FUN_006dae00((::Entry16 *)&(entry));
                     ParentSpaceNode next;
-                    next.unk04 = infos.FUN_00877a30(i + 1)->FUN_00690800();
-                    next.unk08 = infos.FUN_00877a30(i + 1)->GetInteriorCell();
-                    next.unk00 = infos.FUN_00877a30(i + 1)->FUN_00690800() != 0;
-                    result->FUN_006cf4c0(next);
+                    next.unk04 = ((void *)(::FUN_00690800((const ::NavMeshInfo *)(infos.FUN_00877a30(i + 1)))));
+                    next.unk08 = ((void *)(reinterpret_cast<::InteriorCellLookup *>((infos.FUN_00877a30(i + 1)))->FUN_006b77b0()));
+                    next.unk00 = ((void *)(::FUN_00690800((const ::NavMeshInfo *)(infos.FUN_00877a30(i + 1))))) != 0;
+                    reinterpret_cast<::FUN_006cf4c0_Array *>((result))->FUN_006cf4c0(next);
                 }
             }
-            result->unk20 = start->FUN_005c3420();
-            result->unk2C = end->FUN_005c3420();
+            result->unk20 = (*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)&::ResultSlot<::Point>())));
+            result->unk2C = (*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)&::ResultSlot<::Point>())));
             return true;
         }
     }
     FUN_006f33b0 fallback;
-    return fallback.InitDoorSearch(start, end, result, 0, 0.0f, a4, a5);
+    return reinterpret_cast<::DoorSearchInit *>(&(fallback))->InitDoorSearch((::SearchLocation *)(start), (::SearchLocation *)(end), (::SearchResult *)(result), 0, 0.0f, (void *)(a4), a5);
+}
+
+class LockExtraData_rtti;
+
+class TESActorBase_rtti;
+class TESForm_rtti;
+
+class DoorAccessData_rtti
+{
+  public:
+    TESObjectCELL* m_pSourceCell;       // +0x0, 4 bytes
+    TESObjectCELL* m_pDestinationCell;  // +0x4, 4 bytes
+    LockExtraData_rtti* m_pTeleportData;         // +0x8, 4 bytes
+    TESForm_rtti* m_pKeyForm;                // +0xC, 4 bytes
+    int m_iLockLevel;                   // +0x10, 4 bytes
+    TESGlobal* m_pLockLevelGlobal;      // +0x14, 4 bytes
+    DoorAccessData_rtti(TESObjectREFR* pRef);
+    ~DoorAccessData_rtti();
+    bool ReadState98();
+    bool CanActorUseDoor(const PathingActorData* pActorData, bool bFlag);
+    bool CanActorOpenDoor(const PathingActorData* pActorData, bool bFlag);
+    bool CanUnlockDoor(const PathingActorData* pActorData, TESObjectREFR* pRef, bool& bNeedsKey);
+};
+
+// Minimal callee declarations (codegen only; layouts remain with owning units).
+class TESForm_rtti
+{
+  public:
+    virtual ~TESForm_rtti();  // the original class is polymorphic (rtti_variants.py)
+  public:
+    ENUM_FORM_ID GetFormType() const;
+};
+
+class TESFaction_rtti : public TESForm_rtti
+{
+};
+
+class TESActorBase_rtti : public TESForm_rtti
+{
+  public:
+};
+
+class DoorCell_rtti
+{
+  public:
+    TESForm_rtti* GetOwner();
+};
+
+struct FactionOwnership_rtti
+{
+    TESFaction_rtti* pFaction;
+    int m_iRank;
+};
+
+struct IgnoreLocals_rtti
+{
+    TESActorBase_rtti* m_pActorBaseFormItem;
+    TESClass* pClass;
+};
+
+class TESKey_rtti;
+
+class LockExtraData_rtti
+{
+  public:
+    unsigned char m_uiLockState;  // +0x0, 1 bytes
+    unsigned char layoutPadding1[3];
+    TESKey_rtti* pKey;  // +0x4, 4 bytes
+    char cFlags;   // +0x8, 1 bytes
+    unsigned char layoutPadding9[3];
+    unsigned int m_uiLockDifficulty;  // +0xC, 4 bytes
+    unsigned int m_uiLockValue;       // +0x10, 4 bytes
+    int GetLockLevel(TESObjectREFR* pRef);
+    bool IsLocked();
+};
+
+class FUN_00411b00_rtti : public LockExtraData_rtti
+{
+  public:
+    FUN_00411b00_rtti();
+};
+
+struct DoorLockCtorLocals_rtti
+{
+    ExtraRadioData* pRadioData;
+    LockExtraData_rtti* pSourceLock;
+};
+
+class TESBoundObject_rtti : public TESForm_rtti
+{
+};
+
+class TESKey_rtti : public TESBoundObject_rtti
+{
+};
+
+class Actor_rtti
+{
+  public:
+    virtual void vf000();
+    virtual void vf004();
+    virtual void vf008();
+    virtual void vf00c();
+    virtual void vf010();
+    virtual void vf014();
+    virtual void vf018();
+    virtual void vf01c();
+    virtual void vf020();
+    virtual void vf024();
+    virtual void vf028();
+    virtual void vf02c();
+    virtual void vf030();
+    virtual void vf034();
+    virtual void vf038();
+    virtual void vf03c();
+    virtual void vf040();
+    virtual void vf044();
+    virtual void vf048();
+    virtual void vf04c();
+    virtual void vf050();
+    virtual void vf054();
+    virtual void vf058();
+    virtual void vf05c();
+    virtual void vf060();
+    virtual void vf064();
+    virtual void vf068();
+    virtual void vf06c();
+    virtual void vf070();
+    virtual void vf074();
+    virtual void vf078();
+    virtual void vf07c();
+    virtual void vf080();
+    virtual void vf084();
+    virtual void vf088();
+    virtual void vf08c();
+    virtual void vf090();
+    virtual void vf094();
+    virtual void vf098();
+    virtual void vf09c();
+    virtual void vf0a0();
+    virtual void vf0a4();
+    virtual void vf0a8();
+    virtual void vf0ac();
+    virtual void vf0b0();
+    virtual void vf0b4();
+    virtual void vf0b8();
+    virtual void vf0bc();
+    virtual void vf0c0();
+    virtual void vf0c4();
+    virtual void vf0c8();
+    virtual void vf0cc();
+    virtual void vf0d0();
+    virtual void vf0d4();
+    virtual void vf0d8();
+    virtual void vf0dc();
+    virtual void vf0e0();
+    virtual void vf0e4();
+    virtual void vf0e8();
+    virtual void vf0ec();
+    virtual void vf0f0();
+    virtual void vf0f4();
+    virtual void vf0f8();
+    virtual void vf0fc();
+    virtual void vf100();
+    virtual void vf104();
+    virtual void vf108();
+    virtual void vf10c();
+    virtual void vf110();
+    virtual void vf114();
+    virtual void vf118();
+    virtual void vf11c();
+    virtual void vf120();
+    virtual void vf124();
+    virtual void vf128();
+    virtual void vf12c();
+    virtual void vf130();
+    virtual void vf134();
+    virtual void vf138();
+    virtual void vf13c();
+    virtual void vf140();
+    virtual void vf144();
+    virtual void vf148();
+    virtual void vf14c();
+    virtual void vf150();
+    virtual void vf154();
+    virtual void vf158();
+    virtual void vf15c();
+    virtual void vf160();
+    virtual void vf164();
+    virtual void vf168();
+    virtual void vf16c();
+    virtual void vf170();
+    virtual void vf174();
+    virtual void vf178();
+    virtual void vf17c();
+    virtual void vf180();
+    virtual void vf184();
+    virtual void vf188();
+    virtual void vf18c();
+    virtual void vf190();
+    virtual void vf194();
+    virtual void vf198();
+    virtual void vf19c();
+    virtual void vf1a0();
+    virtual TESForm_rtti* vf1a4();
+};
+
+class DoorLock5021c0_rtti : public DoorAccessData_rtti
+{
+  public:
+    bool FUN_005021c0(Actor_rtti* ref, bool b);
+};
+
+// @fnv 0x005021c0
+bool DoorLock5021c0_rtti::FUN_005021c0(Actor_rtti* ref, bool b)
+{
+    bool r7 = false;
+    if (m_pKeyForm && ref)
+    {
+        r7 = true;
+        TESForm_rtti* obj5 = ref->vf1a4();
+        if (!obj5)
+            obj5 = ((::TESForm_rtti *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
+        TESActorBase_rtti* base = 0;
+        switch (obj5->GetFormType())
+        {
+        case 0x2a:
+        case 0x2b:
+            base = dynamic_cast<TESActorBase_rtti*>((TESBoundObject_rtti*)obj5);
+            break;
+        }
+        if (m_pKeyForm != obj5)
+        {
+            TESFaction_rtti* fac = 0;
+            if (m_pKeyForm && m_pKeyForm->GetFormType() == 8)
+                fac = (TESFaction_rtti*)m_pKeyForm;
+            int rank5 = 0;
+            if (!fac || !b)
+            {
+                if (!m_pLockLevelGlobal || reinterpret_cast<::FUN_00526ac0_shell *>((m_pLockLevelGlobal))->FUN_00526ac0() == 0.0)
+                    r7 = false;
+            }
+            if (fac && base)
+            {
+                rank5 = reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((((TESActorBaseData*)((char*)base + 0x30))))->GetFactionRank((::fnv_0047d680::TESFaction *)(fac), ref == (*reinterpret_cast<::Actor_rtti * *>(&::_g_thePlayer)));
+                if (rank5 < m_iLockLevel)
+                    r7 = false;
+            }
+        }
+    }
+    return r7;
 }

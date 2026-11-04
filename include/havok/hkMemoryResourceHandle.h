@@ -7,7 +7,6 @@
 #include "hkResourceHandle.h"
 class hkMemoryResourceHandleExternalLink;
 class hkReferencedObject;
-#pragma pack(push, 1)
 class hkMemoryResourceHandle : public hkResourceHandle
 {
   public:
@@ -15,6 +14,4 @@ class hkMemoryResourceHandle : public hkResourceHandle
     hkStringPtr m_name;                                            // +0xC
     hkArray<hkMemoryResourceHandleExternalLink> m_kExternalLinks;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkMemoryResourceHandle[(sizeof(hkMemoryResourceHandle) == 0x1C) ? 1 : -1];
 #endif

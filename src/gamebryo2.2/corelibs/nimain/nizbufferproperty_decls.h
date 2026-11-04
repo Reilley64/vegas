@@ -1,11 +1,11 @@
 // gamebryo2.2/corelibs/nimain/nizbufferproperty_decls.h: declares NiAlphaAccumulator, NiAlphaProperty
+#include "fnv/symbols_010a1000.h"
 class NiAlphaAccumulator
 {
   public:
     NiAlphaAccumulator();
     unsigned char storage[0x30];
 };
-extern unsigned int kVtbl_NiAlphaAccumulator;
 class NiAlphaProperty : public NiAlphaAccumulator
 {
   public:

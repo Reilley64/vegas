@@ -1,9 +1,12 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f9000.h"
 struct PoolLock_b1698
 {
-    void Lock(int wait);
 };
 
 struct PoolNode_b1698
@@ -12,9 +15,6 @@ struct PoolNode_b1698
     unsigned int m_04;
 };
 
-extern "C" int DAT_011c5f80;
-extern "C" PoolNode_b1698* DAT_011c5f58;
-extern "C" int DAT_011c5f84;
 
 struct FUN_00b63e90_cls
 {
@@ -32,25 +32,25 @@ void FUN_00b63e90_cls::ReleasePoolNodes()
     PoolNode_b1698* cur = m_0c;
     if (cur != 0)
     {
-        ((PoolLock_b1698*)&DAT_011c5f80)->Lock(0);
+        reinterpret_cast<::FUN_0040fbf0_shell *>((((PoolLock_b1698*)&(*reinterpret_cast<int *>(&::g_011c5f80)))))->FUN_0040fbf0((char *)(0));
         do
         {
             PoolNode_b1698* node = cur;
             cur = cur->m_00;
-            ((PoolLock_b1698*)&DAT_011c5f80)->Lock(0);
+            reinterpret_cast<::FUN_0040fbf0_shell *>((((PoolLock_b1698*)&(*reinterpret_cast<int *>(&::g_011c5f80)))))->FUN_0040fbf0((char *)(0));
             node->m_04 = 0;
-            node->m_00 = DAT_011c5f58;
-            DAT_011c5f84 -= 1;
-            DAT_011c5f58 = node;
-            if (DAT_011c5f84 == 0)
+            node->m_00 = (*reinterpret_cast<::PoolNode_b1698 * *>(&::DAT_011c5f58));
+            (*reinterpret_cast<int *>(&::DAT_011c5f84)) -= 1;
+            (*reinterpret_cast<::PoolNode_b1698 * *>(&::DAT_011c5f58)) = node;
+            if ((*reinterpret_cast<int *>(&::DAT_011c5f84)) == 0)
             {
-                DAT_011c5f80 = 0;
+                (*reinterpret_cast<int *>(&::g_011c5f80)) = 0;
             }
         } while (cur != 0);
-        DAT_011c5f84 -= 1;
-        if (DAT_011c5f84 == 0)
+        (*reinterpret_cast<int *>(&::DAT_011c5f84)) -= 1;
+        if ((*reinterpret_cast<int *>(&::DAT_011c5f84)) == 0)
         {
-            DAT_011c5f80 = 0;
+            (*reinterpret_cast<int *>(&::g_011c5f80)) = 0;
         }
     }
     unsigned int* p = m_08;
@@ -150,8 +150,6 @@ struct FUN_00b63f10_Arg
 typedef bool(__cdecl* FUN_00b63f10_Handler)(void* apThis, FUN_00b63f10_Arg* apArg, FUN_00b63f10_Sub9C* ap9c, int a8,
                                             int c0);
 
-extern FUN_00b63f10_Kind g_011f49d8;
-extern FUN_00b63f10_Handler g_011f9f80[];
 
 struct FUN_00b63f10_CH
 {
@@ -267,17 +265,17 @@ struct FUN_00b63f10_CH
 bool FUN_00b63f10_CH::DispatchHandler(FUN_00b63f10_Arg* apArg)
 {
     FUN_00b63f10_Target* p = apArg->m_9c.m_20;
-    if (p == 0 || p->GetKind() != &g_011f49d8 || p->m_3c != 0)
+    if (p == 0 || p->GetKind() != &(*reinterpret_cast<::FUN_00b63f10_Kind *>(&::g_011f49d8)) || p->m_3c != 0)
     {
         FUN_00b63f10_Sub9C* p9c = &apArg->m_9c;
         int c0 = p9c->m_24;
         int a8 = p9c->m_0c;
         if (c0 == 0 || a8 == 0)
             return true;
-        FUN_00b63f10_Handler fn = g_011f9f80[m_19c];
+        FUN_00b63f10_Handler fn = reinterpret_cast<FUN_00b63f10_Handler>(::DAT_011f9f80[m_19c]);
         if (fn != 0)
             return fn(this, apArg, p9c, a8, c0);
-        return g_011f9f80[0](this, apArg, p9c, a8, c0);
+        return reinterpret_cast<FUN_00b63f10_Handler>(::DAT_011f9f80[0])(this, apArg, p9c, a8, c0);
     }
     return true;
 }

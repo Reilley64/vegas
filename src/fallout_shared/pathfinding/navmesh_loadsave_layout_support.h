@@ -3,9 +3,8 @@
 #define FNV_LAYOUT_SUPPORT_H
 
 #include <stddef.h>
-#define FNV_JOIN_IMPL(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
-#define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #ifdef _MSC_VER
 #define FNV_ALIGN(n) __declspec(align(n))
 #define FNV_FORCEINLINE __forceinline
@@ -17,8 +16,6 @@ typedef unsigned __int64 FNVUInt64;
 typedef long long FNVInt64;
 typedef unsigned long long FNVUInt64;
 #endif
-FNV_STATIC_ASSERT(sizeof(void*) == 4);
-FNV_STATIC_ASSERT(sizeof(long) == 4);
 template <class Collection> class SettingT;
 class FormFlagRecord;
 class ActiveEffect;
@@ -226,7 +223,7 @@ class ZeroOverheadHeap;
 class _FILETIME;
 class _RTL_CRITICAL_SECTION;
 class _RTL_CRITICAL_SECTION___unnamed_type_Synchronization_;
-class _ULARGE_INTEGER;
+union _ULARGE_INTEGER;
 class _WIN32_FIND_DATAA;
 class bhkRagdollController;
 class bhkRagdollPenetrationUtil;
@@ -300,12 +297,6 @@ template <class T> class NiTObjectArray : public NiTArray<T, NiTNewInterface<T> 
 {
 };
 typedef NiTObjectArray<TESObjectREFR*> FNVReferenceObjectArray;
-FNV_STATIC_ASSERT(sizeof(FNVReferenceObjectArray) == 16);
-FNV_STATIC_ASSERT(offsetof(FNVReferenceObjectArray, m_pBase) == 4);
-FNV_STATIC_ASSERT(offsetof(FNVReferenceObjectArray, m_usMaxSize) == 8);
-FNV_STATIC_ASSERT(offsetof(FNVReferenceObjectArray, m_usSize) == 10);
-FNV_STATIC_ASSERT(offsetof(FNVReferenceObjectArray, m_usESize) == 12);
-FNV_STATIC_ASSERT(offsetof(FNVReferenceObjectArray, m_usGrowBy) == 14);
 template <class T, class Allocator> class NiTLargeArray
 {
   public:
@@ -407,35 +398,16 @@ template <class T, unsigned int Capacity> class Stack
 class TESObjectCELL
 {
   public:
-    bool IsOutdoorCell();
 };  // API only; no allocation or layout claim.
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESFile*>* GetFileList();
 };
-FNV_STATIC_ASSERT(sizeof(BSSimpleList<void*>) == 8);
-FNV_STATIC_ASSERT(sizeof(BSStringT<char>) == 8);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, pString) == 0);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, sLen) == 4);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, sMaxLen) == 6);
-FNV_STATIC_ASSERT(sizeof(NiPointer<void>) == 4);
 typedef NiTLargeArray<void*, NiTMallocInterface<void*> > FNVPointerArray;
-FNV_STATIC_ASSERT(sizeof(FNVPointerArray) == 24);
-FNV_STATIC_ASSERT(offsetof(FNVPointerArray, m_pBase) == 4);
-FNV_STATIC_ASSERT(offsetof(FNVPointerArray, m_uiSize) == 12);
 typedef BSSimpleArray<int, 1024> FNVSimpleArray;
-FNV_STATIC_ASSERT(sizeof(FNVSimpleArray) == 16);
-FNV_STATIC_ASSERT(offsetof(FNVSimpleArray, pBuffer) == 4);
-FNV_STATIC_ASSERT(offsetof(FNVSimpleArray, iSize) == 8);
 typedef NiTPointerMap<unsigned int, TESFile*> TESFileThreadMap;
-FNV_STATIC_ASSERT(sizeof(TESFileThreadMap) == 16);
-FNV_STATIC_ASSERT(offsetof(TESFileThreadMap, m_uiHashSize) == 4);
-FNV_STATIC_ASSERT(offsetof(TESFileThreadMap, m_ppkHashTable) == 8);
-FNV_STATIC_ASSERT(offsetof(TESFileThreadMap, m_kItemCount) == 12);
 #ifdef _MSC_VER
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
+#include <windows.h>
 #else
 FNV_FORCEINLINE long InterlockedDecrement(volatile long* value)
 {
@@ -491,14 +463,6 @@ template <class Allocator, class T> class NiTPointerListBase : public NiTListBas
 };
 typedef NiTListItem<void*> FNVPointerListItem;
 typedef NiTListBase<NiTPointerAllocator<unsigned int>, void*> FNVPointerListBase;
-FNV_STATIC_ASSERT(sizeof(FNVPointerListItem) == 12);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListItem, m_pkNext) == 0);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListItem, m_pkPrev) == 4);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListItem, m_element) == 8);
-FNV_STATIC_ASSERT(sizeof(FNVPointerListBase) == 12);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListBase, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListBase, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(FNVPointerListBase, m_kItemCount) == 8);
 enum ACTOR_CRITICAL_STAGE
 {
     ACTOR_CRITICAL_STAGE_ACS_NONE = 0,

@@ -1,5 +1,18 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinepoint3interpolator.cpp: NiBSplinePoint3Interpolator, NiBSplineTransformInterpolator (13 functions)
 
+#include <cstdint>
+#include "fnv/decl/A57E90Controller.h"
+#include "fnv/decl/BA58200Sequence.h"
+#include "fnv/decl/FUN_00a57f20_cls.h"
+#include "fnv/decl/FUN_00a57f80_cls.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/S_00a58160_Foo.h"
+#include "fnv/decl/SplData.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f3000.h"
 #include "nibsplinepoint3interpolator_decls.h"
 // Loads the base interpolator, the point3 value, and the control point handle from the stream.
 // @fnv 0x00a50910
@@ -17,38 +30,21 @@ struct NiBSplineTransformInterpolator
     int m_fUnknown20;
     int m_fUnknown24;
     int m_fUnknown28;
-    void FUN_00a57fd0(NiBSplineTransformInterpolator*, CloningProcess&);
     void CopyUnknownFields(NiBSplineTransformInterpolator*, CloningProcess&);
 };
-
-// Calls FUN_00a57fd0, then copies the four int fields at offsets 0x1C-0x28 from this into dest.
-// @fnv 0x00a50680
-void NiBSplineTransformInterpolator::CopyUnknownFields(NiBSplineTransformInterpolator* dest, CloningProcess& process)
-{
-    NiBSplineTransformInterpolator::FUN_00a57fd0(dest, process);
-    int* p = (int*)this;
-    int* d = (int*)dest;
-    d[7] = p[7];
-    d[8] = p[8];
-    d[9] = p[9];
-    d[10] = p[10];
-}
 
 struct FUN_00a506b0_shell : public NiBSplinePoint3Interpolator
 {
     void* FUN_00a506b0();
 };
 
-extern char const* const g_011f4014_arg1;
 
 // @fnv 0x00a506b0
 void* FUN_00a506b0_shell::FUN_00a506b0()
 {
-    return (void*)&g_011f4014_arg1;
+    return (void*)&(*reinterpret_cast<const char *const *>(&::g_011f3ff4));
 }
 
-void __fastcall FUN_00a57f80(void*);
-void __cdecl __Dummy_00b6fef0(void*, int);
 
 struct FUN_00a506f0_shell
 {
@@ -58,9 +54,9 @@ struct FUN_00a506f0_shell
 // @fnv 0x00a506f0
 void* FUN_00a506f0_shell::FUN_00a506f0(unsigned char a2)
 {
-    FUN_00a57f80(this);
+    reinterpret_cast<::FUN_00a57f80_cls *>((this))->FUN_00a57f80();
     if (a2 & 1)
-        __Dummy_00b6fef0(this, 0x2c);
+        ::FUN_00aa1460(this, 0x2c);
     return this;
 }
 
@@ -82,7 +78,7 @@ struct FUN_00a50660_shell
     void SetPoint3ControlHandle(unsigned int kControlHandle, unsigned short usChannel);
 };
 // @fnv 0x00a50660
-void __thiscall FUN_00a50660_shell::SetPoint3ControlHandle(unsigned int kControlHandle, unsigned short usChannel)
+void FUN_00a50660_shell::SetPoint3ControlHandle(unsigned int kControlHandle, unsigned short usChannel)
 {
     if (!usChannel)
         ((NiBSplinePoint3Interpolator*)this)->m_kPoint3CPHandle = kControlHandle;
@@ -90,21 +86,19 @@ void __thiscall FUN_00a50660_shell::SetPoint3ControlHandle(unsigned int kControl
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 extern int DAT_010996dc;
 struct FUN_00a57f20_shell
 {
-    void __thiscall FUN_00a57f20(int, int);
 };
 
 // @fnv 0x00a50840
 void* __cdecl FUN_00a50840()
 {
-    void* p = BSFadeNode::operator new(0x2c);
+    void* p = ::operator new(0x2c);
     if (p)
     {
-        ((FUN_00a57f20_shell*)p)->FUN_00a57f20(0, 0);
+        reinterpret_cast<::FUN_00a57f20_cls *>((((FUN_00a57f20_shell*)p)))->FUN_00a57f20((void *)(0), (void *)(0));
         *(void**)p = &DAT_010996dc;
         *(int*)((char*)p + 0x28) = 0xffff;
     }
@@ -117,22 +111,36 @@ void* __cdecl FUN_00a50840()
 
 struct FUN_00a506c0_shell
 {
-    void* FUN_00a506c0(int a1, int a2, int a3);
+    void* FUN_00a506c0(intptr_t a1, int a2, intptr_t a3);
 };
 // @fnv 0x00a506c0
-void* FUN_00a506c0_shell::FUN_00a506c0(int a1, int aiValue, int a3)
+void* FUN_00a506c0_shell::FUN_00a506c0(intptr_t a1, int aiValue, intptr_t a3)
 {
-    ((FUN_00a57f20_shell*)this)->FUN_00a57f20(a1, a3);
+    reinterpret_cast<::FUN_00a57f20_cls *>((((FUN_00a57f20_shell*)this)))->FUN_00a57f20((void *)(a1), (void *)(a3));
     *(void**)this = (void*)&DAT_010996dc;
     *(int*)((char*)this + 0x28) = aiValue;
     return this;
 }
 
 struct NiObject;
+struct FUN_00a50110_proc;
 struct FUN_00a50110_obj
 {
-    void __thiscall FUN_00a57fd0(FUN_00a50110_obj*, CloningProcess&);
+public:
+    void FUN_00a57fd0(::FUN_00a50110_obj *, ::FUN_00a50110_proc &);
 };
+// Calls FUN_00a57fd0, then copies the four int fields at offsets 0x1C-0x28 from this into dest.
+// @fnv 0x00a50680
+void NiBSplineTransformInterpolator::CopyUnknownFields(NiBSplineTransformInterpolator* dest, CloningProcess& process)
+{
+    reinterpret_cast<::FUN_00a50110_obj *>(this)->FUN_00a57fd0((::FUN_00a50110_obj *)(dest), (::FUN_00a50110_proc &)(process));
+    int* p = (int*)this;
+    int* d = (int*)dest;
+    d[7] = p[7];
+    d[8] = p[8];
+    d[9] = p[9];
+    d[10] = p[10];
+}
 struct FUN_00a507e0_obj
 {
     char _0[0x1c];
@@ -145,18 +153,18 @@ struct FUN_00a507e0_obj
 // @fnv 0x00a507e0
 NiObject* FUN_00a507e0_obj::Clone(CloningProcess& kCloning)
 {
-    FUN_00a507e0_obj* pkObject = (FUN_00a507e0_obj*)BSFadeNode::operator new(44);
+    FUN_00a507e0_obj* pkObject = (FUN_00a507e0_obj*)::operator new(44);
     if (pkObject)
     {
-        ((FUN_00a57f20_shell*)pkObject)->FUN_00a57f20(0, 0);
-        *(int*)pkObject = (int)&DAT_010996dc;
+        reinterpret_cast<::FUN_00a57f20_cls *>((((FUN_00a57f20_shell*)pkObject)))->FUN_00a57f20((void *)(0), (void *)(0));
+        *(intptr_t*)pkObject = (intptr_t)&DAT_010996dc;
         pkObject->_28 = 0xffff;
     }
     else
     {
         pkObject = 0;
     }
-    ((FUN_00a50110_obj*)this)->FUN_00a57fd0((FUN_00a50110_obj*)pkObject, kCloning);
+    ((FUN_00a50110_obj*)this)->FUN_00a57fd0((FUN_00a50110_obj*)pkObject, (::FUN_00a50110_proc &)(kCloning));
     pkObject->_1c = this->_1c;
     pkObject->_20 = this->_20;
     pkObject->_24 = this->_24;
@@ -174,7 +182,6 @@ template <class T, class A> struct NiTPrimitiveArray
 
 struct Base
 {
-    void FUN_00a58200(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 };
 
 struct StrArr
@@ -185,12 +192,8 @@ struct StrArr
     unsigned short m_unknown0c;
     unsigned short m_growSize;
 
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
-char* __cdecl _FUN_00a7d330(char const*);
-char* __cdecl FUN_00a7d510(char const*, unsigned int);
 
 struct FUN_00a50960_shell
 {
@@ -203,18 +206,18 @@ struct FUN_00a50960_shell
 // @fnv 0x00a50960
 void FUN_00a50960_shell::FUN_00a50960(StrArr* pkStrings)
 {
-    reinterpret_cast<Base*>(this)->FUN_00a58200(
-        reinterpret_cast<NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*>(pkStrings));
+    reinterpret_cast<::BA58200Sequence *>((reinterpret_cast<Base*>(this)))->FUN_00a58200(
+        (::BA58200StringArray *)(::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(reinterpret_cast<NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*>(pkStrings)));
 
-    char* pcString = _FUN_00a7d330(g_011f4014_arg1);
+    char* pcString = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f3ff4)));
 
     {
         unsigned int index = pkStrings->m_iElementCount;
 
         if (index >= pkStrings->m_pRayCursor)
-            pkStrings->SetSize(index + pkStrings->m_growSize);
+            reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_growSize);
 
-        pkStrings->SetAt(index, pcString);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pcString);
     }
 
     pcString = FUN_00a7d510("m_kPoint3CPHandle", m_kPoint3CPHandle);
@@ -223,9 +226,9 @@ void FUN_00a50960_shell::FUN_00a50960(StrArr* pkStrings)
         unsigned int index = pkStrings->m_iElementCount;
 
         if (index >= pkStrings->m_pRayCursor)
-            pkStrings->SetSize(index + pkStrings->m_growSize);
+            reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(index + pkStrings->m_growSize);
 
-        pkStrings->SetAt(index, pcString);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(index, pcString);
     }
 }
 
@@ -239,7 +242,6 @@ struct Point3
 };
 struct BSplineData
 {
-    void __thiscall FUN_00a52550(float time, float* output, int components, int offset, int handle);
 };
 struct FUN_00a50710_shell
 {
@@ -249,10 +251,10 @@ struct FUN_00a50710_shell
     float startTime;
     float endTime;
     BSplineData* data;
-    int dataOffset;
+    intptr_t dataOffset;
     Point3 lastValue;
     unsigned int handle;
-    bool __thiscall SampleBSpline(float time, int unk, Point3* output);
+    bool SampleBSpline(float time, int unk, Point3* output);
 };
 // @fnv 0x00a50710
 bool FUN_00a50710_shell::SampleBSpline(float time, int aiUnused, Point3* output)
@@ -265,7 +267,7 @@ bool FUN_00a50710_shell::SampleBSpline(float time, int aiUnused, Point3* output)
     if (handle != 0xffff)
     {
         float sample[3];
-        data->FUN_00a52550((time - startTime) / (endTime - startTime), sample, 3, dataOffset, handle);
+        reinterpret_cast<::SplData *>((data))->FUN_00a52550((time - startTime) / (endTime - startTime), sample, 3, (::NiBSplineBasisData *)(dataOffset), handle);
         Point3 value(sample[0], sample[1], sample[2]);
         lastValue = value;
     }
@@ -462,7 +464,6 @@ struct A50880Color
     float g;
     float b;
 
-    void SaveBinary(A50880Stream& kStream);
 };
 
 class A50880Base
@@ -476,7 +477,6 @@ class A50880Base
     int unk014;
     int unk018;
 
-    void SaveToStream(A50880Stream& kStream);
 };
 
 class A50880Light : public A50880Base
@@ -492,8 +492,8 @@ class A50880Light : public A50880Base
 // @fnv 0x00a50880
 void A50880Light::FUN_00a50880(A50880Stream& kStream)
 {
-    SaveToStream(kStream);
-    m_kFogTint.SaveBinary(kStream);
+    reinterpret_cast<::S_00a58160_Foo *>(this)->SaveToStream((::S_00a58160_Stream *)&(kStream));
+    reinterpret_cast<::NiColor *>(&(m_kFogTint))->SaveBinary((::NiStream &)(kStream));
     A50880SaveBinary(kStream, m_fValue);
 }
 
@@ -502,7 +502,6 @@ struct S_00a508d0_Sub
     int unk00;
     int unk04;
     int unk08;
-    bool FUN_00439090(S_00a508d0_Sub* p);
 };
 
 struct S_00a508d0_Obj
@@ -516,16 +515,15 @@ struct S_00a508d0_Obj
     int unk18;
     S_00a508d0_Sub sub1c;
     int unk28;
-    bool FUN_00a57e90(S_00a508d0_Obj* p);
     bool FUN_00a508d0(S_00a508d0_Obj* p);
 };
 
 // @fnv 0x00a508d0
 bool S_00a508d0_Obj::FUN_00a508d0(S_00a508d0_Obj* pOther)
 {
-    if (!FUN_00a57e90(pOther))
+    if (!reinterpret_cast<::A57E90Controller *>(this)->FUN_00a57e90((::A57E90Object *)(pOther)))
         return false;
-    if (sub1c.FUN_00439090(&pOther->sub1c))
+    if (reinterpret_cast<::NiPlane *>(&(sub1c))->operator==((*(const ::NiPlane *)(&pOther->sub1c))))
         return false;
     bool r = pOther->unk28 == unk28;
     return r;

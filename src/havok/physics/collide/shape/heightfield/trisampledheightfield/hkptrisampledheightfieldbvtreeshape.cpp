@@ -2,15 +2,25 @@
 // src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldbvtreeshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldbvtreeshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00d26450_Obj.h"
+#include "fnv/decl/fnv_00c9e120__hkAabbUtilC9E1.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkpTriSampledHeightFieldBvTreeShape.h"
+#include "havok/hkpTriSampledHeightFieldCollection.h"
 
 // ---------------------------------------------------------------------------
-// hkpShape is only forward declared by the pack's headers, so complete it
-// here.  hkBaseObject contributes the virtual destructor, which sits in the
-// first vtable slot; the four shape virtuals follow it, so the one the
-// container forwards to ends up at vtable offset 0x10.
+// The shape virtuals the header's hkpShape does not declare.  hkBaseObject
+// contributes the virtual destructor, which sits in the first vtable slot; the
+// four shape virtuals follow it, so the one the container forwards to ends up
+// at vtable offset 0x10.
 // ---------------------------------------------------------------------------
-class hkpShape : public hkBaseObject
+class hkpShapeVirtuals : public hkpShape
 {
   public:
     virtual void v1();
@@ -31,20 +41,20 @@ struct TriSampledHeightFieldBvTreeShape : public hkpTriSampledHeightFieldBvTreeS
 // @fnv 0x00d27200
 void TriSampledHeightFieldBvTreeShape::FUN_00d27200()
 {
-    m_kChildContainer.m_pContainedShape->v4();
+    static_cast<hkpShapeVirtuals*>(m_kChildContainer.m_pContainedShape)->v4();
 }
 
 struct FUN_00d268b0_Obj : public hkpTriSampledHeightFieldBvTreeShape
 {
-    int __thiscall FUN_00d268b0(int a, int b);
+    int FUN_00d268b0(int a, int b);
 };
 
 // @fnv 0x00d268b0
-int __thiscall FUN_00d268b0_Obj::FUN_00d268b0(int a, int aiUnused)
+int FUN_00d268b0_Obj::FUN_00d268b0(int a, int aiUnused)
 {
     hkpShape* childShape = m_kChildContainer.m_pContainedShape;
     void** vtable = *(void***)childShape;
-    typedef int(__thiscall * ShapeFunction)(hkpShape*, int, int);
+    typedef int(* ShapeFunction)(hkpShape*, int, int);
     ShapeFunction function = (ShapeFunction)vtable[6];
 
     unsigned int result = (unsigned int)function(childShape, a, 0x100);
@@ -108,7 +118,6 @@ class hkTargetD26B
 class hkHolderD26B
 {
   public:
-    hkTargetD26B* FUN_00d26450() throw();
 };
 
 class hkObjD26B
@@ -129,10 +138,9 @@ class hkObjD26B
 // @fnv 0x00d26b00
 hkResultD26B hkObjD26B::Query(void* a, void* b) throw()
 {
-    return m_holder->FUN_00d26450()->query(a, b);
+    return ((::hkTargetD26B *)(reinterpret_cast<::FUN_00d26450_Obj *>((m_holder))->FUN_00d26450()))->query(a, b);
 }
 
-extern void __cdecl ComputeAabbFromTransform(int, int, float, char*);
 
 struct FUN_00d268f0_LocalBuffer
 {
@@ -157,26 +165,24 @@ class FUN_00d268f0_Shape
     virtual void vf20();
     virtual void vf24();
     virtual void vf28();
-    virtual void ProcessBuffer(int, int, float, int);
+    virtual void ProcessBuffer(const ::fnv_00c9e120::hkTransformC9E1*, const ::fnv_00c9e120::hkVector4C9E1*, float, int);
     virtual void CollectHits(char*, int);
 };
 
 // Calls ComputeAabbFromTransform(a, b, c, &buffer), then calls CollectHits with that buffer and d.
 // @fnv 0x00d268f0
-void __thiscall FUN_00d268f0_Shape::ProcessBuffer(int a, int b, float c, int d)
+void FUN_00d268f0_Shape::ProcessBuffer(const ::fnv_00c9e120::hkTransformC9E1* a, const ::fnv_00c9e120::hkVector4C9E1* b, float c, int d)
 {
     __declspec(align(16)) FUN_00d268f0_LocalBuffer buffer;
 
-    ComputeAabbFromTransform(a, b, c, reinterpret_cast<char*>(&buffer));
+    ::fnv_00c9e120::hkAabbUtilC9E1::ComputeAabbFromTransform(*a, *b, c, (*(::fnv_00c9e120::hkAabbC9E1 *)(reinterpret_cast<char*>(&buffer))));
     CollectHits(reinterpret_cast<char*>(&buffer), d);
 }
 
-extern int DAT_010c6fd0;
 extern int DAT_010ce404;
 
 struct CC9F10Shape
 {
-    void FUN_00c90510();
 };
 
 struct FUN_00d26b50
@@ -206,15 +212,10 @@ FUN_00d26b50::FUN_00d26b50(CC9F10Shape* pShape, unsigned char bE)
     m_pVT = &DAT_010ce404;
     m_pD = &DAT_010c6fd0;
     m_pShape = pShape;
-    m_pShape->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((m_pShape))->FUN_00c90510();
     m_bE = bE;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct hkVector4q
 {
@@ -236,20 +237,8 @@ struct hkAabbq
     hkVector4q m_kMaximumCorner;
 };
 
-struct hkMemory;
 
-struct hkThreadMemory
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemory* m_pMemoryAllocator;
-};
 
-extern "C" hkThreadMemory* FUN_00c85750();
-extern "C" void ResizeAudioStream(hkMemory* memory, void* array, int elemSize);
-extern "C" void FUN_00c908c0(hkMemory* memory, void* array, int numElements, int elemSize);
 
 template <typename T> __forceinline void hkConstructWithCopy(T* p, int n, const T& t)
 {
@@ -276,10 +265,10 @@ struct hkShapeKeyArray
 
     __forceinline void AddBack(const hkUint32& e)
     {
-        hkThreadMemory* tm = FUN_00c85750();
+        hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(tm->m_pMemoryAllocator, this, sizeof(hkUint32));
+            ::ResizeAudioStream((::AudioAllocator *)(&heap), (::AudioStream *)(void *)(this), sizeof(hkUint32));
         }
         hkConstructWithCopy(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
@@ -287,14 +276,13 @@ struct hkShapeKeyArray
 
     __forceinline void SetSizeAndGrow(int n)
     {
-        hkThreadMemory* tm = FUN_00c85750();
-        hkMemory* memory = tm->m_pMemoryAllocator;
+        hkMemoryAllocator* memory = &hkMemoryRouter::getInstance().heap();
         int cap = getCapacity();
         if (cap < n)
         {
             int cap2 = cap + cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(memory, this, newSize, sizeof(hkUint32));
+            ::FUN_00c908c0((::SpawnedObject *)(memory), (::SpawnedArray *)(void *)(this), newSize, sizeof(hkUint32));
         }
         m_iElementCount = n;
     }
@@ -322,10 +310,8 @@ class hkpSampledHeightFieldShapeq
     hkReal m_kHeightScaleVector[4];
 };
 
-class hkpTriSampledHeightFieldCollectionq
+class hkpTriSampledHeightFieldCollectionq : public hkpTriSampledHeightFieldCollection
 {
-  public:
-    const hkpSampledHeightFieldShapeq* FUN_00d26450() const;
 };
 
 struct hkBoolq
@@ -370,7 +356,7 @@ void TriSampledHeightFieldBvTreeShapeq::CollectHits(const hkAabbq& aabbIn, hkSha
         }
     }
 
-    const hkpSampledHeightFieldShapeq* hf = getShapeCollection()->FUN_00d26450();
+    const hkpSampledHeightFieldShapeq* hf = ((const ::hkpSampledHeightFieldShapeq *)(reinterpret_cast<::FUN_00d26450_Obj *>((void *)(getShapeCollection()))->FUN_00d26450()));
     int origSize = hits.GetLogicalSize();
 
     if (m_bCheckHeightFieldBounds)
@@ -470,7 +456,6 @@ struct TargetD26B
 
 struct HolderD26B
 {
-    TargetD26B* FUN_00d26450();
 };
 
 struct FUN_00d26b30_cls
@@ -489,26 +474,9 @@ struct FUN_00d26b30_cls
 // @fnv 0x00d26b30
 void FUN_00d26b30_cls::FUN_00d26b30(int a, int b, int c, int d)
 {
-    m_holder->FUN_00d26450()->Tail(a, b, c, d);
+    ((::TargetD26B *)(reinterpret_cast<::FUN_00d26450_Obj *>((m_holder))->FUN_00d26450()))->Tail(a, b, c, d);
 }
 
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_or_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_setzero_ps(void);
-}
 
 struct hkVector4Comparisonq
 {
@@ -525,7 +493,6 @@ struct hkTransformq
     hkVector4q m_vTranslation;
 };
 
-extern const hkTransformq hkTransform_identity;
 
 union hkQuadUintq
 {
@@ -569,7 +536,7 @@ extern const hkVector4q hkVector4Util_uint16Magic;
 
 __forceinline hkReal getRadius(const hkpTriSampledHeightFieldCollectionq* collection)
 {
-    return reinterpret_cast<const hkReal*>(collection)[8];
+    return collection->m_fSphereRadius;
 }
 
 __forceinline void SetAllComponents(hkVector4q& self, hkReal r)
@@ -672,7 +639,7 @@ hkBoolq FUN_00d26940(const hkAabbq* aabb, const hkpTriSampledHeightFieldCollecti
                      hkUint32* maxX, hkUint32* minZ, hkUint32* maxZ)
 {
     // The caller's aabb is expanded and clipped in place.
-    const hkpSampledHeightFieldShapeq* hf = collection->FUN_00d26450();
+    const hkpSampledHeightFieldShapeq* hf = ((const ::hkpSampledHeightFieldShapeq *)(reinterpret_cast<::FUN_00d26450_Obj *>((void *)(collection))->FUN_00d26450()));
 
     hkVector4q radius;
     SetAllComponents(radius, getRadius(collection));
@@ -681,7 +648,7 @@ hkBoolq FUN_00d26940(const hkAabbq* aabb, const hkpTriSampledHeightFieldCollecti
 
     {
         hkAabbq hfAabb;
-        reinterpret_cast<const hkpSampledHeightFieldShapeAabbq*>(hf)->getAabb(hkTransform_identity, 0.0f, hfAabb);
+        reinterpret_cast<const hkpSampledHeightFieldShapeAabbq*>(hf)->getAabb((*reinterpret_cast<const ::hkTransformq *>(&::DAT_01268370)), 0.0f, hfAabb);
 
         hkVector4Comparisonq all;
         all.m_uiMask = hkVector4Comparison_maskXYZW;
@@ -774,12 +741,6 @@ class hkpSampledHeightFieldShape
     }
 };
 
-class hkpTriSampledHeightFieldCollection
-{
-  public:
-    const hkpSampledHeightFieldShape* FUN_00d26450() const;
-};
-
 struct hkBoolResult
 {
     hkBool m_cBooleanValue;
@@ -796,11 +757,11 @@ static __declspec(noinline) hkBoolResult
     __cdecl FUN_00d26940(const hkAabb& aabb, const hkpTriSampledHeightFieldCollection* collection, hkUint32& minX,
                          hkUint32& maxX, hkUint32& minZ, hkUint32& maxZ)
 {
-    const hkpSampledHeightFieldShape* hf = collection->FUN_00d26450();
-    minX = (int)(aabb.m_kMinimumCorner.m128_f32[0] * hf->m_kHeightScaleVector.x);
-    maxX = (int)(aabb.m_kMaximumCorner.m128_f32[0] * hf->m_kHeightScaleVector.x);
-    minZ = (int)(aabb.m_kMinimumCorner.m128_f32[2] * hf->m_kHeightScaleVector.z);
-    maxZ = (int)(aabb.m_kMaximumCorner.m128_f32[2] * hf->m_kHeightScaleVector.z);
+    const hkpSampledHeightFieldShape* hf = ((const ::hkpSampledHeightFieldShape *)(reinterpret_cast<::FUN_00d26450_Obj *>((void *)(collection))->FUN_00d26450()));
+    minX = (int)(aabb.m_kMinimumCorner[0] * hf->m_kHeightScaleVector.x);
+    maxX = (int)(aabb.m_kMaximumCorner[0] * hf->m_kHeightScaleVector.x);
+    minZ = (int)(aabb.m_kMinimumCorner[2] * hf->m_kHeightScaleVector.z);
+    maxZ = (int)(aabb.m_kMaximumCorner[2] * hf->m_kHeightScaleVector.z);
     return hkBoolResult(minX <= maxX && minZ <= maxZ);
 }
 
@@ -831,7 +792,7 @@ hkUint32 BvTreeShape::FUN_00d26ba0(const hkAabb& aabbIn, hkpShapeKey* hits, int 
     }
 
     int numHits = 0;
-    const hkpSampledHeightFieldShape* hf = collection->FUN_00d26450();
+    const hkpSampledHeightFieldShape* hf = ((const ::hkpSampledHeightFieldShape *)(reinterpret_cast<::FUN_00d26450_Obj *>((void *)(collection))->FUN_00d26450()));
 
     if (m_bCheckHeightFieldBounds)
     {
@@ -855,11 +816,11 @@ hkUint32 BvTreeShape::FUN_00d26ba0(const hkAabb& aabbIn, hkpShapeKey* hits, int 
                 if (allBelow || allAbove)
                 {
                     hkReal height = hf->getScaledHeight(x, z);
-                    if (aabb.m_kMinimumCorner.m128_f32[1] < height)
+                    if (aabb.m_kMinimumCorner[1] < height)
                     {
                         allBelow = false;
                     }
-                    if (height < aabb.m_kMaximumCorner.m128_f32[1])
+                    if (height < aabb.m_kMaximumCorner[1])
                     {
                         allAbove = false;
                     }
@@ -872,11 +833,11 @@ hkUint32 BvTreeShape::FUN_00d26ba0(const hkAabb& aabbIn, hkpShapeKey* hits, int 
             for (x = minX; x <= maxX + 1; x++)
             {
                 hkReal height = hf->getHeightAt(x, maxZ + 1);
-                if (aabb.m_kMinimumCorner.m128_f32[1] < height)
+                if (aabb.m_kMinimumCorner[1] < height)
                 {
                     allBelow = false;
                 }
-                if (height < aabb.m_kMaximumCorner.m128_f32[1])
+                if (height < aabb.m_kMaximumCorner[1])
                 {
                     allAbove = false;
                 }
@@ -884,11 +845,11 @@ hkUint32 BvTreeShape::FUN_00d26ba0(const hkAabb& aabbIn, hkpShapeKey* hits, int 
             for (z = minZ; z <= maxZ + 1; z++)
             {
                 hkReal height = hf->getHeightAt(maxX + 1, z);
-                if (aabb.m_kMinimumCorner.m128_f32[1] < height)
+                if (aabb.m_kMinimumCorner[1] < height)
                 {
                     allBelow = false;
                 }
-                if (height < aabb.m_kMaximumCorner.m128_f32[1])
+                if (height < aabb.m_kMaximumCorner[1])
                 {
                     allAbove = false;
                 }
@@ -919,3 +880,5 @@ hkUint32 BvTreeShape::FUN_00d26ba0(const hkAabb& aabbIn, hkpShapeKey* hits, int 
     }
     return numHits;
 }
+
+#include "generated/data/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldbvtreeshape.inc"

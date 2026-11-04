@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpOverwritePivotConstraintAtom : public hkpConstraintAtom
 {
   public:
     hkUint8 m_bCopyPivotAtoPivotB;  // +0x2
     char pad3[0x1];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpOverwritePivotConstraintAtom[(sizeof(hkpOverwritePivotConstraintAtom) == 0x4) ? 1 : -1];
 #endif

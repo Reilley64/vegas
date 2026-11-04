@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/niobject_packet_decls.h: declares BSFaceGenMorphData
 #ifndef FNV_NIOBJECT_PACKET_DECLS_H
 #define FNV_NIOBJECT_PACKET_DECLS_H
+#include "fnv/decl/FUN_00658930_class.h"
 class GlobalObject_00869db0
 {
   public:

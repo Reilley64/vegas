@@ -2,14 +2,15 @@
 #ifndef FNV_NIALPHAACCUMULATOR_DECLS_H
 #define FNV_NIALPHAACCUMULATOR_DECLS_H
 
-extern "C" unsigned int kVtbl_NiBackToFrontAccumulator;
 
+#include <cstdint>
+#include "fnv/symbols_010a2000.h"
 struct ItemListNode;
 
 class NiAccumulator
 {
   public:
-    unsigned int m_layout0;
+    uintptr_t m_layout0;
     unsigned int m_layout4;
     void* m_pkAccumulationCamera;
 };
@@ -34,6 +35,8 @@ class NiBackToFrontAccumulator : public NiAccumulator
     void** volatile m_ppGeometries;
     float* volatile m_pfGeometrySortValues;
     volatile int m_iCurrentItem;
+public:
+    void QuickSort(int, int);
 };
 
 class NiAlphaAccumulator : public NiBackToFrontAccumulator

@@ -2,10 +2,15 @@
 // src/havok/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_011b1000.h"
 #include "havok/hkpCompressedSampledHeightFieldShape.h"
 
 // @fnv 0x00e49510
-int __stdcall FUN_00e49510(int a, int b)
+int FUN_00e49510(int a, int b)
 {
     int r = (b >= 0x80) ? 1 : 0;
     r = r - 1;
@@ -13,25 +18,6 @@ int __stdcall FUN_00e49510(int a, int b)
     return r + 0x80;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
 
 struct HfVec_e49530
 {
@@ -81,15 +67,14 @@ struct HfVec_e49530
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     const float& operator()(int i) const
     {
-        return m_vComponents.m128_f32[i];
+        return reinterpret_cast<const float*>(&m_vComponents)[i];
     }
 };
 
-extern const HfVec_e49530 DAT_011b1bd0;
 
 struct HfInput_e49530
 {
@@ -151,7 +136,7 @@ static __forceinline void HfCollide_e49530(const HfShape_e49530& hf, const HfInp
         } fc;
         fc.v.setAdd4(pos, HfQ_e49530(hf.m_kOffset));
         fc.v.mul4(sc);
-        fc.v.add4(DAT_011b1bd0);
+        fc.v.add4((*reinterpret_cast<const ::HfVec_e49530 *>((void *)&::DAT_011b1bd0)));
         struct
         {
             unsigned short a, b, c, d;
@@ -255,8 +240,6 @@ void HfShape_e49530::Collide(const HfInput_e49530& input, HfVec_e49530* outputAr
     HfCollide_e49530(*this, input, outputArray);
 }
 
-extern "C" void* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(void* alloc, void* array, int capacity, int elemSize);
 extern int DAT_010e901c;
 
 struct hkBoolR_e499
@@ -289,12 +272,6 @@ class HfSrc_e499 : public hkpSampledHeightFieldShape
     virtual void IsTriangleWindingFlipped(hkBoolR_e499* out) const;
 };
 
-struct Alloc_e499;
-struct Holder_e499
-{
-    int pad[4];
-    Alloc_e499* m_alloc;
-};
 
 struct Arr16_e499
 {
@@ -305,30 +282,29 @@ struct Arr16_e499
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    void GrowArrayCapacity(Alloc_e499& a, int n)
+    void GrowArrayCapacity(hkMemoryAllocator& a, int n)
     {
         int cap = getCapacity();
         if (cap < n)
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&a, this, newSize, sizeof(hkUint16));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&a), (::SpawnedArray *)(void *)(this), newSize, sizeof(hkUint16));
         }
     }
-    void _setSize(Alloc_e499& a, int n)
+    void _setSize(hkMemoryAllocator& a, int n)
     {
         GrowArrayCapacity(a, n);
         m_iElementCount = n;
     }
     __forceinline void reserve(int n)
     {
-        Holder_e499* h = (Holder_e499*)FUN_00c85750();
-        Alloc_e499* alloc = h->m_alloc;
+        hkMemoryAllocator* alloc = &hkMemoryRouter::getInstance().heap();
         int c = m_iCapacityState & 0x3fffffff;
         if (c < n)
         {
             c = c * 2;
-            FUN_00c908c0(alloc, this, n < c ? c : n, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), n < c ? c : n, 2);
         }
     }
     __forceinline void SetSizeAndGrow(int n)

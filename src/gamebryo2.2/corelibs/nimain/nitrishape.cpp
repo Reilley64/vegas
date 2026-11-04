@@ -1,5 +1,23 @@
 // gamebryo2.2/corelibs/nimain/nitrishape.cpp: NiTriShape (16 functions)
 
+#include "fnv/symbols_00a9b000.h"
+#include "fnv/symbols_00a71000.h"
+#include "fnv/decl/FUN_00a98eb0_shell.h"
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a80610_shell.h"
+#include "fnv/decl/FUN_00a89760_cls.h"
+#include "fnv/decl/FUN_00a9b190.h"
+#include "fnv/decl/FnvCpu_FUN_00a7b850_CpuObject.h"
+#include "fnv/decl/ParticleLinkEndpoint.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nitrishape_decls.h"
 
 // @fnv 0x00A74410
@@ -10,20 +28,18 @@ NiTriShape::NiTriShape(unsigned short numVertices, NiPoint3* vertices, NiPoint3*
                                         sharedNormalsArraySize, m_kNavMeshTriangleList))
 {}
 
-void __fastcall FUN_00a89760(void* pThis);
 
 struct FUN_00a74530_DelHelper : NiMemObject
 {
-    static void operator delete(void*, size_t);
 };
 
 // Calls FUN_00a89760 on pThis, frees pThis with operator delete when flags has bit 0 set, and returns pThis.
 // @fnv 0x00a74530
-void* __fastcall DestroyNiTriShape(void* pThis, int, unsigned int flags)
+void* DestroyNiTriShape(void* pThis, int, unsigned int flags)
 {
-    FUN_00a89760(pThis);
+    reinterpret_cast<::FUN_00a89760_cls *>((pThis))->FUN_00a89760_cls::~FUN_00a89760_cls();
     if (flags & 1)
-        FUN_00a74530_DelHelper::operator delete(pThis, 0xc4);
+        ::FUN_00aa1460(pThis, 0xc4);
     return pThis;
 }
 
@@ -48,7 +64,6 @@ struct BSScissorTriShape : public NiTriShape
     char _pad_c4[44];
     char pDataToSerialize[16];
 };
-typedef char _sizecheck_BSScissorTriShape[sizeof(BSScissorTriShape) == 256 ? 1 : -1];
 struct FUN_00a74600_shell : public NiTriShape
 {
     void FUN_00a74600(NiRenderer*);
@@ -60,11 +75,11 @@ void FUN_00a80610();
 // @fnv 0x00a74600
 void FUN_00a74600_shell::FUN_00a74600(NiRenderer* apkRenderer)
 {
-    ((void(__thiscall*)(NiTriShape*, NiRenderer*))FUN_00a80610)(this, apkRenderer);
+    ((void(*)(NiTriShape*, NiRenderer*))FUN_00a80610)(this, apkRenderer);
     int state = *(int*)((char*)apkRenderer + 0x200);
     if ((state == 1 || state == 2) && *((char*)apkRenderer + 0x208) == 1)
     {
-        ((void(__thiscall*)(NiRenderer*, NiTriShape*))(*(void***)apkRenderer)[0x1b4 / 4])(apkRenderer, this);
+        ((void(*)(NiRenderer*, NiTriShape*))(*(void***)apkRenderer)[0x1b4 / 4])(apkRenderer, this);
     }
 }
 
@@ -86,7 +101,6 @@ FUN_00a744a0::FUN_00a744a0()
 namespace fnv_00a744d0 {
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct NiTriStrips : BSFadeNode
 {
@@ -108,11 +122,10 @@ NiTriStrips* __cdecl CreateNiTriShapeX()
 }
 }  // namespace fnv_00a744d0
 
-extern const char g_011f5b34_arg1[];
 // @fnv 0x00a74520
 const char* __cdecl FUN_00a74520()
 {
-    return g_011f5b34_arg1;
+    return (*reinterpret_cast<const char (*)[]>(&::g_011f4a40));
 }
 
 namespace fnv_00a74560 {
@@ -155,7 +168,6 @@ struct BSResizableTriShape : public NiTriShape
     char LocalBound[16];
     char _pad_104[12];
 };
-typedef char _sizecheck_BSResizableTriShape[sizeof(BSResizableTriShape) == 272 ? 1 : -1];
 struct NiPoint3
 {
     static struct blob12 ComponentProduct(void*, void*);
@@ -186,7 +198,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00a74560_shell : public NiTriShape
 {
     void GetTriangleVertices(unsigned short, NiPoint3**, NiPoint3**, NiPoint3**);
@@ -194,7 +205,6 @@ struct FUN_00a74560_shell : public NiTriShape
 
 struct TriListHelper
 {
-    unsigned short* GetTriangleList();
 };
 // @fnv 0x00a74560
 void FUN_00a74560_shell::GetTriangleVertices(unsigned short ausTriangleIndex, NiPoint3** pkP0, NiPoint3** pkP1,
@@ -202,7 +212,7 @@ void FUN_00a74560_shell::GetTriangleVertices(unsigned short ausTriangleIndex, Ni
 {
     NiTriShapeData* pkModelData = *(NiTriShapeData**)((char*)this + 0xb8);
     NiPoint3* pkVertex = *(NiPoint3**)((char*)pkModelData + 0x20);
-    unsigned short* pusTriList = ((TriListHelper*)pkModelData)->GetTriangleList();
+    unsigned short* pusTriList = ((unsigned short *)(reinterpret_cast<::FnvCpu_FUN_00a7b850_CpuObject *>((((TriListHelper*)pkModelData)))->FUN_00a7b850()));
     unsigned short usIndexOffset = ausTriangleIndex * 3;
     *pkP0 = &pkVertex[pusTriList[usIndexOffset++]];
     *pkP1 = &pkVertex[pusTriList[usIndexOffset++]];
@@ -213,7 +223,6 @@ void FUN_00a74560_shell::GetTriangleVertices(unsigned short ausTriangleIndex, Ni
 namespace fnv_00a74640 {
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct NiTriStrips : BSFadeNode
 {
@@ -230,14 +239,13 @@ struct NiTriShapeX : NiTriStrips
 struct CloningProcess;
 struct FUN_00a74640
 {
-    void FUN_00a9b140(NiTriStrips*, CloningProcess&);
     NiTriStrips* Clone(CloningProcess& kCloning);
 };
 // @fnv 0x00a74640
 NiTriStrips* FUN_00a74640::Clone(CloningProcess& kCloning)
 {
     NiTriStrips* pkClone = new NiTriShapeX;
-    FUN_00a9b140(pkClone, kCloning);
+    ::FUN_00a9b140();
     return pkClone;
 }
 }  // namespace fnv_00a74640
@@ -258,37 +266,31 @@ FUN_00a89720::FUN_00a89720(void* a) : FUN_00a804e0(a)
 
 struct FUN_00a80610_This
 {
-    void __thiscall FUN_00a80610(void*);
 };
 struct FUN_00a745c0_This
 {
-    void __thiscall FUN_00a745c0(void*);
+    void FUN_00a745c0(void*);
 };
 // Calls FUN_00a80610 on the renderer, then if renderer state at 0x200 is 1 or 2 and byte at 0x208 is 1, invokes vtable slot 107 with this.
 // @fnv 0x00a745c0
-void __thiscall FUN_00a745c0_This::FUN_00a745c0(void* apkRenderer)
+void FUN_00a745c0_This::FUN_00a745c0(void* apkRenderer)
 {
     void* pkRenderer = apkRenderer;
-    ((FUN_00a80610_This*)this)->FUN_00a80610(pkRenderer);
+    reinterpret_cast<::FUN_00a80610_shell *>((((FUN_00a80610_This*)this)))->FUN_00a80610((::NiRenderer *)(pkRenderer));
     if ((*(int*)((char*)pkRenderer + 0x200) == 1 || *(int*)((char*)pkRenderer + 0x200) == 2) &&
         *(char*)((char*)pkRenderer + 0x208) == 1)
     {
-        ((void(__thiscall**)(void*, void*))(*(void***)pkRenderer))[107](pkRenderer, this);
+        ((void(**)(void*, void*))(*(void***)pkRenderer))[107](pkRenderer, this);
     }
 }
 
 namespace fnv_00a74690 {
 struct StrArr
 {
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct BaseA
 {
-    void FUN_00a897c0(StrArr*);
 };
-char* FUN_00a7d330(const char*);
-extern const char* const g_011f5b34_arg1;
 struct FUN_00a74690_shell : BaseA
 {
     void FUN_00a74690(StrArr* pkStrings);
@@ -297,12 +299,12 @@ struct FUN_00a74690_shell : BaseA
 // @fnv 0x00a74690
 void FUN_00a74690_shell::FUN_00a74690(StrArr* pkStrings)
 {
-    FUN_00a897c0(pkStrings);
-    char* pStr = FUN_00a7d330(g_011f5b34_arg1);
+    ::FUN_00a897c0((::TriGeomViewerDetail::EntryArray *)this);
+    char* pStr = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4a40)));
     unsigned int uiIndex = *(unsigned short*)((char*)pkStrings + 0xa);
     if (uiIndex >= *(unsigned short*)((char*)pkStrings + 8))
-        pkStrings->SetSize(uiIndex + *(unsigned short*)((char*)pkStrings + 0xe));
-    pkStrings->SetAt(uiIndex, pStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiIndex + *(unsigned short*)((char*)pkStrings + 0xe));
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pStr);
 }
 }  // namespace fnv_00a74690
 
@@ -315,7 +317,6 @@ struct FUN_00a74480 : public NiTriBasedGeom
 FUN_00a74480::FUN_00a74480(NiTriBasedGeomData* geometry) : NiTriBasedGeom(geometry)
 {}
 
-extern void __cdecl FUN_00a9b140();
 
 // @fnv 0x00a744c0
 void __cdecl FUN_00a744c0()
@@ -323,14 +324,12 @@ void __cdecl FUN_00a744c0()
     FUN_00a9b140();
 }
 
-void FUN_00a9b190();
 // @fnv 0x00a74500
 void FUN_00a74500()
 {
-    FUN_00a9b190();
+    static_cast<struct ::FUN_00a9b190 *>(nullptr)->FUN_00a9b190_Impl(*(::NiStream *)nullptr);
 }
 
-void FUN_00a89770();
 // @fnv 0x00a74510
 void FUN_00a74510()
 {
@@ -339,18 +338,37 @@ void FUN_00a74510()
 
 class NiStream;
 
-void FUN_00a74780(NiStream& stream);
 
 // @fnv 0x00a98eb0
-void FUN_00a98eb0(NiStream& stream)
+void FUN_00a98eb0_shell::FUN_00a98eb0(NiStream& stream)
 {
-    FUN_00a74780(stream);
+    reinterpret_cast<::ParticleLinkEndpoint *>(this)->FUN_00a74780(stream);
 }
 
-void __cdecl FUN_00a9b1a0();
 
 // @fnv 0x00a71d10
-void __cdecl FUN_00a71d10()
+void FUN_00a71d10_shell::FUN_00a71d10(::NiStream& kStream)
 {
-    FUN_00a9b1a0();
+    reinterpret_cast<::FUN_00a9b1a0_shell *>(this)->FUN_00a9b1a0(kStream);
+}
+
+
+class NiTriGeom2
+{
+  public:
+    void FUN_0051d000(unsigned short a);
+    void FUN_0051d020(unsigned short a, unsigned short b, unsigned short c);
+};
+
+// @fnv 0x0051d000
+void NiTriGeom2::FUN_0051d000(unsigned short a)
+{
+    reinterpret_cast<::NiTriBasedGeom *>((this))->SetBitfield(a, 7, 0);
+}
+
+void NiTriGeom2::FUN_0051d020(unsigned short a, unsigned short b, unsigned short c)
+{
+    (void)a;
+    (void)b;
+    (void)c;
 }

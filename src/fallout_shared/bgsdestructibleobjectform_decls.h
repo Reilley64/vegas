@@ -3,6 +3,42 @@
 #define BGSDESTRUCTIBLEOBJECTFORM_DECLS_H
 
 
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/FUN_0042e250_shell.h"
+#include "fnv/decl/FUN_0042e560_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00481110_shell.h"
+#include "fnv/decl/FUN_004f6de0_shell.h"
+#include "fnv/decl/FUN_00522d80_shell.h"
+#include "fnv/decl/FUN_00522df0_shell.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005f0b00_shell.h"
+#include "fnv/decl/FUN_005f11f0_shell.h"
+#include "fnv/decl/FUN_005f1210_shell.h"
+#include "fnv/decl/FUN_005f1230_shell.h"
+#include "fnv/decl/FUN_005f1290_shell.h"
+#include "fnv/decl/FUN_0062f2f0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/QueueModelHolder.h"
+#include "fnv/decl/TaskQueueProxy.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/fnv_0050ebf0__FUN_0050ebf0_shell.h"
+#include "fnv/decl/fnv_005f1250__FUN_005f1250_shell.h"
+#include "fnv/decl/fnv_005f1270__TESAttributes.h"
+#include "fnv/decl/fnv_005f12b0__FUN_005f12b0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00773000.h"
+#include "fnv/symbols_008f2000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c4000.h"
+#include "fnv/symbols_011f6000.h"
 class Actor;
 class ExtraDataList;
 class TESBoundObject;
@@ -24,9 +60,6 @@ class TESModel
 class TESObjectREFR
 {
   public:
-    ExtraDataList* GetExtraData();
-    TESBoundObject* GetObjectReference();
-    TESForm* GetOwner();
     TESModel* GetTESModel();
     const char* GetModelFilePath();
     float GetBoundingRadius();
@@ -35,7 +68,6 @@ class TESObjectREFR
 class HUDMainMenu
 {
   public:
-    static void UpdateTargetActor(Actor* actor);
     char _pdbpad_1[39];
     char pTiles_pad27_pad27_pad27[348];
     void* m_pAdditionalHudTile;
@@ -191,17 +223,15 @@ class TESForm
     virtual void vfn_140();
     virtual void UpdateDestructibleObject(float, bool);
     TESFile* GetFile(int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
-    static TESForm* GetFormByID(unsigned int);
-    unsigned int GetFormID();
-    bool GetDisabled();
-    bool IsDeleted() const;
     ENUM_FORM_ID GetFormType() const;
+public:
+    bool GetDisabled() const;
+public:
+    void SetDestroyed(bool);
 };
 class TESBoundObject : public TESForm
 {
   public:
-    float GetBoundSize();
 };
 class Actor : public TESObjectREFR
 {
@@ -417,9 +447,7 @@ class Actor : public TESObjectREFR
 class TimeGlobal
 {
   public:
-    float FUN_0084d030();
 };
-extern TimeGlobal g_timeGlobal;
 union SETTING_VALUE
 {
     int i;
@@ -432,64 +460,56 @@ class SettingT_GameSettingCollection_
 class GlobalObject_0045cfe0
 {
 };
-extern GlobalObject_0045cfe0 g_011c3ea4;
 class TESFile;
 class BGSReconstructFormsInFileMap;
 class BGSReconstructFormsInAllFilesMap
 {
   public:
     void* GetFirstPos();
-    void GetNext(void*&, TESFile*&, BGSReconstructFormsInFileMap*&);
 };
 class GlobalObject_00479190
 {
 };
-extern GlobalObject_00479190 g_011c4104;
 class TaskQueueInterface
 {
   public:
     static TaskQueueInterface* GetSingleton();
-    void QueueReferenceFloatTask(TESForm*, float, bool);
+public:
+    void QueueActorDisarm(bool);
 };
 class ExtraDataList
 {
   public:
-    TESModel* FUN_0042e250();
-    unsigned char GetWeaponModIndex();
 };
 class TESObjectWEAP : public TESBoundObject
 {
   public:
-    TESModel* GetWeaponModel();
-    TESModel* GetModTESModel(unsigned char, bool);
 };
+enum SEX;
 class TESActorBase : public TESForm
 {
   public:
-    SEX GetSex();
-    int GetHealth();
+public:
+    ::SEX GetSex() const;
 };
+class TESForm;
 class TESBipedModelForm
 {
   public:
-    static TESBipedModelForm* GetFormAsBipedModel(TESForm*);
-    TESModel* GetWeaponModel(SEX);
+public:
+    static ::TESBipedModelForm *GetFormAsBipedModel(const ::TESForm *);
 };
-extern unsigned char DAT_01183108;
 extern unsigned char DAT_011831e8;
 extern "C" void* __cdecl __RTDynamicCast(void*, long, void*, void*, int);
 class TESObject;
 class TES
 {
   public:
-    static int GetModelResourceType(TESObject*);
 };
 class ModelLoader
 {
   public:
-    void ProcessModelRequest(TESModel*, int, QueuedFile*, int, bool, bool, bool);
 };
-extern ModelLoader* g_modelLoader;
 class TESModelTextureSwap
 {
   public:
@@ -529,14 +549,10 @@ class DestructibleData
     unsigned short pad;
     DestructionStage** stages;
 };
-class ActorValue
+namespace ActorValue
 {
-  public:
-    enum Index
-    {
-        kAV0
-    };
-};
+enum Index;
+}
 class ActorValueOwner
 {
   public:
@@ -545,21 +561,12 @@ class ActorValueOwner
 class TESAttributes
 {
   public:
-    unsigned char GetAttributeValue5();
-    unsigned char FUN_005f1210();
-    unsigned char GetAttributeValue7();
-    unsigned char FUN_005f1250();
-    unsigned char FUN_005f1270();
-    unsigned char GetAttributeValue10();
-    unsigned char FUN_005f12b0();
 };
 class TESAIForm
 {
   public:
     bool GetAssistance();
     bool GetResponsibility();
-    bool FUN_004f6de0();
-    bool FUN_0062f2f0();
 };
 class PatrolActorPackageData
 {
@@ -569,7 +576,6 @@ class PatrolActorPackageData
 class BSAudio
 {
   public:
-    bool FUN_005bb4d0();
 };
 class TESActorBaseData
 {
@@ -600,12 +606,10 @@ class TESActorBaseData
     virtual void vfn_05c();
     virtual unsigned short vfn_060();
     virtual float vfn_064();
-    unsigned short GetShortAtOffset12();
 };
 class BGSCameraPath
 {
   public:
     int HasNameForWarning();
 };
-int __cdecl Warning(const char*, ...);
 #endif

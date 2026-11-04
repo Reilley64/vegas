@@ -1,11 +1,42 @@
 // fallout/ai/creature.cpp: Creature, Holder, XActorQ (25 functions)
 
+#include <cstdint>
+#include "fnv/decl/AVModShell.h"
+#include "fnv/decl/ActorStand.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_00494300_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00880950_shell.h"
+#include "fnv/decl/FUN_00880e00_shell.h"
+#include "fnv/decl/FUN_00881130_Class.h"
+#include "fnv/decl/FUN_008d45f0.h"
+#include "fnv/decl/P164Actor.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/Std8806.h"
+#include "fnv/decl/fnv_00422750__FUN_00422750_class.h"
+#include "fnv/decl/fnv_00496940__FUN_00496940_shell.h"
+#include "fnv/decl/fnv_00880700__FUN_00880700_shell.h"
+#include "fnv/decl/fnv_00881360__P09ActorH.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_00537000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_008a3000.h"
+#include "fnv/symbols_00b68000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011c6000.h"
 #include "creature_decls.h"
+#include "fnv/symbols_00c43000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_00c80000.h"
+#include "fnv/symbols_010c5000.h"
 
 // @fnv 0x008d4ff0
 void Creature::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    Actor::LoadGame(buffer);
+    reinterpret_cast<::P164Actor *>(this)->FUN_008ab3a0((::P164Buffer *)(buffer));
     m_uiActorFlags = 0;
 }
 
@@ -14,7 +45,7 @@ void Creature::LoadGame(BGSLoadFormBuffer* buffer)
 float Creature::CalculateRunSpeed()
 {
     float fRunSpeed = 0.0f;
-    typedef bool(__thiscall * IsOverencumberedFn)(Creature*);
+    typedef bool(* IsOverencumberedFn)(Creature*);
     if (!((IsOverencumberedFn)(*(void***)(this))[214])(this))
         fRunSpeed = actorValues.GetCurrentActorValue(21) * 1.1 * Creature::GetAnimationSpeedMultiplier(kAnimGroupRun);
     return fRunSpeed;
@@ -25,10 +56,10 @@ float Creature::GetAnimationSpeedMultiplier(ANIM_GROUP_ENUM group)
 {
     if (!((CreatureAnimationAccess*)this)->GetAnimData())
         return 32.0f;
-    typedef unsigned short (__thiscall Actor::*GroupFn)(ANIM_GROUP_ENUM, InventoryStackRecord*);
+    typedef unsigned short (Actor::*GroupFn)(ANIM_GROUP_ENUM, InventoryStackRecord*);
     unsigned short animGroup =
         (this->*reinterpret_cast<GroupFn>(&Actor::GetAnimGroup))(group, pAnimData->GetWeaponInfo(1, 0));
-    return ((CreatureAnimationAccess*)this)->GetAnimData()->GetGroupSection(animGroup);
+    return reinterpret_cast<::FUN_00494300_shell *>((((CreatureAnimationAccess*)this)->GetAnimData()))->FUN_00494300(animGroup);
 }
 
 struct FUN_008d4a80_shell : public Creature
@@ -40,21 +71,19 @@ namespace ActorValue {
 enum Index
 {
 };
-bool __cdecl GetFlag(Index, unsigned int);
 }
 
 // Returns 0x2d if the actor value at aiWhich has flag 0x400 set, otherwise returns aiWhich.
 // @fnv 0x008d4a80
 int FUN_008d4a80_shell::FUN_008d4a80(int aiWhich)
 {
-    if (ActorValue::GetFlag((ActorValue::Index)aiWhich, 0x400))
+    if (::FUN_00406d70((*(int *)&(const ::ActorValue::Index &)((ActorValue::Index)aiWhich)), 0x400))
         return 0x2d;
     return aiWhich;
 }
 
 struct SFTX
 {
-    void SetFormType(int);
 };
 extern int DAT_01086f9c;
 extern int DAT_01086fe4;
@@ -71,46 +100,61 @@ struct FUN_0087d4a0
 struct FUN_008d4500 : public FUN_0087d4a0
 {
     FUN_008d4500(bool);
+    char pad04[0x14];
+    void* unk18;
+    char pad1c[0x6c];
+    void* unk88;
+    char pad8c[0x8];
+    void* unk94;
+    char pad98[0xc];
+    void* unka4;
+    void* unka8;
+    char padac[0x90];
+    int unk13c;
+    int unk140;
+    char pad144[0x70];
+    char unk1b4;
+    char pad1b5[0x3];
+    float unk1b8;
+    float unk1bc;
 };
 // @fnv 0x008d4500
 FUN_008d4500::FUN_008d4500(bool abUnk) : FUN_0087d4a0(abUnk)
 {
-    *(void**)((char*)this + 0x18) = &DAT_010870a0;
-    *(void**)((char*)this + 0x88) = &DAT_0108704c;
-    *(void**)((char*)this + 0x94) = &DAT_01087014;
-    *(void**)((char*)this + 0xa4) = &DAT_01086fe4;
-    *(void**)((char*)this + 0xa8) = &DAT_01086f9c;
-    ((SFTX*)this)->SetFormType(0x3c);
-    *((char*)this + 0x1b4) = 0;
-    *(float*)((char*)this + 0x1b8) = -1.0f;
-    *(float*)((char*)this + 0x1bc) = -1.0f;
-    *(int*)((char*)this + 0x140) = 0;
-    *(int*)((char*)this + 0x13c) = 0;
+    this->unk18 = &DAT_010870a0;
+    this->unk88 = &DAT_0108704c;
+    this->unk94 = &DAT_01087014;
+    this->unka4 = &DAT_01086fe4;
+    this->unka8 = &DAT_01086f9c;
+    reinterpret_cast<::FUN_004f15a0_shell *>((((SFTX*)this)))->FUN_004f15a0(0x3c);
+    this->unk1b4 = 0;
+    this->unk1b8 = -1.0f;
+    this->unk1bc = -1.0f;
+    this->unk140 = 0;
+    this->unk13c = 0;
 }
 
 // @fnv 0x008d44b0
-unsigned char __fastcall GetByteAtOffset1B4(void* thisPtr)
+unsigned char GetByteAtOffset1B4(void* thisPtr)
 {
     return *(unsigned char*)((char*)thisPtr + 0x1b4);
 }
 
 struct NiFixedString;
-extern NiFixedString* DAT_011c6250;
 
 // @fnv 0x008d4ca0
 NiFixedString* FUN_008d4ca0()
 {
-    return DAT_011c6250;
+    return ::DAT_011c6250;
 }
 
 struct NiFixedString;
 
-extern NiFixedString* DAT_011c6258;
 
 // @fnv 0x008d4cb0
 NiFixedString* __cdecl FUN_008d4cb0()
 {
-    return DAT_011c6258;
+    return ::DAT_011c6258;
 }
 
 struct FUN_008d4490_shell : Creature
@@ -120,87 +164,75 @@ struct FUN_008d4490_shell : Creature
 // @fnv 0x008d4490
 void FUN_008d4490_shell::SetRagdoll(bool bRagDoll)
 {
-    ((bool*)this)[0x1b4] = bRagDoll;
+    this->bRagDoll = bRagDoll;
 }
 
 struct S008d48a0
 {
-    int FUN_008d4a80(int, int);
-    void FUN_008806d0(int);
     void FUN_008d48a0(int, int);
 };
 // Calls FUN_008d4a80 with a and b, then passes the result to FUN_008806d0.
 // @fnv 0x008d48a0
 void S008d48a0::FUN_008d48a0(int aiFirst, int aiSecond)
 {
-    this->FUN_008806d0(this->FUN_008d4a80(aiFirst, aiSecond));
+    reinterpret_cast<::Std8806 *>((this))->FUN_008806d0(reinterpret_cast<::FUN_008d4a80_shell *>((this))->FUN_008d4a80(aiFirst), {});
 }
 
 struct FUN_008d48d0_This
 {
-    int FUN_008d4a80(int, float);
-    void FUN_00880700(int);
     void FUN_008d48d0(int, float);
 };
 // Calls FUN_008d4a80 with aiWhich and aiValue, then passes the result to FUN_00880700.
 // @fnv 0x008d48d0
 void FUN_008d48d0_This::FUN_008d48d0(int aiWhich, float aiValue)
 {
-    FUN_00880700(FUN_008d4a80(aiWhich, aiValue));
+    reinterpret_cast<::fnv_00880700::FUN_00880700_shell *>(this)->FUN_00880700(reinterpret_cast<::FUN_008d4a80_shell *>(this)->FUN_008d4a80(aiWhich), {});
 }
 
 struct Unk008d49
 {
-    int FUN_008d4a80(int, int, int);
-    void FUN_00880950(int);
     void FUN_008d4900(int, int, int);
 };
 // Calls FUN_008d4a80 with a, b and c, then passes the result to FUN_00880950.
 // @fnv 0x008d4900
 void Unk008d49::FUN_008d4900(int aiArg1, int aiArg2, int aiArg3)
 {
-    FUN_00880950(FUN_008d4a80(aiArg1, aiArg2, aiArg3));
+    reinterpret_cast<::FUN_00880950_shell *>(this)->FUN_00880950(reinterpret_cast<::FUN_008d4a80_shell *>(this)->FUN_008d4a80(aiArg1), {}, {});
 }
 
 struct FUN_008d4960_CLASS
 {
-    int FUN_008d4a80(int, int, int);
-    void FUN_00880c70(int);
     void FUN_008d4960(int, int, int);
 };
 // Computes a value from the three arguments via FUN_008d4a80 and passes the result to FUN_00880c70.
 // @fnv 0x008d4960
 void FUN_008d4960_CLASS::FUN_008d4960(int aiArg1, int aiArg2, int aiArg3)
 {
-    FUN_00880c70(FUN_008d4a80(aiArg1, aiArg2, aiArg3));
+    reinterpret_cast<::AVModShell *>(this)->FUN_00880c70(reinterpret_cast<::FUN_008d4a80_shell *>(this)->FUN_008d4a80(aiArg1), {}, {});
 }
 
 struct Unk008d4a50
 {
-    int FUN_008d4a80(int, float);
-    void SetActorValue(int);
     void FUN_008d4a50(int, float);
 };
 // Calls FUN_008d4a80 with aiWhich and aiValue, then passes the result to SetActorValue.
 // @fnv 0x008d4a50
 void Unk008d4a50::FUN_008d4a50(int aiWhich, float aiValue)
 {
-    SetActorValue(FUN_008d4a80(aiWhich, aiValue));
+    reinterpret_cast<::fnv_00881360::P09ActorH *>(this)->SetActorValue(reinterpret_cast<::FUN_008d4a80_shell *>(this)->FUN_008d4a80(aiWhich), {});
 }
 
-void _Deallocate(void*);
 struct S
 {
-    void FUN_008d45f0();
     void* FUN_008d44d0(unsigned int);
 };
 // Calls FUN_008d45f0, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x008d44d0
 void* S::FUN_008d44d0(unsigned int flags)
 {
-    FUN_008d45f0();
+    reinterpret_cast<::FUN_008d45f0 *>(this)->FUN_008d45f0::~FUN_008d45f0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -213,7 +245,6 @@ struct TESCreature : TESActorBase
 };
 struct XActor
 {
-    TESActorBase* GetActorBase();
 };
 struct H008d46f0
 {
@@ -232,17 +263,18 @@ struct C008d46f0 : XActor
 float C008d46f0::FUN_008d46f0()
 {
     TESCreature* pcreature;
-    pcreature = dynamic_cast<TESCreature*>(GetActorBase());
+    pcreature = dynamic_cast<TESCreature*>(reinterpret_cast<::Actor *>(this)->GetActorBase());
     return (float)(pcreature ? _h.f2(0x2D) : 0);
 }
 
 struct Holder
 {
-    int FUN_008d4a80(int, float, Actor*);
 };
+class Actor;
 struct FUN_00880ad0_shell
 {
-    void FUN_00880ad0(int);
+public:
+    void FUN_00880ad0(int, float, ::Actor *);
 };
 struct FUN_008d4930_shell
 {
@@ -252,17 +284,15 @@ struct FUN_008d4930_shell
 // @fnv 0x008d4930
 void FUN_008d4930_shell::FUN_008d4930(int aiArg, float afArg, Actor* apActor)
 {
-    ((FUN_00880ad0_shell*)this)->FUN_00880ad0(((Holder*)this)->FUN_008d4a80(aiArg, afArg, apActor));
+    ((FUN_00880ad0_shell*)this)->FUN_00880ad0(reinterpret_cast<::FUN_008d4a80_shell *>((((Holder*)this)))->FUN_008d4a80(aiArg), {}, {});
 }
 
 namespace fnv_008d4990 {
 struct Holder
 {
-    int FUN_008d4a80(int, float, int);
 };
 struct FUN_00880e00_OBJ
 {
-    void FUN_00880e00(int);
 };
 struct FUN_008d4990_OBJ : Holder
 {
@@ -272,37 +302,33 @@ struct FUN_008d4990_OBJ : Holder
 // @fnv 0x008d4990
 void FUN_008d4990_OBJ::FUN_008d4990(int aiArg, float afArg, int aiArg2)
 {
-    ((FUN_00880e00_OBJ*)this)->FUN_00880e00(FUN_008d4a80(aiArg, afArg, aiArg2));
+    reinterpret_cast<::FUN_00880e00_shell *>((((FUN_00880e00_OBJ*)this)))->FUN_00880e00(reinterpret_cast<::FUN_008d4a80_shell *>(this)->FUN_008d4a80(aiArg), {}, {});
 }
 }  // namespace fnv_008d4990
 
 namespace fnv_008d49c0 {
 struct Holder
 {
-    int FUN_008d4a80(int, int, int);
-    int FUN_00880fb0(int);
     void FUN_008d49c0(int, int, int);
 };
 // Calls FUN_008d4a80 with a, b and c, then passes the result to FUN_00880fb0.
 // @fnv 0x008d49c0
 void Holder::FUN_008d49c0(int aiArg1, int aiArg2, int aiArg3)
 {
-    FUN_00880fb0(FUN_008d4a80(aiArg1, aiArg2, aiArg3));
+    reinterpret_cast<::ActorStand *>(this)->FUN_00880fb0(reinterpret_cast<::FUN_008d4a80_shell *>(this)->FUN_008d4a80(aiArg1), {}, {});
 }
 }  // namespace fnv_008d49c0
 
 namespace fnv_008d49f0 {
 struct Holder
 {
-    int FUN_008d4a80(int, float, void*);
-    void ApplyActorValueDelta(int);
     void FUN_008d49f0(int, float, void*);
 };
 // Calls FUN_008d4a80 with the given arguments and passes its result to ApplyActorValueDelta.
 // @fnv 0x008d49f0
 void Holder::FUN_008d49f0(int aiArg, float afValue, void* a3)
 {
-    ApplyActorValueDelta(FUN_008d4a80(aiArg, afValue, a3));
+    reinterpret_cast<::FUN_00881130_Class *>(this)->ApplyActorValueDelta(reinterpret_cast<::FUN_008d4a80_shell *>(this)->FUN_008d4a80(aiArg), {}, {});
 }
 }  // namespace fnv_008d49f0
 
@@ -318,12 +344,10 @@ struct NiAVObject
 
 struct NiNode
 {
-    NiAVObject* FUN_0045bc00(unsigned int);
 };
 
 struct bhkCollisionObject;
 
-bhkCollisionObject* __cdecl FUN_004a8b00(NiNode*);
 
 struct FUN_008d4ab0_shell
 {
@@ -338,7 +362,7 @@ bool FUN_008d4ab0_shell::FUN_008d4ab0(NiAVObject* apObject)
     {
         return false;
     }
-    bhkCollisionObject* collision = FUN_004a8b00(reinterpret_cast<NiNode*>(apObject));
+    bhkCollisionObject* collision = ((::bhkCollisionObject *)(::FUN_004a8b00((::BGSBodyPart *)(::NiNode *)(reinterpret_cast<NiNode*>(apObject)))));
     ++DAT_011dffe4;
     if (collision)
     {
@@ -349,7 +373,7 @@ bool FUN_008d4ab0_shell::FUN_008d4ab0(NiAVObject* apObject)
         NiAVObject* parent = apObject ? apObject->GetParent() : 0;
         if (parent)
         {
-            bHasCollision = FUN_008d4ab0(reinterpret_cast<NiNode*>(parent)->FUN_0045bc00(0));
+            bHasCollision = FUN_008d4ab0(((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((reinterpret_cast<NiNode*>(parent)))->FUN_0045bc00(0))));
         }
     }
     --DAT_011dffe4;
@@ -357,16 +381,13 @@ bool FUN_008d4ab0_shell::FUN_008d4ab0(NiAVObject* apObject)
 }
 
 namespace fnv_008c50f0 {
-extern double _gModifierZero;
 
 struct ShellH
 {
-    void FUN_00422750(bool, float);
 };
 
 struct XActor
 {
-    ShellH* GetExtra() const;
 };
 
 struct VProc
@@ -741,10 +762,8 @@ struct VProc
 
 struct TES
 {
-    VProc* GetLogDate();
 };
 
-void __cdecl FUN_00b68770(void*, bool, float, int, float, int);
 
 struct FUN_008c50f0_shell
 {
@@ -758,32 +777,31 @@ void FUN_008c50f0_shell::ApplyModifier(bool abEnabled, float afModifier)
     bool b;
     ShellH* val;
 
-    if (abEnabled && f <= _gModifierZero)
+    if (abEnabled && f <= ::_DAT_01012060)
     {
-        if (((TES*)this)->GetLogDate())
+        if (((::fnv_008c50f0::VProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)this)))->GetBaseTexture())))
         {
-            f = ((TES*)this)->GetLogDate()->vfunc_5b4();
+            f = ((::fnv_008c50f0::VProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)this)))->GetBaseTexture()))->vfunc_5b4();
         }
     }
 
     b = abEnabled;
-    if (b && f <= _gModifierZero)
+    if (b && f <= ::_DAT_01012060)
     {
         b = false;
     }
 
-    typedef void*(__thiscall * VFunc_1d0)(void*);
-    FUN_00b68770(((VFunc_1d0)(*(void***)this)[0x1d0 / 4])(this), b, f, 0, 0.0f, 0);
+    typedef void*(* VFunc_1d0)(void*);
+    ::FUN_00b68770((::NiAVObject_b68770 *)(void *)(((VFunc_1d0)(*(void***)this)[0x1d0 / 4])(this)), b, f, 0, 0.0f, 0);
 
-    val = ((XActor*)this)->GetExtra();
+    val = ((::fnv_008c50f0::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)this)))->FUN_005d43c0()));
     if (val)
     {
-        val->FUN_00422750(b, afModifier);
+        reinterpret_cast<::fnv_00422750::FUN_00422750_class *>((val))->FUN_00422750(b, afModifier);
     }
 }
 }  // namespace fnv_008c50f0
 
-extern double _gModifierZero;
 
 struct FUN_0087d880_class
 {
@@ -813,13 +831,13 @@ struct FUN_008d4cc0_shell
 // @fnv 0x008d4cc0
 float FUN_008d4cc0_shell::FUN_008d4cc0()
 {
-    if (m_fFirstResetValue >= _gModifierZero)
+    if (m_fFirstResetValue >= ::_DAT_01012060)
         return m_fFirstResetValue;
 
     int f = 0x12;
     float temp = ((FUN_0087d880_class*)this)->FUN_0087d880();
     bool b = false;
-    typedef float(__thiscall * VFunc_48c)(void*, int, bool*);
+    typedef float(* VFunc_48c)(void*, int, bool*);
     float val = ((VFunc_48c)(*(void***)this)[0x48c / 4])(this, f, &b);
     if (b)
     {
@@ -833,11 +851,9 @@ float FUN_008d4cc0_shell::FUN_008d4cc0()
 }
 
 namespace fnv_008d4db0 {
-extern double _gModifierZero;
 
 struct FUN_0087d880_class
 {
-    float FUN_0087d880();
 };
 
 struct SubA4
@@ -862,13 +878,13 @@ struct FUN_008d4db0_shell
 // @fnv 0x008d4db0
 float FUN_008d4db0_shell::FUN_008d4db0()
 {
-    if (m_fSecondValue >= _gModifierZero)
+    if (m_fSecondValue >= ::_DAT_01012060)
         return m_fSecondValue;
 
     int f = 0x4c;
-    float temp = ((FUN_0087d880_class*)this)->FUN_0087d880();
+    float temp = reinterpret_cast<::FUN_0087d880_class *>((((FUN_0087d880_class*)this)))->FUN_0087d880();
     bool b = false;
-    typedef float(__thiscall * VFunc_48c)(void*, int, bool*);
+    typedef float(* VFunc_48c)(void*, int, bool*);
     float val = ((VFunc_48c)(*(void***)this)[0x48c / 4])(this, f, &b);
     if (b)
     {
@@ -919,11 +935,9 @@ struct NiControllerManager
     virtual void vm033();
     virtual void vm034();
     virtual NiAVObject* GetObjectByName(NiFixedString* name);
-    NiControllerManager* GetStringAtOffset();
 };
 struct ActorAnimData
 {
-    NiControllerManager* FUN_00496940();
 };
 struct CreatureFlags30
 {
@@ -950,10 +964,8 @@ struct CreatureViewQ
     char pad[0x30];
     CreatureFlags30 m30;
 };
-NiFixedString* FUN_008a30f0();
 NiFixedString* FUN_008d4ca0();
 NiFixedString* FUN_008d4cb0();
-void FUN_0062bc10(NiAVObject* obj);
 struct XActorQ
 {
     virtual void vx000();
@@ -1084,29 +1096,123 @@ struct XActorQ
 // @fnv 0x008d4b60
 void XActorQ::FUN_008d4b60()
 {
-    TESCreature* pCreature = dynamic_cast<TESCreature*>(((XActor*)(void*)this)->GetActorBase());
+    TESCreature* pCreature = dynamic_cast<TESCreature*>(reinterpret_cast<::Actor *>((((XActor*)(void*)this)))->GetActorBase());
     if (!pCreature)
         return;
     ActorAnimData* pAnimData = GetAnimData();
     if (pAnimData)
     {
-        if (!pAnimData->FUN_00496940())
+        if (!reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((pAnimData))->FUN_00496940())
             return;
-        NiControllerManager* pManager = pAnimData->FUN_00496940()->GetStringAtOffset();
+        NiControllerManager* pManager = ((::NiControllerManager *)(::fnv_00537bd0::GetStringAtOffset((const char *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((pAnimData))->FUN_00496940()))));
         if (((CreatureViewQ*)pCreature)->m30.vf38())
         {
             NiAVObject* pObject = pManager->GetObjectByName(FUN_008d4ca0());
-            FUN_0062bc10(pObject);
+            ::FUN_0062bc10((::FUN_0062bc10_obj *)(pObject));
         }
         if (((CreatureViewQ*)pCreature)->m30.vf3c())
         {
             NiAVObject* pObject = pManager->GetObjectByName(FUN_008d4cb0());
-            FUN_0062bc10(pObject);
+            ::FUN_0062bc10((::FUN_0062bc10_obj *)(pObject));
         }
         if (((CreatureViewQ*)pCreature)->m30.vf40())
         {
-            NiAVObject* pObject = pManager->GetObjectByName(FUN_008a30f0());
-            FUN_0062bc10(pObject);
+            NiAVObject* pObject = pManager->GetObjectByName(::FUN_008a30f0());
+            ::FUN_0062bc10((::FUN_0062bc10_obj *)(pObject));
         }
     }
 }
+
+
+struct DAT_010c53b4_t
+{
+    void* vtable;
+    void*(* Alloc)(void*, unsigned int);
+    void(* Free)(void*, void*);
+};
+
+
+struct LocalObj
+{
+    void* vptr;
+    void* data;
+    int size;
+    int capacity;
+
+    LocalObj()
+    {
+        vptr = &(*reinterpret_cast<::DAT_010c53b4_t *>(&::DAT_010c53b4));
+        data = 0;
+        size = 0;
+        capacity = 0;
+        data = (*reinterpret_cast<::DAT_010c53b4_t *>(&::DAT_010c53b4)).Alloc(this, 0x20);
+        capacity = 0x20;
+    }
+
+    ~LocalObj()
+    {
+        vptr = &(*reinterpret_cast<::DAT_010c53b4_t *>(&::DAT_010c53b4));
+        if (data)
+        {
+            (*reinterpret_cast<::DAT_010c53b4_t *>(&::DAT_010c53b4)).Free(this, data);
+        }
+    }
+};
+
+// @fnv 0x00c812d0
+intptr_t __cdecl FUN_00c812d0(void* a1, void* a2)
+{
+    LocalObj local;
+    return ((intptr_t)(::FUN_00c80c00((::WorkNode_cls *)(a1), (::WorkStack_cls *)(void *)(&local), (uintptr_t)(a2), 0)));
+}
+
+class NiAVObject;
+class NiCollisionObject;
+
+struct CollisionObjectCountContext
+{
+    void* pCurrentObject;
+    bool bRecurse;
+    unsigned int uiTraversalFlags;
+    int iValue;
+    int iOption;
+    int uNewnk;
+    int uTmpnk;
+};
+
+struct C6A350Properties
+{
+    int unk;
+    int unkCur;
+    int unkValue;
+    unsigned int m_uiValue1;
+};
+static inline unsigned int C6A350IsEnabled(NiAVObject* pkObject)
+{
+    C6A350Properties* pkProps = ((::C6A350Properties *)(::GetExtraDataChecked((::NiAVObjectX *)(pkObject))));
+    return pkProps ? (pkProps->m_uiValue1 & 2) : 0;
+}
+
+typedef void (*CollisionObjectCountCallback)(NiCollisionObject*, CollisionObjectCountContext*);
+extern CollisionObjectCountCallback DAT_011afe9c;
+
+// @fnv 0x00c6a350
+bool FUN_00c6a350(NiAVObject* pkObject, int iValue, bool bRecurse, bool bForce, bool bOption)
+{
+    bool bResult = false;
+    if (pkObject && (bForce || C6A350IsEnabled(pkObject)))
+    {
+        CollisionObjectCountContext kContext;
+        bResult = true;
+        kContext.pCurrentObject = 0;
+        kContext.bRecurse = bRecurse;
+        kContext.uiTraversalFlags = 5;
+        kContext.iValue = iValue;
+        kContext.iOption = bOption;
+        if (DAT_011afe9c)
+            ::FUN_00c68900((::S_00c68900_Node *)(pkObject), (::S_00c68900_Context *)(::CollisionObjectCountContext *)(&kContext), (void (*)(void *, S_00c68900_Context *))(DAT_011afe9c));
+    }
+    return bResult;
+}
+#include "generated/data/fallout/ai/creature.inc"
+#include "generated/data/fallout/ai/creature_o2_variant.inc"

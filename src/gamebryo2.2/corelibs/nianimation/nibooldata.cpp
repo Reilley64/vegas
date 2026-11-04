@@ -1,14 +1,30 @@
 // gamebryo2.2/corelibs/nianimation/nibooldata.cpp: NiBoolData, NiBoolDataSaver (7 functions)
 
+#include <cstdint>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/NiObjectD510.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nibooldata_decls.h"
 
 // @fnv 0x00a53a50
 void NiBoolData::LoadBinary(NiStream& stream)
 {
-    NiObject::LoadBinary(stream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
     AnimationKey::KeyType type = AnimationKey::STEPKEY;
     unsigned int numKeys;
-    ReadBinaryValue(stream, numKeys);
+    ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(numKeys));
     if (numKeys > 0)
     {
         if (stream.m_uiNifVersion >= 0x0a010068)
@@ -42,7 +58,6 @@ void NiBoolData::SetColorKeys(BooleanKey* keys, unsigned int numKeys, AnimationK
     }
 }
 
-void __cdecl UpdateSlotStates(unsigned int, unsigned int, void*&, unsigned int&, float, float);
 struct StandIn_00a537a0
 {
     int _pad[2];
@@ -55,7 +70,7 @@ struct StandIn_00a537a0
 void StandIn_00a537a0::FUN_00a537a0(float m_fStartTime, float m_fMaximumDistance)
 {
     void* pkKeys = m_pKeyArray;
-    UpdateSlotStates(5, m_eRequestType, pkKeys, m_uiNumKeys, m_fStartTime, m_fMaximumDistance);
+    ::UpdateSlotStates(5, m_eRequestType, (void **)&(pkKeys), (int *)&(m_uiNumKeys), m_fStartTime, m_fMaximumDistance);
     m_pKeyArray = pkKeys;
 }
 
@@ -67,8 +82,6 @@ struct StrArr
     unsigned short _pad01;
     unsigned short m_uiGrowSize;
 
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 
 struct GlobalObjectO2_00a7b610
@@ -76,11 +89,7 @@ struct GlobalObjectO2_00a7b610
     void* pObject;
 };
 
-extern GlobalObjectO2_00a7b610 g_011f4054;
 
-void __stdcall AppendCameraPathEntries(StrArr*);
-void* __cdecl _FUN_00a7d330(void*);
-char* __cdecl FUN_00a7d510(char const*, unsigned int);
 
 struct FUN_00a53ba0_shell
 {
@@ -93,25 +102,25 @@ struct FUN_00a53ba0_shell
 // @fnv 0x00a53ba0
 void FUN_00a53ba0_shell::FUN_00a53ba0(StrArr* apViewerStrings)
 {
-    AppendCameraPathEntries(apViewerStrings);
+    reinterpret_cast<::A5D6E0This *>((apViewerStrings))->AppendCameraPathEntries({});
 
-    char* pString = static_cast<char*>(_FUN_00a7d330(g_011f4054.pObject));
+    char* pString = static_cast<char*>(((void *)(::FUN_00a7d330((const char *)(::g_011f4054.pObject)))));
     unsigned int uiIndex = apViewerStrings->m_uiSize;
     unsigned int uiCapacity = apViewerStrings->m_uiCapacity;
 
     if (uiIndex >= uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(apViewerStrings->m_uiGrowSize + uiIndex);
 
-    apViewerStrings->SetAt(uiIndex, pString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(uiIndex, pString);
 
     pString = FUN_00a7d510("m_uiNumKeys", m_uiNumKeys);
     uiIndex = apViewerStrings->m_uiSize;
     uiCapacity = apViewerStrings->m_uiCapacity;
 
     if (uiIndex >= uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + uiIndex);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(apViewerStrings->m_uiGrowSize + uiIndex);
 
-    apViewerStrings->SetAt(uiIndex, pString);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(uiIndex, pString);
 }
 
 typedef bool(__cdecl* FUN_00a53830_elemcmp)(void* a, void* b);
@@ -126,7 +135,6 @@ class FUN_00a53830_cls
     unsigned char* m_pData;
     unsigned int m_uiType;
     unsigned char m_ucStride;
-    bool IsSameAs(FUN_00a53830_cls* other);
     bool Equals(FUN_00a53830_cls* other);
 };
 
@@ -134,7 +142,7 @@ class FUN_00a53830_cls
 // @fnv 0x00a53830
 bool FUN_00a53830_cls::Equals(FUN_00a53830_cls* other)
 {
-    if (!IsSameAs(other))
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(other)))
     {
         return false;
     }
@@ -165,7 +173,6 @@ bool FUN_00a53830_cls::Equals(FUN_00a53830_cls* other)
 }
 
 typedef void(__cdecl* NiBoolSaveKeysFunction)(NiStream&, BooleanKey*, unsigned int);
-extern "C" NiBoolSaveKeysFunction DAT_011f3ac8[AnimationKey::NUMKEYTYPES];
 struct NiBinaryWriter
 {
     void* m_ppVirtualMethodTable;
@@ -190,13 +197,12 @@ struct NiBoolDataSaver
     BooleanKey* m_pKeyArray;
     AnimationKey::KeyType m_eRequestType;
     unsigned char m_ucKeyDataSize;
-    void FUN_00a89af0(NiStream&);
     void SaveBoolData(NiStream&);
 };
 // @fnv 0x00a53b20
 void NiBoolDataSaver::SaveBoolData(NiStream& stream)
 {
-    FUN_00a89af0(stream);
+    ::FUN_00a89af0((intptr_t)this);
     WriteValue(stream, m_uiNumKeys);
     if (m_uiNumKeys > 0)
     {
@@ -205,14 +211,10 @@ void NiBoolDataSaver::SaveBoolData(NiStream& stream)
     }
 }
 
-void __cdecl FUN_00a3d630(unsigned int mode, AnimationKey::KeyType type, BooleanKey* sourceKeys,
-                          unsigned int sourceCount, float startTime, float endTime, BooleanKey** outputKeys,
-                          unsigned int* outputCount);
 
 struct FUN_00a53910_shell : NiBoolData
 {
-    void __thiscall FUN_00a5d510(NiBoolData*& clone);
-    void __thiscall FUN_00a53910(float startTime, float endTime, NiPointer<NiBoolData>& output);
+    void FUN_00a53910(float startTime, float endTime, NiPointer<NiBoolData>& output);
 };
 
 // Clones this NiBoolData, processes its keys with the requested time range when present, and assigns the result to output.
@@ -220,7 +222,7 @@ struct FUN_00a53910_shell : NiBoolData
 void FUN_00a53910_shell::FUN_00a53910(float startTime, float endTime, NiPointer<NiBoolData>& output)
 {
     NiBoolData* original = 0;
-    FUN_00a5d510(original);
+    reinterpret_cast<::NiObjectD510 *>(this)->FUN_00a5d510((::NiPointerD510 &)(original));
 
     NiBoolData* copy = original;
     if (copy != 0)
@@ -230,7 +232,7 @@ void FUN_00a53910_shell::FUN_00a53910(float startTime, float endTime, NiPointer<
     {
         BooleanKey* keys = 0;
         unsigned int count = 0;
-        FUN_00a3d630(5, m_eRequestType, m_pKeyArray, m_uiNumKeys, startTime, endTime, &keys, &count);
+        ::FUN_00a3d630(5, (*(int *)&(m_eRequestType)), m_pKeyArray, m_uiNumKeys, startTime, endTime, (void **)(::BooleanKey **)(&keys), (int *)(unsigned int *)(&count));
         copy->SetColorKeys(keys, count, m_eRequestType);
     }
 
@@ -249,3 +251,5 @@ void FUN_00a53910_shell::FUN_00a53910(float startTime, float endTime, NiPointer<
     if (original != 0)
         original->DecRefCount();
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nibooldata.inc"

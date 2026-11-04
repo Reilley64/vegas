@@ -6,13 +6,10 @@
 #include "hkBase.h"
 class hkpAgent1nSector;
 class hkpSerializedSubTrack1nInfo;
-#pragma pack(push, 1)
 class hkpSerializedTrack1nInfo
 {
   public:
     hkArray<hkpAgent1nSector*> m_kSectors;               // +0x0
     hkArray<hkpSerializedSubTrack1nInfo*> m_kSubTracks;  // +0xC
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSerializedTrack1nInfo[(sizeof(hkpSerializedTrack1nInfo) == 0x18) ? 1 : -1];
 #endif

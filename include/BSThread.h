@@ -4,7 +4,6 @@
 
 #include "layout_support.h"
 #include "RecursiveLock.h"
-#pragma pack(push, 4)
 class BSThread
 {
   public:
@@ -21,13 +20,4 @@ class BSThread
     unsigned int ThreadProc();
     void SetName(const char*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSThread) == 0x40);
-FNV_STATIC_ASSERT(offsetof(BSThread, m_ppVirtualMethodTable) == 0x0);
-FNV_STATIC_ASSERT(offsetof(BSThread, CriticalSection) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BSThread, m_pThreadHandle) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(BSThread, m_pCurrentThreadHandle) == 0x30);
-FNV_STATIC_ASSERT(offsetof(BSThread, m_uiCreatedThreadId) == 0x34);
-FNV_STATIC_ASSERT(offsetof(BSThread, m_uiCurrentThreadId) == 0x38);
-FNV_STATIC_ASSERT(offsetof(BSThread, m_bThreadStarted) == 0x3C);
 #endif

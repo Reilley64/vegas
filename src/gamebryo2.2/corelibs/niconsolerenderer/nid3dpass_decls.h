@@ -2,26 +2,26 @@
 #ifndef NID3DPASS_DECLS_H
 #define NID3DPASS_DECLS_H
 
+#include "fnv/decl/ElemPtrArray.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/FUN_00e89410_Class.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0126f000.h"
 extern "C" void* DAT_0126f710;
-extern "C" void* DAT_0126f714;
-extern "C" unsigned int DAT_0126f680[];
 class BeamStage
 {
   public:
     unsigned char m_pcBase[0x60];
     unsigned int m_uiRefCount;
-    void ReturnToPool();
 };
 struct SNAEntry
 {
     unsigned int m_data[4];
     SNAEntry() throw();
-    static void* operator new[](unsigned int bytes) throw();
 };
 class UnknownPoolReceiver
 {
   public:
-    unsigned int GetItemByIndex(unsigned int index);
 };
 struct NiD3DPassPoolRecord
 {
@@ -45,14 +45,13 @@ class NiD3DPassPool
     unsigned int size;
     unsigned int reserved;
     unsigned int grow;
-    void Grow(unsigned int count);
     NiD3DPass* Get()
     {
         unsigned int& available = size;
         if (!available)
         {
             unsigned int& growth = grow;
-            Grow(growth);
+            reinterpret_cast<::ElemPtrArray *>(this)->FUN_00e80420(growth);
             growth *= 2;
         }
         NiD3DPass** base = entries;
@@ -61,7 +60,6 @@ class NiD3DPassPool
         return result;
     }
 };
-extern "C" NiD3DPassPool* DAT_0126f72c;
 class D3DRenderStateGroup
 {
   public:
@@ -74,7 +72,6 @@ struct NiD3DPassRefObject
     virtual void DeleteThis();
     long refs;
 };
-void NiFree(void* pointer);
 template <class T> class NiTMallocInterface;
 template <class T, class A> class NiTSet
 {

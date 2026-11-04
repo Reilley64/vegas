@@ -3,6 +3,11 @@
 #define CREATURESOUNDS_DECLS_H
 
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e3000.h"
 #include "creaturesounds_types_CREATURE_SOUND_TYPE.h"
 #include "TESForm.h"
 
@@ -13,7 +18,6 @@ class TESCreature : public TESForm
 class TESSound : public TESForm
 {
   public:
-    static TESSound* FindSoundByFilename(const char* filename);
 };
 
 class SoundListEntry
@@ -28,14 +32,9 @@ class SoundListView
 {
   public:
     bool IsEmpty();
-    SoundListEntry*& GetItem();
-    SoundListView* GetNext();
     void AddHead(SoundListEntry*& item);
-    void AddTail(SoundListEntry* const& item);
 };
 
-TESForm* __cdecl GetFormByID(unsigned int formID);
-int __cdecl Warning(const char* format, ...);
 extern const char DAT_010475a0[];
 
 #endif

@@ -2,10 +2,13 @@
 // src/havok/physics/utilities/charactercontrol/statemachine/hkpcharacterstatemanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/statemachine/hkpcharacterstatemanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_0102e000.h"
 struct hkReferencedObject
 {
-    void RetainReference();
-    void removeReference();
 };
 
 struct hkpCharacterStateManager
@@ -18,18 +21,16 @@ struct hkpCharacterStateManager
 // @fnv 0x00cbc4e0
 void hkpCharacterStateManager::FUN_00cbc4e0(hkReferencedObject* object, int index)
 {
-    object->RetainReference();
+    reinterpret_cast<::FUN_00c90510_class *>((object))->FUN_00c90510();
     if (m_states[index])
-        m_states[index]->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_states[index]))->FUN_00c905b0();
     m_states[index] = object;
 }
 
 extern int DAT_010c9194;
-extern int _DAT_0102e388;
 
 struct DDCC60World
 {
-    void removeReference();
 };
 
 struct FUN_00cbc4a0
@@ -51,12 +52,12 @@ FUN_00cbc4a0::~FUN_00cbc4a0()
         hkReferencedObject* state = m_states[i];
         if (state)
         {
-            reinterpret_cast<DDCC60World*>(state)->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((reinterpret_cast<DDCC60World*>(state)))->FUN_00c905b0();
             m_states[i] = 0;
         }
     }
 
-    m_ppVirtualMethodTable = reinterpret_cast<int*>(&_DAT_0102e388);
+    m_ppVirtualMethodTable = reinterpret_cast<int*>(&(*reinterpret_cast<int *>(&::DAT_0102e388)));
 }
 
 struct hkpCharacterStateView
@@ -72,21 +73,6 @@ hkReferencedObject* hkpCharacterStateView::FUN_00cbc510(int index)
     return m_states[index];
 }
 
-struct FnvCpu_FUN_00cbc520_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00cbc520_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00cbc520_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00cbc520_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00cbc520_CpuObject
 {
     unsigned int unk00;
@@ -97,11 +83,11 @@ struct FnvCpu_FUN_00cbc520_CpuObject
 // @fnv 0x00cbc520
 FnvCpu_FUN_00cbc520_CpuObject* FnvCpu_FUN_00cbc520_CpuObject::FUN_00cbc520(unsigned int flags)
 {
-    FUN_00cbc4a0();
+    reinterpret_cast<::FUN_00cbc4a0 *>(this)->FUN_00cbc4a0::~FUN_00cbc4a0();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cbc520_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }

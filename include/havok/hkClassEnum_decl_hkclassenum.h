@@ -6,7 +6,6 @@
 #include "hkBase_decl_hkclassenum.h"
 class hkClassEnumItem;
 class hkCustomAttributes;
-#pragma pack(push, 1)
 class hkClassEnum
 {
   public:
@@ -22,6 +21,4 @@ class hkClassEnum
     hkCustomAttributes* m_pCustomAttributes;  // +0xC
     hkUint32 m_flags;                         // +0x10 (FlagValues)
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkClassEnum[(sizeof(hkClassEnum) == 0x14) ? 1 : -1];
 #endif

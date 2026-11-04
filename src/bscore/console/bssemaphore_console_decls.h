@@ -10,6 +10,6 @@ class CountingSemaphore
     int m_iMaximumCount;
     CountingSemaphore(int count, int maxCount);
 };
-typedef void*(__stdcall* BSSemaphoreCreateProc)(void*, int, int, const char*);
+typedef void*(* BSSemaphoreCreateProc)(void*, int, int, const char*);
 extern "C" BSSemaphoreCreateProc DAT_00fdf0b4;
 #endif

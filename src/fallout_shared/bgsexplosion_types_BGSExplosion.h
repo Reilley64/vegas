@@ -2,6 +2,10 @@
 #ifndef FNV_BGSEXPLOSION_H
 #define FNV_BGSEXPLOSION_H
 
+#include "fnv/decl/BGSTalkingActivator.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00516bf0_shell.h"
+#include "fnv/symbols_004fa000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -37,7 +41,6 @@ enum SOUND_LEVEL
     SOUND_LEVEL_SOUND_LEVEL_SILENT = 2,
     SOUND_LEVEL_SOUND_LEVEL_COUNT = 3
 };
-#pragma pack(push, 4)
 class TESObject : public TESForm
 {
   public:
@@ -66,12 +69,6 @@ class TESObject : public TESForm
     // TESObject& __cdecl TESObject::*(const TESObject&)
     // void __cdecl TESObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
-#pragma pack(push, 4)
 class ShortPoint3
 {
   public:
@@ -111,23 +108,12 @@ class ShortPoint3
     // void __cdecl ShortPoint3::*(NiStream&)
     // char* __cdecl ShortPoint3::*(const char*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
-#pragma pack(push, 4)
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
-#pragma pack(push, 4)
 class TESBoundObject : public TESObject
 {
   public:
@@ -149,10 +135,6 @@ class TESBoundObject : public TESObject
     // TESBoundObject& __cdecl TESBoundObject::*(const TESBoundObject&)
     // void __cdecl TESBoundObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -169,11 +151,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -207,18 +184,10 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class TESEnchantableForm : public BaseFormComponent
 {
   public:
     TESEnchantableForm();
-    void FUN_00483170(unsigned short amount);
-    void SetCastingType(MagicSystem__CastingType type);
     void InitItem(TESForm* form);
     // base BaseFormComponent at +0x0, size 4
     EnchantmentItem* m_pEnchantment;       // +0x4, 4 bytes
@@ -237,13 +206,9 @@ class TESEnchantableForm : public BaseFormComponent
     // GetFormEnchantmentAmount
     // void __cdecl TESEnchantableForm::*(unsigned short)
     // TESEnchantableForm& __cdecl TESEnchantableForm::*(const TESEnchantableForm&)
+public:
+    void SetFormEnchantmentAmount(unsigned short);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESEnchantableForm) == 16);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_pEnchantment) == 4);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_usEnchantmentAmount) == 8);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_eCastingType) == 12);
-#pragma pack(push, 4)
 class BGSPreloadable : public BaseFormComponent
 {
   public:
@@ -256,9 +221,6 @@ class BGSPreloadable : public BaseFormComponent
     // BGSPreloadable
     // BGSPreloadable& __cdecl BGSPreloadable::*(const BGSPreloadable&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSPreloadable) == 4);
-#pragma pack(push, 4)
 class TESImageSpaceModifiableForm : public BaseFormComponent
 {
   public:
@@ -277,15 +239,9 @@ class TESImageSpaceModifiableForm : public BaseFormComponent
     // void __cdecl TESImageSpaceModifiableForm::*(TESImageSpaceModifier*)
     // TESImageSpaceModifiableForm& __cdecl TESImageSpaceModifiableForm::*(const TESImageSpaceModifiableForm&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESImageSpaceModifiableForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifiableForm, m_pImageSpaceModifier) == 4);
-#pragma pack(push, 4)
 class ExplosionEffectSettings
 {
   public:
-    void FUN_004faa00();
-    void InitExplosionData();
     float fForce;                        // +0x0, 4 bytes
     float afDamageAmount;                // +0x4, 4 bytes
     float fRadius;                       // +0x8, 4 bytes
@@ -303,22 +259,6 @@ class ExplosionEffectSettings
     // void __cdecl ExplosionEffectSettings::*()
     // void __cdecl ExplosionEffectSettings::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExplosionEffectSettings) == 52);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, fForce) == 0);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, afDamageAmount) == 4);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, fRadius) == 8);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, apTargetLight) == 12);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, m_pPrimaryImpactSound) == 16);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, iFlags) == 20);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, ExplosionRuntimeData) == 24);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, m_pImpactDataSet) == 28);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, m_pSecondaryImpactSound) == 32);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, ImpactSoundSettings) == 36);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, m_fImpactSecondValue) == 40);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, m_fImpactThirdValue) == 44);
-FNV_STATIC_ASSERT(offsetof(ExplosionEffectSettings, m_eSoundLevel) == 48);
-#pragma pack(push, 4)
 class BGSExplosion : public TESBoundObject,
                      public TESFullName,
                      public TESModel,
@@ -332,9 +272,7 @@ class BGSExplosion : public TESBoundObject,
     ExplosionEffectSettings* FUN_004fadc0();
     void InitItem();
     bool Load(TESFile* file);
-    BGSImpactDataSet* FUN_00516bf0();
     void FUN_004fb0b0(BGSImpactDataSet* value);
-    void FUN_004febf0(TESSound* value);
     // base TESBoundObject at +0x0, size 48
     // base TESFullName at +0x30, size 12
     // base TESModel at +0x3C, size 24
@@ -399,8 +337,4 @@ class BGSExplosion : public TESBoundObject,
     // BGSExplosion& __cdecl BGSExplosion::*(const BGSExplosion&)
     // void __cdecl BGSExplosion::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSExplosion) == 168);
-FNV_STATIC_ASSERT(offsetof(BGSExplosion, m_pExplosionBoundObject) == 112);
-FNV_STATIC_ASSERT(offsetof(BGSExplosion, Data) == 116);
 #endif

@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpShapeCollection.h"
 class hkpMeshShapeSubpart;
-#pragma pack(push, 1)
 class hkpMeshShape : public hkpShapeCollection
 {
   public:
@@ -34,6 +33,4 @@ class hkpMeshShape : public hkpShapeCollection
     hkReal m_fSphereRadius;  // +0x50
     hkInt32 m_auiShapeKeys[3];        // +0x54
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMeshShape[(sizeof(hkpMeshShape) == 0x60) ? 1 : -1];
 #endif

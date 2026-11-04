@@ -1,7 +1,21 @@
+#include <cstdint>
+#include <cstddef>
 
 // src/bsshader/bsshaderbloodsplatterproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsshaderbloodsplatterproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00b812b0_class.h"
+#include "fnv/decl/ShaderPropertyRecord.h"
+#include "fnv/decl/TallGrassShader.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00b81000.h"
+#include "fnv/symbols_00c4b000.h"
+#include "fnv/symbols_010ae000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011ff000.h"
 struct S_00b81420_Property
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
@@ -23,7 +37,6 @@ struct S_00b81420_AVObject
     virtual void v4();
     virtual void v5();
     virtual int IsGeometry();
-    S_00b81420_Property* GetProperty(int type);
 };
 
 struct S_00b81420_Node : S_00b81420_AVObject
@@ -40,13 +53,13 @@ struct S_00b81420_Node : S_00b81420_AVObject
 
 // If obj is geometry, sets property 3's m_iValue when its type is 0x17; otherwise recurses into each child of obj's node.
 // @fnv 0x00b81420
-void FUN_00b81420(S_00b81420_AVObject* obj, int value)
+void FUN_00b81420(S_00b81420_AVObject* obj, std::intptr_t value)
 {
     if (!obj)
         return;
     if (obj->IsGeometry())
     {
-        S_00b81420_Property* prop = obj->GetProperty(3);
+        S_00b81420_Property* prop = ((::S_00b81420_Property *)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30(3)));
         if (prop && prop->m_eRequestType == 0x17)
             prop->m_iValue = value;
     }
@@ -93,7 +106,6 @@ struct SpawnedRec
 extern SpawnedRec DAT_011fedd0[100];
 extern int DAT_011ff0f0;
 
-void __stdcall FUN_00ba95e0(int a1);
 
 class FUN_00b81330_cls
 {
@@ -116,7 +128,7 @@ SpawnedP* FUN_00b81330_cls::FUN_00b81330(unsigned int a1, unsigned int a2, unsig
     unsigned int uiCacheKey = (a4 << 8) | a2;
     if (this->m_38 != uiCacheKey)
     {
-        FUN_00ba95e0(1);
+        reinterpret_cast<::TallGrassShader *>((1))->InitializeConstants({});
         SpawnedP* s = this->m_3c;
         s->m_10 = 0;
         SpawnedP* p = this->m_3c;
@@ -141,8 +153,6 @@ struct RTTI
     RTTI* parent;
 };
 
-extern RTTI g_rttiA;
-extern RTTI g_rttiB;
 
 struct Child
 {
@@ -180,12 +190,12 @@ struct Self
     int unk58;
     int unk5c;
     Child* children[2];
-    void __thiscall ForEachChild(Callback cb, int arg);
+    void ForEachChild(Callback cb, int arg);
 };
 
 // Iterates over the two child pointers, checks each child's RTTI chain against g_rttiA and g_rttiB, and invokes cb on each non-null child with 0 and arg.
 // @fnv 0x00b813b0
-void __thiscall Self::ForEachChild(Callback apCallback, int arg)
+void Self::ForEachChild(Callback apCallback, int arg)
 {
     for (int i = 0; i < 2; i++)
     {
@@ -195,7 +205,7 @@ void __thiscall Self::ForEachChild(Callback apCallback, int arg)
             bool found = false;
             for (RTTI* pRTTI = pChild->GetRTTI(); pRTTI; pRTTI = pRTTI->parent)
             {
-                if (pRTTI == &g_rttiA)
+                if (pRTTI == &(*reinterpret_cast<::RTTI *>(&::g_011f444c)))
                 {
                     found = true;
                     break;
@@ -206,7 +216,7 @@ void __thiscall Self::ForEachChild(Callback apCallback, int arg)
                 Child* pChild2 = children[i];
                 if (pChild2)
                 {
-                    for (RTTI* pRTTI = pChild2->GetRTTI(); pRTTI && pRTTI != &g_rttiB; pRTTI = pRTTI->parent)
+                    for (RTTI* pRTTI = pChild2->GetRTTI(); pRTTI && pRTTI != &(*reinterpret_cast<::RTTI *>(&::g_011f4ac4)); pRTTI = pRTTI->parent)
                     {
                     }
                 }
@@ -218,8 +228,6 @@ void __thiscall Self::ForEachChild(Callback apCallback, int arg)
 
 struct Item
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     Item();
     int unk00;
     int unk04;
@@ -253,7 +261,6 @@ struct Item
 
 struct Owner
 {
-    void FUN_00b812b0(Item* item, int arg);
     Item* CreateItem(int arg);
 };
 
@@ -261,7 +268,7 @@ struct Owner
 Item* Owner::CreateItem(int arg)
 {
     Item* item = new Item;
-    FUN_00b812b0(item, arg);
+    reinterpret_cast<::FUN_00b812b0_class *>(this)->FUN_00b812b0((::FUN_00b812b0_class *)(item), arg);
     return item;
 }
 
@@ -274,27 +281,14 @@ struct StringArray
     unsigned short unk0c;
     unsigned short m_0e;
 
-    void appendInner(unsigned int& home, unsigned int value)
+    void append(char* value)
     {
         unsigned int index = m_0a;
         if (index >= m_08)
-        {
-            home = value;
-            FUN_0096ad30(index + m_0e);
-        }
-        else
-        {
-            home = value;
-        }
-        FUN_0096ae90(index, &home);
-    }
-    void append(unsigned int& home, unsigned int value)
-    {
-        appendInner(home, value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + m_0e);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
     }
 
-    void FUN_0096ad30(unsigned int v);
-    void FUN_0096ae90(unsigned int v, unsigned int* out);
 };
 
 struct StringOwner
@@ -323,40 +317,26 @@ struct StringOwner
     unsigned int unk54;
     unsigned int unk58;
     unsigned int unk5C;
-    unsigned int children[2];
+    void* children[2];
 
-    void WriteToSettingArray(StringArray* a1);
-    void BuildStringArray(unsigned int a1);
+    void BuildStringArray(StringArray* a1);
 };
 
-extern unsigned int DAT_011ff0f4;
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
-unsigned int __cdecl FUN_00c4bb40(unsigned int v);
-unsigned int __cdecl FUN_00a7d5e0(const char* s, unsigned int v);
-unsigned int __cdecl FUN_00a7d5a0(const char* s, unsigned int v);
-extern const char str_010ae79c[];
 
 // Appends a value and formatted child labels to a StringArray via append.
 // @fnv 0x00b81520
-void StringOwner::BuildStringArray(unsigned int apArray)
+void StringOwner::BuildStringArray(StringArray* pArray)
 {
-    StringArray* pArray = (StringArray*)apArray;
-    WriteToSettingArray(pArray);
-    pArray->append(apArray, FUN_00a7d330(DAT_011ff0f4));
+    reinterpret_cast<::ShaderPropertyRecord *>(this)->WriteToSettingArray((::SettingArray *)(pArray));
+    pArray->append(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011ff0f4))));
     for (unsigned int index = 0; index < 2; ++index)
     {
-        unsigned int label = children[index];
-        label = FUN_00c4bb40(label);
+        void* label = ::FUN_00c4bb40((::NiObjectC4BB *)(children[index]));
         if (label)
-        {
-            unsigned int text = FUN_00a7d5e0(str_010ae79c, label);
-            pArray->append(apArray, text);
-        }
+            pArray->append(::fnv_00a7d5e0::FUN_00a7d5e0(str_010ae79c, (const char *)(label)));
         else
-        {
-            unsigned int child = children[index];
-            unsigned int text = FUN_00a7d5a0(str_010ae79c, child);
-            pArray->append(apArray, text);
-        }
+            pArray->append(::FUN_00a7d5a0(str_010ae79c, children[index]));
     }
 }
+
+#include "generated/data/bsshader/bsshaderbloodsplatterproperty.inc"

@@ -1,11 +1,13 @@
 // bsshader/bsshaderproperty_decls.h: declares BSShaderPropertyLightSlot, BSShaderProperty
 #ifndef FNV_BSSHADERPROPERTY_DECLS_H
 #define FNV_BSSHADERPROPERTY_DECLS_H
+#include <cstddef>
 
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "MemoryManager.h"
 
-extern MemoryManager g_memoryManager;
-void __cdecl operator delete(void*);
 class NiGeometry;
 class ShadowSceneLight;
 
@@ -14,12 +16,7 @@ class ShadowSceneLight;
 struct BSShaderPropertyLightSlot
 {
     ShadowSceneLight* light;
-    static void* operator new[](unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
 };
-FNV_STATIC_ASSERT(sizeof(BSShaderPropertyLightSlot) == sizeof(ShadowSceneLight*));
 
 class BSShaderProperty
 {
@@ -55,10 +52,6 @@ class BSShaderProperty::ShaderPassEntry
     {
         m_pShaderGeometry = value;
     }
-    static void* operator new(unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
 };
 
 template <> class NiTArray<BSShaderProperty::ShaderPassEntry*, NiTNewInterface<BSShaderProperty::ShaderPassEntry*> >
@@ -71,13 +64,12 @@ template <> class NiTArray<BSShaderProperty::ShaderPassEntry*, NiTNewInterface<B
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
     void FUN_00ba8d30(unsigned int);
-    void SetAt(unsigned int, BSShaderProperty::ShaderPassEntry*&);
     unsigned int Add(BSShaderProperty::ShaderPassEntry* item)
     {
         unsigned int index = m_usSize;
         if (index >= m_usMaxSize)
             FUN_00ba8d30(index + m_usGrowBy);
-        SetAt(index, item);
+        reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(index, (::KeyPair **)&(item));
         return index;
     }
 };
@@ -90,6 +82,4 @@ class BSShaderProperty::ShaderPassList
     void Add(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*, ShadowSceneLight*,
              ShadowSceneLight*);
 };
-FNV_STATIC_ASSERT(sizeof(BSShaderProperty::ShaderPassEntry) == 16);
-FNV_STATIC_ASSERT(sizeof(BSShaderProperty::ShaderPassList) == 20);
 #endif

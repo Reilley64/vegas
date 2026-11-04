@@ -2,21 +2,25 @@
 // src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkphavoksnapshot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct CallbackInterface
-{
-    virtual void reserved0();
-    virtual void reserved1();
-    virtual void notify(void*, unsigned short);
-};
-struct State
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    CallbackInterface* interface10;
-};
-State* __cdecl FUN_00c85750();
+#include "havok/hkMemoryRouter.h"
+#include "havok/hkUlong.h"
+#include "fnv/symbols_00c85000.h"
+#include <new>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_00d47770.h"
+#include "fnv/decl/FUN_00d49750.h"
+#include "fnv/decl/FUN_00d4bab0.h"
+#include "fnv/decl/FUN_00d4c220_s.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/HostType.h"
+#include "fnv/decl/ReferencedObjectHolder.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/fnv_00d4aa70__FUN_00d4aa70.h"
+#include "fnv/decl/fnv_00d4c250__FUN_00d4c250.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d48000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01268000.h"
 struct Object
 {
     void* unk00;
@@ -31,8 +35,8 @@ Object* Object::FUN_00cc0dd0(unsigned int flags)
     FUN_00cc0ae0();
     if (flags & 1)
     {
-        State* state = FUN_00c85750();
-        state->interface10->notify(this, unk04);
+        hkMemoryRouter* state = &hkMemoryRouter::getInstance();
+        state->m_heap->blockFree(this, unk04);
     }
     return this;
 }
@@ -47,7 +51,6 @@ struct D481D0StringPtr
 
 struct D481D0Class
 {
-    const char* getName() const;
 };
 
 struct D481D0ReferencedObject;
@@ -58,8 +61,8 @@ struct D481D0RefVariant
 
     D481D0RefVariant() : m_ptr(0)
     {}
+public:
     void set(D481D0ReferencedObject* obj, const D481D0Class* pClassInfo);
-    const D481D0Class* GetVariantValue() const;
 };
 
 struct FUN_00d481d0
@@ -75,9 +78,9 @@ struct FUN_00d481d0
 // @fnv 0x00d481d0
 FUN_00d481d0::FUN_00d481d0(const char* name, D481D0ReferencedObject* object, const D481D0Class* apClass)
 {
-    m_name = name;
-    m_pReferencedResource.set(object, apClass);
-    m_pClassName = m_pReferencedResource.GetVariantValue() ? m_pReferencedResource.GetVariantValue()->getName() : 0;
+    reinterpret_cast<::SStringPtr *>((void *)&(const ::D481D0StringPtr &)(m_name))->FUN_00cb0c10(name);
+    reinterpret_cast<::FUN_00d47770 *>(&(m_pReferencedResource))->SetObject((::hkReferencedObject *)(object), reinterpret_cast<intptr_t>(apClass));
+    reinterpret_cast<::SStringPtr *>((void *)&(const ::D481D0StringPtr &)(m_pClassName))->FUN_00cb0c10(((const ::D481D0Class *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0())) ? reinterpret_cast<::FnvClassNameNode *>((void *)(((const ::D481D0Class *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0()))))->FUN_00d46d40() : 0);
 }
 
 struct CC0D30Result
@@ -93,7 +96,6 @@ struct CC0D30Registry
     int unk00;
 };
 
-extern CC0D30Registry g_CC0D30DefaultRegistry;
 
 CC0D30Result __cdecl FUN_00cc0bc0(const void* data, const CC0D30Registry& registry, const void* pClassInfo, void* out,
                                   int flags);
@@ -101,7 +103,7 @@ CC0D30Result __cdecl FUN_00cc0bc0(const void* data, const CC0D30Registry& regist
 // @fnv 0x00cc0d30
 CC0D30Result __cdecl FUN_00cc0d30(const void* data, const void* pClassInfo, void* out, int flags)
 {
-    return FUN_00cc0bc0(data, g_CC0D30DefaultRegistry, pClassInfo, out, flags);
+    return FUN_00cc0bc0(data, (*reinterpret_cast<::CC0D30Registry *>(&::g_01268b9c)), pClassInfo, out, flags);
 }
 
 struct S_00cc0d60_R
@@ -118,9 +120,6 @@ struct S_00cc0d60_A
     int unkC;
     int unk10;
     int unk14;
-    void FUN_00d4c220();
-    void FUN_00d4c2d0(void* a, int b);
-    void FUN_00d4c250();
 };
 S_00cc0d60_R* FUN_00cc0d30(void** pa, S_00cc0d60_A* a, void* b, int c, int d);
 // @fnv 0x00cc0d60
@@ -132,10 +131,10 @@ S_00cc0d60_R FUN_00cc0d60(void* a2, void* a3, int a4, int a5, int a6)
     if (c && a3)
     {
         S_00cc0d60_A obj;
-        obj.FUN_00d4c220();
-        obj.FUN_00d4c2d0(c, a6);
+        new ((void *)&(obj)) ::FUN_00d4c220_s();
+        reinterpret_cast<::HostType *>(&(obj))->FUN_00d4c2d0((::ClientType *)(c), a6);
         char r = FUN_00cc0d30(&a2, &obj, a3, a4, a5)->v;
-        obj.FUN_00d4c250();
+        reinterpret_cast<::fnv_00d4c250::FUN_00d4c250 *>(&(obj))->fnv_00d4c250::FUN_00d4c250::~FUN_00d4c250();
         res.v = r;
     }
     else
@@ -149,6 +148,26 @@ struct Allocator
 {
     virtual void* unk0();
     virtual void* allocate(unsigned int size);
+};
+
+// The leading members of hkpSampledHeightFieldShape (include/havok/hkpSampledHeightFieldShape.h, which this unit
+// cannot include: its own hkBool and hkStringPtr differ from hkBase.h's).
+struct SampledHeightFieldHead
+{
+    enum HeightFieldType
+    {
+        HEIGHTFIELD_USER = 2
+    };
+    void* m_pVtable;
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+    hkUlong m_ulUserData;
+    unsigned int m_type;
+    int m_iXResolution;
+    int m_iZResolution;
+    float m_fHeightScale;
+    unsigned char m_bUseProjectionBasedHeight;
+    unsigned char m_ucHeightFieldType;
 };
 
 struct hkBool
@@ -165,7 +184,18 @@ struct hkBool
 };
 
 struct PtrList;
-void __cdecl ResizeAudioStream(void* a, PtrList* l, unsigned int n);
+
+struct SnapshotBackOwner
+{
+    char m_before[0x24];
+    void* m_object;  // +0x24
+};
+struct SnapshotBackLinked
+{
+    void* m_vtbl;
+    int m_memSizeAndRefCount;
+    SnapshotBackOwner* m_owner;  // +0x8
+};
 
 struct PtrList
 {
@@ -191,21 +221,18 @@ struct Obj70
 {
     unsigned int unk00;
     unsigned short m_04;
-    Obj70* FUN_00d4bab0(void* v);
 };
 
 struct Obj110
 {
     unsigned int unk00;
     unsigned short m_04;
-    Obj110* FUN_00d4aa70(void* v);
 };
 
 struct Obj80
 {
     unsigned int unk00;
     unsigned short m_04;
-    Obj80* FUN_00d49750(void* v);
 };
 
 struct TypeMatcher
@@ -216,13 +243,6 @@ struct TypeMatcher
 struct GlobalObjectO2_00d472a0 : TypeMatcher
 {
 };
-extern GlobalObjectO2_00d472a0 g_01268f2c;
-extern GlobalObjectO2_00d472a0 g_01268e24;
-extern GlobalObjectO2_00d472a0 g_01268c5c;
-extern GlobalObjectO2_00d472a0 g_01268bcc;
-extern GlobalObjectO2_00d472a0 g_01268eb4;
-extern GlobalObjectO2_00d472a0 g_01268d4c;
-extern GlobalObjectO2_00d472a0 g_01268c14;
 
 struct FUN_00cc08f0_cls
 {
@@ -239,74 +259,74 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
 {
     void** cur = a2;
 
-    if (g_01268f2c.FUN_00d46d80(*cur))
+    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(::g_01268f2c.FUN_00d46d80(*cur)))->FUN_005609f0())
     {
-        if (*cur != (void*)&g_01268eb4)
+        if (*cur != (void*)&::g_01268eb4)
         {
             void* v = *a1;
-            State* h = FUN_00c85750();
-            Obj70* o = (Obj70*)((Allocator*)h->interface10)->allocate(0x70);
+            hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+            Obj70* o = (Obj70*)((Allocator*)h->m_heap)->allocate(0x70);
             o->m_04 = 0x70;
-            o = o->FUN_00d4bab0(v);
+            o = ((::Obj70 *)(new ((void *)(o)) ::FUN_00d4bab0((*(const ::FUN_00dcd310 *)(v)))));
             PtrList* list = &m_08;
-            State* h2 = FUN_00c85750();
+            hkMemoryRouter* h2 = &hkMemoryRouter::getInstance();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
-                ResizeAudioStream(h2->interface10, list, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(h2->m_heap), (::AudioStream *)(list), sizeof(void*));
             }
             list->Add(o);
             *a1 = o;
-            *a2 = (void*)&g_01268eb4;
+            *a2 = (void*)&::g_01268eb4;
             cur = a2;
         }
     }
-    if (g_01268e24.FUN_00d46d80(*cur))
+    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(::g_01268e24.FUN_00d46d80(*cur)))->FUN_005609f0())
     {
-        if (*cur != (void*)&g_01268d4c)
+        if (*cur != (void*)&::g_01268d4c)
         {
             void* v = *a1;
-            State* h = FUN_00c85750();
-            Obj110* o = (Obj110*)((Allocator*)h->interface10)->allocate(0x110);
+            hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+            Obj110* o = (Obj110*)((Allocator*)h->m_heap)->allocate(0x110);
             o->m_04 = 0x110;
-            o = o->FUN_00d4aa70(v);
+            o = ((::Obj110 *)(new ((void *)(o)) ::fnv_00d4aa70::FUN_00d4aa70((const ::fnv_00d4aa70::FUN_00d569c0 *)(v))));
             PtrList* list = &m_08;
-            State* h2 = FUN_00c85750();
+            hkMemoryRouter* h2 = &hkMemoryRouter::getInstance();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
-                ResizeAudioStream(h2->interface10, list, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(h2->m_heap), (::AudioStream *)(list), sizeof(void*));
             }
             list->Add(o);
             *a1 = o;
-            *a2 = (void*)&g_01268d4c;
+            *a2 = (void*)&::g_01268d4c;
             return;
         }
     }
-    if (g_01268c5c.FUN_00d46d80(*cur))
+    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(::g_01268c5c.FUN_00d46d80(*cur)))->FUN_005609f0())
     {
         void* v = *a1;
-        if (((unsigned char*)v)[0x1d] == 2)
+        if (static_cast<const SampledHeightFieldHead*>(v)->m_ucHeightFieldType == SampledHeightFieldHead::HEIGHTFIELD_USER)
         {
-            State* h = FUN_00c85750();
-            Obj80* o = (Obj80*)((Allocator*)h->interface10)->allocate(0x80);
+            hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+            Obj80* o = (Obj80*)((Allocator*)h->m_heap)->allocate(0x80);
             o->m_04 = 0x80;
-            o = o->FUN_00d49750(v);
+            o = ((::Obj80 *)(new ((void *)(o)) ::FUN_00d49750((::HeightFieldSource *)(v))));
             PtrList* list = &m_08;
-            State* h2 = FUN_00c85750();
+            hkMemoryRouter* h2 = &hkMemoryRouter::getInstance();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
-                ResizeAudioStream(h2->interface10, list, 4);
+                ::ResizeAudioStream((::AudioAllocator *)(h2->m_heap), (::AudioStream *)(list), sizeof(void*));
             }
             list->Add(o);
             *a1 = o;
-            *a2 = (void*)&g_01268c14;
+            *a2 = (void*)&::g_01268c14;
         }
         return;
     }
-    if (g_01268bcc.FUN_00d46d80(*cur))
+    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(::g_01268bcc.FUN_00d46d80(*cur)))->FUN_005609f0())
     {
         void* v = *a1;
-        unsigned int* back = (unsigned int*)((unsigned int*)v)[2];
-        if (back != 0 && back[9] == (unsigned int)v)
+        SnapshotBackOwner* back = static_cast<SnapshotBackLinked*>(v)->m_owner;
+        if (back != 0 && back->m_object == v)
         {
             *a1 = 0;
             *cur = 0;
@@ -320,31 +340,13 @@ struct PooledItem
     virtual void v00(int aiFlags);
 };
 
-struct FixedAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FixedAllocator* m_pAllocator;
-};
 
-AllocHolder* __cdecl FUN_00c85750() throw();
 extern int DAT_010c93e4;
-extern int DAT_0102e388;
 
 struct FUN_00cc0ae0_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
     unsigned int unk04;
     PooledItem** m_pItems;
     int m_iArrayLength;
@@ -357,7 +359,7 @@ struct FUN_00cc0ae0_cls
 // @fnv 0x00cc0ae0
 void FUN_00cc0ae0_cls::FUN_00cc0ae0()
 {
-    m_vptr00 = (int)&DAT_010c93e4;
+    m_vptr00 = &DAT_010c93e4;
     for (int i = 0; i < m_iArrayLength; i++)
     {
         PooledItem* item = m_pItems[i];
@@ -366,17 +368,17 @@ void FUN_00cc0ae0_cls::FUN_00cc0ae0()
             item->v00(1);
         }
     }
-    AllocHolder* holder = FUN_00c85750();
-    FixedAllocator* alloc = holder->m_pAllocator;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* alloc = holder->m_heap;
     unsigned int cap = m_uCapBits;
     m_iArrayLength = 0;
     if ((cap & 0x80000000u) == 0)
     {
-        alloc->FreeArray(m_pItems, (cap & 0x3fffffffu) * 4);
+        alloc->bufFree(m_pItems, (cap & 0x3fffffffu) * (int)sizeof(m_pItems[0]));
     }
     m_pItems = 0;
     m_uCapBits = 0x80000000u;
-    *(volatile int*)&m_vptr00 = (int)&DAT_0102e388;
+    *(const void* volatile*)&m_vptr00 = &::DAT_0102e388;
 }
 }  // namespace fnv_00cc0ae0
 
@@ -394,7 +396,6 @@ struct SpawnedObject
 {
     virtual void* v00();
     SlotRec m_slot;
-    void FUN_00cc0ae0();
     SpawnedObject()
     {
         m_slot.m_flag = 1;
@@ -404,7 +405,6 @@ struct SpawnedObject
     }
 };
 
-int FUN_00d485a0(unsigned int a, unsigned int b, unsigned int c, int d, SpawnedObject* e);
 
 struct InputBool223
 {
@@ -425,9 +425,372 @@ unsigned char* FUN_00cc0b50(unsigned char* apResult, unsigned int a2, unsigned i
     {
         pCtx = &localCtx;
     }
-    int r = FUN_00d485a0(a2, a3, a4, (bool)abFlag, pCtx);
+    int r = ::FUN_00d485a0(a2, a3, a4, (bool)abFlag, reinterpret_cast<intptr_t>(pCtx));
     *apResult = (unsigned char)(r == 0);
-    localCtx.FUN_00cc0ae0();
+    reinterpret_cast<::fnv_00cc0ae0::FUN_00cc0ae0_cls *>(&(localCtx))->FUN_00cc0ae0();
     return apResult;
 }
 }  // namespace fnv_00cc0b50
+
+// Moved from hkphavoksnapshot_ehsc_noehsc_variant.cpp (VEGAS-15).
+
+// src/havok/physics/utilities/serialize/hkphavoksnapshot_ehsc_noehsc_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS /EHs-c- /Gy (unit src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkphavoksnapshot.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include "fnv/decl/FUN_00d46d40_s.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cc0000.h"
+
+inline hkMemoryRouter* getRouter()
+{
+    return &hkMemoryRouter::getInstance();
+}
+
+struct HavokElementArray;
+
+struct hkClassS
+{
+};
+struct hkReferencedObjectS
+{
+};
+struct hkStringPtr
+{
+    const char* m_pcText;
+    hkStringPtr();
+    ~hkStringPtr();
+    void operator=(const char* s);
+};
+struct hkRefVariantS
+{
+    hkReferencedObjectS* m_pRetainedObject;
+    hkRefVariantS() : m_pRetainedObject(0)
+    {}
+    __forceinline ~hkRefVariantS()
+    {
+        if (m_pRetainedObject)
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
+        m_pRetainedObject = 0;
+    }
+};
+struct NamedVariantS
+{
+    hkStringPtr m_name;
+    hkStringPtr m_pClassName;
+    hkRefVariantS m_pReferencedResource;
+
+    __forceinline NamedVariantS()
+    {}
+    __forceinline ~NamedVariantS()
+    {}
+
+    __forceinline void set(const char* name, const void* object, const hkClassS* pClassInfo)
+    {
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(m_name))->FUN_00cb0c10(name);
+        reinterpret_cast<::FUN_00d47770 *>(&(m_pReferencedResource))->SetObject((::hkReferencedObject *)(object), reinterpret_cast<intptr_t>(pClassInfo));
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(m_pClassName))->FUN_00cb0c10(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0())) ? reinterpret_cast<::FnvClassNameNode *>((void *)(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0()))))->FUN_00d46d40() : 0);
+    }
+};
+template <typename T> __forceinline void destruct(T* t, int n)
+{
+    for (int i = 0; i < n; i++)
+        t[i].~T();
+}
+
+struct NamedVariantArray
+{
+    NamedVariantS* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    __forceinline NamedVariantArray() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    __forceinline ~NamedVariantArray()
+    {
+        hkMemoryAllocator& a = getRouter()->heap();
+        destruct(m_data, m_iElementCount);
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            a.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(NamedVariantS));
+    }
+    __forceinline NamedVariantS& AllocatePair()
+    {
+        hkMemoryAllocator& a = getRouter()->heap();
+        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&a), (::AudioStream *)(void *)(this), sizeof(NamedVariantS));
+        new (m_data + m_iElementCount) NamedVariantS();
+        return m_data[m_iElementCount++];
+    }
+};
+struct hkRootLevelContainerS
+{
+    NamedVariantArray m_kNamedVariants;
+    __forceinline hkRootLevelContainerS()
+    {}
+    __forceinline ~hkRootLevelContainerS()
+    {}
+};
+struct hkResultS
+{
+    int m_pClassEnum;
+    hkResultS();
+};
+hkResultS __cdecl FUN_00cc0b50(const void* object, const void* pClassInfo, int a3, int a4, int a5, int a6);
+
+// @fnv 0x00cc0bc0
+hkResultS __cdecl FUN_00cc0bc0(const void* object, const hkClassS& pClassInfo, int a3, int a4, int a5)
+{
+    hkRootLevelContainerS container;
+    container.m_kNamedVariants.AllocatePair().set(reinterpret_cast<::FnvClassNameNode *>((void *)&(pClassInfo))->FUN_00d46d40(), object, &pClassInfo);
+    return FUN_00cc0b50(&container, &(*reinterpret_cast<int *>(&::g_01268b54)), a3, a4, a5, 0);
+}
+
+// Moved from hkphavoksnapshot_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/FUN_00d61700_cls.h"
+#include "fnv/decl/FUN_00d61df0_cls.h"
+#include "fnv/decl/hkStringD618.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_01044000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_011b3000.h"
+
+#include <windows.h>
+namespace DirectoryMemory {
+}
+__forceinline hkMemoryAllocator& tempAllocator()
+{
+    return hkMemoryRouter::getInstance().temp();
+}
+void __cdecl reserveDirectoryBuffer(hkMemoryAllocator&, void*, int, int);
+
+template <class T> struct DirArrayBase
+{
+    T* data;
+    int count;
+    int capacityFlags;
+    __forceinline DirArrayBase(T* p, int n, int capacity) : data(p), count(n), capacityFlags(capacity | 0x80000000)
+    {}
+    __forceinline ~DirArrayBase()
+    {}
+    __forceinline int capacity() const
+    {
+        return capacityFlags & 0x3fffffff;
+    }
+    __forceinline void reserve(hkMemoryAllocator& allocator, int n)
+    {
+        int old = capacity();
+        if (old < n)
+        {
+            int doubled = old * 2;
+            reserveDirectoryBuffer(allocator, this, n < doubled ? doubled : n, sizeof(T));
+        }
+    }
+    __forceinline void resize(hkMemoryAllocator& allocator, int n)
+    {
+        reserve(allocator, n);
+        count = n;
+    }
+    __forceinline void release(hkMemoryAllocator& allocator)
+    {
+        count = 0;
+        if ((capacityFlags & 0x80000000) == 0)
+            allocator._bufFree<T>(data, capacity());
+        data = 0;
+        capacityFlags = 0x80000000;
+    }
+};
+template <class T> struct DirTempArray : DirArrayBase<T>
+{
+    __forceinline DirTempArray(T* p, int n, int capacity) : DirArrayBase<T>(p, n, capacity)
+    {}
+    __forceinline ~DirTempArray()
+    {
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* allocator = router->m_temp;
+        this->count = 0;
+        if ((this->capacityFlags & 0x80000000) == 0)
+            allocator->bufFree(this->data, this->capacityFlags & 0x3fffffff);
+        this->data = 0;
+        this->capacityFlags = 0x80000000;
+    }
+    __forceinline void resize(int n)
+    {
+        DirArrayBase<T>::resize(tempAllocator(), n);
+    }
+};
+template <class T, unsigned N> struct DirInlineArray : DirTempArray<T>
+{
+    T storage[N];
+    __forceinline DirInlineArray() : DirTempArray<T>(storage, 0, N)
+    {}
+    __forceinline ~DirInlineArray()
+    {}
+};
+struct DirectoryString
+{
+    DirInlineArray<char, 128> chars;
+    __forceinline ~DirectoryString()
+    {}
+    inline int length() const
+    {
+        return chars.count - 1;
+    }
+    inline const char* text() const
+    {
+        return chars.data;
+    }
+    inline operator const char*() const
+    {
+        return chars.data;
+    }
+    inline void setLength(int n)
+    {
+        chars.resize(n + 1);
+        chars.data[n] = 0;
+    }
+};
+
+struct InitBuffer : DirectoryString
+{
+    __forceinline ~InitBuffer()
+    {}
+    InitBuffer()
+    {
+        setLength(0);
+        chars.data[0] = 0;
+    }
+};
+struct FUN_00d61a50 : DirectoryString
+{
+    __forceinline ~FUN_00d61a50()
+    {}
+    FUN_00d61a50(const char*);
+};
+
+struct DirectoryFlags
+{
+    unsigned bits;
+    inline DirectoryFlags()
+    {}
+    inline DirectoryFlags(unsigned b) : bits(b)
+    {}
+};
+struct DirectoryItem
+{
+    const char* name;
+    unsigned modified;
+    DirectoryFlags flags;
+};
+struct DirectoryArray
+{
+    DirectoryItem* data;
+    int count, capacityFlags;
+    __forceinline DirectoryItem& expand(hkMemoryAllocator& allocator)
+    {
+        if (count == (capacityFlags & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)&(allocator), (::AudioStream *)(void *)(this), sizeof(DirectoryItem));
+        return data[count++];
+    }
+};
+struct DirectoryOutput
+{
+    DirectoryArray entries;
+    hkMemoryAllocator* allocator;
+    __forceinline void add(const char* name, DirectoryFlags flags, unsigned modified = 0)
+    {
+        DirectoryItem& item = entries.expand(*allocator);
+        item.name = ::FUN_00cb1160(name, (void *)&(*allocator));
+        item.flags = flags;
+        item.modified = modified;
+    }
+    __forceinline void addDirectory(const char* name)
+    {
+        add(name, 2);
+    }
+    __forceinline void addFile(const char* name, unsigned modified = 0)
+    {
+        add(name, 1, modified);
+    }
+};
+typedef const char*(__cdecl* DirectoryConvert)(const char*, DirectoryString&);
+extern const char DAT_0101ffbc[], DAT_010a2560[];
+struct DirectoryBool
+{
+    char value;
+    inline DirectoryBool()
+    {}
+    inline DirectoryBool(bool b)
+    {
+        value = static_cast<char>(b);
+    }
+    inline operator bool() const
+    {
+        return value != 0;
+    }
+    inline DirectoryBool& operator=(bool b)
+    {
+        value = static_cast<char>(b);
+        return *this;
+    }
+};
+enum DirectoryResult
+{
+    DirectorySuccess,
+    DirectoryFailure
+};
+
+// @fnv 0x00da25a0
+DirectoryResult __cdecl FUN_00da25a0(const char* input, DirectoryOutput& listing)
+{
+    InitBuffer path;
+    {
+        FUN_00d61a50 normalized(input);
+        if (normalized.length() > 0)
+        {
+            reinterpret_cast<::hkStringD618 *>(&(normalized))->ReplaceChar('\\', '/', 1);
+            if (!reinterpret_cast<::FUN_00d61700_cls *>((void *)&(normalized))->EndsWith((char *)(DAT_01063cbc)))
+                reinterpret_cast<::FUN_00d61df0_cls *>(&(normalized))->FUN_00d61df0(reinterpret_cast<intptr_t>(DAT_01063cbc));
+            (*reinterpret_cast<const char *(**)(const char *, DirectoryString &)>(&::DAT_011b3dc0))(normalized.text(), path);
+        }
+    }
+    DWORD attrs = GetFileAttributesA(path);
+    if (attrs == INVALID_FILE_ATTRIBUTES)
+        return DirectoryFailure;
+    bool valid = (attrs & FILE_ATTRIBUTE_DIRECTORY) != 0;
+    if (!valid)
+        return DirectoryFailure;
+    if (path.length())
+        reinterpret_cast<::FUN_00d61df0_cls *>(&(path))->FUN_00d61df0(reinterpret_cast<intptr_t>(DAT_0101ffbc));
+    WIN32_FIND_DATAA found;
+    HANDLE handle = FindFirstFileA(path, &found);
+    DirectoryBool more = handle != INVALID_HANDLE_VALUE;
+    while (more)
+    {
+        if (::fnv_00cb0fa0::FUN_00cb0fa0(found.cFileName, DAT_01044c28) && ::fnv_00cb0fa0::FUN_00cb0fa0(found.cFileName, DAT_010a2560))
+        {
+            bool directory = (found.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+            if (directory)
+            {
+                listing.addDirectory(found.cFileName);
+            }
+            else
+            {
+                LARGE_INTEGER epoch = {0};
+                epoch.QuadPart = 0x19db1ded53e8000LL;
+                __int64 seconds = (*(__int64*)&found.ftLastWriteTime - epoch.QuadPart) / 10000000;
+                listing.addFile(found.cFileName, (unsigned)seconds);
+            }
+        }
+        more = FindNextFileA(handle, &found) != 0;
+    }
+    FindClose(handle);
+    return DirectorySuccess;
+}
+
+#include "generated/data/havok/physics/utilities/serialize/hkphavoksnapshot.inc"

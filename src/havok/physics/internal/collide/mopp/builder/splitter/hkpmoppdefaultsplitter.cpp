@@ -2,36 +2,66 @@
 // src/havok/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include <new>
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
+#include <cmath>
+#include "fnv/decl/SortedList.h"
+#include "fnv/decl/TimedEntryCollection.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00e09000.h"
+#include "fnv/symbols_00e0a000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01021000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01034000.h"
+#include "fnv/symbols_01073000.h"
+#include "fnv/symbols_010d5000.h"
+#include "fnv/symbols_010ea000.h"
+// A node handed to the visitor: list link, then a flag choosing the list.
+struct E0A070Node
+{
+    E0A070Node* m_next;
+    char m_flag;
+};
+
 struct FUN_00e0a070
 {
     void* m_00;
     void* m_04;
     void* m_08;
     void* m_0c;
-    int m_10;
-    void* m_14;
-    int m_18;
-    void* m_1c;
+    E0A070Node* m_10;
+    int m_14;
+    E0A070Node* m_18;
+    int m_1c;
     void VisitNode(void* node);
 };
 
-// Links node into one of two singly-linked lists on this, chosen by the byte at node+4, incrementing the matching count.
+// Links node into one of two singly-linked lists on this, chosen by the node's flag, incrementing the matching count.
 // @fnv 0x00e0a070
-void FUN_00e0a070::VisitNode(void* node)
+void FUN_00e0a070::VisitNode(void* pNode)
 {
+    E0A070Node* node = static_cast<E0A070Node*>(pNode);
     if (node)
     {
-        if (*reinterpret_cast<char*>(reinterpret_cast<unsigned char*>(node) + 4))
+        if (node->m_flag)
         {
-            *reinterpret_cast<void**>(node) = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x18);
-            ++*reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x1c);
-            *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x18) = node;
+            node->m_next = m_18;
+            ++m_1c;
+            m_18 = node;
         }
         else
         {
-            *reinterpret_cast<void**>(node) = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x10);
-            ++*reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x14);
-            *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x10) = node;
+            node->m_next = m_10;
+            ++m_14;
+            m_10 = node;
         }
     }
 }
@@ -67,11 +97,10 @@ FUN_00e09ba0::FUN_00e09ba0()
     m_0c = 0;
 }
 
-extern int DAT_0102e388;
 // @fnv 0x00e09bd0
-void __fastcall FUN_00e09bd0(void* p, int)
+void FUN_00e09bd0(void* p, int)
 {
-    *reinterpret_cast<void**>(p) = &DAT_0102e388;
+    *reinterpret_cast<void**>(p) = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct S_00e0a0a0
@@ -178,40 +207,9 @@ class FUN_00e09f80_class
     int unk30;
     hkAxisE09F* m_axes;
 
-    void FUN_00e098b0(hkRangeE09F* pkRange, hkNodeE09F* pkNode) throw();
-    hkNodeE09F* AllocateNode(int iOwner, hkRangeE09F* pkRange) throw();
+    hkNodeE09F* AllocateNode(hkNodeE09F* iOwner, hkRangeE09F* pkRange) throw();
 };
 
-// Pops a free node from the free list, resets its flags and range fields, links it to the owner, and registers its three key ranges with the axis handler.
-// @fnv 0x00e09f80
-hkNodeE09F* FUN_00e09f80_class::AllocateNode(int iOwner, hkRangeE09F* pkRange) throw()
-{
-    hkNodeE09F* pkNode = m_kFreeListEntries;
-    m_kFreeListEntries = pkNode->m_next;
-    m_numFree--;
-    pkNode->unk38 = false;
-    pkNode->unk39 = false;
-    pkNode->unk40 = -1;
-    pkNode->unk5C = -1;
-    pkNode->unk3A = false;
-    pkNode->unk3B = false;
-    pkNode->unk3C = false;
-    pkNode->unk3D = false;
-    pkNode->m_uiBufferCapacity = true;
-    pkNode->m_next = (hkNodeE09F*)iOwner;
-    pkNode->unk60 = pkRange->m_kMinimumCorner;
-    FUN_00e098b0(pkRange, pkNode);
-    for (int i = 0; i < 3; i++)
-        m_handler->addRange(&m_axes[i], i, pkRange->m_kMinimumCorner, pkRange->m_kMaximumCorner,
-                            &pkNode->m_keys[i].m_kMinimumCorner, &pkNode->m_keys[i].m_kMaximumCorner);
-    return pkNode;
-}
-
-extern "C" double DAT_01011588;
-extern "C" double DAT_01021928;
-extern "C" double DAT_010ea600;
-extern "C" double DAT_010737c8;
-extern "C" float DAT_010ea608;
 struct FNVRange
 {
     int begin, end;
@@ -230,7 +228,7 @@ struct FNVResponse
 // @fnv 0x00e0a750
 float FNVResponse::ComputeResponse(FNVRange* range)
 {
-    float displacement = range->value - static_cast<float>((range->upper + range->lower) * DAT_01011588);
+    float displacement = range->value - static_cast<float>((range->upper + range->lower) * ::DAT_01011588);
     float factor;
     if (range->begin < range->end)
     {
@@ -252,7 +250,7 @@ float FNVResponse::ComputeResponse(FNVRange* range)
     float fSquared = amount * amount;
     float fFourth = fSquared * fSquared;
     float fEighth = fFourth * fFourth;
-    float response = static_cast<float>(fSquared * DAT_010ea600 + fFourth * DAT_01021928 + fEighth * DAT_010737c8);
+    float response = static_cast<float>(fSquared * DAT_010ea600 + fFourth * ::DAT_01021928 + fEighth * DAT_010737c8);
     response *= magnitude;
     return response;
 }
@@ -319,44 +317,28 @@ setRecursion:
 
 struct FUN_00e09bd0_Obj
 {
-    void __thiscall FUN_00e09bd0();
 };
 
-struct FUN_00e0ac80_Alloc
-{
-    virtual void FUN_00e0ac80_0();
-    virtual void FUN_00e0ac80_1();
-    virtual void __thiscall FUN_00e0ac80_2(void* p, unsigned short size);
-};
 
-struct BSAudio
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00e0ac80_Alloc* unk10;
-};
 
-BSAudio* __cdecl FUN_00c85750(void);
 
 struct FUN_00e0ac80_class
 {
     int unk00;
     unsigned short m_04;
 
-    FUN_00e0ac80_class* __thiscall Construct(int flags);
+    FUN_00e0ac80_class* Construct(int flags);
 };
 
 // @fnv 0x00e0ac80
 FUN_00e0ac80_class* FUN_00e0ac80_class::Construct(int flags)
 {
-    reinterpret_cast<FUN_00e09bd0_Obj*>(this)->FUN_00e09bd0();
+    ::FUN_00e09bd0((void *)(reinterpret_cast<FUN_00e09bd0_Obj*>(this)), {});
 
     if (flags & 1)
     {
-        BSAudio* audio = FUN_00c85750();
-        audio->unk10->FUN_00e0ac80_2(this, this->m_04);
+        hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
+        audio->m_heap->blockFree(this, this->m_04);
     }
 
     return this;
@@ -541,14 +523,6 @@ NodeE0A* NodePoolE0A::PopNode()
     return node;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern __m128 DAT_010c44d0;
-extern double DAT_01011588;
 
 struct FUN_00e0a950_E
 {
@@ -614,9 +588,9 @@ void Cls_00e0a950::FUN_00e0a950(int a0, FUN_00e0a950_Src* a1, int a2, int* a3, i
         *a4 += 1;
         *a7 -= 1;
         const __m128* v = a1->unk60;
-        float f = (a1->unk68 + a1->unk64) * DAT_01011588;
+        float f = (a1->unk68 + a1->unk64) * ::DAT_01011588;
         unk28->v20(*a5, v, f, a2, *a7);
-        __m128 neg = _mm_xor_ps(*v, DAT_010c44d0);
+        __m128 neg = _mm_xor_ps(*v, ::DAT_010c44d0);
         unk28->v20(*a5, &neg, -f, a2, *a5);
         *a5 += 1;
         break;
@@ -738,13 +712,12 @@ struct SplitLess
 {
 };
 
-void QuickSortElements(SplitItem* items, int lo, int hi, SplitLess cmp);
 
 __forceinline void quickSortItems(SplitItem* items, int numItems, SplitLess cmpLess)
 {
     if (numItems > 1)
     {
-        QuickSortElements(items, 0, numItems - 1, cmpLess);
+        ::QuickSortElements((::SortElemE0AB *)(items), 0, numItems - 1, (*(::SortLessE0AB *)&(const ::SplitLess &)(cmpLess)));
     }
 }
 
@@ -753,10 +726,6 @@ __forceinline void quickSortItems(SplitItem* items, int numItems)
     quickSortItems(items, numItems, SplitLess());
 }
 
-__forceinline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct Scratch
 {
     union
@@ -788,117 +757,8 @@ class SplitBuilder
     int m_iValue;
     PositionEntry* m_kPlaneArray;
 
-    SplitNode* AllocateNode(SplitNode* parent, SplitList* list);
-    SplitNode* PopNode();
-    void FUN_00e09970(SplitNode* node, int* axes, float* offsets);
-    void FUN_00e09be0(SplitNode* node, PositionEntry* plane, SplitList* list, SplitRange* range, int depth);
-    void FUN_00e098b0(SplitList* list, SplitNode* node);
-    void FUN_00e0a0b0(SplitList* list, SplitNode* node, int depth, SplitList* left, SplitList* right);
     SplitNode* FUN_00e0a270(SplitNode* parent, SplitList* list, int side, int depth);
 };
-
-// Recursively builds a split tree node by classifying and sorting items against candidate planes, then splitting the list into left and right children.
-// @fnv 0x00e0a270
-SplitNode* SplitBuilder::FUN_00e0a270(SplitNode* parent, SplitList* list, int side, int depth)
-{
-    if (list->m_iElementCount == 1)
-    {
-        if (m_settings->m_progress && m_1c == 0)
-        {
-            m_monitor->step(m_pTreeNode, this, 0x800);
-        }
-        return AllocateNode(parent, list);
-    }
-
-    if (m_settings->m_progress && m_14 == 0)
-    {
-        m_monitor->step(m_pTreeNode, this, 0x800);
-    }
-
-    SplitNode* node = PopNode();
-    node->m_uiItemCount = list->m_iElementCount;
-    node->m_parent = parent;
-    if (parent == 0)
-    {
-        m_pTreeNode = node;
-    }
-    else
-    {
-        if (side == 0)
-        {
-            parent->m_fMinimumU = node;
-        }
-        else
-        {
-            parent->m_fMaximumU = node;
-        }
-        node->m_range[0] = parent->m_range[0];
-        node->m_range[1] = parent->m_range[1];
-        node->m_range[2] = parent->m_range[2];
-    }
-
-    Scratch scratch;
-    int i;
-    PositionEntry* last = 0;
-    int axes[3];
-    float offsets[3];
-    FUN_00e09970(parent, axes, offsets);
-
-    for (i = 0; i < 3; i++)
-    {
-        PositionEntry* plane = &m_kPlaneArray[axes[i]];
-        float cost = offsets[i] + plane->m_pos;
-        scratch.a.plane = plane;
-        if (cost > node->m_fSplitOffset)
-        {
-            break;
-        }
-        SplitRange* range = &node->m_range[axes[i]];
-        m_classifier->classify(scratch.a.plane, axes[i], list->m_data, list->m_iElementCount, &range->m_kMinimumCorner,
-                               &range->m_kMaximumCorner);
-        new (&scratch.b.first) SplitLess();
-        quickSortItems(list->m_data, list->m_iElementCount, scratch.b.first);
-        last = scratch.a.plane;
-        FUN_00e09be0(node, scratch.a.plane, list, range, depth);
-    }
-    for (; i < 3; i++)
-    {
-        int axis = axes[i];
-        m_classifier->skip(&m_kPlaneArray[axis], axis, list->m_data, list->m_iElementCount,
-                           &node->m_range[axis].m_kMinimumCorner, &node->m_range[axis].m_kMaximumCorner);
-    }
-
-    for (int j = 3; j < m_iValue; j++)
-    {
-        PositionEntry* plane = &m_kPlaneArray[j];
-        if (plane->m_pos > node->m_fSplitOffset)
-        {
-            break;
-        }
-        SplitRange& range = scratch.b.range;
-        m_classifier->classify(plane, j, list->m_data, list->m_iElementCount, &range.m_kMinimumCorner, &range.m_kMaximumCorner);
-        new (&scratch.a.less) SplitLess();
-        quickSortItems(list->m_data, list->m_iElementCount, scratch.a.less);
-        last = plane;
-        FUN_00e09be0(node, plane, list, &range, depth);
-    }
-
-    FUN_00e098b0(list, node);
-    if (last != node->m_kTriangleNormal)
-    {
-        PositionEntry* plane = node->m_kTriangleNormal;
-        float fMin;
-        float fScaledValue;
-        m_classifier->classify(plane, plane->m_kAxisEndPoints, list->m_data, list->m_iElementCount, &fMin, &fScaledValue);
-    }
-
-    SplitList right;
-    SplitList left;
-    FUN_00e0a0b0(list, node, depth, &left, &right);
-    node->m_fMaximumU = FUN_00e0a270(node, &right, 1, depth + 1);
-    node->m_fMinimumU = FUN_00e0a270(node, &left, 0, depth + 1);
-    return node;
-}
 
 struct hkMemoryRouterE0A5
 {
@@ -913,13 +773,13 @@ void __cdecl FUN_00c856c0(void* pvAllocator, void* pvMem);
 
 template <typename T> inline T* hkAllocateStackE0A5(int n)
 {
-    void* pvAllocator = (void*)FUN_00c85750()->unk10;
+    void* pvAllocator = (void*)hkMemoryRouter::getInstance().m_heap;
     return (T*)AllocateWithHeader(pvAllocator, n * sizeof(T));
 }
 
 template <typename T> inline void hkDeallocateStackE0A5(T* p)
 {
-    void* pvAllocator = (void*)FUN_00c85750()->unk10;
+    void* pvAllocator = (void*)hkMemoryRouter::getInstance().m_heap;
     FUN_00c856c0(pvAllocator, p);
 }
 
@@ -941,7 +801,7 @@ class hkOutputE0A5
     virtual void V2() throw();
     virtual int getA() throw();
     virtual int getB() throw();
-    virtual void finish(int iResult, void* pvOwner, int iSize) throw();
+    virtual void finish(::SplitNode* pRoot, void* pvOwner, int iSize) throw();
 };
 
 struct hkSettingsE0A5
@@ -1020,7 +880,7 @@ class hkProcessorE0A5
     hkStackE0A5* m_aiEntries;
     hkFreeListE0A5<hkNodeAE0A5> m_nodesA;
     hkFreeListE0A5<hkNodeBE0A5> m_nodesB;
-    int m_20;
+    void* m_20;
     hkOutputE0A5* m_pRayCastOutput;
     hkInputE0A5* m_pRayCastInput;
     int m_2c;
@@ -1028,14 +888,13 @@ class hkProcessorE0A5
     int m_34;
     int m_iNumBits;
 
-    int FUN_00e0a270(int a, hkJobE0A5* pkJob, int b, int c) throw();
-    int FUN_00e0a550(hkInputE0A5* pkInput, int iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
+    ::SplitNode* FUN_00e0a550(hkInputE0A5* pkInput, void* iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
                      hkBuffersE0A5* pkBuffers) throw();
 };
 
 // Configures the processor with input, output, settings and buffers, allocates a stack, runs FUN_00e0a270, and finalizes the output.
 // @fnv 0x00e0a550
-int hkProcessorE0A5::FUN_00e0a550(hkInputE0A5* pkInput, int iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
+::SplitNode* hkProcessorE0A5::FUN_00e0a550(hkInputE0A5* pkInput, void* iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
                                   hkBuffersE0A5* pkBuffers) throw()
 {
     m_settings = pkSettings;
@@ -1087,7 +946,7 @@ int hkProcessorE0A5::FUN_00e0a550(hkInputE0A5* pkInput, int iArg, hkOutputE0A5* 
     kStack.m_0c = 0;
     m_aiEntries = &kStack;
 
-    int iResult = FUN_00e0a270(0, &kJob, 0, 0);
+    ::SplitNode* iResult = reinterpret_cast<::SplitBuilder *>(this)->FUN_00e0a270((::SplitNode *)(0), (::SplitList *)(::hkJobE0A5 *)(&kJob), 0, 0);
     {
         pkOutput->finish(iResult, this, iNumNodes * 2);
     }
@@ -1100,52 +959,7 @@ int hkProcessorE0A5::FUN_00e0a550(hkInputE0A5* pkInput, int iArg, hkOutputE0A5* 
 }
 
 #include <math.h>
-extern double const DAT_0101de30;
-extern double DAT_01034208;
-
-struct FUN_00e0a6c0_Parameters
-{
-    int m_00;
-    int m_04;
-    char m_08[0x0c];
-    int m_14;
-    char m_18[0x04];
-    float m_1c;
-    char m_20[0x14];
-    int m_34;
-};
-
-struct FUN_00e0a6c0_Class
-{
-    char m_00[0x10];
-    float m_10;
-
-    float FUN_00e0a6c0(const FUN_00e0a6c0_Parameters* parameters);
-};
-
-// Scales |m_14 - m_34| by m_1c, adjusts it by m_00 < m_04 (returning 0 if negative), takes the 4th power and returns it times m_10.
-// @fnv 0x00e0a6c0
-float FUN_00e0a6c0_Class::FUN_00e0a6c0(const FUN_00e0a6c0_Parameters* parameters)
-{
-    int difference = parameters->m_14 - parameters->m_34;
-    double absoluteDifference = fabs(static_cast<double>(difference));
-    float value = static_cast<float>(absoluteDifference) * parameters->m_1c;
-
-    if (parameters->m_00 < parameters->m_04)
-    {
-        value = static_cast<float>(static_cast<double>(value) - DAT_0101de30);
-        value = static_cast<float>(static_cast<double>(value) * DAT_01034208);
-        if (value < 0.0f)
-            return 0.0f;
-    }
-    else
-    {
-        value = value * value;
-    }
-
-    value = value * value * value * value;
-    return value * m_10;
-}
+#include "fnv/symbols_simd.h"
 
 struct S00e098b0_Elem
 {
@@ -1207,6 +1021,30 @@ struct MatchOwner
     S00e098b0_Handler* handler;
     void FUN_00e098b0(S00e098b0_Range* range, NodeBounds* node);
 };
+// Pops a free node from the free list, resets its flags and range fields, links it to the owner, and registers its three key ranges with the axis handler.
+// @fnv 0x00e09f80
+hkNodeE09F* FUN_00e09f80_class::AllocateNode(hkNodeE09F* iOwner, hkRangeE09F* pkRange) throw()
+{
+    hkNodeE09F* pkNode = m_kFreeListEntries;
+    m_kFreeListEntries = pkNode->m_next;
+    m_numFree--;
+    pkNode->unk38 = false;
+    pkNode->unk39 = false;
+    pkNode->unk40 = -1;
+    pkNode->unk5C = -1;
+    pkNode->unk3A = false;
+    pkNode->unk3B = false;
+    pkNode->unk3C = false;
+    pkNode->unk3D = false;
+    pkNode->m_uiBufferCapacity = true;
+    pkNode->m_next = iOwner;
+    pkNode->unk60 = pkRange->m_kMinimumCorner;
+    reinterpret_cast<::MatchOwner *>(this)->FUN_00e098b0((::S00e098b0_Range *)(pkRange), (::NodeBounds *)(pkNode));
+    for (int i = 0; i < 3; i++)
+        m_handler->addRange(&m_axes[i], i, pkRange->m_kMinimumCorner, pkRange->m_kMaximumCorner,
+                            &pkNode->m_keys[i].m_kMinimumCorner, &pkNode->m_keys[i].m_kMaximumCorner);
+    return pkNode;
+}
 // Iterates a range of elements, calls handler->addRange on each, and accumulates min/max values and per-result bounds into the NodeBounds node.
 // @fnv 0x00e098b0
 void MatchOwner::FUN_00e098b0(S00e098b0_Range* range, NodeBounds* node)
@@ -1424,8 +1262,6 @@ void ThisE0AC::FUN_00e0acb0(SortElemE0AB** p0, SortElemE0AB** p1, SortElemE0AB**
     }
 }
 
-extern float DAT_01017d00;
-extern unsigned int DAT_010d51b0;
 extern unsigned int DAT_010ea5f8;
 
 struct Item20
@@ -1481,8 +1317,6 @@ struct CandList
     int unk04;
     Item20** data;
     Item20* last;
-    void RemoveExpiredEntries(float value);
-    void FUN_00e09670(Item20* item);
 };
 struct LimitsObj
 {
@@ -1492,9 +1326,8 @@ struct ScorerObj
 {
     int unk00, unk04;
     float f08, f0c, f10, f14, f18, f1c;
-    float ComputeResponse(SearchCtx* ctx);
     float FUN_00e0a850(SearchCtx* ctx);
-    float FUN_00e0a6c0(SearchCtx* ctx);
+    float FUN_00e0a6c0(const SearchCtx* ctx);
 };
 struct SeqOwner
 {
@@ -1554,7 +1387,7 @@ void SeqOwner::FUN_00e09be0(OutRec* out, ObjRef* obj, ItemSpan* span, float* ran
     ctx.minId = uiFirstId;
     ctx.maxId = uiFirstId;
     float delta = range[1] - range[0];
-    if (DAT_01017d00 > delta)
+    if (::AngularDashpotApplyD4DCB0::DAT_01017d00 > delta)
         ctx.inv = 1.0f;
     else
         ctx.inv = 1.0f / delta;
@@ -1573,7 +1406,7 @@ void SeqOwner::FUN_00e09be0(OutRec* out, ObjRef* obj, ItemSpan* span, float* ran
             ctx.minId = id;
         if (ctx.maxId <= id)
             ctx.maxId = id;
-        this->list->RemoveExpiredEntries(ctx.sample);
+        reinterpret_cast<::TimedEntryCollection *>((this->list))->RemoveExpiredEntries(ctx.sample);
 
         CandList* pCandList = this->list;
         int n = pCandList->count - 1;
@@ -1592,7 +1425,7 @@ void SeqOwner::FUN_00e09be0(OutRec* out, ObjRef* obj, ItemSpan* span, float* ran
         int halfSrc = limits->halfSrc;
         ScorerObj* scorer = this->scorer;
         int flag = limits->enabled;
-        ctx.s750 = scorer->ComputeResponse(&ctx);
+        ctx.s750 = reinterpret_cast<::FNVResponse *>((scorer))->ComputeResponse((::FNVRange *)(::SearchCtx *)(&ctx));
         int spanW = (int)(ctx.maxId - ctx.minId);
         ctx.f10 = ctx.obj->f10;
         if (spanW < 16)
@@ -1605,7 +1438,7 @@ void SeqOwner::FUN_00e09be0(OutRec* out, ObjRef* obj, ItemSpan* span, float* ran
         float base = ctx.f10 + ctx.s750 + ctx.penalty;
         int listCount = pCandList->count;
         ctx.half = halfSrc >> 1;
-        float best = *(float*)&DAT_010d51b0;
+        float best = *(float*)&(*reinterpret_cast<unsigned int *>((void *)&::DAT_010d51b0));
         Item20* cand = 0;
         if (listCount == 0)
         {
@@ -1662,7 +1495,7 @@ void SeqOwner::FUN_00e09be0(OutRec* out, ObjRef* obj, ItemSpan* span, float* ran
     dec_cursor:
         --indices.cursor;
     after:
-        this->list->FUN_00e09670(&span->data[indices.i]);
+        reinterpret_cast<::SortedList *>((this->list))->FUN_00e09670((::SortItem *)(::Item20 *)(&span->data[indices.i]));
     }
     CandList* tail = this->list;
     for (int n = tail->count - 1; n > 0; --n)
@@ -1670,53 +1503,62 @@ void SeqOwner::FUN_00e09be0(OutRec* out, ObjRef* obj, ItemSpan* span, float* ran
     tail->last = 0;
     tail->count = 0;
 }
-__declspec(noinline) float ScorerObj::FUN_00e0a850(SearchCtx* c)
+// Returns 0 if scale*phase is positive, otherwise an even polynomial in scale*phase times f14, with scale from the
+// context's range and f1c.
+// @fnv 0x00e0a850
+float ScorerObj::FUN_00e0a850(SearchCtx* c)
 {
-    float center = (c->range0 + c->range1) * 0.5;
-    float diff = c->cand - center;
-    float inv;
+    float phase = c->cand - (float)((c->range1 + c->range0) * ::DAT_01011588);
+    float scale;
     if (c->tag < c->copied38)
     {
-        float span = c->range1 - c->range0;
-        float cap = this->f1c;
-        float v = cap < span ? cap : span;
-        float denom = span + v;
-        if (denom > 0.0f)
-            inv = 1.0f / denom;
+        float width = c->range1 - c->range0;
+        float bound = f1c;
+        float selected;
+        if (bound < width)
+            selected = bound;
         else
-            inv = DAT_010ea608;
+            selected = width;
+        if (width + selected > 0.0f)
+            scale = 1.0f / (width + selected);
+        else
+            scale = ::DAT_010ea608;
     }
     else
-        inv = c->inv;
-    float scaled = inv * diff;
-    if (scaled > 0.0f)
+        scale = c->inv;
+    float x = scale * phase;
+    if (x > 0.0f)
         return 0.0f;
-    float square = scaled * scaled;
-    float fourth = square * square;
-    float eighth = fourth * fourth;
-    float poly = fourth * 3.0 + square * DAT_010ea600 + eighth * DAT_010737c8;
-    float result = poly * f14;
-    return result;
+    float x2 = x * x;
+    float x4 = x2 * x2;
+    float x8 = x4 * x4;
+    float poly = (x2 * ::DAT_010ea600 + x4 * ::DAT_01021928) + x8 * ::DAT_010737c8;
+    return poly * f14;
 }
 
-extern "C" double fabs(double);
-__declspec(noinline) float ScorerObj::FUN_00e0a6c0(SearchCtx* c)
+// Scales |index - pos| by countF, adjusts it when tag < copied38 (returning 0 if negative), takes the 4th power and
+// returns it times f10.
+// @fnv 0x00e0a6c0
+float ScorerObj::FUN_00e0a6c0(const SearchCtx* c)
 {
-    float d = (float)(c->index - c->pos);
-    d = (float)fabs(d);
-    d = d * c->countF;
+    int difference = c->index - c->pos;
+    double absoluteDifference = fabs(static_cast<double>(difference));
+    float value = static_cast<float>(absoluteDifference) * c->countF;
+
     if (c->tag < c->copied38)
     {
-        d = d - 0.75;
-        d = d * 6.0;
-        if (d < 0.0f)
-            d = 0.0f;
+        value = static_cast<float>(static_cast<double>(value) - DAT_0101de30);
+        value = static_cast<float>(static_cast<double>(value) * DAT_01034208);
+        if (value < 0.0f)
+            return 0.0f;
     }
     else
-        d = d * d;
-    d = d * d * d * d;
-    d = d * f10;
-    return d;
+    {
+        value = value * value;
+    }
+
+    value = value * value * value * value;
+    return value * f10;
 }
 
 struct QuadExtent
@@ -1771,17 +1613,114 @@ struct QuadCenter
     float m_uiY;
 };
 
-int __cdecl FUN_00cbfef0(float f);
 
 class QuadSplitter
 {
   public:
-    __declspec(noalias) void FUN_00e0a950(int quadrant, QuadCenter* center, int context, int* total, int* counter,
-                                          QuadElement** cur, QuadElement** mid, QuadElement** p2, QuadElement** p3);
-    __declspec(noalias) void FUN_00e0acb0(QuadElement** p0, QuadElement** mid, QuadElement** p2, QuadElement** p3,
-                                          QuadElement** p4, QuadElement** p5, QuadCenter* center);
     void FUN_00e0a0b0(QuadRange* in, QuadCenter* center, int context, QuadRange* outA, QuadRange* outB);
 };
+// Recursively builds a split tree node by classifying and sorting items against candidate planes, then splitting the list into left and right children.
+// @fnv 0x00e0a270
+SplitNode* SplitBuilder::FUN_00e0a270(SplitNode* parent, SplitList* list, int side, int depth)
+{
+    if (list->m_iElementCount == 1)
+    {
+        if (m_settings->m_progress && m_1c == 0)
+        {
+            m_monitor->step(m_pTreeNode, this, 0x800);
+        }
+        return ((::SplitNode *)(reinterpret_cast<::FUN_00e09f80_class *>(this)->AllocateNode((::hkNodeE09F *)(parent), (::hkRangeE09F *)(list))));
+    }
+
+    if (m_settings->m_progress && m_14 == 0)
+    {
+        m_monitor->step(m_pTreeNode, this, 0x800);
+    }
+
+    SplitNode* node = ((::SplitNode *)(reinterpret_cast<::NodePoolE0A *>(this)->PopNode()));
+    node->m_uiItemCount = list->m_iElementCount;
+    node->m_parent = parent;
+    if (parent == 0)
+    {
+        m_pTreeNode = node;
+    }
+    else
+    {
+        if (side == 0)
+        {
+            parent->m_fMinimumU = node;
+        }
+        else
+        {
+            parent->m_fMaximumU = node;
+        }
+        node->m_range[0] = parent->m_range[0];
+        node->m_range[1] = parent->m_range[1];
+        node->m_range[2] = parent->m_range[2];
+    }
+
+    Scratch scratch;
+    int i;
+    PositionEntry* last = 0;
+    int axes[3];
+    float offsets[3];
+    reinterpret_cast<::Obj *>(this)->FUN_00e09970((::Node *)(parent), axes, offsets);
+
+    for (i = 0; i < 3; i++)
+    {
+        PositionEntry* plane = &m_kPlaneArray[axes[i]];
+        float cost = offsets[i] + plane->m_pos;
+        scratch.a.plane = plane;
+        if (cost > node->m_fSplitOffset)
+        {
+            break;
+        }
+        SplitRange* range = &node->m_range[axes[i]];
+        m_classifier->classify(scratch.a.plane, axes[i], list->m_data, list->m_iElementCount, &range->m_kMinimumCorner,
+                               &range->m_kMaximumCorner);
+        new (&scratch.b.first) SplitLess();
+        quickSortItems(list->m_data, list->m_iElementCount, scratch.b.first);
+        last = scratch.a.plane;
+        reinterpret_cast<::SeqOwner *>(this)->FUN_00e09be0((::OutRec *)(node), (::ObjRef *)(scratch.a.plane), (::ItemSpan *)(list), (float *)(range), depth);
+    }
+    for (; i < 3; i++)
+    {
+        int axis = axes[i];
+        m_classifier->skip(&m_kPlaneArray[axis], axis, list->m_data, list->m_iElementCount,
+                           &node->m_range[axis].m_kMinimumCorner, &node->m_range[axis].m_kMaximumCorner);
+    }
+
+    for (int j = 3; j < m_iValue; j++)
+    {
+        PositionEntry* plane = &m_kPlaneArray[j];
+        if (plane->m_pos > node->m_fSplitOffset)
+        {
+            break;
+        }
+        SplitRange& range = scratch.b.range;
+        m_classifier->classify(plane, j, list->m_data, list->m_iElementCount, &range.m_kMinimumCorner, &range.m_kMaximumCorner);
+        new (&scratch.a.less) SplitLess();
+        quickSortItems(list->m_data, list->m_iElementCount, scratch.a.less);
+        last = plane;
+        reinterpret_cast<::SeqOwner *>(this)->FUN_00e09be0((::OutRec *)(node), (::ObjRef *)(plane), (::ItemSpan *)(list), (float *)(::SplitRange *)(&range), depth);
+    }
+
+    reinterpret_cast<::MatchOwner *>(this)->FUN_00e098b0((::S00e098b0_Range *)(list), (::NodeBounds *)(node));
+    if (last != node->m_kTriangleNormal)
+    {
+        PositionEntry* plane = node->m_kTriangleNormal;
+        float fMin;
+        float fScaledValue;
+        m_classifier->classify(plane, plane->m_kAxisEndPoints, list->m_data, list->m_iElementCount, &fMin, &fScaledValue);
+    }
+
+    SplitList right;
+    SplitList left;
+    reinterpret_cast<::QuadSplitter *>(this)->FUN_00e0a0b0((::QuadRange *)(list), (::QuadCenter *)(node), depth, (::QuadRange *)(::SplitList *)(&left), (::QuadRange *)(::SplitList *)(&right));
+    node->m_fMaximumU = FUN_00e0a270(node, &right, 1, depth + 1);
+    node->m_fMinimumU = FUN_00e0a270(node, &left, 0, depth + 1);
+    return node;
+}
 
 // Partitions elements in in into outA and outB by quadrant relative to center, updating capacities and totals.
 // @fnv 0x00e0a0b0
@@ -1820,11 +1759,11 @@ void QuadSplitter::FUN_00e0a0b0(QuadRange* in, QuadCenter* center, int context, 
         else if (cur->extent.max > center->m_uiY)
             quadrant = 2;
 
-        FUN_00e0a950(quadrant, center, context, &total, &counter, &cur, &mid, &p2, &p3);
+        reinterpret_cast<::Cls_00e0a950 *>(this)->FUN_00e0a950(quadrant, (::FUN_00e0a950_Src *)(center), context, &total, &counter, (::FUN_00e0a950_E **)(::QuadElement **)(&cur), (::FUN_00e0a950_E **)(::QuadElement **)(&mid), (::FUN_00e0a950_E **)(::QuadElement **)(&p2), (::FUN_00e0a950_E **)(::QuadElement **)(&p3));
     }
 
     p4 = p3;
-    FUN_00e0acb0(&p0, &mid, &p2, &p4, &p3, &p5, center);
+    reinterpret_cast<::ThisE0AC *>(this)->FUN_00e0acb0((::SortElemE0AB **)(::QuadElement **)(&p0), (::SortElemE0AB **)(::QuadElement **)(&mid), (::SortElemE0AB **)(::QuadElement **)(&p2), (::SortElemE0AB **)(::QuadElement **)(&p4), (::SortElemE0AB **)(::QuadElement **)(&p3), (::SortElemE0AB **)(::QuadElement **)(&p5), (::BoxE0AC *)(center));
 
     pMid = mid;
     outA->m_iCapacity = pMid - p0;
@@ -1843,56 +1782,5 @@ void QuadSplitter::FUN_00e0a0b0(QuadRange* in, QuadCenter* center, int context, 
     }
 }
 
-namespace fnv_00e0a850 {
-extern const double DAT_01011588;
-extern const double DAT_01021928;
-extern const double DAT_010ea600;
-extern const double DAT_010737c8;
-extern const float DAT_010ea608;
-struct FnParams
-{
-    int first, last;
-    float lower, upper, default_scale;
-    int unknown14, unknown18, unknown1c, unknown20, unknown24, unknown28, unknown2c, unknown30, unknown34;
-    float displacement;
-};
-struct FnvCurve
-{
-    int unknown00, unknown04, unknown08, unknown0c, unknown10;
-    float coefficient;
-    int unknown18;
-    float threshold;
-    float FUN_00e0a850(FnParams* p);
-};
-// Returns 0 if scale*phase is positive, otherwise an even polynomial in scale*phase times coefficient, with scale from p's bounds and threshold.
-// @fnv 0x00e0a850
-float FnvCurve::FUN_00e0a850(FnParams* apParams)
-{
-    float phase = apParams->displacement - (float)((apParams->upper + apParams->lower) * DAT_01011588);
-    float scale;
-    if (apParams->first < apParams->last)
-    {
-        float width = apParams->upper - apParams->lower;
-        float bound = threshold;
-        float selected;
-        if (bound < width)
-            selected = bound;
-        else
-            selected = width;
-        if (width + selected > 0.0f)
-            scale = 1.0f / (width + selected);
-        else
-            scale = DAT_010ea608;
-    }
-    else
-        scale = apParams->default_scale;
-    float x = scale * phase;
-    if (x > 0.0f)
-        return 0.0f;
-    float x2 = x * x;
-    float x4 = x2 * x2;
-    float x8 = x4 * x4;
-    float poly = (x2 * DAT_010ea600 + x4 * DAT_01021928) + x8 * DAT_010737c8;
-    return poly * coefficient;
-}
-}  // namespace fnv_00e0a850
+
+#include "generated/data/havok/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.inc"

@@ -1,6 +1,140 @@
 
 // Fallout: New Vegas - original source reconstruction.
 // Original: platforms/common/code/fallout/ai/sandboxpackage.cpp
+#include "fnv/package_schedule_fields.h"
+#include "fnv/form_fields.h"
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include "fnv/result_slot.h"
+#include <new>
+#include <cstdlib>
+#include "fnv/decl/B479FB0IdleList.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSIdleCollection.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C901C50Object.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/DurationData.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_0041d8a0_shell.h"
+#include "fnv/decl/FUN_0041e410_shell.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_0041fe90_shell.h"
+#include "fnv/decl/FUN_004226e0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_0046dce0_class.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_0049bb50_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00508100_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_00558dd0_class.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_00568260_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_0087f990_shell.h"
+#include "fnv/decl/FUN_008846e0_shell.h"
+#include "fnv/decl/FUN_008859e0_Class.h"
+#include "fnv/decl/FUN_008d7e00_shell.h"
+#include "fnv/decl/FUN_008d7e60_shell.h"
+#include "fnv/decl/FUN_0092b440_Class.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_00935a40_cls.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_0098adb0_shell.h"
+#include "fnv/decl/FUN_009c8d60_t.h"
+#include "fnv/decl/FUN_009f6200_Class.h"
+#include "fnv/decl/FakeCell.h"
+#include "fnv/decl/Fn9a4f40.h"
+#include "fnv/decl/HighProcess.h"
+#include "fnv/decl/HostActor.h"
+#include "fnv/decl/LocationDescriptor.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/OwnershipReferenceView.h"
+#include "fnv/decl/PathingLocation.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/Ref_891d30.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TESFurniture.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_004985f0__FUN_004985f0_s.h"
+#include "fnv/decl/fnv_00498cf0__FUN_00498cf0_shell.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_00567f80__Fn567f80.h"
+#include "fnv/decl/fnv_00568150__FUN_00568150_shell.h"
+#include "fnv/decl/fnv_005682c0__FUN_005682c0_shell.h"
+#include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
+#include "fnv/decl/fnv_00675c20__PHost.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/decl/fnv_008853a0__FUN_008853a0_shell.h"
+#include "fnv/decl/fnv_00895110__PickActor.h"
+#include "fnv/decl/fnv_0089f580__ActorStub.h"
+#include "fnv/decl/fnv_009f38b0__FUN_009f38b0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_00509000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_00643000.h"
+#include "fnv/symbols_00647000.h"
+#include "fnv/symbols_006d2000.h"
+#include "fnv/symbols_006d3000.h"
+#include "fnv/symbols_006f3000.h"
+#include "fnv/symbols_0092a000.h"
+#include "fnv/symbols_00944000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_009f5000.h"
+#include "fnv/symbols_00c54000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01020000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01035000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011cd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f2000.h"
 #include "sandboxpackage_idle.h"
 
 // If the location has a valid timestamp that has passed, follows its linked reference and stores it as the new location, resetting the timestamp.
@@ -9,10 +143,10 @@ bool SandBoxActorPackageData::IsLocationCheckDue()
 {
     if (pLocation != NULL && m_uiLastProcedureCheckDay != 0xFFFFFFFF)
     {
-        unsigned int uiNow = g_timeGlobal.GetTimeStamp();
+        unsigned int uiNow = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00();
         if (uiNow > m_uiLastProcedureCheckDay)
         {
-            TESObjectREFR* pNext = ((ExtraDataListHelper*)pLocation->GetExtraData())->GetLinkedRef();
+            TESObjectREFR* pNext = reinterpret_cast<::FUN_0041e410_shell *>((((ExtraDataListHelper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pLocation))->FUN_005d43c0())))))->FUN_0041e410();
             if (pNext != NULL && pNext != pLocation)
             {
                 pLocation = pNext;
@@ -30,9 +164,9 @@ bool SandBoxActorPackageData::IsActivityTime()
 {
     float fEndHour;
     {
-        unsigned int uiDay = g_calendar.GetDaysPassed();
+        unsigned int uiDay = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->FUN_009611e0()));
         {
-            float fHour = g_calendar.GetGameTime();
+            float fHour = (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTime();
             {
                 bool bLastDay = false;
                 if (m_eSandboxActivity == SANDBOX_ACTIVITY_SANDBOX_ACTIVITY_NONE)
@@ -54,253 +188,6 @@ bool SandBoxActorPackageData::IsActivityTime()
                         return false;
                 }
                 return true;
-            }
-        }
-    }
-}
-
-// @fnv 0x009f40c0
-void SandBoxActorPackageData::SetReferenceTarget(TESObjectREFR* apDeletedRef)
-{
-    if (apDeletedRef == NULL)
-        return;
-    {
-        int iCount;
-        {
-            int iIndex;
-            {
-                bool bReset = false;
-                if (pLocation == apDeletedRef)
-                    pLocation = NULL;
-                if (m_pCurrentFurniture == apDeletedRef)
-                    m_pCurrentFurniture = NULL;
-                if (m_pCurrentTarget == apDeletedRef)
-                    bReset = true;
-                iCount = m_kProcedureList.GetSize();
-                iIndex = 0;
-                while (iIndex < iCount)
-                {
-                    if (m_kProcedureList.GetAt(iIndex).GetTarget() == apDeletedRef)
-                    {
-                        bReset = true;
-                        ((SandboxChoiceArray*)&m_kProcedureList)->RemoveAt(iIndex, 1);
-                        iCount--;
-                    }
-                    else
-                    {
-                        iIndex++;
-                    }
-                }
-                if (bReset)
-                {
-                    eProcedure = SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE;
-                    m_fProcedureTime = 0.0F;
-                    m_pCurrentTarget = NULL;
-                    m_pCurrentFurniture = NULL;
-                    m_ucProcedureIndex = 0x7F;
-                    m_bNeedsSandboxUpdate = true;
-                    m_uiProcedureIndex = 0;
-                }
-            }
-        }
-    }
-}
-
-// Checks the current sandbox target and markers, clears stale flags, and returns whether a new target should be picked based on timers, state and hour difference.
-// @fnv 0x009f43c0
-bool SandBoxActorPackageData::HasProcessTarget(Actor* apActor)
-{
-    {
-        SandboxTargetInfo* pTargetInfo = ((ActorTargetSource*)apActor)->GetProcessTarget();
-        {
-            float fValue;
-            {
-                bool bPickNew;
-                if (pTargetInfo != NULL)
-                {
-                    {
-                        bool bChanged = false;
-                        if (m_bHasBedMarker && !pTargetInfo->CheckBedMarker())
-                        {
-                            m_bHasBedMarker = false;
-                            bChanged = true;
-                        }
-                        if (m_bHasFoodMarker && !pTargetInfo->CheckFoodMarker())
-                        {
-                            m_bHasFoodMarker = false;
-                            bChanged = true;
-                        }
-                        if (m_bHasChairMarker && !pTargetInfo->CheckChairMarker())
-                        {
-                            m_bHasChairMarker = false;
-                            bChanged = true;
-                        }
-                        if (bChanged)
-                        {
-                            m_uiProcedureIndex = g_timeGlobal.GetTimeStamp();
-                            return true;
-                        }
-                    }
-                }
-                if (pLocation != NULL && eProcedure != SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_USE_IDLE_MARKER &&
-                    m_uiLastProcedureCheckDay != 0xFFFFFFFF)
-                {
-                    if (g_timeGlobal.GetTimeStamp() > m_uiLastProcedureCheckDay)
-                        return true;
-                }
-                if (!IsActorWithinLocationRadius(apActor, true))
-                    return false;
-                if (m_bNeedsSandboxUpdate)
-                    return true;
-                if (eProcedure == SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE || m_fProcedureTime <= 0.0)
-                    return true;
-                if (m_fNextProcedureCheckHour == 0.0)
-                    return true;
-                if (eState != SandBoxActorPackageData__SANDBOX_STATE_SANDBOX_STATE_DOINGSTUFF &&
-                    m_pCurrentTarget != NULL)
-                {
-                    if (((TESObjectREFRHelper*)m_pCurrentTarget)->IsMarkerAvailable(m_ucProcedureIndex, true))
-                        return true;
-                }
-                if (HasActivityEnded(NULL))
-                    return true;
-                if (IsActivityTime() && IsActivityProcedure())
-                    return eProcedure != g_procedureForActivity[m_eSandboxActivity];
-                bPickNew = false;
-                fValue = GetHourDifference(m_fLastProcedureCheckHour, g_calendar.GetGameTime());
-                if (fValue > m_fProcedureTime)
-                    bPickNew = true;
-                return bPickNew;
-            }
-        }
-    }
-}
-
-// Reads the sandbox actor package data fields from the load buffer, adjusts the timestamp against g_timeGlobal, and loads the choice array entries.
-// @fnv 0x009f5ca0
-void SandBoxActorPackageData::LoadGame(BGSLoadFormBuffer* apBuffer)
-{
-    int iSavedTimeStamp;
-    unsigned int ItemUpdateArray;
-    apBuffer->ReadTypedData(&eState, 4);
-    apBuffer->ReadTypedData(&eProcedure, 4);
-    apBuffer->ReadTypedData(&m_fProcedureTime, 4);
-    apBuffer->ReadTypedData(&m_fLastProcedureCheckHour, 4);
-    apBuffer->ReadTypedData(&m_fNextProcedureCheckHour, 4);
-    apBuffer->ReadTypedData(&m_uiLastProcedureCheckDay, 4);
-    apBuffer->ReadTypedData(&m_fProcedureTime, 4);
-    apBuffer->ReadTypedData(&m_uiProcedureIndex, 4);
-    apBuffer->ReadTypedData(&m_bNeedsSandboxUpdate, 1);
-    apBuffer->ReadTypedData(&m_bHasFoodMarker, 1);
-    apBuffer->ReadTypedData(&m_bHasChairMarker, 1);
-    apBuffer->ReadTypedData(&m_bHasBedMarker, 1);
-    apBuffer->ReadTypedData(&m_iSerializedValue, 4);
-    apBuffer->ReadTypedData(&m_ucProcedureIndex, 1);
-    iSavedTimeStamp = 0;
-    apBuffer->ReadTypedData(&iSavedTimeStamp, 4);
-    m_uiActivityStartDay = g_timeGlobal.GetTimeStamp() - iSavedTimeStamp;
-    apBuffer->ReadTypedData(&m_uiActivityEndDay, 4);
-    apBuffer->ReadTypedData(&m_fActivityStartHour, 4);
-    apBuffer->ReadTypedData(&m_fActivityEndHour, 4);
-    apBuffer->ReadTypedData(&m_eSandboxActivity, 4);
-    apBuffer->ReadTypedData(m_ucProcedureFlags, 6);
-    apBuffer->ReadFormIdentifier(&pLocation);
-    apBuffer->ReadFormIdentifier(&m_pCurrentTarget);
-    apBuffer->ReadFormIdentifier(&m_pCurrentFurniture);
-    ItemUpdateArray = apBuffer->ReadElementCount();
-    ((SandboxChoiceArray*)&m_kProcedureList)->SetSize(ItemUpdateArray, true);
-    for (unsigned int uiIndex = 0; uiIndex < ItemUpdateArray; uiIndex++)
-    {
-        SandboxProcedureData* pItem = &m_kProcedureList.GetAt(uiIndex);
-        pItem->LoadGame(apBuffer);
-    }
-}
-
-// @fnv 0x009f5ea0
-void SandBoxActorPackageData::InitLoadGame(BGSLoadFormBuffer* apBuffer)
-{
-    pLocation = pLocation ? dynamic_cast<TESObjectREFR*>(GetFormByID((unsigned int)pLocation)) : NULL;
-    m_pCurrentTarget =
-        m_pCurrentTarget ? dynamic_cast<TESObjectREFR*>(GetFormByID((unsigned int)m_pCurrentTarget)) : NULL;
-    if (m_pCurrentTarget != NULL)
-        ((TESObjectREFRHelper*)m_pCurrentTarget)->SetTargetingState(true);
-    m_pCurrentFurniture = m_pCurrentFurniture
-                              ? dynamic_cast<TESObjectREFR*>(GetFormByID((unsigned int)m_pCurrentFurniture))
-                              : NULL;
-    if (m_pCurrentFurniture != NULL)
-        ((TESObjectREFRHelper*)m_pCurrentFurniture)->SetTargetingState(true);
-    {
-        int iCount;
-        {
-            int iIndex;
-            {
-                bool bResetState;
-                {
-                    unsigned int uiNumTargets;
-                    {
-                        unsigned int uiTargetIndex;
-                        uiNumTargets = m_kProcedureList.GetSize();
-                        for (uiTargetIndex = 0; uiTargetIndex < uiNumTargets; uiTargetIndex++)
-                        {
-                            {
-                                SandboxProcedureData* pItem = &m_kProcedureList.GetAt(uiTargetIndex);
-                                pItem->InitLoadGame(apBuffer);
-                            }
-                        }
-                        iCount = m_kProcedureList.GetSize();
-                        iIndex = 0;
-                        bResetState = false;
-                        while (iIndex < iCount)
-                        {
-                            {
-                                SandboxProcedureData* pChoice = &m_kProcedureList.GetAt(iIndex);
-                                if (pChoice->GetTarget() == NULL && IsValidSandboxProcedure(pChoice->GetProcedure()))
-                                {
-                                    ((SandboxChoiceArray*)&m_kProcedureList)->RemoveAt(iIndex, 1);
-                                    iCount--;
-                                    bResetState = true;
-                                }
-                                else
-                                {
-                                    iIndex++;
-                                }
-                            }
-                        }
-                        if (m_pCurrentTarget != NULL)
-                        {
-                            if (((TESObjectREFRHelper*)m_pCurrentTarget)->IsReferenceActive(false))
-                                ((TESObjectREFRHelper*)m_pCurrentTarget)->SetMarkerState(m_ucProcedureIndex, true);
-                            else
-                                bResetState = true;
-                        }
-                        if (bResetState || m_pCurrentTarget == NULL)
-                        {
-                            eProcedure = SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE;
-                            m_fProcedureTime = 0.0F;
-                            m_pCurrentTarget = NULL;
-                            m_ucProcedureIndex = 0x7F;
-                            m_bNeedsSandboxUpdate = true;
-                            m_uiProcedureIndex = 0;
-                        }
-                        if (pLocation != NULL && m_uiLastProcedureCheckDay == 0)
-                        {
-                            m_uiLastProcedureCheckDay = 0xFFFFFFFF;
-                            if (((ExtraDataListHelper*)pLocation->GetExtraData())->GetLinkedRef() != NULL)
-                            {
-                                m_uiLastProcedureCheckDay = 0;
-                                {
-                                    RegionPoint* pPatrolRefData =
-                                        ((ExtraDataListHelper*)pLocation->GetExtraData())->GetStartingPositionData();
-                                    if (pPatrolRefData != NULL)
-                                    {
-                                        m_uiLastProcedureCheckDay = g_timeGlobal.GetTimeStamp() +
-                                                                    (unsigned int)(pPatrolRefData->GetX() * 1000.0);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
     }
@@ -331,14 +218,14 @@ bool SandBoxActorPackageData::IsActorWithinLocationRadius(Actor* actor, bool upd
         idle.unused = -1;
         if (idle.animation)
         {
-            if (!idle.animation->IsSequenceActive())
+            if (!reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((idle.animation))->FUN_004985f0())
                 return false;
             if (update)
             {
-                idle.sequence = idle.animation->GetPlayingSequence();
-                if (idle.sequence && (int)((LowProcess*)idle.sequence)->GetActiveCombatTarget() != 3)
+                idle.sequence = reinterpret_cast<::fnv_00498cf0::FUN_00498cf0_shell *>((idle.animation))->FUN_00498cf0();
+                if (idle.sequence && (intptr_t)((LowProcess*)idle.sequence)->GetActiveCombatTarget() != 3)
                 {
-                    idle.process = actor->GetProcess();
+                    idle.process = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
                     ((SandboxProcessVirtual*)idle.process)->UpdateIdle(actor);
                 }
             }
@@ -379,18 +266,18 @@ bool SandBoxActorPackageData::IsObjectWithinLocationRadius(MobileObject* object,
     {
         if (state.actor)
         {
-            state.package = state.actor->GetCurrentPackage();
+            state.package = reinterpret_cast<::FUN_009344a0_shell *>((state.actor))->FUN_009344a0();
             if (state.package)
                 return ((SandboxPackageVirtual*)state.package)->IsAtLocation(state.actor, 0, -1.0f, false);
         }
         return false;
     }
-    state.locationWorld = pLocation->GetParentWorldSpace();
-    state.locationCell = pLocation->GetParentCell();
+    state.locationWorld = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((pLocation))->FUN_00575d70()));
+    state.locationCell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((pLocation))->GetTarget()));
     if (state.locationCell && !state.locationCell->IsCellInterior())
         state.locationCell = 0;
-    state.objectWorld = object->GetParentWorldSpace();
-    state.objectCell = object->GetParentCell();
+    state.objectWorld = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((object))->FUN_00575d70()));
+    state.objectCell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((object))->GetTarget()));
     if (state.objectCell && !state.objectCell->IsCellInterior())
         state.objectCell = 0;
     state.same = false;
@@ -411,9 +298,9 @@ bool SandBoxActorPackageData::IsObjectWithinLocationRadius(MobileObject* object,
     state.position = ((SandboxMobileVirtual*)pLocation)->GetPos();
     if (state.radius == 0.0)
     {
-        if (pLocation->GetObjectReference() == DAT_011ca248 || pLocation->GetObjectReference() == DAT_011ca244)
+        if (((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pLocation))->FUN_007af430())) == DAT_011ca248 || ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pLocation))->FUN_007af430())) == DAT_011ca244)
         {
-            state.radius = runtimeFloatSettingDefault94;
+            state.radius = ::DAT_01017868;
         }
         else if (((SandboxMobileVirtual*)pLocation)->IsActor())
         {
@@ -430,8 +317,8 @@ bool SandBoxActorPackageData::IsObjectWithinLocationRadius(MobileObject* object,
         }
         else
         {
-            state.adjustment = runtimeFloatSettingDefault94;
-            switch (((TESForm*)pLocation->GetObjectReference())->GetFormType())
+            state.adjustment = ::DAT_01017868;
+            switch (((TESForm*)((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pLocation))->FUN_007af430())))->GetFormType())
             {
             case 21:
             case 27:
@@ -446,20 +333,20 @@ bool SandBoxActorPackageData::IsObjectWithinLocationRadius(MobileObject* object,
         }
     }
     if (state.radius == 0.0)
-        state.radius = (float)((SettingT_GameSettingCollection_*)&g_011cde98)->Int()->i;
+        state.radius = (float)((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(((SettingT_GameSettingCollection_*)&g_011cde98)))))->i;
     if (((SandboxMobileVirtual*)object)->IsAtLocation(state.position, state.radius, !state.special, true))
     {
-        if (m_uiLastProcedureCheckDay == 0xffffffff && pLocation->GetExtraData() &&
-            ((ExtraDataListHelper*)pLocation->GetExtraData())->GetLinkedRef())
+        if (m_uiLastProcedureCheckDay == 0xffffffff && ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pLocation))->FUN_005d43c0())) &&
+            reinterpret_cast<::FUN_0041e410_shell *>((((ExtraDataListHelper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pLocation))->FUN_005d43c0())))))->FUN_0041e410())
         {
             m_uiLastProcedureCheckDay = 0;
-            state.patrol = ((ExtraDataListHelper*)pLocation->GetExtraData())->GetStartingPositionData();
+            state.patrol = ((::RegionPoint *)(reinterpret_cast<::FUN_0041fe90_shell *>((((ExtraDataListHelper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pLocation))->FUN_005d43c0())))))->FUN_0041fe90()));
             if (state.patrol)
-                m_uiLastProcedureCheckDay = g_timeGlobal.GetTimeStamp() + (unsigned int)(state.patrol->GetX() * 1000.0);
+                m_uiLastProcedureCheckDay = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() + (unsigned int)(reinterpret_cast<::CombatTargetTimestamp *>((state.patrol))->FUN_006a7f50() * 1000.0);
             if (eProcedure > -1 && eProcedure < 6)
             {
-                state.helper = state.actor->FUN_0087f990();
-                m_fProcedureTime = FUN_006435c0(state.helper, eProcedure);
+                state.helper = ((void *)(reinterpret_cast<::FUN_0087f990_shell *>((state.actor))->FUN_0087f990()));
+                m_fProcedureTime = ::FUN_006435c0((intptr_t)(state.helper), (*(int *)&(eProcedure)));
             }
         }
         return true;
@@ -469,16 +356,20 @@ bool SandBoxActorPackageData::IsObjectWithinLocationRadius(MobileObject* object,
 
 struct FUN_009f41c0_shell
 {
-    void __thiscall ResetReference();
-    void __thiscall FUN_009f41c0();
+    void ResetReference();
+    void FUN_009f41c0();
+    char pad00[0x34];
+    unsigned char unk34;
+    char pad35[0xb];
+    unsigned char unk40;
 };
 
 // Calls ResetReference, then sets the byte at offset 0x34 and the int at offset 4 to 1.
 // @fnv 0x009f41c0
-void __thiscall FUN_009f41c0_shell::FUN_009f41c0()
+void FUN_009f41c0_shell::FUN_009f41c0()
 {
     ResetReference();
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x34) = 1;
+    this->unk34 = 1;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4) = 1;
 }
 
@@ -487,15 +378,6 @@ struct Setting_S
 {
     float* Float();
 };
-extern Setting_S originalRuntimeFloatSetting255;
-extern Setting_S originalRuntimeFloatSetting256;
-extern int g_011cdb3c;
-extern int g_011cd0a4;
-extern int g_011cdf60;
-int& __fastcall FUN_0043d4d0(int*);
-unsigned int GetRandomNumberInRange(int, int);
-int FUN_00647b70(int, int);
-int GetRandomNumber();
 
 struct NiPoint3POD
 {
@@ -505,14 +387,10 @@ struct NiPoint3POD
 };
 struct DurationData
 {
-    int FUN_00726070();
 };
 struct TESPackage
 {
-    DurationData* FUN_0041d8a0();
-    TESObjectCELL* GetPackageLocationCell(MobileObject*);
     const NiPoint3 GetPackageLocationPosition(MobileObject*);
-    unsigned int FUN_00676280(MobileObject*);
 };
 struct BaseProcessVT
 {
@@ -650,18 +528,14 @@ struct BaseProcessVT
 struct ActorS : public TESObjectREFR
 {
     TESWorldSpace* GetParentWorldSpace();
-    TESObjectCELL* GetParentCell();
-    BaseProcess* GetCurrentProcess() const;
 };
 struct Actor_ext : public Actor
 {
     TESPackage* GetCurrentPackage();
-    bool IsHostileToActor(Actor*, int, int*, bool);
     int FUN_0087f990();
 };
 struct TESObjectCELL_Ext : public TESObjectCELL
 {
-    bool IsInterior();
     TESWorldSpace* GetParentWorldSpace();
 };
 struct NiPoint3_ext : public NiPoint3
@@ -671,18 +545,13 @@ struct NiPoint3_ext : public NiPoint3
 };
 struct SandBoxChoiceListItem_ext : public SandboxProcedureData
 {
-    void FUN_0041fd00(int);
-    unsigned int FUN_0084e3a0();
-    unsigned int FUN_0044ddc0();
 };
 struct FUN_005682c0_caller
 {
-    int FUN_005682c0(bool);
 };
 struct SandBoxActorPackageData_ext : public SandBoxActorPackageData
 {
     void SelectActivity();
-    void ResetReference();
     void ScanSandboxTargets(Actor*);
     void SelectSandboxActivity(Actor*, TESPackage*);
 };
@@ -709,30 +578,30 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
     SelectActivity();
     if (m_fNextProcedureCheckHour == 0.0)
     {
-        if (apOriginalPackage && apOriginalPackage->FUN_0041d8a0())
-            m_fNextProcedureCheckHour = (float)apOriginalPackage->FUN_0041d8a0()->FUN_00726070();
+        if (apOriginalPackage && ((::fnv_009f4700::DurationData *)(reinterpret_cast<::FUN_0041d8a0_shell *>((apOriginalPackage))->FUN_0041d8a0())))
+            m_fNextProcedureCheckHour = (float)reinterpret_cast<PackageScheduleFields*>(reinterpret_cast<::FUN_0041d8a0_shell *>((apOriginalPackage))->FUN_0041d8a0())->iDuration;
         if (m_fNextProcedureCheckHour == 0.0)
             m_fNextProcedureCheckHour = 24.0f;
     }
     if (m_pCurrentTarget && m_pCurrentFurniture != m_pCurrentTarget)
     {
-        m_uiActivityStartDay = g_timeGlobal.GetTimeStamp() + FUN_0043d4d0(&g_011cdb3c) * 1000;
+        m_uiActivityStartDay = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() + ::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011cdb3c))) * 1000;
         m_pCurrentFurniture = m_pCurrentTarget;
     }
-    if (m_pCurrentFurniture && g_timeGlobal.GetTimeStamp() > m_uiActivityStartDay)
+    if (m_pCurrentFurniture && reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() > m_uiActivityStartDay)
         m_pCurrentFurniture = 0;
     if (m_pCurrentTarget)
-        static_cast<TESObjectREFRHelper*>(m_pCurrentTarget)->SetMarkerState(m_ucProcedureIndex, false);
+        reinterpret_cast<::fnv_00568150::FUN_00568150_shell *>((static_cast<TESObjectREFRHelper*>(m_pCurrentTarget)))->FUN_00568150(m_ucProcedureIndex, false);
     m_pCurrentTarget = 0;
     m_ucProcedureIndex = 127;
     eProcedure = SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE;
     m_fProcedureTime = 0.0f;
-    if (g_timeGlobal.GetTimeStamp() >= m_uiProcedureIndex)
+    if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() >= m_uiProcedureIndex)
     {
-        ResetReference();
+        reinterpret_cast<::FUN_009f41c0_shell *>(this)->ResetReference();
         ScanSandboxTargets(apActor);
-        m_uiProcedureIndex = g_timeGlobal.GetTimeStamp() +
-                             GetRandomNumberInRange(FUN_0043d4d0(&g_011cd0a4) * 1000, FUN_0043d4d0(&g_011cdf60) * 1000);
+        m_uiProcedureIndex = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() +
+                             ::GetRandomNumberInRange(::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011cd0a4))) * 1000, ::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011cdf60))) * 1000);
     }
     bcanPerformActivity = IsActivityTime() && IsActivityProcedure();
     if (bcanPerformActivity)
@@ -750,35 +619,35 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
             isandboxProceduresProbabilities[SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_EAT] += 20;
         if (!m_bHasChairMarker)
             isandboxProceduresProbabilities[SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_EAT] -= 15;
-        if (static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))->GetCurrentProcess() &&
+        if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))))->GetBaseTexture())) &&
             reinterpret_cast<BaseProcessVT*>(
-                static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))->GetCurrentProcess())
+                ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))))->GetBaseTexture())))
                     ->vfn_b8() > 0.0)
             isandboxProceduresProbabilities[SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_DIALOGUE] = 0;
     }
     itotalProb = 0;
-    inumTargets = reinterpret_cast<SandBoxChoiceListItem_ext*>(&m_kProcedureList)->FUN_0044ddc0();
-    process = static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))->GetCurrentProcess();
-    fsearchDist = *originalRuntimeFloatSetting255.Float();
+    inumTargets = SimpleArraySize((reinterpret_cast<SandBoxChoiceListItem_ext*>(&m_kProcedureList)));
+    process = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))))->GetBaseTexture()));
+    fsearchDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009f4700::Setting_S *>(&::originalRuntimeFloatSetting255))))));
     packageLoc = *reinterpret_cast<NiPoint3POD*>(apActor->GetPos());
-    ppackageCell = static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))->GetParentCell();
-    ppack = static_cast<Actor_ext*>(apActor)->GetCurrentPackage();
+    ppackageCell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))))->GetTarget()));
+    ppack = ((::fnv_009f4700::TESPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((static_cast<Actor_ext*>(apActor)))->FUN_009344a0()));
     if (ppack)
     {
         int ipackageLocRadius;
-        packageLoc = *reinterpret_cast<const NiPoint3POD*>(&ppack->GetPackageLocationPosition(apActor));
-        ppackageCell = ppack->GetPackageLocationCell(apActor);
-        ipackageLocRadius = ppack->FUN_00676280(apActor);
+        packageLoc = *reinterpret_cast<const NiPoint3POD*>(&ResultSlot(ppack->GetPackageLocationPosition(apActor)));
+        ppackageCell = ((::TESObjectCELL *)(reinterpret_cast<::fnv_00675c20::PHost *>((ppack))->FUN_00675c20((::fnv_00675c20::Ref *)(apActor))));
+        ipackageLocRadius = reinterpret_cast<::HighProcess *>((ppack))->UpdateHighProcessState((::Actor *)(apActor));
         fsearchDist = ipackageLocRadius > 0 ? (float)ipackageLocRadius : fsearchDist;
     }
     if (pLocation)
     {
         packageLoc = *reinterpret_cast<NiPoint3POD*>(pLocation->GetPos());
-        ppackageCell = static_cast<ActorS*>(pLocation)->GetParentCell();
+        ppackageCell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((static_cast<ActorS*>(pLocation)))->GetTarget()));
     }
-    ppackageWorldSpace = ppackageCell ? static_cast<TESObjectCELL_Ext*>(ppackageCell)->GetParentWorldSpace()
-                                      : static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))->GetParentWorldSpace();
-    fsearchDialogueDistSqr = fsearchDist + *originalRuntimeFloatSetting256.Float();
+    ppackageWorldSpace = ppackageCell ? reinterpret_cast<::TESObjectCELL *>((static_cast<TESObjectCELL_Ext*>(ppackageCell)))->GetParentWorldSpace()
+                                      : ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))))->FUN_00575d70()));
+    fsearchDialogueDistSqr = fsearchDist + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009f4700::Setting_S *>(&::originalRuntimeFloatSetting256))))));
     fsearchDistSqr = fsearchDist * fsearchDist;
     fsearchDialogueDistSqr = fsearchDialogueDistSqr * fsearchDialogueDistSqr;
     for (i = 0; i < inumTargets; i++)
@@ -788,10 +657,10 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
         int score;
         TESPackage* ppack;
         item = static_cast<SandBoxChoiceListItem_ext*>(&m_kProcedureList.GetAt(i));
-        score = item->FUN_0044ddc0() * isandboxProceduresProbabilities[item->GetProcedure()];
-        score = FUN_00647b70(score, 0);
-        ppack = static_cast<Actor_ext*>(apActor)->GetCurrentPackage();
-        ptargObject = item->GetTarget();
+        score = item->m_iActivityState * isandboxProceduresProbabilities[item->eProcedure];
+        score = ::FUN_00647b70(score, 0);
+        ppack = ((::fnv_009f4700::TESPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((static_cast<Actor_ext*>(apActor)))->FUN_009344a0()));
+        ptargObject = ((::TESObjectREFR *)(::FUN_00559450((int *)(item))));
         if (ptargObject)
         {
             float fmaxDistSqr;
@@ -800,14 +669,14 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
             bool binterior;
             if (ptargObject == m_pCurrentFurniture)
             {
-                item->FUN_0041fd00(0);
+                reinterpret_cast<::FUN_0041fd00_shell *>((item))->FUN_0041fd00(0);
                 continue;
             }
             binterior = false;
-            ptargetCell = static_cast<ActorS*>(ptargObject)->GetParentCell();
+            ptargetCell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((static_cast<ActorS*>(ptargObject)))->GetTarget()));
             if (ppackageCell && ptargetCell &&
-                (static_cast<TESObjectCELL_Ext*>(ppackageCell)->IsInterior() ||
-                 static_cast<TESObjectCELL_Ext*>(ptargetCell)->IsInterior()))
+                (reinterpret_cast<::TESObjectCELL *>((static_cast<TESObjectCELL_Ext*>(ppackageCell)))->IsCellInterior() ||
+                 reinterpret_cast<::TESObjectCELL *>((static_cast<TESObjectCELL_Ext*>(ptargetCell)))->IsCellInterior()))
             {
                 binterior = true;
                 if (ppackageCell != ptargetCell)
@@ -816,49 +685,49 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
             if (!binterior)
             {
                 TESWorldSpace* ptargetWorldSpace = ptargetCell
-                                                       ? static_cast<TESObjectCELL_Ext*>(ptargetCell)->GetParentWorldSpace()
-                                                       : static_cast<ActorS*>(ptargObject)->GetParentWorldSpace();
+                                                       ? reinterpret_cast<::TESObjectCELL *>((static_cast<TESObjectCELL_Ext*>(ptargetCell)))->GetParentWorldSpace()
+                                                       : ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((static_cast<ActorS*>(ptargObject)))->FUN_00575d70()));
                 if (ppackageWorldSpace != ptargetWorldSpace)
                     continue;
             }
-            bisDialogue = item->GetProcedure() == SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_DIALOGUE;
+            bisDialogue = item->eProcedure == SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_DIALOGUE;
             fmaxDistSqr = bisDialogue ? fsearchDialogueDistSqr : fsearchDistSqr;
             if (fmaxDistSqr <
-                static_cast<const NiPoint3_ext&>(static_cast<NiPoint3_ext*>(ptargObject->GetPos())
+                reinterpret_cast<const NiPoint3_ext&>(ResultSlot(static_cast<NiPoint3_ext*>(ptargObject->GetPos())
                                                      ->
-                                                     operator-(reinterpret_cast<const NiPoint3&>(packageLoc)))
+                                                     operator-(reinterpret_cast<const NiPoint3&>(packageLoc))))
                     .FUN_004a7290())
             {
-                item->FUN_0041fd00(0);
+                reinterpret_cast<::FUN_0041fd00_shell *>((item))->FUN_0041fd00(0);
                 continue;
             }
-            if (!static_cast<TESObjectREFRHelper*>(ptargObject)->IsReferenceActive(false))
+            if (!reinterpret_cast<::FUN_00568260_shell *>((static_cast<TESObjectREFRHelper*>(ptargObject)))->FUN_00568260(false))
             {
-                item->FUN_0041fd00(0);
+                reinterpret_cast<::FUN_0041fd00_shell *>((item))->FUN_0041fd00(0);
                 continue;
             }
             if (bisDialogue)
             {
                 Actor* ptargetActor = static_cast<Actor*>(ptargObject);
                 int ereaction;
-                if (!static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))->GetCurrentProcess() ||
+                if (!((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))))->GetBaseTexture())) ||
                     !reinterpret_cast<BaseProcessVT*>(
-                         static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))->GetCurrentProcess())
+                         ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))))->GetBaseTexture())))
                          ->vfn_204(apActor, ptargetActor))
                 {
-                    item->FUN_0041fd00(0);
+                    reinterpret_cast<::FUN_0041fd00_shell *>((item))->FUN_0041fd00(0);
                     continue;
                 }
                 ereaction = 0;
-                if (static_cast<Actor_ext*>(apActor)->IsHostileToActor(ptargetActor, 0, &ereaction, false) ||
-                    static_cast<Actor_ext*>(ptargetActor)->IsHostileToActor(apActor, 0, &ereaction, false))
+                if (reinterpret_cast<::HostActor *>((static_cast<Actor_ext*>(apActor)))->IsHostileTo((::HostActor *)(ptargetActor), 0, &ereaction, false) ||
+                    reinterpret_cast<::HostActor *>((static_cast<Actor_ext*>(ptargetActor)))->IsHostileTo((::HostActor *)(apActor), 0, &ereaction, false))
                 {
-                    item->FUN_0041fd00(0);
+                    reinterpret_cast<::FUN_0041fd00_shell *>((item))->FUN_0041fd00(0);
                     continue;
                 }
             }
         }
-        item->FUN_0041fd00(score);
+        reinterpret_cast<::FUN_0041fd00_shell *>((item))->FUN_0041fd00(score);
         itotalProb += score;
     }
     if (itotalProb > 0)
@@ -866,21 +735,21 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
         int irandom;
         int iIndex;
         SandboxProcedureData ritem;
-        int iactorEnergy;
-        irandom = GetRandomNumber() % itotalProb;
+        intptr_t iactorEnergy;
+        irandom = std::rand() % itotalProb;
         for (i = 0; i < inumTargets; i++)
         {
             SandBoxChoiceListItem_ext* item = static_cast<SandBoxChoiceListItem_ext*>(&m_kProcedureList.GetAt(i));
-            if ((irandom -= item->FUN_0084e3a0()) < 0)
+            if ((irandom -= ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item))->FUN_0084e3a0()))) < 0)
                 break;
         }
         ritem = m_kProcedureList.GetAt(i);
-        eProcedure = ritem.GetProcedure();
-        m_pCurrentTarget = ritem.GetTarget();
-        iIndex = m_pCurrentTarget ? reinterpret_cast<FUN_005682c0_caller*>(m_pCurrentTarget)->FUN_005682c0(false) : -1;
+        eProcedure = ritem.eProcedure;
+        m_pCurrentTarget = ((::TESObjectREFR *)(::FUN_00559450((int *)&(ritem))));
+        iIndex = m_pCurrentTarget ? reinterpret_cast<::fnv_005682c0::FUN_005682c0_shell *>((reinterpret_cast<FUN_005682c0_caller*>(m_pCurrentTarget)))->FUN_005682c0(false) : -1;
         m_ucProcedureIndex = iIndex < 0 ? 0 : (unsigned char)iIndex;
-        iactorEnergy = static_cast<Actor_ext*>(apActor)->FUN_0087f990();
-        m_fProcedureTime = FUN_006435c0((void*)iactorEnergy, eProcedure);
+        iactorEnergy = reinterpret_cast<::FUN_0087f990_shell *>((static_cast<Actor_ext*>(apActor)))->FUN_0087f990();
+        m_fProcedureTime = ::FUN_006435c0((intptr_t)((void*)iactorEnergy), (*(int *)&(eProcedure)));
         for (i = 0; i < 6; i++)
         {
             unsigned char cweight = m_ucProcedureFlags[i];
@@ -889,7 +758,7 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
         }
         m_ucProcedureFlags[eProcedure] = 1;
         if (m_pCurrentTarget)
-            static_cast<TESObjectREFRHelper*>(m_pCurrentTarget)->SetMarkerState(m_ucProcedureIndex, true);
+            reinterpret_cast<::fnv_00568150::FUN_00568150_shell *>((static_cast<TESObjectREFRHelper*>(m_pCurrentTarget)))->FUN_00568150(m_ucProcedureIndex, true);
     }
     else
     {
@@ -898,7 +767,7 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
         m_pCurrentTarget = 0;
         m_ucProcedureIndex = 127;
     }
-    m_fLastProcedureCheckHour = g_calendar.GetGameTime();
+    m_fLastProcedureCheckHour = (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTime();
 }
 }  // namespace fnv_009f4700
 
@@ -919,64 +788,48 @@ FUN_009f3800::FUN_009f3800(TESObjectREFRHelper* pHelper, int b, int c)
     f2 = c;
     f3 = 0;
     if (f0 != 0)
-        f0->SetTargetingState(true);
+        reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((f0))->FUN_00564db0(true);
 }
 
-void __cdecl _Deallocate(void*);
 struct FUN_009f3a40_t
 {
-    void __thiscall FUN_009f3a70();
-    void* __thiscall FUN_009f3a40(unsigned int);
+    void FUN_009f3a70();
+    void* FUN_009f3a40(unsigned int);
 };
-// @fnv 0x009f3a40
-void* __thiscall FUN_009f3a40_t::FUN_009f3a40(unsigned int flags)
-{
-    FUN_009f3a70();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct DH
 {
-    bool FUN_004226e0();
 };
-extern DH* g_dataHandler;
 // @fnv 0x009f4060
 void FUN_009f41c0_shell::ResetReference()
 {
-    if (g_dataHandler == 0 || !g_dataHandler->FUN_004226e0())
+    if (g_dataHandler == 0 || !reinterpret_cast<::FUN_004226e0_shell *>((g_dataHandler))->FUN_004226e0())
     {
         if (*(TESObjectREFRHelper**)((char*)this + 0x3c) != 0)
         {
-            (*(TESObjectREFRHelper**)((char*)this + 0x3c))
-                ->SetMarkerState(*(unsigned char*)((char*)this + 0x40), false);
+            reinterpret_cast<::fnv_00568150::FUN_00568150_shell *>(((*(TESObjectREFRHelper**)((char*)this + 0x3c))))->FUN_00568150(this->unk40, false);
         }
     }
     *(TESObjectREFRHelper**)((char*)this + 0x3c) = 0;
-    *(unsigned char*)((char*)this + 0x40) = 0x7f;
+    this->unk40 = 0x7f;
 }
 
 struct TESObjectREFR_GetFlags_Helper
 {
-    unsigned int __thiscall CallGetFlags();
 };
 extern int DAT_010935dc[];
 struct FUN_009f4640_holder
 {
-    int __thiscall GetFlagsMappedValue();
+    int GetFlagsMappedValue();
 };
 // @fnv 0x009f4640
-int __thiscall FUN_009f4640_holder::GetFlagsMappedValue()
+int FUN_009f4640_holder::GetFlagsMappedValue()
 {
-    return ((TESObjectREFR_GetFlags_Helper*)this)->CallGetFlags() == 0xffffffff
-               ? -1
-               : DAT_010935dc[((TESObjectREFR_GetFlags_Helper*)this)->CallGetFlags()];
+    SANDBOX_PROCEDURE eProcedure = reinterpret_cast<SandBoxActorPackageData*>(this)->eProcedure;
+    return eProcedure == SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE ? -1 : DAT_010935dc[eProcedure];
 }
 
 struct Arr16
 {
-    unsigned int FUN_006f31f0();
 };
 struct Elem9f6340
 {
@@ -989,82 +842,120 @@ struct Host9f6340
 {
     int f00;
     Elem9f6340* f04;
-    void __thiscall FUN_009f6460(Elem9f6340* p, int v);
-    unsigned int __thiscall AppendElement(Elem9f6340* p);
+    unsigned int AppendElement(Elem9f6340* p);
+public:
+    void FUN_009f6460(intptr_t, int);
 };
 // @fnv 0x009f6340
-unsigned int __thiscall Host9f6340::AppendElement(Elem9f6340* apElement)
+unsigned int Host9f6340::AppendElement(Elem9f6340* apElement)
 {
-    unsigned int uiIndex = ((Arr16*)this)->FUN_006f31f0();
-    FUN_009f6460(f04 + uiIndex, 1);
+    unsigned int uiIndex = ::FUN_006f31f0((::S5460 *)(((Arr16*)this)));
+    reinterpret_cast<::Host9f6340 *>(this)->FUN_009f6460((intptr_t)(f04 + uiIndex), 1);
     f04[uiIndex] = *apElement;
     return uiIndex;
 }
 
 struct FUN_009f45e0_shell
 {
-    bool __thiscall IsFlagBit0Clear();
+    bool IsFlagBit0Clear();
 };
 // @fnv 0x009f45e0
-bool __thiscall FUN_009f45e0_shell::IsFlagBit0Clear()
+bool FUN_009f45e0_shell::IsFlagBit0Clear()
 {
     return !(*(unsigned short*)((char*)this + 0x24) & 1) ? true : false;
 }
 
 struct FUN_009f4620_shell
 {
-    bool __thiscall FUN_009f4620();
+    bool FUN_009f4620();
 };
 // @fnv 0x009f4620
-bool __thiscall FUN_009f4620_shell::FUN_009f4620()
+bool FUN_009f4620_shell::FUN_009f4620()
 {
     return !(reinterpret_cast<unsigned short*>(this)[0x24 / sizeof(unsigned short)] & 0x10) ? true : false;
 }
 
 struct FUN_009f4680_shell
 {
-    void __thiscall SelectSandboxActivity(void* b, void* c);
-    void __thiscall ClearTargetReferences(void* b, void* c);
+    void ClearTargetReferences(void* b, void* c);
 };
-// @fnv 0x009f4680
-void __thiscall FUN_009f4680_shell::ClearTargetReferences(void* apArg1, void* apArg2)
-{
-    if (((unsigned int*)this)[15])
-    {
-        int count = ((TESObjectREFR_GetFlags_Helper*)((char*)this + 0x20))->CallGetFlags();
-        for (int i = 0; i < count; ++i)
-        {
-            SandboxProcedureData* item =
-                &(((BSSimpleArray<SandboxProcedureData, 1024>*)((char*)this + 0x20))->GetAt(i));
-            if (item->GetTarget() == ((TESObjectREFR**)((char*)this + 0x3c))[0])
-                item->m_iActivityState = 0;
-        }
-    }
-    SelectSandboxActivity(apArg1, apArg2);
-}
-
 struct FUN_009f54b0_shell
 {
-    bool __thiscall IsFlag8Clear();
+    bool IsFlag8Clear();
 };
 // @fnv 0x009f54b0
-bool __thiscall FUN_009f54b0_shell::IsFlag8Clear()
+bool FUN_009f54b0_shell::IsFlag8Clear()
 {
     return (((unsigned short*)((char*)this + 0x24))[0] & 8) ? false : true;
 }
 
 struct S006949d0
 {
-    void* __thiscall GetAt(int);
 };
 struct FUN_009f6190_shell : S006949d0
 {
-    void* __thiscall FUN_009f6190(int a);
+    void* FUN_009f6190(int a);
 };
-// @fnv 0x009f6190
-void* __thiscall FUN_009f6190_shell::FUN_009f6190(int aiIndex)
+// Reads the sandbox actor package data fields from the load buffer, adjusts the timestamp against g_timeGlobal, and loads the choice array entries.
+// @fnv 0x009f5ca0
+void SandBoxActorPackageData::LoadGame(BGSLoadFormBuffer* apBuffer)
 {
-    return GetAt(aiIndex);
+    int iSavedTimeStamp;
+    unsigned int ItemUpdateArray;
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&eState), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&eProcedure), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fProcedureTime), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fLastProcedureCheckHour), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fNextProcedureCheckHour), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiLastProcedureCheckDay), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fProcedureTime), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiProcedureIndex), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bNeedsSandboxUpdate), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bHasFoodMarker), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bHasChairMarker), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bHasBedMarker), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iSerializedValue), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_ucProcedureIndex), 1);
+    iSavedTimeStamp = 0;
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&iSavedTimeStamp), 4);
+    m_uiActivityStartDay = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() - iSavedTimeStamp;
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiActivityEndDay), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fActivityStartHour), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fActivityEndHour), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_eSandboxActivity), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(m_ucProcedureFlags), 6);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apBuffer))->FUN_008648e0((unsigned int *)(void *)(&pLocation));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apBuffer))->FUN_008648e0((unsigned int *)(void *)(&m_pCurrentTarget));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apBuffer))->FUN_008648e0((unsigned int *)(void *)(&m_pCurrentFurniture));
+    ItemUpdateArray = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apBuffer))->FUN_00864a60();
+    reinterpret_cast<::FUN_009f6200_Class *>((((SandboxChoiceArray*)&m_kProcedureList)))->FUN_009f6200(ItemUpdateArray, true);
+    for (unsigned int uiIndex = 0; uiIndex < ItemUpdateArray; uiIndex++)
+    {
+        SandboxProcedureData* pItem = &(*(::SandboxProcedureData *)(reinterpret_cast<::FUN_009f6190_shell *>(&(m_kProcedureList))->FUN_009f6190(uiIndex)));
+        reinterpret_cast<::fnv_009f38b0::FUN_009f38b0_shell *>((pItem))->FUN_009f38b0((::fnv_009f38b0::BGSLoadFormBuffer *)(apBuffer));
+    }
+}
+// @fnv 0x009f4680
+void FUN_009f4680_shell::ClearTargetReferences(void* apArg1, void* apArg2)
+{
+    SandBoxActorPackageData* pData = reinterpret_cast<SandBoxActorPackageData*>(this);
+    if (pData->m_pCurrentTarget)
+    {
+        int count = SimpleArraySize(&pData->m_kProcedureList);
+        for (int i = 0; i < count; ++i)
+        {
+            SandboxProcedureData* item =
+                &((*(::SandboxProcedureData *)(reinterpret_cast<::FUN_009f6190_shell *>(&pData->m_kProcedureList)->FUN_009f6190(i))));
+            if (item->pTarget == pData->m_pCurrentTarget)
+                item->m_iActivityState = 0;
+        }
+    }
+    reinterpret_cast<::fnv_009f4700::SandBoxActorPackageData_ext *>(this)->SelectSandboxActivity((::Actor *)(apArg1), (::fnv_009f4700::TESPackage *)(apArg2));
+}
+// @fnv 0x009f6190
+void* FUN_009f6190_shell::FUN_009f6190(int aiIndex)
+{
+    return ((void *)(reinterpret_cast<::FUN_00558dd0_class *>(this)->FUN_00558dd0(aiIndex)));
 }
 
 struct EdgeArr
@@ -1093,10 +984,10 @@ struct FUN_009f3e20_shell
     bool m_bHasBedMarker;
     unsigned char _pad2[0x58 - 0x38];
     int m_eSandboxActivity;
-    bool __thiscall FUN_009f3e20();
+    bool FUN_009f3e20();
 };
 // @fnv 0x009f3e20
-bool __thiscall FUN_009f3e20_shell::FUN_009f3e20()
+bool FUN_009f3e20_shell::FUN_009f3e20()
 {
     switch (m_eSandboxActivity)
     {
@@ -1113,112 +1004,239 @@ bool __thiscall FUN_009f3e20_shell::FUN_009f3e20()
     }
 }
 
-unsigned int __cdecl FUN_0042f5a0(unsigned int a, unsigned int b);
 struct FUN_0072ba80_shell
 {
-    void __thiscall FUN_0072ba80(void*, unsigned int);
+    void FUN_0072ba80(void*, unsigned int);
 };
 struct FUN_006c8bd0_Class
 {
-    void __thiscall FUN_006c8bd0(const char*, const char*, unsigned int);
+    void FUN_006c8bd0(const char*, const char*, unsigned int);
 };
 struct FUN_009f63a0_shell
 {
     char* f00;
     char* f04;
     unsigned int f08;
-    void __thiscall FUN_009f63a0(char* apSrcAddr, unsigned int aiCount);
+    void FUN_009f63a0(char* apSrcAddr, unsigned int aiCount);
 };
-// @fnv 0x009f63a0
-void __thiscall FUN_009f63a0_shell::FUN_009f63a0(char* apSrcAddr, unsigned int aiCount)
+// @fnv 0x009f40c0
+void SandBoxActorPackageData::SetReferenceTarget(TESObjectREFR* apDeletedRef)
 {
-    unsigned int i = FUN_0042f5a0(f08 - (unsigned int)apSrcAddr - aiCount, aiCount);
-    ((FUN_0072ba80_shell*)this)->FUN_0072ba80(f04 + (unsigned int)apSrcAddr * 16, aiCount);
-    ((FUN_006c8bd0_Class*)this)->FUN_006c8bd0(f04 + (unsigned int)apSrcAddr * 16, f04 + f08 * 16 - i * 16, i);
+    if (apDeletedRef == NULL)
+        return;
+    {
+        int iCount;
+        {
+            intptr_t iIndex;
+            {
+                bool bReset = false;
+                if (pLocation == apDeletedRef)
+                    pLocation = NULL;
+                if (m_pCurrentFurniture == apDeletedRef)
+                    m_pCurrentFurniture = NULL;
+                if (m_pCurrentTarget == apDeletedRef)
+                    bReset = true;
+                iCount = SimpleArraySize(&(m_kProcedureList));
+                iIndex = 0;
+                while (iIndex < iCount)
+                {
+                    if (((::TESObjectREFR *)(::FUN_00559450((int *)&((*(::SandboxProcedureData *)(reinterpret_cast<::FUN_009f6190_shell *>(&(m_kProcedureList))->FUN_009f6190(iIndex))))))) == apDeletedRef)
+                    {
+                        bReset = true;
+                        reinterpret_cast<::FUN_009f63a0_shell *>((((SandboxChoiceArray*)&m_kProcedureList)))->FUN_009f63a0((char *)(iIndex), 1);
+                        iCount--;
+                    }
+                    else
+                    {
+                        iIndex++;
+                    }
+                }
+                if (bReset)
+                {
+                    eProcedure = SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE;
+                    m_fProcedureTime = 0.0F;
+                    m_pCurrentTarget = NULL;
+                    m_pCurrentFurniture = NULL;
+                    m_ucProcedureIndex = 0x7F;
+                    m_bNeedsSandboxUpdate = true;
+                    m_uiProcedureIndex = 0;
+                }
+            }
+        }
+    }
+}
+// @fnv 0x009f5ea0
+void SandBoxActorPackageData::InitLoadGame(BGSLoadFormBuffer* apBuffer)
+{
+    pLocation = pLocation ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)pLocation)) : NULL;
+    m_pCurrentTarget =
+        m_pCurrentTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)m_pCurrentTarget)) : NULL;
+    if (m_pCurrentTarget != NULL)
+        reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)m_pCurrentTarget)))->FUN_00564db0(true);
+    m_pCurrentFurniture = m_pCurrentFurniture
+                              ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)m_pCurrentFurniture))
+                              : NULL;
+    if (m_pCurrentFurniture != NULL)
+        reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)m_pCurrentFurniture)))->FUN_00564db0(true);
+    {
+        int iCount;
+        {
+            intptr_t iIndex;
+            {
+                bool bResetState;
+                {
+                    unsigned int uiNumTargets;
+                    {
+                        unsigned int uiTargetIndex;
+                        uiNumTargets = SimpleArraySize(&(m_kProcedureList));
+                        for (uiTargetIndex = 0; uiTargetIndex < uiNumTargets; uiTargetIndex++)
+                        {
+                            {
+                                SandboxProcedureData* pItem = &(*(::SandboxProcedureData *)(reinterpret_cast<::FUN_009f6190_shell *>(&(m_kProcedureList))->FUN_009f6190(uiTargetIndex)));
+                                reinterpret_cast<::Fn9a4f40 *>((pItem))->FUN_009a4f40((intptr_t)(apBuffer));
+                            }
+                        }
+                        iCount = SimpleArraySize(&(m_kProcedureList));
+                        iIndex = 0;
+                        bResetState = false;
+                        while (iIndex < iCount)
+                        {
+                            {
+                                SandboxProcedureData* pChoice = &(*(::SandboxProcedureData *)(reinterpret_cast<::FUN_009f6190_shell *>(&(m_kProcedureList))->FUN_009f6190(iIndex)));
+                                if (pChoice->pTarget == NULL && IsValidSandboxProcedure(pChoice->eProcedure))
+                                {
+                                    reinterpret_cast<::FUN_009f63a0_shell *>((((SandboxChoiceArray*)&m_kProcedureList)))->FUN_009f63a0((char *)(iIndex), 1);
+                                    iCount--;
+                                    bResetState = true;
+                                }
+                                else
+                                {
+                                    iIndex++;
+                                }
+                            }
+                        }
+                        if (m_pCurrentTarget != NULL)
+                        {
+                            if (reinterpret_cast<::FUN_00568260_shell *>((((TESObjectREFRHelper*)m_pCurrentTarget)))->FUN_00568260(false))
+                                reinterpret_cast<::fnv_00568150::FUN_00568150_shell *>((((TESObjectREFRHelper*)m_pCurrentTarget)))->FUN_00568150(m_ucProcedureIndex, true);
+                            else
+                                bResetState = true;
+                        }
+                        if (bResetState || m_pCurrentTarget == NULL)
+                        {
+                            eProcedure = SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE;
+                            m_fProcedureTime = 0.0F;
+                            m_pCurrentTarget = NULL;
+                            m_ucProcedureIndex = 0x7F;
+                            m_bNeedsSandboxUpdate = true;
+                            m_uiProcedureIndex = 0;
+                        }
+                        if (pLocation != NULL && m_uiLastProcedureCheckDay == 0)
+                        {
+                            m_uiLastProcedureCheckDay = 0xFFFFFFFF;
+                            if (reinterpret_cast<::FUN_0041e410_shell *>((((ExtraDataListHelper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pLocation))->FUN_005d43c0())))))->FUN_0041e410() != NULL)
+                            {
+                                m_uiLastProcedureCheckDay = 0;
+                                {
+                                    RegionPoint* pPatrolRefData =
+                                        ((::RegionPoint *)(reinterpret_cast<::FUN_0041fe90_shell *>((((ExtraDataListHelper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pLocation))->FUN_005d43c0())))))->FUN_0041fe90()));
+                                    if (pPatrolRefData != NULL)
+                                    {
+                                        m_uiLastProcedureCheckDay = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() +
+                                                                    (unsigned int)(reinterpret_cast<::CombatTargetTimestamp *>((pPatrolRefData))->FUN_006a7f50() * 1000.0);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+// @fnv 0x009f63a0
+void FUN_009f63a0_shell::FUN_009f63a0(char* apSrcAddr, unsigned int aiCount)
+{
+    unsigned int i = FUN_0042f5a0(f08 - (uintptr_t)apSrcAddr - aiCount, aiCount);
+    ((FUN_0072ba80_shell*)this)->FUN_0072ba80(f04 + (uintptr_t)apSrcAddr * 16, aiCount);
+    ((FUN_006c8bd0_Class*)this)->FUN_006c8bd0(f04 + (uintptr_t)apSrcAddr * 16, f04 + f08 * 16 - i * 16, i);
     f08 -= aiCount;
 }
 
 struct SaveFormIDHelper
 {
-    void __thiscall SerializeFormData(void*, int);
 };
 
 struct BGSSaveGameBuffer
 {
-    void __thiscall FUN_00865f60(unsigned int);
+    void FUN_00865f60(unsigned int);
 };
 
 struct BGSSaveFormBuffer
 {
-    void __thiscall SaveData(void*, int, int);
 };
 
 struct Crime : public BSSimpleArray<class SandboxProcedureData, 1024>
 {
-    TESObjectREFR* __thiscall GetTarget();
 };
 
 struct FUN_009f3850_shell
 {
-    void __thiscall FUN_009f3850(BGSSaveFormBuffer*);
+    void FUN_009f3850(BGSSaveFormBuffer*);
 };
 
 struct FUN_009f5a60_shell
 {
-    void __thiscall SaveCrimeData(BGSSaveFormBuffer*);
+    void SaveCrimeData(BGSSaveFormBuffer*);
 };
 
 // Serializes the crime record's fields, target references and per-crime entries into the save buffer.
 // @fnv 0x009f5a60
-void __thiscall FUN_009f5a60_shell::SaveCrimeData(BGSSaveFormBuffer* apSaveGameBuffer)
+void FUN_009f5a60_shell::SaveCrimeData(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     unsigned int i;
     int iprevTargetDelta3;
     unsigned int isaveGameCount_2;
     SandboxProcedureData* potentialTarget;
+    SandBoxActorPackageData* pData = reinterpret_cast<SandBoxActorPackageData*>(this);
 
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x04), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x08), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x0C), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x14), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x18), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x1C), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x0C), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x30), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x34), 1, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x35), 1, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x36), 1, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x37), 1, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x38), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x40), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->eState, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->eProcedure, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_fProcedureTime, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_fLastProcedureCheckHour, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_fNextProcedureCheckHour, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_uiLastProcedureCheckDay, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_fProcedureTime, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_uiProcedureIndex, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_bNeedsSandboxUpdate, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_bHasFoodMarker, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_bHasChairMarker, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_bHasBedMarker, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_iSerializedValue, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_ucProcedureIndex, 1, 0);
 
     iprevTargetDelta3 =
-        g_timeGlobal.GetTimeStamp() - *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0x48);
+        reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() - pData->m_uiActivityStartDay;
 
-    apSaveGameBuffer->SaveData(&iprevTargetDelta3, 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x4C), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x50), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x54), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x58), 4, 0);
-    apSaveGameBuffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x5C), 6, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&iprevTargetDelta3, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_uiActivityEndDay, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_fActivityStartHour, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_fActivityEndHour, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_eSandboxActivity, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_ucProcedureFlags, 6, 0);
 
-    reinterpret_cast<SaveFormIDHelper*>(apSaveGameBuffer)
-        ->SerializeFormData(*reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x10), 0);
-    reinterpret_cast<SaveFormIDHelper*>(apSaveGameBuffer)
-        ->SerializeFormData(*reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x3C), 0);
-    reinterpret_cast<SaveFormIDHelper*>(apSaveGameBuffer)
-        ->SerializeFormData(*reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x44), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((reinterpret_cast<SaveFormIDHelper*>(apSaveGameBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(pData->pLocation), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((reinterpret_cast<SaveFormIDHelper*>(apSaveGameBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(pData->m_pCurrentTarget), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((reinterpret_cast<SaveFormIDHelper*>(apSaveGameBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(pData->m_pCurrentFurniture), 0);
 
     isaveGameCount_2 =
-        reinterpret_cast<Crime*>(reinterpret_cast<unsigned char*>(this) + 0x20)
-            ? (unsigned int)reinterpret_cast<Crime*>(reinterpret_cast<unsigned char*>(this) + 0x20)->GetTarget()
-            : 0;
+        SimpleArraySize(&pData->m_kProcedureList);
 
     reinterpret_cast<BGSSaveGameBuffer*>(apSaveGameBuffer)->FUN_00865f60(isaveGameCount_2);
 
     for (i = 0; i < isaveGameCount_2; ++i)
     {
-        potentialTarget = &reinterpret_cast<Crime*>(reinterpret_cast<unsigned char*>(this) + 0x20)->GetAt(i);
+        potentialTarget = &(*(::SandboxProcedureData *)(reinterpret_cast<::FUN_009f6190_shell *>(&pData->m_kProcedureList)->FUN_009f6190(i)));
         reinterpret_cast<FUN_009f3850_shell*>(potentialTarget)->FUN_009f3850(apSaveGameBuffer);
     }
 }
@@ -1226,50 +1244,41 @@ void __thiscall FUN_009f5a60_shell::SaveCrimeData(BGSSaveFormBuffer* apSaveGameB
 struct Vec3
 {
     float x, y, z;
-    void __thiscall FUN_00416870(float, float, float);
+public:
+    Vec3();
 };
 struct ActionSource
 {
-    Vec3* __thiscall FUN_00439e90();
 };
 struct ObjectPart
 {
-    ActionSource* __thiscall FUN_005c3420(Vec3*, Vec3*, Vec3*);
-    void* __thiscall FUN_006dd4f0();
 };
 struct Object
 {
-    float __thiscall GetFieldB4Float();
-    float __thiscall GetFloatAtOffsetB0();
-    ObjectPart* __thiscall GetOffsetC();
 };
 struct ElevationProvider
 {
-    bool __thiscall FUN_005547c0(Vec3*, float*);
 };
-extern bool __cdecl FUN_006d34d0(Object*, Vec3*);
-extern float __cdecl FUN_004a4240();
-extern float __cdecl FUN_00476b70(float, float);
 extern float __cdecl FUN_004e44d0(float);
 extern float __cdecl FUN_004e4490(float);
 // Computes a position from the object's parts and elevation provider, writing it into result and overriding z with the provider's height.
 // @fnv 0x006d33c0
 void __cdecl GetObjectPosition(Object* object, Vec3* result)
 {
-    if (FUN_006d34d0(object, result))
+    if (::FUN_006d34d0(object, (::NiPoint3 *)(result)))
         return;
-    float a = FUN_004a4240();
+    float a = ((float)(::FUN_004a4240()));
     float g;
-    float b = FUN_00476b70(object->GetFloatAtOffsetB0(), object->GetFieldB4Float());
+    float b = ::RandomFloat(reinterpret_cast<::FUN_006d2c20_Class *>((object))->GetFloatAtOffsetB0(), ::GetFieldB4Float((char *)(object)));
     Vec3 f;
-    f.FUN_00416870(FUN_004e4490(a) * b, FUN_004e44d0(a) * b, 0.0f);
+    reinterpret_cast<::FUN_00416870_t *>(&(f))->FUN_00416870(FUN_004e4490(a) * b, FUN_004e44d0(a) * b, 0.0f);
     Vec3 c;
     Vec3 e;
-    *result = *object->GetOffsetC()->FUN_005c3420(&c, &e, &f)->FUN_00439e90();
-    ElevationProvider* d = static_cast<ElevationProvider*>(object->GetOffsetC()->FUN_006dd4f0());
+    *result = *((::Vec3 *)(reinterpret_cast<::Point3Offset *>((((::ActionSource *)&(reinterpret_cast<::TaskQueueInterface *>((((::ObjectPart *)(::GetOffsetC((intptr_t)(object))))))->QueueActorAnimationTask((*(::NiPoint3 *)(&c)))))))->ProjectileLaunched({}, {})));
+    ElevationProvider* d = static_cast<ElevationProvider*>(((void *)(reinterpret_cast<::PathingLocation *>((((::ObjectPart *)(::GetOffsetC((intptr_t)(object))))))->GetContainingCell())));
     if (!d)
         return;
-    if (!d->FUN_005547c0(result, &g))
+    if (!reinterpret_cast<::FakeCell *>((d))->FUN_005547c0((*(const ::NiPoint3 *)(result)), (*(float *)(&g))))
         return;
     result->z = g;
 }
@@ -1278,7 +1287,6 @@ struct FalloffPair
 {
     float first;
     float second;
-    void __thiscall FUN_006815c0();
 };
 
 struct FalloffController
@@ -1306,14 +1314,14 @@ struct FalloffController
     float firstOutput;
     float secondOutput;
 
-    void __thiscall UpdateFalloff(float currentTime);
+    void UpdateFalloff(float currentTime);
 };
 
 float __cdecl FUN_004e44d0(float value);
 void __cdecl FUN_007f7a50(float first, float second);
 
 // @fnv 0x007f7970
-void __thiscall FalloffController::UpdateFalloff(float currentTime)
+void FalloffController::UpdateFalloff(float currentTime)
 {
     float elapsed = currentTime - startTime;
     if (elapsed > firstDuration && elapsed > secondDuration)
@@ -1324,7 +1332,6 @@ void __thiscall FalloffController::UpdateFalloff(float currentTime)
     else
     {
         FalloffPair falloffPair;
-        falloffPair.FUN_006815c0();
         falloffPair.first = 1.0f - elapsed / firstDuration;
         falloffPair.second = 1.0f - elapsed / secondDuration;
         firstOutput = FUN_004e44d0(elapsed * firstRate) * firstStrength * falloffPair.first;
@@ -1332,13 +1339,10 @@ void __thiscall FalloffController::UpdateFalloff(float currentTime)
     }
 }
 
-// CheckTimerState: __thiscall, one out-param (unsigned char*), returns bool
+// CheckTimerState: , one out-param (unsigned char*), returns bool
 struct SandboxTimerGlobal
 {
-    int GetCount();
-    float GetLimit();
 };
-extern SandboxTimerGlobal g_sandboxTimerGlobal;
 
 struct FUN_009f3c90_cls
 {
@@ -1368,15 +1372,14 @@ struct FUN_009f3c90_cls
     bool CheckTimerState(unsigned char* out);
 };
 
-extern const double DAT_010356d8;
 
 // @fnv 0x009f3c90
 bool FUN_009f3c90_cls::CheckTimerState(unsigned char* pucOut)
 {
     float count;
     unsigned int ratio;
-    ratio = (unsigned int)g_sandboxTimerGlobal.GetCount();
-    count = g_sandboxTimerGlobal.GetLimit();
+    ratio = (unsigned int)reinterpret_cast<::FUN_009611e0_shell *>(&((*reinterpret_cast<::SandboxTimerGlobal *>(&::g_011de7b8))))->FUN_009611e0();
+    count = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::SandboxTimerGlobal *>(&::g_011de7b8))))->GetGameTime();
     unsigned char rem = 0;
     if (m_flag58 == -1)
     {
@@ -1384,9 +1387,9 @@ bool FUN_009f3c90_cls::CheckTimerState(unsigned char* pucOut)
     }
     unsigned int k = m_cnt4c;
     float lim = m_f50 + m_f54;
-    while (lim >= DAT_010356d8)
+    while (lim >= ::DAT_010356d8)
     {
-        lim -= DAT_010356d8;
+        lim -= ::DAT_010356d8;
         k++;
     }
     if (ratio == k)
@@ -1412,7 +1415,7 @@ struct FUN_009f4600_cls
 {
     char m_pad00[0x24];
     unsigned short m_usFlags;
-    bool __thiscall IsFlag2Clear();
+    bool IsFlag2Clear();
 };
 // @fnv 0x009f4600
 bool FUN_009f4600_cls::IsFlag2Clear()
@@ -1445,16 +1448,12 @@ unsigned char FUN_009f5690_cls::IsFlag20Clear()
 struct SBTarget;
 struct SBPatrolData
 {
-    float GetIdleTime();
 };
 struct SBExtraList
 {
-    SBTarget* GetLinkedRef();
-    SBPatrolData* GetPatrolData();
 };
 struct SBTarget
 {
-    SBExtraList* GetExtraList();
 };
 struct SBProcess
 {
@@ -1787,13 +1786,9 @@ struct SBProcess
 };
 struct SBActor
 {
-    SBProcess* GetProcess();
-    SBTarget* GetLinkedRef();
 };
 struct SBPackage
 {
-    int GetActionRefHandle();
-    SBTarget* GetTargetRef();
 };
 
 struct SandboxTargetData
@@ -1812,35 +1807,34 @@ struct SandboxTargetData
 // @fnv 0x009f3af0
 void SandboxTargetData::FUN_009f3af0(SBActor* apActor, SBPackage* apPackage)
 {
-    switch (apPackage->GetActionRefHandle())
+    switch (reinterpret_cast<::DurationData *>((apPackage))->FUN_00678ca0())
     {
     case 0:
-        pTarget = apPackage->GetTargetRef();
+        pTarget = ((::SBTarget *)(reinterpret_cast<::LocationDescriptor *>((apPackage))->GetLocationReference()));
         break;
     case 4:
     case 5: {
-        SBProcess* pProcess = apActor->GetProcess();
+        SBProcess* pProcess = ((::SBProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apActor))->GetBaseTexture()));
         if (pProcess)
             pTarget = pProcess->GetPackageTargetRef();
         break;
     }
     case 6:
-        pTarget = apActor->GetLinkedRef();
+        pTarget = ((::SBTarget *)(reinterpret_cast<::FUN_00569b80_shell *>((apActor))->FUN_00569b80()));
         break;
     default:
         pTarget = 0;
         break;
     }
-    if (pTarget && pTarget->GetExtraList()->GetLinkedRef())
+    if (pTarget && ((::SBTarget *)(reinterpret_cast<::FUN_0041e410_shell *>((((::SBExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((pTarget))->FUN_005d43c0()))))->FUN_0041e410())))
     {
         uiTimeStamp = 0;
-        SBPatrolData* pPatrol = pTarget->GetExtraList()->GetPatrolData();
+        SBPatrolData* pPatrol = ((::SBPatrolData *)(reinterpret_cast<::FUN_0041fe90_shell *>((((::SBExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((pTarget))->FUN_005d43c0()))))->FUN_0041fe90()));
         if (pPatrol)
-            uiTimeStamp = g_timeGlobal.GetTimeStamp() + (unsigned int)(pPatrol->GetIdleTime() * 1000.0);
+            uiTimeStamp = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() + (unsigned int)(reinterpret_cast<::CombatTargetTimestamp *>((pPatrol))->FUN_006a7f50() * 1000.0);
     }
 }
 
-void __cdecl GetSettingPairValues(int activity, float* start, float* duration);
 struct ActivitySelector : SandBoxActorPackageData
 {
     void SelectActivity();
@@ -1850,11 +1844,11 @@ struct ActivitySelector : SandBoxActorPackageData
 void ActivitySelector::SelectActivity()
 {
     bool start = false;
-    if (!HasActivityEnded(&start))
+    if (!reinterpret_cast<::FUN_009f3c90_cls *>(this)->CheckTimerState((unsigned char *)(bool *)(&start)))
         return;
     float endedToday;
-    unsigned int bestDuration = g_calendar.GetDaysPassed();
-    endedToday = g_calendar.GetGameTime();
+    unsigned int bestDuration = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->FUN_009611e0()));
+    endedToday = (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTime();
     float bestActivity = 3.402823466e+38F;
     float currentHour = 3.402823466e+38F;
     int currentDay;
@@ -1866,7 +1860,7 @@ void ActivitySelector::SelectActivity()
     bool bestDifference = false;
     for (int activity = 0; activity < 4; ++activity)
     {
-        GetSettingPairValues(activity, &found, &bestStart);
+        ::fnv_00643540::GetSettingPairValues(activity, &found, &bestStart);
         bool alreadyStarted;
         bool tomorrow;
         alreadyStarted = endedToday >= found + bestStart;
@@ -2032,23 +2026,17 @@ class SbRef
     virtual void vf1ec();
     virtual void vf1f0();
     virtual SbPoint3* GetPos();
-    SbCell* GetParentCell();
-    unsigned int GetFlags();
 };
 class SbPackage;
 class SbActor : public SbRef
 {
   public:
-    SbRef* GetUsedRef();
     SbPackage* GetCurrentPackage();
 };
 class SbPackage
 {
   public:
     SbPoint3 GetLocationPos(SbActor* apActor);
-    int GetPackageDefaultFloat(SbActor* apActor);
-    bool HasFoodTarget();
-    bool HasBedTarget();
 };
 class SbRefHelper;
 template <class C> class SettingT
@@ -2057,7 +2045,6 @@ template <class C> class SettingT
     float* Float();
 };
 class GameSettingCollection;
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting255;
 struct SandboxTarget
 {
     SbRefHelper* pRef;
@@ -2073,7 +2060,6 @@ struct SandboxTargetArray
     unsigned int uiAlloc;
     unsigned int uiUnk0C;
     void Clear(bool abFree);
-    unsigned int Append(const SandboxTarget& arItem);
 };
 class SbActorPackageData;
 struct SandboxScanContext
@@ -2083,12 +2069,9 @@ struct SandboxScanContext
     SandboxScanContext(SbActor* apActor, SbActorPackageData* apData);
 };
 typedef bool(__cdecl* SandboxScanFunc)(SbRef*, void*);
-bool __cdecl SandboxScanCallback(SbRef* apRef, void* apContext);
 class SbDataHandler
 {
   public:
-    void ForEachRefInRange(SbCell* apCell, SbPoint3* apPos1, float afRadius1, SbPoint3* apPos2, float afRadius2,
-                           SandboxScanFunc apFunc, void* apContext);
 };
 class SbActorPackageData
 {
@@ -2114,53 +2097,119 @@ class SbActorPackageData
 // @fnv 0x009f54d0
 void SbActorPackageData::ScanSandboxTargets(SbActor* apActor)
 {
-    m_kProcedureList.Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(m_kProcedureList))->Clear(true);
     m_bHasBedMarker = false;
     m_bHasChairMarker = false;
     m_bHasFoodMarker = false;
-    float fRadius = *originalRuntimeFloatSetting255.Float();
-    SbCell* pCell = apActor->GetParentCell();
+    float fRadius = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting255))));
+    SbCell* pCell = ((::SbCell *)(reinterpret_cast<::LowProcess *>((apActor))->GetTarget()));
     SbPoint3 kPos7 = *apActor->GetPos();
-    SbPackage* pPackage9 = apActor->GetCurrentPackage();
+    SbPackage* pPackage9 = ((::SbPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((apActor))->FUN_009344a0()));
     if (pPackage9)
     {
         kPos7 = pPackage9->GetLocationPos(apActor);
-        int iRadius4 = pPackage9->GetPackageDefaultFloat(apActor);
+        int iRadius4 = ((int)(reinterpret_cast<::HighProcess *>((pPackage9))->UpdateHighProcessState((::Actor *)(apActor))));
         fRadius = (iRadius4 > 0) ? (float)iRadius4 : fRadius;
     }
     if (pLocation)
     {
         kPos7 = *pLocation->GetPos();
-        pCell = pLocation->GetParentCell();
+        pCell = ((::SbCell *)(reinterpret_cast<::LowProcess *>((pLocation))->GetTarget()));
     }
     SandboxScanContext kContext(apActor, this);
-    ((SbDataHandler*)g_dataHandler)
-        ->ForEachRefInRange(pCell, &kPos7, fRadius, &kPos7, fRadius, SandboxScanCallback, &kContext);
-    if (pPackage9->HasFoodTarget())
+    reinterpret_cast<::TESDataHandler *>((((SbDataHandler*)g_dataHandler)))->GetReferencesInArea((::TESObjectCELL *)(pCell), (*(const ::NiPoint3 *)(&kPos7)), fRadius, (*(const ::NiPoint3 *)(&kPos7)), fRadius, (bool (*)(TESObjectREFR *, intptr_t))(((bool (&)(SbRef *, void *))::AddActivationChoice)), (intptr_t)(&kContext));
+    if (reinterpret_cast<::FUN_009f45e0_shell *>((pPackage9))->IsFlagBit0Clear())
     {
-        SbRef* pUsed = apActor->GetUsedRef();
-        if (pUsed && pUsed->GetFlags())
+        SbRef* pUsed = ((::SbRef *)(reinterpret_cast<::Ref_891d30 *>((apActor))->FUN_00891d30()));
+        if (pUsed && reinterpret_cast<FormFields*>((pUsed))->m_uiFormFlags)
         {
-            m_kProcedureList.Append(SandboxTarget(0, 2, 1));
+            reinterpret_cast<::Host9f6340 *>(&(m_kProcedureList))->AppendElement((::Elem9f6340 *)&(const ::SandboxTarget &)(SandboxTarget(0, 2, 1)));
             m_bHasFoodMarker = true;
         }
     }
-    if (pPackage9->HasBedTarget())
+    if (((bool)(reinterpret_cast<::FUN_009f5690_cls *>((pPackage9))->IsFlag20Clear())))
     {
-        m_kProcedureList.Append(SandboxTarget(0, 3, 1));
+        reinterpret_cast<::Host9f6340 *>(&(m_kProcedureList))->AppendElement((::Elem9f6340 *)&(const ::SandboxTarget &)(SandboxTarget(0, 3, 1)));
     }
 }
 
-extern double DAT_01012638;
-int __cdecl FUN_00ec7d40(int);
 
 struct FUN_009f41f0_owner
 {
-    float __thiscall FUN_009f41f0(float f1, float f2);
+    float FUN_009f41f0(float f1, float f2);
 };
+// Checks the current sandbox target and markers, clears stale flags, and returns whether a new target should be picked based on timers, state and hour difference.
+// @fnv 0x009f43c0
+bool SandBoxActorPackageData::HasProcessTarget(Actor* apActor)
+{
+    {
+        SandboxTargetInfo* pTargetInfo = ((::SandboxTargetInfo *)(reinterpret_cast<::FUN_009344a0_shell *>((((ActorTargetSource*)apActor)))->FUN_009344a0()));
+        {
+            float fValue;
+            {
+                bool bPickNew;
+                if (pTargetInfo != NULL)
+                {
+                    {
+                        bool bChanged = false;
+                        if (m_bHasBedMarker && !reinterpret_cast<::FUN_009f4600_cls *>((pTargetInfo))->IsFlag2Clear())
+                        {
+                            m_bHasBedMarker = false;
+                            bChanged = true;
+                        }
+                        if (m_bHasFoodMarker && !reinterpret_cast<::FUN_009f45e0_shell *>((pTargetInfo))->IsFlagBit0Clear())
+                        {
+                            m_bHasFoodMarker = false;
+                            bChanged = true;
+                        }
+                        if (m_bHasChairMarker && !reinterpret_cast<::FUN_009f4620_shell *>((pTargetInfo))->FUN_009f4620())
+                        {
+                            m_bHasChairMarker = false;
+                            bChanged = true;
+                        }
+                        if (bChanged)
+                        {
+                            m_uiProcedureIndex = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00();
+                            return true;
+                        }
+                    }
+                }
+                if (pLocation != NULL && eProcedure != SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_USE_IDLE_MARKER &&
+                    m_uiLastProcedureCheckDay != 0xFFFFFFFF)
+                {
+                    if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() > m_uiLastProcedureCheckDay)
+                        return true;
+                }
+                if (!IsActorWithinLocationRadius(apActor, true))
+                    return false;
+                if (m_bNeedsSandboxUpdate)
+                    return true;
+                if (eProcedure == SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE || m_fProcedureTime <= 0.0)
+                    return true;
+                if (m_fNextProcedureCheckHour == 0.0)
+                    return true;
+                if (eState != SandBoxActorPackageData__SANDBOX_STATE_SANDBOX_STATE_DOINGSTUFF &&
+                    m_pCurrentTarget != NULL)
+                {
+                    if (reinterpret_cast<::fnv_00567f80::Fn567f80 *>((((TESObjectREFRHelper*)m_pCurrentTarget)))->FUN_00567f80(m_ucProcedureIndex, true))
+                        return true;
+                }
+                if (HasActivityEnded(NULL))
+                    return true;
+                if (IsActivityTime() && reinterpret_cast<::FUN_009f3e20_shell *>(this)->FUN_009f3e20())
+                    return eProcedure != g_procedureForActivity[m_eSandboxActivity];
+                bPickNew = false;
+                fValue = reinterpret_cast<::FUN_009f41f0_owner *>(this)->FUN_009f41f0(m_fLastProcedureCheckHour, (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTime());
+                if (fValue > m_fProcedureTime)
+                    bPickNew = true;
+                return bPickNew;
+            }
+        }
+    }
+}
 
 // @fnv 0x009f41f0
-float __thiscall FUN_009f41f0_owner::FUN_009f41f0(float f1, float f2)
+float FUN_009f41f0_owner::FUN_009f41f0(float f1, float f2)
 {
     char cA;
     char c2;
@@ -2176,7 +2225,7 @@ float __thiscall FUN_009f41f0_owner::FUN_009f41f0(float f1, float f2)
     cK = (char)f2;
     cW = (char)((f2 - cA) * DAT_01012638);
     c6 = (char)(((f2 - cA) * DAT_01012638 - (float)c2) * DAT_01012638);
-    fres = (float)FUN_00ec7d40((int)cK - (int)cA);
+    fres = (float)std::abs((int)cK - (int)cA);
     if (cW > c2)
     {
         fres += (int)cW - (int)c2;
@@ -2312,29 +2361,13 @@ struct ChoiceTargetRef
     virtual void slot1c8();
     virtual void slot1cc();
     virtual void* GetFurnitureSlot();
-    bool FUN_00440d80();
-    bool FUN_004077c0();
-    bool FUN_00440da0();
-    bool FUN_008859e0(ChoiceTargetRef*);
     bool FUN_0057b500();
-    ChoiceBaseForm* FUN_007af430();
-    ChoicePermissions* FUN_009344a0();
-    void* FUN_00567790();
-    bool FUN_005785e0(ChoiceTargetRef*, int);
 };
 struct ChoicePermissions
 {
-    bool IsFlag8Clear();
-    bool IsFlag4Clear();
-    bool IsFlag2Clear();
-    bool FUN_009f4620();
-    bool IsFlagBit0Clear();
 };
 struct ChoiceMarkerData
 {
-    unsigned GetByte5();
-    unsigned FUN_00479e80();
-    bool FUN_00479fb0(ChoiceTargetRef*, ChoiceTargetRef*);
 };
 struct ChoiceBaseForm
 {
@@ -2352,17 +2385,12 @@ struct ChoiceBaseForm
     unsigned unknown2c;
     ChoiceMarkerData markers;
     unsigned FUN_00401170();
-    bool FUN_00509420();
-    bool FUN_005093f0();
 };
 struct ChoiceFurniture
 {
-    void* FUN_00509490();
 };
-ChoiceFurniture* __cdecl FUN_00c54400(void*);
 struct ChoiceCollection
 {
-    unsigned AppendElement(const FUN_009f3800&);
 };
 struct ChoicePlannerView
 {
@@ -2381,83 +2409,80 @@ struct ChoicePlannerView
 };
 struct ChoiceContext
 {
-    ChoicePlannerView* FUN_00726070();
-    ChoiceTargetRef* FUN_00559450();
 };
-extern ChoiceTargetRef* DAT_011dea3c;
 // Validates the target and actor, then adds a planner choice based on the target's form type and permission checks; always returns false.
 // @fnv 0x009f5070
 bool __cdecl AddActivationChoice(ChoiceTargetRef* target, ChoiceContext* pContext)
 {
     ChoiceContext* context = pContext;
-    ChoicePlannerView* planner = context->FUN_00726070();
-    ChoiceTargetRef* actor = context->FUN_00559450();
+    ChoicePlannerView* planner = ((::ChoicePlannerView *)(reinterpret_cast<::Callees *>((context))->FUN_00726070()));
+    ChoiceTargetRef* actor = ((::ChoiceTargetRef *)(::FUN_00559450((int *)(context))));
     if (!planner)
         return false;
-    if (!actor || !actor->FUN_007af430())
+    if (!actor || !((::ChoiceBaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor))->FUN_007af430())))
         return false;
-    if (!target || target->FUN_00440d80() || target->FUN_004077c0() || target->FUN_00440da0() ||
-        (actor->CanActivateSlot(0) && !actor->FUN_008859e0(target)))
+    if (!target || reinterpret_cast<::FUN_00440d80_shell *>((target))->FUN_00440d80() || reinterpret_cast<::FUN_004077c0_shell *>((target))->FUN_004077c0() || reinterpret_cast<::TESForm *>((target))->GetDisabled() ||
+        (actor->CanActivateSlot(0) && !reinterpret_cast<::FUN_008859e0_Class *>((actor))->FUN_008859e0((::TESObject *)(target))))
         return false;
-    ChoicePermissions* permissions = actor->FUN_009344a0();
+    ChoicePermissions* permissions = ((::ChoicePermissions *)(reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0()));
     if (!permissions)
         return false;
     if (target->FUN_0057b500())
         return false;
-    switch (target->FUN_007af430()->FUN_00401170())
+    switch (((::ChoiceBaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430()))->FUN_00401170())
     {
     case 48:
-        if (permissions->IsFlag8Clear() && (!target->FUN_00567790() || target->FUN_005785e0(actor, 1)))
+        if (reinterpret_cast<::FUN_009f54b0_shell *>((permissions))->IsFlag8Clear() && (!((void *)(reinterpret_cast<::OwnerLookupView *>((target))->FUN_00567790())) || reinterpret_cast<::OwnershipReferenceView *>((target))->FUN_005785e0((::Actor *)(actor), 1)))
         {
-            ChoiceBaseForm* markerBase = target->FUN_007af430();
-            unsigned markerCount2 = markerBase->markers.GetByte5();
-            unsigned markerFlags = markerBase->markers.FUN_00479e80();
+            ChoiceBaseForm* markerBase = ((::ChoiceBaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430()));
+            unsigned markerCount2 = reinterpret_cast<::FUN_0092b440_Class *>(&(markerBase->markers))->GetByte5();
+            unsigned markerFlags = ((unsigned int)(reinterpret_cast<::BGSIdleCollection *>(&(markerBase->markers))->GetPickType()));
             bool markerUsed = false;
-            if (markerBase->markers.FUN_00479fb0(actor, target))
-                planner->choices.AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 4, 1));
+            if (reinterpret_cast<::B479FB0IdleList *>(&(markerBase->markers))->FUN_00479fb0((::B479FB0Actor *)(actor), (intptr_t)(target)))
+                reinterpret_cast<::Host9f6340 *>(&(planner->choices))->AppendElement((::Elem9f6340 *)&(const ::FUN_009f3800 &)(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 4, 1)));
         }
         break;
     case 42:
     case 43:
-        if (permissions->IsFlag4Clear() && target->IsActorSlot() && target != DAT_011dea3c && target != actor)
-            planner->choices.AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 5, 1));
+        if (reinterpret_cast<::C901C50Object *>((permissions))->IsFlag4Clear() && target->IsActorSlot() && target != (*reinterpret_cast<::ChoiceTargetRef * *>(&::_g_thePlayer)) && target != actor)
+            reinterpret_cast<::Host9f6340 *>(&(planner->choices))->AppendElement((::Elem9f6340 *)&(const ::FUN_009f3800 &)(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 5, 1)));
         break;
     case 39: {
         void* object8 = target->GetFurnitureSlot();
         if (!object8)
             return false;
-        ChoiceFurniture* furniture = FUN_00c54400(object8);
+        ChoiceFurniture* furniture = ((::ChoiceFurniture *)(::FUN_00c54400((::C54400Owner *)(object8))));
         if (!furniture)
             return false;
-        void* data = furniture->FUN_00509490();
+        void* data = ((void *)(::FUN_00509490((char *)(furniture))));
         if (!data)
             return false;
-        ChoiceBaseForm* furnitureBase2 = target->FUN_007af430();
-        if (permissions->IsFlag2Clear() && furnitureBase2->FUN_00509420() &&
-            (!target->FUN_00567790() || target->FUN_005785e0(actor, 1)))
+        ChoiceBaseForm* furnitureBase2 = ((::ChoiceBaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430()));
+        if (reinterpret_cast<::FUN_009f4600_cls *>((permissions))->IsFlag2Clear() && reinterpret_cast<::TESFurniture *>((furnitureBase2))->GetCanSleepOn() &&
+            (!((void *)(reinterpret_cast<::OwnerLookupView *>((target))->FUN_00567790())) || reinterpret_cast<::OwnershipReferenceView *>((target))->FUN_005785e0((::Actor *)(actor), 1)))
         {
-            planner->choices.AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 1, 1));
+            reinterpret_cast<::Host9f6340 *>(&(planner->choices))->AppendElement((::Elem9f6340 *)&(const ::FUN_009f3800 &)(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 1, 1)));
             planner->flag37 = true;
         }
-        else if (permissions->FUN_009f4620() && furnitureBase2->FUN_005093f0() &&
-                 (!target->FUN_00567790() || target->FUN_005785e0(actor, 1)))
+        else if (reinterpret_cast<::FUN_009f4620_shell *>((permissions))->FUN_009f4620() && reinterpret_cast<::TESFurniture *>((furnitureBase2))->GetCanSitOn() &&
+                 (!((void *)(reinterpret_cast<::OwnerLookupView *>((target))->FUN_00567790())) || reinterpret_cast<::OwnershipReferenceView *>((target))->FUN_005785e0((::Actor *)(actor), 1)))
         {
-            planner->choices.AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 0, 1));
+            reinterpret_cast<::Host9f6340 *>(&(planner->choices))->AppendElement((::Elem9f6340 *)&(const ::FUN_009f3800 &)(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 0, 1)));
             planner->flag36 = true;
         }
-        else if (permissions->FUN_009f4620() && !furnitureBase2->FUN_005093f0() && !furnitureBase2->FUN_00509420() &&
-                 (!target->FUN_00567790() || target->FUN_005785e0(actor, 1)))
+        else if (reinterpret_cast<::FUN_009f4620_shell *>((permissions))->FUN_009f4620() && !reinterpret_cast<::TESFurniture *>((furnitureBase2))->GetCanSitOn() && !reinterpret_cast<::TESFurniture *>((furnitureBase2))->GetCanSleepOn() &&
+                 (!((void *)(reinterpret_cast<::OwnerLookupView *>((target))->FUN_00567790())) || reinterpret_cast<::OwnershipReferenceView *>((target))->FUN_005785e0((::Actor *)(actor), 1)))
         {
-            planner->choices.AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 0, 1));
+            reinterpret_cast<::Host9f6340 *>(&(planner->choices))->AppendElement((::Elem9f6340 *)&(const ::FUN_009f3800 &)(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 0, 1)));
             planner->flag36 = true;
         }
         break;
     }
     case 29:
     case 47:
-        if (permissions->IsFlagBit0Clear() && (!target->FUN_00567790() || target->FUN_005785e0(actor, 1)))
+        if (reinterpret_cast<::FUN_009f45e0_shell *>((permissions))->IsFlagBit0Clear() && (!((void *)(reinterpret_cast<::OwnerLookupView *>((target))->FUN_00567790())) || reinterpret_cast<::OwnershipReferenceView *>((target))->FUN_005785e0((::Actor *)(actor), 1)))
         {
-            planner->choices.AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 2, 1));
+            reinterpret_cast<::Host9f6340 *>(&(planner->choices))->AppendElement((::Elem9f6340 *)&(const ::FUN_009f3800 &)(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 2, 1)));
             planner->flag35 = true;
         }
         break;
@@ -2491,13 +2516,22 @@ class FUN_009f3a70 : public SandboxListBase
   public:
     SandboxChoiceList m_choices;
     virtual ~FUN_009f3a70();
-    void Shutdown();
 };
+// @fnv 0x009f3a40
+void* FUN_009f3a40_t::FUN_009f3a40(unsigned int flags)
+{
+    reinterpret_cast<::FUN_009f3a70 *>(this)->FUN_009f3a70::~FUN_009f3a70();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor that calls Shutdown and then clears the m_choices list with abFree set to 1.
 // @fnv 0x009f3a70
 FUN_009f3a70::~FUN_009f3a70()
 {
-    Shutdown();
-    m_choices.Clear(1);
+    reinterpret_cast<::FUN_009f41c0_shell *>(this)->ResetReference();
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(m_choices))->Clear(1);
 }
+
+#include "generated/data/fallout/ai/sandboxpackage.inc"

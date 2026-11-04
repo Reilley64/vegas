@@ -1,13 +1,25 @@
+#include <cstddef>
 
 // src/bsshader/tileshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/tileshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_012007d8;
 
 // @fnv 0x00bb7d60
+#include <windows.h>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a64160_cls.h"
+#include "fnv/decl/FUN_00a64ce0_shell.h"
+#include "fnv/decl/FUN_00ba9380_cls.h"
+#include "fnv/decl/S_00ba92c0_Prop.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00ba8000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_0106e000.h"
 void* __cdecl FUN_00bb7d60()
 {
-    return &g_012007d8;
+    return &(*reinterpret_cast<void * *>(&::g_012007d8));
 }
 
 struct NiGeometry;
@@ -53,8 +65,6 @@ BSShaderProperty::ShaderPassList* TallGrassShader::SetupGeometryGroup(NiGeometry
     return m_aiIndexedValues;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiTexture
 {
     virtual void F0()
@@ -149,14 +159,13 @@ struct FnvTileShaderProperty
     unsigned char m_unk92;  // +0x92
     unsigned char m_unk93;  // +0x93
 
-    void FUN_00ba8b10(FnvTileShaderProperty* dst, int flag);
-    void CopyTileShaderProperty(FnvTileShaderProperty* dst, int flag);
+    void CopyTileShaderProperty(FnvTileShaderProperty* dst, void* flag);
 };
 
 // @fnv 0x00bb7ac0
-void FnvTileShaderProperty::CopyTileShaderProperty(FnvTileShaderProperty* dst, int flag)
+void FnvTileShaderProperty::CopyTileShaderProperty(FnvTileShaderProperty* dst, void* flag)
 {
-    FUN_00ba8b10(dst, flag);
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(dst), (::CloningProcess *)((flag)));
 
     NiTexture* pOldTile = dst->m_pkTile;
     if (pOldTile != m_pkTile)
@@ -181,8 +190,6 @@ void FnvTileShaderProperty::CopyTileShaderProperty(FnvTileShaderProperty* dst, i
 
 struct NiMemObjectAllocation
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct TilePropertyClone : NiMemObjectAllocation, FnvTileShaderProperty
 {
@@ -197,15 +204,14 @@ struct TilePropertyClone : NiMemObjectAllocation, FnvTileShaderProperty
 };
 struct TileCloneSource
 {
-    void CopyTileShaderProperty(TilePropertyClone*, int);
-    TilePropertyClone* CreateTilePropertyClone(int);
+    TilePropertyClone* CreateTilePropertyClone(void*);
 };
 // Allocates a TilePropertyClone with false, initializes it via CopyTileShaderProperty with flag, and returns it.
 // @fnv 0x00bb7e70
-TilePropertyClone* TileCloneSource::CreateTilePropertyClone(int flag)
+TilePropertyClone* TileCloneSource::CreateTilePropertyClone(void* flag)
 {
     TilePropertyClone* result = new TilePropertyClone(false);
-    CopyTileShaderProperty(result, flag);
+    reinterpret_cast<::FnvTileShaderProperty *>(this)->CopyTileShaderProperty((::FnvTileShaderProperty *)(result), flag);
     return result;
 }
 
@@ -506,13 +512,10 @@ struct NiStreamStub
     int unk244;
     int unk248;
     NiBinStream* m_pBackingStream;
-    void FUN_00a64ce0(unsigned int* out);
 };
 struct FUN_sub94
 {
-    void FUN_004037f0(unsigned int a, int b);
 };
-void __cdecl FUN_00aa10f0(unsigned int v);
 template <class T> inline void SaveBin(NiBinStream& kStream, const T& val)
 {
     unsigned int uiSize = sizeof(T);
@@ -559,19 +562,18 @@ struct FUN_00bb7b60_cls
     int m_8c;
     int unk90;
     FUN_sub94 m_94;
-    void FUN_00ba92c0(NiStreamStub* a1);
     void FUN_00bb7b60(NiStreamStub* a1);
 };
 // Calls FUN_00ba92c0, saves m_8c to the backing stream, reads a value via FUN_00a64ce0, and passes it to m_94 and FUN_00aa10f0.
 // @fnv 0x00bb7b60
 void FUN_00bb7b60_cls::FUN_00bb7b60(NiStreamStub* a1)
 {
-    FUN_00ba92c0(a1);
+    reinterpret_cast<::S_00ba92c0_Prop *>(this)->FUN_00ba92c0((*(::S_00ba92c0_Stream *)(a1)));
     SaveBin(*a1->m_pBackingStream, m_8c);
-    unsigned int v = 0;
-    a1->FUN_00a64ce0(&v);
-    m_94.FUN_004037f0(v, 0);
-    FUN_00aa10f0(v);
+    char* v = 0;
+    reinterpret_cast<::FUN_00a64ce0_shell *>((a1))->FUN_00a64ce0(&v);
+    reinterpret_cast<::TextString *>(&(m_94))->FUN_004037f0(v, 0);
+    ::FUN_00aa10f0(v);
 }
 
 namespace fnv_00bb7be0 {
@@ -744,7 +746,6 @@ struct NiStreamStub
     int unk248;
     int unk24c;
     NiBinStream* m_pBackingStream;
-    void FUN_00a64160(int a1);
 };
 
 struct FUN_00bb7be0_cls
@@ -786,8 +787,7 @@ struct FUN_00bb7be0_cls
     int unk88;
     int m_8c;
     int unk90;
-    int m_94;
-    void FUN_00ba9380(NiStreamStub* a1);
+    char* m_94;
     void FUN_00bb7be0(NiStreamStub* a1);
 };
 
@@ -800,9 +800,9 @@ template <class T> inline void SaveBin(NiBinStream& kStream, const T& val)
 // @fnv 0x00bb7be0
 void FUN_00bb7be0_cls::FUN_00bb7be0(NiStreamStub* a1)
 {
-    FUN_00ba9380(a1);
+    reinterpret_cast<::FUN_00ba9380_cls *>(this)->FUN_00ba9380(a1);
     SaveBin(*a1->m_pBackingStream, m_8c);
-    a1->FUN_00a64160(m_94);
+    reinterpret_cast<::FUN_00a64160_cls *>((a1))->FUN_00a64160(m_94);
 }
 }  // namespace fnv_00bb7be0
 
@@ -849,9 +849,7 @@ template <class T> class Pointer_bb7d
 class TexturePool_bb7d
 {
   public:
-    void FUN_00aa4060(void* pvHandle);
 };
-extern TexturePool_bb7d DAT_011f6238;
 
 struct PooledTexture_bb7d
 {
@@ -861,7 +859,7 @@ struct PooledTexture_bb7d
     ~PooledTexture_bb7d()
     {
         if (m_pvHandle)
-            DAT_011f6238.FUN_00aa4060(m_pvHandle);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::TexturePool_bb7d *>(&::g_memoryManager))))->FUN_00aa4060(m_pvHandle);
         m_pvHandle = 0;
         m_usSecondValue = 0;
         m_usFirstValue = 0;
@@ -893,4 +891,12 @@ class FUN_00bb7d70 : public ShaderBase_bb7d
 FUN_00bb7d70::~FUN_00bb7d70()
 {
     m_spTexture0 = 0;
+}
+
+void* __cdecl FUN_00bb7d60();
+
+// @fnv 0x00706e80
+float FUN_00706e80()
+{
+    return ::DAT_0106ec38;
 }

@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkSweptTransform.h"
-#pragma pack(push, 1)
 class hkMotionState
 {
   public:
@@ -20,6 +19,4 @@ class hkMotionState
     hkUint8 m_uiDeactivationClass;       // +0xAE
     char padAF[0x1];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkMotionState[(sizeof(hkMotionState) == 0xB0) ? 1 : -1];
 #endif

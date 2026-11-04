@@ -1,10 +1,19 @@
 // fallout_shared/tesaiform_decls.h: declares PackageList, PackedRecordData, TESAIForm, Actor, BGSCameraPath and more
 
+#include "fnv/decl/FUN_004f6de0_shell.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00824000.h"
 #include "BaseFormComponent.h"
 class TESPackage;
 class Actor;
 class TESActorBase;
 template <class T> class BSSimpleList;
+class TESForm;
+class TESPackage;
 class PackageList
 {
   public:
@@ -12,6 +21,10 @@ class PackageList
     void ClearPackageList();
     TESPackage* GetPackageForActor(Actor*);
     void CollectEligiblePackages(Actor*, BSSimpleList<TESPackage*>*, float, float);
+public:
+    void AddPackage(::TESPackage *);
+public:
+    void InitItem(::TESForm *);
 };
 struct PackedRecordData
 {
@@ -47,8 +60,6 @@ class TESAIForm : public BaseFormComponent
     void InitializeComponent();
     unsigned char GetAssistance();
     unsigned char GetResponsibility();
-    unsigned char FUN_004f6de0();
-    unsigned char FUN_0062f2f0();
     void SetAggression(unsigned char, bool);
     void SetAssistance(unsigned char);
     void SetConfidence(unsigned char, bool);
@@ -61,7 +72,6 @@ class TESAIForm : public BaseFormComponent
     int GetTrainingSkill();
     void SetTrainingSkill(int);
     void SetTrainingSkillLevel(unsigned char);
-    void DispatchToOuter(int);
 };
 class Actor
 {
@@ -81,7 +91,6 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
 class GameSettingCollection;
 template <class T> class SettingT
@@ -107,25 +116,21 @@ class PatrolActorPackageData
 class BSAudio
 {
   public:
-    bool FUN_005bb4d0();
 };
 class ActiveEffect
 {
   public:
-    bool FUN_00705cf0();
-    bool GetByteAtOffset17();
+public:
+    bool IsDone() const;
 };
 class TimeGlobal
 {
   public:
-    unsigned int GetTimeStamp();
 };
 class TESForm
 {
   public:
-    unsigned int GetFormID();
 };
 namespace ActorValue {
 enum Index;
-bool IsSkill(Index);
 }

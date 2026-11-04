@@ -4,33 +4,21 @@
 // compiled after them; this function takes name in eax and stringTable in ebx, so it gets a file without them. The declarations
 // below are copied from hkpmeshweldingutility.cpp.
 
-struct S_00ddecf0_Heap;
-struct S_00ddecf0_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00ddecf0_Heap* m_pStreamAllocator;
-    S_00ddecf0_Heap& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-S_00ddecf0_Router* FUN_00c85750();
-void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize) throw();
-
+#include "fnv/symbols_00c85000.h"
+#include <new>
+#include "fnv/decl/CB0StringPtr.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "havok/hkMemoryRouter.h"
 extern const char DAT_010d8038[];
 
 struct S00ddf070_StringPtr
 {
     const char* m_pcText;
     S00ddf070_StringPtr* FUN_00cb0b80(const char* s) throw();
-    S00ddf070_StringPtr* FUN_00cb0bd0(const S00ddf070_StringPtr& other) throw();
-    void FUN_00cb0c00() throw();
     const char* cString() const
     {
-        return (const char*)((unsigned int)m_pcText & ~1u);
+        return (const char*)((uintptr_t)m_pcText & ~(uintptr_t)1);
     }
 };
 struct S00ddf070_StringArray
@@ -71,13 +59,7 @@ struct S00ddf070_Node
     int unk54;
     S00ddf070_Node* FUN_00e0d000(S00ddf070_Node* parent, const char* name, int type) throw();
 };
-struct S00ddf070_Heap
-{
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int numBytes) throw();
-};
 
-int __cdecl FUN_00cb0fa0(const char* a, const char* b) throw();
 
 // Finds or creates a child node by name, appends the name to the string pool if new, and accumulates value, count, and two counters on the node.
 // @fnv 0x00ddf070
@@ -92,7 +74,7 @@ static __declspec(noinline) S00ddf070_Node* FUN_00ddf070(S00ddf070_Node* parent,
     S00ddf070_Node* child = 0;
     for (int i = 0; parent && i < parent->m_children.GetLogicalSize(); i++)
     {
-        if (FUN_00cb0fa0(parent->m_children[i]->m_name, name) == 0)
+        if (::fnv_00cb0fa0::FUN_00cb0fa0(parent->m_children[i]->m_name, name) == 0)
         {
             child = parent->m_children[i];
             break;
@@ -105,18 +87,18 @@ static __declspec(noinline) S00ddf070_Node* FUN_00ddf070(S00ddf070_Node* parent,
             {
                 S00ddf070_StringPtr strName;
                 strName.FUN_00cb0b80(name);
-                S00ddf070_Heap& heap = *(S00ddf070_Heap*)&FUN_00c85750()->heap();
+                hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
                 if (strings->m_iElementCount == (strings->m_iCapacityState & 0x3fffffff))
-                    ResizeAudioStream(&heap, strings, 4);
+                    ::ResizeAudioStream((::AudioAllocator *)(void *)(&heap), (::AudioStream *)(strings), 4);
                 S00ddf070_StringPtr* dest = strings->m_data + strings->m_iElementCount;
                 if (dest)
-                    dest->FUN_00cb0bd0(strName);
+                    new ((void *)(dest)) ::CB0StringPtr((const ::CB0StringPtr &)(strName));
                 strings->m_iElementCount++;
-                strName.FUN_00cb0c00();
+                ::FUN_00cb0c00((intptr_t)&(strName));
             }
             name = strings->back().cString();
         }
-        void* mem = ((S00ddf070_Heap*)&FUN_00c85750()->heap())->AllocateMemoryBlock(0x58);
+        void* mem = hkMemoryRouter::getInstance().heap().blockAlloc(0x58);
         child = mem ? ((S00ddf070_Node*)mem)->FUN_00e0d000(parent, name, 1) : 0;
     }
     child->m_uiFilterValue[0] += (float)value;
@@ -135,3 +117,5 @@ void S00ddf070_Caller()
 {
     g00ddf070_out = FUN_00ddf070(g00ddf070_parent, g00ddf070_name, g00ddf070_v, g00ddf070_v, g00ddf070_strings);
 }
+
+#include "generated/data/staging/blk_00dc0000_o2_welding.inc"

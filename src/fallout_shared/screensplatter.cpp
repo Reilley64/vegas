@@ -1,12 +1,48 @@
 // fallout_shared/screensplatter.cpp: ScreenSplatter (16 functions)
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/CamLook.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_004def90_Class.h"
+#include "fnv/decl/FUN_00622d00_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/decl/FUN_00a71b70_cls.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/fnv_00622d60__xCaster.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_004e0000.h"
+#include "fnv/symbols_005db000.h"
+#include "fnv/symbols_00622000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00b81000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_01189000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 #include "screensplatter_decls.h"
 
 // @fnv 0x004e0540
 void ScreenSplatter::Init()
 {
     AutoMemContext m_uiMemoryContext(static_cast<MEM_CONTEXT>(7), true, &DAT_01022ab8, 181);
-    DAT_011c7834 = *reinterpret_cast<unsigned char*>(DAT_011c784c.GetLifeStateControlFlag());
+    DAT_011c7834 = *reinterpret_cast<unsigned char*>((*reinterpret_cast<::ProcessLists *>(&::g_011c784c)).GetLifeStateControlFlag());
     if (DAT_011c7834)
     {
         ScreenSplatterInitLocals initLocals;
@@ -14,44 +50,42 @@ void ScreenSplatter::Init()
         initLocals.aspect = static_cast<float>(static_cast<double>(initLocals.renderer->GetRenderTargetWidth()) /
                                                initLocals.renderer->GetRenderTargetHeight());
 
-        DAT_011c7840 = reinterpret_cast<NiAVObject*>(new FUN_00a712f0());
+        (*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)) = reinterpret_cast<NiAVObject*>(new FUN_00a712f0());
 
-        reinterpret_cast<NiAVObject*>(DAT_011c7840.operator->())->FUN_00440460(NiPoint3(0.0f, 0.0f, DAT_01022960));
+        reinterpret_cast<::FUN_00440460_S *>((reinterpret_cast<NiAVObject*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)).operator->())))->FUN_00440460((const ::V3 *)&(const ::NiPoint3 &)(NiPoint3(0.0f, 0.0f, DAT_01022960)));
 
         reinterpret_cast<NiUpdateData*>(&initLocals.firstData)->NiUpdateData::NiUpdateData(0.0f, 0, 0);
-        reinterpret_cast<NiNode*>(DAT_011c7840.operator->())
-            ->Update(*reinterpret_cast<NiUpdateData*>(&initLocals.firstData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)).operator->())))->FUN_00a59c60((std::intptr_t)&(*reinterpret_cast<NiUpdateData*>(&initLocals.firstData)));
 
-        reinterpret_cast<NiCamera*>(DAT_011c7840.operator->())->AimAt(NiPoint3::ZERO, DAT_011a9478);
+        reinterpret_cast<::CamLook *>((reinterpret_cast<NiCamera*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)).operator->())))->SetLookAt((const ::CamPoint &)(NiPoint3::ZERO), (const ::CamPoint &)(DAT_011a9478));
 
-        reinterpret_cast<NiFrustum*>(&initLocals.frustum)->NiFrustum::NiFrustum(false);
+        reinterpret_cast<::FUN_00a71b70_cls *>((reinterpret_cast<NiFrustum*>(&initLocals.frustum)))->FUN_00a71b70(false);
         initLocals.frustum.ortho = false;
-        initLocals.frustum.top = DAT_01016248;
+        initLocals.frustum.top = ::fnv_00c88020::DAT_01016248;
         initLocals.frustum.bottom = DAT_0102295c;
         initLocals.frustum.left = static_cast<float>(initLocals.aspect * DAT_01011598);
-        initLocals.frustum.right = static_cast<float>(initLocals.aspect * runtimeInitializationDouble1);
+        initLocals.frustum.right = static_cast<float>(initLocals.aspect * ::DAT_01011588);
         initLocals.frustum.farPlane = DAT_01022958;
         initLocals.frustum.nearPlane = 1.0f;
-        reinterpret_cast<NiCamera*>(DAT_011c7840.operator->())
+        reinterpret_cast<NiCamera*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)).operator->())
             ->UpdateViewFrustum(*reinterpret_cast<NiFrustum*>(&initLocals.frustum));
 
         reinterpret_cast<NiUpdateData*>(&initLocals.secondData)->NiUpdateData::NiUpdateData(0.0f, 0, 0);
-        reinterpret_cast<NiNode*>(DAT_011c7840.operator->())
-            ->Update(*reinterpret_cast<NiUpdateData*>(&initLocals.secondData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)).operator->())))->FUN_00a59c60((std::intptr_t)&(*reinterpret_cast<NiUpdateData*>(&initLocals.secondData)));
         DAT_01189550 = initLocals.frustum.right;
         DAT_01189554 = initLocals.frustum.top;
 
-        DAT_011c786c = reinterpret_cast<NiAVObject*>(new NiSortAdjustNode(0));
+        (*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)) = reinterpret_cast<NiAVObject*>(new NiSortAdjustNode(0));
         DAT_011c7828 = 0;
 
         SkyTextureManager::LoadTextureFromPath(
-            &DAT_011c7864, reinterpret_cast<SettingT_GameSettingCollection_*>(&DAT_011ce918)->String());
+            &DAT_011c7864, ((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<SettingT_GameSettingCollection_*>(&(*reinterpret_cast<unsigned char *>(&::g_011ce918)))))->GetMenuTitle())));
         SkyTextureManager::LoadTextureFromPath(
-            &DAT_011c7860, reinterpret_cast<SettingT_GameSettingCollection_*>(&DAT_011ce284)->String());
-        if (DAT_011f941e)
+            &DAT_011c7860, ((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<SettingT_GameSettingCollection_*>(&(*reinterpret_cast<unsigned char *>(&::g_011ce284)))))->GetMenuTitle())));
+        if ((*reinterpret_cast<unsigned char *>(&::DAT_011f941e)))
         {
             SkyTextureManager::LoadTextureFromPath(
-                &DAT_011c7868, reinterpret_cast<SettingT_GameSettingCollection_*>(&DAT_011cede8)->String());
+                &DAT_011c7868, ((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<SettingT_GameSettingCollection_*>(&(*reinterpret_cast<unsigned char *>(&::g_011cede8)))))->GetMenuTitle())));
         }
     }
 }
@@ -62,7 +96,7 @@ void ScreenSplatter::Clear()
 {
     if (DAT_011c7834)
     {
-        reinterpret_cast<NiNode*>(DAT_011c786c.operator->())->FUN_004def90();
+        reinterpret_cast<::FUN_004def90_Class *>((reinterpret_cast<NiNode*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())))->FUN_004def90();
         DAT_011c7828 = 0;
     }
 }
@@ -92,7 +126,6 @@ class BSFadeNode
     BSFadeNode(const char* name);
 };
 
-extern BSFadeNode* DAT_011c7830;
 
 // Allocates a BSFadeNode named "SPD" and stores it in DAT_011c7830.
 // @fnv 0x004e0050
@@ -103,7 +136,6 @@ void CreateSpdFadeNode()
 
 struct BSFadeNode;
 
-extern BSFadeNode* DAT_011c7830;
 
 // @fnv 0x004e0320
 BSFadeNode* FUN_004e0320()
@@ -112,7 +144,6 @@ BSFadeNode* FUN_004e0320()
 }
 
 struct GlobalObject_00a7b610;
-extern GlobalObject_00a7b610 g_011c7844;
 
 struct FUN_004e0530_shell
 {
@@ -120,9 +151,9 @@ struct FUN_004e0530_shell
 };
 
 // @fnv 0x004e0530
-GlobalObject_00a7b610* __thiscall FUN_004e0530_shell::GetGlobalObject()
+GlobalObject_00a7b610* FUN_004e0530_shell::GetGlobalObject()
 {
-    return &g_011c7844;
+    return &::g_011c7844;
 }
 
 // @fnv 0x00622ba0
@@ -131,12 +162,11 @@ float FUN_00622ba0()
     return 32.0f;
 }
 
-extern "C" const float runtimeFloatSettingDefault38;
 
 // @fnv 0x00622bb0
 float FUN_00622bb0()
 {
-    return runtimeFloatSettingDefault38;
+    return ::DAT_01032adc;
 }
 
 namespace fnv_004e00d0 {
@@ -147,24 +177,23 @@ struct Holder_004b9900
 {
     int FUN_004b9900(int);
 };
-extern BSFadeNode* DAT_011c7830;
 // Calls FUN_004b9900(1) on DAT_011c7830 if non-null, then sets DAT_011c7830 to null.
 // @fnv 0x004e00d0
 void FUN_004e00d0()
 {
     BSFadeNode* b;
     {
-        BSFadeNode* a = DAT_011c7830;
+        BSFadeNode* a = (*reinterpret_cast<::fnv_004e00d0::BSFadeNode * *>(&::DAT_011c7830));
         b = a;
     }
     (b ? ((Holder_004b9900*)b)->FUN_004b9900(1) : 0);
-    DAT_011c7830 = 0;
+    (*reinterpret_cast<::fnv_004e00d0::BSFadeNode * *>(&::DAT_011c7830)) = 0;
 }
 }  // namespace fnv_004e00d0
 
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct GO
 {
@@ -175,42 +204,36 @@ void FUN_004e0800()
 {
     if (DAT_011c7834)
     {
-        ((NiNode*)((Flt*)&DAT_011c786c)->operator unsigned int())->FUN_004def90();
-        ((GO*)&DAT_011c786c)->operator=(0);
-        ((GO*)&DAT_011c7840)->operator=(0);
+        reinterpret_cast<::FUN_004def90_Class *>((((NiNode*)((Flt*)&(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)))->operator std::uintptr_t())))->FUN_004def90();
+        ((GO*)&(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)))->operator=(0);
+        ((GO*)&(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)))->operator=(0);
     }
     DAT_011c7834 = 0;
     for (int i = 0; i < 3; ++i)
         ((GO*)((char*)&DAT_011c7860 + i * 4))->operator=(0);
 }
 
-void __cdecl CallWithParam(int);
+void __cdecl CallWithParam(std::intptr_t);
 struct Dummy00622c50
 {
-    void FUN_00622d00();
     void* FUN_00622c50(unsigned int flags);
 };
 // Calls FUN_00622d00, then if bit 0 of flags is set calls CallWithParam with this, and returns this.
 // @fnv 0x00622c50
 void* Dummy00622c50::FUN_00622c50(unsigned int flags)
 {
-    FUN_00622d00();
+    reinterpret_cast<::FUN_00622d00_Class *>(this)->FUN_00622d00_Class::~FUN_00622d00_Class();
     if (flags & 1)
-        CallWithParam((int)this);
+        CallWithParam((std::intptr_t)this);
     return this;
 }
 
 struct IntSetting
 {
-    int* FUN_0043d4d0();
 };
 struct FloatSetting
 {
-    float* FUN_00403e20();
 };
-extern IntSetting DAT_011cf2b8;
-extern FloatSetting DAT_011cfd4c;
-unsigned int FUN_0042f5a0(unsigned int, unsigned int);
 struct Params
 {
     float a, b, c;
@@ -220,7 +243,6 @@ struct FUN_004e04e0 : NiMemObject
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
     FUN_004e04e0(const Params&);
-    unsigned int FUN_007d6bb0();
 };
 class NiFixedString
 {
@@ -232,11 +254,7 @@ class NiFixedString
 };
 struct ObjectProxy
 {
-    void SetExtraDataName(FUN_004e04e0*);
-    void AssignFixedString(const NiFixedString&);
 };
-ObjectProxy* CreateScatterShapes(unsigned int);
-void FUN_00b81420(ObjectProxy*, unsigned int);
 struct RootProxy
 {
     virtual void unk00();
@@ -295,7 +313,6 @@ struct RootProxy
     virtual void unkd4();
     virtual void unkd8();
     virtual void Attach(ObjectProxy*, bool);
-    void FUN_00a59c60(const NiUpdateData&);
 };
 // If screen splatter is enabled, allocates a splatter proxy for the requested amount, attaches it to the root, and updates it.
 // @fnv 0x004e0330
@@ -303,10 +320,10 @@ void FUN_004e0330(unsigned int requested, float time)
 {
     if (DAT_011c7834)
     {
-        unsigned int p = FUN_0042f5a0(requested, *DAT_011cf2b8.FUN_0043d4d0() - DAT_011c7828);
+        unsigned int p = FUN_0042f5a0(requested, *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011cf2b8)))))) - DAT_011c7828);
         if (p > 0)
         {
-            ObjectProxy* a = CreateScatterShapes(p);
+            ObjectProxy* a = ((::ObjectProxy *)(::CreateScatterShapes(p)));
             DAT_011c7828 += p;
             Params s;
             s.c = 1.0f;
@@ -314,15 +331,15 @@ void FUN_004e0330(unsigned int requested, float time)
             if (time > 0.0)
                 s.b = time;
             else
-                s.b = *DAT_011cfd4c.FUN_00403e20();
+                s.b = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting735))))));
             s.d = p;
             FUN_004e04e0* h = new FUN_004e04e0(s);
-            a->SetExtraDataName(h);
-            a->AssignFixedString(NiFixedString("ScreenSplatterRoot"));
-            ((RootProxy*)DAT_011c786c.operator->())->Attach(a, true);
-            FUN_00b81420(a, h->FUN_007d6bb0());
+            reinterpret_cast<::FUN_00a5bca0_shell *>((a))->SetExtraDataName((::NiExtraData *)(h));
+            ::AssignFixedString((char *)(a), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("ScreenSplatterRoot")), {});
+            ((RootProxy*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())->Attach(a, true);
+            ::FUN_00b81420((::S_00b81420_AVObject *)(a), ((std::uintptr_t)(reinterpret_cast<::NonActorMagicTarget *>((h))->GetActiveEffectList())));
             NiUpdateData i(0.0f, false, false);
-            ((RootProxy*)DAT_011c786c.operator->())->FUN_00a59c60(i);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((RootProxy*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())))->FUN_00a59c60((std::intptr_t)&(i));
         }
     }
 }
@@ -336,17 +353,13 @@ struct OpacityFadeState
 };
 struct ExtraShell
 {
-    OpacityFadeState* GetOffsetC();
 };
 struct ObjShell
 {
-    ExtraShell* FUN_00a5bdd0(BSFadeNode*);
-    void FUN_00a59c60(const NiUpdateData&);
 };
 struct RootCalls
 {
     unsigned int FUN_0043b480();
-    NiAVObject* FUN_0043b4a0(unsigned int);
 };
 struct SplatterRoot : RootProxy
 {
@@ -358,19 +371,11 @@ struct SplatterRoot : RootProxy
 };
 struct TimeGlobal
 {
-    float FUN_0084d030();
 };
-extern TimeGlobal g_timeGlobal;
 struct SettingF
 {
-    float* FUN_00403e20();
 };
-extern SettingF DAT_011ceeb4;
-extern SettingF DAT_011cf6a8;
-extern SettingF DAT_011cfc2c;
 extern unsigned int DAT_011c7828;
-float __cdecl LinearInterpolate(float, float, float, float, float);
-float __cdecl FUN_0040ebd0(float, float);
 void __cdecl FUN_004de8a0(float);
 void __cdecl FUN_004de8b0(float);
 void __cdecl FUN_004de8c0(float);
@@ -385,33 +390,33 @@ void FUN_004e0110()
         float elapsed_2;
         unsigned int count;
         float splash5;
-        count = ((RootCalls*)DAT_011c786c.operator->())->FUN_0043b480();
-        elapsed_2 = g_timeGlobal.FUN_0084d030();
+        count = ((RootCalls*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())->FUN_0043b480();
+        elapsed_2 = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
         for (unsigned int i5 = 0; i5 < count; i5++)
         {
-            NiAVObject* child4 = ((RootCalls*)DAT_011c786c.operator->())->FUN_0043b4a0(i5);
+            NiAVObject* child4 = reinterpret_cast<::NiNode *>((((RootCalls*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())))->GetAt(i5);
             if (child4)
             {
-                ExtraShell* extra4 = ((ObjShell*)child4)->FUN_00a5bdd0(FUN_004e0320());
-                OpacityFadeState* data = extra4->GetOffsetC();
+                ExtraShell* extra4 = ((::ExtraShell *)(reinterpret_cast<::NiAVObject *>((((ObjShell*)child4)))->GetExtraData((*(const ::NiFixedString *)(FUN_004e0320())))));
+                OpacityFadeState* data = ((::OpacityFadeState *)(::GetOffsetC((std::intptr_t)(extra4))));
                 data->age += elapsed_2;
                 if (data->age >= data->life)
                 {
                     DAT_011c7828 -= data->count;
-                    ((SplatterRoot*)DAT_011c786c.operator->())->DetachAt(i5);
+                    ((SplatterRoot*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())->DetachAt(i5);
                 }
                 else
                 {
-                    if (data->age / data->life >= *DAT_011cfc2c.FUN_00403e20())
-                        data->alpha = 1.0f - LinearInterpolate(0.0f, 1.0f, *DAT_011cfc2c.FUN_00403e20() * data->life,
+                    if (data->age / data->life >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting736)))))))
+                        data->alpha = 1.0f - LinearInterpolate(0.0f, 1.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting736)))))) * data->life,
                                                                data->life, data->age);
                     NiUpdateData updateDataA(data->age, true, false);
-                    ((ObjShell*)child4)->FUN_00a59c60(updateDataA);
+                    reinterpret_cast<::FUN_00a59c60_cls *>((((ObjShell*)child4)))->FUN_00a59c60((std::intptr_t)&(updateDataA));
                 }
             }
         }
-        FUN_004de8a0(*DAT_011ceeb4.FUN_00403e20());
-        FUN_004de8b0(*DAT_011cf6a8.FUN_00403e20());
+        FUN_004de8a0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting742)))))));
+        FUN_004de8b0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_011cf6a8)))))));
         splash5 = FUN_004de8d0();
         if (splash5 < 1.0)
         {
@@ -435,7 +440,6 @@ struct FUN_004e04e0_quad
 
 struct FUN_004e04e0_base
 {
-    void FUN_00a7b440(void* node);
 };
 
 struct FUN_004e04e0_cls : FUN_004e04e0_base
@@ -452,7 +456,7 @@ struct FUN_004e04e0_cls : FUN_004e04e0_base
 // @fnv 0x004e04e0
 FUN_004e04e0_cls* FUN_004e04e0_cls::FUN_004e04e0(const FUN_004e04e0_quad* pQuad)
 {
-    FUN_00a7b440(FUN_004e0320());
+    new ((void *)this) ::NiExtraData((*(const ::NiFixedString *)(FUN_004e0320())));
     m_pVTable = (void*)DAT_01022a24;
     m_0c = *pQuad;
     return this;
@@ -501,13 +505,11 @@ namespace ScreenSplatterImpl {
 class FUN_00622c80 : public FUN_00620ff0
 {
   public:
-    static void operator delete(void*);
 
   private:
   public:
     FUN_00622c80(float value, unsigned int id);
 
-    void FUN_00622d60(float value, unsigned int id);
 
     int unk000, unk004, unk008, unk00C, unk010, unk014, unk018, unk01C, unk020, unk024, unk028, unk02C;
     int unk030, unk034, unk038, unk03C, unk040, unk044, unk048, unk04C, unk050, unk054, unk058, unk05C;
@@ -536,6 +538,8 @@ class FUN_00622c80 : public FUN_00620ff0
 // @fnv 0x00622c80
 FUN_00622c80::FUN_00622c80(float value, unsigned int id) : m_kSplatters(0)
 {
-    FUN_00622d60(value, id);
+    reinterpret_cast<::fnv_00622d60::xCaster *>(this)->FUN_00622d60(value, id);
 }
 }
+
+#include "generated/data/fallout_shared/screensplatter.inc"

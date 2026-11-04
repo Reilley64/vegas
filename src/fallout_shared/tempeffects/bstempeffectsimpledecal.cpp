@@ -1,6 +1,108 @@
 // fallout_shared/tempeffects/bstempeffectsimpledecal.cpp: BSTempEffectSimpleDecal, NiPoint3, DecalStub, DecalHolder and more (27 functions)
 
+#include "fnv_result_slot.h"
+#include <cstdint>
+#include <new>
+#include <cmath>
+#include "fnv/decl/BSFaceGenKeyframe.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/DecalListManager.h"
+#include "fnv/decl/FUN_00438230_Class.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00456650_shell.h"
+#include "fnv/decl/FUN_00458e20_shell.h"
+#include "fnv/decl/FUN_0049ec60.h"
+#include "fnv/decl/FUN_0049ed90_shell.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004a8030_shell.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_004bc480_shell.h"
+#include "fnv/decl/FUN_004ee560_shell.h"
+#include "fnv/decl/FUN_0050d100_shell.h"
+#include "fnv/decl/FUN_00621b00_shell.h"
+#include "fnv/decl/FUN_00682810_shell.h"
+#include "fnv/decl/FUN_006828a0_shell.h"
+#include "fnv/decl/FUN_0068e740_class.h"
+#include "fnv/decl/FUN_006f74f0_cls.h"
+#include "fnv/decl/FUN_008d01e0_Class.h"
+#include "fnv/decl/FUN_0094db80_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00973fd0_cls.h"
+#include "fnv/decl/FUN_009bd580_class.h"
+#include "fnv/decl/FUN_009cdae0_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00aa54a0_s.h"
+#include "fnv/decl/FUN_00b66ad0_cls.h"
+#include "fnv/decl/FUN_00c3a8a0_cls.h"
+#include "fnv/decl/Flag512Receiver.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MLx.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiAdditionalGeometryData.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/NiObjectD510.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/ResizeMesh.h"
+#include "fnv/decl/S00b5d9f0_Owner.h"
+#include "fnv/decl/SHStub.h"
+#include "fnv/decl/S_00592cf0.h"
+#include "fnv/decl/S_00c4edf0_cls.h"
+#include "fnv/decl/TESObjectREFR.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TargetClass.h"
+#include "fnv/decl/This_004a8050.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0049ee30__NiObjectNET.h"
+#include "fnv/decl/fnv_00631540__TargetClass.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_0049e000.h"
+#include "fnv/symbols_004af000.h"
+#include "fnv/symbols_00549000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_00688000.h"
+#include "fnv/symbols_0068b000.h"
+#include "fnv/symbols_0068c000.h"
+#include "fnv/symbols_0068d000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_00a58000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00a75000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_010a2000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011c6000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011d6000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
+#include "fnv/symbols_011f4000.h"
 #include "original_bstempeffectsimpledecal.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include <math.h>
 
 // Original PC source filename label passed to the preload memory context;
 // contents and target are verified against the engine data section.
@@ -18,12 +120,12 @@ NiPointer<QueuedFile> BSTempEffectSimpleDecal::ms_pPreloadDecalDataFile;
 // @fnv 0x0068b3e0
 void BSTempEffectSimpleDecal::QueueDecalDataFile()
 {
-    if (ms_pPreloadDecalDataFile)
+    if ((*reinterpret_cast<::NiPointer< ::QueuedFile> *>(&::g_011d6c40)))
         return;
 
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_EFFECTS_OVERHEAD, true, kBSTempEffectSimpleDecalFileLabel,
                            kPreloadDecalDataSourceLine);
-    ms_pPreloadDecalDataFile = new QueuedFile(5);
+    reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::NiPointer< ::QueuedFile> &)((*reinterpret_cast<::NiPointer< ::QueuedFile> *>(&::g_011d6c40))))->FUN_006f74f0((::ObjA *)(::QueuedFile *)(new QueuedFile(5)));
 }
 
 // Returns the cross product of this NiPoint3 with point, computing each component from the other two axes.
@@ -37,15 +139,16 @@ struct DecalStub
 {
     char pad[0x3c];
     float v;
-    void FUN_004bc480(int);
     void FUN_0068c9f0(float c);
+public:
+    void FUN_00654700(float);
 };
 // Stores c into v and calls FUN_004bc480 with 1.
 // @fnv 0x0068c9f0
 void DecalStub::FUN_0068c9f0(float afValue)
 {
     v = afValue;
-    FUN_004bc480(1);
+    reinterpret_cast<::FUN_004bc480_shell *>(this)->FUN_004bc480(1);
 }
 
 struct FUN_0068c890_shell
@@ -76,44 +179,40 @@ void FUN_0068c8b0_shell::SetFieldE8(float value)
 
 struct NiFixedString;
 
-extern NiFixedString* DAT_011c622c;
 
 // @fnv 0x0068c8d0
 NiFixedString* __cdecl FUN_0068c8d0()
 {
-    return DAT_011c622c;
+    return ::DAT_011c622c;
 }
 
 struct NiRTTI;
 
-extern NiRTTI g_011d6bf0;
 
 struct FUN_0068acb0_shell
 {
-    NiRTTI* __thiscall GetRTTI();
+    NiRTTI* GetRTTI();
 };
 
 // @fnv 0x0068acb0
-NiRTTI* __thiscall FUN_0068acb0_shell::GetRTTI()
+NiRTTI* FUN_0068acb0_shell::GetRTTI()
 {
-    return &g_011d6bf0;
+    return &(*reinterpret_cast<::NiRTTI *>(&::g_011d6bf0));
 }
 
 namespace fnv_0068c870 {
 struct FUN_0068c890_shell
 {
-    bool HasFlag(unsigned short);
     bool FUN_0068c870();
 };
 
 // @fnv 0x0068c870
 bool FUN_0068c890_shell::FUN_0068c870()
 {
-    return HasFlag(1);
+    return reinterpret_cast<::FUN_0068c890_shell *>(this)->HasFlag(1);
 }
 }  // namespace fnv_0068c870
 
-void __cdecl _delete(void*, unsigned int);
 struct S_0068b080
 {
     void FUN_0068b080();
@@ -122,16 +221,6 @@ struct S_0068ace0
 {
     void* FUN_0068ace0(unsigned int);
 };
-// Calls FUN_0068b080 on this, then frees this with _delete when flags has bit 0 set, and returns this.
-// @fnv 0x0068ace0
-void* S_0068ace0::FUN_0068ace0(unsigned int flags)
-{
-    ((S_0068b080*)this)->FUN_0068b080();
-    if (flags & 1)
-        _delete(this, 0x144);
-    return this;
-}
-
 // Returns the larger of the two arguments, comparing the float against the double and returning a double.
 // @fnv 0x0068b050
 double FUN_0068b050(double adValue, float afValue)
@@ -146,26 +235,16 @@ double FUN_0068b050(double adValue, float afValue)
 
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct DecalHolder
 {
-    bool FUN_0068b4c0(unsigned int);
-    void FUN_00682810();
     void FUN_0068b1e0();
 };
-// @fnv 0x0068b1e0
-void DecalHolder::FUN_0068b1e0()
-{
-    if (!FUN_0068b4c0(*(Flt*)((char*)this + 0x10C)))
-        return;
-    FUN_00682810();
-}
-
 namespace fnv_0068acc0 {
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 struct FUN_0068acc0_shell
@@ -178,7 +257,7 @@ struct FUN_0068acc0_shell
 // @fnv 0x0068acc0
 void* FUN_0068acc0_shell::FUN_0068acc0()
 {
-    return (void*)m_flt.operator unsigned int();
+    return (void*)m_flt.operator std::uintptr_t();
 }
 }  // namespace fnv_0068acc0
 
@@ -187,8 +266,6 @@ struct _ref_006815c0
     float x, y, z;
     _ref_006815c0();
 };
-int __cdecl ClipPolygonToPlane(void* plane, int count, _ref_006815c0* inPos, float* inB, _ref_006815c0* inC,
-                               float* outB, _ref_006815c0* outPos, _ref_006815c0* outC);
 struct FUN_0068d660_stand
 {
     int ClipPolygonByPlanes(int count, float* a, _ref_006815c0* b, _ref_006815c0* c, float* d, _ref_006815c0* e,
@@ -202,28 +279,28 @@ int FUN_0068d660_stand::ClipPolygonByPlanes(int count, float* apInVerts, _ref_00
     _ref_006815c0 tempPos[9];
     _ref_006815c0 tempC[9];
     float n[9];
-    int tempB = ClipPolygonToPlane((char*)this + 0x64, count, (_ref_006815c0*)apInVerts, (float*)apInB, apInC, n,
-                                   tempPos, tempC);
+    int tempB = ::DecalClipping::ClipPolygonToPlane((::DecalClipping::Plane *)(void *)((char*)this + 0x64), count, (const int *)(struct ::_ref_006815c0 *)((_ref_006815c0*)apInVerts), (const ::DecalClipping::Point *)(float *)((float*)apInB), (const ::DecalClipping::Point *)(apInC), (int *)(n),
+                                   (::DecalClipping::Point *)(tempPos), (::DecalClipping::Point *)(tempC));
     if (tempB)
     {
-        tempB = ClipPolygonToPlane((char*)this + 0x74, tempB, (_ref_006815c0*)n, (float*)tempPos, tempC, apOutB,
-                                   apOutPos, apOutC);
+        tempB = ::DecalClipping::ClipPolygonToPlane((::DecalClipping::Plane *)(void *)((char*)this + 0x74), tempB, (const int *)(struct ::_ref_006815c0 *)((_ref_006815c0*)n), (const ::DecalClipping::Point *)(float *)((float*)tempPos), (const ::DecalClipping::Point *)(tempC), (int *)(apOutB),
+                                   (::DecalClipping::Point *)(apOutPos), (::DecalClipping::Point *)(apOutC));
         if (tempB)
         {
-            tempB = ClipPolygonToPlane((char*)this + 0x84, tempB, (_ref_006815c0*)apOutB, (float*)apOutPos, apOutC, n,
-                                       tempPos, tempC);
+            tempB = ::DecalClipping::ClipPolygonToPlane((::DecalClipping::Plane *)(void *)((char*)this + 0x84), tempB, (const int *)(struct ::_ref_006815c0 *)((_ref_006815c0*)apOutB), (const ::DecalClipping::Point *)(float *)((float*)apOutPos), (const ::DecalClipping::Point *)(apOutC), (int *)(n),
+                                       (::DecalClipping::Point *)(tempPos), (::DecalClipping::Point *)(tempC));
             if (tempB)
             {
-                tempB = ClipPolygonToPlane((char*)this + 0x94, tempB, (_ref_006815c0*)n, (float*)tempPos, tempC, apOutB,
-                                           apOutPos, apOutC);
+                tempB = ::DecalClipping::ClipPolygonToPlane((::DecalClipping::Plane *)(void *)((char*)this + 0x94), tempB, (const int *)(struct ::_ref_006815c0 *)((_ref_006815c0*)n), (const ::DecalClipping::Point *)(float *)((float*)tempPos), (const ::DecalClipping::Point *)(tempC), (int *)(apOutB),
+                                           (::DecalClipping::Point *)(apOutPos), (::DecalClipping::Point *)(apOutC));
                 if (tempB)
                 {
-                    tempB = ClipPolygonToPlane((char*)this + 0xb4, tempB, (_ref_006815c0*)apOutB, (float*)apOutPos,
-                                               apOutC, n, tempPos, tempC);
+                    tempB = ::DecalClipping::ClipPolygonToPlane((::DecalClipping::Plane *)(void *)((char*)this + 0xb4), tempB, (const int *)(struct ::_ref_006815c0 *)((_ref_006815c0*)apOutB), (const ::DecalClipping::Point *)(float *)((float*)apOutPos),
+                                               (const ::DecalClipping::Point *)(apOutC), (int *)(n), (::DecalClipping::Point *)(tempPos), (::DecalClipping::Point *)(tempC));
                     if (tempB)
                     {
-                        tempB = ClipPolygonToPlane((char*)this + 0xa4, tempB, (_ref_006815c0*)n, (float*)tempPos, tempC,
-                                                   apOutB, apOutPos, apOutC);
+                        tempB = ::DecalClipping::ClipPolygonToPlane((::DecalClipping::Plane *)(void *)((char*)this + 0xa4), tempB, (const int *)(struct ::_ref_006815c0 *)((_ref_006815c0*)n), (const ::DecalClipping::Point *)(float *)((float*)tempPos), (const ::DecalClipping::Point *)(tempC),
+                                                   (int *)(apOutB), (::DecalClipping::Point *)(apOutPos), (::DecalClipping::Point *)(apOutC));
                     }
                 }
             }
@@ -240,12 +317,11 @@ struct FUN_0068b4a0_shell : BSTempEffectSimpleDecal
 // @fnv 0x0068b4a0
 void FUN_0068b4a0_shell::FUN_0068b4a0()
 {
-    ms_pPreloadDecalDataFile = 0;
+    reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::NiPointer< ::QueuedFile> &)((*reinterpret_cast<::NiPointer< ::QueuedFile> *>(&::g_011d6c40))))->FUN_006f74f0((::ObjA *)(::QueuedFile *)(0));
 }
 
 struct ScrapHeapBuffer
 {
-    void Deallocate(void* pointer);
 };
 
 struct MemoryManager
@@ -260,12 +336,10 @@ struct Arr
 
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct BSSimpleArrayActor
 {
-    void Clear(bool clear);
 };
 
 struct Date
@@ -275,8 +349,6 @@ struct Date
     {}
 };
 
-MemoryManager* __cdecl FUN_00401020();
-void NiFree(void* pointer);
 
 struct FUN_0068b220_shell
 {
@@ -291,25 +363,25 @@ void FUN_0068b220_shell::FUN_0068b220()
 
     if (!reinterpret_cast<unsigned char*>(this)[0x2d])
     {
-        pAllocator = FUN_00401020()->GetGeneralAllocator();
+        pAllocator = ::FUN_00401020()->GetGeneralAllocator();
 
         if (*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xcc))
-            pAllocator->Deallocate(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xcc));
+            reinterpret_cast<::SHStub *>((pAllocator))->FUN_00aa5610(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xcc));
 
         if (*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xd4))
-            pAllocator->Deallocate(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xd4));
+            reinterpret_cast<::SHStub *>((pAllocator))->FUN_00aa5610(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xd4));
 
         if (*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xdc))
-            pAllocator->Deallocate(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xdc));
+            reinterpret_cast<::SHStub *>((pAllocator))->FUN_00aa5610(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xdc));
 
         if (*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xe4))
-            pAllocator->Deallocate(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xe4));
+            reinterpret_cast<::SHStub *>((pAllocator))->FUN_00aa5610(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xe4));
 
         if (*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xec))
-            pAllocator->Deallocate(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xec));
+            reinterpret_cast<::SHStub *>((pAllocator))->FUN_00aa5610(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xec));
 
         if (*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xf4))
-            NiFree(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xf4));
+            ::FUN_00aa10f0(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xf4));
 
         *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xcc) = 0;
         *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xd4) = 0;
@@ -322,7 +394,7 @@ void FUN_0068b220_shell::FUN_0068b220()
     {
         int i;
 
-        for (i = 0; i < reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0xf8)->GetFlags(); ++i)
+        for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0xf8)))->GetName())); ++i)
         {
             delete reinterpret_cast<Date*>(
                 reinterpret_cast<Arr*>(reinterpret_cast<unsigned char*>(this) + 0xf8)->GetAt(i)[0]);
@@ -331,7 +403,7 @@ void FUN_0068b220_shell::FUN_0068b220()
         }
     }
 
-    reinterpret_cast<BSSimpleArrayActor*>(reinterpret_cast<unsigned char*>(this) + 0xf8)->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArrayActor*>(reinterpret_cast<unsigned char*>(this) + 0xf8)))->Clear(true);
 }
 
 struct NiNode;
@@ -362,13 +434,10 @@ struct DecalList
 
 struct GlobalObject_004a4a40
 {
-    int* Int();
 };
-extern GlobalObject_004a4a40 g_011c57fc;
 extern int DAT_0119c298;
 extern float DAT_0119c29c;
 
-float cos(float);
 double FUN_0068b050(double param_1, float param_2);
 
 struct DecalData
@@ -485,7 +554,7 @@ FUN_0068ad20::FUN_0068ad20(int p1, float m_fParticleParameter5, DecalData* pData
     unk30 = pData->unk30;
     if (DAT_0119c298 == -1)
     {
-        DAT_0119c298 = *g_011c57fc.Int();
+        DAT_0119c298 = *((int *)&(::FUN_0043d4d0((int *)&(::g_011c57fc))));
     }
     unk108 = p1;
     spNode10C = pData->pNode;
@@ -516,27 +585,18 @@ FUN_0068ad20::FUN_0068ad20(int p1, float m_fParticleParameter5, DecalData* pData
     b141 = pData->b79;
 }
 
-extern const double DAT_01012060;
-extern const double DAT_01012070;
-void* __cdecl FUN_004af350();
 
 struct DecalEffect
 {
-    float FUN_00598040();
-    void FUN_0068c9f0(float value);
 };
 struct DecalTarget
 {
-    void FUN_004ee560(void* effect);
 };
 struct DecalState
 {
-    DecalEffect* FUN_00a59d30(void* texture);
-    DecalTarget* FUN_009611e0();
 };
 struct DecalRef
 {
-    DecalState* FUN_00559450();
 };
 struct DecalHost
 {
@@ -551,32 +611,29 @@ struct DecalHost
     int unk20;
     int unk24;
     DecalRef decalRef;
-    bool FUN_006828a0(float alpha);
-    double FUN_00621b00();
-    double FUN_00488d50();
     bool UpdateDecalFade(float alpha);
 };
 // @fnv 0x0068c8e0
 bool DecalHost::UpdateDecalFade(float alpha)
 {
-    bool changed = FUN_006828a0(alpha);
+    bool changed = reinterpret_cast<::FUN_006828a0_shell *>(this)->FUN_006828a0(alpha);
     DecalTarget* pDecalTarget;
-    if (!changed && decalRef.FUN_00559450())
+    if (!changed && ((::DecalState *)(::FUN_00559450((int *)&(decalRef)))))
     {
-        float elapsed = (float)(FUN_00621b00() - FUN_00488d50());
+        float elapsed = (float)(((double)(reinterpret_cast<::FUN_00621b00_shell *>(this)->FUN_00621b00())) - ((double)(reinterpret_cast<::BSFaceGenKeyframe *>(this)->GetTime())));
         float intensity;
-        if (elapsed >= DAT_01012060 && elapsed <= DAT_01012070)
+        if (elapsed >= ::_DAT_01012060 && elapsed <= ::g_01012070)
         {
-            intensity = (float)((1.0 - elapsed) / DAT_01012070);
-            DecalEffect* pDecalEffect = decalRef.FUN_00559450()->FUN_00a59d30(FUN_004af350());
+            intensity = (float)((1.0 - elapsed) / ::g_01012070);
+            DecalEffect* pDecalEffect = ((::DecalEffect *)(reinterpret_cast<::FUN_00a59d30_C *>((((::DecalState *)(::FUN_00559450((int *)&(decalRef))))))->FUN_00a59d30((std::intptr_t)(((void *)(std::uintptr_t)(::FUN_004af350()))))));
             DecalEffect* pEffect = pDecalEffect;
-            if (pEffect && pEffect->FUN_00598040() != intensity)
-                pEffect->FUN_0068c9f0(intensity);
+            if (pEffect && reinterpret_cast<::TESObjectREFR *>((pEffect))->GetScale() != intensity)
+                reinterpret_cast<::DecalStub *>((pEffect))->FUN_0068c9f0(intensity);
             return true;
         }
-        pDecalTarget = decalRef.FUN_00559450()->FUN_009611e0();
+        pDecalTarget = ((::DecalTarget *)(reinterpret_cast<::FUN_009611e0_shell *>((((::DecalState *)(::FUN_00559450((int *)&(decalRef))))))->FUN_009611e0()));
         if (pDecalTarget)
-            pDecalTarget->FUN_004ee560(this);
+            reinterpret_cast<::FUN_004ee560_shell *>((pDecalTarget))->FUN_004ee560((std::intptr_t)(this));
     }
     return changed;
 }
@@ -584,8 +641,6 @@ bool DecalHost::UpdateDecalFade(float alpha)
 class B68CA10Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
 
     B68CA10Object(unsigned int uiArg);
     virtual ~B68CA10Object();
@@ -650,8 +705,6 @@ B68CA10Object* __cdecl CreateB68CA10Object(unsigned int uiArg)
 class B68CA90Geometry
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
 
     B68CA90Geometry(unsigned short usVertices, void* pvPositions, void* pvNormals, void* pvColors, void* pvTexture,
                     int iTextureSets, int iDataFlags, unsigned short usTriangles, void* pvTriList);
@@ -762,7 +815,6 @@ B68CA90Geometry* B68CA90Builder::FUN_0068ca90()
 struct DecalTextureObject
 {
     ~DecalTextureObject();
-    bool FUN_00c4edf0(unsigned int* value, int flags);
 };
 
 struct FUN_0068de30_holder
@@ -784,7 +836,7 @@ struct FUN_0068de30_holder
 // @fnv 0x0068de30
 bool FUN_0068de30_holder::ReleaseTextureObject()
 {
-    if (!unk1c->FUN_00c4edf0(&unk24, 0))
+    if (!reinterpret_cast<::S_00c4edf0_cls *>((unk1c))->FUN_00c4edf0((std::intptr_t)(&unk24), 0))
     {
         return false;
     }
@@ -866,7 +918,6 @@ struct DecalOwner
 
 struct DecalNode
 {
-    DecalOwner* GetOwner();
 };
 
 struct DecalPointList
@@ -884,7 +935,6 @@ class FUN_0068b080 : public BSTempEffect
 {
   public:
     virtual ~FUN_0068b080();
-    void FUN_0068b220();
 
     int unk1C;
     NiPointer<DecalNode> spNode20;
@@ -947,6 +997,15 @@ class FUN_0068b080 : public BSTempEffect
     int unk108;
     NiPointer<DecalNode> spNode10C;
 };
+// Calls FUN_0068b080 on this, then frees this with _delete when flags has bit 0 set, and returns this.
+// @fnv 0x0068ace0
+void* S_0068ace0::FUN_0068ace0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0068b080 *>((((S_0068b080*)this)))->FUN_0068b080::~FUN_0068b080();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x144);
+    return this;
+}
 
 // Releases the decal nodes, detaches the node from its owner, calls FUN_0068b220, and decrements DAT_011c57ec when b2D is set.
 // @fnv 0x0068b080
@@ -959,13 +1018,13 @@ FUN_0068b080::~FUN_0068b080()
     {
         pNode = spNode28;
         FUN_00b5b0e0(pNode);
-        if (((DecalNode*)spNode28)->GetOwner())
+        if (((::DecalOwner *)(reinterpret_cast<::FUN_009611e0_shell *>((((DecalNode*)spNode28)))->FUN_009611e0())))
         {
-            ((DecalNode*)spNode28)->GetOwner()->DetachDecal(spNode28);
+            ((::DecalOwner *)(reinterpret_cast<::FUN_009611e0_shell *>((((DecalNode*)spNode28)))->FUN_009611e0()))->DetachDecal(spNode28);
         }
         spNode28 = 0;
     }
-    FUN_0068b220();
+    reinterpret_cast<::FUN_0068b220_shell *>(this)->FUN_0068b220();
     if (b2D)
     {
         DAT_011c57ec--;
@@ -1098,25 +1157,9 @@ struct Graph
     int unk0A4;
     int unk0A8;
     Graph* list;
-    void AttachProperty(void*);
-    Graph* FUN_0050d100();
     Graph* FUN_00458b50();
-    bool checkFlag();
-    Color4* GetNextProc();
-    unsigned short FUN_00456650();
-    Graph* FUN_009611e0();
     unsigned int FUN_0043b480();
-    Graph* FUN_0043b4a0(unsigned int);
-    void* FUN_0043c490();
-    void SetWorldPosition(void*);
-    void* rotation();
-    void SetBodyOrientation(void*);
     float scale();
-    void setScale(float);
-    void refresh();
-    void update(UpdateInfo&);
-    void SetParentObject(void*);
-    void addHead(const NiPointer<Graph>&);
 };
 struct Material
 {
@@ -1139,10 +1182,7 @@ struct Material
     int unk040;
     int unk044;
     int unk048;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Material();
-    void setAlpha(float);
 };
 struct Alpha
 {
@@ -1153,13 +1193,8 @@ struct Alpha
     int unk010;
     int unk014;
     int unk018;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Alpha();
-    void blending(bool);
-    void flag512(bool);
     void flags(unsigned short);
-    void threshold(unsigned char);
 };
 struct Stencil
 {
@@ -1172,10 +1207,7 @@ struct Stencil
     int unk018;
     int unk01C;
     int unk020;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Stencil();
-    void mode(int);
 };
 struct Shader
 {
@@ -1306,14 +1338,9 @@ struct Shader
     int unk0FC;
     int unk100;
     int unk104;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Shader();
-    void category(int);
     void flag(int, bool);
-    void setTexture(int, void*);
     void intensity(float);
-    void opacity(float);
 };
 struct Lighting
 {
@@ -1349,11 +1376,8 @@ struct Lighting
     int unk074;
     int unk078;
     int unk07C;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Lighting();
     void flag(int, bool);
-    void setTexture(Graph*);
 };
 struct Attachment
 {
@@ -1402,13 +1426,10 @@ struct Attachment
     int unk0A8;
     int unk0AC;
     int unk0B0;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Attachment(Graph*, int);
 };
 struct TextureAccessor
 {
-    void* getTexture();
 };
 struct TextureOwner
 {
@@ -1428,36 +1449,19 @@ struct TextureOwner
 };
 struct EffectList
 {
-    void addTail(const NiPointer<Graph>&);
-    NiPointer<Graph>& head();
-    void removeHead();
 };
 struct Manager
 {
-    void remove(DecalSetup*);
 };
 struct Setting
 {
     unsigned char* Bool();
 };
-extern int DAT_011c57f4, DAT_011d6a20, DAT_0119c298;
-extern float DAT_011c3c08;
-extern EffectList g_011d6a30;
-extern Manager DAT_011e0e80;
-extern Setting g_011c5904;
-extern int g_011c7d34;
+extern int DAT_0119c298;
 struct NiFixedString;
 NiFixedString* __cdecl FUN_0068c8d0();
-void* __cdecl FUN_00688460();
-void __cdecl finalize(Graph*, int, int);
-void __cdecl prepare(Graph*);
-void __cdecl tag(Graph*, int);
-bool __cdecl matches(void*, Graph*);
-void __cdecl warning(const char*, ...);
-Graph* __cdecl scene(int);
 struct SceneOps
 {
-    void add(Graph*);
 };
 struct DecalSetup
 {
@@ -1596,7 +1600,6 @@ struct DecalSetup
     bool b142;
     bool b143;
     bool Initialize();
-    void finish();
 };
 // @fnv 0x0068be90
 bool DecalSetup::Initialize()
@@ -1605,25 +1608,25 @@ bool DecalSetup::Initialize()
     if ((Graph*)p028)
     {
         Material* l = new Material;
-        l->setAlpha(f130);
-        ((Graph*)p028)->AttachProperty(l);
+        reinterpret_cast<::DecalStub *>((l))->FUN_00654700(f130);
+        reinterpret_cast<::FUN_00439410_cls *>((((Graph*)p028)))->FUN_00439410((::ArgObject *)(l));
         Alpha* e = new Alpha;
-        e->blending(b12E);
-        e->flag512(b12D);
-        e->flags(4);
-        e->threshold(128);
-        ((Graph*)p028)->AttachProperty(e);
+        reinterpret_cast<::FUN_0049ed90_shell *>((e))->FUN_0049ed90(b12E);
+        reinterpret_cast<::Flag512Receiver *>((e))->SetFlag512(b12D);
+        reinterpret_cast<::NiObjectNET *>((e))->SetFlags(4);
+        reinterpret_cast<::FUN_0094db80_shell *>((e))->FUN_0094db80(128);
+        reinterpret_cast<::FUN_00439410_cls *>((((Graph*)p028)))->FUN_00439410((::ArgObject *)(e));
         if (b141)
         {
             Stencil* stencil = new Stencil;
-            stencil->mode(3);
-            ((Graph*)p028)->AttachProperty(stencil);
+            reinterpret_cast<::fnv_0049ee30::NiObjectNET *>((stencil))->FUN_0049ee30(3);
+            reinterpret_cast<::FUN_00439410_cls *>((((Graph*)p028)))->FUN_00439410((::ArgObject *)(stencil));
         }
         Shader* c = 0;
         c = new Shader;
-        c->category(29);
+        reinterpret_cast<::LowProcess *>((c))->SetPackageObjectType(29);
         c->flag(5, true);
-        c->setTexture(0, ((TextureAccessor*)textures)->getTexture());
+        reinterpret_cast<::FUN_00b66ad0_cls *>((c))->FUN_00b66ad0(0, (::FnvTarget *)(void *)(reinterpret_cast<::S_00592cf0 *>((((TextureAccessor*)textures)))->FUN_00592cf0()));
         if (c->hasFlag(1, 0) && !disabled)
         {
             if (c->hasFlag(3, 0))
@@ -1632,77 +1635,77 @@ bool DecalSetup::Initialize()
                 if (b125)
                 {
                     c->flag(28, true);
-                    c->intensity(f128);
-                    c->opacity((float)(unsigned char)b12C);
+                    reinterpret_cast<::FUN_009bd580_class *>((c))->FUN_009bd580(f128);
+                    reinterpret_cast<::FUN_0068c8b0_shell *>((c))->SetFieldE8((float)(unsigned char)b12C);
                 }
             }
             c->flag(27, true);
             Graph* eb = (Graph*)p10C;
-            Graph* cf = eb->FUN_0050d100();
-            bool q = cf->FUN_00458b50()->checkFlag();
+            Graph* cf = ((::Graph *)(reinterpret_cast<::FUN_0050d100_shell *>((eb))->FUN_0050d100()));
+            bool q = reinterpret_cast<::fnv_0068c870::FUN_0068c890_shell *>((cf->FUN_00458b50()))->FUN_0068c870();
             if (q)
                 c->flag(53, true);
-            ((Graph*)p028)->AttachProperty(c);
-            finalize((Graph*)p028, 0, 0);
+            reinterpret_cast<::FUN_00439410_cls *>((((Graph*)p028)))->FUN_00439410((::ArgObject *)(c));
+            ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::Graph *)((Graph*)p028), 0, 0);
         }
         else
         {
             Lighting* cf = new Lighting;
-            if (!disabled && textures && !(DAT_011c57f4 & 32))
+            if (!disabled && textures && !((*reinterpret_cast<int *>(&::DAT_011c57f4)) & 32))
             {
                 NiPointer<Graph> texture(0);
                 textures->texturePart.texture(0, &texture);
-                cf->setTexture((Graph*)texture);
+                reinterpret_cast<::FUN_00438230_Class *>((cf))->FUN_00438230((::NiNode *)(::Graph *)((Graph*)texture));
             }
             cf->flag(27, true);
             Graph* f = (Graph*)p10C;
-            Graph* eb = f->FUN_0050d100();
-            bool q = eb->FUN_00458b50()->checkFlag();
+            Graph* eb = ((::Graph *)(reinterpret_cast<::FUN_0050d100_shell *>((f))->FUN_0050d100()));
+            bool q = reinterpret_cast<::fnv_0068c870::FUN_0068c890_shell *>((eb->FUN_00458b50()))->FUN_0068c870();
             if (q)
                 cf->flag(53, true);
-            ((Graph*)p028)->AttachProperty(cf);
-            if (DAT_011c57f4 & 32)
+            reinterpret_cast<::FUN_00439410_cls *>((((Graph*)p028)))->FUN_00439410((::ArgObject *)(cf));
+            if ((*reinterpret_cast<int *>(&::DAT_011c57f4)) & 32)
             {
                 Graph* geom = (Graph*)p028;
-                Color4* colors = geom->GetNextProc();
-                for (int index = 0; index < geom->FUN_00456650(); index++)
+                Color4* colors = ((::Color4 *)(reinterpret_cast<::This_004a8050 *>((geom))->GetNextProc()));
+                for (int index = 0; index < reinterpret_cast<::FUN_00456650_shell *>((geom))->FUN_00456650(); index++)
                     colors[index] = Color4(1, 1, 0, 1);
             }
-            finalize((Graph*)p028, 0, 0);
+            ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::Graph *)((Graph*)p028), 0, 0);
         }
         if (b02C)
-            ((Graph*)p028)->SetParentObject(FUN_0068c8d0());
+            ::AssignFixedString((char *)(((Graph*)p028)), (std::intptr_t)(FUN_0068c8d0()), {});
         else
-            ((Graph*)p028)->SetParentObject(FUN_00688460());
-        prepare((Graph*)p028);
-        tag((Graph*)p028, 5);
+            ::AssignFixedString((char *)(((Graph*)p028)), (std::intptr_t)(((void *)(::FUN_00688460()))), {});
+        ::FUN_0062bc10((::FUN_0062bc10_obj *)(::Graph *)((Graph*)p028));
+        ::ProcessPropertyTree((::PropHelper *)(::Graph *)((Graph*)p028), 5);
         if (!b02C)
         {
             if (b02E)
-                DAT_011e0e80.remove(this);
+                reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::Manager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(::DecalSetup *)(this));
             else
             {
-                g_011d6a30.addTail((Graph*)this);
-                DAT_011d6a20++;
-                if (DAT_011d6a20 > DAT_0119c298)
+                reinterpret_cast<::TargetClass *>(&((*reinterpret_cast<::EffectList *>(&::g_011d6a30))))->FUN_0052a9b0((const ::NiPointer< ::NiNode> &)((const ::NiPointer< ::Graph> &)((Graph*)this)));
+                (*reinterpret_cast<int *>(&::DAT_011d6a20))++;
+                if ((*reinterpret_cast<int *>(&::DAT_011d6a20)) > DAT_0119c298)
                 {
-                    DAT_011e0e80.remove((DecalSetup*)(Graph*)g_011d6a30.head());
-                    g_011d6a30.removeHead();
-                    DAT_011d6a20--;
-                    if (*g_011c5904.Bool())
-                        warning("DECAL: Reached Max Decal Limit of %d! Removing oldest decal...", DAT_0119c298);
+                    reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::Manager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(::DecalSetup *)((DecalSetup*)(Graph*)(*(::NiPointer< ::Graph> *)((void *)&((*reinterpret_cast<::EffectList *>(&::g_011d6a30)))))));
+                    reinterpret_cast<::DecalListManager *>(&((*reinterpret_cast<::EffectList *>(&::g_011d6a30))))->PopHead();
+                    (*reinterpret_cast<int *>(&::DAT_011d6a20))--;
+                    if (*(*reinterpret_cast<::Setting *>(&::g_011c5904)).Bool())
+                        ::FUN_005b5e40();
                 }
             }
         }
-        Graph* k = ((Graph*)p10C)->FUN_009611e0();
+        Graph* k = ((::Graph *)(reinterpret_cast<::FUN_009611e0_shell *>((((Graph*)p10C)))->FUN_009611e0()));
         Graph* ba = 0;
         bool b = false;
         if (k)
         {
             for (unsigned int childIndex = 0; childIndex < k->FUN_0043b480(); childIndex++)
             {
-                Graph* child = k->FUN_0043b4a0(childIndex);
-                if (child && matches(&g_011c7d34, child))
+                Graph* child = ((::Graph *)(reinterpret_cast<::NiNode *>((k))->GetAt(childIndex)));
+                if (child && ::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011c7d34))), (const ::fnv_0045bad0::NiObject *)(child)))
                 {
                     b = true;
                     ba = child;
@@ -1716,19 +1719,19 @@ bool DecalSetup::Initialize()
             return false;
         }
         if (!b)
-            attachment = (Graph*)new Attachment(((Graph*)p10C)->FUN_009611e0(), 0);
+            attachment = (Graph*)new Attachment(((::Graph *)(reinterpret_cast<::FUN_009611e0_shell *>((((Graph*)p10C)))->FUN_009611e0())), 0);
         else
             attachment = ba;
         attachment->attach(this, 1);
-        ((Graph*)p028)->SetWorldPosition(((Graph*)p10C)->FUN_0043c490());
-        ((Graph*)p028)->SetBodyOrientation(((Graph*)p10C)->rotation());
-        ((Graph*)p028)->setScale(((Graph*)p10C)->scale());
-        ((Graph*)p028)->refresh();
-        UpdateInfo j(DAT_011c3c08, false, false);
-        ((Graph*)p028)->update(j);
-        ((SceneOps*)scene(0))->add(geometry(0));
-        attachment->list->addHead((Graph*)this);
-        finish();
+        reinterpret_cast<::FUN_00440460_S *>((((Graph*)p028)))->FUN_00440460((const ::V3 *)(void *)(((void *)&(reinterpret_cast<::NiAVObject *>((((Graph*)p10C)))->FUN_0043c490()))));
+        reinterpret_cast<::FUN_0043fa80_s *>((((Graph*)p028)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(((Graph*)p10C))))));
+        reinterpret_cast<::FUN_00440490_shell *>((((Graph*)p028)))->FUN_00440490(reinterpret_cast<::FUN_009cdae0_shell *>((((Graph*)p10C)))->GetFloatAt64());
+        reinterpret_cast<::FUN_00a5a040_Class *>((((Graph*)p028)))->FUN_00a5a040();
+        UpdateInfo j(::fnv_00563f30::DAT_011c3c08, false, false);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((Graph*)p028)))->FUN_00a59c60((std::intptr_t)&(j));
+        reinterpret_cast<::S00b5d9f0_Owner *>((((SceneOps*)((::Graph *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))))->FUN_00b5d9f0((::S00b5d9f0_Obj *)(::Graph *)(geometry(0)), {});
+        reinterpret_cast<::fnv_00631540::TargetClass *>((attachment->list))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::NiPointer< ::Graph> &)((Graph*)this)));
+        reinterpret_cast<::FUN_0068b220_shell *>(this)->FUN_0068b220();
         b019 = false;
         b02D = true;
         b018 = true;
@@ -1744,8 +1747,6 @@ bool DecalSetup::Initialize()
 struct DecalPoint
 {
     float x, y, z;
-    double DotProduct(const DecalPoint&);
-    double FUN_00457990();
 };
 struct DecalColor
 {
@@ -1765,9 +1766,7 @@ struct DecalVertices
     DecalPointRecord** data;
     unsigned capacity;
     unsigned growth;
-    unsigned FUN_0044ddc0();
     DecalPointRecord*& FUN_00877a30(unsigned);
-    void FUN_007cb2e0(DecalPointRecord* const&);
 };
 struct DecalGeometry
 {
@@ -1776,21 +1775,15 @@ struct DecalGeometry
 struct DecalGeometryRef
 {
     DecalGeometry* object;
-    DecalGeometry* FUN_00559450();
 };
 struct DecalHeap
 {
-    void* FUN_00aa54a0(unsigned, unsigned);
 };
 struct DecalMemoryManager
 {
     DecalHeap* FUN_00aa42e0();
 };
 
-void* FUN_00aa1070(unsigned);
-void* FUN_00403d30(void*, int, unsigned);
-bool AreVectorsEqual(const DecalPoint*, const DecalPointRecord*, float);
-extern unsigned DAT_010a2720;
 extern float DAT_0119c29c;
 struct DecalBuilder
 {
@@ -1879,16 +1872,16 @@ bool DecalBuilder::AddDecalGeometry(int count, int* paiIndices, DecalPoint* poin
     if (positions == 0)
     {
         DecalHeap* vertex_;
-        vertex_ = reinterpret_cast<DecalMemoryManager*>(FUN_00401020())->FUN_00aa42e0();
-        positions = (DecalPoint*)vertex_->FUN_00aa54a0(6144, DAT_010a2720);
-        normals = (DecalPoint*)vertex_->FUN_00aa54a0(6144, DAT_010a2720);
-        texcoords = vertex_->FUN_00aa54a0(4096, DAT_010a2720);
-        colors = (DecalColor*)vertex_->FUN_00aa54a0(8192, DAT_010a2720);
-        triangles = (unsigned short*)vertex_->FUN_00aa54a0(6144, DAT_010a2720);
-        DecalGeometry* aMesh = geometry.FUN_00559450();
+        vertex_ = reinterpret_cast<DecalMemoryManager*>(::FUN_00401020())->FUN_00aa42e0();
+        positions = (DecalPoint*)reinterpret_cast<::FUN_00aa54a0_s *>((vertex_))->FUN_00aa54a0(6144, DAT_010a2720);
+        normals = (DecalPoint*)reinterpret_cast<::FUN_00aa54a0_s *>((vertex_))->FUN_00aa54a0(6144, DAT_010a2720);
+        texcoords = reinterpret_cast<::FUN_00aa54a0_s *>((vertex_))->FUN_00aa54a0(4096, DAT_010a2720);
+        colors = (DecalColor*)reinterpret_cast<::FUN_00aa54a0_s *>((vertex_))->FUN_00aa54a0(8192, DAT_010a2720);
+        triangles = (unsigned short*)reinterpret_cast<::FUN_00aa54a0_s *>((vertex_))->FUN_00aa54a0(6144, DAT_010a2720);
+        DecalGeometry* aMesh = ((::DecalGeometry *)(::FUN_00559450((int *)&(geometry))));
         int _numTriangles = aMesh->FUN_004a1ff0();
         remap = (short*)FUN_00aa1070(_numTriangles * 3 * 2);
-        FUN_00403d30(remap, -1, _numTriangles * 3 * 2);
+        ::FUN_00403d30(remap, -1, _numTriangles * 3 * 2);
     }
     float scale = 1.0f / (1.0f - DAT_0119c29c);
     for (int i = 0; i < count; ++i)
@@ -1907,7 +1900,7 @@ bool DecalBuilder::AddDecalGeometry(int count, int* paiIndices, DecalPoint* poin
                 normals[used2] = vectors[i];
                 float a;
                 DecalPoint normal = normals[used2];
-                a = (direction.DotProduct(normal) / normal.FUN_00457990() - DAT_0119c29c) * scale;
+                a = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(direction))->DotProduct((void *)&(normal)))) / ((double)(reinterpret_cast<::NiPoint3 *>(&(normal))->ComputeMagnitude())) - DAT_0119c29c) * scale;
                 colors[used2] = DecalColor(red, green, blue, a > 0.0 ? a : 0.0f);
                 paiIndices[i] = used2;
                 used2++;
@@ -1915,9 +1908,9 @@ bool DecalBuilder::AddDecalGeometry(int count, int* paiIndices, DecalPoint* poin
         }
         else
         {
-            for (unsigned jA = 0; jA < vertices.FUN_0044ddc0(); ++jA)
+            for (unsigned jA = 0; jA < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(vertices))->GetName())); ++jA)
             {
-                if (AreVectorsEqual(&points[i], vertices.FUN_00877a30(jA), 0.01f))
+                if (::AreVectorsEqual((const float *)(const ::DecalPoint *)(&points[i]), (const float *)(vertices.FUN_00877a30(jA)), 0.01f))
                 {
                     mapped8 = vertices.FUN_00877a30(jA)->index;
                     break;
@@ -1933,10 +1926,10 @@ bool DecalBuilder::AddDecalGeometry(int count, int* paiIndices, DecalPoint* poin
                 DecalPointRecord* s = new DecalPointRecord;
                 s->position = positions[used2];
                 s->index = (short)used2;
-                vertices.FUN_007cb2e0(s);
+                reinterpret_cast<::FUN_00438690 *>(&(vertices))->FUN_007cb2e0((unsigned int *)&(s));
                 normals[used2] = vectors[i];
                 DecalPoint normal = normals[used2];
-                float a = (direction.DotProduct(normal) / normal.FUN_00457990() - DAT_0119c29c) * scale;
+                float a = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(direction))->DotProduct((void *)&(normal)))) / ((double)(reinterpret_cast<::NiPoint3 *>(&(normal))->ComputeMagnitude())) - DAT_0119c29c) * scale;
                 colors[used2] = DecalColor(red, green, blue, a > 0.0 ? a : 0.0f);
                 paiIndices[i] = used2;
                 used2++;
@@ -1966,12 +1959,9 @@ struct Point
     Point();
     Point operator-(const Point&) const;
     Point Cross(const Point&) const;
-    float Dot(const Point&) const;
-    float Length() const;
 };
 struct UnsignedShortBuffer
 {
-    unsigned short* FUN_00a75f10();
 };
 struct FixedName
 {
@@ -1979,21 +1969,14 @@ struct FixedName
 };
 struct Geometry
 {
-    Point* FUN_0049ec60();
-    Point* FUN_004a8030();
-    UnsignedShortBuffer* FUN_005495f0();
-    FixedName& FUN_00413f40();
     unsigned short FUN_004a1ff0();
 };
-void __cdecl FUN_005b5e40(const char*, ...);
 extern float DAT_0119c29c;
 struct FUN_0068d230_Class
 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C,
         unk40, unk44, unk48, unk4C, unk50, unk54;
     Point direction;
-    int ClipPolygonByPlanes(int, unsigned*, Point*, Point*, unsigned*, Point*, Point*);
-    bool AddDecalGeometry(int, unsigned*, Point*, Point*);
     void ProcessDecalTriangles(Geometry*);
 };
 // Iterates triangle strips from the geometry, skips degenerate triangles, and clips those whose face normal faces along direction past a threshold.
@@ -2001,12 +1984,12 @@ struct FUN_0068d230_Class
 void FUN_0068d230_Class::ProcessDecalTriangles(Geometry* input)
 {
     Geometry* data = input;
-    Point* normals = data->FUN_0049ec60();
-    Point* geometry = data->FUN_004a8030();
-    UnsignedShortBuffer* vertices = data->FUN_005495f0();
+    Point* normals = ((::Point *)(reinterpret_cast<::FUN_0049ec60 *>((data))->GetNext()));
+    Point* geometry = ((::Point *)(std::uintptr_t)(reinterpret_cast<::FUN_004a8030_shell *>((data))->FUN_004a8030()));
+    UnsignedShortBuffer* vertices = ((::UnsignedShortBuffer *)(::fnv_005495f0::FUN_005495f0((const char *)(data))));
     if (normals && !geometry)
     {
-        FUN_005b5e40("TEXTURES: Decal Parent '%s' has no normals!", (const char*)input->FUN_00413f40());
+        ::FUN_005b5e40();
         return;
     }
     if (!vertices)
@@ -2017,7 +2000,7 @@ void FUN_0068d230_Class::ProcessDecalTriangles(Geometry* input)
         unsigned short old;
         UnsignedShortBuffer* count = vertices;
         int first = data->FUN_004a1ff0();
-        unsigned short* positions = count->FUN_00a75f10();
+        unsigned short* positions = ((unsigned short *)(::FUN_00a75f10((char *)(count))));
         unsigned second[9];
         unsigned short indices, bridge;
         for (int i = 0; i < first; i++)
@@ -2043,7 +2026,7 @@ void FUN_0068d230_Class::ProcessDecalTriangles(Geometry* input)
             Point edge2 = edge1 - edge3;
             Point b = a - edge3;
             Point c = edge2.Cross(b);
-            if (direction.Dot(c) > c.Length() * DAT_0119c29c)
+            if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(direction))->DotProduct((void *)&(c)) > reinterpret_cast<::NiPoint3 *>((void *)&(c))->ComputeMagnitude() * DAT_0119c29c)
             {
                 second[0] = old;
                 second[1] = indices;
@@ -2054,10 +2037,10 @@ void FUN_0068d230_Class::ProcessDecalTriangles(Geometry* input)
                 strip[0] = geometry[old];
                 strip[1] = geometry[indices];
                 strip[2] = geometry[bridge];
-                int clipped = ClipPolygonByPlanes(3, second, third, strip, second, third, strip);
+                int clipped = reinterpret_cast<::FUN_0068d660_stand *>(this)->ClipPolygonByPlanes(3, (float *)(second), (struct ::_ref_006815c0 *)(third), (struct ::_ref_006815c0 *)(strip), (float *)(second), (struct ::_ref_006815c0 *)(third), (struct ::_ref_006815c0 *)(strip));
                 if (clipped)
                 {
-                    if (!AddDecalGeometry(clipped, second, third, strip))
+                    if (!reinterpret_cast<::DecalBuilder *>(this)->AddDecalGeometry(clipped, (int *)(second), (::DecalPoint *)(third), (::DecalPoint *)(strip)))
                         break;
                 }
             }
@@ -2072,20 +2055,13 @@ struct Point
     float x, y, z;
 
   public:
-    Point FUN_00439ef0(const Point&);
-    Point FUN_00439e90(const Point&);
     Point ApplyScaled(float);
-    double DotProduct(const Point&);
 };
 struct Plane
 {
-    int ClassifyPoint(const Point&);
-    const Point& FUN_006815c0();
-    double FUN_0084d030();
 };
-extern const double DAT_01012070, DAT_01069ff0, DAT_01012060;
+extern const double DAT_01069ff0;
 extern const char DAT_01069f88[];
-void FUN_005b5e40(const char*, ...);
 // Clips a polygon against a plane, emitting intersection vertices where edges cross it and dropping vertices outside, and returns the output vertex count.
 // @fnv 0x0068d820
 int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const Point* positions, const Point* attributes,
@@ -2095,7 +2071,7 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const Point*
     int rejected = 0;
     for (int i = 0; i < count; ++i)
     {
-        if (plane->ClassifyPoint(positions[i]) == 2)
+        if (reinterpret_cast<::NiCamera *>((plane))->ClassifyPoint((const ::NiPoint3 *)&(positions[i])) == 2)
         {
             outside4[i] = true;
             ++rejected;
@@ -2115,27 +2091,27 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const Point*
             {
                 Point start4 = positions[previous];
                 Point _end = positions[current];
-                Point edgeTmp = start4.FUN_00439ef0(_end);
-                Point normal = plane->FUN_006815c0();
-                float fraction = (normal.DotProduct(start4) + -plane->FUN_0084d030()) / normal.DotProduct(edgeTmp);
-                if (fraction > DAT_01012070 && fraction <= DAT_01069ff0)
+                Point edgeTmp = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start4))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)&(_end)))));
+                Point normal = (*(const ::DecalClipping::Point *)((void *)(plane)));
+                float fraction = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal))->DotProduct((void *)&(start4)))) + -((double)(reinterpret_cast<::Twin_0084d030 *>((plane))->GetStoredFloatValue()))) / ((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal))->DotProduct((void *)&(edgeTmp))));
+                if (fraction > ::g_01012070 && fraction <= DAT_01069ff0)
                     fraction = 1.0f;
-                if (fraction < DAT_01012060)
+                if (fraction < ::_DAT_01012060)
                 {
-                    FUN_005b5e40(DAT_01069f88, fraction);
+                    ::FUN_005b5e40();
                     fraction = 0.0f;
                 }
-                else if (fraction > DAT_01012070)
+                else if (fraction > ::g_01012070)
                 {
-                    FUN_005b5e40(DAT_01069f88, fraction);
+                    ::FUN_005b5e40();
                     fraction = 1.0f;
                 }
                 outIndices[output] = -1;
-                outPositions[output] = start4.ApplyScaled(1.0f - fraction).FUN_00439e90(_end.ApplyScaled(fraction));
+                outPositions[output] = (*(::DecalClipping::Point *)(reinterpret_cast<::Point3Offset *>((void *)&(const ::DecalClipping::Point &)(start4.ApplyScaled(1.0f - fraction)))->ProjectileLaunched((::NiPoint3 *)&(const ::DecalClipping::Point &)(_end.ApplyScaled(fraction)), {})));
                 Point _startAttr = attributes[previous];
                 Point endAttr = attributes[current];
                 outAttributes[output] =
-                    endAttr.ApplyScaled(1.0f - fraction).FUN_00439e90(_startAttr.ApplyScaled(fraction));
+                    (*(::DecalClipping::Point *)(reinterpret_cast<::Point3Offset *>((void *)&(const ::DecalClipping::Point &)(endAttr.ApplyScaled(1.0f - fraction)))->ProjectileLaunched((::NiPoint3 *)&(const ::DecalClipping::Point &)(_startAttr.ApplyScaled(fraction)), {})));
                 ++output;
             }
         }
@@ -2145,25 +2121,25 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const Point*
             {
                 Point start_ = positions[current];
                 Point end2 = positions[previous];
-                Point edge_ = start_.FUN_00439ef0(end2);
-                Point normal3 = plane->FUN_006815c0();
-                float fraction2 = (normal3.DotProduct(start_) + -plane->FUN_0084d030()) / normal3.DotProduct(edge_);
-                if (fraction2 < DAT_01012060)
+                Point edge_ = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start_))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)&(end2)))));
+                Point normal3 = (*(const ::DecalClipping::Point *)((void *)(plane)));
+                float fraction2 = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal3))->DotProduct((void *)&(start_)))) + -((double)(reinterpret_cast<::Twin_0084d030 *>((plane))->GetStoredFloatValue()))) / ((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal3))->DotProduct((void *)&(edge_))));
+                if (fraction2 < ::_DAT_01012060)
                 {
-                    FUN_005b5e40(DAT_01069f88, fraction2);
+                    ::FUN_005b5e40();
                     fraction2 = 0.0f;
                 }
-                else if (fraction2 > DAT_01012070)
+                else if (fraction2 > ::g_01012070)
                 {
-                    FUN_005b5e40(DAT_01069f88, fraction2);
+                    ::FUN_005b5e40();
                     fraction2 = 1.0f;
                 }
                 outIndices[output] = -1;
-                outPositions[output] = start_.ApplyScaled(1.0f - fraction2).FUN_00439e90(end2.ApplyScaled(fraction2));
+                outPositions[output] = (*(::DecalClipping::Point *)(reinterpret_cast<::Point3Offset *>((void *)&(const ::DecalClipping::Point &)(start_.ApplyScaled(1.0f - fraction2)))->ProjectileLaunched((::NiPoint3 *)&(const ::DecalClipping::Point &)(end2.ApplyScaled(fraction2)), {})));
                 Point startAttr6 = attributes[current];
                 Point endAttr4 = attributes[previous];
                 outAttributes[output] =
-                    endAttr4.ApplyScaled(1.0f - fraction2).FUN_00439e90(startAttr6.ApplyScaled(fraction2));
+                    (*(::DecalClipping::Point *)(reinterpret_cast<::Point3Offset *>((void *)&(const ::DecalClipping::Point &)(endAttr4.ApplyScaled(1.0f - fraction2)))->ProjectileLaunched((::NiPoint3 *)&(const ::DecalClipping::Point &)(startAttr6.ApplyScaled(fraction2)), {})));
                 ++output;
             }
             outIndices[output] = indices[current];
@@ -2176,8 +2152,6 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const Point*
 }
 }
 
-extern int DAT_011f4a20;
-extern int DAT_011f426c;
 extern char str_01069efc;
 
 struct P3
@@ -2185,18 +2159,12 @@ struct P3
     float x;
     float y;
     float z;
-    void FUN_006815c0();
-    float DotProduct(P3*);
-    P3 FUN_00439ef0(P3*);
     P3 ApplyScaled(float);
 };
 struct M3
 {
     float m[9];
-    void FUN_006815c0();
-    void FUN_004b45b0(M3*);
     P3 FUN_004b4500(P3*);
-    void FUN_00476930(int, P3*);
 };
 struct Plane
 {
@@ -2215,8 +2183,6 @@ struct V2
 struct H36
 {
     float m[9];
-    void FUN_006815c0();
-    void FUN_004a0c90(float);
     M3 FUN_0043f8d0(M3*);
 };
 struct SubOut
@@ -2224,7 +2190,6 @@ struct SubOut
     float x;
     float y;
     float z;
-    P3* FUN_00439ef0(P3*, P3*);
 };
 struct PtSet
 {
@@ -2232,16 +2197,11 @@ struct PtSet
 };
 struct Param
 {
-    P3* FUN_0045bb80();
-    float FUN_008d01e0();
-    M3* FUN_006a9540();
-    M3* FUN_00461130();
 };
 struct Sub28
 {
     int dummy;
-    void FUN_0066b0d0(int);
-    void* FUN_00559450();
+    void FUN_0066b0d0(std::intptr_t);
 };
 struct StrObj
 {
@@ -2249,12 +2209,6 @@ struct StrObj
 };
 struct MidObj
 {
-    StrObj* FUN_00413f40();
-};
-struct Obj10c
-{
-    int dummy;
-    MidObj* FUN_00559450();
 };
 struct Sing
 {
@@ -2267,12 +2221,7 @@ struct Node8
     V2* secondary;
 };
 
-bool __cdecl FUN_0043b300(const char*, Param*);
-void __cdecl FUN_00a582f0(M3*, const char*, int, P3*, P3*);
 void __cdecl FUN_00c4b600(M3*, P3);
-int __cdecl CreateB68CA10Object(int);
-void __cdecl FUN_005b5e40(const char*, const char*);
-extern Sing DAT_011c5904;
 
 struct FUN_00416870 : P3
 {
@@ -2327,7 +2276,7 @@ struct Host
     int ufc;
     int u100;
     int u104;
-    Obj10c m_10c;
+    ::Param* m_10c;
     int u110;
     float f114;
     float f118;
@@ -2344,11 +2293,15 @@ struct Host
     int u138;
     int u13c;
     unsigned char flag140;
-    void ProcessDecalTriangles(Param*);
-    void ResizeMeshBuffers();
-    int FUN_0068ca90();
     bool FUN_0068b4c0(Param*);
 };
+// @fnv 0x0068b1e0
+void DecalHolder::FUN_0068b1e0()
+{
+    if (!reinterpret_cast<::Host *>(this)->FUN_0068b4c0(reinterpret_cast<::Host *>(this)->m_10c))
+        return;
+    reinterpret_cast<::FUN_00682810_shell *>(this)->FUN_00682810();
+}
 
 // @fnv 0x0068b4c0
 bool Host::FUN_0068b4c0(Param* apParam)
@@ -2358,7 +2311,7 @@ bool Host::FUN_0068b4c0(Param* apParam)
     float uValue22;
     P3 diffValue4;
     int iValue13;
-    int tValue0;
+    std::intptr_t tValue0;
     float inv11cValue22;
     float inv118Value2;
     M3 mecValue16;
@@ -2375,82 +2328,75 @@ bool Host::FUN_0068b4c0(Param* apParam)
     P3 bValue0;
     bool resultValue23;
 
-    aValue1.FUN_006815c0();
 
-    bValue0.FUN_006815c0();
-    if (apParam && FUN_0043b300((const char*)&DAT_011f4a20, apParam))
+    if (apParam && ::FUN_0043b300((const ::NiRTTI *)(const char *)((const char*)&(*reinterpret_cast<int *>(&::g_011f4a20))), (::NiAVObject *)(apParam)))
     {
 
         c34Value43 = m_34;
 
         d40Value6 = m_40;
 
-        fValue3.FUN_006815c0();
 
-        gValue23.FUN_006815c0();
 
-        m1Value12.FUN_006815c0();
         if (flag140)
-            m1Value12 = *apParam->FUN_006a9540();
+            m1Value12 = *((::M3 *)(::FUN_006a9540((char *)(apParam))));
         else
-            m1Value12 = *apParam->FUN_00461130();
+            m1Value12 = *((::M3 *)(::FUN_00461130((std::intptr_t)(apParam))));
 
-        m1Value12.FUN_004b45b0(&mecValue16);
+        reinterpret_cast<::ThreeByThreeMatrix *>(&(m1Value12))->FUN_004b45b0((::ThreeByThreeMatrix *)(::M3 *)(&mecValue16));
         fValue3 = mecValue16.FUN_004b4500(&d40Value6);
 
-        eValue2.FUN_006815c0();
         if (flag140)
         {
             eValue2 = c34Value43;
         }
         else
         {
-            eValue2 = c34Value43.FUN_00439ef0(apParam->FUN_0045bb80());
-            eValue2 = eValue2.ApplyScaled(1.0f / apParam->FUN_008d01e0());
+            eValue2 = (*(::P3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(c34Value43))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)(::P3 *)(((::P3 *)(::FUN_0045bb80((std::intptr_t)(apParam)))))))));
+            eValue2 = eValue2.ApplyScaled(1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((apParam))->FUN_008d01e0());
         }
-        FUN_00a582f0(&mecValue16, (const char*)&DAT_011f426c, 1, &eValue2, &gValue23);
-        f118 *= 1.0f / apParam->FUN_008d01e0();
-        f11c *= 1.0f / apParam->FUN_008d01e0();
-        f120 *= 1.0f / apParam->FUN_008d01e0();
+        ::FUN_00a582f0((const float *)(::M3 *)(&mecValue16), (const float *)(const char *)((const char*)&(*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO))), 1, (const ::Point314 *)(::P3 *)(&eValue2), (::Point314 *)(::P3 *)(&gValue23));
+        f118 *= 1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((apParam))->FUN_008d01e0();
+        f11c *= 1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((apParam))->FUN_008d01e0();
+        f120 *= 1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((apParam))->FUN_008d01e0();
         m_4c = gValue23;
         m_58 = fValue3;
 
         FUN_00c4b600(&m2Value40, fValue3);
 
-        hValue8.FUN_006815c0();
-        hValue8.FUN_004a0c90(f114);
+        reinterpret_cast<::FUN_004a0c90_shell *>(&(hValue8))->FUN_004a0c90(f114);
         m2Value40 = hValue8.FUN_0043f8d0(&m2Value40);
-        m2Value40.FUN_00476930(0, &aValue1);
-        m2Value40.FUN_00476930(1, &bValue0);
+        reinterpret_cast<::ThreeByThreeMatrix *>(&(m2Value40))->GetRow(0, (*(::NiPoint3 *)(&aValue1)));
+        reinterpret_cast<::ThreeByThreeMatrix *>(&(m2Value40))->GetRow(1, (*(::NiPoint3 *)(&bValue0)));
 
-        dotValue29 = m_4c.DotProduct(&aValue1);
+        dotValue29 = reinterpret_cast<::FUN_004b6190_shell *>(&(m_4c))->DotProduct(&aValue1);
         {
             m_64 = FUN_00a69970(FUN_00416870(aValue1.x, aValue1.y, aValue1.z), -(f118 * 0.5 - dotValue29));
         }
         {
             m_74 = FUN_00a69970(FUN_00416870(-aValue1.x, -aValue1.y, -aValue1.z), -(f118 * 0.5 + dotValue29));
         }
-        dotValue29 = m_4c.DotProduct(&bValue0);
+        dotValue29 = reinterpret_cast<::FUN_004b6190_shell *>(&(m_4c))->DotProduct(&bValue0);
         {
             m_84 = FUN_00a69970(FUN_00416870(bValue0.x, bValue0.y, bValue0.z), -(f11c * 0.5 - dotValue29));
         }
         {
             m_94 = FUN_00a69970(FUN_00416870(-bValue0.x, -bValue0.y, -bValue0.z), -(f11c * 0.5 + dotValue29));
         }
-        dotValue29 = m_4c.DotProduct(&m_58);
+        dotValue29 = reinterpret_cast<::FUN_004b6190_shell *>(&(m_4c))->DotProduct(&m_58);
         {
             m_a4 = FUN_00a69970(FUN_00416870(-m_58.x, -m_58.y, -m_58.z), -(f120 + dotValue29));
         }
         {
             m_b4 = FUN_00a69970(FUN_00416870(m_58.x, m_58.y, m_58.z), -(f120 - dotValue29));
         }
-        ProcessDecalTriangles(apParam);
+        reinterpret_cast<::FUN_0068d230_Class *>(this)->ProcessDecalTriangles((::Geometry *)(apParam));
         if (m_c8 == 0)
         {
             m_18 = 1;
-            if (DAT_011c5904.FUN_00408d60()->b0)
+            if ((*reinterpret_cast<::Sing *>(&::g_011c5904)).FUN_00408d60()->b0)
             {
-                FUN_005b5e40(&str_01069efc, m_10c.FUN_00559450()->FUN_00413f40()->FUN_0043b1b0());
+                ::FUN_005b5e40();
             }
             resultValue23 = false;
         }
@@ -2462,9 +2408,9 @@ bool Host::FUN_0068b4c0(Param* apParam)
             for (iValue13 = 0; iValue13 < m_c4; iValue13++)
             {
 
-                ((SubOut*)&m_cc[iValue13])->FUN_00439ef0(&diffValue4, &m_4c);
-                uValue22 = diffValue4.DotProduct(&aValue1) * inv118Value2 + 0.5;
-                vValue40 = diffValue4.DotProduct(&bValue0) * inv11cValue22 + 0.5;
+                reinterpret_cast<::FUN_00439ef0_class *>((((SubOut*)&m_cc[iValue13])))->FUN_00439ef0((::NiPoint3 *)(::P3 *)(&diffValue4), (*(const ::NiPoint3 *)(&m_4c)));
+                uValue22 = reinterpret_cast<::FUN_004b6190_shell *>(&(diffValue4))->DotProduct(&aValue1) * inv118Value2 + 0.5;
+                vValue40 = reinterpret_cast<::FUN_004b6190_shell *>(&(diffValue4))->DotProduct(&bValue0) * inv11cValue22 + 0.5;
                 modeValue10 = mode124;
                 uValue22 = uValue22 / 2.0;
                 vValue40 = vValue40 / 2.0;
@@ -2496,10 +2442,10 @@ bool Host::FUN_0068b4c0(Param* apParam)
                     m_kNodeCollection[1].secondary[iValue13] = FUN_00452dc0(uValue22, vValue40);
                 }
             }
-            ResizeMeshBuffers();
-            tValue0 = FUN_0068ca90();
-            m_28.FUN_0066b0d0(CreateB68CA10Object(tValue0));
-            if (m_28.FUN_00559450())
+            reinterpret_cast<::ResizeMesh *>(this)->ResizeMeshBuffers();
+            tValue0 = ((std::intptr_t)(reinterpret_cast<::B68CA90Builder *>(this)->FUN_0068ca90()));
+            m_28.FUN_0066b0d0(((std::intptr_t)(::CreateB68CA10Object(tValue0))));
+            if (((void *)(::FUN_00559450((int *)&(m_28)))))
             {
                 m_kNodeCollection[0].p = 0;
                 m_kNodeCollection[1].p = 0;
@@ -2522,7 +2468,6 @@ bool Host::FUN_0068b4c0(Param* apParam)
 struct xPoint3
 {
     float x, y, z;
-    bool IsEqual(const xPoint3&);
 };
 struct xColorA
 {
@@ -2531,14 +2476,11 @@ struct xColorA
 struct xMat
 {
     xMat();
-    xMat Transpose();
     xPoint3 operator*(const xPoint3&) const;
     xMat operator*(const xMat&) const;
-    void SetZRotation(float);
     float m[9];
 };
 xMat xFromEuler(xPoint3);
-extern const xPoint3 xg_Zero;
 struct xFixedStr
 {
     xFixedStr(const char*);
@@ -2656,19 +2598,7 @@ struct xAV
     virtual void v37();
     virtual void v38();
     virtual struct xAV* GetObjectByName(const xFixedStr&);
-    void SetName(const xFixedStr&);
-    void Clone(xGO&);
-    void GetTransformScale(const xPoint3*);
-    void SetLocalRotation(const xMat&);
-    void SetScale(float);
-    void AttachProperty(void*);
-    void F68e740();
-    void Update(const xUpdateData&);
-    xVObj* GetParentObj();
-    const xMat& GetRotate();
     const xMat& GetWorldRotate();
-    const xPoint3* GetTranslate();
-    float GetScale();
 };
 
 struct xNode : xAV
@@ -2676,9 +2606,6 @@ struct xNode : xAV
 };
 struct xGeom : xAV
 {
-    xPoint3* GetVertices();
-    xColorA* GetColors();
-    unsigned short GetVertexCount();
 };
 struct xGO
 {
@@ -2689,25 +2616,18 @@ struct xGO
     void operator=(xAV*);
     xAV* m_p;
 };
-extern xGO xg_DecalBox;
 struct xStream
 {
     xStream();
     ~xStream();
-    bool Load(const char*, bool);
-    xAV* GetObjectAt(unsigned int);
     char m_auiShapeKeys[0x5d0];
 };
-int __fastcall xObjCount(xStream*);
 struct xNiObj
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct xAlpha : xNiObj
 {
     xAlpha();
-    void SetBlend(bool);
     int m_auiShapeKeys[7];
 };
 struct xShaderProp : xNiObj
@@ -2723,12 +2643,7 @@ struct xDecalNode : xNiObj
 };
 struct xTES
 {
-    void AddDecal(xNode*, float);
 };
-extern xTES* xg_TES;
-void x62bc10(xNode*);
-bool xIsNear(float, float, float);
-void xb57e30(xAV*, int, int);
 struct FUN_0068dea0_cls
 {
     int m_auiShapeKeys[13];
@@ -2746,90 +2661,179 @@ struct FUN_0068dea0_cls
 // @fnv 0x0068dea0
 void FUN_0068dea0_cls::UpdateDebugDecalBox(const xColorA* COLOR, bool FLAG)
 {
-    if (!xg_DecalBox)
+    if (!(*reinterpret_cast<::xGO *>(&::g_011c58e0)))
     {
         xStream qfTOqo;
-        if (qfTOqo.Load("Data\\Meshes\\Decals\\DebugDecalBox.NIF", false))
+        if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(qfTOqo))->FUN_00c3a8a0((std::uintptr_t)("Data\\Meshes\\Decals\\DebugDecalBox.NIF"), false))
         {
-            if (xObjCount(&qfTOqo) == 1)
-                xg_DecalBox = qfTOqo.GetObjectAt(0);
-            xg_DecalBox->SetName(xFixedStr("Debug Decal Box"));
+            if (::GetRefAt21C((const char *)(::xStream *)(&qfTOqo)) == 1)
+                (*reinterpret_cast<::xGO *>(&::g_011c58e0)) = ((::xAV *)(reinterpret_cast<::MLx *>(&(qfTOqo))->GetStringAt(0)));
+            ::AssignFixedString((char *)(((*reinterpret_cast<::xGO *>(&::g_011c58e0))).operator->()), (std::intptr_t)&(const ::xFixedStr &)(xFixedStr("Debug Decal Box")), {});
         }
     }
-    if (xg_DecalBox)
+    if ((*reinterpret_cast<::xGO *>(&::g_011c58e0)))
     {
         xGO qrzAir(0);
-        xg_DecalBox->Clone(qrzAir);
+        reinterpret_cast<::NiObjectD510 *>((((*reinterpret_cast<::xGO *>(&::g_011c58e0))).operator->()))->FUN_00a5d510((::NiPointerD510 &)(qrzAir));
         xNode* qbXcw = qrzAir;
         xAV* qrKBG = qbXcw->GetObjectByName(xFixedStr("DebugDecalBox01:0"));
         xGeom* qZAdkzg = (xGeom*)qrKBG;
-        x62bc10(qbXcw);
-        xPoint3* qGfbX = qZAdkzg->GetVertices();
-        xColorA* qArxcFu = qZAdkzg->GetColors();
-        for (int qJDuOZ = 0; qJDuOZ < qZAdkzg->GetVertexCount(); qJDuOZ++)
+        ::FUN_0062bc10((::FUN_0062bc10_obj *)(qbXcw));
+        xPoint3* qGfbX = ((::xPoint3 *)(reinterpret_cast<::FUN_0049ec60 *>((qZAdkzg))->GetNext()));
+        xColorA* qArxcFu = ((::xColorA *)(reinterpret_cast<::This_004a8050 *>((qZAdkzg))->GetNextProc()));
+        for (int qJDuOZ = 0; qJDuOZ < reinterpret_cast<::FUN_00456650_shell *>((qZAdkzg))->FUN_00456650(); qJDuOZ++)
         {
             qGfbX[qJDuOZ].x = qGfbX[qJDuOZ].x * m_118;
             qGfbX[qJDuOZ].y = qGfbX[qJDuOZ].y * m_11c;
             qGfbX[qJDuOZ].z *= m_120 * 2.0f;
             qArxcFu[qJDuOZ] = *COLOR;
         }
-        if (xIsNear(m_58.x, 0.0f, 0.001f))
+        if (::FUN_0040eb10(m_58.x, 0.0f, 0.001f))
             m_58.x = 0.0f;
-        if (xIsNear(m_58.y, 0.0f, 0.001f))
+        if (::FUN_0040eb10(m_58.y, 0.0f, 0.001f))
             m_58.y = 0.0f;
-        if (xIsNear(m_58.z, 0.0f, 0.001f))
+        if (::FUN_0040eb10(m_58.z, 0.0f, 0.001f))
             m_58.z = 0.0f;
         xPoint3 qxQHW = m_58;
-        if (qxQHW.IsEqual(xg_Zero))
+        if (reinterpret_cast<::NiPoint3 *>(&(qxQHW))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<const ::xPoint3 *>((void *)&::NiPoint3::ZERO)))))
         {
             qxQHW = m_40;
             xMat qpia;
             if (m_140)
-                qpia = m_10c->GetRotate();
+                qpia = (*(const ::xMat *)(::FUN_006a9540((char *)((m_10c).operator->()))));
             else
                 qpia = m_10c->GetWorldRotate();
-            xMat qZWI = qpia.Transpose();
+            xMat qZWI = (*(::xMat *)(reinterpret_cast<::ThreeByThreeMatrix *>(&(qpia))->FUN_004b45b0({})));
             qxQHW = qZWI * qxQHW;
         }
         xMat qRqUtp = xFromEuler(qxQHW);
         xMat qAhbO;
-        qAhbO.SetZRotation(-m_114);
+        reinterpret_cast<::FUN_004a0c90_shell *>(&(qAhbO))->FUN_004a0c90(-m_114);
         if (m_140)
         {
-            qbXcw->GetTransformScale(m_10c->GetTranslate());
-            qbXcw->SetLocalRotation(m_10c->GetRotate());
-            qbXcw->SetScale(m_10c->GetScale());
+            reinterpret_cast<::FUN_00440460_S *>((qbXcw))->FUN_00440460((const ::V3 *)(const ::xPoint3 *)(((const ::xPoint3 *)&(reinterpret_cast<::NiAVObject *>(((m_10c).operator->()))->FUN_0043c490()))));
+            reinterpret_cast<::FUN_0043fa80_s *>((qbXcw))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((*(const ::xMat *)(::FUN_006a9540((char *)((m_10c).operator->()))))));
+            reinterpret_cast<::FUN_00440490_shell *>((qbXcw))->FUN_00440490(reinterpret_cast<::FUN_009cdae0_shell *>(((m_10c).operator->()))->GetFloatAt64());
             xMat qXMUYT = qRqUtp * qAhbO;
-            qrKBG->SetLocalRotation(qXMUYT);
-            qrKBG->GetTransformScale(&m_4c);
+            reinterpret_cast<::FUN_0043fa80_s *>((qrKBG))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(qXMUYT));
+            reinterpret_cast<::FUN_00440460_S *>((qrKBG))->FUN_00440460((const ::V3 *)(const ::xPoint3 *)(&m_4c));
         }
         else
         {
             xMat qbfQdhM = m_10c->GetWorldRotate() * qRqUtp * qAhbO;
-            qrKBG->SetLocalRotation(qbfQdhM);
-            qrKBG->GetTransformScale(&m_34);
+            reinterpret_cast<::FUN_0043fa80_s *>((qrKBG))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(qbfQdhM));
+            reinterpret_cast<::FUN_00440460_S *>((qrKBG))->FUN_00440460((const ::V3 *)(const ::xPoint3 *)(&m_34));
         }
-        qbXcw->F68e740();
+        reinterpret_cast<::FUN_0068e740_class *>((qbXcw))->FUN_0068e740();
         {
             xAlpha* qAXSCg = new xAlpha();
-            qAXSCg->SetBlend(true);
-            qbXcw->AttachProperty(qAXSCg);
+            reinterpret_cast<::FUN_0049ed90_shell *>((qAXSCg))->FUN_0049ed90(true);
+            reinterpret_cast<::FUN_00439410_cls *>((qbXcw))->FUN_00439410((::ArgObject *)(qAXSCg));
         }
         xShaderProp* qsTDDg = new xShaderProp();
         if (FLAG)
             qsTDDg->SetFlag(0x30, 1);
-        qrKBG->AttachProperty(qsTDDg);
-        xb57e30(qrKBG, 0, 0);
+        reinterpret_cast<::FUN_00439410_cls *>((qrKBG))->FUN_00439410((::ArgObject *)(qsTDDg));
+        ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(qrKBG), 0, 0);
         if (m_140)
         {
             xVObj* qBLsiu = (xVObj*)new xDecalNode(30.0f);
             qBLsiu->AddNode(qbXcw, true);
-            m_10c->GetParentObj()->AddNode((xNode*)qBLsiu, true);
+            ((::xVObj *)(reinterpret_cast<::FUN_009611e0_shell *>(((m_10c).operator->()))->FUN_009611e0()))->AddNode((xNode*)qBLsiu, true);
         }
         else
-            xg_TES->AddDecal(qbXcw, 30.0f);
-        qbXcw->GetParentObj()->Refresh();
+            reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::xTES * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(qbXcw), 30.0f);
+        ((::xVObj *)(reinterpret_cast<::FUN_009611e0_shell *>((qbXcw))->FUN_009611e0()))->Refresh();
         xUpdateData qBCzzXA(0.0f, false, false);
-        qbXcw->Update(qBCzzXA);
+        reinterpret_cast<::FUN_00a59c60_cls *>((qbXcw))->FUN_00a59c60((std::intptr_t)&(qBCzzXA));
     }
 }
+
+inline float NiSqrt(float fValue)
+{
+    return sqrt(fValue);
+}
+
+struct Pt
+{
+    float x, y, z;
+    Pt()
+    {}
+    Pt(float fX, float fY, float fZ)
+    {
+        x = fX;
+        y = fY;
+        z = fZ;
+    }
+    float FUN_00457990() const
+    {
+        return NiSqrt(x * x + y * y + z * z);
+    }
+    void FUN_004a0c10()
+    {
+        float fScaleMultiplier = FUN_00457990();
+        if (fScaleMultiplier > 1e-06)
+        {
+            float fRecip = 1.0f / fScaleMultiplier;
+            x *= fRecip;
+            y *= fRecip;
+            z *= fRecip;
+        }
+        else
+        {
+            x = 0.0f;
+            y = 0.0f;
+            z = 0.0f;
+        }
+    }
+    Pt FUN_004b3800(const Pt& kPt) const
+    {
+        return Pt(y * kPt.z - z * kPt.y, z * kPt.x - x * kPt.z, x * kPt.y - y * kPt.x);
+    }
+};
+
+struct Mat3
+{
+    float m_afEntries[3][3];
+    void SetRow(unsigned int uiRow, const Pt& kRow)
+    {
+        m_afEntries[uiRow][0] = kRow.x;
+        m_afEntries[uiRow][1] = kRow.y;
+        m_afEntries[uiRow][2] = kRow.z;
+    }
+};
+
+inline float NiAbs(float fValue)
+{
+    return (float)fabs(fValue);
+}
+
+// @fnv 0x00c4b600
+Mat3 __cdecl FUN_00c4b600(Pt kWorldPosition)
+{
+    Pt kAt = kWorldPosition;
+    reinterpret_cast<::FUN_004a0c10_s *>(&(kAt))->FUN_004a0c10();
+    float fX = NiAbs(kAt.x);
+    float fY2 = NiAbs(kAt.y);
+    float fZ2 = NiAbs(kAt.z);
+    Pt kRight2;
+    if (fX <= fY2 && fX <= fZ2)
+        kRight2 = Pt(0.0f, -kAt.z, kAt.y);
+    else if (fY2 <= fX && fY2 <= fZ2)
+        kRight2 = Pt(-kAt.z, 0.0f, kAt.x);
+    else
+        kRight2 = Pt(-kAt.y, kAt.x, 0.0f);
+    reinterpret_cast<::FUN_004a0c10_s *>(&(kRight2))->FUN_004a0c10();
+    Pt kUpVal;
+    kUpVal = kRight2.FUN_004b3800(kAt);
+    reinterpret_cast<::FUN_004a0c10_s *>(&(kUpVal))->FUN_004a0c10();
+    kRight2 = kUpVal.FUN_004b3800(kAt);
+    reinterpret_cast<::FUN_004a0c10_s *>(&(kRight2))->FUN_004a0c10();
+    Mat3 kMatX;
+    kMatX.SetRow(0, kRight2);
+    kMatX.SetRow(1, kUpVal);
+    kMatX.SetRow(2, kAt);
+    return kMatX;
+}
+
+#include "generated/data/fallout_shared/tempeffects/bstempeffectsimpledecal.inc"

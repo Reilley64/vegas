@@ -2,56 +2,69 @@
 // src/gamebryo2.2/corelibs/nianimation/nirollcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nirollcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern const char* const g_011f3f58_arg1;
 
 // @fnv 0x00a485a0
+#include <cstdint>
+#include <new>
+#include "fnv/decl/CloneableObj.h"
+#include "fnv/decl/FUN_00a57990.h"
+#include "fnv/decl/FUN_00a57a70_shell.h"
+#include "fnv/decl/FUN_00a57b20_cls.h"
+#include "fnv/decl/FUN_00a6d220.h"
+#include "fnv/decl/FakeController.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/NiFloatController.h"
+#include "fnv/decl/NiTimeControllerA362.h"
+#include "fnv/decl/TCController.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f4000.h"
 const char* const* __cdecl FUN_00a485a0()
 {
-    return &g_011f3f58_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4230));
 }
 
-extern void* g_011f3f58;
 
 // @fnv 0x00a485b0
 void* __cdecl FUN_00a485b0()
 {
-    return &g_011f3f58;
+    return &(*reinterpret_cast<void * *>(&::g_011f3f58));
 }
 
 struct BSFadeNode {
-    static void* __cdecl operator new(unsigned int);
 };
 
-void __fastcall FUN_00a6d220(void*);
 extern int DAT_01098634;
 
 // @fnv 0x00a48750
 void* __cdecl FUN_00a48750()
 {
-    void* pFadeNode = BSFadeNode::operator new(0x3c);
+    void* pFadeNode = ::operator new(0x3c);
     if (pFadeNode)
     {
-        FUN_00a6d220(pFadeNode);
+        new ((void *)(pFadeNode)) class ::FUN_00a6d220();
         *(int*)((char*)pFadeNode + 0x38) = 0;
         *(int*)((char*)pFadeNode + 0x34) = 0;
-        *(int*)pFadeNode = (int)&DAT_01098634;
+        *(intptr_t*)pFadeNode = (intptr_t)&DAT_01098634;
         return pFadeNode;
     }
     return 0;
 }
 
-void __cdecl _delete(void*, unsigned int);
 struct S_00a485c0 {
-	void FUN_00a57990();
 	void* DestroyIfFlagged(unsigned int);
 };
 // Calls FUN_00a57990, frees this with _delete when flags has bit 1 set, and returns this.
 // @fnv 0x00a485c0
 void* S_00a485c0::DestroyIfFlagged(unsigned int flags)
 {
-	FUN_00a57990();
+	reinterpret_cast<::FUN_00a57990 *>(this)->FUN_00a57990::~FUN_00a57990();
 	if (flags & 1)
-		_delete(this, 0x3c);
+		::FUN_00aa1460(this, 0x3c);
 	return this;
 }
 
@@ -61,11 +74,7 @@ struct StrArr {
     unsigned short m_usSize;
     unsigned short _pad2;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char* &);
 };
-void __stdcall FUN_00a6d830(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
 struct NiRollController {
     void FUN_00a48790(StrArr*);
 };
@@ -73,21 +82,20 @@ struct NiRollController {
 // @fnv 0x00a48790
 void NiRollController::FUN_00a48790(StrArr* pStrArr)
 {
-    FUN_00a6d830(pStrArr);
-    char* pkString = _FUN_00a7d330((const char*)g_011f3f58);
+    reinterpret_cast<::TCController *>((pStrArr))->FUN_00a6d830({});
+    char* pkString = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f3f58)));
     unsigned int uiSize = pStrArr->m_usSize;
     unsigned int uiMaxSize = pStrArr->m_usMaxSize;
     if (uiSize >= uiMaxSize)
-        pStrArr->SetSize(uiSize + pStrArr->m_usGrowBy);
-    pStrArr->SetAt(uiSize, pkString);
+        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(uiSize + pStrArr->m_usGrowBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(uiSize, pkString);
 }
 
-typedef unsigned int A486F0size_t;
+typedef size_t A486F0size_t;
 
 struct A486F0CloningProcess;
 
 struct A486F0Object {
-    static void* operator new(A486F0size_t stSize);
 
     __declspec(nothrow) A486F0Object();
     virtual ~A486F0Object();
@@ -105,7 +113,6 @@ struct A486F0Object {
     int unk2C;
     int unk30;
 
-    void CopyMemberData(A486F0Object* pkDest, A486F0CloningProcess& kCloning);
 };
 
 struct A486F0Pointer {
@@ -133,45 +140,40 @@ struct A486F0Controller : A486F0ControllerBase {
 A486F0Object* A486F0Controller::FUN_00a486f0(A486F0CloningProcess& kCloning)
 {
     A486F0Controller* pkClone = new A486F0Controller;
-    CopyMemberData(pkClone, kCloning);
+    reinterpret_cast<::CloneableObj *>(this)->CopyInterpTo((::CloneableObj *)(pkClone), (void *)&(kCloning));
     return pkClone;
 }
 
-void __cdecl FUN_00a57a70();
 
 // @fnv 0x00a48560
 void __cdecl FUN_00a48560()
 {
-    FUN_00a57a70();
+    static_cast<::FUN_00a57a70_shell *>(nullptr)->FUN_00a57a70(*(::NiStream *)nullptr);
 }
 
-void __cdecl FUN_00a57ad0();
 // @fnv 0x00a48570
 void __cdecl FUN_00a48570()
 {
-    FUN_00a57ad0();
+    static_cast<::Holder *>(nullptr)->FUN_00a57ad0(*(::NiStream *)nullptr);
 }
 
-void __cdecl FUN_00a57b00();
 
 // @fnv 0x00a48580
 void __cdecl FUN_00a48580() {
-    FUN_00a57b00();
+    static_cast<::FakeController *>(nullptr)->FUN_00a57b00(*(::NiStream *)nullptr);
 }
 
-void __cdecl FUN_00a57b20();
 
 // @fnv 0x00a48590
 void __cdecl FUN_00a48590()
 {
-    FUN_00a57b20();
+    static_cast<::FUN_00a57b20_cls *>(nullptr)->FUN_00a57b20({});
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
-void __cdecl FUN_00a57970();
 // @fnv 0x00a48550
-void __cdecl FUN_00a48550() { FUN_00a57970(); }
+void __cdecl FUN_00a48550() { static_cast<::NiFloatController *>(nullptr)->FUN_00a57970(*(::NiStream *)nullptr); }
 
 struct NiUpdateDataA485 {
     float m_fTime;
@@ -205,13 +207,11 @@ public:
 };
 
 struct NiFloatKeyA485 {
-    static float __cdecl InterpolateKey(float fTime, NiFloatKeyA485* pkKeys, int eType, unsigned int uiNumKeys, unsigned int& uiLastIdx, unsigned char ucSize);
 };
 
 class NiRollControllerA485 {
 public:
     virtual void vfn_00();
-    bool FUN_00a36250(float fTime);
     NiFloatKeyA485* GetFloatKeys(unsigned int& uiNumKeys, int& eType, unsigned char& ucSize);
     void FUN_00a485e0(NiUpdateDataA485& kUpdateData);
 
@@ -228,14 +228,14 @@ public:
 // @fnv 0x00a485e0
 void NiRollControllerA485::FUN_00a485e0(NiUpdateDataA485& kUpdateData)
 {
-    if (!m_pkTarget || FUN_00a36250(kUpdateData.m_fTime))
+    if (!m_pkTarget || reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(kUpdateData.m_fTime))
         return;
 
     unsigned int uiNumKeys;
     int eType;
     unsigned char ucSize;
     NiFloatKeyA485* pkKeys = GetFloatKeys(uiNumKeys, eType, ucSize);
-    float fRoll = NiFloatKeyA485::InterpolateKey(m_fControllerTime, pkKeys, eType, uiNumKeys, m_uiLastKeyIndex, ucSize);
+    float fRoll = ::InterpolateKey(m_fControllerTime, (const ::S00a26b40_Key *)(pkKeys), eType, uiNumKeys, (unsigned int *)&(m_uiLastKeyIndex), ucSize);
 
     NiMatrix3A485 kRot = m_pkTarget->m_kRotate;
     NiMatrix3A485 kRoll;

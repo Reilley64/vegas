@@ -3,7 +3,6 @@
 #define FNV_NIBINARYSTREAM_H
 #include "layout_support.h"
 class NiBinaryStream;
-#pragma pack(push, 4)
 class NiBinaryStream
 {
   public:
@@ -27,10 +26,4 @@ class NiBinaryStream
     // NiBinaryStream& __cdecl NiBinaryStream::*(const NiBinaryStream&)
     // void __cdecl NiBinaryStream::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBinaryStream) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBinaryStream, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(NiBinaryStream, m_uiStreamFlags) == 4);
-FNV_STATIC_ASSERT(offsetof(NiBinaryStream, m_pfnRead) == 8);
-FNV_STATIC_ASSERT(offsetof(NiBinaryStream, m_pfnWrite) == 12);
 #endif

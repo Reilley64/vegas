@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKRESOURCEBASE_H
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkResourceBase : public hkReferencedObject
 {
   public:
@@ -14,6 +13,4 @@ class hkResourceBase : public hkReferencedObject
         TYPE_CONTAINER = 1
     };
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkResourceBase[(sizeof(hkResourceBase) == 0x8) ? 1 : -1];
 #endif

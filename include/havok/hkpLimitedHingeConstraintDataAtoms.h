@@ -3,7 +3,6 @@
 #ifndef FNV_HAVOK_HKPLIMITEDHINGECONSTRAINTDATAATOMS_H
 #define FNV_HAVOK_HKPLIMITEDHINGECONSTRAINTDATAATOMS_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpLimitedHingeConstraintDataAtoms
 {
   public:
@@ -15,7 +14,4 @@ class hkpLimitedHingeConstraintDataAtoms
     };
     char pad0[0xD0];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpLimitedHingeConstraintDataAtoms[(sizeof(hkpLimitedHingeConstraintDataAtoms) == 0xD0) ? 1 : -1];
 #endif

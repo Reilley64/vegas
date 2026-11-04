@@ -5,12 +5,9 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxAnimatedQuaternion : public hkReferencedObject
 {
   public:
     hkArray<hkQuaternion> m_kQuaternions;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxAnimatedQuaternion[(sizeof(hkxAnimatedQuaternion) == 0x14) ? 1 : -1];
 #endif

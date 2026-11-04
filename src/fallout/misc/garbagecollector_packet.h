@@ -2,18 +2,27 @@
 #ifndef FNV_GARBAGECOLLECTOR_PACKET_H
 #define FNV_GARBAGECOLLECTOR_PACKET_H
 
+#include <windows.h>
+#include "fnv/decl/FUN_0040f6e0_class.h"
+#include "fnv/decl/FUN_004aaf10_shell.h"
+#include "fnv/decl/FUN_006bf8f0_Class.h"
+#include "fnv/decl/FUN_00878360_Class.h"
+#include "fnv/decl/PtrArrayView.h"
+#include "fnv/decl/_FUN_0052aa80_shell.h"
+#include "fnv/decl/fnv_00564d80__ArrSI.h"
+#include "fnv/symbols_00446000.h"
+#include "fnv/symbols_00869000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011de000.h"
 #include "layout_support.h"
 class GarbageCollector
 {
   public:
     static void Remove(TESObjectREFR* reference);
-    static NiTObjectArray<TESObjectREFR*> ms_kReferencesQueuedForRemoval;
-    static NiTObjectArray<TESObjectREFR*> ObjectGarbageB;
     static void QueryCurrentThread(bool);
     static void ClearTempEffects();
     static void Update();
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 class GlobalObject_00869db0
 {
   public:
@@ -24,14 +33,11 @@ class ModelLoader
 {
   public:
     bool FUN_00868250();
-    void FUN_004aaf10();
 };
 extern GlobalObject_00869db0 g_011de828;
-extern ModelLoader* g_modelLoader;
 class WaitableObject
 {
   public:
-    void FUN_0040f6e0();
     void FUN_00401970();
 };
 class NavMesh
@@ -43,11 +49,14 @@ class NavMesh
 class GlobalObject_00869f00
 {
   public:
+    void** m_ppVirtualMethodTable;
+    NavMesh** pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
     unsigned int Add(NavMesh*&);
     unsigned int GetSize();
     NavMesh*& GetAt(unsigned int);
     void Clear(bool);
-    void Remove(unsigned int, bool);
 };
 extern GlobalObject_00869f00 g_011de924, g_011de898;
 
@@ -129,7 +138,6 @@ class TESObjectREFR
     virtual void vfn_f8();
     virtual void vfn_fc();
     virtual bool vfn_100();
-    bool FUN_00564d80();
 };
 class NiAVObject
 {
@@ -142,7 +150,6 @@ class GarbageCollectorObjectPtr
     NiAVObject* object;
     NiAVObject* operator->() const;
     ~GarbageCollectorObjectPtr();
-    bool FUN_0052aa80(int) const;
 };
 class GlobalObject_004aff00
 {
@@ -157,7 +164,6 @@ class GlobalObject_00869c60
   public:
     unsigned int GetSize();
     GarbageCollectorDeleteA*& GetAt(unsigned int);
-    void RemoveAt(unsigned int);
     void RemoveAll();
 };
 class GlobalObject_00869b10
@@ -165,7 +171,6 @@ class GlobalObject_00869b10
   public:
     unsigned int GetSize();
     GarbageCollectorDeleteB*& GetAt(unsigned int);
-    void RemoveAt(unsigned int);
     void RemoveAll();
 };
 class NiTPrimitiveArray_unsigned_int_
@@ -176,13 +181,8 @@ class NiTPrimitiveArray_unsigned_int_
 extern GlobalObject_00869c60 g_011de808;
 extern GlobalObject_00869b10 g_011de910, g_011de838;
 extern GlobalObject_004aff00 g_011de888, g_011de848;
-void ForEachNavMesh(void*, void*);
-void FUN_00869420(void*, void*);
-void CopyNonNullElements(void*, void*);
 class GarbageCollectorUpdateState
 {
   public:
-    bool FUN_00878360();
 };
-GarbageCollectorUpdateState* FUN_00446ef0();
 #endif

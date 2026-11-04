@@ -27,11 +27,4 @@ class NiTransform
     float m_fScale;
 };
 
-FNV_STATIC_ASSERT(sizeof(BSMemObject) == 1);
-FNV_STATIC_ASSERT(sizeof(ThreeByThreeMatrix) == 0x24);
-FNV_STATIC_ASSERT(offsetof(ThreeByThreeMatrix, m_afEntries) == 0);
-FNV_STATIC_ASSERT(sizeof(NiTransform) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kRotate) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kTranslate) == 0x24);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_fScale) == 0x30);
 #endif

@@ -4,7 +4,19 @@
 
 #include <xmmintrin.h>
 #include <windows.h>
-extern DWORD DAT_0126835c;
+#include "fnv/decl/CriticalSectionOwner.h"
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/decl/Mgr.h"
+#include "fnv/decl/QueueLockView.h"
+#include "fnv/decl/fnv_00d04b50__Owner.h"
+#include "fnv/decl/hkKdTreeBuilder.h"
+#include "fnv/symbols_00d8d000.h"
+#include "fnv/symbols_00d9d000.h"
+#include "fnv/symbols_00df0000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_010d3000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" void _ReadWriteBarrier(void);
 unsigned __int64 __cdecl __rdtsc(void);
 struct __declspec(align(8)) ScratchWord
@@ -73,7 +85,6 @@ struct __declspec(align(16)) VecA
     float z;
     float w;
 };
-extern float DAT_012684d0[4];
 struct InElem
 {
     DWORD* m_20ptr;
@@ -167,13 +178,7 @@ __forceinline void FillChild(OutElem& out, const InElem& in, ArgStruct* arg, int
 }
 struct Ctx
 {
-    int FUN_00d04400(void* p);
-    int InsertItemAndNotify(int h, void* p, int z);
-    void FUN_00d04420(int h);
-    int ProcessCallback(ArgStruct* a, ArgStruct* b, int z);
 };
-extern "C" void __cdecl MixChannels(Head* a1, char* a2, int a3, int a4, int a5, int a6, DWORD* a7);
-extern "C" void __cdecl FUN_00df37b0(Head* a1, char* a2, int a3, int a4, void* a5, int* a6, unsigned short* a7);
 struct ContextHandle
 {
     Ctx* object;
@@ -217,7 +222,7 @@ int __cdecl BuildKdTreeDistributed(ContextHandle ctx, ArgStruct* input, ...)
     int result;
     if (8 > arg->m_38)
     {
-        MixChannels(&head, arg->m_28, arg->m_2c, arg->m_3c, arg->m_38, arg->m_40, &scratch.value);
+        ::MixChannels(&head, (int *)(arg->m_28), arg->m_2c, arg->m_3c, arg->m_38, arg->m_40, (int *)(unsigned long *)(&scratch.value));
         result = 0;
         int* p30 = arg->m_30;
         if (p30 != 0)
@@ -256,7 +261,7 @@ int __cdecl BuildKdTreeDistributed(ContextHandle ctx, ArgStruct* input, ...)
         _mm_store_ps(&in[2].initialVector.x, initial);
         in[3].m_28 = -1;
         _mm_store_ps(&in[3].initialVector.x, initial);
-        FUN_00df37b0(&head, arg->m_28, arg->m_3c, arg->m_38, &in[0].m_20ptr, arg->m_34, &head.s0);
+        ::hkKdTreeBuilder::FUN_00df37b0((*(const ::hkKdTreeBuildInput::WorkingSet *)(&head)), (::KdTreeNode *)(arg->m_28), arg->m_3c, arg->m_38, (::hkKdTreeBuildInput::ProjectedBoundsContext *)(void *)(&in[0].m_20ptr), arg->m_34, (*(const ::FieldlessRecord *)(&head.s0)));
         OutElem out[4];
         result = 0;
         int iQuarter = arg->m_40 / 4;
@@ -370,15 +375,15 @@ int __cdecl BuildKdTreeDistributed(ContextHandle ctx, ArgStruct* input, ...)
             DWORD unk168;
             DWORD unk16c;
         } buf;
-        int h = ctx->FUN_00d04400(&buf);
-        ctx->InsertItemAndNotify(h, &out[0], result);
-        ctx->InsertItemAndNotify(h, &out[1], result);
-        ctx->InsertItemAndNotify(h, &out[2], result);
-        ctx->InsertItemAndNotify(h, &out[3], result);
-        ctx->FUN_00d04420(h);
+        ::Registry* h = reinterpret_cast<::QueueLockView *>(((ctx).operator->()))->FUN_00d04400((::RequestContext *)(void *)(&buf));
+        reinterpret_cast<::Mgr *>(((ctx).operator->()))->InsertItemAndNotify((::PoolSet *)(h), (*(const ::Item *)(&out[0])), result);
+        reinterpret_cast<::Mgr *>(((ctx).operator->()))->InsertItemAndNotify((::PoolSet *)(h), (*(const ::Item *)(&out[1])), result);
+        reinterpret_cast<::Mgr *>(((ctx).operator->()))->InsertItemAndNotify((::PoolSet *)(h), (*(const ::Item *)(&out[2])), result);
+        reinterpret_cast<::Mgr *>(((ctx).operator->()))->InsertItemAndNotify((::PoolSet *)(h), (*(const ::Item *)(&out[3])), result);
+        reinterpret_cast<::CriticalSectionOwner *>(((ctx).operator->()))->FUN_00d04420(h);
         (void)buf;
     }
-    zero = ctx->ProcessCallback(arg, arg, result);
+    zero = reinterpret_cast<::LunaOwner *>(((ctx).operator->()))->ProcessCallback((intptr_t)(arg), (intptr_t)(arg), result);
     TraceBuffer* pTraceBuf2 = (TraceBuffer*)TlsGetValue(DAT_0126835c);
     if (pTraceBuf2->m_pCurrent < pTraceBuf2->m_pRecordEnd)
     {
@@ -392,11 +397,18 @@ int __cdecl BuildKdTreeDistributed(ContextHandle ctx, ArgStruct* input, ...)
     return zero;
 }
 
-extern unsigned long DAT_0126835c;
-extern char str_010cc5c4;
-extern char str_010d3ea4;
-extern char str_010d3eb8;
-extern char str_01076f38;
+
+struct S00d947e0_TimerRec
+{
+    const char* m_name;
+    unsigned int m_ticks;
+    unsigned int unk08;
+};
+
+struct S00d947e0_TimerRec2 : S00d947e0_TimerRec
+{
+    const char* m_name2;
+};
 
 struct S00d947e0_Tls
 {
@@ -458,7 +470,7 @@ struct S00d947e0_Data
     int unk14;
     S00d947e0_Info* unk18;
     int unk1c;
-    int unk20;
+    char* unk20;
     int unk24;
     int unk28;
     int unk2c;
@@ -562,8 +574,6 @@ struct S00d947e0_Cmd : S00d947e0_DynJob
 
 struct S00d947e0_Queue
 {
-    void FUN_00d04b50(const S00d947e0_Job& job, int a);
-    void ProcessCallback(S00d947e0_Data* a, S00d947e0_Data* b, int c);
 };
 
 static __forceinline void S00d947e0_memClear16(int* p, int n)
@@ -578,8 +588,6 @@ static __forceinline void S00d947e0_memClear16(int* p, int n)
     }
 }
 
-void __cdecl FUN_00d8d030(void* a, int b, int c, int d);
-void __cdecl FUN_00df0680(void* a, int b, int c, int d);
 
 // Writes profiler records, clears a buffer, calls FUN_00d8d030, queues an S00d947e0_Cmd via a2->FUN_00d04b50, calls FUN_00df0680, then calls a2->ProcessCallback.
 // @fnv 0x00d947e0
@@ -591,48 +599,53 @@ void __cdecl FUN_00d947e0(S00d947e0_Obj** a1, S00d947e0_Queue* apQueue, S00d947e
     char* cur = tls->unk04;
     if (cur < tls->unk0C)
     {
-        *(char**)cur = &str_010cc5c4;
-        *(char**)(cur + 0xc) = &str_010d3ea4;
+        S00d947e0_TimerRec2* rec = reinterpret_cast<S00d947e0_TimerRec2*>(cur);
+        rec->m_name = &(*reinterpret_cast<char *>(&::str_010cc5c4));
+        rec->m_name2 = &::fnv_00d94570::str_010d3ea4;
         _ReadWriteBarrier();
         tb = (unsigned int)__rdtsc();
-        *(unsigned int*)(cur + 4) = tb;
-        tls->unk04 = cur + 0x10;
+        rec->m_ticks = tb;
+        tls->unk04 = reinterpret_cast<char*>(rec + 1);
     }
 
-    int base = apData->unk20;
-    int p28 = apData->unk28 + base;
-    int p2c = apData->unk2c + base;
-    int p30 = apData->unk30 + base;
+    char* base = apData->unk20;
+    char* p28 = apData->unk28 + base;
+    char* p2c = apData->unk2c + base;
+    char* p30 = apData->unk30 + base;
     unsigned int bytes = (apData->unk38 * 4 + 15) & 0xfffffff0u;
     S00d947e0_memClear16((int*)p30, bytes / 16);
-    FUN_00d8d030(&(*a1)->unk000 + 0x1e0, p2c, p28, p30);
+    ::FUN_00d8d030((*(const ::SInfo *)(&(*a1)->unk000 + 0x1e0)), (::JSchema *)(p2c), (::SAccum *)(p28), (::SElem *)(p30));
 
     S00d947e0_Info* info = apData->unk18;
-    apQueue->FUN_00d04b50(S00d947e0_Cmd(*apData, info), 0);
+    reinterpret_cast<::fnv_00d04b50::Owner *>((apQueue))->FUN_00d04b50((void *)&(const ::S00d947e0_Job &)(S00d947e0_Cmd(*apData, info)), 0);
 
     tls = (S00d947e0_Tls*)TlsGetValue(DAT_0126835c);
     cur = tls->unk04;
     if (cur < tls->unk0C)
     {
-        *(char**)cur = &str_010d3eb8;
+        S00d947e0_TimerRec* rec = reinterpret_cast<S00d947e0_TimerRec*>(cur);
+        rec->m_name = &(*reinterpret_cast<char *>(&::DAT_010d3eb8));
         _ReadWriteBarrier();
         tb = (unsigned int)__rdtsc();
-        *(unsigned int*)(cur + 4) = tb;
-        tls->unk04 = cur + 0xc;
+        rec->m_ticks = tb;
+        tls->unk04 = reinterpret_cast<char*>(rec + 1);
     }
 
-    FUN_00df0680(&(*a1)->unk000 + 0x1e0, info->unk40, info->unk3c, info->unk30);
+    ::FUN_00df0680();
 
     tls = (S00d947e0_Tls*)TlsGetValue(DAT_0126835c);
     cur = tls->unk04;
     if (cur < tls->unk0C)
     {
-        *(char**)cur = &str_01076f38;
+        S00d947e0_TimerRec* rec = reinterpret_cast<S00d947e0_TimerRec*>(cur);
+        rec->m_name = &(*reinterpret_cast<char *>((void *)&::str_01076f38));
         _ReadWriteBarrier();
         tb = (unsigned int)__rdtsc();
-        *(unsigned int*)(cur + 4) = tb;
-        tls->unk04 = cur + 0xc;
+        rec->m_ticks = tb;
+        tls->unk04 = reinterpret_cast<char*>(rec + 1);
     }
 
-    apQueue->ProcessCallback(apData, apData, 0);
+    reinterpret_cast<::LunaOwner *>((apQueue))->ProcessCallback((intptr_t)(apData), (intptr_t)(apData), 0);
 }
+
+#include "generated/data/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreebuildjob.inc"

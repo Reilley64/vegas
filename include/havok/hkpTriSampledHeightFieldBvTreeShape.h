@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpSingleShapeContainer.h"
-#pragma pack(push, 1)
 class hkpTriSampledHeightFieldBvTreeShape
 {
   public:
@@ -16,7 +15,4 @@ class hkpTriSampledHeightFieldBvTreeShape
     hkUint8 m_ucUnknownByte[12];                // +0x21
     char pad2D[0x3];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpTriSampledHeightFieldBvTreeShape[(sizeof(hkpTriSampledHeightFieldBvTreeShape) == 0x30) ? 1 : -1];
 #endif

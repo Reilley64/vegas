@@ -4,9 +4,34 @@
 
 // The .rdata double added to the first matrix element (0.25) lives in the
 // original image, so it is only declared here.
-extern const double DAT_010c9300;
 
 // arg1: the six float vector
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include <xmmintrin.h>
+#include <cmath>
+#include "fnv/decl/FUN_00c7f750_shell.h"
+#include "fnv/decl/FUN_00d72030_cls.h"
+#include "fnv/decl/MatrixProduct.h"
+#include "fnv/decl/S00cd4cc0_M.h"
+#include "fnv/decl/S_00cd4c70.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00cd5000.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00d72000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0103c000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_010d3000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d6ce70_Vector
 {
     float f00;
@@ -71,7 +96,7 @@ void FUN_00d6ce70(FUN_00d6ce70_Vector* v, FUN_00d6ce70_Scale* s, FUN_00d6ce70_De
     dest->f1c = s->f08 * v->f00;
 
     FUN_00d6ce70_Matrix* m = cursor->matrix;
-    m->m00 = (float)((double)m->m00 + DAT_010c9300);
+    m->m00 = (float)((double)m->m00 + ::DAT_010c9300);
     *((unsigned char*)&m->m00) = 15;
 
     m = m + 1;
@@ -85,7 +110,6 @@ void FUN_00d6ce70(FUN_00d6ce70_Vector* v, FUN_00d6ce70_Scale* s, FUN_00d6ce70_De
 }
 
 namespace fnv_00d6f2b0 {
-extern "C" double DAT_010c9300;
 struct EventRecord
 {
     union
@@ -100,37 +124,42 @@ struct EventRecord
     };
     unsigned short context6c;
     unsigned short context70;
-    unsigned int inputBits;
+    void* inputBits;
     unsigned int valueBits;
 };
 struct RecordSource
 {
+    int m_unk00[0x18];
+    mutable volatile int m_60;  // +0x60
+    int m_unk64[2];
+    mutable volatile int m_6c;  // +0x6c
+    mutable volatile int m_70;  // +0x70
     volatile int& f60() const
     {
-        return *reinterpret_cast<volatile int*>(reinterpret_cast<char*>(const_cast<RecordSource*>(this)) + 0x60);
+        return m_60;
     }
     volatile int& f6c() const
     {
-        return *reinterpret_cast<volatile int*>(reinterpret_cast<char*>(const_cast<RecordSource*>(this)) + 0x6c);
+        return m_6c;
     }
     volatile int& f70() const
     {
-        return *reinterpret_cast<volatile int*>(reinterpret_cast<char*>(const_cast<RecordSource*>(this)) + 0x70);
+        return m_70;
     }
 };
 // Advances *dest past a new EventRecord filled from source fields, inputBits and option, with accumulator incremented by DAT_010c9300.
 // @fnv 0x00d6f2b0
-void __cdecl AppendEventRecord(const RecordSource* source, EventRecord** dest, volatile unsigned int inputBits,
+void __cdecl AppendEventRecord(const RecordSource* source, EventRecord** dest, void* volatile inputBits,
                                volatile unsigned char option)
 {
     volatile EventRecord* record = *dest;
-    double next = record->accumulator + DAT_010c9300;
+    double next = record->accumulator + ::DAT_010c9300;
     int n70 = source->f70();
     int iField6c = source->f6c();
     int n60 = source->f60();
     record->accumulator = (float)next;
     record->context70 = (unsigned short)n70;
-    unsigned int uiInputBits = inputBits;
+    void* uiInputBits = inputBits;
     record->valueBits = (unsigned int)n60;
     unsigned char ucOption = option;
     record->context6c = (unsigned short)iField6c;
@@ -155,8 +184,8 @@ struct WriterContext
     int unk24;
     int unk28;
     int unk2c;
-    int unk30;
-    int unk34;
+    void* unk30;
+    void* unk34;
     int unk38;
     int unk3c;
     int unk40;
@@ -168,7 +197,7 @@ struct WriterContext
     int unk58;
     int unk5c;
     int unk60;
-    int unk64;
+    void* unk64;
     int unk68;
     int unk6c;
     int unk70;
@@ -188,7 +217,6 @@ struct WriterRecord
     unsigned int value;
     unsigned int whole;
 };
-extern double _DAT_010c9300;
 // Advances the cursor past a written record, filling its type, flag, value, whole, low and high fields and adding a constant to the float at the cursor.
 // @fnv 0x00d6f270
 static void __declspec(noinline) WriteFloatRecord(WriterContext* pContext, float** cursor, WriterArgs args)
@@ -196,7 +224,7 @@ static void __declspec(noinline) WriteFloatRecord(WriterContext* pContext, float
     float* record = *cursor;
     float old = *record;
     int high = pContext->unk70;
-    old += _DAT_010c9300;
+    old += ::DAT_010c9300;
     int low = pContext->unk6c;
     int whole = pContext->unk60;
     *record = old;
@@ -232,7 +260,7 @@ struct S00d6d990_Src
 struct S00d6d990_Tmp
 {
     int key;
-    int ctx;
+    void* ctx;
     float f;
     unsigned int val;
 };
@@ -251,7 +279,6 @@ struct S00d6d990_Rec
     float unk0c;
 };
 
-void S00d6d990_Sink(S00d6d990_Tmp* t, WriterContext* obj, S00d6d990_Rec** cur);
 
 // Writes a float record to the writer context, either via S00d6d990_Sink when m02 and m08 are set, or by appending a record with type 3 and an adjusted value.
 // @fnv 0x00d6d990
@@ -264,12 +291,12 @@ static __declspec(noinline) void FUN_00d6d990(S00d6d990_Src* src, S00d6d990_Rec*
         t.f = src->m08;
         t.val = src->m04;
         t.ctx = obj->unk64;
-        S00d6d990_Sink(&t, obj, cur);
+        ::FUN_00dcefb0((::Src *)(::S00d6d990_Tmp *)(&t), (::Cfg *)(obj), (::JOut **)(cur));
         return;
     }
     S00d6d990_Rec* p = *cur;
     float v = *(float*)p;
-    double r = v + DAT_010c9300;
+    double r = v + ::DAT_010c9300;
     p->flag = src->m04;
     *(float*)p = (float)r;
     p->type = 3;
@@ -281,7 +308,6 @@ void S00d6d990_Caller(S00d6d990_Src* s, S00d6d990_Rec** c, WriterContext* o, int
     FUN_00d6d990(s, c, o, a);
 }
 
-extern double _DAT_010c9300;
 // Writes a WriterRecord with type 1, storing whole, high, low, value, and flag fields, then advances the cursor past the record.
 // @fnv 0x00d6ea30
 static void __declspec(noinline) FUN_00d6ea30(WriterContext* apWriter, float** cursor, WriterArgs args)
@@ -289,7 +315,7 @@ static void __declspec(noinline) FUN_00d6ea30(WriterContext* apWriter, float** c
     float* record = *cursor;
     float old = *record;
     int high = apWriter->unk70;
-    old += _DAT_010c9300;
+    old += ::DAT_010c9300;
     int low = apWriter->unk6c;
     int whole = apWriter->unk60;
     *record = old;
@@ -345,6 +371,13 @@ struct Ea70Src
     unsigned int unk7c;
 };
 
+// hkContactPoint: position, then the separating normal with the distance in w.
+struct Ea70ContactPoint
+{
+    float m_position[4];
+    float m_separatingNormal[4];
+};
+
 struct Ea70Obj
 {
     unsigned short type;
@@ -363,11 +396,32 @@ struct Ea70Obj
     unsigned int unk1c;
     float f20;
     float f24;
+    unsigned int unk28;
+    unsigned int unk2c;
 
+    // The contact points (stride reserved) follow the 0x30-byte header, then the point properties.
+    const Ea70ContactPoint* points() const
+    {
+        return reinterpret_cast<const Ea70ContactPoint*>(this + 1);
+    }
     const float* vert(int i) const
     {
-        return (const float*)((const char*)this + 0x4c + i * 32);
+        return &points()[i].m_separatingNormal[3];
     }
+    char* properties()
+    {
+        return reinterpret_cast<char*>(const_cast<Ea70ContactPoint*>(points() + stride));
+    }
+};
+
+// hkpContactPointProperties: the solver data used by the step starts at +0x10.
+struct Ea70Properties
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    float m_internalData[4];
 };
 
 struct Ea70Flag
@@ -375,8 +429,6 @@ struct Ea70Flag
     unsigned char v;
 };
 
-void FUN_00d72190(Ea70Obj* a, Ea70Src* b, Ea70Flag c, int* d);
-void FUN_00d6f460(Ea70Obj* a, int b, Ea70Src* c, int* d);
 
 static inline void Ea70Step(const float* x, float* y, const Ea70Obj* self, const Ea70Src* src, float& a)
 {
@@ -402,14 +454,14 @@ static __declspec(noinline) void FUN_00d6ea70(Ea70Src* src, Ea70Obj* self, int* 
     do
         node = node->next;
     while (node->type >= 0x17);
-    char* rec = (char*)node + 0x30 + (node->stride << 5);
+    char* rec = node->properties();
     int count;
     count = node->count;
     long recStride = node->recStride;
 
     for (int m = 0; m < count; m++)
     {
-        Ea70Step(node->vert(m), (float*)(rec + 0x10), self, src, a);
+        Ea70Step(node->vert(m), reinterpret_cast<Ea70Properties*>(rec)->m_internalData, self, src, a);
         rec += recStride;
     }
     Ea70Obj* next = self->next;
@@ -417,11 +469,11 @@ static __declspec(noinline) void FUN_00d6ea70(Ea70Src* src, Ea70Obj* self, int* 
     {
         Ea70Flag flag;
         flag.v = 1;
-        FUN_00d72190(next, &L, flag, alloc);
+        ::FUN_00d72190((::Node *)(next), (::Buffer *)(::Ea70Src *)(&L), (*(int *)&(const ::Ea70Flag &)(flag)), alloc);
     }
     else
     {
-        FUN_00d6f460(next, w12, &L, alloc);
+        ::FUN_00d6f460((const ::Atom *)(next), w12, (const ::QueryIn *)(::Ea70Src *)(&L), (::QueryOut *)(alloc));
     }
 }
 
@@ -430,14 +482,6 @@ void Ea70_caller(Ea70Src* s, Ea70Obj* o, int* a)
     FUN_00d6ea70(s, o, a);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 struct S6edf0_Vec
 {
@@ -453,16 +497,12 @@ struct S6edf0_Rot
     S6edf0_Vec c0;
     S6edf0_Vec c1;
     S6edf0_Vec c2;
-    void FUN_00cd4cc0(const S6edf0_Vec* q);
-    void FUN_00cd5610(const S6edf0_Rot* r, S6edf0_Rot* out);
-    void Multiply(const S6edf0_Vec* v);
 };
 
 struct S6edf0_Quat
 {
     S6edf0_Vec v;
-    void FUN_00c7f700(unsigned int a, const S6edf0_Vec* b);
-    void FUN_00c7f750(const S6edf0_Rot* a, S6edf0_Vec* b);
+    void FUN_00c7f700(const void* a, const S6edf0_Vec* b);
 };
 
 struct S6edf0_Motion
@@ -473,7 +513,7 @@ struct S6edf0_Motion
     S6edf0_Vec m30;
     S6edf0_Vec m40;
     S6edf0_Rot m50;
-    void FUN_00d71f90(unsigned int a);
+    void FUN_00d71f90(const void* a);
 };
 
 struct S6edf0_Blob
@@ -490,10 +530,10 @@ struct S6edf0_Blob
     unsigned int u24;
     unsigned int u28;
     unsigned int u2c;
-    unsigned int u30;
-    unsigned int u34;
-    unsigned int u38;
-    unsigned int u3c;
+    void* u30;
+    void* u34;
+    const void* u38;
+    const void* u3c;
     unsigned int u40;
     unsigned int u44;
     unsigned int u48;
@@ -527,7 +567,6 @@ struct S6edf0_Ctx
     S6edf0_Vec m30;
 };
 
-extern const float DAT_01012054;
 
 struct __declspec(align(16)) S6edf0_F4
 {
@@ -559,13 +598,10 @@ union S6edf0_Tag
     unsigned char b;
 };
 
-void WriteVector(S6edf0_Rot* a, S6edf0_Rot* b, unsigned int c);
-void FUN_00d72190(unsigned short* p, S6edf0_Blob* b, S6edf0_Tag t, unsigned int c);
-void FUN_00d6f460(unsigned short* p, S6edf0_Tag t, S6edf0_Blob* b, unsigned int c);
 
 // Builds motion data from src and ctx, then calls FUN_00d72190 if *ctx->m14 is 0x16 or FUN_00d6f460 otherwise, bracketed by two WriteVector calls.
 // @fnv 0x00d6edf0
-void FUN_00d6edf0(S6edf0_Ctx* ctx, S6edf0_Blob* src, unsigned int arg3)
+void FUN_00d6edf0(S6edf0_Ctx* ctx, S6edf0_Blob* src, void* arg3)
 {
     S6edf0_Tag tag;
     S6edf0_F4 neg;
@@ -586,48 +622,48 @@ void FUN_00d6edf0(S6edf0_Ctx* ctx, S6edf0_Blob* src, unsigned int arg3)
 
     ma.m40.add4(frames.qa.v);
     mb.m40.add4(frames.qb.v);
-    blob.u30 = (unsigned int)&ma;
-    blob.u34 = (unsigned int)&mb;
+    blob.u30 = &ma;
+    blob.u34 = &mb;
 
-    frames.ra.FUN_00cd4cc0(&frames.qa.v);
-    frames.rb.FUN_00cd4cc0(&frames.qb.v);
+    reinterpret_cast<::S00cd4cc0_M *>(&(frames.ra))->FUN_00cd4cc0((const float *)(const ::S6edf0_Vec *)(&frames.qa.v));
+    reinterpret_cast<::S00cd4cc0_M *>(&(frames.rb))->FUN_00cd4cc0((const float *)(const ::S6edf0_Vec *)(&frames.qb.v));
 
     tmp.c0.m_vComponents = frames.ra.c0.m_vComponents;
     tmp.c1.m_vComponents = frames.ra.c1.m_vComponents;
     tmp.c2.m_vComponents = frames.ra.c2.m_vComponents;
-    frames.ra.FUN_00cd5610(&tmp, &ma.m50);
+    reinterpret_cast<::MatrixProduct *>(&(frames.ra))->FUN_00cd5610((*(const ::hkMatrix3CD4B *)(&tmp)), (*(const ::CD4BA0Matrix3 *)(&ma.m50)));
     tmp.c0.m_vComponents = frames.rb.c0.m_vComponents;
     tmp.c1.m_vComponents = frames.rb.c1.m_vComponents;
     tmp.c2.m_vComponents = frames.rb.c2.m_vComponents;
-    frames.rb.FUN_00cd5610(&tmp, &mb.m50);
+    reinterpret_cast<::MatrixProduct *>(&(frames.rb))->FUN_00cd5610((*(const ::hkMatrix3CD4B *)(&tmp)), (*(const ::CD4BA0Matrix3 *)(&mb.m50)));
 
     gr.ga.c0.m_vComponents = frames.ra.c0.m_vComponents;
     gr.ga.c1.m_vComponents = frames.ra.c1.m_vComponents;
     gr.ga.c2.m_vComponents = frames.ra.c2.m_vComponents;
     _mm_store_ps(&neg.x, _mm_load_ss(&DAT_01012054));
-    gr.ga.Multiply((const S6edf0_Vec*)&neg);
+    reinterpret_cast<::S_00cd4c70 *>(&(gr.ga))->Multiply((*(const ::S_V4 *)((const S6edf0_Vec*)&neg)));
     gr.gb.c0.m_vComponents = frames.rb.c0.m_vComponents;
     gr.gb.c1.m_vComponents = frames.rb.c1.m_vComponents;
     gr.gb.c2.m_vComponents = frames.rb.c2.m_vComponents;
     _mm_store_ps(&neg.x, _mm_load_ss(&DAT_01012054));
-    gr.gb.Multiply((const S6edf0_Vec*)&neg);
+    reinterpret_cast<::S_00cd4c70 *>(&(gr.gb))->Multiply((*(const ::S_V4 *)((const S6edf0_Vec*)&neg)));
 
-    gr.ia.FUN_00c7f750(&gr.ga, &ma.m20);
-    gr.ib.FUN_00c7f750(&gr.gb, &mb.m20);
+    reinterpret_cast<::FUN_00c7f750_shell *>(&(gr.ia))->FUN_00c7f750((float *)(&gr.ga), (float *)(::S6edf0_Vec *)(&ma.m20));
+    reinterpret_cast<::FUN_00c7f750_shell *>(&(gr.ib))->FUN_00c7f750((float *)(&gr.gb), (float *)(::S6edf0_Vec *)(&mb.m20));
     ma.m10.add4(gr.ia.v);
     mb.m10.add4(gr.ib.v);
 
-    WriteVector(&gr.ga, &gr.gb, arg3);
+    ::WriteVector((__m128 *)(::S6edf0_Rot *)(&gr.ga), (__m128 *)(::S6edf0_Rot *)(&gr.gb), (__m128 **)(arg3));
     if (*p == 0x16)
     {
         tag.b = 1;
-        FUN_00d72190(p, &blob, tag, arg3);
+        ::FUN_00d72190((::Node *)(p), (::Buffer *)(::S6edf0_Blob *)(&blob), (*(int *)&(const ::S6edf0_Tag &)(tag)), (int *)(arg3));
     }
     else
     {
-        FUN_00d6f460(p, tag, &blob, arg3);
+        ::FUN_00d6f460((const ::Atom *)(p), (*(int *)&(const ::S6edf0_Tag &)(tag)), (const ::QueryIn *)(::S6edf0_Blob *)(&blob), (::QueryOut *)(arg3));
     }
-    WriteVector(&frames.ra, &frames.rb, arg3);
+    ::WriteVector((__m128 *)(::S6edf0_Rot *)(&frames.ra), (__m128 *)(::S6edf0_Rot *)(&frames.rb), (__m128 **)(arg3));
 }
 
 __declspec(align(16)) struct FUN_00d71f90_cls
@@ -694,7 +730,6 @@ FUN_00d71f90_cls* FUN_00d71f90_cls::FUN_00d71f90(const FUN_00d71f90_cls* src)
 
 namespace fnv_00dced90 {
 extern "C" void _ReadWriteBarrier(void);
-extern double DAT_010c9300;
 
 // Copies *a and *b into two 16-byte slots at *out, adds DAT_010c9300 to the first float, sets the first byte to 0x19, and advances *out by 0x20.
 // @fnv 0x00dced90
@@ -706,7 +741,7 @@ void __cdecl FUN_00dced90(const __m128* a, const __m128* b, char** ppCursor)
     double first = (double)*(float*)p;
     __m128 vb = *b;
     _ReadWriteBarrier();
-    double biased = first + DAT_010c9300;
+    double biased = first + ::DAT_010c9300;
     *(__m128*)(p + 0x10) = vb;
     p += 0x20;
     *(float*)(p - 0x20) = (float)biased;
@@ -727,11 +762,11 @@ struct __declspec(align(16)) FUN_00dcedd0_Record
         FUN_00dcedd0_Fields fields;
         unsigned char type;
     };
-    void* object;
+    unsigned int object;
 };
 // Stores value, object, and type 0x1a into the record at cursor, adds a small epsilon to x, and advances cursor.
 // @fnv 0x00dcedd0
-void __cdecl FUN_00dcedd0(const __m128* value, void* object, FUN_00dcedd0_Record** cursor)
+void __cdecl FUN_00dcedd0(const __m128* value, unsigned int object, FUN_00dcedd0_Record** cursor)
 {
     FUN_00dcedd0_Record* record = *cursor;
     record->value = *value;
@@ -765,16 +800,15 @@ struct Buf
     float f34;
 };
 
-extern "C" void __cdecl ComputeAngularJacobian(void* out, unsigned int a1, unsigned int a3);
 extern "C" Aux* stub_aux(void);
 extern "C" Self* stub_self(void);
-extern "C" unsigned int stub_a1(void);
+extern "C" const void* stub_a1(void);
 extern "C" Self* stub_p30(void);
-extern "C" unsigned int stub_a3(void);
+extern "C" void* stub_a3(void);
 
 // Stores p30->grid[3], self->grid[3], self->grid[aux->idx] and aux's two floats in a local buffer, then calls ComputeAngularJacobian with a1 and a3.
 // @fnv 0x00d6d220
-static __declspec(noinline) void FUN_00d6d220(Aux* aux, Self* self, unsigned int a1, const Self* p30, unsigned int a3)
+static __declspec(noinline) void FUN_00d6d220(Aux* aux, Self* self, const void* a1, const Self* p30, void* a3)
 {
     __declspec(align(16)) Buf b;
     _mm_store_ps(b.g0, p30->grid[3]);
@@ -782,7 +816,7 @@ static __declspec(noinline) void FUN_00d6d220(Aux* aux, Self* self, unsigned int
     _mm_store_ps(b.g2, self->grid[aux->idx]);
     b.f30 = aux->unk04;
     b.f34 = aux->unk08;
-    ComputeAngularJacobian(&b, a1, a3);
+    ::ComputeAngularJacobian((*(const ::Info_dcf880 *)(&b)), (*(const ::QueryIn_dcf880 *)(a1)), (*(::QueryOut_dcf880 *)(a3)));
 }
 
 void stub_caller(void)
@@ -790,16 +824,31 @@ void stub_caller(void)
     FUN_00d6d220(stub_aux(), stub_self(), stub_a1(), stub_p30(), stub_a3());
 }
 
-extern "C" void __cdecl FUN_00dcfa30(void* out, unsigned int a1, unsigned int a3);
 
 struct F4
 {
     float x, y, z, w;
 };
 
+// hkTransform: rotation columns, then the translation.
+struct Transform4
+{
+    F4 m_col[3];
+    F4 m_translation;
+};
+
+// hkpLinLimitConstraintAtom.
+struct LinLimitAtom
+{
+    unsigned short m_type;
+    unsigned char m_ucAxisIndex;
+    float m_kMinimumCorner;
+    float m_kMaximumCorner;
+};
+
 // Builds a local buffer of three vectors and two floats from b, d and a2, then calls FUN_00dcfa30 with it, a1 and a3.
 // @fnv 0x00d6d280
-static __declspec(noinline) void FUN_00d6d280(char* b, char* d, unsigned int a1, char* a2, unsigned int a3)
+static __declspec(noinline) void FUN_00d6d280(const Transform4* b, const LinLimitAtom* d, void* a1, const Transform4* a2, void* a3)
 {
     __declspec(align(16)) struct Buf
     {
@@ -810,16 +859,16 @@ static __declspec(noinline) void FUN_00d6d280(char* b, char* d, unsigned int a1,
         float m_f4;
     } buf;
 
-    buf.m_f3 = *(float*)(d + 4);
-    _mm_store_ps(&buf.m_v0.x, *(const __m128*)((const char*)a2 + 0x30));
-    buf.m_f4 = *(float*)(d + 8);
-    _mm_store_ps(&buf.m_v1.x, *(const __m128*)((const char*)b + 0x30));
-    _mm_store_ps(&buf.m_v2.x, *(const __m128*)(b + ((unsigned int)(unsigned char)d[2] << 4)));
+    buf.m_f3 = d->m_kMinimumCorner;
+    _mm_store_ps(&buf.m_v0.x, *(const __m128*)&a2->m_translation);
+    buf.m_f4 = d->m_kMaximumCorner;
+    _mm_store_ps(&buf.m_v1.x, *(const __m128*)&b->m_translation);
+    _mm_store_ps(&buf.m_v2.x, *(const __m128*)&b->m_col[d->m_ucAxisIndex]);
 
-    FUN_00dcfa30((void*)&buf, a1, a3);
+    ::FUN_00dcfa30((::Info_dcf880 *)(void *)((void*)&buf), (::S_00dcf100_Cfg *)(a1), (::Jac_dcf880 **)(a3));
 }
 
-void S00d6d280_Entry(char* d, char* b, unsigned int a1, char* a2, unsigned int a3)
+void S00d6d280_Entry(const LinLimitAtom* d, const Transform4* b, void* a1, const Transform4* a2, void* a3)
 {
     FUN_00d6d280(b, d, a1, a2, a3);
 }
@@ -838,21 +887,12 @@ void __cdecl WriteVector(__m128* first, __m128* second, __m128** output)
     destination[4] = second[1];
     destination[5] = second[2];
     _ReadWriteBarrier();
-    reinterpret_cast<float*>(destination)[0] += DAT_010c9300;
+    reinterpret_cast<float*>(destination)[0] += ::DAT_010c9300;
     reinterpret_cast<unsigned char*>(destination)[0] = 0x1b;
     *output = destination + 6;
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ss(float*, __m128);
 
-extern __m128 DAT_01268370[3];
 
 struct ConstraintMotion
 {
@@ -951,9 +991,9 @@ void __cdecl FUN_00d6c970(PivotPair pv, SegCtx* apSegCtx, __m128* out)
 {
     ConstraintMotion* pMotionA = apSegCtx->m_p30;
     ConstraintMotion* pMotionB = apSegCtx->m_p34;
-    const __m128* tp = DAT_01268370;
+    const __m128* tp = (*reinterpret_cast<__m128 (*)[3]>(&::DAT_01268370));
     __m128* pEntry = out + 1;
-    double K = DAT_010c9300;
+    double K = ::DAT_010c9300;
     int n = 3;
     do
     {
@@ -978,7 +1018,7 @@ void __cdecl FUN_00d6c970(PivotPair pv, SegCtx* apSegCtx, __m128* out)
         pEntry[0] = o0;
 
         __m128 d50 = pMotionB->m50;
-        __m128 d60 = _mm_load_ps(pMotionB->m60.m128_f32);
+        __m128 d60 = _mm_load_ps(reinterpret_cast<float*>(&pMotionB->m60));
         __m128 d70 = pMotionB->m70;
         __m128 o1 = _mm_add_ps(
             _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(Y, Y, 0x55), d60), _mm_mul_ps(_mm_shuffle_ps(Y, Y, 0), d50)),
@@ -990,8 +1030,8 @@ void __cdecl FUN_00d6c970(PivotPair pv, SegCtx* apSegCtx, __m128* out)
         float L = Diagonal(pEntry[0], o1, mass_a, mass_b);
         float M = (float)((double)L + K);
 
-        pEntry[1].m128_f32[3] = M;
-        pEntry[0].m128_f32[3] = fp / M;
+        pEntry[1][3] = M;
+        pEntry[0][3] = fp / M;
 
         __m128 BA = _mm_sub_ps(pv.B(), pv.A());
         __m128 prod = _mm_mul_ps(BA, *tp);
@@ -999,21 +1039,13 @@ void __cdecl FUN_00d6c970(PivotPair pv, SegCtx* apSegCtx, __m128* out)
         __m128 dz = _mm_add_ss(_mm_shuffle_ps(prod, prod, 0xaa), dx);
         float D;
         _mm_store_ss(&D, dz);
-        pEntry[-1].m128_f32[3] = D * fq;
+        pEntry[-1][3] = D * fq;
 
         tp++;
         pEntry += 3;
     } while (--n != 0);
 }
 
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern const __m128 DAT_010c44d0;
-extern const double DAT_010c9300;
 struct Body409
 {
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -1064,28 +1096,14 @@ void FUN_00d6cd70(const __m128& in, const Pair409& xf, Jacobian409& out, float& 
     s = _mm_add_ss(_mm_shuffle_ps(d, d, 0xaa), s);
     float f;
     _mm_store_ss(&f, s);
-    f = (float)(f + DAT_010c9300);
+    f = (float)(f + ::DAT_010c9300);
     float r = 1.0f / f;
-    out.first.m128_f32[3] = r;
+    out.first[3] = r;
     outRecip = r;
 }
 
-extern "C"
-{
-    __m128 _mm_load_ps1(const float* p);
-    __m128 _mm_load_ss(const float* p);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_mul_ss(__m128 a, __m128 b);
-    __m128 _mm_sqrt_ss(__m128 a);
-    void _mm_store_ss(float* p, __m128 a);
-}
 
 extern const double DAT_010d33d0;
-extern float Atan2(float y, float x);
 
 struct VectorComponentValue
 {
@@ -1282,14 +1300,7 @@ int TwistLimit_Entry(const SixteenWordFloatRecord* in, const hkRotation* baseB, 
     return FUN_00d6d450(in, baseB, info, atom, baseA);
 }
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
-extern const __m128 DAT_010c4c00;
-extern const __m128 DAT_010c44d0;
 
 struct S6f0c0_F4
 {
@@ -1369,7 +1380,6 @@ struct S6f0c0_Link
     int unk74;
     int unk78;
     int unk7c;
-    void FUN_00d72030(S6f0c0_Link* prev);
 };
 struct S6f0c0_Blob
 {
@@ -1458,8 +1468,6 @@ inline void S6f0c0_Emit(S6f0c0_Blob* source, S6f0c0_Rec** cursor, void* data, un
     *cursor = record + 1;
 }
 
-void __cdecl FUN_00d72190(S6f0c0_Bone* bone, S6f0c0_Blob* blob, S6f0c0_Tag tag, S6f0c0_Rec** cursor);
-void __cdecl FUN_00dcedd0(const __m128* value, unsigned int flag, S6f0c0_Rec** cursor);
 
 // Writes a bone record to the cursor, computes a direction vector from the bone axis and context dir, and emits two vector records.
 // @fnv 0x00d6f0c0
@@ -1478,16 +1486,16 @@ static __declspec(noinline) void FUN_00d6f0c0(S6f0c0_Ctx* ctx, S6f0c0_Blob* src,
     const __m128& localDirection = *(__m128*)&dir;
     if (!neg)
     {
-        lp->FUN_00d72030(src->link30);
+        reinterpret_cast<::FUN_00d72030_cls *>((lp))->FUN_00d72030((const ::FUN_00d72030_cls *)(src->link30));
         vDir = localDirection;
         src->link30 = lp;
     }
     else
     {
-        lp->FUN_00d72030(src->link34);
+        reinterpret_cast<::FUN_00d72030_cls *>((lp))->FUN_00d72030((const ::FUN_00d72030_cls *)(src->link34));
         vDir = localDirection;
         src->link34 = lp;
-        vDir = _mm_xor_ps(vDir, DAT_010c4c00);
+        vDir = _mm_xor_ps(vDir, ::DAT_010c4c00);
     }
     S6f0c0_F4 ax = bone->axis;
     __m128 axis = *(__m128*)&ax;
@@ -1496,13 +1504,13 @@ static __declspec(noinline) void FUN_00d6f0c0(S6f0c0_Ctx* ctx, S6f0c0_Blob* src,
     d = _mm_add_ss(_mm_shuffle_ps(d, d, 0xaa), t);
     v = _mm_xor_ps(_mm_sub_ps(vDir, _mm_mul_ps(_mm_shuffle_ps(d, d, 0), axis)), DAT_010c44d0);
     unsigned int flag = neg != 0;
-    FUN_00dcedd0(&v, flag, cursor);
+    ::FUN_00dcedd0(&v, flag, (::FUN_00dcedd0_Record **)(cursor));
     link.vel = _mm_add_ps(link.vel, v);
     S6f0c0_Tag tag;
     tag.b = 0;
-    FUN_00d72190(bone, &blobCopy, tag, cursor);
+    ::FUN_00d72190((::Node *)(bone), (::Buffer *)(::S6f0c0_Blob *)(&blobCopy), (*(int *)&(const ::S6f0c0_Tag &)(tag)), (int *)(cursor));
     v = _mm_xor_ps(v, DAT_010c44d0);
-    FUN_00dcedd0(&v, flag, cursor);
+    ::FUN_00dcedd0(&v, flag, (::FUN_00dcedd0_Record **)(cursor));
 }
 
 void S6f0c0_Caller(S6f0c0_Ctx* ctx, S6f0c0_Blob* src, S6f0c0_Rec** cursor)
@@ -1511,15 +1519,10 @@ void S6f0c0_Caller(S6f0c0_Ctx* ctx, S6f0c0_Blob* src, S6f0c0_Rec** cursor)
 }
 
 #include <math.h>
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern float DAT_0104da4c;
+#include "fnv/symbols_simd.h"
 extern float DAT_010d33d8[];
 extern float DAT_010d33e0[];
 extern float DAT_010d33e4;
-float __cdecl Atan2(float a, float b);
 struct Ctx
 {
     unsigned char m00;
@@ -1558,7 +1561,7 @@ struct VecArg
 // @fnv 0x00d6d5d0
 static __declspec(noinline) int __cdecl FUN_00d6d5d0(float* a1, VecArg a2, VecArg a3, Ctx* self, Out* out)
 {
-    float threshold = DAT_0104da4c;
+    float threshold = ::DAT_0104da4c;
     const __m128& A = a2.p[self->m03];
     const __m128& B = a3.p[self->m04];
     __m128 p1 = _mm_mul_ps(_mm_shuffle_ps(A, A, 0xd2), _mm_shuffle_ps(B, B, 0xc9));
@@ -1625,15 +1628,7 @@ template <class T> class FieldValue
     }
 };
 extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
-extern "C" void _mm_store_ss(float*, __m128);
 extern const double DAT_010d33d0;
-extern const __m128 DAT_010c44d0;
 
 struct PackedScalar
 {
@@ -1886,8 +1881,6 @@ struct EvalOutput
 {
     FieldValue<float> f00, f04, f08, f0c, f10, f14;
 };
-extern "C" void __cdecl FUN_00cd5530(Basis*, const Basis*, const Basis*);
-extern "C" void __cdecl FUN_00dcfff0(void*, const EvalInput*, EvalOutput*);
 
 static __forceinline __m128 rotate(FnvSubObject* o, __m128 v)
 {
@@ -1916,7 +1909,7 @@ static __declspec(noinline) void FUN_00d6dd60(FnvPacket* context, AxisRecord* re
     if (record->active)
     {
         Basis transformed;
-        FUN_00cd5530(&transformed, context->unk3c, &record->basis);
+        ::FUN_00cd5530((float *)(::Basis *)(&transformed), (const float *)(context->unk3c), (const float *)(const ::Basis *)(&record->basis));
         EvalInput input;
         input.property.b = input.property.a = 0.0f;
         input.context = context;
@@ -1959,7 +1952,7 @@ static __declspec(noinline) void FUN_00d6dd60(FnvPacket* context, AxisRecord* re
                 input.deltaNew = newAngle - previous[i];
                 input.deltaOld = previous[i] - oldAngle;
                 EvalOutput result;
-                FUN_00dcfff0(current, &input, &result);
+                ::FUN_00dcfff0((::ObjA *)(current), (::ObjB *)(&input), (float *)(::EvalOutput *)(&result));
                 out->second.components.w = context->scale2 * result.f00;
                 StreamRecord* __restrict emit = *cursor;
                 emit->stamp += 1.1920928955078125e-7;
@@ -1994,18 +1987,7 @@ void TargetCaller()
     FUN_00d6dd60(sourcePacket, sourceRecord, sourceA, sourceB, sourceCursor);
 }
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm8);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_sub_ss(__m128 a, __m128 b);
-    void _mm_store_ss(float* p, __m128 a);
-    __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-    int _mm_movemask_ps(__m128 a);
-}
-extern long(__stdcall* DAT_00fdf1ec)(long volatile*, long);
+extern long(* DAT_00fdf1ec)(long volatile*, long);
 union __declspec(align(16)) V4
 {
     __m128& simd()
@@ -2105,7 +2087,7 @@ union __declspec(align(16)) FUN_004b4ab0_Class
     {
         return *(const __m128*)this;
     }
-    void FUN_004b4ab0(int, int);
+    void FUN_004b4ab0(intptr_t, intptr_t);
 };
 struct Record
 {
@@ -2113,8 +2095,6 @@ struct Record
     V4 angularA;
     V4 angularB;
 };
-extern float DAT_010c7948[];
-extern double DAT_0104e138;
 static __forceinline __m128 Cross(const __m128& a, const __m128& b)
 {
     __m128 left = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2));
@@ -2174,8 +2154,8 @@ static void __declspec(noinline)
     V4 rb;
     rb.simd() = _mm_sub_ps(pb.simd(), bodyB->center.simd());
     FUN_004b4ab0_Class wa, wb;
-    wa.FUN_004b4ab0((int)&bodyA->rot, (int)&bodyA->linear);
-    wb.FUN_004b4ab0((int)&bodyB->rot, (int)&bodyB->linear);
+    wa.FUN_004b4ab0(reinterpret_cast<intptr_t>(&bodyA->rot), reinterpret_cast<intptr_t>(&bodyA->linear));
+    wb.FUN_004b4ab0(reinterpret_cast<intptr_t>(&bodyB->rot), reinterpret_cast<intptr_t>(&bodyB->linear));
     __m128 scale = _mm_shuffle_ps(inverseV.simd(), inverseV.simd(), 0);
     V4 velocity;
     velocity.simd() =
@@ -2191,7 +2171,7 @@ static void __declspec(noinline)
                 apConstraint->notifications[n + 1] = apConstraint->identifier;
         }
     }
-    const V4* pAxis = (const V4*)DAT_01268370;
+    const V4* pAxis = (const V4*)(*reinterpret_cast<__m128 (*)[3]>(&::DAT_01268370));
     for (int i = 0; i < 3; ++i, ++pAxis)
     {
         float strength = apConstraint->strength;
@@ -2225,12 +2205,12 @@ static void __declspec(noinline)
         if (threshold == 3.402820018375656e38)
         {
             out->axis.x += 1.1920928955078125e-7;
-            ((unsigned char*)out)[0] = 5;
+            *reinterpret_cast<unsigned char*>(&out->axis.x) = 5;
         }
         else
         {
             out->axis.x += 1.1920928955078125e-7;
-            ((unsigned char*)out)[0] = 6;
+            *reinterpret_cast<unsigned char*>(&out->axis.x) = 6;
             out->angularB.w = threshold;
         }
         ++out;
@@ -2247,12 +2227,6 @@ void ConstraintWrite_use()
     FUN_00d6ced0(callInput, callObject, callA, callB, callCursor);
 }
 
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 extern "C" void _ReadWriteBarrier();
 
 struct AngularRecord
@@ -2296,9 +2270,6 @@ struct AngularRow
     __m128 angularB;
     float p20, p24, p28, p2c, p30, p34, p38, p3c;
 };
-extern unsigned char DAT_010d33c1[];
-extern unsigned char DAT_010d33c2[];
-extern const __m128 DAT_010c44d0;
 
 static __forceinline void AngularSum(float* out, __m128 m)
 {
@@ -2364,9 +2335,9 @@ static __declspec(noinline) void FUN_00d6da00(WriterContext* apContext, AngularR
     if (solver && record->enabled)
     {
         unsigned axis = record->axis;
-        const __m128* pa = (const __m128*)((unsigned)aa.p + DAT_010d33c1[axis]);
-        const __m128* pb = (const __m128*)((unsigned)ab.p + DAT_010d33c2[axis]);
-        const __m128* pc = (const __m128*)((unsigned)ab.p + (axis << 4));
+        const __m128* pa = (const __m128*)((const char*)aa.p + DAT_010d33c1[axis]);
+        const __m128* pb = (const __m128*)((const char*)ab.p + DAT_010d33c2[axis]);
+        const __m128* pc = &ab.p[axis];
         float dot;
         AngularDot(&dot, *pa, *pb);
         __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(*pc, *pc, 0xd2), _mm_shuffle_ps(*pb, *pb, 0xc9)),
@@ -2388,7 +2359,7 @@ static __declspec(noinline) void FUN_00d6da00(WriterContext* apContext, AngularR
         AngularInput input;
         input.base.f00 = 0.0f;
         input.base.f04 = 0.0f;
-        const __m128* directionPtr = (const __m128*)((unsigned)aa.p + (record->axis << 4));
+        const __m128* directionPtr = &aa.p[record->axis];
         AngularMatrix* matrixB = (AngularMatrix*)apContext->unk34;
         AngularMatrix* matrixA = (AngularMatrix*)apContext->unk30;
         __m128 neg = _mm_xor_ps(*directionPtr, DAT_010c44d0);
@@ -2397,19 +2368,19 @@ static __declspec(noinline) void FUN_00d6da00(WriterContext* apContext, AngularR
         __m128 va = row->angularA, vb = row->angularB;
         __m128 weightedB = _mm_mul_ps(_mm_mul_ps(vb, vb), matrixB->inertia);
         __m128 weightedA = _mm_mul_ps(_mm_mul_ps(va, va), matrixA->inertia);
-        float mass = 1.0f / (float)(ReduceFloat(_mm_add_ps(weightedB, weightedA)) + _DAT_010c9300);
-        row->angularA.m128_f32[3] = mass;
+        float mass = 1.0f / (float)(ReduceFloat(_mm_add_ps(weightedB, weightedA)) + ::DAT_010c9300);
+        row->angularA[3] = mass;
         input.mass = mass;
         input.context = apContext;
         input.base = *(AngularData*)apContext->unk64;
         input.error = record->limit - *previous;
         input.delta = ScalarValue(*previous) - angle;
         AngularOutput output;
-        FUN_00dcfff0(solver, (const EvalInput*)&input, (EvalOutput*)&output);
+        ::FUN_00dcfff0((::ObjA *)(solver), (::ObjB *)((const EvalInput*)&input), (float *)(::EvalOutput *)((EvalOutput*)&output));
         AngularRow** cursor = CursorValue((&cur.row));
-        row->angularB.m128_f32[3] = ((float&)apContext->unk08) * output.p0;
+        row->angularB[3] = ((float&)apContext->unk08) * output.p0;
         AngularRow* current = *cursor + 1;
-        current[-1].angularA.m128_f32[0] += _DAT_010c9300;
+        current[-1].angularA[0] += ::DAT_010c9300;
         current[-1].header.type = 15;
         current[-1].p20 = ScalarValue(output.p2) * ((float&)apContext->unk04);
         double scaled = output.p3 * ((float&)apContext->unk04);
@@ -2429,7 +2400,7 @@ static __declspec(noinline) void FUN_00d6da00(WriterContext* apContext, AngularR
         AngularRow** cursor = CursorValue((&cur.row));
         AngularRow* current = *cursor;
         current->header.flag = 1;
-        current->angularA.m128_f32[0] += _DAT_010c9300;
+        current->angularA[0] += ::DAT_010c9300;
         current->header.type = 3;
         *cursor = (AngularRow*)((__m128*)current + 1);
     }
@@ -2440,15 +2411,6 @@ void AngularWrite_use(AngularRecord* record, WriterContext* object, __m128* axes
     FUN_00d6da00(object, record, aa, ab, *(RowCursor*)cursor);
 }
 
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern const float DAT_01011d78;
-extern const float DAT_01017718;
-extern float DAT_01016248;
 
 struct SolverVector
 {
@@ -2474,7 +2436,7 @@ struct SolverVector
             __m128 r = _mm_rsqrt_ss(s);
             __m128 mask = _mm_cmpeq_ss(s, _mm_load_ss(&DAT_01011d78));
             __m128 t = _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(s, r), r));
-            __m128 inv = _mm_andnot_ps(mask, _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248), r), t));
+            __m128 inv = _mm_andnot_ps(mask, _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), r), t));
             v = _mm_mul_ps(_mm_shuffle_ps(inv, inv, 0), a.v);
         }
         else
@@ -2555,9 +2517,9 @@ static __declspec(noinline) void FUN_00d6e6b0(SolverGeometry* geometry, SolverBo
     SolverRecord* error;
     error = *cursor;
     SolverVector unitA;
-    unitA.normalized(deltaA, DAT_01268370[0]);
+    unitA.normalized(deltaA, (*reinterpret_cast<__m128 (*)[3]>(&::DAT_01268370))[0]);
     SolverVector unitB;
-    unitB.normalized(deltaB, _mm_xor_ps(DAT_01268370[0], DAT_010c44d0));
+    unitB.normalized(deltaB, _mm_xor_ps((*reinterpret_cast<__m128 (*)[3]>(&::DAT_01268370))[0], DAT_010c44d0));
     z.ratio = kIter.ratio;
     const float* scale = &z.ratio;
     unitB.v = _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(scale), _mm_load_ss(scale), 0), unitB.v);
@@ -2616,16 +2578,9 @@ void SolverWrite_use()
 }
 
 extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" double sqrt(double);
-extern float DAT_0104da4c;
 extern float DAT_010d33e0[];
 extern float DAT_010d33d8[];
 extern float DAT_010d33e4;
-extern double DAT_0103c7c8;
 
 struct ConstraintSource
 {
@@ -2666,7 +2621,7 @@ static __declspec(noinline) int FUN_00d6d720(ConstraintSource* apSource, Constra
                                              ConstraintContext* apContext, VectorInput a, VectorInput b)
 {
     unsigned long result;
-    float epsilon = DAT_0104da4c;
+    float epsilon = ::DAT_0104da4c;
     const __m128& aAxis = a.p[apSource->indexA];
     const __m128& bAxis = b.p[apSource->indexB];
     __m128 crossAxis = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(bAxis, bAxis, 0xd2), _mm_shuffle_ps(aAxis, aAxis, 0xc9)),
@@ -2710,7 +2665,7 @@ static __declspec(noinline) int FUN_00d6d720(ConstraintSource* apSource, Constra
             float delta = angle - current;
             float remaining = negativeBase - delta;
             float halfStep = (float)(apContext->timestep * 0.5);
-            float scaledCurrent = (float)(current * DAT_0103c7c8);
+            float scaledCurrent = (float)(current * ::DAT_0103c7c8);
             float half = scaledCurrent > halfStep ? scaledCurrent : halfStep;
             current -= half;
             float threshold = (float)((halfStep + 2.0 * half) * 0.5);
@@ -2735,26 +2690,6 @@ void ConstraintCaller(ConstraintSource* s, ConstraintDest* o, ConstraintContext*
     FUN_00d6d720(s, o, c, a, b);
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C"
-{
-    extern __m128 _mm_add_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_add_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_andnot_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_cmpeq_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_load_ps1(float const* _A);
-    extern __m128 _mm_load_ss(float const* _A);
-    extern __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_mul_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_rsqrt_ss(__m128 _A);
-    extern __m128 _mm_set_ss(float _A);
-    extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-    extern __m128 _mm_sqrt_ss(__m128 _A);
-    extern void _mm_store_ss(float* _V, __m128 _A);
-    extern __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_sub_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_xor_ps(__m128 _A, __m128 _B);
-}
 
 struct hkVec4
 {
@@ -2774,7 +2709,6 @@ struct hkVec4
         q = v.q;
     }
     hkVec4* FUN_00c7f700(const struct hkTransF* t, const hkVec4* v);
-    hkVec4* FUN_00c7f750(const struct hkRot* m, const hkVec4* v);
 };
 struct hkVec4F
 {
@@ -2827,9 +2761,6 @@ struct hkRot
     {
         return (&m_kColumn0)[i];
     }
-    void FUN_00cd4cc0(const hkVec4* v);
-    void FUN_00cd5610(const hkRot* a, const hkRot* b);
-    void Multiply(const hkVec4* s);
 };
 template <class T> struct ValueCell
 {
@@ -2870,8 +2801,6 @@ struct Accum
     hkVec4 m_vInverseInertiaAndMass;
     hkVec4 m_kCenterPosition;
     hkVec4 m_rot[3];
-    Accum* FUN_00d71f90(const Accum* src);
-    Accum* FUN_00d72030(const Accum* src);
 };
 struct QueryIn
 {
@@ -2901,7 +2830,7 @@ struct QueryIn
     int unk5c;
     int unk60;
     SolverResults* m_pByteBuffer;
-    int unk68;
+    int* unk68;
     int unk6c;
     int unk70;
     SolverResults* m_pUserData;
@@ -3016,13 +2945,6 @@ struct LinSoftAtom
     unsigned char m_ucAxisIndex;
     float m_fTau;
     float m_fMotorDamping;
-};
-struct LinLimitAtom
-{
-    unsigned short m_type;
-    unsigned char m_ucAxisIndex;
-    float m_kMinimumCorner;
-    float m_kMaximumCorner;
 };
 struct LinFrictionAtom
 {
@@ -3269,8 +3191,6 @@ struct MotorOutput
     ValueCell<float> m_f14;
 };
 
-extern const unsigned char DAT_010d33c0[];
-extern float DAT_01016248;
 struct PulleyInfo
 {
     hkVec4 m_fixedPivotA;
@@ -3284,27 +3204,12 @@ struct PulleyScale
     float m_dt;
     float m_rhs;
 };
-void __cdecl FUN_00cd5530(hkRot* out, const hkTransF* t, const hkRot* m);
-void __cdecl FUN_00dcf5b0(StiffSpringInfo* info, const QueryIn* in, QueryOut* out, float error);
-void __cdecl FUN_00dcf280(LinInfo* info, const QueryIn* in, QueryOut* out);
-void __cdecl ComputeAngularJacobian(LinInfo* info, const QueryIn* in, QueryOut* out);
-void __cdecl FUN_00dcfa30(LinInfo* info, const QueryIn* in, QueryOut* out);
-void __cdecl FUN_00dcf100(LinFrictionInfo* info, const QueryIn* in, QueryOut* out);
-void __cdecl FUN_00dcee80(AngInfo* info, const QueryIn* in, QueryOut* out);
-void __cdecl FUN_00dcefb0(AngFrictionInfo* info, const QueryIn* in, QueryOut* out);
 void __cdecl ComputeJacobian(const hkVec4* axis, const hkVec4* pivot, const QueryIn* in, char* schemas,
                              MotorInput* min);
-void __cdecl FUN_00dcfff0(Motor* motor, MotorInput* min, MotorOutput* mout);
 void __cdecl FUN_00dd03c0(MotorOutput* mout, const QueryIn* in, char* schemas, QueryOut* out);
-void __cdecl WriteVector(const hkRot* a, const hkRot* b, QueryOut* out);
-void __cdecl FUN_00dced90(const hkVec4* a, const hkVec4* b, QueryOut* out);
-void __cdecl FUN_00dcedd0(const hkVec4* v, int which, QueryOut* out);
-void __cdecl FUN_00d72190(const Atom* atom, const QueryIn* in, hkBool writeHeader, QueryOut* out);
-void __cdecl FUN_00d72090(void* p);
 void __cdecl FUN_00d6f460(const Atom* atoms, int sizeOfAllAtoms, const QueryIn* queryIn, QueryOut* out);
 
-extern "C" int __stdcall bs_index(int handle, int flag);
-extern float DAT_010c7948[];
+extern "C" int bs_index(int* handle, int flag);
 static __declspec(noinline) void FUN_00d6ced0(const BallSocketAtom* atom, const QueryIn* in, const hkTrans* baseA,
                                               const hkTrans* baseB, QueryOut* out)
 {
@@ -3318,16 +3223,16 @@ static __declspec(noinline) void FUN_00d6ced0(const BallSocketAtom* atom, const 
     hkVec4 rB;
     rB.q = _mm_sub_ps(baseB->col(3).q, bodyB->m_kCenterPosition.q);
     FUN_004b4ab0_Class mA;
-    mA.FUN_004b4ab0((int)&bodyA->m_rot[0], (int)&bodyA->m_vAngularVelocity);
+    mA.FUN_004b4ab0(reinterpret_cast<intptr_t>(&bodyA->m_rot[0]), reinterpret_cast<intptr_t>(&bodyA->m_vAngularVelocity));
     FUN_004b4ab0_Class mB;
-    mB.FUN_004b4ab0((int)&bodyB->m_rot[0], (int)&bodyB->m_vAngularVelocity);
-    int handle = in->unk68;
+    mB.FUN_004b4ab0(reinterpret_cast<intptr_t>(&bodyB->m_rot[0]), reinterpret_cast<intptr_t>(&bodyB->m_vAngularVelocity));
+    int* handle = in->unk68;
     if (handle)
     {
         int r = bs_index(handle, 1);
         if (r < 0x80)
         {
-            ((int*)in->unk68)[r + 1] = in->unk60;
+            in->unk68[r + 1] = in->unk60;
         }
     }
     SchemaNop* s = (SchemaNop*)schemas;
@@ -3336,7 +3241,7 @@ static __declspec(noinline) void FUN_00d6ced0(const BallSocketAtom* atom, const 
                    bodyA->m_vInverseInertiaAndMass.z + bodyA->m_kCenterPosition.x + bodyA->m_kCenterPosition.y;
     s[0].unk08 = bodyA->unk04 + in->unk6c;
     s[1].m_word0 = baseB->col(1).y + rB.y + baseA->col(2).z;
-    out->m_pQueryResultSchema = (char*)(s + 3);
+    out->m_pQueryResultSchema = reinterpret_cast<char*>(&s[3]);
 }
 static __forceinline void setHeader(SchemaHeader* h, int whole, int low, int high, SolverResults* runtime,
                                     unsigned char size)
@@ -3354,7 +3259,7 @@ static __declspec(noinline) void FUN_00d6ea30(const QueryIn* in, QueryOut* out, 
 {
     SchemaHeader* h = (SchemaHeader*)out->m_pQueryResultSchema;
     setHeader(h, in->unk60, in->unk6c, in->unk70, runtime, size);
-    out->m_pQueryResultSchema = (char*)(h + 1);
+    out->m_pQueryResultSchema = reinterpret_cast<char*>(h + 1);
 }
 static __forceinline void copyTransform(hkTrans& d, const hkTransF& s)
 {
@@ -3391,7 +3296,7 @@ static __forceinline __m128 normalize3(__m128 v)
     __m128 len2 = dot3(v, v);
     __m128 r = _mm_rsqrt_ss(len2);
     __m128 mask = _mm_cmpeq_ss(len2, _mm_set_ss(DAT_01011d78));
-    __m128 inv = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248), r),
+    __m128 inv = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), r),
                             _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(len2, r), r)));
     __m128 sel = _mm_andnot_ps(mask, inv);
     return _mm_mul_ps(_mm_shuffle_ps(sel, sel, 0), v);
@@ -3426,7 +3331,7 @@ static __forceinline void writeNop(QueryOut* out, unsigned char n)
     s->m_word0 = s->m_word0 + 1.192092896e-07f;
     s->m_uiItemCount = n;
     ((SolverSchemaType*)s)->m_type = 3;
-    out->m_pQueryResultSchema = (char*)(s + 1);
+    out->m_pQueryResultSchema = reinterpret_cast<char*>(s + 1);
 }
 static __forceinline void rotateToAngular(hkVec4& dst, __m128 axis, const Accum* body)
 {
@@ -3478,7 +3383,7 @@ static __forceinline void buildAngLimit(const AngLimitInfo& info, const QueryIn&
     double rhs = info.m_fThirdScalar * dt;
     s->m_angB.w = rhs;
     s = (SchemaAng*)out->m_pQueryResultSchema;
-    out->m_pQueryResultSchema = (char*)(s + 1);
+    out->m_pQueryResultSchema = reinterpret_cast<char*>(s + 1);
     initializeAngular(s, *s, minimum, maximum, tau);
 }
 static __forceinline void buildMotorSchema(const hkVec4& axis, const QueryIn& in, QueryOut* out, MotorInput& min)
@@ -3639,7 +3544,7 @@ static __forceinline void case6(const Atom*& atoms, QueryIn& in, hkTrans& baseA,
     float len = toFloat(_mm_sqrt_ss(dot3(d, d)));
     if (len <= 1.192092896e-07f)
     {
-        info.m_dir.q = DAT_01268370[0];
+        info.m_dir.q = (*reinterpret_cast<__m128 (*)[3]>(&::DAT_01268370))[0];
         len = 0.0f;
     }
     else
@@ -3650,7 +3555,7 @@ static __forceinline void case6(const Atom*& atoms, QueryIn& in, hkTrans& baseA,
         info.m_dir.q = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), d);
     }
     float error = a->m_fRestLength - len;
-    FUN_00dcf5b0(&info, &in, out, error);
+    ::FUN_00dcf5b0((::Input_dcf5b0 *)(::StiffSpringInfo *)(&info), (::S_00dcf100_Cfg *)(&in), (::Jacobian_dcf5b0 **)(out), error);
     in.m_pByteBuffer += 1;
     atoms = (const Atom*)(a + 1);
     in.m_pUserData += 1;
@@ -3662,9 +3567,9 @@ static __forceinline void case7(const Atom*& atoms, QueryIn& in, hkTrans& baseA,
     info.m_kPivotA.q = baseA.col(3).q;
     info.m_kPivotB.q = baseB.col(3).q;
     info.m_kAxisEndPoints.q = baseB.col(a->m_ucAxisIndex).q;
-    FUN_00dcf280(&info, &in, out);
+    ::FUN_00dcf280((::Input_dcf280 *)(::LinInfo *)(&info), (::S_00dcf100_Cfg *)(&in), (::Jacobian_dcf280 **)(out));
     in.m_pByteBuffer += 1;
-    atoms = (const Atom*)((const char*)a + 4);
+    atoms = (const Atom*)(a + 1);
     in.m_pUserData += 1;
 }
 static __forceinline void case8(const Atom*& atoms, QueryIn& in, hkTrans& baseA, hkTrans& baseB, QueryOut* out)
@@ -3676,7 +3581,7 @@ static __forceinline void case8(const Atom*& atoms, QueryIn& in, hkTrans& baseA,
     info.m_kAxisEndPoints.q = baseB.col(a->m_ucAxisIndex).q;
     info.m_f30 = a->m_fTau;
     info.m_f34 = a->m_fMotorDamping;
-    ComputeAngularJacobian(&info, &in, out);
+    ::ComputeAngularJacobian((*(const ::Info_dcf880 *)(&info)), (*(const ::QueryIn_dcf880 *)(&in)), (*(::QueryOut_dcf880 *)(out)));
     in.m_pByteBuffer += 1;
     atoms = (const Atom*)(a + 1);
     in.m_pUserData += 1;
@@ -3690,7 +3595,7 @@ static __forceinline void case9(const Atom*& atoms, QueryIn& in, hkTrans& baseA,
     info.m_kAxisEndPoints.q = baseB.col(a->m_ucAxisIndex).q;
     info.m_f30 = a->m_kMinimumCorner;
     info.m_f34 = a->m_kMaximumCorner;
-    FUN_00dcfa30(&info, &in, out);
+    ::FUN_00dcfa30((::Info_dcf880 *)(::LinInfo *)(&info), (::S_00dcf100_Cfg *)(&in), (::Jac_dcf880 **)(out));
     in.m_pByteBuffer += 1;
     atoms = (const Atom*)(a + 1);
     in.m_pUserData += 1;
@@ -3705,7 +3610,7 @@ static __forceinline void case10(const Atom*& atoms, QueryIn& in, hkTrans& baseA
         info.m_kAxisEndPoints.q = baseB.col(a->m_ucFrictionAxis).q;
         info.m_fFriction = a->m_fFriction;
         info.m_pRuntime = in.m_pByteBuffer;
-        FUN_00dcf100(&info, &in, out);
+        ::FUN_00dcf100((::S_00dcf100_In *)(::LinFrictionInfo *)(&info), (::S_00dcf100_Cfg *)(&in), (::S_00dcf100_Out **)(out));
     }
     else
     {
@@ -3736,7 +3641,7 @@ static __forceinline void case11(const Atom*& atoms, QueryIn& in, hkTrans& baseA
         min.m_fMaxImpulse = *previousTargetPosition -
                             toFloat(dot3(_mm_sub_ps(baseA.col(3).q, baseB.col(3).q), baseB.col(a->m_ucMotorAxis).q));
         MotorOutput mout;
-        FUN_00dcfff0(motor, &min, &mout);
+        ::FUN_00dcfff0((::ObjA *)(motor), (::ObjB *)(::MotorInput *)(&min), (float *)(::MotorOutput *)(&mout));
         FUN_00dd03c0(&mout, &in, schemas, out);
         if (*previousTargetPosition != a->m_vVector || !*initialized)
         {
@@ -3757,19 +3662,19 @@ static __forceinline void case12(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     const TwoDAngAtom* a = (const TwoDAngAtom*)atoms;
     int freeAxis = a->m_ucFreeRotationAxis;
     const char* bb = (const char*)&baseB;
-    int o1 = DAT_010d33c0[freeAxis + 1];
-    int o2 = DAT_010d33c0[freeAxis + 2];
+    int o1 = ::DAT_010d33c0[freeAxis + 1];
+    int o2 = ::DAT_010d33c0[freeAxis + 2];
     AngInfo info;
     info.m_kPointA.q = baseA.col(freeAxis).q;
     info.m_iThirdValue.q = ((const hkVec4*)(bb + o1))->q;
     info.m_kPointB.q = ((const hkVec4*)(bb + o2))->q;
-    FUN_00dcee80(&info, &in, out);
+    ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&info)), (*(const ::S_00dcee80_QueryIn *)(&in)), (*(::S_00dcee80_QueryOut *)(out)));
     info.m_iThirdValue.q = ((const hkVec4*)(bb + o2))->q;
     __m128 mask = DAT_010c44d0;
     info.m_kPointB.q = _mm_xor_ps(mask, ((const hkVec4*)(bb + o1))->q);
-    FUN_00dcee80(&info, &in, out);
+    ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&info)), (*(const ::S_00dcee80_QueryIn *)(&in)), (*(::S_00dcee80_QueryOut *)(out)));
     in.m_pByteBuffer += 2;
-    atoms = (const Atom*)((const char*)a + 4);
+    atoms = (const Atom*)(a + 1);
     in.m_pUserData += 2;
 }
 static __forceinline void case13(const Atom*& atoms, QueryIn& in, hkTrans& baseA, hkTrans& baseB, QueryOut* out)
@@ -3778,12 +3683,12 @@ static __forceinline void case13(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     for (int i = a->m_ucFirstConstrainedAxis; i < a->m_ucFirstConstrainedAxis + a->m_ucNumConstrainedAxes; i++)
     {
         AngInfo info;
-        info.m_kPointB.q = ((const hkVec4*)((const char*)&baseA + DAT_010d33c0[i]))->q;
-        info.m_kPointA.q = ((const hkVec4*)((const char*)&baseA + DAT_010d33c0[i + 1]))->q;
-        info.m_iThirdValue.q = ((const hkVec4*)((const char*)&baseB + DAT_010d33c0[i + 2]))->q;
-        FUN_00dcee80(&info, &in, out);
+        info.m_kPointB.q = ((const hkVec4*)((const char*)&baseA + ::DAT_010d33c0[i]))->q;
+        info.m_kPointA.q = ((const hkVec4*)((const char*)&baseA + ::DAT_010d33c0[i + 1]))->q;
+        info.m_iThirdValue.q = ((const hkVec4*)((const char*)&baseB + ::DAT_010d33c0[i + 2]))->q;
+        ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&info)), (*(const ::S_00dcee80_QueryIn *)(&in)), (*(::S_00dcee80_QueryOut *)(out)));
     }
-    atoms = (const Atom*)((const char*)a + 4);
+    atoms = (const Atom*)(a + 1);
     in.m_pByteBuffer += a->m_ucNumConstrainedAxes;
     in.m_pUserData += a->m_ucNumConstrainedAxes;
 }
@@ -3795,8 +3700,8 @@ static __forceinline int case14(const Atom* atoms, const QueryIn& in, const hkTr
     if (a->m_bLimitEnabled)
     {
         int axis = a->m_ucLimitAxis;
-        const hkVec4& perpBv = *(const hkVec4*)((const char*)&baseB + DAT_010d33c0[axis + 2]);
-        const hkVec4& perpAv = *(const hkVec4*)((const char*)&baseA + DAT_010d33c0[axis + 1]);
+        const hkVec4& perpBv = *(const hkVec4*)((const char*)&baseB + ::DAT_010d33c0[axis + 2]);
+        const hkVec4& perpAv = *(const hkVec4*)((const char*)&baseA + ::DAT_010d33c0[axis + 1]);
         info.m_fTau = a->m_fAngularLimitsTauFactor * in.m_fTau;
         info.m_kMinimumCorner = a->m_fMinAngle;
         info.m_kMaximumCorner = a->m_fMaxAngle;
@@ -3937,7 +3842,7 @@ static __forceinline void case17(const Atom*& atoms, QueryIn& in, hkTrans& baseA
         info.m_axes = &baseA.col(a->m_ucFirstFrictionAxis);
         info.m_numAxes = a->m_ucNumFrictionAxes;
         info.m_pRuntime = in.m_pByteBuffer;
-        FUN_00dcefb0(&info, &in, out);
+        ::FUN_00dcefb0((::Src *)(::AngFrictionInfo *)(&info), (::Cfg *)(&in), (::JOut **)(out));
     }
     else
     {
@@ -3984,8 +3889,8 @@ static __forceinline void case18(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     if (motor && a->m_bLimitEnabled)
     {
         int axis = a->m_ucMotorAxis;
-        const hkVec4* perpA = (const hkVec4*)((const char*)&baseA + DAT_010d33c0[axis + 1]);
-        const hkVec4* perpB = (const hkVec4*)((const char*)&baseB + DAT_010d33c0[axis + 2]);
+        const hkVec4* perpA = (const hkVec4*)((const char*)&baseA + ::DAT_010d33c0[axis + 1]);
+        const hkVec4* perpB = (const hkVec4*)((const char*)&baseB + ::DAT_010d33c0[axis + 2]);
         float cosA = toFloat(dot3(perpA->q, perpB->q));
         const hkVec4* axisB = &baseB.col(axis);
         float sinA = toFloat(dot3(crossRef(*perpB, *axisB), perpA->q));
@@ -4015,7 +3920,7 @@ static __forceinline void case18(const Atom*& atoms, QueryIn& in, hkTrans& baseA
         min.m_fTargetVelocity = a->m_fTargetAngle - *previousTargetAngle;
         min.m_fMaxImpulse = *previousTargetAngle - angle;
         MotorOutput mout;
-        FUN_00dcfff0(motor, &min, &mout);
+        ::FUN_00dcfff0((::ObjA *)(motor), (::ObjB *)(::MotorInput *)(&min), (float *)(::MotorOutput *)(&mout));
         s->m_angB.w = mout.m_f00.value * in.m_fFirstQueryValue;
         SchemaMotor* t = (SchemaMotor*)out->m_pQueryResultSchema;
         t->m_angA.x = t->m_angA.x + 1.192092896e-07f;
@@ -4113,7 +4018,7 @@ static __forceinline void case19(const Atom*& atoms, QueryIn& input, hkTrans& ba
     if (a->m_bLimitEnabled)
     {
         hkRot target;
-        FUN_00cd5530(&target, in.m_kBodyBLocalFrame, &a->m_kMotorAxes);
+        ::FUN_00cd5530((float *)(::hkRot *)(&target), (const float *)(in.m_kBodyBLocalFrame), (const float *)(const ::hkRot *)(&a->m_kMotorAxes));
         MotorInput min;
         min.m_pStepInfo = &in;
         int axisIndex[3] = {0, 1, 2};
@@ -4148,7 +4053,7 @@ static __forceinline void case19(const Atom*& atoms, QueryIn& input, hkTrans& ba
                 min.m_fTargetVelocity = targetData[0] - previousTargetAngles[i];
                 min.m_fMaxImpulse = previousTargetAngles[i] - angleData[0];
                 MotorOutput mout;
-                FUN_00dcfff0(motor, &min, &mout);
+                ::FUN_00dcfff0((::ObjA *)(motor), (::ObjB *)(::MotorInput *)(&min), (float *)(::MotorOutput *)(&mout));
                 s->m_angB.w = mout.m_f00 * in.m_fFirstQueryValue;
                 SchemaMotor* t = (SchemaMotor*)out->m_pQueryResultSchema;
                 t->m_angA.x = t->m_angA.x + 1.192092896e-07f;
@@ -4289,8 +4194,8 @@ static __forceinline void cablePrepare(const CableInput& setup, const QueryIn& i
     if (toFloat(dot3(dA, dA)) > 1.192092896e-07f)
         dirA = normalize3_c20(dA);
     else
-        dirA = DAT_01268370[0];
-    dirB = DAT_01268370[0];
+        dirA = (*reinterpret_cast<__m128 (*)[3]>(&::DAT_01268370))[0];
+    dirB = (*reinterpret_cast<__m128 (*)[3]>(&::DAT_01268370))[0];
     if (toFloat(dot3(dB, dB)) > 1.192092896e-07f)
         dirB = normalize3_c20(dB);
     else
@@ -4309,7 +4214,7 @@ static __forceinline void cablePrepare(const CableInput& setup, const QueryIn& i
     rows.rhs = in.m_fThirdQueryValue;
     cableRows(rows, *jac);
     SchemaPulley* final = (SchemaPulley*)out->m_pQueryResultSchema;
-    out->m_pQueryResultSchema = (char*)(final + 1);
+    out->m_pQueryResultSchema = reinterpret_cast<char*>(final + 1);
     final->m_linA.x = 1.192092896e-07f + final->m_linA.x;
     ((SolverSchemaType*) final)->m_type = 0xb;
 }
@@ -4361,15 +4266,15 @@ struct ComMatrix
     }
     __forceinline void skew(const hkVec4& a)
     {
-        ((hkRot*)this)->FUN_00cd4cc0(&a);
+        reinterpret_cast<::S00cd4cc0_M *>((((hkRot*)this)))->FUN_00cd4cc0((const float *)(const ::hkVec4 *)(&a));
     }
     __forceinline void transform(const ComMatrix& a, const hkRot& b)
     {
-        ((hkRot*)this)->FUN_00cd5610((const hkRot*)&a, &b);
+        reinterpret_cast<::MatrixProduct *>((((hkRot*)this)))->FUN_00cd5610((*(const ::hkMatrix3CD4B *)((const hkRot*)&a)), (*(const ::CD4BA0Matrix3 *)(&b)));
     }
     __forceinline void scale(const hkVec4& a)
     {
-        ((hkRot*)this)->Multiply(&a);
+        reinterpret_cast<::S_00cd4c70 *>((((hkRot*)this)))->Multiply((*(const ::S_V4 *)(&a)));
     }
 };
 static __forceinline void case28(const Atom*& atoms, QueryIn& in, hkTrans& baseA, hkTrans& baseB, QueryOut* out)
@@ -4383,9 +4288,9 @@ static __forceinline void case28(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     hkVec4 dispB;
     dispB.FUN_00c7f700(in.m_kBodyBLocalFrame, &a->m_kDisplacementB);
     Accum accA;
-    accA.FUN_00d71f90(in.m_pBodyA);
+    reinterpret_cast<::FUN_00d71f90_cls *>(&(accA))->FUN_00d71f90((const ::FUN_00d71f90_cls *)(in.m_pBodyA));
     Accum accB;
-    accB.FUN_00d71f90(in.m_pBodyB);
+    reinterpret_cast<::FUN_00d71f90_cls *>(&(accB))->FUN_00d71f90((const ::FUN_00d71f90_cls *)(in.m_pBodyB));
     accA.m_kCenterPosition.q = _mm_add_ps(dispA.q, accA.m_kCenterPosition.q);
     accB.m_kCenterPosition.q = _mm_add_ps(dispB.q, accB.m_kCenterPosition.q);
     in6.m_pBodyA = &accA;
@@ -4407,21 +4312,21 @@ static __forceinline void case28(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     minusOne2.q = _mm_load_ss(&DAT_01012054);
     negB.scale((const hkVec4&)minusOne2);
     hkVec4 dvA;
-    dvA.FUN_00c7f750((const hkRot*)&negA, &accA.m_vAngularVelocity);
+    reinterpret_cast<::FUN_00c7f750_shell *>(&(dvA))->FUN_00c7f750((float *)((const hkRot*)&negA), (float *)(&accA.m_vAngularVelocity));
     hkVec4 dvB;
-    dvB.FUN_00c7f750((const hkRot*)&negB, &accB.m_vAngularVelocity);
+    reinterpret_cast<::FUN_00c7f750_shell *>(&(dvB))->FUN_00c7f750((float *)((const hkRot*)&negB), (float *)(&accB.m_vAngularVelocity));
     accA.m_vLinearVelocity.q = _mm_add_ps(accA.m_vLinearVelocity.q, dvA.q);
     accB.m_vLinearVelocity.q = _mm_add_ps(accB.m_vLinearVelocity.q, dvB.q);
-    WriteVector((const hkRot*)&negA, (const hkRot*)&negB, out);
+    ::WriteVector((__m128 *)((const hkRot*)&negA), (__m128 *)((const hkRot*)&negB), (__m128 **)(out));
     if (child->m_type == 0x16)
     {
-        FUN_00d72190(child, &in6, hkBool(true), out);
+        ::FUN_00d72190((::Node *)(child), (::Buffer *)(&in6), (*(int *)&(const ::hkBool &)(hkBool(true))), (int *)(out));
     }
     else
     {
         FUN_00d6f460(child, childSize, &in6, out);
     }
-    WriteVector((const hkRot*)&skewA, (const hkRot*)&skewB, out);
+    ::WriteVector((__m128 *)((const hkRot*)&skewA), (__m128 *)((const hkRot*)&skewB), (__m128 **)(out));
     atoms = (const Atom*)(a + 1);
 }
 static __forceinline void case23(const Atom*& atoms, QueryIn& in, hkTrans& baseA, hkTrans& baseB, QueryOut* out)
@@ -4456,7 +4361,7 @@ static __forceinline void case23(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     const Atom* child = a->m_base.m_pChildAtom;
     if (child->m_type == 0x16)
     {
-        FUN_00d72190(child, &in2, hkBool(true), out);
+        ::FUN_00d72190((::Node *)(child), (::Buffer *)(&in2), (*(int *)&(const ::hkBool &)(hkBool(true))), (int *)(out));
     }
     else
     {
@@ -4475,17 +4380,17 @@ static __forceinline void case25(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     {
         c = ((const ModifierAtom*)c)->m_pChildAtom;
     } while (c->m_type >= 0x17);
-    FUN_00d72090((void*)&((const ContactAtom*)c)->unk10);
+    ::FUN_00d72090((::StateD72090 *)(void *)((void*)&((const ContactAtom*)c)->unk10));
     const Atom* child = a->m_pChildAtom;
     if (child->m_type == 0x16)
     {
-        FUN_00d72190(child, &in4, hkBool(true), out);
+        ::FUN_00d72190((::Node *)(child), (::Buffer *)(&in4), (*(int *)&(const ::hkBool &)(hkBool(true))), (int *)(out));
     }
     else
     {
         FUN_00d6f460(child, childSize, &in4, out);
     }
-    atoms = (const Atom*)((const char*)a + 0x20);
+    atoms = (const Atom*)(a + 1);
 }
 static __forceinline void case24(const Atom*& atoms, QueryIn& in, hkTrans& baseA, hkTrans& baseB, QueryOut* out)
 {
@@ -4498,23 +4403,23 @@ static __forceinline void case24(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     *(hkVec4F*)&factorA = a->m_kFactorA;
     *(hkVec4F*)&factorB = a->m_kFactorB;
     Accum accA;
-    accA.FUN_00d71f90(in.m_pBodyA);
+    reinterpret_cast<::FUN_00d71f90_cls *>(&(accA))->FUN_00d71f90((const ::FUN_00d71f90_cls *)(in.m_pBodyA));
     Accum accB;
-    accB.FUN_00d71f90(in.m_pBodyB);
+    reinterpret_cast<::FUN_00d71f90_cls *>(&(accB))->FUN_00d71f90((const ::FUN_00d71f90_cls *)(in.m_pBodyB));
     accA.m_vInverseInertiaAndMass.q = _mm_mul_ps(accA.m_vInverseInertiaAndMass.q, factorA.q);
     in3.m_pBodyA = &accA;
     in3.m_pBodyB = &accB;
     accB.m_vInverseInertiaAndMass.q = _mm_mul_ps(accB.m_vInverseInertiaAndMass.q, factorB.q);
-    FUN_00dced90(&accA.m_vInverseInertiaAndMass, &accB.m_vInverseInertiaAndMass, out);
+    ::fnv_00dced90::FUN_00dced90((const __m128 *)(const ::hkVec4 *)(&accA.m_vInverseInertiaAndMass), (const __m128 *)(const ::hkVec4 *)(&accB.m_vInverseInertiaAndMass), (char **)(out));
     if (child->m_type == 0x16)
     {
-        FUN_00d72190(child, &in3, hkBool(true), out);
+        ::FUN_00d72190((::Node *)(child), (::Buffer *)(&in3), (*(int *)&(const ::hkBool &)(hkBool(true))), (int *)(out));
     }
     else
     {
         FUN_00d6f460(child, childSize, &in3, out);
     }
-    FUN_00dced90(&in.m_pBodyA->m_vInverseInertiaAndMass, &in.m_pBodyB->m_vInverseInertiaAndMass, out);
+    ::fnv_00dced90::FUN_00dced90((const __m128 *)(const ::hkVec4 *)(&in.m_pBodyA->m_vInverseInertiaAndMass), (const __m128 *)(const ::hkVec4 *)(&in.m_pBodyB->m_vInverseInertiaAndMass), (char **)(out));
     atoms = (const Atom*)(a + 1);
 }
 class SurfaceAxis
@@ -4545,14 +4450,14 @@ static __forceinline void case26(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     Accum acc;
     if (!isBodyB)
     {
-        acc.FUN_00d72030(in.m_pBodyA);
+        reinterpret_cast<::FUN_00d72030_cls *>(&(acc))->FUN_00d72030((const ::FUN_00d72030_cls *)(in.m_pBodyA));
         in.m_pBodyA = &acc;
     }
     else
     {
-        acc.FUN_00d72030(in.m_pBodyB);
+        reinterpret_cast<::FUN_00d72030_cls *>(&(acc))->FUN_00d72030((const ::FUN_00d72030_cls *)(in.m_pBodyB));
         in.m_pBodyB = &acc;
-        velocity.q = _mm_xor_ps(velocity.q, DAT_010c4c00);
+        velocity.q = _mm_xor_ps(velocity.q, ::DAT_010c4c00);
     }
     hkVec4 normal;
     *(hkVec4F*)&normal = contact->m_kPoints[0].m_vSeparatingNormal;
@@ -4562,12 +4467,12 @@ static __forceinline void case26(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     __m128 d = dot3(n, v);
     SurfaceAxis tangent;
     tangent = _mm_xor_ps(_mm_sub_ps(v, _mm_mul_ps(_mm_shuffle_ps(d, d, 0), n)), DAT_010c44d0);
-    FUN_00dcedd0((const hkVec4*)&tangent, which, out);
+    ::FUN_00dcedd0((const __m128 *)(const ::hkVec4 *)((const hkVec4*)&tangent), which, (::FUN_00dcedd0_Record **)(out));
     acc.m_vLinearVelocity.q = _mm_add_ps(acc.m_vLinearVelocity.q, tangent);
-    FUN_00d72190((const Atom*)contact, &in5, hkBool(false), out);
+    ::FUN_00d72190((::Node *)((const Atom*)contact), (::Buffer *)(&in5), (*(int *)&(const ::hkBool &)(hkBool(false))), (int *)(out));
     tangent = _mm_xor_ps(tangent, DAT_010c44d0);
-    FUN_00dcedd0((const hkVec4*)&tangent, which, out);
-    atoms = (const Atom*)((const char*)a + 0x30);
+    ::FUN_00dcedd0((const __m128 *)(const ::hkVec4 *)((const hkVec4*)&tangent), which, (::FUN_00dcedd0_Record **)(out));
+    atoms = (const Atom*)(a + 1);
 }
 struct AngularStorage : AngLimitInfo
 {
@@ -4587,7 +4492,7 @@ void __cdecl FUN_00d6f460(const Atom* atoms, int sizeOfAllAtoms, const QueryIn* 
     {
         SchemaHeader* h = (SchemaHeader*)out->m_pQueryResultSchema;
         setHeader(h, in.unk60, in.unk6c, in.unk70, in.m_pByteBuffer, 8);
-        out->m_pQueryResultSchema = (char*)(h + 1);
+        out->m_pQueryResultSchema = reinterpret_cast<char*>(h + 1);
     }
     while (atoms < atomsEnd)
     {
@@ -4595,7 +4500,7 @@ void __cdecl FUN_00d6f460(const Atom* atoms, int sizeOfAllAtoms, const QueryIn* 
         switch (atoms->m_type)
         {
         case 0:
-            atoms = (const Atom*)(((unsigned int)atoms + 15) & ~15u);
+            atoms = (const Atom*)(((uintptr_t)atoms + 15) & ~(uintptr_t)15);
             goto nextAtom;
         case 1:
             case1(atoms, in, baseA, baseB, out);
@@ -4695,7 +4600,7 @@ void __cdecl FUN_00d6f460(const Atom* atoms, int sizeOfAllAtoms, const QueryIn* 
             break;
         case 27:
             out->m_pQueryResultSchema -= 16;
-            atoms = (const Atom*)((const char*)atoms + 0x20);
+            atoms = (const Atom*)((const ModifierAtom*)atoms + 1);
             break;
         default:
             break;
@@ -4905,7 +4810,7 @@ static __declspec(noinline) void FUN_00d6e300(PulleyRowQuery* apQuery, PulleyRow
     work.bodyB = apQuery->bodyB;
     PulleyRowBody* bodyA = work.bodyA;
     PulleyRowBody* bodyB = work.bodyB;
-    const __m128& fallback = ((const PulleyRowVector*)DAT_01268370)->vec;
+    const __m128& fallback = ((const PulleyRowVector*)(*reinterpret_cast<__m128 (*)[3]>(&::DAT_01268370)))->vec;
     PulleyRowVector normalizedA;
     if (float(work.n1.dot(work.n1)) > 1.1920928955078125e-7f)
     {
@@ -4943,3 +4848,651 @@ void PulleyRow_use(PulleyRowQuery* in, PulleyRowSchema** cursor, PulleyRowGeomet
     FUN_00d6e300(in, cursor, mat);
 }
 }
+
+// Moved from hkpbuildjacobianfromatoms_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+
+// src/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+// The .rdata double added to the first matrix element (0.25) lives in the
+// original image, so it is only declared here.
+// arg1: the six float vector
+#include "fnv/symbols_00d6c000.h"
+static void WriteFloatRecord(WriterContext* object, float** cursor, WriterArgs args);
+void RecordWrite_use(WriterContext* object, float** cursor, WriterArgs args);
+static void FUN_00d6d990(S00d6d990_Src* src, S00d6d990_Rec** cur, WriterContext* obj, int a1);
+void S00d6d990_Caller(S00d6d990_Src* s, S00d6d990_Rec** c, WriterContext* o, int a);
+static void FUN_00d6ea30(WriterContext* object, float** cursor, WriterArgs args);
+void RecordWriteAlt_use(WriterContext* object, float** cursor, WriterArgs args);
+struct S00d6e280_Obj
+{
+    unsigned char unk00;
+    unsigned char unk01;
+    unsigned char m_flag2;
+    unsigned char m_flag3;
+    float m_f4;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int m_64;
+};
+
+struct S00d6e280_Other
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int m_64;
+};
+
+struct S00d6e280_Arg
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    __m128 m_30;
+};
+
+struct __declspec(align(16)) S00d6e280_Call
+{
+    unsigned int va[4];
+    unsigned int vb[4];
+    float c;
+    int d;
+};
+
+struct S00d6e280_Rec
+{
+    union
+    {
+        float f00;
+        unsigned char type00;
+    };
+    unsigned char b04;
+    unsigned char b05;
+    unsigned short s06;
+    int i08;
+    int i0c;
+};
+
+
+// @fnv 0x00d6e280
+static __declspec(noinline) void FUN_00d6e280(S00d6e280_Rec** cursor, __m128* table, S00d6e280_Obj* self,
+                                              S00d6e280_Other* other, const S00d6e280_Arg* a1)
+{
+    if (self->m_flag2 != 0)
+    {
+        if (self->m_f4 > 0.0f)
+        {
+            S00d6e280_Call c;
+            _mm_store_ps((float*)&c.va, _mm_load_ps((const float*)&a1->m_30));
+            _mm_store_ps((float*)&c.vb, table[self->m_flag3]);
+            c.c = self->m_f4;
+            c.d = other->m_64;
+            ::FUN_00dcf100((::S_00dcf100_In *)(::S00d6e280_Call *)(&c), (::S_00dcf100_Cfg *)(other), (::S_00dcf100_Out **)(cursor));
+            return;
+        }
+    }
+    S00d6e280_Rec* rec = *cursor;
+    double v = rec->f00;
+    rec->b04 = 1;
+    rec = rec + 1;
+    (rec - 1)->f00 = (float)(v + ::DAT_010c9300);
+    (rec - 1)->type00 = 3;
+    *cursor = rec;
+}
+
+void S00d6e280_Wrap(S00d6e280_Obj* self, S00d6e280_Other* other, S00d6e280_Arg* a1)
+{
+    S00d6e280_Rec* cur = 0;
+    __m128* tab = 0;
+    FUN_00d6e280(&cur, tab, self, other, a1);
+}
+struct NodeKind
+{
+    unsigned short kind;
+};
+struct FnvNode
+{
+    short unk00;
+    short unk02;
+    int unk04;
+    int unk08;
+    int unk0c;
+    short unk10;
+    unsigned short unk12;
+    NodeKind* unk14;
+    int unk18;
+    int unk1c;
+    FourFloatVector vec1;
+    FourFloatVector vec2;
+};
+union DispatchArgs
+{
+    unsigned int raw;
+    unsigned char flag;
+};
+
+// @fnv 0x00d6ecb0
+static __declspec(noinline) void FUN_00d6ecb0(FnvPacket* arg1, void* arg2, FnvNode* node)
+{
+    FnvPacket localPacket = *arg1;
+    AlignedVector v1;
+    v1.components = node->vec1;
+    AlignedVector v2;
+    v2.components = node->vec2;
+    NodeKind* kind = node->unk14;
+    DispatchArgs args;
+    args.raw = node->unk12;
+    FnvSubObject obj1;
+    reinterpret_cast<::FUN_00d71f90_cls *>(&(obj1))->FUN_00d71f90((const ::FUN_00d71f90_cls *)(arg1->unk30));
+    FnvSubObject obj2;
+    reinterpret_cast<::FUN_00d71f90_cls *>(&(obj2))->FUN_00d71f90((const ::FUN_00d71f90_cls *)(arg1->unk34));
+    obj1.vec = _mm_mul_ps(obj1.vec, v1.vec);
+    obj2.vec = _mm_mul_ps(obj2.vec, v2.vec);
+    localPacket.unk30 = &obj1;
+    localPacket.unk34 = &obj2;
+    ::fnv_00dced90::FUN_00dced90(&obj1.vec, &obj2.vec, (char **)(arg2));
+    if (kind->kind == 0x16)
+    {
+        args.flag = 1;
+        ::FUN_00d72190((::Node *)(kind), (::Buffer *)(::FnvPacket *)(&localPacket), (*(int *)&(const ::DispatchArgs &)(args)), (int *)(arg2));
+    }
+    else
+    {
+        ::FUN_00d6f460((const ::Atom *)(kind), (*(int *)&(const ::DispatchArgs &)(args)), (const ::QueryIn *)(::FnvPacket *)(&localPacket), (::QueryOut *)(arg2));
+    }
+    ::fnv_00dced90::FUN_00dced90(&arg1->unk30->vec, &arg1->unk34->vec, (char **)(arg2));
+}
+extern "C" FnvNode* FetchNode();
+void* volatile sourceDest;
+void TargetCaller_d6ecb0()
+{
+    FUN_00d6ecb0(sourcePacket, sourceDest, FetchNode());
+}
+
+struct Body337
+{
+    __m128 unk00, unk10, unk20;
+    __m128 inverseInertia;
+    __m128 unk40;
+    __m128 basisX, basisY, basisZ;
+};
+struct Pair337
+{
+    unsigned int unk00, unk04, unk08, unk0c;
+    unsigned int unk10, unk14, unk18, unk1c;
+    unsigned int unk20, unk24, unk28, unk2c;
+    const Body337* first;
+    const Body337* second;
+};
+struct Jacobian337
+{
+    __m128 first, second;
+};
+// @fnv 0x00d6cc80
+static __declspec(noinline) void FUN_00d6cc80(const Pair337* pair, Jacobian337* output, const __m128* direction,
+                                              float* effectiveMass)
+{
+    __m128 value = *direction;
+    const Body337* second = pair->second;
+    const Body337* first = pair->first;
+    __m128 negative = _mm_xor_ps(value, DAT_010c44d0);
+    __m128 rowA = _mm_mul_ps(_mm_shuffle_ps(*direction, *direction, 0x55), first->basisY);
+    rowA = _mm_add_ps(rowA, _mm_mul_ps(_mm_shuffle_ps(*direction, *direction, 0), first->basisX));
+    rowA = _mm_add_ps(rowA, _mm_mul_ps(_mm_shuffle_ps(*direction, *direction, 0xaa), first->basisZ));
+    output->first = rowA;
+    __m128 rowB = _mm_mul_ps(_mm_shuffle_ps(negative, negative, 0x55), second->basisY);
+    rowB = _mm_add_ps(rowB, _mm_mul_ps(_mm_shuffle_ps(negative, negative, 0), second->basisX));
+    rowB = _mm_add_ps(rowB, _mm_mul_ps(_mm_shuffle_ps(negative, negative, 0xaa), second->basisZ));
+    output->second = rowB;
+    __m128 contributionA = _mm_mul_ps(output->first, output->first);
+    contributionA = _mm_mul_ps(contributionA, first->inverseInertia);
+    __m128 contributionB = _mm_mul_ps(rowB, rowB);
+    contributionB = _mm_mul_ps(contributionB, second->inverseInertia);
+    __m128 total = _mm_add_ps(contributionA, contributionB);
+    __m128 sum = _mm_add_ss(_mm_shuffle_ps(total, total, 0x55), total);
+    sum = _mm_add_ss(_mm_shuffle_ps(total, total, 0xaa), sum);
+    float scalar;
+    _mm_store_ss(&scalar, sum);
+    float denominator = (float)(scalar + ::DAT_010c9300);
+    float reciprocal = 1.0f / denominator;
+    output->first[3] = reciprocal;
+    *effectiveMass = reciprocal;
+}
+void BuildJacobian337(const Pair337* pair, Jacobian337* output, const __m128* direction, float* mass)
+{
+    FUN_00d6cc80(pair, output, direction, mass);
+}
+
+
+struct Child
+{
+    float unk00;
+    float f04;
+};
+struct Src
+{
+    int unk00, unk04, unk08, unk0c;
+    int unk10, unk14, unk18, unk1c;
+    int unk20, unk24, unk28, unk2c;
+    int unk30, unk34, unk38, unk3c;
+    float f40;
+    int unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60;
+    Child* child;
+};
+struct Mat
+{
+    __m128 rows[4];
+};
+struct AxisRowOut
+{
+    __m128 row;
+    float f10, f14, f18, f1c;
+};
+struct Obj
+{
+    unsigned char unk00, unk01, flag, axis;
+    float f04, f08, f0c;
+};
+
+static __m128 cross_uv(__m128 u, __m128 v)
+{
+    return _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0xD2), _mm_shuffle_ps(u, u, 0xC9)),
+                      _mm_mul_ps(_mm_shuffle_ps(v, v, 0xC9), _mm_shuffle_ps(u, u, 0xD2)));
+}
+
+static float sum3(__m128 v)
+{
+    __m128 s = _mm_add_ss(_mm_shuffle_ps(v, v, 0x55), v);
+    s = _mm_add_ss(_mm_shuffle_ps(v, v, 0xAA), s);
+    float r;
+    _mm_store_ss(&r, s);
+    return r;
+}
+
+// @fnv 0x00d6d2e0
+static __declspec(noinline) int FUN_00d6d2e0(Obj* self, Src* src, Mat* a2, Mat* a3, AxisRowOut* out)
+{
+    if (self->flag != 0)
+    {
+        unsigned axis = self->axis;
+        unsigned offW = ::DAT_010d33c1[axis];
+        unsigned offU = ::DAT_010d33c2[axis];
+        out->f1c = src->f40 * self->f0c;
+        out->row = a2->rows[axis];
+        __m128 W = *(__m128*)((unsigned char*)a2 + offW);
+        __m128 U = *(__m128*)((unsigned char*)a3 + offU);
+        __m128 V = a3->rows[axis];
+        out->f10 = self->f04;
+        out->f14 = self->f08;
+        float dot = sum3(_mm_mul_ps(U, W));
+        float triple = sum3(_mm_mul_ps(cross_uv(U, V), W));
+        out->f18 = ::Atan2(dot, triple);
+        float n = src->child->f04 * -1.0;
+        const double kPi = 3.14159265358979323846f;
+        const double kTwo = 6.28318530717958647692f;
+        while (n - out->f18 > kPi)
+            out->f18 = (float)(out->f18 + kTwo);
+        while (out->f18 - n > kPi)
+            out->f18 = (float)(out->f18 - kTwo);
+        return 0;
+    }
+    return 1;
+}
+
+extern Obj* g_obj;
+extern Src* g_src;
+extern Mat* g_a2;
+extern Mat* g_a3;
+extern AxisRowOut* g_out;
+int g_sink;
+
+void zz_probe_call()
+{
+    g_sink = FUN_00d6d2e0(g_obj, g_src, g_a2, g_a3, g_out);
+}
+
+struct S00d6f300_A
+{
+    short m_00;
+    unsigned char m_02;
+    unsigned char m_03;
+    short m_04;
+    short m_06;
+    float m_08;
+    void* m_0c;
+};
+struct S00d6f300_O
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    __m128 m_30;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    unsigned char* m_64;
+};
+struct S00d6f300_Cmd
+{
+    float f;
+    unsigned char b4;
+    unsigned char b5;
+    unsigned char b6;
+    unsigned char b7;
+    int u8;
+    int uc;
+};
+struct __declspec(align(16)) S00d6f300_Real
+{
+    float r;
+};
+struct S00d6f300_V4
+{
+    __m128 q;
+    void setSub4(const S00d6f300_V4& a, const S00d6f300_V4& b)
+    {
+        q = _mm_sub_ps(a.q, b.q);
+    }
+    float dot3(const S00d6f300_V4& b) const
+    {
+        __m128 m = _mm_mul_ps(q, b.q);
+        float r;
+        _mm_store_ss(&r, _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m)));
+        return r;
+    }
+};
+struct S00d6f300_B
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    S00d6f300_V4 m_30;
+};
+struct S00d6f300_Pair
+{
+    float a;
+    float b;
+};
+struct S00d6f300_Out
+{
+    float x;
+    float y;
+    float z;
+    float w;
+};
+struct __declspec(align(16)) S00d6f300_Info
+{
+    float res;
+    S00d6f300_O* o;
+    S00d6f300_Pair ab;
+    float c;
+    float d;
+    S00d6f300_Out out;
+};
+void ComputeJacobian(const __m128* n, const __m128* pos, S00d6f300_O* o, S00d6f300_Cmd* cur, S00d6f300_Info* info);
+void FUN_00dd03c0(S00d6f300_Out* out, S00d6f300_O* o, S00d6f300_Cmd* cur, S00d6f300_Cmd** p);
+
+// @fnv 0x00d6f300
+static __declspec(noinline) void FUN_00d6f300(S00d6f300_A* s, S00d6f300_O* o, S00d6f300_B* a2, __m128* a3,
+                                              S00d6f300_Cmd** p)
+{
+    unsigned char* base = o->m_64;
+    unsigned char* a = base + s->m_04;
+    float* b = (float*)(base + s->m_06);
+    if (s->m_02)
+    {
+        void* h = s->m_0c;
+        if (h)
+        {
+            if (*a == 0)
+                *b = s->m_08;
+            S00d6f300_Cmd* cur = *p;
+            S00d6f300_Info info;
+            info.ab.a = 0.0f;
+            info.ab.b = 0.0f;
+            ComputeJacobian(&a3[s->m_03], &a2->m_30.q, o, cur, &info);
+            info.o = o;
+            info.ab = *(S00d6f300_Pair*)o->m_64;
+            info.c = s->m_08 - *b;
+            S00d6f300_V4 d;
+            d.setSub4(a2->m_30, reinterpret_cast<const S00d6f300_V4&>(a3[3]));
+            info.d = *b - d.dot3(reinterpret_cast<const S00d6f300_V4&>(a3[s->m_03]));
+            ::FUN_00dcfff0((::ObjA *)(h), (::ObjB *)(::S00d6f300_Info *)(&info), (float *)(::S00d6f300_Out *)(&info.out));
+            FUN_00dd03c0(&info.out, o, cur, p);
+            if (*b != s->m_08 || *a == 0)
+            {
+                *b = s->m_08;
+                *a = 1;
+            }
+            return;
+        }
+    }
+    S00d6f300_Cmd* q = *p;
+    q->b4 = 1;
+    q->f = (float)(q->f + ::DAT_010c9300);
+    *(unsigned char*)q = 3;
+    *p = q + 1;
+}
+
+void S00d6f300_caller(S00d6f300_A* s, S00d6f300_O* o, S00d6f300_B* a2, __m128* a3, S00d6f300_Cmd** p)
+{
+    FUN_00d6f300(s, o, a2, a3, p);
+    FUN_00d6f300(s + 1, o, a2, a3, p);
+}
+
+// Moved from hkpbuildjacobianfromatoms_gs_nogs_variant.cpp (VEGAS-15).
+
+struct S_00d6cb30_Vector4
+{
+    __m128 m_vComponents;
+    void setNeg4(const S_00d6cb30_Vector4& v)
+    {
+        m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0);
+    }
+};
+
+struct S_00d6cb30_Rotation
+{
+    S_00d6cb30_Vector4 m_kColumn0;
+    S_00d6cb30_Vector4 m_kColumn1;
+    S_00d6cb30_Vector4 m_kColumn2;
+};
+
+inline void S_00d6cb30_setRotatedDir(S_00d6cb30_Vector4& out, const S_00d6cb30_Rotation& m, const S_00d6cb30_Vector4& v)
+{
+    const __m128 b = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0x55);
+    const __m128 r1 = _mm_mul_ps(b, m.m_kColumn1.m_vComponents);
+    const __m128 c = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0x00);
+    const __m128 r0 = _mm_mul_ps(c, m.m_kColumn0.m_vComponents);
+    const __m128 a = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xaa);
+    const __m128 r2 = _mm_mul_ps(a, m.m_kColumn2.m_vComponents);
+    out.m_vComponents = _mm_add_ps(_mm_add_ps(r1, r0), r2);
+}
+
+struct S_00d6cb30_Accumulator
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    S_00d6cb30_Vector4 m_vInverseInertiaAndMass;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    S_00d6cb30_Rotation m_coreFromWorldMatrix;
+};
+
+struct S_00d6cb30_Jacobian
+{
+    S_00d6cb30_Vector4 m_kAngularVelocity[2];
+    float unk20;
+    float unk24;
+    float unk28;
+    int unk2C;
+};
+
+struct S_00d6cb30_Info
+{
+    S_00d6cb30_Vector4 m_kAxisEndPoints;
+    float unk10;
+    float unk14;
+    float unk18;
+    float unk1C;
+};
+
+struct S_00d6cb30_QueryIn
+{
+    int unk00;
+    int unk04;
+    float unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    const S_00d6cb30_Accumulator* m_pBodyA;
+    const S_00d6cb30_Accumulator* m_pBodyB;
+};
+
+struct S_00d6cb30_QueryOut
+{
+    S_00d6cb30_Jacobian* m_pQueryResultSchema;
+};
+
+__forceinline float BuildAngular431(const S_00d6cb30_Info* info, const S_00d6cb30_QueryIn* in, S_00d6cb30_Jacobian* jac)
+{
+    S_00d6cb30_Vector4 negAxis;
+    negAxis.setNeg4(info->m_kAxisEndPoints);
+    const S_00d6cb30_Accumulator* bodyB = in->m_pBodyB;
+    const S_00d6cb30_Accumulator* bodyA = in->m_pBodyA;
+
+    S_00d6cb30_setRotatedDir(jac->m_kAngularVelocity[0], bodyA->m_coreFromWorldMatrix, info->m_kAxisEndPoints);
+    S_00d6cb30_setRotatedDir(jac->m_kAngularVelocity[1], bodyB->m_coreFromWorldMatrix, negAxis);
+
+    __m128 a0 =
+        _mm_mul_ps(_mm_mul_ps(jac->m_kAngularVelocity[0].m_vComponents, jac->m_kAngularVelocity[0].m_vComponents),
+                   bodyA->m_vInverseInertiaAndMass.m_vComponents);
+    __m128 a1 =
+        _mm_mul_ps(_mm_mul_ps(jac->m_kAngularVelocity[1].m_vComponents, jac->m_kAngularVelocity[1].m_vComponents),
+                   bodyB->m_vInverseInertiaAndMass.m_vComponents);
+    __m128 s = _mm_add_ps(a0, a1);
+    __m128 sum = _mm_add_ss(_mm_shuffle_ps(s, s, 0xaa), _mm_add_ss(_mm_shuffle_ps(s, s, 0x55), s));
+    float diag;
+    _mm_store_ss(&diag, sum);
+    diag = diag + 1.1920928955078125e-07;
+    return diag;
+}
+// @fnv 0x00d6cb30
+void __cdecl FUN_00d6cb30(const S_00d6cb30_Info* info, const S_00d6cb30_QueryIn* in, S_00d6cb30_QueryOut* out)
+{
+    float x = info->unk1C;
+    S_00d6cb30_Jacobian* jac = out->m_pQueryResultSchema;
+    float diag = BuildAngular431(info, in, jac);
+    jac->m_kAngularVelocity[0].m_vComponents[3] = x / diag;
+
+    float n = -in->unk08;
+    float a = info->unk10;
+    float b = info->unk14;
+    jac->m_kAngularVelocity[1].m_vComponents[3] = info->unk18 * n;
+    S_00d6cb30_Jacobian* j = out->m_pQueryResultSchema;
+    out->m_pQueryResultSchema = j + 1;
+    j->unk20 = a * n * x;
+    j->unk24 = b * n * x;
+    j->unk28 = x;
+    j->m_kAngularVelocity[0].m_vComponents[0] += 1.1920928955078125e-07;
+    *(unsigned char*)j = 0xd;
+}
+#include "generated/data/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms.inc"

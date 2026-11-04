@@ -2,34 +2,23 @@
 // src/havok/physics/collide/agent/util/symmetric/hkpsymmetricagentlinearcast.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/util/symmetric/hkpsymmetricagentlinearcast.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 struct FUN_00d2dbe0;
-struct Callback
-{
-    virtual void Reserved0();
-    virtual void Reserved1();
-    virtual void Run(FUN_00d2dbe0*, int);
-};
-struct Result
-{
-    int unk00[4];
-    Callback* callback;
-};
+// An object of one 4-byte field after its vtable, 8 bytes on 32-bit.
 struct FUN_00d2dbe0
 {
-    int unk00[3];
-    Result* result;
-    Result* FUN_00c85750();
     virtual void Virtual0();
+    int unk04;
     FUN_00d2dbe0(unsigned int flags);
 };
-// If bit 0 of flags is set, obtains a Result via FUN_00c85750 and invokes its callback's Run with this and 8.
+// If bit 0 of flags is set, frees this object to the heap allocator.
 // @fnv 0x00d2dbe0
 FUN_00d2dbe0::FUN_00d2dbe0(unsigned int flags)
 {
     if (flags & 1)
     {
-        Result* value = FUN_00c85750();
-        value->callback->Run(this, 8);
+        hkMemoryRouter::getInstance().heap().blockFree(this, sizeof(FUN_00d2dbe0));
     }
 }
 
@@ -104,18 +93,6 @@ void S_00da7070::AddFlippedCdPoint(const S_00da7070_CdPoint& p)
 }
 
 namespace fnv_00da70e0 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int32 m128_u32[4];
-} __m128;
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 
 extern const __m128 DAT_010c4c00;
 
@@ -213,3 +190,5 @@ void VecHolder::FUN_00da70e0(const VecArg& arg)
     m_04 = m_20->m_04;
 }
 }  // namespace fnv_00da70e0
+
+#include "generated/data/havok/physics/collide/agent/util/symmetric/hkpsymmetricagentlinearcast.inc"

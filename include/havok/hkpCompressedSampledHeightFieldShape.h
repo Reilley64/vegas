@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpSampledHeightFieldShape.h"
-#pragma pack(push, 1)
 class hkpCompressedSampledHeightFieldShape : public hkpSampledHeightFieldShape
 {
   public:
@@ -16,7 +15,4 @@ class hkpCompressedSampledHeightFieldShape : public hkpSampledHeightFieldShape
     hkReal m_vScale;  // +0x74
     char pad78[0x8];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpCompressedSampledHeightFieldShape[(sizeof(hkpCompressedSampledHeightFieldShape) == 0x80) ? 1 : -1];
 #endif

@@ -1,17 +1,58 @@
 // fallout_shared/medialocationcontroller.cpp: MediaLocationController, MediaSetEntry, FormStub_cls, MLCFullName_cls and more (25 functions)
 
+#include <new>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/PlayerNearbyRefs.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_00568cb0__FUN_00568cb0_shell.h"
+#include "fnv/decl/fnv_008b8e90__FUN_008b8e90_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00595000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00944000.h"
+#include "fnv/symbols_00966000.h"
+#include "fnv/symbols_01034000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
 #include "medialocationcontroller_update_decls.h"
 #include "medialocationcontroller.h"
 #include "mediaset.h"
+#include "fnv/decl/FORenderedMenu.h"
+#include "fnv/decl/FUN_005fd3b0_shell.h"
+#include "fnv/symbols_00472000.h"
+#include "medialocationcontroller_update_decls_decl_medialocationcontroller.h"
 
-unsigned int __cdecl GetRandomNumberInRange(int aiMin, int aiMax);
-int __cdecl Warning(const char* apFormat, ...);
 class TESDataHandler
 {
   public:
     TESFaction* GetFactionByFormID(unsigned int auiFormID);
 };
-extern TESDataHandler* g_dataHandler;
 
 // @fnv 0x005974f0
 void MediaLocationController::ResetFormData()
@@ -21,12 +62,12 @@ void MediaLocationController::ResetFormData()
     m_fUpdateInterval = 60.0f;
     m_uiShortDelay = 0x40;
     m_uiLongDelay = 0x150;
-    m_kMediaSetList1.RemoveAll();
-    m_kMediaSetList2.RemoveAll();
-    m_kMediaSetList3.RemoveAll();
-    m_kMediaSetList4.RemoveAll();
-    m_kMediaSetList5.RemoveAll();
-    m_kMediaSetList6.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList1))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList2))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList3))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList4))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList5))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList6))->RemoveAll();
     pFaction = 0;
     m_eRequiredFightReaction = FIGHT_REACTION_FIGHT_REACTION_ENEMY;
     m_pReference = 0;
@@ -36,18 +77,18 @@ void MediaLocationController::ResetFormData()
 // @fnv 0x005975b0
 void MediaLocationController::ClearData()
 {
-    m_kMediaSetList1.RemoveAll();
-    m_kMediaSetList2.RemoveAll();
-    m_kMediaSetList3.RemoveAll();
-    m_kMediaSetList4.RemoveAll();
-    m_kMediaSetList5.RemoveAll();
-    m_kMediaSetList6.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList1))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList2))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList3))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList4))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList5))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList6))->RemoveAll();
 }
 
 // @fnv 0x005977d0
 MediaSet::MediaSetEntry::MediaSetEntry()
 {
-    Name.Set(0, 0);
+    reinterpret_cast<::TextString *>(&(Name))->FUN_004037f0(0, 0);
     Attenuation = -12.0f;
     Percent = 100.0f;
 }
@@ -55,7 +96,7 @@ MediaSet::MediaSetEntry::MediaSetEntry()
 // @fnv 0x005962e0
 void MediaLocationController::InitItem()
 {
-    if (IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
     ProcessMediaSetList(&m_kMediaSetList1);
     ProcessMediaSetList(&m_kMediaSetList2);
@@ -65,11 +106,11 @@ void MediaLocationController::InitItem()
     ProcessMediaSetList(&m_kMediaSetList6);
     if (pFaction)
     {
-        unsigned int auiFormId = reinterpret_cast<unsigned int>(pFaction);
-        TESForm::RemapFormIDForFile(auiFormId, GetFile(-1));
-        pFaction = g_dataHandler->GetFactionByFormID(auiFormId);
+        unsigned int auiFormId = (unsigned int)(std::uintptr_t)(pFaction);
+        ::ResolveFormID((unsigned int *)&(auiFormId), GetFile(-1));
+        pFaction = (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->GetFactionByFormID(auiFormId);
         if (!pFaction)
-            Warning("MASTERFILE: Could not find reputation (%08X) for MediaLocationController", pFaction);
+            ::FUN_005b5e40();
     }
     SetInitializationState(true);
 }
@@ -81,18 +122,18 @@ void MediaLocationController::ProcessMediaSetList(BSSimpleList<MediaSet*>* apLis
     BSSimpleList<MediaSet*>* pPrevNode = 0;
     while (apList && !apList->IsEmpty())
     {
-        unsigned int auiFormId = reinterpret_cast<unsigned int>(apList->GetItem());
-        TESForm::RemapFormIDForFile(auiFormId, GetFile(-1));
-        MediaSet* pMediaSet = dynamic_cast<MediaSet*>(TESForm::GetFormByID(auiFormId));
+        unsigned int auiFormId = (unsigned int)(std::uintptr_t)((apList->m_item));
+        ::ResolveFormID((unsigned int *)&(auiFormId), GetFile(-1));
+        MediaSet* pMediaSet = dynamic_cast<MediaSet*>(::FUN_004839c0(auiFormId));
         if (!pMediaSet)
         {
             BSStringT<char> strName;
             GetDebugName(&strName);
-            Warning("MASTERFILE: Could not find MediaSet (%08X) for %s.", auiFormId, strName.String());
+            ::FUN_005b5e40();
             if (pPrevNode)
             {
-                pPrevNode->Remove(reinterpret_cast<MediaSet*>(auiFormId));
-                apList = pPrevNode->GetNext();
+                reinterpret_cast<::ItemChangeListNode *>((pPrevNode))->FUN_00905330((::InventoryStackRecord *const &)((const ::MediaSet *const &)(reinterpret_cast<MediaSet*>(auiFormId))));
+                apList = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pPrevNode))->FUN_00726070()));
             }
             else
                 apList->RemoveHead();
@@ -101,7 +142,7 @@ void MediaLocationController::ProcessMediaSetList(BSSimpleList<MediaSet*>* apLis
         {
             apList->SetItem(pMediaSet);
             pPrevNode = apList;
-            apList = apList->GetNext();
+            apList = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((apList))->FUN_00726070()));
         }
     }
 }
@@ -110,16 +151,16 @@ void MediaLocationController::ProcessMediaSetList(BSSimpleList<MediaSet*>* apLis
 bool MediaLocationController::Load(TESFile* apFile)
 {
     unsigned int auiFormId = 0;
-    LoadRecordHeader(apFile);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(apFile));
     SetInitializationState(false);
     CHUNK_ID eChunk;
-    while ((eChunk = static_cast<CHUNK_ID>(apFile->GetChunkID())) != 0)
+    while ((eChunk = static_cast<CHUNK_ID>(((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0())))) != 0)
     {
         switch (eChunk)
         {
         case CHUNK_ID_EDID_ID: {
-            char* pEditorID = static_cast<char*>(_alloca(apFile->GetChunkSize()));
-            apFile->GetChunkData(pEditorID, 512);
+            char* pEditorID = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pEditorID), 512);
             SetEditorID_AtRuntime(pEditorID);
             break;
         }
@@ -127,7 +168,7 @@ bool MediaLocationController::Load(TESFile* apFile)
             readOBNDSubRecord(apFile);
             break;
         case CHUNK_ID_FULL_ID:
-            TESFullNameLoader::LoadFullNameChunk(this, apFile);
+            ::ReadFullName(this, apFile);
             break;
         case CHUNK_ID_NAM1_ID:
             apFile->GetChunkData(reinterpret_cast<unsigned int*>(&iFlags));
@@ -207,197 +248,25 @@ MediaSet* MediaLocationController::GetMediaSetFromList(BSSimpleList<MediaSet*>* 
 {
     BSSimpleList<MediaSet*>* pList = apList;
     MediaSet* pResult = 0;
-    if (pList && pList->GetItem())
+    if (pList && (pList->m_item))
     {
-        while (pList && pList->GetItem())
+        while (pList && (pList->m_item))
         {
             unsigned int uiRandom = GetRandomNumberInRange(0, 4);
             if (uiRandom == 0 || !pResult)
-                pResult = pList->GetItem();
-            pList = pList->GetNext();
+                pResult = (pList->m_item);
+            pList = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         }
     }
     else
         return 0;
     if (pResult)
     {
-        apList->Remove(pResult);
-        apList->AddTail(pResult);
+        reinterpret_cast<::ItemChangeListNode *>((apList))->FUN_00905330((::InventoryStackRecord *const &)(pResult));
+        reinterpret_cast<::Callees *>((apList))->FUN_00905820((void *)&(pResult));
     }
     return pResult;
 }
-// @fnv 0x00595600
-bool MediaLocationController::Update(bool abInCombat)
-{
-    // Local spellings and declaration order preserve MSVC 2008 stack allocation.
-    BSSimpleList<ActorCombatEntry*>* o;  // perceived actor list
-    bool m;                              // found a hostile actor
-    bool j;                              // found a faction actor
-    bool e;                              // conditional selection flag
-    float r;                             // squared XY distance
-    float d;                             // normalized player distance from marker
-    unsigned char c;                     // tension changed
-    MusicMarkerReference* l;             // closest audio marker info
-    float k;                             // squared marker radius
-    bool b;                              // combat changed
-    FIGHT_REACTION g;                    // current faction reaction
-    unsigned char f;                     // faction presence changed
-    bool n;                              // day/night changed
-    bool i;                              // faction reaction changed
-    unsigned int a;                      // current synchronization time
-    bool h;                              // previous faction presence
-
-    if (!g_thePlayer && g_thePlayer->GetMusicMarkerReference() &&
-        g_thePlayer->GetMusicMarkerReference()->m_pMarkerReference)
-        return false;
-    if (DAT_011dd374 != this)
-    {
-        if (m_pMediaSet)
-            m_pMediaSet->Reset();
-        m_pMediaSet = 0;
-    }
-    DAT_011dd374 = this;
-    a = BSAudio::GetSingleton()->GetSynchTime();
-    if (!bIsActive)
-    {
-        if (m_pMediaSet)
-            m_pMediaSet->Reset();
-        m_pMediaSet = 0;
-    }
-    g = pFaction ? pFaction->GetFactionReaction(static_cast<TESFaction*>(
-                       BGSDefaultObjectManager::GetDefaultObjectByIndex(DEFAULT_OBJECT_PLAYER_FACTION)))
-                 : FIGHT_REACTION_FIGHT_REACTION_NEUTRAL;
-    l = g_thePlayer->GetMusicMarkerReference();
-    e = false;
-    k = l->m_pMarkerReference->GetRadius();
-    k *= k;
-    NiPoint3 q = *l->m_pMarkerReference->GetPos();  // marker position
-    NiPoint3 p = q - *g_thePlayer->GetPos();        // marker-to-player difference
-    r = p.GetSquaredXYLength();
-    d = 1000.0f;
-    if (r <= k)
-        d = r / k;
-    o = g_thePlayer->GetListofPerceivedActors();
-    j = false;
-    m = false;
-    h = static_cast<bool>(m_uiPreviousPerceivedActorCount);
-    m_uiPreviousPerceivedActorCount = 0;
-    m_uiPerceivedActorCount = 0;
-    while (o && !o->IsEmpty())
-    {
-        ActorCombatEntry* s = o->GetItem();  // perceived actor record
-        if (s && s->pActor)
-        {
-            if (pFaction && s->pActor->HasFaction(pFaction))
-            {
-                m_uiPreviousPerceivedActorCount++;
-                j = true;
-                if (s->m_bIsEnemy)
-                    g = FIGHT_REACTION_FIGHT_REACTION_ENEMY;
-            }
-            if (s->m_bIsEnemy)
-            {
-                m_uiPerceivedActorCount++;
-                m = true;
-            }
-        }
-        o = o->GetNext();
-    }
-    b = m_bActorStateFlag != abInCombat;
-    c = m_bCountWasNonzero != (m_uiPerceivedActorCount > 0 ? 1U : 0U);
-    f = h != (m_uiPreviousPerceivedActorCount > 0 ? 1U : 0U);
-    n = m_bConditionWasTrue != IsMediaLocationActive();
-    i = m_eCurrentFightReaction != g;
-    if (g == GetDeadRep())
-        f = false;
-    m_bActorStateFlag = abInCombat;
-    m_bCountWasNonzero = m_uiPerceivedActorCount > 0U ? true : false;
-    m_bConditionWasTrue = IsMediaLocationActive();
-    m_eCurrentFightReaction = g;
-    m_fLocationDistance = d;
-    if (m_fLocationDistance < 100.0 && m_fUpdateCooldown > a && !bIsActive)
-        return false;
-    bIsActive = false;
-    if (m_pMediaSet)
-        bIsActive = m_pMediaSet->Update(a, abInCombat, this);
-    if (n || i || f)
-    {
-        if (m_pMediaSet)
-            m_pMediaSet->Reset();
-        m_pMediaSet = 0;
-    }
-    if (!bIsActive && d < 100.0)
-    {
-        if (m_pMediaSet)
-        {
-            m_pMediaSet->Reset();
-            m_pMediaSet = 0;
-        }
-        if (!m_pMediaSet)
-        {
-            if (j)
-            {
-                switch (g)
-                {
-                case FIGHT_REACTION_FIGHT_REACTION_NEUTRAL:
-                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList1);
-                    break;
-                case FIGHT_REACTION_FIGHT_REACTION_ENEMY:
-                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList4);
-                    break;
-                case FIGHT_REACTION_FIGHT_REACTION_ALLY:
-                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList2);
-                    break;
-                case FIGHT_REACTION_FIGHT_REACTION_FRIEND:
-                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList3);
-                    break;
-                }
-            }
-            else
-            {
-                switch (GetDeadRep())
-                {
-                    break;
-                case DEADFACTION_LOCATION:
-                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList5);
-                    break;
-                case DEADFACTION_CONDITIONAL_NEUTRAL:
-                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList1);
-                    break;
-                case DEADFACTION_CONDITIONAL_ALLY:
-                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList2);
-                    break;
-                case DEADFACTION_CONDITIONAL_FRIEND:
-                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList3);
-                    break;
-                case DEADFACTION_CONDITIONAL_ENEMY:
-                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList4);
-                    break;
-                }
-            }
-        }
-    }
-    if ((!m_pMediaSet ||
-         (m_pMediaSet->GetType() != MediaSet::BATTLE && m_pMediaSet->GetType() != MediaSet::LAYER_DUNGEON)) &&
-        m_fLocationDistance < 100.0 && abInCombat)
-    {
-        if (m_pMediaSet)
-        {
-            m_pMediaSet->Reset();
-            m_pMediaSet = 0;
-        }
-        if (!DAT_011dd378)
-            m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList6);
-    }
-    if (!bIsActive && m_pMediaSet)
-        bIsActive = m_pMediaSet->Update(a, abInCombat, this);
-    if (bIsActive)
-        m_fUpdateCooldown = static_cast<unsigned int>(a + m_fUpdateInterval * 1000.0);
-    if (!bIsActive && m_fLocationDistance > 1.0)
-        DAT_011dd374 = 0;
-    return bIsActive;
-}
-
 struct FUN_00595c80_shell : public NiPoint3
 {
     float GetSquaredXYLength();
@@ -418,7 +287,7 @@ struct FUN_00595cf0_shell : public MediaLocationController
 // @fnv 0x00595cf0
 int FUN_00595cf0_shell::FUN_00595cf0()
 {
-    return *(unsigned int*)((char*)this + 0x6c) & 0xf;
+    return *(unsigned int*)&this->iFlags & 0xf;
 }
 
 struct FUN_00595d10_shell : public PlayerCharacter
@@ -440,7 +309,7 @@ struct FUN_00595e80_shell : public MediaLocationController
 // @fnv 0x00595e80
 bool FUN_00595e80_shell::FUN_00595e80()
 {
-    if ((*(int*)((char*)this + 0x6c) >> 6) & 1)
+    if ((this->iFlags >> 6) & 1)
         return true;
     return false;
 }
@@ -453,7 +322,7 @@ struct TESClimate
 };
 
 // @fnv 0x00595ea0
-float __fastcall FUN_00595ea0(char* apThis)
+float FUN_00595ea0(char* apThis)
 {
     if ((*(unsigned int*)(apThis + 0x118) & 0x100) && *(TESClimate**)(apThis + 0xc))
     {
@@ -510,15 +379,14 @@ extern float DAT_011ca9ec;
 
 struct TESClimate
 {
-    unsigned char FUN_00595f10(int a1);
 };
 
 // @fnv 0x00595f50
-float __fastcall FUN_00595f50(Sky* pThis)
+float FUN_00595f50(Sky* pThis)
 {
     if ((*(unsigned int*)((char*)pThis + 0x118) & 0x200) && *(TESClimate**)((char*)pThis + 0xc))
     {
-        DAT_011ca9ec = (*(TESClimate**)((char*)pThis + 0xc))->FUN_00595f10(1) / 6.0;
+        DAT_011ca9ec = reinterpret_cast<::FUN_00595f10_cls *>(((*(TESClimate**)((char*)pThis + 0xc))))->get(1) / 6.0;
         *(unsigned int*)((char*)pThis + 0x118) &= ~0x200;
     }
     return DAT_011ca9ec;
@@ -530,16 +398,15 @@ extern float DAT_011ca9f0;
 
 struct TESClimate
 {
-    unsigned char FUN_00595f10(int a1);
 };
 
 // If the 0x400 flag is set and a TESClimate is present, stores its value for index 2 divided by 6.0 in DAT_011ca9f0 and clears the flag; returns DAT_011ca9f0.
 // @fnv 0x00595fc0
-float __fastcall FUN_00595fc0(char* pThis)
+float FUN_00595fc0(char* pThis)
 {
     if ((*(unsigned int*)(pThis + 0x118) & 0x400) && *(TESClimate**)(pThis + 0xc))
     {
-        DAT_011ca9f0 = (float)((*(TESClimate**)(pThis + 0xc))->FUN_00595f10(2) / 6.0);
+        DAT_011ca9f0 = (float)(reinterpret_cast<::FUN_00595f10_cls *>(((*(TESClimate**)(pThis + 0xc))))->get(2) / 6.0);
         *(unsigned int*)(pThis + 0x118) &= ~0x400;
     }
     return DAT_011ca9f0;
@@ -548,9 +415,7 @@ float __fastcall FUN_00595fc0(char* pThis)
 
 struct Inner
 {
-    unsigned char FUN_00595f10(int a);
 };
-extern double DAT_01034208;
 extern float DAT_011ca9f4;
 struct FUN_00596030_cls
 {
@@ -565,14 +430,14 @@ float FUN_00596030_cls::FUN_00596030()
 {
     if ((flags & 0x800) && inner)
     {
-        DAT_011ca9f4 = (float)(inner->FUN_00595f10(3) / DAT_01034208);
+        DAT_011ca9f4 = (float)(reinterpret_cast<::FUN_00595f10_cls *>((inner))->get(3) / DAT_01034208);
         flags &= ~0x800u;
     }
     return DAT_011ca9f4;
 }
 
 // @fnv 0x00966a20
-float __fastcall GetFieldEC(const char* pThis)
+float GetFieldEC(const char* pThis)
 {
     return *(const float*)(pThis + 0xec);
 }
@@ -644,22 +509,11 @@ void FUN_00595cb0_shell::ResetState()
     m_0x34 = 0;
 }
 
-void _Deallocate(void*);
 struct Stub00595530
 {
     void FUN_005960a0();
     void* DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_005960a0, deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x00595530
-void* Stub00595530::DestroyIfFlagged(unsigned int flags)
-{
-    this->FUN_005960a0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 class FormStub_cls
 {
   public:
@@ -711,6 +565,15 @@ class FUN_005960a0 : public FormStub_cls, public MLCFullName_cls
     BSSimpleList<MediaSet*> m_kMediaSetList6;
     virtual ~FUN_005960a0();
 };
+// Calls FUN_005960a0, deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x00595530
+void* Stub00595530::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005960a0 *>((this))->FUN_005960a0::~FUN_005960a0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 FormStub_cls::~FormStub_cls()
 {}
@@ -724,22 +587,16 @@ FUN_005960a0::~FUN_005960a0()
 
 struct MLCFormSaver
 {
-    void FUN_004855a0();
-    void FUN_00485680();
 };
 
 struct MLCFullNameSaver : public TESFullName
 {
-    void FUN_00487010();
 };
 
 struct MLCFormID
 {
-    unsigned int FUN_0084e3a0();
 };
 
-void __cdecl FUN_00485910(unsigned int auiChunkID, unsigned int auiValue);
-void __cdecl SaveChunkFloat(unsigned int auiChunkID, float afValue);
 
 struct MLCSaver : public TESForm, public MLCFullNameSaver
 {
@@ -782,89 +639,89 @@ struct MLCSaver : public TESForm, public MLCFullNameSaver
 // @fnv 0x00596790
 void MLCSaver::SaveToStream()
 {
-    ((MLCFormSaver*)this)->FUN_004855a0();
-    MLCFullNameSaver::FUN_00487010();
-    FUN_00485910(CHUNK_ID_NAM1_ID, (unsigned int)iFlags);
-    SaveChunkFloat(CHUNK_ID_NAM2_ID, m_fLowerWeightThreshold);
-    SaveChunkFloat(CHUNK_ID_NAM3_ID, m_fUpperWeightThreshold);
-    SaveChunkFloat(CHUNK_ID_NAM4_ID, m_fUpdateInterval);
-    FUN_00485910(CHUNK_ID_NAM5_ID, m_uiShortDelay);
-    FUN_00485910(CHUNK_ID_NAM6_ID, m_uiLongDelay);
-    SaveChunkFloat(CHUNK_ID_NAM7_ID, m_fMediaSelectionValue);
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((MLCFormSaver*)this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>(this)->FUN_00487010();
+    ::FUN_00485910(CHUNK_ID_NAM1_ID, (unsigned int)iFlags);
+    ::FUN_00485910(CHUNK_ID_NAM2_ID, m_fLowerWeightThreshold);
+    ::FUN_00485910(CHUNK_ID_NAM3_ID, m_fUpperWeightThreshold);
+    ::FUN_00485910(CHUNK_ID_NAM4_ID, m_fUpdateInterval);
+    ::FUN_00485910(CHUNK_ID_NAM5_ID, m_uiShortDelay);
+    ::FUN_00485910(CHUNK_ID_NAM6_ID, m_uiLongDelay);
+    ::FUN_00485910(CHUNK_ID_NAM7_ID, m_fMediaSelectionValue);
 
     BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList1;
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = pIter->GetItem()) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_HNAM_ID, auiFormId);
-            pIter = pIter->GetNext();
+            unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
+            ::FUN_00485910(CHUNK_ID_HNAM_ID, auiFormId);
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     pIter = &m_kMediaSetList2;
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = pIter->GetItem()) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_ZNAM_ID, auiFormId);
-            pIter = pIter->GetNext();
+            unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
+            ::FUN_00485910(CHUNK_ID_ZNAM_ID, auiFormId);
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     pIter = &m_kMediaSetList3;
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = pIter->GetItem()) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_XNAM_ID, auiFormId);
-            pIter = pIter->GetNext();
+            unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
+            ::FUN_00485910(CHUNK_ID_XNAM_ID, auiFormId);
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     pIter = &m_kMediaSetList4;
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = pIter->GetItem()) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_YNAM_ID, auiFormId);
-            pIter = pIter->GetNext();
+            unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
+            ::FUN_00485910(CHUNK_ID_YNAM_ID, auiFormId);
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     pIter = &m_kMediaSetList5;
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = pIter->GetItem()) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_LNAM_ID, auiFormId);
-            pIter = pIter->GetNext();
+            unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
+            ::FUN_00485910(CHUNK_ID_LNAM_ID, auiFormId);
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     pIter = &m_kMediaSetList6;
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = pIter->GetItem()) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_GNAM_ID, auiFormId);
-            pIter = pIter->GetNext();
+            unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
+            ::FUN_00485910(CHUNK_ID_GNAM_ID, auiFormId);
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     if (pFaction)
     {
-        unsigned int auiFormId = ((MLCFormID*)pFaction)->FUN_0084e3a0();
-        FUN_00485910(0x4d414e52, auiFormId);
+        unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pFaction)))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e52, auiFormId);
     }
-    FUN_00485910(CHUNK_ID_FNAM_ID, (unsigned int)m_eRequiredFightReaction);
-    ((MLCFormSaver*)this)->FUN_00485680();
+    ::FUN_00485910(CHUNK_ID_FNAM_ID, (unsigned int)m_eRequiredFightReaction);
+    reinterpret_cast<::Holder *>((((MLCFormSaver*)this)))->FUN_00485680();
 }
 
 struct ListOps
@@ -873,7 +730,6 @@ struct ListOps
 };
 struct FormOps
 {
-    bool FUN_00485270(TESForm* apOther);
 };
 struct FUN_00596d70_shell : public MediaLocationController
 {
@@ -906,170 +762,170 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
         return true;
     if (m_uiLongDelay != pOther->m_uiLongDelay)
         return true;
-    if (reinterpret_cast<FormOps*>(this)->FUN_00485270(pOther))
+    if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FormOps*>(this)))->FUN_00485270(pOther))
         return true;
-    if (pOther->m_kMediaSetList1.GetItem() && m_kMediaSetList1.GetItem() &&
+    if ((pOther->m_kMediaSetList1.m_item) && (m_kMediaSetList1.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList1)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList1)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList1;
-        while (pIter && pIter->GetItem())
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList1;
-            while (pOtherIter && pOtherIter->GetItem())
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!pIter->GetItem()->Compare(pOtherIter->GetItem()))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
                 }
-                pOtherIter = pOtherIter->GetNext();
+                pOtherIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pOtherIter))->FUN_00726070()));
             }
             if (!bFound)
                 return true;
-            pIter = pIter->GetNext();
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     else
     {
         return true;
     }
-    if (pOther->m_kMediaSetList2.GetItem() && m_kMediaSetList2.GetItem() &&
+    if ((pOther->m_kMediaSetList2.m_item) && (m_kMediaSetList2.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList2)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList2)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList2;
-        while (pIter && pIter->GetItem())
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList2;
-            while (pOtherIter && pOtherIter->GetItem())
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!pIter->GetItem()->Compare(pOtherIter->GetItem()))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
                 }
-                pOtherIter = pOtherIter->GetNext();
+                pOtherIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pOtherIter))->FUN_00726070()));
             }
             if (!bFound)
                 return true;
-            pIter = pIter->GetNext();
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     else
     {
         return true;
     }
-    if (pOther->m_kMediaSetList3.GetItem() && m_kMediaSetList3.GetItem() &&
+    if ((pOther->m_kMediaSetList3.m_item) && (m_kMediaSetList3.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList3)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList3)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList3;
-        while (pIter && pIter->GetItem())
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList3;
-            while (pOtherIter && pOtherIter->GetItem())
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!pIter->GetItem()->Compare(pOtherIter->GetItem()))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
                 }
-                pOtherIter = pOtherIter->GetNext();
+                pOtherIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pOtherIter))->FUN_00726070()));
             }
             if (!bFound)
                 return true;
-            pIter = pIter->GetNext();
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     else
     {
         return true;
     }
-    if (pOther->m_kMediaSetList4.GetItem() && m_kMediaSetList4.GetItem() &&
+    if ((pOther->m_kMediaSetList4.m_item) && (m_kMediaSetList4.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList4)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList4)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList4;
-        while (pIter && pIter->GetItem())
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList4;
-            while (pOtherIter && pOtherIter->GetItem())
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!pIter->GetItem()->Compare(pOtherIter->GetItem()))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
                 }
-                pOtherIter = pOtherIter->GetNext();
+                pOtherIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pOtherIter))->FUN_00726070()));
             }
             if (!bFound)
                 return true;
-            pIter = pIter->GetNext();
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     else
     {
         return true;
     }
-    if (pOther->m_kMediaSetList5.GetItem() && m_kMediaSetList5.GetItem() &&
+    if ((pOther->m_kMediaSetList5.m_item) && (m_kMediaSetList5.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList5)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList5)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList5;
-        while (pIter && pIter->GetItem())
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList5;
-            while (pOtherIter && pOtherIter->GetItem())
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!pIter->GetItem()->Compare(pOtherIter->GetItem()))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
                 }
-                pOtherIter = pOtherIter->GetNext();
+                pOtherIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pOtherIter))->FUN_00726070()));
             }
             if (!bFound)
                 return true;
-            pIter = pIter->GetNext();
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     else
     {
         return true;
     }
-    if (pOther->m_kMediaSetList6.GetItem() && m_kMediaSetList6.GetItem() &&
+    if ((pOther->m_kMediaSetList6.m_item) && (m_kMediaSetList6.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList6)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList6)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList6;
-        while (pIter && pIter->GetItem())
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList6;
-            while (pOtherIter && pOtherIter->GetItem())
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!pIter->GetItem()->Compare(pOtherIter->GetItem()))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
                 }
-                pOtherIter = pOtherIter->GetNext();
+                pOtherIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pOtherIter))->FUN_00726070()));
             }
             if (!bFound)
                 return true;
-            pIter = pIter->GetNext();
+            pIter = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
     else
@@ -1081,18 +937,13 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
 
 struct ObjT
 {
-    float FUN_00595f50();
-    float FUN_00595fc0();
-    float FUN_00596030();
 };
 struct GlobT
 {
-    ObjT* FUN_008d8520();
 };
-extern GlobT* DAT_011dea10;
 extern double DAT_01034200;
-float __fastcall FUN_00595ea0(char* apThis);
-float __fastcall GetFieldEC(const char* pThis);
+float FUN_00595ea0(char* apThis);
+float GetFieldEC(const char* pThis);
 
 struct ThisT
 {
@@ -1130,19 +981,189 @@ struct ThisT
     unsigned int unk7c;
     unsigned int m_uiShortDelay;
     unsigned int m_uiLongDelay;
-    bool FUN_00595e80();
     bool IsWithinRange();
 };
+// @fnv 0x00595600
+bool MediaLocationController::Update(bool abInCombat)
+{
+    // Local spellings and declaration order preserve MSVC 2008 stack allocation.
+    BSSimpleList<ActorCombatEntry*>* o;  // perceived actor list
+    bool m;                              // found a hostile actor
+    bool j;                              // found a faction actor
+    bool e;                              // conditional selection flag
+    float r;                             // squared XY distance
+    float d;                             // normalized player distance from marker
+    unsigned char c;                     // tension changed
+    MusicMarkerReference* l;             // closest audio marker info
+    float k;                             // squared marker radius
+    bool b;                              // combat changed
+    FIGHT_REACTION g;                    // current faction reaction
+    unsigned char f;                     // faction presence changed
+    bool n;                              // day/night changed
+    bool i;                              // faction reaction changed
+    unsigned int a;                      // current synchronization time
+    bool h;                              // previous faction presence
+
+    if (!::_g_thePlayer && ((::MusicMarkerReference *)(reinterpret_cast<::PlayerNearbyRefs *>((::_g_thePlayer))->FUN_00969930())) &&
+        ((::MusicMarkerReference *)(reinterpret_cast<::PlayerNearbyRefs *>((::_g_thePlayer))->FUN_00969930()))->m_pMarkerReference)
+        return false;
+    if (DAT_011dd374 != this)
+    {
+        if (m_pMediaSet)
+            reinterpret_cast<::FUN_00595cb0_shell *>((m_pMediaSet))->ResetState();
+        m_pMediaSet = 0;
+    }
+    DAT_011dd374 = this;
+    a = ::FUN_00453a70()->GetSynchTime();
+    if (!bIsActive)
+    {
+        if (m_pMediaSet)
+            reinterpret_cast<::FUN_00595cb0_shell *>((m_pMediaSet))->ResetState();
+        m_pMediaSet = 0;
+    }
+    g = pFaction ? pFaction->GetFactionReaction(static_cast<TESFaction*>(
+                       ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(DEFAULT_OBJECT_PLAYER_FACTION))))
+                 : FIGHT_REACTION_FIGHT_REACTION_NEUTRAL;
+    l = ((::MusicMarkerReference *)(reinterpret_cast<::PlayerNearbyRefs *>((::_g_thePlayer))->FUN_00969930()));
+    e = false;
+    k = reinterpret_cast<::fnv_00568cb0::FUN_00568cb0_shell *>((l->m_pMarkerReference))->FUN_00568cb0();
+    k *= k;
+    NiPoint3 q = *l->m_pMarkerReference->GetPos();  // marker position
+    NiPoint3 p = q - *::_g_thePlayer->GetPos();        // marker-to-player difference
+    r = reinterpret_cast<::FUN_00595c80_shell *>((void *)&(p))->GetSquaredXYLength();
+    d = 1000.0f;
+    if (r <= k)
+        d = r / k;
+    o = ((::BSSimpleList< ::ActorCombatEntry *> *)(reinterpret_cast<::FUN_00595d10_shell *>((::_g_thePlayer))->FUN_00595d10()));
+    j = false;
+    m = false;
+    h = static_cast<bool>(m_uiPreviousPerceivedActorCount);
+    m_uiPreviousPerceivedActorCount = 0;
+    m_uiPerceivedActorCount = 0;
+    while (o && !o->IsEmpty())
+    {
+        ActorCombatEntry* s = (o->m_item);  // perceived actor record
+        if (s && s->pActor)
+        {
+            if (pFaction && reinterpret_cast<::fnv_008b8e90::FUN_008b8e90_shell *>((s->pActor))->FUN_008b8e90((::fnv_008b8e90::TESFaction *)(pFaction)))
+            {
+                m_uiPreviousPerceivedActorCount++;
+                j = true;
+                if (s->m_bIsEnemy)
+                    g = FIGHT_REACTION_FIGHT_REACTION_ENEMY;
+            }
+            if (s->m_bIsEnemy)
+            {
+                m_uiPerceivedActorCount++;
+                m = true;
+            }
+        }
+        o = ((::BSSimpleList< ::ActorCombatEntry *> *)(reinterpret_cast<::Callees *>((o))->FUN_00726070()));
+    }
+    b = m_bActorStateFlag != abInCombat;
+    c = m_bCountWasNonzero != (m_uiPerceivedActorCount > 0 ? 1U : 0U);
+    f = h != (m_uiPreviousPerceivedActorCount > 0 ? 1U : 0U);
+    n = m_bConditionWasTrue != reinterpret_cast<::ThisT *>(this)->IsWithinRange();
+    i = m_eCurrentFightReaction != g;
+    if (g == GetDeadRep())
+        f = false;
+    m_bActorStateFlag = abInCombat;
+    m_bCountWasNonzero = m_uiPerceivedActorCount > 0U ? true : false;
+    m_bConditionWasTrue = reinterpret_cast<::ThisT *>(this)->IsWithinRange();
+    m_eCurrentFightReaction = g;
+    m_fLocationDistance = d;
+    if (m_fLocationDistance < 100.0 && m_fUpdateCooldown > a && !bIsActive)
+        return false;
+    bIsActive = false;
+    if (m_pMediaSet)
+        bIsActive = m_pMediaSet->Update(a, abInCombat, this);
+    if (n || i || f)
+    {
+        if (m_pMediaSet)
+            reinterpret_cast<::FUN_00595cb0_shell *>((m_pMediaSet))->ResetState();
+        m_pMediaSet = 0;
+    }
+    if (!bIsActive && d < 100.0)
+    {
+        if (m_pMediaSet)
+        {
+            reinterpret_cast<::FUN_00595cb0_shell *>((m_pMediaSet))->ResetState();
+            m_pMediaSet = 0;
+        }
+        if (!m_pMediaSet)
+        {
+            if (j)
+            {
+                switch (g)
+                {
+                case FIGHT_REACTION_FIGHT_REACTION_NEUTRAL:
+                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList1);
+                    break;
+                case FIGHT_REACTION_FIGHT_REACTION_ENEMY:
+                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList4);
+                    break;
+                case FIGHT_REACTION_FIGHT_REACTION_ALLY:
+                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList2);
+                    break;
+                case FIGHT_REACTION_FIGHT_REACTION_FRIEND:
+                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList3);
+                    break;
+                }
+            }
+            else
+            {
+                switch (GetDeadRep())
+                {
+                    break;
+                case DEADFACTION_LOCATION:
+                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList5);
+                    break;
+                case DEADFACTION_CONDITIONAL_NEUTRAL:
+                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList1);
+                    break;
+                case DEADFACTION_CONDITIONAL_ALLY:
+                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList2);
+                    break;
+                case DEADFACTION_CONDITIONAL_FRIEND:
+                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList3);
+                    break;
+                case DEADFACTION_CONDITIONAL_ENEMY:
+                    m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList4);
+                    break;
+                }
+            }
+        }
+    }
+    if ((!m_pMediaSet ||
+         ((*(::MediaSet::MEDIASETTYPE *)(reinterpret_cast<::LowProcess *>((m_pMediaSet))->GetActiveCombatTarget())) != MediaSet::BATTLE && (*(::MediaSet::MEDIASETTYPE *)(reinterpret_cast<::LowProcess *>((m_pMediaSet))->GetActiveCombatTarget())) != MediaSet::LAYER_DUNGEON)) &&
+        m_fLocationDistance < 100.0 && abInCombat)
+    {
+        if (m_pMediaSet)
+        {
+            reinterpret_cast<::FUN_00595cb0_shell *>((m_pMediaSet))->ResetState();
+            m_pMediaSet = 0;
+        }
+        if (!DAT_011dd378)
+            m_pMediaSet = GetMediaSetFromList(&m_kMediaSetList6);
+    }
+    if (!bIsActive && m_pMediaSet)
+        bIsActive = m_pMediaSet->Update(a, abInCombat, this);
+    if (bIsActive)
+        m_fUpdateCooldown = static_cast<unsigned int>(a + m_fUpdateInterval * 1000.0);
+    if (!bIsActive && m_fLocationDistance > 1.0)
+        DAT_011dd374 = 0;
+    return bIsActive;
+}
 
 // @fnv 0x00595d30
 bool ThisT::IsWithinRange()
 {
     ObjT* p;
-    p = DAT_011dea10->FUN_008d8520();
-    if (FUN_00595e80())
+    p = ((::ObjT *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::GlobT * *>(&::g_TES))))->GetBaseTexture()));
+    if (reinterpret_cast<::FUN_00595e80_shell *>(this)->FUN_00595e80())
     {
-        return (p != 0) ? (((FUN_00595ea0((char*)p) + p->FUN_00595f50()) / 2.0 <= GetFieldEC((const char*)p)) &&
-                           (GetFieldEC((const char*)p) <= (p->FUN_00595fc0() + p->FUN_00596030()) / 2.0))
+        return (p != 0) ? (((FUN_00595ea0((char*)p) + ::fnv_00595f50::FUN_00595f50((::fnv_00595f50::Sky *)(p))) / 2.0 <= GetFieldEC((const char*)p)) &&
+                           (GetFieldEC((const char*)p) <= (::fnv_00595fc0::FUN_00595fc0((char *)(p)) + reinterpret_cast<::FUN_00596030_cls *>((p))->FUN_00596030()) / 2.0))
                         : true;
     }
     else
@@ -1195,7 +1216,6 @@ struct ThisCls
     BSSimpleList<MediaSet*> m_kMediaSetList4;
     BSSimpleList<MediaSet*> m_kMediaSetList5;
     BSSimpleList<MediaSet*> m_kMediaSetList6;
-    void FUN_004851b0(MediaLocationController* apSrc);
     void CopyFromMediaLocationController(TESForm* apForm);
 };
 
@@ -1207,7 +1227,7 @@ void ThisCls::CopyFromMediaLocationController(TESForm* apForm)
     MediaLocationController* pSrc = dynamic_cast<MediaLocationController*>(apForm);
     if (pSrc == 0)
         return;
-    FUN_004851b0(pSrc);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(pSrc);
     iFlags = pSrc->iFlags;
     m_fLowerWeightThreshold = pSrc->m_fLowerWeightThreshold;
     m_fUpperWeightThreshold = pSrc->m_fUpperWeightThreshold;
@@ -1218,46 +1238,87 @@ void ThisCls::CopyFromMediaLocationController(TESForm* apForm)
     pFaction = pSrc->pFaction;
     m_eRequiredFightReaction = pSrc->m_eRequiredFightReaction;
     m_pReference = pSrc->m_pReference;
-    m_kMediaSetList1.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList1))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList1;
-    while (pNode && pNode->GetItem())
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList1.AddHead(pNode->GetItem());
-        pNode = pNode->GetNext();
+        m_kMediaSetList1.AddHead((pNode->m_item));
+        pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
-    m_kMediaSetList2.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList2))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList2;
-    while (pNode && pNode->GetItem())
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList2.AddHead(pNode->GetItem());
-        pNode = pNode->GetNext();
+        m_kMediaSetList2.AddHead((pNode->m_item));
+        pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
-    m_kMediaSetList3.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList3))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList3;
-    while (pNode && pNode->GetItem())
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList3.AddHead(pNode->GetItem());
-        pNode = pNode->GetNext();
+        m_kMediaSetList3.AddHead((pNode->m_item));
+        pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
-    m_kMediaSetList4.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList4))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList4;
-    while (pNode && pNode->GetItem())
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList4.AddHead(pNode->GetItem());
-        pNode = pNode->GetNext();
+        m_kMediaSetList4.AddHead((pNode->m_item));
+        pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
-    m_kMediaSetList5.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList5))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList5;
-    while (pNode && pNode->GetItem())
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList5.AddHead(pNode->GetItem());
-        pNode = pNode->GetNext();
+        m_kMediaSetList5.AddHead((pNode->m_item));
+        pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
-    m_kMediaSetList6.RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList6))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList6;
-    while (pNode && pNode->GetItem())
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList6.AddHead(pNode->GetItem());
-        pNode = pNode->GetNext();
+        m_kMediaSetList6.AddHead((pNode->m_item));
+        pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
 }
+
+class TESDataHandler_decl
+{
+  public:
+};
+
+// @fnv 0x00595310
+MediaLocationController::MediaLocationController()
+{
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(static_cast<ENUM_FORM_ID>(0x70))));
+    iFlags = 4;
+    m_fLowerWeightThreshold = 0.33f;
+    m_fUpperWeightThreshold = 0.66f;
+    m_fUpdateInterval = 0.0f;
+    m_uiShortDelay = 64;
+    m_uiLongDelay = 336;
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList1))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList2))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList3))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList4))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList5))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList6))->RemoveAll();
+    pFaction = 0;
+    m_eRequiredFightReaction = FIGHT_REACTION_FIGHT_REACTION_ENEMY;
+    m_pReference = 0;
+    m_fUpdateCooldown = 0;
+    m_uiFirstCounter = 0;
+    m_uiSecondCounter = 0;
+    m_uiThirdCounter = 0;
+    m_bCountWasNonzero = false;
+    m_bActorStateFlag = false;
+    m_bConditionWasTrue = false;
+    m_bConditionActive = false;
+    m_cMediaState = 0;
+    m_pMediaSet = 0;
+    m_uiPerceivedActorCount = 0;
+    m_uiPreviousPerceivedActorCount = 0;
+    m_eCurrentFightReaction = FIGHT_REACTION_FIGHT_REACTION_ENEMY;
+}
+
+#include "generated/data/fallout_shared/medialocationcontroller.inc"

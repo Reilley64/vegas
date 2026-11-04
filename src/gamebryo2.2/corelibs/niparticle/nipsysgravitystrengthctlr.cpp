@@ -2,12 +2,19 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysgravitystrengthctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysgravitystrengthctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202700;
 
 // @fnv 0x00c2a8a0
+#include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00c1b0f0__FUN_00c1b0f0_cls.h"
+#include "fnv/decl/fnv_00c31530__NiPSysModifierCtlrRuntime.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c32000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c2a8a0()
 {
-    return &g_01202700;
+    return &(*reinterpret_cast<void * *>(&::g_01202700));
 }
 
 struct NiRTTI
@@ -15,7 +22,6 @@ struct NiRTTI
     const char* m_pcName;
     NiRTTI* m_pkBase;
 };
-extern NiRTTI g_01202548;
 struct NiObject
 {
     virtual ~NiObject();
@@ -44,11 +50,9 @@ struct NiObjectNET
 };
 struct B00c1bff0
 {
-    void* FUN_00c1b0f0(void*);
 };
 struct BaseStandIn
 {
-    bool IsTargetParticleSystem(NiObjectNET*);
     char _pad[0x38];
 };
 struct NiPSysGravityStrengthCtlr : BaseStandIn
@@ -59,12 +63,12 @@ struct NiPSysGravityStrengthCtlr : BaseStandIn
 // @fnv 0x00c2a910
 bool NiPSysGravityStrengthCtlr::FUN_00c2a910(NiObjectNET* pkTarget)
 {
-    if (!BaseStandIn::IsTargetParticleSystem(pkTarget))
+    if (!reinterpret_cast<::fnv_00c31530::NiPSysModifierCtlrRuntime *>(this)->IsTargetParticleSystem((::fnv_00c31530::NiParticleSystemRuntime *)(pkTarget)))
         return false;
-    NiPSysModifier* pkModifier = (NiPSysModifier*)((B00c1bff0*)pkTarget)->FUN_00c1b0f0((void*)&m_p38);
+    NiPSysModifier* pkModifier = (NiPSysModifier*)reinterpret_cast<::fnv_00c1b0f0::FUN_00c1b0f0_cls *>((((B00c1bff0*)pkTarget)))->FUN_00c1b0f0((unsigned int *)(void *)((void*)&m_p38));
     if (!pkModifier)
         return false;
-    return pkModifier->IsKindOfType(&g_01202548);
+    return pkModifier->IsKindOfType(&(*reinterpret_cast<::NiRTTI *>(&::g_01202548)));
 }
 
 namespace fnv_00c2a960 {
@@ -75,11 +79,7 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short _pad2;
     unsigned short m_usGrowSize;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
-char* __cdecl _FUN_00a7d330(void*);
 struct NiPSysGravityStrengthCtlr
 {
     void FUN_00c2a960(StrArr*);
@@ -88,12 +88,12 @@ struct NiPSysGravityStrengthCtlr
 // @fnv 0x00c2a960
 void NiPSysGravityStrengthCtlr::FUN_00c2a960(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
-    char* pStr = _FUN_00a7d330(g_01202700);
+    ::FUN_00c32f60((::StrArr *)(pkStrings));
+    char* pStr = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202700))));
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMaxSize)
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrowSize);
-    pkStrings->SetAt(uiSize, pStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->m_usGrowSize);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pStr);
 }
 }  // namespace fnv_00c2a960
 
@@ -104,8 +104,6 @@ class C2A8C0Base
   public:
     C2A8C0Base() throw();
     virtual ~C2A8C0Base();
-    static void* operator new(unsigned int uiSize) throw();
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -131,7 +129,6 @@ class C2A8C0Object : public C2A8C0Base
     {}
     virtual ~C2A8C0Object();
 
-    void CopyMemberData(C2A8C0Object* pkDest, C2A8C0CloningProcess& kCloning);
     C2A8C0Object* FUN_00c2a8c0(C2A8C0CloningProcess& kCloning);
 };
 
@@ -139,6 +136,6 @@ class C2A8C0Object : public C2A8C0Base
 C2A8C0Object* C2A8C0Object::FUN_00c2a8c0(C2A8C0CloningProcess& kCloning)
 {
     C2A8C0Object* pkDest = new C2A8C0Object;
-    CopyMemberData(pkDest, kCloning);
+    reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>(this)->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(pkDest), (::CloningProcess &)(kCloning));
     return pkDest;
 }

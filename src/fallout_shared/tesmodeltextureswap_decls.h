@@ -3,6 +3,25 @@
 #define TESMODELTEXTURESWAP_WORKER_DECLS_H
 
 
+#include <malloc.h>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004893c0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00b66ad0_cls.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_00593000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0109b000.h"
 class PerkButtonEntry;
 class BGSPerkEntry;
 class DistantTreeTextureInfo;
@@ -15,8 +34,8 @@ class TESGrass;
 template <class T> class BSSimpleList
 {
   public:
-    void* pFirst;
-    void* pLast;
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
     bool IsEmpty();
     T& GetItem();
     void AddHead(T& item);
@@ -28,7 +47,6 @@ template <class T> class BSSimpleList
 class TESAIForm
 {
   public:
-    PackageList* GetPackageList();
 };
 
 class TESForm
@@ -112,17 +130,13 @@ class TESForm
     virtual void Unk_4D();
     virtual char* GetName() const;
 
-    unsigned int GetFormID();
     TESFile* GetFile(int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
-    static TESForm* GetFormByID(unsigned int);
 };
 
 class BSShaderTextureSet;
 class BGSTextureSet : public TESForm
 {
   public:
-    static BGSTextureSet* GetEmptyTextureSet();
     BSShaderTextureSet* BuildShaderTextureSet();
 };
 
@@ -142,8 +156,6 @@ class PackageList
 const char kModelTextureSwapInitWarning[] =
     "MASTERFILE: Failed to find texture set (%08X) in model texture swap init for form '%s' (%08X).";
 
-int __cdecl Warning(const char* format, ...);
-void __cdecl operator delete(void* pointer);
 
 class NiAVObject;
 class NiNode;
@@ -159,7 +171,6 @@ class NiAVObject
     virtual void vfn_10();
     virtual void vfn_14();
     virtual NiGeometry* IsGeometry();
-    NiProperty* GetProperty(unsigned int);
 };
 class NiNode : public NiAVObject
 {
@@ -170,12 +181,10 @@ class NiNode : public NiAVObject
 class NiGeometry : public NiAVObject
 {
   public:
-    void SetAppCulled(bool);
 };
 class BGSDehydrationStage
 {
   public:
-    unsigned int FUN_00441110();
 };
 class NiProperty
 {
@@ -251,8 +260,6 @@ class NiProperty
 class BSShaderPPLightingProperty : public NiProperty
 {
   public:
-    void SetTextureSet(BSShaderTextureSet*);
-    void BuildShaderTextureSet(int, int);
 };
 class TESObjectREFR;
 template <class K, class V> class NiTPointerMap
@@ -290,14 +297,10 @@ template <class K, class V> class BSMap : public BSMapBase<K, V>
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
 };
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESModel
 {
@@ -309,12 +312,8 @@ class TESModel
     virtual void vfn_10();
     virtual const char* GetModelFilePath();
     virtual void SetModelFilePath(const char*);
-    void FUN_004893c0(unsigned char);
     static void LoadModelData(TESModel*, TESFile*);
-    static void LoadTextureSwapData(TESModel*, TESFile*);
 };
-bool FUN_00489280(int);
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 
 class TESModelTextureSwap
@@ -333,7 +332,6 @@ class TESModelTextureSwap
     void ClearTextureSwaps();
     void InitItem(TESForm* form);
     void ApplyTextureSwaps(NiAVObject*);
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     static void ReadTextureSwapChunk(TESModelTextureSwap*, TESFile*);
     static bool ApplyTextureSwapToNode(NiAVObject*, BSMap<int, DistantTreeTextureInfo*>*, int&);
 };
@@ -343,16 +341,15 @@ class BGSDistantTreeBlock
   public:
     class InstanceData;
 };
-int Warning();
-unsigned int SetWarningState(bool);
 
 class SpellItem;
 class TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
+public:
+    void QueueActorDisarm(bool);
 };
-void* __cdecl operator new(unsigned int);
 class NiFixedString
 {
   public:
@@ -360,6 +357,4 @@ class NiFixedString
     NiFixedString(const NiFixedString&);
     int IsNotEmpty() const;
 };
-extern NiFixedString EmptyFS;
-void FUN_0043ba60(const NiFixedString&);
 #endif

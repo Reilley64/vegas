@@ -2,6 +2,17 @@
 // src/havok/physics/collide/dispatch/broadphase/hkptypedbroadphasedispatcher.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/dispatch/broadphase/hkptypedbroadphasedispatcher.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/CB1BC0Map.h"
+#include "fnv/decl/Cb1b80Arr.h"
+#include "fnv/decl/FUN_006cf900_Class.h"
+#include "fnv/decl/FUN_00cb1e40_t.h"
+#include "fnv/decl/ProbeMap64.h"
+#include "fnv/decl/hkMapBaseU64.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
 struct Body
 {
     int m_auiShapeKeys;
@@ -115,20 +126,6 @@ struct HashTableBase
     HashEntry* entries;
     int count;
     int capacity;
-    void FUN_00cb1b80(void* handle, int length);
-    int FUN_00cb1c60(unsigned int first, unsigned int second);
-    void InsertKeyValue(void* allocator, unsigned int first, unsigned int second, __int64 value);
-    void FUN_00cb1d20(int index);
-    void FUN_00cb1e40(void* allocator);
-    void FUN_00a29680();
-};
-struct ScratchAllocator
-{
-    virtual void Unused0();
-    virtual void Unused1();
-    virtual void Unused2();
-    virtual void* Allocate(int* descriptor);
-    virtual void Release(void* handle, int length);
 };
 struct S00cf7130_Buf
 {
@@ -141,21 +138,6 @@ struct S00cf7130_Map
     S00cf7130_Buf buf;
     HashTableBase table;
 };
-struct GlobalPool
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    ScratchAllocator* scratch;
-    void* allocator;
-    ScratchAllocator& Scratch()
-    {
-        return *scratch;
-    }
-};
-extern "C" void* __cdecl FUN_00c85750();
-unsigned int __cdecl FUN_00cb1810(int);
-void __cdecl FUN_00c908c0(void* allocator, EdgeArray* array, int length, int elementSize);
 
 template <typename T> static __forceinline void Swap(T& x, T& y)
 {
@@ -168,10 +150,6 @@ template <typename T> static __forceinline T Min2(T x, T y)
     return x < y ? x : y;
 }
 
-static __forceinline GlobalPool* GetPool()
-{
-    return (GlobalPool*)FUN_00c85750();
-}
 
 static void ShrinkEdges(EdgeArray* array, int size, void* allocator)
 {
@@ -181,7 +159,7 @@ static void ShrinkEdges(EdgeArray* array, int size, void* allocator)
         int newCap = cap * 2;
         if (size >= newCap)
             newCap = size;
-        FUN_00c908c0(allocator, array, newCap, 8);
+        ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(array), newCap, 8);
     }
     array->count = size;
 }
@@ -236,7 +214,7 @@ void __cdecl FUN_00cf7130(EdgeArray* apEdgesA, EdgeArray* apEdgesB)
             if (i == apEdgesA->count)
             {
                 if (size != nb)
-                    apEdgesB->data[size] = apEdgesB->data[nb];
+                    reinterpret_cast<::FUN_006cf900_Class *>((void *)&(const ::Edge &)(apEdgesB->data[size]))->FUN_006cf900((const ::FUN_006cf900_Class *)&(apEdgesB->data[nb]));
                 ++size;
             }
             else
@@ -244,17 +222,17 @@ void __cdecl FUN_00cf7130(EdgeArray* apEdgesA, EdgeArray* apEdgesB)
                 RemoveAt(apEdgesA, i);
             }
         }
-        ShrinkEdges(apEdgesB, size, GetPool()->allocator);
+        ShrinkEdges(apEdgesB, size, &hkMemoryRouter::getInstance().heap());
         return;
     }
-    int val = FUN_00cb1810(apEdgesA->count);
-    ScratchAllocator* pScratch = GetPool()->scratch;
+    int val = ((unsigned int)(::FUN_00cb1810(apEdgesA->count)));
+    hkMemoryAllocator* pScratch = &hkMemoryRouter::getInstance().temp();
     void* pBuffer;
     int descriptor = 0;
     if (val)
     {
         int allocated = val;
-        pBuffer = pScratch->Allocate(&allocated);
+        pBuffer = pScratch->bufAlloc(allocated);
         descriptor = allocated;
     }
     else
@@ -264,13 +242,13 @@ void __cdecl FUN_00cf7130(EdgeArray* apEdgesA, EdgeArray* apEdgesB)
     if (!descriptor)
         descriptor = (int)0x80000000;
     HashTableBase table;
-    table.FUN_00cb1b80(pBuffer, val);
+    reinterpret_cast<::Cb1b80Arr *>(&(table))->FUN_00cb1b80(pBuffer, val);
     for (int i = 0; i < apEdgesA->count; ++i)
     {
         Edge e = apEdgesA->data[i];
         if (e.first > e.second)
             Swap(e.first, e.second);
-        int found = table.FUN_00cb1c60(e.first, e.second);
+        int found = reinterpret_cast<::ProbeMap64 *>(&(table))->FUN_00cb1c60(e.first);
         if (found <= table.capacity)
         {
             ++table.entries[found].value;
@@ -278,7 +256,7 @@ void __cdecl FUN_00cf7130(EdgeArray* apEdgesA, EdgeArray* apEdgesB)
         }
         else
         {
-            table.InsertKeyValue(GetPool()->allocator, e.first, e.second, (__int64)((i << 8) | 1));
+            reinterpret_cast<::CB1BC0Map *>(&(table))->InsertKeyValue((*(::CB1BC0Allocator *)(&hkMemoryRouter::getInstance().heap())), e.first, e.second);
         }
     }
     int size = 0;
@@ -287,7 +265,7 @@ void __cdecl FUN_00cf7130(EdgeArray* apEdgesA, EdgeArray* apEdgesB)
         Edge e = apEdgesB->data[j];
         if (e.first > e.second)
             Swap(e.first, e.second);
-        int found = table.FUN_00cb1c60(e.first, e.second);
+        int found = reinterpret_cast<::ProbeMap64 *>(&(table))->FUN_00cb1c60(e.first);
         if (found <= table.capacity)
         {
             unsigned __int64 countA = table.entries[found].value;
@@ -297,26 +275,26 @@ void __cdecl FUN_00cf7130(EdgeArray* apEdgesA, EdgeArray* apEdgesB)
             }
             else
             {
-                table.FUN_00cb1d20(found);
+                reinterpret_cast<::hkMapBaseU64 *>(&(table))->FUN_00cb1d20(found);
                 apEdgesA->data[(unsigned int)countA >> 8].first = 0;
             }
         }
         else
         {
-            apEdgesB->data[size++] = apEdgesB->data[j];
+            reinterpret_cast<::FUN_006cf900_Class *>((void *)&(const ::Edge &)(apEdgesB->data[size++]))->FUN_006cf900((const ::FUN_006cf900_Class *)&(apEdgesB->data[j]));
         }
     }
-    ShrinkEdges(apEdgesB, size, GetPool()->allocator);
+    ShrinkEdges(apEdgesB, size, &hkMemoryRouter::getInstance().heap());
     size = 0;
     for (int i = 0; i < apEdgesA->count; ++i)
     {
         if (apEdgesA->data[i].first ? true : false)
-            apEdgesA->data[size++] = apEdgesA->data[i];
+            reinterpret_cast<::FUN_006cf900_Class *>((void *)&(const ::Edge &)(apEdgesA->data[size++]))->FUN_006cf900((const ::FUN_006cf900_Class *)&(apEdgesA->data[i]));
     }
-    ShrinkEdges(apEdgesA, size, GetPool()->allocator);
-    table.FUN_00cb1e40(GetPool()->allocator);
-    table.FUN_00a29680();
-    ScratchAllocator& scratchRef = GetPool()->Scratch();
+    ShrinkEdges(apEdgesA, size, &hkMemoryRouter::getInstance().heap());
+    reinterpret_cast<::FUN_00cb1e40_t *>(&(table))->FUN_00cb1e40((::FUN_00cb1e40_arg_t *)(&hkMemoryRouter::getInstance().heap()));
+    ::FUN_00a29680();
+    hkMemoryAllocator& scratchRef = hkMemoryRouter::getInstance().temp();
     if ((descriptor & 0x80000000) == 0)
-        scratchRef.Release(pBuffer, descriptor & 0x3fffffff);
+        scratchRef.bufFree(pBuffer, descriptor & 0x3fffffff);
 }

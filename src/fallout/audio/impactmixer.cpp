@@ -2,6 +2,86 @@
 // src/fallout/audio/impactmixer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/audio/impactmixer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/ActorTaskManager.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_00461bc0_cls.h"
+#include "fnv/decl/FUN_00522520_shell.h"
+#include "fnv/decl/FUN_00522540_shell.h"
+#include "fnv/decl/FUN_0052d240_shell.h"
+#include "fnv/decl/FUN_0053a630_Class.h"
+#include "fnv/decl/FUN_0057b0a0_shell.h"
+#include "fnv/decl/FUN_005a2030_shell.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00884730_shell.h"
+#include "fnv/decl/FUN_008ba410_shell.h"
+#include "fnv/decl/FUN_008ba440_shell.h"
+#include "fnv/decl/FUN_00ad89b0_shell.h"
+#include "fnv/decl/FUN_00ad89e0_shell.h"
+#include "fnv/decl/FUN_00ad8f20_shell.h"
+#include "fnv/decl/FUN_00ad9030_shell.h"
+#include "fnv/decl/FakeCell.h"
+#include "fnv/decl/GlobalObject_0044fae0.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/S00546fb0_Cell.h"
+#include "fnv/decl/SoundPlaybackManager.h"
+#include "fnv/decl/TESDataHandler.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/bhkCharacterListener.h"
+#include "fnv/decl/bhkRigidBody_2.h"
+#include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/xLand.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_00511000.h"
+#include "fnv/symbols_00524000.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00837000.h"
+#include "fnv/symbols_00839000.h"
+#include "fnv/symbols_01000000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_01034000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
+#include <new>
+#include <cstring>
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/SoundPlayback.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/symbols_0083a000.h"
+#include "fnv/symbols_010c2000.h"
 extern int DAT_011dd878;
 
 // @fnv 0x00839da0
@@ -35,11 +115,11 @@ int GetTypeValue(int aiType)
 
 struct FUN_00acbb70_shell
 {
-    int FUN_00acbb70();
+    intptr_t FUN_00acbb70();
 };
 
 // @fnv 0x00acbb70
-int __thiscall FUN_00acbb70_shell::FUN_00acbb70()
+intptr_t FUN_00acbb70_shell::FUN_00acbb70()
 {
     return 0;
 }
@@ -47,12 +127,15 @@ int __thiscall FUN_00acbb70_shell::FUN_00acbb70()
 struct FUN_008397d0_shell
 {
     unsigned char GetByteAt7C6();
+    char pad00[0x7c6];
+    unsigned char unk7c6;
+    char pad7c7[0x1];
 };
 
 // @fnv 0x008397d0
 unsigned char FUN_008397d0_shell::GetByteAt7C6()
 {
-    return ((unsigned char*)this)[0x7c6];
+    return this->unk7c6;
 }
 
 struct AutoMemHelper
@@ -68,20 +151,20 @@ void FUN_00837520()
                                  0x10F);
 }
 
-extern int DAT_01000000;
 struct DummyFlags
 {
-    int FUN_00621270(int);
 };
 struct FUN_00838750_shell
 {
     bool FUN_00838750();
+    char pad00[0x410];
+    DummyFlags kFlags;
 };
-// Calls FUN_00621270 on the DummyFlags sub-object at offset 0x410 with DAT_01000000 and returns whether the result is non-zero.
+// Calls FUN_00621270 on the flags sub-object with DAT_01000000 and returns whether the result is non-zero.
 // @fnv 0x00838750
 bool FUN_00838750_shell::FUN_00838750()
 {
-    return ((DummyFlags*)((char*)this + 0x410))->FUN_00621270((int)&DAT_01000000) != 0;
+    return ((int)(reinterpret_cast<::bhkCharacterListener *>(&kFlags)->FUN_00621270((intptr_t)&DAT_01000000))) != 0;
 }
 
 struct FUN_00541570_shell
@@ -97,7 +180,21 @@ unsigned int FUN_00541570_shell::GetField1C()
 }
 
 void __cdecl FUN_00839dc0(bool b);
-extern float DAT_01016970;
+
+// The 20 slots of the object at DAT_011dd878 that InitializeSlots resets.
+struct ImpactMixerSlot
+{
+    int unk00;
+    int unk04;
+    float unk08;
+    char pad0c[0x18];
+};
+struct ImpactMixerSlots
+{
+    char pad000[0x188];
+    ImpactMixerSlot akSlots[20];
+};
+
 // If the init check fails, calls FUN_00839dc0(true), then zeroes two ints and sets a float from DAT_01016970 for each of 20 slots.
 // @fnv 0x00839d30
 void __cdecl InitializeSlots()
@@ -111,9 +208,10 @@ void __cdecl InitializeSlots()
 initialize:
     for (int i = 0; i < 20; ++i)
     {
-        *(int*)((char*)&DAT_011dd878 + 0x188 + i * 0x24) = 0;
-        *(int*)((char*)&DAT_011dd878 + 0x18c + i * 0x24) = 0;
-        *(float*)((char*)&DAT_011dd878 + 0x190 + i * 0x24) = DAT_01016970;
+        ImpactMixerSlot& kSlot = reinterpret_cast<ImpactMixerSlots*>(&DAT_011dd878)->akSlots[i];
+        kSlot.unk00 = 0;
+        kSlot.unk04 = 0;
+        kSlot.unk08 = DAT_01016970;
     }
 }
 
@@ -122,19 +220,17 @@ struct FUN_0063a3c0_cls
     int unk00;
     int unk04;
 
-    void BaseRelease();
     FUN_0063a3c0_cls* FUN_0063a3c0(unsigned int auiFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Releases the base object and, if bit 0 of auiFlags is set, deletes this instance, then returns this.
 // @fnv 0x0063a3c0
 FUN_0063a3c0_cls* FUN_0063a3c0_cls::FUN_0063a3c0(unsigned int auiFlags)
 {
-    BaseRelease();
+    reinterpret_cast<::FUN_0052d240_shell *>(this)->FUN_0052d240();
     if (auiFlags & 1)
     {
-        operator delete(this);
+        ::FUN_00401030(this);
     }
     return this;
 }
@@ -142,6 +238,10 @@ FUN_0063a3c0_cls* FUN_0063a3c0_cls::FUN_0063a3c0(unsigned int auiFlags)
 struct NiPoint3
 {
     float x, y, z;
+public:
+    ::NiPoint3 &Subtract(const ::NiPoint3 &);
+public:
+    float ComputeMagnitude() const;
 };
 
 struct SoundPlaybackHandle
@@ -152,22 +252,20 @@ struct SoundPlaybackHandle
     SoundPlaybackHandle();
     ~SoundPlaybackHandle();
     SoundPlaybackHandle& operator=(const SoundPlaybackHandle& kOther);
-    void FUN_00ad89e0(float m_fSoundVolume);
     bool FUN_00ad8830(int iFlags);
     void FUN_00ad8b60(float fX, float fY, float fZ);
-    void FUN_00ad8f20(void* pkNode);
+public:
+    bool SetPlaybackFrequency(float);
 };
 
 struct BGSSoundDescriptor;
 struct BSAudioStandIn
 {
-    static BSAudioStandIn* GetSingleton();
     SoundPlaybackHandle FUN_00ad73b0(BGSSoundDescriptor* pkSound);
 };
 
 struct BGSImpactData
 {
-    BGSSoundDescriptor* FUN_0084e3a0(int iType);
 };
 
 struct BGSImpactDataEntry
@@ -307,16 +405,10 @@ struct FootstepActor
     virtual void v124();
     virtual const NiPoint3& GetPos();
 
-    bool FUN_005a2030();
-    float FUN_0057b0a0();
-    bool GetByteAt7C6();
-    bool FUN_00524d10();
 };
-extern FootstepActor* g_player_011dea3c;
 
 struct MaterialRecord
 {
-    int GetField1C();
 };
 
 struct NavQueryResult
@@ -334,36 +426,21 @@ struct NavQueryResult
 
 struct CellNavInfo
 {
-    void FUN_0053b550(NavQueryResult* pkResult, NiPoint3* pkPos, int iFlag);
-    MaterialRecord* FUN_0053a630(unsigned char ucA, unsigned short usB);
 };
 
 struct FootstepCell
 {
-    bool FUN_00425fd0();
-    bool FUN_004518e0();
-    CellNavInfo* FUN_00546fb0();
-    bool FUN_005547c0(NiPoint3* pkPos, float* pfHeight);
 };
 
 struct TESStandIn
 {
-    FootstepCell* FUN_005f36f0();
-    TESWorldSpace* FUN_004fd3e0(int iUnk);
 };
-extern TESStandIn* g_TES_011dea10;
 
 struct DataHandlerStandIn
 {
-    FootstepCell* FUN_00461bc0(float fX, float fY, TESWorldSpace* pkWorld);
-    BGSImpactData* FUN_004616c0(const char* pEditorID);
 };
-extern DataHandlerStandIn* g_dataHandler_011c3f2c;
 
 int __cdecl GetTypeValue(int iMaterial);
-float __cdecl FUN_00476b70(float fMin, float fScaledValue);
-bool __cdecl FUN_0082eca0(BGSImpactData* pkImpact, NiPoint3 kPos, float fScale);
-extern float g_fFootstepRand_0101e2bc;
 
 static const char s_szBabyLand[] = "FSTBabyLand";
 extern const char g_szFootstepEnd[] = "";
@@ -376,7 +453,7 @@ void __cdecl PlayFootstepImpact(FootstepActor* pActor, int iMaterial)
     BGSImpactData* pImpactX = 0;
     BGSImpactData* pImpact_ = 0;
     NiPoint3 kPosOut = pActor->GetPos();
-    FootstepCell* pCell_ = g_TES_011dea10->FUN_005f36f0();
+    FootstepCell* pCell_ = ((::FootstepCell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TESStandIn * *>(&::g_TES))))->GetPrevPath()));
     FootstepActor* pActorRef4 = 0;
     if (pActor->IsActor())
         pActorRef4 = pActor;
@@ -384,38 +461,38 @@ void __cdecl PlayFootstepImpact(FootstepActor* pActor, int iMaterial)
         return;
 
     if (!pCell_)
-        pCell_ = g_dataHandler_011c3f2c->FUN_00461bc0(kPosOut.x, kPosOut.y, g_TES_011dea10->FUN_004fd3e0(0));
+        pCell_ = ((::FootstepCell *)(reinterpret_cast<::FUN_00461bc0_cls *>(((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler))))->FUN_00461bc0(kPosOut.x, kPosOut.y, ((::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::TESStandIn * *>(&::g_TES))))->GetHitSound())), {})));
 
     if (pActor->IsActor() && pCell_)
     {
-        if ((pCell_->FUN_00425fd0() && pCell_->FUN_004518e0()) || !pCell_->FUN_00425fd0())
+        if ((reinterpret_cast<::TESObjectCELL *>((pCell_))->IsCellInterior() && reinterpret_cast<::fnv_004518e0::TESObjectCELL *>((pCell_))->FUN_004518e0()) || !reinterpret_cast<::TESObjectCELL *>((pCell_))->IsCellInterior())
         {
-            if (!pActorRef4->FUN_005a2030() && pActorRef4->FUN_0057b0a0() > kPosOut.z)
+            if (!reinterpret_cast<::FUN_005a2030_shell *>((pActorRef4))->FUN_005a2030() && reinterpret_cast<::FUN_0057b0a0_shell *>((pActorRef4))->FUN_0057b0a0() > kPosOut.z)
                 iMaterial = 8;
         }
     }
 
-    if (iMaterial == 0x24 && !pCell_->FUN_00425fd0() && pCell_->FUN_00546fb0())
+    if (iMaterial == 0x24 && !reinterpret_cast<::TESObjectCELL *>((pCell_))->IsCellInterior() && ((::CellNavInfo *)(reinterpret_cast<::S00546fb0_Cell *>((pCell_))->FUN_00546fb0())))
     {
         NavQueryResult kResult_2;
-        pCell_->FUN_00546fb0()->FUN_0053b550(&kResult_2, &kPosOut, 1);
-        MaterialRecord* pMaterialTmp = pCell_->FUN_00546fb0()->FUN_0053a630(kResult_2.unk18, kResult_2.unk3c);
+        reinterpret_cast<::xLand *>((((::CellNavInfo *)(reinterpret_cast<::S00546fb0_Cell *>((pCell_))->FUN_00546fb0()))))->FUN_0053b550((*(::xCoordData *)(&kResult_2)), (*(const ::xPoint3 *)(&kPosOut)), 1);
+        MaterialRecord* pMaterialTmp = ((::MaterialRecord *)(reinterpret_cast<::FUN_0053a630_Class *>((((::CellNavInfo *)(reinterpret_cast<::S00546fb0_Cell *>((pCell_))->FUN_00546fb0()))))->FUN_0053a630(kResult_2.unk18, kResult_2.unk3c)));
         if (pMaterialTmp)
         {
             float m_fGlyphExtent = 0.0f;
-            iMaterial = pMaterialTmp->GetField1C();
-            if (pCell_->FUN_005547c0(&kPosOut, &m_fGlyphExtent))
+            iMaterial = ((int)(reinterpret_cast<::FUN_00541570_shell *>((pMaterialTmp))->GetField1C()));
+            if (reinterpret_cast<::FakeCell *>((pCell_))->FUN_005547c0((*(const ::NiPoint3 *)(&kPosOut)), (*(float *)(&m_fGlyphExtent))))
                 kPosOut.z = m_fGlyphExtent;
         }
     }
 
     int iIndexZ = GetTypeValue(iMaterial);
     pImpactX = g_akImpactData_011dd670[iIndexZ].pkImpact;
-    if (pActor == g_player_011dea3c && g_player_011dea3c->GetByteAt7C6())
-        pImpactX = g_dataHandler_011c3f2c->FUN_004616c0(s_szBabyLand);
+    if (pActor == (*reinterpret_cast<::FootstepActor * *>(&::_g_thePlayer)) && ((bool)(reinterpret_cast<::FUN_008397d0_shell *>(((*reinterpret_cast<::FootstepActor * *>(&::_g_thePlayer))))->GetByteAt7C6())))
+        pImpactX = ((::BGSImpactData *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler))))->GetSoundByEditorID(s_szBabyLand)));
 
     bool bPlayerFirstPerson7 = false;
-    if (pActor == g_player_011dea3c && !g_player_011dea3c->FUN_00524d10())
+    if (pActor == (*reinterpret_cast<::FootstepActor * *>(&::_g_thePlayer)) && !::FUN_00524d10((bool *)((*reinterpret_cast<::FootstepActor * *>(&::_g_thePlayer)))))
         bPlayerFirstPerson7 = true;
 
     if (bPlayerFirstPerson7)
@@ -423,36 +500,36 @@ void __cdecl PlayFootstepImpact(FootstepActor* pActor, int iMaterial)
         int iSound = 0x4109;
         if (pImpactX)
         {
-            kHandle_ = BSAudioStandIn::GetSingleton()->FUN_00ad73b0(pImpactX->FUN_0084e3a0(iSound));
-            kHandle_.FUN_00ad89e0(0.95f - FUN_00476b70(0.0f, g_fFootstepRand_0101e2bc));
+            kHandle_ = ((::BSAudioStandIn *)(::FUN_00453a70()))->FUN_00ad73b0(((::BGSSoundDescriptor *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pImpactX))->FUN_0084e3a0())));
+            reinterpret_cast<::FUN_00ad89e0_shell *>(&(kHandle_))->FUN_00ad89e0(0.95f - ::RandomFloat(0.0f, ::DAT_0101e2bc));
             kHandle_.FUN_00ad8830(0);
         }
         if (pImpact_)
         {
-            kHandle_ = BSAudioStandIn::GetSingleton()->FUN_00ad73b0(pImpact_->FUN_0084e3a0(iSound));
-            kHandle_.FUN_00ad89e0(0.95f - FUN_00476b70(0.0f, g_fFootstepRand_0101e2bc));
+            kHandle_ = ((::BSAudioStandIn *)(::FUN_00453a70()))->FUN_00ad73b0(((::BGSSoundDescriptor *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pImpact_))->FUN_0084e3a0())));
+            reinterpret_cast<::FUN_00ad89e0_shell *>(&(kHandle_))->FUN_00ad89e0(0.95f - ::RandomFloat(0.0f, ::DAT_0101e2bc));
             kHandle_.FUN_00ad8830(0);
         }
     }
     else
     {
-        if (!FUN_0082eca0(pImpactX, kPosOut, 1.0f) && !FUN_0082eca0(pImpact_, kPosOut, 1.0f))
+        if (!::SoundPlaybackManager::CanPlaySoundAt((::TESSound *)(pImpactX), kPosOut, 1.0f) && !::SoundPlaybackManager::CanPlaySoundAt((::TESSound *)(pImpact_), kPosOut, 1.0f))
             return;
         int iSound2 = 0x410a;
         if (pImpactX)
         {
-            kHandle_ = BSAudioStandIn::GetSingleton()->FUN_00ad73b0(pImpactX->FUN_0084e3a0(iSound2));
+            kHandle_ = ((::BSAudioStandIn *)(::FUN_00453a70()))->FUN_00ad73b0(((::BGSSoundDescriptor *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pImpactX))->FUN_0084e3a0())));
             kHandle_.FUN_00ad8b60(kPosOut.x, kPosOut.y, kPosOut.z);
-            kHandle_.FUN_00ad8f20(pActor->Get3D());
-            kHandle_.FUN_00ad89e0(0.95f - FUN_00476b70(0.0f, g_fFootstepRand_0101e2bc));
+            reinterpret_cast<::FUN_00ad8f20_shell *>(&(kHandle_))->FUN_00ad8f20((::NiAVObject *)(void *)(pActor->Get3D()));
+            reinterpret_cast<::FUN_00ad89e0_shell *>(&(kHandle_))->FUN_00ad89e0(0.95f - ::RandomFloat(0.0f, ::DAT_0101e2bc));
             kHandle_.FUN_00ad8830(0);
         }
         if (pImpact_)
         {
-            kHandle_ = BSAudioStandIn::GetSingleton()->FUN_00ad73b0(pImpact_->FUN_0084e3a0(iSound2));
+            kHandle_ = ((::BSAudioStandIn *)(::FUN_00453a70()))->FUN_00ad73b0(((::BGSSoundDescriptor *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pImpact_))->FUN_0084e3a0())));
             kHandle_.FUN_00ad8b60(kPosOut.x, kPosOut.y, kPosOut.z);
-            kHandle_.FUN_00ad8f20(pActor->Get3D());
-            kHandle_.FUN_00ad89e0(0.95f - FUN_00476b70(0.0f, g_fFootstepRand_0101e2bc));
+            reinterpret_cast<::FUN_00ad8f20_shell *>(&(kHandle_))->FUN_00ad8f20((::NiAVObject *)(void *)(pActor->Get3D()));
+            reinterpret_cast<::FUN_00ad89e0_shell *>(&(kHandle_))->FUN_00ad89e0(0.95f - ::RandomFloat(0.0f, ::DAT_0101e2bc));
             kHandle_.FUN_00ad8830(0);
         }
     }
@@ -463,17 +540,11 @@ struct BGSImpactDataStandIn;
 
 struct DataHandlerFootstep
 {
-    BGSImpactDataStandIn* FUN_004616c0(const char* pEditorID);
 };
-extern DataHandlerFootstep* g_dataHandler_011c3f2c;
 
-extern unsigned char g_bFootstepsInit_011dd85c;
-extern BGSImpactDataStandIn* g_aapkFootstepImpacts_011dd650[13][10];
 extern const char* g_apszFootstepTypes_011a18bc[10];
 extern int g_aiMaterialFallback_011a17c4[13];
 
-const char* __cdecl FUN_008374b0(int iMaterial);
-int __cdecl FUN_00406d00(char* pBuffer, unsigned int uiSize, const char* pFormat, ...);
 
 static const char s_szFootstepFormat[] = "FST%s%s";
 static const char s_szDefaultFootstep[] = "FSTConcSolidWalkR";
@@ -483,10 +554,10 @@ extern const char g_szFootstepInitEnd[] = "";
 // @fnv 0x00839ab0
 void __cdecl InitFootstepImpacts()
 {
-    if (g_bFootstepsInit_011dd85c)
+    if (::DAT_011dd85c)
         return;
     else
-        g_bFootstepsInit_011dd85c = 1;
+        ::DAT_011dd85c = 1;
 
     char acNameLoc[0x104];
     int iUnusedLoc = 0;
@@ -494,24 +565,24 @@ void __cdecl InitFootstepImpacts()
     {
         for (int j = 0; j < 10; j++)
         {
-            FUN_00406d00(acNameLoc, 0x103, s_szFootstepFormat, FUN_008374b0(i), g_apszFootstepTypes_011a18bc[j]);
-            g_aapkFootstepImpacts_011dd650[i][j] = g_dataHandler_011c3f2c->FUN_004616c0(acNameLoc);
-            if (!g_aapkFootstepImpacts_011dd650[i][j] && g_aiMaterialFallback_011a17c4[i] != 13)
+            ::FUN_00406d00(acNameLoc, 0x103, s_szFootstepFormat, ((const char *)(::FUN_008374b0(i))), g_apszFootstepTypes_011a18bc[j]);
+            (*reinterpret_cast<fnv_00839ab0::BGSImpactDataStandIn * (*)[13][10]>(&::DAT_011dd650))[i][j] = ((::fnv_00839ab0::BGSImpactDataStandIn *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_00839ab0::DataHandlerFootstep * *>(&::g_dataHandler))))->GetSoundByEditorID(acNameLoc)));
+            if (!(*reinterpret_cast<fnv_00839ab0::BGSImpactDataStandIn * (*)[13][10]>(&::DAT_011dd650))[i][j] && g_aiMaterialFallback_011a17c4[i] != 13)
             {
-                FUN_00406d00(acNameLoc, 0x103, s_szFootstepFormat, FUN_008374b0(g_aiMaterialFallback_011a17c4[i]),
+                ::FUN_00406d00(acNameLoc, 0x103, s_szFootstepFormat, ((const char *)(::FUN_008374b0(g_aiMaterialFallback_011a17c4[i]))),
                              g_apszFootstepTypes_011a18bc[j]);
-                g_aapkFootstepImpacts_011dd650[i][j] = g_dataHandler_011c3f2c->FUN_004616c0(acNameLoc);
-                if (!g_aapkFootstepImpacts_011dd650[i][j] &&
+                (*reinterpret_cast<fnv_00839ab0::BGSImpactDataStandIn * (*)[13][10]>(&::DAT_011dd650))[i][j] = ((::fnv_00839ab0::BGSImpactDataStandIn *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_00839ab0::DataHandlerFootstep * *>(&::g_dataHandler))))->GetSoundByEditorID(acNameLoc)));
+                if (!(*reinterpret_cast<fnv_00839ab0::BGSImpactDataStandIn * (*)[13][10]>(&::DAT_011dd650))[i][j] &&
                     g_aiMaterialFallback_011a17c4[g_aiMaterialFallback_011a17c4[i]] != 13)
                 {
-                    FUN_00406d00(acNameLoc, 0x103, s_szFootstepFormat,
-                                 FUN_008374b0(g_aiMaterialFallback_011a17c4[g_aiMaterialFallback_011a17c4[i]]),
+                    ::FUN_00406d00(acNameLoc, 0x103, s_szFootstepFormat,
+                                 ((const char *)(::FUN_008374b0(g_aiMaterialFallback_011a17c4[g_aiMaterialFallback_011a17c4[i]]))),
                                  g_apszFootstepTypes_011a18bc[j]);
-                    g_aapkFootstepImpacts_011dd650[i][j] = g_dataHandler_011c3f2c->FUN_004616c0(acNameLoc);
+                    (*reinterpret_cast<fnv_00839ab0::BGSImpactDataStandIn * (*)[13][10]>(&::DAT_011dd650))[i][j] = ((::fnv_00839ab0::BGSImpactDataStandIn *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_00839ab0::DataHandlerFootstep * *>(&::g_dataHandler))))->GetSoundByEditorID(acNameLoc)));
                 }
             }
-            if (!g_aapkFootstepImpacts_011dd650[i][j])
-                g_aapkFootstepImpacts_011dd650[i][j] = g_dataHandler_011c3f2c->FUN_004616c0(s_szDefaultFootstep);
+            if (!(*reinterpret_cast<fnv_00839ab0::BGSImpactDataStandIn * (*)[13][10]>(&::DAT_011dd650))[i][j])
+                (*reinterpret_cast<fnv_00839ab0::BGSImpactDataStandIn * (*)[13][10]>(&::DAT_011dd650))[i][j] = ((::fnv_00839ab0::BGSImpactDataStandIn *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_00839ab0::DataHandlerFootstep * *>(&::g_dataHandler))))->GetSoundByEditorID(s_szDefaultFootstep)));
         }
     }
 }
@@ -519,28 +590,11 @@ void __cdecl InitFootstepImpacts()
 
 struct SetObj
 {
-    float* FUN_00403e20();
 };
 struct StrObj
 {
-    int FUN_004616c0(const char* s);
 };
 
-extern SetObj DAT_011dd9c8;
-extern SetObj DAT_011dd9b0;
-extern SetObj DAT_011dd918;
-extern SetObj DAT_011dd9bc;
-extern SetObj DAT_011dd8e8;
-extern SetObj DAT_011dd8f4;
-extern SetObj DAT_011dd8cc;
-extern SetObj DAT_011dd930;
-extern SetObj DAT_011dd9d8;
-extern SetObj DAT_011dd9a0;
-extern SetObj DAT_011dd924;
-extern StrObj* DAT_011c3f2c;
-extern double DAT_01032980;
-extern double DAT_01034208;
-extern double DAT_01015a38;
 extern double DAT_01073568;
 
 static const char kStr_CStoneStatic[] = "CStoneStatic";
@@ -619,9 +673,9 @@ static const char kStr_PHYTumbleweed[] = "PHYTumbleweed";
 
 // Maps a material type and two size values to a material name string via DAT_011c3f2c->FUN_004616c0, returning the resulting id.
 // @fnv 0x00839e00
-int __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
+::TESSound* __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
 {
-    int result = 0;
+    ::TESSound* result = 0;
 
     switch (aiMaterialType)
     {
@@ -629,226 +683,226 @@ int __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
     case 15:
         if (afSizeA < DAT_01032980)
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CStoneStatic);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneStatic);
         }
-        else if (afSizeA < *DAT_011dd9c8.FUN_00403e20())
+        else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9c8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CStoneSmall);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneSmall);
         }
-        else if (afSizeA < *DAT_011dd9b0.FUN_00403e20())
+        else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9b0)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CStoneMedium);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneMedium);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CStoneLarge);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneLarge);
         }
         break;
     case 2:
-        if (afSizeA < *DAT_011dd918.FUN_00403e20())
+        if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd918)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CEarthSmall);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthSmall);
         }
-        else if (afSizeA < *DAT_011dd9bc.FUN_00403e20())
+        else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9bc)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CEarthMedium);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthMedium);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CEarthLarge);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthLarge);
         }
         break;
     case 4:
         if (afSizeA < DAT_01034208)
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CGrassSmall);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassSmall);
         }
         else if (afSizeA < DAT_01073568)
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CGrassMedium);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassMedium);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CGrassLarge);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassLarge);
         }
         break;
     case 5:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
             if (afSizeA < DAT_01032980)
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalStaticL);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalStaticL);
             }
-            else if (afSizeA < *DAT_011dd8f4.FUN_00403e20())
+            else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalSmallL);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSmallL);
             }
-            else if (afSizeA < *DAT_011dd8cc.FUN_00403e20())
+            else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalMediumL);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalMediumL);
             }
             else
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalLargeL);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalLargeL);
             }
         }
         else
         {
             if (afSizeA < DAT_01032980)
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalStaticH);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalStaticH);
             }
-            else if (afSizeA < *DAT_011dd8f4.FUN_00403e20())
+            else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalSmallH);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSmallH);
             }
-            else if (afSizeA < *DAT_011dd8cc.FUN_00403e20())
+            else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalMediumH);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalMediumH);
             }
             else
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalLargeH);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalLargeH);
             }
         }
         break;
     case 9:
         if (afSizeA < DAT_01032980)
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CWoodStatic);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodStatic);
         }
-        else if (afSizeA < *DAT_011dd930.FUN_00403e20())
+        else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd930)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CWoodSmall);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodSmall);
         }
-        else if (afSizeA < *DAT_011dd9d8.FUN_00403e20())
+        else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9d8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CWoodMedium);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodMedium);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CWoodLarge);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodLarge);
         }
         break;
     case 1:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericClothL);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericClothL);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericClothH);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericClothH);
         }
         break;
     case 6:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_COrganicSmall);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_COrganicSmall);
         break;
     case 7:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            if (afSizeA < *DAT_011dd9a0.FUN_00403e20())
+            if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9a0)))))))
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYSkinSmallL);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinSmallL);
             }
-            else if (afSizeA < *DAT_011dd924.FUN_00403e20())
+            else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd924)))))))
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYSkinMediumL);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinMediumL);
             }
             else
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYSkinLargeL);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinLargeL);
             }
         }
         else
         {
-            if (afSizeA < *DAT_011dd9a0.FUN_00403e20())
+            if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9a0)))))))
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYSkinSmallH);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinSmallH);
             }
-            else if (afSizeA < *DAT_011dd924.FUN_00403e20())
+            else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd924)))))))
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYSkinMediumH);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinMediumH);
             }
             else
             {
-                result = DAT_011c3f2c->FUN_004616c0(kStr_PHYSkinLargeH);
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinLargeH);
             }
         }
         break;
     case 3:
         if (afSizeA < DAT_01034208)
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CGlassSmall);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassSmall);
         }
-        else if (afSizeA < DAT_01015a38)
+        else if (afSizeA < ::runtimeInitializationDouble5)
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CGlassMedium);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassMedium);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CGlassLarge);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassLarge);
         }
         break;
     case 8:
         if (afSizeA < DAT_01034208)
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CWoodSmall);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodSmall);
         }
-        else if (afSizeA < DAT_01015a38)
+        else if (afSizeA < ::runtimeInitializationDouble5)
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CWoodMedium);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodMedium);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_CWoodLarge);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodLarge);
         }
         break;
     case 13:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_PHYChain);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYChain);
         break;
     case 10:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_CSpecialHeavyStone);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyStone);
         break;
     case 11:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_CSpecialHeavyMetal);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyMetal);
         break;
     case 12:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_CSpecialHeavyWood);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyWood);
         break;
     case 16:
         if (afSizeA < DAT_01032980)
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalHollowStatic);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowStatic);
         }
-        else if (afSizeA < *DAT_011dd8f4.FUN_00403e20())
+        else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalHollowSmall);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowSmall);
         }
-        else if (afSizeA < *DAT_011dd8cc.FUN_00403e20())
+        else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalHollowMedium);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowMedium);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalHollowLarge);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowLarge);
         }
         break;
     case 17:
         if (afSizeA < DAT_01032980)
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalSheetStatic);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetStatic);
         }
-        else if (afSizeA < *DAT_011dd8f4.FUN_00403e20())
+        else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalSheetSmall);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetSmall);
         }
-        else if (afSizeA < *DAT_011dd8cc.FUN_00403e20())
+        else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalSheetMedium);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetMedium);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYGenericMetalSheetLarge);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetLarge);
         }
         break;
     case 18:
@@ -857,125 +911,125 @@ int __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
         result = 0;
         break;
     case 20:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYVehicleMetalBodyL);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalBodyL);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYVehicleMetalBodyH);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalBodyH);
         }
         break;
     case 21:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYVehicleMetalSolidL);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalSolidL);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYVehicleMetalSolidH);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalSolidH);
         }
         break;
     case 22:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYVehicleMetalHollowL);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalHollowL);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYVehicleMetalHollowH);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalHollowH);
         }
         break;
     case 23:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYBarrelL);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBarrelL);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYBarrelH);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBarrelH);
         }
         break;
     case 24:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYBottleL);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottleL);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYBottleH);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottleH);
         }
         break;
     case 25:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYCanSodaL);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCanSodaL);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYCanSodaH);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCanSodaH);
         }
         break;
     case 26:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYWeaponPistolL);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponPistolL);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYWeaponPistolH);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponPistolH);
         }
         break;
     case 27:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYWeaponRifleL);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponRifleL);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYWeaponRifleH);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponRifleH);
         }
         break;
     case 28:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYShoppingCartL);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYShoppingCartL);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYShoppingCartH);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYShoppingCartH);
         }
         break;
     case 29:
-        if (afSizeB < *DAT_011dd8e8.FUN_00403e20())
+        if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYLunchboxL);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYLunchboxL);
         }
         else
         {
-            result = DAT_011c3f2c->FUN_004616c0(kStr_PHYLunchboxH);
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYLunchboxH);
         }
         break;
     case 30:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_PHYBabyRattle);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBabyRattle);
         break;
     case 31:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_PHYRubberBall);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYRubberBall);
         break;
     case 14:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_PHYBottlecaps);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottlecaps);
         break;
     case 32:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_PHYChainlink);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYChainlink);
         break;
     case 33:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_PHYTile);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYTile);
         break;
     case 34:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_PHYCarpet);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCarpet);
         break;
     case 35:
-        result = DAT_011c3f2c->FUN_004616c0(kStr_PHYTumbleweed);
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYTumbleweed);
         break;
     }
     return result;
@@ -1000,14 +1054,11 @@ struct S_0083a930_SoundHandle
     ~S_0083a930_SoundHandle();
     S_0083a930_SoundHandle& operator=(const S_0083a930_SoundHandle& other);
     bool FUN_00ad8b60(float x, float y, float z);
-    void FUN_00ad8f20(S_0083a930_NiNode* node);
-    bool FUN_00ad89e0(float volume);
     bool FUN_00ad8830(bool flag);
 };
 
 struct S_0083a930_Audio
 {
-    static S_0083a930_Audio* FUN_00453a70();
     S_0083a930_SoundHandle FUN_00ad7480(const char* path, unsigned int flags, TESSound* sound);
 };
 
@@ -1024,19 +1075,27 @@ class TESBoundObject : public TESForm
 class TESSound : public TESBoundObject
 {
   public:
-    const char* FUN_00511840();
+public:
+    unsigned char GetField45();
 };
 
 class TESObjectWEAP : public TESBoundObject
 {
   public:
-    TESSound* GetField238();
-    TESSound* GetField23C();
+};
+
+// The TESObjectWEAP sound slots the impact mixer plays.
+struct WeaponSoundSlots
+{
+    char pad00[0x230];
+    TESSound* blockSound;
+    TESSound* idleSound;
+    TESSound* equipSound;
+    TESSound* unequipSound;
 };
 
 struct S_0083a930_EntryData
 {
-    TESBoundObject* FUN_0044ddc0();
 };
 
 struct S_0083a930_Process
@@ -1260,33 +1319,28 @@ class TESObjectREFR
 class Actor : public TESObjectREFR
 {
   public:
-    S_0083a930_Process* FUN_008d8520();
-    bool FUN_004997b0();
+public:
+    bool IsSneaking();
 };
 
 struct S_0083a930_Setting
 {
-    float* FUN_00403e20();
 };
 
-extern S_0083a930_Setting DAT_011dd900;
-extern Actor* DAT_011dea3c;
-extern const float DAT_010231a8;
-bool FUN_0082eca0(TESSound* sound, S_0083a930_Point3 pos, float volume);
 
 // @fnv 0x0083a930
 void PlayWeaponImpactSound(TESObjectREFR* ref, int type)
 {
     AutoMemHelper ctx(0xb, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Audio\\ImpactMixer.cpp", 0x6a3);
     S_0083a930_Point3 pos = *ref->GetPos();
-    float value = *DAT_011dd900.FUN_00403e20();
+    float value = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_0083a930_Setting *>(&::g_011dd900))))));
     bool bUnused = false;
     Actor* actor = dynamic_cast<Actor*>(ref);
-    if (actor && actor->FUN_008d8520())
+    if (actor && ((::S_0083a930_Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))
     {
         S_0083a930_SoundHandle sound;
-        S_0083a930_EntryData* entry = actor->FUN_008d8520()->GetWeaponInfo();
-        TESBoundObject* invObject = entry ? entry->FUN_0044ddc0() : 0;
+        S_0083a930_EntryData* entry = ((::S_0083a930_Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetWeaponInfo();
+        TESBoundObject* invObject = entry ? ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) : 0;
         TESObjectWEAP* weapon = invObject ? dynamic_cast<TESObjectWEAP*>(invObject) : 0;
         if (weapon)
         {
@@ -1294,29 +1348,29 @@ void PlayWeaponImpactSound(TESObjectREFR* ref, int type)
             switch (type)
             {
             case 9:
-                snd = weapon->GetField238();
+                snd = reinterpret_cast<::WeaponSoundSlots *>(weapon)->equipSound;
                 break;
             case 10:
-                snd = weapon->GetField23C();
+                snd = reinterpret_cast<::WeaponSoundSlots *>(weapon)->unequipSound;
                 break;
             }
-            if (!snd || !FUN_0082eca0(snd, pos, 1.0f))
+            if (!snd || !::SoundPlaybackManager::CanPlaySoundAt(snd, (*(::NiPoint3 *)&(const ::S_0083a930_Point3 &)(pos)), 1.0f))
                 return;
-            bool sneaking = actor->FUN_004997b0();
-            if (actor == DAT_011dea3c)
+            bool sneaking = actor->IsSneaking();
+            if (actor == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
             {
-                sound = S_0083a930_Audio::FUN_00453a70()->FUN_00ad7480(snd->FUN_00511840(), 0x80004101, snd);
+                sound = ((::S_0083a930_Audio *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(snd)), 0x80004101, snd);
             }
             else
             {
-                sound = S_0083a930_Audio::FUN_00453a70()->FUN_00ad7480(snd->FUN_00511840(), 0x4102, snd);
+                sound = ((::S_0083a930_Audio *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(snd)), 0x4102, snd);
                 sound.FUN_00ad8b60(pos.x, pos.y, pos.z);
-                sound.FUN_00ad8f20(ref->GetNode());
+                reinterpret_cast<::FUN_00ad8f20_shell *>(&(sound))->FUN_00ad8f20((::NiAVObject *)(::S_0083a930_NiNode *)(ref->GetNode()));
             }
             if (sneaking)
-                sound.FUN_00ad89e0(DAT_010231a8);
+                reinterpret_cast<::FUN_00ad89e0_shell *>(&(sound))->FUN_00ad89e0(::DAT_010231a8);
             else
-                sound.FUN_00ad89e0(1.0f);
+                reinterpret_cast<::FUN_00ad89e0_shell *>(&(sound))->FUN_00ad89e0(1.0f);
             sound.FUN_00ad8830(false);
         }
     }
@@ -1351,18 +1405,13 @@ struct FootstepQuery
 };
 struct NavOps
 {
-    void FUN_0053b550(FootstepQuery*, NiPoint3*, int);
 };
 extern const char armorPowerRightName[];
 extern const char armorPowerLeftName[];
 extern const char armorRightName[];
 extern const char armorLeftName[];
-bool FUN_00702360();
-bool FUN_00525420();
 struct PointOps : NiPoint3
 {
-    NiPoint3& Subtract(const NiPoint3&);
-    float FUN_00457990();
 };
 struct ListenerOps
 {
@@ -1373,19 +1422,14 @@ struct ListenerOps
 };
 struct SoundOps
 {
-    unsigned char GetField45();
-    BGSSoundDescriptor* FUN_0084e3a0(int);
-    const char* FUN_00511840();
 };
 class TESCreature : public TESBoundObject
 {
   public:
     SoundOps* FUN_005f92d0(int);
-    void* FUN_00acbb70();
 };
 struct MaterialOps
 {
-    int FUN_0059bb30();
 };
 struct SkinOps
 {
@@ -1650,7 +1694,6 @@ struct SkinOps
     int unk408;
     int unk40c;
     MaterialOps material;
-    bool FUN_00838750();
 };
 struct ActorOps
 {
@@ -1794,23 +1837,12 @@ struct ActorOps
     virtual void v224();
     virtual void v228();
     virtual bool SuppressFootsteps(int);
-    TESBoundObject* FUN_007af430();
-    bool FUN_005a2030();
-    float FUN_0057b0a0();
-    SkinOps* FUN_009306d0();
-    bool FUN_004997b0();
-    bool FUN_00884730();
-    bool FUN_008ba410();
-    bool FUN_008ba440();
 };
 struct AudioOps
 {
-    static AudioOps* FUN_00453a70();
-    ListenerOps* FUN_0044edb0();
     SoundPlaybackHandle FUN_00ad73b0(BGSSoundDescriptor*);
     SoundPlaybackHandle FUN_00ad7480(const char*, unsigned int, SoundOps*);
 };
-extern S_0083a930_Setting DAT_011dd988;
 extern SoundOps* DAT_011dd860;
 extern SoundOps* DAT_011dd864;
 extern SoundOps* DAT_011dd868;
@@ -1819,7 +1851,6 @@ struct FootstepEntry
 {
     SoundOps* sounds[10];
 };
-extern FootstepEntry DAT_011dd650[];
 // Selects a footstep sound for the given foot from the cell material and actor state, then plays it at the actor position or in first person.
 // @fnv 0x00837cc0
 void PlayFootstepSound(FootstepActor* apActor, int foot)
@@ -1836,17 +1867,17 @@ void PlayFootstepSound(FootstepActor* apActor, int foot)
     memory = 0;
     SoundOps* sound = 0;
     pos = false;
-    float distance = *DAT_011dd900.FUN_00403e20();
-    if (FUN_00525420())
+    float distance = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_0083a930_Setting *>(&::g_011dd900))))));
+    if (((bool)(::FUN_00525420())))
         distance /= 2.0;
     armor = 0.0f;
-    if (AudioOps::FUN_00453a70()->FUN_0044edb0())
+    if (((::ListenerOps *)(reinterpret_cast<::MagicCaster_shell *>((((::AudioOps *)(::FUN_00453a70()))))->FUN_0044edb0())))
     {
         PointOps delta;
-        static_cast<NiPoint3&>(delta) = AudioOps::FUN_00453a70()->FUN_0044edb0()->GetPosition();
-        delta.Subtract(firstPerson);
-        armor = delta.FUN_00457990();
-        if (delta.FUN_00457990() > distance)
+        static_cast<NiPoint3&>(delta) = ((::ListenerOps *)(reinterpret_cast<::MagicCaster_shell *>((((::AudioOps *)(::FUN_00453a70()))))->FUN_0044edb0()))->GetPosition();
+        reinterpret_cast<::NiPoint3 *>(&(delta))->Subtract(firstPerson);
+        armor = reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude();
+        if (reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude() > distance)
             return;
     }
     if (apActor->IsActor())
@@ -1857,52 +1888,52 @@ void PlayFootstepSound(FootstepActor* apActor, int foot)
             return;
         if (actorOps->IsCreature())
         {
-            TESBoundObject* base = reinterpret_cast<ActorOps*>(apActor)->FUN_007af430();
+            TESBoundObject* base = ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<ActorOps*>(apActor)))->FUN_007af430()));
             TESCreature* creature = dynamic_cast<TESCreature*>(base);
             SoundOps* creatureSound = creature->FUN_005f92d0(foot);
             memory = creatureSound;
-            if (memory && armor <= memory->GetField45() * 100)
+            if (memory && armor <= reinterpret_cast<::TESSound *>((memory))->GetField45() * 100)
             {
-                primary = AudioOps::FUN_00453a70()->FUN_00ad73b0(memory->FUN_0084e3a0(266));
+                primary = ((::AudioOps *)(::FUN_00453a70()))->FUN_00ad73b0(((::BGSSoundDescriptor *)(reinterpret_cast<::FUN_0084e3a0_Class *>((memory))->FUN_0084e3a0())));
             }
             primary.FUN_00ad8b60(firstPerson.x, firstPerson.y, firstPerson.z);
-            if (creature->FUN_00acbb70())
-                primary.FUN_00ad8f20(creature->FUN_00acbb70());
-            primary.FUN_00ad89e0(0.98f);
+            if (((void *)(reinterpret_cast<::FUN_00acbb70_shell *>((creature))->FUN_00acbb70())))
+                reinterpret_cast<::FUN_00ad8f20_shell *>(&(primary))->FUN_00ad8f20((::NiAVObject *)(void *)(((void *)(reinterpret_cast<::FUN_00acbb70_shell *>((creature))->FUN_00acbb70()))));
+            reinterpret_cast<::FUN_00ad89e0_shell *>(&(primary))->FUN_00ad89e0(0.98f);
             primary.FUN_00ad8830(0);
         }
         else
         {
             int materialIndex = 0;
-            FootstepCell* cell = g_TES_011dea10->FUN_005f36f0();
+            FootstepCell* cell = ((::FootstepCell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TESStandIn * *>(&::g_TES))))->GetPrevPath()));
             if (!cell)
                 cell =
-                    g_dataHandler_011c3f2c->FUN_00461bc0(firstPerson.x, firstPerson.y, g_TES_011dea10->FUN_004fd3e0(0));
+                    ((::FootstepCell *)(reinterpret_cast<::FUN_00461bc0_cls *>(((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler))))->FUN_00461bc0(firstPerson.x, firstPerson.y, ((::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::TESStandIn * *>(&::g_TES))))->GetHitSound())), {})));
             bool soundType = false;
             bool movingActor = false;
-            if (!actorOps->FUN_005a2030() && cell && firstPerson.z < actorOps->FUN_0057b0a0() &&
-                ((cell->FUN_00425fd0() && cell->FUN_004518e0()) || !cell->FUN_00425fd0()))
+            if (!reinterpret_cast<::FUN_005a2030_shell *>((actorOps))->FUN_005a2030() && cell && firstPerson.z < reinterpret_cast<::FUN_0057b0a0_shell *>((actorOps))->FUN_0057b0a0() &&
+                ((reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior() && reinterpret_cast<::fnv_004518e0::TESObjectCELL *>((cell))->FUN_004518e0()) || !reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior()))
                 soundType = true;
             ActorOps* material = actorOps;
-            if (material->FUN_009306d0()->FUN_00838750())
+            if (reinterpret_cast<::FUN_00838750_shell *>((((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((material))->FUN_009306d0()))))->FUN_00838750())
                 movingActor = true;
-            if (!g_TES_011dea10->FUN_005f36f0() && cell && cell->FUN_00546fb0())
+            if (!((::FootstepCell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TESStandIn * *>(&::g_TES))))->GetPrevPath())) && cell && ((::CellNavInfo *)(reinterpret_cast<::S00546fb0_Cell *>((cell))->FUN_00546fb0())))
             {
                 MaterialRecord* result;
                 FootstepQuery height;
-                reinterpret_cast<NavOps*>(cell->FUN_00546fb0())->FUN_0053b550(&height, &firstPerson, 1);
-                result = cell->FUN_00546fb0()->FUN_0053a630(height.materialKind, height.triangle);
+                reinterpret_cast<::xLand *>((reinterpret_cast<NavOps*>(((::CellNavInfo *)(reinterpret_cast<::S00546fb0_Cell *>((cell))->FUN_00546fb0())))))->FUN_0053b550((*(::xCoordData *)(&height)), (*(const ::xPoint3 *)(&firstPerson)), 1);
+                result = ((::MaterialRecord *)(reinterpret_cast<::FUN_0053a630_Class *>((((::CellNavInfo *)(reinterpret_cast<::S00546fb0_Cell *>((cell))->FUN_00546fb0()))))->FUN_0053a630(height.materialKind, height.triangle)));
                 float record = 0.0f;
                 materialIndex = 0;
                 if (soundType)
                     materialIndex = 8;
-                else if (material && material->FUN_009306d0() &&
-                         material->FUN_009306d0()->material.FUN_0059bb30() != 36)
-                    materialIndex = material->FUN_009306d0()->material.FUN_0059bb30();
+                else if (material && ((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((material))->FUN_009306d0())) &&
+                         ((int)(reinterpret_cast<::ActorMover *>(&(((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((material))->FUN_009306d0()))->material))->GetCurrentMoveModeType())) != 36)
+                    materialIndex = ((int)(reinterpret_cast<::ActorMover *>(&(((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((material))->FUN_009306d0()))->material))->GetCurrentMoveModeType()));
                 else if (result)
                 {
-                    materialIndex = result->GetField1C();
-                    if (cell->FUN_005547c0(&firstPerson, &record))
+                    materialIndex = ((int)(reinterpret_cast<::FUN_00541570_shell *>((result))->GetField1C()));
+                    if (reinterpret_cast<::FakeCell *>((cell))->FUN_005547c0((*(const ::NiPoint3 *)(&firstPerson)), (*(float *)(&record))))
                         firstPerson.z = record;
                 }
             }
@@ -1910,78 +1941,78 @@ void PlayFootstepSound(FootstepActor* apActor, int foot)
             {
                 if (soundType)
                     materialIndex = 8;
-                else if (material && material->FUN_009306d0())
-                    materialIndex = material->FUN_009306d0()->material.FUN_0059bb30();
+                else if (material && ((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((material))->FUN_009306d0())))
+                    materialIndex = ((int)(reinterpret_cast<::ActorMover *>(&(((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((material))->FUN_009306d0()))->material))->GetCurrentMoveModeType()));
             }
             if (foot > 1)
                 foot -= 2;
             int special = foot == 0;
             int water = 0;
-            if (actorOps->FUN_004997b0())
+            if (reinterpret_cast<::Actor *>((actorOps))->IsSneaking())
                 special = foot ? 4 : 5;
             else if (movingActor)
                 special = foot ? 6 : 7;
-            else if (actorOps->FUN_00884730())
+            else if (reinterpret_cast<::FUN_00884730_shell *>((actorOps))->FUN_00884730())
                 special = foot ? 2 : 3;
             water = GetTypeValue(materialIndex);
             memory = DAT_011dd650[water].sounds[special];
-            if (actorOps->FUN_008ba410())
+            if (reinterpret_cast<::FUN_008ba410_shell *>((actorOps))->FUN_008ba410())
             {
                 if (!DAT_011dd860 || !DAT_011dd864)
                 {
                     DAT_011dd864 =
-                        reinterpret_cast<SoundOps*>(g_dataHandler_011c3f2c->FUN_004616c0(armorPowerRightName));
+                        reinterpret_cast<SoundOps*>(((::BGSImpactData *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler))))->GetSoundByEditorID(armorPowerRightName))));
                     DAT_011dd860 =
-                        reinterpret_cast<SoundOps*>(g_dataHandler_011c3f2c->FUN_004616c0(armorPowerLeftName));
+                        reinterpret_cast<SoundOps*>(((::BGSImpactData *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler))))->GetSoundByEditorID(armorPowerLeftName))));
                 }
                 sound = foot ? DAT_011dd860 : DAT_011dd864;
             }
-            else if (actorOps->FUN_008ba440())
+            else if (reinterpret_cast<::FUN_008ba440_shell *>((actorOps))->FUN_008ba440())
             {
                 if (!DAT_011dd868 || !DAT_011dd86c)
                 {
-                    DAT_011dd86c = reinterpret_cast<SoundOps*>(g_dataHandler_011c3f2c->FUN_004616c0(armorRightName));
-                    DAT_011dd868 = reinterpret_cast<SoundOps*>(g_dataHandler_011c3f2c->FUN_004616c0(armorLeftName));
+                    DAT_011dd86c = reinterpret_cast<SoundOps*>(((::BGSImpactData *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler))))->GetSoundByEditorID(armorRightName))));
+                    DAT_011dd868 = reinterpret_cast<SoundOps*>(((::BGSImpactData *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler))))->GetSoundByEditorID(armorLeftName))));
                 }
                 sound = foot ? DAT_011dd868 : DAT_011dd86c;
             }
-            if (apActor == g_player_011dea3c && !g_player_011dea3c->FUN_00524d10())
+            if (apActor == (*reinterpret_cast<::FootstepActor * *>(&::_g_thePlayer)) && !::FUN_00524d10((bool *)((*reinterpret_cast<::FootstepActor * *>(&::_g_thePlayer)))))
                 pos = true;
             if (pos)
             {
                 unsigned int flags = 0x4109;
                 if (memory)
                 {
-                    primary = AudioOps::FUN_00453a70()->FUN_00ad7480(memory->FUN_00511840(), flags, memory);
-                    primary.FUN_00ad89e0(*DAT_011dd988.FUN_00403e20());
+                    primary = ((::AudioOps *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(memory)), flags, memory);
+                    reinterpret_cast<::FUN_00ad89e0_shell *>(&(primary))->FUN_00ad89e0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_0083a930_Setting *>(&::g_011dd988)))))));
                     primary.FUN_00ad8830(0);
                 }
                 if (sound)
                 {
-                    secondary = AudioOps::FUN_00453a70()->FUN_00ad7480(sound->FUN_00511840(), flags, sound);
-                    secondary.FUN_00ad89e0(*DAT_011dd988.FUN_00403e20());
+                    secondary = ((::AudioOps *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(sound)), flags, sound);
+                    reinterpret_cast<::FUN_00ad89e0_shell *>(&(secondary))->FUN_00ad89e0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_0083a930_Setting *>(&::g_011dd988)))))));
                     secondary.FUN_00ad8830(0);
                 }
             }
             else
             {
                 unsigned int flags = 0x410a;
-                if (memory && armor <= memory->GetField45() * 100)
+                if (memory && armor <= reinterpret_cast<::TESSound *>((memory))->GetField45() * 100)
                 {
-                    primary = AudioOps::FUN_00453a70()->FUN_00ad7480(memory->FUN_00511840(), flags, memory);
+                    primary = ((::AudioOps *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(memory)), flags, memory);
                     primary.FUN_00ad8b60(firstPerson.x, firstPerson.y, firstPerson.z - 128.0);
                     if (apActor->Get3D())
-                        primary.FUN_00ad8f20(apActor->Get3D());
-                    primary.FUN_00ad89e0(FUN_00476b70(0.9f, 1.0f));
+                        reinterpret_cast<::FUN_00ad8f20_shell *>(&(primary))->FUN_00ad8f20((::NiAVObject *)(void *)(apActor->Get3D()));
+                    reinterpret_cast<::FUN_00ad89e0_shell *>(&(primary))->FUN_00ad89e0(::RandomFloat(0.9f, 1.0f));
                     primary.FUN_00ad8830(0);
                 }
-                if (sound && armor <= sound->GetField45() * 100)
+                if (sound && armor <= reinterpret_cast<::TESSound *>((sound))->GetField45() * 100)
                 {
-                    secondary = AudioOps::FUN_00453a70()->FUN_00ad7480(sound->FUN_00511840(), flags, sound);
+                    secondary = ((::AudioOps *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(sound)), flags, sound);
                     secondary.FUN_00ad8b60(firstPerson.x, firstPerson.y, firstPerson.z - 128.0);
                     if (apActor->Get3D())
-                        secondary.FUN_00ad8f20(apActor->Get3D());
-                    secondary.FUN_00ad89e0(1.0 - FUN_00476b70(0.0f, g_fFootstepRand_0101e2bc));
+                        reinterpret_cast<::FUN_00ad8f20_shell *>(&(secondary))->FUN_00ad8f20((::NiAVObject *)(void *)(apActor->Get3D()));
+                    reinterpret_cast<::FUN_00ad89e0_shell *>(&(secondary))->FUN_00ad89e0(1.0 - ::RandomFloat(0.0f, ::DAT_0101e2bc));
                     secondary.FUN_00ad8830(0);
                 }
             }
@@ -2024,8 +2055,7 @@ struct BSSoundHandleEx
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
-    BSSoundHandleEx FUN_00ad7480(const char* path, unsigned int flags, unsigned int sound);
+    BSSoundHandleEx FUN_00ad7480(const char* path, unsigned int flags, TESSound* sound);
     BSSoundHandleEx GetSoundHandleByEditorID(const char* name, unsigned int flags);
 };
 
@@ -2044,18 +2074,17 @@ struct NiPoint3_ext : NiPoint3
     NiPoint3_ext();
 };
 
-float FUN_0040ebd0(float a, float b);
-float FUN_00404010(float a, float b);
 
 // @fnv 0x008397f0
 void PlayBlockSound(int aUnused, FUN_00522df0_shell* pObject, float x0, float y0, float z0, float x1, float y1,
                     float z1)
 {
     GlobalObject_0041a250 p;
-    if (pObject != 0 && pObject->GetField230() != 0)
+    TESSound* blockSound = pObject ? reinterpret_cast<::WeaponSoundSlots *>(pObject)->blockSound : 0;
+    if (blockSound)
     {
-        p.FUN_copy(&BSAudio::GetSingleton()->FUN_00ad7480(((TESSound*)pObject->GetField230())->FUN_00511840(), 0x182,
-                                                          pObject->GetField230()));
+        BSSoundHandleEx sound = ::FUN_00453a70()->FUN_00ad7480(::FUN_00511840((char *)(blockSound)), 0x182, blockSound);
+        p.FUN_copy(&sound);
     }
     else
     {
@@ -2063,10 +2092,16 @@ void PlayBlockSound(int aUnused, FUN_00522df0_shell* pObject, float x0, float y0
         switch (weaponType)
         {
         case -1:
-            p.FUN_copy(&BSAudio::GetSingleton()->GetSoundHandleByEditorID("WPNBlockHand", 0x182));
+            {
+                BSSoundHandleEx sound = ::FUN_00453a70()->GetSoundHandleByEditorID("WPNBlockHand", 0x182);
+                p.FUN_copy(&sound);
+            }
             break;
         default:
-            p.FUN_copy(&BSAudio::GetSingleton()->GetSoundHandleByEditorID("WPNBlockMelee", 0x182));
+            {
+                BSSoundHandleEx sound = ::FUN_00453a70()->GetSoundHandleByEditorID("WPNBlockMelee", 0x182);
+                p.FUN_copy(&sound);
+            }
             break;
         }
     }
@@ -2093,16 +2128,16 @@ void __cdecl FUN_00838780(TESObjectREFR* apRefr)
     SoundOps* impact1 = 0;
     SoundOps* second9 = 0;
     bool isBaby9 = false;
-    float scale2 = *DAT_011dd900.FUN_00403e20();
-    if (FUN_00525420())
+    float scale2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_0083a930_Setting *>(&::g_011dd900))))));
+    if (((bool)(::FUN_00525420())))
         scale2 /= 2.0;
     float distBX = 0.0f;
-    if (AudioOps::FUN_00453a70()->FUN_0044edb0())
+    if (((::ListenerOps *)(reinterpret_cast<::MagicCaster_shell *>((((::AudioOps *)(::FUN_00453a70()))))->FUN_0044edb0())))
     {
-        PointOps vec = *(PointOps*)&AudioOps::FUN_00453a70()->FUN_0044edb0()->GetPosition();
-        vec.Subtract(*(NiPoint3*)&pos20);
-        distBX = vec.FUN_00457990();
-        if (scale2 < vec.FUN_00457990())
+        PointOps vec = *(PointOps*)&((::ListenerOps *)(reinterpret_cast<::MagicCaster_shell *>((((::AudioOps *)(::FUN_00453a70()))))->FUN_0044edb0()))->GetPosition();
+        reinterpret_cast<::NiPoint3 *>(&(vec))->Subtract(*(NiPoint3*)&pos20);
+        distBX = reinterpret_cast<::NiPoint3 *>(&(vec))->ComputeMagnitude();
+        if (scale2 < reinterpret_cast<::NiPoint3 *>(&(vec))->ComputeMagnitude())
             return;
     }
     if (((FootstepActor*)apRefr)->IsActor())
@@ -2112,57 +2147,57 @@ void __cdecl FUN_00838780(TESObjectREFR* apRefr)
             return;
         if (pActor->IsCreature())
         {
-            TESBoundObject* bolt6 = ((ActorOps*)apRefr)->FUN_007af430();
+            TESBoundObject* bolt6 = ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((ActorOps*)apRefr)))->FUN_007af430()));
             TESCreature* creature6 = dynamic_cast<TESCreature*>(bolt6);
             SoundOps* csnd = creature6->FUN_005f92d0(0x14);
             impact1 = csnd;
             if (impact1)
             {
-                if ((float)(impact1->GetField45() * 100) >= distBX)
+                if ((float)(reinterpret_cast<::TESSound *>((impact1))->GetField45() * 100) >= distBX)
                 {
-                    handle12 = AudioOps::FUN_00453a70()->FUN_00ad73b0(impact1->FUN_0084e3a0(0x10a));
+                    handle12 = ((::AudioOps *)(::FUN_00453a70()))->FUN_00ad73b0(((::BGSSoundDescriptor *)(reinterpret_cast<::FUN_0084e3a0_Class *>((impact1))->FUN_0084e3a0())));
                 }
             }
-            handle12.FUN_00ad8b60(pos20.x, pos20.y, pos20.z);
-            if (creature6->FUN_00acbb70())
-                handle12.FUN_00ad8f20(creature6->FUN_00acbb70());
-            handle12.FUN_00ad89e0(0.98f);
-            handle12.FUN_00ad8830(0);
+            reinterpret_cast<::FUN_00ad8b60_h *>(&(handle12))->FUN_00ad8b60(pos20.x, pos20.y, pos20.z);
+            if (((void *)(reinterpret_cast<::FUN_00acbb70_shell *>((creature6))->FUN_00acbb70())))
+                reinterpret_cast<::FUN_00ad8f20_shell *>(&(handle12))->FUN_00ad8f20((::NiAVObject *)(void *)(((void *)(reinterpret_cast<::FUN_00acbb70_shell *>((creature6))->FUN_00acbb70()))));
+            reinterpret_cast<::FUN_00ad89e0_shell *>(&(handle12))->FUN_00ad89e0(0.98f);
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(handle12))->FUN_00ad8830(0);
         }
         else
         {
             int material6 = 0;
-            FootstepCell* cell8 = g_TES_011dea10->FUN_005f36f0();
+            FootstepCell* cell8 = ((::FootstepCell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TESStandIn * *>(&::g_TES))))->GetPrevPath()));
             if (!cell8)
-                cell8 = g_dataHandler_011c3f2c->FUN_00461bc0(pos20.x, pos20.y, g_TES_011dea10->FUN_004fd3e0(0));
+                cell8 = ((::FootstepCell *)(reinterpret_cast<::FUN_00461bc0_cls *>(((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler))))->FUN_00461bc0(pos20.x, pos20.y, ((::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::TESStandIn * *>(&::g_TES))))->GetHitSound())), {})));
             bool flagWater6 = false;
             bool local2 = false;
-            if (!pActor->FUN_005a2030())
+            if (!reinterpret_cast<::FUN_005a2030_shell *>((pActor))->FUN_005a2030())
             {
-                if (cell8 && pos20.z < pActor->FUN_0057b0a0())
+                if (cell8 && pos20.z < reinterpret_cast<::FUN_0057b0a0_shell *>((pActor))->FUN_0057b0a0())
                 {
-                    if ((cell8->FUN_00425fd0() && cell8->FUN_004518e0()) || !cell8->FUN_00425fd0())
+                    if ((reinterpret_cast<::TESObjectCELL *>((cell8))->IsCellInterior() && reinterpret_cast<::fnv_004518e0::TESObjectCELL *>((cell8))->FUN_004518e0()) || !reinterpret_cast<::TESObjectCELL *>((cell8))->IsCellInterior())
                         flagWater6 = true;
                 }
             }
             ActorOps* pq = pActor;
-            if (pq->FUN_009306d0()->FUN_00838750())
+            if (reinterpret_cast<::FUN_00838750_shell *>((((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pq))->FUN_009306d0()))))->FUN_00838750())
                 local2 = true;
-            if (!g_TES_011dea10->FUN_005f36f0() && cell8 && cell8->FUN_00546fb0())
+            if (!((::FootstepCell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TESStandIn * *>(&::g_TES))))->GetPrevPath())) && cell8 && ((::CellNavInfo *)(reinterpret_cast<::S00546fb0_Cell *>((cell8))->FUN_00546fb0())))
             {
                 FootstepQuery query4;
-                cell8->FUN_00546fb0()->FUN_0053b550((NavQueryResult*)&query4, (NiPoint3*)&pos20, 1);
-                MaterialRecord* localA = cell8->FUN_00546fb0()->FUN_0053a630(query4.materialKind, query4.triangle);
+                reinterpret_cast<::xLand *>((((::CellNavInfo *)(reinterpret_cast<::S00546fb0_Cell *>((cell8))->FUN_00546fb0()))))->FUN_0053b550((*(::xCoordData *)((NavQueryResult*)&query4)), (*(const ::xPoint3 *)((NiPoint3*)&pos20)), 1);
+                MaterialRecord* localA = ((::MaterialRecord *)(reinterpret_cast<::FUN_0053a630_Class *>((((::CellNavInfo *)(reinterpret_cast<::S00546fb0_Cell *>((cell8))->FUN_00546fb0()))))->FUN_0053a630(query4.materialKind, query4.triangle)));
                 float heightStepB = 0.0f;
                 material6 = 0;
                 if (flagWater6)
                     material6 = 8;
-                else if (pq && pq->FUN_009306d0() && pq->FUN_009306d0()->material.FUN_0059bb30() != 0x24)
-                    material6 = pq->FUN_009306d0()->material.FUN_0059bb30();
+                else if (pq && ((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pq))->FUN_009306d0())) && ((int)(reinterpret_cast<::ActorMover *>(&(((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pq))->FUN_009306d0()))->material))->GetCurrentMoveModeType())) != 0x24)
+                    material6 = ((int)(reinterpret_cast<::ActorMover *>(&(((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pq))->FUN_009306d0()))->material))->GetCurrentMoveModeType()));
                 else if (localA)
                 {
-                    material6 = localA->GetField1C();
-                    if (cell8->FUN_005547c0((NiPoint3*)&pos20, &heightStepB))
+                    material6 = ((int)(reinterpret_cast<::FUN_00541570_shell *>((localA))->GetField1C()));
+                    if (reinterpret_cast<::FakeCell *>((cell8))->FUN_005547c0((*(const ::NiPoint3 *)((NiPoint3*)&pos20)), (*(float *)(&heightStepB))))
                         pos20.z = heightStepB;
                 }
             }
@@ -2170,28 +2205,28 @@ void __cdecl FUN_00838780(TESObjectREFR* apRefr)
             {
                 if (flagWater6)
                     material6 = 8;
-                else if (pq && pq->FUN_009306d0())
-                    material6 = pq->FUN_009306d0()->material.FUN_0059bb30();
+                else if (pq && ((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pq))->FUN_009306d0())))
+                    material6 = ((int)(reinterpret_cast<::ActorMover *>(&(((::SkinOps *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pq))->FUN_009306d0()))->material))->GetCurrentMoveModeType()));
             }
             int idx11 = 9;
             int typeY = 0;
             typeY = GetTypeValue(material6);
             impact1 = DAT_011dd650[typeY].sounds[idx11];
-            if (pActor->FUN_008ba410())
+            if (reinterpret_cast<::FUN_008ba410_shell *>((pActor))->FUN_008ba410())
             {
                 if (!DAT_011dd874)
-                    DAT_011dd874 = (SoundOps*)g_dataHandler_011c3f2c->FUN_004616c0("FSTJumpPower");
+                    DAT_011dd874 = (SoundOps*)((::BGSImpactData *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler))))->GetSoundByEditorID("FSTJumpPower")));
                 second9 = DAT_011dd870;
             }
-            else if (pActor->FUN_008ba440())
+            else if (reinterpret_cast<::FUN_008ba440_shell *>((pActor))->FUN_008ba440())
             {
                 if (!DAT_011dd870)
-                    DAT_011dd870 = (SoundOps*)g_dataHandler_011c3f2c->FUN_004616c0("FSTJumpArmor");
+                    DAT_011dd870 = (SoundOps*)((::BGSImpactData *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler))))->GetSoundByEditorID("FSTJumpArmor")));
                 second9 = DAT_011dd870;
             }
-            if (apRefr == (TESObjectREFR*)g_player_011dea3c)
+            if (apRefr == (TESObjectREFR*)(*reinterpret_cast<::FootstepActor * *>(&::_g_thePlayer)))
             {
-                if (!g_player_011dea3c->FUN_00524d10())
+                if (!::FUN_00524d10((bool *)((*reinterpret_cast<::FootstepActor * *>(&::_g_thePlayer)))))
                     isBaby9 = true;
             }
             if (isBaby9)
@@ -2199,44 +2234,44 @@ void __cdecl FUN_00838780(TESObjectREFR* apRefr)
                 int flags = 0x4109;
                 if (impact1)
                 {
-                    handle12 = AudioOps::FUN_00453a70()->FUN_00ad7480(impact1->FUN_00511840(), flags, impact1);
-                    handle12.FUN_00ad89e0(*DAT_011dd988.FUN_00403e20());
-                    handle12.FUN_00ad8830(0);
+                    handle12 = ((::AudioOps *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(impact1)), flags, impact1);
+                    reinterpret_cast<::FUN_00ad89e0_shell *>(&(handle12))->FUN_00ad89e0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_0083a930_Setting *>(&::g_011dd988)))))));
+                    reinterpret_cast<::FUN_00ad8830_shell *>(&(handle12))->FUN_00ad8830(0);
                 }
                 if (second9)
                 {
-                    handle6 = AudioOps::FUN_00453a70()->FUN_00ad7480(second9->FUN_00511840(), flags, second9);
-                    handle6.FUN_00ad89e0(*DAT_011dd988.FUN_00403e20());
-                    handle6.FUN_00ad8830(0);
+                    handle6 = ((::AudioOps *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(second9)), flags, second9);
+                    reinterpret_cast<::FUN_00ad89e0_shell *>(&(handle6))->FUN_00ad89e0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_0083a930_Setting *>(&::g_011dd988)))))));
+                    reinterpret_cast<::FUN_00ad8830_shell *>(&(handle6))->FUN_00ad8830(0);
                 }
             }
             else
             {
                 int flags2 = 0x410a;
-                if (!FUN_0082eca0((TESSound*)impact1, pos20, 1.0f) && !FUN_0082eca0((TESSound*)second9, pos20, 1.0f))
+                if (!::SoundPlaybackManager::CanPlaySoundAt((TESSound*)impact1, (*(::NiPoint3 *)&(const ::S_0083a930_Point3 &)(pos20)), 1.0f) && !::SoundPlaybackManager::CanPlaySoundAt((TESSound*)second9, (*(::NiPoint3 *)&(const ::S_0083a930_Point3 &)(pos20)), 1.0f))
                     return;
                 if (impact1)
                 {
-                    if ((float)(impact1->GetField45() * 100) >= distBX)
+                    if ((float)(reinterpret_cast<::TESSound *>((impact1))->GetField45() * 100) >= distBX)
                     {
-                        handle12 = AudioOps::FUN_00453a70()->FUN_00ad7480(impact1->FUN_00511840(), flags2, impact1);
-                        handle12.FUN_00ad8b60(pos20.x, pos20.y, (float)(pos20.z - 128.0));
+                        handle12 = ((::AudioOps *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(impact1)), flags2, impact1);
+                        reinterpret_cast<::FUN_00ad8b60_h *>(&(handle12))->FUN_00ad8b60(pos20.x, pos20.y, (float)(pos20.z - 128.0));
                         if (apRefr->GetNode())
-                            handle12.FUN_00ad8f20(apRefr->GetNode());
-                        handle12.FUN_00ad89e0(FUN_00476b70(0.9f, 1.0f));
-                        handle12.FUN_00ad8830(0);
+                            reinterpret_cast<::FUN_00ad8f20_shell *>(&(handle12))->FUN_00ad8f20((::NiAVObject *)(void *)(apRefr->GetNode()));
+                        reinterpret_cast<::FUN_00ad89e0_shell *>(&(handle12))->FUN_00ad89e0(::RandomFloat(0.9f, 1.0f));
+                        reinterpret_cast<::FUN_00ad8830_shell *>(&(handle12))->FUN_00ad8830(0);
                     }
                 }
                 if (second9)
                 {
-                    if ((float)(second9->GetField45() * 100) >= distBX)
+                    if ((float)(reinterpret_cast<::TESSound *>((second9))->GetField45() * 100) >= distBX)
                     {
-                        handle6 = AudioOps::FUN_00453a70()->FUN_00ad7480(second9->FUN_00511840(), flags2, second9);
-                        handle6.FUN_00ad8b60(pos20.x, pos20.y, (float)(pos20.z - 128.0));
+                        handle6 = ((::AudioOps *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(second9)), flags2, second9);
+                        reinterpret_cast<::FUN_00ad8b60_h *>(&(handle6))->FUN_00ad8b60(pos20.x, pos20.y, (float)(pos20.z - 128.0));
                         if (apRefr->GetNode())
-                            handle6.FUN_00ad8f20(apRefr->GetNode());
-                        handle6.FUN_00ad89e0(1.0f - FUN_00476b70(0.0f, g_fFootstepRand_0101e2bc));
-                        handle6.FUN_00ad8830(0);
+                            reinterpret_cast<::FUN_00ad8f20_shell *>(&(handle6))->FUN_00ad8f20((::NiAVObject *)(void *)(apRefr->GetNode()));
+                        reinterpret_cast<::FUN_00ad89e0_shell *>(&(handle6))->FUN_00ad89e0(1.0f - ::RandomFloat(0.0f, ::DAT_0101e2bc));
+                        reinterpret_cast<::FUN_00ad8830_shell *>(&(handle6))->FUN_00ad8830(0);
                     }
                 }
             }
@@ -2260,20 +2295,16 @@ struct ImpactTimer
     int iData;
     ImpactTimer();
     ~ImpactTimer();
-    void FUN_004538a0(const char* apName);
-    void FUN_004538c0();
 };
 
 struct ImpactFormType
 {
     int iData;
     ImpactFormType();
-    int FUN_0043b4d0();
 };
 
 struct ImpactObject
 {
-    float FUN_0062ab20();
     ImpactFormType FUN_0043b4f0();
 };
 
@@ -2292,12 +2323,10 @@ struct ImpactData
 
 struct ImpactSoundForm
 {
-    unsigned int FUN_0084e3a0();
 };
 
 struct ImpactDataHandler
 {
-    ImpactSoundForm* FUN_004616c0(const char* apEditorID);
 };
 
 struct ImpactSoundHandle
@@ -2308,49 +2337,26 @@ struct ImpactSoundHandle
     ImpactSoundHandle();
     ~ImpactSoundHandle();
     ImpactSoundHandle& operator=(const ImpactSoundHandle& arOther);
-    void FUN_00ad9030(unsigned int auiVolume);
-    bool FUN_00ad8b60(float afX, float afY, float afZ);
-    bool SetStaticAttenuation(unsigned short ausFrequency);
-    void FUN_00ad8a90(float afValue);
-    bool FUN_00ad8830(bool abFlag);
 };
 
 struct ImpactAudio
 {
-    static ImpactAudio* FUN_00453a70();
     ImpactSoundHandle FUN_00ad73b0(unsigned int auiFormID, unsigned int auiFlags);
 };
 
 struct ImpactHistory
 {
-    bool FUN_00853130(unsigned int auiKey, unsigned int& arTime);
-    void FUN_00844700(unsigned int auiKey, unsigned int auiTime);
-    void* FUN_004b9ba0();
-    void FUN_006b7f20(void*& arIter, unsigned int& arKey, int& arTime);
-    bool RemoveKey(unsigned int auiKey);
-    void FUN_00438af0();
 };
 
 struct ImpactIntSetting
 {
-    int* FUN_0043d4d0();
 };
 
 struct ImpactClock
 {
-    unsigned int FUN_00825c00();
 };
 
-extern ImpactHistory DAT_011dd948;
-extern ImpactIntSetting DAT_011dd968;
-extern ImpactClock DAT_011f6394;
-extern ImpactPoint DAT_011dd958;
-extern ImpactDataHandler* DAT_011c3f2c;
-extern const double DAT_010179e0;
 
-ImpactSoundForm* __cdecl FUN_00839e00(int aiMaterial, float afMass, float afImpulse);
-bool __cdecl FUN_0040eb10(float afValue, float afTarget, float afRange);
-bool __cdecl FUN_0082eca0(ImpactSoundForm* apForm, ImpactPoint akPos, float afScale);
 
 static const char kCollisionSourcePath[] = "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Audio\\ImpactMixer.cpp";
 static const char s_szTimerName[] = "ImpactMixer::PlayCollisionSound";
@@ -2366,106 +2372,323 @@ void FUN_00837550(ImpactData* apImpact)
     if (apImpact->pObjectA == apImpact->pObjectB && apImpact->pObjectA)
         return;
     static ImpactTimer s_kTimer;
-    s_kTimer.FUN_004538a0(s_szTimerName);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(s_kTimer))->FUN_004538a0((std::intptr_t)(s_szTimerName));
     float fScaledImpulseRes = apImpact->fImpulse * 0.014287499710917473;
-    float fWaterLevelItem = apImpact->fImpulse / DAT_010179e0;
+    float fWaterLevelItem = apImpact->fImpulse / ::DAT_010179e0;
     unsigned int uiFlagsTmp = 0;
     if (apImpact->cMaterialA == 0x24 && apImpact->cMaterialB == 6)
         fWaterLevelItem *= 4.0;
     {
-        float fMassASample = apImpact->pObjectA ? apImpact->pObjectA->FUN_0062ab20() : 5.0f;
-        float fMassOfB = apImpact->pObjectB ? apImpact->pObjectB->FUN_0062ab20() : 5.0f;
+        float fMassASample = apImpact->pObjectA ? reinterpret_cast<::bhkRigidBody *>((apImpact->pObjectA))->GetBodyMass() : 5.0f;
+        float fMassOfB = apImpact->pObjectB ? reinterpret_cast<::bhkRigidBody *>((apImpact->pObjectB))->GetBodyMass() : 5.0f;
         bool bCasingVal = false;
         ImpactSoundForm* pSoundA = 0;
         ImpactSoundForm* pSoundBNew = 0;
-        if ((apImpact->pObjectA && apImpact->pObjectA->FUN_0043b4f0().FUN_0043b4d0() == 0x19) ||
-            (apImpact->pObjectB && apImpact->pObjectB->FUN_0043b4f0().FUN_0043b4d0() == 0x19))
+        if ((apImpact->pObjectA && reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::ImpactSound::ImpactFormType &)(apImpact->pObjectA->FUN_0043b4f0()))->FUN_0043b4d0() == 0x19) ||
+            (apImpact->pObjectB && reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::ImpactSound::ImpactFormType &)(apImpact->pObjectB->FUN_0043b4f0()))->FUN_0043b4d0() == 0x19))
             bCasingVal = true;
         if (!bCasingVal)
         {
-            pSoundA = FUN_00839e00(apImpact->cMaterialA, fMassASample, apImpact->fImpulse);
-            pSoundBNew = FUN_00839e00(apImpact->cMaterialB, fMassOfB, apImpact->fImpulse);
+            pSoundA = ((::ImpactSound::ImpactSoundForm *)(::FUN_00839e00(apImpact->cMaterialA, fMassASample, apImpact->fImpulse)));
+            pSoundBNew = ((::ImpactSound::ImpactSoundForm *)(::FUN_00839e00(apImpact->cMaterialB, fMassOfB, apImpact->fImpulse)));
         }
         else
         {
             uiFlagsTmp = 0x80;
             float fMass = fMassASample > fMassOfB ? fMassASample : fMassOfB;
             if (fMass < 1.0)
-                pSoundA = DAT_011c3f2c->FUN_004616c0(s_szShotgun);
-            else if (FUN_0040eb10(fMass, 2.0f, 0.25f))
-                pSoundA = DAT_011c3f2c->FUN_004616c0(s_szPistol);
+                pSoundA = ((::ImpactSound::ImpactSoundForm *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::ImpactSound::ImpactDataHandler * *>(&::g_dataHandler))))->GetSoundByEditorID(s_szShotgun)));
+            else if (::FUN_0040eb10(fMass, 2.0f, 0.25f))
+                pSoundA = ((::ImpactSound::ImpactSoundForm *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::ImpactSound::ImpactDataHandler * *>(&::g_dataHandler))))->GetSoundByEditorID(s_szPistol)));
             else
-                pSoundA = DAT_011c3f2c->FUN_004616c0(s_szRifle);
+                pSoundA = ((::ImpactSound::ImpactSoundForm *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::ImpactSound::ImpactDataHandler * *>(&::g_dataHandler))))->GetSoundByEditorID(s_szRifle)));
             pSoundBNew = 0;
         }
-        if (!FUN_0082eca0(pSoundA, apImpact->kPos, 1.0f) && !FUN_0082eca0(pSoundBNew, apImpact->kPos, 1.0f))
+        if (!::SoundPlaybackManager::CanPlaySoundAt((::TESSound *)(pSoundA), apImpact->kPos, 1.0f) && !::SoundPlaybackManager::CanPlaySoundAt((::TESSound *)(pSoundBNew), apImpact->kPos, 1.0f))
         {
-            s_kTimer.FUN_004538c0();
+            reinterpret_cast<::ActorTaskManager *>(&(s_kTimer))->WaitForTasksDuringRendering();
             return;
         }
         ImpactSoundHandle kHandleAResult;
         ImpactSoundHandle kHandleB;
-        unsigned int uiNow = DAT_011f6394.FUN_00825c00();
+        unsigned int uiNow = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ImpactSound::ImpactClock *>(&::g_timeGlobal))))->FUN_00825c00();
         unsigned int uiLastTime = 0;
-        if (DAT_011dd948.FUN_00853130(apImpact->uiKey, uiLastTime) &&
-            uiNow - uiLastTime < (unsigned int)*DAT_011dd968.FUN_0043d4d0())
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>(&((*reinterpret_cast<::ImpactSound::ImpactHistory *>(&::g_011dd948))))->FUN_00853130(apImpact->uiKey, (::fnv_00853130::CombatThreatRecord *&)(uiLastTime)) &&
+            uiNow - uiLastTime < (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ImpactSound::ImpactIntSetting *>(&::g_011dd968)))))))
         {
-            s_kTimer.FUN_004538c0();
+            reinterpret_cast<::ActorTaskManager *>(&(s_kTimer))->WaitForTasksDuringRendering();
             return;
         }
         else
         {
-            DAT_011dd948.FUN_00844700(apImpact->uiKey, uiNow);
+            reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::ImpactSound::ImpactHistory *>(&::g_011dd948))))->FUN_00844700(apImpact->uiKey, uiNow);
         }
         if (pSoundA && !(apImpact->cMaterialA == 7 && apImpact->cMaterialB == 7))
             kHandleAResult =
-                ImpactAudio::FUN_00453a70()->FUN_00ad73b0(pSoundA->FUN_0084e3a0(), uiFlagsTmp | 2 | 0x100 | 0x4000);
+                ((::ImpactSound::ImpactAudio *)(::FUN_00453a70()))->FUN_00ad73b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pSoundA))->FUN_0084e3a0())), uiFlagsTmp | 2 | 0x100 | 0x4000);
         if (pSoundBNew && !(apImpact->cMaterialA == 7 && apImpact->cMaterialB == 7))
             kHandleB =
-                ImpactAudio::FUN_00453a70()->FUN_00ad73b0(pSoundBNew->FUN_0084e3a0(), uiFlagsTmp | 2 | 0x100 | 0x4000);
+                ((::ImpactSound::ImpactAudio *)(::FUN_00453a70()))->FUN_00ad73b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pSoundBNew))->FUN_0084e3a0())), uiFlagsTmp | 2 | 0x100 | 0x4000);
         unsigned int uiFrequencyVal =
             (unsigned int)((1.0 - (apImpact->fImpulse / 400.0 > 1.0 ? 1.0 : apImpact->fImpulse / 400.0)) * 3000.0);
         float fVolumeLoc = uiFrequencyVal < 0x5dc ? 1.0 : (uiFrequencyVal - 4500.0) / -3000.0;
         if (pSoundA)
         {
-            kHandleAResult.FUN_00ad9030(0xff);
-            kHandleAResult.FUN_00ad8b60(apImpact->kPos.x, apImpact->kPos.y, apImpact->kPos.z);
-            kHandleAResult.SetStaticAttenuation(uiFrequencyVal);
-            kHandleAResult.FUN_00ad8a90(fVolumeLoc);
-            kHandleAResult.FUN_00ad8830(false);
+            reinterpret_cast<::FUN_00ad9030_shell *>(&(kHandleAResult))->FUN_00ad9030(0xff);
+            reinterpret_cast<::FUN_00ad8b60_h *>(&(kHandleAResult))->FUN_00ad8b60(apImpact->kPos.x, apImpact->kPos.y, apImpact->kPos.z);
+            reinterpret_cast<::FUN_00ad89b0_shell *>(&(kHandleAResult))->SetStaticAttenuation(uiFrequencyVal);
+            reinterpret_cast<::SoundPlaybackHandle *>(&(kHandleAResult))->SetPlaybackFrequency(fVolumeLoc);
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(kHandleAResult))->FUN_00ad8830(false);
         }
         if (pSoundBNew)
         {
-            kHandleB.FUN_00ad9030(0xff);
-            kHandleB.FUN_00ad8b60(apImpact->kPos.x, apImpact->kPos.y, apImpact->kPos.z);
-            kHandleB.SetStaticAttenuation(uiFrequencyVal);
-            kHandleB.FUN_00ad8a90(fVolumeLoc);
-            kHandleB.FUN_00ad8830(false);
+            reinterpret_cast<::FUN_00ad9030_shell *>(&(kHandleB))->FUN_00ad9030(0xff);
+            reinterpret_cast<::FUN_00ad8b60_h *>(&(kHandleB))->FUN_00ad8b60(apImpact->kPos.x, apImpact->kPos.y, apImpact->kPos.z);
+            reinterpret_cast<::FUN_00ad89b0_shell *>(&(kHandleB))->SetStaticAttenuation(uiFrequencyVal);
+            reinterpret_cast<::SoundPlaybackHandle *>(&(kHandleB))->SetPlaybackFrequency(fVolumeLoc);
+            reinterpret_cast<::FUN_00ad8830_shell *>(&(kHandleB))->FUN_00ad8830(false);
         }
-        DAT_011dd958 = apImpact->kPos;
+        (*reinterpret_cast<::NiPoint3 *>(&::g_011dd958)) = apImpact->kPos;
     }
-    int iMaxAge = *DAT_011dd968.FUN_0043d4d0() * 4;
-    void* pIter = DAT_011dd948.FUN_004b9ba0();
-    int iNowCur = DAT_011f6394.FUN_00825c00();
+    int iMaxAge = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ImpactSound::ImpactIntSetting *>(&::g_011dd968)))))) * 4;
+    void* pIter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&((*reinterpret_cast<::ImpactSound::ImpactHistory *>(&::g_011dd948))))->GetFirstPos();
+    int iNowCur = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ImpactSound::ImpactClock *>(&::g_timeGlobal))))->FUN_00825c00();
     unsigned int uiVisited = 0;
     while (pIter)
     {
         uiVisited++;
         unsigned int uiEntryKeyVal;
         int iEntryTime;
-        DAT_011dd948.FUN_006b7f20(pIter, uiEntryKeyVal, iEntryTime);
+        reinterpret_cast<::C6b7f20_Map *>(&((*reinterpret_cast<::ImpactSound::ImpactHistory *>(&::g_011dd948))))->FUN_006b7f20((::C6b7f20_Node **)&(pIter), (unsigned int *)&(uiEntryKeyVal), (void **)&(iEntryTime));
         if (iNowCur - iEntryTime > iMaxAge)
         {
-            DAT_011dd948.RemoveKey(uiEntryKeyVal);
-            pIter = DAT_011dd948.FUN_004b9ba0();
+            reinterpret_cast<::NiTMap_S *>(&((*reinterpret_cast<::ImpactSound::ImpactHistory *>(&::g_011dd948))))->RemoveKey(uiEntryKeyVal);
+            pIter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&((*reinterpret_cast<::ImpactSound::ImpactHistory *>(&::g_011dd948))))->GetFirstPos();
         }
         if (uiVisited > 0x100)
         {
-            DAT_011dd948.FUN_00438af0();
+            reinterpret_cast<::FUN_00438af0_Class *>(&((*reinterpret_cast<::ImpactSound::ImpactHistory *>(&::g_011dd948))))->FUN_00438af0();
             pIter = 0;
         }
     }
-    s_kTimer.FUN_004538c0();
+    reinterpret_cast<::ActorTaskManager *>(&(s_kTimer))->WaitForTasksDuringRendering();
 }
 
 }
+
+bool FUN_00839da0();
+void FUN_00839dc0(bool b);
+int GetTypeValue(int aiType);
+
+struct MemoryManager
+{
+};
+struct Point3
+{
+    float x;
+    float y;
+    float z;
+    __forceinline Point3()
+    {}
+    __forceinline Point3(float a, float b, float c) : x(a), y(b), z(c)
+    {}
+    __forceinline Point3 operator+(const Point3& o) const
+    {
+        return Point3(o.x + x, o.y + y, o.z + z);
+    }
+    __forceinline Point3 operator*(float s) const
+    {
+        return Point3(s * x, s * y, s * z);
+    }
+    Point3 FUN_00439ef0(const Point3& other) const
+    {
+        const Point3* self = this;
+        return Point3(self->x - other.x, self->y - other.y, self->z - other.z);
+    }
+    Point3 FUN_004b3800(const Point3& axis) const
+    {
+        const Point3* self = this;
+        return Point3(self->y * axis.z - self->z * axis.y, self->z * axis.x - self->x * axis.z,
+                      self->x * axis.y - self->y * axis.x);
+    }
+};
+
+struct FilterData
+{
+    unsigned int collisionLayer;
+    unsigned int group;
+    unsigned int flags;
+    unsigned int subsystem;
+
+};
+extern void FUN_00401050(void* storage, unsigned int elementSize, unsigned int count,
+                                   void(__cdecl* constructor)(void*));
+extern void __cdecl FUN_004a7800(void* value);
+extern void* __cdecl FUN_00aa13e0(unsigned int bytes);
+struct FilterArray
+{
+    FilterData values[8];
+    __forceinline FilterArray()
+    {
+        FUN_00401050(values, 16, 8, FUN_004a7800);
+    }
+};
+struct CollisionShape
+{
+    virtual void slot000();
+    virtual void slot004();
+    virtual void slot008();
+    virtual void slot00c();
+    virtual void slot010();
+    virtual void slot014();
+    virtual void slot018();
+    virtual void slot01c();
+    virtual void slot020();
+    virtual void slot024();
+    virtual void slot028();
+    virtual void slot02c();
+    virtual void slot030();
+    virtual void slot034();
+    virtual void slot038();
+    virtual void slot03c();
+    virtual void slot040();
+    virtual void slot044();
+    virtual void slot048();
+    virtual void slot04c();
+    virtual void slot050();
+    virtual void slot054();
+    virtual void slot058();
+    virtual void slot05c();
+    virtual void slot060();
+    virtual void slot064();
+    virtual void slot068();
+    virtual void slot06c();
+    virtual void slot070();
+    virtual void slot074();
+    virtual void slot078();
+    virtual void slot07c();
+    virtual void slot080();
+    virtual void slot084();
+    virtual void slot088();
+    virtual void slot08c();
+    virtual void slot090();
+    virtual void slot094();
+    virtual void slot098();
+    virtual void slot09c();
+    virtual void slot0a0();
+    virtual void slot0a4();
+    virtual void slot0a8();
+    virtual void slot0ac();
+    virtual void slot0b0();
+    virtual void slot0b4();
+    virtual void slot0b8();
+    virtual void slot0bc();
+    virtual void slot0c0();
+    virtual void slot0c4();
+    virtual void slot0c8();
+    virtual void slot0cc();
+    virtual void slot0d0();
+    virtual void slot0d4();
+    virtual void slot0d8();
+    virtual void slot0dc();
+    virtual void slot0e0();
+    virtual void slot0e4();
+    virtual void slot0e8();
+};
+struct CollisionGenerator : CollisionShape
+{
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    CollisionGenerator(unsigned int count, Point3* vertices, int unused, FilterData* _filters, int a, int b, int c,
+                       int d, void* data);
+};
+// @fnv 0x00c55d50
+CollisionShape* __cdecl FUN_00c55d50(Point3* start, Point3* end, float forwardExtent, float backwardExtent,
+                                     float upExtent, float downExtent, FilterData* nearFilter, FilterData* farFilter)
+{
+    Point3* verticesX;
+    verticesX = new Point3[8];
+    Point3 directionX = ([&] { ::Point3 difference; reinterpret_cast<::FUN_00439ef0_class *>((void *)(start))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(*end))); return difference; }());
+    Point3 verticalAxisB(0.0f, 0.0f, 1.0f);
+    Point3 crossVal2 = directionX.FUN_004b3800(verticalAxisB);
+    crossVal2.z = 0.0f;
+    reinterpret_cast<::FUN_004a0c10_s *>(&(crossVal2))->FUN_004a0c10();
+    Point3 forwardVectorB = crossVal2 * forwardExtent;
+    Point3 reverseVector2 = crossVal2 * (-backwardExtent);
+    Point3 offset(0.0f, 0.0f, upExtent);
+    Point3 below2(0.0f, 0.0f, -downExtent);
+    verticesX[0] = offset + (reverseVector2 + *end);
+    verticesX[1] = offset + (forwardVectorB + *end);
+    verticesX[2] = below2 + (reverseVector2 + *end);
+    verticesX[3] = below2 + (forwardVectorB + *end);
+    verticesX[4] = offset + (reverseVector2 + *start);
+    verticesX[5] = offset + (forwardVectorB + *start);
+    verticesX[6] = below2 + (reverseVector2 + *start);
+    verticesX[7] = (*(::Point3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::Point3 &)((forwardVectorB + *start)))->ProjectileLaunched((::NiPoint3 *)&(below2), {})));
+    FilterData* _filters = 0;
+    if (nearFilter || farFilter)
+    {
+        _filters = reinterpret_cast<FilterData*>(new FilterArray);
+        if (nearFilter && !farFilter)
+            farFilter = nearFilter;
+        else if (farFilter && !nearFilter)
+            nearFilter = farFilter;
+        for (unsigned int indexC = 0; indexC < 4; ++indexC)
+            _filters[indexC] = *farFilter;
+        for (unsigned int index7 = 4; index7 < 8; ++index7)
+            _filters[index7] = *nearFilter;
+    }
+    unsigned short* pData6 = new unsigned short[36];
+    std::memmove(pData6, &(*reinterpret_cast<unsigned char *>(&::DAT_010c2c38)), 0x48);
+    CollisionGenerator* shape2 = new CollisionGenerator(8, verticesX, 0, _filters, 0, 0, 0, 12, pData6);
+    shape2->slot0e8();
+    return shape2;
+}
+#include "generated/data/fallout/audio/impactmixer.inc"
+#include "generated/data/fallout/audio/impactmixer_ob1_variant.inc"

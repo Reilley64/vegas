@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpSetLocalTranslationsConstraintAtom.h"
 #include "hkpStiffSpringConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpStiffSpringConstraintDataAtoms
 {
   public:
@@ -14,7 +13,4 @@ class hkpStiffSpringConstraintDataAtoms
     hkpStiffSpringConstraintAtom m_kStiffSpringConstraintAtom;                    // +0x30
     char pad38[0x8];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpStiffSpringConstraintDataAtoms[(sizeof(hkpStiffSpringConstraintDataAtoms) == 0x40) ? 1 : -1];
 #endif

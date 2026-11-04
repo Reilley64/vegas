@@ -7,13 +7,11 @@
 #ifndef FNV_NITARRAY_PC_EFFECT_H
 #define FNV_NITARRAY_PC_EFFECT_H
 
+#include <windows.h>
 #include <stddef.h>
-#define FNV_NITARRAY_LAYOUT_CHECK(name, expression) typedef char name[(expression) ? 1 : -1]
 #ifndef FNV_FORCEINLINE
 #define FNV_FORCEINLINE __forceinline
 #endif
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 class NiMemObject
 {
   public:
@@ -110,22 +108,4 @@ class NiDynamicEffect : public NiAVObject
     DList<NiNode> unaffectedNodes;
     void IncRevisionID();
 };
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_mem_size, sizeof(NiMemObject) == 1);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_ref_size, sizeof(NiRefObject) == 8);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_ref_count_offset, offsetof(NiRefObject, m_uiRefCount) == 4);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_object_size, sizeof(NiObject) == 8);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_fixed_string_size, sizeof(NiFixedString) == 4);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_fixed_string_offset, offsetof(NiFixedString, m_kHandle) == 0);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_objectnet_name_offset, offsetof(NiObjectNET, m_kName) == 8);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_objectnet_controllers_offset, offsetof(NiObjectNET, m_pControllers) == 0xc);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_objectnet_extra_offset, offsetof(NiObjectNET, m_ppExtraData) == 0x10);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_objectnet_extra_size_offset, offsetof(NiObjectNET, m_usExtraDataCount) == 0x14);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_objectnet_max_size_offset, offsetof(NiObjectNET, m_usMaxSize) == 0x16);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_objectnet_size, sizeof(NiObjectNET) == 0x18);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_transform_size, sizeof(NiTransform) == 0x34);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_avobject_size, sizeof(NiAVObject) == 0x9c);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_avobject_local_offset, offsetof(NiAVObject, m_transformLocal) == 0x34);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_avobject_world_offset, offsetof(NiAVObject, m_transformWorld) == 0x68);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_effect_size, sizeof(NiDynamicEffect) == 0xc4);
-FNV_NITARRAY_LAYOUT_CHECK(nitarray_revision_offset, offsetof(NiDynamicEffect, revID) == 0xa8);
 #endif

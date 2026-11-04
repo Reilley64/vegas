@@ -3,6 +3,7 @@
 #define FNV_PACKAGELOCATION_RUNTIME_H
 
 
+#include "fnv/symbols_005b5000.h"
 class BSExtraData;
 class InventoryChanges;
 class TESBoundObject;
@@ -23,12 +24,15 @@ class TESObjectCELL : public TESForm
 
 // The canonical binding names this folded form-name predicate after its
 // BGSCameraPath use. It operates on the TESForm prefix of the owner.
+class BGSCameraShot;
+template <class> class BSSimpleList;
 class BGSCameraPath : public TESForm
 {
   public:
     int HasNameForWarning();
+public:
+    ::BSSimpleList< ::BGSCameraShot *> *GetShotList();
 };
 
-int Warning(const char* format, ...);
 
 #endif

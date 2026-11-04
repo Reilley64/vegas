@@ -3,6 +3,9 @@
 #define FNV_NIPOINT3_CONSOLE_DECLS_H
 
 
+#include "fnv/decl/Point3_0053d280.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_01017000.h"
 #include "layout_support.h"
 
 // Private declarations retain the canonical twelve-byte PC vector layout.
@@ -17,16 +20,9 @@ class NiPoint3
     float ComputeMagnitude() const;
     float GetLengthSquared();
     NiPoint3 CrossProduct(const NiPoint3& kPoint) const;
-    NiPoint3 FUN_0053d280(float fScalar) const;
 };
 
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, y) == 4);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 8);
 
-float FUN_004579e0(float fValue);
-extern const double DAT_01017cf8;
 
 class NiPlane
 {

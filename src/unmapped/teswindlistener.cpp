@@ -1,7 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-float RandomFloat(float fMin, float fScaledValue);
+#include "fnv/symbols_00476000.h"
 struct S_0062e910
 {
     float RandomSignedFloat(float fImpulseRadiusSquared);

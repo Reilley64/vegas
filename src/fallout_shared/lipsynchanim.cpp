@@ -1,5 +1,18 @@
 // fallout_shared/lipsynchanim.cpp: LipSyncAnimation (4 functions)
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004d5080_Class.h"
+#include "fnv/decl/FUN_004d5a90_Class.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004d5000.h"
+#include "fnv/symbols_010a2000.h"
 #include "lipsynchanim_decls.h"
 
 // @fnv 0x004d5930
@@ -8,7 +21,7 @@ bool LipSyncAnimation::ApplyToAnimationData(BSFaceGenAnimationData* animation, f
     if (!animation)
         return false;
 
-    animation->SetTransitionDuration(FUN_0040ebd0(0.2f, GetNegativeMagnitude(false, true, true, true, false)));
+    animation->SetTransitionDuration(FUN_0040ebd0(0.2f, reinterpret_cast<::FUN_004d5a90_Class *>(this)->GetNegativeMagnitude()));
 
     float phonemes[16];
     float modifiers[17];
@@ -33,9 +46,9 @@ bool LipSyncAnimation::ApplyToAnimationData(BSFaceGenAnimationData* animation, f
 // @fnv 0x004d5850
 void* LipSyncAnimation::DeleteThis(unsigned int flags)
 {
-    FUN_004d5080();
+    reinterpret_cast<::FUN_004d5080_Class *>(this)->FUN_004d5080();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -48,7 +61,7 @@ bool __cdecl FUN_004d5880(NiBinaryStream* stream, char* output, unsigned int siz
     while (remaining > 0)
     {
         char value = 0;
-        if (!stream->Read(&value, 1))
+        if (!reinterpret_cast<::FUN_00462d80_shell *>((stream))->ReadBytes(&value, 1))
         {
             remaining = 0;
             success = false;
@@ -63,7 +76,7 @@ bool __cdecl FUN_004d5880(NiBinaryStream* stream, char* output, unsigned int siz
         else
         {
             unsigned short count = 0;
-            stream->Read(&count, 2);
+            reinterpret_cast<::FUN_00462d80_shell *>((stream))->ReadBytes(&count, 2);
             memset(output, 0, count);
             output += count;
             remaining -= 3;
@@ -72,7 +85,6 @@ bool __cdecl FUN_004d5880(NiBinaryStream* stream, char* output, unsigned int siz
     return success;
 }
 
-extern int DAT_010a2480;
 
 class Stream
 {
@@ -97,8 +109,6 @@ struct Header
     int flags;
 };
 
-LipSyncAnimation* __cdecl ReadBufFromMemory(char* buffer, unsigned int size);
-bool __cdecl FUN_004d5880(NiBinaryStream*, char*, unsigned int, unsigned int);
 
 // Reads a 12-byte header from the stream, decompresses or reads the payload into a buffer, parses it into an animation, and deletes the stream and buffer.
 // @fnv 0x004d5350
@@ -113,14 +123,14 @@ LipSyncAnimation* __cdecl ReadAnimationFromStream(Stream* stream)
         return 0;
     }
     int streamSize = stream->GetLength();
-    ((NiBinaryStream*)stream)->Read(&headerTmp, 12);
+    reinterpret_cast<::FUN_00462d80_shell *>((((NiBinaryStream*)stream)))->ReadBytes(&headerTmp, 12);
     buffer_ = 0;
     if (headerTmp.version != 1)
     {
         streamSize -= 1;
         stream->Seek(1, DAT_010a2480);
         char* tempBuf5 = new char[streamSize];
-        ((NiBinaryStream*)stream)->Read(tempBuf5, streamSize);
+        reinterpret_cast<::FUN_00462d80_shell *>((((NiBinaryStream*)stream)))->ReadBytes(tempBuf5, streamSize);
         char* end = tempBuf5 + streamSize;
         int countB = 0;
         int offset5 = 0;
@@ -151,13 +161,13 @@ LipSyncAnimation* __cdecl ReadAnimationFromStream(Stream* stream)
     buffer_ = new char[headerTmp.uncompressedSize + 16];
     if (headerTmp.flags & 1)
     {
-        FUN_004d5880((NiBinaryStream*)stream, buffer_, streamSize, headerTmp.uncompressedSize);
+        ::FUN_004d5880((NiBinaryStream*)stream, buffer_, streamSize);
     }
     else
     {
-        ((NiBinaryStream*)stream)->Read(buffer_, headerTmp.uncompressedSize);
+        reinterpret_cast<::FUN_00462d80_shell *>((((NiBinaryStream*)stream)))->ReadBytes(buffer_, headerTmp.uncompressedSize);
     }
-    anim = ReadBufFromMemory(buffer_, headerTmp.uncompressedSize);
+    anim = ((::LipSyncAnimation *)(::ReadBufFromMemory(buffer_, headerTmp.uncompressedSize)));
     delete stream;
     delete[] buffer_;
     return anim;

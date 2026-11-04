@@ -13,5 +13,7 @@ class SpellItem
     int cost;
     unsigned int level;
     unsigned char flags;
+public:
+    void ClearData();
 };
 #endif

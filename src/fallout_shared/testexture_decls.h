@@ -3,9 +3,9 @@
 #define FNV_TESTEXTURE_PRIVATE_DECLS_H
 
 
+#include "fnv/symbols_0040a000.h"
 #include "layout_support.h"
 
-#pragma pack(push, 4)
 class BaseFormComponent
 {
   public:
@@ -38,8 +38,6 @@ class TESTexture : public BaseFormComponent
     static const char* NormalizeTextureFilePath(BSStringT<char>& result, const char* path);
     static void ConvertTexturePath(const char* path, char* output);
 };
-#pragma pack(pop)
 
-char* __cdecl FUN_0040ab30(char* string, int character);
 
 #endif

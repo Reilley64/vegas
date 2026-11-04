@@ -3,9 +3,38 @@
 #define FNV_INVENTORYMENU_DECLS_H
 
 #include <stddef.h>
-#define FNV_CTOR_JOIN_(a, b) a##b
-#define FNV_CTOR_JOIN(a, b) FNV_CTOR_JOIN_(a, b)
-#define FNV_STATIC_ASSERT(c) typedef char FNV_CTOR_JOIN(fnv_layout_check_, __LINE__)[(c) ? 1 : -1]
+#include "fnv/decl/ButtonDevice.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedureActivateObject.h"
+#include "fnv/decl/FUN_004bcdb0_shell.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/HWShell.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/ThiS.h"
+#include "fnv/decl/TutorialMessageGate718.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_004be000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00719000.h"
+#include "fnv/symbols_00867000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_00a1c000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011d4000.h"
+#include "fnv/symbols_011d9000.h"
+#include "fnv/symbols_011de000.h"
 class Tile;
 class TileMenu;
 class Tile__TileTemplate;
@@ -39,9 +68,6 @@ class Menu
     virtual void UpdateDialog();
     virtual bool HandleKeyboardInput(unsigned int);
     virtual unsigned int GetID();
-    Tile* FUN_00726070();
-    static bool ReadMenuDefinition(const char*, Menu*);
-    void SetTileMenu(TileMenu*, bool);
     void SetMenuVisibility(bool);
     TileMenu* pMenu;
     BSSimpleList<Tile__TileTemplate*> m_kTileTemplateList;
@@ -94,9 +120,6 @@ class HotkeyWheelDisplay
     ~HotkeyWheelDisplay();
     bool GetVisible();
     void SetVisible(bool);
-    int GetSelectedHotkeyIndex(int);
-    int FUN_006e4ba0();
-    void SetHotkeyItem(InventoryStackRecord*);
     void Initialize(Tile*);
     Tile* m_pWheelTile;                  // +0x0
     Tile* m_ppHotkeySlotTiles[8];  // +0x4
@@ -105,6 +128,8 @@ class HotkeyWheelDisplay
     int m_iTileValueIdAtOffset28;  // +0x28
     int m_iTileValueIdAtOffset2C;  // +0x2C
     int m_iTileValueIdAtOffset30;  // +0x30
+public:
+    int SetHotkeyItem(int, int);
 };
 
 class InventoryMenu : public Menu
@@ -116,7 +141,6 @@ class InventoryMenu : public Menu
     static int ms_iItemTypeTileID;
     static int ms_iCurrentTabTileID;
     static int ms_iKeyringOpenTileID;
-    static int ms_iEquippableItemTileID;
     Tile* m_pTiles[23];                              // +0x28
     int m_iCurrentTab;                               // +0x84
     InventoryMenu__sPageState m_kPageStates[6];      // +0x88
@@ -128,33 +152,19 @@ class InventoryMenu : public Menu
     static Tile* Create();
     static int FUN_0077ff80();
     bool FUN_0077ff90();
-    void FUN_00867a20();
     static void UpdateItemList();
     static InventoryMenu* ms_pInventoryMenu;
     static InventoryStackRecord* ms_pActionPointSource;
     void AssignTileByID(int id, Tile* tile);
+    bool FUN_00782190(int input, int unused);
 };
 
-FNV_STATIC_ASSERT(sizeof(InventoryMenu) == 0x124);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_pTiles) == 0x28);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_iCurrentTab) == 0x84);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kPageStates) == 0x88);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kItemList) == 0xB8);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kMenuData) == 0xE8);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kHotkeyObjects) == 0x11C);
 
 class Tile
 {
   public:
-    static int GetTraitID(const char*);
     void Set(int, int);
-    void Set(int, float, bool);
-    bool ContainsTrait(int);
     static float GetInterfaceScale();
-    static Menu* FindMenuById(int);
-    Tile* ReadFile(const char*);
-    Menu* GetMenu();
-    void Set(int, const char*, bool);
 };
 class TileListBoxCalls : public Tile
 {
@@ -170,9 +180,12 @@ enum ENUM_FORM_ID;
 class TESForm
 {
   public:
+    virtual ~TESForm();
     static const int kArmor = 25;
     static const int kWeapon = 40;
     ENUM_FORM_ID GetFormType() const;
+public:
+    static ::TESForm *LookupFormByEditorID(const char *);
 };
 class TESBoundObject : public TESForm
 {
@@ -180,27 +193,23 @@ class TESBoundObject : public TESForm
 class TESObjectARMO : public TESBoundObject
 {
   public:
-    float GetArmorRating();
-    float GetDamageThreshold();
 };
 class InventoryStackRecord
 {
   public:
-    float GetConditionPercent(bool);
-    TESBoundObject* FUN_0044ddc0();
+public:
+    static float GetConditionPercent(float);
+public:
+    void *GetPayloadAddress();
 };
 class InputManager
 {
   public:
-    int FUN_00a24660(int, int);
-    int FUN_00a23a50(int, int);
 };
 class OSGlobals
 {
   public:
-    InputManager* FUN_00877720();
 };
-extern OSGlobals* g_osGlobals;
 class ActorValueOwner
 {
   public:
@@ -215,7 +224,7 @@ class PlayerCharacter
     unsigned char layoutPadding00[0xa4];
     ActorValueOwner actorValueOwner;
 };
-extern PlayerCharacter* g_thePlayer;
+class FOPipboyManager;
 class Interface
 {
   public:
@@ -224,10 +233,9 @@ class Interface
         kInventory = 1002
     };
     static bool GetSelectedTargetIndex(enumMenus);
-    static bool IsSaveLoadActive();
-    static FOPipboyManager* GetPipboyManagerInstance();
     static void SetTileFormattedText(Tile*, int, const char*, ...);
-    static bool ShowMessage(const char*, int, const char*, const char*, float, bool);
+public:
+    ::FOPipboyManager *GetPipboyManager();
 };
 class InterfaceManager
 {
@@ -235,33 +243,14 @@ class InterfaceManager
     class TutorialState
     {
       public:
-        bool ShowMessage(int, int, unsigned int);
     };
     unsigned char layoutPadding00[0x4d4];
     TutorialState tutorialManager;
     Tile* FUN_00586150();
-    static void UpdateContainerMenu(Tile*, Tile*, Tile*, InventoryStackRecord*, bool);
 };
 class InventoryMenuSetting
 {
   public:
-    const char* FUN_00403df0();
 };
-extern InventoryMenuSetting DAT_011d3810;
-extern InventoryMenuSetting DAT_011d1e18;
 extern bool DAT_011d9f38;
-bool FUN_004b71d0();
-InterfaceManager* FUN_004b7210();
-int Warning(const char*, ...);
-extern InventoryMenuSetting DAT_011d3258;
-extern InventoryMenuSetting DAT_011d2acc;
-extern InventoryMenuSetting DAT_011d40b4;
-extern InventoryMenuSetting DAT_011d4d50;
-extern InventoryMenuSetting DAT_011d29b8;
-extern InventoryMenuSetting DAT_011d29f4;
-extern InventoryMenuSetting DAT_011d2c7c;
-extern InventoryMenuSetting DAT_011d412c;
-extern InventoryMenuSetting DAT_011d330c;
-extern InventoryMenuSetting DAT_011d20c4;
-extern InventoryMenuSetting DAT_011d396c;
 #endif

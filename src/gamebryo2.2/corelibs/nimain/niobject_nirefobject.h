@@ -15,7 +15,5 @@ class NiRefObject : public NiMemObject
     virtual void DeleteThis();
 };
 
-typedef char niobject_refobject_size_check[(sizeof(NiRefObject) == 8) ? 1 : -1];
-typedef char niobject_refcount_offset_check[(offsetof(NiRefObject, m_uiRefCount) == 4) ? 1 : -1];
 
 #endif

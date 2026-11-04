@@ -3,12 +3,9 @@
 #ifndef FNV_HAVOK_HKBUFFEREDSTREAMWRITER_H
 #define FNV_HAVOK_HKBUFFEREDSTREAMWRITER_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkBufferedStreamWriter
 {
   public:
     char pad0[0x1C];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkBufferedStreamWriter[(sizeof(hkBufferedStreamWriter) == 0x1C) ? 1 : -1];
 #endif

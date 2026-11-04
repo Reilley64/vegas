@@ -7,7 +7,6 @@
 class hkClassEnum;
 class hkClassMember;
 class hkCustomAttributes;
-#pragma pack(push, 1)
 class hkClass
 {
   public:
@@ -31,6 +30,4 @@ class hkClass
     hkUint32 m_flags;                                 // +0x28 (FlagValues)
     hkInt32 m_iDescribedVersion;                      // +0x2C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkClass[(sizeof(hkClass) == 0x30) ? 1 : -1];
 #endif

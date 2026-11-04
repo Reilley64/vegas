@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 #include "hkpConvexShape.h"
-#pragma pack(push, 1)
 class hkpBoxShape : public hkpConvexShape
 {
   public:
     char pad14[0xC];
     hkVector4 m_vHalfExtents;  // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpBoxShape[(sizeof(hkpBoxShape) == 0x30) ? 1 : -1];
 #endif

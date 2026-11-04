@@ -1,6 +1,27 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/C44D510Cache.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_006665a0_shell.h"
+#include "fnv/decl/FUN_006ebde0_shell.h"
+#include "fnv/decl/FUN_006ec9b0_Class.h"
+#include "fnv/decl/MapMarkerData.h"
+#include "fnv/decl/Owner_44e550.h"
+#include "fnv/decl/Queue_44e680.h"
+#include "fnv/decl/TSMap.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Walker_44ea60.h"
+#include "fnv/decl/fnv_00722f60__SL.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0040b000.h"
+#include "fnv/symbols_0044d000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_01017000.h"
 extern int DAT_01017458;
 
 struct FUN_0044b4b0_Class
@@ -15,45 +36,56 @@ void FUN_0044b4b0_Class::FUN_0044b4b0()
     p = &DAT_01017458;
 }
 
-int __cdecl FinishScriptRunLock(void*);
 struct FUN_0044b730_Class
 {
     int* p;
+    char pad04[0x18 - 0x4];
+    long m_lLock;
     void FUN_0044b730();
 };
 // @fnv 0x0044b730
 void FUN_0044b730_Class::FUN_0044b730()
 {
-    FinishScriptRunLock((char*)this + 0x18);
+    ::WaitForSingleObjectEx(&m_lLock);
 }
 
-extern int __cdecl InitScriptRunLock(void*);
 
 struct FUN_0044bbc0_Class
 {
+    char pad00[0x18];
+    unsigned int m_uiLock;
     void FUN_0044bbc0();
 };
 
 // @fnv 0x0044bbc0
 void FUN_0044bbc0_Class::FUN_0044bbc0()
 {
-    InitScriptRunLock((char*)this + 0x18);
+    ::FUN_0040b460(&m_uiLock);
 }
 
 struct FUN_0044c1c0_Class
 {
-    bool __thiscall IsGreaterOrEqual(unsigned int a, unsigned int b);
+    bool IsGreaterOrEqual(unsigned int a, unsigned int b);
 };
 
 // @fnv 0x0044c1c0
-bool __thiscall FUN_0044c1c0_Class::IsGreaterOrEqual(unsigned int auiValue, unsigned int auiThreshold)
+bool FUN_0044c1c0_Class::IsGreaterOrEqual(unsigned int auiValue, unsigned int auiThreshold)
 {
     return auiValue >= auiThreshold;
 }
 
+struct FUN_0044f220_Node;
 struct FUN_0044f200_Class
 {
     int* p;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    FUN_0044f220_Node* m_pHead;
+    int m_iArrayLength;
     void FUN_0044f200();
     void FilterListByQueueData();
 };
@@ -61,14 +93,14 @@ struct FUN_0044f200_Class
 // @fnv 0x0044f200
 void FUN_0044f200_Class::FUN_0044f200()
 {
-    while (reinterpret_cast<int*>(this)[8])
+    while (m_iArrayLength)
         FilterListByQueueData();
 }
 
 struct RecursiveSpinLock
 {
-    void __thiscall Lock(const char*);
-    void __thiscall Unlock();
+public:
+    void FUN_0040fba0();
 };
 struct FUN_0044bd60_Class
 {
@@ -81,20 +113,9 @@ struct FUN_0044bd60_Class
     void* s;
     void* t;
     RecursiveSpinLock lock;
-    void* __thiscall FUN_00449f80(int* a, void* b);
-    bool __thiscall FUN_0044bd60(void* a, void* b);
+    void* FUN_00449f80();
+    bool FUN_0044bd60(void* a, void* b);
 };
-bool __fastcall LookupBucket(void*);
-// Locks the object's lock, calls FUN_00449f80 with a and b, passes the result to LookupBucket, unlocks, and returns that bool.
-// @fnv 0x0044bd60
-bool __thiscall FUN_0044bd60_Class::FUN_0044bd60(void* a, void* b)
-{
-    lock.Lock(0);
-    bool r = LookupBucket(FUN_00449f80((int*)a, b));
-    lock.Unlock();
-    return r;
-}
-
 struct AutoMemHelper
 {
     int m;
@@ -135,11 +156,10 @@ template <class T> class ThreadInterfaceManager
     unsigned int unk0C;
     ThreadInterfaceManager(unsigned int);
 };
-extern const char _kThreadSafeStructuresSourceFile[];
 
 struct FUN_0044c920 : InterfacedClass
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -154,18 +174,18 @@ struct FUN_0044c920 : InterfacedClass
 // @fnv 0x0044c920
 FUN_0044c920::FUN_0044c920(unsigned int auiSlotCount, unsigned int auiBucketCount, int aiParam)
 {
-    AutoMemHelper mem(6, true, _kThreadSafeStructuresSourceFile, 0x390);
+    AutoMemHelper mem(6, true, ::kThreadSafeStructuresSourceFile, 0x390);
     m_iArrayLength = 0;
     m_uiBuckets = auiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new unsigned int[auiSlotCount * 3];
+    m_pSlots = new std::uintptr_t[auiSlotCount * 3];
     m_iParam = aiParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(auiSlotCount);
 }
 
 struct FUN_0044c760_class : InterfacedClass
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -182,21 +202,20 @@ struct FUN_0044c760_class : InterfacedClass
 FUN_0044c760_class::FUN_0044c760_class(unsigned int auiSlotCount, unsigned int auiBucketCount, unsigned int aiParam)
     : InterfacedClass()
 {
-    AutoMemHelper autoMemHelper(6, true, _kThreadSafeStructuresSourceFile, 0x390);
+    AutoMemHelper autoMemHelper(6, true, ::kThreadSafeStructuresSourceFile, 0x390);
 
     m_iArrayLength = 0;
     m_uiBuckets = auiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new unsigned int[3 * auiSlotCount];
+    m_pSlots = new std::uintptr_t[3 * auiSlotCount];
     m_iParam = aiParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(auiSlotCount);
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_006ec660 : InterfacedClass
 {
-    int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -212,12 +231,12 @@ struct FUN_006ec660 : InterfacedClass
 // @fnv 0x006ec660
 FUN_006ec660::FUN_006ec660(unsigned int auiSlotCount, unsigned int auiBucketCount, int aiParam)
 {
-    AutoMemHelper memHelper(6, true, _kThreadSafeStructuresSourceFile, 0x390);
+    AutoMemHelper memHelper(6, true, ::kThreadSafeStructuresSourceFile, 0x390);
 
     m_iArrayLength = 0;
     m_uiBuckets = auiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new int[auiSlotCount * 3];
+    m_pSlots = new std::uintptr_t[auiSlotCount * 3];
     m_iParam = aiParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(auiSlotCount);
 }
@@ -243,14 +262,12 @@ template <> class LockFreeQueue<NiPointer<QueuedReference> >
 
 typedef LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag FUN_0044b500_LockFreeQueueInterface;
 
-template <> ThreadInterfaceManager<FUN_0044b500_LockFreeQueueInterface>::ThreadInterfaceManager(unsigned int);
-
 struct FUN_0044b500 : public InterfacedClass
 {
     LockFreeQueue<NiPointer<QueuedReference> >::LockFreeQueueEntry* m_pHead;
     LockFreeQueue<NiPointer<QueuedReference> >::LockFreeQueueEntry* m_pTail;
     void* m_pIntegerData;
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     ThreadInterfaceManager<FUN_0044b500_LockFreeQueueInterface>* m_pManager;
     int m_iArrayLength;
     int unk1C;
@@ -262,13 +279,13 @@ struct FUN_0044b500 : public InterfacedClass
 // @fnv 0x0044b500
 FUN_0044b500::FUN_0044b500(unsigned int numBuckets, void* value)
 {
-    AutoMemHelper autoMemHelper(6, true, _kThreadSafeStructuresSourceFile, 0xfd);
+    AutoMemHelper autoMemHelper(6, true, ::kThreadSafeStructuresSourceFile, 0xfd);
 
     m_iArrayLength = 0;
     m_pHead = new LockFreeQueue<NiPointer<QueuedReference> >::LockFreeQueueEntry;
     m_pTail = m_pHead;
     m_pIntegerData = value;
-    m_pSlots = new unsigned int[numBuckets * 2];
+    m_pSlots = new std::uintptr_t[numBuckets * 2];
     m_pManager = new ThreadInterfaceManager<FUN_0044b500_LockFreeQueueInterface>(numBuckets);
 }
 
@@ -277,7 +294,7 @@ extern int DAT_0108864c;
 struct FUN_00906160
 {
     InterfacedClass m_interface;
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -292,23 +309,21 @@ struct FUN_00906160
 // @fnv 0x00906160
 FUN_00906160::FUN_00906160(int a, unsigned int auiBucketCount, int aiParam)
 {
-    reinterpret_cast<int*>(this)[0] = reinterpret_cast<int>(&DAT_0108864c);
-    reinterpret_cast<SL*>(m_kNode)->SL::SL();
+    *reinterpret_cast<void**>(&m_interface) = &DAT_0108864c;
+    new ((void *)(reinterpret_cast<SL*>(m_kNode))) ::fnv_00722f60::SL();
 
-    AutoMemHelper helper(6, true, _kThreadSafeStructuresSourceFile, 0x390);
+    AutoMemHelper helper(6, true, ::kThreadSafeStructuresSourceFile, 0x390);
 
     m_iArrayLength = 0;
     m_uiBuckets = auiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new unsigned int[a * 3];
+    m_pSlots = new std::uintptr_t[a * 3];
     m_iParam = aiParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(a);
 }
 
 struct Item
 {
-    bool FUN_0044e550();
-    bool FindEntry();
     bool FUN_00528bb0();
 };
 struct Iteration
@@ -316,72 +331,18 @@ struct Iteration
     int unk00;
     unsigned int index;
     unsigned int value;
-    bool FUN_006ebde0();
-    bool IsFlagSet();
-    void FUN_0044de40(bool);
-    void FUN_0044de80(bool);
 };
 struct FUN_0044b8d0_Class
 {
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    void* vfptr;
+    std::uintptr_t* m_pSlots;
+    unsigned int m_uiBuckets;
+    int unk0c, unk10, unk14, unk18, unk1c;
     RecursiveSpinLock lock;
-    Item* FUN_00449f80(unsigned int, unsigned int*, unsigned int);
+    Item* FUN_00449f80();
     Item* FUN_00449f80(unsigned int);
-    unsigned int FUN_0044ddc0();
-    bool ProcessIteration(Iteration*, unsigned int*, unsigned int, bool);
+    bool ProcessIteration(Iteration*, unsigned int*, std::intptr_t, bool);
 };
-// Locks, walks the iteration to find a matching item via FUN_00449f80, stores its value in result, and returns whether the item passes FUN_00528bb0.
-// @fnv 0x0044b8d0
-bool FUN_0044b8d0_Class::ProcessIteration(Iteration* pIteration, unsigned int* puiResult, unsigned int extra,
-                                          bool retry)
-{
-    lock.Lock(0);
-    bool success = false;
-    if (pIteration->FUN_006ebde0())
-    {
-        success = false;
-    }
-    else
-    {
-        while (true)
-        {
-            if (!pIteration->IsFlagSet())
-            {
-                success = FUN_00449f80(pIteration->index, &pIteration->value, extra)->FUN_0044e550();
-                pIteration->FUN_0044de40(true);
-            }
-            else
-            {
-                success = FUN_00449f80(pIteration->index, &pIteration->value, extra)->FindEntry();
-            }
-            if (!success)
-            {
-                pIteration->index++;
-                if (pIteration->index >= FUN_0044ddc0())
-                {
-                    pIteration->FUN_0044de80(true);
-                }
-                else if (retry)
-                {
-                    pIteration->FUN_0044de40(false);
-                    continue;
-                }
-            }
-            else
-            {
-                *puiResult = pIteration->value;
-            }
-            break;
-        }
-    }
-    if (success)
-    {
-        success = FUN_00449f80(*puiResult)->FUN_00528bb0();
-    }
-    lock.Unlock();
-    return success;
-}
-
 struct FUN_0044c000_Target
 {
     virtual void v00() = 0;
@@ -393,27 +354,26 @@ struct FUN_0044c000_Target
     virtual void v06() = 0;
     virtual void v07() = 0;
     virtual void v08() = 0;
-    virtual int v09(unsigned int a, unsigned int b, unsigned int c, unsigned int d) = 0;
+    virtual int v09(unsigned int uiKey) = 0;
 };
 
 struct FUN_0044c000_cls
 {
     FUN_0044c000_Target* m_00;
 
-    void InsertOrReplace(int x);
-    void FUN_0044c000(unsigned int a, unsigned int b, unsigned char c);
+    void FUN_0044c000(unsigned int uiKey, const QHeadPtr& rValue, unsigned char ucReplace);
 };
 
-// Calls v09 on m_00 with a, a, b, c and passes the result to InsertOrReplace.
+// Hashes uiKey with m_00's virtual 9 and inserts rValue under it, replacing an existing value when ucReplace is set.
 // @fnv 0x0044c000
-void FUN_0044c000_cls::FUN_0044c000(unsigned int uiValue, unsigned int b, unsigned char c)
+void FUN_0044c000_cls::FUN_0044c000(unsigned int uiKey, const QHeadPtr& rValue, unsigned char ucReplace)
 {
-    InsertOrReplace(m_00->v09(uiValue, uiValue, b, c));
+    reinterpret_cast<::TSMap *>(this)->InsertOrReplace(uiKey, m_00->v09(uiKey), rValue, ucReplace);
 }
 
 struct FUN_0044c270 : InterfacedClass
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -429,11 +389,11 @@ struct FUN_0044c270 : InterfacedClass
 // @fnv 0x0044c270
 FUN_0044c270::FUN_0044c270(unsigned int a, unsigned int auiBucketCount, int aiParam)
 {
-    AutoMemHelper mem(6, true, _kThreadSafeStructuresSourceFile, 0x390);
+    AutoMemHelper mem(6, true, ::kThreadSafeStructuresSourceFile, 0x390);
     m_iArrayLength = 0;
     m_uiBuckets = auiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new unsigned int[a * 3];
+    m_pSlots = new std::uintptr_t[a * 3];
     m_iParam = aiParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(a);
 }
@@ -452,28 +412,13 @@ struct FUN_0044c3f0 : BaseInterface
     void* first;
     void* unused;
     void* second;
-    void FUN_0044c480(int flag);
     ~FUN_0044c3f0();
 };
-// Calls FUN_0044c480(1), then frees the second and first pointers with operator delete.
-// @fnv 0x0044c3f0
-FUN_0044c3f0::~FUN_0044c3f0()
-{
-    FUN_0044c480(1);
-    void* savedSecond = second;
-    ::operator delete(savedSecond);
-    void* savedFirst = first;
-    ::operator delete(savedFirst);
-}
-
-extern const char _kThreadSafeStructuresSourceFile[];
 
 struct TSNode;
 struct TSNodePtr
 {
     TSNode* p;
-    TSNode* Get();
-    void Clear();
 };
 struct TSNode
 {
@@ -489,13 +434,12 @@ struct TSManager
     unsigned int unk0C;
     TSManager(unsigned int);
     ~TSManager();
-    unsigned int GetParam();
 };
 
 struct TSHashTable
 {
     void* vtbl;
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     TSNodePtr* m_pBuckets;
     int m_iParam;
@@ -504,116 +448,42 @@ struct TSHashTable
     int unk1C;
     RecursiveSpinLock m_lock;
 
-    void FreeNode(TSNode* node);
     void FUN_0044c480(bool bNoRecreate);
 };
-
-// Locks the table, deletes m_pManager, frees every bucket node, and unless bNoRecreate recreates m_pManager with the saved param, then unlocks.
-// @fnv 0x0044c480
-void TSHashTable::FUN_0044c480(bool bNoRecreate)
+// Calls FUN_0044c480(1), then frees the second and first pointers with operator delete.
+// @fnv 0x0044c3f0
+FUN_0044c3f0::~FUN_0044c3f0()
 {
-    AutoMemHelper memContext2(6, true, _kThreadSafeStructuresSourceFile, 0x42c);
-    if (m_pManager == 0)
-        return;
-    m_lock.Lock(0);
-    unsigned int aParam = m_pManager->GetParam();
-    delete m_pManager;
-    m_pManager = 0;
-    m_iArrayLength = 0;
-    for (unsigned int i = 0; i < m_uiBuckets; i++)
-    {
-        TSNode* pNode = m_pBuckets[i].Get();
-        m_pBuckets[i].Clear();
-        while (pNode)
-        {
-            TSNode* next = pNode->m_next.Get();
-            pNode->m_next.Clear();
-            pNode->unk04 = 0;
-            FreeNode(pNode);
-            pNode = next;
-        }
-    }
-    if (!bNoRecreate)
-        m_pManager = new TSManager(aParam);
-    m_lock.Unlock();
+    reinterpret_cast<::TSHashTable *>(this)->FUN_0044c480(1);
+    void* savedSecond = second;
+    ::FUN_00401030(savedSecond);
+    void* savedFirst = first;
+    ::FUN_00401030(savedFirst);
 }
 
 struct QueueEntry44c640
 {
-    bool TryA();
-    bool TryB();
 };
 struct QueueIter44c640
 {
     int unk00;
     unsigned int uiIndex;
     void* pItem;
-    bool IsDone();
-    bool IsAlt();
-    void SetVisible(bool);
-    void SetFinished(bool);
 };
 struct Queue44c640
 {
-    void* unk00;
-    void* unk04;
-    void* unk08;
+    void* vfptr;
+    std::uintptr_t* m_pSlots;
+    unsigned int m_uiBuckets;
     void* unk0C;
     void* unk10;
     void* unk14;
     void* unk18;
     void* unk1C;
     RecursiveSpinLock lock;
-    QueueEntry44c640* GetEntry(unsigned int idx, void** item, int param);
-    unsigned int GetCount();
-    bool TryGetNextEntry(QueueIter44c640* iter, void** out, int param, bool repeat);
+    QueueEntry44c640* GetEntry();
+    bool TryGetNextEntry(QueueIter44c640* iter, void** out, std::intptr_t param, bool repeat);
 };
-
-// @fnv 0x0044c640
-bool Queue44c640::TryGetNextEntry(QueueIter44c640* iter, void** out, int param, bool repeat)
-{
-    lock.Lock(0);
-    bool result = false;
-    if (iter->IsDone())
-    {
-        result = false;
-    }
-    else
-    {
-        while (1)
-        {
-            if (!iter->IsAlt())
-            {
-                result = GetEntry(iter->uiIndex, &iter->pItem, param)->TryA();
-                iter->SetVisible(true);
-            }
-            else
-            {
-                result = GetEntry(iter->uiIndex, &iter->pItem, param)->TryB();
-            }
-            if (!result)
-            {
-                iter->uiIndex++;
-                if (iter->uiIndex >= GetCount())
-                {
-                    iter->SetFinished(true);
-                }
-                else if (repeat)
-                {
-                    iter->SetVisible(false);
-                    continue;
-                }
-            }
-            else
-            {
-                *out = iter->pItem;
-            }
-            break;
-        }
-    }
-    lock.Unlock();
-    return result;
-}
 
 class C44C8E0Hasher
 {
@@ -627,7 +497,7 @@ class C44C8E0Hasher
     virtual void vfunc06();
     virtual void vfunc07();
     virtual void vfunc08();
-    virtual unsigned int Hash(int iKey, int iKeyAgain, int iSize);
+    virtual unsigned int Hash(int iKey);
 };
 
 class C44C8E0Map
@@ -635,18 +505,25 @@ class C44C8E0Map
   public:
     C44C8E0Hasher* m_pkHasher;
 
-    int GetBucket(unsigned int uiHash);
-    int LookupBucket(int iKey, int iSize);
+    int LookupBucket(int iKey, C44D510Pointer& spResult);
 };
-
-// Computes the hash of iKey with the map's hasher and returns the bucket index for that hash.
-// @fnv 0x0044c8e0
-int C44C8E0Map::LookupBucket(int iKey, int iSize)
+// Locks the object's lock, looks up key a in the map FUN_00449f80 returns (the value goes to b), unlocks, and returns whether it was found.
+// @fnv 0x0044bd60
+bool FUN_0044bd60_Class::FUN_0044bd60(void* a, void* b)
 {
-    return GetBucket(m_pkHasher->Hash(iKey, iKey, iSize));
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
+    bool r = ((bool)(reinterpret_cast<::C44C8E0Map *>((FUN_00449f80()))->LookupBucket(static_cast<int>(reinterpret_cast<std::intptr_t>(a)), *static_cast<::C44D510Pointer *>(b))));
+    reinterpret_cast<::RecursiveSpinLock *>(&(lock))->FUN_0040fba0();
+    return r;
 }
 
-void __cdecl FUN_00401030(void* apMemory);
+// Hashes iKey with the map's hasher and looks it up, copying the value into spResult; returns whether it was found.
+// @fnv 0x0044c8e0
+int C44C8E0Map::LookupBucket(int iKey, C44D510Pointer& spResult)
+{
+    return ((int)(reinterpret_cast<::C44D510Cache *>(this)->LookupAndUnlock(iKey, m_pkHasher->Hash(iKey), spResult)));
+}
+
 
 struct CleanupBaseDtor
 {
@@ -656,11 +533,9 @@ struct CleanupBaseDtor
 
 struct FUN_0044cae0_cls : CleanupBaseDtor
 {
-    int m_04;
-    int unk08;
-    int m_0c;
-
-    void Shutdown(int aFlag);
+    std::uintptr_t* m_pSlots;
+    unsigned int m_uiBuckets;
+    void* m_pBuckets;
 
     ~FUN_0044cae0_cls();
 };
@@ -668,11 +543,9 @@ struct FUN_0044cae0_cls : CleanupBaseDtor
 // @fnv 0x0044cae0
 FUN_0044cae0_cls::~FUN_0044cae0_cls()
 {
-    Shutdown(1);
-    void* pC_ = (void*)m_0c;
-    FUN_00401030(pC_);
-    void* p4 = (void*)m_04;
-    FUN_00401030(p4);
+    reinterpret_cast<::TSHashTable *>(this)->FUN_0044c480(1);
+    FUN_00401030(m_pBuckets);
+    FUN_00401030(m_pSlots);
 }
 
 struct Dispatch
@@ -690,7 +563,35 @@ struct Dispatch
     virtual void Slot0A(unsigned int value);
     void FUN_0044dde0(unsigned int* argument);
 };
-void __cdecl FUN_00401030(void* object);
+// Locks the table, deletes m_pManager, frees every bucket node, and unless bNoRecreate recreates m_pManager with the saved param, then unlocks.
+// @fnv 0x0044c480
+void TSHashTable::FUN_0044c480(bool bNoRecreate)
+{
+    AutoMemHelper memContext2(6, true, ::kThreadSafeStructuresSourceFile, 0x42c);
+    if (m_pManager == 0)
+        return;
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_lock))->FUN_0040fbf0((char *)(0));
+    unsigned int aParam = ((unsigned int)(::FUN_00559450((int *)(m_pManager))));
+    delete m_pManager;
+    m_pManager = 0;
+    m_iArrayLength = 0;
+    for (unsigned int i = 0; i < m_uiBuckets; i++)
+    {
+        TSNode* pNode = ((::TSNode *)(::ClearLowBit(&(m_pBuckets[i]))));
+        reinterpret_cast<::FUN_006665a0_shell *>(&(m_pBuckets[i]))->FUN_006665a0();
+        while (pNode)
+        {
+            TSNode* next = ((::TSNode *)(::ClearLowBit(&(pNode->m_next))));
+            reinterpret_cast<::FUN_006665a0_shell *>(&(pNode->m_next))->FUN_006665a0();
+            pNode->unk04 = 0;
+            reinterpret_cast<::Dispatch *>(this)->FUN_0044dde0((unsigned int *)(pNode));
+            pNode = next;
+        }
+    }
+    if (!bNoRecreate)
+        m_pManager = new TSManager(aParam);
+    reinterpret_cast<::RecursiveSpinLock *>(&(m_lock))->FUN_0040fba0();
+}
 // Calls Slot0A with the value pointed to by argument, then passes argument to FUN_00401030.
 // @fnv 0x0044dde0
 void Dispatch::FUN_0044dde0(unsigned int* puiValue)
@@ -708,6 +609,102 @@ struct FUN_0044de20_cls
     unsigned char unk0C;
     bool IsFlagSet();
 };
+// Locks, walks the iteration to find a matching item via FUN_00449f80, stores its value in result, and returns whether the item passes FUN_00528bb0.
+// @fnv 0x0044b8d0
+bool FUN_0044b8d0_Class::ProcessIteration(Iteration* pIteration, unsigned int* puiResult, std::intptr_t extra,
+                                          bool retry)
+{
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
+    bool success = false;
+    if (reinterpret_cast<::FUN_006ebde0_shell *>((pIteration))->FUN_006ebde0())
+    {
+        success = false;
+    }
+    else
+    {
+        while (true)
+        {
+            if (!reinterpret_cast<::FUN_0044de20_cls *>((pIteration))->IsFlagSet())
+            {
+                success = reinterpret_cast<::Owner_44e550 *>((FUN_00449f80()))->FUN_0044e550(pIteration->index, (int *)&pIteration->value, reinterpret_cast<::QHeadPtrDest_44e550 *>(extra));
+                reinterpret_cast<::MapMarkerData *>((pIteration))->SetVisible(true);
+            }
+            else
+            {
+                success = reinterpret_cast<::Queue_44e680 *>((FUN_00449f80()))->FindEntry(pIteration->index, (int *)&pIteration->value, reinterpret_cast<::Ptr_44e680 *>(extra));
+            }
+            if (!success)
+            {
+                pIteration->index++;
+                if (pIteration->index >= m_uiBuckets)
+                {
+                    reinterpret_cast<::MapMarkerData *>((pIteration))->SetTravelLocation(true);
+                }
+                else if (retry)
+                {
+                    reinterpret_cast<::MapMarkerData *>((pIteration))->SetVisible(false);
+                    continue;
+                }
+            }
+            else
+            {
+                *puiResult = pIteration->value;
+            }
+            break;
+        }
+    }
+    if (success)
+    {
+        success = FUN_00449f80(*puiResult)->FUN_00528bb0();
+    }
+    reinterpret_cast<::RecursiveSpinLock *>(&(lock))->FUN_0040fba0();
+    return success;
+}
+// @fnv 0x0044c640
+bool Queue44c640::TryGetNextEntry(QueueIter44c640* iter, void** out, std::intptr_t param, bool repeat)
+{
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
+    bool result = false;
+    if (reinterpret_cast<::FUN_006ebde0_shell *>((iter))->FUN_006ebde0())
+    {
+        result = false;
+    }
+    else
+    {
+        while (1)
+        {
+            if (!reinterpret_cast<::FUN_0044de20_cls *>((iter))->IsFlagSet())
+            {
+                result = reinterpret_cast<::Walker_44ea60 *>((GetEntry()))->FindAndProcessNode(iter->uiIndex, (int *)&iter->pItem, reinterpret_cast<int *>(param));
+                reinterpret_cast<::MapMarkerData *>((iter))->SetVisible(true);
+            }
+            else
+            {
+                result = reinterpret_cast<::FUN_006ec9b0_Class *>((GetEntry()))->FUN_0044eb80(iter->uiIndex, (int *)&iter->pItem, reinterpret_cast<int *>(param));
+            }
+            if (!result)
+            {
+                iter->uiIndex++;
+                if (iter->uiIndex >= m_uiBuckets)
+                {
+                    reinterpret_cast<::MapMarkerData *>((iter))->SetTravelLocation(true);
+                }
+                else if (repeat)
+                {
+                    reinterpret_cast<::MapMarkerData *>((iter))->SetVisible(false);
+                    continue;
+                }
+            }
+            else
+            {
+                *out = iter->pItem;
+            }
+            break;
+        }
+    }
+    reinterpret_cast<::RecursiveSpinLock *>(&(lock))->FUN_0040fba0();
+    return result;
+}
 // @fnv 0x0044de20
 bool FUN_0044de20_cls::IsFlagSet()
 {
@@ -716,37 +713,35 @@ bool FUN_0044de20_cls::IsFlagSet()
 
 struct FUN_006661e0 : InterfacedClass
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
-    void FUN_0044c480(int flag);
     ~FUN_006661e0();
 };
 // Calls FUN_0044c480(1), then deletes m_pBuckets and m_pSlots.
 // @fnv 0x006661e0
 FUN_006661e0::~FUN_006661e0()
 {
-    FUN_0044c480(1);
+    reinterpret_cast<::TSHashTable *>(this)->FUN_0044c480(1);
     delete m_pBuckets;
     delete m_pSlots;
 }
 
 struct FUN_006ec870 : InterfacedClass
 {
-    int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
 
-    void __thiscall FUN_0044c480(int value);
     ~FUN_006ec870();
 };
 
 // @fnv 0x006ec870
 FUN_006ec870::~FUN_006ec870()
 {
-    FUN_0044c480(1);
+    reinterpret_cast<::TSHashTable *>(this)->FUN_0044c480(1);
     delete m_pBuckets;
     delete m_pSlots;
 }
@@ -795,54 +790,42 @@ Iterator44B* Container44B::CreateBucketIterator(int iBucketIndex)
     return new Iterator44B(this, &m_ppvBuckets[iBucketIndex * 2], &m_ppvBuckets[iBucketIndex * 2 + 1]);
 }
 
-void* __cdecl FUN_00401460(void*, const void*, unsigned int);
 
 struct FUN_0044f220_Queue
 {
     void* vtable;
     void* m_pData;
-    int __thiscall FUN_0044f3e0();
-    void __thiscall FUN_0044dde0(void*);
+    int FUN_0044f3e0();
 };
 
 struct FUN_0044f220_Node
 {
     int unk00;
     int unk04;
-    FUN_0044f220_Node* __thiscall FUN_00726070();
-    void __thiscall FUN_006ecd40(void*);
 };
 
 struct FUN_0044f220_Class : FUN_0044f200_Class
 {
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    FUN_0044f220_Node* m_pHead;
-    int m_iArrayLength;
 };
 
 // Copies the queue's data into a temporary array, keeps only list nodes whose address appears in it, relinks them, and stores the kept count.
 // @fnv 0x0044f220
 void FUN_0044f200_Class::FilterListByQueueData()
 {
-    AutoMemHelper guard5(6, true, _kThreadSafeStructuresSourceFile, 0x362);
+    AutoMemHelper guard5(6, true, ::kThreadSafeStructuresSourceFile, 0x362);
     int numSlots = ((FUN_0044f220_Queue*)p)->FUN_0044f3e0() * 3;
-    unsigned int* pArray = new unsigned int[numSlots];
-    FUN_00401460(pArray, ((FUN_0044f220_Queue*)p)->m_pData, numSlots * 4);
+    std::uintptr_t* pArray = new std::uintptr_t[numSlots];
+    ::__memcpy(pArray, ((FUN_0044f220_Queue*)p)->m_pData, numSlots * sizeof(std::uintptr_t));
     FUN_0044f220_Node* pTail = 0;
     int iCount2 = 0;
     while (((FUN_0044f220_Class*)this)->m_pHead != 0)
     {
         FUN_0044f220_Node* pEntry2 = ((FUN_0044f220_Class*)this)->m_pHead;
-        ((FUN_0044f220_Class*)this)->m_pHead = ((FUN_0044f220_Class*)this)->m_pHead->FUN_00726070();
+        ((FUN_0044f220_Class*)this)->m_pHead = ((::FUN_0044f220_Node *)(reinterpret_cast<::Callees *>((((FUN_0044f220_Class*)this)->m_pHead))->FUN_00726070()));
         bool found4 = false;
         for (unsigned int i2 = 0; i2 < (unsigned int)numSlots; ++i2)
         {
-            if ((unsigned int)pEntry2 == pArray[i2])
+            if (reinterpret_cast<std::uintptr_t>(pEntry2) == pArray[i2])
             {
                 found4 = true;
                 break;
@@ -850,14 +833,14 @@ void FUN_0044f200_Class::FilterListByQueueData()
         }
         if (found4)
         {
-            pEntry2->FUN_006ecd40(pTail);
+            reinterpret_cast<::CombatProcedure *>((pEntry2))->Initialize((::CombatController *)(pTail));
             pTail = pEntry2;
             ++iCount2;
         }
         else
         {
-            pEntry2->FUN_006ecd40(0);
-            ((FUN_0044f220_Queue*)p)->FUN_0044dde0(pEntry2);
+            reinterpret_cast<::CombatProcedure *>((pEntry2))->Initialize((::CombatController *)(void *)(0));
+            reinterpret_cast<::Dispatch *>((((FUN_0044f220_Queue*)p)))->FUN_0044dde0((unsigned int *)(pEntry2));
         }
     }
     delete[] pArray;
@@ -867,7 +850,7 @@ void FUN_0044f200_Class::FilterListByQueueData()
 
 struct FUN_00665cb0 : InterfacedClass
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -883,11 +866,11 @@ struct FUN_00665cb0 : InterfacedClass
 // @fnv 0x00665cb0
 FUN_00665cb0::FUN_00665cb0(unsigned int a, unsigned int uiBucketCount, int iParam)
 {
-    AutoMemHelper mem(6, true, _kThreadSafeStructuresSourceFile, 0x390);
+    AutoMemHelper mem(6, true, ::kThreadSafeStructuresSourceFile, 0x390);
     m_iArrayLength = 0;
     m_uiBuckets = uiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new unsigned int[a * 3];
+    m_pSlots = new std::uintptr_t[a * 3];
     m_iParam = iParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(a);
 }
@@ -899,18 +882,19 @@ struct HashBase44c1e0
 };
 struct HashMap44c1e0 : HashBase44c1e0
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
-    void FUN_0044c480(int flag);
     ~HashMap44c1e0();
 };
 // Destructor that calls FUN_0044c480(1) and deletes m_pBuckets and m_pSlots.
 // @fnv 0x0044c1e0
 HashMap44c1e0::~HashMap44c1e0()
 {
-    FUN_0044c480(1);
+    reinterpret_cast<::TSHashTable *>(this)->FUN_0044c480(1);
     delete m_pBuckets;
     delete m_pSlots;
 }
+
+#include "generated/data/unmapped/threadsafestructures.inc"

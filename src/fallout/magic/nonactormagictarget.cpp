@@ -1,5 +1,9 @@
 // fallout/magic/nonactormagictarget.cpp: NonActorMagicTarget (6 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
 #include "MagicTarget.h"
 
 class NonActorMagicTarget : public MagicTarget
@@ -16,29 +20,16 @@ BSSimpleList<ActiveEffect*>* NonActorMagicTarget::GetActiveEffectList()
     return &m_kActiveEffects;
 }
 
-void _Deallocate(void*);
 struct FUN_00825f30_shell
 {
-    void FUN_00825f60();
     void* DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_00825f60, then deallocates this if bit 0 of flags is set, and returns this.
-// @fnv 0x00825f30
-void* FUN_00825f30_shell::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_00825f60();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct Shell : NonActorMagicTarget
 {
     bool FUN_00826060(MagicCaster* apCaster, MagicItem* apSpell, ActiveEffect* apActiveEffect, bool abAreaTarget);
 };
 struct Hack
 {
-    void UpdateActiveEffects(float);
 };
 // @fnv 0x00826060
 bool Shell::FUN_00826060(MagicCaster* apCaster, MagicItem* apSpell, ActiveEffect* apActiveEffect, bool abAreaTarget)
@@ -46,7 +37,7 @@ bool Shell::FUN_00826060(MagicCaster* apCaster, MagicItem* apSpell, ActiveEffect
     bool bresult;
     bresult = MagicTarget::AddEffectToTarget(apCaster, apSpell, apActiveEffect, abAreaTarget);
     if (bresult)
-        ((Hack*)this)->UpdateActiveEffects(1.0F);
+        reinterpret_cast<::MagicTarget *>((((Hack*)this)))->UpdateActiveEffects(1.0F);
     return bresult;
 }
 
@@ -80,6 +71,15 @@ struct FUN_00825f60_cls : SBase_cls
     Sub20_cls m_20;
     ~FUN_00825f60_cls();
 };
+// Calls FUN_00825f60, then deallocates this if bit 0 of flags is set, and returns this.
+// @fnv 0x00825f30
+void* FUN_00825f30_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00825f60_cls *>(this)->FUN_00825f60_cls::~FUN_00825f60_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor for FUN_00825f60_cls; the body is empty, member destructors run implicitly.
 // @fnv 0x00825f60

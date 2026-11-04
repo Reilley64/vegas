@@ -2,6 +2,11 @@
 // src/havok/physics/dynamics/entity/util/hkpentitycallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/util/hkpentitycallbackutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
+#include "fnv/decl/FUN_00c9c860_Shell.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01268000.h"
 struct CFF9B0SmallArray
 {
     void** m_data;
@@ -36,8 +41,6 @@ void CFF9B0CleanupListeners(CFF9B0SmallArray* a, CFF9B0SmallArray* b)
 
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 class ContactPointEvent;
 class ContactPointListener
 {
@@ -247,8 +250,6 @@ void __cdecl FUN_00cfff00(World833* world, ContactPointEvent* event)
 namespace fnv_00d00060 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 class ContactPointEvent;
 class ContactPointListener
 {
@@ -426,7 +427,7 @@ __forceinline void CaptureTicks833(volatile unsigned int& ticks)
 }
 __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 {
-    Stream833* stream = static_cast<Stream833*>(TlsGetValue(DAT_0126835c));
+    Stream833* stream = static_cast<Stream833*>(TlsGetValue(::DAT_0126835c));
     Timer833* command = stream->end;
     if (command < stream->capacityEnd)
     {
@@ -458,7 +459,6 @@ void __cdecl FUN_00d00060(World833* world, ContactPointEvent* event)
 }
 }  // namespace fnv_00d00060
 
-extern unsigned long DAT_0126835c;
 
 struct StringCursor
 {
@@ -673,7 +673,6 @@ struct Class_00cffab0
     int unk210;
     Container_00cffab0* m_container214;
 
-    void UpdateNodeSlotIndices();
 };
 
 // Calls vfn2 on the container's listeners, then vfn4 / vfn6 on the other listener arrays until each is empty, with UpdateNodeSlotIndices in between.
@@ -702,7 +701,7 @@ void __cdecl FUN_00cffab0(Class_00cffab0* obj)
         timerEnd("Et");
     }
 
-    obj->UpdateNodeSlotIndices();
+    reinterpret_cast<::FUN_00c9c860_Shell *>((obj))->UpdateNodeSlotIndices();
 
     while (obj->m_arrayB4.m_iElementCount)
     {
@@ -747,11 +746,10 @@ struct CFFCF0MonitorStream
     }
 };
 
-extern DWORD g_CFFCF0TlsIndex;
 
 __forceinline CFFCF0MonitorStream& CFFCF0GetMonitorStream()
 {
-    return *(CFFCF0MonitorStream*)TlsGetValue(g_CFFCF0TlsIndex);
+    return *(CFFCF0MonitorStream*)TlsGetValue(::DAT_0126835c);
 }
 
 __forceinline void CFFCF0TimerBegin(const char* name, volatile unsigned int& ticks)
@@ -762,7 +760,7 @@ __forceinline void CFFCF0TimerBegin(const char* name, volatile unsigned int& tic
         CFFCF0TimerCommand* h = (CFFCF0TimerCommand*)mStream.m_kRayEnd;
         h->m_pCommandName = name;
         h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -796,8 +794,6 @@ struct CFFCF0Owner
     CFFCF0ListenerList* m_listenerList;
 };
 
-extern const char g_CFFCF0TimerBegin[];
-extern const char g_CFFCF0TimerEnd[];
 
 // Iterates the owner's listener list in reverse and invokes each non-null listener's callback, bracketing each call with timer begin/end markers.
 // @fnv 0x00cffcf0
@@ -813,7 +809,7 @@ void __cdecl FUN_00cffcf0(CFFCF0Owner* owner)
             {
                 CFFCF0TimerBegin(g_CFFCF0TimerBegin, ticks.m_pRayStart);
                 list->m_kListeners[i]->callback(owner);
-                CFFCF0TimerBegin(g_CFFCF0TimerEnd, ticks.m_kRayEnd);
+                CFFCF0TimerBegin(::DAT_010c41f8, ticks.m_kRayEnd);
             }
         }
     }
@@ -821,7 +817,6 @@ void __cdecl FUN_00cffcf0(CFFCF0Owner* owner)
 
 extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD DAT_0126835c;
 
 unsigned __int64 __cdecl __rdtsc(void);
 
@@ -928,7 +923,6 @@ void __cdecl InvokeMotionTypeCallbacks(TaskOwner* pOwner)
     }
 }
 
-extern DWORD DAT_0126835c;
 extern "C" void _ReadWriteBarrier(void);
 
 unsigned __int64 __cdecl __rdtsc(void);
@@ -1019,12 +1013,9 @@ void __cdecl DeleteCallbacks(ProfOwner* pOwner)
     }
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned long DAT_0126835c;
 extern char DAT_010cca44[];
-extern char DAT_010c41f8[];
 struct TimerEntry
 {
     const char* m_name;
@@ -1048,7 +1039,7 @@ static inline void TimerWriteV(const char* name, volatile unsigned int& t)
         _ReadWriteBarrier();
         t = (unsigned int)__rdtsc();
         h->m_uiCommandId = t;
-        s->m_cur = (char*)(h + 1);
+        s->m_cur = reinterpret_cast<char*>(h + 1);
     }
 }
 struct ContactListener
@@ -1138,7 +1129,6 @@ struct CEvent
     int unk0c;
     void* m_pOwnerObject;
 };
-extern unsigned int g_tcpTlsIndex;
 static void __declspec(noinline) FUN_00cff9b0(CFF9B0SmallArray& a);
 struct CManager
 {
@@ -1285,7 +1275,7 @@ void FUN_00d001c0(CManager* mgr, CEvent* ev)
             continue;
 
         {
-            CProfileTls* tls = (CProfileTls*)TlsGetValue(g_tcpTlsIndex);
+            CProfileTls* tls = (CProfileTls*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
             if (tls->m_cur < tls->m_kRayEnd)
             {
                 CProfileMarker* marker = tls->m_cur;
@@ -1300,7 +1290,7 @@ void FUN_00d001c0(CManager* mgr, CEvent* ev)
         ((CListener*)list->m_data[i])->m05(ev);
 
         {
-            CProfileTls* tls = (CProfileTls*)TlsGetValue(g_tcpTlsIndex);
+            CProfileTls* tls = (CProfileTls*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
             if (tls->m_cur < tls->m_kRayEnd)
             {
                 CProfileMarker* marker = tls->m_cur;
@@ -1317,7 +1307,6 @@ void FUN_00d001c0(CManager* mgr, CEvent* ev)
     FUN_00cff9b0(*list);
 }
 
-extern DWORD DAT_0126835c;
 // string literals used inline
 // (see below)
 
@@ -1420,7 +1409,6 @@ void __cdecl FUN_00cffa00(ProfOwner_cffa00* pOwner)
     }
 }
 
-extern DWORD DAT_0126835c;
 unsigned __int64 __cdecl __rdtsc(void);
 struct TraceTick
 {
@@ -1439,6 +1427,12 @@ struct ItemObj
     virtual void v00();
     virtual void v04(void* pParam);
 };
+// hkpEntity::m_contactListeners (an hkSmallArray at +0x200).
+struct EntityContactListenerFields
+{
+    char pad00[0x200];
+    char m_contactListeners[8];  // +0x200
+};
 struct ItemTable
 {
     ItemObj** m_ppItems;
@@ -1448,7 +1442,7 @@ struct ItemTable
 // @fnv 0x00cfffb0
 void __cdecl FUN_00cfffb0(void* apOwner, void* apParam)
 {
-    ItemTable* pItemTable = (ItemTable*)((char*)apOwner + 0x200);
+    ItemTable* pItemTable = reinterpret_cast<ItemTable*>(static_cast<EntityContactListenerFields*>(apOwner)->m_contactListeners);
     int i = (int)pItemTable->m_wCount - 1;
     TraceTick tEnter;
     TraceTick tExit;
@@ -1490,7 +1484,6 @@ void __cdecl FUN_00cfffb0(void* apOwner, void* apParam)
     FUN_00cff9b0(*(CFF9B0SmallArray*)pItemTable);
 }
 
-extern DWORD DAT_0126835c;
 extern LPVOID(WINAPI* DAT_00fdf044)(DWORD);
 unsigned __int64 __cdecl __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -1512,15 +1505,14 @@ class TaskObjV7
     virtual void v06(TaskContext* pContext);
 };
 extern const char str_010cca5c[];
-extern const char str_010c41f8[];
 typedef CFF9B0SmallArray TaskArray;
-// Stores pOwner in pContext, calls v06(pContext) on each non-null entry of the array at pOwner+0x200 in reverse with profiler records, then calls FUN_00cff9b0.
+// Stores pOwner in pContext, calls v06(pContext) on each non-null contact listener of pOwner in reverse with profiler records, then calls FUN_00cff9b0.
 // @fnv 0x00d00270
 void __cdecl FUN_00d00270(void* pOwner, TaskContext* pContext)
 {
     volatile DWORD t1;
     volatile DWORD* pEndTick = &t1;
-    TaskArray* pArr = (TaskArray*)((char*)pOwner + 0x200);
+    TaskArray* pArr = reinterpret_cast<TaskArray*>(static_cast<EntityContactListenerFields*>(pOwner)->m_contactListeners);
     pContext->m_pSharedOwner = pOwner;
     int i = (int)pArr->m_iElementCount - 1;
     if (i >= 0)
@@ -1546,7 +1538,7 @@ void __cdecl FUN_00d00270(void* pOwner, TaskContext* pContext)
                 cur = pBuf->m_pCur;
                 if (cur < pBuf->m_pRecordEnd)
                 {
-                    cur->m_pName = str_010c41f8;
+                    cur->m_pName = ::DAT_010c41f8;
                     _ReadWriteBarrier();
                     *pEndTick = (DWORD)__rdtsc();
                     cur->m_iTick = *pEndTick;
@@ -1559,3 +1551,5 @@ void __cdecl FUN_00d00270(void* pOwner, TaskContext* pContext)
     }
     FUN_00cff9b0(*pArr);
 }
+
+#include "generated/data/havok/physics/dynamics/entity/util/hkpentitycallbackutil.inc"

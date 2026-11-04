@@ -6,7 +6,6 @@
 #include "BaseFormComponent.h"
 class BGSIdleCollection;
 class TESIdleForm;
-#pragma pack(push, 4)
 class BGSIdleCollection : public BaseFormComponent
 {
   public:
@@ -20,7 +19,6 @@ class BGSIdleCollection : public BaseFormComponent
     void Load(TESFile* file);
     void InitializeComponent();
     void InitItem(TESForm* form);
-    void RemoveIdleEntry(unsigned int index);
     int GetPickType();
     // BGSIdleCollection
     // void __cdecl BGSIdleCollection::*()
@@ -46,10 +44,4 @@ class BGSIdleCollection : public BaseFormComponent
     // BGSIdleCollection& __cdecl BGSIdleCollection::*(const BGSIdleCollection&)
     // void* __cdecl BGSIdleCollection::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSIdleCollection) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSIdleCollection, m_ucIdleCount) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSIdleCollection, m_ucPickType) == 5);
-FNV_STATIC_ASSERT(offsetof(BGSIdleCollection, m_ppIdleForms) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSIdleCollection, m_fIdleChance) == 12);
 #endif

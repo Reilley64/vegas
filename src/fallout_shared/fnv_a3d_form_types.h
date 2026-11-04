@@ -3,7 +3,15 @@
 #define FNV_A3D_FORM_TYPES_H
 
 #include <stddef.h>
-#define FNV_ASSERT(name, expression) typedef char name[(expression) ? 1 : -1]
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
 class TESFile;
 class TESForm;
 class TESObjectREFR;
@@ -134,25 +142,13 @@ class TESForm : public BaseFormComponent
     TESForm();
     ENUM_FORM_ID GetFormType() const;
     static TESForm* CreateFormByType(ENUM_FORM_ID type);
-    static TESForm* GetFormByID(unsigned int formID);
     void SetFormFlags(int flags);
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
-    bool IsFormInitialized() const;
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    void ReadTypedData(TESFile* file, void* data, unsigned short size);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    bool GetInitialized() const;
+public:
+    void LoadGame(void *);
 };
-FNV_ASSERT(FormSize, sizeof(TESForm) == 0x18);
-FNV_ASSERT(FormIDOffset, offsetof(TESForm, iFormID) == 0x0c);
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* memory);
-void* __cdecl operator new[](unsigned int size);
-void __cdecl operator delete[](void* memory);
 #endif

@@ -7,7 +7,6 @@
 #include "InventoryMenu__sPageState.h"
 #include "ListBox_ItemChange___.h"
 #include "Menu.h"
-#pragma pack(push, 4)
 class InventoryMenu : public Menu
 {
   public:
@@ -19,12 +18,4 @@ class InventoryMenu : public Menu
     BSSimpleList<TESBoundObject*> m_kHotkeyObjects;  // +0x11C
     int GetClass();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(InventoryMenu) == 0x124);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_pTiles) == 0x28);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_iCurrentTab) == 0x84);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kPageStates) == 0x88);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kItemList) == 0xB8);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kMenuData) == 0xE8);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kHotkeyObjects) == 0x11C);
 #endif

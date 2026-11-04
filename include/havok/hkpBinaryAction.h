@@ -5,13 +5,10 @@
 #include "hkBase.h"
 #include "hkpAction.h"
 class hkpEntity;
-#pragma pack(push, 1)
 class hkpBinaryAction : public hkpAction
 {
   public:
     hkpEntity* m_pEntityA;  // +0x18
     hkpEntity* m_pEntityB;  // +0x1C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpBinaryAction[(sizeof(hkpBinaryAction) == 0x20) ? 1 : -1];
 #endif

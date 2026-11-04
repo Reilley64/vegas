@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpFirstPersonGun.h"
-#pragma pack(push, 1)
 class hkpGravityGun : public hkpFirstPersonGun
 {
   public:
@@ -18,6 +17,4 @@ class hkpGravityGun : public hkpFirstPersonGun
     hkVector4 m_kGrabPosition;       // +0x40
     hkVector4 m_kTargetPosition;     // +0x50
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpGravityGun[(sizeof(hkpGravityGun) == 0x60) ? 1 : -1];
 #endif

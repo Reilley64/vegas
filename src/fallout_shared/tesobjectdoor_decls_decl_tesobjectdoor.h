@@ -2,6 +2,50 @@
 #ifndef TESOBJECTDOOR_DECLS_H
 #define TESOBJECTDOOR_DECLS_H
 
+#include <malloc.h>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/DownloadableContentManager.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477ba0_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005194d0_shell_base.h"
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/FUN_00575770_shell.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SoundPlayback.h"
+#include "fnv/decl/TESCallHelper.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00518000.h"
+#include "fnv/symbols_00573000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00871000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011de000.h"
 class NiFixedString;
 extern NiFixedString* DAT_011c61dc;
 class TESFile;
@@ -116,12 +160,7 @@ class TESForm
     void* files[2];
     bool GetInitialized() const;
     void SetInitializationState(bool);
-    void SetFormType(ENUM_FORM_ID);
-    unsigned int GetFormID();
-    void LoadRecordHeader(TESFile*);
     TESFile* GetFile(int);
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
-    static TESForm* GetFormByID(unsigned int);
 };
 class TESBoundObject : public TESForm
 {
@@ -134,7 +173,6 @@ class TESFullName
     TESFullName();
     virtual ~TESFullName();
     char name[8];
-    const char* GetFullName();
 };
 class TESBoundAnimObject : public TESBoundObject
 {
@@ -156,7 +194,6 @@ class TESModelTextureSwap : public TESModel
     TESModelTextureSwap();
     ~TESModelTextureSwap();
     char textureSwaps[8];
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
     void InitItem(TESForm*);
 };
 class TESScriptableForm
@@ -165,7 +202,6 @@ class TESScriptableForm
     TESScriptableForm();
     virtual void vfn_0();
     char scriptData[8];
-    void SetScript(Script*);
     void InitItem(TESForm*);
 };
 class BGSDestructibleObjectForm
@@ -174,7 +210,6 @@ class BGSDestructibleObjectForm
     BGSDestructibleObjectForm();
     virtual ~BGSDestructibleObjectForm();
     void* data;
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
     void InitItem(TESForm*);
 };
 template <class T> class BSSimpleList
@@ -195,27 +230,19 @@ template <class T> class BSSimpleList
 class TESFile
 {
   public:
-    unsigned char GetTESForm();
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void*, unsigned int);
-    bool GetChunkData(unsigned int*);
     bool NextChunk();
 };
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName*, TESFile*);
 };
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
 };
 class LockExtraData
 {
@@ -236,16 +263,14 @@ class ExtraLock
 class TeleportableReference
 {
   public:
-    TESObjectCELL* FUN_0043a2b0();
     TESWorldSpace* GetTeleportWorldspace();
-    NiPoint3* GetPosition();
-    NiPoint3* GetRotation();
 };
 class Animation
 {
   public:
     void SpecialIdleFree(bool, bool);
 };
+class ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
   public:
@@ -316,18 +341,16 @@ class TESObjectREFR : public TESForm
     virtual void vfn_238();
     virtual void vfn_23c();
     virtual void vfn_240();
-    bool FUN_00477ba0();
-    TeleportableReference* Set3DObject();
-    LockExtraData* GetLock();
     ExtraLock* FindExtraLock();
     bool Activate(TESObjectREFR*, bool, TESBoundObject*, int);
     void RefreshReference();
     void SetLocationOnReference(NiPoint3*);
     void SetReferenceAngle(float);
-    void FUN_00575770(float);
     bool IsCellInterior();
-    static void SetParentCellAndWorldspace(TESObjectREFR*, TESObjectCELL*, TESWorldSpace*);
+public:
+    ::ExtraRadioData *GetExtraRadioData();
 };
+class ActorPackageContext;
 class BaseProcess
 {
   public:
@@ -722,11 +745,12 @@ class BaseProcess
     virtual int vfn_610();
     int GetProcessLevel();
     void SetPlaybackTime(Actor*, TESObjectREFR*, bool);
+public:
+    ::ActorPackageContext *GetCurrentProcessData();
 };
 class Actor : public TESObjectREFR
 {
   public:
-    BaseProcess* GetProcess();
     bool HasObjects(TESBoundObject*, int, int, unsigned int, int&);
     void FUN_008ae640(int);
 };
@@ -745,12 +769,10 @@ class PlayerCharacter : public Actor
 class TES
 {
   public:
-    bool IsCellBuffered(TESObjectCELL*, bool);
 };
 class Setting
 {
   public:
-    const char* GetString();
 };
 class SoundPlaybackHandle
 {
@@ -761,22 +783,15 @@ class SoundPlaybackHandle
     SoundPlaybackHandle();
     ~SoundPlaybackHandle();
     SoundPlaybackHandle& operator=(const SoundPlaybackHandle&);
-    bool Play(bool);
-    bool SetPosition(float, float, float);
 };
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
-    SoundPlaybackHandle GetSoundHandleByFormID(unsigned int, unsigned int);
-    SoundPlaybackHandle GetSoundHandleByEditorID(const char*, unsigned int);
-    bool FUN_005bb4d0();
     void Update(bool);
 };
 class TESSound : public TESForm
 {
   public:
-    unsigned int GetFormID();
 };
 class BGSOpenCloseForm
 {
@@ -812,14 +827,11 @@ class TESObjectDOOR : public TESBoundAnimObject,
     bool Load(TESFile*);
     bool IsTeleportDoor();
     bool Activate(TESObjectREFR*, TESObjectREFR*, bool, TESBoundObject*, int);
-    bool FUN_005194d0();
     TESObjectREFR* FindRandomTeleportTarget(TESObjectREFR*, TESObjectREFR*);
     void QueueDoorTeleport(TESObjectREFR*);
     TESSound* GetOpenSound();
     void ClearRandomTeleportList();
-    BSSimpleList<TESForm*>* FUN_00871a30();
     static bool ProcessDoorActivation(TESObjectREFR*, Actor*, bool, bool);
-    static bool ProcessDoorActivation(DoorAccessData*, Actor*, TESObjectREFR*, bool, bool);
 };
 class DoorAccessData
 {
@@ -836,23 +848,13 @@ class DoorAccessData
 class Interface
 {
   public:
-    static bool ShowMessage(const char*, int, const char*, const char*, float, bool);
-    static void PlayUISound(int);
 };
-extern PlayerCharacter* g_thePlayer;
-extern TES* g_TES;
-extern TESBoundObject* g_pLockpickItem;
 extern TESObjectREFR* DAT_011c9350;
-extern Setting DAT_011c9384, DAT_011d276c, DAT_011d5110;
-extern const float DAT_010162c0;
 void FUN_00519810(TESObjectREFR*, TESObjectREFR*);
 void FUN_00600900(TESBoundObject*);
 void FUN_00600920(int);
 void FUN_00600940(bool);
 void FUN_00705830(TESObjectREFR*, int, int);
 void ApplyPerkModifiers(int, Actor*, float*);
-int Warning(const char*, ...);
-extern "C" void* _alloca(unsigned int);
 #pragma intrinsic(_alloca)
-extern "C" int sprintf_s(char*, unsigned int, const char*, ...);
 #endif

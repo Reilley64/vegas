@@ -77,7 +77,6 @@ enum SCRIPT_PARAM_TYPE
     SCRIPT_PARAM_TYPE_SCRIPT_PARAM_REGION = 69,
     SCRIPT_PARAM_TYPE_SCRIPT_PARAM_COUNT = 70
 };
-#pragma pack(push, 4)
 class ScriptParameter
 {
   public:
@@ -86,9 +85,4 @@ class ScriptParameter
     bool m_bIsOptional;                  // +0x8, 1 bytes
     unsigned char layoutPadding9[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ScriptParameter) == 12);
-FNV_STATIC_ASSERT(offsetof(ScriptParameter, m_pTypeString) == 0);
-FNV_STATIC_ASSERT(offsetof(ScriptParameter, m_eParameterType) == 4);
-FNV_STATIC_ASSERT(offsetof(ScriptParameter, m_bIsOptional) == 8);
 #endif

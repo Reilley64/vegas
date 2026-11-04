@@ -2,12 +2,14 @@
 // src/havok/physics/dynamics/constraint/malleable/hkpmalleableconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/malleable/hkpmalleableconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00d6f000.h"
+#include "fnv/symbols_00d72000.h"
 #include "havok/hkpMalleableConstraintData.h"
 
 struct hkMalleableContactNormal : hkReferencedObject
 {
-    void RetainReference();
-    void removeReference();
 };
 
 struct hkMalleableConstraintData
@@ -22,10 +24,10 @@ void hkMalleableConstraintData::SetContactNormal(int index, hkMalleableContactNo
 {
     hkMalleableContactNormal* oldNormal;
     if (normal)
-        normal->RetainReference();
+        reinterpret_cast<::FUN_00c90510_class *>((normal))->FUN_00c90510();
     oldNormal = m_contactNormals[index];
     if (oldNormal)
-        oldNormal->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((oldNormal))->FUN_00c905b0();
     m_contactNormals[index] = normal;
 }
 
@@ -160,17 +162,15 @@ hkpConstraintData* MalleableGetterStandIn::FUN_00cdf6c0()
     return m_pConstraintData;
 }
 
-struct FUN_00cdf6d0_t
+struct FUN_00cdf6d0_t : hkpMalleableConstraintData
 {
-    int m_auiShapeKeys[3];
-    int m_field_c;
-    int FUN_00cdf6d0();
+    void* FUN_00cdf6d0();
 };
 
 // @fnv 0x00cdf6d0
-int FUN_00cdf6d0_t::FUN_00cdf6d0()
+void* FUN_00cdf6d0_t::FUN_00cdf6d0()
 {
-    return m_field_c;
+    return m_pConstraintData;
 }
 
 struct Cdf7c0Info
@@ -244,8 +244,6 @@ struct Cdf7c0Flag
     bool v;
 };
 
-void FUN_00d72190(hkpConstraintAtom* atom, Cdf7c0Buf* buf, Cdf7c0Flag flag, int param2);
-void FUN_00d6f460(hkpConstraintAtom* atom, int unk14, Cdf7c0Buf* buf, int param2);
 
 struct Cdf7c0Self
 {
@@ -257,12 +255,12 @@ struct Cdf7c0Self
     int unk14;
     int unk18;
     float m_fSpringStrength;
-    void FUN_00cdf7c0(const Cdf7c0Buf& src, int param2);
+    void FUN_00cdf7c0(const Cdf7c0Buf& src, void* param2);
 };
 
 // Copies src, scales the copy's unk24 by m_fSpringStrength, then calls FUN_00d72190 for a contact atom or FUN_00d6f460 otherwise.
 // @fnv 0x00cdf7c0
-void Cdf7c0Self::FUN_00cdf7c0(const Cdf7c0Buf& src, int param2)
+void Cdf7c0Self::FUN_00cdf7c0(const Cdf7c0Buf& src, void* param2)
 {
     Cdf7c0Buf buf = src;
     buf.unk24 *= m_fSpringStrength;
@@ -273,11 +271,11 @@ void Cdf7c0Self::FUN_00cdf7c0(const Cdf7c0Buf& src, int param2)
     if (atom->m_type == hkpConstraintAtom::TYPE_CONTACT)
     {
         flag.v = true;
-        FUN_00d72190(atom, &buf, flag, param2);
+        ::FUN_00d72190((::Node *)(atom), (::Buffer *)(::Cdf7c0Buf *)(&buf), (*(int *)&(const ::Cdf7c0Flag &)(flag)), static_cast<int *>(param2));
     }
     else
     {
-        FUN_00d6f460(atom, info.unk14, &buf, param2);
+        ::FUN_00d6f460((const ::Atom *)(atom), info.unk14, (const ::QueryIn *)(::Cdf7c0Buf *)(&buf), static_cast<::QueryOut *>(param2));
     }
 }
 

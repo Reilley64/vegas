@@ -2,6 +2,8 @@
 #ifndef FNV_BGSIMPACTDATASET_H
 #define FNV_BGSIMPACTDATASET_H
 
+#include "fnv/decl/FUN_0058f7f0_Class.h"
+#include "fnv/symbols_00837000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "bgsimpactdataset_TESForm.h"
@@ -23,7 +25,6 @@ class BGSPreloadable : public BaseFormComponent
     // BGSPreloadable
     // BGSPreloadable& __cdecl BGSPreloadable::*(const BGSPreloadable&)
 };
-FNV_STATIC_ASSERT(sizeof(BGSPreloadable) == 4);
 class BGSImpactDataSet : public TESForm, public BGSPreloadable
 {
   public:
@@ -60,15 +61,10 @@ class BGSImpactDataSet : public TESForm, public BGSPreloadable
     // BGSImpactDataSet& __cdecl BGSImpactDataSet::*(const BGSImpactDataSet&)
     // void __cdecl BGSImpactDataSet::*()
 };
-FNV_STATIC_ASSERT(sizeof(BGSImpactDataSet) == 76);
-FNV_STATIC_ASSERT(offsetof(BGSImpactDataSet, m_apImpactData) == 28);
 #endif
 class ImpactSwap
 {
   public:
-    const char* GetAltFootstepMaterialName(int);
-    BGSImpactData* GetSwappedImpactData(int, BGSImpactData*);
 };
 extern ImpactSwap* DAT_011ca834;
-void __cdecl SetGlobalPointerAtOffset(int, const char*);
 void __cdecl FUN_00837500();

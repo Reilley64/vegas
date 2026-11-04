@@ -1,6 +1,29 @@
 // gamebryo2.2/corelibs/nimain/niextradata.cpp: NiExtraData, NiAccumulator, MyOwner, ExtraDataObject and more (13 functions)
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a641f0_cls.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_0109d000.h"
+#include "fnv/symbols_011f4000.h"
 #include "niextradata_packet.h"
+#include "fnv/decl/FUN_0053a070_Class.h"
+#include "fnv/symbols_00c6b000.h"
+#include "fnv/symbols_01030000.h"
 // @fnv 0x00aa0fe0
 void NiAccumulator::ClearCamera()
 {
@@ -18,14 +41,14 @@ NiExtraData::NiExtraData(const NiFixedString& aName)
 {
     const NiFixedString& src = aName;
     *(void**)this = kVtbl_NiExtraData;
-    void* empty = EmptyFS.handle;
+    void* empty = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).handle;
     name.handle = empty;
     void* srcHandle = src.handle;
     if (empty != srcHandle)
     {
-        if (srcHandle != EmptyFS.handle)
+        if (srcHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).handle)
             InterlockedIncrement((long*)((char*)srcHandle - 8));
-        if (name.handle != EmptyFS.handle)
+        if (name.handle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).handle)
             InterlockedDecrement((long*)((char*)name.handle - 8));
         name.handle = srcHandle;
     }
@@ -34,25 +57,25 @@ NiExtraData::NiExtraData(const NiFixedString& aName)
 // @fnv 0x00a7b4a0
 void NiExtraData::LoadBinary(NiStream& stream)
 {
-    NiObject::LoadBinary(stream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
     if (stream.version < 0x0500000b)
     {
-        stream.ResetStreamState();
+        reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
         unsigned int count;
         ReadCount(stream, count);
-        if (count > 0 && IsExactKindOf(g_011c7820_arg1, this))
+        if (count > 0 && IsExactKindOf((*reinterpret_cast<const char (*)[]>(&::g_011f4a80)), this))
         {
-            unsigned char* buffer = (unsigned char*)_NiMalloc(count);
-            ReadBinaryValue(stream, buffer, count);
+            unsigned char* buffer = (unsigned char*)::FUN_00aa1070(count);
+            ::FUN_00a471d0((::FUN_00a471d0_Stream *)&(stream), buffer, count);
             NiBinaryExtraData* extra = new NiBinaryExtraData(count, buffer);
             if (extra)
                 stream.RegisterObject(extra);
         }
     }
     else if (stream.version < 0x14010001)
-        stream.ReadFixedString(name);
+        reinterpret_cast<::Cls_a64ea0 *>(&(stream))->FUN_00a64ea0((char **)&(name));
     else
-        stream.ReadStringTableEntry(name);
+        reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(stream))->FUN_00a64df0((::fnv_00a64df0::NiFixedString &)(name));
 }
 
 struct NiObjectBase
@@ -94,7 +117,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a7b330_shell : public NiBinaryExtraData
 {
     void FUN_00a7b330(NiBinaryExtraData*, CloningProcess*);
@@ -102,46 +124,40 @@ struct FUN_00a7b330_shell : public NiBinaryExtraData
 
 struct FUN_00a5d450_holder
 {
-    void __thiscall CreateVertexBufferSet(NiBinaryExtraData*, CloningProcess*);
 };
 // @fnv 0x00a7b330
 void FUN_00a7b330_shell::FUN_00a7b330(NiBinaryExtraData* pkDest, CloningProcess* kCloning)
 {
-    ((FUN_00a5d450_holder*)this)->CreateVertexBufferSet(pkDest, kCloning);
-    char* src = *(char**)((char*)this + 8);
-    if (*(char**)((char*)pkDest + 8) != src)
+    reinterpret_cast<::FUN_00a5d450_class *>((((FUN_00a5d450_holder*)this)))->CreateVertexBufferSet((uintptr_t)(pkDest), kCloning);
+    char* src = *(char**)&this->name.handle;
+    if (*(char**)&pkDest->name.handle != src)
     {
-        if (src != *(char**)&EmptyFS)
+        if (src != *(char**)&(*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)))
             InterlockedIncrement((long*)(src - 8));
-        char* dst = *(char**)((char*)pkDest + 8);
-        if (dst != *(char**)&EmptyFS)
+        char* dst = *(char**)&pkDest->name.handle;
+        if (dst != *(char**)&(*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)))
             InterlockedDecrement((long*)(dst - 8));
-        *(char**)((char*)pkDest + 8) = src;
+        *(char**)&pkDest->name.handle = src;
     }
 }
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct _Call_a5d3a0
 {
     _Call_a5d3a0();
 };
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // Allocates a 12-byte NiExtraData, constructs it, sets its vtable and copies a stored int into offset 8, returning the object or null.
 // @fnv 0x00a7b380
 NiExtraData* FUN_00a7b380()
 {
-    NiExtraData* p = (NiExtraData*)BSFadeNode::operator new(12);
+    NiExtraData* p = (NiExtraData*)::operator new(12);
     if (p)
     {
         new (p) _Call_a5d3a0;
         *(void**)p = (void*)kVtbl_NiExtraData;
-        *(int*)((char*)p + 8) = *(int*)&EmptyFS;
+        *(int*)((char*)p + 8) = *(int*)&(*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220));
         return p;
     }
     return 0;
@@ -149,12 +165,10 @@ NiExtraData* FUN_00a7b380()
 
 struct FUN_00a7b2c0_NiObject
 {
-    void LinkObject(NiStream&);
 };
 
 struct FUN_00a7b2c0_NiStream
 {
-    void SerializeString(const char*);
 };
 
 struct FUN_00a7b2c0_shell
@@ -168,11 +182,10 @@ struct FUN_00a7b2c0_shell
 // @fnv 0x00a7b2c0
 void FUN_00a7b2c0_shell::FUN_00a7b2c0(NiStream& kStream)
 {
-    reinterpret_cast<FUN_00a7b2c0_NiObject*>(this)->LinkObject(kStream);
-    reinterpret_cast<FUN_00a7b2c0_NiStream*>(&kStream)->SerializeString(m_kName);
+    ::FUN_00a89af0((intptr_t)(reinterpret_cast<FUN_00a7b2c0_NiObject*>(this)));
+    reinterpret_cast<::FUN_00a641f0_cls *>((reinterpret_cast<FUN_00a7b2c0_NiStream*>(&kStream)))->WriteObjectLink((void *)(m_kName));
 }
 
-extern void* _EmptyFS;
 
 struct NiRefObject
 {
@@ -181,7 +194,7 @@ struct NiRefObject
 
 struct FUN_00a7b300_shell : public NiRefObject
 {
-    void __thiscall FUN_00a7b300();
+    void FUN_00a7b300();
 };
 
 // Restores the NiExtraData vtable, releases the reference-counted object at offset 8 if not the empty sentinel, then calls the NiRefObject destructor.
@@ -192,14 +205,12 @@ void FUN_00a7b300_shell::FUN_00a7b300()
 
     void* pRef = *reinterpret_cast<void* const volatile*>(reinterpret_cast<unsigned char*>(this) + 8);
 
-    if (pRef != _EmptyFS)
+    if (pRef != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
         InterlockedDecrement(reinterpret_cast<long*>(reinterpret_cast<unsigned char*>(pRef) - 8));
 
-    NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
-extern int DAT_0109da1c;
-extern void* DAT_0109b220;
 
 struct ExtraDataObject
 {
@@ -207,16 +218,15 @@ struct ExtraDataObject
     unsigned int refs;
     void* name;
 
-    void InitializeBase();
     ExtraDataObject* FUN_00a7b2e0();
 };
 
 // @fnv 0x00a7b2e0
 ExtraDataObject* ExtraDataObject::FUN_00a7b2e0()
 {
-    InitializeBase();
-    m_vtbl = &DAT_0109da1c;
-    name = DAT_0109b220;
+    new ((void *)this) struct ::FUN_00a5d3a0();
+    m_vtbl = &(*reinterpret_cast<int *>(&::kVtbl_NiExtraData));
+    name = (*reinterpret_cast<void * *>(&::DAT_0109b220));
     return this;
 }
 
@@ -227,24 +237,20 @@ class NiObject_00a7b3d0
     unsigned int _04;
     unsigned int _08;
 
-    unsigned char __thiscall IsSameAs(NiObject_00a7b3d0* object);
-    unsigned char __thiscall FUN_00a7b3d0(NiObject_00a7b3d0* object);
+    unsigned char FUN_00a7b3d0(NiObject_00a7b3d0* object);
 };
 
 // Returns 0 if IsSameAs fails; otherwise returns whether _08 equals object->_08.
 // @fnv 0x00a7b3d0
-unsigned char __thiscall NiObject_00a7b3d0::FUN_00a7b3d0(NiObject_00a7b3d0* object)
+unsigned char NiObject_00a7b3d0::FUN_00a7b3d0(NiObject_00a7b3d0* object)
 {
-    if (!IsSameAs(object))
+    if (!((unsigned char)(reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(object)))))
         return 0;
 
     return _08 == object->_08;
 }
 
-extern void* _EmptyFS;
-extern void* kVtbl_NiExtraData[];
 extern "C" void _ReadWriteBarrier(void);
-void __cdecl FUN_00aa1460(void* ptr, unsigned int size);
 
 struct Cls
 {
@@ -252,7 +258,6 @@ struct Cls
     unsigned int m_refs;
     void* m_nameHandle;
 
-    void FUN_00a5d3d0();
 
     Cls* DestroyExtraData(unsigned char acFlags);
 };
@@ -262,11 +267,11 @@ Cls* Cls::DestroyExtraData(unsigned char acFlags)
 {
     *(volatile void**)&m_vptr = kVtbl_NiExtraData;
     _ReadWriteBarrier();
-    if (m_nameHandle != _EmptyFS)
+    if (m_nameHandle != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
     {
         InterlockedDecrement((long*)((char*)m_nameHandle - 8));
     }
-    FUN_00a5d3d0();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (acFlags & 1)
     {
         FUN_00aa1460(this, 0xc);
@@ -279,20 +284,15 @@ struct StrArr
     void* vtable;
     char** data;
     unsigned short capacity, count, used, grow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
     void Add(char* value)
     {
         unsigned int index = count;
         if (index >= capacity)
-            SetSize(index + grow);
-        SetAt(index, value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + grow);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
     }
 };
-extern const char* const g_01270908_arg1;
 extern const char DAT_01097790[];
-extern "C" char* FUN_00a7d330(const char*);
-char* FUN_00a7d5e0(const char*, const char*);
 struct ExtraDataStrings
 {
     void* vtable;
@@ -307,6 +307,45 @@ struct ExtraDataStrings
 // @fnv 0x00a7b580
 void ExtraDataStrings::FUN_00a7b580(StrArr* strings)
 {
-    strings->Add(FUN_00a7d330(g_01270908_arg1));
-    strings->Add(FUN_00a7d5e0(DAT_01097790, GetName()));
+    strings->Add(::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4a80))));
+    strings->Add(::fnv_00a7d5e0::FUN_00a7d5e0(DAT_01097790, GetName()));
 }
+
+
+
+struct FUN_0066b640
+{
+    void* m_vft;
+    FUN_0066b640();
+};
+
+// @fnv 0x0066b640
+FUN_0066b640::FUN_0066b640()
+{
+    ::FUN_00c6b910(this);
+    m_vft = &(*reinterpret_cast<void * *>(&::DAT_0103046c));
+}
+
+class B539F50Base
+{
+  public:
+    B539F50Base();
+    virtual ~B539F50Base();
+
+    int unk04;
+};
+
+class FUN_00539f50 : public B539F50Base
+{
+  public:
+
+    FUN_00539f50(int iA, int iB);
+    virtual ~FUN_00539f50();
+};
+
+// @fnv 0x00539f50
+FUN_00539f50::FUN_00539f50(int iA, int iB)
+{
+    reinterpret_cast<::FUN_0053a070_Class *>(this)->FUN_0053a070(iA, iB);
+}
+#include "generated/data/gamebryo2.2/corelibs/nimain/niextradata.inc"

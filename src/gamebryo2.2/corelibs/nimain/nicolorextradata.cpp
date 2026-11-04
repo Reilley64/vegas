@@ -2,13 +2,27 @@
 // src/gamebryo2.2/corelibs/nimain/nicolorextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nicolorextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/decl/ExtraDataObject.h"
+#include "fnv/decl/ExtraDataStrings.h"
+#include "fnv/decl/FUN_00a698a0_class.h"
+#include "fnv/decl/FUN_00a7b2c0_shell.h"
+#include "fnv/decl/FUN_00a7b300_shell.h"
+#include "fnv/decl/FUN_00a7b330_shell.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_004a4c90__FUN_004a4c90_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f5000.h"
 struct FUN_00a893b0_shell
 {
-    void __thiscall SetValues(int a, int b, int c, int d);
+    void SetValues(int a, int b, int c, int d);
 };
 
 // @fnv 0x00a893b0
-void __thiscall FUN_00a893b0_shell::SetValues(int aiValue0, int aiValue1, int aiValue2, int aiValue3)
+void FUN_00a893b0_shell::SetValues(int aiValue0, int aiValue1, int aiValue2, int aiValue3)
 {
     *(int*)(this + 0xc) = aiValue0;
     *(int*)(this + 0x10) = aiValue1;
@@ -16,28 +30,26 @@ void __thiscall FUN_00a893b0_shell::SetValues(int aiValue0, int aiValue1, int ai
     *(int*)(this + 0x18) = aiValue3;
 }
 
-extern void* g_011f5b68;
 
 // @fnv 0x00a893f0
 void* __cdecl FUN_00a893f0()
 {
-    return &g_011f5b68;
+    return &(*reinterpret_cast<void * *>(&::g_011f5b68));
 }
 
-extern "C" void __cdecl _FUN_00a7b300();
 extern void __cdecl _delete(void*, unsigned int);
 extern int DAT_0109eccc;
 
 struct NiColorExtraData_shell
 {
-    NiColorExtraData_shell* __thiscall Destroy(unsigned int flags);
+    NiColorExtraData_shell* Destroy(unsigned int flags);
 };
 
 // @fnv 0x00a89560
-NiColorExtraData_shell* __thiscall NiColorExtraData_shell::Destroy(unsigned int flags)
+NiColorExtraData_shell* NiColorExtraData_shell::Destroy(unsigned int flags)
 {
     *reinterpret_cast<int**>(this) = &DAT_0109eccc;
-    _FUN_00a7b300();
+    static_cast<::FUN_00a7b300_shell *>(nullptr)->FUN_00a7b300();
     if (flags & 1)
         _delete(this, 0x1c);
     return this;
@@ -45,17 +57,23 @@ NiColorExtraData_shell* __thiscall NiColorExtraData_shell::Destroy(unsigned int 
 
 struct NiStream;
 
+class NiStream;
 struct NiExtraData
 {
     NiExtraData();
     virtual ~NiExtraData();
-    void SaveBinary(NiStream& kStream);
+public:
+    void LoadBinary(::NiStream &);
 };
 
+class NiStream;
 struct RgbaColor
 {
     RgbaColor();
-    void SaveBinary(NiStream& kStream);
+public:
+    char *ToString(const char *);
+public:
+    void LoadBinary(::NiStream &);
 };
 
 struct NiColorExtraData : NiExtraData
@@ -68,14 +86,14 @@ struct NiColorExtraData : NiExtraData
 // @fnv 0x00a893d0
 void NiColorExtraData::FUN_00a893d0(NiStream& kStream)
 {
-    NiExtraData::SaveBinary(kStream);
-    m_kPrimaryColor.SaveBinary(kStream);
+    reinterpret_cast<::FUN_00a7b2c0_shell *>(this)->FUN_00a7b2c0(kStream);
+    reinterpret_cast<::FUN_00a698a0_class *>(&(m_kPrimaryColor))->FUN_00a698a0((void *)&(kStream));
 }
 
 struct NiColor
 {
     float r, g, b;
-    void __thiscall LoadBinary(NiStream& kStream);
+    void LoadBinary(NiStream& kStream);
 };
 
 struct NiStream
@@ -86,12 +104,10 @@ struct NiStream
 
 struct NiColorA_LoadBinary_helper
 {
-    void __thiscall LoadBinary(NiStream& kStream);
 };
 
 struct NiExtraData_LoadBinary_helper
 {
-    void __thiscall LoadBinary(NiStream& kStream);
 };
 
 struct FUN_00a894f0_shell : NiColorExtraData
@@ -102,7 +118,7 @@ struct FUN_00a894f0_shell : NiColorExtraData
 // @fnv 0x00a894f0
 void FUN_00a894f0_shell::FUN_00a894f0(NiStream& kStream)
 {
-    ((NiExtraData_LoadBinary_helper*)this)->LoadBinary(kStream);
+    reinterpret_cast<::NiExtraData *>((((NiExtraData_LoadBinary_helper*)this)))->LoadBinary(kStream);
     if (kStream.m_uiNifVersion < 0x0500000e)
     {
         NiColor kTmpColor;
@@ -118,7 +134,7 @@ void FUN_00a894f0_shell::FUN_00a894f0(NiStream& kStream)
     }
     else
     {
-        ((NiColorA_LoadBinary_helper*)&m_kPrimaryColor)->LoadBinary(kStream);
+        reinterpret_cast<::RgbaColor *>((((NiColorA_LoadBinary_helper*)&m_kPrimaryColor)))->LoadBinary(kStream);
     }
 }
 
@@ -135,7 +151,6 @@ class A89400ColorA
     A89400ColorA() : r(0.0f), g(0.0f), b(0.0f), a(0.0f)
     {}
 
-    static const A89400ColorA BLACK;
 };
 
 class A89400ExtraData
@@ -143,8 +158,6 @@ class A89400ExtraData
   public:
     A89400ExtraData() throw();
     virtual ~A89400ExtraData();
-    static void* operator new(unsigned int uiSize) throw();
-    static void operator delete(void* pvMem);
 
     void CopyMemberData(A89400ExtraData* pkDest, A89400CloningProcess& kCloning);
 
@@ -157,13 +170,13 @@ class A89400ColorExtraData : public A89400ExtraData
   public:
     __forceinline A89400ColorExtraData() throw()
     {
-        m_kFogTint = A89400ColorA::BLACK;
+        m_kFogTint = (*reinterpret_cast<const ::A89400ColorA *>(&::DAT_011a9bd0));
     }
     virtual ~A89400ColorExtraData();
 
     void CopyMemberData(A89400ColorExtraData* pkDest, A89400CloningProcess& kCloning)
     {
-        A89400ExtraData::CopyMemberData(pkDest, kCloning);
+        reinterpret_cast<::FUN_00a7b330_shell *>(this)->FUN_00a7b330((::NiBinaryExtraData *)(pkDest), (::CloningProcess *)&(kCloning));
         pkDest->m_kFogTint = m_kFogTint;
     }
     A89400ColorExtraData* FUN_00a89400(A89400CloningProcess& kCloning);
@@ -184,7 +197,6 @@ struct S_00a89590_Member
     int unk00;
     int unk04;
     int unk08;
-    bool FUN_004a4c90(S_00a89590_Member* other);
 };
 
 struct S_00a89590
@@ -201,12 +213,11 @@ bool S_00a89590::FUN_00a89590(S_00a89590* other)
 {
     if (!other)
         return false;
-    if (m_unk0c.FUN_004a4c90(&other->m_unk0c))
+    if (reinterpret_cast<::fnv_004a4c90::FUN_004a4c90_shell *>(&(m_unk0c))->FUN_004a4c90(&other->m_unk0c))
         return false;
     return true;
 }
 
-extern void* g_011f5b68;
 
 struct StreamShell
 {
@@ -216,16 +227,11 @@ struct StreamShell
     unsigned short m_usHold;
     unsigned short m_usAdd;
 
-    void FUN_0096ad30(unsigned int uiNewEnd);
-    void FUN_0096ae90(unsigned int uiPos, void* pvData);
 };
 
-void __stdcall FUN_00a7b580(void* pv);
-void* __cdecl FUN_00a7d330(void* pv);
 
 struct NameSink
 {
-    void* ToString(const char* pcText);
 };
 
 class ClaimCls
@@ -241,38 +247,33 @@ class ClaimCls
 // @fnv 0x00a895c0
 void ClaimCls::WriteColorToStream(StreamShell& kStream)
 {
-    FUN_00a7b580(&kStream);
-    void* p = FUN_00a7d330(g_011f5b68);
+    reinterpret_cast<::ExtraDataStrings *>((&kStream))->FUN_00a7b580({});
+    void* p = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f5b68))))));
     unsigned int uiPos = kStream.m_usPos;
     unsigned int uiSize = kStream.m_usSize;
     if (uiPos >= uiSize)
     {
-        kStream.FUN_0096ad30(uiPos + kStream.m_usAdd);
+        reinterpret_cast<::ViewerStrings *>(&(kStream))->SetSize(uiPos + kStream.m_usAdd);
     }
-    kStream.FUN_0096ae90(uiPos, &p);
-    p = m_sink.ToString("Color = ");
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(kStream))->SetAt(uiPos, (*(char * *)(&p)));
+    p = ((void *)(reinterpret_cast<::RgbaColor *>(&(m_sink))->ToString("Color = ")));
     uiPos = kStream.m_usPos;
     uiSize = kStream.m_usSize;
     if (uiPos >= uiSize)
     {
-        kStream.FUN_0096ad30(uiPos + kStream.m_usAdd);
+        reinterpret_cast<::ViewerStrings *>(&(kStream))->SetSize(uiPos + kStream.m_usAdd);
     }
-    kStream.FUN_0096ae90(uiPos, &p);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(kStream))->SetAt(uiPos, (*(char * *)(&p)));
 }
 
 #include <stddef.h>
 struct NiExtraData_StandIn
 {
     virtual ~NiExtraData_StandIn();
-    void FUN_00a7b2e0();
 };
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_0109eccc;
-extern int DAT_011a9bd0;
-extern int DAT_011a9bd4;
-extern int DAT_011a9bd8;
-extern int DAT_011a9bdc;
 
 // Obtains a 0x1c byte block, calls a method on it, writes a global pointer and four global values, and returns it.
 // @fnv 0x00a89490
@@ -282,9 +283,9 @@ unsigned int* __cdecl FUN_00a89490()
 
     if (ptr != NULL)
     {
-        ((NiExtraData_StandIn*)ptr)->FUN_00a7b2e0();
+        reinterpret_cast<::ExtraDataObject *>((((NiExtraData_StandIn*)ptr)))->FUN_00a7b2e0();
 
-        ptr[0] = (unsigned int)&DAT_0109eccc;
+        ptr[0] = (uintptr_t)&DAT_0109eccc;
 
         float f[4];
         f[0] = 0.0f;
@@ -298,7 +299,7 @@ unsigned int* __cdecl FUN_00a89490()
         vf[2] = f[2];
         vf[3] = f[3];
 
-        ptr[3] = DAT_011a9bd0;
+        ptr[3] = (*reinterpret_cast<int *>(&::DAT_011a9bd0));
         ptr[4] = DAT_011a9bd4;
         ptr[5] = DAT_011a9bd8;
         ptr[6] = DAT_011a9bdc;

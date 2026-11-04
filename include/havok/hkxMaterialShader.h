@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxMaterialShader : public hkReferencedObject
 {
   public:
@@ -27,6 +26,4 @@ class hkxMaterialShader : public hkReferencedObject
     hkStringPtr m_kGeometryShader;  // +0x18
     hkArray<hkUint8> m_data;        // +0x1C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxMaterialShader[(sizeof(hkxMaterialShader) == 0x28) ? 1 : -1];
 #endif

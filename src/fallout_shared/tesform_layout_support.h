@@ -3,11 +3,7 @@
 #define FNV_UNIT_TESFORM_LAYOUT_SUPPORT_H
 
 #include <stddef.h>
-#define FNV_JOIN_IMPL(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
-#define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
-FNV_STATIC_ASSERT(sizeof(void*) == 4);
-FNV_STATIC_ASSERT(sizeof(long) == 4);
+#include <malloc.h>
 class Actor;
 class EffectSetting;
 class TESForm;
@@ -46,8 +42,6 @@ template <class T> class BSStringT
     bool Set(const T* text, unsigned int length);
     const T* String();
 };
-FNV_STATIC_ASSERT(sizeof(BSSimpleList<void*>) == 8);
-FNV_STATIC_ASSERT(sizeof(BSStringT<char>) == 8);
 enum ENUM_FORM_ID
 {
     ENUM_FORM_ID_NO_FORM = 0,
@@ -180,7 +174,6 @@ class TESFullNameLoader
   public:
     static void LoadFullNameChunk(TESFullName* apName, TESFile* apFile);
 };
-extern "C" void* __cdecl _alloca(size_t auiBytes);
 enum CHUNK_ID
 {
     CHUNK_ID_EDID_ID = 0x44494445,

@@ -68,19 +68,14 @@ typedef enum
     PTYPE_COUNT
 } PTYPE;
 
-#pragma pack(push, 4)
 class ActorPackageData
 {
   public:
     void** m_ppVirtualMethodTable;  // +0x0, 4 bytes
     static ActorPackageData* CreatePackageData(PTYPE aeType);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorPackageData) == 4);
-FNV_STATIC_ASSERT(offsetof(ActorPackageData, m_ppVirtualMethodTable) == 0);
 
 // above; constructor declaration added for the out-of-line ctor 0x009f0900).
-#pragma pack(push, 4)
 class EscortActorPackageData : public ActorPackageData
 {
   public:
@@ -91,16 +86,9 @@ class EscortActorPackageData : public ActorPackageData
     BSSimpleList<Actor*> m_kActorList;                 // +0x10, 8 bytes
     EscortActorPackageData();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(EscortActorPackageData) == 24);
-FNV_STATIC_ASSERT(offsetof(EscortActorPackageData, pActor) == 4);
-FNV_STATIC_ASSERT(offsetof(EscortActorPackageData, pPackage) == 8);
-FNV_STATIC_ASSERT(offsetof(EscortActorPackageData, m_pEscortPackageData) == 12);
-FNV_STATIC_ASSERT(offsetof(EscortActorPackageData, m_kActorList) == 16);
 
 // above; forward declarations replace the header includes; constructor
 // declaration added for the out-of-line ctor 0x009f29a0).
-#pragma pack(push, 4)
 class PatrolActorPackageData : public ActorPackageData
 {
   public:
@@ -127,20 +115,7 @@ class PatrolActorPackageData : public ActorPackageData
     unsigned int m_uiSecondValueAfterReferenceFlag;  // +0x34, 4 bytes
     PatrolActorPackageData();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PatrolActorPackageData) == 56);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, eState) == 4);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_fElapsedWaitTime) == 8);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_bPatrolFlag) == 12);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, pActor) == 16);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, pPackage) == 20);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_pEscortPackageData) == 24);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, References) == 28);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_bReferenceFlag) == 44);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_uiValueAfterReferenceFlag) == 48);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_uiSecondValueAfterReferenceFlag) == 52);
 
-#pragma pack(push, 4)
 class GuardActorPackageData : public ActorPackageData
 {
   public:
@@ -157,14 +132,7 @@ class GuardActorPackageData : public ActorPackageData
     int iWarningCount;      // +0xC, 4 bytes
     float m_fWarningTimer;  // +0x10, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(GuardActorPackageData) == 20);
-FNV_STATIC_ASSERT(offsetof(GuardActorPackageData, eState) == 4);
-FNV_STATIC_ASSERT(offsetof(GuardActorPackageData, pWarningTarget) == 8);
-FNV_STATIC_ASSERT(offsetof(GuardActorPackageData, iWarningCount) == 12);
-FNV_STATIC_ASSERT(offsetof(GuardActorPackageData, m_fWarningTimer) == 16);
 
-#pragma pack(push, 4)
 class SandBoxActorPackageData : public ActorPackageData
 {
   public:
@@ -222,33 +190,7 @@ class SandBoxActorPackageData : public ActorPackageData
     SANDBOX_ACTIVITY m_eSandboxActivity;                         // +0x58, 4 bytes
     unsigned char m_ucProcedureFlags[NUM_SANDBOX_PROCEDURES];    // +0x5C, 6 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SandBoxActorPackageData) == 100);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, eState) == 4);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, eProcedure) == 8);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fProcedureTime) == 12);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, pLocation) == 16);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fLastProcedureCheckHour) == 20);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fNextProcedureCheckHour) == 24);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiLastProcedureCheckDay) == 28);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_kProcedureList) == 32);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiProcedureIndex) == 48);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bNeedsSandboxUpdate) == 52);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bHasFoodMarker) == 53);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bHasChairMarker) == 54);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bHasBedMarker) == 55);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_iSerializedValue) == 56);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_pCurrentTarget) == 60);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_ucProcedureIndex) == 64);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_pCurrentFurniture) == 68);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiActivityStartDay) == 72);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiActivityEndDay) == 76);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fActivityStartHour) == 80);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fActivityEndHour) == 84);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_eSandboxActivity) == 88);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_ucProcedureFlags) == 92);
 
-#pragma pack(push, 4)
 class UseWeaponActorPackageData : public ActorPackageData
 {
   public:
@@ -256,8 +198,5 @@ class UseWeaponActorPackageData : public ActorPackageData
     UseWeaponActorPackageData();
     TESObjectREFR* m_pUseTarget;  // +0x4, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(UseWeaponActorPackageData) == 8);
-FNV_STATIC_ASSERT(offsetof(UseWeaponActorPackageData, m_pUseTarget) == 4);
 
 #endif

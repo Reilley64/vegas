@@ -2,6 +2,21 @@
 #ifndef CONTAINERMENU_DECLS_H
 #define CONTAINERMENU_DECLS_H
 
+#include "fnv/decl/ActorX.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/CreatureEquipment.h"
+#include "fnv/decl/FUN_00525430_Class.h"
+#include "fnv/decl/FUN_00950030_shell.h"
+#include "fnv/decl/FUN_00a1d910_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/OwnerLookupView.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008a6840__FUN_008a6840_shell.h"
+#include "fnv/decl/fnv_008a6970__FUN_008a6970_shell.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00764000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f2000.h"
 class TESForm;
 class TESBoundObject;
 class ActorCause;
@@ -10,24 +25,25 @@ class TESObjectREFR
   public:
     virtual ~TESObjectREFR();  // polymorphic: its RTTI is used (rtti_fix.py)
   public:
-    TESForm* GetOwner();
-    TESBoundObject* GetObjectReference();
 };
 class BaseProcess;
+class TESActorBase;
+class TESObjectREFR;
 class Actor
 {
   public:
     virtual ~Actor();  // polymorphic: its RTTI is used (rtti_fix.py)
   public:
-    BaseProcess* GetProcess();
-    void StealAlarm(TESObjectREFR*, int, int, int, TESForm*);
-    bool IsFirstActorFlagSet();
-    void SetIsSwimming(bool);
+public:
+    ::TESActorBase *GetActorBase();
+public:
+    bool IsSneaking();
+public:
+    void FUN_008c00e0(::TESObjectREFR *, int, int);
 };
 class PlayerCharacter
 {
   public:
-    void UpdatePlayerControls();
 };
 class SoundPlaybackHandle
 {
@@ -36,30 +52,31 @@ class SoundPlaybackHandle
     bool m_bLooping;
     unsigned char pad[3];
     unsigned eState;
-    bool Play(bool);
     bool StopWithFade(unsigned);
     ~SoundPlaybackHandle();
+public:
+    ::SoundPlaybackHandle &operator=(const ::SoundPlaybackHandle &);
 };
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
     SoundPlaybackHandle GetSoundHandleByEditorID(const char*, unsigned);
 };
 class TESCreature
 {
   public:
-    void UpdateModel3D(TESObjectREFR*, bool, bool, bool);
 };
+class BipedAnim;
+class TESObjectREFR;
 class TESNPC
 {
   public:
-    void RebuildHeadModel(TESObjectREFR*, void*);
+public:
+    void RebuildHeadModel(::TESObjectREFR *, ::BipedAnim *, bool);
 };
 class HUDMainMenu
 {
   public:
-    bool RefreshTargetDisplay();
 };
 template <class T> class BSSimpleList
 {
@@ -72,12 +89,17 @@ class Tile
 {
   public:
     void Set(int, int);
+public:
+    void SetName(const char *);
+public:
+    static float GetInterfaceScale();
 };
 class Menu
 {
   public:
     char menuData[40];
-    void LoadMenuData();
+public:
+    void SetMenuVisibility(bool);
 };
 class ContainerMenu : public Menu
 {
@@ -90,13 +112,9 @@ class ContainerMenu : public Menu
     char otherData[120];
     SoundPlaybackHandle m_kFadeSequence;
     static void Close();
-    void UpdateContainer(TESObjectREFR*, bool);
 };
 extern ContainerMenu* DAT_011d93f8;
-extern PlayerCharacter* g_thePlayer;
-extern int DAT_011f2250;
 extern const char DAT_01072278[];
-extern void __cdecl StartDialogueForTopic(int);
 extern void __cdecl FUN_00778b10();
 class CloseVirtualSlots
 {

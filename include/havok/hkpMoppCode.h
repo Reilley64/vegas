@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 #include "hkpMoppCodeCodeInfo.h"
-#pragma pack(push, 1)
 class hkpMoppCode : public hkReferencedObject
 {
   public:
@@ -22,6 +21,4 @@ class hkpMoppCode : public hkReferencedObject
     hkInt8 m_eBuildType;         // +0x2C (BuildType)
     char pad2D[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMoppCode[(sizeof(hkpMoppCode) == 0x30) ? 1 : -1];
 #endif

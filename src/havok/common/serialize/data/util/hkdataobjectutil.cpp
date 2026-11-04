@@ -2,13 +2,74 @@
 // src/havok/common/serialize/data/util/hkdataobjectutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/data/util/hkdataobjectutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <cstddef>
+#include <new>
+#include "fnv/decl/AudioHandle.h"
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/ClassMember_d869.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DBA7F0Ref.h"
+#include "fnv/decl/DBABE0Binding.h"
+#include "fnv/decl/DBADC0Binding.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb1930_t.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/FUN_00d46f00_s.h"
+#include "fnv/decl/FUN_00d46f70_cls.h"
+#include "fnv/decl/FUN_00d46f80_class.h"
+#include "fnv/decl/FUN_00d5f640_cls.h"
+#include "fnv/decl/FUN_00dba6a0_cls.h"
+#include "fnv/decl/FUN_00dba870_cls.h"
+#include "fnv/decl/FUN_00dba980_cls.h"
+#include "fnv/decl/FUN_00dba9d0_cls.h"
+#include "fnv/decl/FUN_00dbaa30_cls.h"
+#include "fnv/decl/FUN_00dbaa50_cls.h"
+#include "fnv/decl/FUN_00dbaab0_cls.h"
+#include "fnv/decl/FUN_00dbab50.h"
+#include "fnv/decl/FUN_00dbab70_cls.h"
+#include "fnv/decl/FUN_00dbaca0_cls.h"
+#include "fnv/decl/FUN_00dbad00_cls.h"
+#include "fnv/decl/FUN_00dbad60_cls.h"
+#include "fnv/decl/FUN_00dbaea0_cls.h"
+#include "fnv/decl/FUN_00e04eb0_class.h"
+#include "fnv/decl/FUN_00e05100_cls.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
+#include "fnv/decl/HkClassNode.h"
+#include "fnv/decl/OwnerD869.h"
+#include "fnv/decl/ReflectObj.h"
+#include "fnv/decl/S00e05700_Class.h"
+#include "fnv/decl/S_00dba990.h"
+#include "fnv/decl/S_00dbab30_Ref.h"
+#include "fnv/decl/S_00dbaed0_Obj.h"
+#include "fnv/decl/S_00dbafe0.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/decl/Struct_d86920.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/decl/fnv_00dba920__Target.h"
+#include "fnv/decl/fnv_00dbad20__AudioHandle.h"
+#include "fnv/decl/fnv_00dbada0__Wrapper.h"
+#include "fnv/decl/fnv_00e04ee0__FUN_00e04ee0_class.h"
+#include "fnv/decl/hkClassD47120.h"
+#include "fnv/decl/hkClassMember_FUN_00d86960.h"
+#include "fnv/decl/hkMapBaseCB1F.h"
+#include "fnv/decl/hkMatrix4CD60.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00dba000.h"
+#include "fnv/symbols_00dc1000.h"
+#include "fnv/symbols_00dc3000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00dc35e0_class
 {
-    int __thiscall FUN_00dc35e0();
+    int FUN_00dc35e0();
 };
 
 // @fnv 0x00dc35e0
-int __thiscall FUN_00dc35e0_class::FUN_00dc35e0()
+int FUN_00dc35e0_class::FUN_00dc35e0()
 {
     int count = *(int*)((char*)this + 8);
     int result = 0;
@@ -61,18 +122,8 @@ struct FUN_00dc3b60_class
     void** entries;
     unsigned int flags;
     int count;
-    void __thiscall ResetEntries();
-    void __thiscall NotifyCallback(Callback* callback);
+    void NotifyCallback(Callback* callback);
 };
-// Calls ResetEntries, then if the high flag bit is clear, invokes callback->update with entries and (count + 1) * 12 bytes.
-// @fnv 0x00dc3b60
-void FUN_00dc3b60_class::NotifyCallback(Callback* callback)
-{
-    ResetEntries();
-    if ((flags & 0x80000000) == 0)
-        callback->update(entries, (count + 1) * 12);
-}
-
 struct S_00dc3b90_Pair
 {
     unsigned __int64 key;
@@ -85,21 +136,8 @@ struct S_00dc3b90
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    int FindEntry(unsigned __int64 key);
     int LookupValue(unsigned __int64 key, unsigned __int64* out);
 };
-
-// @fnv 0x00dc3b90
-int S_00dc3b90::LookupValue(unsigned __int64 key, unsigned __int64* out)
-{
-    int i = FindEntry(key);
-    if (i <= m_iPairCount)
-    {
-        *out = m_kPrimitiveElement[i].val;
-        return 0;
-    }
-    return 1;
-}
 
 struct DC3CC0Allocator;
 
@@ -109,19 +147,8 @@ struct DC3CC0Map
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void ResizeStorage(DC3CC0Allocator& alloc, int capacity);
     void FUN_00dc3cc0(DC3CC0Allocator& alloc, int numElements);
 };
-
-// @fnv 0x00dc3cc0
-void DC3CC0Map::FUN_00dc3cc0(DC3CC0Allocator& alloc, int numElements)
-{
-    int minCap = numElements * 2;
-    int cap = 8;
-    while (cap < minCap)
-        cap *= 2;
-    ResizeStorage(alloc, cap);
-}
 
 struct S_00dc3ce0_Allocator
 {
@@ -135,28 +162,22 @@ struct S_00dc3ce0_Router
     int unk8;
     int unkC;
     S_00dc3ce0_Allocator* m_pStreamAllocator;
-    static S_00dc3ce0_Router& FUN_00c85750();
     S_00dc3ce0_Allocator& heap()
     {
         return *m_pStreamAllocator;
     }
 };
 
-void ResizeAudioStream(S_00dc3ce0_Allocator& alloc, void* array, int sizeElem);
 
 struct S_00dc3ce0_Entry
 {
     int m_kPointA;
     int m_kPointB;
     int m_iThirdValue;
-    S_00dc3ce0_Entry(int a, int b, int c) : m_kPointA(a), m_kPointB(b), m_iThirdValue(c)
+    S_00dc3ce0_Entry(intptr_t a, int b, int c) : m_kPointA(a), m_kPointB(b), m_iThirdValue(c)
     {}
 };
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct S_00dc3ce0_Array
 {
@@ -171,14 +192,14 @@ struct S_00dc3ce0_Array
     {
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(alloc, this, sizeof(S_00dc3ce0_Entry));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(S_00dc3ce0_Entry));
         }
         new (m_data + m_iElementCount) S_00dc3ce0_Entry(e);
         m_iElementCount++;
     }
     __forceinline void AddBack(const S_00dc3ce0_Entry& e)
     {
-        AddBack(S_00dc3ce0_Router::FUN_00c85750().heap(), e);
+        AddBack((*static_cast<S_00dc3ce0_Router*>(::FUN_00c85750())).heap(), e);
     }
 };
 
@@ -201,12 +222,12 @@ struct S_00dc3ce0
     int unk38;
     int unk3C;
     S_00dc3ce0_Array m_entries;
-    void AddEntry(int a, int b, int c);
+    void AddEntry(intptr_t a, int b, int c);
 };
 
 // Appends a new entry constructed from the three arguments to m_entries.
 // @fnv 0x00dc3ce0
-void S_00dc3ce0::AddEntry(int aiFirst, int aiSecond, int aiThird)
+void S_00dc3ce0::AddEntry(intptr_t aiFirst, int aiSecond, int aiThird)
 {
     m_entries.AddBack(S_00dc3ce0_Entry(aiFirst, aiSecond, aiThird));
 }
@@ -214,13 +235,13 @@ void S_00dc3ce0::AddEntry(int aiFirst, int aiSecond, int aiThird)
 struct Temp
 {
     int f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11;
-    Temp* __thiscall Construct(void* a2, int one, void* a1, void* a3) throw();
+    Temp* Construct(void* a2, int one, void* a1, void* a3) throw();
     ~Temp() throw();
-    int __thiscall FUN_00dc4710() throw();
+    int FUN_00dc4710() throw();
 };
 
 // @fnv 0x00dc32c0
-int __cdecl FUN_00dc32c0(void* a1, void* a2, void* a3)
+intptr_t __cdecl FUN_00dc32c0(void* a1, void* a2, void* a3)
 {
     Temp temp;
     return temp.Construct(a2, 1, a1, a3)->FUN_00dc4710();
@@ -232,26 +253,21 @@ struct GlobalObj_cls
     virtual void v04();
     virtual void v08();
     virtual int v0c();
-    virtual int v10();
+    virtual intptr_t v10();
 };
 
-extern GlobalObj_cls* DAT_01268b08;
-
-extern "C" int __cdecl FUN_00dc32c0(int a1, int a2, int a3);
 
 // Calls v0c on DAT_01268b08, then passes a1, obj->v10() and that result to FUN_00dc32c0 and returns its result.
 // @fnv 0x00dc3500
-int __cdecl FUN_00dc3500(int a1)
+intptr_t __cdecl FUN_00dc3500(intptr_t a1)
 {
-    GlobalObj_cls* obj = DAT_01268b08;
-    int r1 = DAT_01268b08->v0c();
-    return FUN_00dc32c0(a1, obj->v10(), r1);
+    GlobalObj_cls* obj = (*reinterpret_cast<::GlobalObj_cls * *>(&::DAT_01268b08));
+    intptr_t r1 = (*reinterpret_cast<::GlobalObj_cls * *>(&::DAT_01268b08))->v0c();
+    return ::FUN_00dc32c0((void *)(a1), (void *)(obj->v10()), (void *)(r1));
 }
 
 namespace fnv_00dc3530 {
-extern int DAT_01268b08;
 
-int __cdecl FUN_00dc3300(int a1, int a2);
 
 struct SvcHolder_b0466
 {
@@ -263,18 +279,17 @@ struct SvcHolder_b0466
 };
 
 // @fnv 0x00dc3530
-int __cdecl FUN_00dc3530(int a1)
+intptr_t __cdecl FUN_00dc3530(intptr_t a1)
 {
-    SvcHolder_b0466* svc = (SvcHolder_b0466*)DAT_01268b08;
-    int r = svc->unk10();
-    return FUN_00dc3300(a1, r);
+    SvcHolder_b0466* svc = (SvcHolder_b0466*)::DAT_01268b08;
+    intptr_t r = svc->unk10();
+    return ((intptr_t)(::FUN_00dc3300((::S_PH *)(a1), (::S_Dom *)(r))));
 }
 }  // namespace fnv_00dc3530
 
 struct Handle
 {
     void* p;
-    void FUN_00dba7f0();
 };
 
 struct X
@@ -295,7 +310,6 @@ struct Slt
     void* m4;
     int m8;
     void FUN_00dc3bd0(void*, int);
-    void FreeStorage(void*);
 };
 
 struct Rec
@@ -312,7 +326,6 @@ struct CT
     Handle f2;
 };
 
-void* __cdecl FUN_00c85750();
 
 // @fnv 0x00dc3550
 int FUN_00dc3550(CT ct)
@@ -327,10 +340,10 @@ int FUN_00dc3550(CT ct)
     home.slt.FUN_00dc3bd0(((void**)mgr)[4], 0);
     (void)home.f1.p;  // keep
     home.CloneObject(&ct.f1, home.f2->V7(&ct.f2));
-    ct.f1.FUN_00dba7f0();
-    ct.f2.FUN_00dba7f0();
+    reinterpret_cast<::DBA7F0Ref *>(&(ct.f1))->FUN_00dba7f0();
+    reinterpret_cast<::DBA7F0Ref *>(&(ct.f2))->FUN_00dba7f0();
     mgr = FUN_00c85750();
-    home.slt.FreeStorage(((void**)mgr)[4]);
+    reinterpret_cast<::FUN_00d5f640_cls *>(&(home.slt))->FreeStorage((::Deallocator *)(((void**)mgr)[4]));
     return 0;
 }
 
@@ -361,7 +374,7 @@ struct DC3600MapOperations
 struct DC3600Pair
 {
     DC3600Key key;
-    int val;
+    intptr_t val;
 };
 
 struct DC3600Map
@@ -370,38 +383,8 @@ struct DC3600Map
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void ResizeStorage(DC3600Allocator& alloc, int capacity);
-    int InsertKeyValue(DC3600Allocator& alloc, DC3600Key key, int val);
+    int InsertKeyValue(DC3600Allocator& alloc, DC3600Key key, intptr_t val);
 };
-
-// Grows the table if needed, probes for the key, stores key and value, and returns whether the key was new.
-// @fnv 0x00dc3600
-int DC3600Map::InsertKeyValue(DC3600Allocator& alloc, DC3600Key key, int val)
-{
-    {
-        int iCount = m_iCapacityFlags & 0x7fffffff;
-        if ((iCount + iCount) > m_iPairCount)
-            ResizeStorage(alloc, m_iPairCount + m_iPairCount + 2);
-    }
-
-    unsigned i;
-    int isNewKey = true;
-    for (i = DC3600MapOperations::hash(key, m_iPairCount); DC3600MapOperations::isValid(m_kPrimitiveElement[i].key);
-         i = (i + 1) & m_iPairCount)
-    {
-        if (DC3600MapOperations::equal(m_kPrimitiveElement[i].key, key))
-        {
-            isNewKey = false;
-            break;
-        }
-    }
-
-    m_iCapacityFlags += isNewKey;
-
-    m_kPrimitiveElement[i].key = key;
-    m_kPrimitiveElement[i].val = val;
-    return isNewKey;
-}
 
 struct FUN_00dc36b0_cls
 {
@@ -416,12 +399,12 @@ struct FUN_00dc36b0_cls
     unsigned int m_u04;
     unsigned int m_uMask;
 
-    unsigned int Lookup(unsigned int aKey0, unsigned int aKey1, unsigned int aDefault);
+    uintptr_t Lookup(unsigned int aKey0, unsigned int aKey1, unsigned int aDefault);
 };
 
 // Probes the hash table for the entry matching aKey0 and aKey1, returning its value or aDefault when not found.
 // @fnv 0x00dc36b0
-unsigned int FUN_00dc36b0_cls::Lookup(unsigned int aKey0, unsigned int aKey1, unsigned int aDefault)
+uintptr_t FUN_00dc36b0_cls::Lookup(unsigned int aKey0, unsigned int aKey1, unsigned int aDefault)
 {
     unsigned int mask = m_uMask;
     if ((int)mask > 0)
@@ -449,19 +432,8 @@ unsigned int FUN_00dc36b0_cls::Lookup(unsigned int aKey0, unsigned int aKey1, un
 
 struct Wrapper
 {
-    void __thiscall FUN_00dc3bd0(int first, int count);
-    void __thiscall FUN_00dc39b0(int, int);
+    void FUN_00dc3bd0(intptr_t first, int count);
 };
-// @fnv 0x00dc3bd0
-void __thiscall Wrapper::FUN_00dc3bd0(int first, int count)
-{
-    int needed = count + count;
-    int capacity = 8;
-    while (capacity < needed)
-        capacity += capacity;
-    FUN_00dc39b0(first, capacity);
-}
-
 struct DC3BF0Allocator
 {
     virtual void unk00();
@@ -490,6 +462,43 @@ struct DC3BF0Map
     int insert(DC3BF0Allocator& alloc, DC3BF0Key key, int val);
     void FUN_00dc3bf0(DC3BF0Allocator& alloc, int newcap);
 };
+// @fnv 0x00dc3cc0
+void DC3CC0Map::FUN_00dc3cc0(DC3CC0Allocator& alloc, int numElements)
+{
+    int minCap = numElements * 2;
+    int cap = 8;
+    while (cap < minCap)
+        cap *= 2;
+    reinterpret_cast<::DC3BF0Map *>(this)->FUN_00dc3bf0((::DC3BF0Allocator &)(alloc), cap);
+}
+// Grows the table if needed, probes for the key, stores key and value, and returns whether the key was new.
+// @fnv 0x00dc3600
+int DC3600Map::InsertKeyValue(DC3600Allocator& alloc, DC3600Key key, intptr_t val)
+{
+    {
+        int iCount = m_iCapacityFlags & 0x7fffffff;
+        if ((iCount + iCount) > m_iPairCount)
+            reinterpret_cast<::DC3BF0Map *>(this)->FUN_00dc3bf0((::DC3BF0Allocator &)(alloc), m_iPairCount + m_iPairCount + 2);
+    }
+
+    unsigned i;
+    int isNewKey = true;
+    for (i = DC3600MapOperations::hash(key, m_iPairCount); DC3600MapOperations::isValid(m_kPrimitiveElement[i].key);
+         i = (i + 1) & m_iPairCount)
+    {
+        if (DC3600MapOperations::equal(m_kPrimitiveElement[i].key, key))
+        {
+            isNewKey = false;
+            break;
+        }
+    }
+
+    m_iCapacityFlags += isNewKey;
+
+    m_kPrimitiveElement[i].key = key;
+    m_kPrimitiveElement[i].val = val;
+    return isNewKey;
+}
 
 // Reallocates the map's pair array to at least 8 slots, rehashes existing entries via insert, and frees the old array unless the high flag bit is set.
 // @fnv 0x00dc3bf0
@@ -508,7 +517,7 @@ void DC3BF0Map::FUN_00dc3bf0(DC3BF0Allocator& alloc, int aiNewCapacity)
     for (int i = 0; i < iOldCapacity; i++)
     {
         if (pOldPairs[i].key.m_ucLowNibble != 0xffffffff)
-            insert(alloc, pOldPairs[i].key, pOldPairs[i].val);
+            reinterpret_cast<::DC3600Map *>(this)->InsertKeyValue((::DC3600Allocator &)(alloc), (*(::DC3600Key *)&(const ::DC3BF0Key &)(pOldPairs[i].key)), pOldPairs[i].val);
     }
 
     if (iKeepOldBuffer == 0)
@@ -539,11 +548,9 @@ struct DC43A0MemoryRouter
     }
 };
 
-extern "C" DC43A0MemoryRouter& __cdecl FUN_00c85750();
 
 struct DC43A0ReferencedObject
 {
-    void removeReference() const;
 };
 
 template <typename T> struct DC43A0RefPtr
@@ -553,7 +560,7 @@ template <typename T> struct DC43A0RefPtr
     ~DC43A0RefPtr()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
 };
@@ -567,7 +574,7 @@ struct DC43A0MapA
     void ClearAndRelease(DC43A0Allocator& alloc);
     ~DC43A0MapA()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        reinterpret_cast<::FUN_00dc3b60_class *>(this)->NotifyCallback((struct ::Callback *)&((*static_cast<DC43A0MemoryRouter*>(::FUN_00c85750())).heap()));
     }
 };
 
@@ -580,7 +587,7 @@ struct DC43A0MapB
     void ClearAndRelease(DC43A0Allocator& alloc);
     ~DC43A0MapB()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&((*static_cast<DC43A0MemoryRouter*>(::FUN_00c85750())).heap()));
     }
 };
 
@@ -598,7 +605,7 @@ struct DC43A0PairArray
 
     ~DC43A0PairArray()
     {
-        DC43A0Allocator& alloc = FUN_00c85750().heap();
+        DC43A0Allocator& alloc = (*static_cast<DC43A0MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(DC43A0Pair));
@@ -632,14 +639,12 @@ struct AudioHolder
     int unk04;
     int unk08;
     int unk0c;
-    int m_iValue10;
+    intptr_t m_iValue10;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct ObjectRef
 {
-    void FUN_00c90510();
 };
 
 struct SubRecord
@@ -648,8 +653,6 @@ struct SubRecord
     int m_i04;
     int m_i08;
 
-    void EnsureCapacity(int aiValue, int aiZero);
-    void FUN_00dc3cc0(int aiValue, int aiZero);
 };
 
 struct FUN_00dc4f20_cls
@@ -671,7 +674,7 @@ FUN_00dc4f20_cls* FUN_00dc4f20_cls::Construct(ObjectRef* apRef, int aiSecond)
 {
     if (apRef != 0)
     {
-        apRef->FUN_00c90510();
+        reinterpret_cast<::FUN_00c90510_class *>((apRef))->FUN_00c90510();
     }
 
     m_pReference = apRef;
@@ -682,15 +685,15 @@ FUN_00dc4f20_cls* FUN_00dc4f20_cls::Construct(ObjectRef* apRef, int aiSecond)
     pSub->m_i00 = 0;
     pSub->m_i04 = 0;
     pSub->m_i08 = -1;
-    AudioHolder* pHolder = FUN_00c85750();
-    pSub->EnsureCapacity(pHolder->m_iValue10, 0);
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
+    reinterpret_cast<::FUN_00cb1fe0_t *>((pSub))->EnsureCapacity(pHolder->m_iValue10, 0);
 
     SubRecord* pSub2 = &m_sub18;
     pSub2->m_i00 = 0;
     pSub2->m_i04 = 0;
     pSub2->m_i08 = -1;
-    AudioHolder* pHolder2 = FUN_00c85750();
-    pSub2->FUN_00dc3cc0(pHolder2->m_iValue10, 0);
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
+    reinterpret_cast<::DC3CC0Map *>((pSub2))->FUN_00dc3cc0((*(::DC3CC0Allocator *)(pHolder2->m_iValue10)), 0);
 
     unk24 = 0;
     unk28 = 0;
@@ -719,7 +722,6 @@ struct S_00dc58a0_Router
         return *m_buf;
     }
 };
-S_00dc58a0_Router* FUN_00c85750();
 
 struct S_00dc58a0_Obj
 {
@@ -772,7 +774,7 @@ void FUN_00dc58a0_cls::ProcessSourcePair(S_00dc58a0_Src* pSourceA, S_00dc58a0_Sr
     FUN_00dc56f0(arr, ha, pSourceB->GetObjectValue());
     for (int i = 0; i < arr.m_iElementCount; i++)
         FUN_00dc4210(pSourceA, pSourceB, &arr.m_data[i]);
-    arr.ClearAndRelease(FUN_00c85750()->buf());
+    arr.ClearAndRelease(static_cast<S_00dc58a0_Router*>(::FUN_00c85750())->buf());
 }
 }  // namespace fnv_00dc58a0
 
@@ -788,7 +790,6 @@ struct S_00dc5970_Router
     int unkc;
     S_00dc5970_Allocator* m_pStreamAllocator;
 
-    static S_00dc5970_Router& FUN_00c85750() throw();
     S_00dc5970_Allocator& heap() throw()
     {
         return *m_pStreamAllocator;
@@ -817,7 +818,7 @@ struct S_00dc5970_Object
     S_00dc5970_Object(S_00dc5970_ObjectImpl* impl) throw();  // FUN_00dba760
     S_00dc5970_Object(const S_00dc5970_Object& o) throw();   // AssignRef
     ~S_00dc5970_Object() throw();                            // FUN_00dba7f0
-    int GetObjectKind() const throw();                       // FUN_00dba980
+                           // FUN_00dba980
     S_00dc5970_Handle GetObjectHandle() const throw();       // GetSourcePair
     S_00dc5970_Class GetVariantValue() const throw();        // GetObjectValue
 };
@@ -839,27 +840,26 @@ struct S_00dc5970_World
 
 struct S_00dc5970_Map
 {
-    int LookupValue(S_00dc5970_Handle key, S_00dc5970_Handle* out) throw();                          // get
+                              // get
     void Insert(S_00dc5970_Allocator& alloc, S_00dc5970_Handle key, S_00dc5970_Handle val) throw();  // insert
 
     int get(S_00dc5970_Handle key, S_00dc5970_Handle* out) throw()
     {
-        return LookupValue(key, out);
+        return reinterpret_cast<::S_00dc3b90 *>(this)->LookupValue((*(unsigned long long *)&(const ::S_00dc5970_Handle &)(key)), (unsigned long long *)(out));
     }
     void insert(S_00dc5970_Handle key, S_00dc5970_Handle val) throw()
     {
-        Insert(S_00dc5970_Router::FUN_00c85750().heap(), key, val);
+        Insert((*static_cast<S_00dc5970_Router*>(::FUN_00c85750())).heap(), key, val);
     }
 };
 
 struct S_00dc5970_Cloner
 {
     S_00dc5970_World& m_kSourceWorld;
-    int unk4;
+    intptr_t unk4;
     S_00dc5970_Map m_kHandleMap;
 
     S_00dc5970_ClassImpl* FUN_00dc5440(S_00dc5970_ClassImpl* srcClass) throw();  // copyClass
-    void ProcessSourcePair(S_00dc5970_Object& dstObj, const S_00dc5970_Object& srcObj) throw();
     S_00dc5970_Object CloneObject(const S_00dc5970_Object& srcObj) throw();
 };
 
@@ -867,7 +867,7 @@ struct S_00dc5970_Cloner
 // @fnv 0x00dc5970
 S_00dc5970_Object S_00dc5970_Cloner::CloneObject(const S_00dc5970_Object& srcObj) throw()
 {
-    if (!srcObj.GetObjectKind())
+    if (!((int)(reinterpret_cast<::FUN_00dba980_cls *>((void *)&(srcObj))->FUN_00dba980())))
     {
         S_00dc5970_Handle dstHandle;
         if (m_kHandleMap.get(srcObj.GetObjectHandle(), &dstHandle) == 0)
@@ -876,7 +876,7 @@ S_00dc5970_Object S_00dc5970_Cloner::CloneObject(const S_00dc5970_Object& srcObj
         S_00dc5970_Class dstClass(FUN_00dc5440(srcObj.GetVariantValue().getImplementation()));
         S_00dc5970_Object dstObj(m_kSourceWorld.GetObject(dstClass));
         m_kHandleMap.insert(srcObj.GetObjectHandle(), dstObj.GetObjectHandle());
-        ProcessSourcePair(dstObj, srcObj);
+        reinterpret_cast<::fnv_00dc58a0::FUN_00dc58a0_cls *>(this)->ProcessSourcePair((::fnv_00dc58a0::S_00dc58a0_Src *)&(dstObj), (::fnv_00dc58a0::S_00dc58a0_Src *)&(srcObj));
         return dstObj;
     }
     return S_00dc5970_Object(0);
@@ -892,8 +892,16 @@ struct FUN_00dc38f0_cls
     }* m_00;
     unsigned int m_04;
     int m_08;
-    void __thiscall ResetEntries();
+    void ResetEntries();
 };
+// Calls ResetEntries, then if the high flag bit is clear, invokes callback->update with entries and (count + 1) * 12 bytes.
+// @fnv 0x00dc3b60
+void FUN_00dc3b60_class::NotifyCallback(Callback* callback)
+{
+    reinterpret_cast<::FUN_00dc38f0_cls *>(this)->ResetEntries();
+    if ((flags & 0x80000000) == 0)
+        callback->update(entries, (count + 1) * 12);
+}
 
 // Sets the k field of the first m_08 + 1 entries to -1 and clears all but the top bit of m_04.
 // @fnv 0x00dc38f0
@@ -935,39 +943,16 @@ struct HashTable_cls
     unsigned int m_04;
     unsigned int m_08;
 
-    void Insert(Allocator_cls* alloc, Pair_dc3 key, Pair_dc3 val);
     void FUN_00dc39b0(Allocator_cls* alloc, int newSize);
 };
-
-// @fnv 0x00dc39b0
-void HashTable_cls::FUN_00dc39b0(Allocator_cls* alloc, int newSize)
+// @fnv 0x00dc3bd0
+void Wrapper::FUN_00dc3bd0(intptr_t first, int count)
 {
-    int n = newSize;
-    if (n <= 8)
-    {
-        n = 8;
-    }
-    unsigned int flag = m_04 & 0x80000000u;
-    int remain = (int)(m_08 + 1);
-    HashEntry* pOldEntries = m_00;
-    m_00 = (HashEntry*)alloc->Alloc((unsigned int)n << 4);
-    for (int i = 0; i < n; i++)
-    {
-        m_00[i].key.lo = -1;
-    }
-    m_04 = 0;
-    m_08 = (unsigned int)(n - 1);
-    for (int i = 0; i < remain; i++)
-    {
-        if (pOldEntries[i].key.lo != -1)
-        {
-            Insert(alloc, pOldEntries[i].key, pOldEntries[i].val);
-        }
-    }
-    if (flag == 0)
-    {
-        alloc->Free(pOldEntries, (unsigned int)remain << 4);
-    }
+    int needed = count + count;
+    int capacity = 8;
+    while (capacity < needed)
+        capacity += capacity;
+    reinterpret_cast<::HashTable_cls *>(this)->FUN_00dc39b0((::Allocator_cls *)(first), capacity);
 }
 
 extern int DAT_010d6b98[];
@@ -980,8 +965,6 @@ struct DC1C50Shape
 };
 struct DC1C50Collection
 {
-    int FUN_00d46f00();
-    DC1C50Shape* FUN_00d46f20(int i);
 };
 
 // Maps a type/subtype pair to a flag value from DAT_010d6b98, resolving subtype 0x19 against the collection's child types and optionally OR-ing 0x20.
@@ -1037,9 +1020,9 @@ int __cdecl GetShapeTypeFlags(int iType, int iSubType, DC1C50Collection* pkColle
             break;
         case 0x19: {
             int bValid = 1;
-            for (int i = 0; i < pkCollection->FUN_00d46f00(); i++)
+            for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00d46f00_s *>((pkCollection))->FUN_00d46f00())); i++)
             {
-                int iChildType = pkCollection->FUN_00d46f20(i)->m_type;
+                int iChildType = ((::DC1C50Shape *)(reinterpret_cast<::HkClassNode *>((pkCollection))->FUN_00d46f20(i)))->m_type;
                 if (iChildType == 0x16 || (iChildType > 0x19 && iChildType <= 0x1b))
                 {
                     bValid = 0;
@@ -1060,17 +1043,9 @@ struct ValueQ
 {
     void* m_pClassImpl;
     int m_handle;
-    int QueryAndWriteResult() const throw();
-    int FUN_00dba990() const throw();
     float FUN_00dbaa00() const throw();
     const float* DispatchToInterface(int n) const throw();
-    S_00dc5970_Object FUN_00dba9d0() const throw();
     const char* FUN_00dba9c0() const throw();
-    void FUN_00dbaa30(int i) throw();
-    void DispatchFloatToVtbl(float r) throw();
-    void FUN_00dbab10(const float* v, int n) throw();
-    void DispatchToObject(const S_00dc5970_Object& o) throw();
-    void FUN_00dbab30(const char* s) throw();
 };
 
 struct ClonerQ : S_00dc5970_Cloner
@@ -1082,29 +1057,29 @@ struct ClonerQ : S_00dc5970_Cloner
 // @fnv 0x00dc5ab0
 void ClonerQ::CopyValue(ValueQ dst, const ValueQ& src) throw()
 {
-    switch (src.QueryAndWriteResult())
+    switch (reinterpret_cast<::fnv_00dba920::Target *>((void *)&(src))->QueryAndWriteResult())
     {
     case 1:
     case 2:
-        dst.FUN_00dbaa30(src.FUN_00dba990());
+        reinterpret_cast<::FUN_00dbaa30_cls *>(&(dst))->FUN_00dbaa30(reinterpret_cast<::S_00dba990 *>((void *)&(src))->FUN_00dba990());
         break;
     case 3:
-        dst.DispatchFloatToVtbl(src.FUN_00dbaa00());
+        reinterpret_cast<::FUN_00dbaab0_cls *>(&(dst))->DispatchFloatToVtbl(src.FUN_00dbaa00());
         break;
     case 4:
     case 5:
     case 6:
     case 7: {
-        int n = (src.QueryAndWriteResult() - 3) * 4;
-        dst.FUN_00dbab10(src.DispatchToInterface(n), n);
+        int n = (reinterpret_cast<::fnv_00dba920::Target *>((void *)&(src))->QueryAndWriteResult() - 3) * 4;
+        reinterpret_cast<::AudioHandle *>(&(dst))->FUN_00dbab10((uintptr_t)(src.DispatchToInterface(n)), n);
         break;
     }
     case 8:
     case 9:
-        dst.DispatchToObject(CloneObject(src.FUN_00dba9d0()));
+        reinterpret_cast<::FUN_00dbaa50_cls *>(&(dst))->DispatchToObject((void **)&(const ::S_00dc5970_Object &)(CloneObject((*(::S_00dc5970_Object *)(reinterpret_cast<::FUN_00dba9d0_cls *>((void *)&(src))->FUN_00dba9d0({}))))));
         break;
     case 10:
-        dst.FUN_00dbab30(src.FUN_00dba9c0());
+        reinterpret_cast<::S_00dbab30_Ref *>(&(dst))->FUN_00dbab30((intptr_t)(src.FUN_00dba9c0()));
         break;
     }
 }
@@ -1140,16 +1115,45 @@ class hkPairMapDC37
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void FUN_00dc39b0(hkMemoryAllocatorDC37& alloc, int iNewCap);
     int Insert(hkMemoryAllocatorDC37& alloc, hkPairKeyDC37 key, hkPairValueDC37 value);
 };
+// @fnv 0x00dc39b0
+void HashTable_cls::FUN_00dc39b0(Allocator_cls* alloc, int newSize)
+{
+    int n = newSize;
+    if (n <= 8)
+    {
+        n = 8;
+    }
+    unsigned int flag = m_04 & 0x80000000u;
+    int remain = (int)(m_08 + 1);
+    HashEntry* pOldEntries = m_00;
+    m_00 = (HashEntry*)alloc->Alloc((unsigned int)n << 4);
+    for (int i = 0; i < n; i++)
+    {
+        m_00[i].key.lo = -1;
+    }
+    m_04 = 0;
+    m_08 = (unsigned int)(n - 1);
+    for (int i = 0; i < remain; i++)
+    {
+        if (pOldEntries[i].key.lo != -1)
+        {
+            reinterpret_cast<::hkPairMapDC37 *>(this)->Insert((*(::hkMemoryAllocatorDC37 *)(alloc)), (*(::hkPairKeyDC37 *)&(const ::Pair_dc3 &)(pOldEntries[i].key)), (*(::hkPairValueDC37 *)&(const ::Pair_dc3 &)(pOldEntries[i].val)));
+        }
+    }
+    if (flag == 0)
+    {
+        alloc->Free(pOldEntries, (unsigned int)remain << 4);
+    }
+}
 
 // Checks for the key, calls FUN_00dc39b0 under the shown condition, stores the key/value, and returns whether the key was new.
 // @fnv 0x00dc3740
 int hkPairMapDC37::Insert(hkMemoryAllocatorDC37& alloc, hkPairKeyDC37 key, hkPairValueDC37 value)
 {
     if ((m_iCapacityFlags & 0x7fffffff) * 2 > m_iPairCount)
-        FUN_00dc39b0(alloc, m_iPairCount * 2 + 2);
+        reinterpret_cast<::HashTable_cls *>(this)->FUN_00dc39b0((::Allocator_cls *)&(alloc), m_iPairCount * 2 + 2);
 
     unsigned int i = ((key.m_k1 >> 4) * 0x9e3779b1) & m_iPairCount;
     int isNewKey = 1;
@@ -1176,7 +1180,7 @@ class FUN_00c6cd00_cls
     __m128 m_v1;
     __m128 m_v2;
 
-    void __thiscall FUN_00c6cd00(const FUN_00c6cd00_cls* src);
+    void FUN_00c6cd00(const FUN_00c6cd00_cls* src);
 };
 
 // Copies the three __m128 vector fields from src into the current object.
@@ -1191,11 +1195,11 @@ void FUN_00c6cd00_cls::FUN_00c6cd00(const FUN_00c6cd00_cls* src)
 struct S48
 {
     __m128 v[3];
-    void __thiscall CopyFromFloatArray(const float* src);
+    void CopyFromFloatArray(const float* src);
 };
 // Copies 12 floats from src into the three __m128 members of v using SSE load/store.
 // @fnv 0x00c6cd30
-void __thiscall S48::CopyFromFloatArray(const float* src)
+void S48::CopyFromFloatArray(const float* src)
 {
     _mm_store_ps((float*)&v[0], _mm_load_ps(src));
     _mm_store_ps((float*)&v[1], _mm_load_ps(src + 4));
@@ -1212,40 +1216,33 @@ struct __declspec(align(16)) Vec4
 struct Mat3a
 {
     Vec4 c0, c1, c2;
-    void FUN_00c6cd00(const float* p) throw();
 };
 
 struct Mat3b
 {
     Vec4 c0, c1, c2;
-    void CopyFromFloatArray(const float* p) throw();
 };
 
 struct Mat4a
 {
     Vec4 c0, c1, c2, c3;
-    void FUN_00dc3710(const float* p) throw();
 };
 
 struct Mat4b
 {
     Vec4 c0, c1, c2, c3;
-    void FUN_00c6cd60(const float* p) throw();
 };
 
 struct DKlass
 {
-    int FUN_00d470d0() throw();
 };
 
 struct DObj
 {
     int unk00;
-    int FUN_00dba980() throw();
-    void FUN_00dba7f0() throw();
     __forceinline ~DObj() throw()
     {
-        FUN_00dba7f0();
+        reinterpret_cast<::DBA7F0Ref *>(this)->FUN_00dba7f0();
     }
 };
 
@@ -1260,7 +1257,6 @@ struct DValue
     {
         return DispatchToVTableSlot8(Width);
     }
-    DObj CreateValueInto() throw();
 };
 
 struct DArray
@@ -1292,8 +1288,7 @@ struct DMemory
     DAllocator* unk10;
 };
 
-__declspec(restrict) void* __cdecl FUN_00c85750() throw();
-extern "C" void __cdecl FUN_00cb1280(void* p, int v, int n) throw();
+extern "C" void __cdecl FUN_00cb1280(void* p, int v, intptr_t n) throw();
 
 struct DOutArray
 {
@@ -1315,7 +1310,6 @@ struct DMember
 
 struct DTracker
 {
-    void AddEntry(void* p, int size, int flags) throw();
 };
 
 template <class T> __forceinline T* AllocElems(int& count)
@@ -1351,6 +1345,25 @@ struct DReader
     int ReadArray(DOutArray* out, DMember* member, DArray* arr) throw();
 };
 
+struct DC3710Vector4
+{
+    __m128 m_vComponents;
+
+    void operator=(const DC3710Vector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+};
+
+struct DC3710Transform
+{
+    DC3710Vector4 m_kColumn0;
+    DC3710Vector4 m_kColumn1;
+    DC3710Vector4 m_kColumn2;
+    DC3710Vector4 m_vTranslation;
+
+    void FUN_00dc3710(const DC3710Transform& t);
+};
 // Converts DArray elements into a type-selected output buffer, records eligible allocations, and updates out->unk08 for member type 0x16.
 // @fnv 0x00dc1d30
 int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
@@ -1534,7 +1547,7 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
         elemSize = 48;
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
-            ((Mat3a*)out->unk00)[i].FUN_00c6cd00(apArray->FUN_00dbabb0(i).asVector<12>());
+            reinterpret_cast<::FUN_00c6cd00_cls *>(&(((Mat3a*)out->unk00)[i]))->FUN_00c6cd00((const ::FUN_00c6cd00_cls *)(const float *)(apArray->FUN_00dbabb0(i).asVector<12>()));
         }
         break;
     }
@@ -1544,7 +1557,7 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
         elemSize = 48;
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
-            ((Mat3b*)out->unk00)[i].CopyFromFloatArray(apArray->FUN_00dbabb0(i).asVector<12>());
+            reinterpret_cast<::S48 *>(&(((Mat3b*)out->unk00)[i]))->CopyFromFloatArray(apArray->FUN_00dbabb0(i).asVector<12>());
         }
         break;
     }
@@ -1554,7 +1567,7 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
         elemSize = 48;
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
-            ((Mat3b*)out->unk00)[i].CopyFromFloatArray(apArray->FUN_00dbabb0(i).asVector<12>());
+            reinterpret_cast<::S48 *>(&(((Mat3b*)out->unk00)[i]))->CopyFromFloatArray(apArray->FUN_00dbabb0(i).asVector<12>());
         }
         break;
     }
@@ -1564,7 +1577,7 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
         elemSize = 64;
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
-            ((Mat4a*)out->unk00)[i].FUN_00dc3710(apArray->FUN_00dbabb0(i).asVector<16>());
+            reinterpret_cast<::DC3710Transform *>(&(((Mat4a*)out->unk00)[i]))->FUN_00dc3710((*(const ::DC3710Transform *)(apArray->FUN_00dbabb0(i).asVector<16>())));
         }
         break;
     }
@@ -1574,23 +1587,23 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
         elemSize = 64;
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
-            ((Mat4b*)out->unk00)[i].FUN_00c6cd60(apArray->FUN_00dbabb0(i).asVector<16>());
+            reinterpret_cast<::hkMatrix4CD60 *>(&(((Mat4b*)out->unk00)[i]))->FUN_00c6cd60((*(const ::hkMatrix4CD60 *)(apArray->FUN_00dbabb0(i).asVector<16>())));
         }
         break;
     }
     case 25: {
-        DKlass* pClassInfo = FUN_00dc3a80(member, apArray->FUN_00dbabb0(0).CreateValueInto());
+        DKlass* pClassInfo = FUN_00dc3a80(member, (*(::DObj *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::DValue &)(apArray->FUN_00dbabb0(0)))->CreateValueInto({}))));
         if (pClassInfo)
         {
             out->unk04 = apArray->FUN_00dbac00();
-            int totalBytes = pClassInfo->FUN_00d470d0() * out->unk04;
+            int totalBytes = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pClassInfo))->FUN_00d470d0() * out->unk04;
             DMemory* mem = (DMemory*)FUN_00c85750();
             {
                 int numBytes = totalBytes;
                 out->unk00 = CopyClassBytes(*mem->unk10, numBytes);
             }
-            elemSize = pClassInfo->FUN_00d470d0();
-            FUN_00cb1280(out->unk00, 0, pClassInfo->FUN_00d470d0() * apArray->FUN_00dbac00());
+            elemSize = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pClassInfo))->FUN_00d470d0();
+            FUN_00cb1280(out->unk00, 0, reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pClassInfo))->FUN_00d470d0() * apArray->FUN_00dbac00());
             for (int i = 0; i < apArray->FUN_00dbac00(); i++)
             {
                 if (result != 0)
@@ -1599,10 +1612,10 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
                 }
                 void* p;
                 {
-                    int offset = pClassInfo->FUN_00d470d0() * i;
+                    int offset = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pClassInfo))->FUN_00d470d0() * i;
                     p = (char*)out->unk00 + offset;
                 }
-                result = ReadObject(p, apArray->FUN_00dbabb0(i).CreateValueInto());
+                result = ReadObject(p, (*(::DObj *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::DValue &)(apArray->FUN_00dbabb0(i)))->CreateValueInto({}))));
             }
         }
         if (!pClassInfo)
@@ -1612,12 +1625,12 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
     case 20: {
         out->unk04 = apArray->FUN_00dbac00();
         out->unk00 = AllocElems<void*>(out->unk04);
-        elemSize = 4;
-        FUN_00cb1280(out->unk00, 0, out->unk04 * 4);
+        elemSize = sizeof(void*);
+        FUN_00cb1280(out->unk00, 0, out->unk04 * sizeof(void*));
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
-            DObj o = apArray->FUN_00dbabb0(i).CreateValueInto();
-            if (!o.FUN_00dba980())
+            DObj o = (*(::DObj *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::DValue &)(apArray->FUN_00dbabb0(i)))->CreateValueInto({})));
+            if (!((int)(reinterpret_cast<::FUN_00dba980_cls *>(&(o))->FUN_00dba980())))
             {
                 DVariant v = FUN_00dc4430(o, flag);
                 if (v.unk00 == 0)
@@ -1635,12 +1648,12 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
     case 28: {
         out->unk04 = apArray->FUN_00dbac00();
         out->unk00 = AllocElems<DVariant>(out->unk04);
-        elemSize = 8;
-        FUN_00cb1280(out->unk00, 0, out->unk04 * 8);
+        elemSize = sizeof(DVariant);
+        FUN_00cb1280(out->unk00, 0, out->unk04 * sizeof(DVariant));
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
-            DObj o = apArray->FUN_00dbabb0(i).CreateValueInto();
-            if (!o.FUN_00dba980())
+            DObj o = (*(::DObj *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::DValue &)(apArray->FUN_00dbabb0(i)))->CreateValueInto({})));
+            if (!((int)(reinterpret_cast<::FUN_00dba980_cls *>(&(o))->FUN_00dba980())))
             {
                 DVariant v = FUN_00dc4430(o, flag);
                 if (v.unk00 == 0)
@@ -1666,13 +1679,14 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
             }
             int subtype = member->unk0D;
             char** destination = &((char**)out->unk00)[i];
-            result = ReadValue(destination, subtype, apArray->FUN_00dbabb0(i), 0, flag);
+            DValue value = apArray->FUN_00dbabb0(i);
+            result = ReadValue(destination, subtype, value, 0, flag);
         }
     }
     case 33: {
         out->unk04 = apArray->FUN_00dbac00();
         out->unk00 = AllocElems<char*>(out->unk04);
-        elemSize = 4;
+        elemSize = sizeof(char*);
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
             if (result != 0)
@@ -1681,7 +1695,8 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
             }
             int subtype = member->unk0D;
             char** destination = &((char**)out->unk00)[i];
-            result = ReadValue(destination, subtype, apArray->FUN_00dbabb0(i), 0, flag);
+            DValue value = apArray->FUN_00dbabb0(i);
+            result = ReadValue(destination, subtype, value, 0, flag);
         }
         break;
     }
@@ -1693,7 +1708,7 @@ checkTrack:
     if (elemSize <= 0)
         goto finish;
 track:
-    unk04->AddEntry(out->unk00, out->unk04 * elemSize, 0x18);
+    reinterpret_cast<::S_00dc3ce0 *>((unk04))->AddEntry((intptr_t)(out->unk00), out->unk04 * elemSize, 0x18);
 
 finish:
     if (member->unk0C == 0x16)
@@ -1707,26 +1722,6 @@ finish:
     return result;
 }
 
-struct DC3710Vector4
-{
-    __m128 m_vComponents;
-
-    void operator=(const DC3710Vector4& v)
-    {
-        m_vComponents = v.m_vComponents;
-    }
-};
-
-struct DC3710Transform
-{
-    DC3710Vector4 m_kColumn0;
-    DC3710Vector4 m_kColumn1;
-    DC3710Vector4 m_kColumn2;
-    DC3710Vector4 m_vTranslation;
-
-    void FUN_00dc3710(const DC3710Transform& t);
-};
-
 // Copies the four vector fields from the source transform into this transform.
 // @fnv 0x00dc3710
 void DC3710Transform::FUN_00dc3710(const DC3710Transform& akSource)
@@ -1739,36 +1734,30 @@ void DC3710Transform::FUN_00dc3710(const DC3710Transform& akSource)
 
 struct S_00dc4a80_Reader
 {
-    void* __thiscall DispatchToVTableSlot8(int count) throw();
-    const char* __thiscall FUN_00dbac70() throw();
-    float __thiscall ApplyValue() throw();
-    int __thiscall CallVirtualWithArg() throw();
-    S_00dc5970_Object __thiscall CreateValueInto() throw();
+    void* DispatchToVTableSlot8(int count) throw();
+    const char* FUN_00dbac70() throw();
+    float ApplyValue() throw();
+    int CallVirtualWithArg() throw();
 };
 
 struct S_00dc4a80_M3
 {
-    void __thiscall FUN_00c6cd00(void*) throw();
 };
 
 struct S_00dc4a80_Rot
 {
-    void __thiscall CopyFromFloatArray(void*) throw();
 };
 
 struct S_00dc4a80_QsTr
 {
-    void __thiscall CopyFromFloatArray(void*) throw();
 };
 
 struct S_00dc4a80_M4
 {
-    void __thiscall FUN_00dc3710(void*) throw();
 };
 
 struct S_00dc4a80_Tr
 {
-    void __thiscall FUN_00c6cd60(void*) throw();
 };
 
 __forceinline void constructStrings(char** p, int n, char* const& str) throw()
@@ -1790,10 +1779,10 @@ struct StringArray
     }
     __forceinline void AddBack(char* str) throw()
     {
-        S_00dc3ce0_Router& r = S_00dc3ce0_Router::FUN_00c85750();
+        S_00dc3ce0_Router& r = (*static_cast<S_00dc3ce0_Router*>(::FUN_00c85750()));
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         {
-            ResizeAudioStream(r.heap(), this, 4);
+            ::ResizeAudioStream((::AudioAllocator *)&(r.heap()), (::AudioStream *)(void *)(this), 4);
         }
         constructStrings(m_data + m_iElementCount, 1, str);
         m_iElementCount++;
@@ -1826,207 +1815,38 @@ struct S_00dc4a80
     StringHolder* unk04;
     int unk08;
 
-    void __thiscall FUN_00dc4430(S_00dc5970_Handle* out, const S_00dc5970_Object& obj, int arg4) throw();
-    int __thiscall ReadObject(void* out, const S_00dc5970_Object& obj) throw();
 
-    int __thiscall ReadValue(void* out, int type, S_00dc4a80_Reader* reader, int arg3, int arg4) throw();
+    int ReadValue(void* out, int type, S_00dc4a80_Reader* reader, intptr_t arg3, int arg4) throw();
 };
 
-// Reads a value of the given type from reader into out, returning 1 on failure.
-// @fnv 0x00dc4a80
-int __thiscall S_00dc4a80::ReadValue(void* out, int type, S_00dc4a80_Reader* reader, int aiFlag3, int arg4) throw()
-{
-    switch (type)
-    {
-    case 1:
-        *(bool*)out = (reader->CallVirtualWithArg() != 0);
-        return 0;
-    case 2:
-        *(unsigned char*)out = (unsigned char)reader->CallVirtualWithArg();
-        return 0;
-    case 3:
-        *(char*)out = (char)reader->CallVirtualWithArg();
-        return 0;
-    case 4:
-        *(unsigned char*)out = (unsigned char)reader->CallVirtualWithArg();
-        return 0;
-    case 5:
-        *(short*)out = (short)reader->CallVirtualWithArg();
-        return 0;
-    case 6:
-        *(unsigned short*)out = (unsigned short)reader->CallVirtualWithArg();
-        return 0;
-    case 7:
-        *(int*)out = reader->CallVirtualWithArg();
-        return 0;
-    case 8:
-        *(unsigned int*)out = (unsigned int)reader->CallVirtualWithArg();
-        return 0;
-    case 9:
-        *(__int64*)out = reader->CallVirtualWithArg();
-        return 0;
-    case 10:
-        *(unsigned __int64*)out = reader->CallVirtualWithArg();
-        return 0;
-    case 30:
-        *(unsigned long*)out = (unsigned long)reader->CallVirtualWithArg();
-        return 0;
-    case 11:
-        *(float*)out = reader->ApplyValue();
-        return 0;
-    case 32: {
-        float f = reader->ApplyValue();
-        *(short*)out = (short)(*(int*)&f >> 16);
-        return 0;
-    }
-    case 20:
-        if (aiFlag3)
-        {
-            S_00dc5970_Object obj = reader->CreateValueInto();
-            if (!obj.GetObjectKind())
-            {
-                __declspec(align(8)) S_00dc5970_Handle h;
-                FUN_00dc4430(&h, obj, arg4);
-                if (!h.p0)
-                {
-                    return 1;
-                }
-                *(void**)out = h.p0;
-            }
-        }
-        break;
-    case 25:
-        if (aiFlag3)
-        {
-            bool err;
-            if (err = (ReadObject(out, reader->CreateValueInto()) == 1))
-            {
-                return 1;
-            }
-        }
-        break;
-    case 12:
-        *(__m128*)out = *(__m128*)reader->DispatchToVTableSlot8(4);
-        return 0;
-    case 13:
-        *(__m128*)out = *(__m128*)reader->DispatchToVTableSlot8(4);
-        return 0;
-    case 14:
-        ((S_00dc4a80_M3*)out)->FUN_00c6cd00(reader->DispatchToVTableSlot8(12));
-        return 0;
-    case 15:
-        ((S_00dc4a80_Rot*)out)->CopyFromFloatArray(reader->DispatchToVTableSlot8(12));
-        return 0;
-    case 16:
-        ((S_00dc4a80_QsTr*)out)->CopyFromFloatArray(reader->DispatchToVTableSlot8(12));
-        return 0;
-    case 17:
-        ((S_00dc4a80_M4*)out)->FUN_00dc3710(reader->DispatchToVTableSlot8(16));
-        return 0;
-    case 18:
-        ((S_00dc4a80_Tr*)out)->FUN_00c6cd60(reader->DispatchToVTableSlot8(16));
-        return 0;
-    case 29: {
-        if (unk08)
-        {
-            return 1;
-        }
-        char* copy;
-        if (reader->FUN_00dbac70())
-        {
-            copy = FUN_00cb1410(reader->FUN_00dbac70());
-            unk04->m_pStringFunctions.AddBack(copy);
-        }
-        else
-        {
-            copy = 0;
-        }
-        *(char**)out = copy;
-        return 0;
-    }
-    case 33: {
-        int val;
-        if (reader->FUN_00dbac70())
-        {
-            char* copy = FUN_00cb1410(reader->FUN_00dbac70());
-            unk04->m_pStringFunctions.AddBack(copy);
-            val = (int)copy;
-        }
-        else
-        {
-            val = 0;
-        }
-        *(int*)out = val;
-        if (unk08)
-        {
-            *(int*)out = val | 1;
-            return 0;
-        }
-        break;
-    }
-    case 28:
-        if (unk08)
-        {
-            return 1;
-        }
-        {
-            S_00dc5970_Object obj = reader->CreateValueInto();
-            if (!obj.GetObjectKind())
-            {
-                __declspec(align(8)) S_00dc5970_Handle h;
-                FUN_00dc4430(&h, obj, arg4);
-                if (!h.p0)
-                {
-                    return 1;
-                }
-                *(S_00dc5970_Handle*)out = h;
-            }
-        }
-        break;
-    default:
-        return 1;
-    }
-    return 0;
-}
-
 namespace fnv_00dc4fa0 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
+
 
 struct S_00dc4fa0_Reader
 {
-    void* __thiscall DispatchToInterface(int count) throw();
-    const char* __thiscall FUN_00dba9c0() throw();
-    float __thiscall FUN_00dbaa00() throw();
-    int __thiscall FUN_00dba990() throw();
-    S_00dc5970_Object __thiscall FUN_00dba9d0() throw();
+    void* DispatchToInterface(int count) throw();
+    const char* FUN_00dba9c0() throw();
+    float FUN_00dbaa00() throw();
 };
 
 struct S_00dc4fa0_M3
 {
-    void __thiscall FUN_00c6cd00(void*) throw();
 };
 
 struct S_00dc4fa0_Rot
 {
-    void __thiscall CopyFromFloatArray(void*) throw();
 };
 
 struct S_00dc4fa0_QsTr
 {
-    void __thiscall CopyFromFloatArray(void*) throw();
 };
 
 struct S_00dc4fa0_M4
 {
-    void __thiscall FUN_00dc3710(void*) throw();
 };
 
 struct S_00dc4fa0_Tr
 {
-    void __thiscall FUN_00c6cd60(void*) throw();
 };
 
 struct StringArray
@@ -2040,9 +1860,9 @@ struct StringArray
     }
     __forceinline void AddBack(char* str) throw()
     {
-        S_00dc3ce0_Router* r = &S_00dc3ce0_Router::FUN_00c85750();
+        S_00dc3ce0_Router* r = &(*static_cast<S_00dc3ce0_Router*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(*r->m_pStreamAllocator, this, sizeof(char*));
+            ::ResizeAudioStream((::AudioAllocator *)&(*r->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(char*));
         char** p = m_data + m_iElementCount;
         __assume(p != 0);
         new (p) char*(str);
@@ -2076,50 +1896,50 @@ struct S_00dc4fa0
     StringHolder* unk04;
     int unk08;
 
-    void __thiscall FUN_00dc4430(S_00dc5970_Handle* out, const S_00dc5970_Object& obj, int arg4) throw();
-    int __thiscall ReadObject(void* out, const S_00dc5970_Object& obj) throw();
+    void FUN_00dc4430(S_00dc5970_Handle* out, const S_00dc5970_Object& obj, int arg4) throw();
+    int ReadObject(void* out, const S_00dc5970_Object& obj) throw();
 
-    int __thiscall FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* reader, int arg3, int arg4) throw();
+    int FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* reader, intptr_t arg3, int arg4) throw();
 };
 
 // Reads a typed value from reader into out based on type, returning 1 on error or unsupported type.
 // @fnv 0x00dc4fa0
-int __thiscall S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* reader, int aiFlag, int arg4) throw()
+int S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* reader, intptr_t aiFlag, int arg4) throw()
 {
     switch (type)
     {
     case 1:
-        *(bool*)out = (reader->FUN_00dba990() != 0);
+        *(bool*)out = (reinterpret_cast<::S_00dba990 *>((reader))->FUN_00dba990() != 0);
         return 0;
     case 2:
-        *(unsigned char*)out = (unsigned char)reader->FUN_00dba990();
+        *(unsigned char*)out = (unsigned char)reinterpret_cast<::S_00dba990 *>((reader))->FUN_00dba990();
         return 0;
     case 3:
-        *(char*)out = (char)reader->FUN_00dba990();
+        *(char*)out = (char)reinterpret_cast<::S_00dba990 *>((reader))->FUN_00dba990();
         return 0;
     case 4:
-        *(unsigned char*)out = (unsigned char)reader->FUN_00dba990();
+        *(unsigned char*)out = (unsigned char)reinterpret_cast<::S_00dba990 *>((reader))->FUN_00dba990();
         return 0;
     case 5:
-        *(short*)out = (short)reader->FUN_00dba990();
+        *(short*)out = (short)reinterpret_cast<::S_00dba990 *>((reader))->FUN_00dba990();
         return 0;
     case 6:
-        *(unsigned short*)out = (unsigned short)reader->FUN_00dba990();
+        *(unsigned short*)out = (unsigned short)reinterpret_cast<::S_00dba990 *>((reader))->FUN_00dba990();
         return 0;
     case 7:
-        *(int*)out = reader->FUN_00dba990();
+        *(int*)out = reinterpret_cast<::S_00dba990 *>((reader))->FUN_00dba990();
         return 0;
     case 8:
-        *(unsigned int*)out = (unsigned int)reader->FUN_00dba990();
+        *(unsigned int*)out = (unsigned int)reinterpret_cast<::S_00dba990 *>((reader))->FUN_00dba990();
         return 0;
     case 30:
-        *(int*)out = reader->FUN_00dba990();
+        *(int*)out = reinterpret_cast<::S_00dba990 *>((reader))->FUN_00dba990();
         return 0;
     case 9:
-        *(__int64*)out = reader->FUN_00dba990();
+        *(__int64*)out = reinterpret_cast<::S_00dba990 *>((reader))->FUN_00dba990();
         return 0;
     case 10:
-        *(__int64*)out = reader->FUN_00dba990();
+        *(__int64*)out = reinterpret_cast<::S_00dba990 *>((reader))->FUN_00dba990();
         return 0;
     case 11:
         *(float*)out = reader->FUN_00dbaa00();
@@ -2132,8 +1952,8 @@ int __thiscall S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* 
     case 20:
         if (aiFlag)
         {
-            S_00dc5970_Object obj = reader->FUN_00dba9d0();
-            if (!obj.GetObjectKind())
+            S_00dc5970_Object obj = (*(::S_00dc5970_Object *)(reinterpret_cast<::FUN_00dba9d0_cls *>((reader))->FUN_00dba9d0({})));
+            if (!((int)(reinterpret_cast<::FUN_00dba980_cls *>((void *)&(obj))->FUN_00dba980())))
             {
                 __declspec(align(8)) S_00dc5970_Handle h;
                 FUN_00dc4430(&h, obj, arg4);
@@ -2149,7 +1969,7 @@ int __thiscall S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* 
         if (aiFlag)
         {
             bool err;
-            if (err = (ReadObject(out, reader->FUN_00dba9d0()) == 1))
+            if (err = (ReadObject(out, (*(::S_00dc5970_Object *)(reinterpret_cast<::FUN_00dba9d0_cls *>((reader))->FUN_00dba9d0({})))) == 1))
             {
                 return 1;
             }
@@ -2162,19 +1982,19 @@ int __thiscall S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* 
         *(__m128*)out = *(__m128*)reader->DispatchToInterface(4);
         return 0;
     case 14:
-        ((S_00dc4fa0_M3*)out)->FUN_00c6cd00(reader->DispatchToInterface(12));
+        reinterpret_cast<::FUN_00c6cd00_cls *>((((S_00dc4fa0_M3*)out)))->FUN_00c6cd00((const ::FUN_00c6cd00_cls *)(void *)(reader->DispatchToInterface(12)));
         return 0;
     case 15:
-        ((S_00dc4fa0_Rot*)out)->CopyFromFloatArray(reader->DispatchToInterface(12));
+        reinterpret_cast<::S48 *>((((S_00dc4fa0_Rot*)out)))->CopyFromFloatArray((const float *)(void *)(reader->DispatchToInterface(12)));
         return 0;
     case 16:
-        ((S_00dc4fa0_QsTr*)out)->CopyFromFloatArray(reader->DispatchToInterface(12));
+        reinterpret_cast<::S48 *>((((S_00dc4fa0_QsTr*)out)))->CopyFromFloatArray((const float *)(void *)(reader->DispatchToInterface(12)));
         return 0;
     case 17:
-        ((S_00dc4fa0_M4*)out)->FUN_00dc3710(reader->DispatchToInterface(16));
+        reinterpret_cast<::DC3710Transform *>((((S_00dc4fa0_M4*)out)))->FUN_00dc3710((*(const ::DC3710Transform *)(reader->DispatchToInterface(16))));
         return 0;
     case 18:
-        ((S_00dc4fa0_Tr*)out)->FUN_00c6cd60(reader->DispatchToInterface(16));
+        reinterpret_cast<::hkMatrix4CD60 *>((((S_00dc4fa0_Tr*)out)))->FUN_00c6cd60((*(const ::hkMatrix4CD60 *)(reader->DispatchToInterface(16))));
         return 0;
     case 29: {
         if (unk08)
@@ -2195,12 +2015,12 @@ int __thiscall S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* 
         return 0;
     }
     case 33: {
-        int val;
+        intptr_t val;
         if (reader->FUN_00dba9c0())
         {
             char* copy = FUN_00cb1410(reader->FUN_00dba9c0());
             unk04->m_pStringFunctions.AddBack(copy);
-            val = (int)copy;
+            val = (intptr_t)copy;
         }
         else
         {
@@ -2220,8 +2040,8 @@ int __thiscall S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* 
             return 1;
         }
         {
-            S_00dc5970_Object obj = reader->FUN_00dba9d0();
-            if (!obj.GetObjectKind())
+            S_00dc5970_Object obj = (*(::S_00dc5970_Object *)(reinterpret_cast<::FUN_00dba9d0_cls *>((reader))->FUN_00dba9d0({})));
+            if (!((int)(reinterpret_cast<::FUN_00dba980_cls *>((void *)&(obj))->FUN_00dba980())))
             {
                 __declspec(align(8)) S_00dc5970_Handle h;
                 FUN_00dc4430(&h, obj, arg4);
@@ -2273,10 +2093,7 @@ struct DCIterator
     int p;
     DCIterator(DCNode*) throw();
     ~DCIterator() throw();
-    DCIterator SetShiftedValue() throw();
-    int FUN_00dba670() throw();
     DCNode* FUN_00dba680() throw();
-    void FillOutFromInterface(void*) throw();
 };
 struct DCEntry
 {
@@ -2292,8 +2109,6 @@ struct DCArray
     int cap;
     void reserve(void*, int);
 };
-void __cdecl FUN_00c908c0(void*, DCArray*, int, int);
-void __cdecl ResizeAudioStream(void*, DCArray*, int);
 inline void DCArray::reserve(void* heap, int min)
 {
     int old = cap & 0x3fffffff;
@@ -2302,7 +2117,7 @@ inline void DCArray::reserve(void* heap, int min)
         int n = old * 2;
         if (n <= min)
             n = min;
-        FUN_00c908c0(heap, this, n, 24);
+        ::FUN_00c908c0((::SpawnedObject *)(heap), (::SpawnedArray *)(::DCArray *)(this), n, 24);
     }
 }
 struct DCAlloc
@@ -2346,7 +2161,7 @@ S_00dc5970_ClassImpl* S_00dc5970_Cloner::FUN_00dc5440(S_00dc5970_ClassImpl* srcC
             DCIterator it(((DCWorld*)unk4)->find(node));
             r = (DCRouter*)FUN_00c85750();
             if (a.size == (a.cap & 0x3fffffff))
-                ResizeAudioStream(r->heap, &a, 24);
+                ::ResizeAudioStream((::AudioAllocator *)(r->heap), (::AudioStream *)(::DCArray *)(&a), 24);
             DCEntry* e = a.data + a.size;
             if (e)
             {
@@ -2356,8 +2171,8 @@ S_00dc5970_ClassImpl* S_00dc5970_Cloner::FUN_00dc5440(S_00dc5970_ClassImpl* srcC
             }
             DCEntry* out = a.data + a.size;
             a.size++;
-            it.FillOutFromInterface(out);
-            node = it.SetShiftedValue().FUN_00dba670() ? 0 : it.SetShiftedValue().FUN_00dba680();
+            reinterpret_cast<::S_00dbafe0 *>(&(it))->FillOutFromInterface((::S_Out *)(out));
+            node = ((int)(reinterpret_cast<::CpuObject *>((void *)&(const ::DCIterator &)((*(::DCIterator *)(reinterpret_cast<::FUN_00dba6a0_cls *>(&(it))->SetShiftedValue({})))))->FUN_00dba670())) ? 0 : (*(::DCIterator *)(reinterpret_cast<::FUN_00dba6a0_cls *>(&(it))->SetShiftedValue({}))).FUN_00dba680();
         }
         for (int i = a.size - 1; i >= 0; --i)
             ((DCWorld*)&m_kSourceWorld)->add(a.data + i);
@@ -2366,7 +2181,7 @@ S_00dc5970_ClassImpl* S_00dc5970_Cloner::FUN_00dc5440(S_00dc5970_ClassImpl* srcC
         {
             struct Member
             {
-                int x[5];
+                intptr_t x[5];
             } member = {0, 0, 0, 0, 0};
             pClass->member(i, &member);
             if (member.x[3])
@@ -2400,7 +2215,6 @@ struct DWC_Router
     int unk8;
     DWC_Allocator* m_pTemp;
 
-    static DWC_Router& FUN_00c85750() throw();
     DWC_Allocator& temp() throw()
     {
         return *m_pTemp;
@@ -2414,7 +2228,6 @@ struct DWC_Allocator
     virtual void vf3() throw();
     virtual void ReturnMemory(void* p, int numBytes) throw();
 };
-void FUN_00c908c0(DWC_Allocator& alloc, void* array, int numElem, int sizeElem) throw();
 
 struct DWC_ClassImpl;
 struct DWC_ClassSource
@@ -2433,10 +2246,6 @@ struct DWC_MemberInfo
     DWC_MemberInfo() throw() : m_name(0), m_type(0), m_tuple(0), m_class(0), m_valuePtr(0)
     {}
 };
-inline void* operator new(unsigned int, DWC_MemberInfo* p) throw()
-{
-    return p;
-}
 
 __forceinline void DWC_construct(DWC_MemberInfo* t, int n) throw()
 {
@@ -2456,7 +2265,7 @@ struct DWC_MemberArray
     {}
     ~DWC_MemberArray() throw()
     {
-        _clearAndDeallocate(DWC_Router::FUN_00c85750().temp());
+        _clearAndDeallocate((*static_cast<DWC_Router*>(::FUN_00c85750())).temp());
     }
     int getCapacity() const throw()
     {
@@ -2481,7 +2290,7 @@ struct DWC_MemberArray
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(DWC_MemberInfo));
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(DWC_MemberInfo));
         }
     }
     __forceinline void _setSize(DWC_Allocator& alloc, int n) throw()
@@ -2492,19 +2301,17 @@ struct DWC_MemberArray
     }
     __forceinline void SetSizeAndGrow(int n) throw()
     {
-        _setSize(DWC_Router::FUN_00c85750().temp(), n);
+        _setSize((*static_cast<DWC_Router*>(::FUN_00c85750())).temp(), n);
     }
 };
 
 struct DWC_Class
 {
     int FUN_00dba730() const throw();
-    void DispatchItems(DWC_MemberArray& infos) const throw();
 };
 
 struct DWC_Cloner
 {
-    DWC_ClassImpl* FUN_00dc5440(DWC_ClassImpl* srcClass) throw();
     void FUN_00dc56f0(DWC_MemberArray& dstInfos, const DWC_Class& dstClass, const DWC_Class& srcClass) throw();
 };
 
@@ -2514,16 +2321,16 @@ void DWC_Cloner::FUN_00dc56f0(DWC_MemberArray& dstInfos, const DWC_Class& dstCla
 {
     DWC_MemberArray srcInfos;
     srcInfos.SetSizeAndGrow(srcClass.FUN_00dba730());
-    srcClass.DispatchItems(srcInfos);
+    reinterpret_cast<::S_00dbaed0_Obj *>((void *)&(srcClass))->DispatchItems((::S_00dbaed0_Elem **)&(srcInfos));
 
     dstInfos.SetSizeAndGrow(dstClass.FUN_00dba730());
-    dstClass.DispatchItems(dstInfos);
+    reinterpret_cast<::S_00dbaed0_Obj *>((void *)&(dstClass))->DispatchItems((::S_00dbaed0_Elem **)&(dstInfos));
 
     for (int i = 0; i < srcClass.FUN_00dba730(); ++i)
     {
         if (srcInfos[i].m_class && !dstInfos[i].m_class)
         {
-            dstInfos[i].m_class = (DWC_ClassSource*)FUN_00dc5440(srcInfos[i].m_class->getImplementation());
+            dstInfos[i].m_class = (DWC_ClassSource*)((::DWC_ClassImpl *)(reinterpret_cast<::S_00dc5970_Cloner *>(this)->FUN_00dc5440((::S_00dc5970_ClassImpl *)(::DWC_ClassImpl *)(srcInfos[i].m_class->getImplementation()))));
         }
     }
 }
@@ -2543,6 +2350,17 @@ struct FUN_00dc3920_cls
     int m_iMask;
     unsigned int FindEntry(unsigned int a, unsigned int b);
 };
+// @fnv 0x00dc3b90
+int S_00dc3b90::LookupValue(unsigned __int64 key, unsigned __int64* out)
+{
+    int i = ((int)(reinterpret_cast<::FUN_00dc3920_cls *>(this)->FindEntry(key, {})));
+    if (i <= m_iPairCount)
+    {
+        *out = m_kPrimitiveElement[i].val;
+        return 0;
+    }
+    return 1;
+}
 // Linearly probes the hash table m_pEntries for a matching key pair (a, b) and returns the slot index, or mask+1 when not found.
 // @fnv 0x00dc3920
 unsigned int FUN_00dc3920_cls::FindEntry(unsigned int auiKey0, unsigned int auiKey1)
@@ -2579,16 +2397,9 @@ struct Member355
     {
         return name;
     }
-    int FUN_00d86940() throw();
-    int FUN_00d86980() throw();
-    void* FUN_00d86920() throw();
 };
 struct Class355
 {
-    int FUN_00d46f70() throw();
-    Member355* FUN_00d46f80(int index) throw();
-    Class355* FUN_00d46d50() throw();
-    int FUN_00d470d0() throw();
 };
 struct ClassHandle355
 {
@@ -2610,15 +2421,12 @@ struct Value355
     void* impl;
     int index;
     Array355 GetResult() throw();
-    Object355 CreateValueInto() throw();
-    Object355 FUN_00dba9d0() throw();
 };
 struct Object355
 {
     void* impl;
     ClassHandle355* GetObjectValue(ClassHandle355* out) throw();
     int FUN_00dba910(const char* name) throw();
-    Value355 FUN_00dba870(const char* name) throw();
     ~Object355() throw();
 };
 struct Registry355
@@ -2643,7 +2451,6 @@ struct Router355
     int unk08;
     int unk0c;
     Allocator355* heap;
-    static Router355& FUN_00c85750() throw();
     __forceinline Allocator355& getHeap() throw()
     {
         return *heap;
@@ -2662,172 +2469,7 @@ struct Reader355
     S_00dc3ce0* tracker;
     int restricted;
     int ReadObject(char* destination, Object355* object) throw();
-    int FUN_00dc4fa0(char* destination, int type, Value355* value, void* metadata, int owned) throw();
-    int ReadValue(char* destination, int type, Value355* value, void* metadata, int owned) throw();
-    int ReadArray(char* destination, Member355* member, Array355* array) throw();
-    int FUN_00dc1bf0(char* destination, Member355* member, Value355* value, Class355* type) throw();
-    Class355* FUN_00dc3a80(Member355* member, Object355* object) throw();
 };
-// Deserializes an Object355 into destination by iterating class members and dispatching on member type, returning 1 on failure.
-// @fnv 0x00dc2d60
-int Reader355::ReadObject(char* destination, Object355* object) throw()
-{
-    int result = 0;
-    ClassHandle355 classHandle;
-    void* name = object->GetObjectValue(&classHandle)->FUN_00dba680();
-    classHandle.FUN_00dba660();
-    Class355* type = registry->find(name);
-    if (!type)
-        goto finished;
-    do
-    {
-        for (int memberIndex = 0; memberIndex < type->FUN_00d46f70(); ++memberIndex)
-        {
-            Member355* member = type->FUN_00d46f80(memberIndex);
-            char* output = destination + member->offset;
-            if (!object->FUN_00dba910(member->getName()))
-            {
-                if (member->type == 22)
-                    ((Sequence355*)output)->count = 0x80000000;
-                continue;
-            }
-            Value355 value = object->FUN_00dba870(member->getName());
-            int count = member->FUN_00d86940();
-            if (!count)
-                count = 1;
-            int stride = member->FUN_00d86980() / count;
-            unsigned char kind = member->type;
-            int owned = ((unsigned short)~member->flags >> 9) & 1;
-            switch (kind)
-            {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 25:
-            case 28:
-            case 29:
-            case 30:
-            case 32:
-            case 33:
-                if (count == 1)
-                {
-                    result = FUN_00dc4fa0(output, kind, &value, member->FUN_00d86920(), owned);
-                }
-                else
-                {
-                    Array355 array = value.GetResult();
-                    for (int i = 0; i < array.FUN_00dbac00() && !result; ++i, output += stride)
-                    {
-
-                        result = ReadValue(output, kind, &array.FUN_00dbab90(i), member->FUN_00d86920(), owned);
-                    }
-                }
-                break;
-            case 22:
-            case 26: {
-                if (restricted && ((unsigned char)kind == 26 || member->subtype == 28 || member->subtype == 29))
-                    goto failed;
-                result = ReadArray(output, member, &value.GetResult());
-                break;
-            }
-            case 20:
-                if (member->subtype == 2)
-                {
-                    if (count == 1)
-                        result = FUN_00dc4fa0(output, 29, &value, 0, owned);
-                    else
-                    {
-                        Array355 array = value.GetResult();
-                        for (int i = 0; i < array.FUN_00dbac00() && !result; ++i)
-                        {
-
-                            result = ReadValue(output, 29, &array.FUN_00dbab90(i), 0, owned);
-                            output += stride;
-                        }
-                    }
-                }
-                else if (member->subtype == 25)
-                {
-                    if (count == 1)
-                    {
-
-                        result = FUN_00dc4fa0(output, kind, &value, FUN_00dc3a80(member, &value.FUN_00dba9d0()), owned);
-                    }
-                    else
-                    {
-                        Array355 array = value.GetResult();
-                        for (int i = 0; i < array.FUN_00dbac00() && !result; ++i, output += stride)
-                        {
-
-                            result = ReadValue(output, kind, &array.FUN_00dbab90(i),
-                                               FUN_00dc3a80(member, &array.FUN_00dbab90(i).CreateValueInto()), owned);
-                        }
-                    }
-                }
-                break;
-            case 24:
-            case 31:
-                result = FUN_00dc1bf0(output, member, &value, type);
-                break;
-            case 27: {
-                if (restricted)
-                    goto failed;
-                Array355 array = value.GetResult();
-
-                Sequence355* sequence = (Sequence355*)output;
-                sequence->elementClass = FUN_00dc3a80(member, &array.FUN_00dbab90(0).CreateValueInto());
-
-                sequence->count = array.FUN_00dbac00();
-                int elementSize = sequence->elementClass->FUN_00d470d0();
-                {
-                    int bytes = sequence->count * elementSize;
-                    sequence->data = AllocElems<char>(bytes);
-                    FUN_00cb1280(sequence->data, 0, bytes);
-                }
-                tracker->AddEntry((int)sequence->data, sequence->count * elementSize, 6);
-                int i = 0;
-                if (i < sequence->count)
-                {
-                    int offset = 0;
-                    for (; i < sequence->count && !result; ++i, offset += elementSize)
-                    {
-                        char* elementDestination = sequence->data + offset;
-
-                        result = ReadObject(elementDestination, &array.FUN_00dbab90(i).CreateValueInto());
-                    }
-                }
-                break;
-            }
-            default:
-                goto failed;
-            }
-            if (result == 1)
-                goto failed;
-        }
-        type = type->FUN_00d46d50();
-    } while (type);
-    goto finished;
-failed:
-    return 1;
-finished:
-    return result;
-}
-
 struct S_Heap
 {
     virtual void* v0() throw();
@@ -2845,7 +2487,6 @@ struct S_Holder
         return *m10;
     }
 };
-void* __cdecl FUN_00c85750() throw();
 struct S_Heap;
 inline S_Heap& S_heap()
 {
@@ -2858,7 +2499,6 @@ struct S_Blk
 };
 struct S_Str
 {
-    const char* FUN_00d46d40();
 };
 struct S_Key
 {
@@ -2897,7 +2537,6 @@ struct S_Map
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00cb1870(S_Heap* h, int v, const char* k) throw();
 };
 struct S_Obj
 {
@@ -2907,10 +2546,6 @@ struct S_Obj
     int m8;
     int unk0c;
     S_Map m10;
-    S_Obj* FUN_00e05700();
-    void FUN_00e05100(int a, const char* b) throw();
-    void FUN_00c90510() throw();
-    void FUN_00c905b0() throw();
 };
 struct S_PH;
 struct S_X
@@ -2930,12 +2565,10 @@ struct S_X
 struct S_PH
 {
     S_X* p;
-    int FUN_00dba980();
     S_PH* GetObjectValue(S_PH* out);
     S_X* FUN_00dba6c0();
     const char* FUN_00dba680();
     void FUN_00dba660() throw();
-    void FUN_00dba7f0() throw();
 };
 struct S_Dom
 {
@@ -2964,7 +2597,7 @@ struct S_Owner
     void operator=(S_Obj* n)
     {
         if (p && p != n)
-            p->FUN_00c905b0();
+            reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
         p = n;
     }
 };
@@ -2983,7 +2616,7 @@ struct S_Ctx
     S_Ctx* Construct(S_Dom* d, int x) throw();
     ~S_Ctx() throw()
     {
-        FUN_00dc43a0();
+        reinterpret_cast<::fnv_00dc43a0::FUN_00dc43a0 *>(this)->fnv_00dc43a0::FUN_00dc43a0::~FUN_00dc43a0();
     }
     __declspec(noalias) void FUN_00dc4430(S_T2* t, S_PH* h, int f) throw();
     void FUN_00dc43a0() throw();
@@ -2992,11 +2625,11 @@ struct S_Ctx
 __forceinline S_Obj* S_toResource(S_Ctx* context, S_PH* object) throw()
 {
     S_Obj* result = 0;
-    if (!object->FUN_00dba980())
+    if (!((int)(reinterpret_cast<::FUN_00dba980_cls *>((object))->FUN_00dba980())))
     {
         S_Obj* resource = (S_Obj*)S_heap().alloc(0x64);
         ((S_Blk*)resource)->sz = 0x64;
-        S_Obj* replacement = resource->FUN_00e05700();
+        S_Obj* replacement = ((::S_Obj *)(reinterpret_cast<::S00e05700_Class *>((resource))->FUN_00e05700()));
         context->m4 = replacement;
         S_T2 target;
         context->FUN_00dc4430(&target, object, 0);
@@ -3004,7 +2637,7 @@ __forceinline S_Obj* S_toResource(S_Ctx* context, S_PH* object) throw()
         {
             S_PH temporary;
             S_X* x = object->GetObjectValue(&temporary)->FUN_00dba6c0();
-            temporary.FUN_00dba660();
+            ::FUN_00dba660();
             int index = context->m18.FUN_00dc35e0();
             while (index <= context->m18.m8)
             {
@@ -3013,21 +2646,21 @@ __forceinline S_Obj* S_toResource(S_Ctx* context, S_PH* object) throw()
                 x->v10(&value, &key);
                 S_PH text;
                 const char* name = value.GetObjectValue(&text)->FUN_00dba680();
-                text.FUN_00dba660();
+                ::FUN_00dba660();
                 S_Str* string = context->m0->v4(name);
                 int number = context->m18.getValue(index);
                 S_Obj* owner = context->m4;
-                const char* keyName = string->FUN_00d46d40();
+                const char* keyName = reinterpret_cast<::FnvClassNameNode *>((string))->FUN_00d46d40();
                 S_Heap& heap = S_heap();
-                owner->m10.FUN_00cb1870(&heap, number, keyName);
-                value.FUN_00dba7f0();
+                reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(owner->m10))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&heap)), number, (uintptr_t)(keyName));
+                reinterpret_cast<::DBA7F0Ref *>(&(value))->FUN_00dba7f0();
                 index = context->m18.next(index);
             }
             S_Obj* owner = context->m4;
-            const char* name = target.f4->FUN_00d46d40();
-            owner->FUN_00e05100(target.f0, name);
+            const char* name = reinterpret_cast<::FnvClassNameNode *>((target.f4))->FUN_00d46d40();
+            reinterpret_cast<::FUN_00e05100_cls *>((owner))->FUN_00e05100(target.f0, (intptr_t)(name));
             result = context->m4;
-            result->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((result))->FUN_00c90510();
             context->m4 = 0;
             return result;
         }
@@ -3052,9 +2685,8 @@ struct Object
     {}
     ~Object() throw()
     {
-        FUN_00dba7f0();
+        reinterpret_cast<::DBA7F0Ref *>(this)->FUN_00dba7f0();
     }
-    void FUN_00dba7f0() throw();
 };
 struct Element
 {
@@ -3065,12 +2697,6 @@ struct Element
     float ApplyValue() const throw();
     const float* DispatchToVTableSlot8(int) const throw();
     const char* FUN_00dbac70() const throw();
-    Object CreateValueInto() const throw();
-    void InvokeOnInterface(int) throw();
-    void FUN_00dbad20(float) throw();
-    void FUN_00dbad60(const float*, int) throw();
-    void FUN_00dbad00(const Object&) throw();
-    void FUN_00dbadc0(const char*) throw();
 };
 struct ClonerStandin
 {
@@ -3087,26 +2713,26 @@ void ClonerStandin::FUN_00dc37f0(Element dst, const Element& src)
     {
     case 1:
     case 2:
-        dst.InvokeOnInterface(src.CallVirtualWithArg());
+        reinterpret_cast<::fnv_00dbada0::Wrapper *>(&(dst))->InvokeOnInterface(src.CallVirtualWithArg());
         break;
     case 3:
-        dst.FUN_00dbad20(src.ApplyValue());
+        reinterpret_cast<::fnv_00dbad20::AudioHandle *>(&(dst))->FUN_00dbad20(src.ApplyValue());
         break;
     case 4:
     case 5:
     case 6:
     case 7: {
         int n = 4 * (src.FUN_00dbac40() - 3);
-        dst.FUN_00dbad60(src.DispatchToVTableSlot8(n), n);
+        reinterpret_cast<::FUN_00dbad60_cls *>(&(dst))->FUN_00dbad60((intptr_t)(src.DispatchToVTableSlot8(n)), n);
         break;
     }
     case 8:
     case 9: {
-        dst.FUN_00dbad00(CloneObject(&dst ? src.CreateValueInto() : Object()));
+        reinterpret_cast<::FUN_00dbad00_cls *>(&(dst))->FUN_00dbad00((int *)&(const ::Object &)(CloneObject(&dst ? (*(::Object *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(src))->CreateValueInto({}))) : Object())));
         break;
     }
     case 10:
-        dst.FUN_00dbadc0(src.FUN_00dbac70());
+        reinterpret_cast<::DBADC0Binding *>(&(dst))->FUN_00dbadc0((void *)(src.FUN_00dbac70()));
         break;
     }
 }
@@ -3134,8 +2760,8 @@ struct S_00dc4710_Ref
     virtual void v0();
     short m_iElementCount;
     short m_iObjectReferenceCount;
-    void removeReference() throw();  // FUN_00c905b0
-    static void* operator new(unsigned int n)
+      // FUN_00c905b0
+    static void* operator new(std::size_t n)
     {
         void* p = ((S_00dc4710_Router*)FUN_00c85750())->heap().AllocateMemoryBlock(n);
         ((S_00dc4710_Ref*)p)->m_iElementCount = (short)n;
@@ -3257,8 +2883,6 @@ template <typename K, typename V> struct hkMap_dc4710
 };
 struct S_00dc4710_ClassC
 {
-    int FUN_00d470d0() throw();
-    const char* FUN_00d46d40() throw();
     S_00dc4710_Bool GetLastNodeFlag() throw();
 };
 struct S_00dc4710_Owner
@@ -3319,7 +2943,6 @@ struct S_00dc4710_Err
     virtual void v2();
     virtual void vc(int a, int id, const char* msg, const char* file, int line) throw();
 };
-extern S_00dc4710_Err* DAT_01268360;
 struct S_00dc4710_Stream
 {
     int unk0;
@@ -3327,7 +2950,6 @@ struct S_00dc4710_Stream
     int unk8;
     S_00dc4710_Stream(char* b, int n) throw();  // FUN_00cb1600
     ~S_00dc4710_Stream() throw();               // FUN_00cc00e0
-    S_00dc4710_Stream& FUN_00cc01c0(const char* s) throw();
 };
 struct S_00dc4710_Result : S_00dc4710_Ref
 {
@@ -3336,15 +2958,12 @@ struct S_00dc4710_Result : S_00dc4710_Ref
     int unk10;
     int unk14;
     S_00dc4710_Result(const S_00dc4710_Ret& r) throw();  // Initialize
-    void FUN_00e04eb0(S_00dc4710_Owner* o) throw();
-    void FUN_00e04ee0(S_00dc4710_Sink* s) throw();
 };
 struct S_00dc4710_Map
 {
     int unk0;
     int unk4;
     int unk8;
-    unsigned short LookupHashEntry(unsigned short* item, int z) throw();
 };
 struct S_00dc4710_Cls
 {
@@ -3363,7 +2982,7 @@ S_00dc4710_Result* S_00dc4710_Cls::FUN_00dc4710(S_00dc4710_Obj* apObj, S_00dc471
 {
     S_00dc4710_Thing* t = new S_00dc4710_Thing;
     if (m_thing && m_thing != t)
-        m_thing->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_thing))->FUN_00c905b0();
     m_thing = t;
     S_00dc4710_Ret ret = FUN_00dc4430(apObj, 1);
     S_00dc4710_World* world = apObj->GetObjectValue().FUN_00dba6c0();
@@ -3371,7 +2990,7 @@ S_00dc4710_Result* S_00dc4710_Cls::FUN_00dc4710(S_00dc4710_Obj* apObj, S_00dc471
     {
         m_thing->unk30 = 0;
         if (m_thing)
-            m_thing->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_thing))->FUN_00c905b0();
         m_thing = 0;
         return 0;
     }
@@ -3381,10 +3000,10 @@ S_00dc4710_Result* S_00dc4710_Cls::FUN_00dc4710(S_00dc4710_Obj* apObj, S_00dc471
         S_00dc4710_ClassImpl* impl = obj.GetObjectValue().getImplementation();
         S_00dc4710_ClassC* c = m_pOwnerObject->vf10(impl);
         unsigned short* item = m_entries.getValue(i);
-        unsigned short n = m_map.LookupHashEntry(item, 0);
+        unsigned short n = ((unsigned short)(reinterpret_cast<::FUN_00cb1930_t *>(&(m_map))->LookupHashEntry((intptr_t)(item), 0)));
         if ((short)n > 0)
         {
-            item[2] = (unsigned short)c->FUN_00d470d0();
+            item[2] = (unsigned short)reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((c))->FUN_00d470d0();
             item[3] = n;
         }
     }
@@ -3394,26 +3013,24 @@ S_00dc4710_Result* S_00dc4710_Cls::FUN_00dc4710(S_00dc4710_Obj* apObj, S_00dc471
         S_00dc4710_ClassImpl* impl = obj.GetObjectValue().getImplementation();
         S_00dc4710_ClassC* c = m_pOwnerObject->vf10(impl);
         unsigned short* item = m_entries.getValue(i);
-        void* r = apSink->vf10(item, c->FUN_00d46d40());
+        void* r = apSink->vf10(item, reinterpret_cast<::FnvClassNameNode *>((c))->FUN_00d46d40());
         if (c->GetLastNodeFlag().b != 0 && r == 0)
         {
             unsigned int buf[128];
             S_00dc4710_Stream s((char*)buf, 512);
-            s.FUN_00cc01c0("Cannot finish virtual object of class ")
-                .FUN_00cc01c0(c->FUN_00d46d40())
-                .FUN_00cc01c0(". Please make sure the class is registered.");
-            DAT_01268360->vc(1, 0x7c303834, (const char*)buf, ".\\Data\\Util\\hkDataObjectUtil.cpp", 0x133);
+            reinterpret_cast<::SinkOwner *>(&((*(::S_00dc4710_Stream *)(reinterpret_cast<::SinkOwner *>(&((*(::S_00dc4710_Stream *)(reinterpret_cast<::SinkOwner *>(&(s))->FUN_00cc01c0("Cannot finish virtual object of class ")))))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((c))->FUN_00d46d40())))))->FUN_00cc01c0(". Please make sure the class is registered.");
+            (*reinterpret_cast<::S_00dc4710_Err * *>(&::DAT_01268360))->vc(1, 0x7c303834, (const char*)buf, ".\\Data\\Util\\hkDataObjectUtil.cpp", 0x133);
         }
     }
     S_00dc4710_Result* pResult = new S_00dc4710_Result(ret);
-    pResult->FUN_00e04eb0(m_pOwnerObject);
-    pResult->FUN_00e04ee0(apSink);
+    reinterpret_cast<::FUN_00e04eb0_class *>((pResult))->FUN_00e04eb0((::hkReferencedObject *)(m_pOwnerObject));
+    reinterpret_cast<::fnv_00e04ee0::FUN_00e04ee0_class *>((pResult))->FUN_00e04ee0((::fnv_00e04ee0::hkReferencedObject *)(apSink));
     S_00dc4710_Thing* pThing = m_thing;
     pThing->unk30 = 0;
     pThing->unk38 = 0;
     pThing->unk44 = 0;
     if (m_thing)
-        m_thing->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_thing))->FUN_00c905b0();
     m_thing = 0;
     return pResult;
 }
@@ -3422,10 +3039,9 @@ namespace fnv_00dc3d40 {
 struct DObj
 {
     int unk00;
-    void FUN_00dba7f0() throw();
     __forceinline ~DObj() throw()
     {
-        FUN_00dba7f0();
+        reinterpret_cast<::DBA7F0Ref *>(this)->FUN_00dba7f0();
     }
 };
 struct DArray;
@@ -3444,13 +3060,7 @@ struct DValue
     float ApplyValue() throw();
     const float* DispatchToVTableSlot8(int n) throw();
     const char* FUN_00dbac70() throw();
-    DObj CreateValueInto() throw();
     DArray FUN_00dbacd0() throw();
-    void InvokeOnInterface(int v) throw();
-    void FUN_00dbad20(float v) throw();
-    void FUN_00dbad60(const float* v, int n) throw();
-    void FUN_00dbad00(const DObj& v) throw();
-    void FUN_00dbadc0(const char* v) throw();
 };
 struct DMember
 {
@@ -3481,7 +3091,6 @@ struct DMemory
         return *heap;
     }
 };
-__declspec(restrict) void* __cdecl FUN_00c85750();
 // hkMemoryAllocator::_bufAlloc<T>: the allocator may round the request up, the element count is updated
 template <class T> __forceinline T* AllocateBufferWithSize(DAllocator& a, int& reqNumInOut) throw()
 {
@@ -3531,11 +3140,10 @@ struct DClass
 {
     int impl;
     int FUN_00dba730() throw();
-    void DispatchItems(DMembers& out) throw();
     void FUN_00dba660() throw();
     __forceinline ~DClass() throw()
     {
-        FUN_00dba660();
+        ::FUN_00dba660();
     }
 };
 struct DArray
@@ -3545,24 +3153,21 @@ struct DArray
     int FUN_00dbac00() throw();
     DValue FUN_00dbabb0(int i) throw();
     DValue FUN_00dbab90(int i) throw();
-    void FUN_00dbabe0(int n) throw();
     DClass FUN_00dbac20() throw();
-    DArray InvokeCallbackInto(const char* name) throw();
     void FUN_00dbab70() throw();
     __forceinline ~DArray() throw()
     {
-        FUN_00dbab70();
+        reinterpret_cast<::FUN_00dbab70_cls *>(this)->FUN_00dbab70();
     }
 };
 struct DCloner
 {
     DObj CloneObject(const DObj& o) throw();
-    void FUN_00dc37f0(DValue dst, const DValue& src) throw();
-    void FUN_00dc3d40(DArray& destination, const DArray& src, int n) throw();
+    void FUN_00dc3d40(DArray& destination, const DArray& src, intptr_t n) throw();
 };
 // Copies n elements from source array to destination array, dispatching on element type to clone scalars, vectors, objects, classes, or strings.
 // @fnv 0x00dc3d40
-void DCloner::FUN_00dc3d40(DArray& destination, const DArray& source, int aiCount) throw()
+void DCloner::FUN_00dc3d40(DArray& destination, const DArray& source, intptr_t aiCount) throw()
 {
     DArray& src = const_cast<DArray&>(source);
     switch (src.FUN_00dbac10())
@@ -3570,11 +3175,11 @@ void DCloner::FUN_00dc3d40(DArray& destination, const DArray& source, int aiCoun
     case 1:
     case 2:
         for (int i = 0; i < aiCount; ++i)
-            destination.FUN_00dbab90(i).InvokeOnInterface(src.FUN_00dbabb0(i).CallVirtualWithArg());
+            reinterpret_cast<::fnv_00dbada0::Wrapper *>((void *)&(const ::fnv_00dc3d40::DValue &)(destination.FUN_00dbab90(i)))->InvokeOnInterface(src.FUN_00dbabb0(i).CallVirtualWithArg());
         break;
     case 3:
         for (int i = 0; i < aiCount; ++i)
-            destination.FUN_00dbab90(i).FUN_00dbad20(src.FUN_00dbabb0(i).ApplyValue());
+            reinterpret_cast<::fnv_00dbad20::AudioHandle *>((void *)&(const ::fnv_00dc3d40::DValue &)(destination.FUN_00dbab90(i)))->FUN_00dbad20(src.FUN_00dbabb0(i).ApplyValue());
         break;
     case 4:
     case 5:
@@ -3582,28 +3187,28 @@ void DCloner::FUN_00dc3d40(DArray& destination, const DArray& source, int aiCoun
     case 7: {
         int iVectorSize = (src.FUN_00dbac10() - 3) * 4;
         for (int i = 0; i < aiCount; ++i)
-            destination.FUN_00dbab90(i).FUN_00dbad60(src.FUN_00dbabb0(i).DispatchToVTableSlot8(iVectorSize), iVectorSize);
+            reinterpret_cast<::FUN_00dbad60_cls *>((void *)&(const ::fnv_00dc3d40::DValue &)(destination.FUN_00dbab90(i)))->FUN_00dbad60((intptr_t)(src.FUN_00dbabb0(i).DispatchToVTableSlot8(iVectorSize)), iVectorSize);
         break;
     }
     case 8:
-        destination.FUN_00dbabe0(aiCount);
+        reinterpret_cast<::DBABE0Binding *>(&(destination))->FUN_00dbabe0((void *)(aiCount));
         for (int i = 0; i < aiCount; ++i)
-            destination.FUN_00dbab90(i).FUN_00dbad00(CloneObject(src.FUN_00dbabb0(i).CreateValueInto()));
+            reinterpret_cast<::FUN_00dbad00_cls *>((void *)&(const ::fnv_00dc3d40::DValue &)(destination.FUN_00dbab90(i)))->FUN_00dbad00((int *)&(const ::fnv_00dc3d40::DObj &)(CloneObject((*(::fnv_00dc3d40::DObj *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::fnv_00dc3d40::DValue &)(src.FUN_00dbabb0(i)))->CreateValueInto({}))))));
         break;
     case 9: {
-        destination.FUN_00dbabe0(aiCount);
+        reinterpret_cast<::DBABE0Binding *>(&(destination))->FUN_00dbabe0((void *)(aiCount));
         DClass pClassInfo = src.FUN_00dbac20();
         int numMembers = pClassInfo.FUN_00dba730();
         DMembers members(numMembers);
         members.setSizeUnchecked(numMembers);
-        pClassInfo.DispatchItems(members);
+        reinterpret_cast<::S_00dbaed0_Obj *>(&(pClassInfo))->DispatchItems((::S_00dbaed0_Elem **)&(members));
         for (int iMemberIndex = 0; iMemberIndex < numMembers; ++iMemberIndex)
         {
             DMember& member = members.data[iMemberIndex];
             if (member.type & 15)
             {
-                DArray dstMember = destination.InvokeCallbackInto(member.name);
-                DArray srcMember = src.InvokeCallbackInto(member.name);
+                DArray dstMember = (*(::fnv_00dc3d40::DArray *)(reinterpret_cast<::FUN_00dbaea0_cls *>(&(destination))->InvokeCallbackInto((::FUN_00dbab50_cls *)(member.name), {})));
+                DArray srcMember = (*(::fnv_00dc3d40::DArray *)(reinterpret_cast<::FUN_00dbaea0_cls *>(&(src))->InvokeCallbackInto((::FUN_00dbab50_cls *)(member.name), {})));
                 if (member.type & 0x30)
                 {
                     for (int i = 0; i < aiCount; ++i)
@@ -3618,7 +3223,7 @@ void DCloner::FUN_00dc3d40(DArray& destination, const DArray& source, int aiCoun
                 {
                     for (int i = 0; i < aiCount; ++i)
                     {
-                        FUN_00dc37f0(dstMember.FUN_00dbab90(i), srcMember.FUN_00dbab90(i));
+                        reinterpret_cast<::ClonerStandin *>(this)->FUN_00dc37f0((*(::Element *)&(const ::fnv_00dc3d40::DValue &)(dstMember.FUN_00dbab90(i))), (const ::Element &)((const ::fnv_00dc3d40::DValue &)(srcMember.FUN_00dbab90(i))));
                     }
                 }
             }
@@ -3627,7 +3232,7 @@ void DCloner::FUN_00dc3d40(DArray& destination, const DArray& source, int aiCoun
     }
     case 10:
         for (int i = 0; i < aiCount; ++i)
-            destination.FUN_00dbab90(i).FUN_00dbadc0(src.FUN_00dbabb0(i).FUN_00dbac70());
+            reinterpret_cast<::DBADC0Binding *>((void *)&(const ::fnv_00dc3d40::DValue &)(destination.FUN_00dbab90(i)))->FUN_00dbadc0((void *)(src.FUN_00dbabb0(i).FUN_00dbac70()));
         break;
     }
 }
@@ -3640,7 +3245,7 @@ struct MemberInfo
     const char* m_pClassName;
     int m_type;
     void* m_valuePtr;
-    int m_uiItemCount;
+    intptr_t m_uiItemCount;
 };
 
 struct FUN_00dbab70
@@ -3649,9 +3254,7 @@ struct FUN_00dbab70
     FUN_00dbab70() throw()
     {}
     ~FUN_00dbab70() throw();
-    void FUN_00dbab50(ArrayImpl* impl) throw();
-    void FUN_00dbabe0(int size) throw();
-    int FUN_00dbac00() const throw();
+    intptr_t FUN_00dbac00() const throw();
 };
 
 struct DataObject;
@@ -3682,16 +3285,13 @@ struct DataValue
 struct DataObject
 {
     void* m_pClassImpl;
-    FUN_00dba660 GetObjectValue() const throw();
-    DataValue* FUN_00dba870(DataValue* out, const char* name) throw();
+    struct FUN_00dba660 GetObjectValue() const throw();
     DataValue* FUN_00dba890(DataValue* out, const char* name) const throw();
     DataValue FUN_00dba890(const char* name) const throw();
 };
 
 struct ValueCloner
 {
-    void FUN_00dc3d40(FUN_00dbab70& dst, const FUN_00dbab70& src, int n) throw();
-    void CopyValue(DataValue dst, const DataValue& src) throw();
     void FUN_00dc4210(DataObject& dstObj, const DataObject& srcObj, const MemberInfo& minfo) throw();
 };
 
@@ -3721,28 +3321,27 @@ void ValueCloner::FUN_00dc4210(DataObject& dstObj, const DataObject& srcObj, con
                 .FUN_00dba890(&v, minfo.m_name)
                 ->GetResult();
         FUN_00dbab70 dstArray;
-        dstArray.FUN_00dbab50(dstObj.GetObjectValue().FUN_00dba6c0()->m_ppNewArray(dstObj, minfo));
-        dstArray.FUN_00dbabe0(minfo.m_uiItemCount);
-        FUN_00dc3d40(dstArray, srcArray, minfo.m_uiItemCount);
+        new ((void *)&(dstArray)) ::FUN_00dbab50((::DBAB50Object *)(::ArrayImpl *)(dstObj.GetObjectValue().FUN_00dba6c0()->m_ppNewArray(dstObj, minfo)));
+        reinterpret_cast<::DBABE0Binding *>(&(dstArray))->FUN_00dbabe0((void *)(minfo.m_uiItemCount));
+        reinterpret_cast<::fnv_00dc3d40::DCloner *>(this)->FUN_00dc3d40((::fnv_00dc3d40::DArray &)(dstArray), (const ::fnv_00dc3d40::DArray &)(srcArray), minfo.m_uiItemCount);
     }
     else if (minfo.m_type & 0x10)
     {
         FUN_00dbab70 srcArray = srcObj.FUN_00dba890(&v, minfo.m_name)->GetResult();
         FUN_00dbab70 dstArray;
-        dstArray.FUN_00dbab50(dstObj.GetObjectValue().FUN_00dba6c0()->m_ppNewArray(dstObj, minfo));
-        dstArray.FUN_00dbabe0(srcArray.FUN_00dbac00());
-        FUN_00dc3d40(dstArray, srcArray, srcArray.FUN_00dbac00());
+        new ((void *)&(dstArray)) ::FUN_00dbab50((::DBAB50Object *)(::ArrayImpl *)(dstObj.GetObjectValue().FUN_00dba6c0()->m_ppNewArray(dstObj, minfo)));
+        reinterpret_cast<::DBABE0Binding *>(&(dstArray))->FUN_00dbabe0((void *)(srcArray.FUN_00dbac00()));
+        reinterpret_cast<::fnv_00dc3d40::DCloner *>(this)->FUN_00dc3d40((::fnv_00dc3d40::DArray &)(dstArray), (const ::fnv_00dc3d40::DArray &)(srcArray), srcArray.FUN_00dbac00());
     }
     else
     {
-        dstObj.FUN_00dba870(&v, minfo.m_name);
-        CopyValue(v, srcObj.FUN_00dba890(minfo.m_name));
+        reinterpret_cast<::FUN_00dba870_cls *>(&(dstObj))->FUN_00dba870(&v, (void *)(minfo.m_name));
+        reinterpret_cast<::ClonerQ *>(this)->CopyValue((*(::ValueQ *)&(const ::DataValue &)(v)), (const ::ValueQ &)((const ::DataValue &)(srcObj.FUN_00dba890(minfo.m_name))));
     }
 }
 
 extern "C" void _ReadWriteBarrier();
 struct AllocatorVtbl;
-__declspec(restrict) void* __cdecl FUN_00c85750() throw();
 struct DC4430Memory
 {
     int unk00;
@@ -3769,7 +3368,6 @@ struct FlagBool
         return value != 0;
     }
 };
-void ResizeAudioStream(S_00dc3ce0_Allocator& alloc, void* array, int sizeElem) throw();
 
 struct Key64
 {
@@ -3791,15 +3389,12 @@ struct DObjWrap
 {
     void* m_ptr;
     ~DObjWrap() throw();
-    int FUN_00dba670() throw();
     int FUN_00dba680() throw();
     int FUN_00dba690() throw();
 };
 
 struct ObjB
 {
-    int FUN_00d47120() throw();
-    int FUN_00d470d0() throw();
     FlagBool GetLastNodeFlag() throw();
 };
 
@@ -3814,7 +3409,6 @@ struct ObjA
 
 struct Arg1
 {
-    int FUN_00dba980() throw();
     DObjWrap GetObjectValue() throw();
     Key64* GetSourcePair(Key64* out) throw();
 };
@@ -3846,7 +3440,7 @@ struct KeyArray
     {
         if (m_iElementCount == getCapacity())
         {
-            ResizeAudioStream(alloc, this, sizeof(Key64));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(Key64));
         }
         new (m_data + m_iElementCount) Key64(e);
         m_iElementCount++;
@@ -3869,8 +3463,6 @@ struct Map18
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void* Lookup(unsigned __int64 key, void* defVal) throw();
-    void InsertKeyValue(S_00dc3ce0_Allocator& alloc, unsigned __int64 key, void* val) throw();
 };
 
 struct Pair0C
@@ -3885,7 +3477,6 @@ struct Map0C
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    int FUN_00cb1f40(S_00dc3ce0_Allocator& alloc, void* key, int defVal) throw();
 };
 
 class GlobalObjectO2_00d472a0
@@ -3893,7 +3484,6 @@ class GlobalObjectO2_00d472a0
   public:
     FlagBool FUN_00d46d80(ObjB* obj) throw();
 };
-extern GlobalObjectO2_00d472a0 g_01268748;
 
 extern "C" void* __cdecl _FUN_00cb1280(void*, int, unsigned int) throw();
 
@@ -3918,13 +3508,168 @@ struct DC4430_Class
     Map18 m_map18;
     KeyArray m_ppData;
 
-    int ReadObject(void* mem, Arg1* arg1) throw();
-    RetDC4430 FUN_00dc4430(Arg1* arg1, int arg2) throw();
+    RetDC4430 FUN_00dc4430(Arg1* arg1, intptr_t arg2) throw();
 };
+// Reads a value of the given type from reader into out, returning 1 on failure.
+// @fnv 0x00dc4a80
+int S_00dc4a80::ReadValue(void* out, int type, S_00dc4a80_Reader* reader, intptr_t aiFlag3, int arg4) throw()
+{
+    switch (type)
+    {
+    case 1:
+        *(bool*)out = (reader->CallVirtualWithArg() != 0);
+        return 0;
+    case 2:
+        *(unsigned char*)out = (unsigned char)reader->CallVirtualWithArg();
+        return 0;
+    case 3:
+        *(char*)out = (char)reader->CallVirtualWithArg();
+        return 0;
+    case 4:
+        *(unsigned char*)out = (unsigned char)reader->CallVirtualWithArg();
+        return 0;
+    case 5:
+        *(short*)out = (short)reader->CallVirtualWithArg();
+        return 0;
+    case 6:
+        *(unsigned short*)out = (unsigned short)reader->CallVirtualWithArg();
+        return 0;
+    case 7:
+        *(int*)out = reader->CallVirtualWithArg();
+        return 0;
+    case 8:
+        *(unsigned int*)out = (unsigned int)reader->CallVirtualWithArg();
+        return 0;
+    case 9:
+        *(__int64*)out = reader->CallVirtualWithArg();
+        return 0;
+    case 10:
+        *(unsigned __int64*)out = reader->CallVirtualWithArg();
+        return 0;
+    case 30:
+        *(unsigned long*)out = (unsigned long)reader->CallVirtualWithArg();
+        return 0;
+    case 11:
+        *(float*)out = reader->ApplyValue();
+        return 0;
+    case 32: {
+        float f = reader->ApplyValue();
+        *(short*)out = (short)(*(int*)&f >> 16);
+        return 0;
+    }
+    case 20:
+        if (aiFlag3)
+        {
+            S_00dc5970_Object obj = (*(::S_00dc5970_Object *)(reinterpret_cast<::FUN_00dbaca0_cls *>((reader))->CreateValueInto({})));
+            if (!((int)(reinterpret_cast<::FUN_00dba980_cls *>((void *)&(obj))->FUN_00dba980())))
+            {
+                __declspec(align(8)) S_00dc5970_Handle h;
+                reinterpret_cast<::DC4430_Class *>(this)->FUN_00dc4430((::Arg1 *)(::S_00dc5970_Handle *)(&h), (intptr_t)&(obj));
+                if (!h.p0)
+                {
+                    return 1;
+                }
+                *(void**)out = h.p0;
+            }
+        }
+        break;
+    case 25:
+        if (aiFlag3)
+        {
+            bool err;
+            if (err = (reinterpret_cast<::Reader355 *>(this)->ReadObject((char *)(out), (::Object355 *)&(const ::S_00dc5970_Object &)((*(::S_00dc5970_Object *)(reinterpret_cast<::FUN_00dbaca0_cls *>((reader))->CreateValueInto({}))))) == 1))
+            {
+                return 1;
+            }
+        }
+        break;
+    case 12:
+        *(__m128*)out = *(__m128*)reader->DispatchToVTableSlot8(4);
+        return 0;
+    case 13:
+        *(__m128*)out = *(__m128*)reader->DispatchToVTableSlot8(4);
+        return 0;
+    case 14:
+        reinterpret_cast<::FUN_00c6cd00_cls *>((((S_00dc4a80_M3*)out)))->FUN_00c6cd00((const ::FUN_00c6cd00_cls *)(void *)(reader->DispatchToVTableSlot8(12)));
+        return 0;
+    case 15:
+        reinterpret_cast<::S48 *>((((S_00dc4a80_Rot*)out)))->CopyFromFloatArray((const float *)(void *)(reader->DispatchToVTableSlot8(12)));
+        return 0;
+    case 16:
+        reinterpret_cast<::S48 *>((((S_00dc4a80_QsTr*)out)))->CopyFromFloatArray((const float *)(void *)(reader->DispatchToVTableSlot8(12)));
+        return 0;
+    case 17:
+        reinterpret_cast<::DC3710Transform *>((((S_00dc4a80_M4*)out)))->FUN_00dc3710((*(const ::DC3710Transform *)(reader->DispatchToVTableSlot8(16))));
+        return 0;
+    case 18:
+        reinterpret_cast<::hkMatrix4CD60 *>((((S_00dc4a80_Tr*)out)))->FUN_00c6cd60((*(const ::hkMatrix4CD60 *)(reader->DispatchToVTableSlot8(16))));
+        return 0;
+    case 29: {
+        if (unk08)
+        {
+            return 1;
+        }
+        char* copy;
+        if (reader->FUN_00dbac70())
+        {
+            copy = FUN_00cb1410(reader->FUN_00dbac70());
+            unk04->m_pStringFunctions.AddBack(copy);
+        }
+        else
+        {
+            copy = 0;
+        }
+        *(char**)out = copy;
+        return 0;
+    }
+    case 33: {
+        intptr_t val;
+        if (reader->FUN_00dbac70())
+        {
+            char* copy = FUN_00cb1410(reader->FUN_00dbac70());
+            unk04->m_pStringFunctions.AddBack(copy);
+            val = (intptr_t)copy;
+        }
+        else
+        {
+            val = 0;
+        }
+        *(int*)out = val;
+        if (unk08)
+        {
+            *(int*)out = val | 1;
+            return 0;
+        }
+        break;
+    }
+    case 28:
+        if (unk08)
+        {
+            return 1;
+        }
+        {
+            S_00dc5970_Object obj = (*(::S_00dc5970_Object *)(reinterpret_cast<::FUN_00dbaca0_cls *>((reader))->CreateValueInto({})));
+            if (!((int)(reinterpret_cast<::FUN_00dba980_cls *>((void *)&(obj))->FUN_00dba980())))
+            {
+                __declspec(align(8)) S_00dc5970_Handle h;
+                reinterpret_cast<::DC4430_Class *>(this)->FUN_00dc4430((::Arg1 *)(::S_00dc5970_Handle *)(&h), (intptr_t)&(obj));
+                if (!h.p0)
+                {
+                    return 1;
+                }
+                *(S_00dc5970_Handle*)out = h;
+            }
+        }
+        break;
+    default:
+        return 1;
+    }
+    return 0;
+}
 
 // Looks up or allocates a Map18 entry for arg1's key, optionally tracking it in m_ppData and m_map0c, returning the entry pointer and class info.
 // @fnv 0x00dc4430
-RetDC4430 DC4430_Class::FUN_00dc4430(Arg1* apArg, int aiFlag) throw()
+RetDC4430 DC4430_Class::FUN_00dc4430(Arg1* apArg, intptr_t aiFlag) throw()
 {
     RetDC4430 result;
     result.first = 0;
@@ -3946,10 +3691,10 @@ RetDC4430 DC4430_Class::FUN_00dc4430(Arg1* apArg, int aiFlag) throw()
 
     _ReadWriteBarrier();
     result.second = 0;
-    if (!apArg->FUN_00dba980())
+    if (!((int)(reinterpret_cast<::FUN_00dba980_cls *>((apArg))->FUN_00dba980())))
     {
 
-        if (apArg->GetObjectValue().FUN_00dba670() || !apArg->GetObjectValue().FUN_00dba680())
+        if (((int)(reinterpret_cast<::CpuObject *>((void *)&(const ::DObjWrap &)(apArg->GetObjectValue()))->FUN_00dba670())) || !apArg->GetObjectValue().FUN_00dba680())
         {
             result.second = 0;
             return result;
@@ -3971,24 +3716,24 @@ RetDC4430 DC4430_Class::FUN_00dc4430(Arg1* apArg, int aiFlag) throw()
         ObjA* world = m_obj00;
         ObjB* pClassInfo = world->v10(apArg->GetObjectValue().FUN_00dba680());
 
-        result.first = m_map18.Lookup(apArg->GetSourcePair(&key)->val, 0);
+        result.first = ((void *)(reinterpret_cast<::FUN_00dc36b0_cls *>(&(m_map18))->Lookup(apArg->GetSourcePair(&key)->val, (unsigned int)(0), {})));
         if (result.first == 0)
         {
-            (apArg->GetObjectValue().FUN_00dba690(), pClassInfo->FUN_00d47120());
-            int mem = pClassInfo->FUN_00d470d0();
+            (apArg->GetObjectValue().FUN_00dba690(), reinterpret_cast<::hkClassD47120 *>((pClassInfo))->FUN_00d47120());
+            int mem = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pClassInfo))->FUN_00d470d0();
             DC4430Memory* memory = (DC4430Memory*)FUN_00c85750();
             AllocatorVtbl* heap = memory->m_pStreamAllocator;
             result.first = heap->allocate(mem);
-            m_obj04->AddEntry((int)result.first, mem, 6);
-            _FUN_00cb1280(result.first, 0, pClassInfo->FUN_00d470d0());
+            m_obj04->AddEntry((intptr_t)result.first, mem, 6);
+            _FUN_00cb1280(result.first, 0, reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pClassInfo))->FUN_00d470d0());
 
             Key64 temp;
             Key64* __restrict pReturnedKey = apArg->GetSourcePair(&temp);
             Key64* __restrict destination = &key;
             *destination = *pReturnedKey;
-            m_map18.InsertKeyValue((*(DC4430Memory*)FUN_00c85750()).heap(), key.val, result.first);
+            reinterpret_cast<::DC3600Map *>(&(m_map18))->InsertKeyValue((::DC3600Allocator &)((*(DC4430Memory*)FUN_00c85750()).heap()), (::DC3600Key)(key.val), (intptr_t)(result.first));
 
-            if (ReadObject(result.first, apArg) == 1)
+            if (reinterpret_cast<::Reader355 *>(this)->ReadObject((char *)(result.first), (::Object355 *)(apArg)) == 1)
             {
                 result.first = 0;
                 pClassInfo = 0;
@@ -4002,7 +3747,7 @@ RetDC4430 DC4430_Class::FUN_00dc4430(Arg1* apArg, int aiFlag) throw()
 
                 if (pClassInfo->GetLastNodeFlag() && g_01268748.FUN_00d46d80(pClassInfo))
                 {
-                    int b = m_map0c.FUN_00cb1f40((*(DC4430Memory*)FUN_00c85750()).heap(), result.first, 0);
+                    int b = reinterpret_cast<::hkMapBaseCB1F *>(&(m_map0c))->FUN_00cb1f40((::hkMemoryAllocatorCB1F &)((*(DC4430Memory*)FUN_00c85750()).heap()), (uintptr_t)(result.first), 0);
                     m_map0c.m_kPrimitiveElement[b].val++;
                 }
             }
@@ -4028,7 +3773,6 @@ struct DBool_dc3a80
 };
 struct DKlass_dc3a80
 {
-    const char* FUN_00d46d40() throw();
     DBool_dc3a80 FUN_00d46d80(const DKlass_dc3a80* other) throw();
 };
 struct DClass_dc3a80
@@ -4038,13 +3782,12 @@ struct DClass_dc3a80
     void FUN_00dba660() throw();
     __forceinline ~DClass_dc3a80() throw()
     {
-        FUN_00dba660();
+        ::FUN_00dba660();
     }
 };
 struct DObj_dc3a80
 {
     int unk00;
-    int FUN_00dba980() const throw();
     DClass_dc3a80 GetObjectValue() const throw();
 };
 struct DAttribute_dc3a80
@@ -4060,8 +3803,6 @@ struct DMember_dc3a80
     unsigned char unk0D;
     unsigned short unk0E;
     unsigned short unk10;
-    DKlass_dc3a80* FUN_00d86920() const throw();
-    DAttribute_dc3a80* FUN_00d86960(const char* name) const throw();
 };
 struct DWorld_dc3a80
 {
@@ -4071,7 +3812,6 @@ struct DWorld_dc3a80
     virtual void v0c() throw();
     virtual DKlass_dc3a80* GetClassFromName(const char* name) throw();
 };
-extern "C" int __cdecl FUN_00cb0fa0(const char* a, const char* b) throw();
 struct DReader_dc3a80
 {
     DWorld_dc3a80* unk00;
@@ -4079,24 +3819,187 @@ struct DReader_dc3a80
     int unk08;
     DKlass_dc3a80* FUN_00dc3a80(const DMember_dc3a80* member, const DObj_dc3a80& obj) throw();
 };
+// Deserializes an Object355 into destination by iterating class members and dispatching on member type, returning 1 on failure.
+// @fnv 0x00dc2d60
+int Reader355::ReadObject(char* destination, Object355* object) throw()
+{
+    int result = 0;
+    ClassHandle355 classHandle;
+    void* name = object->GetObjectValue(&classHandle)->FUN_00dba680();
+    ::FUN_00dba660();
+    Class355* type = registry->find(name);
+    if (!type)
+        goto finished;
+    do
+    {
+        for (int memberIndex = 0; memberIndex < reinterpret_cast<::FUN_00d46f70_cls *>((type))->FUN_00d46f70(); ++memberIndex)
+        {
+            Member355* member = ((::Member355 *)(reinterpret_cast<::FUN_00d46f80_class *>((type))->FUN_00d46f80(memberIndex)));
+            char* output = destination + member->offset;
+            if (!object->FUN_00dba910(member->getName()))
+            {
+                if (member->type == 22)
+                    ((Sequence355*)output)->count = 0x80000000;
+                continue;
+            }
+            Value355 value = (*(::Value355 *)(reinterpret_cast<::FUN_00dba870_cls *>((object))->FUN_00dba870((void *)(member->getName()), {})));
+            int count = reinterpret_cast<::OwnerD869 *>((member))->FUN_00d86940();
+            if (!count)
+                count = 1;
+            int stride = reinterpret_cast<::ClassMember_d869 *>((member))->FUN_00d86980() / count;
+            unsigned char kind = member->type;
+            int owned = ((unsigned short)~member->flags >> 9) & 1;
+            switch (kind)
+            {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 25:
+            case 28:
+            case 29:
+            case 30:
+            case 32:
+            case 33:
+                if (count == 1)
+                {
+                    result = reinterpret_cast<::fnv_00dc4fa0::S_00dc4fa0 *>(this)->FUN_00dc4fa0(output, kind, (::fnv_00dc4fa0::S_00dc4fa0_Reader *)(::Value355 *)(&value), (intptr_t)(((void *)(reinterpret_cast<::Struct_d86920 *>((member))->FUN_00d86920()))), owned);
+                }
+                else
+                {
+                    Array355 array = value.GetResult();
+                    for (int i = 0; i < array.FUN_00dbac00() && !result; ++i, output += stride)
+                    {
+
+                        Value355 element = array.FUN_00dbab90(i);
+                        result = reinterpret_cast<::S_00dc4a80 *>(this)->ReadValue(output, kind, (::S_00dc4a80_Reader *)(::Value355 *)(&element), (intptr_t)(((void *)(reinterpret_cast<::Struct_d86920 *>((member))->FUN_00d86920()))), owned);
+                    }
+                }
+                break;
+            case 22:
+            case 26: {
+                if (restricted && ((unsigned char)kind == 26 || member->subtype == 28 || member->subtype == 29))
+                    goto failed;
+                Array355 values = value.GetResult();
+                result = reinterpret_cast<::DReader *>(this)->ReadArray((::DOutArray *)(output), (::DMember *)(member), (::DArray *)(::Array355 *)(&values));
+                break;
+            }
+            case 20:
+                if (member->subtype == 2)
+                {
+                    if (count == 1)
+                        result = reinterpret_cast<::fnv_00dc4fa0::S_00dc4fa0 *>(this)->FUN_00dc4fa0(output, 29, (::fnv_00dc4fa0::S_00dc4fa0_Reader *)(::Value355 *)(&value), (int)(0), owned);
+                    else
+                    {
+                        Array355 array = value.GetResult();
+                        for (int i = 0; i < array.FUN_00dbac00() && !result; ++i)
+                        {
+
+                            Value355 element = array.FUN_00dbab90(i);
+                            result = reinterpret_cast<::S_00dc4a80 *>(this)->ReadValue(output, 29, (::S_00dc4a80_Reader *)(::Value355 *)(&element), (int)(0), owned);
+                            output += stride;
+                        }
+                    }
+                }
+                else if (member->subtype == 25)
+                {
+                    if (count == 1)
+                    {
+
+                        result = reinterpret_cast<::fnv_00dc4fa0::S_00dc4fa0 *>(this)->FUN_00dc4fa0(output, kind, (::fnv_00dc4fa0::S_00dc4fa0_Reader *)(::Value355 *)(&value), (intptr_t)(((::Class355 *)(reinterpret_cast<::DReader_dc3a80 *>(this)->FUN_00dc3a80((const ::DMember_dc3a80 *)(member), (*(const ::DObj_dc3a80 *)(&(*(::Object355 *)(reinterpret_cast<::FUN_00dba9d0_cls *>(&(value))->FUN_00dba9d0({}))))))))), owned);
+                    }
+                    else
+                    {
+                        Array355 array = value.GetResult();
+                        for (int i = 0; i < array.FUN_00dbac00() && !result; ++i, output += stride)
+                        {
+
+                            Value355 element = array.FUN_00dbab90(i);
+                            result = reinterpret_cast<::S_00dc4a80 *>(this)->ReadValue(output, kind, (::S_00dc4a80_Reader *)(::Value355 *)(&element),
+                                               (intptr_t)(((::Class355 *)(reinterpret_cast<::DReader_dc3a80 *>(this)->FUN_00dc3a80((const ::DMember_dc3a80 *)(member), (*(const ::DObj_dc3a80 *)(&(*(::Object355 *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::Value355 &)(array.FUN_00dbab90(i)))->CreateValueInto({}))))))))), owned);
+                        }
+                    }
+                }
+                break;
+            case 24:
+            case 31:
+                result = ((int)(::FUN_00dc1bf0((intptr_t)this, (intptr_t)(output), (intptr_t)(member), (intptr_t)(&value))));
+                break;
+            case 27: {
+                if (restricted)
+                    goto failed;
+                Array355 array = value.GetResult();
+
+                Sequence355* sequence = (Sequence355*)output;
+                sequence->elementClass = ((::Class355 *)(reinterpret_cast<::DReader_dc3a80 *>(this)->FUN_00dc3a80((const ::DMember_dc3a80 *)(member), (*(const ::DObj_dc3a80 *)(&(*(::Object355 *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::Value355 &)(array.FUN_00dbab90(0)))->CreateValueInto({}))))))));
+
+                sequence->count = array.FUN_00dbac00();
+                int elementSize = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((sequence->elementClass))->FUN_00d470d0();
+                {
+                    int bytes = sequence->count * elementSize;
+                    sequence->data = AllocElems<char>(bytes);
+                    FUN_00cb1280(sequence->data, 0, bytes);
+                }
+                tracker->AddEntry((intptr_t)sequence->data, sequence->count * elementSize, 6);
+                int i = 0;
+                if (i < sequence->count)
+                {
+                    int offset = 0;
+                    for (; i < sequence->count && !result; ++i, offset += elementSize)
+                    {
+                        char* elementDestination = sequence->data + offset;
+
+                        result = ReadObject(elementDestination, &(*(::Object355 *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::Value355 &)(array.FUN_00dbab90(i)))->CreateValueInto({}))));
+                    }
+                }
+                break;
+            }
+            default:
+                goto failed;
+            }
+            if (result == 1)
+                goto failed;
+        }
+        type = ((::Class355 *)(reinterpret_cast<::ReflectObj *>((type))->FUN_00d46d50()));
+    } while (type);
+    goto finished;
+failed:
+    return 1;
+finished:
+    return result;
+}
 // Resolves the DKlass for a DMember by comparing the object's class name against the expected class and the hk.DataObjectType attribute.
 // @fnv 0x00dc3a80
 DKlass_dc3a80* DReader_dc3a80::FUN_00dc3a80(const DMember_dc3a80* member, const DObj_dc3a80& obj) throw()
 {
-    if (obj.FUN_00dba980())
+    if (((int)(reinterpret_cast<::FUN_00dba980_cls *>((void *)&(obj))->FUN_00dba980())))
         return 0;
-    DKlass_dc3a80* pExpectedClass = member->FUN_00d86920();
+    DKlass_dc3a80* pExpectedClass = ((::DKlass_dc3a80 *)(reinterpret_cast<::Struct_d86920 *>((void *)(member))->FUN_00d86920()));
     const char* name = obj.GetObjectValue().FUN_00dba680();
     DKlass_dc3a80* pActualClass = name ? unk00->GetClassFromName(name) : 0;
     if (!pExpectedClass)
         return pActualClass;
     if (!pActualClass)
         return 0;
-    if (!FUN_00cb0fa0(pExpectedClass->FUN_00d46d40(), name))
+    if (!::fnv_00cb0fa0::FUN_00cb0fa0(reinterpret_cast<::FnvClassNameNode *>((pExpectedClass))->FUN_00d46d40(), name))
         return pExpectedClass;
     if (pExpectedClass->FUN_00d46d80(pActualClass))
         return pActualClass;
-    DAttribute_dc3a80* pAttribute = member->FUN_00d86960("hk.DataObjectType");
+    DAttribute_dc3a80* pAttribute = ((::DAttribute_dc3a80 *)(reinterpret_cast<::hkClassMember_FUN_00d86960 *>((void *)(member))->FUN_00d86960("hk.DataObjectType")));
     if (pAttribute)
     {
         const char* pcTypeName = (const char*)*pAttribute->unk00;
@@ -4106,3 +4009,5 @@ DKlass_dc3a80* DReader_dc3a80::FUN_00dc3a80(const DMember_dc3a80* member, const 
     }
     return pExpectedClass;
 }
+
+#include "generated/data/havok/common/serialize/data/util/hkdataobjectutil.inc"

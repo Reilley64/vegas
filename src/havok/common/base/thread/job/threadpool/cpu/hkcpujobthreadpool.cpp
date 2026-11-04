@@ -2,6 +2,21 @@
 // src/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <windows.h>
+#include "fnv/decl/Dispatcher.h"
+#include "fnv/decl/FUN_00d04370_cls.h"
+#include "fnv/decl/FUN_00d04390.h"
+#include "fnv/decl/FUN_00d87920_cls.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cbb000.h"
+#include "fnv/symbols_00d04000.h"
+#include "fnv/symbols_00d2c000.h"
+#include "fnv/symbols_00d87000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01268000.h"
 struct FUN_00d2ced0
 {
     void PerformVoidOperation();
@@ -26,20 +41,8 @@ void FUN_00d2ced0::PerformVoidOperation()
 struct FUN_00d2d330_shell
 {
     void InitializeWorkerThread();
-    void FUN_00d2ce50();
     void FUN_00d2d330(int desired);
 };
-
-// @fnv 0x00d2d330
-void FUN_00d2d330_shell::FUN_00d2d330(int desired)
-{
-    if (desired > 6)
-        desired = 6;
-    while (((int*)this)[0x130 / 4] < desired)
-        InitializeWorkerThread();
-    while (((int*)this)[0x130 / 4] > desired)
-        FUN_00d2ce50();
-}
 
 struct FUN_00d2ce30_shell
 {
@@ -64,7 +67,6 @@ struct FUN_00d2ce90_class
     void FUN_00d2ce90();
 };
 
-int __fastcall FUN_00d04380(void*);
 
 // @fnv 0x00d2ce90
 void FUN_00d2ce90_class::FUN_00d2ce90()
@@ -73,7 +75,7 @@ void FUN_00d2ce90_class::FUN_00d2ce90()
     {
         for (int i = 0; i < m_uiItemCount; ++i)
         {
-            FUN_00d04380(&m_uiFilterValue);
+            ::FUN_00d04380(&m_uiFilterValue, {});
         }
 
         m_running = false;
@@ -133,10 +135,10 @@ class hkMemoryAllocatorXd2d3b0
 
 struct hkMemoryRouterXd2d3b0
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorXd2d3b0* m_pStreamAllocator;
 
     hkMemoryAllocatorXd2d3b0& heap()
@@ -145,7 +147,6 @@ struct hkMemoryRouterXd2d3b0
     }
 };
 
-extern "C" hkMemoryRouterXd2d3b0& __cdecl FUN_00c85750() throw();
 
 class hkObjd2d3b0 : public FUN_00d2cf00
 {
@@ -154,23 +155,13 @@ class hkObjd2d3b0 : public FUN_00d2cf00
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObjd2d3b0*>(p)->GetAllocationSize());
+        (*static_cast<hkMemoryRouterXd2d3b0*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObjd2d3b0*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {
         return reinterpret_cast<const unsigned short*>(this)[2];
     }
 };
-
-// Runs the base destructor and, when bit 0 of uiFlags is set, frees the object via operator delete; returns this.
-// @fnv 0x00d2d3b0
-hkObjd2d3b0* hkObjd2d3b0::DestroyIfFlagged(unsigned int uiFlags) throw()
-{
-    this->FUN_00d2cf00::~FUN_00d2cf00();
-    if (uiFlags & 1)
-        hkObjd2d3b0::operator delete(this);
-    return this;
-}
 
 struct hkBoolD2CD
 {
@@ -185,7 +176,6 @@ struct hkBoolD2CD
 class ElemD2CD
 {
   public:
-    void FUN_00d04390(int flag);
     int unk00[12];
 };
 
@@ -211,17 +201,13 @@ void OwnerD2CD::FUN_00d2cde0(int value, int unused)
     m_128 = value;
     m_13C = true;
     for (int i = m_iCapacityFlags - 1; i >= 0; i--)
-        m_pElements[i].FUN_00d04390(1);
+        reinterpret_cast<::FUN_00d04390 *>(&(m_pElements[i]))->wait(1);
 }
 
 extern char DAT_010ce774;
-extern char DAT_0102e388;
-void FUN_00c90410(int);
 
 struct EventObjD2C
 {
-    void FUN_00d04370();
-    void FUN_00d04390(int);
 };
 
 struct ThreadObjD2C
@@ -239,7 +225,6 @@ struct ThreadObjD2C
     int unk24;
     int unk28;
     EventObjD2C m_pTail;
-    void FUN_00d87a70();
 };
 
 struct VBaseD2C
@@ -258,26 +243,34 @@ struct ArrBaseD2C
 struct ClsD2C : VBaseD2C, ArrBaseD2C
 {
     int m_uiItemCount;
-    void FUN_00d2ce90();
     void FUN_00d2cf00();
 };
+// Runs the base destructor and, when bit 0 of uiFlags is set, frees the object via operator delete; returns this.
+// @fnv 0x00d2d3b0
+hkObjd2d3b0* hkObjd2d3b0::DestroyIfFlagged(unsigned int uiFlags) throw()
+{
+    reinterpret_cast<::ClsD2C *>((this))->FUN_00d2cf00();
+    if (uiFlags & 1)
+        hkObjd2d3b0::operator delete(this);
+    return this;
+}
 
 // @fnv 0x00d2cf00
 void ClsD2C::FUN_00d2cf00()
 {
     *(void**)this = (void*)&DAT_010ce774;
-    FUN_00d2ce90();
+    reinterpret_cast<::FUN_00d2ce90_class *>(this)->FUN_00d2ce90();
     for (int i = 0; i < m_uiItemCount; ++i)
     {
         ArrBaseD2C::m_threads[i].m_ucState = 1;
-        ArrBaseD2C::m_threads[i].m_evt.FUN_00d04390(1);
+        reinterpret_cast<::FUN_00d04390 *>(&(ArrBaseD2C::m_threads[i].m_evt))->wait(1);
     }
     for (int j = 0; j < m_uiItemCount; ++j)
     {
-        FUN_00d04380(&ArrBaseD2C::m_threads[5].m_pTail);
+        ::FUN_00d04380(&ArrBaseD2C::m_threads[5].m_pTail, {});
     }
     FUN_00c90410(0);
-    ArrBaseD2C::m_threads[5].m_pTail.FUN_00d04370();
+    reinterpret_cast<::FUN_00d04370_cls *>(&(ArrBaseD2C::m_threads[5].m_pTail))->FUN_00d04370();
     int k = 5;
     ArrBaseD2C* ab = static_cast<ArrBaseD2C*>(this);
     ThreadObjD2C(*arr)[6] = &ab->m_threads;
@@ -285,11 +278,20 @@ void ClsD2C::FUN_00d2cf00()
     do
     {
         --th;
-        th->m_evt.FUN_00d04370();
-        th->FUN_00d87a70();
+        reinterpret_cast<::FUN_00d04370_cls *>(&(th->m_evt))->FUN_00d04370();
+        ::FUN_00d87a70();
     } while (--k >= 0);
-    *(void**)this = (void*)&DAT_0102e388;
-}
+    *(void**)this = (void*)&(*reinterpret_cast<char *>(&::DAT_0102e388));
+}struct Thr_00d87940
+{
+    uintptr_t m0;
+    unsigned int m4;
+    uintptr_t m8;
+    unsigned int mC;
+    int FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3);
+};
+
+
 
 namespace fnv_00d2d110 {
 struct SYSTEM_INFO_D2D1
@@ -306,7 +308,7 @@ struct SYSTEM_INFO_D2D1
     unsigned short wProcessorLevel;
     unsigned short wProcessorRevision;
 };
-extern void(__stdcall* DAT_00fdf0f8)(SYSTEM_INFO_D2D1* pkInfo);
+extern void(* DAT_00fdf0f8)(SYSTEM_INFO_D2D1* pkInfo);
 
 struct hkHardwareInfoD2D1
 {
@@ -320,8 +322,6 @@ inline void hkGetHardwareInfoD2D1(hkHardwareInfoD2D1& kInfo)
     kInfo.m_iHardwareInfoValue = kSysInfo.dwNumberOfProcessors;
 }
 
-extern "C" void __cdecl FUN_00c90410(int iLockMode);
-void* __cdecl CpuJobThreadMain(void* pvArg);
 
 class hkThreadD2D1
 {
@@ -331,7 +331,6 @@ class hkThreadD2D1
     int m_08;
     int m_0c;
 
-    int FUN_00d87940(void*(__cdecl* pfnFunc)(void*), void* pvArg, const char* pcName, int iStackSize);
 };
 
 class FUN_00d2cd80
@@ -428,18 +427,13 @@ FUN_00d2d110::FUN_00d2d110(const hkCpuJobThreadPoolCinfoD2D1& kCi)
             kData.m_iOffset1C = kCi.m_pHardwareThreadIds[i];
         else
             kData.m_iOffset1C = iThreadId % iNumCores;
-        kData.m_iThreadHandle.FUN_00d87940(CpuJobThreadMain, &kData, m_pName, m_iTimerBufferPerThreadAllocation);
+        reinterpret_cast<::Thr_00d87940 *>(&(kData.m_iThreadHandle))->FUN_00d87940((uintptr_t)(((void *(&)(void *))::CpuJobThreadMain)), (uintptr_t)(&kData), m_pName, m_iTimerBufferPerThreadAllocation);
     }
-    FUN_00c90410(1);
+    ::FUN_00c90410(1);
 }
 }  // namespace fnv_00d2d110
 
 #include <xmmintrin.h>
-extern "C" __declspec(dllimport) int __stdcall TlsSetValue(unsigned long dwTlsIndex, void* lpTlsValue);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
-extern "C" __declspec(dllimport) unsigned long __stdcall SetThreadIdealProcessor(void* hThread,
-                                                                                 unsigned long dwIdealProcessor);
 
 struct hkThreadLocalD2
 {
@@ -449,7 +443,6 @@ struct hkThreadLocalD2
     }
     unsigned long m_slot;
 };
-extern hkThreadLocalD2 DAT_012687c8;
 
 struct hkMonitorStreamD2
 {
@@ -472,9 +465,6 @@ struct hkMonitorTlsD2
     }
     unsigned long m_slot;
 };
-extern hkMonitorTlsD2 DAT_0126835c;
-void __cdecl ResizeBuffer(hkMonitorStreamD2* pStream, int iSize);
-void __cdecl FUN_00cb0da0(hkMonitorStreamD2* pStream);
 
 struct hkMemoryRouterD2
 {
@@ -508,20 +498,14 @@ class hkMemorySystemD2
     virtual void InitializeThreadRouter(hkMemoryRouterD2& router, const char* name, hkMemorySystemFlagsD2 flags);
     virtual void ThreadQuit(hkMemoryRouterD2& router, hkMemorySystemFlagsD2 flags);
 };
-hkMemorySystemD2* __cdecl FUN_00cbbfc0();
-void __cdecl FUN_00cbb930(hkMemoryRouterD2* router);
-void __cdecl FUN_00cbb990();
 
 struct hkSemaphoreD2
 {
-    void FUN_00d04390(int count);
     void* m_pCompletionSemaphore;
 };
-int __fastcall FUN_00d04380(void*);
 
 struct hkJobQueueD2
 {
-    void FUN_00d051b0();
 };
 
 struct hkCpuJobThreadPoolD2
@@ -557,44 +541,43 @@ void* __cdecl CpuJobThreadMain(void* apThreadData)
     hkCpuThreadDataD2& threadData = *static_cast<hkCpuThreadDataD2*>(apThreadData);
     hkCpuJobThreadPoolD2* threadPool = threadData.m_threadPool;
 
-    DAT_012687c8.setData(threadData.m_threadNumber);
+    (*reinterpret_cast<::hkThreadLocalD2 *>(&::g_dwTlsIndex)).setData(threadData.m_threadNumber);
     _mm_setcsr(_mm_getcsr() | 0x8000);
     SetThreadIdealProcessor(GetCurrentThread(), threadData.m_iOffset1C);
 
     hkMemoryRouterD2 memoryRouter;
-    FUN_00cbbfc0()->InitializeThreadRouter(memoryRouter, "hkCpuJobThreadPool", hkMemorySystemFlagsD2(3));
-    FUN_00cbb930(&memoryRouter);
+    ((::hkMemorySystemD2 *)(::FUN_00cbbfc0()))->InitializeThreadRouter(memoryRouter, "hkCpuJobThreadPool", hkMemorySystemFlagsD2(3));
+    ::FUN_00cbb930(&memoryRouter);
 
     if (threadPool->m_iThreadPriority > 0)
     {
-        hkMonitorStreamD2* pStream = DAT_0126835c.getData();
-        ResizeBuffer(pStream, threadPool->m_iThreadPriority);
+        hkMonitorStreamD2* pStream = (*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData();
+        ::ResizeBuffer((::SpawnedBuffer *)(pStream), threadPool->m_iThreadPriority);
     }
-    threadData.m_pOffset28 = DAT_0126835c.getData()->GetStreamStart();
-    threadData.m_pOffset2C = DAT_0126835c.getData()->GetStreamEnd();
+    threadData.m_pOffset28 = (*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData()->GetStreamStart();
+    threadData.m_pOffset2C = (*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData()->GetStreamEnd();
 
-    FUN_00d04380(&threadData.m_pCompletionSemaphore);
+    ::FUN_00d04380(&threadData.m_pCompletionSemaphore, {});
     while (!threadData.m_ucState)
     {
         if (threadData.m_bOffset21)
         {
-            FUN_00cb0da0(DAT_0126835c.getData());
-            threadData.m_pOffset2C = DAT_0126835c.getData()->GetStreamEnd();
+            ::FUN_00cb0da0((::S_00cb0da0 *)(::hkMonitorStreamD2 *)((*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData()));
+            threadData.m_pOffset2C = (*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData()->GetStreamEnd();
             threadData.m_bOffset21 = false;
         }
-        threadPool->m_kQueues->FUN_00d051b0();
-        threadData.m_pOffset2C = DAT_0126835c.getData()->GetStreamEnd();
-        threadPool->m_kWorkerSemaphore.FUN_00d04390(1);
-        FUN_00d04380(&threadData.m_pCompletionSemaphore);
+        reinterpret_cast<::Dispatcher *>((threadPool->m_kQueues))->FUN_00d051b0();
+        threadData.m_pOffset2C = (*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData()->GetStreamEnd();
+        reinterpret_cast<::FUN_00d04390 *>(&(threadPool->m_kWorkerSemaphore))->wait(1);
+        ::FUN_00d04380(&threadData.m_pCompletionSemaphore, {});
     }
 
     FUN_00cbb990();
-    FUN_00cbbfc0()->ThreadQuit(memoryRouter, hkMemorySystemFlagsD2(3));
-    threadPool->m_kWorkerSemaphore.FUN_00d04390(1);
+    ((::hkMemorySystemD2 *)(::FUN_00cbbfc0()))->ThreadQuit(memoryRouter, hkMemorySystemFlagsD2(3));
+    reinterpret_cast<::FUN_00d04390 *>(&(threadPool->m_kWorkerSemaphore))->wait(1);
     return 0;
 }
 
-void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize) throw();
 
 struct Pair_d2d2c0
 {
@@ -659,7 +642,7 @@ void Owner_d2d2c0::FUN_00d2d2c0(PairArray_d2d2c0* apPairArray, void* alloc)
         do
         {
             if (apPairArray->m_iElementCount == (apPairArray->m_iCapacityState & 0x3FFFFFFF))
-                ResizeAudioStream(alloc, apPairArray, 8);
+                ::ResizeAudioStream((::AudioAllocator *)(alloc), (::AudioStream *)(apPairArray), 8);
             int remaining = 1;
             do
             {
@@ -676,12 +659,10 @@ void Owner_d2d2c0::FUN_00d2d2c0(PairArray_d2d2c0* apPairArray, void* alloc)
 
 #include <windows.h>
 namespace fnv_00d2d240 {
-void __cdecl CpuJobThreadMain(void* pArg);
 
 class hkThreadD2D
 {
   public:
-    void FUN_00d87940(void(__cdecl* func)(void*), void* arg, const char* name, int stackSize);
     int unk00;
     int unk04;
     int unk08;
@@ -744,7 +725,7 @@ void hkCpuJobThreadPoolD2D::InitializeWorkerThread()
     int processorCount = *(volatile int*)&sysInfo.dwNumberOfProcessors;
     data.m_iOffset1C = threadId % processorCount;
 
-    data.m_iThreadHandle.FUN_00d87940(CpuJobThreadMain, &data, m_pName, m_iTimerBufferPerThreadAllocation);
+    reinterpret_cast<::Thr_00d87940 *>(&(data.m_iThreadHandle))->FUN_00d87940((uintptr_t)(((void (&)(void *))::CpuJobThreadMain)), (uintptr_t)(&data), m_pName, m_iTimerBufferPerThreadAllocation);
 
     m_iHardwareInfoValue++;
 }
@@ -755,7 +736,6 @@ struct WorkerThreadHandleD2
     void* m_handle;
     unsigned __int64 m_uiThreadId;
 
-    void FUN_00d87920();
 };
 
 struct WorkerThreadRecordD2
@@ -781,6 +761,16 @@ struct WorkerThreadPoolViewD2
 
     void FUN_00d2ce50();
 };
+// @fnv 0x00d2d330
+void FUN_00d2d330_shell::FUN_00d2d330(int desired)
+{
+    if (desired > 6)
+        desired = 6;
+    while (((int*)this)[0x130 / 4] < desired)
+        InitializeWorkerThread();
+    while (((int*)this)[0x130 / 4] > desired)
+        reinterpret_cast<::WorkerThreadPoolViewD2 *>(this)->FUN_00d2ce50();
+}
 
 // Decrements the shared counter, sets the selected worker state to true, calls its semaphore method, calls FUN_00d04380, and closes its thread handle.
 // @fnv 0x00d2ce50
@@ -790,7 +780,46 @@ void WorkerThreadPoolViewD2::FUN_00d2ce50()
     --pool->m_sharedData.m_iHardwareInfoValue;
     WorkerThreadRecordD2& worker = pool->m_workers[pool->m_sharedData.m_iHardwareInfoValue];
     worker.m_ucState = true;
-    worker.m_pCompletionSemaphore.FUN_00d04390(1);
-    FUN_00d04380(&pool->m_sharedData.m_kWorkerSemaphore);
-    worker.m_iThreadHandle.FUN_00d87920();
+    reinterpret_cast<::FUN_00d04390 *>(&(worker.m_pCompletionSemaphore))->wait(1);
+    ::FUN_00d04380(&pool->m_sharedData.m_kWorkerSemaphore, {});
+    reinterpret_cast<::FUN_00d87920_cls *>(&(worker.m_iThreadHandle))->FUN_00d87920();
 }
+
+
+extern "C" unsigned long __cdecl _exception_code(void);
+
+struct THREADNAME_INFO
+{
+    unsigned long dwType;
+    const char* szName;
+    unsigned long dwThreadID;
+    unsigned long dwFlags;
+};
+
+
+// @fnv 0x00d87940
+int Thr_00d87940::FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3)
+{
+    unsigned long threadId;
+    m0 = (uintptr_t)CreateThread(0, a3, (unsigned long(*)(void*))a0, (void*)a1, 0, &threadId);
+    if (m0 == 0)
+    {
+        return 1;
+    }
+    m8 = threadId;
+    mC = 0;
+    THREADNAME_INFO info;
+    info.dwType = 0x1000;
+    info.szName = a2;
+    info.dwThreadID = threadId;
+    info.dwFlags = 0;
+    __try
+    {
+        RaiseException(0x406D1388, 0, sizeof(info) / sizeof(ULONG_PTR), (const ULONG_PTR*)&info);
+    }
+    __except (_exception_code() == 0x406D1388 ? -1 : 1)
+    {}
+    return 0;
+}
+
+#include "generated/data/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.inc"

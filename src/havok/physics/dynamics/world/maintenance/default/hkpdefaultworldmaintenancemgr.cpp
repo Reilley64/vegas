@@ -2,6 +2,10 @@
 // src/havok/physics/dynamics/world/maintenance/default/hkpdefaultworldmaintenancemgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/maintenance/default/hkpdefaultworldmaintenancemgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00cb6000.h"
+#include "fnv/symbols_00cc0000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_01268000.h"
 struct S_00d0b250_RefObj
 {
     virtual ~S_00d0b250_RefObj();
@@ -55,12 +59,9 @@ void FUN_00d0b230_class::SetDstFields(S_00d0b230_Arg* a)
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
-extern DWORD DAT_0126835c;
 extern const char str_010cd380[];
 extern const char str_010cd378[];
 extern const char str_010cd36c[];
-extern const char str_01076f38[];
-extern void __cdecl FUN_00cb6f30(void*);
 struct TraceBuffer
 {
     int unk00;
@@ -70,14 +71,14 @@ struct TraceBuffer
 };
 struct TraceEntry16
 {
-    volatile unsigned int type;
+    const char* volatile type;
     volatile unsigned int timestamp;
     unsigned int unk08;
-    volatile unsigned int detail;
+    const char* volatile detail;
 };
 struct TraceEntry12
 {
-    volatile unsigned int type;
+    const char* volatile type;
     volatile unsigned int timestamp;
     unsigned int unk08;
 };
@@ -88,60 +89,9 @@ struct FUN_00d0b280_cls
     int unk08;
     float unk0c;
     void FUN_00d0b280(float* first, float* second);
-    void FUN_00d0b3e0(float* first, float* second);
 };
-// Writes trace entries, calls FUN_00cb6f30(first), and if *second >= unk0c calls FUN_00d0b3e0(first, second) between further trace entries.
-// @fnv 0x00d0b280
-void FUN_00d0b280_cls::FUN_00d0b280(float* first, float* second)
-{
-    TraceBuffer* buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    unsigned char* current = buffer->current;
-    if (current < buffer->end)
-    {
-        volatile TraceEntry16* entry = (volatile TraceEntry16*)current;
-        entry->type = (unsigned int)str_010cd380;
-        entry->detail = (unsigned int)str_010cd378;
-        _ReadWriteBarrier();
-        volatile unsigned int timestamp = (unsigned int)__rdtsc();
-        entry->timestamp = timestamp;
-        current += 16;
-        buffer->current = current;
-    }
-    FUN_00cb6f30(first);
-    if (*second >= unk0c)
-    {
-        buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-        current = buffer->current;
-        if (current < buffer->end)
-        {
-            volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
-            entry->type = (unsigned int)str_010cd36c;
-            _ReadWriteBarrier();
-            volatile unsigned int timestamp = (unsigned int)__rdtsc();
-            entry->timestamp = timestamp;
-            current += 12;
-            buffer->current = current;
-        }
-        FUN_00d0b3e0(first, second);
-    }
-    buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    current = buffer->current;
-    if (current < buffer->end)
-    {
-        volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
-        entry->type = (unsigned int)str_01076f38;
-        _ReadWriteBarrier();
-        volatile unsigned int timestamp = (unsigned int)__rdtsc();
-        entry->timestamp = timestamp;
-        current += 12;
-        buffer->current = current;
-    }
-}
-
-extern DWORD DAT_0126835c;
 extern const char str_010cd380[];
 extern const char str_010cd36c[];
-extern const char str_01076f38[];
 
 struct FUN_00d0b350_cls
 {
@@ -149,42 +99,8 @@ struct FUN_00d0b350_cls
     int unk04;
     int unk08;
     float unk0c;
-    void FUN_00d0b3e0(float* first, float* second);
     void TraceConditionalCall(float* first, float* second);
 };
-// Writes a trace entry, calls FUN_00d0b3e0(first, second) if *second >= unk0c, then writes a closing trace entry.
-// @fnv 0x00d0b350
-void FUN_00d0b350_cls::TraceConditionalCall(float* first, float* second)
-{
-    TraceBuffer* buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    unsigned char* current = buffer->current;
-    if (current < buffer->end)
-    {
-        volatile TraceEntry16* entry = (volatile TraceEntry16*)current;
-        entry->type = (unsigned int)str_010cd380;
-        entry->detail = (unsigned int)str_010cd36c;
-        _ReadWriteBarrier();
-        volatile unsigned int timestamp = (unsigned int)__rdtsc();
-        entry->timestamp = timestamp;
-        current += 16;
-        buffer->current = current;
-    }
-    if (*second >= unk0c)
-        FUN_00d0b3e0(first, second);
-    buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    current = buffer->current;
-    if (current < buffer->end)
-    {
-        volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
-        entry->type = (unsigned int)str_01076f38;
-        _ReadWriteBarrier();
-        volatile unsigned int timestamp = (unsigned int)__rdtsc();
-        entry->timestamp = timestamp;
-        current += 12;
-        buffer->current = current;
-    }
-}
-
 struct hkStepInfo
 {
     float m_uiStartTime;
@@ -474,7 +390,6 @@ struct hkpWorld
     hkStepInfo m_pStepInfo;
 };
 
-void __cdecl ProcessBlocks(hkpSimulationIsland* island, float oldTime, float newTime, CollisionAgentContext* input);
 
 struct TimeRebaser
 {
@@ -483,6 +398,85 @@ struct TimeRebaser
     float m_newTime;
     void FUN_00d0b3e0(hkpWorld* world, hkStepInfo& stepInfo);
 };
+// Writes trace entries, calls FUN_00cb6f30(first), and if *second >= unk0c calls FUN_00d0b3e0(first, second) between further trace entries.
+// @fnv 0x00d0b280
+void FUN_00d0b280_cls::FUN_00d0b280(float* first, float* second)
+{
+    TraceBuffer* buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    unsigned char* current = buffer->current;
+    if (current < buffer->end)
+    {
+        volatile TraceEntry16* entry = (volatile TraceEntry16*)current;
+        entry->type = str_010cd380;
+        entry->detail = str_010cd378;
+        _ReadWriteBarrier();
+        volatile unsigned int timestamp = (unsigned int)__rdtsc();
+        entry->timestamp = timestamp;
+        current += 16;
+        buffer->current = current;
+    }
+    ::FUN_00cb6f30((::Object *)(first));
+    if (*second >= unk0c)
+    {
+        buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+        current = buffer->current;
+        if (current < buffer->end)
+        {
+            volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
+            entry->type = str_010cd36c;
+            _ReadWriteBarrier();
+            volatile unsigned int timestamp = (unsigned int)__rdtsc();
+            entry->timestamp = timestamp;
+            current += 12;
+            buffer->current = current;
+        }
+        reinterpret_cast<::TimeRebaser *>(this)->FUN_00d0b3e0((::hkpWorld *)(first), (*(::hkStepInfo *)(second)));
+    }
+    buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    current = buffer->current;
+    if (current < buffer->end)
+    {
+        volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
+        entry->type = str_01076f38;
+        _ReadWriteBarrier();
+        volatile unsigned int timestamp = (unsigned int)__rdtsc();
+        entry->timestamp = timestamp;
+        current += 12;
+        buffer->current = current;
+    }
+}
+// Writes a trace entry, calls FUN_00d0b3e0(first, second) if *second >= unk0c, then writes a closing trace entry.
+// @fnv 0x00d0b350
+void FUN_00d0b350_cls::TraceConditionalCall(float* first, float* second)
+{
+    TraceBuffer* buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    unsigned char* current = buffer->current;
+    if (current < buffer->end)
+    {
+        volatile TraceEntry16* entry = (volatile TraceEntry16*)current;
+        entry->type = str_010cd380;
+        entry->detail = str_010cd36c;
+        _ReadWriteBarrier();
+        volatile unsigned int timestamp = (unsigned int)__rdtsc();
+        entry->timestamp = timestamp;
+        current += 16;
+        buffer->current = current;
+    }
+    if (*second >= unk0c)
+        reinterpret_cast<::TimeRebaser *>(this)->FUN_00d0b3e0((::hkpWorld *)(first), (*(::hkStepInfo *)(second)));
+    buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
+    current = buffer->current;
+    if (current < buffer->end)
+    {
+        volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
+        entry->type = str_01076f38;
+        _ReadWriteBarrier();
+        volatile unsigned int timestamp = (unsigned int)__rdtsc();
+        entry->timestamp = timestamp;
+        current += 12;
+        buffer->current = current;
+    }
+}
 
 // @fnv 0x00d0b3e0
 void TimeRebaser::FUN_00d0b3e0(hkpWorld* world, hkStepInfo& stepInfo)
@@ -511,10 +505,12 @@ void TimeRebaser::FUN_00d0b3e0(hkpWorld* world, hkStepInfo& stepInfo)
         {
             island->m_kActorEntries[iActor]->m_uiCommandId += shift;
         }
-        ProcessBlocks(island, stepInfo.m_fEndTime, world->m_pStepInfo.m_fEndTime, world->m_pCollisionInput);
+        ::ProcessBlocks((::S_00cc0ed0_Blocks *)(island), stepInfo.m_fEndTime, world->m_pStepInfo.m_fEndTime, world->m_pCollisionInput);
     }
 
     world->m_pSimulation->shiftTime(shift);
     stepInfo = world->m_pStepInfo;
     world->m_pCollisionInput->m_pStepInfo = world->m_pStepInfo;
 }
+
+#include "generated/data/havok/physics/dynamics/world/maintenance/default/hkpdefaultworldmaintenancemgr.inc"

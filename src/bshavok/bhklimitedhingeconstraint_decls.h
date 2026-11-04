@@ -2,12 +2,13 @@
 #ifndef BHKLIMITEDHINGECONSTRAINT_DECLS_H
 #define BHKLIMITEDHINGECONSTRAINT_DECLS_H
 
-extern float DAT_01267e30;
+#include "fnv/decl/S004b4db0_Quaternion.h"
+#include "fnv/symbols_00c9f000.h"
+#include "fnv/symbols_01267000.h"
 class bhkLimitedHingeVector
 {
   public:
     float value[4];
-    void FUN_004b4db0(const float*);
 };
 class bhkLimitedHingeOutput
 {
@@ -21,7 +22,6 @@ class bhkLimitedHingeConstraint
   public:
     char prefix[8];
     char* m_pHavokObject;
-    void FUN_00c9fb70(bhkLimitedHingeOutput*);
     void PopulateOutput(bhkLimitedHingeOutput*);
     const float* GetFirst() const
     {

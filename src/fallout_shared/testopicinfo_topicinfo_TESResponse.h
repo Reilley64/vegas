@@ -2,6 +2,8 @@
 #ifndef FNV_TESRESPONSE_H
 #define FNV_TESRESPONSE_H
 
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
 #include "testopicinfo_topicinfo_layout_support.h"
 #include "testopicinfo_topicinfo_TESTopic.h"
 #include "testopicinfo_topicinfo_layout_support.h"
@@ -23,13 +25,6 @@ class DialogueResponseData
     // void __cdecl DialogueResponseData::*()
     // void __cdecl DialogueResponseData::*()
 };
-FNV_STATIC_ASSERT(sizeof(DialogueResponseData) == 24);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, eEmotion) == 0);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, ActorProjectileState) == 4);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, m_pTopic) == 8);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, m_ucResponseFlags) == 12);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, m_pResponseSound) == 16);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, m_bTenthFlag) == 20);
 class TESResponse
 {
   public:
@@ -41,10 +36,6 @@ class TESResponse
     TESResponse();
     void Load(TESFile* file);
     void InitItem(TESForm* owner);
-    void SetResponseText(const char* text);
-    void SetSpeakerIdle(TESIdleForm* idle);
-    void GetListenerIdle(TESIdleForm* idle);
-    TESResponse* GetNext();
     // TESResponse
     // void __cdecl TESResponse::*()
     // void __cdecl TESResponse::*()
@@ -84,11 +75,9 @@ class TESResponse
     // bool __cdecl TESResponse::*(BSStringT<char>&, const char*, const char*, const char*, const char*, const char*)
     // TESResponse& __cdecl TESResponse::*(const TESResponse&)
     // void* __cdecl TESResponse::*(unsigned int)
+public:
+    ~TESResponse();
+public:
+    const char *GetDialogueText();
 };
-FNV_STATIC_ASSERT(sizeof(TESResponse) == 44);
-FNV_STATIC_ASSERT(offsetof(TESResponse, Data) == 0);
-FNV_STATIC_ASSERT(offsetof(TESResponse, m_kResponseText) == 24);
-FNV_STATIC_ASSERT(offsetof(TESResponse, m_pFirstIdleForm) == 32);
-FNV_STATIC_ASSERT(offsetof(TESResponse, m_pSecondIdleForm) == 36);
-FNV_STATIC_ASSERT(offsetof(TESResponse, pNext) == 40);
 #endif

@@ -2,6 +2,8 @@
 // src/havok/animation/animation/animation/deltacompressed/hkadeltacompressedanimationclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/deltacompressed/hkadeltacompressedanimationclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/FUN_00dfb720.h"
 struct AudioAllocator
 {
     virtual void v00();
@@ -13,14 +15,13 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfbb80_cls
 {
@@ -56,17 +57,15 @@ struct FUN_00dfbb80_cls
     int m_iArrayLength;
     int m_iCap;
 
-    void BaseRelease();
 
     FUN_00dfbb80_cls* ReleaseBuffer(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Frees the data buffer through the allocator, resets the data pointer and capacity, calls BaseRelease, and optionally frees the object itself.
 // @fnv 0x00dfbb80
 FUN_00dfbb80_cls* FUN_00dfbb80_cls::ReleaseBuffer(unsigned char acFlags)
 {
-    AudioHolder* pAudioHolder = FUN_00c85750();
+    AudioHolder* pAudioHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pAudioHolder->m_pAllocator;
     unsigned int uiCap = m_iCap;
     m_iArrayLength = 0;
@@ -76,10 +75,10 @@ FUN_00dfbb80_cls* FUN_00dfbb80_cls::ReleaseBuffer(unsigned char acFlags)
     }
     m_pData = 0;
     m_iCap = 0x80000000;
-    BaseRelease();
+    reinterpret_cast<::FUN_00dfb720 *>(this)->FUN_00dfb720::~FUN_00dfb720();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder2 = FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
         pAllocator2->FreeLow(this, m_uSize);
     }

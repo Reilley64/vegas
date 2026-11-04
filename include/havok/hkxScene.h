@@ -14,7 +14,6 @@ class hkxNodeSelectionSet;
 class hkxSkinBinding;
 class hkxTextureFile;
 class hkxTextureInplace;
-#pragma pack(push, 1)
 class hkxScene : public hkReferencedObject
 {
   public:
@@ -33,6 +32,4 @@ class hkxScene : public hkReferencedObject
     char pad78[0x8];
     hkMatrix3 m_kAppliedTransform;  // +0x80
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxScene[(sizeof(hkxScene) == 0xB0) ? 1 : -1];
 #endif

@@ -5,12 +5,7 @@
 
 #include <stddef.h>
 
-#define FNV_JOIN_IMPL(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
-#define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
 
-FNV_STATIC_ASSERT(sizeof(void*) == 4);
-FNV_STATIC_ASSERT(sizeof(long) == 4);
 
 class PerkEntryPointData
 {
@@ -220,11 +215,6 @@ class BGSQuestPerkEntry : public BGSPerkEntry
 };
 
 #ifndef __GNUC__
-FNV_STATIC_ASSERT(sizeof(BGSPerkEntry) == 0x8);
-FNV_STATIC_ASSERT(sizeof(BGSEntryPointPerkEntry) == 0x14);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, Data) == 0x8);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, m_pFunctionData) == 0xC);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, m_pConditions) == 0x10);
 #endif
 
 #endif

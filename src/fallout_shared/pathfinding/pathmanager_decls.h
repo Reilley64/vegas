@@ -1,5 +1,12 @@
 // fallout_shared/pathfinding/pathmanager_decls.h: declares QueuedMessage, ActorPathingMessageQueue, NiMemObject, PathingSolution, Pathing and more
 
+#include <new>
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/symbols_0047d000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005dc000.h"
 class WaitableObject;
 class PathingRequest;
 class ActorPathingMessageQueue;
@@ -73,8 +80,6 @@ class ActorPathingMessageQueue
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
 };
 
 class PathingSolution : public NiMemObject
@@ -93,12 +98,14 @@ class Pathing
 class RecursiveSpinLock
 {
   public:
-    void Lock(const char*);
-    void Unlock();
+    volatile unsigned int m_uiOwningThreadID;
+    unsigned int m_uiRecursionCount;
+public:
+    void FUN_0040fba0();
 };
 
 class ParentSpaceNode;
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     unsigned int GetSize();
@@ -135,13 +142,13 @@ class PathingTaskData
     char pad05[0x13];
     NiPointer<PathingRequest> m_pPathingRequest;
     NiPointer<PathingSolution> m_pPathingSolution;
-    char pad20[0x40];
+    RecursiveSpinLock kTaskLock;  // +0x20
+    char pad28[0x28];
+    void* kPendingRefs[4];  // +0x50, an NiTArray
     NiPointer<ActorPathingMessageQueue> spQueue;
 
     bool HasPendingMessages();
     void Process();
-    void FUN_006ea330();
-    bool FUN_005dc980();
 };
 
 class PerformanceMeasurement;
@@ -167,15 +174,19 @@ class AutoMemContext
 class PathManagerImpl
 {
   public:
-    char pad[0x14c0];
+    char pad[0xc10];
+    void* kMessageHandler[5];  // +0xC10, an object with a vtable
+    int iState;                // +0xC24
+    int iUnkC28;               // +0xC28
+    int kLock[2];              // +0xC2C, a ReadWriteLock
+    bool unkc34;               // +0xC34
+    char padc35[3];
+    int kSpinLock[8];          // +0xC38, a BSSpinLock
+    char padc58[0x828];
+    void* kPathQueue[16];      // +0x1480
     PathManagerImpl();
-    bool Initialize();
     bool BuildPath(NiPointer<PathingRequest> m_pPathingRequest, NiPointer<ActorPathingMessageQueue> spQueue);
 
-    bool FUN_006eb790();
-    void FUN_006eb7b0();
-    bool GetByteAtOffsetC34();
-    void DispatchPathingMessage(const Struct_004b0680& item);
 };
 
 union SETTING_VALUE
@@ -201,7 +212,6 @@ extern GlobalObject_0045cf30 g_011d77cc;
 
 struct DummyTimer
 {
-    void FUN_00483710();
 };
 
 class PathManager
@@ -214,9 +224,6 @@ class PathManager
     bool BuildPath(NiPointer<PathingRequest> m_pPathingRequest, NiPointer<ActorPathingMessageQueue> spQueue,
                    bool bAsync);
 
-    static PathManager* GetRandomGenerator();
-    PathManagerImpl* FUN_00559450();
-    DummyTimer* FUN_00717e50();
 };
 
 extern "C" char DAT_0103a1bc[];

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKAWAVELETCOMPRESSEDANIMATIONCOMPRESSIONPARAMS_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkaWaveletCompressedAnimationCompressionParams
 {
   public:
@@ -21,7 +20,4 @@ class hkaWaveletCompressedAnimationCompressionParams
     hkReal m_fScaleTolerance;         // +0x1C
     hkReal m_fQuantizationTolerance;  // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaWaveletCompressedAnimationCompressionParams
-    [(sizeof(hkaWaveletCompressedAnimationCompressionParams) == 0x24) ? 1 : -1];
 #endif

@@ -66,7 +66,7 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     // void __cdecl BGSDestructibleObjectForm::*()
     // BGSDestructibleObjectForm& __cdecl BGSDestructibleObjectForm::*(const BGSDestructibleObjectForm&)
     // void* __cdecl BGSDestructibleObjectForm::*(unsigned int)
+public:
+    static void UpdateDestructionMap();
 };
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
 #endif

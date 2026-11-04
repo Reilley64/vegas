@@ -2,34 +2,41 @@
 // src/unmapped/socket.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/remotelog/socket.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0044a000.h"
+// The std::string layout of the original runtime: the text sits in the 16-byte buffer until the capacity reaches 16, then in a heap block the buffer's first word points to.
+struct StringStorageAca1e0
+{
+    int m_alloc;
+    union
+    {
+        char* m_pHeap;
+        char m_acBuffer[16];
+    };
+    unsigned int m_uiSize;
+    unsigned int m_uiCapacity;
+};
+
 struct MorphName
 {
-    char const* FUN_0044a560();
-    char const* __thiscall GetMorphName();
+    char pad00[0xc];
+    StringStorageAca1e0 m_kName;
+    char const* GetMorphName();
 };
 // @fnv 0x0044a380
-char const* __thiscall MorphName::GetMorphName()
+char const* MorphName::GetMorphName()
 {
-    return reinterpret_cast<MorphName*>(reinterpret_cast<char*>(this) + 0xc)->FUN_0044a560();
+    return ::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)(&m_kName));
 }
 
 struct FUN_00aca1e0
 {
-    void* __thiscall GetPointer();
+    char pad00[0xc];
+    StringStorageAca1e0 m_kName;
+    void* GetPointer();
 };
 // @fnv 0x00aca1e0
-void* __thiscall FUN_00aca1e0::GetPointer()
+void* FUN_00aca1e0::GetPointer()
 {
-    struct X
-    {
-        int a;
-        int b;
-        int c;
-        int d;
-        int e;
-        int f;
-        unsigned int g;
-        int h;
-    }* p = (X*)((char*)this + 0xc);
-    return p->g >= 16 ? (void*)p->b : (void*)((char*)p + 4);
+    StringStorageAca1e0* p = &m_kName;
+    return p->m_uiCapacity >= 16 ? (void*)p->m_pHeap : (void*)p->m_acBuffer;
 }

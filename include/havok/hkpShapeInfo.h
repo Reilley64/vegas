@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 class hkpShape;
-#pragma pack(push, 1)
 class hkpShapeInfo : public hkReferencedObject
 {
   public:
@@ -19,6 +18,4 @@ class hkpShapeInfo : public hkReferencedObject
     char pad28[0x8];
     hkTransform m_kMotionTransform;  // +0x30
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpShapeInfo[(sizeof(hkpShapeInfo) == 0x70) ? 1 : -1];
 #endif

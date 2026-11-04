@@ -1,5 +1,9 @@
 // bscore/console/bsthread_console.cpp: BSThread (8 functions)
 
+#include <windows.h>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #include "bsthread_console_pc.h"
 
 // @fnv 0x00aa6550
@@ -58,18 +62,14 @@ void BSThread::SetThreadPriority(int priority)
 }
 
 // @fnv 0x00aa64d0
-unsigned long __stdcall RunThreadProc(void* thread)
+unsigned long RunThreadProc(void* thread)
 {
     return static_cast<BSThreadEntryPC*>(thread)->ThreadProc();
 }
 
-struct CRITSEC
+struct CRITSEC : CRITICAL_SECTION
 {
-    int a[6];
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(CRITSEC*);
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CRITSEC*);
 struct FUN_00aa64f0_t
 {
     int vt;
@@ -92,3 +92,34 @@ void FUN_00aa64f0_t::StopAndCloseHandle()
         LeaveCriticalSection(&cs);
     }
 }
+
+unsigned long RunThreadProc(void* thread);
+
+struct CriticalSectionAA63 : CRITICAL_SECTION
+{
+    ~CriticalSectionAA63()
+    {
+        DeleteCriticalSection(this);
+    }
+};
+
+class FUN_00aa63c0
+{
+  public:
+    virtual ~FUN_00aa63c0();
+
+    CriticalSectionAA63 m_kCriticalSection;
+    void* m_hThread;
+    void* m_hParent;
+    unsigned int m_uiThreadID;
+    unsigned int m_uiParentID;
+    bool m_bModifierActive;
+};
+
+// @fnv 0x00aa63c0
+FUN_00aa63c0::~FUN_00aa63c0()
+{
+    reinterpret_cast<::FUN_00aa64f0_t *>(this)->StopAndCloseHandle();
+}
+
+#include "generated/data/bscore/console/bsthread_console.inc"

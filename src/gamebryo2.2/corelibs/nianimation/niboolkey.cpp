@@ -2,6 +2,9 @@
 // src/gamebryo2.2/corelibs/nianimation/niboolkey.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niboolkey.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a3d000.h"
 struct OutputStream
 {
     unsigned int flags;
@@ -166,12 +169,11 @@ struct SObj
     unsigned int state;
     bool enabled;
 };
-void CallAnimCallback(SStream*, SObj*);
 // Calls CallAnimCallback, then writes the object's enabled flag as one byte to the stream's output and adds the written count.
 // @fnv 0x00a295f0
 void WriteEnabledFlag(SStream* stream, SObj* object)
 {
-    CallAnimCallback(stream, object);
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)(stream), (intptr_t)(object));
     bool enabled = object->enabled != 0;
     unsigned int size;
     OutputStream* output = stream->output;
@@ -431,7 +433,6 @@ struct Key
     int m_iValue1;
 };
 
-void WriteFloatToStream(Stream& kStream, const Key* pkKey);
 
 // For each key, calls WriteFloatToStream, then writes m_iValue0 and m_iValue1 with StreamSaveBinary.
 // @fnv 0x00a27320
@@ -439,10 +440,12 @@ void SaveKeys(Stream& kStream, const Key* pkKeys, unsigned int uiNumKeys)
 {
     for (unsigned int i = 0; i < uiNumKeys; i++)
     {
-        WriteFloatToStream(kStream, &pkKeys[i]);
+        ::WriteFloatToStream((::SStream *)&(kStream), (::SObj *)(&pkKeys[i]));
         StreamSaveBinary(kStream, pkKeys[i].m_iValue0);
         StreamSaveBinary(kStream, pkKeys[i].m_iValue1);
     }
 }
 
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niboolkey.inc"

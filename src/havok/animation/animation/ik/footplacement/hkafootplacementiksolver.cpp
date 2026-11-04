@@ -3,22 +3,23 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cd8800
-void __stdcall FUN_00cd8800(unsigned char* out, int arg2, int arg3, int arg4, int arg5)
+#include <cstdint>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_011f6000.h"
+void FUN_00cd8800(unsigned char* out, int arg2, int arg3, int arg4, int arg5)
 {
     *out = 0;
 }
 
 struct GlobalMgr
 {
-    void Release(void* apObject);
 };
 
-extern "C" GlobalMgr DAT_011f6238;
-extern "C" int DAT_010c4b60;
 
 struct FUN_00c74e70_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
 
     FUN_00c74e70_cls* FUN_00c74e70(unsigned char acFlags);
 };
@@ -27,10 +28,10 @@ struct FUN_00c74e70_cls
 // @fnv 0x00c74e70
 FUN_00c74e70_cls* FUN_00c74e70_cls::FUN_00c74e70(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_010c4b60;
+    m_vptr = (intptr_t)&DAT_010c4b60;
     if (acFlags & 1)
     {
-        DAT_011f6238.Release(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::GlobalMgr *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
     return this;
 }
@@ -57,7 +58,7 @@ CD8810Bool CD8810Filter::FUN_00cd8810(const void* a, const void* b, const void* 
 }
 
 #include <xmmintrin.h>
-extern __m128 DAT_010c44d0;
+#include "fnv/symbols_simd.h"
 
 class NormVec_cls
 {
@@ -82,8 +83,10 @@ __m128* NormVec_cls::FUN_00c74c90(__m128* out)
     __m128 vResult = _mm_mul_ps(s, vVec);
     if ((_mm_movemask_ps(_mm_cmplt_ps(vVec, _mm_setzero_ps())) & 8) != 0)
     {
-        vResult = _mm_xor_ps(DAT_010c44d0, vResult);
+        vResult = _mm_xor_ps(::DAT_010c44d0, vResult);
     }
     *out = vResult;
     return out;
 }
+
+#include "generated/data/havok/animation/animation/ik/footplacement/hkafootplacementiksolver.inc"

@@ -2,33 +2,32 @@
 // src/havok/physics/dynamics/motion/rigid/hkpfixedrigidmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpfixedrigidmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00c86660_cls.h"
+#include "fnv/decl/FUN_00d1dfa0.h"
 #include "havok/hkpFixedRigidMotion.h"
 
 extern int DAT_010c6cdc;
-struct FUN_00d1e160_t
+struct FUN_00d1e160_t : hkpFixedRigidMotion
 {
-    int* vtbl;
-    unsigned char m_auiShapeKeys[7];
-    unsigned char m_type;
-    void FUN_00d1dfa0(int a, int b);
-    void* InitFixedRigidMotion(int a, int b);
+    void* InitFixedRigidMotion(const ::hkVector4D1DF& a, const ::hkQuaternionD1DF& b);
 };
-// Calls FUN_00d1dfa0, sets vtbl to &DAT_010c6cdc, writes 5 to byte offset 8, and returns this.
+// Calls FUN_00d1dfa0, sets the vtable to &DAT_010c6cdc, sets the motion type to 5, and returns this.
 // @fnv 0x00d1e160
-void* FUN_00d1e160_t::InitFixedRigidMotion(int a, int b)
+void* FUN_00d1e160_t::InitFixedRigidMotion(const ::hkVector4D1DF& a, const ::hkQuaternionD1DF& b)
 {
-    FUN_00d1dfa0(a, b);
-    vtbl = &DAT_010c6cdc;
-    ((unsigned char*)this)[8] = 5;
+    new ((void *)this) ::FUN_00d1dfa0(a, b);
+    *(void**)this = &DAT_010c6cdc;
+    m_type = 5;
     return this;
 }
 
 // @fnv 0x00d1e130
-void __stdcall FUN_00d1e130(int, int)
+void FUN_00d1e130(int, int)
 {}
 
 // @fnv 0x00d1e140
-void __stdcall FUN_00d1e140(void* a)
+void FUN_00d1e140(void* a)
 {}
 
 // 0x00d1e150  /MT /O2 /GS /EHsc /Gy   target: C2 04 00  (ret 4, empty thiscall with one stack arg)
@@ -45,22 +44,21 @@ void C00d1e150::FUN_00d1e150(int arg)
 #include <xmmintrin.h>
 struct FUN_00c86660_Obj
 {
-    void FUN_00c86660(int* a);
 };
 
-struct FUN_00d1e190_Obj
+struct FUN_00d1e190_Obj : hkpMotion
 {
     void FUN_00d1e190(int* motion);
 };
 
-// Calls FUN_00c86660 on motion's sub-object at offset 0x10 with this+0x10, then zeroes two 16-byte vectors at float offsets 0x34 and 0x38 of motion.
+// Copies this motion state into motion's via FUN_00c86660, then zeroes motion's linear and angular velocity.
 // @fnv 0x00d1e190
 void FUN_00d1e190_Obj::FUN_00d1e190(int* motion)
 {
-    reinterpret_cast<FUN_00c86660_Obj*>(reinterpret_cast<char*>(motion) + 0x10)
-        ->FUN_00c86660(reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x10));
+    hkpMotion* dst = reinterpret_cast<hkpMotion*>(motion);
+    reinterpret_cast<::FUN_00c86660_cls *>(&dst->m_kMotionState)->FUN_00c86660((const ::FUN_00c86660_cls *)(const void *)(&m_kMotionState));
 
     __m128 zero = _mm_setzero_ps();
-    _mm_store_ps(reinterpret_cast<float*>(motion) + 0x34, zero);
-    _mm_store_ps(reinterpret_cast<float*>(motion) + 0x38, zero);
+    _mm_store_ps(reinterpret_cast<float*>(&dst->m_kTranslationalVelocity), zero);
+    _mm_store_ps(reinterpret_cast<float*>(&dst->m_kAngularVelocity), zero);
 }

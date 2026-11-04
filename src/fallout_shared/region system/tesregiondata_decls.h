@@ -9,7 +9,6 @@ enum ENUM_FORM_ID
 class TESForm
 {
   public:
-    void SetFormType(ENUM_FORM_ID);
 };
 class RegionDataEntry
 {
@@ -28,6 +27,5 @@ class TESRegionData
     unsigned char m_ucRegionPriority;
     unsigned char padding;
     bool ApplyEntry(RegionDataEntry* data);
-    bool SetPriority(unsigned char priority);
 };
 #endif

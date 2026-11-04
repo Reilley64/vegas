@@ -1,15 +1,30 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/bsorderednode.cpp: BSOrderedNode, NiBound (6 functions)
 
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_00a5dbe0_shell.h"
+#include "fnv/decl/FUN_00a5ea70_t.h"
+#include "fnv/decl/FUN_00b63090_shell.h"
+#include "fnv/decl/FUN_00b63500_shell.h"
+#include "fnv/decl/FUN_00bc2c50_class.h"
+#include "fnv/decl/NodeA5E8.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a5dd40__FUN_00a5dd40_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01201000.h"
 #include "bsorderednode_decls.h"
 // Calls NiNode::LoadBinary, loads bound from the stream, and reads staticBound when stream.version > 23, otherwise sets it to true.
 // @fnv 0x00bc2e80
 void BSOrderedNode::LoadBinary(NiStream& stream)
 {
-    NiNode::LoadBinary(stream);
+    reinterpret_cast<::fnv_00a5dd40::FUN_00a5dd40_shell *>(this)->FUN_00a5dd40((::NiStream *)&(stream));
     bound.LoadBinary(stream);
     if (stream.version > 23)
     {
-        stream.input->Read(&staticBound, 1);
+        reinterpret_cast<::FUN_00462d80_shell *>((stream.input))->ReadBytes(&staticBound, 1);
     }
     else
     {
@@ -28,6 +43,8 @@ struct NiBound
         return c0 == b.c0 && c1 == b.c1 && c2 == b.c2 && c3 == b.c3;
     }
     bool FUN_00a926b0(const NiBound& b);
+public:
+    char *FUN_00a7fb20(const char *);
 };
 // Returns true when this NiBound differs from b, i.e. the negation of operator==.
 // @fnv 0x00a926b0
@@ -98,8 +115,6 @@ class NiTransform
 class DummyAccum
 {
   public:
-    void RenderBound(NiBound& bound, int flag);
-    void DispatchBatchRenderer();
 };
 
 // The culling process; the accumulator it collects the bounds in sits at
@@ -124,7 +139,6 @@ class DummyNode
     unsigned char unk9c[0x10];  // +0x9c
     BoundSphere bound;          // +0xac
     bool staticBound;           // +0xbc
-    void FUN_00a5dbe0(NiCullingProcess* culling);
     void UpdateCullingBound(NiCullingProcess* culling);
 };
 
@@ -144,18 +158,18 @@ void DummyNode::UpdateCullingBound(NiCullingProcess* culling)
         NiBoundOverlay out;
         out.centre = centre;
         out.bound.c3 = bound.fields.radius * xform.scale;
-        accum->RenderBound(out.bound, 0);
+        reinterpret_cast<::FUN_00b63500_shell *>((accum))->RenderBound((void *)&(out.bound), 0);
     }
     else
     {
         NiBound* b = pBound;
         if (!b)
             b = &g_defaultBound;
-        accum->RenderBound(*b, 0);
+        reinterpret_cast<::FUN_00b63500_shell *>((accum))->RenderBound((void *)&(*b), 0);
     }
 
-    FUN_00a5dbe0(culling);
-    accum->DispatchBatchRenderer();
+    reinterpret_cast<::FUN_00a5dbe0_shell *>(this)->FUN_00a5dbe0(culling);
+    reinterpret_cast<::FUN_00b63090_shell *>((accum))->DispatchBatchRenderer();
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -169,10 +183,6 @@ struct SpawnedObject
     unsigned int unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C;
     unsigned int unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC;
 
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 
     SpawnedObject();
 };
@@ -180,7 +190,6 @@ struct SpawnedObject
 class FUN_00bc2e00_cls
 {
   public:
-    void CopyTailFields(SpawnedObject* obj, void* arg);
     SpawnedObject* CreateSpawnedObject(void* arg);
 };
 
@@ -190,7 +199,7 @@ SpawnedObject* FUN_00bc2e00_cls::CreateSpawnedObject(void* arg)
 {
     SpawnedObject* obj = 0;
     obj = new SpawnedObject();
-    this->CopyTailFields(obj, arg);
+    reinterpret_cast<::FUN_00bc2c50_class *>((this))->CopyTailFields((::FUN_00bc2c50_class *)(obj), (std::intptr_t)(arg));
     return obj;
 }
 
@@ -203,7 +212,6 @@ struct LoadBoundSphere
     unsigned int unk08;
     unsigned int unk0c;
 
-    void FUN_00eb5410(NiStream& aStream);
 };
 
 struct LoadBinaryStreamView
@@ -232,7 +240,6 @@ struct FUN_00bc2ee0_cls : NiNode
     LoadBoundSphere bound;
     bool staticBound;
 
-    void FUN_00a5e880(NiStream& aStream);
     void LoadBoundSphereAndStaticBound(NiStream& aStream);
 };
 
@@ -240,8 +247,8 @@ struct FUN_00bc2ee0_cls : NiNode
 // @fnv 0x00bc2ee0
 void FUN_00bc2ee0_cls::LoadBoundSphereAndStaticBound(NiStream& aStream)
 {
-    FUN_00a5e880(aStream);
-    bound.FUN_00eb5410(aStream);
+    reinterpret_cast<::NodeA5E8 *>(this)->FUN_00a5e880((::NiStreamA5E8 &)(aStream));
+    reinterpret_cast<::NiSphere *>(&(bound))->SaveBinary(aStream);
 
     LoadStreamView& view = (LoadStreamView&)aStream;
     view.m_pInput->Read(&staticBound, 1);
@@ -255,8 +262,6 @@ struct S_00bc2f30_Arr
     unsigned short esize;
     unsigned short unk0c;
     unsigned short growBy;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, char*&);
 };
 struct S_00bc2f30_Vec
 {
@@ -270,7 +275,6 @@ struct S_00bc2f30_Bound
     int y;
     int z;
     float w;
-    char* FUN_00a7fb20(const char* name);
 };
 struct S_00bc2f30_Xf
 {
@@ -279,11 +283,7 @@ struct S_00bc2f30_Xf
 };
 struct S_00bc2f30_Base
 {
-    void FUN_00a5ea70(S_00bc2f30_Arr* a);
 };
-extern const char* DAT_01201f84;
-char* __cdecl FUN_00a7d330(const char* s);
-char* __cdecl FUN_00a7d370(const char* fmt, ...);
 struct S_00bc2f30_Cls : S_00bc2f30_Base
 {
     int unk00;
@@ -340,15 +340,15 @@ __forceinline void S_00bc2f30_Add(S_00bc2f30_Arr* a, char* s)
 {
     unsigned int i = a->esize;
     if (i >= a->size)
-        a->FUN_0096ad30(i + a->growBy);
-    a->FUN_0096ae90(i, s);
+        reinterpret_cast<::ViewerStrings *>((a))->SetSize(i + a->growBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((a))->SetAt(i, s);
 }
 // @fnv 0x00bc2f30
 void S_00bc2f30_Cls::AppendAlphaSortBound(S_00bc2f30_Arr* a)
 {
-    FUN_00a5ea70(a);
-    S_00bc2f30_Add(a, FUN_00a7d330(DAT_01201f84));
-    S_00bc2f30_Add(a, FUN_00a7d370("bHasStaticBound", mBC));
+    reinterpret_cast<::FUN_00a5ea70_t *>(this)->FUN_00a5ea70((::StrArr *)(a));
+    S_00bc2f30_Add(a, FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01201f84))));
+    S_00bc2f30_Add(a, ::FUN_00a7d370("bHasStaticBound", mBC));
     S_00bc2f30_Vec sortVec;
     m68.FUN_00524c40(&sortVec, &unkAC);
     S_00bc2f30_Bound b;
@@ -356,5 +356,5 @@ void S_00bc2f30_Cls::AppendAlphaSortBound(S_00bc2f30_Arr* a)
     b.x = sortVec.x;
     b.y = sortVec.y;
     b.z = sortVec.z;
-    S_00bc2f30_Add(a, b.FUN_00a7fb20("Alpha Sort Bound"));
+    S_00bc2f30_Add(a, reinterpret_cast<::NiBound *>(&(b))->FUN_00a7fb20("Alpha Sort Bound"));
 }

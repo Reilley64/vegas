@@ -2,15 +2,14 @@
 // src/havok/common/visualize/shape/hkdisplayplane.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplayplane.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float x, y, z, w;
-};
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <xmmintrin.h>
+#include <cstddef>
+#include <new>
+#include "fnv/symbols_00c90000.h"
+
+
 struct Float4
 {
     float x, y, z, w;
@@ -55,10 +54,10 @@ struct Cls_00de4e20
     Vec4_de4e20 m_p;
     Vec4_de4e20 m_kPointB;
     Vec4_de4e20 m_q;
-    void __thiscall FUN_00de4e20(Vec4_de4e20* out);
+    void FUN_00de4e20(Vec4_de4e20* out);
 };
 // @fnv 0x00de4e20
-void __thiscall Cls_00de4e20::FUN_00de4e20(Vec4_de4e20* out)
+void Cls_00de4e20::FUN_00de4e20(Vec4_de4e20* out)
 {
     Vec4_de4e20 cross;
     cross.setCross(m_kPointA, m_kPointB);
@@ -110,11 +109,11 @@ struct MatrixOwner
     __m128 unk70;
     __m128 unk80;
     __m128 unk90;
-    void __thiscall SetFromVectors(const __m128*, const __m128*, const __m128*, const __m128*);
+    void SetFromVectors(const __m128*, const __m128*, const __m128*, const __m128*);
 };
 // Stores *a, *c, *b and *d into unk60, unk70, unk80 and unk90 respectively.
 // @fnv 0x00de4ee0
-void __thiscall MatrixOwner::SetFromVectors(const __m128* a, const __m128* b, const __m128* c, const __m128* d)
+void MatrixOwner::SetFromVectors(const __m128* a, const __m128* b, const __m128* c, const __m128* d)
 {
     unk60 = *a;
     unk70 = *c;
@@ -137,16 +136,14 @@ __declspec(align(16)) struct VecTemp4
     unsigned int m_30, m_34, m_38, m_3c;
 };
 
-extern "C" void __cdecl FUN_00c908c0(unsigned int a1, VecBuf* v, int cap, int elem);
 
 struct FUN_00de5050_cls
 {
-    void Fill(VecTemp4* out);
-    void FUN_00de5050(VecBuf* s, unsigned int a2);
+    void FUN_00de5050(VecBuf* s, uintptr_t a2);
 };
 
 // @fnv 0x00de5050
-void FUN_00de5050_cls::FUN_00de5050(VecBuf* s, unsigned int a2)
+void FUN_00de5050_cls::FUN_00de5050(VecBuf* s, uintptr_t a2)
 {
     int n = (int)(s->m_iElementCount & 0x3fffffff);
     if (n < 12)
@@ -156,11 +153,11 @@ void FUN_00de5050_cls::FUN_00de5050(VecBuf* s, unsigned int a2)
         {
             cap = 12;
         }
-        FUN_00c908c0(a2, s, cap, 0x10);
+        ::FUN_00c908c0((::SpawnedObject *)(a2), (::SpawnedArray *)(s), cap, 0x10);
     }
     VecTemp4 tmp;
     s->m_uiItemCount = 12;
-    this->Fill(&tmp);
+    reinterpret_cast<::Cls_00de4e20 *>((this))->FUN_00de4e20((::Vec4_de4e20 *)(::VecTemp4 *)(&tmp));
 
     __m128 v0 = _mm_load_ps((float*)&tmp.m_00);
     __m128 v1 = _mm_load_ps((float*)&tmp.m_10);
@@ -188,10 +185,10 @@ struct S_00de5110_Heap
 
 struct S_00de5110_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00de5110_Heap* m_pStreamAllocator;
     S_00de5110_Heap& heap() throw()
     {
@@ -199,8 +196,6 @@ struct S_00de5110_Router
     }
 };
 
-S_00de5110_Router& FUN_00c85750() throw();
-void FUN_00c908c0(S_00de5110_Heap& alloc, void* array, int numElements, int sizeElem) throw();
 
 template <typename T> struct S_00de5110_Array
 {
@@ -231,7 +226,7 @@ template <typename T> struct S_00de5110_Array
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(a, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(S_00de5110_Heap& a, int n) throw()
@@ -248,11 +243,11 @@ template <typename T> struct S_00de5110_Array
     }
     __forceinline void SetSizeAndGrow(int n) throw()
     {
-        _setSize(FUN_00c85750().heap(), n);
+        _setSize((*static_cast<S_00de5110_Router*>(::FUN_00c85750())).heap(), n);
     }
     __forceinline T* expandBy(int n) throw()
     {
-        return _expandBy(FUN_00c85750().heap(), n);
+        return _expandBy((*static_cast<S_00de5110_Router*>(::FUN_00c85750())).heap(), n);
     }
 };
 
@@ -287,9 +282,9 @@ struct S_00de5110_Geometry
 
     S_00de5110_Geometry() throw()
     {}
-    static void* operator new(unsigned int n) throw()
+    static void* operator new(std::size_t n) throw()
     {
-        return FUN_00c85750().heap().AllocateMemoryBlock(n);
+        return (*static_cast<S_00de5110_Router*>(::FUN_00c85750())).heap().AllocateMemoryBlock(n);
     }
     static void operator delete(void*) throw()
     {}
@@ -327,7 +322,6 @@ struct S_00de5110_Pyramid
     int unk6C;
     S_00de5110_Vector4 m_apex;
 
-    void FUN_00de4e20(S_00de5110_Vector4* verts);
     void BuildPyramidGeometry();
 };
 
@@ -338,15 +332,13 @@ void S_00de5110_Pyramid::BuildPyramidGeometry()
     m_pSourceGeometry = new S_00de5110_Geometry();
     m_pSourceGeometry->m_kVertices.SetSizeAndGrow(5);
     m_pSourceGeometry->m_kVertices[4] = m_apex;
-    FUN_00de4e20(m_pSourceGeometry->m_kVertices.begin());
+    reinterpret_cast<::Cls_00de4e20 *>(this)->FUN_00de4e20((::Vec4_de4e20 *)(::S_00de5110_Vector4 *)(m_pSourceGeometry->m_kVertices.begin()));
     m_pSourceGeometry->m_uiTriangleCount.expandBy(1)->set(2, 4, 3);
     m_pSourceGeometry->m_uiTriangleCount.expandBy(1)->set(0, 4, 2);
     m_pSourceGeometry->m_uiTriangleCount.expandBy(1)->set(1, 4, 0);
     m_pSourceGeometry->m_uiTriangleCount.expandBy(1)->set(3, 4, 1);
 }
 
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_setzero_ps(void);
 
 union Vec4f
 {
@@ -375,7 +367,7 @@ class FUN_00de4f20_cls
   public:
     FUN_00de4f20_cls* FUN_00de4f20(const Vec4i* p0, const Vec4i* p1, const Vec4i* p2, const Vec4i* p3);
 
-    int m_vptr;              // 0x00
+    intptr_t m_vptr;              // 0x00
     unsigned short unk04;    // 0x04
     unsigned short m_06;     // 0x06
     int m_08;                // 0x08
@@ -402,14 +394,14 @@ FUN_00de4f20_cls* FUN_00de4f20_cls::FUN_00de4f20(const Vec4i* p0, const Vec4i* p
     *(volatile int*)&m_08 = 0;
     *(volatile int*)&m_50 = 7;
     *(volatile unsigned short*)&m_06 = 1;
-    _mm_store_ps((float*)((char*)this + 0x10), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x20), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x30), _mm_setzero_ps());
+    _mm_store_ps((float*)&this->m_rot0, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->m_rot1, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->m_rot2, _mm_setzero_ps());
     *(volatile float*)&m_rot0.s.x = one;
     *(volatile float*)&m_rot1.s.y = one;
     *(volatile float*)&m_rot2.s.z = one;
     _mm_store_ps((float*)&m_kAxisEndPoints.v, _mm_setzero_ps());
-    m_vptr = (int)&DAT_010d828c;
+    m_vptr = (intptr_t)&DAT_010d828c;
     m_60 = *p0;
     m_70 = *p2;
     m_80 = *p1;
@@ -419,7 +411,7 @@ FUN_00de4f20_cls* FUN_00de4f20_cls::FUN_00de4f20(const Vec4i* p0, const Vec4i* p
 
 // Today's unit (hkdisplayplane.cpp) defines __m128 and its intrinsics itself;
 // declare the one the matched code needs that the unit does not have.
-extern "C" __m128 _mm_setzero_ps(void);
+
 
 struct S_00de4ff0_Vec4
 {

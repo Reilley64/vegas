@@ -2,6 +2,32 @@
 #ifndef BGSTERMINAL_DECLS_H
 #define BGSTERMINAL_DECLS_H
 
+#include <cstring>
+#include <malloc.h>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_00461150_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Scr.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004ff000.h"
+#include "fnv/symbols_005b5000.h"
 class TESFile;
 class Script;
 class TESForm;
@@ -11,10 +37,6 @@ class BGSTerminal;
 class TerminalMenuItem;
 class ScriptVariableInfo;
 class ScriptReferencedObject;
-extern "C" void* memset(void*, int, unsigned int);
-extern "C" void* _alloca(unsigned int);
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 template <class T> class BSStringT
 {
   public:
@@ -37,22 +59,17 @@ template <class T> class BSSimpleList
 class TESFileFormVersion
 {
   public:
-    unsigned short GetFormVersion();
 };
 class TESFile : public TESFileFormVersion
 {
   public:
-    unsigned int GetChunkSize();
-    unsigned int GetChunkID();
     bool NextChunk();
-    bool GetChunkData(void*, unsigned int);
     bool GetChunkData(unsigned int*);
     bool IsEndianConversionRequired();
 };
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
     virtual void vfn_0();
     virtual void vfn_4();
     virtual void vfn_8();
@@ -136,12 +153,12 @@ class TESFormInitFlag
 class TESForm : public TESFormInitFlag
 {
   public:
-    void LoadRecordHeader(TESFile*);
     void SetInitializationState(bool);
     TESFile* GetFile(int);
-    unsigned int GetFormID();
-    static void RemapFormIDForFile(unsigned int&, TESFile*);
-    static TESForm* GetFormByID(unsigned int);
+public:
+    bool GetInitialized() const;
+public:
+    void ClearData();
 };
 class TESBoundAnimObject : public TESForm
 {
@@ -157,7 +174,6 @@ class TESFullName
 class TESFullNameLoader
 {
   public:
-    static void LoadFullNameChunk(TESFullName*, TESFile*);
 };
 class TESModel
 {
@@ -170,7 +186,6 @@ class TESModelTextureSwap : public TESModel
 {
   public:
     BSSimpleList<void*> swaps;
-    bool ParseTextureSwapData(void*, unsigned int, unsigned int);
 };
 class TESScriptableForm
 {
@@ -178,7 +193,6 @@ class TESScriptableForm
     void* vtable;
     Script* script;
     bool resolved;
-    void SetScript(Script*);
     void InitItem(TESForm*);
 };
 class BGSDestructibleObjectForm
@@ -186,7 +200,6 @@ class BGSDestructibleObjectForm
   public:
     void* vtable;
     void* data;
-    static void LoadDestructibleData(BGSDestructibleObjectForm*, TESFile*);
 };
 class TESObjectACTI : public TESBoundAnimObject,
                       public TESFullName,
@@ -212,18 +225,12 @@ class ScriptHeaderData
   public:
     unsigned int variableCount, m_uiReferenceID, dataSize, lastID;
     bool quest, effect, compiled;
-    void Endian();
 };
 class Script : public TESForm
 {
   public:
     ScriptHeaderData header;
     unsigned char scriptData[0x28];
-    ScriptHeaderData* GetHeader();
-    BSSimpleList<ScriptVariableInfo*>* GetVariableList();
-    BSSimpleList<ScriptReferencedObject*>* GetReferencedObjectList();
-    void SetScriptData(unsigned int, char*);
-    void InitItem(TESForm*);
 };
 class ScriptVariableInfo
 {
@@ -247,6 +254,8 @@ class PerkEntryConditionSet
     BSSimpleList<void*> conditions;
     void Load(TESFile*);
     void InitItem(TESForm*);
+public:
+    bool Compare(::PerkEntryConditionSet *);
 };
 class TerminalMenuItem
 {
@@ -273,23 +282,15 @@ class BGSTerminal : public TESObjectACTI, public TESDescription
     void ResetFormData();
     bool Load(TESFile*);
     void InitItem();
-    void FUN_00500a20(BGSNote*);
     void AddMenuItem(TerminalMenuItem*);
-    BSSimpleList<TerminalMenuItem*>* FUN_00461150();
 };
 extern ScriptVariableInfo* DAT_011c83d4;
-typedef char terminal_size_check[sizeof(BGSTerminal) == 0xa8 ? 1 : -1];
-typedef char menu_item_size_check[sizeof(TerminalMenuItem) == 0x78 ? 1 : -1];
 class BGSNote : public TESForm
 {
 };
-int Warning();
-int Warning(const char*, ...);
-unsigned int SetWarningState(bool);
 class MessageHandler
 {
   public:
-    static void SetWarningCount(int);
 };
 // PC caller and note-list layout identify the covered 0x00966c10 span as
 // PlayerCharacter::HasNote; the supplied BGSTerminal candidate is incorrect.

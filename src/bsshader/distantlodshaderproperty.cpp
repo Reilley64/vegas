@@ -1,7 +1,39 @@
+#include <cstdint>
+#include <cstddef>
 
 // src/bsshader/distantlodshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/distantlodshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
+#include <cstring>
+#include "fnv/decl/A54440Hash.h"
+#include "fnv/decl/B4F9A0ShaderManager.h"
+#include "fnv/decl/ExtraOwnerB.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00b584e0_Class.h"
+#include "fnv/decl/FUN_00b97690.h"
+#include "fnv/decl/FUN_00bd5d70_Class.h"
+#include "fnv/decl/FUN_00c3a8a0_cls.h"
+#include "fnv/decl/FnvCpu_FUN_00a7b850_CpuObject.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/decl/S_00bd6150_Foo.h"
+#include "fnv/decl/Setup051.h"
+#include "fnv/decl/TexturePool.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00a75000.h"
+#include "fnv/symbols_00b57000.h"
+#include "fnv/symbols_00b58000.h"
+#include "fnv/symbols_00b59000.h"
+#include "fnv/symbols_00ba5000.h"
+#include "fnv/symbols_00bc0000.h"
+#include "fnv/symbols_00bc4000.h"
+#include "fnv/symbols_011c5000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 struct NiPoint3;
 struct RgbaColor;
 struct NiPoint2;
@@ -60,11 +92,8 @@ FUN_00a816a0::FUN_00a816a0(unsigned short p1, NiPoint3* p2, NiPoint3* p3, RgbaCo
 
 struct S_Pool
 {
-    void* Alloc(unsigned int size);
-    void Free(void* p);
 };
 
-extern S_Pool DAT_011f6238;
 
 struct S_A
 {
@@ -116,14 +145,9 @@ struct S_A
     void Release()
     {
         FUN_00b6f0b0();
-        DAT_011f6238.Free(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_Pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
     void FUN_00b6f0b0();
-    void FUN_00b6e450(unsigned int v);
-    static void* operator new(unsigned int n)
-    {
-        return DAT_011f6238.Alloc(n);
-    }
 };
 
 struct S_B
@@ -330,65 +354,49 @@ struct S_B
     S_B();
     void Release()
     {
-        FUN_00b97690();
-        DAT_011f6238.Free(this);
-    }
-    void FUN_00b97690();
-    static void* operator new(unsigned int n)
-    {
-        return DAT_011f6238.Alloc(n);
+        reinterpret_cast<::FUN_00b97690 *>(this)->FUN_00b97690::~FUN_00b97690();
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_Pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
 };
 
-extern unsigned char DAT_011f91c6;
-extern S_A* DAT_011f91a8;
-extern S_B* DAT_011f91ac;
-extern unsigned int DAT_011f91e0;
-extern unsigned int DAT_011f9508;
 
-void InitRenderSystem();
-void ClearAllCachedStates();
-void FUN_00ba50d0();
-void FUN_00bc0940();
-void ClearRefObject();
 
 // @fnv 0x00b578a0
 void FUN_00b578a0()
 {
-    if (DAT_011f91c6 == 0)
+    if ((*reinterpret_cast<unsigned char *>(&::DAT_011f91c6)) == 0)
     {
         InitRenderSystem();
         return;
     }
 
-    ClearAllCachedStates();
+    ::B4F9A0ShaderManager::ClearAllCachedStates();
     FUN_00ba50d0();
     FUN_00bc0940();
     ClearRefObject();
 
-    if (DAT_011f91ac != 0)
+    if ((*reinterpret_cast<::S_B * *>(&::DAT_011f91ac)) != 0)
     {
-        DAT_011f91ac->Release();
-        DAT_011f91ac = 0;
+        (*reinterpret_cast<::S_B * *>(&::DAT_011f91ac))->Release();
+        (*reinterpret_cast<::S_B * *>(&::DAT_011f91ac)) = 0;
     }
-    if (DAT_011f91a8 != 0)
+    if ((*reinterpret_cast<::S_A * *>(&::DAT_011f91a8)) != 0)
     {
-        DAT_011f91a8->Release();
-        DAT_011f91a8 = 0;
-    }
-
-    DAT_011f91e0 = 0;
-    DAT_011f91a8 = new S_A;
-
-    if (DAT_011f9508 != 0)
-    {
-        DAT_011f91ac = new S_B;
+        (*reinterpret_cast<::S_A * *>(&::DAT_011f91a8))->Release();
+        (*reinterpret_cast<::S_A * *>(&::DAT_011f91a8)) = 0;
     }
 
-    DAT_011f91a8->FUN_00b6e450(DAT_011f9508);
+    (*reinterpret_cast<unsigned int *>(&::DAT_011f91e0)) = 0;
+    (*reinterpret_cast<::S_A * *>(&::DAT_011f91a8)) = new S_A;
+
+    if ((*reinterpret_cast<unsigned int *>(&::DAT_011f9508)) != 0)
+    {
+        (*reinterpret_cast<::S_B * *>(&::DAT_011f91ac)) = new S_B;
+    }
+
+    reinterpret_cast<::Setup051 *>(((*reinterpret_cast<::S_A * *>(&::DAT_011f91a8))))->FUN_00b6e450((::NiRenderer_b6d170 *)(::DAT_011f9508));
 }
 
-extern unsigned int DAT_011f9640;
 
 struct Vec3
 {
@@ -415,7 +423,6 @@ struct ListNode
 struct KeyedList
 {
     ListNode* first;
-    void __thiscall FUN_00b584e0(unsigned int* key);
     bool Find(const unsigned int& k, ListNode** out)
     {
         ListNode* n = first;
@@ -447,13 +454,10 @@ struct FnvOwner
     unsigned int m_14;
     unsigned int m_18;
     KeyedList m_1c;
-    void __thiscall FUN_00bd5d70(Vec4* v, unsigned int key);
-    void __thiscall FUN_00bd5e40();
 };
 
 struct ObjR
 {
-    void __thiscall FUN_00a53c30();
 };
 
 struct ObjA4
@@ -515,15 +519,13 @@ struct Obj3
     virtual void v47();
 };
 
-unsigned short __cdecl GetOrCreateItem(ObjA4* a4, void* a1, FnvOwner** out, Obj3* a3);
-ObjR* __stdcall FUN_00b585c0(void* v, FnvOwner** out);
 
 // Passes Vec4 values assembled from a5 and a6 to the located object, then inserts key when absent from its KeyedList.
 // @fnv 0x00b59ae0
 void __cdecl FUN_00b59ae0(void* a1, unsigned int key, Obj3* apObj3, ObjA4* apObjA4, Vec3* apPoints, float* a6,
                           unsigned short count)
 {
-    DAT_011f9640 += count;
+    (*reinterpret_cast<unsigned int *>(&::DAT_011f9640)) += count;
     int iIndex = 0;
     int i = 0;
 
@@ -531,7 +533,7 @@ void __cdecl FUN_00b59ae0(void* a1, unsigned int key, Obj3* apObj3, ObjA4* apObj
     while (count > 0)
     {
         pOwner = 0;
-        unsigned short n = GetOrCreateItem(apObjA4, a1, &pOwner, apObj3);
+        unsigned short n = ((unsigned short)(::GetOrCreateItem((::RTKey *)(apObjA4), (unsigned int)(std::uintptr_t)(a1), (::RTItem **)(::FnvOwner **)(&pOwner))));
         if (pOwner == 0)
         {
             return;
@@ -545,23 +547,23 @@ void __cdecl FUN_00b59ae0(void* a1, unsigned int key, Obj3* apObj3, ObjA4* apObj
             v.y = apPoints[i].y;
             v.z = apPoints[i].z;
             v.w = a6[i];
-            pOwner->FUN_00bd5d70(&v, key);
+            reinterpret_cast<::FUN_00bd5d70_Class *>((pOwner))->FUN_00bd5d70(&v, key);
             --count;
         }
-        pOwner->FUN_00bd5e40();
+        reinterpret_cast<::S_00bd6150_Foo *>((pOwner))->FUN_00bd5e40();
         iIndex = 0;
     }
 
     apObj3->v47();
     pOwner = 0;
-    ObjR* r = FUN_00b585c0(apObjA4->m_08, &pOwner);
-    r->FUN_00a53c30();
+    ObjR* r = ((::ObjR *)(::FUN_00b585c0()));
+    reinterpret_cast<::A54440Hash *>((r))->FUN_00a53c30({}, {});
 
     KeyedList* pKeyedList = &pOwner->m_1c;
     ListNode* node;
     if (!pKeyedList->Find(key, &node) || node == 0)
     {
-        pKeyedList->FUN_00b584e0(&key);
+        reinterpret_cast<::FUN_00b584e0_Class *>((pKeyedList))->FUN_00b584e0(&key);
     }
 }
 
@@ -597,10 +599,6 @@ struct S_00b6f0b0_Ptr
         }
         return *this;
     }
-    static void operator delete(void* p) throw()
-    {
-        DAT_011f6238.Free(p);
-    }
 };
 struct S_00b6f0b0_Node
 {
@@ -611,13 +609,8 @@ struct S_00b6f0b0_Node
 struct S_00b6f0b0_Lock
 {
     int owner;
-    void FUN_0040fbf0(const char* s) throw();
 };
-extern S_00b6f0b0_Lock DAT_011c5f80;
-extern S_00b6f0b0_Node* DAT_011c5f58;
-extern int DAT_011c5f84;
 extern char DAT_011a2fe4;
-extern int DAT_011f4748;
 
 struct S_ReturnPtr
 {
@@ -648,7 +641,6 @@ struct S_00b6f0b0_ListC
 };
 struct S_00b6f0b0_Base
 {
-    void ResizeActivePool(int a, int b) throw();
 };
 
 struct FUN_00b6f0b0 : S_00b6f0b0_Base
@@ -695,17 +687,17 @@ FUN_00b6f0b0::~FUN_00b6f0b0()
         else
             m84.tail = 0;
         node->item = 0;
-        DAT_011c5f80.FUN_0040fbf0(0);
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::S_00b6f0b0_Lock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         node->prev = 0;
-        node->next = DAT_011c5f58;
-        if (--DAT_011c5f84 == 0)
+        node->next = (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58));
+        if (--(*reinterpret_cast<int *>(&::DAT_011c5f84)) == 0)
         {
-            DAT_011c5f58 = node;
-            DAT_011c5f80.owner = 0;
+            (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58)) = node;
+            (*reinterpret_cast<::S_00b6f0b0_Lock *>(&::g_011c5f80)).owner = 0;
         }
         else
         {
-            DAT_011c5f58 = node;
+            (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58)) = node;
         }
         m84.count--;
         delete slot;
@@ -722,24 +714,24 @@ FUN_00b6f0b0::~FUN_00b6f0b0()
         else
             m78.tail = 0;
         node->item = 0;
-        DAT_011c5f80.FUN_0040fbf0(0);
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::S_00b6f0b0_Lock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         node->prev = 0;
-        node->next = DAT_011c5f58;
-        if (--DAT_011c5f84 == 0)
+        node->next = (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58));
+        if (--(*reinterpret_cast<int *>(&::DAT_011c5f84)) == 0)
         {
-            DAT_011c5f58 = node;
-            DAT_011c5f80.owner = 0;
+            (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58)) = node;
+            (*reinterpret_cast<::S_00b6f0b0_Lock *>(&::g_011c5f80)).owner = 0;
         }
         else
         {
-            DAT_011c5f58 = node;
+            (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58)) = node;
         }
         m78.count--;
         delete slot;
     }
 
     if (DAT_011a2fe4 == 0)
-        ResizeActivePool(DAT_011f4748, 0);
+        reinterpret_cast<::TexturePool *>(this)->ResizeActivePool((*reinterpret_cast<int *>(&::NiRenderer::ms_pRenderer)), 0);
     for (int i = 0; i < 5; i++)
     {
         while (m0[i].count)
@@ -753,25 +745,14 @@ extern "C" void _ReadWriteBarrier();
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int);
 };
 
-inline void* operator new[](unsigned int n)
-{
-    MemoryManager* manager = ((MemoryManager*)&DAT_011f6238);
-    void* result = manager->Allocate(n);
-    return result;
-}
 
 struct NiPoint3
 {
     NiPoint3()
     {}
     float x, y, z;
-    static void* operator new[](unsigned int n)
-    {
-        return ((MemoryManager*)&DAT_011f6238)->Allocate(n);
-    }
 };
 
 struct NiPoint2
@@ -779,10 +760,6 @@ struct NiPoint2
     NiPoint2()
     {}
     float x, y;
-    static void* operator new[](unsigned int n)
-    {
-        return ((MemoryManager*)&DAT_011f6238)->Allocate(n);
-    }
 };
 
 struct RgbaColor
@@ -791,10 +768,6 @@ struct RgbaColor
     RgbaColor(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 0.0f)
         : r(red), g(green), b(blue), a(alpha)
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return ((MemoryManager*)&DAT_011f6238)->Allocate(n);
-    }
 };
 
 struct NiRTTI
@@ -808,15 +781,11 @@ struct Bound
     float x, y, z, radius;
 };
 
-extern NiRTTI g_011f4a20, g_011f4a88, g_011f4a70, g_011f4aa0;
 
-extern int DAT_011f91c0;
 
 extern volatile long DAT_011f4400;
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct NiRefObject
 {
@@ -1027,7 +996,6 @@ struct NiProperty : NiObject
 
     NiProperty();
 
-    static void* operator new(unsigned int);
 };
 
 struct ShaderProperty : NiProperty
@@ -1077,9 +1045,7 @@ struct GeometryData : NiObject
         return bound;
     }
 
-    unsigned short* FUN_00a7b850();
 
-    unsigned short* FUN_00a75f10();
 };
 
 struct Scene : NiObject
@@ -1175,9 +1141,7 @@ struct Scene : NiObject
 
     GeometryData* data;
 
-    NiProperty* FUN_00a59d30(int);
 
-    void FUN_00a5b230(unsigned int);
 };
 
 struct Resource : NiRefObject
@@ -1207,7 +1171,6 @@ struct Resource : NiRefObject
 
     virtual void v00();
 
-    static void* operator new(unsigned int);
 };
 
 struct CacheEntry
@@ -1257,7 +1220,6 @@ bool Cache::FUN_00e92760(void* key, Ref<Resource>* out)
     return false;
 }
 
-Cache* GetNiTStringMap();
 
 struct Input
 {
@@ -2009,7 +1971,6 @@ struct NiStream
 
     NiStream();
 
-    bool FUN_00c3a8a0(const char*, bool);
 };
 
 struct BSStream : NiStream
@@ -2067,7 +2028,6 @@ struct UnsignedShortBuffer : NiRefObject
                         NiGeometryData__DataFlags, unsigned short, unsigned short, unsigned short*, unsigned short*,
                         unsigned short, unsigned short);
 
-    static void* operator new(unsigned int);
 };
 
 struct ShapeData
@@ -2082,17 +2042,9 @@ struct ShapeData
         : data(v, p, n, c, t, u, f, tri, ix, count, z)
     {}
 
-    static void* operator new(unsigned int);
 };
 
-inline void* operator new(unsigned int n)
-{
-    return Resource::operator new(n);
-}
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-
-int __cdecl PrintError(char*, unsigned int, const char*, ...);
 
 __forceinline bool IsKindOfType(NiObject* p, const NiRTTI* type)
 {
@@ -2126,10 +2078,10 @@ Resource* __cdecl FUN_00b587c0(Input* input)
 
     Ref<Resource> cachedResource;
 
-    if (!GetNiTStringMap()->FUN_00e92760(input->key, &cachedResource))
+    if (!((::Cache *)(::GetNiTStringMap()))->FUN_00e92760(input->key, &cachedResource))
     {
 
-        if (!input->scene && input->path && stream.FUN_00c3a8a0(input->path, false))
+        if (!input->scene && input->path && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((std::uintptr_t)(input->path), false))
         {
 
             Scene* loaded = stream.objects[0];
@@ -2169,7 +2121,7 @@ Resource* __cdecl FUN_00b587c0(Input* input)
                 if (geometry == 0)
                     stripShape = 0;
                 else
-                    stripShape = geometry->DynamicCast(&g_011f4a20);
+                    stripShape = geometry->DynamicCast(&(*reinterpret_cast<::NiRTTI *>(&::g_011f4a20)));
 
                 unsigned short vertexCount = 0;
 
@@ -2201,7 +2153,7 @@ Resource* __cdecl FUN_00b587c0(Input* input)
                     if (geometry->data == 0)
                         source = 0;
                     else
-                        source = (GeometryData*)geometry->data->DynamicCast(&g_011f4a88);
+                        source = (GeometryData*)geometry->data->DynamicCast(&(*reinterpret_cast<::NiRTTI *>(&::g_011f4a88)));
 
                     NiPoint3* srcPositions;
 
@@ -2221,7 +2173,7 @@ Resource* __cdecl FUN_00b587c0(Input* input)
 
                     srcUVs = source->texcoords;
 
-                    unsigned short* srcIndices = source->FUN_00a7b850();
+                    unsigned short* srcIndices = ((unsigned short *)(reinterpret_cast<::FnvCpu_FUN_00a7b850_CpuObject *>((source))->FUN_00a7b850()));
 
                     unsigned short maxCopies = (unsigned short)(65535 / (int)vertexCount);
 
@@ -2300,7 +2252,7 @@ Resource* __cdecl FUN_00b587c0(Input* input)
                     if (geometry->data == 0)
                         source = 0;
                     else
-                        source = (GeometryData*)geometry->data->DynamicCast(&g_011f4a70);
+                        source = (GeometryData*)geometry->data->DynamicCast(&(*reinterpret_cast<::NiRTTI *>(&::g_011f4a70)));
 
                     NiPoint3* srcPositions = source->positions;
 
@@ -2314,7 +2266,7 @@ Resource* __cdecl FUN_00b587c0(Input* input)
 
                     NiPoint2* srcUVs = source->texcoords;
 
-                    unsigned short* srcIndices = source->FUN_00a75f10();
+                    unsigned short* srcIndices = ((unsigned short *)(::FUN_00a75f10((char *)(source))));
 
                     unsigned short maxCopies;
 
@@ -2401,16 +2353,16 @@ Resource* __cdecl FUN_00b587c0(Input* input)
 
                 Ref<NiProperty> texture;
 
-                if (geometry->FUN_00a59d30(3) && ((ShaderProperty*)geometry->FUN_00a59d30(3))->IsTree())
+                if (((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((geometry))->FUN_00a59d30(3))) && ((ShaderProperty*)((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((geometry))->FUN_00a59d30(3))))->IsTree())
                 {
 
-                    NiProperty* shader = geometry->FUN_00a59d30(3);
+                    NiProperty* shader = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((geometry))->FUN_00a59d30(3)));
 
                     if (shader)
                         texture = shader->GetTexture(0, 0);
                 }
 
-                geometry->FUN_00a5b230(0);
+                reinterpret_cast<::ExtraOwnerB *>((geometry))->FUN_00a5b230(0);
 
                 NiAlphaProperty* alpha = new NiAlphaProperty;
 
@@ -2426,7 +2378,7 @@ Resource* __cdecl FUN_00b587c0(Input* input)
 
                 opaqueAlpha->threshold = 0;
 
-                NiProperty* extraProperty = geometry->FUN_00a59d30(4);
+                NiProperty* extraProperty = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((geometry))->FUN_00a59d30(4)));
 
                 Bound bound = geometry->data->GetBound();
 
@@ -2460,14 +2412,14 @@ Resource* __cdecl FUN_00b587c0(Input* input)
 
                 if (scene)
                 {
-                    bool hasNodeType = IsKindOfType(scene, &g_011f4aa0);
+                    bool hasNodeType = IsKindOfType(scene, &(*reinterpret_cast<::NiRTTI *>(&::g_011f4aa0)));
                     Scene* matchingNode = hasNodeType ? scene : 0;
 
                     if (matchingNode)
                         cachedResource->node = true;
                 }
 
-                GetNiTStringMap()->InsertOrAssign(input->key, cachedResource);
+                ((::Cache *)(::GetNiTStringMap()))->InsertOrAssign(input->key, cachedResource);
             }
         }
     }
@@ -2477,8 +2429,10 @@ Resource* __cdecl FUN_00b587c0(Input* input)
     if (answer == 0)
     {
         char error[200];
-        PrintError(error, 200, "DISTANT LOD ERROR : could not load DistantLOD nif %s", input->path);
+        ::FUN_00406d00(error, 200, "DISTANT LOD ERROR : could not load DistantLOD nif %s", input->path);
     }
 
     return answer;
 }
+
+#include "generated/data/bsshader/distantlodshaderproperty.inc"

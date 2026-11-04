@@ -1,5 +1,23 @@
 // fallout_shared/magic/magicitemform.cpp: MagicItemForm (5 functions)
 
+#include "fnv/decl/B5B10Owner.h"
+#include "fnv/decl/EffectItemList4056.h"
+#include "fnv/decl/EffectListCmp.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/List.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01183000.h"
 #include "magicitemform_decls.h"
 #include <malloc.h>
 #include <string.h>
@@ -7,16 +25,16 @@
 // @fnv 0x0040c230
 bool MagicItemForm::Load(TESFile* file)
 {
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
 
     int chunkID;
-    while ((chunkID = file->GetChunkID()) != 0)
+    while ((chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunkID)
         {
         case 0x44494445: {
-            char* chunkData = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(chunkData, 0x200);
+            char* chunkData = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(chunkData), 0x200);
             SetEditorID_AtRuntime(chunkData);
             break;
         }
@@ -26,13 +44,13 @@ bool MagicItemForm::Load(TESFile* file)
             break;
 
         case 0x4c4c5546: {
-            TESFullNameLoader::LoadFullNameChunk(this ? (TESFullName*)((char*)this + 0x18) : 0, file);
+            ::ReadFullName(this ? (TESFullName*)((char*)this + 0x18) : 0, file);
             break;
         }
 
         case 0x44494645:
         case 0x41445443:
-            ((EffectItemList*)((char*)this + 0x24))->Load(file, ((TESFullName*)((char*)this + 0x18))->GetFullName());
+            reinterpret_cast<::List *>((((EffectItemList*)((char*)this + 0x24))))->FUN_00405760((::File *)(file), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((TESFullName*)((char*)this + 0x18))))->FUN_00408da0())));
             break;
 
         default:
@@ -45,7 +63,7 @@ bool MagicItemForm::Load(TESFile* file)
         {
             memset(((MagicItem*)((char*)this + 0x18))->GetData(), 0, ((MagicItem*)((char*)this + 0x18))->GetDataSize());
 
-            file->GetChunkData(((MagicItem*)((char*)this + 0x18))->GetData(),
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(((MagicItem*)((char*)this + 0x18))->GetData()),
                                ((MagicItem*)((char*)this + 0x18))->GetDataSize());
 
             if (file->IsEndianConversionRequired())
@@ -58,7 +76,7 @@ bool MagicItemForm::Load(TESFile* file)
 
     if (((BSSimpleList<EffectSetting*>*)((char*)this + 0x28))->ItemsInList() == 0)
     {
-        Warning(DAT_0101361c, GetFormID(), ((TESFullName*)((char*)this + 0x18))->GetFullName());
+        ::FUN_005b5e40();
     }
 
     return true;
@@ -75,17 +93,13 @@ void MagicItemForm::InitItem()
 
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
 };
-void __fastcall FUN_004056d0(void*);
 struct V18
 {
     virtual void v0();
@@ -113,17 +127,16 @@ struct FUN_0040c1d0_obj
 // @fnv 0x0040c1d0
 void FUN_0040c1d0_obj::FUN_0040c1d0()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x18))->FUN_00487010();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
     ((V18*)((char*)this + 0x18))->v14();
     ((V18*)((char*)this + 0x18))->v15();
-    FUN_004056d0((void*)((char*)this + 0x24));
-    ((FUN_00485680*)this)->M();
+    reinterpret_cast<::EffectItemList4056 *>(((void*)((char*)this + 0x24)))->FUN_004056d0();
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
 };
 
 struct FUN_0040c450_MagicItem
@@ -145,7 +158,6 @@ struct FUN_0040c450_MagicItem
 
 struct FUN_0040c450_EffectItemList
 {
-    bool FUN_00405a00(FUN_0040c450_EffectItemList*);
 };
 
 struct FUN_0040c450_shell
@@ -161,7 +173,7 @@ bool FUN_0040c450_shell::FUN_0040c450(TESForm* apCompare)
     if (!pmagicItem)
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(apCompare))
+    if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(apCompare))
         return true;
 
     if (reinterpret_cast<FUN_0040c450_MagicItem*>(reinterpret_cast<char*>(this) + 0x18)
@@ -169,16 +181,14 @@ bool FUN_0040c450_shell::FUN_0040c450(TESForm* apCompare)
                              : 0))
         return true;
 
-    if (reinterpret_cast<FUN_0040c450_EffectItemList*>(reinterpret_cast<char*>(this) + 0x24)
-            ->FUN_00405a00(
-                pmagicItem ? reinterpret_cast<FUN_0040c450_EffectItemList*>(reinterpret_cast<char*>(pmagicItem) + 0x24)
-                           : 0))
+    if (reinterpret_cast<::EffectListCmp *>((reinterpret_cast<FUN_0040c450_EffectItemList*>(reinterpret_cast<char*>(this) + 0x24)))->FUN_00405a00(
+                (::EffectListCmp *)(::FUN_0040c450_EffectItemList *)(pmagicItem ? reinterpret_cast<FUN_0040c450_EffectItemList*>(reinterpret_cast<char*>(pmagicItem) + 0x24)
+                           : 0)))
         return true;
 
     return false;
 }
 
-extern const char DAT_01183028[];
 extern const char DAT_0118395c[];
 
 class MagicComp
@@ -206,7 +216,6 @@ class MagicComp
 class EndianComp
 {
   public:
-    void CopyItemsFromList(EndianComp* other);
 };
 
 struct FUN_0040c510_cls
@@ -219,21 +228,19 @@ struct FUN_0040c510_cls
     int unk14;
     MagicComp m18;
     EndianComp m24;
-    void FUN_004851b0(TESForm* form);
     void FUN_0040c510(TESForm* form);
 };
 
-FUN_0040c510_cls* __cdecl FUN_00ec43fb(TESForm* form, int a2, const char* a3, const char* a4, int a5);
 
 // @fnv 0x0040c510
 void FUN_0040c510_cls::FUN_0040c510(TESForm* form)
 {
-    FUN_0040c510_cls* rec = FUN_00ec43fb(form, 0, DAT_01183028, DAT_0118395c, 0);
+    FUN_0040c510_cls* rec = ((FUN_0040c510_cls *)(dynamic_cast<::MagicItemForm *>(reinterpret_cast<::TESForm *>(form))));
     if (rec == 0)
     {
         return;
     }
-    FUN_004851b0(form);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(form);
     m18.v0D(rec ? &rec->m18 : (MagicComp*)0);
-    m24.CopyItemsFromList(rec ? &rec->m24 : (EndianComp*)0);
+    reinterpret_cast<::B5B10Owner *>(&(m24))->CopyItemsFromList((::EffectItemList *)(::EndianComp *)(rec ? &rec->m24 : (EndianComp*)0));
 }

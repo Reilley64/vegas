@@ -7,6 +7,30 @@
 #ifndef FNV_MAGICITEM_DECLS_H
 #define FNV_MAGICITEM_DECLS_H
 
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_00403db0_shell.h"
+#include "fnv/decl/FUN_00403f80_shell.h"
+#include "fnv/decl/FUN_004086e0_shell.h"
+#include "fnv/decl/FUN_004087e0_Shell.h"
+#include "fnv/decl/FUN_00408a00_Struct.h"
+#include "fnv/decl/FUN_0043b410_class.h"
+#include "fnv/decl/FUN_004472a0_shell.h"
+#include "fnv/decl/FUN_004811e0_shell.h"
+#include "fnv/decl/FUN_0092c870_shell.h"
+#include "fnv/decl/NPCModelView.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/fnv_00444f10__FUN_00444f10_shell.h"
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/decl/fnv_004471c0__FUN_004471c0_shell.h"
+#include "fnv/decl/fnv_00447330__FUN_00447330_shell.h"
+#include "fnv/decl/fnv_005f5f80__FUN_005f5f80_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_011c3000.h"
 #include "layout_support.h"
 
 struct MagicSystem
@@ -25,9 +49,7 @@ class TESForm
   public:
     virtual ~TESForm();
     unsigned char formPad[20];
-    static TESForm* GetFormByID(unsigned int auiFormID);
 };
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
 
 class TESBoundObject : public TESForm
 {
@@ -35,7 +57,6 @@ class TESBoundObject : public TESForm
     virtual ~TESBoundObject();
     unsigned char boundPad[24];
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 0x30);
 
 class TESFullName
 {
@@ -43,7 +64,6 @@ class TESFullName
     virtual ~TESFullName();
     unsigned char namePad[8];
 };
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0xC);
 
 // in EffectSetting. The unused tail of TESModel is retained at its real size.
 class TESModel
@@ -59,33 +79,24 @@ class TESModel
     virtual const char* GetModelFilePath();
     unsigned int GetModelLength() const;
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 0x18);
 
 class EffectSetting : public TESForm, public TESModel
 {
   public:
-    bool FUN_00403e60(unsigned int);
-    int FUN_004087e0();
-    int FUN_004089c0();
-    TESForm* FUN_005f5f80();
     void FUN_004088c0();
-    void UpdateCounter();
-    bool IsAssociatedFormUsed();
     bool HasEffectID();
     bool UsesAssociatedActorValue();
-    bool IsModelLoaded();
     bool HasNoAssociatedActorValue();
+public:
+    int NormalizeEffectLoadedCount();
 };
 
 class EffectItem
 {
   public:
-    void InitItem(TESForm* apForm);
     bool IsHostile();
-    float GetCost(Actor* pActor);
     bool IsDetrimental();
     MagicSystem::Range GetRange();
-    EffectSetting* GetEffectSetting();
 };
 
 class EffectItemList : public BSSimpleList<EffectItem*>
@@ -94,7 +105,6 @@ class EffectItemList : public BSSimpleList<EffectItem*>
     virtual ~EffectItemList();
     int m_iEffectCount;
 };
-FNV_STATIC_ASSERT(sizeof(EffectItemList) == 0x10);
 
 class MagicItem : public TESFullName, public EffectItemList
 {
@@ -111,7 +121,6 @@ class MagicItem : public TESFullName, public EffectItemList
   protected:
     void LoadEffectsFromForm(TESForm* apForm);
 };
-FNV_STATIC_ASSERT(sizeof(MagicItem) == 0x1C);
 
 class MagicItemForm : public TESForm, public MagicItem
 {
@@ -135,7 +144,6 @@ class TESObjectWEAP : public TESBoundObject
 class TESBipedModelForm
 {
   public:
-    const char* GetBipedModel(int);
 };
 class TESObjectARMO : public TESBoundObject
 {
@@ -146,19 +154,16 @@ class TESObjectARMO : public TESBoundObject
 class TESNPC : public TESForm
 {
   public:
-    BSSimpleList<const char*>* GetModelFiles(bool, bool);
 };
 class TESAnimation
 {
   public:
     unsigned char data[0x18];
     bool HasSpecialAnimations();
-    BSSimpleList<const char*>* FUN_00717e50();
 };
 class TESModelList
 {
   public:
-    BSSimpleList<const char*>* FUN_00717e50();
 };
 class TESCreature : public TESForm
 {
@@ -172,9 +177,6 @@ class TESCreature : public TESForm
 class Model
 {
   public:
-    void SetManualRefCount(int);
-    void FUN_0092c870();
-    const char* FUN_00559450();
 };
 template <class T> class NiPointer
 {
@@ -189,22 +191,13 @@ class KFModel;
 class ModelLoader
 {
   public:
-    void QueueMagicEffectModel(MagicItem*, EffectSetting*, int);
-    NiNode* LoadFile(const char*, int, bool, bool, bool, bool);
-    bool FUN_004472a0(const char*, NiPointer<Model>&);
-    KFModel* LoadKF(const char*);
-    BSSimpleList<const char*>* GetModelFileList(const char*, bool, bool, int);
 };
 void FUN_0040ab50();
-extern ModelLoader* g_modelLoader;
 class TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-int strcat_s(char*, unsigned int, const char*);
 char* FUN_0040ab30(char*, int);
-extern "C" const char* strrchr(const char*, int);
-extern "C" int _strnicmp(const char*, const char*, unsigned int);
 extern "C" void FormHeapFreeAndLog(const void*);
 #endif

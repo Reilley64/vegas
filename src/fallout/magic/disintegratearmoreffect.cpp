@@ -2,33 +2,44 @@
 // src/fallout/magic/disintegratearmoreffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/disintegratearmoreffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
+#include "fnv/decl/ActiveEffect.h"
+#include "fnv/decl/ActiveEffectLoader.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/EffectSaveShell.h"
+#include "fnv/decl/ExtraDataList.h"
+#include "fnv/decl/FUN_004be2d0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00804f80_shell.h"
+#include "fnv/decl/FUN_008579b0_shell.h"
+#include "fnv/decl/FUN_008579e0_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/FakeActor.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/TESBipedModelForm.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_005b6000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_011de000.h"
 struct DisintegrateArmorEffect
 {
     void FUN_0080d210();
     void* Destroy(unsigned int flags);
 };
 
-// Calls FUN_0080d210, then deletes this if flags has bit 0 set, and returns this.
-// @fnv 0x0080d1e0
-void* DisintegrateArmorEffect::Destroy(unsigned int flags)
-{
-    FUN_0080d210();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 namespace fnv_0080d4f0 {
 struct Actor;
 struct ActiveEffect
 {
-    unsigned short GetSaveSize(Actor*);
 };
 struct TESSaveLoadGame
 {
-    unsigned char FUN_008df040();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct DisintegrateArmorEffect : ActiveEffect
 {
@@ -40,8 +51,8 @@ struct DisintegrateArmorEffect : ActiveEffect
 unsigned short DisintegrateArmorEffect::FUN_0080d4f0(Actor* actor)
 {
     unsigned short size = 0;
-    size += GetSaveSize(actor);
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x37)
+    size += reinterpret_cast<::FUN_00804f80_shell *>(this)->FUN_00804f80((::Actor *)(actor));
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_0080d4f0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x37)
         size += 4;
     return size;
 }
@@ -58,7 +69,6 @@ struct Temp
 struct Owner
 {
     unsigned int unk00, unk04, arg08, arg0c, unk10, unk14, unk18, unk1c, unk20, unk24, arg28;
-    void FUN_00804090(Temp*);
     Temp* CreateTemp();
 };
 // Allocates a Temp from arg28, arg08 and arg0c, passes it to FUN_00804090, and returns it.
@@ -66,7 +76,7 @@ struct Owner
 Temp* Owner::CreateTemp()
 {
     Temp* p = new Temp(arg28, arg08, arg0c);
-    FUN_00804090(p);
+    reinterpret_cast<::ActiveEffect *>(this)->CopyData((::ActiveEffect *)(p));
     return p;
 }
 
@@ -93,6 +103,15 @@ class FUN_0080d210 : public Base80D
 
     Data80D* m_pUserData;
 };
+// Calls FUN_0080d210, then deletes this if flags has bit 0 set, and returns this.
+// @fnv 0x0080d1e0
+void* DisintegrateArmorEffect::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0080d210 *>(this)->FUN_0080d210::~FUN_0080d210();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor that deletes the owned Data80D object if the pointer is non-null.
 // @fnv 0x0080d210
@@ -106,28 +125,25 @@ struct TESBoundObject
 {
     virtual void v0();
 };
+struct Sub70
+{
+};
+
 struct TESObjectARMO : TESBoundObject
 {
     virtual void v1();
+    char pad04[0x6c];
+    Sub70 bipedModel;
 };
-extern void* DAT_011de45c;
 extern char DAT_01183108[];
 extern char DAT_01183a34[];
 
 struct GlobalMgr
 {
-    unsigned char FUN_008df040();
-    void FUN_008579b0(int* out, unsigned int n);
 };
 
 struct Holder48
 {
-    TESBoundObject* FUN_0044ddc0();
-};
-
-struct Sub70
-{
-    bool FUN_00480af0(unsigned int a, unsigned int b, unsigned int c);
 };
 
 struct FUN_0080d540_cls
@@ -136,29 +152,28 @@ struct FUN_0080d540_cls
     unsigned int unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44;
     Holder48* m_48;
 
-    void FUN_008050d0(unsigned int a);
-    void FUN_0080d540(unsigned int arg);
+    void FUN_0080d540(uintptr_t arg);
 };
 
 // @fnv 0x0080d540
-void FUN_0080d540_cls::FUN_0080d540(unsigned int arg)
+void FUN_0080d540_cls::FUN_0080d540(uintptr_t arg)
 {
     unsigned int i2;
     TESObjectARMO* obj;
     int result;
 
-    FUN_008050d0(arg);
-    if (((GlobalMgr*)DAT_011de45c)->FUN_008df040() >= 0x37)
+    reinterpret_cast<::EffectSaveShell *>(this)->FUN_008050d0((::Actor *)(arg));
+    if (reinterpret_cast<::FUN_008df040_shell *>((((GlobalMgr*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008df040() >= 0x37)
     {
         result = -1;
-        if (m_48 != 0 && m_48->FUN_0044ddc0() != 0)
+        if (m_48 != 0 && ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((m_48))->GetName())) != 0)
         {
-            obj = dynamic_cast<TESObjectARMO*>(m_48->FUN_0044ddc0());
+            obj = dynamic_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((m_48))->GetName())));
             if (obj != 0)
             {
                 for (i2 = 0; i2 < 0x14; i2++)
                 {
-                    if (((Sub70*)((char*)obj + 0x70))->FUN_00480af0(i2, 0, 0))
+                    if (reinterpret_cast<::TESBipedModelForm *>((&obj->bipedModel))->HasBipedModel((::BIPED_OBJECT)(i2), 0, (::BGSBipedModelList *)(0)))
                     {
                         result = i2;
                         break;
@@ -166,7 +181,7 @@ void FUN_0080d540_cls::FUN_0080d540(unsigned int arg)
                 }
             }
         }
-        ((GlobalMgr*)DAT_011de45c)->FUN_008579b0(&result, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>((((GlobalMgr*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&result, 4);
     }
 }
 
@@ -177,31 +192,24 @@ struct Effect;
 struct Other;
 struct Ctl
 {
-    void Apply(Node* n);
 };
 struct SysMgr
 {
-    unsigned char Check();
-    void Query(int* out, unsigned int n);
 };
 struct Node
 {
-    Hub* Resolve();
 };
 struct Hub
 {
-    Effect* Find();
 };
 struct Effect
 {
-    void* Create(int handle, int one);
 };
 struct Other
 {
     void* Make(int one);
 };
 
-extern SysMgr* DAT_011de45c;
 
 struct FUN_0080d610_cls
 {
@@ -214,17 +222,17 @@ struct FUN_0080d610_cls
 // @fnv 0x0080d610
 void FUN_0080d610_cls::FUN_0080d610(Node* pNode)
 {
-    reinterpret_cast<Ctl*>(this)->Apply(pNode);
-    if (DAT_011de45c->Check() >= 0x37)
+    reinterpret_cast<::ActiveEffectLoader *>((reinterpret_cast<Ctl*>(this)))->FUN_00805330((::Actor *)(pNode));
+    if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_0080d610::SysMgr * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x37)
     {
         int handle;
-        DAT_011de45c->Query(&handle, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0080d610::SysMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&handle, 4);
         if (handle != -1)
         {
-            Effect* fx = pNode->Resolve()->Find();
+            Effect* fx = ((::fnv_0080d610::Effect *)(reinterpret_cast<::ExtraDataList *>((((::fnv_0080d610::Hub *)(reinterpret_cast<::FUN_005d43c0_ *>((pNode))->FUN_005d43c0()))))->GetContainerChangeData()));
             if (fx != 0)
             {
-                unk48 = fx->Create(handle, 1);
+                unk48 = ((void *)(reinterpret_cast<::Target *>((fx))->FUN_004c8c10(handle, 1)));
             }
             void* obj;
             {
@@ -239,7 +247,6 @@ void FUN_0080d610_cls::FUN_0080d610(Node* pNode)
 
 struct Sub
 {
-    int GetTargetFullName();
     int FUN_004459e0(int a);
 };
 struct Result
@@ -487,23 +494,15 @@ struct Result
     virtual void v0f0();
     virtual void v0f1();
     virtual void FUN_slot242(void* a, float b);
-    Sub* FUN_0089d8b0(unsigned int flags);
-    int FUN_0055d520();
 };
 struct Node
 {
-    Result* FUN_00822b40();
 };
-bool FUN_005b6f70();
-int FUN_00703c00(const char* fmt, ...);
 struct FUN_0080d340_cls
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34,
         unk38, unk3c, unk40, unk44;
     Sub* m_48;
-    Node* FUN_0059bb30();
-    float GetFloatAtOffset1C(int a);
-    float GetFloatAtOffset1C();
     void FUN_0080d340();
 };
 
@@ -513,18 +512,17 @@ void FUN_0080d340_cls::FUN_0080d340()
     Result* p;
     Sub* t;
     Sub* u;
-    p = this->FUN_0059bb30() ? this->FUN_0059bb30()->FUN_00822b40() : 0;
+    p = ((::Node *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::Result *)(reinterpret_cast<::MagicTarget *>((((::Node *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (p == 0)
         return;
     {
-        this->m_48 = (Sub*)p->FUN_0089d8b0(0);
+        this->m_48 = (Sub*)((::Sub *)(reinterpret_cast<::FakeActor *>((p))->FUN_0089d8b0(0)));
         if (this->m_48 != 0)
         {
-            p->FUN_slot242((void*)this->m_48, this->GetFloatAtOffset1C(1));
-            if (FUN_005b6f70())
+            p->FUN_slot242((void*)this->m_48, ::GetFloatAtOffset1C((char *)(this)));
+            if (((bool)(::FUN_005b6f70())))
             {
-                FUN_00703c00("%s's %s takes %0.2f disintegrate armor damage!", p->FUN_0055d520(),
-                             this->m_48->GetTargetFullName(), this->GetFloatAtOffset1C());
+                ::FUN_00703c00("%s's %s takes %0.2f disintegrate armor damage!", (const char *)(reinterpret_cast<::FUN_0055d520_shell *>((p))->FUN_0055d520()));
             }
             t = this->m_48;
             u = t;

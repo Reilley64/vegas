@@ -1,26 +1,33 @@
 // gamebryo2.2/corelibs/niparticle/nipsyspositionmodifier.cpp: NiPSysPositionModifier, Helper, NiPSysModifier (9 functions)
 
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/MyIsEqual.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_01202000.h"
 #include "nipsyspositionmodifier_decls.h"
 
 // @fnv 0x00c31720
 NiPSysPositionModifier::NiPSysPositionModifier()
 {
-    m_kName = EmptyFS;
+    m_kName = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220));
     m_uiUpdateOrder = 0;
     m_pkTarget = 0;
     m_bModifierActive = true;
 }
 
-extern "C" void* g_012026b8;
 
 // @fnv 0x00c28b90
 void* __cdecl FUN_00c28b90()
 {
-    return &g_012026b8;
+    return &(*reinterpret_cast<void * *>(&::g_012026b8));
 }
 
-void __cdecl FUN_00c31750(void);
-void __cdecl _delete(void*, unsigned int);
 struct Helper
 {
     void* DestroyIfFlagged(unsigned int);
@@ -29,13 +36,12 @@ struct Helper
 // @fnv 0x00c28ba0
 void* Helper::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00c31750();
+    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (flags & 1)
-        _delete(this, 0x18);
+        ::FUN_00aa1460(this, 0x18);
     return this;
 }
 
-char* __cdecl FUN_00a7d330(const char*);
 struct StrArr
 {
     char _pad[8];
@@ -43,12 +49,9 @@ struct StrArr
     unsigned short _sa;
     unsigned short _sc;
     unsigned short _se;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr*);
 };
 struct Holder00c28cb0 : Base00c319e0
 {
@@ -57,12 +60,12 @@ struct Holder00c28cb0 : Base00c319e0
 // @fnv 0x00c28cb0
 void Holder00c28cb0::AppendString(StrArr* pkStrings)
 {
-    FUN_00c319e0(pkStrings);
-    char* pcStr = FUN_00a7d330((const char*)g_012026b8);
+    reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0(pkStrings);
+    char* pcStr = FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_012026b8)));
     unsigned int uiIdx = pkStrings->_sa;
     if (uiIdx >= pkStrings->_s8)
-        pkStrings->SetSize(uiIdx + pkStrings->_se);
-    pkStrings->SetAt(uiIdx, pcStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiIdx + pkStrings->_se);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIdx, pcStr);
 }
 
 struct FnvV3
@@ -163,7 +166,7 @@ struct FnvMod
 
 // Advances each particle position by its velocity times the elapsed time since its last update, then stores the new time.
 // @fnv 0x00c28bc0
-void __stdcall IntegrateParticlePositions(float fTime, FnvMod* pMod)
+void IntegrateParticlePositions(float fTime, FnvMod* pMod)
 {
     pMod->Slot43();
     FnvPSysPart* parts = pMod->parts;
@@ -193,7 +196,6 @@ class BC28C60CloningProcess;
 class BC28C60Modifier
 {
   public:
-    static void* operator new(unsigned int uiSize);
 
     BC28C60Modifier() throw();
     virtual ~BC28C60Modifier();
@@ -212,42 +214,41 @@ class BC28C60GravityModifier : public BC28C60Modifier
     {}
     virtual ~BC28C60GravityModifier();
 
-    void CopyMemberData(BC28C60GravityModifier* pkDest, BC28C60CloningProcess& kCloning);
     BC28C60GravityModifier* FUN_00c28c60(BC28C60CloningProcess& kCloning);
 };
 
-// @fnv 0x00c28c60
-BC28C60GravityModifier* BC28C60GravityModifier::FUN_00c28c60(BC28C60CloningProcess& kCloning)
-{
-    BC28C60GravityModifier* pkClone = new BC28C60GravityModifier;
-    CopyMemberData(pkClone, kCloning);
-    return pkClone;
-}
-
 class NiStream;
+class CloningProcess;
 class NiPSysModifier
 {
   public:
     void LoadBinary(NiStream& stream);
     void FUN_00c28b50(NiStream& a1);
+public:
+    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
 };
+// @fnv 0x00c28c60
+BC28C60GravityModifier* BC28C60GravityModifier::FUN_00c28c60(BC28C60CloningProcess& kCloning)
+{
+    BC28C60GravityModifier* pkClone = new BC28C60GravityModifier;
+    reinterpret_cast<::NiPSysModifier *>(this)->CopyMemberData((::NiPSysModifier *)(pkClone), (::CloningProcess &)(kCloning));
+    return pkClone;
+}
 // @fnv 0x00c28b50
 void NiPSysModifier::FUN_00c28b50(NiStream& a1)
 {
     LoadBinary(a1);
 }
 
-void __cdecl FUN_00c31830();
 // @fnv 0x00c28b80
 void __cdecl FUN_00c28b80()
 {
-    FUN_00c31830();
+    static_cast<::MyIsEqual *>(nullptr)->FUN_00c31830({});
 }
 
-void __cdecl FUN_00c31950();
 
 // @fnv 0x00c28b70
 void __cdecl FUN_00c28b70()
 {
-    FUN_00c31950();
+    static_cast<::ParticleModifierBinary *>(nullptr)->FUN_00c31950(*(::OutputStream *)nullptr);
 }

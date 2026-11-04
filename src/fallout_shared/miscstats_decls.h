@@ -2,6 +2,10 @@
 #ifndef MISCSTATS_DECLS_H
 #define MISCSTATS_DECLS_H
 
+#include "fnv/decl/FUN_00a03c90_shell.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_011c6000.h"
 class MiscStatManager
 {
   public:
@@ -16,9 +20,7 @@ struct MiscStatEntry
     const char* name;
     int value;
 };
-extern "C" MiscStatEntry* DAT_011c6d50[43];
 int FUN_004d5e00();
-int Warning(const char*, ...);
 class TESForm;
 enum CHALLENGE_TYPE
 {
@@ -36,12 +38,12 @@ class Menu
 class Tile
 {
   public:
-    static Tile* FindMenuById(int);
-    Menu* GetMenu();
 };
+enum MiscStatManager__MiscStatID;
 class StatsMenu : public Menu
 {
   public:
-    void RefreshMiscStat(MiscStatManager::MiscStat);
+public:
+    void RefreshMiscStat(::MiscStatManager__MiscStatID);
 };
 #endif

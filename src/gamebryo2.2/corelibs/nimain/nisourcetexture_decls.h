@@ -2,19 +2,24 @@
 #ifndef FNV_NISOURCETEXTURE_DECLS_H
 #define FNV_NISOURCETEXTURE_DECLS_H
 
+#include "fnv/decl/Cls_a64ea0.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a63000.h"
+#include "fnv/symbols_00a76000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c1000.h"
 #include "NiFixedString.h"
 
-extern unsigned int DAT_011c16bc;
-void FUN_00a47350();
-void FUN_00a5b690();
 bool __cdecl FUN_00aa1a30(const char*, int);
-extern "C" void __fastcall __security_check_cookie(unsigned int);
 
 #define FNV_NIMEMOBJECT_H
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 
 class NiRenderer
@@ -37,23 +42,9 @@ class NiRenderer
     char _pdbpad_20a[118];
 };
 
-extern NiFixedString EmptyFS;
 extern bool DAT_011f4448;
-extern bool DAT_011a9594;
 extern bool DAT_011f4780;
 
-void FUN_00a57500(NiFixedString*);
-void FUN_00a76960(void*, void*);
-void FUN_00a47350();
-void FUN_00a64ea0();
-void FUN_00a64700();
-void FUN_00a5b690();
-void FUN_00a645b0();
-void FUN_00a636f0();
-void FUN_00a636b0();
-void FUN_00a633d0();
-void FUN_00a2e750();
-void FUN_00a633b0();
 
 class NiBinaryStream
 {

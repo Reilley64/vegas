@@ -2,57 +2,60 @@
 // src/fallout_shared/pathfinding/pathingrequestsafestraightline.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathingrequestsafestraightline.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004036b0_Class.h"
+#include "fnv/decl/FUN_006d3b20_Class.h"
+#include "fnv/decl/fnv_006e5f00__PathingRequestClosePoint.h"
+#include "fnv/decl/fnv_006e5f50__PathingRequestClosePoint.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00aa1000.h"
 struct PathingRequestSafeStraightLine
 {
     virtual ~PathingRequestSafeStraightLine();
     void* FUN_006e5fd0(unsigned int flags);
 };
 
-extern "C" void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 
 // @fnv 0x006e5fd0
 void* PathingRequestSafeStraightLine::FUN_006e5fd0(unsigned int flags)
 {
-    this->PathingRequestSafeStraightLine::~PathingRequestSafeStraightLine();
+    reinterpret_cast<::FUN_006d3b20_Class *>((this))->DestroyPathingRequest();
     if (flags & 1)
-        __Dummy_00b6fef0(this, 0xbc);
+        ::FUN_00aa1460(this, 0xbc);
     return this;
 }
 
 struct FUN_006e60c0_shell
 {
-    void __thiscall FUN_006e60c0(int);
+    void FUN_006e60c0(int);
 };
 
 // @fnv 0x006e60c0
-void __thiscall FUN_006e60c0_shell::FUN_006e60c0(int a1)
+void FUN_006e60c0_shell::FUN_006e60c0(int a1)
 {
     *(int*)((char*)this + 0xb8) = *(int*)((char*)this + 0xb8);
 }
 
 struct BGSSaveFormBuffer
 {
-    void SerializeFormData(void*, int);
 };
 struct Host_006e60e0
 {
-    void __thiscall FUN_006e5f00(BGSSaveFormBuffer*);
-    void __thiscall SaveToBuffer(BGSSaveFormBuffer*);
+    void SaveToBuffer(BGSSaveFormBuffer*);
 };
 // @fnv 0x006e60e0
-void __thiscall Host_006e60e0::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
+void Host_006e60e0::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    FUN_006e5f00(apSaveGameBuffer);
-    apSaveGameBuffer->SerializeFormData(*(void**)((char*)this + 0xb8), 0);
+    reinterpret_cast<::fnv_006e5f00::PathingRequestClosePoint *>(this)->FUN_006e5f00((::fnv_006e5f00::BGSSaveFormBuffer *)(apSaveGameBuffer));
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)((char*)this + 0xb8)), 0);
 }
 
 struct BGSLoadFormBuffer
 {
-    bool ReadFormIdentifier(void*);
 };
 struct FUN_006e5f50_shell
 {
-    void __thiscall FUN_006e5f50(BGSLoadFormBuffer*);
 };
 struct FUN_006e6110_shell : public PathingRequestSafeStraightLine
 {
@@ -62,8 +65,8 @@ struct FUN_006e6110_shell : public PathingRequestSafeStraightLine
 // @fnv 0x006e6110
 void FUN_006e6110_shell::FUN_006e6110(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<FUN_006e5f50_shell*>(this)->FUN_006e5f50(buffer);
-    buffer->ReadFormIdentifier((char*)this + 0xb8);
+    reinterpret_cast<::fnv_006e5f50::PathingRequestClosePoint *>((reinterpret_cast<FUN_006e5f50_shell*>(this)))->FUN_006e5f50((::fnv_006e5f50::BGSLoadFormBuffer *)(buffer));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)((char*)this + 0xb8));
 }
 
 struct PathingRequest
@@ -74,10 +77,10 @@ struct FUN_006e6080_cls
 {
     char _pad[0xB8];
     int pTarget;
-    void __thiscall FUN_006e6080(PathingRequest* apDest);
+    void FUN_006e6080(PathingRequest* apDest);
 };
 // @fnv 0x006e6080
-void __thiscall FUN_006e6080_cls::FUN_006e6080(PathingRequest* apDest)
+void FUN_006e6080_cls::FUN_006e6080(PathingRequest* apDest)
 {
     PathingRequestSafeStraightLine* pdest = (PathingRequestSafeStraightLine*)apDest;
     ((PathingRequest*)this)->CopyTo((PathingRequest*)pdest);
@@ -86,7 +89,6 @@ void __thiscall FUN_006e6080_cls::FUN_006e6080(PathingRequest* apDest)
 
 struct S_004036b0
 {
-    int FUN_004036b0();
 };
 struct FUN_006e3fb0_base
 {
@@ -97,33 +99,32 @@ struct FUN_006e6010 : FUN_006e3fb0_base
 {
     char _pad[0xB4];
     int pTarget;
-    FUN_006e6010(int ai);
+    FUN_006e6010(std::intptr_t ai);
     ~FUN_006e6010();
 };
 // Constructs the base with ai and stores the result of FUN_004036b0 called on ai into pTarget.
 // @fnv 0x006e6010
-FUN_006e6010::FUN_006e6010(int ai) : FUN_006e3fb0_base(ai)
+FUN_006e6010::FUN_006e6010(std::intptr_t ai) : FUN_006e3fb0_base(ai)
 {
-    pTarget = ((S_004036b0*)(void*)ai)->FUN_004036b0();
+    pTarget = ((int)(reinterpret_cast<::FUN_004036b0_Class *>((((S_004036b0*)(void*)ai)))->FUN_004036b0()));
 }
 
 struct TESForm
 {
     virtual ~TESForm();
-    static TESForm* GetFormByID(unsigned int);
 };
 struct TESObjectREFR : TESForm
 {
 };
 struct Holder_006e6140
 {
-    void __thiscall ResolveReference(BGSLoadFormBuffer* apLoadGameBuffer);
+    void ResolveReference(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x006e6140
-void __thiscall Holder_006e6140::ResolveReference(BGSLoadFormBuffer* apLoadGameBuffer)
+void Holder_006e6140::ResolveReference(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     *(TESObjectREFR**)((char*)this + 0xb8) = (*(TESObjectREFR**)((char*)this + 0xb8))
-                                                 ? dynamic_cast<TESObjectREFR*>(TESForm::GetFormByID(
-                                                       (unsigned int)*(TESObjectREFR**)((char*)this + 0xb8)))
+                                                 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(
+                                                       (unsigned int)(std::uintptr_t)*(TESObjectREFR**)((char*)this + 0xb8)))
                                                  : 0;
 }

@@ -2,6 +2,10 @@
 // src/fallout/magic/commandhumanoideffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/commandhumanoideffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_00649000.h"
+#include "fnv/symbols_011a0000.h"
 struct S_0080bac0_Obj
 {
     int unk0;
@@ -66,12 +70,9 @@ S_0080bac0_Obj* S_0080bac0::CreateAndDispatchObject()
     return p;
 }
 
-extern int DAT_011a0ef8;
-extern int DAT_011a0f14;
 
 void* __cdecl FUN_00ec43fb(void* apObject, long alDelta, void* apSourceType, void* apTargetType, int aiIsReference);
 
-bool __cdecl FUN_006494d0(unsigned short auValue, float afAmount);
 
 struct CastTarget
 {
@@ -293,12 +294,10 @@ struct CastTarget
     virtual void v35c();
     virtual bool IsBlocked();
 
-    unsigned short FUN_0087f9f0();
 };
 
 struct FUN_0080bb70_cls
 {
-    float GetFloatAtOffset1C();
     bool CanCastOn(void* apObject);
 };
 
@@ -306,12 +305,12 @@ struct FUN_0080bb70_cls
 // @fnv 0x0080bb70
 bool FUN_0080bb70_cls::CanCastOn(void* apObject)
 {
-    CastTarget* pTarget = (CastTarget*)FUN_00ec43fb(apObject, 0, &DAT_011a0ef8, &DAT_011a0f14, 0);
+    CastTarget* pTarget = (CastTarget*)FUN_00ec43fb(apObject, 0, &DAT_011a0ef8, &(*reinterpret_cast<int *>(&::DAT_011a0f14)), 0);
     if (pTarget == 0)
         return false;
 
     if (pTarget->IsBlocked())
         return false;
 
-    return FUN_006494d0(pTarget->FUN_0087f9f0(), GetFloatAtOffset1C());
+    return ::FUN_006494d0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((pTarget))->FUN_0087f9f0(), ::GetFloatAtOffset1C((char *)this));
 }

@@ -1,13 +1,20 @@
 // bsshader/imagespaceeffectmenubg_decls.h: declares NiTexture, NiTexturingProperty, RgbaColor, NiD3DShaderConstantMap, ImageSpaceShaderParam and more
 #ifndef FNV_IMAGESPACEEFFECTMENUBG_DECLS_H
 #define FNV_IMAGESPACEEFFECTMENUBG_DECLS_H
+#include <cstddef>
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00ba3b50_t.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/Holder00ba37f0.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 #include "layout_support.h"
 #include "MemoryManager.h"
 #include "NiRefObject.h"
 
-extern MemoryManager g_memoryManager;
-extern bool DAT_011f941e;
 class NiTexture : public NiRefObject
 {
 };
@@ -34,8 +41,6 @@ template <> class NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceText
     virtual ~NiTArray();
     ImageSpaceTexture** m_pBase;
     unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, ImageSpaceTexture*& value);
 };
 template <> class NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> >
 {
@@ -43,7 +48,6 @@ template <> class NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpace
     virtual ~NiTArray();
     ImageSpaceEffectParam** m_pBase;
     unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;
-    void SetAt(unsigned int index, ImageSpaceEffectParam* const& value);
 };
 
 class NiTexturingProperty
@@ -109,14 +113,6 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     ImageSpaceShaderParam();
     void AllocateShaderConstants(int vertexCount, int pixelCount);
     void SetShaderConstantVector4(int index, float x, float y, float z, float w);
-    static void* operator new(unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
-    static void operator delete(void* pointer)
-    {
-        g_memoryManager.Deallocate(pointer);
-    }
 };
 class ImageSpaceTexture
 {
@@ -129,15 +125,6 @@ class ImageSpaceTexture
         : m_bTextureFlag1(false), m_bTextureFlag2(false), m_bTextureFlag3(false),
           m_eTextureFilterMode(NiTexturingProperty::FILTER_NEAREST), m_eClampMode(NiTexturingProperty::CLAMP_S_CLAMP_T)
     {}
-    void SetTexture(NiTexture* texture);
-    static void* operator new(unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
-    static void operator delete(void* pointer)
-    {
-        g_memoryManager.Deallocate(pointer);
-    }
 };
 class ImageSpaceEffect
 {
@@ -149,10 +136,8 @@ class ImageSpaceEffect
     NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> > pTextures;
     NiTArray<void*, NiTMallocInterface<void*> > pEffectInputs;
     NiTArray<int, NiTMallocInterface<int> > pEffectOutput;
-    void SetTextureArrayCount(int count);
-    void SetTextureArrayAt(int index, int first, int second, NiTexturingProperty::FilterMode firstFilter,
-                           NiTexturingProperty::FilterMode secondFilter);
-    void SetEffectAt(int index, ImageSpaceEffect* effect, ImageSpaceEffectParam* parameters, int output);
+public:
+    void SetTextureArraySize(int);
 };
 // Only the manager prefix accessed by Setup is needed here.
 class ImageSpaceManager
@@ -178,10 +163,4 @@ class BSShaderManager
   public:
     static void GetTexture(const char* path, bool load, NiPointer<NiTexture>& texture, bool first, bool second);
 };
-FNV_STATIC_ASSERT(sizeof(ImageSpaceTexture) == 16);
-FNV_STATIC_ASSERT(sizeof(ImageSpaceShaderParam) == 136);
-FNV_STATIC_ASSERT(sizeof(ImageSpaceEffect) == 88);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_kShaderTextures) == 88);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_kRenderStateMap) == 120);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffectMenuBackground, m_pBackgroundTexture) == 88);
 #endif

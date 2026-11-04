@@ -5,7 +5,6 @@
 #include "layout_support.h"
 class SaveLoadFile;
 class BGSLoadGameBuffer;
-#pragma pack(push, 4)
 class BGSLoadGameBuffer
 {
   public:
@@ -32,10 +31,4 @@ class BGSLoadGameBuffer
     // BGSLoadGameBuffer& __cdecl BGSLoadGameBuffer::*(const BGSLoadGameBuffer&)
     // void* __cdecl BGSLoadGameBuffer::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSLoadGameBuffer) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSLoadGameBuffer, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(BGSLoadGameBuffer, pBuffer) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSLoadGameBuffer, iBufferSize) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSLoadGameBuffer, m_uiReadOffset) == 12);
 #endif

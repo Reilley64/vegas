@@ -1,5 +1,76 @@
 // tesobjecttree.cpp: TESObjectTREE, BSShaderTextureSet, BGSImpactData, BSFadeNode and more (45 functions)
 
+#include <cstdint>
+#include <new>
+#include <cstring>
+#include "fnv/decl/Arr86.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatWorldStateListNode.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00402c40_shell.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00414290.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00452df0_class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00462e80_shell.h"
+#include "fnv/decl/FUN_00471870_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_00486620_shell.h"
+#include "fnv/decl/FUN_00489070.h"
+#include "fnv/decl/FUN_004891d0_cls.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0051cfe0_Class.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00b66ad0_cls.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/NiTriGeom2.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/TESOffsetWorker.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/_FUN_00822510_Class.h"
+#include "fnv/decl/fnv_00447980__OwnerX.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_0051c000.h"
+#include "fnv/symbols_0051d000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_00a61000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_00b58000.h"
+#include "fnv/symbols_00b59000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0102b000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01200000.h"
 #include "TESObjectTREE.h"
 
 // @fnv 0x0043b5d0
@@ -18,7 +89,7 @@ void TESObjectTREE::UpdateRustleSpeed(const float speed)
 // @fnv 0x0051bb80
 void TESObjectTREE::InitItem()
 {
-    if (((const TESFormInitFlag*)this)->IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)(((const TESFormInitFlag*)this)))->GetInitialized())
         return;
     BGSDestructibleObjectForm::InitItem(this);
     SetInitializationState(true);
@@ -31,24 +102,22 @@ void TESObjectTREE::InitItem()
 template <int size> struct EndianSizeTag
 {
 };
-void BSEndian(unsigned int* value, EndianSizeTag<4>);
-void BSEndian(float* value, EndianSizeTag<4>);
 
 // Reads a TESObjectTREE record from the file, dispatching EDID, OBND, MODL/MODT, ICON, DEST/DSTD, SNAM, CNAM and BNAM chunks until the chunk list ends.
 // @fnv 0x0051bbc0
 bool TESObjectTREE::Load(TESFile* file)
 {
-    unsigned char form = file->GetTESForm();
+    unsigned char form = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (form != 37)
         return false;
-    LoadRecordHeader(file);
-    while (CHUNK_ID chunk = (CHUNK_ID)file->GetChunkID())
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    while (CHUNK_ID chunk = (CHUNK_ID)((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
     {
         switch (chunk)
         {
         case CHUNK_ID_EDID_ID: {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 512);
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 512);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -64,7 +133,7 @@ bool TESObjectTREE::Load(TESFile* file)
             break;
         case CHUNK_ID_DEST_ID:
         case CHUNK_ID_DSTD_ID:
-            BGSDestructibleObjectForm::LoadDestructibleData(this, file);
+            ::FUN_004781e0(this, file);
             break;
         case CHUNK_ID_SNAM_ID: {
             struct SeedBuffer
@@ -73,7 +142,7 @@ bool TESObjectTREE::Load(TESFile* file)
                 unsigned int* values;
             } seeds;
             seeds.values = 0;
-            unsigned int chunkSize = file->GetChunkSize();
+            unsigned int chunkSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             if (!chunkSize)
                 break;
             if (chunkSize % sizeof(unsigned int))
@@ -81,38 +150,38 @@ bool TESObjectTREE::Load(TESFile* file)
             seeds.count = chunkSize / sizeof(unsigned int);
             seeds.values = new unsigned int[seeds.count];
             memset(seeds.values, 0, chunkSize);
-            file->GetChunkData(seeds.values, chunkSize);
-            m_kSeedArray.RemoveAll();
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(seeds.values), chunkSize);
+            ::FUN_005e03d0((::NiTArray_Layout *)&(m_kSeedArray));
             for (unsigned int i = 0; i < seeds.count; ++i)
             {
                 if (file->IsEndianConversionRequired())
-                    BSEndian(&seeds.values[i], EndianSizeTag<4>());
+                    ::FUN_00401080((int *)(unsigned int *)(&seeds.values[i]));
                 if (seeds.values[i] > 0)
-                    m_kSeedArray.AddFirstEmpty(seeds.values[i]);
+                    reinterpret_cast<::S_0060ba10 *>(&(m_kSeedArray))->FUN_0096a610((std::intptr_t)&(seeds.values[i]));
             }
             delete[] seeds.values;
             break;
         }
         case CHUNK_ID_CNAM_ID: {
-            unsigned int dataSize = file->GetChunkSize();
+            unsigned int dataSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             if (dataSize != sizeof(TreeRecordData))
                 break;
-            file->GetChunkData(&Data, dataSize);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&Data), dataSize);
             if (file->IsEndianConversionRequired())
-                Data.Endian();
+                reinterpret_cast<::FUN_00414290 *>(&(Data))->Init();
             if (Data.m_iShadowRadius < 0)
                 Data.m_iShadowRadius = 128;
             break;
         }
         case CHUNK_ID_BNAM_ID: {
-            unsigned int billboardSize = file->GetChunkSize();
+            unsigned int billboardSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             if (billboardSize != sizeof(NiPoint2))
                 break;
-            file->GetChunkData(&m_kBillboardDimensions, billboardSize);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&m_kBillboardDimensions), billboardSize);
             if (file->IsEndianConversionRequired())
             {
-                BSEndian(&m_kBillboardDimensions.x, EndianSizeTag<4>());
-                BSEndian(&m_kBillboardDimensions.y, EndianSizeTag<4>());
+                ::FUN_00401080((int *)(float *)(&m_kBillboardDimensions.x));
+                ::FUN_00401080((int *)(float *)(&m_kBillboardDimensions.y));
             }
             break;
         }
@@ -126,7 +195,6 @@ bool TESObjectTREE::Load(TESFile* file)
 class NiObject
 {
   public:
-    void FUN_00a5d3d0(void);
 };
 struct _Fake_FUN_004a7090
 {
@@ -136,7 +204,7 @@ void (_Fake_FUN_004a7090::*const _force_FUN_004a7090)() = &_Fake_FUN_004a7090::f
 // @fnv 0x004a7090
 void _Fake_FUN_004a7090::f()
 {
-    reinterpret_cast<NiObject*>(this)->FUN_00a5d3d0();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((reinterpret_cast<NiObject*>(this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
 struct BSS
@@ -164,11 +232,11 @@ FUN_0051d1c0::~FUN_0051d1c0()
 
 struct FUN_0051b830_shell
 {
-    unsigned int __thiscall FUN_0051b830();
+    unsigned int FUN_0051b830();
 };
 
 // @fnv 0x0051b830
-unsigned int __thiscall FUN_0051b830_shell::FUN_0051b830()
+unsigned int FUN_0051b830_shell::FUN_0051b830()
 {
     return 1024;
 }
@@ -181,24 +249,22 @@ struct FUN_0051b950_shell : TESModel
 // @fnv 0x0051b950
 void FUN_0051b950_shell::FUN_0051b950()
 {
-    TESModel::~TESModel();
+    reinterpret_cast<::FUN_00489070 *>(this)->FUN_00489070::~FUN_00489070();
 }
 
 struct NiPoint2_shell : NiPoint2
 {
-    bool FUN_00452df0(const NiPoint2&) const;
     bool FUN_0051c330(const NiPoint2& other) const;
 };
 
 // @fnv 0x0051c330
 bool NiPoint2_shell::FUN_0051c330(const NiPoint2& other) const
 {
-    return !FUN_00452df0(other);
+    return !reinterpret_cast<::FUN_00452df0_class *>((void *)this)->FUN_00452df0((float *)&(other));
 }
 
 struct NiRTTI;
 
-extern const NiRTTI g_0120044c;
 
 struct BSShaderTextureSet
 {
@@ -208,10 +274,9 @@ struct BSShaderTextureSet
 // @fnv 0x0051d150
 const NiRTTI* BSShaderTextureSet::GetNiRTTI() const
 {
-    return &g_0120044c;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_0120044c));
 }
 
-extern const char* const g_0120044c_arg1;
 
 struct FUN_0051d1b0_shell
 {
@@ -221,24 +286,24 @@ struct FUN_0051d1b0_shell
 // @fnv 0x0051d1b0
 const char* const* FUN_0051d1b0_shell::GetArg1Ptr()
 {
-    return &g_0120044c_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_01200444));
 }
 
-void __cdecl Deallocate(void*);
 
 struct FUN_0051d400_shell
 {
-    void __thiscall FUN_0051d400();
+    char pad[0x14];
+    void* m_pSecondBuffer;
+    void* m_pFirstBuffer;
+    void FUN_0051d400();
 };
 
-// Frees the two pointers stored at offsets 0x14 and 0x18 of this object via Deallocate.
+// Frees the object's two buffers via Deallocate.
 // @fnv 0x0051d400
-void __thiscall FUN_0051d400_shell::FUN_0051d400()
+void FUN_0051d400_shell::FUN_0051d400()
 {
-    void* p2 = *(void**)((char*)this + 0x14);
-    Deallocate(p2);
-    void* p1 = *(void**)((char*)this + 0x18);
-    Deallocate(p1);
+    ::FUN_00401030(m_pSecondBuffer);
+    ::FUN_00401030(m_pFirstBuffer);
 }
 
 struct ProcessLists
@@ -250,34 +315,37 @@ struct GlobalObject_0045cf30 : ProcessLists
 {
 };
 
-extern GlobalObject_0045cf30 g_011d5ce8;
 
 // @fnv 0x0051d740
 unsigned char GetFirstProcessListByte()
 {
-    return g_011d5ce8.GetLifeStateControlFlag()[0];
+    return ::g_011d5ce8.GetLifeStateControlFlag()[0];
 }
 
 struct FUN_006447b0_shell
 {
+    char pad[0x84];
+    float m_f84;
     float GetField84Float();
 };
 
 // @fnv 0x006447b0
 float FUN_006447b0_shell::GetField84Float()
 {
-    return *reinterpret_cast<float*>(this + 0x84);
+    return m_f84;
 }
 
 struct BGSImpactData
 {
+    char pad[0x38];
+    float m_fAngleThreshold;
     float FUN_009a9350() const;
 };
 
 // @fnv 0x009a9350
 float BGSImpactData::FUN_009a9350() const
 {
-    return *(const float*)((const char*)this + 0x38);
+    return m_fAngleThreshold;
 }
 
 struct FUN_009acce0_shell
@@ -314,7 +382,7 @@ struct FUN_0051b8c0_shell : TESObjectTREE
 // @fnv 0x0051b8c0
 void FUN_0051b8c0_shell::FUN_0051b8c0(float value)
 {
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x84) = value;
+    this->Data.m_fRustleMagnitude = value;
 }
 
 extern int DAT_0102be94;
@@ -334,22 +402,21 @@ struct Arr
     unsigned int* GetAt(int);
 };
 
-extern unsigned int __cdecl DialogueRandom(void);
 
-struct FUN_0051c360_shell
+struct FUN_0051c360_shell : TESObjectTREE
 {
     unsigned int FUN_0051c360();
 };
 
-// Returns a random element from the Arr at offset 0x5c, or 0 when that Arr is empty.
+// Returns a random element from the seed array, or 0 when that array is empty.
 // @fnv 0x0051c360
 unsigned int FUN_0051c360_shell::FUN_0051c360()
 {
-    unsigned int index = reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x5c)->GetSize();
+    unsigned int index = reinterpret_cast<::FUN_00658930_class *>(&m_kSeedArray)->GetShortAtOffsetA();
     if (!index)
         return 0;
     unsigned int size = DialogueRandom() % index;
-    return *reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x5c)->GetAt(size);
+    return *reinterpret_cast<Arr*>(&m_kSeedArray)->GetAt(size);
 }
 
 namespace fnv_0051d220 {
@@ -358,7 +425,6 @@ struct FUN_004a7090
     virtual ~FUN_004a7090();
 };
 
-extern "C" void _delete(void* p, unsigned int size);
 
 struct FUN_0051d220_shell : FUN_004a7090
 {
@@ -369,43 +435,47 @@ struct FUN_0051d220_shell : FUN_004a7090
 // @fnv 0x0051d220
 void* FUN_0051d220_shell::DestroyAndFree(unsigned int flags)
 {
-    this->FUN_004a7090::~FUN_004a7090();
+    reinterpret_cast<::_Fake_FUN_004a7090 *>((this))->f();
     if (flags & 1)
-        _delete(this, 8);
+        ::FUN_00aa1460(this, 8);
     return this;
 }
 }  // namespace fnv_0051d220
 
 struct FUN_00821600_shell
 {
+    char pad[0x78];
+    float m_f78;
     void FUN_00821600(float value);
 };
 
 // @fnv 0x00821600
 void FUN_00821600_shell::FUN_00821600(float value)
 {
-    *(float*)((char*)this + 0x78) = value;
+    m_f78 = value;
 }
 
 struct NiMemObject;
 struct FUN_009b0900_shell
 {
-    unsigned int __thiscall GetFieldE0();
+    char pad[0xe0];
+    unsigned int m_uiE0;
+    unsigned int GetFieldE0();
 };
 // @fnv 0x009b0900
-unsigned int __thiscall FUN_009b0900_shell::GetFieldE0()
+unsigned int FUN_009b0900_shell::GetFieldE0()
 {
-    return *(unsigned int*)((char*)this + 0xe0);
+    return m_uiE0;
 }
 
-struct FUN_0051b8a0_shell
+struct FUN_0051b8a0_shell : TESObjectTREE
 {
     void FUN_0051b8a0(float f);
 };
 // @fnv 0x0051b8a0
 void FUN_0051b8a0_shell::FUN_0051b8a0(float afValue)
 {
-    *(int*)((char*)this + 0x80) = (int)afValue;
+    Data.m_iShadowRadius = (int)afValue;
 }
 
 struct S_0051b900
@@ -413,17 +483,6 @@ struct S_0051b900
     void FUN_0051b9d0();
     void* FUN_0051b900(unsigned int);
 };
-void _Deallocate(void*);
-// Calls FUN_0051b9d0, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x0051b900
-void* S_0051b900::FUN_0051b900(unsigned int flags)
-{
-    this->FUN_0051b9d0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct TESIcon
 {
     ~TESIcon();
@@ -437,21 +496,19 @@ struct FUN_0051b990_shell : public TESIcon
 // @fnv 0x0051b990
 void FUN_0051b990_shell::FUN_0051b990()
 {
-    TESIcon::~TESIcon();
+    reinterpret_cast<::FUN_00402c40_shell *>(this)->DestroyTexture();
 }
 
 struct NiBillboardNode
 {
-    void FUN_0051cfe0();
     void* Destroy(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
 // @fnv 0x0051cfa0
 void* NiBillboardNode::Destroy(unsigned int flags)
 {
-    this->FUN_0051cfe0();
+    reinterpret_cast<::FUN_0051cfe0_Class *>((this))->FUN_0051cfe0();
     if (flags & 1)
-        _delete(this, 0xB4);
+        ::FUN_00aa1460(this, 0xB4);
     return this;
 }
 
@@ -461,20 +518,18 @@ struct Arr
     unsigned int GetSize();
     unsigned int* GetAt(int);
 };
-struct Holder
+struct Holder : TESObjectTREE
 {
-    char _pad[0x5c];
-    Arr arr;
     unsigned char FindIndex(unsigned int aiIndex);
 };
-// Searches arr for the first element equal to aiIndex and returns its index, or 0xff if not found.
+// Searches the seed array for the first element equal to aiIndex and returns its index, or 0xff if not found.
 // @fnv 0x0051ba90
 unsigned char Holder::FindIndex(unsigned int aiIndex)
 {
     unsigned char idx = 0xff;
-    for (unsigned int uiIndex = 0; uiIndex < arr.GetSize(); ++uiIndex)
+    for (unsigned int uiIndex = 0; uiIndex < reinterpret_cast<::FUN_00658930_class *>(&m_kSeedArray)->GetShortAtOffsetA(); ++uiIndex)
     {
-        if (*arr.GetAt(uiIndex) == aiIndex)
+        if (*reinterpret_cast<Arr*>(&m_kSeedArray)->GetAt(uiIndex) == aiIndex)
         {
             idx = uiIndex;
             break;
@@ -519,12 +574,7 @@ struct DestructibleTail
 };
 struct SoundPlaybackHandle
 {
-    void SetFormType(int);
 };
-extern const float g_011c3ec0_arg1;
-extern const float runtimeFloatSettingDefault696;
-extern const float g_011c3d00_arg1;
-extern NiPoint2 DAT_011f4980;
 
 struct FUN_0051b6e0 : public FUN_0050f7a0,
                       public FUN_0051b930,
@@ -549,16 +599,16 @@ struct FUN_0051b6e0 : public FUN_0050f7a0,
 // @fnv 0x0051b6e0
 FUN_0051b6e0::FUN_0051b6e0() : m5c(0, 1)
 {
-    ((SoundPlaybackHandle*)this)->SetFormType(0x25);
-    f6c = g_011c3ec0_arg1;
+    reinterpret_cast<::FUN_004f15a0_shell *>((((SoundPlaybackHandle*)this)))->FUN_004f15a0(0x25);
+    f6c = ::g_011c3ec0_arg1;
     f70 = 5.0f;
     f74 = runtimeFloatSettingDefault696;
     f78 = 0.5f;
-    f7c = g_011c3d00_arg1;
+    f7c = ::DAT_01018238;
     f84 = 1.0f;
     f88 = 1.0f;
     u80 = 0x80;
-    static_cast<NiPoint2&>(p8c) = DAT_011f4980;
+    static_cast<NiPoint2&>(p8c) = ::DAT_011f4980;
 }
 }  // namespace fnv_0051b6e0
 
@@ -670,7 +720,7 @@ struct FUN_0051baf0_shell
     virtual void v61();
     virtual void v62();
     virtual void v63();
-    virtual void v64();
+    virtual unsigned int v64();
     virtual void v65();
     virtual void v66();
     virtual void v67();
@@ -928,15 +978,16 @@ struct FUN_0051baf0_shell
 unsigned int FUN_0051baf0_shell::GetEntryByIndex(unsigned char index)
 {
     unsigned int result;
-    if (index == 0xFF || !((Arr*)((char*)this + 0x5c))->GetSize())
+    Arr* pSeeds = reinterpret_cast<Arr*>(&reinterpret_cast<TESObjectTREE*>(this)->m_kSeedArray);
+    if (index == 0xFF || !reinterpret_cast<::FUN_00658930_class *>(pSeeds)->GetShortAtOffsetA())
     {
-        result = ((unsigned int(__thiscall*)(void*))(*(void***)(this))[0x190 / 4])(this);
+        result = v64();
     }
     else
     {
-        if (index >= ((Arr*)((char*)this + 0x5c))->GetSize())
-            index = index % ((Arr*)((char*)this + 0x5c))->GetSize();
-        result = *((Arr*)((char*)this + 0x5c))->GetAt(index);
+        if (index >= reinterpret_cast<::FUN_00658930_class *>(pSeeds)->GetShortAtOffsetA())
+            index = index % reinterpret_cast<::FUN_00658930_class *>(pSeeds)->GetShortAtOffsetA();
+        result = *pSeeds->GetAt(index);
     }
     return result;
 }
@@ -958,18 +1009,16 @@ struct SoundListView
 void SoundListView::AddSoundEntry(float* apFirst, float* apSecond)
 {
     char* item = (char*)new Struct_004b0680(apFirst, apSecond);
-    AddTail(item);
+    reinterpret_cast<::Callees *>(this)->FUN_00905820((void *)&(item));
 }
 
 namespace fnv_0051c220 {
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
 };
 
 struct NiPoint2_shell
 {
-    bool FUN_0051c330(NiPoint2 const&) const;
 };
 
 struct Arr
@@ -1094,27 +1143,26 @@ bool FUN_0051c220_shell::IsNotEqual(TESForm* apCompare)
     if (!i)
         return true;
 
-    if (memcmp(reinterpret_cast<const void*>(reinterpret_cast<const char*>(this) + 0x6c),
+    if (memcmp(reinterpret_cast<const void*>(reinterpret_cast<const char*>(&this->Data)),
                reinterpret_cast<FUN_0051c220_vtable*>(i)->get_value(), 0x20))
         return true;
 
-    if (reinterpret_cast<NiPoint2_shell*>(reinterpret_cast<char*>(this) + 0x8c)
-            ->FUN_0051c330(*reinterpret_cast<NiPoint2 const*>(reinterpret_cast<const char*>(i) + 0x8c)))
+    if (reinterpret_cast<::NiPoint2_shell *>((void *)(reinterpret_cast<NiPoint2_shell*>(&this->m_kBillboardDimensions.x)))->FUN_0051c330(i->m_kBillboardDimensions))
         return true;
 
-    unsigned int isize = reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x5c)->GetSize();
-    if (isize != reinterpret_cast<Arr*>(reinterpret_cast<char*>(i) + 0x5c)->GetSize())
+    unsigned int isize = reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<Arr*>(&this->m_kSeedArray)))->GetShortAtOffsetA();
+    if (isize != reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<Arr*>(&i->m_kSeedArray)))->GetShortAtOffsetA())
         return true;
 
     unsigned int pcomp = 0;
     for (; pcomp < isize; ++pcomp)
     {
-        if (*reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x5c)->GetAt(pcomp) !=
-            *reinterpret_cast<Arr*>(reinterpret_cast<char*>(i) + 0x5c)->GetAt(pcomp))
+        if (*reinterpret_cast<Arr*>(&this->m_kSeedArray)->GetAt(pcomp) !=
+            *reinterpret_cast<Arr*>(&i->m_kSeedArray)->GetAt(pcomp))
             return true;
     }
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(i))
+    if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(i))
         return true;
 
     return false;
@@ -1205,8 +1253,6 @@ FUN_0051b9b0_cls::FUN_0051b9b0_cls() : TESTextureBase()
     m_pVTable = &DAT_0102beb4;
 }
 
-extern double DAT_01012060;
-extern double DAT_010179e0;
 extern double DAT_0102c188;
 
 struct FUN_0051d250_Class
@@ -1249,15 +1295,15 @@ struct FUN_0051d250_Class
     float unk8C;
     float unk90;
 
-    bool __thiscall FUN_0051d250();
+    bool FUN_0051d250();
 };
 
 // Returns false if unk8C or unk90 falls within their respective ranges above DAT_01012060, otherwise true.
 // @fnv 0x0051d250
-bool __thiscall FUN_0051d250_Class::FUN_0051d250()
+bool FUN_0051d250_Class::FUN_0051d250()
 {
-    if ((this->unk8C > DAT_01012060 && this->unk8C <= DAT_010179e0) ||
-        (this->unk90 > DAT_01012060 && this->unk90 <= DAT_0102c188))
+    if ((this->unk8C > ::_DAT_01012060 && this->unk8C <= ::DAT_010179e0) ||
+        (this->unk90 > ::_DAT_01012060 && this->unk90 <= DAT_0102c188))
     {
         return false;
     }
@@ -1268,16 +1314,13 @@ bool __thiscall FUN_0051d250_Class::FUN_0051d250()
 class BS9AA340Item
 {
   public:
-    int GetOwner();
-    static void operator delete(void* pvMem);
 };
 
 class BS9AA340List
 {
   public:
-    BS9AA340Item** GetItem();
-    BS9AA340List* GetNext();
-    void RemoveItem(BS9AA340Item** ppkItem);
+    BS9AA340Item* m_item;
+    BS9AA340List* m_pkNext;
     void RemoveItemByOwner(int iOwner);
 };
 
@@ -1288,31 +1331,28 @@ void BS9AA340List::RemoveItemByOwner(int iOwner)
     BS9AA340List* pkNode = this;
     while (pkNode)
     {
-        BS9AA340Item* pkItem = *pkNode->GetItem();
-        if (pkItem && pkItem->GetOwner() == iOwner)
+        BS9AA340Item* pkItem = pkNode->m_item;
+        if (pkItem && ::FUN_00559450((int *)(pkItem)) == iOwner)
         {
-            pkNode->RemoveItem(&pkItem);
+            reinterpret_cast<::ItemChangeListNode *>((pkNode))->FUN_00905330((*(::InventoryStackRecord *const *)(&pkItem)));
             delete pkItem;
             return;
         }
-        pkNode = pkNode->GetNext();
+        pkNode = ((::BS9AA340List *)(reinterpret_cast<::CombatWorldStateListNode *>((pkNode))->GetNext()));
     }
 }
 
 struct FUN_004891d0_shell
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
-    void WriteToBuffer(unsigned int, unsigned int);
 };
 struct FUN_0048e370_obj
 {
     int unk00, unk04, unk08;
-    void FUN_0048e370(unsigned int);
 };
 struct S_00477f20
 {
     int unk00, unk04;
-    void FUN_00477f20();
 };
 struct ArrBlock : Arr
 {
@@ -1323,12 +1363,7 @@ struct TreeData
     float unk00, unk04, unk08, unk0c, unk10;
     int unk14;
     float unk18, unk1c;
-    void FUN_00414290();
 };
-bool __cdecl FUN_00401500();
-void __cdecl FUN_00485710(unsigned int, unsigned int*, unsigned int);
-void __cdecl AppendChunk(unsigned int, void*, unsigned int);
-void __cdecl FUN_00403d30(void*, int, unsigned int);
 struct SaveTree
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
@@ -1338,21 +1373,19 @@ struct SaveTree
     ArrBlock seeds;
     TreeData data;
     float billboardX, billboardY;
-    void FUN_004855a0();
-    void FUN_00485680();
     void FUN_0051bfb0();
 };
 // @fnv 0x0051bfb0
 void SaveTree::FUN_0051bfb0()
 {
-    FUN_004855a0();
-    model.WriteToBuffer(0x4c444f4d, 0x54444f4d);
-    icon.FUN_0048e370(0x4e4f4349);
-    destruct.FUN_00477f20();
-    if (seeds.GetSize() > 0)
+    reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
+    reinterpret_cast<::FUN_004891d0_cls *>(&(model))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>(&(icon))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::FUN_00477f20_shell *>(&(destruct))->FUN_00477f20();
+    if (reinterpret_cast<::FUN_00658930_class *>(&(seeds))->GetShortAtOffsetA() > 0)
     {
         unsigned int* count = 0;
-        unsigned int values = seeds.GetSize();
+        unsigned int values = reinterpret_cast<::FUN_00658930_class *>(&(seeds))->GetShortAtOffsetA();
         unsigned int index = values * sizeof(unsigned int);
         count = new unsigned int[values];
         FUN_00403d30(count, 0, index);
@@ -1363,17 +1396,17 @@ void SaveTree::FUN_0051bfb0()
             if (uiSeedValue > 0)
                 count[value] = uiSeedValue;
         }
-        FUN_00485710(0x4d414e53, count, values);
+        ::FUN_00485710((void *)(0x4d414e53), count, (void *)(std::uintptr_t)(values));
     }
     if (data.unk14 < 0)
         data.unk14 = 128;
-    if (FUN_00401500())
-        data.FUN_00414290();
-    AppendChunk(0x4d414e43, &data, 32);
-    if (FUN_00401500())
-        data.FUN_00414290();
-    FUN_00485710(0x4d414e42, (unsigned int*)&billboardX, 2);
-    FUN_00485680();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00414290 *>(&(data))->Init();
+    ::AppendChunk(0x4d414e43, &data, 32);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00414290 *>(&(data))->Init();
+    ::FUN_00485710((void *)(0x4d414e42), (unsigned int*)&billboardX, (void *)(2));
+    reinterpret_cast<::Holder *>(this)->FUN_00485680();
 }
 
 class TreeNameView
@@ -1403,7 +1436,7 @@ void FUN_0051c3b0_cls::BuildBillboardTexturePath(char* dst)
     {
         *out4 = *src2;
     }
-    char* name = ((TreeNameView*)((char*)this + 0x30))->GetName();
+    char* name = ((TreeNameView*)static_cast<TESModelTree *>(this))->GetName();
     for (; *name != '.' && *name != 0; name++, out4++)
     {
         *out4 = *name;
@@ -1460,8 +1493,6 @@ class ImageSpaceEffectParam
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class CreatedObj : public NiMemObject
 {
@@ -1498,9 +1529,6 @@ template <class T> class SpPtr
     ~SpPtr();
     SpPtr& operator=(const SpPtr&);
 };
-void* NiMalloc(unsigned int);
-void* memcpy(void*, const void*, unsigned int);
-extern double DAT_01012060;
 class TreeObj
 {
   public:
@@ -1586,7 +1614,7 @@ void TreeObj::CreateTreeGeometry(bool abVertical, SpPtr<CreatedObj>* out)
     buf[35] = 0.0f;
     NiPoint3* pA = new NiPoint3[4];
     NiPoint2 bsize = m_kBillboardDimensions;
-    if (bsize.y <= DAT_01012060)
+    if (bsize.y <= ::_DAT_01012060)
     {
         bsize.y = 1400.0f;
     }
@@ -1615,7 +1643,7 @@ void TreeObj::CreateTreeGeometry(bool abVertical, SpPtr<CreatedObj>* out)
     pDB[1] = ImageSpaceEffectParam(1.0f, 1.0f, 1.0f, 0.0f);
     pDB[2] = ImageSpaceEffectParam(1.0f, 1.0f, 1.0f, 0.0f);
     pDB[3] = ImageSpaceEffectParam(1.0f, 1.0f, 1.0f, 0.0f);
-    unsigned short* pE = (unsigned short*)NiMalloc(12);
+    unsigned short* pE = (unsigned short*)::FUN_00aa1070(12);
     pE[0] = 0;
     pE[1] = 2;
     pE[2] = 1;
@@ -1630,8 +1658,6 @@ namespace fnv_0051cba0 {
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* pointer, unsigned int);
 };
 class NiSourceTexture
 {
@@ -1759,8 +1785,7 @@ class FUN_00a74480 : public TreeSceneObject
     unsigned int unkB8;
     unsigned int unkBC;
     unsigned int unkC0;
-    FUN_00a74480(unsigned int texture);
-    void AttachProperty(NiObject* property);
+    FUN_00a74480(void* apData);
 };
 class FUN_00ba8630 : public TreeSceneObject
 {
@@ -1830,7 +1855,6 @@ class FUN_00ba8630 : public TreeSceneObject
     unsigned int unkFC;
     unsigned int unk100;
     FUN_00ba8630();
-    void FUN_00b66ad0(const char* name, TreeSceneObject* object);
 };
 class FUN_0051d0d0 : public TreeSceneObject
 {
@@ -1887,15 +1911,11 @@ class FUN_0051cf00 : public TreeSceneObject
     unsigned int unkAC;
     unsigned int unkB0;
     FUN_0051cf00();
-    void FUN_0051d000(int mode);
 };
 extern const char treeSourceFile[];
-TreeSceneObject* GetFloatAsUInt();
 class TreeBillboardBuilder : public FUN_0051d250_Class
 {
   public:
-    void CreateTreeGeometry(bool variant, NiPointer<NiSourceTexture>* texture);
-    void BuildBillboardTexturePath(char* path);
     TreeSceneObject* CreateBillboardSceneObject(bool variant);
 };
 // @fnv 0x0051cba0
@@ -1905,25 +1925,25 @@ TreeSceneObject* TreeBillboardBuilder::CreateBillboardSceneObject(bool variant)
         return 0;
     AutoMemContext eb(0x23, true, treeSourceFile, 470);
     NiPointer<NiSourceTexture> a(0);
-    CreateTreeGeometry(variant, &a);
-    FUN_00a74480* h = new FUN_00a74480((unsigned int)(NiSourceTexture*)a);
-    TreeSceneObject* f = GetFloatAsUInt();
+    reinterpret_cast<::TreeObj *>(this)->CreateTreeGeometry(variant, (::SpPtr< ::CreatedObj> *)(::NiPointer< ::fnv_0051cba0::NiSourceTexture> *)(&a));
+    FUN_00a74480* h = new FUN_00a74480((NiSourceTexture*)a);
+    TreeSceneObject* f = ((::fnv_0051cba0::TreeSceneObject *)(::fnv_0051cee0::GetFloatAsUInt()));
     if (f)
-        h->AttachProperty((NiObject*)f);
+        reinterpret_cast<::FUN_00439410_cls *>((h))->FUN_00439410((::ArgObject *)(::NiObject *)((NiObject*)f));
     FUN_00ba8630* i = new FUN_00ba8630;
-    h->AttachProperty((NiObject*)i);
+    reinterpret_cast<::FUN_00439410_cls *>((h))->FUN_00439410((::ArgObject *)(::NiObject *)((NiObject*)i));
     char q[260];
-    BuildBillboardTexturePath(q);
+    reinterpret_cast<::FUN_0051c3b0_cls *>(this)->BuildBillboardTexturePath(q);
     FUN_0051d0d0* cf = new FUN_0051d0d0;
     cf->SetTexture(0, q);
-    i->FUN_00b66ad0("STBB", cf);
+    reinterpret_cast<::FUN_00b66ad0_cls *>((i))->FUN_00b66ad0((std::intptr_t)("STBB"), (::FnvTarget *)(cf));
     i->UpdateShader(0);
     NiPointer<NiSourceTexture> p(0);
     cf->GetTexture(0, &p);
-    if (p == 0)
+    if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::NiPointer< ::fnv_0051cba0::NiSourceTexture> &)(p))->operator==((int)(0)))
         return 0;
     FUN_0051cf00* s = new FUN_0051cf00;
-    s->FUN_0051d000(5);
+    reinterpret_cast<::NiTriGeom2 *>((s))->FUN_0051d000(5);
     s->AttachChildInAvailableSlot(h, true);
     return s;
 }
@@ -1953,72 +1973,61 @@ struct TreeWork
     int unk10;
     int unk14;
     int unk18;
-    TreeWork(void*, int, int, int, int, int, int);
+    TreeWork(void*, void*, void*, void*, unsigned int, const void*, const void*);
 };
 struct TextureInfo
 {
     int flags;
     TreeWork* work;
-    unsigned int id;
+    const char* id;
     TextureInfo();
 };
 struct Loader
 {
-    void Queue(char*, TreeWork*);
 };
-extern Loader* g_modelLoader;
-unsigned char GetFirstProcessListByte();
-bool IsTextureReady(unsigned int);
-void CopyTexturePath(char*, char*, unsigned int);
-bool fnv_NiStreamGetTexture(char*, TexturePtr*);
-void ProcessTexture(int, int, int, TextureInfo*, int, int, unsigned short);
 struct TreeTexture
 {
-    bool Valid();
-    unsigned int Deallocate();
-    void GetPath(char*);
-    TreeWork* Load(int);
-    void ProcessTreeTexture(int, int, int, int, int, int, int, int);
+    void ProcessTreeTexture(::Vec3*, int, float*, int, void*, unsigned int, ::Obj3*, int);
 };
 // Validates inputs and texture readiness, loads or queues the tree texture, then processes it and deletes the work object.
 // @fnv 0x0051d440
-void TreeTexture::ProcessTreeTexture(int a, int unused, int c, int d, int e, int f, int g, int unused2)
+void TreeTexture::ProcessTreeTexture(::Vec3* a, int unused, float* c, int d, void* e, unsigned int f, ::Obj3* g, int unused2)
 {
     AutoMemContext context4(0x23, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectTREE.cpp",
                             0x228);
     if (!g || !a || !c || !d)
         return;
-    if (!GetFirstProcessListByte())
+    if (!::GetFirstProcessListByte())
         return;
-    if (!Valid())
+    if (!reinterpret_cast<::FUN_0051d250_Class *>(this)->FUN_0051d250())
         return;
     TreeWork* work2 = 0;
-    if (!IsTextureReady(Deallocate()))
+    if (!::IsNamedObjectPresent((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
     {
         char path3[260];
         char normalized[260];
-        GetPath(path3);
-        CopyTexturePath(path3, normalized, 260);
+        reinterpret_cast<::FUN_0051c3b0_cls *>(this)->BuildBillboardTexturePath(path3);
+        ::CleanPath(path3, normalized, 260);
         TexturePtr texture5(0);
-        fnv_NiStreamGetTexture(normalized, &texture5);
+        ::FindTextureByPath(normalized, (::NiTexture **)(::fnv_0051d440::TexturePtr *)(&texture5));
         if (!texture5)
         {
-            TreeWork* request = new TreeWork(this, e, f, g, d, a, c);
-            g_modelLoader->Queue(normalized, request);
+            TreeWork* request = new TreeWork(this, e, (void*)(std::uintptr_t)f, g, d, a, c);
+            reinterpret_cast<::fnv_00447980::OwnerX *>(((*reinterpret_cast<::fnv_0051d440::Loader * *>(&::g_modelLoader))))->RunIdleTask((std::uintptr_t)(normalized), (std::uintptr_t)(request));
             return;
         }
         else
         {
-            work2 = Load(1);
+            work2 = ((::fnv_0051d440::TreeWork *)(reinterpret_cast<::fnv_0051cba0::TreeBillboardBuilder *>(this)->CreateBillboardSceneObject(1)));
         }
         if (!work2)
             return;
     }
     TextureInfo info2;
-    info2.id = Deallocate();
+    info2.id = (const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0());
     info2.work = work2;
     info2.flags = 0;
-    ProcessTexture(e, f, g, &info2, a, c, (unsigned short)d);
+    ::FUN_00b59ae0(e, f, g, (::ObjA4 *)(::fnv_0051d440::TextureInfo *)(&info2), a, c, (unsigned short)d);
     delete info2.work;
 }
 }  // namespace fnv_0051d440
@@ -2066,13 +2075,21 @@ struct FUN_0051b9d0 : TreeBase, TreeModel, TreeIcon, TreeDestructible
 {
     TreeSeeds seeds;
     virtual ~FUN_0051b9d0();
-    void ClearData();
 };
+// Calls FUN_0051b9d0, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x0051b900
+void* S_0051b900::FUN_0051b900(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0051b9d0 *>((this))->FUN_0051b9d0::~FUN_0051b9d0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor: calls ClearData, then the TreeSeeds member and base sub-objects are destroyed.
 // @fnv 0x0051b9d0
 FUN_0051b9d0::~FUN_0051b9d0()
 {
-    ClearData();
+    reinterpret_cast<::TESForm *>(this)->ClearData();
 }
 
 struct FUN_0066deb0_vec
@@ -2097,12 +2114,10 @@ struct FUN_0051d2c0_shell
     FUN_0066deb0_vec* items;
     int* itemIDs;
 
-    FUN_0051d2c0_shell* __thiscall Init(void* arg0, void* arg4, void* arg8, void* argC, unsigned int itemCount,
+    FUN_0051d2c0_shell* Init(void* arg0, void* arg4, void* arg8, void* argC, unsigned int itemCount,
                                         const void* itemSource, const void* idSource);
 };
 
-void* __cdecl operator new(unsigned int);
-void* __cdecl __memcpy(void* destination, const void* source, unsigned int size);
 extern unsigned int _data_011c16bc;
 
 // Initializes the shell object by copying four pointers, allocating and copying arrays of items and IDs, then returns this.
@@ -2128,16 +2143,14 @@ FUN_0051d2c0_shell* FUN_0051d2c0_shell::Init(void* apField0, void* apField4, voi
 class TreeCopy : public TESObjectTREE
 {
   public:
-    void FUN_004851b0(TESForm*);
     void FUN_0051c140(TESForm*);
 };
 
-typedef TreeRecordData*(__thiscall* TreeDataGetter)(TESObjectTREE*);
+typedef TreeRecordData*(* TreeDataGetter)(TESObjectTREE*);
 
 class TreeSeedAppender : public NiTPrimitiveArray_unsigned_int_
 {
   public:
-    unsigned int AddAtFirstFreeSlot(unsigned int&);
 };
 
 // Copies seed array, tree record data, and billboard dimensions from a source TESObjectTREE into this TreeCopy.
@@ -2149,17 +2162,52 @@ void TreeCopy::FUN_0051c140(TESForm* source)
     if (!tree)
         return;
 
-    FUN_004851b0(source);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(source);
     {
         unsigned int count;
-        count = tree->m_kSeedArray.GetSize();
-        m_kSeedArray.RemoveAll();
+        count = reinterpret_cast<::FUN_00658930_class *>(&(tree->m_kSeedArray))->GetShortAtOffsetA();
+        ::FUN_005e03d0((::NiTArray_Layout *)&(m_kSeedArray));
         {
             unsigned int index;
             for (index = 0; index < count; ++index)
-                reinterpret_cast<TreeSeedAppender&>(m_kSeedArray).AddAtFirstFreeSlot(tree->m_kSeedArray.GetAt(index));
+                reinterpret_cast<::Arr86 *>(&(reinterpret_cast<TreeSeedAppender&>(m_kSeedArray)))->AddAtFirstFreeSlot((::BGSAddonNode *&)(tree->m_kSeedArray.GetAt(index)));
         }
     }
     Data = *reinterpret_cast<TreeDataGetter>((*reinterpret_cast<void***>(tree))[0x63])(tree);
     m_kBillboardDimensions = tree->m_kBillboardDimensions;
 }
+
+// MSVC adjustor thunk: the primary base occupies 0x30 bytes; both bases declare the virtual,
+// the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0051d760();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0051d760();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0051d760
+    virtual void FUN_0051d760();
+};
+
+Derived::Derived()
+{}
+
+#include "generated/data/tesobjecttree.inc"

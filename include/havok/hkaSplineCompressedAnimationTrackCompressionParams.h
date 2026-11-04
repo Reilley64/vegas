@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKASPLINECOMPRESSEDANIMATIONTRACKCOMPRESSIONPARAMS_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkaSplineCompressedAnimationTrackCompressionParams
 {
   public:
@@ -35,7 +34,4 @@ class hkaSplineCompressedAnimationTrackCompressionParams
     hkUint8 m_eScaleQuantizationType;        // +0x1A (ScalarQuantization)
     hkUint8 m_eFloatQuantizationType;        // +0x1B (ScalarQuantization)
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaSplineCompressedAnimationTrackCompressionParams
-    [(sizeof(hkaSplineCompressedAnimationTrackCompressionParams) == 0x1C) ? 1 : -1];
 #endif

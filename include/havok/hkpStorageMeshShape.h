@@ -6,13 +6,10 @@
 #include "hkBase.h"
 #include "hkpMeshShape.h"
 class hkpStorageMeshShapeSubpartStorage;
-#pragma pack(push, 1)
 class hkpStorageMeshShape : public hkpMeshShape
 {
   public:
     hkArray<hkpStorageMeshShapeSubpartStorage*> m_kStorage;  // +0x60
     char pad6C[0x4];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpStorageMeshShape[(sizeof(hkpStorageMeshShape) == 0x70) ? 1 : -1];
 #endif

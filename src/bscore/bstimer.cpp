@@ -1,12 +1,17 @@
 // bscore/bstimer.cpp: free functions (4 functions)
 
+#include <windows.h>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aa4ee0_t.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_011ac000.h"
 #include "GameTimerRecord.h"
 
 // The engine tick-count helper lives outside this unit; the PC build resolves
-unsigned int gm_GetTickCount();
 
 // kernel32 tick count, reached directly through the import address table.
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 
 // Decrements the reference count and, when it reaches zero, records elapsed tick counts for two timestamps.
 // @fnv 0x00aa5040
@@ -26,7 +31,7 @@ void GameTimerRecord::Enable()
 // @fnv 0x00771520
 void GameTimerRecord::Update()
 {
-    Update(gm_GetTickCount());
+    reinterpret_cast<::FUN_00aa4ee0_t *>(this)->FUN_00aa4ee0(((unsigned int)(::FUN_00457fe0())));
 }
 
 struct FUN_00aa4db0_shell : public GameTimerRecord
@@ -34,13 +39,12 @@ struct FUN_00aa4db0_shell : public GameTimerRecord
     void FUN_00aa4db0(float, bool);
 };
 
-extern float DAT_011ac3a0;
 extern float DAT_011ac3a4;
 
 // @fnv 0x00aa4db0
 void FUN_00aa4db0_shell::FUN_00aa4db0(float afMult, bool abNow)
 {
-    bool bUseGlobal = *(bool*)((char*)this + 0x1c);
+    bool bUseGlobal = this->m_bFirstTimerFlag;
     if (bUseGlobal)
     {
         DAT_011ac3a4 = afMult;
@@ -56,13 +60,12 @@ void FUN_00aa4db0_shell::FUN_00aa4db0(float afMult, bool abNow)
         {
             return;
         }
-        *(float*)((char*)this + 0xc) /= DAT_011ac3a0;
+        this->fTimeSinceScaleStart /= DAT_011ac3a0;
         DAT_011ac3a0 = afMult;
-        *(float*)((char*)this + 0xc) *= DAT_011ac3a0;
+        this->fTimeSinceScaleStart *= DAT_011ac3a0;
     }
 }
 
-extern float DAT_011ac3a0;
 extern float DAT_011ac3a4;
 extern float DAT_011ac3ac;
 
@@ -87,3 +90,5 @@ void FUN_00aa4e40()
         }
     }
 }
+
+#include "generated/data/bscore/bstimer.inc"

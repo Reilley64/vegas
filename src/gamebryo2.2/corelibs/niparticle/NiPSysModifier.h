@@ -10,7 +10,7 @@ class NiPSysData;
 class NiParticleSystem;
 class CloningProcess;
 
-#pragma pack(push, 4)
+class CloningProcess;
 class NiPSysModifier : public NiObject
 {
   public:
@@ -35,6 +35,7 @@ class NiPSysModifier : public NiObject
     unsigned int m_uiUpdateOrder;  // +0xc
     NiParticleSystem* m_pkTarget;  // +0x10
     bool m_bModifierActive;        // +0x14
+public:
+    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
 };
-#pragma pack(pop)
 #endif

@@ -2,9 +2,12 @@
 #ifndef TILEMENU_DECLS_H
 #define TILEMENU_DECLS_H
 
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00a1d000.h"
+#include "fnv/symbols_011f3000.h"
 class Tile;
 class TileMenu;
-extern bool DAT_011f308f[];
 enum MenuID
 {
     kMenuID = 0
@@ -34,9 +37,7 @@ class Menu
         if (id >= 1001 && id <= 1084)
             DAT_011f308f[id] = b;
     }
-    void SetTileMenu(TileMenu*, bool);
     static void SetMenuRootTile(int, Tile*);
-    static float GetMenuScale();
     __forceinline void SetModal(int id)
     {
         m_iModalMenuId = id;
@@ -46,13 +47,11 @@ class Menu
     char pad2[8];
     int m_iMenuId;
 };
-extern bool DAT_011f308f[];
 class Interface
 {
   public:
     static Menu* GetMenuById(int);
 };
-void DebugLog(const char*, ...);
 class TileListBoxCalls
 {
   public:

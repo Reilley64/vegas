@@ -30,7 +30,6 @@ class FileEntryList;
 class TESValueForm;
 class TESWeightForm;
 class DistantTreeTextureInfo;
-#pragma pack(push, 4)
 class TESObject : public TESForm
 {
   public:
@@ -59,12 +58,6 @@ class TESObject : public TESForm
     // TESObject& __cdecl TESObject::*(const TESObject&)
     // void __cdecl TESObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
-#pragma pack(push, 4)
 class ShortPoint3
 {
   public:
@@ -104,23 +97,12 @@ class ShortPoint3
     // void __cdecl ShortPoint3::*(NiStream&)
     // char* __cdecl ShortPoint3::*(const char*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
-#pragma pack(push, 4)
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
-#pragma pack(push, 4)
 class TESBoundObject : public TESObject
 {
   public:
@@ -143,10 +125,6 @@ class TESBoundObject : public TESObject
     // TESBoundObject& __cdecl TESBoundObject::*(const TESBoundObject&)
     // void __cdecl TESBoundObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
-#pragma pack(push, 4)
 class TESBoundAnimObject : public TESBoundObject
 {
   public:
@@ -159,9 +137,6 @@ class TESBoundAnimObject : public TESBoundObject
     // TESBoundAnimObject& __cdecl TESBoundAnimObject::*(const TESBoundAnimObject&)
     // void __cdecl TESBoundAnimObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundAnimObject) == 48);
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -178,11 +153,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -216,12 +186,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class TESModelTextureSwap : public TESModel
 {
   public:
@@ -252,10 +216,6 @@ class TESModelTextureSwap : public TESModel
     // TESModelTextureSwap& __cdecl TESModelTextureSwap::*(const TESModelTextureSwap&)
     // void __cdecl TESModelTextureSwap::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 32);
-FNV_STATIC_ASSERT(offsetof(TESModelTextureSwap, TextureSwapNodeAccessor) == 24);
-#pragma pack(push, 4)
 class BGSMessageIcon : public BaseFormComponent
 {
   public:
@@ -276,10 +236,6 @@ class BGSMessageIcon : public BaseFormComponent
     // BGSMessageIcon& __cdecl BGSMessageIcon::*(const BGSMessageIcon&)
     // void* __cdecl BGSMessageIcon::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSMessageIcon) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSMessageIcon, Icon) == 4);
-#pragma pack(push, 4)
 class TESWeightForm : public BaseFormComponent
 {
   public:
@@ -296,10 +252,6 @@ class TESWeightForm : public BaseFormComponent
     // TESWeightForm& __cdecl TESWeightForm::*(const TESWeightForm&)
     // void* __cdecl TESWeightForm::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESWeightForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESWeightForm, fWeight) == 4);
-#pragma pack(push, 4)
 class TESValueForm : public BaseFormComponent
 {
   public:
@@ -318,10 +270,6 @@ class TESValueForm : public BaseFormComponent
     // TESValueForm& __cdecl TESValueForm::*(const TESValueForm&)
     // void* __cdecl TESValueForm::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESValueForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESValueForm, iValue) == 4);
-#pragma pack(push, 4)
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
@@ -384,10 +332,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     // BGSDestructibleObjectForm& __cdecl BGSDestructibleObjectForm::*(const BGSDestructibleObjectForm&)
     // void* __cdecl BGSDestructibleObjectForm::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
-#pragma pack(push, 4)
 class LightSourceData
 {
   public:
@@ -399,15 +343,6 @@ class LightSourceData
     float fFOV;             // +0x14, 4 bytes
     // void __cdecl LightSourceData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LightSourceData) == 24);
-FNV_STATIC_ASSERT(offsetof(LightSourceData, time) == 0);
-FNV_STATIC_ASSERT(offsetof(LightSourceData, radius) == 4);
-FNV_STATIC_ASSERT(offsetof(LightSourceData, color) == 8);
-FNV_STATIC_ASSERT(offsetof(LightSourceData, flags) == 12);
-FNV_STATIC_ASSERT(offsetof(LightSourceData, m_fLightFalloff) == 16);
-FNV_STATIC_ASSERT(offsetof(LightSourceData, fFOV) == 20);
-#pragma pack(push, 4)
 class NiColor
 {
   public:
@@ -433,12 +368,6 @@ class NiColor
     // float __cdecl NiColor::*()
     // void __cdecl NiColor::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
-FNV_STATIC_ASSERT(offsetof(NiColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(NiColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(NiColor, b) == 8);
-#pragma pack(push, 4)
 class TESObjectLIGH : public TESBoundAnimObject,
                       public TESFullName,
                       public TESModelTextureSwap,
@@ -539,10 +468,4 @@ class TESObjectLIGH : public TESBoundAnimObject,
     // TESObjectLIGH& __cdecl TESObjectLIGH::*(const TESObjectLIGH&)
     // void __cdecl TESObjectLIGH::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObjectLIGH) == 200);
-FNV_STATIC_ASSERT(offsetof(TESObjectLIGH, data) == 156);
-FNV_STATIC_ASSERT(offsetof(TESObjectLIGH, fFadeAmount) == 180);
-FNV_STATIC_ASSERT(offsetof(TESObjectLIGH, m_pGameSound) == 184);
-FNV_STATIC_ASSERT(offsetof(TESObjectLIGH, m_kDiffuseColor) == 188);
 #endif

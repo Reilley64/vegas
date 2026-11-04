@@ -2,15 +2,16 @@
 // src/havok/common/base/thread/semaphore/win32/hkwin32semaphore.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/semaphore/win32/hkwin32semaphore.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* h, unsigned long ms);
+#include <cstdint>
+#include <windows.h>
+#include "fnv/decl/Tree_d978.h"
 
 // @fnv 0x00d04380
-int __fastcall FUN_00d04380(void* h, int)
+int FUN_00d04380(void* h, int)
 {
     return WaitForSingleObject(*(void**)h, (unsigned long)-1);
 }
 
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void* h, long releaseCount, long* previousCount);
 struct FUN_00d04390
 {
     void* handle;
@@ -35,12 +36,11 @@ struct FUN_00d97970_cls
     unsigned int m_20;
     unsigned int m_24;
 
-    void InitBase(unsigned int aValue);
-    FUN_00d97970_cls* Init(unsigned int aValue);
+    FUN_00d97970_cls* Init(uintptr_t aValue);
 };
 
 // @fnv 0x00d97970
-FUN_00d97970_cls* FUN_00d97970_cls::Init(unsigned int aValue)
+FUN_00d97970_cls* FUN_00d97970_cls::Init(uintptr_t aValue)
 {
     volatile unsigned int* pWords = (volatile unsigned int*)this;
     pWords[0] = 0;
@@ -49,7 +49,7 @@ FUN_00d97970_cls* FUN_00d97970_cls::Init(unsigned int aValue)
     pWords[7] = 0;
     pWords[8] = 0;
     pWords[9] = 0x80000000u;
-    InitBase(aValue);
+    reinterpret_cast<::Tree_d978 *>(this)->FUN_00d978d0((*(const ::Cinfo_d978 *)(aValue)));
     return this;
 }
 

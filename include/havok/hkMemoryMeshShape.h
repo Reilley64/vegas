@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkMeshShape.h"
 class hkMeshSectionCinfo;
-#pragma pack(push, 1)
 class hkMemoryMeshShape : public hkMeshShape
 {
   public:
@@ -15,6 +14,4 @@ class hkMemoryMeshShape : public hkMeshShape
     hkArray<hkUint32> m_kIndices32;          // +0x20
     hkStringPtr m_name;                      // +0x2C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkMemoryMeshShape[(sizeof(hkMemoryMeshShape) == 0x30) ? 1 : -1];
 #endif

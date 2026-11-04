@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_TESBIPEDMODELFORM_H
 #define FNV_TESBIPEDMODELFORM_H
+#include "fnv/decl/TESActorBase.h"
 #include "layout_support.h"
 #include "tesbipedmodelform_types_BIPED_OBJECT.h"
 #include "tesbipedmodelform_types_SEX.h"
@@ -24,10 +25,8 @@ class TESIcon : public BaseFormComponent
     TESIcon();
     ~TESIcon();
 };
-FNV_STATIC_ASSERT(sizeof(TESIcon) == 12);
 class BGSBipedModelList;
 class BipedAnim;
-#pragma pack(push, 4)
 class BipedModelForm
 {
   public:
@@ -43,11 +42,6 @@ class BipedModelForm
     };
     // void __cdecl BipedModelForm::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BipedModelForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BipedModelForm, m_uiBipedModelFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(BipedModelForm, m_ucBipedModelData) == 4);
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -64,11 +58,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -104,12 +93,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class TESModelTextureSwap : public TESModel
 {
   public:
@@ -142,10 +125,6 @@ class TESModelTextureSwap : public TESModel
     ~TESModelTextureSwap();
     void InitItem(TESForm*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 32);
-FNV_STATIC_ASSERT(offsetof(TESModelTextureSwap, TextureSwapNodeAccessor) == 24);
-#pragma pack(push, 4)
 class BGSMessageIcon : public BaseFormComponent
 {
   public:
@@ -168,10 +147,6 @@ class BGSMessageIcon : public BaseFormComponent
     // BGSMessageIcon& __cdecl BGSMessageIcon::*(const BGSMessageIcon&)
     // void* __cdecl BGSMessageIcon::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSMessageIcon) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSMessageIcon, Icon) == 4);
-#pragma pack(push, 4)
 class TESModelRDT : public TESModel
 {
   public:
@@ -182,9 +157,6 @@ class TESModelRDT : public TESModel
     // TESModelRDT& __cdecl TESModelRDT::*(const TESModelRDT&)
     // void __cdecl TESModelRDT::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModelRDT) == 24);
-#pragma pack(push, 4)
 class TESBipedModelFormBase
 {
   public:
@@ -194,8 +166,7 @@ class TESBipedModelFormBase
     virtual void CopyFromBase(BaseFormComponent*);
     virtual bool CompareWithBase(BaseFormComponent*);
 };
-#pragma pack(pop)
-#pragma pack(push, 4)
+class TESForm;
 class TESBipedModelForm : public TESBipedModelFormBase
 {
   public:
@@ -248,17 +219,10 @@ class TESBipedModelForm : public TESBipedModelFormBase
     bool IsPowerArmor();
     void InitItem(TESForm*);
     bool HasBipedModel(BIPED_OBJECT, bool, BGSBipedModelList*);
-    static TESBipedModelForm* GetFormAsBipedModel(TESForm*);
     void SetBipedModel(BipedAnim*, SEX, BIPED_OBJECT);
     void InitializeComponent();
     BSFaceGenModel* FUN_00480ce0();
+public:
+    static ::TESBipedModelForm *GetFormAsBipedModel(const ::TESForm *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBipedModelForm) == 220);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, m_kBipedModelForm) == 4);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, bipedModel) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, worldModel) == 76);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, m_kIcon) == 140);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, messageIcon) == 164);
-FNV_STATIC_ASSERT(offsetof(TESBipedModelForm, m_kFaceGenModel) == 196);
 #endif

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKCONTACTPOINTMATERIAL_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkContactPointMaterial
 {
   public:
@@ -21,6 +20,4 @@ class hkContactPointMaterial
     hkUint8 m_usFlags;      // +0x6
     hkUint8 m_flags;        // +0x7
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkContactPointMaterial[(sizeof(hkContactPointMaterial) == 0x8) ? 1 : -1];
 #endif

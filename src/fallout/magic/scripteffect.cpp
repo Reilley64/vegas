@@ -1,52 +1,49 @@
 // fallout/magic/scripteffect.cpp: ScriptEffect, ScriptEffectShell (14 functions)
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
+#include "fnv/simple_list_node_view.h"
+#include <new>
+#include "fnv/decl/ActiveEffectLoader.h"
+#include "fnv/decl/ActiveEffectSaveShell.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CopyOwner.h"
+#include "fnv/decl/EffectSaveShell.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_005a9290_shell.h"
+#include "fnv/decl/FUN_005a9d00_shell.h"
+#include "fnv/decl/FUN_005ac340_t.h"
+#include "fnv/decl/FUN_005ac380.h"
+#include "fnv/decl/FUN_00804f80_shell.h"
+#include "fnv/decl/FUN_00806420_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_008df040_shell.h"
+#include "fnv/decl/LoadScriptLocals.h"
+#include "fnv/decl/SaveLocals9db0.h"
+#include "fnv/decl/ThisX.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_005a9f20__FUN_005a9f20_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_005a9000.h"
+#include "fnv/symbols_011de000.h"
 #include "scripteffect_decls.h"
 // @fnv 0x00827bd0
 void ScriptEffect::Update(float elapsed)
 {
     if (pScript)
     {
-        pScript->AdvanceScript(((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType())->GetActor(),
+        pScript->AdvanceScript(((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetActor(),
                                m_pScriptLocals, elapsed);
     }
 }
-// Loads the script effect's saved state: reads a has-locals flag, then loads script locals into the cached ScriptLocals or a temporary one.
-// @fnv 0x00827e60
-void ScriptEffect::LoadGame(BGSLoadFormBuffer* buffer)
-{
-    ActiveEffect::LoadGame(buffer);
-    unsigned char hasLocals = 0;
-    buffer->ReadTypedData(&hasLocals, 1);
-    if (hasLocals)
-    {
-        if (!m_pScriptLocals)
-            m_pScriptLocals = pScript->GetOrCreateScriptLocals();
-        if (m_pScriptLocals)
-            m_pScriptLocals->LoadGame(buffer);
-        else
-        {
-            ScriptLocals locals;
-            locals.LoadGame(buffer);
-        }
-    }
-}
-
 struct T8277c0
 {
     void FUN_008277f0();
     void* DestroyIfFlagged(unsigned int);
 };
-void _Deallocate(void*);
-// Calls FUN_008277f0, then deallocates this if bit 0 of flags is set, and returns this.
-// @fnv 0x008277c0
-void* T8277c0::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_008277f0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct Actor;
 struct TESForm
 {
@@ -54,7 +51,6 @@ struct TESForm
 };
 struct ScriptLocalsCall
 {
-    void FUN_005a9d00();
 };
 struct FUN_00827de0_shell : TESForm
 {
@@ -66,12 +62,11 @@ struct FUN_00827de0_shell : TESForm
 // @fnv 0x00827de0
 void FUN_00827de0_shell::FUN_00827de0(Actor* apActor)
 {
-    TESForm::Revert((unsigned int)apActor);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)apActor);
     if (m_pScriptLocals)
-        m_pScriptLocals->FUN_005a9d00();
+        reinterpret_cast<::FUN_005a9d00_shell *>((m_pScriptLocals))->FUN_005a9d00();
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct ScriptLocalVariable
 {
@@ -85,28 +80,22 @@ struct SCRIPT_LOCAL_LIST
     ScriptLocalVariable* item;
     SCRIPT_LOCAL_LIST* next;
     bool FUN_008256d0();
-    ScriptLocalVariable*& FUN_006815c0();
-    SCRIPT_LOCAL_LIST* FUN_00726070();
 };
 
 struct ScriptLocals_0084e3a0
 {
-    SCRIPT_LOCAL_LIST* FUN_0084e3a0();
 };
 
 struct ScriptLocals_005a8f40
 {
-    void CopyFromSource(ScriptLocals*);
 };
 
 struct ScriptLocals_SetVariable
 {
-    void SetVariable(unsigned int, double);
 };
 
 struct ActiveEffect_CopyData
 {
-    void CopyData(ActiveEffect*);
 };
 
 struct FUN_00827930_shell : ScriptEffect
@@ -120,31 +109,6 @@ struct ScriptEventListStub
     int b;
 };
 
-// @fnv 0x00827930
-void FUN_00827930_shell::CopyScriptEffectData(ActiveEffect* apDestination)
-{
-    ((ActiveEffect_CopyData*)this)->CopyData(apDestination);
-    ScriptEffect* pse = dynamic_cast<ScriptEffect*>(apDestination);
-    if (pse)
-    {
-        pse->pScript = pScript;
-        if (pScript && m_pScriptLocals)
-        {
-            pse->m_pScriptLocals = pScript->GetOrCreateScriptLocals();
-            ((ScriptLocals_005a8f40*)pse->m_pScriptLocals)->CopyFromSource(m_pScriptLocals);
-            SCRIPT_LOCAL_LIST* pLocalEntry = ((ScriptLocals_0084e3a0*)m_pScriptLocals)->FUN_0084e3a0();
-            while (pLocalEntry && !pLocalEntry->FUN_008256d0())
-            {
-                ((ScriptLocals_SetVariable*)pse->m_pScriptLocals)
-                    ->SetVariable(pLocalEntry->FUN_006815c0()->uiID, pLocalEntry->FUN_006815c0()->fValue);
-                pLocalEntry = pLocalEntry->FUN_00726070();
-            }
-            if (m_pScriptLocals->effect)
-                pse->m_pScriptLocals->effect = new ScriptEventListStub;
-        }
-    }
-}
-
 struct FUN_00803ed0
 {
     virtual ~FUN_00803ed0();
@@ -152,15 +116,26 @@ struct FUN_00803ed0
 struct FUN_008277f0 : FUN_00803ed0
 {
     ~FUN_008277f0();
+    unsigned int pad04[0x12];
+    unsigned int unk4c;
 };
+// Calls FUN_008277f0, then deallocates this if bit 0 of flags is set, and returns this.
+// @fnv 0x008277c0
+void* T8277c0::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_008277f0 *>(this)->FUN_008277f0::~FUN_008277f0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // Destructor that deletes the ScriptLocals object stored at offset 0x4c if it is non-null.
 // @fnv 0x008277f0
 FUN_008277f0::~FUN_008277f0()
 {
     if (reinterpret_cast<ScriptLocals*>(
-            *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0x4c)))
+            this->unk4c))
         delete reinterpret_cast<ScriptLocals*>(
-            *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0x4c));
+            this->unk4c);
 }
 
 struct MagicCaster;
@@ -179,30 +154,28 @@ FUN_00827a40_shell* CreateScriptEffect(MagicCaster* apCaster, MagicItem* apItem,
 
 struct TESSaveLoadGame
 {
-    unsigned char FUN_008df040();
 };
-extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct ScriptEffect_GetSaveSize_Helper
 {
-    unsigned short GetSaveSize(Actor*);
 };
 struct FUN_005a94f0_shell
 {
-    unsigned short GetScriptLocalsSerializedSize();
 };
 struct FUN_00827c20_shell : ActiveEffect
 {
     unsigned short FUN_00827c20(Actor* apActor);
+    unsigned int pad48[0x1];
+    void* unk4c;
 };
 // @fnv 0x00827c20
 unsigned short FUN_00827c20_shell::FUN_00827c20(Actor* apActor)
 {
     unsigned short usSaveSize = 0;
-    usSaveSize += ((ScriptEffect_GetSaveSize_Helper*)this)->GetSaveSize(apActor);
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x2a)
+    usSaveSize += reinterpret_cast<::FUN_00804f80_shell *>((((ScriptEffect_GetSaveSize_Helper*)this)))->FUN_00804f80(apActor);
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x2a)
         usSaveSize += 2;
-    if (*(void**)((char*)this + 0x4c))
-        usSaveSize += ((FUN_005a94f0_shell*)*(void**)((char*)this + 0x4c))->GetScriptLocalsSerializedSize();
+    if (this->unk4c)
+        usSaveSize += ::GetScriptLocalsSerializedSize((::ScriptLocals *)(((FUN_005a94f0_shell*)this->unk4c)));
     return usSaveSize;
 }
 
@@ -239,9 +212,9 @@ struct FUN_00827880_shell : ScriptEffect
 ActiveEffect* FUN_00827880_shell::FUN_00827880()
 {
     ScriptEffect* pEffect =
-        new FUN_00827a40_shell(*reinterpret_cast<MagicCaster**>(reinterpret_cast<unsigned char*>(this) + 0x28),
-                               *reinterpret_cast<MagicItem**>(reinterpret_cast<unsigned char*>(this) + 0x08),
-                               *reinterpret_cast<EffectItem**>(reinterpret_cast<unsigned char*>(this) + 0x0C));
+        new FUN_00827a40_shell(*reinterpret_cast<MagicCaster**>(&this->unk28),
+                               *reinterpret_cast<MagicItem**>(&this->unk08),
+                               *reinterpret_cast<EffectItem**>(&this->unk0c));
 
     reinterpret_cast<FUN_00827880_CopyFrom*>(this)->CopyFrom(pEffect);
 
@@ -250,7 +223,6 @@ ActiveEffect* FUN_00827880_shell::FUN_00827880()
 
 struct ScriptExtended
 {
-    void RunScriptOnTarget(TESObjectREFR*);
 };
 struct TargetContext
 {
@@ -259,23 +231,10 @@ struct TargetContext
 };
 struct ScriptEffectShell : ScriptEffect
 {
-    TargetContext* FUN_0059bb30();
     void FUN_00827ac0();
 };
-// If pScript is set, gets its ScriptLocals and passes the actor from the target context to ScriptExtended::RunScriptOnTarget.
-// @fnv 0x00827ac0
-void ScriptEffectShell::FUN_00827ac0()
-{
-    if (pScript != 0)
-    {
-        m_pScriptLocals = pScript->GetOrCreateScriptLocals();
-        ((ScriptExtended*)pScript)->RunScriptOnTarget(FUN_0059bb30()->GetActor(m_pScriptLocals));
-    }
-}
-
 struct FUN_008050d0_shell
 {
-    void FUN_008050d0(BGSLoadFormBuffer*);
 };
 
 struct FUN_008579b0_shell
@@ -285,7 +244,6 @@ struct FUN_008579b0_shell
 
 struct FUN_005a9670_shell
 {
-    void WriteScriptLocals();
 };
 
 struct FUN_00827ca0_shell : ScriptEffect
@@ -296,35 +254,87 @@ struct FUN_00827ca0_shell : ScriptEffect
 // @fnv 0x00827ca0
 void FUN_00827ca0_shell::LoadScriptEffect(BGSLoadFormBuffer* apBuffer)
 {
-    ((FUN_008050d0_shell*)this)->FUN_008050d0(apBuffer);
+    reinterpret_cast<::EffectSaveShell *>((((FUN_008050d0_shell*)this)))->FUN_008050d0((::Actor *)(apBuffer));
     unsigned short count = 0;
-    if (g_TESSaveLoadGame->FUN_008df040() >= 0x2a)
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x2a)
     {
         if (m_pScriptLocals)
         {
-            count = ((FUN_005a94f0_shell*)m_pScriptLocals)->GetScriptLocalsSerializedSize();
+            count = ::GetScriptLocalsSerializedSize((::ScriptLocals *)(((FUN_005a94f0_shell*)m_pScriptLocals)));
         }
         ((FUN_008579b0_shell*)g_TESSaveLoadGame)->FUN_008579b0(&count, 2);
     }
-    if (g_TESSaveLoadGame->FUN_008df040() < 0x2a)
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() < 0x2a)
     {
         count = 1;
     }
     if (count)
     {
-        ((FUN_005a9670_shell*)m_pScriptLocals)->WriteScriptLocals();
+        reinterpret_cast<::ThisX *>((((FUN_005a9670_shell*)m_pScriptLocals)))->WriteScriptLocals();
     }
 }
 
 struct ActiveEffect_LoadGame_Helper
 {
-    void LoadGame(Actor* apActor);
 };
 
 struct FUN_005abf60_shell
 {
     ScriptLocals* FUN_005abf60();
 };
+// Loads the script effect's saved state: reads a has-locals flag, then loads script locals into the cached ScriptLocals or a temporary one.
+// @fnv 0x00827e60
+void ScriptEffect::LoadGame(BGSLoadFormBuffer* buffer)
+{
+    reinterpret_cast<::FUN_00806420_shell *>(this)->FUN_00806420(buffer);
+    unsigned char hasLocals = 0;
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&hasLocals), 1);
+    if (hasLocals)
+    {
+        if (!m_pScriptLocals)
+            m_pScriptLocals = reinterpret_cast<::FUN_005abf60_shell *>((pScript))->FUN_005abf60();
+        if (m_pScriptLocals)
+            reinterpret_cast<::fnv_005a9f20::FUN_005a9f20_shell *>((m_pScriptLocals))->FUN_005a9f20((::fnv_005a9f20::BGSLoadFormBuffer *)(buffer));
+        else
+        {
+            ScriptLocals locals;
+            reinterpret_cast<::fnv_005a9f20::FUN_005a9f20_shell *>(&(locals))->FUN_005a9f20((::fnv_005a9f20::BGSLoadFormBuffer *)(buffer));
+        }
+    }
+}
+// @fnv 0x00827930
+void FUN_00827930_shell::CopyScriptEffectData(ActiveEffect* apDestination)
+{
+    reinterpret_cast<::ActiveEffect *>((((ActiveEffect_CopyData*)this)))->CopyData(apDestination);
+    ScriptEffect* pse = dynamic_cast<ScriptEffect*>(apDestination);
+    if (pse)
+    {
+        pse->pScript = pScript;
+        if (pScript && m_pScriptLocals)
+        {
+            pse->m_pScriptLocals = reinterpret_cast<::FUN_005abf60_shell *>((pScript))->FUN_005abf60();
+            reinterpret_cast<::CopyOwner *>((((ScriptLocals_005a8f40*)pse->m_pScriptLocals)))->CopyFromSource((::CopySource *)(m_pScriptLocals));
+            SCRIPT_LOCAL_LIST* pLocalEntry = ((::SCRIPT_LOCAL_LIST *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ScriptLocals_0084e3a0*)m_pScriptLocals)))->FUN_0084e3a0()));
+            while (pLocalEntry && !pLocalEntry->FUN_008256d0())
+            {
+                reinterpret_cast<::FUN_005a9290_shell *>((((ScriptLocals_SetVariable*)pse->m_pScriptLocals)))->SetScriptVariable((*((::ScriptLocalVariable * *)(&reinterpret_cast<::SimpleListNodeView*>(pLocalEntry)->m_item)))->uiID, (*((::ScriptLocalVariable * *)(&reinterpret_cast<::SimpleListNodeView*>(pLocalEntry)->m_item)))->fValue);
+                pLocalEntry = ((::SCRIPT_LOCAL_LIST *)(reinterpret_cast<::Callees *>((pLocalEntry))->FUN_00726070()));
+            }
+            if (m_pScriptLocals->effect)
+                pse->m_pScriptLocals->effect = new ScriptEventListStub;
+        }
+    }
+}
+// If pScript is set, gets its ScriptLocals and passes the actor from the target context to ScriptExtended::RunScriptOnTarget.
+// @fnv 0x00827ac0
+void ScriptEffectShell::FUN_00827ac0()
+{
+    if (pScript != 0)
+    {
+        m_pScriptLocals = reinterpret_cast<::FUN_005abf60_shell *>((pScript))->FUN_005abf60();
+        reinterpret_cast<::FUN_005ac340_t *>((((ScriptExtended*)pScript)))->RunScriptOnTarget(((::TargetContext *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetActor(m_pScriptLocals), {});
+    }
+}
 
 struct FUN_008579e0_shell
 {
@@ -338,7 +348,6 @@ struct FUN_00857bd0
 
 struct FUN_005a9950_stub
 {
-    void FUN_005a9950();
 };
 
 struct FUN_00827d30_class : ScriptEffect
@@ -349,13 +358,13 @@ struct FUN_00827d30_class : ScriptEffect
 // @fnv 0x00827d30
 void FUN_00827d30_class::FUN_00827d30(Actor* apActor)
 {
-    ((ActiveEffect_LoadGame_Helper*)this)->LoadGame(apActor);
+    reinterpret_cast<::ActiveEffectLoader *>((((ActiveEffect_LoadGame_Helper*)this)))->FUN_00805330(apActor);
     unsigned short flag = 0;
-    if (g_TESSaveLoadGame->FUN_008df040() >= 42)
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 42)
     {
         ((FUN_008579e0_shell*)g_TESSaveLoadGame)->FUN_008579e0(&flag, 2);
     }
-    if (g_TESSaveLoadGame->FUN_008df040() < 42)
+    if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() < 42)
     {
         flag = 1;
     }
@@ -367,7 +376,7 @@ void FUN_00827d30_class::FUN_00827d30(Actor* apActor)
         }
         if (m_pScriptLocals != 0)
         {
-            ((FUN_005a9950_stub*)m_pScriptLocals)->FUN_005a9950();
+            reinterpret_cast<::LoadScriptLocals *>((((FUN_005a9950_stub*)m_pScriptLocals)))->FUN_005a9950();
         }
         else
         {
@@ -378,8 +387,6 @@ void FUN_00827d30_class::FUN_00827d30(Actor* apActor)
 
 struct Actor
 {
-    void FUN_00865e50(bool* pValue, int a, int b);
-    void FUN_005a9db0(Actor* apActor);
 };
 
 struct S_00827e10_Foo : TESForm
@@ -404,7 +411,6 @@ struct S_00827e10_Foo : TESForm
     int unk48;
     Actor* unk4c;
 
-    void FUN_00806230(Actor* apActor);
     void FUN_00827e10(Actor* apActor);
 };
 
@@ -412,24 +418,22 @@ struct S_00827e10_Foo : TESForm
 // @fnv 0x00827e10
 void S_00827e10_Foo::FUN_00827e10(Actor* apActor)
 {
-    this->FUN_00806230(apActor);
+    reinterpret_cast<::ActiveEffectSaveShell *>((this))->FUN_00806230((::SaveFormBuf *)(apActor));
 
     bool bValue = this->unk4c;
-    apActor->FUN_00865e50(&bValue, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apActor))->FUN_00865e50(&bValue, 1, 0);
 
     if (bValue)
-        this->unk4c->FUN_005a9db0(apActor);
+        reinterpret_cast<::SaveLocals9db0 *>((this->unk4c))->FUN_005a9db0((::BGSSaveFormBuffer *)(apActor));
 }
 
 class TESObjectCELL;
 struct TESBipedModelForm
 {
-    bool FUN_0047c850();
 };
 class NavMesh
 {
   public:
-    TESObjectCELL* GetParentCell();
 };
 struct Cell827b
 {
@@ -438,7 +442,6 @@ struct Cell827b
 };
 struct FUN_005ac380_t
 {
-    void FUN_005ac380(void*);
 };
 struct FUN_00827b20_t
 {
@@ -450,10 +453,10 @@ struct FUN_00827b20_t
 // @fnv 0x00827b20
 void FUN_00827b20_t::ReleaseLocals()
 {
-    if (m_48 && (!((TESBipedModelForm*)g_TESSaveLoadGame)->FUN_0047c850() ||
-                 ((TESBipedModelForm*)g_TESSaveLoadGame)->FUN_0047c850()))
+    if (m_48 && (!reinterpret_cast<::FUN_0047c850 *>((((TESBipedModelForm*)g_TESSaveLoadGame)))->EvaluateCondition() ||
+                 reinterpret_cast<::FUN_0047c850 *>((((TESBipedModelForm*)g_TESSaveLoadGame)))->EvaluateCondition()))
     {
-        m_48->FUN_005ac380(((Cell827b*)((NavMesh*)this)->GetParentCell())->v01(m_pLocals));
+        reinterpret_cast<::FUN_005ac380 *>((m_48))->ExecuteEffectOnTarget((::TESObjectREFR *)(void *)(((Cell827b*)((::TESObjectCELL *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)))->v01(m_pLocals)), {});
     }
     if (m_pLocals)
     {

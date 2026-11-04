@@ -3,7 +3,9 @@
 #define BOLTSHADER_DECLS_H
 
 
+#include <cstdint>
 #include <new>
+#include "fnv/symbols_011f9000.h"
 #include "boltshader_types_BoltShader.h"
 #include "boltshader_types_NiConsoleShaderDeclaration.h"
 
@@ -45,9 +47,9 @@ class BoltShaderDeclarationCalls : public NiD3DVertexDeclaration
     virtual void vfn_080();
     virtual void vfn_084();
     virtual void vfn_088();
-    virtual void vfn_08c(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+    virtual void vfn_08c(std::uintptr_t, unsigned int, unsigned int, unsigned int, unsigned int);
     virtual void vfn_090();
-    virtual void vfn_094(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
+    virtual void vfn_094(std::uintptr_t, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
                          unsigned int, unsigned int);
     virtual void vfn_098();
     virtual void vfn_09c();
@@ -143,7 +145,5 @@ class BoltShaderCalls : public BoltShader
     virtual void vfn_140();
 };
 
-void* __cdecl operator new(unsigned int size);
 
-extern NiRenderer* DAT_011f9508;
 #endif

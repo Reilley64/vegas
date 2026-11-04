@@ -1,31 +1,42 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <windows.h>
+#include "fnv/decl/FUN_0043ba10_shell.h"
+#include "fnv/decl/FUN_00e898c0_shell.h"
+#include "fnv/decl/FakeShaderConstants.h"
+#include "fnv/decl/PlaceHolder.h"
+#include "fnv/decl/S00e898e0_Renderer.h"
+#include "fnv/decl/S00e89910_Renderer.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f5000.h"
 struct BaseFake
 {
     char _b[0x38];
-    void __thiscall FUN_00e898c0();
 };
 struct CT
 {
-    virtual void __stdcall F0();
-    virtual void __stdcall F1();
-    virtual void __stdcall Release();
+    virtual void F0();
+    virtual void F1();
+    virtual void Release();
 };
 struct FUN_00e96cd0_shell : BaseFake
 {
     CT* m_pShaderConstantTable;
-    void __thiscall ReleaseAndReset();
+    void ReleaseAndReset();
 };
 // @fnv 0x00e96cd0
-void __thiscall FUN_00e96cd0_shell::ReleaseAndReset()
+void FUN_00e96cd0_shell::ReleaseAndReset()
 {
     if (m_pShaderConstantTable)
     {
         m_pShaderConstantTable->Release();
         m_pShaderConstantTable = 0;
     }
-    FUN_00e898c0();
+    reinterpret_cast<::FUN_00e898c0_shell *>(this)->FUN_00e898c0();
 }
 
 struct _D3DXCONSTANTTABLE_DESC
@@ -36,12 +47,12 @@ struct _D3DXCONSTANTTABLE_DESC
 };
 struct FakeConstantTable00e96d10
 {
-    virtual long __stdcall F0();
-    virtual long __stdcall F1();
-    virtual long __stdcall F2();
-    virtual long __stdcall F3();
-    virtual long __stdcall F4();
-    virtual long __stdcall GetDesc(_D3DXCONSTANTTABLE_DESC* pDesc);
+    virtual long F0();
+    virtual long F1();
+    virtual long F2();
+    virtual long F3();
+    virtual long F4();
+    virtual long GetDesc(_D3DXCONSTANTTABLE_DESC* pDesc);
 };
 struct NiD3DHLSLPixelShader
 {
@@ -58,66 +69,71 @@ unsigned int NiD3DHLSLPixelShader::FUN_00e96d10()
     return m_pShaderConstantTable->GetDesc(&kDesc) < 0 ? 0 : kDesc.Constants;
 }
 
+struct D3DXConstantDesc00e96d40
+{
+    const char* Name;
+    unsigned int RegisterSet;
+    unsigned int RegisterIndex;
+    unsigned int RegisterCount;
+    unsigned int Class;
+    unsigned int Type;
+    unsigned int Rows;
+    unsigned int Columns;
+    unsigned int Elements;
+    unsigned int StructMembers;
+    unsigned int Bytes;
+    const void* DefaultValue;
+};
+struct FakeConstantTable00e96d40
+{
+    virtual long F0();
+    virtual long F1();
+    virtual long F2();
+    virtual long F3();
+    virtual long F4();
+    virtual long F5();
+    virtual long GetConstantDesc(const char* hConstant, D3DXConstantDesc00e96d40* pDesc, unsigned int* pCount);
+    virtual long F7();
+    virtual const char* GetConstant(const char* hConstant, unsigned int uiIndex);
+};
 struct FUN_00e96d40_Class
 {
     char _pad00[0x38];
-    void* m_pShaderConstantTable;
-    unsigned int __thiscall FUN_00e96d40(unsigned int a);
+    FakeConstantTable00e96d40* m_pShaderConstantTable;
+    const char* FUN_00e96d40(unsigned int a);
 };
 
-struct FUN_00e96d40_Out
-{
-    unsigned int u0;
-    unsigned int u1;
-    unsigned int u2;
-    unsigned int u3;
-    unsigned int u4;
-    unsigned int u5;
-    unsigned int u6;
-    unsigned int u7;
-    unsigned int u8;
-    unsigned int u9;
-    unsigned int u10;
-    unsigned int u11;
-};
-
-typedef unsigned int(__thiscall* FNC_F20)(void*, void*, unsigned int, unsigned int);
-typedef long(__thiscall* FNC_F18)(void*, void*, unsigned int, unsigned int*, unsigned int&);
-
+// Returns the name of the shader constant at index a, or null.
 // @fnv 0x00e96d40
-unsigned int FUN_00e96d40_Class::FUN_00e96d40(unsigned int a)
+const char* FUN_00e96d40_Class::FUN_00e96d40(unsigned int a)
 {
-    FUN_00e96d40_Out out;
-    unsigned int r1 = (*(FNC_F20*)((char*)(unsigned int)*(int*)m_pShaderConstantTable + 0x20))(
-        (void*)(unsigned int)*(int*)m_pShaderConstantTable, m_pShaderConstantTable, 0u, a);
-    if (r1 == 0)
-        return 0;
-    a = 1u;
-    long lResult = (*(FNC_F18*)((char*)(unsigned int)*(int*)m_pShaderConstantTable + 0x18))(
-        (void*)(unsigned int)*(int*)m_pShaderConstantTable, m_pShaderConstantTable, r1, &out.u0, a);
-    if (lResult < 0 || a == 0)
-        return 0;
-    return out.u0;
+    D3DXConstantDesc00e96d40 out;
+    const char* hConstant = m_pShaderConstantTable->GetConstant(nullptr, a);
+    if (hConstant == nullptr)
+        return nullptr;
+    unsigned int uiCount = 1;
+    long lResult = m_pShaderConstantTable->GetConstantDesc(hConstant, &out, &uiCount);
+    if (lResult < 0 || uiCount == 0)
+        return nullptr;
+    return out.Name;
 }
 
 struct FUN_00e898d0_shell
 {
-    void __thiscall FUN_00e898d0();
+    void FUN_00e898d0();
 };
 struct FUN_00e96d00_Class
 {
-    void __thiscall FUN_00e96d00();
+    void FUN_00e96d00();
 };
 // @fnv 0x00e96d00
-void __thiscall FUN_00e96d00_Class::FUN_00e96d00()
+void FUN_00e96d00_Class::FUN_00e96d00()
 {
     ((FUN_00e898d0_shell*)this)->FUN_00e898d0();
 }
 
 #include <stddef.h>
 #include <windows.h>
-extern char* DAT_0109b220;
-extern int DAT_011f5fc4[];
 
 struct NiFixedString
 {
@@ -133,7 +149,6 @@ struct NiFixedString
         if (m_kHandle != DAT_0109b220)
             InterlockedDecrement((LONG*)(m_kHandle - 8));
     }
-    __declspec(noalias) void FUN_0043ba10(const NiFixedString& kString);
     bool Exists() const
     {
         return m_kHandle != DAT_0109b220;
@@ -162,17 +177,17 @@ struct ShaderConstantDesc
 
 struct ConstantTable
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual void* __stdcall GetBufferPointer();
-    virtual unsigned long __stdcall GetBufferSize();
-    virtual long __stdcall GetDesc(void* pDesc);
-    virtual long __stdcall GetConstantDescription(const char* hConstant, ShaderConstantDesc* pDesc,
+    virtual long QueryInterface(const void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual void* GetBufferPointer();
+    virtual unsigned long GetBufferSize();
+    virtual long GetDesc(void* pDesc);
+    virtual long GetConstantDescription(const char* hConstant, ShaderConstantDesc* pDesc,
                                                   unsigned int* pCount);
-    virtual unsigned int __stdcall GetSamplerRegisterIndex(const char* hConstant);
-    virtual const char* __stdcall GetPlaneConstant(const char* hConstant, unsigned int uiIndex);
-    virtual const char* __stdcall FindConstantByName(const char* hConstant, const char* pName);
+    virtual unsigned int GetSamplerRegisterIndex(const char* hConstant);
+    virtual const char* GetPlaneConstant(const char* hConstant, unsigned int uiIndex);
+    virtual const char* FindConstantByName(const char* hConstant, const char* pName);
 };
 
 struct __declspec(align(16)) Matrix16
@@ -180,8 +195,6 @@ struct __declspec(align(16)) Matrix16
     float m[16];
 };
 
-Matrix16* __stdcall FUN_00ee6dd4(Matrix16* pOut, const Matrix16* pM);
-void __cdecl FUN_00a29680(const char* pcFormat, ...);
 
 struct NiShaderConstantMapEntry
 {
@@ -200,7 +213,6 @@ struct NiShaderConstantMapEntry
     void* m_pConstantData;
     unsigned char unk34;
     bool m_bFlag1;
-    __declspec(noalias) void FUN_00e81c60(const NiFixedString& kName);
 };
 
 struct Device;
@@ -315,7 +327,7 @@ struct DeviceVTable
     void* unk1a8;
     void* unk1ac;
     void* unk1b0;
-    HRESULT(__stdcall* SetPixelShaderConstantF)(Device*, UINT, const float*, UINT);
+    HRESULT(* SetPixelShaderConstantF)(Device*, UINT, const float*, UINT);
 };
 struct Device
 {
@@ -1462,7 +1474,7 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
     if (m_pShaderConstantTable == NULL || m_pD3DPixelShader == NULL)
         return false;
 
-    int eType = DAT_011f5fc4[pkEntry->m_uiValue1 & 0xff];
+    int eType = (*reinterpret_cast<int (*)[]>(&::DAT_011f5fc4))[pkEntry->m_uiValue1 & 0xff];
     if (eType != 8 && eType != 9)
         return false;
 
@@ -1474,8 +1486,8 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
         NiFixedString kVariableName(pkEntry->m_kSecondaryString);
         if (!kVariableName.Exists())
         {
-            kVariableName.FUN_0043ba10(pkEntry->m_kControlPoint);
-            pkEntry->FUN_00e81c60(kVariableName);
+            reinterpret_cast<::FUN_0043ba10_shell *>(&(kVariableName))->FUN_0043ba10((::FUN_0043ba10_shell *)&(pkEntry->m_kControlPoint));
+            reinterpret_cast<::PlaceHolder *>((pkEntry))->FUN_00e81c60((char *&)(kVariableName));
         }
 
         const char* hConstant = m_pShaderConstantTable->FindConstantByName(NULL, kVariableName);
@@ -1490,8 +1502,7 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
         }
         else
         {
-            FUN_00a29680("NiD3DHLSLPixelShader::SetShaderConstantArray - %s - variable %s not found\n", m_pcName,
-                         (const char*)kVariableName);
+            ::FUN_00a29680();
             kVariableName.Release();
             return false;
         }
@@ -1506,8 +1517,7 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
         {
             Matrix16 kMatrix;
             bSuccess = false;
-            FUN_00ee6dd4(&kMatrix,
-                         (const Matrix16*)((const char*)pvDataSource + pusReorderArray[i] * uiRegistersPerEntry * 16));
+            ::FUN_00ee6dd4();
             HRESULT hr =
                 m_pShaderObject->GetD3DDevice()->SetPixelShaderConstantF(uiRegister, kMatrix.m, uiRegistersPerEntry);
             if (FAILED(hr))
@@ -1525,7 +1535,7 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
         for (unsigned int i = 0; i < uiNumEntries; i++)
         {
             Matrix16 kMatrix;
-            FUN_00ee6dd4(&kMatrix, (const Matrix16*)pVector4);
+            ::FUN_00ee6dd4();
             bSuccess = false;
             D3DRenderer* pkRenderer = m_pShaderObject;
             if (pkRenderer->m_pkDevice->lpVtbl->SetPixelShaderConstantF(pkRenderer->m_pkDevice, uiRegister, kMatrix.m,
@@ -1540,14 +1550,8 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
 }
 
 namespace fnv_00e96da0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
-extern char* DAT_0109b220;
-extern int DAT_011f5fc4[];
 extern char DAT_010f13f0[];
-void FUN_00a29680(const char* format, ...);
-void __stdcall FUN_00ee6dd4(void* value, int source);
 
 struct String
 {
@@ -1555,18 +1559,17 @@ struct String
 
     String(const String& s)
     {
-        if (s.m_p != DAT_0109b220)
+        if (s.m_p != ::DAT_0109b220)
             InterlockedIncrement((volatile long*)(s.m_p - 8));
         m_p = s.m_p;
     }
-    __declspec(noalias) String& FUN_0043ba10(const String& s);
     String& operator=(const String& s)
     {
-        return FUN_0043ba10(s);
+        return (*(::fnv_00e96da0::String *)(reinterpret_cast<::FUN_0043ba10_shell *>(this)->FUN_0043ba10((::FUN_0043ba10_shell *)&(s))));
     }
     bool IsEmpty() const
     {
-        return m_p == DAT_0109b220;
+        return m_p == ::DAT_0109b220;
     }
     operator char*() const
     {
@@ -1576,7 +1579,7 @@ struct String
 
 inline void ReleaseString(char* p)
 {
-    if (p != DAT_0109b220)
+    if (p != ::DAT_0109b220)
         InterlockedDecrement((volatile long*)(p - 8));
 }
 
@@ -1608,10 +1611,10 @@ struct Library
     virtual void v00c();
     virtual void v010();
     virtual void v014();
-    virtual void __stdcall GetInfo(int handle, SoundInfo* info, int* count);
+    virtual void GetInfo(int handle, SoundInfo* info, int* count);
     virtual void v01c();
     virtual void v020();
-    virtual int __stdcall Find(int flags, const char* name);
+    virtual int Find(int flags, const char* name);
 };
 
 struct Device
@@ -1725,7 +1728,7 @@ struct Device
     virtual void v1a8();
     virtual void v1ac();
     virtual void v1b0();
-    virtual long __stdcall Invoke(int id, SoundInfo* value, int extra);
+    virtual long Invoke(int id, SoundInfo* value, int extra);
 };
 
 struct Handler
@@ -2821,9 +2824,6 @@ struct Handler
     {
         return m_device->Invoke(id, data, count) >= 0;
     }
-    bool FUN_00e898e0(int id, int arg, int extra, int flags);
-    bool FUN_00e89910(int id, int arg, int extra, int flags);
-    bool FUN_00e89940(int id, int arg, int extra, int flags);
 };
 
 struct Entry
@@ -2843,14 +2843,13 @@ struct Entry
     int m_uiFormID;
     bool unk34;
     bool m_resolved;
-    __declspec(noalias) void FUN_00e81c60(const String& name);
     __forceinline char* AcquireName()
     {
         String name(m_name);
         if (name.IsEmpty())
         {
             name = m_path;
-            FUN_00e81c60(name);
+            reinterpret_cast<::PlaceHolder *>(this)->FUN_00e81c60((char *&)(name));
         }
         return name.m_p;
     }
@@ -2874,12 +2873,12 @@ struct Player
     int unk34;
     Library* m_library;
 
-    bool FUN_00e96da0(Entry* entry, int arg, int extra);
+    bool FUN_00e96da0(Entry* entry, intptr_t arg, int extra);
 };
 
 // Resolves an Entry's sound info via m_library if needed, then dispatches playback through m_handler based on the entry's type.
 // @fnv 0x00e96da0
-bool Player::FUN_00e96da0(Entry* entry, int arg, int extra)
+bool Player::FUN_00e96da0(Entry* entry, intptr_t arg, int extra)
 {
     SoundInfo info;
     if (m_library == 0 || m_pPointerAt20 == 0)
@@ -2892,7 +2891,7 @@ bool Player::FUN_00e96da0(Entry* entry, int arg, int extra)
         if (name.IsEmpty())
         {
             name = entry->m_path;
-            entry->FUN_00e81c60(name);
+            reinterpret_cast<::PlaceHolder *>((entry))->FUN_00e81c60((char *&)(name));
         }
         char* text = name;
         int handle = m_library->Find(0, text);
@@ -2907,12 +2906,12 @@ bool Player::FUN_00e96da0(Entry* entry, int arg, int extra)
         }
         else
         {
-            FUN_00a29680(DAT_010f13f0, m_pName, text);
+            ::FUN_00a29680();
             ReleaseString(text);
             return false;
         }
     }
-    int type = DAT_011f5fc4[entry->m_type & 0xff];
+    int type = (*reinterpret_cast<int (*)[]>(&::DAT_011f5fc4))[entry->m_type & 0xff];
     bool ok = false;
     if (type != 8 && type != 9)
     {
@@ -2920,37 +2919,38 @@ bool Player::FUN_00e96da0(Entry* entry, int arg, int extra)
         {
             int count = entry->m_extra;
             int id = entry->m_iOwnerObjectOffset;
-            if (m_handler->FUN_00e89910(id, arg, count, 0))
+            if (reinterpret_cast<::S00e89910_Renderer *>((m_handler))->FUN_00e89910(id, arg, count, 0))
                 ok = true;
         }
         else if (type == 4)
         {
             int count = entry->m_extra;
             int id = entry->m_iOwnerObjectOffset;
-            if (m_handler->FUN_00e89910(id, arg, count, 0))
+            if (reinterpret_cast<::S00e89910_Renderer *>((m_handler))->FUN_00e89910(id, arg, count, 0))
                 ok = true;
         }
         else if (type == 3)
         {
             int count = entry->m_extra;
             int id = entry->m_iOwnerObjectOffset;
-            if (m_handler->FUN_00e89940(id, arg, count, 0))
+            if (reinterpret_cast<::FakeShaderConstants *>((m_handler))->FUN_00e89940(id, (const int *)(arg), count, 0))
                 ok = true;
         }
         else if (type == 1)
         {
             int count = entry->m_extra;
             int id = entry->m_iOwnerObjectOffset;
-            if (m_handler->FUN_00e898e0(id, arg, count, 0))
+            if (reinterpret_cast<::S00e898e0_Renderer *>((m_handler))->FUN_00e898e0(id, arg, count, 0))
                 ok = true;
         }
     }
     else
     {
-        FUN_00ee6dd4(&info, arg);
+        ::FUN_00ee6dd4();
         if (m_handler->Upload(entry->m_iOwnerObjectOffset, &info, entry->m_extra))
             ok = true;
     }
     return ok;
 }
 }  // namespace fnv_00e96da0
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslpixelshader.inc"

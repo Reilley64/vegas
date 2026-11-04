@@ -1,8 +1,11 @@
 // gamebryo2.2/corelibs/nisystem/nimemobject_decls.h: declares NiPoint2, SNAEntry, NiObject, NiFixedString, NiProperty
+#include "fnv/decl/FUN_00633ba0_Class.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 class Flag512Receiver
 {
   public:
-    void FUN_00633ba0(bool enabled, unsigned int mask);
     void SetFlag512(bool enabled);
 };
 class NiPoint2
@@ -14,9 +17,7 @@ class NiPoint2
 class SNAEntry
 {
   public:
-    static void* operator new[](unsigned int size);
 };
-extern void* DAT_011f6080;
 
 // Declarations for the constructor/getter span.
 class NiObject
@@ -30,9 +31,7 @@ class NiFixedString
   public:
     const char* value;
 };
-extern NiFixedString EmptyFS;
 extern unsigned char DAT_0109b244[];
-extern unsigned char DAT_011f4304[];
 class NiProperty : public NiObject
 {
   public:

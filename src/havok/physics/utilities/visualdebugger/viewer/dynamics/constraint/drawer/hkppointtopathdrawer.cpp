@@ -2,11 +2,16 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtopathdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtopathdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+#include "havok/hkUlong.h"
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/DE44C0Object.h"
+#include "fnv/decl/FUN_00de4530Owner.h"
+#include "fnv/decl/FUN_00dee820_Class.h"
+#include "fnv/symbols_00cab000.h"
+#include "fnv/symbols_01016000.h"
 
 struct hkTransform;
 
@@ -35,28 +40,7 @@ struct hkTransform
     void FUN_00cb2240(const hkTransform& a, const hkTransform& b);
 };
 
-struct hkMemoryAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocator* m_pStreamAllocator;
-    hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-NineIntegerRecord* __cdecl FUN_00c85750();
 
 struct hkVector4Array
 {
@@ -69,7 +53,7 @@ struct hkVector4Array
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(hkVector4));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(hkVector4));
     }
 };
 
@@ -120,7 +104,6 @@ struct BoneTransformData
     int unk68;
     int unk6c;
     hkTransform m_kMotionTransform;
-    void FUN_00dee820(const hkVector4* in, hkVector4* out);
 };
 
 struct ExtraData
@@ -209,15 +192,12 @@ struct LineDrawer
     virtual void v18();
     virtual void v1c();
     virtual void v20();
-    virtual void drawLine(const hkVector4& a, const hkVector4& b, int color, int id, int tag);
+    virtual void drawLine(const hkVector4& a, const hkVector4& b, int color, hkUlong id, int tag);
 };
 
-int __cdecl PackColorBigEndian(float r, float g, float b, float a);
-extern float DAT_0101622c;
 
 struct Processor
 {
-    void FUN_00e10a10(LineDrawer* drawer);
 };
 
 struct Viewer
@@ -267,26 +247,24 @@ struct Viewer
     Processor m_processor;
 
     void FUN_00de47e0(Input* input, hkTransform* transform, hkTransform* extra);
-    void FUN_00de4530(int id, int tag);
-    void FUN_00de44c0(int id, int tag);
-    void FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag);
+    void FUN_00de7020(Input* input, LineDrawer* drawer, hkUlong id, int tag);
 };
 
 // Runs several viewer update steps, then draws lines between consecutive points of the scene's point source, transformed to world space, using drawer.
 // @fnv 0x00de7020
-void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
+void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, hkUlong id, int tag)
 {
     BoneTransformData* scene = input->m_scene;
     hkTransform localTransform;
     hkTransform worldTransform;
     hkTransform extraTransform;
 
-    m_processor.FUN_00e10a10(drawer);
+    reinterpret_cast<::CpuObject *>(&(m_processor))->FUN_00e10a10((drawer));
     FUN_00de47e0(input, &localTransform, &extraTransform);
     m_vContactPosition = localTransform.m_vTranslation;
-    scene->FUN_00dee820(&input->m_extra->m_endPoint, &m_endPoint);
-    FUN_00de4530(id, tag);
-    FUN_00de44c0(id, tag);
+    reinterpret_cast<::FUN_00dee820_Class *>((scene))->FUN_00dee820(&input->m_extra->m_endPoint, (::FUN_00c7f640_Class *)(::hkVector4 *)(&m_endPoint));
+    reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(id, tag);
+    reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(id, tag);
 
     if (scene->m_kPoints)
     {
@@ -305,9 +283,9 @@ void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
                 a.FUN_00c7f640(worldTransform, p);
                 p = points.m_data[i - 1];
                 b.FUN_00c7f640(worldTransform, p);
-                drawer->drawLine(a, b, PackColorBigEndian(0.0f, DAT_0101622c, 1.0f, 1.0f), id, tag);
+                drawer->drawLine(a, b, ((int)(::PackColorBigEndian(0.0f, DAT_0101622c, 1.0f, 1.0f))), id, tag);
             }
-            points.ClearAndRelease(FUN_00c85750()->heap());
+            points.ClearAndRelease(hkMemoryRouter::getInstance().heap());
         }
     }
 }

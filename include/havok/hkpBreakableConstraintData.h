@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpBridgeAtoms.h"
 #include "hkpConstraintData.h"
-#pragma pack(push, 1)
 class hkpBreakableConstraintData : public hkpConstraintData
 {
   public:
@@ -19,6 +18,4 @@ class hkpBreakableConstraintData : public hkpConstraintData
     hkBool m_bRevertBackVelocityOnBreak;   // +0x25
     char pad26[0x2];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpBreakableConstraintData[(sizeof(hkpBreakableConstraintData) == 0x28) ? 1 : -1];
 #endif

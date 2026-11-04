@@ -1,5 +1,41 @@
 
 // fallout_shared/distant terrain system/bgsterrainmanager.cpp
+#include <cstdint>
+#include "fnv/decl/ActorTaskManager.h"
+#include "fnv/decl/BGSDistantTreeBlock_shell.h"
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/Cls6fabc0.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00451020_cls.h"
+#include "fnv/decl/FUN_0045cac0_tes.h"
+#include "fnv/decl/FUN_00485b60.h"
+#include "fnv/decl/FUN_00572160_shell.h"
+#include "fnv/decl/FUN_006bf8f0_Class.h"
+#include "fnv/decl/FUN_006fea70_Class.h"
+#include "fnv/decl/FUN_006fed30_Class.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/GlobalObject_0044fae0.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/Node006f.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/S694a0.h"
+#include "fnv/decl/TerrainNodeX.h"
+#include "fnv/decl/TerrainUpdate.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Unk006fec90_Class.h"
+#include "fnv/decl/fnv_006f2290__BSSimpleArrayActor.h"
+#include "fnv/decl/fnv_006f92a0__BGSDistantTreeBlock.h"
+#include "fnv/decl/fnv_006ff4c0__FUN_006ff4c0_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/symbols_004d5000.h"
+#include "fnv/symbols_006f5000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
 #include "bgsterrainmanager_decls.h"
 
 // Returns null if path is missing or not found, otherwise opens the file and returns the result of ReadAnimationFromStream on it.
@@ -12,7 +48,7 @@ BGSTerrainManager* LoadBGSTerrainManager(const char* path)
         return 0;
     }
     file = FileFinder::GetFile(path, NiFile::READ_ONLY, 0x4000, 0x10);
-    return ReadAnimationFromStream(file);
+    return ((::BGSTerrainManager *)(::ReadAnimationFromStream((::Stream *)(file))));
 }
 
 namespace fnv_006fd130 {
@@ -87,32 +123,28 @@ struct BGSTerrainManager
     char _pad_2a[2];
     char m_cTerrainBytesB[16];
 };
-typedef char _sizecheck_BGSTerrainManager[sizeof(BGSTerrainManager) == 60 ? 1 : -1];
 struct FUN_006fd130_shell : public BGSTerrainManager
 {
     void FUN_006fd130();
 };
 
-void __cdecl FUN_006fa860();
-void __cdecl FUN_006f5840();
 
 // @fnv 0x006fd130
 void FUN_006fd130_shell::FUN_006fd130()
 {
     if (pSortAdjustNode)
     {
-        FUN_006fa860();
-        FUN_006f5840();
+        ::FUN_006fa860();
+        ::FUN_006f5840();
     }
 }
 }  // namespace fnv_006fd130
 
-void __cdecl SetSoundListFlag(bool);
 
 // @fnv 0x006fd1f0
 void __cdecl FUN_006fd1f0(bool abEnable)
 {
-    SetSoundListFlag(abEnable);
+    ::SetSoundListFlag(abEnable);
 }
 
 extern int DAT_011d8598;
@@ -130,44 +162,44 @@ struct FUN_006fd980_shell
 
 struct FUN_006fce00_shell
 {
+    const void* pVtable;
+    FUN_006fd980_shell* pUnk04;
     void FUN_006fce00();
 };
 
 // If the pointer at offset 4 is non-null, calls FUN_006fd980(7) on it.
 // @fnv 0x006fce00
-void __thiscall FUN_006fce00_shell::FUN_006fce00()
+void FUN_006fce00_shell::FUN_006fce00()
 {
-    if (*(int*)((char*)this + 4) != 0)
-        (*(FUN_006fd980_shell**)((char*)this + 4))->FUN_006fd980(7);
+    if (pUnk04 != 0)
+        pUnk04->FUN_006fd980(7);
 }
 
 struct BGSTerrainChunk
 {
-    int __thiscall FUN_006fceb0(int);
-    int __thiscall FUN_006fabc0(int);
+    std::intptr_t FUN_006fceb0(int);
 };
 
 struct FUN_006fce30_shell : BGSTerrainChunk
 {
-    int FUN_006fce30(int abSomething);
+    std::intptr_t FUN_006fce30(int abSomething);
 };
 
 // Looks up the terrain chunk for the given argument and, if found, returns the result of calling its method with 0; otherwise returns 0.
 // @fnv 0x006fce30
-int FUN_006fce30_shell::FUN_006fce30(int abSomething)
+std::intptr_t FUN_006fce30_shell::FUN_006fce30(int abSomething)
 {
     int result = 0;
     BGSTerrainChunk* obj = (BGSTerrainChunk*)FUN_006fceb0(abSomething);
     if (obj)
     {
-        result = obj->FUN_006fabc0(0);
+        result = reinterpret_cast<::Cls6fabc0 *>((obj))->FUN_006fabc0(0);
     }
     return result;
 }
 
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 struct Arr
 {
@@ -175,13 +207,14 @@ struct Arr
 };
 struct GlobalObject_00869f00
 {
-    void Remove(unsigned int, bool);
 };
 struct TESObjectREFR
 {
 };
 struct FUN_006fcf30_shell
 {
+    char pad[0x2c];
+    char kTreeRefs[0x10];
     void FUN_006fcf30(TESObjectREFR* apTreeRef);
 };
 
@@ -189,13 +222,13 @@ struct FUN_006fcf30_shell
 // @fnv 0x006fcf30
 void FUN_006fcf30_shell::FUN_006fcf30(TESObjectREFR* apTreeRef)
 {
-    unsigned int icount = ((ArrSI*)((char*)this + 0x2c))->GetFlags();
+    std::uintptr_t icount = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(reinterpret_cast<ArrSI*>(kTreeRefs))->GetName()));
     unsigned int i = 0;
     while (i < icount)
     {
-        if (((Arr*)((char*)this + 0x2c))->GetAt(i)[0] == (unsigned int)apTreeRef)
+        if (reinterpret_cast<Arr*>(kTreeRefs)->GetAt(i)[0] == (unsigned int)(std::uintptr_t)apTreeRef)
         {
-            ((GlobalObject_00869f00*)((char*)this + 0x2c))->Remove(i, true);
+            reinterpret_cast<::FUN_006bf8f0_Class *>(reinterpret_cast<GlobalObject_00869f00*>(kTreeRefs))->FUN_006bf8f0(i, true);
             icount--;
         }
         else
@@ -207,20 +240,19 @@ void FUN_006fcf30_shell::FUN_006fcf30(TESObjectREFR* apTreeRef)
 
 struct BGSTerrainNode
 {
-    void __thiscall ProcessBlock();
 };
 
 struct FUN_006fd060_holder
 {
     unsigned int m_00;
     BGSTerrainNode* m_04;
-    void __thiscall FUN_006fd060();
+    void FUN_006fd060();
 };
 
 // @fnv 0x006fd060
-void __thiscall FUN_006fd060_holder::FUN_006fd060()
+void FUN_006fd060_holder::FUN_006fd060()
 {
-    m_04->ProcessBlock();
+    reinterpret_cast<::fnv_006ff4c0::FUN_006ff4c0_shell *>((m_04))->ProcessBlock();
 }
 
 struct GlobalObject_0045cf30
@@ -228,70 +260,71 @@ struct GlobalObject_0045cf30
     unsigned char* Bool();
 };
 extern unsigned char DAT_0119f188;
-extern GlobalObject_0045cf30 g_011d86ac;
 struct FUN_006fea70_obj
 {
-    void SetValue(int);
 };
 struct Holder006fcdb0
 {
     int m00;
     FUN_006fea70_obj* m04;
-    void FUN_006fcdb0(int);
+    void FUN_006fcdb0(std::intptr_t);
 };
 // If DAT_0119f188 is set, g_011d86ac.Bool() is true and m04 is non-null, forwards a1 to m04->SetValue.
 // @fnv 0x006fcdb0
-void Holder006fcdb0::FUN_006fcdb0(int a1)
+void Holder006fcdb0::FUN_006fcdb0(std::intptr_t a1)
 {
-    if (DAT_0119f188 && *g_011d86ac.Bool() && m04)
-        m04->SetValue(a1);
+    if (DAT_0119f188 && *::g_011d86ac.Bool() && m04)
+        reinterpret_cast<::FUN_006fea70_Class *>((m04))->SetValue(a1);
 }
 
 struct FUN_006fce70_shell : BGSTerrainChunk
 {
-    int FUN_006fce70(int);
+    std::intptr_t FUN_006fce70(int);
 };
 // @fnv 0x006fce70
-int FUN_006fce70_shell::FUN_006fce70(int a1)
+std::intptr_t FUN_006fce70_shell::FUN_006fce70(int a1)
 {
     int result = 0;
     BGSTerrainChunk* chunk = (BGSTerrainChunk*)FUN_006fceb0(a1);
     if (chunk)
-        result = chunk->FUN_006fabc0(1);
+        result = reinterpret_cast<::Cls6fabc0 *>((chunk))->FUN_006fabc0(1);
     return result;
 }
 
 struct Unk006fec90
 {
-    int __thiscall GetActiveMenu(int);
 };
-// If the object at offset 4 exists, forwards a1 to its GetActiveMenu and returns the result; otherwise returns 0.
+struct TerrainChunkView
+{
+    const void* pVtable;
+    Unk006fec90* pUnk04;
+};
+// If pUnk04 exists, forwards a1 to its GetActiveMenu and returns the result; otherwise returns 0.
 // @fnv 0x006fceb0
-int BGSTerrainChunk::FUN_006fceb0(int a1)
+std::intptr_t BGSTerrainChunk::FUN_006fceb0(int a1)
 {
     int unused = 0;
-    if (*(Unk006fec90**)((char*)this + 4))
-        return (*(Unk006fec90**)((char*)this + 4))->GetActiveMenu(a1);
+    if (reinterpret_cast<TerrainChunkView*>(this)->pUnk04)
+        return reinterpret_cast<::Unk006fec90_Class *>(reinterpret_cast<TerrainChunkView*>(this)->pUnk04)->GetActiveMenu(a1);
     return 0;
 }
 
 struct FUN_006fed30_Callee
 {
-    int __thiscall FUN_006fed30(int);
 };
 struct FUN_006fcef0_shell
 {
     int m_00;
     FUN_006fed30_Callee* m_04;
-    int __thiscall ForwardToCallee(int);
+    std::intptr_t ForwardToCallee(int);
 };
 // If m_04 is set, forwards a to m_04's FUN_006fed30 and returns its result; otherwise returns 0.
 // @fnv 0x006fcef0
-int __thiscall FUN_006fcef0_shell::ForwardToCallee(int a)
+std::intptr_t FUN_006fcef0_shell::ForwardToCallee(int a)
 {
     int unused = 0;
     if (m_04)
-        return m_04->FUN_006fed30(a);
+        return reinterpret_cast<::FUN_006fed30_Class *>((m_04))->FUN_006fed30(a);
     return 0;
 }
 
@@ -424,15 +457,12 @@ struct FUN_00485b60
     virtual int v123();
     virtual int v124();
     virtual int v125();
-    unsigned int Go();
 };
 struct FUN_006f92a0_shell
 {
-    void ClearInstanceFlag(unsigned int);
 };
 struct FUN_006fcef0_shell
 {
-    FUN_006f92a0_shell* ForwardToCallee(int);
 };
 struct FUN_006fd010_shell
 {
@@ -441,35 +471,28 @@ struct FUN_006fd010_shell
 // @fnv 0x006fd010
 void FUN_006fd010_shell::RunAndDispatch(FUN_00485b60* a1)
 {
-    unsigned int tmp = a1->Go();
+    unsigned int tmp = reinterpret_cast<::FUN_00485b60 *>((a1))->Go();
     {
-        FUN_006f92a0_shell* p = ((FUN_006fcef0_shell*)this)->ForwardToCallee(a1->v125());
+        FUN_006f92a0_shell* p = ((::fnv_006fd010::FUN_006f92a0_shell *)(reinterpret_cast<::FUN_006fcef0_shell *>((((FUN_006fcef0_shell*)this)))->ForwardToCallee(a1->v125())));
         if (p)
-            p->ClearInstanceFlag(tmp);
+            reinterpret_cast<::fnv_006f92a0::BGSDistantTreeBlock *>((p))->ClearInstanceFlag(tmp);
     }
 }
 }  // namespace fnv_006fd010
 
 struct S_00587f40_Lock
 {
-    void FUN_004538a0(int a);
-    void FUN_004538c0();
 };
-extern S_00587f40_Lock DAT_011ca60c;
 
 struct S_00587f40_List
 {
     int unk00;
     int unk04;
-    void RemoveAll();
     ~S_00587f40_List();
 };
 
 struct S_00587f40_Map
 {
-    void* GetFirstPos();
-    void GetNext(void*& pos, unsigned int& key, S_00587f40_List*& val);
-    void RemoveAll();
 };
 
 struct S_00587f40
@@ -505,22 +528,22 @@ struct S_00587f40
 // @fnv 0x00587f40
 void S_00587f40::ClearAllLists()
 {
-    DAT_011ca60c.FUN_004538a0(0);
-    m_kNode.RemoveAll();
-    void* pos = m_map.GetFirstPos();
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::S_00587f40_Lock *>(&::g_011ca60c))))->FUN_004538a0(0);
+    reinterpret_cast<::FileMatchList *>(&(m_kNode))->RemoveAll();
+    void* pos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(m_map))->GetFirstPos();
     while (pos)
     {
         unsigned int key = 0;
         S_00587f40_List* list = 0;
-        m_map.GetNext(pos, key, list);
+        reinterpret_cast<::C6b7f20_Map *>(&(m_map))->FUN_006b7f20((::C6b7f20_Node **)&(pos), (unsigned int *)&(key), (void **)&(list));
         if (list)
         {
-            list->RemoveAll();
+            reinterpret_cast<::FileMatchList *>((list))->RemoveAll();
             delete list;
         }
     }
-    m_map.RemoveAll();
-    DAT_011ca60c.FUN_004538c0();
+    reinterpret_cast<::FUN_00438af0_Class *>(&(m_map))->FUN_00438af0();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::S_00587f40_Lock *>(&::g_011ca60c))))->WaitForTasksDuringRendering();
 }
 
 struct Dfcfa0Ref
@@ -651,7 +674,6 @@ struct Dfcfa0Ref
     virtual void v123();
     virtual void v124();
     virtual int GetBlock();
-    int __thiscall Go();
 };
 template <class T, unsigned int N> struct BSSimpleArray
 {
@@ -673,20 +695,19 @@ struct Dfcfa0Manager : FUN_006fcef0_shell
 };
 struct BGSDistantTreeBlock
 {
-    void MarkTreeInstance(unsigned int a, bool update);
 };
 // @fnv 0x006fcfa0
 void Dfcfa0Manager::FUN_006fcfa0(Dfcfa0Ref* ref, bool addIfMissing)
 {
-    unsigned int formId = ref->Go();
-    int block = ForwardToCallee(ref->GetBlock());
+    unsigned int formId = ((int)(reinterpret_cast<::FUN_00485b60 *>((ref))->Go()));
+    std::intptr_t block = ForwardToCallee(ref->GetBlock());
     if (block)
     {
-        ((BGSDistantTreeBlock*)block)->MarkTreeInstance(formId, true);
+        reinterpret_cast<::BGSDistantTreeBlock_shell *>((((BGSDistantTreeBlock*)block)))->MarkTreeInstance(formId, true);
     }
     else if (addIfMissing)
     {
-        pending.Add((TESObjectREFR*&)ref);
+        reinterpret_cast<::FUN_00438690 *>(&(pending))->FUN_007cb2e0((unsigned int *)&((TESObjectREFR*&)ref));
     }
 }
 
@@ -702,22 +723,15 @@ void __cdecl SetRectCenterAndHalfExtents(tagRECT*);
 
 struct TES
 {
-    void FUN_00451020(tagRECT*, float);
-    void FUN_0045cac0();
 };
-extern TES* g_TES;
 
 struct NiNode
 {
-    void FUN_00572160();
 };
 struct NiNodeHolder
 {
     operator NiNode*() const;
 };
-extern NiNodeHolder DAT_011d86bc;
-extern GlobalObject_0045cf30 DAT_011d869c;
-extern GlobalObject_0045cf30 DAT_011d8680;
 
 struct RefObj
 {
@@ -852,14 +866,10 @@ struct RefObj
 
 struct DistantTreeBlock
 {
-    void MarkTreeInstance(unsigned int, bool);
 };
 
 struct LodNode
 {
-    void UpdateTerrainNode(const NiPoint3&, bool);
-    void UpdateBlock(const NiPoint3&, bool);
-    void FUN_006fe330(const NiPoint3&);
 };
 
 struct RefArray
@@ -869,9 +879,6 @@ struct RefArray
     int unk08;
     int unk0C;
     RefObj*& FUN_00877a30(unsigned int);
-    unsigned int FUN_0044ddc0();
-    void FUN_008454f0(bool);
-    void FUN_006f2290(unsigned int, bool);
     void FUN_0047a110(unsigned int, RefObj* const&);
 };
 
@@ -883,9 +890,6 @@ struct LocalRefArray
     int unk0C;
     LocalRefArray();
     ~LocalRefArray();
-    unsigned int FUN_0044ddc0();
-    void FUN_007cb2e0(RefObj* const&);
-    RefObj*& FUN_006a7ad0(unsigned int);
 };
 
 class BGSTerrainManager
@@ -908,30 +912,27 @@ class BGSTerrainManager
     RefArray array2C;
 
     void FUN_006fca90(const NiPoint3& arPos, int aiFlags);
-    void FUN_006fce00();
-    DistantTreeBlock* ForwardToCallee(int);
 };
 
-extern BGSTerrainManager* DAT_011d8670;
 
 // @fnv 0x006fca90
 void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
 {
-    if (DAT_0119f188 && *g_011d86ac.Bool())
+    if (DAT_0119f188 && *::g_011d86ac.Bool())
     {
         NiPoint3 pos = arPos;
         aiFlags |= 1;
         tagRECT rect;
-        g_TES->FUN_00451020(&rect, 0.0f);
+        reinterpret_cast<::FUN_00451020_cls *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00451020((int *)(::tagRECT *)(&rect), 0.0f);
         SetRectCenterAndHalfExtents(&rect);
         if (DAT_011d8670 && DAT_011d8670 != this)
         {
             BGSTerrainManager* pOld = DAT_011d8670;
             DAT_011d8670 = this;
-            pOld->FUN_006fce00();
-            if (DAT_011d86bc)
+            reinterpret_cast<::FUN_006fce00_shell *>((pOld))->FUN_006fce00();
+            if ((*reinterpret_cast<::NiNodeHolder *>(&::g_011d86bc)))
             {
-                ((NiNode*)DAT_011d86bc)->FUN_00572160();
+                reinterpret_cast<::FUN_00572160_shell *>((((NiNode*)(*reinterpret_cast<::NiNodeHolder *>(&::g_011d86bc)))))->FUN_00572160();
             }
         }
         DAT_011d8670 = this;
@@ -943,42 +944,42 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
             bool m_bShaderFeatureActive = (aiFlags & 8) != 0;
             if (b1)
             {
-                lodNode->UpdateTerrainNode(pos, b4);
-                g_TES->FUN_0045cac0();
-                if (*DAT_011d869c.Bool())
+                reinterpret_cast<::TerrainUpdate *>((lodNode))->UpdateTerrainNode((void *)&(pos), b4);
+                reinterpret_cast<::FUN_0045cac0_tes *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045cac0();
+                if (*::g_011d869c.Bool())
                 {
-                    lodNode->UpdateBlock(pos, b2);
+                    reinterpret_cast<::Node006f *>((lodNode))->UpdateBlock(&(pos), b2);
                 }
             }
-            if (m_bShaderFeatureActive && *DAT_011d8680.Bool())
+            if (m_bShaderFeatureActive && *::g_011d8680.Bool())
             {
-                unsigned int count;
-                lodNode->FUN_006fe330(pos);
-                if (FUN_006fcda0() > 0u && array2C.FUN_0044ddc0() > 0)
+                std::uintptr_t count;
+                reinterpret_cast<::TerrainNodeX *>((lodNode))->FUN_006fe330(&(pos));
+                if (FUN_006fcda0() > 0u && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName())) > 0)
                 {
                     LocalRefArray kept;
-                    count = array2C.FUN_0044ddc0();
+                    count = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName()));
                     for (unsigned int i = 0; i < count; i++)
                     {
-                        unsigned int val = array2C.FUN_00877a30(i)->FUN_00485b60();
-                        DistantTreeBlock* pBlock = ForwardToCallee(array2C.FUN_00877a30(i)->vf1F4());
+                        unsigned int val = reinterpret_cast<::FUN_00485b60 *>((array2C.FUN_00877a30(i)))->Go();
+                        DistantTreeBlock* pBlock = ((::DistantTreeBlock *)(reinterpret_cast<::FUN_006fcef0_shell *>(this)->ForwardToCallee(array2C.FUN_00877a30(i)->vf1F4())));
                         if (pBlock)
                         {
-                            pBlock->MarkTreeInstance(val, true);
+                            reinterpret_cast<::BGSDistantTreeBlock_shell *>((pBlock))->MarkTreeInstance(val, true);
                         }
                         else
                         {
-                            kept.FUN_007cb2e0(array2C.FUN_00877a30(i));
+                            reinterpret_cast<::FUN_00438690 *>(&(kept))->FUN_007cb2e0((unsigned int *)&(array2C.FUN_00877a30(i)));
                         }
                     }
-                    array2C.FUN_008454f0(true);
-                    if (kept.FUN_0044ddc0() > 0)
+                    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(array2C))->Clear(true);
+                    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName())) > 0)
                     {
-                        unsigned int keptCount = kept.FUN_0044ddc0();
-                        array2C.FUN_006f2290(keptCount, true);
+                        std::uintptr_t keptCount = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName()));
+                        reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(array2C))->FUN_006f2290(keptCount, true);
                         for (unsigned int j = 0; j < keptCount; j++)
                         {
-                            array2C.FUN_0047a110(j, kept.FUN_006a7ad0(j));
+                            array2C.FUN_0047a110(j, (*(::RefObj **)(reinterpret_cast<::S3e60 *>(&(kept))->FUN_006a7ad0(j))));
                         }
                     }
                 }
@@ -991,7 +992,6 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
 class TerrainRefProxy
 {
   public:
-    unsigned int GetRawId();
 };
 
 class TerrainTempBuffer
@@ -999,8 +999,6 @@ class TerrainTempBuffer
   public:
     TerrainTempBuffer(int aInit);
     ~TerrainTempBuffer();
-    void Push(TerrainRefProxy* apRef);
-    void Assign(unsigned int aValue);
 
     unsigned int m_00, m_04, m_08, m_0C, m_10, m_14, m_18, m_1C, m_20;
     unsigned int m_24, m_28, m_2C, m_30, m_34, m_38, m_3C, m_40, m_44;
@@ -1008,8 +1006,6 @@ class TerrainTempBuffer
     unsigned int m_6C, m_70, m_74, m_78, m_7C, m_80, m_84, m_88;
 };
 
-void __cdecl UpdateSceneEntryRadii(TerrainRefProxy* apRef, TerrainTempBuffer* apBuf);
-void __cdecl FUN_006f5840();
 
 class TerrainStream
 {
@@ -1024,11 +1020,13 @@ class TerrainStream
 void TerrainStream::PushRef(TerrainRefProxy* apRef)
 {
     TerrainTempBuffer tempBuffer(0);
-    tempBuffer.Push(apRef);
-    tempBuffer.Assign(apRef->GetRawId());
+    reinterpret_cast<::FUN_0041fd00_shell *>(&(tempBuffer))->FUN_0041fd00((std::intptr_t)(apRef));
+    reinterpret_cast<::S694a0 *>(&(tempBuffer))->FUN_00a694a0((void *)&reinterpret_cast<::NiCamera *>(apRef)->GetViewFrustum());
     if (m_04 != 0)
     {
-        UpdateSceneEntryRadii(apRef, &tempBuffer);
+        ::fnv_006fa6d0::UpdateSceneEntryRadii((*(const ::fnv_006fa6d0::ScenePosition *)(apRef)), (std::uintptr_t)(&tempBuffer));
         FUN_006f5840();
     }
 }
+
+#include "generated/data/fallout_shared/distant terrain system/bgsterrainmanager.inc"

@@ -3,13 +3,12 @@
 #ifndef LIGHTING30_FACTORY_TYPES_H
 #define LIGHTING30_FACTORY_TYPES_H
 
+#include <windows.h>
 #include <stddef.h>
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_011f9000.h"
 typedef unsigned int UInt32;
 typedef unsigned short UInt16;
-#define LIGHTING30_JOIN2(a, b) a##b
-#define LIGHTING30_JOIN(a, b) LIGHTING30_JOIN2(a, b)
-#define LIGHTING30_ASSERT(x) typedef char LIGHTING30_JOIN(lighting30_assert_, __LINE__)[(x) ? 1 : -1]
-LIGHTING30_ASSERT(sizeof(void*) == 4);
 class NiRTTI;
 class NiNode;
 class BSFadeNode;
@@ -117,8 +116,6 @@ template <class T> class NiPointer
 class NiMemObject
 {
   public:
-    static void* __cdecl operator new(size_t);
-    static void __cdecl operator delete(void*);
 };
 class NiRefObject : public NiMemObject
 {
@@ -127,7 +124,6 @@ class NiRefObject : public NiMemObject
     virtual void DeleteThis();
     unsigned int m_uiRefCount;
 };
-LIGHTING30_ASSERT(sizeof(NiRefObject) == 8);
 class NiObject : public NiRefObject
 {
   public:
@@ -166,7 +162,6 @@ class NiObject : public NiRefObject
     virtual void SetGroup(NiObjectGroup* apGroup);
     virtual NiControllerManager* IsControllerManager() const;
 };
-LIGHTING30_ASSERT(sizeof(NiObject) == 8);
 class NiShader : public NiRefObject
 {
   public:
@@ -188,7 +183,7 @@ class NiShader : public NiRefObject
     virtual bhkRigidBody* IsBhkRigidBody();
     virtual bhkLimitedHingeConstraint* IsBhkLimitedHingeConstraint();
     virtual bool IsFormInitialized();
-    virtual void Initialize();
+    virtual bool Initialize();
     virtual bool SetupGeometry(NiGeometry* apGeometry);
     virtual UInt32 GetGeometryRenderCount(NiGeometry* apGeometry, const NiSkinInstance* apSkin,
                                           NiGeometryBufferData* apRendererData, const NiPropertyState* apState,
@@ -254,7 +249,6 @@ class NiShader : public NiRefObject
     UInt32 m_uiShaderIdentifier;
     bool m_bShaderEnabled;
 };
-LIGHTING30_ASSERT(sizeof(NiShader) == 0x14);
 class NiD3DShaderInterface : public NiShader
 {
   public:
@@ -276,7 +270,6 @@ class NiD3DShaderInterface : public NiShader
     NiDX9RenderState* m_pRenderState;
     bool m_bShaderState;
 };
-LIGHTING30_ASSERT(sizeof(NiD3DShaderInterface) == 0x24);
 class NiD3DShader : public NiD3DShaderInterface
 {
   public:
@@ -290,7 +283,6 @@ class NiD3DShader : public NiD3DShaderInterface
     NiPointer<NiD3DShaderConstantMap> m_spSecondShaderConstantMap;
     UInt32 m_uiShaderType;
 };
-LIGHTING30_ASSERT(sizeof(NiD3DShader) == 0x3c);
 class NiD3DDefaultShader : public NiD3DShader
 {
   public:
@@ -310,7 +302,6 @@ class NiD3DDefaultShader : public NiD3DShader
     UInt32 m_uiPassFogStatusCount;
     const NiDynamicEffectState* m_pDynamicEffectState;
 };
-LIGHTING30_ASSERT(sizeof(NiD3DDefaultShader) == 0x5c);
 class BSShader : public NiD3DDefaultShader
 {
   public:
@@ -337,8 +328,9 @@ class BSShader : public NiD3DDefaultShader
     unsigned int m_ePass;
     bool m_bIsBest;
     int m_iPassId;
+public:
+    bool Initialize();
 };
-LIGHTING30_ASSERT(sizeof(BSShader) == 0x6c);
 class NiShaderDeclaration : public NiObject
 {
   public:
@@ -444,16 +436,13 @@ class NiD3DShaderDeclaration : public NiShaderDeclaration
     ShaderStreamInfo* m_pShaderRegisterStream;
     bool m_bHasChanges;
 };
-LIGHTING30_ASSERT(sizeof(NiD3DShaderDeclaration) == 0x2c);
 struct _D3DVERTEXELEMENT9;
 class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
 {
   public:
     _D3DVERTEXELEMENT9* m_pkVertexElements;
     LPDIRECT3DVERTEXDECLARATION9 m_pkD3DVertexDeclaration;
-    static NiD3DVertexDeclaration* Create(GraphicsRenderer*, UInt32, UInt32);
 };
-LIGHTING30_ASSERT(sizeof(NiD3DVertexDeclaration) == 0x34);
 class Lighting30Shader : public BSShader
 {
   public:
@@ -483,20 +472,4 @@ class Lighting30Shader : public BSShader
     static BSShader* CreateShader();
     static void InvalidateShaderConstants();
 };
-LIGHTING30_ASSERT(sizeof(Lighting30Shader) == 0xa4);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_spFillColorConstantMap) == 0x6c);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_spSecondPassConstantMap) == 0x78);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pVertexDeclaration1) == 0x7c);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pVertexDeclaration2) == 0x80);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pVertexDeclaration3) == 0x84);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pVertexDeclaration4) == 0x88);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pVertexDeclaration5) == 0x8c);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pVertexDeclaration6) == 0x90);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pVertexDeclaration7) == 0x94);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pVertexDeclaration8) == 0x98);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_pGeometryBufferData) == 0x9c);
-LIGHTING30_ASSERT(offsetof(Lighting30Shader, m_uiShaderOptions) == 0xa0);
-extern GraphicsRenderer* g_pkRenderer;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 #endif

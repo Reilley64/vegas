@@ -2,6 +2,10 @@
 // src/havok/common/base/math/matrix/hkrotation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkrotation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/Shell_c8da40.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_01268000.h"
 struct CB2FC0Object;
 
 struct __declspec(align(16)) CB2FC0Snapshot
@@ -16,17 +20,8 @@ struct __declspec(align(16)) CB2FC0Snapshot
 
 struct CB2FC0Object
 {
-    void FUN_00cb2d90(void* snapshot);
     void FUN_00cb2fc0();
 };
-
-// Builds a CB2FC0Snapshot from this object and passes it to FUN_00cb2d90.
-// @fnv 0x00cb2fc0
-void CB2FC0Object::FUN_00cb2fc0()
-{
-    CB2FC0Snapshot snapshot(this);
-    FUN_00cb2d90(&snapshot);
-}
 
 struct __declspec(align(16)) SpawnedSnap
 {
@@ -35,24 +30,15 @@ struct __declspec(align(16)) SpawnedSnap
     float unk08;
     float unk0C;
 
-    SpawnedSnap(int value, float scale);
+    SpawnedSnap(intptr_t value, float scale);
 };
 
 class FUN_00cb2e30_cls
 {
   public:
-    void SpawnSnap(int value, float scale);
+    void SpawnSnap(intptr_t value, float scale);
 };
 
-// Builds a SpawnedSnap from value and scale, then passes it to FUN_00cb2d90 on this object.
-// @fnv 0x00cb2e30
-void FUN_00cb2e30_cls::SpawnSnap(int value, float scale)
-{
-    SpawnedSnap snap(value, scale);
-    ((CB2FC0Object*)this)->FUN_00cb2d90(&snap);
-}
-
-extern int DAT_012683c0;
 
 class FUN_00cb2ff0_base
 {
@@ -73,30 +59,14 @@ class FUN_00cb2ff0 : public FUN_00cb2ff0_base
 // @fnv 0x00cb2ff0
 FUN_00cb2ff0::~FUN_00cb2ff0()
 {
-    this->unk08();
+    reinterpret_cast<::Shell_c8da40 *>((this))->FUN_00c8da40();
     DAT_012683c0--;
 }
 
 #include <xmmintrin.h>
 #include <math.h>
 namespace fnv_00cb2e70 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-    void _mm_store_ss(float*, __m128);
-    int _mm_movemask_ps(__m128);
-}
+
 
 extern __m128 DAT_01017d10;
 
@@ -221,7 +191,6 @@ const __m128* FUN_00cd4d90_cls::ScaleRows(const __m128* scale, const __m128* mat
     return scale;
 }
 
-extern const __m128 DAT_010c7180;
 extern const __m128 DAT_010c8770;
 extern const __m128 DAT_010c8780;
 class ProductHolder
@@ -246,6 +215,20 @@ struct RotationRows : FUN_00cd4d90_cls
 {
     void* FUN_00cb2d90(void* snapshot);
 };
+// Builds a CB2FC0Snapshot from this object and passes it to FUN_00cb2d90.
+// @fnv 0x00cb2fc0
+void CB2FC0Object::FUN_00cb2fc0()
+{
+    CB2FC0Snapshot snapshot(this);
+    reinterpret_cast<::RotationRows *>(this)->FUN_00cb2d90(&snapshot);
+}
+// Builds a SpawnedSnap from value and scale, then passes it to FUN_00cb2d90 on this object.
+// @fnv 0x00cb2e30
+void FUN_00cb2e30_cls::SpawnSnap(intptr_t value, float scale)
+{
+    SpawnedSnap snap(value, scale);
+    reinterpret_cast<::RotationRows *>((((CB2FC0Object*)this)))->FUN_00cb2d90(&snap);
+}
 static __forceinline void convertRotation(RotationRows& output, __m128 quaternion)
 {
     __m128 twice = _mm_add_ps(quaternion, quaternion);
@@ -254,13 +237,13 @@ static __forceinline void convertRotation(RotationRows& output, __m128 quaternio
     __m128 squareX = _mm_mul_ss(quaternion, twice);
     __m128 products = _mm_mul_ps(pairInputs, crossInputs);
     ProductHolder savedProducts(products);
-    __assume((reinterpret_cast<unsigned>(&output) & 15) == 0);
-    __m128 diagonalStart = _mm_sub_ss(DAT_010c7180, squareX);
+    __assume((reinterpret_cast<uintptr_t>(&output) & 15) == 0);
+    __m128 diagonalStart = _mm_sub_ss((*reinterpret_cast<const ::__m128 *>(&::DAT_010c7180)), squareX);
     __m128 signs = DAT_010c8780;
     __m128 signedProducts = _mm_xor_ps(static_cast<__m128>(savedProducts), DAT_010c8780);
     __m128 mixed = _mm_mul_ps(_mm_shuffle_ps(quaternion, quaternion, 0xfe), _mm_shuffle_ps(twice, twice, 0x1a));
     mixed = _mm_xor_ps(mixed, _mm_load_ps((const float*)&DAT_010c8770));
-    mixed = _mm_add_ss(mixed, DAT_010c7180);
+    mixed = _mm_add_ss(mixed, (*reinterpret_cast<const ::__m128 *>(&::DAT_010c7180)));
     __m128 row0 = _mm_sub_ps(mixed, signedProducts);
     output.m_row0 = row0;
     __m128 row1 = _mm_xor_ps(mixed, *(const __m128*)&signs);
@@ -279,3 +262,5 @@ void* RotationRows::FUN_00cb2d90(void* apQuaternion)
     convertRotation(*this, _mm_load_ps((const float*)apQuaternion));
     return apQuaternion;
 }
+
+#include "generated/data/havok/common/base/math/matrix/hkrotation.inc"

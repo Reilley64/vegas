@@ -6,7 +6,6 @@
 
 class TESForm;
 
-#pragma pack(push, 4)
 
 class MagicItemObject
 {
@@ -16,7 +15,6 @@ class MagicItemObject
     virtual void ClearData();
     virtual void InitItem();
 
-    bool IsFormInitialized() const;
 
     char pad04[0x48];
 };
@@ -71,7 +69,6 @@ class IngredientItem : public MagicItemObject,
     void InitializeComponent();
 };
 
-#pragma pack(pop)
 
 #include "ingredientitem_tesclass.h"
 

@@ -2,23 +2,49 @@
 // src/havok/common/base/memory/allocator/freelist/hkfreelistallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/freelist/hkfreelistallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl FUN_00cc0410(int, const char*);
 
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include "fnv/decl/AllocatorStatisticsDD8D.h"
+#include "fnv/decl/B60Owner.h"
+#include "fnv/decl/FUN_00cbf1a0_cls.h"
+#include "fnv/decl/FUN_00cf6da0_cls.h"
+#include "fnv/decl/FUN_00d61cc0_t.h"
+#include "fnv/decl/FUN_00dd7110_cls.h"
+#include "fnv/decl/FUN_00dd7200_hkFreeList.h"
+#include "fnv/decl/FUN_00dd7430_cls.h"
+#include "fnv/decl/FUN_00dd74b0_cls.h"
+#include "fnv/decl/FUN_00dd7ec0_cls.h"
+#include "fnv/decl/FreeListCheck.h"
+#include "fnv/decl/PointerChainNode.h"
+#include "fnv/decl/QueueOwner.h"
+#include "fnv/decl/SpawnedObject.h"
+#include "fnv/decl/fnv_00dd8790__FUN_00dd8790_cls.h"
+#include "fnv/decl/hkBlockListDD73.h"
+#include "fnv/decl/hkFreeListDD75.h"
+#include "fnv/decl/hkFreeListFUN_00dd7480.h"
+#include "fnv/decl/hkFreeListGC.h"
+#include "fnv/decl/hkFreeListWalker.h"
+#include "fnv/decl/hkStringBufD61E.h"
+#include "fnv/symbols_00cc0000.h"
+#include "fnv/symbols_00d88000.h"
+#include "fnv/symbols_00dd7000.h"
+#include "fnv/symbols_010d1000.h"
 struct hkFreeListAllocator
 {
-    void __thiscall PrintStatistics(int);
+    void PrintStatistics(intptr_t);
 };
 
 // @fnv 0x00d5f950
-void __thiscall hkFreeListAllocator::PrintStatistics(int aiUnused)
+void hkFreeListAllocator::PrintStatistics(intptr_t aiUnused)
 {
-    FUN_00cc0410(aiUnused,
+    ::FUN_00cc0410((::hkOstream *)(aiUnused),
                  "printStatistics is not supported on hkFreeListAllocator - use hkDebugMemory or hkPoolMemory\n");
 }
 
 struct FUN_00dd7200_cls
 {
-    void FUN_00dd7200();
 };
 struct FUN_00d5fc70_cls
 {
@@ -28,7 +54,7 @@ struct FUN_00d5fc70_cls
 // @fnv 0x00d5fc70
 void FUN_00d5fc70_cls::FUN_00d5fc70(FUN_00dd7200_cls* p)
 {
-    p->FUN_00dd7200();
+    reinterpret_cast<::FUN_00dd7200_hkFreeList *>((p))->FUN_00dd7200();
     if ((char*)p + 0x34 == *(char**)((char*)this + 0x238))
         *(char**)((char*)this + 0x238) -= 0x34;
 }
@@ -128,8 +154,6 @@ void* FUN_00d5f910_cls::AllocateBlock(int aiUnused, int aiNumBytes)
     return m_sub28.BlockAlloc(aiUnused, aiNumBytes);
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct FreeListEntry
 {
@@ -152,10 +176,7 @@ class LargeAlloc
     virtual void ReleaseBlock(void* p);
 };
 
-struct SixIntegerRecord
-{
-    char data[0x18];
-};
+typedef CRITICAL_SECTION SixIntegerRecord;
 
 class FLAllocator
 {
@@ -174,7 +195,7 @@ class FLAllocator
 void FLAllocator::FreeBlocks(void** blocks, int numBlocks, int blockSize)
 {
     SixIntegerRecord* cs = &m_cs;
-    EnterCriticalSection(cs);
+    EnterCriticalSection((LPCRITICAL_SECTION)cs);
     if (blockSize <= 0x280)
     {
         StringListNode* list = m_pFreeBlockLists[(blockSize + 15) >> 4];
@@ -206,7 +227,7 @@ void FLAllocator::FreeBlocks(void** blocks, int numBlocks, int blockSize)
                 m_large.ReleaseBlock(blocks[i]);
         }
     }
-    LeaveCriticalSection(cs);
+    LeaveCriticalSection((LPCRITICAL_SECTION)cs);
 }
 
 struct D603E0Base
@@ -219,26 +240,17 @@ struct D603E0Object : D603E0Base
     D603E0Object* FUN_00d603e0(unsigned int uiFlags);
 };
 
-// @fnv 0x00d603e0
-D603E0Object* D603E0Object::FUN_00d603e0(unsigned int uiFlags)
-{
-    D603E0Base::~D603E0Base();
-    return this;
-}
-
 struct FUN_00d61f30_shell
 {
-    void FUN_00d61cc0();
-    void AppendStrings(int a, int b, int c, int d, int e, int f);
-    void FUN_00d61f30(int a, int b, int c, int d, int e, int f);
+    void FUN_00d61f30(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e, intptr_t f);
 };
 
 // Calls FUN_00d61cc0, then forwards the six arguments to AppendStrings.
 // @fnv 0x00d61f30
-void FUN_00d61f30_shell::FUN_00d61f30(int a, int b, int c, int d, int e, int f)
+void FUN_00d61f30_shell::FUN_00d61f30(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e, intptr_t f)
 {
-    FUN_00d61cc0();
-    AppendStrings(a, b, c, d, e, f);
+    reinterpret_cast<::FUN_00d61cc0_t *>(this)->FUN_00d61cc0();
+    reinterpret_cast<::hkStringBufD61E *>(this)->AppendStrings((const char *)(a), (const char *)(b), (const char *)(c), (const char *)(d), (const char *)(e), (const char *)(f));
 }
 
 struct FUN_00d5f850_cls
@@ -362,17 +374,14 @@ unsigned char FUN_00d5fc40_cls::HasRoomFor(unsigned int limit)
 // stand-in types for FUN_00d60270
 struct Sub4
 {
-    void Init(int a1);
 };
 
 struct Sub28
 {
-    void Init(int a1);
 };
 
 struct Elem34
 {
-    void Init();
     int unk00;
     int unk04;
     int unk08;
@@ -391,13 +400,12 @@ struct Elem34
 struct HeapBase60270
 {
     int Alloc(int a, int b, int c);
-    void Reset(int a);
 };
 
 class FUN_00d60270_cls : public HeapBase60270
 {
   public:
-    FUN_00d60270_cls* FUN_00d60270(int a1);
+    FUN_00d60270_cls* FUN_00d60270(intptr_t a1);
     void* m_vptr;
     int unk004;
     int unk008;
@@ -407,7 +415,7 @@ class FUN_00d60270_cls : public HeapBase60270
     int unk018;
     int m_1c;
     int m_20;
-    int m_24;
+    intptr_t m_24;
     int unk028;
     int unk02C;
     int unk030;
@@ -508,76 +516,9 @@ class FUN_00d60270_cls : public HeapBase60270
     int unkA9C;
 };
 
-extern char g_vtbl60270[];
 
-// Initializes the object: sets the vtable, initializes sub-objects and item array, resets state, and allocates the size-class table slots.
-// @fnv 0x00d60270
-FUN_00d60270_cls* FUN_00d60270_cls::FUN_00d60270(int a1)
-{
-    m_vptr = g_vtbl60270;
-    reinterpret_cast<Sub4*>(&unk004)->Init(0xfa0);
-    m_24 = a1;
-    reinterpret_cast<Sub28*>(&unk028)->Init(a1);
-    Elem34* pItems = m_items;
-    m_234 = 0;
-    Elem34* e = pItems;
-    for (int i = 0x28; i >= 0; --i)
-    {
-        e->Init();
-        ++e;
-    }
-    m_a98 = 0;
-    m_1c = 0;
-    m_20 = 0;
-    Reset(0x7fffffff);
-    m_238 = (int*)pItems;
-    pItems = (Elem34*)((char*)pItems + 0x854);
-    m_23c = (int*)pItems;
-    for (int i = 0; i < 0x29; ++i)
-    {
-        m_tab[i] = 0;
-    }
-    m_tab[0x20] = Alloc(0x200, 0x80, 0x10000);
-    m_tab[0x10] = Alloc(0x100, 0x20, 0x8000);
-    m_tab[0] = Alloc(0, 4, 0x100);
-    int r4 = Alloc(0x220, 0x80, 0x5000);
-    for (int i = 0x210; i <= 0x280; ++i)
-    {
-        m_tab[i >> 4] = r4;
-    }
-    int iSize = 0x280;
-    do
-    {
-        int* slot = &m_tab[iSize >> 4];
-        if (*slot == 0)
-        {
-            int iCount = 0x10;
-            int sz;
-            if (iSize > 0)
-            {
-                sz = iSize << 4;
-                if ((unsigned int)iSize < 0x100)
-                {
-                    sz = 0x1000;
-                }
-            }
-            else
-            {
-                sz = 0x1000;
-            }
-            if (iSize >= 0x40)
-            {
-                iCount = 0x20;
-            }
-            *slot = Alloc(iSize, iCount, sz);
-        }
-        iSize -= 0x10;
-    } while (iSize >= 0x10);
-    return this;
-}
-
-extern void(__stdcall* DAT_00fdf05c)(int*);
-extern void(__stdcall* DAT_00fdf100)(int*);
+extern void(* DAT_00fdf05c)(int*);
+extern void(* DAT_00fdf100)(int*);
 namespace d5f {
 struct Res
 {
@@ -592,7 +533,6 @@ struct Block
     char pad[0x28 - 8];
     int m_28;
     Res FUN_00dd7c40(int n, int* got);
-    void FUN_00dd7360();
 };
 struct Pool
 {
@@ -627,7 +567,7 @@ void Pool::AllocateBlocks(int aiCount)
             if (iIndex >= m_iArrayLength)
                 iIndex = 0;
         }
-        b->FUN_00dd7360();
+        reinterpret_cast<::PointerChainNode *>((b))->FUN_00dd7360();
         aiCount -= got;
         m_1c += (b->m_28 - before) * b->m_iWordAt04;
     } while (aiCount > 0 && iIndex != start);
@@ -637,17 +577,15 @@ void Pool::AllocateBlocks(int aiCount)
 }
 
 // @fnv 0x00d5fab0
-void __stdcall FUN_00d5fab0(int)
+void FUN_00d5fab0(int)
 {}
 
-extern void(__stdcall* DAT_00fdf05c)(int* pkCriticalSection);
-extern void(__stdcall* DAT_00fdf100)(int* pkCriticalSection);
+extern void(* DAT_00fdf05c)(int* pkCriticalSection);
+extern void(* DAT_00fdf100)(int* pkCriticalSection);
 
 class MemoryPoolW
 {
   public:
-    int Compact();
-    void FUN_00dd7380(unsigned int uiTarget);
 
     int m_iUnk00;
     int m_iBlockSize;
@@ -679,8 +617,8 @@ void MemoryPoolManagerW::UpdateTotalSize()
     {
         MemoryPoolW* pkPool = m_apkPools[i];
         int iOldCount = pkPool->m_iBlockCount;
-        if (pkPool->Compact() > 0)
-            pkPool->FUN_00dd7380(pkPool->m_uiFreeCount - pkPool->m_uiFreeCount / 10);
+        if (reinterpret_cast<::hkFreeListGC *>((pkPool))->Compact() > 0)
+            reinterpret_cast<::hkBlockListDD73 *>((pkPool))->FUN_00dd7380(pkPool->m_uiFreeCount - pkPool->m_uiFreeCount / 10);
         m_iTotalSize += (pkPool->m_iBlockCount - iOldCount) * pkPool->m_iBlockSize;
     }
     DAT_00fdf100(pkCriticalSection);
@@ -702,14 +640,12 @@ struct SizeClassPool
     int unk14;
     int unk18;
     int unk1c;
-    volatile unsigned int m_20;
+    volatile uintptr_t m_20;
     unsigned int m_24;
     int m_28;
 
-    void* AllocateElement();
 };
 
-void __cdecl FUN_00d88040(int);
 
 struct DynamicMemoryAllocator
 {
@@ -1406,7 +1342,7 @@ void DynamicMemoryAllocator::FUN_00d5fd70(void** apOut, int aCount, int aSize)
             }
             else
             {
-                *cur = pool->AllocateElement();
+                *cur = reinterpret_cast<::hkFreeListDD75 *>((pool))->AllocateElement();
                 cur++;
             }
             start = cur;
@@ -1433,7 +1369,7 @@ void DynamicMemoryAllocator::FUN_00d5fd70(void** apOut, int aCount, int aSize)
     {
         FUN_00d88040(1);
     }
-    LeaveCriticalSection(guard.cs);
+    LeaveCriticalSection((LPCRITICAL_SECTION)guard.cs);
 }
 
 struct hkBool
@@ -1474,8 +1410,6 @@ struct hkFreeListW
     {
         return _getNumBlocks(m_pFreeBlocks) + _getNumBlocks(m_activeBlocks);
     }
-    void CollectFreeNodes(hkFreeListBlock** blocks, int numBlocks);
-    void FUN_00dd78f0(hkMemoryWalkCallback callback, int pool, void* param);
 };
 
 struct hkMemoryAllocatorW
@@ -1525,17 +1459,14 @@ struct hkLargeBlockIteratorW
 struct hkLargeBlockAllocatorW
 {
     hkLargeBlockIteratorW FUN_00dd8b20();
-    hkBool AdvanceState(hkLargeBlockIteratorW& iter);
 };
 
-bool __cdecl CompareLessThan(void* a, void* b);
-void __cdecl FUN_00dd7d00(void** arr, int lo, int hi, bool(__cdecl* cmpLess)(void*, void*));
 
 inline void quickSortPointers(void** arr, int numElem)
 {
     if (numElem > 1)
     {
-        FUN_00dd7d00(arr, 0, numElem - 1, CompareLessThan);
+        ::FUN_00dd7d00((::S_00dd7d00_Item **)(arr), 0, numElem - 1, (S_00dd7d00_Bool (*)(S_00dd7d00_Item *, S_00dd7d00_Item *))(((bool (&)(void *, void *))::CompareLessThan)));
     }
 }
 
@@ -1671,7 +1602,7 @@ int hkFreeListAllocatorW::FUN_00d600c0(hkMemoryWalkCallback callback, void* apCo
         {
             hkFreeListW* freeList = m_pFreeLists[i];
             int numListBlocks = freeList->getTotalNumBlocks();
-            freeList->CollectFreeNodes(cur, numListBlocks);
+            reinterpret_cast<::hkFreeListFUN_00dd7480 *>((freeList))->CollectFreeNodes((::hkFreeListNode **)(cur), numListBlocks);
             cur += numListBlocks;
         }
     }
@@ -1681,7 +1612,7 @@ int hkFreeListAllocatorW::FUN_00d600c0(hkMemoryWalkCallback callback, void* apCo
     {
         hkFreeListBlock** curBlock = blocks;
         hkLargeBlockIteratorW iter = m_kLargeBlockAllocator.FUN_00dd8b20();
-        for (; iter.isValid(); m_kLargeBlockAllocator.AdvanceState(iter))
+        for (; iter.isValid(); reinterpret_cast<::B60Owner *>(&(m_kLargeBlockAllocator))->AdvanceState((unsigned char *)&(iter), {}))
         {
             void* block = iter.GetChunkPayload();
             if (block == (void*)*curBlock)
@@ -1697,7 +1628,7 @@ int hkFreeListAllocatorW::FUN_00d600c0(hkMemoryWalkCallback callback, void* apCo
 
     for (int i = 0; i < m_iFreeListCount; i++)
     {
-        m_pFreeLists[i]->FUN_00dd78f0(callback, i + 1, apContext);
+        reinterpret_cast<::hkFreeListWalker *>((m_pFreeLists[i]))->FUN_00dd78f0(callback, i + 1, apContext);
     }
     return 0;
 }
@@ -1732,7 +1663,7 @@ struct PoolFallbackAlloc
 struct FUN_00d5f980_cls
 {
     int unk00;
-    char m_kLock[0x18];
+    CRITICAL_SECTION m_kLock;
     int m_iTotal;
     int unk20;
     int unk24;
@@ -2494,6 +2425,71 @@ struct S_00d5fb70
     int unkA94;
     void FUN_00d5fb70(int value);
 };
+// Initializes the object: sets the vtable, initializes sub-objects and item array, resets state, and allocates the size-class table slots.
+// @fnv 0x00d60270
+FUN_00d60270_cls* FUN_00d60270_cls::FUN_00d60270(intptr_t a1)
+{
+    m_vptr = (*reinterpret_cast<char (*)[]>(&::DAT_010d1464));
+    reinterpret_cast<::FUN_00cf6da0_cls *>((reinterpret_cast<Sub4*>(&unk004)))->FUN_00cf6da0(0xfa0);
+    m_24 = a1;
+    reinterpret_cast<::SpawnedObject *>((reinterpret_cast<Sub28*>(&unk028)))->Construct(a1);
+    Elem34* pItems = m_items;
+    m_234 = 0;
+    Elem34* e = pItems;
+    for (int i = 0x28; i >= 0; --i)
+    {
+        new ((void *)(e)) ::FUN_00dd7110_cls();
+        ++e;
+    }
+    m_a98 = 0;
+    m_1c = 0;
+    m_20 = 0;
+    reinterpret_cast<::S_00d5fb70 *>(this)->FUN_00d5fb70(0x7fffffff);
+    m_238 = (int*)pItems;
+    pItems = (Elem34*)((char*)pItems + 0x854);
+    m_23c = (int*)pItems;
+    for (int i = 0; i < 0x29; ++i)
+    {
+        m_tab[i] = 0;
+    }
+    m_tab[0x20] = Alloc(0x200, 0x80, 0x10000);
+    m_tab[0x10] = Alloc(0x100, 0x20, 0x8000);
+    m_tab[0] = Alloc(0, 4, 0x100);
+    int r4 = Alloc(0x220, 0x80, 0x5000);
+    for (int i = 0x210; i <= 0x280; ++i)
+    {
+        m_tab[i >> 4] = r4;
+    }
+    int iSize = 0x280;
+    do
+    {
+        int* slot = &m_tab[iSize >> 4];
+        if (*slot == 0)
+        {
+            int iCount = 0x10;
+            int sz;
+            if (iSize > 0)
+            {
+                sz = iSize << 4;
+                if ((unsigned int)iSize < 0x100)
+                {
+                    sz = 0x1000;
+                }
+            }
+            else
+            {
+                sz = 0x1000;
+            }
+            if (iSize >= 0x40)
+            {
+                iCount = 0x20;
+            }
+            *slot = Alloc(iSize, iCount, sz);
+        }
+        iSize -= 0x10;
+    } while (iSize >= 0x10);
+    return this;
+}
 
 // Sets unkA94 to value while holding m_kCriticalSection.
 // @fnv 0x00d5fb70
@@ -2542,7 +2538,6 @@ struct HkFLA_Elem
     unsigned int f24;
     unsigned int f28;
     unsigned int f2c;
-    void FUN_00dd7430(HkFLA_Out* out);
 };
 
 struct HkFLA_Poly
@@ -2568,7 +2563,7 @@ struct HkFLA_Stats
 
 struct HkFLA_Sub
 {                                         // the sub object at +0x28 (its size is only
-    void FUN_00dd8d70(HkFLA_Stats* out);  // known from the layout below)
+      // known from the layout below)
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
     int unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
     int unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74;
@@ -2599,8 +2594,8 @@ struct HkFLA_StandIn
 void HkFLA_StandIn::FUN_00d5f750(HkFLA_Stats* apStats)
 {
     HkFLA_CritSec* cs = &m_cs;
-    EnterCriticalSection((void*)cs);
-    f28.FUN_00dd8d70(apStats);
+    EnterCriticalSection((LPCRITICAL_SECTION)cs);
+    reinterpret_cast<::AllocatorStatisticsDD8D *>(&(f28))->FUN_00dd8d70((unsigned int *)(apStats));
     // The original keeps a 24 byte block on the stack here and accumulates
     // into its first dword only; the dead members lose their stores but the
     // frame slot (and with it the frame size) stays.
@@ -2611,7 +2606,7 @@ void HkFLA_StandIn::FUN_00d5f750(HkFLA_Stats* apStats)
     {
         HkFLA_Elem* e = m_pElems[i];
         HkFLA_Out s = {0, 0, 0, 0, 0, 0};
-        e->FUN_00dd7430(&s);
+        reinterpret_cast<::FUN_00dd7430_cls *>((e))->FUN_00dd7430((::Info_dd7430 *)(::HkFLA_Out *)(&s));
         if (e->f00 != 0 || e->f20 < e->f24)
         {
             unsigned int uiValue = e->f04;
@@ -2630,12 +2625,11 @@ void HkFLA_StandIn::FUN_00d5f750(HkFLA_Stats* apStats)
         apStats->f10 = iResult;
     else
         apStats->f10 = apStats->f0c + iResult;
-    LeaveCriticalSection((void*)cs);
+    LeaveCriticalSection((LPCRITICAL_SECTION)cs);
 }
 
 struct ItemObj
 {
-    void __thiscall FUN_00dd7140_q(unsigned char* ok);
 };
 
 struct AllocModel
@@ -2738,19 +2732,19 @@ struct AllocModel
     ItemObj* m_items[41];
     int m_uiItemCount;
 
-    bool* __thiscall FUN_00d5f890(bool* __restrict p);
+    bool* FUN_00d5f890(bool* __restrict p);
 };
 
 // Locks m_cs, sets *p to 1, calls each item's method until its output byte is zero, then returns p.
 // @fnv 0x00d5f890
-bool* __thiscall AllocModel::FUN_00d5f890(bool* __restrict pbSuccess)
+bool* AllocModel::FUN_00d5f890(bool* __restrict pbSuccess)
 {
     EnterCriticalSection(&m_cs);
     *pbSuccess = 1;
     for (int i = 0; i < m_uiItemCount; i++)
     {
         unsigned char ok;
-        m_items[i]->FUN_00dd7140_q(&ok);
+        reinterpret_cast<::FreeListCheck *>((m_items[i]))->ValidateFreeList((bool *)(unsigned char *)(&ok));
         if (!ok)
         {
             *pbSuccess = 0;
@@ -2774,20 +2768,17 @@ struct FUN_00d5fac0_item
     int unk20;
     int unk24;
     int m_28;
-    int Compact();
-    void FUN_00dd7360();
 };
 
 struct FUN_00d5fac0_sub
 {
     int unk00;
-    void PurgeAndSelectBlock();
 };
 
 struct FUN_00d5fac0_cls
 {
     int unk00;
-    char m_lock[0x18];
+    CRITICAL_SECTION m_lock;
     int m_1c;
     int unk20;
     int unk24;
@@ -2891,7 +2882,7 @@ struct FUN_00d5fac0_cls
 void FUN_00d5fac0_cls::FUN_00d5fac0()
 {
     void* cs = &m_lock;
-    EnterCriticalSection(cs);
+    EnterCriticalSection((LPCRITICAL_SECTION)cs);
     bool retry = false;
     bool flag;
     do
@@ -2901,7 +2892,7 @@ void FUN_00d5fac0_cls::FUN_00d5fac0()
         {
             FUN_00d5fac0_item* p = m_items[i];
             int saved = p->m_28;
-            if (p->Compact() < 0)
+            if (reinterpret_cast<::hkFreeListGC *>((p))->Compact() < 0)
             {
                 retry = true;
             }
@@ -2909,27 +2900,17 @@ void FUN_00d5fac0_cls::FUN_00d5fac0()
             {
                 flag = true;
             }
-            p->FUN_00dd7360();
+            reinterpret_cast<::PointerChainNode *>((p))->FUN_00dd7360();
             m_1c += (p->m_28 - saved) * p->m_04;
         }
     } while (flag && retry);
-    m_28.PurgeAndSelectBlock();
-    LeaveCriticalSection(cs);
+    reinterpret_cast<::fnv_00dd8790::FUN_00dd8790_cls *>(&(m_28))->PurgeAndSelectBlock();
+    LeaveCriticalSection((LPCRITICAL_SECTION)cs);
 }
 
-struct CRITICAL_SECTION
-{
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
-};
 
 // Stand-in for the Fallout: New Vegas pool allocator that owns FUN_00d5fca0.
 
-void __cdecl FUN_00d88040(int);
 
 // One unused element of a size class.
 struct hkPoolNode
@@ -2951,7 +2932,7 @@ struct hkPoolBucket
     char* bump;            // +0x20 next element inside the current block
     char* bumpEnd;         // +0x24 end of the current block
     int count;             // +0x28 number of elements handed out
-    void* AllocateElement();  // carve a new element out of a fresh block
+      // carve a new element out of a fresh block
 };
 
 // Allocator used for requests that are too large for the size classes.
@@ -3099,7 +3080,7 @@ void* hkPool::FUN_00d5fca0(int* apSize)
         }
         else if (b->bump >= b->bumpEnd)
         {
-            result = b->AllocateElement();
+            result = reinterpret_cast<::hkFreeListDD75 *>((b))->AllocateElement();
         }
         else
         {
@@ -3127,12 +3108,10 @@ void* hkPool::FUN_00d5fca0(int* apSize)
 
 struct QuitDeleteView
 {
-    __declspec(noinline) void FUN_00d5fc70(FUN_00dd7200_cls* entry);
 };
 
 struct QuitLargeBlockView
 {
-    void ProcessAllItems();
 };
 
 struct QuitAllocator : hkFreeListAllocatorW
@@ -3153,7 +3132,7 @@ void QuitAllocator::FUN_00d5ff50()
             hkFreeListW* entry = *slot;
             if (entry)
             {
-                reinterpret_cast<QuitDeleteView*>(this)->FUN_00d5fc70(reinterpret_cast<FUN_00dd7200_cls*>(entry));
+                reinterpret_cast<::FUN_00d5fc70_cls *>((reinterpret_cast<QuitDeleteView*>(this)))->FUN_00d5fc70(reinterpret_cast<FUN_00dd7200_cls*>(entry));
                 int later = index;
                 if (later < m_iFreeListCount)
                 {
@@ -3173,48 +3152,47 @@ void QuitAllocator::FUN_00d5ff50()
             ++slot;
         } while (index - 1 < m_iFreeListCount);
     }
-    reinterpret_cast<QuitLargeBlockView*>(&m_kLargeBlockAllocator)->ProcessAllItems();
+    reinterpret_cast<::QueueOwner *>((reinterpret_cast<QuitLargeBlockView*>(&m_kLargeBlockAllocator)))->ProcessAllItems();
 }
 
-extern "C" int DAT_010d1464;
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void*);
 struct EmbeddedItem
 {
     int m00, m04, m08, m0c, m10, m14, m18, m1c, m20, m24, m28, m2c, m30;
-    void __thiscall FUN_00dd7200();
 };
 struct EmbeddedMember
 {
-    void __thiscall FUN_00dd7ec0();
 };
 struct FUN_00d5ffd0_class
 {
     void* vtable;
-    void __thiscall FUN_00d5ff50();
-    void __thiscall FUN_00cbf1a0();
-    void __thiscall FUN_00d5ffd0();
+    void FUN_00d5ffd0();
 };
+// @fnv 0x00d603e0
+D603E0Object* D603E0Object::FUN_00d603e0(unsigned int uiFlags)
+{
+    reinterpret_cast<::FUN_00d5ffd0_class *>(this)->FUN_00d5ffd0();
+    return this;
+}
 // Sets the vtable, calls cleanup and member functions, deletes the critical section, then calls another member function.
 // @fnv 0x00d5ffd0
 void FUN_00d5ffd0_class::FUN_00d5ffd0()
 {
     vtable = &DAT_010d1464;
-    FUN_00d5ff50();
+    reinterpret_cast<::QuitAllocator *>(this)->FUN_00d5ff50();
     EmbeddedItem* end = reinterpret_cast<EmbeddedItem*>(reinterpret_cast<char*>(this) + 0xa94);
     for (int i = 40; i >= 0; --i)
     {
-        (--end)->FUN_00dd7200();
+        reinterpret_cast<::FUN_00dd7200_hkFreeList *>(((--end)))->FUN_00dd7200();
     }
-    reinterpret_cast<EmbeddedMember*>(reinterpret_cast<char*>(this) + 0x28)->FUN_00dd7ec0();
-    DeleteCriticalSection(reinterpret_cast<char*>(this) + 4);
-    FUN_00cbf1a0();
+    reinterpret_cast<::FUN_00dd7ec0_cls *>((reinterpret_cast<EmbeddedMember*>(reinterpret_cast<char*>(this) + 0x28)))->FUN_00dd7ec0();
+    DeleteCriticalSection((LPCRITICAL_SECTION)(reinterpret_cast<char*>(this) + sizeof(void*)));
+    reinterpret_cast<::FUN_00cbf1a0_cls *>(this)->FUN_00cbf1a0();
 }
 
 extern "C" void __debugbreak();
 namespace FreeListCreationView {
 struct DeleteView
 {
-    __declspec(noinline) void FUN_00d5fc70(FUN_00dd7200_cls*);
 };
 struct Slot17
 {
@@ -3231,7 +3209,6 @@ struct Slot17
     int pad28;
     int pad2C;
     int pad30;
-    void FUN_00dd7650(int a1, int a2, int a3, void* out);
 };
 struct Owner17
 {
@@ -3353,13 +3330,13 @@ FUN_00dd7200_cls* Owner17::FUN_00d60020(int aiParam1, int aiParam2, int aiParam3
     cur238 = s + 1;
     if (s != 0)
     {
-        s->FUN_00dd7650(aiParam1, aiParam2, aiParam3, &unk28);
+        reinterpret_cast<::FUN_00dd74b0_cls *>((s))->FUN_00dd7650(aiParam1, aiParam2, aiParam3, (intptr_t)(&unk28));
     }
     for (int i = 0; i < count234; i++)
     {
         if (((Slot17*)slots[i])->f4 == s->f4)
         {
-            ((DeleteView*)this)->FUN_00d5fc70((FUN_00dd7200_cls*)s);
+            reinterpret_cast<::FUN_00d5fc70_cls *>((((DeleteView*)this)))->FUN_00d5fc70((FUN_00dd7200_cls*)s);
             return slots[i];
         }
     }
@@ -3368,3 +3345,5 @@ FUN_00dd7200_cls* Owner17::FUN_00d60020(int aiParam1, int aiParam2, int aiParam3
     return (FUN_00dd7200_cls*)s;
 }
 }
+
+#include "generated/data/havok/common/base/memory/allocator/freelist/hkfreelistallocator.inc"

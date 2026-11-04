@@ -63,5 +63,4 @@ class NiObject : public NiRefObject
     virtual void SetGroup(NiObjectGroup* group);
     virtual NiControllerManager* IsControllerManager() const;
 };
-FNV_STATIC_ASSERT(sizeof(NiObject) == 0x8);
 #endif

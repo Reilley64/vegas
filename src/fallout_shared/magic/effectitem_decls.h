@@ -3,6 +3,20 @@
 #define FNV_EFFECTITEM_DECLS_H
 
 
+#include <cstdint>
+#include <cstring>
+#include "fnv/decl/BGSDebris.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004046b0_cls.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Node406.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_0070e000.h"
 class TESForm
 {
   public:
@@ -22,13 +36,13 @@ class PerkEntryConditionSet
     void InitItem(TESForm* form);
     void Load(class TESFile* file);
     bool Compare(PerkEntryConditionSet* other);
+public:
+    void InitializeConditionItems();
 };
 
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
-    bool GetChunkData(void* data, unsigned int size);
     bool IsEndianConversionRequired();
 };
 
@@ -37,9 +51,6 @@ class BGSImpactData__IMPACT_DATA_DATA
   public:
     void Endian();
 };
-
-extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
-int __cdecl Warning(const char* format, ...);
 
 class MagicCaster;
 class MagicItem;
@@ -56,31 +67,25 @@ template <class T> class BSStringT
 class EffectSetting
 {
   public:
-    int GetEffectID();
-    bool IsFlagSet(unsigned int flags);
     bool IsDetrimental();
-    bool IsAssociatedActorValueUsed();
-    bool HasAssociatedActorValue();
     int GetAssociatedActorValue();
-    BSStringT<char> GetEffectName() const;
+public:
+    int GetArchetype();
 };
 
 class MemoryManager
 {
   public:
-    static void Deallocate(void* pointer);
 };
 
-EffectSetting* __cdecl GetUsageMonitorEffectSetting();
 
-#pragma pack(push, 4)
 struct MagicEffectEntry
 {
     int m_iMagnitude;
     int m_iArea;
     int m_iPayloadInteger;
     int m_eRange;
-    int m_eAssociatedActorValue;
+    std::intptr_t m_eAssociatedActorValue;
     void Endian();
 };
 
@@ -96,23 +101,13 @@ class EffectItem
     int GetAffectedActorValue();
     bool IsDetrimental();
     bool IsHostile();
-    int GetMagnitude();
-    int GetArea();
-    int GetDuration();
-    int GetRange();
     void* GetScript();
-    EffectSetting* GetEffectSetting();
-    PerkEntryConditionSet* GetConditions();
     BSStringT<char> GetEffectName();
     bool IsScriptBasedEffect();
-    bool Compare(EffectItem* other);
-    void InitItem(TESForm* form);
     bool Load(TESFile* file, const char* actorEffect);
-    void DestroyContents();
     EffectItem* Delete(unsigned int flags);
 };
 
-#pragma pack(push, 4)
 class ActiveEffect
 {
   public:
@@ -130,15 +125,12 @@ class ScriptEffect : public ActiveEffect
     unsigned int unknown;
     ScriptEffect(MagicCaster* caster, MagicItem* item, EffectItem* effect);
 };
-#pragma pack(pop)
 
-#pragma pack(push, 4)
 class EffectItemListItems
 {
   public:
     void* first;
     void* last;
-    void AddTail(EffectItem*& item);
 };
 
 class EffectItemList
@@ -147,10 +139,7 @@ class EffectItemList
     void* vtable;
     EffectItemListItems Items;
     int hostileCount;
-    EffectItem* GetScriptEffect();
     void AddItem(EffectItem* item);
 };
-#pragma pack(pop)
-#pragma pack(pop)
 
 #endif

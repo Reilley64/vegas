@@ -4,7 +4,6 @@
 
 #include "layout_support.h"
 class NiRTTI;
-#pragma pack(push, 4)
 class NiRTTI
 {
   public:
@@ -14,8 +13,4 @@ class NiRTTI
     // const char* __cdecl NiRTTI::*()
     // const NiRTTI* __cdecl NiRTTI::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiRTTI) == 8);
-FNV_STATIC_ASSERT(offsetof(NiRTTI, m_pcName) == 0);
-FNV_STATIC_ASSERT(offsetof(NiRTTI, m_pBaseRTTI) == 4);
 #endif

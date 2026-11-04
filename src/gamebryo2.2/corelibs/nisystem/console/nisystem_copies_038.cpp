@@ -6,10 +6,10 @@
 // the engine exposes it under its own name so shared game code does
 // not depend directly on the CRT spelling.
 
-extern "C" int _stricmp(const char* s1, const char* s2);
 
+#include "runtime/crt.h"
 // @fnv 0x00404dc0
 int FUN_00404dc0(const char* pcString1, const char* pcString2)
 {
-    return _stricmp(pcString1, pcString2);
+    return fnv::crt::stricmp(pcString1, pcString2);
 }

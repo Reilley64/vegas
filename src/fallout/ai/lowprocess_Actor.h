@@ -1,5 +1,27 @@
 // fallout/ai/lowprocess_Actor.h: declares Actor
 
+#include "fnv/decl/ActorStandIn008a.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/B_008b3630.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00881450_shell.h"
+#include "fnv/decl/FUN_00884f80_shell.h"
+#include "fnv/decl/FUN_008ad910_cls.h"
+#include "fnv/decl/FUN_008b36f0_cls.h"
+#include "fnv/decl/FUN_008b3b90_shell.h"
+#include "fnv/decl/FUN_008b3bf0_shell.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/TeleportableReference.h"
+#include "fnv/decl/fnv_0057ace0__FUN_0057ace0_shell.h"
+#include "fnv/decl/fnv_0057ad20__FUN_0057ad20_shell.h"
+#include "fnv/decl/fnv_00881470__FUN_00881470_shell.h"
+#include "fnv/decl/fnv_00881680__FUN_00881680_shell.h"
+#include "fnv/decl/fnv_008a0b10__FUN_008a0b10_shell.h"
+#include "fnv/decl/fnv_008a6a40__TargetActor.h"
+#include "fnv/decl/fnv_008a8f60__FUN_008a8f60_shell.h"
+#include "fnv/decl/fnv_008b3690__TES.h"
+#include "fnv/decl/fnv_008b3880__FUN_008b3880_target.h"
+#include "fnv/decl/fnv_008b3d30__FUN_008b3d30_shell.h"
 class PathingRequest;
 class PathingAvoidNodeArray;
 // Source layout: Actor. PC corrections are in generate_headers.py.
@@ -13,7 +35,6 @@ class PathingAvoidNodeArray;
 #include "lowprocess_MobileObject.h"
 #include "lowprocess_ModifierList.h"
 #include "NiPoint3.h"
-#pragma pack(push, 4)
 class Actor : public MobileObject,
               public MagicCaster,
               public MagicTarget,
@@ -22,33 +43,12 @@ class Actor : public MobileObject,
 {
   public:
     BaseProcess* GetProcess();
-    void FUN_00884f80();
-    TESPackage* FUN_00881450();
-    void FUN_008b3d30();
     TESObjectREFR* FUN_004fd380();
     void FUN_0057bd60(TESObjectREFR*);
-    void SetDialogueTopic(TESTopic*);
-    void FUN_0057ace0(void*);
-    void* FUN_0084e3a0();
-    void InitializePathingRequestFromPosition(PathingRequest*, const NiPoint3&, TESObjectCELL*, TESWorldSpace*, float,
-                                              PathingAvoidNodeArray*);
-    void SetPathingRequestAvoidNodes(PathingRequest*);
-    float GetCurrentMovementSpeed();
-    void FUN_008ad910(TESObjectREFR*, bool, bool);
-    bool DispatchWithObj(TESObjectREFR*, float, void*);
 
-    void GetApplicablePackages(BSSimpleList<TESPackage*>*, float);
     bool HasCombatState();
 
-    void SetSpeakingState(bool);
-    bool HasEssentialStatus();
-    bool IsActorEssential();
-    bool HasBoundObject();
-    bool RefreshCurrentPackage();
     bool IsAtPosition(const NiPoint3&, TESObjectCELL*, TESWorldSpace*, float, void*);
-    void RefreshPackageState();
-    bool IsInDeadState();
-    bool FUN_008b3bb0();
 
     bhkRagdollController* m_pRagdollController;            // +0xAC
     bhkRagdollPenetrationUtil* m_pRagdollPenetrationUtil;  // +0xB0
@@ -251,80 +251,7 @@ class Actor : public MobileObject,
     virtual void Unk_135(void);
     virtual void Unk_136(void);
     TESActorBase* GetActorBase();
-    bool IsPlayerTeammate();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Actor) == 0x1B4);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pRagdollController) == 0xAC);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pRagdollPenetrationUtil) == 0xB0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_eDialogueEmotion) == 0xB4);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorRagdollData) == 0xB8);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFirstActorFlag) == 0xBC);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pActorReference) == 0xC0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bActorFlag) == 0xC4);
-FNV_STATIC_ASSERT(offsetof(Actor, m_fFirstValueAfterFlag) == 0xC8);
-FNV_STATIC_ASSERT(offsetof(Actor, m_fSecondScalar) == 0xCC);
-FNV_STATIC_ASSERT(offsetof(Actor, m_kFirstActorData) == 0xD0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_kSecondActorData) == 0xE0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFlagBeforeTwoBooleans) == 0xF0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bMiddleFlag) == 0xF1);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bThirdActorFlag) == 0xF2);
-FNV_STATIC_ASSERT(offsetof(Actor, m_kFirstPointerList) == 0xF4);
-FNV_STATIC_ASSERT(offsetof(Actor, m_kSecondPointerList) == 0xFC);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bActorStateFlag) == 0x104);
-FNV_STATIC_ASSERT(offsetof(Actor, m_eLifeState) == 0x108);
-FNV_STATIC_ASSERT(offsetof(Actor, m_eCriticalStage) == 0x10C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_eAnimationGroup) == 0x110);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorConditionAndAnimationState) == 0x114);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bHasUpdated) == 0x118);
-FNV_STATIC_ASSERT(offsetof(Actor, m_iActorStateValue) == 0x11C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_uiValueBeforeBooleanFields) == 0x120);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorStateFlags) == 0x124);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorReferenceData) == 0x125);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorReferenceListData) == 0x126);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFlagBeforeCurrentActor) == 0x127);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pCurrentActor) == 0x128);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pFirstActorArray) == 0x12C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pSecondActorArray) == 0x130);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bActorListValid) == 0x134);
-FNV_STATIC_ASSERT(offsetof(Actor, m_iIntegerAfterActorListValid) == 0x138);
-FNV_STATIC_ASSERT(offsetof(Actor, m_uiFirstValueAfterInteger) == 0x13C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_uiActorFlags) == 0x140);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorStatusData) == 0x144);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorBaseConfiguration) == 0x145);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFlagBeforeActorBase) == 0x146);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pActorBase) == 0x148);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorBaseReference) == 0x14C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bSecondActorFlag) == 0x14D);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bThirdBooleanFlagAfterActorBase) == 0x14E);
-FNV_STATIC_ASSERT(offsetof(Actor, m_iIntegerBeforeTwoFloatValues) == 0x150);
-FNV_STATIC_ASSERT(offsetof(Actor, BooleanIntegerTwoFloatData) == 0x154);
-FNV_STATIC_ASSERT(offsetof(Actor, IntegerFloatFlagSettings) == 0x158);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFirstBehaviorFlag) == 0x15C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bSecondOfTwoFlags) == 0x15D);
-FNV_STATIC_ASSERT(offsetof(Actor, m_kFormPosition) == 0x160);
-FNV_STATIC_ASSERT(offsetof(Actor, FormPositionData) == 0x16C);
-FNV_STATIC_ASSERT(offsetof(Actor, FormReferenceState) == 0x170);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFirstFlagAfterForm) == 0x174);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFormFlag) == 0x175);
-FNV_STATIC_ASSERT(offsetof(Actor, TwoBooleanFourFloatData) == 0x178);
-FNV_STATIC_ASSERT(offsetof(Actor, BooleanAndFiveFloatSettings) == 0x17C);
-FNV_STATIC_ASSERT(offsetof(Actor, FiveFloatBooleanData) == 0x180);
-FNV_STATIC_ASSERT(offsetof(Actor, FloatFlagSettings) == 0x184);
-FNV_STATIC_ASSERT(offsetof(Actor, m_fFourthFloat) == 0x188);
-FNV_STATIC_ASSERT(offsetof(Actor, FloatTripleBooleanFlagRecord) == 0x18C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bMiddleFlagBeforeActorMover) == 0x18D);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bMovementFlag) == 0x18E);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pActorMover) == 0x190);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pData) == 0x194);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pPackage) == 0x198);
-FNV_STATIC_ASSERT(offsetof(Actor, m_fPackageParameter) == 0x19C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pContinuousBeamProjectile) == 0x1A0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_iPackageState) == 0x1A4);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorProjectileState) == 0x1A8);
-FNV_STATIC_ASSERT(offsetof(Actor, m_eSitSleepState) == 0x1AC);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFlagAfterSitSleepState) == 0x1B0);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorSleepState) == 0x1B1);
 #ifdef _MSC_VER
 __forceinline
 #else

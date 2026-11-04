@@ -8,7 +8,6 @@
 #include "hkReferencedObject.h"
 #include "hkpLinkedCollidable.h"
 class hkpProperty;
-#pragma pack(push, 1)
 class hkpWorldObject : public hkReferencedObject
 {
   public:
@@ -34,6 +33,4 @@ class hkpWorldObject : public hkReferencedObject
     void* m_kNextStreamField;                // +0x84
     void* m_pWorldObjectOwner;               // +0x88
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpWorldObject[(sizeof(hkpWorldObject) == 0x8C) ? 1 : -1];
 #endif

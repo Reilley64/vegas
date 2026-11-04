@@ -1,25 +1,37 @@
 // fallout_shared/pathfinding/pathbuilder_decls.h: declares PathingRequest, PathingSolution, TESRecipe, PathingLocationProxy
 
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/BSSimpleArray_006cefa0.h"
+#include "fnv/decl/FUN_006caa20_Class.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/symbols_005a4000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_011d7000.h"
 class PathingRequest
 {
   public:
+    void* layoutPadding0[2];             // +0x00, the NiRefObject base
+    Actor* pActor;                       // +0x08
+    unsigned char Origin[0x28];          // +0x0C, a PathingRequestLocation
+    unsigned char Destination[0x28];     // +0x34, a PathingRequestLocation
+    unsigned char PathingActorState[0xC];  // +0x5C, a PathingActorData
     PathingLocation& GetOffsetC();
-    bool GetByteAtOffsetA1();
+public:
+    float GetCenterRadius();
 };
 
 class PathingSolution
 {
   public:
-    int FUN_005a4320();
-    void SetByteAtOffset40(int);
-    void Clear(bool);
     PathingInfoEntry* GetPathingInfoEntry(PathingInfoEntry&);
 };
 
+class RecipeCraftingInfo;
 class TESRecipe
 {
   public:
-    PerkEntryConditionSet* GetConditions();
+public:
+    ::RecipeCraftingInfo *GetData();
 };
 
 class PathingLocationProxy
@@ -28,7 +40,6 @@ class PathingLocationProxy
     bool FindContainingTriangle(FindTriangleForLocationFilter* filter);
     const NavMeshInfo* GetAssociatedNavMesh();
     TESObjectCELL* GetContainingCell();
-    void* FUN_00441110();
 };
 
 class INISettingCollection;
@@ -38,7 +49,6 @@ template <> class SettingT<INISettingCollection>
     SETTING_VALUE* Bool();
 };
 
-extern SettingT<INISettingCollection> DAT_011d7450;
 
 union SETTING_VALUE
 {
@@ -51,7 +61,6 @@ union SETTING_VALUE
 class GlobalObject_00869f00
 {
   public:
-    unsigned int GetSize();
 };
 template <> class BSSimpleArray<NavMeshEdgeData, 1024>
 {

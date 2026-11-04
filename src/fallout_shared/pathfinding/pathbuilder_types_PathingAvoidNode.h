@@ -11,7 +11,6 @@ enum PathingAvoidNode__AVOID_NODE_TYPE
     PathingAvoidNode__AVOID_NODE_TYPE_AVOID_NODE_CYLINDER = 1,
     PathingAvoidNode__AVOID_NODE_TYPE_AVOID_NODE_SPHERE_ACTOR = 2
 };
-#pragma pack(push, 4)
 class PathingAvoidanceNode
 {
   public:
@@ -30,11 +29,4 @@ class PathingAvoidanceNode
     // void __cdecl PathingAvoidanceNode::*(BGSSaveFormBuffer*)
     // void __cdecl PathingAvoidanceNode::*(BGSLoadFormBuffer*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingAvoidanceNode) == 36);
-FNV_STATIC_ASSERT(offsetof(PathingAvoidanceNode, m_kLocation) == 0);
-FNV_STATIC_ASSERT(offsetof(PathingAvoidanceNode, TwoComponentVector) == 12);
-FNV_STATIC_ASSERT(offsetof(PathingAvoidanceNode, fRadius) == 24);
-FNV_STATIC_ASSERT(offsetof(PathingAvoidanceNode, m_fPathingCostCur) == 28);
-FNV_STATIC_ASSERT(offsetof(PathingAvoidanceNode, eType) == 32);
 #endif

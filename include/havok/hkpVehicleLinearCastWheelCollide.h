@@ -7,7 +7,6 @@
 #include "hkpRejectChassisListener.h"
 #include "hkpVehicleWheelCollide.h"
 class hkpVehicleLinearCastWheelCollideWheelState;
-#pragma pack(push, 1)
 class hkpVehicleLinearCastWheelCollide : public hkpVehicleWheelCollide
 {
   public:
@@ -17,6 +16,4 @@ class hkpVehicleLinearCastWheelCollide : public hkpVehicleWheelCollide
     hkReal m_fMaxExtraPenetration;                                       // +0x2C
     hkReal m_fMaxExtraPenetrationAgainstFixed;                           // +0x30
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleLinearCastWheelCollide[(sizeof(hkpVehicleLinearCastWheelCollide) == 0x34) ? 1 : -1];
 #endif

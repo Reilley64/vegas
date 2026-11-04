@@ -8,6 +8,9 @@
 #define FNV_NAVMESHOBSTACLEMANAGER_H
 
 
+#include <cstdint>
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/Twin_0044ddc0.h"
 #include "layout_support.h"
 
 class ObstacleTaskData;
@@ -18,8 +21,8 @@ class RecursiveSpinLock
   public:
     volatile unsigned int m_uiOwningThreadID;  // +0x0
     unsigned int m_uiRecursionCount;              // +0x4
-    void Lock(const char* name);
-    void Unlock();
+public:
+    void FUN_0040fba0();
 };
 
 class NavMeshObstacleManager
@@ -40,18 +43,18 @@ const char kGetBackgroundTaskCountLabel[] = "NavMeshObstacleManager::GetBackgrou
 // @fnv 0x006c3920
 unsigned int NavMeshObstacleManager::GetProcessedTaskCount()
 {
-    m_kTaskLock.Lock(kGetProcessedTaskCountLabel);
-    unsigned int ItemUpdateArray = m_kBackgroundTasks.GetSize();
-    m_kTaskLock.Unlock();
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_kTaskLock))->FUN_0040fbf0((char *)(kGetProcessedTaskCountLabel));
+    unsigned int ItemUpdateArray = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kBackgroundTasks))->GetName()));
+    reinterpret_cast<::RecursiveSpinLock *>(&(m_kTaskLock))->FUN_0040fba0();
     return ItemUpdateArray;
 }
 
 // @fnv 0x006c3970
 unsigned int NavMeshObstacleManager::GetBackgroundTaskCount()
 {
-    m_kTaskLock.Lock(kGetBackgroundTaskCountLabel);
-    unsigned int ItemUpdateArray = m_kProcessedTasks.GetSize();
-    m_kTaskLock.Unlock();
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_kTaskLock))->FUN_0040fbf0((char *)(kGetBackgroundTaskCountLabel));
+    unsigned int ItemUpdateArray = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kProcessedTasks))->GetName()));
+    reinterpret_cast<::RecursiveSpinLock *>(&(m_kTaskLock))->FUN_0040fba0();
     return ItemUpdateArray;
 }
 

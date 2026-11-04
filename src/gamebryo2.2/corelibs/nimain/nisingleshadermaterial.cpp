@@ -1,5 +1,16 @@
 // gamebryo2.2/corelibs/nimain/nisingleshadermaterial.cpp: NiDepthStencilBuffer, StandInUnload (8 functions)
 
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include "fnv/decl/Dummy_00cc0760.h"
+#include "fnv/decl/FUN_00a62660_cls.h"
+#include "fnv/decl/FUN_00a8f810_class.h"
+#include "fnv/decl/FUN_00a8f950.h"
+#include "fnv/symbols_00a8f000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
 #include "nisingleshadermaterial_decls.h"
 // Creates a NiDepthStencilBuffer when format.format is 15, sets width/height, and returns it or 0 if CreateRendererData fails.
 // @fnv 0x00a9fe90
@@ -19,12 +30,11 @@ NiDepthStencilBuffer* NiDepthStencilBuffer::Create(unsigned int width, unsigned 
     return buffer;
 }
 
-extern "C" void* g_011f6048;
 
 // @fnv 0x00aa06e0
 void* __cdecl FUN_00aa06e0()
 {
-    return &g_011f6048;
+    return &(*reinterpret_cast<void * *>(&::g_011f6048));
 }
 
 struct NiFixedString
@@ -35,7 +45,6 @@ struct NiFixedString
 struct NiShader
 {
     NiFixedString m_kShaderFilename;
-    NiFixedString const& GetFilename() const;
 };
 
 struct NiGeometry;
@@ -50,7 +59,7 @@ struct NiSingleShaderMaterial
 
 struct FUN_00aa0770_shell : NiSingleShaderMaterial
 {
-    bool __thiscall MatchesShaderFilename(NiShader* pkShader, const NiGeometry* pkGeometry,
+    bool MatchesShaderFilename(NiShader* pkShader, const NiGeometry* pkGeometry,
                                           const NiSkinInstance* pkSkinInstance, const NiPropertyState* pkPropertyState,
                                           const NiDynamicEffectState* pkDynamicEffectState,
                                           unsigned int uiMaterialExtraData);
@@ -58,18 +67,17 @@ struct FUN_00aa0770_shell : NiSingleShaderMaterial
 
 // Returns true if pkShader is non-null and its filename string equals the string stored at this+0x0C; otherwise false.
 // @fnv 0x00aa0770
-bool __thiscall FUN_00aa0770_shell::MatchesShaderFilename(NiShader* pkShader, const NiGeometry* pkGeometry,
+bool FUN_00aa0770_shell::MatchesShaderFilename(NiShader* pkShader, const NiGeometry* pkGeometry,
                                                           const NiSkinInstance* pkSkinInstance,
                                                           const NiPropertyState* pkPropertyState,
                                                           const NiDynamicEffectState* pkDynamicEffectState,
                                                           unsigned int uiMaterialExtraData)
 {
-    if (pkShader && pkShader->GetFilename().m_pcString == *(char**)((char*)this + 0x0C))
+    if (pkShader && (*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((void *)(pkShader))->FUN_00a62660())).m_pcString == *(char**)((char*)this + 0x0C))
         return true;
     return false;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct ShaderForUnload
 {
     virtual void f0();
@@ -100,7 +108,6 @@ void StandInUnload::ReleaseShader()
 }
 
 extern int DAT_010a21dc;
-extern char* _EmptyFS;
 
 struct NiGlobalStringTable
 {
@@ -117,7 +124,6 @@ struct NiShaderFactory
 
 struct FUN_00a8f950_shell
 {
-    void __thiscall FUN_00a8f950(void*);
 };
 
 struct FUN_00aa06f0_shell
@@ -132,18 +138,17 @@ struct FUN_00aa06f0_shell
     FUN_00aa06f0_shell* FUN_00aa06f0(void*, char const*, bool);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 // @fnv 0x00aa06f0
 FUN_00aa06f0_shell* FUN_00aa06f0_shell::FUN_00aa06f0(void* arg1, char const* apcString, bool abCreateShader)
 {
-    reinterpret_cast<FUN_00a8f950_shell*>(this)->FUN_00a8f950(arg1);
+    new ((void *)(reinterpret_cast<FUN_00a8f950_shell*>(this))) ::FUN_00a8f950((*(const ::String *)(arg1)));
 
     *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_010a21dc);
 
     if (!apcString)
     {
-        m_pcString = _EmptyFS;
+        m_pcString = ::DAT_0109b220;
     }
     else
     {
@@ -196,7 +201,6 @@ struct S_00aa07a0_Obj
     virtual bool v4c();
     int unk04;
     int unk08;
-    int FUN_00cc0760();
 };
 struct S_00aa07a0_Mgr
 {
@@ -228,7 +232,7 @@ S_00aa07a0_Obj* S_00aa07a0_Class::FUN_00aa07a0(int aiArg1, int aiArg2, int aiArg
     S_00aa07a0_Mgr* pManager = FUN_00a9fff0();
     if (unk10)
     {
-        if (unk10->FUN_00cc0760() == key)
+        if (reinterpret_cast<::Dummy_00cc0760 *>((unk10))->FUN_00cc0760() == key)
             return unk10;
         if (key == -1)
         {
@@ -251,9 +255,7 @@ S_00aa07a0_Obj* S_00aa07a0_Class::FUN_00aa07a0(int aiArg1, int aiArg2, int aiArg
     return 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern int DAT_010a21dc;
-extern int DAT_0109b220;
 void __cdecl FUN_00aa1460(void* apMemory, unsigned int auiSize);
 
 struct FUN_00aa0870_cls
@@ -265,7 +267,6 @@ struct FUN_00aa0870_cls
     ShaderForUnload* m_sp;
     int unk14;
 
-    void BaseCleanup();
 
     FUN_00aa0870_cls* Destroy(unsigned char acFlags);
 };
@@ -274,8 +275,8 @@ struct FUN_00aa0870_cls
 // @fnv 0x00aa0870
 FUN_00aa0870_cls* FUN_00aa0870_cls::Destroy(unsigned char acFlags)
 {
-    long(__stdcall * pfnRelease)(long volatile*) = InterlockedDecrement;
-    *(int volatile*)&m_vptr = (int)&DAT_010a21dc;
+    long(* pfnRelease)(long volatile*) = [](volatile long* p) { return InterlockedDecrement(p); };
+    *(intptr_t volatile*)&m_vptr = (intptr_t)&DAT_010a21dc;
     ShaderForUnload* sp = *(ShaderForUnload* volatile*)&m_sp;
     if (sp != 0)
     {
@@ -284,11 +285,11 @@ FUN_00aa0870_cls* FUN_00aa0870_cls::Destroy(unsigned char acFlags)
             sp->f1();
         }
     }
-    if ((int)m_pcString != DAT_0109b220)
+    if ((intptr_t)m_pcString != (*reinterpret_cast<int *>(&::DAT_0109b220)))
     {
         pfnRelease((long volatile*)((char*)m_pcString - 8));
     }
-    BaseCleanup();
+    reinterpret_cast<::FUN_00a8f810_class *>(this)->FUN_00a8f810();
     if (acFlags & 1)
     {
         FUN_00aa1460(this, 0x18);
@@ -296,8 +297,7 @@ FUN_00aa0870_cls* FUN_00aa0870_cls::Destroy(unsigned char acFlags)
     return this;
 }
 
-char* __cdecl FUN_00a5b690(const char* pcString) throw();
-void* __cdecl FUN_00aa13e0(unsigned int uiSize) throw();
+
 
 class BSFixedString
 {
@@ -305,9 +305,9 @@ class BSFixedString
     BSFixedString(const char* pcString) throw()
     {
         if (pcString == 0)
-            m_kHandle = (char*)DAT_0109b220;
+            m_kHandle = (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220));
         else
-            m_kHandle = FUN_00a5b690(pcString);
+            m_kHandle = ::NiGlobalStringTable::AddString(pcString);
     }
 
     BSFixedString() throw()
@@ -315,14 +315,14 @@ class BSFixedString
     BSFixedString& operator=(const char* pcString) throw()
     {
         if (pcString == 0)
-            m_kHandle = (char*)DAT_0109b220;
+            m_kHandle = (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220));
         else
-            m_kHandle = FUN_00a5b690(pcString);
+            m_kHandle = ::NiGlobalStringTable::AddString(pcString);
         return *this;
     }
     ~BSFixedString() throw()
     {
-        if (m_kHandle != (char*)DAT_0109b220)
+        if (m_kHandle != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedDecrement((long volatile*)(m_kHandle - 8));
     }
 
@@ -336,12 +336,6 @@ class BSFixedString
 class ShaderEntry
 {
   public:
-    static void* operator new(unsigned int uiSize) throw()
-    {
-        return FUN_00aa13e0(uiSize);
-    }
-    static void operator delete(void*) throw()
-    {}
     ShaderEntry(const BSFixedString& kName, const char* pcName, bool bFlag) throw();
     virtual void f0();
     virtual void f1();
@@ -352,13 +346,12 @@ class ShaderEntry
     bool m_bFlag;
 };
 
-ShaderEntry* __cdecl FUN_00a8fe20(const char* const& pcName) throw();
 
 // Looks up a ShaderEntry by pcName via FUN_00a8fe20 and returns it, otherwise allocates a new ShaderEntry with pcName and bFlag.
 // @fnv 0x00aa08d0
 ShaderEntry* __cdecl FindOrCreateShaderEntry(const char* pcName, bool bFlag)
 {
-    ShaderEntry* pkFound = FUN_00a8fe20(BSFixedString(pcName));
+    ShaderEntry* pkFound = ((::ShaderEntry *)(::FUN_00a8fe20((unsigned int *)&(const char *const &)(BSFixedString(pcName)))));
     if (pkFound)
         return pkFound;
     return new ShaderEntry(BSFixedString() = pcName, pcName, bFlag);

@@ -1,12 +1,21 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysemitterdeclinationvarctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysemitterdeclinationvarctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202750;
 
 // @fnv 0x00c2b8b0
+#include <new>
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/decl/FUN_00c32d80.h"
+#include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c32000.h"
+#include "fnv/symbols_010bf000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c2b8b0()
 {
-    return &g_01202750;
+    return &(*reinterpret_cast<void * *>(&::g_01202750));
 }
 
 struct NiPSysModifierFloatCtlr
@@ -54,31 +63,26 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char*& element);
     inline unsigned int Add(char*& element)
     {
         unsigned int uiIndex = m_usSize;
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
         return uiIndex;
     }
 };
-void __stdcall FUN_00c32f60(StrArr* pArr);
-char* FUN_00a7d330(char* s);
 
 // @fnv 0x00c2b920
-void __stdcall FUN_00c2b920(StrArr* pStringArray)
+void FUN_00c2b920(StrArr* pStringArray)
 {
     FUN_00c32f60(pStringArray);
-    char* s = FUN_00a7d330((char*)g_01202750);
+    char* s = ::FUN_00a7d330((char*)(*reinterpret_cast<void * *>(&::g_01202750)));
     pStringArray->Add(s);
 }
 
-extern int DAT_010bfb54;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedObject
 {
@@ -99,12 +103,10 @@ struct SpawnedObject
     int unk38;
     int unk3c;
 
-    void FUN_00c32d80();
 };
 
 struct FUN_00c2b8d0_cls
 {
-    void FUN_00c32de0(SpawnedObject* obj, void* arg);
 
     SpawnedObject* FUN_00c2b8d0(void* arg);
 };
@@ -115,13 +117,13 @@ SpawnedObject* FUN_00c2b8d0_cls::FUN_00c2b8d0(void* arg)
     SpawnedObject* obj = (SpawnedObject*)FUN_00aa13e0(0x40);
     if (obj != 0)
     {
-        obj->FUN_00c32d80();
+        new ((void *)(obj)) ::FUN_00c32d80();
         obj->m_vtbl = &DAT_010bfb54;
     }
     else
     {
         obj = 0;
     }
-    this->FUN_00c32de0(obj, arg);
+    reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>((this))->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(obj), (*(::CloningProcess *)(arg)));
     return obj;
 }

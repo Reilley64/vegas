@@ -2,48 +2,129 @@
 // src/fallout/ai/combat/combatprocedureattackranged.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureattackranged.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
+#include <cstdint>
+#include "fnv/decl/AngleView.h"
+#include "fnv/decl/AnimSequenceStub.h"
+#include "fnv/decl/BSAnimGroupSequence.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/CombatDialogueHandler.h"
+#include "fnv/decl/CombatProcedureEx.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_004301b0_shell.h"
+#include "fnv/decl/FUN_00435e00_t.h"
+#include "fnv/decl/FUN_00497280_shell.h"
+#include "fnv/decl/FUN_0051f5f0_shell.h"
+#include "fnv/decl/FUN_00524b40_class.h"
+#include "fnv/decl/FUN_005f3780_shell.h"
+#include "fnv/decl/FUN_00639aa0_shell.h"
+#include "fnv/decl/FUN_00645c40_Class.h"
+#include "fnv/decl/FUN_00645c60_shell.h"
+#include "fnv/decl/FUN_00645c80_Class.h"
+#include "fnv/decl/FUN_0070f490_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00894900_shell.h"
+#include "fnv/decl/FUN_008b3c90_class.h"
+#include "fnv/decl/FUN_008d7f40_shell.h"
+#include "fnv/decl/FUN_0097fa50_Class.h"
+#include "fnv/decl/FUN_00980070_shell.h"
+#include "fnv/decl/FUN_00981970_shell.h"
+#include "fnv/decl/FUN_009865b0_shell.h"
+#include "fnv/decl/FUN_00996de0_Class.h"
+#include "fnv/decl/FUN_00996e00_shell.h"
+#include "fnv/decl/FUN_00996ed0_shell.h"
+#include "fnv/decl/FUN_00996ef0_shell.h"
+#include "fnv/decl/FUN_009a5eb0_shell.h"
+#include "fnv/decl/FUN_009ca6c0_class.h"
+#include "fnv/decl/FUN_009caac0_shell.h"
+#include "fnv/decl/FUN_009d1b10_shell.h"
+#include "fnv/decl/FUN_009d1b30_class.h"
+#include "fnv/decl/FUN_009d1b50_shell.h"
+#include "fnv/decl/FUN_009d1b90_Class.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiTMapBase.h"
+#include "fnv/decl/Pawn.h"
+#include "fnv/decl/Standin77900.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/TESObjectACTI.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/ThreatManager.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_008b3bd0__FUN_008b3bd0_shell.h"
+#include "fnv/decl/fnv_0097cd10__CombatActionStandIn.h"
+#include "fnv/decl/fnv_0097ee90__DummyInner.h"
+#include "fnv/decl/fnv_00996ea0__MyProc.h"
+#include "fnv/decl/fnv_00998980__FUN_00998980_shell.h"
+#include "fnv/decl/fnv_0099abc0__FUN_0099abc0_This.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_005f2000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_008b3000.h"
+#include "fnv/symbols_0097a000.h"
+#include "fnv/symbols_0097f000.h"
+#include "fnv/symbols_009a6000.h"
+#include "fnv/symbols_009a9000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01090000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011f1000.h"
 extern void* DAT_01090ed4;
 
 struct FUN_009ca6c0_shell
 {
-    void __thiscall FUN_009ca6c0();
+    void FUN_009ca6c0();
 };
 
 struct FUN_009d0980_shell
 {
-    void __thiscall FUN_009d0980();
+    void FUN_009d0980();
 };
 
-void __thiscall FUN_009ca6c0_shell::FUN_009ca6c0()
+void FUN_009ca6c0_shell::FUN_009ca6c0()
 {}
 
 // @fnv 0x009d0980
-void __thiscall FUN_009d0980_shell::FUN_009d0980()
+void FUN_009d0980_shell::FUN_009d0980()
 {
     *(void**)this = &DAT_01090ed4;
-    ((FUN_009ca6c0_shell*)this)->FUN_009ca6c0();
+    reinterpret_cast<::FUN_009ca6c0_class *>((((FUN_009ca6c0_shell*)this)))->FUN_009ca6c0();
 }
 
 struct FUN_009d09f0_shell
 {
-    void __thiscall SetByteAtOffsetC6(char c);
+    void SetByteAtOffsetC6(char c);
+    char pad00[0xc6];
+    char unkc6;
 };
 
 // @fnv 0x009d09f0
-void __thiscall FUN_009d09f0_shell::SetByteAtOffsetC6(char acValue)
+void FUN_009d09f0_shell::SetByteAtOffsetC6(char acValue)
 {
-    ((char*)this)[0xc6] = acValue;
+    this->unkc6 = acValue;
 }
 
 struct FUN_009d0a10_shell
 {
     void SetByteAt142(unsigned char value);
+    char pad00[0x142];
+    unsigned char unk142;
 };
 
 // @fnv 0x009d0a10
 void FUN_009d0a10_shell::SetByteAt142(unsigned char value)
 {
-    *(unsigned char*)((char*)this + 0x142) = value;
+    this->unk142 = value;
 }
 
 struct Actor;
@@ -51,113 +132,100 @@ class CombatProcedureAttackRanged
 {
   public:
     void FUN_009d1dc0(Actor* apOpponent);
-    void FUN_009caac0(const char* str);
 };
 
 // @fnv 0x009d1dc0
 void CombatProcedureAttackRanged::FUN_009d1dc0(Actor* apOpponent)
 {
-    FUN_009caac0("Disarmed");
+    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Disarmed"));
 }
 
-extern void _Deallocate(void* p);
 
 struct FUN_009d0950_shell
 {
-    void* __thiscall FUN_009d0950(unsigned int flags);
+    void* FUN_009d0950(unsigned int flags);
 };
 
 // Calls FUN_009d0980 on this, frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x009d0950
-void* __thiscall FUN_009d0950_shell::FUN_009d0950(unsigned int flags)
+void* FUN_009d0950_shell::FUN_009d0950(unsigned int flags)
 {
     ((FUN_009d0980_shell*)this)->FUN_009d0980();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct FUN_009cc4d0_shell
 {
-    Actor* __thiscall FUN_00996de0();
 };
 struct CombatProcedure
 {
-    void __thiscall RunProcedure();
 };
 struct FUN_009d1c30_shell
 {
-    void __thiscall ResetTask();
 };
 struct FUN_009d09a0_shell
 {
-    void __thiscall FUN_009d09a0();
+    void FUN_009d09a0();
+    unsigned int pad00[0x1];
+    void* unk04;
 };
-// @fnv 0x009d09a0
-void __thiscall FUN_009d09a0_shell::FUN_009d09a0()
-{
-    Actor* pattacker;
-    pattacker = ((FUN_009cc4d0_shell*)this)->FUN_00996de0();
-    ((CombatProcedure*)this)->RunProcedure();
-    ((FUN_009d0a10_shell*)*(void**)((char*)this + 4))->SetByteAt142(0);
-    ((FUN_009d1c30_shell*)this)->ResetTask();
-    ((FUN_009d09f0_shell*)*(void**)((char*)this + 4))->SetByteAtOffsetC6(-1);
-}
-
 namespace fnv_009d2310 {
 struct BGSSaveFormBuffer
 {
-    void __thiscall SaveData(void* pData, int size, int flags);
 };
 struct CombatProcedure
 {
-    void __thiscall SaveGame(BGSSaveFormBuffer* buffer);
 };
 struct FUN_009a5eb0_shell
 {
-    void __thiscall FUN_009a5eb0(BGSSaveFormBuffer* buffer);
 };
 struct CombatProcedureAttackRanged_shell : CombatProcedure
 {
-    void __thiscall FUN_009d2310(BGSSaveFormBuffer* buffer);
+    void FUN_009d2310(BGSSaveFormBuffer* buffer);
 };
 // @fnv 0x009d2310
-void __thiscall CombatProcedureAttackRanged_shell::FUN_009d2310(BGSSaveFormBuffer* buffer)
+void CombatProcedureAttackRanged_shell::FUN_009d2310(BGSSaveFormBuffer* buffer)
 {
-    SaveGame(buffer);
-    buffer->SaveData(reinterpret_cast<char*>(this) + 0x10, 4, 0);
-    buffer->SaveData(reinterpret_cast<char*>(this) + 0x14, 12, 0);
-    reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x20)->FUN_009a5eb0(buffer);
-    reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x30)->FUN_009a5eb0(buffer);
-    reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x40)->FUN_009a5eb0(buffer);
-    reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x28)->FUN_009a5eb0(buffer);
-    reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x38)->FUN_009a5eb0(buffer);
+    reinterpret_cast<::FUN_00996ed0_shell *>(this)->SaveToBuffer((::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x10, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x14, 12, 0);
+    reinterpret_cast<::FUN_009a5eb0_shell *>((reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x20)))->FUN_009a5eb0((::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::FUN_009a5eb0_shell *>((reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x30)))->FUN_009a5eb0((::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::FUN_009a5eb0_shell *>((reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x40)))->FUN_009a5eb0((::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::FUN_009a5eb0_shell *>((reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x28)))->FUN_009a5eb0((::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::FUN_009a5eb0_shell *>((reinterpret_cast<FUN_009a5eb0_shell*>(reinterpret_cast<char*>(this) + 0x38)))->FUN_009a5eb0((::BGSSaveFormBuffer *)(buffer));
 }
 }  // namespace fnv_009d2310
 
 struct BGSLoadFormBuffer
 {
-    void __thiscall ReadTypedData(void* apData, unsigned int auiSize);
     virtual unsigned char FUN_00996f80();
 };
 struct TimeoutTimer
 {
-    void __thiscall LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
+    void LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
+public:
+    float FUN_006b9130();
+public:
+    bool CheckTimer();
+public:
+    void FUN_00910b10();
 };
 struct CombatProcedure_Helper
 {
-    void __thiscall LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 struct CombatProcedureAttackRanged_LoadGame
 {
-    void __thiscall FUN_009d23a0(BGSLoadFormBuffer* apLoadGameBuffer);
+    void FUN_009d23a0(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x009d23a0
-void __thiscall CombatProcedureAttackRanged_LoadGame::FUN_009d23a0(BGSLoadFormBuffer* apLoadGameBuffer)
+void CombatProcedureAttackRanged_LoadGame::FUN_009d23a0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    ((CombatProcedure_Helper*)this)->LoadGame(apLoadGameBuffer);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x10), 4);
-    apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x14), 0xc);
+    reinterpret_cast<::FUN_00996ef0_shell *>((((CombatProcedure_Helper*)this)))->FUN_00996ef0(apLoadGameBuffer);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x10)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x14)), 0xc);
     ((TimeoutTimer*)((char*)this + 0x20))->LoadGame(apLoadGameBuffer);
     ((TimeoutTimer*)((char*)this + 0x30))->LoadGame(apLoadGameBuffer);
     ((TimeoutTimer*)((char*)this + 0x40))->LoadGame(apLoadGameBuffer);
@@ -615,19 +683,16 @@ class D1C30Process
 class D1C30Actor
 {
   public:
-    D1C30Process* GetProcess();
 };
 
 class D1C30Owner
 {
   public:
-    D1C30Actor* GetActor();
 };
 
 class D1C30Helper
 {
   public:
-    void Reset();
 };
 
 class D1C30Task
@@ -647,14 +712,24 @@ class D1C30Task
     int unk24;
     D1C30Helper m_kHelper;
 };
+// @fnv 0x009d09a0
+void FUN_009d09a0_shell::FUN_009d09a0()
+{
+    Actor* pattacker;
+    pattacker = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>((((FUN_009cc4d0_shell*)this)))->FUN_00996de0()));
+    reinterpret_cast<::fnv_00996ea0::MyProc *>((((CombatProcedure*)this)))->FUN_00996ea0();
+    ((FUN_009d0a10_shell*)this->unk04)->SetByteAt142(0);
+    reinterpret_cast<::D1C30Task *>((((FUN_009d1c30_shell*)this)))->ResetTask();
+    ((FUN_009d09f0_shell*)this->unk04)->SetByteAtOffsetC6(-1);
+}
 
 // @fnv 0x009d1c30
 void D1C30Task::ResetTask()
 {
-    D1C30Actor* pkActor = m_pkOwnerManager->GetActor();
-    pkActor->GetProcess()->SetFlagB(0);
-    pkActor->GetProcess()->SetFlagA(0);
-    m_kHelper.Reset();
+    D1C30Actor* pkActor = ((::D1C30Actor *)(reinterpret_cast<CombatControllerFields*>(m_pkOwnerManager)->pActor));
+    ((::D1C30Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetFlagB(0);
+    ((::D1C30Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetFlagA(0);
+    reinterpret_cast<::TimeoutTimer *>(&(m_kHelper))->FUN_00910b10();
 }
 
 struct FUN_009d1d30_Vec3
@@ -699,29 +774,21 @@ bool FUN_009d1d30_cls::GetVec3(FUN_009d1d30_Vec3* apDst, unsigned int auiArg)
     }
 }
 
-extern float DAT_0101e580;
-extern double DAT_01023128;
-extern char DAT_011f426c;
 
 struct Actor;
 
 struct Sub14
 {
-    unsigned char FUN_004390c0(const void* p);
 };
 
 struct Target
 {
-    float GetTarget();
 };
 
 struct Holder04
 {
-    Target* FUN_007031c0();
 };
 
-float __cdecl FUN_00404010(float a, float b);
-bool __cdecl IsWithinAimLimits(Actor* a, void* b, float f1, float f2);
 
 struct FUN_009d1de0_cls
 {
@@ -732,22 +799,21 @@ struct FUN_009d1de0_cls
     int unk10;
     Sub14 m_14;
 
-    Actor* FUN_00996de0();
     bool FUN_009d1de0();
 };
 
 // @fnv 0x009d1de0
 bool FUN_009d1de0_cls::FUN_009d1de0()
 {
-    if (m_14.FUN_004390c0(&DAT_011f426c) != 0)
+    if (((unsigned char)(reinterpret_cast<::NiPoint3 *>(&(m_14))->FUN_004390c0((*(const ::NiPoint3 *)(&(*reinterpret_cast<char *>((void *)&::NiPoint3::ZERO))))))) != 0)
     {
         return false;
     }
-    Actor* actor = FUN_00996de0();
-    Target* target = m_04->FUN_007031c0();
-    float f2 = FUN_00404010(target->GetTarget(), DAT_0101e580) * DAT_01023128;
+    Actor* actor = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
+    Target* target = ((::Target *)(::FUN_007031c0((intptr_t)(m_04))));
+    float f2 = FUN_00404010(reinterpret_cast<::FUN_009d1b10_shell *>((target))->GetTarget(), DAT_0101e580) * ::DAT_01023128;
     float fX = f2;
-    bool r9 = IsWithinAimLimits(actor, &m_14, f2, fX);
+    bool r9 = ::IsWithinAimLimits((::S_009a6d70_Actor *)(actor), (::NiPoint3 *)(void *)(&m_14), f2, fX);
     return r9;
 }
 
@@ -756,10 +822,6 @@ struct RPoint
     float x, y, z;
     float Heading();
     RPoint operator-(const RPoint&) const;
-    float FUN_004a7290() const;
-    float FUN_00457990();
-    bool Equal(const RPoint&);
-    bool IsZero(const RPoint&);
 };
 struct RAngle
 {
@@ -1045,10 +1107,6 @@ struct RProcess
 };
 struct RActor
 {
-    RProcess* FUN_008d8520();
-    bool FUN_00894900();
-    unsigned char FUN_008b3bd0();
-    bool TryAttack(int);
 
     virtual void slot000();
     virtual void slot004();
@@ -1193,11 +1251,9 @@ struct RActor
 };
 struct RGroup
 {
-    float EventTime(int);
 };
 struct RSequence
 {
-    RGroup* Group();
 };
 struct RSequenceBase
 {
@@ -1210,101 +1266,49 @@ struct RSequenceBase
 
 struct RMap
 {
-    bool Lookup(unsigned short, RSequenceBase*&);
 };
 struct RAnimation
 {
-    unsigned short FUN_004301b0(int);
-    RMap* FUN_00497280();
-    int SequenceState(int);
-    signed char AnimType(int);
+    unsigned int pad00[0x37];
+    void* unkdc;
 };
 struct RProjectile
 {
-    float Radius();
 };
 struct RWeaponInfo
 {
-    RProjectile* Projectile();
 };
 struct RWeapon
 {
-    RWeaponInfo* WeaponInfo(RActor*);
-    bool FUN_00524b40();
-    bool IsFlagSet();
-    float GetTarget();
-    float Range();
-    unsigned int GetByteAt11D();
-    float GetField174Float();
-    float GetField178Float();
 };
 struct RTuning
 {
-    float FUN_00639aa0();
-    float GetFloatAtOffset50() const;
-    float GetField54Float();
 };
 struct RState
 {
-    bool Active();
-    bool FUN_0097ee90();
     RAngle AimDirection();
-    void RefreshState();
-    bool InCover();
-    bool HasTarget();
-    bool ValidPoint(RPoint*);
-    void SetBlocked(int);
-    unsigned char Blocked();
-    void SetProjectile(RProjectile*);
 };
 struct RContext
 {
-    RState* State();
-    RContext* Allies();
-    RWeapon* Weapon();
-    RTuning* Tuning();
-    unsigned char Disabled();
-    void SetClose(char);
-    void SetAim(unsigned char);
-    bool Friendly(RActor*);
 };
 struct RTimer
 {
     float time;
     int state;
-    bool Started();
-    bool Expired();
-    void Start(float);
-    void Clear();
 };
 struct RManager
 {
-    void Notify(RContext*, int, int, int);
 };
 struct RWorld
 {
-    bool ProjectileClear(RActor*, RProjectile*, RPoint*, float);
 };
-extern RManager* DAT_011f1708;
-extern RWorld* BGSSaveLoadGlobalDataWorldspacePtr;
 struct RSetting
 {
-    float* Float();
 };
-extern RSetting DAT_011ceef0, DAT_011cf21c, originalRuntimeFloatSetting387, originalRuntimeFloatSetting428,
-    originalRuntimeFloatSetting358;
-extern RPoint NiPoint3_ZERO;
-extern float rangedMax;
-bool __cdecl TargetCone(RActor*, RPoint*, float, float);
-void __cdecl WeaponRanges(RContext*, RWeapon*, float*, float*, float*);
 int __cdecl GetType(unsigned short);
 float __cdecl DirectionLength(RPoint*);
-bool __cdecl IsAttackAnim(unsigned short);
 void __cdecl MuzzlePosition(RPoint*, RActor*);
-bool __cdecl TraceShot(RActor*, RWeaponInfo*, float, RPoint, RPoint, RPoint*, RActor**, float*);
 float __cdecl ShotTravel(RWeaponInfo*, RPoint, RPoint, int, float);
-float __cdecl RandomFloat(float, float);
-bool __cdecl ProjectileNeedsEvent(RProjectile*);
 struct RAttack
 {
     int unk00;
@@ -1314,354 +1318,12 @@ struct RAttack
     int state;
     RPoint aim;
     RTimer blocked, burst, pause, shot, retry;
-    RActor* FUN_00996de0();
-    RActor* FUN_00996e00();
-    void Fail(const char*);
-    void Stop();
-    RPoint* AimPosition(RPoint*, int);
-    void Start(unsigned char);
-    void Look(RPoint const&, unsigned char);
-    void ClearLook();
-    bool CanShoot();
     void UpdateAttack();
 };
 struct RHitPoint : RPoint
 {
     RHitPoint();
 };
-// @fnv 0x009d0a30
-void RAttack::UpdateAttack()
-{
-    RActor* actor = FUN_00996de0();
-    RActor* target = FUN_00996e00();
-    RState* combat2 = context->State();
-    RContext* allies8 = context->Allies();
-    unsigned int attack20 = 255;
-    RWeapon* weapon0 = context->Weapon();
-    RAnimation* animation0 = actor->GetAnimation();
-    if (!weapon0 || !animation0 || !weapon0->WeaponInfo(actor))
-    {
-        Fail("Missing either weapon, animation, or weapon projectile");
-        return;
-    }
-    float fov16 = context->Tuning()->FUN_00639aa0();
-    if (fov16 > 0.0 && target &&
-        !TargetCone(actor, target->GetPosition(), float(fov16 * 0.01745329238474369), 6.2831854820251465f))
-    {
-        Fail("Target outside targeting FOV");
-        return;
-    }
-    RWeaponInfo* info1 = weapon0->WeaponInfo(actor);
-    bool automatic77 = weapon0->FUN_00524b40();
-    bool burstWeapon = automatic77 || weapon0->IsFlagSet();
-    bool tooClose34 = false;
-    RPoint destination;
-    AimPosition(&destination, 0);
-    bool ready = actor->FUN_008d8520()->IsReady() || actor->FUN_00894900();
-    if (context->Disabled())
-        ready = false;
-    if (state != 0 && !ready)
-    {
-        Stop();
-        state = 0;
-    }
-    if (ready)
-    {
-        float minRange6 = 0.0f;
-        float idealRange = 0.0f;
-        float maxRange = 0.0f;
-        WeaponRanges(context, weapon0, &minRange6, &idealRange, &maxRange);
-        RPoint targetPosition2 = destination;
-        if (target)
-            targetPosition2.z = target->GetPosition()->z;
-        RPoint rangeDelta = targetPosition2 - *actor->GetPosition();
-        float distance = rangeDelta.FUN_004a7290();
-        if (distance > maxRange * maxRange)
-            ready = false;
-        if (distance < minRange6 * minRange6)
-            tooClose34 = true;
-    }
-    if (combat2->Active())
-        aim = destination;
-
-    if (combat2->Active() && combat2->FUN_0097ee90() && ready)
-    {
-        switch (state)
-        {
-        case 1:
-            if (burstWeapon)
-            {
-                if (!burst.Started() && combat2->AimDirection().Heading() != -rangedMax)
-                {
-                    float duration1 = *DAT_011ceef0.Float();
-                    unsigned short group = animation0->FUN_004301b0(4);
-                    if (GetType(group) == 80 || GetType(group) == 86)
-                    {
-                        RSequenceBase* sequence;
-                        if (animation0->FUN_00497280()->Lookup(group, sequence))
-                        {
-                            RGroup* animGroup0 = sequence->GetControllerSequence(-1)->Group();
-                            float start = animGroup0->EventTime(0);
-                            float end = animGroup0->EventTime(1);
-                            duration1 += end - start;
-                        }
-                    }
-                    burst.Start(duration1);
-                }
-                if (burst.Started() && burst.Expired())
-                {
-                    Stop();
-                    pause.Start(*DAT_011cf21c.Float());
-                    state = 2;
-                }
-            }
-            break;
-        case 2:
-            if (pause.Expired())
-            {
-                combat2->RefreshState();
-                Start(automatic77);
-                state = 1;
-            }
-            break;
-        default:
-            retry.Clear();
-            Start(automatic77);
-            state = 1;
-            break;
-        }
-    }
-    else
-    {
-        switch (state)
-        {
-        case 1:
-            Start(automatic77);
-            state = 3;
-            retry.Start(2.0f);
-            break;
-        case 2:
-            if (pause.Expired())
-            {
-                Start(automatic77);
-                state = 3;
-                retry.Start(2.0f);
-            }
-            break;
-        case 3:
-            if (retry.Expired())
-            {
-                Stop();
-                state = 0;
-            }
-            break;
-        case 0:
-            if (ready && !retry.Expired())
-            {
-                Start(automatic77);
-                state = 3;
-            }
-            break;
-        }
-    }
-    if (target && combat2->FUN_0097ee90())
-        DAT_011f1708->Notify(context, 2, 0, 0);
-    bool close2 = false;
-    if (target)
-    {
-        float nearRange = *originalRuntimeFloatSetting387.Float() * weapon0->Range();
-        RPoint nearDelta20 = *actor->GetPosition() - *target->GetPosition();
-        if (nearDelta20.FUN_004a7290() > nearRange * nearRange)
-            close2 = true;
-    }
-    context->SetClose(close2);
-    if (weapon0->GetTarget() > 0.0)
-    {
-        float angle = float(weapon0->GetTarget() * 0.01745329238474369);
-        if (!actor->FUN_008b3bd0())
-            angle *= *originalRuntimeFloatSetting428.Float();
-        if (aim.Equal(NiPoint3_ZERO) && TargetCone(actor, &aim, angle, rangedMax))
-            context->SetAim(4);
-        else
-            context->SetAim(0);
-    }
-    if (state == 0)
-    {
-        if (target && !combat2->InCover() && (combat2->Active() || (combat2->HasTarget() && combat2->FUN_0097ee90())))
-        {
-            if (aim.Equal(NiPoint3_ZERO) || combat2->ValidPoint(&aim))
-                Look(aim, 2);
-            else
-                ClearLook();
-        }
-        else
-            ClearLook();
-        return;
-    }
-    if (aim.IsZero(NiPoint3_ZERO))
-        aim = destination;
-    if (aim.Equal(NiPoint3_ZERO))
-        Look(aim, 4);
-    if (state == 2)
-        return;
-    if (!CanShoot() && !tooClose34)
-        return;
-    if (!shot.Expired())
-        return;
-    bool fire24 = false;
-    unsigned char attackFlag12 = 1;
-    if (automatic77)
-    {
-        bool canAttack = true;
-        attackFlag12 = actor->FUN_008d8520()->AttackFlag(actor);
-        if (IsAttackAnim(animation0->FUN_004301b0(4)))
-        {
-            int sequenceState = animation0->SequenceState(4);
-            if (sequenceState < 1 || sequenceState >= 2)
-                canAttack = false;
-        }
-        if (canAttack && attackFlag12)
-            fire24 = true;
-    }
-    else
-    {
-        switch (actor->FUN_008d8520()->AttackState())
-        {
-        case 4:
-            if (animation0->SequenceState(4) == 3)
-                fire24 = true;
-            break;
-        case -1:
-            fire24 = true;
-            break;
-        }
-    }
-    if (!fire24)
-        return;
-
-    RHitPoint hitPoint2;
-    RActor* hit16 = 0;
-    RActor* hitActor9 = 0;
-    float fraction41 = 0.0f;
-    RPoint muzzle23;
-    MuzzlePosition(&muzzle23, actor);
-    bool collision25 = TraceShot(actor, info1, 0.0f, muzzle23, destination, &hitPoint2, &hit16, &fraction41);
-    if (collision25)
-    {
-        bool blockedShot = false;
-        switch (state)
-        {
-        case 1:
-            if (hit16 && hit16->IsActor())
-            {
-                hitActor9 = hit16;
-                if (hitActor9 == FUN_00996e00() || allies8->Friendly(hitActor9))
-                    blockedShot = true;
-            }
-            if (!blockedShot)
-            {
-                RProjectile* explosive = info1->Projectile();
-                if (explosive)
-                {
-                    RPoint hitDelta0 = hitPoint2 - destination;
-                    float hitDistance = hitDelta0.FUN_00457990();
-                    if (hitDistance <= explosive->Radius())
-                        blockedShot = true;
-                }
-            }
-            break;
-        case 3:
-            if (!hit16 || !hit16->IsActor())
-            {
-                if (fraction41 > 0.5)
-                    blockedShot = true;
-            }
-            else if (hit16 && hit16->IsActor() && !hit16->IsDead(0) && allies8->Friendly(hit16))
-                blockedShot = true;
-            if (!blockedShot)
-            {
-                state = 0;
-                Stop();
-                retry.Clear();
-                return;
-            }
-            break;
-        }
-        if (blockedShot)
-            context->State()->SetBlocked(0);
-        else
-        {
-            if (!context->State()->Blocked())
-                context->State()->SetBlocked(1);
-            return;
-        }
-    }
-    RProjectile* projectile = info1->Projectile();
-    if (projectile)
-    {
-        RPoint impact = aim;
-        if (collision25)
-            impact = hitPoint2;
-        float travel = ShotTravel(info1, muzzle23, impact, 0, 0.0f);
-        if (!BGSSaveLoadGlobalDataWorldspacePtr->ProjectileClear(actor, projectile, &impact, travel))
-        {
-            fire24 = false;
-            if (!blocked.Started())
-                blocked.Start(*originalRuntimeFloatSetting358.Float());
-            else if (blocked.Expired())
-                context->State()->SetProjectile(projectile);
-        }
-        else
-        {
-            context->State()->SetProjectile(0);
-            blocked.Clear();
-        }
-    }
-    if (fire24)
-    {
-        switch (animation0->AnimType(0))
-        {
-        case 51:
-            attack20 = 38;
-            break;
-        case 52:
-            attack20 = 44;
-            break;
-        case 53:
-            attack20 = 50;
-            break;
-        case 54:
-            attack20 = 56;
-            break;
-        case 55:
-            attack20 = 62;
-            break;
-        case 56:
-            attack20 = 68;
-            break;
-        case 108:
-            attack20 = 26;
-            break;
-        default:
-            if (weapon0 && weapon0->GetByteAt11D() != 255)
-                attack20 = weapon0->GetByteAt11D();
-            else
-                attack20 = 32;
-            break;
-        }
-        actor->FUN_008d8520()->SetAttackFlag(attackFlag12);
-        bool attacked = actor->TryAttack(attack20);
-        if (attacked && !automatic77)
-        {
-            float minDelay = weapon0->GetField174Float() * context->Tuning()->GetFloatAtOffset50();
-            float maxDelay = weapon0->GetField178Float() * context->Tuning()->GetField54Float();
-            shot.Start(RandomFloat(minDelay, maxDelay));
-        }
-        if (projectile && ProjectileNeedsEvent(projectile))
-            DAT_011f1708->Notify(context, 2, 4, 1);
-    }
-}
-
 class Process9D1
 {
   public:
@@ -2111,19 +1773,16 @@ class Process9D1
 class Actor9D1
 {
   public:
-    Process9D1* GetProcess();
 };
 
 class Mobile9D1
 {
   public:
-    Actor9D1* GetActor();
 };
 
 class Timer9D1
 {
   public:
-    void Reset();
 };
 
 class Controller9D1
@@ -2148,10 +1807,10 @@ class Controller9D1
 // @fnv 0x009d1bc0
 void Controller9D1::FUN_009d1bc0(bool bActive)
 {
-    Actor9D1* pkActor = m_pkMobile->GetActor();
-    pkActor->GetProcess()->SetActive(bActive);
-    pkActor->GetProcess()->SetUpdateFlag(1);
-    m_kTimer.Reset();
+    Actor9D1* pkActor = ((::Actor9D1 *)(reinterpret_cast<CombatControllerFields*>(m_pkMobile)->pActor));
+    ((::Process9D1 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetActive(bActive);
+    ((::Process9D1 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetUpdateFlag(1);
+    reinterpret_cast<::TimeoutTimer *>(&(m_kTimer))->FUN_00910b10();
 }
 
 class FUN_009d0890_base
@@ -2196,27 +1855,20 @@ class FUN_009d0890 : public FUN_009d0890_base
 // Initializes the base class, sets m_10 to 0, and copies a Vec3 from DAT_011f426c into m_14.
 // @fnv 0x009d0890
 FUN_009d0890::FUN_009d0890()
-    : FUN_009d0890_base(), m_10(0), m_14(*reinterpret_cast<const FUN_009d0890_Vec3*>(&DAT_011f426c))
+    : FUN_009d0890_base(), m_10(0), m_14(*reinterpret_cast<const FUN_009d0890_Vec3*>(&(*reinterpret_cast<char *>((void *)&::NiPoint3::ZERO))))
 {}
 
 struct RangedVec
 {
     float x, y, z;
-    bool FUN_00439090(const void*);
 };
 struct RangedTimer
 {
     float start;
     float duration;
-    bool FUN_0097fa50();
-    bool FUN_008d7f80();
-    float FUN_006b9130();
-    float FUN_00435e00();
 };
 struct RangedActor
 {
-    float GetAdjustedAngle();
-    unsigned char FUN_008b3bd0();
 };
 struct RangedDisplay
 {
@@ -2229,12 +1881,8 @@ struct RangedDisplay
 };
 struct RangedSetting
 {
-    float* FUN_00403e20();
 };
-extern RangedSetting DAT_011cfb84;
 void __cdecl FUN_009a88e0(RangedVec*, RangedActor*, RangedVec);
-float __cdecl FUN_004b1480(float);
-float __cdecl FUN_004b15e0(float, float, float*);
 float __cdecl FUN_00408840(float);
 struct RangedDebug
 {
@@ -2244,15 +1892,13 @@ struct RangedDebug
     unsigned int state;
     RangedVec location;
     RangedTimer blocked, firing, cooldown, delay, suppress;
-    RangedActor* FUN_00996de0();
-    void* FUN_00996e00();
     void PrintDebugInfo(RangedDisplay*, int, int);
 };
 // Prints the ranged combat state, timer values, target location and weapon firing arc to the debug display.
 // @fnv 0x009d1e80
 void RangedDebug::PrintDebugInfo(RangedDisplay* display, int iX, int iY)
 {
-    RangedActor* actor = FUN_00996de0();
+    RangedActor* actor = ((::RangedActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     switch (state)
     {
     case 0:
@@ -2260,41 +1906,41 @@ void RangedDebug::PrintDebugInfo(RangedDisplay* display, int iX, int iY)
         break;
     case 1:
         display->Print(iX, iY, "FIRING");
-        if (firing.FUN_0097fa50())
-            display->Print(iX, iY, "Firing Timer: %.02f/%.02f", firing.FUN_00435e00(), firing.FUN_006b9130());
-        if (FUN_00996e00())
+        if (reinterpret_cast<::FUN_0097fa50_Class *>(&(firing))->FUN_0097fa50())
+            display->Print(iX, iY, "Firing Timer: %.02f/%.02f", reinterpret_cast<::FUN_00435e00_t *>(&(firing))->FUN_00435e00(), reinterpret_cast<::TimeoutTimer *>(&(firing))->FUN_006b9130());
+        if (reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00())
             display->Print(iX, iY, "Target location: %.02f, %.02f, %.02f", location.x, location.y, location.z);
-        if (!delay.FUN_008d7f80())
-            display->Print(iX, iY, "Firing Delay Timer: %.02f/%.02f", delay.FUN_00435e00(), delay.FUN_006b9130());
+        if (!reinterpret_cast<::TimeoutTimer *>(&(delay))->CheckTimer())
+            display->Print(iX, iY, "Firing Delay Timer: %.02f/%.02f", reinterpret_cast<::FUN_00435e00_t *>(&(delay))->FUN_00435e00(), reinterpret_cast<::TimeoutTimer *>(&(delay))->FUN_006b9130());
         break;
     case 2:
         display->Print(iX, iY, "COOLDOWN");
-        display->Print(iX, iY, "Cooldown Timer: %.02f/%.02f", cooldown.FUN_00435e00(), cooldown.FUN_006b9130());
+        display->Print(iX, iY, "Cooldown Timer: %.02f/%.02f", reinterpret_cast<::FUN_00435e00_t *>(&(cooldown))->FUN_00435e00(), reinterpret_cast<::TimeoutTimer *>(&(cooldown))->FUN_006b9130());
         break;
     case 3:
         display->Print(iX, iY, "SUPPRESSIVE_FIRE");
         display->Print(iX, iY, "Suppression location: %.02f, %.02f, %.02f", location.x, location.y, location.z);
-        display->Print(iX, iY, "Suppressive Fire Timer: %.02f/%.02f", suppress.FUN_00435e00(), suppress.FUN_006b9130());
-        if (!delay.FUN_008d7f80())
-            display->Print(iX, iY, "Firing Delay Timer: %.02f/%.02f", delay.FUN_00435e00(), delay.FUN_006b9130());
+        display->Print(iX, iY, "Suppressive Fire Timer: %.02f/%.02f", reinterpret_cast<::FUN_00435e00_t *>(&(suppress))->FUN_00435e00(), reinterpret_cast<::TimeoutTimer *>(&(suppress))->FUN_006b9130());
+        if (!reinterpret_cast<::TimeoutTimer *>(&(delay))->CheckTimer())
+            display->Print(iX, iY, "Firing Delay Timer: %.02f/%.02f", reinterpret_cast<::FUN_00435e00_t *>(&(delay))->FUN_00435e00(), reinterpret_cast<::TimeoutTimer *>(&(delay))->FUN_006b9130());
         break;
     }
-    if (blocked.FUN_0097fa50())
-        display->Print(iX, iY, "Explosive Projectile Blocked Timer: %.02f/%.02f", blocked.FUN_00435e00(),
-                       blocked.FUN_006b9130());
-    Target* target = owner->FUN_007031c0();
-    if (location.FUN_00439090(&DAT_011f426c) && target && target->GetTarget() > 0.0)
+    if (reinterpret_cast<::FUN_0097fa50_Class *>(&(blocked))->FUN_0097fa50())
+        display->Print(iX, iY, "Explosive Projectile Blocked Timer: %.02f/%.02f", reinterpret_cast<::FUN_00435e00_t *>(&(blocked))->FUN_00435e00(),
+                       reinterpret_cast<::TimeoutTimer *>(&(blocked))->FUN_006b9130());
+    Target* target = ((::Target *)(::FUN_007031c0((intptr_t)(owner))));
+    if (reinterpret_cast<::NiPlane *>(&(location))->operator==((*(const ::NiPlane *)(&(*reinterpret_cast<char *>((void *)&::NiPoint3::ZERO))))) && target && reinterpret_cast<::FUN_009d1b10_shell *>((target))->GetTarget() > 0.0)
     {
         RangedVec unused;
         FUN_009a88e0(&unused, actor, location);
-        float limit = actor->GetAdjustedAngle();
-        unused.z = FUN_004b1480(unused.z);
+        float limit = reinterpret_cast<::AngleView *>((actor))->GetAdjustedAngle();
+        unused.z = ::WrapAngle(unused.z);
         float arc = 0.0f;
         float heading = FUN_00408840(FUN_004b15e0(limit, unused.z, &arc));
-        float direction = target->GetTarget();
-        if (!actor->FUN_008b3bd0())
+        float direction = reinterpret_cast<::FUN_009d1b10_shell *>((target))->GetTarget();
+        if (!((unsigned char)(reinterpret_cast<::fnv_008b3bd0::FUN_008b3bd0_shell *>((actor))->FUN_008b3bd0())))
         {
-            direction *= *DAT_011cfb84.FUN_00403e20();
+            direction *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangedSetting *>(&::originalRuntimeFloatSetting428))))));
             display->Print(iX, iY, "Weapon firing arc: ( %.2f/%.2f ) degrees (Stationary)",
                            heading * 2.0 * 57.2957763671875, direction);
         }
@@ -2308,11 +1954,9 @@ void RangedDebug::PrintDebugInfo(RangedDisplay* display, int iX, int iY)
 
 struct Target2
 {
-    int GetOrFallback(Actor* apActor);
 };
 struct Holder2
 {
-    Target2* FUN_007031c0();
 };
 void __cdecl ComputeTrajectory(FUN_009d1d30_Vec3* apOut, Actor* apA, Actor* apB, unsigned int auiArg, int aiVal,
                                float afVal, int aiFlag);
@@ -2320,22 +1964,354 @@ struct CombatThing
 {
     int unk00;
     Holder2* m_04;
-    Actor* FUN_00996de0();
-    Actor* FUN_00996e00();
-    FUN_009d1d30_Vec3 GetTrajectory(unsigned int auiArg);
+    FUN_009d1d30_Vec3 GetTrajectory(uintptr_t auiArg);
 };
+// @fnv 0x009d0a30
+void RAttack::UpdateAttack()
+{
+    RActor* actor = ((::RActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
+    RActor* target = ((::RActor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
+    RState* combat2 = ((::RState *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()));
+    RContext* allies8 = ((::RContext *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound()));
+    unsigned int attack20 = 255;
+    RWeapon* weapon0 = ((::RWeapon *)(::FUN_007031c0((intptr_t)(context))));
+    RAnimation* animation0 = actor->GetAnimation();
+    if (!weapon0 || !animation0 || !((::RWeaponInfo *)(reinterpret_cast<::Thing *>((weapon0))->GetOrFallback((intptr_t)(actor)))))
+    {
+        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Missing either weapon, animation, or weapon projectile"));
+        return;
+    }
+    float fov16 = reinterpret_cast<::FUN_00639aa0_shell *>((((::RTuning *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->FUN_00639aa0();
+    if (fov16 > 0.0 && target &&
+        !::IsWithinAimLimits((::S_009a6d70_Actor *)(actor), (::NiPoint3 *)(::RPoint *)(target->GetPosition()), float(fov16 * 0.01745329238474369), 6.2831854820251465f))
+    {
+        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Target outside targeting FOV"));
+        return;
+    }
+    RWeaponInfo* info1 = ((::RWeaponInfo *)(reinterpret_cast<::Thing *>((weapon0))->GetOrFallback((intptr_t)(actor))));
+    bool automatic77 = reinterpret_cast<::FUN_00524b40_class *>((weapon0))->FUN_00524b40();
+    bool burstWeapon = automatic77 || reinterpret_cast<::FUN_00645c80_Class *>((weapon0))->IsFlagSet();
+    bool tooClose34 = false;
+    RPoint destination;
+    reinterpret_cast<::CombatThing *>(this)->GetTrajectory((uintptr_t)(&destination));
+    bool ready = ((::RProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->IsReady() || reinterpret_cast<::FUN_00894900_shell *>((actor))->FUN_00894900();
+    if (((unsigned char)(reinterpret_cast<::FUN_00981970_shell *>((context))->FUN_00981970())))
+        ready = false;
+    if (state != 0 && !ready)
+    {
+        reinterpret_cast<::D1C30Task *>(this)->ResetTask();
+        state = 0;
+    }
+    if (ready)
+    {
+        float minRange6 = 0.0f;
+        float idealRange = 0.0f;
+        float maxRange = 0.0f;
+        ::FUN_009a9180((::S_009a9180_Actor *)(context), (::S_009a9180_Data *)(weapon0), &minRange6, &idealRange, &maxRange);
+        RPoint targetPosition2 = destination;
+        if (target)
+            targetPosition2.z = target->GetPosition()->z;
+        RPoint rangeDelta = targetPosition2 - *actor->GetPosition();
+        float distance = reinterpret_cast<::TESCombatStyle *>((void *)&(rangeDelta))->UpdateCombatStyle();
+        if (distance > maxRange * maxRange)
+            ready = false;
+        if (distance < minRange6 * minRange6)
+            tooClose34 = true;
+    }
+    if (::FUN_0097fb20((::CombatState *)(combat2)))
+        aim = destination;
+
+    if (::FUN_0097fb20((::CombatState *)(combat2)) && reinterpret_cast<::fnv_0097ee90::DummyInner *>((combat2))->FUN_0097ee90() && ready)
+    {
+        switch (state)
+        {
+        case 1:
+            if (burstWeapon)
+            {
+                if (!reinterpret_cast<::FUN_0097fa50_Class *>(&(burst))->FUN_0097fa50() && reinterpret_cast<::CombatTargetTimestamp *>((void *)&(const ::RAngle &)(combat2->AimDirection()))->FUN_006a7f50() != -::DAT_01090e90)
+                {
+                    float duration1 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RSetting *>(&::g_011ceef0))))));
+                    unsigned short group = reinterpret_cast<::FUN_004301b0_shell *>((animation0))->FUN_004301b0(4);
+                    if (GetType(group) == 80 || GetType(group) == 86)
+                    {
+                        RSequenceBase* sequence;
+                        if (reinterpret_cast<::NiTMapBase *>((*reinterpret_cast<::RMap **>(&animation0->unkdc)))->Lookup(group, (::AnimSequenceBase *&)(sequence)))
+                        {
+                            RGroup* animGroup0 = ((::RGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence->GetControllerSequence(-1)))->GetAnimGroup()));
+                            float start = reinterpret_cast<::FUN_005f3780_shell *>((animGroup0))->FUN_005f3780(0);
+                            float end = reinterpret_cast<::FUN_005f3780_shell *>((animGroup0))->FUN_005f3780(1);
+                            duration1 += end - start;
+                        }
+                    }
+                    reinterpret_cast<::FUN_008d7f40_shell *>(&(burst))->FUN_008d7f40(duration1);
+                }
+                if (reinterpret_cast<::FUN_0097fa50_Class *>(&(burst))->FUN_0097fa50() && reinterpret_cast<::TimeoutTimer *>(&(burst))->CheckTimer())
+                {
+                    reinterpret_cast<::D1C30Task *>(this)->ResetTask();
+                    reinterpret_cast<::FUN_008d7f40_shell *>(&(pause))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RSetting *>(&::g_011cf21c)))))));
+                    state = 2;
+                }
+            }
+            break;
+        case 2:
+            if (reinterpret_cast<::TimeoutTimer *>(&(pause))->CheckTimer())
+            {
+                reinterpret_cast<::FUN_009d1b90_Class *>((combat2))->SetNegatedTimestamp();
+                reinterpret_cast<::Controller9D1 *>(this)->FUN_009d1bc0(automatic77);
+                state = 1;
+            }
+            break;
+        default:
+            reinterpret_cast<::TimeoutTimer *>(&(retry))->FUN_00910b10();
+            reinterpret_cast<::Controller9D1 *>(this)->FUN_009d1bc0(automatic77);
+            state = 1;
+            break;
+        }
+    }
+    else
+    {
+        switch (state)
+        {
+        case 1:
+            reinterpret_cast<::Controller9D1 *>(this)->FUN_009d1bc0(automatic77);
+            state = 3;
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(retry))->FUN_008d7f40(2.0f);
+            break;
+        case 2:
+            if (reinterpret_cast<::TimeoutTimer *>(&(pause))->CheckTimer())
+            {
+                reinterpret_cast<::Controller9D1 *>(this)->FUN_009d1bc0(automatic77);
+                state = 3;
+                reinterpret_cast<::FUN_008d7f40_shell *>(&(retry))->FUN_008d7f40(2.0f);
+            }
+            break;
+        case 3:
+            if (reinterpret_cast<::TimeoutTimer *>(&(retry))->CheckTimer())
+            {
+                reinterpret_cast<::D1C30Task *>(this)->ResetTask();
+                state = 0;
+            }
+            break;
+        case 0:
+            if (ready && !reinterpret_cast<::TimeoutTimer *>(&(retry))->CheckTimer())
+            {
+                reinterpret_cast<::Controller9D1 *>(this)->FUN_009d1bc0(automatic77);
+                state = 3;
+            }
+            break;
+        }
+    }
+    if (target && reinterpret_cast<::fnv_0097ee90::DummyInner *>((combat2))->FUN_0097ee90())
+        reinterpret_cast<::CombatDialogueHandler *>(((*reinterpret_cast<::RManager * *>(&::CombatAssessment::DAT_011f1708))))->FUN_00983970((::CombatController *)(context), 2, 0, 0);
+    bool close2 = false;
+    if (target)
+    {
+        float nearRange = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RSetting *>(&::originalRuntimeFloatSetting387)))))) * reinterpret_cast<::MiddleHighProcess *>((weapon0))->GetLightIntensity();
+        RPoint nearDelta20 = *actor->GetPosition() - *target->GetPosition();
+        if (reinterpret_cast<::TESCombatStyle *>((void *)&(nearDelta20))->UpdateCombatStyle() > nearRange * nearRange)
+            close2 = true;
+    }
+    reinterpret_cast<::FUN_009d09f0_shell *>((context))->SetByteAtOffsetC6(close2);
+    if (reinterpret_cast<::FUN_009d1b10_shell *>((weapon0))->GetTarget() > 0.0)
+    {
+        float angle = float(reinterpret_cast<::FUN_009d1b10_shell *>((weapon0))->GetTarget() * 0.01745329238474369);
+        if (!((unsigned char)(reinterpret_cast<::fnv_008b3bd0::FUN_008b3bd0_shell *>((actor))->FUN_008b3bd0())))
+            angle *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RSetting *>(&::originalRuntimeFloatSetting428))))));
+        if (reinterpret_cast<::NiPlane *>(&(aim))->operator==((const ::NiPlane &)((*reinterpret_cast<::RPoint *>((void *)&::NiPoint3::ZERO)))) && ::IsWithinAimLimits((::S_009a6d70_Actor *)(actor), (::NiPoint3 *)(::RPoint *)(&aim), angle, ::DAT_01090e90))
+            reinterpret_cast<::FUN_009d0a10_shell *>((context))->SetByteAt142(4);
+        else
+            reinterpret_cast<::FUN_009d0a10_shell *>((context))->SetByteAt142(0);
+    }
+    if (state == 0)
+    {
+        if (target && !::fnv_008b3c10::FUN_008b3c10((::fnv_008b3c10::CombatState *)(combat2)) && (::FUN_0097fb20((::CombatState *)(combat2)) || (reinterpret_cast<::fnv_00998980::FUN_00998980_shell *>((combat2))->FUN_00998980() && reinterpret_cast<::fnv_0097ee90::DummyInner *>((combat2))->FUN_0097ee90())))
+        {
+            if (reinterpret_cast<::NiPlane *>(&(aim))->operator==((const ::NiPlane &)((*reinterpret_cast<::RPoint *>((void *)&::NiPoint3::ZERO)))) || reinterpret_cast<::fnv_0099abc0::FUN_0099abc0_This *>((combat2))->UpdateLastSeenFiringLocation((*(::fnv_0099abc0::NiPoint3 *)(&aim))))
+                reinterpret_cast<::CombatProcedureEx *>(this)->SetLookAtPoint((const ::NiPoint3 &)(aim), 2);
+            else
+                reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
+        }
+        else
+            reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
+        return;
+    }
+    if (reinterpret_cast<::NiPoint3 *>(&(aim))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<::RPoint *>((void *)&::NiPoint3::ZERO)))))
+        aim = destination;
+    if (reinterpret_cast<::NiPlane *>(&(aim))->operator==((const ::NiPlane &)((*reinterpret_cast<::RPoint *>((void *)&::NiPoint3::ZERO)))))
+        reinterpret_cast<::CombatProcedureEx *>(this)->SetLookAtPoint((const ::NiPoint3 &)(aim), 4);
+    if (state == 2)
+        return;
+    if (!reinterpret_cast<::FUN_009d1de0_cls *>(this)->FUN_009d1de0() && !tooClose34)
+        return;
+    if (!reinterpret_cast<::TimeoutTimer *>(&(shot))->CheckTimer())
+        return;
+    bool fire24 = false;
+    unsigned char attackFlag12 = 1;
+    if (automatic77)
+    {
+        bool canAttack = true;
+        attackFlag12 = ((::RProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->AttackFlag(actor);
+        if (::FUN_005f25d0(reinterpret_cast<::FUN_004301b0_shell *>((animation0))->FUN_004301b0(4)))
+        {
+            int sequenceState = reinterpret_cast<::FUN_0070f490_Class *>((animation0))->GetSlotValue(4);
+            if (sequenceState < 1 || sequenceState >= 2)
+                canAttack = false;
+        }
+        if (canAttack && attackFlag12)
+            fire24 = true;
+    }
+    else
+    {
+        switch (((::RProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->AttackState())
+        {
+        case 4:
+            if (reinterpret_cast<::FUN_0070f490_Class *>((animation0))->GetSlotValue(4) == 3)
+                fire24 = true;
+            break;
+        case -1:
+            fire24 = true;
+            break;
+        }
+    }
+    if (!fire24)
+        return;
+
+    RHitPoint hitPoint2;
+    RActor* hit16 = 0;
+    RActor* hitActor9 = 0;
+    float fraction41 = 0.0f;
+    RPoint muzzle23;
+    MuzzlePosition(&muzzle23, actor);
+    bool collision25 = ::FUN_009a6e90(actor, info1, 0.0f, *(const ::NiPoint3 *)&(muzzle23), *(const ::NiPoint3 *)&(destination), (::NiPoint3 *)&hitPoint2, (void **)&hit16, &fraction41);
+    if (collision25)
+    {
+        bool blockedShot = false;
+        switch (state)
+        {
+        case 1:
+            if (hit16 && hit16->IsActor())
+            {
+                hitActor9 = hit16;
+                if (hitActor9 == ((::RActor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00())) || reinterpret_cast<::FUN_009865b0_shell *>((allies8))->FUN_009865b0((intptr_t)(hitActor9)))
+                    blockedShot = true;
+            }
+            if (!blockedShot)
+            {
+                RProjectile* explosive = ((::RProjectile *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(info1))));
+                if (explosive)
+                {
+                    RPoint hitDelta0 = hitPoint2 - destination;
+                    float hitDistance = reinterpret_cast<::NiPoint3 *>(&(hitDelta0))->ComputeMagnitude();
+                    if (hitDistance <= reinterpret_cast<::Standin77900 *>((explosive))->FUN_00477900())
+                        blockedShot = true;
+                }
+            }
+            break;
+        case 3:
+            if (!hit16 || !hit16->IsActor())
+            {
+                if (fraction41 > 0.5)
+                    blockedShot = true;
+            }
+            else if (hit16 && hit16->IsActor() && !hit16->IsDead(0) && reinterpret_cast<::FUN_009865b0_shell *>((allies8))->FUN_009865b0((intptr_t)(hit16)))
+                blockedShot = true;
+            if (!blockedShot)
+            {
+                state = 0;
+                reinterpret_cast<::D1C30Task *>(this)->ResetTask();
+                reinterpret_cast<::TimeoutTimer *>(&(retry))->FUN_00910b10();
+                return;
+            }
+            break;
+        }
+        if (blockedShot)
+            reinterpret_cast<::fnv_0097cd10::CombatActionStandIn *>((((::RState *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()))))->FUN_0097cd10(0);
+        else
+        {
+            if (!((unsigned char)(reinterpret_cast<::FUN_008b3c90_class *>((((::RState *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()))))->GetByteAtOffset114())))
+                reinterpret_cast<::fnv_0097cd10::CombatActionStandIn *>((((::RState *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()))))->FUN_0097cd10(1);
+            return;
+        }
+    }
+    RProjectile* projectile = ((::RProjectile *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(info1))));
+    if (projectile)
+    {
+        RPoint impact = aim;
+        if (collision25)
+            impact = hitPoint2;
+        float travel = ShotTravel(info1, muzzle23, impact, 0, 0.0f);
+        if (!reinterpret_cast<::ThreatManager *>(((*reinterpret_cast<::RWorld * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->IsThreatWithinLimits((::ThreatActor *)(actor), (::ThreatActor *)(projectile), (*(const ::ThreatPosition *)(&impact)), travel))
+        {
+            fire24 = false;
+            if (!reinterpret_cast<::FUN_0097fa50_Class *>(&(blocked))->FUN_0097fa50())
+                reinterpret_cast<::FUN_008d7f40_shell *>(&(blocked))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RSetting *>(&::originalRuntimeFloatSetting358)))))));
+            else if (reinterpret_cast<::TimeoutTimer *>(&(blocked))->CheckTimer())
+                reinterpret_cast<::TESObjectACTI *>((((::RState *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()))))->SetActivateSound((::TESSound *)(projectile));
+        }
+        else
+        {
+            reinterpret_cast<::TESObjectACTI *>((((::RState *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()))))->SetActivateSound((::TESSound *)(::RProjectile *)(0));
+            reinterpret_cast<::TimeoutTimer *>(&(blocked))->FUN_00910b10();
+        }
+    }
+    if (fire24)
+    {
+        switch (((signed char)(reinterpret_cast<::AnimSequenceStub *>((animation0))->FUN_00495e40((float *)(0)))))
+        {
+        case 51:
+            attack20 = 38;
+            break;
+        case 52:
+            attack20 = 44;
+            break;
+        case 53:
+            attack20 = 50;
+            break;
+        case 54:
+            attack20 = 56;
+            break;
+        case 55:
+            attack20 = 62;
+            break;
+        case 56:
+            attack20 = 68;
+            break;
+        case 108:
+            attack20 = 26;
+            break;
+        default:
+            if (weapon0 && reinterpret_cast<::FUN_0051f5f0_shell *>((weapon0))->GetByteAt11D() != 255)
+                attack20 = reinterpret_cast<::FUN_0051f5f0_shell *>((weapon0))->GetByteAt11D();
+            else
+                attack20 = 32;
+            break;
+        }
+        ((::RProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->SetAttackFlag(attackFlag12);
+        bool attacked = reinterpret_cast<::Pawn *>((actor))->TryAttack(attack20);
+        if (attacked && !automatic77)
+        {
+            float minDelay = reinterpret_cast<::FUN_00645c40_Class *>((weapon0))->GetField174Float() * reinterpret_cast<::FUN_009d1b30_class *>((void *)(((::RTuning *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->GetFloatAtOffset50();
+            float maxDelay = reinterpret_cast<::FUN_00645c60_shell *>((weapon0))->GetField178Float() * reinterpret_cast<::FUN_009d1b50_shell *>((((::RTuning *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->GetField54Float();
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(shot))->FUN_008d7f40(RandomFloat(minDelay, maxDelay));
+        }
+        if (projectile && ::IsExplosionRadiusValid((::PathingRequest *)(projectile)))
+            reinterpret_cast<::CombatDialogueHandler *>(((*reinterpret_cast<::RManager * *>(&::CombatAssessment::DAT_011f1708))))->FUN_00983970((::CombatController *)(context), 2, 4, 1);
+    }
+}
 // Computes and returns a vector using ComputeTrajectory, or returns the vector at DAT_011f426c if FUN_00996e00 returns null.
 // @fnv 0x009d1c90
-FUN_009d1d30_Vec3 CombatThing::GetTrajectory(unsigned int auiArg)
+FUN_009d1d30_Vec3 CombatThing::GetTrajectory(uintptr_t auiArg)
 {
     Actor* pActor2;
     FUN_009d1d30_Vec3 kResult3;
     Target2* pTarget;
 
-    pActor2 = FUN_00996e00();
+    pActor2 = ((::Actor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
     if (!pActor2)
-        return *(FUN_009d1d30_Vec3*)&DAT_011f426c;
-    pTarget = m_04->FUN_007031c0();
-    ComputeTrajectory(&kResult3, FUN_00996de0(), pActor2, auiArg, pTarget->GetOrFallback(FUN_00996de0()), 0.0f, 0);
+        return *(FUN_009d1d30_Vec3*)&(*reinterpret_cast<char *>((void *)&::NiPoint3::ZERO));
+    pTarget = ((::Target2 *)(::FUN_007031c0((intptr_t)(m_04))));
+    ComputeTrajectory(&kResult3, ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())), pActor2, auiArg, reinterpret_cast<::Thing *>((pTarget))->GetOrFallback((intptr_t)(((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())))), 0.0f, 0);
     return kResult3;
 }
+
+#include "generated/data/fallout/ai/combat/combatprocedureattackranged.inc"

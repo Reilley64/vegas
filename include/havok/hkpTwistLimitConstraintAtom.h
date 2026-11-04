@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpTwistLimitConstraintAtom : public hkpConstraintAtom
 {
   public:
@@ -17,6 +16,4 @@ class hkpTwistLimitConstraintAtom : public hkpConstraintAtom
     hkReal m_fMaxAngle;                // +0xC
     hkReal m_fAngularLimitsTauFactor;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpTwistLimitConstraintAtom[(sizeof(hkpTwistLimitConstraintAtom) == 0x14) ? 1 : -1];
 #endif

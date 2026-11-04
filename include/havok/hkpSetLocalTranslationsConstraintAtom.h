@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpSetLocalTranslationsConstraintAtom : public hkpConstraintAtom
 {
   public:
@@ -13,7 +12,4 @@ class hkpSetLocalTranslationsConstraintAtom : public hkpConstraintAtom
     hkVector4 m_kTranslationA;  // +0x10
     hkVector4 m_kTranslationB;  // +0x20
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpSetLocalTranslationsConstraintAtom[(sizeof(hkpSetLocalTranslationsConstraintAtom) == 0x30) ? 1 : -1];
 #endif

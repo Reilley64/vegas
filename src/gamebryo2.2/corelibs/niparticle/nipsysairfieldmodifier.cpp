@@ -2,30 +2,48 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysairfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysairfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_012027a8;
 
 // @fnv 0x00c2f590
+#include <cstdint>
+#include <new>
+#include "fnv/decl/C32060EmitterModifier.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_00c32120_cls.h"
+#include "fnv/decl/NiPSysFieldModifierImpl.h"
+#include "fnv/decl/NiPSysParticle.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/S_00c322b0.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00c2e520__FUN_00c2e520_shell.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011af000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c2f590()
 {
-    return &g_012027a8;
+    return &(*reinterpret_cast<void * *>(&::g_012027a8));
 }
 
-void __cdecl FUN_00c31750(void);
-void __cdecl __Dummy_00b6fef0(void* p, unsigned int flags);
 
 struct NiPSysAirFieldModifier
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 // Calls FUN_00c31750, then if flags has bit 1 set calls __Dummy_00b6fef0 on this with 0x68, and returns this.
 // @fnv 0x00c2f5a0
-void* __thiscall NiPSysAirFieldModifier::Destroy(unsigned int flags)
+void* NiPSysAirFieldModifier::Destroy(unsigned int flags)
 {
     void* p = this;
-    FUN_00c31750();
+    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (flags & 1)
-        __Dummy_00b6fef0(p, 0x68);
+        ::FUN_00aa1460(p, 0x68);
     return p;
 }
 
@@ -37,85 +55,38 @@ struct NiObject
 };
 struct NiPSysFieldModifier
 {
-    void __thiscall FUN_00c32020(NiPSysFieldModifier*, CloningProcess&);
-    NiObject* __thiscall Clone(CloningProcess&);
+    NiObject* Clone(CloningProcess&);
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct AirTmp : NiPSysFieldModifier
 {
-    AirTmp* __thiscall FUN_00c2f5c0();
-    void __thiscall FUN_00c2f500(void*);
+    AirTmp* FUN_00c2f5c0();
+    void FUN_00c2f500(void*);
 };
-// @fnv 0x00c2fad0
-NiObject* __thiscall NiPSysFieldModifier::Clone(CloningProcess& kCloning)
-{
-    AirTmp* pkObject;
-    void* pMemory = BSFadeNode::operator new(0x68);
-    if (pMemory)
-        pkObject = ((AirTmp*)pMemory)->FUN_00c2f5c0();
-    else
-        pkObject = 0;
-    FUN_00c32020(pkObject, kCloning);
-    pkObject->FUN_00c2f500((char*)this + 0x40);
-    return (NiObject*)pkObject;
-}
-
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00c2f630
 void* __cdecl CreateAirTmp()
 {
-    AirTmp* p = (AirTmp*)A51BF0Base::operator new(0x68);
+    AirTmp* p = (AirTmp*)::operator new(0x68);
     if (p)
         return p->FUN_00c2f5c0();
     return 0;
 }
 
-extern float DAT_011f426c;
-extern float DAT_011f4270;
-extern float DAT_011f4274;
-extern float DAT_011a946c;
-extern float DAT_011a9470;
-extern float DAT_011a9474;
 struct TmpVec3
 {
     int x;
     int y;
     int z;
-    void __thiscall FUN_004a0c10();
 };
-// Copies three ints from param into this+0x40 and this+0x4c, calls FUN_004a0c10, and replaces the vector with DAT_011a946c/70/74 if it equals DAT_011f426c/70/74.
-// @fnv 0x00c2f500
-void AirTmp::FUN_00c2f500(void* pSource)
-{
-    int* p = (int*)pSource;
-    int* a = (int*)((char*)this + 0x40);
-    a[0] = p[0];
-    a[1] = p[1];
-    a[2] = p[2];
-    TmpVec3* v = (TmpVec3*)((char*)this + 0x4c);
-    v->x = p[0];
-    v->y = p[1];
-    v->z = p[2];
-    v->FUN_004a0c10();
-    if (*(float*)&v->x == DAT_011f426c && *(float*)&v->y == DAT_011f4270 && *(float*)&v->z == DAT_011f4274)
-    {
-        v->x = *(int*)&DAT_011a946c;
-        v->y = *(int*)&DAT_011a9470;
-        v->z = *(int*)&DAT_011a9474;
-    }
-}
-
 struct SubObject40
 {
     int unk00;
-    bool FUN_00439090(void* other);
 };
 
 struct FUN_00c2fb10_cls
@@ -138,7 +109,6 @@ struct FUN_00c2fb10_cls
     int unk3c;
     SubObject40 m_40;
 
-    bool FUN_00c32060(void* other);
     bool FUN_00c2fb10(void* other);
 };
 
@@ -146,11 +116,11 @@ struct FUN_00c2fb10_cls
 bool FUN_00c2fb10_cls::FUN_00c2fb10(void* other)
 {
     FUN_00c2fb10_cls* p = (FUN_00c2fb10_cls*)other;
-    if (FUN_00c32060(other) == false)
+    if (reinterpret_cast<::C32060EmitterModifier *>(this)->FUN_00c32060((::C32060Object *)(other)) == false)
     {
         return false;
     }
-    if (p->m_40.FUN_00439090(&m_40))
+    if (reinterpret_cast<::NiPlane *>(&(p->m_40))->operator==((*(const ::NiPlane *)(&m_40))))
         return false;
     return true;
 }
@@ -320,7 +290,7 @@ struct NiStream
     int unk240;
     int unk244;
     int unk248;
-    int unk24C;
+    intptr_t unk24C;
     NiBinaryStream* m_pBackingStream;
 };
 
@@ -330,15 +300,17 @@ template <class T> inline void SerializeValue(NiBinaryStream* pkStr, const T& va
     pkStr->BinaryWrite(&value, sizeof(T), &uiSize, 1);
 }
 
+class NiStream;
 struct NiColor
 {
     float r, g, b;
     void SaveBinary(NiStream& stream);
+public:
+    void LoadBinary(::NiStream &);
 };
 
 struct NiPSysFieldModifierBase
 {
-    void SaveBinary(NiStream& stream);
 };
 
 struct NiPSysGravityFieldModifier : NiPSysFieldModifierBase
@@ -377,7 +349,7 @@ struct NiPSysGravityFieldModifier : NiPSysFieldModifierBase
 // @fnv 0x00c302a0
 void NiPSysGravityFieldModifier::FUN_00c302a0(NiStream& stream)
 {
-    NiPSysFieldModifierBase::SaveBinary(stream);
+    reinterpret_cast<::NiPSysFieldModifierImpl *>(this)->FUN_00c321f0(stream);
     m_kFogTint.SaveBinary(stream);
     SerializeValue(stream.m_pBackingStream, m_f58);
     SerializeValue(stream.m_pBackingStream, m_f5C);
@@ -408,8 +380,6 @@ class BC2F5C0Point3
     float z;
 };
 
-extern const BC2F5C0Point3 g_kC2F5C0UnitZ;
-extern const BC2F5C0Point3 g_kC2F5C0Zero;
 
 class BC2F5C0Modifier
 {
@@ -436,22 +406,33 @@ class FUN_00c2f5c0_cls : public BC2F5C0Modifier
     FUN_00c2f5c0_cls() throw();
     virtual ~FUN_00c2f5c0_cls();
 
-    void SetDirection(const BC2F5C0Point3& kDirection);
 
     BC2F5C0Point3 m_kPathOffset;
     float m_fFirstLightParameter;
 };
+// @fnv 0x00c2fad0
+NiObject* NiPSysFieldModifier::Clone(CloningProcess& kCloning)
+{
+    AirTmp* pkObject;
+    void* pMemory = ::operator new(0x68);
+    if (pMemory)
+        pkObject = ((::AirTmp *)(new ((void *)(((AirTmp*)pMemory))) ::FUN_00c2f5c0_cls()));
+    else
+        pkObject = 0;
+    reinterpret_cast<::NiPSysParticle *>(this)->FUN_00c32020((::NiPSysParticle *)(pkObject), (::CloningProcess *)&(kCloning));
+    pkObject->FUN_00c2f500((char*)this + 0x40);
+    return (NiObject*)pkObject;
+}
 
 // Initialises the modifier: sets direction to -unit Z, resets the point to zero, and sets the float to FLT_MAX.
 // @fnv 0x00c2f5c0
 FUN_00c2f5c0_cls::FUN_00c2f5c0_cls() throw()
 {
-    SetDirection(-g_kC2F5C0UnitZ);
+    reinterpret_cast<::AirTmp *>(this)->FUN_00c2f500((void *)&(const ::BC2F5C0Point3 &)(-(*reinterpret_cast<const ::BC2F5C0Point3 *>(&::DAT_011a946c))));
     m_kPathOffset = g_kC2F5C0Zero;
     m_fFirstLightParameter = 3.402823466e+38f;
 }
 
-extern "C" void* g_012027a8;
 
 struct ViewerStrings
 {
@@ -461,6 +442,8 @@ struct ViewerStrings
     unsigned short m_0a;
     unsigned short m_0c;
     unsigned short m_0e;
+public:
+    void SetSize(unsigned int);
 };
 
 struct ViewerSub
@@ -469,12 +452,8 @@ struct ViewerSub
     int unk04;
     int unk08;
 
-    void* FUN_00a59af0(const char* name);
 };
 
-void* __cdecl FUN_00a7d330(void* g);
-void* __cdecl FUN_00a7d550(const char* name, float value);
-void* __cdecl FUN_00a7d370(const char* name, bool value);
 
 struct FUN_00c303c0_cls
 {
@@ -503,9 +482,6 @@ struct FUN_00c303c0_cls
     bool m_62;
     float m_64;
 
-    void FUN_00c322b0(ViewerStrings* s);
-    void FUN_0096ad30(unsigned int newSize);
-    void FUN_0096ae90(unsigned int index, void** value);
     void BuildViewerStrings(ViewerStrings* s);
 };
 
@@ -515,55 +491,30 @@ static void AddViewerString(ViewerStrings* s, void* value)
     unsigned int count = s->m_0a;
     if (count >= s->m_08)
     {
-        arr->FUN_0096ad30(count + s->m_0e);
+        reinterpret_cast<::ViewerStrings *>((arr))->SetSize(count + s->m_0e);
     }
-    arr->FUN_0096ae90(count, &value);
-}
-
-// @fnv 0x00c303c0
-void FUN_00c303c0_cls::BuildViewerStrings(ViewerStrings* s)
-{
-    FUN_00c322b0(s);
-    void* v = FUN_00a7d330(g_012027a8);
-    AddViewerString(s, v);
-    v = m_40.FUN_00a59af0("Direction");
-    AddViewerString(s, v);
-    v = m_4c.FUN_00a59af0("Unit Direction");
-    AddViewerString(s, v);
-    v = FUN_00a7d550("AirFriction", m_58);
-    AddViewerString(s, v);
-    v = FUN_00a7d550("Inherit Velocity", m_5c);
-    AddViewerString(s, v);
-    v = FUN_00a7d370("Inherit Rotation", m_60);
-    AddViewerString(s, v);
-    v = FUN_00a7d370("Component Only", m_61);
-    AddViewerString(s, v);
-    v = FUN_00a7d370("Enable Spread", m_62);
-    AddViewerString(s, v);
-    v = FUN_00a7d550("Spread", m_64);
-    AddViewerString(s, v);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(count, (*(char * *)(&value)));
 }
 
 struct AirFieldModifier
 {
-    void __thiscall FUN_00c2e520(NiStream& stream);
-    void __thiscall FUN_00c2f4e0(NiStream& stream);
+    void FUN_00c2f4e0(NiStream& stream);
 };
 
 // @fnv 0x00c2f4e0
-void __thiscall AirFieldModifier::FUN_00c2f4e0(NiStream& stream)
+void AirFieldModifier::FUN_00c2f4e0(NiStream& stream)
 {
-    FUN_00c2e520(stream);
+    reinterpret_cast<::fnv_00c2e520::FUN_00c2e520_shell *>(this)->LinkObject((::fnv_00c2e520::NiStream &)(stream));
 }
 
 struct FUN_00c61f60_class
 {
-    unsigned char __thiscall FUN_00c28b60(int param);
-    unsigned char __thiscall FUN_00c2f4f0(int param);
+    unsigned char FUN_00c28b60(int param);
+    unsigned char FUN_00c2f4f0(int param);
 };
 
 // @fnv 0x00c2f4f0
-unsigned char __thiscall FUN_00c61f60_class::FUN_00c2f4f0(int param)
+unsigned char FUN_00c61f60_class::FUN_00c2f4f0(int param)
 {
     return FUN_00c28b60(param);
 }
@@ -614,7 +565,57 @@ struct NiPoint3
     {
         return x * pt.x + y * pt.y + z * pt.z;
     }
+public:
+    float GetLengthSquared();
+public:
+    char *FUN_00a59af0(const char *);
+public:
+    static const ::NiPoint3 ZERO;
 };
+// Copies three ints from param into this+0x40 and this+0x4c, calls FUN_004a0c10, and replaces the vector with DAT_011a946c/70/74 if it equals DAT_011f426c/70/74.
+// @fnv 0x00c2f500
+void AirTmp::FUN_00c2f500(void* pSource)
+{
+    int* p = (int*)pSource;
+    int* a = (int*)((char*)this + 0x40);
+    a[0] = p[0];
+    a[1] = p[1];
+    a[2] = p[2];
+    TmpVec3* v = (TmpVec3*)((char*)this + 0x4c);
+    v->x = p[0];
+    v->y = p[1];
+    v->z = p[2];
+    reinterpret_cast<::FUN_004a0c10_s *>((v))->FUN_004a0c10();
+    if (*(float*)&v->x == (*reinterpret_cast<float *>((void *)&::NiPoint3::ZERO)) && *(float*)&v->y == (*reinterpret_cast<float *>(&::_DAT_011f4270)) && *(float*)&v->z == (*reinterpret_cast<float *>(&::_DAT_011f4274)))
+    {
+        v->x = *(int*)&(*reinterpret_cast<float *>(&::DAT_011a946c));
+        v->y = *(int*)&(*reinterpret_cast<float *>(&::DAT_011a9470));
+        v->z = *(int*)&(*reinterpret_cast<float *>(&::DAT_011a9474));
+    }
+}
+// @fnv 0x00c303c0
+void FUN_00c303c0_cls::BuildViewerStrings(ViewerStrings* s)
+{
+    reinterpret_cast<::S_00c322b0 *>(this)->FUN_00c322b0((::S_00c322b0_Arr *)(s));
+    void* v = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_012027a8))))));
+    AddViewerString(s, v);
+    v = ((void *)(reinterpret_cast<::NiPoint3 *>(&(m_40))->FUN_00a59af0("Direction")));
+    AddViewerString(s, v);
+    v = ((void *)(reinterpret_cast<::NiPoint3 *>(&(m_4c))->FUN_00a59af0("Unit Direction")));
+    AddViewerString(s, v);
+    v = ((void *)(::FUN_00a7d550("AirFriction", m_58)));
+    AddViewerString(s, v);
+    v = ((void *)(::FUN_00a7d550("Inherit Velocity", m_5c)));
+    AddViewerString(s, v);
+    v = ((void *)(::FUN_00a7d370("Inherit Rotation", m_60)));
+    AddViewerString(s, v);
+    v = ((void *)(::FUN_00a7d370("Component Only", m_61)));
+    AddViewerString(s, v);
+    v = ((void *)(::FUN_00a7d370("Enable Spread", m_62)));
+    AddViewerString(s, v);
+    v = ((void *)(::FUN_00a7d550("Spread", m_64)));
+    AddViewerString(s, v);
+}
 
 struct ThreeByThreeMatrix
 {
@@ -634,8 +635,9 @@ struct NiTransform
     NiPoint3 m_kTranslation;
     float m_fScale;
 
-    void Invert(NiTransform& kDest) const;
     NiTransform operator*(const NiTransform& rhs) const;
+public:
+    void CalculateInverse(::NiTransform &);
 };
 
 struct TargetObj
@@ -773,10 +775,6 @@ struct Cls_00c2f650
     void UpdateParticleAirFriction(float fTime, NiPSysData* pkData);
 };
 
-inline void* operator new(unsigned int, void* pv)
-{
-    return pv;
-}
 
 // For particles within the squared distance limit, adds an air-friction-scaled field velocity over elapsed time when relative velocity points against it.
 // @fnv 0x00c2f650
@@ -788,7 +786,7 @@ void Cls_00c2f650::UpdateParticleAirFriction(float fTime, NiPSysData* pkData)
     NiTransform kInvPSys;
     NiTransform kField = m_pkFieldObject->m_kWorldSpaceTransform;
     NiTransform kFieldToPSys = m_pkTarget->m_kWorldSpaceTransform;
-    kFieldToPSys.Invert(kInvPSys);
+    reinterpret_cast<::NiTransform *>((void *)&(kFieldToPSys))->CalculateInverse(kInvPSys);
     new (&kFieldToPSys) NiTransform(kInvPSys * kField);
 
     m_kTransformedFieldPosition = kFieldToPSys.m_kTranslation;
@@ -815,17 +813,17 @@ void Cls_00c2f650::UpdateParticleAirFriction(float fTime, NiPSysData* pkData)
         {
             NiPoint3 kPos = pkData->GetPositions()[i];
             kWorldPosition = kPos - kFieldToPSys.m_kTranslation;
-            float fDistSqr = kWorldPosition.SqrLength();
+            float fDistSqr = reinterpret_cast<::TESCombatStyle *>((void *)&(kWorldPosition))->UpdateCombatStyle();
             if (fDistSqr <= GetMaxDistanceSquared())
             {
                 float fDot;
                 NiPoint3 kRelVel;
                 kRelVel = pkInfo->m_kValue - kAirVel;
-                fDot = kRelVel.Dot(kAirVel);
+                fDot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kRelVel))->DotProduct((void *)&(kAirVel));
                 if (fDot < 0.0f)
                 {
                     NiPoint3 kForce = GetAirFriction() * kAirVel;
-                    pkInfo->m_kValue += kForce * fMoveElapsedTime;
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(pkInfo->m_kValue))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)(kForce * fMoveElapsedTime));
                 }
             }
         }
@@ -856,7 +854,6 @@ template <class T> inline void ReadBinaryValue(NiStream* s, T& v)
 struct S00c30170_Pt
 {
     float x, y, z;
-    void __thiscall FUN_00a59be0(NiStream*);
 };
 struct S00c30170_Obj : AirTmp
 {
@@ -886,15 +883,14 @@ struct S00c30170_Obj : AirTmp
     bool m_61;
     bool m_62;
     float m_64;
-    void __thiscall LoadFromStream(NiStream*);
-    void __thiscall FUN_00c30170(NiStream* stream);
+    void FUN_00c30170(NiStream* stream);
 };
 // Calls LoadFromStream, reads m_40, applies FUN_00c2f500 to it, then reads m_58, m_5c, m_60, m_61, m_62, and m_64.
 // @fnv 0x00c30170
-void __thiscall S00c30170_Obj::FUN_00c30170(NiStream* stream)
+void S00c30170_Obj::FUN_00c30170(NiStream* stream)
 {
-    LoadFromStream(stream);
-    m_40.FUN_00a59be0(stream);
+    reinterpret_cast<::FUN_00c32120_cls *>(this)->LoadFromStream((::StreamOwner *)(stream));
+    reinterpret_cast<::NiColor *>(&(m_40))->LoadBinary((*(::NiStream *)(stream)));
     FUN_00c2f500(&m_40);
     ReadBinaryValue(stream, m_58);
     ReadBinaryValue(stream, m_5c);
@@ -955,7 +951,7 @@ void S00c2f8d0_Mod::UpdateAirFriction(float fTime, NiPSysData* pkData)
     NiTransform kInvSys;
     {
         NiTransform kSysXform = m_pkTarget->m_kWorldSpaceTransform;
-        kSysXform.Invert(kInvSys);
+        reinterpret_cast<::NiTransform *>((void *)&(kSysXform))->CalculateInverse(kInvSys);
     }
     {
         NiTransform kFieldToSys = kInvSys * kFieldXform;
@@ -978,9 +974,9 @@ void S00c2f8d0_Mod::UpdateAirFriction(float fTime, NiPSysData* pkData)
             if (fDeltaT != 0.0f)
             {
                 NiPoint3 kDiff = pkInfo->m_kValue - kAirVel;
-                if (kDiff.Dot(kAirVel) < 0.0f)
+                if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDiff))->DotProduct((void *)&(kAirVel)) < 0.0f)
                 {
-                    pkInfo->m_kValue += GetAirFriction() * kAirVel * fDeltaT;
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(pkInfo->m_kValue))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)(GetAirFriction() * kAirVel * fDeltaT));
                 }
             }
         }
@@ -995,9 +991,6 @@ struct AirPoint3
     {}
     AirPoint3(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    bool FUN_00439090(const AirPoint3&) const;
-    float FUN_00457910();
-    void FUN_004a0c10();
     AirPoint3 FUN_0053d280(float) const;
     AirPoint3 operator+(const AirPoint3& v) const
     {
@@ -1048,7 +1041,6 @@ struct AirTransform
     AirMatrix rotation;
     AirPoint3 position;
     float scale;
-    void FUN_004b4880(AirTransform*) const;
     void FUN_0062c250(const AirTransform*, const AirTransform*);
 };
 struct AirObject
@@ -1073,11 +1065,8 @@ struct AirParticles
     int unk54, unk58, unk5c, unk60, unk64, unk68, unk6c;
     AirParticle* particles;
 };
-extern AirPoint3 NiPoint3_ZERO;
-extern AirPoint3 DAT_011af220;
 extern float DAT_011af218;
 extern float DAT_011af21c;
-extern float DAT_011f4ae0[];
 struct AirModifier
 {
     int unk00, unk04, unk08, unk0c;
@@ -1099,8 +1088,6 @@ struct AirModifier
     bool unk61;
     bool enableSpread;
     float spread;
-    void UpdateParticleAirFriction(float, AirParticles*);
-    void UpdateAirFriction(float, AirParticles*);
     void FUN_00c2fb40(float, AirParticles*);
 };
 // Updates particle velocities using the field direction and magnitude, with optional spread, distance limiting, attenuation, and inherited velocity.
@@ -1112,23 +1099,23 @@ void AirModifier::FUN_00c2fb40(float time, AirParticles* apParticles)
     if (attenuation == 0.0f && inheritVelocity == 0.0f && !enableSpread)
     {
         if (useMaxDistance)
-            UpdateParticleAirFriction(time, apParticles);
+            reinterpret_cast<::Cls_00c2f650 *>(this)->UpdateParticleAirFriction(time, (::NiPSysData *)(apParticles));
         else
-            UpdateAirFriction(time, apParticles);
+            reinterpret_cast<::S00c2f8d0_Mod *>(this)->UpdateAirFriction(time, (::NiPSysData *)(apParticles));
         return;
     }
     AirTransform sourceWorld = source->world;
     AirTransform ownerWorld = owner->world;
     AirTransform inverseTransform;
-    ownerWorld.FUN_004b4880(&inverseTransform);
+    reinterpret_cast<::NiTransform *>((void *)&(ownerWorld))->CalculateInverse((*(::NiTransform *)(&inverseTransform)));
     inverseTransform.FUN_0062c250(&ownerWorld, &sourceWorld);
     AirPoint3 fieldDirection;
     if (inheritRotation)
         fieldDirection = ownerWorld.rotation.FUN_004b4500(&direction);
     else
         fieldDirection = direction;
-    AirPoint3 unitVelocity = NiPoint3_ZERO;
-    if (previousPosition.FUN_00439090(DAT_011af220) && previousTime != 3.4028234663852886e38 && previousTime != time)
+    AirPoint3 unitVelocity = (*reinterpret_cast<::AirPoint3 *>((void *)&::NiPoint3::ZERO));
+    if (reinterpret_cast<::NiPlane *>((void *)&(previousPosition))->operator==((const ::NiPlane &)((*reinterpret_cast<::AirPoint3 *>((void *)&::g_kC2F5C0Zero)))) && previousTime != 3.4028234663852886e38 && previousTime != time)
     {
         unitVelocity = ((ownerWorld.position - previousPosition) * inheritVelocity).FUN_0053d280(time - previousTime);
     }
@@ -1139,7 +1126,7 @@ void AirModifier::FUN_00c2fb40(float time, AirParticles* apParticles)
         return;
     {
         AirPoint3 fieldVelocity = unitVelocity;
-        float speed = fieldVelocity.FUN_00457910();
+        float speed = reinterpret_cast<::NiPoint3 *>(&(fieldVelocity))->GetLengthSquared();
         float fMinDot = 0.0f;
         if (enableSpread)
         {
@@ -1163,7 +1150,7 @@ void AirModifier::FUN_00c2fb40(float time, AirParticles* apParticles)
             if (enableSpread)
             {
                 velocity = offset;
-                velocity.FUN_004a0c10();
+                reinterpret_cast<::FUN_004a0c10_s *>(&(velocity))->FUN_004a0c10();
                 float dot = fieldVelocity.Dot(velocity);
                 if (dot < fMinDot)
                     continue;
@@ -1189,3 +1176,5 @@ void AirModifier::FUN_00c2fb40(float time, AirParticles* apParticles)
         }
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysairfieldmodifier.inc"

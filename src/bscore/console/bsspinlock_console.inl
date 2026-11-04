@@ -1,7 +1,7 @@
 
+#include "fnv/decl/FUN_008691b0.h"
 #include "layout_support.h"
 
-#pragma pack(push, 4)
 class FNV_ALIGN(32) RecursiveSpinLock
 {
 public:
@@ -11,12 +11,10 @@ public:
 
     void Lock();
 };
-#pragma pack(pop)
 
-void __fastcall Sleep(unsigned long milliseconds);
 
 // @fnv 0x00868250
 void RecursiveSpinLock::Lock()
 {
-    Sleep(m_uiOwningThreadID);
+    reinterpret_cast<::FUN_008691b0 *>((m_uiOwningThreadID))->Lock();
 }

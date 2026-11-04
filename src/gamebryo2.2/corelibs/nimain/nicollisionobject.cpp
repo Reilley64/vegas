@@ -1,16 +1,27 @@
 // gamebryo2.2/corelibs/nimain/nicollisionobject.cpp: NiCollisionObject, MyColl, ClaimCls (10 functions)
 
+#include <cstdint>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/Owner62B.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_011f4000.h"
 #include "nicollisionobject_decls.h"
 // @fnv 0x00a80fd0
 void NiCollisionObject::LoadBinary(NiStream& stream)
 {
-    NiObject::LoadBinary(stream);
-    stream.ResetStreamState();
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
 }
 // @fnv 0x00a80ff0
 void NiCollisionObject::LinkObject(NiStream& stream)
 {
-    NiObject::LinkObject(stream);
+    ::FUN_00a89af0((intptr_t)this);
     m_pkSceneObject = static_cast<NiAVObject*>(stream.GetLoadedObject());
 }
 // @fnv 0x00a810b0
@@ -18,21 +29,20 @@ void NiCollisionObject::SetSceneObject(NiAVObject* object)
 {
     m_pkSceneObject = object;
     if (object && object->m_spCollisionObject != this)
-        object->AssignCollisionObject(this);
+        reinterpret_cast<::Owner62B *>((object))->AttachTarget(this);
 }
 // @fnv 0x00a810d0
 NiCollisionObject::NiCollisionObject(NiAVObject* apSceneObject) : m_pkSceneObject(apSceneObject)
 {
     if (apSceneObject && apSceneObject->m_spCollisionObject != this)
-        apSceneObject->AssignCollisionObject(this);
+        reinterpret_cast<::Owner62B *>((apSceneObject))->AttachTarget(this);
 }
 
-extern char const* const g_01267b70_arg1;
 
 // @fnv 0x00a810a0
 char const* const* __cdecl FUN_00a810a0()
 {
-    return &g_01267b70_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4ad4));
 }
 
 struct NiObjectBase
@@ -142,11 +152,10 @@ struct FakeThis00a81040 : NiObject
 // @fnv 0x00a81040
 void FakeThis00a81040::FUN_00a81040(NiStream& kStream)
 {
-    NiObject::LinkObject(kStream);
+    ::FUN_00a89af0((intptr_t)this);
     ((FakeStream00a81040*)&kStream)->f12(unk08);
 }
 
-bool __stdcall IsSameAs(NiObject*);
 struct T_00a81060
 {
     char _0[8];
@@ -157,7 +166,7 @@ struct T_00a81060
 // @fnv 0x00a81060
 bool T_00a81060::FUN_00a81060(NiObject* pkObject)
 {
-    if (!IsSameAs(pkObject))
+    if (!reinterpret_cast<::A5d470Class *>((pkObject))->IsSameAs({}))
         return false;
     if (_8 && !pkObject)
         return false;
@@ -170,14 +179,12 @@ class BA81100StringArray
 {
   public:
     virtual ~BA81100StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
 
     unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
     {
         if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, pcElement);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
         return uiIndex;
     }
     unsigned int Add(char* const& pcElement)
@@ -192,9 +199,7 @@ class BA81100StringArray
     unsigned short m_usGrowBy;
 };
 
-extern const char* g_pcA81100Name;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
 
 class BA81100Base
 {
@@ -226,7 +231,6 @@ class BA81100Base
     virtual void VFunc60();
     virtual void AddExtraViewerStrings(BA81100StringArray* pkStrings);
 
-    void BaseGetViewerStrings(BA81100StringArray* pkStrings);
 };
 
 class BA81100Object : public BA81100Base
@@ -239,15 +243,12 @@ class BA81100Object : public BA81100Base
 // @fnv 0x00a81100
 void BA81100Object::FUN_00a81100(BA81100StringArray* pkStrings)
 {
-    BaseGetViewerStrings(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_pcA81100Name));
+    reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(pkStrings));
+    pkStrings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f4ad4))));
     AddExtraViewerStrings(pkStrings);
 }
 
-extern void* g_011f4ad4;
 
-void* __cdecl FUN_00a7d330(void* pv);
-void* __cdecl FUN_00a7d5a0(char const* pcName, void* pvObj);
 
 struct StreamShell
 {
@@ -257,8 +258,6 @@ struct StreamShell
     unsigned short m_usHold;
     unsigned short m_usAdd;
 
-    void FUN_0096ad30(unsigned int uiNewEnd);
-    void FUN_0096ae90(unsigned int uiPos, void* pvData);
 };
 
 class ClaimCls
@@ -273,23 +272,23 @@ class ClaimCls
 void ClaimCls::WriteToStream(StreamShell& kStream)
 {
     {
-        void* p = FUN_00a7d330(g_011f4ad4);
+        void* p = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f4ad4))))));
         unsigned int uiPos = kStream.m_usPos;
         unsigned int uiSize = kStream.m_usSize;
         if (uiPos >= uiSize)
         {
-            kStream.FUN_0096ad30(uiPos + kStream.m_usAdd);
+            reinterpret_cast<::ViewerStrings *>(&(kStream))->SetSize(uiPos + kStream.m_usAdd);
         }
-        kStream.FUN_0096ae90(uiPos, &p);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(kStream))->SetAt(uiPos, (*(char * *)(&p)));
     }
     {
-        void* q = FUN_00a7d5a0("m_pkSceneObject", m_pkSceneObject);
+        void* q = ((void *)(::FUN_00a7d5a0("m_pkSceneObject", m_pkSceneObject)));
         unsigned int uiPos = kStream.m_usPos;
         unsigned int uiSize = kStream.m_usSize;
         if (uiPos >= uiSize)
         {
-            kStream.FUN_0096ad30(uiPos + kStream.m_usAdd);
+            reinterpret_cast<::ViewerStrings *>(&(kStream))->SetSize(uiPos + kStream.m_usAdd);
         }
-        kStream.FUN_0096ae90(uiPos, &q);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(kStream))->SetAt(uiPos, (*(char * *)(&q)));
     }
 }

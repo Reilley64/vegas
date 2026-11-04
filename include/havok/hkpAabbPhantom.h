@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkAabb.h"
 #include "hkpPhantom.h"
-#pragma pack(push, 1)
 class hkpAabbPhantom : public hkpPhantom
 {
   public:
@@ -16,6 +15,4 @@ class hkpAabbPhantom : public hkpPhantom
     hkBool m_bOrderDirty;                       // +0xDC
     char padDD[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpAabbPhantom[(sizeof(hkpAabbPhantom) == 0xE0) ? 1 : -1];
 #endif

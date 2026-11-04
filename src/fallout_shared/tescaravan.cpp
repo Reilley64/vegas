@@ -1,24 +1,64 @@
 // fallout_shared/tescaravan.cpp: TESCaravanCard, TESCaravanMoney, TESCaravanDeck, Holder and more (32 functions)
 
+#include <new>
+#include <cstring>
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BSMultiBoundRoom.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004610d0_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FakeForm.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/SDSaveForm.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047b560__FUN_0047b560_shell.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_0118c000.h"
 #include "tescaravan_decls.h"
+#include "fnv/symbols_00472000.h"
 class RegionDataEntry
 {
   public:
-    void Endian();
 };
 
 class BGSImpactData
 {
   public:
-    void ReadTypedData(TESFile* file, void* data, unsigned short size);
 };
-
-extern "C" void* memset(void* dst, int val, unsigned int size);
 
 // @fnv 0x0059a370
 TESCaravanCard::TESCaravanCard()
 {
-    SetFormType(static_cast<ENUM_FORM_ID>(0x73));
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(static_cast<ENUM_FORM_ID>(0x73))));
     ResetFormData();
 }
 
@@ -33,7 +73,7 @@ void TESCaravanCard::ResetFormData()
 // @fnv 0x0059a6c0
 void TESCaravanCard::InitItem()
 {
-    if (static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))->IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
     TESModelTextureSwap::InitItem(this);
     TESScriptableForm::InitItem(this);
@@ -52,7 +92,7 @@ void TESCaravanMoney::ResetFormData()
 // @fnv 0x0059b160
 void TESCaravanMoney::InitItem()
 {
-    if (static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))->IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
     TESModelTextureSwap::InitItem(this);
     BGSPickupPutdownSounds::InitItem(this);
@@ -62,7 +102,7 @@ void TESCaravanMoney::InitItem()
 // @fnv 0x0059b880
 TESCaravanDeck::TESCaravanDeck()
 {
-    SetFormType(static_cast<ENUM_FORM_ID>(0x75));
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(static_cast<ENUM_FORM_ID>(0x75))));
     ResetFormData();
 }
 
@@ -77,19 +117,19 @@ void TESCaravanDeck::ResetFormData()
 // @fnv 0x0059bb50
 bool TESCaravanDeck::Load(TESFile* file)
 {
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (formType != 0x75)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
     int chunkID;
-    while ((chunkID = file->GetChunkID()) != 0)
+    while ((chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunkID)
         {
         case 0x44494445: {
-            char* editorID = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(editorID, 0x200);
+            char* editorID = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 0x200);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -97,16 +137,16 @@ bool TESCaravanDeck::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x4c4c5546:
-            TESFullNameLoader::LoadFullNameChunk(static_cast<TESFullName*>(this), file);
+            ::ReadFullName(static_cast<TESFullName*>(this), file);
             break;
         case 0x41544144:
-            reinterpret_cast<BGSImpactData*>(this)->ReadTypedData(file, &data, 4);
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>((reinterpret_cast<BGSImpactData*>(this)))->FUN_004861f0(file, &data, 4);
             break;
         case 0x44524143: {
             unsigned int formID;
             file->GetChunkData(&formID);
-            RemapFormIDForFile(formID, file);
-            TESForm* form = TESForm::GetFormByID(formID);
+            ::ResolveFormID((unsigned int *)&(formID), file);
+            TESForm* form = ::FUN_004839c0(formID);
             TESCaravanCard* card = static_cast<TESCaravanCard*>(form);
             if (!m_pCardListHeadCur || m_pCardListHeadCur->IsEmpty())
                 m_pCardListHeadCur->SetItem(card);
@@ -116,7 +156,7 @@ bool TESCaravanDeck::Load(TESFile* file)
         }
         }
         if (chunkID == 0x41544144 && file->IsEndianConversionRequired())
-            reinterpret_cast<RegionDataEntry*>(&data)->Endian();
+            reinterpret_cast<::fnv_00503210::Unk *>((reinterpret_cast<RegionDataEntry*>(&data)))->FUN_00503210();
         if (!file->NextChunk())
             break;
     }
@@ -126,19 +166,19 @@ bool TESCaravanDeck::Load(TESFile* file)
 // @fnv 0x0059b290
 bool TESCaravanMoney::Load(TESFile* file)
 {
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (formType != 0x74)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
     int chunkID;
-    while ((chunkID = file->GetChunkID()) != 0)
+    while ((chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunkID)
         {
         case 0x44494445: {
-            char* editorID = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(editorID, 0x200);
+            char* editorID = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 0x200);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -146,7 +186,7 @@ bool TESCaravanMoney::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x4c4c5546:
-            TESFullNameLoader::LoadFullNameChunk(this, file);
+            ::ReadFullName(this, file);
             break;
         case 0x4c444f4d:
         case 0x44444f4d:
@@ -156,46 +196,46 @@ bool TESCaravanMoney::Load(TESFile* file)
             break;
         case 0x53444f4d: {
             char* textureSwapData;
-            unsigned int chunkSize = file->GetChunkSize();
+            unsigned int chunkSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             textureSwapData = static_cast<char*>(_alloca(chunkSize));
-            file->GetChunkData(textureSwapData, chunkSize);
-            ParseTextureSwapData(textureSwapData, chunkSize,
-                                 reinterpret_cast<TESFileFormVersion*>(file)->GetFormVersion());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(textureSwapData), chunkSize);
+            reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(textureSwapData, chunkSize,
+                                 reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((reinterpret_cast<TESFileFormVersion*>(file)))->FUN_00403570());
             break;
         }
         case 0x4e4f4349:
-            TESTextureLoader::ReadTextureData(static_cast<TESIcon*>(this), file);
+            ::TESTexture::ReadTextureData(static_cast<TESIcon*>(this), file);
             break;
         case 0x4f43494d:
-            BGSMessageIcon::LoadMessageIconChunk(this, file);
+            ::FUN_0047a290((::TeleportableReference *)(::BGSMessageIcon *)(this), file);
             break;
         case 0x4d414e59: {
             unsigned int id = 0;
             file->GetChunkData(&id);
-            SetPickupSound(reinterpret_cast<TESSound*>(id));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESSound *)(reinterpret_cast<TESSound*>(id)));
             break;
         }
         case 0x4d414e5a: {
             unsigned int id = 0;
             file->GetChunkData(&id);
-            SetPutdownSound(reinterpret_cast<TESSound*>(id));
+            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(::TESSound *)(reinterpret_cast<TESSound*>(id)));
             break;
         }
         case 0x41544144:
-            reinterpret_cast<BGSImpactData*>(this)->ReadTypedData(file, 0, 0);
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>((reinterpret_cast<BGSImpactData*>(this)))->FUN_004861f0(file, 0, 0);
             break;
         case 0x32444f4d: {
-            char* model = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(model, 0);
+            char* model = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(model), 0);
             m_kModelTextureSwaps[0].SetModelFilePath(model);
-            TESModel::LoadTextureSwapData(&m_kModelTextureSwaps[0], file);
+            ::FUN_004893e0(&m_kModelTextureSwaps[0], file);
             break;
         }
         case 0x33444f4d: {
-            char* model = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(model, 0);
+            char* model = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(model), 0);
             m_kModelTextureSwaps[1].SetModelFilePath(model);
-            TESModel::LoadTextureSwapData(&m_kModelTextureSwaps[1], file);
+            ::FUN_004893e0(&m_kModelTextureSwaps[1], file);
             break;
         }
         }
@@ -208,20 +248,20 @@ bool TESCaravanMoney::Load(TESFile* file)
 // @fnv 0x0059a800
 bool TESCaravanCard::Load(TESFile* file)
 {
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     bool m_bHeaderParsed = false;
     if (formType != 0x73)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
     int chunkID;
-    while ((chunkID = file->GetChunkID()) != 0)
+    while ((chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
     {
         switch (chunkID)
         {
         case 0x44494445: {
-            char* editorID = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(editorID, 0x200);
+            char* editorID = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 0x200);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -229,7 +269,7 @@ bool TESCaravanCard::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x4c4c5546:
-            TESFullNameLoader::LoadFullNameChunk(this, file);
+            ::ReadFullName(this, file);
             break;
         case 0x4c444f4d:
         case 0x44444f4d:
@@ -239,46 +279,46 @@ bool TESCaravanCard::Load(TESFile* file)
             break;
         case 0x53444f4d: {
             char* textureSwapData;
-            unsigned int chunkSize = file->GetChunkSize();
+            unsigned int chunkSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             textureSwapData = static_cast<char*>(_alloca(chunkSize));
-            file->GetChunkData(textureSwapData, chunkSize);
-            ParseTextureSwapData(textureSwapData, chunkSize,
-                                 reinterpret_cast<TESFileFormVersion*>(file)->GetFormVersion());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(textureSwapData), chunkSize);
+            reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(textureSwapData, chunkSize,
+                                 reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((reinterpret_cast<TESFileFormVersion*>(file)))->FUN_00403570());
             break;
         }
         case 0x4e4f4349:
-            TESTextureLoader::ReadTextureData(static_cast<TESIcon*>(this), file);
+            ::TESTexture::ReadTextureData(static_cast<TESIcon*>(this), file);
             break;
         case 0x4f43494d:
-            BGSMessageIcon::LoadMessageIconChunk(this, file);
+            ::FUN_0047a290((::TeleportableReference *)(::BGSMessageIcon *)(this), file);
             break;
         case 0x49524353: {
             unsigned int scriptID = 0;
             file->GetChunkData(&scriptID);
-            SetScript(reinterpret_cast<Script*>(scriptID));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::Script *)(reinterpret_cast<Script*>(scriptID)));
             TESScriptableForm::InitItem(this);
             break;
         }
         case 0x4d414e59: {
             unsigned int id = 0;
             file->GetChunkData(&id);
-            SetPickupSound(reinterpret_cast<TESSound*>(id));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESSound *)(reinterpret_cast<TESSound*>(id)));
             break;
         }
         case 0x4d414e5a: {
             unsigned int id = 0;
             file->GetChunkData(&id);
-            SetPutdownSound(reinterpret_cast<TESSound*>(id));
+            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(::TESSound *)(reinterpret_cast<TESSound*>(id)));
             break;
         }
         case 0x41544144:
-            reinterpret_cast<BGSImpactData*>(this)->ReadTypedData(file, 0, 0);
+            reinterpret_cast<::fnv_004861f0::Form_004861f0 *>((reinterpret_cast<BGSImpactData*>(this)))->FUN_004861f0(file, 0, 0);
             break;
         case 0x30305854:
-            TESTextureLoader::ReadTextureData(&m_kFrontTexture, file);
+            ::TESTexture::ReadTextureData(&m_kFrontTexture, file);
             break;
         case 0x31305854:
-            TESTextureLoader::ReadTextureData(&m_kBackTexture, file);
+            ::TESTexture::ReadTextureData(&m_kBackTexture, file);
             break;
         case 0x56544e49:
             if (!m_bHeaderParsed)
@@ -306,7 +346,7 @@ struct FUN_00503650_shell : public TESCaravanCard
 // @fnv 0x00503650
 TESTexture* FUN_00503650_shell::FUN_00503650()
 {
-    return reinterpret_cast<TESTexture*>(reinterpret_cast<char*>(this) + 0xA8);
+    return &this->m_kBackTexture;
 }
 
 struct FUN_0059adf0 : public TESForm
@@ -322,18 +362,17 @@ void FUN_0059adf0::LoadGame(void* arg)
 
 struct FUN_0059b270_shell
 {
-    char* __thiscall FUN_0059b270(int index);
+    char* FUN_0059b270(int index);
 };
 
 // @fnv 0x0059b270
-char* __thiscall FUN_0059b270_shell::FUN_0059b270(int index)
+char* FUN_0059b270_shell::FUN_0059b270(int index)
 {
     return &((char*)this)[index * 32 + 140];
 }
 
 struct List_009e03e0
 {
-    void RemoveAll();
 };
 
 struct FUN_0059b9c0_shell
@@ -348,14 +387,13 @@ struct FUN_0059b9c0_shell
 // @fnv 0x0059b9c0
 void FUN_0059b9c0_shell::ClearListAndData()
 {
-    m_pCardListHeadCur->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((m_pCardListHeadCur))->RemoveAll();
     memset(&data, 0, 4);
 }
 
 namespace fnv_0059b1b0 {
 struct FUN_0048e370_shell
 {
-    void FUN_0048e370(int);
 };
 struct FUN_0047a240_shell
 {
@@ -363,7 +401,6 @@ struct FUN_0047a240_shell
 };
 struct FUN_0047b560_shell
 {
-    void LogFormIDs(void);
 };
 struct FUN_004855a0
 {
@@ -375,11 +412,9 @@ struct FUN_00485680
 };
 struct S_00487010
 {
-    void FUN_00487010();
 };
 struct S_0048a520
 {
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct FUN_00485e00_shell
 {
@@ -387,7 +422,6 @@ struct FUN_00485e00_shell
 };
 struct FUN_0059b270_shell
 {
-    char* FUN_0059b270(int);
 };
 struct FUN_0059b1b0_shell
 {
@@ -397,50 +431,38 @@ struct FUN_0059b1b0_shell
 // @fnv 0x0059b1b0
 void FUN_0059b1b0_shell::FUN_0059b1b0()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x30))->FUN_00487010();
-    ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_0048e370_shell*)((char*)this + 0x5c))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x30))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x3c))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_shell*)((char*)this + 0x5c))))->FUN_0048e370(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x68))->FUN_0047a240(0x4f43494d);
-    ((FUN_0047b560_shell*)((char*)this + 0x80))->LogFormIDs();
+    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_shell*)((char*)this + 0x80))))->LogFormIDs();
     ((FUN_00485e00_shell*)this)->FUN_00485e00();
-    ((S_0048a520*)((FUN_0059b270_shell*)this)->FUN_0059b270(0))->ProcessAndFreeData(0x32444f4d, 0x54444f4d, 0x53444f4d);
-    ((S_0048a520*)((FUN_0059b270_shell*)this)->FUN_0059b270(1))->ProcessAndFreeData(0x33444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)reinterpret_cast<::FUN_0059b270_shell *>((((FUN_0059b270_shell*)this)))->FUN_0059b270(0))))->ProcessAndFreeData(0x32444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)reinterpret_cast<::FUN_0059b270_shell *>((((FUN_0059b270_shell*)this)))->FUN_0059b270(1))))->ProcessAndFreeData(0x33444f4d, 0x54444f4d, 0x53444f4d);
     ((FUN_00485680*)this)->M();
 }
 }  // namespace fnv_0059b1b0
 
-void _Deallocate(void*);
 struct Holder
 {
     void FUN_0059a4f0();
     void* Release(unsigned int flags);
+public:
+    void FUN_00485680();
 };
-// Calls FUN_0059a4f0, frees this via _Deallocate when flags has bit 1 set, and returns this.
-// @fnv 0x0059a4c0
-void* Holder::Release(unsigned int flags)
-{
-    this->FUN_0059a4f0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_004855a0
 {
     void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
 };
 struct S_0048a520
 {
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
 };
 struct FUN_0047a240_shell
 {
@@ -452,7 +474,6 @@ struct S_0048cca0
 };
 struct FUN_0047b560_holder
 {
-    void LogFormIDs();
 };
 struct FUN_0050d100_shell
 {
@@ -466,12 +487,10 @@ struct FUN_00485680
 {
     void M();
 };
-extern "C" unsigned int _FUN_00485910(unsigned int, unsigned int);
 
 class TESDataHandler
 {
   public:
-    void* GetBGSRecipeCategoryList();
 };
 
 class FUN_0059a720_shell
@@ -483,33 +502,32 @@ class FUN_0059a720_shell
 // @fnv 0x0059a720
 void FUN_0059a720_shell::Initialize()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x30))->FUN_00487010();
-    ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_0048e370_obj*)((char*)this + 0x5c))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x30))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x3c))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x5c))))->FUN_0048e370(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x68))->FUN_0047a240(0x4f43494d);
     ((S_0048cca0*)((char*)this + 0x80))->FUN_0048cca0();
-    ((FUN_0047b560_holder*)((char*)this + 0x8c))->LogFormIDs();
-    ((FUN_0048e370_obj*)((FUN_0050d100_shell*)this)->FUN_0050d100())->FUN_0048e370(0x30305854);
-    ((FUN_0048e370_obj*)((TESDataHandler*)this)->GetBGSRecipeCategoryList())->FUN_0048e370(0x31305854);
-    _FUN_00485910(0x56544e49, *(unsigned int*)((char*)this + 0xb8));
-    _FUN_00485910(0x56544e49, *(unsigned int*)((char*)this + 0xb4));
+    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_holder*)((char*)this + 0x8c))))->LogFormIDs();
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((FUN_0050d100_shell*)this)->FUN_0050d100())))->FUN_0048e370(0x30305854);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((void *)(reinterpret_cast<::FUN_00503650_shell *>((((TESDataHandler*)this)))->FUN_00503650())))))->FUN_0048e370(0x31305854);
+    ::FUN_00485910(0x56544e49, *(unsigned int*)((char*)this + 0xb8));
+    ::FUN_00485910(0x56544e49, *(unsigned int*)((char*)this + 0xb4));
     ((FUN_00485e00_shell*)this)->FUN_00485e00();
-    ((FUN_00485680*)this)->M();
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
 struct FUN_00484d60_holder
 {
-    void SaveIfChanged(unsigned int);
 };
 struct FUN_0059add0_shell : public FUN_00484d60_holder
 {
-    void ForwardToBase(unsigned int a);
+    void ForwardToBase(std::uintptr_t a);
 };
 // @fnv 0x0059add0
-void FUN_0059add0_shell::ForwardToBase(unsigned int a)
+void FUN_0059add0_shell::ForwardToBase(std::uintptr_t a)
 {
-    SaveIfChanged(a);
+    reinterpret_cast<::FakeForm *>(this)->SaveIfChanged((::BGSSaveFormBuffer *)(a));
 }
 
 struct Place_0059af90
@@ -517,17 +535,6 @@ struct Place_0059af90
     void FUN_0059afc0();
     void* FUN_0059af90(unsigned int);
 };
-void _Deallocate(void*);
-// Calls FUN_0059afc0, then deallocates this when bit 0 of flags is set, and returns this.
-// @fnv 0x0059af90
-void* Place_0059af90::FUN_0059af90(unsigned int flags)
-{
-    FUN_0059afc0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FakeVTable_59b0e0
 {
     virtual void F0();
@@ -549,17 +556,6 @@ struct FUN_0059b910_shell
     void FUN_0059b940();
     void* FUN_0059b910(unsigned int);
 };
-void _Deallocate(void*);
-// Calls FUN_0059b940, then frees this object with _Deallocate when bit 0 of flags is set, and returns this.
-// @fnv 0x0059b910
-void* FUN_0059b910_shell::FUN_0059b910(unsigned int flags)
-{
-    FUN_0059b940();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 namespace fnv_0059ba80 {
 struct FUN_004855a0
 {
@@ -567,17 +563,12 @@ struct FUN_004855a0
 };
 struct S_00487010
 {
-    void FUN_00487010();
 };
 struct BSThread
 {
-    unsigned int GetThreadID();
 };
-extern "C" void __cdecl FUN_00485910(int, unsigned int);
-extern "C" bool __cdecl FUN_00401500();
 struct BipedModelForm
 {
-    void Endian();
 };
 struct FUN_00485e00_shell
 {
@@ -600,20 +591,20 @@ struct FUN_0059ba80_shell : public FUN_004855a0
 // @fnv 0x0059ba80
 void FUN_0059ba80_shell::FUN_0059ba80()
 {
-    M();
-    ((S_00487010*)((char*)this + 0x18))->FUN_00487010();
-    BSSimpleList<TESCaravanCard*>* current = (BSSimpleList<TESCaravanCard*>*)((BSThread*)this)->GetThreadID();
-    while (current && current->GetItem())
+    reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
+    BSSimpleList<TESCaravanCard*>* current = (BSSimpleList<TESCaravanCard*>*)(std::uintptr_t)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType();
+    while (current && (current->m_item))
     {
-        FUN_00485910(0x44524143, current->GetItem()->GetFormID());
-        current = current->GetNext();
+        ::FUN_00485910(0x44524143, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((current->m_item)))->FUN_0084e3a0())));
+        current = ((::BSSimpleList< ::TESCaravanCard *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
     }
-    if (FUN_00401500())
-        ((BipedModelForm*)((char*)this + 0x28))->Endian();
-    FUN_00485e20((int)((char*)this + 0x28), 4);
-    if (FUN_00401500())
-        ((BipedModelForm*)((char*)this + 0x28))->Endian();
-    ((FUN_00485680*)this)->M();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_00503210::Unk *>((((BipedModelForm*)((char*)this + 0x28))))->FUN_00503210();
+    reinterpret_cast<::SDSaveForm *>(this)->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x28)), 4);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::fnv_00503210::Unk *>((((BipedModelForm*)((char*)this + 0x28))))->FUN_00503210();
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 }  // namespace fnv_0059ba80
 
@@ -707,14 +698,22 @@ struct FUN_0059afc0 : public CMBoundObject,
                       public CMPickupPutdownSounds
 {
     CMModelTextureSwap m_kModelTextureSwaps[2];
-    void ClearData();
     virtual ~FUN_0059afc0();
 };
+// Calls FUN_0059afc0, then deallocates this when bit 0 of flags is set, and returns this.
+// @fnv 0x0059af90
+void* Place_0059af90::FUN_0059af90(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0059afc0 *>(this)->FUN_0059afc0::~FUN_0059afc0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0059afc0
 FUN_0059afc0::~FUN_0059afc0()
 {
-    ClearData();
+    reinterpret_cast<::FUN_0059b0e0_shell *>(this)->FUN_0059b0e0();
 }
 
 namespace fnv_0059b680 {
@@ -724,7 +723,6 @@ extern "C"
     extern char DAT_01183028[];
 }
 
-void* __cdecl FUN_00ec43fb(unsigned int, unsigned int, unsigned int, unsigned int, int);
 
 struct FUN_0059b680_sub
 {
@@ -739,7 +737,6 @@ struct FUN_0059b680_sub
 
 struct FUN_0059b270_shell
 {
-    char* __thiscall FUN_0059b270(int index);
 };
 
 struct FUN_00401170_shell
@@ -749,8 +746,6 @@ struct FUN_00401170_shell
 
 struct FUN_0059b680_base
 {
-    void FUN_004851b0(void* p);
-    void FUN_004f15a0(void* p);
 };
 
 class FUN_0059b680_cls : public FUN_0059b680_base
@@ -761,22 +756,22 @@ class FUN_0059b680_cls : public FUN_0059b680_base
     char unk90[0x1c];
     FUN_0059b680_sub m_ac;
 
-    void FUN_0059b680(int a1);
+    void FUN_0059b680(std::intptr_t a1);
 };
 
 // @fnv 0x0059b680
-void FUN_0059b680_cls::FUN_0059b680(int a1)
+void FUN_0059b680_cls::FUN_0059b680(std::intptr_t a1)
 {
-    void* p = FUN_00ec43fb(a1, 0, (unsigned int)DAT_01183028, (unsigned int)DAT_0118c5e4, 0);
+    void* p = dynamic_cast<::TESCaravanMoney *>(reinterpret_cast<::TESForm *>(a1));
     if (p == 0)
     {
     }
     else
     {
-        FUN_004851b0(p);
-        m_8c.V6(((FUN_0059b680_sub*)((FUN_0059b270_shell*)p)->FUN_0059b270(0))->V5());
-        m_ac.V6(((FUN_0059b680_sub*)((FUN_0059b270_shell*)p)->FUN_0059b270(1))->V5());
-        FUN_004f15a0(((FUN_00401170_shell*)a1)->FUN_00401170());
+        reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(p);
+        m_8c.V6(((FUN_0059b680_sub*)reinterpret_cast<::FUN_0059b270_shell *>((((FUN_0059b270_shell*)p)))->FUN_0059b270(0))->V5());
+        m_ac.V6(((FUN_0059b680_sub*)reinterpret_cast<::FUN_0059b270_shell *>((((FUN_0059b270_shell*)p)))->FUN_0059b270(1))->V5());
+        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((std::intptr_t)(((FUN_00401170_shell*)a1)->FUN_00401170()));
     }
 }
 }  // namespace fnv_0059b680
@@ -809,20 +804,26 @@ struct FUN_0059b940 : BaseDtor_b5117, SecondDtor_b5117
     void unk0C();
     ~FUN_0059b940();
 };
+// Calls FUN_0059b940, then frees this object with _Deallocate when bit 0 of flags is set, and returns this.
+// @fnv 0x0059b910
+void* FUN_0059b910_shell::FUN_0059b910(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0059b940 *>(this)->FUN_0059b940::~FUN_0059b940();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0059b940
 FUN_0059b940::~FUN_0059b940()
 {
-    unk0C();
+    reinterpret_cast<::FUN_0059b9c0_shell *>(this)->ClearListAndData();
 }
 
-extern const char DAT_01183028[];
 extern const char DAT_0118643c[];
 
 struct Itc
 {
-    void** FUN_006815c0();
-    Itc* FUN_00726070();
 };
 
 struct DeckData
@@ -832,8 +833,6 @@ struct DeckData
 
 struct L1c
 {
-    Itc* FUN_0059bb30();
-    DeckData* GetExtraDataList();
     unsigned int FUN_00401170();
 };
 
@@ -847,8 +846,6 @@ struct P24c
 
 struct FUN_0059bd50_cls
 {
-    void FUN_004851b0(L1c* rec);
-    void FUN_004f15a0(unsigned int v);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -863,32 +860,31 @@ struct FUN_0059bd50_cls
     void LoadDeckData(void* arg);
 };
 
-L1c* __cdecl FUN_00ec43fb(void* arg, int a2, const char* a3, const char* a4, int a5);
 
 // @fnv 0x0059bd50
 void FUN_0059bd50_cls::LoadDeckData(void* arg)
 {
-    L1c* rec = FUN_00ec43fb(arg, 0, DAT_01183028, DAT_0118643c, 0);
+    L1c* rec = ((L1c *)(dynamic_cast<::TESCaravanDeck *>(reinterpret_cast<::TESForm *>(arg))));
     if (rec == 0)
     {
     }
     else
     {
-        FUN_004851b0(rec);
+        reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(rec);
         while (p24 != 0 && !p24->FUN_008256d0())
             p24->FUN_0063f7b0();
-        Itc* it = rec->FUN_0059bb30();
-        while (it != 0 && *it->FUN_006815c0() != 0)
+        Itc* it = ((::Itc *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((rec))->GetCurrentMoveModeType()));
+        while (it != 0 && *((void **)((void *)(it))) != 0)
         {
-            void* v = *it->FUN_006815c0();
+            void* v = *((void **)((void *)(it)));
             if (p24 == 0 || p24->FUN_008256d0())
                 p24->FUN_00726c60(v);
             else
                 p24->FUN_005ae3d0(v);
-            it = it->FUN_00726070();
+            it = ((::Itc *)(reinterpret_cast<::Callees *>((it))->FUN_00726070()));
         }
-        f28 = *rec->GetExtraDataList();
-        FUN_004f15a0(rec->FUN_00401170());
+        f28 = *((::DeckData *)(reinterpret_cast<::FUN_004610d0_shell *>((rec))->GetExtraDataList()));
+        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(rec->FUN_00401170());
     }
 }
 
@@ -907,6 +903,15 @@ struct FUN_0059a4f0 : TESBoundObject,
     UnsignedValuePair data;
     virtual ~FUN_0059a4f0();
 };
+// Calls FUN_0059a4f0, frees this via _Deallocate when flags has bit 1 set, and returns this.
+// @fnv 0x0059a4c0
+void* Holder::Release(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0059a4f0 *>((this))->FUN_0059a4f0::~FUN_0059a4f0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0059a4f0
 FUN_0059a4f0::~FUN_0059a4f0()
@@ -915,17 +920,14 @@ FUN_0059a4f0::~FUN_0059a4f0()
 }
 
 namespace fnv_0059ac20 {
-extern char DAT_0118c5c4, DAT_01183028;
-void* FUN_00ec43fb(void*, int, void*, void*, int);
+extern char DAT_01183028;
 class StrB
 {
   public:
-    const char* FUN_00408da0();
 };
 class StrSet
 {
   public:
-    void FUN_00489100(const char*);
 };
 struct Pair8
 {
@@ -934,9 +936,6 @@ struct Pair8
 class SrcF
 {
   public:
-    StrB* FUN_0050d100();
-    StrB* FUN_00503650();
-    Pair8* FUN_006ab360();
 };
 class FormA
 {
@@ -992,42 +991,31 @@ class DstF
     int unkac;
     int unkb0;
     Pair8 kb4;
-    void FUN_004851b0(SrcF*);
-    void FUN_004f15a0(int);
     void CopyFrom(FormA* pForm);
 };
 // @fnv 0x0059ac20
 void DstF::CopyFrom(FormA* pForm)
 {
-    SrcF* pSrc = (SrcF*)FUN_00ec43fb(pForm, 0, &DAT_01183028, &DAT_0118c5c4, 0);
+    SrcF* pSrc = (SrcF*)dynamic_cast<::TESCaravanCard *>(reinterpret_cast<::TESForm *>(pForm));
     if (!pSrc)
         return;
-    FUN_004851b0(pSrc);
-    s9c.FUN_00489100(pSrc->FUN_0050d100()->FUN_00408da0());
-    sa8.FUN_00489100(pSrc->FUN_00503650()->FUN_00408da0());
-    kb4 = *pSrc->FUN_006ab360();
-    FUN_004f15a0(pForm->FUN_00401170());
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(pSrc);
+    reinterpret_cast<::TESFullName *>(&(s9c))->SetFullName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((::fnv_0059ac20::StrB *)(reinterpret_cast<::FUN_0050d100_shell *>((pSrc))->FUN_0050d100()))))->FUN_00408da0())));
+    reinterpret_cast<::TESFullName *>(&(sa8))->SetFullName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((::fnv_0059ac20::StrB *)(reinterpret_cast<::FUN_00503650_shell *>((pSrc))->FUN_00503650()))))->FUN_00408da0())));
+    kb4 = *((::fnv_0059ac20::Pair8 *)(reinterpret_cast<::BSMultiBoundRoom *>((pSrc))->FUN_006ab360()));
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(pForm->FUN_00401170());
 }
 }  // namespace fnv_0059ac20
 
 namespace fnv_0059acd0 {
-extern "C" void* __cdecl FNV_DynamicCast(void* pObj, int vfDelta, void* pSrcType, void* pTargetType, int isRef);
-extern "C" void* DAT_0118c5c4;
-extern "C" void* DAT_01183028;
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 
 struct StrHelper_00408da0
 {
-    const char* FUN_00408da0();
 };
 
-int FUN_00408b20(const char*, const char*);
 
 struct CardType_0059acd0
 {
-    StrHelper_00408da0* FUN_0050d100();
-    StrHelper_00408da0* FUN_00503650();
-    void* FUN_006ab360();
 };
 
 struct Class_0059acd0
@@ -1039,7 +1027,6 @@ struct Class_0059acd0
     char padAC[0xb4 - 0xa8 - sizeof(StrHelper_00408da0)];
     char unkb4[8];
 
-    bool FUN_00485270(CardType_0059acd0*);
     bool IsDifferentFromCard(void* param1);
 };
 
@@ -1047,16 +1034,16 @@ struct Class_0059acd0
 // @fnv 0x0059acd0
 bool Class_0059acd0::IsDifferentFromCard(void* apCard)
 {
-    CardType_0059acd0* card = (CardType_0059acd0*)FNV_DynamicCast(apCard, 0, &DAT_01183028, &DAT_0118c5c4, 0);
+    CardType_0059acd0* card = (CardType_0059acd0*)dynamic_cast<::TESCaravanCard*>(reinterpret_cast<::TESForm*>(apCard));
     if (!card)
         return true;
-    if (this->FUN_00485270(card))
+    if (reinterpret_cast<::FUN_00509540_obj *>((this))->FUN_00485270((::TESForm *)(card)))
         return true;
-    if (FUN_00408b20(this->unk9c.FUN_00408da0(), card->FUN_0050d100()->FUN_00408da0()))
+    if (::FUN_00408b20(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(this->unk9c))->FUN_00408da0())), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((::fnv_0059acd0::StrHelper_00408da0 *)(reinterpret_cast<::FUN_0050d100_shell *>((card))->FUN_0050d100()))))->FUN_00408da0()))))
         return true;
-    if (FUN_00408b20(this->unka8.FUN_00408da0(), card->FUN_00503650()->FUN_00408da0()))
+    if (::FUN_00408b20(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(this->unka8))->FUN_00408da0())), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((::fnv_0059acd0::StrHelper_00408da0 *)(reinterpret_cast<::FUN_00503650_shell *>((card))->FUN_00503650()))))->FUN_00408da0()))))
         return true;
-    if (memcmp(this->unkb4, card->FUN_006ab360(), 8))
+    if (memcmp(this->unkb4, reinterpret_cast<::BSMultiBoundRoom *>((card))->FUN_006ab360(), 8))
         return true;
     return false;
 }
@@ -1065,23 +1052,19 @@ bool Class_0059acd0::IsDifferentFromCard(void* apCard)
 #include <string.h>
 struct CardListNode
 {
-    TESCaravanCard*& FUN_006815c0();
-    CardListNode* FUN_00726070();
+    ::TESCaravanCard* m_item;
+    CardListNode* m_pkNext;
     int FUN_005ae380();
-    bool FUN_005f65d0(TESCaravanCard*& item);
 };
 
 struct FormCmpX
 {
-    bool FUN_00485270(TESForm* form);
 };
 
 // FUN_0059bb30 / FUN_004610d0 / FUN_0059be50 are not declared on TESCaravanDeck in
 // today's tree; reach them through a derived stand-in with an identical layout.
 struct TESCaravanDeckX : TESCaravanDeck
 {
-    CardListNode* FUN_0059bb30();
-    CaravanDeckData* GetExtraDataList();
     bool FUN_0059be50(TESForm* form);
 };
 
@@ -1092,18 +1075,18 @@ bool TESCaravanDeckX::FUN_0059be50(TESForm* form)
     TESCaravanDeck* pDeck2 = dynamic_cast<TESCaravanDeck*>(form);
     if (!pDeck2)
         return true;
-    if (((FormCmpX*)this)->FUN_00485270(pDeck2))
+    if (reinterpret_cast<::FUN_00509540_obj *>((((FormCmpX*)this)))->FUN_00485270(pDeck2))
         return true;
-    if (FUN_0059bb30()->FUN_005ae380() != ((TESCaravanDeckX*)pDeck2)->FUN_0059bb30()->FUN_005ae380())
+    if (((::CardListNode *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_005ae380() != ((::CardListNode *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((TESCaravanDeckX*)pDeck2)))->GetCurrentMoveModeType()))->FUN_005ae380())
         return true;
-    CardListNode* pNode = ((TESCaravanDeckX*)pDeck2)->FUN_0059bb30();
-    while (pNode && pNode->FUN_006815c0())
+    CardListNode* pNode = ((::CardListNode *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((TESCaravanDeckX*)pDeck2)))->GetCurrentMoveModeType()));
+    while (pNode && pNode->m_item)
     {
-        if (!FUN_0059bb30()->FUN_005f65d0(pNode->FUN_006815c0()))
+        if (!reinterpret_cast<::RefList *>((((::CardListNode *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->FUN_005f65d0((void **)&pNode->m_item))
             return true;
-        pNode = pNode->FUN_00726070();
+        pNode = ((::CardListNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
-    if (memcmp(&data, ((TESCaravanDeckX*)pDeck2)->GetExtraDataList(), sizeof(CaravanDeckData)))
+    if (memcmp(&data, ((::CaravanDeckData *)(reinterpret_cast<::FUN_004610d0_shell *>((((TESCaravanDeckX*)pDeck2)))->GetExtraDataList())), sizeof(CaravanDeckData)))
         return true;
     return false;
 }
@@ -1120,12 +1103,9 @@ struct CaravanModelPathView
 
 struct CaravanMoneyCompare : public TESCaravanMoney
 {
-    CaravanModelPathView* FUN_0059b270(int);
-    bool FUN_00485270(TESForm*);
     bool FUN_0059b740(TESForm*);
 };
 
-int __cdecl FUN_00408b20(const char*, const char*);
 
 // @fnv 0x0059b740
 bool CaravanMoneyCompare::FUN_0059b740(TESForm* other)
@@ -1135,16 +1115,101 @@ bool CaravanMoneyCompare::FUN_0059b740(TESForm* other)
     if (!compared)
         return true;
 
-    if (FUN_00485270(compared))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(compared))
         return true;
 
     if (FUN_00408b20(reinterpret_cast<CaravanModelPathView*>(&m_kModelTextureSwaps[0])->GetPath(),
-                     compared->FUN_0059b270(0)->GetPath()))
+                     ((::CaravanModelPathView *)(reinterpret_cast<::FUN_0059b270_shell *>((compared))->FUN_0059b270(0)))->GetPath()))
         return true;
 
     if (FUN_00408b20(reinterpret_cast<CaravanModelPathView*>(&m_kModelTextureSwaps[1])->GetPath(),
-                     compared->FUN_0059b270(1)->GetPath()))
+                     ((::CaravanModelPathView *)(reinterpret_cast<::FUN_0059b270_shell *>((compared))->FUN_0059b270(1)))->GetPath()))
         return true;
 
     return false;
+}
+
+// Adjustor thunk (MSVC this-adjusting thunk for a secondary base sub-object).
+// The secondary base sits at offset 0x3c inside the derived object, so the
+// thunk rewinds 'this' to the start of the derived object and tail-jumps to
+// the overriding implementation.
+class PrimaryBase
+{
+  public:
+    virtual void FUN_0059bf40();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+class SecondaryBase
+{
+  public:
+    virtual void FUN_0059bf40();
+};
+
+class Derived : public PrimaryBase, public SecondaryBase
+{
+  public:
+// @fnv 0x0059bf40
+    virtual void FUN_0059bf40();
+    Derived();
+};
+
+Derived::Derived()
+{}
+
+namespace fnv_0059bf70 {
+// Adjustor (this-adjusting) thunk for FUN_0059bf70: "sub ecx, 0x3c; jmp Release".
+//
+// The thunk is emitted for a virtual function inherited from a secondary base: it moves the
+// secondary-base sub-object pointer back to the derived object pointer (sub ecx, 0x3c) and
+// tail jumps to the final overrider. The subtracted offset is the size of the primary base,
+// so PrimaryBase is laid out as a vtable pointer plus 14 int members (4 + 56 = 0x3c).
+// Both bases declare the same virtual function; the derived class redeclares it and defines
+// only its constructor, which is what makes the compiler emit the vtables and the thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0059bf70();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0059bf70();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0059bf70
+    virtual void FUN_0059bf70();
+};
+
+Derived::Derived()
+{}
 }

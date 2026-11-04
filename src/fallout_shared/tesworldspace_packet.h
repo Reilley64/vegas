@@ -2,32 +2,109 @@
 #ifndef TESWORLDSPACE_PACKET_H
 #define TESWORLDSPACE_PACKET_H
 
+#include <cstdint>
+#include <cstring>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/CellView.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00549580_shell.h"
+#include "fnv/decl/fnv_0054db50__FUN_0054db50_cls.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/symbols_00587000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011c4000.h"
 class TESWorldSpace;
 class BGSTerrainManager;
 class TESFile;
 class TESObjectREFR;
+class TESFile;
 class TESForm
 {
   public:
-    bool IsTemporary() const;
-    bool IsConstantGlobal();
+    virtual ~TESForm();
+    virtual void F01();
+    virtual void F02();
+    virtual void F03();
+    virtual void F04();
+    virtual void F05();
+    virtual void F06();
+    virtual void F07();
+    virtual void F08();
+    virtual void F09();
+    virtual void F10();
+    virtual void F11();
+    virtual void F12();
+    virtual void F13();
+    virtual void F14();
+    virtual void F15();
+    virtual TESForm* CloneForm(bool temporary, TESFile* file);
+    virtual void F17();
+    virtual void F18();
+    virtual void F19();
+    virtual void F20();
+    virtual void F21();
+    virtual void F22();
+    virtual void F23();
+    virtual void F24();
+    virtual void F25();
+    virtual void F26();
+    virtual void F27();
+    virtual void F28();
+    virtual void F29();
+    virtual void F30();
+    virtual void F31();
+    virtual void F32();
+    virtual void F33();
+    virtual void F34();
+    virtual void F35();
+    virtual void F36();
+    virtual void F37();
+    virtual void F38();
+    virtual void F39();
+    virtual void F40();
+    virtual void F41();
+    virtual void F42();
+    virtual void F43();
+    virtual void F44();
+    virtual void F45();
+    virtual void F46();
+    virtual void F47();
+    virtual void F48();
+    virtual void F49();
+    virtual void SetAltered(bool altered);
+public:
+    bool GetInitialized() const;
+public:
+    void SetInitializationState(bool);
+public:
+    bool IsReservedFormID();
+public:
+    ::TESFile *GetFile(int);
 };
 class TESObjectREFR : public TESForm
 {
 };
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     char data[16];
 };
-class TESObjectCELL
+class TESRegionList;
+class TESObjectCELL : public TESForm
 {
   public:
-    char pad[0x24];
+    char pad[0x20];
     unsigned char flags;
     bool IsCellInterior() const;
-    void AddReference(TESObjectREFR*, bool);
-    void AppendCellReferences(BSSimpleArray<TESObjectREFR*, 1024>&);
+    ::TESWorldSpace *GetParentWorldSpace();
+public:
+    int GetCellGridX();
+public:
+    int GetCellGridY();
+public:
+    ::TESRegionList *GetRegionList(bool);
 };
 template <class T> class BSStringT
 {
@@ -39,68 +116,99 @@ template <class K, class V> class NiTPointerMap
   public:
     bool GetAt(K, V&) const;
 };
+struct TESRecordHeader;
 class TESFile
 {
   public:
     TESFile* GetThreadSafeRootFile();
+public:
+    bool IsEndianConversionRequired();
+public:
+    ::TESRecordHeader *GetRecordHeader();
+public:
+    unsigned int GetOffset();
+public:
+    bool IsMasterFile();
+public:
+    bool NextChunk();
+public:
+    bool IsGroupOpen();
+public:
+    ::TESFile *GetParentTESFile();
 };
 class TESRegion : public TESForm
 {
   public:
-    char pad[0x20];
+    char pad[0x1c];
     TESWorldSpace* world;
     void AssignWorldSpace(TESWorldSpace*);
 };
+class TESFile;
+class TESForm;
 class TESDataHandler
 {
   public:
     bool LoadDescriptionForForm();
+public:
+    static bool LoadForm(::TESForm *, ::TESFile *);
 };
-extern TESDataHandler* g_dataHandler;
-extern NiTPointerMap<unsigned int, TESObjectREFR*>* DAT_011c40b0;
 class TESWorldSpace
 {
   public:
+    virtual ~TESWorldSpace();
     enum PARENT_USE_FLAG
     {
         USE_LAND = 1
     };
-    char pad0[0x30];
+    char pad0[0x20];
+    void* kFullName[3];  // +0x24, the TESFullName base
     NiTPointerMap<unsigned int, TESObjectREFR*>* cellMap;
-    char pad34[8];
+    TESObjectCELL* m_pCell;
+    char pad38[0x4];
     BGSTerrainManager* terrain;
-    char pad40[0xC];
+    void* unk40;
+    void* unk44;
+    void* unk48;
     unsigned char flags4C;
     char pad4D[1];
     unsigned short field4E;
-    char pad50[0x20];
+    NiTPointerMap<unsigned int, TESObjectREFR*> kFixedPersistentRefMap;  // +0x50
+    void* kMobilePersistentRefs[2];                                      // +0x60, a BSSimpleList
+    void* pFileOffsetMap;                                                // +0x68
+    void* pCellPointerMap;                                               // +0x6C
     TESWorldSpace* parent;
-    char pad74[0x4c];
+    void* unk74;
+    void* unk78;
+    float unk7c;
+    unsigned char kMapData[0x10];  // +0x80
+    float unk90;
+    float unk94;
+    float unk98;
+    void* unk9c;
+    char pada0[0x10];
+    NiTPointerMap<unsigned int, void*> kOffsetMapByFile;  // +0xB0
     BSStringT<char> mapName;
     char padC1[7];
     float fC8;
     float fCC;
-    unsigned int fieldD0;
+    std::uintptr_t fieldD0;
+    unsigned char kUnkD4[0xC];  // +0xD4, an object with a vtable
+    unsigned char kUnkE0[0xC];  // +0xE0, an object with a vtable
     bool SetDateTimeText(const char*);
     BGSTerrainManager* GetWorldTerrainManager();
     TESWorldSpace* GetParentWorld(PARENT_USE_FLAG);
-    bool GetParentUseFlag(PARENT_USE_FLAG);
     TESObjectCELL* GetCellByKey(unsigned int);
     void AddPersistentReference(TESObjectREFR*);
-    TESObjectCELL* CreatePersistentCell();
-    void SetHasRegions(bool);
     static bool IsFormIDOwnedByFile(unsigned int, TESFile*);
     void ClearWorldSpaceReferences();
     TESObjectCELL* GetCellAtGridPosition(int, int);
-    static int BuildCellKey(short, short);
     void FUN_00584150(float);
     void FUN_00586110(float);
     void FUN_00586130(float);
     bool GetSmallWorld();
     bool IsFlag4C20Set();
     void SetParent(TESWorldSpace*);
-    void SetFieldD0(unsigned int);
-    TESObjectCELL* GetInteriorCell();
+    void SetFieldD0(std::uintptr_t);
     void FUN_00588270(BSSimpleArray<TESObjectREFR*, 1024>&);
 };
 class Tile;
@@ -118,24 +226,22 @@ class TESEffectShader;
 class BGSAcousticSpace
 {
   public:
-    void SetNightSound(TESSound*);
 };
+class TESSound;
 class TESObjectACTI
 {
   public:
     void SetLoopingSound(TESSound*);
+public:
+    void SetActivateSound(::TESSound *);
 };
 class EffectSetting
 {
   public:
-    void SetEffectShader(TESEffectShader*);
 };
 class TESFullName
 {
   public:
     void SetFullName(const char*);
 };
-extern "C" void* memset(void*, int, unsigned int);
 extern float DAT_01031920;
-extern const char DAT_010187a0[];
-int Warning(const char*, ...);

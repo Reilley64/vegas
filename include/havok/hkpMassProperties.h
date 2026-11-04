@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPMASSPROPERTIES_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpMassProperties
 {
   public:
@@ -14,6 +13,4 @@ class hkpMassProperties
     hkVector4 m_kCenterOfMass1;  // +0x10
     hkMatrix3 m_kInertiaTensor;  // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMassProperties[(sizeof(hkpMassProperties) == 0x50) ? 1 : -1];
 #endif

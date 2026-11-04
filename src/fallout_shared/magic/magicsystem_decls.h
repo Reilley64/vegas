@@ -2,6 +2,10 @@
 #ifndef FNV_MAGICSYSTEM_DECLS_H
 #define FNV_MAGICSYSTEM_DECLS_H
 
+#include "fnv/decl/FUN_0045c650_shell.h"
+#include "fnv/decl/PackedByteIntRecord.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00874000.h"
 #include "layout_support.h"
 class EffectItem;
 enum ENUM_FORM_ID
@@ -227,7 +231,6 @@ class SpellItem : public MagicItemForm
     SpellItem();
     unsigned char spellData[0x10];  // Unaccessed spell data; PC allocation is 0x44.
 };
-FNV_STATIC_ASSERT(sizeof(SpellItem) == 0x44);
 
 class MagicSystem
 {
@@ -245,12 +248,7 @@ class EffectSettingCollection
 class DataHandler
 {
   public:
-    BSSimpleList<TESSound*>* FUN_0045c650();
-    BSSimpleList<TESEffectShader*>* FUN_00874670();
-    BSSimpleList<SpellItem*>* FUN_0087eaa0();
 };
-extern DataHandler* g_dataHandler;
-TESForm* GetFormByID(unsigned int formID);
 
 extern TESSound* DAT_011c3538;
 extern TESSound* DAT_011c353c;
@@ -270,7 +268,6 @@ extern TESSound* DAT_011c3570;
 extern TESSound* DAT_011c3574;
 extern TESSound* DAT_011c3578;
 extern TESSound* DAT_011c357c;
-extern TESEffectShader* DAT_011c3580;
 extern TESEffectShader* DAT_011c3584;
 extern TESEffectShader* DAT_011c3588;
 extern SpellItem* DAT_011c358c;

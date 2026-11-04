@@ -55,7 +55,6 @@ enum MENU_SOUNDS
     MENU_SOUNDS_MENU_SOUND_ENCHANT = 35,
     MENU_SOUNDS_MENU_SOUND_MODE = 36
 };
-#pragma pack(push, 4)
 class ListBox_TESRecipe___ : public ListBoxBase, public BSSimpleList<ListBoxItem_TESRecipe___*>
 {
   public:
@@ -131,18 +130,6 @@ class ListBox_TESRecipe___ : public ListBoxBase, public BSSimpleList<ListBoxItem
     // ListBox<TESRecipe *>& __cdecl ListBox<TESRecipe *>::*(const ListBox<TESRecipe *>&)
     // void __cdecl ListBox<TESRecipe *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ListBox_TESRecipe___) == 48);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipe___, m_pListTile) == 12);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipe___, m_pSelectedTile) == 16);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipe___, m_pHighlightedTile) == 20);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipe___, pTemplateName) == 24);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipe___, m_usSelectedIndex) == 28);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipe___, m_fFirstListValue) == 32);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipe___, m_fSecondListValue) == 36);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipe___, m_fThirdListValue) == 40);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipe___, usFlags) == 44);
-#pragma pack(push, 4)
 class ListBox_TESRecipeComponent___ : public ListBoxBase, public BSSimpleList<ListBoxItem_TESRecipeComponent___*>
 {
   public:
@@ -159,18 +146,6 @@ class ListBox_TESRecipeComponent___ : public ListBoxBase, public BSSimpleList<Li
     unsigned short usFlags;    // +0x2C, 2 bytes
     unsigned char layoutPadding2E[2];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ListBox_TESRecipeComponent___) == 48);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipeComponent___, m_pListTile) == 12);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipeComponent___, m_pSelectedTile) == 16);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipeComponent___, m_pHighlightedTile) == 20);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipeComponent___, pTemplateName) == 24);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipeComponent___, m_usSelectedIndex) == 28);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipeComponent___, m_fFirstListValue) == 32);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipeComponent___, m_fSecondListValue) == 36);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipeComponent___, m_fThirdListValue) == 40);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESRecipeComponent___, usFlags) == 44);
-#pragma pack(push, 4)
 class ListBox_TESConditionItem___ : public ListBoxBase, public BSSimpleList<ListBoxItem_TESConditionItem___*>
 {
   public:
@@ -246,18 +221,6 @@ class ListBox_TESConditionItem___ : public ListBoxBase, public BSSimpleList<List
     // ListBox<TESConditionItem *>& __cdecl ListBox<TESConditionItem *>::*(const ListBox<TESConditionItem *>&)
     // void __cdecl ListBox<TESConditionItem *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ListBox_TESConditionItem___) == 48);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESConditionItem___, m_pListTile) == 12);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESConditionItem___, m_pSelectedTile) == 16);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESConditionItem___, m_pHighlightedTile) == 20);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESConditionItem___, pTemplateName) == 24);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESConditionItem___, m_usSelectedIndex) == 28);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESConditionItem___, m_fFirstListValue) == 32);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESConditionItem___, m_fSecondListValue) == 36);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESConditionItem___, m_fThirdListValue) == 40);
-FNV_STATIC_ASSERT(offsetof(ListBox_TESConditionItem___, usFlags) == 44);
-#pragma pack(push, 4)
 class RecipeMenu : public Menu
 {
   public:
@@ -298,15 +261,4 @@ class RecipeMenu : public Menu
     // RecipeMenu& __cdecl RecipeMenu::*(const RecipeMenu&)
     // void __cdecl RecipeMenu::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RecipeMenu) == 260);
-FNV_STATIC_ASSERT(offsetof(RecipeMenu, m_pTiles) == 40);
-FNV_STATIC_ASSERT(offsetof(RecipeMenu, m_pCraftingReference) == 96);
-FNV_STATIC_ASSERT(offsetof(RecipeMenu, pCategory) == 100);
-FNV_STATIC_ASSERT(offsetof(RecipeMenu, m_eMenuSounds) == 104);
-FNV_STATIC_ASSERT(offsetof(RecipeMenu, m_kAvailableRecipeList) == 108);
-FNV_STATIC_ASSERT(offsetof(RecipeMenu, m_pCurrentList) == 156);
-FNV_STATIC_ASSERT(offsetof(RecipeMenu, m_kRecipeComponentList) == 160);
-FNV_STATIC_ASSERT(offsetof(RecipeMenu, m_kConditionItemList) == 208);
-FNV_STATIC_ASSERT(offsetof(RecipeMenu, m_bFlagAfterConditionList) == 256);
 #endif

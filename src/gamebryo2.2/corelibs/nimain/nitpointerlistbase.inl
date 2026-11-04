@@ -1,4 +1,11 @@
 
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
+#include "fnv/decl/FUN_0045cee0_shell.h"
+#include "fnv/decl/FUN_004a4930_class.h"
+#include "fnv/decl/FUN_004a49e0_shell.h"
+#include "fnv/symbols_00e6e000.h"
+#include "fnv/symbols_011c5000.h"
 #include "NiProperty.h"
 #include "RecursiveSpinLock.h"
 #include "Script.h"
@@ -10,18 +17,18 @@ template<class T> void NiTPointerAllocator<T>::Deallocate(void* pointer)
 {
     typedef typename PoolAllocatorBase<T>::LinkedListEntry LinkedListEntry;
     LinkedListEntry* node = static_cast<LinkedListEntry*>(pointer);
-    PoolAllocatorBase<T>::ms_kPoolState.Lock(0);
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
     node->m_pUserData = 0;
-    node->m_pkNext = PoolAllocatorBase<T>::ms_pFreeList;
-    PoolAllocatorBase<T>::ms_pFreeList = node;
-    PoolAllocatorBase<T>::ms_kPoolState.Unlock();
+    node->m_pkNext = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
+    (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
+    reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fba0();
 }
 
 template<class Allocator, class T>
 inline void NiTPointerListBase<Allocator,T>::DeleteItem(NiTListItem<T>* item)
 {
     item->m_element = 0;
-    this->m_kItemCount.Deallocate(item);
+    reinterpret_cast<::FUN_0045cee0_shell *>(&(this->m_kItemCount))->FUN_0045cee0(item);
 }
 
 template<class Allocator, class T> void NiTPointerListBase<Allocator,T>::RemoveAll()
@@ -87,23 +94,18 @@ template<> class NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*> : 
 {
 public:
     void RemoveAll();
-    void* AddHead();
     char* RemoveHead();
     char* RemoveTail();
     char* RemovePos(void*& position);
     char* Remove(char*& element);
     void DeleteItem(NiTListItem<char*>* item);
 };
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>) == 12);
 typedef NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*> NiTPointerListBaseCharPtr;
-FNV_STATIC_ASSERT(offsetof(NiTPointerListBaseCharPtr, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTPointerListBaseCharPtr, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTPointerListBaseCharPtr, m_kItemCount) == 8);
 
 inline void NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>::DeleteItem(NiTListItem<char*>* item)
 {
     item->m_element = 0;
-    this->m_kItemCount.Deallocate(item);
+    reinterpret_cast<::FUN_0045cee0_shell *>(&(this->m_kItemCount))->FUN_0045cee0(item);
 }
 
 
@@ -121,7 +123,7 @@ Script* NiTPointerListBase<NiTPointerAllocator<unsigned int>,Script*>::Remove(Sc
 
 // Explicit instantiation selects the original optimized NiPointer consumer.
 // @fnv 0x00e74d40
-template void NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::RemoveAll();
+template void NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >::RemoveAll();
 
 // char* explicit-specialization members (declared in the .inl above).
 // RemoveTail is defined in its own original TU and linked externally.
@@ -205,7 +207,7 @@ Script* NiTPointerListBase<NiTPointerAllocator<unsigned int>,Script*>::RemoveTai
     if (m_pkTail) m_pkTail->m_pkNext = 0;
     else m_pkHead = 0;
     Script* element = item->m_element;
-    DeleteItem(item);
+    reinterpret_cast<::FUN_004a49e0_shell *>(this)->FUN_004a49e0(item);
     --m_kItemCount.m_uiCount;
     return element;
 }
@@ -214,7 +216,7 @@ Script* NiTPointerListBase<NiTPointerAllocator<unsigned int>,Script*>::RemoveTai
 // @fnv 0x00a5a310
 void NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<BSMultiBound> >::AddTail(const NiPointer<BSMultiBound>& element)
 {
-    NiTListItem<NiPointer<BSMultiBound> >* item = static_cast<NiTListItem<NiPointer<BSMultiBound> >*>(reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>,char*>*>(&m_kItemCount)->AddHead());
+    NiTListItem<NiPointer<BSMultiBound> >* item = static_cast<NiTListItem<NiPointer<BSMultiBound> >*>(((void *)(reinterpret_cast<::FUN_0043a010_shell *>((reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>,char*>*>(&m_kItemCount)))->FUN_0043a010())));
     BSMultiBound* oldObject = item->m_element.m_pObject;
     if (oldObject != element.m_pObject)
     {
@@ -243,7 +245,7 @@ Script* NiTPointerListBase<NiTPointerAllocator<unsigned int>,Script*>::RemovePos
     if (pkPrev) pkPrev->m_pkNext = pkNext;
     if (pkNext) pkNext->m_pkPrev = pkPrev;
     Script* element = item->m_element;
-    DeleteItem(item);
+    reinterpret_cast<::FUN_004a49e0_shell *>(this)->FUN_004a49e0(item);
     --m_kItemCount.m_uiCount;
     return element;
 }
@@ -275,7 +277,7 @@ NiPointer<ObstacleData> NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiP
     if (pkNext)
         pkNext->m_pkPrev = pkPrev;
     NiPointer<ObstacleData> element = item->m_element;
-    DeleteItem(item);
+    reinterpret_cast<::FUN_004a4930_class *>(this)->FUN_004a4930(item);
     --this->m_kItemCount.m_uiCount;
     return element;
 }

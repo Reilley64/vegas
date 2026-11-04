@@ -2,6 +2,7 @@
 #ifndef NIFLOATDATA_DECLS_H
 #define NIFLOATDATA_DECLS_H
 
+#include "fnv/symbols_011f3000.h"
 class TimedAnimationKey;
 class NiStream;
 class NiObject
@@ -34,6 +35,4 @@ class NiFloatData : public NiObject
     void SetColorKeys(TimedAnimationKey*, unsigned int, AnimationKey::KeyType);
     virtual void LoadBinary(NiStream&);
 };
-extern unsigned char DAT_011f3758[];
-extern void(__cdecl* DAT_011f38a0[])(TimedAnimationKey*);
 #endif

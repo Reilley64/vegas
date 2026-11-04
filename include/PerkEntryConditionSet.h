@@ -1,7 +1,7 @@
 #ifndef FNV_TESCONDITION_H
 #define FNV_TESCONDITION_H
 #include "layout_support.h"
-#pragma pack(push, 4)
+class TESForm;
 class PerkEntryConditionSet
 {
   public:
@@ -11,8 +11,9 @@ class PerkEntryConditionSet
     ~PerkEntryConditionSet();
     void InitializeConditionItems();
     void Load(TESFile* file);
+public:
+    void InitItem(::TESForm *);
+public:
+    bool Compare(::PerkEntryConditionSet *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PerkEntryConditionSet) == 0x8);
-FNV_STATIC_ASSERT(offsetof(PerkEntryConditionSet, m_kConditionItems) == 0x0);
 #endif

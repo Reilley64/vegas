@@ -3,6 +3,28 @@
 #define TESACTORBASE_DECLS_H
 
 
+#include <cstdint>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_0047e340_shell.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_0096bbc0_cls.h"
+#include "fnv/decl/TESActorBaseData47E.h"
+#include "fnv/decl/TESSpellList.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_0047f980__FUN_0047f980_Class.h"
+#include "fnv/decl/fnv_004802b0__FUN_004802b0_Class.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008649a0__FUN_008649a0_shell.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_005d8000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 enum SEX
 {
     SEX_SEX_NONE = -1,
@@ -27,8 +49,12 @@ class TESForm
   public:
     virtual void LoadGame(BGSLoadFormBuffer*);
     ENUM_FORM_ID GetFormType() const;
-    unsigned int GetFormID();
-    void NotifyFormIDChanged(int);
+public:
+    void MarkAsModified(unsigned int);
+public:
+    void MarkAsUnmodified(unsigned int);
+public:
+    void LoadGame(void *);
 };
 
 class TESBoundObject : public TESForm
@@ -55,26 +81,21 @@ class TESActorBaseData
 {
   public:
     bool GetFlag(unsigned int) const;
-    void AddFormChangeFlags(int);
-    void FUN_0047ea70(BGSLoadFormBuffer*);
 };
 
 class TESAIForm
 {
   public:
-    void FUN_0047f980(BGSLoadFormBuffer*);
 };
 
 class TESAttributes
 {
   public:
-    void LoadDataIfChanged(BGSLoadFormBuffer*);
 };
 
 class Crime
 {
   public:
-    void LoadGame(BGSLoadGameBuffer*);
 };
 
 class TESFullName
@@ -86,20 +107,18 @@ class TESFullName
 class TESDataHandler
 {
   public:
-    bool FormIDExists(unsigned int);
 };
 
+class TESForm;
 class BGSSaveLoadGame
 {
   public:
     bool ShouldSaveForm(TESForm*, bool);
-    bool FUN_0042ce10();
     bool HasFormChangeFlags(TESForm*, FormChangeMask);
-    bool HasFormChangeFlags(TESForm*, GlobalObject_008c71b0);
+public:
+    bool IsFormChanged(::TESForm *);
 };
 
-extern TESDataHandler* g_dataHandler;
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 class FormChangeMask
 {
@@ -112,7 +131,6 @@ class FormChangeMask
 class BGSLoadGameBuffer
 {
   public:
-    char* LoadString(char*);
 };
 
 class BGSLoadFormBuffer : public BGSLoadGameBuffer
@@ -551,13 +569,10 @@ class TESObjectREFR
     virtual void vfn_224();
     virtual void vfn_228();
     virtual bool IsDead(bool);
-    TESBoundObject* GetObjectReference();
 };
 class Actor : public TESObjectREFR
 {
   public:
-    bool FUN_00576d30();
-    BaseProcess* GetProcess();
     TESActorBase* GetActorBase();
 };
 class Reset3DMobIterator
@@ -568,26 +583,21 @@ class Reset3DMobIterator
     TESBoundObject* base;
     bool reset;
     Reset3DMobIterator();
-    void FUN_005d8b10();
-    void FUN_006ecd40(int);
     void operator()(Actor* actor);
 };
 class ProcessLists
 {
   public:
-    void ProcessMobileObjects(Reset3DMobIterator*);
 };
 class PlayerCharacter : public Actor
 {
 };
-extern ProcessLists g_kProcessLists;
-extern PlayerCharacter* g_thePlayer;
 extern "C" void* DAT_01047670;
 class GlobalObject_008c71b0
 {
   public:
     int flags;
-    GlobalObject_008c71b0(int);
+    GlobalObject_008c71b0(intptr_t);
     GlobalObject_008c71b0(const GlobalObject_008c71b0&);
 };
 #endif

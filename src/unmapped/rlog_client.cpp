@@ -11,9 +11,15 @@
 // `xor eax,eax` / `mov byte ptr [ebp-1],al` pair) and whose single byte is
 // then read back and pushed as the helper's second argument.
 
-extern "C" void __cdecl FUN_00401080_helper(void* pValue, unsigned char bDoSwap);
 
 // one byte flag holder (the helper's "bDoSwap" argument)
+#include <cstdint>
+#include <cstdlib>
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_011c6000.h"
 struct ByteSwapFlag
 {
     unsigned char m_bDoSwap;
@@ -22,22 +28,19 @@ struct ByteSwapFlag
 struct FUN_0060ce80_Obj
 {
     void* unk00;
-    void* unk04;
+    int m_iValue;
     void FUN_0060ce80();
 };
 
-// Calls FUN_00401080_helper on the object's field at offset 4, passing the byte-swap flag from a ByteSwapFlag.
+// Byte-swaps m_iValue with FUN_00401080 (the ByteSwapFlag tag argument is unused).
 // @fnv 0x0060ce80
 void FUN_0060ce80_Obj::FUN_0060ce80()
 {
-    FUN_00401080_helper((void*)((char*)this + 4), ByteSwapFlag().m_bDoSwap);
+    ::FUN_00401080(&m_iValue);
 }
 
 struct LodCell
 {
-    bool FUN_00425fd0();
-    int FUN_00544c30();
-    int FUN_00544c60();
 };
 struct LodPoint
 {
@@ -45,47 +48,42 @@ struct LodPoint
 };
 struct LodSetting
 {
-    unsigned int* FUN_0043d4d0();
 };
-extern LodSetting g_s_011c63cc;
 extern LodCell* g_pkLastCell_011c3f04;
 extern int g_iLastLod_011c3f00;
-int __cdecl TruncateFloatToInt(float f);
-extern "C" int __cdecl abs(int i);
-
 struct LodGrid
 {
     char pad00[0x24];
     int m_iCenterX;
     int m_iCenterY;
-    int FUN_00458be0(LodCell* pkCell, LodPoint* pkPos);
+    intptr_t FUN_00458be0(LodCell* pkCell, LodPoint* pkPos);
 };
 
 // Computes a LOD level from the cell's grid offset relative to the grid center or a position, caches it with the cell, and returns it.
 // @fnv 0x00458be0
-int LodGrid::FUN_00458be0(LodCell* pkCell, LodPoint* pkPos)
+intptr_t LodGrid::FUN_00458be0(LodCell* pkCell, LodPoint* pkPos)
 {
     if (g_pkLastCell_011c3f04 == pkCell)
         return g_iLastLod_011c3f00;
     int iDXVal2;
     int iDYVal2;
-    if (pkCell->FUN_00425fd0())
+    if (reinterpret_cast<::TESObjectCELL *>((pkCell))->IsCellInterior())
     {
-        iDXVal2 = *g_s_011c63cc.FUN_0043d4d0() >> 1;
-        iDYVal2 = *g_s_011c63cc.FUN_0043d4d0() >> 1;
+        iDXVal2 = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1;
+        iDYVal2 = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1;
     }
     else if (pkPos)
     {
-        iDXVal2 = pkCell->FUN_00544c30() - ((TruncateFloatToInt(pkPos->x) >> 12) - (*g_s_011c63cc.FUN_0043d4d0() >> 1));
-        iDYVal2 = pkCell->FUN_00544c60() - ((TruncateFloatToInt(pkPos->y) >> 12) - (*g_s_011c63cc.FUN_0043d4d0() >> 1));
+        iDXVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridX() - ((::FUN_00406d90(pkPos->x) >> 12) - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
+        iDYVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridY() - ((::FUN_00406d90(pkPos->y) >> 12) - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
     }
     else
     {
-        iDXVal2 = pkCell->FUN_00544c30() - (m_iCenterX - (*g_s_011c63cc.FUN_0043d4d0() >> 1));
-        iDYVal2 = pkCell->FUN_00544c60() - (m_iCenterY - (*g_s_011c63cc.FUN_0043d4d0() >> 1));
+        iDXVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridX() - (m_iCenterX - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
+        iDYVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridY() - (m_iCenterY - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
     }
-    int iXY = iDXVal2 - (*g_s_011c63cc.FUN_0043d4d0() >> 1);
-    int iY8 = iDYVal2 - (*g_s_011c63cc.FUN_0043d4d0() >> 1);
+    int iXY = iDXVal2 - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1);
+    int iY8 = iDYVal2 - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1);
     unsigned char ucDistZ;
     if (iXY > iY8)
         ucDistZ = abs(iXY) * 10 + 10;
@@ -116,3 +114,5 @@ int LodGrid::FUN_00458be0(LodCell* pkCell, LodPoint* pkPos)
     g_pkLastCell_011c3f04 = pkCell;
     return g_iLastLod_011c3f00;
 }
+
+#include "generated/data/unmapped/rlog_client.inc"

@@ -7,7 +7,6 @@
 #include "hkReferencedObject.h"
 class hkaSkeleton;
 class hkpConstraintInstance;
-#pragma pack(push, 1)
 class hkaRagdollInstance : public hkReferencedObject
 {
   public:
@@ -16,6 +15,4 @@ class hkaRagdollInstance : public hkReferencedObject
     hkArray<hkInt32> m_kBoneMap;                      // +0x20
     hkaSkeleton* m_pSkeleton;                         // +0x2C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaRagdollInstance[(sizeof(hkaRagdollInstance) == 0x30) ? 1 : -1];
 #endif

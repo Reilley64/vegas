@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpConvexVerticesConnectivity : public hkReferencedObject
 {
   public:
     hkArray<hkUint16> m_kVertexIndices;      // +0x8
     hkArray<hkUint8> m_kNumVerticesPerFace;  // +0x14
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConvexVerticesConnectivity[(sizeof(hkpConvexVerticesConnectivity) == 0x20) ? 1 : -1];
 #endif

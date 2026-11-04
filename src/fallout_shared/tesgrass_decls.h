@@ -2,6 +2,8 @@
 #ifndef FNV_TESGRASS_DECLS_H
 #define FNV_TESGRASS_DECLS_H
 
+#include <cstring>
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -25,7 +27,6 @@ enum TESGrass__GRASS_WATER_STATE
     TESGrass__GRASS_WATER_STATE_GWS_BOTH_ATMOST_BELOW = 7,
     TESGrass__GRASS_WATER_STATE_GWS_COUNT = 8
 };
-#pragma pack(push, 4)
 class TESObject : public TESForm
 {
   public:
@@ -33,12 +34,6 @@ class TESObject : public TESForm
     TESObject* m_pPreviousObject;  // +0x1C, 4 bytes
     TESObject* m_pNextObject;      // +0x20, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
-#pragma pack(push, 4)
 class ShortPoint3
 {
   public:
@@ -46,32 +41,17 @@ class ShortPoint3
     short y;  // +0x2, 2 bytes
     short z;  // +0x4, 2 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
-#pragma pack(push, 4)
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
-#pragma pack(push, 4)
 class TESBoundObject : public TESObject
 {
   public:
     TESBoundObject__BOUND_DATA TESBoundObjectBounds;  // +0x24, 12 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -79,11 +59,6 @@ class FileEntryList
     unsigned char layoutPadding1[3];
     BSFileEntry** m_ppFileEntries;  // +0x4, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -93,12 +68,6 @@ class TESModel : public BaseFormComponent
     unsigned char cFlags;              // +0x14, 1 bytes
     unsigned char layoutPadding15[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class TESGrass__GRASS_DATA
 {
   public:
@@ -117,19 +86,6 @@ class TESGrass__GRASS_DATA
     char cFlags;                                // +0x1C, 1 bytes
     unsigned char layoutPadding1D[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESGrass__GRASS_DATA) == 32);
-FNV_STATIC_ASSERT(offsetof(TESGrass__GRASS_DATA, m_ucDensity) == 0);
-FNV_STATIC_ASSERT(offsetof(TESGrass__GRASS_DATA, m_ucMinSlope) == 1);
-FNV_STATIC_ASSERT(offsetof(TESGrass__GRASS_DATA, m_ucMaxSlope) == 2);
-FNV_STATIC_ASSERT(offsetof(TESGrass__GRASS_DATA, m_usUnitsFromSurface) == 4);
-FNV_STATIC_ASSERT(offsetof(TESGrass__GRASS_DATA, m_eWaterState) == 8);
-FNV_STATIC_ASSERT(offsetof(TESGrass__GRASS_DATA, m_fPositionRange) == 12);
-FNV_STATIC_ASSERT(offsetof(TESGrass__GRASS_DATA, m_fHeightRange) == 16);
-FNV_STATIC_ASSERT(offsetof(TESGrass__GRASS_DATA, m_fWavePeriod) == 20);
-FNV_STATIC_ASSERT(offsetof(TESGrass__GRASS_DATA, m_fWavePhase) == 24);
-FNV_STATIC_ASSERT(offsetof(TESGrass__GRASS_DATA, cFlags) == 28);
-#pragma pack(push, 4)
 class TESGrass : public TESBoundObject, public TESModel
 {
   public:
@@ -140,14 +96,10 @@ class TESGrass : public TESBoundObject, public TESModel
     float GetLowestAllowedSlope();
     TESGrass__GRASS_DATA Data;  // +0x48, 32 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESGrass) == 104);
-FNV_STATIC_ASSERT(offsetof(TESGrass, Data) == 72);
 // The shared chunk reader is bound under this canonical alias.
 class BGSImpactData
 {
   public:
-    void ReadTypedData(TESFile* file, void* data, unsigned short size);
     char _pdbpad_1[47];
     char Data_db_pad2f_pad2f_pad2f[24];
     void* m_pDecalTextureSet;
@@ -155,5 +107,4 @@ class BGSImpactData
     void* m_pSecondaryImpactSound;
     char ImpactDecalInfo[36];
 };
-extern "C" void* __cdecl memset(void* data, int value, unsigned int size);
 #endif

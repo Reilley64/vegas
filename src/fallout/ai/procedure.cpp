@@ -7,3 +7,5 @@ int FUN_0096a820(int procedureType)
 {
     return procedureType >= 0 && procedureType < 49 ? DAT_011a3fbc[procedureType] : -1;
 }
+
+#include "generated/data/fallout/ai/procedure.inc"

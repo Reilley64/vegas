@@ -2,28 +2,41 @@
 // src/gamebryo2.2/corelibs/nianimation/bsrotaccumtransfinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bsrotaccumtransfinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/A3F8D0Interpolator.h"
+#include "fnv/decl/FUN_0058cb00_Class.h"
+#include "fnv/decl/FUN_00a3ca30_shell.h"
+#include "fnv/decl/FUN_00a3f8a0_t.h"
+#include "fnv/decl/FUN_00a3f990_shell.h"
+#include "fnv/decl/InterpolatorF7B0.h"
+#include "fnv/decl/NiTransformInterpolatorCopy.h"
+#include "fnv/decl/S_00a3f870_This.h"
+#include "fnv/decl/fnv_00a3fa30__FUN_00a3fa30.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a43000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f3000.h"
 struct NiRTTI
 {
 };
 
-extern NiRTTI g_011f3ee0;
 
 // @fnv 0x00a43ab0
 NiRTTI* __cdecl FUN_00a43ab0()
 {
-    return &g_011f3ee0;
+    return &(*reinterpret_cast<::NiRTTI *>(&::g_011f3ee0));
 }
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct NiTransformInterpolator
 {
     void* vfptr;
     char _pad[68];
-    void CopyMemberData(int);
 };
+class ThreeByThreeMatrix;
 struct NiQuaternion
 {
     float x;
@@ -31,6 +44,10 @@ struct NiQuaternion
     float z;
     float w;
     static const NiQuaternion IDENTITY;
+public:
+    void MakeUnitLength();
+public:
+    void FromRotationMatrix(const ::ThreeByThreeMatrix &);
 };
 extern int DAT_01097af4;
 extern int DAT_011a9ea8;
@@ -47,10 +64,10 @@ struct BSRotAccumTransfInterpolator : NiTransformInterpolator
 // @fnv 0x00a43e40
 BSRotAccumTransfInterpolator* CreateRotAccumTransfInterpolator()
 {
-    BSRotAccumTransfInterpolator* pInterpolator = (BSRotAccumTransfInterpolator*)BSFadeNode::operator new(0x58);
+    BSRotAccumTransfInterpolator* pInterpolator = (BSRotAccumTransfInterpolator*)::operator new(0x58);
     if (pInterpolator)
     {
-        pInterpolator->CopyMemberData(0);
+        new ((void *)(pInterpolator)) ::fnv_00a3fa30::FUN_00a3fa30((::NiTransformData *)(0));
         pInterpolator->vfptr = (void*)&DAT_01097af4;
         pInterpolator->q0 = *(int*)&NiQuaternion::IDENTITY;
         pInterpolator->q1 = DAT_011a9ea8;
@@ -63,11 +80,10 @@ BSRotAccumTransfInterpolator* CreateRotAccumTransfInterpolator()
 
 extern int DAT_011a9ea4;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a3fa30_cls
 {
-    void FUN_00a3fa30(int a);
 };
 
 struct QuadInts
@@ -99,17 +115,16 @@ struct FUN_00a43e90_cls
     int unk40;
     int unk44;
     QuadInts m_48;
-    void FUN_00a40360(BSRotAccumTransfInterpolator* obj, int a);
-    BSRotAccumTransfInterpolator* CreateInterpolator(int a);
+    BSRotAccumTransfInterpolator* CreateInterpolator(intptr_t a);
 };
 
 // @fnv 0x00a43e90
-BSRotAccumTransfInterpolator* FUN_00a43e90_cls::CreateInterpolator(int a)
+BSRotAccumTransfInterpolator* FUN_00a43e90_cls::CreateInterpolator(intptr_t a)
 {
     BSRotAccumTransfInterpolator* obj = (BSRotAccumTransfInterpolator*)FUN_00aa13e0(0x58);
     if (obj != 0)
     {
-        ((FUN_00a3fa30_cls*)obj)->FUN_00a3fa30(0);
+        new ((void *)(((FUN_00a3fa30_cls*)obj))) ::fnv_00a3fa30::FUN_00a3fa30((::NiTransformData *)(0));
         obj->vfptr = (void*)&DAT_01097af4;
         obj->q0 = DAT_011a9ea4;
         obj->q1 = DAT_011a9ea8;
@@ -120,7 +135,7 @@ BSRotAccumTransfInterpolator* FUN_00a43e90_cls::CreateInterpolator(int a)
     {
         obj = 0;
     }
-    FUN_00a40360(obj, a);
+    reinterpret_cast<::NiTransformInterpolatorCopy *>(this)->FUN_00a40360((::NiTransformInterpolator *)(obj), (::CloningProcess *)(a));
     *(QuadInts*)&obj->q0 = m_48;
     return obj;
 }
@@ -166,7 +181,6 @@ struct BaseInterp
         return 0;
     }
 
-    void __thiscall FUN_00a43330(int a);
 };
 
 struct FUN_00a43ac0_Class : BaseInterp
@@ -174,14 +188,14 @@ struct FUN_00a43ac0_Class : BaseInterp
     int unk30[6];
     NiQuaternion m_kRotValue;
 
-    void __thiscall UpdateRotValue(int a);
+    void UpdateRotValue(int a);
 };
 
 // Calls FUN_00a43330, then copies the first rotation key's quaternion into m_kRotValue when rotation keys exist.
 // @fnv 0x00a43ac0
 void FUN_00a43ac0_Class::UpdateRotValue(int a)
 {
-    FUN_00a43330(a);
+    ::FUN_00a43330();
     unsigned int uiNumKeys;
     int eType;
     unsigned char ucSize;
@@ -192,34 +206,30 @@ void FUN_00a43ac0_Class::UpdateRotValue(int a)
     }
 }
 
-void __cdecl FUN_00a3f7b0();
 // @fnv 0x00a43a70
 void __cdecl FUN_00a43a70()
 {
-    FUN_00a3f7b0();
+    static_cast<::InterpolatorF7B0 *>(nullptr)->FUN_00a3f7b0(*(::NiStreamF7B0 *)nullptr);
 }
 
-extern void __cdecl FUN_00a3f870();
 
 // @fnv 0x00a43a80
 void __cdecl FUN_00a43a80()
 {
-    FUN_00a3f870();
+    static_cast<::S_00a3f870_This *>(nullptr)->FUN_00a3f870({});
 }
 
-void __cdecl FUN_00a3f8a0();
 // @fnv 0x00a43a90
 void __cdecl FUN_00a43a90()
 {
-    FUN_00a3f8a0();
+    static_cast<::FUN_00a3f8a0_t *>(nullptr)->FUN_00a3f8a0({});
 }
 
-extern void FUN_00a3f8d0();
 
 // @fnv 0x00a43aa0
 void FUN_00a43aa0()
 {
-    FUN_00a3f8d0();
+    static_cast<::A3F8D0Interpolator *>(nullptr)->FUN_00a3f8d0({});
 }
 
 #include <string.h>
@@ -244,8 +254,6 @@ struct QuaternionValue
         r.z = w * q.z + z * q.w + x * q.y - y * q.x;
         return r;
     }
-    void FUN_00a38560();
-    void FUN_00a6df40(const void*);
 };
 struct QQuatOps : QuaternionValue
 {
@@ -284,7 +292,6 @@ struct TransformValue
 ConjugateValue __cdecl FUN_00a6dc00(const QuaternionValue&);
 PositionValue __cdecl FUN_00a27490(float, void*, int, unsigned int, unsigned int&, unsigned char);
 QuaternionValue __cdecl FUN_00a28740(float, void*, int, unsigned int, unsigned int&, unsigned char);
-float __cdecl InterpolateKey(float, void*, int, unsigned int, unsigned int&, unsigned char);
 struct RotationObject
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30;
@@ -304,8 +311,6 @@ struct RotAccumInterpolator
     unsigned char unk45;
     unsigned short unk46;
     QuaternionValue previousRotation;
-    void* FUN_00a3f990(unsigned int*, int*, unsigned char*);
-    void* FUN_0058cb00(unsigned int*, int*, unsigned char*);
     void* FUN_00a3f9e0(unsigned int*, int*, unsigned char*);
     bool Evaluate(float time, RotationObject* object, TransformValue& result);
 };
@@ -328,14 +333,14 @@ bool RotAccumInterpolator::Evaluate(float time, RotationObject* object, Transfor
     int type;
     unsigned char stride;
     unsigned int index;
-    void* keys = FUN_00a3f990(&count, &type, &stride);
+    void* keys = ((void *)(reinterpret_cast<::FUN_00a3f990_shell *>(this)->FUN_00a3f990(&count, &type, &stride)));
     if (count > 0)
     {
         index = positionIndex;
         value.position = FUN_00a27490(time, keys, type, count, index, stride);
         positionIndex = (unsigned short)index;
     }
-    keys = FUN_0058cb00(&count, &type, &stride);
+    keys = ((void *)(reinterpret_cast<::FUN_0058cb00_Class *>(this)->FUN_0058cb00(&count, &type, &stride)));
     if (count > 0)
     {
         index = rotationIndex;
@@ -344,9 +349,9 @@ bool RotAccumInterpolator::Evaluate(float time, RotationObject* object, Transfor
         {
             QQuatOps delta = rotation.FUN_00a2bcf0(FUN_00a6dc00(previousRotation));
             QQuatOps objectRotation;
-            objectRotation.FUN_00a6df40(&object->matrix00);
+            reinterpret_cast<::NiQuaternion *>(&(objectRotation))->FromRotationMatrix((*(const ::ThreeByThreeMatrix *)(&object->matrix00)));
             (QuaternionValue&)objectRotation = objectRotation.FUN_00a2bcf0(delta);
-            objectRotation.FUN_00a38560();
+            reinterpret_cast<::NiQuaternion *>(&(objectRotation))->MakeUnitLength();
             value.rotation = objectRotation;
         }
         else
@@ -362,7 +367,7 @@ bool RotAccumInterpolator::Evaluate(float time, RotationObject* object, Transfor
         if (count > 0)
         {
             index = scaleIndex;
-            value.scale = InterpolateKey(time, keys, scaleType, count, index, stride);
+            value.scale = ::InterpolateKey(time, (const ::S00a26b40_Key *)(keys), scaleType, count, (unsigned int *)&(index), stride);
             scaleIndex = (unsigned short)index;
         }
     }
@@ -410,7 +415,6 @@ struct FUN_00a43df0_cls
     int unk50;
     int unk54;
 
-    void BaseCleanup();
     FUN_00a43df0_cls* FUN_00a43df0(unsigned char acFlags);
 };
 
@@ -418,7 +422,7 @@ struct FUN_00a43df0_cls
 // @fnv 0x00a43df0
 FUN_00a43df0_cls* FUN_00a43df0_cls::FUN_00a43df0(unsigned char acFlags)
 {
-    *(volatile int*)&m_vptr = (int)&DAT_01097af4;
+    *(volatile intptr_t*)&m_vptr = (intptr_t)&DAT_01097af4;
     a43df0_Counted* pCounted = *(a43df0_Counted* volatile*)&m_pCounted;
     if (pCounted != 0)
     {
@@ -427,10 +431,12 @@ FUN_00a43df0_cls* FUN_00a43df0_cls::FUN_00a43df0(unsigned char acFlags)
             pCounted->Release();
         }
     }
-    BaseCleanup();
+    reinterpret_cast<::FUN_00a3ca30_shell *>(this)->FUN_00a3ca30();
     if (acFlags & 1)
     {
         FUN_00aa1460(this, 0x58);
     }
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/bsrotaccumtransfinterpolator.inc"

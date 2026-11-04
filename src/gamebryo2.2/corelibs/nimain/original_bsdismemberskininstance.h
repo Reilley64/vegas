@@ -20,12 +20,15 @@ class NiRTTI
     const NiRTTI* m_pBaseRTTI;
 };
 
+class NiStream;
 class NiSkinInstance
 {
   public:
     virtual ~NiSkinInstance();
     virtual const NiRTTI* GetRTTI() const;
     static const NiRTTI ms_kRTTI;
+public:
+    void LoadBinary(::NiStream &);
 };
 
 class BSDismemberSkinInstance : public NiSkinInstance

@@ -1,6 +1,6 @@
 #ifndef NID3DHLSLVERTEXSHADER_DECLS_H
 #define NID3DHLSLVERTEXSHADER_DECLS_H
-void* __cdecl _NiMalloc(unsigned int);
+#include "fnv/symbols_00aa1000.h"
 class NiD3DShaderProgramCreatorObj;
 template <class T> class NiTArray
 {
@@ -10,7 +10,7 @@ template <class T> class NiTArray
     unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;
     static T* Allocate(unsigned int count)
     {
-        return (T*)_NiMalloc(count * sizeof(T));
+        return (T*)::FUN_00aa1070(count * sizeof(T));
     }
     NiTArray(unsigned int size, unsigned short grow) : m_usMaxSize(size), m_usGrowBy(grow)
     {

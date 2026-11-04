@@ -3,6 +3,23 @@
 #define FNV_SCREENSPLATTER_PRIVATE_H
 
 
+#include <new>
+#include <cstddef>
+#include "fnv/decl/CamLook.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_004def90_Class.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/symbols_0043c000.h"
+#include "fnv/symbols_005db000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01189000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c7000.h"
+#include "fnv/symbols_011ce000.h"
+#include "fnv/symbols_011f9000.h"
 class FUN_00622c80;
 
 class ScreenSplatter
@@ -23,29 +40,28 @@ template <> class NiPointer<NiAVObject>
 };
 
 class NiUpdateData;
+class NiAVObject;
 class NiNode
 {
   public:
-    void Update(const NiUpdateData& data);
-    void FUN_004def90();
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 
 class FUN_00622c80
 {
   public:
     unsigned char data[0x3b0];
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     static void operator delete(void*);
     FUN_00622c80(float value, unsigned int id);
 };
 
-unsigned int FUN_005dbe10();
 float FUN_00622ba0();
 float FUN_00622bb0();
 
 extern unsigned char DAT_011c7834;
 extern unsigned int DAT_011c7828;
-extern NiPointer<NiAVObject> DAT_011c786c;
 extern FUN_00622c80* DAT_011cc200;
 extern FUN_00622c80* DAT_011cc1fc;
 
@@ -77,13 +93,10 @@ class GraphicsRenderer
     unsigned int GetRenderTargetHeight();
 };
 class NiRenderer;
-NiRenderer* FUN_0043c4b0();
 
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 class FUN_00a712f0 : public NiMemObject
@@ -140,21 +153,26 @@ struct ScreenSplatterInitLocals
 class NiCamera
 {
   public:
-    bool AimAt(const NiPoint3& point, const NiPoint3& up);
     void UpdateViewFrustum(const NiFrustum& frustum);
 };
 
+class NiExtraData;
+class NiFixedString;
 class NiAVObject
 {
   public:
-    void FUN_00440460(const NiPoint3& point);
+public:
+    ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
 
+class NiFixedString;
 class NiFixedString;
 class NiExtraData
 {
   public:
     void SetName(const NiFixedString& name);
+public:
+    NiExtraData(const ::NiFixedString &);
 };
 
 class NiSortAdjustNode : public NiMemObject
@@ -167,7 +185,6 @@ class NiSortAdjustNode : public NiMemObject
 class SettingT_GameSettingCollection_
 {
   public:
-    const char* String();
 };
 
 class NiTexture;
@@ -177,24 +194,7 @@ class SkyTextureManager
     static void LoadTextureFromPath(NiPointer<NiTexture>* texture, const char* path);
 };
 
-extern ProcessLists DAT_011c784c;
-extern NiPointer<NiAVObject> DAT_011c7840;
-extern NiPointer<NiTexture> DAT_011c7860;
-extern NiPointer<NiTexture> DAT_011c7864;
-extern NiPointer<NiTexture> DAT_011c7868;
-extern unsigned char DAT_011f941e;
-extern NiPoint3 DAT_011a9478;
 extern char DAT_01022ab8;
 extern float DAT_01022960;
-extern float DAT_0102295c;
-extern float DAT_01022958;
-extern float DAT_01016248;
-extern double DAT_01011598;
-extern const double runtimeInitializationDouble1;
-extern float DAT_01189550;
-extern float DAT_01189554;
-extern unsigned char DAT_011ce918;
-extern unsigned char DAT_011ce284;
-extern unsigned char DAT_011cede8;
 
 #endif

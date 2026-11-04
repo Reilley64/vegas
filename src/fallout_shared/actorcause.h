@@ -3,9 +3,9 @@
 #define FNV_ACTORCAUSE_H
 
 
+#include "fnv/symbols_011d6000.h"
 #include "layout_support.h"
 
-#pragma pack(push, 4)
 
 class BGSLoadGameBuffer;
 
@@ -16,9 +16,7 @@ class ActorCause
     static void ClearActorCauseList(BGSLoadGameBuffer* buffer);
 
   protected:
-    static BSSimpleList<ActorCause*> ms_kActorCauseList;
 };
 
-#pragma pack(pop)
 
 #endif

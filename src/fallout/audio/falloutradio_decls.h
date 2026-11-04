@@ -150,7 +150,7 @@ class TESDataHandler
     TESSound* GetSoundByEditorID(const char*);
 };
 
-extern unsigned int DAT_011dd42c;
+extern std::uintptr_t DAT_011dd42c;
 extern bool DAT_011dd434;
 extern unsigned char DAT_011dd436;
 extern unsigned char DAT_011dd437;
@@ -163,7 +163,7 @@ extern unsigned int DAT_011dd424;
 extern unsigned char DAT_011dd435;
 extern unsigned int DAT_011dd438;
 extern unsigned int DAT_011dd43c;
-extern unsigned int DAT_011dd430;
+extern std::uintptr_t DAT_011dd430;
 extern TESSound* DAT_011dd440;
 extern SettingT_GameSettingCollection_ DAT_011dd5cc;
 extern TimeGlobal g_timeGlobal;

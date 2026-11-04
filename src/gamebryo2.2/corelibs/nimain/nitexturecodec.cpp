@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/nitexturecodec.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nitexturecodec.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a8bdf0_cls.h"
+#include "fnv/symbols_011aa000.h"
 struct NiPixelFormat;
 struct PixelData
 {
@@ -15,10 +17,8 @@ struct PixelData
     int unk68;
     unsigned int faces;
     int unk70;
-    static void* operator new(unsigned int n);
     PixelData(unsigned int w, unsigned int h, const NiPixelFormat& f, unsigned int m, unsigned int n) throw();
 };
-extern NiPixelFormat DAT_011aa2a0;
 
 struct SrcData
 {
@@ -68,7 +68,6 @@ struct Conv
     void DecodeBlockColors(unsigned char*);
     void DecodeToOutput(unsigned char*);
     void DecodePaletteBlock(unsigned char*);
-    int FUN_00a8bdf0(unsigned char* p, unsigned int n, unsigned int m);
     PixelData* ConvertTexture(SrcData* src);
 };
 
@@ -95,7 +94,7 @@ PixelData* Conv::ConvertTexture(SrcData* src)
     }
 
     PixelData* out =
-        new PixelData(src->GetWidth(), src->GetHeight(), DAT_011aa2a0, src->GetNumMipmapLevels(), src->GetFaceTotal());
+        new PixelData(src->GetWidth(), src->GetHeight(), (*reinterpret_cast<::NiPixelFormat *>(&::gNiPoint3StartupSrc)), src->GetNumMipmapLevels(), src->GetFaceTotal());
     unsigned int mips = src->GetNumMipmapLevels();
     unsigned int faces = src->GetFaceTotal();
     {
@@ -133,7 +132,7 @@ PixelData* Conv::ConvertTexture(SrcData* src)
                     }
                     if (uiRemW)
                     {
-                        FUN_00a8bdf0(dst, uiRemW, 4);
+                        reinterpret_cast<::FUN_00a8bdf0_cls *>(this)->FUN_00a8bdf0(dst, uiRemW, 4);
                         dst += uiRemW * 4;
                     }
                     dst += uiWidth * 3 * 4;
@@ -142,11 +141,11 @@ PixelData* Conv::ConvertTexture(SrcData* src)
                 {
                     for (unsigned int uiBlockX = 0; uiBlockX < w; uiBlockX++)
                     {
-                        FUN_00a8bdf0(dst, 4, uiRemH);
+                        reinterpret_cast<::FUN_00a8bdf0_cls *>(this)->FUN_00a8bdf0(dst, 4, uiRemH);
                         dst += 16;
                     }
                     if (uiRemW)
-                        FUN_00a8bdf0(dst, uiRemW, uiRemH);
+                        reinterpret_cast<::FUN_00a8bdf0_cls *>(this)->FUN_00a8bdf0(dst, uiRemW, uiRemH);
                 }
             }
             face++;

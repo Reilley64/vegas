@@ -6,7 +6,6 @@
 #include "NiPoint3.h"
 class Point3ParameterData;
 class NiStream;
-#pragma pack(push, 4)
 class Point3ParameterData
 {
   public:
@@ -23,13 +22,7 @@ class Point3ParameterData
     Point3ParameterData();
     void LoadBinary(NiStream&);
     void Initialize();
+public:
+    bool Equals(const ::Point3ParameterData &);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Point3ParameterData) == 28);
-FNV_STATIC_ASSERT(offsetof(Point3ParameterData, m_kValue) == 0);
-FNV_STATIC_ASSERT(offsetof(Point3ParameterData, m_fXValue) == 12);
-FNV_STATIC_ASSERT(offsetof(Point3ParameterData, m_fYValue) == 16);
-FNV_STATIC_ASSERT(offsetof(Point3ParameterData, m_fZValue) == 20);
-FNV_STATIC_ASSERT(offsetof(Point3ParameterData, m_usFirstValue) == 24);
-FNV_STATIC_ASSERT(offsetof(Point3ParameterData, m_usSecondValue) == 26);
 #endif

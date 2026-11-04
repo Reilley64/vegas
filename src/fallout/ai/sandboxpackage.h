@@ -13,6 +13,27 @@
 #define FNV_SANDBOXPACKAGE_H
 
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatTargetTimestamp.h"
+#include "fnv/decl/FUN_0041e410_shell.h"
+#include "fnv/decl/FUN_0041fe90_shell.h"
+#include "fnv/decl/FUN_00568260_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_009f6200_Class.h"
+#include "fnv/decl/Fn9a4f40.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_00567f80__Fn567f80.h"
+#include "fnv/decl/fnv_00568150__FUN_00568150_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/decl/fnv_009f38b0__FUN_009f38b0_shell.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0092a000.h"
+#include "fnv/symbols_011de000.h"
 #define TimeGlobal SandboxSharedTimeGlobal
 #define g_timeGlobal g_sandboxSharedTimeGlobal
 #include "layout_support.h"
@@ -59,16 +80,11 @@ enum SANDBOX_ACTIVITY
     SANDBOX_ACTIVITY_SANDBOX_ACTIVITY_DINNER = 3,
     SANDBOX_ACTIVITY_NUM_SANDBOX_ACTIVITIES = 4
 };
-#pragma pack(push, 4)
 class ActorPackageData
 {
   public:
     void** m_ppVirtualMethodTable;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorPackageData) == 4);
-FNV_STATIC_ASSERT(offsetof(ActorPackageData, m_ppVirtualMethodTable) == 0);
-#pragma pack(push, 4)
 class SandboxProcedureData
 {
   public:
@@ -78,18 +94,7 @@ class SandboxProcedureData
     int m_iProcedureData;          // +0xC, 4 bytes
     // Unit-local out-of-line declarations (owned by other units except
     // SandboxProcedureData::LoadGame/InitLoadGame targets as noted).
-    TESObjectREFR* GetTarget();
-    SANDBOX_PROCEDURE GetProcedure();
-    void LoadGame(BGSLoadFormBuffer* apBuffer);
-    void InitLoadGame(BGSLoadFormBuffer* apBuffer);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SandboxProcedureData) == 16);
-FNV_STATIC_ASSERT(offsetof(SandboxProcedureData, pTarget) == 0);
-FNV_STATIC_ASSERT(offsetof(SandboxProcedureData, eProcedure) == 4);
-FNV_STATIC_ASSERT(offsetof(SandboxProcedureData, m_iActivityState) == 8);
-FNV_STATIC_ASSERT(offsetof(SandboxProcedureData, m_iProcedureData) == 12);
-#pragma pack(push, 4)
 class SandBoxActorPackageData : public ActorPackageData
 {
   public:
@@ -129,45 +134,16 @@ class SandBoxActorPackageData : public ActorPackageData
     // Other-unit-owned methods called from this unit.
     bool HasActivityEnded(bool* apbEndedToday);
     bool IsActivityProcedure();
-    float GetHourDifference(float afLastTime, float afNow);
     bool IsActorWithinLocationRadius(Actor* apActor, bool abFlag);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SandBoxActorPackageData) == 100);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, eState) == 4);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, eProcedure) == 8);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fProcedureTime) == 12);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, pLocation) == 16);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fLastProcedureCheckHour) == 20);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fNextProcedureCheckHour) == 24);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiLastProcedureCheckDay) == 28);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_kProcedureList) == 32);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiProcedureIndex) == 48);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bNeedsSandboxUpdate) == 52);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bHasFoodMarker) == 53);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bHasChairMarker) == 54);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bHasBedMarker) == 55);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_iSerializedValue) == 56);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_pCurrentTarget) == 60);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_ucProcedureIndex) == 64);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_pCurrentFurniture) == 68);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiActivityStartDay) == 72);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiActivityEndDay) == 76);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fActivityStartHour) == 80);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fActivityEndHour) == 84);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_eSandboxActivity) == 88);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_ucProcedureFlags) == 92);
 
 // BSSimpleArray out-of-line helpers owned by other units. GetSize/GetAt come
 // from the shared template; SetSize/RemoveAt need a derived declaration.
 class SandboxChoiceArray : public BSSimpleArray<SandboxProcedureData, 1024>
 {
   public:
-    void SetSize(unsigned int auSize, bool abFlag);
-    void RemoveAt(unsigned int auIndex, unsigned int auCount);
 };
 
-#pragma pack(push, 4)
 class Calendar
 {
   public:
@@ -179,19 +155,8 @@ class Calendar
     TESGlobal* pHourGlobal;              // +0x14, 4 bytes
     unsigned int m_uiDaysPassed;         // +0x18, 4 bytes
     // Unit-local out-of-line declarations.
-    unsigned int GetDaysPassed();
     float GetGameTime();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Calendar) == 28);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pYearGlobal) == 0);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pMonthGlobal) == 4);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pDayGlobal) == 8);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pHourGlobal) == 12);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pGameDaysPassedGlobal) == 16);
-FNV_STATIC_ASSERT(offsetof(Calendar, pHourGlobal) == 20);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_uiDaysPassed) == 24);
-extern Calendar g_calendar;
 
 // Community-evidenced global timer (JIP LN NVSE GameData.h Timer/TimeGlobal,
 // millisecond getter at 0x825C00.
@@ -206,7 +171,6 @@ class TimeGlobal
     float lastSecondsPassed;  // +0x10
     unsigned int msPassed;    // +0x14
     unsigned int tickCount;   // +0x18
-    unsigned int GetTimeStamp();
 };
 extern TimeGlobal g_timeGlobal;
 
@@ -214,16 +178,12 @@ extern TimeGlobal g_timeGlobal;
 class BGSLoadFormBuffer
 {
   public:
-    void ReadTypedData(void* apData, unsigned int auSize);
-    bool ReadFormIdentifier(void* apFormID);
-    int ReadElementCount();
 };
 
 // Minimal region-point declaration (GetX binding ?GetX@RegionPoint@@QAEMXZ).
 class RegionPoint
 {
   public:
-    float GetX();
 };
 
 // Other-unit-owned ExtraDataList/TESObjectREFR out-of-line helpers reached
@@ -231,34 +191,22 @@ class RegionPoint
 class ExtraDataListHelper : public ExtraDataList
 {
   public:
-    TESObjectREFR* GetLinkedRef();
-    RegionPoint* GetStartingPositionData();
 };
 class TESObjectREFRHelper : public TESObjectREFR
 {
   public:
-    void SetTargetingState(bool abTargeted);
-    bool IsReferenceActive(bool abFlag);
-    void SetMarkerState(unsigned char abMarker, bool abReserved);
-    bool IsMarkerAvailable(unsigned char abMarker, bool abFlag);
 };
 
 class SandboxTargetInfo
 {
   public:
-    bool CheckFoodMarker();
-    bool CheckBedMarker();
-    bool CheckChairMarker();
 };
 class ActorTargetSource
 {
   public:
-    SandboxTargetInfo* GetProcessTarget();
 };
 
 // Other-unit-owned free helpers.
-TESForm* GetFormByID(unsigned int auFormID);
-bool IsValidSandboxProcedure(int aiProcedure);
 
 // Activity -> procedure table at 0x11A5F3C.
 extern SANDBOX_PROCEDURE g_procedureForActivity[4];

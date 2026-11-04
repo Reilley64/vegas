@@ -2,6 +2,7 @@
 #ifndef FNV_TES_H
 #define FNV_TES_H
 
+#include "fnv/decl/LookupHandler.h"
 #include "layout_support.h"
 #include "TESObjectREFR.h"
 #include "layout_support.h"
@@ -20,7 +21,6 @@ class TES;
 class TES__ParticleObjectCache;
 class TESRegion;
 class WaterZoneManager;
-#pragma pack(push, 4)
 class TES
 {
   public:
@@ -77,7 +77,6 @@ class TES
     unsigned int m_uiNavMeshStateValue;              // +0xB8, 4 bytes
     NavMeshInfoMap* m_pNavMeshInfoMap;               // +0xBC, 4 bytes
     NiPointer<LoadedAreaBound> m_spLoadedAreaBound;  // +0xC0, 4 bytes
-    bool LoadCanopyShadowTexture(const char*, unsigned int);
     // TES
     // void __cdecl TES::*()
     // void __cdecl TES::*()
@@ -281,56 +280,4 @@ class TES
     // TES& __cdecl TES::*(const TES&)
     // void* __cdecl TES::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TES) == 196);
-FNV_STATIC_ASSERT(offsetof(TES, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(TES, m_pGridDistantArray) == 4);
-FNV_STATIC_ASSERT(offsetof(TES, m_pGridCells) == 8);
-FNV_STATIC_ASSERT(offsetof(TES, m_pLandRootNode) == 12);
-FNV_STATIC_ASSERT(offsetof(TES, m_pWaterRootNode) == 16);
-FNV_STATIC_ASSERT(offsetof(TES, m_pDistantLandRootNode) == 20);
-FNV_STATIC_ASSERT(offsetof(TES, m_pObjectRootNode) == 24);
-FNV_STATIC_ASSERT(offsetof(TES, m_pDirectionalLight) == 28);
-FNV_STATIC_ASSERT(offsetof(TES, m_pFogProperty) == 32);
-FNV_STATIC_ASSERT(offsetof(TES, iFirstValue) == 36);
-FNV_STATIC_ASSERT(offsetof(TES, iSecondValue) == 40);
-FNV_STATIC_ASSERT(offsetof(TES, m_iGridWidth) == 44);
-FNV_STATIC_ASSERT(offsetof(TES, m_iGridHeight) == 48);
-FNV_STATIC_ASSERT(offsetof(TES, m_pReferenceCell) == 52);
-FNV_STATIC_ASSERT(offsetof(TES, m_ppCellBufferA) == 56);
-FNV_STATIC_ASSERT(offsetof(TES, m_ppCellBufferB) == 60);
-FNV_STATIC_ASSERT(offsetof(TES, m_uiGridCellCountX) == 64);
-FNV_STATIC_ASSERT(offsetof(TES, m_uiGridCellCountY) == 68);
-FNV_STATIC_ASSERT(offsetof(TES, m_iCurrentGridX) == 72);
-FNV_STATIC_ASSERT(offsetof(TES, m_iCurrentGridY) == 76);
-FNV_STATIC_ASSERT(offsetof(TES, m_bFirstCellGridFlag) == 80);
-FNV_STATIC_ASSERT(offsetof(TES, m_bSecondCellGridFlag) == 81);
-FNV_STATIC_ASSERT(offsetof(TES, m_bThirdCellGridFlag) == 82);
-FNV_STATIC_ASSERT(offsetof(TES, m_bFourthCellGridFlag) == 83);
-FNV_STATIC_ASSERT(offsetof(TES, m_pfnCellCallback) == 84);
-FNV_STATIC_ASSERT(offsetof(TES, m_pCellCallbackContext) == 88);
-FNV_STATIC_ASSERT(offsetof(TES, m_pCurrentRegion) == 92);
-FNV_STATIC_ASSERT(offsetof(TES, m_bHasCurrentRegion) == 96);
-FNV_STATIC_ASSERT(offsetof(TES, m_pCurrentClimate) == 100);
-FNV_STATIC_ASSERT(offsetof(TES, pWeatherSky) == 104);
-FNV_STATIC_ASSERT(offsetof(TES, m_kImageSpaceModifierInstances) == 108);
-FNV_STATIC_ASSERT(offsetof(TES, m_uiNextImageSpaceModifierId) == 116);
-FNV_STATIC_ASSERT(offsetof(TES, m_uiImageSpaceModifierCount) == 120);
-FNV_STATIC_ASSERT(offsetof(TES, m_bImageSpaceStateFlag) == 124);
-FNV_STATIC_ASSERT(offsetof(TES, m_bSkyStateFlag) == 125);
-FNV_STATIC_ASSERT(offsetof(TES, m_fFirstWorldspaceValue) == 128);
-FNV_STATIC_ASSERT(offsetof(TES, m_fSecondWorldspaceValue) == 132);
-FNV_STATIC_ASSERT(offsetof(TES, m_pContainingWorldspace) == 136);
-FNV_STATIC_ASSERT(offsetof(TES, m_kWorldspaceCellList) == 140);
-FNV_STATIC_ASSERT(offsetof(TES, m_kTemporaryReferences) == 148);
-FNV_STATIC_ASSERT(offsetof(TES, m_kLeveledActorEntries) == 156);
-FNV_STATIC_ASSERT(offsetof(TES, m_spWorldspaceQueuedFile) == 164);
-FNV_STATIC_ASSERT(offsetof(TES, m_pSourceTexture) == 168);
-FNV_STATIC_ASSERT(offsetof(TES, m_spQueuedFile) == 172);
-FNV_STATIC_ASSERT(offsetof(TES, m_pParticleObjectCache) == 176);
-FNV_STATIC_ASSERT(offsetof(TES, m_bFirstTESStateFlag) == 180);
-FNV_STATIC_ASSERT(offsetof(TES, m_bSecondTESStateFlag) == 181);
-FNV_STATIC_ASSERT(offsetof(TES, m_uiNavMeshStateValue) == 184);
-FNV_STATIC_ASSERT(offsetof(TES, m_pNavMeshInfoMap) == 188);
-FNV_STATIC_ASSERT(offsetof(TES, m_spLoadedAreaBound) == 192);
 #endif

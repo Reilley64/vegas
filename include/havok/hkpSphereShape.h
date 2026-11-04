@@ -5,12 +5,9 @@
 
 #include "hkBase.h"
 #include "hkpConvexShape.h"
-#pragma pack(push, 1)
 class hkpSphereShape : public hkpConvexShape
 {
   public:
     hkUint32 m_aiValuesD34[3];  // +0x14
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSphereShape[(sizeof(hkpSphereShape) == 0x20) ? 1 : -1];
 #endif

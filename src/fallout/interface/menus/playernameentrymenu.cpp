@@ -1,29 +1,23 @@
 // fallout/interface/menus/playernameentrymenu.cpp: PlayerNameEntryMenu (7 functions)
 
+#include "fnv/decl/TESFullName.h"
+#include "fnv/decl/fnv_005bd5c0__FUN_005bd5c0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_007ab000.h"
+#include "fnv/symbols_007df000.h"
+#include "fnv/symbols_011da000.h"
 #include "playernameentrymenu_decls.h"
-
-// If FUN_007ab810 reports completion, passes its result to Finish and then calls FUN_007ab7c0.
-// @fnv 0x007ab7e0
-void PlayerNameEntryMenu::UpdateDialog()
-{
-    if (FUN_007ab810())
-    {
-        Finish(FUN_007ab810());
-        FUN_007ab7c0();
-    }
-}
 
 struct Str6a70
 {
     Str6a70& operator=(char const*);
 };
 
-extern Str6a70 g_011daed8;
 
 // @fnv 0x007ab7c0
 void __cdecl FUN_007ab7c0(void)
 {
-    g_011daed8 = 0;
+    (*reinterpret_cast<::Str6a70 *>(&::g_011daed8)) = 0;
 }
 
 namespace fnv_007ab810 {
@@ -34,40 +28,25 @@ struct Flt
     operator const char*() const;
 };
 
-extern Flt g_011daed8;
 
 // @fnv 0x007ab810
 const char* __cdecl FUN_007ab810()
 {
-    return g_011daed8;
+    return (*reinterpret_cast<::fnv_007ab810::Flt *>(&::g_011daed8));
 }
 }  // namespace fnv_007ab810
 
 struct S_7ab770
 {
-    void FUN_007ab7a0();
     void* FUN_007ab770(unsigned int);
 };
-void _Deallocate(void*);
-// Calls FUN_007ab7a0, then deallocates this if bit 0 of flags is set, and returns this.
-// @fnv 0x007ab770
-void* S_7ab770::FUN_007ab770(unsigned int flags)
-{
-    FUN_007ab7a0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FullNameEx
 {
-    void SetFullName(char const*);
 };
 struct Tile
 {
     void Set(int, int);
 };
-void _FUN_007df4e0();
 struct NPC007ab9a0
 {
     virtual void f00();
@@ -99,15 +78,25 @@ struct Holder007ab9a0
     NPC007ab9a0* _28;
     void FUN_007ab9a0(char const* apName);
 };
+// If FUN_007ab810 reports completion, passes its result to Finish and then calls FUN_007ab7c0.
+// @fnv 0x007ab7e0
+void PlayerNameEntryMenu::UpdateDialog()
+{
+    if (::fnv_007ab810::FUN_007ab810())
+    {
+        reinterpret_cast<::Holder007ab9a0 *>(this)->FUN_007ab9a0(::fnv_007ab810::FUN_007ab810());
+        FUN_007ab7c0();
+    }
+}
 // If apName is set, applies it to the full name at _28+0xd0, calls func48(0x20) and _FUN_007df4e0; then sets tile _04 to (0x1772,1) and _24 to 2.
 // @fnv 0x007ab9a0
 void Holder007ab9a0::FUN_007ab9a0(char const* apName)
 {
     if (apName)
     {
-        ((FullNameEx*)((char*)_28 + 0xd0))->SetFullName(apName);
+        reinterpret_cast<::TESFullName *>((((FullNameEx*)((char*)_28 + 0xd0))))->SetFullName(apName);
         _28->func48(0x20);
-        _FUN_007df4e0();
+        ::fnv_007df4e0::UpdateStatsMenuLevelText();
     }
     _04->Set(0x1772, 1);
     _24 = 2;
@@ -126,12 +115,20 @@ class FUN_007ab7a0_cls : public FUN_007ab7a0_base
   public:
     virtual ~FUN_007ab7a0_cls();
 };
+// Calls FUN_007ab7a0, then deallocates this if bit 0 of flags is set, and returns this.
+// @fnv 0x007ab770
+void* S_7ab770::FUN_007ab770(unsigned int flags)
+{
+    reinterpret_cast<::FUN_007ab7a0_cls *>(this)->FUN_007ab7a0_cls::~FUN_007ab7a0_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x007ab7a0
 FUN_007ab7a0_cls::~FUN_007ab7a0_cls()
 {}
 
-void NormalizeSmartQuotes(unsigned char* apChar);
 
 struct FontGlyph
 {
@@ -247,12 +244,13 @@ struct Font
     int unk30;
     int unk34;
     FontData* pData;
+public:
+    static void MapCharacter(unsigned char &);
 };
 
 struct FontManager
 {
     static FontManager* Instance();
-    Font* GetFont(int aiID);
 };
 
 // True if every character is printable in fonts 0 and 6 and at least one is not a space.
@@ -268,9 +266,9 @@ bool __cdecl IsTextRenderable(const char* apText)
         while (!bInvalid7 && *apText)
         {
             cChar2 = *apText;
-            NormalizeSmartQuotes(&cChar2);
+            ::Font::MapCharacter((*(unsigned char *)(&cChar2)));
             bInvalid7 = (cChar2 == '\\' || cChar2 == '~');
-            pFont = FontManager::Instance()->GetFont(0);
+            pFont = ((::Font *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((FontManager::Instance()))->FUN_005bd5c0(0)));
             if (pFont && pFont->pData)
             {
                 if (pFont->pData->glyphs[cChar2].m_fGlyphWidthInPixels != 0.0)
@@ -278,7 +276,7 @@ bool __cdecl IsTextRenderable(const char* apText)
                 else
                     bInvalid7 = true;
             }
-            pFont = FontManager::Instance()->GetFont(6);
+            pFont = ((::Font *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((FontManager::Instance()))->FUN_005bd5c0(6)));
             if (pFont && pFont->pData)
             {
                 if (pFont->pData->glyphs[cChar2].m_fGlyphWidthInPixels != 0.0)

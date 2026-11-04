@@ -1,25 +1,27 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011c8000.h"
+#include "fnv/decl/FUN_00a64160_cls.h"
+#include "fnv/symbols_00ba8000.h"
+#include <windows.h>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_011f6000.h"
 extern int DAT_01189c40;
 
 struct FUN_00404b10_class
 {
-    void* m_p;
-    void __thiscall FUN_00404b90(int);
-    void* __thiscall Initialize();
+    const char* m_p;
+    void FUN_00404b90(int);
+    void* Initialize();
 };
 
-// Calls FUN_00404b90 with DAT_01189c40, sets m_p to "@K@", and returns this.
-// @fnv 0x00404b10
-void* __thiscall FUN_00404b10_class::Initialize()
-{
-    FUN_00404b90(DAT_01189c40);
-    m_p = "@K@";
-    return this;
-}
-
-extern int DAT_01012188;
 struct FUN_00404d00_class
 {
     void* m_vtbl;
@@ -90,14 +92,14 @@ struct NiTMapBase
     int m_uiHashSize;
     NiTMapItem** m_ppkHashTable;
     virtual ~NiTMapBase();
-    virtual unsigned int __thiscall GetHash(unsigned int key);
-    virtual bool __thiscall Matches(unsigned int key, unsigned int uiHash);
-    bool __thiscall FUN_00853130(unsigned int key, CombatThreatRecord*& value);
+    virtual unsigned int GetHash(unsigned int key);
+    virtual bool Matches(unsigned int key, unsigned int uiHash);
+    bool FUN_00853130(uintptr_t key, CombatThreatRecord*& value);
 };
 
 // Looks up key in the hash table, returning true and setting value to the matching item's data, or false if not found.
 // @fnv 0x00853130
-bool __thiscall NiTMapBase::FUN_00853130(unsigned int key, CombatThreatRecord*& value)
+bool NiTMapBase::FUN_00853130(uintptr_t key, CombatThreatRecord*& value)
 {
     NiTMapItem* item;
     unsigned int index = GetHash(key);
@@ -121,37 +123,14 @@ struct CombatThreatRecord
 };
 struct FUN_009a5270_class
 {
-    void* __thiscall GetFirstPos();
-    void __thiscall GetNext(void*&, unsigned int&, CombatThreatRecord*&);
-    void __thiscall RemoveAll();
-    void __thiscall DeleteAllEntries();
+    void* GetFirstPos();
+    void DeleteAllEntries();
 };
-// Iterates the container's entries, deletes each stored object, then removes all entries.
-// @fnv 0x009a5270
-void __thiscall FUN_009a5270_class::DeleteAllEntries()
-{
-    void* position = GetFirstPos();
-    while (position)
-    {
-        unsigned int key = 0;
-        CombatThreatRecord* pEntry = 0;
-        GetNext(position, key, pEntry);
-        delete pEntry;
-    }
-    RemoveAll();
-}
-
-void* __cdecl FUN_00401000(unsigned int size);
-extern void* DAT_011c8048;
 
 struct SpawnedObj404a80
 {
     char m00[0x120];
     SpawnedObj404a80();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00401000(size);
-    }
 };
 
 // Allocates a SpawnedObj404a80 and stores it in DAT_011c8048 if that global is currently null.
@@ -253,6 +232,14 @@ class FUN_00404b90 : public B90Base
 
     B90Buffer m_kBuffer;
 };
+// Calls FUN_00404b90 with DAT_01189c40, sets m_p to "@K@", and returns this.
+// @fnv 0x00404b10
+void* FUN_00404b10_class::Initialize()
+{
+    new ((void *)this) ::FUN_00404b90(DAT_01189c40);
+    m_p = "@K@";
+    return this;
+}
 
 // Constructs the object, initializing m_kBuffer with the given size and a zero fill.
 // @fnv 0x00404b90
@@ -278,7 +265,7 @@ struct FUN_00438af0_Class
     FUN_00438af0_Item** unk08;
     int unk0C;
 
-    void __thiscall FUN_00438af0();
+    void FUN_00438af0();
 };
 
 // Empty virtual function body; does nothing.
@@ -298,7 +285,7 @@ inline void FUN_00438af0_Class::vf14()
 inline void FUN_00438af0_Class::vf18(FUN_00438af0_Item*)
 {}
 
-void __thiscall FUN_00438af0_Class::FUN_00438af0()
+void FUN_00438af0_Class::FUN_00438af0()
 {
     unsigned int index;
 
@@ -388,8 +375,22 @@ struct C6b7f20_Map
     virtual unsigned int GetBucket(unsigned int key);
     unsigned int bucketCount;
     C6b7f20_Node** buckets;
-    void __thiscall FUN_006b7f20(C6b7f20_Node** position, unsigned int* outKey, void** outValue);
+    void FUN_006b7f20(C6b7f20_Node** position, unsigned int* outKey, void** outValue);
 };
+// Iterates the container's entries, deletes each stored object, then removes all entries.
+// @fnv 0x009a5270
+void FUN_009a5270_class::DeleteAllEntries()
+{
+    void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(this)->GetFirstPos();
+    while (position)
+    {
+        unsigned int key = 0;
+        CombatThreatRecord* pEntry = 0;
+        reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(key), (void **)&(pEntry));
+        delete pEntry;
+    }
+    reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
+}
 // Reads the key and value of the node at position, then advances position to the next node or the next non-empty bucket, or null.
 // @fnv 0x006b7f20
 void C6b7f20_Map::FUN_006b7f20(C6b7f20_Node** position, unsigned int* outKey, void** outValue)
@@ -424,16 +425,17 @@ void C6b7f20_Map::FUN_006b7f20(C6b7f20_Node** position, unsigned int* outKey, vo
 struct FUN_00844700_Node
 {
     FUN_00844700_Node* next;
-    unsigned int key;
-    unsigned int value;
+    std::uintptr_t key;
+    std::uintptr_t value;
 };
 
+// The map stores pointer and integer keys and values, so both are pointer-sized.
 struct FUN_00844700_Class
 {
     virtual void vf00();
-    virtual int vf04(unsigned int key);
-    virtual bool vf08(unsigned int key, unsigned int nodeKey);
-    virtual void vf0c(void* node, unsigned int key, unsigned int value);
+    virtual int vf04(std::uintptr_t key);
+    virtual bool vf08(std::uintptr_t key, std::uintptr_t nodeKey);
+    virtual void vf0c(void* node, std::uintptr_t key, std::uintptr_t value);
     virtual void vf10();
     virtual void* vf14();
 
@@ -441,22 +443,20 @@ struct FUN_00844700_Class
     FUN_00844700_Node** nodes;
     int count;
 
-    void __thiscall FUN_00844700(unsigned int key, unsigned int value);
+    void FUN_00844700(std::uintptr_t key, std::uintptr_t value);
 };
 
-// Empty inline virtual method body; does nothing.
-// @fnv 0x00844700
 inline void FUN_00844700_Class::vf00()
 {}
-inline int FUN_00844700_Class::vf04(unsigned int)
+inline int FUN_00844700_Class::vf04(std::uintptr_t)
 {
     return 0;
 }
-inline bool FUN_00844700_Class::vf08(unsigned int, unsigned int)
+inline bool FUN_00844700_Class::vf08(std::uintptr_t, std::uintptr_t)
 {
     return false;
 }
-inline void FUN_00844700_Class::vf0c(void*, unsigned int, unsigned int)
+inline void FUN_00844700_Class::vf0c(void*, std::uintptr_t, std::uintptr_t)
 {}
 inline void FUN_00844700_Class::vf10()
 {}
@@ -465,7 +465,9 @@ inline void* FUN_00844700_Class::vf14()
     return 0;
 }
 
-void __thiscall FUN_00844700_Class::FUN_00844700(unsigned int key, unsigned int value)
+// Sets the value for key: updates the matching node in the key's bucket, or links a new node at the bucket head.
+// @fnv 0x00844700
+void FUN_00844700_Class::FUN_00844700(std::uintptr_t key, std::uintptr_t value)
 {
     int counter = this->vf04(key);
     FUN_00844700_Node* node = this->nodes[counter];
@@ -655,7 +657,7 @@ bool RMapBase::FUN_00a1e240(unsigned int key)
 struct E60Val
 {
     int a, b;
-    void __thiscall FUN_006e5cc0(E60Val* src);
+    void FUN_006e5cc0(E60Val* src);
 };
 struct E60Item
 {
@@ -739,3 +741,289 @@ void nae7::Map::FUN_00ae7ee0(Item*& pos, unsigned int& key, Val& val) const
     }
     pos = 0;
 }
+
+struct NiStream
+{
+};
+
+struct NiMapBase
+{
+    char pad00[0x88];
+    const char* m_pcName;
+    void FUN_00bb7160(NiStream*);
+    void FUN_00b60210(NiStream* stream);
+};
+
+// @fnv 0x00b60210
+void NiMapBase::FUN_00b60210(NiStream* stream)
+{
+    FUN_00bb7160(stream);
+    reinterpret_cast<::FUN_00a64160_cls *>((stream))->FUN_00a64160(m_pcName);
+}
+
+struct S_00b601a0_Item
+{
+    S_00b601a0_Item* m_pkNext;
+    int m_key;
+    int m_val;
+};
+
+struct S_00b601a0_Map
+{
+    virtual ~S_00b601a0_Map();
+    virtual unsigned int KeyToHashIndex(int key) const;
+    virtual bool IsKeysEqual(int a, int b) const;
+    virtual void SetValue(S_00b601a0_Item* item, int key, int val);
+    virtual void ClearValue(S_00b601a0_Item* item);
+    virtual S_00b601a0_Item* NewItem();
+    virtual void DeleteItem(S_00b601a0_Item* item);
+
+    unsigned int m_uiHashSize;
+    S_00b601a0_Item** m_ppkHashTable;
+    unsigned int m_uiCount;
+
+    void FUN_00b601a0();
+};
+
+// @fnv 0x00b601a0
+void S_00b601a0_Map::FUN_00b601a0()
+{
+    for (unsigned int i = 0; i < m_uiHashSize; i++)
+    {
+        while (m_ppkHashTable[i])
+        {
+            S_00b601a0_Item* pkSave = m_ppkHashTable[i];
+            m_ppkHashTable[i] = m_ppkHashTable[i]->m_pkNext;
+            ClearValue(pkSave);
+            DeleteItem(pkSave);
+        }
+    }
+    m_uiCount = 0;
+}
+
+struct NiTexture;
+
+class NiTexture;
+
+template <class> class NiPointer;
+
+struct BSShaderManager
+{
+public:
+    static void GetTexture(const char *, bool, ::NiPointer< ::NiTexture> &, bool, bool);
+};
+
+struct TexBase
+{
+};
+
+struct TexMap : TexBase
+{
+    char pad[0x84];
+    NiTexture* m_texture;
+    const char* m_path;
+
+    void FUN_00b60240(NiStream* stream);
+};
+
+// @fnv 0x00b60240
+void TexMap::FUN_00b60240(NiStream* stream)
+{
+    ::FUN_00ba8be0((::BSSP_stub *)this, 0, reinterpret_cast<std::intptr_t>(stream));
+    if (m_path)
+        ::BSShaderManager::GetTexture(m_path, true, (::NiPointer< ::NiTexture> &)(m_texture), true, false);
+}
+
+typedef void* NiTMapIterator;
+
+struct HeapManager
+{
+};
+
+template <class TKEY, class TVAL> class PtrMapItem
+{
+  public:
+    PtrMapItem* m_pkNext;
+    TKEY m_key;
+    TVAL m_val;
+};
+
+template <class TKEY, class TVAL> class PtrMapBase
+{
+  public:
+    virtual ~PtrMapBase();
+    virtual unsigned int KeyToHashIndex(TKEY key) const;
+    virtual bool IsKeysEqual(TKEY key1, TKEY key2) const;
+    virtual void SetValue(PtrMapItem<TKEY, TVAL>* pkItem, TKEY key, TVAL val);
+    virtual void ClearValue(PtrMapItem<TKEY, TVAL>* pkItem);
+    virtual PtrMapItem<TKEY, TVAL>* NewItem();
+    virtual void DeleteItem(PtrMapItem<TKEY, TVAL>* pkItem);
+
+    NiTMapIterator GetFirstPos() const
+    {
+        for (unsigned int i = 0; i < m_uiHashSize; i++)
+        {
+            if (m_ppkHashTable[i])
+                return m_ppkHashTable[i];
+        }
+        return 0;
+    }
+
+    void GetNext(NiTMapIterator& pos, TKEY& key, TVAL& val) const
+    {
+        PtrMapItem<TKEY, TVAL>* pkItem = (PtrMapItem<TKEY, TVAL>*)pos;
+
+        key = pkItem->m_key;
+        val = pkItem->m_val;
+
+        if (pkItem->m_pkNext)
+        {
+            pos = pkItem->m_pkNext;
+            return;
+        }
+
+        unsigned int i = KeyToHashIndex(pkItem->m_key);
+        for (++i; i < m_uiHashSize; i++)
+        {
+            pkItem = m_ppkHashTable[i];
+            if (pkItem)
+            {
+                pos = pkItem;
+                return;
+            }
+        }
+
+        pos = 0;
+    }
+
+    void RemoveAll()
+    {
+        for (unsigned int i = 0; i < m_uiHashSize; i++)
+        {
+            while (m_ppkHashTable[i])
+            {
+                PtrMapItem<TKEY, TVAL>* pkSave = m_ppkHashTable[i];
+                m_ppkHashTable[i] = m_ppkHashTable[i]->m_pkNext;
+                ClearValue(pkSave);
+                DeleteItem(pkSave);
+            }
+        }
+        m_uiCount = 0;
+    }
+
+    unsigned int m_uiHashSize;
+    PtrMapItem<TKEY, TVAL>** m_ppkHashTable;
+    unsigned int m_uiCount;
+};
+
+struct MapOwnerStandIn
+{
+    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
+    int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
+    PtrMapBase<unsigned int, void*> m_kFormatEntries;
+
+    void FUN_00ec2e50();
+};
+
+// @fnv 0x00ec2e50
+void MapOwnerStandIn::FUN_00ec2e50()
+{
+    NiTMapIterator pos = m_kFormatEntries.GetFirstPos();
+    while (pos)
+    {
+        unsigned int uiKey = 0;
+        void* pValue = 0;
+        reinterpret_cast<::C6b7f20_Map *>((void *)&(m_kFormatEntries))->FUN_006b7f20((::C6b7f20_Node **)&(pos), (unsigned int *)&(uiKey), (void **)&(pValue));
+        void* pFree = pValue;
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::HeapManager *>(&::g_memoryManager))))->FUN_00aa4060(pFree);
+    }
+    reinterpret_cast<::FUN_00438af0_Class *>(&(m_kFormatEntries))->FUN_00438af0();
+}
+
+struct RefX
+{
+    virtual void v0();
+    virtual void DeleteThis();
+    long m_ref;
+    void AcquireReference()
+    {
+        InterlockedIncrement(&m_ref);
+    }
+    void DecRef()
+    {
+        if (InterlockedDecrement(&m_ref) == 0)
+            DeleteThis();
+    }
+};
+
+class PtrX
+{
+  public:
+    RefX* m_p;
+    PtrX(const PtrX& o) : m_p(o.m_p)
+    {
+        if (m_p)
+            m_p->AcquireReference();
+    }
+    ~PtrX()
+    {
+        if (m_p)
+            m_p->DecRef();
+    }
+    void FUN_006e5cc0(const PtrX& o);
+};
+
+struct ItemX
+{
+    ItemX* m_pNext;
+    unsigned int m_key;
+    PtrX m_val;
+};
+
+class MapX
+{
+  public:
+    virtual void v00();
+    virtual unsigned int KeyToHashIndex(unsigned int key);
+    virtual bool IsKeysEqual(unsigned int a, unsigned int b);
+    virtual void SetValue(ItemX* item, unsigned int key, PtrX val);
+    virtual void v10();
+    virtual ItemX* NewItem();
+    unsigned int m_uiHashSize;
+    ItemX** m_ppHashTable;
+    unsigned int m_uiCount;
+    void FUN_00ae7cc0(unsigned int key, PtrX val);
+};
+
+inline void DeadX()
+{
+    int d0;
+    int d1;
+}
+
+// @fnv 0x00ae7cc0
+void MapX::FUN_00ae7cc0(unsigned int key, PtrX val)
+{
+    DeadX();
+    unsigned int index_qtj = KeyToHashIndex(key);
+    ItemX* item = m_ppHashTable[index_qtj];
+    int depth_h = 0;
+    while (item)
+    {
+        ++depth_h;
+        if (IsKeysEqual(key, item->m_key))
+        {
+            item->m_val.FUN_006e5cc0(val);
+            return;
+        }
+        item = item->m_pNext;
+    }
+    item = NewItem();
+    SetValue(item, key, val);
+    item->m_pNext = m_ppHashTable[index_qtj];
+    m_ppHashTable[index_qtj] = item;
+    m_uiCount++;
+}
+
+#include "generated/data/unmapped/nitmapbase.inc"
+#include "generated/data/unmapped/nitmapbase_ob1_variant.inc"

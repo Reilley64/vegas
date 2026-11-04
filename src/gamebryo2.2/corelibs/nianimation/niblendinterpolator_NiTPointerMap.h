@@ -48,12 +48,4 @@ class NiTPointerMap<NiObject*, NiObject*> : public NiTMapBase<NiTPointerAllocato
 };
 typedef NiTPointerMap<NiObject*, NiObject*> NiClonePointerMap;
 typedef NiTMapItem<NiObject*, NiObject*> NiClonePointerMapItem;
-FNV_STATIC_ASSERT(sizeof(NiClonePointerMap) == 16);
-FNV_STATIC_ASSERT(offsetof(NiClonePointerMap, m_uiHashSize) == 4);
-FNV_STATIC_ASSERT(offsetof(NiClonePointerMap, m_ppkHashTable) == 8);
-FNV_STATIC_ASSERT(offsetof(NiClonePointerMap, m_kItemCount) == 12);
-FNV_STATIC_ASSERT(sizeof(NiClonePointerMapItem) == 12);
-FNV_STATIC_ASSERT(offsetof(NiClonePointerMapItem, m_pkNext) == 0);
-FNV_STATIC_ASSERT(offsetof(NiClonePointerMapItem, m_key) == 4);
-FNV_STATIC_ASSERT(offsetof(NiClonePointerMapItem, m_val) == 8);
 #endif

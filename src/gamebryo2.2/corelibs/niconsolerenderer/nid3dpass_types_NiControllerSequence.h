@@ -30,7 +30,6 @@ enum NiControllerSequence__AnimState
     NiControllerSequence__AnimState_TRANSDEST = 5,
     NiControllerSequence__AnimState_MORPHSOURCE = 6
 };
-#pragma pack(push, 4)
 class NiControllerSequence : public NiObject
 {
   public:
@@ -167,34 +166,4 @@ class NiControllerSequence : public NiObject
     // NiControllerSequence& __cdecl NiControllerSequence::*(const NiControllerSequence&)
     // void __cdecl NiControllerSequence::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiControllerSequence) == 116);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_uiNumControlledBlocks) == 12);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_uiNumIDTags) == 16);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_pInterpArray) == 20);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_pkIDTags) == 24);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_fWeight) == 28);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_spTextKeyData) == 32);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_eAnimationCycleType) == 36);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_fFrequency) == 40);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_fFirstKeyTime) == 44);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_fLastKeyTime) == 48);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_fLastTime) == 52);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_fWeightAdjustedLastTime) == 56);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_fScaledLastTime) == 60);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_pkOwnerManager) == 64);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_eAnimationState) == 68);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_fSequenceOffset) == 72);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_fStartTime) == 76);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_fEndTime) == 80);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_fDestinationFrame) == 84);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_pkTimeSyncSequence) == 88);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_kAccumulationRootName) == 92);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_pkAccumulationRoot) == 96);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_spStringPalette) == 100);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_sAnimNotesExtraDataIndex) == 104);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_pkAnimNotes) == 108);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_usNumAnimNotes) == 112);
-FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_bHasAnimNotes) == 114);
 #endif

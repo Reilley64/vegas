@@ -1,26 +1,47 @@
 // staging/blk_00c20000_o2.cpp: NiPSysParticle, NiPSysBoxEmitter, Host, NiPSysBoxEmitterWrapper and more (45 functions)
 
+#include "generated/data/vtables.h"
 #include <windows.h>
 // src/staging/blk_00c20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a38e00.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a6d220.h"
+#include "fnv/decl/FUN_00a6d290.h"
+#include "fnv/decl/FUN_00c1b5c0.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/S_00c313a0.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a62000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c32000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010be000.h"
+#include "fnv/symbols_010bf000.h"
+#include "fnv/symbols_010c0000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
 #include "../../include/layout_support.h"
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
-    void FUN_00c1b5c0(void);
 };
 
-extern int DAT_010be35c;
 
 // @fnv 0x00c25820
 BSFadeNode* __cdecl FUN_00c25820()
 {
-    BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x110));
+    BSFadeNode* node = static_cast<BSFadeNode*>(::operator new(0x110));
     if (node)
     {
-        node->FUN_00c1b5c0();
+        new ((void *)(node)) ::FUN_00c1b5c0();
         *reinterpret_cast<void**>(node) = reinterpret_cast<void*>(&DAT_010be35c);
         return node;
     }
@@ -36,7 +57,6 @@ struct NiPSysPositionModifier
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 
 extern "C" void* DAT_010bea54;
@@ -45,7 +65,7 @@ extern "C" void* DAT_010bea54;
 // @fnv 0x00c28b20
 NiPSysPositionModifier* FUN_00c28b20()
 {
-    NiPSysPositionModifier* p = (NiPSysPositionModifier*)BSFadeNode::operator new(0x18);
+    NiPSysPositionModifier* p = (NiPSysPositionModifier*)::operator new(0x18);
     if (p)
     {
         p->NiPSysPositionModifier::NiPSysPositionModifier();
@@ -59,19 +79,17 @@ NiPSysPositionModifier* FUN_00c28b20()
 namespace fnv_00c29d00 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 
-void* __fastcall FUN_00c32b60(void* self);
 extern int DAT_010bebbc;
 
 // @fnv 0x00c29d00
 void* __cdecl FUN_00c29d00()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
-        FUN_00c32b60(p);
+        ::FUN_00c32b60(p);
         *reinterpret_cast<void**>(p) = &DAT_010bebbc;
         return p;
     }
@@ -82,7 +100,6 @@ void* __cdecl FUN_00c29d00()
 namespace fnv_00c2a050 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00c32d80
@@ -90,17 +107,16 @@ struct FUN_00c32d80
     void FUN_00c32d80_ctor(void);
 };
 
-extern int DAT_010beebc;
 
 // @fnv 0x00c2a050
 FUN_00c32d80* __cdecl FUN_00c2a050()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         FUN_00c32d80* q = reinterpret_cast<FUN_00c32d80*>(p);
         q->FUN_00c32d80_ctor();
-        *reinterpret_cast<int**>(p) = &DAT_010beebc;
+        *reinterpret_cast<int**>(p) = &(*reinterpret_cast<int *>(&::DAT_010beebc));
         return q;
     }
     return 0;
@@ -110,8 +126,7 @@ FUN_00c32d80* __cdecl FUN_00c2a050()
 namespace fnv_00c2a870 {
 struct BSFadeNode
 {
-    void* __thiscall FUN_00c32d80();
-    static void* __cdecl operator new(unsigned int);
+    void* FUN_00c32d80();
 };
 
 extern int DAT_010bf1ac;
@@ -119,7 +134,7 @@ extern int DAT_010bf1ac;
 // @fnv 0x00c2a870
 void* __cdecl FUN_00c2a870()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         reinterpret_cast<BSFadeNode*>(p)->FUN_00c32d80();
@@ -141,7 +156,6 @@ struct FUN_00c32d80
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int size);
     void* m_vf;
 };
 
@@ -149,7 +163,7 @@ struct BSFadeNode
 // @fnv 0x00c2b110
 void* __cdecl FUN_00c2b110()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         ((FUN_00c32d80*)p)->FUN_00c32d80::FUN_00c32d80();
@@ -166,7 +180,6 @@ extern int DAT_010bf554;
 struct BSFadeNode
 {
     void* vtbl;
-    static void* operator new(unsigned int size);
 };
 
 struct FUN_00c32d80
@@ -178,7 +191,7 @@ struct FUN_00c32d80
 // @fnv 0x00c2b200
 void* FUN_00c2b200()
 {
-    BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x40));
+    BSFadeNode* node = static_cast<BSFadeNode*>(::operator new(0x40));
     if (node)
     {
         FUN_00c32d80* obj = reinterpret_cast<FUN_00c32d80*>(node);
@@ -198,7 +211,6 @@ struct FUN_00c32d80
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 
 extern "C" void* DAT_010bf954;
@@ -207,7 +219,7 @@ extern "C" void* DAT_010bf954;
 // @fnv 0x00c2b620
 void* __cdecl FUN_00c2b620()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         FUN_00c32d80* q = (FUN_00c32d80*)p;
@@ -222,7 +234,6 @@ void* __cdecl FUN_00c2b620()
 namespace fnv_00c2b720 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
     void* m_vftable;
 };
 
@@ -234,12 +245,12 @@ struct FUN_00c32d80
 // @fnv 0x00c2b720
 void* __cdecl FUN_00c2b720()
 {
-    BSFadeNode* node = (BSFadeNode*)BSFadeNode::operator new(0x40);
+    BSFadeNode* node = (BSFadeNode*)::operator new(0x40);
     if (node)
     {
         FUN_00c32d80* obj = (FUN_00c32d80*)node;
         obj->FUN_00c32d80_Ctor();
-        node->m_vftable = (void*)0x010bfa54;
+        node->m_vftable = (void*)fnv_vftable_NiPSysDerivedC2B;
         return node;
     }
     return 0;
@@ -254,18 +265,16 @@ struct FUN_00c32d80
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
-extern const void* DAT_010bfb54;
 
 // @fnv 0x00c2b870
 FUN_00c32d80* __cdecl FUN_00c2b870()
 {
-    FUN_00c32d80* p = (FUN_00c32d80*)BSFadeNode::operator new(0x40);
+    FUN_00c32d80* p = (FUN_00c32d80*)::operator new(0x40);
     if (p)
     {
         p->FUN_00c32d80::FUN_00c32d80();
-        p->vtbl = &DAT_010bfb54;
+        p->vtbl = &(*reinterpret_cast<const void * *>(&::DAT_010bfb54));
         return p;
     }
     return 0;
@@ -275,7 +284,6 @@ FUN_00c32d80* __cdecl FUN_00c2b870()
 namespace fnv_00c30600 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
     void* m_vftable;
 };
 
@@ -284,53 +292,66 @@ struct FUN_00c32d80
     FUN_00c32d80();
 };
 
-extern void* DAT_010c05e4;
 
 // @fnv 0x00c30600
 void* __cdecl FUN_00c30600()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         reinterpret_cast<FUN_00c32d80*>(p)->FUN_00c32d80::FUN_00c32d80();
-        *reinterpret_cast<void**>(p) = &DAT_010c05e4;
+        *reinterpret_cast<void**>(p) = &(*reinterpret_cast<void * *>(&::DAT_010c05e4));
         return p;
     }
     return 0;
 }
 }  // namespace fnv_00c30600
 
-void __fastcall FUN_00a6d220(void*);
-extern int DAT_010be6b4;
+
+struct FUN_00c270f0_Object
+{
+    int* vtbl;
+    char pad04[0x14 - 0x4];
+    float unk14;
+    float unk18;
+    char pad1c[0x34 - 0x1c];
+};
 
 // @fnv 0x00c270f0
 BSFadeNode* __cdecl FUN_00c270f0()
 {
-    BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x34));
+    BSFadeNode* node = static_cast<BSFadeNode*>(::operator new(0x34));
     if (node)
     {
-        FUN_00a6d220(node);
-        *(float*)((char*)node + 0x18) = 0.0f;
-        *(int**)((char*)node + 0) = &DAT_010be6b4;
-        *(float*)((char*)node + 0x14) = 0.0f;
+        new ((void *)(node)) class ::FUN_00a6d220();
+        FUN_00c270f0_Object* pObject = (FUN_00c270f0_Object*)(void*)node;
+        pObject->unk18 = 0.0f;
+        pObject->vtbl = &(*reinterpret_cast<int *>(&::DAT_010be6b4));
+        pObject->unk14 = 0.0f;
         return node;
     }
     return 0;
 }
 
-extern float _DAT_01015f5c;
 extern int DAT_010be8e4;
-void __fastcall FUN_00a6d220(void*);
+
+struct FUN_00c283b0_Object
+{
+    void* vtbl;
+    char pad04[0x34 - 0x4];
+    float unk34;
+};
 
 // @fnv 0x00c283b0
 BSFadeNode* __cdecl FUN_00c283b0()
 {
-    BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x38);
+    BSFadeNode* p = (BSFadeNode*)::operator new(0x38);
     if (p)
     {
-        FUN_00a6d220(p);
-        *(float*)((char*)p + 0x34) = _DAT_01015f5c;
-        *(int*)p = (int)&DAT_010be8e4;
+        new ((void *)(p)) class ::FUN_00a6d220();
+        FUN_00c283b0_Object* pObject = (FUN_00c283b0_Object*)(void*)p;
+        pObject->unk34 = ::DAT_01015f5c;
+        pObject->vtbl = (void*)&DAT_010be8e4;
         return p;
     }
     return 0;
@@ -341,21 +362,35 @@ struct NiLODData
 {
     NiLODData();
 };
+struct FUN_00c2ba60_Object
+{
+    void* vtbl;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+};
 // @fnv 0x00c2ba60
 BSFadeNode* __cdecl FUN_00c2ba60()
 {
-    BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x28);
+    BSFadeNode* p = (BSFadeNode*)::operator new(0x28);
     if (p)
     {
         NiLODData* pLodData = (NiLODData*)p;
-        pLodData->NiLODData::NiLODData();
-        *(int*)((char*)p + 8) = 0;
-        *(int*)((char*)p + 12) = 0;
-        *(int*)((char*)p + 16) = 0;
-        *(int*)((char*)p + 24) = 0;
-        *(int*)((char*)p + 28) = 0;
-        *(int*)((char*)p + 32) = 0;
-        *(int*)p = (int)&DAT_010bfd54;
+        new ((void *)(pLodData)) struct ::FUN_00a5d3a0();
+        FUN_00c2ba60_Object* pObject = (FUN_00c2ba60_Object*)(void*)p;
+        pObject->unk08 = 0;
+        pObject->unk0c = 0;
+        pObject->unk10 = 0;
+        pObject->unk18 = 0;
+        pObject->unk1c = 0;
+        pObject->unk20 = 0;
+        pObject->vtbl = (void*)&DAT_010bfd54;
     }
     else
     {
@@ -365,9 +400,6 @@ BSFadeNode* __cdecl FUN_00c2ba60()
 }
 
 extern int DAT_010bff2c;
-extern int _NiPoint3_ZERO;
-extern int _DAT_011f4270;
-extern int _DAT_011f4274;
 
 struct FUN_00c31ff0
 {
@@ -388,20 +420,21 @@ struct FUN_00c31ff0
     int m_38;
     int m_3c;
     int m_40;
-    void Init();
+public:
+    FUN_00c31ff0();
 };
 
 // Allocates a 0x40-byte FUN_00c31ff0, calls Init, sets its vtbl and initializes m_30, m_34, m_38 and m_3c; returns null on allocation failure.
 // @fnv 0x00c2c7b0
 FUN_00c31ff0* __cdecl FUN_00c2c7b0()
 {
-    FUN_00c31ff0* p = (FUN_00c31ff0*)BSFadeNode::operator new(0x40);
+    FUN_00c31ff0* p = (FUN_00c31ff0*)::operator new(0x40);
     if (p)
     {
-        p->Init();
+        new ((void *)(p)) ::FUN_00c31ff0();
         p->vtbl = (void*)&DAT_010bff2c;
         *(char*)&p->m_30 = 0;
-        p->m_34 = _NiPoint3_ZERO;
+        p->m_34 = (*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO));
         p->m_38 = _DAT_011f4270;
         p->m_3c = _DAT_011f4274;
     }
@@ -415,6 +448,12 @@ FUN_00c31ff0* __cdecl FUN_00c2c7b0()
 struct CloningProcess;
 struct NiPSysModifier
 {
+    void* m_pVtbl;
+    unsigned int m_uiRefCount;
+    char* m_kName;
+    unsigned int m_uiOrder;
+    void* m_pkTarget;
+    bool m_bActive;
     void CopyMemberData(NiPSysModifier*, CloningProcess&);
 };
 struct NiPSysParticle
@@ -441,9 +480,6 @@ void NiPSysParticle::FUN_00c32020(NiPSysParticle* dst, CloningProcess* proc)
 }
 
 extern int DAT_010c01ec;
-extern int DAT_011a946c;
-extern int DAT_011a9470;
-extern int DAT_011a9474;
 struct NiPSysPositionModifier
 {
     void* m_vtbl;
@@ -466,7 +502,7 @@ struct NiPSysPositionModifier
 // @fnv 0x00c2e4c0
 NiPSysPositionModifier* FUN_00c2e4c0()
 {
-    NiPSysPositionModifier* p = static_cast<NiPSysPositionModifier*>(BSFadeNode::operator new(0x38));
+    NiPSysPositionModifier* p = static_cast<NiPSysPositionModifier*>(::operator new(0x38));
     if (p)
     {
         p->NiPSysPositionModifier::NiPSysPositionModifier();
@@ -486,7 +522,6 @@ NiPSysPositionModifier* FUN_00c2e4c0()
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00c31ff0_ctor_helper
@@ -500,21 +535,32 @@ extern int DAT_010be604;
 // @fnv 0x00c26790
 FUN_00c31ff0* __cdecl FUN_00c26790()
 {
-    FUN_00c31ff0* p = (FUN_00c31ff0*)A51BF0Base::operator new(0x3c);
+    FUN_00c31ff0* p = (FUN_00c31ff0*)::operator new(0x3c);
     if (p)
     {
-        ((FUN_00c31ff0_ctor_helper*)p)->FUN_00c31ff0();
+        new ((void *)(((FUN_00c31ff0_ctor_helper*)p))) ::FUN_00c31ff0();
         p->vtbl = (void*)&DAT_010be604;
-        *(int*)((char*)p + 0x30) = _NiPoint3_ZERO;
-        *(int*)((char*)p + 0x34) = _DAT_011f4270;
-        *(int*)((char*)p + 0x38) = _DAT_011f4274;
+        p->m_30 = (*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO));
+        p->m_34 = _DAT_011f4270;
+        p->m_38 = _DAT_011f4274;
         return p;
     }
     return 0;
 }
 
-struct NiPSysBoxEmitter
+struct NiPSysBoxEmitter : NiPSysModifier
 {
+    float m_fSpeed;
+    float m_fSpeedVar;
+    float m_fDeclination;
+    float m_fDeclinationVar;
+    float m_fPlanarAngle;
+    float m_fPlanarAngleVar;
+    int m_kInitialColor[4];
+    float m_fInitialRadius;
+    float m_fRadiusVar;
+    float m_fLifeSpan;
+    float m_fLifeSpanVar;
     void CopyMemberData(NiPSysModifier* pkDest, CloningProcess& kProcess);
     void CopyTo(NiPSysModifier* pkDest, CloningProcess& kProcess);
 };
@@ -523,22 +569,21 @@ struct NiPSysBoxEmitter
 void NiPSysBoxEmitter::CopyTo(NiPSysModifier* pkDest, CloningProcess& kProcess)
 {
     CopyMemberData(pkDest, kProcess);
-    float* pSrc = (float*)((char*)this + 0x18);
-    float* pDst = (float*)((char*)pkDest + 0x18);
-    pDst[0] = pSrc[0];
-    pDst[1] = pSrc[1];
-    pDst[2] = pSrc[2];
-    pDst[3] = pSrc[3];
-    pDst[4] = pSrc[4];
-    pDst[5] = pSrc[5];
-    *(int*)((char*)pkDest + 0x30) = *(int*)((char*)this + 0x30);
-    *(int*)((char*)pkDest + 0x34) = *(int*)((char*)this + 0x34);
-    *(int*)((char*)pkDest + 0x38) = *(int*)((char*)this + 0x38);
-    *(int*)((char*)pkDest + 0x3c) = *(int*)((char*)this + 0x3c);
-    *(float*)((char*)pkDest + 0x40) = *(float*)((char*)this + 0x40);
-    *(float*)((char*)pkDest + 0x48) = *(float*)((char*)this + 0x48);
-    *(float*)((char*)pkDest + 0x4c) = *(float*)((char*)this + 0x4c);
-    *(float*)((char*)pkDest + 0x44) = *(float*)((char*)this + 0x44);
+    NiPSysBoxEmitter* pkEmitter = static_cast<NiPSysBoxEmitter*>(pkDest);
+    pkEmitter->m_fSpeed = m_fSpeed;
+    pkEmitter->m_fSpeedVar = m_fSpeedVar;
+    pkEmitter->m_fDeclination = m_fDeclination;
+    pkEmitter->m_fDeclinationVar = m_fDeclinationVar;
+    pkEmitter->m_fPlanarAngle = m_fPlanarAngle;
+    pkEmitter->m_fPlanarAngleVar = m_fPlanarAngleVar;
+    pkEmitter->m_kInitialColor[0] = m_kInitialColor[0];
+    pkEmitter->m_kInitialColor[1] = m_kInitialColor[1];
+    pkEmitter->m_kInitialColor[2] = m_kInitialColor[2];
+    pkEmitter->m_kInitialColor[3] = m_kInitialColor[3];
+    pkEmitter->m_fInitialRadius = m_fInitialRadius;
+    pkEmitter->m_fLifeSpan = m_fLifeSpan;
+    pkEmitter->m_fLifeSpanVar = m_fLifeSpanVar;
+    pkEmitter->m_fRadiusVar = m_fRadiusVar;
 }
 
 struct FUN_00c22ad0_object : A51BF0Base
@@ -549,7 +594,7 @@ struct FUN_00c22ad0_object : A51BF0Base
 // @fnv 0x00c22ad0
 A51BF0Base* FUN_00c22ad0()
 {
-    FUN_00c22ad0_object* object = static_cast<FUN_00c22ad0_object*>(A51BF0Base::operator new(0x40));
+    FUN_00c22ad0_object* object = static_cast<FUN_00c22ad0_object*>(::operator new(0x40));
 
     if (object)
         return object->InitDefaults();
@@ -593,12 +638,11 @@ struct FUN_00c24c90
     int m_7c;
     FUN_00c24c90();
 };
-extern int DAT_010be514;
 // Allocates a 0x90-byte FUN_00c24c90, runs its constructor, sets the vtable to DAT_010be514 and clears m_7c, returning the object or null.
 // @fnv 0x00c25ca0
 FUN_00c24c90* __cdecl CreateFUN_00c24c90()
 {
-    FUN_00c24c90* p = (FUN_00c24c90*)A51BF0Base::operator new(0x90);
+    FUN_00c24c90* p = (FUN_00c24c90*)::operator new(0x90);
     if (p)
     {
         p->FUN_00c24c90::FUN_00c24c90();
@@ -609,21 +653,20 @@ FUN_00c24c90* __cdecl CreateFUN_00c24c90()
     return 0;
 }
 
-extern float DAT_01022958;
 extern int DAT_010be774;
 
 // Allocates a 0x3c-byte object, calls Init, sets fields at offsets 0x30/0x34/0x38 and the vtable pointer, then returns it (or null).
 // @fnv 0x00c27350
 FUN_00c31ff0* __cdecl FUN_00c27350()
 {
-    FUN_00c31ff0* p = (FUN_00c31ff0*)A51BF0Base::operator new(0x3c);
+    FUN_00c31ff0* p = (FUN_00c31ff0*)::operator new(0x3c);
     if (p)
     {
-        p->Init();
-        *(float*)((char*)p + 0x30) = 0.0f;
-        *(int*)p = (int)&DAT_010be774;
-        *(float*)((char*)p + 0x38) = _DAT_01015f5c;
-        *(float*)((char*)p + 0x34) = DAT_01022958;
+        new ((void *)(p)) ::FUN_00c31ff0();
+        *(float*)&p->m_30 = 0.0f;
+        *(void**)p = (void*)&DAT_010be774;
+        *(float*)&p->m_38 = ::DAT_01015f5c;
+        *(float*)&p->m_34 = DAT_01022958;
         return p;
     }
     return 0;
@@ -634,11 +677,11 @@ extern int DAT_010be99c;
 // @fnv 0x00c28570
 FUN_00c31ff0* __cdecl FUN_00c28570()
 {
-    FUN_00c31ff0* p = (FUN_00c31ff0*)A51BF0Base::operator new(0x34);
+    FUN_00c31ff0* p = (FUN_00c31ff0*)::operator new(0x34);
     if (p)
     {
-        p->Init();
-        *(float*)((char*)p + 0x30) = 0.0f;
+        new ((void *)(p)) ::FUN_00c31ff0();
+        *(float*)&p->m_30 = 0.0f;
         p->vtbl = &DAT_010be99c;
         return p;
     }
@@ -647,21 +690,8 @@ FUN_00c31ff0* __cdecl FUN_00c28570()
 
 struct Host
 {
-    void FUN_00c312a0();
     Host* DestroyIfRequested(bool bFree);
-    static void __cdecl operator delete(void*, unsigned int);
 };
-// Calls FUN_00c312a0, then deletes this (size 0x40) when bFree is set, and returns this.
-// @fnv 0x00c2a090
-Host* Host::DestroyIfRequested(bool bFree)
-{
-    FUN_00c312a0();
-    if (bFree & 1)
-        operator delete(this, 0x40);
-    return this;
-}
-
-extern int DAT_010bf354;
 struct FUN_00c32d80
 {
     void* m_vtbl;
@@ -672,11 +702,11 @@ struct FUN_00c32d80
 // @fnv 0x00c2b010
 FUN_00c32d80* __cdecl FUN_00c2b010()
 {
-    FUN_00c32d80* p = static_cast<FUN_00c32d80*>(A51BF0Base::operator new(0x40));
+    FUN_00c32d80* p = static_cast<FUN_00c32d80*>(::operator new(0x40));
     if (p)
     {
         p->FUN_00c32d80::FUN_00c32d80();
-        p->m_vtbl = &DAT_010bf354;
+        p->m_vtbl = &(*reinterpret_cast<int *>(&::DAT_010bf354));
         return p;
     }
     return 0;
@@ -688,13 +718,13 @@ extern int DAT_010c0304;
 // @fnv 0x00c2ef20
 NiPSysPositionModifier* FUN_00c2ef20()
 {
-    NiPSysPositionModifier* p = (NiPSysPositionModifier*)A51BF0Base::operator new(0x20);
+    NiPSysPositionModifier* p = (NiPSysPositionModifier*)::operator new(0x20);
     if (p)
     {
         p->NiPSysPositionModifier::NiPSysPositionModifier();
         p->m_vtbl = &DAT_010c0304;
-        *(unsigned char*)((char*)p + 0x18) = 0;
-        *(int*)((char*)p + 0x1c) = 0;
+        *(unsigned char*)&p->m_18 = 0;
+        p->m_1c = 0;
         return p;
     }
     return 0;
@@ -706,16 +736,15 @@ struct FUN_00c32d80
     FUN_00c32d80();
 };
 
-extern int DAT_010c06e4;
 
 // @fnv 0x00c30790
 void* FUN_00c30790(void)
 {
-    FUN_00c32d80* p = (FUN_00c32d80*)A51BF0Base::operator new(0x40);
+    FUN_00c32d80* p = (FUN_00c32d80*)::operator new(0x40);
     if (p)
     {
-        p->FUN_00c32d80::FUN_00c32d80();
-        *(int*)p = (int)&DAT_010c06e4;
+        new ((void *)(p)) ::FUN_00c32d80();
+        *(void**)p = (void*)&::g_010c06e4;
         return p;
     }
     return 0;
@@ -723,18 +752,14 @@ void* FUN_00c30790(void)
 }  // namespace fnv_00c30790
 
 extern int DAT_010bdff4;
-extern int DAT_011a946c;
-extern int DAT_011a9470;
-extern int DAT_011a9474;
 
 struct FUN_00c22a80_base
 {
-    void InitBase();
 };
 
 struct FUN_00c22a80_cls : FUN_00c22a80_base
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     int unk04;
     int unk08;
     int unk0c;
@@ -757,9 +782,9 @@ struct FUN_00c22a80_cls : FUN_00c22a80_base
 // @fnv 0x00c22a80
 FUN_00c22a80_cls* FUN_00c22a80_cls::InitDefaults()
 {
-    InitBase();
+    new ((void *)this) ::NiPSysPositionModifier();
     m_18 = 0;
-    m_vptr00 = (int)&DAT_010bdff4;
+    m_vptr00 = (intptr_t)&DAT_010bdff4;
     m_1c = DAT_011a946c;
     m_20 = DAT_011a9470;
     m_24 = DAT_011a9474;
@@ -771,7 +796,7 @@ FUN_00c22a80_cls* FUN_00c22a80_cls::InitDefaults()
     return this;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_010be124;
 
 struct FUN_00c23b20_cls
@@ -791,7 +816,6 @@ struct FUN_00c23b20_cls
     float m_28;
     float m_2c;
     float m_30;
-    void ctorBase();
 };
 
 // Allocates a 0x34-byte object, runs its base constructor, sets default float and ushort fields and the vtable, and returns it (or null on allocation failure).
@@ -801,7 +825,7 @@ void* __cdecl FUN_00c23b20()
     FUN_00c23b20_cls* p = (FUN_00c23b20_cls*)FUN_00aa13e0(0x34);
     if (p != 0)
     {
-        p->ctorBase();
+        new ((void *)(p)) ::NiPSysPositionModifier();
         p->m_1c = 1.0f;
         p->m_24 = 0.0f;
         p->m_28 = 0.0f;
@@ -822,8 +846,6 @@ class C29E50Base
     C29E50Base() throw();
     virtual ~C29E50Base();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -857,11 +879,9 @@ C29E50Object* __cdecl CreateC29E50Object()
     return new C29E50Object;
 }
 
-extern int DAT_010bedbc;
 
 struct ParticleFactoryObject : FUN_00c32d80, A51BF0Base
 {
-    void Initialize();
 };
 
 // Allocates a ParticleFactoryObject, calls Initialize, sets its vtable to DAT_010bedbc, and returns it (or null on allocation failure).
@@ -869,28 +889,23 @@ struct ParticleFactoryObject : FUN_00c32d80, A51BF0Base
 ParticleFactoryObject* CreateParticleFactoryObject()
 {
     ParticleFactoryObject* object =
-        static_cast<ParticleFactoryObject*>(A51BF0Base::operator new(sizeof(ParticleFactoryObject)));
+        static_cast<ParticleFactoryObject*>(::operator new(sizeof(ParticleFactoryObject)));
     if (object)
     {
-        object->Initialize();
-        object->m_vtbl = &DAT_010bedbc;
+        new ((void *)(object)) ::FUN_00c32d80();
+        object->m_vtbl = &(*reinterpret_cast<int *>(&::DAT_010bedbc));
         return object;
     }
     return 0;
 }
 
-extern int DAT_010befbc;
 
-void* operator new(unsigned int, void* memory)
-{
-    return memory;
-}
 
 struct ParticleObjectFactoryType : FUN_00c32d80
 {
     ParticleObjectFactoryType()
     {
-        m_vtbl = &DAT_010befbc;
+        m_vtbl = &(*reinterpret_cast<int *>(&::DAT_010befbc));
     }
 };
 
@@ -898,17 +913,26 @@ struct ParticleObjectFactoryType : FUN_00c32d80
 // @fnv 0x00c2a160
 ParticleObjectFactoryType* CreateParticleObjectFactory()
 {
-    void* memory = BSFadeNode::operator new(sizeof(ParticleObjectFactoryType));
+    void* memory = ::operator new(sizeof(ParticleObjectFactoryType));
     if (memory)
         return new (memory) ParticleObjectFactoryType;
     return 0;
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00c31720_This
 {
-    void FUN_00c31720();
+};
+struct FUN_00c2a2b0_Object
+{
+    void* vtbl;
+    char pad04[0x18 - 0x4];
+    float unk18;
+    short unk1c;
+    float unk20;
+    short unk24;
+    float unk28;
 };
 
 // @fnv 0x00c2a2b0
@@ -917,24 +941,23 @@ void* __cdecl FUN_00c2a2b0()
     void* pObject = FUN_00aa13e0(0x2c);
     if (pObject != NULL)
     {
-        ((FUN_00c31720_This*)pObject)->FUN_00c31720();
+        new ((void *)(((FUN_00c31720_This*)pObject))) ::NiPSysPositionModifier();
         float zero = 0.0f;
-        *(float*)((char*)pObject + 0x18) = zero;
-        *(float*)((char*)pObject + 0x20) = zero;
-        *(short*)((char*)pObject + 0x1c) = 0;
-        *(float*)((char*)pObject + 0x28) = zero;
-        *(int*)pObject = 0x10bf0bc;
-        *(short*)((char*)pObject + 0x24) = 0;
+        FUN_00c2a2b0_Object* pModifier = (FUN_00c2a2b0_Object*)pObject;
+        pModifier->unk18 = zero;
+        pModifier->unk20 = zero;
+        pModifier->unk1c = 0;
+        pModifier->unk28 = zero;
+        pModifier->vtbl = fnv_vftable_A4b0Cls;
+        pModifier->unk24 = 0;
         return pObject;
     }
     return NULL;
 }
 
-extern int DAT_010bf654;
 
 struct ParticleEmitterAllocation : FUN_00c32d80
 {
-    void Initialize();
 };
 
 // Allocates a ParticleEmitterAllocation, calls Initialize, sets its vtable to DAT_010bf654, and returns it (or null on allocation failure).
@@ -942,11 +965,11 @@ struct ParticleEmitterAllocation : FUN_00c32d80
 ParticleEmitterAllocation* CreateParticleEmitterAllocation()
 {
     ParticleEmitterAllocation* emitter =
-        static_cast<ParticleEmitterAllocation*>(A51BF0Base::operator new(sizeof(ParticleEmitterAllocation)));
+        static_cast<ParticleEmitterAllocation*>(::operator new(sizeof(ParticleEmitterAllocation)));
     if (emitter)
     {
-        emitter->Initialize();
-        emitter->m_vtbl = &DAT_010bf654;
+        new ((void *)(emitter)) ::FUN_00c32d80();
+        emitter->m_vtbl = &(*reinterpret_cast<int *>(&::DAT_010bf654));
         return emitter;
     }
     return 0;
@@ -958,8 +981,6 @@ class NiPSysModifierC2D
     NiPSysModifierC2D() throw();
     virtual ~NiPSysModifierC2D();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -989,31 +1010,16 @@ NiPSysModifierC2D* CreateNiPSysModC2D()
 
 struct FUN_00c2e550_StandIn
 {
-    unsigned int __thiscall FUN_00c2e550(unsigned char flags);
+    void* FUN_00c2e550(unsigned char flags);
 };
 
-void __cdecl FUN_00c31750();
 void __cdecl FUN_00aa1460(void* object, unsigned int size);
 
-// @fnv 0x00c2e550
-unsigned int __thiscall FUN_00c2e550_StandIn::FUN_00c2e550(unsigned char flags)
-{
-    FUN_00c31750();
-    if ((flags & 1) != 0)
-    {
-        FUN_00aa1460(this, 0x38);
-    }
-    return reinterpret_cast<unsigned int>(this);
-}
-
-extern "C" char* DAT_0109b220;
-extern "C" void* DAT_010c08ac;
-extern "C" void(__stdcall* DAT_00fdf1c0)(void*);
-extern "C" void(__stdcall* DAT_00fdf1c4)(void*);
+extern "C" void(* DAT_00fdf1c0)(void*);
+extern "C" void(* DAT_00fdf1c4)(void*);
 
 struct NiStringBaseHelper
 {
-    void FUN_00a38e00();
 };
 
 struct FUN_00c31440_cls
@@ -1041,18 +1047,18 @@ struct FUN_00c31440_cls
 // @fnv 0x00c31440
 FUN_00c31440_cls* FUN_00c31440_cls::AssignString(char** src)
 {
-    reinterpret_cast<NiStringBaseHelper*>(this)->FUN_00a38e00();
-    vptr = (void*)&DAT_010c08ac;
-    *(char* volatile*)&m_38 = DAT_0109b220;
+    new ((void *)(reinterpret_cast<NiStringBaseHelper*>(this))) ::FUN_00a38e00();
+    vptr = (void*)&(*reinterpret_cast<void * *>(&::NiPSysModifierCtlr_vtable));
+    *(char* volatile*)&m_38 = ::DAT_0109b220;
     m_3c = 0;
     char* edi = *src;
     if (m_38 != edi)
     {
-        if (edi != DAT_0109b220)
+        if (edi != ::DAT_0109b220)
         {
             DAT_00fdf1c0(edi - 8);
         }
-        if (m_38 != DAT_0109b220)
+        if (m_38 != ::DAT_0109b220)
         {
             DAT_00fdf1c4(m_38 - 8);
         }
@@ -1066,7 +1072,6 @@ FUN_00c31440_cls* FUN_00c31440_cls::AssignString(char** src)
 extern int DAT_010bf754;
 struct PSysFactoryObject : FUN_00c32d80
 {
-    static void* __cdecl operator new(unsigned int);
     PSysFactoryObject() throw()
     {
         m_vtbl = &DAT_010bf754;
@@ -1104,7 +1109,6 @@ FUN_00c2b970_Class* FUN_00c2b970_Class::FUN_00c2b970()
 extern int DAT_010bf854;
 struct PSysFactoryObjectB52 : FUN_00c32d80
 {
-    static void* __cdecl operator new(unsigned int);
     PSysFactoryObjectB52() throw()
     {
         m_vtbl = &DAT_010bf854;
@@ -1117,12 +1121,11 @@ PSysFactoryObjectB52* __cdecl CreatePSysFactoryObjectB52()
     return new PSysFactoryObjectB52;
 }
 
-extern bool __cdecl IsEquivalentTo(int param1, int param2);
 
 // @fnv 0x00c32df0
-bool __cdecl FUN_00c32df0(int param1, int param2)
+bool __cdecl FUN_00c32df0(int param1, intptr_t param2)
 {
-    return IsEquivalentTo(param1, param2);
+    return ((bool)(reinterpret_cast<::S_00c313a0 *>((param1))->IsEquivalentTo((::S_00c313a0 *)(param2))));
 }
 
 struct NiPSysBoxEmitterWrapper : NiPSysBoxEmitter
@@ -1174,7 +1177,6 @@ struct TrailFrame
     TrailVector* normal;
     TrailVector* binormal;
 };
-void __cdecl FUN_00a62be0(TrailFrame*, TrailRecord*, TrailVector*, float, TrailVector*, TrailVector*, TrailVector*);
 struct TrailSystem
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -1214,9 +1216,9 @@ void TrailSystem::AddTrailPoint(unsigned short index, float unused)
             frame.normal = &buffer->records[before].normal;
             frame.binormal = &buffer->records[before].binormal;
         }
-        FUN_00a62be0(&frame, &buffer->records[previous], &positions[index], buffer->records[previous].Radius(),
-                     &buffer->records[previous].direction, &buffer->records[previous].normal,
-                     &buffer->records[previous].tangent);
+        ::FUN_00a62be0((const ::NiPoint3 **)(::TrailFrame *)(&frame), (const ::NiPoint3 *)(::TrailRecord *)(&buffer->records[previous]), (const ::NiPoint3 *)(::TrailVector *)(&positions[index]), buffer->records[previous].Radius(),
+                     (::NiPoint3 *)(::TrailVector *)(&buffer->records[previous].direction), (::NiPoint3 *)(::TrailVector *)(&buffer->records[previous].normal),
+                     (*(::NiPoint3 *)(&buffer->records[previous].tangent)));
     }
     else
     {
@@ -1243,8 +1245,8 @@ void TrailSystem::AddTrailPoint(unsigned short index, float unused)
     buffer->records[next].scale = scales[index];
     if (colors)
         buffer->records[next].color = colors[index];
-    FUN_00a62be0(&frame, &buffer->records[next], 0, buffer->records[next].Radius(), &buffer->records[next].direction,
-                 &buffer->records[next].normal, &buffer->records[next].tangent);
+    ::FUN_00a62be0((const ::NiPoint3 **)(::TrailFrame *)(&frame), (const ::NiPoint3 *)(::TrailRecord *)(&buffer->records[next]), (const ::NiPoint3 *)(::TrailVector *)(0), buffer->records[next].Radius(), (::NiPoint3 *)(::TrailVector *)(&buffer->records[next].direction),
+                 (::NiPoint3 *)(::TrailVector *)(&buffer->records[next].normal), (*(::NiPoint3 *)(&buffer->records[next].tangent)));
     if (buffer->count < maxCount)
     {
         ++buffer->added;
@@ -1264,11 +1266,8 @@ void TrailSystem::AddTrailPoint(unsigned short index, float unused)
     buffer->next = newNext;
 }
 
-extern int DAT_010c09cc;
-extern char* DAT_0109b220;
 struct NiObject_Helper
 {
-    void FUN_00a5d3d0();
 };
 struct PositionState : NiObject_Helper
 {
@@ -1277,18 +1276,28 @@ struct PositionState : NiObject_Helper
     char* volatile name;
     void FUN_00c31750();
 };
+// @fnv 0x00c2e550
+void* FUN_00c2e550_StandIn::FUN_00c2e550(unsigned char flags)
+{
+    reinterpret_cast<::PositionState *>(this)->FUN_00c31750();
+    if ((flags & 1) != 0)
+    {
+        FUN_00aa1460(this, 0x38);
+    }
+    return this;
+}
 // Sets the vtable pointer, decrements the name string's refcount unless it is DAT_0109b220, then calls FUN_00a5d3d0.
 // @fnv 0x00c31750
 void PositionState::FUN_00c31750()
 {
-    vtable = &DAT_010c09cc;
+    vtable = &::DAT_010c09cc;
     char* value = name;
-    if (value != DAT_0109b220)
+    if (value != ::DAT_0109b220)
         InterlockedDecrement(reinterpret_cast<volatile LONG*>(value - 8));
-    FUN_00a5d3d0();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
-typedef int(__stdcall* HostRefFn)(void*);
+typedef int(* HostRefFn)(void*);
 
 struct Host_refobj
 {
@@ -1299,7 +1308,6 @@ struct Host_refobj
 
 struct Host_base
 {
-    void FUN_00a6d290();
 };
 
 struct Host_data
@@ -1321,6 +1329,21 @@ struct Host_data
     void* m_pData;
     void FUN_00c312a0();
 };
+// Calls FUN_00c312a0, then deletes this (size 0x40) when bFree is set, and returns this.
+// @fnv 0x00c2a090
+Host* Host::DestroyIfRequested(bool bFree)
+{
+    reinterpret_cast<::Host_data *>(this)->FUN_00c312a0();
+    if (bFree & 1)
+        operator delete(this, 0x40);
+    return this;
+}
+
+struct NiGlobalStringHeader
+{
+    long m_lRefCount;
+    unsigned int m_uiLength;
+};
 
 // Sets m_vptr, releases m_pData's header (unless DAT_0109b220), drops m_pEntryObject's refcount and destroys it at zero, then calls FUN_00a6d290.
 // @fnv 0x00c312a0
@@ -1328,19 +1351,21 @@ void Host_data::FUN_00c312a0()
 {
     Host_data* self = this;
     HostRefFn release = (HostRefFn)DAT_00fdf1c4;
-    *(void* volatile*)&self->m_vptr = &DAT_010c08ac;
+    *(void* volatile*)&self->m_vptr = &(*reinterpret_cast<void * *>(&::NiPSysModifierCtlr_vtable));
     void* data = *(void* volatile*)&self->m_pData;
-    if (data != DAT_0109b220)
+    if (data != ::DAT_0109b220)
     {
-        release((char*)data - 8);
+        release((NiGlobalStringHeader*)data - 1);
     }
     Host_refobj* obj = self->m_pEntryObject;
     if (obj != 0)
     {
-        if (release((char*)obj + 4) == 0)
+        if (release((char*)&obj->m_iObjectReferenceCount) == 0)
         {
             obj->Destroy();
         }
     }
-    ((Host_base*)this)->FUN_00a6d290();
+    reinterpret_cast<struct ::FUN_00a6d290 *>((((Host_base*)this)))->FUN_00a6d290::~FUN_00a6d290();
 }
+
+#include "generated/data/staging/blk_00c20000_o2.inc"

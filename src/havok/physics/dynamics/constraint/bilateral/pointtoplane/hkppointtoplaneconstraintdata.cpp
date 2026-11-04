@@ -2,11 +2,14 @@
 // src/havok/physics/dynamics/constraint/bilateral/pointtoplane/hkppointtoplaneconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtoplane/hkppointtoplaneconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
+#include "fnv/decl/FUN_004b4ab0_Class.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
 #include "havok/hkpPointToPlaneConstraintData.h"
 
 // Sets b[0] and b[1] to 8 and 1 when a is nonzero, otherwise to 0 and 0.
 // @fnv 0x00d84780
-void __stdcall FUN_00d84780(unsigned char a, int* pData)
+void FUN_00d84780(unsigned char a, int* pData)
 {
     if (a)
     {
@@ -20,17 +23,16 @@ void __stdcall FUN_00d84780(unsigned char a, int* pData)
     }
 }
 
-extern "C" void* __cdecl FUN_00d21a60(void*, int, int);
 
-struct FUN_00d84760
+struct FUN_00d84760 : public hkpPointToPlaneConstraintData
 {
-    void* PopulateInfo(int a);
+    void PopulateInfo(::GenericConstraintAtomScheme* a) const;
 };
 
 // @fnv 0x00d84760
-void* FUN_00d84760::PopulateInfo(int a)
+void FUN_00d84760::PopulateInfo(::GenericConstraintAtomScheme* a) const
 {
-    return FUN_00d21a60((char*)this + 0x10, 0x94, a);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x94, a);
 }
 
 // @fnv 0x00d847b0
@@ -49,49 +51,33 @@ struct Transform
 {
     ValidationResult IsTransformValid(float tolerance);
 };
-struct FUN_00d84b70
+struct FUN_00d84b70 : hkpPointToPlaneConstraintData
 {
     ValidationResult CheckValid();
 };
-// Returns true if the Transform at offset 0x20 and the one at offset 0x60 both pass a 0.001 tolerance validation.
+// Returns true if both local frames of the transforms atom pass a 0.001 tolerance validation.
 // @fnv 0x00d84b70
 ValidationResult FUN_00d84b70::CheckValid()
 {
-    Transform* pFirstTransform = (Transform*)((char*)this + 0x20);
-    Transform* pSecondTransform = (Transform*)((char*)this + 0x60);
+    Transform* pFirstTransform = reinterpret_cast<Transform*>(&m_kBridgeAtoms.m_kTransforms.m_kBodyALocalFrame);
+    Transform* pSecondTransform = reinterpret_cast<Transform*>(&m_kBridgeAtoms.m_kTransforms.m_kBodyBLocalFrame);
     return pFirstTransform->IsTransformValid(0.001f).value && pSecondTransform->IsTransformValid(0.001f).value;
 }
 
 #include <xmmintrin.h>
 #include <math.h>
 namespace fnv_00d847c0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 struct Vec_d849a0
 {
     __m128 q;
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return reinterpret_cast<float*>(&q)[i];
     }
     const float& operator()(int i) const
     {
-        return q.m128_f32[i];
+        return reinterpret_cast<const float*>(&q)[i];
     }
     void setZero4()
     {
@@ -160,7 +146,6 @@ struct Rot_d849a0
 
 struct Out_d847c0 : public Vec_d849a0
 {
-    void setRotatedInverseDir(const Rot_d849a0& r, const Vec_d849a0& v);
 };
 
 struct Trans_d847c0
@@ -171,7 +156,6 @@ struct Trans_d847c0
 
 struct Pos_d847c0 : public Vec_d849a0
 {
-    void SetTransformedPosition(const Trans_d847c0& t, const Vec_d849a0& v);
 };
 
 struct PointToPlane_d847c0
@@ -201,8 +185,8 @@ struct PointToPlane_d847c0
 void PointToPlane_d847c0::SetFromTransforms(const Trans_d847c0& bodyA, const Trans_d847c0& bodyB,
                                             const Vec_d849a0& pivot, const Vec_d849a0& normal)
 {
-    m_50.SetTransformedPosition(bodyA, pivot);
-    m_90.SetTransformedPosition(bodyB, pivot);
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(m_50))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyA), (const ::S_00c7f690_V *)&(pivot));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(m_90))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyB), (const ::S_00c7f690_V *)&(pivot));
     m_20.setZero4();
     m_30.setZero4();
     m_40.setZero4();
@@ -212,7 +196,7 @@ void PointToPlane_d847c0::SetFromTransforms(const Trans_d847c0& bodyA, const Tra
 
     Rot_d849a0& rot = m_60;
     int n = m_a2;
-    static_cast<Out_d847c0&>(rot.getColumn(n)).setRotatedInverseDir(bodyB.m_rotation, normal);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<Out_d847c0&>(rot.getColumn(n))))->FUN_004b4ab0((intptr_t)&(bodyB.m_rotation), (intptr_t)&(normal));
     int i1 = (n + 1) % 3;
 
     Perp_d849a0(rot.getColumn(n), rot.getColumn(i1));
@@ -223,33 +207,17 @@ void PointToPlane_d847c0::SetFromTransforms(const Trans_d847c0& bodyA, const Tra
 }  // namespace fnv_00d847c0
 
 namespace fnv_00d849a0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 struct Vec_d849a0
 {
     __m128 q;
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return reinterpret_cast<float*>(&q)[i];
     }
     const float& operator()(int i) const
     {
-        return q.m128_f32[i];
+        return reinterpret_cast<const float*>(&q)[i];
     }
     void setZero4()
     {

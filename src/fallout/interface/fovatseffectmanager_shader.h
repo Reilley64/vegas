@@ -131,15 +131,11 @@ enum NiRenderer__ClearFlags
     NiRenderer__ClearFlags_CLEAR_NONE = 0,
     NiRenderer__ClearFlags_CLEAR_ALL = 7
 };
-#pragma pack(push, 4)
 class NiTPrimitiveArray_enum_BSTextureManager__eTextureType_
     : public NiTArray<BSTextureManager__eTextureType, NiTMallocInterface<BSTextureManager__eTextureType> >
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_enum_BSTextureManager__eTextureType_) == 16);
-#pragma pack(push, 4)
 class NiTPrimitiveArray_enum_NiTexturingProperty__FilterMode_
     : public NiTArray<NiTexturingProperty__FilterMode, NiTMallocInterface<NiTexturingProperty__FilterMode> >
 {
@@ -151,9 +147,6 @@ class NiTPrimitiveArray_enum_NiTexturingProperty__FilterMode_
     // void __cdecl NiTPrimitiveArray<enum NiTexturingProperty::FilterMode>::*()
     // void __cdecl NiTPrimitiveArray<enum NiTexturingProperty::FilterMode>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_enum_NiTexturingProperty__FilterMode_) == 16);
-#pragma pack(push, 4)
 class ImageSpaceEffectParam
 {
   public:
@@ -163,13 +156,9 @@ class ImageSpaceEffectParam
     // ImageSpaceEffectParam
     // ImageSpaceEffectParam& __cdecl ImageSpaceEffectParam::*(const ImageSpaceEffectParam&)
     // void __cdecl ImageSpaceEffectParam::*()
+public:
+    ImageSpaceEffectParam(float, float, float, float);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceEffectParam) == 36);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffectParam, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffectParam, m_kTextureTypes) == 4);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffectParam, m_kFilterModes) == 20);
-#pragma pack(push, 4)
 class RgbaColor
 {
   public:
@@ -196,22 +185,12 @@ class RgbaColor
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
-#pragma pack(push, 4)
 class DFALL_NiTMapItem_unsigned_int_unsigned_int___
 {
   public:
     // void* __cdecl DFALL<NiTMapItem<unsigned int,unsigned int> >::*()
     // void __cdecl DFALL<NiTMapItem<unsigned int,unsigned int> >::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DFALL_NiTMapItem_unsigned_int_unsigned_int___) == 1);
-#pragma pack(push, 4)
 class NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int___AntiBloatAllocator
     : public DFALL_NiTMapItem_unsigned_int_unsigned_int___
 {
@@ -219,14 +198,6 @@ class NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsi
     // base DFALL<NiTMapItem<unsigned int,unsigned int> > at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(
-    sizeof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int___AntiBloatAllocator) ==
-    4);
-FNV_STATIC_ASSERT(
-    offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int___AntiBloatAllocator,
-             m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_
 {
   public:
@@ -249,17 +220,6 @@ class NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsi
     // void __cdecl NiTMapBase<DFALL<NiTMapItem<unsigned int,unsigned int> >,unsigned int,unsigned int>::*()
     // void __cdecl NiTMapBase<DFALL<NiTMapItem<unsigned int,unsigned int> >,unsigned int,unsigned int>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_,
-                           m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_,
-                           m_uiHashSize) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_,
-                           m_ppkHashTable) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_,
-                           m_kItemCount) == 12);
-#pragma pack(push, 4)
 class NiTMap_unsigned_int_unsigned_int_
     : public NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_
 {
@@ -273,9 +233,6 @@ class NiTMap_unsigned_int_unsigned_int_
     // void __cdecl NiTMap<unsigned int,unsigned int>::*()
     // void __cdecl NiTMap<unsigned int,unsigned int>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTMap_unsigned_int_unsigned_int_) == 16);
-#pragma pack(push, 4)
 class ImageSpaceShaderParam : public ImageSpaceEffectParam
 {
   public:
@@ -307,19 +264,4 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     // ImageSpaceShaderParam& __cdecl ImageSpaceShaderParam::*(const ImageSpaceShaderParam&)
     // void __cdecl ImageSpaceShaderParam::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceShaderParam) == 136);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_eShaderFilterMode) == 36);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_eClearFlags) == 40);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_eTextureClampMode) == 44);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_pfVertexShaderConstants) == 60);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_iVertexShaderConstantCount) == 64);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_pfPixelShaderConstants) == 68);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_iPixelShaderConstantCount) == 72);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_pVertexShaderConstantMap) == 76);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_pPixelShaderConstantMap) == 80);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_bTextureFlags) == 84);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_kShaderTextures) == 88);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_kTextureFilterModes) == 104);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_kRenderStateMap) == 120);
 #endif

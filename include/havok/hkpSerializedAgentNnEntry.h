@@ -8,7 +8,6 @@
 #include "hkpSerializedTrack1nInfo.h"
 class hkContactPoint;
 class hkpEntity;
-#pragma pack(push, 1)
 class hkpSerializedAgentNnEntry : public hkReferencedObject
 {
   public:
@@ -41,6 +40,4 @@ class hkpSerializedAgentNnEntry : public hkReferencedObject
     hkUint32 m_version;                           // +0x130
     char pad134[0xC];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSerializedAgentNnEntry[(sizeof(hkpSerializedAgentNnEntry) == 0x140) ? 1 : -1];
 #endif

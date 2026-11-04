@@ -1,4 +1,7 @@
 
+#include <cstdint>
+#include "fnv/symbols_00a6e000.h"
+#include "fnv/symbols_0109b000.h"
 #include "nitfixedstringmap_decls.h"
 
 template<>
@@ -9,9 +12,9 @@ void NiAVObjectFixedStringMap::GetNext(void*& pos, NiFixedString& key, NiAVObjec
     char* handle = item->m_key.m_kHandle;
     if (key.m_kHandle != handle)
     {
-        if (handle != EmptyFS.m_kHandle)
+        if (handle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedIncrement(reinterpret_cast<volatile long*>(handle) - 2);
-        if (key.m_kHandle != EmptyFS.m_kHandle)
+        if (key.m_kHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement(reinterpret_cast<volatile long*>(key.m_kHandle) - 2);
         key.m_kHandle = handle;
     }
@@ -21,7 +24,7 @@ void NiAVObjectFixedStringMap::GetNext(void*& pos, NiFixedString& key, NiAVObjec
         pos = item->m_pkNext;
         return;
     }
-    unsigned int hash = reinterpret_cast<unsigned int>(item->m_key.m_kHandle) % m_uiHashSize;
+    uintptr_t hash = reinterpret_cast<uintptr_t>(item->m_key.m_kHandle) % m_uiHashSize;
     for (++hash; hash < m_uiHashSize; ++hash)
     {
         item = m_ppkHashTable[hash];
@@ -38,19 +41,19 @@ template<>
 // @fnv 0x00a6e980
 void NiCharFixedStringMap::SetAt(NiFixedString& key, const char* value)
 {
-    unsigned int hash = reinterpret_cast<unsigned int>(key.m_kHandle) % m_uiHashSize;
+    uintptr_t hash = reinterpret_cast<uintptr_t>(key.m_kHandle) % m_uiHashSize;
     Item* item = m_ppkHashTable[hash];
     while (item)
     {
         if (key.m_kHandle == item->m_key.m_kHandle)
         {
-            AssignSharedPtr(item, key, value);
+            ::AssignSharedPtr((void *)item, (void *)&(key), (void *)(value));
             return;
         }
         item = item->m_pkNext;
     }
     item = NewItem();
-    AssignSharedPtr(item, key, value);
+    ::AssignSharedPtr((void *)item, (void *)&(key), (void *)(value));
     item->m_pkNext = m_ppkHashTable[hash];
     m_ppkHashTable[hash] = item;
     ++m_kItemCount.m_uiCount;

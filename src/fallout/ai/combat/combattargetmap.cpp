@@ -1,5 +1,18 @@
 // fallout/ai/combat/combattargetmap.cpp: CombatTargetMap, DelStandIn (7 functions)
 
+#include <cstdint>
+#include "fnv/decl/C6b7f20_Map.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_009a3db0_cls.h"
+#include "fnv/decl/FUN_009a5170_Class.h"
+#include "fnv/decl/FUN_00aa62e0_shell.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00435000.h"
+#include "fnv/symbols_00aa6000.h"
 #include "combattargetmap_decls.h"
 // Locks the map, iterates every entry, and deletes threats whose IsXLessThan(time) check passes, removing them by key.
 // @fnv 0x009a50b0
@@ -8,21 +21,20 @@ void CombatTargetMap::ResetTargetMap()
     void* pIterPos = ((BGSReconstructFormsInAllFilesMap*)this)->GetFirstPos();
     if (pIterPos)
     {
-        lock.AcquireLock();
-        float time = Actor::GetActorScale();
+        ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(lock));
+        float time = ::FUN_00435dd0();
         while (pIterPos)
         {
             unsigned int key = 0;
             CombatThreatRecord* threat = 0;
-            ((BGSReconstructFormsInAllFilesMap*)this)
-                ->GetNext(pIterPos, (TESFile*&)key, (BGSReconstructFormsInFileMap*&)threat);
-            if (threat && threat->IsXLessThan(time))
+            reinterpret_cast<::C6b7f20_Map *>((((BGSReconstructFormsInAllFilesMap*)this)))->FUN_006b7f20((::C6b7f20_Node **)&(pIterPos), (unsigned int *)&((TESFile*&)key), (void **)&((BGSReconstructFormsInFileMap*&)threat));
+            if (threat && reinterpret_cast<::FUN_009a5170_Class *>((threat))->IsXLessThan(time))
             {
                 delete threat;
-                ((BGSSaveLoadChangesMap*)this)->RemoveAt(key);
+                reinterpret_cast<::NiTMap_S *>((((BGSSaveLoadChangesMap*)this)))->RemoveKey(key);
             }
         }
-        lock.FUN_00aa62e0();
+        reinterpret_cast<::FUN_00aa62e0_shell *>(&(lock))->FUN_00aa62e0();
     }
 }
 
@@ -32,12 +44,11 @@ struct _Node_006f99e0
 };
 
 // @fnv 0x006f99e0
-void* __fastcall FUN_006f99e0(void* _this)
+void* FUN_006f99e0(void* _this)
 {
     return new _Node_006f99e0;
 }
 
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
@@ -53,24 +64,22 @@ void* DelStandIn::FUN_009a3ec0(unsigned int flags)
 {
     ((DtorStandIn*)this)->FUN_0083dec0();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
 
-void __cdecl _Deallocate(void*);
 struct FUN_009a3fb0_shell
 {
-    void FUN_009a3db0();
     void* FUN_009a3fb0(unsigned int);
 };
 // Calls FUN_009a3db0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x009a3fb0
 void* FUN_009a3fb0_shell::FUN_009a3fb0(unsigned int flags)
 {
-    FUN_009a3db0();
+    reinterpret_cast<::FUN_009a3db0_cls *>(this)->FUN_009a3db0_cls::~FUN_009a3db0_cls();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -83,7 +92,7 @@ struct FUN_009a42f0
 struct GO
 {
     int _v;
-    GO(int);
+    GO(intptr_t);
     ~GO();
 };
 struct FUN_009a40c0 : FUN_009a42f0
@@ -97,7 +106,6 @@ FUN_009a40c0::FUN_009a40c0() : FUN_009a42f0(5, 0), m(0)
 {}
 
 namespace fnv_009a3fe0 {
-void* __cdecl operator new(unsigned int);
 
 struct AutoMemHelper
 {
@@ -119,12 +127,10 @@ struct FUN_009a40c0 : BSSimpleArray<void*, 1024>
 
 struct DummyPointerMap
 {
-    bool GetAt(unsigned int, unsigned int&);
 };
 
 struct SetAtHelper : DummyPointerMap
 {
-    void SetAt(unsigned int, unsigned int);
 };
 
 struct FUN_009a3fe0_struct : SetAtHelper
@@ -141,12 +147,12 @@ void FUN_009a3fe0_struct::AddAttackerToTarget(void* apTarget, void* apAttacker)
     FUN_009a40c0* ptargetData;
     AutoMemHelper tempMemContext(0x2b, true, str_0108e208, 0x7c);
     ptargetData = 0;
-    if (!GetAt((unsigned int)apTarget, (unsigned int&)ptargetData))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((uintptr_t)apTarget, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)ptargetData)))
     {
         ptargetData = new FUN_009a40c0;
-        SetAt((unsigned int)apTarget, (unsigned int)ptargetData);
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((uintptr_t)apTarget, (uintptr_t)ptargetData);
     }
-    ptargetData->Add(apAttacker);
+    reinterpret_cast<::FUN_00438690 *>((ptargetData))->FUN_007cb2e0((unsigned int *)&(apAttacker));
 }
 }  // namespace fnv_009a3fe0
 
@@ -159,7 +165,6 @@ struct BGSReconstructFormsInFileMap;
 
 struct MyMap
 {
-    void RemoveAll();
 };
 
 struct FUN_009a4420
@@ -182,13 +187,14 @@ FUN_009a3ef0::~FUN_009a3ef0()
     {
         Actor* ptarget = 0;
         ActorCombatTargetData* ptargetData = 0;
-        ((BGSReconstructFormsInAllFilesMap*)this)
-            ->GetNext(it, (TESFile*&)ptarget, (BGSReconstructFormsInFileMap*&)ptargetData);
+        reinterpret_cast<::C6b7f20_Map *>((((BGSReconstructFormsInAllFilesMap*)this)))->FUN_006b7f20((::C6b7f20_Node **)&(it), (unsigned int *)&((TESFile*&)ptarget), (void **)&((BGSReconstructFormsInFileMap*&)ptargetData));
         {
             ActorCombatTargetData* t1 = ptargetData;
             ActorCombatTargetData* t2 = t1;
             t2 ? ((FUN_009a3fb0_shell*)t2)->FUN_009a3fb0(1) : 0;
         }
     }
-    ((MyMap*)this)->RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)this)))->FUN_00438af0();
 }
+
+#include "generated/data/fallout/ai/combat/combattargetmap.inc"

@@ -1,20 +1,18 @@
 #ifndef IMAGESPACEEFFECTGETHIT_DECLS_H
 #define IMAGESPACEEFFECTGETHIT_DECLS_H
+#include <cmath>
+#include "fnv/decl/FUN_00ba3b50_t.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
+#include "fnv/symbols_01202000.h"
 extern "C"
 {
-    void SetEffectFourArgs();
-    void SetEffectFiveArgs();
     void FUN_00f2d57b();
-    extern unsigned int __security_cookie;
-    extern float DAT_011f940c;
-    extern double DAT_01012640;
-    extern double DAT_0104eea0;
-    extern float DAT_0120240c;
     extern float DAT_012023fc;
-    extern float DAT_01202400;
-    extern float DAT_010162c0;
-    extern float DAT_012003c4;
-    double __cdecl cos(double);
-    double __cdecl sin(double);
 }
 #endif

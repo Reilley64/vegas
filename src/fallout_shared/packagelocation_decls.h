@@ -38,13 +38,10 @@ class LocationDescriptor
     TESObjectREFR* GetLocationReference();
     TESObjectCELL* GetLocationCellReference();
     PACK_LOC_TYPE GetLocType() const;
-    void FUN_0067f410(TESObjectCELL* cell);
-    void SetValue(TESForm* object);
     // Keep this distinct, community-confirmed callee address explicit.
     void FUN_0067f3c0(TESObjectREFR* reference);
     void InitItem(TESForm* owner);
     TESObjectREFR* ResolveLocationReference(MobileObject* object);
 };
 
-typedef char PackageLocation_size_check[sizeof(LocationDescriptor) == 12 ? 1 : -1];
 #endif

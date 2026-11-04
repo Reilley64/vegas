@@ -1,22 +1,121 @@
 // fallout_shared/tesobjectdoor.cpp: TESObjectDOOR, Host, DoorCopy, DoorActivation (30 functions)
 
+#include <new>
+#include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
+#include "fnv/decl/B93BE30ProcessManager.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/DownloadableContentManager.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00422700_shell.h"
+#include "fnv/decl/FUN_00422720_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477ba0_shell.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004d9210.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_00519020_Class.h"
+#include "fnv/decl/FUN_005194d0_shell_base.h"
+#include "fnv/decl/FUN_0054af80_shell.h"
+#include "fnv/decl/FUN_00557be0_shell.h"
+#include "fnv/decl/FUN_00569160_shell.h"
+#include "fnv/decl/FUN_00575770_shell.h"
+#include "fnv/decl/FUN_005757d0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00851d30_shell.h"
+#include "fnv/decl/FUN_008ae640_shell.h"
+#include "fnv/decl/FUN_008fe960_cls.h"
+#include "fnv/decl/FUN_009d9f40_Class.h"
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/decl/FUN_00ad8b60_h.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/LockAccess.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/PlayerUIManager.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/Reference.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_0048cca0.h"
+#include "fnv/decl/Selector.h"
+#include "fnv/decl/SoundPlayback.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESCallHelper.h"
+#include "fnv/decl/TESObjectCELL.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00422690__FUN_00422690_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_005691f0__FUN_005691f0_shell.h"
+#include "fnv/decl/fnv_00575d10__FUN_00575d10_shell.h"
+#include "fnv/decl/fnv_005789b0__FUN_005789b0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008bc860__FUN_008bc860_StandIn.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_00517000.h"
+#include "fnv/symbols_00518000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00573000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00600000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00871000.h"
+#include "fnv/symbols_00884000.h"
+#include "fnv/symbols_008b3000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01021000.h"
+#include "fnv/symbols_011c9000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
 #include "tesobjectdoor_decls.h"
+#include "fnv/symbols_00472000.h"
+#include "tesobjectdoor_decls_decl_tesobjectdoor.h"
 // Loads a TESObjectDOOR record from a TESFile, dispatching each chunk to the matching sub-record loader and returning false if the form type is not 28.
 // @fnv 0x005177f0
 bool TESObjectDOOR::Load(TESFile* file)
 {
-    unsigned char formType = file->GetTESForm();
+    unsigned char formType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (formType != 28)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     SetInitializationState(false);
-    while (CHUNK_ID chunk = static_cast<CHUNK_ID>(file->GetChunkID()))
+    while (CHUNK_ID chunk = static_cast<CHUNK_ID>(((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))))
     {
         switch (chunk)
         {
         case 'DIDE': {
-            char* editorID = static_cast<char*>(_alloca(file->GetChunkSize()));
-            file->GetChunkData(editorID, 512);
+            char* editorID = static_cast<char*>(_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 512);
             SetEditorID(editorID);
             break;
         }
@@ -24,7 +123,7 @@ bool TESObjectDOOR::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 'LLUF':
-            TESFullNameLoader::LoadFullNameChunk(this, file);
+            ::ReadFullName(this, file);
             break;
         case 'LDOM':
         case 'TDOM':
@@ -38,47 +137,47 @@ bool TESObjectDOOR::Load(TESFile* file)
                 unsigned int size;
                 void* data;
             } chunkData;
-            chunkData.size = file->GetChunkSize();
+            chunkData.size = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             chunkData.data = _alloca(chunkData.size);
-            file->GetChunkData(chunkData.data, chunkData.size);
-            ParseTextureSwapData(chunkData.data, chunkData.size,
-                                 reinterpret_cast<TESFileFormVersion*>(file)->GetFormVersion());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(chunkData.data), chunkData.size);
+            reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(chunkData.data, chunkData.size,
+                                 reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((reinterpret_cast<TESFileFormVersion*>(file)))->FUN_00403570());
             break;
         }
         case 'IRCS': {
             unsigned int scriptID = 0;
             file->GetChunkData(&scriptID);
-            SetScript(reinterpret_cast<Script*>(scriptID));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::Script *)(reinterpret_cast<Script*>(scriptID)));
             TESScriptableForm::InitItem(this);
             break;
         }
         case 'TSED':
         case 'DTSD':
-            BGSDestructibleObjectForm::LoadDestructibleData(this, file);
+            ::FUN_004781e0(this, file);
             break;
         case 'MANS': {
             unsigned int soundID = 0;
             file->GetChunkData(&soundID);
-            RemapFormIDForFile(soundID, file);
-            m_pOpenSound = dynamic_cast<TESSound*>(GetFormByID(soundID));
+            ::ResolveFormID((unsigned int *)&(soundID), file);
+            m_pOpenSound = dynamic_cast<TESSound*>(::FUN_004839c0(soundID));
             break;
         }
         case 'MANA': {
             unsigned int soundID = 0;
             file->GetChunkData(&soundID);
-            RemapFormIDForFile(soundID, file);
-            m_pSecondarySound = dynamic_cast<TESSound*>(GetFormByID(soundID));
+            ::ResolveFormID((unsigned int *)&(soundID), file);
+            m_pSecondarySound = dynamic_cast<TESSound*>(::FUN_004839c0(soundID));
             break;
         }
         case 'MANB': {
             unsigned int soundID = 0;
             file->GetChunkData(&soundID);
-            RemapFormIDForFile(soundID, file);
-            m_pLoopingSound = dynamic_cast<TESSound*>(GetFormByID(soundID));
+            ::ResolveFormID((unsigned int *)&(soundID), file);
+            m_pLoopingSound = dynamic_cast<TESSound*>(::FUN_004839c0(soundID));
             break;
         }
         case 'MANF':
-            file->GetChunkData(&cFlags, 1);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&cFlags), 1);
             break;
         case 'MANT': {
             unsigned int teleportID = 0;
@@ -102,7 +201,7 @@ void TESObjectDOOR::InitItem()
     TESScriptableForm::InitItem(this);
     BGSDestructibleObjectForm::InitItem(this);
     TESModelTextureSwap::InitItem(this);
-    BSSimpleList<TESForm*>* current = FUN_00871a30();
+    BSSimpleList<TESForm*>* current = ((::BSSimpleList< ::TESForm *> *)(::FUN_00871a30((std::intptr_t)this)));
     BSSimpleList<TESForm*>* previous = 0;
     while (current && !current->IsEmpty())
     {
@@ -111,24 +210,23 @@ void TESObjectDOOR::InitItem()
             unsigned int id;
             TESForm* value;
         } resolvedForm;
-        resolvedForm.id = reinterpret_cast<unsigned int>(current->GetItem());
-        RemapFormIDForFile(resolvedForm.id, GetFile(-1));
-        resolvedForm.value = GetFormByID(resolvedForm.id);
+        resolvedForm.id = (unsigned int)(std::uintptr_t)((current->item));
+        ::ResolveFormID((unsigned int *)&(resolvedForm.id), GetFile(-1));
+        resolvedForm.value = ::FUN_004839c0(resolvedForm.id);
         if (resolvedForm.value)
         {
             current->SetItem(resolvedForm.value);
             previous = current;
-            current = current->GetNext();
+            current = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
         }
         else
         {
-            Warning("MASTERFILE: Could not find RandomTeleport (%08X) for Door '%s' (%08X).", resolvedForm.id,
-                    GetEditorID(), GetFormID());
+            ::FUN_005b5e40();
             if (previous)
             {
                 TESForm* missingForm = reinterpret_cast<TESForm*>(resolvedForm.id);
-                previous->Remove(missingForm);
-                current = previous->GetNext();
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(missingForm));
+                current = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
             }
             else
             {
@@ -142,7 +240,7 @@ void TESObjectDOOR::InitItem()
 // @fnv 0x005173e0
 TESObjectDOOR::TESObjectDOOR()
 {
-    SetFormType(FORM_DOOR);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(FORM_DOOR)));
     ResetFormData();
 }
 
@@ -150,7 +248,7 @@ TESObjectDOOR::TESObjectDOOR()
 bool TESObjectDOOR::ProcessDoorActivation(TESObjectREFR* door, Actor* actor, bool activate, bool movement)
 {
     DoorAccessData lock(door);
-    return ProcessDoorActivation(&lock, actor, door, activate, movement);
+    return ::CanActivateDoor((::LockExtraData *)(::DoorAccessData *)(&lock), actor, door, activate, movement);
 }
 
 // @fnv 0x005175d0
@@ -220,8 +318,6 @@ struct blob8
     char b[8];
 };
 
-hkpRigidBody* __fastcall FUN_004ae750(void* p);
-int __fastcall FUN_00517670(hkpRigidBody* p);
 
 struct bhkRigidBody_shell
 {
@@ -231,8 +327,8 @@ struct bhkRigidBody_shell
 // @fnv 0x00517630
 int bhkRigidBody_shell::FUN_00517630()
 {
-    hkpRigidBody* pb = FUN_004ae750(this);
-    return pb ? FUN_00517670(pb) : 5;
+    hkpRigidBody* pb = ((::hkpRigidBody *)(::FUN_004ae750(this)));
+    return pb ? ::FUN_00517670((::TESDataHandler *)(pb)) : 5;
 }
 
 class BGSRagdoll;
@@ -240,15 +336,13 @@ template <class T> class BSSimpleList;
 class TESDataHandler
 {
   public:
-    BSSimpleList<BGSRagdoll*>* GetBGSRagdollList(void);
 };
 
-int __fastcall FUN_00517690(void* pThis);
 
 // @fnv 0x00517670
-int __fastcall FUN_00517670(TESDataHandler* apDataHandler)
+int FUN_00517670(TESDataHandler* apDataHandler)
 {
-    return FUN_00517690(apDataHandler->GetBGSRagdollList());
+    return ::FUN_00517690((char *)(void *)(((::BSSimpleList< ::BGSRagdoll *> *)(reinterpret_cast<::FUN_009d9f40_Class *>((apDataHandler))->FUN_009d9f40()))));
 }
 
 class PackageTargetRecord
@@ -258,14 +352,14 @@ class PackageTargetRecord
 };
 
 // @fnv 0x00517690
-int __fastcall FUN_00517690(char* pThis)
+int FUN_00517690(char* pThis)
 {
     return ((PackageTargetRecord*)(pThis + 8))->GetTargetKind();
 }
 
 // Returns true if the byte at offset 0x84 of thisPtr has bit 2 set, otherwise false.
 // @fnv 0x00517fa0
-bool __fastcall FUN_00517fa0(void* thisPtr)
+bool FUN_00517fa0(void* thisPtr)
 {
     if (*(unsigned char*)((char*)thisPtr + 0x84) & 2)
         return true;
@@ -298,7 +392,7 @@ struct Call_008842c0
 {
     bool call()
     {
-        return ((bool(__thiscall*)(Call_008842c0*)) & FUN_008842c0)(this);
+        return ((bool(*)(Call_008842c0*)) & FUN_008842c0)(this);
     }
 };
 
@@ -306,7 +400,7 @@ struct Call_00501fd0
 {
     bool call(Actor* a, bool b, bool c)
     {
-        return ((bool(__thiscall*)(Call_00501fd0*, Actor*, bool, bool)) & CanAccessLock)(this, a, b, c);
+        return ((bool(*)(Call_00501fd0*, Actor*, bool, bool)) & CanAccessLock)(this, a, b, c);
     }
 };
 
@@ -392,7 +486,7 @@ struct ProcessVtbl0x128
 struct ActorVtbl0x448
 {
     char pad[0x448];
-    bool(__thiscall* fn_448)(Actor*);
+    bool(* fn_448)(Actor*);
 };
 
 // @fnv 0x00518e60
@@ -402,15 +496,15 @@ bool __cdecl CanActivateDoor(LockExtraData* apDoorLock, Actor* apActor, TESObjec
     bool bretval = false;
     if (apActor && apDoorLock)
     {
-        if ((((Call_008842c0*)apActor)->call() && (((ProcessVtbl0x128*)apActor->GetProcess())->v74() == g_thePlayer) &&
-             apDoorRef->Set3DObject()) ||
+        if ((::fnv_008842c0::FUN_008842c0((::Actor *)(((Call_008842c0*)apActor))) && (((ProcessVtbl0x128*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apActor))->GetBaseTexture())))->v74() == ::_g_thePlayer) &&
+             ((::TeleportableReference *)(apDoorRef->GetExtraRadioData()))) ||
             (*(ActorVtbl0x448**)apActor)->fn_448(apActor))
         {
             bretval = true;
         }
         else
         {
-            bretval = ((Call_00501fd0*)apDoorLock)->call(apActor, abactivate, abmovement);
+            bretval = reinterpret_cast<::LockAccess *>((((Call_00501fd0*)apDoorLock)))->CanAccessLock((::LockActor *)(apActor), abactivate, abmovement);
         }
     }
     return bretval;
@@ -421,17 +515,7 @@ struct BSXFlags_shell
     char _pad[0xc];
     unsigned int m_uiCurrentValue;
     void FUN_00519230(unsigned int aiFlags, bool abTF);
-    void ClearFlags(unsigned int aiFlags);
 };
-
-// @fnv 0x00519230
-void BSXFlags_shell::FUN_00519230(unsigned int aiFlags, bool abTF)
-{
-    if (abTF)
-        m_uiCurrentValue |= aiFlags;
-    else
-        ClearFlags(aiFlags);
-}
 
 struct FUN_005bb4d0_shell : public BSAudio
 {
@@ -473,22 +557,28 @@ bool FUN_00517fd0_shell::IsFlag4Set()
         return false;
 }
 
-struct FUN_00519270_shell
+struct FUN_00519270_shell : ::TESObjectDOOR
 {
     void ClearFlags(unsigned int mask);
 };
+// @fnv 0x00519230
+void BSXFlags_shell::FUN_00519230(unsigned int aiFlags, bool abTF)
+{
+    if (abTF)
+        m_uiCurrentValue |= aiFlags;
+    else
+        reinterpret_cast<::FUN_00519270_shell *>(this)->ClearFlags(aiFlags);
+}
 
 // @fnv 0x00519270
 void FUN_00519270_shell::ClearFlags(unsigned int mask)
 {
-    *(unsigned int*)((char*)this + 0xc) &= ~mask;
+    this->iFormID &= ~mask;
 }
 
 struct Base_004d9210
 {
-    void FUN_004d9210(int a, int b);
 };
-extern int DAT_01021024;
 struct Holder_004d9100
 {
     Holder_004d9100* FUN_004d9100(int a, int b);
@@ -496,24 +586,22 @@ struct Holder_004d9100
 // @fnv 0x004d9100
 Holder_004d9100* Holder_004d9100::FUN_004d9100(int aiArg1, int aiArg2)
 {
-    ((Base_004d9210*)this)->FUN_004d9210(aiArg1, aiArg2);
+    new ((void *)(((Base_004d9210*)this))) ::FUN_004d9210(aiArg1, aiArg2);
     *(void**)this = (void*)&DAT_01021024;
     return this;
 }
 
-void __cdecl _Deallocate(void*);
 struct Host
 {
-    void __thiscall FUN_00517500();
-    void* __thiscall FUN_005174d0(unsigned int flags);
+    void* FUN_005174d0(unsigned int flags);
 };
 // Calls FUN_00517500 on this, frees this with _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x005174d0
-void* __thiscall Host::FUN_005174d0(unsigned int flags)
+void* Host::FUN_005174d0(unsigned int flags)
 {
-    this->FUN_00517500();
+    reinterpret_cast<::TESObjectDOOR *>((this))->TESObjectDOOR::~TESObjectDOOR();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -534,29 +622,21 @@ void FUN_00518030_shell::FUN_00518030(bool abSet)
         m_84 &= ~8;
 }
 
-void __cdecl FUN_00485910(unsigned int, unsigned int);
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
 struct DoorFormNode
 {
     bool FUN_008256d0();
-    TESForm** FUN_006815c0();
-    DoorFormNode* FUN_00726070();
 };
 struct DoorPart30
 {
-    void FUN_00487010();
 };
 struct DoorPart3c
 {
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct DoorPart5c
 {
-    void FUN_0048cca0();
 };
 struct DoorPart68
 {
-    void FUN_00477f20();
 };
 struct DoorSave_shell
 {
@@ -573,9 +653,6 @@ struct DoorSave_shell
     TESForm* form7c;
     TESForm* form80;
     unsigned char flags;
-    void FUN_004855a0();
-    void FUN_00485680();
-    DoorFormNode* FUN_00871a30();
     void WriteSaveData();
 };
 // Writes the door save record: calls each part's writer, emits form IDs for form78/form7c/form80 and flags, then walks the node list emitting each form ID.
@@ -584,53 +661,47 @@ void DoorSave_shell::WriteSaveData()
 {
     DoorFormNode* pCurrentElementNext;
     unsigned int itempint;
-    FUN_004855a0();
-    part30.FUN_00487010();
-    part3c.ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    part5c.FUN_0048cca0();
-    part68.FUN_00477f20();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>(&(part30))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>(&(part3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::S_0048cca0 *>(&(part5c))->FUN_0048cca0();
+    reinterpret_cast<::FUN_00477f20_shell *>(&(part68))->FUN_00477f20();
     if (form78)
     {
-        itempint = form78->GetFormID();
-        FUN_00485910(0x4d414e53, itempint);
+        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form78))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e53, itempint);
     }
     if (form7c)
     {
-        itempint = form7c->GetFormID();
-        FUN_00485910(0x4d414e41, itempint);
+        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form7c))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e41, itempint);
     }
     if (form80)
     {
-        itempint = form80->GetFormID();
-        FUN_00485910(0x4d414e42, itempint);
+        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form80))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e42, itempint);
     }
     FUN_004858f0(0x4d414e46, flags);
-    pCurrentElementNext = FUN_00871a30();
+    pCurrentElementNext = ((::DoorFormNode *)(::FUN_00871a30((std::intptr_t)this)));
     while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0())
     {
-        itempint = (*pCurrentElementNext->FUN_006815c0())->GetFormID();
-        FUN_00485910(0x4d414e54, itempint);
-        pCurrentElementNext = pCurrentElementNext->FUN_00726070();
+        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::TESForm **)((void *)(pCurrentElementNext))))))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e54, itempint);
+        pCurrentElementNext = ((::DoorFormNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
-    FUN_00485680();
+    reinterpret_cast<::Holder *>(this)->FUN_00485680();
 }
 
 struct DoorTeleportNode
 {
+    TESForm* m_item;
+    DoorTeleportNode* m_pkNext;
     bool IsEmpty();
-    TESForm*& GetItem();
-    DoorTeleportNode* GetNext();
     int GetSize();
-    bool IsInList(TESForm*& item);
 };
 
 struct DoorCompare_shell : public TESObjectDOOR
 {
-    bool FUN_00485270(TESForm* form);
-    TESSound* GetOpenSoundForm();
-    TESSound* GetCloseSoundForm();
-    TESSound* GetLoopSoundForm();
-    DoorTeleportNode* GetTeleportList();
     bool CompareDoor(TESForm* form);
 };
 
@@ -641,24 +712,24 @@ bool DoorCompare_shell::CompareDoor(TESForm* form)
     DoorCompare_shell* door = (DoorCompare_shell*)dynamic_cast<TESObjectDOOR*>(form);
     if (!door)
         return true;
-    if (FUN_00485270(door))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(door))
         return true;
-    if (m_pOpenSound != door->GetOpenSoundForm())
+    if (m_pOpenSound != ((::TESSound *)(reinterpret_cast<::FUN_00407820_shell *>((door))->FUN_00407820())))
         return true;
-    if (m_pSecondarySound != door->GetCloseSoundForm())
+    if (m_pSecondarySound != ((::TESSound *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((door))->GetRefCount())))
         return true;
-    if (m_pLoopingSound != door->GetLoopSoundForm())
+    if (m_pLoopingSound != reinterpret_cast<::EffectSetting *>((door))->GetCastSound())
         return true;
     if (cFlags != door->cFlags)
         return true;
-    DoorTeleportNode* node2 = door->GetTeleportList();
-    if (GetTeleportList()->GetSize() != node2->GetSize())
+    DoorTeleportNode* node2 = ((::DoorTeleportNode *)(::FUN_00871a30((std::intptr_t)(door))));
+    if (((::DoorTeleportNode *)(::FUN_00871a30((std::intptr_t)this)))->GetSize() != node2->GetSize())
         return true;
     while (node2 && !node2->IsEmpty())
     {
-        if (!GetTeleportList()->IsInList(node2->GetItem()))
+        if (!reinterpret_cast<::RefList *>((((::DoorTeleportNode *)(::FUN_00871a30((std::intptr_t)this)))))->FUN_005f65d0((void **)&node2->m_item))
             return true;
-        node2 = node2->GetNext();
+        node2 = ((::DoorTeleportNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
     }
     return false;
 }
@@ -669,32 +740,28 @@ struct S_00518f80_Obj
 };
 struct S_00518f80_Ref : TESObjectREFR
 {
-    S_00518f80_Obj* FUN_007af430();
 };
 struct S_00518f80_Player : PlayerCharacter
 {
-    void SetField688(S_00518f80_Ref* ref);
 };
 class HighProcess : public BaseProcess
 {
 };
-extern S_00518f80_Player* DAT_011dea3c;
-S_00518f80_Ref* __cdecl FUN_0056f930(unsigned int id);
 // @fnv 0x00518f80
 void __cdecl FUN_00518f80(unsigned int uiRefId)
 {
-    S_00518f80_Ref* ref = FUN_0056f930(uiRefId);
+    S_00518f80_Ref* ref = ((::S_00518f80_Ref *)(::FUN_0056f930((::NiAVObject *)(std::uintptr_t)(uiRefId))));
     if (ref)
     {
-        if (ref->FUN_007af430()->FUN_00401170() == 0x1c)
+        if (((::S_00518f80_Obj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FUN_00401170() == 0x1c)
         {
-            if (!ref->FUN_00477ba0())
+            if (!reinterpret_cast<::FUN_00477ba0_shell *>((ref))->FUN_00477ba0())
             {
-                HighProcess* pHighProcess = dynamic_cast<HighProcess*>(DAT_011dea3c->GetProcess());
+                HighProcess* pHighProcess = dynamic_cast<HighProcess*>(((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer))))->GetBaseTexture())));
                 if (pHighProcess)
                 {
                     if (pHighProcess->vfn_610() != 4)
-                        DAT_011dea3c->SetField688(ref);
+                        reinterpret_cast<::FUN_00519020_Class *>(((*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer))))->SetField688((std::intptr_t)(ref));
                 }
             }
         }
@@ -704,9 +771,6 @@ void __cdecl FUN_00518f80(unsigned int uiRefId)
 struct DoorCopyNode
 {
     bool FUN_008256d0();
-    TESForm** FUN_006815c0();
-    DoorCopyNode* FUN_00726070();
-    void FUN_00905820(TESForm**);
 };
 struct DoorCopy
 {
@@ -742,12 +806,6 @@ struct DoorCopy
     unsigned int unk74;
     TESSound *openSound, *closeSound, *loopSound;
     unsigned char flags;
-    void FUN_00519550();
-    DoorCopyNode* FUN_00871a30();
-    TESSound* FUN_00407820();
-    TESSound* FUN_00407840();
-    TESSound* FUN_004fb070();
-    void FUN_004851b0(TESForm*);
     void CopyFromDoor(TESForm*);
 };
 // Copies the door node list, flags and open/close/loop sounds from the TESObjectDOOR cast of form into this door, then calls FUN_004851b0(form).
@@ -758,21 +816,21 @@ void DoorCopy::CopyFromDoor(TESForm* form)
     if (!source3)
         return;
     DoorCopyNode* destination = 0;
-    FUN_00519550();
-    DoorCopyNode* node2 = source3->FUN_00871a30();
-    destination = FUN_00871a30();
+    reinterpret_cast<::TESObjectDOOR *>(this)->ClearRandomTeleportList();
+    DoorCopyNode* node2 = ((::DoorCopyNode *)(::FUN_00871a30((std::intptr_t)(source3))));
+    destination = ((::DoorCopyNode *)(::FUN_00871a30((std::intptr_t)this)));
     while (node2 && !node2->FUN_008256d0())
     {
-        destination->FUN_00905820(node2->FUN_006815c0());
-        if (destination->FUN_00726070())
-            destination = destination->FUN_00726070();
-        node2 = node2->FUN_00726070();
+        reinterpret_cast<::Callees *>((destination))->FUN_00905820(((::TESForm **)((void *)(node2))));
+        if (((::DoorCopyNode *)(reinterpret_cast<::Callees *>((destination))->FUN_00726070())))
+            destination = ((::DoorCopyNode *)(reinterpret_cast<::Callees *>((destination))->FUN_00726070()));
+        node2 = ((::DoorCopyNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
     }
     flags = source3->flags;
-    openSound = source3->FUN_00407820();
-    closeSound = source3->FUN_00407840();
-    loopSound = source3->FUN_004fb070();
-    FUN_004851b0(form);
+    openSound = ((::TESSound *)(reinterpret_cast<::FUN_00407820_shell *>((source3))->FUN_00407820()));
+    closeSound = ((::TESSound *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((source3))->GetRefCount()));
+    loopSound = reinterpret_cast<::EffectSetting *>((source3))->GetCastSound();
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(form);
 }
 
 #include <float.h>
@@ -784,12 +842,9 @@ struct ActivateVector
 };
 struct ActivateAnimation
 {
-    void FUN_00498910(int, int);
 };
 struct ActivateDoorExtra
 {
-    int FUN_004309e0(ActivateObject*);
-    bool FUN_00430ae0();
 };
 struct ActivateOpenState
 {
@@ -799,7 +854,6 @@ struct ActivateOpenState
 };
 struct ActivateName
 {
-    const char* FUN_00408da0();
 };
 struct ActivateKey
 {
@@ -821,14 +875,10 @@ struct ActivateLock
 {
     unsigned unk00;
     ActivateKey* key;
-    bool FUN_005021a0();
 };
 struct ActivateTeleport
 {
     void* FUN_0043a2b0();
-    void* FUN_0043a320();
-    int FUN_00717e50();
-    ActivateVector* FUN_00460140();
 };
 struct ActivateProcess
 {
@@ -1221,8 +1271,6 @@ struct ActivateProcess
     virtual void Slot608();
     virtual void Slot60c();
     virtual int State();
-    int FUN_0045cd60();
-    void FUN_008fe960(ActivateObject*, ActivateObject*, bool);
 };
 struct ActivateObject
 {
@@ -1747,20 +1795,8 @@ struct ActivateObject
     unsigned unk5fc;
     unsigned unk600;
     ActivateObject* lastDoor;
-    bool FUN_00477ba0();
-    ActivateTeleport* FUN_00568e50();
-    ActivateLock* FUN_00569160();
-    ActivateOpenState* FUN_005691f0();
-    void FUN_005789b0();
-    ActivateProcess* FUN_008d8520();
-    bool FUN_00891db0(ActivateKey*, int, int, int, unsigned*);
     bool FUN_00573170(ActivateObject*, int, int, int);
-    bool FUN_0094df60();
-    const char* FUN_0084e3a0();
-    bool FUN_00575d10();
     void ProcessAllActions();
-    void FUN_00575830(int);
-    void FUN_005757d0(float);
     void FUN_00575770(float);
     void FUN_008ae640(int);
 };
@@ -1769,41 +1805,24 @@ struct ActivateSound
     unsigned id, flags, handle;
     ActivateSound();
     ~ActivateSound();
-    void FUN_00418900(const ActivateSound&);
-    void FUN_00ad8830(int);
-    void FUN_00ad8830();
-    void FUN_00ad8b60(float, float, float);
 };
 struct ActivateAudio
 {
     ActivateSound FUN_00ad7550(const char*, int, int);
     ActivateSound FUN_00ad73b0(const char*, int);
-    bool FUN_005bb4d0();
-    void FUN_00ad7740(int);
 };
-ActivateAudio* FUN_00453a70();
 struct ActivateSetting
 {
-    const char* FUN_00403df0();
 };
-extern ActivateKey* DAT_011ca268;
 struct ActivateDetection
 {
-    bool FUN_004511e0(void*, int);
 };
-extern ActivateDetection* DAT_011dea10;
-void DispatchMessageToSink(const char*, int, const char*, int, float, int);
 void FUN_00519810(ActivateObject*, ActivateObject*);
-bool FUN_00518f00(ActivateObject*, ActivateObject*, int, int);
 void FUN_005e58f0(int, ActivateObject*, float*);
-void FUN_00706f30(int);
 void FUN_00705830(ActivateObject*, int, int);
 void FUN_00600900(ActivateKey*);
 void FUN_00600940(int);
 void FUN_00600920(int);
-int FUN_00406d00(char*, unsigned, const char*, ...);
-void FUN_00573800(ActivateObject*, void*, void*);
-void FUN_0047a560(ActivateObject*, ActivateObject*, void*);
 struct DoorActivation
 {
     unsigned unk000;
@@ -1836,67 +1855,63 @@ struct DoorActivation
     unsigned unk06c;
     unsigned unk070;
     bool ActivateDoor(ActivateObject*, ActivateObject*, int, int, int);
-    bool FUN_005194d0();
-    ActivateObject* FindRandomSelection(ActivateObject*, ActivateObject*);
-    ActivateObject* FUN_00407820();
-    void QueueDoorTeleport(ActivateObject*);
 };
 // Handles activation of a door reference by an activator: checks teleport/lock state, opens or unlocks the door, plays sounds, and performs teleportation.
 // @fnv 0x005180b0
 bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* activator, int arg3, int arg4, int arg5)
 {
-    if (!reference || reference->FUN_00477ba0())
+    if (!reference || reinterpret_cast<::FUN_00477ba0_shell *>((reference))->FUN_00477ba0())
         return false;
-    ActivateTeleport* teleport = reference->FUN_00568e50();
-    ActivateLock* lockA = reference->FUN_00569160();
-    if (!teleport && FUN_005194d0())
+    ActivateTeleport* teleport = ((::ActivateTeleport *)(reinterpret_cast<::TESObjectREFR *>((reference))->GetExtraRadioData()));
+    ActivateLock* lockA = ((::ActivateLock *)(reinterpret_cast<::FUN_00569160_shell *>((reference))->FUN_00569160()));
+    if (!teleport && reinterpret_cast<::FUN_005194d0_shell_base *>(this)->FUN_005194d0())
     {
-        ActivateObject* destination = FindRandomSelection(reference, activator);
+        ActivateObject* destination = ((::ActivateObject *)(reinterpret_cast<::Selector *>(this)->FindRandomSelection((::Reference *)(reference), (std::intptr_t)(activator))));
         if (!destination)
         {
-            DispatchMessageToSink(((ActivateSetting*)&DAT_011c9384)->FUN_00403df0(), 0,
-                                  "Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds", 0, 2.0f, 0);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011c9384)))))->GetMenuTitle()))), 0,
+                                  (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), 0, 2.0f, 0);
             return false;
         }
         FUN_00519810(reference, destination);
-        teleport = reference->FUN_00568e50();
+        teleport = ((::ActivateTeleport *)(reinterpret_cast<::TESObjectREFR *>((reference))->GetExtraRadioData()));
         if (!teleport)
             return false;
     }
     ActivateObject* actor = (ActivateObject*)dynamic_cast<Actor*>((TESObjectREFR*)activator);
-    ActivateProcess* process1 = actor ? actor->FUN_008d8520() : 0;
+    ActivateProcess* process1 = actor ? ((::ActivateProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) : 0;
     unsigned usedKey2;
     if (actor)
     {
-        if (actor->FUN_008d8520()->Active() && actor->Busy())
+        if (((::ActivateProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Active() && actor->Busy())
             return false;
-        if (actor == (ActivateObject*)DAT_011dea3c)
-            ((ActivateObject*)DAT_011dea3c)->interaction = 0;
-        bool alreadyOpen = FUN_00518f00(reference, actor, 1, 1);
-        if (lockA && lockA->FUN_005021a0() && !alreadyOpen)
+        if (actor == (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))
+            ((ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))->interaction = 0;
+        bool alreadyOpen = ::TESObjectDOOR::ProcessDoorActivation((::TESObjectREFR *)(reference), (::Actor *)(actor), 1, 1);
+        if (lockA && reinterpret_cast<::LockExtraData *>((lockA))->IsLocked() && !alreadyOpen)
         {
             bool hasSkeleton = false;
             if (actor->IsNPC())
-                hasSkeleton = actor->FUN_00891db0(DAT_011ca268, 0, 1, 0, &usedKey2);
+                hasSkeleton = reinterpret_cast<::ActorInventoryQueryViews::ActorQuery *>((actor))->FUN_00891db0((::TESBoundObject *)((*reinterpret_cast<::ActivateKey * *>(&::g_pLockpickItem))), 0, 1, 0, (*(int *)(&usedKey2)));
             if (lockA->key)
             {
-                if (!DAT_011c9350 && !actor->FUN_00891db0(lockA->key, 0, 1, 0, &usedKey2))
+                if (!DAT_011c9350 && !reinterpret_cast<::ActorInventoryQueryViews::ActorQuery *>((actor))->FUN_00891db0((::TESBoundObject *)(lockA->key), 0, 1, 0, (*(int *)(&usedKey2))))
                 {
-                    if (actor == (ActivateObject*)DAT_011dea3c)
+                    if (actor == (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))
                     {
-                        ActivateOpenState* statePart1 = reference->FUN_005691f0();
+                        ActivateOpenState* statePart1 = ((::ActivateOpenState *)(reinterpret_cast<::fnv_005691f0::FUN_005691f0_shell *>((reference))->FUN_005691f0()));
                         float skillPart1 = 0.0f;
-                        FUN_005e58f0(32, (ActivateObject*)DAT_011dea3c, &skillPart1);
+                        FUN_005e58f0(32, (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)), &skillPart1);
                         if (statePart1 &&
-                            (statePart1->extra->FUN_004309e0(reference) == 5 || statePart1->extra->FUN_00430ae0()))
+                            (reinterpret_cast<::LockExtraData *>((statePart1->extra))->GetLockLevel((::TESObjectREFR *)(reference)) == 5 || reinterpret_cast<::LockExtraData *>((statePart1->extra))->MeetsMinimumLockLevel()))
                         {
-                            DispatchMessageToSink(((ActivateSetting*)&DAT_011d276c)->FUN_00403df0(), 0,
-                                                  "Interface\\Icons\\Message Icons\\glow_message_padlock.dds", 0, 2.0f,
+                            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011d276c)))))->GetMenuTitle()))), 0,
+                                                  (const char *)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), 0, 2.0f,
                                                   0);
                             FUN_00706f30(18);
                         }
                         else
-                            FUN_00705830(reference, 0, 0);
+                            ::fnv_00705830::FUN_00705830((std::intptr_t)(reference), 0, 0);
                         return false;
                     }
                     else if (!hasSkeleton)
@@ -1905,58 +1920,61 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                     {
                         ActivateAnimation* animationPart1 = actor->Animation();
                         if (animationPart1)
-                            animationPart1->FUN_00498910(1, 0);
-                        FUN_00600900(DAT_011ca268);
+                            reinterpret_cast<::Animation *>((animationPart1))->SpecialIdleFree(1, 0);
+                        FUN_00600900((*reinterpret_cast<::ActivateKey * *>(&::g_pLockpickItem)));
                         FUN_00600940(1);
                         FUN_00600920(1);
                         process1->Open(actor, 0, 2, 1, 0, 1);
                         FUN_00600900((ActivateKey*)0);
                         FUN_00600940(0);
                         FUN_00600920(-1);
-                        ActivateOpenState* statePart2 = reference->FUN_005691f0();
+                        ActivateOpenState* statePart2 = ((::ActivateOpenState *)(reinterpret_cast<::fnv_005691f0::FUN_005691f0_shell *>((reference))->FUN_005691f0()));
                         if (statePart2)
                         {
-                            statePart2->FUN_00517360();
-                            reference->FUN_005789b0();
+                            reinterpret_cast<::ExtraLock *>((statePart2))->Unlock();
+                            reinterpret_cast<::fnv_005789b0::FUN_005789b0_shell *>((reference))->FUN_005789b0();
                         }
                     }
                 }
-                else if (actor == (ActivateObject*)DAT_011dea3c && !DAT_011c9350)
+                else if (actor == (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)) && !DAT_011c9350)
                 {
                     DAT_011c9350 = (TESObjectREFR*)reference;
-                    ActivateOpenState* statePart3 = reference->FUN_005691f0();
+                    ActivateOpenState* statePart3 = ((::ActivateOpenState *)(reinterpret_cast<::fnv_005691f0::FUN_005691f0_shell *>((reference))->FUN_005691f0()));
                     if (statePart3)
                     {
-                        statePart3->FUN_00517360();
-                        reference->FUN_005789b0();
+                        reinterpret_cast<::ExtraLock *>((statePart3))->Unlock();
+                        reinterpret_cast<::fnv_005789b0::FUN_005789b0_shell *>((reference))->FUN_005789b0();
                     }
-                    FUN_00453a70()->FUN_00ad7550("UILockpickingUnlock", 0x121, 0).FUN_00ad8830();
+                    {
+                        auto kSound = ((::ActivateAudio *)(::FUN_00453a70()))->FUN_00ad7550("UILockpickingUnlock", 0x121, 0);
+                        reinterpret_cast<::FUN_00ad8830_shell *>(&kSound)->FUN_00ad8830({});
+                    }
                     char message[256];
-                    FUN_00406d00(message, 255, ((ActivateSetting*)&DAT_011d5110)->FUN_00403df0(),
-                                 lockA->key->name.FUN_00408da0());
-                    DispatchMessageToSink(message, 0, "Interface\\Icons\\Message Icons\\glow_message_key.dds", 0, 2.0f,
+                    ::FUN_00406d00(message, 255, ((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011d5110)))))->GetMenuTitle())),
+                                 ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(lockA->key->name))->FUN_00408da0())));
+                    ::DispatchMessageToSink((const char *)(message), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_key.dds"), 0, 2.0f,
                                           0);
-                    ((ActivateObject*)DAT_011c9350)->FUN_00573170((ActivateObject*)DAT_011dea3c, 0, 0, 1);
+                    ((ActivateObject*)DAT_011c9350)->FUN_00573170((ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)), 0, 0, 1);
                     DAT_011c9350 = 0;
                     return true;
                 }
             }
             else
             {
-                if (actor == (ActivateObject*)DAT_011dea3c)
+                if (actor == (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))
                 {
-                    ActivateOpenState* statePart4 = reference->FUN_005691f0();
+                    ActivateOpenState* statePart4 = ((::ActivateOpenState *)(reinterpret_cast<::fnv_005691f0::FUN_005691f0_shell *>((reference))->FUN_005691f0()));
                     float skillPart2_2 = 0.0f;
-                    FUN_005e58f0(32, (ActivateObject*)DAT_011dea3c, &skillPart2_2);
+                    FUN_005e58f0(32, (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)), &skillPart2_2);
                     if (statePart4 &&
-                        (statePart4->extra->FUN_004309e0(reference) == 5 || statePart4->extra->FUN_00430ae0()))
+                        (reinterpret_cast<::LockExtraData *>((statePart4->extra))->GetLockLevel((::TESObjectREFR *)(reference)) == 5 || reinterpret_cast<::LockExtraData *>((statePart4->extra))->MeetsMinimumLockLevel()))
                     {
-                        DispatchMessageToSink(((ActivateSetting*)&DAT_011d276c)->FUN_00403df0(), 0,
-                                              "Interface\\Icons\\Message Icons\\glow_message_padlock.dds", 0, 2.0f, 0);
+                        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011d276c)))))->GetMenuTitle()))), 0,
+                                              (const char *)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), 0, 2.0f, 0);
                         FUN_00706f30(18);
                     }
                     else
-                        FUN_00705830(reference, 0, 0);
+                        ::fnv_00705830::FUN_00705830((std::intptr_t)(reference), 0, 0);
                     return false;
                 }
                 else if (!hasSkeleton)
@@ -1965,19 +1983,19 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                 {
                     ActivateAnimation* animationPart2 = actor->Animation();
                     if (animationPart2)
-                        animationPart2->FUN_00498910(1, 0);
-                    FUN_00600900(DAT_011ca268);
+                        reinterpret_cast<::Animation *>((animationPart2))->SpecialIdleFree(1, 0);
+                    FUN_00600900((*reinterpret_cast<::ActivateKey * *>(&::g_pLockpickItem)));
                     FUN_00600940(1);
                     FUN_00600920(1);
                     process1->Open(actor, 0, 2, 1, 0, 1);
                     FUN_00600900((ActivateKey*)0);
                     FUN_00600940(0);
                     FUN_00600920(-1);
-                    ActivateOpenState* statePart5 = reference->FUN_005691f0();
+                    ActivateOpenState* statePart5 = ((::ActivateOpenState *)(reinterpret_cast<::fnv_005691f0::FUN_005691f0_shell *>((reference))->FUN_005691f0()));
                     if (statePart5)
                     {
-                        statePart5->FUN_00517360();
-                        reference->FUN_005789b0();
+                        reinterpret_cast<::ExtraLock *>((statePart5))->Unlock();
+                        reinterpret_cast<::fnv_005789b0::FUN_005789b0_shell *>((reference))->FUN_005789b0();
                     }
                 }
             }
@@ -1985,75 +2003,74 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
     }
     if (teleport && actor)
     {
-        if (!((ActivateObject*)DAT_011dea3c)->FUN_0094df60() && !process1->FUN_0045cd60() && process1->State() != 4)
+        if (!reinterpret_cast<::PlayerCharacter *>((((ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))))->IsSleepingOrResting() && !((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process1))->FUN_0045cd60())) && process1->State() != 4)
         {
-            if (FUN_00407820() && reference && reference->Node())
+            if (((::ActivateObject *)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820())) && reference && reference->Node())
             {
                 ActivateSound sound;
-                if (actor == (ActivateObject*)DAT_011dea3c)
-                    sound.FUN_00418900(FUN_00453a70()->FUN_00ad73b0(FUN_00407820()->FUN_0084e3a0(), 0x80000121));
+                if (actor == (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))
+                    reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((const ::SoundPlaybackHandle &)((const ::ActivateSound &)(((::ActivateAudio *)(::FUN_00453a70()))->FUN_00ad73b0(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::ActivateObject *)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820()))))->FUN_0084e3a0())), 0x80000121))));
                 else
-                    sound.FUN_00418900(FUN_00453a70()->FUN_00ad73b0(FUN_00407820()->FUN_0084e3a0(), 0x102));
-                if (actor != (ActivateObject*)DAT_011dea3c)
+                    reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((const ::SoundPlaybackHandle &)((const ::ActivateSound &)(((::ActivateAudio *)(::FUN_00453a70()))->FUN_00ad73b0(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::ActivateObject *)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820()))))->FUN_0084e3a0())), 0x102))));
+                if (actor != (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))
                 {
                     ActivateVector position = reference->Position();
-                    sound.FUN_00ad8b60(position.x, position.y, position.z);
+                    reinterpret_cast<::FUN_00ad8b60_h *>(&(sound))->FUN_00ad8b60(position.x, position.y, position.z);
                 }
-                sound.FUN_00ad8830(0);
-                if (actor == (ActivateObject*)DAT_011dea3c && !FUN_00453a70()->FUN_005bb4d0())
+                reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(0);
+                if (actor == (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_005bb4d0_shell *>((((::ActivateAudio *)(::FUN_00453a70()))))->FUN_005bb4d0())
                     for (int i = 0; i < 4; ++i)
-                        FUN_00453a70()->FUN_00ad7740(0);
+                        reinterpret_cast<::BSAudio *>((((::ActivateAudio *)(::FUN_00453a70()))))->Update(0);
             }
-            process1->FUN_008fe960(actor, reference, true);
-            if (actor == (ActivateObject*)DAT_011dea3c)
+            reinterpret_cast<::FUN_008fe960_cls *>((process1))->FUN_008fe960((std::intptr_t)(actor), (std::intptr_t)(reference), true);
+            if (actor == (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))
                 return true;
             else
                 return false;
         }
         void* cell = teleport->FUN_0043a2b0();
-        void* world = teleport->FUN_0043a320();
-        actor->FUN_008d8520()->SetTarget(reference);
-        if (actor == (ActivateObject*)DAT_011dea3c)
+        void* world = ((void *)(reinterpret_cast<::TeleportableReference *>((teleport))->GetTeleportWorldspace()));
+        ((::ActivateProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->SetTarget(reference);
+        if (actor == (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))
         {
-            if (!((ActivateObject*)DAT_011dea3c)->FUN_00575d10())
-                ((ActivateObject*)DAT_011dea3c)->lastDoor = reference;
-            ((ActivateObject*)DAT_011dea3c)->activating = 1;
-            ((ActivateObject*)DAT_011dea3c)->ProcessAllActions();
-            QueueDoorTeleport(reference);
-            ((ActivateObject*)DAT_011dea3c)->activating = 0;
+            if (!reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((((ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))))->FUN_00575d10())
+                ((ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))->lastDoor = reference;
+            ((ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))->activating = 1;
+            reinterpret_cast<::PlayerUIManager *>((((ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))))->ProcessAllActions();
+            reinterpret_cast<::TESObjectDOOR *>(this)->QueueDoorTeleport((::TESObjectREFR *)(reference));
+            ((ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))->activating = 0;
         }
         else
         {
-            activator->FUN_00575830(teleport->FUN_00717e50());
-            if (cell && ((ActivateDetection*)DAT_011dea10)->FUN_004511e0(cell, 0))
+            reinterpret_cast<::Reference *>((activator))->FUN_00575830((::Position *)(((std::intptr_t)(reinterpret_cast<::BaseProcess *>((teleport))->GetCurrentProcessData()))));
+            if (cell && reinterpret_cast<::TESCallHelper *>((((ActivateDetection*)(*reinterpret_cast<::ActivateDetection * *>(&::g_TES)))))->IsCellBuffered((::TESObjectCELL *)(cell), 0))
             {
-                activator->FUN_005757d0(teleport->FUN_00460140()->z);
-                activator->FUN_00575770(0.0f);
+                reinterpret_cast<::FUN_005757d0_shell *>((activator))->FUN_005757d0(((::ActivateVector *)(::FUN_00460140((std::intptr_t)(teleport))))->z);
+                reinterpret_cast<::FUN_00575770_shell *>((activator))->FUN_00575770(0.0f);
             }
             else
                 activator->FUN_00575770(FLT_MAX);
             ActivateObject* actorAgain = (ActivateObject*)dynamic_cast<Actor*>((TESObjectREFR*)activator);
             if (actorAgain)
-                actorAgain->FUN_008ae640(0);
-            FUN_00573800(activator, cell, world);
+                reinterpret_cast<::FUN_008ae640_shell *>((actorAgain))->FUN_008ae640(0);
+            ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(activator), (::fnv_00573800::MoveCell *)(cell), (::fnv_00573800::MoveWorld *)(world));
         }
     }
     else
     {
-        ActivateOpenState* statePart6 = reference->FUN_005691f0();
+        ActivateOpenState* statePart6 = ((::ActivateOpenState *)(reinterpret_cast<::fnv_005691f0::FUN_005691f0_shell *>((reference))->FUN_005691f0()));
         if (statePart6)
         {
-            statePart6->FUN_00517360();
-            reference->FUN_005789b0();
+            reinterpret_cast<::ExtraLock *>((statePart6))->Unlock();
+            reinterpret_cast<::fnv_005789b0::FUN_005789b0_shell *>((reference))->FUN_005789b0();
         }
-        FUN_0047a560(reference, activator, this ? &unk070 : 0);
+        ::FUN_0047a560((::TESObjectREFR *)(reference), (::TESObjectREFR *)(activator), (::BGSOpenCloseForm *)(void *)(this ? &unk070 : 0));
     }
     return true;
 }
 
 struct CellShell
 {
-    bool IsInterior();
 };
 
 struct FastTravelRequest
@@ -2070,18 +2087,13 @@ struct FastTravelRequest
     FastTravelRequest();
 };
 
-void __cdecl DoorTeleportFinished(void*);
 
 struct RefShell
 {
-    TESForm* GetBaseObject();
-    TeleportableReference* GetTeleportData();
 };
 
 struct PlayerShell
 {
-    void QueueTeleport(FastTravelRequest* apRequest);
-    TESObjectCELL* GetParentCellShell();
 };
 
 extern bool DAT_011c9354;
@@ -2089,26 +2101,26 @@ extern bool DAT_011c9354;
 // @fnv 0x00518b70
 void TESObjectDOOR::QueueDoorTeleport(TESObjectREFR* apRef)
 {
-    if (apRef && ((RefShell*)apRef)->GetBaseObject() == (TESForm*)this)
+    if (apRef && ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefShell*)apRef)))->FUN_007af430())) == (TESForm*)this)
     {
-        TeleportableReference* pTeleport2 = ((RefShell*)apRef)->GetTeleportData();
+        TeleportableReference* pTeleport2 = ((::TeleportableReference *)(reinterpret_cast<::TESObjectREFR *>((((RefShell*)apRef)))->GetExtraRadioData()));
         if (pTeleport2)
         {
             TESObjectCELL* pDestinationCell = pTeleport2->FUN_0043a2b0();
             TESWorldSpace* pWorld8 = pTeleport2->GetTeleportWorldspace();
             FastTravelRequest* pRequest = new FastTravelRequest();
-            pRequest->kPosition = *pTeleport2->GetPosition();
-            pRequest->kRotationBasis = *pTeleport2->GetRotation();
+            pRequest->kPosition = *((::NiPoint3 *)(reinterpret_cast<::BaseProcess *>((pTeleport2))->GetCurrentProcessData()));
+            pRequest->kRotationBasis = *((::NiPoint3 *)(::FUN_00460140((std::intptr_t)(pTeleport2))));
             pRequest->bFlag20 = false;
-            pRequest->pCallback = DoorTeleportFinished;
+            pRequest->pCallback = ((void (&)(void *))::fnv_00518cf0::PlaySoundForRef);
             pRequest->pRef = apRef;
-            if (pDestinationCell && ((CellShell*)pDestinationCell)->IsInterior())
+            if (pDestinationCell && reinterpret_cast<::TESObjectCELL *>((((CellShell*)pDestinationCell)))->IsCellInterior())
                 pRequest->pCell = pDestinationCell;
             else
                 pRequest->m_pContainingWorldspace = pWorld8;
-            ((PlayerShell*)g_thePlayer)->QueueTeleport(pRequest);
-            TESObjectCELL* pPlayerCell = ((PlayerShell*)g_thePlayer)->GetParentCellShell();
-            DAT_011c9354 = pPlayerCell ? ((CellShell*)pPlayerCell)->IsInterior() : false;
+            reinterpret_cast<::B93BE30ProcessManager *>((((PlayerShell*)::_g_thePlayer)))->FUN_0093be30((::B93BE30Request *)(pRequest));
+            TESObjectCELL* pPlayerCell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((PlayerShell*)::_g_thePlayer)))->GetTarget()));
+            DAT_011c9354 = pPlayerCell ? reinterpret_cast<::TESObjectCELL *>((((CellShell*)pPlayerCell)))->IsCellInterior() : false;
         }
     }
 }
@@ -2127,24 +2139,18 @@ struct Other;
 
 struct Proc
 {
-    bool FUN_00425fd0();
-    void LockAndProcessPerks();
-    void FUN_00557be0();
 };
 
 struct FUN_0084e3a0_Class
 {
-    int FUN_0084e3a0();
 };
 
 struct Obj
 {
-    FUN_0084e3a0_Class* FUN_00407840();
 };
 
 struct Mid
 {
-    VObj* FUN_00559450();
 };
 
 struct VObj
@@ -2274,7 +2280,6 @@ struct BSAudioSoundHandle
     int f4;
     int f8;
     ~BSAudioSoundHandle();
-    void FUN_00ad8830(int);
 };
 
 struct FUN_00ad73b0_t
@@ -2284,13 +2289,10 @@ struct FUN_00ad73b0_t
 
 struct Ref
 {
-    Obj* FUN_007af430();
-    Mid* FUN_00568e50();
 };
 
 struct Player
 {
-    Proc* FUN_008d6f30();
 };
 
 struct GlobalObj
@@ -2300,54 +2302,49 @@ struct GlobalObj
 
 struct Other
 {
-    void FUN_00851d30();
 };
 
-extern GlobalObj DAT_011d8980;
-extern Other* DAT_011de134;
 
 void __cdecl FUN_00519290();
-FUN_00ad73b0_t* __cdecl FUN_00453a70();
 
 // Plays sound 0x121 for the given ref when its object and mid object pass checks, then updates the player proc state and notifies DAT_011de134.
 // @fnv 0x00518cf0
 void __cdecl PlaySoundForRef(unsigned int id)
 {
-    Ref* ref = (Ref*)id;
+    Ref* ref = (Ref*)(std::uintptr_t)id;
     if (ref)
     {
         FUN_00519290();
-        if (((Player*)DAT_011dea3c)->FUN_008d6f30() && ((Player*)DAT_011dea3c)->FUN_008d6f30()->FUN_00425fd0())
+        if (((::fnv_00518cf0::Proc *)(reinterpret_cast<::LowProcess *>((((Player*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))))->GetTarget())) && reinterpret_cast<::TESObjectCELL *>((((::fnv_00518cf0::Proc *)(reinterpret_cast<::LowProcess *>((((Player*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))))->GetTarget()))))->IsCellInterior())
         {
-            ((Player*)DAT_011dea3c)->FUN_008d6f30()->LockAndProcessPerks();
+            reinterpret_cast<::FUN_0054af80_shell *>((((::fnv_00518cf0::Proc *)(reinterpret_cast<::LowProcess *>((((Player*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))))->GetTarget()))))->LockAndProcessPerks();
         }
-        Obj* obj = ref->FUN_007af430();
-        if (obj->FUN_00407840())
+        Obj* obj = ((::fnv_00518cf0::Obj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
+        if (((::fnv_00518cf0::FUN_0084e3a0_Class *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((obj))->GetRefCount())))
         {
-            if (ref->FUN_00568e50()->FUN_00559450())
+            if (((::fnv_00518cf0::VObj *)(::FUN_00559450((int *)(((::fnv_00518cf0::Mid *)(reinterpret_cast<::TESObjectREFR *>((ref))->GetExtraRadioData())))))))
             {
-                if (ref->FUN_00568e50()->FUN_00559450()->Gate1d0())
+                if (((::fnv_00518cf0::VObj *)(::FUN_00559450((int *)(((::fnv_00518cf0::Mid *)(reinterpret_cast<::TESObjectREFR *>((ref))->GetExtraRadioData()))))))->Gate1d0())
                 {
                     BSAudioSoundHandle soundHandle =
-                        FUN_00453a70()->FUN_00ad73b0(obj->FUN_00407840()->FUN_0084e3a0(), 0x121);
-                    soundHandle.FUN_00ad8830(0);
+                        ((::fnv_00518cf0::FUN_00ad73b0_t *)(::FUN_00453a70()))->FUN_00ad73b0(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_00518cf0::FUN_0084e3a0_Class *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((obj))->GetRefCount()))))->FUN_0084e3a0(), 0x121);
+                    reinterpret_cast<::FUN_00ad8830_shell *>(&(soundHandle))->FUN_00ad8830(0);
                 }
             }
         }
     }
-    Proc* tailProc = ((Player*)DAT_011dea3c)->FUN_008d6f30();
-    if (tailProc && !tailProc->FUN_00425fd0())
+    Proc* tailProc = ((::fnv_00518cf0::Proc *)(reinterpret_cast<::LowProcess *>((((Player*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))))->GetTarget()));
+    if (tailProc && !reinterpret_cast<::TESObjectCELL *>((tailProc))->IsCellInterior())
     {
-        tailProc->FUN_00557be0();
+        reinterpret_cast<::FUN_00557be0_shell *>((tailProc))->FUN_00557be0();
     }
-    if (*DAT_011d8980.FUN_00408d60() && tailProc)
+    if (*(*reinterpret_cast<::fnv_00518cf0::GlobalObj *>(&::g_011d8980)).FUN_00408d60() && tailProc)
     {
-        DAT_011de134->FUN_00851d30();
+        reinterpret_cast<::FUN_00851d30_shell *>(((*reinterpret_cast<::fnv_00518cf0::Other * *>(&::DAT_011de134))))->FUN_00851d30();
     }
 }
 }  // namespace fnv_00518cf0
 
-void* __cdecl operator new(unsigned int);
 
 struct ExtraFollower
 {
@@ -2358,74 +2355,111 @@ struct ExtraFollower
 };
 struct FollowerExtraData
 {
-    ExtraFollower* FUN_00422700();
-    void FUN_00422690(Actor* actor);
-    void FUN_00422720();
 };
 struct FollowerPlayer : PlayerCharacter
 {
-    FollowerExtraData* FUN_005d43c0();
 };
 struct FollowerActor : Actor
 {
-    bool FUN_008bc860(PlayerCharacter* player);
-    void FUN_008b3ad0();
 };
 struct FollowerListOps
 {
-    void FUN_00905820(Actor*& actor);
-    void FUN_00470470();
 };
 struct Calendar
 {
-    float FUN_00867da0();
+public:
+    float GetGameTime();
 };
-extern Calendar g_calendar;
 
 // @fnv 0x00519290
 void __cdecl FUN_00519290()
 {
-    ExtraFollower* followers = static_cast<FollowerPlayer*>(g_thePlayer)->FUN_005d43c0()->FUN_00422700();
+    ExtraFollower* followers = reinterpret_cast<::FUN_00422700_shell *>((((::FollowerExtraData *)(reinterpret_cast<::FUN_005d43c0_ *>((static_cast<FollowerPlayer*>(::_g_thePlayer)))->FUN_005d43c0()))))->FUN_00422700();
     if (followers)
     {
         BSSimpleList<Actor*>* removed = new BSSimpleList<Actor*>;
         BSSimpleList<Actor*>* source = new BSSimpleList<Actor*>;
         BSSimpleList<Actor*>* current = followers->followers;
-        while (current && current->GetItem())
+        while (current && (current->item))
         {
-            reinterpret_cast<FollowerListOps*>(source)->FUN_00905820(current->GetItem());
-            current = current->GetNext();
+            reinterpret_cast<::Callees *>((reinterpret_cast<FollowerListOps*>(source)))->FUN_00905820((void *)&((current->item)));
+            current = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
         }
-        while (source && source->GetItem())
+        while (source && (source->item))
         {
-            Actor* actor = source->GetItem();
+            Actor* actor = (source->item);
             if (actor)
             {
-                if (!static_cast<FollowerActor*>(actor)->FUN_008bc860(g_thePlayer))
+                if (!reinterpret_cast<::fnv_008bc860::FUN_008bc860_StandIn *>((static_cast<FollowerActor*>(actor)))->FUN_008bc860((::Actor *)(::_g_thePlayer)))
                 {
                     removed->AddHead(actor);
                 }
                 else
                 {
-                    static_cast<FollowerActor*>(actor)->FUN_008b3ad0();
-                    static_cast<FUN_00693d50_shell*>(actor->GetProcess())
-                        ->FUN_00693d50(g_calendar.FUN_00867da0() - 1.0);
+                    ::FUN_008b3ad0((void *)(static_cast<FollowerActor*>(actor)));
+                    static_cast<FUN_00693d50_shell*>(((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))
+                        ->FUN_00693d50(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->GetGameTime() - 1.0);
                 }
             }
-            source = source->GetNext();
+            source = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((source))->FUN_00726070()));
         }
         source = removed;
-        while (source && source->GetItem())
+        while (source && (source->item))
         {
-            Actor* actorToRemove = source->GetItem();
-            static_cast<FollowerPlayer*>(g_thePlayer)->FUN_005d43c0()->FUN_00422690(actorToRemove);
-            source = source->GetNext();
+            Actor* actorToRemove = (source->item);
+            reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((((::FollowerExtraData *)(reinterpret_cast<::FUN_005d43c0_ *>((static_cast<FollowerPlayer*>(::_g_thePlayer)))->FUN_005d43c0()))))->FUN_00422690((::fnv_00422690::Actor *)(actorToRemove));
+            source = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((source))->FUN_00726070()));
         }
-        reinterpret_cast<FollowerListOps*>(removed)->FUN_00470470();
+        reinterpret_cast<::FileMatchList *>((reinterpret_cast<FollowerListOps*>(removed)))->RemoveAll();
         delete removed;
         if (followers->followers->IsEmpty())
         {
-            static_cast<FollowerPlayer*>(g_thePlayer)->FUN_005d43c0()->FUN_00422720();
+            reinterpret_cast<::FUN_00422720_shell *>((((::FollowerExtraData *)(reinterpret_cast<::FUN_005d43c0_ *>((static_cast<FollowerPlayer*>(::_g_thePlayer)))->FUN_005d43c0()))))->FUN_00422720();
         }
     }
 }
+
+// @fnv 0x00517500
+TESObjectDOOR::~TESObjectDOOR()
+{
+    ClearData();
+}
+
+// Adjustor thunk: sub ecx,0x3c; jmp FUN_005174d0
+// Both bases declare the same virtual; Derived overrides it, so the compiler
+// emits a this-adjusting thunk in Derived's vtable for the secondary base.
+struct PrimaryBase
+{
+    virtual void FUN_00519cb0();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_00519cb0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x00519cb0
+    virtual void FUN_00519cb0();
+};
+
+Derived::Derived()
+{}
+
+#include "generated/data/fallout_shared/tesobjectdoor.inc"

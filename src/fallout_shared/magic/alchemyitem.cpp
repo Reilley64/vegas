@@ -1,5 +1,34 @@
 // fallout_shared/magic/alchemyitem.cpp: AlchemyItem, AlchemySave, AlchemyItemMagic (26 functions)
 
+#include <cstring>
+#include <malloc.h>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00874460_cls.h"
+#include "fnv/decl/FUN_009acce0_shell.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/TESModel.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/TESTexture.h"
+#include "fnv/decl/fnv_00406340__EffectItemList.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0047b560__FUN_0047b560_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01183000.h"
+#include "fnv/symbols_011ca000.h"
 #include "alchemyitem_decls.h"
 
 // @fnv 0x00402ea0
@@ -10,13 +39,13 @@ void AlchemyItem::ResetFormData()
     unk0C0 = 0;
     unk0C4 = 0.0f;
     unk0C8 = 0;
-    ((IngredientItem*)this)->InitializeComponent();
+    reinterpret_cast<::TESForm *>((((IngredientItem*)this)))->ClearData();
 }
 
 // @fnv 0x004030f0
 void AlchemyItem::InitItem()
 {
-    if (((TESFormInitFlag*)this)->IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)(((TESFormInitFlag*)this)))->GetInitialized())
         return;
 
     ((TESScriptableForm*)((char*)this + 0x88))->InitItem((TESForm*)this);
@@ -25,27 +54,25 @@ void AlchemyItem::InitItem()
     ((MagicItemObject*)this)->MagicItemObject::InitItem();
     ((BGSPickupPutdownSounds*)((char*)this + 0xAC))->InitItem((TESForm*)this);
 
-    unsigned int formID = (unsigned int)FUN_004030b0();
+    unsigned int formID = (unsigned int)(std::uintptr_t)FUN_004030b0();
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, ((TESForm*)this)->GetFile(-1));
-        FUN_00874460(dynamic_cast<SpellItem*>(TESForm::GetFormByID(formID)));
+        ::ResolveFormID((unsigned int *)&(formID), ((TESForm*)this)->GetFile(-1));
+        reinterpret_cast<::FUN_00874460_cls *>(this)->set((std::intptr_t)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
         if (!FUN_004030b0())
         {
-            Warning("MASTERFILE: Failed to find addiction item (%08X) for ingestible '%s' (%08X).", formID, vfn_130(),
-                    ((TESForm*)this)->GetFormID());
+            ::FUN_005b5e40();
         }
     }
 
-    formID = GetFieldC8();
+    formID = reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8();
     if (formID)
     {
-        TESForm::RemapFormIDForFile(formID, ((TESForm*)this)->GetFile(-1));
-        SetSound(dynamic_cast<TESSound*>(TESForm::GetFormByID(formID)));
-        if (!GetFieldC8())
+        ::ResolveFormID((unsigned int *)&(formID), ((TESForm*)this)->GetFile(-1));
+        SetSound(dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
+        if (!reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())
         {
-            Warning("MASTERFILE: Failed to find consumption sound (%08X) for ingestible '%s' (%08X).", formID,
-                    vfn_130(), ((TESForm*)this)->GetFormID());
+            ::FUN_005b5e40();
         }
     }
 }
@@ -53,14 +80,14 @@ void AlchemyItem::InitItem()
 // @fnv 0x00402ef0
 void AlchemyItem::ClearData()
 {
-    ((EffectItemList*)((char*)this + 0x3C))->RemoveAllEffectItems();
-    ((IngredientItem*)this)->InitializeComponent();
+    reinterpret_cast<::fnv_00406340::EffectItemList *>((((EffectItemList*)((char*)this + 0x3C))))->FUN_00406340();
+    reinterpret_cast<::TESForm *>((((IngredientItem*)this)))->ClearData();
 }
 
 // @fnv 0x004030d0
 void AlchemyItem::SetSound(TESSound* sound)
 {
-    unk0C8 = (int)sound;
+    unk0C8 = (std::intptr_t)sound;
 }
 
 // @fnv 0x004030b0
@@ -77,15 +104,15 @@ struct FUN_004029d0_shell : public AlchemyItem
 // @fnv 0x004029d0
 bool FUN_004029d0_shell::FUN_004029d0(int aiFlag)
 {
-    return (*((unsigned char*)this + 0xbc) & aiFlag) != 0;
+    return (this->unk0BC & aiFlag) != 0;
 }
 
 extern int DAT_01011d68;
 
 // @fnv 0x00402d30
-int* __fastcall FUN_00402d30(int* this_ptr)
+int* FUN_00402d30(int* this_ptr)
 {
-    *this_ptr = (int)&DAT_01011d68;
+    *this_ptr = (std::intptr_t)&DAT_01011d68;
     return this_ptr;
 }
 
@@ -302,7 +329,6 @@ struct TESFile
     bool m_bIsDLC;
     char _pad_42b[1];
 };
-typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct FUN_00403570_shell : public TESFile
 {
     unsigned short FUN_00403570();
@@ -351,14 +377,13 @@ FUN_00402b40::FUN_00402b40()
 namespace fnv_004029b0 {
 struct FUN_004029d0_shell
 {
-    bool FUN_004029d0(int);
     bool FUN_004029b0();
 };
 
 // @fnv 0x004029b0
 bool FUN_004029d0_shell::FUN_004029b0()
 {
-    return !FUN_004029d0(1);
+    return !reinterpret_cast<::FUN_004029d0_shell *>(this)->FUN_004029d0(1);
 }
 }  // namespace fnv_004029b0
 
@@ -367,51 +392,37 @@ struct BaseFormComponent
     virtual void Free();
 };
 
-void _Deallocate(void* p);
 
 struct FUN_00402b10_shell : BaseFormComponent
 {
     void* FreeAndMaybeDeallocate(unsigned int flags);
 };
 
-// Calls BaseFormComponent::Free, deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x00402b10
-void* FUN_00402b10_shell::FreeAndMaybeDeallocate(unsigned int flags)
-{
-    BaseFormComponent::Free();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 template <int N> struct EndianSizeTag
 {
 };
 
-void __cdecl BSEndian(int*, EndianSizeTag<2>);
 
 struct FUN_00403720_shell
 {
-    void __thiscall SwapEndian();
+    void SwapEndian();
 };
 
 // @fnv 0x00403720
-void __thiscall FUN_00403720_shell::SwapEndian()
+void FUN_00403720_shell::SwapEndian()
 {
-    BSEndian((int*)this, EndianSizeTag<2>());
-    BSEndian((int*)((char*)this + 8), EndianSizeTag<2>());
-    BSEndian((int*)((char*)this + 12), EndianSizeTag<2>());
-    BSEndian((int*)((char*)this + 16), EndianSizeTag<2>());
+    ::FUN_00401080((int*)this);
+    ::FUN_00401080((int*)((char*)this + 8));
+    ::FUN_00401080((int*)((char*)this + 12));
+    ::FUN_00401080((int*)((char*)this + 16));
 }
 
 namespace fnv_00402a90 {
 struct FUN_004029d0_shell
 {
-    bool FUN_004029d0(int);
 };
 struct FUN_00405da0_shell
 {
-    bool FUN_00405da0();
 };
 struct FUN_00402a90_shell
 {
@@ -421,14 +432,13 @@ struct FUN_00402a90_shell
 // @fnv 0x00402a90
 bool FUN_00402a90_shell::FUN_00402a90()
 {
-    return ((FUN_004029d0_shell*)((char*)this - 0x3c))->FUN_004029d0(2) && !((FUN_00405da0_shell*)this)->FUN_00405da0();
+    return reinterpret_cast<::FUN_004029d0_shell *>((((FUN_004029d0_shell*)((char*)this - 0x3c))))->FUN_004029d0(2) && !reinterpret_cast<::EffectItemList *>((((FUN_00405da0_shell*)this)))->FUN_00405da0();
 }
 }  // namespace fnv_00402a90
 
 namespace fnv_00402ae0 {
 struct FUN_004029d0_shell
 {
-    bool FUN_004029d0(int);
 };
 
 struct FUN_00402ae0_shell
@@ -439,7 +449,7 @@ struct FUN_00402ae0_shell
 // @fnv 0x00402ae0
 bool FUN_00402ae0_shell::FUN_00402ae0()
 {
-    return ((FUN_004029d0_shell*)((char*)this - 0x3c))->FUN_004029d0(4);
+    return reinterpret_cast<::FUN_004029d0_shell *>((((FUN_004029d0_shell*)((char*)this - 0x3c))))->FUN_004029d0(4);
 }
 }  // namespace fnv_00402ae0
 
@@ -464,7 +474,6 @@ FUN_00402bc0::~FUN_00402bc0()
 {}
 }  // namespace fnv_00402bc0
 
-void __cdecl _Deallocate(void*);
 struct S00402c60
 {
     void FUN_00402bc0();
@@ -474,19 +483,17 @@ struct S00402c60
 // @fnv 0x00402c60
 void* S00402c60::FUN_00402c60(unsigned int flags)
 {
-    FUN_00402bc0();
+    reinterpret_cast<::fnv_00402bc0::FUN_00402bc0 *>(this)->fnv_00402bc0::FUN_00402bc0::~FUN_00402bc0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct S_0048a520
 {
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
 };
 struct FUN_0047a240_shell
 {
@@ -498,11 +505,9 @@ struct S_0048cca0
 };
 struct S_00477f20
 {
-    void FUN_00477f20(void);
 };
 struct FUN_0047b560_holder
 {
-    void LogFormIDs(void);
 };
 struct FUN_00479350_shell
 {
@@ -513,7 +518,7 @@ struct FUN_00485e00_shell
     void FUN_00485e00(void);
 };
 
-struct FUN_00402f10_shell
+struct FUN_00402f10_shell : ::AlchemyItem
 {
     void FUN_00402f10();
 };
@@ -521,12 +526,12 @@ struct FUN_00402f10_shell
 // @fnv 0x00402f10
 void FUN_00402f10_shell::FUN_00402f10()
 {
-    ((S_0048a520*)((char*)this + 0x1c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_0048e370_obj*)((char*)this + 0x3c))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x1c))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x3c))))->FUN_0048e370(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x48))->FUN_0047a240(0x4f43494d);
     ((S_0048cca0*)((char*)this + 0x58))->FUN_0048cca0();
-    ((S_00477f20*)((char*)this + 0x74))->FUN_00477f20();
-    ((FUN_0047b560_holder*)((char*)this + 0x7c))->LogFormIDs();
+    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)((char*)this + 0x74))))->FUN_00477f20();
+    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_holder*)((char*)this + 0x7c))))->LogFormIDs();
     ((FUN_00479350_shell*)((char*)this + 0x6c))->FUN_00479350();
     ((FUN_00485e00_shell*)((char*)this - 0x30))->FUN_00485e00();
 }
@@ -534,7 +539,6 @@ void FUN_00402f10_shell::FUN_00402f10()
 namespace fnv_00403790 {
 struct FUN_00403720_shell
 {
-    void SwapEndian();
 };
 struct FUN_00403790_shell
 {
@@ -543,14 +547,11 @@ struct FUN_00403790_shell
 // @fnv 0x00403790
 void FUN_00403790_shell::CallNestedAtOffsetB8()
 {
-    ((FUN_00403720_shell*)((char*)this + 0xb8))->SwapEndian();
+    reinterpret_cast<::FUN_00403720_shell *>((((FUN_00403720_shell*)((char*)this + 0xb8))))->SwapEndian();
 }
 }  // namespace fnv_00403790
 
 class TESObjectSTAT;
-extern TESObjectSTAT* DAT_011ca234;
-extern TESObjectSTAT* DAT_011ca238;
-extern TESObjectSTAT* DAT_011ca23c;
 struct H0050fb90
 {
     int _FNV_GetFormType();
@@ -570,18 +571,14 @@ bool H0050fb90::FUN_0050fb90()
 }
 
 struct TESFile;
-extern "C" void* __cdecl _alloca(unsigned int);
 struct FUN_00401660_t
 {
-    unsigned int GetField25C();
 };
 struct FUN_00472890_t
 {
-    bool FUN_00472890(void*, unsigned int);
 };
 struct FUN_00403570_t
 {
-    unsigned short FUN_00403570();
 };
 struct FUN_004727f0_t
 {
@@ -591,7 +588,6 @@ struct AlchBase00
 {
     virtual void v0();
     char pad[0x2c];
-    void FUN_004861f0(TESFile*, void*, unsigned short);
 };
 struct AlchBase30
 {
@@ -602,7 +598,6 @@ struct AlchTexSwap
 {
     virtual void v0();
     char pad[0x1c];
-    bool LoadTextureSwapList(void*, unsigned int, unsigned int);
 };
 struct AlchTexture
 {
@@ -618,14 +613,11 @@ struct AlchScript
 {
     virtual void v0();
     char pad[0x10];
-    void FUN_006ecd40(unsigned int);
-    void FUN_0048cd90(AlchBase00*);
 };
 struct AlchEquip
 {
     virtual void v0();
     char pad[0x4];
-    void FUN_006ecd40(unsigned int);
 };
 struct AlchDestr
 {
@@ -636,13 +628,7 @@ struct AlchPickup
 {
     virtual void v0();
     char pad[0x8];
-    void FUN_006ecd40(unsigned int);
-    void FUN_00403550(unsigned int);
 };
-void __cdecl FUN_004892d0(AlchTexSwap*, TESFile*);
-void __cdecl FUN_0048e3d0(AlchTexture*, TESFile*);
-void __cdecl FUN_0047a290(AlchMsgIcon*, TESFile*);
-void __cdecl FUN_004781e0(AlchDestr*, TESFile*);
 struct FUN_00403280_t : AlchBase00,
                         AlchBase30,
                         AlchTexSwap,
@@ -666,52 +652,52 @@ void FUN_00403280_t::FUN_00403280(TESFile* apFile, int aiChunk)
     case 0x54444f4d:
     case 0x44444f4d:
     case 0x44534f4d:
-        FUN_004892d0(this, apFile);
+        ::TESModel::LoadModelData((::TESModel *)(::AlchTexSwap *)(this), apFile);
         break;
     case 0x53444f4d: {
-        unsigned int uiChunkSize = ((FUN_00401660_t*)apFile)->GetField25C();
+        unsigned int uiChunkSize = reinterpret_cast<::FUN_00401660_Class *>((((FUN_00401660_t*)apFile)))->GetField25C();
         char* pChunkData = (char*)_alloca(uiChunkSize);
-        ((FUN_00472890_t*)apFile)->FUN_00472890(pChunkData, uiChunkSize);
-        AlchTexSwap::LoadTextureSwapList(pChunkData, uiChunkSize, ((FUN_00403570_t*)apFile)->FUN_00403570());
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((((FUN_00472890_t*)apFile)))->FUN_00472890((char *)(pChunkData), uiChunkSize);
+        reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(pChunkData, uiChunkSize, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((FUN_00403570_t*)apFile)))->FUN_00403570());
         break;
     }
     case 0x4e4f4349:
-        FUN_0048e3d0(this, apFile);
+        ::TESTexture::ReadTextureData((::TESTexture *)(::AlchTexture *)(this), apFile);
         break;
     case 0x4f43494d:
-        FUN_0047a290(this, apFile);
+        ::FUN_0047a290((::TeleportableReference *)(::AlchMsgIcon *)(this), apFile);
         break;
     case 0x49524353: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        AlchScript::FUN_006ecd40(formID);
-        FUN_0048cd90(this);
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(formID));
+        reinterpret_cast<::TESScriptableForm *>(this)->InitItem((::TESForm *)(::AlchBase00 *)(this));
         break;
     }
     case 0x54534544:
     case 0x44545344:
-        FUN_004781e0(this, apFile);
+        ::FUN_004781e0((::BGSDestructibleObjectForm *)(::AlchDestr *)(this), apFile);
         break;
     case 0x50595445: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        AlchEquip::FUN_006ecd40(formID);
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(formID));
         break;
     }
     case 0x4d414e59: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        AlchPickup::FUN_006ecd40(formID);
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(formID));
         break;
     }
     case 0x4d414e5a: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        FUN_00403550(formID);
+        reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(std::uintptr_t)(formID));
         break;
     }
     case 0x41544144:
-        FUN_004861f0(apFile, 0, 0);
+        reinterpret_cast<::fnv_004861f0::Form_004861f0 *>(this)->FUN_004861f0(apFile, 0, 0);
         break;
     }
 }
@@ -722,7 +708,6 @@ struct BGSListForm : TESForm
 };
 struct ScriptS
 {
-    void* GetHeader();
 };
 struct LH
 {
@@ -731,17 +716,16 @@ struct LH
 struct FUN_004036d0_shell
 {
     bool IsInWaterList();
-    static TESForm* LookupFormByEditorID(const char*);
 };
 // Looks up the form list "WaterLIST" and returns whether this object is contained in its header's list.
 // @fnv 0x004036d0
 bool FUN_004036d0_shell::IsInWaterList()
 {
-    BGSListForm* pWaterList = (BGSListForm*)LookupFormByEditorID("WaterLIST");
+    BGSListForm* pWaterList = (BGSListForm*)::TESForm::LookupFormByEditorID("WaterLIST");
     if (pWaterList)
     {
         BGSListForm* pThis = (BGSListForm*)this;
-        if (((LH*)((ScriptS*)pWaterList)->GetHeader())->IsInList((int&)pThis))
+        if (reinterpret_cast<::RefList *>((((LH*)((void *)(reinterpret_cast<::BGSCameraPath *>((((ScriptS*)pWaterList)))->GetConditions())))))->FUN_005f65d0((void **)&((int&)pThis)))
             return true;
     }
     return false;
@@ -866,16 +850,14 @@ struct FUN_00402820 : MagicItemBase,
 
     FUN_00402820();
     ~FUN_00402820();
-    void SetFormType(int type);
-    void InitData();
 };
 
 // Initializes the object by setting its form type to 0x2f and calling InitData.
 // @fnv 0x00402820
 FUN_00402820::FUN_00402820()
 {
-    SetFormType(0x2f);
-    InitData();
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(0x2f);
+    reinterpret_cast<::AlchemyItem *>(this)->ResetFormData();
 }
 
 struct Part0
@@ -983,25 +965,29 @@ struct FUN_00402d50 : BaseMagic,
     int unkc4;
     int unkc8;
     IconPart icon;
-    void ClearData();
     ~FUN_00402d50();
 };
+// Calls BaseFormComponent::Free, deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x00402b10
+void* FUN_00402b10_shell::FreeAndMaybeDeallocate(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00402d50 *>(this)->FUN_00402d50::~FUN_00402d50();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x00402d50
 FUN_00402d50::~FUN_00402d50()
 {
-    ClearData();
+    reinterpret_cast<::AlchemyItem *>(this)->ClearData();
 }
 
 struct FormStub
 {
-    unsigned int GetFormIDStub();
 };
 struct AlchData
 {
-    void SwapEndian();
 };
-void AppendChunk(unsigned int, void*, unsigned int);
-bool FUN_00401500();
 
 struct AlchPrimBase
 {
@@ -1069,33 +1055,27 @@ struct AlchemySave : AlchPrimBase, AlchSaveBase
     int unkB4;
     AlchData data;
 
-    FormStub* FUN_004030b0();
-    void SetSound(FormStub* sound);
-    FormStub* GetFieldC8();
-    void FUN_00874460(FormStub* item);
     virtual void FUN_00402f90();
 };
 
 // @fnv 0x00402f90
 void AlchemySave::FUN_00402f90()
 {
-    FormStub* oldItem = FUN_004030b0();
-    FUN_00874460(FUN_004030b0() ? (FormStub*)FUN_004030b0()->GetFormIDStub() : 0);
-    FormStub* pOldSound = GetFieldC8();
-    SetSound(GetFieldC8() ? (FormStub*)GetFieldC8()->GetFormIDStub() : 0);
-    if (FUN_00401500())
-        data.SwapEndian();
-    AppendChunk(s24(), &data, 0x14);
-    if (FUN_00401500())
-        data.SwapEndian();
-    FUN_00874460(oldItem);
-    SetSound(pOldSound);
+    FormStub* oldItem = ((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0()));
+    reinterpret_cast<::FUN_00874460_cls *>(this)->set((std::intptr_t)(((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0())) ? (FormStub*)((std::uintptr_t)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0()))))->FUN_0084e3a0())) : 0));
+    FormStub* pOldSound = ((::FormStub *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()));
+    reinterpret_cast<::AlchemyItem *>(this)->SetSound((::TESSound *)(::FormStub *)(((::FormStub *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) ? (FormStub*)((std::uintptr_t)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))))->FUN_0084e3a0())) : 0));
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00403720_shell *>(&(data))->SwapEndian();
+    ::AppendChunk(s24(), &data, 0x14);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::FUN_00403720_shell *>(&(data))->SwapEndian();
+    reinterpret_cast<::FUN_00874460_cls *>(this)->set((std::intptr_t)(oldItem));
+    reinterpret_cast<::AlchemyItem *>(this)->SetSound((::TESSound *)(pOldSound));
 }
 
 extern int DAT_011830cc;
-extern int DAT_01183140;
 void* __cdecl FUN_00ec43fb(int, int, int*, int*, int);
-int __cdecl FUN_00ec4835(void*, unsigned int, int);
 
 struct FUN_00403590_sub
 {
@@ -1109,7 +1089,7 @@ struct FUN_00403590_sub
     virtual void v1C();
     virtual void v20();
     virtual void v24();
-    virtual unsigned int v28();
+    virtual std::uintptr_t v28();
 };
 
 class FUN_00403590_cls
@@ -1126,14 +1106,13 @@ bool FUN_00403590_cls::FUN_00403590(int aParam)
     {
         return true;
     }
-    if (FUN_00ec4835((char*)this + 0x88, ((FUN_00403590_sub*)(pObject + 0x30))->v28(), 0x14) != 0)
+    if (std::memcmp((char*)this + 0x88, (const void *)(((FUN_00403590_sub*)(pObject + 0x30))->v28()), 0x14) != 0)
     {
         return true;
     }
     return false;
 }
 
-void* memcpy(void* dst, const void* src, unsigned int size);
 
 class MagicItem
 {
@@ -1184,5 +1163,81 @@ void AlchemyItemMagic::FUN_00403600(MagicItem* source)
     {
         return;
     }
-    memcpy(GetData(), ((AlchemyItemMagic*)item)->GetData(), 0x14);
+    ::__memcpy(GetData(), ((AlchemyItemMagic*)item)->GetData(), 0x14);
 }
+
+// sub ecx,0x30; jmp FUN_004029b0
+// MSVC adjustor thunk: a derived class overrides a virtual declared by two bases;
+// the secondary-base vtable entry is a thunk that moves 'this' back by the primary base size.
+struct PrimaryBase
+{
+    virtual void FUN_00403a50();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_00403a50();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x00403a50
+    virtual void FUN_00403a50();
+};
+
+Derived::Derived()
+{}
+
+// sub ecx,0x4c; jmp target  ==  MSVC adjustor thunk: the derived class overrides a virtual that both
+// bases declare, so the secondary base's vtable gets a thunk that moves `this` back by the primary base size (0x4c).
+struct AdjustPrimaryBase
+{
+    virtual void FUN_00403a60();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+};
+
+struct AdjustSecondaryBase
+{
+    virtual void FUN_00403a60();
+};
+
+struct AdjustDerived : AdjustPrimaryBase, AdjustSecondaryBase
+{
+    AdjustDerived();
+// @fnv 0x00403a60
+    virtual void FUN_00403a60();
+};
+
+AdjustDerived::AdjustDerived()
+{}
+
+#include "generated/data/fallout_shared/magic/alchemyitem.inc"

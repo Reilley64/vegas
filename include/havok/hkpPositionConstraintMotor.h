@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpLimitedForceConstraintMotor.h"
-#pragma pack(push, 1)
 class hkpPositionConstraintMotor : public hkpLimitedForceConstraintMotor
 {
   public:
@@ -14,6 +13,4 @@ class hkpPositionConstraintMotor : public hkpLimitedForceConstraintMotor
     hkReal m_fProportionalRecoveryVelocity;  // +0x1C
     hkReal m_fConstantRecoveryVelocity;      // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPositionConstraintMotor[(sizeof(hkpPositionConstraintMotor) == 0x24) ? 1 : -1];
 #endif

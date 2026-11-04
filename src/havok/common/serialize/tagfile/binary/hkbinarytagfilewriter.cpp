@@ -2,13 +2,70 @@
 // src/havok/common/serialize/tagfile/binary/hkbinarytagfilewriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/tagfile/binary/hkbinarytagfilewriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <cstddef>
+#include "fnv/decl/DBAFB0Handle.h"
+#include "fnv/decl/DataClassAccess.h"
+#include "fnv/decl/FUN_00dba680_cls.h"
+#include "fnv/decl/FUN_00dba730_cls.h"
+#include "fnv/decl/FUN_00dba810_cls.h"
+#include "fnv/decl/FUN_00dba9c0_cls.h"
+#include "fnv/decl/FUN_00dbab90_cls.h"
+#include "fnv/decl/FUN_00dbabb0_cls.h"
+#include "fnv/decl/FUN_00dbac50_cls.h"
+#include "fnv/decl/FUN_00dbac70_cls.h"
+#include "fnv/decl/MemberArrayValue.h"
+#include "fnv/decl/Outer_dbac40.h"
+struct MyDesc;
+#include "fnv/decl/S_00dbac90.h"
+struct ScanObject;
+#include "fnv/decl/This_2.h"
+#include "fnv/decl/Wrapper.h"
+#include "fnv/decl/fnv_00dba9a0__FUN_00dba9a0_cls.h"
+#include "fnv/decl/fnv_00dbaa00__Wrapper.h"
+#include "fnv/decl/fnv_00dbac00__Wrapper.h"
+#include "fnv/decl/fnv_00dbac10__CpuObject.h"
+#include "fnv/decl/fnv_00dbac80__Wrapper.h"
+#include <new>
+#include <cstring>
+#include "fnv/decl/D60590Object.h"
+#include "fnv/decl/DBA7F0Ref.h"
+#include "fnv/decl/DataClassMemberAccess.h"
+#include "fnv/decl/DataObjectHandle.h"
+#include "fnv/decl/FUN_00d605d0_class.h"
+#include "fnv/decl/FUN_00d607b0_class.h"
+#include "fnv/decl/FUN_00d60b00_class.h"
+#include "fnv/decl/FUN_00d877d0_class.h"
+#include "fnv/decl/FUN_00dba650_cls.h"
+#include "fnv/decl/FUN_00dba6a0_cls.h"
+#include "fnv/decl/FUN_00dba780_cls.h"
+#include "fnv/decl/FUN_00dba8f0_cls.h"
+#include "fnv/decl/FUN_00dba980_cls.h"
+#include "fnv/decl/FUN_00dba9d0_cls.h"
+#include "fnv/decl/FUN_00dbab70_cls.h"
+#include "fnv/decl/FUN_00dbaca0_cls.h"
+#include "fnv/decl/FUN_00dbaea0_cls.h"
+#include "fnv/decl/FUN_00dbaf10_cls.h"
+#include "fnv/decl/S_00dba990.h"
+#include "fnv/decl/S_00dbaed0_Obj.h"
+#include "fnv/decl/fnv_00dba920__Target.h"
+#include "fnv/decl/hkOArchive_2.h"
+#include "fnv/decl/hkObjectD878.h"
+#include "fnv/decl/hkStringMapD874.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d60000.h"
+#include "fnv/symbols_00dba000.h"
+#include "fnv/symbols_00dbe000.h"
+#include "fnv/symbols_01011000.h"
 struct BSAudio
 {
-    int a;
-    int b;
-    int c;
-    int d;
-    int e;
+    intptr_t a;
+    intptr_t b;
+    intptr_t c;
+    intptr_t d;
+    intptr_t e;
     int f;
     int g;
     int h;
@@ -31,7 +88,6 @@ struct BSAudio
     int y;
     int z;
 };
-BSAudio* __cdecl FUN_00c85750();
 struct UnkRet
 {
     int a;
@@ -63,10 +119,10 @@ struct UnkRet
 };
 struct UnkHolder
 {
-    int a;
+    void* a;
     int b;
     int c;
-    void __thiscall FUN_00dbedb0(UnkRet*, int);
+    void FUN_00dbedb0(UnkRet*, int);
 };
 struct FUN_00dc0380
 {
@@ -85,7 +141,7 @@ FUN_00dc0380::FUN_00dc0380(BSAudio* pAudio)
     h->a = 0;
     h->b = 0;
     h->c = -1;
-    BSAudio* r = FUN_00c85750();
+    BSAudio* r = static_cast<BSAudio*>(::FUN_00c85750());
     h->FUN_00dbedb0(reinterpret_cast<UnkRet*>(*(reinterpret_cast<int**>(r) + 4)), 0);
     a = 0;
     b = 0;
@@ -96,20 +152,18 @@ struct ObjectHandle
 {
     void* object;
     __declspec(nothrow) int FUN_00dbac00();
-    __declspec(nothrow) void FUN_00dbab70();
     ~ObjectHandle()
     {
-        FUN_00dbab70();
+        reinterpret_cast<::FUN_00dbab70_cls *>(this)->FUN_00dbab70();
     }
 };
 struct StringHandle
 {
     void* object;
-    __declspec(nothrow) int FUN_00dba980();
     __declspec(nothrow) void FUN_00dba7f0();
     ~StringHandle()
     {
-        FUN_00dba7f0();
+        reinterpret_cast<::DBA7F0Ref *>(this)->FUN_00dba7f0();
     }
 };
 struct Value
@@ -119,10 +173,9 @@ struct Value
     float ApplyValue();
     void* FUN_00dbac70();
     __declspec(nothrow) ObjectHandle FUN_00dbacd0();
-    __declspec(nothrow) StringHandle CreateValueInto();
 };
 // @fnv 0x00dbeab0
-int __stdcall IsTruthy(Value* value)
+int IsTruthy(Value* value)
 {
     if (value->FUN_00dbac40() >= 16)
         return value->FUN_00dbacd0().FUN_00dbac00();
@@ -141,7 +194,7 @@ int __stdcall IsTruthy(Value* value)
         return 1;
     case 8:
     case 9:
-        return value->CreateValueInto().FUN_00dba980() == 0;
+        return ((int)(reinterpret_cast<::FUN_00dba980_cls *>((void *)&(const ::StringHandle &)((*(::StringHandle *)(reinterpret_cast<::FUN_00dbaca0_cls *>((value))->CreateValueInto({})))))->FUN_00dba980())) == 0;
     case 16:
         return value->FUN_00dbacd0().FUN_00dbac00() != 0;
     case 10:
@@ -153,8 +206,8 @@ int __stdcall IsTruthy(Value* value)
 
 struct ResourceKey
 {
-    int first;
-    int second;
+    uintptr_t first;
+    uintptr_t second;
 };
 struct SoundEntry
 {
@@ -162,46 +215,24 @@ struct SoundEntry
 };
 struct Receiver
 {
-    void __thiscall FUN_009ba760(void* sound);
-    void __thiscall FUN_009ba780(void* description);
 };
 struct Description
 {
-    int __thiscall FUN_009ba980();
-    void __thiscall FUN_009ba810(ResourceKey* key);
+    void FUN_009ba810(ResourceKey* key);
 };
 struct ResourceLookup
 {
     int unk00;
     int unk04;
     int unk08;
-    int __thiscall FUN_009be8c0(int first, int second, int flags);
 };
 struct AudioResourceState
 {
     void* active;
     ResourceLookup lookup;
     SoundEntry** entries;
-    void* __thiscall ResolveSound(Receiver* receiver, Description* description);
+    void* ResolveSound(Receiver* receiver, Description* description);
 };
-// @fnv 0x00dbebe0
-void* AudioResourceState::ResolveSound(Receiver* receiver, Description* description)
-{
-    ResourceKey key;
-    if (active && !description->FUN_009ba980())
-    {
-        description->FUN_009ba810(&key);
-        int index = lookup.FUN_009be8c0(key.first, key.second, -1);
-        if (index != -1)
-        {
-            receiver->FUN_009ba760(entries[index]->sound);
-            return receiver;
-        }
-    }
-    receiver->FUN_009ba780(description);
-    return receiver;
-}
-
 struct hkMemoryAllocator
 {
     virtual ~hkMemoryAllocator();
@@ -209,7 +240,7 @@ struct hkMemoryAllocator
 
 struct AudioMgr
 {
-    int unk00, unk04, unk08;
+    void *unk00, *unk04, *unk08;
     hkMemoryAllocator* unk0c;
     hkMemoryAllocator& tempHeap()
     {
@@ -219,11 +250,9 @@ struct AudioMgr
 
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
-void* __cdecl _fnv_zlib_memset(void* dst, int val, int n);
 
 struct hkCharArray
 {
@@ -241,7 +270,7 @@ struct hkCharArray
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, 1);
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, 1);
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -254,7 +283,7 @@ struct hkCharArray
             m_iElementCount = n;
             return;
         }
-        _fnv_zlib_memset(p, 0, num);
+        std::memset(p, 0, num);
         m_iElementCount = n;
     }
     __forceinline void setSizeUnchecked(int n)
@@ -298,9 +327,9 @@ struct ArrayDeallocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     ArrayDeallocator* m_pArrayDealloc;
     AudioAllocator* m_pAllocator;
 };
@@ -316,7 +345,6 @@ struct SubObject
     int m_i00;
     int m_i04;
     int m_i08;
-    void AllocBufferIfNotFlagged(AudioAllocator* apAllocator);
 };
 
 struct FUN_00dc03d0_cls
@@ -328,36 +356,6 @@ struct FUN_00dc03d0_cls
     unsigned int m_uCapacity;
     void ClearArray();
 };
-
-// @fnv 0x00dc03d0
-void FUN_00dc03d0_cls::ClearArray()
-{
-    for (int i = 0; i < m_iArrayLength; i++)
-    {
-        Element* pElement = m_ppArray[i];
-        if (pElement)
-        {
-            pElement->FUN_00dba7f0();
-            AudioHolder* pAllocHolder = (AudioHolder*)FUN_00c85750();
-            AudioAllocator* pAllocator = pAllocHolder->m_pAllocator;
-            pAllocator->Free(pElement, 4);
-        }
-    }
-
-    AudioHolder* pArrayHolder = (AudioHolder*)FUN_00c85750();
-    ArrayDeallocator* pDealloc = pArrayHolder->m_pArrayDealloc;
-    unsigned int uCapacity = m_uCapacity;
-    m_iArrayLength = 0;
-    if ((uCapacity & 0x80000000) == 0)
-        pDealloc->FreeArray(m_ppArray, (uCapacity & 0x3fffffff) * 4);
-
-    m_ppArray = 0;
-    m_uCapacity = 0x80000000;
-
-    AudioHolder* pSubHolder = (AudioHolder*)FUN_00c85750();
-    AudioAllocator* pSubAllocator = pSubHolder->m_pAllocator;
-    m_kSub.AllocBufferIfNotFlagged(pSubAllocator);
-}
 
 namespace fnv_00dc0460 {
 struct hkMemoryAllocator
@@ -371,7 +369,7 @@ struct hkMemoryAllocator
 
 struct AudioMgr
 {
-    int unk00, unk04, unk08;
+    void *unk00, *unk04, *unk08;
     hkMemoryAllocator* unk0c;
     hkMemoryAllocator* unk10;
     hkMemoryAllocator& tempHeap()
@@ -385,15 +383,15 @@ struct AudioMgr
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 struct Elem24
 {
-    int v[6];
+    int v[4];
+    uintptr_t key[2];
 };
 
 template <class T> struct hkArray
@@ -422,7 +420,6 @@ template <class T> struct hkArray
 struct MemberA
 {
     int pad[4];
-    void FreeBuffer();
 };
 struct MemberB
 {
@@ -431,13 +428,11 @@ struct MemberB
 };
 struct MemberC
 {
-    void ClearArray();
 };
 
 struct BaseObj
 {
     int pad[4];
-    void FUN_00d60590();
 };
 
 struct Obj : BaseObj
@@ -455,13 +450,13 @@ struct Obj : BaseObj
 // @fnv 0x00dc0460
 void Obj::FUN_00dc0460()
 {
-    m58.ClearArray();
+    reinterpret_cast<::FUN_00dc03d0_cls *>(&(m58))->ClearArray();
     m4c.ClearAndRelease();
     m40.ClearAndRelease();
     m34.AllocBufferIfNotFlagged(&audio()->heap());
-    m20.FreeBuffer();
-    m10.FreeBuffer();
-    FUN_00d60590();
+    reinterpret_cast<::FUN_00d877d0_class *>(&(m20))->FreeBuffer();
+    reinterpret_cast<::FUN_00d877d0_class *>(&(m10))->FreeBuffer();
+    reinterpret_cast<::D60590Object *>(this)->FUN_00d60590();
 }
 }  // namespace fnv_00dc0460
 
@@ -494,12 +489,10 @@ struct FUN_00dc05b0_writer
     int unk50;
     int unk54;
     Dc0380Layout audio;
-    void __thiscall FUN_00dc0500(int, int);
-    void __thiscall WriteInt(unsigned int);
-    void __thiscall WriteVarint(unsigned int, unsigned int);
-    void __thiscall FUN_00dbf450(int, int);
-    void __thiscall FUN_00dc00b0(int);
-    void __thiscall FUN_00dc0460();
+    void FUN_00dc0500(intptr_t, int);
+    void WriteVarint(unsigned int, unsigned int);
+    void FUN_00dbf450(int, int);
+    void FUN_00dc00b0(int);
 };
 struct CallbackTarget
 {
@@ -517,29 +510,28 @@ struct CallbackTarget
     {}
 };
 // @fnv 0x00dc05b0
-int __stdcall WriteAudioObject(int value, CallbackTarget* target, int source)
+int WriteAudioObject(int value, CallbackTarget* target, int source)
 {
     FUN_00dc05b0_writer writer;
-    writer.FUN_00dc0500((int)target, source);
-    writer.WriteInt(0xcab00d1e);
-    writer.WriteInt(0xd011face);
+    writer.FUN_00dc0500((intptr_t)target, source);
+    reinterpret_cast<::hkOArchive_2 *>(&(writer))->WriteInt(0xcab00d1e);
+    reinterpret_cast<::hkOArchive_2 *>(&(writer))->WriteInt(0xd011face);
     writer.WriteVarint(1, 0);
     writer.WriteVarint(0, 0);
     writer.FUN_00dbf450(value, 0);
     writer.FUN_00dc00b0(value);
     target->Complete();
-    writer.FUN_00dc0460();
+    reinterpret_cast<::fnv_00dc0460::Obj *>(&(writer))->FUN_00dc0460();
     return 0;
 }
 
 struct Obj
 {
-    void __thiscall FUN_00d605d0(unsigned char);
-    void __thiscall WriteVarint(__int64);
+    void WriteVarint(__int64);
 };
 
 // @fnv 0x00dbe790
-void __thiscall Obj::WriteVarint(__int64 value)
+void Obj::WriteVarint(__int64 value)
 {
     unsigned __int64 u;
 
@@ -560,21 +552,21 @@ void __thiscall Obj::WriteVarint(__int64 value)
     {
         do
         {
-            this->FUN_00d605d0((unsigned char)(byte | 0x80));
+            reinterpret_cast<::FUN_00d605d0_class *>((this))->FUN_00d605d0((unsigned char)(byte | 0x80));
             byte = (unsigned char)(u & 0x7f);
             u >>= 7;
         } while (u != 0);
     }
 
-    this->FUN_00d605d0(byte);
+    reinterpret_cast<::FUN_00d605d0_class *>((this))->FUN_00d605d0(byte);
 }
 
 struct FUN_00dbe8c0_cls
 {
     struct HashEntry
     {
-        unsigned int key0;
-        unsigned int key1;
+        uintptr_t key0;
+        uintptr_t key1;
         unsigned int value;
     };
 
@@ -582,12 +574,29 @@ struct FUN_00dbe8c0_cls
     unsigned int m_u04;
     unsigned int m_uMask;
 
-    unsigned int FindEntryValue(unsigned int aKey0, unsigned int aKey1, unsigned int aDefault);
+    unsigned int FindEntryValue(uintptr_t aKey0, uintptr_t aKey1, unsigned int aDefault);
 };
+// @fnv 0x00dbebe0
+void* AudioResourceState::ResolveSound(Receiver* receiver, Description* description)
+{
+    ResourceKey key;
+    if (active && !((int)(reinterpret_cast<::FUN_00dba980_cls *>((description))->FUN_00dba980())))
+    {
+        description->FUN_009ba810(&key);
+        int index = ((int)(reinterpret_cast<::FUN_00dbe8c0_cls *>(&(lookup))->FindEntryValue(key.first, key.second, -1)));
+        if (index != -1)
+        {
+            reinterpret_cast<::DataObjectHandle *>((receiver))->FUN_00dba760((::RefObj *)(entries[index]->sound));
+            return receiver;
+        }
+    }
+    reinterpret_cast<::FUN_00dba780_cls *>((receiver))->AssignRef((::FUN_00dba780_cls *)(description));
+    return receiver;
+}
 
 // Looks up the entry matching aKey0 and aKey1 in the open-addressed hash table and returns its value, or aDefault if not found.
 // @fnv 0x00dbe8c0
-unsigned int FUN_00dbe8c0_cls::FindEntryValue(unsigned int aKey0, unsigned int aKey1, unsigned int aDefault)
+unsigned int FUN_00dbe8c0_cls::FindEntryValue(uintptr_t aKey0, uintptr_t aKey1, unsigned int aDefault)
 {
     unsigned int mask = m_uMask;
     if ((int)mask > 0)
@@ -617,8 +626,8 @@ unsigned int FUN_00dbe8c0_cls::FindEntryValue(unsigned int aKey0, unsigned int a
 // an array of 12-byte entries, a flag word and the number of entries.
 struct HashEntry
 {
-    int unk00;
-    int unk04;
+    uintptr_t unk00;
+    uintptr_t unk04;
     int unk08;
 };
 
@@ -654,18 +663,46 @@ struct FUN_00dbe950_cls
     unsigned int m_04;
     unsigned int m_08;
 
-    void ClearEntries();
     void AllocBufferIfNotFlagged(AudioIface* apIface);
 };
+// @fnv 0x00dc03d0
+void FUN_00dc03d0_cls::ClearArray()
+{
+    for (int i = 0; i < m_iArrayLength; i++)
+    {
+        Element* pElement = m_ppArray[i];
+        if (pElement)
+        {
+            reinterpret_cast<::DBA7F0Ref *>((pElement))->FUN_00dba7f0();
+            AudioHolder* pAllocHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
+            AudioAllocator* pAllocator = pAllocHolder->m_pAllocator;
+            pAllocator->Free(pElement, 4);
+        }
+    }
+
+    AudioHolder* pArrayHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
+    ArrayDeallocator* pDealloc = pArrayHolder->m_pArrayDealloc;
+    unsigned int uCapacity = m_uCapacity;
+    m_iArrayLength = 0;
+    if ((uCapacity & 0x80000000) == 0)
+        pDealloc->FreeArray(m_ppArray, (uCapacity & 0x3fffffff) * 4);
+
+    m_ppArray = 0;
+    m_uCapacity = 0x80000000;
+
+    AudioHolder* pSubHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
+    AudioAllocator* pSubAllocator = pSubHolder->m_pAllocator;
+    reinterpret_cast<::FUN_00dbe950_cls *>(&(m_kSub))->AllocBufferIfNotFlagged((::AudioIface *)(pSubAllocator));
+}
 
 // @fnv 0x00dbe950
 void FUN_00dbe950_cls::AllocBufferIfNotFlagged(AudioIface* apIface)
 {
-    ClearEntries();
+    reinterpret_cast<::HashTableBase *>(this)->ClearEntries();
     if ((m_04 & 0x80000000u) == 0)
     {
         unsigned int uCount = m_08 + 1;
-        apIface->Alloc(m_00, uCount * 12u);
+        apIface->Alloc(m_00, uCount * (unsigned int)sizeof(HashEntry));
     }
 }
 
@@ -678,14 +715,13 @@ struct AllocOwner
 
 struct Entry12
 {
-    int a;
-    int b;
+    uintptr_t a;
+    uintptr_t b;
     int c;
 };
 
 struct FUN_00dbe810_cls
 {
-    void InsertOrUpdate(AllocOwner* alloc, int e0, int e1, int e2);
 };
 
 struct FUN_00dbec60_cls
@@ -697,37 +733,6 @@ struct FUN_00dbec60_cls
     void FUN_00dbec60(AllocOwner* alloc, int count);
 };
 
-// @fnv 0x00dbec60
-void FUN_00dbec60_cls::FUN_00dbec60(AllocOwner* alloc, int count)
-{
-    int newCap = count;
-    if (newCap <= 8)
-        newCap = 8;
-
-    unsigned int oldFlags = m_04 & 0x80000000u;
-    Entry12* pOldEntries = m_00;
-    int oldCount = m_08 + 1;
-
-    m_00 = (Entry12*)alloc->Alloc(newCap * 12);
-    for (int i = 0; i < newCap; ++i)
-        m_00[i].a = 0;
-
-    m_04 = 0;
-    m_08 = newCap - 1;
-
-    for (int i = 0; i < oldCount; ++i)
-    {
-        if (pOldEntries[i].a == 0)
-            continue;
-        volatile Entry12* v = pOldEntries;
-        reinterpret_cast<FUN_00dbe810_cls*>(this)->InsertOrUpdate(alloc, v[i].a, v[i].b, v[i].c);
-    }
-
-    if (oldFlags == 0)
-        alloc->Free(pOldEntries, oldCount * 12);
-}
-
-extern "C" int __cdecl FUN_00cb10d0(const char* s);
 
 struct DBED30StringMap
 {
@@ -735,7 +740,6 @@ struct DBED30StringMap
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    int FindValueForKey(const char* key, int def) const;
     void insert(const char* key, int val);
 };
 
@@ -747,8 +751,6 @@ struct DBED30Writer
     int unk0C;
     DBED30StringMap m_pStringFunctions;
 
-    void WriteSigned64BitInteger(__int64 i);
-    void WriteByteArray(const void* buf, int nbytes);
     void WriteString(const char* s);
 };
 
@@ -758,22 +760,22 @@ void DBED30Writer::WriteString(const char* pcString)
 {
     if (pcString)
     {
-        int index = m_pStringFunctions.FindValueForKey(pcString, -1);
+        intptr_t index = reinterpret_cast<::hkObjectD878 *>((void *)&(m_pStringFunctions))->GetValue((intptr_t)(pcString), -1);
         if (index == -1)
         {
-            int len = FUN_00cb10d0(pcString);
-            WriteSigned64BitInteger(len);
-            WriteByteArray(pcString, len);
-            m_pStringFunctions.insert(pcString, m_pStringFunctions.m_iCapacityFlags + 1);
+            intptr_t len = ::fnv_00cb10d0::FUN_00cb10d0(pcString);
+            reinterpret_cast<::Obj *>(this)->WriteVarint(len);
+            reinterpret_cast<::FUN_00d607b0_class *>(this)->FUN_00d607b0((intptr_t)(pcString));
+            reinterpret_cast<::hkStringMapD874 *>(&(m_pStringFunctions))->FUN_00d874d0(pcString, m_pStringFunctions.m_iCapacityFlags + 1);
         }
         else
         {
-            WriteSigned64BitInteger(-index);
+            reinterpret_cast<::Obj *>(this)->WriteVarint(-index);
         }
     }
     else
     {
-        WriteSigned64BitInteger(-1);
+        reinterpret_cast<::Obj *>(this)->WriteVarint(-1);
     }
 }
 
@@ -783,21 +785,19 @@ struct S_dbefc0_Heap
 };
 struct S_dbefc0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     S_dbefc0_Heap* unk0c;
     S_dbefc0_Heap& heap()
     {
         return *unk0c;
     }
 };
-void __cdecl FUN_00c908c0(S_dbefc0_Heap* heap, void* arr, int n, int elemSize);
-void* __cdecl FUN_00ec61c0(void* dst, int value, unsigned int count);
 
 static __forceinline S_dbefc0_Heap& S_dbefc0_GetHeap()
 {
-    return ((S_dbefc0_Router*)FUN_00c85750())->heap();
+    return ((S_dbefc0_Router*)static_cast<BSAudio*>(::FUN_00c85750()))->heap();
 }
 
 struct S_dbefc0_Bytes
@@ -812,7 +812,7 @@ struct S_dbefc0_Bytes
         if (c < n)
         {
             int c2 = c + c;
-            FUN_00c908c0(&heap, this, (n < c2) ? c2 : n, 1);
+            ::FUN_00c908c0((::SpawnedObject *)(::S_dbefc0_Heap *)(&heap), (::SpawnedArray *)(void *)(this), (n < c2) ? c2 : n, 1);
         }
     }
     __forceinline void _setSize(S_dbefc0_Heap& heap, int n)
@@ -825,7 +825,7 @@ struct S_dbefc0_Bytes
             size = n;
             return;
         }
-        FUN_00ec61c0(p, 0, diff);
+        std::memset(p, 0, diff);
         size = n;
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -874,29 +874,27 @@ struct Rec_00dbf0d0
     unsigned char* unk00;  // data buffer
     int unk04;             // used size
     int unk08;             // capacity (low 30 bits) + flags
-    void __thiscall PackBitsToBytes(unsigned char* dest);
+    void PackBitsToBytes(unsigned char* dest);
 };
 
-void __cdecl fnv_grow_00c908c0(int audioD, Rec_00dbf0d0* self, int newCap, int flag);
-void __cdecl fnv_memset_00ec61c0(void* dest, int ch, int count);
 
 // @fnv 0x00dbf0d0
-void __thiscall Rec_00dbf0d0::PackBitsToBytes(unsigned char* dest)
+void Rec_00dbf0d0::PackBitsToBytes(unsigned char* dest)
 {
     int oldSize = this->unk04;
     int newSize = (oldSize + 7) & 0xfffffff8;
 
     // make sure the buffer can hold the padded size
     {
-        BSAudio* audio = FUN_00c85750();
-        int audioD = audio->d;
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
+        intptr_t audioD = audio->d;
         int cap = this->unk08 & 0x3fffffff;
         if (cap < newSize)
         {
             int newCap = cap + cap;
             if (newSize >= newCap)
                 newCap = newSize;
-            fnv_grow_00c908c0(audioD, this, newCap, 1);
+            ::FUN_00c908c0((::SpawnedObject *)(audioD), (::SpawnedArray *)(::Rec_00dbf0d0 *)(this), newCap, 1);
         }
     }
 
@@ -907,7 +905,7 @@ void __thiscall Rec_00dbf0d0::PackBitsToBytes(unsigned char* dest)
         while (delta > 0)
         {
             int chunk = delta;
-            fnv_memset_00ec61c0(dst, 0, chunk);
+            std::memset(dst, 0, chunk);
             dst += chunk;
             delta -= chunk;
         }
@@ -932,21 +930,20 @@ void __thiscall Rec_00dbf0d0::PackBitsToBytes(unsigned char* dest)
 
     // give the memory back
     {
-        BSAudio* audio = FUN_00c85750();
-        int audioD = audio->d;
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
+        intptr_t audioD = audio->d;
         int cap = this->unk08 & 0x3fffffff;
         if (cap < oldSize)
         {
             int newCap = cap + cap;
             if (oldSize >= newCap)
                 newCap = oldSize;
-            fnv_grow_00c908c0(audioD, this, newCap, 1);
+            ::FUN_00c908c0((::SpawnedObject *)(audioD), (::SpawnedArray *)(::Rec_00dbf0d0 *)(this), newCap, 1);
         }
     }
     this->unk04 = oldSize;
 }
 
-extern int DAT_01011584;
 struct S_00dc0500_Flag
 {
     bool b;
@@ -975,7 +972,6 @@ struct S_00dc0500_Str
     int unk04;
     int unk08;
     int unk0c;
-    void __thiscall FUN_00d874d0(int* s, int n);
 };
 struct FUN_00d87790 : S_00dc0500_Str
 {
@@ -988,13 +984,13 @@ struct S_00dc0500_Holder : UnkHolder
         a = 0;
         b = 0;
         c = -1;
-        BSAudio* p = FUN_00c85750();
+        BSAudio* p = static_cast<BSAudio*>(::FUN_00c85750());
         FUN_00dbedb0((UnkRet*)p->e, 0);
     }
 };
 struct S_00dc0500_Arr
 {
-    int a;
+    void* a;
     int b;
     int c;
     S_00dc0500_Arr() : a(0), b(0), c(0x80000000)
@@ -1016,21 +1012,15 @@ FUN_00dc0500::FUN_00dc0500(BSAudio* pAudio, BSAudio* a2)
     : FUN_00d60830(pAudio, S_00dc0500_Opt(false)), m_10(S_00dc0500_Flag(false)), m_20(S_00dc0500_Flag(false)), m_30(0),
       m_58(a2)
 {
-    m_20.FUN_00d874d0(&DAT_01011584, 0);
-    m_10.FUN_00d874d0(&DAT_01011584, 0);
+    reinterpret_cast<::hkStringMapD874 *>(&(m_20))->FUN_00d874d0((const char *)(int *)(&(*reinterpret_cast<int *>((void *)&::DAT_01011584))), 0);
+    reinterpret_cast<::hkStringMapD874 *>(&(m_10))->FUN_00d874d0((const char *)(int *)(&(*reinterpret_cast<int *>((void *)&::DAT_01011584))), 0);
 }
 
-inline void* operator new(size_t, void* p) throw()
-{
-    return p;
-}
 
 struct S_dbf1a0_Map
 {
     int unk00;
     int unk04;
-    int __thiscall GetValue(const char* name, int defValue) throw();
-    void __thiscall FUN_00d874d0(const char* name, int value) throw();
 };
 
 struct S_dbf1a0_Handle
@@ -1038,7 +1028,7 @@ struct S_dbf1a0_Handle
     void* m_ptr;
     S_dbf1a0_Handle(void* p) throw()
     {
-        FUN_00dba650(p);
+        reinterpret_cast<::FUN_00dba650_cls *>(this)->FUN_00dba650((uintptr_t)(p));
     }
     S_dbf1a0_Handle() throw()
     {
@@ -1046,22 +1036,20 @@ struct S_dbf1a0_Handle
     }
     ~S_dbf1a0_Handle() throw()
     {
-        FUN_00dba660();
+        ::FUN_00dba660();
     }
 
-    void __thiscall FUN_00dba650(void* p) throw();
-    void __thiscall FUN_00dba660() throw();
-    const char* __thiscall FUN_00dba680() const throw();
-    int __thiscall FUN_00dba690() const throw();
-    S_dbf1a0_Handle __thiscall SetShiftedValue() const throw();
-    int __thiscall FUN_00dba6f0() const throw();
-    void __thiscall DispatchRecords(void* arr) const throw();
+    void FUN_00dba650(void* p) throw();
+    void FUN_00dba660() throw();
+    const char* FUN_00dba680() const throw();
+    int FUN_00dba690() const throw();
+    int FUN_00dba6f0() const throw();
 };
 
 struct S_dbf1a0_Elem
 {
     const char* name;
-    int unk04;
+    const void* unk04;
     int flags;
     void* sub;
     int unk10;
@@ -1092,7 +1080,7 @@ struct hkTempAlloc : hkMemoryAllocator
 
 struct S_dbf1a0_Router
 {
-    int unk00, unk04, unk08;
+    void *unk00, *unk04, *unk08;
     hkTempAlloc* unk0c;
     hkTempAlloc& heap() throw()
     {
@@ -1108,7 +1096,7 @@ template <typename T> struct S_dbf1a0_Array
 
     __forceinline S_dbf1a0_Array(int n) throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {
-        hkTempAlloc& alloc = ((S_dbf1a0_Router*)FUN_00c85750())->heap();
+        hkTempAlloc& alloc = ((S_dbf1a0_Router*)static_cast<BSAudio*>(::FUN_00c85750()))->heap();
         T* p = n ? alloc._bufAlloc<T>(n) : 0;
         int cap = n ? n : 0x80000000;
         m_data = p;
@@ -1127,7 +1115,7 @@ template <typename T> struct S_dbf1a0_Array
 
     __forceinline ~S_dbf1a0_Array() throw()
     {
-        hkTempAlloc& alloc = ((S_dbf1a0_Router*)FUN_00c85750())->heap();
+        hkTempAlloc& alloc = ((S_dbf1a0_Router*)static_cast<BSAudio*>(::FUN_00c85750()))->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc._bufFree<T>(m_data, m_iCapacityState & 0x3fffffff);
@@ -1146,13 +1134,11 @@ struct S_dbf1a0_Writer
     int unk1c;
     S_dbf1a0_Map m_map;
 
-    void __thiscall WriteVarint(__int64 val) throw();
-    void __thiscall WriteString(const char* str) throw();
-    int WriteHandle(const S_dbf1a0_Handle& h) throw();
+    intptr_t WriteHandle(const S_dbf1a0_Handle& h) throw();
 };
 
 // @fnv 0x00dbf1a0
-int S_dbf1a0_Writer::WriteHandle(const S_dbf1a0_Handle& ahHandle) throw()
+intptr_t S_dbf1a0_Writer::WriteHandle(const S_dbf1a0_Handle& ahHandle) throw()
 {
     if (!ahHandle.m_ptr)
     {
@@ -1160,16 +1146,16 @@ int S_dbf1a0_Writer::WriteHandle(const S_dbf1a0_Handle& ahHandle) throw()
     }
 
     const char* name = ahHandle.FUN_00dba680();
-    int id = m_map.GetValue(name, -1);
+    intptr_t id = reinterpret_cast<::hkObjectD878 *>(&(m_map))->GetValue((intptr_t)(name), -1);
     if (id >= 0)
     {
         return id;
     }
 
-    int parentId = WriteHandle(ahHandle.SetShiftedValue());
+    intptr_t parentId = WriteHandle((*(::S_dbf1a0_Handle *)(reinterpret_cast<::FUN_00dba6a0_cls *>((void *)&(ahHandle))->SetShiftedValue({}))));
 
     name = ahHandle.FUN_00dba680();
-    id = m_map.GetValue(name, -1);
+    id = reinterpret_cast<::hkObjectD878 *>(&(m_map))->GetValue((intptr_t)(name), -1);
     if (id != -1)
     {
         return id;
@@ -1177,37 +1163,37 @@ int S_dbf1a0_Writer::WriteHandle(const S_dbf1a0_Handle& ahHandle) throw()
 
     int iContactPointId = m_map.unk04;
     const char* curName = ahHandle.FUN_00dba680();
-    m_map.FUN_00d874d0(curName, iContactPointId);
+    reinterpret_cast<::hkStringMapD874 *>(&(m_map))->FUN_00d874d0(curName, iContactPointId);
     int count = ahHandle.FUN_00dba6f0();
 
     S_dbf1a0_Array<S_dbf1a0_Elem> arr(count);
-    ahHandle.DispatchRecords(&arr);
+    reinterpret_cast<::FUN_00dbaf10_cls *>((void *)&(ahHandle))->DispatchRecords(&arr);
 
-    WriteVarint(2);
-    WriteString(ahHandle.FUN_00dba680());
-    WriteVarint(ahHandle.FUN_00dba690());
-    WriteVarint(parentId);
-    WriteVarint(count);
+    reinterpret_cast<::Obj *>(this)->WriteVarint(2);
+    reinterpret_cast<::DBED30Writer *>(this)->WriteString(ahHandle.FUN_00dba680());
+    reinterpret_cast<::Obj *>(this)->WriteVarint(ahHandle.FUN_00dba690());
+    reinterpret_cast<::Obj *>(this)->WriteVarint(parentId);
+    reinterpret_cast<::Obj *>(this)->WriteVarint(count);
 
     for (int i = 0; i < count; ++i)
     {
         S_dbf1a0_Elem* elem = &arr.m_data[i];
-        WriteString(elem->name);
-        WriteVarint(elem->flags);
+        reinterpret_cast<::DBED30Writer *>(this)->WriteString(elem->name);
+        reinterpret_cast<::Obj *>(this)->WriteVarint(elem->flags);
         if (elem->flags & 0x20)
         {
-            WriteVarint(arr.m_data[i].unk10);
+            reinterpret_cast<::Obj *>(this)->WriteVarint(arr.m_data[i].unk10);
         }
         int type = elem->flags & 0xf;
         if (type == 9 || type == 8)
         {
             if (elem->sub)
             {
-                WriteString(S_dbf1a0_Handle(elem->sub).FUN_00dba680());
+                reinterpret_cast<::DBED30Writer *>(this)->WriteString(S_dbf1a0_Handle(elem->sub).FUN_00dba680());
             }
             else
             {
-                WriteVarint(-1LL);
+                reinterpret_cast<::Obj *>(this)->WriteVarint(-1LL);
             }
         }
     }
@@ -1228,8 +1214,8 @@ class hkMemoryAllocatorDBE8;
 
 struct hkPairKeyDBE8
 {
-    unsigned int m_k1;
-    unsigned int m_k2;
+    uintptr_t m_k1;
+    uintptr_t m_k2;
     bool operator==(const hkPairKeyDBE8& o) const
     {
         return m_k1 == o.m_k1 && m_k2 == o.m_k2;
@@ -1249,16 +1235,44 @@ class hkPairMapDBE8
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void FUN_00dbec60(hkMemoryAllocatorDBE8& alloc, int iNewCap);
     int InsertOrUpdate(hkMemoryAllocatorDBE8& alloc, hkPairKeyDBE8 key, unsigned int uiValue);
 };
+// @fnv 0x00dbec60
+void FUN_00dbec60_cls::FUN_00dbec60(AllocOwner* alloc, int count)
+{
+    int newCap = count;
+    if (newCap <= 8)
+        newCap = 8;
+
+    unsigned int oldFlags = m_04 & 0x80000000u;
+    Entry12* pOldEntries = m_00;
+    int oldCount = m_08 + 1;
+
+    m_00 = (Entry12*)alloc->Alloc(newCap * (unsigned int)sizeof(Entry12));
+    for (int i = 0; i < newCap; ++i)
+        m_00[i].a = 0;
+
+    m_04 = 0;
+    m_08 = newCap - 1;
+
+    for (int i = 0; i < oldCount; ++i)
+    {
+        if (pOldEntries[i].a == 0)
+            continue;
+        volatile Entry12* v = pOldEntries;
+        reinterpret_cast<::hkPairMapDBE8 *>((reinterpret_cast<FUN_00dbe810_cls*>(this)))->InsertOrUpdate((*(::hkMemoryAllocatorDBE8 *)(alloc)), ::hkPairKeyDBE8{v[i].a, v[i].b}, v[i].c);
+    }
+
+    if (oldFlags == 0)
+        alloc->Free(pOldEntries, oldCount * (unsigned int)sizeof(Entry12));
+}
 
 // Grows the map if needed, finds the slot for key via open addressing, stores uiValue, and returns 1 if the key was newly inserted.
 // @fnv 0x00dbe810
 int hkPairMapDBE8::InsertOrUpdate(hkMemoryAllocatorDBE8& alloc, hkPairKeyDBE8 key, unsigned int uiValue)
 {
     if ((m_iCapacityFlags & 0x7fffffff) * 2 > m_iPairCount)
-        FUN_00dbec60(alloc, m_iPairCount * 2 + 2);
+        reinterpret_cast<::FUN_00dbec60_cls *>(this)->FUN_00dbec60((::AllocOwner *)&(alloc), m_iPairCount * 2 + 2);
 
     unsigned int i = ((key.m_k1 >> 4) * 0x9e3779b1) & m_iPairCount;
     int isNewKey = 1;
@@ -1282,10 +1296,10 @@ struct ObjC;
 struct Arr;
 struct Rec
 {
-    int key;
-    int value;
+    intptr_t key;
+    intptr_t value;
     int enabled;
-    int fourth;
+    intptr_t fourth;
     int fifth;
     Rec() : key(0), value(0), enabled(0), fourth(0), fifth(0)
     {}
@@ -1297,14 +1311,12 @@ struct Wrap
     __declspec(nothrow) Pair FUN_00dbabb0(int idx) const;
     __declspec(nothrow) Pair FUN_00dbab90(int idx) const;
     __declspec(nothrow) int FUN_00dbac00() const;
-    __declspec(nothrow) void FUN_00dbab70();
     __declspec(nothrow) void FUN_00dba7f0();
     __declspec(nothrow) ObjC FUN_00dbac20() const;
     __declspec(nothrow) void FUN_00dba660();
-    __declspec(nothrow) Wrap InvokeCallbackInto(int v) const;
     ~Wrap()
     {
-        FUN_00dbab70();
+        reinterpret_cast<::FUN_00dbab70_cls *>(this)->FUN_00dbab70();
     }
 };
 struct Node50
@@ -1319,9 +1331,8 @@ struct Pair
     void* m_p;
     int m_i;
     __declspec(nothrow) Wrap FUN_00dbacd0();
-    __declspec(nothrow) StringHandle CreateValueInto();
     __declspec(nothrow) Node50* DispatchToVTableSlot8(int mode);
-    __declspec(nothrow) int FUN_00dbac70();
+    __declspec(nothrow) intptr_t FUN_00dbac70();
     __declspec(nothrow) float ApplyValue();
     __declspec(nothrow) int CallVirtualWithArg();
 };
@@ -1338,11 +1349,10 @@ struct ObjC
 {
     void* m_00;
     __declspec(nothrow) int FUN_00dba730();
-    __declspec(nothrow) void DispatchItems(Arr& a);
     __declspec(nothrow) void FUN_00dba660();
     ~ObjC()
     {
-        FUN_00dba660();
+        ::FUN_00dba660();
     }
 };
 struct __declspec(align(8)) Obj2
@@ -1351,7 +1361,6 @@ struct __declspec(align(8)) Obj2
     int m_04;
     int m_08;
     __declspec(nothrow) void FUN_00dbef20(int n);
-    __declspec(nothrow) void PackBitsToBytes(void* data);
 };
 struct AllocV
 {
@@ -1378,7 +1387,7 @@ __forceinline Arr::Arr(int n)
     m_data = 0;
     m_iElementCount = 0;
     m_cap = (int)0x80000000;
-    BSAudio* router = FUN_00c85750();
+    BSAudio* router = static_cast<BSAudio*>(::FUN_00c85750());
     AllocV* allocator = (AllocV*)router->d;
     Rec* data = allocateRecords(allocator, capacity);
     int flags = capacity ? capacity : (int)0x80000000;
@@ -1388,206 +1397,26 @@ __forceinline Arr::Arr(int n)
     for (int k = 0; k < capacity; ++k)
         new (data + k) Rec;
 }
-extern "C" void __cdecl FUN_00c908c0(void* owner, Arr* arr, int newCap, int stride);
 struct Host
 {
     __declspec(nothrow) void WriteArray(const Wrap& arg0, int count);
-    __declspec(nothrow) void FUN_00d605d0(int v);
-    __declspec(nothrow) void WriteVarint(__int64 v);
-    __declspec(nothrow) void HashUInt(float f);
-    __declspec(nothrow) void WriteFloatArray(void* p, int v);
-    __declspec(nothrow) void FUN_00dc00b0(const StringHandle& v);
-    __declspec(nothrow) void WriteString(int v);
-    __declspec(nothrow) void FUN_00d607b0(void* p, int n);
-    __declspec(nothrow) int IsTruthy(Pair* p);
 };
-// Dispatches on the wrapper's type value and writes values or packed member data to the host.
-// @fnv 0x00dbf930
-void Host::WriteArray(const Wrap& arg0, int count)
-{
-    long i;
-    if (arg0.FUN_00dbac10() & 0x20)
-    {
-        for (i = 0; i < count; i++)
-        {
-            Wrap j = arg0.FUN_00dbabb0(i).FUN_00dbacd0();
-            int n = j.FUN_00dbac00();
-            WriteArray(j, n);
-        }
-        return;
-    }
-    switch (arg0.FUN_00dbac10())
-    {
-    case 0:
-        return;
-    case 5:
-        return;
-    case 1: {
-        for (i = 0; i < count; i++)
-        {
-            FUN_00d605d0(arg0.FUN_00dbabb0(i).CallVirtualWithArg());
-        }
-    }
-    break;
-    case 2: {
-        for (i = 0; i < count; i++)
-        {
-            WriteVarint((__int64)arg0.FUN_00dbabb0(i).CallVirtualWithArg());
-        }
-    }
-    break;
-    case 3: {
-        for (i = 0; i < count; i++)
-        {
-            float fValue = arg0.FUN_00dbabb0(i).ApplyValue();
-            HashUInt(fValue);
-        }
-    }
-    break;
-    case 4: {
-        int n = count;
-        int mode = 3;
-        int i;
-        for (i = 0; i < n; i++)
-        {
-            Node50* pNode = arg0.FUN_00dbabb0(i).DispatchToVTableSlot8(4);
-            if (pNode->m_0c != 0.0f)
-            {
-                mode = 4;
-                break;
-            }
-        }
-        WriteVarint((__int64)mode);
-        for (i = 0; i < n; i++)
-        {
-            Node50* value = arg0.FUN_00dbabb0(i).DispatchToVTableSlot8(4);
-            WriteFloatArray(value, mode);
-        }
-    }
-    break;
-    case 6:
-    case 7: {
-        int t = arg0.FUN_00dbac10();
-        int off = 4 * t - 12;
-        for (i = 0; i < count; i++)
-        {
-            Node50* value = arg0.FUN_00dbabb0(i).DispatchToVTableSlot8(off);
-            WriteFloatArray(value, off);
-        }
-    }
-    break;
-    case 9: {
-        Obj2 packedBits;
-        int iCount = arg0.FUN_00dbac20().FUN_00dba730();
-        Arr items(iCount);
-        arg0.FUN_00dbac20().DispatchItems(items);
-        packedBits.FUN_00dbef20(iCount);
-        for (int idx = 0; idx < iCount; idx++)
-        {
-            Rec* r = (Rec*)((char*)items.m_data + idx * 20);
-
-            if (r->enabled != 0)
-            {
-                Wrap w9 = arg0.InvokeCallbackInto(r->key);
-                int buf = w9.FUN_00dbac00();
-                for (int j = 0; j < buf; j++)
-                {
-                    if (IsTruthy(&w9.FUN_00dbab90(j)) != 0)
-                    {
-                        packedBits.m_00[idx] = 1;
-                        break;
-                    }
-                    buf = w9.FUN_00dbac00();
-                }
-            }
-        }
-        hkCharArray m;
-        m.m_data = 0;
-        m.m_iElementCount = 0;
-        m.m_iCapacityState = (int)0x80000000;
-        int need = ((packedBits.m_04 + 7) & ~7) / 8;
-        m.setSizeUnchecked(need);
-        packedBits.PackBitsToBytes(m.m_data);
-        FUN_00d607b0(m.m_data, m.m_iElementCount);
-        {
-            BSAudio* pRouter = FUN_00c85750();
-            AllocV* pAllocator = (AllocV*)(void*)pRouter->d;
-            long cap2 = m.m_iCapacityState;
-            m.m_iElementCount = 0;
-            if ((cap2 & 0x80000000u) == 0)
-                pAllocator->Free(m.m_data, cap2 & 0x3fffffff);
-        }
-        {
-            for (i = 0; i < iCount; i++)
-            {
-                if (packedBits.m_00[i] != 0)
-                {
-                    Rec* r;
-                    r = (Rec*)((char*)items.m_data + i * 20);
-
-                    Wrap w9b = arg0.InvokeCallbackInto(r->key);
-                    WriteArray(w9b, count);
-                }
-            }
-        }
-        {
-            BSAudio* sn = FUN_00c85750();
-            AllocV* mn = (AllocV*)(void*)sn->d;
-            int cap = packedBits.m_08;
-            packedBits.m_04 = 0;
-            if ((cap & 0x80000000u) == 0)
-                mn->Free(packedBits.m_00, cap & 0x3fffffff);
-            packedBits.m_00 = 0;
-            packedBits.m_08 = (int)0x80000000;
-        }
-        {
-            BSAudio* s4 = FUN_00c85750();
-            AllocV* mgr4 = (AllocV*)(void*)s4->d;
-            long cap1 = items.m_cap;
-            items.m_iElementCount = 0;
-            if ((cap1 & 0x80000000u) == 0)
-                mgr4->Free(items.m_data, (cap1 & 0x3fffffff) * 20);
-        }
-    }
-    break;
-    case 8: {
-        for (i = 0; i < count; i++)
-        {
-            FUN_00dc00b0(arg0.FUN_00dbabb0(i).CreateValueInto());
-        }
-    }
-    break;
-    case 10: {
-        for (i = 0; i < count; i++)
-        {
-            WriteString(arg0.FUN_00dbabb0(i).FUN_00dbac70());
-        }
-    }
-    break;
-    default:
-        break;
-    }
-}
-
 struct S_00dbfef0_A;
 struct S_00dbfef0_B;
 
 struct S_00dbfef0_X
 {
-    int unk00;
-    int unk04;
+    const char* unk00;
+    const void* unk04;
     int unk08;
-    int unk0C;
+    void* unk0C;
 };
 
 struct S_00dbfef0_Node
 {
-    int QueryAndWriteResult();
-    int FUN_00dba990();
     float FUN_00dbaa00();
     int DispatchToInterface(int n);
-    int FUN_00dba9c0();
-    int FUN_00dba9d0(S_00dbfef0_B* out);
+    intptr_t FUN_00dba9c0();
     void GetResult(S_00dbfef0_A* out);
 };
 
@@ -1605,12 +1434,10 @@ struct S_00dbfef0_A
     int FUN_00dbac00();
     int FUN_00dbac10();
     void FUN_00dbac20(S_00dbfef0_B* b);
-    void FUN_00dbab70();
 };
 
 struct S_00dbfef0_Sub
 {
-    int GetValue(int a, int b);
 };
 
 struct S_00dbfef0_Visitor
@@ -1624,102 +1451,30 @@ struct S_00dbfef0_Visitor
     int unk18;
     int unk1C;
     S_00dbfef0_Sub m_sub;
-    void FUN_00d605d0(int v);
-    void HashUInt(float v);
-    void WriteFloatArray(int p, int n);
-    void WriteVarint(__int64 v);
-    void WriteString(int v);
-    void WriteArray(S_00dbfef0_A* a, int n);
-    void FUN_00dc00b0(int v);
     void WriteNode(S_00dbfef0_Node* node, S_00dbfef0_B b);
 };
 
-// Writes a node's result to the visitor's output stream, dispatching on the result type to emit varints, floats, strings, or nested values.
-// @fnv 0x00dbfef0
-void S_00dbfef0_Visitor::WriteNode(S_00dbfef0_Node* node, S_00dbfef0_B b)
-{
-    if (node->QueryAndWriteResult() & 0x20)
-    {
-        S_00dbfef0_A a;
-        node->GetResult(&a);
-        WriteArray(&a, a.FUN_00dbac00());
-        a.FUN_00dbab70();
-        return;
-    }
-    if (node->QueryAndWriteResult() & 0x10)
-    {
-        S_00dbfef0_A a;
-        node->GetResult(&a);
-        int n = a.FUN_00dbac00();
-        WriteVarint(n);
-        if (a.FUN_00dbac10() == 9 && b.p->unk0C == 0)
-        {
-            a.FUN_00dbac20(&b);
-            int v = b.FUN_00dba680();
-            int r = m_sub.GetValue(v, 0);
-            WriteVarint(r);
-            b.FUN_00dba660();
-        }
-        WriteArray(&a, n);
-        a.FUN_00dbab70();
-        return;
-    }
-    switch (node->QueryAndWriteResult())
-    {
-    case 1:
-        FUN_00d605d0(node->FUN_00dba990());
-        break;
-    case 2:
-        WriteVarint(node->FUN_00dba990());
-        break;
-    case 3: {
-        float f = node->FUN_00dbaa00();
-        HashUInt(f);
-    }
-    break;
-    case 4:
-    case 6:
-    case 7: {
-        int n = node->QueryAndWriteResult() * 4 - 12;
-        int p = node->DispatchToInterface(n);
-        WriteFloatArray(p, n);
-        break;
-    }
-    case 8:
-    case 9:
-        FUN_00dc00b0(node->FUN_00dba9d0(&b));
-        b.FUN_00dba7f0();
-        break;
-    case 10:
-        WriteString(node->FUN_00dba9c0());
-        break;
-    }
-}
-
 struct HkNodeE980
 {
-    int QueryAndWriteResult();
-    int FUN_00dba990();
     int FUN_00dba9c0();
     float FUN_00dbaa00();
-    __declspec(nothrow) StringHandle FUN_00dba9d0();
     __declspec(nothrow) ObjectHandle GetResult();
 };
 // Evaluates a node by dispatching on its type code and returning the corresponding boolean result.
 // @fnv 0x00dbe980
-int __stdcall EvaluateNode(HkNodeE980* node)
+int EvaluateNode(HkNodeE980* node)
 {
-    if (node->QueryAndWriteResult() >= 0x10)
+    if (reinterpret_cast<::fnv_00dba920::Target *>((node))->QueryAndWriteResult() >= 0x10)
     {
         return node->GetResult().FUN_00dbac00();
     }
-    switch (node->QueryAndWriteResult())
+    switch (reinterpret_cast<::fnv_00dba920::Target *>((node))->QueryAndWriteResult())
     {
     case 0:
         return 0;
     case 1:
     case 2:
-        return node->FUN_00dba990() != 0;
+        return reinterpret_cast<::S_00dba990 *>((node))->FUN_00dba990() != 0;
     case 3:
         return node->FUN_00dbaa00() != 0.0f;
     case 4:
@@ -1728,7 +1483,7 @@ int __stdcall EvaluateNode(HkNodeE980* node)
         return 1;
     case 8:
     case 9:
-        return node->FUN_00dba9d0().FUN_00dba980() == 0;
+        return ((int)(reinterpret_cast<::FUN_00dba980_cls *>((void *)&(const ::StringHandle &)((*(::StringHandle *)(reinterpret_cast<::FUN_00dba9d0_cls *>((node))->FUN_00dba9d0({})))))->FUN_00dba980())) == 0;
     case 16:
         return node->GetResult().FUN_00dbac00() != 0;
     case 10:
@@ -1737,7 +1492,6 @@ int __stdcall EvaluateNode(HkNodeE980* node)
     return 0;
 }
 
-typedef unsigned int size_t;
 struct __declspec(nothrow) IHeap
 {
     virtual void v00();
@@ -1760,11 +1514,10 @@ struct FUN_00dba650
     {}
     __declspec(nothrow) ~FUN_00dba650()
     {
-        FUN_00dba660();
+        ::FUN_00dba660();
     }
-    __declspec(nothrow) void __thiscall FUN_00dba660();
-    __declspec(nothrow) int __thiscall FUN_00dba730();
-    __declspec(nothrow) void __thiscall DispatchItems(void* arr);
+    __declspec(nothrow) void FUN_00dba660();
+    __declspec(nothrow) int FUN_00dba730();
 };
 struct MyDesc
 {
@@ -1775,21 +1528,18 @@ struct MyDesc
     }
     __declspec(nothrow) ~MyDesc()
     {
-        FUN_00dba7f0();
+        reinterpret_cast<::DBA7F0Ref *>(this)->FUN_00dba7f0();
     }
-    __declspec(nothrow) int __thiscall FUN_00dba980();
-    __declspec(nothrow) void __thiscall FUN_00dba7f0();
-    __declspec(nothrow) ResourceKey __thiscall GetSourcePair();
-    __declspec(nothrow) FUN_00dba650 __thiscall GetObjectValue();
-    __declspec(nothrow) ResourceKey __thiscall FUN_00dba890(int id);
+    __declspec(nothrow) void FUN_00dba7f0();
+    __declspec(nothrow) ResourceKey GetSourcePair();
+    __declspec(nothrow) FUN_00dba650 GetObjectValue();
+    __declspec(nothrow) ResourceKey FUN_00dba890(intptr_t id);
 };
 struct AudioResourceState2
 {
-    __declspec(nothrow) MyDesc __thiscall ResolveSound(MyDesc* obj);
 };
 struct MyHolder
 {
-    __declspec(nothrow) int __thiscall FindEntryValue(ResourceKey key, int aDefault);
 };
 struct Entry24
 {
@@ -1797,15 +1547,15 @@ struct Entry24
     int unk04;
     int unk08;
     int unk0c;
-    int unk10;
-    int unk14;
+    uintptr_t unk10;
+    uintptr_t unk18;
 };
 struct Struct20
 {
-    int a;
-    int b;
+    intptr_t a;
+    intptr_t b;
     int c;
-    int d;
+    intptr_t d;
     int e;
     __forceinline __declspec(nothrow) Struct20() : a(0), b(0), c(0), d(0), e(0)
     {}
@@ -1815,7 +1565,6 @@ struct MyCharArray : FUN_00dbef20
     int unk0c;
     __declspec(nothrow) MyCharArray(int n) : FUN_00dbef20(n)
     {}
-    __declspec(nothrow) void __thiscall FUN_00dbefc0(const void* bytes, int count);
     __forceinline __declspec(nothrow) ~MyCharArray()
     {
         IHeap& heap = myAlloc();
@@ -1861,9 +1610,9 @@ struct Array20
     {
         if (n)
         {
-            int bytes = n * 20;
+            int bytes = n * (int)sizeof(Struct20);
             Struct20* p = (Struct20*)heap.AllocateBufferWithSize(&bytes);
-            n = bytes / 20;
+            n = bytes / (int)sizeof(Struct20);
             return p;
         }
         return 0;
@@ -1894,7 +1643,7 @@ struct Array20
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
         {
-            heap.ReleaseBlock(m_data, (cap & 0x3fffffff) * 20);
+            heap.ReleaseBlock(m_data, (cap & 0x3fffffff) * (int)sizeof(Struct20));
         }
         m_data = 0;
         m_iCapacityState = 0x80000000;
@@ -1906,7 +1655,6 @@ struct FUN_00d607b0_s
     int unk04;
     int unk08;
     int unk0c;
-    __declspec(nothrow) void __thiscall writeVec(int a, int b);
 };
 struct ResourceWriter : FUN_00d607b0_s
 {
@@ -1919,62 +1667,288 @@ struct ResourceWriter : FUN_00d607b0_s
     AudioResourceState2 m_58;
     int unk5c, unk60, unk64, unk68, unk6c;
 
-    __declspec(nothrow) void __thiscall WriteVarint(__int64 val);
-    __declspec(nothrow) int __thiscall WriteHandle(FUN_00dba650* h);
-    __declspec(nothrow) void __thiscall WriteNode(ResourceKey* key, Struct20* item);
 
-    __declspec(nothrow) void __thiscall FUN_00dc00b0(MyDesc* input);
+    __declspec(nothrow) void FUN_00dc00b0(MyDesc* input);
 };
+// Dispatches on the wrapper's type value and writes values or packed member data to the host.
+// @fnv 0x00dbf930
+void Host::WriteArray(const Wrap& arg0, int count)
+{
+    long i;
+    if (arg0.FUN_00dbac10() & 0x20)
+    {
+        for (i = 0; i < count; i++)
+        {
+            Wrap j = arg0.FUN_00dbabb0(i).FUN_00dbacd0();
+            int n = j.FUN_00dbac00();
+            WriteArray(j, n);
+        }
+        return;
+    }
+    switch (arg0.FUN_00dbac10())
+    {
+    case 0:
+        return;
+    case 5:
+        return;
+    case 1: {
+        for (i = 0; i < count; i++)
+        {
+            reinterpret_cast<::FUN_00d605d0_class *>(this)->FUN_00d605d0(arg0.FUN_00dbabb0(i).CallVirtualWithArg());
+        }
+    }
+    break;
+    case 2: {
+        for (i = 0; i < count; i++)
+        {
+            reinterpret_cast<::Obj *>(this)->WriteVarint((__int64)arg0.FUN_00dbabb0(i).CallVirtualWithArg());
+        }
+    }
+    break;
+    case 3: {
+        for (i = 0; i < count; i++)
+        {
+            float fValue = arg0.FUN_00dbabb0(i).ApplyValue();
+            ::HashUInt((uintptr_t)this);
+        }
+    }
+    break;
+    case 4: {
+        int n = count;
+        int mode = 3;
+        int i;
+        for (i = 0; i < n; i++)
+        {
+            Node50* pNode = arg0.FUN_00dbabb0(i).DispatchToVTableSlot8(4);
+            if (pNode->m_0c != 0.0f)
+            {
+                mode = 4;
+                break;
+            }
+        }
+        reinterpret_cast<::Obj *>(this)->WriteVarint((__int64)mode);
+        for (i = 0; i < n; i++)
+        {
+            Node50* value = arg0.FUN_00dbabb0(i).DispatchToVTableSlot8(4);
+            reinterpret_cast<::FUN_00d60b00_class *>(this)->WriteFloatArray((const float *)(value), mode);
+        }
+    }
+    break;
+    case 6:
+    case 7: {
+        int t = arg0.FUN_00dbac10();
+        int off = 4 * t - 12;
+        for (i = 0; i < count; i++)
+        {
+            Node50* value = arg0.FUN_00dbabb0(i).DispatchToVTableSlot8(off);
+            reinterpret_cast<::FUN_00d60b00_class *>(this)->WriteFloatArray((const float *)(value), off);
+        }
+    }
+    break;
+    case 9: {
+        Obj2 packedBits;
+        int iCount = arg0.FUN_00dbac20().FUN_00dba730();
+        Arr items(iCount);
+        reinterpret_cast<::S_00dbaed0_Obj *>((void *)&(const ::ObjC &)(arg0.FUN_00dbac20()))->DispatchItems((::S_00dbaed0_Elem **)&(items));
+        new ((void *)&(packedBits)) ::FUN_00dbef20(iCount);
+        for (int idx = 0; idx < iCount; idx++)
+        {
+            Rec* r = (Rec*)items.m_data + idx;
+
+            if (r->enabled != 0)
+            {
+                Wrap w9 = (*(::Wrap *)(reinterpret_cast<::FUN_00dbaea0_cls *>((void *)&(arg0))->InvokeCallbackInto((::FUN_00dbab50_cls *)(r->key), {})));
+                int buf = w9.FUN_00dbac00();
+                for (int j = 0; j < buf; j++)
+                {
+                    if (::IsTruthy((::Value *)this) != 0)
+                    {
+                        packedBits.m_00[idx] = 1;
+                        break;
+                    }
+                    buf = w9.FUN_00dbac00();
+                }
+            }
+        }
+        hkCharArray m;
+        m.m_data = 0;
+        m.m_iElementCount = 0;
+        m.m_iCapacityState = (int)0x80000000;
+        int need = ((packedBits.m_04 + 7) & ~7) / 8;
+        m.setSizeUnchecked(need);
+        reinterpret_cast<::Rec_00dbf0d0 *>(&(packedBits))->PackBitsToBytes((unsigned char *)(m.m_data));
+        reinterpret_cast<::FUN_00d607b0_class *>(this)->FUN_00d607b0((intptr_t)(m.m_data));
+        {
+            BSAudio* pRouter = static_cast<BSAudio*>(::FUN_00c85750());
+            AllocV* pAllocator = (AllocV*)(void*)pRouter->d;
+            long cap2 = m.m_iCapacityState;
+            m.m_iElementCount = 0;
+            if ((cap2 & 0x80000000u) == 0)
+                pAllocator->Free(m.m_data, cap2 & 0x3fffffff);
+        }
+        {
+            for (i = 0; i < iCount; i++)
+            {
+                if (packedBits.m_00[i] != 0)
+                {
+                    Rec* r;
+                    r = (Rec*)items.m_data + i;
+
+                    Wrap w9b = (*(::Wrap *)(reinterpret_cast<::FUN_00dbaea0_cls *>((void *)&(arg0))->InvokeCallbackInto((::FUN_00dbab50_cls *)(r->key), {})));
+                    WriteArray(w9b, count);
+                }
+            }
+        }
+        {
+            BSAudio* sn = static_cast<BSAudio*>(::FUN_00c85750());
+            AllocV* mn = (AllocV*)(void*)sn->d;
+            int cap = packedBits.m_08;
+            packedBits.m_04 = 0;
+            if ((cap & 0x80000000u) == 0)
+                mn->Free(packedBits.m_00, cap & 0x3fffffff);
+            packedBits.m_00 = 0;
+            packedBits.m_08 = (int)0x80000000;
+        }
+        {
+            BSAudio* s4 = static_cast<BSAudio*>(::FUN_00c85750());
+            AllocV* mgr4 = (AllocV*)(void*)s4->d;
+            long cap1 = items.m_cap;
+            items.m_iElementCount = 0;
+            if ((cap1 & 0x80000000u) == 0)
+                mgr4->Free(items.m_data, (cap1 & 0x3fffffff) * (unsigned int)sizeof(Rec));
+        }
+    }
+    break;
+    case 8: {
+        for (i = 0; i < count; i++)
+        {
+            reinterpret_cast<::ResourceWriter *>(this)->FUN_00dc00b0((::MyDesc *)&(const ::StringHandle &)((*(::StringHandle *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::Pair &)(arg0.FUN_00dbabb0(i)))->CreateValueInto({})))));
+        }
+    }
+    break;
+    case 10: {
+        for (i = 0; i < count; i++)
+        {
+            reinterpret_cast<::DBED30Writer *>(this)->WriteString((const char *)(arg0.FUN_00dbabb0(i).FUN_00dbac70()));
+        }
+    }
+    break;
+    default:
+        break;
+    }
+}
+// Writes a node's result to the visitor's output stream, dispatching on the result type to emit varints, floats, strings, or nested values.
+// @fnv 0x00dbfef0
+void S_00dbfef0_Visitor::WriteNode(S_00dbfef0_Node* node, S_00dbfef0_B b)
+{
+    if (reinterpret_cast<::fnv_00dba920::Target *>((node))->QueryAndWriteResult() & 0x20)
+    {
+        S_00dbfef0_A a;
+        node->GetResult(&a);
+        reinterpret_cast<::Host *>(this)->WriteArray((*(const ::Wrap *)(&a)), a.FUN_00dbac00());
+        reinterpret_cast<::FUN_00dbab70_cls *>(&(a))->FUN_00dbab70();
+        return;
+    }
+    if (reinterpret_cast<::fnv_00dba920::Target *>((node))->QueryAndWriteResult() & 0x10)
+    {
+        S_00dbfef0_A a;
+        node->GetResult(&a);
+        int n = a.FUN_00dbac00();
+        reinterpret_cast<::Obj *>(this)->WriteVarint(n);
+        if (a.FUN_00dbac10() == 9 && b.p->unk0C == 0)
+        {
+            a.FUN_00dbac20(&b);
+            int v = b.FUN_00dba680();
+            intptr_t r = reinterpret_cast<::hkObjectD878 *>(&(m_sub))->GetValue(v, 0);
+            reinterpret_cast<::Obj *>(this)->WriteVarint(r);
+            ::FUN_00dba660();
+        }
+        reinterpret_cast<::Host *>(this)->WriteArray((*(const ::Wrap *)(&a)), n);
+        reinterpret_cast<::FUN_00dbab70_cls *>(&(a))->FUN_00dbab70();
+        return;
+    }
+    switch (reinterpret_cast<::fnv_00dba920::Target *>((node))->QueryAndWriteResult())
+    {
+    case 1:
+        reinterpret_cast<::FUN_00d605d0_class *>(this)->FUN_00d605d0(reinterpret_cast<::S_00dba990 *>((node))->FUN_00dba990());
+        break;
+    case 2:
+        reinterpret_cast<::Obj *>(this)->WriteVarint(reinterpret_cast<::S_00dba990 *>((node))->FUN_00dba990());
+        break;
+    case 3: {
+        float f = node->FUN_00dbaa00();
+        ::HashUInt((uintptr_t)this);
+    }
+    break;
+    case 4:
+    case 6:
+    case 7: {
+        int n = reinterpret_cast<::fnv_00dba920::Target *>((node))->QueryAndWriteResult() * 4 - 12;
+        intptr_t p = node->DispatchToInterface(n);
+        reinterpret_cast<::FUN_00d60b00_class *>(this)->WriteFloatArray((const float *)(p), n);
+        break;
+    }
+    case 8:
+    case 9:
+        reinterpret_cast<::ResourceWriter *>(this)->FUN_00dc00b0((::MyDesc *)(((intptr_t)(reinterpret_cast<::FUN_00dba9d0_cls *>((node))->FUN_00dba9d0((::FUN_00dba760_cls *)(::S_00dbfef0_B *)(&b))))));
+        reinterpret_cast<::DBA7F0Ref *>(&(b))->FUN_00dba7f0();
+        break;
+    case 10:
+        reinterpret_cast<::DBED30Writer *>(this)->WriteString((const char *)(node->FUN_00dba9c0()));
+        break;
+    }
+}
 // Resolves a sound, writes a varint tag, handle, and per-item resource keys to the resource stream.
 // @fnv 0x00dc00b0
-void __thiscall ResourceWriter::FUN_00dc00b0(MyDesc* apSoundDesc)
+void ResourceWriter::FUN_00dc00b0(MyDesc* apSoundDesc)
 {
-    MyDesc desc = m_58.ResolveSound(apSoundDesc);
-    if (desc.FUN_00dba980())
+    MyDesc desc = (*(::MyDesc *)(reinterpret_cast<::AudioResourceState *>(&(m_58))->ResolveSound((::Receiver *)(apSoundDesc), {})));
+    if (((int)(reinterpret_cast<::FUN_00dba980_cls *>(&(desc))->FUN_00dba980())))
     {
-        WriteVarint(6);
+        reinterpret_cast<::Obj *>(this)->WriteVarint(6);
         return;
     }
 
-    int iEntryIndex = ((MyHolder*)&m_34)->FindEntryValue(desc.GetSourcePair(), -1);
+    ResourceKey key = desc.GetSourcePair();
+    int iEntryIndex = (int)m_34.FindEntryValue(key.first, key.second, -1);
     Entry24* kIter = &((Entry24*)m_4c.a)[iEntryIndex];
     if (kIter->unk04 >= 0)
     {
-        WriteVarint(5);
-        WriteVarint(kIter->unk04);
+        reinterpret_cast<::Obj *>(this)->WriteVarint(5);
+        reinterpret_cast<::Obj *>(this)->WriteVarint(kIter->unk04);
         return;
     }
 
     FUN_00dba650 k = desc.GetObjectValue();
-    int reqBytes = WriteHandle(&k);
+    intptr_t reqBytes = reinterpret_cast<::S_dbf1a0_Writer *>(this)->WriteHandle((*(const ::S_dbf1a0_Handle *)(&k)));
     if (1 < kIter->unk0c)
     {
-        WriteVarint(4);
+        reinterpret_cast<::Obj *>(this)->WriteVarint(4);
         kIter->unk04 = m_30++;
     }
     else
     {
-        WriteVarint(3);
+        reinterpret_cast<::Obj *>(this)->WriteVarint(3);
     }
     kIter->unk00 = 1;
-    WriteVarint(reqBytes);
+    reinterpret_cast<::Obj *>(this)->WriteVarint(reqBytes);
 
     int c;
     c = k.FUN_00dba730();
     MyCharArray charArr(c);
 
-    int res;
-    res = kIter->unk08 + (int)m_40.a;
+    intptr_t res;
+    res = (intptr_t)m_40.a + kIter->unk08;
     int count = ((charArr.m_iElementCount + 7) & ~7) / 8;
     {
         TempArr temp((char*)res, count, count);
-        writeVec((int)temp.m_data, temp.m_iElementCount);
-        charArr.FUN_00dbefc0(temp.m_data, temp.m_iElementCount);
+        reinterpret_cast<::FUN_00d607b0_class *>(this)->FUN_00d607b0((intptr_t)temp.m_data);
+        reinterpret_cast<::S_dbefc0_Bytes *>(&(charArr))->FUN_00dbefc0((const unsigned char *)(temp.m_data), temp.m_iElementCount);
     }
 
     Array20 ptr(c);
 
-    k.DispatchItems(&ptr);
+    reinterpret_cast<::S_00dbaed0_Obj *>(&(k))->DispatchItems((::S_00dbaed0_Elem **)(void *)(&ptr));
 
     for (int i = 0; c > i; ++i)
     {
@@ -1982,14 +1956,14 @@ void __thiscall ResourceWriter::FUN_00dc00b0(MyDesc* apSoundDesc)
         {
             Struct20* item = &ptr.m_data[i];
             ResourceKey z = desc.FUN_00dba890(item->a);
-            WriteNode(&z, item);
+            reinterpret_cast<::S_00dbfef0_Visitor *>(this)->WriteNode((::S_00dbfef0_Node *)(::ResourceKey *)(&z), ::S_00dbfef0_B{(::S_00dbfef0_X *)item});
         }
     }
 }
 
 struct ScanKey
 {
-    int first, second;
+    uintptr_t first, second;
     ScanKey& operator=(const ScanKey& k)
     {
         first = k.first;
@@ -2004,23 +1978,21 @@ struct ScanItem;
 struct ScanObject
 {
     void* object;
-    __declspec(nothrow) int FUN_00dba980() const;
     __declspec(nothrow) ScanKey GetSourcePair() const;
     __declspec(nothrow) ScanClass GetObjectValue() const;
     __declspec(nothrow) int FUN_00dba8b0() const;
-    __declspec(nothrow) int FUN_00dba8c0(int iterator) const;
-    __declspec(nothrow) int FUN_00dba8d0(int iterator) const;
-    __declspec(nothrow) int FUN_00dba8e0(int iterator) const;
-    __declspec(nothrow) ScanValue FUN_00dba8f0(int iterator) const;
+    __declspec(nothrow) int FUN_00dba8c0(intptr_t iterator) const;
+    __declspec(nothrow) int FUN_00dba8d0(intptr_t iterator) const;
+    __declspec(nothrow) int FUN_00dba8e0(intptr_t iterator) const;
     __declspec(nothrow) void FUN_00dba7f0();
     ~ScanObject()
     {
-        FUN_00dba7f0();
+        reinterpret_cast<::DBA7F0Ref *>(this)->FUN_00dba7f0();
     }
 };
 struct ScanMember
 {
-    int name, flags, type, className, extra;
+    intptr_t name, flags, type, className, extra;
     ScanMember() : name(0), flags(0), type(0), className(0), extra(0)
     {}
 };
@@ -2029,11 +2001,10 @@ struct ScanClass
     void* object;
     __declspec(nothrow) int FUN_00dba730() const;
     __declspec(nothrow) int FUN_00dba740(int name) const;
-    __declspec(nothrow) void FUN_00dba720(int index, ScanMember& member) const;
     __declspec(nothrow) void FUN_00dba660();
     ~ScanClass()
     {
-        FUN_00dba660();
+        ::FUN_00dba660();
     }
 };
 struct ScanArray
@@ -2041,27 +2012,22 @@ struct ScanArray
     void* object;
     __declspec(nothrow) int FUN_00dbac00() const;
     __declspec(nothrow) ScanClass FUN_00dbac20() const;
-    __declspec(nothrow) ScanArray InvokeCallbackInto(int name) const;
     __declspec(nothrow) ScanItem FUN_00dbab90(int index) const;
-    __declspec(nothrow) void FUN_00dbab70();
     ~ScanArray()
     {
-        FUN_00dbab70();
+        reinterpret_cast<::FUN_00dbab70_cls *>(this)->FUN_00dbab70();
     }
 };
 struct ScanValue
 {
     void* object;
     int index;
-    __declspec(nothrow) int QueryAndWriteResult() const;
-    __declspec(nothrow) ScanObject FUN_00dba9d0() const;
     __declspec(nothrow) ScanArray GetResult() const;
 };
 struct ScanItem
 {
     void* object;
     int index;
-    __declspec(nothrow) ScanObject CreateValueInto() const;
 };
 struct ScanResources
 {
@@ -2073,7 +2039,6 @@ struct ScanRecord
     ScanKey key;
 };
 extern ScanRecord DAT_010d6848;
-void __cdecl ResizeAudioStream(hkMemoryAllocator& heap, void* array, int elementSize);
 struct ScanReferences
 {
     ScanRecord* data;
@@ -2086,7 +2051,7 @@ struct ScanReferences
     {
         hkMemoryAllocator& heap = ::audio()->tempHeap();
         if (size == (capacity & 0x3fffffff))
-            ResizeAudioStream(heap, this, sizeof(ScanRecord));
+            ::ResizeAudioStream((::AudioAllocator *)&(heap), (::AudioStream *)(void *)(this), sizeof(ScanRecord));
         data[size++] = value;
     }
 };
@@ -2094,29 +2059,26 @@ struct ScanMap
 {
     void* data;
     int size, capacity;
-    __declspec(nothrow) int FindEntryValue(ScanKey key, int fallback) const;
-    __declspec(nothrow) void InsertOrUpdate(AllocOwner* heap, ScanKey key, int value);
     __forceinline void insert(AllocOwner* heap, ScanKey key, int value)
     {
-        InsertOrUpdate(heap, key, value);
+        reinterpret_cast<::hkPairMapDBE8 *>(this)->InsertOrUpdate((*(::hkMemoryAllocatorDBE8 *)(heap)), ::hkPairKeyDBE8{key.first, key.second}, value);
     }
 };
 struct ScanMask : hkCharArray
 {
     int unk0c;
     __declspec(nothrow) void FUN_00dbef20(int n);
-    __declspec(nothrow) void PackBitsToBytes(void* destination);
     __forceinline char& memberInteresting(int index)
     {
         return m_data[index];
     }
     __forceinline ScanMask(int n)
     {
-        FUN_00dbef20(n);
+        new ((void *)this) ::FUN_00dbef20(n);
     }
     __forceinline ~ScanMask()
     {
-        hkTempAlloc& heap = ((S_dbf1a0_Router*)FUN_00c85750())->heap();
+        hkTempAlloc& heap = ((S_dbf1a0_Router*)static_cast<BSAudio*>(::FUN_00c85750()))->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000u) == 0)
             heap.ReturnMemory(m_data, m_iCapacityState & 0x3fffffff);
@@ -2133,8 +2095,6 @@ struct ScanWriter
     hkCharArray bits;
     ScanReferences references;
     ScanResources resources;
-    __declspec(nothrow) void WriteHandle(const ScanClass& type);
-    __declspec(nothrow) int EvaluateNode(const ScanValue& value);
     __declspec(nothrow) void FUN_00dbf450(const ScanObject& source, int supplemental);
 };
 // Resolves a ScanObject, deduplicates it in the reference map, and recursively writes its class handle, member mask, and nested values to the writer's bit buffer.
@@ -2142,10 +2102,11 @@ struct ScanWriter
 void ScanWriter::FUN_00dbf450(const ScanObject& source, int supplemental)
 {
     ScanObject object = resources.FUN_00dbedd0(source);
-    if (object.FUN_00dba980())
+    if (((int)(reinterpret_cast<::FUN_00dba980_cls *>((void *)&(object))->FUN_00dba980())))
         return;
     {
-        int index = map.FindEntryValue(object.GetSourcePair(), -1);
+        ScanKey key = object.GetSourcePair();
+        int index = ((int)(reinterpret_cast<::FUN_00dbe8c0_cls *>((void *)&(map))->FindEntryValue(key.first, key.second, -1)));
         if (index != -1)
         {
             ++references.data[index].count;
@@ -2154,45 +2115,45 @@ void ScanWriter::FUN_00dbf450(const ScanObject& source, int supplemental)
         if (!supplemental)
         {
             index = map.size & 0x7fffffff;
-            map.insert(reinterpret_cast<AllocOwner*>(FUN_00c85750()->e), object.GetSourcePair(), index);
+            map.insert(reinterpret_cast<AllocOwner*>(static_cast<BSAudio*>(::FUN_00c85750())->e), object.GetSourcePair(), index);
             references.append(DAT_010d6848);
             ScanRecord& record = references.back();
             record.key = object.GetSourcePair();
         }
         ScanClass type = object.GetObjectValue();
-        WriteHandle(type);
+        reinterpret_cast<::S_dbf1a0_Writer *>(this)->WriteHandle((const ::S_dbf1a0_Handle &)(type));
         ScanMask mask(type.FUN_00dba730());
-        for (int iterator = object.FUN_00dba8b0(); object.FUN_00dba8c0(iterator);
+        for (intptr_t iterator = object.FUN_00dba8b0(); object.FUN_00dba8c0(iterator);
              iterator = object.FUN_00dba8d0(iterator))
         {
-            ScanValue value = object.FUN_00dba8f0(iterator);
-            if (EvaluateNode(value))
+            ScanValue value = (*(::ScanValue *)(reinterpret_cast<::FUN_00dba8f0_cls *>((void *)&(object))->FUN_00dba8f0((void *)(iterator), {})));
+            if (::EvaluateNode((::HkNodeE980 *)this))
             {
                 mask.memberInteresting(type.FUN_00dba740(object.FUN_00dba8e0(iterator))) = 1;
-                int kind = value.QueryAndWriteResult() & 15;
+                int kind = reinterpret_cast<::fnv_00dba920::Target *>((void *)&(value))->QueryAndWriteResult() & 15;
                 if (kind == 8 || kind == 9)
                 {
-                    switch (value.QueryAndWriteResult())
+                    switch (reinterpret_cast<::fnv_00dba920::Target *>((void *)&(value))->QueryAndWriteResult())
                     {
                     case 8:
                     case 9:
-                        FUN_00dbf450(value.FUN_00dba9d0(), 0);
+                        FUN_00dbf450((*(::ScanObject *)(reinterpret_cast<::FUN_00dba9d0_cls *>((void *)&(value))->FUN_00dba9d0({}))), 0);
                         break;
                     case 25:
                     case 41: {
                         ScanClass elementType = value.GetResult().FUN_00dbac20();
-                        WriteHandle(elementType);
+                        reinterpret_cast<::S_dbf1a0_Writer *>(this)->WriteHandle((const ::S_dbf1a0_Handle &)(elementType));
                         for (int member = 0; member < elementType.FUN_00dba730(); ++member)
                         {
                             ScanMember description;
-                            elementType.FUN_00dba720(member, description);
+                            reinterpret_cast<::DataClassMemberAccess *>((void *)&(elementType))->FUN_00dba720(member, (::S_00dbaed0_Elem *)&(description));
                             if (description.type == 8)
                             {
-                                ScanArray elements = value.GetResult().InvokeCallbackInto(description.name);
+                                ScanArray elements = (*(::ScanArray *)(reinterpret_cast<::FUN_00dbaea0_cls *>((void *)(void *)&(const ::ScanArray &)(value.GetResult()))->InvokeCallbackInto((::FUN_00dbab50_cls *)(description.name), {})));
                                 int count = elements.FUN_00dbac00();
                                 for (int i = 0; i < count; ++i)
                                 {
-                                    FUN_00dbf450(elements.FUN_00dbab90(i).CreateValueInto(), 0);
+                                    FUN_00dbf450((*(::ScanObject *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)(void *)&(const ::ScanItem &)(elements.FUN_00dbab90(i)))->CreateValueInto({}))), 0);
                                 }
                             }
                         }
@@ -2203,7 +2164,7 @@ void ScanWriter::FUN_00dbf450(const ScanObject& source, int supplemental)
                         int count = value.GetResult().FUN_00dbac00();
                         for (int i = 0; i < count; ++i)
                         {
-                            FUN_00dbf450(value.GetResult().FUN_00dbab90(i).CreateValueInto(), 0);
+                            FUN_00dbf450((*(::ScanObject *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)(void *)&(const ::ScanItem &)(value.GetResult().FUN_00dbab90(i)))->CreateValueInto({}))), 0);
                         }
                         break;
                     }
@@ -2223,24 +2184,148 @@ void ScanWriter::FUN_00dbf450(const ScanObject& source, int supplemental)
             if (capacity < newSize)
             {
                 int doubled = capacity * 2;
-                FUN_00c908c0(heap, &destination, newSize < doubled ? doubled : newSize, 1);
+                ::FUN_00c908c0((::SpawnedObject *)&(heap), (::SpawnedArray *)(void *)(&destination), newSize < doubled ? doubled : newSize, 1);
             }
             destination.m_iElementCount += bytes;
-            mask.PackBitsToBytes(destination.m_data + oldSize);
+            reinterpret_cast<::Rec_00dbf0d0 *>(&(mask))->PackBitsToBytes((unsigned char *)(void *)(destination.m_data + oldSize));
         }
     }
 }
 
 struct S00dbedb0_Callee : UnkHolder
 {
-    void __thiscall FUN_00dbec60(UnkRet*, int);
 };
 // @fnv 0x00dbedb0
-__declspec(noinline) void __thiscall UnkHolder::FUN_00dbedb0(UnkRet* value, int count)
+__declspec(noinline) void UnkHolder::FUN_00dbedb0(UnkRet* value, int count)
 {
     int needed = count + count;
     int capacity = 8;
     while (capacity < needed)
         capacity += capacity;
-    ((S00dbedb0_Callee*)this)->FUN_00dbec60(value, capacity);
+    reinterpret_cast<::FUN_00dbec60_cls *>((((S00dbedb0_Callee*)this)))->FUN_00dbec60((::AllocOwner *)(value), capacity);
 }
+
+
+struct ObjImpl;
+struct ObjHandle
+{
+    ObjImpl* p0;
+    ObjImpl* p1;
+};
+struct DataObj
+{
+    ObjImpl* m_pClassImpl;
+    DataObj(ObjImpl* impl);
+    DataObj(const DataObj& o);
+    ~DataObj();
+    ObjHandle GetObjectHandle() const;
+    static void* operator new(std::size_t n);
+};
+struct DataWorld
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual DataObj CopyContents(const DataObj& src);
+};
+struct BlockAlloc
+{
+    virtual void v00();
+    virtual void* AllocateMemoryBlock(int numBytes);
+};
+struct ContainerHeap;
+struct MemRouter
+{
+    void *unk00, *unk04, *unk08;
+    ContainerHeap* m_pStreamAllocator;
+    BlockAlloc* m_block;
+    ContainerHeap& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+    BlockAlloc& block()
+    {
+        return *m_block;
+    }
+};
+__forceinline MemRouter& router()
+{
+    return *(MemRouter*)static_cast<BSAudio*>(::FUN_00c85750());
+}
+struct HandleMap
+{
+    void* m_kPrimitiveElement;
+    int m_iCapacityFlags, m_iPairCount;
+    void insert(BlockAlloc& a, ObjImpl* key0, ObjImpl* key1, int val);
+    __forceinline void insert(ObjHandle key, int val)
+    {
+        reinterpret_cast<::hkPairMapDBE8 *>(this)->InsertOrUpdate((::hkMemoryAllocatorDBE8 &)(router().block()), ::hkPairKeyDBE8{(uintptr_t)key.p0, (uintptr_t)key.p1}, val);
+    }
+};
+template <typename T> __forceinline void constructWithCopy(T* p, int n, const T& t)
+{
+    for (int i = 0; i < n; i++)
+        p[i] = t;
+}
+template <typename T> struct PtrArray
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    __forceinline void AddBack(const T& t)
+    {
+        ContainerHeap& h = router().heap();
+        if (m_iElementCount == getCapacity())
+            ::ResizeAudioStream((::AudioAllocator *)&(h), (::AudioStream *)(void *)(this), sizeof(T));
+        constructWithCopy(m_data + m_iElementCount++, 1, t);
+    }
+};
+__forceinline void* DataObj::operator new(std::size_t n)
+{
+    return router().block().AllocateMemoryBlock((int)n);
+}
+struct ObjCloner
+{
+    DataWorld* m_pOwningWorld;
+    HandleMap m_kHandleMap;
+    PtrArray<DataObj*> m_objs;
+    DataObj FUN_00dbedd0(const DataObj& src);
+};
+// @fnv 0x00dbedd0
+DataObj ObjCloner::FUN_00dbedd0(const DataObj& src)
+{
+    if (m_pOwningWorld && !((int)(reinterpret_cast<::FUN_00dba980_cls *>((void *)&(src))->FUN_00dba980())))
+    {
+        ObjHandle h = src.GetObjectHandle();
+        int idx = ((int)(reinterpret_cast<::FUN_00dbe8c0_cls *>((void *)&(m_kHandleMap))->FindEntryValue((uintptr_t)h.p0, (uintptr_t)h.p1, -1)));
+        if (idx == -1)
+        {
+            DataObj dst = m_pOwningWorld->CopyContents(src);
+            if (::FUN_00dbaf90((void *)&(dst)))
+            {
+                m_kHandleMap.insert(h, m_objs.GetLogicalSize());
+                m_objs.AddBack(new DataObj(dst));
+                return dst;
+            }
+        }
+        else
+        {
+            return DataObj(m_objs[idx]->m_pClassImpl);
+        }
+    }
+    return src;
+}
+
+#include "generated/data/havok/common/serialize/tagfile/binary/hkbinarytagfilewriter.inc"

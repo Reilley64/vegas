@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nicollision/nicapsuletriintersector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nicapsuletriintersector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00eb1000.h"
+#include "fnv/symbols_01012000.h"
 struct S_eb5ce0_Pt
 {
     float x, y, z;
@@ -68,7 +70,6 @@ void S_eb5ce0_Obj::FUN_00eb5ce0(int unused, const S_eb5ce0_Pt* d)
     }
 }
 
-extern double DAT_01012070;
 struct Point856
 {
     float x, y, z;
@@ -116,7 +117,6 @@ struct Frame2
     Pair856 pair;
     Triple856 triple;
 };
-float __cdecl FUN_00eb1d20(Point856* a, Point856* b, float* time, float* p, float* q);
 class Native856
 {
   public:
@@ -134,5 +134,5 @@ float Native856::Evaluate(const Point856* apOffset, const Point856* b, float s)
     pair.points[0] += *apOffset * s;
     localTriple.points[0] += *b * s;
     float time;
-    return (float)((double)(FUN_00eb1d20(pair.points, localTriple.points, &time, &p, &q) * scale) - DAT_01012070);
+    return (float)((double)(::fnv_00eb1d20::FUN_00eb1d20((*(const ::fnv_00eb1d20::OriginDirectionPair *)(pair.points)), (*(const ::fnv_00eb1d20::Triangle3D *)(localTriple.points)), (*(float *)(&time)), (*(float *)(&p)), (*(float *)(&q))) * scale) - ::g_01012070);
 }

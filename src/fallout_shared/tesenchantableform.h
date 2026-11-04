@@ -3,6 +3,7 @@
 #define FNV_TESENCHANTABLEFORM_H
 
 
+#include "fnv/decl/Callees.h"
 #include "BaseFormComponent.h"
 
 class EnchantmentItem;
@@ -16,7 +17,6 @@ enum MagicSystemCastingType
     MAGIC_SYSTEM_CASTING_COUNT = 4
 };
 
-#pragma pack(push, 4)
 class TESEnchantableForm : public BaseFormComponent
 {
   public:
@@ -30,7 +30,6 @@ class TESEnchantableForm : public BaseFormComponent
     unsigned char paddingA[2];
     MagicSystemCastingType m_eCastingType;
 };
-#pragma pack(pop)
 
 #include "tesenchantableform_decls.h"
 
@@ -38,7 +37,7 @@ class TESEnchantableForm : public BaseFormComponent
 EnchantmentItem* TESEnchantableForm::FindFormEnchantment(TESForm* form)
 {
     TESEnchantableForm* enchantable = dynamic_cast<TESEnchantableForm*>(form);
-    return enchantable ? (EnchantmentItem*)((BSSimpleList<BGSPerkEntry*>*)enchantable)->GetNext() : 0;
+    return enchantable ? (EnchantmentItem*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)enchantable)))->FUN_00726070())) : 0;
 }
 
 #endif

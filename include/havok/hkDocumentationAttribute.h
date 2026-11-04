@@ -4,12 +4,9 @@
 #define FNV_HAVOK_HKDOCUMENTATIONATTRIBUTE_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkDocumentationAttribute
 {
   public:
     char* m_pcDocumentation;  // +0x0
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkDocumentationAttribute[(sizeof(hkDocumentationAttribute) == 0x4) ? 1 : -1];
 #endif

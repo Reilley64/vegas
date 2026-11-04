@@ -2,6 +2,25 @@
 #ifndef BGSOPENCLOSEFORM_PACKET_DECLS_H
 #define BGSOPENCLOSEFORM_PACKET_DECLS_H
 
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_006c0f10_shell.h"
+#include "fnv/decl/FUN_0087b600_Holder.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/ObstMgr0dc0.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/fnv_0041d490__FUN_0041d490_shell.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_00572d30__FUN_00572d30_shell.h"
+#include "fnv/decl/fnv_00578a30__Thing.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0047b000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_006c0000.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_00c6b000.h"
+#include "fnv/symbols_011d7000.h"
+#include "fnv/symbols_011f3000.h"
 #include "layout_support.h"
 // Private PC declaration subset. Folded accessor identities retain canonical
 class TESForm
@@ -15,13 +34,13 @@ class TESBoundObject : public TESForm
 class NiFixedString
 {
   public:
+    const char* m_kHandle;
     operator const char*() const;
 };
 class NiTimeController;
 class NiObjectNET
 {
   public:
-    NiTimeController* GetControllers() const;
 };
 class NiUpdateData
 {
@@ -37,15 +56,12 @@ class NiUpdateData
 class NiNode : public NiObjectNET
 {
   public:
-    void Update(const NiUpdateData&);
 };
 struct NiRTTI
 {
 };
 class NiProperty;
 class SkyShaderProperty;
-SkyShaderProperty* FUN_00653270(const NiRTTI*, NiProperty*);
-extern NiRTTI DAT_011f36ac;
 enum OBJECT_ACTION
 {
     ACTION_OPEN = 4
@@ -54,7 +70,6 @@ class ExtraRadioData;
 class ExtraDataList
 {
   public:
-    void CallExtraDataListMethod36(TESObjectREFR*);
 };
 class TESObjectREFR
 {
@@ -176,20 +191,12 @@ class TESObjectREFR
     virtual void vfn_1c8();
     virtual void vfn_1cc();
     virtual NiNode* GetNiNode_v();
-    TESBoundObject* GetObjectReference();
-    bool GetAction(OBJECT_ACTION);
-    void PerformAction(OBJECT_ACTION);
-    void CloseReference(OBJECT_ACTION);
-    ExtraDataList* GetExtraData();
     ExtraRadioData* GetExtraRadioData();
-    void FUN_00578a30(const char*);
 };
 class NiControllerSequence
 {
   public:
-    const NiFixedString& GetName() const;
     void FUN_0098adb0(float);
-    float FUN_00759450();
 };
 class LowProcess
 {
@@ -199,9 +206,7 @@ class LowProcess
 class NiControllerManager
 {
   public:
-    NiControllerSequence* FindSequenceByName(const NiFixedString&);
     static NiFixedString* FindSequenceByName();
-    void FUN_0047aa40(bool);
     bool ActivateControllerSequence(NiControllerSequence*, int, bool, float, float, NiControllerSequence*);
     bool StopSequence(NiControllerSequence*, float);
 };
@@ -232,21 +237,17 @@ class BGSOpenCloseForm
 class AIThreadManager
 {
   public:
-    static TESObjectREFR* IsConditionMet();
 };
-bool IsConditionMet();
 class TaskQueueInterface
 {
   public:
     static TaskQueueInterface* GetSingleton();
-    void FUN_0087b600(TESObjectREFR*, bool, bool);
+public:
+    void QueueReferenceStateTask(bool);
 };
 class NavMeshObstacleManager
 {
   public:
-    static NavMeshObstacleManager* GetSingleton();
-    void RemoveObstacleReference(TESObjectREFR*);
-    void AddObstacleReference(TESObjectREFR*);
 };
 class ProcessLists
 {
@@ -256,9 +257,7 @@ class ProcessLists
 class GlobalObject_0045cf30
 {
 };
-extern GlobalObject_0045cf30 g_011d7188;
 extern const char DAT_01011f30[];
 extern const char g_011d22b0_arg1[];
 extern float DAT_0101ab70;
-void FUN_00c6bd00(NiNode*, bool);
 #endif

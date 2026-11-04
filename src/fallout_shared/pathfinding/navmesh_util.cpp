@@ -1,5 +1,127 @@
 // fallout_shared/pathfinding/navmesh_util.cpp: NavMesh, std, CircularArc, ASC and more (100 functions)
 
+#include <new>
+#include <cmath>
+#include "fnv/decl/AdjBuilder.h"
+#include "fnv/decl/B120Array.h"
+#include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
+#include "fnv/decl/BuildProcess.h"
+#include "fnv/decl/Builder.h"
+#include "fnv/decl/D2d0Cls.h"
+#include "fnv/decl/EdgeUpdater120.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_0049c250_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a3c90.h"
+#include "fnv/decl/FUN_004a3d40_class.h"
+#include "fnv/decl/FUN_004a3d80_Class.h"
+#include "fnv/decl/FUN_004b0460_class.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00519270_shell.h"
+#include "fnv/decl/FUN_005582d0_shell.h"
+#include "fnv/decl/FUN_00558dd0_class.h"
+#include "fnv/decl/FUN_00589850_Class.h"
+#include "fnv/decl/FUN_00595c80_shell.h"
+#include "fnv/decl/FUN_005a8040_class.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_0068efb0_shell.h"
+#include "fnv/decl/FUN_0068f0a0_shell.h"
+#include "fnv/decl/FUN_0068f1d0_shell.h"
+#include "fnv/decl/FUN_0068f200_shell.h"
+#include "fnv/decl/FUN_0068f230_shell.h"
+#include "fnv/decl/FUN_0068f2c0_shell.h"
+#include "fnv/decl/FUN_00690df0_shell.h"
+#include "fnv/decl/FUN_00690e10_shell.h"
+#include "fnv/decl/FUN_00691040_shell.h"
+#include "fnv/decl/FUN_00691140_shell.h"
+#include "fnv/decl/FUN_00691570_shell.h"
+#include "fnv/decl/FUN_00691820_arr.h"
+#include "fnv/decl/FUN_00692290_class.h"
+#include "fnv/decl/FUN_006927d0_cls.h"
+#include "fnv/decl/FUN_00693d30_shell.h"
+#include "fnv/decl/FUN_00694890_shell.h"
+#include "fnv/decl/FUN_0069add0_class.h"
+#include "fnv/decl/FUN_0069d790_class.h"
+#include "fnv/decl/FUN_0069d800_class.h"
+#include "fnv/decl/FUN_0069dec0_class.h"
+#include "fnv/decl/FUN_006a0840_shell.h"
+#include "fnv/decl/FUN_006ad2f0_cls.h"
+#include "fnv/decl/FUN_006bc940_class.h"
+#include "fnv/decl/FUN_006bde50.h"
+#include "fnv/decl/FUN_006be660_class.h"
+#include "fnv/decl/FUN_006be770_class.h"
+#include "fnv/decl/FUN_006bec20_Class.h"
+#include "fnv/decl/FUN_006bf8f0_Class.h"
+#include "fnv/decl/FUN_006de490_cls.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/Graph006bdf50.h"
+#include "fnv/decl/HX.h"
+#include "fnv/decl/Host120.h"
+#include "fnv/decl/HostB60.h"
+#include "fnv/decl/Map00694c50.h"
+#include "fnv/decl/Map00694d30.h"
+#include "fnv/decl/NLLocation.h"
+#include "fnv/decl/NavInfo.h"
+#include "fnv/decl/NavMeshGen_6be830.h"
+#include "fnv/decl/NavMeshGridX.h"
+#include "fnv/decl/NavMeshInfo.h"
+#include "fnv/decl/Owner45A.h"
+#include "fnv/decl/Pathing.h"
+#include "fnv/decl/PlacementRange.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/Processor74.h"
+#include "fnv/decl/S006beb80.h"
+#include "fnv/decl/S2f850.h"
+#include "fnv/decl/S5460.h"
+#include "fnv/decl/S6907D0.h"
+#include "fnv/decl/S6bdcb0Owner.h"
+#include "fnv/decl/SetupPathingLocation.h"
+#include "fnv/decl/StandInSearch.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/Unk00690e30.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WaitableObject.h"
+#include "fnv/decl/fnv_00547250__FUN_00547250_shell.h"
+#include "fnv/decl/fnv_0068f0c0__FUN_0068f0c0_shell.h"
+#include "fnv/decl/fnv_00690e90__FUN_00690e90_shell.h"
+#include "fnv/decl/fnv_006949d0__S5460.h"
+#include "fnv/decl/fnv_006bc8e0__Host006bc8e0.h"
+#include "fnv/decl/fnv_006f2290__BSSimpleArrayActor.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_0084b5c0__FUN_0084b5c0_Array.h"
+#include "fnv/decl/fnv_00990a60__FUN_00990a60_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_004e4000.h"
+#include "fnv/symbols_00558000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_0069b000.h"
+#include "fnv/symbols_006b9000.h"
+#include "fnv/symbols_006ba000.h"
+#include "fnv/symbols_006c3000.h"
+#include "fnv/symbols_006d9000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01025000.h"
+#include "fnv/symbols_0106a000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_011de000.h"
 #include "navmesh_util_decls.h"
 
 // @fnv 0x006971e0
@@ -9,8 +131,8 @@ NiPoint3 NavMesh::GetPlaneNormal(unsigned short triangleIndex)
     struct LineSegment
     {
         NiPoint3 first, second;
-    } edges = {FUN_0068f0a0(triangle->FUN_005582d0(1)) - FUN_0068f0a0(triangle->FUN_005582d0(0)),
-               FUN_0068f0a0(triangle->FUN_005582d0(2)) - FUN_0068f0a0(triangle->FUN_005582d0(0))};
+    } edges = {(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triangle))->FUN_005582d0(1)))) - (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triangle))->FUN_005582d0(0)))),
+               (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triangle))->FUN_005582d0(2)))) - (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triangle))->FUN_005582d0(0))))};
     return edges.first.CrossProduct(edges.second);
 }
 
@@ -25,7 +147,7 @@ NiPointer<NavMesh> MakeNavMeshPointer(NavMesh* mesh)
 // @fnv 0x00699af0
 NavMeshClosedDoorInfo* NavMesh::GetClosedDoorInfo(unsigned short triangleIndex)
 {
-    for (unsigned int i = 0; i < m_kClosedDoorInfo.GetSize(); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kClosedDoorInfo))->GetName())); i++)
     {
         if (m_kClosedDoorInfo.GetElement(i).m_usTriangleID == triangleIndex)
             return &m_kClosedDoorInfo.GetElement(i);
@@ -38,7 +160,7 @@ NavMeshClosedDoorInfo* NavMesh::GetClosedDoorInfo(unsigned short triangleIndex)
 float CircularArc::GetLength(float radius)
 {
     SineCosine difference = End - Start;
-    float angle = difference.FUN_006a0840();
+    float angle = reinterpret_cast<::FUN_006a0840_shell *>((void *)&(difference))->FUN_006a0840();
     if (Dir == 0)
     {
         if (angle < 0.0)
@@ -63,59 +185,18 @@ bool NavMesh::FindHeightOnTriangle(unsigned short triangleIndex, const NiPoint3&
     NiPoint3 first, second, third;
     NavMeshTriangle* pNavTriangle;
     pNavTriangle = GetTriangle(triangleIndex);
-    first = FUN_0068f0a0(pNavTriangle->FUN_005582d0(0));
-    second = FUN_0068f0a0(pNavTriangle->FUN_005582d0(1));
-    third = FUN_0068f0a0(pNavTriangle->FUN_005582d0(2));
+    first = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((pNavTriangle))->FUN_005582d0(0))));
+    second = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((pNavTriangle))->FUN_005582d0(1))));
+    third = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((pNavTriangle))->FUN_005582d0(2))));
     return FUN_006b9cf0(first, second, third, point, height, above, below);
 }
 
-// Computes an offset from the obstacle extent, gathers triangles via FUN_006987d0, and marks each triangle closed for the given door unless already recorded.
-// @fnv 0x006997e0
-bool NavMesh::AddDoorObstacle(unsigned int doorID, ObstacleData* obstacle)
-{
-    struct DoorBounds
-    {
-        NiPoint3 extent, offset;
-    } geometry = {obstacle->m_kBoundsMax - obstacle->m_kBoundsMin, NiPoint3::ZERO};
-    if (std::abs(geometry.extent.x) < std::abs(geometry.extent.y))
-    {
-        if (std::abs(geometry.extent.x) < std::abs(geometry.extent.z))
-            geometry.offset.x = -std::abs(geometry.extent.x) * 0.49000000953674316;
-        else
-            geometry.offset.z = -std::abs(geometry.extent.z) * 0.49000000953674316;
-    }
-    else
-    {
-        if (std::abs(geometry.extent.y) < std::abs(geometry.extent.z))
-            geometry.offset.y = -std::abs(geometry.extent.y) * 0.49000000953674316;
-        else
-            geometry.offset.z = -std::abs(geometry.extent.z) * 0.49000000953674316;
-    }
-    BSSimpleArray<unsigned short> triangles;
-    FUN_006987d0(obstacle, geometry.offset, &triangles);
-    for (unsigned int i = 0; i < triangles.GetSize(); i++)
-    {
-        NavMeshClosedDoorInfo* existing = GetClosedDoorInfo(triangles.GetBufferEntry(i));
-        if (!existing || existing->iDoorID != doorID)
-        {
-            GetTriangle(triangles.GetBufferEntry(i))->FUN_00691570(0x1000);
-            NavMeshClosedDoorInfo entry;
-            entry.iDoorID = doorID;
-            entry.m_usTriangleID = triangles.GetBufferEntry(i);
-            m_kClosedDoorInfo.Append(entry);
-        }
-    }
-    return true;
-}
-
-void __fastcall FUN_004a3d40(void* pThis);
-void __fastcall FUN_004a3d80(void* pThis);
 
 // @fnv 0x004a3d20
-void* __fastcall FUN_004a3d20(void* pThis)
+void* FUN_004a3d20(void* pThis)
 {
-    FUN_004a3d40(pThis);
-    FUN_004a3d80(pThis);
+    reinterpret_cast<::FUN_004a3d40_class *>((pThis))->FUN_004a3d40();
+    reinterpret_cast<::FUN_004a3d80_Class *>((pThis))->FUN_004a3d80();
     return pThis;
 }
 
@@ -132,18 +213,16 @@ unsigned short& FUN_005eeda0_this::GetBufferEntry(unsigned int aiIndex)
     return pBuffer[aiIndex];
 }
 
-extern int DAT_010159d4;
 
 struct Dummy0042f800
 {
-    void FUN_0042fcb0(int, int);
 };
 
 // @fnv 0x006917d0
-void* __fastcall FUN_006917d0(int** pThis)
+void* FUN_006917d0(int** pThis)
 {
-    *pThis = &DAT_010159d4;
-    reinterpret_cast<Dummy0042f800*>(pThis)->FUN_0042fcb0(0, 0);
+    *pThis = &::DAT_0106abe4;
+    reinterpret_cast<::FUN_00692290_class *>((reinterpret_cast<Dummy0042f800*>(pThis)))->FUN_00692290(0, 0);
     return pThis;
 }
 
@@ -154,15 +233,7 @@ struct FUN_006969e0_shell : public NavMesh
 
 struct DummyA8
 {
-    void GetVectors(NiPoint3*, NiPoint3*);
 };
-
-// @fnv 0x006969e0
-bool FUN_006969e0_shell::FUN_006969e0(NiPoint3* aRetMin, NiPoint3* aRetMax)
-{
-    reinterpret_cast<DummyA8*>(reinterpret_cast<char*>(this) + 0xa8)->GetVectors(aRetMin, aRetMax);
-    return true;
-}
 
 struct V3
 {
@@ -182,11 +253,11 @@ FUN_00698580_S* FUN_00698580_S::FUN_00698580(const V3* p, const V3* q)
     return this;
 }
 
-void __stdcall compiler_vector_constructor_iterator(void*, unsigned int, int, void*);
+void compiler_vector_constructor_iterator(void*, unsigned int, int, void*);
 void FUN_006d5320();
 
 // @fnv 0x006985c0
-void* __fastcall ConstructWithVector(void* apObject)
+void* ConstructWithVector(void* apObject)
 {
     compiler_vector_constructor_iterator((char*)apObject + 4, 0x10, 2, &FUN_006d5320);
     return apObject;
@@ -202,14 +273,13 @@ struct FUN_006985f0_shell : public SineCosine
 SineCosine* FUN_006985f0_shell::CopyFloatPair(void* apSource)
 {
     reinterpret_cast<float*>(this)[0] = static_cast<const float*>(apSource)[0];
-    reinterpret_cast<float*>(this)[1] = static_cast<const float*>(apSource)[1];
+    this->cosine = static_cast<const float*>(apSource)[1];
     return this;
 }
 
 struct ASC
 {
     float s, c;
-    void _ref_006815c0();
     ASC& operator=(const ASC&);
     ASC* Multiply(ASC* out, const ASC* o);
 };
@@ -218,15 +288,14 @@ struct ASC
 ASC* ASC::Multiply(ASC* out, const ASC* apOther)
 {
     ASC ret;
-    ret._ref_006815c0();
     ret.s = s * apOther->s + c * apOther->c;
     ret.c = c * apOther->s - s * apOther->c;
-    out->operator=(ret);
+    reinterpret_cast<::FUN_006985f0_shell *>((out))->CopyFloatPair((void *)&(ret));
     return out;
 }
 
 // @fnv 0x00698680
-int __fastcall GetSignFlags(float* afValues)
+int GetSignFlags(float* afValues)
 {
     int res = 0;
     if (afValues[1] < 0.0)
@@ -291,14 +360,12 @@ struct FUN_0069a6c0_S
     void* nav;
     unsigned short tri;
     int edge;
-    void _ref_006815c0();
     FUN_0069a6c0_S* FUN_0069a6c0(void* n, unsigned short t, int e);
 };
 // Calls _ref_006815c0, then stores the nav pointer, triangle index and edge value into this object and returns it.
 // @fnv 0x0069a6c0
 FUN_0069a6c0_S* FUN_0069a6c0_S::FUN_0069a6c0(void* apNav, unsigned short ausTri, int aiEdge)
 {
-    _ref_006815c0();
     nav = apNav;
     tri = ausTri;
     edge = aiEdge;
@@ -328,7 +395,7 @@ struct Dummy_0069af30
 
 // Sets the vtable pointer and calls ResetAndWrite with 0, 0, then returns pThis.
 // @fnv 0x0069af30
-Dummy_0069af30* __fastcall FUN_0069af30(Dummy_0069af30* pThis)
+Dummy_0069af30* FUN_0069af30(Dummy_0069af30* pThis)
 {
     pThis->vtable = &DAT_0106b1b8;
     pThis->ResetAndWrite(0, 0);
@@ -340,14 +407,13 @@ extern int DAT_0106b1b8;
 class GlobalObject_00869f00
 {
   public:
-    void Clear(bool);
 };
 
 // @fnv 0x0069af60
-void __fastcall FUN_0069af60(GlobalObject_00869f00* apObject)
+void FUN_0069af60(GlobalObject_00869f00* apObject)
 {
     *(int**)apObject = &DAT_0106b1b8;
-    apObject->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((apObject))->Clear(true);
 }
 
 struct VH
@@ -359,19 +425,8 @@ struct FUN_0069b030_S
 {
     int pad;
     VH* data;
-    unsigned int FUN_00845460();
-    void ConstructPairCells(VH*, int);
     unsigned int Append(const VH* v);
 };
-// @fnv 0x0069b030
-unsigned int FUN_0069b030_S::Append(const VH* apValue)
-{
-    unsigned int i = FUN_00845460();
-    ConstructPairCells(&data[i], 1);
-    data[i].TwoIntRecord(*apValue);
-    return i;
-}
-
 struct EH
 {
     char b[12];
@@ -381,22 +436,8 @@ struct FUN_0069b310_S
 {
     int pad;
     EH* data;
-    unsigned int FUN_00978bc0();
-    void ConstructBounds(EH*, int);
     unsigned int AppendElement(const EH* v);
 };
-// Gets the current count, grows the data array by one element, copies the given element into the new slot, and returns its index.
-// @fnv 0x0069b310
-unsigned int FUN_0069b310_S::AppendElement(const EH* apElement)
-{
-    unsigned int i = FUN_00978bc0();
-    ConstructBounds(&data[i], 1);
-    data[i] = *apElement;
-    return i;
-}
-
-float __cdecl cos(float);
-float __cdecl FUN_004e44b0(float);
 
 struct FUN_006a04e0_helper : public SineCosine
 {
@@ -408,7 +449,7 @@ struct FUN_006a04e0_helper : public SineCosine
 void* FUN_006a04e0_helper::SetFromAngle(float afAngle)
 {
     ((float*)this)[0] = cos(afAngle);
-    ((float*)this)[1] = FUN_004e44b0(afAngle);
+    this->cosine = FUN_004e44b0(afAngle);
     return this;
 }
 
@@ -416,14 +457,23 @@ struct FUN_006bc870_shell : public NavMeshEdgeData
 {
     NavMeshEdgeData* CopyFromNavMeshEdge(void*);
 };
+// Gets the current count, grows the data array by one element, copies the given element into the new slot, and returns its index.
+// @fnv 0x0069b310
+unsigned int FUN_0069b310_S::AppendElement(const EH* apElement)
+{
+    unsigned int i = reinterpret_cast<::S5460 *>(this)->FUN_00978bc0();
+    reinterpret_cast<::PlacementRange *>(this)->ConstructBounds((::NiBound *)(::EH *)(&data[i]), 1);
+    reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::EH &)(data[i]))->CopyFromNavMeshEdge((void *)&(*apElement));
+    return i;
+}
 
 // Copies an int, a short and an int from aNavMeshEdgeHandle into this object at offsets 0, 4 and 8, then returns this.
 // @fnv 0x006bc870
 NavMeshEdgeData* FUN_006bc870_shell::CopyFromNavMeshEdge(void* aNavMeshEdgeHandle)
 {
     *(int*)((char*)this + 0) = *(int*)((char*)aNavMeshEdgeHandle + 0);
-    *(short*)((char*)this + 4) = *(short*)((char*)aNavMeshEdgeHandle + 4);
-    *(int*)((char*)this + 8) = *(int*)((char*)aNavMeshEdgeHandle + 8);
+    *(short*)&this->m_usTriangleID = *(short*)((char*)aNavMeshEdgeHandle + 4);
+    this->m_iEdgeIndex = *(int*)((char*)aNavMeshEdgeHandle + 8);
     return this;
 }
 
@@ -443,13 +493,13 @@ struct IW
 bool __cdecl FUN_006b9e90(NiP2*, NiP2*, int, int, int);
 // Builds the triangle's three 2D vertices and returns the first edge index (skipping edge) for which FUN_006b9e90 succeeds, else -1.
 // @fnv 0x00698060
-int __fastcall FindTriangleEdge(NavMesh* self, USW usTri, IW iSkipEdge, IW a3, IW a4, IW a5)
+int FindTriangleEdge(NavMesh* self, USW usTri, IW iSkipEdge, IW a3, IW a4, IW a5)
 {
     NiP2 verts[3];
     NiPoint3 pt;
     for (int i = 0; i < 3; i++)
     {
-        pt = self->FUN_0068f0a0(self->GetTriangle(usTri.v)->FUN_005582d0(i));
+        pt = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((self))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((self->GetTriangle(usTri.v)))->FUN_005582d0(i))));
         verts[i].x = pt.x;
         verts[i].y = pt.y;
     }
@@ -472,6 +522,14 @@ struct S0069a690
     unsigned short b;
     S0069a690* FUN_0069a690(const S0069a690* o);
 };
+// @fnv 0x0069b030
+unsigned int FUN_0069b030_S::Append(const VH* apValue)
+{
+    unsigned int i = reinterpret_cast<::S5460 *>(this)->FUN_00845460();
+    reinterpret_cast<::FUN_006927d0_cls *>(this)->ConstructPairCells((::PairCell *)(::VH *)(&data[i]), 1);
+    reinterpret_cast<::S0069a690 *>(&(data[i]))->FUN_0069a690((const ::S0069a690 *)&(*apValue));
+    return i;
+}
 // Copies the int and unsigned short members from another S0069a690 into this one and returns this.
 // @fnv 0x0069a690
 S0069a690* S0069a690::FUN_0069a690(const S0069a690* apOther)
@@ -528,7 +586,7 @@ struct VW
 };
 // Looks up key in the hash table; if found, overwrites its value, otherwise allocates a new item, inserts it at the bucket head and increments count.
 // @fnv 0x0069b3d0
-void __fastcall SetKeyValue(MP* self, TwoIntRecord key, VW val)
+void SetKeyValue(MP* self, TwoIntRecord key, VW val)
 {
     IT* pkItem;
     unsigned int uiIndex;
@@ -574,7 +632,7 @@ struct VW
 };
 // Looks up key in the hash table and, if an equal entry is found, stores its value through val.p and returns true; otherwise returns false.
 // @fnv 0x0069b4d0
-bool __fastcall FUN_0069b4d0(MP* self, TwoIntRecord key, VW aOutValue)
+bool FUN_0069b4d0(MP* self, TwoIntRecord key, VW aOutValue)
 {
     IT* pkItem;
     unsigned int uiIndex = self->KeyToHashIndex(key);
@@ -592,7 +650,6 @@ bool __fastcall FUN_0069b4d0(MP* self, TwoIntRecord key, VW aOutValue)
 }
 }  // namespace fnv_0069b4d0
 
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
@@ -608,7 +665,7 @@ void* DelStandIn::FUN_0069a7a0(unsigned int flags)
 {
     ((DtorStandIn*)this)->FUN_0083dec0();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
@@ -631,147 +688,63 @@ struct ObstacleDataPtr
     ObstacleDataEx* operator->() const;
 };
 
-bool __cdecl AreWideCharsEqual(const unsigned short& a, const unsigned short& b);
 
 struct NavMeshTriList : public BSSimpleArray<unsigned short>
 {
-    unsigned int GetSize() const;
-    const unsigned short& FUN_0069dec0(unsigned int auiIndex) const;
-    int FindMatchingIndex(const unsigned short& arItem, unsigned int auiStart,
-                          bool(__cdecl* apCompare)(const unsigned short&, const unsigned short&));
 };
 
 struct NavMeshGrid
 {
-    void GetCellCoords(const NiPoint3& arPos, unsigned int& arRow, unsigned int& arCol);
-    NavMeshTriList* FUN_006967c0(unsigned int auiCol, unsigned int auiRow);
 };
 
 struct NavMeshTriangleEx : public NavMeshTriangle
 {
-    bool GetFlag(int aiFlag);
 };
 
-float __cdecl FUN_0040ebd0(float a, float b);
-float __cdecl FUN_00404010(float a, float b);
-NiPoint3 __cdecl FUN_004b3ae0(const NiPoint3& arPt, const float* apRot);
-bool __cdecl DoBoundsOverlap(const NiPoint3& a, const NiPoint3& b, const NiPoint3& c, const NiPoint3& d);
-bool __cdecl FUN_006c3570(const NiPoint3& arCenter, const ObstacleDataPtr& arObstacle, float afHeight, float afFudge);
 bool __cdecl FUN_00696540(const NiPoint3& a, const NiPoint3& b, const NiPoint3& c, const NiPoint3& d);
-extern const float DAT_01015f5c;
 
 struct NavMeshOverlap : public NavMesh
 {
     NavMeshGrid Grid;
-    NiPoint3 GetNavMeshData(unsigned short ausTriangle);
     void FUN_006987d0(const ObstacleDataPtr& apObstacle, const NiPoint3& afFudge, NavMeshTriList* apRetTriangles);
 };
-
-// @fnv 0x006987d0
-void NavMeshOverlap::FUN_006987d0(const ObstacleDataPtr& apObstacle, const NiPoint3& afFudge,
-                                  NavMeshTriList* apRetTriangles)
+// Computes an offset from the obstacle extent, gathers triangles via FUN_006987d0, and marks each triangle closed for the given door unless already recorded.
+// @fnv 0x006997e0
+bool NavMesh::AddDoorObstacle(unsigned int doorID, ObstacleData* obstacle)
 {
-    unsigned int istartRow = 0;
-    unsigned int istartCol = 0;
-    unsigned int iendRow = 0;
-    unsigned int iendCol = 0;
-
-    Grid.GetCellCoords(apObstacle->WorldMin, istartRow, istartCol);
-    Grid.GetCellCoords(apObstacle->WorldMax, iendRow, iendCol);
-
-    NiPoint3 cornersLocalSpace[4];
-    cornersLocalSpace[0] = NiPoint3Ex(apObstacle->m_kBoundsMin.x - afFudge.x, apObstacle->m_kBoundsMin.y - afFudge.y,
-                                      apObstacle->m_kBoundsMin.z);
-    cornersLocalSpace[1] = NiPoint3Ex(apObstacle->m_kBoundsMin.x - afFudge.x, apObstacle->m_kBoundsMax.y + afFudge.y,
-                                      apObstacle->m_kBoundsMin.z);
-    cornersLocalSpace[2] = NiPoint3Ex(apObstacle->m_kBoundsMax.x + afFudge.x, apObstacle->m_kBoundsMax.y + afFudge.y,
-                                      apObstacle->m_kBoundsMin.z);
-    cornersLocalSpace[3] = NiPoint3Ex(apObstacle->m_kBoundsMax.x + afFudge.x, apObstacle->m_kBoundsMin.y - afFudge.y,
-                                      apObstacle->m_kBoundsMin.z);
-
-    float fzheight = apObstacle->WorldMax.z - apObstacle->WorldMin.z;
-
-    for (unsigned int r = istartRow; r <= iendRow; r++)
+    struct DoorBounds
     {
-        for (unsigned int c = istartCol; c <= iendCol; c++)
+        NiPoint3 extent, offset;
+    } geometry = {obstacle->m_kBoundsMax - obstacle->m_kBoundsMin, NiPoint3::ZERO};
+    if (std::abs(geometry.extent.x) < std::abs(geometry.extent.y))
+    {
+        if (std::abs(geometry.extent.x) < std::abs(geometry.extent.z))
+            geometry.offset.x = -std::abs(geometry.extent.x) * 0.49000000953674316;
+        else
+            geometry.offset.z = -std::abs(geometry.extent.z) * 0.49000000953674316;
+    }
+    else
+    {
+        if (std::abs(geometry.extent.y) < std::abs(geometry.extent.z))
+            geometry.offset.y = -std::abs(geometry.extent.y) * 0.49000000953674316;
+        else
+            geometry.offset.z = -std::abs(geometry.extent.z) * 0.49000000953674316;
+    }
+    BSSimpleArray<unsigned short> triangles;
+    reinterpret_cast<::NavMeshOverlap *>(this)->FUN_006987d0((const ::ObstacleDataPtr &)((const ::NiPointer< ::ObstacleData> &)(obstacle)), geometry.offset, (::NavMeshTriList *)(::BSSimpleArray<unsigned short> *)(&triangles));
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(triangles))->GetName())); i++)
+    {
+        NavMeshClosedDoorInfo* existing = GetClosedDoorInfo(reinterpret_cast<::FUN_005eeda0_this *>(&(triangles))->GetBufferEntry(i));
+        if (!existing || existing->iDoorID != doorID)
         {
-            NavMeshTriList* parray = Grid.FUN_006967c0(c, r);
-            if (parray)
-            {
-                for (unsigned int i = 0; i < parray->GetSize(); i++)
-                {
-                    if (apRetTriangles->FindMatchingIndex(parray->FUN_0069dec0(i), 0, AreWideCharsEqual) != -1)
-                        continue;
-                    NavMeshTriangleEx* ptri = (NavMeshTriangleEx*)GetTriangle(parray->FUN_0069dec0(i));
-                    if (ptri->GetFlag(0x20))
-                        continue;
-
-                    NiPoint3Ex wtriMin(3.402823466e+38f, 3.402823466e+38f, 3.402823466e+38f);
-                    NiPoint3Ex wtriMax(DAT_01015f5c, DAT_01015f5c, DAT_01015f5c);
-                    for (int v = 0; v < 3; v++)
-                    {
-                        const NiPoint3* vertLocation = &FUN_0068f0a0(ptri->FUN_005582d0(v));
-                        wtriMin.x = FUN_0040ebd0(wtriMin.x, vertLocation->x);
-                        wtriMin.y = FUN_0040ebd0(wtriMin.y, vertLocation->y);
-                        wtriMin.z = FUN_0040ebd0(wtriMin.z, vertLocation->z);
-                        wtriMax.x = FUN_00404010(wtriMax.x, vertLocation->x);
-                        wtriMax.y = FUN_00404010(wtriMax.y, vertLocation->y);
-                        wtriMax.z = FUN_00404010(wtriMax.z, vertLocation->z);
-                    }
-                    wtriMax.z += 128.0;
-
-                    if (!DoBoundsOverlap(apObstacle->WorldMin - afFudge, apObstacle->WorldMax + afFudge, wtriMin,
-                                         wtriMax))
-                        continue;
-
-                    bool bOverlap = false;
-                    float fdontCare;
-                    if (FUN_006c3570(GetNavMeshData(parray->FUN_0069dec0(i)), apObstacle, fzheight, 128.0f))
-                    {
-                        bOverlap = true;
-                    }
-                    else if (FindHeightOnTriangle(parray->FUN_0069dec0(i),
-                                                  *(const NiPoint3*)(apObstacle->prefix + 0x10), fdontCare, fzheight,
-                                                  128.0f))
-                    {
-                        bOverlap = true;
-                    }
-                    else
-                    {
-                        for (unsigned int triv = 0; triv < 3; triv++)
-                        {
-                            unsigned int triw = triv + 1;
-                            if (triw == 3)
-                                triw = 0;
-                            NiPoint3 vert1 = FUN_004b3ae0(FUN_0068f0a0(ptri->FUN_005582d0(triv)) -
-                                                              *(const NiPoint3*)(apObstacle->prefix + 0x10),
-                                                          (const float*)(apObstacle->prefix + 0x1c));
-                            NiPoint3 vert2 = FUN_004b3ae0(FUN_0068f0a0(ptri->FUN_005582d0(triw)) -
-                                                              *(const NiPoint3*)(apObstacle->prefix + 0x10),
-                                                          (const float*)(apObstacle->prefix + 0x1c));
-                            for (unsigned int boxv = 0; boxv < 4; boxv++)
-                            {
-                                unsigned int boxw = boxv + 1;
-                                if (boxw == 4)
-                                    boxw = 0;
-                                NiPoint3 box1 = cornersLocalSpace[boxv];
-                                NiPoint3 box2 = cornersLocalSpace[boxw];
-                                if (FUN_00696540(vert1, vert2, box1, box2))
-                                {
-                                    bOverlap = true;
-                                    break;
-                                }
-                            }
-                            if (bOverlap)
-                                break;
-                        }
-                    }
-                    if (bOverlap)
-                        apRetTriangles->ReserveIndex(parray->FUN_0069dec0(i));
-                }
-            }
+            reinterpret_cast<::FUN_00691570_shell *>((GetTriangle(reinterpret_cast<::FUN_005eeda0_this *>(&(triangles))->GetBufferEntry(i))))->FUN_00691570(0x1000);
+            NavMeshClosedDoorInfo entry;
+            entry.iDoorID = doorID;
+            entry.m_usTriangleID = reinterpret_cast<::FUN_005eeda0_this *>(&(triangles))->GetBufferEntry(i);
+            reinterpret_cast<::FUN_0069b030_S *>(&(m_kClosedDoorInfo))->Append((const ::VH *)&(entry));
         }
     }
+    return true;
 }
 
 struct NavMeshVertexEdgeData;
@@ -797,7 +770,7 @@ struct VertMap
 void VertMap::GetNextEntry(void*& pos, TwoIntRecord& arKey, NavMeshVertexEdgeData*& val) const
 {
     VertMapItem* pkItem = (VertMapItem*)pos;
-    arKey = pkItem->m_key;
+    reinterpret_cast<::S0069a690 *>((void *)&(const ::TwoIntRecord &)(arKey))->FUN_0069a690((const ::S0069a690 *)&(pkItem->m_key));
     val = pkItem->m_val;
     if (pkItem->m_pkNext)
     {
@@ -819,10 +792,9 @@ void VertMap::GetNextEntry(void*& pos, TwoIntRecord& arKey, NavMeshVertexEdgeDat
 
 struct FUN_0069b120_stub
 {
-    void FUN_0069b120(int a, int b);
 };
 
-struct FUN_00699590_shell
+struct FUN_00699590_shell : NavMesh
 {
     void ForwardToStub(int arg);
 };
@@ -831,7 +803,7 @@ struct FUN_00699590_shell
 // @fnv 0x00699590
 void FUN_00699590_shell::ForwardToStub(int arg)
 {
-    ((FUN_0069b120_stub*)((char*)this + 0xd0))->FUN_0069b120(arg, 1);
+    reinterpret_cast<::B120Array *>((((FUN_0069b120_stub*)(&this->m_kObstacleUndoData))))->FUN_0069b120(arg, 1);
 }
 
 struct Flt
@@ -844,10 +816,9 @@ struct Arr
     Flt* GetAt(int);
 };
 
-struct FUN_00699630_shell
+struct FUN_00699630_shell : NavMesh
 {
     int FindEntryIndex(int);
-    Arr arr;
     int FUN_00699630(int param1, unsigned int* out);
 };
 
@@ -857,7 +828,7 @@ int FUN_00699630_shell::FUN_00699630(int param1, unsigned int* apuiValue)
     int idx = this->FindEntryIndex(param1);
     if (idx != -1)
     {
-        *apuiValue = ((Arr*)((char*)this + 0xd0))->GetAt(idx)->operator unsigned int();
+        *apuiValue = ((Arr*)(&this->m_kObstacleUndoData))->GetAt(idx)->operator unsigned int();
         return idx;
     }
     *apuiValue = 0;
@@ -881,11 +852,11 @@ int FUN_00699790_shell::GetBits13To15()
 
 struct FUN_0069af80_shell
 {
-    void* __thiscall FUN_0069af80(int count);
+    void* FUN_0069af80(int count);
 };
 // Allocates a new byte array of count * 12 bytes and returns a pointer to it.
 // @fnv 0x0069af80
-void* __thiscall FUN_0069af80_shell::FUN_0069af80(int count)
+void* FUN_0069af80_shell::FUN_0069af80(int count)
 {
     return new unsigned char[count * 12];
 }
@@ -895,94 +866,90 @@ struct FUN_00699b60_shell : public NavMesh
     void BuildPortalPOVs();
 };
 
-namespace std {
-float __cdecl abs(float);
-}
 
-extern double _gModifierZero;
 
 // Builds per-vertex edge lists from triangle edges, pairs edges into portals, and assigns each triangle the nearest portal vertex within a radius.
 // @fnv 0x00699b60
 void FUN_00699b60_shell::BuildPortalPOVs()
 {
-    POVPointerArray.RemoveAll();
-    m_kAdditionalIndexList.Clear(true);
+    reinterpret_cast<::FUN_00438af0_Class *>(&(POVPointerArray))->FUN_00438af0();
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(m_kAdditionalIndexList))->Clear(true);
     NavMeshVertexMap kNavMeshVertexLookup(37);
-    unsigned int itriCount = FUN_00558200();
+    unsigned int itriCount = ::FUN_00558200((char *)this);
     void* it;
     for (unsigned int i = 0; i < itriCount; ++i)
     {
         NavMeshTriangle* ptri = GetTriangle(i);
         for (int e = 0; e < 3; ++e)
         {
-            if (ptri->FUN_0068f2c0(e) == 0xFFFF)
+            if (reinterpret_cast<::FUN_0068f2c0_shell *>((ptri))->FUN_0068f2c0(e) == 0xFFFF)
             {
                 NavMeshEdgeData hedge(this, i, e);
-                TwoIntRecord hvert1(this, ptri->FUN_005582d0(e));
+                TwoIntRecord hvert1(this, reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0(e));
                 NavMeshVertexEdgeData* pdata1;
-                if (!kNavMeshVertexLookup.FUN_0069b4d0(hvert1, pdata1))
+                if (!::fnv_0069b4d0::FUN_0069b4d0((::fnv_0069b4d0::MP *)&(kNavMeshVertexLookup), hvert1, (*(::fnv_0069b4d0::VW *)&(pdata1))))
                 {
                     pdata1 = new NavMeshVertexEdgeData;
-                    pdata1->m_kVertexKey = hvert1;
-                    kNavMeshVertexLookup.SetKeyValue(hvert1, pdata1);
+                    reinterpret_cast<::S0069a690 *>((void *)&(const ::TwoIntRecord &)(pdata1->m_kVertexKey))->FUN_0069a690((const ::S0069a690 *)&(hvert1));
+                    ::SetKeyValue((::MP *)&(kNavMeshVertexLookup), hvert1, (::VW)(pdata1));
                 }
-                pdata1->Edges.AppendElement(hedge);
-                TwoIntRecord hvert2(this, ptri->FUN_005582d0((e + 1) % 3));
+                reinterpret_cast<::FUN_0069b310_S *>(&(pdata1->Edges))->AppendElement((const ::EH *)&(hedge));
+                TwoIntRecord hvert2(this, reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0((e + 1) % 3));
                 NavMeshVertexEdgeData* pdata2;
-                if (!kNavMeshVertexLookup.FUN_0069b4d0(hvert2, pdata2))
+                if (!::fnv_0069b4d0::FUN_0069b4d0((::fnv_0069b4d0::MP *)&(kNavMeshVertexLookup), hvert2, (*(::fnv_0069b4d0::VW *)&(pdata2))))
                 {
                     pdata2 = new NavMeshVertexEdgeData;
-                    pdata2->m_kVertexKey = hvert2;
-                    kNavMeshVertexLookup.SetKeyValue(hvert2, pdata2);
+                    reinterpret_cast<::S0069a690 *>((void *)&(const ::TwoIntRecord &)(pdata2->m_kVertexKey))->FUN_0069a690((const ::S0069a690 *)&(hvert2));
+                    ::SetKeyValue((::MP *)&(kNavMeshVertexLookup), hvert2, (::VW)(pdata2));
                 }
-                pdata2->Edges.AppendElement(hedge);
+                reinterpret_cast<::FUN_0069b310_S *>(&(pdata2->Edges))->AppendElement((const ::EH *)&(hedge));
             }
-            else if (ptri->IsEdgeFlagSet(e))
+            else if (reinterpret_cast<::FUN_0068f1d0_shell *>((ptri))->IsEdgeFlagSet(e))
             {
                 NavMeshEdgeData hedge(this, i, e);
-                TwoIntRecord hvert1(this, ptri->FUN_005582d0(e));
+                TwoIntRecord hvert1(this, reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0(e));
                 NavMeshVertexEdgeData* pdata1;
-                if (!kNavMeshVertexLookup.FUN_0069b4d0(hvert1, pdata1))
+                if (!::fnv_0069b4d0::FUN_0069b4d0((::fnv_0069b4d0::MP *)&(kNavMeshVertexLookup), hvert1, (*(::fnv_0069b4d0::VW *)&(pdata1))))
                 {
                     pdata1 = new NavMeshVertexEdgeData;
-                    pdata1->m_kVertexKey = hvert1;
-                    kNavMeshVertexLookup.SetKeyValue(hvert1, pdata1);
+                    reinterpret_cast<::S0069a690 *>((void *)&(const ::TwoIntRecord &)(pdata1->m_kVertexKey))->FUN_0069a690((const ::S0069a690 *)&(hvert1));
+                    ::SetKeyValue((::MP *)&(kNavMeshVertexLookup), hvert1, (::VW)(pdata1));
                 }
-                pdata1->m_kOutgoingEdges.AppendElement(hedge);
-                TwoIntRecord hvert2(this, ptri->FUN_005582d0((e + 1) % 3));
+                reinterpret_cast<::FUN_0069b310_S *>(&(pdata1->m_kOutgoingEdges))->AppendElement((const ::EH *)&(hedge));
+                TwoIntRecord hvert2(this, reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0((e + 1) % 3));
                 NavMeshVertexEdgeData* pdata2;
-                if (!kNavMeshVertexLookup.FUN_0069b4d0(hvert2, pdata2))
+                if (!::fnv_0069b4d0::FUN_0069b4d0((::fnv_0069b4d0::MP *)&(kNavMeshVertexLookup), hvert2, (*(::fnv_0069b4d0::VW *)&(pdata2))))
                 {
                     pdata2 = new NavMeshVertexEdgeData;
-                    pdata2->m_kVertexKey = hvert2;
-                    kNavMeshVertexLookup.SetKeyValue(hvert2, pdata2);
+                    reinterpret_cast<::S0069a690 *>((void *)&(const ::TwoIntRecord &)(pdata2->m_kVertexKey))->FUN_0069a690((const ::S0069a690 *)&(hvert2));
+                    ::SetKeyValue((::MP *)&(kNavMeshVertexLookup), hvert2, (::VW)(pdata2));
                 }
-                pdata2->m_kOutgoingEdges.AppendElement(hedge);
+                reinterpret_cast<::FUN_0069b310_S *>(&(pdata2->m_kOutgoingEdges))->AppendElement((const ::EH *)&(hedge));
             }
         }
     }
 
-    it = kNavMeshVertexLookup.GetFirstPos();
+    it = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(kNavMeshVertexLookup))->GetFirstPos();
     while (it)
     {
         TwoIntRecord hvert;
         NavMeshVertexEdgeData* pdata;
-        kNavMeshVertexLookup.GetNextEntry(it, hvert, pdata);
-        unsigned int iedgeCount = pdata->Edges.GetSize();
-        unsigned int iportalEdgeCount = pdata->m_kOutgoingEdges.GetSize();
+        reinterpret_cast<::VertMap *>(&(kNavMeshVertexLookup))->GetNextEntry(it, hvert, pdata);
+        unsigned int iedgeCount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pdata->Edges))->GetName()));
+        unsigned int iportalEdgeCount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pdata->m_kOutgoingEdges))->GetName()));
         if (iedgeCount + iportalEdgeCount == 2)
         {
             NavMeshEdgeData hdataEdge0;
             NavMeshEdgeData hdataEdge1;
             if (iedgeCount == 2)
             {
-                hdataEdge0 = pdata->Edges.FUN_006a1440(0);
-                hdataEdge1 = pdata->Edges.FUN_006a1440(1);
+                reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::NavMeshEdgeData &)(hdataEdge0))->CopyFromNavMeshEdge((void *)&(pdata->Edges.FUN_006a1440(0)));
+                reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::NavMeshEdgeData &)(hdataEdge1))->CopyFromNavMeshEdge((void *)&(pdata->Edges.FUN_006a1440(1)));
             }
             else if (iedgeCount == 1)
             {
-                hdataEdge0 = pdata->Edges.FUN_006a1440(0);
-                hdataEdge1 = pdata->m_kOutgoingEdges.FUN_006a1440(0);
+                reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::NavMeshEdgeData &)(hdataEdge0))->CopyFromNavMeshEdge((void *)&(pdata->Edges.FUN_006a1440(0)));
+                reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::NavMeshEdgeData &)(hdataEdge1))->CopyFromNavMeshEdge((void *)&(pdata->m_kOutgoingEdges.FUN_006a1440(0)));
             }
             else
             {
@@ -995,16 +962,16 @@ void FUN_00699b60_shell::BuildPortalPOVs()
             NavMeshEdgeVertexPair verts2 = FUN_0068f040(hdataEdge1.m_usTriangleID, hdataEdge1.m_iEdgeIndex);
             if (verts1.first == verts2.second)
             {
-                hedge1 = hdataEdge0;
-                hedge2 = hdataEdge1;
+                reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::NavMeshEdgeData &)(hedge1))->CopyFromNavMeshEdge((void *)&(hdataEdge0));
+                reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::NavMeshEdgeData &)(hedge2))->CopyFromNavMeshEdge((void *)&(hdataEdge1));
                 pverts[0] = verts1.second;
                 pverts[1] = verts1.first;
                 pverts[2] = verts2.first;
             }
             else if (verts1.second == verts2.first)
             {
-                hedge1 = hdataEdge1;
-                hedge2 = hdataEdge0;
+                reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::NavMeshEdgeData &)(hedge1))->CopyFromNavMeshEdge((void *)&(hdataEdge1));
+                reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::NavMeshEdgeData &)(hedge2))->CopyFromNavMeshEdge((void *)&(hdataEdge0));
                 pverts[0] = verts2.second;
                 pverts[1] = verts2.first;
                 pverts[2] = verts1.first;
@@ -1017,17 +984,17 @@ void FUN_00699b60_shell::BuildPortalPOVs()
             NiPoint3 edge2 = *pverts[2] - *pverts[1];
             edge1.z = 0;
             edge2.z = 0;
-            edge1.ComputeMagnitude();
-            edge2.ComputeMagnitude();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(edge1))->FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>(&(edge2))->FUN_004a0c10();
             NiPoint3 cross = edge1.Cross(edge2);
-            float fdot = edge1.DotProduct(edge2);
+            float fdot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(edge1))->DotProduct((void *)&(edge2));
             bool badd = false;
-            if (fdot > _gModifierZero)
+            if (fdot > ::_DAT_01012060)
             {
                 if (cross.z < (double)0.1f)
                 {
                     badd = true;
-                    if (cross.z > _gModifierZero)
+                    if (cross.z > ::_DAT_01012060)
                     {
                         NiPoint3 temp = edge1;
                         edge1 = edge2;
@@ -1042,19 +1009,19 @@ void FUN_00699b60_shell::BuildPortalPOVs()
             if (badd || iedgeCount == 1)
             {
                 NavMeshPOVData pov;
-                pov.m_kFirstEdge.Set(hedge1);
-                pov.m_kSecondEdge.Set(hedge2);
-                POVPointerArray.InsertOrUpdate(hvert.m_usVertexId, pov);
+                reinterpret_cast<::FUN_0069a700_shell *>(&(pov.m_kFirstEdge))->FUN_0069a700((void *)&(hedge1));
+                reinterpret_cast<::FUN_0069a700_shell *>(&(pov.m_kSecondEdge))->FUN_0069a700((void *)&(hedge2));
+                reinterpret_cast<::Map00694c50 *>(&(POVPointerArray))->InsertOrUpdate(hvert.m_usVertexId, (*(unsigned int *)&(const ::NavMeshPOVData &)(pov)));
             }
         }
     }
 
-    it = kNavMeshVertexLookup.GetFirstPos();
+    it = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(kNavMeshVertexLookup))->GetFirstPos();
     while (it)
     {
         TwoIntRecord hvert;
         NavMeshVertexEdgeData* pdata;
-        kNavMeshVertexLookup.GetNextEntry(it, hvert, pdata);
+        reinterpret_cast<::VertMap *>(&(kNavMeshVertexLookup))->GetNextEntry(it, hvert, pdata);
         delete pdata;
     }
 
@@ -1062,27 +1029,27 @@ void FUN_00699b60_shell::BuildPortalPOVs()
     for (unsigned int i = 0; i < itriCount; ++i)
     {
         NiPoint3 circumCenter = FUN_00697290(i);
-        NiPoint3 vertLoc = FUN_0068f0a0(GetTriangle(i)->FUN_005582d0(0));
-        float fradius = (vertLoc - circumCenter).FUN_00589850();
+        NiPoint3 vertLoc = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((GetTriangle(i)))->FUN_005582d0(0))));
+        float fradius = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::NiPoint3 &)((vertLoc - circumCenter)))->FUN_00589850();
         float fmaxRadius = fradius + afValueAfterThirdFloat;
         float fmaxRadiusSqr = fmaxRadius * fmaxRadius;
         unsigned short iClosestPOV = 0xFFFF;
         float fclosestPOVSqrDist = fmaxRadiusSqr * fmaxRadiusSqr;
-        void* it = POVPointerArray.GetFirstPos();
+        void* it = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(POVPointerArray))->GetFirstPos();
         while (it)
         {
             unsigned short usCurrentVertexIndex;
             NavMeshPOVData data;
-            POVPointerArray.FUN_00694d30(it, usCurrentVertexIndex, data);
-            NiPoint3 delta = FUN_0068f0a0(usCurrentVertexIndex) - circumCenter;
-            float fsqrDist = delta.GetSquaredXYLength();
+            reinterpret_cast<::Map00694d30 *>(&(POVPointerArray))->FUN_00694d30((::Item00694d30 **)&(it), (unsigned short *)&(usCurrentVertexIndex), (::POV00694d30 *)&(data));
+            NiPoint3 delta = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(usCurrentVertexIndex))) - circumCenter;
+            float fsqrDist = reinterpret_cast<::FUN_00595c80_shell *>((void *)&(delta))->GetSquaredXYLength();
             if (fsqrDist < fclosestPOVSqrDist && std::abs(delta.z) < 180.0)
             {
                 fclosestPOVSqrDist = fsqrDist;
                 iClosestPOV = usCurrentVertexIndex;
             }
         }
-        m_kAdditionalIndexList.ReserveIndex(iClosestPOV);
+        reinterpret_cast<::FUN_00691820_arr *>(&(m_kAdditionalIndexList))->Append((const unsigned short *)&(iClosestPOV));
     }
 }
 
@@ -1093,25 +1060,24 @@ struct NiPoint2
     NiPoint2(float fx, float fy);
 };
 
-extern "C" void __cdecl FUN_006ba010(const NiPoint2& a, const NiPoint2& b, const NiPoint2& c, const NiPoint2& d);
 
 // @fnv 0x00696540
 void FUN_00696540(const NiPoint3* aSegment1Start, const NiPoint3* aSegment2Start, const NiPoint3* aSegment1End,
                   const NiPoint3* aSegment2End)
 {
-    FUN_006ba010(NiPoint2(aSegment1Start->x, aSegment1Start->y), NiPoint2(aSegment2Start->x, aSegment2Start->y),
-                 NiPoint2(aSegment1End->x, aSegment1End->y), NiPoint2(aSegment2End->x, aSegment2End->y));
+    ::FUN_006ba010((const ::NiPoint3 *)&(const ::NiPoint2 &)(NiPoint2(aSegment1Start->x, aSegment1Start->y)), (const ::NiPoint3 *)&(const ::NiPoint2 &)(NiPoint2(aSegment2Start->x, aSegment2Start->y)),
+                 (const ::NiPoint3 *)&(const ::NiPoint2 &)(NiPoint2(aSegment1End->x, aSegment1End->y)), (const ::NiPoint3 *)&(const ::NiPoint2 &)(NiPoint2(aSegment2End->x, aSegment2End->y)));
 }
 
 struct FUN_006967c0_shell
 {
     int f0;
     char pad[32];
-    int f24;
-    int FUN_006967c0(int a, int b);
+    intptr_t f24;
+    intptr_t FUN_006967c0(int a, int b);
 };
 // @fnv 0x006967c0
-int FUN_006967c0_shell::FUN_006967c0(int a, int b)
+intptr_t FUN_006967c0_shell::FUN_006967c0(int a, int b)
 {
     int t = b * f0 + a;
     return (t << 4) + f24;
@@ -1130,6 +1096,12 @@ struct Obj00696a10
     Vec00696a10 m2;
     void GetVectors(Vec00696a10*, Vec00696a10*);
 };
+// @fnv 0x006969e0
+bool FUN_006969e0_shell::FUN_006969e0(NiPoint3* aRetMin, NiPoint3* aRetMax)
+{
+    reinterpret_cast<::Obj00696a10 *>((reinterpret_cast<DummyA8*>((&this->m_kGrid))))->GetVectors((::Vec00696a10 *)(aRetMin), (::Vec00696a10 *)(aRetMax));
+    return true;
+}
 // Copies the object's two Vec00696a10 members into the caller-supplied output vectors.
 // @fnv 0x00696a10
 void Obj00696a10::GetVectors(Vec00696a10* pVec1, Vec00696a10* pVec2)
@@ -1140,17 +1112,20 @@ void Obj00696a10::GetVectors(Vec00696a10* pVec1, Vec00696a10* pVec2)
 
 struct Holder
 {
-    void FUN_004a3c90(Holder*);
+    unsigned char kBase[0x10];  // a FUN_004a3c90
+    float fUnk10;
+    int iUnk14;
+    __int64 iUnk18;
     Holder* FUN_00696ca0(Holder*);
 };
 // Copies the float at offset 0x10, the int at 0x14 and the 64-bit value at 0x18 from p into this after calling FUN_004a3c90, then returns this.
 // @fnv 0x00696ca0
 Holder* Holder::FUN_00696ca0(Holder* apSource)
 {
-    this->FUN_004a3c90(apSource);
-    *(float*)((char*)this + 0x10) = *(float*)((char*)apSource + 0x10);
-    *(int*)((char*)this + 0x14) = *(int*)((char*)apSource + 0x14);
-    *(__int64*)((char*)this + 0x18) = *(__int64*)((char*)apSource + 0x18);
+    new ((void *)(this)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(apSource)));
+    fUnk10 = apSource->fUnk10;
+    iUnk14 = apSource->iUnk14;
+    iUnk18 = apSource->iUnk18;
     return this;
 }
 
@@ -1190,20 +1165,18 @@ unsigned int Dummy698030::FUN_00698030(unsigned short ausIndex)
 
 struct FUN_00698300_shell
 {
-    void _ref_006815c0();
     FUN_00698300_shell* FUN_00698300();
 };
 // @fnv 0x00698300
 FUN_00698300_shell* FUN_00698300_shell::FUN_00698300()
 {
-    ((FUN_00698300_shell*)((char*)this + 8))->_ref_006815c0();
+    (void *)(((FUN_00698300_shell*)((char*)this + 8)));
     return this;
 }
 
 namespace fnv_00698fc0 {
 struct FUN_00699630_shell
 {
-    int FUN_00699630(int, unsigned int*);
 };
 struct FUN_00698fc0_shell : public FUN_00699630_shell
 {
@@ -1217,7 +1190,7 @@ bool FUN_00698fc0_shell::FUN_00698fc0(int a, int b)
     int idx;
     {
         unsigned int tmp;
-        idx = FUN_00699630(a, &tmp);
+        idx = reinterpret_cast<::FUN_00699630_shell *>(this)->FUN_00699630(a, &tmp);
     }
     if (idx == -1)
         return false;
@@ -1239,23 +1212,15 @@ unsigned int MaxUnsigned(unsigned int auiValue, unsigned short ausValue)
 
 struct S0069afb0
 {
-    int FUN_0069afb0(unsigned short, int);
 };
 struct S006997b0
 {
     char _pad[0xE0];
     S0069afb0* p;
-    int FUN_006997b0(unsigned short, int);
+    int FUN_006997b0(unsigned short, std::intptr_t);
 };
-// @fnv 0x006997b0
-int S006997b0::FUN_006997b0(unsigned short a, int b)
-{
-    return p->FUN_0069afb0(a, b);
-}
-
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 struct ActorAvoidanceDataArray
 {
@@ -1263,14 +1228,13 @@ struct ActorAvoidanceDataArray
 };
 struct BSXFlags_shell
 {
-    void ClearFlags(unsigned int);
 };
 struct S006950d0
 {
     NavMeshClosedDoorInfo* GetElement(unsigned int);
 };
 
-struct FUN_00699a30_shell
+struct FUN_00699a30_shell : NavMesh
 {
     bool FUN_00699a30(unsigned int doorID);
 };
@@ -1279,17 +1243,16 @@ struct FUN_00699a30_shell
 bool FUN_00699a30_shell::FUN_00699a30(unsigned int doorID)
 {
     unsigned int i = 0;
-    for (; i < ((ArrSI*)((char*)this + 0x68))->GetFlags(); ++i)
+    for (; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->m_kClosedDoorInfo))))->GetName())); ++i)
     {
-        if (((S006950d0*)((char*)this + 0x68))->GetElement(i)->iDoorID == doorID)
+        if (((S006950d0*)(&this->m_kClosedDoorInfo))->GetElement(i)->iDoorID == doorID)
         {
-            if (((S006950d0*)((char*)this + 0x68))->GetElement(i)->m_usTriangleID < ((NavMesh*)this)->FUN_00558200())
+            if (((S006950d0*)(&this->m_kClosedDoorInfo))->GetElement(i)->m_usTriangleID < ::FUN_00558200((char *)(((NavMesh*)this))))
             {
-                ((BSXFlags_shell*)((NavMesh*)this)
-                     ->GetTriangle(((S006950d0*)((char*)this + 0x68))->GetElement(i)->m_usTriangleID))
-                    ->ClearFlags(0x1000);
+                reinterpret_cast<::FUN_00519270_shell *>((((BSXFlags_shell*)((NavMesh*)this)
+                     ->GetTriangle(((S006950d0*)(&this->m_kClosedDoorInfo))->GetElement(i)->m_usTriangleID))))->ClearFlags(0x1000);
             }
-            ((ActorAvoidanceDataArray*)((char*)this + 0x68))->FUN_00983720(i, 1);
+            ((ActorAvoidanceDataArray*)(&this->m_kClosedDoorInfo))->FUN_00983720(i, 1);
             --i;
         }
     }
@@ -1314,7 +1277,6 @@ FUN_0069a7d0::~FUN_0069a7d0()
 {}
 
 namespace fnv_0069a940 {
-bool __cdecl AreWideCharsEqual(const unsigned short&, const unsigned short&);
 
 struct NavMeshTriList
 {
@@ -1324,7 +1286,6 @@ struct NavMeshTriList
 
 struct GlobalObject_00869f00
 {
-    void Clear(bool);
     BSSimpleArray<unsigned short> m_kAdditionalIndexList;
 };
 
@@ -1337,15 +1298,15 @@ struct FUN_0069a940_shell : NavMesh
 // @fnv 0x0069a940
 unsigned int FUN_0069a940_shell::FUN_0069a940(unsigned short triangle, GlobalObject_00869f00* object)
 {
-    object->Clear(false);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((object))->Clear(false);
     unsigned int count4 = 0;
     NavMeshTriangle* navMeshTriangle = GetTriangle(triangle);
     for (int i3 = 0; i3 < 3; ++i3)
     {
-        unsigned short vertex3 = navMeshTriangle->FUN_005582d0(i3);
-        if (((NavMeshTriList*)((char*)this + 0xe4))->FindMatchingIndex(vertex3, 0, AreWideCharsEqual) != -1)
+        unsigned short vertex3 = reinterpret_cast<::FUN_005582d0_shell *>((navMeshTriangle))->FUN_005582d0(i3);
+        if (((NavMeshTriList*)(&this->m_kAdditionalData))->FindMatchingIndex(vertex3, 0, ((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual)) != -1)
         {
-            object->m_kAdditionalIndexList.ReserveIndex(vertex3);
+            reinterpret_cast<::FUN_00691820_arr *>(&(object->m_kAdditionalIndexList))->Append((const unsigned short *)&(vertex3));
             ++count4;
         }
     }
@@ -1357,34 +1318,130 @@ class SoundPlaybackHandle;
 template <> class NiTPointerMap<unsigned int, SoundPlaybackHandle*>
 {
   public:
-    bool IsEmpty();
 };
 struct FUN_0069b0a0_shell
 {
-    void LookupValue(unsigned short, unsigned int);
 };
 struct FUN_0069a9d0_shell : NavMesh
 {
-    void FUN_0069a9d0(unsigned short, unsigned int);
+    void FUN_0069a9d0(unsigned short, std::uintptr_t);
 };
-// @fnv 0x0069a9d0
-void FUN_0069a9d0_shell::FUN_0069a9d0(unsigned short a1, unsigned int a2)
-{
-    if (((NiTPointerMap<unsigned int, SoundPlaybackHandle*>*)((char*)this + 0x88))->IsEmpty())
-        InitializeNavMeshData();
-    ((FUN_0069b0a0_shell*)((char*)this + 0x88))->LookupValue(a1, a2);
-}
-
 struct FUN_0069b240_Holder
 {
     int field_0;
     unsigned short* field_4;
     unsigned int field_8;
-    int FindMatchingIndex(int, unsigned int, bool(__cdecl*)(unsigned short*, int));
+    int FindMatchingIndex(std::intptr_t, unsigned int, bool(__cdecl*)(unsigned short*, int));
 };
+// @fnv 0x006987d0
+void NavMeshOverlap::FUN_006987d0(const ObstacleDataPtr& apObstacle, const NiPoint3& afFudge,
+                                  NavMeshTriList* apRetTriangles)
+{
+    unsigned int istartRow = 0;
+    unsigned int istartCol = 0;
+    unsigned int iendRow = 0;
+    unsigned int iendCol = 0;
+
+    reinterpret_cast<::NavMeshGridX *>(&(Grid))->GetCellCoords(apObstacle->WorldMin, istartRow, istartCol);
+    reinterpret_cast<::NavMeshGridX *>(&(Grid))->GetCellCoords(apObstacle->WorldMax, iendRow, iendCol);
+
+    NiPoint3 cornersLocalSpace[4];
+    cornersLocalSpace[0] = NiPoint3Ex(apObstacle->m_kBoundsMin.x - afFudge.x, apObstacle->m_kBoundsMin.y - afFudge.y,
+                                      apObstacle->m_kBoundsMin.z);
+    cornersLocalSpace[1] = NiPoint3Ex(apObstacle->m_kBoundsMin.x - afFudge.x, apObstacle->m_kBoundsMax.y + afFudge.y,
+                                      apObstacle->m_kBoundsMin.z);
+    cornersLocalSpace[2] = NiPoint3Ex(apObstacle->m_kBoundsMax.x + afFudge.x, apObstacle->m_kBoundsMax.y + afFudge.y,
+                                      apObstacle->m_kBoundsMin.z);
+    cornersLocalSpace[3] = NiPoint3Ex(apObstacle->m_kBoundsMax.x + afFudge.x, apObstacle->m_kBoundsMin.y - afFudge.y,
+                                      apObstacle->m_kBoundsMin.z);
+
+    float fzheight = apObstacle->WorldMax.z - apObstacle->WorldMin.z;
+
+    for (unsigned int r = istartRow; r <= iendRow; r++)
+    {
+        for (unsigned int c = istartCol; c <= iendCol; c++)
+        {
+            NavMeshTriList* parray = ((::NavMeshTriList *)(std::uintptr_t)(reinterpret_cast<::FUN_006967c0_shell *>(&(Grid))->FUN_006967c0(c, r)));
+            if (parray)
+            {
+                for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(parray))->GetName())); i++)
+                {
+                    if (reinterpret_cast<::FUN_0069b240_Holder *>((apRetTriangles))->FindMatchingIndex((std::intptr_t)&(reinterpret_cast<::FUN_0069dec0_class *>((void *)(parray))->FUN_0069dec0(i)), 0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual))) != -1)
+                        continue;
+                    NavMeshTriangleEx* ptri = (NavMeshTriangleEx*)GetTriangle(reinterpret_cast<::FUN_0069dec0_class *>((void *)(parray))->FUN_0069dec0(i));
+                    if (reinterpret_cast<::FUN_00691140_shell *>((ptri))->FUN_00691140(0x20))
+                        continue;
+
+                    NiPoint3Ex wtriMin(3.402823466e+38f, 3.402823466e+38f, 3.402823466e+38f);
+                    NiPoint3Ex wtriMax(::DAT_01015f5c, ::DAT_01015f5c, ::DAT_01015f5c);
+                    for (int v = 0; v < 3; v++)
+                    {
+                        const NiPoint3* vertLocation = &(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0(v))));
+                        wtriMin.x = FUN_0040ebd0(wtriMin.x, vertLocation->x);
+                        wtriMin.y = FUN_0040ebd0(wtriMin.y, vertLocation->y);
+                        wtriMin.z = FUN_0040ebd0(wtriMin.z, vertLocation->z);
+                        wtriMax.x = FUN_00404010(wtriMax.x, vertLocation->x);
+                        wtriMax.y = FUN_00404010(wtriMax.y, vertLocation->y);
+                        wtriMax.z = FUN_00404010(wtriMax.z, vertLocation->z);
+                    }
+                    wtriMax.z += 128.0;
+
+                    if (!::DoBoundsOverlap((const ::NiPoint3 *)&(const ::NiPoint3 &)(apObstacle->WorldMin - afFudge), (const ::NiPoint3 *)&(const ::NiPoint3 &)(apObstacle->WorldMax + afFudge), (const ::NiPoint3 *)&(wtriMin),
+                                         (const ::NiPoint3 *)&(wtriMax)))
+                        continue;
+
+                    bool bOverlap = false;
+                    float fdontCare;
+                    if (::fnv_006c3570::FUN_006c3570((::fnv_006c3570::NiPoint3 *)&(const ::NiPoint3 &)(reinterpret_cast<::NavMesh *>(this)->GetNavMeshData(reinterpret_cast<::FUN_0069dec0_class *>((void *)(parray))->FUN_0069dec0(i))), (::fnv_006c3570::Flt *)&(apObstacle), fzheight, 128.0f))
+                    {
+                        bOverlap = true;
+                    }
+                    else if (FindHeightOnTriangle(reinterpret_cast<::FUN_0069dec0_class *>((void *)(parray))->FUN_0069dec0(i),
+                                                  *(const NiPoint3*)(apObstacle->prefix + 0x10), fdontCare, fzheight,
+                                                  128.0f))
+                    {
+                        bOverlap = true;
+                    }
+                    else
+                    {
+                        for (unsigned int triv = 0; triv < 3; triv++)
+                        {
+                            unsigned int triw = triv + 1;
+                            if (triw == 3)
+                                triw = 0;
+                            NiPoint3 vert1 = (*(::NiPoint3 *)(::FUN_004b3ae0((::NiPoint3 *)&(const ::NiPoint3 &)((*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0(triv)))) -
+                                                              *(const NiPoint3*)(apObstacle->prefix + 0x10)),
+                                                          (*(const ::NiPoint3 *)((const float*)(apObstacle->prefix + 0x1c))), {})));
+                            NiPoint3 vert2 = (*(::NiPoint3 *)(::FUN_004b3ae0((::NiPoint3 *)&(const ::NiPoint3 &)((*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0(triw)))) -
+                                                              *(const NiPoint3*)(apObstacle->prefix + 0x10)),
+                                                          (*(const ::NiPoint3 *)((const float*)(apObstacle->prefix + 0x1c))), {})));
+                            for (unsigned int boxv = 0; boxv < 4; boxv++)
+                            {
+                                unsigned int boxw = boxv + 1;
+                                if (boxw == 4)
+                                    boxw = 0;
+                                NiPoint3 box1 = cornersLocalSpace[boxv];
+                                NiPoint3 box2 = cornersLocalSpace[boxw];
+                                if (FUN_00696540(vert1, vert2, box1, box2))
+                                {
+                                    bOverlap = true;
+                                    break;
+                                }
+                            }
+                            if (bOverlap)
+                                break;
+                        }
+                    }
+                    if (bOverlap)
+                        reinterpret_cast<::FUN_00691820_arr *>((apRetTriangles))->Append((const unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((void *)(parray))->FUN_0069dec0(i)));
+                }
+            }
+        }
+    }
+}
 // Scans field_4 from start to field_8, calling func on each element with a, and returns the first matching index or -1.
 // @fnv 0x0069b240
-int FUN_0069b240_Holder::FindMatchingIndex(int aiValue, unsigned int start, bool(__cdecl* func)(unsigned short*, int))
+int FUN_0069b240_Holder::FindMatchingIndex(std::intptr_t aiValue, unsigned int start, bool(__cdecl* func)(unsigned short*, int))
 {
     unsigned int i;
     for (i = start; i < field_8; ++i)
@@ -1405,17 +1462,22 @@ struct EH
 };
 struct C006b39a0
 {
+    int aiRecord[2];  // a TwoIntRecord
+    EH kEdge;
+    int iUnk14;
+    int iUnk18;
+    int iUnk1C;
     C006b39a0& FUN_006b39a0(C006b39a0 const&);
 };
 // Copies the first field, an EH at offset 8, and three ints at offsets 0x14, 0x18 and 0x1c from rhs into this, returning *this.
 // @fnv 0x006b39a0
 C006b39a0& C006b39a0::FUN_006b39a0(C006b39a0 const& rhs)
 {
-    *(TwoIntRecord*)this = *(TwoIntRecord*)&rhs;
-    *(EH*)((char*)this + 8) = *(EH*)((char*)&rhs + 8);
-    *(int*)((char*)this + 0x14) = *(int*)((char*)&rhs + 0x14);
-    *(int*)((char*)this + 0x18) = *(int*)((char*)&rhs + 0x18);
-    *(int*)((char*)this + 0x1c) = *(int*)((char*)&rhs + 0x1c);
+    reinterpret_cast<::S0069a690 *>((void *)&(const ::TwoIntRecord &)(*(TwoIntRecord*)this))->FUN_0069a690((const ::S0069a690 *)&(*(TwoIntRecord*)&rhs));
+    reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::fnv_006b39a0::EH &)(kEdge))->CopyFromNavMeshEdge((void *)&(rhs.kEdge));
+    iUnk14 = rhs.iUnk14;
+    iUnk18 = rhs.iUnk18;
+    iUnk1C = rhs.iUnk1C;
     return *this;
 }
 }  // namespace fnv_006b39a0
@@ -1452,7 +1514,6 @@ struct PathingLocation
     bool HasNavMesh();
     void* GetNavMeshInfo();
     bool FindContainingTriangle(FindTriangleForLocationFilter*);
-    bool IsPathingLocationValid();
     bool HasPathingLocation();
     bool QUnused();
     void SetUnused();
@@ -1462,10 +1523,8 @@ struct PathingLocation
     void WriteDebugString(char*, int);
     bool IsDistanceBelowThreshold(float);
     bool IsCloseTo(void*, float);
-    void SetLocationData(void*, TESObjectCELL*, TESWorldSpace*);
     bool QAllMeshesReachable();
     void SetAllMeshesReachable(int);
-    bool GetAllMeshesReachable();
     void* __vecDelDtor(unsigned int);
     NiPoint3 Location;
     void* m_pLocationNavMesh;
@@ -1477,16 +1536,13 @@ struct PathingLocation
     unsigned char uiFlags;
     char _pad_27[1];
 };
-typedef char _sizecheck_PathingLocation[sizeof(PathingLocation) == 40 ? 1 : -1];
 struct FUN_006dcee0_shell : public NavMesh
 {
     bool FUN_006dcee0(void*, FindTriangleForLocationFilter*);
 };
 
-extern int DAT_0102583c;
 struct Sub6815c0
 {
-    void _ref_006815c0();
 };
 struct FUN_006dcee0_t
 {
@@ -1498,8 +1554,7 @@ struct FUN_006dcee0_t
 FUN_006dcee0_t* FUN_006dcee0_t::FUN_006dcee0(void* a1, TESObjectCELL* apCell, TESWorldSpace* apWorldspace)
 {
     vfptr = &DAT_0102583c;
-    s._ref_006815c0();
-    ((PathingLocation*)this)->SetLocationData(a1, apCell, apWorldspace);
+    reinterpret_cast<::SetupPathingLocation *>((((PathingLocation*)this)))->FUN_006dd280((*(const ::NiPoint3 *)(a1)), apCell, apWorldspace);
     return this;
 }
 
@@ -1515,42 +1570,35 @@ struct S696500
 void S696500::FUN_00696500(unsigned short ausValue, int b, int c)
 {
     int index = c * m0 + b;
-    m24[index].ReserveIndex(ausValue);
+    reinterpret_cast<::FUN_00691820_arr *>(&(m24[index]))->Append((const unsigned short *)&(ausValue));
 }
 
+struct Out_0069d4b0;
+struct Pt_0069d4b0;
 struct Sub0069d4b0
 {
-    void __thiscall FUN_0069d4b0(int a, int b, int c);
+public:
+    void FUN_0069d4b0(::Pt_0069d4b0 *, ::Pt_0069d4b0 *, ::Out_0069d4b0 *);
 };
 struct Obj00696c00
 {
     char _pad[0xA8];
     Sub0069d4b0 sub;
-    void __thiscall ForwardToSub(int a, int b, int c);
+    void ForwardToSub(std::intptr_t a, std::intptr_t b, std::intptr_t c);
 };
 // Calls FUN_0069d4b0 on the sub object at offset 0xA8, passing the three arguments through.
 // @fnv 0x00696c00
-void __thiscall Obj00696c00::ForwardToSub(int aiArg1, int aiArg2, int aiArg3)
+void Obj00696c00::ForwardToSub(std::intptr_t aiArg1, std::intptr_t aiArg2, std::intptr_t aiArg3)
 {
-    sub.FUN_0069d4b0(aiArg1, aiArg2, aiArg3);
+    reinterpret_cast<::Sub0069d4b0 *>(&(sub))->FUN_0069d4b0((::Pt_0069d4b0 *)(aiArg1), (::Pt_0069d4b0 *)(aiArg2), (::Out_0069d4b0 *)(aiArg3));
 }
 
 struct S50
 {
     char _pad[0x50];
     int f50;
-    void AssignFrom(S50* p);
     S50* FUN_00696c30(S50* p);
 };
-// Calls AssignFrom on p, copies p->f50 into this->f50, and returns this.
-// @fnv 0x00696c30
-S50* S50::FUN_00696c30(S50* apSource)
-{
-    AssignFrom(apSource);
-    f50 = apSource->f50;
-    return this;
-}
-
 struct MidCopy
 {
     char _pad[32];
@@ -1559,36 +1607,44 @@ struct MidCopy
         unsigned int d[8];
     } inner;
     unsigned int tail;
-    MidCopy& FUN_00696ca0(const MidCopy&);
     MidCopy& AssignFrom(const MidCopy&);
 };
+// Calls AssignFrom on p, copies p->f50 into this->f50, and returns this.
+// @fnv 0x00696c30
+S50* S50::FUN_00696c30(S50* apSource)
+{
+    reinterpret_cast<::MidCopy *>(this)->AssignFrom((*(const ::MidCopy *)(apSource)));
+    f50 = apSource->f50;
+    return this;
+}
 // @fnv 0x00696c60
 MidCopy& MidCopy::AssignFrom(const MidCopy& other)
 {
-    FUN_00696ca0(other);
+    reinterpret_cast<::Holder *>(this)->FUN_00696ca0((::Holder *)&(other));
     inner = other.inner;
     tail = other.tail;
     return *this;
 }
 
-extern void* DAT_0106b1f4;
-void* __cdecl _NiMalloc(unsigned int);
-void* __cdecl memset(void*, int, unsigned int);
 
 struct FUN_0069b360_shell
 {
-    void* __thiscall ConstructBuffer(unsigned int a);
+    void* pVtable;
+    unsigned int m_uiHashSize;
+    void* m_ppkHashTable;
+    unsigned int m_uiCount;
+    void* ConstructBuffer(unsigned int a);
 };
 
 // @fnv 0x0069b360
-void* __thiscall FUN_0069b360_shell::ConstructBuffer(unsigned int a)
+void* FUN_0069b360_shell::ConstructBuffer(unsigned int a)
 {
-    *(void**)this = &DAT_0106b1f4;
-    *(unsigned int*)((char*)this + 4) = a;
-    *(unsigned int*)((char*)this + 0xc) = 0;
-    unsigned int uiSize = *(unsigned int*)((char*)this + 4) * 4;
-    *(void**)((char*)this + 8) = _NiMalloc(uiSize);
-    memset(*(void**)((char*)this + 8), 0, *(unsigned int*)((char*)this + 4) * 4);
+    pVtable = &(*reinterpret_cast<void * *>(&::fnv_0069b730::DAT_0106b1f4));
+    m_uiHashSize = a;
+    m_uiCount = 0;
+    unsigned int uiSize = m_uiHashSize * 4;
+    m_ppkHashTable = ::FUN_00aa1070(uiSize);
+    ::FUN_00403d30(m_ppkHashTable, 0, m_uiHashSize * 4);
     return this;
 }
 
@@ -1621,9 +1677,9 @@ bool FUN_00697810_t::TestPointOnTriangle(unsigned short ausTri, const NiPoint3& 
         B006815c0 v0;
         B006815c0 v2;
         NavMeshTriangle* ptri = GetTriangle(ausTri);
-        v1 = *(const B006815c0*)&FUN_0068f0a0(ptri->FUN_005582d0(0));
-        v0 = *(const B006815c0*)&FUN_0068f0a0(ptri->FUN_005582d0(1));
-        v2 = *(const B006815c0*)&FUN_0068f0a0(ptri->FUN_005582d0(2));
+        v1 = *(const B006815c0*)&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0(0))));
+        v0 = *(const B006815c0*)&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0(1))));
+        v2 = *(const B006815c0*)&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0(2))));
         bResult = FUN_006b9cf0(*(const NiPoint3*)&v1, *(const NiPoint3*)&v0, *(const NiPoint3*)&v2, arPoint, arZ,
                                3.4028234663852886e+38f, 3.4028234663852886e+38f);
     }
@@ -1683,9 +1739,9 @@ bool FUN_00697980_t::GetTriangleHeightAtPoint(unsigned short ausTriangle, const 
                                                             {
                                                                 const NiPoint3* pVertex1;
                                                                 pTri = GetTriangle(ausTriangle);
-                                                                pVertex0 = &FUN_0068f0a0(pTri->FUN_005582d0(0));
-                                                                pVertex1 = &FUN_0068f0a0(pTri->FUN_005582d0(1));
-                                                                pVertex2 = &FUN_0068f0a0(pTri->FUN_005582d0(2));
+                                                                pVertex0 = &(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((pTri))->FUN_005582d0(0))));
+                                                                pVertex1 = &(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((pTri))->FUN_005582d0(1))));
+                                                                pVertex2 = &(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((pTri))->FUN_005582d0(2))));
                                                                 fDet = (pVertex1->x - pVertex0->x) *
                                                                            (pVertex2->y - pVertex0->y) -
                                                                        (pVertex2->x - pVertex0->x) *
@@ -1733,12 +1789,10 @@ bool FUN_00697980_t::GetTriangleHeightAtPoint(unsigned short ausTriangle, const 
     }
 }
 
-extern double DAT_01011588;
 namespace NavCircum {
 struct NiPoint3
 {
     float x, y, z;
-    void Set(float, float, float);
 };
 }
 // Computes the circumcenter of the triangle's three vertices in the XY plane and returns it with Z set to the highest vertex Z.
@@ -1758,9 +1812,9 @@ NiPoint3 NavMesh::FUN_00697290(unsigned short apTriangle)
     float yao;
     float numerator;
     float Z;
-    p0 = *(const NavCircum::NiPoint3*)&FUN_0068f0a0(GetTriangle(apTriangle)->FUN_005582d0(0));
-    p1 = *(const NavCircum::NiPoint3*)&FUN_0068f0a0(GetTriangle(apTriangle)->FUN_005582d0(1));
-    p2 = *(const NavCircum::NiPoint3*)&FUN_0068f0a0(GetTriangle(apTriangle)->FUN_005582d0(2));
+    p0 = *(const NavCircum::NiPoint3*)&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((GetTriangle(apTriangle)))->FUN_005582d0(0))));
+    p1 = *(const NavCircum::NiPoint3*)&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((GetTriangle(apTriangle)))->FUN_005582d0(1))));
+    p2 = *(const NavCircum::NiPoint3*)&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((GetTriangle(apTriangle)))->FUN_005582d0(2))));
     xdo = p1.x - p0.x;
     ydo = p1.y - p0.y;
     xao = p2.x - p0.x;
@@ -1774,7 +1828,7 @@ NiPoint3 NavMesh::FUN_00697290(unsigned short apTriangle)
         Z = p0.z;
     else if (p1.z >= p2.z)
         Z = p1.z;
-    circumcenter.Set(p0.x - (ydo * b2 - yao * a2) * denominator, (xdo * b2 - xao * a2) * denominator + p0.y, Z);
+    reinterpret_cast<::FUN_00416870_t *>(&(circumcenter))->FUN_00416870(p0.x - (ydo * b2 - yao * a2) * denominator, (xdo * b2 - xao * a2) * denominator + p0.y, Z);
     return *(NiPoint3*)&circumcenter;
 }
 
@@ -1790,9 +1844,9 @@ int FUN_00698320_t::FindCrossedEdge(unsigned short ausTri, int aIgnoreEdge, cons
 {
     NiPoint3 edgeVerts[3];
     NavMeshTriangle* ptri = GetTriangle(ausTri);
-    edgeVerts[0] = FUN_0068f0a0(ptri->FUN_005582d0(0));
-    edgeVerts[1] = FUN_0068f0a0(ptri->FUN_005582d0(1));
-    edgeVerts[2] = FUN_0068f0a0(ptri->FUN_005582d0(2));
+    edgeVerts[0] = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0(0))));
+    edgeVerts[1] = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0(1))));
+    edgeVerts[2] = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((ptri))->FUN_005582d0(2))));
     for (int i = 0; i < 3; i++)
     {
         if (i == aIgnoreEdge)
@@ -1823,25 +1877,21 @@ int FUN_00698320_t::FindCrossedEdge(unsigned short ausTri, int aIgnoreEdge, cons
 namespace fnv_0069a830 {
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 struct DA00694f80
 {
-    unsigned short& GetAt(int);
 };
 struct FUN_0069b0a0_shell
 {
-    bool LookupValue(unsigned short, unsigned int);
+    bool LookupValue(unsigned short, std::uintptr_t);
 };
 namespace S {
 struct NiTPointerMap
 {
-    bool IsEmpty();
 };
 }
 struct GlobalObject_00869f00
 {
-    void Clear(bool);
 };
 struct FUN_0069a830_shell : NavMesh
 {
@@ -1851,25 +1901,25 @@ struct FUN_0069a830_shell : NavMesh
 // @fnv 0x0069a830
 int FUN_0069a830_shell::CollectTrianglePOVs(unsigned short triangle, BSSimpleArray<unsigned short, 1024>* povs)
 {
-    if (((S::NiTPointerMap*)&POVPointerArray)->IsEmpty())
-        InitializeNavMeshData();
-    ((GlobalObject_00869f00*)povs)->Clear(false);
+    if (::IsFieldCZero((::Dummy_0069b080 *)(((S::NiTPointerMap*)&POVPointerArray))))
+        reinterpret_cast<::FUN_00699b60_shell *>(this)->BuildPortalPOVs();
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)povs)))->Clear(false);
     int iAddedCount = 0;
     NavMeshTriangle* pNavTriangle = GetTriangle(triangle);
     for (int i = 0; i < 3; i++)
     {
-        unsigned short m_usVertexId = pNavTriangle->FUN_005582d0(i);
+        unsigned short m_usVertexId = reinterpret_cast<::FUN_005582d0_shell *>((pNavTriangle))->FUN_005582d0(i);
         unsigned int uiPOV;
-        if (((FUN_0069b0a0_shell*)&POVPointerArray)->LookupValue(m_usVertexId, (unsigned int)&uiPOV))
+        if (((FUN_0069b0a0_shell*)&POVPointerArray)->LookupValue(m_usVertexId, (std::uintptr_t)&uiPOV))
         {
-            povs->ReserveIndex(m_usVertexId);
+            reinterpret_cast<::FUN_00691820_arr *>((povs))->Append((const unsigned short *)&(m_usVertexId));
             iAddedCount++;
         }
     }
-    if (triangle < ((ArrSI*)&m_kAdditionalIndexList)->GetFlags() &&
-        ((DA00694f80*)&m_kAdditionalIndexList)->GetAt(triangle) != 0xFFFF)
+    if (triangle < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kAdditionalIndexList)))->GetName())) &&
+        reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)&m_kAdditionalIndexList)))->GetBufferEntry(triangle) != 0xFFFF)
     {
-        povs->ReserveIndex(((DA00694f80*)&m_kAdditionalIndexList)->GetAt(triangle));
+        reinterpret_cast<::FUN_00691820_arr *>((povs))->Append((const unsigned short *)&(reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)&m_kAdditionalIndexList)))->GetBufferEntry(triangle)));
         iAddedCount++;
     }
     return iAddedCount;
@@ -1890,6 +1940,11 @@ struct FUN_0069afb0_shell
     void** list;
     bool FUN_0069afb0(unsigned short a, Helper62d0& out);
 };
+// @fnv 0x006997b0
+int S006997b0::FUN_006997b0(unsigned short a, std::intptr_t b)
+{
+    return ((int)(reinterpret_cast<::FUN_0069afb0_shell *>((p))->FUN_0069afb0(a, (*(::Helper62d0 *)(b)))));
+}
 
 // @fnv 0x0069afb0
 bool FUN_0069afb0_shell::FUN_0069afb0(unsigned short a, Helper62d0& out)
@@ -1911,19 +1966,13 @@ bool FUN_0069afb0_shell::FUN_0069afb0(unsigned short a, Helper62d0& out)
 namespace fnv_006be6f0 {
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 struct DA00694f80
 {
-    unsigned short& GetAt(int i);
 };
 struct NavMeshTriList
 {
-    int FindMatchingIndex(const unsigned short&, unsigned int,
-                          bool(__cdecl*)(const unsigned short&, const unsigned short&));
-    void FUN_0069add0(int, bool);
 };
-bool __cdecl AreWideCharsEqual(const unsigned short&, const unsigned short&);
 struct FUN_006be6f0_shell
 {
     void MarkNavMeshTriangles();
@@ -1931,13 +1980,12 @@ struct FUN_006be6f0_shell
 // @fnv 0x006be6f0
 void FUN_006be6f0_shell::MarkNavMeshTriangles()
 {
-    for (unsigned int i = 0; i < ((ArrSI*)((char*)*(unsigned int**)((char*)this + 8) + 0x60))->GetFlags(); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)*(unsigned int**)((char*)this + 8) + 0x60))))->GetName())); i++)
     {
-        int idx = ((NavMeshTriList*)((char*)*(unsigned int**)((char*)this + 0) + 0xe4))
-                      ->FindMatchingIndex(((DA00694f80*)((char*)*(unsigned int**)((char*)this + 8) + 0x60))->GetAt(i),
-                                          0, AreWideCharsEqual);
+        int idx = reinterpret_cast<::FUN_0069b240_Holder *>((((NavMeshTriList*)((char*)*(unsigned int**)((char*)this + 0) + 0xe4))))->FindMatchingIndex((std::intptr_t)&(reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)((char*)*(unsigned int**)((char*)this + 8) + 0x60))))->GetBufferEntry(i)),
+                                          0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual)));
         if (idx != -1)
-            ((NavMeshTriList*)((char*)*(unsigned int**)((char*)this + 0) + 0xe4))->FUN_0069add0(idx, true);
+            reinterpret_cast<::FUN_0069add0_class *>((((NavMeshTriList*)((char*)*(unsigned int**)((char*)this + 0) + 0xe4))))->FUN_0069add0(idx, true);
     }
 }
 }  // namespace fnv_006be6f0
@@ -1946,65 +1994,59 @@ namespace fnv_00697590 {
 class ArrSI
 {
   public:
-    unsigned int GetFlags(void);
 };
 
 struct _Mem_20a4
 {
-    void SetSize(unsigned int, bool);
 };
 
 struct HArr
 {
-    void GrowCapacity(unsigned int);
 };
 
 struct BSSimpleArrayActor
 {
-    unsigned int Add(void*&);
 };
 
 struct FUN_00690e10_shell
 {
-    bool FUN_00690e10(void);
 };
 
 struct FUN_00693d30_shell
 {
-    char* GetEdge(unsigned short);
 };
 
-struct FUN_00697590_shell
+struct FUN_00697590_shell : ::NavMesh
 {
-    bool CollectTrianglesForDoor(unsigned int, BSSimpleArrayActor*);
+    bool CollectTrianglesForDoor(std::uintptr_t, BSSimpleArrayActor*);
 };
 
 // Clears the array, then adds each triangle index that has an edge whose linked door ID equals doorID, and returns whether any were added.
 // @fnv 0x00697590
-bool FUN_00697590_shell::CollectTrianglesForDoor(unsigned int doorID, BSSimpleArrayActor* array)
+bool FUN_00697590_shell::CollectTrianglesForDoor(std::uintptr_t doorID, BSSimpleArrayActor* array)
 {
-    reinterpret_cast<_Mem_20a4*>(array)->SetSize(0, true);
-    reinterpret_cast<HArr*>(array)->GrowCapacity(100);
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((reinterpret_cast<_Mem_20a4*>(array)))->FUN_006f2290(0, true);
+    reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>((reinterpret_cast<HArr*>(array)))->FUN_0084b5c0(100);
 
     for (unsigned int triangleIndex = 0;
-         triangleIndex < reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x38)->GetFlags();
+         triangleIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>((&this->Triangles))))->GetName()));
          ++triangleIndex)
     {
         NavMeshTriangle* triangle =
             reinterpret_cast<NavMesh*>(this)->GetTriangle(static_cast<unsigned short>(triangleIndex));
 
-        if (reinterpret_cast<FUN_00690e10_shell*>(triangle)->FUN_00690e10())
+        if (reinterpret_cast<::FUN_00690e10_shell *>((reinterpret_cast<FUN_00690e10_shell*>(triangle)))->FUN_00690e10())
         {
             for (int edgeIndex = 0; edgeIndex < 3; ++edgeIndex)
             {
-                if (triangle->IsEdgeFlagSet(edgeIndex))
+                if (reinterpret_cast<::FUN_0068f1d0_shell *>((triangle))->IsEdgeFlagSet(edgeIndex))
                 {
-                    if (reinterpret_cast<unsigned int*>(reinterpret_cast<FUN_00693d30_shell*>(this)->GetEdge(
-                            triangle->FUN_0068f2c0(edgeIndex)))[1] == doorID)
+                    if (reinterpret_cast<unsigned int*>(reinterpret_cast<::FUN_00693d30_shell *>((reinterpret_cast<FUN_00693d30_shell*>(this)))->GetEdge(
+                            reinterpret_cast<::FUN_0068f2c0_shell *>((triangle))->FUN_0068f2c0(edgeIndex)))[1] == doorID)
                     {
                         void* value;
                         value = reinterpret_cast<void*>(triangleIndex);
-                        array->Add(value);
+                        reinterpret_cast<::FUN_00438690 *>((array))->FUN_007cb2e0((unsigned int *)&(value));
                         break;
                     }
                 }
@@ -2012,29 +2054,28 @@ bool FUN_00697590_shell::CollectTrianglesForDoor(unsigned int doorID, BSSimpleAr
         }
     }
 
-    return 0 < reinterpret_cast<ArrSI*>(array)->GetFlags();
+    return 0 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(array)))->GetName()));
 }
 }  // namespace fnv_00697590
 
 namespace fnv_006995c0 {
 struct ArrSI
 {
-    unsigned int GetFlags();
-};
-struct Arr
-{
-    unsigned int* GetAt(int);
 };
 struct GO
 {
-    operator unsigned int() const;
+    char* pEntry;
+};
+struct Arr
+{
+    GO* GetAt(int);
 };
 struct NiPointerStandIn
 {
     bool operator==(void*) const;
 };
 
-struct FUN_006995c0_shell
+struct FUN_006995c0_shell : ::NavMesh
 {
     int FindEntryIndex(void* arg);
 };
@@ -2044,11 +2085,9 @@ struct FUN_006995c0_shell
 int FUN_006995c0_shell::FindEntryIndex(void* apTarget)
 {
     unsigned int i = 0;
-    for (; i < ((ArrSI*)((char*)this + 0xd0))->GetFlags(); ++i)
+    for (; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->m_kObstacleUndoData))))->GetName())); ++i)
     {
-        if (((NiPointerStandIn*)(((GO*)((char*)((Arr*)((char*)this + 0xd0))->GetAt(i)))->operator unsigned int() + 0xc))
-                ->
-                operator==(apTarget))
+        if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NiPointerStandIn*)(((Arr*)(&this->m_kObstacleUndoData))->GetAt(i)->pEntry + 0xc))))->FUN_004b0460((const void **)&(apTarget)))
             return i;
     }
     return -1;
@@ -2073,14 +2112,13 @@ struct FUN_006bbc30
     FUN_006bbc30();
     ~FUN_006bbc30();
 
-    int _ref_006815c0();
 };
 
 struct FUN_006bf7d0
 {
     int padding[5];
 
-    FUN_006bf7d0(int, int, int);
+    FUN_006bf7d0(unsigned int, unsigned int, void*);
     ~FUN_006bf7d0();
 };
 
@@ -2088,7 +2126,7 @@ struct FUN_006bfa10
 {
     int padding[5];
 
-    FUN_006bfa10(int, int, int);
+    FUN_006bfa10(unsigned int, unsigned int, void*);
 };
 
 struct FUN_006bbb80
@@ -2106,62 +2144,18 @@ struct FUN_006bbb80
 // Initializes the object's members, constructing go with 0 and member1C and member30 with 0x100, 0, and the result of memberC._ref_006815c0().
 // @fnv 0x006bbb80
 FUN_006bbb80::FUN_006bbb80()
-    : go(0), memberC(), member1C(0x100, 0, memberC._ref_006815c0()), member30(0x100, 0, memberC._ref_006815c0())
+    : go(0), memberC(), member1C(0x100, 0, &memberC), member30(0x100, 0, &memberC)
 {}
 }  // namespace fnv_006bbb80
 
 struct SwapTriangle : NavMeshTriangle
 {
-    void SetArrayElement(int edge, unsigned short vertex);
-    void SetSlotValue(int edge, unsigned short neighbor);
-    void SetArrayValue(int edge, unsigned short neighbor);
-    bool FUN_006957d0();
-    void GetPackedFlags(int edge, unsigned short*, unsigned char*, unsigned char*);
-    void SetPackedField(int edge, unsigned short, unsigned char, unsigned char);
 };
 
 struct SwapMesh
 {
-    SwapTriangle* FUN_005582f0(unsigned short triangle);
     void SwapTriangleEdges(unsigned short triangle);
 };
-
-// @fnv 0x00695660
-void SwapMesh::SwapTriangleEdges(unsigned short triangle)
-{
-    SwapTriangle* tri5 = FUN_005582f0(triangle);
-    unsigned short vertex8 = tri5->FUN_005582d0(1);
-    tri5->SetArrayElement(1, tri5->FUN_005582d0(0));
-    tri5->SetArrayElement(0, vertex8);
-    bool firstExternal3 = tri5->IsEdgeFlagSet(0);
-    bool secondExternalX = tri5->IsEdgeFlagSet(1);
-    unsigned short neighbor;
-    if (secondExternalX)
-        neighbor = tri5->FUN_0068f2c0(1);
-    else
-        neighbor = tri5->FUN_0068f2c0(1);
-    if (firstExternal3)
-        tri5->SetSlotValue(1, tri5->FUN_0068f2c0(0));
-    else
-        tri5->SetArrayValue(1, tri5->FUN_0068f2c0(0));
-    if (secondExternalX)
-        tri5->SetSlotValue(0, neighbor);
-    else
-        tri5->SetArrayValue(0, neighbor);
-    if (tri5->FUN_006957d0())
-    {
-        unsigned short aFirstLink;
-        unsigned short secondLinkB;
-        unsigned char firstEdge8;
-        unsigned char secondEdge9;
-        unsigned char firstFlags;
-        unsigned char secondFlags;
-        tri5->GetPackedFlags(0, &aFirstLink, &firstEdge8, &firstFlags);
-        tri5->GetPackedFlags(1, &secondLinkB, &secondEdge9, &secondFlags);
-        tri5->SetPackedField(0, secondLinkB, secondFlags, secondEdge9);
-        tri5->SetPackedField(1, aFirstLink, firstFlags, firstEdge8);
-    }
-}
 
 struct FUN_006957d0_Class
 {
@@ -2171,6 +2165,42 @@ struct FUN_006957d0_Class
     unsigned int unk0C;
     bool FUN_006957d0();
 };
+// @fnv 0x00695660
+void SwapMesh::SwapTriangleEdges(unsigned short triangle)
+{
+    SwapTriangle* tri5 = ((::SwapTriangle *)(reinterpret_cast<::NavMesh *>(this)->GetTriangle(triangle)));
+    unsigned short vertex8 = reinterpret_cast<::FUN_005582d0_shell *>((tri5))->FUN_005582d0(1);
+    reinterpret_cast<::FUN_00690df0_shell *>((tri5))->SetArrayElement(1, reinterpret_cast<::FUN_005582d0_shell *>((tri5))->FUN_005582d0(0));
+    reinterpret_cast<::FUN_00690df0_shell *>((tri5))->SetArrayElement(0, vertex8);
+    bool firstExternal3 = reinterpret_cast<::FUN_0068f1d0_shell *>((tri5))->IsEdgeFlagSet(0);
+    bool secondExternalX = reinterpret_cast<::FUN_0068f1d0_shell *>((tri5))->IsEdgeFlagSet(1);
+    unsigned short neighbor;
+    if (secondExternalX)
+        neighbor = reinterpret_cast<::FUN_0068f2c0_shell *>((tri5))->FUN_0068f2c0(1);
+    else
+        neighbor = reinterpret_cast<::FUN_0068f2c0_shell *>((tri5))->FUN_0068f2c0(1);
+    if (firstExternal3)
+        reinterpret_cast<::Unk00690e30 *>((tri5))->SetSlotValue(1, reinterpret_cast<::FUN_0068f2c0_shell *>((tri5))->FUN_0068f2c0(0));
+    else
+        reinterpret_cast<::S6907D0 *>((tri5))->SetArrayValue(1, reinterpret_cast<::FUN_0068f2c0_shell *>((tri5))->FUN_0068f2c0(0));
+    if (secondExternalX)
+        reinterpret_cast<::Unk00690e30 *>((tri5))->SetSlotValue(0, neighbor);
+    else
+        reinterpret_cast<::S6907D0 *>((tri5))->SetArrayValue(0, neighbor);
+    if (reinterpret_cast<::FUN_006957d0_Class *>((tri5))->FUN_006957d0())
+    {
+        unsigned short aFirstLink;
+        unsigned short secondLinkB;
+        unsigned char firstEdge8;
+        unsigned char secondEdge9;
+        unsigned char firstFlags;
+        unsigned char secondFlags;
+        reinterpret_cast<::FUN_00691040_shell *>((tri5))->GetPackedFlags(0, &aFirstLink, (bool *)(unsigned char *)(&firstEdge8), (bool *)(unsigned char *)(&firstFlags));
+        reinterpret_cast<::FUN_00691040_shell *>((tri5))->GetPackedFlags(1, &secondLinkB, (bool *)(unsigned char *)(&secondEdge9), (bool *)(unsigned char *)(&secondFlags));
+        reinterpret_cast<::FUN_006ad2f0_cls *>((tri5))->SetPackedField(0, secondLinkB, secondFlags, secondEdge9);
+        reinterpret_cast<::FUN_006ad2f0_cls *>((tri5))->SetPackedField(1, aFirstLink, firstFlags, firstEdge8);
+    }
+}
 
 // @fnv 0x006957d0
 bool FUN_006957d0_Class::FUN_006957d0()
@@ -2180,35 +2210,31 @@ bool FUN_006957d0_Class::FUN_006957d0()
 
 struct TriangleArrayLocal
 {
-    bool FUN_0076b610();
 };
 struct Candidate
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
     unsigned int unk1c, unk20, unk24, unk28, unk2c, unk30, unk34;
     TriangleArrayLocal triangles;
-    NavMeshTriangle* FUN_005582f0(unsigned short);
-    const NiPoint3& FUN_0068f0a0(unsigned short);
-    unsigned int FUN_00558200();
     void ComputeBounds(NiPoint3& outMin, NiPoint3& outMax);
 };
 // @fnv 0x006957f0
 void Candidate::ComputeBounds(NiPoint3& outMin, NiPoint3& outMax)
 {
-    if (triangles.FUN_0076b610())
+    if (reinterpret_cast<::FUN_0076b610_Class *>(&(triangles))->FUN_0076b610())
         return;
     NiPoint3 kMinimum;
     NiPoint3 _maximum;
     NiPoint3 _point;
-    NavMeshTriangle* triangle5 = FUN_005582f0(0);
-    _maximum = FUN_0068f0a0(triangle5->FUN_005582d0(0));
+    NavMeshTriangle* triangle5 = reinterpret_cast<::NavMesh *>(this)->GetTriangle(0);
+    _maximum = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triangle5))->FUN_005582d0(0))));
     kMinimum = _maximum;
-    for (unsigned int i = 0; i < FUN_00558200(); ++i)
+    for (unsigned int i = 0; i < ::FUN_00558200((char *)this); ++i)
     {
-        triangle5 = FUN_005582f0(static_cast<unsigned short>(i));
+        triangle5 = reinterpret_cast<::NavMesh *>(this)->GetTriangle(static_cast<unsigned short>(i));
         for (int j = 0; j < 3; ++j)
         {
-            _point = FUN_0068f0a0(triangle5->FUN_005582d0(j));
+            _point = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triangle5))->FUN_005582d0(j))));
             if (_point.x < kMinimum.x)
                 kMinimum.x = _point.x;
             else if (_point.x > _maximum.x)
@@ -2234,7 +2260,6 @@ class Pt3
     Pt3 operator+(const Pt3&) const;
     Pt3 operator*(float) const;
     Pt3 operator-(const Pt3&) const;
-    float GetSquaredXYLength() const;
 };
 
 struct NavEdgeVerts
@@ -2246,13 +2271,11 @@ struct NavEdgeVerts
 class NavTri
 {
   public:
-    bool IsEdgeSet(int aiEdge);
 };
 
 class NavTriArray
 {
   public:
-    unsigned int GetFlags();
 };
 
 class NavMeshA
@@ -2292,18 +2315,18 @@ bool NavMeshA::FUN_00697010(const Pt3& arPoint, float afRadius, unsigned short* 
         fMinZ8 = arPoint.z - 180.0;
         fMaxZ7 = arPoint.z + 64.0;
     }
-    unsigned int uiCount5 = Triangles.GetFlags();
+    unsigned int uiCount5 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Triangles))->GetName()));
     for (unsigned int i5 = 0; i5 < uiCount5; i5++)
     {
-        NavTri* pTri_ = GetTriangle((unsigned short)i5);
+        NavTri* pTri_ = ((::NavTri *)(reinterpret_cast<::NavMesh *>(this)->GetTriangle((unsigned short)i5)));
         for (int jTmp = 0; jTmp < 3; jTmp++)
         {
-            if (!pTri_->IsEdgeSet(jTmp))
+            if (!reinterpret_cast<::FUN_0068f200_shell *>((pTri_))->FUN_0068f200(jTmp))
             {
                 NavEdgeVerts verts8 = FUN_0068f040((unsigned short)i5, jTmp);
                 Pt3 mid3 = (*verts8.first + *verts8.second) * 0.5f;
                 Pt3 diff = mid3 - arPoint;
-                float fDist2D = diff.GetSquaredXYLength();
+                float fDist2D = reinterpret_cast<::FUN_00595c80_shell *>((void *)&(diff))->GetSquaredXYLength();
                 float fDZ = diff.z * diff.z;
                 float fDist_2 = fDist2D + fDZ;
                 if (fDist2D < fBest2 && ((mid3.z < fMaxZ7 && mid3.z > fMinZ8) || fDist_2 <= fRadiusSq2 - fDZ))
@@ -2331,9 +2354,9 @@ struct FUN_00697440_t : public NavMesh
 // @fnv 0x00697440
 void FUN_00697440_t::FUN_00697440(unsigned short ausTriangle, NiPoint3* apCenter)
 {
-    NiPoint3 kA = FUN_0068f0a0(GetTriangle(ausTriangle)->FUN_005582d0(0));
-    NiPoint3 kB9 = FUN_0068f0a0(GetTriangle(ausTriangle)->FUN_005582d0(1));
-    NiPoint3 kC2 = FUN_0068f0a0(GetTriangle(ausTriangle)->FUN_005582d0(2));
+    NiPoint3 kA = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((GetTriangle(ausTriangle)))->FUN_005582d0(0))));
+    NiPoint3 kB9 = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((GetTriangle(ausTriangle)))->FUN_005582d0(1))));
+    NiPoint3 kC2 = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((GetTriangle(ausTriangle)))->FUN_005582d0(2))));
     float fDX = kB9.x - kA.x;
     float fB8 = kB9.y - kA.y;
     float fC = kC2.x - kA.x;
@@ -2360,7 +2383,6 @@ struct D76A0EdgeExtraInfo
 
 struct D76A0Triangle
 {
-    void SetEdgeExtraInfo(int m_iEdgeNumber, unsigned short usIndex);
 };
 
 struct D76A0TriangleArray
@@ -2387,7 +2409,6 @@ class D76A0NavMesh
     int unk34;
     D76A0TriangleArray m_kTriangles;
 
-    D76A0EdgeExtraInfo* GetEdgeInfo(unsigned short m_usTriangleID, int m_iEdgeNumber);
     unsigned short AddEdgeInfo(const D76A0EdgeExtraInfo& kInfo);
     D76A0EdgeExtraInfo* GetOrCreateEdgeInfo(unsigned short m_usTriangleID, int m_iEdgeNumber);
 };
@@ -2396,12 +2417,12 @@ class D76A0NavMesh
 // @fnv 0x006976a0
 D76A0EdgeExtraInfo* D76A0NavMesh::GetOrCreateEdgeInfo(unsigned short m_usTriangleID, int m_iEdgeNumber)
 {
-    D76A0EdgeExtraInfo* pkInfo = GetEdgeInfo(m_usTriangleID, m_iEdgeNumber);
+    D76A0EdgeExtraInfo* pkInfo = ((::D76A0EdgeExtraInfo *)(reinterpret_cast<::FUN_0068f230_shell *>(this)->FUN_0068f230(m_usTriangleID, m_iEdgeNumber)));
     if (!pkInfo)
     {
         D76A0EdgeExtraInfo kNewInfo;
-        m_kTriangles.GetAt(m_usTriangleID).SetEdgeExtraInfo(m_iEdgeNumber, AddEdgeInfo(kNewInfo));
-        pkInfo = GetEdgeInfo(m_usTriangleID, m_iEdgeNumber);
+        reinterpret_cast<::Unk00690e30 *>(&(m_kTriangles.GetAt(m_usTriangleID)))->SetSlotValue(m_iEdgeNumber, AddEdgeInfo(kNewInfo));
+        pkInfo = ((::D76A0EdgeExtraInfo *)(reinterpret_cast<::FUN_0068f230_shell *>(this)->FUN_0068f230(m_usTriangleID, m_iEdgeNumber)));
     }
     pkInfo->m_pkPortal = 0;
     pkInfo->m_usLinkedTriangle = 0xffff;
@@ -2410,8 +2431,6 @@ D76A0EdgeExtraInfo* D76A0NavMesh::GetOrCreateEdgeInfo(unsigned short m_usTriangl
 
 struct TriangleList
 {
-    unsigned int FUN_0044ddc0();
-    const unsigned short& FUN_0069dec0(unsigned int index);
 };
 struct TriangleGrid
 {
@@ -2420,83 +2439,48 @@ struct TriangleGrid
 struct Target : NavMesh
 {
     TriangleGrid grid;
-    bool GetTriangleHeightAtPoint(unsigned short triangle, const NiPoint3& point, float above, float below, float* z);
     bool FindTriangleZ(const NiPoint3& point, float above, float below, float* z);
 };
-// Looks up the triangle list at point, tests each triangle with GetTriangleHeightAtPoint, and returns true on the first hit, writing z.
-// @fnv 0x00697b70
-bool Target::FindTriangleZ(const NiPoint3& point, float above, float below, float* z)
-{
-    TriangleList* triangles = 0;
-    grid.GetTriListAtPosition(point, triangles);
-    if (!triangles)
-        return false;
-    unsigned int count = triangles->FUN_0044ddc0();
-    for (unsigned int index = 0; index < count; ++index)
-    {
-        unsigned short triangle = triangles->FUN_0069dec0(index);
-        if (GetTriangleHeightAtPoint(triangle, point, above, below, z))
-            return true;
-    }
-    return false;
-}
-
 struct FUN_006986d0_cls;
 
-void* __cdecl FUN_00401000(unsigned int size);
 
 struct b9_big
 {
     int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20, m_24, m_28, m_2c;
     int m_30, m_34, m_38, m_3c, m_40, m_44, m_48, m_4c, m_50, m_54, m_58;
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00401000(size);
-    }
-    static void operator delete(void*, unsigned int);
     b9_big();
-    void InitializeFromMeshSource(FUN_006986d0_cls* o);
-    void SetField54(FUN_006986d0_cls* o);
 };
 
 struct b9_nav
 {
-    b9_nav* FUN_00693d70();
-    void InitializeFromMeshSource(FUN_006986d0_cls* o);
-    void RegisterNavMeshInfo();
 };
 
 struct b9_tab
 {
-    b9_nav* FUN_0045af00(void* p);
 };
 
-extern int DAT_011dea10;
 
 struct FUN_006986d0_cls
 {
-    void* FUN_0084e3a0();
-    int FUN_0068efb0();
-    void FUN_006d3100(b9_big* p);
     bool FUN_006986d0();
 };
 
 // @fnv 0x006986d0
 bool FUN_006986d0_cls::FUN_006986d0()
 {
-    b9_nav* r = ((b9_tab*)DAT_011dea10)->FUN_0045af00(this->FUN_0084e3a0())->FUN_00693d70();
-    if (this->FUN_0068efb0() == 0)
+    b9_nav* r = ((::b9_nav *)(reinterpret_cast<::Pathing *>((((::b9_nav *)(reinterpret_cast<::Owner45A *>((((b9_tab*)::g_TES)))->FUN_0045af00()))))->FindReferenceByFormId({})));
+    if (((std::uintptr_t)(reinterpret_cast<::FUN_0068efb0_shell *>((this))->FUN_0068efb0())) == 0)
     {
         b9_big* q = new b9_big();
-        q->InitializeFromMeshSource(this);
-        this->FUN_006d3100(q);
-        q->SetField54(this);
-        ((b9_tab*)DAT_011dea10)->FUN_0045af00(q)->RegisterNavMeshInfo();
+        reinterpret_cast<::NavInfo *>((q))->InitializeFromMeshSource((::MeshSource *)(::FUN_006986d0_cls *)(this));
+        reinterpret_cast<::HX *>((this))->FUN_006d3100((::CombatCoverPointData *)(q));
+        reinterpret_cast<::FUN_005a8040_class *>((q))->SetField54((std::intptr_t)(this));
+        reinterpret_cast<::StandInSearch *>((((::b9_nav *)(reinterpret_cast<::Owner45A *>((((b9_tab*)::g_TES)))->FUN_0045af00()))))->RegisterNavMeshInfo({});
         return true;
     }
     else
     {
-        r->InitializeFromMeshSource(this);
+        reinterpret_cast<::NavInfo *>((r))->InitializeFromMeshSource((::MeshSource *)(::FUN_006986d0_cls *)(this));
         return false;
     }
 }
@@ -2523,21 +2507,11 @@ struct SearchContext
     unsigned int unk44;
     SearchContext();
     ~SearchContext();
-    bool FUN_006bbd30(void* owner, int first, int second);
 };
 struct NavMeshSearch
 {
-    bool Search(int first, int second);
+    bool Search(std::intptr_t first, int second);
 };
-// Builds a SearchContext and forwards the two ints and this to SearchContext::FUN_006bbd30, returning its result.
-// @fnv 0x00698f40
-bool NavMeshSearch::Search(int first, int second)
-{
-    SearchContext searchContext;
-    bool result = searchContext.FUN_006bbd30(this, first, second);
-    return result;
-}
-
 struct FUN_006993c0_sub
 {
     int unk00, unk04, unk08, unk0c;
@@ -2554,7 +2528,6 @@ struct FUN_006993c0_local
 
 struct Dummy0044ddc0_sub
 {
-    int FUN_0044ddc0();
 };
 
 struct FUN_006993c0_cls
@@ -2562,34 +2535,19 @@ struct FUN_006993c0_cls
     unsigned char unk00[0xd0];
     Dummy0044ddc0_sub unkD0;
 
-    void UndoToPosition(int aiIndex, FUN_006993c0_local* apLocal);
     void FUN_006993c0();
 };
-
-// Iterates indices from unkD0.FUN_0044ddc0() - 1 down to 0, calling UndoToPosition with each index and a local object.
-// @fnv 0x006993c0
-void FUN_006993c0_cls::FUN_006993c0()
-{
-    FUN_006993c0_local local;
-    for (int i = unkD0.FUN_0044ddc0() - 1; i != -1; i--)
-    {
-        UndoToPosition(i, &local);
-    }
-}
 
 unsigned int __cdecl MaxUnsigned(unsigned int uiHash, unsigned short usValue);
 
 class B99690Triangle
 {
   public:
-    unsigned short GetBits13To15();
 };
 
 class B99690IndexArray
 {
   public:
-    unsigned int GetSize();
-    unsigned short& GetAt(int iIndex);
 
     int unk00;
     int unk04;
@@ -2605,7 +2563,6 @@ struct B99690Edge
 class B99690EdgeArray
 {
   public:
-    unsigned int GetSize();
     B99690Edge* GetAt(unsigned int uiIndex);
 
     int unk00;
@@ -2640,10 +2597,10 @@ class B99690NavMesh
 unsigned int B99690NavMesh::ComputeTriangleHash(B99690Info* pkInfo)
 {
     unsigned int uiHash = 0;
-    for (unsigned int i = 0; i < pkInfo->m_kTriangles.GetSize(); i++)
-        uiHash = MaxUnsigned(uiHash, GetTriangle(pkInfo->m_kTriangles.GetAt(i))->GetBits13To15());
-    for (unsigned int j = 0; j < pkInfo->m_kEdges.GetSize(); j++)
-        uiHash = MaxUnsigned(uiHash, GetTriangle(pkInfo->m_kEdges.GetAt(j)->m_usTriangle)->GetBits13To15());
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkInfo->m_kTriangles))->GetName())); i++)
+        uiHash = MaxUnsigned(uiHash, ((unsigned short)(reinterpret_cast<::FUN_00699790_shell *>((((::B99690Triangle *)(reinterpret_cast<::NavMesh *>(this)->GetTriangle(reinterpret_cast<::FUN_005eeda0_this *>(&(pkInfo->m_kTriangles))->GetBufferEntry(i))))))->GetBits13To15())));
+    for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkInfo->m_kEdges))->GetName())); j++)
+        uiHash = MaxUnsigned(uiHash, ((unsigned short)(reinterpret_cast<::FUN_00699790_shell *>((((::B99690Triangle *)(reinterpret_cast<::NavMesh *>(this)->GetTriangle(pkInfo->m_kEdges.GetAt(j)->m_usTriangle)))))->GetBits13To15())));
     return uiHash;
 }
 
@@ -2669,6 +2626,13 @@ class FUN_0069b0a0_cls
     unsigned int m_uiCount;
     bool LookupValue(unsigned short key, unsigned int* out);
 };
+// @fnv 0x0069a9d0
+void FUN_0069a9d0_shell::FUN_0069a9d0(unsigned short a1, std::uintptr_t a2)
+{
+    if (::IsFieldCZero((::Dummy_0069b080 *)(((NiTPointerMap<unsigned int, SoundPlaybackHandle*>*)&this->POVPointerArray))))
+        reinterpret_cast<::FUN_00699b60_shell *>(this)->BuildPortalPOVs();
+    reinterpret_cast<::FUN_0069b0a0_cls *>((((FUN_0069b0a0_shell*)&this->POVPointerArray)))->LookupValue(a1, (unsigned int *)(a2));
+}
 // Hashes key, walks the bucket chain comparing keys, and on a match copies the item's value to out and returns true; otherwise returns false.
 // @fnv 0x0069b0a0
 bool FUN_0069b0a0_cls::LookupValue(unsigned short key, unsigned int* puiOut)
@@ -2689,12 +2653,10 @@ bool FUN_0069b0a0_cls::LookupValue(unsigned short key, unsigned int* puiOut)
 
 struct ItemResource
 {
-    void FUN_00401970();
 };
 
 struct ResourceHolder
 {
-    ItemResource* FUN_00559450();
 };
 
 struct Item
@@ -2747,7 +2709,6 @@ struct FUN_006bfad0
     unsigned int capacity;
     unsigned int flags;
 
-    unsigned int FUN_0044ddc0();
     ItemPointer* FUN_00877a30(unsigned int index);
     ~FUN_006bfad0();
 };
@@ -2766,20 +2727,18 @@ struct FUN_006bbc50
 // @fnv 0x006bbc50
 FUN_006bbc50::~FUN_006bbc50()
 {
-    for (unsigned int i = 0; i < fourth.FUN_0044ddc0(); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(fourth))->GetName())); ++i)
     {
-        if (fourth.FUN_00877a30(i)->item->resource.FUN_00559450())
+        if (((::ItemResource *)(::FUN_00559450((int *)&(fourth.FUN_00877a30(i)->item->resource)))))
         {
-            fourth.FUN_00877a30(i)->item->resource.FUN_00559450()->FUN_00401970();
+            reinterpret_cast<::WaitableObject *>((((::ItemResource *)(::FUN_00559450((int *)&(fourth.FUN_00877a30(i)->item->resource))))))->FUN_00401970();
         }
     }
 }
 
-extern const float DAT_0106b158;
 
 struct FUN_006bf220_owner
 {
-    bool FUN_00697730(unsigned short usIndex, void* apParam, float& afOut, float afX, float afY);
 };
 
 struct FUN_006bf220_sub
@@ -2800,9 +2759,9 @@ struct FUN_006bf220_cls
 bool FUN_006bf220_cls::FUN_006bf220(void* a1)
 {
     float local;
-    for (unsigned int i = 0; i < m_08->Items.GetSize(); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_08->Items))->GetName())); i++)
     {
-        if (m_00->FUN_00697730(m_08->Items.GetBufferEntry(i), a1, local, DAT_0106b158, DAT_0106b158))
+        if (reinterpret_cast<::NavMesh *>((m_00))->FindHeightOnTriangle(reinterpret_cast<::FUN_005eeda0_this *>(&(m_08->Items))->GetBufferEntry(i), (*(const ::NiPoint3 *)(a1)), local, ::DAT_0106b158, ::DAT_0106b158))
         {
             return true;
         }
@@ -2815,15 +2774,12 @@ class TESForm
   public:
     virtual void v0();
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
 struct P507Array
 {
     void* table;
     void* data;
     unsigned int size, capacity;
-    unsigned int FUN_0044ddc0();
     void** FUN_00877a30(unsigned int);
-    void FUN_006bf8f0(unsigned int, bool);
 };
 class SA0 : public P507Array
 {
@@ -2835,8 +2791,6 @@ struct P507Info
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
     P507Array first, second;
-    unsigned int FUN_00559450();
-    bool FUN_00690860(NavMeshPtr&);
 };
 struct P507Manager
 {
@@ -2844,7 +2798,6 @@ struct P507Manager
 };
 struct P507Global
 {
-    P507Manager* FUN_0045af00(SA0*);
 };
 
 struct P507Edge
@@ -2923,8 +2876,6 @@ struct P507Mesh
     unsigned int unk40;
     unsigned int unk44;
     P507Array edges;
-    P507Edge* GetEdge(unsigned short);
-    void UpdateTriangleExtraInfo(unsigned short);
 };
 struct NavMeshPtr
 {
@@ -2933,57 +2884,58 @@ struct NavMeshPtr
     ~NavMeshPtr();
     NavMeshPtr& operator=(const NiPointer<NavMesh>&);
     void* FUN_00458b50();
-    P507Mesh* FUN_00559450();
+public:
+    ::NavMeshPtr &operator=(const ::NavMeshPtr &);
 };
 // @fnv 0x006953b0
-void __cdecl RemoveNavMeshId(unsigned int id)
+void __cdecl RemoveNavMeshId(std::uintptr_t id)
 {
     if (!id)
         return;
     SA0 infos;
-    ((P507Global*)DAT_011dea10)->FUN_0045af00(&infos)->FUN_006b7910();
-    for (unsigned int i = 0; i < infos.FUN_0044ddc0(); ++i)
+    ((::P507Manager *)(reinterpret_cast<::Owner45A *>((((P507Global*)::g_TES)))->FUN_0045af00()))->FUN_006b7910();
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(infos))->GetName())); ++i)
     {
         P507Info* firstCount = (P507Info*)*infos.FUN_00877a30(i);
-        int info = firstCount->first.FUN_0044ddc0();
-        int secondCount = firstCount->second.FUN_0044ddc0();
+        int info = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(firstCount->first))->GetName()));
+        int secondCount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(firstCount->second))->GetName()));
         for (int j = 0; j < info + secondCount; ++j)
         {
-            unsigned int entry;
+            std::uintptr_t entry;
             if (j < info)
-                entry = (unsigned int)*firstCount->first.FUN_00877a30(j);
+                entry = (std::uintptr_t)*firstCount->first.FUN_00877a30(j);
             else
-                entry = (unsigned int)*firstCount->second.FUN_00877a30(j - info);
+                entry = (std::uintptr_t)*firstCount->second.FUN_00877a30(j - info);
             if (entry == id)
             {
                 NavMeshPtr mesh;
-                if (!firstCount->FUN_00690860(mesh))
+                if (!reinterpret_cast<::NavMeshInfo *>((firstCount))->AcquireNavMesh(mesh))
                 {
-                    TESForm* nav = FUN_004839c0(firstCount->FUN_00559450());
+                    TESForm* nav = FUN_004839c0(((unsigned int)(::FUN_00559450((int *)(firstCount)))));
                     NavMesh* form = dynamic_cast<NavMesh*>(nav);
-                    mesh = MakeNavMeshPointer(form);
+                    reinterpret_cast<::NavMeshPtr *>((void *)&(const ::NavMeshPtr &)(mesh))->operator=((const ::NavMeshPtr &)((const ::NiPointer< ::NavMesh> &)(MakeNavMeshPointer(form))));
                 }
                 if (mesh.FUN_00458b50())
                 {
-                    mesh.FUN_00559450()->SetChanged(true);
-                    for (unsigned int k = 0; k < mesh.FUN_00559450()->edges.FUN_0044ddc0(); ++k)
+                    ((::P507Mesh *)(::FUN_00559450((int *)&(mesh))))->SetChanged(true);
+                    for (unsigned int k = 0; k < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::P507Mesh *)(::FUN_00559450((int *)&(mesh))))->edges))->GetName())); ++k)
                     {
-                        P507Edge* edge = mesh.FUN_00559450()->GetEdge((unsigned short)k);
+                        P507Edge* edge = ((::P507Edge *)(reinterpret_cast<::FUN_00693d30_shell *>((((::P507Mesh *)(::FUN_00559450((int *)&(mesh))))))->GetEdge((unsigned short)k)));
                         if (edge->owner == id)
                         {
-                            mesh.FUN_00559450()->UpdateTriangleExtraInfo((unsigned short)k);
+                            reinterpret_cast<::fnv_00690e90::FUN_00690e90_shell *>((((::P507Mesh *)(::FUN_00559450((int *)&(mesh))))))->UpdateTriangleExtraInfo((unsigned short)k);
                             --k;
                         }
                     }
                 }
                 if (j < info)
                 {
-                    firstCount->first.FUN_006bf8f0(j, true);
+                    reinterpret_cast<::FUN_006bf8f0_Class *>(&(firstCount->first))->FUN_006bf8f0(j, true);
                     --info;
                 }
                 else
                 {
-                    firstCount->second.FUN_006bf8f0(j - info, true);
+                    reinterpret_cast<::FUN_006bf8f0_Class *>(&(firstCount->second))->FUN_006bf8f0(j - info, true);
                     --secondCount;
                 }
                 --j;
@@ -2992,17 +2944,12 @@ void __cdecl RemoveNavMeshId(unsigned int id)
     }
 }
 
-extern const float DAT_01016970;
-extern const float DAT_01015f5c;
 
 struct NavMeshTriListAdd
 {
-    unsigned int Add(const unsigned short& arItem);
 };
 struct NavMeshGridR
 {
-    void GetCellCoords(const NiPoint3& arPos, unsigned int& arRow, unsigned int& arCol);
-    NavMeshTriListAdd* FUN_006967c0(unsigned int auiCol, unsigned int auiRow);
 };
 struct NiPoint3R : public NiPoint3
 {
@@ -3021,11 +2968,11 @@ bool NavMeshGridOwner::AddTrianglesToGrid(unsigned short ausStart, unsigned shor
     for (unsigned int i = ausStart; i <= ausEnd; i++)
     {
         NavMeshTriangle* pTri_ = GetTriangle((unsigned short)i);
-        NiPoint3R kMinBoundsCur(DAT_01016970, DAT_01016970, 0.0f);
-        NiPoint3R kMaxB(DAT_01015f5c, DAT_01015f5c, 0.0f);
+        NiPoint3R kMinBoundsCur(::DAT_01016970, ::DAT_01016970, 0.0f);
+        NiPoint3R kMaxB(::DAT_01015f5c, ::DAT_01015f5c, 0.0f);
         for (int jVal = 0; jVal < 3; jVal++)
         {
-            const NiPoint3& _kPt = FUN_0068f0a0(pTri_->FUN_005582d0(jVal));
+            const NiPoint3& _kPt = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((pTri_))->FUN_005582d0(jVal))));
             if (_kPt.x < kMinBoundsCur.x)
                 kMinBoundsCur.x = _kPt.x;
             if (_kPt.x > kMaxB.x)
@@ -3039,16 +2986,16 @@ bool NavMeshGridOwner::AddTrianglesToGrid(unsigned short ausStart, unsigned shor
         unsigned int kUiMinCol = 0;
         unsigned int uiMaxRow = 0;
         unsigned int uiMaxCol3 = 0;
-        Grid.GetCellCoords(kMinBoundsCur, uiMinRow, kUiMinCol);
-        Grid.GetCellCoords(kMaxB, uiMaxRow, uiMaxCol3);
+        reinterpret_cast<::NavMeshGridX *>(&(Grid))->GetCellCoords(kMinBoundsCur, uiMinRow, kUiMinCol);
+        reinterpret_cast<::NavMeshGridX *>(&(Grid))->GetCellCoords(kMaxB, uiMaxRow, uiMaxCol3);
         for (unsigned int uiRow = uiMinRow; uiRow <= uiMaxRow; uiRow++)
         {
             for (unsigned int uiCol9 = kUiMinCol; uiCol9 <= uiMaxCol3; uiCol9++)
             {
-                NavMeshTriListAdd* pList5 = Grid.FUN_006967c0(uiCol9, uiRow);
+                NavMeshTriListAdd* pList5 = ((::NavMeshTriListAdd *)(std::uintptr_t)(reinterpret_cast<::FUN_006967c0_shell *>(&(Grid))->FUN_006967c0(uiCol9, uiRow)));
                 if (!pList5)
                     continue;
-                pList5->Add((unsigned short)i);
+                reinterpret_cast<::FUN_00691820_arr *>((pList5))->Append((const unsigned short *)&(const unsigned short &)((unsigned short)i));
             }
         }
     }
@@ -3057,10 +3004,7 @@ bool NavMeshGridOwner::AddTrianglesToGrid(unsigned short ausStart, unsigned shor
 
 struct TriList2 : public NavMeshTriList
 {
-    void FUN_0069add0(int idx, int n);
 };
-bool __cdecl FUN_0069b2a0(const unsigned short& a, const unsigned short& b);
-extern const float DAT_01016970;
 struct Ov2 : public NavMeshOverlap
 {
     bool FUN_006967f0(unsigned short ausStart, unsigned short ausEnd);
@@ -3073,11 +3017,11 @@ bool Ov2::FUN_006967f0(unsigned short ausStart, unsigned short ausEnd)
     for (i = ausStart; i <= ausEnd; i++)
     {
         NavMeshTriangle* pTri = GetTriangle((unsigned short)i);
-        NiPoint3Ex fStack_14(DAT_01016970, DAT_01016970, 0.0f);
-        NiPoint3Ex f(DAT_01015f5c, DAT_01015f5c, 0.0f);
+        NiPoint3Ex fStack_14(::DAT_01016970, ::DAT_01016970, 0.0f);
+        NiPoint3Ex f(::DAT_01015f5c, ::DAT_01015f5c, 0.0f);
         for (int j = 0; j < 3; j++)
         {
-            const NiPoint3* pV = &FUN_0068f0a0(pTri->FUN_005582d0(j));
+            const NiPoint3* pV = &(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((pTri))->FUN_005582d0(j))));
             if (pV->x < fStack_14.x)
                 fStack_14.x = pV->x;
             if (pV->x > f.x)
@@ -3088,16 +3032,16 @@ bool Ov2::FUN_006967f0(unsigned short ausStart, unsigned short ausEnd)
                 f.y = pV->y;
         }
         unsigned int j = 0, cf = 0, b = 0, p = 0;
-        Grid.GetCellCoords(fStack_14, j, cf);
-        Grid.GetCellCoords(f, b, p);
+        reinterpret_cast<::NavMeshGridX *>(&(Grid))->GetCellCoords(fStack_14, j, cf);
+        reinterpret_cast<::NavMeshGridX *>(&(Grid))->GetCellCoords(f, b, p);
         for (unsigned int r = j; r <= b; r++)
         {
             for (unsigned int c = cf; c <= p; c++)
             {
                 int idx;
-                TriList2* pList = (TriList2*)Grid.FUN_006967c0(c, r);
-                idx = pList->FindMatchingIndex(*(unsigned short*)&i, 0, FUN_0069b2a0);
-                pList->FUN_0069add0(idx, 1);
+                TriList2* pList = (TriList2*)((::NavMeshTriList *)(std::uintptr_t)(reinterpret_cast<::FUN_006967c0_shell *>(&(Grid))->FUN_006967c0(c, r)));
+                idx = reinterpret_cast<::FUN_0069b240_Holder *>((pList))->FindMatchingIndex((std::intptr_t)&(*(unsigned short*)&i), 0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::FUN_0069b2a0)));
+                reinterpret_cast<::FUN_0069add0_class *>((pList))->FUN_0069add0(idx, 1);
             }
         }
     }
@@ -3105,11 +3049,8 @@ bool Ov2::FUN_006967f0(unsigned short ausStart, unsigned short ausEnd)
 }
 
 namespace fnv_00696a50 {
-extern float DAT_01016970;
-extern const double DAT_010240c0;
 struct S006949d0
 {
-    void* GetAt(int aiIndex);
 };
 struct FUN_00696a50_Grid
 {
@@ -3117,7 +3058,6 @@ struct FUN_00696a50_Grid
 };
 struct FUN_00696a50_HeightSource
 {
-    void CheckWaterHeight(const NiPoint3* apPos, float* apfHeight);
 };
 struct FUN_00696a50_View
 {
@@ -3129,34 +3069,33 @@ struct FUN_00696a50_View
 struct FUN_00696a50_shell : public NavMesh
 {
     FUN_00696a50_Grid kGrid;
-    bool TestPointOnTriangle(unsigned short ausTriangle, const NiPoint3* apPos, float* apfDistance, int aiArg);
-    unsigned short FUN_00696a50(const NiPoint3* apPos, int aiArg);
+    unsigned short FUN_00696a50(const NiPoint3* apPos, std::intptr_t aiArg);
 };
 // @fnv 0x00696a50
-unsigned short FUN_00696a50_shell::FUN_00696a50(const NiPoint3* apPos, int aiArg)
+unsigned short FUN_00696a50_shell::FUN_00696a50(const NiPoint3* apPos, std::intptr_t aiArg)
 {
     NavMeshTriList* pCell = 0;
     kGrid.GetTriListAtPosition(apPos, &pCell);
     unsigned short usBestTmp = 0xffff;
     if (!pCell)
         return 0xffff;
-    unsigned int uiEntries = pCell->GetSize();
-    float fPointHeight = DAT_01016970;
-    float m_fGlyphExtent = DAT_01015f5c;
+    unsigned int uiEntries = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(pCell))->GetName()));
+    float fPointHeight = ::DAT_01016970;
+    float m_fGlyphExtent = ::DAT_01015f5c;
     if (((FUN_00696a50_View*)this)->pHeightSource)
-        ((FUN_00696a50_View*)this)->pHeightSource->CheckWaterHeight(apPos, &m_fGlyphExtent);
+        reinterpret_cast<::fnv_00547250::FUN_00547250_shell *>((((FUN_00696a50_View*)this)->pHeightSource))->CheckWaterHeight((void *)(apPos), &m_fGlyphExtent);
     bool bBelowGround = apPos->z < (float)(m_fGlyphExtent + 50.0);
     for (unsigned int i = 0; i < uiEntries; i++)
     {
-        unsigned short usTri = pCell->FUN_0069dec0(i);
-        if (((NavMeshTriangleEx*)((FUN_00696a50_View*)this)->kTriangles.GetAt(usTri))->GetFlag(0x20))
+        unsigned short usTri = reinterpret_cast<::FUN_0069dec0_class *>((void *)(pCell))->FUN_0069dec0(i);
+        if (reinterpret_cast<::FUN_00691140_shell *>((((NavMeshTriangleEx*)((void *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(((FUN_00696a50_View*)this)->kTriangles))->FUN_00558dd0(usTri))))))->FUN_00691140(0x20))
             continue;
         float fDistance;
-        if (TestPointOnTriangle(usTri, apPos, &fDistance, aiArg))
+        if (reinterpret_cast<::fnv_00697810::FUN_00697810_t *>(this)->TestPointOnTriangle(usTri, (*(const ::NiPoint3 *)(apPos)), (*(float *)(&fDistance)), (::fnv_00697810::NavCallback_00697810 *)(aiArg)))
         {
             if (!bBelowGround && fDistance < -180.0)
                 continue;
-            if (fDistance > DAT_010240c0)
+            if (fDistance > ::DAT_010240c0)
                 continue;
             fDistance = std::abs(fDistance);
             if (fDistance < fPointHeight)
@@ -3173,19 +3112,15 @@ unsigned short FUN_00696a50_shell::FUN_00696a50(const NiPoint3* apPos, int aiArg
 }  // namespace fnv_00696a50
 
 namespace fnv_00696cf0 {
-extern float DAT_01016970;
 struct TriArr696
 {
     void* m_00;
     void* m_04;
     unsigned int m_08;
     unsigned int m_0c;
-    NavMeshTriangleEx* FUN_00558dd0(int idx);
-    unsigned int FUN_0044ddc0();
 };
 struct Len696 : public NiPoint3
 {
-    float FUN_004a7290() const;
 };
 struct Host696
 {
@@ -3196,8 +3131,6 @@ struct Host696
     int m_68, m_6c, m_70, m_74, m_78, m_7c, m_80, m_84;
     int m_88, m_8c, m_90, m_94, m_98, m_9c, m_a0, m_a4;
     TriangleGrid m_a8;
-    bool FUN_00697730(unsigned short tri, void* p, float& out, float afX, float afY);
-    NiPoint3 FUN_00558220(unsigned short tri);
     bool FUN_00696cf0(const NiPoint3& point, unsigned short* outTri, bool* outFlag);
 };
 
@@ -3209,23 +3142,23 @@ bool Host696::FUN_00696cf0(const NiPoint3& point, unsigned short* outTri, bool* 
     {
         float bestSq;
         TriangleList* q;
-        bestSq = DAT_01016970;
+        bestSq = ::DAT_01016970;
         d2 = 0xffff;
         i = 0xffff;
         q = 0;
         m_a8.GetTriListAtPosition(point, q);
         if (q)
         {
-            unsigned int triSq = q->FUN_0044ddc0();
-            float bestD = DAT_01016970;
+            unsigned int triSq = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((q))->GetName()));
+            float bestD = ::DAT_01016970;
             float f;
             unsigned int e;
             for (e = 0; e < (int)triSq; e++)
             {
-                unsigned short pObj = q->FUN_0069dec0(e);
-                if (m_38.FUN_00558dd0(pObj)->GetFlag(0x20))
+                unsigned short pObj = reinterpret_cast<::FUN_0069dec0_class *>((q))->FUN_0069dec0(e);
+                if (reinterpret_cast<::FUN_00691140_shell *>((((::NavMeshTriangleEx *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(m_38))->FUN_00558dd0(pObj)))))->FUN_00691140(0x20))
                     continue;
-                if (FUN_00697730(pObj, (void*)&point, f, 180.0f, 64.0f))
+                if (reinterpret_cast<::NavMesh *>(this)->FindHeightOnTriangle(pObj, (*(const ::NiPoint3 *)((void*)&point)), f, 180.0f, 64.0f))
                 {
                     f = std::abs(f);
                     if (f < bestD)
@@ -3242,8 +3175,8 @@ bool Host696::FUN_00696cf0(const NiPoint3& point, unsigned short* outTri, bool* 
                 }
                 else
                 {
-                    NiPoint3 bestD2 = FUN_00558220(pObj) - point;
-                    float list = ((Len696*)&bestD2)->FUN_004a7290();
+                    NiPoint3 bestD2 = reinterpret_cast<::NavMesh *>(this)->GetNavMeshData(pObj) - point;
+                    float list = reinterpret_cast<::TESCombatStyle *>((void *)(((Len696*)&bestD2)))->UpdateCombatStyle();
                     if (list < bestSq)
                     {
                         d2 = pObj;
@@ -3260,13 +3193,13 @@ bool Host696::FUN_00696cf0(const NiPoint3& point, unsigned short* outTri, bool* 
         }
         else
         {
-            unsigned int nn = m_38.FUN_0044ddc0();
+            unsigned int nn = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_38))->GetName()));
             unsigned int t;
-            float n = DAT_01016970;
+            float n = ::DAT_01016970;
             float s;
             for (t = 0; t < (int)nn; t++)
             {
-                if (FUN_00697730((unsigned short)t, (void*)&point, s, 180.0f, 64.0f))
+                if (reinterpret_cast<::NavMesh *>(this)->FindHeightOnTriangle((unsigned short)t, (*(const ::NiPoint3 *)((void*)&point)), s, 180.0f, 64.0f))
                 {
                     s = std::abs(s);
                     if (s < n)
@@ -3283,9 +3216,9 @@ bool Host696::FUN_00696cf0(const NiPoint3& point, unsigned short* outTri, bool* 
                 }
                 else
                 {
-                    NiPoint3 count2 = FUN_00558220((unsigned short)t) - point;
+                    NiPoint3 count2 = reinterpret_cast<::NavMesh *>(this)->GetNavMeshData((unsigned short)t) - point;
                     float sq2;
-                    sq2 = ((Len696*)&count2)->FUN_004a7290();
+                    sq2 = reinterpret_cast<::TESCombatStyle *>((void *)(((Len696*)&count2)))->UpdateCombatStyle();
                     if (sq2 < bestSq)
                     {
                         d2 = (unsigned short)t;
@@ -3315,21 +3248,18 @@ bool Host696::FUN_00696cf0(const NiPoint3& point, unsigned short* outTri, bool* 
 
 struct AdjustPointOps : NiPoint3
 {
-    void FUN_004a0c10();
     NiPoint3 ApplyScaled(float scale) const;
-    NiPoint3& FUN_0063c8a0(const NiPoint3& offset);
 };
 float __cdecl FUN_006b9940(const NiPoint3& point, const NiPoint3& first, const NiPoint3& second);
 struct NavMeshAdjust : FUN_00697670_StandIn
 {
-    NiPoint3 FUN_006971e0(unsigned short triangle);
     NiPoint3 AdjustPointToNavMesh(const NiPoint3& point, float radius);
 };
 // @fnv 0x00697d40
 NiPoint3 NavMeshAdjust::AdjustPointToNavMesh(const NiPoint3& point, float radius)
 {
     NiPoint3 adjusted = point;
-    unsigned short triangle = FindTriangleForLocation(point, 0);
+    unsigned short triangle = reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>(this)->FUN_00696a50((const ::NiPoint3 *)&(point), (int)(0));
     if (triangle != 0xffff)
     {
         unsigned short neighbours[3];
@@ -3340,8 +3270,8 @@ NiPoint3 NavMeshAdjust::AdjustPointToNavMesh(const NiPoint3& point, float radius
             for (int edge = 0; edge < 3; ++edge)
             {
                 unsigned short neighbour = 0xffff;
-                if (!triangleData->IsEdgeFlagSet(edge))
-                    neighbour = triangleData->FUN_0068f2c0(edge);
+                if (!reinterpret_cast<::FUN_0068f1d0_shell *>((triangleData))->IsEdgeFlagSet(edge))
+                    neighbour = reinterpret_cast<::FUN_0068f2c0_shell *>((triangleData))->FUN_0068f2c0(edge);
                 if (neighbour != 0xffff)
                 {
                     neighbours[count] = neighbour;
@@ -3353,11 +3283,10 @@ NiPoint3 NavMeshAdjust::AdjustPointToNavMesh(const NiPoint3& point, float radius
                     float distance = FUN_006b9940(point, *vertices.first, *vertices.second);
                     if (distance < radius)
                     {
-                        NiPoint3 normal = FUN_006971e0(triangle);
+                        NiPoint3 normal = reinterpret_cast<::NavMesh *>(this)->GetPlaneNormal(triangle);
                         NiPoint3 direction = normal.Cross(*vertices.first - *vertices.second);
-                        ((AdjustPointOps&)direction).FUN_004a0c10();
-                        ((AdjustPointOps&)adjusted)
-                            .FUN_0063c8a0(((AdjustPointOps&)direction).ApplyScaled(radius - distance));
+                        reinterpret_cast<::FUN_004a0c10_s *>(&(((AdjustPointOps&)direction)))->FUN_004a0c10();
+                        reinterpret_cast<::FUN_0063c8a0_shell *>(&(((AdjustPointOps&)adjusted)))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)(((AdjustPointOps&)direction).ApplyScaled(radius - distance)));
                     }
                 }
             }
@@ -3366,17 +3295,16 @@ NiPoint3 NavMeshAdjust::AdjustPointToNavMesh(const NiPoint3& point, float radius
                 NavMeshTriangle* triangleData = GetTriangle(neighbours[index]);
                 for (int edge = 0; edge < 3; ++edge)
                 {
-                    if (!triangleData->IsEdgeFlagSet(edge) && triangleData->FUN_0068f2c0(edge) == 0xffff)
+                    if (!reinterpret_cast<::FUN_0068f1d0_shell *>((triangleData))->IsEdgeFlagSet(edge) && reinterpret_cast<::FUN_0068f2c0_shell *>((triangleData))->FUN_0068f2c0(edge) == 0xffff)
                     {
                         NavMeshEdgeVertexPair vertices = FUN_0068f040(neighbours[index], edge);
                         float distance = FUN_006b9940(point, *vertices.first, *vertices.second);
                         if (distance < radius)
                         {
-                            NiPoint3 normal = FUN_006971e0(neighbours[index]);
+                            NiPoint3 normal = reinterpret_cast<::NavMesh *>(this)->GetPlaneNormal(neighbours[index]);
                             NiPoint3 direction = normal.Cross(*vertices.first - *vertices.second);
-                            ((AdjustPointOps&)direction).FUN_004a0c10();
-                            ((AdjustPointOps&)adjusted)
-                                .FUN_0063c8a0(((AdjustPointOps&)direction).ApplyScaled(radius - distance));
+                            reinterpret_cast<::FUN_004a0c10_s *>(&(((AdjustPointOps&)direction)))->FUN_004a0c10();
+                            reinterpret_cast<::FUN_0063c8a0_shell *>(&(((AdjustPointOps&)adjusted)))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)(((AdjustPointOps&)direction).ApplyScaled(radius - distance)));
                         }
                     }
                 }
@@ -3388,7 +3316,6 @@ NiPoint3 NavMeshAdjust::AdjustPointToNavMesh(const NiPoint3& point, float radius
 
 struct NiPoint3Cmp : public NiPoint3
 {
-    bool FUN_004390c0(const NiPoint3& other) const;
 };
 
 struct NavEdgeHit
@@ -3399,8 +3326,6 @@ struct NavEdgeHit
     NavEdgeHit();
 };
 
-bool __cdecl FUN_006ba240(const NiPoint3& start, const NiPoint3& end, const NiPoint3& from, const NiPoint3& to,
-                          NiPoint3* out);
 
 struct FUN_00698160_t : public NavMesh
 {
@@ -3418,7 +3343,7 @@ NavEdgeHit FUN_00698160_t::FindEdgeIntersection(unsigned short ausTriangle, int 
     flat.z = 0.0f;
     for (int i = 0; i < 3; i++)
     {
-        verts[i] = FUN_0068f0a0(GetTriangle(ausTriangle)->FUN_005582d0(i));
+        verts[i] = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((GetTriangle(ausTriangle)))->FUN_005582d0(i))));
     }
     for (int j = 0; j < 3; j++)
     {
@@ -3427,10 +3352,10 @@ NavEdgeHit FUN_00698160_t::FindEdgeIntersection(unsigned short ausTriangle, int 
         int next = j + 1;
         if (next == 3)
             next = 0;
-        if (((NiPoint3Cmp&)verts[j]).FUN_004390c0(verts[next]))
+        if (reinterpret_cast<::NiPoint3 *>((void *)&(((NiPoint3Cmp&)verts[j])))->FUN_004390c0(verts[next]))
             continue;
         NavEdgeHit hit;
-        if (FUN_006ba240(verts[j], verts[next], arFrom, arTo, &hit.kPoint))
+        if (::FUN_006ba240((const ::ThreeDimensionalVector *)&(verts[j]), (const ::ThreeDimensionalVector *)&(verts[next]), (const ::ThreeDimensionalVector *)&(arFrom), (const ::ThreeDimensionalVector *)&(arTo), (::ThreeDimensionalVector *)(::NiPoint3 *)(&hit.kPoint)))
         {
             hit.iType = 3;
             hit.m_iEdgeNumber = j;
@@ -3459,12 +3384,10 @@ struct UndoEntry
 };
 struct UndoPtr
 {
-    UndoEntry* Get();
 };
 struct UndoArray
 {
     UndoPtr& At(unsigned int);
-    unsigned int Size();
 };
 struct UndoContext
 {
@@ -3488,9 +3411,6 @@ struct UndoContext
     int unk44;
     UndoContext();
     ~UndoContext();
-    void Restore(UndoOwner*, UndoEntry*, void*);
-    void Remove(UndoOwner*, UndoEntry*);
-    void Add(UndoOwner*, const SavedMesh&, void*);
 };
 struct UndoOwner
 {
@@ -3547,68 +3467,11 @@ struct UndoOwner
     int unkc8;
     int unkcc;
     UndoArray entries;
-    void Erase(int);
-    unsigned int Find(UndoEntry*);
     bool UndoToPosition(unsigned int position, void* output);
 };
-// @fnv 0x00699000
-bool UndoOwner::UndoToPosition(unsigned int position, void* output)
-{
-    UndoEntry* entry7 = entries.At(position).Get();
-    if (position == entries.Size() - 1)
-    {
-        UndoContext context;
-        if (entry7->type == 1)
-            context.Restore(this, entry7, output);
-        context.Remove(this, entry7);
-        Erase(position);
-    }
-    else if (!Find(entry7))
-    {
-        UndoContext context;
-        if (entry7->type == 1)
-            context.Restore(this, entry7, output);
-    }
-    else
-    {
-        SavedMesh saved2[100];
-        unsigned int count3 = 0;
-        UndoContext context;
-        unsigned int index2;
-        for (index2 = entries.Size() - 1; index2 != position - 1; --index2)
-        {
-            if (entries.At(index2).Get()->type == 1)
-            {
-                context.Restore(this, entries.At(index2).Get(), output);
-                if (index2 > position)
-                {
-                    saved2[count3] = entries.At(index2).Get()->mesh;
-                    ++count3;
-                }
-            }
-            context.Remove(this, entries.At(index2).Get());
-            Erase(index2);
-        }
-        for (; index2 != -1; --index2)
-        {
-            if (entries.At(index2).Get()->type == 3)
-            {
-                context.Remove(this, entries.At(index2).Get());
-                Erase(index2);
-            }
-            else
-                break;
-        }
-        for (unsigned int next3 = 0; next3 < count3; ++next3)
-            context.Add(this, saved2[next3], output);
-    }
-    return true;
-}
-
 class ObstacleRegistry
 {
   public:
-    unsigned int FUN_006c61b0(const NiPointer<ObstacleData>& m_spRegisteredObstacle);
 };
 
 class ObstacleOwner
@@ -3626,7 +3489,7 @@ unsigned int ObstacleOwner::FUN_00699510(ObstacleData* pkObstacle)
     unsigned int uiResult;
     {
         NiPointer<ObstacleData> m_spRegisteredObstacle(pkObstacle);
-        uiResult = m_kRegistry.FUN_006c61b0(m_spRegisteredObstacle);
+        uiResult = reinterpret_cast<::S2f850 *>(&(m_kRegistry))->FUN_006c61b0((const ::NavMeshPtr &)(m_spRegisteredObstacle));
     }
     return uiResult;
 }
@@ -3638,7 +3501,6 @@ class EdgePoint
     float x, y, z;
     EdgePoint();
     EdgePoint operator-(const EdgePoint&) const;
-    float FUN_004a7290() const;
 };
 struct LinkedMesh;
 struct NavMeshPtr
@@ -3646,11 +3508,9 @@ struct NavMeshPtr
     LinkedMesh* mesh;
     NavMeshPtr();
     ~NavMeshPtr();
-    LinkedMesh* FUN_00559450();
 };
 struct MeshInfo
 {
-    bool FUN_0069ad00(NavMeshPtr&);
 };
 struct LinkInfo
 {
@@ -3660,46 +3520,39 @@ struct LinkInfo
 };
 struct LinkedTriangle : NavMeshTriangle
 {
-    bool FUN_00690e10();
 };
 struct LinkedMesh
 {
-    unsigned int FUN_00558200();
-    LinkedTriangle* FUN_005582f0(unsigned short);
-    LinkInfo* GetEdge(unsigned short);
-    void FUN_0068f0c0(unsigned short, int, EdgePoint&, EdgePoint&);
-    LinkInfo* GetOrCreateEdgeInfo(unsigned short, int);
-    MeshInfo* FUN_0068efb0();
     bool LinkMatchingEdges();
 };
 // @fnv 0x0069aa20
 bool LinkedMesh::LinkMatchingEdges()
 {
-    for (unsigned int triangleIndex = 0; triangleIndex < FUN_00558200(); ++triangleIndex)
+    for (unsigned int triangleIndex = 0; triangleIndex < ::FUN_00558200((char *)this); ++triangleIndex)
     {
-        LinkedTriangle* triangle = FUN_005582f0((unsigned short)triangleIndex);
-        if (!triangle || !triangle->FUN_00690e10())
+        LinkedTriangle* triangle = ((::fnv_0069aa20::LinkedTriangle *)(reinterpret_cast<::NavMesh *>(this)->GetTriangle((unsigned short)triangleIndex)));
+        if (!triangle || !reinterpret_cast<::FUN_00690e10_shell *>((triangle))->FUN_00690e10())
             continue;
         for (int edge = 0; edge < 3; ++edge)
         {
-            if (!triangle->IsEdgeFlagSet(edge))
+            if (!reinterpret_cast<::FUN_0068f1d0_shell *>((triangle))->IsEdgeFlagSet(edge))
                 continue;
             int edgeCount;
             int matchingEdge;
             {
-                LinkInfo* link = GetEdge(triangle->FUN_0068f2c0(edge));
+                LinkInfo* link = ((::fnv_0069aa20::LinkInfo *)(reinterpret_cast<::FUN_00693d30_shell *>(this)->GetEdge(reinterpret_cast<::FUN_0068f2c0_shell *>((triangle))->FUN_0068f2c0(edge))));
                 {
                     NavMeshPtr otherMesh;
-                    if (!link->mesh->FUN_0069ad00(otherMesh))
+                    if (!reinterpret_cast<::NavMeshInfo *>((link->mesh))->ResolveNavMesh((::NavMeshPtr &)(otherMesh)))
                         continue;
-                    LinkedTriangle* otherTriangle = otherMesh.FUN_00559450()->FUN_005582f0(link->triangle);
+                    LinkedTriangle* otherTriangle = ((::fnv_0069aa20::LinkedTriangle *)(reinterpret_cast<::NavMesh *>((((::fnv_0069aa20::LinkedMesh *)(::FUN_00559450((int *)&(otherMesh))))))->GetTriangle(link->triangle)));
                     if (!otherTriangle)
                         continue;
                     edgeCount = 0;
                     matchingEdge = -1;
                     for (int otherEdge = 0; otherEdge < 3; ++otherEdge)
                     {
-                        if (otherTriangle->IsEdgeFlagSet(otherEdge))
+                        if (reinterpret_cast<::FUN_0068f1d0_shell *>((otherTriangle))->IsEdgeFlagSet(otherEdge))
                         {
                             ++edgeCount;
                             matchingEdge = otherEdge;
@@ -3710,13 +3563,13 @@ bool LinkedMesh::LinkMatchingEdges()
                         EdgePoint edgeStart;
                         {
                             EdgePoint edgeEnd;
-                            FUN_0068f0c0((unsigned short)triangleIndex, edge, edgeStart, edgeEnd);
+                            reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>(this)->FUN_0068f0c0((unsigned short)triangleIndex, edge, (::NiPoint3 *)&(edgeStart), (::NiPoint3 *)&(edgeEnd));
                             for (int candidateEdge = 0; candidateEdge < 3; ++candidateEdge)
                             {
                                 EdgePoint start, end;
-                                otherMesh.FUN_00559450()->FUN_0068f0c0(link->triangle, candidateEdge, start, end);
-                                if ((edgeStart - end).FUN_004a7290() < 400.0 &&
-                                    (edgeEnd - start).FUN_004a7290() < 400.0)
+                                reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((((::fnv_0069aa20::LinkedMesh *)(::FUN_00559450((int *)&(otherMesh))))))->FUN_0068f0c0(link->triangle, candidateEdge, (::NiPoint3 *)&(start), (::NiPoint3 *)&(end));
+                                if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::fnv_0069aa20::EdgePoint &)((edgeStart - end)))->UpdateCombatStyle() < 400.0 &&
+                                    reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::fnv_0069aa20::EdgePoint &)((edgeEnd - start)))->UpdateCombatStyle() < 400.0)
                                 {
                                     matchingEdge = candidateEdge;
                                     edgeCount = 1;
@@ -3727,8 +3580,8 @@ bool LinkedMesh::LinkMatchingEdges()
                     }
                     if (edgeCount == 1)
                     {
-                        LinkInfo* reverse = otherMesh.FUN_00559450()->GetOrCreateEdgeInfo(link->triangle, matchingEdge);
-                        reverse->mesh = FUN_0068efb0();
+                        LinkInfo* reverse = ((::fnv_0069aa20::LinkInfo *)(reinterpret_cast<::D76A0NavMesh *>((((::fnv_0069aa20::LinkedMesh *)(::FUN_00559450((int *)&(otherMesh))))))->GetOrCreateEdgeInfo(link->triangle, matchingEdge)));
+                        reverse->mesh = ((::fnv_0069aa20::MeshInfo *)(reinterpret_cast<::FUN_0068efb0_shell *>(this)->FUN_0068efb0()));
                         reverse->triangle = (unsigned short)triangleIndex;
                         reverse->type = 3;
                     }
@@ -3741,7 +3594,6 @@ bool LinkedMesh::LinkMatchingEdges()
 }  // namespace fnv_0069aa20
 
 struct NavMeshTriList;
-float FUN_00406ce0(float afValue);
 
 struct NavMeshGridView
 {
@@ -3753,9 +3605,25 @@ struct NavMeshGridView
     float fMinZ;
     float kPointArrayBench;
     float m_fWorldTransformCoefficient4;
-    NavMeshTriList* FUN_006967c0(unsigned int auiCol, unsigned int auiRow);
     void GetTriListAtPosition(const NiPoint3& arPos, NavMeshTriList** appList);
 };
+// Looks up the triangle list at point, tests each triangle with GetTriangleHeightAtPoint, and returns true on the first hit, writing z.
+// @fnv 0x00697b70
+bool Target::FindTriangleZ(const NiPoint3& point, float above, float below, float* z)
+{
+    TriangleList* triangles = 0;
+    reinterpret_cast<::NavMeshGridView *>(&(grid))->GetTriListAtPosition(point, (::NavMeshTriList **)&(triangles));
+    if (!triangles)
+        return false;
+    unsigned int count = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((triangles))->GetName()));
+    for (unsigned int index = 0; index < count; ++index)
+    {
+        unsigned short triangle = reinterpret_cast<::FUN_0069dec0_class *>((triangles))->FUN_0069dec0(index);
+        if (reinterpret_cast<::FUN_00697980_t *>(this)->GetTriangleHeightAtPoint(triangle, point, above, below, z))
+            return true;
+    }
+    return false;
+}
 
 // If arPos lies inside the grid bounds, computes the cell column and row from the cell size and stores the cell's tri list in *appList; otherwise stores null.
 // @fnv 0x0069d370
@@ -3782,7 +3650,7 @@ void NavMeshGridView::GetTriListAtPosition(const NiPoint3& arPos, NavMeshTriList
         {
             uiRowA = uiCellCount - 1;
         }
-        *appList = FUN_006967c0(uiCol, uiRowA);
+        *appList = ((::NavMeshTriList *)(std::uintptr_t)(reinterpret_cast<::FUN_006967c0_shell *>(this)->FUN_006967c0(uiCol, uiRowA)));
     }
 }
 
@@ -3846,7 +3714,6 @@ bool FUN_006b9cf0(const NiPoint3& kP0, const NiPoint3& kP1, const NiPoint3& kP2,
 
 struct NavObstacleObject
 {
-    void FUN_00401970();
 };
 struct NavObstaclePtr
 {
@@ -3855,31 +3722,23 @@ struct NavObstaclePtr
     NavObstaclePtr(const NavObstaclePtr&);
     ~NavObstaclePtr();
     void FUN_006e5cc0(const NavObstaclePtr&);
-    NavObstacleObject* FUN_00559450();
 };
 struct NavMap
 {
     unsigned int unk00, unk04, unk08, unk0C;
-    bool FUN_0069afb0(unsigned short, NavObstaclePtr&);
     void FUN_006946a0(unsigned short, NavObstaclePtr);
-    void FUN_0049c250(unsigned short);
 };
 struct NavIndexArray
 {
     unsigned int unk00, unk04, unk08, unk0C;
-    unsigned int FUN_0044ddc0();
-    unsigned short& GetBufferEntry(unsigned int);
-    bool FUN_0076b610();
 };
 struct NavResetVertices
 {
     unsigned int unk00, unk04, unk08, unk0C;
-    void FUN_00694890(unsigned int, bool);
 };
 struct NavResetTriangles
 {
     unsigned int unk00, unk04, unk08, unk0C;
-    void FUN_006949d0(unsigned int, bool);
 };
 struct NavTolerance
 {
@@ -3940,16 +3799,9 @@ struct NavMeshOwner
     unsigned int unkD8;
     unsigned int unkDC;
     NavMap* obstacles;
-    void FUN_006987d0(const NavObstaclePtr&, const NavTolerance&, NavIndexArray*);
-    unsigned int GetArrFlags();
-    unsigned int FUN_00558200();
-    NavMeshTriangle* FUN_005582f0(unsigned short);
-    void FUN_00699510(NavChange*);
 };
 struct NavChange
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     virtual ~NavChange();
     unsigned int unk04, state;
     NavObstaclePtr obstacle;
@@ -3973,8 +3825,6 @@ struct NavItem
 struct NavItemArray
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10;
-    void FUN_008454f0(unsigned int);
-    unsigned int FUN_0044ddc0();
     NavItem*& FUN_00877a30(unsigned int);
 };
 struct NavChangeBuilder
@@ -3985,109 +3835,158 @@ struct NavChangeBuilder
     unsigned int unk0C, unk10, unk14, unk18;
     NavItemArray items, previousItems;
     unsigned int count;
-    unsigned int FUN_006bc940();
-    void CollectLinkedTriangles(float*);
-    void BuildNavMeshEdges();
-    void BuildQuad();
-    void SplitCrossingEdges();
     bool FUN_006bf2a0(NavItem*);
-    void FUN_006bdcb0();
-    void FUN_006bde50();
-    bool BuildTrianglesFromEdgePairs();
-    void JoinAdjacentEdges();
-    void ApplyEdgeSplits();
-    void UpdateEdgeRecords(int);
-    void FUN_006be770();
-    void FUN_006beb80();
-    void FUN_006bec20();
-    void FUN_006be660();
-    bool FUN_006bbd30(NavMeshOwner*, const NavObstaclePtr&, int);
+    bool FUN_006bbd30(NavMeshOwner*, const NavObstaclePtr&, std::intptr_t);
 };
+// Builds a SearchContext and forwards the two ints and this to SearchContext::FUN_006bbd30, returning its result.
+// @fnv 0x00698f40
+bool NavMeshSearch::Search(std::intptr_t first, int second)
+{
+    SearchContext searchContext;
+    bool result = reinterpret_cast<::NavChangeBuilder *>(&(searchContext))->FUN_006bbd30((::NavMeshOwner *)(void *)(this), (*(const ::NavObstaclePtr *)(first)), second);
+    return result;
+}
+// Iterates indices from unkD0.FUN_0044ddc0() - 1 down to 0, calling UndoToPosition with each index and a local object.
+// @fnv 0x006993c0
+void FUN_006993c0_cls::FUN_006993c0()
+{
+    FUN_006993c0_local local;
+    for (int i = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(unkD0))->GetName())) - 1; i != -1; i--)
+    {
+        reinterpret_cast<::UndoOwner *>(this)->UndoToPosition(i, &local);
+    }
+}
+// @fnv 0x00699000
+bool UndoOwner::UndoToPosition(unsigned int position, void* output)
+{
+    UndoEntry* entry7 = ((::UndoEntry *)(::FUN_00559450((int *)&(entries.At(position)))));
+    if (position == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())) - 1)
+    {
+        UndoContext context;
+        if (entry7->type == 1)
+            reinterpret_cast<::BuildProcess *>(&(context))->Build((::BuildOutput *)(::UndoOwner *)(this), (::BuildInput *)(entry7), (::BuildCatalog *)(output));
+        reinterpret_cast<::fnv_006bc8e0::Host006bc8e0 *>(&(context))->FUN_006bc8e0((::fnv_006bc8e0::InnerA006bc8e0 *)(::UndoOwner *)(this), (::fnv_006bc8e0::InnerB006bc8e0 *)(entry7));
+        reinterpret_cast<::FUN_00699590_shell *>(this)->ForwardToStub(position);
+    }
+    else if (!reinterpret_cast<::B99690NavMesh *>(this)->ComputeTriangleHash((::B99690Info *)(entry7)))
+    {
+        UndoContext context;
+        if (entry7->type == 1)
+            reinterpret_cast<::BuildProcess *>(&(context))->Build((::BuildOutput *)(::UndoOwner *)(this), (::BuildInput *)(entry7), (::BuildCatalog *)(output));
+    }
+    else
+    {
+        SavedMesh saved2[100];
+        unsigned int count3 = 0;
+        UndoContext context;
+        unsigned int index2;
+        for (index2 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())) - 1; index2 != position - 1; --index2)
+        {
+            if (((::UndoEntry *)(::FUN_00559450((int *)&(entries.At(index2)))))->type == 1)
+            {
+                reinterpret_cast<::BuildProcess *>(&(context))->Build((::BuildOutput *)(::UndoOwner *)(this), (::BuildInput *)(::UndoEntry *)(((::UndoEntry *)(::FUN_00559450((int *)&(entries.At(index2)))))), (::BuildCatalog *)(output));
+                if (index2 > position)
+                {
+                    saved2[count3] = ((::UndoEntry *)(::FUN_00559450((int *)&(entries.At(index2)))))->mesh;
+                    ++count3;
+                }
+            }
+            reinterpret_cast<::fnv_006bc8e0::Host006bc8e0 *>(&(context))->FUN_006bc8e0((::fnv_006bc8e0::InnerA006bc8e0 *)(::UndoOwner *)(this), (::fnv_006bc8e0::InnerB006bc8e0 *)(::UndoEntry *)(((::UndoEntry *)(::FUN_00559450((int *)&(entries.At(index2)))))));
+            reinterpret_cast<::FUN_00699590_shell *>(this)->ForwardToStub(index2);
+        }
+        for (; index2 != -1; --index2)
+        {
+            if (((::UndoEntry *)(::FUN_00559450((int *)&(entries.At(index2)))))->type == 3)
+            {
+                reinterpret_cast<::fnv_006bc8e0::Host006bc8e0 *>(&(context))->FUN_006bc8e0((::fnv_006bc8e0::InnerA006bc8e0 *)(::UndoOwner *)(this), (::fnv_006bc8e0::InnerB006bc8e0 *)(::UndoEntry *)(((::UndoEntry *)(::FUN_00559450((int *)&(entries.At(index2)))))));
+                reinterpret_cast<::FUN_00699590_shell *>(this)->ForwardToStub(index2);
+            }
+            else
+                break;
+        }
+        for (unsigned int next3 = 0; next3 < count3; ++next3)
+            reinterpret_cast<::NavChangeBuilder *>(&(context))->FUN_006bbd30((::NavMeshOwner *)(::UndoOwner *)(this), (const ::NavObstaclePtr &)(saved2[next3]), (std::intptr_t)(output));
+    }
+    return true;
+}
 // @fnv 0x006bbd30
-bool NavChangeBuilder::FUN_006bbd30(NavMeshOwner* apMesh, const NavObstaclePtr& apObstacle, int flags)
+bool NavChangeBuilder::FUN_006bbd30(NavMeshOwner* apMesh, const NavObstaclePtr& apObstacle, std::intptr_t flags)
 {
     mesh = apMesh;
     obstacle.FUN_006e5cc0(apObstacle);
-    items.FUN_008454f0(0);
-    for (unsigned int i = 0; i < previousItems.FUN_0044ddc0(); ++i)
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(items))->Clear(0);
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(previousItems))->GetName())); ++i)
     {
-        if (previousItems.FUN_00877a30(i)->obstacle.FUN_00559450())
-            previousItems.FUN_00877a30(i)->obstacle.FUN_00559450()->FUN_00401970();
+        if (((::NavObstacleObject *)(::FUN_00559450((int *)&(previousItems.FUN_00877a30(i)->obstacle)))))
+            reinterpret_cast<::WaitableObject *>((((::NavObstacleObject *)(::FUN_00559450((int *)&(previousItems.FUN_00877a30(i)->obstacle))))))->FUN_00401970();
     }
-    previousItems.FUN_008454f0(0);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(previousItems))->Clear(0);
     change = new NavChange;
-    mesh->FUN_006987d0(apObstacle, NavTolerance(5.0f, 5.0f, 5.0f), &change->affected);
-    if (change->affected.FUN_0076b610())
+    reinterpret_cast<::NavMeshOverlap *>((mesh))->FUN_006987d0((const ::ObstacleDataPtr &)(apObstacle), (const ::NiPoint3 &)((const ::NavTolerance &)(NavTolerance(5.0f, 5.0f, 5.0f))), (::NavMeshTriList *)(::NavIndexArray *)(&change->affected));
+    if (reinterpret_cast<::FUN_0076b610_Class *>(&(change->affected))->FUN_0076b610())
     {
         delete change;
         return false;
     }
     change->state = 1;
     change->obstacle.FUN_006e5cc0(apObstacle);
-    change->oldVertices = mesh->GetArrFlags();
-    change->oldTriangles = mesh->FUN_00558200();
-    count = FUN_006bc940();
-    CollectLinkedTriangles(&change->centerX);
-    for (unsigned int j = 0; j < change->affected.FUN_0044ddc0(); ++j)
-        mesh->FUN_005582f0(change->affected.GetBufferEntry(j))->FUN_00691570(0x20);
-    BuildNavMeshEdges();
-    for (unsigned int k = 0; k < change->affected.FUN_0044ddc0(); ++k)
+    change->oldVertices = reinterpret_cast<::fnv_00990a60::FUN_00990a60_shell *>((mesh))->GetArrFlags();
+    change->oldTriangles = ::FUN_00558200((char *)(mesh));
+    count = reinterpret_cast<::FUN_006bc940_class *>(this)->FUN_006bc940();
+    reinterpret_cast<::AdjBuilder *>(this)->CollectLinkedTriangles((::AdjEntryArray *)(float *)(&change->centerX));
+    for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(change->affected))->GetName())); ++j)
+        reinterpret_cast<::FUN_00691570_shell *>((reinterpret_cast<::NavMesh *>((mesh))->GetTriangle(reinterpret_cast<::FUN_005eeda0_this *>(&(change->affected))->GetBufferEntry(j))))->FUN_00691570(0x20);
+    reinterpret_cast<::HostB60 *>(this)->BuildNavMeshEdges();
+    for (unsigned int k = 0; k < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(change->affected))->GetName())); ++k)
     {
-        unsigned short index = change->affected.GetBufferEntry(k);
+        unsigned short index = reinterpret_cast<::FUN_005eeda0_this *>(&(change->affected))->GetBufferEntry(k);
         NavObstaclePtr entry(0);
-        if (mesh->obstacles->FUN_0069afb0(index, entry))
+        if (reinterpret_cast<::FUN_0069afb0_shell *>((mesh->obstacles))->FUN_0069afb0(index, (::Helper62d0 &)(entry)))
         {
             change->obstacleMap.FUN_006946a0(index, entry);
-            mesh->obstacles->FUN_0049c250(index);
+            reinterpret_cast<::FUN_0049c250_shell *>((mesh->obstacles))->FUN_0049c250(index);
         }
     }
-    BuildQuad();
-    SplitCrossingEdges();
-    for (unsigned int n = 0; n < items.FUN_0044ddc0(); ++n)
+    reinterpret_cast<::Builder *>(this)->BuildQuad();
+    reinterpret_cast<::Processor74 *>(this)->SplitCrossingEdges();
+    for (unsigned int n = 0; n < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(items))->GetName())); ++n)
     {
         if (FUN_006bf2a0(items.FUN_00877a30(n)))
             items.FUN_00877a30(n)->enabled = true;
     }
-    FUN_006bdcb0();
-    FUN_006bde50();
-    if (!BuildTrianglesFromEdgePairs())
+    reinterpret_cast<::S6bdcb0Owner *>(this)->FUN_006bdcb0();
+    reinterpret_cast<::FUN_006bde50 *>(this)->DoWork();
+    if (!reinterpret_cast<::Host120 *>(this)->BuildTrianglesFromEdgePairs())
     {
-        mesh->vertices.FUN_00694890(change->oldVertices, true);
-        mesh->triangles.FUN_006949d0(change->oldTriangles, true);
+        reinterpret_cast<::FUN_00694890_shell *>(&(mesh->vertices))->FUN_00694890(change->oldVertices, true);
+        reinterpret_cast<::fnv_006949d0::S5460 *>(&(mesh->triangles))->FUN_006949d0(change->oldTriangles, true);
         delete change;
         return false;
     }
-    JoinAdjacentEdges();
-    BuildTrianglesFromEdgePairs();
-    ApplyEdgeSplits();
-    UpdateEdgeRecords(flags);
-    change->newVertices = mesh->GetArrFlags() - change->oldVertices;
-    change->newTriangles = mesh->FUN_00558200() - change->oldTriangles;
-    FUN_006be770();
+    reinterpret_cast<::Graph006bdf50 *>(this)->JoinAdjacentEdges();
+    reinterpret_cast<::Host120 *>(this)->BuildTrianglesFromEdgePairs();
+    reinterpret_cast<::NavMeshGen_6be830 *>(this)->ApplyEdgeSplits();
+    reinterpret_cast<::EdgeUpdater120 *>(this)->UpdateEdgeRecords((::RecordArray120 *)(flags));
+    change->newVertices = reinterpret_cast<::fnv_00990a60::FUN_00990a60_shell *>((mesh))->GetArrFlags() - change->oldVertices;
+    change->newTriangles = ::FUN_00558200((char *)(mesh)) - change->oldTriangles;
+    reinterpret_cast<::FUN_006be770_class *>(this)->FUN_006be770();
     for (unsigned int t = change->oldTriangles; t < change->oldTriangles + change->newTriangles; ++t)
         mesh->obstacles->FUN_006946a0((unsigned short)t, obstacle);
-    FUN_006beb80();
-    FUN_006bec20();
-    FUN_006be660();
-    mesh->FUN_00699510(change);
+    reinterpret_cast<::S006beb80 *>(this)->FUN_006beb80();
+    reinterpret_cast<::FUN_006bec20_Class *>(this)->FUN_006bec20();
+    reinterpret_cast<::FUN_006be660_class *>(this)->FUN_006be660();
+    reinterpret_cast<::ObstacleOwner *>((mesh))->FUN_00699510((::ObstacleData *)(change));
     return true;
 }
 
 struct FindTriangleForLocationFilter;
-float __cdecl RandomFloat(float fMin, float fScaledValue);
-float __cdecl FUN_004019b0(float fValue);
-extern const float runtimeFloatSettingDefault1020;
 
 struct NiPoint3Ops697
 {
-    NiPoint3 FUN_00439e90(const NiPoint3& kPoint) const;
-    NiPoint3Ops697& FUN_0063c8a0(const NiPoint3& kPoint);
 };
 
 struct NavFinder697
 {
-    bool IsLocationOnNavMesh(const NiPoint3& kPoint, FindTriangleForLocationFilter* pkFilter);
-    NiPoint3 AdjustPointToNavMesh(const NiPoint3& kPoint, float fDistance);
     bool FUN_00697c10(const NiPoint3& kTargetCenter, float fRadius, NiPoint3* pkOut);
 };
 
@@ -4103,32 +4002,24 @@ bool NavFinder697::FUN_00697c10(const NiPoint3& aPosition, float aRadius, NiPoin
         fY = RandomFloat(-fY, fY);
         kIntersectionOffset.x = fX;
         kIntersectionOffset.y = fY;
-        bFound = IsLocationOnNavMesh(((NiPoint3Ops697*)&kIntersectionOffset)->FUN_00439e90(aPosition), 0);
+        bFound = reinterpret_cast<::FUN_00697670_StandIn *>(this)->IsLocationOnNavMesh((*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(((NiPoint3Ops697*)&kIntersectionOffset)))->ProjectileLaunched((::NiPoint3 *)&(aPosition), {}))), 0);
     }
     if (!bFound)
     {
         pkOut = 0;
         return false;
     }
-    ((NiPoint3Ops697*)&kIntersectionOffset)->FUN_0063c8a0(aPosition);
-    *pkOut = AdjustPointToNavMesh(kIntersectionOffset, runtimeFloatSettingDefault1020);
+    reinterpret_cast<::FUN_0063c8a0_shell *>((((NiPoint3Ops697*)&kIntersectionOffset)))->FUN_0063c8a0((void *)&(aPosition));
+    *pkOut = reinterpret_cast<::NavMeshAdjust *>(this)->AdjustPointToNavMesh(kIntersectionOffset, ::DAT_0101e6ec);
     return true;
 }
 
-extern const float DAT_01016970;
-extern const float DAT_01015f5c;
-float __cdecl FUN_00406ce0(float);
 bool __cdecl FUN_00696540(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&);
 
 struct TriangleGridBuildReceiver
 {
     unsigned int dimensionB_;
     float width8, heightSquared9;
-    void FUN_0069d2d0();
-    void InitFromPoints(const NiPoint3&, const NiPoint3&, unsigned int);
-    unsigned int FUN_00559450();
-    void FUN_00696500(unsigned short, unsigned int, unsigned int);
-    NiPoint3 FUN_0069d790(unsigned int, unsigned int);
 };
 struct GridCell
 {
@@ -4137,8 +4028,6 @@ struct GridCell
 struct GridMesh : NavMesh
 {
     TriangleGridBuildReceiver Grid;
-    void ComputeBounds(NiPoint3&, NiPoint3&);
-    bool FUN_00697730(unsigned short, const NiPoint3&, float&, float, float);
     void FUN_006959b0();
 };
 
@@ -4146,14 +4035,14 @@ struct GridMesh : NavMesh
 // @fnv 0x006959b0
 void GridMesh::FUN_006959b0()
 {
-    int count2 = FUN_00558200();
-    Grid.FUN_0069d2d0();
+    int count2 = ::FUN_00558200((char *)this);
+    reinterpret_cast<::D2d0Cls *>(&(Grid))->FUN_0069d2d0();
     if (count2 == 0)
         return;
     NiPoint3 boundsMin5, boundsMaxX;
-    ComputeBounds(boundsMin5, boundsMaxX);
-    Grid.InitFromPoints(boundsMin5, boundsMaxX, count2);
-    unsigned int dimensionB_ = Grid.FUN_00559450();
+    reinterpret_cast<::Candidate *>(this)->ComputeBounds(boundsMin5, boundsMaxX);
+    reinterpret_cast<::FUN_0069d800_class *>(&(Grid))->InitFromPoints((const ::P3 *)&(boundsMin5), (const ::P3 *)&(boundsMaxX), count2);
+    unsigned int dimensionB_ = ((unsigned int)(::FUN_00559450((int *)&(Grid))));
     float width8 = Grid.width8;
     float heightSquared9 = Grid.heightSquared9;
     NiPoint3 corner1, right3, upper3, upperRight4, point12;
@@ -4167,11 +4056,11 @@ void GridMesh::FUN_006959b0()
     for (triangle = 0; triangle < count2; triangle++)
     {
         triA4 = GetTriangle((unsigned short)triangle);
-        minX7 = minYA = DAT_01016970;
-        maxx6 = maxy3 = DAT_01015f5c;
+        minX7 = minYA = ::DAT_01016970;
+        maxx6 = maxy3 = ::DAT_01015f5c;
         for (int vertex = 0; vertex < 3; vertex++)
         {
-            point12 = FUN_0068f0a0(triA4->FUN_005582d0(vertex));
+            point12 = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>(this)->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triA4))->FUN_005582d0(vertex))));
             verticesCheck6[vertex] = point12;
             if (point12.x < minX7)
                 minX7 = point12.x;
@@ -4204,26 +4093,26 @@ void GridMesh::FUN_006959b0()
         addedX = false;
         if (minCellX4 == maxX2 && minY2 == maxCellYVal)
         {
-            Grid.FUN_00696500((unsigned short)triangle, minCellX4, minY2);
+            reinterpret_cast<::S696500 *>(&(Grid))->FUN_00696500((unsigned short)triangle, minCellX4, minY2);
             addedX = true;
         }
         else
         {
-            for (unsigned int x = minCellX4; x <= maxX2; x++)
+            for (std::uintptr_t x = minCellX4; x <= maxX2; x++)
             {
                 for (unsigned int y = minY2; y <= maxCellYVal; y++)
                 {
                     if ((cellsVal[0].x == x && cellsVal[0].y == y) || (cellsVal[1].x == x && cellsVal[1].y == y) ||
                         (cellsVal[2].x == x && cellsVal[2].y == y))
                     {
-                        Grid.FUN_00696500((unsigned short)triangle, x, y);
+                        reinterpret_cast<::S696500 *>(&(Grid))->FUN_00696500((unsigned short)triangle, x, y);
                         addedX = true;
                         continue;
                     }
-                    corner1 = Grid.FUN_0069d790(x, y);
-                    right3 = Grid.FUN_0069d790(x + 1, y);
-                    upper3 = Grid.FUN_0069d790(x, y + 1);
-                    upperRight4 = Grid.FUN_0069d790(x + 1, y + 1);
+                    corner1 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_0069d790_class *>(&(Grid))->FUN_0069d790((::NiPoint3 *)(x), y, {})));
+                    right3 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_0069d790_class *>(&(Grid))->FUN_0069d790((::NiPoint3 *)(x + 1), y, {})));
+                    upper3 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_0069d790_class *>(&(Grid))->FUN_0069d790((::NiPoint3 *)(x), y + 1, {})));
+                    upperRight4 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_0069d790_class *>(&(Grid))->FUN_0069d790((::NiPoint3 *)(x + 1), y + 1, {})));
                     if ((verticesCheck6[0].x <= upperRight4.x && verticesCheck6[0].y <= upperRight4.y &&
                          verticesCheck6[0].x >= corner1.x && verticesCheck6[0].y >= corner1.y) ||
                         (verticesCheck6[1].x <= upperRight4.x && verticesCheck6[1].y <= upperRight4.y &&
@@ -4231,17 +4120,17 @@ void GridMesh::FUN_006959b0()
                         (verticesCheck6[2].x <= upperRight4.x && verticesCheck6[2].y <= upperRight4.y &&
                          verticesCheck6[2].x >= corner1.x && verticesCheck6[2].y >= corner1.y))
                     {
-                        Grid.FUN_00696500((unsigned short)triangle, x, y);
+                        reinterpret_cast<::S696500 *>(&(Grid))->FUN_00696500((unsigned short)triangle, x, y);
                         addedX = true;
                         continue;
                     }
                     float zl;
-                    if (FUN_00697730((unsigned short)triangle, corner1, zl, DAT_01016970, 180.0f) ||
-                        FUN_00697730((unsigned short)triangle, right3, zl, DAT_01016970, 180.0f) ||
-                        FUN_00697730((unsigned short)triangle, upper3, zl, DAT_01016970, 180.0f) ||
-                        FUN_00697730((unsigned short)triangle, upperRight4, zl, DAT_01016970, 180.0f))
+                    if (reinterpret_cast<::NavMesh *>(this)->FindHeightOnTriangle((unsigned short)triangle, corner1, zl, ::DAT_01016970, 180.0f) ||
+                        reinterpret_cast<::NavMesh *>(this)->FindHeightOnTriangle((unsigned short)triangle, right3, zl, ::DAT_01016970, 180.0f) ||
+                        reinterpret_cast<::NavMesh *>(this)->FindHeightOnTriangle((unsigned short)triangle, upper3, zl, ::DAT_01016970, 180.0f) ||
+                        reinterpret_cast<::NavMesh *>(this)->FindHeightOnTriangle((unsigned short)triangle, upperRight4, zl, ::DAT_01016970, 180.0f))
                     {
-                        Grid.FUN_00696500((unsigned short)triangle, x, y);
+                        reinterpret_cast<::S696500 *>(&(Grid))->FUN_00696500((unsigned short)triangle, x, y);
                         addedX = true;
                         continue;
                     }
@@ -4294,7 +4183,7 @@ void GridMesh::FUN_006959b0()
                     }
                     if (intersects3)
                     {
-                        Grid.FUN_00696500((unsigned short)triangle, x, y);
+                        reinterpret_cast<::S696500 *>(&(Grid))->FUN_00696500((unsigned short)triangle, x, y);
                         addedX = true;
                     }
                 }
@@ -4302,3 +4191,5 @@ void GridMesh::FUN_006959b0()
         }
     }
 }
+
+#include "generated/data/fallout_shared/pathfinding/navmesh_util.inc"

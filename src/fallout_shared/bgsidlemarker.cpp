@@ -1,13 +1,26 @@
 // fallout_shared/bgsidlemarker.cpp: BGSIdleMarker, FakeMarker, BGSIdleMarkerImpl, IdleMarkerComparison (9 functions)
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0067ffa0_cls.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_0067ff10__FUN_0067ff10_Class.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_005e9000.h"
 #include "bgsidlemarker_decls.h"
 
 // Calls FUN_005e9530, installs the BGSQuestPerkEntry_vtbl vtable pointer, and zeroes the fields at offsets 8 and 12.
 // @fnv 0x005e9800
 BGSIdleMarker::BGSIdleMarker()
 {
-    FUN_005e9530();
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&BGSQuestPerkEntry_vtbl);
+    ::FUN_005e9530((::FUN_005e9530_Obj *)this);
+    *reinterpret_cast<std::uintptr_t*>(this) = reinterpret_cast<std::uintptr_t>(&BGSQuestPerkEntry_vtbl);
     *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 8) = 0;
     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 12) = 0;
 }
@@ -16,7 +29,7 @@ BGSIdleMarker::BGSIdleMarker()
 // @fnv 0x005e7bb0
 void BGSIdleMarker::InitItem()
 {
-    if (reinterpret_cast<TESFormInitFlag*>(this)->IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)(reinterpret_cast<TESFormInitFlag*>(this)))->GetInitialized())
     {
     }
     else
@@ -43,7 +56,6 @@ struct FUN_00479790
 };
 struct SoundPlaybackHandle
 {
-    void SetFormType(int);
 };
 struct FUN_005e7a90 : public TESBoundObject, public FUN_00479790
 {
@@ -53,31 +65,19 @@ struct FUN_005e7a90 : public TESBoundObject, public FUN_00479790
 // @fnv 0x005e7a90
 FUN_005e7a90::FUN_005e7a90()
 {
-    ((SoundPlaybackHandle*)this)->SetFormType(0x30);
+    reinterpret_cast<::FUN_004f15a0_shell *>((((SoundPlaybackHandle*)this)))->FUN_004f15a0(0x30);
 }
 
-void __cdecl _Deallocate(void*);
 struct FakeMarker
 {
     void FUN_005e7b40();
     void* DestroyIfFlagged(unsigned int);
 };
-// @fnv 0x005e7b10
-void* FakeMarker::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_005e7b40();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_004855a0
 {
-    void M();
 };
 struct FUN_00485680
 {
-    void M();
 };
 struct FUN_004799f0_shell
 {
@@ -90,14 +90,13 @@ struct FUN_005e7ed0_shell
 // @fnv 0x005e7ed0
 void FUN_005e7ed0_shell::FUN_005e7ed0()
 {
-    ((FUN_004855a0*)this)->M();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     ((FUN_004799f0_shell*)((char*)this + 0x30))->FUN_004799f0();
-    ((FUN_00485680*)this)->M();
+    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
 };
 struct FUN_005e7f00_t
 {
@@ -110,20 +109,27 @@ void FUN_005e7f00_t::CopyFrom(TESForm* apCopy)
     BGSIdleMarker* pcopy = dynamic_cast<BGSIdleMarker*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0((TESForm*)pcopy);
+    reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0((TESForm*)pcopy);
 }
 
 struct FUN_005e7b40 : public TESBoundObject, public FUN_00479790
 {
     ~FUN_005e7b40();
 };
+// @fnv 0x005e7b10
+void* FakeMarker::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005e7b40 *>(this)->FUN_005e7b40::~FUN_005e7b40();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Empty destructor for a TESBoundObject-derived type; performs no work.
 // @fnv 0x005e7b40
 FUN_005e7b40::~FUN_005e7b40()
 {}
 
-void BSEndian(int* value, EndianSizeTag<4> tag);
 
 struct IdlePayloadWrapper : public ChunkPayloadWrapper16
 {
@@ -158,15 +164,15 @@ struct BGSIdleMarkerImpl : public TESForm
 // @fnv 0x005e7bf0
 bool BGSIdleMarkerImpl::FUN_005e7bf0(TESFile* file)
 {
-    this->LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>((this))->CallWithThis((::T00485110 *)(file));
     this->SetInitializationState(false);
-    while (int chunkID = file->GetChunkID())
+    while (int chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
     {
         switch (chunkID)
         {
         case 0x44494445: {  // 'EDID'
-            char* pEditorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(pEditorID, 0x200);
+            char* pEditorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pEditorID), 0x200);
             this->SetEditorID_AtRuntime(pEditorID);
             break;
         }
@@ -175,13 +181,13 @@ bool BGSIdleMarkerImpl::FUN_005e7bf0(TESFile* file)
             break;
         }
         case 0x464C4449: {  // 'IDLF'
-            file->GetChunkData(&this->unk34, 1);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&this->unk34), 1);
             break;
         }
         case 0x434C4449: {  // 'IDLC'
-            if (file->GetChunkSize() == 1)
+            if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() == 1)
             {
-                file->GetChunkData(&this->unk35, 1);
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&this->unk35), 1);
             }
             else
             {
@@ -204,14 +210,14 @@ bool BGSIdleMarkerImpl::FUN_005e7bf0(TESFile* file)
             if (this->unk38 != 0)
             {
                 unsigned int size = this->unk35 * sizeof(TESIdleForm*);
-                if (file->GetChunkSize() == size)
+                if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() == size)
                 {
-                    file->GetChunkData(this->unk38, size);
+                    reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(this->unk38), size);
                     if (file->IsEndianConversionRequired())
                     {
                         for (int i = 0; i < this->unk35; ++i)
                         {
-                            BSEndian((int*)&this->unk38[i], EndianSizeTag<4>());
+                            ::FUN_00401080((int*)&this->unk38[i]);
                         }
                     }
                 }
@@ -227,10 +233,10 @@ bool BGSIdleMarkerImpl::FUN_005e7bf0(TESFile* file)
         case 0x54445450: {  // 'PTDT'
             ChunkPayload16 payload;
             memset(&payload, 0, sizeof(payload));
-            file->GetChunkData(&payload, sizeof(payload));
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&payload), sizeof(payload));
             if (file->IsEndianConversionRequired())
             {
-                payload.FUN_0067ff10();
+                reinterpret_cast<::fnv_0067ff10::FUN_0067ff10_Class *>(&(payload))->FUN_0067ff10();
             }
             IdlePayloadWrapper wrapper(&payload);
             break;
@@ -251,7 +257,6 @@ bool BGSIdleMarkerImpl::FUN_005e7bf0(TESFile* file)
 class FormComponentComparison : public TESForm
 {
   public:
-    bool FUN_00485270(TESForm* compare);
 };
 
 class IdleMarkerComparison : public BGSIdleMarker
@@ -267,7 +272,7 @@ bool IdleMarkerComparison::FUN_005e7f40(TESForm* apCompare)
     BGSIdleMarker* pIdleMarker = dynamic_cast<BGSIdleMarker*>(apCompare);
     if (!pIdleMarker)
         return true;
-    if (((FormComponentComparison*)this)->FUN_00485270((TESForm*)pIdleMarker))
+    if (reinterpret_cast<::FUN_00509540_obj *>((((FormComponentComparison*)this)))->FUN_00485270((TESForm*)pIdleMarker))
         return true;
     return false;
 }

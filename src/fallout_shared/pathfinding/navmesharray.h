@@ -2,6 +2,7 @@
 #ifndef NAVMESHARRAY_H
 #define NAVMESHARRAY_H
 
+#include "fnv/decl/Twin_0044ddc0.h"
 #include "navmesharray_decls.h"
 class NavMeshCollection
 {
@@ -12,7 +13,7 @@ class NavMeshCollection
 // @fnv 0x00464f60
 NavMeshPtr NavMeshCollection::GetNavMeshAt(unsigned int index)
 {
-    if (index >= m_kGlobalObject.GetSize())
+    if (index >= ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kGlobalObject))->GetName())))
         return MakeNavMeshPointer(0);
     return reinterpret_cast<const NavMeshPtr&>(m_kGlobalObject.GetAt(index));
 }

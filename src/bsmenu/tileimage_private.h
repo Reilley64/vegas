@@ -1,8 +1,19 @@
 // bsmenu/tileimage_private.h: declares NiTexture, TextureFormatPreferences, Tile, TileImage, TextureReceiver and more
 #ifndef FNV_TILEIMAGE_PRIVATE_H
 #define FNV_TILEIMAGE_PRIVATE_H
+#include <cstddef>
 
+#include <new>
+#include <windows.h>
 #include <stddef.h>
+#include "fnv/decl/FUN_004bc320_shell.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a074d0_shell.h"
+#include "fnv/decl/FUN_00a07530_shell.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_011d3000.h"
+#include "fnv/symbols_011de000.h"
 class NiNode;
 class NiTexture;
 class TileShaderProperty;
@@ -20,9 +31,6 @@ class GlobalObject_0040c150
         return this ? text : 0;
     }
 };
-extern GlobalObject_0040c150 g_011d33f0;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 class NiTexture
 {
   public:
@@ -106,10 +114,6 @@ class Tile
     virtual Tile* SetTraitValue(int, float, const char*);
     virtual void ClearTextures();
     virtual TileShaderProperty* GetShaderProperty();
-    void Set(int, float, bool);
-    void SetTileType(int);
-    void SetImageFlags(int);
-    Value* GetValue(int);
     NiTPointerList<Tile*> m_kChildTileList;
     BSSimpleArray<Value*, 8> m_kValues;
     BSStringT<char> StringProvider;
@@ -132,30 +136,22 @@ class TileImage : public Tile
     NiPointer<TileShaderProperty> m_spShaderProperty;
     bool m_bTextureLoaded;
 };
-typedef char tileimage_size_check[sizeof(TileImage) == 0x48 ? 1 : -1];
-typedef char tileimage_flags_check[offsetof(Tile, uiFlags) == 0x30 ? 1 : -1];
-typedef char tileimage_texture_check[offsetof(TileImage, spTexture) == 0x3c ? 1 : -1];
 class TextureReceiver
 {
   public:
-    void FUN_004bc320();
 };
 class ExtraDataList
 {
   public:
-    TextureReceiver* GetStartingAngle(void*);
 };
 class GlobalObject_00633c90
 {
   public:
     char data[4];
 };
-extern GlobalObject_00633c90 g_011ded3c;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class BSTextureSet : public NiMemObject
 {
@@ -218,5 +214,4 @@ class TaskQueueInterface
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-int strcat_s(char*, unsigned int, const char*);
 #endif

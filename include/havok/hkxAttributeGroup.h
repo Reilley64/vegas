@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 class hkxAttribute;
-#pragma pack(push, 1)
 class hkxAttributeGroup
 {
   public:
     hkStringPtr m_name;                         // +0x0
     hkArray<hkxAttribute> m_pCustomAttributes;  // +0x4
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxAttributeGroup[(sizeof(hkxAttributeGroup) == 0x10) ? 1 : -1];
 #endif

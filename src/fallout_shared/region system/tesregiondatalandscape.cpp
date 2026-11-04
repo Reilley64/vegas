@@ -1,12 +1,35 @@
 // fallout_shared/region system/tesregiondatalandscape.cpp: TESRegionDataLandscape, ThisT (15 functions)
 
+#include <new>
+#include <cmath>
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0048e2e0.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004f15c0_shell.h"
+#include "fnv/decl/FUN_004f32e0_class.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/PatrolActorPackageData.h"
+#include "fnv/decl/RegionSource.h"
+#include "fnv/decl/S_0064dac0.h"
+#include "fnv/decl/TESFullName.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_004f3000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_011aa000.h"
+#include "fnv/symbols_011c7000.h"
 #include "tesregiondatalandscape_decls.h"
 // @fnv 0x004f2a20
 bool TESRegionDataLandscape::ReadLandscapeData(TESFile* file)
 {
     if (!file)
         return false;
-    unsigned int chunk = file->GetChunkID();
+    unsigned int chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()));
     switch (chunk)
     {
     case 0x4e4f4349:
@@ -20,12 +43,12 @@ bool TESRegionDataLandscape::ReadLandscapeData(TESFile* file)
 TESRegionDataLandscape::TESRegionDataLandscape()
 {
     m_pLandscapeTexture = new TESTexture;
-    m_pLandscapeTexture->AssignTextureName("Trees\\CanopyShadow.dds");
+    reinterpret_cast<::TESFullName *>((m_pLandscapeTexture))->SetFullName("Trees\\CanopyShadow.dds");
 }
 
 // Writes 6, 3 and 2 into the first three int slots of pThis and returns pThis.
 // @fnv 0x004f31d0
-int* __fastcall InitIntArray(int* pIntArray)
+int* InitIntArray(int* pIntArray)
 {
     pIntArray[0] = 6;
     pIntArray[1] = 3;
@@ -35,7 +58,6 @@ int* __fastcall InitIntArray(int* pIntArray)
 
 struct FUN_004f32b0_This
 {
-    void SetMaskedBits(unsigned short, unsigned short, unsigned short);
 };
 
 struct FUN_004f32b0_Arg
@@ -45,46 +67,35 @@ struct FUN_004f32b0_Arg
 
 // Calls SetMaskedBits with the argument's val, 0x3000 and 0xc.
 // @fnv 0x004f32b0
-void __fastcall FUN_004f32b0(FUN_004f32b0_This* this_ptr, FUN_004f32b0_Arg aValue)
+void FUN_004f32b0(FUN_004f32b0_This* this_ptr, FUN_004f32b0_Arg aValue)
 {
-    this_ptr->SetMaskedBits(aValue.val, 0x3000, 0xc);
+    reinterpret_cast<::FUN_004f32e0_class *>((this_ptr))->SetMaskedBits(aValue.val, 0x3000, 0xc);
 }
 
-void* __fastcall FUN_004f2930(void* this_ptr);
 
 struct FUN_004f2840_shell
 {
-    void* __thiscall FUN_004f2840(unsigned int flags);
+    void* FUN_004f2840(unsigned int flags);
 };
-
-// Calls FUN_004f2930 on this, deletes this when flags has bit 0 set, and returns this.
-// @fnv 0x004f2840
-void* FUN_004f2840_shell::FUN_004f2840(unsigned int flags)
-{
-    FUN_004f2930(this);
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
 
 struct FUN_004f29c0_This : TESTexture
 {
-    void* __thiscall FUN_004f29c0(unsigned int flags);
+    void* FUN_004f29c0(unsigned int flags);
 };
 
 // Destroys the TESTexture base and, when flags has bit 0 set, frees the object, returning this.
 // @fnv 0x004f29c0
-void* __thiscall FUN_004f29c0_This::FUN_004f29c0(unsigned int flags)
+void* FUN_004f29c0_This::FUN_004f29c0(unsigned int flags)
 {
-    TESTexture::~TESTexture();
+    reinterpret_cast<::FUN_0048e2e0 *>(this)->FUN_0048e2e0::~FUN_0048e2e0();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct TESModel
 {
-    unsigned int __thiscall GetModelLength() const;
+    unsigned int GetModelLength() const;
 };
 
 struct FUN_004f2eb0_shell
@@ -92,12 +103,12 @@ struct FUN_004f2eb0_shell
     int _0;
     int _4;
     TESModel* m_pLandscapeTexture;
-    bool __thiscall HasModel();
+    bool HasModel();
 };
 
 // Returns true if the TESModel pointer is set and its model length is non-zero, otherwise false.
 // @fnv 0x004f2eb0
-bool __thiscall FUN_004f2eb0_shell::HasModel()
+bool FUN_004f2eb0_shell::HasModel()
 {
     if (!this->m_pLandscapeTexture || !this->m_pLandscapeTexture->GetModelLength())
         return false;
@@ -106,12 +117,10 @@ bool __thiscall FUN_004f2eb0_shell::HasModel()
 
 struct BSStr
 {
-    bool __thiscall Set(const char* s, unsigned int len);
 };
 
 struct FNStub
 {
-    const char* __thiscall GetFullName() const;
 };
 
 extern const char $SG5889[];
@@ -121,54 +130,51 @@ struct FUN_004f2a70_shell
     void* _0;
     void* _4;
     FNStub* _8;
-    void __thiscall SetFullName(BSStr& aDest);
+    void SetFullName(BSStr& aDest);
 };
 
 // @fnv 0x004f2a70
 void FUN_004f2a70_shell::SetFullName(BSStr& aDest)
 {
     if (!_8)
-        aDest.Set($SG5889, 0);
+        reinterpret_cast<::TextString *>(&(aDest))->FUN_004037f0($SG5889, 0);
     else
-        aDest.Set(_8->GetFullName(), 0);
+        reinterpret_cast<::TextString *>(&(aDest))->FUN_004037f0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(_8))->FUN_00408da0())), 0);
 }
 
 struct FUN_0048e370_obj
 {
-    void __thiscall FUN_0048e370(unsigned int);
 };
-void __fastcall WriteSaveData(void* this_ptr);
 struct FUN_004f29f0_shell
 {
     char _0[8];
     FUN_0048e370_obj* _8;
-    void __thiscall FUN_004f29f0();
+    void FUN_004f29f0();
 };
 // @fnv 0x004f29f0
-void __thiscall FUN_004f29f0_shell::FUN_004f29f0()
+void FUN_004f29f0_shell::FUN_004f29f0()
 {
-    WriteSaveData(this);
-    _8->FUN_0048e370(0x4E4F4349);
+    reinterpret_cast<::RegionSource *>((this))->WriteSaveData();
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((_8))->FUN_0048e370(0x4E4F4349);
 }
 
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
-int __cdecl _stricmp(const char*, const char*);
 struct FUN_004f2ab0_shell : public FUN_004f2eb0_shell
 {
-    bool __thiscall FUN_004f2ab0(const Flt& aName);
+    bool FUN_004f2ab0(const Flt& aName);
 };
 // @fnv 0x004f2ab0
-bool __thiscall FUN_004f2ab0_shell::FUN_004f2ab0(const Flt& aName)
+bool FUN_004f2ab0_shell::FUN_004f2ab0(const Flt& aName)
 {
     if (m_pLandscapeTexture)
     {
         if (!m_pLandscapeTexture->GetModelLength() ||
-            _stricmp(((FNStub*)m_pLandscapeTexture)->GetFullName(), (const char*)aName.operator unsigned int()) != 0)
+            ::FUN_00404dc0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)m_pLandscapeTexture)))->FUN_00408da0())), (const char*)aName.operator std::uintptr_t()) != 0)
         {
-            ((TESTexture*)m_pLandscapeTexture)->AssignTextureName((const char*)aName.operator unsigned int());
+            reinterpret_cast<::TESFullName *>((((TESTexture*)m_pLandscapeTexture)))->SetFullName((const char*)aName.operator std::uintptr_t());
             return true;
         }
     }
@@ -176,7 +182,6 @@ bool __thiscall FUN_004f2ab0_shell::FUN_004f2ab0(const Flt& aName)
 }
 
 struct NiPixelFormat;
-extern const NiPixelFormat gNiPoint3StartupSrc;
 struct NiPixelData
 {
     unsigned int unk00;
@@ -208,11 +213,7 @@ struct NiPixelData
     unsigned int unk68;
     unsigned int unk6C;
     unsigned int unk70;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int);
-    unsigned char* FUN_0064dac0(int, int);
-    void AddString();
 };
 struct NiFixedString
 {
@@ -244,8 +245,6 @@ struct FUN_00a6abb0
     unsigned int unk24;
     unsigned int unk28;
     unsigned int unk2C;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     FUN_00a6abb0(NiPixelData*, const NiFixedString&, TextureFormatPreferences&);
 };
 struct GO
@@ -253,8 +252,6 @@ struct GO
     operator NiTexturingProperty*() const;
     void operator=(void*);
 };
-extern GO g_011c7f0c;
-float RandomFloat(float, float);
 // Creates a 64x64 random RGBA NiPixelData, wraps it in a texturing property named DefaultFullMaskTextureProp, caches it in g_011c7f0c and returns it.
 // @fnv 0x004f2ee0
 NiTexturingProperty* GetDefaultFullMaskTextureProperty()
@@ -264,10 +261,10 @@ NiTexturingProperty* GetDefaultFullMaskTextureProperty()
     unsigned int iy;
     TextureFormatPreferences myPrefs;
     unsigned int ix;
-    if (g_011c7f0c)
-        return g_011c7f0c;
-    ppixeldata = new NiPixelData(64, 64, gNiPoint3StartupSrc, 1, 1);
-    ppixels = ppixeldata->FUN_0064dac0(0, 0);
+    if ((*reinterpret_cast<::GO *>(&::g_011c7f0c)))
+        return (*reinterpret_cast<::GO *>(&::g_011c7f0c));
+    ppixeldata = new NiPixelData(64, 64, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1);
+    ppixels = ((unsigned char *)(reinterpret_cast<::S_0064dac0 *>((ppixeldata))->FUN_0064dac0(0, 0)));
     for (iy = 0; iy < 64; iy++)
     {
         for (ix = 0; ix < 64; ix++)
@@ -278,11 +275,11 @@ NiTexturingProperty* GetDefaultFullMaskTextureProperty()
             ppixels[(iy * 64 + ix) * 4 + 3] = (unsigned char)RandomFloat(0, 255.0f);
         }
     }
-    ppixeldata->AddString();
+    reinterpret_cast<::NiGlobalStringTable *>((ppixeldata))->AddString();
     InitIntArray((int*)&myPrefs);
-    g_011c7f0c = new FUN_00a6abb0(ppixeldata, NiFixedString("DefaultFullMaskTextureProp"), myPrefs);
-    ((NiTexturingProperty*)g_011c7f0c)->SetBaseMapClampMode(0);
-    return g_011c7f0c;
+    (*reinterpret_cast<::GO *>(&::g_011c7f0c)) = new FUN_00a6abb0(ppixeldata, NiFixedString("DefaultFullMaskTextureProp"), myPrefs);
+    ((NiTexturingProperty*)(*reinterpret_cast<::GO *>(&::g_011c7f0c)))->SetBaseMapClampMode(0);
+    return (*reinterpret_cast<::GO *>(&::g_011c7f0c));
 }
 
 struct FUN_004f2870
@@ -305,7 +302,6 @@ FUN_004f2870* FUN_004f2b10_shell::FUN_004f2b10()
 
 struct FUN_004f2930_tex
 {
-    void* FUN_004f29c0(unsigned int flags);
 };
 
 struct FUN_004f2930_base
@@ -319,6 +315,15 @@ struct FUN_004f2930_cls : FUN_004f2930_base
     FUN_004f2930_tex* m_08;
     virtual ~FUN_004f2930_cls();
 };
+// Calls FUN_004f2930 on this, deletes this when flags has bit 0 set, and returns this.
+// @fnv 0x004f2840
+void* FUN_004f2840_shell::FUN_004f2840(unsigned int flags)
+{
+    reinterpret_cast<::FUN_004f2930_cls *>((this))->FUN_004f2930_cls::~FUN_004f2930_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x004f2930
 FUN_004f2930_cls::~FUN_004f2930_cls()
@@ -329,7 +334,7 @@ FUN_004f2930_cls::~FUN_004f2930_cls()
     {
         copy = m_08;
         tmp = copy;
-        tmp != 0 ? tmp->FUN_004f29c0(1) : 0;
+        tmp != 0 ? reinterpret_cast<::FUN_004f29c0_This *>((tmp))->FUN_004f29c0(1) : 0;
     }
 }
 
@@ -342,9 +347,6 @@ template <class T> class BSStringT
     BSStringT();
     ~BSStringT();
 };
-
-extern double DAT_01023b88;
-float __cdecl floor(float);
 
 struct ThisT
 {
@@ -363,15 +365,11 @@ struct ThisT
     unsigned char m_04;
     unsigned char m_05;
     unsigned char m_06;
-    unsigned char FUN_004f1540();
-    void FUN_004f15a0(int v);
-    bool FUN_004f15c0(unsigned char v);
-    unsigned char FUN_005bb4d0();
-    void __thiscall UpdateFromSource(ThisT* a1, int a2);
+    void UpdateFromSource(ThisT* a1, int a2);
 };
 
 // @fnv 0x004f2b90
-void __thiscall ThisT::UpdateFromSource(ThisT* a1, int a2)
+void ThisT::UpdateFromSource(ThisT* a1, int a2)
 {
     ThisT* a1p = a1;
     BSStringT<char> str3;
@@ -380,8 +378,8 @@ void __thiscall ThisT::UpdateFromSource(ThisT* a1, int a2)
         return;
     if (m_05)
     {
-        FUN_004f15a0(a1p->FUN_004f1540());
-        FUN_004f15c0(a1p->FUN_005bb4d0());
+        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(((unsigned char)(reinterpret_cast<::PatrolActorPackageData *>((a1p))->IsPatrolling())));
+        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0(((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a1p))->FUN_005bb4d0())));
         a1p->Slot10(&str3);
         Slot11(&str3);
     }
@@ -395,12 +393,12 @@ void __thiscall ThisT::UpdateFromSource(ThisT* a1, int a2)
         {
             if (m_04)
             {
-                if (a1p->FUN_004f1540())
+                if (((unsigned char)(reinterpret_cast<::PatrolActorPackageData *>((a1p))->IsPatrolling())))
                 {
-                    if (a1p->FUN_005bb4d0() > FUN_005bb4d0())
+                    if (((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a1p))->FUN_005bb4d0())) > ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())))
                     {
-                        FUN_004f15a0(a1p->FUN_004f1540());
-                        FUN_004f15c0(a1p->FUN_005bb4d0());
+                        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(((unsigned char)(reinterpret_cast<::PatrolActorPackageData *>((a1p))->IsPatrolling())));
+                        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0(((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a1p))->FUN_005bb4d0())));
                         a1p->Slot10(&str3);
                         Slot11(&str3);
                     }
@@ -409,25 +407,25 @@ void __thiscall ThisT::UpdateFromSource(ThisT* a1, int a2)
             }
             else
             {
-                if (a1p->FUN_004f1540())
+                if (((unsigned char)(reinterpret_cast<::PatrolActorPackageData *>((a1p))->IsPatrolling())))
                 {
-                    FUN_004f15a0(a1p->FUN_004f1540());
-                    FUN_004f15c0(a1p->FUN_005bb4d0());
+                    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(((unsigned char)(reinterpret_cast<::PatrolActorPackageData *>((a1p))->IsPatrolling())));
+                    reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0(((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a1p))->FUN_005bb4d0())));
                     a1p->Slot10(&str3);
                     Slot11(&str3);
                 }
                 else
                 {
-                    if (a1p->FUN_005bb4d0() > FUN_005bb4d0())
+                    if (((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a1p))->FUN_005bb4d0())) > ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())))
                     {
                         a1p->Slot10(&str3);
                         Slot11(&str3);
                     }
-                    f = (float)(FUN_005bb4d0() * FUN_005bb4d0() + (100 - FUN_005bb4d0()) * a1p->FUN_005bb4d0());
-                    f += (float)((100 - a1p->FUN_005bb4d0()) * FUN_005bb4d0() +
-                                 a1p->FUN_005bb4d0() * a1p->FUN_005bb4d0());
+                    f = (float)(((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) + (100 - ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0()))) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a1p))->FUN_005bb4d0())));
+                    f += (float)((100 - ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a1p))->FUN_005bb4d0()))) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) +
+                                 ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a1p))->FUN_005bb4d0())) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a1p))->FUN_005bb4d0())));
                     f *= DAT_01023b88;
-                    FUN_004f15c0((unsigned char)floor(f));
+                    reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0((unsigned char)floor(f));
                 }
             }
         }
@@ -436,15 +434,12 @@ void __thiscall ThisT::UpdateFromSource(ThisT* a1, int a2)
 
 // TESRegionDataLandscape copy constructor: copy the base region data and clone the texture.
 
-void* __cdecl operator new(unsigned int uiSize);
 
 class F2870Texture
 {
   public:
     F2870Texture();
     virtual ~F2870Texture();
-    const char* GetTexturePath() const;
-    void SetTexturePath(const char* pcPath);
 
     char* m_pcPath;
     unsigned short m_usLen;
@@ -473,5 +468,7 @@ class FUN_004f2870_Landscape : public F2870RegionData
 FUN_004f2870_Landscape::FUN_004f2870_Landscape(const FUN_004f2870_Landscape& kOther) : F2870RegionData(kOther)
 {
     m_pkTexture = new F2870Texture;
-    m_pkTexture->SetTexturePath(kOther.m_pkTexture->GetTexturePath());
+    reinterpret_cast<::TESFullName *>((m_pkTexture))->SetFullName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(kOther.m_pkTexture))->FUN_00408da0())));
 }
+
+#include "generated/data/fallout_shared/region system/tesregiondatalandscape.inc"

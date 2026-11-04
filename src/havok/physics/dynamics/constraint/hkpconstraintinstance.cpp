@@ -1,10 +1,38 @@
 
 // src/havok/physics/dynamics/constraint/hkpconstraintinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/hkpconstraintinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
+#include <new>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FnvCpu_FUN_00d541b0_CpuObject.h"
+#include "fnv/decl/HingeClass.h"
+#include "fnv/decl/MalleableGetterStandIn.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/fnv_00cbe400__hkpHingeConstraintDataEx.h"
+#include "fnv/decl/fnv_00d4e960__WheelConstraintLayout.h"
+#include "fnv/decl/fnv_00d849a0__Cls_d849a0.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpPrismaticConstraintDataEx.h"
+#include "fnv/decl/hkpRagdollConstraintDataBodySpace.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb3000.h"
+#include "fnv/symbols_00cdf000.h"
+#include "fnv/symbols_00ce0000.h"
+#include "fnv/symbols_00cf3000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d27000.h"
+#include "fnv/symbols_00d84000.h"
+#include "fnv/symbols_00d85000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010cc000.h"
 #include "havok/hkpConstraintInstance.h"
 
-void __cdecl EnableConstraintsAndZeroArrays(void* a, void* b);
 
 struct FUN_00cf3d90_class
 {
@@ -18,72 +46,40 @@ struct FUN_00cf3d90_class
 // @fnv 0x00cf3d90
 void FUN_00cf3d90_class::FUN_00cf3d90()
 {
-    EnableConstraintsAndZeroArrays(this, m2);
+    ::EnableConstraintsAndZeroArrays((::CE0020Target *)(void *)(this), (::CE0020Subject *)(m2));
 }
 
-struct FUN_00cf3070_class
+// hkpWorldObject::m_world.
+struct WorldObjectFields
 {
-    void* m0;
-    void* m1;
-    void* m2;
-    void* m3;
-    void* m4;
-    void* m5;
-    void* m6;
-    void* m7;
-    void* m8;
-    void* m9;
-    void* mA;
-    void* mB;
-    void* mC;
-    void* mD;
-    void* mE;
-    void* mF;
-    void* m10;
-    void* m11;
-    void* m12;
-    void* m13;
-    void* m14;
-    void* m15;
-    void* m16;
-    void* m17;
-    void* m18;
-    void* m19;
-    void* m1A;
-    void* m1B;
-    void* m1C;
-    void* m1D;
-    void* m1E;
-    void* m1F;
-    void* m20;
-    void* m21;
-    void* m22;
-    void* m23;
-    void* m24;
-    void* m25;
-    void* m26;
-    void* m27;
-    void* m28;
-    void* m29;
-    void* m2A;
-    void* m2B;
-    void* m2C;
-    void* m2D;
-    void* m2E;
-    void* m2F;
-    void* m30;
+    char pad00[0x8];
+    void* m_world;  // +0x8
+};
+// hkpWorld::m_fixedRigidBody.
+struct WorldFixedBodyFields
+{
+    char pad00[0x24];
+    void* m_pFixedRigidBody;  // +0x24
+};
+// hkConstraintInternal::m_priority.
+struct ConstraintInternalFields
+{
+    char pad00[0x13];
+    unsigned char m_priority;  // +0x13
+};
+struct FUN_00cf3070_class : hkpConstraintInstance
+{
     void SetActive(bool);
 };
 // @fnv 0x00cf3070
 void FUN_00cf3070_class::SetActive(bool active)
 {
-    *(char*)((char*)this + 0x1c) = active;
-    void* p = *(void**)((char*)this + 0x30);
+    m_priority = active;
+    ConstraintInternalFields* p = static_cast<ConstraintInternalFields*>(m_pConstraintInternal);
     if (p)
-        *(char*)((char*)p + 0x13) = active;
+        p->m_priority = active;
 }
 
-void __cdecl FUN_00cb3dd0(void* a, void* b, int c);
 struct FUN_00cf3090_class
 {
     void* m0;
@@ -97,23 +93,20 @@ struct FUN_00cf3090_class
 void FUN_00cf3090_class::FUN_00cf3090(void* arg)
 {
     if (m2)
-        FUN_00cb3dd0(*(void**)((char*)arg + 8), this, 1);
+        ::FUN_00cb3dd0((::CB3DD0World *)(static_cast<WorldObjectFields*>(arg)->m_world), (::CB3DD0Entity *)(void *)(this), 1);
 }
 
-void __cdecl FUN_00cdff60(void*, void*);
 // @fnv 0x00cf3da0
-void __fastcall FUN_00cf3da0(void* self, int)
+void FUN_00cf3da0(void* self, int)
 {
-    FUN_00cdff60(self, *(void**)((char*)self + 8));
+    ::FUN_00cdff60(self, (::ConstraintInput *)(static_cast<hkpConstraintInstance*>(self)->m_pOwnerObject));
 }
 
 struct DDCC60World
 {
-    void removeReference(void);
 };
 struct RefObj
 {
-    void RetainReference(void);
 };
 struct FUN_00cf3000_class
 {
@@ -129,16 +122,15 @@ struct FUN_00cf3000_class
 void FUN_00cf3000_class::ReplaceReference(void* apOldRef, void* apNewRef)
 {
     int idx = (apOldRef != m5) ? 1 : 0;
-    ((RefObj*)apNewRef)->RetainReference();
+    reinterpret_cast<::FUN_00c90510_class *>((((RefObj*)apNewRef)))->FUN_00c90510();
     if (apOldRef)
-        ((DDCC60World*)apOldRef)->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((((DDCC60World*)apOldRef)))->FUN_00c905b0();
     (&m5)[idx] = apNewRef;
 }
 
 namespace fnv_00cf3040 {
 struct DDCC60World
 {
-    void removeReference();
 };
 struct FUN_00cf3040_class
 {
@@ -158,11 +150,11 @@ void FUN_00cf3040_class::RemoveReferenceFromSlots(void* arg)
 {
     for (int i = 0; i < 2; ++i)
     {
-        DDCC60World* p = (DDCC60World*)*((void**)((char*)this + 0x14) + i);
-        if (p == *(DDCC60World**)((char*)arg + 0x24))
+        DDCC60World* p = (DDCC60World*)*(&this->m5 + i);
+        if (p == static_cast<DDCC60World*>(static_cast<WorldFixedBodyFields*>(arg)->m_pFixedRigidBody))
         {
-            p->removeReference();
-            *(void**)((char*)this + 0x14 + i * 4) = 0;
+            reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
+            *(&this->m5 + i) = 0;
         }
     }
 }
@@ -171,7 +163,6 @@ void FUN_00cf3040_class::RemoveReferenceFromSlots(void* arg)
 namespace fnv_00cf3e60 {
 struct RefObj
 {
-    void FUN_00c90510();
 };
 
 struct FUN_00cf3e60_class : public hkReferencedObject
@@ -190,20 +181,20 @@ void FUN_00cf3e60_class::FUN_00cf3e60()
     {
         if (m_kActorEntries[i] == 0)
         {
-            void* other = reinterpret_cast<void*>(reinterpret_cast<unsigned int>(m_kActorEntries[1]) ^
-                                                  reinterpret_cast<unsigned int>(m_kActorEntries[0]) ^
-                                                  reinterpret_cast<unsigned int>(m_kActorEntries[i]));
+            void* other = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(m_kActorEntries[1]) ^
+                                                  reinterpret_cast<uintptr_t>(m_kActorEntries[0]) ^
+                                                  reinterpret_cast<uintptr_t>(m_kActorEntries[i]));
 
             if (other != 0)
             {
-                void* constraint = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(other) + 0x08);
+                WorldFixedBodyFields* constraint = static_cast<WorldFixedBodyFields*>(static_cast<WorldObjectFields*>(other)->m_world);
 
                 if (constraint != 0)
                 {
-                    void* referenced = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(constraint) + 0x24);
+                    void* referenced = constraint->m_pFixedRigidBody;
 
                     m_kActorEntries[i] = referenced;
-                    reinterpret_cast<RefObj*>(referenced)->FUN_00c90510();
+                    reinterpret_cast<::FUN_00c90510_class *>((reinterpret_cast<RefObj*>(referenced)))->FUN_00c90510();
                 }
             }
         }
@@ -212,11 +203,11 @@ void FUN_00cf3e60_class::FUN_00cf3e60()
 }  // namespace fnv_00cf3e60
 
 // @fnv 0x00cf2f90
-void __stdcall FUN_00cf2f90(int)
+void FUN_00cf2f90(int)
 {}
 
 // @fnv 0x00cf2fa0
-void __stdcall FUN_00cf2fa0(int)
+void FUN_00cf2fa0(int)
 {}
 
 struct hkBoolCF2F
@@ -279,7 +270,6 @@ struct hkBoolCF2F
     }
 };
 
-int __cdecl FindModifierConstraintAtom(const void* pvObject, int iType);
 
 class FUN_00cf2fe0_cls
 {
@@ -292,7 +282,7 @@ class FUN_00cf2fe0_cls
 // @fnv 0x00cf2fe0
 hkBoolCF2F FUN_00cf2fe0_cls::FUN_00cf2fe0() const
 {
-    return FindModifierConstraintAtom(this, 0x1b) == 0;
+    return ::FindModifierConstraintAtom((::hkpConstraintInstance *)(this), 0x1b) == 0;
 }
 }  // namespace fnv_00cf2fe0
 
@@ -349,7 +339,7 @@ class hkpEntityCF3D
     int unkC0;
     int unkC4;
     int unkC8;
-    int m_cc;
+    void* m_cc;
     int unkD0;
     int unkD4;
     int unkD8;
@@ -370,11 +360,11 @@ class hkpPairCF3D
     hkpEntityCF3D* m_pEntityA;
     hkpEntityCF3D* m_pEntityB;
 
-    int FUN_00cf3dd0() const;
+    void* FUN_00cf3dd0() const;
 };
 
 // @fnv 0x00cf3dd0
-int hkpPairCF3D::FUN_00cf3dd0() const
+void* hkpPairCF3D::FUN_00cf3dd0() const
 {
     const hkpEntityCF3D* pkEntity = m_pEntityA;
     if (pkEntity->m_bFlag != 5)
@@ -382,22 +372,8 @@ int hkpPairCF3D::FUN_00cf3dd0() const
     return m_pEntityB->m_cc;
 }
 
-struct hkAllocatorCF3F
-{
-    virtual void V0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
 
-struct hkMemoryRouterCF3F
-{
-    void* m_apvUnk00[4];
-    hkAllocatorCF3F* m_pkHeap;
-    hkAllocatorCF3F& heap()
-    {
-        return *m_pkHeap;
-    }
-};
-extern "C" hkMemoryRouterCF3F* __cdecl FUN_00c85750() throw();
+
 
 struct hkBoolCF3F
 {
@@ -409,26 +385,21 @@ struct hkBoolCF3F
 class hkpConstraintData : public hkReferencedObject
 {
   public:
-    void FUN_00c90510() throw();
-    void removeReference() throw();
 };
 
-hkpConstraintData* __cdecl FUN_00d85700(const hkpConstraintData* pkData) throw();
-hkpConstraintData* __cdecl FUN_00d858f0(const hkpConstraintData* pkData) throw();
 
 struct FUN_00cb0c10_s
 {
     char* m_pcString;
-    void FUN_00cb0c10(const char* pcString) throw();
 };
 
 class FUN_00cf3ea0 : public hkpConstraintInstance
 {
   public:
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(size_t uiSize) throw()
     {
-        void* p = FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
-        ((unsigned short*)p)[2] = (unsigned short)uiSize;
+        void* p = hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
+        static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
     static void operator delete(void* p) throw();
@@ -461,66 +432,43 @@ hkpConstraintInstance* hkpConstraintInstanceCF3F::FUN_00cf3fa0(hkpEntity* pkEnti
     {
         if (FUN_00cf2fb0().m_bValue)
         {
-            hkpConstraintData* pkData = FUN_00d85700(getData());
+            hkpConstraintData* pkData = ((::hkpConstraintData *)(::FUN_00d85700((::Object858 *)(getData()))));
             pkInstance = new FUN_00cf3ea0(pkEntityA, 0, pkData, getPriority());
-            pkData->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((pkData))->FUN_00c905b0();
         }
         else
             pkInstance = new FUN_00cf3ea0(pkEntityA, pkEntityB, getData(), getPriority());
     }
     else if (eCloneMode == CLONE_DATAS_WITH_MOTORS)
     {
-        hkpConstraintData* pkData = FUN_00d858f0(getData());
+        hkpConstraintData* pkData = ((::hkpConstraintData *)(::FUN_00d858f0((::Object858 *)(getData()))));
         if (!pkData)
         {
             pkData = getData();
-            pkData->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((pkData))->FUN_00c90510();
         }
         pkInstance = new FUN_00cf3ea0(pkEntityA, pkEntityB, pkData, getPriority());
-        pkData->removeReference();
+        reinterpret_cast<::hkReferencedObjectC905 *>((pkData))->FUN_00c905b0();
     }
     else
         pkInstance = new FUN_00cf3ea0(pkEntityA, pkEntityB, getData(), getPriority());
-    ((FUN_00cb0c10_s*)&pkInstance->m_name)->FUN_00cb0c10((const char*)((hkUlong)m_name & ~1));
+    reinterpret_cast<::SStringPtr *>((((FUN_00cb0c10_s*)&pkInstance->m_name)))->FUN_00cb0c10((const char*)((hkUlong)m_name & ~1));
     return pkInstance;
 }
 
 namespace fnv_00cf40b0 {
-extern void* DAT_010cc040;
-extern void* DAT_0102e388;
 
-void __cdecl FUN_00d85ef0(void*) throw();
-void __fastcall FUN_00c905b0(void* self) throw();
-void* __cdecl FUN_00c85750() throw();
 
-struct MemAllocator
-{
-    virtual void dummy0() throw();
-    virtual void dummy1() throw();
-    virtual void deallocate(void* p, int size) throw();
-};
 
-struct ThreadMemory
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    MemAllocator* m_pMemoryAllocator;
-    inline void deallocate(void* p, int size) throw()
-    {
-        m_pMemoryAllocator->deallocate(p, size);
-    }
-};
+
 
 static inline void hkDeallocate(void* p, int size) throw()
 {
-    ((ThreadMemory*)FUN_00c85750())->deallocate(p, size);
+    hkMemoryRouter::getInstance().heap().blockFree(p, size);
 }
 
 struct FUN_00cb0c00_class
 {
-    void FUN_00cb0c00() throw();
 };
 
 struct ModifierAtom
@@ -543,12 +491,12 @@ struct FUN_00cf40b0_class : public hkpConstraintInstance
 // @fnv 0x00cf40b0
 void FUN_00cf40b0_class::FUN_00cf40b0()
 {
-    *(void**)this = &DAT_010cc040;
-    FUN_00d85ef0(this);
+    *(void**)this = &(*reinterpret_cast<void * *>((void *)&::sd6ae50::DAT_010cc040));
+    ::FUN_00d85ef0((::ListenerOwner *)(void *)(this));
     if (m_kActorEntries[0])
-        FUN_00c905b0(m_kActorEntries[0]);
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_kActorEntries[0]))->FUN_00c905b0();
     if (m_kActorEntries[1])
-        FUN_00c905b0(m_kActorEntries[1]);
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_kActorEntries[1]))->FUN_00c905b0();
     ModifierAtom* mod = (ModifierAtom*)m_pConstraintModifier;
     if (mod != 0 && mod->m_type >= 0x17)
     {
@@ -560,39 +508,20 @@ void FUN_00cf40b0_class::FUN_00cf40b0()
         } while (mod->m_type >= 0x17);
     }
     if (m_data)
-        FUN_00c905b0(m_data);
-    ((FUN_00cb0c00_class*)&m_name)->FUN_00cb0c00();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_data))->FUN_00c905b0();
+    ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)&m_name)));
     if ((m_kListeners.m_iCapacityState & 0x8000) == 0)
     {
         int capacity = m_kListeners.m_iCapacityState & 0x3fff;
         hkDeallocate(m_kListeners.m_data, capacity * 4);
     }
-    *(void**)this = &DAT_0102e388;
+    *(void**)this = &::DAT_0102e388;
 }
 }  // namespace fnv_00cf40b0
 
 namespace fnv_00cf4160 {
-class hkMemoryAllocatorCF41
-{
-  public:
-    virtual ~hkMemoryAllocatorCF41() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterCF41
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorCF41* m_pStreamAllocator;
-    hkMemoryAllocatorCF41& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterCF41& __cdecl FUN_00c85750();
+
 
 class FUN_00cf40b0
 {
@@ -603,7 +532,7 @@ class FUN_00cf40b0
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00cf40b0*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00cf40b0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00cf40b0* FUN_00cf4160(unsigned int uiFlags) throw();
@@ -613,7 +542,7 @@ class FUN_00cf40b0
 // @fnv 0x00cf4160
 FUN_00cf40b0* FUN_00cf40b0::FUN_00cf4160(unsigned int uiFlags) throw()
 {
-    this->FUN_00cf40b0::~FUN_00cf40b0();
+    reinterpret_cast<::fnv_00cf40b0::FUN_00cf40b0_class *>((this))->FUN_00cf40b0();
     if (uiFlags & 1)
         FUN_00cf40b0::operator delete(this);
     return this;
@@ -649,7 +578,6 @@ hkpModifierConstraintAtom* __cdecl FindModifierConstraintAtom(hkpConstraintInsta
     return atom;
 }
 
-extern "C" void __cdecl FUN_00d06cb0(void* apvArray, int iSizeElem);
 extern "C" void _ReadWriteBarrier();
 
 struct S00cf3df0_Arr
@@ -683,7 +611,7 @@ struct S00cf3df0_Arr
             } while (i < m_iElementCount);
         }
         if (n == (m_cap & 0x3fff))
-            FUN_00d06cb0(this, 4);
+            ::FUN_00d06cb0((::GrowBuf *)(void *)(this), 4);
         m_data[m_iElementCount++] = a;
     }
 };
@@ -709,12 +637,6 @@ void S00cf3df0_Obj::Add(void* apItem)
     m_l.put(apItem);
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 struct Matrix4f;
 struct CVector
 {
@@ -747,14 +669,6 @@ struct ConstraintReference : ConstraintReferencedBase
     unsigned unk1c;
     Matrix4f a, b, c, d;
     unsigned unk120;
-    ConstraintReference* FUN_00cdf6c0();
-    void FUN_00d541b0(CVector*, CVector*);
-    void FUN_00cbe400(CVector*, CVector*, CVector*, CVector*);
-    void FUN_00cb8da0(CVector*, CVector*, CVector*, CVector*, CVector*, CVector*);
-    void SetBasis(CVector*, CVector*, CVector*);
-    void FUN_00d4fba0(CVector*, CVector*, CVector*, CVector*, CVector*, CVector*);
-    void FUN_00cded30(CVector*, CVector*, CVector*, CVector*, CVector*, CVector*);
-    void FUN_00d4e960(CVector*, CVector*, CVector*, CVector*, CVector*, CVector*);
 };
 struct CPlaneData
 {
@@ -824,11 +738,11 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
             p = p->child18;
             break;
         case 13:
-            p = p->FUN_00cdf6c0();
+            p = ((::ConstraintReference *)(reinterpret_cast<::MalleableGetterStandIn *>((p))->FUN_00cdf6c0()));
             break;
         case 0:
             point(p->a.c1, apTransform);
-            p->FUN_00d541b0(&p->a.c0, &p->a.c1);
+            reinterpret_cast<::FnvCpu_FUN_00d541b0_CpuObject *>((p))->FUN_00d541b0((::FnvCpu_FUN_00d541b0_CpuData0 *)(::CVector *)(&p->a.c0), (::FnvCpu_FUN_00d541b0_CpuData1 *)(::CVector *)(&p->a.c1));
             return;
         case 1: {
             Matrix4f a, b;
@@ -837,7 +751,7 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
             CVector ax = a.c0, bx = b.c0;
             point(b.c3, apTransform);
             rotate(bx, apTransform);
-            p->FUN_00cbe400(&a.c3, &b.c3, &ax, &bx);
+            reinterpret_cast<::fnv_00cbe400::hkpHingeConstraintDataEx *>((p))->FUN_00cbe400((*(const ::hkVector4 *)(&a.c3)), (*(const ::hkVector4 *)(&b.c3)), (*(const ::hkVector4 *)(&ax)), (*(const ::hkVector4 *)(&bx)));
             return;
         }
         case 2: {
@@ -848,7 +762,7 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
             point(b.c3, apTransform);
             rotate(bx, apTransform);
             rotate(by, apTransform);
-            p->FUN_00cb8da0(&a.c3, &b.c3, &ax, &bx, &ay, &by);
+            reinterpret_cast<::HingeClass *>((p))->FUN_00cb8da0((*(const ::hkVector4_Havok *)(&a.c3)), (*(const ::hkVector4_Havok *)(&b.c3)), (*(const ::hkVector4_Havok *)(&ax)), (*(const ::hkVector4_Havok *)(&bx)), (*(const ::hkVector4_Havok *)(&ay)), (*(const ::hkVector4_Havok *)(&by)));
             return;
         }
         case 14: {
@@ -856,7 +770,7 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
             CVector a = q->a.c3, b = q->position, axis = q->axes[q->axis];
             point(b, apTransform);
             rotate(axis, apTransform);
-            p->SetBasis(&a, &b, &axis);
+            reinterpret_cast<::fnv_00d849a0::Cls_d849a0 *>((p))->SetBasis((*(const ::fnv_00d849a0::Vec_d849a0 *)(&a)), (*(const ::fnv_00d849a0::Vec_d849a0 *)(&b)), (*(const ::fnv_00d849a0::Vec_d849a0 *)(&axis)));
             return;
         }
         case 6: {
@@ -867,7 +781,7 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
             point(bt, apTransform);
             rotate(bp, apTransform);
             rotate(ba, apTransform);
-            p->FUN_00d4fba0(&at, &bt, &ap, &bp, &aa, &ba);
+            reinterpret_cast<::hkpPrismaticConstraintDataEx *>((p))->FUN_00d4fba0((*(const ::hkVector4 *)(&at)), (*(const ::hkVector4 *)(&bt)), (*(const ::hkVector4 *)(&ap)), (*(const ::hkVector4 *)(&bp)), (*(const ::hkVector4 *)(&aa)), (*(const ::hkVector4 *)(&ba)));
             return;
         }
         case 7: {
@@ -880,7 +794,7 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
             point(b.c3, apTransform);
             rotate(b1, apTransform);
             rotate(tb.c0, apTransform);
-            p->FUN_00cded30(&a.c3, &b.c3, &ta.c1, &b1, &ta.c0, &tb.c0);
+            reinterpret_cast<::hkpRagdollConstraintDataBodySpace *>((p))->FUN_00cded30((*(const ::hkVector4 *)(&a.c3)), (*(const ::hkVector4 *)(&b.c3)), (*(const ::hkVector4 *)(&ta.c1)), (*(const ::hkVector4 *)(&b1)), (*(const ::hkVector4 *)(&ta.c0)), (*(const ::hkVector4 *)(&tb.c0)));
             return;
         }
         case 8: {
@@ -900,7 +814,7 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
             rotate(ax, apTransform);
             rotate(by, apTransform);
             rotate(az, apTransform);
-            p->FUN_00d4e960(&a, &b, &ay, &by, &ax, &az);
+            reinterpret_cast<::fnv_00d4e960::WheelConstraintLayout *>((p))->FUN_00d4e960((*(const ::hkVector4 *)(&a)), (*(const ::hkVector4 *)(&b)), (*(const ::hkVector4 *)(&ay)), (*(const ::hkVector4 *)(&by)), (*(const ::hkVector4 *)(&ax)), (*(const ::hkVector4 *)(&az)));
             return;
         }
         default:
@@ -908,11 +822,6 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
         }
 }
 
-extern "C"
-{
-    hkVector4* __cdecl GetDispatchTarget(void* obj);
-    hkVector4* __cdecl GetShapeData(void* obj);
-}
 
 struct TargetObj
 {
@@ -942,9 +851,9 @@ class FUN_00cf3c90_cls
 void FUN_00cf3c90_cls::FUN_00cf3c90(ReceiverObj* apFirstReceiver, ReceiverObj* apSecondReceiver)
 {
     __declspec(align(16)) hkVector4 vFirstVec;
-    *(__m128*)&vFirstVec = *(__m128*)GetDispatchTarget(m_obj0C);
+    *(__m128*)&vFirstVec = *(__m128*)((::hkVector4 *)(::GetDispatchTarget((::FNVDispatchNode *)(m_obj0C))));
     __declspec(align(16)) hkVector4 vSecondVec;
-    *(__m128*)&vSecondVec = *(__m128*)GetShapeData(m_obj0C);
+    *(__m128*)&vSecondVec = *(__m128*)((::hkVector4 *)(::GetShapeData((::ShapeD84D *)(m_obj0C))));
 
     void* pSecondTargetPtr = m_target18->unk18;
     apFirstReceiver->FUN_00c7f640(m_target14->unk18, &vFirstVec);
@@ -992,23 +901,8 @@ struct FUN_00cf3d00_Buf
     FUN_00cf3d00_Vec4 unk30;
 };
 
-struct FUN_00cf3d00_Obj
-{
-    virtual void vf00();
-    virtual FUN_00cf3d00_Buf* vf04(int size);
-};
 
-struct FUN_00cf3d00_Holder
-{
-    void* m0;
-    void* m1;
-    void* m2;
-    void* m3;
-    FUN_00cf3d00_Obj* m4;
-};
 
-void* __cdecl FindModifierConstraintAtom(void* self, int size);
-void __cdecl FUN_00d27960(void* a, void* b, void* c);
 
 struct FUN_00cf3d00_class
 {
@@ -1023,7 +917,7 @@ struct FUN_00cf3d00_class
 // @fnv 0x00cf3d00
 void FUN_00cf3d00_class::SetVec4Pair(FUN_00cf3d00_Vec4* a, FUN_00cf3d00_Vec4* b)
 {
-    FUN_00cf3d00_Alloc* pAtom = (FUN_00cf3d00_Alloc*)FindModifierConstraintAtom(this, 0x18);
+    FUN_00cf3d00_Alloc* pAtom = (FUN_00cf3d00_Alloc*)((void *)(::FindModifierConstraintAtom((::hkpConstraintInstance *)(void *)(this), 0x18)));
 
     if (pAtom != 0)
     {
@@ -1032,8 +926,7 @@ void FUN_00cf3d00_class::SetVec4Pair(FUN_00cf3d00_Vec4* a, FUN_00cf3d00_Vec4* b)
         return;
     }
 
-    FUN_00cf3d00_Holder* holder = (FUN_00cf3d00_Holder*)FUN_00c85750();
-    FUN_00cf3d00_Buf* buf = holder->m4->vf04(0x40);
+    FUN_00cf3d00_Buf* buf = static_cast<FUN_00cf3d00_Buf*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
 
     if (buf != 0)
     {
@@ -1048,14 +941,12 @@ void FUN_00cf3d00_class::SetVec4Pair(FUN_00cf3d00_Vec4* a, FUN_00cf3d00_Vec4* b)
     buf->unk20.m = a->m;
     buf->unk30.m = b->m;
 
-    FUN_00d27960(this, m2, buf);
+    ::FUN_00d27960((::hkpConstraintInstance *)(void *)(this), (*(::hkpConstraintOwner *)(m2)), (::hkpModifierConstraintAtom *)(buf));
 }
 
-extern char DAT_010cc040;
 
 struct CF3F40Member
 {
-    void FUN_00cb0a60();
 };
 
 struct S00cf3f40_Obj
@@ -1088,7 +979,7 @@ struct S00cf3f40_Obj
 S00cf3f40_Obj* S00cf3f40_Obj::FUN_00cf3f40(bool flag)
 {
     int z = 0;
-    *(void* volatile*)&m_vptr = (void*)&DAT_010cc040;
+    *(void* volatile*)&m_vptr = (void*)&(*reinterpret_cast<char *>((void *)&::sd6ae50::DAT_010cc040));
     m_10 = m_8 = z;
     *(volatile short*)&m_6 = 1;
     *(volatile unsigned char*)&m_1c = flag;
@@ -1098,7 +989,7 @@ S00cf3f40_Obj* S00cf3f40_Obj::FUN_00cf3f40(bool flag)
     *(volatile int*)&m_20 = z;
     m_24 = 0;
     m_26 = 0x8000;
-    m_28.FUN_00cb0a60();
+    new ((void *)&(m_28)) struct ::FUN_00cb0a60();
     m_2c = z;
     m_30 = z;
     m_34 = -16;
@@ -1107,8 +998,6 @@ S00cf3f40_Obj* S00cf3f40_Obj::FUN_00cf3f40(bool flag)
 
 struct ConstraintEnabledDispatch : public hkpConstraintInstance
 {
-    void FUN_00cf3d90();
-    void FUN_00cf3da0();
     void FUN_00cf3db0(hkBool enabled);
 };
 
@@ -1117,10 +1006,10 @@ void ConstraintEnabledDispatch::FUN_00cf3db0(hkBool enabled)
 {
     if (enabled)
     {
-        FUN_00cf3d90();
+        reinterpret_cast<::FUN_00cf3d90_class *>(this)->FUN_00cf3d90();
     }
     else
     {
-        FUN_00cf3da0();
+        ::FUN_00cf3da0((void *)this, {});
     }
 }

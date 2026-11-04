@@ -1,18 +1,17 @@
+#include <cstddef>
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_011f9000.h"
 struct B6B610Node;
 struct B6B610Geometry;
 
-extern B6B610Node* g_B6B610Root;
 
 B6B610Geometry* __cdecl FUN_00a7fc00(void* a, void* b, void* c, B6B610Node* root, void* d, void* e, void* h, void* i);
 
 class B6B610Wrapper
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 
     B6B610Wrapper(B6B610Geometry* geometry, void* f, void* g);
 
@@ -39,8 +38,10 @@ class B6B610Wrapper
 B6B610Wrapper* __cdecl CreateWrapperFromGeometry(void* apArg1, void* apArg2, void* apArg3, void* apArg4, void* apArg5,
                                                  void* apArg6, void* apArg7, void* apArg8, void* apArg9)
 {
-    B6B610Geometry* geometry = FUN_00a7fc00(apArg1, apArg2, apArg3, g_B6B610Root, apArg4, apArg5, apArg8, apArg9);
+    B6B610Geometry* geometry = FUN_00a7fc00(apArg1, apArg2, apArg3, (*reinterpret_cast<::B6B610Node * *>(&::DAT_011f9508)), apArg4, apArg5, apArg8, apArg9);
     if (geometry)
         return new B6B610Wrapper(geometry, apArg6, apArg7);
     return 0;
 }
+
+#include "generated/data/bsmenu/texture.inc"

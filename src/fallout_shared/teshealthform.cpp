@@ -1,5 +1,14 @@
 // fallout_shared/teshealthform.cpp: TESHealthForm, HealthComponentComparison (7 functions)
 
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00402000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
 #include "teshealthform_decls.h"
 
 static const int kInitializeDataComponentValue1 = 100;
@@ -14,7 +23,7 @@ void TESHealthForm::InitializeComponent()
 // @fnv 0x004873d0
 unsigned int TESHealthForm::GetBaseHealth(TESForm* form)
 {
-    TESHealthForm* health = GetFormAsHealthForm(form);
+    TESHealthForm* health = ((::TESHealthForm *)(::GetHealthForm(form)));
     if (health)
         return health->GetHealth();
     else
@@ -22,15 +31,14 @@ unsigned int TESHealthForm::GetBaseHealth(TESForm* form)
 }
 
 extern int DAT_0101abd8;
-void __fastcall FUN_0047b540(void* pThis);
 
 // Initialises a BaseFormComponent: runs the base constructor, installs the vtable from DAT_0101abd8, calls FUN_0047b540, and returns pThis.
 // @fnv 0x004871d0
-void* __fastcall FUN_004871d0(BaseFormComponent* pThis)
+void* FUN_004871d0(BaseFormComponent* pThis)
 {
-    pThis->BaseFormComponent::BaseFormComponent();
+    ::FUN_00402d30((int *)(pThis));
     *(int**)pThis = &DAT_0101abd8;
-    FUN_0047b540(pThis);
+    reinterpret_cast<::TESHealthForm *>((pThis))->InitializeComponent();
     return pThis;
 }
 
@@ -41,17 +49,16 @@ struct FUN_00487200_shell : public TESHealthForm
 
 struct TESFile_Access
 {
-    void InitializeComponent();
 };
 
 // @fnv 0x00487200
 void FUN_00487200_shell::FUN_00487200()
 {
     *reinterpret_cast<const char**>(this) = " rH";
-    reinterpret_cast<TESFile_Access*>(this)->InitializeComponent();
+    reinterpret_cast<::TESForm *>((reinterpret_cast<TESFile_Access*>(this)))->ClearData();
 }
 
-unsigned int __fastcall _FNV_GetFormType(void* pForm);
+unsigned int _FNV_GetFormType(void* pForm);
 
 struct TESHealthForm_Dummy
 {
@@ -164,7 +171,6 @@ struct FUN_00487240_shell : public TESHealthForm
 
 struct TESRaceForm
 {
-    void Initialize(unsigned int);
 };
 // @fnv 0x00487240
 void FUN_00487240_shell::CopyHealthForm(BaseFormComponent* apCopyFC)
@@ -172,7 +178,7 @@ void FUN_00487240_shell::CopyHealthForm(BaseFormComponent* apCopyFC)
     TESHealthForm* pCopy = dynamic_cast<TESHealthForm*>(apCopyFC);
     if (!pCopy)
         return;
-    ((TESRaceForm*)this)->Initialize(pCopy->m_uiHealthValue);
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(pCopy->m_uiHealthValue));
 }
 
 class HealthComponentComparison : public TESHealthForm

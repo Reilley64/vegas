@@ -2,43 +2,52 @@
 // src/staging/blk_008e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_01012000.h"
 #include "../../include/layout_support.h"
 
 struct FUN_008e95a0_Class
 {
+    char pad[0xbd];
+    char unkbd;
     char GetByteAtBD();
 };
 
 // @fnv 0x008e95a0
 char FUN_008e95a0_Class::GetByteAtBD()
 {
-    return *(char*)((char*)this + 0xbd);
+    return unkbd;
 }
 
 struct FUN_008e95e0_Class
 {
-    unsigned char __thiscall GetByteAtOffsetC0();
+    char pad[0xc0];
+    unsigned char unkc0;
+    unsigned char GetByteAtOffsetC0();
 };
 
 // @fnv 0x008e95e0
-unsigned char __thiscall FUN_008e95e0_Class::GetByteAtOffsetC0()
+unsigned char FUN_008e95e0_Class::GetByteAtOffsetC0()
 {
-    return *(unsigned char*)((char*)this + 0xc0);
+    return unkc0;
 }
 
 struct FUN_008e9600_Class
 {
+    char pad[0xc2];
+    char unkc2;
     void SetByteAtOffsetC2(char value);
 };
 
 // @fnv 0x008e9600
 void FUN_008e9600_Class::SetByteAtOffsetC2(char value)
 {
-    ((char*)this)[0xc2] = value;
+    unkc2 = value;
 }
 
 class SlotHost;
-extern float DAT_01012054;
 class SlotHost
 {
   public:
@@ -223,7 +232,7 @@ bool FUN_008f3550_cls::FUN_008f3550(SlotHost* a1, int a2)
         return false;
     }
     this->vf294(a1);
-    if (p->vf13c(a1, 0, DAT_01012054, 0) || a1->vf214() == 9)
+    if (p->vf13c(a1, 0, ::DAT_01012054, 0) || a1->vf214() == 9)
     {
         this->vf118(1);
         return false;

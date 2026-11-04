@@ -1,12 +1,15 @@
+#include <cstddef>
 // bsshader/geometrydecalshader_decls.h: declares NiMemObject, NiRefObject, NiD3DPixelShader, NiD3DVertexShader, NiD3DPass and more
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
+#include <windows.h>
+#include "fnv/decl/FUN_00be1750_shell.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_010a1000.h"
 
 class NiMemObject
 {
   public:
-    void* operator new(unsigned int size);
 };
 
 class NiRefObject : public NiMemObject
@@ -67,6 +70,7 @@ template <class T> class NiPointer
     }
 };
 
+template <class> class NiPointer;
 class NiD3DPass
 {
   public:
@@ -85,6 +89,10 @@ class NiD3DPass
         if (!m_uiRefCount)
             DestroyPass();
     }
+public:
+    bool ApplyRenderStateChanges(bool);
+public:
+    static void CreateD3DPass(::NiPointer< ::NiD3DPass> &);
 };
 
 class GraphicsRenderer;
@@ -208,11 +216,7 @@ class NiD3DShaderConstantMap : public NiRefObject
 };
 
 extern const char DAT_010bb750[];
-extern "C" const char DAT_010A1E50[];
-extern const char kSkinWorldViewProjTranspose[];
-extern const char kBoneMatrix3[];
 extern const char DAT_010bb744[];
-extern const char g_011c72c0_arg1[];
 extern const float DAT_012021d0[];
 extern const float DAT_012021c0[];
 
@@ -234,11 +238,6 @@ class BSShader : public NiRefObject
     int m_iPassId;
 
     BSShader();
-    static void GetShaderPath(const char* source, char* output);
-    NiD3DVertexShader* CompileVertexShader(const char* path, const _D3DXMACRO* macros, const char* profile,
-                                           const char* output);
-    NiD3DPixelShader* CompilePixelShader(const char* path, const _D3DXMACRO* macros, const char* profile,
-                                         const char* output);
 };
 
 class GeometryDecalShader : public BSShader

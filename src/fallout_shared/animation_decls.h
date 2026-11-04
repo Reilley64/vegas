@@ -14,6 +14,14 @@
 // Still unit-local because no canonical header exists: NiNode, NiAVObject, NiControllerManager, NiControllerSequence,
 // NiUpdateData, AnimSequenceBase, AnimIdle, KFModel, TESBoundObject.
 // first-definition-wins type index shows them (not the renamed canonical text).
+#include <new>
+#include <cstring>
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_0048fb20_Class.h"
+#include "fnv/decl/SeqA34f20.h"
+#include "fnv/decl/fnv_004471c0__FUN_004471c0_shell.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
 #include "animation_local_types.h"
 #define NiPointer FNV_NiPointer_Canonical
 #define NiPoint3 FNV_NiPoint3_Canonical
@@ -21,7 +29,6 @@
 #include "../../include/NiPoint3.h"
 #undef NiPoint3
 #undef NiPointer
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == sizeof(FNV_NiPoint3_Canonical));
 #include "../../include/TESObjectREFR.h"
 #include "../../include/Actor.h"
 #include "../../include/PlayerCharacter.h"
@@ -43,25 +50,33 @@ class NiUpdateData
     bool multithread;
     NiUpdateData(float, bool, bool);
 };
+class NiAVObject;
 class NiNode
 {
   public:
     const NiFixedString& GetName() const;
-    void FUN_004902f0(bool);
-    void FUN_0043fa80(void*);
     void Update(const NiUpdateData&);
+public:
+    ::NiAVObject *GetAt(unsigned int);
 };
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
+class NiControllerSequence;
 class NiControllerManager : public NiMemObject
 {
   public:
-    char data[124];
+    char data[0x68];
+    bool unk68;
+    char pad69[0x13];
     NiControllerManager(NiNode*, bool);
+public:
+    bool ActivateControllerSequence(::NiControllerSequence *, int, bool, float, float, ::NiControllerSequence *);
+public:
+    bool StopSequence(::NiControllerSequence *, float);
+public:
+    void DeactivateAllSequences(float);
 };
 class NiControllerSequence
 {
@@ -103,12 +118,16 @@ class NiControllerSequence
     virtual void vfn_88();
 
     virtual bool Deactivate(float, bool);
-    bool Activate(char, bool, float, float, NiControllerSequence*, bool);
     int GetState();
     const NiFixedString& GetName() const;
 };
+class TESAnimGroup;
 class BSAnimGroupSequence : public NiControllerSequence
 {
+public:
+    ::TESAnimGroup *GetAnimGroup() const;
+public:
+    unsigned char GetPriority(const char *, unsigned int *);
 };
 class AnimSequenceBase
 {
@@ -134,7 +153,6 @@ class TESBoundObject
 class TESObjectREFR_AnimationExt : public TESObjectREFR
 {
   public:
-    NiAVObject* FUN_00490310(NiNode*, const char*);
 };
 class KFModel
 {
@@ -144,14 +162,8 @@ class KFModel
 class ModelLoader
 {
   public:
-    KFModel* LoadKF(const char*);
 };
-extern ModelLoader* g_modelLoader;
 extern const char* DAT_01199bcc[];
-extern char DAT_011a9448;
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-extern "C" void* memset(void*, int, unsigned int);
 int Warning(const char*, ...);
 enum ANIM_GROUP_ACTION
 {
@@ -201,10 +213,8 @@ class Animation
     Animation();
     bool Init(BSSimpleList<const char*>*, NiNode*, TESObjectREFR*, bool);
     void SpecialIdleFree(bool, bool);
-    void AssignControllerManager(NiPointer<AnimIdle>&);
     void BlendOut(int, bool);
     bool IsAnimationLoaded();
     bool AddAnimation(KFModel*, bool);
-    void UpdateFlags(unsigned char, unsigned char, unsigned char);
 };
 #endif

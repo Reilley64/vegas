@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPGENERICCONSTRAINTDATASCHEMECONSTRAINTINFO_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpGenericConstraintDataSchemeConstraintInfo
 {
   public:
@@ -13,7 +12,4 @@ class hkpGenericConstraintDataSchemeConstraintInfo
     hkInt32 m_iSolverResultCount;            // +0x8
     hkInt32 m_iSolverElementTemporaryCount;  // +0xC
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpGenericConstraintDataSchemeConstraintInfo
-    [(sizeof(hkpGenericConstraintDataSchemeConstraintInfo) == 0x10) ? 1 : -1];
 #endif

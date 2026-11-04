@@ -2,11 +2,27 @@
 #ifndef FNV_TESTOPICINFO_H
 #define FNV_TESTOPICINFO_H
 
+#include <cstdint>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_004610d0_shell.h"
+#include "fnv/decl/FUN_00508d70_shell.h"
+#include "fnv/decl/FUN_00619a70_shell.h"
+#include "fnv/decl/FUN_0061cdc0_shell.h"
+#include "fnv/decl/FUN_0061cfd0_shell.h"
+#include "fnv/decl/FUN_0061e600_t.h"
+#include "fnv/decl/FUN_0061f170_cls.h"
+#include "fnv/decl/FUN_0061f260_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/TopicFlagStandIn.h"
+#include "fnv/decl/fnv_0087ce80__FUN_0087ce80_shell.h"
+#include "fnv/symbols_00619000.h"
+#include "fnv/symbols_0061a000.h"
+#include "fnv/symbols_009e3000.h"
 #include "layout_support.h"
 #include "PerkEntryConditionSet.h"
 #include "TESForm.h"
 #include "TopicInfoData.h"
-#pragma pack(push, 4)
 class TESTopicInfo : public TESForm
 {
   public:
@@ -25,49 +41,21 @@ class TESTopicInfo : public TESForm
     unsigned long m_ulTopicFlags;               // +0x4C
     TESQuest* GetParentQuest();
     void AddTopicList();
-    void RunResultScript(bool, MobileObject*);
     bool IsNew();
-    bool IsRefusal();
-    bool HasPrompt();
-    const BSStringT<char>& GetPrompt();
-    bool IsSayOnceADay();
-    bool IsRandomEnd();
-    bool IsRandom();
     bool FUN_0083ec10();
-    bool IsInfoValidForDialogue(bool& deferred, TESQuest* quest, TESObjectREFR* speaker, TESObjectREFR* listener);
-    TESTopicInfoData* GetConversationData();
-    Script* GetResultScript(unsigned int onEnd);
-    bool HasResultScript();
+    Script* GetResultScript(uintptr_t onEnd);
     TESTopicInfo(DIALOGUE_TYPE type);
-    void SetRandom(bool random);
     void SetTopicInfoData(TESTopicInfoData* data);
     virtual void InitializeComponent();
     virtual void ClearData();
-    unsigned short GetInfoIndex();
-    PerkEntryConditionSet* GetInfoConditions();
     void SetOwnerTopic(TESTopic* owner);
     void ResetResponseList();
     void ClearResponses();
     BSSimpleList<TESTopic*>* GetAddTopicList();
-    void SetPrompt(const char* prompt);
-    void SetSpeaker(TESActorBase* speaker);
-    void SetActorValue(ActorValueInfo* value);
-    void SetPerk(BGSPerk* perk);
-    void SetDifficultyLevel(SPEECH_CHALLENGE_LEVEL difficulty);
     virtual bool LoadForm(TESFile* file);
+public:
+    void MarkAsRefusal();
+public:
+    bool IsChallengeFlagSet();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESTopicInfo) == 0x50);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_kInfoConditions) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_uiInfoIndex) == 0x20);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_bGoodbye) == 0x22);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_Data) == 0x23);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_kPrompt) == 0x28);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_kAddTopicList) == 0x30);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_pResponseData) == 0x38);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_pDialogueSpeaker) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_pPerkSkillStat) == 0x40);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_eDifficultyLevel) == 0x44);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_pOwnerQuest) == 0x48);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_ulTopicFlags) == 0x4C);
 #endif

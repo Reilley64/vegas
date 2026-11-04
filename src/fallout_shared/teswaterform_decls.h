@@ -3,6 +3,22 @@
 #define FNV_TESWATERFORM_DECLS_H
 
 
+#include "fnv/decl/FUN_00404390_shell.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101b000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01031000.h"
 #define IsFormInitialized                                                                                              \
     unusedWaterDeclaration();                                                                                          \
     unsigned int GetDataSizeAdjustment();                                                                              \
@@ -20,8 +36,6 @@ class EffectItem
 {
   public:
     int GetAffectedActorValue();
-    int GetMagnitude();
-    EffectSetting* GetEffectSetting();
 };
 struct WaterListPrefix
 {
@@ -57,43 +71,25 @@ class TESFormInitFlag
 class EffectSetting
 {
   public:
-    bool IsFlagSet(unsigned int);
     void SetEnchantEffectShader(TESEffectShader*);
 };
-TESForm* __cdecl GetFormByID(unsigned int);
-int __cdecl Warning(const char*, ...);
 extern "C" void* __cdecl __RTDynamicCast(void*, long, void*, void*, int);
 extern int DAT_01184118;
 
-extern float g_splatterDefaultSecond;
-extern float DAT_010249d8;
-extern float DAT_0101b268;
-extern float DAT_010313d4;
-extern float DAT_01013974;
-extern float DAT_01018180;
 extern float DAT_010231a4;
-extern float DAT_010162c0;
-extern float DAT_010231a8;
-extern float DAT_010181bc;
-extern float DAT_01013d84;
-extern float DAT_0101b2d0;
-extern float DAT_01022958;
 
 class BGSImpactData
 {
   public:
-    void ReadTypedData(TESFile*, void*, unsigned short);
 };
 class TESFullName;
 class TESTexture;
 class TESTextureLoader
 {
   public:
-    static void ReadTextureData(TESTexture*, TESFile*);
 };
 template <int N> struct EndianSizeTag
 {
 };
-void BSEndian(unsigned int*, EndianSizeTag<4>);
 #include <malloc.h>
 #endif

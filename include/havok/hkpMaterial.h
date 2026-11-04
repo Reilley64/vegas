@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPMATERIAL_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpMaterial
 {
   public:
@@ -21,6 +20,4 @@ class hkpMaterial
     hkReal m_fSlipAngle;   // +0x4
     hkReal m_fElasticity;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMaterial[(sizeof(hkpMaterial) == 0xC) ? 1 : -1];
 #endif

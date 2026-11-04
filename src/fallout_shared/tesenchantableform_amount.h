@@ -3,6 +3,9 @@
 #define FNV_TESENCHANTABLEFORM_AMOUNT_H
 
 
+#include "fnv/decl/Callees.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
 #include "BaseFormComponent.h"
 
 class EnchantmentItem;
@@ -16,7 +19,6 @@ enum MagicSystemCastingType
     MAGIC_SYSTEM_CASTING_COUNT = 4
 };
 
-#pragma pack(push, 4)
 class TESEnchantableForm : public BaseFormComponent
 {
   public:
@@ -31,7 +33,6 @@ class TESEnchantableForm : public BaseFormComponent
     unsigned char paddingA[2];
     MagicSystemCastingType m_eCastingType;
 };
-#pragma pack(pop)
 
 #include "tesenchantableform_decls.h"
 
@@ -39,21 +40,25 @@ class TESEnchantableForm : public BaseFormComponent
 EnchantmentItem* TESEnchantableForm::FindFormEnchantment(TESForm* form)
 {
     TESEnchantableForm* enchantable = dynamic_cast<TESEnchantableForm*>(form);
-    return enchantable ? (EnchantmentItem*)((BSSimpleList<BGSPerkEntry*>*)enchantable)->GetNext() : 0;
+    return enchantable ? (EnchantmentItem*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)enchantable)))->FUN_00726070())) : 0;
 }
 
+class TESForm;
 class EnchantmentItem : public TESForm
 {
   public:
-    bool FUN_004094f0(TESForm* owner);
     char _pdbpad_18[28];
     char data[16];
+public:
+    bool IsValidObject(::TESForm *);
 };
+class BGSCameraShot;
+template <class> class BSSimpleList;
 class BGSCameraPath
 {
   public:
     int HasNameForWarning();
+public:
+    ::BSSimpleList< ::BGSCameraShot *> *GetShotList();
 };
-TESForm* GetFormByID(unsigned int formID);
-int Warning(const char* format, ...);
 #endif

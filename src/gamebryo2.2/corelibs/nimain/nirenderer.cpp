@@ -2,6 +2,16 @@
 // src/gamebryo2.2/corelibs/nimain/nirenderer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nirenderer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a58000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0101a000.h"
+#include "fnv/symbols_011f4000.h"
 struct NiRenderer
 {
     static NiRenderer* ms_pRenderer;
@@ -13,48 +23,42 @@ void __cdecl FUN_00a62ae0()
     NiRenderer::ms_pRenderer = 0;
 }
 
-extern char const* const g_0126f0f0_arg1;
 
 // @fnv 0x00a62b50
 char const* const* __cdecl FUN_00a62b50()
 {
-    return &g_0126f0f0_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f4758));
 }
 
 void __cdecl FUN_00a62b60();
-void __cdecl _delete(void* p, unsigned int flags);
 struct FUN_00a63230_shell
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 // Calls FUN_00a62b60, then if flags has bit 1 set frees this with size 0x280, and returns this.
 // @fnv 0x00a63230
-void* __thiscall FUN_00a63230_shell::Destroy(unsigned int flags)
+void* FUN_00a63230_shell::Destroy(unsigned int flags)
 {
     FUN_00a62b60();
     if (flags & 1)
-        _delete(this, 0x280);
+        ::FUN_00aa1460(this, 0x280);
     return this;
 }
 
 struct StrArr
 {
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
 };
-void __stdcall AppendCameraPathEntries(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
 // Appends the string returned by _FUN_00a7d330 to the StrArr, growing its size when it is full.
 // @fnv 0x00a63260
-void __stdcall FUN_00a63260(StrArr* pkStrings)
+void FUN_00a63260(StrArr* pkStrings)
 {
-    AppendCameraPathEntries(pkStrings);
-    char* psz = _FUN_00a7d330(g_0126f0f0_arg1);
+    reinterpret_cast<::A5D6E0This *>((pkStrings))->AppendCameraPathEntries({});
+    char* psz = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4758)));
     unsigned int uSize = *(unsigned short*)((char*)pkStrings + 0xA);
     unsigned int uMax = *(unsigned short*)((char*)pkStrings + 8);
     if (uSize >= uMax)
-        pkStrings->SetSize(uSize + *(unsigned short*)((char*)pkStrings + 0xE));
-    pkStrings->SetAt(uSize, psz);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uSize + *(unsigned short*)((char*)pkStrings + 0xE));
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uSize, psz);
 }
 
 struct CriticalSectionA62
@@ -67,8 +71,6 @@ struct CriticalSectionA62
     int m_spinCount;
 };
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(CriticalSectionA62* cs) throw();
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p) throw();
 
 class FUN_00a5d3d0
 {
@@ -127,7 +129,7 @@ class NiCriticalSectionA62
     int unk7C;
     ~NiCriticalSectionA62() throw()
     {
-        DeleteCriticalSection(&m_kCriticalSection);
+        DeleteCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCriticalSection));
     }
 };
 
@@ -184,7 +186,6 @@ FUN_00a62b60::~FUN_00a62b60()
 
 #include <math.h>
 extern float DAT_0109bb88;
-extern const double DAT_0101a6b0;
 
 class NiPoint3
 {
@@ -199,7 +200,6 @@ class NiPoint3
     NiPoint3(float fX, float fY, float fZ) : x(fX), y(fY), z(fZ)
     {}
     // NiPoint3::Unitize
-    __declspec(noalias) void __thiscall FUN_004a0c10();
     NiPoint3 operator+(const NiPoint3& pt) const
     {
         NiPoint3 r;
@@ -258,7 +258,7 @@ class NiPoint3
 struct ThreeByThreeMatrix
 {
     float m[3][3];
-    void __thiscall FUN_004168a0(float angle, float x, float y, float z);
+    void FUN_004168a0(float angle, float x, float y, float z);
     void MakeAxisAngleRotation(float angle, const NiPoint3& axis)
     {
         FUN_004168a0(angle, axis.x, axis.y, axis.z);
@@ -268,6 +268,8 @@ struct ThreeByThreeMatrix
         return NiPoint3(m[0][0] * p.x + m[0][1] * p.y + m[0][2] * p.z, m[1][0] * p.x + m[1][1] * p.y + m[1][2] * p.z,
                         m[2][0] * p.x + m[2][1] * p.y + m[2][2] * p.z);
     }
+public:
+    void MakeAxisAngleRotation(float, float, float, float);
 };
 
 // NiACos: inlined until the inline budget runs out, called after that
@@ -299,8 +301,8 @@ bool __cdecl FUN_00a62be0(const NiPoint3** basis, const NiPoint3* apCenter, cons
         const NiPoint3* current = basis[0];
         const NiPoint3& currentNormal = *current;
         NiPoint3 axis = direction.Cross(*basis[0]);
-        axis.FUN_004a0c10();
-        rotMatrix.FUN_004168a0(AcosClamped(currentNormal * direction), axis.x, axis.y, axis.z);
+        reinterpret_cast<::FUN_004a0c10_s *>(&(axis))->FUN_004a0c10();
+        reinterpret_cast<::ThreeByThreeMatrix *>(&(rotMatrix))->MakeAxisAngleRotation(AcosClamped(currentNormal * direction), axis.x, axis.y, axis.z);
         const NiPoint3& basisRight = *basis[1];
         right = rotMatrix.FUN_004b4500(basisRight);
         normal = basis[2];
@@ -310,27 +312,27 @@ bool __cdecl FUN_00a62be0(const NiPoint3** basis, const NiPoint3* apCenter, cons
     {
         direction = target->Sub(*center);
         right = NiPoint3(0.0f, 0.1f, 1.0f);
-        right.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(right))->FUN_004a0c10();
         up = right.Cross(direction);
-        up.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(up))->FUN_004a0c10();
         right = up.Cross(direction);
-        right.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(right))->FUN_004a0c10();
     }
     else
     {
         NiPoint3 delta = *target - *center;
-        delta.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(delta))->FUN_004a0c10();
         direction = *normal + delta;
-        direction.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
         const NiPoint3& currentNormal = *basis[0];
         NiPoint3 axis = direction.Cross(*basis[0]);
-        axis.FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>(&(axis))->FUN_004a0c10();
         float angle = AcosClamped(direction * currentNormal);
         rotMatrix.MakeAxisAngleRotation(angle, axis);
         right = rotMatrix.FUN_004b4500(*basis[1]);
         up = rotMatrix.FUN_004b4500(*basis[2]);
     }
-    direction.FUN_004a0c10();
+    reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
     corners[0] = center->Add(up * (float)(width * 0.5));
     corners[1] = center->Sub(up * (float)(width * 0.5));
     corners[2] = center->Add(right * (float)(width * 0.5));
@@ -339,3 +341,5 @@ bool __cdecl FUN_00a62be0(const NiPoint3** basis, const NiPoint3* apCenter, cons
     axes[1] = up;
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nirenderer.inc"

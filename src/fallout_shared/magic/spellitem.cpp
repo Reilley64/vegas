@@ -1,5 +1,18 @@
 // fallout_shared/magic/spellitem.cpp: SpellItem, MagicItem (15 functions)
 
+#include "fnv/decl/ActorValueOwner.h"
+#include "fnv/decl/Class005a6b10.h"
+#include "fnv/decl/FUN_00409480_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S_004063e0.h"
+#include "fnv/decl/Twin_00639b40.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00649000.h"
+#include "fnv/symbols_009e3000.h"
+#include "fnv/symbols_01183000.h"
 #include "spellitem_decls.h"
 
 // Resets spellType, cost, level and flags to 0, -1, 0 and 0.
@@ -13,23 +26,22 @@ void SpellItem::ResetFormData()
 }
 
 // @fnv 0x0040e280
-int __fastcall FUN_0040e280(int thisPtr)
+int FUN_0040e280(int thisPtr)
 {
     return 0x54495053;
 }
 
 struct FUN_0040e500_shell
 {
-    void SetValue(int value);
+    void SetValue(std::intptr_t value);
 };
 
 // @fnv 0x0040e500
-void FUN_0040e500_shell::SetValue(int value)
+void FUN_0040e500_shell::SetValue(std::intptr_t value)
 {
     *reinterpret_cast<int*>(this + 0x38) = value;
 }
 
-void __cdecl _Deallocate(void* p);
 
 struct FUN_0040e290_shell
 {
@@ -37,19 +49,9 @@ struct FUN_0040e290_shell
     void* DestroyIfFlagged(unsigned int flags);
 };
 
-// Calls FUN_0040e2c0, frees this via _Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x0040e290
-void* FUN_0040e290_shell::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_0040e2c0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FlaggedData
 {
-    int __thiscall ContainsAnyFlag(unsigned int);
+    int ContainsAnyFlag(unsigned int);
 };
 
 struct FUN_0040e670_shell
@@ -89,7 +91,7 @@ struct FUN_0040e1e0_shell
 };
 // Returns true when the object at this-0x18 reports false for the argument 1.
 // @fnv 0x0040e1e0
-bool __thiscall FUN_0040e1e0_shell::FUN_0040e1e0()
+bool FUN_0040e1e0_shell::FUN_0040e1e0()
 {
     return !(unsigned char)((FlaggedData*)((char*)this - 0x18))->ContainsAnyFlag(1);
 }
@@ -108,7 +110,6 @@ class TESForm40E
 {
   public:
     virtual ~TESForm40E();
-    void SetFormType(int eType);
 
     int unk04;
     int unk08;
@@ -148,15 +149,14 @@ class FUN_0040e160 : public MagicItemForm40E
     FUN_0040e160();
     virtual ~FUN_0040e160();
 
-    void InitItem();
 };
 
 // Sets the form type to 0x14 and calls InitItem to initialize the magic item form.
 // @fnv 0x0040e160
 FUN_0040e160::FUN_0040e160()
 {
-    SetFormType(0x14);
-    InitItem();
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(0x14);
+    reinterpret_cast<::SpellItem *>(this)->ResetFormData();
 }
 
 // Secondary-interface override: the speaker sound when the info is flagged, otherwise a sound picked
@@ -164,14 +164,11 @@ FUN_0040e160::FUN_0040e160()
 
 class E600Sound;
 
-E600Sound* __cdecl E600PickSound(float fValue);
 
 class E600Info
 {
   public:
     virtual ~E600Info();
-    bool HasFlag(int iFlag);
-    E600Sound* GetSpeaker();
     int unk04;
     int unk08;
     int unk0C;
@@ -200,10 +197,10 @@ class E600TopicInfo : public E600Info, public E600SoundSource
 // @fnv 0x0040e600
 E600Sound* E600TopicInfo::FUN_0040e600()
 {
-    if (HasFlag(1))
-        return GetSpeaker();
+    if (((bool)(reinterpret_cast<::FlaggedData *>(this)->ContainsAnyFlag(1))))
+        return ((::E600Sound *)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint()));
     else
-        return E600PickSound(GetValue(0));
+        return ((::E600Sound *)(std::uintptr_t)(::GetBandIndex(GetValue(0))));
 }
 
 class FormPart40E
@@ -240,7 +237,6 @@ class MagicItemObject40E : public FormPart40E, public NamePart40E, public Effect
   public:
     virtual ~MagicItemObject40E();
 
-    void ClearData();
 };
 
 class FUN_0040e2c0 : public MagicItemObject40E
@@ -248,11 +244,20 @@ class FUN_0040e2c0 : public MagicItemObject40E
   public:
     virtual ~FUN_0040e2c0();
 };
+// Calls FUN_0040e2c0, frees this via _Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x0040e290
+void* FUN_0040e290_shell::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0040e2c0 *>(this)->FUN_0040e2c0::~FUN_0040e2c0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x0040e2c0
 FUN_0040e2c0::~FUN_0040e2c0()
 {
-    ClearData();
+    reinterpret_cast<::SpellItem *>(this)->ClearData();
 }
 
 struct TESForm
@@ -263,8 +268,6 @@ struct TESForm
     int unk0C;
     int unk10;
     int unk14;
-    int GetA();
-    int GetB();
 };
 
 struct MagicBase
@@ -275,7 +278,7 @@ struct MagicBase
     virtual void s3();
     virtual void s4();
     virtual void s5();
-    virtual int s6();
+    virtual std::intptr_t s6();
     virtual bool FUN_0040e3c0(class MagicItem* p);
     int unk04;
     int unk08;
@@ -304,18 +307,15 @@ bool MagicItem::FUN_0040e3c0(MagicItem* apItem)
     {
         return true;
     }
-    if (a->s6() != s6() || a->GetA() != GetA() || a->GetB() != GetB() || a->m_40 != m_40)
+    if (a->s6() != s6() || ::GetField38((char *)(a)) != ::GetField38((char *)this) || ((std::intptr_t)(reinterpret_cast<::Twin_00639b40 *>((a))->GetEntryPoint())) != ((int)(std::uintptr_t)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())) || a->m_40 != m_40)
     {
         return true;
     }
     return false;
 }
 
-bool FUN_00401500();
-void __cdecl AppendChunk(int iValue, void* pData, int iSize);
 struct SubE360
 {
-    void FUN_005a6b10();
 };
 struct PadE360
 {
@@ -349,11 +349,11 @@ struct ObjE360 : PadE360, IfaceE360
 // @fnv 0x0040e360
 void ObjE360::FUN_0040e360()
 {
-    if (FUN_00401500())
-        m_sub.FUN_005a6b10();
-    AppendChunk(GetValue(), &m_sub, 0x10);
-    if (FUN_00401500())
-        m_sub.FUN_005a6b10();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::Class005a6b10 *>(&(m_sub))->FUN_005a6b10();
+    ::AppendChunk(GetValue(), &m_sub, 0x10);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::Class005a6b10 *>(&(m_sub))->FUN_005a6b10();
 }
 
 struct Actor;
@@ -369,18 +369,12 @@ struct MagicEffectKind
 };
 struct SpellData
 {
-    bool FUN_0040e210(int flag);
-    int GetField38();
 };
 struct ActorValues
 {
-    int FUN_0066ef20(int id);
 };
-float __cdecl ScaleBySettingBlend(float cost, int value, int adjustment);
 struct FUN_0040e520_shell
 {
-    int FUN_004065e0();
-    float GetTotalCost(Actor* caster);
     float FUN_0040e520(Actor* caster);
 };
 // @fnv 0x0040e520
@@ -391,41 +385,35 @@ float FUN_0040e520_shell::FUN_0040e520(Actor* caster)
                               ((MagicEffectKind*)((char*)this - 12))->GetType() == 3)
                                  ? 0
                                  : caster;
-    if (((SpellData*)((char*)this - 36))->FUN_0040e210(1))
+    if (((bool)(reinterpret_cast<::FlaggedData *>((((SpellData*)((char*)this - 36))))->ContainsAnyFlag(1))))
     {
-        cost = (float)((SpellData*)((char*)this - 36))->GetField38();
+        cost = (float)::GetField38((char *)(((SpellData*)((char*)this - 36))));
         if (effectiveCaster)
         {
             cost =
-                ScaleBySettingBlend(cost, ((ActorValues*)((char*)effectiveCaster + 0xa4))->FUN_0066ef20(FUN_004065e0()),
-                                    ((ActorValues*)((char*)effectiveCaster + 0xa4))->FUN_0066ef20(11));
+                ::ScaleBySettingBlend(cost, reinterpret_cast<::ActorValueOwner *>((((ActorValues*)((char*)effectiveCaster + 0xa4))))->GetActorValueAsInteger((::ActorValue::Index)(::FUN_004065e0((::EffectItemList_shell *)this))));
         }
     }
     else
     {
-        cost = GetTotalCost(effectiveCaster);
+        cost = reinterpret_cast<::S_004063e0 *>(this)->GetTotalCost(effectiveCaster);
     }
     return cost;
 }
 
-extern char DAT_01183060;
-extern char DAT_01183140;
 extern "C" void* __cdecl _FNV_DynamicCast(void*, int, void*, void*, int);
 class TESActorBase;
 class TESTopicInfo
 {
   public:
-    TESActorBase* GetSpeaker();
 };
 struct SpeakerSink40E
 {
-    void FUN_00409480(TESActorBase* value);
 };
 
 struct CopySource40E : TESForm, MagicBase
 {
     unsigned char flags;
-    int GetField38();
 };
 struct CopyOwner40E;
 struct CopyPart40E
@@ -445,18 +433,17 @@ struct CopyPart40E
 };
 struct CopyOwner40E : TESForm, CopyPart40E
 {
-    void FUN_008d7dc0(int value);
     virtual void FUN_0040e470(MagicItem* input);
 };
 // Passes source values to setters, assigns the value returned by GetSpeaker, and copies the source flags.
 // @fnv 0x0040e470
 void CopyOwner40E::FUN_0040e470(MagicItem* apSource)
 {
-    CopySource40E* source = static_cast<CopySource40E*>(_FNV_DynamicCast(apSource, 0, &DAT_01183140, &DAT_01183060, 0));
+    CopySource40E* source = static_cast<CopySource40E*>(_FNV_DynamicCast(apSource, 0, &(*reinterpret_cast<char *>(&::DAT_01183140)), &(*reinterpret_cast<char *>(&::DAT_01183060)), 0));
     if (source == 0)
         return;
-    FUN_008d7dc0(source->s6());
-    reinterpret_cast<FUN_0040e500_shell*>(this)->SetValue(source->GetField38());
-    reinterpret_cast<SpeakerSink40E*>(this)->FUN_00409480(reinterpret_cast<TESTopicInfo*>(source)->GetSpeaker());
+    reinterpret_cast<::LowProcess *>(this)->SetCurrentBoundObject((::TESBoundObject *)(source->s6()));
+    reinterpret_cast<FUN_0040e500_shell*>(this)->SetValue(::GetField38((char *)(source)));
+    reinterpret_cast<::FUN_00409480_shell *>((reinterpret_cast<SpeakerSink40E*>(this)))->FUN_00409480(((::TESActorBase *)(reinterpret_cast<::Twin_00639b40 *>((reinterpret_cast<TESTopicInfo*>(source)))->GetEntryPoint())));
     flags = source->flags;
 }

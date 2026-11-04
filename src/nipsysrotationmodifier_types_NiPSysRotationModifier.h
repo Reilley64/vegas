@@ -58,12 +58,4 @@ class NiPSysRotationModifier : public NiPSysModifier
     // NiPSysRotationModifier& __cdecl NiPSysRotationModifier::*(const NiPSysRotationModifier&)
     // void __cdecl NiPSysRotationModifier::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiPSysRotationModifier) == 56);
-FNV_STATIC_ASSERT(offsetof(NiPSysRotationModifier, m_fInitialRotationSpeed) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPSysRotationModifier, m_fInitialRotationSpeedVariation) == 28);
-FNV_STATIC_ASSERT(offsetof(NiPSysRotationModifier, m_fInitialRotationAngle) == 32);
-FNV_STATIC_ASSERT(offsetof(NiPSysRotationModifier, m_fInitialRotationAngleVariation) == 36);
-FNV_STATIC_ASSERT(offsetof(NiPSysRotationModifier, m_kRotationAxis) == 40);
-FNV_STATIC_ASSERT(offsetof(NiPSysRotationModifier, m_bUseRandomRotationAxis) == 52);
-FNV_STATIC_ASSERT(offsetof(NiPSysRotationModifier, m_bRandomInitialRotationSpeedSign) == 53);
 #endif

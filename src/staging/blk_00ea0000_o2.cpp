@@ -2,13 +2,34 @@
 // src/staging/blk_00ea0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00ea0820.h"
+#include "fnv/decl/FUN_00eae720.h"
+#include "fnv/decl/FUN_00eb6b90.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/S00eb9fa0_Node.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00eb1000.h"
+#include "fnv/symbols_00eb4000.h"
+#include "fnv/symbols_00eb6000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_010f1000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
 
 struct FUN_00eae690_Class
 {
     char pad[0x18];
     float m_f;
-    char FUN_00eb60e0(const FUN_00eae690_Class& o);
     int FUN_00eae690(const FUN_00eae690_Class& o);
 };
 
@@ -16,7 +37,7 @@ struct FUN_00eae690_Class
 // @fnv 0x00eae690
 int FUN_00eae690_Class::FUN_00eae690(const FUN_00eae690_Class& aOther)
 {
-    if (FUN_00eb60e0(aOther) && !(m_f != aOther.m_f))
+    if (((char)(::FUN_00eb60e0((::FUN_00eb60e0_t *)this, (intptr_t)&(aOther), {}))) && !(m_f != aOther.m_f))
         return 1;
     return 0;
 }
@@ -28,7 +49,7 @@ struct FUN_00eb60e0_t
 
 // Compares the six floats of p and q and returns 1 if all are equal, otherwise 0.
 // @fnv 0x00eb60e0
-int __fastcall FUN_00eb60e0(FUN_00eb60e0_t* p, int, FUN_00eb60e0_t* q)
+int FUN_00eb60e0(FUN_00eb60e0_t* p, intptr_t, FUN_00eb60e0_t* q)
 {
     if (!(p->a[0] != q->a[0] || p->a[1] != q->a[1] || p->a[2] != q->a[2] || p->a[3] != q->a[3] || p->a[4] != q->a[4] ||
           p->a[5] != q->a[5]))
@@ -38,9 +59,7 @@ int __fastcall FUN_00eb60e0(FUN_00eb60e0_t* p, int, FUN_00eb60e0_t* q)
 
 struct MemoryManager
 {
-    void Deallocate(void*);
 };
-extern MemoryManager _g_memoryManager;
 struct Isect
 {
     void FUN_00eae6d0();
@@ -52,7 +71,7 @@ Isect* Isect::FUN_00eaee30(char flag)
 {
     FUN_00eae6d0();
     if (flag & 1)
-        _g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
@@ -108,7 +127,6 @@ struct FUN_00eae9e0_cls
     float unk40;
     float unk44;
 
-    void FUN_00eae720(float a1, float a2, float a3, int a4);
     FUN_00eae9e0_cls* InitFromParams(S_00eae9e0_P1* a1, S_00eae9e0_P2* a2, float a3, float a4, float a5, int a6);
 };
 
@@ -116,7 +134,7 @@ struct FUN_00eae9e0_cls
 FUN_00eae9e0_cls* FUN_00eae9e0_cls::InitFromParams(S_00eae9e0_P1* a1, S_00eae9e0_P2* a2, float a3, float a4, float a5,
                                                    int a6)
 {
-    FUN_00eae720(a3, a4, a5, a6);
+    new ((void *)this) class ::FUN_00eae720(a3, a4, a5, a6);
     unk38 = a1;
     unk00 = (void*)&DAT_010f1aa0;
     unk3c = a2;
@@ -158,13 +176,12 @@ struct FNVRegion
     float axis44;
     float axis48;
     float axis4c;
-    void FUN_00eae720(float x, float y, float z, void* userdata);
-    FNVRegion* InitRegion(void* owner, FNVVectorParameter* bounds, float x, float y, float z, void* userdata);
+    FNVRegion* InitRegion(void* owner, FNVVectorParameter* bounds, float x, float y, float z, int flags);
 };
 // @fnv 0x00eb3c40
-FNVRegion* FNVRegion::InitRegion(void* owner, FNVVectorParameter* bounds, float x, float y, float z, void* userdata)
+FNVRegion* FNVRegion::InitRegion(void* owner, FNVVectorParameter* bounds, float x, float y, float z, int flags)
 {
-    FUN_00eae720(x, y, z, userdata);
+    new ((void *)this) class ::FUN_00eae720(x, y, z, flags);
     bounds3c = bounds;
     vtable = &FUN_00eb3c40_VTable;
     owner38 = owner;
@@ -320,28 +337,15 @@ FUN_00eb5e30::FUN_00eb5e30(S_00eb5e30_Obj* pObj, const S_00eb5e30_V3* pOrigin, c
 
 struct FUN_00aa4060_Class
 {
-    void* __thiscall FUN_00aa4060(void* object);
+    void* FUN_00aa4060(void* object);
 };
 
-extern FUN_00aa4060_Class DAT_011f6238;
 
 struct FUN_00eb6b50_Class
 {
-    void __thiscall FUN_00eb8ab0();
-    int __thiscall FUN_00eb6b50(unsigned char flags);
+    void FUN_00eb8ab0();
+    void* FUN_00eb6b50(unsigned char flags);
 };
-
-// Calls FUN_00eb8ab0, and if bit 0 of flags is set passes this to DAT_011f6238.FUN_00aa4060; returns this as int.
-// @fnv 0x00eb6b50
-int __thiscall FUN_00eb6b50_Class::FUN_00eb6b50(unsigned char flags)
-{
-    this->FUN_00eb8ab0();
-    if ((flags & 1) != 0)
-    {
-        DAT_011f6238.FUN_00aa4060(this);
-    }
-    return reinterpret_cast<int>(this);
-}
 
 class EB8AB0Object
 {
@@ -388,6 +392,17 @@ class FUN_00eb8ab0
     EB8AB0Object* m_pkPrimary;
     EB8AB0Object* m_pkSecondary;
 };
+// Calls FUN_00eb8ab0, and if bit 0 of flags is set passes this to DAT_011f6238.FUN_00aa4060; returns this.
+// @fnv 0x00eb6b50
+void* FUN_00eb6b50_Class::FUN_00eb6b50(unsigned char flags)
+{
+    reinterpret_cast<::FUN_00eb8ab0 *>((this))->FUN_00eb8ab0::~FUN_00eb8ab0();
+    if ((flags & 1) != 0)
+    {
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Class *>(&::g_memoryManager))))->FUN_00aa4060(this);
+    }
+    return this;
+}
 
 // Destructor that deletes m_pkPrimary and, if it was non-null, also deletes m_pkSecondary.
 // @fnv 0x00eb8ab0
@@ -522,7 +537,7 @@ struct Segment3
 float __cdecl DistanceSquaredToSegment(const Vector3& rkPoint, const Segment3& rkSegment, float* pfT)
 {
     Vector3 kDiff = rkPoint - rkSegment.Origin;
-    *pfT = rkSegment.Direction.Dot(kDiff);
+    *pfT = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(rkSegment.Direction))->DotProduct((void *)&(kDiff));
     if (*pfT <= 0.0f)
     {
         *pfT = 0.0f;
@@ -583,7 +598,6 @@ struct Segment3
     Vec3 origin, direction;
 };
 extern float __cdecl FUN_00eaff20(const Segment3*, const Triangle3*, float*, float*, float*);
-extern float __cdecl FUN_00eb1d20(const Segment3*, const Triangle3*, float*, float*, float*);
 // @fnv 0x00eb3230
 float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* aTriB, float* aU, float* aV, float* bU,
                                        float* bV)
@@ -625,7 +639,7 @@ float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* 
 
     segEdge.origin = aTriB->origin;
     segEdge.direction = aTriB->edge0;
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &baryB.bu, &au, &av);
+    candidate = ::fnv_00eb1d20::FUN_00eb1d20((*(const ::fnv_00eb1d20::OriginDirectionPair *)(&segEdge)), (*(const ::fnv_00eb1d20::Triangle3D *)(aTriA)), (*(float *)(&baryB.bu)), (*(float *)(&au)), (*(float *)(&av)));
     baryB.bv = 0.0f;
     if (candidate < fBestDist)
     {
@@ -636,7 +650,7 @@ float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* 
         *bV = baryB.bv;
     }
     segEdge.direction = aTriB->edge1;
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &baryB.bv, &au, &av);
+    candidate = ::fnv_00eb1d20::FUN_00eb1d20((*(const ::fnv_00eb1d20::OriginDirectionPair *)(&segEdge)), (*(const ::fnv_00eb1d20::Triangle3D *)(aTriA)), (*(float *)(&baryB.bv)), (*(float *)(&au)), (*(float *)(&av)));
     baryB.bu = 0.0f;
     if (candidate < fBestDist)
     {
@@ -648,7 +662,7 @@ float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* 
     }
     segEdge.origin = sumVecB(aTriB->edge1, aTriB->origin);
     segEdge.direction = aTriB->edge0;
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &baryB.bu, &au, &av);
+    candidate = ::fnv_00eb1d20::FUN_00eb1d20((*(const ::fnv_00eb1d20::OriginDirectionPair *)(&segEdge)), (*(const ::fnv_00eb1d20::Triangle3D *)(aTriA)), (*(float *)(&baryB.bu)), (*(float *)(&au)), (*(float *)(&av)));
     baryB.bv = 1.0f;
     if (candidate < fBestDist)
     {
@@ -660,7 +674,7 @@ float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* 
     }
     segEdge.origin = sumVec(aTriB->origin, aTriB->edge0);
     segEdge.direction = aTriB->edge1;
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &baryB.bv, &au, &av);
+    candidate = ::fnv_00eb1d20::FUN_00eb1d20((*(const ::fnv_00eb1d20::OriginDirectionPair *)(&segEdge)), (*(const ::fnv_00eb1d20::Triangle3D *)(aTriA)), (*(float *)(&baryB.bv)), (*(float *)(&au)), (*(float *)(&av)));
     if (candidate < fBestDist)
     {
         fBestDist = candidate;
@@ -688,24 +702,17 @@ struct FUN_00eb5f10_Tail
     int unk28;
     int unk2c;
     int unk30;
-    void FUN_00a86bf0();
 };
 struct FUN_00eb5f10_Small
 {
-    FUN_00eb5f10_Small* FUN_00eb6b90(void*, int, int, int, int);
 };
 struct FUN_00eb5f10_Large
 {
-    void* FUN_00eba1b0(void*, unsigned short, int, int, int, int);
+    void* FUN_00eba1b0(void*, unsigned short, int, int, intptr_t, int);
 };
 struct FUN_00eb5f10_Manager
 {
-    void* FUN_00aa3e40(unsigned int);
 };
-extern int _DAT_011f426c;
-extern int _DAT_011f4270;
-extern int _DAT_011f4274;
-extern char UNK_010f1b44;
 struct FUN_00eb5f10_Class
 {
     void** vtable;
@@ -717,42 +724,13 @@ struct FUN_00eb5f10_Class
     int unk18;
     FUN_00eb5f10_Tail unk1c;
     int unk50;
-    FUN_00eb5f10_Class* InitFromKind(unsigned short kind, int arg2, int arg3, int arg4, int arg5);
+    FUN_00eb5f10_Class* InitFromKind(unsigned short kind, intptr_t arg2, intptr_t arg3, intptr_t arg4, int arg5);
 };
-// Allocates an object sized by kind, stores it in unk08, initialises unk04/unk10/unk14/unk18/unk0c/unk50 and calls unk1c.FUN_00a86bf0.
-// @fnv 0x00eb5f10
-FUN_00eb5f10_Class* FUN_00eb5f10_Class::InitFromKind(unsigned short kind, int arg2, int arg3, int arg4, int arg5)
-{
-    vtable = (void**)&UNK_010f1b44;
-    FUN_00eb5f10_Manager* manager = (FUN_00eb5f10_Manager*)&_g_memoryManager;
-    void* object;
-    if (kind > 1)
-    {
-        object = manager->FUN_00aa3e40(0x8c);
-        object = object ? ((FUN_00eb5f10_Large*)object)->FUN_00eba1b0(this, kind, arg2, arg3, arg4, arg5) : 0;
-    }
-    else
-    {
-        object = manager->FUN_00aa3e40(0x98);
-        object = object ? ((FUN_00eb5f10_Small*)object)->FUN_00eb6b90(this, arg2, arg3, arg4, 0) : 0;
-    }
-    unk08 = object;
-    unk04 = 0.0f;
-    unk10 = _DAT_011f426c;
-    unk14 = _DAT_011f4270;
-    unk18 = _DAT_011f4274;
-    unk1c.FUN_00a86bf0();
-    unk0c = 0;
-    unk50 = 0;
-    return this;
-}
-
 struct SphereBound
 {
     Vector3 center;
     float radius;
 };
-extern SphereBound DAT_011f4288;
 struct BoundedObject
 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
@@ -767,7 +745,7 @@ inline float my_dot(const Vector3& a, const Vector3& b)
 // @fnv 0x00eada70
 bool RayIntersectsBound(BoundedObject* object, const Vector3& origin, const Vector3& direction)
 {
-    SphereBound bound = object->bound ? *object->bound : DAT_011f4288;
+    SphereBound bound = object->bound ? *object->bound : (*reinterpret_cast<::SphereBound *>(&::g_defaultBound));
     Vector3 delta = origin - bound.center;
     float deltaSquared = delta.SquaredLength();
     float distance = deltaSquared - bound.radius * bound.radius;
@@ -785,7 +763,6 @@ namespace sead090 {
 class Node
 {
   public:
-    static void* operator new(unsigned int uiSize);
 
     Node() throw();
 
@@ -823,7 +800,6 @@ Node* FUN_00ead090()
 extern int DAT_010f1abc;
 static const float DAT_010f1ab4 = 3.402823466e+38f;
 
-extern "C" void __stdcall FUN_00eae720(float a3, float a4, float a5, int a6);
 
 struct S_00eaedc0_Class
 {
@@ -854,7 +830,7 @@ struct S_00eaedc0_Class
 // @fnv 0x00eaedc0
 S_00eaedc0_Class* S_00eaedc0_Class::Initialize(int a1, int a2, float a3, float a4, float a5, int a6)
 {
-    FUN_00eae720(a3, a4, a5, a6);
+    new ((void *)this) class ::FUN_00eae720(a3, a4, a5, a6);
     m_38 = a1;
     m_00 = (void*)&DAT_010f1abc;
     m_3c = a2;
@@ -899,6 +875,8 @@ class NiPoint3
         NiPoint3 kResult(y * pt.z - z * pt.y, z * pt.x - x * pt.z, x * pt.y - y * pt.x);
         return kResult;
     }
+public:
+    static const ::NiPoint3 ZERO;
 };
 class OriginDirectionPair
 {
@@ -933,18 +911,18 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
     OriginDirectionPair kSegPgm;
     NiPoint3 kPnt;
     float fSqrDist, fSqrDist0, fR0, fS0, fT0;
-    if ((float)fabs(kNormal.Dot(kSeg.m_kLightVector)) > fThreshold)
+    if ((float)fabs(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kNormal))->DotProduct((void *)&(kSeg.m_kLightVector))) > fThreshold)
     {
         NiPoint3 kDiff = kPgm.m_kStartPoint - kSeg.m_kStartPoint;
-        float fA00 = kSeg.m_kLightVector.Dot(kSeg.m_kLightVector);
-        float fA01 = -kSeg.m_kLightVector.Dot(kPgm.m_kPoint1);
-        float fA02 = -kSeg.m_kLightVector.Dot(kPgm.m_kPoint2);
-        float fA11 = kPgm.m_kPoint1.Dot(kPgm.m_kPoint1);
-        float fA12 = kPgm.m_kPoint1.Dot(kPgm.m_kPoint2);
-        float fA22 = kPgm.m_kPoint2.Dot(kPgm.m_kPoint2);
-        float fB0 = -kDiff.Dot(kSeg.m_kLightVector);
-        float fB1 = kDiff.Dot(kPgm.m_kPoint1);
-        float fB2 = kDiff.Dot(kPgm.m_kPoint2);
+        float fA00 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kSeg.m_kLightVector))->DotProduct((void *)&(kSeg.m_kLightVector));
+        float fA01 = -reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kSeg.m_kLightVector))->DotProduct((void *)&(kPgm.m_kPoint1));
+        float fA02 = -reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kSeg.m_kLightVector))->DotProduct((void *)&(kPgm.m_kPoint2));
+        float fA11 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kPgm.m_kPoint1))->DotProduct((void *)&(kPgm.m_kPoint1));
+        float fA12 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kPgm.m_kPoint1))->DotProduct((void *)&(kPgm.m_kPoint2));
+        float fA22 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kPgm.m_kPoint2))->DotProduct((void *)&(kPgm.m_kPoint2));
+        float fB0 = -reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDiff))->DotProduct((void *)&(kSeg.m_kLightVector));
+        float fB1 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDiff))->DotProduct((void *)&(kPgm.m_kPoint1));
+        float fB2 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDiff))->DotProduct((void *)&(kPgm.m_kPoint2));
         float fCof00 = fA11 * fA22 - fA12 * fA12;
         float fCof01 = fA02 * fA12 - fA01 * fA22;
         float fCof02 = fA01 * fA12 - fA02 * fA11;
@@ -1212,7 +1190,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                         // global minimum is interior
                         fSqrDist = fR * (fA00 * fR + fA01 * fS + fA02 * fT + 2.0 * fB0) +
                                    fS * (fA01 * fR + fA11 * fS + fA12 * fT + 2.0 * fB1) +
-                                   fT * (fA02 * fR + fA12 * fS + fA22 * fT + 2.0 * fB2) + kDiff.Dot(kDiff);
+                                   fT * (fA02 * fR + fA12 * fS + fA22 * fT + 2.0 * fB2) + reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDiff))->DotProduct((void *)&(kDiff));
                         fSqrDist = (float)fabs(fSqrDist);
                     }
                     else
@@ -1588,7 +1566,6 @@ struct Triangle3D
     NiPoint3 m_kPoint2;
 };
 
-extern double DAT_0101dae8;
 float FUN_00eaf310(const OriginDirectionPair& kSeg0, const OriginDirectionPair& kSeg1, float& fSeg0Param,
                    float& fSeg1Param);
 float GetSquaredDistanceToTriangle(const NiPoint3& kPnt, const Triangle3D& kTri, float& fTriParam0, float& fTriParam1);
@@ -1619,7 +1596,7 @@ float FUN_00eb1d20(const OriginDirectionPair& kSeg, const Triangle3D& kTri, floa
     float fDot = fabsf(kN * kSeg.m_kLightVector);
     float fNLen = kN.Length();
     float fDLen = sqrtf((float)(dX * dX + dY * dY + dZ * dZ));
-    float fTol = (float)(fDLen * fNLen * DAT_0101dae8);
+    float fTol = (float)(fDLen * fNLen * ::DAT_0101dae8);
 
     if (fDot > fTol)
     {
@@ -2406,12 +2383,9 @@ void probeCaller()
 
 struct Alloc139
 {
-    void* FUN_00aa3e40(unsigned int);
     void FUN_00aa4060(void*);
 };
 
-void* NiMalloc(unsigned int);
-void NiFreeAlias(void*);
 struct Point139
 {
     float x, y, z;
@@ -2419,14 +2393,7 @@ struct Point139
     {}
     Point139(float _x, float _y, float _z) : x(_x), y(_y), z(_z)
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return ((Alloc139&)DAT_011f6238).FUN_00aa3e40(n);
-    }
-    static void operator delete[](void* p)
-    {
-        DAT_011f6238.FUN_00aa4060(p);
-    };
+    ;
     Point139 operator-(const Point139& b) const
     {
         return Point139(x - b.x, y - b.y, z - b.z);
@@ -2492,16 +2459,41 @@ struct FUN_00eba1b0
     int unk80;
     int unk84;
     int unk88;
-    FUN_00eba1b0(int, unsigned short, const unsigned short*, const Point139*, int, int);
-    void BuildNode(int, const unsigned short*, const Point139*, int, float*, Point139*, int, int, int*, int*, int);
+    FUN_00eba1b0(intptr_t, unsigned short, const unsigned short*, const Point139*, intptr_t, int);
 };
+// Allocates an object sized by kind, stores it in unk08, initialises unk04/unk10/unk14/unk18/unk0c/unk50 and calls unk1c.FUN_00a86bf0.
+// @fnv 0x00eb5f10
+FUN_00eb5f10_Class* FUN_00eb5f10_Class::InitFromKind(unsigned short kind, intptr_t arg2, intptr_t arg3, intptr_t arg4, int arg5)
+{
+    vtable = (void**)&UNK_010f1b44;
+    FUN_00eb5f10_Manager* manager = (FUN_00eb5f10_Manager*)&::g_memoryManager;
+    void* object;
+    if (kind > 1)
+    {
+        object = reinterpret_cast<::MemoryManagerStandIn *>((manager))->FUN_00aa3e40(0x8c);
+        object = object ? ((void *)(new ((void *)(((FUN_00eb5f10_Large*)object))) ::FUN_00eba1b0((intptr_t)(this), kind, (const unsigned short *)(arg2), (const ::Point139 *)(arg3), arg4, arg5))) : 0;
+    }
+    else
+    {
+        object = reinterpret_cast<::MemoryManagerStandIn *>((manager))->FUN_00aa3e40(0x98);
+        object = object ? ((::FUN_00eb5f10_Small *)(new ((void *)(((FUN_00eb5f10_Small*)object))) ::FUN_00eb6b90((::S_eb6b90_Root *)(void *)(this), (unsigned short *)(arg2), (::S_eb6b90_Point *)(arg3), (::S_eb6b90_Point *)(arg4), 0))) : 0;
+    }
+    unk08 = object;
+    unk04 = 0.0f;
+    unk10 = (*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO));
+    unk14 = _DAT_011f4270;
+    unk18 = _DAT_011f4274;
+    reinterpret_cast<::NiTransform *>(&(unk1c))->ResetToIdentity();
+    unk0c = 0;
+    unk50 = 0;
+    return this;
+}
 // Computes each triangle's area and centroid from indices and vertices, then calls BuildNode with them plus temporary order and scratch arrays.
 // @fnv 0x00eba1b0
-FUN_00eba1b0::FUN_00eba1b0(int arg1, unsigned short count, const unsigned short* indices, const Point139* vertices,
-                           int arg5, int arg6)
+FUN_00eba1b0::FUN_00eba1b0(intptr_t arg1, unsigned short count, const unsigned short* indices, const Point139* vertices, intptr_t arg5, int arg6)
 {
     unk7c = 0;
-    float* areas = (float*)NiMalloc(count * sizeof(float));
+    float* areas = (float*)::FUN_00aa1070(count * sizeof(float));
     Point139* centers = new Point139[count];
     unsigned short cursor = 0;
     for (unsigned short i = 0; i < count; i++)
@@ -2519,15 +2511,15 @@ FUN_00eba1b0::FUN_00eba1b0(int arg1, unsigned short count, const unsigned short*
         areas[i] = 0.5 * length;
         centers[i] = (vertices[i0] + vertices[i1] + vertices[i2]) * (1.0f / 3.0f);
     }
-    int* order = (int*)NiMalloc(count * sizeof(int));
+    int* order = (int*)::FUN_00aa1070(count * sizeof(int));
     for (int i = 0; i < count; i++)
         order[i] = i;
-    int* scratch = (int*)NiMalloc(count * sizeof(int));
-    BuildNode(arg1, indices, vertices, arg5, areas, centers, 0, count - 1, order, scratch, arg6);
-    NiFreeAlias(scratch);
-    NiFreeAlias(order);
+    int* scratch = (int*)::FUN_00aa1070(count * sizeof(int));
+    reinterpret_cast<::S00eb9fa0_Node *>(this)->BuildNode((void *)(arg1), indices, (const ::V3 *)(vertices), (const ::V3 *)(arg5), areas, (::V3 *)(centers), 0, count - 1, order, scratch, arg6);
+    ::FUN_00aa10f0(scratch);
+    ::FUN_00aa10f0(order);
     delete[] centers;
-    NiFreeAlias(areas);
+    ::FUN_00aa10f0(areas);
     unk88 = 0;
 }
 
@@ -2863,12 +2855,12 @@ float __cdecl DistanceSquaredToSegment(const NiPoint3&, const OriginDirectionPai
 float __cdecl FUN_00eb6150(const NiPoint3& kPnt, const TrianglePointSet& kPgm, float& fS, float& fT)
 {
     NiPoint3 kDiff = kPgm.m_kStartPoint - kPnt;
-    float fA00 = kPgm.m_kPoint1.Dot(kPgm.m_kPoint1);
-    float fA01 = kPgm.m_kPoint1.Dot(kPgm.m_kPoint2);
-    float fA11 = kPgm.m_kPoint2.Dot(kPgm.m_kPoint2);
-    float fB0 = kPgm.m_kPoint1.Dot(kDiff);
-    float fB1 = kPgm.m_kPoint2.Dot(kDiff);
-    float fC = kDiff.Dot(kDiff);
+    float fA00 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kPgm.m_kPoint1))->DotProduct((void *)&(kPgm.m_kPoint1));
+    float fA01 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kPgm.m_kPoint1))->DotProduct((void *)&(kPgm.m_kPoint2));
+    float fA11 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kPgm.m_kPoint2))->DotProduct((void *)&(kPgm.m_kPoint2));
+    float fB0 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kPgm.m_kPoint1))->DotProduct((void *)&(kDiff));
+    float fB1 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kPgm.m_kPoint2))->DotProduct((void *)&(kDiff));
+    float fC = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDiff))->DotProduct((void *)&(kDiff));
     float fDet = fA00 * fA11 - fA01 * fA01;
     fDet = (float)fabs(fDet);
     float fTmp;
@@ -3164,7 +3156,6 @@ float __cdecl FUN_00eb6150(const NiPoint3& kPnt, const TrianglePointSet& kPgm, f
     }
 }
 
-extern double DAT_01012060;
 struct S00eb50f0_Seg
 {
     BoxVec3 origin;
@@ -3675,7 +3666,7 @@ float __cdecl FUN_00eb50f0(const S00eb50f0_Seg* apSegment, const OrientedBox* bo
         }
     }
 
-    if (*pfLParam >= DAT_01012060)
+    if (*pfLParam >= ::_DAT_01012060)
     {
         if (*pfLParam <= 1.0f)
         {
@@ -3987,11 +3978,6 @@ FUN_00eb3750::FUN_00eb3750(float* apFloats, FloatVec3Local* apVecA, FloatVec3Loc
     m_68 = m_64 = fltmax_eb3750::DAT_010f1ad0;
 }
 
-extern NiPoint3 DAT_011a9490;
-extern NiPoint3 DAT_011f426c;
-extern NiPoint3 DAT_011a946c;
-extern NiPoint3 DAT_011a9478;
-extern NiPoint3 DAT_011a9484;
 
 struct NiBoundingVolume
 {
@@ -4016,23 +4002,21 @@ struct NiBoundingVolume
 class Helper
 {
   public:
-    NiBoundingVolume* __thiscall FUN_00ea0820(const NiPoint3& akExtents, const NiPoint3& akCenter,
-                                              const NiPoint3& akAxis0, const NiPoint3& akAxis1,
-                                              const NiPoint3& akAxis2);
 };
 
 struct MemoryManagerAllocHelper
 {
-    void* Allocate(unsigned int auiSize);
 };
 
 // Allocates 0x40 bytes, builds a NiBoundingVolume via FUN_00ea0820 from five global NiPoint3 values, calls LoadBinary(apStream) and returns it.
 // @fnv 0x00ea7490
 NiBoundingVolume* __cdecl FUN_00ea7490(void* apStream)
 {
-    Helper* pkHelper = (Helper*)((MemoryManagerAllocHelper*)&_g_memoryManager)->Allocate(0x40);
+    Helper* pkHelper = (Helper*)reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManagerAllocHelper*)&::g_memoryManager)))->FUN_00aa3e40(0x40);
     NiBoundingVolume* pkVolume =
-        pkHelper ? pkHelper->FUN_00ea0820(DAT_011a9490, DAT_011f426c, DAT_011a946c, DAT_011a9478, DAT_011a9484) : 0;
+        pkHelper ? ((::NiBoundingVolume *)(new ((void *)(pkHelper)) ::FUN_00ea0820(::DAT_011a9490, ::NiPoint3::ZERO, (*reinterpret_cast<::NiPoint3 *>(&::DAT_011a946c)), DAT_011a9478, ::DAT_011a9484))) : 0;
     pkVolume->LoadBinary(apStream);
     return pkVolume;
 }
+
+#include "generated/data/staging/blk_00ea0000_o2.inc"

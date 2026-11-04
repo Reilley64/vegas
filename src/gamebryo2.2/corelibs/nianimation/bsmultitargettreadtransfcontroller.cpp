@@ -1,6 +1,25 @@
 // gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller.cpp: Holder, BSMultiTargetTreadTransfController, TreadController (20 functions)
 
+#include <cstdint>
+#include <windows.h>
+#include "fnv/decl/CloneableObj.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_004f0180_Class.h"
+#include "fnv/decl/FUN_00a317e0_t.h"
+#include "fnv/decl/FUN_00a42f80_cls.h"
+#include "fnv/decl/FUN_00a6d290.h"
+#include "fnv/symbols_00a2d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_01096000.h"
+#include "fnv/symbols_011a8000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsmultitargettreadtransfcontroller_decls.h"
+#include <cstddef>
+#include <cstring>
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00401000.h"
 // @fnv 0x00a358a0
 NiInterpolator* BSMultiTargetTreadTransfController::GetInterpolator(unsigned short index)
 {
@@ -11,7 +30,7 @@ NiInterpolator* BSMultiTargetTreadTransfController::GetInterpolator(unsigned sho
 GlobalObject_00a2e180::GlobalObject_00a2e180()
 {
     if (DAT_011f36a0++ == 0)
-        FUN_00aa2080(&DAT_00a2d8a0, &DAT_00a2de70);
+        ::FUN_00aa2080((void (*)())(void *)(&(*reinterpret_cast<char *>(&::FUN_00a2d8a0))), (intptr_t)(&(*reinterpret_cast<char *>(&::ShutdownAnimationClasses))));
 }
 
 struct FUN_00a35950_shell : public BSMultiTargetTreadTransfController
@@ -19,12 +38,11 @@ struct FUN_00a35950_shell : public BSMultiTargetTreadTransfController
     void* FUN_00a35950();
 };
 
-extern int g_011f36e4;
 
 // @fnv 0x00a35950
 void* FUN_00a35950_shell::FUN_00a35950()
 {
-    return &g_011f36e4;
+    return &(*reinterpret_cast<int *>(&::g_011f36e4));
 }
 
 struct FUN_00a35e90_shell : public BSMultiTargetTreadTransfController
@@ -43,42 +61,46 @@ char* FUN_00a35e90_shell::FUN_00a35e90(unsigned short ausIndex)
 
 struct FUN_00a35fc0_shell
 {
-    void __thiscall SetSlotValue(unsigned short idx, void* val);
+    void SetSlotValue(unsigned short idx, void* val);
 };
 
 // Stores val into the slot at idx in the array at this+0x3c and, if val is non-null, sets bit 0x80 in val's field at 0x30.
 // @fnv 0x00a35fc0
-void __thiscall FUN_00a35fc0_shell::SetSlotValue(unsigned short usIndex, void* pValue)
+void FUN_00a35fc0_shell::SetSlotValue(unsigned short usIndex, void* pValue)
 {
-    void* arr = *(void**)((char*)this + 0x3c);
-    void* slot = *(void**)((char*)arr + usIndex * 4);
+    void** arr = *(void***)((char*)this + 0x3c);
+    void* slot = arr[usIndex];
     *(void**)((char*)slot + 4) = pValue;
     if (pValue)
         *(int*)((char*)pValue + 0x30) |= 0x80;
 }
 
+class NiStream;
 struct NiInterpController
 {
     static unsigned short INVALID_INDEX;
+public:
+    void LoadBinary(::NiStream &);
 };
 
+class NiAVObject;
 struct FUN_00a35910_shell
 {
-    unsigned short __thiscall FindIndexByValue(unsigned short a);
+    unsigned short FindIndexByValue(NiAVObject* a);
 };
 
 // Scans the array at this+0x3c for an entry whose field at offset 4 equals a, returning its index or INVALID_INDEX.
 // @fnv 0x00a35910
-unsigned short __thiscall FUN_00a35910_shell::FindIndexByValue(unsigned short a)
+unsigned short FUN_00a35910_shell::FindIndexByValue(NiAVObject* a)
 {
     unsigned short i = 0;
     unsigned short n = *(unsigned short*)((char*)this + 0x40);
     if (i < n)
     {
-        unsigned int* arr = *(unsigned int**)((char*)this + 0x3c);
+        char** arr = *(char***)((char*)this + 0x3c);
         do
         {
-            if (*(unsigned int*)(arr[i] + 4) == *(unsigned int*)&a)
+            if (*(NiAVObject**)(arr[i] + 4) == a)
                 return i;
             ++i;
         } while (i < n);
@@ -125,10 +147,10 @@ unsigned short Holder_00a35f30::FindLinkIndex(const Arg_00a35f30& arName)
 
 struct FUN_00a35f70_struct
 {
-    void __thiscall SetSlotEntry(unsigned short, void*, unsigned short, void*);
+    void SetSlotEntry(unsigned short, void*, unsigned short, void*);
 };
 // @fnv 0x00a35f70
-void __thiscall FUN_00a35f70_struct::SetSlotEntry(unsigned short usIndex, void* a2, unsigned short a3, void* a4)
+void FUN_00a35f70_struct::SetSlotEntry(unsigned short usIndex, void* a2, unsigned short a3, void* a4)
 {
     int iOffset = usIndex * 4;
     *(void**)(*(char**)((char*)*(char***)((char*)this + 0x3c) + iOffset) + 4) = a2;
@@ -140,19 +162,9 @@ void __thiscall FUN_00a35f70_struct::SetSlotEntry(unsigned short usIndex, void* 
 
 struct S_00a36050
 {
-    void __thiscall FUN_00a35960();
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
-// @fnv 0x00a36050
-void* __thiscall S_00a36050::DestroyIfFlagged(unsigned int uiFlags)
-{
-    FUN_00a35960();
-    if (uiFlags & 1)
-        _delete(this, 0x44);
-    return this;
-}
-
 struct Interp00a358b0
 {
     virtual void D00() = 0;
@@ -212,10 +224,10 @@ struct Ctrl00a358b0
     char _0[52];
     Interp00a358b0* m_base;
     unsigned short m_num;
-    void __thiscall FUN_00a358b0(float afStartTime, float afEndTime);
+    void FUN_00a358b0(float afStartTime, float afEndTime);
 };
 // @fnv 0x00a358b0
-void __thiscall Ctrl00a358b0::FUN_00a358b0(float afStartTime, float afEndTime)
+void Ctrl00a358b0::FUN_00a358b0(float afStartTime, float afEndTime)
 {
     unsigned short us = 0;
     if (us < m_num)
@@ -282,7 +294,7 @@ struct InterpStub_00a2fac0
 };
 
 // @fnv 0x00a2fac0
-bool __stdcall FUN_00a2fac0(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex)
+bool FUN_00a2fac0(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex)
 {
     return apInterpolator->IsCorrectType();
 }
@@ -314,8 +326,7 @@ TreadEntry* FUN_00a35900_cls::FUN_00a35900(unsigned short usIndex, int aParam1, 
     return &m_pEntries[usIndex];
 }
 
-extern char DAT_01096694;
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+
 
 struct FUN_00a2f8c0
 {
@@ -344,10 +355,6 @@ struct TreadInterpolator : FUN_00a2f8c0
     unsigned short unk40;
     unsigned short unk42;
 
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
     TreadInterpolator() throw()
     {
         vtable = &DAT_01096694;
@@ -360,22 +367,21 @@ struct TreadInterpolator : FUN_00a2f8c0
 
 struct TreadController
 {
-    TreadInterpolator* __thiscall CreateInterpolator(unsigned int index);
-    void __thiscall FUN_00a2f8a0(TreadInterpolator* interp, unsigned int index);
+    TreadInterpolator* CreateInterpolator(uintptr_t index);
 };
 
 // @fnv 0x00a35a10
-TreadInterpolator* TreadController::CreateInterpolator(unsigned int index)
+TreadInterpolator* TreadController::CreateInterpolator(uintptr_t index)
 {
     TreadInterpolator* interp = new TreadInterpolator;
-    FUN_00a2f8a0(interp, index);
+    reinterpret_cast<::CloneableObj *>(this)->FUN_00a2f8a0((::CloneableObj *)(interp), (void *)(index));
     return interp;
 }
 
 struct TreadElem_00a35b90
 {
     char unk00[0x34];
-    void __thiscall Dtor();
+    void Dtor();
 };
 
 void __cdecl FreeArr_00a35b90(void* apMemory, unsigned int aiSize);
@@ -403,7 +409,7 @@ void* FUN_00a35b90_cls::Destroy(unsigned int acFlags)
             do
             {
                 p = p - 0x34;
-                ((TreadElem_00a35b90*)p)->Dtor();
+                reinterpret_cast<::FUN_00a42f80_cls *>((((TreadElem_00a35b90*)p)))->FUN_00a42f80_cls::~FUN_00a42f80_cls();
             } while (--i >= 0);
         }
         if (acFlags & 1)
@@ -413,7 +419,7 @@ void* FUN_00a35b90_cls::Destroy(unsigned int acFlags)
         return base;
     }
 
-    ((TreadElem_00a35b90*)this)->Dtor();
+    reinterpret_cast<::FUN_00a42f80_cls *>((((TreadElem_00a35b90*)this)))->FUN_00a42f80_cls::~FUN_00a42f80_cls();
     if (acFlags & 1)
     {
         FreeObj_00a35b90(this, 0x34);
@@ -465,14 +471,14 @@ struct FUN_00a35fe0_shell
     Entry_00a35fe0** unk3C;
     unsigned short unk40;
 
-    unsigned short __thiscall FUN_00a35fe0(Target_00a35fe0* target, unsigned short id, void* value);
+    unsigned short FUN_00a35fe0(Target_00a35fe0* target, unsigned short id, void* value);
 };
 
 extern unsigned short DAT_01096320;
 
 // Finds the first free entry slot, stores the value, id and target in it, sets bit 0x80 on the target, and returns the slot index or DAT_01096320 if none is free.
 // @fnv 0x00a35fe0
-unsigned short __thiscall FUN_00a35fe0_shell::FUN_00a35fe0(Target_00a35fe0* target, unsigned short id, void* value)
+unsigned short FUN_00a35fe0_shell::FUN_00a35fe0(Target_00a35fe0* target, unsigned short id, void* value)
 {
     for (unsigned short index = 0; index < unk40; ++index)
     {
@@ -491,8 +497,6 @@ unsigned short __thiscall FUN_00a35fe0_shell::FUN_00a35fe0(Target_00a35fe0* targ
     return DAT_01096320;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 inline unsigned int NiAtomicIncrement(unsigned int& v)
 {
     return InterlockedIncrement((long*)&v);
@@ -580,17 +584,16 @@ void Holder::AssignInterpolatorRef(unsigned int idx, SmartPtr<RefObj>& out) thro
 void Holder::FUN_00a32b80(unsigned int uiIndex)
 {
     SmartPtr<RefObj> sp;
-    AssignInterpolatorRef(uiIndex, sp);
+    reinterpret_cast<::FUN_00a317e0_t *>(this)->AssignInterpolatorRef(uiIndex, (::FUN_00a317e0_ref **)&(sp));
 }
 
 struct NiStream;
 
-extern void __cdecl LoadBinary(NiStream*);
 
 // @fnv 0x00a35840
 void __cdecl FUN_00a35840(NiStream* stream)
 {
-    return LoadBinary(stream);
+    return reinterpret_cast<::NiInterpController *>((stream))->LoadBinary(*(::NiStream *)nullptr);
 }
 
 struct Vec112
@@ -618,17 +621,13 @@ class NiQuaternion
   public:
     float w, x, y, z;
     void Slerp(float, const NiQuaternion&, const NiQuaternion&);
-    void FUN_004f0180(Mat112*);
 };
-extern Vec112 DAT_011a8400;
-extern NiQuaternion DAT_011f3704;
-extern float DAT_01096b8c;
 struct Transform112
 {
     Vec112 position;
     NiQuaternion rotation;
     float scale;
-    Transform112() : position(DAT_011a8400), rotation(DAT_011f3704), scale(DAT_01096b8c)
+    Transform112() : position((*reinterpret_cast<::Vec112 *>(&::DAT_011a8400))), rotation(DAT_011f3704), scale(DAT_01096b8c)
     {}
 };
 struct Blend112
@@ -740,7 +739,7 @@ void Controller112::FUN_00a35c00(float* time)
                         NiQuaternion rotation;
                         rotation.Slerp(1.0f - weight, rotation1, rotation0);
                         links[j]->node->position = position;
-                        rotation.FUN_004f0180(&links[j]->node->matrix);
+                        reinterpret_cast<::FUN_004f0180_Class *>(&(rotation))->FUN_004f0180((::M3_ *)(::Mat112 *)(&links[j]->node->matrix));
                     }
                 }
             }
@@ -748,18 +747,15 @@ void Controller112::FUN_00a35c00(float* time)
     }
 }
 
-extern char DAT_01096694;
-extern char DAT_011f6238;
 void __cdecl FUN_00aa10f0(void* p);
 
 struct S00a35960_Heap
 {
-    void __thiscall FUN_00aa4060(void* p);
 };
 
 struct S00a35960_Obj
 {
-    virtual void __thiscall Dtor(unsigned int flags);
+    virtual void Dtor(unsigned int flags);
 };
 
 struct S00a35960_Cls : FUN_00a2f8c0
@@ -771,8 +767,15 @@ struct S00a35960_Cls : FUN_00a2f8c0
     unsigned short m40;
     unsigned short m42;
     void FUN_00a35960();
-    void FUN_00a6d290();
 };
+// @fnv 0x00a36050
+void* S_00a36050::DestroyIfFlagged(unsigned int uiFlags)
+{
+    reinterpret_cast<::S00a35960_Cls *>(this)->FUN_00a35960();
+    if (uiFlags & 1)
+        _delete(this, 0x44);
+    return this;
+}
 
 // Sets the vtable, disposes of m34 and m3c storage, then calls FUN_00a6d290.
 // @fnv 0x00a35960
@@ -789,15 +792,15 @@ void S00a35960_Cls::FUN_00a35960()
         }
         else
         {
-            ((S00a35960_Heap*)&DAT_011f6238)->FUN_00aa4060(h);
+            reinterpret_cast<::FNV_MemoryManager *>((((S00a35960_Heap*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(h);
         }
     }
     for (unsigned short i = 0; i < m40; i++)
     {
-        ((S00a35960_Heap*)&DAT_011f6238)->FUN_00aa4060(m3c[i]);
+        reinterpret_cast<::FNV_MemoryManager *>((((S00a35960_Heap*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(m3c[i]);
     }
     FUN_00aa10f0(m3c);
-    FUN_00a6d290();
+    reinterpret_cast<struct ::FUN_00a6d290 *>(this)->FUN_00a6d290::~FUN_00a6d290();
 }
 
 #include <string.h>
@@ -888,12 +891,12 @@ struct FUN_00a35eb0_shell
     Entry_00a35eb0** unk3C;
     unsigned short unk40;
 
-    unsigned short __thiscall FindByName(const char* name);
+    unsigned short FindByName(const char* name);
 };
 
 // Searches the entry array for an interpolator whose name matches name and returns its index, or DAT_01096320 if not found.
 // @fnv 0x00a35eb0
-unsigned short __thiscall FUN_00a35eb0_shell::FindByName(const char* name)
+unsigned short FUN_00a35eb0_shell::FindByName(const char* name)
 {
     if (name == 0)
         return DAT_01096320;
@@ -914,3 +917,92 @@ unsigned short __thiscall FUN_00a35eb0_shell::FindByName(const char* name)
 
     return DAT_01096320;
 }
+
+bool FUN_00a2fac0(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex);
+void __cdecl FUN_00a35840(NiStream* stream);
+
+struct ArrayCount
+{
+    unsigned int value;
+    ArrayCount(unsigned int count) : value(count)
+    {}
+};
+struct MemoryManagerAllocHelper
+{
+};
+struct SNAEntry
+{
+    static void* operator new(std::size_t n)
+    {
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
+    }
+    static void* operator new[](std::size_t s, ArrayCount count)
+    {
+        if (count.value == 0)
+            return ::FUN_00401000(4);
+        return FUN_00aa1420(s);
+    }
+    static void operator delete[](void*, std::size_t);
+};
+struct FUN_00a42f60 : SNAEntry
+{
+    long refs;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    __declspec(nothrow) FUN_00a42f60();
+    virtual ~FUN_00a42f60();
+};
+struct NodeA35
+{
+    int a;
+    int b;
+    int c;
+};
+void* __cdecl FUN_00aa1070(unsigned int);
+struct TargetA35
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    FUN_00a42f60* entries;
+    unsigned short count;
+    NodeA35** nodes;
+    unsigned short nodeCount;
+    void FUN_00a35a80(unsigned short, unsigned short);
+};
+// @fnv 0x00a35a80
+void TargetA35::FUN_00a35a80(unsigned short n, unsigned short m)
+{
+    count = n;
+    nodeCount = m;
+    if (n)
+    {
+        entries = new (ArrayCount(n)) FUN_00a42f60[n];
+        for (unsigned short i = 0; i < n; ++i)
+            InterlockedIncrement(&entries[i].refs);
+        nodes = (NodeA35**)FUN_00aa1070(sizeof(NodeA35*) * m);
+        std::memset(nodes, 0, sizeof(NodeA35*) * m);
+        for (unsigned short i = 0; i < m; ++i)
+            nodes[i] = new NodeA35();
+    }
+}
+#include "generated/data/gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller.inc"

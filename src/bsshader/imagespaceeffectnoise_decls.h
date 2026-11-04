@@ -1,12 +1,15 @@
+#include <cstddef>
 // bsshader/imagespaceeffectnoise_decls.h: declares MemoryManager, ImageSpaceShaderParam, ImageSpaceManager, Effects
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_011f6000.h"
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int);
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 class ImageSpaceEffectParam
 {
     char storage[36];
@@ -18,14 +21,6 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
   public:
     ImageSpaceShaderParam();
     void AllocateShaderConstants(int, int);
-    static void* operator new(unsigned int n)
-    {
-        return g_memoryManager.Allocate(n);
-    }
-    static void operator delete(void* p)
-    {
-        g_memoryManager.Deallocate(p);
-    }
 };
 template <class T> class NiTMallocInterface
 {
@@ -45,9 +40,9 @@ class ImageSpaceEffect
     char prefix[24];
     NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> > params;
     NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> > textures;
-    void SetTextureArrayCount(int);
-    void SetEffectParamAt(int, int, int);
-    void SetEffectAt(int, ImageSpaceEffect*, ImageSpaceEffectParam*, int);
+    NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> > inputs;
+public:
+    void SetTextureArraySize(int);
 };
 class ImageSpaceManager
 {

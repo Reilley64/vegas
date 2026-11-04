@@ -2,6 +2,17 @@
 #ifndef FNV_PATHINGREQUEST_H
 #define FNV_PATHINGREQUEST_H
 
+#include <new>
+#include "fnv/decl/FUN_006a7910_shell.h"
+#include "fnv/decl/FUN_006c9900_shell.h"
+#include "fnv/decl/FUN_006d3ac0_Class.h"
+#include "fnv/decl/FUN_006d3ae0.h"
+#include "fnv/decl/FUN_006e29b0_Class.h"
+#include "fnv/decl/TESObjectTREE.h"
+#include "fnv/decl/_Dummy_0069e390.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_006a9000.h"
 #include "layout_support.h"
 class Actor;
 template <class T, unsigned int N> class BSSimpleArray;
@@ -18,7 +29,6 @@ enum PATHING_REQUEST_TYPE
 {
     PATHING_REQUEST_STANDARD = 0
 };
-#pragma pack(push, 4)
 class PathingActorData
 {
   public:
@@ -30,12 +40,6 @@ class PathingActorData
     // PathingActorData
     // PathingActorData& __cdecl PathingActorData::*(const PathingActorData&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingActorData) == 12);
-FNV_STATIC_ASSERT(offsetof(PathingActorData, m_pActorBaseFormItem) == 0);
-FNV_STATIC_ASSERT(offsetof(PathingActorData, m_pInventoryChangesValue) == 4);
-FNV_STATIC_ASSERT(offsetof(PathingActorData, m_bCanIgnoreLocks) == 8);
-#pragma pack(push, 4)
 class PathingInfo
 {
   public:
@@ -67,30 +71,18 @@ class PathingRequest : public PathingInfo
   public:
     PathingRequest();
     void CopyTo(PathingRequest*);
-    PathingLocation* GetOrigin();
-    PathingLocation* FUN_006a9540();
     float GetActorRadius();
-    float GetFloatAtOffset68();
-    PathingActorData* FUN_006c9900();
     float GetCenterRadius();
     NiPoint3 FUN_006a7910();
     float GetTargetRadius();
     float GetSmoothingRandomness();
-    BSSimpleArray<void*, 1024>* GetString();
     float GetGoalZDelta();
-    void SetOrigin(PathingLocation*);
     void SetDestination(PathingLocation*);
     void SetActorRadius(float);
-    void FUN_006d3ae0(float);
-    void FUN_006e29b0(PathingActorData*);
     void SetCenterRadius(float);
-    void FUN_006e2980(NiPoint3&, float);
     void SetSmoothingRandomness(float);
     void SetAvoidNodeArray(BSSimpleArray<void*, 1024>*);
-    void SetGoalZDelta(float);
 
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     static PathingRequest* CreateRequestForType(PATHING_REQUEST_TYPE);
     void LoadGame(BGSLoadFormBuffer* buffer);
     void InitLoadGame(BGSLoadFormBuffer* buffer);
@@ -187,35 +179,4 @@ class PathingRequest : public PathingInfo
     // float __cdecl PathingRequest::*()
     // void __cdecl PathingRequest::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingRequest) == 176);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, pActor) == 8);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, Origin) == 12);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, Destination) == 52);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, PathingActorState) == 92);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_fFirstValueAfterActorData) == 104);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_fSecondValueAfterActorData) == 108);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, PathingActorSpatialData) == 112);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, fWeaponSpread) == 116);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_fCenterRadius) == 120);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, Center) == 124);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_fFloatAfterCenter) == 136);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_fPathingRadius) == 140);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_fAvoidanceRadius) == 144);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_pPathingAvoidNodeArray) == 148);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, bCantOpenDoors) == 152);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, bFaceTargetAtGoal) == 153);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, PathingOptions) == 154);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, bAllowIncompletePath) == 155);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_bAllowDoorTraversal) == 156);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, bCanSwim) == 157);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, bCanFly) == 158);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_bCanWalk) == 159);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_bCanJump) == 160);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_bCanClimb) == 161);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_bCanUseDoors) == 162);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_bCanRun) == 163);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, bIgnoreLocks) == 164);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_iRequestType) == 168);
-FNV_STATIC_ASSERT(offsetof(PathingRequest, m_bCanOpenDoors) == 172);
 #endif

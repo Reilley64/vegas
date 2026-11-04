@@ -1,6 +1,10 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa0000.h"
+#include "fnv/symbols_00e98000.h"
+#include "fnv/symbols_0126f000.h"
 struct GeometryRelatedType;
 struct NiD3DPixelShader
 {
@@ -40,7 +44,6 @@ struct NiD3DPixelShader
 };
 struct NiD3DShaderProgramCreatorAsm
 {
-    void* FUN_00e988d0(GeometryRelatedType*);
     bool FUN_00e97940(NiD3DPixelShader* pkPixelShader);
 };
 // Gets the shader handle from pkPixelShader, retrieves its code, and if both exist passes the code to pkPixelShader->f32 and returns true.
@@ -52,7 +55,7 @@ bool NiD3DShaderProgramCreatorAsm::FUN_00e97940(NiD3DPixelShader* pkPixelShader)
     hShader = pkPixelShader->f25();
     if (!hShader)
         return false;
-    pvCode = FUN_00e988d0(hShader);
+    pvCode = ((void *)(::FUN_00e988d0((void *)(hShader))));
     if (!pvCode)
         return false;
     pkPixelShader->f32(pvCode);
@@ -101,7 +104,6 @@ struct PixelShaderInterface
 };
 struct PixelShaderCreator
 {
-    void* CreateVertexShaderChecked(GeometryRelatedType*, void**, void*, int, int, int);
     bool CreateShaderProgram(PixelShaderInterface*);
 };
 // Gets the pixel shader, creates a program from its data, stores it on the interface and returns whether creation succeeded.
@@ -112,22 +114,19 @@ bool PixelShaderCreator::CreateShaderProgram(PixelShaderInterface* shader)
     if (!pixel)
         return false;
     void* program = shader->GetShaderProgram();
-    void* created = CreateVertexShaderChecked(pixel, &program, shader->GetShaderData(), 0, 0, 0);
+    void* created = ::CreateVertexShaderChecked((void *)(pixel), (void *)(&program), (uintptr_t)(shader->GetShaderData()), 0, 0, 0);
     if (!created)
         return false;
     shader->SetShaderProgram(created);
     return true;
 }
 
-extern void* DAT_0126fa2c;
 
-int FUN_00aa0020(int, int, const char*, long);
 
 struct NiD3DShaderProgramStub
 {
     NiD3DShaderProgramStub(void* pkRenderer, int eType) throw();
     virtual ~NiD3DShaderProgramStub();
-    static void* operator new(unsigned int uiSize);
     int unk04;
     int unk08;
     int unk0C;
@@ -208,16 +207,14 @@ struct VertexShaderCreatorAsm
     virtual bool LoadShaderCode(const char* pcFileName, void*& pvCode, unsigned int& uiCodeSize, void*& pvConstants,
                                 void*& pvConstantsExtra, int bRecoverable);
 
-    void* CreateVertexShaderChecked(void* pvCode, void** phDecl, unsigned int uiUsage, void* pvConstants,
-                                    void* pvConstantsExtra, bool bSoftwareVP);
     NiD3DVertexShader* FUN_00e97980(const char* pcFileName, const char* pcShaderName, const char* pcEntryPoint,
-                                    int iArg, void* hDecl, unsigned int uiUsage, bool bSoftwareVP, int bRecoverable);
+                                    int iArg, void* hDecl, uintptr_t uiUsage, bool bSoftwareVP, int bRecoverable);
 };
 
 // @fnv 0x00e97980
 NiD3DVertexShader* VertexShaderCreatorAsm::FUN_00e97980(const char* pcFileName, const char* pcShaderName,
                                                         const char* pcEntryPoint, int iArg, void* hDecl,
-                                                        unsigned int uiUsage, bool bSoftwareVP, int bRecoverable)
+                                                        uintptr_t uiUsage, bool bSoftwareVP, int bRecoverable)
 {
     NiD3DVertexShader* pkVertexShader = new NiD3DVertexShader(DAT_0126fa2c);
     if (!pkVertexShader)
@@ -233,10 +230,10 @@ NiD3DVertexShader* VertexShaderCreatorAsm::FUN_00e97980(const char* pcFileName, 
         return 0;
     }
 
-    void* hShader = CreateVertexShaderChecked(pvCode, &hDecl, uiUsage, pvConstants, pvConstantsExtra, bSoftwareVP);
+    void* hShader = ::CreateVertexShaderChecked(pvCode, (void *)(&hDecl), uiUsage, pvConstants, (uintptr_t)(pvConstantsExtra), bSoftwareVP);
     if (!hShader)
     {
-        FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", (long)pcShaderName);
+        ::FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", (intptr_t)pcShaderName);
         delete pkVertexShader;
         return 0;
     }
@@ -256,12 +253,9 @@ namespace fnv_00e97c60 {
 struct GeometryRelatedType;
 struct ShaderCreatorAsmStub;
 
-extern void* DAT_0126fa2c;
-int FUN_00aa0020(int, int, const char*, long);
 
 struct NiMemObjectStub
 {
-    static void* operator new(unsigned int uiSize);
 };
 
 struct NiD3DShaderProgramStub : NiMemObjectStub
@@ -335,7 +329,6 @@ struct ShaderCreatorAsmStub
     virtual bool LoadShaderCode(const char* pcFileName, void*& pvCode, unsigned int& uiCodeSize, void*& pvA, void*& pvB,
                                 int iFlags);
 
-    GeometryRelatedType* CreateHandle(void* pvCode);
     NiD3DPixelShaderStub* FUN_00e97c60(const char* pcFileName, const char* pcShaderName, const char* pcEntryPoint,
                                        const char* pcShaderTarget, int iFlags);
 };
@@ -346,7 +339,7 @@ NiD3DPixelShaderStub* ShaderCreatorAsmStub::FUN_00e97c60(const char* pcFileName,
                                                          const char* pcEntryPoint, const char* pcShaderTarget,
                                                          int iFlags)
 {
-    NiD3DPixelShaderStub* pkShader = new NiD3DPixelShaderStub(DAT_0126fa2c);
+    NiD3DPixelShaderStub* pkShader = new NiD3DPixelShaderStub(::DAT_0126fa2c);
     if (!pkShader)
         return 0;
 
@@ -360,10 +353,10 @@ NiD3DPixelShaderStub* ShaderCreatorAsmStub::FUN_00e97c60(const char* pcFileName,
         return 0;
     }
 
-    GeometryRelatedType* hShader = CreateHandle(pvCode);
+    GeometryRelatedType* hShader = ((::fnv_00e97c60::GeometryRelatedType *)(::FUN_00e988d0((void *)(pvCode))));
     if (!hShader)
     {
-        FUN_00aa0020(1, iFlags, "Failed CreatePixelShader call on %s\n", (long)pcShaderName);
+        ::FUN_00aa0020(1, iFlags, "Failed CreatePixelShader call on %s\n", (intptr_t)pcShaderName);
         delete pkShader;
         return 0;
     }
@@ -377,11 +370,8 @@ NiD3DPixelShaderStub* ShaderCreatorAsmStub::FUN_00e97c60(const char* pcFileName,
 }
 }  // namespace fnv_00e97c60
 
-extern void* DAT_0126fa2c;
-int FUN_00aa0020(int, int, const char*, long);
 struct NiMemObject
 {
-    static void* operator new(unsigned int) throw();
 };
 struct PixelBase : NiMemObject
 {
@@ -459,10 +449,10 @@ Pixel* Creator::FUN_00e97d80(void* a, void* b, void* apShaderName, int d, int e,
         shader->destroy(1);
         return 0;
     }
-    void* pShaderHandle = reinterpret_cast<NiD3DShaderProgramCreatorAsm*>(this)->FUN_00e988d0(first);
+    void* pShaderHandle = ((void *)(::FUN_00e988d0((void *)(first))));
     if (!pShaderHandle)
     {
-        FUN_00aa0020(1, f, "Failed CreatePixelShader call on %s\n", (long)apShaderName);
+        ::FUN_00aa0020(1, f, "Failed CreatePixelShader call on %s\n", (intptr_t)apShaderName);
         shader->destroy(1);
         return 0;
     }
@@ -474,7 +464,6 @@ Pixel* Creator::FUN_00e97d80(void* a, void* b, void* apShaderName, int d, int e,
     return shader;
 }
 
-int __cdecl FUN_00aa0020(int eError, int bRecoverable, const char* pcFormat, ...);
 
 struct VertexShaderCreatorHLSL
 {
@@ -492,18 +481,16 @@ struct VertexShaderCreatorHLSL
                                 unsigned int& uiCodeSize, void*& pvConstants, void*& pvConstantsExtra,
                                 int bRecoverable);
 
-    void* CreateVertexShaderChecked(void* pvCode, void** phDecl, unsigned int uiUsage, void* pvConstants,
-                                    void* pvConstantsExtra, bool bSoftwareVP);
     NiD3DVertexShader* FUN_00e97af0(const char* pcFileName, const char* pcEntryPoint, const char* pcShaderName,
                                     const char* pcShaderTarget, const char* pcDefines, void* hDecl,
-                                    unsigned int uiUsage, bool bSoftwareVP, int bRecoverable);
+                                    uintptr_t uiUsage, bool bSoftwareVP, int bRecoverable);
 };
 
 // Creates a NiD3DVertexShader, loads its shader code, builds the shader handle, and sets its name, code, creator, usage and declaration.
 // @fnv 0x00e97af0
 NiD3DVertexShader* VertexShaderCreatorHLSL::FUN_00e97af0(const char* pcFileName, const char* pcEntryPoint,
                                                          const char* pcShaderName, const char* pcShaderTarget,
-                                                         const char* pcDefines, void* hDecl, unsigned int uiUsage,
+                                                         const char* pcDefines, void* hDecl, uintptr_t uiUsage,
                                                          bool bSoftwareVP, int bRecoverable)
 {
     NiD3DVertexShader* pkVertexShader = new NiD3DVertexShader(DAT_0126fa2c);
@@ -520,7 +507,7 @@ NiD3DVertexShader* VertexShaderCreatorHLSL::FUN_00e97af0(const char* pcFileName,
         return 0;
     }
 
-    void* hShader = CreateVertexShaderChecked(pvCode, &hDecl, uiUsage, pvConstants, pvConstantsExtra, bSoftwareVP);
+    void* hShader = ::CreateVertexShaderChecked(pvCode, (void *)(&hDecl), uiUsage, pvConstants, (uintptr_t)(pvConstantsExtra), bSoftwareVP);
     if (!hShader)
     {
         FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);

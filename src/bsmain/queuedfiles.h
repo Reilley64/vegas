@@ -16,6 +16,7 @@
 
 // Memory context enumeration of the engine allocation tracker, matching the
 // deployed MEM_CONTEXT declaration used by the sibling engine units.
+#include "fnv/symbols_0043b000.h"
 enum MEM_CONTEXT
 {
     MEM_CONTEXT_MEM_CONTEXT_STATICVARS = 0,
@@ -104,7 +105,6 @@ class QueuedChildren : public BSSimpleArray<NiPointer<QueuedFile>, 1024>
 {
   public:
     virtual ~QueuedChildren();
-    void AddFinishedChild();
     unsigned int GetChildCountFinished();
 
   private:
@@ -120,8 +120,7 @@ class QueuedParents : public BSSimpleArray<NiPointer<QueuedFile>, 1024>
 
 // Root of the IO task tree. BSTask<T>'s virtuals occupy vtable offsets 0x00
 // (destructor), 0x04 (Run), 0x08 (Finish), 0x0c (Cancel) and 0x10
-// (GetDescription); the task storage fills IOTask to its engine size of 24
-// bytes.
+// (GetDescription); with its fields IOTask has the engine size of 24 bytes.
 class BSTask
 {
   public:
@@ -131,8 +130,9 @@ class BSTask
     virtual void Cancel();
     virtual bool GetDescription(char* pDescription, unsigned int uiSize);
 
-  private:
-    unsigned char taskStorage[0x14];
+    alignas(8) volatile long m_iRefCount;
+    int m_eState;
+    __int64 m_iKey;
 };
 
 class IOTask : public BSTask
@@ -159,7 +159,6 @@ class QueuedFile : public IOTask
     bool GetAllChildrenFinished();
 
   protected:
-    void AddChild(QueuedFile* apChild);
 
     MEM_CONTEXT aeMemoryContext;        // +0x18
     NiPointer<QueuedFile> m_pParent;    // +0x1c

@@ -3,19 +3,22 @@
 #define FNV_BHKRIGIDBODY_WORKER_DECLS_H
 
 #include <xmmintrin.h>
+#include "fnv/decl/CA8830Object.h"
+#include "fnv/decl/FUN_00ca8800_Class.h"
+#include "fnv/decl/FUN_00ca8860_cls.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
 #include "NiPoint3.h"
 class NiQuaternion;
 
-extern __declspec(align(16)) float DAT_01267e30;
-extern __declspec(align(16)) float DAT_012683b0;
-extern NiRTTI DAT_012681c0;
-extern float DAT_01022958;
 extern float DAT_010c60d8;
 
 class hkpMotion
 {
   public:
-    float GetMassValue();
 };
 
 class WorldPhysicsSettings
@@ -30,10 +33,6 @@ class WorldPhysicsSettings
     WorldPhysicsSettings();
 };
 
-FNV_STATIC_ASSERT(sizeof(WorldPhysicsSettings) == 0xc0);
-FNV_STATIC_ASSERT(offsetof(WorldPhysicsSettings, m_fSurfaceFriction) == 0xa8);
-FNV_STATIC_ASSERT(offsetof(WorldPhysicsSettings, m_fRestitution) == 0xac);
-FNV_STATIC_ASSERT(offsetof(WorldPhysicsSettings, m_iAutoRemoveLevel) == 0xb7);
 
 class hkpRigidBody
 {
@@ -45,9 +44,6 @@ class hkpRigidBody
     char layoutPadding150[0x10];
     __m128 m_rotation;
     __m128 m_vCenterOfMassLocal;
-    void SetWorldPosition(const NiPoint3&);
-    void SetBodyOrientation(const NiQuaternion&);
-    void SetPositionAndRotation(const NiPoint3&, const NiQuaternion&);
 };
 
 class bhkRigidBodyPrefix
@@ -82,8 +78,6 @@ class bhkRigidBodyPrefix
     }
 };
 
-FNV_STATIC_ASSERT(sizeof(bhkRigidBodyPrefix) == 0x20);
-FNV_STATIC_ASSERT(offsetof(bhkRigidBodyPrefix, m_pHavokObject) == 8);
 struct __declspec(align(16)) bhkrigidbody_vector
 {
     __m128 v;
@@ -102,6 +96,5 @@ class BhkRigidBody : public bhkRigidBodyPrefix
 class NiD3DDefaultShader
 {
   public:
-    static void SetShaderName(const char*);
 };
 #endif

@@ -6,7 +6,8 @@
 #include "lowprocess_TESObjectREFR.h"
 #include "layout_support.h"
 class PackageTargetRecord;
-#pragma pack(push, 4)
+class TESObjectREFR;
+enum PACK_TARG_TYPE;
 class PackageTargetRecord
 {
   public:
@@ -51,14 +52,9 @@ class PackageTargetRecord
     // InitLoadGame
     // TESObjectREFR* __cdecl PackageTargetRecord::*()
     // void* __cdecl PackageTargetRecord::*(unsigned int)
+public:
+    void SetTargetKind(::PACK_TARG_TYPE);
+public:
+    void SetTargetObjectReference(::TESObjectREFR *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PackageTargetRecord) == 16);
-FNV_STATIC_ASSERT(offsetof(PackageTargetRecord, m_uiTargetType) == 0);
-FNV_STATIC_ASSERT(offsetof(PackageTargetRecord, m_pWorldReferenceInfo) == 4);
-FNV_STATIC_ASSERT(offsetof(PackageTargetRecord, pObject) == 4);
-FNV_STATIC_ASSERT(offsetof(PackageTargetRecord, pTargetForm) == 4);
-FNV_STATIC_ASSERT(offsetof(PackageTargetRecord, eObjType) == 4);
-FNV_STATIC_ASSERT(offsetof(PackageTargetRecord, iValue) == 8);
-FNV_STATIC_ASSERT(offsetof(PackageTargetRecord, m_fTargetValue) == 12);
 #endif

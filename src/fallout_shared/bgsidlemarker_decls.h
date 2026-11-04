@@ -3,6 +3,16 @@
 #define FNV_BGSIDLEMARKER_DECLS_H
 
 
+#include <cstring>
+#include <malloc.h>
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0067ffa0_cls.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_0067ff10__FUN_0067ff10_Class.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_005e9000.h"
 class TESFile;
 class TESIdleForm;
 
@@ -39,15 +49,16 @@ class TESForm
                     FNV_TESFORM_SLOT(76) virtual bool SetEditorID_AtRuntime(const char* editorID);
 #undef FNV_TESFORM_SLOT
 
-    bool IsInCombat();
     void SetInitializationState(bool initialized);
-    void LoadRecordHeader(TESFile* file);
+public:
+    bool GetInitialized() const;
+public:
+    void ClearData();
 };
 
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
 };
 
 class BGSIdleCollection
@@ -59,9 +70,6 @@ class BGSIdleCollection
 class TESFile
 {
   public:
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    bool GetChunkData(void* data, unsigned int size);
     bool GetChunkData(unsigned int* value);
     bool NextChunk();
     bool IsEndianConversionRequired();
@@ -71,34 +79,25 @@ class ChunkPayload16
 {
   public:
     unsigned int data[4];
-    void FUN_0067ff10();
 };
 
 class ChunkPayloadWrapper16
 {
   public:
     unsigned int data[4];
-    void LoadFromPTFile(ChunkPayload16* payload);
 };
 
 class BGSIdleMarker
 {
   public:
     BGSIdleMarker();
-    void FUN_005e9530();
     void InitItem();
-    bool Load(TESFile* file);
 };
 
 template <int N> struct EndianSizeTag
 {
 };
 
-void BSEndian(unsigned int* value, EndianSizeTag<4> tag);
-void* __cdecl operator new[](unsigned int size);
-void __cdecl operator delete[](void* pointer);
-extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
-extern "C" void* __cdecl _alloca(unsigned int size);
 #pragma intrinsic(_alloca)
 
 extern unsigned int BGSQuestPerkEntry_vtbl;

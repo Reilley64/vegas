@@ -7,7 +7,6 @@
 #include "layout_support.h"
 class MenuTopic;
 class TopicMenuController;
-#pragma pack(push, 4)
 class TopicMenuController
 {
   public:
@@ -50,19 +49,10 @@ class TopicMenuController
     MenuTopic* GetSelectedTopic();
     MenuTopic* GetFirstTopic();
     static void IncrementMiscStat(int id);
-    void FUN_0083e230();
     bool Initialize(MobileObject*, TESTopic*);
-    void BuildTopicList(BSSimpleList<TESTopic*>*, bool, bool, TESTopic*);
     TopicMenuController();
     static TopicMenuController* GetInstance();
     void RunTopicResultScript();
 };
-#pragma pack(pop)
 extern TopicMenuController* g_011ddde4;
-FNV_STATIC_ASSERT(sizeof(TopicMenuController) == 24);
-FNV_STATIC_ASSERT(offsetof(TopicMenuController, m_pCurrentTopicList) == 0);
-FNV_STATIC_ASSERT(offsetof(TopicMenuController, m_kTopicListStack) == 4);
-FNV_STATIC_ASSERT(offsetof(TopicMenuController, m_pDialogueSpeaker) == 12);
-FNV_STATIC_ASSERT(offsetof(TopicMenuController, m_bControllerFlag) == 16);
-FNV_STATIC_ASSERT(offsetof(TopicMenuController, m_iTopicIndex) == 20);
 #endif

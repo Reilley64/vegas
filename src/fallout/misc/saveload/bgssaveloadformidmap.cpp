@@ -1,5 +1,17 @@
 // fallout/misc/saveload/bgssaveloadformidmap.cpp: FormIDConverter (10 functions)
 
+#include <cstdint>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_0044f3b0_Class.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0044e000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00845000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011dd000.h"
 #include "FormIDConverter.h"
 
 // @fnv 0x00846b60
@@ -14,15 +26,15 @@ FormIDConverter::FormIDConverter(unsigned int uiHashSize)
 // @fnv 0x00846be0
 FormIDConverter::~FormIDConverter()
 {
-    m_kSourceToTargetFormIDMap.RemoveAll();
-    m_kTargetToSourceFormIDMap.RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>(&(m_kSourceToTargetFormIDMap))->FUN_00438af0();
+    reinterpret_cast<::FUN_00438af0_Class *>(&(m_kTargetToSourceFormIDMap))->FUN_00438af0();
 }
 
 // @fnv 0x00846c50
 void FormIDConverter::Clear()
 {
-    m_kSourceToTargetFormIDMap.RemoveAll();
-    m_kTargetToSourceFormIDMap.RemoveAll();
+    reinterpret_cast<::FUN_00438af0_Class *>(&(m_kSourceToTargetFormIDMap))->FUN_00438af0();
+    reinterpret_cast<::FUN_00438af0_Class *>(&(m_kTargetToSourceFormIDMap))->FUN_00438af0();
     m_uiFormIDCount = 0;
     RegisterFormID(0);
 }
@@ -30,16 +42,16 @@ void FormIDConverter::Clear()
 // @fnv 0x00846c90
 unsigned int FormIDConverter::RegisterFormID(unsigned int formID)
 {
-    if (g_dataHandler->FormIDExists(formID))
+    if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(formID))
         return formID;
 
     unsigned int index = 0;
-    if (m_kSourceToTargetFormIDMap.GetAt(formID, index))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m_kSourceToTargetFormIDMap))->FUN_00853130(formID, (::fnv_00853130::CombatThreatRecord *&)(index)))
         return index;
 
     index = m_uiFormIDCount++;
-    m_kSourceToTargetFormIDMap.SetAt(formID, index);
-    m_kTargetToSourceFormIDMap.SetAt(index, formID);
+    reinterpret_cast<::FUN_00844700_Class *>(&(m_kSourceToTargetFormIDMap))->FUN_00844700(formID, index);
+    reinterpret_cast<::FUN_00844700_Class *>(&(m_kTargetToSourceFormIDMap))->FUN_00844700(index, formID);
     return index;
 }
 
@@ -65,7 +77,6 @@ struct SaveLoadFile
     unsigned int m_uiBufferSize;
     unsigned int m_uiFilePosition;
 };
-typedef char _sizecheck_BGSSaveLoadFile[sizeof(SaveLoadFile) == 272 ? 1 : -1];
 struct FUN_00846e70_shell : public FormIDConverter
 {
     void LoadFormIDMap(SaveLoadFile*);
@@ -73,44 +84,41 @@ struct FUN_00846e70_shell : public FormIDConverter
 
 struct DummyPointerMap
 {
-    void SetAt(unsigned int, unsigned int);
 };
 struct FUN_00846d80_cls
 {
     unsigned int RemapFormID(unsigned int);
 };
-void __cdecl ReadFileIntoBuffer(SaveLoadFile*, unsigned int*, unsigned int);
 // Clears the map, reads a count and that many form IDs from the file, converts each and stores both directions in the two maps.
 // @fnv 0x00846e70
 void FUN_00846e70_shell::LoadFormIDMap(SaveLoadFile* apFile)
 {
     Clear();
     unsigned int icount = 0;
-    ReadFileIntoBuffer(apFile, &icount, 4);
+    ::ReadFileIntoBuffer(apFile, &icount, 4);
     for (unsigned int i = 0; i < icount; i++)
     {
         unsigned int iformID = 0;
-        ReadFileIntoBuffer(apFile, &iformID, 4);
+        ::ReadFileIntoBuffer(apFile, &iformID, 4);
         unsigned int uiConvertedFormID = ((FUN_00846d80_cls*)this)->RemapFormID(iformID);
         if (uiConvertedFormID)
-            ((DummyPointerMap*)this)->SetAt(uiConvertedFormID, m_uiFormIDCount);
-        ((DummyPointerMap*)&m_kTargetToSourceFormIDMap)->SetAt(m_uiFormIDCount, uiConvertedFormID);
+            reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)this)))->FUN_00844700(uiConvertedFormID, m_uiFormIDCount);
+        reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)&m_kTargetToSourceFormIDMap)))->FUN_00844700(m_uiFormIDCount, uiConvertedFormID);
         m_uiFormIDCount++;
     }
 }
 
 struct FUN_00846de0_cls
 {
-    unsigned char __thiscall GetByteAtOffset(unsigned char param_1);
+    unsigned char GetByteAtOffset(unsigned char param_1);
 };
 
 // @fnv 0x00846de0
-unsigned char __thiscall FUN_00846de0_cls::GetByteAtOffset(unsigned char param_1)
+unsigned char FUN_00846de0_cls::GetByteAtOffset(unsigned char param_1)
 {
     return ((unsigned char*)this)[param_1 + 0x44];
 }
 
-extern FUN_00846de0_cls* g_BGSSaveLoadGame;
 // Remaps a form ID's mod index through g_BGSSaveLoadGame; returns the original ID if the index is 0xFF, or 0 if the remap fails.
 // @fnv 0x00846d80
 unsigned int FUN_00846d80_cls::RemapFormID(unsigned int formID)
@@ -119,7 +127,7 @@ unsigned int FUN_00846d80_cls::RemapFormID(unsigned int formID)
     if (modIndex == 0xFF)
         return formID;
     {
-        unsigned char newModIndex = g_BGSSaveLoadGame->GetByteAtOffset(modIndex);
+        unsigned char newModIndex = (*reinterpret_cast<::FUN_00846de0_cls * *>(&::g_BGSSaveLoadGame))->GetByteAtOffset(modIndex);
         if (newModIndex != 0xFF)
             return (formID & 0xFFFFFF) | (newModIndex << 24);
         return 0;
@@ -134,10 +142,10 @@ struct FUN_00846d20_shell : public FormIDConverter
 // @fnv 0x00846d20
 unsigned int FUN_00846d20_shell::FUN_00846d20(unsigned int formID)
 {
-    if (g_dataHandler->FormIDExists(formID))
+    if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(formID))
         return formID;
     unsigned int result = 0;
-    if (((NiTPointerMap<unsigned int, unsigned int>*)((char*)this + 0x10))->GetAt(formID, result))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)((&this->m_kTargetToSourceFormIDMap)))->FUN_00853130(formID, (::fnv_00853130::CombatThreatRecord *&)(result)))
         return result;
     return 0;
 }
@@ -150,11 +158,8 @@ struct SlotItem
 
 struct CleanupItem
 {
-    unsigned int FreeItem(unsigned int flag);
 };
 
-extern void __cdecl SlotFree(void* ptr);
-extern void __cdecl TailClear(void* ptr);
 
 class FUN_0044ee40_cls
 {
@@ -162,7 +167,6 @@ class FUN_0044ee40_cls
     unsigned int unk00;
     void* m_pTailObj;
     SlotItem* m_pSlots;
-    unsigned int GetFriendHitSlotCount();
     void ClearSlots();
 };
 
@@ -170,17 +174,17 @@ class FUN_0044ee40_cls
 // @fnv 0x0044ee40
 void FUN_0044ee40_cls::ClearSlots()
 {
-    for (unsigned int u = 0; u < GetFriendHitSlotCount(); u++)
+    for (unsigned int u = 0; u < ((unsigned int)(::FUN_00559450((int *)this))); u++)
     {
         void* pItem = m_pSlots[u].m_pInventoryEntryData;
         void* RunFourthVirtual = pItem;
-        RunFourthVirtual != 0 ? ((CleanupItem*)RunFourthVirtual)->FreeItem(1) : 0;
+        RunFourthVirtual != 0 ? ((uintptr_t)(reinterpret_cast<::FUN_0044f3b0_Class *>((((CleanupItem*)RunFourthVirtual)))->FUN_0044f3b0(1))) : 0;
     }
     {
         SlotItem* a = m_pSlots;
-        SlotFree(a);
+        ::FUN_00401030(a);
     }
-    TailClear(m_pTailObj);
+    ::FUN_0044e360((uintptr_t)(m_pTailObj));
 }
 
 namespace fnv_00846e00 {
@@ -206,13 +210,10 @@ struct SaveLoadFile
     unsigned int m_uiBufferSize;
     unsigned int m_uiFilePosition;
 };
-typedef char _sizecheck_BGSSaveLoadFile[sizeof(SaveLoadFile) == 272 ? 1 : -1];
 
 struct FUN_00846d20_shell : public FormIDConverter
 {
-    unsigned int FUN_00846d20(unsigned int formID);
 };
-void __cdecl ReadFileIntoBuffer(SaveLoadFile*, unsigned int*, unsigned int);
 
 struct FUN_00846e00_cls : public FormIDConverter
 {
@@ -224,11 +225,11 @@ struct FUN_00846e00_cls : public FormIDConverter
 void FUN_00846e00_cls::FUN_00846e00(SaveLoadFile* file)
 {
     unsigned int count = this->m_uiFormIDCount - 1;
-    ReadFileIntoBuffer(file, &count, 4);
+    ::ForwardToShell((::FUN_00846330_shell *)(file), (intptr_t)(&count), 4);
     for (unsigned int i = 1; i < this->m_uiFormIDCount; i++)
     {
-        unsigned int id = ((FUN_00846d20_shell*)this)->FUN_00846d20(i);
-        ReadFileIntoBuffer(file, &id, 4);
+        unsigned int id = reinterpret_cast<::FUN_00846d20_shell *>((((FUN_00846d20_shell*)this)))->FUN_00846d20(i);
+        ::ForwardToShell((::FUN_00846330_shell *)(file), (intptr_t)(&id), 4);
     }
 }
 }  // namespace fnv_00846e00

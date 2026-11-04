@@ -2,6 +2,10 @@
 // src/havok/common/base/system/io/socket/hksocket.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/socket/hksocket.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/FUN_00da30a0_cls.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01268000.h"
 struct S_00d2b790_Target
 {
     virtual void v00();
@@ -62,32 +66,30 @@ struct FUN_00da30a0_class
 {
     int unk00;
     unsigned short unk04;
-    void InitWithParam(int value);
 };
 struct FUN_00c85750_context
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     struct Allocator
     {
         virtual void first();
         virtual FUN_00da30a0_class* allocate(unsigned int);
     }* unk10;
 };
-FUN_00c85750_context* __cdecl FUN_00c85750();
 // @fnv 0x00d2b820
 void __cdecl CreateAllocatedValue()
 {
-    FUN_00c85750_context* context = FUN_00c85750();
+    FUN_00c85750_context* context = static_cast<FUN_00c85750_context*>(::FUN_00c85750());
     FUN_00da30a0_class* value = context->unk10->allocate(0x24);
     value->unk04 = 0x24;
-    value->InitWithParam(-1);
+    reinterpret_cast<::FUN_00da30a0_cls *>((value))->InitWithParam(-1);
 }
 
 // @fnv 0x00d2b8b0
-int __stdcall FUN_00d2b8b0(int a, int b, int c)
+int FUN_00d2b8b0(int a, int b, int c)
 {
     return 1;
 }
@@ -102,10 +104,10 @@ struct RetPart
 };
 struct UnkRet
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     RetPart* part10;
 };
 struct FUN_00d2b8c0_Class
@@ -120,16 +122,15 @@ struct FUN_00d2b8c0_Class
     FUN_00d2b8c0_Class* FUN_00d2b8c0(unsigned int flags);
 };
 void* DAT_0102e388;
-UnkRet* FUN_00c85750();
 // @fnv 0x00d2b8c0
 FUN_00d2b8c0_Class* FUN_00d2b8c0_Class::FUN_00d2b8c0(unsigned int flags)
 {
-    vptr14 = &DAT_0102e388;
-    vptr08 = &DAT_0102e388;
-    vptr00 = &DAT_0102e388;
+    vptr14 = &::DAT_0102e388;
+    vptr08 = &::DAT_0102e388;
+    vptr00 = &::DAT_0102e388;
     if (flags & 1)
     {
-        UnkRet* object = FUN_00c85750();
+        UnkRet* object = static_cast<UnkRet*>(::FUN_00c85750());
         unsigned int count = refCount;
         RetPart* part = object->part10;
         part->Release(this, count);
@@ -203,7 +204,6 @@ void* FUN_00d2b800_cls::ForwardToTarget(void* apArg)
 }
 
 typedef void(__cdecl* InitFuncD2B)();
-extern "C" bool DAT_01268a44;
 extern "C" InitFuncD2B DAT_011b3de8;
 
 class hkReferencedObjectD2B
@@ -262,3 +262,5 @@ FUN_00d2b850::FUN_00d2b850() throw()
         DAT_01268a44 = true;
     }
 }
+
+#include "generated/data/havok/common/base/system/io/socket/hksocket.inc"

@@ -3,6 +3,10 @@
 #define NITRISHAPEDATA_DECLS_H
 
 
+#include "fnv/decl/FUN_00a8aa30_shell.h"
+#include "fnv/decl/FUN_00a8aa70_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00aa1000.h"
 #include "nitrishapedata_types_NiGeometryData__DataFlags.h"
 
 class NiPoint2;
@@ -13,10 +17,8 @@ class NiStream;
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int);
 };
 
-extern "C" void* __cdecl NiMalloc(unsigned int);
 extern "C" void __cdecl vector_constructor_iterator(void*, unsigned int, int, void*);
 #pragma comment(linker, "/alternatename:_vector_constructor_iterator=??_H@YGXPAXIHP6EPAX0@Z@Z")
 
@@ -29,8 +31,6 @@ class NiTriBasedGeomData
 
     NiTriBasedGeomData(unsigned short, NiPoint3*, NiPoint3*, RgbaColor*, NiPoint2*, unsigned short,
                        NiGeometryData__DataFlags, unsigned short);
-    void LoadBinary(NiStream&);
-    void SaveBinary(NiStream&);
 };
 
 class NiTriShapeData : public NiTriBasedGeomData
@@ -45,8 +45,6 @@ class NiTriShapeData : public NiTriBasedGeomData
 
     NiTriShapeData(unsigned short, NiPoint3*, NiPoint3*, RgbaColor*, NiPoint2*, unsigned short,
                    NiGeometryData__DataFlags, unsigned short, unsigned short*);
-    void LoadBinary(NiStream&);
-    void SaveBinary(NiStream&);
 };
 
 #endif

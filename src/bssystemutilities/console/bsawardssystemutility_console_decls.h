@@ -1,10 +1,17 @@
 #ifndef FNV_BSAWARDSSYSTEMUTILITY_CONSOLE_DECLS_H
 #define FNV_BSAWARDSSYSTEMUTILITY_CONSOLE_DECLS_H
+#include <cstddef>
 
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Node185.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f7000.h"
 #include "MemoryManager.h"
 
-extern MemoryManager g_memoryManager;
 class ContentMountRecord;
 class DownloadableContentEntry;
 class DownloadableContentInfo;
@@ -21,14 +28,6 @@ class DownloadableContentManager
 
     DownloadableContentManager();
     static DownloadableContentManager& GetRandomGenerator();
-    static __forceinline void* operator new(unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
-    static __forceinline void operator delete(void* pointer)
-    {
-        g_memoryManager.Deallocate(pointer);
-    }
 };
 
 class IdleSystem
@@ -43,20 +42,9 @@ class IdleSystem
     static void Startup();
     static IdleSystem& GetRandomGenerator();
     static bool Initialize();
-    static __forceinline void* operator new(unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
-    static __forceinline void operator delete(void* pointer)
-    {
-        g_memoryManager.Deallocate(pointer);
-    }
 };
 
-FNV_STATIC_ASSERT(sizeof(DownloadableContentManager) == 36);
-FNV_STATIC_ASSERT(sizeof(IdleSystem) == 8);
 
-extern DownloadableContentManager* DAT_011f7244;
 extern IdleSystem* DAT_011f7178;
 
 template <> __forceinline bool BSSimpleList<unsigned char*>::IsEmpty()
@@ -71,7 +59,7 @@ template <> __forceinline BSSimpleList<unsigned char*>::BSSimpleList()
 template <> __forceinline BSSimpleList<unsigned char*>::~BSSimpleList()
 {
     int padding[3];
-    RemoveAll();
+    reinterpret_cast<::Node185 *>(this)->FUN_00ae83e0();
 }
 class SteamUserStats
 {
@@ -88,18 +76,11 @@ class SteamUserStats
     virtual void vfn_24();
     virtual bool StoreStats();
 };
-extern "C" __declspec(dllimport) SteamUserStats* __cdecl SteamUserStatsAccessor();
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
+extern "C" __declspec(dllimport) SteamUserStats* __cdecl SteamUserStats();
 struct AwardData
 {
     int id;
-    static __forceinline void operator delete(void* pointer)
-    {
-        int padding[3];
-        g_memoryManager.Deallocate(pointer);
-    }
 };
-int Warning(const char*, ...);
 namespace std {
 class StandardLibrarySingletonObject
 {

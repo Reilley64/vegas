@@ -2,6 +2,14 @@
 // src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include <new>
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00e2b000.h"
+#include "fnv/symbols_010db000.h"
+#include "fnv/symbols_0126e000.h"
 struct ValueHolder
 {
     int unk00;
@@ -22,7 +30,6 @@ unsigned char* ValueHolder::CopyValue(unsigned char* output)
 
 struct S_00df8990_Obj;
 
-extern void(__cdecl* DAT_0126ec04)(void* a, void* b, S_00df8990_Obj* obj);
 
 struct S_00df8990_Obj
 {
@@ -50,24 +57,6 @@ struct S_00df8d60_Data
     char unk4;
     signed char unk5;
 };
-struct S_00df8d60
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    int unk10;
-    float unk14;
-    S_00df8d60_Bool FUN_00df8aa0(const void* data);
-    float FUN_00df8d60(const S_00df8d60_Data* data, int unused);
-};
-// @fnv 0x00df8d60
-float S_00df8d60::FUN_00df8d60(const S_00df8d60_Data* data, int unused)
-{
-    FUN_00df8aa0((const char*)data + data->unk5);
-    return unk14;
-}
-
 struct ParamBlock
 {
     int unk00;
@@ -81,88 +70,6 @@ struct ParamBlock
     int m_iValue;
 };
 
-struct Container
-{
-    void FUN_00df8aa0(int* apOut, int aiValue);
-};
-
-struct FUN_00df8db0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    float m_fResult;
-
-    float GetResult(ParamBlock* apParam);
-};
-
-// @fnv 0x00df8db0
-float FUN_00df8db0_cls::GetResult(ParamBlock* apParam)
-{
-    int iOut;
-    Container* pContainer = (Container*)((char*)this - 8);
-    pContainer->FUN_00df8aa0(&iOut, apParam->m_iValue);
-    return m_fResult;
-}
-
-extern int DAT_0101e594;
-
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
-AudioHolder* __cdecl FUN_00c85750() throw();
-
-struct FUN_00df8960_cls
-{
-    int m_vptr;
-
-    FUN_00df8960_cls* FUN_00df8960(unsigned char acFlags);
-};
-
-// Sets the vtable pointer and, when bit 0 of acFlags is set, frees this 0x1c-byte object through the allocator from FUN_00c85750.
-// @fnv 0x00df8960
-FUN_00df8960_cls* FUN_00df8960_cls::FUN_00df8960(unsigned char acFlags)
-{
-    m_vptr = (int)&DAT_0101e594;
-    if (acFlags & 1)
-    {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, 0x1c);
-    }
-    return this;
-}
-
-struct AdjustedBase
-{
-    void FUN_00df8aa0(void* apFirst, int aiSecond);
-};
-
-struct AdjustOwner
-{
-    void* FUN_00df8d90(void* apFirst, int aiSecond);
-};
-
-// @fnv 0x00df8d90
-void* AdjustOwner::FUN_00df8d90(void* apFirst, int aiSecond)
-{
-    ((AdjustedBase*)((char*)this - 4))->FUN_00df8aa0(apFirst, aiSecond);
-    return apFirst;
-}
-
 struct FUN_00df8dd0_Param
 {
     int unk00;
@@ -171,45 +78,68 @@ struct FUN_00df8dd0_Param
     unsigned int m_i0c;
 };
 
-struct FUN_00df8dd0_helper
+struct S_00df8d60Head
 {
-    void FUN_00df8aa0(FUN_00df8dd0_Param** pp, unsigned int value);
+    int unk0;
+};
+
+struct AdjustOwner
+{
+    int unk00;
+    void* FUN_00df8d90(void* apFirst, int aiSecond);
+};
+
+struct FUN_00df8db0_cls
+{
+    int unk00;
+    float GetResult(ParamBlock* apParam);
 };
 
 struct FUN_00df8dd0_cls
 {
     int unk00;
-    int unk04;
-    float m_f08;
-
     float FUN_00df8dd0(FUN_00df8dd0_Param* p);
 };
 
-// @fnv 0x00df8dd0
-float FUN_00df8dd0_cls::FUN_00df8dd0(FUN_00df8dd0_Param* pParam)
+// The ray caster's interfaces sit at +4 (AdjustOwner), +8 (FUN_00df8db0_cls) and +0xc (FUN_00df8dd0_cls).
+struct S_00df8d60 : S_00df8d60Head, AdjustOwner, FUN_00df8db0_cls, FUN_00df8dd0_cls
 {
-    ((FUN_00df8dd0_helper*)((char*)this - 12))->FUN_00df8aa0(&pParam, pParam->m_i0c);
-    return m_f08;
+    const void* unk10;
+    float unk14;
+    float FUN_00df8d60(const S_00df8d60_Data* data, int unused);
+};
+
+
+extern int DAT_0101e594;
+
+
+
+
+struct FUN_00df8960_cls
+{
+    const void* m_vptr;
+
+    FUN_00df8960_cls* FUN_00df8960(unsigned char acFlags);
+};
+
+// Sets the vtable pointer and, when bit 0 of acFlags is set, frees this 0x1c-byte object to the heap allocator.
+// @fnv 0x00df8960
+FUN_00df8960_cls* FUN_00df8960_cls::FUN_00df8960(unsigned char acFlags)
+{
+    m_vptr = &DAT_0101e594;
+    if (acFlags & 1)
+    {
+        hkMemoryRouter::getInstance().heap().blockFree(this, 0x1c);
+    }
+    return this;
 }
 
+
+
+
 namespace fnv_00df9470 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct BaseA
 {
@@ -241,16 +171,14 @@ class MultiBaseOwner : public BaseA, public BaseB, public BaseC, public BaseD
     MultiBaseOwner* FUN_00df9470(unsigned char acFlags);
 };
 
-// Destructs the object, then, if bit 0 of acFlags is set, frees it through the allocator obtained from FUN_00c85750, and returns this.
+// Destructs the object, then, if bit 0 of acFlags is set, frees it to the heap allocator, and returns this.
 // @fnv 0x00df9470
 MultiBaseOwner* MultiBaseOwner::FUN_00df9470(unsigned char acFlags)
 {
     this->MultiBaseOwner::~MultiBaseOwner();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, 0x80);
+        hkMemoryRouter::getInstance().heap().blockFree(this, 0x80);
     }
     return this;
 }
@@ -325,10 +253,7 @@ Derived::Derived()
 {}
 
 #include <xmmintrin.h>
-extern char DAT_010dbb04[];
-extern void(__cdecl* DAT_0126ec04)(void* a, void* b, struct S_00df8990_Obj* obj);
 struct S_00df8990_Obj;
-void __cdecl FUN_00e2b9b0(void* a, void* b, S_00df8990_Obj* obj);
 
 struct Source
 {
@@ -344,27 +269,23 @@ struct Source
     unsigned int m_24;
     unsigned int unk28;
     unsigned int unk2c;
-    unsigned int m_30;
-    unsigned int m_34;
+    unsigned int* m_30;
+    unsigned int* m_34;
     unsigned int unk38;
     unsigned char m_3c;
 };
 
 struct Spawned
 {
-    unsigned int m_00;
+    const void* m_00;
     float m_04;
-    unsigned int m_08;
-    unsigned int m_0c;
-    unsigned int m_10;
+    unsigned int* m_08;
+    unsigned int* m_0c;
+    unsigned int* m_10;
     unsigned int m_14;
     unsigned int m_18;
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
-    Spawned(unsigned int first, unsigned int last)
-        : m_00((unsigned int)DAT_010dbb04), m_04(1.0f), m_08(first), m_0c(first), m_10(last), m_14(0), m_18(0)
+    Spawned(unsigned int* first, unsigned int* last)
+        : m_00(DAT_010dbb04), m_04(1.0f), m_08(first), m_0c(first), m_10(last), m_14(0), m_18(0)
     {}
 };
 
@@ -391,8 +312,8 @@ struct Output
     unsigned int unk18;
     Source* m_1c;
     Source* m_20;
-    unsigned int m_24;
-    unsigned int m_28;
+    unsigned int* m_24;
+    unsigned int* m_28;
     unsigned int unk2c;
     unsigned int unk30;
     unsigned int unk34;
@@ -478,12 +399,12 @@ void __cdecl FUN_00df89b0(Interface* apInterface, Source* apSource, Output* apOu
     if (apSource->m_3c != 0)
     {
         apOutput->m_60 = new (spawned) Spawned(apSource->m_30, apSource->m_34);
-        DAT_0126ec04 = FUN_00e2b9b0;
+        DAT_0126ec04 = ((void (&)(void *, void *, S_00df8990_Obj *))::FUN_00e2b9b0);
     }
     else
         apOutput->m_60 = 0;
 
-    unsigned int* target = (unsigned int*)apSource->m_30;
+    unsigned int* target = apSource->m_30;
     *(float*)&target[4] = one;
     target[5] = 0xffffffffu;
     target[8] = 0xffffffffu;
@@ -493,36 +414,16 @@ void __cdecl FUN_00df89b0(Interface* apInterface, Source* apSource, Output* apOu
     apInterface->v5c(&local, apOutput, 0);
 }
 
-namespace SimdN {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-}
-}
 struct hkRotation;
 struct hkTransform;
 
 struct hkVector4
 {
-    SimdN::__m128 m_vComponents;
+    __m128 m_vComponents;
 
     __forceinline void setSub4(const hkVector4& a, const hkVector4& b)
     {
-        m_vComponents = SimdN::_mm_sub_ps(a.m_vComponents, b.m_vComponents);
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
     }
     __forceinline void _setRotatedDir(const hkRotation& r, const hkVector4& b);
     __forceinline void _setRotatedInverseDir(const hkRotation& r, const hkVector4& b);
@@ -544,34 +445,34 @@ struct hkTransform
 
 __forceinline void hkVector4::_setRotatedDir(const hkRotation& r, const hkVector4& b)
 {
-    const SimdN::__m128 c1 = SimdN::_mm_load_ps(&r.m_kColumn1.m_vComponents.m128_f32[0]);
-    const SimdN::__m128 b1 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
-    const SimdN::__m128 r1 = SimdN::_mm_mul_ps(c1, b1);
-    const SimdN::__m128 b0 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
-    const SimdN::__m128 r0 = SimdN::_mm_mul_ps(r.m_kColumn0.m_vComponents, b0);
-    const SimdN::__m128 b2 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
-    const SimdN::__m128 r2 = SimdN::_mm_mul_ps(r.m_kColumn2.m_vComponents, b2);
-    m_vComponents = SimdN::_mm_add_ps(SimdN::_mm_add_ps(r1, r0), r2);
+    const __m128 c1 = _mm_load_ps(reinterpret_cast<const float*>(&r.m_kColumn1.m_vComponents));
+    const __m128 b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    const __m128 r1 = _mm_mul_ps(c1, b1);
+    const __m128 b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    const __m128 r0 = _mm_mul_ps(r.m_kColumn0.m_vComponents, b0);
+    const __m128 b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    const __m128 r2 = _mm_mul_ps(r.m_kColumn2.m_vComponents, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r1, r0), r2);
 }
 
 __forceinline void hkVector4::_setRotatedInverseDir(const hkRotation& r, const hkVector4& b)
 {
-    SimdN::__m128 c0 = r.m_kColumn0.m_vComponents;
-    SimdN::__m128 c1 = r.m_kColumn1.m_vComponents;
-    SimdN::__m128 c2 = r.m_kColumn2.m_vComponents;
-    SimdN::__m128 tmp = SimdN::_mm_unpacklo_ps(c0, c1);
-    SimdN::__m128 ctmp = SimdN::_mm_unpackhi_ps(c0, c1);
-    c0 = SimdN::_mm_movelh_ps(tmp, c2);
-    tmp = SimdN::_mm_movehl_ps(c0, tmp);
-    c1 = SimdN::_mm_shuffle_ps(tmp, c2, 0xd4);
-    SimdN::__m128 t2 = SimdN::_mm_shuffle_ps(ctmp, c2, 0xe4);
-    const SimdN::__m128 b0 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
-    const SimdN::__m128 r0 = SimdN::_mm_mul_ps(c0, b0);
-    const SimdN::__m128 b1 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
-    const SimdN::__m128 r1 = SimdN::_mm_mul_ps(c1, b1);
-    const SimdN::__m128 b2 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
-    const SimdN::__m128 r2 = SimdN::_mm_mul_ps(t2, b2);
-    m_vComponents = SimdN::_mm_add_ps(SimdN::_mm_add_ps(r0, r1), r2);
+    __m128 c0 = r.m_kColumn0.m_vComponents;
+    __m128 c1 = r.m_kColumn1.m_vComponents;
+    __m128 c2 = r.m_kColumn2.m_vComponents;
+    __m128 tmp = _mm_unpacklo_ps(c0, c1);
+    __m128 ctmp = _mm_unpackhi_ps(c0, c1);
+    c0 = _mm_movelh_ps(tmp, c2);
+    tmp = _mm_movehl_ps(c0, tmp);
+    c1 = _mm_shuffle_ps(tmp, c2, 0xd4);
+    __m128 t2 = _mm_shuffle_ps(ctmp, c2, 0xe4);
+    const __m128 b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    const __m128 r0 = _mm_mul_ps(c0, b0);
+    const __m128 b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    const __m128 r1 = _mm_mul_ps(c1, b1);
+    const __m128 b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    const __m128 r2 = _mm_mul_ps(t2, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
 }
 
 __forceinline void hkVector4::_setTransformedInversePos(const hkTransform& t, const hkVector4& b)
@@ -737,7 +638,7 @@ struct RayCaster_00df8aa0 : S_00df8d60
 
         S_00df8d60_Bool result;
         result.m_cBooleanValue = 0;
-        if (!shape || !self->filter()->m_rayCollidableFilter.IsCollisionEnabled(*self->m_pRayCastInput, *body))
+        if (!shape || !reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(self->filter()->m_rayCollidableFilter.IsCollisionEnabled(*self->m_pRayCastInput, *body)))->FUN_005609f0())
         {
             return result;
         }
@@ -756,7 +657,7 @@ struct RayCaster_00df8aa0 : S_00df8d60
         {
             hkBool hit = shape->RayCast(self->m_kShapeRayInput, output);
             result.m_cBooleanValue = hit.m_cBooleanValue;
-            if (!hit)
+            if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(hit))->FUN_005609f0())
             {
                 return result;
             }
@@ -774,20 +675,20 @@ struct RayCaster_00df8aa0 : S_00df8d60
                     }
                     self->unk14 = (self->m_kHits->m_pRayCursor == 1) ? output.m_fHitFraction : fraction;
                     self->m_bHit = true;
-                    self->m_earlyOutHitFractionVec.m_vComponents = SimdN::_mm_set_ps1(self->unk14);
+                    self->m_earlyOutHitFractionVec.m_vComponents = _mm_set_ps1(self->unk14);
                 }
             }
             return result;
         }
         shape->castRayWithCollector(self->m_kShapeRayInput, *body, *self->m_kCollector);
         self->m_kHits->m_iElementCount = self->m_kCollector->m_iValueAtOffset14;
-        self->m_earlyOutHitFractionVec.m_vComponents = SimdN::_mm_set_ps1(self->m_kCollector->m_fEarlyOutHitFraction);
+        self->m_earlyOutHitFractionVec.m_vComponents = _mm_set_ps1(self->m_kCollector->m_fEarlyOutHitFraction);
         return result;
     }
 
     const hkpCollisionFilter* filter() const
     {
-        return (const hkpCollisionFilter*)unk10;
+        return static_cast<const hkpCollisionFilter*>(unk10);
     }
 
     __forceinline WorldRayCastOutput* getOutputSlot(float hitFraction, float& oldFraction)
@@ -824,6 +725,33 @@ struct RayCaster_00df8aa0 : S_00df8d60
         return 0;
     }
 };
+// @fnv 0x00df8d60
+float S_00df8d60::FUN_00df8d60(const S_00df8d60_Data* data, int unused)
+{
+    reinterpret_cast<::RayCaster_00df8aa0 *>(this)->FUN_00df8aa0((const char*)data + data->unk5);
+    return unk14;
+}
+// @fnv 0x00df8db0
+float FUN_00df8db0_cls::GetResult(ParamBlock* apParam)
+{
+    int iOut;
+    S_00df8d60* owner = static_cast<S_00df8d60*>(this);
+    static_cast<::RayCaster_00df8aa0 *>(owner)->FUN_00df8aa0(&iOut);
+    return owner->unk14;
+}
+// @fnv 0x00df8d90
+void* AdjustOwner::FUN_00df8d90(void* apFirst, int aiSecond)
+{
+    static_cast<::RayCaster_00df8aa0 *>(static_cast<S_00df8d60*>(this))->FUN_00df8aa0(apFirst);
+    return apFirst;
+}
+// @fnv 0x00df8dd0
+float FUN_00df8dd0_cls::FUN_00df8dd0(FUN_00df8dd0_Param* pParam)
+{
+    S_00df8d60* owner = static_cast<S_00df8d60*>(this);
+    static_cast<::RayCaster_00df8aa0 *>(owner)->FUN_00df8aa0(&pParam);
+    return owner->unk14;
+}
 
 __forceinline void memCpy16NonEmpty(void* dst, const void* src, int numQuads)
 {
@@ -846,3 +774,437 @@ S_00df8d60_Bool RayCaster_00df8aa0::FUN_00df8aa0(const void* apBody)
 {
     return castBody(apBody);
 }
+
+// Moved from hkpcpuworldraycastjob_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00df8000.h"
+#include "fnv/symbols_00e2a000.h"
+#include "fnv/symbols_00e2c000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_010c3000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010cc000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_simd.h"
+namespace fnv_00df8df0 {
+#include <windows.h>
+#include <xmmintrin.h>
+
+extern "C" unsigned __int64 __rdtsc();
+extern "C" void _ReadWriteBarrier();
+extern const char DAT_010dbb0c[];
+struct __declspec(align(16)) Vec
+{
+    float x, y, z, w;
+};
+struct Finalizer
+{
+};
+struct Header
+{
+    int unk00, unk04, unk08, type;
+};
+struct Vertex
+{
+    Vec position, bounds, extra0, extra1;
+};
+struct PartVectors
+{
+    Vec position, bounds;
+};
+struct PartInfo
+{
+    __forceinline void copyTo(unsigned char& t, int& p) const;
+    unsigned char tag, tag1, tag2, tag3;
+    unsigned int property;
+    int unk08, unk0c;
+};
+struct FacePart : PartVectors, PartInfo
+{
+};
+struct FaceParts
+{
+    FacePart parts[4];
+};
+struct FaceInfo
+{
+    int count, unkc4;
+    int values[4];
+    int unkd8, unkdc;
+    int outputs[4];
+    unsigned int flags, unkf4, unkf8, unkfc;
+};
+struct Face : FaceParts, FaceInfo
+{
+};
+__forceinline void PartInfo::copyTo(unsigned char& t, int& p) const
+{
+    t = tag;
+    p = property;
+}
+struct MeshRequest
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
+    void* unk14;
+    void* unk18;
+    Header* header;
+    int unk20;
+    Vertex* vertices;
+    int vertexCount;
+    Face* faces;
+    int faceCount;
+    void* shapeBuilder;
+    void* passA;
+    void* passB;
+    void* finalPass;
+};
+struct OutputVertex
+{
+    Vec position, inverse;
+};
+struct VertexBuffer
+{
+    OutputVertex* data;
+    int count, capacity;
+    OutputVertex* storage;
+    __forceinline void Init(int n) throw()
+    {
+        data = 0;
+        count = 0;
+        capacity = 0x80000000;
+        OutputVertex* memory = static_cast<OutputVertex*>(hkMemoryRouter::getInstance().allocateStack((n * 32 + 127) & ~127));
+        data = memory;
+        capacity = n | 0x80000000;
+        storage = memory;
+        hkMemoryAllocator* a = &hkMemoryRouter::getInstance().heap();
+        int old = capacity & 0x3fffffff;
+        if (old < n)
+        {
+            int next = old * 2;
+            if (n >= next)
+                next = n;
+            ::FUN_00c908c0((::SpawnedObject *)(a), (::SpawnedArray *)(void *)(&data), next, 32);
+        }
+    }
+    __forceinline void Clear() throw()
+    {
+        OutputVertex* saved = storage;
+        if (saved == data)
+            count = 0;
+        hkMemoryRouter::getInstance().deallocateStack(saved);
+        hkMemoryAllocator* a = &hkMemoryRouter::getInstance().heap();
+        count = 0;
+        if ((capacity & 0x80000000u) == 0)
+            a->bufFree(data, (capacity & 0x3fffffff) * 32);
+    }
+};
+union QueryScratch
+{
+    VertexBuffer vertices;
+    Vec range;
+};
+struct __declspec(align(16)) Field
+{
+    const void* name0;
+    const void* name1;
+    const void* name2;
+    const void* name3;
+    int option;
+    float weight;
+    unsigned char dirty;
+    unsigned char selected;
+    short option1a;
+    int unused1c;
+    Vec vector20, vector30, vector40;
+    int property50, property54, property58, property5c, flags60, flags64, flags68, flags6c;
+    Vec vector70;
+    __forceinline void Init() throw()
+    {
+        name0 = &(*reinterpret_cast<const char *>(&::DAT_010dbaf8));
+        name1 = &(*reinterpret_cast<const char *>(&::DAT_010dbae4));
+        name2 = &(*reinterpret_cast<const char *>(&::DAT_010dbad8));
+        name3 = &(*reinterpret_cast<const char *>(&::DAT_010dbacc));
+        weight = 1.0f;
+        property50 = 0;
+        property54 = 0;
+        flags60 = 0;
+        dirty = 0;
+    }
+    __forceinline void Reset() throw()
+    {
+        name3 = &(*reinterpret_cast<const char *>(&::DAT_010ccfac));
+        name2 = &(*reinterpret_cast<const char *>(&::DAT_010ccfa0));
+        *(const void* volatile*)&name1 = &(*reinterpret_cast<const char *>(&::DAT_010ccf8c));
+        *(const void* volatile*)&name0 = &(*reinterpret_cast<const char *>(&::DAT_010c3bb8));
+    }
+};
+struct State
+{
+    const void* type;
+    float weight;
+    int a, b, c, d, e;
+    __forceinline void Init() throw()
+    {
+        type = &(*reinterpret_cast<const char *>(&::DAT_010dbb04));
+        weight = 1.0f;
+        a = 0;
+        b = 0;
+        c = 1;
+        d = 0;
+        e = 0;
+    }
+};
+union SharedState
+{
+    Vec unit;
+    State state;
+};
+struct __declspec(align(16)) Converted
+{
+    Vec position, bounds;
+    unsigned char tag;
+    unsigned char tag1, tag2, tag3;
+    int property, unk28, unk2c;
+    int value, kind, output;
+    unsigned char flags, flags1;
+    short flags2;
+};
+
+struct SimdValue
+{
+    __m128 v;
+    __forceinline void sub(const SimdValue& a, const SimdValue& b)
+    {
+        v = _mm_sub_ps(a.v, b.v);
+    }
+    __forceinline void eq(const SimdValue& a, const __m128& b)
+    {
+        v = _mm_cmpeq_ps(a.v, b);
+    }
+    __forceinline void select(const SimdValue& a, const __m128& b, const SimdValue& c)
+    {
+        v = _mm_or_ps(_mm_and_ps(c.v, b), _mm_andnot_ps(c.v, a.v));
+    }
+};
+struct TraceEntry
+{
+    const char* label;
+    unsigned int stamp;
+    unsigned int info;
+};
+struct TraceContext
+{
+    void* unk00;
+    TraceEntry* head;
+    void* unk08;
+    TraceEntry* end;
+};
+// @fnv 0x00df8df0
+void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
+{
+    {
+        TraceContext* t = (TraceContext*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+        TraceEntry* p = t->head;
+        if (p < t->end)
+        {
+            p->label = DAT_010dbb0c;
+            _ReadWriteBarrier();
+            volatile unsigned int tick = (unsigned int)__rdtsc();
+            p->stamp = tick;
+            t->head = p + 1;
+        }
+    }
+    union CountTemps
+    {
+        unsigned char* destination;
+        int count;
+        volatile unsigned int stamp;
+    } iteration;
+    union
+    {
+        int queryType;
+        FaceInfo* queryFaces;
+    };
+    union
+    {
+        int queryRemaining;
+        void* queryFinal;
+    };
+    union
+    {
+        Vertex* querySource;
+        int* queryOutputs;
+    };
+    QueryScratch scratch;
+    SharedState shared;
+    State finalState;
+    Field field;
+    Field fields[4];
+    if (request->shapeBuilder == 0)
+    {
+        queryType = request->header->type;
+        querySource = request->vertices;
+        int count = request->vertexCount;
+        VertexBuffer& vertices = scratch.vertices;
+        vertices.Init(count);
+        vertices.count = count;
+        fields[0].Init();
+        fields[1].Init();
+        fields[2].Init();
+        fields[3].Init();
+        iteration.destination = static_cast<unsigned char*>(hkMemoryRouter::getInstance().allocateStack(128));
+        if (count > 0)
+        {
+            Vertex* v = querySource;
+            unsigned int offset = 0;
+            queryRemaining = count;
+            do
+            {
+                OutputVertex* out = (OutputVertex*)((char*)vertices.data + offset);
+                *(__m128*)&out->position = *(__m128*)&v->position;
+                SimdValue width;
+                width.sub(*(SimdValue*)&v->bounds, *(SimdValue*)&v->position);
+                SimdValue eq;
+                eq.eq(width, (*reinterpret_cast<__m128 *>(&::DAT_01267e30)));
+                SimdValue selected;
+                selected.select(width, ::DAT_010c7170, eq);
+                __m128 value = selected.v;
+                __m128 high = _mm_unpackhi_ps(value, ::DAT_010c7170);
+                value = _mm_shuffle_ps(value, high, 0xc4);
+                __m128 reciprocal = _mm_rcp_ps(value);
+                __m128 product = _mm_mul_ps(reciprocal, value);
+                product = _mm_mul_ps(product, reciprocal);
+                reciprocal = _mm_sub_ps(_mm_add_ps(reciprocal, reciprocal), product);
+                *(__m128*)&out->inverse = _mm_or_ps(_mm_andnot_ps(eq.v, reciprocal), _mm_and_ps(eq.v, ::DAT_010cd670));
+                offset += 32;
+                ++v;
+            } while (--queryRemaining != 0);
+        }
+        *(__m128*)&shared.unit = _mm_set1_ps(::DAT_01012068);
+        Field* __restrict at = fields;
+        queryRemaining = 4;
+        do
+        {
+            *(__m128*)&at->vector70 = *(__m128*)&shared.unit;
+            at->option = queryType;
+            ++at;
+        } while (queryRemaining-- != 1);
+        ::fnv_00e2c8a0::FUN_00e2c8a0((::fnv_00e2c8a0::Owner *)(request->passA), (intptr_t)(vertices.data), (intptr_t)(querySource), (intptr_t)(queryType), (intptr_t)(fields), (intptr_t)(iteration.destination), count);
+        ::FUN_00e2cc30((::SplitInput *)(request->passB), (intptr_t)(vertices.data), (intptr_t)(querySource), (intptr_t)(queryType), (intptr_t)(fields), (intptr_t)(iteration.destination), count);
+        hkMemoryRouter::getInstance().deallocateStack(iteration.destination);
+        Field* end = fields + 4;
+        int remaining = 3;
+        do
+        {
+            --end;
+            end->Reset();
+        } while (--remaining >= 0);
+        vertices.Clear();
+        queryFinal = request->finalPass;
+        Vertex* source = request->vertices;
+        finalState.Init();
+        int remainingVertices = request->vertexCount;
+        if (remainingVertices > 0)
+        {
+            iteration.count = remainingVertices;
+            do
+            {
+                ::FUN_00e2abf0(queryFinal, (::S_00df8990_Obj *)(source), queryType, (::CastOutput *)(void *)(&finalState));
+                ++source;
+            } while (--iteration.count != 0);
+        }
+        int remainingFaces = request->faceCount;
+        Face* face = request->faces;
+        if (remainingFaces > 0)
+        {
+            iteration.count = remainingFaces;
+            do
+            {
+                *(__m128*)&scratch.range = *(__m128*)&shared.unit;
+                ::FUN_00e2b070((const ::Input *)(request->passA), (::BundleCommand *)(face), (void *)(intptr_t)(queryType), (*(::RayVector *)(&scratch.range)), (void *)(0), (void *)(0), (void *)(0), (void *)(0), (int *)(0));
+                ::FUN_00e2b510((::Owner *)(request->passB), (::RayBatch *)(face), queryType, (*(__m128 *)(&scratch.range)));
+                ::FUN_00e2acf0(queryFinal, (::InputStruct *)(face), (void *)(intptr_t)(queryType), (float *)(void *)(&scratch.range));
+                ++face;
+            } while (--iteration.count != 0);
+        }
+    }
+    else
+    {
+        field.Init();
+        field.option = request->header->type;
+        Vertex* vertex = request->vertices;
+        shared.state.Init();
+        iteration.count = 0;
+        if (request->vertexCount > 0)
+            do
+            {
+                field.weight = 1.0f;
+                field.dirty = 0;
+                ::FUN_00df89b0((::Interface *)(request->shapeBuilder), (::Source *)(vertex), (::Output *)(void *)(&field), (::Spawned *)(void *)(&shared.state));
+                ++vertex;
+                ++iteration.count;
+            } while (iteration.count < request->vertexCount);
+        int bundleCount = request->faceCount;
+        Face* bundles = request->faces;
+        __assume(bundles != 0);
+        if (bundleCount > 0)
+        {
+            queryFaces = bundles;
+            queryRemaining = bundleCount;
+            do
+            {
+                iteration.count = 0;
+                if (queryFaces->count > 0)
+                {
+                    Face* inputs = &static_cast<Face&>(*queryFaces);
+                    __assume(inputs != 0);
+
+                    do
+                    {
+
+                        Converted converted;
+                        Converted& c = converted;
+                        __m128 position = *(__m128*)&(inputs->parts[iteration.count]).position;
+                        (inputs->parts[iteration.count]).copyTo(c.tag, c.property);
+                        c.value = queryFaces->values[iteration.count];
+                        c.flags = (unsigned char)queryFaces->flags;
+                        *(__m128*)&c.position = position;
+                        __m128 bounds = *(__m128*)&(inputs->parts[iteration.count]).bounds;
+                        c.flags1 = 0;
+                        *(__m128*)&c.bounds = bounds;
+                        c.kind = 1;
+                        c.output = 0;
+                        field.weight = 1.0f;
+                        field.dirty = 0;
+                        ::FUN_00df89b0((::Interface *)(request->shapeBuilder), (::Source *)(void *)(&c), (::Output *)(void *)(&field), (::Spawned *)(void *)(&shared.state));
+                        queryFaces->outputs[iteration.count] = c.output;
+                        ++iteration.count;
+                    } while (iteration.count < queryFaces->count);
+                }
+                queryFaces = reinterpret_cast<FaceInfo*>(reinterpret_cast<Face*>(queryFaces) + 1);
+            } while (--queryRemaining != 0);
+        }
+    }
+    {
+        TraceContext* t = (TraceContext*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+        TraceEntry* p = t->head;
+        if (p < t->end)
+        {
+            p->label = ::DAT_010c41f8;
+            _ReadWriteBarrier();
+            iteration.stamp = (unsigned int)__rdtsc();
+            p->stamp = iteration.stamp;
+            t->head = p + 1;
+        }
+    }
+    reinterpret_cast<::LunaOwner *>((((Finalizer*)result)))->ProcessCallback((intptr_t)(request), (intptr_t)(request), 0);
+}
+}  // namespace fnv_00df8df0
+
+#include "generated/data/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.inc"

@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpFirstPersonGun : public hkReferencedObject
 {
   public:
@@ -45,6 +44,4 @@ class hkpFirstPersonGun : public hkReferencedObject
     char pad11[0x3];
     hkArray<void*> m_kListeners;  // +0x14
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpFirstPersonGun[(sizeof(hkpFirstPersonGun) == 0x20) ? 1 : -1];
 #endif

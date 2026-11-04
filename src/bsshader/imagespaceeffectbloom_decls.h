@@ -1,9 +1,15 @@
 // bsshader/imagespaceeffectbloom_decls.h: declares MemoryManager, RgbaColor, ImageSpaceShaderParam, RenderStateMap, ImageSpaceManager
 #ifndef FNV_IMAGESPACEEFFECTBLOOM_DECLS_H
 #define FNV_IMAGESPACEEFFECTBLOOM_DECLS_H
+#include <cstddef>
 
 
 // the allocation entry points use the canonical MemoryManager signatures.
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_011f6000.h"
 class IMemoryHeap;
 class MemoryManager
 {
@@ -11,10 +17,7 @@ class MemoryManager
     unsigned char layoutPadding0[297];
     bool m_bPoolAllocationEnabled;
     unsigned char layoutPadding12A[2];
-    void* Allocate(unsigned int size);
-    void Deallocate(void* pointer);
 };
-extern MemoryManager g_memoryManager;
 
 template <class T> class NiTMallocInterface
 {
@@ -84,14 +87,6 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     ImageSpaceShaderParam();
     void AllocateShaderConstants(int vertexCount, int pixelCount);
     void SetShaderConstantVector4(int index, float x, float y, float z, float w);
-    static void* operator new(unsigned int size) throw()
-    {
-        return g_memoryManager.Allocate(size);
-    }
-    static void operator delete(void* pointer)
-    {
-        g_memoryManager.Deallocate(pointer);
-    }
 };
 
 class ImageSpaceEffect
@@ -107,10 +102,9 @@ class ImageSpaceEffect
     struct ImageSpaceEffectInput;
     NiTPrimitiveArray<ImageSpaceEffectInput*> pEffectInputs;
     NiTPrimitiveArray<int> pEffectOutput;
-    void SetTextureArrayCount(int count);
-    void SetEffectAt(int index, ImageSpaceEffect* effect, ImageSpaceEffectParam* param, int output);
     // No identity candidate is available for the one-input setup helper.
-    void SetEffectParamAt(int effectIndex, int textureIndex, int filterMode);
+public:
+    void SetTextureArraySize(int);
 };
 
 // Only the PC prefix read by Setup is required here.
@@ -134,6 +128,4 @@ class BloomImageSpaceEffect : public ImageSpaceEffect
 extern float DAT_012023f4;
 extern float DAT_012023f8;
 
-typedef char BloomShaderParamSizeCheck[sizeof(ImageSpaceShaderParam) == 0x88 ? 1 : -1];
-typedef char BloomEffectSizeCheck[sizeof(ImageSpaceEffect) == 0x58 ? 1 : -1];
 #endif

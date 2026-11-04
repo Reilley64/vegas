@@ -2,20 +2,17 @@
 // src/havok/physics/collide/shape/deprecated/storagemesh/hkpstoragemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/storagemesh/hkpstoragemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
+#include <new>
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpPhysicsSystemD29.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_01267000.h"
 #include "havok/hkpStorageMeshShape.h"
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    signed char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 
 class hkVector4D4B
 {
@@ -27,29 +24,7 @@ class hkVector4D4B
     }
 };
 
-class hkMemoryAllocatorD4B
-{
-  public:
-    virtual void V0() throw();
-    virtual void V1() throw();
-    virtual void V2() throw();
-    virtual void* AllocateBufferWithSize(int& iNumBytes) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD4B
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4B* m_pStreamAllocator;
-    hkMemoryAllocatorD4B& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterD4B& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void copyD4B(T* pDst, const T* pSrc, int n)
 {
@@ -82,13 +57,13 @@ template <class T> class hkArrayD4B
 
     __forceinline hkArrayD4B& operator=(const hkArrayD4B& a)
     {
-        hkMemoryAllocatorD4B& kHeap = FUN_00c85750().heap();
+        hkMemoryAllocator& kHeap = hkMemoryRouter::getInstance().heap();
         if (getCapacity() < a.m_iElementCount)
         {
             if ((m_iCapacityState & 0x80000000) == 0)
-                kHeap.ReturnMemory(m_data, getCapacity() * sizeof(T));
+                kHeap.bufFree(m_data, getCapacity() * sizeof(T));
             int iNumBytes = a.m_iElementCount * sizeof(T);
-            m_data = static_cast<T*>(kHeap.AllocateBufferWithSize(iNumBytes));
+            m_data = static_cast<T*>(kHeap.bufAlloc(iNumBytes));
             m_iCapacityState = iNumBytes / static_cast<int>(sizeof(T));
         }
         m_iElementCount = a.m_iElementCount;
@@ -115,20 +90,22 @@ class hkpShapeContainerD4B
 
 struct hkpMeshShapeSubpartD4B
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
+    const void* m_vertexBase;
+    int m_vertexStriding;
+    int m_numVertices;
+    const void* m_indexBase;
+    signed char m_stridingType;
+    signed char m_materialIndexStridingType;
+    unsigned short m_flags;
+    int m_indexStriding;
+    int m_flipAlternateTriangles;
+    int m_numTriangles;
+    const void* m_materialIndexBase;
+    int m_materialIndexStriding;
+    const void* m_materialBase;
+    int m_materialStriding;
+    int m_numMaterials;
+    int m_triangleOffset;
 };
 
 class FUN_00dcd310 : public hkpShapeD4B, public hkpShapeContainerD4B
@@ -176,29 +153,7 @@ FUN_00d4bab0::FUN_00d4bab0(const FUN_00dcd310& kOther) throw()
 }
 
 namespace fnv_00d4bc00 {
-struct hkAllocatorD4BC
-{
-    virtual void V0() throw();
-    virtual void V1() throw();
-    virtual void V2() throw();
-    virtual void V3() throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
 
-struct hkMemoryRouterD4BC
-{
-    void* m_apvUnk00[4];
-    hkAllocatorD4BC* m_pkHeap;
-    hkAllocatorD4BC& heap()
-    {
-        return *m_pkHeap;
-    }
-};
-extern "C" hkMemoryRouterD4BC* __cdecl FUN_00c85750() throw();
 
 template <typename T> struct hkArrayD4BC
 {
@@ -206,7 +161,7 @@ template <typename T> struct hkArrayD4BC
     int m_iElementCount;
     int m_iCapacityState;
 
-    void _clearAndDeallocate(hkAllocatorD4BC& kAlloc)
+    void _clearAndDeallocate(hkMemoryAllocator& kAlloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -216,7 +171,7 @@ template <typename T> struct hkArrayD4BC
     }
     ~hkArrayD4BC() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 
@@ -249,27 +204,7 @@ FUN_00d4bc00::~FUN_00d4bc00() throw()
 }  // namespace fnv_00d4bc00
 
 namespace fnv_00d4bd30 {
-class hkMemoryAllocatorD4BD
-{
-  public:
-    virtual ~hkMemoryAllocatorD4BD() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD4BD
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4BD* m_pStreamAllocator;
-    hkMemoryAllocatorD4BD& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterD4BD& __cdecl FUN_00c85750();
 
 class FUN_00d4bc00
 {
@@ -280,7 +215,7 @@ class FUN_00d4bc00
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00d4bc00*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00d4bc00*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d4bc00* DestroyAndFree(unsigned int uiFlags) throw();
@@ -290,7 +225,7 @@ class FUN_00d4bc00
 // @fnv 0x00d4bd30
 FUN_00d4bc00* FUN_00d4bc00::DestroyAndFree(unsigned int uiFlags) throw()
 {
-    this->FUN_00d4bc00::~FUN_00d4bc00();
+    reinterpret_cast<::fnv_00d4bc00::FUN_00d4bc00 *>((this))->fnv_00d4bc00::FUN_00d4bc00::~FUN_00d4bc00();
     if (uiFlags & 1)
         FUN_00d4bc00::operator delete(this);
     return this;
@@ -298,28 +233,13 @@ FUN_00d4bc00* FUN_00d4bc00::DestroyAndFree(unsigned int uiFlags) throw()
 }  // namespace fnv_00d4bd30
 
 namespace fnv_00d4be00 {
-void* __cdecl FUN_00c85750(void);
 
 struct FUN_00d4b400_Obj
 {
     void FUN_00d4b400();
 };
 
-struct FUN_00d4be00_Allocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void ReleaseBlock(void* p, unsigned short nbytes);
-};
 
-struct FUN_00c85750_Ret
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00d4be00_Allocator* allocator;
-};
 
 class FUN_00d4be00_cls : public hkpStorageMeshShape
 {
@@ -333,35 +253,15 @@ FUN_00d4be00_cls* FUN_00d4be00_cls::FUN_00d4be00(int flags)
     ((FUN_00d4b400_Obj*)this)->FUN_00d4b400();
     if (flags & 1)
     {
-        FUN_00c85750_Ret* mem = (FUN_00c85750_Ret*)FUN_00c85750();
-        FUN_00d4be00_Allocator* alloc = mem->allocator;
-        alloc->ReleaseBlock(this, m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(this, m_usMemSizeAndFlags);
     }
     return this;
 }
 }  // namespace fnv_00d4be00
 
-struct hkAllocatorD4B4
-{
-    virtual void V0() throw();
-    virtual void V1() throw();
-    virtual void V2() throw();
-    virtual void V3() throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD4B4
-{
-    int unk00, unk04, unk08, unk0C;
-    hkAllocatorD4B4* m_pkHeap;
-    hkAllocatorD4B4& heap()
-    {
-        return *m_pkHeap;
-    }
-};
 
 namespace hkRouterD4B4 {
-extern "C" hkMemoryRouterD4B4* __cdecl FUN_00c85750() throw();
 }
 
 template <typename T> struct hkArrayD4B4
@@ -374,24 +274,23 @@ template <typename T> struct hkArrayD4B4
     {
         return m_iElementCount;
     }
-    void _clearAndDeallocate(hkAllocatorD4B4& kAlloc)
+    void _clearAndDeallocate(hkMemoryAllocator& kAlloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
     ~hkArrayD4B4() throw()
     {
-        _clearAndDeallocate(hkRouterD4B4::FUN_00c85750()->heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 
 class hkRefD4B4
 {
   public:
-    void FUN_00c905b0() throw();
 };
 
 class hkBaseAD4B4
@@ -431,7 +330,7 @@ FUN_00d4b400::~FUN_00d4b400() throw()
 {
     for (int i = 0; i < m_children.GetLogicalSize(); i++)
     {
-        m_children.m_data[i]->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_children.m_data[i]))->FUN_00c905b0();
     }
 }
 
@@ -502,28 +401,6 @@ Derived::Derived()
 
 extern "C" void _ReadWriteBarrier();
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-
-struct Alloc480
-{
-    virtual void V0() throw();
-    virtual void* V1(int) throw();
-    virtual void V2() throw();
-    virtual void* AllocateBufferWithSize(int& iNumBytes) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
-void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize);
-void __cdecl FUN_00c908c0(void* heap, void* arr, int newCap, int elemSize);
-extern float DAT_01267e30;
-struct SubpartFlags480
-{
-    int vertices, stride, numVertices, indices;
-    unsigned char indexType, materialIndexType;
-    unsigned short flags;
-};
 
 static __declspec(noinline) int __cdecl FUN_00d4b390(int a, int n)
 {
@@ -565,9 +442,9 @@ struct CopyOps480
 };
 struct HeapPolicy480
 {
-    __forceinline Alloc480& get(const void*)
+    __forceinline hkMemoryAllocator& get(const void*)
     {
-        return (Alloc480&)FUN_00c85750().heap();
+        return hkMemoryRouter::getInstance().heap();
     }
 };
 template <class T> struct CoreArray480
@@ -604,17 +481,17 @@ template <class T> struct CoreArray480
     {
         return m_data[n];
     }
-    __forceinline void reserveHeap480(Alloc480& heap, int needed)
+    __forceinline void reserveHeap480(hkMemoryAllocator& heap, int needed)
     {
         int capacity = getCapacity();
         if (capacity < needed)
         {
             int doubled = 2 * capacity;
             int result = needed < doubled ? doubled : needed;
-            FUN_00c908c0(&heap, this, result, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(this), result, sizeof(T));
         }
     }
-    __forceinline T* appendHeap480(Alloc480& heap, int count)
+    __forceinline T* appendHeap480(hkMemoryAllocator& heap, int count)
     {
         int oldSize = m_iElementCount;
         reserveHeap480(heap, m_iElementCount + count);
@@ -622,10 +499,10 @@ template <class T> struct CoreArray480
         m_iElementCount += count;
         return m_data + oldSize;
     }
-    __forceinline void pushHeap480(Alloc480& heap, const T& value)
+    __forceinline void pushHeap480(hkMemoryAllocator& heap, const T& value)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&heap), (::AudioStream *)(void *)(this), sizeof(T));
         CopyOps480::fill(m_data + m_iElementCount, 1, value, Trivial480());
         m_iElementCount++;
     }
@@ -634,7 +511,7 @@ template <class T> struct Arr480 : CoreArray480<T>
 {
     __forceinline void growIfFull()
     {
-        Alloc480& heap = HeapPolicy480().get(this);
+        hkMemoryAllocator& heap = HeapPolicy480().get(this);
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(&heap, this, sizeof(T));
     }
@@ -665,13 +542,13 @@ template <class T> struct Arr480 : CoreArray480<T>
 };
 template <class Arr> __forceinline void GrowIfFull480(Arr& arr, int elemSize)
 {
-    hkMemoryRouterD4B& router = FUN_00c85750();
+    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
     if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff))
-        ResizeAudioStream(router.m_pStreamAllocator, &arr, elemSize);
+        ::ResizeAudioStream((::AudioAllocator *)(&heap), (::AudioStream *)(void *)(&arr), elemSize);
 }
 template <class Arr> __forceinline void ReserveCount480(Arr& arr, int count, int elemSize)
 {
-    Alloc480* heap = (Alloc480*)&FUN_00c85750().heap();
+    hkMemoryAllocator* heap = &hkMemoryRouter::getInstance().heap();
     int cap = arr.m_iCapacityState & 0x3fffffff;
     int need = arr.m_iElementCount + count;
     if (cap < need)
@@ -685,25 +562,25 @@ template <class Arr> __forceinline void ReserveCount480(Arr& arr, int count, int
 
 __forceinline hkpMeshShapeSubpartD4B* ExpandInit480(hkArrayD4B<hkpMeshShapeSubpartD4B>& arr)
 {
-    GrowIfFull480(arr, 0x38);
+    GrowIfFull480(arr, sizeof(hkpMeshShapeSubpartD4B));
     hkpMeshShapeSubpartD4B* e = &arr.m_data[arr.m_iElementCount];
     if (e)
     {
-        ((SubpartFlags480*)e)->materialIndexType = 1;
-        e->unk24 = 0;
-        e->unk2C = 0;
-        e->unk30 = 1;
-        e->unk28 = 0;
-        e->unk20 = 0;
-        e->unk34 = -1;
-        e->unk18 = 0;
+        e->m_materialIndexStridingType = 1;
+        e->m_materialIndexStriding = 0;
+        e->m_materialStriding = 0;
+        e->m_numMaterials = 1;
+        e->m_materialBase = 0;
+        e->m_materialIndexBase = 0;
+        e->m_triangleOffset = -1;
+        e->m_flipAlternateTriangles = 0;
     }
     return &arr.m_data[arr.m_iElementCount++];
 }
 
 struct Storage480
 {
-    int vptr;
+    const void* vptr;
     unsigned short GetAllocationSize;
     unsigned short refCount;
     Arr480<float> verts;
@@ -721,178 +598,178 @@ void FUN_00dcd310::FUN_00d4b480(const hkpMeshShapeSubpartD4B& kSubpart) throw()
 {
     hkpMeshShapeSubpartD4B* pSubpart = ExpandInit480(m_kSubparts);
 
-    Storage480* storage = (Storage480*)((Alloc480*)&FUN_00c85750().heap())->V1(0x50);
-    storage->GetAllocationSize = 0x50;
-    storage = storage->FUN_00d4bbb0();
+    Storage480* storage = static_cast<Storage480*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(Storage480)));
+    storage->GetAllocationSize = sizeof(Storage480);
+    storage = ((::Storage480 *)(new ((void *)(storage)) ::FUN_00d4bbb0()));
 
     Arr480<Storage480*>& arr60 = (Arr480<Storage480*>&)static_cast<FUN_00d4bab0*>(this)->m_60;
     arr60.AddBack(storage);
     storage = arr60.m_data[arr60.m_iElementCount - 1];
-    int numFloats = kSubpart.unk08 * 3;
+    int numFloats = kSubpart.m_numVertices * 3;
 
     {
         Arr480<float>& verts = storage->verts;
         float* dst = verts.appendRange(numFloats);
-        const float* src = (const float*)kSubpart.unk00;
-        for (int i = 0; i < kSubpart.unk08; i++)
+        const float* src = (const float*)kSubpart.m_vertexBase;
+        for (int i = 0; i < kSubpart.m_numVertices; i++)
         {
             dst[0] = src[0];
             dst[1] = src[1];
             dst[2] = src[2];
             dst += 3;
-            src = (const float*)((const char*)src + kSubpart.unk04);
+            src = (const float*)((const char*)src + kSubpart.m_vertexStriding);
         }
-        pSubpart->unk00 = (int)verts.m_data;
-        pSubpart->unk04 = 12;
-        pSubpart->unk08 = kSubpart.unk08;
+        pSubpart->m_vertexBase = verts.m_data;
+        pSubpart->m_vertexStriding = 12;
+        pSubpart->m_numVertices = kSubpart.m_numVertices;
     }
 
-    int idxDst;
-    if (((const SubpartFlags480*)&kSubpart)->indexType == 1)
+    const void* idxDst;
+    if (kSubpart.m_stridingType == 1)
     {
-        int a = (int)((unsigned int)kSubpart.unk14 >> 1);
+        int a = (int)((unsigned int)kSubpart.m_indexStriding >> 1);
         int iClamped = a;
         if (iClamped > 2)
             iClamped = 3;
-        pSubpart->unk14 = iClamped + iClamped;
-        int numIndices = FUN_00d4b390(a, kSubpart.unk1C);
+        pSubpart->m_indexStriding = iClamped + iClamped;
+        int numIndices = FUN_00d4b390(a, kSubpart.m_numTriangles);
         Arr480<unsigned short>& arr = storage->idx16;
         unsigned short* dst = arr.appendRange(numIndices);
-        idxDst = (int)dst;
-        const unsigned short* src = (const unsigned short*)kSubpart.unk0C;
-        for (int i = 0; i < kSubpart.unk1C; i++)
+        idxDst = dst;
+        const unsigned short* src = (const unsigned short*)kSubpart.m_indexBase;
+        for (int i = 0; i < kSubpart.m_numTriangles; i++)
         {
             dst[0] = src[0];
             dst[1] = src[1];
             dst[2] = src[2];
-            dst = (unsigned short*)((char*)dst + pSubpart->unk14);
-            src = (const unsigned short*)((const char*)src + kSubpart.unk14);
+            dst = (unsigned short*)((char*)dst + pSubpart->m_indexStriding);
+            src = (const unsigned short*)((const char*)src + kSubpart.m_indexStriding);
         }
     }
     else
     {
-        int a = (int)((unsigned int)kSubpart.unk14 >> 2);
+        int a = (int)((unsigned int)kSubpart.m_indexStriding >> 2);
         int iClamped = a;
         if (iClamped > 2)
             iClamped = 3;
-        pSubpart->unk14 = (iClamped << 2);
-        int numIndices = FUN_00d4b390(a, kSubpart.unk1C);
+        pSubpart->m_indexStriding = (iClamped << 2);
+        int numIndices = FUN_00d4b390(a, kSubpart.m_numTriangles);
         Arr480<int>& arr = storage->idx32;
         int* dst = arr.appendRange2(numIndices);
-        idxDst = (int)dst;
-        const int* src = (const int*)kSubpart.unk0C;
-        for (int i = 0; i < kSubpart.unk1C; i++)
+        idxDst = dst;
+        const int* src = (const int*)kSubpart.m_indexBase;
+        for (int i = 0; i < kSubpart.m_numTriangles; i++)
         {
             dst[0] = src[0];
             dst[1] = src[1];
             dst[2] = src[2];
-            dst = (int*)((char*)dst + pSubpart->unk14);
-            src = (const int*)((const char*)src + kSubpart.unk14);
+            dst = (int*)((char*)dst + pSubpart->m_indexStriding);
+            src = (const int*)((const char*)src + kSubpart.m_indexStriding);
         }
     }
 
-    ((SubpartFlags480*)pSubpart)->indexType = ((const SubpartFlags480*)&kSubpart)->indexType;
-    pSubpart->unk1C = kSubpart.unk1C;
-    pSubpart->unk18 = kSubpart.unk18;
-    pSubpart->unk0C = idxDst;
-    ((SubpartFlags480*)pSubpart)->materialIndexType = ((const SubpartFlags480*)&kSubpart)->materialIndexType;
+    pSubpart->m_stridingType = kSubpart.m_stridingType;
+    pSubpart->m_numTriangles = kSubpart.m_numTriangles;
+    pSubpart->m_flipAlternateTriangles = kSubpart.m_flipAlternateTriangles;
+    pSubpart->m_indexBase = idxDst;
+    pSubpart->m_materialIndexStridingType = kSubpart.m_materialIndexStridingType;
 
-    const void* materialIndices = (const void*)kSubpart.unk20;
+    const void* materialIndices = kSubpart.m_materialIndexBase;
     if (materialIndices != 0)
     {
-        if (((const SubpartFlags480*)&kSubpart)->materialIndexType == 1)
+        if (kSubpart.m_materialIndexStridingType == 1)
         {
 
-            if (kSubpart.unk24 == 0)
+            if (kSubpart.m_materialIndexStriding == 0)
             {
                 storage->mat8.pushBack2(*(const unsigned char*)materialIndices);
-                pSubpart->unk20 = (int)&storage->mat8.back480();
+                pSubpart->m_materialIndexBase = &storage->mat8.back480();
             }
             else
             {
-                unsigned char* dst = storage->mat8.appendRange(kSubpart.unk1C);
-                pSubpart->unk20 = (int)dst;
-                const unsigned char* src = (const unsigned char*)kSubpart.unk20;
-                for (int i = 0; i < kSubpart.unk1C; i++)
+                unsigned char* dst = storage->mat8.appendRange(kSubpart.m_numTriangles);
+                pSubpart->m_materialIndexBase = dst;
+                const unsigned char* src = (const unsigned char*)kSubpart.m_materialIndexBase;
+                for (int i = 0; i < kSubpart.m_numTriangles; i++)
                 {
                     dst[i] = src[0];
-                    src += kSubpart.unk24;
+                    src += kSubpart.m_materialIndexStriding;
                 }
             }
         }
         else
         {
             Arr480<unsigned short>& arr = storage->mat16;
-            if (kSubpart.unk24 == 0)
+            if (kSubpart.m_materialIndexStriding == 0)
             {
                 arr.pushBack2(*(const unsigned short*)materialIndices);
-                pSubpart->unk20 = (int)(arr.m_data + arr.m_iElementCount - 1);
+                pSubpart->m_materialIndexBase = arr.m_data + arr.m_iElementCount - 1;
             }
             else
             {
-                unsigned short* dst = arr.appendRange(kSubpart.unk1C);
-                pSubpart->unk20 = (int)dst;
-                const unsigned short* src = (const unsigned short*)kSubpart.unk20;
-                for (int i = 0; i < kSubpart.unk1C; i++)
+                unsigned short* dst = arr.appendRange(kSubpart.m_numTriangles);
+                pSubpart->m_materialIndexBase = dst;
+                const unsigned short* src = (const unsigned short*)kSubpart.m_materialIndexBase;
+                for (int i = 0; i < kSubpart.m_numTriangles; i++)
                 {
                     dst[i] = src[0];
-                    src = (const unsigned short*)((const char*)src + kSubpart.unk24);
+                    src = (const unsigned short*)((const char*)src + kSubpart.m_materialIndexStriding);
                 }
             }
         }
-        int matStride = kSubpart.unk24;
-        pSubpart->unk24 = matStride;
+        int matStride = kSubpart.m_materialIndexStriding;
+        pSubpart->m_materialIndexStriding = matStride;
         if (matStride != 0)
         {
-            switch ((signed char)((SubpartFlags480*)pSubpart)->materialIndexType)
+            switch ((signed char)pSubpart->m_materialIndexStridingType)
             {
             case 1:
-                pSubpart->unk24 = 1;
+                pSubpart->m_materialIndexStriding = 1;
                 break;
             case 2:
-                pSubpart->unk24 = 2;
+                pSubpart->m_materialIndexStriding = 2;
                 break;
             }
         }
     }
     else
     {
-        pSubpart->unk20 = 0;
-        pSubpart->unk24 = 0;
+        pSubpart->m_materialIndexBase = 0;
+        pSubpart->m_materialIndexStriding = 0;
     }
 
-    if (pSubpart->unk20 != 0)
+    if (pSubpart->m_materialIndexBase != 0)
     {
         Arr480<int>& arr = storage->extra;
-        if (kSubpart.unk2C == 0)
+        if (kSubpart.m_materialStriding == 0)
         {
-            const int* pExtraSrc = (const int*)kSubpart.unk28;
+            const int* pExtraSrc = (const int*)kSubpart.m_materialBase;
             arr.pushBack2(*pExtraSrc);
-            pSubpart->unk2C = 0;
-            pSubpart->unk30 = 1;
+            pSubpart->m_materialStriding = 0;
+            pSubpart->m_numMaterials = 1;
         }
         else
         {
-            int* dst = arr.appendRange(kSubpart.unk30);
-            const int* pExtraSrc = (const int*)kSubpart.unk28;
-            for (int i = 0; i < kSubpart.unk30; i++)
+            int* dst = arr.appendRange(kSubpart.m_numMaterials);
+            const int* pExtraSrc = (const int*)kSubpart.m_materialBase;
+            for (int i = 0; i < kSubpart.m_numMaterials; i++)
             {
                 dst[i] = pExtraSrc[0];
-                pExtraSrc = (const int*)((const char*)pExtraSrc + kSubpart.unk2C);
+                pExtraSrc = (const int*)((const char*)pExtraSrc + kSubpart.m_materialStriding);
             }
-            pSubpart->unk2C = 4;
-            pSubpart->unk30 = kSubpart.unk30;
+            pSubpart->m_materialStriding = 4;
+            pSubpart->m_numMaterials = kSubpart.m_numMaterials;
         }
-        pSubpart->unk28 = (int)arr.m_data;
+        pSubpart->m_materialBase = arr.m_data;
     }
     else
     {
-        pSubpart->unk30 = 1;
-        pSubpart->unk28 = (int)&DAT_01267e30;
-        pSubpart->unk2C = 0;
-        pSubpart->unk20 = (int)&DAT_01267e30;
+        pSubpart->m_numMaterials = 1;
+        pSubpart->m_materialBase = &DAT_01267e30;
+        pSubpart->m_materialStriding = 0;
+        pSubpart->m_materialIndexBase = &DAT_01267e30;
     }
-    pSubpart->unk34 = kSubpart.unk34;
+    pSubpart->m_triangleOffset = kSubpart.m_triangleOffset;
 }
 
 namespace fnv_00d4ba30 {
@@ -1028,28 +905,8 @@ FUN_00d4ba30::FUN_00d4ba30(FinishingFlag flag) : FUN_00dcd380(flag)
 }  // namespace fnv_00d4ba30
 
 namespace fnv_00d4bd60 {
-class hkMemoryAllocatorD4BD
-{
-  public:
-    virtual ~hkMemoryAllocatorD4BD() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void unk08() throw();
-    virtual void unk0C() throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD4BD
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorD4BD* m_pStreamAllocator;
 
-    hkMemoryAllocatorD4BD& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-extern "C" hkMemoryRouterD4BD& __cdecl FUN_00c85750() throw();
 
 template <class T> class hkArrayD4BD
 {
@@ -1060,10 +917,10 @@ template <class T> class hkArrayD4BD
 
     ~hkArrayD4BD() throw()
     {
-        hkMemoryAllocatorD4BD& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -1135,23 +992,6 @@ template <typename T> static __forceinline void CopyElements(T* dest, const T* s
     for (int index = 0; index < count; ++index)
         dest[index] = src[index];
 }
-struct FUN_00dcebd0_Allocator
-{
-    virtual ~FUN_00dcebd0_Allocator();
-    virtual void unknown04();
-    virtual void unknown08();
-    virtual void* AllocateBufferWithSize(int& requestedBytes);
-    virtual void ReturnMemory(void* buffer, int byteCount);
-};
-struct FUN_00dcebd0_Router
-{
-    void* m_unknown00;
-    void* m_unknown04;
-    void* m_unknown08;
-    void* m_unknown0c;
-    FUN_00dcebd0_Allocator* m_pThreadAllocator;
-};
-FUN_00dcebd0_Router* __cdecl FUN_00c85750();
 
 struct FUN_00dcebd0_Class
 {
@@ -1176,24 +1016,23 @@ struct FUN_00dcebd0_Class
     int m_iElementCount;
     int m_iCapacityState;
 
-    void FUN_00d06290(const FUN_00dcebd0_Class& source);
     void FUN_00dcebd0(const FUN_00dcebd0_Class& source);
 };
 // Calls FUN_00d06290(source), then copies source's int array into this, reallocating through the thread allocator when capacity is smaller.
 // @fnv 0x00dcebd0
 void FUN_00dcebd0_Class::FUN_00dcebd0(const FUN_00dcebd0_Class& source)
 {
-    FUN_00d06290(source);
-    FUN_00dcebd0_Allocator* allocator = FUN_00c85750()->m_pThreadAllocator;
+    reinterpret_cast<::hkpPhysicsSystemD29 *>(this)->FUN_00d06290((const ::hkpPhysicsSystemD29 &)(source));
+    hkMemoryAllocator* allocator = &hkMemoryRouter::getInstance().heap();
     int capacity = m_iCapacityState & 0x3fffffff;
     if (capacity < source.m_iElementCount)
     {
         if ((m_iCapacityState & 0x80000000u) == 0)
         {
-            allocator->ReturnMemory(m_data, capacity * sizeof(int));
+            allocator->bufFree(m_data, capacity * sizeof(int));
         }
         int bytes = source.m_iElementCount * sizeof(int);
-        m_data = static_cast<int*>(allocator->AllocateBufferWithSize(bytes));
+        m_data = static_cast<int*>(allocator->bufAlloc(bytes));
         m_iCapacityState = bytes / 4;
     }
     m_iElementCount = source.m_iElementCount;

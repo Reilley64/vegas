@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxVertexFloatDataChannel : public hkReferencedObject
 {
   public:
@@ -19,6 +18,4 @@ class hkxVertexFloatDataChannel : public hkReferencedObject
     hkUint8 m_eVertexFloatDimensions;  // +0x14 (VertexFloatDimensions)
     char pad15[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxVertexFloatDataChannel[(sizeof(hkxVertexFloatDataChannel) == 0x18) ? 1 : -1];
 #endif

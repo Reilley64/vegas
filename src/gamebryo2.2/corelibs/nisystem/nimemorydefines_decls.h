@@ -1,4 +1,5 @@
 // gamebryo2.2/corelibs/nisystem/nimemorydefines_decls.h: declares NiAllocator, NiMemoryManagerState
+#include "fnv/symbols_011f6000.h"
 class NiAllocator
 {
   public:
@@ -10,4 +11,3 @@ struct NiMemoryManagerState
 {
     NiAllocator* allocator;
 };
-extern NiMemoryManagerState* DAT_011f6080;

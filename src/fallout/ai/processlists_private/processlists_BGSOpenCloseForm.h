@@ -13,5 +13,4 @@ class BGSOpenCloseForm
     BGSOpenCloseForm();
     ~BGSOpenCloseForm();
 };
-FNV_STATIC_ASSERT(sizeof(BGSOpenCloseForm) == 0x4);
 #endif

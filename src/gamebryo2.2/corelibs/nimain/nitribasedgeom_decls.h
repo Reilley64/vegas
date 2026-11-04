@@ -25,6 +25,8 @@ class NiPropertyState
     NiPropertyState();
     char props[0x1c];
 };
+class NiGeometryData;
+class NiStream;
 class NiGeometry : public NiAVObject
 {
   public:
@@ -34,6 +36,10 @@ class NiGeometry : public NiAVObject
     void* model;
     void* skin;
     void* shader;
+public:
+    void ReplaceModelData(::NiGeometryData *);
+public:
+    void LinkObject(::NiStream &);
 };
 extern void* NiGeometry_vtable[];
 

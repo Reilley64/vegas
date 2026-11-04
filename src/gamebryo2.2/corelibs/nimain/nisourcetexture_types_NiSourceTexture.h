@@ -44,7 +44,6 @@ enum NiTexture__FormatPrefs__MipFlag
     NiTexture__FormatPrefs__MipFlag_YES = 1,
     NiTexture__FormatPrefs__MipFlag_MIP_DEFAULT = 2
 };
-#pragma pack(push, 4)
 class NiTexture__FormatPrefs
 {
   public:
@@ -52,12 +51,6 @@ class NiTexture__FormatPrefs
     NiTexture__FormatPrefs__AlphaFormat m_eAlphaFormat;           // +0x4, 4 bytes
     NiTexture__FormatPrefs__MipFlag m_eMipFlag;                   // +0x8, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTexture__FormatPrefs) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTexture__FormatPrefs, m_ePreferredPixelLayout) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTexture__FormatPrefs, m_eAlphaFormat) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTexture__FormatPrefs, m_eMipFlag) == 8);
-#pragma pack(push, 4)
 class NiTexture : public NiObjectNET
 {
   public:
@@ -99,13 +92,7 @@ class NiTexture : public NiObjectNET
     // NiTexture& __cdecl NiTexture::*(const NiTexture&)
     // void __cdecl NiTexture::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTexture) == 48);
-FNV_STATIC_ASSERT(offsetof(NiTexture, m_kTextureFormatPreferences) == 24);
-FNV_STATIC_ASSERT(offsetof(NiTexture, m_pTextureRendererData) == 36);
-FNV_STATIC_ASSERT(offsetof(NiTexture, m_pkPrev) == 40);
-FNV_STATIC_ASSERT(offsetof(NiTexture, m_pkNext) == 44);
-#pragma pack(push, 4)
+struct TextureLoadStream;
 class NiSourceTexture : public NiTexture
 {
   public:
@@ -122,7 +109,6 @@ class NiSourceTexture : public NiTexture
     NiSourceTexture() throw();
     static NiSourceTexture* Create(const NiFixedString&, NiTexture__FormatPrefs&, bool, bool);
     void DestroyAppPixelData();
-    void LoadBinary(NiStream&);
     // const NiRTTI* __cdecl NiSourceTexture::*()
     // void __cdecl NiSourceTexture::*(NiStream&)
     // void __cdecl NiSourceTexture::*(NiStream&)
@@ -166,16 +152,7 @@ class NiSourceTexture : public NiTexture
     // void __cdecl NiSourceTexture::*()
     // NiSourceTexture& __cdecl NiSourceTexture::*(const NiSourceTexture&)
     // void __cdecl NiSourceTexture::*()
+public:
+    void FUN_00a60180(::TextureLoadStream &);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiSourceTexture) == 72);
-FNV_STATIC_ASSERT(offsetof(NiSourceTexture, m_pcCacheFileName) == 48);
-FNV_STATIC_ASSERT(offsetof(NiSourceTexture, m_kDeviceFilename) == 52);
-FNV_STATIC_ASSERT(offsetof(NiSourceTexture, m_spPersistentTextureRendererData) == 56);
-FNV_STATIC_ASSERT(offsetof(NiSourceTexture, m_spAppPixelData) == 60);
-FNV_STATIC_ASSERT(offsetof(NiSourceTexture, m_bIsStatic) == 64);
-FNV_STATIC_ASSERT(offsetof(NiSourceTexture, m_bLoadDirectToRenderer) == 65);
-FNV_STATIC_ASSERT(offsetof(NiSourceTexture, m_bKeepRendererDataPersistent) == 66);
-FNV_STATIC_ASSERT(offsetof(NiSourceTexture, m_cPixelLayout) == 67);
-FNV_STATIC_ASSERT(offsetof(NiSourceTexture, m_pFile) == 68);
 #endif

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKXMATERIALEFFECT_H
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxMaterialEffect : public hkReferencedObject
 {
   public:
@@ -23,6 +22,4 @@ class hkxMaterialEffect : public hkReferencedObject
     char padD[0x3];
     hkArray<hkUint8> m_data;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxMaterialEffect[(sizeof(hkxMaterialEffect) == 0x1C) ? 1 : -1];
 #endif

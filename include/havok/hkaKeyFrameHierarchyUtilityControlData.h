@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKAKEYFRAMEHIERARCHYUTILITYCONTROLDATA_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkaKeyFrameHierarchyUtilityControlData
 {
   public:
@@ -21,8 +20,4 @@ class hkaKeyFrameHierarchyUtilityControlData
     hkReal m_fSnapMaxLinearDistance;       // +0x28
     hkReal m_fSnapMaxAngularDistance;      // +0x2C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaKeyFrameHierarchyUtilityControlData[(sizeof(hkaKeyFrameHierarchyUtilityControlData) == 0x30)
-                                                                    ? 1
-                                                                    : -1];
 #endif

@@ -1,5 +1,17 @@
 // fallout_shared/tesanimation.cpp: TESAnimation, ActorValueOwner (10 functions)
 
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_00402d50.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00487000.h"
 #include "tesanimation_decls.h"
 #include "BaseFormComponent.h"
 
@@ -15,7 +27,7 @@ void TESAnimation::ClearComponent()
 {
     while (!m_kKFFileList.IsEmpty())
     {
-        const char* filename = m_kKFFileList.GetItem();
+        const char* filename = (m_kKFFileList.m_item);
         m_kKFFileList.RemoveHead();
         delete const_cast<char*>(filename);
     }
@@ -34,30 +46,6 @@ bool TESAnimation::HasSpecialAnimations()
 // @fnv 0x005f78e0
 ActorValueOwner::ActorValueOwner()
 {}
-
-// @fnv 0x0047faa0
-void TESAnimation::LoadComponent(TESForm* form, TESFile* file)
-{
-    if (!file || !form)
-        return;
-    unsigned int chunk = file->GetChunkID();
-    switch (chunk)
-    {
-    case 0x5a46464b: {
-        char* pCurrent;
-        char* pData = new char[file->GetChunkSize()];
-        pCurrent = pData;
-        file->GetChunkData(pData, 0);
-        while (*pCurrent)
-        {
-            AddPathToList(pCurrent);
-            pCurrent = pCurrent + BSStringLength(pCurrent) + 1;
-        }
-        delete[] pData;
-    }
-    break;
-    }
-}
 
 struct BFC_s
 {
@@ -79,12 +67,9 @@ struct FUN_0047f9c0 : public BFC_s
 FUN_0047f9c0::FUN_0047f9c0()
 {}
 
-int __cdecl _stricmp(const char*, const char*);
 struct ListNodeStub
 {
     bool _ref_008256d0();
-    const char** _ref_006815c0();
-    ListNodeStub* _ref_00726070();
 };
 struct FUN_0047fcb0_cls
 {
@@ -100,16 +85,14 @@ bool FUN_0047fcb0_cls::ContainsName(const char* apName)
     ListNodeStub* pNode = &list;
     while (pNode)
     {
-        const char* pcName = *pNode->_ref_006815c0();
-        if (!_stricmp(pcName, apName))
+        const char* pcName = *((const char **)((void *)(pNode)));
+        if (!::FUN_00404dc0(pcName, apName))
             return true;
-        pNode = pNode->_ref_00726070();
+        pNode = ((::ListNodeStub *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
     return false;
 }
 
-void* __cdecl operator new(unsigned int);
-unsigned int __cdecl BSStringLength(const char*);
 struct TaskQueueInterface
 {
     static void __cdecl CopyStringToBuffer(char*, unsigned int, const char*);
@@ -120,7 +103,6 @@ struct SoundListView
 };
 struct FUN_0047fcb0_stub
 {
-    bool ContainsName(const char*);
 };
 struct FUN_0047fd20_cls
 {
@@ -128,17 +110,40 @@ struct FUN_0047fd20_cls
     SoundListView list;
     void AddPathToList(const char* apPath);
 };
+// @fnv 0x0047faa0
+void TESAnimation::LoadComponent(TESForm* form, TESFile* file)
+{
+    if (!file || !form)
+        return;
+    unsigned int chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()));
+    switch (chunk)
+    {
+    case 0x5a46464b: {
+        char* pCurrent;
+        char* pData = new char[reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C()];
+        pCurrent = pData;
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pData), 0);
+        while (*pCurrent)
+        {
+            reinterpret_cast<::FUN_0047fd20_cls *>(this)->AddPathToList(pCurrent);
+            pCurrent = pCurrent + ::FUN_0044a670(pCurrent) + 1;
+        }
+        delete[] pData;
+    }
+    break;
+    }
+}
 // If the path is not already present, allocates a copy of it, copies the string into it and appends it to the list.
 // @fnv 0x0047fd20
 void FUN_0047fd20_cls::AddPathToList(const char* apPath)
 {
     char* pcPathCopy;
-    if (!((FUN_0047fcb0_stub*)this)->ContainsName(apPath))
+    if (!reinterpret_cast<::FUN_0047fcb0_cls *>((((FUN_0047fcb0_stub*)this)))->ContainsName(apPath))
     {
-        unsigned int uiSize = BSStringLength(apPath) + 1;
+        unsigned int uiSize = ::FUN_0044a670(apPath) + 1;
         pcPathCopy = new char[uiSize];
         TaskQueueInterface::CopyStringToBuffer(pcPathCopy, uiSize, apPath);
-        list.AddTail(pcPathCopy);
+        reinterpret_cast<::Callees *>(&(list))->FUN_00905820((void *)&(pcPathCopy));
     }
 }
 
@@ -201,27 +206,24 @@ void FUN_0047fb50_shell::FUN_0047fb50(BaseFormComponent* apCopyFC)
     TESAnimation* pcopy = dynamic_cast<TESAnimation*>(apCopyFC);
     if (pcopy == 0)
         return;
-    ((BaseFormComponent*)this)->Free();
+    reinterpret_cast<::FUN_00402d50 *>((((BaseFormComponent*)this)))->FUN_00402d50::~FUN_00402d50();
     BSSimpleList<const char*>* pkfFileList = &pcopy->m_kKFFileList;
     while (pkfFileList != 0)
     {
-        const char* pkfFilename = pkfFileList->GetItem();
+        const char* pkfFilename = (pkfFileList->m_item);
         if (pkfFilename != 0)
-            AddPathToList(pkfFilename);
-        pkfFileList = pkfFileList->GetNext();
+            reinterpret_cast<::FUN_0047fd20_cls *>(this)->AddPathToList(pkfFilename);
+        pkfFileList = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(pkfFileList))->FUN_00726070()));
     }
 }
 
-int __cdecl CompareNamesNoCase(const char* a, const char* b);
 
 struct ListStepStub
 {
-    ListStepStub* FUN_00726070();
 };
 
 struct ListStepStub2
 {
-    ListStepStub2* FUN_00726070();
 };
 
 struct FUN_0047fbd0_cls : public TESAnimation
@@ -243,8 +245,8 @@ bool FUN_0047fbd0_cls::IsAnimationDifferent(BaseFormComponent* component)
     BSSimpleList<const char*>* b8 = &other_2->m_kKFFileList;
     while (a != 0 && b8 != 0)
     {
-        x = a->GetItem();
-        y = b8->GetItem();
+        x = (a->m_item);
+        y = (b8->m_item);
         if ((x == 0 && y != 0) || (x != 0 && y == 0))
         {
             return true;
@@ -253,14 +255,14 @@ bool FUN_0047fbd0_cls::IsAnimationDifferent(BaseFormComponent* component)
         {
             if (x != 0 && y != 0)
             {
-                if (CompareNamesNoCase(x, y) != 0)
+                if (::FUN_00404dc0(x, y) != 0)
                 {
                     return true;
                 }
             }
         }
-        a = (BSSimpleList<const char*>*)((ListStepStub*)a)->FUN_00726070();
-        b8 = (BSSimpleList<const char*>*)((ListStepStub2*)b8)->FUN_00726070();
+        a = (BSSimpleList<const char*>*)((::ListStepStub *)(reinterpret_cast<::Callees *>((((ListStepStub*)a)))->FUN_00726070()));
+        b8 = (BSSimpleList<const char*>*)((::ListStepStub2 *)(reinterpret_cast<::Callees *>((((ListStepStub2*)b8)))->FUN_00726070()));
     }
     if (a != 0 || b8 != 0)
     {

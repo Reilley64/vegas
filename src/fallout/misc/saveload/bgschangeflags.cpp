@@ -1,8 +1,16 @@
 // fallout/misc/saveload/bgschangeflags.cpp: BGSChangeFlagsState, FormChangeMask, BGSChangeFlagsEx (6 functions)
 
+#include <cstdint>
+#include "fnv/decl/BSFlags.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_0057b790__FUN_0057b790_StandIn.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_011c3000.h"
 #include "bgschangeflags_decls.h"
 // @fnv 0x008c71b0
-GlobalObject_008c71b0::GlobalObject_008c71b0(int initial)
+GlobalObject_008c71b0::GlobalObject_008c71b0(intptr_t initial)
 {
     value = initial;
 }
@@ -18,8 +26,8 @@ void BGSChangeFlagsState::CombineFlags(bool enabled)
 // @fnv 0x00841120
 FormChangeMask FormChangeMask::HasFormChanged(FormChangeMask changes, FormChangeMask forced, int type, bool enabled)
 {
-    ((FormChangeRecord*)&changes)->FUN_00562210(forced.FUN_00559450());
-    ((FormChangeRecord*)&changes)->FUN_00562210(0xffff0000);
+    reinterpret_cast<::BSFlags *>((((FormChangeRecord*)&changes)))->Clear(((unsigned int)(::FUN_00559450((int *)&(forced)))));
+    reinterpret_cast<::BSFlags *>((((FormChangeRecord*)&changes)))->Clear(0xffff0000);
     if (enabled)
     {
         int formType = type;
@@ -27,7 +35,7 @@ FormChangeMask FormChangeMask::HasFormChanged(FormChangeMask changes, FormChange
         {
         case 59:
         case 60:
-            ((FormChangeRecord*)&changes)->FUN_00562210(0x400);
+            reinterpret_cast<::BSFlags *>((((FormChangeRecord*)&changes)))->Clear(0x400);
             break;
         }
     }
@@ -36,11 +44,11 @@ FormChangeMask FormChangeMask::HasFormChanged(FormChangeMask changes, FormChange
 
 struct FUN_00841100_shell : public FormChangeMask
 {
-    void FUN_00841100(int);
+    void FUN_00841100(intptr_t);
 };
 
 // @fnv 0x00841100
-void FUN_00841100_shell::FUN_00841100(int aiFlags)
+void FUN_00841100_shell::FUN_00841100(intptr_t aiFlags)
 {
     *(int*)this |= aiFlags;
 }
@@ -201,7 +209,7 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
     case 63:
     case 64:
     case 105: {
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 2:
             return enabled ? kStr_Moved : kStr_CHANGE_REFR_MOVE;
@@ -232,7 +240,7 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
         {
         case 59:
         case 60:
-            switch (flags)
+            switch ((unsigned int)flags)
             {
             case 0x400:
                 return enabled ? kStr_Life_State : kStr_CHANGE_ACTOR_LIFESTATE;
@@ -257,7 +265,7 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
             }
             break;
         default:
-            switch (flags)
+            switch ((unsigned int)flags)
             {
             case 0x400:
                 return enabled ? kStr_Item_Data_Extra : kStr_CHANGE_OBJECT_EXTRA_ITEM_DATA;
@@ -273,7 +281,7 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
             switch (formType)
             {
             case 28:
-                switch (flags)
+                switch ((unsigned int)flags)
                 {
                 case 0x20000:
                     return enabled ? kStr_Teleport_Extra : kStr_CHANGE_DOOR_EXTRA_TELEPORT;
@@ -285,7 +293,7 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
         break;
     }
     case 71:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 2:
             return enabled ? kStr_Quest_Flags : kStr_CHANGE_QUEST_FLAGS;
@@ -300,21 +308,21 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
         }
         break;
     case 70:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 0x80000000:
             return enabled ? kStr_Said_Once : kStr_CHANGE_TOPIC_SAIDONCE;
         }
         break;
     case 49:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 0x80000000:
             return enabled ? kStr_Note_Read : kStr_CHANGE_NOTE_READ;
         }
         break;
     case 57:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 0x80000000:
             return enabled ? kStr_Seen_Data : kStr_CHANGE_CELL_SEENDATA;
@@ -333,7 +341,7 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
         }
         break;
     case 8:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 2:
             return enabled ? kStr_Faction_Flags : kStr_CHANGE_FACTION_FLAGS;
@@ -344,7 +352,7 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
         }
         break;
     case 73:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 0x80000000:
             return enabled ? kStr_Never_Run_Flag : kStr_CHANGE_PACKAGE_NEVER_RUN;
@@ -354,7 +362,7 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
         break;
     case 42:
     case 43:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 2:
             return enabled ? kStr_Base_Data : kStr_CHANGE_ACTOR_BASE_DATA;
@@ -370,7 +378,7 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
         switch (formType)
         {
         case 42:
-            switch (flags)
+            switch ((unsigned int)flags)
             {
             case 0x200:
                 return enabled ? kStr_NPC_Skills : kStr_CHANGE_NPC_SKILLS;
@@ -385,7 +393,7 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
             }
             break;
         case 43:
-            switch (flags)
+            switch ((unsigned int)flags)
             {
             case 0x200:
                 return enabled ? kStr_Creature_Skills : kStr_CHANGE_CREATURE_SKILLS;
@@ -394,14 +402,14 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
         }
         break;
     case 7:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 2:
             return enabled ? kStr_Tag_Skills : kStr_CHANGE_CLASS_TAG_SKILLS;
         }
         break;
     case 97:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 2:
             return enabled ? kStr_Zone_Flags : kStr_CHANGE_ENCOUNTER_ZONE_FLAGS;
@@ -410,7 +418,7 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
         }
         break;
     case 85:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 0x80000000:
             return enabled ? kStr_Added_Form : kStr_CHANGE_FORM_LIST_ADDED_FORM;
@@ -419,21 +427,21 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
     case 44:
     case 45:
     case 52:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 0x80000000:
             return enabled ? kStr_Added_Object : kStr_CHANGE_LEVELED_LIST_ADDED_OBJECT;
         }
         break;
     case 78:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 0x80000000:
             return enabled ? kStr_Remapped : kStr_CHANGE_WATER_REMAPPED;
         }
         break;
     default:
-        switch (flags)
+        switch ((unsigned int)flags)
         {
         case 2:
             return enabled ? kStr_Object_Value : kStr_CHANGE_BASE_OBJECT_VALUE;
@@ -443,14 +451,14 @@ const char* GetChangeFlagName(int flags, int aiFormType, bool enabled)
         switch (formType)
         {
         case 25:
-            switch (flags)
+            switch ((unsigned int)flags)
             {
             case 0x20:
                 return enabled ? kStr_Teaches_Skill : kStr_CHANGE_BOOK_TEACHES_SKILL;
             }
             break;
         case 22:
-            switch (flags)
+            switch ((unsigned int)flags)
             {
             case 0x800000:
                 return enabled ? kStr_Speaker : kStr_CHANGE_TALKING_ACTIVATOR_SPEAKER;
@@ -466,26 +474,21 @@ class TESForm
 {
   public:
     int GetFormType();
-    unsigned int GetFormID();
 };
 
 class TESObjectREFR : public TESForm
 {
   public:
-    bool FUN_0057b790();
 };
 
 struct TESDataHandler
 {
-    bool FUN_00469860(unsigned int);
 };
 
-extern TESDataHandler* g_dataHandler;
 
 struct BGSChangeFlagsEx : public FUN_00841100_shell
 {
     BGSChangeFlagsEx();
-    bool Test(unsigned int);
     bool TestFormChangeFlags(TESForm* apForm);
 };
 
@@ -509,17 +512,17 @@ bool BGSChangeFlagsEx::TestFormChangeFlags(TESForm* apForm)
     case 0x40:
     case 0x69:
         pRef = (TESObjectREFR*)apForm;
-        if (g_dataHandler->FUN_00469860(apForm->GetFormID()))
+        if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apForm))->FUN_0084e3a0()))))
         {
             bKeep2 = true;
         }
-        if (pRef->FUN_0057b790())
+        if (reinterpret_cast<::fnv_0057b790::FUN_0057b790_StandIn *>((pRef))->FUN_0057b790())
         {
-            if (Test(0x10000000))
+            if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>(this)->FUN_004280f0(0x10000000))
             {
                 kForced.FUN_00841100(0x10000000);
             }
-            if (Test(0x8000000))
+            if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>(this)->FUN_004280f0(0x8000000))
             {
                 kForced.FUN_00841100(0x8000000);
             }
@@ -528,7 +531,7 @@ bool BGSChangeFlagsEx::TestFormChangeFlags(TESForm* apForm)
         {
         case 0x3B:
         case 0x3C:
-            if (Test(0x40000))
+            if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>(this)->FUN_004280f0(0x40000))
             {
                 kForced.FUN_00841100(0x40000);
             }
@@ -536,13 +539,13 @@ bool BGSChangeFlagsEx::TestFormChangeFlags(TESForm* apForm)
         }
         break;
     case 0x47:
-        if (Test(0x40000000))
+        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>(this)->FUN_004280f0(0x40000000))
         {
             kForced.FUN_00841100(0x40000000);
         }
         break;
     }
 
-    flags = kForced.FUN_00559450();
+    flags = ((unsigned int)(::FUN_00559450((int *)&(kForced))));
     return flags != 0 || bKeep2;
 }

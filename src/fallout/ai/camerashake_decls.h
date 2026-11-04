@@ -1,4 +1,8 @@
 // fallout/ai/camerashake_decls.h: declares NiFixedString, NiAVObject, NiNode, ModelLoader, FileFinder
+#include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_011c3000.h"
 class NiFixedString
 {
   public:
@@ -6,10 +10,12 @@ class NiFixedString
     NiFixedString(const char*);
     ~NiFixedString();
 };
+struct NiPoint3;
 class NiAVObject
 {
   public:
-    void SetName(const NiFixedString&);
+public:
+    ::NiPoint3 &FUN_0043c490();
 };
 class NiNode : public NiAVObject
 {
@@ -17,7 +23,6 @@ class NiNode : public NiAVObject
 class ModelLoader
 {
   public:
-    NiNode* LoadFile(const char*, int, bool, bool, bool, bool);
 };
 class FileFinder
 {
@@ -28,6 +33,4 @@ class FileFinder
     };
     static FILE_LOCATION Exist(const char*, char*, unsigned int, unsigned int);
 };
-extern ModelLoader* g_modelLoader;
 extern NiNode* DAT_011dfecc;
-extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);

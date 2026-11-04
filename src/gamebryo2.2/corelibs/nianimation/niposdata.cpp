@@ -1,5 +1,20 @@
 // gamebryo2.2/corelibs/nianimation/niposdata.cpp: NiPosData, MyPosData, Holder, PosKeyData (10 functions)
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FUN_00a5d3a0.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/NiObjectD510.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_01097000.h"
+#include "fnv/symbols_011f3000.h"
 #include "niposdata_decls.h"
 // @fnv 0x00a490e0
 void NiPosData::SetColorKeys(PositionKeyInterpolator* keys, unsigned int count, AnimationKey::KeyType eKeyType)
@@ -25,7 +40,7 @@ void NiPosData::SetColorKeys(PositionKeyInterpolator* keys, unsigned int count, 
 // @fnv 0x00a49240
 void NiPosData::LoadBinary(NiStream& stream)
 {
-    NiObject::LoadBinary(stream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
     unsigned int count;
     stream.input->Read(&count, 4);
     if (count > 0)
@@ -40,12 +55,9 @@ void NiPosData::LoadBinary(NiStream& stream)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
-extern int DAT_0109717c;
 struct BaseUnk
 {
-    void _Call_a5d3a0();
     void* vtable;
     int _04;
 };
@@ -59,21 +71,20 @@ struct Derived : BaseUnk
 // @fnv 0x00a49020
 Derived* FUN_00a49020()
 {
-    Derived* p = (Derived*)BSFadeNode::operator new(sizeof(Derived));
+    Derived* p = (Derived*)::operator new(sizeof(Derived));
     if (p)
     {
-        p->_Call_a5d3a0();
+        new ((void *)(p)) struct ::FUN_00a5d3a0();
         p->m08 = 0;
         p->m0C = 0;
         p->m10 = 0;
         p->m14 = 0;
-        p->vtable = (void*)&DAT_0109717c;
+        p->vtable = (void*)&(*reinterpret_cast<int *>(&::DAT_0109717c));
         return p;
     }
     return 0;
 }
 
-void __cdecl UpdateSlotStates(int, int, void*, void*, float, float);
 struct MyPosData
 {
     void* vtable;
@@ -88,7 +99,7 @@ struct MyPosData
 void MyPosData::FUN_00a48f70(float afArg1, float afArg2)
 {
     void* pkKeys = m_pKeyArray;
-    UpdateSlotStates(1, m_eRequestType, &pkKeys, &m_uiNumKeys, afArg1, afArg2);
+    ::UpdateSlotStates(1, m_eRequestType, (void **)(void *)(&pkKeys), (int *)(void *)(&m_uiNumKeys), afArg1, afArg2);
     m_pKeyArray = pkKeys;
 }
 
@@ -109,13 +120,12 @@ struct Holder : NiRefObject
 void Holder::FUN_00a48fb0()
 {
     PositionKeyInterpolator* p = _0C;
-    *(int*)this = (int)&DAT_0109717c;
+    *(intptr_t*)this = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0109717c));
     if (p)
         DAT_011f38b8[_10](p);
-    this->NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((this))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
-extern unsigned char DAT_011f375e[];
 struct S_00a48fe0
 {
     int _00;
@@ -154,23 +164,21 @@ struct PosKeyData
     unsigned char* m_pKeyArray;
     int m_eRequestType;
     unsigned char m_ucKeyDataSize;
-    bool IsSameAs(const PosKeyData* other);
     bool Equals(const PosKeyData* other);
 };
 typedef bool(__cdecl* KeyEqual)(const void*, const void*);
-extern KeyEqual DAT_011f3af8[];
 
 // @fnv 0x00a49060
 bool PosKeyData::Equals(const PosKeyData* other)
 {
-    if (!IsSameAs(other))
+    if (!reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(other)))
         return false;
 
     if (m_uiNumKeys != other->m_uiNumKeys || m_eRequestType != other->m_eRequestType ||
         m_ucKeyDataSize != other->m_ucKeyDataSize)
         return false;
 
-    KeyEqual pfnEqualKeys = DAT_011f3af8[m_eRequestType];
+    KeyEqual pfnEqualKeys = (*reinterpret_cast<bool (*(*)[])(const void *, const void *)>(&::DAT_011f3af8))[m_eRequestType];
     for (unsigned int i = 0; i < m_uiNumKeys; ++i)
     {
         unsigned int offset = i * m_ucKeyDataSize;
@@ -358,7 +366,6 @@ class A49300Stream
 };
 
 typedef void (*A49300SaveFunc)(A49300Stream& kStream, void* pvData, unsigned int ItemUpdateArray);
-extern A49300SaveFunc g_apfnA49300Save[];
 
 class A49300Base
 {
@@ -366,7 +373,6 @@ class A49300Base
     int unk00;
     int unk04;
 
-    void FUN_00a89af0(A49300Stream& kStream);
 };
 
 class A49300Data : public A49300Base
@@ -383,19 +389,16 @@ class A49300Data : public A49300Base
 // @fnv 0x00a49300
 void A49300Data::SaveToStream(A49300Stream& kStream)
 {
-    FUN_00a89af0(kStream);
+    ::FUN_00a89af0((intptr_t)this);
     kStream.m_pBackingStream->Write(&m_uiCount, 4);
     if (m_uiCount > 0)
     {
         kStream.m_pBackingStream->Write(&m_uiType, 4);
-        g_apfnA49300Save[m_uiType](kStream, m_pResource, m_uiCount);
+        (*reinterpret_cast<void (*(*)[])(A49300Stream &, void *, unsigned int)>(&::g_011f3a68))[m_uiType](kStream, m_pResource, m_uiCount);
     }
 }
 
 extern char str_01097164[];
-extern int DAT_011f3f68;
-extern int __cdecl FUN_00a7d330(int);
-extern int __cdecl FUN_00a7d510(char*, int);
 
 struct FUN_0096ad30_param
 {
@@ -405,8 +408,6 @@ struct FUN_0096ad30_param
     unsigned short unk0A;
     unsigned short unk0C;
     unsigned short unk0E;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, unsigned int*);
 };
 
 struct Owner_00a49380
@@ -414,31 +415,30 @@ struct Owner_00a49380
     void* vtable;
     int unk04;
     int unk08;
-    void AppendCameraPathEntries(FUN_0096ad30_param*);
     void FUN_00a49380(FUN_0096ad30_param*);
 };
 
 // @fnv 0x00a49380
 void Owner_00a49380::FUN_00a49380(FUN_0096ad30_param* param)
 {
-    unsigned int value;
+    uintptr_t value;
     unsigned int index;
 
-    AppendCameraPathEntries(param);
-    value = FUN_00a7d330(DAT_011f3f68);
+    reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(param));
+    value = ((intptr_t)(::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_011f3f68))))));
     index = param->unk0A;
     if (index >= (unsigned int)param->unk08)
     {
-        param->FUN_0096ad30((unsigned int)param->unk0E + index);
+        reinterpret_cast<::ViewerStrings *>((param))->SetSize((unsigned int)param->unk0E + index);
     }
-    param->FUN_0096ae90(index, &value);
-    value = FUN_00a7d510(str_01097164, unk08);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((param))->SetAt(index, (*(char * *)(&value)));
+    value = ((intptr_t)(::FUN_00a7d510(str_01097164, unk08)));
     index = param->unk0A;
     if (index >= (unsigned int)param->unk08)
     {
-        param->FUN_0096ad30((unsigned int)param->unk0E + index);
+        reinterpret_cast<::ViewerStrings *>((param))->SetSize((unsigned int)param->unk0E + index);
     }
-    param->FUN_0096ae90(index, &value);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((param))->SetAt(index, (*(char * *)(&value)));
 }
 
 #include <windows.h>
@@ -460,7 +460,6 @@ class RefCountedObj
     }
 };
 
-void FUN_00a3d630(int, int, int, int, float, float, unsigned int*, unsigned int*);
 
 class FUN_00a49140_cls
 {
@@ -471,7 +470,6 @@ class FUN_00a49140_cls
     RefCountedObj* m_0C;
     int m_10;
 
-    void FUN_00a5d510(RefCountedObj** out);
     void FUN_00a49140(float a1, float a2, RefCountedObj** out);
 };
 
@@ -482,7 +480,7 @@ void FUN_00a49140_cls::FUN_00a49140(float a1, float a2, RefCountedObj** apObj)
     unsigned int uiOut2;
     unsigned int uiOut1;
     tmp = 0;
-    FUN_00a5d510(&tmp);
+    reinterpret_cast<::NiObjectD510 *>(this)->FUN_00a5d510((*(::NiPointerD510 *)(&tmp)));
     RefCountedObj* p = tmp;
     if (p != 0)
     {
@@ -492,7 +490,7 @@ void FUN_00a49140_cls::FUN_00a49140(float a1, float a2, RefCountedObj** apObj)
     {
         uiOut1 = 0;
         uiOut2 = 0;
-        FUN_00a3d630(1, m_10, (int)m_0C, (int)m_08, a1, a2, &uiOut1, &uiOut2);
+        ::FUN_00a3d630(1, m_10, (void *)((intptr_t)m_0C), (int)m_08, a1, a2, (void **)(unsigned int *)(&uiOut1), (int *)(unsigned int *)(&uiOut2));
         p->FUN_00a490e0(uiOut1, uiOut2, m_10);
     }
     RefCountedObj* old = *apObj;
@@ -517,3 +515,5 @@ void FUN_00a49140_cls::FUN_00a49140(float a1, float a2, RefCountedObj** apObj)
         tmp->DecRefCount();
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niposdata.inc"

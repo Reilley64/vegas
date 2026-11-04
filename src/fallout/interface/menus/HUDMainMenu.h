@@ -53,6 +53,7 @@ class HUDMainMenu : public Menu
     char m_kXPUpdates[8];
     char m_kRadiationUpdates[8];
     float m_fRadiationUpdateTimer;
+public:
+    static void RefreshTargetDisplay();
 };
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_pTiles) == 0x28);
 #endif

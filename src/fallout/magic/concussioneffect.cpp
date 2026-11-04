@@ -1,5 +1,17 @@
 // fallout/magic/concussioneffect.cpp: ConcussionEffect (7 functions)
 
+#include "fnv/active_effect_fields.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_00ad8830_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_0080b000.h"
+#include "fnv/symbols_0118a000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
 #include "concussioneffect_decls.h"
 
 const char kConcussionFXCrippleHead[] = "FXCrippleHead";
@@ -19,10 +31,10 @@ bool ConcussionEffect::IsEffectValid(MagicTarget* target)
 // @fnv 0x0080bdd0
 void ConcussionEffect::Update(float deltaTime)
 {
-    ((MagicProjectile*)this)->Process(deltaTime);
+    reinterpret_cast<::FUN_004534f0_shell *>((((MagicProjectile*)this)))->FUN_004534f0(deltaTime);
     m_fPackageValue += deltaTime;
-    Actor* actor = ((ActorMover*)this)->GetCurrentMoveModeType()
-                       ? ((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType())->GetOwnerActor()
+    Actor* actor = reinterpret_cast<::ActiveEffectFields *>(this)->target
+                       ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
                        : 0;
     if (actor)
         ApplyConcussion(actor);
@@ -40,7 +52,7 @@ ActiveEffect* ConcussionEffect::Copy()
 // @fnv 0x0080be40
 void ConcussionEffect::ApplyConcussion(Actor* actor)
 {
-    if (m_fPackageValue > DAT_011d1ba4.Float()->value)
+    if (m_fPackageValue > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1212))))))->value)
     {
         m_fPackageValue = 0.0f;
         if (actor->FUN_008be870() == 0.0)
@@ -48,13 +60,13 @@ void ConcussionEffect::ApplyConcussion(Actor* actor)
             if (!actor->second.vfn_8(0x48))
             {
                 DAT_011dbe50 = true;
-                if (actor->IsPlayerRef() && !g_thePlayer->IsSleepingOrResting())
+                if (actor->IsPlayerRef() && !::_g_thePlayer->IsSleepingOrResting())
                 {
-                    ImageSpaceModifierInstanceForm::Trigger(TESImageSpaceModifier::GetConcussionModifier(),
-                                                            DAT_011cf834.Float()->value, 0);
-                    ((BSAudio*)FUN_00453a70())->GetSoundHandleByEditorID(kConcussionFXCrippleHead, 0x101).Play(false);
+                    ImageSpaceModifierInstanceForm::Trigger(::FUN_0080bfa0(),
+                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting731))))))->value, 0);
+                    reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(((BSAudio*)::FUN_00453a70())->GetSoundHandleByEditorID(kConcussionFXCrippleHead, 0x101)))->FUN_00ad8830(false);
                 }
-                actor->GetProcess()->vfn_44(actor, 0, 2, 1, 0, 1);
+                ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->vfn_44(actor, 0, 2, 1, 0, 1);
                 DAT_011dbe50 = false;
             }
         }
@@ -84,29 +96,30 @@ FUN_0080bc70_cls::FUN_0080bc70_cls(MagicCaster* apCaster, MagicItem* apMagicItem
 struct TESForm
 {
     virtual ~TESForm();
+public:
+    void ClearData();
 };
 
-TESForm* __cdecl GetFormByID(unsigned int);
-extern unsigned char DAT_0118abb1;
 extern TESImageSpaceModifier* DAT_011c9704;
 
 // @fnv 0x0080bfa0
 TESImageSpaceModifier* __cdecl FUN_0080bfa0()
 {
-    if (!DAT_0118abb1)
+    if (!(*reinterpret_cast<unsigned char *>(&::DAT_0118abb1)))
         return 0;
     if (!DAT_011c9704)
-        DAT_011c9704 = dynamic_cast<TESImageSpaceModifier*>(GetFormByID(0x164));
+        DAT_011c9704 = dynamic_cast<TESImageSpaceModifier*>(::FUN_004839c0(0x164));
     return DAT_011c9704;
 }
 
 struct FUN_0052d240_shell
 {
-    void FUN_00483710();
     void FUN_0052d240();
 };
 // @fnv 0x0052d240
 void FUN_0052d240_shell::FUN_0052d240()
 {
-    FUN_00483710();
+    reinterpret_cast<::TESForm *>(this)->ClearData();
 }
+
+#include "generated/data/fallout/magic/concussioneffect.inc"

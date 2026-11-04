@@ -2,6 +2,17 @@
 // src/gamebryo2.2/corelibs/nicollision/niobbnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/niobbnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiOBB.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/S_00eba480.h"
+#include "fnv/decl/S_00ebf4a0_Class.h"
+#include "fnv/decl/S_00ebf610_Box.h"
+#include "fnv/decl/TransformRecord.h"
+#include "fnv/symbols_00eb9000.h"
+#include "fnv/symbols_011f6000.h"
 struct NiOBBNode
 {
     char pad1[0x80];
@@ -19,8 +30,6 @@ bool NiOBBNode::FUN_00eb6b70()
 struct QueryContext
 {
     int unk00;
-    void UpdateWorldBounds(void* detail);
-    int IntersectRay(void* a1, void* a2);
 };
 struct ChildTest
 {
@@ -75,10 +84,10 @@ int RayNode::TestChildren(void* a1, void* a2, int a3, int a4, void* a5, int a6)
 {
     if (a6 != m_0x88)
     {
-        context.UpdateWorldBounds((char*)a5 + 0x68);
+        reinterpret_cast<::S_00eba480 *>(&(context))->UpdateWorldBounds((*(const ::NiTransform *)((char*)a5 + 0x68)));
         m_0x88 = a6;
     }
-    if (!context.IntersectRay(a1, a2))
+    if (!reinterpret_cast<::S_00ebf610_Box *>(&(context))->IntersectRay((*(const ::S_00ebf610_Pt3 *)(a1)), (*(const ::S_00ebf610_Pt3 *)(a2))))
         return 0;
     int result;
     if (m_0x80 != 0)
@@ -161,7 +170,7 @@ struct SwapNode
 };
 
 // @fnv 0x00eb9a50
-int __stdcall RunSwapTests(SwapNode* pNode)
+int RunSwapTests(SwapNode* pNode)
 {
     int iResult0 = 0;
     int iResult1 = 0;
@@ -288,7 +297,6 @@ struct LocalObj
     int m_28;
     int m_2c;
     int m_30;
-    void FUN_00a86bf0();
 };
 struct SubObj
 {
@@ -307,7 +315,6 @@ struct WorkObj
     int m_18;
     int m_1c;
     int m_20;
-    void GetMatrix(void* a1, void* a2);
 };
 struct RayNodeW7
 {
@@ -330,16 +337,16 @@ struct RayNodeW7
     int unk70;
     int unk74;
     int unk78;
-    int unk7c;
+    intptr_t unk7c;
     ChildTest* m_0x80;
     ChildTest* m_0x84;
     int m_0x88;
-    void ComputeWeightedCovariance(void* out, unsigned short* a1, V3* a2, int a3, int a4, int a5, int a6, int* a7);
-    void ComputeTriangleBounds(int a0, unsigned short* a1, V3* a2, int a3, int a4, int a5, int a6, int* a7);
+    void ComputeWeightedCovariance(void* out, unsigned short* a1, V3* a2, intptr_t a3, intptr_t a4, int a5, int a6, int* a7);
+    void ComputeTriangleBounds(intptr_t a0, unsigned short* a1, V3* a2, intptr_t a3, intptr_t a4, int a5, int a6, int* a7);
 };
 
 // @fnv 0x00eb94e0
-void RayNodeW7::ComputeTriangleBounds(int a0, unsigned short* ausIndices, V3* apVertices, int a3, int a4, int a5,
+void RayNodeW7::ComputeTriangleBounds(intptr_t a0, unsigned short* ausIndices, V3* apVertices, intptr_t a3, intptr_t a4, int a5,
                                       int aiEndTri, int* apiTriMap)
 {
     V3& origin = center;
@@ -349,7 +356,7 @@ void RayNodeW7::ComputeTriangleBounds(int a0, unsigned short* ausIndices, V3* ap
     WorkObj work;
     LocalObj detail;
     ComputeWeightedCovariance(&work, ausIndices, apVertices, a3, a4, a5, aiEndTri, apiTriMap);
-    work.GetMatrix(&sub, &mat);
+    reinterpret_cast<::TransformRecord *>(&(work))->GetMatrix((uintptr_t)(&sub), (float *)(void *)(&mat));
     V3 vLower(0, 0, 0), vUpper(0, 0, 0);
     unsigned short index = (unsigned short)a5;
     if ((int)(unsigned short)index <= aiEndTri)
@@ -365,7 +372,7 @@ void RayNodeW7::ComputeTriangleBounds(int a0, unsigned short* ausIndices, V3* ap
             float fProjX, fProjY, fProjZ;
             vDelta0 = *p0 - origin;
             fProjX = vDelta0.x * pfMatrixEntries[0] + vDelta0.y * pfMatrixEntries[1] + vDelta0.z * pfMatrixEntries[2];
-            fProjY = vDelta0.Dot(mat.row1);
+            fProjY = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vDelta0))->DotProduct((void *)&(mat.row1));
             fProjZ = vDelta0.x * pfMatrixEntries[6] + vDelta0.y * pfMatrixEntries[7] + vDelta0.z * pfMatrixEntries[8];
 
             if (fProjX < vLower.x)
@@ -382,7 +389,7 @@ void RayNodeW7::ComputeTriangleBounds(int a0, unsigned short* ausIndices, V3* ap
                 vUpper.z = fProjZ;
             vDelta1 = *p1 - origin;
             fProjX = vDelta1.x * pfMatrixEntries[0] + vDelta1.y * pfMatrixEntries[1] + vDelta1.z * pfMatrixEntries[2];
-            fProjY = vDelta1.Dot(mat.row1);
+            fProjY = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vDelta1))->DotProduct((void *)&(mat.row1));
             fProjZ = vDelta1.x * pfMatrixEntries[6] + vDelta1.y * pfMatrixEntries[7] + vDelta1.z * pfMatrixEntries[8];
 
             if (fProjX < vLower.x)
@@ -399,7 +406,7 @@ void RayNodeW7::ComputeTriangleBounds(int a0, unsigned short* ausIndices, V3* ap
                 vUpper.z = fProjZ;
             vDelta2 = *p2 - origin;
             fProjX = vDelta2.x * pfMatrixEntries[0] + vDelta2.y * pfMatrixEntries[1] + vDelta2.z * pfMatrixEntries[2];
-            fProjY = vDelta2.Dot(mat.row1);
+            fProjY = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(vDelta2))->DotProduct((void *)&(mat.row1));
             fProjZ = vDelta2.x * pfMatrixEntries[6] + vDelta2.y * pfMatrixEntries[7] + vDelta2.z * pfMatrixEntries[8];
 
             if (fProjX < vLower.x)
@@ -420,8 +427,8 @@ void RayNodeW7::ComputeTriangleBounds(int a0, unsigned short* ausIndices, V3* ap
     extent = (vUpper - vLower) * 0.5;
     V3 vMidpoint = (vUpper + vLower) * 0.5;
     origin += mat.row0 * vMidpoint.x + mat.row1 * vMidpoint.y + mat.row2 * vMidpoint.z;
-    detail.FUN_00a86bf0();
-    ((QueryContext*)&origin)->UpdateWorldBounds(&detail);
+    reinterpret_cast<::NiTransform *>(&(detail))->ResetToIdentity();
+    reinterpret_cast<::S_00eba480 *>((((QueryContext*)&origin)))->UpdateWorldBounds((*(const ::NiTransform *)(&detail)));
     unk7c = a0;
 }
 
@@ -438,8 +445,8 @@ struct PlainPoint3
 
 // Accumulates weighted centroid and covariance over triangles a7[a5..a6], stores the centroid in center and the covariance matrix in out.
 // @fnv 0x00eb8ae0
-void RayNodeW7::ComputeWeightedCovariance(void* pCovariance, unsigned short* pIndices, V3* pVertices, int pWeights,
-                                          int pCentroids, int iStart, int iEnd, int* pTriList)
+void RayNodeW7::ComputeWeightedCovariance(void* pCovariance, unsigned short* pIndices, V3* pVertices, intptr_t pWeights,
+                                          intptr_t pCentroids, int iStart, int iEnd, int* pTriList)
 {
     V3 vSum(0.0f, 0.0f, 0.0f);
     float fTotalWeight = 0.0f;
@@ -523,7 +530,6 @@ struct MyContext
     int unk74;
     int unk78;
 
-    void UpdateWorldBounds(void* detail);
     int FUN_00eba680(void* other);
 };
 
@@ -549,13 +555,13 @@ bool MyNode::CompareTreeRecursive(MyNode* other, char* apThisData, char* apOther
 
     if (idA != this->m_0x88)
     {
-        this->context.UpdateWorldBounds(apThisData + 0x68);
+        reinterpret_cast<::S_00eba480 *>(&(this->context))->UpdateWorldBounds((*(const ::NiTransform *)(apThisData + 0x68)));
         this->m_0x88 = idA;
     }
 
     if (idB != other->m_0x88)
     {
-        other->context.UpdateWorldBounds(apOtherData + 0x68);
+        reinterpret_cast<::S_00eba480 *>(&(other->context))->UpdateWorldBounds((*(const ::NiTransform *)(apOtherData + 0x68)));
         other->m_0x88 = idB;
     }
 
@@ -633,16 +639,14 @@ struct OBBShape
 struct OBBContext
 {
     int unk00;
-    int FUN_00ebc2a0(OBBContext* pkOther, float* pfTime, NiPoint3* pkPoint);
-    void ProjectOntoAxes(NiPoint3* pkPoint, NiPoint3* pkNormal);
 };
 
 struct OBBCollisionRecord
 {
-    int m_iA;
-    int m_iB;
-    int m_iC;
-    int m_iD;
+    intptr_t m_iA;
+    intptr_t m_iB;
+    intptr_t m_iC;
+    intptr_t m_iD;
     float m_fTime;
     NiPoint3 m_kPoint;
     NiPoint3 m_kNormal0;
@@ -684,13 +688,12 @@ struct OBBLeaf
     int unk78;
     OBBShape* m_pkShape;
 
-    int FUN_00eb9b00(OBBLeaf* pkOther, int iA, int iB, int iC, int iD, bool* pbHit);
-    int RunSwapTests(OBBCollisionRecord* pkRecord);
+    int FUN_00eb9b00(OBBLeaf* pkOther, intptr_t iA, intptr_t iB, intptr_t iC, intptr_t iD, bool* pbHit);
 };
 
 // On a collision, sets pbHit, projects the contact point onto both contexts' axes, and runs swap tests.
 // @fnv 0x00eb9b00
-int OBBLeaf::FUN_00eb9b00(OBBLeaf* pkOther, int iA, int iB, int iC, int iD, bool* pbHit)
+int OBBLeaf::FUN_00eb9b00(OBBLeaf* pkOther, intptr_t iA, intptr_t iB, intptr_t iC, intptr_t iD, bool* pbHit)
 {
     OBBCollisionRecord kRecord;
     kRecord.m_iE = 0;
@@ -714,14 +717,14 @@ int OBBLeaf::FUN_00eb9b00(OBBLeaf* pkOther, int iA, int iB, int iC, int iD, bool
     }
     else
     {
-        iCollide = m_kContext.FUN_00ebc2a0(&pkOther->m_kContext, &kRecord.m_fTime, &kRecord.m_kPoint);
+        iCollide = reinterpret_cast<::NiOBB *>(&(m_kContext))->FUN_00ebc2a0((*(const ::NiOBB *)(&pkOther->m_kContext)), (*(float *)(&kRecord.m_fTime)), (*(::NiPoint3_ext *)(&kRecord.m_kPoint)));
     }
     if (iCollide)
     {
         *pbHit = true;
-        m_kContext.ProjectOntoAxes(&kRecord.m_kPoint, &kRecord.m_kNormal0);
-        pkOther->m_kContext.ProjectOntoAxes(&kRecord.m_kPoint, &kRecord.m_kNormal1);
-        return RunSwapTests(&kRecord);
+        reinterpret_cast<::S_00ebf4a0_Class *>(&(m_kContext))->ProjectOntoAxes((const ::S_00ebf4a0_Vec3 *)(::NiPoint3 *)(&kRecord.m_kPoint), (::S_00ebf4a0_Vec3 *)(::NiPoint3 *)(&kRecord.m_kNormal0));
+        reinterpret_cast<::S_00ebf4a0_Class *>(&(pkOther->m_kContext))->ProjectOntoAxes((const ::S_00ebf4a0_Vec3 *)(::NiPoint3 *)(&kRecord.m_kPoint), (::S_00ebf4a0_Vec3 *)(::NiPoint3 *)(&kRecord.m_kNormal1));
+        return ::RunSwapTests((::SwapNode *)(&kRecord));
     }
     return 0;
 }
@@ -752,8 +755,6 @@ struct RayTree
     RayTree* m_0x80;
     RayTree* m_0x84;
     int m_0x88;
-    bool FUN_00eb6b70();
-    int FUN_00eb9b00(RayTree* pOther, void* a2, void* a3, void* a4, void* a5, void* a10);
 };
 
 // Checks bounds, then tests this node or recursively tests its children, returning a positive result or 0.
@@ -766,23 +767,23 @@ int RayTree::Intersect(RayTree* pOther, void* a2, void* a3, void* a4, void* a5, 
 
     if (aiBoundsIdA != m_0x88)
     {
-        context.UpdateWorldBounds((char*)a4 + 0x68);
+        reinterpret_cast<::S_00eba480 *>(&(context))->UpdateWorldBounds((*(const ::NiTransform *)((char*)a4 + 0x68)));
         m_0x88 = aiBoundsIdA;
     }
     if (aiBoundsIdB != pOther->m_0x88)
     {
-        pOther->context.UpdateWorldBounds((char*)a5 + 0x68);
+        reinterpret_cast<::S_00eba480 *>(&(pOther->context))->UpdateWorldBounds((*(const ::NiTransform *)((char*)a5 + 0x68)));
         pOther->m_0x88 = aiBoundsIdB;
     }
     if (!context.FUN_00eba680(&pOther->context))
         goto fail;
 
     if (!aiDepthA || !adDepthB)
-        return FUN_00eb9b00(pOther, a2, a3, a4, a5, a10);
+        return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (intptr_t)(a2), (intptr_t)(a3), (intptr_t)(a4), (intptr_t)(a5), (bool *)(a10));
 
     if (Slot04())
     {
-        if (!pOther->Slot04() && pOther->FUN_00eb6b70())
+        if (!pOther->Slot04() && reinterpret_cast<::NiOBBNode *>((pOther))->FUN_00eb6b70())
         {
             --adDepthB;
             int b = Intersect(pOther->m_0x80, a2, a3, a4, a5, aiDepthA, adDepthB, aiBoundsIdA, aiBoundsIdB, a10);
@@ -794,7 +795,7 @@ int RayTree::Intersect(RayTree* pOther, void* a2, void* a3, void* a4, void* a5, 
             goto fail;
         }
         int b;
-        b = FUN_00eb9b00(pOther, a2, a3, a4, a5, a10);
+        b = reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (intptr_t)(a2), (intptr_t)(a3), (intptr_t)(a4), (intptr_t)(a5), (bool *)(a10));
         if (b >= 1)
             return b;
         goto fail;
@@ -807,7 +808,7 @@ int RayTree::Intersect(RayTree* pOther, void* a2, void* a3, void* a4, void* a5, 
             RayTree* child = m_0x80;
             if (!child || !m_0x84)
             {
-                int result = FUN_00eb9b00(pOther, a2, a3, a4, a5, a10);
+                int result = reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (intptr_t)(a2), (intptr_t)(a3), (intptr_t)(a4), (intptr_t)(a5), (bool *)(a10));
                 _ReadWriteBarrier();
                 return result;
             }
@@ -826,7 +827,7 @@ int RayTree::Intersect(RayTree* pOther, void* a2, void* a3, void* a4, void* a5, 
 
             static_cast<volatile int&>(aiDepthA) = aiDepthA - 1;
             if (!child || !m_0x84)
-                return FUN_00eb9b00(pOther, a2, a3, a4, a5, a10);
+                return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (intptr_t)(a2), (intptr_t)(a3), (intptr_t)(a4), (intptr_t)(a5), (bool *)(a10));
             int b = child->Intersect(pOther, a2, a3, a4, a5, aiDepthA, adDepthB, aiBoundsIdA, aiBoundsIdB, a10);
             if (b >= 1)
                 return b;
@@ -912,9 +913,7 @@ void RayNodeW7_Derived::FUN_00eb8dc0(const V3* vertices, int first, int last, co
 
 struct S00eb9fa0_Pool
 {
-    void* FUN_00aa3e40(unsigned int s);
 };
-extern S00eb9fa0_Pool DAT_011f6238;
 struct BuildBox
 {
     MyContext context;
@@ -930,19 +929,12 @@ struct S00eb9fa0_Node
     S00eb9fa0_Node* m_0x84;
     int m_0x88;
     virtual ~S00eb9fa0_Node();
-    static void* operator new(unsigned int s)
-    {
-        return DAT_011f6238.FUN_00aa3e40(s);
-    }
     S00eb9fa0_Node()
     {
         m_0x80 = 0;
         m_0x84 = 0;
         m_0x88 = 0;
     }
-    void ComputeTriangleBounds(void* a0, const unsigned short* a1, const V3* a2, float* a3, V3* a4, int iStart,
-                               int iEnd, int* a7);
-    __declspec(noalias) void FUN_00eb8dc0(V3* a5, int iStart, int iEnd, int* a7, int* piMid, int* piRight, int* a8);
     void BuildNode(void* a0, const unsigned short* a1, const V3* a2, const V3* a3, float* a4, V3* a5, int iStart,
                    int iEnd, int* a7, int* a8, int iMin);
 };
@@ -958,7 +950,7 @@ struct S00eb9fa0_Leaf : S00eb9fa0_Node
 void S00eb9fa0_Node::BuildNode(void* a0, const unsigned short* apIndices, const V3* apVertices, const V3* a3, float* a4,
                                V3* a5, int iStart, int iEnd, int* a7, int* apOrder, int iMin)
 {
-    ComputeTriangleBounds(a0, apIndices, apVertices, a4, a5, iStart, iEnd, a7);
+    reinterpret_cast<::RayNodeW7 *>(this)->ComputeTriangleBounds((intptr_t)(a0), (unsigned short *)(apIndices), (::V3 *)(apVertices), (intptr_t)(a4), (intptr_t)(a5), iStart, iEnd, a7);
     if (iEnd - iStart < iMin)
     {
         m_0x80 = 0;
@@ -969,7 +961,7 @@ void S00eb9fa0_Node::BuildNode(void* a0, const unsigned short* apIndices, const 
         int iSplit, iNext;
         {
             int iMid, iRight;
-            FUN_00eb8dc0(a5, iStart, iEnd, a7, &iMid, &iRight, apOrder);
+            reinterpret_cast<::RayNodeW7_Derived *>(this)->FUN_00eb8dc0(a5, iStart, iEnd, a7, &iMid, &iRight, apOrder);
             iSplit = iMid;
             iNext = iRight;
         }

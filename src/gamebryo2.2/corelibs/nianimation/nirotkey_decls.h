@@ -3,6 +3,10 @@
 #define ARMY_NIROTKEY_DECLS_H
 
 
+#include "fnv/decl/NiKeyBasedInterpolator.h"
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_01097000.h"
+#include "fnv/symbols_011f3000.h"
 struct NiQuaternion
 {
     float m_fVectorX;
@@ -38,12 +42,10 @@ struct TimedRotationKey
 
 typedef void(__cdecl* NiRotKeyInterpFn)(float, const TimedRotationKey*, const TimedRotationKey*, NiQuaternion*);
 
-extern "C" double DAT_010241b0;
 extern "C" NiRotKeyInterpFn DAT_011f3cc0[];
 
 // Placeholders for the 0x00a3ca30 span (thunk + padding + accessor); rename in one place later.
-extern "C" void* DAT_01097054;  // NiKeyBasedInterpolator vtbl (JIP-LN-NVSE)
-extern "C" void* DAT_011f3740;
-void FUN_00a57010();  // ctor tail-target of the thunk (thiscall, no stack args)
+  // NiKeyBasedInterpolator vtbl (JIP-LN-NVSE)
+  // ctor tail-target of the thunk (thiscall, no stack args)
 
 #endif

@@ -1,5 +1,10 @@
 // bscore/scrapheap_decls.h: declares ScrapHeapBuffer, ScrapHeapManager, Entry, MemoryManager
 
+#include <windows.h>
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/StateMachine.h"
+#include "fnv/symbols_00aa5000.h"
+#include "fnv/symbols_011f6000.h"
 class ScrapHeapManager;
 
 class ScrapHeapBuffer
@@ -14,8 +19,6 @@ class ScrapHeapBuffer
     ScrapHeapBuffer();
     ~ScrapHeapBuffer();
     void Init(unsigned int size);
-    void Deallocate(void* memory);
-    void* Allocate(unsigned int size, unsigned int alignment);
 };
 
 class RecursiveSpinLock
@@ -23,7 +26,6 @@ class RecursiveSpinLock
   public:
     unsigned int lockWord;
     unsigned int listCount;
-    void Lock(const char* name);
 };
 
 class ScrapHeapManager
@@ -42,12 +44,6 @@ class ScrapHeapManager
     RecursiveSpinLock bufferLock;
 
     static ScrapHeapManager& Instance();
-    char* RequestBuffer(unsigned int& size);
-    void ReleaseBuffer(char* buffer, unsigned int size);
-    char* AllocateBuffer(unsigned int size);
-    void ReleaseBufferContents(char* buffer, unsigned int offset, unsigned int size);
-    void FreeBuffer(char* buffer, unsigned int size);
-    void FreeTailOfBlock(char* buffer, unsigned int offset, unsigned int size);
     void RemoveEntry(unsigned int index);
 };
 
@@ -56,12 +52,4 @@ class IMemoryHeap;
 class MemoryManager
 {
   public:
-    unsigned int HandleAllocationFailure(IMemoryHeap* heap, int errorCode, bool* handled);
 };
-
-extern MemoryManager g_memoryManager;
-
-extern "C" __declspec(dllimport) void* __stdcall VirtualAlloc(void* address, unsigned int size,
-                                                              unsigned int allocationType, unsigned int protection);
-
-extern "C" __declspec(dllimport) int __stdcall VirtualFree(void* address, unsigned int size, unsigned int freeType);

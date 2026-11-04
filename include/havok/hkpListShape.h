@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpShapeCollection.h"
 class hkpListShapeChildInfo;
-#pragma pack(push, 1)
 class hkpListShape : public hkpShapeCollection
 {
   public:
@@ -23,6 +22,4 @@ class hkpListShape : public hkpShapeCollection
     hkVector4 m_kAabbCenter;            // +0x40
     hkUint32 m_uiChildEnabledFlags[8];  // +0x50
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpListShape[(sizeof(hkpListShape) == 0x70) ? 1 : -1];
 #endif

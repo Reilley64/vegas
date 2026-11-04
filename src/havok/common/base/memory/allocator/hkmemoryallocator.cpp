@@ -2,17 +2,18 @@
 // src/havok/common/base/memory/allocator/hkmemoryallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/hkmemoryallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d2c000.h"
 struct TargetClass
 {
     virtual void f0();
     virtual void f1();
-    virtual void __fastcall f2(void* a2);
+    virtual void f2(void* a2);
 
-    void __fastcall FUN_00cbf1d0(void* a2);
+    void FUN_00cbf1d0(void* a2);
 };
 
 // @fnv 0x00cbf1d0
-void __fastcall TargetClass::FUN_00cbf1d0(void* a2)
+void TargetClass::FUN_00cbf1d0(void* a2)
 {
     f2(a2);
 }
@@ -21,7 +22,7 @@ void __fastcall TargetClass::FUN_00cbf1d0(void* a2)
  * worker/candidate.cpp — DRAFT ONLY.
  * Not compiled, not compared, no MATCH claimed. Parent owns verification.
  *
- * Unit: pack/pack.json symbol FUN_00cbf280, 67 bytes, __thiscall member of a
+ * Unit: pack/pack.json symbol FUN_00cbf280, 67 bytes, member of a
  * five-slot class, three stack parameters, returns a pointer, cleans 0xC.
  *
  * Every identifier below is a placeholder chosen for readability. The binary
@@ -41,7 +42,6 @@ void __fastcall TargetClass::FUN_00cbf1d0(void* a2)
  * the call site hands it a destination, a source and a byte count, which is
  * consistent with a bounded copy (inference, not verified).
  */
-void FUN_00d2caa0(void* dest, void* src, unsigned int count);
 
 /*
  * Block passed as the unit's third parameter.
@@ -113,7 +113,7 @@ void* CFun00cbf280Owner::FUN_00cbf280(void* src, int size, SFun00cbf280Args* arg
     if (size < count)
         count = size;
 
-    FUN_00d2caa0(dest, src, (unsigned int)count);
+    ::fnv_00d2caa0::FUN_00d2caa0(dest, src, (unsigned int)count);
 
     this->Commit(src, size);
 
@@ -124,7 +124,7 @@ extern int DAT_010c3b30;
 
 struct FUN_00cbf1a0_cls
 {
-    int m_vptr00;
+    void* m_vptr00;
 
     void FUN_00cbf1a0();
 };
@@ -132,7 +132,7 @@ struct FUN_00cbf1a0_cls
 // @fnv 0x00cbf1a0
 void FUN_00cbf1a0_cls::FUN_00cbf1a0()
 {
-    m_vptr00 = (int)&DAT_010c3b30;
+    m_vptr00 = &DAT_010c3b30;
 }
 
 struct BhkTarget
@@ -207,17 +207,17 @@ struct CBF260
     virtual void f6();
     virtual void f7();
     virtual void f8();
-    virtual void __fastcall f9(void* arg);
-    void __fastcall FUN_00cbf260(void* arg);
+    virtual void f9(void* arg);
+    void FUN_00cbf260(void* arg);
 };
 // @fnv 0x00cbf260
-void __fastcall CBF260::FUN_00cbf260(void* arg)
+void CBF260::FUN_00cbf260(void* arg)
 {
     f9(arg);
 }
 
 // @fnv 0x00cbf270
-bool __stdcall FUN_00cbf270(int arg0)
+bool FUN_00cbf270(int arg0)
 {
     return true;
 }

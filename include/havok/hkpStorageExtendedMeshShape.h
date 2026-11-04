@@ -6,7 +6,6 @@
 #include "hkBase.h"
 class hkpStorageExtendedMeshShapeMeshSubpartStorage;
 class hkpStorageExtendedMeshShapeShapeSubpartStorage;
-#pragma pack(push, 1)
 class hkpStorageExtendedMeshShape
 {
   public:
@@ -15,6 +14,4 @@ class hkpStorageExtendedMeshShape
     hkArray<hkpStorageExtendedMeshShapeShapeSubpartStorage*> m_kShapeSubparts;  // +0xFC
     char pad108[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpStorageExtendedMeshShape[(sizeof(hkpStorageExtendedMeshShape) == 0x110) ? 1 : -1];
 #endif

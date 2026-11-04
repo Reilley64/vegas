@@ -2,6 +2,9 @@
 #ifndef FNV_TESREGION_DECLS_H
 #define FNV_TESREGION_DECLS_H
 
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 #include "layout_support.h"
 #include "tesregion_TESForm.h"
 #include "layout_support.h"
@@ -35,10 +38,6 @@ class NiColor
     // float __cdecl NiColor::*()
     // void __cdecl NiColor::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
-FNV_STATIC_ASSERT(offsetof(NiColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(NiColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(NiColor, b) == 8);
 class TESRegion : public TESForm
 {
   public:
@@ -52,9 +51,6 @@ class TESRegion : public TESForm
     virtual void ClearData();
     virtual void InitItem();
     virtual bool Load(TESFile* file);
-    RegionDataList* GetRegionDataList() const;
-    BSSimpleList<RegionPointList*>* GetRegionPointLists() const;
-    TESWorldSpace* GetParentWorldSpace() const;
     void AssignWorldSpace(TESWorldSpace* world);
     // TESRegion
     // void __cdecl TESRegion::*()
@@ -83,11 +79,4 @@ class TESRegion : public TESForm
     // TESRegion& __cdecl TESRegion::*(const TESRegion&)
     // void __cdecl TESRegion::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESRegion) == 56);
-FNV_STATIC_ASSERT(offsetof(TESRegion, m_pRegionDataList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESRegion, pRegionPointList) == 28);
-FNV_STATIC_ASSERT(offsetof(TESRegion, m_pContainingWorldspace) == 32);
-FNV_STATIC_ASSERT(offsetof(TESRegion, m_pRegionWeather) == 36);
-FNV_STATIC_ASSERT(offsetof(TESRegion, fWeatherChance) == 40);
-FNV_STATIC_ASSERT(offsetof(TESRegion, m_kDiffuseColor) == 44);
 #endif

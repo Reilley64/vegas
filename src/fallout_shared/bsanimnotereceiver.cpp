@@ -2,50 +2,50 @@
 // src/fallout_shared/bsanimnotereceiver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bsanimnotereceiver.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/FUN_004b0480_cls.h"
+#include "fnv/decl/FUN_004b0530_Class.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/symbols_00401000.h"
 struct IBSAnimNoteReceiver
 {
     virtual ~IBSAnimNoteReceiver();
-    void __thiscall FUN_004b0530();
     void* FUN_004b0550(unsigned int flags);
 };
-void __cdecl _Deallocate(void*);
 
 // Calls FUN_004b0530, then deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x004b0550
 void* IBSAnimNoteReceiver::FUN_004b0550(unsigned int flags)
 {
-    FUN_004b0530();
+    reinterpret_cast<::FUN_004b0530_Class *>(this)->FUN_004b0530();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct BSAnimNoteReceiver
 {
-    void __thiscall FUN_004b0480();
-    void* __thiscall FUN_004b0580(unsigned int);
+    void* FUN_004b0580(unsigned int);
 };
-void __cdecl _Deallocate(void*);
 
 // Calls FUN_004b0480, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004b0580
-void* __thiscall BSAnimNoteReceiver::FUN_004b0580(unsigned int flags)
+void* BSAnimNoteReceiver::FUN_004b0580(unsigned int flags)
 {
-    FUN_004b0480();
+    reinterpret_cast<::FUN_004b0480_cls *>(this)->FUN_004b0480_cls::~FUN_004b0480_cls();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct FUN_00658930_class
 {
-    unsigned int __thiscall GetShortAtOffsetA() const;
+    unsigned int GetShortAtOffsetA() const;
 };
 struct NiFormArray
 {
-    void*& __thiscall FUN_00877a30(unsigned int index);
+    void*& FUN_00877a30(unsigned int index);
 };
-unsigned int __fastcall FUN_0044ddc0(void* note);
 struct ReceiverEntry
 {
     unsigned int type;
@@ -56,16 +56,16 @@ struct FUN_004b0730_class
     int unk00;
     void* unk04;
     int unk08;
-    void __thiscall DispatchNoteToReceivers(void* note);
+    void DispatchNoteToReceivers(void* note);
 };
 // @fnv 0x004b0730
 void FUN_004b0730_class::DispatchNoteToReceivers(void* note)
 {
-    for (int i = 0; i < ((FUN_00658930_class*)((char*)this + 8))->GetShortAtOffsetA(); ++i)
+    for (int i = 0; i < ((FUN_00658930_class*)&this->unk08)->GetShortAtOffsetA(); ++i)
     {
-        if (((ReceiverEntry*)((NiFormArray*)((char*)this + 8))->FUN_00877a30(i))->type == FUN_0044ddc0(note))
+        if (((ReceiverEntry*)((NiFormArray*)&this->unk08)->FUN_00877a30(i))->type == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((note))->GetName())))
         {
-            ((ReceiverEntry*)((NiFormArray*)((char*)this + 8))->FUN_00877a30(i))->callback(unk04, note);
+            ((ReceiverEntry*)((NiFormArray*)&this->unk08)->FUN_00877a30(i))->callback(unk04, note);
         }
     }
 }

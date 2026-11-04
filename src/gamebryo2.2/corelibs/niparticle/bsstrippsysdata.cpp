@@ -2,28 +2,42 @@
 // src/gamebryo2.2/corelibs/niparticle/bsstrippsysdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/bsstrippsysdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
+#include <cstring>
+#include "fnv/decl/NiPSysDataWriter.h"
+#include "fnv/decl/NiPSysData_StandIn.h"
+#include "fnv/decl/NiPSysData_View.h"
+#include "fnv/decl/PSDataEqStand.h"
+#include "fnv/decl/S00c25340_Data.h"
+#include "fnv/decl/Source08.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010be000.h"
+#include "fnv/symbols_01202000.h"
 struct FUN_00c25dd0_shell
 {
-    short __thiscall FUN_00c25dd0();
+    short FUN_00c25dd0();
 };
 
 // @fnv 0x00c25dd0
-short __thiscall FUN_00c25dd0_shell::FUN_00c25dd0()
+short FUN_00c25dd0_shell::FUN_00c25dd0()
 {
     return *reinterpret_cast<short*>(this + 0x80);
 }
 
-extern "C" void* g_01202680;
 
 // @fnv 0x00c25ee0
 void* __cdecl FUN_00c25ee0()
 {
-    return &g_01202680;
+    return &(*reinterpret_cast<void * *>(&::g_01202680));
 }
 
 struct FUN_00c25e70_shell
 {
-    void* __thiscall GetElementField(unsigned short a, unsigned short b);
+    void* GetElementField(unsigned short a, unsigned short b);
 };
 
 // Indexes the pointer at this+0x7c by a*32, then returns that element plus b*0x84+0xc.
@@ -40,11 +54,11 @@ void* __cdecl FUN_00c25ef0();
 
 struct FUN_00c26380_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 // @fnv 0x00c26380
-void* __thiscall FUN_00c26380_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_00c26380_shell::DestroyIfFlagged(unsigned int flags)
 {
     void* p = FUN_00c25ef0();
     if (flags & 1)
@@ -54,10 +68,10 @@ void* __thiscall FUN_00c26380_shell::DestroyIfFlagged(unsigned int flags)
 
 struct FUN_00c25db0_shell
 {
-    unsigned short __thiscall FUN_00c25db0(unsigned short index);
+    unsigned short FUN_00c25db0(unsigned short index);
 };
 // @fnv 0x00c25db0
-unsigned short __thiscall FUN_00c25db0_shell::FUN_00c25db0(unsigned short index)
+unsigned short FUN_00c25db0_shell::FUN_00c25db0(unsigned short index)
 {
     return *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(*reinterpret_cast<unsigned int**>(
                                                   reinterpret_cast<unsigned char*>(this) + 0x7c)) +
@@ -66,11 +80,11 @@ unsigned short __thiscall FUN_00c25db0_shell::FUN_00c25db0(unsigned short index)
 
 struct FUN_00c25de0_shell
 {
-    float __thiscall GetEntryFloat(unsigned short idx);
+    float GetEntryFloat(unsigned short idx);
 };
 
 // @fnv 0x00c25de0
-float __thiscall FUN_00c25de0_shell::GetEntryFloat(unsigned short usIndex)
+float FUN_00c25de0_shell::GetEntryFloat(unsigned short usIndex)
 {
     return *(float*)((char*)*(int**)((char*)this + 0x7c) + 0x1c + (int)usIndex * 32);
 }
@@ -100,7 +114,6 @@ FUN_00c24c90::FUN_00c24c90() : m70(0), m74(0), m78(0)
 struct NiObject;
 struct BSStripPSysData
 {
-    bool __thiscall IsEqual(NiObject*);
     char _pad[0x80];
     unsigned short usMaxPointCount;
     float fStartCapSize;
@@ -109,14 +122,14 @@ struct BSStripPSysData
 };
 struct FUN_00c25cd0_shell : BSStripPSysData
 {
-    bool __thiscall FUN_00c25cd0(NiObject* pkObject);
+    bool FUN_00c25cd0(NiObject* pkObject);
 };
 // Compares the base fields and then usMaxPointCount, fStartCapSize, fEndCapSize and bDoZPrePass against another BSStripPSysData, returning true if all match.
 // @fnv 0x00c25cd0
-bool __thiscall FUN_00c25cd0_shell::FUN_00c25cd0(NiObject* pkObject)
+bool FUN_00c25cd0_shell::FUN_00c25cd0(NiObject* pkObject)
 {
     BSStripPSysData* pkDest = (BSStripPSysData*)pkObject;
-    if (IsEqual(pkObject) && pkDest->usMaxPointCount == usMaxPointCount && pkDest->fStartCapSize == fStartCapSize &&
+    if (reinterpret_cast<::PSDataEqStand *>(this)->FUN_00c24de0((::PSDataEqStand *)(pkObject)) && pkDest->usMaxPointCount == usMaxPointCount && pkDest->fStartCapSize == fStartCapSize &&
         pkDest->fEndCapSize == fEndCapSize && pkDest->bDoZPrePass == bDoZPrePass)
         return true;
     return false;
@@ -135,11 +148,11 @@ struct S20_25e20
 };
 struct FUN_00c25e20_shell
 {
-    float __thiscall GetInnerValue(unsigned short, unsigned short);
+    float GetInnerValue(unsigned short, unsigned short);
 };
 // Indexes base[a].p to an inner object and returns its float field at index b.
 // @fnv 0x00c25e20
-float __thiscall FUN_00c25e20_shell::GetInnerValue(unsigned short ausOuterIndex, unsigned short ausInnerIndex)
+float FUN_00c25e20_shell::GetInnerValue(unsigned short ausOuterIndex, unsigned short ausInnerIndex)
 {
     S20_25e20* base = *(S20_25e20**)((char*)this + 0x7c);
     S84_25e20* inner = (S84_25e20*)base[ausOuterIndex].p;
@@ -148,7 +161,7 @@ float __thiscall FUN_00c25e20_shell::GetInnerValue(unsigned short ausOuterIndex,
 
 struct FUN_00c25e40_shell
 {
-    float __thiscall FUN_00c25e40(unsigned short a, unsigned short b);
+    float FUN_00c25e40(unsigned short a, unsigned short b);
 };
 struct FUN_00c25e40_Inner
 {
@@ -162,7 +175,7 @@ struct FUN_00c25e40_Outer
 };
 // Reads a pointer from this+0x7c, indexes it by a, then indexes that object's p by b and returns the float v.
 // @fnv 0x00c25e40
-float __thiscall FUN_00c25e40_shell::FUN_00c25e40(unsigned short a, unsigned short b)
+float FUN_00c25e40_shell::FUN_00c25e40(unsigned short a, unsigned short b)
 {
     return (*(FUN_00c25e40_Outer**)((char*)this + 0x7c))[a].p[b].v;
 }
@@ -176,22 +189,22 @@ struct FUN_00c25e90_shell
 {
     char _pad[124];
     FUN_00c25e90_entry* arr;
-    void* __thiscall FUN_00c25e90(unsigned short a, unsigned short b);
+    void* FUN_00c25e90(unsigned short a, unsigned short b);
 };
 // Returns a pointer into the entry at index a, offset by b * 0x84 + 0x48 from its ptr.
 // @fnv 0x00c25e90
-void* __thiscall FUN_00c25e90_shell::FUN_00c25e90(unsigned short ausIndex, unsigned short b)
+void* FUN_00c25e90_shell::FUN_00c25e90(unsigned short ausIndex, unsigned short b)
 {
     return (char*)arr[ausIndex].ptr + b * 0x84 + 0x48;
 }
 
 struct FUN_00c25eb0_shell
 {
-    float __thiscall FUN_00c25eb0(unsigned short a);
+    float FUN_00c25eb0(unsigned short a);
 };
 // Returns 1.0 divided by (the unsigned short at offset 6 of the entry at this+0x7c indexed by a, minus 1.0).
 // @fnv 0x00c25eb0
-float __thiscall FUN_00c25eb0_shell::FUN_00c25eb0(unsigned short ausIndex)
+float FUN_00c25eb0_shell::FUN_00c25eb0(unsigned short ausIndex)
 {
     return 1.0f / ((float)*(unsigned short*)(*(char**)((char*)this + 0x7c) + (ausIndex << 5) + 6) - 1.0f);
 }
@@ -312,7 +325,7 @@ struct FUN_00c25d40_shell
     int unk78;
     FUN_00c25d40_entry* m_entries;   // +0x7c : table of 32-byte entries
     unsigned short m_uiFilterValue;  // +0x80
-    void __thiscall ResetEntry(unsigned short index);
+    void ResetEntry(unsigned short index);
 };
 
 // @fnv 0x00c25d40
@@ -379,7 +392,7 @@ struct S_00c26000_Strip;
 
 struct S_00c26000_Base
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     unsigned short unk08;
     unsigned short unk0a;
@@ -412,7 +425,6 @@ struct S_00c26000_Base
     int unk74;
     int unk78;
     S_00c26000_Item* unk7c;
-    void FUN_00c24f20(S_00c26000_Strip* dest, S_00c26000_Proc* proc);
 };
 
 struct S_00c26000_Strip : S_00c26000_Base
@@ -425,13 +437,12 @@ struct S_00c26000_Strip : S_00c26000_Base
 };
 
 void* FUN_00aa1070(unsigned int size);
-void* FUN_00ec44d0(void* dst, const void* src, unsigned int n);
 
 // Copies the base strip and its fields into dest, then allocates and deep-copies the item array from unk7c into dest->unk7c.
 // @fnv 0x00c26000
 void S_00c26000_Strip::CloneStrip(S_00c26000_Strip* dest, S_00c26000_Proc* proc)
 {
-    FUN_00c24f20(dest, proc);
+    reinterpret_cast<::NiPSysData_View *>(this)->FUN_00c24f20((::NiPSysData_View *)(dest), proc);
     dest->unk80 = unk80;
     dest->unk84 = unk84;
     dest->unk88 = unk88;
@@ -449,7 +460,7 @@ void S_00c26000_Strip::CloneStrip(S_00c26000_Strip* dest, S_00c26000_Proc* proc)
         items[i].unk14 = unk7c[i].unk14;
         items[i].unk18 = unk7c[i].unk18;
         items[i].unk00 = FUN_00aa1070(items[i].unk10 * 0x84);
-        FUN_00ec44d0(items[i].unk00, unk7c[i].unk00, unk7c[i].unk04 * 0x84);
+        std::memmove(items[i].unk00, unk7c[i].unk00, unk7c[i].unk04 * 0x84);
     }
     dest->unk7c = items;
 }
@@ -657,14 +668,13 @@ class FUN_00c26570_cls
     unsigned int m_84;
     unsigned int m_88;
     unsigned int m_8C;
-    void FUN_00c25560(StreamOwner* a1);
     void FUN_00c26570(StreamOwner* a1);
 };
 
 // @fnv 0x00c26570
 void FUN_00c26570_cls::FUN_00c26570(StreamOwner* apOwner)
 {
-    FUN_00c25560(apOwner);
+    reinterpret_cast<::NiPSysDataWriter *>(this)->FUN_00c25560((*(::NiStream *)(apOwner)));
     StreamCtx* s = apOwner->m_250;
     {
         unsigned int n = 2;
@@ -707,7 +717,6 @@ struct FUN_00c25f40_cls
     unsigned short m50;
     char _52[0x2a];
     FUN_00c25f40_rec* m7c;
-    void FUN_00c24cc0(unsigned short a);
     void* PopRecord(unsigned int a);
 };
 
@@ -734,7 +743,7 @@ void* FUN_00c25f40_cls::PopRecord(unsigned int auiIndex)
     }
     unsigned short last = m50;
     last--;
-    FUN_00c24cc0(idx);
+    reinterpret_cast<::NiPSysData_StandIn *>(this)->FUN_00c24cc0(idx);
     if (idx != last)
     {
         FUN_00c25f40_rec* cur = (FUN_00c25f40_rec*)((char*)m7c + off);
@@ -748,22 +757,15 @@ struct ArrHdr
 {
     unsigned int unk00, unk04;
     unsigned short unk08, unk0A, unk0C, unk0E;
-    void Grow(unsigned int n);
-    void SetAt(unsigned int index, void** item);
     void Add(void* value)
     {
         unsigned int index = unk0A;
         unsigned int capacity = unk08;
         if (index >= capacity)
-            Grow(unk0E + index);
-        SetAt(index, &value);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(unk0E + index);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, (*(char * *)(&value)));
     }
 };
-extern "C" void* g_01202680;
-extern "C" void* __cdecl FUN_00a7d330(void*);
-extern "C" void* __cdecl FUN_00a7d490(const char*, unsigned int);
-extern "C" void* __cdecl FUN_00a7d550(const char*, float);
-extern "C" void* __cdecl FUN_00a7d370(const char*, unsigned int);
 extern "C" char str_010be5ec[], str_010be5dc[], str_010be5d0[], str_010be5c4[];
 struct FUN_00c26630_cls
 {
@@ -802,7 +804,6 @@ struct FUN_00c26630_cls
     unsigned short m80, unk82;
     float m84, m88;
     unsigned char m8c;
-    void FUN_00c255b0(struct ArrHdr* a);
     void FUN_00c26630(void* p);
 };
 // Calls FUN_00c255b0 on the array, then appends entries built from g_01202680, m80, m84, m88 and m8c via the FUN_00a7d3xx/d4xx/d5xx helpers.
@@ -810,30 +811,30 @@ struct FUN_00c26630_cls
 void FUN_00c26630_cls::FUN_00c26630(void* pArray)
 {
     ArrHdr* a = (ArrHdr*)pArray;
-    FUN_00c255b0(a);
-    pArray = FUN_00a7d330(g_01202680);
+    reinterpret_cast<::Source08 *>(this)->FUN_00c255b0((::StrArr *)(a));
+    pArray = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202680))))));
     a->Add(pArray);
-    pArray = FUN_00a7d490(str_010be5ec, m80);
+    pArray = ((void *)(::FUN_00a7d490(str_010be5ec, m80)));
     a->Add(pArray);
-    pArray = FUN_00a7d550(str_010be5dc, m84);
+    pArray = ((void *)(::FUN_00a7d550(str_010be5dc, m84)));
     a->Add(pArray);
-    pArray = FUN_00a7d550(str_010be5d0, m88);
+    pArray = ((void *)(::FUN_00a7d550(str_010be5d0, m88)));
     a->Add(pArray);
-    pArray = FUN_00a7d370(str_010be5c4, m8c);
+    pArray = ((void *)(::FUN_00a7d370(str_010be5c4, m8c)));
     a->Add(pArray);
 }
 
 struct NiStream;
 struct NiPSysData
 {
-    bool __thiscall RegisterStreamables(NiStream&);
+    bool RegisterStreamables(NiStream&);
 };
 struct FUN_00a817b0_shell : NiPSysData
 {
-    bool __thiscall FUN_00a817b0(NiStream& a);
+    bool FUN_00a817b0(NiStream& a);
 };
 // @fnv 0x00a817b0
-bool __thiscall FUN_00a817b0_shell::FUN_00a817b0(NiStream& a)
+bool FUN_00a817b0_shell::FUN_00a817b0(NiStream& a)
 {
     return RegisterStreamables(a);
 }
@@ -874,7 +875,6 @@ struct S_00c26410_Base
     int unk70;
     int unk74;
     int unk78;
-    void FUN_00c25340(S_00c26410_Stream* pkStream);
 };
 
 struct S_00c26410_Bin
@@ -1086,7 +1086,7 @@ struct FUN_00c26410_cls : S_00c26410_Mid
 // @fnv 0x00c26410
 void FUN_00c26410_cls::FUN_00c26410(S_00c26410_Stream* pkStream)
 {
-    FUN_00c25340(pkStream);
+    reinterpret_cast<::S00c25340_Data *>(this)->FUN_00c25340((*(::NiStream *)(pkStream)));
     S_BinRead(pkStream->m_pkBin, &m_80, 2);
     S_BinRead(pkStream->m_pkBin, &m_84, 4);
     S_BinRead(pkStream->m_pkBin, &m_88, 4);
@@ -1107,8 +1107,7 @@ void FUN_00c26410_cls::FUN_00c26410(S_00c26410_Stream* pkStream)
     }
 }
 
-extern const void* DAT_010be514[];
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct StripBaseConstructorC263
 {
@@ -1119,15 +1118,11 @@ struct StripCloneC263 : S_00c26000_Strip
 {
     StripCloneC263() throw()
     {
-        reinterpret_cast<StripBaseConstructorC263*>(this)->FUN_00c24c90();
-        unk00 = reinterpret_cast<int>(DAT_010be514);
+        new ((void *)(reinterpret_cast<StripBaseConstructorC263*>(this))) ::FUN_00c24c90();
+        unk00 = reinterpret_cast<intptr_t>((*reinterpret_cast<const void * (*)[]>(&::DAT_010be514)));
         unk7c = 0;
     }
 
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 
     StripCloneC263* FUN_00c263b0(S_00c26000_Proc& cloning);
 };
@@ -1140,3 +1135,5 @@ StripCloneC263* StripCloneC263::FUN_00c263b0(S_00c26000_Proc& cloning)
     CloneStrip(result, &cloning);
     return result;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/bsstrippsysdata.inc"

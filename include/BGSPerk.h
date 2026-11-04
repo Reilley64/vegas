@@ -9,7 +9,6 @@
 #include "TESForm.h"
 #include "TESFullName.h"
 #include "TESIcon.h"
-#pragma pack(push, 4)
 class BGSPerk : public TESForm
 {
   public:
@@ -22,12 +21,4 @@ class BGSPerk : public TESForm
     PerkEntryConditionSet m_kConditions;                // +0x40
     BSSimpleList<BGSPerkEntry*> m_kEntryList;  // +0x48
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSPerk) == 0x50);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, tESFullNameComponent) == 0x18);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, tESDescriptionComponent) == 0x24);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, tESIconComponent) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, Data) == 0x38);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, m_kConditions) == 0x40);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, m_kEntryList) == 0x48);
 #endif

@@ -1,11 +1,43 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dgpuprogramcache.cpp: NiD3DGPUProgramCache, NiFixedString, Holder, ShaderLoader8e (15 functions)
 
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0048af90_shell.h"
+#include "fnv/decl/FUN_00e8e330_cls.h"
+#include "fnv/decl/FUN_00e937f0_shell.h"
+#include "fnv/decl/FUN_00e93820_shell.h"
+#include "fnv/decl/FUN_00ee9a60_cls.h"
+#include "fnv/decl/NiGPUProgramCacheE93.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/decl/S_00ee8af0.h"
+#include "fnv/decl/fnv_00a2f170__S00a2f170_TmpSet.h"
+#include "fnv/decl/fnv_00e8ead0__FUN_00e8ead0.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_00e8d000.h"
+#include "fnv/symbols_00e92000.h"
+#include "fnv/symbols_00e93000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_00ee8000.h"
+#include "fnv/symbols_00ee9000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01270000.h"
 #include "nid3dgpuprogramcache_decls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00a64000.h"
 // Returns the vertex shader profile string matching fnv_particle_shader_renderer_level, or null for other values.
 // @fnv 0x00b4f3e0
 const char* NiD3DGPUProgramCache::GetVertexShaderProfile()
 {
-    switch (fnv_particle_shader_renderer_level)
+    switch ((*reinterpret_cast<unsigned int *>(&::DAT_011f91c0)))
     {
     case 1:
         return "vs_1_1";
@@ -25,7 +57,7 @@ const char* NiD3DGPUProgramCache::GetVertexShaderProfile()
 // @fnv 0x00b4f380
 const char* NiD3DGPUProgramCache::GetPixelShaderProfile(bool usePixelLevel)
 {
-    unsigned int level = usePixelLevel ? DAT_011f91bc : fnv_particle_shader_renderer_level;
+    unsigned int level = usePixelLevel ? DAT_011f91bc : (*reinterpret_cast<unsigned int *>(&::DAT_011f91c0));
     switch (level)
     {
     case 1:
@@ -45,13 +77,9 @@ const char* NiD3DGPUProgramCache::GetPixelShaderProfile(bool usePixelLevel)
     }
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern char* EmptyFS;
 struct MemoryManager
 {
-    void _DeallocateAlias(void*);
 };
-extern MemoryManager g_memoryManager;
 
 // @fnv 0x00a644a0
 void FUN_00a644a0(char** p)
@@ -63,10 +91,10 @@ void FUN_00a644a0(char** p)
         while (--n >= 0)
         {
             --ppElement;
-            if (*ppElement != EmptyFS)
+            if (*ppElement != ::DAT_0109b220)
                 InterlockedDecrement((volatile long*)(*ppElement - 8));
         }
-        g_memoryManager._DeallocateAlias((int*)p - 1);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((int*)p - 1);
     }
 }
 
@@ -76,12 +104,11 @@ const char* __cdecl FUN_00e8dd60()
     return "hlsl";
 }
 
-extern "C" void* g_01270920;
 
 // @fnv 0x00e8ea10
 void* __cdecl FUN_00e8ea10()
 {
-    return &g_01270920;
+    return &(*reinterpret_cast<void * *>(&::g_01270920));
 }
 
 struct RefCounted
@@ -126,24 +153,20 @@ struct S00e8ea20
 {
     char _pad[0x44];
     char* _s;
-    void FUN_00ee9a60();
     void* ReleaseAndDestroy(unsigned int);
 };
 // Decrements the refcount at _s-8 if _s is set, calls FUN_00ee9a60, and frees this with _delete when f has bit 0 set; returns this.
 // @fnv 0x00e8ea20
 void* S00e8ea20::ReleaseAndDestroy(unsigned int auiFlags)
 {
-    if (_s != EmptyFS)
+    if (_s != ::DAT_0109b220)
         InterlockedDecrement((volatile long*)(_s - 8));
-    FUN_00ee9a60();
+    reinterpret_cast<::FUN_00ee9a60_cls *>(this)->FUN_00ee9a60_cls::~FUN_00ee9a60_cls();
     if (auiFlags & 1)
         _delete(this, 0x48);
     return this;
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern char* EmptyFS;
 struct ValueHolder
 {
     void* m_pOwnerObject;
@@ -156,14 +179,14 @@ struct ObjectReference
 };
 // Assigns a text pointer and a ref-counted object into a ValueHolder, adjusting reference counts and releasing the previous object.
 // @fnv 0x00e8ded0
-void __stdcall AssignValueHolder(ValueHolder* destination, char** sourceText, ObjectReference incoming)
+void AssignValueHolder(ValueHolder* destination, char** sourceText, ObjectReference incoming)
 {
     char* text = *sourceText;
     if (destination->m_pText != text)
     {
-        if (text != EmptyFS)
+        if (text != ::DAT_0109b220)
             InterlockedIncrement((volatile long*)(text - 8));
-        if (destination->m_pText != EmptyFS)
+        if (destination->m_pText != ::DAT_0109b220)
             InterlockedDecrement((volatile long*)(destination->m_pText - 8));
         destination->m_pText = text;
     }
@@ -241,7 +264,6 @@ class E8DF70Shader
 class E8DF70Writer
 {
   public:
-    void WriteName(E8DF70BinaryStream& kStream, const char* pcName);
     bool WriteShader(E8DF70BinaryStream& kStream, E8DF70Shader* pkShader);
 };
 
@@ -252,7 +274,7 @@ bool E8DF70Writer::WriteShader(E8DF70BinaryStream& kStream, E8DF70Shader* pkShad
     if (!pkShader)
         return false;
 
-    WriteName(kStream, *pkShader->GetName());
+    ::FUN_00ee9230((::S_00ee9230_Stream *)&(kStream), *pkShader->GetName());
     unsigned int uiCodeSize = pkShader->GetCodeSize();
     const char* pcCode = pkShader->GetCode();
     E8DF70BinaryStreamSave(kStream, &uiCodeSize);
@@ -260,7 +282,6 @@ bool E8DF70Writer::WriteShader(E8DF70BinaryStream& kStream, E8DF70Shader* pkShad
     return true;
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct S_00e8e1d0_Ptr
 {
     RefCounted* p;
@@ -282,7 +303,7 @@ struct S_00e8e1d0_Ptr
 struct S_00e8e1d0_Node
 {
     S_00e8e1d0_Node* next;
-    unsigned key;
+    char* key;
     S_00e8e1d0_Ptr val;
 };
 struct S_00e8e1d0_Map
@@ -292,39 +313,35 @@ struct S_00e8e1d0_Map
     unsigned nBuckets;
     S_00e8e1d0_Node** buckets;
     unsigned count;
-    void AssignValueHolder(S_00e8e1d0_Node* n, const unsigned* k, S_00e8e1d0_Ptr v) throw();
-    void InsertOrAssign(const unsigned* k, S_00e8e1d0_Ptr v) throw();
+    void InsertOrAssign(char* const* k, S_00e8e1d0_Ptr v) throw();
 };
 // @fnv 0x00e8e1d0
-void S_00e8e1d0_Map::InsertOrAssign(const unsigned* pKey, S_00e8e1d0_Ptr v)
+void S_00e8e1d0_Map::InsertOrAssign(char* const* pKey, S_00e8e1d0_Ptr v)
 {
-    unsigned i = *pKey % nBuckets;
+    unsigned i = (unsigned)(uintptr_t)*pKey % nBuckets;
     for (S_00e8e1d0_Node* n = buckets[i]; n; n = n->next)
     {
         if (*pKey == n->key)
         {
-            AssignValueHolder(n, pKey, v);
+            ::AssignValueHolder((::ValueHolder *)(n), (char **)(pKey), *reinterpret_cast<::ObjectReference *>(&v));
             v.Release();
             return;
         }
     }
     S_00e8e1d0_Node* n = Alloc();
-    AssignValueHolder(n, pKey, v);
+    ::AssignValueHolder((::ValueHolder *)(n), (char **)(pKey), *reinterpret_cast<::ObjectReference *>(&v));
     n->next = buckets[i];
     buckets[i] = n;
     count++;
     v.Release();
 }
 
-extern int DAT_0101dce4;
-extern long DAT_011f4400;
 
-void __cdecl ReleaseObjectArray(void* apData);
 void __cdecl FUN_00aa1460(void* apMemory, unsigned int auiSize);
 
 struct FUN_00e8eb10_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     RefCounted* m_08;
     Holder m_0c;
@@ -337,7 +354,7 @@ struct FUN_00e8eb10_cls
 FUN_00e8eb10_cls* FUN_00e8eb10_cls::Destroy(unsigned char acFlags)
 {
     m_0c.ReleaseAll();
-    ReleaseObjectArray(m_0c.m_base);
+    ::ReleaseObjectArray((::Obj00a47600 **)(m_0c.m_base));
     RefCounted* pRef = m_08;
     if (pRef != 0)
     {
@@ -346,8 +363,8 @@ FUN_00e8eb10_cls* FUN_00e8eb10_cls::Destroy(unsigned char acFlags)
             pRef->f1();
         }
     }
-    m_vptr = (int)&DAT_0101dce4;
-    InterlockedDecrement(&DAT_011f4400);
+    m_vptr = (intptr_t)&DAT_0101dce4;
+    InterlockedDecrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
     if (acFlags & 1)
     {
         FUN_00aa1460(this, 0x18);
@@ -356,9 +373,6 @@ FUN_00e8eb10_cls* FUN_00e8eb10_cls::Destroy(unsigned char acFlags)
 }
 
 __declspec(nothrow) int FUN_00aa1360(const char*, const char*);
-__declspec(dllimport) __declspec(nothrow) long __stdcall InterlockedDecrement(volatile long*);
-__declspec(dllimport) __declspec(nothrow) long __stdcall InterlockedIncrement(volatile long*);
-extern char* EmptyFS;
 __declspec(nothrow) inline long NiAtomicSubtract(volatile long* value)
 {
     return InterlockedDecrement(value);
@@ -377,13 +391,13 @@ struct NiGlobalStringTable
     }
     __declspec(nothrow) static void IncRefCount(char*& h)
     {
-        if (h == EmptyFS)
+        if (h == ::DAT_0109b220)
             return;
         InterlockedIncrement(GetRefCount(h));
     }
     __declspec(nothrow) static void DecRefCount(char*& h)
     {
-        if (h == EmptyFS)
+        if (h == ::DAT_0109b220)
             return;
         volatile long* count = GetRefCount(h);
         NiAtomicSubtract(count);
@@ -393,7 +407,7 @@ class NiFixedString
 {
   public:
     char* data;
-    __declspec(nothrow) NiFixedString() : data(EmptyFS)
+    __declspec(nothrow) NiFixedString() : data(::DAT_0109b220)
     {}
     __declspec(nothrow) NiFixedString(const char* text);
     __declspec(nothrow) ~NiFixedString();
@@ -403,7 +417,7 @@ class NiFixedString
         {
             char* old = data;
             data = NiGlobalStringTable::AddString(text);
-            if (old != EmptyFS)
+            if (old != ::DAT_0109b220)
                 InterlockedDecrement(&((StringHeader*)old - 1)->refs);
         }
         return *this;
@@ -433,7 +447,7 @@ class NiFixedString
 __declspec(nothrow) NiFixedString::NiFixedString(const char* text)
 {
     if (!text)
-        data = EmptyFS;
+        data = ::DAT_0109b220;
     else
         data = NiGlobalStringTable::AddString(text);
 }
@@ -463,8 +477,6 @@ struct W20Base
     NiFixedString profile;
     W20Profiles profiles;
     __declspec(nothrow) W20Base(int, int, int);
-    __declspec(nothrow) void SetString(const NiFixedString&);
-    __declspec(nothrow) void LoadCacheFile();
 };
 struct FUN_00e8e450 : W20Base
 {
@@ -474,7 +486,6 @@ struct FUN_00e8e450 : W20Base
     virtual void foo();
     __declspec(nothrow) FUN_00e8e450(int, const char*, int, const NiFixedString&, const char*, int, bool, int, bool);
 };
-__declspec(nothrow) void FUN_00a305b0(char*, unsigned int, const char*, ...);
 // Builds a shader cache filename from path, requested profile and "DX9", sets name/profile, fills the fallback profile list by kind, and loads if requested.
 // @fnv 0x00e8e450
 __declspec(nothrow) FUN_00e8e450::FUN_00e8e450(int a, const char* apcSource, int kind, const NiFixedString& arRequested,
@@ -485,96 +496,96 @@ __declspec(nothrow) FUN_00e8e450::FUN_00e8e450(int a, const char* apcSource, int
     type = kind;
     suffix = apcPath;
     char filename[260];
-    FUN_00a305b0(filename, 260, "%s_%s_%s.cache", apcPath, arRequested.data, "DX9");
+    ::NiSprintf(filename, 260, "%s_%s_%s.cache", apcPath, arRequested.data, "DX9");
     name = filename;
-    SetString(apcSource);
+    reinterpret_cast<::S_00ee8af0 *>(this)->SetString(apcSource);
     profile = arRequested;
     if (kind == 0)
     {
-        if (profile == "vs_1_1")
+        if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("vs_1_1"))
         {
-            profiles.PushBack("vs_1_1");
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)("vs_1_1"));
         }
-        else if (profile == "vs_2_0")
+        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("vs_2_0"))
         {
-            profiles.PushBack("vs_2_0");
-            profiles.PushBack("vs_1_1");
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)("vs_2_0"));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)("vs_1_1"));
         }
-        else if (profile == "vs_2_a")
+        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("vs_2_a"))
         {
-            profiles.PushBack(NiFixedString("vs_2_a"));
-            profiles.PushBack(NiFixedString("vs_2_0"));
-            profiles.PushBack(NiFixedString("vs_1_1"));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_2_a")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_2_0")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_1_1")));
         }
-        else if (profile == "vs_3_0")
+        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("vs_3_0"))
         {
-            profiles.PushBack(NiFixedString("vs_3_0"));
-            profiles.PushBack(NiFixedString("vs_2_a"));
-            profiles.PushBack(NiFixedString("vs_2_0"));
-            profiles.PushBack(NiFixedString("vs_1_1"));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_3_0")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_2_a")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_2_0")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_1_1")));
         }
     }
     else if (kind == 2)
     {
-        if (profile == "ps_1_1")
-            profiles.PushBack(NiFixedString("ps_1_1"));
-        else if (profile == "ps_1_2")
+        if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_1_1"))
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
+        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_1_2"))
         {
-            profiles.PushBack(NiFixedString("ps_1_2"));
-            profiles.PushBack(NiFixedString("ps_1_1"));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
         }
-        else if (profile == "ps_1_3")
+        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_1_3"))
         {
-            profiles.PushBack(NiFixedString("ps_1_3"));
-            profiles.PushBack(NiFixedString("ps_1_2"));
-            profiles.PushBack(NiFixedString("ps_1_1"));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
         }
-        else if (profile == "ps_1_4")
+        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_1_4"))
         {
-            profiles.PushBack(NiFixedString("ps_1_4"));
-            profiles.PushBack(NiFixedString("ps_1_3"));
-            profiles.PushBack(NiFixedString("ps_1_2"));
-            profiles.PushBack(NiFixedString("ps_1_1"));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_4")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
         }
-        else if (profile == "ps_2_0")
+        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_2_0"))
         {
-            profiles.PushBack(NiFixedString("ps_2_0"));
-            profiles.PushBack(NiFixedString("ps_1_4"));
-            profiles.PushBack(NiFixedString("ps_1_3"));
-            profiles.PushBack(NiFixedString("ps_1_2"));
-            profiles.PushBack(NiFixedString("ps_1_1"));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_0")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_4")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
         }
-        else if (profile == "ps_2_a")
+        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_2_a"))
         {
-            profiles.PushBack(NiFixedString("ps_2_a"));
-            profiles.PushBack(NiFixedString("ps_2_0"));
-            profiles.PushBack(NiFixedString("ps_1_4"));
-            profiles.PushBack(NiFixedString("ps_1_3"));
-            profiles.PushBack(NiFixedString("ps_1_2"));
-            profiles.PushBack(NiFixedString("ps_1_1"));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_a")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_0")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_4")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
         }
-        else if (profile == "ps_2_b")
+        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_2_b"))
         {
-            profiles.PushBack(NiFixedString("ps_2_b"));
-            profiles.PushBack(NiFixedString("ps_2_0"));
-            profiles.PushBack(NiFixedString("ps_1_4"));
-            profiles.PushBack(NiFixedString("ps_1_3"));
-            profiles.PushBack(NiFixedString("ps_1_2"));
-            profiles.PushBack(NiFixedString("ps_1_1"));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_b")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_0")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_4")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
         }
-        else if (profile == "ps_3_0")
+        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_3_0"))
         {
-            profiles.PushBack(NiFixedString("ps_3_0"));
-            profiles.PushBack(NiFixedString("ps_2_a"));
-            profiles.PushBack(NiFixedString("ps_2_0"));
-            profiles.PushBack(NiFixedString("ps_1_4"));
-            profiles.PushBack(NiFixedString("ps_1_3"));
-            profiles.PushBack(NiFixedString("ps_1_2"));
-            profiles.PushBack(NiFixedString("ps_1_1"));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_3_0")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_a")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_0")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_4")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
+            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
         }
     }
     if (load && apcSource)
-        LoadCacheFile();
+        reinterpret_cast<::NiGPUProgramCacheE93 *>(this)->LoadCacheFile();
 }
 
 struct ShaderStream8e
@@ -601,11 +612,11 @@ template <class T> inline void LoadBinary8e(ShaderStream8e* pkStream, T* pkValue
 }
 struct ShaderBuffer8e
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual void* __stdcall GetBufferPointer();
-    virtual unsigned long __stdcall GetBufferSize();
+    virtual long QueryInterface(const void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual void* GetBufferPointer();
+    virtual unsigned long GetBufferSize();
 };
 struct FixedString8e
 {
@@ -637,14 +648,7 @@ struct ShaderFactory8e
 };
 struct ShaderLibrary8e
 {
-    void __thiscall AddShader();
-    void __thiscall RegisterShader();
 };
-ShaderLibrary8e* __stdcall FUN_00e92eb0(ShaderProgram8e* pkProgram);
-long __stdcall FUN_00ee6e3a(unsigned int uiNumBytes, ShaderBuffer8e** ppkBuffer);
-extern const char* DAT_0126fa48;
-extern const char* DAT_0126fa40;
-extern ShaderFactory8e* DAT_0126fa3c;
 
 struct ShaderLoader8e
 {
@@ -671,7 +675,6 @@ struct ShaderLoader8e
     virtual void v20();
     virtual const FixedString8e& GetLoaderName();
 
-    void FUN_00ee92d0(ShaderStream8e* pkStream, char* pcBuffer, unsigned int uiMaxLen);
     bool LoadShaderProgram(ShaderStream8e* pkStream, const FixedString8e& kName, ShaderProgram8e** ppkProgram,
                            bool bSkip);
 };
@@ -683,12 +686,12 @@ bool ShaderLoader8e::LoadShaderProgram(ShaderStream8e* pkStream, const FixedStri
     *ppkProgram = 0;
     unsigned int uiCodeSize = 0;
     char acType[256];
-    FUN_00ee92d0(pkStream, acType, 0x100);
+    ::FUN_00ee92d0((::S_00a8d8b0 *)(pkStream), acType, 0x100);
 
     bool bVertex;
-    if (FUN_00aa1360(acType, DAT_0126fa48) == 0)
+    if (FUN_00aa1360(acType, (*reinterpret_cast<const char * *>(&::g_0126fa48))) == 0)
         bVertex = true;
-    else if (FUN_00aa1360(acType, DAT_0126fa40) == 0)
+    else if (FUN_00aa1360(acType, (*reinterpret_cast<const char * *>(&::g_0126fa40))) == 0)
         bVertex = false;
     else
         return false;
@@ -701,32 +704,30 @@ bool ShaderLoader8e::LoadShaderProgram(ShaderStream8e* pkStream, const FixedStri
     }
 
     ShaderBuffer8e* pkBuffer = 0;
-    if (FUN_00ee6e3a(uiCodeSize, &pkBuffer) < 0)
+    if (::FUN_00ee6e3a(uiCodeSize, (::ID3DXBuffer **)(::ShaderBuffer8e **)(&pkBuffer)) < 0)
         return false;
 
     LoadBinary8e(pkStream, (char*)pkBuffer->GetBufferPointer(), uiCodeSize);
 
-    ShaderFactory8e* pkFactory = DAT_0126fa3c;
+    ShaderFactory8e* pkFactory = (*reinterpret_cast<::ShaderFactory8e * *>(&::DAT_0126fa3c));
     if (bVertex)
     {
         *ppkProgram = pkFactory->CreateVertexShaderProgram(pkBuffer, uiCodeSize, kName, "Main", GetLoaderName(), 0, 0,
                                                            false, false);
         if (*ppkProgram)
-            FUN_00e92eb0(*ppkProgram)->AddShader();
+            reinterpret_cast<::FUN_00e937f0_shell *>((((::ShaderLibrary8e *)(::FUN_00e92eb0()))))->AddShader({});
     }
     else
     {
         *ppkProgram = pkFactory->CreatePixelShaderProgram(pkBuffer, uiCodeSize, kName, "Main", GetLoaderName(), false);
         if (*ppkProgram)
-            FUN_00e92eb0(*ppkProgram)->RegisterShader();
+            reinterpret_cast<::FUN_00e93820_shell *>((((::ShaderLibrary8e *)(::FUN_00e92eb0()))))->RegisterShader({});
     }
     pkBuffer->Release();
     return true;
 }
 
 #include <string.h>
-bool __cdecl FUN_00ee8d20();
-void __cdecl fnv_StandardizeFilePath(char* path);
 bool __cdecl FUN_00aa1ab0(const char* dir);
 bool __cdecl FUN_00aa1bb0(const char* dir);
 
@@ -762,13 +763,13 @@ class NiFile : public NiBinaryStream
 
 // Writes pcText to pcFileName if the preceding checks pass and the file opens, then returns true.
 // @fnv 0x00e8dd70
-bool __stdcall WriteTextToFile(const char* pcFileName, const char* pcText)
+bool WriteTextToFile(const char* pcFileName, const char* pcText)
 {
-    if (FUN_00ee8d20())
+    if (::FUN_00ee8d20({}, {}))
     {
         char acDir[260];
         strcpy_s(acDir, 260, pcFileName);
-        fnv_StandardizeFilePath(acDir);
+        ::FUN_00aa2a00(acDir);
         char* pcSlash = strrchr(acDir, '/');
         if (pcSlash || (pcSlash = strrchr(acDir, '\\')) != 0)
             *pcSlash = 0;
@@ -789,12 +790,7 @@ bool __stdcall WriteTextToFile(const char* pcFileName, const char* pcText)
 
 void* __cdecl FUN_00aa1070(unsigned int size);
 void __cdecl FUN_00aa10f0(void* p);
-void* __cdecl FUN_00aa13e0(unsigned int size);
-__declspec(nothrow) void FUN_00a305b0(char*, unsigned int, const char*, ...);
-char* __cdecl FUN_00a5b690(const char* name);
-void* __cdecl FUN_00e93850(char* text, unsigned int len, char* path, char* path2, const char* entry, int target, int a,
-                           int b, int c, int d);
-void* __cdecl FUN_00e938e0(char* text, unsigned int len, char* path, char* path2, const char* entry, int target, int d);
+
 
 struct RefCountedBase
 {
@@ -811,7 +807,6 @@ struct ScopedRef
 
 struct NodeAdder
 {
-    void FUN_00e8ea60(RefCountedBase** elem);
 };
 
 struct S00e8eb80_Ptr
@@ -841,7 +836,6 @@ struct ShaderNode : RefCountedBase
 {
     S00e8eb80_Ptr m_08;
     NodeAdder m_0c;
-    ShaderNode* FUN_00e8ead0();
 };
 
 struct NiPointerVal
@@ -863,7 +857,6 @@ struct ShaderMap
     unsigned int nBuckets;
     void** buckets;
     unsigned int count;
-    void InsertOrAssign(const unsigned int* k, NiPointerVal v);
 };
 
 struct ArrayHolder
@@ -871,7 +864,6 @@ struct ArrayHolder
     RefCountedBase** m_base;
     unsigned int unk04;
     unsigned int m_uiItemCount;
-    void ReleaseAll();
 };
 
 class S00e8eb80_Obj
@@ -958,22 +950,22 @@ RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSour
         {
             const char** stem = vfn58();
             const char* ext = vfn60();
-            FUN_00a305b0(path, 0x104, "%s\\%s\\%s-V.%s", *stem, m_44, name, ext);
-            FUN_00a305b0(text, srcLen + 0x208, "#line 2 \"%s\"\n%s", path, apSource);
-            unsigned int len = strlen(text);
+            ::NiSprintf(path, 0x104, "%s\\%s\\%s-V.%s", *stem, m_44, name, ext);
+            ::NiSprintf(text, srcLen + 0x208, "#line 2 \"%s\"\n%s", path, apSource);
+            uintptr_t len = strlen(text);
             int tgt = m_24;
-            RefCountedBase* r = (RefCountedBase*)FUN_00e93850(text, len, path, path, "Main", tgt, 0, 0, 0, 1);
+            RefCountedBase* r = (RefCountedBase*)((void *)(::fnv_00e93850::FUN_00e93850(text, (const char *)(len), path, path, (uintptr_t)("Main"), tgt, 0, 0, 0, 1)));
             pObj.FUN_00a5f860(r);
         }
         else if (m_3c == 2)
         {
             const char** stem = vfn58();
             const char* ext = vfn60();
-            FUN_00a305b0(path, 0x104, "%s\\%s\\%s-P.%s", *stem, m_44, name, ext);
-            FUN_00a305b0(text, srcLen + 0x208, "#line 2 \"%s\"\n%s", path, apSource);
-            unsigned int len = strlen(text);
-            int tgt = m_24;
-            RefCountedBase* r = (RefCountedBase*)FUN_00e938e0(text, len, path, path, "Main", tgt, 1);
+            ::NiSprintf(path, 0x104, "%s\\%s\\%s-P.%s", *stem, m_44, name, ext);
+            ::NiSprintf(text, srcLen + 0x208, "#line 2 \"%s\"\n%s", path, apSource);
+            uintptr_t len = strlen(text);
+            intptr_t tgt = m_24;
+            RefCountedBase* r = (RefCountedBase*)::FUN_00e938e0(text, (void *)(len), path, path, (void *)("Main"), (void *)(tgt), (void *)(1));
             pObj.FUN_00a5f860(r);
         }
 
@@ -986,23 +978,23 @@ RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSour
         if (obj != 0 && vfn7C(obj, refs))
         {
             ShaderNode* blk = (ShaderNode*)FUN_00aa13e0(0x18);
-            ShaderNode* node = blk != 0 ? blk->FUN_00e8ead0() : 0;
+            ShaderNode* node = blk != 0 ? ((::ShaderNode *)(new ((void *)(blk)) ::fnv_00e8ead0::FUN_00e8ead0())) : 0;
 
             for (unsigned int i = 0; i < refs->m_uiItemCount; i++)
             {
-                node->m_0c.FUN_00e8ea60(&refs->m_base[i]);
+                reinterpret_cast<::fnv_00a2f170::S00a2f170_TmpSet *>(&(node->m_0c))->FUN_00e8ea60((*(const ::fnv_00a2f170::S00a2f170_Ptr< ::fnv_00a2f170::S00a2f170_Seq> *)(&refs->m_base[i])));
             }
 
             node->m_08 = pObj.m_p;
-            char* value = !name ? EmptyFS : FUN_00a5b690(name);
+            char* value = !name ? ::DAT_0109b220 : ::NiGlobalStringTable::AddString(name);
 
             if (m_38 != 0)
             {
                 vfn84(node, &value);
             }
 
-            m_08.InsertOrAssign((const unsigned int*)&value, node);
-            if (value != EmptyFS)
+            reinterpret_cast<::S_00e8e1d0_Map *>(&(m_08))->InsertOrAssign(&value, (*(::S_00e8e1d0_Ptr *)&(const ::NiPointerVal &)(node)));
+            if (value != ::DAT_0109b220)
             {
                 InterlockedDecrement((volatile long*)(value - 8));
             }
@@ -1019,7 +1011,43 @@ RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSour
             }
             return obj;
         }
-        refs->ReleaseAll();
+        reinterpret_cast<::Holder *>((refs))->ReleaseAll();
     }
     return 0;
+}
+
+const char* __cdecl FUN_00e8dd60();
+void* __cdecl FUN_00e8ea10();
+
+class NiD3DPass;
+
+namespace sc1d790 {
+
+struct MemoryHeap
+{
+    void FUN_00aa4060(void* pvMem);
+};
+
+
+}
+
+template <class T> class NiPointer
+{
+  public:
+    NiPointer() throw();
+    ~NiPointer()
+    {}
+
+
+    T* m_pObject;
+};
+
+namespace sc1d790 {
+
+// @fnv 0x00c1d790
+NiPointer<NiD3DPass>* FUN_00c1d790(unsigned int ItemUpdateArray)
+{
+    return new NiPointer<NiD3DPass>[ItemUpdateArray];
+}
+
 }

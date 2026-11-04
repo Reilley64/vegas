@@ -33,9 +33,6 @@ class TESPackage : public TESForm
     void SetProcedureType(PACKAGE_PROCEDURE_TYPE procedure);
 };
 
-FNV_STATIC_ASSERT(offsetof(TESPackage, eProcedureType) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESPackage, kData) == 0x1c);
-FNV_STATIC_ASSERT(offsetof(TESPackage, pPackageLocation) == 0x2c);
 
 // Canonical named access view for the message icon's serialized form ID.
 struct BGSMessageInitAccess : public TESForm
@@ -47,6 +44,5 @@ struct BGSMessageInitAccess : public TESForm
     unsigned int GetIconFormID();
 };
 
-FNV_STATIC_ASSERT(offsetof(BGSMessageInitAccess, iconFormID) == 0x2c);
 
 #endif

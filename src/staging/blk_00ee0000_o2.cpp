@@ -2,6 +2,21 @@
 // src/staging/blk_00ee0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <winsock2.h>
+#include <windows.h>
+#include <mmsystem.h>
+#include <dinput.h>
+#include <dsound.h>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/NiRefObject.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_00ee8000.h"
+#include "fnv/symbols_00eea000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_0109b000.h"
+#include "bsmenu/global_string_header.h"
 #include "../../include/layout_support.h"
 
 extern "C" void __cdecl _Call_a5d3a0();
@@ -9,7 +24,7 @@ extern int DAT_011011ec;
 
 struct FUN_00ee88b0
 {
-    int m_vftable;
+    void* m_vftable;
     FUN_00ee88b0();
 };
 
@@ -17,10 +32,9 @@ struct FUN_00ee88b0
 FUN_00ee88b0::FUN_00ee88b0()
 {
     _Call_a5d3a0();
-    m_vftable = (int)&DAT_011011ec;
+    m_vftable = &DAT_011011ec;
 }
 
-extern const char* _EmptyFS;
 struct FUN_00ee8a10
 {
     const char* m_pString;
@@ -38,9 +52,9 @@ FUN_00ee8a10::FUN_00ee8a10(const FUN_00ee8a10& src)
     const char* newStr = src.m_pString;
     if (m_pString != newStr)
     {
-        if (newStr != _EmptyFS)
+        if (newStr != ::DAT_0109b220)
             InterlockedIncrement((volatile long*)(newStr - 8));
-        if (m_pString != _EmptyFS)
+        if (m_pString != ::DAT_0109b220)
             InterlockedDecrement((volatile long*)(m_pString - 8));
         m_pString = newStr;
     }
@@ -51,7 +65,6 @@ FUN_00ee8a10::FUN_00ee8a10(const FUN_00ee8a10& src)
 }
 
 namespace fnv_00eea710 {
-extern "C" void* _EmptyFS;
 
 struct FUN_00eea710_class
 {
@@ -72,10 +85,10 @@ void FUN_00eea710_class::AssignRefCounted(void** apSource)
     void* src = *apSource;
     if (m_field_18 != src)
     {
-        if (src != _EmptyFS)
-            InterlockedIncrement((volatile long*)((char*)src - 8));
-        if (m_field_18 != _EmptyFS)
-            InterlockedDecrement((volatile long*)((char*)m_field_18 - 8));
+        if (src != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
+            InterlockedIncrement(&((StringHeader*)(src) - 1)->refs);
+        if (m_field_18 != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
+            InterlockedDecrement(&((StringHeader*)(m_field_18) - 1)->refs);
         m_field_18 = src;
     }
 }
@@ -94,7 +107,7 @@ struct FUN_00ee89f0
 // @fnv 0x00ee89f0
 FUN_00ee89f0::FUN_00ee89f0()
 {
-    m_pString = _EmptyFS;
+    m_pString = ::DAT_0109b220;
     m_uiCharacterCount = 0;
     m_uiMaxLength = 0;
     m_uiValue1 = 0;
@@ -118,78 +131,68 @@ void FUN_00eea650_stand_in::FUN_00eea650(const FUN_00ee8a10& aSource)
     const char* pcSourceString = aSource.m_pString;
     if (m_pString != pcSourceString)
     {
-        if (pcSourceString != _EmptyFS)
-            InterlockedIncrement(reinterpret_cast<volatile long*>(const_cast<char*>(pcSourceString) - 8));
+        if (pcSourceString != ::DAT_0109b220)
+            InterlockedIncrement(&((StringHeader*)(pcSourceString) - 1)->refs);
 
-        if (m_pString != _EmptyFS)
-            InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_pString) - 8));
+        if (m_pString != ::DAT_0109b220)
+            InterlockedDecrement(&((StringHeader*)(m_pString) - 1)->refs);
 
         m_pString = pcSourceString;
     }
 }
 
-__declspec(dllimport) int __stdcall gethostname(char* name, int namelen);
 
 // @fnv 0x00ee6d8c
-int __stdcall FUN_00ee6d8c(char* name, int namelen)
+int FUN_00ee6d8c(char* name, int namelen)
 {
     return gethostname(name, namelen);
 }
 
 // FUN_00ee6d92: 6-byte 'jmp [IAT]' forwarder to WSOCK32 ordinal 13 (listen, stdcall, 2 args).
-extern "C" __declspec(dllimport) int __stdcall listen(unsigned int s, int backlog);
 
 // @fnv 0x00ee6d92
-int __stdcall FUN_00ee6d92(unsigned int s, int backlog)
+int FUN_00ee6d92(SOCKET s, int backlog)
 {
     return listen(s, backlog);
 }
 
 // FUN_00ee6d98: 6-byte 'jmp [IAT]' forwarder to WSOCK32 ordinal 2 (bind, stdcall, 3 args).
-extern "C" __declspec(dllimport) int __stdcall bind(unsigned int s, const void* name, int namelen);
 
 // @fnv 0x00ee6d98
-int __stdcall FUN_00ee6d98(unsigned int s, const void* name, int namelen)
+int FUN_00ee6d98(SOCKET s, const sockaddr* name, int namelen)
 {
     return bind(s, name, namelen);
 }
 
-extern "C"
-{
-    __declspec(dllimport) char* __stdcall inet_ntoa(unsigned int addr);
-}
 
 // @fnv 0x00ee6da4
-char* __stdcall FUN_00ee6da4(unsigned int addr)
+char* FUN_00ee6da4(in_addr addr)
 {
     return inet_ntoa(addr);
 }
 
 // FUN_00ee6daa — import forwarding stub: a tail jump through the ws2_32
 // import table slot to ntohs. The wrapper's own argument is already in the
-// callee's argument position, so with matching __stdcall cleanup the /O2
+// callee's argument position, so with matching cleanup the /O2
 // tail call compiles to a single `jmp dword ptr [__imp__ntohs@4]` (6 bytes).
 //
 // Target: size 6, /MT /O2 /GS /EHsc /Gy.
 
-__declspec(dllimport) unsigned short __stdcall ntohs(unsigned short netshort);
 
 // @fnv 0x00ee6daa
-unsigned short __stdcall FUN_00ee6daa(unsigned short netshort)
+unsigned short FUN_00ee6daa(unsigned short netshort)
 {
     return ntohs(netshort);
 }
 
 // FUN_00ee6db0: 6-byte 'jmp [IAT]' forwarder to WSOCK32 ordinal 1 (accept, stdcall, 3 args).
-extern "C" __declspec(dllimport) unsigned int __stdcall accept(unsigned int s, void* addr, int* addrlen);
 
 // @fnv 0x00ee6db0
-int __stdcall FUN_00ee6db0(unsigned int s, void* addr, int* addrlen)
+SOCKET FUN_00ee6db0(SOCKET s, sockaddr* addr, int* addrlen)
 {
     return accept(s, addr, addrlen);
 }
 
-extern "C" int __cdecl __WSAFDIsSet(unsigned long, void*);
 
 extern void(__cdecl* const FUN_00DF3880)();
 
@@ -208,32 +211,29 @@ void __cdecl FUN_00ee6dbc()
     DAT_00fdf37c();
 }
 
-extern "C" __declspec(dllimport) void __cdecl ImportedFunction();
+extern "C" __declspec(dllimport) void __cdecl D3DXSaveTextureToFileA();
 
 // @fnv 0x00ee6dc2
 void __cdecl FUN_00ee6dc2()
 {
-    ImportedFunction();
+    D3DXSaveTextureToFileA();
 }
 
 struct D3DXPLANE;
 struct D3DXMATRIX;
 
-extern "C" __declspec(dllimport) D3DXPLANE* __stdcall D3DXPlaneTransform(D3DXPLANE* output, const D3DXPLANE* plane,
-                                                                         const D3DXMATRIX* matrix);
 
 // @fnv 0x00ee6dc8
-D3DXPLANE* __stdcall FUN_00ee6dc8(D3DXPLANE* output, const D3DXPLANE* plane, const D3DXMATRIX* matrix)
+D3DXPLANE* FUN_00ee6dc8(D3DXPLANE* output, const D3DXPLANE* plane, const D3DXMATRIX* matrix)
 {
-    return D3DXPlaneTransform(output, plane, matrix);
+    return ::FUN_00ee6dc8(output, plane, matrix);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall D3DXPlaneNormalize(void* pout, const void* pp);
 
 // @fnv 0x00ee6dce
-void* __stdcall FUN_00ee6dce(void* pout, const void* pp)
+void* FUN_00ee6dce(void* pout, const void* pp)
 {
-    return D3DXPlaneNormalize(pout, pp);
+    return ::FUN_00ee6dce(pout, pp);
 }
 
 typedef void(__cdecl* PFN_D3DXMatrixInverse)(void);
@@ -246,22 +246,22 @@ void __cdecl FUN_00ee6dda()
 }
 
 // FUN_00ee6de0: 6-byte 'jmp [IAT]' forwarder to d3dx9_38 D3DXMatrixMultiply (stdcall, 3 args).
-extern "C" __declspec(dllimport) void* __stdcall D3DXMatrixMultiply(void* pOut, const void* pM1, const void* pM2);
+extern "C" __declspec(dllimport) void* D3DXMatrixMultiply(void* pOut, const void* pM1, const void* pM2);
 
 // @fnv 0x00ee6de0
-void* __stdcall FUN_00ee6de0(void* pOut, const void* pM1, const void* pM2)
+void* FUN_00ee6de0(void* pOut, const void* pM1, const void* pM2)
 {
     return D3DXMatrixMultiply(pOut, pM1, pM2);
 }
 
 // FUN_00ee6de6: 6-byte jmp [IAT] stub forwarding to stdcall d3dx9_38 D3DXLoadSurfaceFromSurface (8 stack args).
-extern "C" __declspec(dllimport) int __stdcall D3DXLoadSurfaceFromSurface(void* pDestSurface, const void* pDestPalette,
+extern "C" __declspec(dllimport) int D3DXLoadSurfaceFromSurface(void* pDestSurface, const void* pDestPalette,
                                                                           const void* pDestRect, void* pSrcSurface,
                                                                           const void* pSrcPalette, const void* pSrcRect,
                                                                           unsigned int Filter, unsigned int ColorKey);
 
 // @fnv 0x00ee6de6
-int __stdcall FUN_00ee6de6(void* pDestSurface, const void* pDestPalette, const void* pDestRect, void* pSrcSurface,
+int FUN_00ee6de6(void* pDestSurface, const void* pDestPalette, const void* pDestRect, void* pSrcSurface,
                            const void* pSrcPalette, const void* pSrcRect, unsigned int Filter, unsigned int ColorKey)
 {
     return D3DXLoadSurfaceFromSurface(pDestSurface, pDestPalette, pDestRect, pSrcSurface, pSrcPalette, pSrcRect, Filter,
@@ -269,10 +269,10 @@ int __stdcall FUN_00ee6de6(void* pDestSurface, const void* pDestPalette, const v
 }
 
 // FUN_00ee6dec: 6-byte jmp [IAT] stub forwarding to stdcall d3dx9_38 D3DXVec3Normalize.
-extern "C" __declspec(dllimport) void* __stdcall D3DXVec3Normalize(void* pOut, const void* pV);
+extern "C" __declspec(dllimport) void* D3DXVec3Normalize(void* pOut, const void* pV);
 
 // @fnv 0x00ee6dec
-void* __stdcall FUN_00ee6dec(void* pOut, const void* pV)
+void* FUN_00ee6dec(void* pOut, const void* pV)
 {
     return D3DXVec3Normalize(pOut, pV);
 }
@@ -291,53 +291,51 @@ void FUN_00ee6df2(void)
 }
 
 // FUN_00ee6df8: 6-byte jmp [IAT] stub forwarding to stdcall d3dx9_38 D3DXVec3TransformCoord.
-extern "C" __declspec(dllimport) void* __stdcall D3DXVec3TransformCoord(void* pOut, const void* pV, const void* pM);
+extern "C" __declspec(dllimport) void* D3DXVec3TransformCoord(void* pOut, const void* pV, const void* pM);
 
 // @fnv 0x00ee6df8
-void* __stdcall FUN_00ee6df8(void* pOut, const void* pV, const void* pM)
+void* FUN_00ee6df8(void* pOut, const void* pV, const void* pM)
 {
     return D3DXVec3TransformCoord(pOut, pV, pM);
 }
 
 struct D3DXMATRIX;
 
-extern "C" __declspec(dllimport) D3DXMATRIX* __stdcall D3DXMatrixMultiplyTranspose(D3DXMATRIX* output,
+extern "C" __declspec(dllimport) D3DXMATRIX* D3DXMatrixMultiplyTranspose(D3DXMATRIX* output,
                                                                                    const D3DXMATRIX* first,
                                                                                    const D3DXMATRIX* second);
 
 // @fnv 0x00ee6dfe
-D3DXMATRIX* __stdcall FUN_00ee6dfe(D3DXMATRIX* output, const D3DXMATRIX* first, const D3DXMATRIX* second)
+D3DXMATRIX* FUN_00ee6dfe(D3DXMATRIX* output, const D3DXMATRIX* first, const D3DXMATRIX* second)
 {
     return D3DXMatrixMultiplyTranspose(output, first, second);
 }
 
 // FUN_00ee6e04: 6-byte jmp [IAT] stub forwarding to stdcall d3dx9_38 D3DXMatrixRotationYawPitchRoll (4 args).
-extern "C" __declspec(dllimport) void* __stdcall D3DXMatrixRotationYawPitchRoll(void* pOut, unsigned int Yaw,
+extern "C" __declspec(dllimport) void* D3DXMatrixRotationYawPitchRoll(void* pOut, unsigned int Yaw,
                                                                                 unsigned int Pitch, unsigned int Roll);
 
 // @fnv 0x00ee6e04
-void* __stdcall FUN_00ee6e04(void* pOut, unsigned int Yaw, unsigned int Pitch, unsigned int Roll)
+void* FUN_00ee6e04(void* pOut, unsigned int Yaw, unsigned int Pitch, unsigned int Roll)
 {
     return D3DXMatrixRotationYawPitchRoll(pOut, Yaw, Pitch, Roll);
 }
 
-extern "C" __declspec(dllimport) long __stdcall DirectInput8Create(void* hinst, unsigned long dwVersion,
-                                                                   const void* riidltf, void** ppvOut, void* punkOuter);
 
 // @fnv 0x00ee7f10
-long __stdcall FUN_00ee7f10(void* hinst, unsigned long dwVersion, const void* riidltf, void** ppvOut, void* punkOuter)
+long FUN_00ee7f10(void* hinst, unsigned long dwVersion, const void* riidltf, void** ppvOut, void* punkOuter)
 {
-    return DirectInput8Create(hinst, dwVersion, riidltf, ppvOut, punkOuter);
+    return DirectInput8Create(static_cast<HINSTANCE>(hinst), dwVersion, *static_cast<const IID*>(riidltf), ppvOut,
+                              static_cast<IUnknown*>(punkOuter));
 }
 
 // FUN_00ee81e0: forwards to DSOUND ordinal 11 (DirectSoundCreate8), tail-jumped through the IAT.
-extern "C" __declspec(dllimport) long __stdcall DirectSoundCreate8(const void* pcGuidDevice, void** ppDS8,
-                                                                   void* pUnkOuter);
 
 // @fnv 0x00ee81e0
-long __stdcall FUN_00ee81e0(const void* pcGuidDevice, void** ppDS8, void* pUnkOuter)
+long FUN_00ee81e0(const void* pcGuidDevice, void** ppDS8, void* pUnkOuter)
 {
-    return DirectSoundCreate8(pcGuidDevice, ppDS8, pUnkOuter);
+    return DirectSoundCreate8(static_cast<LPCGUID>(pcGuidDevice), reinterpret_cast<LPDIRECTSOUND8*>(ppDS8),
+                             static_cast<IUnknown*>(pUnkOuter));
 }
 
 // FUN_00ee81e6: forwards to libvorbisfile ov_clear (1 arg, cdecl), tail-jumped through the IAT.
@@ -350,30 +348,27 @@ int __cdecl FUN_00ee81e6(void* vf)
 }
 
 // FUN_00ee81ec: forwards to libvorbisfile ov_pcm_total (2 args, cdecl, 64-bit return), tail-jumped through the IAT.
-extern "C" __declspec(dllimport) __int64 __cdecl ov_pcm_total(void* vf, int i);
 
 // @fnv 0x00ee81ec
 __int64 __cdecl FUN_00ee81ec(void* vf, int i)
 {
-    return ov_pcm_total(vf, i);
+    return ::FUN_00ee81ec(vf, i);
 }
 
 // FUN_00ee81f2: forwards to libvorbisfile ov_seekable (1 arg, cdecl), tail-jumped through the IAT.
-extern "C" __declspec(dllimport) int __cdecl ov_seekable(void* vf);
 
 // @fnv 0x00ee81f2
 int __cdecl FUN_00ee81f2(void* vf)
 {
-    return ov_seekable(vf);
+    return ::FUN_00ee81f2(vf);
 }
 
 // FUN_00ee81f8: forwards to libvorbisfile ov_info (2 args, tail-jumped through the IAT).
-extern "C" __declspec(dllimport) void* __cdecl ov_info(void* vf, int link);
 
 // @fnv 0x00ee81f8
 void* __cdecl FUN_00ee81f8(void* vf, int link)
 {
-    return ov_info(vf, link);
+    return ::FUN_00ee81f8(vf, link);
 }
 
 extern "C" void(__cdecl* const FUN_00fdf438)();
@@ -404,13 +399,11 @@ void __cdecl FUN_00ee820a()
     DAT_00fdf398();
 }
 
-extern "C" __declspec(dllimport) void __stdcall RtlUnwind(void* TargetFrame, void* TargetIp, void* ExceptionRecord,
-                                                          void* ReturnValue);
 
 // @fnv 0x00ee8210
-void __stdcall FUN_00ee8210(void* TargetFrame, void* TargetIp, void* ExceptionRecord, void* ReturnValue)
+void FUN_00ee8210(void* TargetFrame, void* TargetIp, void* ExceptionRecord, void* ReturnValue)
 {
-    RtlUnwind(TargetFrame, TargetIp, ExceptionRecord, ReturnValue);
+    RtlUnwind(TargetFrame, TargetIp, static_cast<PEXCEPTION_RECORD>(ExceptionRecord), ReturnValue);
 }
 
 struct FUN_00ee88d0_base
@@ -492,10 +485,6 @@ void CpuObject::FUN_00eea570(int value)
 }
 }  // namespace fnv_00eea570
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern const char* _EmptyFS;
-extern volatile long DAT_011f4400;
-extern unsigned int UNK_0101dce4;
 
 struct FixedStringOwner
 {
@@ -514,24 +503,21 @@ struct FixedStringOwner
 // @fnv 0x00eea5e0
 void FixedStringOwner::ReleaseStrings()
 {
-    if (m_fifthString != _EmptyFS)
-        InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_fifthString) - 8));
-    if (m_fourthString != _EmptyFS)
-        InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_fourthString) - 8));
-    if (m_thirdString != _EmptyFS)
-        InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_thirdString) - 8));
-    if (m_secondString != _EmptyFS)
-        InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_secondString) - 8));
-    if (m_firstString != _EmptyFS)
-        InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_firstString) - 8));
+    if (m_fifthString != ::DAT_0109b220)
+        InterlockedDecrement(&((StringHeader*)(m_fifthString) - 1)->refs);
+    if (m_fourthString != ::DAT_0109b220)
+        InterlockedDecrement(&((StringHeader*)(m_fourthString) - 1)->refs);
+    if (m_thirdString != ::DAT_0109b220)
+        InterlockedDecrement(&((StringHeader*)(m_thirdString) - 1)->refs);
+    if (m_secondString != ::DAT_0109b220)
+        InterlockedDecrement(&((StringHeader*)(m_secondString) - 1)->refs);
+    if (m_firstString != ::DAT_0109b220)
+        InterlockedDecrement(&((StringHeader*)(m_firstString) - 1)->refs);
 
-    m_vftable = &UNK_0101dce4;
-    InterlockedDecrement(&DAT_011f4400);
+    m_vftable = &(*reinterpret_cast<unsigned int *>(&::DAT_0101dce4));
+    InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern const char* _EmptyFS;
 
 struct FixedStringHolder
 {
@@ -551,13 +537,13 @@ void FixedStringHolder::FUN_00eea690(const char** source)
     const char* newString = *source;
     if (m_pString != newString)
     {
-        if (newString != _EmptyFS)
+        if (newString != ::DAT_0109b220)
         {
-            InterlockedIncrement(reinterpret_cast<volatile long*>(const_cast<char*>(newString) - 8));
+            InterlockedIncrement(&((StringHeader*)(newString) - 1)->refs);
         }
-        if (m_pString != _EmptyFS)
+        if (m_pString != ::DAT_0109b220)
         {
-            InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_pString) - 8));
+            InterlockedDecrement(&((StringHeader*)(m_pString) - 1)->refs);
         }
         m_pString = newString;
     }
@@ -587,7 +573,7 @@ struct FUN_00eea500_Holder
     int unk08;
     int unk0C;
     int unk10;
-    int* __thiscall FUN_00eea500();
+    int* FUN_00eea500();
 };
 
 // @fnv 0x00eea500
@@ -598,16 +584,16 @@ int* FUN_00eea500_Holder::FUN_00eea500()
 
 struct FnvCpu_FUN_00eea520_CpuObject
 {
+    char m_pad00[0x18];
+    char m_buffer18[1];
     char* FUN_00eea520();
 };
 // @fnv 0x00eea520
 char* FnvCpu_FUN_00eea520_CpuObject::FUN_00eea520()
 {
-    return reinterpret_cast<char*>(this) + 24;
+    return m_buffer18;
 }
 
-extern volatile long DAT_011f4400;
-extern const char* _EmptyFS;
 struct FixedStringBase
 {
     virtual void Release();
@@ -616,12 +602,12 @@ struct FixedStringBase
 };
 FixedStringBase::FixedStringBase() : m_unknown04(0)
 {
-    InterlockedIncrement(&DAT_011f4400);
+    InterlockedIncrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
 struct StringValue
 {
     const char* value;
-    StringValue() : value(_EmptyFS)
+    StringValue() : value(::DAT_0109b220)
     {}
 };
 struct MemberCount
@@ -649,7 +635,6 @@ FUN_00eea580::FUN_00eea580()
 class ItemEE88
 {
   public:
-    unsigned short FUN_00eea4e0();
 };
 
 class FUN_00ee8850_C
@@ -686,24 +671,26 @@ unsigned int FUN_00ee8850_C::GetTotalValue(int iType)
     {
         ItemEE88* pkItem = m_ppItems[i];
         if (pkItem)
-            uiResult += pkItem->FUN_00eea4e0();
+            uiResult += ::FUN_00eea4e0((char *)(pkItem), {});
     }
     return uiResult;
 }
 
 // @fnv 0x00eea4e0
-unsigned short __fastcall FUN_00eea4e0(char* self, int edx)
+unsigned short FUN_00eea4e0(char* self, int edx)
 {
     return *reinterpret_cast<unsigned short*>(self + 0x18);
 }
 
 struct D3DXVECTOR4;
 struct D3DXMATRIX;
-extern "C" __declspec(dllimport) D3DXVECTOR4* __stdcall D3DXVec4Transform(D3DXVECTOR4* output, const D3DXVECTOR4* input,
+extern "C" __declspec(dllimport) D3DXVECTOR4* D3DXVec4Transform(D3DXVECTOR4* output, const D3DXVECTOR4* input,
                                                                           const D3DXMATRIX* matrix);
 
 // @fnv 0x00ee6e34
-D3DXVECTOR4* __stdcall FUN_00ee6e34(D3DXVECTOR4* output, const D3DXVECTOR4* input, const D3DXMATRIX* matrix)
+D3DXVECTOR4* FUN_00ee6e34(D3DXVECTOR4* output, const D3DXVECTOR4* input, const D3DXMATRIX* matrix)
 {
     return D3DXVec4Transform(output, input, matrix);
 }
+
+#include "generated/data/staging/blk_00ee0000_o2.inc"

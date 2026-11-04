@@ -1,7 +1,9 @@
 #ifndef NITRANSFORMINTERPOLATOR_DECLS_H
 #define NITRANSFORMINTERPOLATOR_DECLS_H
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
+#include <windows.h>
+#include "fnv/decl/FUN_0058cb00_Class.h"
+#include "fnv/symbols_00a26000.h"
 #include "nitransforminterpolator_types_NiQuatTransform.h"
 #include "nitransforminterpolator_types_NiTransformData.h"
 
@@ -53,8 +55,6 @@ class TimedRotationKey : public AnimationKey
 class TimedAnimationKey : public AnimationKey
 {
   public:
-    static float InterpolatePosition(float, TimedAnimationKey*, AnimationKey::KeyType, unsigned int, unsigned int&,
-                                     unsigned char);
 };
 
 template <class T> class TransformDataPointer
@@ -98,8 +98,6 @@ class NiTransformInterpolator : public NiKeyBasedInterpolator
     void CopyMemberData(NiTransformInterpolator*, CloningProcess&);
     void GetInterpolatorTimeRange(float&, float&);
     bool Update(float, NiObjectNET*, NiQuatTransform&);
-    PositionKeyInterpolator* FUN_00a3f990(unsigned int&, AnimationKey::KeyType&, unsigned char&);
-    TimedRotationKey* FUN_0058cb00(unsigned int&, AnimationKey::KeyType&, unsigned char&);
     TimedAnimationKey* FUN_00a3f9e0(unsigned int&, AnimationKey::KeyType&, unsigned char&);
 };
 #endif

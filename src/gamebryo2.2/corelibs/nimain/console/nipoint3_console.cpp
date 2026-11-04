@@ -1,5 +1,11 @@
 // gamebryo2.2/corelibs/nimain/console/nipoint3_console.cpp: free functions (2 functions)
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011aa000.h"
+#include "fnv/symbols_011f4000.h"
 #include "NiPoint3.h"
 
 // Compiler-emitted startup initializer: the 17-DWORD startup table (160-byte
@@ -15,7 +21,6 @@ struct NiPoint3StartupTable
 NiPoint3StartupTable gNiPoint3StartupSrc = {{8193, 1, 0, -1, 0, 0, 264, 1, 0, 264, 2, 0, 264, 3, 0, 264, 3}};
 NiPoint3StartupTable gNiPoint3StartupDst = gNiPoint3StartupSrc;
 
-extern void* DAT_011f4aa8;
 
 // Normalizes each of count NiPoint3 vectors spaced by stride bytes, scaling by the reciprocal of its length via a lookup table.
 // @fnv 0x00a7e960
@@ -44,7 +49,7 @@ void NormalizePoints(NiPoint3* pElementBuffer, unsigned int count, unsigned int 
             }
             int iExponent = ((short)usExponent >> 1) + 127;
             fInvLen.u >>= 16;
-            fInvLen.u = (iExponent << 23) | ((unsigned int*)DAT_011f4aa8)[fInvLen.u];
+            fInvLen.u = (iExponent << 23) | ((unsigned int*)(*reinterpret_cast<void * *>(&::DAT_011f4aa8)))[fInvLen.u];
             fInvLen.f = 1.0f / fInvLen.f;
         }
         pElementBuffer->x *= fInvLen.f;
@@ -53,3 +58,5 @@ void NormalizePoints(NiPoint3* pElementBuffer, unsigned int count, unsigned int 
         pElementBuffer = (NiPoint3*)((char*)pElementBuffer + stride);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/console/nipoint3_console.inc"

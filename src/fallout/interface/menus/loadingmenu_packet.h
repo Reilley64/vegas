@@ -1,5 +1,42 @@
 // fallout/interface/menus/loadingmenu_packet.h: declares BSThread, NiAVObject, NiNode, RgbaColor, NiGeometryData and more
 
+#include "fnv/decl/DecalStub.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00461070_shell.h"
+#include "fnv/decl/FUN_005a7110_shell.h"
+#include "fnv/decl/FUN_005a7130_shell.h"
+#include "fnv/decl/FUN_005ec330_shell.h"
+#include "fnv/decl/FUN_00678ce0_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
+#include "fnv/decl/fnv_0056c7f0__Tile.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_0042f000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004af000.h"
+#include "fnv/symbols_004b7000.h"
+#include "fnv/symbols_005a0000.h"
+#include "fnv/symbols_005c2000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_0078a000.h"
+#include "fnv/symbols_0078d000.h"
+#include "fnv/symbols_00890000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d2000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011dd000.h"
+#include "fnv/symbols_011de000.h"
 class BSThread
 {
   public:
@@ -10,7 +47,6 @@ class BSThread
     virtual ~BSThread();
     unsigned char _threadStorage[0x2c];
     BSThread();
-    bool FUN_008905f0();
     void SetName(const char*);
     void Initialize(StackSize, const char*, bool);
     void SetSchedulingPriority(unsigned int);
@@ -20,44 +56,35 @@ class BSThread
 class InterfaceManager;
 class NiAVObject
 {
+public:
+    void SetLocalRotation(float, float, float, float);
 };
 class NiNode
 {
   public:
-    NiAVObject* FUN_0045bc00(unsigned int);
 };
 class RgbaColor
 {
   public:
-    NiNode* FUN_0056c7f0();
 };
 class NiGeometryData
 {
   public:
-    RgbaColor* GetColors();
 };
 class NiProperty
 {
   public:
-    void FUN_0068c9f0(float);
 };
 class NiGeometry
 {
   public:
-    NiProperty* GetProperty(int);
 };
-InterfaceManager* FUN_004b7210();
-unsigned int FUN_004af350();
 
 class GlobalObject_0044f440
 {
   public:
-    float FUN_00450410();
 };
 extern GlobalObject_0044f440 g_011da158, g_011da190, g_011da1a0;
-extern bool DAT_011a0294;
-bool FUN_0070edf0();
-unsigned int gm_GetTickCount();
 
 enum ENUM_FORM_ID
 {
@@ -67,23 +94,22 @@ class TESForm
 {
   public:
     virtual void vfn_0();
-    static TESForm* GetFormByID(unsigned int);
     ENUM_FORM_ID GetFormType() const;
+public:
+    void NotifySaveLoadGameOfFormChange();
 };
 class TESFullName
 {
   public:
-    const char* GetFullName();
+public:
+    void SetFullName(const char *);
 };
 class TESLoadScreen : public TESForm
 {
   public:
     unsigned char pad[0x14];
     TESFullName fullName;
-    bool IsRefFlag400Set();
     bool MatchesFormLocation(TESForm*);
-    bool IsDefaultLoadScreen();
-    int GetLoadScreenTypeDataType();
 };
 class BGSPerkEntry
 {
@@ -101,7 +127,6 @@ template <class T> class BSSimpleList
     unsigned int ItemsInList();
     void AddTail(T const&);
 };
-int FUN_00408b20(const char*, const char*);
 
 class Tile
 {
@@ -109,19 +134,18 @@ class Tile
     void Set(int, int);
     void Set(int, float, bool);
     void Set(int, const char*, bool);
-    void GetFloat(int, int);
-    bool FUN_0078a1f0();
+public:
+    void Set(int, unsigned int);
+public:
+    static float GetInterfaceScale();
 };
 class BGSSaveLoadGame
 {
   public:
-    bool FUN_0042ce10();
 };
-extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 class BGSQuestObjective
 {
   public:
-    const char* GetDisplayText();
 };
 class GlobalObject_0078d900
 {
@@ -134,15 +158,13 @@ extern int DAT_011da170;
 class SettingT_GameSettingCollection_
 {
   public:
-    const char* String();
-    union SETTING_VALUE* Int();
 };
 class GlobalObject_0040c150
 {
   public:
     char storage[12];
 };
-extern GlobalObject_0040c150 g_011d1f8c, g_011d40f0, g_011d2358;
+extern GlobalObject_0040c150 g_011d1f8c, g_011d40f0;
 void FUN_0078d670();
 
 class GlobalObject2_0045cfe0
@@ -150,8 +172,6 @@ class GlobalObject2_0045cfe0
   public:
     char storage[12];
 };
-extern GlobalObject2_0045cfe0 g_011ded5c;
-void FUN_0040fca0(unsigned long);
 
 union SETTING_VALUE
 {
@@ -185,48 +205,38 @@ class BGSMusicType
     class MusicTrack;
 };
 class ScriptVariableInfo;
-unsigned int FUN_0042f5a0(unsigned int, unsigned int);
-unsigned int FUN_005a00a0(unsigned int);
 class TESLoadScreenFlags
 {
   public:
-    static bool GetUseLocationSpecificScreensOnly();
-    static void SetUseLocationSpecificScreensOnly(bool);
 };
 
 class TESQuest : public TESForm
 {
   public:
     BGSQuestObjective* GetObjective(unsigned int);
+public:
+    void SetEnabled(bool);
 };
 class BGSLoadGameBuffer
 {
   public:
-    unsigned int ReadFormIdentifier();
-    void ReadDataBlock(void*, unsigned int);
 };
 class GlobalObject2_0040c150
 {
   public:
     char storage[12];
 };
-extern GlobalObject2_0040c150 g_011d0c60;
 void FUN_004581c0(bool);
 
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESLoadScreen*>* GetTESLoadScreenList();
 };
-extern TESDataHandler* g_dataHandler;
 class OSGlobals;
-extern OSGlobals* g_osGlobals;
 class DurationData
 {
   public:
-    char FUN_00678ce0();
 };
-extern bool DAT_011d8907;
 class NavMeshInfo;
 class LoadingMenu
 {
@@ -235,9 +245,14 @@ class LoadingMenu
     {
         Tile0 = 0
     };
-    unsigned char _padToTiles[0x28];
+    unsigned char _padToTiles[0x4];
+    void* unk04;
+    unsigned char pad08[0x20];
     Tile* m_pTiles[38];
-    char _padToCandidates_padc0[16];
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
     char m_kFirstTileList[12];
     char m_kSecondTileList[12];
     char m_kThirdTileList[12];
@@ -250,9 +265,9 @@ class LoadingMenu
     BSSimpleList<BGSPerkEntry*>* currentCandidate;
     unsigned char _padToTime[4];
     unsigned int nextTipTime;
-    unsigned char _padToExtra[4];
-    unsigned int extraCandidates;
-    char _padToUsFlags_pad1ec[4];
+    unsigned int m_uiTipTimer;
+    TESForm* pLocation;
+    void* m_pTileShaderState;
     void* m_pAlternateTileShaderState;
     char m_kFirstDate[12];
     char m_kSecondDate[12];
@@ -271,8 +286,6 @@ class LoadingMenu
     bool GetFloat(int);
     void SelectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>&);
     void CollectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>&);
-    void Update();
-    static void UpdateLoadingMenuState();
     static void LoadGame(BGSLoadGameBuffer*);
     void UpdateLoadScreen(TESLoadScreen*, float, int);
     void FUN_0078b100(float, int);

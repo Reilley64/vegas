@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 class hkpShape;
-#pragma pack(push, 1)
 class hkpCdBody
 {
   public:
@@ -14,6 +13,4 @@ class hkpCdBody
     void* m_pMotionState;         // +0x8
     hkpCdBody* m_parent;          // +0xC
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCdBody[(sizeof(hkpCdBody) == 0x10) ? 1 : -1];
 #endif

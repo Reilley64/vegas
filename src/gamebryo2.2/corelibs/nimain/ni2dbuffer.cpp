@@ -1,5 +1,16 @@
 // gamebryo2.2/corelibs/nimain/ni2dbuffer.cpp: Ni2DBuffer, MyBuf, Fake, FakeBuffer (6 functions)
 
+#include <windows.h>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0109f000.h"
+#include "fnv/symbols_011f5000.h"
+#include "fnv/symbols_011f6000.h"
 #include "ni2dbuffer_decls.h"
 
 // Creates the renderer data if missing, then asks the renderer to create a depth-stencil surface for this buffer; returns false on failure.
@@ -8,7 +19,7 @@ bool Ni2DBuffer::CreateRendererData(const NiPixelFormat& format, MultiSamplePref
 {
     if (!rendererData)
     {
-        if (!IsKindOfType(&DAT_011f603c))
+        if (!IsKindOfType(&(*reinterpret_cast<::NiRTTI *>(&::g_011f603c))))
             return false;
         NiRenderer* renderer = NiRenderer::ms_pRenderer;
         if (renderer && !renderer->CreateDepthStencil(this, format, preference))
@@ -19,18 +30,16 @@ bool Ni2DBuffer::CreateRendererData(const NiPixelFormat& format, MultiSamplePref
 
 struct NiObject;
 
-bool __stdcall IsSameAs(NiObject* pkObject);
 
-bool __stdcall FUN_00a88a50(NiObject* pkObject);
+bool FUN_00a88a50(NiObject* pkObject);
 // @fnv 0x00a88a50
-bool __stdcall FUN_00a88a50(NiObject* pkObject)
+bool FUN_00a88a50(NiObject* pkObject)
 {
-    if (IsSameAs(pkObject))
+    if (reinterpret_cast<::A5d470Class *>((pkObject))->IsSameAs({}))
         return true;
     return false;
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct NiRefObject
 {
     virtual ~NiRefObject();
@@ -61,16 +70,14 @@ struct Ni2DBufferStub : NiRefObject
     unsigned int w, h;
     RDPtr rd;
 };
-extern int DAT_0109f4dc;
-void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // @fnv 0x00a8f330
-Ni2DBufferStub* __fastcall DestroyNi2DBuffer(Ni2DBufferStub* self, int unused, unsigned char flags)
+Ni2DBufferStub* DestroyNi2DBuffer(Ni2DBufferStub* self, int unused, unsigned char flags)
 {
-    *(int**)self = &DAT_0109f4dc;
+    *(int**)self = &(*reinterpret_cast<int *>((void *)&::DAT_0109f4dc));
     self->rd.~RDPtr();
-    self->NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((self))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
-        __Dummy_00b6fef0(self, 0x14);
+        ::FUN_00aa1460(self, 0x14);
     return self;
 }
 
@@ -260,28 +267,23 @@ struct StrArr
     unsigned short _size;
     char _pad1[2];
     unsigned short _grow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
 struct Base380
 {
-    void AppendCameraPathEntries(StrArr*);
 };
 struct FakeBuffer : Base380
 {
     void AppendString(StrArr*);
 };
-extern char const* const g_011f603c_arg1;
-char* _FUN_00a7d330(char const*);
 // Calls the base handler, obtains a string from g_011f603c_arg1, grows pkStrings if full, then stores the string at index _size.
 // @fnv 0x00a8f380
 void FakeBuffer::AppendString(StrArr* pkStrings)
 {
-    AppendCameraPathEntries(pkStrings);
-    char* pcStr = _FUN_00a7d330(g_011f603c_arg1);
+    reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(pkStrings));
+    char* pcStr = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f5d00)));
     unsigned int uiSize = pkStrings->_size;
     unsigned int uiMax = pkStrings->_max;
     if (uiSize >= uiMax)
-        pkStrings->SetSize(pkStrings->_grow + uiSize);
-    pkStrings->SetAt(uiSize, pcStr);
+        reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(pkStrings->_grow + uiSize);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, pcStr);
 }

@@ -1,5 +1,38 @@
 // fallout_shared/packageeventaction.cpp: PackageEventActionData (7 functions)
 
+#include <cstdint>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005aae70_shell.h"
+#include "fnv/decl/FUN_005abed0_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_005d43e0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Scr.h"
+#include "fnv/decl/ScriptCompareOwner.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004ff000.h"
+#include "fnv/symbols_005b5000.h"
 #include "packageeventaction_decls.h"
 #include <malloc.h>
 #include <string.h>
@@ -11,47 +44,46 @@ PackageEventActionData::PackageEventActionData()
 // @fnv 0x0067e190
 void PackageEventActionData::InitItem(TESForm* owner)
 {
-    unsigned int id = (unsigned int)m_item;
-    TESForm::RemapFormIDForFile(id, owner->GetFile(-1));
-    TESObjectANIO* idle = dynamic_cast<TESObjectANIO*>(GetFormByID(id));
+    std::uintptr_t id = (std::uintptr_t)m_item;
+    ::ResolveFormID((unsigned int *)&(id), owner->GetFile(-1));
+    TESObjectANIO* idle = dynamic_cast<TESObjectANIO*>(::FUN_004839c0(id));
     if (idle)
         m_item = idle;
     else if (id)
     {
         if (((BGSCameraPath*)owner)->HasNameForWarning())
-            Warning("MASTERFILE: Unable to find Idle (%08X) on owner object \"%s\".", id, owner->GetName());
+            ::FUN_005b5e40();
         else
-            Warning("MASTERFILE: Unable to find Idle (%08X) on owner object (%08X).", id, owner->GetFormID());
+            ::FUN_005b5e40();
         m_item = 0;
     }
-    id = (unsigned int)pTopic;
-    TESForm::RemapFormIDForFile(id, owner->GetFile(-1));
-    TESTopic* topic = dynamic_cast<TESTopic*>(GetFormByID(id));
+    id = (std::uintptr_t)pTopic;
+    ::ResolveFormID((unsigned int *)&(id), owner->GetFile(-1));
+    TESTopic* topic = dynamic_cast<TESTopic*>(::FUN_004839c0(id));
     if (topic)
         pTopic = topic;
     else if (id)
     {
         if (((BGSCameraPath*)owner)->HasNameForWarning())
-            Warning("MASTERFILE: Unable to find Topic (%08X) on owner object \"%s\".", id, owner->GetName());
+            ::FUN_005b5e40();
         else
-            Warning("MASTERFILE: Unable to find Topic (%08X) on owner object (%08X).", id, owner->GetFormID());
+            ::FUN_005b5e40();
         pTopic = 0;
     }
     if (m_pkNext)
     {
         int errors;
-        int oldWarning = Warning();
-        SetWarningState(true);
-        BGSMessageWarningAuxiliary(0);
+        int oldWarning = ::FUN_0046e8a0();
+        ::FUN_0043b2b0(true);
+        ::FUN_004fffe0(0);
         ((Script*)m_pkNext)->NotifySaveLoadGameOfFormChange();
-        ((Script*)m_pkNext)->InitItem(owner);
+        reinterpret_cast<::Scr *>((((Script*)m_pkNext)))->FUN_005ab400(owner);
         ((ScriptHeaderData*)((BGSCameraPath*)m_pkNext)->GetConditions())->m_bQuest = false;
-        SetWarningState(false);
-        errors = Warning();
-        BGSMessageWarningAuxiliary(oldWarning);
+        ::FUN_0043b2b0(false);
+        errors = ::FUN_0046e8a0();
+        ::FUN_004fffe0(oldWarning);
         if (errors)
-            Warning("MASTERFILE: Errors were encountered during InitItem for result script on eventaction for package",
-                    owner->GetName(), owner->GetFormID());
+            ::FUN_005b5e40();
     }
 }
 
@@ -71,42 +103,42 @@ void PackageEventActionData::Load(TESFile* file)
     for (;;)
     {
         bool done = false;
-        switch ((int)file->GetChunkID())
+        switch ((int)((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
         {
         case 0x44534c53:
         case 0x52564353:
-            if (file->GetChunkID() == 0x44534c53)
+            if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x44534c53)
             {
                 DAT_011d66ac = new ScriptVariableInfo;
                 DAT_011d66ac->Load(file);
-                ((Script*)m_pkNext)->GetVariableList()->AddTail(DAT_011d66ac);
+                reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>((((Script*)m_pkNext)))->FUN_005d43e0()))))->FUN_00905820((void *)&(DAT_011d66ac));
             }
             else if (DAT_011d66ac)
             {
-                char* name = (char*)_alloca(file->GetChunkSize());
-                file->GetChunkData(name, 512);
-                DAT_011d66ac->m_kName.Set(name, 0);
+                char* name = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(name), 512);
+                reinterpret_cast<::TextString *>(&(DAT_011d66ac->m_kName))->FUN_004037f0(name, 0);
             }
             break;
         case 0x52484353:
-            file->GetChunkData(((BGSCameraPath*)m_pkNext)->GetConditions(), 0);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(((BGSCameraPath*)m_pkNext)->GetConditions()), 0);
             if (file->IsEndianConversionRequired())
-                ((ScriptHeaderData*)((BGSCameraPath*)m_pkNext)->GetConditions())->Endian();
+                reinterpret_cast<::FUN_00414220_shell *>((((ScriptHeaderData*)((BGSCameraPath*)m_pkNext)->GetConditions())))->FUN_00414220();
             break;
         case 0x41444353: {
-            unsigned int size = file->GetChunkSize();
+            unsigned int size = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             char* data = (char*)_alloca(size);
             memset(data, 0, size);
-            file->GetChunkData(data, 0);
-            ((Script*)m_pkNext)->SetScriptData(size, data);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(data), 0);
+            reinterpret_cast<::FUN_005aae70_shell *>((((Script*)m_pkNext)))->FUN_005aae70(size, data);
             break;
         }
         case 0x4f524353: {
             unsigned int formID;
             ScriptReferencedObject* object = new ScriptReferencedObject;
             file->GetChunkData(&formID);
-            object->pForm = (TESForm*)formID;
-            ((Script*)m_pkNext)->GetReferencedObjectList()->AddTail(object);
+            object->pForm = (TESForm*)(std::uintptr_t)formID;
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((((Script*)m_pkNext)))->FUN_005d43c0()))))->FUN_00905820((void *)&(object));
             break;
         }
         case 0x56524353: {
@@ -114,17 +146,17 @@ void PackageEventActionData::Load(TESFile* file)
             ScriptReferencedObject* object = new ScriptReferencedObject;
             file->GetChunkData(&formID);
             object->m_uiFormID = formID;
-            ((Script*)m_pkNext)->GetReferencedObjectList()->AddTail(object);
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((((Script*)m_pkNext)))->FUN_005d43c0()))))->FUN_00905820((void *)&(object));
             break;
         }
         break;
         case 0x4d414e49:
             file->GetChunkData(&id);
-            m_item = (TESForm*)id;
+            m_item = (TESForm*)(std::uintptr_t)id;
             break;
         case 0x4d414e54:
             file->GetChunkData(&id);
-            pTopic = (TESForm*)id;
+            pTopic = (TESForm*)(std::uintptr_t)id;
             done = true;
             break;
         }
@@ -158,12 +190,10 @@ struct DummyVtable
 void FUN_0067da80_shell::FUN_0067da80()
 {
     *(int*)this = 0;
-    *((int*)this + 2) = 0;
-    delete *((DummyVtable**)this + 1);
+    pTopic = 0;
+    delete *((DummyVtable**)&this->m_pkNext);
 }
 
-extern "C" void FUN_004856d0(int);
-extern "C" void FUN_00485910(int, int);
 struct FUN_005abe00
 {
     void ProcessHeader();
@@ -178,33 +208,29 @@ struct FUN_0067dc80
 // @fnv 0x0067dc80
 void FUN_0067dc80::Save(int aeChunk)
 {
-    FUN_004856d0(aeChunk);
-    unsigned int iid = m_pIdleForm ? m_pIdleForm->GetFormID() : 0;
-    FUN_00485910(0x4d414e49, iid);
-    iid = pTopic ? pTopic->GetFormID() : 0;
+    ::FUN_004856d0(aeChunk);
+    unsigned int iid = m_pIdleForm ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pIdleForm))->FUN_0084e3a0())) : 0;
+    ::FUN_00485910(0x4d414e49, iid);
+    iid = pTopic ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pTopic))->FUN_0084e3a0())) : 0;
     if (m_pScript)
         m_pScript->ProcessHeader();
-    FUN_00485910(0x4d414e54, iid);
+    ::FUN_00485910(0x4d414e54, iid);
 }
 
 struct QuantityData
 {
-    void SetQuantity(unsigned int);
 };
 
 struct MagicCaster
 {
-    void SetSelectedMagicItem(int);
 };
 
 struct TESObjectREFR
 {
-    void SetFlags(unsigned int);
 };
 
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct GO
@@ -220,17 +246,16 @@ struct FUN_0067dad0_shell
     void FUN_0067dad0(PackageEventActionData* apCopy);
 };
 
-void* __cdecl operator new(unsigned int);
 
 // Copies quantity, flags and form ID from apCopy, then clones or clears the script pointer depending on whether apCopy has one.
 // @fnv 0x0067dad0
 void FUN_0067dad0_shell::FUN_0067dad0(PackageEventActionData* apCopy)
 {
-    reinterpret_cast<QuantityData*>(this)->SetQuantity(reinterpret_cast<GO*>(apCopy)->operator unsigned int());
+    reinterpret_cast<::FUN_00537e90 *>((reinterpret_cast<QuantityData*>(this)))->SetQuantity(reinterpret_cast<GO*>(apCopy)->operator unsigned int());
 
-    reinterpret_cast<TESObjectREFR*>(this)->SetFlags(reinterpret_cast<ArrSI*>(apCopy)->GetFlags());
+    reinterpret_cast<::TESRegionGrassObject *>((reinterpret_cast<TESObjectREFR*>(this)))->AssignLandTexture((::TESLandTexture *)(((reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apCopy)))->GetName()))));
 
-    reinterpret_cast<MagicCaster*>(this)->SetSelectedMagicItem(reinterpret_cast<TESForm*>(apCopy)->GetFormID());
+    reinterpret_cast<::FUN_0041fd00_shell *>((reinterpret_cast<MagicCaster*>(this)))->FUN_0041fd00(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(apCopy)))->FUN_0084e3a0())));
 
     if (reinterpret_cast<FUN_0067dad0_shell*>(apCopy)->m_pScript)
     {
@@ -239,7 +264,7 @@ void FUN_0067dad0_shell::FUN_0067dad0(PackageEventActionData* apCopy)
             m_pScript = new Script;
             m_pScript->NotifySaveLoadGameOfFormChange();
         }
-        m_pScript->CopyScriptContents(reinterpret_cast<FUN_0067dad0_shell*>(apCopy)->m_pScript);
+        reinterpret_cast<::FUN_005aa420_shell *>((m_pScript))->CopyFromScript(reinterpret_cast<FUN_0067dad0_shell*>(apCopy)->m_pScript);
     }
     else
     {
@@ -250,24 +275,21 @@ void FUN_0067dad0_shell::FUN_0067dad0(PackageEventActionData* apCopy)
 
 struct TESObjectREFR_GetFlags_caller
 {
-    unsigned int CallGetFlags();
     operator const char*() const;
 };
 
 struct FUN_00726070_shell
 {
-    void* FUN_00726070();
 };
 
 struct FUN_005ab240_shell
 {
-    bool IsDifferentFrom(void*);
 };
 
 struct FUN_0067dbf0_shell
 {
     int unk00;
-    int unk04;
+    std::intptr_t unk04;
     int unk08;
     bool FUN_0067dbf0(TESObjectREFR_GetFlags_caller* apParam);
 };
@@ -275,16 +297,18 @@ struct FUN_0067dbf0_shell
 // @fnv 0x0067dbf0
 bool FUN_0067dbf0_shell::FUN_0067dbf0(TESObjectREFR_GetFlags_caller* apParam)
 {
-    if (unk00 != (int)(void*)apParam->operator const char*())
+    if (unk00 != (int)(std::intptr_t)(void*)apParam->operator const char*())
         return true;
-    if (unk08 != apParam->CallGetFlags())
+    if (unk08 != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apParam))->GetName())))
         return true;
-    if ((void*)unk04 || ((FUN_00726070_shell*)apParam)->FUN_00726070())
+    if ((void*)unk04 || reinterpret_cast<::Callees *>((((FUN_00726070_shell*)apParam)))->FUN_00726070())
     {
-        if (!(void*)unk04 || !((FUN_00726070_shell*)apParam)->FUN_00726070())
+        if (!(void*)unk04 || !reinterpret_cast<::Callees *>((((FUN_00726070_shell*)apParam)))->FUN_00726070())
             return true;
-        if (((FUN_005ab240_shell*)unk04)->IsDifferentFrom(((FUN_00726070_shell*)apParam)->FUN_00726070()))
+        if (reinterpret_cast<::ScriptCompareOwner *>((((FUN_005ab240_shell*)unk04)))->IsDifferentFrom((::Script *)(void *)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)apParam)))->FUN_00726070())))
             return true;
     }
     return false;
 }
+
+#include "generated/data/fallout_shared/packageeventaction.inc"

@@ -1,13 +1,24 @@
 // fallout_shared/tesenchantableform.cpp: TESEnchantableForm (7 functions)
 
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 #include "tesenchantableform_amount.h"
 #include "tesenchantableform_decls.h"
-
-// @fnv 0x004830a0
-TESEnchantableForm::TESEnchantableForm()
-{
-    InitializeComponent();
-}
 
 // Resolves the form's enchantment by form ID, warns when it is missing or has an invalid effect trigger, and clears it on failure.
 // @fnv 0x00483210
@@ -15,31 +26,28 @@ void TESEnchantableForm::InitItem(TESForm* owner)
 {
     if (m_pEnchantment)
     {
-        unsigned int formID = reinterpret_cast<unsigned int>(m_pEnchantment);
+        unsigned int formID = (unsigned int)(std::uintptr_t)(m_pEnchantment);
         if (owner)
-            TESForm::RemapFormIDForFile(formID, owner->GetFile(-1));
+            ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
 
-        m_pEnchantment = dynamic_cast<EnchantmentItem*>(GetFormByID(formID));
+        m_pEnchantment = dynamic_cast<EnchantmentItem*>(::FUN_004839c0(formID));
         if (!m_pEnchantment)
         {
             if (owner)
             {
                 if (reinterpret_cast<BGSCameraPath*>(owner)->HasNameForWarning())
-                    Warning("MASTERFILE: Unable to find enchanting (%08X) on owner object \"%s\".", formID,
-                            owner->GetName());
+                    ::FUN_005b5e40();
                 else
-                    Warning("MASTERFILE: Unable to find enchanting (%08X) on owner object (%08X).", formID,
-                            owner->GetFormID());
+                    ::FUN_005b5e40();
             }
             else
-                Warning("MASTERFILE: Unable to find enchanting (%08X) on unknown owner.", formID);
+                ::FUN_005b5e40();
         }
 
-        if (m_pEnchantment && owner && !m_pEnchantment->FUN_004094f0(owner))
+        if (m_pEnchantment && owner && !m_pEnchantment->IsValidObject(owner))
         {
-            Warning(
-                "MASTERFILE: Enchanting (%08X) '%s' has invalid effect trigger type or effect for object (%08X) '%s'.",
-                m_pEnchantment->GetFormID(), m_pEnchantment->GetName(), owner->GetFormID(), owner->GetName());
+            ::FUN_005b5e40(
+                );
             m_pEnchantment = 0;
         }
     }
@@ -51,8 +59,6 @@ void TESEnchantableForm::SetFormEnchantmentAmount(unsigned short amount)
     m_usEnchantmentAmount = amount;
 }
 
-void __cdecl FUN_00485910(unsigned int a, unsigned int b);
-void __cdecl FUN_00485950(unsigned int a, unsigned int b);
 
 struct FUN_0047bd70_shell
 {
@@ -68,12 +74,12 @@ void FUN_0047bd70_shell::FUN_0047bd70()
     unsigned int tempint;
     if (m_pEnchantment != 0)
     {
-        tempint = m_pEnchantment->GetFormID();
-        FUN_00485910(0x4d544945, tempint);
+        tempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pEnchantment))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d544945, tempint);
     }
     if (m_usEnchantmentAmount != 0)
     {
-        FUN_00485950(0x544d4145, m_usEnchantmentAmount);
+        ::FUN_00485950((void *)(0x544d4145), m_usEnchantmentAmount);
     }
 }
 
@@ -117,7 +123,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct BGSPreloadable : public BaseFormComponent
 {
     virtual void QueueResourceLoad(int, QueuedFile*);
@@ -126,7 +131,6 @@ struct BGSPreloadable : public BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BGSPreloadable[sizeof(BGSPreloadable) == 4 ? 1 : -1];
 struct TESImageSpaceModifiableForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -139,11 +143,15 @@ struct TESImageSpaceModifiableForm : public BaseFormComponent
     void SetFormImageSpaceModifying(TESImageSpaceModifier*);
     TESImageSpaceModifier* m_pImageSpaceModifier;
 };
-typedef char _sizecheck_TESImageSpaceModifiableForm[sizeof(TESImageSpaceModifiableForm) == 8 ? 1 : -1];
 struct FUN_004830d0_shell : public TESEnchantableForm
 {
     void FUN_004830d0();
 };
+// @fnv 0x004830a0
+TESEnchantableForm::TESEnchantableForm()
+{
+    reinterpret_cast<::FUN_004830d0_shell *>(this)->FUN_004830d0();
+}
 
 // Clears the enchantment form's fields, setting the casting type to 4 and zeroing the other two members.
 // @fnv 0x004830d0
@@ -161,7 +169,6 @@ struct TESActorBaseData
 
 struct TESFormList
 {
-    void* GetFirst();
 };
 
 struct FUN_00483190_shell : public TESEnchantableForm
@@ -176,7 +183,7 @@ bool FUN_00483190_shell::FUN_00483190(BaseFormComponent* component)
     TESEnchantableForm* other = dynamic_cast<TESEnchantableForm*>(component);
     if (!other)
         return true;
-    if (reinterpret_cast<TESFormList*>(this)->GetFirst() != reinterpret_cast<TESFormList*>(other)->GetFirst())
+    if (reinterpret_cast<::Callees *>((reinterpret_cast<TESFormList*>(this)))->FUN_00726070() != reinterpret_cast<::Callees *>((reinterpret_cast<TESFormList*>(other)))->FUN_00726070())
         return true;
     if (reinterpret_cast<TESActorBaseData*>(this)->GetFatigue() !=
         reinterpret_cast<TESActorBaseData*>(other)->GetFatigue())
@@ -187,10 +194,7 @@ bool FUN_00483190_shell::FUN_00483190(BaseFormComponent* component)
 struct Enchantable_483100 : public TESEnchantableForm
 {
     virtual int GetCastingType4();
-    EnchantmentItem* GetFormEnchantment();
     unsigned short GetFormEnchantmentAmount();
-    void SetFormEnchantment(EnchantmentItem*);
-    void SetCastingType(int);
     void CopyEnchantmentFrom(BaseFormComponent* apComponent);
 };
 
@@ -201,7 +205,7 @@ void Enchantable_483100::CopyEnchantmentFrom(BaseFormComponent* apComponent)
     TESEnchantableForm* pForm = dynamic_cast<TESEnchantableForm*>(apComponent);
     if (!pForm)
         return;
-    SetFormEnchantment(((Enchantable_483100*)pForm)->GetFormEnchantment());
+    reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::EnchantmentItem *)(((::EnchantmentItem *)(reinterpret_cast<::Callees *>((((Enchantable_483100*)pForm)))->FUN_00726070()))));
     SetFormEnchantmentAmount(((Enchantable_483100*)pForm)->GetFormEnchantmentAmount());
-    SetCastingType(((Enchantable_483100*)pForm)->GetCastingType4());
+    reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00(((Enchantable_483100*)pForm)->GetCastingType4());
 }

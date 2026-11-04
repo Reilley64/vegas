@@ -2,12 +2,70 @@
 // src/fallout_shared/havok/teshavokutilities.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/teshavokutilities.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern float DAT_0104da48;
-extern float DAT_0104e148;
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BSFadeNode.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_0043b5f0_cls.h"
+#include "fnv/decl/FUN_004589c0_cls.h"
+#include "fnv/decl/FUN_004ae6a0_shell.h"
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_005dbf20.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/FUN_00c7be20_cls.h"
+#include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/S0062aea0_Vector.h"
+#include "fnv/decl/S_00627920.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/V.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/bhkFilter.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00560000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_0062c000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_00c7f000.h"
+#include "fnv/symbols_00c80000.h"
+#include "fnv/symbols_00cb5000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_0056ded0.h"
+#include "fnv/decl/FUN_00c8d280_cls.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiPosData.h"
+#include "fnv/decl/NiTransform.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/WorldObject_c8d3.h"
+#include "fnv/decl/_dummy_476a80.h"
+#include "fnv/decl/fnv_00437c10__FUN_00437c10.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_004a3000.h"
 struct FUN_006295a0_shell
 {
-    void __thiscall FUN_004589c0(float);
+    char pad[0x10];
+    char kUnk10[4];
     void FUN_006295a0();
 };
 
@@ -15,8 +73,8 @@ struct FUN_006295a0_shell
 // @fnv 0x006295a0
 void FUN_006295a0_shell::FUN_006295a0()
 {
-    FUN_004589c0(DAT_0104da48);
-    ((FUN_006295a0_shell*)((char*)this + 0x10))->FUN_004589c0(DAT_0104e148);
+    reinterpret_cast<::FUN_004589c0_cls *>(this)->FUN_004589c0(::DAT_0104da48);
+    reinterpret_cast<::FUN_004589c0_cls *>(reinterpret_cast<FUN_006295a0_shell*>(kUnk10))->FUN_004589c0(::DAT_0104e148);
 }
 
 struct NiAVObject
@@ -28,7 +86,6 @@ struct NiAVObject
 };
 struct NiObjectNET
 {
-    unsigned int GetNumChildren();
 };
 struct NiNode : public NiAVObject
 {
@@ -37,12 +94,10 @@ struct NiNode : public NiAVObject
 };
 struct bhkWorldObject
 {
-    float FUN_004b5400();
 };
 struct bhkCollisionObject
 {
     static bhkCollisionObject* GetFromNiAVObject(NiAVObject*);
-    bhkWorldObject* FUN_006fa820();
 };
 float FUN_0062c300(NiAVObject* object);
 // @fnv 0x0062c300
@@ -52,9 +107,9 @@ float FUN_0062c300(NiAVObject* object)
     if (object)
     {
         bhkCollisionObject* pCollisionObject = bhkCollisionObject::GetFromNiAVObject(object);
-        bhkWorldObject* pWorldObject = pCollisionObject ? pCollisionObject->FUN_006fa820() : 0;
+        bhkWorldObject* pWorldObject = pCollisionObject ? ((::bhkWorldObject *)(::fnv_006fa820::FUN_006fa820((const char *)(pCollisionObject)))) : 0;
         if (pWorldObject)
-            fmass += pWorldObject->FUN_004b5400();
+            fmass += ::FUN_004b5400((void *)(pWorldObject));
         NiNode* pnode = (NiNode*)object->GetAsNiNode();
         if (pnode && pnode->GetNumChildren())
         {
@@ -67,7 +122,6 @@ float FUN_0062c300(NiAVObject* object)
 
 struct CombatNode
 {
-    void FUN_00726070();
 };
 
 struct FUN_0062be70_shell
@@ -80,14 +134,12 @@ struct FUN_0062be70_shell
 // @fnv 0x0062be70
 void FUN_0062be70_shell::FUN_0062be70()
 {
-    m_node.FUN_00726070();
+    reinterpret_cast<::Callees *>(&(m_node))->FUN_00726070();
 }
 
 struct TESObjectREFR
 {
-    static TESObjectREFR* __cdecl GetReferenceFromNiAVObject(void*);
 };
-extern "C" void* __cdecl FUN_00c7fa90(void*);
 
 // @fnv 0x0062b4e0
 TESObjectREFR* __cdecl FUN_0062b4e0(void* object)
@@ -95,35 +147,25 @@ TESObjectREFR* __cdecl FUN_0062b4e0(void* object)
     TESObjectREFR* result = 0;
     if (object)
     {
-        void* reference = FUN_00c7fa90(object);
+        void* reference = ((void *)(::FUN_00c7fa90((::S_Obj *)(object))));
         if (reference)
-            result = TESObjectREFR::GetReferenceFromNiAVObject(reference);
+            result = ::FUN_0056f930((::NiAVObject *)(reference));
     }
     return result;
 }
 
 struct Setting_S
 {
-    float* Float();
 };
 struct H0043b4d0
 {
     int m_uiFilterValue;
     H0043b4d0();
-    int FUN_0043b4d0();
 };
 struct W_0043b4f0
 {
     H0043b4d0 FUN_0043b4f0();
 };
-float __fastcall FUN_004b5400(void*);
-extern Setting_S originalRuntimeFloatSetting1034;
-extern Setting_S originalRuntimeFloatSetting1035;
-extern Setting_S originalRuntimeFloatSetting1036;
-extern Setting_S originalRuntimeFloatSetting1037;
-extern Setting_S originalRuntimeFloatSetting1038;
-extern Setting_S g_011d0d2c;
-extern Setting_S g_011d0f30;
 
 // @fnv 0x0062b520
 float FUN_0062b520(float value, bhkWorldObject* object, bool scale)
@@ -132,32 +174,32 @@ float FUN_0062b520(float value, bhkWorldObject* object, bool scale)
         return value;
     float fMultiplier = 1.0f;
     H0043b4d0 layer = ((W_0043b4f0*)object)->FUN_0043b4f0();
-    switch (layer.FUN_0043b4d0())
+    switch (reinterpret_cast<::FUN_0043b4d0_shell *>(&(layer))->FUN_0043b4d0())
     {
     case 14:
-        fMultiplier *= *originalRuntimeFloatSetting1035.Float();
+        fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1035))))));
         break;
     case 8:
     case 29:
-        fMultiplier *= *originalRuntimeFloatSetting1036.Float();
+        fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1036))))));
         break;
     case 10:
-        fMultiplier *= *originalRuntimeFloatSetting1037.Float();
+        fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1037))))));
         break;
     case 20:
-        fMultiplier *= *g_011d0f30.Float();
+        fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011d0f30))))));
         break;
     default:
-        fMultiplier *= *g_011d0d2c.Float();
+        fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011d0d2c))))));
         break;
     }
     if (scale)
     {
         float f = FUN_004b5400(object);
-        if (f < *originalRuntimeFloatSetting1038.Float())
-            fMultiplier *= f / *originalRuntimeFloatSetting1038.Float();
+        if (f < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1038)))))))
+            fMultiplier *= f / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1038))))));
     }
-    fMultiplier *= *originalRuntimeFloatSetting1034.Float();
+    fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1034))))));
     return fMultiplier * value;
 }
 
@@ -167,13 +209,10 @@ struct FUN_0043b5b0_shell
 };
 struct TgtOps
 {
-    void* GetSourceFiles();
 };
 struct FUN_0043b5f0_shell
 {
-    void FUN_0043b5f0();
 };
-int __fastcall GetReferenceFlags(void*);
 struct FUN_0043b560_shell
 {
     void* GetSourceFilesFromObject();
@@ -184,12 +223,12 @@ void* FUN_0043b560_shell::GetSourceFilesFromObject()
 {
     void* result = 0;
     {
-        FUN_0043b5b0_shell* obj = reinterpret_cast<FUN_0043b5b0_shell*>(GetReferenceFlags(this));
+        FUN_0043b5b0_shell* obj = reinterpret_cast<FUN_0043b5b0_shell*>(((int)(reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags())));
         if (obj)
         {
             obj->FUN_0043b5b0();
-            result = reinterpret_cast<TgtOps*>(obj)->GetSourceFiles();
-            reinterpret_cast<FUN_0043b5f0_shell*>(obj)->FUN_0043b5f0();
+            result = ((void *)(::FUN_00460140((std::intptr_t)(reinterpret_cast<TgtOps*>(obj)))));
+            reinterpret_cast<::FUN_0043b5f0_cls *>((reinterpret_cast<FUN_0043b5f0_shell*>(obj)))->FUN_0043b5f0();
         }
     }
     return result;
@@ -201,7 +240,6 @@ struct FUN_0062bc10_obj
     virtual void v1();
     virtual void v2();
     virtual int v3();
-    void* FUN_006838b0();
     void AttachTarget(int);
     unsigned int FUN_0043b480();
     void* FUN_0043b4a0(unsigned int);
@@ -212,7 +250,7 @@ void __cdecl FUN_0062bc10(FUN_0062bc10_obj* pObject)
 {
     if (pObject != 0)
     {
-        void* r = pObject->FUN_006838b0();
+        void* r = ((void *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()));
         if (r != 0)
         {
             pObject->AttachTarget(0);
@@ -252,18 +290,15 @@ struct CollisionShape
     unsigned int unk08;
     unsigned int unk0C;
     ShapeContainer container;
-    int GetType();
     CollisionShape* GetChild();
 };
 
 struct ShapeWrapper
 {
-    CollisionShape* GetShape();
 };
 
 struct WorldShapeView : bhkWorldObject
 {
-    ShapeWrapper* GetShapeWrapper();
 };
 
 struct ChildNodeView : NiNode
@@ -280,24 +315,24 @@ void CountCollisionShapes(NiAVObject* object, unsigned int* firstCount, unsigned
         bhkCollisionObject* collision4 = bhkCollisionObject::GetFromNiAVObject(object);
         if (collision4)
         {
-            bhkWorldObject* world7 = collision4->FUN_006fa820();
+            bhkWorldObject* world7 = ((::bhkWorldObject *)(::fnv_006fa820::FUN_006fa820((const char *)(collision4))));
             if (world7)
             {
-                ShapeWrapper* wrapper_2 = static_cast<WorldShapeView*>(world7)->GetShapeWrapper();
-                CollisionShape* shape5 = wrapper_2 ? wrapper_2->GetShape() : 0;
+                ShapeWrapper* wrapper_2 = ((::ShapeWrapper *)(reinterpret_cast<::FUN_004ae6a0_shell *>((static_cast<WorldShapeView*>(world7)))->FUN_004ae6a0()));
+                CollisionShape* shape5 = wrapper_2 ? ((::CollisionShape *)(reinterpret_cast<::FUN_00620b80_shell *>((wrapper_2))->GetReferenceFlags())) : 0;
                 if (shape5)
                 {
-                    if (shape5->GetType() == 23)
+                    if (((int)(std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 23)
                     {
                         CollisionShape* list7 = shape5;
                         *secondCount += list7->container.Count();
                     }
-                    else if (shape5->GetType() == 6)
+                    else if (((int)(std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 6)
                     {
                         CollisionShape* collection = shape5;
                         *firstCount += collection->Count();
                     }
-                    else if (shape5->GetType() == 10)
+                    else if (((int)(std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(shape5)))) == 10)
                     {
                         CollisionShape* parent = shape5;
                         CollisionShape* child9 = parent->GetChild();
@@ -326,7 +361,6 @@ template <class T> class SettingT
   public:
     SETTING_VALUE* Float();
 };
-extern SettingT<GameSettingCollection> originalRuntimeFloatSetting721;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting722;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting723;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting724;
@@ -338,36 +372,34 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting730;
 class GlobalObject_0040e0b0
 {
   public:
-    float* Float();
 };
 extern GlobalObject_0040e0b0 g_011cf600;
 extern GlobalObject_0040e0b0 g_011cf2fc;
-extern float DAT_01013974;
 // Selects a factor and threshold from value against several float settings, then returns factor times a distance-scaled multiplier or zero.
 // @fnv 0x0062be90
 float __cdecl ComputeDistanceFactor(float value, float distance)
 {
     float factor = 0.0f;
     float threshold = DAT_01013974;
-    if (value < originalRuntimeFloatSetting721.Float()->f)
+    if (value < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting721))))->f)
         factor = 0.0f;
-    else if (value < originalRuntimeFloatSetting722.Float()->f)
+    else if (value < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting722))))->f)
     {
-        factor = *g_011cf600.Float();
-        threshold = originalRuntimeFloatSetting728.Float()->f;
+        factor = *((float *)&(::FUN_00403e20((float *)&(g_011cf600))));
+        threshold = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting728))))->f;
     }
-    else if (value < originalRuntimeFloatSetting723.Float()->f)
+    else if (value < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting723))))->f)
     {
-        factor = originalRuntimeFloatSetting724.Float()->f;
-        threshold = originalRuntimeFloatSetting729.Float()->f;
+        factor = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting724))))->f;
+        threshold = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting729))))->f;
     }
     else
     {
-        factor = originalRuntimeFloatSetting725.Float()->f;
-        threshold = originalRuntimeFloatSetting730.Float()->f;
+        factor = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting725))))->f;
+        threshold = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting730))))->f;
     }
     float scale =
-        distance > threshold ? *g_011cf2fc.Float() + distance * originalRuntimeFloatSetting726.Float()->f : 0.0;
+        distance > threshold ? *((float *)&(::FUN_00403e20((float *)&(g_011cf2fc)))) + distance * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting726))))->f : 0.0;
     return factor * scale;
 }
 
@@ -413,14 +445,12 @@ class Target62B
     virtual void vfn88();
     virtual void SetOwner(Owner62B* pkOwner);
 
-    Owner62B* GetOwner();
 };
 
 class Handle62B
 {
   public:
     void Reset(void* pvObject);
-    Target62B* Get() const;
 
     Target62B* m_pPointer;
 };
@@ -444,8 +474,8 @@ class Owner62B
 void Owner62B::AttachTarget(void* pvTarget)
 {
     m_kRoomNode.Reset(pvTarget);
-    if (m_kRoomNode.Get() && m_kRoomNode.Get()->GetOwner() != this)
-        m_kRoomNode.Get()->SetOwner(this);
+    if (((::Target62B *)(::FUN_00559450((int *)&(m_kRoomNode)))) && ((::Owner62B *)(reinterpret_cast<::Twin_0044ddc0 *>((((::Target62B *)(::FUN_00559450((int *)&(m_kRoomNode))))))->GetName())) != this)
+        ((::Target62B *)(::FUN_00559450((int *)&(m_kRoomNode))))->SetOwner(this);
 }
 
 struct BGSAcousticSpace;
@@ -455,11 +485,9 @@ struct SoundPlaybackManager
 };
 struct MapH
 {
-    bool RemoveAt(unsigned int);
 };
 struct Ref
 {
-    BGSAcousticSpace* GetNext();
 };
 struct FUN_0061f890_shell
 {
@@ -470,13 +498,12 @@ struct FUN_0061f890_shell
 // @fnv 0x0061f890
 bool FUN_0061f890_shell::FUN_0061f890(NiAVObject* object, bool flag)
 {
-    bool removed = m_map.RemoveAt((unsigned int)object);
+    bool removed = reinterpret_cast<::NiTMap_S *>(&(m_map))->RemoveKey((std::uintptr_t)object);
     if (removed && flag)
-        SoundPlaybackManager::ResetAcousticSpace(((Ref*)object)->GetNext());
+        SoundPlaybackManager::ResetAcousticSpace(((::BGSAcousticSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Ref*)object)))->FUN_007af430())));
     return removed;
 }
 
-unsigned int GetBSXFlags(unsigned int handle, unsigned int type);
 
 class Refr62C3C0
 {
@@ -626,7 +653,7 @@ class Refr62C3C0
 
 // Returns true if refr is non-null and passes vfn100/vfn22C/vfn230 checks, or if GetBSXFlags(handle, 0x48) equals 0x48.
 // @fnv 0x0062c3c0
-bool FUN_0062c3c0(Refr62C3C0* refr, unsigned int handle)
+bool FUN_0062c3c0(Refr62C3C0* refr, std::uintptr_t handle)
 {
     if (refr != 0 && refr->vfn100() && (refr->vfn22C(0) || refr->vfn230()))
     {
@@ -645,7 +672,6 @@ struct Children;
 struct CollisionInfo
 {
     unsigned int filterFlags;
-    int FUN_006240b0();
 };
 struct SceneNode
 {
@@ -662,21 +688,13 @@ struct Children
 struct __declspec(align(16)) PhysicsTransform
 {
     __m128 vector;
-    void FUN_006815c0();
-    void FUN_00961190(unsigned int operation);
-    void FUN_0062aea0();
-    void FUN_00627920(void* data);
-    void FUN_00553f70(int value);
 };
 struct __declspec(align(16)) PhysicsData
 {
     __m128 vector;
-    void FUN_005dbf20(float size);
 };
 struct PhysicsState
 {
-    int FUN_00560dc0();
-    void OnTrigger(PhysicsTransform* data);
 };
 struct PhysicsObject
 {
@@ -742,11 +760,9 @@ struct PhysicsObject
     virtual void Unknown59();
     virtual void UpdateTransform(PhysicsTransform* out);
     CollisionInfo* FUN_0043b4f0(CollisionInfo* out);
-    PhysicsState* GetReferenceFlags();
 };
 struct RuntimeNode
 {
-    PhysicsObject* FUN_006fa820();
 };
 struct MaterialSelector
 {
@@ -757,23 +773,22 @@ struct MaterialSelector
     int kind;
 };
 extern float DAT_0119acc8[];
-extern const float DAT_01016088;
 extern "C" RuntimeNode* __cdecl FUN_0043b610(SceneNode* node);
 
 // Recursively updates the physics collision scale of a scene node and its children based on a size coefficient and material type.
 // @fnv 0x0062b660
-void __cdecl SetCollisionScale(SceneNode* node, unsigned int operation, float size, MaterialSelector* material)
+void __cdecl SetCollisionScale(SceneNode* node, std::uintptr_t operation, float size, MaterialSelector* material)
 {
     if (node)
     {
         RuntimeNode* runtime = FUN_0043b610(node);
         if (runtime)
         {
-            PhysicsObject* body = runtime->FUN_006fa820();
+            PhysicsObject* body = ((::PhysicsObject *)(::fnv_006fa820::FUN_006fa820((const char *)(runtime))));
             if (body)
             {
                 CollisionInfo collisionInfo;
-                int code = body->FUN_0043b4f0(&collisionInfo)->FUN_006240b0();
+                int code = reinterpret_cast<::bhkFilter *>((body->FUN_0043b4f0(&collisionInfo)))->FUN_006240b0();
                 float coefficient = DAT_0119acc8[code];
                 if (material && material->kind != -1)
                 {
@@ -792,16 +807,15 @@ void __cdecl SetCollisionScale(SceneNode* node, unsigned int operation, float si
                 }
                 float scale = size * coefficient;
                 PhysicsTransform transform;
-                transform.FUN_006815c0();
                 body->UpdateTransform(&transform);
-                transform.FUN_00961190(operation);
-                transform.FUN_0062aea0();
-                PhysicsState* state = body->GetReferenceFlags();
+                reinterpret_cast<::V *>(&(transform))->FUN_00961190((*(const ::V *)(operation)));
+                reinterpret_cast<::S0062aea0_Vector *>(&(transform))->FUN_0062aea0();
+                PhysicsState* state = ((::PhysicsState *)(reinterpret_cast<::FUN_00620b80_shell *>((body))->GetReferenceFlags()));
                 PhysicsData volume;
-                volume.FUN_005dbf20(scale);
-                transform.FUN_00627920(&volume);
-                transform.FUN_00553f70(state->FUN_00560dc0());
-                state->OnTrigger(&transform);
+                new ((void *)&(volume)) ::FUN_005dbf20(scale);
+                reinterpret_cast<::S_00627920 *>(&(transform))->FUN_00627920((::S_00561240 *)(void *)(&volume));
+                reinterpret_cast<::V *>(&(transform))->FUN_00553f70((*(const ::V *)(std::uintptr_t)(::FUN_00560dc0((::TESDataHandler *)(state)))));
+                reinterpret_cast<::FUN_005616d0_Owner *>((state))->OnTrigger((::TriggerContext *)(::PhysicsTransform *)(&transform));
             }
         }
         Children* children = node->GetChildren();
@@ -822,13 +836,10 @@ struct NiSeq;
 
 struct Inner62c
 {
-    void FUN_00483710();
 };
 
 struct NiSeq
 {
-    Inner62c* FUN_0044ddc0();
-    unsigned int FUN_009ad610();
 };
 
 struct SeqArray
@@ -838,13 +849,10 @@ struct SeqArray
     int m8;
     SeqArray();
     ~SeqArray();
-    int FUN_00726070();
-    NiSeq*& FUN_00629ab0(unsigned int i);
 };
 
 struct UnkACobj
 {
-    void CopySourceArray(SeqArray* arr);
 };
 
 class VtObj
@@ -1013,8 +1021,6 @@ class VtObj
     UnkACobj* unkAC;
 };
 
-void __cdecl CollectTreeResultValues(Inner62c* a, SeqArray* b);
-void __cdecl FUN_00cb5570(Inner62c* a, NiSeq* b, NiSeq* c);
 
 // Copies or collects entries into a local array, then compares each later entry’s owner and value with the first entry.
 // @fnv 0x0062c430
@@ -1025,30 +1031,133 @@ void __cdecl FUN_0062c430(VtObj* apVtObj)
         SeqArray arr5;
 
         if (apVtObj->unkAC != 0)
-            apVtObj->unkAC->CopySourceArray(&arr5);
+            reinterpret_cast<::FUN_00c7be20_cls *>((apVtObj->unkAC))->CopySourceArray((::FUN_00c7be20_arr *)(::SeqArray *)(&arr5));
         else
-            CollectTreeResultValues(apVtObj->v116(), &arr5);
+            ::CollectTreeResultValues((::TreeNode_cls *)(::Inner62c *)(apVtObj->v116()), (::SpawnedPtrArray *)(::SeqArray *)(&arr5));
 
-        if (arr5.FUN_00726070() != 0)
+        if (((std::intptr_t)(reinterpret_cast<::Callees *>(&(arr5))->FUN_00726070())) != 0)
         {
-            Inner62c* owner3 = arr5.FUN_00629ab0(0)->FUN_0044ddc0();
+            Inner62c* owner3 = ((::Inner62c *)(reinterpret_cast<::Twin_0044ddc0 *>((((::NiSeq *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(arr5))->FUN_00629ab0(0)))))->GetName()));
 
             if (owner3 != 0)
             {
-                owner3->FUN_00483710();
+                reinterpret_cast<::TESForm *>((owner3))->ClearData();
 
-                for (int i = 1; i < arr5.FUN_00726070(); i++)
+                for (int i = 1; i < ((int)(std::intptr_t)(reinterpret_cast<::Callees *>(&(arr5))->FUN_00726070())); i++)
                 {
                     unsigned int b;
                     unsigned int a2;
-                    a2 = arr5.FUN_00629ab0(0)->FUN_009ad610();
-                    b = arr5.FUN_00629ab0(i)->FUN_009ad610();
-                    if (owner3 == arr5.FUN_00629ab0(i)->FUN_0044ddc0() && a2 != b)
-                        FUN_00cb5570(owner3, arr5.FUN_00629ab0(0), arr5.FUN_00629ab0(i));
+                    a2 = reinterpret_cast<::BSFadeNode *>((((::NiSeq *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(arr5))->FUN_00629ab0(0)))))->FUN_009ad610();
+                    b = reinterpret_cast<::BSFadeNode *>((((::NiSeq *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(arr5))->FUN_00629ab0(i)))))->FUN_009ad610();
+                    if (owner3 == ((::Inner62c *)(reinterpret_cast<::Twin_0044ddc0 *>((((::NiSeq *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(arr5))->FUN_00629ab0(i)))))->GetName())) && a2 != b)
+                        ::FUN_00cb5570((::ObjA *)(owner3), (::ObjB *)(((::NiSeq *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(arr5))->FUN_00629ab0(0)))), (::ObjB *)(((::NiSeq *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(arr5))->FUN_00629ab0(i)))));
                 }
 
-                owner3->FUN_00483710();
+                reinterpret_cast<::TESForm *>((owner3))->ClearData();
             }
         }
     }
 }
+
+
+
+struct Point3
+{
+    float x, y, z;
+};
+
+struct Aabb
+{
+    __m128 minimum, maximum;
+};
+
+struct HavokTransform
+{
+    __m128 rotation0, rotation1, rotation2, translation;
+};
+
+struct Transform
+{
+    float rotation[3][3];
+    Point3 translation;
+    float scale;
+    Transform* FUN_0062c250(Transform* out, const Transform* other) const;
+    Point3* FUN_00524c40(Point3* out, const Point3* point) const;
+};
+
+struct Node
+{
+};
+
+struct WorldObject
+{
+};
+
+struct CollisionObject
+{
+};
+
+struct RTTI;
+
+// @fnv 0x0062bfb0
+Point3* FUN_0062bfb0(Point3* out, Node* node)
+{
+    Point3 chosen = (*reinterpret_cast<::Point3 *>((void *)&::NiPoint3::ZERO));
+    CollisionObject* collision = ((::CollisionObject *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(node))));
+    if (collision)
+    {
+        WorldObject* body = ((::WorldObject *)(::fnv_006fa820::FUN_006fa820((const char *)(collision))));
+        if (body)
+        {
+            Aabb bounds;
+            new ((void *)&(bounds)) ::fnv_00437c10::FUN_00437c10();
+            reinterpret_cast<::WorldObject_c8d3 *>((body))->GetAabb((*(::Aabb_c8d3 *)(&bounds)));
+            Point3 minimum;
+            ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&minimum)), (*(const ::hkVector4 *)(&bounds.minimum)));
+            Point3 maximum;
+            ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&maximum)), (*(const ::hkVector4 *)(&bounds.maximum)));
+            Point3 lower, upper, minTermA, maxTermA, minTermB, maxTermB;
+            reinterpret_cast<::Point3Offset *>((void *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&maxTermA), .55f, (const ::NiPoint3 *)(const ::Point3 *)(&maximum))))))->ProjectileLaunched((::NiPoint3 *)(::Point3 *)(&upper), (::NiPoint3 *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&minTermA), .45f, (const ::NiPoint3 *)(const ::Point3 *)(&minimum))))));
+            reinterpret_cast<::Point3Offset *>((void *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&maxTermB), .45f, (const ::NiPoint3 *)(const ::Point3 *)(&maximum))))))->ProjectileLaunched((::NiPoint3 *)(::Point3 *)(&lower), (::NiPoint3 *)(((::Point3 *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Point3 *)(&minTermB), .55f, (const ::NiPoint3 *)(const ::Point3 *)(&minimum))))));
+            Point3 random;
+            chosen = *((::Point3 *)(reinterpret_cast<::FUN_00416870_t *>(&(random))->FUN_00416870(::RandomFloat(lower.x, upper.x), ::RandomFloat(lower.y, upper.y),
+                                          ::RandomFloat(lower.z, upper.z))));
+            if (::FUN_0043b300((const ::NiRTTI *)(const ::RTTI *)(&(*reinterpret_cast<::RTTI *>(&::g_012683c8))), (::NiAVObject *)(body)) || ((::Node *)(reinterpret_cast<::Twin_0044ddc0 *>((collision))->GetName())) != node)
+            {
+                HavokTransform bodyHavok;
+                new ((void *)&(bodyHavok)) ::FUN_0056ded0();
+                reinterpret_cast<::FUN_00c8d280_cls *>((body))->FUN_00c8d280((::S8d280_Mat *)(::HavokTransform *)(&bodyHavok));
+                Transform bodyWorld;
+                reinterpret_cast<::_dummy_476a80 *>(&(bodyWorld))->FUN_00476a80();
+                ::FUN_00624ad0((::NiTransform *)(struct ::Transform *)(&bodyWorld), (::TopicH *)(&bodyHavok));
+                bodyWorld.scale = 1.0f;
+                Transform inverse;
+                reinterpret_cast<::_dummy_476a80 *>(&(inverse))->FUN_00476a80();
+                reinterpret_cast<::NiTransform *>((void *)(((const struct ::Transform *)(::FUN_00461130((std::intptr_t)(node))))))->CalculateInverse((*(::NiTransform *)(&inverse)));
+                Transform composed;
+                Point3 transformed;
+                chosen = *inverse.FUN_0062c250(&composed, &bodyWorld)->FUN_00524c40(&transformed, &chosen);
+            }
+        }
+    }
+    *out = chosen;
+    return out;
+}
+
+struct __declspec(align(16)) V_0062b8d0
+{
+    char buf[16];
+
+    V_0062b8d0();
+};
+
+// @fnv 0x0062b8d0
+void __cdecl FUN_0062b8d0(void* object, const void* in, unsigned char flag)
+{
+    V_0062b8d0 v;
+
+    ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&v)), (*(const ::fnv_004a3e00::NiPoint3 *)(in)));
+    ::FUN_0062b930((::NiAVObject *)(object), (::Vec3Arg *)(::V_0062b8d0 *)(&v), flag);
+}
+
+#include "generated/data/fallout_shared/havok/teshavokutilities.inc"

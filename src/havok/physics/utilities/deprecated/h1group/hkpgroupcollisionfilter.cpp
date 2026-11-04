@@ -4,27 +4,15 @@
 
 #include "havok/hkpGroupCollisionFilter.h"
 
-struct FUN_00e455f0_Class
+// The group collision filter: hkReferencedObject, then its four filter interface parts (collidable-collidable at
+// +0x08, shape collection at +0x0c, ray shape collection at +0x10, ray collidable at +0x14), then its own members.
+struct GroupFilterRefObject
 {
-    void FUN_00e455f0(void*, int, int);
+    void* m_vtbl;
+    int m_memSizeAndRefCount;
 };
 
-struct FUN_00e45990_Class
-{
-    void* FUN_00e45990(void*, void*, void*);
-};
-
-// Calls FUN_00e455f0 on the object at this-0x14 with arg1 and the ints at arg2+0x24 and arg3+0x1c, then returns arg1.
-// @fnv 0x00e45990
-void* FUN_00e45990_Class::FUN_00e45990(void* arg1, void* arg2, void* arg3)
-{
-    reinterpret_cast<FUN_00e455f0_Class*>(reinterpret_cast<int>(this) - 0x14)
-        ->FUN_00e455f0(arg1, *reinterpret_cast<int*>(reinterpret_cast<char*>(arg2) + 0x24),
-                       *reinterpret_cast<int*>(reinterpret_cast<char*>(arg3) + 0x1c));
-
-    return arg1;
-}
-
+// The collidable's collision filter info is its broad-phase handle's (+0x1c).
 struct FUN_00e45890_Object
 {
     int unk00;
@@ -37,21 +25,11 @@ struct FUN_00e45890_Object
     int unk1C;
 };
 
-class FUN_00e45890_Class : public hkBaseObject
+struct FUN_00e45890_Class
 {
-  public:
-    virtual void* FUN_00e45890(void* param1, void* param2, void* param3);
+    void* m_vtbl;
+    void* FUN_00e45890(void* param1, void* param2, void* param3);
 };
-
-// Calls the base object's FUN_00e455f0 with param1 and the unk1C fields of param2 and param3, then returns param1.
-// @fnv 0x00e45890
-void* FUN_00e45890_Class::FUN_00e45890(void* param1, void* pObjectA, void* pObjectB)
-{
-    FUN_00e455f0_Class* base = (FUN_00e455f0_Class*)((char*)this - 8);
-    base->FUN_00e455f0(param1, static_cast<FUN_00e45890_Object*>(pObjectA)->unk1C,
-                       static_cast<FUN_00e45890_Object*>(pObjectB)->unk1C);
-    return param1;
-}
 
 struct FUN_00e458c0_Node
 {
@@ -76,25 +54,29 @@ struct FUN_00e458c0_Vt
 
 struct FUN_00e458c0_class
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* m_vtbl;
     void* FUN_00e458c0(void* p1, void* p2, FUN_00e458c0_Node* p3, int p4, FUN_00e458c0_Vt* p5, int p6);
 };
 
-// @fnv 0x00e458c0
-void* FUN_00e458c0_class::FUN_00e458c0(void* p1, void* apUnused, FUN_00e458c0_Node* apNode, int aiUnused,
-                                       FUN_00e458c0_Vt* apVt, int aiArg)
+struct GroupFilterRayShapeCollectionFilter
 {
-    int iResult = apVt->s10(aiArg);
-    FUN_00e458c0_Node* pLast = apNode;
-    while (pLast->m_0c)
-    {
-        pLast = pLast->m_0c;
-    }
-    reinterpret_cast<FUN_00e455f0_Class*>(reinterpret_cast<char*>(this) - 0xc)->FUN_00e455f0(p1, pLast->m_1c, iResult);
-    return p1;
-}
+    void* m_vtbl;
+};
+
+// hkpWorldRayCastInput.
+struct FUN_00e45990_RayInput
+{
+    float m_from[4];
+    float m_to[4];
+    bool m_enableShapeCollectionFilter;
+    int m_filterInfo;
+};
+
+struct FUN_00e45990_Class
+{
+    void* m_vtbl;
+    void* FUN_00e45990(void*, void*, void*);
+};
 
 class hkBoolC
 {
@@ -108,14 +90,45 @@ class hkBoolC
     char m_cBooleanValue;
 };
 
-struct hkLayerFilter
+struct hkLayerFilter : GroupFilterRefObject, FUN_00e45890_Class, FUN_00e458c0_class, GroupFilterRayShapeCollectionFilter,
+                       FUN_00e45990_Class
 {
-    int m_auiShapeKeys[12];
+    unsigned int m_preTypePadding[2];
+    unsigned int m_type;
+    unsigned int m_postTypePadding[3];
     hkBoolC m_defaultResult;
     int m_layerMasks[32];
 
     hkBoolC FUN_00e455f0(int mask, int value);
 };
+// Calls the filter's FUN_00e455f0 with the ray's and the collidable's filter infos and stores the result in arg1.
+// @fnv 0x00e45990
+void* FUN_00e45990_Class::FUN_00e45990(void* arg1, void* arg2, void* arg3)
+{
+    *static_cast<hkBoolC*>(arg1) = static_cast<hkLayerFilter*>(this)->FUN_00e455f0(static_cast<FUN_00e45990_RayInput*>(arg2)->m_filterInfo, static_cast<FUN_00e45890_Object*>(arg3)->unk1C);
+
+    return arg1;
+}
+// Calls the filter's FUN_00e455f0 with the unk1C fields of param2 and param3, then returns param1.
+// @fnv 0x00e45890
+void* FUN_00e45890_Class::FUN_00e45890(void* param1, void* pObjectA, void* pObjectB)
+{
+    *static_cast<hkBoolC*>(param1) = static_cast<hkLayerFilter*>(this)->FUN_00e455f0(static_cast<FUN_00e45890_Object*>(pObjectA)->unk1C, static_cast<FUN_00e45890_Object*>(pObjectB)->unk1C);
+    return param1;
+}
+// @fnv 0x00e458c0
+void* FUN_00e458c0_class::FUN_00e458c0(void* p1, void* apUnused, FUN_00e458c0_Node* apNode, int aiUnused,
+                                       FUN_00e458c0_Vt* apVt, int aiArg)
+{
+    int iResult = apVt->s10(aiArg);
+    FUN_00e458c0_Node* pLast = apNode;
+    while (pLast->m_0c)
+    {
+        pLast = pLast->m_0c;
+    }
+    *static_cast<hkBoolC*>(p1) = static_cast<hkLayerFilter*>(this)->FUN_00e455f0(iResult, pLast->m_1c);
+    return p1;
+}
 
 // Returns m_defaultResult if mask or value is zero, otherwise ORs selected m_layerMasks entries per mask bits and returns whether value overlaps the result.
 // @fnv 0x00e455f0

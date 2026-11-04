@@ -2,8 +2,21 @@
 // src/unmapped/debugtextmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/debug/debugtextmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <cstring>
+#include "fnv/decl/Actor.h"
+#include "fnv/decl/FUN_005e50f0_Obj.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/S_00c4edf0_cls.h"
+#include "fnv/decl/SomeClass.h"
+#include "fnv/decl/StrOwner.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/symbols_0043f000.h"
+#include "fnv/symbols_00491000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_011db000.h"
+#include "fnv/symbols_011f4000.h"
 extern "C" void __cdecl FUN_00802a90();
-extern "C" int DAT_011db800;
 
 // @fnv 0x005ba8d0
 int __cdecl FUN_005ba8d0()
@@ -15,22 +28,30 @@ int __cdecl FUN_005ba8d0()
 
 struct FUN_00802a00_class
 {
-    int __thiscall GetZero(int a, int b);
+    int GetZero(int a, int b);
 };
 
 // @fnv 0x00802a00
-int __thiscall FUN_00802a00_class::GetZero(int a, int b)
+int FUN_00802a00_class::GetZero(int a, int b)
 {
     int result = 0;
     return result;
 }
 
 extern "C" int __cdecl __mbsnicmp(const unsigned char*, const unsigned char*, unsigned int);
+struct DebugTextPageEntry
+{
+    unsigned char m_aucName[0x40];
+    int m_40;
+};
 struct FUN_00802a20_class
 {
-    int m_uiPageCount;
-    unsigned char m_aucPageBuffer[4352];
-    int __thiscall FUN_00802a20(const char* apPage);
+    char pad00[0x14];
+    int m_iPageCount;
+    char pad18[8];
+    DebugTextPageEntry m_akPages[63];
+    char padTail[40];
+    int FUN_00802a20(const char* apPage);
 };
 // Searches the page table for a case-insensitive name match and returns its index, or -1 if not found.
 // @fnv 0x00802a20
@@ -40,9 +61,9 @@ int FUN_00802a20_class::FUN_00802a20(const char* apPage)
     int iPageIndex;
     iPageIndex = -1;
     i = 0;
-    for (; i < *(int*)((char*)this + 0x14) && iPageIndex == -1; i++)
+    for (; i < m_iPageCount && iPageIndex == -1; i++)
     {
-        if (__mbsnicmp((const unsigned char*)apPage, (const unsigned char*)((char*)this + 0x20) + i * 0x44, 0x40) == 0)
+        if (__mbsnicmp((const unsigned char*)apPage, m_akPages[i].m_aucName, 0x40) == 0)
             iPageIndex = i;
     }
     return iPageIndex;
@@ -50,20 +71,21 @@ int FUN_00802a20_class::FUN_00802a20(const char* apPage)
 
 struct FUN_00802860_class
 {
-    int __thiscall ResetField();
+    char pad00[0x40];
+    int m_40;
+    FUN_00802860_class* ResetField();
 };
 
 // @fnv 0x00802860
-int __thiscall FUN_00802860_class::ResetField()
+FUN_00802860_class* FUN_00802860_class::ResetField()
 {
-    *(int*)((char*)this + 0x40) = 0;
-    return (int)this;
+    m_40 = 0;
+    return this;
 }
 
 // Stand-in for the page registry object passed to FUN_00802220.
 struct PageTable
 {
-    void SetEntryStateByKey(int index, int value);
 };
 
 // Stand-in for the class that owns FUN_00802220 (this pointer is unused by it).
@@ -75,13 +97,12 @@ struct FontManager
 // @fnv 0x00802220
 void FontManager::FUN_00802220(PageTable* pPages, int index, unsigned char value)
 {
-    pPages->SetEntryStateByKey((unsigned short)index, value);
-    pPages->SetEntryStateByKey(index * 1000, value);
+    reinterpret_cast<::SomeClass *>((pPages))->SetEntryStateByKey((unsigned short)index, value);
+    reinterpret_cast<::SomeClass *>((pPages))->SetEntryStateByKey(index * 1000, value);
 }
 
 struct FUN_00450f90_cls
 {
-    void __thiscall FUN_00450f90(bool b);
 };
 
 struct FUN_0043f220_cls
@@ -89,7 +110,7 @@ struct FUN_0043f220_cls
     int unk00;
     int unk04;
     FUN_00450f90_cls* unk08;
-    FUN_0043f220_cls* __thiscall GetEntryAt(int b);
+    FUN_0043f220_cls* GetEntryAt(int b);
 };
 
 struct FUN_00802260_cls
@@ -217,11 +238,11 @@ struct FUN_00802260_cls
     virtual void v78();
     virtual void v79();
     virtual FUN_0043f220_cls* v7a();
-    void __thiscall FUN_00802260(FUN_00802260_cls* a1, int a2, unsigned char a3);
+    void FUN_00802260(FUN_00802260_cls* a1, int a2, unsigned char a3);
 };
 
 // @fnv 0x00802260
-void __thiscall FUN_00802260_cls::FUN_00802260(FUN_00802260_cls* a1, int a2, unsigned char abFlag)
+void FUN_00802260_cls::FUN_00802260(FUN_00802260_cls* a1, int a2, unsigned char abFlag)
 {
     FUN_0043f220_cls* p = a1->v7a();
     if (p != 0)
@@ -229,14 +250,13 @@ void __thiscall FUN_00802260_cls::FUN_00802260(FUN_00802260_cls* a1, int a2, uns
         FUN_00450f90_cls* q = p->GetEntryAt(a2)->unk08;
         if (q != 0)
         {
-            q->FUN_00450f90(abFlag == 0);
+            reinterpret_cast<::TaskQueueInterface *>((q))->QueueActorDisarm(abFlag == 0);
         }
     }
 }
 
 struct QueryStub
 {
-    unsigned char FUN_00c4edf0(unsigned int* out, int a);
 };
 struct Obj : QueryStub
 {
@@ -334,13 +354,13 @@ void Owner::FUN_008026b0()
         unsigned int val = 0;
         if (objsA[i])
         {
-            objsA[i]->FUN_00c4edf0(&val, 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((objsA[i]))->FUN_00c4edf0((std::intptr_t)(&val), 1);
             delete objsA[i];
             objsA[i] = 0;
         }
         if (objsB[i])
         {
-            objsB[i]->FUN_00c4edf0(&val, 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((objsB[i]))->FUN_00c4edf0((std::intptr_t)(&val), 1);
             delete objsB[i];
             objsB[i] = 0;
         }
@@ -411,7 +431,7 @@ struct FUN_008029c0_class
     int unk18;
     int unk1c;
 
-    bool __thiscall FUN_008029c0(const char* apPage, int value);
+    bool FUN_008029c0(const char* apPage, int value);
 };
 
 // @fnv 0x008029c0
@@ -428,7 +448,6 @@ bool FUN_008029c0_class::FUN_008029c0(const char* apPage, int value)
     return result != -1;
 }
 
-extern int DAT_011f49d8;
 
 struct NiObj;
 struct ListObj;
@@ -443,12 +462,10 @@ struct NiObj
     virtual void tv04();
     virtual void tv05();
     virtual GeomObj* tv06();
-    void __thiscall FUN_00450f90(bool b);
 };
 
 struct GeomObj
 {
-    NiObj* __thiscall FUN_0043fad0();
 };
 
 struct NiFixedString
@@ -499,8 +516,7 @@ struct ListObj
     virtual void tv37();
     virtual void tv38();
     virtual NiObj* tv39(const NiFixedString& fs);
-    unsigned int __thiscall FUN_0043b480();
-    NiObj* __thiscall FUN_0043b4a0(unsigned int idx);
+    unsigned int FUN_0043b480();
 };
 
 struct SkyObj;
@@ -607,11 +623,9 @@ struct BGSProj
 
 struct Sky2
 {
-    const char* __thiscall FUN_007fa950();
 };
 struct SkyObj
 {
-    Sky2* __thiscall GetValueByIndex(int a);
 };
 
 struct NodeObj
@@ -733,16 +747,12 @@ struct NodeObj
     virtual void tv114();
     virtual void tv115();
     virtual ListObj* tv116();
-    BGSProj* __thiscall FUN_004181e0();
 };
 
 struct MgrObj
 {
-    void __thiscall SetEntryStateByKey(int index, int value);
 };
 
-bool __cdecl FUN_004910d0(NiObj* o);
-NiObj* __cdecl FUN_00653270(void* rtti, NiObj* o);
 
 struct This8022
 {
@@ -890,30 +900,29 @@ struct This8022
     int m_234;
     int m_238;
     int m_23c;
-    void __thiscall FUN_00802260(NodeObj* a1, int a2, unsigned char a3);
-    void __thiscall FUN_008022c0();
+    void FUN_008022c0();
 };
 
 // @fnv 0x008022c0
-void __thiscall This8022::FUN_008022c0()
+void This8022::FUN_008022c0()
 {
     if (!m_004->tv64())
         return;
     if (m_23c == 0xe || m_23c == 0xf)
         return;
     NodeObj* res = m_004;
-    FUN_00802260(res, 3, 1);
-    FUN_00802260(res, 4, 1);
-    FUN_00802260(res, 0xa, 1);
-    FUN_00802260(res, 0xb, 1);
-    FUN_00802260(res, 0xc, 1);
-    FUN_00802260(res, 0xd, 1);
-    FUN_00802260(res, 9, 1);
-    FUN_00802260(res, 0xe, 1);
-    FUN_00802260(res, 0xf, 1);
-    FUN_00802260(res, 0x10, 1);
-    FUN_00802260(res, 1, 1);
-    FUN_00802260(res, 0, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 3, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 4, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 0xa, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 0xb, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 0xc, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 0xd, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 9, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 0xe, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 0xf, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 0x10, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 1, 1);
+    reinterpret_cast<::FUN_00802260_cls *>(this)->FUN_00802260((::FUN_00802260_cls *)(res), 0, 1);
     int list1;
     list1 = m_23c;
     ListObj* kIter = m_004->tv116();
@@ -921,10 +930,10 @@ void __thiscall This8022::FUN_008022c0()
         unsigned long r2;
         for (r2 = 0; r2 < kIter->FUN_0043b480(); r2++)
         {
-            NiObj* p60 = kIter->FUN_0043b4a0(r2);
+            NiObj* p60 = ((::NiObj *)(reinterpret_cast<::NiNode *>((kIter))->GetAt(r2)));
             if (p60 != 0)
             {
-                if (FUN_004910d0(p60))
+                if (::FUN_004910d0((::NiAVObject *)(p60)))
                 {
                     ListObj* r1;
                     r1 = p60->tv03();
@@ -935,21 +944,21 @@ void __thiscall This8022::FUN_008022c0()
                     {
                         if (r1 != 0)
                         {
-                            x30 = r1->FUN_0043b4a0(i) ? ((NiObj*)r1->FUN_0043b4a0(i))->tv06() : 0;
+                            x30 = ((::NiObj *)(reinterpret_cast<::NiNode *>((r1))->GetAt(i))) ? ((NiObj*)((::NiObj *)(reinterpret_cast<::NiNode *>((r1))->GetAt(i))))->tv06() : 0;
                             i++;
                         }
-                        NiObj* mgr = x30 ? x30->FUN_0043fad0() : 0;
+                        NiObj* mgr = x30 ? ((::NiObj *)(::fnv_0043fad0::FUN_0043fad0((const char *)(x30)))) : 0;
                         MgrObj* f23;
-                        f23 = (MgrObj*)FUN_00653270(&DAT_011f49d8, mgr);
+                        f23 = (MgrObj*)((::NiObj *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f49d8))), (::NiObject *)(mgr))));
                         if (f23 != 0)
                         {
                             int ptr;
                             for (ptr = 0; 15 > ptr; ptr++)
                             {
-                                f23->SetEntryStateByKey((unsigned short)ptr, 1);
-                                f23->SetEntryStateByKey(ptr * 1000, 1);
-                                f23->SetEntryStateByKey(ptr + 100, 0);
-                                f23->SetEntryStateByKey(ptr + 200, 0);
+                                reinterpret_cast<::SomeClass *>((f23))->SetEntryStateByKey((unsigned short)ptr, 1);
+                                reinterpret_cast<::SomeClass *>((f23))->SetEntryStateByKey(ptr * 1000, 1);
+                                reinterpret_cast<::SomeClass *>((f23))->SetEntryStateByKey(ptr + 100, 0);
+                                reinterpret_cast<::SomeClass *>((f23))->SetEntryStateByKey(ptr + 200, 0);
                             }
                         }
                         x30 = 0;
@@ -957,7 +966,7 @@ void __thiscall This8022::FUN_008022c0()
                 }
                 else
                 {
-                    p60->FUN_00450f90(false);
+                    reinterpret_cast<::TaskQueueInterface *>((p60))->QueueActorDisarm(false);
                 }
             }
         }
@@ -967,21 +976,20 @@ void __thiscall This8022::FUN_008022c0()
         int j;
         for (j = 0; j < 15; j++)
         {
-            SkyObj* tmp64 = res->FUN_004181e0()->tv96();
-            Sky2* p = tmp64->GetValueByIndex(m_23c);
+            SkyObj* tmp64 = ((::BGSProj *)(reinterpret_cast<::Actor *>((res))->GetActorBase()))->tv96();
+            Sky2* p = ((::Sky2 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((tmp64))->GetValueByIndex(m_23c)));
             if (p != 0)
             {
-                NiObj* val = res->tv116()->tv39(NiFixedString(p->FUN_007fa950()));
+                NiObj* val = res->tv116()->tv39(NiFixedString(reinterpret_cast<::StrOwner *>((p))->FUN_007fa950()));
                 if (0 != val)
                 {
-                    val->FUN_00450f90(false);
+                    reinterpret_cast<::TaskQueueInterface *>((val))->QueueActorDisarm(false);
                 }
             }
         }
     }
 }
 
-void FUN_00ec61c0(void*, int, unsigned int);
 struct RegisteredPage
 {
     char name[68];
@@ -1006,7 +1014,7 @@ void PageReporter::FUN_00802880(void(__cdecl* report)(const char*))
 {
     char buffer[512];
     buffer[0] = 0;
-    FUN_00ec61c0(buffer + 1, 0, 511);
+    std::memset(buffer + 1, 0, 511);
     for (int page = 0; page < count; page += 5)
     {
         buffer[0] = 0;
@@ -1166,13 +1174,14 @@ class Manager802
     int unk10E4, unk10E8, unk10EC, unk10F0, unk10F4, unk10F8, unk10FC, unk1100;
     int unk1104, unk1108, unk110C, unk1110, unk1114, unk1118, unk111C;
 
-    static Manager802* ms_pkInstance;
 };
 
 // Creates the singleton Manager802 instance if ms_pkInstance is null.
 // @fnv 0x00802a90
 void Manager802::FUN_00802a90()
 {
-    if (!ms_pkInstance)
-        ms_pkInstance = new Manager802;
+    if (!(*reinterpret_cast<::Manager802 * *>(&::DAT_011db800)))
+        (*reinterpret_cast<::Manager802 * *>(&::DAT_011db800)) = new Manager802;
 }
+
+#include "generated/data/unmapped/debugtextmanager.inc"

@@ -2,6 +2,7 @@
 #ifndef NICOLORDATA_DECLS_H
 #define NICOLORDATA_DECLS_H
 
+#include "fnv/symbols_011f3000.h"
 #include "NiObject.h"
 class AnimationKey
 {
@@ -19,8 +20,6 @@ class AnimationKey
 };
 class ColorAnimationKey;
 typedef void(__cdecl* NiColorDeleteFunction)(ColorAnimationKey*);
-extern NiColorDeleteFunction DAT_011f38e8[];
-extern unsigned char DAT_011f376a[];
 class NiColorData : public NiObject
 {
   public:

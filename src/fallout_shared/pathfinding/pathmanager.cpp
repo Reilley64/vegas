@@ -1,6 +1,54 @@
 // fallout_shared/pathfinding/pathmanager.cpp: PathManager, PathingTaskData, Pathing, DelStandIn and more (65 functions)
 
+#include <new>
+#include "fnv/decl/ActorTaskManager.h"
+#include "fnv/decl/B00C20Pool.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_0040f6e0_class.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_00633c90.h"
+#include "fnv/decl/FUN_006cb410_cls.h"
+#include "fnv/decl/FUN_006cf8a0_cls.h"
+#include "fnv/decl/FUN_006cf940_cls.h"
+#include "fnv/decl/FUN_006deeb0_cls.h"
+#include "fnv/decl/FUN_006eb6b0_cls.h"
+#include "fnv/decl/FUN_006ebfb0_Class.h"
+#include "fnv/decl/FUN_006ec390_Class.h"
+#include "fnv/decl/Lock00aa62c0.h"
+#include "fnv/decl/PathingLocation.h"
+#include "fnv/decl/PlayerQuestData.h"
+#include "fnv/decl/Queue44c640.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TSHashTable.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/WaitableObject.h"
+#include "fnv/decl/fnv_006cb4a0__FUN_006cb4a0_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_00aa6120__Lock00aa6120.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0047d000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005dc000.h"
+#include "fnv/symbols_006c5000.h"
+#include "fnv/symbols_00aa6000.h"
+#include "fnv/symbols_00b00000.h"
+#include "fnv/symbols_0106d000.h"
 #include "pathmanager_decls.h"
+#include "fnv/decl/FUN_006c9900_shell.h"
+#include <cstdint>
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00aa62e0_shell.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/fnv_006c5ec0__S6c5ec0.h"
+#include "fnv/decl/fnv_0087ac00__Owner0087ac00.h"
+#include "fnv/decl/fnv_0087ac60__FUN_0087AC60_Holder.h"
+#include "fnv/decl/fnv_0087ad50__Host.h"
+#include "fnv/decl/fnv_00aa6220__Lock00aa6220.h"
+#include "fnv/symbols_008c7000.h"
+#include "fnv/symbols_011d6000.h"
 
 // Copies the two fields of source into this object and returns a reference to this object.
 // @fnv 0x006e9c60
@@ -15,16 +63,16 @@ QueuedMessage& QueuedMessage::operator=(const QueuedMessage& source)
 // @fnv 0x006ea490
 bool PathingTaskData::HasPendingMessages()
 {
-    ((RecursiveSpinLock*)((char*)this + 0x20))->Lock(0);
-    for (unsigned int i = 0; i < ((BSSimpleArray<ParentSpaceNode, 1024>*)((char*)this + 0x50))->GetSize(); ++i)
+    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)&this->kTaskLock))))->FUN_0040fbf0((char *)(0));
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<ParentSpaceNode, 1024>*)((char*)&this->kPendingRefs))))->GetName())); ++i)
     {
-        if (((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)((char*)this + 0x50))->GetAt(i)->state == 0)
+        if (((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)((char*)&this->kPendingRefs))->GetAt(i)->state == 0)
         {
-            ((RecursiveSpinLock*)((char*)this + 0x20))->Unlock();
+            ((RecursiveSpinLock*)((char*)&this->kTaskLock))->FUN_0040fba0();
             return false;
         }
     }
-    ((RecursiveSpinLock*)((char*)this + 0x20))->Unlock();
+    ((RecursiveSpinLock*)((char*)&this->kTaskLock))->FUN_0040fba0();
     return true;
 }
 
@@ -33,15 +81,6 @@ PathManager::PathManager()
 {
     m_kPerformanceTimerManager.Register(DAT_0103a1bc, DAT_0106d624, false, true);
     m_pPathManagerImpl = 0;
-}
-
-// Creates a new PathManagerImpl and returns the result of its Initialize call.
-// @fnv 0x006eb8c0
-bool PathManager::Initialize()
-{
-    AutoMemContext context(static_cast<MEM_CONTEXT>(0x2d), true, DAT_0106d560, 1386);
-    m_pPathManagerImpl = new PathManagerImpl;
-    return m_pPathManagerImpl->Initialize();
 }
 
 // @fnv 0x006eb9d0
@@ -69,68 +108,8 @@ bool PathManager::BuildPath(NiPointer<PathingRequest> m_pPathingRequest, NiPoint
     }
 }
 
-// @fnv 0x006e9fc0
-void PathingTaskData::Process()
-{
-    AutoMemContext context(static_cast<MEM_CONTEXT>(0x2d), true, DAT_0106d560, 355);
-    PathManager::GetRandomGenerator()->FUN_00717e50()->FUN_00483710();
-
-    if (PathManager::GetRandomGenerator()->FUN_00559450()->FUN_006eb790())
-    {
-        if (!HasPendingMessages())
-        {
-            FUN_006ea330();
-        }
-        else
-        {
-            m_pPathingSolution = new PathingSolution();
-            bool bSuccess = Pathing::BuildPath(m_pPathingRequest, m_pPathingSolution);
-            if (FUN_005dc980())
-            {
-                int unk18 = 0;
-            }
-            else
-            {
-                if (bSuccess)
-                {
-                    if (bFlag04)
-                    {
-                        bFlag04 = false;
-                    }
-                    ((ActorPathingMessageQueue*)spQueue)
-                        ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_OK, m_pPathingSolution));
-                    PathManager::GetRandomGenerator()->FUN_00559450()->DispatchPathingMessage(Struct_004b0680(0, this));
-                }
-                else
-                {
-                    ((ActorPathingMessageQueue*)spQueue)
-                        ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_ERROR, m_pPathingSolution));
-                    PathManager::GetRandomGenerator()->FUN_00559450()->DispatchPathingMessage(Struct_004b0680(1, this));
-                }
-            }
-        }
-        PathManager::GetRandomGenerator()->FUN_00559450()->FUN_006eb7b0();
-    }
-    else
-    {
-        if (PathManager::GetRandomGenerator()->FUN_00559450()->GetByteAtOffsetC34())
-        {
-            ((ActorPathingMessageQueue*)spQueue)
-                ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_ERROR, m_pPathingSolution));
-            PathManager::GetRandomGenerator()->FUN_00559450()->DispatchPathingMessage(Struct_004b0680(1, this));
-        }
-        else
-        {
-            FUN_006ea330();
-        }
-    }
-
-    PathManager::GetRandomGenerator()->FUN_00717e50()->FUN_00483710();
-}
-
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct S00559a40
 {
@@ -143,14 +122,13 @@ S00559a40* S00559a40::FUN_00559a40(S00559a40* apOther)
 {
     p = apOther->p;
     if (p)
-        p->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((p))->FUN_0040f6e0();
     return this;
 }
 
 struct G006e9bd0
 {
     int v;
-    void FUN_ctor(int);
 };
 struct S006e9bd0
 {
@@ -163,14 +141,13 @@ struct S006e9bd0
 S006e9bd0* S006e9bd0::FUN_006e9bd0()
 {
     a = -1;
-    g.FUN_ctor(0);
+    new ((void *)&(g)) ::FUN_00633c90((::G00559a40 *)(0));
     return this;
 }
 
 struct N006e9c00
 {
     int v;
-    void FUN_nip(const N006e9c00&);
 };
 struct S006e9c00
 {
@@ -182,7 +159,7 @@ struct S006e9c00
 S006e9c00* S006e9c00::FUN_006e9c00(int aiType, N006e9c00* apSource)
 {
     type = aiType;
-    sp.FUN_nip(*apSource);
+    reinterpret_cast<::S00559a40 *>(&(sp))->FUN_00559a40((::S00559a40 *)&(*apSource));
     return this;
 }
 
@@ -212,7 +189,6 @@ struct Arr1_006e9e20
 {
     int pad[4];
     ~Arr1_006e9e20();
-    unsigned int GetSize();
     Elem1_006e9e20*& GetAt(unsigned int);
 };
 
@@ -245,7 +221,7 @@ struct FUN_006e9e20 : public Base_006e9e20
 // @fnv 0x006e9e20
 FUN_006e9e20::~FUN_006e9e20()
 {
-    for (unsigned int i = 0; i < m40.GetSize(); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m40))->GetName())); ++i)
     {
         delete m40.GetAt(i);
         delete m50.GetAt(i);
@@ -282,6 +258,8 @@ struct GlobalObject_0044fae0
     char pad[0x18];
     GlobalObject_0044fae0();
     ~GlobalObject_0044fae0();
+public:
+    void FUN_004538a0(std::intptr_t);
 };
 struct PM4
 {
@@ -326,24 +304,31 @@ struct FUN_006eabe0_shell : public PathManagerImpl
 {
     bool FUN_006eabe0();
 };
+// Creates a new PathManagerImpl and returns the result of its Initialize call.
+// @fnv 0x006eb8c0
+bool PathManager::Initialize()
+{
+    AutoMemContext context(static_cast<MEM_CONTEXT>(0x2d), true, DAT_0106d560, 1386);
+    m_pPathManagerImpl = new PathManagerImpl;
+    return reinterpret_cast<::FUN_006eabe0_shell *>((m_pPathManagerImpl))->FUN_006eabe0();
+}
 
 struct BSWin32TaskletManager
 {
     bool GetTaskletValue(void*);
 };
-BSWin32TaskletManager& __cdecl GetTaskletManager(void);
-bool __fastcall FUN_006c08e0(void*);
+bool FUN_006c08e0(void*);
 
 // @fnv 0x006eabe0
 bool FUN_006eabe0_shell::FUN_006eabe0()
 {
-    if (!GetTaskletManager().GetTaskletValue(this))
+    if (!::GetTaskletManager().GetTaskletValue(this))
         return false;
     if (!FUN_006c08e0(this))
         return false;
-    *(int*)((char*)this + 0xc24) = 0;
-    *(int*)((char*)this + 0xc28) = 0;
-    *(bool*)((char*)this + 0xc34) = false;
+    iState = 0;
+    iUnkC28 = 0;
+    this->unkc34 = false;
     return true;
 }
 
@@ -352,12 +337,11 @@ struct FUN_006eb790_shell : public PathManagerImpl
     bool FUN_006eb790();
 };
 
-bool __fastcall FUN_00aa6120(void* pThis);
 
 // @fnv 0x006eb790
 bool FUN_006eb790_shell::FUN_006eb790()
 {
-    return FUN_00aa6120((char*)this + 0xc2c);
+    return reinterpret_cast<::fnv_00aa6120::Lock00aa6120 *>(((char*)&this->kLock))->FUN_00aa6120();
 }
 
 struct FUN_006eb7b0_shell : public PathManagerImpl
@@ -365,12 +349,11 @@ struct FUN_006eb7b0_shell : public PathManagerImpl
     void FUN_006eb7b0();
 };
 
-void __fastcall FUN_00aa62c0(void* pThis);
 
 // @fnv 0x006eb7b0
 void FUN_006eb7b0_shell::FUN_006eb7b0()
 {
-    FUN_00aa62c0((char*)this + 0xc2c);
+    reinterpret_cast<::Lock00aa62c0 *>(((char*)&this->kLock))->FUN_00aa62c0();
 }
 
 struct PathingTaskMessage
@@ -379,7 +362,6 @@ struct PathingTaskMessage
     int m_eMessageType;
     PathingTaskData* m_pPathingTaskData;
 };
-typedef char _sizecheck_PathingMessage[sizeof(PathingTaskMessage) == 8 ? 1 : -1];
 struct FUN_006eb7f0_shell : public PathManagerImpl
 {
     void DispatchPathingMessage(void*);
@@ -395,7 +377,7 @@ struct _Vtbl_006eb7f0
 // @fnv 0x006eb7f0
 void FUN_006eb7f0_shell::DispatchPathingMessage(void* aMsg)
 {
-    reinterpret_cast<_Vtbl_006eb7f0*>(reinterpret_cast<char*>(this) + 0xc10)->v1(aMsg);
+    reinterpret_cast<_Vtbl_006eb7f0*>((char*)&this->kMessageHandler)->v1(aMsg);
 }
 
 struct FUN_006ebc70_shell : public PathManager
@@ -403,60 +385,37 @@ struct FUN_006ebc70_shell : public PathManager
     void FUN_006ebc70();
 };
 
-void __fastcall FUN_006eb310(void*);
-
-// @fnv 0x006ebc70
-void FUN_006ebc70_shell::FUN_006ebc70()
-{
-    FUN_006eb310(*reinterpret_cast<void**>(this));
-}
 
 struct FUN_006ebc90_shell : public PathManager
 {
     bool FUN_006ebc90();
 };
 
-bool __fastcall FUN_006eb390(void*);
-
-// @fnv 0x006ebc90
-bool FUN_006ebc90_shell::FUN_006ebc90()
-{
-    return FUN_006eb390(*reinterpret_cast<void**>(this));
-}
 
 struct FUN_006ebcd0_shell : public PathManager
 {
     void FUN_006ebcd0();
 };
 
-void __fastcall FUN_006eb3b0(void*);
-
-// @fnv 0x006ebcd0
-void FUN_006ebcd0_shell::FUN_006ebcd0()
-{
-    FUN_006eb3b0(*reinterpret_cast<void**>(this));
-}
 
 struct T006ebd10
 {
-    void FUN_006eb6b0(int);
 };
 struct S006ebd10
 {
     T006ebd10* p;
-    void FUN_006ebd10(int a);
+    void FUN_006ebd10(std::intptr_t a);
 };
 // @fnv 0x006ebd10
-void S006ebd10::FUN_006ebd10(int a)
+void S006ebd10::FUN_006ebd10(std::intptr_t a)
 {
-    p->FUN_006eb6b0(a);
+    reinterpret_cast<::FUN_006eb6b0_cls *>((p))->FUN_006eb6b0(a);
 }
 
 struct G006ebf30
 {
     char pad[0x14];
     char r;
-    void FUN_0040f6e0();
 };
 struct S006ebf30
 {
@@ -469,29 +428,26 @@ S006ebf30* S006ebf30::FUN_006ebf30(S006ebf30* apSource)
 {
     p = apSource->p;
     if (p)
-        ((G006ebf30*)((char*)p + 0x14))->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((((G006ebf30*)((char*)p + 0x14))))->FUN_0040f6e0();
     return this;
 }
 
 class NiAVObject
 {
   public:
-    void FUN_00401970();
 };
 
 // If the stored pointer is non-null, calls FUN_00401970 on the NiAVObject at offset 0x14 of it.
 // @fnv 0x006ebf90
-void __fastcall FUN_006ebf90(char** apObjectPtr)
+void FUN_006ebf90(char** apObjectPtr)
 {
     if (*apObjectPtr)
-        ((NiAVObject*)(*apObjectPtr + 0x14))->FUN_00401970();
+        reinterpret_cast<::WaitableObject *>((((NiAVObject*)(*apObjectPtr + 0x14))))->FUN_00401970();
 }
 
-void __cdecl Deallocate(void*);
 namespace p07 {
 struct DtorStandIn
 {
-    void FUN_0083dec0();
 };
 struct DelStandIn
 {
@@ -501,9 +457,9 @@ struct DelStandIn
 // @fnv 0x006e9c90
 void* DelStandIn::DestroyAndFree(unsigned int flags)
 {
-    ((DtorStandIn*)this)->FUN_0083dec0();
+    reinterpret_cast<::FUN_006e9e20 *>((((DtorStandIn*)this)))->::FUN_006e9e20::~FUN_006e9e20();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }
@@ -511,20 +467,19 @@ void* DelStandIn::DestroyAndFree(unsigned int flags)
 struct FUN_006e9f60_shell
 {
     void* FUN_006e9f60(unsigned int flags);
-    void FUN_006cb410();
 };
 
 // Calls FUN_006cb410, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x006e9f60
 void* FUN_006e9f60_shell::FUN_006e9f60(unsigned int flags)
 {
-    FUN_006cb410();
+    reinterpret_cast<::FUN_006cb410_cls *>(this)->::FUN_006cb410_cls::~FUN_006cb410_cls();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-struct FUN_006ea330_shell
+struct FUN_006ea330_shell : public PathingTaskData
 {
     void FUN_006ea330();
 };
@@ -532,21 +487,26 @@ struct FUN_006ea330_shell
 // @fnv 0x006ea330
 void FUN_006ea330_shell::FUN_006ea330()
 {
-    *(unsigned char*)(((unsigned char*)this) + 4) = 1;
+    bFlag04 = true;
 }
 
-struct FUN_006eb390_shell
+struct FUN_006eb390_shell : public PathManagerImpl
 {
-    bool __thiscall FUN_006eb390();
+    bool FUN_006eb390();
 };
+// @fnv 0x006ebc90
+bool FUN_006ebc90_shell::FUN_006ebc90()
+{
+    return reinterpret_cast<::FUN_006eb390_shell *>((*reinterpret_cast<void**>(this)))->FUN_006eb390();
+}
 
 // @fnv 0x006eb390
-bool __thiscall FUN_006eb390_shell::FUN_006eb390()
+bool FUN_006eb390_shell::FUN_006eb390()
 {
-    return ((int*)this)[0xc24 / 4] == 2;
+    return iState == 2;
 }
 
-struct FUN_006eb420_shell
+struct FUN_006eb420_shell : public PathManagerImpl
 {
     bool IsFieldZero();
 };
@@ -554,52 +514,109 @@ struct FUN_006eb420_shell
 // @fnv 0x006eb420
 bool FUN_006eb420_shell::IsFieldZero()
 {
-    return *(int*)((char*)this + 0xc24) == 0;
+    return iState == 0;
 }
 
-struct FUN_006eb7d0_shell
+struct FUN_006eb7d0_shell : public PathManagerImpl
 {
     char GetByteAtOffsetC34();
 };
+// @fnv 0x006e9fc0
+void PathingTaskData::Process()
+{
+    AutoMemContext context(static_cast<MEM_CONTEXT>(0x2d), true, DAT_0106d560, 355);
+    reinterpret_cast<::TESForm *>((((::DummyTimer *)(reinterpret_cast<::BaseProcess *>((::GetPathManager()))->GetCurrentProcessData()))))->ClearData();
+
+    if (reinterpret_cast<::FUN_006eb790_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->FUN_006eb790())
+    {
+        if (!HasPendingMessages())
+        {
+            reinterpret_cast<::FUN_006ea330_shell *>(this)->FUN_006ea330();
+        }
+        else
+        {
+            m_pPathingSolution = new PathingSolution();
+            bool bSuccess = Pathing::BuildPath(m_pPathingRequest, m_pPathingSolution);
+            if (((bool)(::FUN_005dc980((const char *)this))))
+            {
+                int unk18 = 0;
+            }
+            else
+            {
+                if (bSuccess)
+                {
+                    if (bFlag04)
+                    {
+                        bFlag04 = false;
+                    }
+                    ((ActorPathingMessageQueue*)spQueue)
+                        ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_OK, m_pPathingSolution));
+                    reinterpret_cast<::FUN_006eb7f0_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->DispatchPathingMessage((void *)&(const ::Struct_004b0680 &)(Struct_004b0680(0, this)));
+                }
+                else
+                {
+                    ((ActorPathingMessageQueue*)spQueue)
+                        ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_ERROR, m_pPathingSolution));
+                    reinterpret_cast<::FUN_006eb7f0_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->DispatchPathingMessage((void *)&(const ::Struct_004b0680 &)(Struct_004b0680(1, this)));
+                }
+            }
+        }
+        reinterpret_cast<::FUN_006eb7b0_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->FUN_006eb7b0();
+    }
+    else
+    {
+        if (((bool)(reinterpret_cast<::FUN_006eb7d0_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->GetByteAtOffsetC34())))
+        {
+            ((ActorPathingMessageQueue*)spQueue)
+                ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_ERROR, m_pPathingSolution));
+            reinterpret_cast<::FUN_006eb7f0_shell *>((((::PathManagerImpl *)(::FUN_00559450((int *)(::GetPathManager()))))))->DispatchPathingMessage((void *)&(const ::Struct_004b0680 &)(Struct_004b0680(1, this)));
+        }
+        else
+        {
+            reinterpret_cast<::FUN_006ea330_shell *>(this)->FUN_006ea330();
+        }
+    }
+
+    reinterpret_cast<::TESForm *>((((::DummyTimer *)(reinterpret_cast<::BaseProcess *>((::GetPathManager()))->GetCurrentProcessData()))))->ClearData();
+}
 
 // @fnv 0x006eb7d0
 char FUN_006eb7d0_shell::GetByteAtOffsetC34()
 {
-    return reinterpret_cast<char*>(this)[0xc34];
+    return unkc34;
 }
 
 struct FUN_006eb420_t
 {
-    void __thiscall IsFieldZero();
 };
 
 struct FUN_006ebcb0_shell
 {
     FUN_006eb420_t* m0;
-    void __thiscall CallMemberFunction();
+    void CallMemberFunction();
 };
 
 // @fnv 0x006ebcb0
-void __thiscall FUN_006ebcb0_shell::CallMemberFunction()
+void FUN_006ebcb0_shell::CallMemberFunction()
 {
-    m0->IsFieldZero();
+    reinterpret_cast<::FUN_006eb420_shell *>((m0))->IsFieldZero();
 }
 
-extern int DAT_0106d644;
 
 struct FUN_006ebdc0_shell
 {
-    void __thiscall SetVtable();
+    void SetVtable();
 };
 
 // @fnv 0x006ebdc0
-void __thiscall FUN_006ebdc0_shell::SetVtable()
+void FUN_006ebdc0_shell::SetVtable()
 {
-    *(int*)this = (int)&DAT_0106d644;
+    *(void**)this = (void*)&DAT_0106d644;
 }
 
 struct FUN_006ebde0_shell
 {
+    unsigned char layoutPadding0[0xc];
     unsigned char c0c;
     bool FUN_006ebde0();
 };
@@ -607,12 +624,11 @@ struct FUN_006ebde0_shell
 // @fnv 0x006ebde0
 bool FUN_006ebde0_shell::FUN_006ebde0()
 {
-    return ((unsigned char*)this)[0xc] & 2;
+    return c0c & 2;
 }
 
 struct GlobalObject_00869f00
 {
-    void Clear(bool);
 };
 
 extern void* DAT_0106d650;
@@ -627,7 +643,7 @@ struct FUN_006ebec0_shell
 void FUN_006ebec0_shell::FUN_006ebec0()
 {
     m_data = &DAT_0106d650;
-    reinterpret_cast<GlobalObject_00869f00*>(this)->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<GlobalObject_00869f00*>(this)))->Clear(true);
 }
 
 struct AX
@@ -636,7 +652,6 @@ struct AX
     void FUN_006b3eb0(unsigned int, unsigned int);
 };
 
-extern int DAT_0106d664;
 
 struct FUN_006ebee0_shell : AX
 {
@@ -659,7 +674,6 @@ struct GlobalObject_00869f00
     void FUN_006ebf10();
 };
 
-extern int DAT_0106d664;
 
 void GlobalObject_00869f00::Clear(bool)
 {}
@@ -667,13 +681,12 @@ void GlobalObject_00869f00::Clear(bool)
 // @fnv 0x006ebf10
 void GlobalObject_00869f00::FUN_006ebf10()
 {
-    *(int*)this = (int)&DAT_0106d664;
-    Clear(true);
+    *(void**)this = (void*)&::DAT_0106d664;
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 }  // namespace fnv_006ebf10
 
 namespace fnv_006ec970 {
-extern void* DAT_0106d644;
 
 struct FUN_006ec970_shell
 {
@@ -687,7 +700,7 @@ struct FUN_006ec970_shell
 // @fnv 0x006ec970
 FUN_006ec970_shell::FUN_006ec970_shell()
 {
-    m_kPointA = &DAT_0106d644;
+    m_kPointA = &(*reinterpret_cast<void * *>(&::DAT_0106d644));
     m_kPointB = 0;
     m_iThirdValue = 0;
     m_iFourthElementInteger = 0;
@@ -697,23 +710,21 @@ FUN_006ec970_shell::FUN_006ec970_shell()
 namespace fnv_006ebe60 {
 struct FUN_006ebdc0_shell
 {
-    void __thiscall SetVtable();
 };
 
-extern void __cdecl _Deallocate(void*);
 
 struct FUN_006ebe60_shell
 {
-    void* __thiscall FUN_006ebe60(unsigned int flags);
+    void* FUN_006ebe60(unsigned int flags);
 };
 
 // Calls SetVtable on this, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x006ebe60
-void* __thiscall FUN_006ebe60_shell::FUN_006ebe60(unsigned int flags)
+void* FUN_006ebe60_shell::FUN_006ebe60(unsigned int flags)
 {
-    ((FUN_006ebdc0_shell*)this)->SetVtable();
+    reinterpret_cast<::FUN_006ebdc0_shell *>((((FUN_006ebdc0_shell*)this)))->SetVtable();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }  // namespace fnv_006ebe60
@@ -752,19 +763,17 @@ struct FUN_006e9c30
 FUN_006e9c30::FUN_006e9c30(const FUN_006e9c30& aOther) : m0(aOther.m0), m1((unsigned int*)&aOther.m1)
 {}
 
-void _Deallocate(void*);
 struct Holder006e9f90
 {
-    void ClearLOSArray();
     void* ReleaseIfFlagged(unsigned int);
 };
 // Calls ClearLOSArray, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x006e9f90
 void* Holder006e9f90::ReleaseIfFlagged(unsigned int flags)
 {
-    ClearLOSArray();
+    reinterpret_cast<::fnv_006cb4a0::FUN_006cb4a0_shell *>(this)->ClearLOSArray();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -799,12 +808,10 @@ S_006eaa00* S_006eaa00::FUN_006eaa00(S_006eaa00* apSource)
 }
 
 namespace fnv_006eac40 {
-void __fastcall FUN_006c09d0(void*);
+void FUN_006c09d0(void*);
 struct BSWin32TaskletManager
 {
-    void ReleaseItem(void*);
 };
-BSWin32TaskletManager& __cdecl GetTaskletManager(void);
 struct FUN_006eac40_Holder
 {
     void FUN_006eac40();
@@ -814,7 +821,7 @@ struct FUN_006eac40_Holder
 void FUN_006eac40_Holder::FUN_006eac40()
 {
     FUN_006c09d0(this);
-    GetTaskletManager().ReleaseItem(this);
+    reinterpret_cast<::B00C20Pool *>(&((*(::fnv_006eac40::BSWin32TaskletManager *)&(::GetTaskletManager()))))->ReleaseItem((*(::B00C20Item * *)(this)));
 }
 }  // namespace fnv_006eac40
 
@@ -867,12 +874,15 @@ void FUN_006eb670_Holder::FUN_006eb670(bool a1)
 
 struct Obj_6eb890
 {
-    int FUN_006eb890(int);
 };
 struct Holder_6eb850
 {
     Obj_6eb890* ptr;
     void FUN_006eb850();
+};
+struct Tmp_006eb890
+{
+    void* FUN_006eb890(unsigned int);
 };
 // If ptr is non-null, calls FUN_006eb890(1) on it.
 // @fnv 0x006eb850
@@ -883,26 +893,10 @@ void Holder_6eb850::FUN_006eb850()
         Obj_6eb890* a;
         a = ptr;
         b = a;
-        b ? b->FUN_006eb890(1) : 0;
+        if (b)
+            reinterpret_cast<::Tmp_006eb890 *>((b))->FUN_006eb890(1);
     }
 }
-
-struct Tmp_006eb890
-{
-    void __thiscall FUN_006eab30();
-    void* __thiscall FUN_006eb890(unsigned int);
-};
-void __cdecl _Deallocate(void*);
-// Calls FUN_006eab30, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x006eb890
-void* __thiscall Tmp_006eb890::FUN_006eb890(unsigned int flags)
-{
-    FUN_006eab30();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 extern int DAT_0106d63c;
 
 struct FUN_006ebda0_shell
@@ -913,56 +907,43 @@ struct FUN_006ebda0_shell
 // @fnv 0x006ebda0
 void FUN_006ebda0_shell::FUN_006ebda0()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_0106d63c;
+    *reinterpret_cast<void**>(this) = &DAT_0106d63c;
 }
 
-void __cdecl _Deallocate(void*);
 struct S006ebe00
 {
     void FUN_006ebd30();
     void* FUN_006ebe00(unsigned int);
 };
-// @fnv 0x006ebe00
-void* S006ebe00::FUN_006ebe00(unsigned int flags)
-{
-    FUN_006ebd30();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct Class_006ebe30
 {
-    void FUN_006ebda0();
     void* FUN_006ebe30(unsigned int);
 };
-void __cdecl _Deallocate(void*);
 // @fnv 0x006ebe30
 void* Class_006ebe30::FUN_006ebe30(unsigned int flags)
 {
-    FUN_006ebda0();
+    reinterpret_cast<::FUN_006ebda0_shell *>(this)->FUN_006ebda0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 namespace fnv_006ebf60 {
 struct G00559a40
 {
-    void FUN_0040f6e0();
 };
 struct S006ebf60
 {
-    int f;
-    S006ebf60* FUN_006ebf60(int);
+    char* f;
+    S006ebf60* FUN_006ebf60(char*);
 };
 // Stores a into f and, when a is non-zero, calls FUN_0040f6e0 on the object at a+0x14; returns this.
 // @fnv 0x006ebf60
-S006ebf60* S006ebf60::FUN_006ebf60(int aiValue)
+S006ebf60* S006ebf60::FUN_006ebf60(char* apValue)
 {
-    f = aiValue;
+    f = apValue;
     if (f != 0)
-        ((G00559a40*)(f + 0x14))->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((((G00559a40*)(f + 0x14))))->FUN_0040f6e0();
     return this;
 }
 }  // namespace fnv_006ebf60
@@ -997,12 +978,9 @@ struct FUN_006c5e70
     ~FUN_006c5e70();
     int a, b;
 };
-FUN_006c5e70 __fastcall FUN_006c5e40();
 struct TESRaceForm
 {
-    void Initialize(unsigned int);
 };
-int __fastcall FUN_00559450(int*);
 struct Queue_006eac70
 {
     virtual void v0();
@@ -1026,12 +1004,12 @@ struct PathManagerImpl_t
 bool PathManagerImpl_t::QueueTaskletRequest(GO aspRequest, Ptr2_006e9e20 aspMessageQueue)
 {
     BSTaskletData* ptaskData = new FUN_006e9cc0(aspRequest, aspMessageQueue);
-    FUN_006c5e70 task = FUN_006c5e40();
-    ((TESRaceForm*)&task)->Initialize((unsigned int)ptaskData);
-    kQueue.Add(FUN_00559450((int*)&aspRequest), &ptaskData, 1);
+    FUN_006c5e70 task = (*(::fnv_006eac70::FUN_006c5e70 *)(::FUN_006c5e40({})));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)&task)))->Initialize((::CombatController *)(ptaskData));
+    kQueue.Add(::FUN_00559450((int*)&aspRequest), &ptaskData, 1);
     if (!FUN_006c5ec0(&task, 0))
     {
-        kQueue.Remove(FUN_00559450((int*)&aspRequest));
+        kQueue.Remove(::FUN_00559450((int*)&aspRequest));
         delete ptaskData;
         return false;
     }
@@ -1048,7 +1026,6 @@ struct RequestAssigner
 };
 struct QueueAssigner
 {
-    void AssignPointer(const NiPointer<ActorPathingMessageQueue>&);
 };
 struct PathingTaskShell : PathingTaskData
 {
@@ -1058,7 +1035,7 @@ struct PathingTaskShell : PathingTaskData
 void PathingTaskShell::AssignRequestAndQueue(PathingRequest* request, NiPointer<ActorPathingMessageQueue> queue)
 {
     reinterpret_cast<RequestAssigner*>(&m_pPathingRequest)->FUN_006e5cc0(request);
-    reinterpret_cast<QueueAssigner*>(&spQueue)->AssignPointer(queue);
+    reinterpret_cast<::FUN_006ebfb0_Class *>((reinterpret_cast<QueueAssigner*>(&spQueue)))->AssignPointer((int **)&(queue));
 }
 
 struct SearchItem
@@ -1066,6 +1043,8 @@ struct SearchItem
     int unk00;
     int flags;
 };
+struct PathingSolutionExt;
+struct RayCastParam;
 struct PathingSearchRayCast
 {
     int unk00;
@@ -1108,8 +1087,8 @@ struct PathingSearchRayCast
     int unk94;
     PathingSearchRayCast();
     ~PathingSearchRayCast();
-    void ProcessRayCast(SearchItem*, SearchItem*);
-    int FUN_004fd3e0();
+public:
+    unsigned int ProcessRayCast(::RayCastParam *, ::PathingSolutionExt *);
 };
 struct SearchArray
 {
@@ -1117,7 +1096,6 @@ struct SearchArray
     int unk04;
     int unk08;
     int unk0c;
-    unsigned int FUN_0044ddc0();
     SearchItem*& FUN_00877a30(unsigned int);
 };
 struct SearchLock
@@ -1130,8 +1108,6 @@ struct SearchLock
     int unk14;
     int unk18;
     int unk1c;
-    void FUN_0040fbf0(const char*);
-    void FUN_0040fba0();
 };
 struct ManagerView
 {
@@ -1152,19 +1128,19 @@ struct ManagerView
 int ManagerView::FUN_006ea350()
 {
     int total = 0;
-    lock.FUN_0040fbf0(0);
-    for (unsigned int i = 0; i < first.FUN_0044ddc0(); i++)
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(first))->GetName())); i++)
     {
         if (second.FUN_00877a30(i)->flags == 0)
         {
             PathingSearchRayCast rayCast;
-            rayCast.ProcessRayCast(first.FUN_00877a30(i), second.FUN_00877a30(i));
-            total += rayCast.FUN_004fd3e0();
+            reinterpret_cast<::PathingSearchRayCast *>(&(rayCast))->ProcessRayCast((::RayCastParam *)(first.FUN_00877a30(i)), (::PathingSolutionExt *)(second.FUN_00877a30(i)));
+            total += ((int)(std::uintptr_t)(reinterpret_cast<::EffectSetting *>(&(rayCast))->GetHitSound()));
             if (total > 10)
                 break;
         }
     }
-    lock.FUN_0040fba0();
+    reinterpret_cast<::RecursiveSpinLock *>(&(lock))->FUN_0040fba0();
     return total;
 }
 
@@ -2532,6 +2508,15 @@ struct FUN_006eab30_cls : public BGSChangeFlags_6eab30
     PMA_6eab30 m_1480;
     ~FUN_006eab30_cls();
 };
+// Calls FUN_006eab30, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x006eb890
+void* Tmp_006eb890::FUN_006eb890(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006eab30_cls *>(this)->::FUN_006eab30_cls::~FUN_006eab30_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor of the change-flags object; the body is empty, so member destructors run implicitly.
 // @fnv 0x006eab30
@@ -2542,27 +2527,27 @@ struct FUN_006eb250_VirtualObject
 {
     virtual void vf0();
     virtual void vf1();
-    virtual bool vf2(int value, int* result);
+    virtual bool vf2(int value, void** result);
 };
 
 struct FUN_006ea780_Obj
 {
-    unsigned int RequestLocationStatus(int a1, int a2, int a3, int a4);
+    unsigned int RequestLocationStatus(std::intptr_t a1, std::intptr_t a2, std::intptr_t a3, int a4);
 };
 
-struct FUN_006eb250_Class
+struct FUN_006eb250_Class : public PathManagerImpl
 {
-    unsigned int __thiscall CallVirtualObjectMethod(int arg1, int arg2, int arg3, int arg4, bool arg5);
+    unsigned int CallVirtualObjectMethod(int arg1, std::intptr_t arg2, std::intptr_t arg3, std::intptr_t arg4, bool arg5);
 };
 
 // Calls vf2 on the object at this+0x1480; if it succeeds, forwards arg2-arg5 to RequestLocationStatus on the returned object, otherwise returns 2.
 // @fnv 0x006eb250
-unsigned int __thiscall FUN_006eb250_Class::CallVirtualObjectMethod(int aiValue, int arg2, int arg3, int arg4,
+unsigned int FUN_006eb250_Class::CallVirtualObjectMethod(int aiValue, std::intptr_t arg2, std::intptr_t arg3, std::intptr_t arg4,
                                                                     bool arg5)
 {
-    int resultObject = 0;
+    void* resultObject = 0;
 
-    if (reinterpret_cast<FUN_006eb250_VirtualObject*>(reinterpret_cast<char*>(this) + 0x1480)
+    if (reinterpret_cast<FUN_006eb250_VirtualObject*>((char*)&this->kPathQueue)
             ->vf2(aiValue, &resultObject))
     {
         return reinterpret_cast<FUN_006ea780_Obj*>(resultObject)->RequestLocationStatus(arg2, arg3, arg4, arg5);
@@ -2576,7 +2561,6 @@ unsigned int __thiscall FUN_006eb250_Class::CallVirtualObjectMethod(int aiValue,
 class EB2B0Item
 {
   public:
-    int Process(int a, int b, int c);
 };
 
 class EB2B0Map
@@ -3904,27 +3888,14 @@ class EB2B0Owner
     int unk147C;
     EB2B0Map m_kFormatEntries;
 
-    int ProcessKeyedItem(unsigned int uiKey, int a, int b, int c);
+    int ProcessKeyedItem(unsigned int uiKey, std::intptr_t a, std::intptr_t b, std::intptr_t c);
 };
-
-// Looks up the item for uiKey in the map and forwards a, b, c to its Process; returns 2 if the key is not found.
-// @fnv 0x006eb2b0
-int EB2B0Owner::ProcessKeyedItem(unsigned int uiKey, int aiArg1, int aiArg2, int aiArg3)
-{
-    EB2B0Item* pkItem = 0;
-    if (m_kFormatEntries.GetAt(uiKey, pkItem))
-        return pkItem->Process(aiArg1, aiArg2, aiArg3);
-    else
-        return 2;
-}
 
 extern const char g_acB6EB310Name[];
 
 class B6EB310Lock
 {
   public:
-    void Lock(const char* pcName);
-    void Unlock();
 };
 
 class B6EB310Manager
@@ -4716,11 +4687,16 @@ class B6EB310Manager
     int unkC34;
     B6EB310Lock m_kLock;
 };
+// @fnv 0x006ebc70
+void FUN_006ebc70_shell::FUN_006ebc70()
+{
+    reinterpret_cast<::B6EB310Manager *>((*reinterpret_cast<void**>(this)))->FUN_006eb310();
+}
 
 // @fnv 0x006eb310
 void B6EB310Manager::FUN_006eb310()
 {
-    m_kLock.Lock(g_acB6EB310Name);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_kLock))->FUN_004538a0((std::intptr_t)(g_acB6EB310Name));
     switch (m_eAnimationState)
     {
     case 0:
@@ -4732,7 +4708,7 @@ void B6EB310Manager::FUN_006eb310()
         m_eAnimationState = 2;
         break;
     }
-    m_kLock.Unlock();
+    reinterpret_cast<::ActorTaskManager *>(&(m_kLock))->WaitForTasksDuringRendering();
 }
 
 extern const char g_acB6EB3B0Name[];
@@ -4740,8 +4716,6 @@ extern const char g_acB6EB3B0Name[];
 class B6EB3B0Lock
 {
   public:
-    void Lock(const char* pcName);
-    void Unlock();
 };
 
 class B6EB3B0Manager
@@ -5533,11 +5507,16 @@ class B6EB3B0Manager
     int unkC34;
     B6EB3B0Lock m_kLock;
 };
+// @fnv 0x006ebcd0
+void FUN_006ebcd0_shell::FUN_006ebcd0()
+{
+    reinterpret_cast<::B6EB3B0Manager *>((*reinterpret_cast<void**>(this)))->FUN_006eb3b0();
+}
 
 // @fnv 0x006eb3b0
 void B6EB3B0Manager::FUN_006eb3b0()
 {
-    m_kLock.Lock(g_acB6EB3B0Name);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_kLock))->FUN_004538a0((std::intptr_t)(g_acB6EB3B0Name));
     switch (m_eAnimationState)
     {
         break;
@@ -5548,13 +5527,11 @@ void B6EB3B0Manager::FUN_006eb3b0()
         m_eAnimationState = 3;
         break;
     }
-    m_kLock.Unlock();
+    reinterpret_cast<::ActorTaskManager *>(&(m_kLock))->WaitForTasksDuringRendering();
 }
 
 struct Obj_006eb980_obj
 {
-    void FUN_006eac40();
-    int FUN_006eb890(int);
 };
 
 struct Shell_006eb980
@@ -5567,29 +5544,23 @@ struct Shell_006eb980
 // @fnv 0x006eb980
 void Shell_006eb980::FUN_006eb980()
 {
-    m0->FUN_006eac40();
+    reinterpret_cast<::fnv_006eac40::FUN_006eac40_Holder *>((m0))->FUN_006eac40();
     Obj_006eb980_obj* QQ = m0;
     Obj_006eb980_obj* PP2 = QQ;
-    PP2 != 0 ? PP2->FUN_006eb890(1) : 0;
+    if (PP2 != 0)
+        reinterpret_cast<::Tmp_006eb890 *>((PP2))->FUN_006eb890(1);
     m0 = 0;
 }
 
 struct Inner006eb440
 {
-    void __thiscall Drain();
 };
 
 struct FUN_006ebcf0_cls
 {
     Inner006eb440* m0;
-    void __thiscall CallInner();
+    void CallInner();
 };
-
-// @fnv 0x006ebcf0
-void FUN_006ebcf0_cls::CallInner()
-{
-    m0->Drain();
-}
 
 struct ArrayElement_006ebd30
 {
@@ -5611,6 +5582,14 @@ struct FUN_006ebd30 : Base_006ebd30
     ArrayElement_006ebd30 elements[256];
     virtual ~FUN_006ebd30();
 };
+// @fnv 0x006ebe00
+void* S006ebe00::FUN_006ebe00(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006ebd30 *>(this)->::FUN_006ebd30::~FUN_006ebd30();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x006ebd30
 FUN_006ebd30::~FUN_006ebd30()
@@ -5620,12 +5599,10 @@ struct PathingLocation17
 {
     int v[10];
     PathingLocation17& operator=(const PathingLocation17& other);
-    bool Test(const PathingLocation17& other, float f);
 };
 struct Sub17
 {
     int v[4];
-    void Activate(int arg);
 };
 struct Big17
 {
@@ -5646,8 +5623,6 @@ struct Small17
 struct Spin17
 {
     int v[8];
-    void Lock(char* name);
-    void Unlock();
 };
 struct Arr40_17
 {
@@ -5658,7 +5633,6 @@ struct Arr40_17
 struct Arr50_17
 {
     int v[4];
-    unsigned int GetSize();
     Small17*& GetAt(unsigned int idx);
     unsigned int Add(Small17*& elem);
 };
@@ -5675,25 +5649,33 @@ struct Host17
     Spin17 spin;
     Arr40_17 arr40;
     Arr50_17 arr50;
-    void FUN_006ea330();
-    void Notify(int arg);
-    int FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, int a3);
+    int FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, std::intptr_t a3);
 };
+// Looks up the item for uiKey in the map and forwards a, b, c to its Process; returns 2 if the key is not found.
+// @fnv 0x006eb2b0
+int EB2B0Owner::ProcessKeyedItem(unsigned int uiKey, std::intptr_t aiArg1, std::intptr_t aiArg2, std::intptr_t aiArg3)
+{
+    EB2B0Item* pkItem = 0;
+    if (m_kFormatEntries.GetAt(uiKey, pkItem))
+        return reinterpret_cast<::Host17 *>((pkItem))->FindOrAddPathingEntry((*(::PathingLocation17 *)(aiArg1)), (*(::PathingLocation17 *)(aiArg2)), aiArg3);
+    else
+        return 2;
+}
 
 // Locks the spin, scans arr50 for a type 2 entry whose loc8/loc30 match a1/a2 within 0.1, acts on its code4, or appends new Big17/Small17 entries and notifies.
 // @fnv 0x006ea510
-int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, int iActivateArg)
+int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, std::intptr_t iActivateArg)
 {
     int result = 0;
-    spin.Lock(0);
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(spin))->FUN_0040fbf0(0);
     int i2 = 0;
-    for (; i2 < arr50.GetSize(); ++i2)
+    for (; i2 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr50))->GetName())); ++i2)
     {
         if (arr50.GetAt(i2)->type0 == 2)
         {
-            if (arr40.GetAt(i2)->loc8.Test(a1, 0.1f))
+            if (reinterpret_cast<::FUN_006deeb0_cls *>(&(arr40.GetAt(i2)->loc8))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)&(a1), 0.1f))
             {
-                if (arr40.GetAt(i2)->loc30.Test(a2, 0.1f))
+                if (reinterpret_cast<::FUN_006deeb0_cls *>(&(arr40.GetAt(i2)->loc30))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)&(a2), 0.1f))
                 {
                     result = arr50.GetAt(i2)->code4;
                     switch (result)
@@ -5701,16 +5683,16 @@ int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, 
                     case 2:
                         break;
                     case 1:
-                        arr50.GetAt(i2)->sub8.Activate(iActivateArg);
+                        reinterpret_cast<::FUN_006cf940_cls *>(&(arr50.GetAt(i2)->sub8))->FUN_006cf940((::FUN_006cf940_Owner *)(iActivateArg));
                         break;
                     case 0:
-                        FUN_006ea330();
+                        reinterpret_cast<::FUN_006ea330_shell *>(this)->FUN_006ea330();
                         break;
                     default:
                         result = 2;
                         break;
                     }
-                    spin.Unlock();
+                    reinterpret_cast<::RecursiveSpinLock *>(&(spin))->FUN_0040fba0();
                     return result;
                 }
             }
@@ -5718,33 +5700,27 @@ int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, 
     }
     Big17* pBigEntry = new Big17;
     pBigEntry->req4 = (PathingRequest*)spReq;
-    pBigEntry->loc8 = a1;
-    pBigEntry->loc30 = a2;
+    reinterpret_cast<::PathingLocation *>((void *)&(const ::PathingLocation17 &)(pBigEntry->loc8))->operator=((const ::PathingLocation &)(a1));
+    reinterpret_cast<::PathingLocation *>((void *)&(const ::PathingLocation17 &)(pBigEntry->loc30))->operator=((const ::PathingLocation &)(a2));
     pBigEntry->type0 = 2;
     Small17* pSmallEntry = new Small17;
     pSmallEntry->type0 = pBigEntry->type0;
     pSmallEntry->code4 = 0;
-    arr40.Add(pBigEntry);
-    arr50.Add(pSmallEntry);
-    spin.Unlock();
-    Notify(1);
+    reinterpret_cast<::FUN_00438690 *>(&(arr40))->FUN_007cb2e0((unsigned int *)&(pBigEntry));
+    reinterpret_cast<::FUN_00438690 *>(&(arr50))->FUN_007cb2e0((unsigned int *)&(pSmallEntry));
+    reinterpret_cast<::RecursiveSpinLock *>(&(spin))->FUN_0040fba0();
+    reinterpret_cast<::PlayerQuestData *>(this)->SetIndex(1);
     return result;
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 struct RequestLocation
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
-    bool IsWithinDistanceOfSameLocation(int location, float tolerance);
-    void FUN_006dcce0(int location);
 };
 struct RequestShape
 {
     int unk00, unk04, unk08, unk0c;
-    void FUN_006cf940(int result);
-    void ProcessItems(RequestShape* result);
 };
 struct FUN_006cb3a0
 {
@@ -5775,19 +5751,17 @@ struct RequestManager
     SearchLock lock;
     RequestArray<FUN_006cb3a0> requests;
     RequestArray<FUN_006cb480> statuses;
-    void FUN_006ea330();
-    void FUN_0060d4b0(int changed);
 };
 // Locks the manager, searches statuses for a matching type and location, updates or creates the request/status entries, unlocks, and returns the status.
 // @fnv 0x006ea780
-unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, int a3, int bTypeFlag)
+unsigned int FUN_006ea780_Obj::RequestLocationStatus(std::intptr_t pShape, std::intptr_t iLocation, std::intptr_t a3, int bTypeFlag)
 {
     unsigned int status = 0;
-    ((RequestManager*)this)->lock.FUN_0040fbf0(0);
-    for (unsigned int i = 0; i < ((RequestManager*)this)->statuses.FUN_0044ddc0(); i++)
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(((RequestManager*)this)->lock))->FUN_0040fbf0((char *)(0));
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((RequestManager*)this)->statuses))->GetName())); i++)
     {
         if (((RequestManager*)this)->statuses.FUN_00877a30(i)->type == !(unsigned char)bTypeFlag &&
-            ((RequestManager*)this)->requests.FUN_00877a30(i)->location.IsWithinDistanceOfSameLocation(iLocation, 0.1f))
+            reinterpret_cast<::FUN_006deeb0_cls *>(&(((RequestManager*)this)->requests.FUN_00877a30(i)->location))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)(iLocation), 0.1f))
         {
             status = ((RequestManager*)this)->statuses.FUN_00877a30(i)->status;
             switch (status)
@@ -5795,37 +5769,36 @@ unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, 
             case 2:
                 break;
             case 1:
-                ((RequestManager*)this)->statuses.FUN_00877a30(i)->shape.FUN_006cf940(a3);
+                reinterpret_cast<::FUN_006cf940_cls *>(&(((RequestManager*)this)->statuses.FUN_00877a30(i)->shape))->FUN_006cf940((::FUN_006cf940_Owner *)(a3));
                 break;
             case 0:
-                ((RequestManager*)this)->FUN_006ea330();
+                reinterpret_cast<::FUN_006ea330_shell *>((((RequestManager*)this)))->FUN_006ea330();
                 break;
             default:
                 status = 2;
             }
-            ((RequestManager*)this)->lock.FUN_0040fba0();
+            reinterpret_cast<::RecursiveSpinLock *>(&(((RequestManager*)this)->lock))->FUN_0040fba0();
             return status;
         }
     }
     FUN_006cb3a0* entry = new FUN_006cb3a0;
-    entry->owner = ((RequestManager*)this)->owner.FUN_00559450();
-    entry->location.FUN_006dcce0(iLocation);
-    ((RequestShape*)pShape)->ProcessItems(&entry->shape);
+    entry->owner = ((::PathManagerImpl *)(::FUN_00559450((int *)&(((RequestManager*)this)->owner))));
+    reinterpret_cast<::PathingLocation *>(&(entry->location))->operator=((*(const ::PathingLocation *)(iLocation)));
+    reinterpret_cast<::FUN_006cf8a0_cls *>((((RequestShape*)pShape)))->ProcessItems((::ParamHost *)(::RequestShape *)(&entry->shape));
     entry->type = !(unsigned char)bTypeFlag;
     FUN_006cb480* request = new FUN_006cb480;
     request->type = entry->type;
     request->status = 0;
-    ((RequestManager*)this)->requests.FUN_007cb2e0(entry);
-    ((RequestManager*)this)->statuses.FUN_007cb2e0(request);
-    ((RequestManager*)this)->lock.FUN_0040fba0();
-    ((RequestManager*)this)->FUN_0060d4b0(1);
+    reinterpret_cast<::FUN_00438690 *>(&(((RequestManager*)this)->requests))->FUN_007cb2e0((unsigned int *)&(entry));
+    reinterpret_cast<::FUN_00438690 *>(&(((RequestManager*)this)->statuses))->FUN_007cb2e0((unsigned int *)&(request));
+    reinterpret_cast<::RecursiveSpinLock *>(&(((RequestManager*)this)->lock))->FUN_0040fba0();
+    reinterpret_cast<::PlayerQuestData *>((((RequestManager*)this)))->SetIndex(1);
     return status;
 }
 
 struct QueueTarget;
 struct RefView
 {
-    QueueTarget* Get() const;
 };
 struct TaskView
 {
@@ -5870,7 +5843,6 @@ struct IteratorView
     int d;
     IteratorView();
     ~IteratorView();
-    bool Empty();
 };
 struct ReplyView
 {
@@ -5892,22 +5864,17 @@ struct QueueView
     virtual void v3();
     virtual bool Pop(MessageView&);
     virtual void Remove(QueueTarget*);
-    bool Next(IteratorView&, int*, TaskView**, bool);
-    void Clear(int);
 };
 struct TimerView
 {
     int a;
-    void Begin(const char*);
-    void End();
 };
 struct LockView
 {
     int a;
-    void Release();
 };
 extern const char taskName[];
-void __fastcall EnterTasks(void*);
+void EnterTasks(void*);
 // Existing pack declaration supplies the exit helper.
 struct DrainManager
 {
@@ -7226,11 +7193,16 @@ struct DrainManager
     QueueView outgoing;
     void Drain();
 };
+// @fnv 0x006ebcf0
+void FUN_006ebcf0_cls::CallInner()
+{
+    reinterpret_cast<::DrainManager *>((m0))->Drain();
+}
 // Starts the timer, enters tasks, drains incoming messages, replies to outgoing tasks, clears the queue, releases the lock and resets state.
 // @fnv 0x006eb440
 void DrainManager::Drain()
 {
-    timer.Begin(taskName);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(timer))->FUN_004538a0((std::intptr_t)(taskName));
     EnterTasks(this);
     active = true;
     ((FUN_006eb670_Holder*)this)->FUN_006eb670(false);
@@ -7241,28 +7213,28 @@ void DrainManager::Drain()
         {
         case 0:
         case 1:
-            outgoing.Remove(message.task->request.Get());
+            outgoing.Remove(((::QueueTarget *)(::FUN_00559450((int *)&(message.task->request)))));
             delete message.task;
             break;
         }
     }
     IteratorView iter;
-    while (!iter.Empty())
+    while (!reinterpret_cast<::FUN_006ebde0_shell *>(&(iter))->FUN_006ebde0())
     {
         int key;
         TaskView* pTask;
-        if (outgoing.Next(iter, &key, &pTask, true))
+        if (reinterpret_cast<::Queue44c640 *>(&(outgoing))->TryGetNextEntry((::QueueIter44c640 *)&(iter), (void **)(int *)(&key), (std::intptr_t)(&pTask), true))
         {
-            pTask->queue.Get()->Push(ReplyView(1, &pTask->solution));
+            ((::QueueTarget *)(::FUN_00559450((int *)&(pTask->queue))))->Push(ReplyView(1, &pTask->solution));
             delete pTask;
         }
     }
-    outgoing.Clear(0);
-    lock.Release();
+    reinterpret_cast<::TSHashTable *>(&(outgoing))->FUN_0044c480(0);
+    ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(lock));
     state = 2;
     active = false;
     FUN_006c08e0(this);
-    timer.End();
+    reinterpret_cast<::ActorTaskManager *>(&(timer))->WaitForTasksDuringRendering();
 }
 
 // Destructor: pop and discard every queued item before the base queue is destroyed.
@@ -7295,7 +7267,7 @@ class FUN_009055c0 : public F55C0Queue
 FUN_009055c0::~FUN_009055c0()
 {
     F55C0Item kItem;
-    while (Pop(kItem))
+    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((std::intptr_t)&(kItem)))
     {
     }
 }
@@ -7344,13 +7316,1653 @@ struct FUN_006e9cc0 : PathTaskBase
     PathListB listB;
     PathHandle handle;
     bool enabled;
-    FUN_006e9cc0(int, PathHandle);
+    FUN_006e9cc0(std::intptr_t, PathHandle);
     virtual ~FUN_006e9cc0();
-    void Initialize(int, PathHandle);
 };
 // Constructs a path task, default-initializes its members, then calls Initialize with the given mode and handle.
 // @fnv 0x006e9cc0
-FUN_006e9cc0::FUN_006e9cc0(int mode, PathHandle value) : first(0), second(0), handle(0), enabled(false)
+FUN_006e9cc0::FUN_006e9cc0(std::intptr_t mode, PathHandle value) : first(0), second(0), handle(0), enabled(false)
 {
-    Initialize(mode, value);
+    reinterpret_cast<::PathingTaskShell *>(this)->AssignRequestAndQueue((::PathingRequest *)(mode), (*(::NiPointer< ::ActorPathingMessageQueue> *)&(const ::PathHandle &)(value)));
 }
+
+class BSSpinLock_r006eb6b0
+{
+  public:
+};
+
+class PathingActorData;
+
+struct PathSlot
+{
+    int unk00;
+    int unk04;
+};
+
+struct PathingRequest
+{
+};
+
+struct PathWorkList
+{
+    int unk00[4];
+    PathWorkList();
+    ~PathWorkList();
+};
+
+struct PathIndex
+{
+};
+
+struct FUN_006eb6b0_cls_ctxr2 : public PathManagerImpl
+{
+    void FUN_006eb6b0(int id);
+};
+
+// @fnv 0x006eb6b0
+void FUN_006eb6b0_cls_ctxr2::FUN_006eb6b0(int id)
+{
+    reinterpret_cast<::GlobalObject_0044fae0 *>((reinterpret_cast<BSSpinLock_r006eb6b0*>((char*)&this->kSpinLock)))->FUN_004538a0((std::intptr_t)("PathManagerImpl::CancelCurrentPathsAndPause"));
+    PathingRequest* ref;
+    int outA2;
+    PathWorkList list3;
+    while (!reinterpret_cast<::FUN_006ebde0_shell *>(&(list3))->FUN_006ebde0())
+    {
+        if (reinterpret_cast<::Queue44c640 *>((reinterpret_cast<PathIndex*>((char*)&this->kPathQueue)))->TryGetNextEntry((::QueueIter44c640 *)(::PathWorkList *)(&list3), (void **)(::PathingRequest **)(&ref), (std::intptr_t)(&outA2), true))
+        {
+            if (reinterpret_cast<PathSlot*>(reinterpret_cast<::FUN_006c9900_shell *>((ref))->FUN_006c9900())->unk04 == id)
+            {
+                reinterpret_cast<PathSlot*>(reinterpret_cast<::FUN_006c9900_shell *>((ref))->FUN_006c9900())->unk04 = 0;
+                reinterpret_cast<PathSlot*>(reinterpret_cast<::FUN_006c9900_shell *>((ref))->FUN_006c9900())->unk00 = 0;
+            }
+        }
+    }
+    reinterpret_cast<::ActorTaskManager *>((reinterpret_cast<BSSpinLock_r006eb6b0*>((char*)&this->kSpinLock)))->WaitForTasksDuringRendering();
+}
+
+class BSSpinLock_r006eae40
+{
+  public:
+};
+
+namespace fnv_006eae40 {
+// Stand-in declarations for FUN_006eae40
+
+struct ObjA
+{
+    void* vtable;
+    int unk04;
+    int unk08;
+    int unk0c;
+    ObjA();
+    ~ObjA();
+};
+
+struct PathingTaskData_Ext : public PathingTaskData
+{
+};
+
+struct ObjC
+{
+    void* vtable;
+    int unk04;
+    ObjC();
+    ~ObjC();
+};
+
+struct Item_006eae40
+{
+    int m_val;
+    void* m_ptr;
+    Item_006eae40();
+    ~Item_006eae40();
+};
+
+struct SubC2C
+{
+    int unk0;
+    int unk4;
+    int unk8;
+};
+
+struct NameGetter
+{
+};
+
+struct VObj
+{
+    virtual ~VObj();
+};
+
+struct CollBase
+{
+    virtual ~CollBase();
+    virtual void FillA();
+    virtual void FillB();
+    virtual void FillC();
+    virtual bool ContainsItem(void* pItem);
+};
+
+struct Coll1480 : public CollBase
+{
+    virtual void Notify(void* p);
+};
+
+struct TaskQueueInterface
+{
+};
+
+struct GlobalTargetObj
+{
+    virtual void Fill00();
+    virtual void Fill01();
+    virtual void Fill02();
+    virtual void Fill03();
+    virtual void Fill04();
+    virtual void Fill05();
+    virtual void Fill06();
+    virtual void Fill07();
+    virtual void Fill08();
+    virtual void Fill09();
+    virtual void Fill10();
+    virtual void Fill11();
+    virtual void Fill12();
+    virtual void Fill13();
+    virtual void Fill14();
+    virtual void Fill15();
+    virtual void Fill16();
+    virtual void Fill17();
+    virtual void Fill18();
+    virtual void Fill19();
+    virtual void Fill20();
+    virtual void Fill21();
+    virtual void Fill22();
+    virtual void Fill23();
+    virtual void Fill24();
+    virtual void Fill25();
+    virtual void Fill26();
+    virtual void Fill27();
+    virtual void Fill28();
+    virtual void Fill29();
+    virtual void Fill30();
+    virtual void Fill31();
+    virtual void Fill32();
+    virtual void Fill33();
+    virtual void Fill34();
+    virtual void Fill35();
+    virtual void Fill36();
+    virtual void Fill37();
+    virtual void Fill38();
+    virtual void Fill39();
+    virtual void Fill40();
+    virtual void Fill41();
+    virtual void Fill42();
+    virtual void Fill43();
+    virtual void Fill44();
+    virtual void Fill45();
+    virtual void Fill46();
+    virtual void Fill47();
+    virtual void Fill48();
+    virtual void Fill49();
+    virtual void Fill50();
+    virtual void Fill51();
+    virtual void Fill52();
+    virtual void Fill53();
+    virtual void Fill54();
+    virtual void NotifyDC(void* p, int a);
+    virtual void Fill56();
+    virtual void Fill57();
+    virtual void NotifyE8(void* p);
+};
+
+class NiNode;
+class GlobalObject_00633c90
+{
+  public:
+    GlobalTargetObj* operator->() const;
+    operator void*() const;
+    operator NiNode*() const;
+};
+
+
+struct NiUpdateData
+{
+    float m_uiCommandId;
+    bool m_kPointA;
+    bool m_kPointB;
+    short m_iThirdValue;
+    int m_iFourthElementInteger;
+    NiUpdateData(float f, bool a, bool b);
+};
+
+class NiNode
+{
+  public:
+};
+}  // namespace fnv_006eae40
+
+template <> class NiPointer<fnv_006eae40::NiNode>
+{
+  public:
+    fnv_006eae40::NiNode* m_pObject;
+    NiPointer(fnv_006eae40::NiNode* p = 0);
+    ~NiPointer();
+    operator fnv_006eae40::NiNode*() const;
+};
+
+namespace fnv_006eae40 {
+
+struct FUN_006eae40_shell
+{
+    int unk_0000;
+    int unk_0004;
+    int unk_0008;
+    int unk_000c;
+    int unk_0010;
+    int unk_0014;
+    int unk_0018;
+    int unk_001c;
+    int unk_0020;
+    int unk_0024;
+    int unk_0028;
+    int unk_002c;
+    int unk_0030;
+    int unk_0034;
+    int unk_0038;
+    int unk_003c;
+    int unk_0040;
+    int unk_0044;
+    int unk_0048;
+    int unk_004c;
+    int unk_0050;
+    int unk_0054;
+    int unk_0058;
+    int unk_005c;
+    int unk_0060;
+    int unk_0064;
+    int unk_0068;
+    int unk_006c;
+    int unk_0070;
+    int unk_0074;
+    int unk_0078;
+    int unk_007c;
+    int unk_0080;
+    int unk_0084;
+    int unk_0088;
+    int unk_008c;
+    int unk_0090;
+    int unk_0094;
+    int unk_0098;
+    int unk_009c;
+    int unk_00a0;
+    int unk_00a4;
+    int unk_00a8;
+    int unk_00ac;
+    int unk_00b0;
+    int unk_00b4;
+    int unk_00b8;
+    int unk_00bc;
+    int unk_00c0;
+    int unk_00c4;
+    int unk_00c8;
+    int unk_00cc;
+    int unk_00d0;
+    int unk_00d4;
+    int unk_00d8;
+    int unk_00dc;
+    int unk_00e0;
+    int unk_00e4;
+    int unk_00e8;
+    int unk_00ec;
+    int unk_00f0;
+    int unk_00f4;
+    int unk_00f8;
+    int unk_00fc;
+    int unk_0100;
+    int unk_0104;
+    int unk_0108;
+    int unk_010c;
+    int unk_0110;
+    int unk_0114;
+    int unk_0118;
+    int unk_011c;
+    int unk_0120;
+    int unk_0124;
+    int unk_0128;
+    int unk_012c;
+    int unk_0130;
+    int unk_0134;
+    int unk_0138;
+    int unk_013c;
+    int unk_0140;
+    int unk_0144;
+    int unk_0148;
+    int unk_014c;
+    int unk_0150;
+    int unk_0154;
+    int unk_0158;
+    int unk_015c;
+    int unk_0160;
+    int unk_0164;
+    int unk_0168;
+    int unk_016c;
+    int unk_0170;
+    int unk_0174;
+    int unk_0178;
+    int unk_017c;
+    int unk_0180;
+    int unk_0184;
+    int unk_0188;
+    int unk_018c;
+    int unk_0190;
+    int unk_0194;
+    int unk_0198;
+    int unk_019c;
+    int unk_01a0;
+    int unk_01a4;
+    int unk_01a8;
+    int unk_01ac;
+    int unk_01b0;
+    int unk_01b4;
+    int unk_01b8;
+    int unk_01bc;
+    int unk_01c0;
+    int unk_01c4;
+    int unk_01c8;
+    int unk_01cc;
+    int unk_01d0;
+    int unk_01d4;
+    int unk_01d8;
+    int unk_01dc;
+    int unk_01e0;
+    int unk_01e4;
+    int unk_01e8;
+    int unk_01ec;
+    int unk_01f0;
+    int unk_01f4;
+    int unk_01f8;
+    int unk_01fc;
+    int unk_0200;
+    int unk_0204;
+    int unk_0208;
+    int unk_020c;
+    int unk_0210;
+    int unk_0214;
+    int unk_0218;
+    int unk_021c;
+    int unk_0220;
+    int unk_0224;
+    int unk_0228;
+    int unk_022c;
+    int unk_0230;
+    int unk_0234;
+    int unk_0238;
+    int unk_023c;
+    int unk_0240;
+    int unk_0244;
+    int unk_0248;
+    int unk_024c;
+    int unk_0250;
+    int unk_0254;
+    int unk_0258;
+    int unk_025c;
+    int unk_0260;
+    int unk_0264;
+    int unk_0268;
+    int unk_026c;
+    int unk_0270;
+    int unk_0274;
+    int unk_0278;
+    int unk_027c;
+    int unk_0280;
+    int unk_0284;
+    int unk_0288;
+    int unk_028c;
+    int unk_0290;
+    int unk_0294;
+    int unk_0298;
+    int unk_029c;
+    int unk_02a0;
+    int unk_02a4;
+    int unk_02a8;
+    int unk_02ac;
+    int unk_02b0;
+    int unk_02b4;
+    int unk_02b8;
+    int unk_02bc;
+    int unk_02c0;
+    int unk_02c4;
+    int unk_02c8;
+    int unk_02cc;
+    int unk_02d0;
+    int unk_02d4;
+    int unk_02d8;
+    int unk_02dc;
+    int unk_02e0;
+    int unk_02e4;
+    int unk_02e8;
+    int unk_02ec;
+    int unk_02f0;
+    int unk_02f4;
+    int unk_02f8;
+    int unk_02fc;
+    int unk_0300;
+    int unk_0304;
+    int unk_0308;
+    int unk_030c;
+    int unk_0310;
+    int unk_0314;
+    int unk_0318;
+    int unk_031c;
+    int unk_0320;
+    int unk_0324;
+    int unk_0328;
+    int unk_032c;
+    int unk_0330;
+    int unk_0334;
+    int unk_0338;
+    int unk_033c;
+    int unk_0340;
+    int unk_0344;
+    int unk_0348;
+    int unk_034c;
+    int unk_0350;
+    int unk_0354;
+    int unk_0358;
+    int unk_035c;
+    int unk_0360;
+    int unk_0364;
+    int unk_0368;
+    int unk_036c;
+    int unk_0370;
+    int unk_0374;
+    int unk_0378;
+    int unk_037c;
+    int unk_0380;
+    int unk_0384;
+    int unk_0388;
+    int unk_038c;
+    int unk_0390;
+    int unk_0394;
+    int unk_0398;
+    int unk_039c;
+    int unk_03a0;
+    int unk_03a4;
+    int unk_03a8;
+    int unk_03ac;
+    int unk_03b0;
+    int unk_03b4;
+    int unk_03b8;
+    int unk_03bc;
+    int unk_03c0;
+    int unk_03c4;
+    int unk_03c8;
+    int unk_03cc;
+    int unk_03d0;
+    int unk_03d4;
+    int unk_03d8;
+    int unk_03dc;
+    int unk_03e0;
+    int unk_03e4;
+    int unk_03e8;
+    int unk_03ec;
+    int unk_03f0;
+    int unk_03f4;
+    int unk_03f8;
+    int unk_03fc;
+    int unk_0400;
+    int unk_0404;
+    int unk_0408;
+    int unk_040c;
+    int unk_0410;
+    int unk_0414;
+    int unk_0418;
+    int unk_041c;
+    int unk_0420;
+    int unk_0424;
+    int unk_0428;
+    int unk_042c;
+    int unk_0430;
+    int unk_0434;
+    int unk_0438;
+    int unk_043c;
+    int unk_0440;
+    int unk_0444;
+    int unk_0448;
+    int unk_044c;
+    int unk_0450;
+    int unk_0454;
+    int unk_0458;
+    int unk_045c;
+    int unk_0460;
+    int unk_0464;
+    int unk_0468;
+    int unk_046c;
+    int unk_0470;
+    int unk_0474;
+    int unk_0478;
+    int unk_047c;
+    int unk_0480;
+    int unk_0484;
+    int unk_0488;
+    int unk_048c;
+    int unk_0490;
+    int unk_0494;
+    int unk_0498;
+    int unk_049c;
+    int unk_04a0;
+    int unk_04a4;
+    int unk_04a8;
+    int unk_04ac;
+    int unk_04b0;
+    int unk_04b4;
+    int unk_04b8;
+    int unk_04bc;
+    int unk_04c0;
+    int unk_04c4;
+    int unk_04c8;
+    int unk_04cc;
+    int unk_04d0;
+    int unk_04d4;
+    int unk_04d8;
+    int unk_04dc;
+    int unk_04e0;
+    int unk_04e4;
+    int unk_04e8;
+    int unk_04ec;
+    int unk_04f0;
+    int unk_04f4;
+    int unk_04f8;
+    int unk_04fc;
+    int unk_0500;
+    int unk_0504;
+    int unk_0508;
+    int unk_050c;
+    int unk_0510;
+    int unk_0514;
+    int unk_0518;
+    int unk_051c;
+    int unk_0520;
+    int unk_0524;
+    int unk_0528;
+    int unk_052c;
+    int unk_0530;
+    int unk_0534;
+    int unk_0538;
+    int unk_053c;
+    int unk_0540;
+    int unk_0544;
+    int unk_0548;
+    int unk_054c;
+    int unk_0550;
+    int unk_0554;
+    int unk_0558;
+    int unk_055c;
+    int unk_0560;
+    int unk_0564;
+    int unk_0568;
+    int unk_056c;
+    int unk_0570;
+    int unk_0574;
+    int unk_0578;
+    int unk_057c;
+    int unk_0580;
+    int unk_0584;
+    int unk_0588;
+    int unk_058c;
+    int unk_0590;
+    int unk_0594;
+    int unk_0598;
+    int unk_059c;
+    int unk_05a0;
+    int unk_05a4;
+    int unk_05a8;
+    int unk_05ac;
+    int unk_05b0;
+    int unk_05b4;
+    int unk_05b8;
+    int unk_05bc;
+    int unk_05c0;
+    int unk_05c4;
+    int unk_05c8;
+    int unk_05cc;
+    int unk_05d0;
+    int unk_05d4;
+    int unk_05d8;
+    int unk_05dc;
+    int unk_05e0;
+    int unk_05e4;
+    int unk_05e8;
+    int unk_05ec;
+    int unk_05f0;
+    int unk_05f4;
+    int unk_05f8;
+    int unk_05fc;
+    int unk_0600;
+    int unk_0604;
+    int unk_0608;
+    int unk_060c;
+    int unk_0610;
+    int unk_0614;
+    int unk_0618;
+    int unk_061c;
+    int unk_0620;
+    int unk_0624;
+    int unk_0628;
+    int unk_062c;
+    int unk_0630;
+    int unk_0634;
+    int unk_0638;
+    int unk_063c;
+    int unk_0640;
+    int unk_0644;
+    int unk_0648;
+    int unk_064c;
+    int unk_0650;
+    int unk_0654;
+    int unk_0658;
+    int unk_065c;
+    int unk_0660;
+    int unk_0664;
+    int unk_0668;
+    int unk_066c;
+    int unk_0670;
+    int unk_0674;
+    int unk_0678;
+    int unk_067c;
+    int unk_0680;
+    int unk_0684;
+    int unk_0688;
+    int unk_068c;
+    int unk_0690;
+    int unk_0694;
+    int unk_0698;
+    int unk_069c;
+    int unk_06a0;
+    int unk_06a4;
+    int unk_06a8;
+    int unk_06ac;
+    int unk_06b0;
+    int unk_06b4;
+    int unk_06b8;
+    int unk_06bc;
+    int unk_06c0;
+    int unk_06c4;
+    int unk_06c8;
+    int unk_06cc;
+    int unk_06d0;
+    int unk_06d4;
+    int unk_06d8;
+    int unk_06dc;
+    int unk_06e0;
+    int unk_06e4;
+    int unk_06e8;
+    int unk_06ec;
+    int unk_06f0;
+    int unk_06f4;
+    int unk_06f8;
+    int unk_06fc;
+    int unk_0700;
+    int unk_0704;
+    int unk_0708;
+    int unk_070c;
+    int unk_0710;
+    int unk_0714;
+    int unk_0718;
+    int unk_071c;
+    int unk_0720;
+    int unk_0724;
+    int unk_0728;
+    int unk_072c;
+    int unk_0730;
+    int unk_0734;
+    int unk_0738;
+    int unk_073c;
+    int unk_0740;
+    int unk_0744;
+    int unk_0748;
+    int unk_074c;
+    int unk_0750;
+    int unk_0754;
+    int unk_0758;
+    int unk_075c;
+    int unk_0760;
+    int unk_0764;
+    int unk_0768;
+    int unk_076c;
+    int unk_0770;
+    int unk_0774;
+    int unk_0778;
+    int unk_077c;
+    int unk_0780;
+    int unk_0784;
+    int unk_0788;
+    int unk_078c;
+    int unk_0790;
+    int unk_0794;
+    int unk_0798;
+    int unk_079c;
+    int unk_07a0;
+    int unk_07a4;
+    int unk_07a8;
+    int unk_07ac;
+    int unk_07b0;
+    int unk_07b4;
+    int unk_07b8;
+    int unk_07bc;
+    int unk_07c0;
+    int unk_07c4;
+    int unk_07c8;
+    int unk_07cc;
+    int unk_07d0;
+    int unk_07d4;
+    int unk_07d8;
+    int unk_07dc;
+    int unk_07e0;
+    int unk_07e4;
+    int unk_07e8;
+    int unk_07ec;
+    int unk_07f0;
+    int unk_07f4;
+    int unk_07f8;
+    int unk_07fc;
+    int unk_0800;
+    int unk_0804;
+    int unk_0808;
+    int unk_080c;
+    int unk_0810;
+    int unk_0814;
+    int unk_0818;
+    int unk_081c;
+    int unk_0820;
+    int unk_0824;
+    int unk_0828;
+    int unk_082c;
+    int unk_0830;
+    int unk_0834;
+    int unk_0838;
+    int unk_083c;
+    int unk_0840;
+    int unk_0844;
+    int unk_0848;
+    int unk_084c;
+    int unk_0850;
+    int unk_0854;
+    int unk_0858;
+    int unk_085c;
+    int unk_0860;
+    int unk_0864;
+    int unk_0868;
+    int unk_086c;
+    int unk_0870;
+    int unk_0874;
+    int unk_0878;
+    int unk_087c;
+    int unk_0880;
+    int unk_0884;
+    int unk_0888;
+    int unk_088c;
+    int unk_0890;
+    int unk_0894;
+    int unk_0898;
+    int unk_089c;
+    int unk_08a0;
+    int unk_08a4;
+    int unk_08a8;
+    int unk_08ac;
+    int unk_08b0;
+    int unk_08b4;
+    int unk_08b8;
+    int unk_08bc;
+    int unk_08c0;
+    int unk_08c4;
+    int unk_08c8;
+    int unk_08cc;
+    int unk_08d0;
+    int unk_08d4;
+    int unk_08d8;
+    int unk_08dc;
+    int unk_08e0;
+    int unk_08e4;
+    int unk_08e8;
+    int unk_08ec;
+    int unk_08f0;
+    int unk_08f4;
+    int unk_08f8;
+    int unk_08fc;
+    int unk_0900;
+    int unk_0904;
+    int unk_0908;
+    int unk_090c;
+    int unk_0910;
+    int unk_0914;
+    int unk_0918;
+    int unk_091c;
+    int unk_0920;
+    int unk_0924;
+    int unk_0928;
+    int unk_092c;
+    int unk_0930;
+    int unk_0934;
+    int unk_0938;
+    int unk_093c;
+    int unk_0940;
+    int unk_0944;
+    int unk_0948;
+    int unk_094c;
+    int unk_0950;
+    int unk_0954;
+    int unk_0958;
+    int unk_095c;
+    int unk_0960;
+    int unk_0964;
+    int unk_0968;
+    int unk_096c;
+    int unk_0970;
+    int unk_0974;
+    int unk_0978;
+    int unk_097c;
+    int unk_0980;
+    int unk_0984;
+    int unk_0988;
+    int unk_098c;
+    int unk_0990;
+    int unk_0994;
+    int unk_0998;
+    int unk_099c;
+    int unk_09a0;
+    int unk_09a4;
+    int unk_09a8;
+    int unk_09ac;
+    int unk_09b0;
+    int unk_09b4;
+    int unk_09b8;
+    int unk_09bc;
+    int unk_09c0;
+    int unk_09c4;
+    int unk_09c8;
+    int unk_09cc;
+    int unk_09d0;
+    int unk_09d4;
+    int unk_09d8;
+    int unk_09dc;
+    int unk_09e0;
+    int unk_09e4;
+    int unk_09e8;
+    int unk_09ec;
+    int unk_09f0;
+    int unk_09f4;
+    int unk_09f8;
+    int unk_09fc;
+    int unk_0a00;
+    int unk_0a04;
+    int unk_0a08;
+    int unk_0a0c;
+    int unk_0a10;
+    int unk_0a14;
+    int unk_0a18;
+    int unk_0a1c;
+    int unk_0a20;
+    int unk_0a24;
+    int unk_0a28;
+    int unk_0a2c;
+    int unk_0a30;
+    int unk_0a34;
+    int unk_0a38;
+    int unk_0a3c;
+    int unk_0a40;
+    int unk_0a44;
+    int unk_0a48;
+    int unk_0a4c;
+    int unk_0a50;
+    int unk_0a54;
+    int unk_0a58;
+    int unk_0a5c;
+    int unk_0a60;
+    int unk_0a64;
+    int unk_0a68;
+    int unk_0a6c;
+    int unk_0a70;
+    int unk_0a74;
+    int unk_0a78;
+    int unk_0a7c;
+    int unk_0a80;
+    int unk_0a84;
+    int unk_0a88;
+    int unk_0a8c;
+    int unk_0a90;
+    int unk_0a94;
+    int unk_0a98;
+    int unk_0a9c;
+    int unk_0aa0;
+    int unk_0aa4;
+    int unk_0aa8;
+    int unk_0aac;
+    int unk_0ab0;
+    int unk_0ab4;
+    int unk_0ab8;
+    int unk_0abc;
+    int unk_0ac0;
+    int unk_0ac4;
+    int unk_0ac8;
+    int unk_0acc;
+    int unk_0ad0;
+    int unk_0ad4;
+    int unk_0ad8;
+    int unk_0adc;
+    int unk_0ae0;
+    int unk_0ae4;
+    int unk_0ae8;
+    int unk_0aec;
+    int unk_0af0;
+    int unk_0af4;
+    int unk_0af8;
+    int unk_0afc;
+    int unk_0b00;
+    int unk_0b04;
+    int unk_0b08;
+    int unk_0b0c;
+    int unk_0b10;
+    int unk_0b14;
+    int unk_0b18;
+    int unk_0b1c;
+    int unk_0b20;
+    int unk_0b24;
+    int unk_0b28;
+    int unk_0b2c;
+    int unk_0b30;
+    int unk_0b34;
+    int unk_0b38;
+    int unk_0b3c;
+    int unk_0b40;
+    int unk_0b44;
+    int unk_0b48;
+    int unk_0b4c;
+    int unk_0b50;
+    int unk_0b54;
+    int unk_0b58;
+    int unk_0b5c;
+    int unk_0b60;
+    int unk_0b64;
+    int unk_0b68;
+    int unk_0b6c;
+    int unk_0b70;
+    int unk_0b74;
+    int unk_0b78;
+    int unk_0b7c;
+    int unk_0b80;
+    int unk_0b84;
+    int unk_0b88;
+    int unk_0b8c;
+    int unk_0b90;
+    int unk_0b94;
+    int unk_0b98;
+    int unk_0b9c;
+    int unk_0ba0;
+    int unk_0ba4;
+    int unk_0ba8;
+    int unk_0bac;
+    int unk_0bb0;
+    int unk_0bb4;
+    int unk_0bb8;
+    int unk_0bbc;
+    int unk_0bc0;
+    int unk_0bc4;
+    int unk_0bc8;
+    int unk_0bcc;
+    int unk_0bd0;
+    int unk_0bd4;
+    int unk_0bd8;
+    int unk_0bdc;
+    int unk_0be0;
+    int unk_0be4;
+    int unk_0be8;
+    int unk_0bec;
+    int unk_0bf0;
+    int unk_0bf4;
+    int unk_0bf8;
+    int unk_0bfc;
+    int unk_0c00;
+    int unk_0c04;
+    int unk_0c08;
+    int unk_0c0c;
+    CollBase m_collC10;
+    int unk_0c14;
+    int unk_0c18;
+    int unk_0c1c;
+    int unk_0c20;
+    int m_stateC24;
+    int m_countC28;
+    SubC2C m_subC2C;
+    BSSpinLock_r006eae40 m_lockC38;
+    int unk_0c3c;
+    int unk_0c40;
+    int unk_0c44;
+    int unk_0c48;
+    int unk_0c4c;
+    CollBase m_collC50;
+    int unk_0c54;
+    int unk_0c58;
+    int unk_0c5c;
+    int unk_0c60;
+    int unk_0c64;
+    int unk_0c68;
+    int unk_0c6c;
+    int unk_0c70;
+    int unk_0c74;
+    int unk_0c78;
+    int unk_0c7c;
+    int unk_0c80;
+    int unk_0c84;
+    int unk_0c88;
+    int unk_0c8c;
+    int unk_0c90;
+    int unk_0c94;
+    int unk_0c98;
+    int unk_0c9c;
+    int unk_0ca0;
+    int unk_0ca4;
+    int unk_0ca8;
+    int unk_0cac;
+    int unk_0cb0;
+    int unk_0cb4;
+    int unk_0cb8;
+    int unk_0cbc;
+    int unk_0cc0;
+    int unk_0cc4;
+    int unk_0cc8;
+    int unk_0ccc;
+    int unk_0cd0;
+    int unk_0cd4;
+    int unk_0cd8;
+    int unk_0cdc;
+    int unk_0ce0;
+    int unk_0ce4;
+    int unk_0ce8;
+    int unk_0cec;
+    int unk_0cf0;
+    int unk_0cf4;
+    int unk_0cf8;
+    int unk_0cfc;
+    int unk_0d00;
+    int unk_0d04;
+    int unk_0d08;
+    int unk_0d0c;
+    int unk_0d10;
+    int unk_0d14;
+    int unk_0d18;
+    int unk_0d1c;
+    int unk_0d20;
+    int unk_0d24;
+    int unk_0d28;
+    int unk_0d2c;
+    int unk_0d30;
+    int unk_0d34;
+    int unk_0d38;
+    int unk_0d3c;
+    int unk_0d40;
+    int unk_0d44;
+    int unk_0d48;
+    int unk_0d4c;
+    int unk_0d50;
+    int unk_0d54;
+    int unk_0d58;
+    int unk_0d5c;
+    int unk_0d60;
+    int unk_0d64;
+    int unk_0d68;
+    int unk_0d6c;
+    int unk_0d70;
+    int unk_0d74;
+    int unk_0d78;
+    int unk_0d7c;
+    int unk_0d80;
+    int unk_0d84;
+    int unk_0d88;
+    int unk_0d8c;
+    int unk_0d90;
+    int unk_0d94;
+    int unk_0d98;
+    int unk_0d9c;
+    int unk_0da0;
+    int unk_0da4;
+    int unk_0da8;
+    int unk_0dac;
+    int unk_0db0;
+    int unk_0db4;
+    int unk_0db8;
+    int unk_0dbc;
+    int unk_0dc0;
+    int unk_0dc4;
+    int unk_0dc8;
+    int unk_0dcc;
+    int unk_0dd0;
+    int unk_0dd4;
+    int unk_0dd8;
+    int unk_0ddc;
+    int unk_0de0;
+    int unk_0de4;
+    int unk_0de8;
+    int unk_0dec;
+    int unk_0df0;
+    int unk_0df4;
+    int unk_0df8;
+    int unk_0dfc;
+    int unk_0e00;
+    int unk_0e04;
+    int unk_0e08;
+    int unk_0e0c;
+    int unk_0e10;
+    int unk_0e14;
+    int unk_0e18;
+    int unk_0e1c;
+    int unk_0e20;
+    int unk_0e24;
+    int unk_0e28;
+    int unk_0e2c;
+    int unk_0e30;
+    int unk_0e34;
+    int unk_0e38;
+    int unk_0e3c;
+    int unk_0e40;
+    int unk_0e44;
+    int unk_0e48;
+    int unk_0e4c;
+    int unk_0e50;
+    int unk_0e54;
+    int unk_0e58;
+    int unk_0e5c;
+    int unk_0e60;
+    int unk_0e64;
+    int unk_0e68;
+    int unk_0e6c;
+    int unk_0e70;
+    int unk_0e74;
+    int unk_0e78;
+    int unk_0e7c;
+    int unk_0e80;
+    int unk_0e84;
+    int unk_0e88;
+    int unk_0e8c;
+    int unk_0e90;
+    int unk_0e94;
+    int unk_0e98;
+    int unk_0e9c;
+    int unk_0ea0;
+    int unk_0ea4;
+    int unk_0ea8;
+    int unk_0eac;
+    int unk_0eb0;
+    int unk_0eb4;
+    int unk_0eb8;
+    int unk_0ebc;
+    int unk_0ec0;
+    int unk_0ec4;
+    int unk_0ec8;
+    int unk_0ecc;
+    int unk_0ed0;
+    int unk_0ed4;
+    int unk_0ed8;
+    int unk_0edc;
+    int unk_0ee0;
+    int unk_0ee4;
+    int unk_0ee8;
+    int unk_0eec;
+    int unk_0ef0;
+    int unk_0ef4;
+    int unk_0ef8;
+    int unk_0efc;
+    int unk_0f00;
+    int unk_0f04;
+    int unk_0f08;
+    int unk_0f0c;
+    int unk_0f10;
+    int unk_0f14;
+    int unk_0f18;
+    int unk_0f1c;
+    int unk_0f20;
+    int unk_0f24;
+    int unk_0f28;
+    int unk_0f2c;
+    int unk_0f30;
+    int unk_0f34;
+    int unk_0f38;
+    int unk_0f3c;
+    int unk_0f40;
+    int unk_0f44;
+    int unk_0f48;
+    int unk_0f4c;
+    int unk_0f50;
+    int unk_0f54;
+    int unk_0f58;
+    int unk_0f5c;
+    int unk_0f60;
+    int unk_0f64;
+    int unk_0f68;
+    int unk_0f6c;
+    int unk_0f70;
+    int unk_0f74;
+    int unk_0f78;
+    int unk_0f7c;
+    int unk_0f80;
+    int unk_0f84;
+    int unk_0f88;
+    int unk_0f8c;
+    int unk_0f90;
+    int unk_0f94;
+    int unk_0f98;
+    int unk_0f9c;
+    int unk_0fa0;
+    int unk_0fa4;
+    int unk_0fa8;
+    int unk_0fac;
+    int unk_0fb0;
+    int unk_0fb4;
+    int unk_0fb8;
+    int unk_0fbc;
+    int unk_0fc0;
+    int unk_0fc4;
+    int unk_0fc8;
+    int unk_0fcc;
+    int unk_0fd0;
+    int unk_0fd4;
+    int unk_0fd8;
+    int unk_0fdc;
+    int unk_0fe0;
+    int unk_0fe4;
+    int unk_0fe8;
+    int unk_0fec;
+    int unk_0ff0;
+    int unk_0ff4;
+    int unk_0ff8;
+    int unk_0ffc;
+    int unk_1000;
+    int unk_1004;
+    int unk_1008;
+    int unk_100c;
+    int unk_1010;
+    int unk_1014;
+    int unk_1018;
+    int unk_101c;
+    int unk_1020;
+    int unk_1024;
+    int unk_1028;
+    int unk_102c;
+    int unk_1030;
+    int unk_1034;
+    int unk_1038;
+    int unk_103c;
+    int unk_1040;
+    int unk_1044;
+    int unk_1048;
+    int unk_104c;
+    int unk_1050;
+    int unk_1054;
+    int unk_1058;
+    int unk_105c;
+    int unk_1060;
+    CollBase m_coll1064;
+    int unk_1068;
+    int unk_106c;
+    int unk_1070;
+    int unk_1074;
+    int unk_1078;
+    int unk_107c;
+    int unk_1080;
+    int unk_1084;
+    int unk_1088;
+    int unk_108c;
+    int unk_1090;
+    int unk_1094;
+    int unk_1098;
+    int unk_109c;
+    int unk_10a0;
+    int unk_10a4;
+    int unk_10a8;
+    int unk_10ac;
+    int unk_10b0;
+    int unk_10b4;
+    int unk_10b8;
+    int unk_10bc;
+    int unk_10c0;
+    int unk_10c4;
+    int unk_10c8;
+    int unk_10cc;
+    int unk_10d0;
+    int unk_10d4;
+    int unk_10d8;
+    int unk_10dc;
+    int unk_10e0;
+    int unk_10e4;
+    int unk_10e8;
+    int unk_10ec;
+    int unk_10f0;
+    int unk_10f4;
+    int unk_10f8;
+    int unk_10fc;
+    int unk_1100;
+    int unk_1104;
+    int unk_1108;
+    int unk_110c;
+    int unk_1110;
+    int unk_1114;
+    int unk_1118;
+    int unk_111c;
+    int unk_1120;
+    int unk_1124;
+    int unk_1128;
+    int unk_112c;
+    int unk_1130;
+    int unk_1134;
+    int unk_1138;
+    int unk_113c;
+    int unk_1140;
+    int unk_1144;
+    int unk_1148;
+    int unk_114c;
+    int unk_1150;
+    int unk_1154;
+    int unk_1158;
+    int unk_115c;
+    int unk_1160;
+    int unk_1164;
+    int unk_1168;
+    int unk_116c;
+    int unk_1170;
+    int unk_1174;
+    int unk_1178;
+    int unk_117c;
+    int unk_1180;
+    int unk_1184;
+    int unk_1188;
+    int unk_118c;
+    int unk_1190;
+    int unk_1194;
+    int unk_1198;
+    int unk_119c;
+    int unk_11a0;
+    int unk_11a4;
+    int unk_11a8;
+    int unk_11ac;
+    int unk_11b0;
+    int unk_11b4;
+    int unk_11b8;
+    int unk_11bc;
+    int unk_11c0;
+    int unk_11c4;
+    int unk_11c8;
+    int unk_11cc;
+    int unk_11d0;
+    int unk_11d4;
+    int unk_11d8;
+    int unk_11dc;
+    int unk_11e0;
+    int unk_11e4;
+    int unk_11e8;
+    int unk_11ec;
+    int unk_11f0;
+    int unk_11f4;
+    int unk_11f8;
+    int unk_11fc;
+    int unk_1200;
+    int unk_1204;
+    int unk_1208;
+    int unk_120c;
+    int unk_1210;
+    int unk_1214;
+    int unk_1218;
+    int unk_121c;
+    int unk_1220;
+    int unk_1224;
+    int unk_1228;
+    int unk_122c;
+    int unk_1230;
+    int unk_1234;
+    int unk_1238;
+    int unk_123c;
+    int unk_1240;
+    int unk_1244;
+    int unk_1248;
+    int unk_124c;
+    int unk_1250;
+    int unk_1254;
+    int unk_1258;
+    int unk_125c;
+    int unk_1260;
+    int unk_1264;
+    int unk_1268;
+    int unk_126c;
+    int unk_1270;
+    int unk_1274;
+    int unk_1278;
+    int unk_127c;
+    int unk_1280;
+    int unk_1284;
+    int unk_1288;
+    int unk_128c;
+    int unk_1290;
+    int unk_1294;
+    int unk_1298;
+    int unk_129c;
+    int unk_12a0;
+    int unk_12a4;
+    int unk_12a8;
+    int unk_12ac;
+    int unk_12b0;
+    int unk_12b4;
+    int unk_12b8;
+    int unk_12bc;
+    int unk_12c0;
+    int unk_12c4;
+    int unk_12c8;
+    int unk_12cc;
+    int unk_12d0;
+    int unk_12d4;
+    int unk_12d8;
+    int unk_12dc;
+    int unk_12e0;
+    int unk_12e4;
+    int unk_12e8;
+    int unk_12ec;
+    int unk_12f0;
+    int unk_12f4;
+    int unk_12f8;
+    int unk_12fc;
+    int unk_1300;
+    int unk_1304;
+    int unk_1308;
+    int unk_130c;
+    int unk_1310;
+    int unk_1314;
+    int unk_1318;
+    int unk_131c;
+    int unk_1320;
+    int unk_1324;
+    int unk_1328;
+    int unk_132c;
+    int unk_1330;
+    int unk_1334;
+    int unk_1338;
+    int unk_133c;
+    int unk_1340;
+    int unk_1344;
+    int unk_1348;
+    int unk_134c;
+    int unk_1350;
+    int unk_1354;
+    int unk_1358;
+    int unk_135c;
+    int unk_1360;
+    int unk_1364;
+    int unk_1368;
+    int unk_136c;
+    int unk_1370;
+    int unk_1374;
+    int unk_1378;
+    int unk_137c;
+    int unk_1380;
+    int unk_1384;
+    int unk_1388;
+    int unk_138c;
+    int unk_1390;
+    int unk_1394;
+    int unk_1398;
+    int unk_139c;
+    int unk_13a0;
+    int unk_13a4;
+    int unk_13a8;
+    int unk_13ac;
+    int unk_13b0;
+    int unk_13b4;
+    int unk_13b8;
+    int unk_13bc;
+    int unk_13c0;
+    int unk_13c4;
+    int unk_13c8;
+    int unk_13cc;
+    int unk_13d0;
+    int unk_13d4;
+    int unk_13d8;
+    int unk_13dc;
+    int unk_13e0;
+    int unk_13e4;
+    int unk_13e8;
+    int unk_13ec;
+    int unk_13f0;
+    int unk_13f4;
+    int unk_13f8;
+    int unk_13fc;
+    int unk_1400;
+    int unk_1404;
+    int unk_1408;
+    int unk_140c;
+    int unk_1410;
+    int unk_1414;
+    int unk_1418;
+    int unk_141c;
+    int unk_1420;
+    int unk_1424;
+    int unk_1428;
+    int unk_142c;
+    int unk_1430;
+    int unk_1434;
+    int unk_1438;
+    int unk_143c;
+    int unk_1440;
+    int unk_1444;
+    int unk_1448;
+    int unk_144c;
+    int unk_1450;
+    int unk_1454;
+    int unk_1458;
+    int unk_145c;
+    int unk_1460;
+    int unk_1464;
+    int unk_1468;
+    int unk_146c;
+    int unk_1470;
+    int unk_1474;
+    int unk_1478;
+    int unk_147c;
+    Coll1480 m_sub1480;
+    void FUN_006eae40();
+};
+
+// @fnv 0x006eae40
+void FUN_006eae40_shell::FUN_006eae40()
+{
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_lockC38))->FUN_004538a0((std::intptr_t)("PathManagerImpl::Update"));
+    switch (m_stateC24)
+    {
+    case 1:
+        if (reinterpret_cast<::fnv_00aa6220::Lock00aa6220 *>(&(m_subC2C))->FUN_00aa6220())
+        {
+            m_stateC24 = 2;
+        }
+        else
+        {
+            m_countC28 = m_countC28 + 1;
+        }
+        break;
+        break;
+    case 3:
+        reinterpret_cast<::FUN_00aa62e0_shell *>(&(m_subC2C))->FUN_00aa62e0();
+        m_stateC24 = 0;
+        m_countC28 = 0;
+        break;
+    }
+    int count_iagb = 0;
+    ObjA objA6;
+    PathingTaskData_Ext* pFound_vv;
+    void* pOut_b;
+    while (!reinterpret_cast<::FUN_006ebde0_shell *>(&(objA6))->FUN_006ebde0())
+    {
+        if (reinterpret_cast<::Queue44c640 *>(&(m_sub1480))->TryGetNextEntry((::QueueIter44c640 *)(::fnv_006eae40::ObjA *)(&objA6), &pOut_b, (std::intptr_t)(&pFound_vv), 1) && ((bool)(::FUN_005dc980((const char *)(pFound_vv)))))
+        {
+            count_iagb += reinterpret_cast<::ManagerView *>((pFound_vv))->FUN_006ea350();
+            if ((unsigned int)count_iagb > 10)
+                break;
+            if (reinterpret_cast<::PathingTaskData *>((pFound_vv))->HasPendingMessages())
+            {
+                reinterpret_cast<::PlayerQuestData *>((pFound_vv))->SetIndex(0);
+                ObjC objC_oqluk;
+                reinterpret_cast<::CombatProcedure *>(&(objC_oqluk))->Initialize((::CombatController *)(pFound_vv));
+                reinterpret_cast<::fnv_006c5ec0::S6c5ec0 *>(this)->FUN_006c5ec0(&objC_oqluk, 0);
+            }
+        }
+    }
+    Item_006eae40 item_omdso;
+    while (m_collC10.ContainsItem(&item_omdso))
+    {
+        switch (item_omdso.m_val)
+        {
+        case 0:
+        case 1:
+            m_sub1480.Notify(((void *)(::FUN_00559450((int *)(((NameGetter*)((char*)item_omdso.m_ptr + 0x18)))))));
+            delete (VObj*)item_omdso.m_ptr;
+            break;
+        }
+    }
+    bool bFlag_ad = false;
+    NiPointer<NiNode> spObj2(0);
+    while (m_coll1064.ContainsItem(&spObj2))
+    {
+        if (::FUN_008c7aa0())
+        {
+            reinterpret_cast<::fnv_0087ac60::FUN_0087AC60_Holder *>((((::fnv_006eae40::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ac60((::fnv_0087ac60::G00559a40 *)(void *)(spObj2));
+        }
+        else
+        {
+            (*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c))->NotifyE8(spObj2);
+        }
+        bFlag_ad = true;
+    }
+    while (m_collC50.ContainsItem(&spObj2))
+    {
+        if (::FUN_008c7aa0())
+        {
+            reinterpret_cast<::fnv_0087ac00::Owner0087ac00 *>((((::fnv_006eae40::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))))->QueueTaskWithTwoObjects((::fnv_0087ac00::G00559a40 *)(void *)(spObj2), (::fnv_0087ac00::G00559a40 *)(void *)((*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c))), true, false);
+        }
+        else
+        {
+            (*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c))->NotifyDC(spObj2, 1);
+        }
+        bFlag_ad = true;
+    }
+    if (bFlag_ad)
+    {
+        if (::FUN_008c7aa0())
+        {
+            reinterpret_cast<::fnv_0087ad50::Host *>((((::fnv_006eae40::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ad50((::fnv_0087ad50::G00559a40 *)(void *)((*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c))));
+        }
+        else
+        {
+            NiUpdateData ud(0.0f, false, false);
+            reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)(*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c)))))->FUN_00a59c60((std::intptr_t)&(ud));
+        }
+    }
+    reinterpret_cast<::ActorTaskManager *>(&(m_lockC38))->WaitForTasksDuringRendering();
+}
+}
+
+#include "generated/data/fallout_shared/pathfinding/pathmanager.inc"

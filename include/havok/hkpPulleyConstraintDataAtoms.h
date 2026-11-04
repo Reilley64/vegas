@@ -6,13 +6,10 @@
 #include "hkBase.h"
 #include "hkpPulleyConstraintAtom.h"
 #include "hkpSetLocalTranslationsConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpPulleyConstraintDataAtoms
 {
   public:
     hkpSetLocalTranslationsConstraintAtom m_kTranslations;  // +0x0
     hkpPulleyConstraintAtom m_kPulley;                      // +0x30
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPulleyConstraintDataAtoms[(sizeof(hkpPulleyConstraintDataAtoms) == 0x70) ? 1 : -1];
 #endif

@@ -1,5 +1,29 @@
 // fallout/ai/actor_magic_decls.h: declares ExtraRefractionProperty, ExtraDataList, SettingT_GameSettingCollection_, ActorMagicProcess, ProcessLists and more
 
+#include <cstdint>
+#include "fnv/decl/B8B10Owner.h"
+#include "fnv/decl/BSAnimGroupSequence.h"
+#include "fnv/decl/FUN_00422820_shell.h"
+#include "fnv/decl/FUN_008aced0_cls.h"
+#include "fnv/decl/FUN_0096d490_shell.h"
+#include "fnv/decl/FUN_00ad8570_S.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_00418940__FUN_00418940_shell.h"
+#include "fnv/decl/fnv_0041a090__FUN_0041a090_shell.h"
+#include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00453000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_00804000.h"
+#include "fnv/symbols_008bc000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01017000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_011a3000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011e0000.h"
 class NiControllerSequence;
 class Actor;
 class BSFileEntry;
@@ -23,12 +47,8 @@ class ExtraDataList : public BaseExtraList
   public:
     InventoryChanges* GetContainerChangeData();
     void SetContainerChanges(InventoryChanges*);
-    ExtraRefractionProperty* GetAlphaExtra();
-    void FUN_00418940(SoundPlaybackHandle*);
-    void FUN_0041a090(SoundPlaybackHandle*);
 };
 #endif
-bool FUN_005b9b00();
 union SETTING_VALUE
 {
     float f;
@@ -36,12 +56,8 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
-extern SettingT_GameSettingCollection_ DAT_011d1b38;
-extern float DAT_011a3b38;
 class PlayerCharacter;
-extern PlayerCharacter* g_thePlayer;
 class ActorMagicProcess
 {
   public:
@@ -494,8 +510,6 @@ class ActorMagicProcess
     virtual void vfn_6f8();
     virtual void vfn_6fc();
     virtual void vfn_700(Actor*, float);
-    float GetField3EC();
-    bool GetCachedFlag(unsigned int);
 };
 
 class SoundPlaybackHandle
@@ -507,7 +521,6 @@ class SoundPlaybackHandle
     int state;
     SoundPlaybackHandle();
     ~SoundPlaybackHandle();
-    bool Stop();
     bool Release();
 };
 class ProcessLists
@@ -515,12 +528,9 @@ class ProcessLists
   public:
     unsigned char* GetLifeStateControlFlag();
 };
-extern ProcessLists DAT_011e0888;
 class BSAudio
 {
   public:
-    static BSAudio* GetSingleton();
-    void FUN_00ad8570(NiAVObject*, float, bool);
 };
 class BSFaceGenAnimationData
 {
@@ -606,8 +616,7 @@ class MagicCaster
     virtual MagicItem* GetSelectedMagicItem();
     virtual void caster_38();
     virtual void caster_3c();
-    virtual void SetCurrentSpellState(int);
-    void UpdateMagicCaster(float);
+    virtual void SetCurrentSpellState(intptr_t);
 };
 #endif
 
@@ -630,17 +639,15 @@ class SpellItem : public TESForm, public MagicItem
 class TESSpellList
 {
   public:
-    static bool RemoveSpell(BSFileEntry*);
 };
 class ActorMagicSpellList
 {
   public:
-    BSSimpleList<SpellItem*>* GetSpells();
 };
-class TESActorBase
+class TESActorBase : public TESForm
 {
   public:
-    char pad[0x7c];
+    char pad[0x7c - 0x18];
     ActorMagicSpellList spells;
 };
 class TESRace
@@ -661,23 +668,29 @@ class InventoryStackRecord
 {
   public:
     ~InventoryStackRecord();
-    TESBoundObject* GetObject();
 };
+class TESObjectREFR;
 class InventoryChanges
 {
   public:
-    static InventoryChanges* GetOrAddInventoryChanges(TESObjectREFR*);
-    InventoryStackRecord* GetInventoryEntryData(BIPED_OBJECT, bool);
+public:
+    static ::InventoryChanges *CreateForReference(::TESObjectREFR *);
 };
 extern BIPED_OBJECT DAT_011a337c[5];
+class TESForm;
+enum DEFAULT_OBJECT;
 class BGSDefaultObjectManager
 {
   public:
-    static TESForm* GetDefaultObjectByIndex(int);
+public:
+    static ::TESForm *GetDefaultObjectByIndex(::DEFAULT_OBJECT);
 };
 
 #ifndef FNV_MAGICTARGET_H
 #define FNV_MAGICTARGET_H
+class ActiveEffect;
+class MagicCaster;
+class MagicItem;
 class MagicTarget
 {
   public:
@@ -687,6 +700,10 @@ class MagicTarget
     BSSimpleList<MagicEffectContext*> m_kActiveEffectList;
     virtual bool AddEffectToTarget(MagicCaster*, MagicItem*, ActiveEffect*, bool);
     void UpdateActiveEffects(float);
+public:
+    bool HasSpell(::MagicItem *, bool);
+public:
+    void Dispel(::MagicItem *, ::MagicCaster *, ::ActiveEffect *);
 };
 #endif
 
@@ -702,13 +719,10 @@ class Calendar
   public:
     float GetGameTimeScale();
 };
-extern Calendar g_calendar;
 class ActorDeletionQueue
 {
   public:
-    float FUN_0096d490();
 };
-extern ActorDeletionQueue DAT_011e0e80;
 class TESAnimGroup
 {
   public:
@@ -717,9 +731,4 @@ class TESAnimGroup
 class NiControllerSequence
 {
   public:
-    TESAnimGroup* GetAnimGroup();
 };
-extern double DAT_01012640;
-extern double DAT_01012060;
-extern double DAT_010290d0;
-extern float DAT_01017d00;

@@ -2,14 +2,32 @@
 // src/gamebryo2.2/corelibs/nianimation/nirotdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nirotdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00b702b0_shell.h"
+#include "fnv/decl/NiObjectD510.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a3d000.h"
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00b70000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
 struct NiRTTI;
 
-extern const NiRTTI g_011f3f50;
 
 // @fnv 0x00a48150
 const NiRTTI* __cdecl FUN_00a48150()
 {
-    return &g_011f3f50;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_011f3f50));
 }
 
 class AnimationKey
@@ -60,13 +78,10 @@ void NiRotData::FUN_00a48220(TimedRotationKey* pkKeys, unsigned int uiNumKeys, A
     }
 }
 
-void __cdecl ReleaseObjectArray(void*);
 extern int DAT_0109844c;
 struct MM00a47ba0
 {
-    void __thiscall _DeallocateAlias(void*);
 };
-extern MM00a47ba0 g_memoryManager;
 struct Struct00a47ba0
 {
     int _0;
@@ -78,14 +93,13 @@ void* Struct00a47ba0::FUN_00a47ba0(unsigned int auiFlags)
 {
     void* p = _4;
     ((void**)this)[0] = (void*)&DAT_0109844c;
-    ReleaseObjectArray(p);
+    ::ReleaseObjectArray((::Obj00a47600 **)(p));
     if (auiFlags & 1)
-        g_memoryManager._DeallocateAlias(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM00a47ba0 *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
 
 extern int DAT_010984ec;
-void __cdecl _delete(void*, unsigned int);
 struct NiRefObject
 {
     virtual ~NiRefObject();
@@ -107,9 +121,9 @@ void* StandIn::FUN_00a481e0(unsigned int auiFlags)
     *(void**)this = (void*)&DAT_010984ec;
     if (pk)
         DAT_011f38d0[m_eRequestType](pk);
-    ((NiRefObject*)this)->NiRefObject::~NiRefObject();
+    reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (auiFlags & 1)
-        _delete(this, 0x18);
+        ::FUN_00aa1460(this, 0x18);
     return this;
 }
 
@@ -119,14 +133,14 @@ struct TimedRotationKey
     int a;
     int b;
     int c;
-    int d;
+    intptr_t d;
     int e;
     unsigned char f;
 };
 
 // Reads the rotation key data stored at offset 0x40 of the NiRotData and writes its key, count, key size and key array to the output pointers, or zeros if absent.
 // @fnv 0x00a49d00
-void __fastcall GetRotKeyData(NiRotData* pThis, int, TimedRotationKey** ppkKeysOut, int* piKeyOut, int* piCountOut,
+void GetRotKeyData(NiRotData* pThis, int, TimedRotationKey** ppkKeysOut, int* piKeyOut, int* piCountOut,
                               unsigned char* pKeySize)
 {
     TimedRotationKey* pkKey = *(TimedRotationKey**)((char*)pThis + 0x40);
@@ -202,14 +216,13 @@ struct SelfStub
     virtual void v50();
     virtual void v51();
     virtual void v52(char*);
-    void FUN_00b702b0(char*, void*);
     void FUN_00b665d0(char*, void*);
 };
 // Calls FUN_00b702b0 with the given arguments, then invokes v52 on the same char pointer.
 // @fnv 0x00b665d0
 void SelfStub::FUN_00b665d0(char* a, void* b)
 {
-    FUN_00b702b0(a, b);
+    reinterpret_cast<::FUN_00b702b0_shell *>(this)->FUN_00b702b0(a, b);
     v52(a);
 }
 
@@ -269,20 +282,17 @@ struct S00b66600
     virtual void v51();
     virtual void v52(int);
 };
-void __fastcall FUN_00b70290(S00b66600*, int, int);
 // Calls FUN_00b70290 with the two int arguments, then invokes the virtual method v52 on the object with the second argument.
 // @fnv 0x00b66600
-void __fastcall FUN_00b66600(S00b66600* p, int aiFirst, int aiSecond)
+void FUN_00b66600(S00b66600* p, int aiFirst, int aiSecond)
 {
-    FUN_00b70290(p, aiFirst, aiSecond);
+    ::FUN_00b70290((::Dummy_00b70290 *)(p), aiFirst, aiSecond);
     p->v52(aiSecond);
 }
 
 struct A46BB0Object
 {
-    bool IsEqual(A46BB0Object*);
 };
-extern void* DAT_011f3b10[];
 
 struct FUN_00a48160_shell
 {
@@ -298,7 +308,7 @@ struct FUN_00a48160_shell
 bool FUN_00a48160_shell::FUN_00a48160(void* pkObject)
 {
     FUN_00a48160_shell* pkData = (FUN_00a48160_shell*)pkObject;
-    if (!((A46BB0Object*)this)->IsEqual((A46BB0Object*)pkObject))
+    if (!reinterpret_cast<::A5d470Class *>((((A46BB0Object*)this)))->IsSameAs((::A5d470Object *)(::A46BB0Object *)((A46BB0Object*)pkObject)))
         return false;
     if (m_uiNumKeys != pkData->m_uiNumKeys)
         return false;
@@ -306,7 +316,7 @@ bool FUN_00a48160_shell::FUN_00a48160(void* pkObject)
         return false;
     if (m_ucKeyDataSize != pkData->m_ucKeyDataSize)
         return false;
-    void(__cdecl * pfnEqualFunc)(TimedRotationKey*) = (void(__cdecl*)(TimedRotationKey*))DAT_011f3b10[m_eRequestType];
+    void(__cdecl * pfnEqualFunc)(TimedRotationKey*) = (void(__cdecl*)(TimedRotationKey*))(*reinterpret_cast<void * (*)[]>(&::DAT_011f3b10))[m_eRequestType];
     for (unsigned int ui = 0; ui < m_uiNumKeys; ++ui)
     {
         unsigned int uiKeyOffset = m_ucKeyDataSize * ui;
@@ -326,8 +336,6 @@ struct StrArr
     unsigned char _0C[2];
     unsigned short m_uiGrowSize;
 
-    void SetSize(unsigned int uiSize);
-    void SetAt(unsigned int uiIndex, char*& rString);
 };
 
 struct NiRTTIAccess
@@ -335,9 +343,6 @@ struct NiRTTIAccess
     void* m_pIntegerData;
 };
 
-void* __cdecl _FUN_00a7d330(void* pObject);
-char* __cdecl FUN_00a7d510(char const* pName, unsigned int uiValue);
-void __stdcall AppendCameraPathEntries(StrArr* apViewerStrings);
 
 struct FUN_00a484c0_shell
 {
@@ -350,22 +355,22 @@ struct FUN_00a484c0_shell
 // @fnv 0x00a484c0
 void FUN_00a484c0_shell::AppendNumKeysToStringArray(StrArr* apViewerStrings)
 {
-    AppendCameraPathEntries(apViewerStrings);
+    reinterpret_cast<::A5D6E0This *>((apViewerStrings))->AppendCameraPathEntries({});
 
     char* pString =
-        static_cast<char*>(_FUN_00a7d330(reinterpret_cast<const NiRTTIAccess*>(&g_011f3f50)->m_pIntegerData));
+        static_cast<char*>(((void *)(::FUN_00a7d330((const char *)(reinterpret_cast<const NiRTTIAccess*>(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f3f50)))->m_pIntegerData)))));
 
     unsigned int uiSize = apViewerStrings->m_uiSize;
     if (uiSize >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(uiSize + apViewerStrings->m_uiGrowSize);
-    apViewerStrings->SetAt(uiSize, pString);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(uiSize + apViewerStrings->m_uiGrowSize);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(uiSize, pString);
 
     pString = FUN_00a7d510("m_uiNumKeys", m_uiNumKeys);
 
     uiSize = apViewerStrings->m_uiSize;
     if (uiSize >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(uiSize + apViewerStrings->m_uiGrowSize);
-    apViewerStrings->SetAt(uiSize, pString);
+        reinterpret_cast<::ViewerStrings *>((apViewerStrings))->SetSize(uiSize + apViewerStrings->m_uiGrowSize);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(uiSize, pString);
 }
 
 struct FUN_00b66620_cls
@@ -645,8 +650,6 @@ template <class T> void ReadStreamValue(NiStream& kStream, T& value)
 extern unsigned char DAT_011f3764[];
 typedef TimedRotationKey*(__cdecl* CreateFunction)(NiStream&, unsigned int);
 typedef void(__cdecl* FillDerivedValsFunction)(TimedRotationKey*, unsigned int, unsigned char);
-extern CreateFunction g_apfnCreateKey[];
-extern FillDerivedValsFunction g_apfnFillDerived[];
 
 struct FUN_00a48380_cls : public NiObject
 {
@@ -663,10 +666,10 @@ struct FUN_00a48380_cls : public NiObject
 // @fnv 0x00a48380
 void FUN_00a48380_cls::FUN_00a48380(NiStream& kStream)
 {
-    NiObject::LoadBinary(kStream);
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(kStream));
 
     unsigned int uiNumKeys;
-    ReadBinaryValue(kStream, uiNumKeys);
+    ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(uiNumKeys));
     if (uiNumKeys > 0)
     {
         AnimationKey::KeyType eRotType;
@@ -674,10 +677,10 @@ void FUN_00a48380_cls::FUN_00a48380(NiStream& kStream)
 
         m_ucKeyDataSize = DAT_011f3764[eRotType];
 
-        CreateFunction pfnCreateFunc = g_apfnCreateKey[eRotType];
+        CreateFunction pfnCreateFunc = ::DAT_011f3de0[eRotType];
         TimedRotationKey* pkRotKeys = pfnCreateFunc(kStream, uiNumKeys);
 
-        FillDerivedValsFunction pfnFillDerivedFunc = g_apfnFillDerived[eRotType];
+        FillDerivedValsFunction pfnFillDerivedFunc = ::DAT_011f37b0[eRotType];
         pfnFillDerivedFunc(pkRotKeys, uiNumKeys, m_ucKeyDataSize);
 
         reinterpret_cast<NiRotData*>(this)->FUN_00a48220(pkRotKeys, uiNumKeys, eRotType);
@@ -867,14 +870,12 @@ template <class T> void NiStreamLoadBinary2(NiStream2& kStream, T& value)
     NiBinaryStreamLoad2(kStream.Istr(), &value, 1);
 }
 typedef void(__cdecl* KeyLinkFunction)(NiStream2&, TimedRotationKey*, unsigned int);
-extern KeyLinkFunction DAT_011f3a80[];
 
 class NiObject2
 {
   public:
     void* m_pkVtbl;
     unsigned int m_uiRefCount;
-    void FUN_00a89af0(NiStream2& kStream);
 };
 
 struct RotDataLink_cls : public NiObject2
@@ -891,7 +892,7 @@ struct RotDataLink_cls : public NiObject2
 // @fnv 0x00a48440
 void RotDataLink_cls::FUN_00a48440(NiStream2& kStream)
 {
-    NiObject2::FUN_00a89af0(kStream);
+    ::FUN_00a89af0((intptr_t)this);
     NiStreamLoadBinary2(kStream, m_uiNumKeys);
     if (m_uiNumKeys > 0)
     {
@@ -902,8 +903,8 @@ void RotDataLink_cls::FUN_00a48440(NiStream2& kStream)
 
 struct A48280Obj;
 
-extern int(__stdcall* DAT_00fdf1c0)(void*);
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c0)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 
 struct A48280Obj
 {
@@ -916,13 +917,10 @@ struct A48280Obj
     int m_eRequestType;
     unsigned char m_ucKeyDataSize;
 
-    void FUN_00a5d510(A48280Obj** pObject);
     void FUN_00a48220(TimedRotationKey* pkKeys, unsigned int uiNumKeys, AnimationKey::KeyType eType);
     void CopyTo(float fTime, float fDuration, A48280Obj** ppRival);
 };
 
-void __cdecl FUN_00a3d630(int a1, int a2, void* a3, unsigned int a4, float a5, float a6, TimedRotationKey** a7,
-                          unsigned int* a8);
 
 // Obtains an object, fills its keys using the current key data and time arguments, then assigns it to ppRival with reference counting.
 // @fnv 0x00a48280
@@ -930,7 +928,7 @@ void A48280Obj::CopyTo(float fTime, float fDuration, A48280Obj** ppRival)
 {
     A48280Obj* pNew = 0;
 
-    FUN_00a5d510(&pNew);
+    reinterpret_cast<::NiObjectD510 *>(this)->FUN_00a5d510((*(::NiPointerD510 *)(&pNew)));
 
     A48280Obj* pCopy = pNew;
     if (pCopy != 0)
@@ -940,12 +938,12 @@ void A48280Obj::CopyTo(float fTime, float fDuration, A48280Obj** ppRival)
     {
         TimedRotationKey* pKeys = 0;
         unsigned int uiNumKeys = 0;
-        FUN_00a3d630(2, m_eRequestType, m_pKeyArray, m_uiNumKeys, fTime, fDuration, &pKeys, &uiNumKeys);
+        ::FUN_00a3d630(2, m_eRequestType, m_pKeyArray, m_uiNumKeys, fTime, fDuration, (void **)(::TimedRotationKey **)(&pKeys), (int *)(unsigned int *)(&uiNumKeys));
         pCopy->FUN_00a48220(pKeys, uiNumKeys, (AnimationKey::KeyType)m_eRequestType);
     }
 
     A48280Obj* pOld = *ppRival;
-    int(__stdcall * releaseRef)(void*) = DAT_00fdf1c4;
+    int(* releaseRef)(void*) = DAT_00fdf1c4;
 
     if (pOld != pCopy)
     {
@@ -974,3 +972,5 @@ void A48280Obj::CopyTo(float fTime, float fDuration, A48280Obj** ppRival)
             pDestroy->v1();
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nirotdata.inc"

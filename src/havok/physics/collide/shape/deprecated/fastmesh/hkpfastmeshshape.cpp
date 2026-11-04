@@ -2,22 +2,13 @@
 // src/havok/physics/collide/shape/deprecated/fastmesh/hkpfastmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/fastmesh/hkpfastmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include <cstddef>
+#include <xmmintrin.h>
 #include "havok/hkpFastMeshShape.h"
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_mul_ps(__m128 kA, __m128 kB);
-extern "C" __m128 _mm_load_ps(const float*);
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct hkVector4E48C
 {
@@ -192,7 +183,7 @@ const hkpShapeE48C* hkpMeshShapeE48C::FUN_00e48cb0(unsigned int uiKey, unsigned 
     FUN_00de10b0* pkTriangle = new (pucBuffer) FUN_00de10b0(m_fSphereRadius, usWeldingInfo, m_eWeldingType);
     pkTriangle->m_kVertexA.setMul4(*pkA, m_kScaling);
     pkTriangle->m_kVertexB.m_vComponents =
-        _mm_mul_ps(_mm_load_ps(pkB->m_vComponents.m128_f32), m_kScaling.m_vComponents);
+        _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&pkB->m_vComponents)), m_kScaling.m_vComponents);
     pkTriangle->m_kVertexC.setMul4(*pkC, m_kScaling);
     return pkTriangle;
 }

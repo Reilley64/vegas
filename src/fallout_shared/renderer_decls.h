@@ -3,6 +3,8 @@
 #define FNV_RENDERER_DECLS_H
 
 
+#include "fnv/symbols_004bc000.h"
+#include "fnv/symbols_005d4000.h"
 class NiColor
 {
   public:
@@ -72,9 +74,6 @@ class Renderer
     static bool CanRender();
 };
 
-NiDX9Renderer* FUN_004bc3f0();
-bool FUN_005d4a40();
-extern NiColor DAT_011c74b8;
 extern bool DAT_011c70e9;
 
 #endif

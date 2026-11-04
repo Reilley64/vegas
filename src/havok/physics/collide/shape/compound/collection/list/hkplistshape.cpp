@@ -2,19 +2,44 @@
 // src/havok/physics/collide/shape/compound/collection/list/hkplistshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/list/hkplistshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include <windows.h>
+#include "fnv/decl/fnv_00cf4fb0__ShapeCollection.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpListShape.h"
+#include "havok/hkpListShapeChildInfo.h"
 
-struct hkPListShape
+struct hkPListShape : hkpListShape
 {
-    void __thiscall SetChildShape(int index, void* shape);
+    void SetChildShape(int index, hkUint32 filterInfo);
 };
 // @fnv 0x00cf50a0
-void __thiscall hkPListShape::SetChildShape(int index, void* shape)
+void hkPListShape::SetChildShape(int index, hkUint32 filterInfo)
 {
-    *(void**)((char*)*(int*)((char*)this + 0x18) + (index << 4) + 4) = shape;
+    m_kChildInfoList.m_data[index].m_uiCollisionFilterData = filterInfo;
 }
 
-struct FUN_00cf5070_class
+// The hkpShapeContainer part of an hkpListShape, which starts 0x10 bytes into the shape.
+struct ListShapeContainerView
+{
+    void* m_vtbl;
+    hkBool m_bDisableWelding;
+    hkUint8 m_eCollectionType;
+    char pad06[0x2];
+    hkArray<hkpListShapeChildInfo> m_kChildInfoList;
+};
+
+struct FUN_00cf5070_class : ListShapeContainerView
 {
     void* GetShapeAt(int index, void* buffer);
 };
@@ -22,33 +47,25 @@ struct FUN_00cf5070_class
 // @fnv 0x00cf5070
 void* FUN_00cf5070_class::GetShapeAt(int index, void* buffer)
 {
-    void** shapes = *(void***)((char*)this + 8);
-    return *(void**)((char*)shapes + (index << 4));
+    return m_kChildInfoList.m_data[index].m_pCollisionShape;
 }
 
-struct hkPListShape2
+struct hkPListShape2 : ListShapeContainerView
 {
-    int __thiscall GetElementAt(int index);
+    int GetElementAt(int index);
 };
 
 // @fnv 0x00cf5080
 int hkPListShape2::GetElementAt(int index)
 {
-    return *(int*)(*(int*)((char*)this + 8) + (index << 4) + 4);
+    return m_kChildInfoList.m_data[index].m_uiCollisionFilterData;
 }
 
 struct S_00cf5880
 {
     int unk0;
-    void FindNextEnabledChild(int a);
     void FUN_00cf5880();
 };
-// @fnv 0x00cf5880
-void S_00cf5880::FUN_00cf5880()
-{
-    FindNextEnabledChild(-1);
-}
-
 struct __declspec(align(16)) BufAligned32
 {
     int unk00;
@@ -63,7 +80,6 @@ struct __declspec(align(16)) BufAligned32
 
 struct FUN_00cf4fb0_Obj
 {
-    void FUN_00cf4fb0(void* a1);
 };
 
 struct FUN_00cf5420_class
@@ -76,14 +92,12 @@ void FUN_00cf5420_class::FUN_00cf5420()
 {
     BufAligned32 bufAligned;
     FUN_00cf4fb0_Obj* obj = (FUN_00cf4fb0_Obj*)this;
-    obj->FUN_00cf4fb0(&bufAligned);
+    reinterpret_cast<::fnv_00cf4fb0::ShapeCollection *>((obj))->FUN_00cf4fb0((::fnv_00cf4fb0::Bounds *)(void *)(&bufAligned));
 }
 
 class hkClassCF54;
 
-extern const hkClassCF54 DAT_01269198;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> class hkArrayCF54
 {
@@ -123,7 +137,7 @@ class hkStatisticsCollectorCF54
         if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
             const T* pData = kArray.m_data;
-            int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
+            int iAllocated = ::fnv_00d06f80::FUN_00d06f80((const char *)(pData), kArray.getCapacity() * sizeof(T));
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
@@ -140,7 +154,6 @@ struct hkChildInfoCF54
 class hkpShapeCF54
 {
   public:
-    void FUN_00d213e0(hkStatisticsCollectorCF54* pkCollector, const hkClassCF54* pkClass) const throw();
 };
 
 class hkObjCF54 : public hkpShapeCF54
@@ -164,7 +177,7 @@ void hkObjCF54::AddChildObjectsToCollector(hkStatisticsCollectorCF54* pkCollecto
     pkCollector->addArray("ChildPtrs", m_kChildInfoList);
     for (int i = 0; i < m_kChildInfoList.GetLogicalSize(); i++)
         pkCollector->addChildObject("Child", m_kChildInfoList.m_data[i].m_pCollisionShape, 0);
-    FUN_00d213e0(pkCollector, &DAT_01269198);
+    ::FUN_00d213e0((const char *const *)this, (const char *const *)(pkCollector));
 }
 
 struct hkFinishFlagCF56
@@ -256,6 +269,11 @@ struct hkListShapeCF58
 
     int FindNextEnabledChild(int oldKey) const;
 };
+// @fnv 0x00cf5880
+void S_00cf5880::FUN_00cf5880()
+{
+    reinterpret_cast<::hkListShapeCF58 *>(this)->FindNextEnabledChild(-1);
+}
 
 // Scans child indices after oldKey up to m_childInfoSize and returns the first enabled one, or -1 if none.
 // @fnv 0x00cf5840
@@ -269,21 +287,6 @@ int hkListShapeCF58::FindNextEnabledChild(int oldKey) const
     return -1;
 }
 
-struct FnvCpu_FUN_00cf5890_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00cf5890_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00cf5890_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00cf5890_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00cf5890_CpuObject
 {
     unsigned int unk00;
@@ -291,35 +294,22 @@ struct FnvCpu_FUN_00cf5890_CpuObject
     void FUN_00cf5750();
     FnvCpu_FUN_00cf5890_CpuObject* Destroy(unsigned int flags);
 };
-// Calls FUN_00cf5750, then if flags has bit 0 set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
+// Calls FUN_00cf5750, then if flags has bit 0 set, frees this (size bytes) to the heap allocator, and returns this.
 // @fnv 0x00cf5890
 FnvCpu_FUN_00cf5890_CpuObject* FnvCpu_FUN_00cf5890_CpuObject::Destroy(unsigned int flags)
 {
     FUN_00cf5750();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cf5890_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
-        pAllocatorHolder->allocator->Invoke(this, size);
+        hkMemoryRouter::getInstance().heap().blockFree(this, size);
     }
     return this;
 }
 
-class hkMemoryAllocatorCF56;
 
-struct hkMemoryRouterCF56
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorCF56* m_pStreamAllocator;
-    hkMemoryAllocatorCF56& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterCF56& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorCF56& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 template <class T> class hkArrayCF56
 {
@@ -336,13 +326,13 @@ template <class T> class hkArrayCF56
     }
     __forceinline void reserve(int n)
     {
-        hkMemoryAllocatorCF56& kAlloc = fnvc_adapt::FUN_00c85750().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         const int iCap = getCapacity();
         if (iCap < n)
         {
             int iCap2 = 2 * iCap;
             int iNewCap = (n < iCap2) ? iCap2 : n;
-            FUN_00c908c0(kAlloc, this, iNewCap, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewCap, sizeof(T));
         }
     }
 };
@@ -381,21 +371,8 @@ class FUN_00cf5640 : public FUN_00d21410
     int unk28, unk2C, unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C;
     int m_aiIds[8];
 
-    FUN_00cf5640(int iA, int iB, int iC) throw();
-    void FUN_00cf54d0(int iA, int iB, int iZero, int iC) throw();
+    FUN_00cf5640(const void* iA, int iB, int iC) throw();
 };
-
-// Constructs a shape by reserving 4 points, calling FUN_00cf54d0 with iA, iB, 0, iC, and initializing m_aiIds to -1 and flags to 0.
-// @fnv 0x00cf5640
-FUN_00cf5640::FUN_00cf5640(int iA, int iB, int iC) throw() : FUN_00d21410(9, 0)
-{
-    m_kPoints.reserve(4);
-    FUN_00cf54d0(iA, iB, 0, iC);
-    for (int i = 0; i < 8; i++)
-        m_aiIds[i] = -1;
-    m_flags26 = 0;
-    m_flags24 = 0;
-}
 
 struct Stream_cf50c0
 {
@@ -460,86 +437,56 @@ int ListShapeCF::FUN_00cf50c0(const bool& input, int spuBufferSizeLeft)
     return 0x70;
 }
 
-struct ShapeAlloc;
-struct ShapeRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    ShapeAlloc* m_pStreamAllocator;
-    ShapeAlloc& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-void __cdecl FUN_00c908c0(void* allocator, void* array, int capacity, int elementSize);
-void __cdecl FUN_00c90670(void* data, int count, int elementSize);
 
 struct ListShapeCF54 : public hkpListShape
 {
-    void FUN_00cf5420();
-    void FUN_00cf54d0(int* shapes, int count, int* shapeData, int flag);
+    void FUN_00cf54d0(hkpShape* const* shapes, int count, const unsigned int* shapeData, int flag);
 };
+// Constructs a shape by reserving 4 points, calling FUN_00cf54d0 with iA, iB, 0, iC, and initializing m_aiIds to -1 and flags to 0.
+// @fnv 0x00cf5640
+FUN_00cf5640::FUN_00cf5640(const void* iA, int iB, int iC) throw() : FUN_00d21410(9, 0)
+{
+    m_kPoints.reserve(4);
+    reinterpret_cast<::ListShapeCF54 *>(this)->FUN_00cf54d0(static_cast<hkpShape* const*>(iA), iB, 0, iC);
+    for (int i = 0; i < 8; i++)
+        m_aiIds[i] = -1;
+    m_flags26 = 0;
+    m_flags24 = 0;
+}
 
 // Copies shape and filter data into m_kChildInfoList, growing capacity as needed, then calls FUN_00cf5420.
 // @fnv 0x00cf54d0
-void ListShapeCF54::FUN_00cf54d0(int* shapes, int count, int* shapeData, int flag)
+void ListShapeCF54::FUN_00cf54d0(hkpShape* const* shapes, int count, const unsigned int* shapeData, int flag)
 {
     hkArray<hkpListShapeChildInfo>& children = m_kChildInfoList;
-    ShapeAlloc& heap = reinterpret_cast<ShapeRouter*>(FUN_00c85750())->heap();
+    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
     int capacity = children.m_iCapacityState & 0x3fffffff;
     if (capacity < count)
     {
         int increasedCapacity = capacity * 2;
         if (count >= increasedCapacity)
             increasedCapacity = count;
-        FUN_00c908c0(&heap, &children, increasedCapacity, 16);
+        ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(&children), increasedCapacity, 16);
     }
     children.m_iElementCount = count;
-    if (count > 0)
+    for (int i = 0; i < count; ++i)
     {
-        int* current = shapes;
-        int offset = 0;
-        volatile int difference = (int)shapeData - (int)shapes;
-        int remaining = count;
-        do
+        hkpShape* shape = shapes[i];
+        if (shape)
         {
-            int shape = *current;
-            if (shape)
-            {
-                *(int*)((char*)children.m_data + offset) = shape;
-                int filter = shapeData ? *(int*)((char*)current + difference) : 0;
-                *(int*)((char*)children.m_data + offset + 4) = filter;
-                *(int*)((char*)this->m_kChildInfoList.m_data + offset + 12) = count;
-                *(int*)((char*)this->m_kChildInfoList.m_data + offset + 8) = 0;
-            }
-            ++current;
-            offset += 16;
-        } while (--remaining);
+            hkpListShapeChildInfo& child = children.m_data[i];
+            child.m_pCollisionShape = shape;
+            child.m_uiCollisionFilterData = shapeData ? shapeData[i] : 0;
+            child.m_iChildShapeCount = count;
+            child.m_iShapeKey = 0;
+        }
     }
     if (flag == 1)
-        FUN_00c90670(children.m_data, this->m_kChildInfoList.m_iElementCount, 16);
-    FUN_00cf5420();
+        ::FUN_00c90670(children.m_data, this->m_kChildInfoList.m_iElementCount, 16);
+    reinterpret_cast<::FUN_00cf5420_class *>(this)->FUN_00cf5420();
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C"
-{
-    __m128 _mm_cmple_ps(__m128 a, __m128 b);
-    int _mm_movemask_ps(__m128 a);
-    __m128 _mm_load_ps1(const float* p);
-    __m128 _mm_set1_ps(float a);
-    __m128 _mm_set_ps1(float a);
-    __m128 _mm_xor_ps(__m128 a, __m128 b);
-    __m128 _mm_min_ps(__m128 a, __m128 b);
-    __m128 _mm_max_ps(__m128 a, __m128 b);
-}
 
 struct hkVector4q
 {
@@ -568,13 +515,13 @@ struct hkVector4q
     }
 };
 
-extern const hkVector4q DAT_01267e30;  // HK_QUADREAL_MINUS1
+  // HK_QUADREAL_MINUS1
 extern const float DAT_010cc3b0;       // HK_REAL_MAX
-extern const hkVector4q DAT_010c44d0;  // sign mask
+  // sign mask
 
 __forceinline void hkVector4q::setNeg4(const hkVector4q& v)
 {
-    m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0.m_vComponents);
+    m_vComponents = _mm_xor_ps(v.m_vComponents, (*reinterpret_cast<const ::hkVector4q *>((void *)&::DAT_010c44d0)).m_vComponents);
 }
 
 struct hkAabbq
@@ -621,7 +568,6 @@ class hkpListShapeq
     hkVector4q m_kAabbHalfExtents;
     hkVector4q m_kAabbCenter;
 
-    void FUN_00cf5420();
     void FUN_00cf5590(const hkTransform& localToWorld, float tolerance, hkAabbq& out);
 };
 
@@ -629,9 +575,9 @@ class hkpListShapeq
 // @fnv 0x00cf5590
 void hkpListShapeq::FUN_00cf5590(const hkTransform& localToWorld, float tolerance, hkAabbq& out)
 {
-    if (m_kAabbHalfExtents.compareLessThanEqual4(DAT_01267e30) == 15)
+    if (m_kAabbHalfExtents.compareLessThanEqual4((*reinterpret_cast<const ::hkVector4q *>(&::DAT_01267e30))) == 15)
     {
-        FUN_00cf5420();
+        reinterpret_cast<::FUN_00cf5420_class *>(this)->FUN_00cf5420();
     }
 
     out.m_kMinimumCorner.m_vComponents = _mm_set_ps1(1.70141001e+38f);
@@ -650,10 +596,7 @@ void hkpListShapeq::FUN_00cf5590(const hkTransform& localToWorld, float toleranc
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <string.h>
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long DAT_0126835c;
 extern const char str_010cc398[];
-extern const char str_010c41f8[];
 
 struct S00cf5140_Bool
 {
@@ -722,14 +665,6 @@ struct S00cf5140_ShapeIface
     virtual S00cf5140_Bool RayCast(const S00cf5140_Input& input, S00cf5140_Output& output) const;
 };
 
-class hkpListShapeChildInfo
-{
-  public:
-    const S00cf5140_ShapeIface* m_pCollisionShape;
-    int unk04;
-    int unk08;
-    int unk0c;
-};
 
 struct S00cf5140_Stream
 {
@@ -760,7 +695,7 @@ struct S00cf5140_Stream
         char* p = m_curr;
         if (p < m_kRayEnd)
         {
-            *(const char**)p = str_010c41f8;
+            *(const char**)p = ::DAT_010c41f8;
             _ReadWriteBarrier();
             unsigned int te = (unsigned int)__rdtsc();
             _ReadWriteBarrier();
@@ -802,7 +737,7 @@ S00cf5140_Bool S00cf5140_Obj::FUN_00cf5140(const S00cf5140_Input& input, S00cf51
         {
             if (isChildEnabled(i))
             {
-                const S00cf5140_ShapeIface* child = m_kChildInfoList.m_data[i].m_pCollisionShape;
+                const S00cf5140_ShapeIface* child = reinterpret_cast<const S00cf5140_ShapeIface*>(m_kChildInfoList.m_data[i].m_pCollisionShape);
                 S00cf5140_Bool hit = child->RayCast(input, results);
                 if (hit)
                 {
@@ -820,7 +755,7 @@ S00cf5140_Bool S00cf5140_Obj::FUN_00cf5140(const S00cf5140_Input& input, S00cf51
                 if (input.m_pRayShapeCollectionFilter->IsCollisionEnabled(
                         input, *this, *reinterpret_cast<const S00cf5140_Container*>(&pad10), i))
                 {
-                    const S00cf5140_ShapeIface* child = m_kChildInfoList.m_data[i].m_pCollisionShape;
+                    const S00cf5140_ShapeIface* child = reinterpret_cast<const S00cf5140_ShapeIface*>(m_kChildInfoList.m_data[i].m_pCollisionShape);
                     S00cf5140_Bool hit = child->RayCast(input, results);
                     if (hit)
                     {
@@ -867,34 +802,11 @@ Derived::Derived()
 {}
 
 namespace fnv_00cf5750 {
-class hkMemoryAllocatorCF5
-{
-  public:
-    virtual ~hkMemoryAllocatorCF5();
-    virtual void* AllocateMemoryBlock(int numBytes) throw();
-    virtual void ReleaseBlock(void* p, int numBytes) throw();
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
 
-struct hkMemoryRouterCF5
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    hkMemoryAllocatorCF5* m_pTemp;
-    hkMemoryAllocatorCF5* m_pStreamAllocator;
-    hkMemoryAllocatorCF5& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
-extern "C" hkMemoryRouterCF5* __cdecl FUN_00c85750() throw();
 
 struct hkRefCF5
 {
-    void FUN_00c905b0() throw();
 };
 
 template <class T> class hkArrayCF5
@@ -914,10 +826,10 @@ template <class T> class hkArrayCF5
     }
     ~hkArrayCF5() throw()
     {
-        hkMemoryAllocatorCF5& alloc = FUN_00c85750()->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -981,7 +893,7 @@ FUN_00cf5750::~FUN_00cf5750()
     for (int i = 0; i < m_kChildInfoList.m_iElementCount; i++)
     {
         hkpListShapeChildInfoCF5& info = m_kChildInfoList[i];
-        info.m_pCollisionShape->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>((info.m_pCollisionShape))->FUN_00c905b0();
     }
 }
 }  // namespace fnv_00cf5750
@@ -1055,3 +967,5 @@ void S00cf52c0_Obj::FUN_00cf52c0(const S00cf5140_Input& input, const hkpCdBody& 
 
     ((S00cf5140_Stream*)TlsGetValue(DAT_0126835c))->timerEnd();
 }
+
+#include "generated/data/havok/physics/collide/shape/compound/collection/list/hkplistshape.inc"

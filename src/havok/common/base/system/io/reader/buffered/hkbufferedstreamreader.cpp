@@ -2,6 +2,12 @@
 // src/havok/common/base/system/io/reader/buffered/hkbufferedstreamreader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/reader/buffered/hkbufferedstreamreader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_0102e000.h"
 struct FUN_00d2bb20_cls
 {
     int m_00;
@@ -47,11 +53,9 @@ int FUN_00d2bb40_cls::FUN_00d2bb40()
     return 1;
 }
 
-extern int DAT_0102e388;
 extern int DAT_010ce688;
 struct hkReferencedObject
 {
-    void removeReference();
 };
 struct hkBufferedStreamReader
 {
@@ -67,9 +71,9 @@ struct hkBufferedStreamReader
 void hkBufferedStreamReader::Destroy()
 {
     m_pVTable = &DAT_010ce688;
-    m_pObject->removeReference();
+    reinterpret_cast<::hkReferencedObjectC905 *>((m_pObject))->FUN_00c905b0();
     ((hkBufferedStreamReader*)((char*)this + 0xc))->FUN_00d2bc10();
-    m_pVTable = &DAT_0102e388;
+    m_pVTable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct FUN_00d2ba80_cls
@@ -125,7 +129,6 @@ bool* FUN_00d2bb10_this::FUN_00d2bb10(bool* out)
     return out;
 }
 
-void _FUN_00cb1260(void*, const void*, int);
 
 struct FUN_00d2ba00_cls : FUN_00d2ba80_cls
 {
@@ -148,7 +151,7 @@ int FUN_00d2ba00_cls::FUN_00d2ba00(char* apDest, int nSize)
 
     while (nRemaining > nAvailable)
     {
-        _FUN_00cb1260(pDest, m_pBuffer + m_vContactPosition, nAvailable);
+        ::FUN_00cb1260(pDest, m_pBuffer + m_vContactPosition, nAvailable);
         m_vContactPosition += nAvailable;
         pDest += nAvailable;
         nRemaining -= nAvailable;
@@ -159,7 +162,7 @@ int FUN_00d2ba00_cls::FUN_00d2ba00(char* apDest, int nSize)
         nAvailable = m_kRayEnd - m_vContactPosition;
     }
 
-    _FUN_00cb1260(pDest, m_pBuffer + m_vContactPosition, nRemaining);
+    ::FUN_00cb1260(pDest, m_pBuffer + m_vContactPosition, nRemaining);
     m_vContactPosition += nRemaining;
     return nSize;
 }
@@ -198,7 +201,7 @@ struct FUN_00d2bb60_cls
 };
 
 // @fnv 0x00d2bb60
-int __fastcall FUN_00d2bb60(FUN_00d2bb60_cls* self, int unused, int value)
+int FUN_00d2bb60(FUN_00d2bb60_cls* self, int unused, int value)
 {
     self->m_pObject->v9(value);
     return value;
@@ -212,22 +215,21 @@ struct MemoryManager
     void* m_0c;
     void* m_10;
 };
-MemoryManager* FUN_00c85750();
 void* FUN_00c85620(void*, void*, unsigned int);
 struct FUN_00d2bbd0_cls
 {
     void* m_00;
     int m_04;
     int m_08;
-    int m_0c;
+    intptr_t m_0c;
     int m_10;
     int m_14;
-    FUN_00d2bbd0_cls* Init(int p);
+    FUN_00d2bbd0_cls* Init(intptr_t p);
 };
 // @fnv 0x00d2bbd0
-FUN_00d2bbd0_cls* FUN_00d2bbd0_cls::Init(int p)
+FUN_00d2bbd0_cls* FUN_00d2bbd0_cls::Init(intptr_t p)
 {
-    void* a = (MemoryManager*)FUN_00c85750()->m_10;
+    void* a = (MemoryManager*)static_cast<MemoryManager*>(::FUN_00c85750())->m_10;
     m_00 = FUN_00c85620(a, (void*)p, 0x40);
     m_04 = 0;
     m_08 = 0;
@@ -263,28 +265,8 @@ class hkBufferedStreamWriterD2B9
     int m_writePos;
     int m_bufSize;
 
-    void FUN_00d2b900() throw();
     int Flush();
 };
-
-// @fnv 0x00d2b990
-int hkBufferedStreamWriterD2B9::Flush()
-{
-    if (!m_stream->IsStreamValid().m_cBooleanValue)
-        return 1;
-    FUN_00d2b900();
-    int iNumBytes = m_bufSize - m_writePos;
-    int iTotal = 0;
-    while (iTotal < iNumBytes)
-    {
-        int iBytesWritten = m_stream->write(m_buf + m_bufOffset, iNumBytes);
-        m_writePos += iBytesWritten;
-        iTotal += iBytesWritten;
-        if (iBytesWritten != iNumBytes)
-            return iTotal == 0;
-    }
-    return 0;
-}
 
 struct Reader
 {
@@ -392,7 +374,6 @@ void hkTrackerD2BB::Reset(int flags)
     m_target->reset(flags);
 }
 
-extern "C" void __cdecl FUN_00cb1270(void*, const void*, int);
 class BufWriterMarkD2B9
 {
   public:
@@ -408,6 +389,24 @@ class BufWriterMarkD2B9
     void FUN_00d2b900() throw();
     int Flush();
 };
+// @fnv 0x00d2b990
+int hkBufferedStreamWriterD2B9::Flush()
+{
+    if (!m_stream->IsStreamValid().m_cBooleanValue)
+        return 1;
+    reinterpret_cast<::BufWriterMarkD2B9 *>(this)->FUN_00d2b900();
+    int iNumBytes = m_bufSize - m_writePos;
+    int iTotal = 0;
+    while (iTotal < iNumBytes)
+    {
+        int iBytesWritten = m_stream->write(m_buf + m_bufOffset, iNumBytes);
+        m_writePos += iBytesWritten;
+        iTotal += iBytesWritten;
+        if (iBytesWritten != iNumBytes)
+            return iTotal == 0;
+    }
+    return 0;
+}
 // @fnv 0x00d2b900
 void BufWriterMarkD2B9::FUN_00d2b900() throw()
 {
@@ -430,7 +429,7 @@ void BufWriterMarkD2B9::FUN_00d2b900() throw()
         int dataSize = m_bufOffset - m_iReadPos;
         int remainder = dataSize % 512;
         int padBytes = (remainder != 0) ? (512 - remainder) : 0;
-        FUN_00cb1270(m_buf + padBytes, m_buf + m_iReadPos, dataSize);
+        ::FUN_00cb1270((char *)(void *)(m_buf + padBytes), (const char *)(const void *)(m_buf + m_iReadPos), dataSize);
         m_iReadPos = padBytes;
         m_bufOffset = ((dataSize / 512) + (remainder != 0 ? 1 : 0)) * 512;
         m_writePos = m_bufOffset;
@@ -439,7 +438,6 @@ void BufWriterMarkD2B9::FUN_00d2b900() throw()
 
 struct CC9F10Shape
 {
-    void Refresh();
 };
 struct V_00d2bbd0 : FUN_00d2bbd0_cls
 {
@@ -450,7 +448,7 @@ struct FUN_00d2bc30_cls
     int* m_pVTable;
     unsigned short m_04;
     unsigned short m_06;
-    int m_08;
+    intptr_t m_08;
     FUN_00d2bbd0_cls* Init(int);
     FUN_00d2bc30_cls* FUN_00d2bc30(int, int);
 };
@@ -461,8 +459,8 @@ FUN_00d2bc30_cls* FUN_00d2bc30_cls::FUN_00d2bc30(int aiShape, int b)
     m_06 = 1;
     m_08 = aiShape;
     m_pVTable = &DAT_010ce688;
-    ((V_00d2bbd0*)((char*)this + 0xc))->Init(b);
-    ((CC9F10Shape*)m_08)->Refresh();
+    reinterpret_cast<::FUN_00d2bbd0_cls *>((((V_00d2bbd0*)((char*)this + 0xc))))->Init(b);
+    reinterpret_cast<::FUN_00c90510_class *>((((CC9F10Shape*)m_08)))->FUN_00c90510();
     return this;
 }
 
@@ -475,7 +473,6 @@ struct BufferedReaderHeap
 
 struct BufferedReaderDeletionView : hkBufferedStreamReader
 {
-    void Destroy();
     hkBufferedStreamReader* FUN_00d2bca0(unsigned int);
 };
 
@@ -483,10 +480,10 @@ struct BufferedReaderDeletionView : hkBufferedStreamReader
 // @fnv 0x00d2bca0
 hkBufferedStreamReader* BufferedReaderDeletionView::FUN_00d2bca0(unsigned int flags)
 {
-    Destroy();
+    reinterpret_cast<::hkBufferedStreamReader *>(this)->Destroy();
     if (flags & 1)
     {
-        MemoryManager* router = FUN_00c85750();
+        MemoryManager* router = static_cast<MemoryManager*>(::FUN_00c85750());
         unsigned short size = static_cast<unsigned short>(m_uiStandInValue);
         static_cast<BufferedReaderHeap*>(router->m_10)->ReleaseBlock(this, size);
     }
@@ -499,6 +496,6 @@ void __cdecl FUN_00c85660(void* allocator, void* buffer);
 __declspec(noinline) void hkBufferedStreamReader::FUN_00d2bc10()
 {
     void* buffer = m_pVTable;
-    MemoryManager* memory = FUN_00c85750();
+    MemoryManager* memory = static_cast<MemoryManager*>(::FUN_00c85750());
     FUN_00c85660(memory->m_10, buffer);
 }

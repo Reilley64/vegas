@@ -1,6 +1,11 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/GeomNormals.h"
+#include "fnv/decl/NiGeometryData.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_00a7e000.h"
 class NiPoint3
 {
   public:
@@ -28,8 +33,6 @@ class NiPoint3
     {
         return NiPoint3(y * pt.z - z * pt.y, z * pt.x - x * pt.z, x * pt.y - y * pt.x);
     }
-    __declspec(noalias) static void __cdecl FUN_00525340(NiPoint3& kPt);
-    static void __cdecl NormalizePoints(NiPoint3* pkPts, unsigned int uiElementCount, unsigned int uiStride);
 };
 
 struct NiSharedNormal
@@ -107,15 +110,13 @@ class NiTriShapeDataStandIn
     NiSharedNormal* m_pkSharedNormalArray;
     unsigned short m_usSharedNormalCount;
 
-    void EnsureNormals(bool bInitialize);
-    void FUN_00a67090(unsigned int uiMask);
     void RecalculateNormals();
 };
 
 // @fnv 0x00a8ed40
 void NiTriShapeDataStandIn::RecalculateNormals()
 {
-    EnsureNormals(true);
+    reinterpret_cast<::GeomNormals *>(this)->EnsureNormals(true);
     unsigned short* pusTriList = m_pusTriList;
     unsigned short usTriangleCount = GetNumberOfVertices();
     for (unsigned short i = 0; i < usTriangleCount; i++)
@@ -126,10 +127,10 @@ void NiTriShapeDataStandIn::RecalculateNormals()
         NiPoint3 kEdge1 = m_pkVertex[usIndex1] - m_pkVertex[usIndex0];
         NiPoint3 kEdge2 = m_pkVertex[usIndex2] - m_pkVertex[usIndex1];
         NiPoint3 kFaceNormal = kEdge1.Cross(kEdge2);
-        NiPoint3::FUN_00525340(kFaceNormal);
-        m_pkNormal[usIndex0] += kFaceNormal;
-        m_pkNormal[usIndex1] += kFaceNormal;
-        m_pkNormal[usIndex2] += kFaceNormal;
+        ::FUN_00525340((float *)&(kFaceNormal));
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(m_pkNormal[usIndex0]))->FUN_0063c8a0((void *)&(kFaceNormal));
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(m_pkNormal[usIndex1]))->FUN_0063c8a0((void *)&(kFaceNormal));
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(m_pkNormal[usIndex2]))->FUN_0063c8a0((void *)&(kFaceNormal));
         if (m_pkSharedNormalArray && m_usSharedNormalCount == m_usVertices)
         {
             unsigned short* pusSharedIndices = m_pkSharedNormalArray[usIndex0].m_pusNormalIndices;
@@ -137,24 +138,24 @@ void NiTriShapeDataStandIn::RecalculateNormals()
             while (usSharedCount)
             {
                 usSharedCount--;
-                m_pkNormal[pusSharedIndices[usSharedCount]] += kFaceNormal;
+                reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(m_pkNormal[pusSharedIndices[usSharedCount]]))->FUN_0063c8a0((void *)&(kFaceNormal));
             }
             pusSharedIndices = m_pkSharedNormalArray[usIndex1].m_pusNormalIndices;
             usSharedCount = m_pkSharedNormalArray[usIndex1].m_usNormalCount;
             while (usSharedCount)
             {
                 usSharedCount--;
-                m_pkNormal[pusSharedIndices[usSharedCount]] += kFaceNormal;
+                reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(m_pkNormal[pusSharedIndices[usSharedCount]]))->FUN_0063c8a0((void *)&(kFaceNormal));
             }
             pusSharedIndices = m_pkSharedNormalArray[usIndex2].m_pusNormalIndices;
             usSharedCount = m_pkSharedNormalArray[usIndex2].m_usNormalCount;
             while (usSharedCount)
             {
                 usSharedCount--;
-                m_pkNormal[pusSharedIndices[usSharedCount]] += kFaceNormal;
+                reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(m_pkNormal[pusSharedIndices[usSharedCount]]))->FUN_0063c8a0((void *)&(kFaceNormal));
             }
         }
     }
-    NiPoint3::NormalizePoints(m_pkNormal, GetActiveVertexQuantity(), sizeof(NiPoint3));
-    FUN_00a67090(2);
+    ::NormalizePoints(m_pkNormal, GetActiveVertexQuantity(), sizeof(NiPoint3));
+    reinterpret_cast<::NiGeometryData *>(this)->SetDirtyFlags(2);
 }

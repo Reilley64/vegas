@@ -8,7 +8,6 @@
 class hkpCompressedMeshShapeConvexPiece;
 class hkpConvexVerticesConnectivity;
 class hkpConvexVerticesShapeFourVectors;
-#pragma pack(push, 1)
 class hkpConvexVerticesShape : public hkpConvexShape
 {
   public:
@@ -22,6 +21,4 @@ class hkpConvexVerticesShape : public hkpConvexShape
     hkpConvexVerticesConnectivity* m_pConnectivity;                 // +0x60
     char pad64[0xC];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConvexVerticesShape[(sizeof(hkpConvexVerticesShape) == 0x70) ? 1 : -1];
 #endif

@@ -2,6 +2,20 @@
 // src/havok/unplaced/pathingrequestcover.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathingrequestcover.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <cstdint>
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_005076c0Class.h"
+#include "fnv/decl/FUN_006dad40_Class.h"
+#include "fnv/decl/FUN_006df760_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/PathingRequest.h"
+#include "fnv/decl/S006997b0.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/fnv_006def40__FUN_006def40_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 struct FUN_006e4320_Class
 {
     void FUN_006e4320(float value);
@@ -36,11 +50,11 @@ void FUN_006e4360_class::SetByteAtOffsetCD(char acValue)
 
 struct FUN_006e4380_Class
 {
-    void __thiscall SetFlagCE(bool value);
+    void SetFlagCE(bool value);
 };
 
 // @fnv 0x006e4380
-void __thiscall FUN_006e4380_Class::SetFlagCE(bool value)
+void FUN_006e4380_Class::SetFlagCE(bool value)
 {
     *(char*)((char*)this + 0xce) = (char)value;
 }
@@ -58,11 +72,11 @@ void FUN_006e43a0_class::FUN_006e43a0(int b)
 
 struct FUN_006e43c0_class
 {
-    void __thiscall SetByteAtOffsetD0(char param);
+    void SetByteAtOffsetD0(char param);
 };
 
 // @fnv 0x006e43c0
-void __thiscall FUN_006e43c0_class::SetByteAtOffsetD0(char acValue)
+void FUN_006e43c0_class::SetByteAtOffsetD0(char acValue)
 {
     *(char*)((char*)this + 0xd0) = acValue;
 }
@@ -98,7 +112,7 @@ void PathingRequestCover::SetCover(const NiPoint3& point)
 }
 
 // @fnv 0x006e4630
-unsigned char* FUN_006e4630(int aiBase, unsigned short ausIndex, unsigned char aucOffset)
+unsigned char* FUN_006e4630(intptr_t aiBase, unsigned short ausIndex, unsigned char aucOffset)
 {
     return (unsigned char*)((aiBase << 0x10) + ausIndex * 4 + aucOffset);
 }
@@ -132,10 +146,18 @@ void FUN_006e4500_class::FUN_006e4500(unsigned short ausValue, unsigned short b,
     ((char*)this)[0x52] = 0;
 }
 
+class BGSLoadGameBuffer;
+class NavMeshPtr;
 struct PathingLocation
 {
     PathingLocation& operator=(const PathingLocation&);
     char pad[0x28];
+public:
+    bool ResolveNavMesh(::NavMeshPtr &);
+public:
+    bool FindNavMeshTriangle(::NavMeshPtr &, unsigned short &);
+public:
+    void LoadGame(::BGSLoadGameBuffer *);
 };
 struct FUN_006e4430_class : public PathingLocation
 {
@@ -163,11 +185,9 @@ FUN_006e4430_class& FUN_006e4430_class::operator=(const FUN_006e4430_class& src)
 
 struct BGSSaveFormBuffer
 {
-    void SaveData(void* data, int size, int);
 };
 struct FUN_006def40_Class
 {
-    void FUN_006def40(BGSSaveFormBuffer* buffer);
 };
 struct PathingCoverLocation
 {
@@ -177,27 +197,25 @@ struct PathingCoverLocation
 // @fnv 0x006e48a0
 void PathingCoverLocation::SaveToBuffer(BGSSaveFormBuffer* buffer)
 {
-    ((FUN_006def40_Class*)this)->FUN_006def40(buffer);
-    buffer->SaveData((char*)this + 0x28, 12, 0);
-    buffer->SaveData((char*)this + 0x34, 12, 0);
-    buffer->SaveData((char*)this + 0x40, 12, 0);
-    buffer->SaveData((char*)this + 0x4c, 1, 0);
-    buffer->SaveData((char*)this + 0x4d, 1, 0);
-    buffer->SaveData((char*)this + 0x4e, 1, 0);
-    buffer->SaveData((char*)this + 0x4f, 1, 0);
-    buffer->SaveData((char*)this + 0x50, 1, 0);
-    buffer->SaveData((char*)this + 0x51, 1, 0);
-    buffer->SaveData((char*)this + 0x52, 1, 0);
+    reinterpret_cast<::fnv_006def40::FUN_006def40_shell *>((((FUN_006def40_Class*)this)))->FUN_006def40((::fnv_006def40::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x28, 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x34, 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x40, 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x4c, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x4d, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x4e, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x4f, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x50, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x51, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x52, 1, 0);
 }
 
 namespace fnv_006e4980 {
 struct BGSLoadGameBuffer
 {
-    void ReadTypedData(void*, unsigned int);
 };
 struct PathingLocation
 {
-    void Load(BGSLoadGameBuffer*);
 };
 struct PathingCoverLocation
 {
@@ -207,17 +225,17 @@ struct PathingCoverLocation
 // @fnv 0x006e4980
 void PathingCoverLocation::Load(BGSLoadGameBuffer* buffer)
 {
-    base.Load(buffer);
-    buffer->ReadTypedData((char*)this + 0x28, 0xc);
-    buffer->ReadTypedData((char*)this + 0x34, 0xc);
-    buffer->ReadTypedData((char*)this + 0x40, 0xc);
-    buffer->ReadTypedData((char*)this + 0x4c, 1);
-    buffer->ReadTypedData((char*)this + 0x4d, 1);
-    buffer->ReadTypedData((char*)this + 0x4e, 1);
-    buffer->ReadTypedData((char*)this + 0x4f, 1);
-    buffer->ReadTypedData((char*)this + 0x50, 1);
-    buffer->ReadTypedData((char*)this + 0x51, 1);
-    buffer->ReadTypedData((char*)this + 0x52, 1);
+    reinterpret_cast<::PathingLocation *>(&(base))->LoadGame((::BGSLoadGameBuffer *)(buffer));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x28), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x34), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x40), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x4c), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x4d), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x4e), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x4f), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x50), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x51), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x52), 1);
 }
 }  // namespace fnv_006e4980
 
@@ -275,7 +293,6 @@ struct CoverPathingRequest
     int unkA8;
     int unkAC;
 
-    void CopyTo(CoverPathingRequest* apRequest);
 };
 
 struct CoverPathingRequestCover : CoverPathingRequest
@@ -295,17 +312,6 @@ struct CoverPathingRequestCover : CoverPathingRequest
     unsigned char unkD3;
     CoverPoint3 m_kThreatPoint;
 
-    void SetCoverPoint(const CoverPoint3& arPoint);
-    void SetUnkC0(float afValue);
-    void SetUnkBC(float afValue);
-    void SetUnkC4(float afValue);
-    void SetUnkC8(void* apValue);
-    void SetUnkCD(char acValue);
-    void SetUnkCE(bool abValue);
-    void SetUnkCF(int aiValue);
-    void SetUnkD0(char acValue);
-    void SetUnkD1(bool abValue);
-    void SetThreatPoint(const CoverPoint3& arPoint);
 
     void CopyToCover(CoverPathingRequest* apRequest);
 };
@@ -315,24 +321,23 @@ struct CoverPathingRequestCover : CoverPathingRequest
 void CoverPathingRequestCover::CopyToCover(CoverPathingRequest* apRequest)
 {
     CoverPathingRequestCover* pCover = (CoverPathingRequestCover*)apRequest;
-    CoverPathingRequest::CopyTo(pCover);
-    pCover->SetCoverPoint(m_kCoverPoint);
-    pCover->SetUnkC0(m_fUnkC0);
-    pCover->SetUnkBC(m_fUnkBC);
-    pCover->SetUnkC4(m_fUnkC4);
-    pCover->SetUnkC8(m_pUnkC8);
-    pCover->SetUnkCD(m_cUnkCD);
-    pCover->SetUnkCE(m_bUnkCE);
-    pCover->SetUnkCF(m_ucUnkCF);
-    pCover->SetUnkD0(m_cUnkD0);
-    pCover->SetUnkD1(m_bUnkD1);
-    pCover->SetThreatPoint(m_kThreatPoint);
+    reinterpret_cast<::PathingRequest *>(this)->CopyTo((::PathingRequest *)(pCover));
+    reinterpret_cast<::FUN_006dad40_Class *>((pCover))->FUN_006dad40((const ::NiPoint3 &)(m_kCoverPoint));
+    reinterpret_cast<::FUN_005076c0Class *>((pCover))->FUN_005076c0(m_fUnkC0);
+    reinterpret_cast<::FUN_006e4320_Class *>((pCover))->FUN_006e4320(m_fUnkBC);
+    reinterpret_cast<::FUN_006e4340_Class *>((pCover))->FUN_006e4340(m_fUnkC4);
+    reinterpret_cast<::AlchemyItem *>((pCover))->SetSound((::TESSound *)(m_pUnkC8));
+    reinterpret_cast<::FUN_006e4360_class *>((pCover))->SetByteAtOffsetCD(m_cUnkCD);
+    reinterpret_cast<::FUN_006e4380_Class *>((pCover))->SetFlagCE(m_bUnkCE);
+    reinterpret_cast<::FUN_006e43a0_class *>((pCover))->FUN_006e43a0(m_ucUnkCF);
+    reinterpret_cast<::FUN_006e43c0_class *>((pCover))->SetByteAtOffsetD0(m_cUnkD0);
+    reinterpret_cast<::FUN_006e43e0_class *>((pCover))->SetFlag(m_bUnkD1);
+    reinterpret_cast<::PathingRequestCover *>((pCover))->SetCover((const ::NiPoint3 &)(m_kThreatPoint));
 }
 
 class NavMesh
 {
   public:
-    bool FUN_006997b0(unsigned short a);
 };
 
 class NavMeshPtr
@@ -362,8 +367,6 @@ template <class T> class NiPointer
 
 struct FUN_006e4650_class
 {
-    bool FUN_006dd610(NavMeshPtr& nm);
-    unsigned short GetShortValueAtOffset24(NiPointer<PathingSolution>& sol);
     bool FUN_006e4650(int arg);
 };
 
@@ -371,10 +374,10 @@ struct FUN_006e4650_class
 bool FUN_006e4650_class::FUN_006e4650(int aiValue)
 {
     NavMeshPtr nm;
-    if (FUN_006dd610(nm))
+    if (reinterpret_cast<::PathingLocation *>(this)->ResolveNavMesh(nm))
     {
         NiPointer<PathingSolution> sol(0);
-        if (nm->FUN_006997b0(GetShortValueAtOffset24(sol)) && sol->unk70 == aiValue)
+        if (((bool)(reinterpret_cast<::S006997b0 *>(((nm).operator->()))->FUN_006997b0(reinterpret_cast<::FUN_006df760_shell *>(this)->GetShortValueAtOffset24(), {}))) && sol->unk70 == aiValue)
             return true;
     }
     return false;
@@ -382,7 +385,6 @@ bool FUN_006e4650_class::FUN_006e4650(int aiValue)
 
 struct S_006e4570_NavMesh : NavMesh
 {
-    int FUN_0084e3a0();
 };
 
 struct S_006e4570
@@ -410,7 +412,6 @@ struct S_006e4570
     unsigned char unk50;
     unsigned char unk51;
 
-    bool FUN_006dd640(NavMeshPtr& navMesh, unsigned short& triangleIndex);
     unsigned char* FUN_006e4570();
 };
 
@@ -420,27 +421,25 @@ unsigned char* S_006e4570::FUN_006e4570()
 {
     NavMeshPtr navMesh;
     unsigned short triangleIndexA = 0;
-    if (FUN_006dd640(navMesh, triangleIndexA))
+    if (reinterpret_cast<::PathingLocation *>(this)->FindNavMeshTriangle(navMesh, triangleIndexA))
     {
-        return FUN_006e4630(((S_006e4570_NavMesh*)navMesh.operator->())->FUN_0084e3a0(), triangleIndexA, unk51);
+        return FUN_006e4630(reinterpret_cast<::FUN_0084e3a0_Class *>((((S_006e4570_NavMesh*)navMesh.operator->())))->FUN_0084e3a0(), triangleIndexA, unk51);
     }
     return 0;
 }
 
 struct S_006e4740
 {
-    bool FUN_006dd610(NavMeshPtr& nm);
-    unsigned short GetShortValueAtOffset24(NiPointer<PathingSolution>& sol);
     int FUN_006e4740();
 };
 // @fnv 0x006e4740
 int S_006e4740::FUN_006e4740()
 {
     NavMeshPtr nm;
-    if (FUN_006dd610(nm))
+    if (reinterpret_cast<::PathingLocation *>(this)->ResolveNavMesh(nm))
     {
         NiPointer<PathingSolution> sol(0);
-        if (nm->FUN_006997b0(GetShortValueAtOffset24(sol)))
+        if (((bool)(reinterpret_cast<::S006997b0 *>(((nm).operator->()))->FUN_006997b0(reinterpret_cast<::FUN_006df760_shell *>(this)->GetShortValueAtOffset24(), {}))))
         {
             return sol->unk70;
         }
@@ -450,8 +449,6 @@ int S_006e4740::FUN_006e4740()
 
 struct PointCalc : NiPoint3
 {
-    PointCalc FUN_00439ef0(const NiPoint3& other) const;
-    double FUN_004a7290() const;
 };
 struct DistanceCheck
 {
@@ -463,14 +460,14 @@ struct DistanceCheck
 // @fnv 0x006e4840
 bool DistanceCheck::FUN_006e4840(const NiPoint3& point)
 {
-    PointCalc vecA = firstPoint.FUN_00439ef0(point);
-    PointCalc vecB = secondPoint.FUN_00439ef0(point);
-    if (vecA.FUN_004a7290() < vecB.FUN_004a7290())
+    PointCalc vecA = (*(::PointCalc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(firstPoint))->FUN_00439ef0((::NiPoint3 *)&(point), *(const ::NiPoint3 *)nullptr)));
+    PointCalc vecB = (*(::PointCalc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(secondPoint))->FUN_00439ef0((::NiPoint3 *)&(point), *(const ::NiPoint3 *)nullptr)));
+    if (((double)(reinterpret_cast<::TESCombatStyle *>((void *)&(vecA))->UpdateCombatStyle())) < ((double)(reinterpret_cast<::TESCombatStyle *>((void *)&(vecB))->UpdateCombatStyle())))
         return true;
     return false;
 }
 
-typedef unsigned int E41E0size_t;
+typedef std::size_t E41E0size_t;
 
 struct FUN_006e41e0
 {

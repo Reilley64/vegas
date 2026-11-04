@@ -1,4 +1,5 @@
 
+#include "fnv/decl/P3.h"
 #include "nitransform_decls.h"
 #pragma optimize("gty", on)
 // @fnv 0x00a68bf0
@@ -15,6 +16,6 @@ void NiTransform::CalculateInverse(NiTransform& out)
 {
  out.rotation = rotation.Transpose();
  out.scale = 1.0f / scale;
- out.translation = NiPosData::ComputePositionAtTime(out.scale, out.rotation * translation.FUN_004a0bd0());
+ out.translation = NiPosData::ComputePositionAtTime(out.scale, out.rotation * (*(::NiPoint3 *)(reinterpret_cast<::P3 *>((void *)&(translation))->FUN_004a0bd0({}))));
 }
 #pragma optimize("", on)

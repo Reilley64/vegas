@@ -2,6 +2,12 @@
 // src/havok/common/base/system/io/writer/buffered/hkbufferedstreamwriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/writer/buffered/hkbufferedstreamwriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_01268000.h"
 #include "havok/hkBufferedStreamWriter.h"
 
 struct FUN_00d27260_standin
@@ -13,38 +19,9 @@ struct FUN_00d27260_standin
     int m_vContactPosition;
     int m_kRayEnd;
 
-    int FlushToDestination();
     int FUN_00d27260(const void* data, int size);
 };
 
-void _FUN_00cb1260(void* destination, const void* source, unsigned int size);
-
-// @fnv 0x00d27260
-int __thiscall FUN_00d27260_standin::FUN_00d27260(const void* data, int size)
-{
-    int remaining = size;
-    const char* bytes = static_cast<const char*>(data);
-    int available = m_kRayEnd - m_vContactPosition;
-
-    while (remaining > available)
-    {
-        _FUN_00cb1260(m_buffer + m_vContactPosition, bytes, available);
-        m_vContactPosition += available;
-
-        int position = m_vContactPosition;
-        bytes += available;
-        remaining -= available;
-
-        if (FlushToDestination() != position)
-            return size - remaining;
-
-        available = m_kRayEnd - m_vContactPosition;
-    }
-
-    _FUN_00cb1260(m_buffer + m_vContactPosition, bytes, remaining);
-    m_vContactPosition += remaining;
-    return size;
-}
 
 struct FUN_00d27420_class
 {
@@ -70,15 +47,11 @@ void FUN_00d27420_class::WriteToStream(FUN_00d27420_class* stream, int)
 
 struct DDCC60World
 {
-    void removeReference();
 };
 
-void __cdecl FUN_00d272e0();
 void* __cdecl _D1A0E0GetMemoryRouter();
-void __cdecl FUN_00c85660(void*, void*);
 
 extern int DAT_010ce448;
-extern int _DAT_0102e388;
 
 struct FUN_00d27520
 {
@@ -92,22 +65,6 @@ struct FUN_00d27520
 
     ~FUN_00d27520();
 };
-
-// @fnv 0x00d27520
-FUN_00d27520::~FUN_00d27520()
-{
-    m_vtbl = &DAT_010ce448;
-    FUN_00d272e0();
-    if (m_pWorld)
-        m_pWorld->removeReference();
-    if (m_18)
-    {
-        void* pData = m_pData;
-        void* router = _D1A0E0GetMemoryRouter();
-        FUN_00c85660(*(void**)((char*)router + 0x10), pData);
-    }
-    m_vtbl = &_DAT_0102e388;
-}
 
 namespace fnv_00d27570 {
 struct FUN_00d27570Router
@@ -138,7 +95,7 @@ struct FUN_00d27570Writer
 // @fnv 0x00d27570
 void* FUN_00d27570Writer::DestroyWriter(unsigned char deletingFlag)
 {
-    FUN_00d27520();
+    reinterpret_cast<::FUN_00d27520 *>(this)->FUN_00d27520::~FUN_00d27520();
 
     if (deletingFlag & 1)
     {
@@ -150,12 +107,11 @@ void* FUN_00d27570Writer::DestroyWriter(unsigned char deletingFlag)
 }
 }  // namespace fnv_00d27570
 
-extern int DAT_012689e4;
 
 // @fnv 0x00d27560
 void* __cdecl FUN_00d27560()
 {
-    return &DAT_012689e4;
+    return &(*reinterpret_cast<int *>(&::g_012689e4));
 }
 
 struct BufferedStreamDestination
@@ -176,6 +132,32 @@ struct StreamBufferD27210
     int m_kRayEnd;
     int FlushToDestination();
 };
+// @fnv 0x00d27260
+int FUN_00d27260_standin::FUN_00d27260(const void* data, int size)
+{
+    int remaining = size;
+    const char* bytes = static_cast<const char*>(data);
+    int available = m_kRayEnd - m_vContactPosition;
+
+    while (remaining > available)
+    {
+        ::FUN_00cb1260(m_buffer + m_vContactPosition, bytes, available);
+        m_vContactPosition += available;
+
+        int position = m_vContactPosition;
+        bytes += available;
+        remaining -= available;
+
+        if (reinterpret_cast<::StreamBufferD27210 *>(this)->FlushToDestination() != position)
+            return size - remaining;
+
+        available = m_kRayEnd - m_vContactPosition;
+    }
+
+    ::FUN_00cb1260(m_buffer + m_vContactPosition, bytes, remaining);
+    m_vContactPosition += remaining;
+    return size;
+}
 // @fnv 0x00d27210
 int StreamBufferD27210::FlushToDestination()
 {
@@ -224,11 +206,26 @@ struct FUN_00d272e0_class
 
     void FUN_00d272e0();
 };
+// @fnv 0x00d27520
+FUN_00d27520::~FUN_00d27520()
+{
+    m_vtbl = &DAT_010ce448;
+    static_cast<::FUN_00d272e0_class *>(nullptr)->FUN_00d272e0();
+    if (m_pWorld)
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_pWorld))->FUN_00c905b0();
+    if (m_18)
+    {
+        void* pData = m_pData;
+        void* router = _D1A0E0GetMemoryRouter();
+        ::FUN_00c85660((::MemHeap *)(*(void**)((char*)router + 0x10)), (char *)(pData));
+    }
+    m_vtbl = &(*reinterpret_cast<int *>(&::DAT_0102e388));
+}
 
 // @fnv 0x00d272e0
 void FUN_00d272e0_class::FUN_00d272e0()
 {
-    reinterpret_cast<FUN_00d27260_standin*>(this)->FlushToDestination();
+    reinterpret_cast<::StreamBufferD27210 *>((reinterpret_cast<FUN_00d27260_standin*>(this)))->FlushToDestination();
 
     if (unk08 != 0)
     {
@@ -302,7 +299,6 @@ class hkBufferedStreamD273
     int m_pos;
     int m_iElementCount;
 
-    void FlushToDestination();
     hkResultD273 FUN_00d27380(int offset, int whence);
 };
 
@@ -311,7 +307,7 @@ hkResultD273 hkBufferedStreamD273::FUN_00d27380(int offset, int whence)
 {
     if (m_pChildAtom)
     {
-        FlushToDestination();
+        reinterpret_cast<::StreamBufferD27210 *>(this)->FlushToDestination();
         return m_pChildAtom->seek(offset, whence);
     }
     int pos = -1;
@@ -342,7 +338,6 @@ hkResultD273 hkBufferedStreamD273::FUN_00d27380(int offset, int whence)
     return res;
 }
 
-extern "C" void __cdecl FUN_00cb1280(void* pvDest, int iValue, int iCount) throw();
 
 class hkReferencedObjectD274
 {
@@ -378,7 +373,7 @@ FUN_00d274c0::FUN_00d274c0(void* pvMem, int aiSize, hkBool bMemoryIsString) thro
     m_iCapacity = bMemoryIsString ? aiSize - 1 : aiSize;
     m_overflowed = false;
     if (bMemoryIsString)
-        FUN_00cb1280(pvMem, 0, aiSize);
+        ::FUN_00cb1280(pvMem, 0, aiSize);
 }
 
 class hkInnerD273
@@ -447,10 +442,10 @@ int FUN_00d273f0_cls::FUN_00d273f0() const
 class hkMemoryAllocatorD274;
 struct hkMemoryRouterD274
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorD274* m_pStreamAllocator;
     hkMemoryAllocatorD274& heap()
     {
@@ -458,9 +453,7 @@ struct hkMemoryRouterD274
     }
 };
 namespace hkRouterD274 {
-extern "C" hkMemoryRouterD274& __cdecl FUN_00c85750() throw();
 }
-void* __cdecl FUN_00c85620(hkMemoryAllocatorD274& alloc, int iSize, int iAlign) throw();
 class hkBaseObjectD274
 {
   public:
@@ -474,7 +467,6 @@ class hkRefObjD274 : public hkBaseObjectD274
     {}
     virtual ~hkRefObjD274() throw()
     {}
-    void FUN_00c90510() throw();
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 };
@@ -503,8 +495,8 @@ hkBufStreamWriterD274::hkBufStreamWriterD274(hkStreamWriterD274* apStream, int a
     : m_stream(apStream), m_bIsOk(true)
 {
     if (m_stream)
-        m_stream->FUN_00c90510();
-    m_buf = (char*)FUN_00c85620(hkRouterD274::FUN_00c85750().heap(), aiBufferSize, 0x40);
+        reinterpret_cast<::FUN_00c90510_class *>((m_stream))->FUN_00c90510();
+    m_buf = (char*)::FUN_00c85620((::FUN_00c85620_heap *)&((*static_cast<hkMemoryRouterD274*>(::FUN_00c85750())).heap()), aiBufferSize, 0x40);
     m_bufSize = aiBufferSize;
     m_iBufferPosition = 0;
 }

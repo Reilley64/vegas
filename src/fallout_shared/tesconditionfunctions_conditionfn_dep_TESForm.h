@@ -2,6 +2,13 @@
 #ifndef TESCONDITIONFUNCTIONS_CONDITIONFN_DEP_TESFORM_H
 #define TESCONDITIONFUNCTIONS_CONDITIONFN_DEP_TESFORM_H
 
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00485000.h"
 #include "tesconditionfunctions_conditionfn_dep_layout_support.h"
 #include "tesconditionfunctions_conditionfn_dep_BaseFormComponent.h"
 class TESForm : public BaseFormComponent
@@ -87,19 +94,9 @@ class TESForm : public BaseFormComponent
     virtual bool SetEditorID_AtRuntime(const char* edid);
     TESForm();
     TESFile* GetFile(int fileIndex);
-    BSSimpleList<TESFile*>* GetSourceFiles();
-    bool IsDeleted() const;
-    unsigned int GetFormID();
-    bool IsTemporary() const;
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
-    void SetFormType(ENUM_FORM_ID type);
-    void LoadRecordHeader(TESFile* file);
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
+public:
+    bool GetDisabled() const;
 };
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 #endif

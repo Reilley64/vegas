@@ -6,7 +6,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 #endif
 #endif

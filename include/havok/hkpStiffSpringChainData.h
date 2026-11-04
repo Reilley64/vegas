@@ -7,7 +7,6 @@
 #include "hkpBridgeAtoms.h"
 #include "hkpConstraintChainData.h"
 class hkpStiffSpringChainDataConstraintInfo;
-#pragma pack(push, 1)
 class hkpStiffSpringChainData : public hkpConstraintChainData
 {
   public:
@@ -17,6 +16,4 @@ class hkpStiffSpringChainData : public hkpConstraintChainData
     hkReal m_fMotorDamping;                                            // +0x28
     hkReal m_fMaxErrorDistance;                                        // +0x2C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpStiffSpringChainData[(sizeof(hkpStiffSpringChainData) == 0x30) ? 1 : -1];
 #endif

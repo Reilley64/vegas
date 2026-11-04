@@ -2,6 +2,22 @@
 // src/gamebryo2.2/corelibs/nianimation/nibsplinecolorinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibsplinecolorinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/decl/A57E90Controller.h"
+#include "fnv/decl/BA58200Sequence.h"
+#include "fnv/decl/FUN_00a50110_obj.h"
+#include "fnv/decl/FUN_00a57e50_shell.h"
+#include "fnv/decl/FUN_00a57f20_cls.h"
+#include "fnv/decl/FUN_00a698a0_class.h"
+#include "fnv/decl/NiBSplineInterpolator.h"
+#include "fnv/decl/RgbaColor.h"
+#include "fnv/decl/S_00a58160_Foo.h"
+#include "fnv/decl/SplData.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_004a4c90__FUN_004a4c90_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_011f4000.h"
 struct NiBSplineColorInterpolator
 {
     unsigned int m_kColorACPHandle;
@@ -16,26 +32,23 @@ unsigned int NiBSplineColorInterpolator::FUN_00a51a20(unsigned short usChannel)
     return *(unsigned int*)((char*)this + 0x2c);
 }
 
-extern char const* const g_011f4024_arg1;
 
 // @fnv 0x00a51aa0
 char const* const* __cdecl FUN_00a51aa0()
 {
-    return &g_011f4024_arg1;
+    return &(*reinterpret_cast<const char *const *>(&::g_011f402c));
 }
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct BaseHolder
 {
-    void __thiscall FUN_00a57f20(int, int);
 };
 extern int DAT_01099d3c;
 struct Obj34
 {
-    volatile int vtable;
+    volatile intptr_t vtable;
     char _pad[0x18];
     volatile float f1;
     volatile float f2;
@@ -47,11 +60,11 @@ struct Obj34
 // @fnv 0x00a51c60
 void* FUN_00a51c60()
 {
-    Obj34* p = (Obj34*)BSFadeNode::operator new(52);
+    Obj34* p = (Obj34*)::operator new(52);
     if (p)
     {
-        ((BaseHolder*)p)->FUN_00a57f20(0, 0);
-        p->vtable = (int)&DAT_01099d3c;
+        reinterpret_cast<::FUN_00a57f20_cls *>((((BaseHolder*)p)))->FUN_00a57f20((void *)(0), (void *)(0));
+        p->vtable = (intptr_t)&DAT_01099d3c;
         p->f4 = p->f3 = p->f2 = p->f1 = 0.0f;
         p->unk2c = 0xffff;
         return p;
@@ -69,7 +82,7 @@ int S_a50a40::GetChannelResult(unsigned short usChannel)
     return 0 == usChannel ? 3 : 0;
 }
 
-typedef unsigned int A51BF0size_t;
+typedef size_t A51BF0size_t;
 
 struct A51BF0CloningProcess;
 
@@ -86,7 +99,6 @@ struct A51BF0ColorA
 
 struct A51BF0Base
 {
-    static void* operator new(A51BF0size_t stSize);
 
     __declspec(nothrow) A51BF0Base(int a, int b);
     virtual ~A51BF0Base();
@@ -113,7 +125,7 @@ struct A51BF0Property : A51BF0Base
 
     void CopyMemberData(A51BF0Property* pkDest, A51BF0CloningProcess& kCloning)
     {
-        A51BF0Base::CopyMemberData(pkDest, kCloning);
+        reinterpret_cast<::FUN_00a50110_obj *>(this)->FUN_00a57fd0((::FUN_00a50110_obj *)(pkDest), (::FUN_00a50110_proc &)(kCloning));
         pkDest->m_kFogTint = m_kFogTint;
         pkDest->m_iFlags = m_iFlags;
     }
@@ -287,22 +299,20 @@ struct NiStream
     unsigned int unk240;
     unsigned int unk244;
     unsigned int unk248;
-    unsigned int unk24C;
+    uintptr_t unk24C;
     FNVStreamBuffer* buffer;
 };
 struct FUN_00a58160_shell
 {
-    void SaveToStream(NiStream*);
 };
 struct NiColorA_SaveHelper
 {
-    void SaveBinary(NiStream*);
 };
 // @fnv 0x00a51ca0
-void __fastcall FUN_00a51ca0(Obj34* self, void* unused, NiStream* stream)
+void FUN_00a51ca0(Obj34* self, void* unused, NiStream* stream)
 {
-    ((FUN_00a58160_shell*)self)->SaveToStream(stream);
-    ((NiColorA_SaveHelper*)&self->f1)->SaveBinary(stream);
+    reinterpret_cast<::S_00a58160_Foo *>((((FUN_00a58160_shell*)self)))->SaveToStream((::S_00a58160_Stream *)(stream));
+    reinterpret_cast<::FUN_00a698a0_class *>((((NiColorA_SaveHelper*)&self->f1)))->FUN_00a698a0(stream);
     FNVStreamBuffer* writer = stream->buffer;
     {
         int stream = 4;
@@ -310,9 +320,6 @@ void __fastcall FUN_00a51ca0(Obj34* self, void* unused, NiStream* stream)
     }
 }
 
-extern char const* const g_011f4024_arg1;
-char* __cdecl FUN_00a7d330(char const*);
-char* __cdecl FUN_00a7d510(char const*, unsigned int);
 template <class T> struct NiTMallocInterface
 {
 };
@@ -330,7 +337,6 @@ template <class T, class I> struct NiTPrimitiveArray
 typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > StringArray;
 struct Base
 {
-    void FUN_00a58200(StringArray*);
 };
 struct Owner : Base
 {
@@ -351,17 +357,17 @@ struct Owner : Base
 // @fnv 0x00a51d80
 void Owner::AppendColorACPHandleStrings(StringArray* array)
 {
-    FUN_00a58200(array);
-    char* value = FUN_00a7d330(g_011f4024_arg1);
+    reinterpret_cast<::BA58200Sequence *>(this)->FUN_00a58200((::BA58200StringArray *)(array));
+    char* value = FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f402c)));
     unsigned int index = array->size;
     if (index >= array->capacity)
-        array->SetSize(index + array->growth);
-    array->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(index + array->growth);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(index, value);
     value = FUN_00a7d510("m_kColorACPHandle", value2c);
     index = array->size;
     if (index >= array->capacity)
-        array->SetSize(index + array->growth);
-    array->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(index + array->growth);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(index, value);
 }
 
 struct S_00a50610_Obj
@@ -438,12 +444,12 @@ bool S_00a50610_Obj::FUN_00a50610(unsigned short flag)
     return false;
 }
 
-extern "C++" unsigned char __stdcall LoadNiBSplineInterpolator(int value);
+extern "C++" 
 
 // @fnv 0x00a50b10
-unsigned char __stdcall FUN_00a50b10(int value)
+unsigned char FUN_00a50b10(intptr_t value)
 {
-    return LoadNiBSplineInterpolator(value) != 0;
+    return ((unsigned char)(reinterpret_cast<::FUN_00a57e50_shell *>((value))->LoadNiBSplineInterpolator(*(::NiStream *)nullptr))) != 0;
 }
 
 struct FUN_00a51a40_cls
@@ -485,7 +491,6 @@ struct FnvSplineCurve
     // Evaluates the curve for the parameter `t` and writes the `n` channel
     // values into `out`.  `idx` is the knot the segment starts at and
     // `flags` selects the interpolation mode.
-    void FnvEvalCurve(float t, float* out, int n, int idx, int flags);
 };
 
 struct FnvColor4
@@ -504,7 +509,7 @@ struct FnvBSplineColorInterpolator
     float m_fKey0;              // +0x0c  the time stamp of the first key
     float m_fKey1;              // +0x10  the time stamp of the second key
     FnvSplineCurve* m_pCurve;   // +0x14  the curve that holds the keys
-    int m_nChannel;             // +0x18  the channel the curve is sampled in
+    intptr_t m_nChannel;             // +0x18  the channel the curve is sampled in
     FnvColor4 m_kDiffuseColor;  // +0x1c  the colour of the last evaluation
     int m_iKey;                 // +0x2c  the knot of the segment, 0xffff = none
     bool EvaluateColorAtTime(float fTime, float fUnused, FnvColor4* pOut);
@@ -525,7 +530,7 @@ bool FnvBSplineColorInterpolator::EvaluateColorAtTime(float fTime, float fUnused
     {
         float fNormalizedTime = (fTime - m_fKey0) / (m_fKey1 - m_fKey0);
         float afCurveOut[4];
-        m_pCurve->FnvEvalCurve(fNormalizedTime, afCurveOut, 4, m_nChannel, m_iKey);
+        reinterpret_cast<::SplData *>((m_pCurve))->FUN_00a52550(fNormalizedTime, afCurveOut, 4, (::NiBSplineBasisData *)(m_nChannel), m_iKey);
         FnvColor4 colorResult;
         colorResult.r = afCurveOut[0];
         colorResult.g = afCurveOut[1];
@@ -542,7 +547,6 @@ bool FnvBSplineColorInterpolator::EvaluateColorAtTime(float fTime, float fUnused
 struct FUN_00a51cf0_sub
 {
     unsigned int unk00;
-    bool FUN_004a4c90(FUN_00a51cf0_sub* other);
 };
 
 struct FUN_00a51cf0_cls
@@ -560,17 +564,16 @@ struct FUN_00a51cf0_cls
     unsigned int unk28;
     unsigned int m_2c;
 
-    bool FUN_00a57e90(FUN_00a51cf0_cls* other);
     bool FUN_00a51cf0(FUN_00a51cf0_cls* other);
 };
 // @fnv 0x00a51cf0
 bool FUN_00a51cf0_cls::FUN_00a51cf0(FUN_00a51cf0_cls* other)
 {
-    if (!FUN_00a57e90(other))
+    if (!reinterpret_cast<::A57E90Controller *>(this)->FUN_00a57e90((::A57E90Object *)(other)))
     {
         return false;
     }
-    if (m_1c.FUN_004a4c90(&other->m_1c))
+    if (reinterpret_cast<::fnv_004a4c90::FUN_004a4c90_shell *>(&(m_1c))->FUN_004a4c90(&other->m_1c))
     {
         return false;
     }
@@ -579,7 +582,7 @@ bool FUN_00a51cf0_cls::FUN_00a51cf0(FUN_00a51cf0_cls* other)
 }
 
 // @fnv 0x00a51a00
-unsigned int __stdcall FUN_00a51a00(unsigned short usValue)
+unsigned int FUN_00a51a00(unsigned short usValue)
 {
     return (0 == usValue) ? 4 : 0;
 }
@@ -593,25 +596,23 @@ struct A51D30Input
 
 struct A51D30BaseLoader
 {
-    void __thiscall FUN_00a58080(NiStream& stream);
 };
 
 struct A51D30ColorLoader
 {
-    void __thiscall FUN_00a69800(NiStream* stream);
 };
 
 struct A51D30Loader : FnvBSplineColorInterpolator
 {
-    void __thiscall FUN_00a51d30(NiStream* stream);
+    void FUN_00a51d30(NiStream* stream);
 };
 
 // Loads spline data from a NiStream by calling base and color loader functions, then reading a key value into m_iKey.
 // @fnv 0x00a51d30
 void A51D30Loader::FUN_00a51d30(NiStream* stream)
 {
-    reinterpret_cast<A51D30BaseLoader*>(this)->FUN_00a58080(*stream);
-    reinterpret_cast<A51D30ColorLoader*>(&m_kDiffuseColor)->FUN_00a69800(stream);
+    reinterpret_cast<::NiBSplineInterpolator *>((reinterpret_cast<A51D30BaseLoader*>(this)))->LoadBinary(*stream);
+    reinterpret_cast<::RgbaColor *>((reinterpret_cast<A51D30ColorLoader*>(&m_kDiffuseColor)))->LoadBinary((*(::NiStream *)(stream)));
     A51D30Input* input = reinterpret_cast<A51D30Input*>(stream->unk24C);
     {
         int componentSize = 4;

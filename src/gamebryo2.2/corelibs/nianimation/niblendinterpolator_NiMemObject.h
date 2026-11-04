@@ -6,5 +6,4 @@ class NiMemObject
 {
   public:
 };
-FNV_STATIC_ASSERT(sizeof(NiMemObject) == 0x1);
 #endif

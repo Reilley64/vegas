@@ -1,5 +1,42 @@
 // fallout/ai/combat/combatprocedureactivateobject.cpp: CombatProcedureActivateObject, CombatProcedure, C_Ranged, ScriptableFormForward and more (14 functions)
 
+#include <cstdint>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/C99.h"
+#include "fnv/decl/CombatState.h"
+#include "fnv/decl/CombatWeapons__Manager.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_00453700_shell.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00498d30_t.h"
+#include "fnv/decl/FUN_004eec60_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00996de0_Class.h"
+#include "fnv/decl/FUN_00996ed0_shell.h"
+#include "fnv/decl/FUN_00996ef0_shell.h"
+#include "fnv/decl/FUN_009ca6c0_class.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/ProcessProxy.h"
+#include "fnv/decl/S008da3d0.h"
+#include "fnv/decl/fnv_004985f0__FUN_004985f0_s.h"
+#include "fnv/decl/fnv_00498f80__FUN_00498f80_cls.h"
+#include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_00865df0__FUN_00865df0_holder.h"
+#include "fnv/decl/fnv_00921e30__StandIn.h"
+#include "fnv/decl/fnv_0097cfc0__CombatActionStandIn.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00483000.h"
 #include "CombatProcedure.h"
 
 // @fnv 0x006ecd40
@@ -23,7 +60,6 @@ struct TESObjectREFR;
 struct TESBoundObject;
 struct TESObjectREFRHelper
 {
-    void SetTargetingState(int);
 };
 struct FUN_009ca680_base
 {
@@ -49,28 +85,16 @@ FUN_009ca5f0::FUN_009ca5f0(TESObjectREFR* apTargetRef, TESBoundObject* apBoundOb
     m_pBaseObject = apBoundObject;
     m_cValue24 = 0;
     if (m_pReference)
-        ((TESObjectREFRHelper*)m_pReference)->SetTargetingState(1);
+        reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)m_pReference)))->FUN_00564db0(1);
 }
 
 struct CPStandIn009ca710
 {
-    void FUN_009ca740();
     void* Destroy(unsigned int flags);
 };
 
-// Calls FUN_009ca740, then deletes this when flags has bit 0 set, and returns this.
-// @fnv 0x009ca710
-void* CPStandIn009ca710::Destroy(unsigned int flags)
-{
-    FUN_009ca740();
-    if (flags & 1)
-        operator delete(this);
-    return this;
-}
-
 struct FUN_009ca6c0_shell
 {
-    void FUN_009ca6c0();
 };
 extern int DAT_0109082c;
 
@@ -79,12 +103,21 @@ struct CPStandIn009ca740 : FUN_009ca6c0_shell
     int* vptr;
     void FUN_009ca740();
 };
+// Calls FUN_009ca740, then deletes this when flags has bit 0 set, and returns this.
+// @fnv 0x009ca710
+void* CPStandIn009ca710::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::CPStandIn009ca740 *>(this)->FUN_009ca740();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x009ca740
 void CPStandIn009ca740::FUN_009ca740()
 {
     vptr = &DAT_0109082c;
-    FUN_009ca6c0();
+    reinterpret_cast<::FUN_009ca6c0_class *>(this)->FUN_009ca6c0();
 }
 
 #include <string.h>
@@ -222,15 +255,11 @@ class Actor
     virtual void v119();
     virtual void v120();
     virtual S_Idle* GetIdle();
-    S_BaseProcess* GetProcess();
-    bool FUN_00493bb0();
 };
 
 class S_BaseProcess
 {
   public:
-    int GetProcessLevel();
-    bool FUN_008ff0b0(Actor* actor, unsigned int refid, void* target);
 };
 
 class S_FileSub
@@ -254,39 +283,26 @@ class S_FileEntry
 class S_Idle
 {
   public:
-    bool FUN_004985f0();
-    bool HasIdleForm(void* form);
-    bool FUN_00498f80();
-    S_FileEntry* GetFileEntry();
-    S_HY* FUN_00921e30();
-    float FUN_00453700();
 };
 
 class S_HY
 {
   public:
-    float FUN_004eec60(float v);
 };
 
 class S_Tile
 {
   public:
-    void* GetActionAtIndex(int i);
-    void FUN_0099a780(int obj);
-    void EvaluateWeaponScores();
 };
 
 class S_TileProv
 {
   public:
-    S_Tile* FUN_00586150();
 };
 
 class S_REFR
 {
   public:
-    unsigned int GetRefID();
-    int FUN_00575610(int obj);
     bool Activate(Actor* actor, bool a2, void* bound, int count);
 };
 
@@ -301,30 +317,49 @@ class C_Ranged
     unsigned int refID;
     signed char status;
     void FUN_009ca760();
-    void FUN_009caac0(const char* msg);
-    Actor* FUN_00996de0();
-    void SetState();
 };
 
+struct FUN_009caac0_shell
+{
+    void FUN_009caac0(intptr_t arg1);
+    unsigned int pad00[0x2];
+    int unk08;
+    int unk0c;
+};
+
+// @fnv 0x009caac0
+void FUN_009caac0_shell::FUN_009caac0(intptr_t arg1)
+{
+    this->unk0c = arg1;
+    this->unk08 = 1;
+}
+
+struct CPStandIn009caae0
+{
+    int field0;
+    int field4;
+    int mState;
+    void SetState();
+};
 // Checks the target and actor idle state, updates status, activates the target reference, and may evaluate weapon scores.
 // @fnv 0x009ca760
 void C_Ranged::FUN_009ca760()
 {
     if (this->target == 0)
     {
-        this->FUN_009caac0("Targeted reference is NULL for some reason");
+        reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((intptr_t)("Targeted reference is NULL for some reason"));
         return;
     }
-    Actor* actor = this->FUN_00996de0();
+    Actor* actor = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>((this))->FUN_00996de0()));
     S_Idle* idle = actor->GetIdle();
-    if (actor->GetProcess()->GetProcessLevel() == 0 && idle != 0)
+    if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::S_BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) == 0 && idle != 0)
     {
         if (this->status == 0)
         {
-            if (idle && (!idle->FUN_004985f0() || idle->HasIdleForm(0)))
+            if (idle && (!reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((idle))->FUN_004985f0() || reinterpret_cast<::FUN_00498d30_t *>((idle))->HasIdleForm((::TESIdleForm *)(void *)(0))))
                 return;
-            S_BaseProcess* proc = actor->GetProcess();
-            bool ok = proc->FUN_008ff0b0(actor, this->target->GetRefID(), this->target);
+            S_BaseProcess* proc = ((::S_BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
+            bool ok = ((bool)(reinterpret_cast<::ProcessProxy *>((proc))->FUN_008ff0b0((::ActorProxy *)(actor), ((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this->target))->FUN_007af430())), (::ActorProxy *)(this->target))));
             if (ok)
             {
                 this->status = 1;
@@ -337,11 +372,11 @@ void C_Ranged::FUN_009ca760()
         }
         else if (this->status == 1 || this->status == 3)
         {
-            if (idle && (!idle->FUN_004985f0() || idle->FUN_00498f80()))
+            if (idle && (!reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((idle))->FUN_004985f0() || reinterpret_cast<::fnv_00498f80::FUN_00498f80_cls *>((idle))->FUN_00498f80()))
             {
                 if (this->status == 1)
                 {
-                    S_FileEntry* fe = idle->GetFileEntry();
+                    S_FileEntry* fe = ((::S_FileEntry *)(reinterpret_cast<::S008da3d0 *>((idle))->GetFileEntry()));
                     if (fe)
                     {
                         const char* str = fe->sub.v5();
@@ -352,8 +387,8 @@ void C_Ranged::FUN_009ca760()
                             const char* b = strrchr(str, '_');
                             if (b)
                                 val = (float)atof(b + 1);
-                            hy = idle->FUN_00921e30();
-                            if (!hy || val < hy->FUN_004eec60(idle->FUN_00453700()))
+                            hy = ((::S_HY *)(reinterpret_cast<::fnv_00921e30::StandIn *>((idle))->FUN_00921e30()));
+                            if (!hy || val < reinterpret_cast<::FUN_004eec60_shell *>((hy))->FUN_004eec60(reinterpret_cast<::FUN_00453700_shell *>((idle))->FUN_00453700()))
                                 this->status = 2;
                         }
                     }
@@ -365,70 +400,50 @@ void C_Ranged::FUN_009ca760()
     }
     if (this->status != 3)
     {
-        S_Tile* tile = this->prov->FUN_00586150();
-        if (this->target->GetRefID() != this->refID)
+        S_Tile* tile = ((::S_Tile *)(reinterpret_cast<::InterfaceManager *>((this->prov))->FUN_00586150()));
+        if (((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this->target))->FUN_007af430())) != this->refID)
         {
             unsigned int cnt;
-            int arr[5];
+            void* arr[5];
             memset(arr, 0, sizeof(arr));
             cnt = 0;
             for (unsigned int i = 0; i < 5; i++)
             {
-                int* item = (int*)tile->GetActionAtIndex(i);
-                if (item && *item == (int)this->target)
+                void** item = (void**)((void *)(reinterpret_cast<::fnv_0097cfc0::CombatActionStandIn *>((tile))->GetActionAtIndex(i)));
+                if (item && *item == (void*)this->target)
                 {
                     arr[cnt] = item[1];
                     cnt++;
                 }
             }
-            tile->FUN_0099a780((int)this->target);
+            reinterpret_cast<::C99 *>((tile))->FUN_0099a780((intptr_t)this->target);
             for (unsigned int j = 0; j < cnt; j++)
             {
-                int c = this->target->FUN_00575610(arr[j]);
+                int c = reinterpret_cast<::CombatState *>((this->target))->GetInventoryItemCount((::TESForm *)(arr[j]));
                 if (c)
                 {
                     if (c < 0)
                         c = -c;
-                    this->target->Activate(actor, 1, (void*)arr[j], c);
+                    this->target->Activate(actor, 1, arr[j], c);
                 }
             }
         }
         else
         {
-            tile->FUN_0099a780((int)this->target);
+            reinterpret_cast<::C99 *>((tile))->FUN_0099a780((intptr_t)this->target);
             this->target->Activate(actor, 1, 0, 1);
         }
-        if (!actor->FUN_00493bb0())
+        if (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((actor))->FUN_00493bb0())))
             return;
-        tile->EvaluateWeaponScores();
+        reinterpret_cast<::CombatWeapons::Manager *>((tile))->EvaluateWeaponScores();
     }
     if (this->status == 2)
     {
         this->status = 3;
         return;
     }
-    this->SetState();
+    reinterpret_cast<::CPStandIn009caae0 *>((this))->SetState();
 }
-
-struct FUN_009caac0_shell
-{
-    void __thiscall FUN_009caac0(int arg1);
-};
-
-// @fnv 0x009caac0
-void __thiscall FUN_009caac0_shell::FUN_009caac0(int arg1)
-{
-    ((int*)this)[3] = arg1;
-    ((int*)this)[2] = 1;
-}
-
-struct CPStandIn009caae0
-{
-    int field0;
-    int field4;
-    int mState;
-    void SetState();
-};
 
 // @fnv 0x009caae0
 void CPStandIn009caae0::SetState()
@@ -439,7 +454,6 @@ void CPStandIn009caae0::SetState()
 namespace fnv_009cab00 {
 struct CombatProcedureAttackRanged
 {
-    void FUN_009caac0(char const*);
 };
 
 struct CombatProcedureBase
@@ -461,7 +475,7 @@ void CombatProcedureActivateObject::FUN_009cab00(TESObjectREFR* apRef)
     if (m_pReference == apRef)
     {
         m_pReference = 0;
-        ((CombatProcedureAttackRanged*)this)->FUN_009caac0("Targeted reference pointer was cleared");
+        reinterpret_cast<::FUN_009caac0_shell *>((((CombatProcedureAttackRanged*)this)))->FUN_009caac0((intptr_t)("Targeted reference pointer was cleared"));
     }
 }
 }  // namespace fnv_009cab00
@@ -600,13 +614,10 @@ class TESForm
     virtual void Unk_7B();
     virtual void Unk_7C();
     virtual NiPoint3* GetPos();
-    unsigned int GetFormID();
 };
 class TESObjectREFR : public TESForm
 {
   public:
-    int FUN_00474cb0();
-    const char* GetFullName();
 };
 struct FUN_009cab30_TextOutput
 {
@@ -647,15 +658,13 @@ void FUN_009cab30_shell::FUN_009cab30(FUN_009cab30_TextOutput* apOutput, int aiX
     {
         NiPoint3 kPos = *pTarget->GetPos();
         apOutput->Print(aiX, aiY, "Target: '%s' (%08X) - Position: (%.02f,%.02f,%.02f)",
-                        pTarget->FUN_00474cb0() ? pTarget->GetEditorName() : pTarget->GetFullName(),
-                        pTarget->GetFormID(), kPos.x, kPos.y, kPos.z);
+                        reinterpret_cast<::BGSCameraPath *>((pTarget))->HasNameForWarning() ? pTarget->GetEditorName() : reinterpret_cast<::FUN_0055d520_shell *>((pTarget))->FUN_0055d520(),
+                        ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pTarget))->FUN_0084e3a0())), kPos.x, kPos.y, kPos.z);
     }
 }
 
 struct BGSSaveFormBuffer
 {
-    void SerializeFormData(void*, int);
-    void SaveData(void*, int, int);
 };
 struct TESObjectREFR;
 struct TESBoundObject;
@@ -664,28 +673,24 @@ struct FUN_009cacb0_shell : CombatProcedure
     TESObjectREFR* m_pReference;
     TESBoundObject* m_pBaseObject;
     char bFlag;
-    void SaveGame(BGSSaveFormBuffer*);
     void FUN_009cacb0(BGSSaveFormBuffer*);
 };
 // Saves the combat procedure state by calling SaveGame, serializing m_pReference and m_pBaseObject, and saving bFlag.
 // @fnv 0x009cacb0
 void FUN_009cacb0_shell::FUN_009cacb0(BGSSaveFormBuffer* apSaveBuffer)
 {
-    SaveGame(apSaveBuffer);
-    apSaveBuffer->SerializeFormData(m_pReference, 0);
-    apSaveBuffer->SerializeFormData(m_pBaseObject, 0);
-    apSaveBuffer->SaveData(&bFlag, 1, 0);
+    reinterpret_cast<::FUN_00996ed0_shell *>(this)->SaveToBuffer(apSaveBuffer);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pReference), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pBaseObject), 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveBuffer))->FUN_00865e50(&bFlag, 1, 0);
 }
 
 struct CPStandIn004534f0
 {
-    void FUN_004534f0(unsigned int);
 };
 struct CPStandIn00564db0
 {
-    void FUN_00564db0(int);
 };
-extern "C" TESForm* __cdecl FUN_004839c0(TESObjectREFR*);
 
 struct FUN_009cad70_shell : public CombatProcedure
 {
@@ -697,37 +702,33 @@ struct FUN_009cad70_shell : public CombatProcedure
 // @fnv 0x009cad70
 void FUN_009cad70_shell::FUN_009cad70(unsigned int arg)
 {
-    ((CPStandIn004534f0*)this)->FUN_004534f0(arg);
-    m_pReference = m_pReference ? dynamic_cast<TESObjectREFR*>(FUN_004839c0(m_pReference)) : 0;
+    reinterpret_cast<::FUN_004534f0_shell *>((((CPStandIn004534f0*)this)))->FUN_004534f0(arg);
+    m_pReference = m_pReference ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)(m_pReference))) : 0;
     if (m_pReference)
-        ((CPStandIn00564db0*)m_pReference)->FUN_00564db0(1);
+        reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((CPStandIn00564db0*)m_pReference)))->FUN_00564db0(1);
 }
 
 class TESScriptableForm
 {
   public:
-    void Initialize(unsigned int);
 };
 
 struct ScriptableFormForward : public TESScriptableForm
 {
-    void FUN_009cc4b0(unsigned int a);
+    void FUN_009cc4b0(uintptr_t a);
 };
 
 // @fnv 0x009cc4b0
-void ScriptableFormForward::FUN_009cc4b0(unsigned int auiInitData)
+void ScriptableFormForward::FUN_009cc4b0(uintptr_t auiInitData)
 {
-    TESScriptableForm::Initialize(auiInitData);
+    reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(auiInitData));
 }
 
 struct BGSLoadFormBuffer
 {
-    void ReadFormIdentifier(void*);
-    void ReadTypedData(void*, int);
 };
 struct BGSLoadGameBuffer
 {
-    unsigned int ReadFormIdentifier();
 };
 using ::TESBoundObject;
 class TESBoundObject
@@ -735,22 +736,20 @@ class TESBoundObject
   public:
     virtual void v0();
 };
-::TESForm* __cdecl FUN_004839c0(unsigned int);
 struct ActivateObjectLoadView : CombatProcedure
 {
     void* m_pReference;
     TESBoundObject* m_pBaseObject;
     char bFlag;
-    void FUN_00996ef0(BGSLoadFormBuffer*);
     void FUN_009cad00(BGSLoadFormBuffer*);
 };
 // Reads the activate object load view from a form buffer, loading the reference, base object, and flag.
 // @fnv 0x009cad00
 void ActivateObjectLoadView::FUN_009cad00(BGSLoadFormBuffer* apBuffer)
 {
-    FUN_00996ef0(apBuffer);
-    apBuffer->ReadFormIdentifier(&m_pReference);
+    reinterpret_cast<::FUN_00996ef0_shell *>(this)->FUN_00996ef0(apBuffer);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apBuffer))->FUN_008648e0((unsigned int *)(void *)(&m_pReference));
     m_pBaseObject =
-        dynamic_cast< ::TESBoundObject*>(FUN_004839c0(((BGSLoadGameBuffer*)apBuffer)->ReadFormIdentifier()));
-    apBuffer->ReadTypedData(&bFlag, 1);
+        dynamic_cast< ::TESBoundObject*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((((BGSLoadGameBuffer*)apBuffer)))->FUN_008648a0()));
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&bFlag), 1);
 }

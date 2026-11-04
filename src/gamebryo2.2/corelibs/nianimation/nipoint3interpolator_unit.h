@@ -2,6 +2,7 @@
 #define FNV_NIPOINT3INTERPOLATOR_UNIT_H
 
 
+#include "fnv/symbols_011a9000.h"
 #include "NiObject.h"
 
 class NiObjectNET;
@@ -22,6 +23,8 @@ class NiPoint3
         destWords[2] = sourceWords[2];
         return *this;
     }
+public:
+    char *FUN_00a59af0(const char *);
 };
 
 class NiInterpolator : public NiObject
@@ -98,8 +101,5 @@ class NiPoint3Interpolator : public NiKeyBasedInterpolator
     void CreateObject(int, bool);
 };
 
-extern "C" float DAT_011a9424;
-extern "C" float DAT_011a9428;
-extern "C" float DAT_011a942c;
 
 #endif

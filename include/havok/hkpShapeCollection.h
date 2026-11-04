@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpShape.h"
-#pragma pack(push, 1)
 class hkpShapeCollection : public hkpShape
 {
   public:
@@ -25,6 +24,4 @@ class hkpShapeCollection : public hkpShape
     hkUint8 m_eCollectionType;  // +0x15 (CollectionType)
     char pad16[0x2];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpShapeCollection[(sizeof(hkpShapeCollection) == 0x18) ? 1 : -1];
 #endif

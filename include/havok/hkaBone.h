@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKABONE_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkaBone
 {
   public:
@@ -12,6 +11,4 @@ class hkaBone
     hkBool m_bLockTranslation;  // +0x4
     char pad5[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaBone[(sizeof(hkaBone) == 0x8) ? 1 : -1];
 #endif

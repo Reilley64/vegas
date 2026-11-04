@@ -1,11 +1,25 @@
+#include <cstddef>
 
 // src/bsshader/imagespaceeffectwaterfft.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectwaterfft.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/BBA3C00Shader.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/decl/FUN_00ba3b50_t.h"
+#include "fnv/decl/FUN_00ba3c70_shell.h"
+#include "fnv/decl/H_00ba39a0.h"
+#include "fnv/decl/ImageSpaceEffect.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/fnv_00ba3ba0__Holder.h"
+#include "fnv/symbols_00ba3000.h"
+#include "fnv/symbols_01013000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01202000.h"
 struct ImageSpaceTexture
 {
-    void* GetTexture();
-    void AddRenderedTexture();
 };
 
 struct ImageSpaceTextureSet
@@ -28,25 +42,22 @@ struct ImageSpaceTextureSet
 // @fnv 0x00ba1250
 void ImageSpaceTextureSet::FUN_00ba1250()
 {
-    if (m_kTextureSlot2.GetTexture())
-        m_kTextureSlot2.AddRenderedTexture();
-    if (m_kTextureSlot3.GetTexture())
-        m_kTextureSlot3.AddRenderedTexture();
-    if (m_kTextureSlot0.GetTexture())
-        m_kTextureSlot0.AddRenderedTexture();
-    if (m_kTextureSlot1.GetTexture())
-        m_kTextureSlot1.AddRenderedTexture();
-    if (m_kTextureSlot4.GetTexture())
-        m_kTextureSlot4.AddRenderedTexture();
+    if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(m_kTextureSlot2))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba39a0 *>(&(m_kTextureSlot2))->FUN_00ba39a0();
+    if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(m_kTextureSlot3))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba39a0 *>(&(m_kTextureSlot3))->FUN_00ba39a0();
+    if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(m_kTextureSlot0))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba39a0 *>(&(m_kTextureSlot0))->FUN_00ba39a0();
+    if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(m_kTextureSlot1))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba39a0 *>(&(m_kTextureSlot1))->FUN_00ba39a0();
+    if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(m_kTextureSlot4))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba39a0 *>(&(m_kTextureSlot4))->FUN_00ba39a0();
     m_bHeaderParsed = false;
 }
 
 struct MemoryManager
 {
-    void* Allocate(unsigned int size);
-    void Deallocate(void* p);
 };
-extern MemoryManager g_memoryManager;
 
 struct ImageSpaceEffectParam
 {
@@ -56,18 +67,7 @@ struct ImageSpaceEffectParam
 struct ImageSpaceShaderParam : ImageSpaceEffectParam
 {
     ImageSpaceShaderParam();
-    void SetSizeEx(int a, int b);
-    void SetFloats(int idx, const float* data, unsigned int count);
-    void SetReferenceVector(int idx, float x, float y, float z, float w);
 
-    static void* operator new(unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
-    static void operator delete(void* p)
-    {
-        g_memoryManager.Deallocate(p);
-    }
 
     int unk04;
     int unk08;
@@ -105,11 +105,16 @@ struct ImageSpaceShaderParam : ImageSpaceEffectParam
     int unk7C;
     int unk80;
     int unk84;
+public:
+    void SetShaderConstantVector4(int, float, float, float, float);
+public:
+    void CopyParamData(int, const float *, unsigned int);
+public:
+    void AllocateShaderConstants(int, int);
 };
 
 struct ShaderParamArray
 {
-    __declspec(noalias) void SetAt(unsigned int idx, ImageSpaceEffectParam* const& val);
 };
 
 struct RenderTarget
@@ -208,12 +213,8 @@ class NiRenderer
     virtual void v49();
     virtual RenderTarget* GetDefaultRenderTarget();
 };
-extern NiRenderer* DAT_011f9508;
 
 extern const float DAT_011add48[16];
-extern float DAT_012023e0;
-extern float DAT_01013d84;
-extern float DAT_01013974;
 
 struct TextureArray
 {
@@ -241,12 +242,6 @@ struct ImageSpaceEffectX
     int unk14;
     ShaderParamArray params;
 
-    void SetTextureArraySize(int count);
-    void SetTexture(int idx, void* tex, ImageSpaceEffectParam* param, int mode);
-    void SetPass3(int a, int b, int c);
-    void SetPass5(int a, int b, int c, int d, int e);
-    void SetPass7(int a, int b, int c, int d, int e, int f, int g);
-    void SetPass9(int a, int b, int c, int d, int e, int f, int g, int h, int i);
     void SetupShaderPasses(EffectSource* src, int unused);
 };
 
@@ -254,38 +249,38 @@ struct ImageSpaceEffectX
 // @fnv 0x00bd6bb0
 void ImageSpaceEffectX::SetupShaderPasses(EffectSource* apSource, int unused)
 {
-    SetTextureArraySize(4);
+    reinterpret_cast<::ImageSpaceEffect *>(this)->SetTextureArraySize(4);
     float width = DAT_011f9508->GetDefaultRenderTarget()->GetWidth(0);
     float height = DAT_011f9508->GetDefaultRenderTarget()->GetHeight(0);
     {
         ImageSpaceShaderParam* param = new ImageSpaceShaderParam;
-        param->SetSizeEx(0, 0x18);
-        param->SetFloats(3, DAT_011add48, 0x40);
-        param->SetReferenceVector(2, 1.0f / width, 1.0f / height, 0.0f, 0.0f);
+        param->AllocateShaderConstants(0, 0x18);
+        param->CopyParamData(3, DAT_011add48, 0x40);
+        param->SetShaderConstantVector4(2, 1.0f / width, 1.0f / height, 0.0f, 0.0f);
         param->bFlag55 = false;
-        SetTexture(0, apSource->textures.GetAt(65), param, 2);
-        params.SetAt(0, param);
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(void *)(apSource->textures.GetAt(65)), param, 2);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(0, (::KeyPair **)&(param));
     }
-    SetPass3(0, 1, 1);
-    params.SetAt(1, 0);
-    SetPass5(1, 2, 3, 0, 0);
-    SetTexture(1, apSource->textures.GetAt(18), 0, 2);
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 1);
+    reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(1, (::KeyPair **)&(const ::ImageSpaceEffectParam *const &)(0));
+    reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(1, 2, 3, 0, 0);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(void *)(apSource->textures.GetAt(18)), 0, 2);
     {
         ImageSpaceShaderParam* param = new ImageSpaceShaderParam;
-        param->SetSizeEx(0, 3);
-        param->SetReferenceVector(0, 1.0f, DAT_01013974, DAT_01013d84, DAT_012023e0);
+        param->AllocateShaderConstants(0, 3);
+        param->SetShaderConstantVector4(0, 1.0f, DAT_01013974, DAT_01013d84, DAT_012023e0);
         param->bFlag56 = false;
-        params.SetAt(2, param);
-        SetPass7(2, 1, 2, 4, 0, 1, 0);
-        SetTexture(2, apSource->textures.GetAt(51), param, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(2, (::KeyPair **)&(param));
+        reinterpret_cast<::fnv_00ba3ba0::Holder *>(this)->FUN_00ba3ba0(2, 1, 2, 4, 0, 1, 0);
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(2, (::ImageSpaceEffect *)(void *)(apSource->textures.GetAt(51)), param, 0);
     }
     {
         ImageSpaceShaderParam* param = new ImageSpaceShaderParam;
-        param->SetSizeEx(0, 4);
-        param->SetReferenceVector(0, 1.0f, DAT_01013974, DAT_01013d84, DAT_012023e0);
+        param->AllocateShaderConstants(0, 4);
+        param->SetShaderConstantVector4(0, 1.0f, DAT_01013974, DAT_01013d84, DAT_012023e0);
         param->bFlag56 = false;
-        params.SetAt(3, param);
-        SetPass9(3, 1, 2, 4, 5, 0, 1, 0, 0);
-        SetTexture(3, apSource->textures.GetAt(52), param, 0);
+        reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(3, (::KeyPair **)&(param));
+        reinterpret_cast<::BBA3C00Shader *>(this)->SetEntryRanges(3, 1, 2, 4, 5, 0, 1, 0, 0);
+        reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(3, (::ImageSpaceEffect *)(void *)(apSource->textures.GetAt(52)), param, 0);
     }
 }

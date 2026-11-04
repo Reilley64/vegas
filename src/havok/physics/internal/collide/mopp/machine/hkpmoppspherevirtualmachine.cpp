@@ -2,43 +2,44 @@
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppspherevirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppspherevirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00df2000.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), as in the other mopp machine units
 extern "C" void __debugbreak();
 struct MoppState { int axis[3]; int radius; int origin[3]; int offset; int shift; int properties[1]; };
 struct HitArray { int* data; int size; unsigned capacity; };
-struct MemoryManager { int unk00,unk04,unk08,unk0c; void* allocator; };
-MemoryManager* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void*,HitArray*,int);
 extern unsigned char DAT_0126efbb;
-void __cdecl ValidateHavokKeyCode(unsigned char*);
 struct FmtObj {
     int unk00, unk04, unk08;
-    void FUN_00cb1600(char* buf, int size);
-    void FUN_00cc01c0(void* s);
-    void FUN_00cc00e0();
+    void FUN_00cc01c0(const char* s);
 };
 struct Reporter {
     virtual void v0();
     virtual void v4();
     virtual void v8();
-    virtual int Report(int a, unsigned int b, char* c, void* d, int e);
+    virtual int Report(int a, unsigned int b, char* c, const char* d, int e);
 };
-extern Reporter* DAT_01268360;
 
 __forceinline void reportCorruption() {
     unsigned int buffer[128];
     FmtObj stream;
-    stream.FUN_00cb1600(reinterpret_cast<char*>(buffer), sizeof(buffer));
+    new ((void *)&(stream)) ::FUN_00cb1600(reinterpret_cast<char*>(buffer), sizeof(buffer));
     stream.FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
-    if (DAT_01268360->Report(3, 0x1298feddu, reinterpret_cast<char*>(buffer), ".\\Collide\\Mopp\\Machine\\hkpMoppSphereVirtualMachine.cpp", 292))
+    if ((*reinterpret_cast<::Reporter * *>(&::DAT_01268360))->Report(3, 0x1298feddu, reinterpret_cast<char*>(buffer), ".\\Collide\\Mopp\\Machine\\hkpMoppSphereVirtualMachine.cpp", 292))
         __debugbreak();
-    stream.FUN_00cc00e0();
+    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
 }
 struct MoppMachine { HitArray* hits; int unk04,unk08,unk0c; int axis[3]; int radius; void FUN_00e64870(MoppState*, const unsigned char*); };
 // @fnv 0x00e64870
 void MoppMachine::FUN_00e64870(MoppState* state, const unsigned char* code) {
     MoppState local;
-    if (!DAT_0126efbb) { ValidateHavokKeyCode(&DAT_0126efbb); if (!DAT_0126efbb) return; }
+    if (!DAT_0126efbb) { ::ValidateHavokKeyCode((bool *)(unsigned char *)(&DAT_0126efbb)); if (!DAT_0126efbb) return; }
     int hit = 0;
     for (;;) {
         unsigned command = *code;
@@ -242,8 +243,8 @@ void MoppMachine::FUN_00e64870(MoppState* state, const unsigned char* code) {
         add_hit: {
             hit+=state->offset;
             HitArray* output=hits;
-            MemoryManager* manager=FUN_00c85750();
-            if(output->size==(output->capacity&0x3fffffff)) ResizeAudioStream(manager->allocator,output,4);
+            hkMemoryRouter* manager=&hkMemoryRouter::getInstance();
+            if(output->size==(output->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(manager->m_heap),(::AudioStream *)(output),4);
             int* p = &output->data[output->size++];
             *p = hit;
             return;
@@ -282,3 +283,5 @@ void xSphereMachine::FUN_00e64f00(const xMoppCode* code, const xSphere& sphere, 
     state.properties[0] = 0;
     FUN_00e64870(&state, program);
 }
+
+#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppspherevirtualmachine.inc"

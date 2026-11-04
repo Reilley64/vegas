@@ -1,16 +1,40 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/particleshader.cpp: ParticleShader, ShaderState (12 functions)
 
+#include <cstddef>
+#include <windows.h>
+#include <cstring>
+#include "fnv/decl/A72BB0_DataStreamOwner.h"
+#include "fnv/decl/BSShaderManager.h"
+#include "fnv/decl/CloneSourceA5d6.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a726a0_cls.h"
+#include "fnv/decl/FUN_00a72ca0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiGPUProgramOwner.h"
+#include "fnv/decl/NiRenderer.h"
+#include "fnv/symbols_00ba7000.h"
+#include "fnv/symbols_00e76000.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_01200000.h"
 #include "particleshader_decls.h"
 
 // Returns the cached particle count, computing it from the renderer level (26, or 78 when level >= 2) if not yet set.
 // @fnv 0x00ba52d0
 unsigned int ParticleShader::GetShaderParticleCount()
 {
-    register unsigned int count = fnv_particle_shader_particle_count;
+    unsigned int count = (*reinterpret_cast<unsigned int *>(&::DAT_012003ec));
     if (count == 0)
     {
-        count = 26 + (fnv_particle_shader_renderer_level < 2 ? 0 : 52);
-        fnv_particle_shader_particle_count = count;
+        count = 26 + (::DAT_011f91c0 < 2 ? 0 : 52);
+        (*reinterpret_cast<unsigned int *>(&::DAT_012003ec)) = count;
     }
     return count;
 }
@@ -18,7 +42,7 @@ unsigned int ParticleShader::GetShaderParticleCount()
 // @fnv 0x00ba58b0
 BSShader* ParticleShader::CreateShader()
 {
-    NiD3DVertexDeclaration* d = NiD3DVertexDeclaration::Create(DAT_011f9508, 5, 1);
+    NiD3DVertexDeclaration* d = ::FUN_00e76700(DAT_011f9508, 5, 1);
     d->vfn_8c(0, 0, 0, 2, 0);
     d->vfn_8c(1, 3, 3, 2, 0);
     d->vfn_8c(2, 5, 4, 3, 0);
@@ -36,12 +60,14 @@ BSShader* ParticleShader::CreateShader()
 
 struct NiD3DPass
 {
-    void __thiscall DestroyPass();
+    char pad00[0x64];
+    int m_iRefCount;
+    void DestroyPass();
 };
 
-// Assigns a NiD3DPass pointer, releasing the old pass when its refcount at offset 0x64 drops to zero and incrementing the new pass's refcount.
+// Assigns a NiD3DPass pointer, releasing the old pass when its refcount drops to zero and incrementing the new pass's refcount.
 // @fnv 0x00ba53c0
-void* __fastcall AssignNiD3DPass(void* pThis, int, void* param)
+void* AssignNiD3DPass(void* pThis, int, void* param)
 {
     NiD3DPass** ppThis = (NiD3DPass**)pThis;
     NiD3DPass** ppParam = (NiD3DPass**)param;
@@ -50,7 +76,7 @@ void* __fastcall AssignNiD3DPass(void* pThis, int, void* param)
     {
         if (old)
         {
-            int* piRefCount = (int*)((char*)old + 0x64);
+            int* piRefCount = &old->m_iRefCount;
             *piRefCount -= 1;
             if (*piRefCount == 0)
                 old->DestroyPass();
@@ -58,28 +84,29 @@ void* __fastcall AssignNiD3DPass(void* pThis, int, void* param)
         NiD3DPass* n = *ppParam;
         *ppThis = n;
         if (n)
-            ++*(int*)((char*)n + 0x64);
+            ++n->m_iRefCount;
     }
     return pThis;
 }
 
-extern "C" void* g_012003f8;
 
 // @fnv 0x00ba5730
 void* __cdecl FUN_00ba5730()
 {
-    return &g_012003f8;
+    return &(*reinterpret_cast<void * *>(&::g_012003f8));
 }
 
 struct FUN_00ba6ce0_shell
 {
-    char __thiscall FUN_00ba6ce0(int value);
+    char pad00[0x12c];
+    int m_i12c;
+    char FUN_00ba6ce0(int value);
 };
 
 // @fnv 0x00ba6ce0
-char __thiscall FUN_00ba6ce0_shell::FUN_00ba6ce0(int value)
+char FUN_00ba6ce0_shell::FUN_00ba6ce0(int value)
 {
-    *(int*)((char*)this + 0x12c) = value;
+    m_i12c = value;
     return 1;
 }
 
@@ -88,18 +115,17 @@ struct FUN_00ba52f0_shell
     char _pad[0x74];
     void* _a;
     void* _b;
-    void __thiscall FUN_00ba52f0();
+    void FUN_00ba52f0();
 };
 // Calls the virtual function at vtable slot 74 twice, passing _a and then _b.
 // @fnv 0x00ba52f0
-void __thiscall FUN_00ba52f0_shell::FUN_00ba52f0()
+void FUN_00ba52f0_shell::FUN_00ba52f0()
 {
-    typedef void(__thiscall * Fn)(FUN_00ba52f0_shell*, void*);
+    typedef void(* Fn)(FUN_00ba52f0_shell*, void*);
     (*(Fn**)this)[74](this, _a);
     (*(Fn**)this)[74](this, _b);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 void FUN_00e80190();
 extern "C" void FUN_00be0f10();
 
@@ -118,9 +144,9 @@ struct RefSlot
         void* p = value;
         if (p)
         {
-            if (--*(int*)((char*)p + 0x64) == 0)
+            if (--static_cast<NiD3DPass*>(p)->m_iRefCount == 0)
             {
-                ((void(__thiscall*)(void*))FUN_00e80190)(p);
+                ((void(*)(void*))FUN_00e80190)(p);
             }
         }
     }
@@ -129,9 +155,9 @@ struct RefSlot
         void* p = value;
         if (p)
         {
-            if (--*(int*)((char*)p + 0x64) == 0)
+            if (--static_cast<NiD3DPass*>(p)->m_iRefCount == 0)
             {
-                ((void(__thiscall*)(void*))FUN_00e80190)(p);
+                ((void(*)(void*))FUN_00e80190)(p);
             }
             value = 0;
         }
@@ -197,11 +223,8 @@ struct ComSlot2
 
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 
-extern "C" ComTarget* DAT_012003f4;
 
 struct BaseCleanup : BSShader
 {
@@ -259,7 +282,7 @@ FUN_00ba5740::~FUN_00ba5740()
         }
         DAT_012003f4 = 0;
     }
-    g_memoryManager.Deallocate(slot70);
+    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(slot70);
     slot70 = 0;
     slot74.Release();
     slot78.Release();
@@ -268,12 +291,8 @@ FUN_00ba5740::~FUN_00ba5740()
 }
 
 namespace fnv_00ba69f0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 struct ConstantMap
 {
-    static void* operator new(unsigned int) throw();
-    static void operator delete(void*);
     ConstantMap(void*, int);
     virtual void ReportDiagnostic();
     virtual void destroy();
@@ -337,9 +356,6 @@ struct MapPointer
         }
     }
 };
-extern float scaleAdjustment;
-extern "C" unsigned int fnv_particle_shader_particle_count;
-extern "C" int fnv_particle_shader_renderer_level;
 struct ShaderState
 {
     int field00;
@@ -433,12 +449,12 @@ void ShaderState::InitConstantMaps()
         field34.ptr->add("Color3", 0x10000007, 0, 11, 1, "", 16, 4, &field11c, 0);
         field34.ptr->add("Velocity", 0x10000007, 0, 12, 1, "", 12, 4, &fieldd4, 0);
         field34.ptr->add("Acceleration", 0x10000007, 0, 13, 1, "", 12, 4, &fielde0, 0);
-        field34.ptr->add("Scale Adjustment", 0x10000007, 0, 14, 1, "", 16, 4, &scaleAdjustment, 0);
+        field34.ptr->add("Scale Adjustment", 0x10000007, 0, 14, 1, "", 16, 4, &::DAT_011adccc, 0);
         field34.ptr->add("fVars", 0x10000009, 0, 4, 5, "", 80, 4, &field84, 0);
-        if (!fnv_particle_shader_particle_count)
-            fnv_particle_shader_particle_count = fnv_particle_shader_renderer_level >= 2 ? 78 : 26;
-        field34.ptr->add("particle data", 0x10000009, 0, 18, fnv_particle_shader_particle_count * 3, "",
-                         fnv_particle_shader_particle_count * 48, 4, field70, 0);
+        if (!(*reinterpret_cast<unsigned int *>(&::DAT_012003ec)))
+            (*reinterpret_cast<unsigned int *>(&::DAT_012003ec)) = ::DAT_011f91c0 >= 2 ? 78 : 26;
+        field34.ptr->add("particle data", 0x10000009, 0, 18, (*reinterpret_cast<unsigned int *>(&::DAT_012003ec)) * 3, "",
+                         (*reinterpret_cast<unsigned int *>(&::DAT_012003ec)) * 48, 4, field70, 0);
     }
     if (!field30.ptr)
         field30 = new ConstantMap(field18, 2);
@@ -541,9 +557,7 @@ struct S_00ba5320_Outer
     virtual S_00ba5320_Inner* GetRenderTarget();
 };
 
-extern S_00ba5320_Outer* DAT_011f4748;
 extern float DAT_011adcc8;
-extern float DAT_011adccc;
 extern float DAT_011adcd0;
 extern float DAT_011adcd4;
 extern float DAT_011adcd8;
@@ -551,11 +565,11 @@ extern float DAT_011adcd8;
 // @fnv 0x00ba5320
 void __cdecl FUN_00ba5320()
 {
-    S_00ba5320_Inner* pRenderTarget = DAT_011f4748->GetRenderTarget();
+    S_00ba5320_Inner* pRenderTarget = (*reinterpret_cast<::S_00ba5320_Outer * *>(&::NiRenderer::ms_pRenderer))->GetRenderTarget();
     unsigned int uiWidth = pRenderTarget->GetWidth(0);
     float value1 = (float)uiWidth;
 
-    S_00ba5320_Inner* pRenderTarget2 = DAT_011f4748->GetRenderTarget();
+    S_00ba5320_Inner* pRenderTarget2 = (*reinterpret_cast<::S_00ba5320_Outer * *>(&::NiRenderer::ms_pRenderer))->GetRenderTarget();
     double dWidth = value1;
     unsigned int uiHeight = pRenderTarget2->GetHeight(0);
     float value2 = (float)uiHeight;
@@ -580,7 +594,6 @@ struct NiBound
     NiPoint3 center;
     float radius;
 };
-extern NiBound DAT_011f4288;
 extern int DAT_012003f0;
 
 struct NiUpdateData
@@ -597,7 +610,6 @@ class NiObject
 {
   public:
     virtual void vfn_0();
-    NiObject* Clone();
 };
 
 class NiProperty
@@ -720,8 +732,6 @@ class NiAVObject : public NiObject
     virtual void vfn_d4();
     virtual void vfn_d8();
     virtual void vfn_dc(NiObject*, int);
-    NiProperty* GetProperty(unsigned int);
-    void Update(NiUpdateData&);
     void* unk04;
     void* unk08;
     void* unk0c;
@@ -784,7 +794,6 @@ struct ArgObj
 };
 
 NiObject* __cdecl FUN_00ba64e0();
-void __cdecl FUN_00b57e30(NiObject*, int, int);
 
 // @fnv 0x00ba68d0
 NiProperty* __cdecl FUN_00ba68d0(NiAVObject* apObject, ArgObj* apArg)
@@ -795,12 +804,12 @@ NiProperty* __cdecl FUN_00ba68d0(NiAVObject* apObject, ArgObj* apArg)
         if (obj)
         {
             NiObject* pPrototype = FUN_00ba64e0();
-            NiAVObject* clone = (NiAVObject*)pPrototype->Clone();
+            NiAVObject* clone = (NiAVObject*)((::NiObject *)(reinterpret_cast<::CloneSourceA5d6 *>((pPrototype))->FUN_00a5d680()));
             BoundHolder* holder = clone->holder;
             NiBound b = holder->bound;
             NiBound* pOtherBound = apArg->bound;
             if (!pOtherBound)
-                pOtherBound = &DAT_011f4288;
+                pOtherBound = &::g_defaultBound;
             float t = pOtherBound->radius * 2.0f;
             float newRadius = (b.radius > t) ? b.radius : t;
             holder->bound.radius = newRadius;
@@ -813,9 +822,9 @@ NiProperty* __cdecl FUN_00ba68d0(NiAVObject* apObject, ArgObj* apArg)
             updateData.c6 = 0;
             updateData.c7 = 0;
             updateData.c8 = 0;
-            obj->Update(updateData);
-            FUN_00b57e30(clone, 0, 0);
-            NiProperty* pProperty = clone->GetProperty(3);
+            reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((std::intptr_t)&(updateData));
+            ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(clone), 0, 0);
+            NiProperty* pProperty = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((clone))->FUN_00a59d30(3)));
             int bValidType = 0;
             if (pProperty)
                 bValidType = (pProperty->type == 0x11);
@@ -835,46 +844,35 @@ NiProperty* __cdecl FUN_00ba68d0(NiAVObject* apObject, ArgObj* apArg)
 struct Q64_Pool
 {
     int unk00;
-    void* __thiscall FUN_00aa3e40(unsigned int size);
 };
 struct Q64_Pt2
 {
     float x;
     float y;
 };
-extern Q64_Pool DAT_011f6238;
-extern int DAT_011f91c0;
-extern unsigned int DAT_012003ec;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
-unsigned int __cdecl GetFloatQuadTable();
 
-inline void* operator new[](unsigned int n, Q64_Pool& p)
+inline void* operator new[](std::size_t n, Q64_Pool& p)
 {
-    return p.FUN_00aa3e40(n);
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(p))->FUN_00aa3e40(n);
 }
 
 inline unsigned short* Q64_allocIdx(unsigned short t)
 {
-    return new (DAT_011f6238) unsigned short[t * 3];
+    return new ((*reinterpret_cast<::Q64_Pool *>(&::g_memoryManager))) unsigned short[t * 3];
 }
 inline NiPoint3* Q64_allocPos(unsigned short n)
 {
-    return new (DAT_011f6238) NiPoint3[n];
+    return new ((*reinterpret_cast<::Q64_Pool *>(&::g_memoryManager))) NiPoint3[n];
 }
 inline Q64_Pt2* Q64_allocUv(unsigned short n)
 {
-    return new (DAT_011f6238) Q64_Pt2[n];
+    return new ((*reinterpret_cast<::Q64_Pool *>(&::g_memoryManager))) Q64_Pt2[n];
 }
 
 struct Q64_Obj
 {
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void* p);
 };
 struct Q64_Sub
 {
@@ -903,9 +901,6 @@ struct Q64_Buf : Q64_Obj
     int unk20;
     int unk24;
     int unk28;
-    void __thiscall FUN_00a72ca0(int a);
-    void __thiscall FUN_00a72bb0(int a, unsigned int b, unsigned int c, int d);
-    void __thiscall FUN_00a726a0(int a, int b, int c, int d, unsigned short e, int f, int g);
     Q64_Buf(unsigned short nv, int a);
 };
 struct Q64_Geo : Q64_Obj
@@ -932,7 +927,6 @@ struct Q64_Geo : Q64_Obj
     int unk4c;
     int unk50;
     int unk54;
-    void __thiscall FUN_00a67260(Q64_Buf* a);
     Q64_Geo(unsigned short nv, NiPoint3* verts, int a, int b, Q64_Pt2* uv, int c, int d, unsigned short tris,
             unsigned short* idx);
 };
@@ -1074,7 +1068,6 @@ struct Q64_Top : Q64_Obj
     Q64_Sub* sub;
     int unkbc;
     int unkc0;
-    void __thiscall FUN_00439410(Q64_Ren* a);
     Q64_Top(Q64_Geo* geo);
 };
 
@@ -1114,9 +1107,9 @@ NiObject* __cdecl FUN_00ba64e0()
     if (DAT_012003f4)
         return reinterpret_cast<NiObject*>(DAT_012003f4);
 
-    if (!DAT_012003ec)
-        DAT_012003ec = 0x1a + (DAT_011f91c0 < 2 ? 0 : 0x34);
-    unsigned short n = (unsigned short)DAT_012003ec;
+    if (!(*reinterpret_cast<unsigned int *>(&::DAT_012003ec)))
+        (*reinterpret_cast<unsigned int *>(&::DAT_012003ec)) = 0x1a + (DAT_011f91c0 < 2 ? 0 : 0x34);
+    unsigned short n = (unsigned short)(*reinterpret_cast<unsigned int *>(&::DAT_012003ec));
     unsigned int tris = (unsigned short)(n * 2);
     unsigned short nv = (unsigned short)(n * 4);
 
@@ -1154,10 +1147,10 @@ NiObject* __cdecl FUN_00ba64e0()
 
     Q64_Geo* geo = new Q64_Geo(nv, verts, 0, 0, uv, 1, 0, tris, idx);
     Q64_Buf* buf = new Q64_Buf(nv, 1);
-    buf->FUN_00a72ca0(1);
-    buf->FUN_00a72bb0(0, GetFloatQuadTable(), nv * 4, 1);
-    buf->FUN_00a726a0(0, 0, 0, 1, nv, 4, 4);
-    geo->FUN_00a67260(buf);
+    reinterpret_cast<::FUN_00a72ca0_Class *>((buf))->FUN_00a72ca0(1);
+    reinterpret_cast<::A72BB0_DataStreamOwner *>((buf))->FUN_00a72bb0(0, ::GetFloatQuadTable(), nv * 4, 1);
+    reinterpret_cast<::FUN_00a726a0_cls *>((buf))->FUN_00a726a0(0, 0, 0, (void *)(1), nv, 4, 4);
+    reinterpret_cast<::NiGPUProgramOwner *>((geo))->SetProgram((::NiGPUProgram *)(buf));
 
     Q64_Top* top = new Q64_Top(geo);
     Q64_Sub* sub = top->sub;
@@ -1166,7 +1159,7 @@ NiObject* __cdecl FUN_00ba64e0()
     sub->bound.center = kBound.center;
 
     Q64_Ren* ren = new Q64_Ren;
-    top->FUN_00439410(ren);
+    reinterpret_cast<::FUN_00439410_cls *>((top))->FUN_00439410((::ArgObject *)(ren));
 
     if (DAT_012003f4 != (ComTarget*)top)
     {
@@ -1178,13 +1171,10 @@ NiObject* __cdecl FUN_00ba64e0()
     return reinterpret_cast<NiObject*>(DAT_012003f4);
 }
 
-extern void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 struct ParticleMemoryManager
 {
-    void* __thiscall FUN_00aa3e40(unsigned int);
 };
-extern ParticleMemoryManager particleMemoryManager;
 
 namespace ParticleConstruction {
 struct RefObject
@@ -1283,10 +1273,6 @@ struct FourFloatVector
 struct Particle
 {
     float x, y, z, w, a, b, c, d, e, f, g, h;
-    static void* operator new[](unsigned int size)
-    {
-        return particleMemoryManager.FUN_00aa3e40(size);
-    }
 };
 struct ShaderBase
 {
@@ -1371,14 +1357,16 @@ FUN_00ba53f0::FUN_00ba53f0(NiD3DVertexDeclaration* apVertexDeclaration)
     row1 = FourFloatVector(0, 0, 0, 0);
     row2 = FourFloatVector(0, 0, 0, 0);
     row3 = FourFloatVector(0, 0, 0, 0);
-    unsigned int count = fnv_particle_shader_particle_count;
+    unsigned int count = (*reinterpret_cast<unsigned int *>(&::DAT_012003ec));
     if (!count)
     {
-        count = fnv_particle_shader_renderer_level >= 2 ? 78 : 26;
-        fnv_particle_shader_particle_count = count;
+        count = ::DAT_011f91c0 >= 2 ? 78 : 26;
+        (*reinterpret_cast<unsigned int *>(&::DAT_012003ec)) = count;
     }
     particles = new Particle[count];
-    FUN_00ec61c0(particles, 0, count * 48);
-    FUN_00ec61c0(&unk84, 0, 80);
+    std::memset(particles, 0, count * 48);
+    std::memset(&unk84, 0, 80);
 }
 }
+
+#include "generated/data/bsshader/particleshader.inc"

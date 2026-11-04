@@ -24,25 +24,38 @@ struct Result
     float unk08;
     float value;
 };
+// One 0x50-byte motor schema written to the jacobian stream: a type byte in the first float's low byte, then the
+// motor's values from +0x30.
+struct MotorSchema
+{
+    float m_header;
+    float m_unk04[11];
+    float m_f30;
+    float m_f34;
+    float m_f38;
+    float m_f3c;
+    float m_f40;
+    float m_unk44[3];
+};
+static_assert(sizeof(MotorSchema) == 0x50);
 struct Buffer
 {
-    float* cursor;
+    MotorSchema* cursor;
 };
 // Computes a->x*b->z into out->value, advances buffer->cursor by 0x50, and writes scaled and copied components of a into the cursor's preceding slots.
 // @fnv 0x00dd03c0
 void __cdecl FUN_00dd03c0(VectorA* pVectorA, VectorB* pVectorB, Result* pResult, Buffer* buffer)
 {
     pResult->value = pVectorA->x * pVectorB->z;
-    float* cursor = buffer->cursor;
-    *cursor += 0.00000011920928955078125;
-    *(unsigned char*)cursor = 10;
-    cursor = (float*)((char*)cursor + 0x50);
-    buffer->cursor = cursor;
-    cursor[-8] = pVectorA->z * pVectorB->y;
-    cursor[-7] = pVectorA->w * pVectorB->y;
-    cursor[-6] = pVectorA->y;
-    cursor[-5] = pVectorA->v4;
-    cursor[-4] = pVectorA->v5;
+    MotorSchema* schema = buffer->cursor;
+    schema->m_header += 0.00000011920928955078125;
+    *(unsigned char*)&schema->m_header = 10;
+    buffer->cursor = schema + 1;
+    schema->m_f30 = pVectorA->z * pVectorB->y;
+    schema->m_f34 = pVectorA->w * pVectorB->y;
+    schema->m_f38 = pVectorA->y;
+    schema->m_f3c = pVectorA->v4;
+    schema->m_f40 = pVectorA->v5;
 }
 
 #include <xmmintrin.h>

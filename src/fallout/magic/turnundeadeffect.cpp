@@ -2,6 +2,22 @@
 // src/fallout/magic/turnundeadeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/turnundeadeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/FUN_0045cd60_shell.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/FUN_00608d80_shell.h"
+#include "fnv/decl/FUN_008d0600_s.h"
+#include "fnv/decl/MagicTarget.h"
+#include "fnv/decl/fnv_0087f9f0__FUN_0087f9f0_shell.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00495000.h"
+#include "fnv/symbols_004ae000.h"
+#include "fnv/symbols_00649000.h"
+#include "fnv/symbols_011a0000.h"
+#include "fnv/symbols_011a1000.h"
 class NiPoint3
 {
   public:
@@ -11,29 +27,35 @@ struct hkVector4
 {
     float x, y, z, w;
 };
-NiPoint3& __cdecl SetNiPoint3FromHkVector4(NiPoint3&, hkVector4 const&);
 struct ScriptLocalsX
 {
-    void* GetLocalData();
 };
+// The object FUN_004ae750 returns, as far as this effect reads it.
+struct TurnUndeadSourceFields
+{
+    char pad00[0x30];
+    hkVector4 unk30;
+};
+class Actor;
 class MagicCaster
 {
+public:
+    ::Actor *GetCasterActor();
 };
 struct TurnUndeadEffect : ScriptLocalsX
 {
     void ApplyTurnUndeadEffect(MagicCaster* apCaster);
 };
-// Gets a script-local object and, if present, converts its hkVector4 at offset 0x30 into the caster's NiPoint3.
+// Gets a script-local object and, if present, converts its hkVector4 into the caster's NiPoint3.
 // @fnv 0x0082aa50
 void TurnUndeadEffect::ApplyTurnUndeadEffect(MagicCaster* apCaster)
 {
-    void* bresult = GetLocalData();
+    TurnUndeadSourceFields* bresult = ((TurnUndeadSourceFields *)(::FUN_004ae750((void *)this)));
     if (bresult)
-        SetNiPoint3FromHkVector4(*(NiPoint3*)apCaster, *(hkVector4 const*)((char*)bresult + 0x30));
+        ::SetNiPoint3FromHkVector4(*(NiPoint3*)apCaster, bresult->unk30);
 }
 
 extern unsigned int _data_011c16bc;
-void* __cdecl operator new(unsigned int);
 
 class ActiveEffect
 {
@@ -275,39 +297,32 @@ class Actor
     virtual void slot184();
     virtual void slot185();
     virtual bool HasFlag186();
-    unsigned short FUN_0087f9f0();
-    bool FUN_00608d80();
 };
 class Reference
 {
   public:
-    Actor* FUN_00822b40();
 };
-extern char _data_011a0ef8;
-extern char _data_011a106c;
-bool __cdecl FUN_006494d0(unsigned short value, float strength);
 int __cdecl FUN_00ec43fb(Reference* reference, int flag, void* first, void* second, int extra);
 class EffectEvaluator
 {
   public:
-    float GetFloatAtOffset1C();
     bool FUN_0082b460(Reference* reference);
 };
 // @fnv 0x0082b460
 bool EffectEvaluator::FUN_0082b460(Reference* reference)
 {
-    Actor* actor = reference ? reference->FUN_00822b40() : 0;
+    Actor* actor = reference ? reinterpret_cast<::MagicTarget *>((reference))->GetOwnerActor() : 0;
     if (actor != 0)
     {
         if (!actor->HasFlag139(0) && !actor->HasFlag186())
         {
-            if (FUN_006494d0(actor->FUN_0087f9f0(), GetFloatAtOffset1C()))
+            if (::FUN_006494d0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((actor))->FUN_0087f9f0(), ::GetFloatAtOffset1C((char *)this)))
             {
-                int result = FUN_00ec43fb(reference, 0, &_data_011a0ef8, &_data_011a106c, 0);
+                int result = FUN_00ec43fb(reference, 0, &(*reinterpret_cast<char *>(&::DAT_011a0ef8)), &_data_011a106c, 0);
                 if (result != 0)
                 {
                 }
-                else if (actor->FUN_00608d80())
+                else if (reinterpret_cast<::FUN_00608d80_shell *>((actor))->FUN_00608d80())
                     return true;
             }
         }
@@ -318,16 +333,15 @@ rejected:
 
 struct O
 {
-    int FUN_00822b40();
-    int FUN_00815410();
-    void FUN_008d0600();
 };
 
 struct C
 {
-    int FUN_0059bb30();
     int FUN_0045cd60();
     void FUN_0082b530();
+    char pad00[0x48];
+    char unk48;
+    char pad49[0x3];
 };
 
 struct D
@@ -342,14 +356,14 @@ struct V
 // @fnv 0x0082b530
 void C::FUN_0082b530()
 {
-    int b;
-    int a;
-    b = FUN_0059bb30() ? ((O*)FUN_0059bb30())->FUN_00822b40() : 0;
-    a = FUN_0045cd60() ? ((O*)FUN_0045cd60())->FUN_00815410() : 0;
-    if (b != 0 && a != 0 && (*(int(__thiscall**)(int))(*(int**)b + 266))(b) != 0)
+    intptr_t b;
+    intptr_t a;
+    b = ((intptr_t)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((intptr_t)(reinterpret_cast<::MagicTarget *>((((O*)((reinterpret_cast<::ActiveEffectFields *>(this)->target)))))->GetOwnerActor())) : 0;
+    a = (reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()) ? ((intptr_t)(reinterpret_cast<::MagicCaster *>((((O*)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
+    if (b != 0 && a != 0 && (*(void*(**)(intptr_t))(*(void***)b + 266))(b) != 0)
     {
-        ((O*)(*(int(__thiscall**)(int, int, int))(*(int**)b + 266))(b, a, 0))->FUN_008d0600();
-        *(char*)((char*)this + 72) = 1;
+        reinterpret_cast<::FUN_008d0600_s *>((*(void*(**)(intptr_t))(*(void***)b + 266))(b))->FUN_008d0600(a, 0);
+        this->unk48 = 1;
     }
 }
 
@@ -844,27 +858,21 @@ class B82B5E0Actor
     virtual void VFunc430();
     virtual void SetPackage(B82B5E0Package* pkPackage);
 
-    bool FUN_00493bb0();
-    B82B5E0Process* GetProcess();
 };
 
 class B82B5E0ActorHandle
 {
   public:
-    B82B5E0Actor* Get();
 };
 
 class B82B5E0PackageHandle
 {
   public:
-    B82B5E0Package* Get();
 };
 
 class B82B5E0Request
 {
   public:
-    B82B5E0ActorHandle* GetActorHandle();
-    B82B5E0PackageHandle* GetPackageHandle();
     void ApplyPackageToActor();
 
     int unk00;
@@ -894,12 +902,12 @@ void B82B5E0Request::ApplyPackageToActor()
 {
     if (!m_bModifierActive)
         return;
-    B82B5E0Actor* pkActor = GetActorHandle() ? GetActorHandle()->Get() : 0;
-    B82B5E0Package* pkPackage3 = GetPackageHandle() ? GetPackageHandle()->Get() : 0;
-    if (pkActor && pkActor->FUN_00493bb0())
+    B82B5E0Actor* pkActor = ((::B82B5E0ActorHandle *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::B82B5E0Actor *)(reinterpret_cast<::MagicTarget *>((((::B82B5E0ActorHandle *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
+    B82B5E0Package* pkPackage3 = ((::B82B5E0PackageHandle *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::B82B5E0Package *)(reinterpret_cast<::MagicCaster *>((((::B82B5E0PackageHandle *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
+    if (pkActor && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((pkActor))->FUN_00493bb0())))
     {
         pkActor->SetPackage(pkPackage3);
-        if (pkPackage3 && pkActor->GetProcess())
-            pkActor->GetProcess()->StartPackage(pkActor, pkPackage3, true, 0, 0, 0, 0, 0, 0, 0, 0, true, 0);
+        if (pkPackage3 && ((::B82B5E0Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture())))
+            ((::B82B5E0Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->StartPackage(pkActor, pkPackage3, true, 0, 0, 0, 0, 0, 0, 0, 0, true, 0);
     }
 }

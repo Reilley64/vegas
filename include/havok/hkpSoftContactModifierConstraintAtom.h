@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpModifierConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpSoftContactModifierConstraintAtom : public hkpModifierConstraintAtom
 {
   public:
@@ -13,7 +12,4 @@ class hkpSoftContactModifierConstraintAtom : public hkpModifierConstraintAtom
     hkReal m_fDamping;  // +0x24
     char pad28[0x8];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpSoftContactModifierConstraintAtom[(sizeof(hkpSoftContactModifierConstraintAtom) == 0x30) ? 1 : -1];
 #endif

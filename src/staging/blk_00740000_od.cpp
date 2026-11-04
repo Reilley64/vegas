@@ -2,17 +2,57 @@
 // src/staging/blk_00740000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include <cstdlib>
+#include "fnv/decl/BGSQuestObjective.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/CMenu.h"
+#include "fnv/decl/FUN_004036b0_Class.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_0041fd00_shell.h"
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00600ab0_shell.h"
+#include "fnv/decl/FUN_006f2270.h"
+#include "fnv/decl/FUN_006ffe80_shell.h"
+#include "fnv/decl/FUN_00729970_shell.h"
+#include "fnv/decl/FUN_00740f10_shell.h"
+#include "fnv/decl/FUN_00759f20_shell.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FlagS.h"
+#include "fnv/decl/MiddleLowProcess.h"
+#include "fnv/decl/PlacementMenu.h"
+#include "fnv/decl/Proxy_754a00.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/SoundPlaybackHandle.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_0074f600__FUN_0074f600_shell.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00721000.h"
+#include "fnv/symbols_0073b000.h"
+#include "fnv/symbols_01071000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011d9000.h"
 #include "../../include/layout_support.h"
 
 struct FUN_00740960_Class
 {
+    char pad00[0x628];
+    unsigned int unk628;
     unsigned int FUN_00740960();
 };
 
 // @fnv 0x00740960
 unsigned int FUN_00740960_Class::FUN_00740960()
 {
-    return *(unsigned int*)((char*)this + 0x628);
+    return this->unk628;
 }
 
 struct FUN_00752df0_class
@@ -31,25 +71,23 @@ int FUN_00752df0_class::CompareToTwentyOneToTwentySix(int value)
     return 0;
 }
 
-extern "C" void* DAT_01071aec;
 
 struct AX
 {
-    void __thiscall FUN_006b3eb0(unsigned int, unsigned int);
-    AX* __thiscall FUN_00753070();
+    void FUN_006b3eb0(unsigned int, unsigned int);
+    AX* FUN_00753070();
 };
 
 // Sets the object's vtable pointer to DAT_01071aec, calls FUN_006b3eb0(0, 0), and returns this.
 // @fnv 0x00753070
-AX* __thiscall AX::FUN_00753070()
+AX* AX::FUN_00753070()
 {
-    *(void**)this = &DAT_01071aec;
+    *(void**)this = &::DAT_01071aec;
     FUN_006b3eb0(0, 0);
     return this;
 }
 
 namespace fnv_007530a0 {
-extern int DAT_01071aec;
 
 struct GlobalObject_00869f00
 {
@@ -60,8 +98,8 @@ struct GlobalObject_00869f00
 // @fnv 0x007530a0
 void GlobalObject_00869f00::FUN_007530a0()
 {
-    *reinterpret_cast<int**>(this) = &DAT_01071aec;
-    Clear(true);
+    *reinterpret_cast<int**>(this) = &(*reinterpret_cast<int *>(&::DAT_01071aec));
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 }  // namespace fnv_007530a0
 
@@ -78,7 +116,7 @@ struct GlobalObject_00869f00
 void GlobalObject_00869f00::FUN_007530f0()
 {
     p = &DAT_01071b00;
-    Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
 namespace fnv_00753110 {
@@ -88,20 +126,18 @@ struct AX
     AX* FUN_00753110();
 };
 
-extern void* DAT_01071b14;
 
 // Sets the object's vtable pointer to DAT_01071b14, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x00753110
 AX* AX::FUN_00753110()
 {
-    *reinterpret_cast<void**>(this) = &DAT_01071b14;
+    *reinterpret_cast<void**>(this) = &(*reinterpret_cast<void * *>(&::fnv_00753210::DAT_01071b14));
     FUN_006b3eb0(0, 0);
     return this;
 }
 }  // namespace fnv_00753110
 
 namespace fnv_00753210 {
-extern int DAT_01071b14;
 struct GlobalObject_00869f00
 {
     int* p;
@@ -113,34 +149,35 @@ struct FUN_00753210Class
     void FUN_00753210();
 };
 // @fnv 0x00753210
-void __thiscall FUN_00753210Class::FUN_00753210()
+void FUN_00753210Class::FUN_00753210()
 {
     p = &DAT_01071b14;
-    ((GlobalObject_00869f00*)this)->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
 }
 }  // namespace fnv_00753210
 
 struct FUN_00754a00_cls
 {
-    void __thiscall SetTraitSelected(int a1, int a2);
-    void __thiscall FUN_00754930(int a1);
+    void FUN_00754930(intptr_t a1);
 };
 
 // @fnv 0x00754930
-void __thiscall FUN_00754a00_cls::FUN_00754930(int a1)
+void FUN_00754a00_cls::FUN_00754930(intptr_t a1)
 {
-    SetTraitSelected(a1, 2);
+    reinterpret_cast<::Proxy_754a00 *>(this)->SetTraitSelected((void *)(a1), 2);
 }
 
 struct FUN_00759540_class
 {
+    char pad00[0xa5];
+    unsigned char unka5;
     bool IsFlag8Set();
 };
 
 // @fnv 0x00759540
 bool FUN_00759540_class::IsFlag8Set()
 {
-    return reinterpret_cast<const unsigned char*>(this)[0xa5] & 8;
+    return this->unka5 & 8;
 }
 
 struct FUN_00759d80_Class
@@ -158,13 +195,13 @@ unsigned char FUN_00759d80_Class::FUN_00759d80()
 
 struct S007530c0
 {
-    S007530c0* __thiscall FUN_007530c0();
+    S007530c0* FUN_007530c0();
 };
 // Sets the vtable pointer to DAT_01071b00, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x007530c0
-S007530c0* __thiscall S007530c0::FUN_007530c0()
+S007530c0* S007530c0::FUN_007530c0()
 {
-    *(int*)this = (int)&DAT_01071b00;
+    *(void**)this = &DAT_01071b00;
     ((AX*)this)->FUN_006b3eb0(0, 0);
     return this;
 }
@@ -174,11 +211,11 @@ struct FUN_0072ba80_shell
     char _pad[4];
     int* m_data;
     int m_uiItemCount;
-    void __thiscall FUN_0072ba80(void*, unsigned int);
-    void __thiscall FUN_00753140();
+    void FUN_0072ba80(void*, unsigned int);
+    void FUN_00753140();
 };
 // @fnv 0x00753140
-void __thiscall FUN_0072ba80_shell::FUN_00753140()
+void FUN_0072ba80_shell::FUN_00753140()
 {
     if (m_uiItemCount == 0)
         return;
@@ -186,52 +223,47 @@ void __thiscall FUN_0072ba80_shell::FUN_00753140()
     m_uiItemCount--;
 }
 
-extern "C" void Deallocate(void*);
 
 struct FUN_00753180_Class
 {
-    void __thiscall FUN_007530a0();
-    void* __thiscall FUN_00753180(unsigned int flags);
+    void* FUN_00753180(unsigned int flags);
 };
 
 // @fnv 0x00753180
-void* __thiscall FUN_00753180_Class::FUN_00753180(unsigned int flags)
+void* FUN_00753180_Class::FUN_00753180(unsigned int flags)
 {
-    FUN_007530a0();
+    reinterpret_cast<::fnv_007530a0::GlobalObject_00869f00 *>(this)->FUN_007530a0();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void _Deallocate(void*);
 struct FUN_007531b0_Class
 {
-    void* __thiscall FUN_007531b0(unsigned int);
+    void* FUN_007531b0(unsigned int);
 };
 // @fnv 0x007531b0
-void* __thiscall FUN_007531b0_Class::FUN_007531b0(unsigned int flags)
+void* FUN_007531b0_Class::FUN_007531b0(unsigned int flags)
 {
     ((GlobalObject_00869f00*)this)->FUN_007530f0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void __cdecl Deallocate(void*);
 struct FUN_00753210_Class
 {
-    void __thiscall FUN_00753210();
 };
 struct FUN_007531e0_Class
 {
-    void* __thiscall FUN_007531e0(unsigned int flags);
+    void* FUN_007531e0(unsigned int flags);
 };
 // @fnv 0x007531e0
-void* __thiscall FUN_007531e0_Class::FUN_007531e0(unsigned int flags)
+void* FUN_007531e0_Class::FUN_007531e0(unsigned int flags)
 {
-    ((FUN_00753210_Class*)this)->FUN_00753210();
+    reinterpret_cast<::fnv_00753210::FUN_00753210Class *>((((FUN_00753210_Class*)this)))->FUN_00753210();
     if (flags & 1)
-        Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -239,11 +271,9 @@ struct StrMem
 {
     StrMem();
     ~StrMem();
-    void FUN_006ffe10();
 };
 struct FUN_00759f20_holder
 {
-    char* AssignString(const char*);
 };
 struct FUN_00759eb0 : public StrMem
 {
@@ -252,13 +282,12 @@ struct FUN_00759eb0 : public StrMem
 // @fnv 0x00759eb0
 FUN_00759eb0::FUN_00759eb0(const char* s)
 {
-    FUN_006ffe10();
-    ((FUN_00759f20_holder*)this)->AssignString(s);
+    reinterpret_cast<::FUN_006ffe80_shell *>(this)->FUN_006ffe10();
+    reinterpret_cast<::FUN_00759f20_shell *>((((FUN_00759f20_holder*)this)))->AssignString(s);
 }
 
 struct FNStub
 {
-    char* GetFullName();
 };
 struct BGSNote
 {
@@ -267,7 +296,6 @@ struct BGSNote
 struct Tile
 {
     void Set(int, int);
-    void Set(int, const char*, bool);
 };
 struct TileProcessor
 {
@@ -275,22 +303,34 @@ struct TileProcessor
 };
 struct FUN_00759470_Class
 {
+    char pad00[0x2c];
+    Tile* unk2c;
+    Tile* unk30;
+    char pad34[0x10];
+    Tile* unk44;
+    char pad48[0x18];
+    Tile* unk60;
+    Tile* unk64;
+    char pad68[0x40];
+    FUN_00759540_class* unka8;
+    char padac[0x3c];
+    TileProcessor* unke8;
     void UpdateNoteDisplay(BGSNote* a1);
 };
 // @fnv 0x00759470
 void FUN_00759470_Class::UpdateNoteDisplay(BGSNote* pNote)
 {
-    ((TileProcessor*)*((int*)this + 0x3a))->ProcessAllTiles();
-    ((Tile*)*((int*)this + 0xb))->Set(0xfa3, 0);
-    ((Tile*)*((int*)this + 0xc))->Set(0xfa9, 255);
-    ((Tile*)*((int*)this + 0xc))->Set(0xfa3, 1);
-    ((Tile*)*((int*)this + 0x18))->Set(0xfa3, 0);
-    if (((FUN_00759540_class*)*((int*)this + 0x2a))->IsFlag8Set())
+    this->unke8->ProcessAllTiles();
+    this->unk2c->Set(0xfa3, 0);
+    this->unk30->Set(0xfa9, 255);
+    this->unk30->Set(0xfa3, 1);
+    this->unk60->Set(0xfa3, 0);
+    if (this->unka8->IsFlag8Set())
     {
-        ((Tile*)*((int*)this + 0x11))->Set(0xfa3, 0);
-        ((Tile*)*((int*)this + 0x19))->Set(0xfa3, 0);
+        this->unk44->Set(0xfa3, 0);
+        this->unk64->Set(0xfa3, 0);
     }
-    ((Tile*)*((int*)this + 0xc))->Set(0xfcc, pNote->GetNoteTexture()->GetFullName(), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->unk30))->FUN_00a01350(0xfcc, (char *)(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((pNote->GetNoteTexture()))->FUN_00408da0()))), true);
 }
 
 struct SL
@@ -339,7 +379,6 @@ struct FUN_00752cb0_Slot
     int unk04;
     int unk08;
     int unk0C;
-    unsigned int __thiscall FUN_0044ddc0();
 };
 
 struct FUN_00752cb0_Group
@@ -353,31 +392,28 @@ struct FUN_00752cb0_Holder
     int unk04;
     int unk08;
     int unk0C;
-    void* __thiscall FUN_006a7ad0(int flags);
 };
 
 struct FUN_00752cb0_Inner
 {
-    int __thiscall FUN_008d80e0();
 };
 
 struct FUN_00752cb0_cls
 {
-    int __thiscall FUN_00752cb0(int a1, int a2);
+    char pad00[0xb44];
+    FUN_00752cb0_Group unkb44[1];
+    int FUN_00752cb0(int a1, int a2);
 };
 
 // Counts up to 7 slots whose FUN_0044ddc0 value is positive and whose FUN_008d80e0 result equals a2, returning the count multiplied by a2.
 // @fnv 0x00752cb0
-int __thiscall FUN_00752cb0_cls::FUN_00752cb0(int aiGroupIndex, int aiMatchValue)
+int FUN_00752cb0_cls::FUN_00752cb0(int aiGroupIndex, int aiMatchValue)
 {
     int i = 0;
     int count = 0;
-    while (i < 7 && ((FUN_00752cb0_Group*)((char*)this + 0xb44))[aiGroupIndex].items[i].FUN_0044ddc0() > 0)
+    while (i < 7 && ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(this->unkb44[aiGroupIndex].items[i]))->GetName())) > 0)
     {
-        if (((FUN_00752cb0_Inner*)*(
-                 void**)((FUN_00752cb0_Holder*)&((FUN_00752cb0_Group*)((char*)this + 0xb44))[aiGroupIndex].items[i])
-                 ->FUN_006a7ad0(0))
-                ->FUN_008d80e0() == aiMatchValue)
+        if (reinterpret_cast<::MiddleLowProcess *>((((FUN_00752cb0_Inner*)SimpleArrayItem<void*>((((FUN_00752cb0_Holder*)&this->unkb44[aiGroupIndex].items[i])), 0))))->GetProcessInteger() == aiMatchValue)
         {
             count++;
         }
@@ -453,13 +489,11 @@ struct GlobalObject_0041a250
 {
     GlobalObject_0041a250();
     ~GlobalObject_0041a250();
-    void Assign(const FUN_0057bd10_S& src);
     int unk00;
     char unk04;
     int unk08;
 };
 
-extern int DAT_011d93fc;
 
 class FUN_0075b0d0 : public Menu
 {
@@ -494,7 +528,7 @@ FUN_0075b0d0::FUN_0075b0d0()
     unk94 = 3;
     {
         FUN_0057bd10_S tmp(0);
-        obj100.Assign(tmp);
+        reinterpret_cast<::SoundPlaybackHandle *>(&(obj100))->operator=((const ::SoundPlaybackHandle &)(tmp));
     }
 }
 
@@ -540,8 +574,6 @@ struct MenuListStub
     int unk0C;
 };
 
-extern ImageSpaceEffectParamStub g_defaultImageSpaceParam;
-extern int g_menuGlobalState;
 
 class FUN_0075f070 : public Menu
 {
@@ -579,12 +611,12 @@ FUN_0075f070::FUN_0075f070() : unk30(0), unk50(0.0f, 0.0f, 0.0f, 0.0f)
     unk44 = 1;
     unk48 = 0;
     unk4C = 0;
-    unk50 = g_defaultImageSpaceParam;
+    unk50 = (*reinterpret_cast<::fnv_0075f070::ImageSpaceEffectParamStub *>(&::DAT_011a9be0));
     unk2C = 0;
     unk70 = 0;
     unk78 = 0.0f;
     unk7C = 0;
-    g_menuGlobalState = 0;
+    ::DAT_011d9474 = 0;
 }
 }  // namespace fnv_0075f070
 
@@ -596,8 +628,6 @@ int __cdecl FUN_0075f5f0()
 
 struct FUN_00752d40_Obj
 {
-    int __thiscall FUN_004036b0();
-    int __thiscall FUN_008d80e0();
 };
 struct FUN_00752d40_Item
 {
@@ -605,8 +635,6 @@ struct FUN_00752d40_Item
     int unk04;
     int unk08;
     int unk0C;
-    unsigned int __thiscall FUN_0044ddc0();
-    FUN_00752d40_Obj*& __thiscall FUN_006a7ad0(int index);
 };
 struct FUN_00752d40_cls
 {
@@ -672,18 +700,18 @@ struct FUN_00752d40_cls
     int unkB10, unkB14, unkB18, unkB1C, unkB20, unkB24, unkB28, unkB2C, unkB30, unkB34, unkB38, unkB3C;
     int unkB40;
     FUN_00752d40_Item slots[8][7];
-    int __thiscall FUN_00752d40(int group, int type);
+    int FUN_00752d40(int group, int type);
 };
 // Counts, over the filled slots of a group, the sum returned by FUN_008d80e0 for slots whose first entry's FUN_004036b0 equals type.
 // @fnv 0x00752d40
-int __thiscall FUN_00752d40_cls::FUN_00752d40(int group, int type)
+int FUN_00752d40_cls::FUN_00752d40(int group, int type)
 {
     int i = 0;
     int count = 0;
-    while (i < 7 && slots[group][i].FUN_0044ddc0() > 0)
+    while (i < 7 && ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(slots[group][i]))->GetName())) > 0)
     {
-        if (slots[group][i].FUN_006a7ad0(0)->FUN_004036b0() == type)
-            count += slots[group][i].FUN_006a7ad0(0)->FUN_008d80e0();
+        if (((int)(reinterpret_cast<::FUN_004036b0_Class *>(((SimpleArrayItem<::FUN_00752d40_Obj*>(&(slots[group][i]), 0))))->FUN_004036b0())) == type)
+            count += reinterpret_cast<::MiddleLowProcess *>(((SimpleArrayItem<::FUN_00752d40_Obj*>(&(slots[group][i]), 0))))->GetProcessInteger();
         i++;
     }
     return count;
@@ -720,10 +748,8 @@ struct FUN_00759f90 : public Base759f90, public BSSimpleList<int*>
 
     FUN_00759f90();
     virtual ~FUN_00759f90();
-    void SetSelectedTile(Tile759f90* tile, bool selected);
 };
 
-void __cdecl RegisterMenu759f90(FUN_00759f90* menu);
 
 // @fnv 0x00759f90
 FUN_00759f90::FUN_00759f90()
@@ -737,42 +763,25 @@ FUN_00759f90::FUN_00759f90()
     unk28 = 0.0f;
     unk24 = 0.0f;
     unk20 = 0.0f;
-    SetSelectedTile(0, true);
-    RegisterMenu759f90(this);
+    reinterpret_cast<::FlagS *>(this)->FUN_007a1950((unsigned int)(0), true);
+    ::AddToHeadList((int *)(::FUN_00759f90 *)(this));
 }
 
 // Complete Caravan decision reconstruction; inferred layouts, checked against local instructions.
 struct CaravanDecision
 {
     int total, band, action, lane, row, card, score;
-    void FUN_00403550(int);
-    void FUN_00984f60(int);
-    void FUN_0041fd00(int);
-    void FUN_00437730(int);
-    void FUN_00600ab0(int);
-    int FUN_009611e0();
 };
 struct CaravanCard
 {
-    int FUN_008d80e0();
 };
 typedef int(__cdecl* CaravanCompare)(const void*, const void*);
-int __cdecl CompareCalendarDays(const void*, const void*);
-void __cdecl FUN_00401030(void*);
-int __cdecl FUN_00ec7d40(int);
 struct PointerArray
 {
     virtual ~PointerArray();
     void** data;
     unsigned int count, capacity;
-    unsigned int FUN_0044ddc0();
-    void** FUN_006a7ad0(unsigned int);
     void** FUN_00877a30(unsigned int);
-    int FUN_007cb2e0(void**);
-    void FUN_00729970(CaravanCompare);
-    bool FUN_0076b610();
-    void** FUN_006f2270();
-    void FUN_00753140();
 };
 struct FUN_00753110 : PointerArray
 {
@@ -1476,18 +1485,8 @@ struct CaravanOwner : Menu
     CaravanLane lanes[6];
     int unknownde4, unknownde8;
     CaravanTotal laneTotals[6];
-    void UpdateHandStats(int);
-    bool FUN_00740f10(unsigned int);
-    int CompareToTwentyOneToTwentySix(int);
-    int FUN_0074f600(int, int);
-    int FUN_00752cb0(int, int);
-    int FUN_00752d40(int, int);
-    bool CanPlaceCard(int, int, unsigned int, bool);
     CaravanDecision FUN_0074fdc0();
 };
-typedef char CaravanDecisionSize[(sizeof(CaravanDecision) == 28) ? 1 : -1];
-typedef char CaravanArraySize[(sizeof(PointerArray) == 16) ? 1 : -1];
-typedef char CaravanChoicesSize[(sizeof(FUN_00753110) == 16) ? 1 : -1];
 // @fnv 0x0074fdc0
 CaravanDecision CaravanOwner::FUN_0074fdc0()
 {
@@ -1569,24 +1568,23 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
 
     for (local_48Value18 = 0; local_48Value18 < 6; local_48Value18 = local_48Value18 + 1)
     {
-        this->UpdateHandStats(local_48Value18);
+        reinterpret_cast<::CMenu *>((this))->UpdateHandStats(local_48Value18);
     }
 
-    if ((this->FUN_00740f10(0x800)))
+    if ((reinterpret_cast<::FUN_00740f10_shell *>((this))->FUN_00740f10(0x800)))
     {
-        openingValue36.FUN_00403550(4);
+        reinterpret_cast<::TESRegionGrassObject *>(&(openingValue36))->AssignLandTexture((::TESLandTexture *)(4));
         if (mode < 1)
         {
             local_6cValue34 = 0;
             local_70Value0 = 0;
             local_68Value14 = 0;
             local_74Value37 = 0;
-            for (; local_74Value37 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+            for (; local_74Value37 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                  local_74Value37 = local_74Value37 + 1)
             {
 
-                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_74Value37))))
-                         ->FUN_008d80e0()) <= 10)
+                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_74Value37)))))->GetProcessInteger()) <= 10)
                 {
                     local_6cValue34 = local_6cValue34 + 1;
                     local_68Value14 = local_74Value37;
@@ -1597,14 +1595,14 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 }
             }
 
-            if ((((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0()) - local_6cValue34 > 5)
+            if ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName()))) - local_6cValue34 > 5)
             {
-                openingValue36.FUN_00403550(6);
-                openingValue36.FUN_00600ab0(local_70Value0);
+                reinterpret_cast<::TESRegionGrassObject *>(&(openingValue36))->AssignLandTexture((::TESLandTexture *)(6));
+                reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_70Value0);
                 return openingValue36;
             }
             {
-                openingValue36.FUN_00600ab0(local_68Value14);
+                reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_68Value14);
                 return openingValue36;
             }
         }
@@ -1613,74 +1611,65 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
             local_7cValue34 = 0;
             local_78Value0 = 0;
             local_80Value12 = 0;
-            for (; local_80Value12 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+            for (; local_80Value12 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                  local_80Value12 = local_80Value12 + 1)
             {
 
-                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_80Value12))))
-                         ->FUN_008d80e0()) > 5 &&
-                    (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_80Value12))))
-                         ->FUN_008d80e0()) <= 10)
+                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_80Value12)))))->GetProcessInteger()) > 5 &&
+                    (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_80Value12)))))->GetProcessInteger()) <= 10)
                 {
                     local_7cValue34 = local_7cValue34 + 1;
                 }
-                else if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_80Value12))))
-                              ->FUN_008d80e0()) < 4)
+                else if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_80Value12)))))->GetProcessInteger()) < 4)
                 {
                     local_78Value0 = local_78Value0 + 1;
                 }
             }
 
-            if (5 < ((((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0()) - local_78Value0) - local_7cValue34)
+            if (5 < ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName()))) - local_78Value0) - local_7cValue34)
             {
                 local_84Value8 = 0;
-                openingValue36.FUN_00403550(6);
+                reinterpret_cast<::TESRegionGrassObject *>(&(openingValue36))->AssignLandTexture((::TESLandTexture *)(6));
                 local_88Value23 = 0;
-                for (; local_88Value23 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+                for (; local_88Value23 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                      local_88Value23 = local_88Value23 + 1)
                 {
 
-                    if (10 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
-                                  ->FUN_008d80e0()))
+                    if (10 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))->GetProcessInteger()))
                     {
 
-                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
-                                 ->FUN_008d80e0()) == 0xf)
+                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))->GetProcessInteger()) == 0xf)
                         {
-                            openingValue36.FUN_00600ab0(local_88Value23);
+                            reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_88Value23);
                             break;
                         }
                         if (local_84Value8 == 0)
                         {
-                            openingValue36.FUN_00600ab0(local_88Value23);
+                            reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_88Value23);
 
                             local_84Value8 =
-                                ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
-                                    ->FUN_008d80e0();
+                                reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))))->GetProcessInteger();
                         }
                         else if (local_84Value8 == 0xc)
                         {
-                            openingValue36.FUN_00600ab0(local_88Value23);
+                            reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_88Value23);
 
                             local_84Value8 =
-                                ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
-                                    ->FUN_008d80e0();
+                                reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))))->GetProcessInteger();
                         }
                         else if (local_84Value8 == 0xe)
                         {
 
-                            if ((((CaravanCard*)(*(
-                                      ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
-                                     ->FUN_008d80e0()) != 0xc)
+                            if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                      (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))))->GetProcessInteger()) != 0xc)
                             {
-                                openingValue36.FUN_00600ab0(local_88Value23);
+                                reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_88Value23);
 
                                 local_84Value8 =
-                                    ((CaravanCard*)(*(
-                                         ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
-                                        ->FUN_008d80e0();
+                                    reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                         (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))))->GetProcessInteger();
                             }
                         }
                     }
@@ -1688,20 +1677,18 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 return openingValue36;
             }
             local_8cValue1 = 0;
-            for (; local_8cValue1 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+            for (; local_8cValue1 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                  local_8cValue1 = local_8cValue1 + 1)
             {
                 if (local_7cValue34 > local_78Value0)
                 {
 
-                    if (5 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_8cValue1))))
-                                 ->FUN_008d80e0()))
+                    if (5 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_8cValue1)))))->GetProcessInteger()))
                     {
 
-                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_8cValue1))))
-                                 ->FUN_008d80e0()) <= 10)
+                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_8cValue1)))))->GetProcessInteger()) <= 10)
                         {
-                            openingValue36.FUN_00600ab0(local_8cValue1);
+                            reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_8cValue1);
                             break;
                         }
                     }
@@ -1709,10 +1696,9 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 else if (local_78Value0 != 0)
                 {
 
-                    if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_8cValue1))))
-                             ->FUN_008d80e0()) < 4)
+                    if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_8cValue1)))))->GetProcessInteger()) < 4)
                     {
-                        openingValue36.FUN_00600ab0(local_8cValue1);
+                        reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_8cValue1);
                         break;
                     }
                 }
@@ -1722,67 +1708,60 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
         {
             local_90Value13 = 0;
             local_98Value0 = 0;
-            for (; local_98Value0 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+            for (; local_98Value0 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                  local_98Value0 = local_98Value0 + 1)
             {
 
-                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_98Value0))))
-                         ->FUN_008d80e0()) <= 10)
+                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_98Value0)))))->GetProcessInteger()) <= 10)
                 {
                     local_90Value13 = local_90Value13 + 1;
                 }
             }
 
-            if (5 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0()) - local_90Value13)
+            if (5 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName()))) - local_90Value13)
             {
                 local_9cValue4 = 0;
-                openingValue36.FUN_00403550(6);
+                reinterpret_cast<::TESRegionGrassObject *>(&(openingValue36))->AssignLandTexture((::TESLandTexture *)(6));
                 local_a0Value29 = 0;
-                for (; local_a0Value29 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+                for (; local_a0Value29 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                      local_a0Value29 = local_a0Value29 + 1)
                 {
 
-                    if (10 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
-                                  ->FUN_008d80e0()))
+                    if (10 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))->GetProcessInteger()))
                     {
 
-                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
-                                 ->FUN_008d80e0()) == 0xf)
+                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))->GetProcessInteger()) == 0xf)
                         {
-                            openingValue36.FUN_00600ab0(local_a0Value29);
+                            reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_a0Value29);
                             break;
                         }
                         if (local_9cValue4 == 0)
                         {
-                            openingValue36.FUN_00600ab0(local_a0Value29);
+                            reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_a0Value29);
 
                             local_9cValue4 =
-                                ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
-                                    ->FUN_008d80e0();
+                                reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))))->GetProcessInteger();
                         }
                         else if (local_9cValue4 == 0xc)
                         {
-                            openingValue36.FUN_00600ab0(local_a0Value29);
+                            reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_a0Value29);
 
                             local_9cValue4 =
-                                ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
-                                    ->FUN_008d80e0();
+                                reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))))->GetProcessInteger();
                         }
                         else if (local_9cValue4 == 0xe)
                         {
 
-                            if ((((CaravanCard*)(*(
-                                      ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
-                                     ->FUN_008d80e0()) != 0xc)
+                            if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                      (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))))->GetProcessInteger()) != 0xc)
                             {
-                                openingValue36.FUN_00600ab0(local_a0Value29);
+                                reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_a0Value29);
 
                                 local_9cValue4 =
-                                    ((CaravanCard*)(*(
-                                         ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
-                                        ->FUN_008d80e0();
+                                    reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                         (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))))->GetProcessInteger();
                             }
                         }
                     }
@@ -1790,24 +1769,22 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 return openingValue36;
             }
 
-            local_94Value52 = FUN_00ec7d40(
-                (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(0))))->FUN_008d80e0()) + -6);
-            openingValue36.FUN_00600ab0(0);
+            local_94Value52 = std::abs(
+                (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), 0)))))->GetProcessInteger()) + -6);
+            reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(0);
             local_a4Value36 = 0;
-            for (; local_a4Value36 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+            for (; local_a4Value36 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                  local_a4Value36 = local_a4Value36 + 1)
             {
 
-                if ((FUN_00ec7d40(
-                        (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a4Value36))))
-                             ->FUN_008d80e0()) +
+                if ((std::abs(
+                        (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a4Value36)))))->GetProcessInteger()) +
                         -6)) < local_94Value52)
                 {
-                    openingValue36.FUN_00600ab0(local_a4Value36);
+                    reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_a4Value36);
 
-                    local_94Value52 = FUN_00ec7d40(
-                        (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a4Value36))))
-                             ->FUN_008d80e0()) +
+                    local_94Value52 = std::abs(
+                        (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a4Value36)))))->GetProcessInteger()) +
                         -6);
                 }
             }
@@ -1819,54 +1796,50 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
         currentValue29 = new CaravanDecision();
         for (local_a8Value19 = 3; local_a8Value19 < 6; local_a8Value19 = local_a8Value19 + 1)
         {
-            currentValue29->FUN_0041fd00(local_a8Value19);
+            reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
             local_acValue61 = laneTotals[local_a8Value19].total;
 
-            if ((this->CompareToTwentyOneToTwentySix(local_acValue61)) < 0)
+            if ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_acValue61)) < 0)
             {
                 local_b0Value32 = 0;
-                for (; local_b0Value32 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+                for (; local_b0Value32 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                      local_b0Value32 = local_b0Value32 + 1)
                 {
-                    currentValue29->FUN_00600ab0(local_b0Value32);
+                    reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_b0Value32);
 
-                    if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_b0Value32))))
-                             ->FUN_008d80e0()) > 10)
+                    if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_b0Value32)))))->GetProcessInteger()) > 10)
                     {
 
-                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_b0Value32))))
-                                 ->FUN_008d80e0()) == 0xe)
+                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_b0Value32)))))->GetProcessInteger()) == 0xe)
                         {
                             local_b4Value16 = 0;
                             while ((local_b4Value16 < 7 &&
-                                    ((((PointerArray*)((void*)((int)&lanes[local_a8Value19].rows[local_b4Value16])))
-                                          ->FUN_0044ddc0()) != 0)))
+                                    ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_a8Value19].rows[local_b4Value16])))))->GetName()))) != 0)))
                             {
-                                currentValue29->FUN_00437730(local_b4Value16);
+                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_b4Value16));
 
-                                if ((((PointerArray*)((void*)((int)&lanes[local_a8Value19].rows[local_b4Value16])))
-                                         ->FUN_0044ddc0()) > 3)
+                                if ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_a8Value19].rows[local_b4Value16])))))->GetName()))) > 3)
                                 {
                                     local_b4Value16 = local_b4Value16 + 1;
                                     continue;
                                 }
 
-                                local_b8Value45 = this->FUN_0074f600(local_a8Value19, local_b4Value16) +
+                                local_b8Value45 = reinterpret_cast<::fnv_0074f600::FUN_0074f600_shell *>((this))->FUN_0074f600(local_a8Value19, local_b4Value16) +
                                                   laneTotals[local_a8Value19].total;
 
-                                if (((this->CompareToTwentyOneToTwentySix(local_b8Value45)) < 1) &&
-                                    ((this->CanPlaceCard(local_a8Value19, local_b4Value16, local_b0Value32, true))))
+                                if (((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_b8Value45)) < 1) &&
+                                    ((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_b4Value16, local_b0Value32, true))))
                                 {
                                     currentValue29->total = local_b8Value45;
 
-                                    currentValue29->band = (this->CompareToTwentyOneToTwentySix(local_b8Value45));
-                                    currentValue29->FUN_00984f60((mode == 2 ? -5 : 1) + local_b8Value45);
-                                    currentValue29->FUN_00403550(0);
-                                    ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                    currentValue29->band = (reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_b8Value45));
+                                    reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)((mode == 2 ? -5 : 1) + local_b8Value45));
+                                    reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(0));
+                                    reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                     currentValue29 = new CaravanDecision();
-                                    currentValue29->FUN_00437730(local_b4Value16);
-                                    currentValue29->FUN_00600ab0(local_b0Value32);
-                                    currentValue29->FUN_0041fd00(local_a8Value19);
+                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_b4Value16));
+                                    reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_b0Value32);
+                                    reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                 }
                                 local_b4Value16 = local_b4Value16 + 1;
                             }
@@ -1876,54 +1849,51 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                     {
                         local_c0Value21 = 0;
                         while ((local_c0Value21 < 7 &&
-                                ((((PointerArray*)((void*)((int)&lanes[local_a8Value19].rows[local_c0Value21])))
-                                      ->FUN_0044ddc0()) != 0)))
+                                ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_a8Value19].rows[local_c0Value21])))))->GetName()))) != 0)))
                         {
                             local_c0Value21 = local_c0Value21 + 1;
                         }
-                        currentValue29->FUN_00437730(local_c0Value21);
+                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_c0Value21));
                         if (local_c0Value21 == 7)
                             continue;
 
                         local_bcValue3 =
-                            ((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_b0Value32))))
-                                ->FUN_008d80e0() +
+                            reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_b0Value32)))))->GetProcessInteger() +
                             laneTotals[local_a8Value19].total;
 
-                        if (((this->CompareToTwentyOneToTwentySix(local_bcValue3)) < 1) &&
-                            ((this->CanPlaceCard(local_a8Value19, local_c0Value21, local_b0Value32, true))))
+                        if (((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_bcValue3)) < 1) &&
+                            ((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_c0Value21, local_b0Value32, true))))
                         {
                             currentValue29->total = local_bcValue3;
 
-                            currentValue29->band = (this->CompareToTwentyOneToTwentySix(local_bcValue3));
-                            currentValue29->FUN_00984f60(local_bcValue3);
-                            currentValue29->FUN_00403550(0);
-                            ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                            currentValue29->band = (reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_bcValue3));
+                            reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(local_bcValue3));
+                            reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(0));
+                            reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                             currentValue29 = new CaravanDecision();
-                            currentValue29->FUN_00437730(local_c0Value21);
-                            currentValue29->FUN_00600ab0(local_b0Value32);
-                            currentValue29->FUN_0041fd00(local_a8Value19);
+                            reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_c0Value21));
+                            reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_b0Value32);
+                            reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                         }
                     }
                 }
             }
             else
             {
-                if ((this->CompareToTwentyOneToTwentySix(local_acValue61)) == 0)
+                if ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_acValue61)) == 0)
                 {
                     if ((local_acValue61 < laneTotals[(5 - local_a8Value19)].total) &&
                         (laneTotals[(5 - local_a8Value19)].total < 0x1b))
                     {
                         local_c4Value23 = 0;
-                        for (; local_c4Value23 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+                        for (; local_c4Value23 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                              local_c4Value23 = local_c4Value23 + 1)
                         {
-                            currentValue29->FUN_00600ab0(local_c4Value23);
+                            reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_c4Value23);
 
                             local_c8Value6 =
-                                ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_c4Value23))))
-                                    ->FUN_008d80e0();
+                                reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_c4Value23)))))))->GetProcessInteger();
                             if (local_c8Value6 > 10)
                             {
                                 local_ccValue0 = laneTotals[(5 - local_a8Value19)].total - local_acValue61;
@@ -1931,14 +1901,13 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                 {
                                     for (local_d0Value6 = 0; local_d0Value6 < 7; local_d0Value6 = local_d0Value6 + 1)
                                     {
-                                        currentValue29->FUN_00437730(local_d0Value6);
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_d0Value6));
                                         local_d8Value0 =
-                                            ((PointerArray*)((
-                                                 void*)((int)&lanes[(5 - local_a8Value19)].rows[local_d0Value6])))
-                                                ->FUN_0044ddc0();
+                                            ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((
+                                                 void*)(&lanes[(5 - local_a8Value19)].rows[local_d0Value6])))))->GetName()));
                                         if (local_d8Value0 == 0)
                                             break;
-                                        local_d4Value39 = this->FUN_0074f600(5 - local_a8Value19, local_d0Value6);
+                                        local_d4Value39 = reinterpret_cast<::fnv_0074f600::FUN_0074f600_shell *>((this))->FUN_0074f600(5 - local_a8Value19, local_d0Value6);
                                         if (local_d4Value39 > local_ccValue0)
                                         {
                                             local_dcValue4 =
@@ -1946,26 +1915,26 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                 (laneTotals[(5 - local_a8Value19)].total - local_d4Value39);
                                             if (laneTotals[(5 - local_a8Value19)].total - local_d4Value39 > 21)
                                             {
-                                                currentValue29->FUN_00984f60(100 - local_dcValue4);
+                                                reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(100 - local_dcValue4));
                                             }
                                             else
                                             {
-                                                currentValue29->FUN_00984f60(local_dcValue4 + 0x4b);
+                                                reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(local_dcValue4 + 0x4b));
                                             }
 
-                                            if ((this->CanPlaceCard(local_a8Value19, local_d0Value6, local_c4Value23,
+                                            if ((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_d0Value6, local_c4Value23,
                                                                     true)))
                                             {
                                                 currentValue29->total = local_acValue61;
 
                                                 currentValue29->band =
-                                                    (this->CompareToTwentyOneToTwentySix(local_acValue61));
-                                                currentValue29->FUN_00403550(7);
-                                                ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                                    (reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_acValue61));
+                                                reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(7));
+                                                reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                                 currentValue29 = new CaravanDecision();
-                                                currentValue29->FUN_00437730(local_d0Value6);
-                                                currentValue29->FUN_00600ab0(local_c4Value23);
-                                                currentValue29->FUN_0041fd00(local_a8Value19);
+                                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_d0Value6));
+                                                reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_c4Value23);
+                                                reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                             }
                                         }
                                     }
@@ -1974,24 +1943,21 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                 {
                                     for (local_e0Value0 = 0; local_e0Value0 < 7; local_e0Value0 = local_e0Value0 + 1)
                                     {
-                                        currentValue29->FUN_00437730(local_e0Value0);
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_e0Value0));
                                         local_e8Value5 =
-                                            ((PointerArray*)((
-                                                 void*)((int)&lanes[local_a8Value19].rows[local_e0Value0])))
-                                                ->FUN_0044ddc0();
+                                            ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((
+                                                 void*)(&lanes[local_a8Value19].rows[local_e0Value0])))))->GetName()));
                                         if (local_e8Value5 == 0)
                                             break;
 
-                                        if (!((this->CanPlaceCard(local_a8Value19, local_e0Value0, local_c4Value23,
+                                        if (!((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_e0Value0, local_c4Value23,
                                                                   true))))
                                             continue;
 
                                         local_e4Value13 =
-                                            ((CaravanCard*)(*(
-                                                 ((PointerArray*)((
-                                                      void*)((int)&lanes[local_a8Value19].rows[local_e0Value0])))
-                                                     ->FUN_006a7ad0(0))))
-                                                ->FUN_008d80e0();
+                                            reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                                 (&SimpleArrayItem<void*>((((PointerArray*)((
+                                                      void*)(&lanes[local_a8Value19].rows[local_e0Value0])))), 0)))))))->GetProcessInteger();
                                         if (local_e4Value13 == 1)
                                         {
                                             for (local_104Value53 = 0; local_104Value53 < 6;
@@ -1999,7 +1965,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                             {
 
                                                 laneLossValue16[local_104Value53] =
-                                                    (this->FUN_00752cb0(local_104Value53, local_e4Value13));
+                                                    (reinterpret_cast<::FUN_00752cb0_cls *>((this))->FUN_00752cb0(local_104Value53, local_e4Value13));
                                             }
                                         }
                                         else
@@ -2008,13 +1974,11 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                  local_108Value13 = local_108Value13 + 1)
                                             {
 
-                                                laneLossValue16[local_108Value13] = (this->FUN_00752d40(
+                                                laneLossValue16[local_108Value13] = (reinterpret_cast<::FUN_00752d40_cls *>((this))->FUN_00752d40(
                                                     local_108Value13,
-                                                    (((CaravanCard*)(*(
-                                                          ((PointerArray*)((void*)((int)&lanes[local_a8Value19]
-                                                                                       .rows[local_e0Value0])))
-                                                              ->FUN_006a7ad0(0))))
-                                                         ->FUN_008d80e0())));
+                                                    (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                                          (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&lanes[local_a8Value19]
+                                                                                       .rows[local_e0Value0])))), 0)))))))->GetProcessInteger())));
                                             }
                                         }
                                         laneLossValue16[local_a8Value19] =
@@ -2026,16 +1990,16 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                                        laneTotals[(5 - local_a8Value19)].total) -
                                                                       laneLossValue16[5 - local_a8Value19];
                                             if ((0 < removedAdvantageValue23) &&
-                                                ((this->CanPlaceCard(local_a8Value19, local_e0Value0, local_c4Value23,
+                                                ((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_e0Value0, local_c4Value23,
                                                                      true))))
                                             {
-                                                currentValue29->FUN_00984f60(removedAdvantageValue23 + 0x32);
-                                                currentValue29->FUN_00403550(3);
-                                                ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                                reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(removedAdvantageValue23 + 0x32));
+                                                reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(3));
+                                                reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                                 currentValue29 = new CaravanDecision();
-                                                currentValue29->FUN_00437730(local_e0Value0);
-                                                currentValue29->FUN_00600ab0(local_c4Value23);
-                                                currentValue29->FUN_0041fd00(local_a8Value19);
+                                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_e0Value0));
+                                                reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_c4Value23);
+                                                reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                             }
                                         }
                                         else
@@ -2069,7 +2033,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                                          laneLossValue16[local_124Value5 + 3])));
                                                 }
 
-                                                if ((this->CompareToTwentyOneToTwentySix(
+                                                if ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(
                                                         laneTotals[(local_124Value5 + 3)].total)) >= 0)
                                                 {
                                                     if ((laneTotals[(local_124Value5 + 3)].total < 0x1b) &&
@@ -2084,7 +2048,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                     }
                                                     if (((laneTotals[(local_124Value5 + 3)].total < 0x1b) &&
                                                          (laneAdvantageValue23[local_124Value5] < 0)) &&
-                                                        ((this->CompareToTwentyOneToTwentySix(
+                                                        ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(
                                                              laneTotals[local_124Value5].total -
                                                              laneLossValue16[local_124Value5])) == 0))
                                                     {
@@ -2093,9 +2057,9 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                             (laneAdvantageValue23[local_124Value5] + 0x19);
                                                     }
 
-                                                    if ((0 < (this->CompareToTwentyOneToTwentySix(
+                                                    if ((0 < (reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(
                                                                  laneTotals[(local_124Value5 + 3)].total))) &&
-                                                        ((this->CompareToTwentyOneToTwentySix(
+                                                        ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(
                                                              laneTotals[(local_124Value5 + 3)].total -
                                                              laneLossValue16[local_124Value5 + 3])) <= 0))
                                                     {
@@ -2106,13 +2070,13 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                     }
                                                 }
 
-                                                if ((0 < (this->CompareToTwentyOneToTwentySix(
+                                                if ((0 < (reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(
                                                              laneTotals[(local_124Value5 + 3)].total))) &&
                                                     (0 < laneLossValue16[local_124Value5 + 3]))
                                                 {
                                                     local_128Value10 = laneTotals[(local_124Value5 + 3)].total -
                                                                        laneLossValue16[local_124Value5 + 3];
-                                                    if ((this->CompareToTwentyOneToTwentySix(local_128Value10)) == 0)
+                                                    if ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_128Value10)) == 0)
                                                     {
                                                         candidateScoreValue10 =
                                                             candidateScoreValue10 + 0x19 + local_128Value10;
@@ -2120,7 +2084,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                     else
                                                     {
 
-                                                        if ((this->CompareToTwentyOneToTwentySix(local_128Value10)) < 0)
+                                                        if ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_128Value10)) < 0)
                                                         {
                                                             candidateScoreValue10 =
                                                                 candidateScoreValue10 + local_128Value10;
@@ -2134,9 +2098,9 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                     }
                                                 }
 
-                                                if (((this->CompareToTwentyOneToTwentySix(
+                                                if (((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(
                                                          laneTotals[local_124Value5].total)) == 0) &&
-                                                    ((this->CompareToTwentyOneToTwentySix(
+                                                    ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(
                                                          laneTotals[local_124Value5].total -
                                                          laneLossValue16[local_124Value5])) < 0))
                                                 {
@@ -2145,17 +2109,16 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                                             candidateScoreValue10;
                                                 }
                                                 if ((0 < candidateScoreValue10) &&
-                                                    ((this->CanPlaceCard(local_a8Value19, local_e0Value0,
+                                                    ((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_e0Value0,
                                                                          local_c4Value23, true))))
                                                 {
-                                                    currentValue29->FUN_00984f60(candidateScoreValue10);
-                                                    currentValue29->FUN_00403550(3);
-                                                    ((PointerArray*)(choicesValue1))
-                                                        ->FUN_007cb2e0((void**)&currentValue29);
+                                                    reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(candidateScoreValue10));
+                                                    reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(3));
+                                                    reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                                     currentValue29 = new CaravanDecision();
-                                                    currentValue29->FUN_00437730(local_e0Value0);
-                                                    currentValue29->FUN_00600ab0(local_c4Value23);
-                                                    currentValue29->FUN_0041fd00(local_a8Value19);
+                                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_e0Value0));
+                                                    reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_c4Value23);
+                                                    reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                                 }
                                             }
                                         }
@@ -2166,42 +2129,41 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                             {
                                 local_130Value0 = 0;
                                 while ((local_130Value0 < 7 &&
-                                        ((((PointerArray*)((void*)((int)&lanes[local_a8Value19].rows[local_130Value0])))
-                                              ->FUN_0044ddc0()) != 0)))
+                                        ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_a8Value19].rows[local_130Value0])))))->GetName()))) != 0)))
                                 {
                                     local_130Value0 = local_130Value0 + 1;
                                 }
-                                currentValue29->FUN_00437730(local_130Value0);
+                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_130Value0));
                                 local_12cValue4 = local_c8Value6 + laneTotals[local_a8Value19].total;
                                 if ((local_12cValue4 < 0x1b) &&
                                     (local_12cValue4 > laneTotals[(5 - local_a8Value19)].total))
                                 {
                                     local_134Value3 = local_12cValue4 - laneTotals[(5 - local_a8Value19)].total;
-                                    currentValue29->FUN_00984f60(100 - local_134Value3);
-                                    currentValue29->FUN_00403550(0);
+                                    reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(100 - local_134Value3));
+                                    reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(0));
                                 }
                                 else if ((local_12cValue4 < 0x1b) &&
                                          (local_12cValue4 == laneTotals[(5 - local_a8Value19)].total))
                                 {
-                                    currentValue29->FUN_00984f60(0x32);
-                                    currentValue29->FUN_00403550(0);
+                                    reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(0x32));
+                                    reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(0));
                                 }
                                 else if (local_12cValue4 < 0x1b)
                                 {
-                                    currentValue29->FUN_00984f60(0x19 - (0x1a - local_12cValue4));
-                                    currentValue29->FUN_00403550(0);
+                                    reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(0x19 - (0x1a - local_12cValue4)));
+                                    reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(0));
                                 }
 
-                                if ((this->CanPlaceCard(local_a8Value19, local_130Value0, local_c4Value23, true)))
+                                if ((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_130Value0, local_c4Value23, true)))
                                 {
                                     currentValue29->total = local_12cValue4;
 
-                                    currentValue29->band = (this->CompareToTwentyOneToTwentySix(local_12cValue4));
-                                    ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                    currentValue29->band = (reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_12cValue4));
+                                    reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                     currentValue29 = new CaravanDecision();
-                                    currentValue29->FUN_00437730(local_130Value0);
-                                    currentValue29->FUN_00600ab0(local_c4Value23);
-                                    currentValue29->FUN_0041fd00(local_a8Value19);
+                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_130Value0));
+                                    reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_c4Value23);
+                                    reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                 }
                             }
                         }
@@ -2209,44 +2171,42 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                     else
                     {
                         for (local_138Value1 = 0;
-                             local_138Value1 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+                             local_138Value1 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                              local_138Value1 = local_138Value1 + 1)
                         {
-                            currentValue29->FUN_00600ab0(local_138Value1);
+                            reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_138Value1);
 
                             local_13cValue13 =
-                                ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_138Value1))))
-                                    ->FUN_008d80e0();
+                                reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_138Value1)))))))->GetProcessInteger();
                             if (local_13cValue13 > 10)
                             {
 
-                                if ((((CaravanCard*)(*(
-                                          ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_138Value1))))
-                                         ->FUN_008d80e0()) == 0xe)
+                                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                          (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_138Value1)))))))->GetProcessInteger()) == 0xe)
                                 {
                                     for (local_140Value41 = 0; local_140Value41 < 7;
                                          local_140Value41 = local_140Value41 + 1)
                                     {
-                                        currentValue29->FUN_00437730(local_140Value41);
-                                        local_144Value42 = this->FUN_0074f600(local_a8Value19, local_140Value41);
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_140Value41));
+                                        local_144Value42 = reinterpret_cast<::fnv_0074f600::FUN_0074f600_shell *>((this))->FUN_0074f600(local_a8Value19, local_140Value41);
 
-                                        if (((this->CompareToTwentyOneToTwentySix(local_acValue61 +
+                                        if (((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_acValue61 +
                                                                                   local_144Value42 * 2)) < 1) &&
-                                            ((this->CanPlaceCard(local_a8Value19, local_140Value41, local_138Value1,
+                                            ((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_140Value41, local_138Value1,
                                                                  true))))
                                         {
                                             currentValue29->total = local_acValue61 + local_144Value42 * 2;
 
-                                            currentValue29->band = (this->CompareToTwentyOneToTwentySix(
+                                            currentValue29->band = (reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(
                                                 local_acValue61 + local_144Value42 * 2));
-                                            currentValue29->FUN_00984f60(local_acValue61 + local_144Value42 * 2);
-                                            currentValue29->FUN_00403550(0);
-                                            ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                            reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(local_acValue61 + local_144Value42 * 2));
+                                            reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(0));
+                                            reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                             currentValue29 = new CaravanDecision();
-                                            currentValue29->FUN_00437730(local_140Value41);
-                                            currentValue29->FUN_00600ab0(local_138Value1);
-                                            currentValue29->FUN_0041fd00(local_a8Value19);
+                                            reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_140Value41));
+                                            reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_138Value1);
+                                            reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                         }
                                     }
                                 }
@@ -2255,29 +2215,28 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                             {
                                 local_148Value2 = 0;
                                 while ((local_148Value2 < 7 &&
-                                        ((((PointerArray*)((void*)((int)&lanes[local_a8Value19].rows[local_148Value2])))
-                                              ->FUN_0044ddc0()) != 0)))
+                                        ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_a8Value19].rows[local_148Value2])))))->GetName()))) != 0)))
                                 {
                                     local_148Value2 = local_148Value2 + 1;
                                 }
-                                currentValue29->FUN_00437730(local_148Value2);
+                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_148Value2));
 
-                                if (!((this->CanPlaceCard(local_a8Value19, local_148Value2, local_138Value1, true))))
+                                if (!((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_148Value2, local_138Value1, true))))
                                     continue;
-                                if (((this->CompareToTwentyOneToTwentySix(local_13cValue13 +
+                                if (((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_13cValue13 +
                                                                           laneTotals[local_a8Value19].total)) < 1))
                                 {
                                     currentValue29->total = local_13cValue13 + laneTotals[local_a8Value19].total;
 
-                                    currentValue29->band = (this->CompareToTwentyOneToTwentySix(
+                                    currentValue29->band = (reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(
                                         local_13cValue13 + laneTotals[local_a8Value19].total));
-                                    currentValue29->FUN_00984f60(local_13cValue13 + laneTotals[local_a8Value19].total);
-                                    currentValue29->FUN_00403550(0);
-                                    ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                    reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(local_13cValue13 + laneTotals[local_a8Value19].total));
+                                    reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(0));
+                                    reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                     currentValue29 = new CaravanDecision();
-                                    currentValue29->FUN_00437730(local_148Value2);
-                                    currentValue29->FUN_00600ab0(local_138Value1);
-                                    currentValue29->FUN_0041fd00(local_a8Value19);
+                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_148Value2));
+                                    reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_138Value1);
+                                    reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                 }
                             }
                         }
@@ -2286,40 +2245,39 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 else
                 {
 
-                    if (0 < (this->CompareToTwentyOneToTwentySix(local_acValue61)))
+                    if (0 < (reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_acValue61)))
                     {
                         for (local_14cValue41 = 0;
-                             local_14cValue41 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+                             local_14cValue41 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                              local_14cValue41 = local_14cValue41 + 1)
                         {
-                            currentValue29->FUN_00600ab0(local_14cValue41);
+                            reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_14cValue41);
 
                             local_150Value42 =
-                                ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_14cValue41))))
-                                    ->FUN_008d80e0();
+                                reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_14cValue41)))))))->GetProcessInteger();
                             if ((10 < local_150Value42) && (local_150Value42 == 0xc))
                             {
                                 for (local_154Value1 = 0; local_154Value1 < 7; local_154Value1 = local_154Value1 + 1)
                                 {
-                                    currentValue29->FUN_00437730(local_154Value1);
-                                    local_158Value12 = this->FUN_0074f600(local_a8Value19, local_154Value1);
+                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_154Value1));
+                                    local_158Value12 = reinterpret_cast<::fnv_0074f600::FUN_0074f600_shell *>((this))->FUN_0074f600(local_a8Value19, local_154Value1);
                                     if ((local_acValue61 - local_158Value12 < 0x1b) &&
-                                        ((this->CanPlaceCard(local_a8Value19, local_154Value1, local_14cValue41,
+                                        ((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_154Value1, local_14cValue41,
                                                              true))))
                                     {
                                         currentValue29->total = local_acValue61 - local_158Value12;
 
                                         currentValue29->band =
-                                            (this->CompareToTwentyOneToTwentySix(local_acValue61 - local_158Value12));
-                                        currentValue29->FUN_00984f60(100 -
-                                                                     ((0x1a - local_acValue61) + local_158Value12));
-                                        currentValue29->FUN_00403550(2);
-                                        ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                            (reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_acValue61 - local_158Value12));
+                                        reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(100 -
+                                                                     ((0x1a - local_acValue61) + local_158Value12)));
+                                        reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(2));
+                                        reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                         currentValue29 = new CaravanDecision();
-                                        currentValue29->FUN_00437730(local_154Value1);
-                                        currentValue29->FUN_00600ab0(local_14cValue41);
-                                        currentValue29->FUN_0041fd00(local_a8Value19);
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_154Value1));
+                                        reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_14cValue41);
+                                        reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                     }
                                 }
                             }
@@ -2333,60 +2291,56 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
         }
         for (local_15cValue23 = 0; local_15cValue23 < 3; local_15cValue23++)
         {
-            currentValue29->FUN_0041fd00(local_15cValue23);
-            for (local_160Value33 = 0; local_160Value33 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+            reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_15cValue23);
+            for (local_160Value33 = 0; local_160Value33 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                  local_160Value33++)
             {
 
-                currentValue29->FUN_00600ab0(local_160Value33);
-                if (10 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_160Value33))))
-                              ->FUN_008d80e0()))
+                reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
+                if (10 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_160Value33)))))->GetProcessInteger()))
                 {
 
                     local_164Value11 = 0;
                     while ((local_164Value11 < 7 &&
-                            ((((PointerArray*)((void*)((int)&lanes[local_15cValue23].rows[local_164Value11])))
-                                  ->FUN_0044ddc0()) != 0)))
+                            ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_15cValue23].rows[local_164Value11])))))->GetName()))) != 0)))
                     {
-                        currentValue29->FUN_00437730(local_164Value11);
+                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
 
-                        if ((((PointerArray*)((void*)((int)&lanes[local_15cValue23].rows[local_164Value11])))
-                                 ->FUN_0044ddc0()) > 3)
+                        if ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_15cValue23].rows[local_164Value11])))))->GetName()))) > 3)
                         {
                             local_164Value11 = local_164Value11 + 1;
                             continue;
                         }
 
                         switch (
-                            ((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_160Value33))))
-                                ->FUN_008d80e0())
+                            reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_160Value33)))))->GetProcessInteger())
                         {
                         case 12: {
 
                             local_168Value13 = laneTotals[local_15cValue23].total -
-                                               (this->FUN_0074f600(local_15cValue23, local_164Value11));
-                            if ((this->CompareToTwentyOneToTwentySix(laneTotals[local_15cValue23].total)) == 0)
+                                               (reinterpret_cast<::fnv_0074f600::FUN_0074f600_shell *>((this))->FUN_0074f600(local_15cValue23, local_164Value11));
+                            if ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(laneTotals[local_15cValue23].total)) == 0)
                             {
-                                currentValue29->FUN_00984f60((0x1a - local_168Value13) + 0x19);
-                                currentValue29->FUN_00403550(7);
-                                ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)((0x1a - local_168Value13) + 0x19));
+                                reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(7));
+                                reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                 currentValue29 = new CaravanDecision();
-                                currentValue29->FUN_00437730(local_164Value11);
-                                currentValue29->FUN_00600ab0(local_160Value33);
-                                currentValue29->FUN_0041fd00(local_15cValue23);
+                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
+                                reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
+                                reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_15cValue23);
                             }
                             else
                             {
 
-                                if ((this->CompareToTwentyOneToTwentySix(laneTotals[local_15cValue23].total)) < 0)
+                                if ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(laneTotals[local_15cValue23].total)) < 0)
                                 {
-                                    currentValue29->FUN_00984f60(0x1a - local_168Value13);
-                                    currentValue29->FUN_00403550(7);
-                                    ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                    reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(0x1a - local_168Value13));
+                                    reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(7));
+                                    reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                     currentValue29 = new CaravanDecision();
-                                    currentValue29->FUN_00437730(local_164Value11);
-                                    currentValue29->FUN_00600ab0(local_160Value33);
-                                    currentValue29->FUN_0041fd00(local_15cValue23);
+                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
+                                    reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
+                                    reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_15cValue23);
                                 }
                             }
 
@@ -2395,16 +2349,16 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                         case 14: {
 
                             local_16cValue10 = laneTotals[local_15cValue23].total +
-                                               (this->FUN_0074f600(local_15cValue23, local_164Value11));
-                            if ((this->CompareToTwentyOneToTwentySix(local_16cValue10)) == 1)
+                                               (reinterpret_cast<::fnv_0074f600::FUN_0074f600_shell *>((this))->FUN_0074f600(local_15cValue23, local_164Value11));
+                            if ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_16cValue10)) == 1)
                             {
-                                currentValue29->FUN_00984f60(local_16cValue10 + -1);
-                                currentValue29->FUN_00403550(7);
-                                ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(local_16cValue10 + -1));
+                                reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(7));
+                                reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                 currentValue29 = new CaravanDecision();
-                                currentValue29->FUN_00437730(local_164Value11);
-                                currentValue29->FUN_00600ab0(local_160Value33);
-                                currentValue29->FUN_0041fd00(local_15cValue23);
+                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
+                                reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
+                                reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_15cValue23);
                             }
 
                             break;
@@ -2412,65 +2366,58 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                         case 13: {
 
                             if ((1 < local_164Value11) &&
-                                ((((PointerArray*)((void*)((int)&lanes[local_15cValue23].rows[local_164Value11])))
-                                      ->FUN_0044ddc0()) == 0))
+                                ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_15cValue23].rows[local_164Value11])))))->GetName()))) == 0))
                             {
 
                                 local_170Value0 =
-                                    (((CaravanCard*)(*(((PointerArray*)((void*)((int)&lanes[local_15cValue23]
+                                    (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((PointerArray*)((void*)(&lanes[local_15cValue23]
                                                                                     .rows[(local_164Value11 + -1)])))
-                                                           ->FUN_00877a30(0))))
-                                         ->FUN_008d80e0()) +
-                                    (((CaravanCard*)(*(((PointerArray*)((void*)((int)&lanes[local_15cValue23]
+                                                           ->FUN_00877a30(0))))))->GetProcessInteger()) +
+                                    (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((PointerArray*)((void*)(&lanes[local_15cValue23]
                                                                                     .rows[(local_164Value11 + -2)])))
-                                                           ->FUN_00877a30(0))))
-                                         ->FUN_008d80e0());
+                                                           ->FUN_00877a30(0))))))->GetProcessInteger());
                                 if (local_170Value0 < 8)
                                 {
 
-                                    if ((((CaravanCard*)(*(
+                                    if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
                                               ((PointerArray*)((
-                                                   void*)((int)&lanes[local_15cValue23].rows[(local_164Value11 + -1)])))
-                                                  ->FUN_00877a30(0))))
-                                             ->FUN_008d80e0()) >
-                                        (((CaravanCard*)(*(
+                                                   void*)(&lanes[local_15cValue23].rows[(local_164Value11 + -1)])))
+                                                  ->FUN_00877a30(0))))))->GetProcessInteger()) >
+                                        (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
                                               ((PointerArray*)((
-                                                   void*)((int)&lanes[local_15cValue23].rows[(local_164Value11 + -2)])))
-                                                  ->FUN_00877a30(0))))
-                                             ->FUN_008d80e0()))
+                                                   void*)(&lanes[local_15cValue23].rows[(local_164Value11 + -2)])))
+                                                  ->FUN_00877a30(0))))))->GetProcessInteger()))
                                     {
-                                        currentValue29->FUN_00437730(local_164Value11 + -1);
-                                        currentValue29->FUN_00984f60(0x23 - local_170Value0);
-                                        currentValue29->FUN_00403550(1);
-                                        ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11 + -1));
+                                        reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(0x23 - local_170Value0));
+                                        reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(1));
+                                        reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                         currentValue29 = new CaravanDecision();
-                                        currentValue29->FUN_00437730(local_164Value11);
-                                        currentValue29->FUN_00600ab0(local_160Value33);
-                                        currentValue29->FUN_0041fd00(local_15cValue23);
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
+                                        reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
+                                        reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_15cValue23);
                                     }
                                 }
                                 else if (0x10 < local_170Value0)
                                 {
 
-                                    if ((((CaravanCard*)(*(
+                                    if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
                                               ((PointerArray*)((
-                                                   void*)((int)&lanes[local_15cValue23].rows[(local_164Value11 + -1)])))
-                                                  ->FUN_00877a30(0))))
-                                             ->FUN_008d80e0()) <
-                                        (((CaravanCard*)(*(
+                                                   void*)(&lanes[local_15cValue23].rows[(local_164Value11 + -1)])))
+                                                  ->FUN_00877a30(0))))))->GetProcessInteger()) <
+                                        (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
                                               ((PointerArray*)((
-                                                   void*)((int)&lanes[local_15cValue23].rows[(local_164Value11 + -2)])))
-                                                  ->FUN_00877a30(0))))
-                                             ->FUN_008d80e0()))
+                                                   void*)(&lanes[local_15cValue23].rows[(local_164Value11 + -2)])))
+                                                  ->FUN_00877a30(0))))))->GetProcessInteger()))
                                     {
-                                        currentValue29->FUN_00437730(local_164Value11 + -1);
-                                        currentValue29->FUN_00984f60(local_170Value0 + 0x19);
-                                        currentValue29->FUN_00403550(1);
-                                        ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11 + -1));
+                                        reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(local_170Value0 + 0x19));
+                                        reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(1));
+                                        reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                         currentValue29 = new CaravanDecision();
-                                        currentValue29->FUN_00437730(local_164Value11);
-                                        currentValue29->FUN_00600ab0(local_160Value33);
-                                        currentValue29->FUN_0041fd00(local_15cValue23);
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
+                                        reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
+                                        reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_15cValue23);
                                     }
                                 }
                             }
@@ -2484,75 +2431,71 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 }
             }
         }
-        if ((((PointerArray*)(choicesValue1))->FUN_0044ddc0()) == 0)
+        if ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)(choicesValue1))))->GetName()))) == 0)
         {
             local_174Value5 = 0;
-            for (local_178Value31 = 0; local_178Value31 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
+            for (local_178Value31 = 0; local_178Value31 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
                  local_178Value31 = local_178Value31 + 1)
             {
 
-                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_178Value31))))
-                         ->FUN_008d80e0()) >
-                    (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_174Value5))))
-                         ->FUN_008d80e0()))
+                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_178Value31)))))->GetProcessInteger()) >
+                    (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_174Value5)))))->GetProcessInteger()))
                 {
                     local_174Value5 = local_178Value31;
                 }
             }
-            currentValue29->FUN_00600ab0(local_174Value5);
-            currentValue29->FUN_00403550(6);
-            currentValue29->FUN_00984f60(local_174Value5);
-            ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+            reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_174Value5);
+            reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(6));
+            reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(local_174Value5));
+            reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
             currentValue29 = new CaravanDecision();
             for (local_17cValue5 = 3; local_17cValue5 < 6; local_17cValue5 = local_17cValue5 + 1)
             {
 
-                if ((this->CompareToTwentyOneToTwentySix(laneTotals[local_17cValue5].total)) != 0)
+                if ((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(laneTotals[local_17cValue5].total)) != 0)
                 {
-                    currentValue29->FUN_0041fd00(local_17cValue5);
-                    currentValue29->FUN_00403550(5);
+                    reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_17cValue5);
+                    reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(5));
                     if (mode < 1)
                     {
-                        currentValue29->FUN_00984f60(laneTotals[local_17cValue5].total + -0x1a);
+                        reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(laneTotals[local_17cValue5].total + -0x1a));
                     }
                     else if (mode < 3)
                     {
-                        currentValue29->FUN_00984f60(laneTotals[local_17cValue5].total * 2 + -0x34);
+                        reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(laneTotals[local_17cValue5].total * 2 + -0x34));
                     }
                     else if (mode >= 3)
                     {
                         local_180Value40 = 0;
                         for (local_184Value1 = 0;
-                             local_184Value1 < (((PointerArray*)((void*)((int)&opponentHand)))->FUN_0044ddc0());
+                             local_184Value1 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&opponentHand)))))->GetName())));
                              local_184Value1 = local_184Value1 + 1)
                         {
 
-                            if ((((CaravanCard*)(*(
-                                      ((PointerArray*)((void*)((int)&opponentHand)))->FUN_006a7ad0(local_184Value1))))
-                                     ->FUN_008d80e0()) == 0xc)
+                            if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
+                                      (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&opponentHand)))), local_184Value1)))))))->GetProcessInteger()) == 0xc)
                             {
                                 local_180Value40 = local_180Value40 + 1;
                             }
                         }
-                        currentValue29->FUN_00984f60((laneTotals[local_17cValue5].total * 2 - 0x34) -
-                                                     local_180Value40 * 5);
+                        reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)((laneTotals[local_17cValue5].total * 2 - 0x34) -
+                                                     local_180Value40 * 5));
                     }
-                    ((PointerArray*)(choicesValue1))->FUN_007cb2e0((void**)&currentValue29);
+                    reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                     currentValue29 = new CaravanDecision();
-                    currentValue29->FUN_0041fd00(local_17cValue5);
+                    reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_17cValue5);
                 }
             }
         }
-        ((PointerArray*)(choicesValue1))->FUN_00729970(CompareCalendarDays);
+        reinterpret_cast<::FUN_00729970_shell *>((((PointerArray*)(choicesValue1))))->FUN_00729970((intptr_t)(((int (&)(const void *, const void *))::CompareCalendarDays)));
 
-        local_3cValue39 = ((CaravanDecision*)(*(((PointerArray*)(choicesValue1))->FUN_006a7ad0(0))))->FUN_009611e0();
+        local_3cValue39 = reinterpret_cast<::FUN_009611e0_shell *>((((CaravanDecision*)(SimpleArrayItem<void*>((((PointerArray*)(choicesValue1))), 0)))))->FUN_009611e0();
         local_38Value22 = 0;
-        for (local_188Value2 = 0; local_188Value2 < (((PointerArray*)(choicesValue1))->FUN_0044ddc0());
+        for (local_188Value2 = 0; local_188Value2 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)(choicesValue1))))->GetName())));
              local_188Value2 = local_188Value2 + 1)
         {
 
-            if ((((CaravanDecision*)(*(((PointerArray*)(choicesValue1))->FUN_006a7ad0(local_188Value2))))
-                     ->FUN_009611e0()) == local_3cValue39)
+            if ((reinterpret_cast<::FUN_009611e0_shell *>((((CaravanDecision*)(SimpleArrayItem<void*>((((PointerArray*)(choicesValue1))), local_188Value2)))))->FUN_009611e0()) == local_3cValue39)
             {
                 local_38Value22 = local_38Value22 + 1;
             }
@@ -2563,14 +2506,14 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
         }
         local_34Value10 = local_3cValue39;
 
-        local_44Value6 = (CaravanDecision*)*(((PointerArray*)(choicesValue1))->FUN_006a7ad0(0));
+        local_44Value6 = (CaravanDecision*)SimpleArrayItem<void*>((((PointerArray*)(choicesValue1))), 0);
         selectedValue4 = *local_44Value6;
         local_44Value6 = 0;
-        while (!(((PointerArray*)(choicesValue1))->FUN_0076b610()))
+        while (!(reinterpret_cast<::FUN_0076b610_Class *>((((PointerArray*)(choicesValue1))))->FUN_0076b610()))
         {
 
-            currentValue29 = (CaravanDecision*)*(((PointerArray*)(choicesValue1))->FUN_006f2270());
-            ((PointerArray*)(choicesValue1))->FUN_00753140();
+            currentValue29 = (CaravanDecision*)*(((void **)(reinterpret_cast<::FUN_006f2270 *>((((PointerArray*)(choicesValue1))))->GetLast())));
+            reinterpret_cast<::FUN_0072ba80_shell *>((((PointerArray*)(choicesValue1))))->FUN_00753140();
             delete currentValue29;
         }
         delete choicesValue1;
@@ -2579,3 +2522,5 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
         return selectedValue4;
     }
 }
+
+#include "generated/data/staging/blk_00740000_od.inc"

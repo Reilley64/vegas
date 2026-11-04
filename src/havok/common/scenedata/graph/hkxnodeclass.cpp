@@ -4,6 +4,11 @@
 
 // Destructor: release every (key, object) entry, free the entry array, then the base part goes.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <new>
+#include "fnv/decl/FUN_00e3ed80.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
 struct DFD840Allocator
 {
     virtual void unk00();
@@ -32,7 +37,6 @@ extern "C" DFD840MemoryRouter& __cdecl DFD840GetMemoryRouter() throw();
 class DFD840ReferencedObject
 {
   public:
-    void removeReference() throw();
 };
 
 class DFD840Base
@@ -48,7 +52,7 @@ template <class T> struct DFD840RefPtr
     ~DFD840RefPtr() throw()
     {
         if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
         m_pRetainedObject = 0;
     }
 };
@@ -103,27 +107,25 @@ struct CpuAllocator
 };
 struct CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00e3ed80();
     CpuObject* FUN_00dfd900(unsigned int flags);
 };
 // @fnv 0x00dfd900
 CpuObject* CpuObject::FUN_00dfd900(unsigned int flags)
 {
-    FUN_00e3ed80();
+    reinterpret_cast<::FUN_00e3ed80 *>(this)->FUN_00e3ed80::~FUN_00e3ed80();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -139,10 +141,10 @@ struct FUN_00dfd8d0_Allocator
 
 struct FUN_00dfd8d0_MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FUN_00dfd8d0_Allocator* m_pStreamAllocator;
 
     FUN_00dfd8d0_Allocator& heap()
@@ -151,7 +153,6 @@ struct FUN_00dfd8d0_MemoryRouter
     }
 };
 
-extern "C" FUN_00dfd8d0_MemoryRouter& __cdecl FUN_00c85750();
 
 struct FUN_00dfd8d0
 {
@@ -161,10 +162,10 @@ struct FUN_00dfd8d0
     FUN_00dfd8d0();
     virtual ~FUN_00dfd8d0();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00dfd8d0* b = static_cast<FUN_00dfd8d0*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        (*static_cast<FUN_00dfd8d0_MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

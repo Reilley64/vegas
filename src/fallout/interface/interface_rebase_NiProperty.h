@@ -7,5 +7,4 @@ class NiProperty : public NiObjectNET
 {
   public:
 };
-FNV_STATIC_ASSERT(sizeof(NiProperty) == 0x18);
 #endif

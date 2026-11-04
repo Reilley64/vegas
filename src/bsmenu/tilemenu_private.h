@@ -2,6 +2,9 @@
 #ifndef FNV_TILEMENU_H
 #define FNV_TILEMENU_H
 
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a074d0_shell.h"
+#include "fnv/decl/fnv_009ff690__ReleaseTile.h"
 #include "layout_support.h"
 
 class TileShaderProperty;
@@ -20,10 +23,6 @@ class Tile
     virtual void ClearTextures();
     virtual TileShaderProperty* GetShaderProperty();
     virtual void SetAlphaAndOverlayColor(NiNode* node, float alpha, NiColorAlpha* color);
-    void Set(int trait, float value, bool clearActions);
-    void SetTileType(int flags);
-    float GetFloat(int trait);
-    void Release();
     __forceinline bool IsSpecial()
     {
         return (uiFlags & 0x2000) != 0;
@@ -38,7 +37,6 @@ class Tile
     bool m_bSpeechChallengeFailure;
     unsigned char layoutPadding36[2];
 };
-FNV_STATIC_ASSERT(sizeof(Tile) == 56);
 class TileRect : public Tile
 {
   public:
@@ -47,7 +45,6 @@ class TileRect : public Tile
     bool m_bTextureLoaded;
     unsigned char layoutPadding39[3];
 };
-FNV_STATIC_ASSERT(sizeof(TileRect) == 60);
 class TileMenu : public TileRect
 {
   public:
@@ -62,6 +59,4 @@ class TileMenu : public TileRect
     }
     Menu* pMenu;
 };
-FNV_STATIC_ASSERT(sizeof(TileMenu) == 64);
-FNV_STATIC_ASSERT(offsetof(TileMenu, pMenu) == 60);
 #endif

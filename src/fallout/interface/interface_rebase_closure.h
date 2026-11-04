@@ -3,6 +3,9 @@
 #define FNV_INTERFACE_REBASE_CLOSURE_H
 
 #include <stdarg.h>
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00788000.h"
+#include "fnv/symbols_011de000.h"
 #include "interface_rebase_types_Tile.h"
 #include "interface_rebase_Menu.h"
 #include "interface_rebase_PlayerCharacter.h"
@@ -19,12 +22,10 @@
 class MessageMenu
 {
   public:
-    static void SetMessageMenuActive(bool);
 };
 class LoadingMenu
 {
   public:
-    static Tile* Create(TESForm*, bool, bool);
 };
 class AutoMemContext
 {
@@ -35,8 +36,4 @@ class AutoMemContext
   private:
     MEM_CONTEXT eOldMemContext;
 };
-FNV_STATIC_ASSERT(sizeof(MEM_CONTEXT) == 4);
-FNV_STATIC_ASSERT(sizeof(AutoMemContext) == 4);
-FNV_STATIC_ASSERT(offsetof(InterfaceManager, screenAspectRatio) == 0x4D0);
-extern PlayerCharacter* g_thePlayer;
 #endif

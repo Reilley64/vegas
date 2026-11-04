@@ -2,9 +2,20 @@
 // src/bsmenu/xuserinterface.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsmenu/xuserinterface.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" __declspec(dllimport) int __stdcall MessageBoxA(void* hWnd, const char* lpText, const char* lpCaption,
-                                                           unsigned int uType);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
+#include <windows.h>
+#include "fnv/decl/FUN_00711e00_StandIn.h"
+#include "fnv/decl/FUN_00877720_shell.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "OSGlobals.h"
+#include "fnv/decl/MouseInputStandIn.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/symbols_00446000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011de000.h"
+#include "fnv/symbols_011f6000.h"
 
 struct SettingBool
 {
@@ -19,35 +30,16 @@ struct LockObj
 
 struct SettingStr
 {
-    const char* String();
 };
 
 struct Controls
 {
-    int FUN_00711e00();
-    void RecreateDevice(int v);
 };
 
-struct OSGlobals
-{
-    unsigned int GetThreadId();
-    Controls* GetInputControls();
-};
-
-extern SettingBool DAT_011deb3c;
-extern LockObj DAT_011f6394;
-extern SettingStr DAT_011d12b4;
-extern SettingStr DAT_011d0cb4;
-extern SettingStr DAT_011d06f4;
-extern OSGlobals* DAT_011dea0c;
 extern unsigned char DAT_011a3015;
 
-unsigned char __cdecl FUN_00446e10();
-int __cdecl FUN_004dc1e0();
 void __cdecl FUN_0086a530();
 int __cdecl FUN_0086a820();
-unsigned char __cdecl FUN_00703e80(const char* a1, int a2, int a3, void* a4, int a5, int a6, float a7, float a8,
-                                   const char* a9, const char* a10, const char* a11, int a12);
 
 // @fnv 0x0086a580
 int FUN_0086a580(const char* text, const char* caption, unsigned int flags)
@@ -56,7 +48,7 @@ int FUN_0086a580(const char* text, const char* caption, unsigned int flags)
     {
         signed char mode;
 
-        if (*DAT_011deb3c.Bool())
+        if (*(*reinterpret_cast<::SettingBool *>(&::g_011deb3c)).Bool())
         {
             signed char type = flags & 0xf;
             signed char ret;
@@ -72,9 +64,9 @@ int FUN_0086a580(const char* text, const char* caption, unsigned int flags)
             return ret;
         }
 
-        DAT_011f6394.Lock();
+        (*reinterpret_cast<::LockObj *>(&::g_timeGlobal)).Lock();
         mode = flags & 0xf;
-        if (DAT_011a3015 && DAT_011dea0c && DAT_011dea0c->GetInputControls())
+        if (DAT_011a3015 && ::g_osGlobals && reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720())
         {
             DAT_011a3015 = 0;
             {
@@ -88,22 +80,22 @@ int FUN_0086a580(const char* text, const char* caption, unsigned int flags)
             switch (mode)
             {
             case 3:
-                b = DAT_011d12b4.String();
+                b = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingStr *>(&::g_011d12b4))))->GetMenuTitle()));
             case 4:
-                c = DAT_011d0cb4.String();
-                d = DAT_011d06f4.String();
+                c = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingStr *>(&::g_011d0cb4))))->GetMenuTitle()));
+                d = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingStr *>(&::g_011d06f4))))->GetMenuTitle()));
                 break;
             }
 
             if (mode == 2 || mode == 0 ||
-                !FUN_00703e80(text, 0, 0, (void*)FUN_0086a530, a, FUN_0086a820(), 0.0f, 0.0f, c, d, b, 0))
+                !((unsigned char)(::fnv_00703e80::FUN_00703e80(text, (const char *)(0), (const char *)(0), (void*)FUN_0086a530, a, FUN_0086a820(), 0.0f, 0.0f, c, d, b, 0))))
             {
                 if (!FUN_00446e10() || !FUN_004dc1e0())
                 {
-                    if (DAT_011dea0c && GetCurrentThreadId() != DAT_011dea0c->GetThreadId() &&
-                        DAT_011dea0c->GetInputControls() && !DAT_011dea0c->GetInputControls()->FUN_00711e00())
+                    if (::g_osGlobals && GetCurrentThreadId() != ::g_osGlobals->mainThreadID &&
+                        reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720() && !((int)(reinterpret_cast<::FUN_00711e00_StandIn *>((reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720()))->FUN_00711e00())))
                     {
-                        DAT_011dea0c->GetInputControls()->RecreateDevice(1);
+                        reinterpret_cast<::MouseInputStandIn *>((reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720()))->RecreateDevice(1);
                     }
                     result = MessageBoxA(0, text, caption, flags);
                 }
@@ -127,21 +119,20 @@ int FUN_0086a580(const char* text, const char* caption, unsigned int flags)
         {
             if (!FUN_00446e10() || !FUN_004dc1e0())
             {
-                if (DAT_011dea0c && GetCurrentThreadId() != DAT_011dea0c->GetThreadId() &&
-                    DAT_011dea0c->GetInputControls() && !DAT_011dea0c->GetInputControls()->FUN_00711e00())
+                if (::g_osGlobals && GetCurrentThreadId() != ::g_osGlobals->mainThreadID &&
+                    reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720() && !((int)(reinterpret_cast<::FUN_00711e00_StandIn *>((reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720()))->FUN_00711e00())))
                 {
-                    DAT_011dea0c->GetInputControls()->RecreateDevice(1);
+                    reinterpret_cast<::MouseInputStandIn *>((reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720()))->RecreateDevice(1);
                 }
                 result = MessageBoxA(0, text, caption, flags);
             }
         }
     }
 
-    DAT_011f6394.Unlock();
+    (*reinterpret_cast<::LockObj *>(&::g_timeGlobal)).Unlock();
     return result;
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 
 struct GameTimerRecord
 {
@@ -182,3 +173,5 @@ void GameTimerRecord::FUN_00aa50a0()
         m_uiSecondTimerValue = uiTickCount - m_uiSecondTimerValue;
     }
 }
+
+#include "generated/data/bsmenu/xuserinterface.inc"

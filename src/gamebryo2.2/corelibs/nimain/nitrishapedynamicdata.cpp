@@ -2,6 +2,16 @@
 // src/gamebryo2.2/corelibs/nimain/nitrishapedynamicdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nitrishapedynamicdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a7bbe0_shell.h"
+#include "fnv/decl/NameA7b7e0.h"
+#include "fnv/decl/Obj.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00a7b8c0__Obj.h"
+#include "fnv/decl/fnv_00a7b940__FUN_00a7b940_shell.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011f5000.h"
 struct NiTriShapeDynamicData
 {
     unsigned short m_usActiveVertices;
@@ -11,7 +21,7 @@ struct NiTriShapeDynamicData
 };
 
 // @fnv 0x00a81730
-void __thiscall NiTriShapeDynamicData::FUN_00a81730(unsigned short& usStrips, const unsigned short*& pusStripLengths,
+void NiTriShapeDynamicData::FUN_00a81730(unsigned short& usStrips, const unsigned short*& pusStripLengths,
                                                     const unsigned short*& pusTriList, unsigned int& uiStripLengthSum)
 {
     usStrips = *(unsigned short*)((char*)this + 0x5a);
@@ -20,22 +30,21 @@ void __thiscall NiTriShapeDynamicData::FUN_00a81730(unsigned short& usStrips, co
     uiStripLengthSum = *(unsigned short*)((char*)this + 0x5a) * 3;
 }
 
-extern void* g_011f5af4;
 
 // @fnv 0x00a81800
 void* __cdecl FUN_00a81800()
 {
-    return &g_011f5af4;
+    return &(*reinterpret_cast<void * *>(&::g_011f5af4));
 }
 
 namespace fnv_00a81820 {
 struct NiTriShapeDynamicData
 {
-    void __thiscall FUN_00a81820(unsigned short usActiveTriangles);
+    void FUN_00a81820(unsigned short usActiveTriangles);
 };
 
 // @fnv 0x00a81820
-void __thiscall NiTriShapeDynamicData::FUN_00a81820(unsigned short usActiveTriangles)
+void NiTriShapeDynamicData::FUN_00a81820(unsigned short usActiveTriangles)
 {
     *(unsigned short*)((char*)this + 0x5a) = usActiveTriangles;
 }
@@ -43,7 +52,6 @@ void __thiscall NiTriShapeDynamicData::FUN_00a81820(unsigned short usActiveTrian
 
 struct NiTriShapeData
 {
-    bool FUN_00a7b7e0(const NiTriShapeData*);
 };
 struct NiTriShapeDynamicDataShell : NiTriShapeData
 {
@@ -55,7 +63,7 @@ struct NiTriShapeDynamicDataShell : NiTriShapeData
 // @fnv 0x00a817c0
 bool NiTriShapeDynamicDataShell::FUN_00a817c0(const NiTriShapeDynamicDataShell* other)
 {
-    if (FUN_00a7b7e0(other) && *(unsigned short*)((char*)this + 0x58) == *(unsigned short*)((char*)other + 0x58) &&
+    if (reinterpret_cast<::NameA7b7e0 *>(this)->FUN_00a7b7e0((const ::NameA7b7e0 *)(other)) && *(unsigned short*)((char*)this + 0x58) == *(unsigned short*)((char*)other + 0x58) &&
         *(unsigned short*)((char*)this + 0x5a) == *(unsigned short*)((char*)other + 0x5a))
         return true;
     return false;
@@ -72,8 +80,6 @@ void NiTriShapeDynamicData_shell::FUN_00a81810(unsigned short usActiveVertices)
     ((unsigned short*)this)[0x2c] = usActiveVertices;
 }
 
-void __fastcall FUN_00a7b8c0(void*);
-void __cdecl _delete(void*, unsigned int);
 struct S00a81830
 {
     void* Destroy(unsigned int);
@@ -82,9 +88,9 @@ struct S00a81830
 // @fnv 0x00a81830
 void* S00a81830::Destroy(unsigned int auiFlags)
 {
-    FUN_00a7b8c0(this);
+    reinterpret_cast<::fnv_00a7b8c0::Obj *>((this))->FUN_00a7b8c0();
     if (auiFlags & 1)
-        _delete(this, 0x5c);
+        ::FUN_00aa1460(this, 0x5c);
     return this;
 }
 
@@ -106,7 +112,6 @@ static __forceinline void S_BinRead(S_00a818b0_Bin* bin, void* v, unsigned int b
 }
 struct FUN_00a818b0_cls
 {
-    void FUN_00a7bbe0(void* pOther);
     void FUN_00a818b0(void* pOther);
 };
 // Calls FUN_00a7bbe0, then reads two 2-byte values from the stream at pOther+0x250 into this+0x58 and this+0x5a.
@@ -114,14 +119,11 @@ struct FUN_00a818b0_cls
 void FUN_00a818b0_cls::FUN_00a818b0(void* pOther)
 {
     char* pObj = (char*)pOther;
-    FUN_00a7bbe0(pOther);
+    reinterpret_cast<::FUN_00a7bbe0_shell *>(this)->FUN_00a7bbe0((::NiStream *)(pOther));
     S_BinRead(*(S_00a818b0_Bin**)(pObj + 0x250), (char*)this + 0x58, 2);
     S_BinRead(*(S_00a818b0_Bin**)(pObj + 0x250), (char*)this + 0x5a, 2);
 }
 
-extern void* g_011f5af4;
-void* __cdecl FUN_00a7d330(void* p);
-void* __cdecl FUN_00a7d490(const char* name, unsigned int value);
 
 struct NiArr
 {
@@ -131,21 +133,19 @@ struct NiArr
     unsigned short m_0a;
     unsigned short m_0c;
     unsigned short m_0e;
-    void FUN_0096ad30(unsigned int n);
-    void FUN_0096ae90(unsigned int idx, void** out);
     void Add(void* x)
     {
         unsigned int i = m_0a;
         if (i >= m_08)
-            FUN_0096ad30(i + m_0e);
-        FUN_0096ae90(i, &x);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(i + m_0e);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(i, (*(char * *)(&x)));
     }
     void AddR(void*& x)
     {
         unsigned int i = m_0a;
         if (i >= m_08)
-            FUN_0096ad30(i + m_0e);
-        FUN_0096ae90(i, &x);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(i + m_0e);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(i, (*(char * *)(&x)));
     }
 };
 
@@ -175,7 +175,6 @@ struct FUN_00a81910_cls
     unsigned int m_54;
     unsigned short m_58;
     unsigned short m_5a;
-    void AppendTriListInfo(NiArr* a);
     void AddActiveCounts(NiArr* a);
 };
 
@@ -183,10 +182,10 @@ struct FUN_00a81910_cls
 // @fnv 0x00a81910
 void FUN_00a81910_cls::AddActiveCounts(NiArr* a)
 {
-    AppendTriListInfo(a);
-    a->Add(FUN_00a7d330(g_011f5af4));
-    a->Add(FUN_00a7d490("m_usActiveVertices", m_58));
-    a->Add(FUN_00a7d490("m_usActiveTriangles", m_5a));
+    reinterpret_cast<::Obj *>(this)->AppendTriListInfo((::StrArr *)(a));
+    a->Add(((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f5af4)))))));
+    a->Add(((void *)(::FUN_00a7d490("m_usActiveVertices", m_58))));
+    a->Add(((void *)(::FUN_00a7d490("m_usActiveTriangles", m_5a))));
 }
 
 struct FUN_00a81710_cls
@@ -444,7 +443,6 @@ struct Dynamic
     unsigned int unk54;
     unsigned short m_usActiveVertices;
     unsigned short m_usActiveTriangles;
-    bool FUN_00a7b940(Stream*);
     void FUN_00a81850(Stream*);
 };
 static __forceinline void ReadBytes(Reader* bin, void* v, unsigned int bytes)
@@ -456,7 +454,7 @@ static __forceinline void ReadBytes(Reader* bin, void* v, unsigned int bytes)
 void Dynamic::FUN_00a81850(Stream* pStream)
 {
     Stream* s = pStream;
-    FUN_00a7b940(s);
+    reinterpret_cast<::fnv_00a7b940::FUN_00a7b940_shell *>(this)->FUN_00a7b940((::fnv_00a7b940::NiStream *)(s));
     ReadBytes(s->m_pReader, &m_usActiveVertices, 2);
     ReadBytes(s->m_pReader, &m_usActiveTriangles, 2);
 }

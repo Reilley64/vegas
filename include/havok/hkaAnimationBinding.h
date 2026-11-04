@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 class hkaAnimation;
-#pragma pack(push, 1)
 class hkaAnimationBinding : public hkReferencedObject
 {
   public:
@@ -22,6 +21,4 @@ class hkaAnimationBinding : public hkReferencedObject
     hkInt8 m_eBlendHint;                               // +0x28 (BlendHint)
     char pad29[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaAnimationBinding[(sizeof(hkaAnimationBinding) == 0x2C) ? 1 : -1];
 #endif

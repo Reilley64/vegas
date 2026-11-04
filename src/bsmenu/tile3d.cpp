@@ -1,5 +1,43 @@
 // bsmenu/tile3d.cpp: Tile3D, Tile3DCalc, AnimTile, Interface and more (12 functions)
 
+#include "global_string_header.h"
+#include <cstdint>
+#include <windows.h>
+#include <new>
+#include <cstring>
+#include "bscore/bssimplelist_decls.h"
+#include "fnv/decl/B408A80String.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/ExtraOwnerB.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_009ff600_shell.h"
+#include "fnv/decl/FUN_00a011f0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/FUN_00a074d0_shell.h"
+#include "fnv/decl/FUN_00a07530_shell.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00a5a040_Class.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/decl/FUN_00aa4ee0_t.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/ObjPtrArray.h"
+#include "fnv/decl/Pn4afe.h"
+#include "fnv/decl/SeqA34f20.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/TileShaderProperty.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/decl/fnv_00853130__NiTMapBase.h"
+#include "fnv/decl/fnv_009ff690__ReleaseTile.h"
+#include "fnv/decl/fnv_00c5ac00__ArrObj.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00707000.h"
+#include "fnv/symbols_00b55000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f3000.h"
 #include "tile3d_decls.h"
 
 class NiNode;
@@ -8,8 +46,9 @@ class RgbaColor;
 template <> class BSStringT<char>
 {
   public:
-    char opaque[8];
-    bool Set(const char* value, unsigned int length);
+    char* pString;
+    unsigned short sLen;
+    unsigned short sMaxLen;
 };
 
 class Tile
@@ -26,7 +65,25 @@ class Tile
     virtual void* GetShaderProperty();
     virtual void SetAlphaAndOverlayColor(NiNode* node, float alpha, const RgbaColor& color);
 
-    char layoutPadding[0x34];
+    struct
+    {
+        void* pHead;
+        void* pTail;
+        unsigned int uiCount;
+    } m_kChildTileList;
+    struct
+    {
+        void* pVtbl;
+        void* pBuffer;
+        unsigned int uiSize;
+        unsigned int uiAllocSize;
+    } m_kValues;
+    BSStringT<char> StringProvider;
+    Tile* pParent;
+    NiNode* m_pRenderedNodeEntry;
+    unsigned int uiFlags;
+    bool m_bFlagAfterUiFlags;
+    bool m_bSpeechChallengeFailure;
 };
 
 class Tile3D : public Tile
@@ -46,48 +103,52 @@ Tile* Tile3D::SetTraitValue(int uiValueID, float fFloatValue, const char* pcStrV
 {
     char localFrame[0x1c];
     if (uiValueID == 0xFC4)
-        m_kName.Set("", 0);
+        reinterpret_cast<::TextString *>(&(m_kName))->FUN_004037f0("", 0);
     return 0;
 }
 
-int* __fastcall _ref_006815c0(void* p);
-void* __fastcall _ref_00726070(void* p);
-void(__thiscall* const pFUN_0078bb60)(void*, int) = 0;
+void(* const pFUN_0078bb60)(void*, int) = 0;
 struct DummyClass_0078a9f0;
-void __fastcall FUN_0078bb60(DummyClass_0078a9f0* pThis);
+void FUN_0078bb60(DummyClass_0078a9f0* pThis);
 
-typedef void(__thiscall* FUN_0078bb60_t)(void*, int);
+typedef void(* FUN_0078bb60_t)(void*, int);
+
+// The list cursor that FUN_0078a9f0 advances; the pad stands for members not named yet.
+struct ListCursorOwner
+{
+    char pad00[0x1d0];
+    ::BSSimpleList<void*> m_kList;
+    ::BSSimpleList<void*>* m_pCurrent;
+    void* m_pCurrentItem;
+};
 
 // @fnv 0x0078a9f0
-void __fastcall FUN_0078a9f0(char* pThis)
+void FUN_0078a9f0(char* pThis)
 {
-    *(int*)(pThis + 0x1dc) = *_ref_006815c0(*(void**)(pThis + 0x1d8));
-    *(void**)(pThis + 0x1d8) = _ref_00726070(*(void**)(pThis + 0x1d8));
-    if (*(void**)(pThis + 0x1d8) == 0)
+    ListCursorOwner* owner = (ListCursorOwner*)pThis;
+    owner->m_pCurrentItem = owner->m_pCurrent->m_item;
+    owner->m_pCurrent = (::BSSimpleList<void*>*)reinterpret_cast<::Callees *>(owner->m_pCurrent)->FUN_00726070();
+    if (owner->m_pCurrent == 0)
     {
-        *(void**)(pThis + 0x1d8) = pThis + 0x1d0;
+        owner->m_pCurrent = &owner->m_kList;
     }
-    if (*(void**)(pThis + 0x1d8) != 0)
+    if (owner->m_pCurrent != 0)
     {
-        int item = *_ref_006815c0(*(void**)(pThis + 0x1d8));
+        void* item = owner->m_pCurrent->m_item;
         if (item != 0)
         {
-            ((void(__thiscall*)(void*, int))FUN_0078bb60)(pThis, *(int*)(pThis + 0x1dc));
+            ((void(*)(void*, void*))FUN_0078bb60)(pThis, owner->m_pCurrentItem);
         }
     }
 }
 
 struct GameTimerRecord
 {
-    void Update(unsigned int);
     void Enable();
 };
 extern GameTimerRecord DAT_011f3560;
-__declspec(dllimport) unsigned long __stdcall GetTickCount();
 struct TileNU
 {
-    void SetTileType(int);
-    void Set(int, float, bool);
 };
 struct FUN_00a20720_shell : public Tile3D
 {
@@ -96,24 +157,22 @@ struct FUN_00a20720_shell : public Tile3D
 // @fnv 0x00a20720
 void FUN_00a20720_shell::InitTile(Tile* apParent, const char* apName, Tile* apReplacedTile)
 {
-    Tile::Init(apParent, apName, apReplacedTile);
-    ((TileNU*)this)->Set(0xff5, 255.0f, true);
-    ((TileNU*)this)->Set(0xfb2, 255.0f, true);
-    ((TileNU*)this)->Set(0xfb3, 255.0f, true);
-    ((TileNU*)this)->Set(0xfb4, 255.0f, true);
-    ((TileNU*)this)->Set(0xfa9, 255.0f, true);
-    ((TileNU*)this)->Set(0xfa3, 1.0f, true);
-    ((TileNU*)this)->SetTileType(3);
+    reinterpret_cast<::FUN_009ff600_shell *>(this)->InitTile(apParent, (char *)(apName), apReplacedTile);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileNU*)this)))->FUN_00a012d0(0xff5, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileNU*)this)))->FUN_00a012d0(0xfb2, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileNU*)this)))->FUN_00a012d0(0xfb3, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileNU*)this)))->FUN_00a012d0(0xfb4, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileNU*)this)))->FUN_00a012d0(0xfa9, 255.0f, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileNU*)this)))->FUN_00a012d0(0xfa3, 1.0f, true);
+    reinterpret_cast<::FUN_00a074d0_shell *>((((TileNU*)this)))->FUN_00a074d0(3);
     DAT_011f3560.Enable();
-    DAT_011f3560.Update(GetTickCount());
+    reinterpret_cast<::FUN_00aa4ee0_t *>(&(DAT_011f3560))->FUN_00aa4ee0(GetTickCount());
 }
 
 struct NiTimeController;
 struct NiRTTI;
-extern NiRTTI DAT_011f36ac;
 struct NiAVObject
 {
-    NiTimeController* GetController(NiRTTI const*);
 };
 struct FUN_00a20c80_shell : public Tile3D
 {
@@ -123,10 +182,10 @@ struct FUN_00a20c80_shell : public Tile3D
 // @fnv 0x00a20c80
 bool FUN_00a20c80_shell::AttachController(NiAVObject* apObject)
 {
-    NiTimeController* ctrl = apObject->GetController(&DAT_011f36ac);
+    NiTimeController* ctrl = ((::NiTimeController *)(reinterpret_cast<::MyHost *>((apObject))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
     if (ctrl)
     {
-        *(NiTimeController**)((char*)this + 0x38) = ctrl;
+        *(NiTimeController**)&this->m_pParent = ctrl;
         return true;
     }
     return false;
@@ -134,7 +193,6 @@ bool FUN_00a20c80_shell::AttachController(NiAVObject* apObject)
 
 struct PropHelper
 {
-    void* GetProperty(unsigned int);
 };
 struct Col16
 {
@@ -150,6 +208,30 @@ struct AVObj
     virtual void v05();
     virtual PropHelper* IsGeometry();
 };
+// The colour and alpha of a TileShaderProperty; the pad stands for members not named here.
+struct TileShaderPropertyView
+{
+    char pad00[0x68];
+    Col16 m_kColor;
+    float m_fAlpha;
+};
+
+// The children array of a NiNode (a NiTArray); the pad stands for members not named here.
+struct NiNodeChildView
+{
+    void* m_pVtbl;
+    void** m_ppBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+struct NiNodeChildrenView
+{
+    char pad00[0x9c];
+    NiNodeChildView m_kChildren;
+};
+
 struct FUN_00a21570_shell : public Tile3D
 {
     void ApplyAlphaToChildren(NiNode* apNode, float afAlpha, const RgbaColor* apTextColor);
@@ -160,7 +242,7 @@ void FUN_00a21570_shell::ApplyAlphaToChildren(NiNode* apNode, float afAlpha, con
 {
     if (!apNode)
         return;
-    for (unsigned int ui = 0; ui < *(unsigned short*)((char*)apNode + 0xa6); ui++)
+    for (unsigned int ui = 0; ui < ((NiNodeChildrenView*)apNode)->m_kChildren.m_usSize; ui++)
     {
         AVObj* pchild;
         {
@@ -170,7 +252,7 @@ void FUN_00a21570_shell::ApplyAlphaToChildren(NiNode* apNode, float afAlpha, con
                 {
                     char* ptsp;
                     {
-                        AVObj** pp = &(*(AVObj***)((char*)apNode + 0xa0))[ui];
+                        AVObj** pp = &((AVObj**)((NiNodeChildrenView*)apNode)->m_kChildren.m_ppBase)[ui];
                         {
                             AVObj* p = *pp;
                             pchild = p;
@@ -182,10 +264,10 @@ void FUN_00a21570_shell::ApplyAlphaToChildren(NiNode* apNode, float afAlpha, con
                         pgeom = pchild->IsGeometry();
                         if (pgeom)
                         {
-                            pprop = pgeom->GetProperty(3);
+                            pprop = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((pgeom))->FUN_00a59d30(3)));
                             ptsp = (char*)pprop;
-                            *(float*)(ptsp + 0x78) = afAlpha;
-                            *(Col16*)(ptsp + 0x68) = *(const Col16*)apColor;
+                            ((TileShaderPropertyView*)ptsp)->m_fAlpha = afAlpha;
+                            ((TileShaderPropertyView*)ptsp)->m_kColor = *(const Col16*)apColor;
                         }
                     }
                 }
@@ -194,8 +276,6 @@ void FUN_00a21570_shell::ApplyAlphaToChildren(NiNode* apNode, float afAlpha, con
     }
 }
 
-void __fastcall FUN_004afc80(void*);
-void __fastcall TrimTrailingNullPointers(void*);
 struct NiAVObjectRP
 {
     void RemoveProperty(unsigned int);
@@ -218,19 +298,20 @@ void FUN_00a20ba0_X::RemovePropertyRecursive(char* pTarget)
     void* pobj;
     char* val;
     int unused[5];
-    ((NiAVObjectRP*)pTarget)->RemoveProperty(2);
-    FUN_004afc80(pTarget + 0x9c);
-    TrimTrailingNullPointers(pTarget + 0x9c);
-    for (a = 0; a < *(unsigned short*)(pTarget + 0xa8); a++)
+    reinterpret_cast<::ExtraOwnerB *>((((NiAVObjectRP*)pTarget)))->FUN_00a5b230(2);
+    NiNodeChildView* pChildren = &((NiNodeChildrenView*)pTarget)->m_kChildren;
+    reinterpret_cast<::ObjPtrArray *>(pChildren)->FUN_004afc80();
+    reinterpret_cast<::Pn4afe *>(pChildren)->TrimTrailingNullPointers();
+    for (a = 0; a < pChildren->m_usESize; a++)
     {
         {
-            void** tB = &(*(void***)(pTarget + 0xa0))[a];
+            void** tB = &pChildren->m_ppBase[a];
             void* tA = *tB;
             pobj = tA;
         }
         if (pobj)
         {
-            ((NiAVObjectRP*)pobj)->RemoveProperty(2);
+            reinterpret_cast<::ExtraOwnerB *>((((NiAVObjectRP*)pobj)))->FUN_00a5b230(2);
             val = (char*)((NiObjVtX*)pobj)->v3();
             if (val)
                 RemovePropertyRecursive(val);
@@ -238,18 +319,16 @@ void FUN_00a20ba0_X::RemovePropertyRecursive(char* pTarget)
     }
 }
 
-extern char* EmptyFS;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiGlobalStringTable
 {
     static char* __cdecl AddString(const char*);
     static long* GetRealBufferStart(char* const& h)
     {
-        return ((long*)h) - 2;
+        return &((StringHeader*)h - 1)->refs;
     }
     static void DecRefCount(char*& h)
     {
-        if (h == EmptyFS)
+        if (h == ::DAT_0109b220)
             return;
         NiAtomicSubtract(GetRealBufferStart(h)[0]);
     }
@@ -268,7 +347,7 @@ class NiFixedString
     NiFixedString(const char* pc)
     {
         if (pc == 0)
-            m_kHandle = EmptyFS;
+            m_kHandle = ::DAT_0109b220;
         else
             m_kHandle = NiGlobalStringTable::AddString(pc);
     }
@@ -314,7 +393,6 @@ struct DummyPointerMap
 };
 struct Dummy_00a20ed0
 {
-    void UpdateAnimation(float, int);
 };
 class NiControllerSequence
 {
@@ -355,12 +433,12 @@ class NiControllerSequence
     virtual void V33();
     virtual void V34();
     virtual bool Deactivate(float fEaseOutTime, bool bTransition);
-    bool Activate(char, bool, float, float, NiControllerSequence*, bool);
     int GetState()
     {
         return m_eAnimationState;
     }
-    char pad[0x40];
+    char pad[0x3c];
+    int m_iUnk40;
     int m_eAnimationState;
 };
 struct NiControllerManager
@@ -380,7 +458,7 @@ struct NiControllerManager
     NiControllerSequence* FindSequenceByName(const NiFixedString& kName)
     {
         NiControllerSequence* pkSequence;
-        if (m_kPointerMap.GetAt((unsigned int)(const char*)kName, (unsigned int&)pkSequence))
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(m_kPointerMap))->FUN_00853130((unsigned int)(const char*)kName, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pkSequence)))
             return pkSequence;
         return 0;
     }
@@ -392,14 +470,14 @@ struct NiControllerManager
                                     float fWeight = 1.0f, float fEaseInTime = 0.0f,
                                     NiControllerSequence* pkTimeSyncSeq = 0)
     {
-        return pkSequence->Activate((char)iPriority, bStartOver, fWeight, fEaseInTime, pkTimeSyncSeq, false);
+        return reinterpret_cast<::SeqA34f20 *>((pkSequence))->StartSequence((char)iPriority, bStartOver, fWeight, fEaseInTime, (::SeqA34f20 *)(pkTimeSyncSeq), false);
     }
 };
 struct FUN_00a20cc0_t : public Tile3D
 {
     NiNode* GetNode()
     {
-        return *(NiNode**)((char*)this + 0x2c);
+        return m_pRenderedNodeEntry;
     }
     NiControllerManager* Mgr()
     {
@@ -407,43 +485,11 @@ struct FUN_00a20cc0_t : public Tile3D
     }
     bool FUN_00a20cc0(const char* apSequenceName);
 };
-// Looks up a controller sequence by name and activates it, deactivating the current sequence first, then sets a manager flag and stores the new sequence.
-// @fnv 0x00a20cc0
-bool FUN_00a20cc0_t::FUN_00a20cc0(const char* apSequenceName)
-{
-    if (!GetNode() || !m_pParent || !apSequenceName)
-        return false;
-    NiControllerSequence* pseq = ((NiControllerManager*)m_pParent)->FindSequenceByName(NiFixedString(apSequenceName));
-    if (pseq)
-    {
-        bool bActivated = false;
-        if (m_pChildTile)
-        {
-            if (((NiControllerSequence*)m_pChildTile)->GetState() == 1)
-                ((Dummy_00a20ed0*)this)->UpdateAnimation(1.0f, 1);
-            ((NiControllerManager*)m_pParent)->StopSequence((NiControllerSequence*)m_pChildTile);
-        }
-        if (!bActivated)
-        {
-            if (pseq->GetState() != 0)
-                ((NiControllerManager*)m_pParent)->StopSequence(pseq);
-            bActivated = ((NiControllerManager*)m_pParent)->ActivateControllerSequence(pseq);
-        }
-        if (bActivated)
-        {
-            ((NiControllerManager*)m_pParent)->SetBit(true, 8);
-            m_pChildTile = pseq;
-            return true;
-        }
-    }
-    return false;
-}
-
 struct Tile3DStrField : BSStringT<char>
 {
     ~Tile3DStrField()
     {
-        Set(0, 0);
+        reinterpret_cast<::TextString *>(this)->FUN_004037f0(0, 0);
     }
 };
 
@@ -460,13 +506,11 @@ struct FUN_00a20650_cls : Tile3DBaseDtor
     Tile3DStrField strFilename;
     __forceinline bool TestFlag(unsigned int mask) const
     {
-        return (*(const unsigned int*)((const char*)this + 0x30) & mask) != 0;
+        return (uiFlags & mask) != 0;
     }
     virtual ~FUN_00a20650_cls();
 };
 
-void __cdecl FUN_00707640(unsigned int value);
-void __fastcall FUN_009ff690(void* pThis);
 
 struct FUN_00a20650_pad
 {
@@ -478,15 +522,15 @@ FUN_00a20650_cls::~FUN_00a20650_cls()
 {
     FUN_00a20650_pad unkPad;
     unsigned int unkX;
-    unsigned int uiName;
+    const char* pcName;
     if (TestFlag(0x20000))
     {
-        uiName = *(unsigned int*)((char*)this + 0x48);
-        FUN_00707640(uiName);
+        pcName = strFilename.pString;
+        ::FUN_00707640(pcName);
     }
     if (!TestFlag(0x2000))
     {
-        FUN_009ff690(this);
+        reinterpret_cast<::fnv_009ff690::ReleaseTile *>((this))->FUN_009ff690();
     }
 }
 
@@ -559,7 +603,6 @@ class NiObjectNET
     virtual void v53();
     virtual void v54();
     virtual void AttachChildInAvailableSlot(NiNode* child, bool firstAvail);
-    bool AddExtraData(NiExtraData* extra);
     void DecRefCount();
     void IncRefCount();
 };
@@ -570,7 +613,7 @@ struct NiNodeChildArray
     ~NiNodeChildArray();
     void RemoveAll();
     void* vtbl;
-    int m_pBase;
+    void** m_pBase;
     int m_usMaxSize;
     int m_usGrowBy;
 };
@@ -580,7 +623,6 @@ class NiNode : public NiObjectNET
   public:
     NiNode(unsigned short arraySize);
     void UpdateModel();
-    static void* operator new(unsigned int size);
     int unk04;
     int unk08;
     int unk0c;
@@ -646,16 +688,13 @@ struct Tile__Extra : NiExtraData
         pNode = node;
         SetName("Tileptr");
     }
-    static void* operator new(unsigned int size);
 };
 
 struct TileX
 {
     NiNode* GetNiNode();
 };
-NiNode* FUN_00706d30();
 
-extern "C" char* __cdecl strstr(const char*, const char*);
 struct ModelPath
 {
     char* buffer;
@@ -739,45 +778,21 @@ struct Tile3DCalc
     NiNode* CreateTileNode();
 };
 
-// @fnv 0x00a20800
-NiNode* Tile3DCalc::CreateTileNode()
-{
-    if (node)
-    {
-        node->m_pParentNode = 0;
-        node = 0;
-    }
-    node = new NiNode(0);
-    LoadTile();
-    if (node)
-    {
-        NiNode* parentNode = GetParent()->GetNiNode();
-        if (!parentNode)
-            parentNode = FUN_00706d30();
-        parentNode->AttachChildInAvailableSlot(node, true);
-        node->AddExtraData(new Tile__Extra(reinterpret_cast<Tile*>(this), node));
-    }
-    return node;
-}
-
-extern "C" unsigned int __cdecl strlen(const char*);
 struct AnimString
 {
     char* text;
     unsigned short length, capacity;
-    int StrCmp(const char*, bool) const;
-    bool Set(const char*, unsigned int);
     const char* Get() const
     {
         return text;
     }
     bool operator==(const char* rhs) const
     {
-        return !StrCmp(rhs, true);
+        return !reinterpret_cast<::B408A80String *>((void *)this)->FUN_00408a80(rhs, true);
     }
     AnimString& operator=(const char* rhs)
     {
-        Set(rhs, 0);
+        reinterpret_cast<::TextString *>(this)->FUN_004037f0(rhs, 0);
         return *this;
     }
     bool operator!=(const char* rhs) const
@@ -818,7 +833,6 @@ struct AnimNode
         else
             flags &= ~mask;
     }
-    void Update(UpdateData&);
 };
 struct AnimSequence
 {
@@ -903,11 +917,35 @@ inline float DeltaTime()
     return delta;
 }
 extern float DAT_01095728;
-__declspec(dllimport) unsigned long __stdcall GetTickCount();
+class NiNode;
 struct Interface
 {
     static bool PlayNifSounds(NiControllerSequence*);
+public:
+    static ::NiNode *GetInterfaceNode();
+public:
+    static const char *GetInterfaceName();
 };
+// @fnv 0x00a20800
+NiNode* Tile3DCalc::CreateTileNode()
+{
+    if (node)
+    {
+        node->m_pParentNode = 0;
+        node = 0;
+    }
+    node = new NiNode(0);
+    LoadTile();
+    if (node)
+    {
+        NiNode* parentNode = GetParent()->GetNiNode();
+        if (!parentNode)
+            parentNode = ::Interface::GetInterfaceNode();
+        parentNode->AttachChildInAvailableSlot(node, true);
+        reinterpret_cast<::FUN_00a5bca0_shell *>(((node).operator->()))->SetExtraDataName(new Tile__Extra(reinterpret_cast<Tile*>(this), node));
+    }
+    return node;
+}
 struct AnimTile
 {
     int unk00;
@@ -927,14 +965,43 @@ struct AnimTile
     AnimSequence* sequence;
     AnimString name;
     const char* GetString(int);
-    bool HasValue(int);
-    bool LoadSequence(const char*);
     AnimNode* GetNode()
     {
         return node;
     }
     bool UpdateAnimation(float value, bool force);
 };
+// Looks up a controller sequence by name and activates it, deactivating the current sequence first, then sets a manager flag and stores the new sequence.
+// @fnv 0x00a20cc0
+bool FUN_00a20cc0_t::FUN_00a20cc0(const char* apSequenceName)
+{
+    if (!GetNode() || !m_pParent || !apSequenceName)
+        return false;
+    NiControllerSequence* pseq = ((::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((((NiControllerManager*)m_pParent)))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString(apSequenceName)))));
+    if (pseq)
+    {
+        bool bActivated = false;
+        if (m_pChildTile)
+        {
+            if (((NiControllerSequence*)m_pChildTile)->m_iUnk40 == 1)
+                reinterpret_cast<::AnimTile *>((((Dummy_00a20ed0*)this)))->UpdateAnimation(1.0f, 1);
+            ((NiControllerManager*)m_pParent)->StopSequence((NiControllerSequence*)m_pChildTile);
+        }
+        if (!bActivated)
+        {
+            if (pseq->m_iUnk40 != 0)
+                ((NiControllerManager*)m_pParent)->StopSequence(pseq);
+            bActivated = ((NiControllerManager*)m_pParent)->ActivateControllerSequence(pseq);
+        }
+        if (bActivated)
+        {
+            ((NiControllerManager*)m_pParent)->SetBit(true, 8);
+            m_pChildTile = pseq;
+            return true;
+        }
+    }
+    return false;
+}
 inline float MaxTime(float value, float low)
 {
     if (low > value)
@@ -948,23 +1015,23 @@ inline float MinTime(float value, float high)
 // @fnv 0x00a20ed0
 bool AnimTile::UpdateAnimation(float value, bool force)
 {
-    const char* r = GetString(0xfd2);
+    const char* r = reinterpret_cast<::FUN_00a011f0_shell *>(this)->FUN_00a011f0(0xfd2);
     if ((name.Get() || r) && name != r)
     {
         name = r;
-        if (name.Length() && !LoadSequence(name.Get()))
+        if (name.Length() && !reinterpret_cast<::FUN_00a20cc0_t *>(this)->FUN_00a20cc0(name.Get()))
             name = 0;
     }
-    if (!GetNode() || !manager || !HasValue(0xfa3))
+    if (!GetNode() || !manager || !reinterpret_cast<::FUN_00a01230_shell *>(this)->IsTraitNonZero(0xfa3))
         return false;
-    if (!HasValue(0xfa3))
+    if (!reinterpret_cast<::FUN_00a01230_shell *>(this)->IsTraitNonZero(0xfa3))
         GetNode()->SetFlag(true, 1);
     if (!sequence)
         return false;
     if (sequence->GetTime() == -DAT_01095728)
     {
         UpdateData update(0.0f);
-        GetNode()->Update(update);
+        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((std::intptr_t)&(update));
     }
     else if (value == -1.0)
     {
@@ -974,9 +1041,9 @@ bool AnimTile::UpdateAnimation(float value, bool force)
         ptr = sequence->GetDuration();
         while (time3 > ptr)
             time3 -= ptr;
-        DAT_011f3560.Update(GetTickCount());
+        reinterpret_cast<::FUN_00aa4ee0_t *>(&(DAT_011f3560))->FUN_00aa4ee0(GetTickCount());
         UpdateData loopUpdate7(time3);
-        GetNode()->Update(loopUpdate7);
+        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((std::intptr_t)&(loopUpdate7));
         if (Interface::PlayNifSounds((NiControllerSequence*)sequence))
         {
             manager->StopSequence(sequence);
@@ -990,12 +1057,12 @@ bool AnimTile::UpdateAnimation(float value, bool force)
         kSeekTime = sequence->GetDuration();
         float c = MinTime(MaxTime(kSeekTime * value, 0.0f), kSeekTime);
         UpdateData seekUpdate9(c);
-        GetNode()->Update(seekUpdate9);
+        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((std::intptr_t)&(seekUpdate9));
     }
     else
     {
         UpdateData update(value);
-        GetNode()->Update(update);
+        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((std::intptr_t)&(update));
     }
     return true;
 }
@@ -1003,8 +1070,6 @@ bool AnimTile::UpdateAnimation(float value, bool force)
 namespace fnv_00a21340 {
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct NiTexture;
 struct TileShaderProperty : NiMemObject
@@ -1054,7 +1119,6 @@ struct TileShaderProperty : NiMemObject
     unsigned int fa8;
     unsigned int fac;
     TileShaderProperty(bool);
-    void FUN_00bb7a10(NiTexture*);
 };
 
 struct AVObj;
@@ -1186,7 +1250,6 @@ struct TexturingProp : Prop
 
 struct PropHelper
 {
-    void* GetProperty(unsigned int);
 };
 
 struct Geometry : PropHelper
@@ -1240,19 +1303,16 @@ struct Geometry : PropHelper
     unsigned int fb8;
     unsigned int fbc;
     void* shader;
-    void FUN_00a5b230(unsigned int);
     void RemoveProperty(unsigned int type)
     {
         int a, b, c, d, e;
-        FUN_00a5b230(type);
+        reinterpret_cast<::ExtraOwnerB *>(this)->FUN_00a5b230(type);
     }
-    void FUN_00439410(TileShaderProperty*);
 };
 
-void* __cdecl FUN_00b55560(unsigned int);
 inline void* AllocateShader()
 {
-    void* result = FUN_00b55560(32);
+    void* result = ((void *)(::FUN_00b55560(32)));
     return result;
 }
 
@@ -1273,16 +1333,16 @@ void FUN_00a21340_shell::ConvertShadersToTileShader(NiNode* node)
                 Geometry* child_ = (Geometry*)node->children[i8]->IsGeometry();
                 if (child_)
                 {
-                    Prop* shader = (Prop*)child_->GetProperty(3);
+                    Prop* shader = (Prop*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((child_))->FUN_00a59d30(3)));
                     if (shader && !(!shader ? 0 : shader->IsType(19)))
                     {
                         TileShaderProperty* property = new TileShaderProperty(false);
                         child_->RemoveProperty(3);
-                        child_->FUN_00439410(property);
-                        TexturingProp* data7 = (TexturingProp*)child_->GetProperty(5);
+                        reinterpret_cast<::FUN_00439410_cls *>((child_))->FUN_00439410((::ArgObject *)(property));
+                        TexturingProp* data7 = (TexturingProp*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((child_))->FUN_00a59d30(5)));
                         if (data7)
-                            property->FUN_00bb7a10(data7->GetTexture(0));
-                        void* allocated = FUN_00b55560(32);
+                            reinterpret_cast<::TileShaderProperty *>((property))->FUN_00bb7a10((::NiTexture *)(::fnv_00a21340::NiTexture *)(data7->GetTexture(0)));
+                        void* allocated = ((void *)(::FUN_00b55560(32)));
                         void* texturing2 = allocated;
                         child_->shader = texturing2;
                     }
@@ -1451,7 +1511,6 @@ class NiNode : public NiAVObject
     int unk94;
     int unk98;
     NiTArray<NiPtr<NiAVObject> > m_children;
-    void FUN_00a5a040();
 };
 
 template <class T> class NiPtr
@@ -1497,14 +1556,8 @@ class BSString
     {
         return m_data;
     }
-    int Sprintf(const char* fmt, ...);
 };
 
-const char* FUN_00707860();
-NiAVObject* FUN_00707660(const char* path, bool* flag);
-NiAVObject* FUN_00707870(NiAVObject* obj);
-void FUN_00707930(int a);
-void FUN_00707820();
 
 class Tile3DX
 {
@@ -1531,11 +1584,6 @@ class Tile3DX
 
     const char* GetString(int id);
     bool GetBool(int id);
-    void Set(int id, float value, bool b);
-    void FUN_00a07530(int a);
-    bool AttachController(NiAVObject* obj);
-    void RemovePropertyRecursive(NiAVObject* obj);
-    void ConvertShadersToTileShader(NiAVObject* obj);
     void SetFlag20000(bool b)
     {
         b ? (flags |= 0x20000) : (flags &= ~0x20000);
@@ -1547,15 +1595,15 @@ class Tile3DX
 // @fnv 0x00a20980
 void Tile3DX::LoadTile()
 {
-    const char* pszName = GetString(0xfcc);
+    const char* pszName = reinterpret_cast<::FUN_00a011f0_shell *>(this)->FUN_00a011f0(0xfcc);
     if (!pszName)
         return;
     if (strstr(pszName, "\\Data"))
-        strFilename.Sprintf("%s", pszName);
+        ::FUN_00406f60((::FUN_00406f90_this *)&(strFilename), "%s", pszName);
     else
-        strFilename.Sprintf("%s\\%s", FUN_00707860(), pszName);
+        ::FUN_00406f60((::FUN_00406f90_this *)&(strFilename), "%s\\%s", ::Interface::GetInterfaceName(), pszName);
     bool flag = false;
-    NiAVObject* m_kModelObjectsItem = FUN_00707660(strFilename.CStr(), &flag);
+    NiAVObject* m_kModelObjectsItem = ((::fnv_00a20980::NiAVObject *)(::FUN_00707660(strFilename.CStr(), &flag)));
     if (!m_kModelObjectsItem)
     {
         node = 0;
@@ -1563,19 +1611,21 @@ void Tile3DX::LoadTile()
     }
     SetFlag20000(flag);
     if (m_kModelObjectsItem->GetParent())
-        m_kModelObjectsItem = FUN_00707870(m_kModelObjectsItem);
-    AttachController(m_kModelObjectsItem);
-    node->m_children.RemoveAll();
-    RemovePropertyRecursive(m_kModelObjectsItem);
-    ConvertShadersToTileShader(m_kModelObjectsItem);
+        m_kModelObjectsItem = ((::fnv_00a20980::NiAVObject *)(::FUN_00707870(m_kModelObjectsItem)));
+    reinterpret_cast<::FUN_00a20c80_shell *>(this)->AttachController((::NiAVObject *)(m_kModelObjectsItem));
+    reinterpret_cast<::fnv_00c5ac00::ArrObj *>(&(node->m_children))->FUN_004dffa0();
+    reinterpret_cast<::FUN_00a20ba0_X *>(this)->RemovePropertyRecursive((char *)(m_kModelObjectsItem));
+    reinterpret_cast<::fnv_00a21340::FUN_00a21340_shell *>(this)->ConvertShadersToTileShader((::fnv_00a21340::NiNode *)(m_kModelObjectsItem));
     node->AttachChildInAvailableSlot(m_kModelObjectsItem, true);
-    Set(0xfa8, 1.0f, true);
-    node->SetAppCulled(!GetBool(0xfa3));
-    node->FUN_00a5a040();
+    reinterpret_cast<::FUN_00a012d0_t *>(this)->FUN_00a012d0(0xfa8, 1.0f, true);
+    node->SetAppCulled(!reinterpret_cast<::FUN_00a01230_shell *>(this)->IsTraitNonZero(0xfa3));
+    reinterpret_cast<::FUN_00a5a040_Class *>(((node).operator->()))->FUN_00a5a040();
     if (flags & 0x40)
         flags ^= 0x40;
-    FUN_00a07530(9);
-    FUN_00707930(1);
-    FUN_00707820();
+    reinterpret_cast<::FUN_00a07530_shell *>(this)->FUN_00a07530(9);
+    ::fnv_00707930::FUN_00707930(1);
+    ::FUN_00707820();
 }
 }  // namespace fnv_00a20980
+
+#include "generated/data/bsmenu/tile3d.inc"

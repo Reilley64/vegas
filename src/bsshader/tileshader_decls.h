@@ -3,6 +3,7 @@
 #define FNV_TILESHADER_DECLS_H
 
 
+#include "fnv/symbols_00b98000.h"
 class NiPropertyState
 {
   public:
@@ -30,6 +31,5 @@ class TileShader
 };
 
 void AddToCounterIfIdle(unsigned int, unsigned int);
-void UpdateRendererStateCount(unsigned int, unsigned int);
 
 #endif

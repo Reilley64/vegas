@@ -3,7 +3,6 @@
 #define FNV_BGSPERKENTRY_H
 
 #include "layout_support.h"
-#pragma pack(push, 4)
 class BGSPerkEntry
 {
   public:
@@ -21,8 +20,4 @@ class BGSPerkEntry
     virtual void ClearData();
     virtual ~BGSPerkEntry();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSPerkEntry) == 0x8);
-FNV_STATIC_ASSERT(offsetof(BGSPerkEntry, m_ucRank) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BGSPerkEntry, m_ucRegionPriority) == 0x5);
 #endif

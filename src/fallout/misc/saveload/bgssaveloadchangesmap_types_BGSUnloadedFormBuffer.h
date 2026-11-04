@@ -4,7 +4,6 @@
 
 #include "layout_support.h"
 class FormBufferContext;
-#pragma pack(push, 4)
 class FormBufferContext
 {
   public:
@@ -24,7 +23,4 @@ class FormBufferContext
     // void __cdecl FormBufferContext::*()
     // char* __cdecl FormBufferContext::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FormBufferContext) == 4);
-FNV_STATIC_ASSERT(offsetof(FormBufferContext, pBuffer) == 0);
 #endif

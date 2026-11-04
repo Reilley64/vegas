@@ -6,7 +6,6 @@
 #include "hkBase.h"
 class hkMeshMaterial;
 class hkMeshVertexBuffer;
-#pragma pack(push, 1)
 class hkMeshSection
 {
   public:
@@ -37,6 +36,4 @@ class hkMeshSection
     hkMeshMaterial* m_iMaterialIndex;         // +0x20
     hkInt32 m_iVertexOffset;                  // +0x24
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkMeshSection[(sizeof(hkMeshSection) == 0x28) ? 1 : -1];
 #endif

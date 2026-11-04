@@ -7,6 +7,7 @@
 // its D3D handles live at offset 52 (shader) and 56 (declaration).
 
 // Direct3D9 vertex shader object; referenced by pointer only.
+#include "fnv/symbols_0126f000.h"
 class RenderableGeometry;
 
 // Direct3D9 vertex declaration object; referenced by pointer only.
@@ -97,7 +98,6 @@ class NiD3DVertexShader : public NiD3DShaderProgram
 public:
     NiD3DVertexShader(GraphicsRenderer* pkRenderer);
 
-    static const NiRTTI ms_kRTTI;
     virtual const NiRTTI* GetRTTI() const;
 
     void SetD3DPixelShader(RenderableGeometry* hShader);
@@ -123,7 +123,7 @@ NiD3DVertexShader::NiD3DVertexShader(GraphicsRenderer *const pkRenderer) :
 // @fnv 0x00be0b60
 const NiRTTI* NiD3DVertexShader::GetRTTI() const
 {
-    return &ms_kRTTI;
+    return &(*reinterpret_cast<const ::NiRTTI *>(&::g_0126f9b4));
 }
 
 // @fnv 0x00be0bb0

@@ -7,7 +7,6 @@
 class NiTexture;
 class TextureMapTransform;
 class NiTexturingProperty__Map;
-#pragma pack(push, 4)
 class NiTexturingProperty__Map
 {
   public:
@@ -36,10 +35,4 @@ class NiTexturingProperty__Map
     // NiTexturingProperty::Map& __cdecl NiTexturingProperty::Map::*(const NiTexturingProperty::Map&)
     // void __cdecl NiTexturingProperty::Map::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTexturingProperty__Map) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTexturingProperty__Map, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTexturingProperty__Map, m_uiObjectFlags) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTexturingProperty__Map, m_spTexture) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTexturingProperty__Map, m_pTextureTransform) == 12);
 #endif

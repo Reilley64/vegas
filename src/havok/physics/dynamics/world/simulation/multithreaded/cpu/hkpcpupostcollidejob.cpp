@@ -2,19 +2,24 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpupostcollidejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpupostcollidejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00c911d0_Class.h"
+#include "fnv/decl/FUN_00c91210_Class.h"
+#include "fnv/decl/LunaOwner.h"
+#include "fnv/decl/S_C.h"
+#include "fnv/symbols_00df2000.h"
+#include "fnv/symbols_01076000.h"
+#include "fnv/symbols_01268000.h"
 extern "C" unsigned __int64 __rdtsc(void);
 #include <xmmintrin.h>
 extern "C" void _ReadWriteBarrier();
-extern unsigned int DAT_0126835c;
 extern void* DAT_0fdf044;
 extern void* DAT_010d3de4;
 extern void* DAT_010d3dd4;
 extern void* DAT_010d3dc8;
-extern void* DAT_01076f38;
 
 static void* tlsGetValue()
 {
-    return ((void*(__stdcall*)(unsigned int))DAT_0fdf044)(DAT_0126835c);
+    return ((void*(*)(unsigned int))DAT_0fdf044)((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
 }
 
 struct ShapeCmds
@@ -42,14 +47,12 @@ struct ShapeList
     int unk04;
     int unk08;
     Shape* shapes[1];
-    void FUN_00d965b0();
 };
 
 struct Caller;
 
 struct TargetClass
 {
-    int __thiscall ProcessCallback(Caller* a, Caller* b, int c);
 };
 
 struct Accum
@@ -77,11 +80,8 @@ struct Caller
 
 struct Worker
 {
-    void __thiscall EnterLock(Accum* a);
-    void __thiscall FUN_00c91210(Accum* a);
 };
 
-extern "C" int __cdecl FUN_00df25f0(Worker* a, char* b, int c);
 
 struct TlsObject
 {
@@ -108,14 +108,14 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
     }
 
     Accum* acc = apCaller->m_14;
-    (*a1)->EnterLock(acc);
+    reinterpret_cast<::FUN_00c911d0_Class *>(((*a1)))->EnterLock(acc);
 
     int count = apCaller->m_20->count;
     for (int i = 0; i < count; i++)
     {
         if (i < count - 4)
         {
-            _mm_prefetch((const char*)apCaller->m_20->shapes[(short)(i + 4)], _MM_HINT_NTA);
+            _mm_prefetch(reinterpret_cast<const char*>(apCaller->m_20->shapes[(short)(i + 4)]), _MM_HINT_NTA);
         }
 
         Shape* shape = apCaller->m_20->shapes[(short)i];
@@ -140,19 +140,19 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
                 *(float*)(rec8 + 4) = (float)val;
                 tls2->records = rec8 + 8;
             }
-            FUN_00df25f0(*a1, shape->m_10.get(), shape->m_10.m_iElementCount);
+            ::FUN_00df25f0(*a1, (::CommandRecord *)(char *)(shape->m_10.get()), shape->m_10.m_iElementCount);
         }
     }
 
-    apCaller->m_20->FUN_00d965b0();
-    (*a1)->FUN_00c91210(acc);
+    reinterpret_cast<::S_C *>((apCaller->m_20))->FUN_00d965b0();
+    reinterpret_cast<::FUN_00c91210_Class *>(((*a1)))->FUN_00c91210(acc);
 
     {
         TlsObject* tls3 = (TlsObject*)tlsGetValue();
         char* rec12 = tls3->records;
         if (rec12 < tls3->recordsEnd)
         {
-            *(const void**)rec12 = &DAT_01076f38;
+            *(const void**)rec12 = &(*reinterpret_cast<void * *>((void *)&::str_01076f38));
             _ReadWriteBarrier();
             volatile unsigned int ts3 = (unsigned int)__rdtsc();
             *(unsigned int*)(rec12 + 4) = ts3;
@@ -162,10 +162,12 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
 
     if (apTarget)
     {
-        return apTarget->ProcessCallback(apCaller, apCaller, 0);
+        return reinterpret_cast<::LunaOwner *>((apTarget))->ProcessCallback((intptr_t)(apCaller), (intptr_t)(apCaller), 0);
     }
     else
     {
         return 2;
     }
 }
+
+#include "generated/data/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpupostcollidejob.inc"

@@ -2,17 +2,51 @@
 // src/staging/blk_00a20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
+#include "fnv/decl/A237F0Object.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_005e0860_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_004de000.h"
+#include "fnv/symbols_009f9000.h"
+#include "fnv/symbols_00a24000.h"
+#include "fnv/symbols_00ee8000.h"
+#include "fnv/symbols_00ff0000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_011a2000.h"
+#include "fnv/symbols_011a7000.h"
+#include "fnv/symbols_011f3000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
+#include <cstddef>
+#include "fnv/symbols_00ee7000.h"
+#include "fnv/symbols_01100000.h"
+#include "fnv/symbols_00a27000.h"
+#include "fnv/symbols_00a2b000.h"
+#include <math.h>
 
 struct FUN_00a23a30_Class
 {
+    char pad00[0x1b08];
+    unsigned int unk1b08;
     unsigned int GetField1B08();
 };
 
 // @fnv 0x00a23a30
 unsigned int FUN_00a23a30_Class::GetField1B08()
 {
-    return *(unsigned int*)((char*)this + 0x1b08);
+    return this->unk1b08;
 }
 
 struct FUN_00a25bf0_class
@@ -56,21 +90,22 @@ char FUN_00a25bf0_class::FUN_00a25bf0(int aiUnused)
 
 struct FUN_00a25d50_Class
 {
+    char pad00[0x14278];
+    unsigned int unk14278;
     unsigned int GetField14278();
 };
 
 // @fnv 0x00a25d50
 unsigned int FUN_00a25d50_Class::GetField14278()
 {
-    return *(unsigned int*)((char*)this + 0x14278);
+    return this->unk14278;
 }
 
-extern "C" __declspec(dllimport) char* __stdcall lstrcpyA(char* dst, const char* src);
 
 // @fnv 0x00a25e00
-char* __cdecl FUN_00a25e00(char* dst, char* src)
+long __cdecl FUN_00a25e00(char* dst, char* src)
 {
-    return lstrcpyA(dst + 4, src + 4);
+    return CompareFileTime(reinterpret_cast<const FILETIME*>(dst + 4), reinterpret_cast<const FILETIME*>(src + 4));
 }
 
 struct FUN_00a24f10_Class
@@ -87,7 +122,6 @@ unsigned int FUN_00a24f10_Class::FUN_00a24f10(unsigned int uiIndex)
     return v;
 }
 
-extern int DAT_00ff0000;
 
 struct FUN_00a24f60_Class
 {
@@ -98,13 +132,21 @@ struct FUN_00a24f60_Class
 // @fnv 0x00a24f60
 void FUN_00a24f60_Class::FUN_00a24f60(int aiIndex, unsigned int b)
 {
-    *(char*)((char*)this + aiIndex + 0x1b94) = (char)((b & (unsigned int)&DAT_00ff0000) >> 0x10);
+    *(char*)((char*)this + aiIndex + 0x1b94) = (char)((b & (uintptr_t)&DAT_00ff0000) >> 0x10);
     *(char*)((char*)this + aiIndex + 0x1bb0) = (char)((b & 0xff00) >> 8);
     *(char*)((char*)this + aiIndex + 0x1be8) = (char)(b & 0xff);
 }
 
 struct InputManager
 {
+    char pad00[0x54];
+    unsigned int unk54;
+    char pad58[0xc];
+    unsigned char unk64[0x20];
+    char pad84[0x1874];
+    unsigned char unk18f8[0x238];
+    unsigned char unk1b30[0x64];
+    unsigned char unk1b94[4][28];
     void FUN_00a25410(int);
     void FUN_00a253d0();
 };
@@ -118,7 +160,6 @@ void InputManager::FUN_00a253d0()
 
 struct FUN_00a24080_Class
 {
-    unsigned int GetFlagForType(int a);
 };
 extern unsigned short DAT_011f35bc;
 extern unsigned short DAT_011f35ac;
@@ -126,15 +167,6 @@ struct FUN_00a25560_Class
 {
     void FUN_00a25560(int a);
 };
-// Computes a mask from a, clears those bits in DAT_011f35bc, then sets them from DAT_011f35ac.
-// @fnv 0x00a25560
-void FUN_00a25560_Class::FUN_00a25560(int a)
-{
-    unsigned int v = ((FUN_00a24080_Class*)this)->GetFlagForType(a);
-    DAT_011f35bc &= ~v;
-    DAT_011f35bc |= DAT_011f35ac & v;
-}
-
 extern bool DAT_011f35c8;
 struct FUN_00a269f0_Class
 {
@@ -142,22 +174,35 @@ struct FUN_00a269f0_Class
 };
 struct FUN_00a257c0_Class
 {
+    char pad00[0x1b80];
+    FUN_00a269f0_Class* unk1b80;
+    char pad1b84[0x4];
+    unsigned char unk1b88;
     void FUN_00a257c0(float v);
 };
 // @fnv 0x00a257c0
 void FUN_00a257c0_Class::FUN_00a257c0(float afValue)
 {
-    if (DAT_011f35c8 && *(unsigned char*)((char*)this + 0x1b88))
+    if (DAT_011f35c8 && this->unk1b88)
     {
         int i = (int)(afValue * 1000.0);
-        ((FUN_00a269f0_Class**)((char*)this + 0x1b80))[0]->ReadTwoShorts(i);
+        (&this->unk1b80)[0]->ReadTwoShorts(i);
     }
 }
+
+struct FUN_00a26010_Entry
+{
+    int m_i00;
+    int m_i04;
+};
 
 struct FUN_00a26010_Class
 {
     unsigned char FUN_00a26010();
+    char pad00[0x28];
+    FUN_00a26010_Entry m_entries[5];
     int m_50;
+    char pad54[0x14];
     int m_68;
     void AddEntry(int a);
 };
@@ -167,9 +212,9 @@ void FUN_00a26010_Class::AddEntry(int aiValue)
 {
     if (FUN_00a26010() && aiValue)
     {
-        *(int*)((char*)this + 0x2c + *(int*)((char*)this + 0x50) * 8) = aiValue;
-        *(int*)((char*)this + 0x28 + *(int*)((char*)this + 0x50) * 8) = *(int*)((char*)this + 0x68);
-        *(int*)((char*)this + 0x50) = *(int*)((char*)this + 0x50) + 1;
+        m_entries[m_50].m_i04 = aiValue;
+        m_entries[m_50].m_i00 = m_68;
+        m_50 = m_50 + 1;
     }
 }
 
@@ -208,8 +253,16 @@ struct FUN_00a25fb0_Class
 void FUN_00a25fb0_Class::FUN_00a25fb0(int a, int b)
 {}
 
+struct FUN_00a232d0_Entry
+{
+    unsigned int flags;
+    unsigned int unk04;
+};
+
 struct FUN_00a232d0_Class
 {
+    char pad00[0x18b4];
+    FUN_00a232d0_Entry unk18b4[1];
     unsigned int GetFlag(int a, int b);
 };
 // Reads the 32-bit flags word at this+0x18b4 indexed by a and returns the bit selected by b (1-6), or 0 for other b.
@@ -219,17 +272,17 @@ unsigned int FUN_00a232d0_Class::GetFlag(int aiIndex, int aiBit)
     switch (aiBit)
     {
     case 1:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 1;
+        return this->unk18b4[aiIndex].flags & 1;
     case 2:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 2;
+        return this->unk18b4[aiIndex].flags & 2;
     case 3:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 4;
+        return this->unk18b4[aiIndex].flags & 4;
     case 4:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 8;
+        return this->unk18b4[aiIndex].flags & 8;
     case 5:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 16;
+        return this->unk18b4[aiIndex].flags & 16;
     case 6:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 32;
+        return this->unk18b4[aiIndex].flags & 32;
     default:
         return 0;
     }
@@ -248,6 +301,13 @@ void FUN_00a24eb0_Class::FUN_00a24eb0(int aiBlockIndex, int b)
             ((unsigned char*)this)[aiBlockIndex * 0x1c + i + 0x1b94] = 0xff;
 }
 
+struct FUN_00a26480_Channel
+{
+    int m_i00;
+    unsigned short m_us04;
+    unsigned short m_us06;
+};
+
 struct FUN_00a26480_class
 {
     int m_00;
@@ -255,10 +315,7 @@ struct FUN_00a26480_class
     int m_08;
     int m_0c;
     int m_10;
-    unsigned short m_14;
-    unsigned short m_16;
-    unsigned short m_18;
-    unsigned short m_1a;
+    FUN_00a26480_Channel m_akChannel[2];
     unsigned int FUN_00a26480(FUN_00a26480_class* p, unsigned short n);
 };
 
@@ -266,9 +323,9 @@ struct FUN_00a26480_class
 unsigned int FUN_00a26480_class::FUN_00a26480(FUN_00a26480_class* pData, unsigned short usMultiplier)
 {
     unsigned short q;
-    if (!*(int*)((char*)pData + 0x14))
+    if (!pData->m_akChannel[0].m_i00)
         return 0;
-    q = (unsigned short)((pData->m_1a - pData->m_18) / pData->m_14);
+    q = (unsigned short)((pData->m_akChannel[0].m_us06 - pData->m_akChannel[0].m_us04) / (unsigned short)pData->m_akChannel[0].m_i00);
     return q * usMultiplier;
 }
 
@@ -280,18 +337,19 @@ struct FUN_00a264d0_Class
 // @fnv 0x00a264d0
 unsigned int FUN_00a264d0_Class::ComputeScaledRatio(unsigned short* pData, unsigned short usValue)
 {
-    if (!*(int*)((char*)pData + 0x1c))
+    const FUN_00a26480_class* data = (const FUN_00a26480_class*)pData;
+    if (!data->m_akChannel[1].m_i00)
         return 0;
-    unsigned short r = (*(unsigned short*)((char*)pData + 0x22) - *(unsigned short*)((char*)pData + 0x20)) /
-                       *(unsigned short*)((char*)pData + 0x1c);
+    unsigned short r = (data->m_akChannel[1].m_us06 - data->m_akChannel[1].m_us04) /
+                       (unsigned short)data->m_akChannel[1].m_i00;
     return r * usValue;
 }
 
 struct FUN_00a26310_Class
 {
     int m_00;
-    int m_04;
-    int m_08;
+    intptr_t m_04;
+    intptr_t m_08;
     int m_0c;
     int m_10;
     int m_14;
@@ -314,12 +372,12 @@ void FUN_00a26310_Class::FUN_00a26310(int a, FUN_00a26480_class* b)
         m_1c = 0;
         if (b->m_0c == 0)
             b->m_0c = b->m_08;
-        m_04 = (int)b;
+        m_04 = (intptr_t)b;
         m_0c = b->m_08;
-        m_10 = *(int*)((char*)b + 0x14);
-        m_14 = *(int*)((char*)b + 0x1c);
-        b->m_1a = b->m_00;
-        *(unsigned short*)((char*)b + 0x20) = b->m_00;
+        m_10 = b->m_akChannel[0].m_i00;
+        m_14 = b->m_akChannel[1].m_i00;
+        b->m_akChannel[0].m_us06 = b->m_00;
+        b->m_akChannel[1].m_us04 = b->m_00;
     }
     else
     {
@@ -327,18 +385,17 @@ void FUN_00a26310_Class::FUN_00a26310(int a, FUN_00a26480_class* b)
         m_30 = 0;
         if (b->m_0c == 0)
             b->m_0c = b->m_08;
-        m_08 = (int)b;
+        m_08 = (intptr_t)b;
         m_20 = b->m_08;
-        m_24 = *(int*)((char*)b + 0x14);
-        m_28 = *(int*)((char*)b + 0x1c);
-        b->m_1a = b->m_00;
-        *(unsigned short*)((char*)b + 0x20) = b->m_00;
+        m_24 = b->m_akChannel[0].m_i00;
+        m_28 = b->m_akChannel[1].m_i00;
+        b->m_akChannel[0].m_us06 = b->m_00;
+        b->m_akChannel[1].m_us04 = b->m_00;
     }
 }
 
 struct BSStr
 {
-    bool Set(const char*, unsigned int);
 };
 struct FUN_00a22640_Class
 {
@@ -370,7 +427,7 @@ void FUN_00a22640_Class::FUN_00a22640()
     int f;
     int g;
     int h;
-    m_38.Set(0, 0);
+    reinterpret_cast<::TextString *>(&(m_38))->FUN_004037f0(0, 0);
 }
 
 struct FUN_00a24b70_Class
@@ -503,71 +560,67 @@ char FUN_00a25da0_Class::FUN_00a25da0()
     return 0;
 }
 
-void* _memmove(void* dst, const void* src, unsigned int count);
 
 struct FUN_00a25e20_Class
 {
-    void FUN_00a25e20(int* a, int* b, void* src);
+    void FUN_00a25e20(intptr_t* a, int* b, void* src);
 };
 
 // @fnv 0x00a25e20
-void FUN_00a25e20_Class::FUN_00a25e20(int* a, int* b, void* src)
+void FUN_00a25e20_Class::FUN_00a25e20(intptr_t* a, int* b, void* src)
 {
     int size = 4;
     int* dst2 = (int*)*a;
-    _memmove(dst2, &src, size);
+    std::memmove(dst2, &src, size);
     *b += size;
     *a += size;
 }
 
-void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 struct FUN_00a25e70_Class
 {
-    void FUN_00a25e70(int* a, int* b, int src);
+    void FUN_00a25e70(intptr_t* a, int* b, int src);
 };
 
 // @fnv 0x00a25e70
-void FUN_00a25e70_Class::FUN_00a25e70(int* apBufferPtr, int* b, int aiValue)
+void FUN_00a25e70_Class::FUN_00a25e70(intptr_t* apBufferPtr, int* b, int aiValue)
 {
     int count = 1;
     int* dst = (int*)*apBufferPtr;
-    _memmove(dst, &aiValue, count);
+    std::memmove(dst, &aiValue, count);
     *b += count;
     *apBufferPtr += count;
 }
 
-void* _memmove(void* dst, const void* src, unsigned int count);
 
 struct FUN_00a25ec0_Class
 {
-    void FUN_00a25ec0(int* a, int* b, void* src);
+    void FUN_00a25ec0(intptr_t* a, int* b, void* src);
 };
 
 // @fnv 0x00a25ec0
-void FUN_00a25ec0_Class::FUN_00a25ec0(int* a, int* b, void* src)
+void FUN_00a25ec0_Class::FUN_00a25ec0(intptr_t* a, int* b, void* src)
 {
     int* dst;
     int size_2 = 4;
     dst = (int*)*a;
-    _memmove(dst, &src, size_2);
+    std::memmove(dst, &src, size_2);
     *b = *b + size_2;
     *a = *a + size_2;
 }
 
-void* _memmove(void* dst, const void* src, unsigned int n);
 
 struct FUN_00a25f10_Class
 {
-    void CopyBytesToBuffer(int* a, int* b, void* src);
+    void CopyBytesToBuffer(intptr_t* a, int* b, void* src);
 };
 
 // @fnv 0x00a25f10
-void FUN_00a25f10_Class::CopyBytesToBuffer(int* pBufferPtr, int* b, void* src)
+void FUN_00a25f10_Class::CopyBytesToBuffer(intptr_t* pBufferPtr, int* b, void* src)
 {
     int nA = 2;
     void* dst = (void*)*pBufferPtr;
-    _memmove(dst, &src, nA);
+    std::memmove(dst, &src, nA);
     *b += nA;
     *pBufferPtr += nA;
 }
@@ -577,16 +630,7 @@ struct FUN_00a26220_Class
     unsigned int FUN_00a26220();
     unsigned int FUN_00a26240();
 };
-// @fnv 0x00a26220
-unsigned int FUN_00a26220_Class::FUN_00a26220()
-{
-    int a;
-    int b;
-    int c;
-    return FUN_00a26240();
-}
 
-extern "C" __declspec(dllimport) unsigned int __stdcall GetTickCount();
 struct FUN_00a262d0_Class
 {
     unsigned int m_00;
@@ -626,148 +670,28 @@ struct FUN_00a23e10_Class : public FUN_00a24080_Class
     int FUN_00a23e10(int param1, int param2);
 };
 
-// @fnv 0x00a23e10
-int FUN_00a23e10_Class::FUN_00a23e10(int param1, int param2)
-{
-    if (!DAT_011f35c8)
-        return 0;
-
-    bool bSuccess9 = false;
-    unsigned int uFlags6 = 0;
-
-    switch (param1)
-    {
-    case 0x13:
-        if (DAT_011f35b2 > 0x1ea9)
-            bSuccess9 = true;
-        break;
-
-    case 0x14:
-        if (DAT_011f35b2 < -0x1ea9)
-            bSuccess9 = true;
-        break;
-
-    case 0x16:
-        if (DAT_011f35b0 > 0x1ea9)
-            bSuccess9 = true;
-        break;
-
-    case 0x17:
-        if (DAT_011f35b0 < -0x1ea9)
-            bSuccess9 = true;
-        break;
-
-    default:
-        uFlags6 = GetFlagForType(param1);
-        break;
-    }
-
-    if (param1 == 0x10)
-    {
-        switch (param2)
-        {
-        case 0:
-            if (DAT_011f35ae > 0)
-                bSuccess9 = true;
-            break;
-
-        case 1:
-            if (DAT_011f35ae > 0 && DAT_011f35be == 0)
-                bSuccess9 = true;
-            break;
-
-        case 2:
-            if (DAT_011f35ae == 0 && DAT_011f35be > 0)
-                bSuccess9 = true;
-            break;
-
-        case 3:
-            if (DAT_011f35ae != DAT_011f35be)
-                bSuccess9 = true;
-            break;
-        }
-    }
-    else if (param1 == 0x11)
-    {
-        switch (param2)
-        {
-        case 0:
-            if (DAT_011f35af > 0)
-                bSuccess9 = true;
-            break;
-
-        case 1:
-            if (DAT_011f35af > 0 && DAT_011f35bf == 0)
-                bSuccess9 = true;
-            break;
-
-        case 2:
-            if (DAT_011f35af == 0 && DAT_011f35bf > 0)
-                bSuccess9 = true;
-            break;
-
-        case 3:
-            if (DAT_011f35af != DAT_011f35bf)
-                bSuccess9 = true;
-            break;
-        }
-    }
-    else if (!bSuccess9)
-    {
-        unsigned int uiAcValue = DAT_011f35ac & uFlags6;
-        unsigned int uiBcValue = DAT_011f35bc & uFlags6;
-
-        switch (param2)
-        {
-        case 0:
-            if (uiAcValue != 0)
-                bSuccess9 = true;
-            break;
-
-        case 1:
-            if (uiBcValue == 0 && uiAcValue != 0)
-                bSuccess9 = true;
-            break;
-
-        case 2:
-            if (uiAcValue == 0 && uiBcValue != 0)
-                bSuccess9 = true;
-            break;
-
-        case 3:
-            if (uiAcValue != uiBcValue)
-                bSuccess9 = true;
-            break;
-        }
-    }
-
-    return bSuccess9;
-}
-
 struct InputDevice
 {
-    virtual unsigned long __stdcall QueryInterface() = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual unsigned long __stdcall GetCapabilities() = 0;
-    virtual unsigned long __stdcall EnumObjects() = 0;
-    virtual unsigned long __stdcall GetProperty() = 0;
-    virtual unsigned long __stdcall SetProperty() = 0;
-    virtual unsigned long __stdcall Acquire() = 0;
-    virtual unsigned long __stdcall Unacquire() = 0;
+    virtual unsigned long QueryInterface() = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual unsigned long GetCapabilities() = 0;
+    virtual unsigned long EnumObjects() = 0;
+    virtual unsigned long GetProperty() = 0;
+    virtual unsigned long SetProperty() = 0;
+    virtual unsigned long Acquire() = 0;
+    virtual unsigned long Unacquire() = 0;
 };
 struct InputInterface
 {
-    virtual unsigned long __stdcall QueryInterface() = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
+    virtual unsigned long QueryInterface() = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
 };
 
 struct NiAllocator
 {
-    void __thiscall FUN_00aa4060(void*);
 };
-extern NiAllocator DAT_011f6238;
 
 struct InputManagerClose
 {
@@ -784,44 +708,11 @@ struct InputManagerClose
     unsigned int unk28;
     InputDevice* keyboard;
     InputDevice* mouse;
-    void __thiscall SetEnabled(int);
-    void __thiscall ShutdownInput();
+    char pad34[0x1b50];
+    void* unk1b84;
+    void ShutdownInput();
 };
-// @fnv 0x00a22bf0
-void InputManagerClose::ShutdownInput()
-{
-    if (flags & 1)
-    {
-        SetEnabled(0);
-    }
-    if (keyboard)
-    {
-        keyboard->Unacquire();
-        keyboard->Release();
-    }
-    if (mouse)
-    {
-        mouse->Unacquire();
-        mouse->Release();
-    }
-    directInput->Release();
-    if (*(void**)((char*)this + 0x1b84))
-    {
-        void* buffer = *(void**)((char*)this + 0x1b84);
-        DAT_011f6238.FUN_00aa4060(buffer);
-    }
-}
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetPrivateProfileStringA(
-    const char* lpAppName, const char* lpKeyName, const char* lpDefault, char* lpReturnedString, unsigned long nSize,
-    const char* lpFileName);
-extern "C" long __cdecl strtol(const char* str, char** endptr, int base);
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
-extern "C" int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
-
-extern char DAT_01202fa0[];
-extern const char* DAT_011a2ff8;
-extern const char* DAT_011a7e60[];
 
 struct ControlsIniLoader : public FUN_00a24f60_Class
 {
@@ -839,9 +730,9 @@ void ControlsIniLoader::LoadControlsFromIni()
     unsigned int key;
     char* end;
     const char* iniName;
-    strcpy_s(path2, 0x104, DAT_01202fa0);
+    fnv::crt::strcpy_s(path2, 0x104, DAT_01202fa0);
     iniName = DAT_011a2ff8;
-    strcat_s(path2, 0x104, iniName);
+    fnv::crt::strcat_s(path2, 0x104, iniName);
     for (i6 = 0; i6 < 28; i6++)
     {
         size_2 = 0x40;
@@ -854,7 +745,7 @@ void ControlsIniLoader::LoadControlsFromIni()
     }
 }
 
-// FUN_00a232c0 : an empty __thiscall member function (an /Od build).
+// FUN_00a232c0 : an empty member function (an /Od build).
 struct FnvEmpty_00a232c0
 {
     void FUN_00a232c0();
@@ -2667,6 +2558,138 @@ class A23D40Input : public FUN_00a24080_Class
     void HandleInputKey(int iKey);
 };
 
+class A24080Property
+{
+  public:
+    int unk00;
+
+    unsigned int GetFlagForType(int iType);
+};
+// Computes a mask from a, clears those bits in DAT_011f35bc, then sets them from DAT_011f35ac.
+// @fnv 0x00a25560
+void FUN_00a25560_Class::FUN_00a25560(int a)
+{
+    unsigned int v = reinterpret_cast<::A24080Property *>((((FUN_00a24080_Class*)this)))->GetFlagForType(a);
+    DAT_011f35bc &= ~v;
+    DAT_011f35bc |= DAT_011f35ac & v;
+}
+// @fnv 0x00a23e10
+int FUN_00a23e10_Class::FUN_00a23e10(int param1, int param2)
+{
+    if (!DAT_011f35c8)
+        return 0;
+
+    bool bSuccess9 = false;
+    unsigned int uFlags6 = 0;
+
+    switch (param1)
+    {
+    case 0x13:
+        if (DAT_011f35b2 > 0x1ea9)
+            bSuccess9 = true;
+        break;
+
+    case 0x14:
+        if (DAT_011f35b2 < -0x1ea9)
+            bSuccess9 = true;
+        break;
+
+    case 0x16:
+        if (DAT_011f35b0 > 0x1ea9)
+            bSuccess9 = true;
+        break;
+
+    case 0x17:
+        if (DAT_011f35b0 < -0x1ea9)
+            bSuccess9 = true;
+        break;
+
+    default:
+        uFlags6 = reinterpret_cast<::A24080Property *>(this)->GetFlagForType(param1);
+        break;
+    }
+
+    if (param1 == 0x10)
+    {
+        switch (param2)
+        {
+        case 0:
+            if (DAT_011f35ae > 0)
+                bSuccess9 = true;
+            break;
+
+        case 1:
+            if (DAT_011f35ae > 0 && DAT_011f35be == 0)
+                bSuccess9 = true;
+            break;
+
+        case 2:
+            if (DAT_011f35ae == 0 && DAT_011f35be > 0)
+                bSuccess9 = true;
+            break;
+
+        case 3:
+            if (DAT_011f35ae != DAT_011f35be)
+                bSuccess9 = true;
+            break;
+        }
+    }
+    else if (param1 == 0x11)
+    {
+        switch (param2)
+        {
+        case 0:
+            if (DAT_011f35af > 0)
+                bSuccess9 = true;
+            break;
+
+        case 1:
+            if (DAT_011f35af > 0 && DAT_011f35bf == 0)
+                bSuccess9 = true;
+            break;
+
+        case 2:
+            if (DAT_011f35af == 0 && DAT_011f35bf > 0)
+                bSuccess9 = true;
+            break;
+
+        case 3:
+            if (DAT_011f35af != DAT_011f35bf)
+                bSuccess9 = true;
+            break;
+        }
+    }
+    else if (!bSuccess9)
+    {
+        unsigned int uiAcValue = DAT_011f35ac & uFlags6;
+        unsigned int uiBcValue = DAT_011f35bc & uFlags6;
+
+        switch (param2)
+        {
+        case 0:
+            if (uiAcValue != 0)
+                bSuccess9 = true;
+            break;
+
+        case 1:
+            if (uiBcValue == 0 && uiAcValue != 0)
+                bSuccess9 = true;
+            break;
+
+        case 2:
+            if (uiAcValue == 0 && uiBcValue != 0)
+                bSuccess9 = true;
+            break;
+
+        case 3:
+            if (uiAcValue != uiBcValue)
+                bSuccess9 = true;
+            break;
+        }
+    }
+
+    return bSuccess9;
+}
 // @fnv 0x00a23d40
 void A23D40Input::HandleInputKey(int iKey)
 {
@@ -2695,20 +2718,12 @@ void A23D40Input::HandleInputKey(int iKey)
     default:
         if (iKey < 0x1d)
         {
-            unsigned int uiMask = GetFlagForType(iKey);
+            unsigned int uiMask = reinterpret_cast<::A24080Property *>(this)->GetFlagForType(iKey);
             DAT_011f35ac |= uiMask;
         }
         break;
     }
 }
-
-class A24080Property
-{
-  public:
-    int unk00;
-
-    unsigned int GetFlagForType(int iType);
-};
 
 // Maps an iType value to a bit flag via a switch and returns it, or 0 for unmapped types.
 // @fnv 0x00a24080
@@ -2765,7 +2780,6 @@ unsigned int A24080Property::GetFlagForType(int iType)
 
 struct FUN_00a25180_cls
 {
-    void FUN_00a24eb0(int a, int b);
     void FUN_00a25180(int a1, int a2, unsigned char a3);
 };
 
@@ -2777,7 +2791,7 @@ void FUN_00a25180_cls::FUN_00a25180(int aiOffset, int a2, unsigned char a3)
     {
         return;
     }
-    FUN_00a24eb0(a2, a3);
+    reinterpret_cast<::FUN_00a24eb0_Class *>(this)->FUN_00a24eb0(a2, a3);
     *((unsigned char*)this + (a2 * 0x1c + aiOffset) + 0x1b94) = a3;
 }
 
@@ -4550,9 +4564,6 @@ struct InputHandler
     unsigned char m_1b90;
     unsigned char m_1b91;
 
-    void FUN_00a237f0(unsigned int* out);
-    void FUN_00a25180(int index, int flags, unsigned char state);
-    int FUN_00a23a50(int index, int flags);
     bool HandleInput(int key);
 };
 
@@ -4564,20 +4575,20 @@ bool InputHandler::HandleInput(int key)
 
     if (key != -1)
         this->m_1b8c = key;
-    this->FUN_00a237f0(&v);
+    reinterpret_cast<::A237F0Object *>((this))->FUN_00a237f0((intptr_t)(&v));
     if (v != 0)
     {
-        this->FUN_00a25180(this->m_1b8c, 0, (unsigned char)v);
+        reinterpret_cast<::FUN_00a25180_cls *>((this))->FUN_00a25180(this->m_1b8c, 0, (unsigned char)v);
         this->m_1b90 = 0;
         this->m_1b91 = 1;
         return true;
     }
     for (i = 1; i <= 3; i++)
     {
-        if (this->FUN_00a23a50(i, 1))
+        if (reinterpret_cast<::ButtonDevice *>((this))->FUN_00a23a50(i, 1))
         {
             v = i;
-            this->FUN_00a25180(this->m_1b8c, 1, (unsigned char)i);
+            reinterpret_cast<::FUN_00a25180_cls *>((this))->FUN_00a25180(this->m_1b8c, 1, (unsigned char)i);
             this->m_1b90 = 0;
             this->m_1b91 = 1;
             return true;
@@ -4591,15 +4602,15 @@ bool InputHandler::HandleInput(int key)
 class SpawnedObject
 {
   public:
-    virtual void __stdcall v00();
-    virtual void __stdcall v04();
-    virtual void __stdcall v08();
-    virtual void __stdcall v0C();
-    virtual void __stdcall v10(int a0, void* a1, void* a2, int a3);
-    virtual void __stdcall v14();
-    virtual void __stdcall v18();
-    virtual void __stdcall v1C();
-    virtual void __stdcall v20();
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void v10(int a0, void* a1, void* a2, int a3);
+    virtual void v14();
+    virtual void v18();
+    virtual void v1C();
+    virtual void v20();
 };
 
 struct FUN_00a252d0_cls
@@ -4612,9 +4623,31 @@ struct FUN_00a252d0_cls
 
     void SetEnabled(unsigned char enable);
 };
+// @fnv 0x00a22bf0
+void InputManagerClose::ShutdownInput()
+{
+    if (flags & 1)
+    {
+        reinterpret_cast<::FUN_00a252d0_cls *>(this)->SetEnabled(0);
+    }
+    if (keyboard)
+    {
+        keyboard->Unacquire();
+        keyboard->Release();
+    }
+    if (mouse)
+    {
+        mouse->Unacquire();
+        mouse->Release();
+    }
+    directInput->Release();
+    if (this->unk1b84)
+    {
+        void* buffer = this->unk1b84;
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::NiAllocator *>(&::g_memoryManager))))->FUN_00aa4060(buffer);
+    }
+}
 
-void __cdecl FUN_00ec61c0(void* dst, int value, unsigned int size);
-void FUN_00a24830();
 
 // @fnv 0x00a252d0
 void FUN_00a252d0_cls::SetEnabled(unsigned char enable)
@@ -4622,7 +4655,7 @@ void FUN_00a252d0_cls::SetEnabled(unsigned char enable)
     if (enable != 0)
     {
         m_flags |= 1;
-        m_08->v10(0, (void*)FUN_00a24830, this, 1);
+        m_08->v10(0, (void*)((void (&)())::fnv_00a24830::FUN_00a24830), this, 1);
         if (m_18F4 == 0)
         {
             m_flags &= 0xfffffffe;
@@ -4636,7 +4669,7 @@ void FUN_00a252d0_cls::SetEnabled(unsigned char enable)
     }
     m_flags &= 0xfffffffe;
     m_18F4 = 0;
-    FUN_00ec61c0((char*)this + 0x34, 0, 0x500);
+    std::memset((char*)&this->m_0C[10], 0, 0x500);
 }
 
 struct FUN_00a25810_Target
@@ -4654,16 +4687,19 @@ struct FUN_00a25810_Target
 
 struct FUN_00a25810_Class
 {
+    char pad00[0x1b80];
+    FUN_00a25810_Target* unk1b80;
+    char pad1b84[0x4];
+    unsigned char unk1b88;
     void ResetTargetState();
 };
 
-extern "C" void __stdcall FUN_00ee820a(int, unsigned short*);
 
 // If the byte at offset 0x1b88 is set, clears fields 0x0c and 0x20 of the target at 0x1b80 and calls FUN_00ee820a with a zeroed two-short struct.
 // @fnv 0x00a25810
 void FUN_00a25810_Class::ResetTargetState()
 {
-    if (*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x1b88))
+    if (this->unk1b88)
     {
         struct Values
         {
@@ -4675,11 +4711,11 @@ void FUN_00a25810_Class::ResetTargetState()
         zeroValues.m_00 = 0;
         zeroValues.m_04 = 0;
 
-        FUN_00a25810_Target* target = *reinterpret_cast<FUN_00a25810_Target**>(reinterpret_cast<char*>(this) + 0x1b80);
+        FUN_00a25810_Target* target = this->unk1b80;
 
         target->m_0c = 0;
         target->m_20 = 0;
-        FUN_00ee820a(0, &zeroValues.m_00);
+        ::FUN_00ee820a();
     }
 }
 
@@ -4694,7 +4730,6 @@ unsigned char FUN_00a25870()
     return DAT_011f3630;
 }
 
-void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct InputPair
 {
     int unk00;
@@ -4763,7 +4798,7 @@ FUN_00a259b0::FUN_00a259b0()
         keys[i] = 0;
     unk68 = 0;
     unk04 = 0;
-    _fnv_zlib_memset(buf08, 0, 0x1c);
+    std::memset(buf08, 0, 0x1c);
     unk24 = 0;
     unk50 = 0;
     unk6c = 0;
@@ -4778,8 +4813,8 @@ FUN_00a259b0::FUN_00a259b0()
     unk86 = 0;
     unk87 = 1;
     unk88 = 0;
-    _fnv_zlib_memset(buf3b8, 0, 0x13ec0);
-    _fnv_zlib_memset(buf8c, 0, 0x320);
+    std::memset(buf3b8, 0, 0x13ec0);
+    std::memset(buf8c, 0, 0x320);
     unk14278 = 0;
     unk3b4 = 0;
 }
@@ -4812,9 +4847,7 @@ void S::FUN_00a25be0()
 {}
 
 extern int* DAT_011f63a8;
-extern int DAT_011f3638;
 extern int DAT_011f363c;
-extern int DAT_01202800;
 
 struct S_00a25c80_Class
 {
@@ -4883,7 +4916,7 @@ struct S_00a25c80_Class
 void S_00a25c80_Class::FUN_00a25c80()
 {
     if (!(*(reinterpret_cast<unsigned char*>(this) + this->m_68) != 0 &&
-          *(reinterpret_cast<unsigned char*>(this) + 4) != 0 &&
+          this->m_04 != 0 &&
           reinterpret_cast<FUN_00a26010_Class*>(this)->FUN_00a26010() != 0))
     {
         return;
@@ -4892,10 +4925,10 @@ void S_00a25c80_Class::FUN_00a25c80()
         int* unused = DAT_011f63a8;
         if (this->m_87 == 0)
         {
-            int* p = ((int*)&DAT_011f3638) ? &DAT_011f363c : (DAT_01202800 = 0, &DAT_01202800);
+            int* p = ((int*)&(*reinterpret_cast<int *>(&::g_011f3638))) ? &DAT_011f363c : (DAT_01202800 = 0, &DAT_01202800);
             if (*p != 0)
             {
-                int* q = ((int*)&DAT_011f3638) ? &DAT_011f363c : (DAT_01202800 = 0, &DAT_01202800);
+                int* q = ((int*)&(*reinterpret_cast<int *>(&::g_011f3638))) ? &DAT_011f363c : (DAT_01202800 = 0, &DAT_01202800);
                 (void)q;
             }
         }
@@ -4960,19 +4993,18 @@ struct FUN_00a25df0_cls
 void FUN_00a25df0_cls::FUN_00a25df0()
 {}
 
-void __cdecl FUN_00ec44d0(int a, int b, int c);
 
 class FUN_00a25f60_cls
 {
   public:
-    void FUN_00a25f60(int* p1, int* p2, int p3, int p4);
+    void FUN_00a25f60(int* p1, int* p2, intptr_t p3, int p4);
 };
 
 // @fnv 0x00a25f60
-void FUN_00a25f60_cls::FUN_00a25f60(int* p1, int* p2, int aiArg, int aiDelta)
+void FUN_00a25f60_cls::FUN_00a25f60(int* p1, int* p2, intptr_t aiArg, int aiDelta)
 {
-    int value = *p1;
-    FUN_00ec44d0(value, aiArg, aiDelta);
+    intptr_t value = *p1;
+    std::memmove((void *)(value), (const void *)(aiArg), aiDelta);
     *p2 = *p2 + aiDelta;
     *p1 = *p1 + aiDelta;
 }
@@ -4994,7 +5026,6 @@ struct FUN_00a26410_arg
 
 struct FUN_00a26a50_Class
 {
-    unsigned short FUN_00a26a50(FUN_00a26410_arg* a, unsigned int b);
 };
 
 struct FUN_00a26410_cls : FUN_00a26a50_Class
@@ -5002,6 +5033,23 @@ struct FUN_00a26410_cls : FUN_00a26a50_Class
     unsigned short ClampOrDispatchValue(FUN_00a26410_arg* a, unsigned int b);
 };
 
+struct FUN_00a26520_Class
+{
+};
+
+
+struct TwoShorts
+{
+    short x;
+    short y;
+};
+
+
+
+struct FUN_00a26a50_cls
+{
+    unsigned short FUN_00a26a50(unsigned int* p, unsigned int angle);
+};
 // @fnv 0x00a26410
 unsigned short FUN_00a26410_cls::ClampOrDispatchValue(FUN_00a26410_arg* a, unsigned int uiValue)
 {
@@ -5014,56 +5062,19 @@ unsigned short FUN_00a26410_cls::ClampOrDispatchValue(FUN_00a26410_arg* a, unsig
         value = (unsigned short)(a->m_00 > 0xffff ? 0xffff : a->m_00);
         break;
     case 1:
-        value = this->FUN_00a26a50(a, uiValue);
+        value = reinterpret_cast<::FUN_00a26a50_cls *>((this))->FUN_00a26a50((unsigned int *)(a), uiValue);
         break;
     }
     return value;
 }
-
-struct FUN_00a26520_Class
-{
-    void UpdateWaveChannel(int a, short* b, int c);
-};
-
-void __stdcall FUN_00ee820a(int a, short* b);
-
-struct TwoShorts
-{
-    short x;
-    short y;
-};
-
-// If a >= 1, reads two shorts via UpdateWaveChannel for indices 0 and 1, then passes them to FUN_00ee820a with the object's first int.
-// @fnv 0x00a269f0
-void FUN_00a269f0_Class::ReadTwoShorts(int a)
-{
-    if (a >= 1)
-    {
-        TwoShorts s = {0, 0};
-        ((FUN_00a26520_Class*)this)->UpdateWaveChannel(0, &s.x, a);
-        ((FUN_00a26520_Class*)this)->UpdateWaveChannel(1, &s.x, a);
-        FUN_00ee820a(*(int*)this, &s.x);
-    }
-}
-
-extern const double DAT_01023128;
-extern const double DAT_01012070;
-extern const double DAT_01011590;
-
-double __cdecl FUN_00eca060(double v);
-
-struct FUN_00a26a50_cls
-{
-    unsigned short FUN_00a26a50(unsigned int* p, unsigned int angle);
-};
 
 // Computes a scaled value from *p and angle, then returns *p when angle mod 360 is in [0,180), otherwise 0.
 // @fnv 0x00a26a50
 unsigned short FUN_00a26a50_cls::FUN_00a26a50(unsigned int* puiValue, unsigned int angle)
 {
     unsigned short usResult;
-    usResult = (unsigned short)((double)*puiValue * (FUN_00eca060((double)angle * DAT_01023128) + DAT_01012070) /
-                                DAT_01011590);
+    usResult = (unsigned short)((double)*puiValue * (std::sin((double)angle * DAT_01023128) + ::g_01012070) /
+                                ::DAT_01011590);
     int iRemainder = angle % 360;
     if (iRemainder >= 0 && iRemainder < 180)
     {
@@ -5085,36 +5096,35 @@ struct Scratch
 };
 extern Scratch DAT_011f35a8;
 extern Scratch DAT_011f35b8;
-int __stdcall FUN_009f996e(int user, Scratch* state);
 
 struct PollingDevice
 {
-    virtual long __stdcall QueryInterface() = 0;
-    virtual long __stdcall AddRef() = 0;
-    virtual long __stdcall Release() = 0;
-    virtual long __stdcall GetCapabilities() = 0;
-    virtual long __stdcall EnumObjects() = 0;
-    virtual long __stdcall GetProperty() = 0;
-    virtual long __stdcall SetProperty() = 0;
-    virtual long __stdcall Acquire() = 0;
-    virtual long __stdcall Unacquire() = 0;
-    virtual long __stdcall GetDeviceState(unsigned int size, void* state) = 0;
-    virtual long __stdcall GetDeviceData() = 0;
-    virtual long __stdcall SetDataFormat() = 0;
-    virtual long __stdcall SetEventNotification() = 0;
-    virtual long __stdcall SetCooperativeLevel() = 0;
-    virtual long __stdcall GetObjectInfo() = 0;
-    virtual long __stdcall GetDeviceInfo() = 0;
-    virtual long __stdcall RunControlPanel() = 0;
-    virtual long __stdcall Initialize() = 0;
-    virtual long __stdcall CreateEffect() = 0;
-    virtual long __stdcall EnumEffects() = 0;
-    virtual long __stdcall GetEffectInfo() = 0;
-    virtual long __stdcall GetForceFeedbackState() = 0;
-    virtual long __stdcall SendForceFeedbackCommand() = 0;
-    virtual long __stdcall EnumCreatedEffectObjects() = 0;
-    virtual long __stdcall Escape() = 0;
-    virtual long __stdcall Poll() = 0;
+    virtual long QueryInterface() = 0;
+    virtual long AddRef() = 0;
+    virtual long Release() = 0;
+    virtual long GetCapabilities() = 0;
+    virtual long EnumObjects() = 0;
+    virtual long GetProperty() = 0;
+    virtual long SetProperty() = 0;
+    virtual long Acquire() = 0;
+    virtual long Unacquire() = 0;
+    virtual long GetDeviceState(unsigned int size, void* state) = 0;
+    virtual long GetDeviceData() = 0;
+    virtual long SetDataFormat() = 0;
+    virtual long SetEventNotification() = 0;
+    virtual long SetCooperativeLevel() = 0;
+    virtual long GetObjectInfo() = 0;
+    virtual long GetDeviceInfo() = 0;
+    virtual long RunControlPanel() = 0;
+    virtual long Initialize() = 0;
+    virtual long CreateEffect() = 0;
+    virtual long EnumEffects() = 0;
+    virtual long GetEffectInfo() = 0;
+    virtual long GetForceFeedbackState() = 0;
+    virtual long SendForceFeedbackCommand() = 0;
+    virtual long EnumCreatedEffectObjects() = 0;
+    virtual long Escape() = 0;
+    virtual long Poll() = 0;
 };
 struct DeviceStatePair
 {
@@ -5131,13 +5141,13 @@ void InputPoller::FUN_00a23010()
     int i;
     long result;
     DAT_011f35b8 = DAT_011f35a8;
-    if (FUN_009f996e(0, &DAT_011f35a8) == 0 && *(unsigned char*)&m_0000 == 0)
+    if (((int)(::FUN_009f996e(0, &DAT_011f35a8))) == 0 && *(unsigned char*)&m_0000 == 0)
         DAT_011f35c8 = true;
     else
         DAT_011f35c8 = false;
     for (i = 0; i < m_18f4; i++)
     {
-        _memmove(reinterpret_cast<DeviceStatePair*>(&m_0034)[i].previous,
+        std::memmove(reinterpret_cast<DeviceStatePair*>(&m_0034)[i].previous,
                  reinterpret_cast<DeviceStatePair*>(&m_0034)[i].current, 80);
         result = reinterpret_cast<PollingDevice**>(&m_000c)[i]->Acquire();
         if (result == 0 || result == 1)
@@ -5148,12 +5158,12 @@ void InputPoller::FUN_00a23010()
         }
         else
         {
-            FUN_00ec61c0(reinterpret_cast<DeviceStatePair*>(&m_0034)[i].current, 0, 80);
+            std::memset(reinterpret_cast<DeviceStatePair*>(&m_0034)[i].current, 0, 80);
         }
     }
     if (m_002c)
     {
-        _memmove(&m_19f8, &m_18f8, 256);
+        std::memmove(&m_19f8, &m_18f8, 256);
         result = reinterpret_cast<PollingDevice*>(m_002c)->Acquire();
         if (result == 0 || result == 1)
         {
@@ -5162,13 +5172,13 @@ void InputPoller::FUN_00a23010()
         }
         else
         {
-            FUN_00ec61c0(&m_18f8, 0, 256);
+            std::memset(&m_18f8, 0, 256);
         }
     }
     if (m_0030)
     {
-        _memmove(&m_1b38, &m_1b24, 20);
-        FUN_00ec61c0(&m_1b58, 0, 8);
+        std::memmove(&m_1b38, &m_1b24, 20);
+        std::memset(&m_1b58, 0, 8);
         result = reinterpret_cast<PollingDevice*>(m_0030)->Acquire();
         if (result == 0 || result == 1)
         {
@@ -5177,7 +5187,7 @@ void InputPoller::FUN_00a23010()
         }
         else
         {
-            FUN_00ec61c0(&m_1b24, 0, 20);
+            std::memset(&m_1b24, 0, 20);
         }
         reinterpret_cast<FnvEmpty_00a232c0*>(this)->FUN_00a232c0();
     }
@@ -5188,7 +5198,7 @@ struct RumbleEvent
     unsigned int time;
     int value;
     int a;
-    int b;
+    intptr_t b;
     unsigned char state;
     int next;
     int unk18;
@@ -5210,11 +5220,7 @@ struct EventQueue
 };
 struct EventMemory
 {
-    void* Allocate(unsigned int);
 };
-extern EventMemory _g_memoryManager;
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" void __stdcall FUN_00ee820a(int, unsigned short*);
 struct Controller
 {
     int unk0000;
@@ -6980,11 +6986,11 @@ struct Controller
     EventQueue* queue;
     int unk1b84;
     unsigned char enabled;
-    void FUN_00a255b0(float left, float right, int a, int b, int value, unsigned char state, bool force);
+    void FUN_00a255b0(float left, float right, int a, intptr_t b, int value, unsigned char state, bool force);
 };
 // If enabled and (when forced or the queue is empty) allocates a RumbleEvent, fills it from the arguments, adds it to the queue twice, and sends the motor speeds.
 // @fnv 0x00a255b0
-void Controller::FUN_00a255b0(float left, float right, int a, int b, int value, unsigned char state, bool force)
+void Controller::FUN_00a255b0(float left, float right, int a, intptr_t b, int value, unsigned char state, bool force)
 {
     if (!enabled)
         return;
@@ -6995,8 +7001,8 @@ void Controller::FUN_00a255b0(float left, float right, int a, int b, int value, 
             return;
     }
     unsigned int size = 36;
-    void* memory = _g_memoryManager.Allocate(size);
-    RumbleEvent* event3 = memory ? (fnv_zlib_memset(memory, 0, size), (RumbleEvent*)memory) : 0;
+    void* memory = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::EventMemory *>(&::g_memoryManager))))->FUN_00aa3e40(size);
+    RumbleEvent* event3 = memory ? (std::memset(memory, 0, size), (RumbleEvent*)memory) : 0;
     event3->a = a;
     event3->b = b;
     event3->value = value;
@@ -7004,25 +7010,24 @@ void Controller::FUN_00a255b0(float left, float right, int a, int b, int value, 
     event3->next = 0;
     event3->prev = 0;
     event3->time = (unsigned int)(right * 65535.0);
-    queue->Add(1, event3);
+    reinterpret_cast<::FUN_00a26310_Class *>((queue))->FUN_00a26310(1, (::FUN_00a26480_class *)(event3));
     event3->time = (unsigned int)(left * 65535.0);
-    queue->Add(0, event3);
+    reinterpret_cast<::FUN_00a26310_Class *>((queue))->FUN_00a26310(0, (::FUN_00a26480_class *)(event3));
     unsigned short motors5[2];
     motors5[0] = (unsigned short)left > 1 ? 65535 : (unsigned short)(left * 65535.0);
     motors5[1] = (unsigned short)right > 1 ? 65535 : (unsigned short)(right * 65535.0);
-    FUN_00ee820a(0, motors5);
+    ::FUN_00ee820a();
 }
 
-int __cdecl FUN_00ec68e4(const char* name, unsigned int a1);
 
 class FUN_00a261a0_cls
 {
   public:
-    int FUN_00a261a0(unsigned int a1);
+    int FUN_00a261a0(uintptr_t a1);
 };
 
 // @fnv 0x00a261a0
-int FUN_00a261a0_cls::FUN_00a261a0(unsigned int a1)
+int FUN_00a261a0_cls::FUN_00a261a0(uintptr_t a1)
 {
     const char* names[4];
     names[0] = "Classic";
@@ -7034,7 +7039,7 @@ int FUN_00a261a0_cls::FUN_00a261a0(unsigned int a1)
     for (; i < 4; i++)
     {
         const char* name = names[i];
-        if (FUN_00ec68e4(name, a1) == 0)
+        if (fnv::crt::stricmp(name, (const char *)(a1)) == 0)
         {
             break;
         }
@@ -7074,6 +7079,18 @@ struct WaveController
     WaveState second;
     void UpdateWaveChannel(int channel, short* output, unsigned int delta);
 };
+// If a >= 1, reads two shorts via UpdateWaveChannel for indices 0 and 1, then passes them to FUN_00ee820a with the object's first int.
+// @fnv 0x00a269f0
+void FUN_00a269f0_Class::ReadTwoShorts(int a)
+{
+    if (a >= 1)
+    {
+        TwoShorts s = {0, 0};
+        reinterpret_cast<::WaveController *>((((FUN_00a26520_Class*)this)))->UpdateWaveChannel(0, &s.x, a);
+        reinterpret_cast<::WaveController *>((((FUN_00a26520_Class*)this)))->UpdateWaveChannel(1, &s.x, a);
+        ::FUN_00ee820a();
+    }
+}
 // @fnv 0x00a26520
 void WaveController::UpdateWaveChannel(int channel, short* output, unsigned int delta)
 {
@@ -7172,7 +7189,6 @@ void WaveController::UpdateWaveChannel(int channel, short* output, unsigned int 
     }
 }
 
-void FUN_004de4a0();
 class Setting
 {
   public:
@@ -7185,7 +7201,6 @@ template <class T> class SettingCollectionList
     bool Get(const char* pcName, T*& rpSetting);
 };
 namespace a260 {
-extern SettingCollectionList<Setting>* DAT_011f35a0;
 }
 class RedeemedContentA26
 {
@@ -7204,10 +7219,10 @@ bool RedeemedContentA26::FUN_00a26020(unsigned int a1)
     int unk24;
     FUN_004de4a0();
     SettingCollectionList<Setting>* pForm;
-    pForm = a260::DAT_011f35a0;
+    pForm = (*reinterpret_cast<::SettingCollectionList< ::Setting> * *>(&::DAT_011f35a0));
     Setting* r;
     r = 0;
-    pForm->Get("uiRedeemedContent:GamePlay", r);
+    reinterpret_cast<::FUN_005e0860_cls *>((pForm))->FindByKey((void *)("uiRedeemedContent:GamePlay"), (::FNVObject **)&(r));
     Setting* pSetting3;
     pSetting3 = r;
     {
@@ -7483,22 +7498,17 @@ bool FUN_00a25fd0_class::FUN_00a25fd0()
     return true;
 }
 
-extern unsigned int DAT_011f35a0;
-extern int DAT_01202800;
 
-void FUN_004de4a0();
 
 class RedeemSettingOwner
 {
   public:
-    void Lookup(const char* name, unsigned int* out);
 };
 
 class FUN_00a26090_cls
 {
   public:
     int FUN_00a26090(int a1);
-    int FUN_00a261a0(int a1);
 };
 
 // Looks up the uiRedeemedContent:GamePlay setting, ORs the result of FUN_00a261a0 into its second word, and returns whether that result was non-zero.
@@ -7512,11 +7522,11 @@ int FUN_00a26090_cls::FUN_00a26090(int a1)
     unsigned int unk4;
     unsigned int unk5;
     FUN_004de4a0();
-    unsigned int nu = DAT_011f35a0;
+    unsigned int nu = (*reinterpret_cast<unsigned int *>(&::DAT_011f35a0));
     unsigned int tau = 0;
-    reinterpret_cast<RedeemSettingOwner*>(nu)->Lookup("uiRedeemedContent:GamePlay", &tau);
+    reinterpret_cast<::FUN_005e0860_cls *>((reinterpret_cast<RedeemSettingOwner*>(nu)))->FindByKey((void *)("uiRedeemedContent:GamePlay"), (::FNVObject **)(unsigned int *)(&tau));
     unsigned int* mu = reinterpret_cast<unsigned int*>(tau);
-    int changed = this->FUN_00a261a0(a1);
+    int changed = reinterpret_cast<::FUN_00a261a0_cls *>((this))->FUN_00a261a0(a1);
     {
         unsigned int* omi = mu != 0 ? mu + 1 : (DAT_01202800 = 0, (unsigned int*)&DAT_01202800);
         **(unsigned int* volatile*)&omi |= changed;
@@ -7525,20 +7535,21 @@ int FUN_00a26090_cls::FUN_00a26090(int a1)
 }
 
 namespace fnv_00a26120 {
-void FUN_004de4a0();
 
 struct ObjA_a26120
 {
-    void FindByKey(const char* s, unsigned int* out);
 };
-extern ObjA_a26120* DAT_011f35a0;
-extern int DAT_01202800;
 
 struct FUN_00a26120_cls
 {
     unsigned int m_00;
-    unsigned int FUN_00a261a0(unsigned int a);
     void FUN_00a26120(unsigned int mask);
+};
+
+struct FUN_00a26120_Value
+{
+    void* vtbl;
+    unsigned int unk04;
 };
 
 // Looks up uiRedeemedContent:GamePlay and clears, in its second word, the bits returned by FUN_00a261a0(mask).
@@ -7550,13 +7561,13 @@ void FUN_00a26120_cls::FUN_00a26120(unsigned int mask)
     unsigned int u2;
     unsigned int u3;
     {
-        unsigned int out;
+        uintptr_t out;
         ObjA_a26120* obj;
 
-        FUN_004de4a0();
-        obj = DAT_011f35a0;
+        ::FUN_004de4a0();
+        obj = (*reinterpret_cast<::fnv_00a26120::ObjA_a26120 * *>(&::DAT_011f35a0));
         out = 0;
-        obj->FindByKey("uiRedeemedContent:GamePlay", &out);
+        reinterpret_cast<::FUN_005e0860_cls *>((obj))->FindByKey((void *)("uiRedeemedContent:GamePlay"), (::FNVObject **)(unsigned int *)(&out));
         p = (unsigned int*)out;
         {
             unsigned int w1;
@@ -7566,8 +7577,8 @@ void FUN_00a26120_cls::FUN_00a26120(unsigned int mask)
     }
     {
         unsigned int* volatile t =
-            (p != 0) ? (unsigned int*)((char*)p + 4) : (DAT_01202800 = 0, (unsigned int*)&DAT_01202800);
-        *t &= ~this->FUN_00a261a0(mask);
+            (p != 0) ? &((FUN_00a26120_Value*)p)->unk04 : (::DAT_01202800 = 0, (unsigned int*)&::DAT_01202800);
+        *t &= ~((unsigned int)(reinterpret_cast<::FUN_00a261a0_cls *>((this))->FUN_00a261a0(mask)));
     }
 }
 }  // namespace fnv_00a26120
@@ -7588,7 +7599,7 @@ struct ObjectInfo
 };
 // Compares obj->guid0 against six known GUIDs to set bits in the first word of flags, then sets a bit from obj->type in the second word.
 // @fnv 0x00a24a30
-int __stdcall MatchObjectGuids(const ObjectInfo* obj, void* apFlags)
+int MatchObjectGuids(const ObjectInfo* obj, void* apFlags)
 {
     unsigned int* flags = (unsigned int*)apFlags;
     if (memcmp(&obj->guid0, &DAT_01100ee4, 16) == 0)
@@ -7635,13 +7646,9 @@ namespace fnv_00a22e10 {
 #include <stdio.h>
 #include <string.h>
 
-extern char DAT_01202fa0[];
-extern char* DAT_011a2ff8;
-extern const char* DAT_011a7e60[];
 
 struct S_00a22e10_Cls
 {
-    unsigned int FUN_00a24f10(unsigned int i);
     void FUN_00a22e10();
 };
 
@@ -7652,52 +7659,46 @@ void S_00a22e10_Cls::FUN_00a22e10()
     int i;
     char szPath[0x104];
     char buf[0x40];
-    strcpy_s(szPath, 0x104, DAT_01202fa0);
-    const char* dir = DAT_011a2ff8;
-    strcat_s(szPath, 0x104, dir);
+    fnv::crt::strcpy_s(szPath, 0x104, (*reinterpret_cast<char (*)[]>(&::DAT_01202fa0)));
+    const char* dir = ::DAT_011a2ff8;
+    fnv::crt::strcat_s(szPath, 0x104, dir);
     for (i = 0; i < 0x1c; i++)
     {
-        sprintf_s(buf, 0x40, "%08X", this->FUN_00a24f10(i));
-        WritePrivateProfileStringA("Controls", DAT_011a7e60[i], buf, szPath);
+        sprintf_s(buf, 0x40, "%08X", reinterpret_cast<::FUN_00a24f10_Class *>((this))->FUN_00a24f10(i));
+        WritePrivateProfileStringA("Controls", ::DAT_011a7e60[i], buf, szPath);
     }
 }
 }  // namespace fnv_00a22e10
 
 extern unsigned char DAT_011f35ae;
 extern unsigned char DAT_011f35af;
-extern unsigned short DAT_011f35b4;
-extern unsigned short DAT_011f35b6;
 
 // @fnv 0x00a25410
 void InputManager::FUN_00a25410(int offset)
 {
     for (int i = 0; i < 4; ++i)
     {
-        if (reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94] == 0xff)
+        if (this->unk1b94[i][offset] == 0xff)
         {
             continue;
         }
         switch (i)
         {
         case 0:
-            reinterpret_cast<unsigned char*>(
-                this)[0x18f8 + reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94]] = 0;
+            this->unk18f8[this->unk1b94[i][offset]] = 0;
             break;
         case 1:
-            reinterpret_cast<unsigned char*>(
-                this)[0x1b30 + reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94]] = 0;
+            this->unk1b30[this->unk1b94[i][offset]] = 0;
             break;
         case 2:
-            if (reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94] < 32)
+            if (this->unk1b94[i][offset] < 32)
             {
-                reinterpret_cast<unsigned char*>(
-                    this)[0x64 + reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94]] = 0;
+                this->unk64[this->unk1b94[i][offset]] = 0;
             }
             else
             {
-                reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) +
-                                                0x54)[static_cast<unsigned short>(
-                    (static_cast<unsigned int>(reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94]) >>
+                (&this->unk54)[static_cast<unsigned short>(
+                    (static_cast<unsigned int>(this->unk1b94[i][offset]) >>
                      16) &
                     0xffff)] = 0;
             }
@@ -7708,7 +7709,507 @@ void InputManager::FUN_00a25410(int offset)
     DAT_011f35af = 0;
     DAT_011f35b0 = 0;
     DAT_011f35b2 = 0;
-    DAT_011f35b4 = 0;
-    DAT_011f35b6 = 0;
+    (*reinterpret_cast<unsigned short *>(&::DAT_011f35b4)) = 0;
+    (*reinterpret_cast<unsigned short *>(&::DAT_011f35b6)) = 0;
     DAT_011f35ac = 0;
 }
+
+long __cdecl FUN_00a25e00(char* dst, char* src);
+
+void* _memmove(void* dst, const void* src, unsigned int count);
+
+void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
+
+void* _memmove(void* dst, const void* src, unsigned int count);
+
+void* _memmove(void* dst, const void* src, unsigned int n);
+
+
+
+unsigned char FUN_00a25870();
+
+void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int size);
+
+void __cdecl FUN_00ec44d0(int a, intptr_t b, int c);
+
+double __cdecl FUN_00eca060(double v);
+
+extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
+
+int __cdecl FUN_00ec68e4(const char* name, unsigned int a1);
+
+struct PoolQ
+{
+};
+
+struct FUN_00a26240
+{
+    int a;
+    intptr_t b;
+    ~FUN_00a26240();
+};
+
+struct PoolDelQ
+{
+};
+
+struct FUN_00a25b00 : PoolDelQ
+{
+    char pad[0x3ac];
+    FUN_00a26240 kList;
+    ~FUN_00a25b00();
+};
+
+// @fnv 0x00a25b00
+FUN_00a25b00::~FUN_00a25b00()
+{
+    if (DAT_011f3634Q)
+    {
+        delete DAT_011f3634Q;
+        reinterpret_cast<::FUN_00a25dd0_Class *>(this)->FUN_00a25dd0(0);
+    }
+}
+
+// Reconstruction of FUN_00a22660 (input-device-manager init), 1417 B, , ret 4.
+//
+// The target's allocation site 0x00a22a98..0x00a22aa4 is
+//     6a 40            push 0x40
+//     b9 38 62 1f 01   mov  ecx, OFFSET DAT_011f6238   (memory-manager singleton)
+//     e8 9c 13 08 00   call FUN_00aa3e40              (pool alloc)
+//     89 45 b4         mov  [ebp-0x4c], eax
+// followed by the new-expression EH state 0 (mov dword [ebp-4],0) and an unwind
+// action at 0x00f1e7a0 = `mov eax,[ebp-0x4c]; push eax; call ??3@YAXPAX@Z`.
+// That is an INLINED operator-new body.  With the pack flags (/Od => /Ob0) the same
+// source can only emit `push 0x40; call ??2@YAPAXI@Z; add esp,4` (work\00a22660_sub\p6.cpp);
+// __forceinline (p7.cpp) and the checker's `#pragma optimize("",on)` (p9.cpp) do not
+// inline it.  Under /Ob1 the site is byte-identical to the target (p6.cpp with /Ob1).
+
+extern "C" char DAT_01100ed4;
+
+// IID_IDirectInput8A
+extern "C" char DAT_01100f84;
+
+// GUID_SysMouse
+  // GUID_SysKeyboard
+extern "C" char DAT_01100cb4;
+
+// c_dfDIMouse
+  // c_dfDIKeyboard
+
+  // Setting objects, 12 B each
+extern "C" unsigned char DAT_011f35d4;
+
+extern "C" unsigned char DAT_011f35e0;
+
+extern "C" unsigned char DAT_011f35ec;
+
+inline bool SettingIs(const unsigned char* apSetting, bool abValue)
+{
+    return apSetting ? apSetting[4] == abValue : false;
+}
+
+struct MemMgr
+{
+};
+
+struct IDI8
+{
+    virtual long v00(void*, void*) = 0;
+    virtual long v04(void*, void*) = 0;
+    virtual long v08(void*, void*) = 0;
+    virtual long CreateDevice(void* guid, void** out, void* outer) = 0;
+};
+
+struct IDIDev
+{
+    virtual long v00(void*, void*) = 0;
+    virtual long v04(void*, void*) = 0;
+    virtual long v08(void*, void*) = 0;
+    virtual long GetCapabilities(void* caps) = 0;
+    virtual long v10(void*, void*) = 0;
+    virtual long v14(void*, void*) = 0;
+    virtual long SetProperty(int guid, void* hdr) = 0;
+    virtual long v1c(void*, void*) = 0;
+    virtual long v20(void*, void*) = 0;
+    virtual long v24(void*, void*) = 0;
+    virtual long v28(void*, void*) = 0;
+    virtual long SetDataFormat(void* fmt) = 0;
+    virtual long v30(void*, void*) = 0;
+    virtual long SetCooperativeLevel(void* hwnd, unsigned int flags) = 0;
+};
+
+struct Elem2
+{
+    int m00, m04, m08, m0c, m10, m14, m18, m1c, m20;
+};
+
+struct FUN_00a262d0_C40  // 0x40 bytes, ctor at 0x00a262d0
+{
+    int m00, m04, m08, m0c, m10, m14, m18, m1c;
+    int m20, m24, m28, m2c, m30, m34, m38, m3c;
+    FUN_00a262d0_C40(unsigned int a);
+};
+
+struct DIPROPDWORD
+{
+    unsigned int dwSize, dwHeaderSize, dwObj, dwHow, dwData;
+};
+
+struct Mgr
+{
+    unsigned char m00;
+    int m04;
+    IDI8* m08;
+    unsigned char pad0c[0x20];
+    IDIDev* m2c;
+    IDIDev* m30;
+    unsigned char m34[0x500];
+    unsigned char pad534[0x13c0];
+    int m18f4;
+    unsigned char m18f8[0x200];
+    unsigned int m1af8[0xb];  // DIDEVCAPS (0x2c)
+    unsigned char m1b24[0x28];
+    int m1b4c;
+    unsigned char m1b50;
+    unsigned char pad1b51[3];
+    int m1b54;
+    unsigned char pad1b58[8];
+    unsigned char m1b60[0x20];
+    FUN_00a262d0_C40* m1b80;
+    Elem2* m1b84;
+    unsigned char m1b88;
+    unsigned char pad1b89[7];
+    unsigned char m1b90;
+    unsigned char m1b91;
+    unsigned short m1b92;
+    Mgr* FUN_00a22660(intptr_t arg);
+};
+
+__forceinline Elem2* NewZeroedElem2()
+{
+    unsigned int uiSizeVal = 0x24;
+    void* pMemory = reinterpret_cast<::MemoryManagerStandIn *>((((MemMgr*)&(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSizeVal);
+    return (Elem2*)(pMemory ? (std::memset(pMemory, 0, uiSizeVal), pMemory) : 0);
+}
+
+// @fnv 0x00a22660
+Mgr* Mgr::FUN_00a22660(intptr_t arg)
+{
+    this->m18f4 = 0;
+    this->m04 = 0;
+    this->m1b92 = 0;
+
+    ::FUN_00ee7f10((void*)arg, 0x800, &DAT_01100ed4, (void**)&this->m08, 0);
+
+    if (SettingIs((*reinterpret_cast<unsigned char (*)[]>(&::g_011f35d0)), true))
+    {
+        reinterpret_cast<::FUN_00a252d0_cls *>((this))->SetEnabled(1);
+    }
+
+    this->m2c = 0;
+    void* pDev;
+    long hr = this->m08->CreateDevice(&DAT_01100f84, &pDev, 0);
+    DIPROPDWORD propVal;
+    if (hr == 0)
+    {
+        this->m04 |= 4;
+        this->m2c = (IDIDev*)pDev;
+        if (SettingIs((*reinterpret_cast<unsigned char (*)[]>(&::g_011f35dc)), true))
+        {
+            this->m2c->SetCooperativeLevel(GetActiveWindow(), 0x16);
+        }
+        else
+        {
+            this->m2c->SetCooperativeLevel(GetActiveWindow(), 0x15);
+        }
+        this->m2c->SetDataFormat(&DAT_01100cb4);
+        propVal.dwSize = 0x14;
+        propVal.dwHeaderSize = 0x10;
+        propVal.dwHow = 0;
+        propVal.dwObj = 0;
+        propVal.dwData = 0x20;
+        this->m2c->SetProperty(1, &propVal);
+    }
+
+    this->m30 = 0;
+    this->m1b50 = 6;
+
+    HKEY hKeyStep = 0;
+    char acValueResult[10];
+    DWORD typeIn;
+    DWORD cb;
+    if (RegOpenKeyExA(HKEY_CURRENT_USER, "Control Panel\\Mouse", 0, KEY_ALL_ACCESS, &hKeyStep) == 0)
+    {
+        cb = 0xa;
+        if (RegQueryValueExA(hKeyStep, "MouseSensitivity", 0, &typeIn, (unsigned char*)acValueResult, &cb) == 0)
+        {
+            this->m1b50 = (unsigned char)std::atoi(acValueResult);
+        }
+        RegCloseKey(hKeyStep);
+    }
+
+    this->m1b4c = SwapMouseButton(0);
+    SwapMouseButton(this->m1b4c);
+    this->m1b54 = GetDoubleClickTime();
+
+    std::memset(&this->m1b60[0], 0, 0x20);
+    std::memset(&this->m1af8[0], 0, 0x2c);
+    this->m1af8[0] = 0x2c;
+
+    if (SettingIs((*reinterpret_cast<unsigned char (*)[]>(&::g_011f35e8)), true))
+    {
+        this->m04 |= 8;
+    }
+
+    hr = this->m08->CreateDevice(&DAT_01100f74, &pDev, 0);
+    if (hr == 0)
+    {
+        this->m04 |= 2;
+        this->m30 = (IDIDev*)pDev;
+        this->m30->GetCapabilities(&this->m1af8[0]);
+        if (this->m04 & 8)
+        {
+            hr = this->m30->SetCooperativeLevel(GetActiveWindow(), 6);
+        }
+        else
+        {
+            hr = this->m30->SetCooperativeLevel(GetActiveWindow(), 5);
+        }
+        switch (hr)
+        {
+        case (long)0x80070057:
+            hr = 1;
+            break;
+        case (long)0x80070015:
+            hr = 1;
+            break;
+        case (long)0x80070006:
+            hr = 1;
+            break;
+        }
+        this->m30->SetDataFormat(&DAT_01100aac);
+    }
+
+    std::memset(&this->m34[0], 0, 0x500);
+    std::memset(&this->m18f8[0], 0, 0x200);
+    std::memset(&this->m1b24[0], 0, 0x28);
+    this->m1b90 = 0;
+    this->m1b91 = 0;
+
+    this->m1b80 = new FUN_00a262d0_C40(0);
+
+    {
+        this->m1b84 = NewZeroedElem2();
+        this->m1b84->m08 = 0;
+        this->m1b84->m00 = 0;
+        this->m1b84->m04 = 2;
+        this->m1b84->m14 = 0;
+        this->m1b84->m1c = 0;
+
+        reinterpret_cast<::FUN_00a26310_Class *>((this->m1b80))->FUN_00a26310(1, (::FUN_00a26480_class *)(this->m1b84));
+        reinterpret_cast<::FUN_00a26310_Class *>((this->m1b80))->FUN_00a26310(0, (::FUN_00a26480_class *)(this->m1b84));
+    }
+    this->m1b88 = 1;
+
+    reinterpret_cast<::FUN_00a24b70_Class *>((this))->FUN_00a24b70(4);
+    this->m00 = 0;
+    return this;
+}
+
+struct S_00a25920_Pool
+{
+};
+
+struct S_00a25920_Obj
+{
+    int unk00;
+    static __forceinline void* operator new(std::size_t)
+    {
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(((S_00a25920_Pool&)(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(0x14280);
+    }
+    S_00a25920_Obj();
+};
+
+// @fnv 0x00a25920
+S_00a25920_Obj* __cdecl FUN_00a25920()
+{
+    if ((*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)) == 0)
+    {
+        (*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)) = new S_00a25920_Obj;
+    }
+    return (*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q));
+}
+
+// @fnv 0x00a25880
+void FUN_00a25880()
+{
+    if (!(*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)))
+        (*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)) = new S_00a25920_Obj();
+    ((FUN_00a25de0_Class*)(*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)))->FUN_00a25de0();
+}
+
+// @fnv 0x00a26240
+FUN_00a26240::~FUN_00a26240()
+{
+    while (b)
+    {
+        intptr_t next = ((FUN_00a26240*)b)->b;
+        ((FUN_00a26240*)b)->b = 0;
+        delete (FUN_00a26240*)b;
+        b = next;
+    }
+    a = 0;
+}
+
+void __cdecl FUN_00ec61c0(void* dst, int value, unsigned int size);
+
+struct Spl_a28060_Pt
+{
+    float x, y, z;
+    Spl_a28060_Pt()
+    {}
+    Spl_a28060_Pt(float fx, float fy, float afDepth) : x(fx), y(fy), z(afDepth)
+    {}
+    Spl_a28060_Pt Cross(const Spl_a28060_Pt& p) const
+    {
+        return Spl_a28060_Pt(y * p.z - z * p.y, z * p.x - x * p.z, x * p.y - y * p.x);
+    }
+    float SqrLength() const
+    {
+        return x * x + y * y + z * z;
+    }
+    float Length() const
+    {
+        return sqrtf(x * x + y * y + z * z);
+    }
+};
+
+struct Spl_a28060_Key
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+};
+
+extern int DAT_011a7ed4;
+
+extern float DAT_011f3658;
+
+// @fnv 0x00a28060
+float __cdecl FUN_00a28060(Spl_a28060_Key* keys, int count)
+{
+    float fScaledValue = 0.0f;
+    for (unsigned int i = 0; i < (unsigned int)(count - 1); i++)
+    {
+        Spl_a28060_Key* a = &keys[i];
+        Spl_a28060_Key* b = &keys[i + 1];
+        for (int j = 0; j <= DAT_011a7ed4; j++)
+        {
+            float t = j * DAT_011f3658;
+            Spl_a28060_Pt d1, d2;
+            ::FUN_00a27d60(t, (::TCBKeyS *)(a), (uintptr_t)(b), (::Vec3S *)(::Spl_a28060_Pt *)(&d1));
+            ::fnv_00a27e40::FUN_00a27e40(t, (const float *)(a), (uintptr_t)(b), (::fnv_00a27e40::Vec3Output *)(::Spl_a28060_Pt *)(&d2));
+            float v = d1.Cross(d2).Length() / d1.SqrLength();
+            if (v > fScaledValue)
+                fScaledValue = v;
+        }
+    }
+    return fScaledValue;
+}
+
+struct Spl_a2b6d0_Pt
+{
+    float x, y, z;
+    Spl_a2b6d0_Pt()
+    {}
+    Spl_a2b6d0_Pt(float fx, float fy, float afDepth) : x(fx), y(fy), z(afDepth)
+    {}
+    Spl_a2b6d0_Pt Cross(const Spl_a2b6d0_Pt& p) const
+    {
+        return Spl_a2b6d0_Pt(y * p.z - z * p.y, z * p.x - x * p.z, x * p.y - y * p.x);
+    }
+    float SqrLength() const
+    {
+        return x * x + y * y + z * z;
+    }
+    float Length() const
+    {
+        return sqrtf(x * x + y * y + z * z);
+    }
+};
+
+struct Spl_a2b6d0_Key
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+};
+
+extern int DAT_011a7ed4;
+
+extern float DAT_011f3658;
+
+// @fnv 0x00a2b6d0
+float __cdecl FUN_00a2b6d0(Spl_a2b6d0_Key* keys, int count)
+{
+    float fScaledValue = 0.0f;
+    for (unsigned int i = 0; i < (unsigned int)(count - 1); i++)
+    {
+        Spl_a2b6d0_Key* a = &keys[i];
+        Spl_a2b6d0_Key* b = &keys[i + 1];
+        for (int j = 0; j <= DAT_011a7ed4; j++)
+        {
+            float t = j * DAT_011f3658;
+            Spl_a2b6d0_Pt d1, d2;
+            ::ComputeInterpolatedPosition(t, (::S_00a2b050_Obj *)(a), (uintptr_t)(b), (::S_00a2b050_V3 *)(::Spl_a2b6d0_Pt *)(&d1));
+            ::FUN_00a2b130(t, (const float *)(a), (uintptr_t)(b), (::Vector3 *)(::Spl_a2b6d0_Pt *)(&d2));
+            float v = d1.Cross(d2).Length() / d1.SqrLength();
+            if (v > fScaledValue)
+                fScaledValue = v;
+        }
+    }
+    return fScaledValue;
+}
+
+// @fnv 0x00a26220
+unsigned int FUN_00a26220_Class::FUN_00a26220()
+{
+    int a;
+    int b;
+    int c;
+    reinterpret_cast<::FUN_00a26240 *>(this)->FUN_00a26240::~FUN_00a26240();
+    return 0;
+}
+
+#include "generated/data/staging/blk_00a20000_od.inc"
+#include "generated/data/staging/blk_00a20000_od_ob1_variant.inc"
+#include "generated/data/staging/blk_00a20000_od_o2_nood_variant.inc"

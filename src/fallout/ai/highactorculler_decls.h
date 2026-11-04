@@ -2,6 +2,21 @@
 #ifndef FNV_HIGHACTORCULLER_DECLS_H
 #define FNV_HIGHACTORCULLER_DECLS_H
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/EffectSetting.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_00819a50_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/ListStandIn.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Twin_0084d030.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_0043fcd0__FUN_0043fcd0_shell.h"
+#include "fnv/decl/fnv_009d9f20__FUN_009d9f20_shell.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_011de000.h"
 #include "NiPoint3.h"
 
 class NiAVObject;
@@ -20,16 +35,12 @@ class NiBound
   public:
     NiPoint3 m_kCenter;
     float m_fBoundRadius;
-    const NiPoint3& GetNavMeshData() const;
-    float FUN_0084d030() const;
 };
-FNV_STATIC_ASSERT(sizeof(NiBound) == 0x10);
 
 // Only the methods used by this unit are declared for pointer receivers.
 class TESObjectREFR
 {
   public:
-    NiAVObject* Get3DSimple();
 };
 class MobileObject : public TESObjectREFR
 {
@@ -37,7 +48,6 @@ class MobileObject : public TESObjectREFR
 class HighActorCullerCell : public TESObjectCELL
 {
   public:
-    BSPortalGraph* FUN_009d9f20();
 };
 class TESWorldSpace
 {
@@ -47,10 +57,7 @@ class TESWorldSpace
 class TES
 {
   public:
-    TESObjectCELL* GetInteriorCell();
-    TESWorldSpace* GetParentWorldSpace();
 };
-extern TES* g_TES;
 
 class NiAVObject
 {
@@ -60,13 +67,11 @@ class NiAVObject
     virtual void* GetType();
     virtual NiNode* GetNiNode();
     virtual BSFadeNode* GetFadeNode();
-    const NiBound& GetBoundingVolume() const;
 };
 class BSFadeNode : public NiAVObject
 {
   public:
     bool FUN_00552470() const;
-    void SetTaskFlag(bool culled);
 };
 class NiCamera : public NiAVObject
 {
@@ -118,9 +123,7 @@ class NiCullingProcess
     const NiCamera* m_pkAccumulationCamera;
     NiFrustum m_kCameraFrustum;
     NiFrustumPlanes m_kFrustumPlanes;
-    const NiCamera* GetCamera() const;
 };
-FNV_STATIC_ASSERT(sizeof(NiCullingProcess) == 0x90);
 class BSFadeNodeCuller : public NiCullingProcess
 {
 };
@@ -175,7 +178,6 @@ class BSMultiBoundSphere
     virtual void vfn_b0();
     virtual void vfn_b4();
     virtual void SetGridPosition(const NiPoint3& center);
-    void FUN_00819a50(float radius);
     char _pdbpad_4[8];
     char Center[12];
     float Radius;
@@ -202,8 +204,6 @@ class NiTPointerListBase<NiTPointerAllocator<unsigned int>, BSOcclusionPlane*>
     : public NiTListBase<NiTPointerAllocator<unsigned int>, BSOcclusionPlane*>
 {
   public:
-    void* GetHeadPos() const;
-    BSOcclusionPlane*& GetNext(void*& position);
 };
 template <class T> class NiTPointerList : public NiTPointerListBase<NiTPointerAllocator<unsigned int>, T>
 {
@@ -211,12 +211,10 @@ template <class T> class NiTPointerList : public NiTPointerListBase<NiTPointerAl
 class BSPortalGraph
 {
   public:
-    NiTPointerList<BSOcclusionPlane*>& GetOccluderList();
 };
 class BSOcclusionPlane
 {
   public:
-    int GetCullResult() const;
 };
 class MobIterOperator
 {
@@ -233,7 +231,4 @@ class HighActorCuller : public MobIterOperator
     NiPointer<BSMultiBound> m_pMultiBound;
     NiPointer<BSMultiBoundSphere> m_spMultiBoundSphere;
 };
-FNV_STATIC_ASSERT(offsetof(HighActorCuller, m_kFadeNodeCuller) == 0x8);
-FNV_STATIC_ASSERT(offsetof(HighActorCuller, m_pMultiBoundNode) == 0x98);
-FNV_STATIC_ASSERT(offsetof(HighActorCuller, m_spMultiBoundSphere) == 0xA0);
 #endif

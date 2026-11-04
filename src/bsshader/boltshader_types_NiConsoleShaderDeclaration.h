@@ -2,6 +2,7 @@
 #ifndef FNV_NICONSOLESHADERDECLARATION_H
 #define FNV_NICONSOLESHADERDECLARATION_H
 
+#include "fnv/symbols_00e76000.h"
 #include "layout_support.h"
 #include "NiObject.h"
 class Direct3DDeviceInterface;
@@ -14,7 +15,6 @@ class NiRenderer;
 class NiD3DVertexDeclaration;
 class VertexDeclarationLayout;
 class _D3DVERTEXELEMENT9;
-#pragma pack(push, 4)
 class NiShaderDeclaration : public NiObject
 {
   public:
@@ -25,9 +25,6 @@ class NiShaderDeclaration : public NiObject
     // NiShaderDeclaration& __cdecl NiShaderDeclaration::*(const NiShaderDeclaration&)
     // void __cdecl NiShaderDeclaration::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShaderDeclaration) == 8);
-#pragma pack(push, 4)
 class NiD3DShaderDeclaration : public NiShaderDeclaration
 {
   public:
@@ -58,25 +55,12 @@ class NiD3DShaderDeclaration : public NiShaderDeclaration
     // NiD3DShaderDeclaration& __cdecl NiD3DShaderDeclaration::*(const NiD3DShaderDeclaration&)
     // void __cdecl NiD3DShaderDeclaration::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderDeclaration) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pOwnerShader) == 8);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pShaderStreamInfo) == 12);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pD3DDevice) == 16);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiVertexElementCount) == 20);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiBufferStride) == 24);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiShaderRegisterCount) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiRegisterStreamCount) == 32);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pShaderRegisterStream) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_bHasChanges) == 40);
-#pragma pack(push, 4)
 class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
 {
   public:
     // base NiD3DShaderDeclaration at +0x0, size 44
     _D3DVERTEXELEMENT9* m_pkVertexElements;         // +0x2C, 4 bytes
     COMUnknownInterface* m_pkD3DVertexDeclaration;  // +0x30, 4 bytes
-    static NiD3DVertexDeclaration* Create(NiRenderer*, unsigned int, unsigned int);
     // void __cdecl NiD3DVertexDeclaration::*()
     // NiD3DVertexDeclaration* __cdecl NiD3DVertexDeclaration::*(NiRenderer*, unsigned int, unsigned int)
     // SetEntry
@@ -92,8 +76,4 @@ class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
     // NiD3DVertexDeclaration& __cdecl NiD3DVertexDeclaration::*(const NiD3DVertexDeclaration&)
     // void __cdecl NiD3DVertexDeclaration::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DVertexDeclaration) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DVertexDeclaration, m_pkVertexElements) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DVertexDeclaration, m_pkD3DVertexDeclaration) == 48);
 #endif

@@ -2,9 +2,55 @@
 // src/fallout/ai/combat/combatprocedureattackgrenade.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureattackgrenade.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/S_009a7670_P3.h"
+#include "fnv/symbols_009a7000.h"
+#include "fnv/combat_controller_fields.h"
+#include <cstdint>
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/CPStandIn009caae0.h"
+#include "fnv/decl/CombatDialogueHandler.h"
+#include "fnv/decl/CombatProcedureEx.h"
+#include "fnv/decl/FUN_00435e00_t.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_00595c80_shell.h"
+#include "fnv/decl/FUN_0070f490_Class.h"
+#include "fnv/decl/FUN_00865e50_shell.h"
+#include "fnv/decl/FUN_00894900_shell.h"
+#include "fnv/decl/FUN_008a7570_shell.h"
+#include "fnv/decl/FUN_008d7f40_shell.h"
+#include "fnv/decl/FUN_00966a00_Class.h"
+#include "fnv/decl/FUN_0097fa50_Class.h"
+#include "fnv/decl/FUN_00981970_shell.h"
+#include "fnv/decl/FUN_00996de0_Class.h"
+#include "fnv/decl/FUN_00996e00_shell.h"
+#include "fnv/decl/FUN_00996ed0_shell.h"
+#include "fnv/decl/FUN_00996ef0_shell.h"
+#include "fnv/decl/FUN_009ca6c0_class.h"
+#include "fnv/decl/FUN_009caac0_shell.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/decl/Pawn.h"
+#include "fnv/decl/TESObjectACTI.h"
+#include "fnv/decl/Thing.h"
+#include "fnv/decl/ThreatManager.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/decl/fnv_0097ee90__DummyInner.h"
+#include "fnv/decl/fnv_00996ea0__MyProc.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_008b3000.h"
+#include "fnv/symbols_00906000.h"
+#include "fnv/symbols_0097a000.h"
+#include "fnv/symbols_009a8000.h"
+#include "fnv/symbols_009a9000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_011cf000.h"
+#include "fnv/symbols_011f1000.h"
 struct CombatProcedure
 {
-    void RunProcedure();
 };
 
 struct CombatProcedureAttackGrenade : CombatProcedure
@@ -15,129 +61,126 @@ struct CombatProcedureAttackGrenade : CombatProcedure
 // @fnv 0x009cafc0
 void CombatProcedureAttackGrenade::FUN_009cafc0()
 {
-    CombatProcedure::RunProcedure();
+    reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
 }
 
 struct FUN_009cb440_shell
 {
-    void __thiscall FUN_009cb440(unsigned char b);
+    void FUN_009cb440(unsigned char b);
 };
 
 // @fnv 0x009cb440
-void __thiscall FUN_009cb440_shell::FUN_009cb440(unsigned char b)
+void FUN_009cb440_shell::FUN_009cb440(unsigned char b)
 {
     *reinterpret_cast<unsigned char*>(this + 0x73) = b;
 }
 
-void __cdecl Deallocate(void*);
 
 struct FUN_009caeb0_shell
 {
-    void __thiscall FUN_009cafa0();
-    void* __thiscall FUN_009caeb0(unsigned int flags);
+    void* FUN_009caeb0(unsigned int flags);
 };
-
-// Calls FUN_009cafa0, then frees this object with Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x009caeb0
-void* __thiscall FUN_009caeb0_shell::FUN_009caeb0(unsigned int flags)
-{
-    FUN_009cafa0();
-    if (flags & 1)
-        Deallocate(this);
-    return this;
-}
 
 extern int DAT_010909bc;
 struct FUN_009ca6c0_shell
 {
-    void FUN_009ca6c0();
 };
 struct FUN_009cafa0_shell
 {
     void FUN_009cafa0();
 };
+// Calls FUN_009cafa0, then frees this object with Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x009caeb0
+void* FUN_009caeb0_shell::FUN_009caeb0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_009cafa0_shell *>(this)->FUN_009cafa0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x009cafa0
 void FUN_009cafa0_shell::FUN_009cafa0()
 {
     *reinterpret_cast<int**>(this) = &DAT_010909bc;
-    reinterpret_cast<FUN_009ca6c0_shell*>(this)->FUN_009ca6c0();
+    reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FUN_009ca6c0_shell*>(this)))->FUN_009ca6c0();
 }
 
 struct Setting_S
 {
-    float* Float();
 };
-extern Setting_S originalRuntimeFloatSetting375;
 struct Projectile
 {
-    void __thiscall FUN_00966a00(float);
 };
 struct IMH
 {
-    struct FUN_009cb440_shell* FUN_00586150();
 };
 struct Helper_caae0
 {
-    void __thiscall SetState();
 };
 struct FUN_009cb830_shell
 {
-    void __thiscall FUN_009cb830(Projectile* apProjectile);
+    void FUN_009cb830(Projectile* apProjectile);
+    char pad00[0x14];
+    bool unk14;
+    char pad15[0x1b];
+    bool unk30;
 };
 // @fnv 0x009cb830
-void __thiscall FUN_009cb830_shell::FUN_009cb830(Projectile* apProjectile)
+void FUN_009cb830_shell::FUN_009cb830(Projectile* apProjectile)
 {
-    if (*(bool*)((char*)this + 0x30))
+    if (this->unk30)
     {
-        apProjectile->FUN_00966a00(*originalRuntimeFloatSetting375.Float());
+        reinterpret_cast<::FUN_00966a00_Class *>((apProjectile))->FUN_00966a00(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting375)))))));
     }
-    *(bool*)((char*)this + 0x30) = 0;
-    if (*(bool*)((char*)this + 0x14))
+    this->unk30 = 0;
+    if (this->unk14)
     {
-        (*(IMH**)((char*)this + 4))->FUN_00586150()->FUN_009cb440(1);
-        ((Helper_caae0*)this)->SetState();
+        ((::FUN_009cb440_shell *)(reinterpret_cast<::InterfaceManager *>(((*(IMH**)((char*)this + 4))))->FUN_00586150()))->FUN_009cb440(1);
+        reinterpret_cast<::CPStandIn009caae0 *>((((Helper_caae0*)this)))->SetState();
     }
 }
 
 struct BGSSaveFormBuffer
 {
-    void __thiscall SaveData(void* p, int a, int b);
 };
 struct FUN_009a5eb0_shell
 {
-    void __thiscall FUN_009a5eb0(BGSSaveFormBuffer* p);
+    void FUN_009a5eb0(BGSSaveFormBuffer* p);
 };
 struct CombatProcedureSaveGameShell
 {
-    void __thiscall SaveGame(BGSSaveFormBuffer* p);
 };
 struct FUN_009cb9c0_shell
 {
-    void __thiscall FUN_009cb9c0(BGSSaveFormBuffer* p);
+    void FUN_009cb9c0(BGSSaveFormBuffer* p);
 };
 // @fnv 0x009cb9c0
-void __thiscall FUN_009cb9c0_shell::FUN_009cb9c0(BGSSaveFormBuffer* pBuffer)
+void FUN_009cb9c0_shell::FUN_009cb9c0(BGSSaveFormBuffer* pBuffer)
 {
-    ((CombatProcedureSaveGameShell*)this)->SaveGame(pBuffer);
-    pBuffer->SaveData((char*)this + 0x10, 4, 0);
-    pBuffer->SaveData((char*)this + 0x14, 1, 0);
-    pBuffer->SaveData((char*)this + 0x18, 0xc, 0);
-    pBuffer->SaveData((char*)this + 0x24, 0xc, 0);
-    pBuffer->SaveData((char*)this + 0x30, 1, 0);
+    reinterpret_cast<::FUN_00996ed0_shell *>((((CombatProcedureSaveGameShell*)this)))->SaveToBuffer(pBuffer);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50((char*)this + 0x10, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50((char*)this + 0x14, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50((char*)this + 0x18, 0xc, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50((char*)this + 0x24, 0xc, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50((char*)this + 0x30, 1, 0);
     ((FUN_009a5eb0_shell*)((char*)this + 0x34))->FUN_009a5eb0(pBuffer);
 }
 
 struct BGSLoadFormBuffer
 {
-    void __thiscall ReadTypedData(void* p, unsigned int size);
 };
 struct CombatProcedure_LoadGame
 {
-    void __thiscall LoadGame(BGSLoadFormBuffer* p);
 };
 struct TimeoutTimer
 {
-    void __thiscall LoadGame(BGSLoadFormBuffer* p);
+    void LoadGame(BGSLoadFormBuffer* p);
+public:
+    float FUN_006b9130();
+public:
+    bool CheckTimer();
+public:
+    void FUN_00910b10();
 };
 struct FUN_009cba50_shell
 {
@@ -193,18 +236,18 @@ struct FUN_009cba50_shell
     int m_ax;
     int m_ay;
     int m_az;
-    void __thiscall FUN_009cba50(BGSLoadFormBuffer* buffer);
+    void FUN_009cba50(BGSLoadFormBuffer* buffer);
 };
 // @fnv 0x009cba50
-void __thiscall FUN_009cba50_shell::FUN_009cba50(BGSLoadFormBuffer* buffer)
+void FUN_009cba50_shell::FUN_009cba50(BGSLoadFormBuffer* buffer)
 {
-    ((CombatProcedure_LoadGame*)this)->LoadGame(buffer);
-    buffer->ReadTypedData((char*)this + 0x10, 4);
-    buffer->ReadTypedData((char*)this + 0x14, 1);
-    buffer->ReadTypedData((char*)this + 0x18, 0xc);
-    buffer->ReadTypedData((char*)this + 0x24, 0xc);
-    buffer->ReadTypedData((char*)this + 0x30, 1);
-    ((TimeoutTimer*)((char*)this + 0x34))->LoadGame(buffer);
+    reinterpret_cast<::FUN_00996ef0_shell *>((((CombatProcedure_LoadGame*)this)))->FUN_00996ef0(buffer);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_usTrailingValue), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_f), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_g), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iUnknownValue), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iUnknownValue2), 1);
+    ((TimeoutTimer*)&this->m_uiValueCount)->LoadGame(buffer);
 }
 
 struct NiPoint3
@@ -212,7 +255,9 @@ struct NiPoint3
     float x;
     float y;
     float z;
-    void __thiscall FUN_006815c0();
+    void FUN_006815c0();
+public:
+    static const ::NiPoint3 ZERO;
 };
 struct NonPodPoint3
 {
@@ -223,13 +268,9 @@ struct NonPodPoint3
 };
 NiPoint3* __cdecl FUN_009a8050(NiPoint3* result, void* actor);
 void __cdecl GetTargetLocationWithOffset(NiPoint3* result, void* target, int mode);
-NonPodPoint3 __cdecl GetTriple12(void* target);
-unsigned char __cdecl FUN_009a7670(void* actor, void* target, unsigned int flags, NiPoint3 origin, NiPoint3 direction,
-                                   NonPodPoint3 offset, unsigned int mode, unsigned int category, float scale);
-
 // @fnv 0x009a7580
-unsigned char __cdecl FUN_009a7580(void* actor, void* target, unsigned int flags, NiPoint3* optionalOrigin,
-                                   unsigned int mode, unsigned int category, float scale)
+unsigned char __cdecl FUN_009a7580(void* actor, void* target, FUN_009a7f00_obj* apObject, NiPoint3* optionalOrigin,
+                                   unsigned char* apFlag, S_009a7670_P3* apResult, float scale)
 {
     if (!actor || !target)
         return 0;
@@ -244,8 +285,10 @@ unsigned char __cdecl FUN_009a7580(void* actor, void* target, unsigned int flags
     }
     NiPoint3 origin;
     GetTargetLocationWithOffset(&origin, target, 2);
-    NonPodPoint3 direction = GetTriple12(target);
-    return FUN_009a7670(actor, target, flags, offset, origin, direction, mode, category, scale);
+    NonPodPoint3 direction = (*(::NonPodPoint3 *)(::GetTriple12((::Triple12 *)(target), {})));
+    return ::FUN_009a7670(actor, target, apObject, *reinterpret_cast<S_009a7670_P3*>(&offset),
+                          *reinterpret_cast<S_009a7670_P3*>(&origin), *reinterpret_cast<S_009a7670_P3*>(&direction), apFlag,
+                          apResult, scale);
 }
 
 struct Vec3
@@ -256,7 +299,6 @@ struct Vec3
 };
 
 extern int DAT_010909bc;
-extern Vec3 DAT_011f426c;
 
 struct CombatBaseObj
 {
@@ -270,7 +312,6 @@ struct CombatBaseObj
 struct CombatMember34
 {
     int m_00;
-    void Init();
     ~CombatMember34();
 };
 
@@ -292,10 +333,10 @@ FUN_009cadf0_cls::FUN_009cadf0_cls()
     m_vptr = &DAT_010909bc;
     m_10 = 0;
     m_14 = 0;
-    m_18 = DAT_011f426c;
-    m_24 = DAT_011f426c;
+    m_18 = (*reinterpret_cast<::Vec3 *>((void *)&::NiPoint3::ZERO));
+    m_24 = (*reinterpret_cast<::Vec3 *>((void *)&::NiPoint3::ZERO));
     m_30 = 0;
-    m_34.Init();
+    ::FUN_00906f60((float *)&(m_34));
 }
 
 namespace fnv_009caee0 {
@@ -306,7 +347,6 @@ struct Vec3_b6365
     unsigned int m_08;
 };
 
-extern Vec3_b6365 DAT_011f426c;
 
 class Base_b6365
 {
@@ -333,7 +373,6 @@ class Member_b6365
     unsigned int m_18;
     unsigned int m_1c;
     unsigned int m_20;
-    void Reset();
 };
 
 class FUN_009caee0 : public Base_b6365
@@ -356,9 +395,9 @@ FUN_009caee0::FUN_009caee0(const Vec3_b6365* src, unsigned char flag) : Base_b63
     m_10 = 0;
     m_14 = 1;
     m_18 = *src;
-    m_24 = DAT_011f426c;
+    m_24 = (*reinterpret_cast<::fnv_009caee0::Vec3_b6365 *>((void *)&::NiPoint3::ZERO));
     m_30 = flag;
-    m_34.Reset();
+    ::FUN_00906f60((float *)&(m_34));
 }
 }  // namespace fnv_009caee0
 
@@ -368,41 +407,30 @@ class B9CB380Mobile;
 class B9CB380Process
 {
   public:
-    void SetTarget(B9CB380Form* pkForm);
-    void FUN_009cb440(bool bFlag);
 };
 
 class B9CB380Actor
 {
   public:
-    B9CB380Mobile* GetMobile();
-    B9CB380Process* GetProcess();
 };
 
 class B9CB380World
 {
   public:
-    bool IsThreatWithinLimits(B9CB380Mobile* pkMobile, B9CB380Form* pkForm, int iArg, float fArg);
 };
 
 class B9CB380Setting
 {
   public:
-    float* Float();
 };
 
 class B9CB380Timer
 {
   public:
-    bool FUN_0097fa50();
-    bool FUN_008d7f80();
-    void FUN_008d7f40(float fTime);
 
     int unk00;
 };
 
-extern B9CB380World* g_pkB9CB380World;
-extern B9CB380Setting g_kB9CB380Setting;
 
 class B9CB380Package
 {
@@ -424,25 +452,24 @@ class B9CB380Package
     int unk30;
     B9CB380Timer m_kTimer;
 
-    void SetState();
-    bool FUN_009cb380(B9CB380Form* pkForm, int iArg, float fArg);
+    bool FUN_009cb380(B9CB380Form* pkForm, intptr_t iArg, float fArg);
 };
 
 // @fnv 0x009cb380
-bool B9CB380Package::FUN_009cb380(B9CB380Form* pkForm, int iArg, float fArg)
+bool B9CB380Package::FUN_009cb380(B9CB380Form* pkForm, intptr_t iArg, float fArg)
 {
-    B9CB380Mobile* pkMobile2 = m_pkActor->GetMobile();
-    B9CB380Process* pkProcess = m_pkActor->GetProcess();
-    if (!g_pkB9CB380World->IsThreatWithinLimits(pkMobile2, pkForm, iArg, fArg))
+    B9CB380Mobile* pkMobile2 = ((::B9CB380Mobile *)(reinterpret_cast<CombatControllerFields*>(m_pkActor)->pActor));
+    B9CB380Process* pkProcess = ((::B9CB380Process *)(reinterpret_cast<::InterfaceManager *>((m_pkActor))->FUN_00586150()));
+    if (!reinterpret_cast<::ThreatManager *>(((*reinterpret_cast<::B9CB380World * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->IsThreatWithinLimits((::ThreatActor *)(pkMobile2), (::ThreatActor *)(pkForm), (*(const ::ThreatPosition *)(iArg)), fArg))
     {
-        if (!m_kTimer.FUN_0097fa50())
-            m_kTimer.FUN_008d7f40(*g_kB9CB380Setting.Float());
-        else if (m_kTimer.FUN_008d7f80())
-            pkProcess->SetTarget(pkForm);
+        if (!reinterpret_cast<::FUN_0097fa50_Class *>(&(m_kTimer))->FUN_0097fa50())
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(m_kTimer))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::B9CB380Setting *>(&::originalRuntimeFloatSetting358)))))));
+        else if (reinterpret_cast<::TimeoutTimer *>(&(m_kTimer))->CheckTimer())
+            reinterpret_cast<::TESObjectACTI *>((pkProcess))->SetActivateSound((::TESSound *)(pkForm));
         if (m_bFlag14)
         {
-            pkProcess->FUN_009cb440(true);
-            SetState();
+            reinterpret_cast<::FUN_009cb440_shell *>((pkProcess))->FUN_009cb440(true);
+            reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
         }
         return false;
     }
@@ -457,22 +484,17 @@ struct NiPoint3
     float z;
     NiPoint3();
 };
-extern const NiPoint3 NiPoint3_ZERO;
 
-extern Setting_S originalRuntimeFloatSetting375;
 
 struct Actor;
 struct PathingRequest
 {
-    float GetFloatAtOffset68();
 };
 struct TESObjectREFR
 {
-    PathingRequest* GetOrFallback(Actor* actor);
 };
 struct InterfaceManager
 {
-    TESObjectREFR* FUN_007031c0();
 };
 
 NiPoint3 __cdecl ComputeTrajectory(Actor* actor, void* target, int unused, PathingRequest* req, float dist, bool flag);
@@ -492,29 +514,27 @@ struct CombatProcedureShell
     int unk2C;
     bool b30;
 
-    Actor* FUN_00996de0();
-    void* FUN_00996e00();
     NiPoint3 GetPathingPoint();
 };
 
 // @fnv 0x009cb6e0
 NiPoint3 CombatProcedureShell::GetPathingPoint()
 {
-    if (!b14 && !FUN_00996e00())
+    if (!b14 && !reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00())
     {
-        return NiPoint3_ZERO;
+        return (*reinterpret_cast<const ::fnv_009cb6e0::NiPoint3 *>((void *)&::NiPoint3::ZERO));
     }
-    TESObjectREFR* ref = unk04->FUN_007031c0();
-    PathingRequest* req = ref->GetOrFallback(FUN_00996de0());
-    float dist = req->GetFloatAtOffset68() * (b30 ? *originalRuntimeFloatSetting375.Float() : 1.0f);
+    TESObjectREFR* ref = ((::fnv_009cb6e0::TESObjectREFR *)(::FUN_007031c0((intptr_t)(unk04))));
+    PathingRequest* req = ((::fnv_009cb6e0::PathingRequest *)(reinterpret_cast<::Thing *>((ref))->GetOrFallback((intptr_t)(((::fnv_009cb6e0::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))))));
+    float dist = ::GetFloatAtOffset68((const char *)(req)) * (b30 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting375)))))) : 1.0f);
     NiPoint3 point;
     if (!b14)
     {
-        point = ComputeTrajectory(FUN_00996de0(), FUN_00996e00(), 0, req, dist, b30);
+        point = ComputeTrajectory(((::fnv_009cb6e0::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())), reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00(), 0, req, dist, b30);
     }
     else
     {
-        point = FUN_009a8d80(FUN_00996de0(), &pt18, 0, req, dist, b30);
+        point = FUN_009a8d80(((::fnv_009cb6e0::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())), &pt18, 0, req, dist, b30);
     }
     return point;
 }
@@ -656,20 +676,15 @@ struct Target
 };
 struct Item
 {
-    void* Sound();
 };
 struct Manager
 {
-    Item* Select(void*);
 };
 struct Process
 {
-    void Set(unsigned char);
 };
 struct Owner
 {
-    Manager* ManagerGet();
-    Process* ProcessGet();
 };
 struct Procedure
 {
@@ -680,14 +695,8 @@ struct Procedure
     Point origin;
     Point destination;
     unsigned char category;
-    void* ActorGet();
-    Target* TargetGet();
-    bool Validate(void*, Point*, float);
-    void Reset();
     bool FUN_009cb460(Point* output, Point* input);
 };
-extern Point zeroPoint;
-extern const float scaleValue;
 unsigned char Arc(void*, Target*, Item*, Point, Point, Point, unsigned char*, Point*, float);
 unsigned char Direct(void*, Target*, Item*, Point*, unsigned char*, Point*, float);
 float Distance(Item*, Point, Point, unsigned char, float);
@@ -695,20 +704,20 @@ float Distance(Item*, Point, Point, unsigned char, float);
 bool Procedure::FUN_009cb460(Point* output, Point* input)
 {
     void* i;
-    i = ActorGet();
+    i = ((void *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     Target* targetVal;
-    targetVal = TargetGet();
+    targetVal = ((::Target *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
     Manager* sound;
-    sound = owner->ManagerGet();
+    sound = ((::Manager *)(::FUN_007031c0((intptr_t)(owner))));
     Item* z;
-    z = sound->Select(i);
+    z = ((::Item *)(reinterpret_cast<::Thing *>((sound))->GetOrFallback((intptr_t)(i))));
     void* pForm;
-    pForm = z->Sound();
+    pForm = ((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(z))));
     bool ptr;
     ptr = false;
     if (active)
     {
-        if (Arc(i, targetVal, z, *input, origin, zeroPoint, &category, &destination, scaleValue))
+        if (Arc(i, targetVal, z, *input, origin, (*reinterpret_cast<::Point *>((void *)&::NiPoint3::ZERO)), &category, &destination, ::DAT_01012054))
         {
             *output = destination;
             ptr = true;
@@ -716,7 +725,7 @@ bool Procedure::FUN_009cb460(Point* output, Point* input)
     }
     else
     {
-        if (Direct(ActorGet(), TargetGet(), sound->Select(i), input, &category, &destination, scaleValue))
+        if (Direct(((void *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())), ((::Target *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00())), ((::Item *)(reinterpret_cast<::Thing *>((sound))->GetOrFallback((intptr_t)(i)))), input, &category, &destination, ::DAT_01012054))
         {
             *output = destination;
             ptr = true;
@@ -734,13 +743,13 @@ bool Procedure::FUN_009cb460(Point* output, Point* input)
         }
         float distance7;
         distance7 = Distance(z, *input, position7, category, 0.0f);
-        if (!Validate(pForm, &position7, distance7))
+        if (!reinterpret_cast<::B9CB380Package *>(this)->FUN_009cb380((::B9CB380Form *)(pForm), (intptr_t)(&position7), distance7))
             ptr = false;
     }
     if (!ptr && active)
     {
-        owner->ProcessGet()->Set(1);
-        Reset();
+        reinterpret_cast<::FUN_009cb440_shell *>((((::Process *)(reinterpret_cast<::InterfaceManager *>((owner))->FUN_00586150()))))->FUN_009cb440(1);
+        reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
     }
     return ptr;
 }
@@ -751,14 +760,10 @@ struct Pt3
     float x;
     float y;
     float z;
-    Pt3* FUN_00439ef0(Pt3* out, Pt3* other);
-    float GetSquaredXYLength();
-    bool FUN_00439090(Pt3* other);
 };
 
 struct Obj70
 {
-    int GetSlotValue(int a);
 };
 struct ProcessObj
 {
@@ -1037,10 +1042,6 @@ struct ProcessObj
 };
 struct ActorObj
 {
-    bool FUN_00894900();
-    int FUN_008a7570();
-    ProcessObj* FUN_008d8520();
-    bool TryAttack(int a);
     virtual void vfn_000();
     virtual void vfn_004();
     virtual void vfn_008();
@@ -1174,36 +1175,22 @@ struct SoundObj
 };
 struct MidObj
 {
-    SoundObj* FUN_004fd3c0();
 };
 struct Obj703
 {
-    MidObj* GetOrFallback(ActorObj* a);
 };
 struct Obj586
 {
-    bool FUN_0097ee90();
-    bool FUN_008b3c10();
-    void FUN_00442a80(int a);
 };
 struct Sub04
 {
-    Obj586* FUN_00586150();
-    Obj703* FUN_007031c0();
-    bool FUN_00981970();
 };
 struct GlobalObj
 {
-    void FUN_00983970(void* a, int b, int c, int d);
 };
-extern GlobalObj* DAT_011f1708;
 struct Member34
 {
-    void FUN_00910b10();
 };
-void __cdecl FUN_009a9180(Sub04* a, Obj703* b, float* x, float* y, float* z);
-unsigned char __cdecl FUN_009a7580(ActorObj* a, ActorObj* b, MidObj* c, void* d, unsigned char* e, Pt3* f, float g);
-bool __cdecl IsExplosionRadiusValid(SoundObj* a);
 
 struct Package
 {
@@ -1222,13 +1209,7 @@ struct Package
     unsigned char m_32;
     unsigned char m_33;
     Member34 m_34;
-    ActorObj* FUN_00996de0();
-    ActorObj* FUN_00996e00();
-    void FUN_009caac0(const char* msg);
-    void FUN_00996ea0();
-    void SetLookAtPoint(Pt3* p, int a);
     Pt3* GetPathingPoint(Pt3* out);
-    bool FUN_009cb380(SoundObj* s, Pt3* p, float f);
     void UpdateWeaponFire();
 };
 
@@ -1236,25 +1217,25 @@ struct Package
 void Package::UpdateWeaponFire()
 {
     ActorObj* actor2;
-    actor2 = FUN_00996de0();
+    actor2 = ((::fnv_009cafe0::ActorObj *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     ActorObj* i;
-    i = FUN_00996e00();
+    i = ((::fnv_009cafe0::ActorObj *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
     Obj586* n;
-    n = m_04->FUN_00586150();
+    n = ((::fnv_009cafe0::Obj586 *)(reinterpret_cast<::InterfaceManager *>((m_04))->FUN_00586150()));
     Obj703* s;
-    s = m_04->FUN_007031c0();
+    s = ((::fnv_009cafe0::Obj703 *)(::FUN_007031c0((intptr_t)(m_04))));
     Obj70* aPObj;
     aPObj = actor2->vfn_1e4();
-    if (!s || !aPObj || !s->GetOrFallback(actor2))
+    if (!s || !aPObj || !((::fnv_009cafe0::MidObj *)(reinterpret_cast<::Thing *>((s))->GetOrFallback((intptr_t)(actor2)))))
     {
-        FUN_009caac0("Missing either weapon, animation, or weapon projectile");
+        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Missing either weapon, animation, or weapon projectile"));
         return;
     }
-    if (actor2->FUN_00894900())
+    if (reinterpret_cast<::FUN_00894900_shell *>((actor2))->FUN_00894900())
     {
         m_10 = 1;
     }
-    else if (actor2->FUN_008a7570() == -1)
+    else if (reinterpret_cast<::FUN_008a7570_shell *>((actor2))->FUN_008a7570() == -1)
     {
         m_10 = 0;
     }
@@ -1262,76 +1243,76 @@ void Package::UpdateWeaponFire()
     {
         m_30 = 0;
     }
-    if (!n->FUN_0097ee90() || n->FUN_008b3c10())
+    if (!reinterpret_cast<::fnv_0097ee90::DummyInner *>((n))->FUN_0097ee90() || ::fnv_008b3c10::FUN_008b3c10((::fnv_008b3c10::CombatState *)(n)))
     {
         if (m_10)
         {
-            FUN_00996ea0();
+            reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
             m_10 = 0;
         }
         return;
     }
-    DAT_011f1708->FUN_00983970(m_04, 2, 0, 0);
+    reinterpret_cast<::CombatDialogueHandler *>(((*reinterpret_cast<::fnv_009cafe0::GlobalObj * *>(&::CombatAssessment::DAT_011f1708))))->FUN_00983970((::CombatController *)(m_04), 2, 0, 0);
     Pt3 AJ;
     m_24 = *GetPathingPoint(&AJ);
     Pt3 dir3;
     dir3.x = 0.0f;
     dir3.y = 0.0f;
     dir3.z = 0.0f;
-    FUN_009a9180(m_04, s, &dir3.x, &dir3.y, &dir3.z);
+    ::FUN_009a9180((::S_009a9180_Actor *)(m_04), (::S_009a9180_Data *)(s), &dir3.x, &dir3.y, &dir3.z);
     Pt3 kIter;
-    m_24.FUN_00439ef0(&kIter, actor2->vfn_1f4());
-    if (kIter.GetSquaredXYLength() > dir3.z * dir3.z)
+    reinterpret_cast<::FUN_00439ef0_class *>(&(m_24))->FUN_00439ef0((::NiPoint3 *)(::fnv_009cafe0::Pt3 *)(&kIter), (*(const ::NiPoint3 *)(actor2->vfn_1f4())));
+    if (reinterpret_cast<::FUN_00595c80_shell *>(&(kIter))->GetSquaredXYLength() > dir3.z * dir3.z)
     {
-        FUN_00996ea0();
+        reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
         m_10 = 0;
         return;
     }
-    if (m_24.FUN_00439090((Pt3*)&DAT_011f426c))
+    if (reinterpret_cast<::NiPlane *>(&(m_24))->operator==((*(const ::NiPlane *)((Pt3*)&(*reinterpret_cast<::Vec3 *>((void *)&::NiPoint3::ZERO))))))
     {
-        SetLookAtPoint(&m_24, 4);
+        reinterpret_cast<::CombatProcedureEx *>(this)->SetLookAtPoint((*(const ::NiPoint3 *)(&m_24)), 4);
     }
-    if (1 == m_10 && (actor2->FUN_008a7570() != 4 || aPObj->GetSlotValue(4) > 2))
+    if (1 == m_10 && (reinterpret_cast<::FUN_008a7570_shell *>((actor2))->FUN_008a7570() != 4 || reinterpret_cast<::FUN_0070f490_Class *>((aPObj))->GetSlotValue(4) > 2))
     {
         return;
     }
-    if (!actor2->FUN_008d8520()->vfn_3f8() || m_04->FUN_00981970())
+    if (!((::fnv_009cafe0::ProcessObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor2))->GetBaseTexture()))->vfn_3f8() || ((bool)(reinterpret_cast<::FUN_00981970_shell *>((m_04))->FUN_00981970())))
     {
         return;
     }
     SoundObj* idx;
-    idx = s->GetOrFallback(actor2)->FUN_004fd3c0();
+    idx = ((::fnv_009cafe0::SoundObj *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::fnv_009cafe0::MidObj *)(reinterpret_cast<::Thing *>((s))->GetOrFallback((intptr_t)(actor2))))))));
     Pt3* AP;
     Pt3 CTmp;
     if (idx)
     {
         AP = m_14 ? &m_18 : i->vfn_1f4();
         CTmp = *AP;
-        if (!FUN_009cb380(idx, &CTmp, 0.0f))
+        if (!reinterpret_cast<::B9CB380Package *>(this)->FUN_009cb380((::B9CB380Form *)(idx), (intptr_t)(&CTmp), 0.0f))
         {
             return;
         }
     }
     MidObj* pForm;
-    pForm = s->GetOrFallback(actor2);
+    pForm = ((::fnv_009cafe0::MidObj *)(reinterpret_cast<::Thing *>((s))->GetOrFallback((intptr_t)(actor2))));
     if (!m_14)
     {
-        if (!FUN_009a7580(actor2, i, pForm, 0, &m_30, &m_24, -1.0f))
+        if (!::FUN_009a7580(actor2, i, (::FUN_009a7f00_obj *)(pForm), 0, &m_30, reinterpret_cast<::S_009a7670_P3 *>(&m_24), -1.0f))
         {
             return;
         }
     }
     if (idx)
     {
-        n->FUN_00442a80(0);
-        m_34.FUN_00910b10();
+        reinterpret_cast<::TESObjectACTI *>((n))->SetActivateSound((::TESSound *)(0));
+        reinterpret_cast<::TimeoutTimer *>(&(m_34))->FUN_00910b10();
     }
-    actor2->FUN_008d8520()->vfn_43c(1);
-    actor2->TryAttack(0x72);
+    ((::fnv_009cafe0::ProcessObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor2))->GetBaseTexture()))->vfn_43c(1);
+    reinterpret_cast<::Pawn *>((actor2))->TryAttack(0x72);
     m_10 = 1;
-    if (idx && IsExplosionRadiusValid(idx))
+    if (idx && ::IsExplosionRadiusValid((::PathingRequest *)(idx)))
     {
-        DAT_011f1708->FUN_00983970(m_04, 2, 4, 1);
+        reinterpret_cast<::CombatDialogueHandler *>(((*reinterpret_cast<::fnv_009cafe0::GlobalObj * *>(&::CombatAssessment::DAT_011f1708))))->FUN_00983970((::CombatController *)(m_04), 2, 4, 1);
     }
 }
 }  // namespace fnv_009cafe0
@@ -1348,18 +1329,18 @@ struct IDebugText
 
 struct CTSHelper
 {
-    float __thiscall GetElapsedTime();
 };
 
 struct Modifier
 {
-    bool __thiscall FUN_0097fa50();
-    float __thiscall GetValue();
 };
 
 struct FUN_009cb890_shell
 {
-    void __thiscall WriteDebugText(IDebugText* debugText, int location, int justify);
+    void WriteDebugText(IDebugText* debugText, int location, int justify);
+    char pad00[0x30];
+    unsigned char unk30;
+    char pad31[0x4];
 };
 
 // Writes debug lines for the state, targeted point, high-arc flag and blocked-timer values via debugText->Write.
@@ -1381,15 +1362,15 @@ void FUN_009cb890_shell::WriteDebugText(IDebugText* debugText, int location, int
                      *reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(this) + 0x28),
                      *reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(this) + 0x2c));
 
-    if (*reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0x30))
+    if (this->unk30)
     {
         debugText->Write(location, justify, "HIGH ARC");
     }
 
-    if (reinterpret_cast<Modifier*>(reinterpret_cast<unsigned char*>(this) + 0x34)->FUN_0097fa50())
+    if (reinterpret_cast<::FUN_0097fa50_Class *>((reinterpret_cast<Modifier*>(reinterpret_cast<unsigned char*>(this) + 0x34)))->FUN_0097fa50())
     {
         debugText->Write(location, justify, "Explosive Projectile Blocked Timer: %.02f/%.02f",
-                         reinterpret_cast<CTSHelper*>(reinterpret_cast<unsigned char*>(this) + 0x34)->GetElapsedTime(),
-                         reinterpret_cast<Modifier*>(reinterpret_cast<unsigned char*>(this) + 0x34)->GetValue());
+                         reinterpret_cast<::FUN_00435e00_t *>((reinterpret_cast<CTSHelper*>(reinterpret_cast<unsigned char*>(this) + 0x34)))->FUN_00435e00(),
+                         reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<Modifier*>(reinterpret_cast<unsigned char*>(this) + 0x34)))->FUN_006b9130());
     }
 }

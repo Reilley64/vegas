@@ -3,10 +3,13 @@
 #define FNV_NIBACKTOFRONTACCUMULATOR_DECLS_H
 
 
+#include "fnv/decl/BSShaderLightingProperty.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_00a5d3d0.h"
+#include "fnv/symbols_00aa1000.h"
 class RecursiveSpinLock
 {
   public:
-    void Lock(const char*);
     unsigned int m_uiLock;
     unsigned int m_uiCount;
 };
@@ -44,7 +47,6 @@ struct NiBackToFrontGeometryList
     NiBackToFrontListItem* m_pkHead;
     NiBackToFrontListItem* m_pkTail;
     unsigned int m_uiCount;
-    void FUN_00b71300();
 };
 
 class __declspec(novtable) NiBackToFrontAccumulator : public NiObject
@@ -52,7 +54,6 @@ class __declspec(novtable) NiBackToFrontAccumulator : public NiObject
   public:
     NiBackToFrontAccumulator();
     virtual ~NiBackToFrontAccumulator();
-    void FUN_00a5d3d0();
     void QuickSort(int, int);
     float GetPivotValue(int, int);
 
@@ -67,6 +68,5 @@ class __declspec(novtable) NiBackToFrontAccumulator : public NiObject
     int m_iCurrentItem;
 };
 
-extern void NiFree(void*);
 
 #endif

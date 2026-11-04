@@ -4,12 +4,15 @@
 
 struct StreamBuffer;
 struct NiStream;
+class NiStream;
 struct NiColor
 {
     float red;
     float green;
     float blue;
     void SaveBinary(NiStream& stream);
+public:
+    void LoadBinary(::NiStream &);
 };
 typedef int(__cdecl* StreamWrite)(StreamBuffer*, const void*, unsigned int, unsigned int*, int);
 struct StreamBuffer
@@ -232,7 +235,6 @@ struct NiColorWriter
     float red;
     float green;
     float blue;
-    void WriteColor(NiStream& stream);
 };
 
 struct FUN_00eae5d0_cls : ColorContainer
@@ -243,12 +245,12 @@ struct FUN_00eae5d0_cls : ColorContainer
 // @fnv 0x00eae5d0
 void FUN_00eae5d0_cls::WriteToStream(NiStream* stream)
 {
-    ((NiColorWriter*)&firstColor)->WriteColor(*stream);
+    reinterpret_cast<::NiColor *>((((NiColorWriter*)&firstColor)))->LoadBinary(*stream);
     NiColorWriter* p = (NiColorWriter*)&secondColor;
     int n = 3;
     do
     {
-        p->WriteColor(*stream);
+        reinterpret_cast<::NiColor *>((p))->LoadBinary(*stream);
         p++;
     } while (--n != 0);
     Buf* buffer = *(Buf**)&stream->unk24C;

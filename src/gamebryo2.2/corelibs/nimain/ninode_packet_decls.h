@@ -2,24 +2,31 @@
 #ifndef NINODE_PACKET_DECLS_H
 #define NINODE_PACKET_DECLS_H
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/NiDynamicEffect.h"
+#include "fnv/decl/S_00a59e00.h"
+#include "fnv/decl/S_00a64670_Foo.h"
+#include "fnv/decl/Sphere.h"
+#include "fnv/decl/fnv_00a5a170__FUN_00a5a170_cls.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
 class NiObject;
 class NiPropertyState
 {
   public:
-    void ReleaseAllRefs();
 };
 class MemoryManager
 {
   public:
-    void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 inline void DestroyPropertyState(NiPropertyState* p)
 {
     if (p)
     {
-        p->ReleaseAllRefs();
-        g_memoryManager.Deallocate(p);
+        ::fnv_00a89890::ReleaseAllRefs((::fnv_00a89890::ArrStub *)(p));
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 }
 
@@ -28,8 +35,6 @@ class NiStream
   public:
     unsigned char pad[0xD8];
     unsigned int m_uiFormatVersion;
-    unsigned int ReadUnsignedInteger();
-    unsigned int GetLinkID();
     NiObject* GetLoadedObject();
 };
 
@@ -147,7 +152,6 @@ class NiAVObject
     virtual void UpdateSelectedDownwardPass(NiUpdateData&, unsigned int);
     virtual void UpdateRigidDownwardPass(NiUpdateData&, unsigned int);
     virtual void UpdatePropertiesDownwardPass(NiPropertyState*);
-    void BuildPropertyState(NiPropertyState*, bool, NiPropertyState*&);
     virtual void Slot45();
     virtual void UpdateWorldData(NiUpdateData& data);
     virtual void UpdateWorldBound();
@@ -158,7 +162,6 @@ class NiAVObject
     virtual void Slot52();
     virtual void OnVisible(NiCullingProcess& culler);
     virtual void Slot54();
-    void Cull(NiCullingProcess& culler);
     void EnsureWorldBound();
     unsigned char SelectedFlag() const
     {
@@ -192,7 +195,6 @@ class NiBound
   public:
     NiPoint3 m_kCenter;
     float m_fBoundRadius;
-    void Merge(const NiBound* other);
     void Set(const NiPoint3& center, float radius)
     {
         m_kCenter = center;
@@ -200,10 +202,9 @@ class NiBound
     }
 };
 
-extern NiBound DAT_011f4288;
 inline const NiBound& GetBound(NiAVObject* object)
 {
-    return object->m_pkWorldBound ? *object->m_pkWorldBound : DAT_011f4288;
+    return object->m_pkWorldBound ? *object->m_pkWorldBound : ::g_defaultBound;
 }
 
 class NiNode : public NiAVObject
@@ -238,6 +239,5 @@ class NiPointLight
     unsigned char pad[0xC4];
     float value;
     void FUN_0050dd20(float);
-    void FUN_004bc2c0();
 };
 #endif

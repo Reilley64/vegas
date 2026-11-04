@@ -3,12 +3,9 @@
 #ifndef FNV_HAVOK_HKPCOLLIDABLECOLLIDABLEFILTER_H
 #define FNV_HAVOK_HKPCOLLIDABLECOLLIDABLEFILTER_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpCollidableCollidableFilter
 {
   public:
     char pad0[0x4];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCollidableCollidableFilter[(sizeof(hkpCollidableCollidableFilter) == 0x4) ? 1 : -1];
 #endif

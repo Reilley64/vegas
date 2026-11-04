@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKAABBUINT32_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkAabbUint32
 {
   public:
@@ -15,6 +14,4 @@ class hkAabbUint32
     hkUint8 m_ucExpansionMax[3];   // +0x1C
     hkUint8 m_expansionMaxXYZ;     // +0x1F
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkAabbUint32[(sizeof(hkAabbUint32) == 0x20) ? 1 : -1];
 #endif

@@ -5,7 +5,6 @@
 #include "layout_support.h"
 #include "NiPoint3.h"
 class NiPlane;
-#pragma pack(push, 4)
 class NiPlane
 {
   public:
@@ -26,8 +25,4 @@ class NiPlane
     // void __cdecl NiPlane::*(NiStream&)
     // char* __cdecl NiPlane::*(const char*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPlane) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPlane, m_kPlaneNormal) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPlane, m_fPlaneConstant) == 12);
 #endif

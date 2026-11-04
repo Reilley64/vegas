@@ -1,9 +1,8 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void* __cdecl _NiMalloc(unsigned int);
-void __cdecl _NiFree(void*);
 
+#include "fnv/symbols_00aa1000.h"
 struct FUN_00a311e0_s
 {
     unsigned int* m_pBase;
@@ -20,7 +19,7 @@ void FUN_00a311e0_s::FUN_00a311e0(unsigned int uiCapacity)
         unsigned int* pNewBase;
         if (uiCapacity > 0)
         {
-            pNewBase = (unsigned int*)_NiMalloc(uiCapacity * 4);
+            pNewBase = (unsigned int*)::FUN_00aa1070(uiCapacity * 4);
             for (unsigned int i = 0; i < m_uiAllocatedCapacity; ++i)
                 pNewBase[i] = m_pBase[i];
         }
@@ -28,7 +27,7 @@ void FUN_00a311e0_s::FUN_00a311e0(unsigned int uiCapacity)
         {
             pNewBase = 0;
         }
-        _NiFree(m_pBase);
+        ::FUN_00aa10f0(m_pBase);
         m_pBase = pNewBase;
         m_uiElementCount = uiCapacity;
     }

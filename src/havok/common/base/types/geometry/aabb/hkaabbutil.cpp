@@ -2,21 +2,13 @@
 // src/havok/common/base/types/geometry/aabb/hkaabbutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/types/geometry/aabb/hkaabbutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+#include <xmmintrin.h>
+#include "fnv_simd.h"
+#include "fnv/decl/FUN_00cb21e0_shell.h"
+#include "fnv/decl/RotationRows.h"
 
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_load_ps1(const float* p);
+#include "fnv/symbols_simd.h"
 
-extern const __m128 DAT_01017d10;
-extern const __m128 DAT_010c44d0;
 
 struct hkVector4D262
 {
@@ -112,22 +104,6 @@ void __cdecl FUN_00d26230(const hkTransformD262& localToWorld, const hkVector4D2
     aabbOut.m_kMinimumCorner = min;
 }
 
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ss(__m128 a, __m128 b);
-    __m128 _mm_mul_ss(__m128 a, __m128 b);
-    __m128 _mm_rsqrt_ss(__m128 a);
-    __m128 _mm_cmpeq_ss(__m128 a, __m128 b);
-    __m128 _mm_andnot_ps(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm8);
-    __m128 _mm_set_ss(float a);
-    __m128 _mm_set_ps1(float a);
-}
 
 static const __declspec(align(16)) float g_quadOne[4] = {1.0f, 1.0f, 1.0f, 1.0f};
 
@@ -211,7 +187,6 @@ struct hkRotationq
     hkVector4q m_kColumn1;
     hkVector4q m_kColumn2;
 
-    void FUN_00cb2d90(const hkQuaternionq& q);
     __forceinline const hkVector4q& getColumn(int i) const
     {
         return (&m_kColumn0)[i];
@@ -262,7 +237,7 @@ class hkSweptTransformq
         hkQuaternionq q;
         q.m_vec.setInterpolate4(m_qRotation0.m_vec, m_qRotation1.m_vec, t4);
         q.normalize();
-        transformOut.m_rotation.FUN_00cb2d90(q);
+        reinterpret_cast<::RotationRows *>(&(transformOut.m_rotation))->FUN_00cb2d90((void *)&(q));
 
         transformOut.m_vTranslation.setInterpolate4(m_vCenterOfMass0, m_vCenterOfMass1, t4);
         hkVector4q centerShift;
@@ -279,11 +254,11 @@ class hkSweptTransformq
         __m128 left = _mm_sub_ps(*(const __m128*)g_quadOne, weight);
         left = _mm_mul_ps(left, m_qRotation0.m_vec.m_vComponents);
         t4.m_vComponents = weight;
-        __m128 right = _mm_mul_ps(_mm_load_ps(t4.m_vComponents.m128_f32), m_qRotation1.m_vec.m_vComponents);
+        __m128 right = _mm_mul_ps(_mm_load_ps(fnv_simd_as<float>(t4.m_vComponents)), m_qRotation1.m_vec.m_vComponents);
         q.m_vec.m_vComponents = _mm_add_ps(left, right);
 
         q.normalizeLoop();
-        transformOut.m_rotation.FUN_00cb2d90(q);
+        reinterpret_cast<::RotationRows *>(&(transformOut.m_rotation))->FUN_00cb2d90((void *)&(q));
 
         transformOut.m_vTranslation.setInterpolate4(m_vCenterOfMass0, m_vCenterOfMass1, t4);
         hkVector4q centerShift;
@@ -302,7 +277,6 @@ struct hkMotionStateq
 struct SweptSampleInfo
 {
     hkTransformq m_frame;
-    void FUN_00cb21e0(const hkMotionStateq* motionState);
 };
 
 struct SweptTransformSamples
@@ -325,7 +299,7 @@ struct SweptTransformSamples
 void FUN_00cbec90(const hkMotionStateq* motionState, SweptTransformSamples* out)
 {
     out->m_kMotionState = motionState;
-    out->m_info.FUN_00cb21e0(motionState);
+    reinterpret_cast<::FUN_00cb21e0_shell *>(&(out->m_info))->FUN_00cb21e0((const ::Matrix44 *)(motionState));
 
     const hkSweptTransformq& swept = motionState->m_kSweptTransform;
     swept.EvaluateTransformAtTime(swept.m_vCenterOfMass0(3), out->m_kMotionTransform);
@@ -333,7 +307,7 @@ void FUN_00cbec90(const hkMotionStateq* motionState, SweptTransformSamples* out)
     if (swept.getInvDeltaTime() != 0.0f)
     {
         float deltaTime = 1.0f / swept.getInvDeltaTime();
-        float angle = motionState->m_kDeltaAngle.m_vComponents.m128_f32[3];
+        float angle = fnv_simd_as<float>(motionState->m_kDeltaAngle.m_vComponents)[3];
 
         if (angle <= 0.39269909262657166)
         {

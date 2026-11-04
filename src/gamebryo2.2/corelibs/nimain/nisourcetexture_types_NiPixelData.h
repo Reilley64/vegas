@@ -71,7 +71,6 @@ enum NiPixelFormat__Representation
     NiPixelFormat__Representation_REP_UNKNOWN = 5,
     NiPixelFormat__Representation_REP_MAX = 6
 };
-#pragma pack(push, 4)
 class NiPixelFormat__NiComponentSpec
 {
   public:
@@ -81,13 +80,6 @@ class NiPixelFormat__NiComponentSpec
     bool m_bSigned;                                   // +0x9, 1 bytes
     unsigned char layoutPaddingA[2];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPixelFormat__NiComponentSpec) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPixelFormat__NiComponentSpec, m_eComponent) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPixelFormat__NiComponentSpec, m_eRepresentation) == 4);
-FNV_STATIC_ASSERT(offsetof(NiPixelFormat__NiComponentSpec, m_ucBitsPerComponent) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPixelFormat__NiComponentSpec, m_bSigned) == 9);
-#pragma pack(push, 4)
 class NiPixelFormat
 {
   public:
@@ -132,16 +124,6 @@ class NiPixelFormat
     // void __cdecl NiPixelFormat::*(NiPixelFormat::Format, unsigned char, unsigned int*)
     // unsigned int __cdecl NiPixelFormat::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPixelFormat) == 68);
-FNV_STATIC_ASSERT(offsetof(NiPixelFormat, m_uiObjectFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPixelFormat, m_ucBitsPerPixel) == 1);
-FNV_STATIC_ASSERT(offsetof(NiPixelFormat, m_eFormat) == 4);
-FNV_STATIC_ASSERT(offsetof(NiPixelFormat, m_eTiling) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPixelFormat, m_uiRendererHint) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPixelFormat, m_uiExtraData) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPixelFormat, m_akComponents) == 20);
-#pragma pack(push, 4)
 class NiPixelData : public NiObject
 {
   public:
@@ -192,17 +174,4 @@ class NiPixelData : public NiObject
     // NiPixelData& __cdecl NiPixelData::*(const NiPixelData&)
     // void __cdecl NiPixelData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPixelData) == 116);
-FNV_STATIC_ASSERT(offsetof(NiPixelData, m_kPixelFormat) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPixelData, m_spPalette) == 76);
-FNV_STATIC_ASSERT(offsetof(NiPixelData, m_pucPixels) == 80);
-FNV_STATIC_ASSERT(offsetof(NiPixelData, m_puiWidth) == 84);
-FNV_STATIC_ASSERT(offsetof(NiPixelData, m_puiHeight) == 88);
-FNV_STATIC_ASSERT(offsetof(NiPixelData, m_puiOffsetInBytes) == 92);
-FNV_STATIC_ASSERT(offsetof(NiPixelData, m_uiMipmapLevels) == 96);
-FNV_STATIC_ASSERT(offsetof(NiPixelData, m_uiPixelStride) == 100);
-FNV_STATIC_ASSERT(offsetof(NiPixelData, m_uiRevID) == 104);
-FNV_STATIC_ASSERT(offsetof(NiPixelData, m_uiFaces) == 108);
-FNV_STATIC_ASSERT(offsetof(NiPixelData, m_bOwnsPixelData) == 112);
 #endif

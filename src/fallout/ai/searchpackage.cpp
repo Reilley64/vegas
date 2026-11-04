@@ -2,22 +2,11 @@
 // src/fallout/ai/searchpackage.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/searchpackage.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00401000.h"
 struct SearchPackage
 {
     void* DestroyIfFlagged(unsigned int flags);
-    void* FUN_009f67b0();
 };
-extern void __cdecl _Deallocate(void*);
-
-// Calls FUN_009f67b0, then deallocates this when flags has bit 0 set, and returns this.
-// @fnv 0x009f6680
-void* SearchPackage::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_009f67b0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
 
 struct TESPackage
 {
@@ -192,6 +181,15 @@ struct FUN_009f67b0_cls : TESPackage
     DeadShell unk194;
     virtual ~FUN_009f67b0_cls();
 };
+// Calls FUN_009f67b0, then deallocates this when flags has bit 0 set, and returns this.
+// @fnv 0x009f6680
+void* SearchPackage::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_009f67b0_cls *>(this)->FUN_009f67b0_cls::~FUN_009f67b0_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // Destructor for the package class; the body is empty, leaving member destruction to the compiler-generated code.
 // @fnv 0x009f67b0

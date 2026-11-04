@@ -7,7 +7,8 @@
 // canonical generated Setting.h omits those vanilla accessors, so the needed
 // declarations are authored locally for this TU.
 
-#pragma pack(push, 4)
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_011d5000.h"
 union SETTING_VALUE
 {
   public:
@@ -19,7 +20,6 @@ union SETTING_VALUE
     char c;           // +0x0
     unsigned char h;  // +0x0
 };
-#pragma pack(pop)
 
 class GameSettingCollection
 {
@@ -30,10 +30,8 @@ class SettingT_GameSettingCollection_
   public:
     SettingT_GameSettingCollection_();
     ~SettingT_GameSettingCollection_();
-    SETTING_VALUE* Float();
 };
 
-extern SettingT_GameSettingCollection_ fActionPointsRestoreRate;
 
 class ActionPoints
 {
@@ -44,7 +42,7 @@ class ActionPoints
 // @fnv 0x0066dda0
 float ActionPoints::GetActionPoints()
 {
-    return fActionPointsRestoreRate.Float()->f;
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d5ff4))))))->f;
 }
 
 // Returns true for action codes 0-8, 16, 17, 19, 20 and 21, and false for any other code.
@@ -131,3 +129,5 @@ char const* FUN_0066ddc0(int index)
 {
     return DAT_0119bb50[index]->GetMenuTitle();
 }
+
+#include "generated/data/fallout_shared/actionpoints.inc"

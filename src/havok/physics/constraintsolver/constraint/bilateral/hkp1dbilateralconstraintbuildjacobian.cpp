@@ -2,22 +2,10 @@
 // src/havok/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned int m128_u32[4];
-} __m128;
+#include <xmmintrin.h>
+#include "fnv/symbols_010c9000.h"
+#include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct hkVector4
 {
@@ -190,19 +178,19 @@ void __cdecl ComputeAngularJacobian(const Info_dcf880& info, const QueryIn_dcf88
         hkVector4 s;
         s.setXYZW(vWeighted, m);
         float diag = s.horizontalAdd4() + 1.1920928955078125e-07;
-        jac->m_angular1.m_vComponents.m128_f32[3] = diag;
-        jac->m_angular0.m_vComponents.m128_f32[3] = 1.0f / diag;
+        jac->m_angular1.m_vComponents[3] = diag;
+        jac->m_angular0.m_vComponents[3] = 1.0f / diag;
     }
     {
         hkVector4 d;
         d.setSub4(info.m_kPivotB, info.m_kPivotA);
-        jac->m_kLinearJacobian.m_vComponents.m128_f32[3] = d.dot3(info.m_dir) * factor;
+        jac->m_kLinearJacobian.m_vComponents[3] = d.dot3(info.m_dir) * factor;
     }
     Jac_dcf880* pJacOut = aQueryOut.m_pJacobian;
     float f34 = info.m_34;
     pJacOut->m_30 = info.m_30;
     pJacOut->m_34 = f34;
-    pJacOut->m_kLinearJacobian.m_vComponents.m128_f32[0] += 1.1920928955078125e-07;
+    pJacOut->m_kLinearJacobian.m_vComponents[0] += 1.1920928955078125e-07;
     *(unsigned char*)pJacOut = 7;
     aQueryOut.m_pJacobian = pJacOut + 1;
 }
@@ -335,7 +323,6 @@ void __cdecl FUN_00dcf100(S_00dcf100_In* pInput, S_00dcf100_Cfg* pConfig, S_00dc
 void __cdecl FUN_00dcee70()
 {}
 
-extern double DAT_010c9300;
 // Fills out with info's direction as the linear term and two angular terms from the body pivot offsets, then sets w terms from inverse inertia, rhs and scale.
 // @fnv 0x00dcf460
 static __declspec(noinline) void FUN_00dcf460(Jac_dcf880* apJacobian, const Info_dcf880* info,
@@ -381,9 +368,9 @@ static __declspec(noinline) void FUN_00dcf460(Jac_dcf880* apJacobian, const Info
     combined.setXYZW(sumAB, invMassesSum);
 
     float sum = combined.horizontalAdd4() + DAT_010c9300;
-    apJacobian->m_angular1.m_vComponents.m128_f32[3] = sum;
-    apJacobian->m_angular0.m_vComponents.m128_f32[3] = rhs / sum;
-    apJacobian->m_kLinearJacobian.m_vComponents.m128_f32[3] = apQuery->m_factor * scale;
+    apJacobian->m_angular1.m_vComponents[3] = sum;
+    apJacobian->m_angular0.m_vComponents[3] = rhs / sum;
+    apJacobian->m_kLinearJacobian.m_vComponents[3] = apQuery->m_factor * scale;
 }
 Jac_dcf880* volatile g_out_dcf460;
 const Info_dcf880* volatile g_info_dcf460;
@@ -419,7 +406,6 @@ struct Jacobian_dcf5b0
     Vector_dcf5b0 angularA;
     Vector_dcf5b0 angularB;
 };
-extern double DAT_010c9300;
 
 // Builds a Jacobian from a pivot, direction and two body frames, writes it to the output slot, and advances the output pointer.
 // @fnv 0x00dcf5b0
@@ -482,7 +468,6 @@ void __cdecl FUN_00dcf5b0(Input_dcf5b0* apInput, S_00dcf100_Cfg* apCfg, Jacobian
     *ppJacobian = out;
 }
 
-extern double DAT_010c9300;
 
 // @fnv 0x00dcfa30
 void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* apCfg, Jac_dcf880** ppJacobian)
@@ -534,8 +519,8 @@ void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* apCfg, Jac_dcf880** p
 
     float tt = (float)((double)sum + DAT_010c9300);
     double c = DAT_010c9300;
-    out->m_angular1.m_vComponents.m128_f32[3] = tt;
-    out->m_angular0.m_vComponents.m128_f32[3] = fa / tt;
+    out->m_angular1.m_vComponents[3] = tt;
+    out->m_angular0.m_vComponents[3] = fa / tt;
 
     __m128 d =
         _mm_mul_ps(_mm_sub_ps(a1->m_kPivotB.m_vComponents, a1->m_kPivotA.m_vComponents), a1->m_dir.m_vComponents);
@@ -543,7 +528,7 @@ void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* apCfg, Jac_dcf880** p
     __m128 q = _mm_add_ss(_mm_shuffle_ps(d, d, 0xaa), p);
     float dot;
     _mm_store_ss(&dot, q);
-    out->m_kLinearJacobian.m_vComponents.m128_f32[3] = dot * fCfg20;
+    out->m_kLinearJacobian.m_vComponents[3] = dot * fCfg20;
 
     float nfb = -apCfg->f20;
     float t30 = a1->m_30;
@@ -552,13 +537,10 @@ void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* apCfg, Jac_dcf880** p
     *ppJacobian = o + 1;
     o->m_30 = t30 * nfb;
     o->m_34 = t34 * nfb;
-    o->m_kLinearJacobian.m_vComponents.m128_f32[0] = (float)(c + o->m_kLinearJacobian.m_vComponents.m128_f32[0]);
+    o->m_kLinearJacobian.m_vComponents[0] = (float)(c + o->m_kLinearJacobian.m_vComponents[0]);
     *(unsigned char*)&o->m_kLinearJacobian.m_vComponents = 8;
 }
 
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern double DAT_010c9300;
-extern __m128 DAT_010c44d0;
 struct Src
 {
     __m128* verts;
@@ -607,7 +589,7 @@ void __cdecl FUN_00dcefb0(Src* apSrc, Cfg* cfg, JOut** appOut)
         {
             S_00dcf100_Body* B = cfg->B;
             S_00dcf100_Body* A = cfg->A;
-            __m128 neg = _mm_xor_ps((*pv), DAT_010c44d0);
+            __m128 neg = _mm_xor_ps((*pv), ::DAT_010c44d0);
             __m128 r1 = _mm_mul_ps(_mm_shuffle_ps((*pv), (*pv), 0x55), S_Ld(A->col1));
             r1 = _mm_add_ps(r1, _mm_mul_ps(_mm_shuffle_ps((*pv), (*pv), 0), S_Ld(A->col0)));
             r1 = _mm_add_ps(r1, _mm_mul_ps(_mm_shuffle_ps((*pv), (*pv), 0xaa), S_Ld(A->col2)));
@@ -657,7 +639,6 @@ struct Jacobian_dcf280
     Vector_dcf280 angularA;
     Vector_dcf280 angularB;
 };
-extern double DAT_010c9300;
 
 // Fills the Jacobian at *a3 with the direction as the linear term and two angular terms from pivot offsets of the two bodies in a2, then advances *a3.
 // @fnv 0x00dcf280
@@ -877,7 +858,6 @@ void FUN_00dcf720(const S_00dcf720_Info& info, const S_00dcf720_QueryIn& in, S_0
 
 // Adapted from an earlier contributor's 2026-10-21 WIP; retain prior credit.
 
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 
 static const double S00dcee80_kEps = 1.1920928955078125e-07;
 struct __declspec(align(16)) S_00dcee80_Vector4
@@ -935,7 +915,7 @@ struct __declspec(align(16)) S_00dcee80_Vector4
 __forceinline void S_00dcee80_Vector4::setNeg4(const S_00dcee80_Vector4& v)
 {
 
-    q() = _mm_xor_ps(v.q(), DAT_010c44d0);
+    q() = _mm_xor_ps(v.q(), ::DAT_010c44d0);
 }
 
 struct S_00dcee80_Matrix3
@@ -1077,4 +1057,142 @@ void FUN_00dcee80(const S_00dcee80_Info& info, const S_00dcee80_QueryIn& in, S_0
     head->m_uiFilterValue = head->m_uiFilterValue + S00dcee80_kEps;
 
     *reinterpret_cast<unsigned char*>(head) = 0xc;
+}
+
+// Moved from hkp1dbilateralconstraintbuildjacobian_rtm_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_01268000.h"
+static void FUN_00dcf460(Jac_dcf880* out, const Info_dcf880* info, const QueryIn_dcf880* in, float scale);
+void CallTarget_dcf460();
+
+#include <math.h>
+struct Input102
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    float factor, tau;
+    int unk28, unk2c;
+    Accum_dcf880* bodyA;
+    Accum_dcf880* bodyB;
+};
+struct Row102
+{
+    hkVector4 linear, angularA, angularB;
+};
+void FUN_00d6c970(const hkVector4*, const hkVector4*, const Input102*, Row102*);
+static float DotValue(__m128 v, __m128 a)
+{
+    __m128 p = _mm_mul_ps(v, a);
+    __m128 t = _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p));
+    float f;
+    _mm_store_ss(&f, t);
+    return f;
+}
+static void RotateCols(hkVector4& out, const hkVector4& c0, const hkVector4& c1, const hkVector4& c2,
+                       const hkVector4& v)
+{
+    __m128 r0 = _mm_mul_ps(c0.m_vComponents, _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0));
+    __m128 r1 = _mm_mul_ps(c1.m_vComponents, _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0x55));
+    __m128 r2 = _mm_mul_ps(c2.m_vComponents, _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xaa));
+    out.m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
+}
+union Velocity102
+{
+    __m128 m_vComponents;
+    struct
+    {
+        float x, y, z, w;
+    } lanes;
+    float& at(int i)
+    {
+        return reinterpret_cast<float*>(&m_vComponents)[i];
+    }
+};
+// @fnv 0x00dcfc00
+void FUN_00dcfc00(const hkVector4* pivotA, const hkVector4* pivotB, float maxForce, const Input102* in, Row102* jac)
+{
+    Accum_dcf880* bodyA = in->bodyA;
+    Accum_dcf880* bodyB = in->bodyB;
+    FUN_00d6c970(pivotA, pivotB, in, jac);
+    Velocity102 velocity;
+    velocity.at(0) = jac[0].linear.m_vComponents[3];
+    velocity.at(1) = jac[1].linear.m_vComponents[3];
+    velocity.at(2) = jac[2].linear.m_vComponents[3];
+    float limit = in->factor * maxForce;
+    __m128 squared = _mm_mul_ps(velocity.m_vComponents, velocity.m_vComponents);
+    __m128 sum =
+        _mm_add_ss(_mm_shuffle_ps(squared, squared, 0xaa), _mm_add_ss(_mm_shuffle_ps(squared, squared, 0x55), squared));
+    float length;
+    _mm_store_ss(&length, _mm_sqrt_ss(sum));
+    if (length > limit)
+    {
+        float scale = limit / length;
+        scale = sqrtf(scale);
+        scale = sqrtf(scale);
+        double eps = DAT_010c9300;
+        __m128 ones = DAT_010ec7f0;
+        __m128 t = _mm_load_ss(&scale);
+        __m128 sa = _mm_shuffle_ps(t, t, 0);
+        hkVector4 a;
+        a.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(ones, sa), bodyA->m_kCenterPosition.m_vComponents),
+                                     _mm_mul_ps(pivotA->m_vComponents, sa));
+        __m128 t2 = _mm_load_ss(&scale);
+        __m128 sb = _mm_shuffle_ps(t2, t2, 0);
+        hkVector4 b;
+        b.m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(ones, sb), bodyB->m_kCenterPosition.m_vComponents),
+                                     _mm_mul_ps(pivotB->m_vComponents, sb));
+        Row102* row = jac;
+        hkVector4* axis = (*reinterpret_cast<hkVector4 (*)[]>(&::DAT_01268370));
+        int n = 0;
+        do
+        {
+            float tau = in->tau;
+            float factor = in->factor;
+            row->linear = *axis;
+            hkVector4 ra;
+            hkVector4 rb;
+            ra.setSub4(a, bodyA->m_kCenterPosition);
+            rb.setSub4(b, bodyB->m_kCenterPosition);
+            hkVector4 ca;
+            hkVector4 cb;
+            ca.setCross(ra, *axis);
+            cb.setCross(*axis, rb);
+            RotateCols(row->angularA, bodyA->m_rot.m_kColumn0, bodyA->m_rot.m_kColumn1, bodyA->m_rot.m_kColumn2, ca);
+            __m128 rotationB0 = _mm_mul_ps(bodyB->m_rot.m_kColumn0.m_vComponents,
+                                           _mm_shuffle_ps(cb.m_vComponents, cb.m_vComponents, 0));
+            __m128 rotationB1 = _mm_mul_ps(bodyB->m_rot.m_kColumn1.m_vComponents,
+                                           _mm_shuffle_ps(cb.m_vComponents, cb.m_vComponents, 85));
+            __m128 rotationB2 = _mm_mul_ps(bodyB->m_rot.m_kColumn2.m_vComponents,
+                                           _mm_shuffle_ps(cb.m_vComponents, cb.m_vComponents, 170));
+            row->angularB.m_vComponents = _mm_add_ps(_mm_add_ps(rotationB0, rotationB1), rotationB2);
+            hkVector4 invB;
+            invB.m_vComponents = bodyB->m_vInverseInertiaAndMass.m_vComponents;
+            hkVector4 invA;
+            invA.m_vComponents = bodyA->m_vInverseInertiaAndMass.m_vComponents;
+            hkVector4 massA;
+            hkVector4 massB;
+            hkVector4 total;
+            hkVector4 linearMass;
+            massA.setMul4(row->angularA, row->angularA);
+            massA.mul4(invA);
+            massB.setMul4(row->angularB, row->angularB);
+            massB.mul4(invB);
+            total.setAdd4(massA, massB);
+            linearMass.setAdd4(invA, invB);
+            total.setXYZW(total, linearMass);
+            float diagonal = total.horizontalAdd4() + eps;
+            __m128 projectedInput = _mm_sub_ps(b.m_vComponents, a.m_vComponents);
+            row->angularB.m_vComponents[3] = diagonal;
+            row->angularA.m_vComponents[3] = tau / diagonal;
+            row->linear.m_vComponents[3] = DotValue(projectedInput, axis->m_vComponents) * factor;
+            ++axis;
+            ++row;
+            ++n;
+        } while (n < 3);
+
+        float k = scale;
+        jac[0].linear.m_vComponents[3] = velocity.m_vComponents[0] * k;
+        jac[1].linear.m_vComponents[3] = velocity.m_vComponents[1] * k;
+        jac[2].linear.m_vComponents[3] = velocity.m_vComponents[2] * k;
+    }
 }

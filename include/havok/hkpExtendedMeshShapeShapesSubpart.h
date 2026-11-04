@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpExtendedMeshShapeSubpart.h"
 class hkpConvexShape;
-#pragma pack(push, 1)
 class hkpExtendedMeshShapeShapesSubpart : public hkpExtendedMeshShapeSubpart
 {
   public:
@@ -14,7 +13,4 @@ class hkpExtendedMeshShapeShapesSubpart : public hkpExtendedMeshShapeSubpart
     hkQuaternion m_rotation;                  // +0x20
     hkVector4 m_vTranslation;                 // +0x30
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpExtendedMeshShapeShapesSubpart[(sizeof(hkpExtendedMeshShapeShapesSubpart) == 0x40) ? 1 : -1];
 #endif

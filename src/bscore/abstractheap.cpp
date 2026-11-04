@@ -1,5 +1,14 @@
 // bscore/abstractheap.cpp: AbstractHeap, HeapFreeBlock, AbstractHeapDump, AbstractHeapBuckets and more (19 functions)
 
+#include <cstdint>
+#include <windows.h>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00aaa6e0_Class.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_011f6000.h"
 #include "abstractheap_decls.h"
 
 // @fnv 0x00aa9bd0
@@ -94,7 +103,7 @@ void* AbstractHeap::BaseAllocate(unsigned int size)
                         }
                         pBlock->SetDecommitted(false);
                         char szMessage[256];
-                        sprintf_s(szMessage, 256, "Committing Entire Free Block: %08X, %08X\r\n", pBlock, iCommitSize);
+                        ::FUN_00406d00(szMessage, 256, "Committing Entire Free Block: %08X, %08X\r\n", pBlock, iCommitSize);
                         if (AbstractHeapHasLog())
                         {
                             AbstractHeapLogger::Get()->vfn_14(2, szMessage, 0, 0, 0);
@@ -104,7 +113,7 @@ void* AbstractHeap::BaseAllocate(unsigned int size)
                     unsigned int iRemainingSize = uiBlockSize - (size + sizeof(MemoryBlockHeader));
                     pNewBlock->m_pNextFree = 0;
                     pNewBlock->m_pPrevFree = 0;
-                    pNewBlock->SetFlags(iRemainingSize, 0);
+                    reinterpret_cast<::FUN_00aaa6e0_Class *>((pNewBlock))->SetFlags(iRemainingSize, (int)(0));
                     pNewBlock->SetPrevious(pBlock);
                     if (pBlock == m_pLastBlock)
                         m_pLastBlock = pNewBlock;
@@ -130,7 +139,7 @@ void* AbstractHeap::BaseAllocate(unsigned int size)
                         }
                         pBlock->SetDecommitted(false);
                         char szMessage[256];
-                        sprintf_s(szMessage, 256, "Committing perfectly matched Free Block: %08X, %08X\r\n", pBlock,
+                        ::FUN_00406d00(szMessage, 256, "Committing perfectly matched Free Block: %08X, %08X\r\n", pBlock,
                                   size + sizeof(MemoryBlockHeader));
                         if (AbstractHeapHasLog())
                         {
@@ -139,7 +148,7 @@ void* AbstractHeap::BaseAllocate(unsigned int size)
                     }
                 }
                 pBlock->SetSize(size);
-                pMemory = (char*)pBlock + sizeof(MemoryBlockHeader);
+                pMemory = (char*)&pBlock->m_pNextFree;
                 m_iAllocatedBlockSize += pBlock->GetTotalSize();
                 break;
             }
@@ -164,14 +173,14 @@ void* AbstractHeap::BaseAllocate(unsigned int size)
                     return 0;
                 }
                 char szMessage[256];
-                sprintf_s(szMessage, 256, "Committing memory on end of heap: %08X, %08X\r\n", pBlock,
+                ::FUN_00406d00(szMessage, 256, "Committing memory on end of heap: %08X, %08X\r\n", pBlock,
                           size + sizeof(MemoryBlockHeader));
                 if (AbstractHeapHasLog())
                 {
                     AbstractHeapLogger::Get()->vfn_14(2, szMessage, 0, 0, 0);
                 }
             }
-            pBlock->SetFlags(size, 0);
+            reinterpret_cast<::FUN_00aaa6e0_Class *>((pBlock))->SetFlags(size, (int)(0));
             PushBlock(pBlock);
             m_iUsedSize += uiBlockAllocationSizeItem;
             if (m_iUsedSize > m_iAllocationCount)
@@ -321,22 +330,28 @@ void AbstractHeap::PushBlock(MemoryBlockHeader* block)
     ++m_iFreeBlockCount;
 }
 
-struct FUN_00aaa560_shell
+struct FUN_00aaa560_node
 {
-    int __thiscall FUN_00aaa560(int arg);
+    char unk00[0x4c];
+    FUN_00aaa560_node* pNext;
 };
 
-// Returns -1 if arg is null, otherwise counts nodes by following the pointer at offset 0x4C until it is null.
+struct FUN_00aaa560_shell
+{
+    int FUN_00aaa560(FUN_00aaa560_node* pNode);
+};
+
+// Returns -1 if pNode is null, otherwise counts the nodes that follow it through pNext.
 // @fnv 0x00aaa560
-int __thiscall FUN_00aaa560_shell::FUN_00aaa560(int pNode)
+int FUN_00aaa560_shell::FUN_00aaa560(FUN_00aaa560_node* pNode)
 {
     if (!pNode)
         return -1;
     int count = 0;
-    while (*(int*)(pNode + 0x4C))
+    while (pNode->pNext)
     {
         ++count;
-        pNode = *(int*)(pNode + 0x4C);
+        pNode = pNode->pNext;
     }
     return count;
 }
@@ -345,7 +360,6 @@ struct MemoryManager
 {
     void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 struct Heap00aaa5b0
 {
     void FUN_00aa8da0();
@@ -358,14 +372,12 @@ Heap00aaa5b0* Heap00aaa5b0::DestroyIfFlagged(unsigned int flags)
     FUN_00aa8da0();
     if (flags & 1)
     {
-        g_memoryManager.Deallocate(this);
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     }
     return this;
 }
 
 struct _RTL_CRITICAL_SECTION;
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(_RTL_CRITICAL_SECTION*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(_RTL_CRITICAL_SECTION*);
 struct FreeHeapBlock_aa9
 {
     unsigned int m_uiChunkSize;
@@ -388,7 +400,7 @@ struct SubBucket_aa9
 };
 struct FUN_00aaa0d0_s
 {
-    void FUN_00aaa0d0(int);
+    void FUN_00aaa0d0(std::intptr_t);
 };
 struct FUN_00aa9fb0_heap
 {
@@ -419,7 +431,7 @@ void FUN_00aa9fb0_heap::FUN_00aa9fb0()
             pblock = m_kSubBucketLists[isub].pList->pHead;
             while (pblock)
             {
-                ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((int)pblock);
+                ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((std::intptr_t)pblock);
                 pblock = pblock->pNext;
             }
         }
@@ -429,14 +441,14 @@ void FUN_00aa9fb0_heap::FUN_00aa9fb0()
         pblock = m_kFreeLists[i2].pHead;
         while (pblock)
         {
-            ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((int)pblock);
+            ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((std::intptr_t)pblock);
             pblock = pblock->pNext;
         }
     }
     pblock = m_kFreeListSentinel.pHead;
     while (pblock)
     {
-        ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((int)pblock);
+        ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((std::intptr_t)pblock);
         pblock = pblock->pNext;
     }
     pfreeCur = m_pLastBlock;
@@ -446,19 +458,6 @@ void FUN_00aa9fb0_heap::FUN_00aa9fb0()
     }
     LeaveCriticalSection((_RTL_CRITICAL_SECTION*)kCS);
 }
-
-struct _MEMORYSTATUS
-{
-    unsigned long dwLength;
-    unsigned long dwMemoryLoad;
-    unsigned long dwTotalPhys;
-    unsigned long dwAvailPhys;
-    unsigned long dwTotalPageFile;
-    unsigned long dwAvailPageFile;
-    unsigned long dwTotalVirtual;
-    unsigned long dwAvailVirtual;
-};
-extern "C" __declspec(dllimport) void __stdcall GlobalMemoryStatus(_MEMORYSTATUS*);
 
 struct AbstractHeapDump : AbstractHeap
 {
@@ -476,7 +475,7 @@ void AbstractHeapDump::LogFreeBlockStats(unsigned int blockSize, HeapFreeList* l
         unsigned int total = 0;
         _MEMORYSTATUS status3;
         char buffer[256];
-        sprintf_s(buffer, 256, "AbstractHeap: Checking list for block size %u\n", blockSize);
+        ::FUN_00406d00(buffer, 256, "AbstractHeap: Checking list for block size %u\n", blockSize);
         AbstractHeapLogger::Get()->vfn_14(2, buffer, 0, 0, 0);
         if (list)
         {
@@ -492,7 +491,7 @@ void AbstractHeapDump::LogFreeBlockStats(unsigned int blockSize, HeapFreeList* l
             }
         }
         GlobalMemoryStatus(&status3);
-        sprintf_s(
+        ::FUN_00406d00(
             buffer, 256,
             "\tNumber of blocks free: %u\n\tLargest free block: %u\n\tTotal space in free blocks: %u\n\tAvailable global memory: %u\n",
             numBlocks4, largest, total, status3.dwAvailPhys);
@@ -701,3 +700,5 @@ void AbstractHeapX::GetHeapStats(HeapStatsX* stats, bool full)
     stats->m_uiTrailingStatsValue = stats->iMemHeapSize - stats->m_iUsedSize + stats->iFreeSize;
     fnv_LeaveCriticalSection(&this->cs);
 }
+
+#include "generated/data/bscore/abstractheap.inc"

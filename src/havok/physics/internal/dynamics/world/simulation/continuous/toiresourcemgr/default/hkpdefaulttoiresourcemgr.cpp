@@ -2,16 +2,20 @@
 // src/havok/physics/internal/dynamics/world/simulation/continuous/toiresourcemgr/default/hkpdefaulttoiresourcemgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/dynamics/world/simulation/continuous/toiresourcemgr/default/hkpdefaulttoiresourcemgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/FUN_00d9fb30_Stub.h"
+#include "fnv/symbols_010d4000.h"
+#include "fnv/symbols_01269000.h"
 #include "havok/hkpDefaultToiResourceMgr.h"
 
-extern char g_0126955c_arg0;
 
 // Calls two virtual functions on self: one with a pointer to g_0126955c_arg0, then one with no arguments.
 // @fnv 0x00d9fb50
-void __stdcall FUN_00d9fb50(void* self, int aiUnused)
+void FUN_00d9fb50(void* self, int aiUnused)
 {
-    (*(void(__thiscall**)(void*, char*))(*(char**)self + 0x18))(self, &g_0126955c_arg0);
-    (*(void(__thiscall**)(void*))(*(char**)self + 0x1c))(self);
+    (*(void(**)(void*, char*))(*(char**)self + 0x18))(self, &(*reinterpret_cast<char *>((void *)&::g_0126955c_arg0)));
+    (*(void(**)(void*))(*(char**)self + 0x1c))(self);
 }
 
 extern int DAT_010d4310;
@@ -80,7 +84,7 @@ void* FUN_00d9fc30Class::AllocateMemory(int, int, FUN_00d9fc30Arg* pInfo)
 namespace fnv_00d9fc70 {
 struct FUN_00d9fc70_MemoryManager;
 
-typedef void(__thiscall* FUN_00d9fc70_Callback)(FUN_00d9fc70_MemoryManager*, void*, unsigned short);
+typedef void(* FUN_00d9fc70_Callback)(FUN_00d9fc70_MemoryManager*, void*, unsigned short);
 
 struct FUN_00d9fc70_MemoryManager
 {
@@ -99,17 +103,16 @@ struct FUN_00d9fc70_Class
     void* vtable;
     unsigned short value;
 
-    void __thiscall FUN_00d9fb30();
-    void* __thiscall FUN_00d9fc70(unsigned char flag);
+    void* FUN_00d9fc70(unsigned char flag);
 };
 
 FUN_00d9fc70_Router* _D1A0E0GetMemoryRouter();
 
 // Calls FUN_00d9fb30, then if flag bit 0 is set, invokes the memory manager's vtable[2] callback with this and value, and returns this.
 // @fnv 0x00d9fc70
-void* __thiscall FUN_00d9fc70_Class::FUN_00d9fc70(unsigned char flag)
+void* FUN_00d9fc70_Class::FUN_00d9fc70(unsigned char flag)
 {
-    FUN_00d9fb30();
+    reinterpret_cast<::FUN_00d9fb30_Stub *>(this)->FUN_00d9fb30();
 
     if (flag & 1)
     {
@@ -135,41 +138,18 @@ int __cdecl FUN_00d9fb70()
 // Returns the address of the global registration object that lives at
 // DAT_0126955c.  The startup code fills that object (13 dwords) through a
 // constructor call, and this getter hands out its address.
-extern int DAT_0126955c;
 
 // @fnv 0x00d9fc60
 int* __cdecl FUN_00d9fc60()
 {
-    return &DAT_0126955c;
+    return &(*reinterpret_cast<int *>(&::g_0126955c));
 }
 
 // @fnv 0x00d9fb80
-int __stdcall FUN_00d9fb80(int arg0)
+int FUN_00d9fb80(int arg0)
 {
     return 0;
 }
-
-class hkMemoryAllocatorD9FB
-{
-  public:
-    virtual ~hkMemoryAllocatorD9FB() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-};
-
-struct hkMemoryRouterD9FB
-{
-    int unk00, unk04, unk08, unk0C, unk10, unk14;
-    hkMemoryAllocatorD9FB* m_pSolver;
-
-    hkMemoryAllocatorD9FB& solver()
-    {
-        return *m_pSolver;
-    }
-};
-
-extern "C" hkMemoryRouterD9FB& __cdecl FUN_00c85750() throw();
 
 struct hkBoolD9FB
 {
@@ -222,10 +202,10 @@ class hkpDefaultToiResourceMgrD9FB
                                       hkpToiResourcesD9FB& resourcesOut);
 };
 
-template <class T> inline T* bufAllocD9FB(hkMemoryAllocatorD9FB& a, int& n)
+template <class T> inline T* bufAllocD9FB(hkMemoryAllocator& a, int& n)
 {
     int nb = n * sizeof(T);
-    T* p = static_cast<T*>(a.AllocateBufferWithSize(nb));
+    T* p = static_cast<T*>(a.bufAlloc(nb));
     n = nb / sizeof(T);
     return p;
 }
@@ -238,7 +218,7 @@ hkResultD9FB hkpDefaultToiResourceMgrD9FB::AllocateToiResources(const hkpToiEven
     if (FUN_00d9fb40(event))
     {
         m_iNumToiResources = resourcesOut.m_iCharacterBufferSize = m_iMaxNumToiResources;
-        resourcesOut.m_pCharacterBuffer = bufAllocD9FB<char>(FUN_00c85750().solver(), m_iNumToiResources);
+        resourcesOut.m_pCharacterBuffer = bufAllocD9FB<char>(hkMemoryRouter::getInstance().solver(), m_iNumToiResources);
         resourcesOut.m_iThirdValue = 1000;
         resourcesOut.m_iFourthValue = 1000;
         resourcesOut.m_iSecondInteger = 1000;

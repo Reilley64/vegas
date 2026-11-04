@@ -2,9 +2,12 @@
 // src/gamebryo2.2/corelibs/niparticle/niparticleinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/niparticleinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/NiColor.h"
 struct NiPoint3
 {
     float x, y, z;
+public:
+    static const ::NiPoint3 ZERO;
 };
 
 struct Point3ParameterData
@@ -15,12 +18,12 @@ struct Point3ParameterData
     float m_fZValue;
     unsigned short m_usFirstValue;
     unsigned short m_usSecondValue;
-    bool __thiscall Equals(const Point3ParameterData& kData);
+    bool Equals(const Point3ParameterData& kData);
 };
 
 // Compares every member of this object with kData and returns true only if all of them are equal.
 // @fnv 0x00c31e90
-bool __thiscall Point3ParameterData::Equals(const Point3ParameterData& kData)
+bool Point3ParameterData::Equals(const Point3ParameterData& kData)
 {
     if (m_kValue.x != kData.m_kValue.x || m_kValue.y != kData.m_kValue.y || m_kValue.z != kData.m_kValue.z ||
         m_fXValue != kData.m_fXValue || m_fYValue != kData.m_fYValue || m_fZValue != kData.m_fZValue ||
@@ -32,7 +35,6 @@ bool __thiscall Point3ParameterData::Equals(const Point3ParameterData& kData)
 // Point3ParameterData-style particle info initialiser.
 // The velocity is copied bitwise from a global default point, the three
 // float fields are cleared and the two generation/code counters are zeroed.
-extern NiPoint3 DAT_011f426c;
 
 struct FUN_00c31e50_cls
 {
@@ -50,7 +52,7 @@ struct FUN_00c31e50_cls
 // @fnv 0x00c31e50
 FUN_00c31e50_cls::FUN_00c31e50_cls()
 {
-    m_kValue = DAT_011f426c;
+    m_kValue = ::NiPoint3::ZERO;
     m_fXValue = 0.0f;
     m_fYValue = 0.0f;
     m_fZValue = 0.0f;
@@ -248,7 +250,6 @@ struct C31F10Point3
     float y;
     float z;
 
-    void LoadBinary(C31F10Stream& kStream);
 };
 
 struct C31F10ParticleInfo
@@ -267,11 +268,11 @@ struct C31F10ParticleInfo
 // @fnv 0x00c31f10
 void C31F10ParticleInfo::FUN_00c31f10(C31F10Stream& kStream)
 {
-    m_kValue.LoadBinary(kStream);
+    reinterpret_cast<::NiColor *>(&(m_kValue))->LoadBinary((::NiStream &)(kStream));
     if (kStream.GetFileVersion() < 0x0a030005)
     {
         C31F10Point3 kRotationAxis;
-        kRotationAxis.LoadBinary(kStream);
+        reinterpret_cast<::NiColor *>(&(kRotationAxis))->LoadBinary((::NiStream &)(kStream));
     }
     C31F10LoadBinary(kStream, m_fXValue);
     C31F10LoadBinary(kStream, m_fYValue);

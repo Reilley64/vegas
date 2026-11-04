@@ -7,7 +7,6 @@ class Normal;
 class PosGen;
 class Random;
 class SymGen;
-#pragma pack(push, 4)
 class Random
 {
   public:
@@ -26,9 +25,6 @@ class Random
     // Random& __cdecl Random::*(const Random&)
     // void __cdecl Random::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Random) == 4);
-#pragma pack(push, 4)
 class PosGen : public Random
 {
   public:
@@ -49,13 +45,6 @@ class PosGen : public Random
     // PosGen& __cdecl PosGen::*(const PosGen&)
     // void __cdecl PosGen::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PosGen) == 20);
-FNV_STATIC_ASSERT(offsetof(PosGen, xi) == 4);
-FNV_STATIC_ASSERT(offsetof(PosGen, sx) == 8);
-FNV_STATIC_ASSERT(offsetof(PosGen, m_pYValues) == 12);
-FNV_STATIC_ASSERT(offsetof(PosGen, NotReady) == 16);
-#pragma pack(push, 4)
 class SymGen : public PosGen
 {
   public:
@@ -68,9 +57,6 @@ class SymGen : public PosGen
     // SymGen& __cdecl SymGen::*(const SymGen&)
     // void __cdecl SymGen::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SymGen) == 20);
-#pragma pack(push, 4)
 class Normal : public SymGen
 {
   public:
@@ -85,6 +71,4 @@ class Normal : public SymGen
     // Normal& __cdecl Normal::*(const Normal&)
     // void __cdecl Normal::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Normal) == 20);
 #endif

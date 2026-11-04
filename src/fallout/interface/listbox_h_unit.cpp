@@ -1,5 +1,43 @@
 // fallout/interface/listbox_h_unit.cpp: Helper, xEntryMenu, SomeClass (11 functions)
 
+#include "fnv/simple_list_node_view.h"
+#include <new>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Cls_764e40.h"
+#include "fnv/decl/Cls_764ef0.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_007242c0_shell.h"
+#include "fnv/decl/FUN_00730e20_cls.h"
+#include "fnv/decl/FUN_007a28c0.h"
+#include "fnv/decl/FUN_007a4470_cls.h"
+#include "fnv/decl/FUN_007a6b00_shell.h"
+#include "fnv/decl/FUN_007a6bd0_shell.h"
+#include "fnv/decl/FUN_007a6c80_shell.h"
+#include "fnv/decl/FUN_007a78e0_cls.h"
+#include "fnv/decl/FUN_007a79b0_shell.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
+#include "fnv/decl/FUN_00a012d0_t.h"
+#include "fnv/decl/ItemChangeList.h"
+#include "fnv/decl/LBList.h"
+#include "fnv/decl/ListBoxZ.h"
+#include "fnv/decl/ListBox_71ad30.h"
+#include "fnv/decl/ListOwner.h"
+#include "fnv/decl/ScrollList.h"
+#include "fnv/decl/ScrollListHost.h"
+#include "fnv/decl/SelectionList.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_007d9660__SelectionList.h"
+#include "fnv/decl/sa040a0__Owner.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00a00000.h"
+#include "fnv/symbols_00a01000.h"
+#include "fnv/symbols_00a08000.h"
+#include "fnv/symbols_0106f000.h"
+#include "fnv/symbols_01070000.h"
+#include "fnv/symbols_011d8000.h"
 #include "listbox.h"
 
 struct Helper
@@ -7,36 +45,24 @@ struct Helper
     void FUN_007308e0();
     void* FUN_00731580(unsigned int flags);
 };
-void __cdecl _Deallocate(void*);
-// @fnv 0x00731580
-void* Helper::FUN_00731580(unsigned int flags)
-{
-    FUN_007308e0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct WeatherEntry;
 typedef int(__cdecl* CmpFunc)(WeatherEntry*, WeatherEntry*);
 struct ShellTmp
 {
     int _pad;
     BSSimpleList<WeatherEntry*> _list;
-    void AssignTileIndices();
     void FUN_007a2e00(CmpFunc a1);
 };
 // @fnv 0x007a2e00
 void ShellTmp::FUN_007a2e00(CmpFunc pCompare)
 {
-    _list.Sort(pCompare);
-    AssignTileIndices();
+    reinterpret_cast<::ItemChangeList *>(&(_list))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(pCompare));
+    reinterpret_cast<::FUN_007a6b00_shell *>(this)->AssignTileIndices();
 }
 
 struct WeatherEntry;
 struct Unk007a78e0
 {
-    void ProcessEntries();
 };
 struct Holder007a49b0
 {
@@ -48,39 +74,35 @@ struct Holder007a49b0
 // @fnv 0x007a49b0
 void Holder007a49b0::SortWeatherList(int (*a1)(WeatherEntry*, WeatherEntry*))
 {
-    _list.Sort(a1);
-    ((Unk007a78e0*)this)->ProcessEntries();
+    reinterpret_cast<::ItemChangeList *>(&(_list))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(a1));
+    reinterpret_cast<::FUN_007a78e0_cls *>((((Unk007a78e0*)this)))->ProcessEntries();
 }
 
 struct DummyClass
 {
-    void FUN_007a28c0();
     void* FUN_007a6160(unsigned int);
 };
-void _Deallocate(void*);
 // Calls FUN_007a28c0, then deallocates this when flags has bit 1 set, and returns this.
 // @fnv 0x007a6160
 void* DummyClass::FUN_007a6160(unsigned int flags)
 {
-    FUN_007a28c0();
+    reinterpret_cast<::FUN_007a28c0 *>(this)->FUN_007a28c0::~FUN_007a28c0();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct S_007a61c0
 {
-    void FUN_007a4470();
     void* FUN_007a61c0(unsigned int);
 };
-void _Deallocate(void*);
 // Calls FUN_007a4470, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x007a61c0
 void* S_007a61c0::FUN_007a61c0(unsigned int flags)
 {
-    FUN_007a4470();
+    reinterpret_cast<::FUN_007a4470_cls *>(this)->FUN_007a4470_cls::~FUN_007a4470_cls();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -102,42 +124,45 @@ template <class T> class ListBoxItem
 };
 struct ListNodeCalls
 {
-    void FUN_006ecd40(int value);
 };
 struct TileValueCalls
 {
-    void FUN_00a012d0(int trait, float value, bool update);
 };
-int __cdecl FUN_00a01860(const char* name);
-extern "C" bool s_bAllowDetach;
 class FUN_007308e0 : public ListBox<ListItemData*>
 {
   public:
-    bool FUN_007242c0(unsigned int flag);
-    void UpdateScrollPages();
-    void FUN_0071a740();
     void FUN_00730950();
+public:
+    ~FUN_007308e0();
 };
+// @fnv 0x00731580
+void* Helper::FUN_00731580(unsigned int flags)
+{
+    reinterpret_cast<::FUN_007308e0 *>(this)->FUN_007308e0::~FUN_007308e0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x00730950
 void FUN_007308e0::FUN_00730950()
 {
-    while (items.m_pkNext && items.m_pkNext->GetItem())
+    while (items.m_pkNext && ((::ListBoxItem< ::ListItemData *> *)(reinterpret_cast<::SimpleListNodeView*>(items.m_pkNext)->m_item)))
     {
-        BSSimpleList<ListBoxItem<ListItemData*>*>* next = items.m_pkNext->GetNext();
-        if (!s_bAllowDetach)
-            delete items.m_pkNext->GetItem()->tile;
-        if (FUN_007242c0(1))
-            delete items.m_pkNext->GetItem()->data;
-        delete items.m_pkNext->GetItem();
-        ((ListNodeCalls*)items.m_pkNext)->FUN_006ecd40(0);
+        BSSimpleList<ListBoxItem<ListItemData*>*>* next = ((::BSSimpleList< ::ListBoxItem< ::ListItemData *> *> *)(reinterpret_cast<::Callees *>((items.m_pkNext))->FUN_00726070()));
+        if (!::fnv_007a2070::s_bAllowDetach)
+            delete ((::ListBoxItem< ::ListItemData *> *)(reinterpret_cast<::SimpleListNodeView*>(items.m_pkNext)->m_item))->tile;
+        if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
+            delete ((::ListBoxItem< ::ListItemData *> *)(reinterpret_cast<::SimpleListNodeView*>(items.m_pkNext)->m_item))->data;
+        delete ((::ListBoxItem< ::ListItemData *> *)(reinterpret_cast<::SimpleListNodeView*>(items.m_pkNext)->m_item));
+        reinterpret_cast<::CombatProcedure *>((((ListNodeCalls*)items.m_pkNext)))->Initialize((::CombatController *)(0));
         delete items.m_pkNext;
         items.m_pkNext = next;
     }
     if (items.m_item)
     {
-        if (!s_bAllowDetach)
+        if (!::fnv_007a2070::s_bAllowDetach)
             delete items.m_item->tile;
-        if (FUN_007242c0(1))
+        if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
             delete items.m_item->data;
         delete items.m_item;
     }
@@ -145,10 +170,10 @@ void FUN_007308e0::FUN_00730950()
     m_usSelectedIndex = 0;
     m_fFirstListValue = 0.0f;
     if (m_pListTile)
-        ((TileValueCalls*)m_pListTile)->FUN_00a012d0(FUN_00a01860("_num_filtered"), 0.0f, true);
-    UpdateScrollPages();
+        reinterpret_cast<::FUN_00a012d0_t *>((((TileValueCalls*)m_pListTile)))->FUN_00a012d0(FUN_00a01860("_num_filtered"), 0.0f, true);
+    reinterpret_cast<::ListBox_71ad30 *>(this)->UpdateScrollPages();
     m_pSelectedTile = 0;
-    FUN_0071a740();
+    reinterpret_cast<::ListBoxZ *>(this)->FUN_0071a740();
 }
 
 template <> class ListBoxItem<unsigned int>
@@ -158,8 +183,6 @@ template <> class ListBoxItem<unsigned int>
     unsigned int data;
     bool m_bFiltered;
 };
-float FUN_004bd510(float value, float step);
-int FUN_00a01860(const char* name);
 
 struct LB_00730f40 : BSSimpleList<ListBoxItem<unsigned int>*>
 {
@@ -174,10 +197,23 @@ struct LB_00730f40 : BSSimpleList<ListBoxItem<unsigned int>*>
     Tile* m_pHighlightedTile;
     const char* pTemplateName;
     unsigned short m_usSelectedIndex;
-    bool IsEnabled();
     Tile* FUN_00730f40(int event);
 };
 
+class xEntryObj
+{
+  public:
+    virtual ~xEntryObj();
+};
+
+class InventoryStackRecord
+{
+  public:
+    int m_i0;
+    ~InventoryStackRecord();
+public:
+    static float RoundToNearestStep(float, float);
+};
 // Computes a candidate tile from the event and returns it when it differs from the selected tile.
 // @fnv 0x00730f40
 Tile* LB_00730f40::FUN_00730f40(int event)
@@ -194,18 +230,18 @@ Tile* LB_00730f40::FUN_00730f40(int event)
         break;
     case 15:
         delta = m_pListTile
-                    ? (int)FUN_004bd510(
+                    ? (int)::InventoryStackRecord::RoundToNearestStep(
                           -m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(FUN_00a01860("_scroll_delta")), 1.0f)
                     : 0;
         break;
     case 16:
         delta = m_pListTile
-                    ? (int)FUN_004bd510(
+                    ? (int)::InventoryStackRecord::RoundToNearestStep(
                           m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(FUN_00a01860("_scroll_delta")), 1.0f)
                     : 0;
         break;
     }
-    if (IsEnabled() && delta && m_usSelectedIndex)
+    if (reinterpret_cast<::FUN_00730e20_cls *>(this)->FUN_00730e20() && delta && m_usSelectedIndex)
     {
         int index = m_usSelectedIndex - 1;
         int last;
@@ -228,18 +264,18 @@ Tile* LB_00730f40::FUN_00730f40(int event)
         while (true)
         {
             BSSimpleList<ListBoxItem<unsigned int>*>* entry = this;
-            for (; !selected && entry && entry->GetItem(); entry = entry->GetNext())
+            for (; !selected && entry && ((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)); entry = ((::BSSimpleList< ::ListBoxItem<unsigned int> *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())))
             {
-                if (((TileListBoxCalls*)entry->GetItem()->pTile)->GetFloat(0xfac) == last)
-                    selected = entry->GetItem()->pTile;
+                if (((TileListBoxCalls*)((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item))->pTile)->GetFloat(0xfac) == last)
+                    selected = ((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item))->pTile;
             }
-            if (selected && !selected->ContainsTrait(GetTileValueID(kListBoxEnabled, -1)))
+            if (selected && !reinterpret_cast<::FUN_00a01230_shell *>((selected))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))
             {
                 selected = 0;
                 if (delta > 0 && ++last > index)
                 {
                     last = index - 1;
-                    while ((!selected || !selected->ContainsTrait(GetTileValueID(kListBoxEnabled, -1))) && last >= 0)
+                    while ((!selected || !reinterpret_cast<::FUN_00a01230_shell *>((selected))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1))) && last >= 0)
                     {
                         selected = GetTileAt(last--, false);
                     }
@@ -248,7 +284,7 @@ Tile* LB_00730f40::FUN_00730f40(int event)
                 else if (delta < 0 && --last < 0)
                 {
                     last = 1;
-                    while ((!selected || !selected->ContainsTrait(GetTileValueID(kListBoxEnabled, -1))) &&
+                    while ((!selected || !reinterpret_cast<::FUN_00a01230_shell *>((selected))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1))) &&
                            last <= index)
                     {
                         selected = GetTileAt(last++, false);
@@ -263,19 +299,6 @@ Tile* LB_00730f40::FUN_00730f40(int event)
     return selected != m_pSelectedTile ? selected : 0;
 }
 
-class xEntryObj
-{
-  public:
-    virtual ~xEntryObj();
-};
-
-class InventoryStackRecord
-{
-  public:
-    int m_i0;
-    ~InventoryStackRecord();
-};
-
 struct xEntryItem
 {
     xEntryObj* m_pEntryObject;
@@ -288,18 +311,12 @@ class List_009e03e0
     xEntryItem* m_pInventoryEntryData;
     List_009e03e0* m_pNext;
     ~List_009e03e0();
-    xEntryItem** Head();
-    List_009e03e0* GetNext();
-    void Initialize(unsigned int ui);
 };
 
 class xTileT
 {
   public:
-    void Set(int iKey, float fVal, bool bProp);
 };
-int xTraitID(const char* pName);
-extern bool s_bAllowDetachX;
 
 class xEntryMenu
 {
@@ -312,9 +329,6 @@ class xEntryMenu
     int m_aiPad[2];
     unsigned short m_us1c;
     float m_f20;
-    bool CanDelete(unsigned int ui);
-    void Refresh();
-    void Rebuild();
     void ClearEntries();
 };
 
@@ -322,23 +336,23 @@ class xEntryMenu
 // @fnv 0x007a2bd0
 void xEntryMenu::ClearEntries()
 {
-    while (m_pEntries && *m_pEntries->Head())
+    while (m_pEntries && *((::xEntryItem **)(&reinterpret_cast<::SimpleListNodeView*>(m_pEntries)->m_item)))
     {
-        List_009e03e0* pNext = m_pEntries->GetNext();
-        if (!s_bAllowDetachX)
-            delete (*m_pEntries->Head())->m_pEntryObject;
-        if (CanDelete(1))
-            delete (*m_pEntries->Head())->m_pChange;
-        delete *m_pEntries->Head();
-        m_pEntries->Initialize(0);
+        List_009e03e0* pNext = ((::List_009e03e0 *)(reinterpret_cast<::Callees *>((m_pEntries))->FUN_00726070()));
+        if (!::fnv_007a2070::s_bAllowDetach)
+            delete (*((::xEntryItem **)(&reinterpret_cast<::SimpleListNodeView*>(m_pEntries)->m_item)))->m_pEntryObject;
+        if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
+            delete (*((::xEntryItem **)(&reinterpret_cast<::SimpleListNodeView*>(m_pEntries)->m_item)))->m_pChange;
+        delete *((::xEntryItem **)(&reinterpret_cast<::SimpleListNodeView*>(m_pEntries)->m_item));
+        reinterpret_cast<::CombatProcedure *>((m_pEntries))->Initialize((::CombatController *)(0));
         delete m_pEntries;
         m_pEntries = pNext;
     }
     if (m_pSelected)
     {
-        if (!s_bAllowDetachX)
+        if (!::fnv_007a2070::s_bAllowDetach)
             delete m_pSelected->m_pEntryObject;
-        if (CanDelete(1))
+        if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
             delete m_pSelected->m_pChange;
         delete m_pSelected;
     }
@@ -346,16 +360,15 @@ void xEntryMenu::ClearEntries()
     m_us1c = 0;
     m_f20 = 0.0f;
     if (m_pTile)
-        m_pTile->Set(xTraitID("_num_filtered"), 0.0f, true);
-    Refresh();
+        reinterpret_cast<::FUN_00a012d0_t *>((m_pTile))->FUN_00a012d0(::FUN_00a01860("_num_filtered"), 0.0f, true);
+    reinterpret_cast<::ScrollListHost *>(this)->FUN_007a7080();
     m_i10 = 0;
-    Rebuild();
+    reinterpret_cast<::FUN_007a6c80_shell *>(this)->UpdateHighlightBox();
 }
 
 struct ClearTile
 {
     virtual ~ClearTile();
-    void FUN_00a012d0(int, float, bool);
 };
 struct ClearData
 {
@@ -370,15 +383,8 @@ struct ClearNode
 {
     ClearTilePayloadPair* unk00;
     ClearNode* unk04;
-    ClearTilePayloadPair*& FUN_006815c0();
-    ClearNode* FUN_00726070();
-    void FUN_006ecd40(ClearTilePayloadPair*);
     ~ClearNode();
 };
-extern unsigned char DAT_011d8909;
-extern const char str_0106f8d0[];
-int __cdecl FUN_00a01860(const char*);
-void __cdecl FUN_00401030(void*);
 struct Target007a4780
 {
     void* unk00;
@@ -390,32 +396,29 @@ struct Target007a4780
     const char* unk18;
     unsigned short unk1c;
     float unk20;
-    bool FUN_007242c0(unsigned int);
-    void FUN_007a7d80();
-    void UpdateSelectionState();
     void FUN_007a4780();
 };
 // Clears the entries, resets fields, and calls FUN_00a012d0 on unk0c with a value from FUN_00a01860.
 // @fnv 0x007a4780
 void Target007a4780::FUN_007a4780()
 {
-    while (unk08 && unk08->FUN_006815c0())
+    while (unk08 && ((::ClearTilePayloadPair *)(reinterpret_cast<::SimpleListNodeView*>(unk08)->m_item)))
     {
-        ClearNode* next = unk08->FUN_00726070();
-        if (!DAT_011d8909)
-            delete unk08->FUN_006815c0()->unk00;
-        if (FUN_007242c0(1))
-            delete unk08->FUN_006815c0()->unk04;
-        delete unk08->FUN_006815c0();
-        unk08->FUN_006ecd40(0);
+        ClearNode* next = ((::ClearNode *)(reinterpret_cast<::Callees *>((unk08))->FUN_00726070()));
+        if (!(*reinterpret_cast<unsigned char *>(&::fnv_007a2070::s_bAllowDetach)))
+            delete ((::ClearTilePayloadPair *)(reinterpret_cast<::SimpleListNodeView*>(unk08)->m_item))->unk00;
+        if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
+            delete ((::ClearTilePayloadPair *)(reinterpret_cast<::SimpleListNodeView*>(unk08)->m_item))->unk04;
+        delete ((::ClearTilePayloadPair *)(reinterpret_cast<::SimpleListNodeView*>(unk08)->m_item));
+        reinterpret_cast<::CombatProcedure *>((unk08))->Initialize((::CombatController *)(::ClearTilePayloadPair *)(0));
         delete unk08;
         unk08 = next;
     }
     if (unk04)
     {
-        if (!DAT_011d8909)
+        if (!(*reinterpret_cast<unsigned char *>(&::fnv_007a2070::s_bAllowDetach)))
             delete unk04->unk00;
-        if (FUN_007242c0(1))
+        if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
             delete unk04->unk04;
         delete unk04;
     }
@@ -423,10 +426,10 @@ void Target007a4780::FUN_007a4780()
     unk1c = 0;
     unk20 = 0.0f;
     if (unk0c)
-        unk0c->FUN_00a012d0(FUN_00a01860(str_0106f8d0), 0.0f, true);
-    FUN_007a7d80();
+        reinterpret_cast<::FUN_00a012d0_t *>((unk0c))->FUN_00a012d0(FUN_00a01860(::str_0106f8d0), 0.0f, true);
+    reinterpret_cast<::ScrollList *>(this)->FUN_007a7d80();
     unk10 = 0;
-    UpdateSelectionState();
+    reinterpret_cast<::SelectionList *>(this)->UpdateSelectionState();
 }
 
 struct LB_007a4d50 : BSSimpleList<ListBoxItem<unsigned int>*>
@@ -442,7 +445,6 @@ struct LB_007a4d50 : BSSimpleList<ListBoxItem<unsigned int>*>
     Tile* m_pHighlightedTile;
     const char* pTemplateName;
     unsigned short m_usSelectedIndex;
-    bool IsEnabled();
     Tile* FUN_007a4d50(int event);
 };
 
@@ -462,18 +464,18 @@ Tile* LB_007a4d50::FUN_007a4d50(int event)
         break;
     case 15:
         iDelta = m_pListTile
-                     ? (int)FUN_004bd510(
+                     ? (int)::InventoryStackRecord::RoundToNearestStep(
                            -m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(FUN_00a01860("_scroll_delta")), 1.0f)
                      : 0;
         break;
     case 16:
         iDelta = m_pListTile
-                     ? (int)FUN_004bd510(
+                     ? (int)::InventoryStackRecord::RoundToNearestStep(
                            m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(FUN_00a01860("_scroll_delta")), 1.0f)
                      : 0;
         break;
     }
-    if (IsEnabled() && iDelta && m_usSelectedIndex)
+    if (reinterpret_cast<::FUN_007a79b0_shell *>(this)->FUN_007a79b0() && iDelta && m_usSelectedIndex)
     {
         int iTargetIndex;
         int iMaxIndex = m_usSelectedIndex - 1;
@@ -500,21 +502,21 @@ Tile* LB_007a4d50::FUN_007a4d50(int event)
         }
         while (true)
         {
-            for (BSSimpleList<ListBoxItem<unsigned int>*>* node = this; !pNewTile && node && node->GetItem();
-                 node = node->GetNext())
+            for (BSSimpleList<ListBoxItem<unsigned int>*>* node = this; !pNewTile && node && ((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
+                 node = ((::BSSimpleList< ::ListBoxItem<unsigned int> *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                if (((TileListBoxCalls*)node->GetItem()->pTile)->GetFloat(0xfac) == iTargetIndex)
+                if (((TileListBoxCalls*)((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->pTile)->GetFloat(0xfac) == iTargetIndex)
                 {
-                    pNewTile = node->GetItem()->pTile;
+                    pNewTile = ((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->pTile;
                 }
             }
-            if (pNewTile && !pNewTile->ContainsTrait(GetTileValueID(kListBoxEnabled, -1)))
+            if (pNewTile && !reinterpret_cast<::FUN_00a01230_shell *>((pNewTile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))
             {
                 pNewTile = 0;
                 if (iDelta > 0 && ++iTargetIndex > iMaxIndex)
                 {
                     iTargetIndex = iMaxIndex - 1;
-                    while ((!pNewTile || !pNewTile->ContainsTrait(GetTileValueID(kListBoxEnabled, -1))) &&
+                    while ((!pNewTile || !reinterpret_cast<::FUN_00a01230_shell *>((pNewTile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1))) &&
                            iTargetIndex >= 0)
                     {
                         pNewTile = GetTileAt(iTargetIndex--, false);
@@ -524,7 +526,7 @@ Tile* LB_007a4d50::FUN_007a4d50(int event)
                 else if (iDelta < 0 && --iTargetIndex < 0)
                 {
                     iTargetIndex = 1;
-                    while ((!pNewTile || !pNewTile->ContainsTrait(GetTileValueID(kListBoxEnabled, -1))) &&
+                    while ((!pNewTile || !reinterpret_cast<::FUN_00a01230_shell *>((pNewTile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1))) &&
                            iTargetIndex <= iMaxIndex)
                     {
                         pNewTile = GetTileAt(iTargetIndex++, false);
@@ -575,21 +577,21 @@ Tile* SomeClass::FUN_007a31e0(int param)
         break;
     case 15:
         delta = m_pListTile
-                    ? (int)FUN_004bd510(-((TileListBoxCalls*)m_pListTile)->GetFloat(4016) /
+                    ? (int)::InventoryStackRecord::RoundToNearestStep(-((TileListBoxCalls*)m_pListTile)->GetFloat(4016) /
                                             ((TileListBoxCalls*)m_pListTile)->GetFloat(FUN_00a01860("_scroll_delta")),
                                         1.0f)
                     : 0;
         break;
     case 16:
         delta = m_pListTile
-                    ? (int)FUN_004bd510(((TileListBoxCalls*)m_pListTile)->GetFloat(4016) /
+                    ? (int)::InventoryStackRecord::RoundToNearestStep(((TileListBoxCalls*)m_pListTile)->GetFloat(4016) /
                                             ((TileListBoxCalls*)m_pListTile)->GetFloat(FUN_00a01860("_scroll_delta")),
                                         1.0f)
                     : 0;
         break;
     }
 
-    if (IsEnabled() && delta && m_usSelectedIndex)
+    if (reinterpret_cast<::FUN_007a6bd0_shell *>(this)->FUN_007a6bd0() && delta && m_usSelectedIndex)
     {
         int maxIndex = m_usSelectedIndex - 1;
         int targetIndex;
@@ -614,21 +616,21 @@ Tile* SomeClass::FUN_007a31e0(int param)
         while (true)
         {
             for (BSSimpleList<ListBoxItem<BGSNote*>*>* iter = this ? &items : NULL;
-                 !pResultTile && iter && iter->GetItem(); iter = iter->GetNext())
+                 !pResultTile && iter && ((::ListBoxItem< ::BGSNote *> *)(reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)); iter = ((::BSSimpleList< ::ListBoxItem< ::BGSNote *> *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070())))
             {
-                if (((TileListBoxCalls*)iter->GetItem()->tile)->GetFloat(4012) == (float)targetIndex)
+                if (((TileListBoxCalls*)((::ListBoxItem< ::BGSNote *> *)(reinterpret_cast<::SimpleListNodeView*>(iter)->m_item))->tile)->GetFloat(4012) == (float)targetIndex)
                 {
-                    pResultTile = (Tile*)iter->GetItem()->tile;
+                    pResultTile = (Tile*)((::ListBoxItem< ::BGSNote *> *)(reinterpret_cast<::SimpleListNodeView*>(iter)->m_item))->tile;
                 }
             }
 
-            if (pResultTile && !pResultTile->ContainsTrait(GetTileValueID(kListBoxEnabled, -1)))
+            if (pResultTile && !reinterpret_cast<::FUN_00a01230_shell *>((pResultTile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))
             {
                 pResultTile = NULL;
                 if (delta > 0 && ++targetIndex > maxIndex)
                 {
                     targetIndex = maxIndex - 1;
-                    while ((!pResultTile || !pResultTile->ContainsTrait(GetTileValueID(kListBoxEnabled, -1))) &&
+                    while ((!pResultTile || !reinterpret_cast<::FUN_00a01230_shell *>((pResultTile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1))) &&
                            targetIndex >= 0)
                     {
                         pResultTile = ((ListBoxBaseWithVTable*)this)->GetTile(targetIndex--, 0);
@@ -638,7 +640,7 @@ Tile* SomeClass::FUN_007a31e0(int param)
                 else if (delta < 0 && --targetIndex < 0)
                 {
                     targetIndex = 1;
-                    while ((!pResultTile || !pResultTile->ContainsTrait(GetTileValueID(kListBoxEnabled, -1))) &&
+                    while ((!pResultTile || !reinterpret_cast<::FUN_00a01230_shell *>((pResultTile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1))) &&
                            targetIndex <= maxIndex)
                     {
                         pResultTile = ((ListBoxBaseWithVTable*)this)->GetTile(targetIndex++, 0);

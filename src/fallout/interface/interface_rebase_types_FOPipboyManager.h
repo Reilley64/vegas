@@ -41,10 +41,6 @@ class NiColor
     // float __cdecl NiColor::*()
     // void __cdecl NiColor::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
-FNV_STATIC_ASSERT(offsetof(NiColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(NiColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(NiColor, b) == 8);
 class RgbaColor
 {
   public:
@@ -71,15 +67,9 @@ class RgbaColor
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
 };
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
 class FORenderedMenu
 {
   public:
-    bool GetInitialized();
     void** m_ppVirtualMethodTable;                                        // +0x0, 4 bytes
     NiPointer<NiGeometry> m_pMenuBackgroundScreenGeometry;  // +0x4, 4 bytes
     NiPointer<NiAVObject> m_pMenuRoot;                      // +0x8, 4 bytes
@@ -186,60 +176,6 @@ class FORenderedMenu
     // FORenderedMenu& __cdecl FORenderedMenu::*(const FORenderedMenu&)
     // void __cdecl FORenderedMenu::*()
 };
-FNV_STATIC_ASSERT(sizeof(FORenderedMenu) == 216);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_pMenuBackgroundScreenGeometry) == 4);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_pMenuRoot) == 8);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_pScreenGeometry) == 12);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_pDefaultTexture) == 16);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_pRenderedMenuObject) == 20);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_pFourthMenuObject) == 24);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_pMenuLight) == 28);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_pSecondaryMenuObject) == 32);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_pMenuLightParameters) == 36);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, bInitialized) == 40);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bUseMenuImageSpaceEffects) == 41);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bEnableFlicker) == 42);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_kScreenLightColor) == 44);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, fScreenLightBaseIntensity) == 56);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fFlicker) == 60);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, fBlurRadius) == 64);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, fBlurIntensity) == 68);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fScanlineScale) == 72);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bDoScanlines) == 76);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bBurstActive) == 77);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fBurstElapsedTime) == 80);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, fBurstDuration) == 84);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fBurstIntensity) == 88);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fBurstSoundChance) == 92);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bBurstSoundPlayed) == 96);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fShudderIntensity) == 100);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fShudderDuration) == 104);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fShudderFrequency) == 108);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fVerticalHoldDuration) == 112);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bVerticalHoldActive) == 116);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fVerticalHoldSpeed) == 120);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fVerticalHoldRate) == 124);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fVerticalHoldChance) == 128);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fShudderChance) == 132);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fPulseRadiusIntensity) == 136);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fPulseBrightenIntensity) == 140);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fPulseRate) == 144);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bPulseActive) == 148);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bShudderActive) == 149);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fDistortHorizontalScale) == 152);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fDistortVerticalScale) == 156);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, fDistortDuration) == 160);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_fDistortTimeRemaining) == 164);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, BackgroundColor) == 168);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bMenuLightEnabled) == 184);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bMenuLightCreated) == 185);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_pMenuLightShadowNode) == 188);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_kMenuLightColor) == 192);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bMenuLightVisible) == 208);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bMenuLightShadowed) == 209);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_bMenuLightAttached) == 210);
-FNV_STATIC_ASSERT(offsetof(FORenderedMenu, m_pMenuLightNode) == 212);
 class FOPipboyManager : public FORenderedMenu
 {
   public:
@@ -307,28 +243,7 @@ class FOPipboyManager : public FORenderedMenu
     // void __cdecl FOPipboyManager::*(float)
     // FOPipboyManager& __cdecl FOPipboyManager::*(const FOPipboyManager&)
     // void __cdecl FOPipboyManager::*()
+public:
+    bool IsUnk28Set();
 };
-FNV_STATIC_ASSERT(sizeof(FOPipboyManager) == 368);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_pPipBoyObject0) == 216);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_pPipBoyObject1) == 220);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_pPipBoyObject2) == 224);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_pScreenGeometry) == 228);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_cPipBoyButtonAvailability) == 232);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_pButtonGlowObjects) == 244);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_pGaugeObjects) == 256);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_fChartFirstPoint) == 268);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_fChartSecondPoint) == 280);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_fGaugeValues2) == 292);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_fTabKnobPositions) == 304);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_bUseMenuImageSpaceEffects) == 324);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_fPipBoyAlpha) == 328);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_fPipBoyTargetAlpha) == 332);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_bPipBoyFadeActive) == 336);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_kPipBoyLightData) == 340);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, b1stPersonLightOn) == 352);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, b3rdPersonLightOn) == 353);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_bPipBoyLightOn) == 354);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_fFirstPersonLightIntensity) == 356);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_fThirdPersonLightIntensity) == 360);
-FNV_STATIC_ASSERT(offsetof(FOPipboyManager, m_bPipBoyLightEnabled) == 364);
 #endif

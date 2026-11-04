@@ -2,26 +2,13 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/hkpdynamicsjobqueueutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/hkpdynamicsjobqueueutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct S_00d96530_Allocator
-{
-    virtual void v0();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
+#include <new>
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 
-struct S_00d96530_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00d96530_Allocator* m_pStreamAllocator;
-    S_00d96530_Allocator* heap()
-    {
-        return m_pStreamAllocator;
-    }
-};
 
-S_00d96530_Router* FUN_00c85750();
+
+
 
 struct S_00d96530_RelArray
 {
@@ -43,13 +30,9 @@ struct S_00d96530_Block
     int unk8;
     int unkC;
     S_00d96530_RelArray m_ppData;
-    void* operator new(size_t, void* p)
-    {
-        return p;
-    }
-    void operator delete(void*, void*)
-    {}
-    S_00d96530_Block(int capacity) : m_ppData((char*)this + 0x20, capacity)
+    // The inline storage follows the 0x20-byte block header.
+    static const int kHeaderBytes = 0x20;
+    S_00d96530_Block(int capacity) : m_ppData((char*)this + kHeaderBytes, capacity)
     {}
 };
 
@@ -65,7 +48,7 @@ struct S_00d96530_Header
 S_00d96530_Header* AllocateBlockHeader(int numBlocks, int numElems)
 {
     S_00d96530_Header* pHeader =
-        (S_00d96530_Header*)FUN_00c85750()->heap()->AllocateMemoryBlock((short)numBlocks * 4 + 0xc);
+        static_cast<S_00d96530_Header*>(hkMemoryRouter::getInstance().heap().blockAlloc((short)numBlocks * 4 + 0xc));
     int iBlockBytes = numElems << 4;
     pHeader->m_maxBlocks = numBlocks;
     pHeader->m_iBlockCount = numBlocks;
@@ -73,34 +56,16 @@ S_00d96530_Header* AllocateBlockHeader(int numBlocks, int numElems)
     S_00d96530_Block** blocks = pHeader->m_kBlocks;
     for (int i = 0; i < numBlocks; i++)
     {
-        void* p = FUN_00c85750()->heap()->AllocateMemoryBlock(iBlockBytes + 0x20);
-        blocks[i] = (S_00d96530_Block*)p;
+        void* p = hkMemoryRouter::getInstance().heap().blockAlloc(iBlockBytes + 0x20);
+        blocks[i] = static_cast<S_00d96530_Block*>(p);
         new (p) S_00d96530_Block(iBlockBytes);
     }
     return pHeader;
 }
 
-struct S_Holder
+inline void S_Call(void* a, int b)
 {
-    virtual void* v0();
-    virtual void* v1();
-    virtual void v2(const void* a, int b);
-};
-struct S_Tls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_Holder* unk10;
-    S_Holder& holder()
-    {
-        return *unk10;
-    }
-};
-inline void S_Call(const void* a, int b)
-{
-    ((S_Tls*)FUN_00c85750())->holder().v2(a, b);
+    hkMemoryRouter::getInstance().heap().blockFree(a, b);
 }
 struct S_Item;
 struct S_C
@@ -111,7 +76,7 @@ struct S_C
     S_Item* arr[8];
     void FUN_00d965b0();
 };
-// Calls S_Call on each of the count items in arr with unk08, then calls S_Call on this with count*4+0xc.
+// Frees each of the count blocks in arr (unk08 bytes each), then this block (count*4+0xc bytes), to the heap allocator.
 // @fnv 0x00d965b0
 void S_C::FUN_00d965b0()
 {

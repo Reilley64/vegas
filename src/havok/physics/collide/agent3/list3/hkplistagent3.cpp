@@ -2,6 +2,9 @@
 // src/havok/physics/collide/agent3/list3/hkplistagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/list3/hkplistagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d97000.h"
+#include "fnv/symbols_00da3000.h"
+#include "fnv/symbols_00da4000.h"
 struct DA6E60Shape
 {
     virtual void unk00();
@@ -18,21 +21,20 @@ struct DA6E60Collidable
 
 struct DA6E60Input
 {
-    int m_unk00;
+    void* m_unk00;
     DA6E60Collidable* m_kCollidable;
     int m_unk08;
     int m_iType;
-    int m_unk10;
-    int m_unk14;
-    int m_unk18;
+    void* m_unk10;
+    void* m_unk14;
+    void* m_unk18;
     int m_unk1C;
 };
 
-void __cdecl FUN_00da48e0(int context, DA6E60Input* input);
 
 // Reads the collidable's shape type, fills a DA6E60Input from the arguments, and passes it to FUN_00da48e0 with the context.
 // @fnv 0x00da6e60
-void __cdecl FUN_00da6e60(int unused, int context, int a, DA6E60Collidable* collidable, int b, int c, int d)
+void __cdecl FUN_00da6e60(void* unused, void* context, void* a, DA6E60Collidable* collidable, void* b, void* c, void* d)
 {
     int shapeType = collidable->m_pCollisionShape->getType();
     DA6E60Input input;
@@ -42,16 +44,15 @@ void __cdecl FUN_00da6e60(int unused, int context, int a, DA6E60Collidable* coll
     input.m_unk14 = c;
     input.m_iType = shapeType;
     input.m_unk18 = d;
-    FUN_00da48e0(context, &input);
+    ::FUN_00da48e0(context, (&input));
 }
 
-void __cdecl FUN_00da35f0(int a1, float a2, float a3, int a4);
 
 // Calls FUN_00da35f0 with unk08, unk0C, unk10 and unk14, dropping unk04.
 // @fnv 0x00da6e30
-void __cdecl FUN_00da6e30(int aiUnused, int aiArg1, float afArg2, float afArg3, int aiArg4)
+void __cdecl FUN_00da6e30(void* aiUnused, ::Da35Stream*** aiArg1, float afArg2, float afArg3, void** aiArg4)
 {
-    FUN_00da35f0(aiArg1, afArg2, afArg3, aiArg4);
+    ::FUN_00da35f0(aiArg1, afArg2, afArg3, aiArg4);
 }
 
 // 0x00da6de0: virtual call at vtable +0x18 with a type-name string, then
@@ -70,13 +71,14 @@ struct hkListAgent3
 
 extern const char g_hkListAgent3_typeName[];
 
-extern void __cdecl FUN_00d97250(int a1, int a2, void* a3);
 
 // Calls self->v18 with the hkListAgent3 type name, then FUN_00d97250 with a2, a3 and self, and returns self->v1c().
 // @fnv 0x00da6de0
-unsigned int __cdecl FUN_00da6de0(int a1, int a2, int a3, hkListAgent3* self)
+unsigned int __cdecl FUN_00da6de0(void* a1, ::Hdr* a2, char** a3, hkListAgent3* self)
 {
     self->v18(g_hkListAgent3_typeName);
-    FUN_00d97250(a2, a3, self);
+    ::FUN_00d97250(a2, a3, (::Logger *)(self));
     return self->v1c();
 }
+
+#include "generated/data/havok/physics/collide/agent3/list3/hkplistagent3.inc"

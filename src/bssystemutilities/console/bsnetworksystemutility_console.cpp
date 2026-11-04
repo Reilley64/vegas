@@ -1,5 +1,8 @@
 // bssystemutilities/console/bsnetworksystemutility_console.cpp: NetworkSystemUtility (4 functions)
 
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 #include "bsnetworksystemutility_console_decls.h"
 // @fnv 0x00af2d70
 void NetworkSystemUtility::RegisterCallback(void(__cdecl* callback)(NetEvent, unsigned int))
@@ -16,11 +19,18 @@ NetworkSystemUtility& NetworkSystemUtility::GetRandomGenerator()
     return *DAT_011f7270;
 }
 
-// @fnv 0x00af2d40
-void* __fastcall FUN_00af2d40(void* pThis)
+// The two fields FUN_00af2d40 clears.
+struct FUN_00af2d40_View
 {
-    *(bool*)pThis = false;
-    *((void**)pThis + 1) = 0;
+    bool m_bFlag;
+    void* m_pValue;
+};
+
+// @fnv 0x00af2d40
+void* FUN_00af2d40(void* pThis)
+{
+    ((FUN_00af2d40_View*)pThis)->m_bFlag = false;
+    ((FUN_00af2d40_View*)pThis)->m_pValue = 0;
     return pThis;
 }
 
@@ -31,3 +41,5 @@ struct FUN_00af2d60_Class
 // @fnv 0x00af2d60
 void FUN_00af2d60_Class::FUN_00af2d60()
 {}
+
+#include "generated/data/bssystemutilities/console/bsnetworksystemutility_console.inc"

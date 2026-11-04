@@ -3,6 +3,14 @@
 #define ALCHEMYITEM_DECLS_H
 
 
+#include <cstdint>
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00874460_cls.h"
+#include "fnv/decl/FUN_009acce0_shell.h"
+#include "fnv/decl/fnv_00406340__EffectItemList.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 class TESFile;
 class TESForm;
 class SpellItem;
@@ -90,27 +98,29 @@ class TESForm
     virtual const char* vfn_130();
 
     TESFile* GetFile(int fileIndex);
-    unsigned int GetFormID();
-    static void RemapFormIDForFile(unsigned int& formID, TESFile* file);
-    static TESForm* GetFormByID(unsigned int formID);
+public:
+    bool GetInitialized() const;
+public:
+    void ClearData();
+public:
+    static ::TESForm *LookupFormByEditorID(const char *);
 };
 
 class TESFormInitFlag
 {
   public:
-    bool IsFormInitialized() const;
 };
 
 class EffectItemList
 {
   public:
-    void RemoveAllEffectItems();
+public:
+    bool FUN_00405da0();
 };
 
 class IngredientItem
 {
   public:
-    void InitializeComponent();
 };
 
 class TESScriptableForm
@@ -157,19 +167,16 @@ class AlchemyItem : public TESForm
     int unk0B8;
     unsigned char unk0BC;
     unsigned char pad0BD[3];
-    int unk0C0;
+    std::intptr_t unk0C0;
     float unk0C4;
-    int unk0C8;
+    std::intptr_t unk0C8;
 
     void ClearData();
     void ResetFormData();
     void InitItem();
     void* FUN_004030b0();
     void SetSound(TESSound* sound);
-    unsigned int GetFieldC8();
-    void FUN_00874460(SpellItem* item);
 };
 
-int Warning(const char* format, ...);
 
 #endif

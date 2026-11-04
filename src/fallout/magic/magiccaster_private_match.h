@@ -18,6 +18,13 @@
 // bytes are identical. MagicItem::CannotCastReason is only used in an
 // uncalled declaration slot. The local Actor declares the five real canonical
 // bases (members omitted: only the MagicCaster downcast offset is used).
+#include <cstdint>
+#include "fnv/decl/FUN_00445300_shell.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_004def90_Class.h"
+#include "fnv/decl/FUN_0080fcc0_class.h"
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/symbols_011c3000.h"
 #include "magiccaster_private_layout_support.h"
 #include "magiccaster_private_TESForm.h"
 #include "magiccaster_private_TESFullName.h"
@@ -128,12 +135,9 @@ class MagicCaster
     bool AddEffectToTarget(MagicTarget* target, NiPoint3 position, MagicItem* spell, ActiveEffect* effect,
                            bool immediate);
     void SetState(MagicCaster__State state, char* reason);
-    static MagicCaster* GetCasterByHandle(unsigned int formID);
+    static MagicCaster* GetCasterByHandle(uintptr_t formID);
     void LaunchMagicProjectile(float fValue, TESBoundObject* pObject, bool bArg1, float fImpulseRadiusSquared, bool bArg2);
 };
-FNV_STATIC_ASSERT(sizeof(MagicCaster) == 0xC);
-FNV_STATIC_ASSERT(offsetof(MagicCaster, apTargetLight) == 0x4);
-FNV_STATIC_ASSERT(offsetof(MagicCaster, eState) == 0x8);
 
 class Actor : public MobileObject,
               public MagicCaster,
@@ -146,13 +150,12 @@ class Actor : public MobileObject,
 class NiNode
 {
   public:
-    int FUN_00453470();
-    void FUN_004def90();
 };
 class MagicEffectCollection
 {
   public:
-    void* FUN_0080fcc0(unsigned int flags);
+public:
+    void UpdateLightFade(float);
 };
 class TESModel
 {
@@ -171,7 +174,5 @@ class EffectSetting : public TESForm, public TESModel
 class ModelLoader
 {
   public:
-    void QueueModelLoad(const char*, bool, unsigned int);
 };
-extern ModelLoader* g_modelLoader;
 #endif

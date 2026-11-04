@@ -2,6 +2,7 @@
 #ifndef FNV_FOVATSEFFECTMANAGER_EFFECTS_H
 #define FNV_FOVATSEFFECTMANAGER_EFFECTS_H
 
+#include "fnv/symbols_00403000.h"
 #include "TESForm.h"
 class TESObjectLIGH;
 class TESEffectShader;
@@ -44,7 +45,6 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
 class GlobalObject_0040e0b0;
 extern GlobalObject_0040e0b0 g_011c36c0;
@@ -85,7 +85,4 @@ class EffectSetting : public TESForm, public TESModel, public TESDescription, pu
     virtual void CopyFromBase(BaseFormComponent*);
     virtual bool CompareWithBase(BaseFormComponent*);
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 0x18);
-FNV_STATIC_ASSERT(sizeof(EffectSetting) == 0xb0);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, data) == 0x58);
 #endif

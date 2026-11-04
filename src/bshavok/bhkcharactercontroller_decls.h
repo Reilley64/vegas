@@ -2,6 +2,7 @@
 #ifndef BHKCHARACTERCONTROLLER_PACKET_DECLS_H
 #define BHKCHARACTERCONTROLLER_PACKET_DECLS_H
 
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
 class GlobalObject_008c71b0
 {
   public:
@@ -18,7 +19,6 @@ class bhkCharacterController
 class MobileObject
 {
   public:
-    bhkCharacterController* GetPhysicsCharacterController();
     GlobalObject_008c71b0 GetVectorElement();
 };
 #endif

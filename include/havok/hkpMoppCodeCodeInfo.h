@@ -3,12 +3,9 @@
 #ifndef FNV_HAVOK_HKPMOPPCODECODEINFO_H
 #define FNV_HAVOK_HKPMOPPCODECODEINFO_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpMoppCodeCodeInfo
 {
   public:
     hkVector4 m_offset;  // +0x0
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMoppCodeCodeInfo[(sizeof(hkpMoppCodeCodeInfo) == 0x10) ? 1 : -1];
 #endif

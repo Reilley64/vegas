@@ -11,8 +11,7 @@ bool PackedTaskQueueProcessor::Process()
         BSPackedTask task;
     } state;
     state.success = true;
-    // The input count accessor shares the canonical pointer accessor's code.
-    while (state.success || (int)inputSources.operator->() > 0)
+    while (state.success || inputSources.iCount > 0)
     {
         state.success = vfn_10(state.task);
         if (state.success)

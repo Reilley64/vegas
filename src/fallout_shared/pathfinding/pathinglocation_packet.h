@@ -1,9 +1,17 @@
 
+#include "fnv/decl/Owner45A.h"
+#include "fnv/decl/fnv_00696a50__FUN_00696a50_shell.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_006dd000.h"
+#include "fnv/symbols_006df000.h"
+#include "fnv/symbols_0106c000.h"
+#include "fnv/symbols_011de000.h"
 class FindTriangleForLocationFilter;
 class PathingLocationProxy : public PathingLocation
 {
   public:
-    bool IsPathingLocationFlagSet();
     bool FindContainingTriangle(FindTriangleForLocationFilter*);
     TESObjectCELL* GetContainingCell();
     const NavMeshInfo* GetAssociatedNavMesh();
@@ -18,25 +26,22 @@ class PathingLocationArray
 class BGSLoadGameBuffer
 {
   public:
-    void ReadDataBlock(void*, unsigned int);
-    unsigned int ReadFormIdentifier();
 };
 class BGSLoadFormBuffer
 {
   public:
-    bool ReadFormIdentifier(void*);
 };
+class TESObjectREFR;
 class Pathing
 {
   public:
-    NavMeshInfo* FindReferenceByFormId();
+public:
+    ::TESObjectREFR *FindReferenceByFormId(unsigned int);
 };
 class TES
 {
   public:
-    Pathing* GetActiveCell(unsigned int);
 };
-extern TES* g_TES;
 const BSSimpleArray<NavMeshInfo_const*, 1024>* FUN_006d6f40(TESObjectCELL*);
 const BSSimpleArray<NavMeshInfo_const*, 1024>* ForwardToPathing(TESWorldSpace*, unsigned int);
 class NavMeshPtr
@@ -52,7 +57,6 @@ class NiNode : public TESForm
 class NavMeshBounds
 {
   public:
-    bool ContainsPoint(const NiPoint3&);
     NiPoint3 FUN_0069c070(const NiPoint3&);
 };
 class NiFormArray
@@ -65,12 +69,9 @@ class PathBuilderDetailedPathInfos : public BSSimpleArray<unsigned int, 1024>
   public:
     PathBuilderDetailedPathInfos();
     ~PathBuilderDetailedPathInfos();
-    NavMeshInfo*& GetFirstForm();
 };
 
 class NavMesh
 {
   public:
-    unsigned short FindTriangleForLocation(const NiPoint3&, FindTriangleForLocationFilter*);
 };
-extern double DAT_0106cd60;

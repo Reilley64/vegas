@@ -1,4 +1,5 @@
 
+#include "fnv/decl/FUN_00403ee0_shell.h"
 class EffectItem
 {
   public:
@@ -8,11 +9,10 @@ class EffectItem
     int m_eRange;
     int m_eAssociatedActorValue;
 
-    bool FUN_00403ee0();
     int GetAffectedActorValue();
 };
 
 int EffectItem::GetAffectedActorValue()
 {
-    return FUN_00403ee0() ? m_eAssociatedActorValue : -1;
+    return reinterpret_cast<::FUN_00403ee0_shell *>(this)->FUN_00403ee0() ? m_eAssociatedActorValue : -1;
 }

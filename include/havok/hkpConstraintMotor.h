@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPCONSTRAINTMOTOR_H
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpConstraintMotor : public hkReferencedObject
 {
   public:
@@ -20,6 +19,4 @@ class hkpConstraintMotor : public hkReferencedObject
     hkInt8 m_type;  // +0x8 (MotorType)
     char pad9[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConstraintMotor[(sizeof(hkpConstraintMotor) == 0xC) ? 1 : -1];
 #endif

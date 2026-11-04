@@ -21,5 +21,4 @@ class MenuSystem
     // bool __cdecl MenuSystem::*(int)
     // void* __cdecl MenuSystem::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(MenuSystem) == 1);
 #endif

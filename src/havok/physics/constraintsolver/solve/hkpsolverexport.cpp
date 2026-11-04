@@ -2,10 +2,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // FUN_00df0680: cdecl forwarder to FUN_00def570 (single jmp body).
-void FUN_00def570();
 
 // @fnv 0x00df0680
+#include "fnv/symbols_00def000.h"
 void __cdecl FUN_00df0680()
 {
-    FUN_00def570();
+    ::FUN_00def570(*(const ::ConstraintSolverInfo *)nullptr, {}, {}, {});
 }

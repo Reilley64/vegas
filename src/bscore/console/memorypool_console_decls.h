@@ -2,6 +2,7 @@
 #ifndef MEMORYPOOL_CONSOLE_DECLS_H
 #define MEMORYPOOL_CONSOLE_DECLS_H
 
+#include <windows.h>
 class MemoryPool
 {
   public:
@@ -9,5 +10,4 @@ class MemoryPool
     char* m_pPoolBase;
     bool CommitPage(unsigned int pageIndex, char*& page);
 };
-extern "C" __declspec(dllimport) void* __stdcall VirtualAlloc(void*, unsigned long, unsigned long, unsigned long);
 #endif

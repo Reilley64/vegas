@@ -2,6 +2,10 @@
 // src/gamebryo2.2/corelibs/nicollision/nicapsulesphereintersector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nicapsulesphereintersector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/NiPlane.h"
+#include "fnv/symbols_011a9000.h"
 struct NiPoint3
 {
     float x, y, z;
@@ -27,10 +31,13 @@ struct NiPoint3
     }
 };
 
+struct NiPoint3;
 struct OriginDirectionPair
 {
     NiPoint3 m_kStartPoint;
     NiPoint3 m_kLightVector;
+public:
+    ::NiPoint3 FUN_00eb6090(float);
 };
 
 struct S_00eaea50_Capsule
@@ -82,7 +89,7 @@ struct S_00eaea50
 float S_00eaea50::FUN_00eaea50(const NiPoint3& kV0, const NiPoint3& kV1, float fTime)
 {
     OriginDirectionPair kSeg = m_pkCapsule->m_kOriginDirectionPair;
-    kSeg.m_kStartPoint += kV0 * fTime;
+    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(kSeg.m_kStartPoint))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)(kV0 * fTime));
     NiPoint3 kSphereCenter = m_pkSphere->m_kCenter + kV1 * fTime;
     float fDist = DistanceSquaredToSegment(kSphereCenter, kSeg, m_fParam) * m_fValue - 1.0;
     return fDist;
@@ -90,21 +97,17 @@ float S_00eaea50::FUN_00eaea50(const NiPoint3& kV0, const NiPoint3& kV1, float f
 
 struct SegmentMethods : OriginDirectionPair
 {
-    NiPoint3 FUN_00eb6090(float parameter) const;
 };
 struct PointMethods
 {
-    void FUN_004a0c10();
 };
 struct Call_439090_tgt
 {
-    bool FUN_00439090(const NiPoint3& point);
 };
 struct CapsuleGeometry : S_00eaea50_Capsule
 {
     float m_fBoundRadius;
 };
-extern const NiPoint3 DAT_011a9484;
 inline NiPoint3 Difference(const NiPoint3& a, const NiPoint3& b)
 {
     return NiPoint3(a.x - b.x, a.y - b.y, a.z - b.z);
@@ -126,26 +129,26 @@ struct ContactGeometry
 void ContactGeometry::ComputeContactPoint(const NiPoint3& velocity0, const NiPoint3& velocity1)
 {
     NiPoint3 kCapsulePoint =
-        static_cast<const SegmentMethods&>(m_pkCapsule->m_kOriginDirectionPair).FUN_00eb6090(m_fParam);
+        reinterpret_cast<::OriginDirectionPair *>((void *)&(static_cast<const SegmentMethods&>(m_pkCapsule->m_kOriginDirectionPair)))->FUN_00eb6090(m_fParam);
     const NiPoint3* __restrict pkSphereCenter = &m_pkSphere->m_kCenter;
     NiPoint3 kSpherePoint = *pkSphereCenter;
     if (m_eRequestType == 2)
     {
-        kCapsulePoint += velocity0 * m_fTime;
-        kSpherePoint += velocity1 * m_fTime;
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(kCapsulePoint))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)(velocity0 * m_fTime));
+        reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(kSpherePoint))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)(velocity1 * m_fTime));
         m_kPlaneNormal = Difference(kSpherePoint, kCapsulePoint);
-        reinterpret_cast<PointMethods*>(&m_kPlaneNormal)->FUN_004a0c10();
+        reinterpret_cast<::FUN_004a0c10_s *>((reinterpret_cast<PointMethods*>(&m_kPlaneNormal)))->FUN_004a0c10();
         m_kPoint = kCapsulePoint + m_kPlaneNormal * m_pkCapsule->m_fBoundRadius;
     }
     else
     {
         m_kPoint = (kCapsulePoint + kSpherePoint) * 0.5;
-        if (reinterpret_cast<Call_439090_tgt*>(&kCapsulePoint)->FUN_00439090(kSpherePoint))
+        if (reinterpret_cast<::NiPlane *>((reinterpret_cast<Call_439090_tgt*>(&kCapsulePoint)))->operator==((const ::NiPlane &)(kSpherePoint)))
         {
             m_kPlaneNormal = Difference(kSpherePoint, kCapsulePoint);
-            reinterpret_cast<PointMethods*>(&m_kPlaneNormal)->FUN_004a0c10();
+            reinterpret_cast<::FUN_004a0c10_s *>((reinterpret_cast<PointMethods*>(&m_kPlaneNormal)))->FUN_004a0c10();
         }
         else
-            m_kPlaneNormal = DAT_011a9484;
+            m_kPlaneNormal = ::DAT_011a9484;
     }
 }

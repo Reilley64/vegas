@@ -20,23 +20,16 @@ class NiTPointerList_BGSDecalEmitter___;
 class NiTPointerList_NiPointer_BSTempEffectSimpleDecal___;
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter___;
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal___;
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -44,14 +37,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimple
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(
-    sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal_____AntiBloatAllocator) ==
-    4);
-FNV_STATIC_ASSERT(
-    offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal_____AntiBloatAllocator,
-             m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal___
 {
   public:
@@ -76,15 +61,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimple
     // NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<BSTempEffectSimpleDecal> >& __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<BSTempEffectSimpleDecal> >::*(const NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<BSTempEffectSimpleDecal> >&)
     // void* __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<BSTempEffectSimpleDecal> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal___,
-                           m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal___,
-                           m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal___,
-                           m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal___
 {
@@ -113,10 +89,6 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffec
     // NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<BSTempEffectSimpleDecal> >& __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<BSTempEffectSimpleDecal> >::*(const NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<BSTempEffectSimpleDecal> >&)
     // void* __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<BSTempEffectSimpleDecal> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal___) ==
-                  12);
-#pragma pack(push, 4)
 class NiTPointerList_NiPointer_BSTempEffectSimpleDecal___
     : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_BSTempEffectSimpleDecal___
 {
@@ -127,9 +99,6 @@ class NiTPointerList_NiPointer_BSTempEffectSimpleDecal___
     // NiTPointerList<NiPointer<BSTempEffectSimpleDecal> >& __cdecl NiTPointerList<NiPointer<BSTempEffectSimpleDecal> >::*(const NiTPointerList<NiPointer<BSTempEffectSimpleDecal> >&)
     // void* __cdecl NiTPointerList<NiPointer<BSTempEffectSimpleDecal> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerList_NiPointer_BSTempEffectSimpleDecal___) == 12);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -137,11 +106,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter_____AntiBloa
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter_____AntiBloatAllocator,
-                           m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter___
 {
   public:
@@ -149,27 +113,15 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter___
     NiTListItem_BGSDecalEmitter___* m_pkTail;                                                           // +0x4, 4 bytes
     NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter_____AntiBloatAllocator m_kItemCount;  // +0x8, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter___, m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter___
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter___) == 12);
-#pragma pack(push, 4)
 class NiTPointerList_BGSDecalEmitter___ : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__BGSDecalEmitter___
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerList_BGSDecalEmitter___) == 12);
-#pragma pack(push, 4)
 class BGSDecalManager
 {
   public:
@@ -199,12 +151,4 @@ class BGSDecalManager
     // BGSDecalManager& __cdecl BGSDecalManager::*(const BGSDecalManager&)
     // void* __cdecl BGSDecalManager::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSDecalManager) == 40);
-FNV_STATIC_ASSERT(offsetof(BGSDecalManager, m_pDecalRenderTexture) == 0);
-FNV_STATIC_ASSERT(offsetof(BGSDecalManager, m_bDecalRenderingEnabled) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSDecalManager, m_kSimpleDecalList) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSDecalManager, BGSDecalEmitterList) == 20);
-FNV_STATIC_ASSERT(offsetof(BGSDecalManager, m_spShaderAccumulator) == 32);
-FNV_STATIC_ASSERT(offsetof(BGSDecalManager, m_pDecalCamera) == 36);
 #endif

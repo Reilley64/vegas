@@ -1,5 +1,8 @@
 // speedtree/simplebillboard.cpp: SimpleBillboard (1 function)
 
+#include "fnv/decl/Mat.h"
+#include "fnv/symbols_010a4000.h"
+#include "fnv/symbols_011f8000.h"
 #include "simplebillboard_decls.h"
 // @fnv 0x00b27080
 void SimpleBillboard::CalculateBillboardTransform(const float* afPosition)
@@ -43,10 +46,12 @@ void SimpleBillboard::CalculateBillboardTransform(const float* afPosition)
     frame.cRot.m_fComponents[2][0] = 0.0f;
     frame.cRot.m_fComponents[2][1] = 0.0f;
     frame.cRot.m_fComponents[2][2] = 1.0f;
-    frame.cRot.FUN_00b273d0(frame.fAngleDifference);
+    reinterpret_cast<::Mat *>(&(frame.cRot))->FUN_00b273d0(frame.fAngleDifference);
     DAT_011f8d08 = corners[0] * frame.cRot;
     DAT_011f8d14 = corners[1] * frame.cRot;
     DAT_011f8d20 = corners[2] * frame.cRot;
     DAT_011f8d2c = corners[3] * frame.cRot;
     ReserveBillboardWorkspace();
 }
+
+#include "generated/data/speedtree/simplebillboard.inc"

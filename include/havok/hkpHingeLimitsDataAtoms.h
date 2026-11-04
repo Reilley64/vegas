@@ -3,7 +3,6 @@
 #ifndef FNV_HAVOK_HKPHINGELIMITSDATAATOMS_H
 #define FNV_HAVOK_HKPHINGELIMITSDATAATOMS_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpHingeLimitsDataAtoms
 {
   public:
@@ -15,6 +14,4 @@ class hkpHingeLimitsDataAtoms
     };
     char pad0[0x90];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpHingeLimitsDataAtoms[(sizeof(hkpHingeLimitsDataAtoms) == 0x90) ? 1 : -1];
 #endif

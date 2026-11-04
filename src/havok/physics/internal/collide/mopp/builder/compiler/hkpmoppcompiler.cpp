@@ -2,7 +2,11 @@
 // src/havok/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
+#include "fnv/decl/FUN_00dd50f0_cls.h"
+#include "fnv/decl/FUN_00dd5150_cls.h"
 struct InitArg;
 
 struct SubFirst
@@ -14,7 +18,6 @@ struct SubFirst
     int m_i10;
     int m_i14;
 
-    void FUN_00dd50f0(InitArg* apArg);
 };
 
 struct SubSecond
@@ -28,7 +31,6 @@ struct SubSecond
     int m_i18;
     int m_i1c;
 
-    void FUN_00dd5150(InitArg* apArg);
 };
 
 struct FUN_00dd4bf0
@@ -52,8 +54,8 @@ struct FUN_00dd4bf0
 // @fnv 0x00dd4bf0
 FUN_00dd4bf0::FUN_00dd4bf0(InitArg* apArg)
 {
-    m_kFirst.FUN_00dd50f0(apArg);
-    m_kSecond.FUN_00dd5150(apArg);
+    reinterpret_cast<::FUN_00dd50f0_cls *>(&(m_kFirst))->FUN_00dd50f0(apArg);
+    reinterpret_cast<::FUN_00dd5150_cls *>(&(m_kSecond))->FUN_00dd5150(apArg);
 
     m_fCoefficientA = 0.5f;
     m_fB = 0.2f;
@@ -98,17 +100,358 @@ struct Destination
     __m128 unk50;
     unsigned int unk60;
     unsigned char unk64;
-    void CopyFromSourceData(unsigned int srcAddress);
+    void CopyFromSourceData(const SourceData* src);
 };
 // Copies x, y, z, a 16-byte vector, a 32-bit value and a byte from the SourceData at srcAddress into this object's unk40 to unk64 fields.
 // @fnv 0x00dd4c70
-void Destination::CopyFromSourceData(unsigned int srcAddress)
+void Destination::CopyFromSourceData(const SourceData* src)
 {
-    const SourceData* src = (const SourceData*)srcAddress;
     unk40 = src->x;
     unk44 = src->y;
     unk48 = src->z;
     unk50 = src->unk10;
     unk60 = src->unk20;
     unk64 = src->unk24;
+}
+
+// Moved from hkpmoppcompiler_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+// src/havok/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-30 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <new>
+#include <cstring>
+#include "fnv/decl/BufferRequirements.h"
+#include "fnv/decl/FUN_00e064f0_class.h"
+#include "fnv/decl/FUN_00e09ba0.h"
+#include "fnv/decl/S_00dd4bb0_Class.h"
+#include "fnv/decl/hkProcessorE0A5.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00e09000.h"
+#include "fnv/symbols_0102e000.h"
+
+extern "C" void _ReadWriteBarrier(void);
+struct FourFloatVector
+{
+    __m128 q;
+};
+void* __cdecl FUN_00c85690(hkMemoryAllocator*, int) throw();
+void __cdecl FUN_00c856c0(hkMemoryAllocator*, void*) throw();
+class hkBaseObject
+{
+  public:
+    virtual ~hkBaseObject() throw()
+    {}
+};
+class hkReferencedObject : public hkBaseObject
+{
+  public:
+    unsigned short memSizeAndFlags;
+    short referenceCount;
+    hkReferencedObject() throw()
+    {
+        referenceCount = 1;
+    }
+    static void* operator new(size_t n) throw()
+    {
+        hkReferencedObject* b = (hkReferencedObject*)hkMemoryRouter::getInstance().heap().blockAlloc(n);
+        b->memSizeAndFlags = (unsigned short)n;
+        return b;
+    }
+    static void operator delete(void*) throw()
+    {}
+};
+template <class T> struct MergeArray
+{
+    T* data;
+    int size;
+    int capacity;
+    static void fill(T* p, int num)
+    {
+        _ReadWriteBarrier();
+        if (num > 0)
+            std::memset(p, 0xcd, num * sizeof(T));
+    }
+    void init()
+    {
+        data = 0;
+        size = 0;
+        capacity = 0x80000000;
+    }
+    int getCapacity() const
+    {
+        return capacity & 0x3fffffff;
+    }
+    void reserve(int n)
+    {
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
+        int cap = getCapacity();
+        if (cap < n)
+        {
+            int cap2 = 2 * cap;
+            ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&a), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(T));
+        }
+    }
+    void reserveExactly(int n)
+    {
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
+        if (getCapacity() < n)
+            ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&a), (::SpawnedArray *)(void *)(this), n, sizeof(T));
+    }
+    void SetSizeAndGrow(int n)
+    {
+        reserve(n);
+        size = n;
+    }
+    void setSizeFill(int n)
+    {
+        reserve(n);
+        fill(data + size, n - size);
+        size = n;
+    }
+    void ClearAndRelease()
+    {
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
+        size = 0;
+        if ((capacity & 0x80000000) == 0)
+            a.bufFree(data, (capacity & 0x3fffffff) * sizeof(T));
+        data = 0;
+        capacity = 0x80000000;
+    }
+};
+class hkpMoppCode : public hkReferencedObject
+{
+  public:
+    FourFloatVector info;
+    MergeArray<unsigned char> code;
+    unsigned char buildType;
+    hkpMoppCode() throw()
+    {
+        *(void**)this = &(*reinterpret_cast<char *>(&::DAT_0102e368));
+        code.init();
+        info.q = _mm_setzero_ps();
+        buildType = 2;
+    }
+    virtual ~hkpMoppCode() throw();
+};
+struct PrimitiveSource
+{
+    virtual void slot0() throw();
+    virtual void slot4() throw();
+    virtual void slot8() throw();
+    virtual void setAssembler(void*, int) throw();
+    virtual int count() throw();
+    virtual void SetDataPointer(void*) throw();
+};
+struct hkpMoppCodeGenerator : hkReferencedObject
+{
+    int byteCapacity;
+    int byteSize;
+    unsigned char* byteData;
+    MergeArray<int> state;
+    hkpMoppCodeGenerator(int) throw();
+    ~hkpMoppCodeGenerator() throw();
+};
+struct CostSettings
+{
+    float primitive, plane, axis, split, balance, minimum, maximum, scale;
+};
+struct hkpMoppCostFunction
+{
+    void* vfptr;
+    unsigned short memSizeAndFlags;
+    short referenceCount;
+    float axis, plane, primitive, split, balance, scale;
+    hkpMoppCostFunction(CostSettings*) throw();
+    ~hkpMoppCostFunction() throw()
+    {
+        vfptr = &(*reinterpret_cast<char *>(&::DAT_0102e388));
+    }
+};
+struct AssemblerSettings
+{
+    int unk00;
+};
+struct ChunkRecord
+{
+    int offset;
+    int primitive;
+};
+struct ChunkEntry
+{
+    hkpMoppCodeGenerator* generator;
+    int flags;
+};
+struct ChunkList
+{
+    int fixedSize;
+    int unk04, unk08, unk0C;
+    ChunkEntry* entries;
+    int count;
+    int capacity;
+    int useFixedSize;
+    ChunkEntry& at(const int& i)
+    {
+        return entries[i];
+    }
+};
+struct AssemblerInterface
+{
+    virtual void slot0() throw();
+    virtual void slot4() throw();
+    virtual void slot8() throw();
+    virtual int outputSize() throw();
+    virtual void* output() throw();
+    virtual void slot14() throw();
+    virtual void finalize(void*, FourFloatVector*) throw();
+};
+struct hkpMoppDefaultAssembler : AssemblerInterface
+{
+    unsigned short memoryFlags, referenceCount;
+    int unk08, unk0C, unk10;
+    ChunkList* chunks;
+    int unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
+    int unk40, unk44, unk48;
+    int unk4C;
+    float unk50, unk54, unk58, unk5C;
+    FourFloatVector unk60;
+    int unk70, unk74, unk78, unk7C;
+    hkpMoppDefaultAssembler(AssemblerSettings*, hkpMoppCodeGenerator*, PrimitiveSource*) throw();
+    ~hkpMoppDefaultAssembler() throw();
+};
+struct ScratchLayout
+{
+    unsigned char* start;
+    unsigned char* nodes;
+    unsigned char* end;
+};
+struct hkpMoppDefaultSplitter
+{
+    void* vtbl;
+    int unk04;
+    int unk08, unk0C, unk10, unk14, unk18, unk1C;
+    hkpMoppCostFunction* costFunction;
+    hkpMoppDefaultAssembler* assembler;
+    PrimitiveSource* source;
+    int unk2C, unk30, unk34, treeDepth;
+    hkpMoppDefaultSplitter() throw()
+    {
+        new ((void *)this) ::FUN_00e09ba0();
+    }
+    ~hkpMoppDefaultSplitter() throw()
+    {
+        ::FUN_00e09bd0((void *)this, {});
+    }
+};
+struct EncodedReference
+{
+    unsigned char tag, indexHigh, indexMiddle, indexLow, indexLast;
+};
+static __declspec(noinline) void StoreBigEndian(EncodedReference* reference, int value) throw()
+{
+    reference->indexHigh = (unsigned int)value >> 24;
+    reference->indexMiddle = (unsigned int)value >> 16;
+    reference->indexLow = (unsigned int)value >> 8;
+    reference->indexLast = value;
+}
+inline void* allocateScratch(int n)
+{
+    hkMemoryAllocator* heap = &hkMemoryRouter::getInstance().heap();
+    return FUN_00c85690(heap, n);
+}
+struct MoppBuilder
+{
+    void* result;
+    ChunkList* chunks;
+    int options;
+    int extraPrimitives;
+    int unk10, unk14, unk18;
+    bool largeBuffer;
+    CostSettings cost;
+    AssemblerSettings assembler;
+    hkpMoppCode* FUN_00dd4cb0(PrimitiveSource*, void*, int) throw();
+};
+// @fnv 0x00dd4cb0
+hkpMoppCode* MoppBuilder::FUN_00dd4cb0(PrimitiveSource* source, void* buffer, int bufferSize)
+{
+    int primitiveCount = source->count() + extraPrimitives;
+    hkpMoppCodeGenerator generator(primitiveCount * 12);
+    hkpMoppCostFunction costFunction(&cost);
+    hkpMoppDefaultAssembler output(&assembler, &generator, source);
+    output.chunks = chunks;
+    AssemblerInterface* outputInterface = &output;
+    source->setAssembler(outputInterface->output(), outputInterface->outputSize());
+    int required = reinterpret_cast<::BufferRequirements *>(this)->ComputeRequiredSize((::CountProvider *)(source));
+    void* scratch = (!buffer || bufferSize < required) ? allocateScratch(required) : buffer;
+    ScratchLayout layout;
+    layout.start = (unsigned char*)scratch;
+    layout.nodes = (unsigned char*)scratch + primitiveCount * 20;
+    int nodeCount = largeBuffer ? 4096 : primitiveCount;
+    layout.end = layout.nodes + nodeCount * 124;
+    source->SetDataPointer(scratch);
+    void* status;
+    {
+        hkpMoppDefaultSplitter splitter;
+        status = reinterpret_cast<::hkProcessorE0A5 *>(&(splitter))->FUN_00e0a550((::hkInputE0A5 *)(source), &costFunction, (::hkOutputE0A5 *)(::hkpMoppDefaultAssembler *)(&output), (::hkSettingsE0A5 *)(int *)(&options), (::hkBuffersE0A5 *)(::ScratchLayout *)(&layout));
+    }
+    if (scratch != buffer)
+    {
+        hkMemoryAllocator* heap = &hkMemoryRouter::getInstance().heap();
+        FUN_00c856c0(heap, scratch);
+    }
+    result = status;
+    hkpMoppCode* code;
+    if (!chunks)
+    {
+        code = ((::hkpMoppCode *)(reinterpret_cast<::FUN_00e064f0_class *>(&(generator))->FUN_00e064f0()));
+    }
+    else
+    {
+        MergeArray<int> offsets;
+        offsets.init();
+        offsets.SetSizeAndGrow(chunks->count + 1);
+        offsets.data[0] = 0;
+        for (int i = 0; i < chunks->count; ++i)
+        {
+            int size;
+            if (chunks->useFixedSize)
+                size = chunks->fixedSize;
+            else
+                size = (chunks->entries[i].generator->byteSize + 15) & ~15;
+            offsets.data[i + 1] = offsets.data[i] + size;
+        }
+        for (int i = 0; i < chunks->count; ++i)
+        {
+            ChunkEntry* entry = &chunks->entries[i];
+            MergeArray<ChunkRecord>& records = *(MergeArray<ChunkRecord>*)&entry->generator->state;
+            for (int j = 0; j < records.size; ++j)
+            {
+                hkpMoppCodeGenerator* current = entry->generator;
+                EncodedReference* reference =
+                    (EncodedReference*)(current->byteData + current->byteCapacity - records.data[j].offset);
+                StoreBigEndian(reference, offsets.data[((int)(reinterpret_cast<::S_00dd4bb0_Class *>((reference))->GetPackedValue()))]);
+            }
+        }
+        int totalSize = offsets.data[offsets.size - 1];
+        code = new hkpMoppCode;
+        MergeArray<unsigned char>& bytes = code->code;
+        bytes.reserveExactly(totalSize);
+        bytes.setSizeFill(totalSize);
+        for (int i = 0; i < chunks->count; ++i)
+        {
+            unsigned char* dest = bytes.data + offsets.data[i];
+            hkpMoppCode* part = ((::hkpMoppCode *)(reinterpret_cast<::FUN_00e064f0_class *>((chunks->at(i).generator))->FUN_00e064f0()));
+            ::FUN_00cb1260(dest, part->code.data, part->code.size);
+            delete part;
+            reinterpret_cast<::hkReferencedObjectC905 *>((chunks->at(i).generator))->FUN_00c905b0();
+        }
+        offsets.ClearAndRelease();
+    }
+    outputInterface->finalize(status, &code->info);
+    return code;
 }

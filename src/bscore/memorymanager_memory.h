@@ -2,6 +2,11 @@
 #ifndef FNV_MEMORYMANAGER_H
 #define FNV_MEMORYMANAGER_H
 
+#include <windows.h>
+#include "fnv/decl/AA4610Allocator.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00aa45a0_Class.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
 #include "layout_support.h"
 #include "MemoryPool.h"
 #include "IMemoryHeap.h"
@@ -10,8 +15,6 @@ class ScrapHeapBuffer
   public:
     char data[16];
     ScrapHeapBuffer();
-    static __forceinline void* operator new(size_t size);
-    static __forceinline void operator delete(void* p);
 };
 template <class K, class V> class BSMapBase
 {
@@ -20,9 +23,7 @@ template <class K, class V> class BSMapBase
     bool GetAt(K, V&);
     void SetAt(K, V);
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 // Partial PC prefix through m_bPoolAllocationEnabled; sizeof is the prefix, not the runtime allocation.
-#pragma pack(push, 4)
 class MemoryManager
 {
   public:
@@ -38,12 +39,11 @@ class MemoryManager
     void Deallocate(void* pointer);
     void* Reallocate(void* pointer, unsigned int size);
     unsigned int Size(const void* pointer);
-    IMemoryHeap* GetHeapForPointer(const void* pointer);
-    IMemoryHeap* GetHeapForPhysicalPointer(const void* pointer);
+public:
+    void FUN_00866770();
+public:
+    void InitializeHeaps();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MemoryManager) == 0x12C);
-FNV_STATIC_ASSERT(offsetof(MemoryManager, m_bPoolAllocationEnabled) == 0x129);
 #endif
 
 extern MemoryManager g_memoryManager;
@@ -56,25 +56,4 @@ FNV_FORCEINLINE MemoryManager& MemoryManager::Instance()
 {
     return g_memoryManager;
 }
-FNV_FORCEINLINE void* operator new(size_t size)
-{
-    return g_memoryManager.Allocate(size);
-}
-FNV_FORCEINLINE void operator delete(void* p)
-{
-    g_memoryManager.Deallocate(p);
-}
 
-__forceinline void* ScrapHeapBuffer::operator new(size_t size)
-{  // Preserve five unused allocator-local slots from the original PC build.
-    struct Reserved
-    {
-        unsigned int slots[5];
-    };
-    Reserved reserved;
-    return g_memoryManager.Allocate(size);
-}
-__forceinline void ScrapHeapBuffer::operator delete(void* p)
-{
-    g_memoryManager.Deallocate(p);
-}

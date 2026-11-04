@@ -2,8 +2,14 @@
 #ifndef NITEXTURINGPROPERTY_DECLS_H
 #define NITEXTURINGPROPERTY_DECLS_H
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
+#include <windows.h>
+#include "fnv/decl/FUN_00462d80_shell.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_011f6000.h"
 class NiStream;
 class NiTexture;
 template <class T> class NiPointer
@@ -29,13 +35,10 @@ class BGSCameraPath;
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int);
 };
-extern MemoryManager g_memoryManager;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 class NiBinaryStream
 {
@@ -56,6 +59,7 @@ class NiBinaryStream
         return BinaryRead(p, n, &size, 1);
     }
 };
+class NiObject;
 class NiStream
 {
   public:
@@ -64,11 +68,12 @@ class NiStream
     unsigned char middle[0x170];
     NiBinaryStream* m_pUnderlyingStream;
     void SetLinkIDCount(unsigned int);
-    void ResetStreamState();
+public:
+    ::NiObject *GetLoadedObject();
 };
 template <class T> inline void ReadBinaryValue(NiStream& s, T& value)
 {
-    s.m_pUnderlyingStream->Read(&value, sizeof(T));
+    reinterpret_cast<::FUN_00462d80_shell *>((s.m_pUnderlyingStream))->ReadBytes(&value, sizeof(T));
 }
 class NiProperty : public NiMemObject
 {
@@ -105,10 +110,6 @@ template <class T> class NiTPrimitiveArray : public NiTArray<T, NiTMallocInterfa
 {
   public:
     NiTPrimitiveArray(unsigned int size, unsigned int grow = 1) throw();
-    static void* operator new(unsigned int n)
-    {
-        return g_memoryManager.Allocate(n);
-    }
     void SetAt(unsigned int i, T& value)
     {
         if (i >= m_usSize)
@@ -129,7 +130,7 @@ template <class T> class NiTPrimitiveArray : public NiTArray<T, NiTMallocInterfa
     void SetAtGrow(unsigned int i, T& value)
     {
         if (i >= m_usMaxSize)
-            SetSize(i + m_usGrowBy);
+            reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(i + m_usGrowBy);
         SetAt(i, value);
     }
 };
@@ -139,10 +140,6 @@ class TextureMapTransform
     unsigned char data[0x48];
     TextureMapTransform() throw();
     void LoadBinary(NiStream&);
-    static void* operator new(unsigned int n)
-    {
-        return g_memoryManager.Allocate(n);
-    }
 };
 class NiGlobalStringTable
 {
@@ -155,14 +152,13 @@ class NiFixedString
     char* m_kHandle;
     NiFixedString& operator=(const char*);
 };
-extern NiFixedString EmptyFS;
 inline NiFixedString& NiFixedString::operator=(const char* string)
 {
     if (m_kHandle != string)
     {
         char* old = m_kHandle;
         m_kHandle = NiGlobalStringTable::AddString(string);
-        if (old != EmptyFS.m_kHandle)
+        if (old != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement(reinterpret_cast<volatile long*>(old - 8));
     }
     return *this;
@@ -213,10 +209,6 @@ class NiTexturingProperty : public NiProperty
             SetClampMode(clamp);
             SetFilterMode(filter);
             SetTextureIndex(index);
-        }
-        static void* operator new(unsigned int n)
-        {
-            return g_memoryManager.Allocate(n);
         }
         void SetClampMode(ClampMode mode)
         {
@@ -289,9 +281,7 @@ class NiTexturingProperty : public NiProperty
 // Keep its canonical external binding while exposing the map-array operation.
 inline void SetMapAt(NiTPrimitiveArray<NiTexturingProperty::Map*>& maps, unsigned int i, NiTexturingProperty::Map*& map)
 {
-    reinterpret_cast<NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >*>(&maps)->SetAt(
-        i, reinterpret_cast<BGSCameraPath*&>(map));
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((reinterpret_cast<NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >*>(&maps)))->SetAt(
+        i, (char *&)(reinterpret_cast<BGSCameraPath*&>(map)));
 }
-typedef char CheckPropertySize[sizeof(NiTexturingProperty) == 0x30 ? 1 : -1];
-typedef char CheckMapSize[sizeof(NiTexturingProperty::Map) == 0x10 ? 1 : -1];
 #endif

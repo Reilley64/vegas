@@ -2,6 +2,8 @@
 // src/havok/common/scenedata/mesh/hkxindexbufferclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxindexbufferclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/fnv_00e023c0__FUN_00e023c0.h"
 struct AudioAllocator
 {
     virtual void Reserved0();
@@ -10,22 +12,20 @@ struct AudioAllocator
 };
 struct BSAudio
 {
-    unsigned int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     AudioAllocator* allocator;
     void Release(void* p, unsigned int size)
     {
         allocator->Release(p, size);
     }
 };
-BSAudio* FUN_00c85750();
 struct AudioObject
 {
     unsigned int unk00;
     unsigned short allocationSize;
-    void FUN_00e023c0();
     static void operator delete(void* p)
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         AudioObject* object = static_cast<AudioObject*>(p);
         audio->allocator->Release(p, object->allocationSize);
     }
@@ -35,7 +35,7 @@ struct AudioObject
 // @fnv 0x00e02430
 void* AudioObject::ReleaseIfFlagged(unsigned int flags)
 {
-    FUN_00e023c0();
+    reinterpret_cast<::fnv_00e023c0::FUN_00e023c0 *>(this)->fnv_00e023c0::FUN_00e023c0::~FUN_00e023c0();
     if (flags & 1)
         operator delete(this);
     return this;

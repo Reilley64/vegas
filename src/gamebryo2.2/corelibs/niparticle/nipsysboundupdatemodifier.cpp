@@ -2,6 +2,22 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysboundupdatemodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysboundupdatemodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00c25e00_cls.h"
+#include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/decl/NiPSysModifier.h"
+#include "fnv/decl/ParticleModifierBinary.h"
+#include "fnv/decl/PositionState.h"
+#include "fnv/decl/Sphere.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010c0000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01202000.h"
 struct NiParticleSystem;
 struct NiPSysModifier_shell
 {
@@ -22,18 +38,17 @@ void NiPSysModifier_shell::FUN_00c2dc70(NiParticleSystem* system)
 
 struct MM
 {
-    void _DeallocateAlias(void* p);
 };
-extern MM g_memoryManager;
-extern int DAT_010c0134;
-void __cdecl _delete(void* p, unsigned int s);
 struct NiPSysBoundUpdateModifier
 {
     void* _vptr;
-    char _pad[0x18];
+    char _pad[0x14];
+    unsigned short unk18;
+    char pad1a[0x2];
     void* m_pkBounds;
-    void FUN_00c31750();
     void* Destroy(unsigned int);
+public:
+    void SetUpdateSkipCounter(int);
 };
 // Restores the vtable, frees the stored pointer via the memory manager, calls FUN_00c31750, and optionally deletes this with size 0x20.
 // @fnv 0x00c2dca0
@@ -41,15 +56,14 @@ void* NiPSysBoundUpdateModifier::Destroy(unsigned int auiFlags)
 {
     void* p = m_pkBounds;
     *(void**)this = (void*)&DAT_010c0134;
-    g_memoryManager._DeallocateAlias(p);
-    FUN_00c31750();
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
+    reinterpret_cast<::PositionState *>(this)->FUN_00c31750();
     if (auiFlags & 1)
-        _delete(this, 0x20);
+        ::FUN_00aa1460(this, 0x20);
     return this;
 }
 
 namespace fnv_00c2dec0 {
-extern int DAT_010c0134;
 struct CloningProcess
 {
 };
@@ -59,11 +73,9 @@ struct NiObject
 struct BSFadeNode
 {
     char _pad[0x18];
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiPSysModifier : BSFadeNode
 {
-    void CopyMemberData(NiPSysModifier*, CloningProcess&);
 };
 struct NiPSysPositionModifier : NiPSysModifier
 {
@@ -75,12 +87,11 @@ struct NiPSysBoundUpdateModifier : NiPSysPositionModifier
     unsigned short m_usUpdateSkipCounter;
     void* m_pkBounds;
     NiPSysBoundUpdateModifier() throw();
-    void SetUpdateSkipCounter(int);
     NiObject* FUN_00c2dec0(CloningProcess&);
 };
 inline NiPSysBoundUpdateModifier::NiPSysBoundUpdateModifier() throw()
 {
-    *(void**)this = (void*)&DAT_010c0134;
+    *(void**)this = (void*)&::DAT_010c0134;
     m_usUpdateSkip = 0;
     m_usUpdateSkipCounter = 0;
     m_pkBounds = 0;
@@ -89,8 +100,8 @@ inline NiPSysBoundUpdateModifier::NiPSysBoundUpdateModifier() throw()
 NiObject* NiPSysBoundUpdateModifier::FUN_00c2dec0(CloningProcess& kCloning)
 {
     NiPSysBoundUpdateModifier* pkObject = new NiPSysBoundUpdateModifier;
-    CopyMemberData(pkObject, kCloning);
-    pkObject->SetUpdateSkipCounter(m_usUpdateSkip);
+    reinterpret_cast<::NiPSysModifier *>(this)->CopyMemberData((::NiPSysModifier *)(pkObject), (::CloningProcess &)(kCloning));
+    reinterpret_cast<::NiPSysBoundUpdateModifier *>((pkObject))->SetUpdateSkipCounter(m_usUpdateSkip);
     return (NiObject*)pkObject;
 }
 }  // namespace fnv_00c2dec0
@@ -111,7 +122,6 @@ struct NiStream
 struct NiPSysModifier
 {
     char _b[0x18];
-    void FUN_00c31950(NiStream&);
 };
 struct NiPSysBoundUpdateModifier : NiPSysModifier
 {
@@ -121,7 +131,7 @@ struct NiPSysBoundUpdateModifier : NiPSysModifier
 // @fnv 0x00c2e3f0
 void NiPSysBoundUpdateModifier::FUN_00c2e3f0(NiStream& stream)
 {
-    FUN_00c31950(stream);
+    reinterpret_cast<::ParticleModifierBinary *>(this)->FUN_00c31950((::OutputStream &)(stream));
     NiBinaryStream* __restrict out = stream.m_pBackingStream;
     unsigned int size = 2;
     out->position += out->write(out, &m_s, 2, &size, 1);
@@ -319,7 +329,6 @@ class BC2E370Emitter : public BC2E370Modifier
   public:
     virtual void LoadBinary(BC2E370Stream& kStream);
     void FUN_00c2e370(BC2E370Stream& kStream);
-    void SetFlags(unsigned short usFlags);
 
     int unk04;
     int unk08;
@@ -333,21 +342,20 @@ class BC2E370Emitter : public BC2E370Modifier
 // @fnv 0x00c2e370
 void BC2E370Emitter::FUN_00c2e370(BC2E370Stream& kStream)
 {
-    BC2E370Modifier::LoadBinary(kStream);
+    reinterpret_cast<::NiPSysModifier *>(this)->LoadBinary((::NiStream &)(kStream));
     if (kStream.m_uiFileVersion <= 0x0A010064)
     {
         unsigned short usFlags;
         BC2E370LoadBinary(kStream, usFlags);
-        SetFlags(usFlags);
+        reinterpret_cast<::NiPSysBoundUpdateModifier *>(this)->SetUpdateSkipCounter(usFlags);
     }
     else
     {
         BC2E370LoadBinary(kStream, m_usFlags);
-        SetFlags(m_usFlags);
+        reinterpret_cast<::NiPSysBoundUpdateModifier *>(this)->SetUpdateSkipCounter(m_usFlags);
     }
 }
 
-extern "C" void* g_01202788;
 struct NiStream;
 
 struct NiStrTable
@@ -358,27 +366,22 @@ struct NiStrTable
     unsigned short unk0A;
     unsigned short unk0C;
     unsigned short unk0E;
-    void SetSize(unsigned int n);
-    void SetAt(unsigned int i, char*& v);
     void Add(char* v)
     {
         unsigned int n = unk0A;
         if (n >= unk08)
         {
-            SetSize(n + unk0E);
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(n + unk0E);
         }
-        SetAt(n, v);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(n, v);
     }
 };
 
 struct StrArr;
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr* arr);
 };
 
-extern "C" char* __cdecl FUN_00a7d330(char* s);
-extern "C" char* __cdecl FUN_00a7d450(const char* key, unsigned short value);
 
 struct FUN_00c2e430_shell : Base00c319e0, NiPSysBoundUpdateModifier
 {
@@ -388,9 +391,9 @@ struct FUN_00c2e430_shell : Base00c319e0, NiPSysBoundUpdateModifier
 // @fnv 0x00c2e430
 void FUN_00c2e430_shell::FUN_00c2e430(NiStream& stream)
 {
-    Base00c319e0::FUN_00c319e0(reinterpret_cast<StrArr*>(&stream));
-    reinterpret_cast<NiStrTable&>(stream).Add(FUN_00a7d330((char*)g_01202788));
-    reinterpret_cast<NiStrTable&>(stream).Add(FUN_00a7d450("Update Skip", *(unsigned short*)((char*)this + 0x18)));
+    reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0(reinterpret_cast<StrArr*>(&stream));
+    reinterpret_cast<NiStrTable&>(stream).Add(::FUN_00a7d330((char*)(*reinterpret_cast<void * *>(&::g_01202788))));
+    reinterpret_cast<NiStrTable&>(stream).Add(::FUN_00a7d450("Update Skip", this->unk18));
 }
 
 class NiPoint3
@@ -408,10 +411,8 @@ class NiBound
     NiPoint3 m_kCenter;
     float m_fBoundRadius;
 
-    void Merge(const NiBound* pkBound);
 };
 
-extern NiBound DAT_011f4288;
 
 struct Particle
 {
@@ -521,7 +522,6 @@ struct ModifierHost
     unsigned short m_usCurrentBound;
     NiBound* m_pkBounds;
 
-    void FUN_00c2d720(short count);
     void FUN_00c2dce0(float fTime, NiParticleSystem* pkTarget);
 };
 
@@ -534,7 +534,7 @@ void ModifierHost::FUN_00c2dce0(float fTime, NiParticleSystem* pkTarget)
 
     if (m_usUpdateSkip == -1)
     {
-        FUN_00c2d720((short)(pkTarget->m_usMaxNumParticles / 20 + 1));
+        reinterpret_cast<::NiPSysBoundUpdateModifier *>(this)->SetUpdateSkipCounter((short)(pkTarget->m_usMaxNumParticles / 20 + 1));
     }
 
     int iCount = usNumParticles;
@@ -546,7 +546,7 @@ void ModifierHost::FUN_00c2dce0(float fTime, NiParticleSystem* pkTarget)
     }
 
     Particle* pFirstParticle = pkData->m_pkParticles[0];
-    NiBound* pkFirstBound = pFirstParticle->m_pkBound ? pFirstParticle->m_pkBound : &DAT_011f4288;
+    NiBound* pkFirstBound = pFirstParticle->m_pkBound ? pFirstParticle->m_pkBound : &::g_defaultBound;
     NiBound kBound = *pkFirstBound;
     for (int i = m_usCurrentBound; i < iCount; i += iSkip)
     {
@@ -554,9 +554,9 @@ void ModifierHost::FUN_00c2dce0(float fTime, NiParticleSystem* pkTarget)
         NiBound* pkParticleBound = pkParticle->m_pkBound;
         if (!pkParticleBound)
         {
-            pkParticleBound = &DAT_011f4288;
+            pkParticleBound = &::g_defaultBound;
         }
-        kBound.Merge(pkParticleBound);
+        reinterpret_cast<::Sphere *>(&(kBound))->FUN_00a7f3f0((*(const ::Sphere *)(pkParticleBound)));
     }
 
     m_pkBounds[m_usCurrentBound].m_kCenter = kBound.m_kCenter;
@@ -572,7 +572,7 @@ void ModifierHost::FUN_00c2dce0(float fTime, NiParticleSystem* pkTarget)
     {
         if (m_pkBounds[i].m_fBoundRadius != 0.0f)
         {
-            kBound.Merge(&m_pkBounds[i]);
+            reinterpret_cast<::Sphere *>(&(kBound))->FUN_00a7f3f0((*(const ::Sphere *)(&m_pkBounds[i])));
         }
     }
 
@@ -599,7 +599,6 @@ template <class T> inline T kBoundsMaximum(const T& a, const T& b)
 {
     return a > b ? a : b;
 }
-extern "C" double __cdecl sqrt(double);
 struct BoundPoint : NiPoint3
 {
     BoundPoint(float a, float b, float c)
@@ -641,11 +640,9 @@ struct TESBoundObjectBounds
     float* radii;
     unsigned short count, unk52;
     float* sizes;
-    NiPoint3* GetSlotData(unsigned short, unsigned short);
 };
 struct FUN_00c2d720_shell
 {
-    void FUN_00c2d720(short);
 };
 struct BoundUpdater
 {
@@ -662,7 +659,7 @@ void BoundUpdater::FUN_00c2d880(float time, TESBoundObjectBounds* apBounds)
 {
     unsigned short count = apBounds->count;
     if (m_usUpdateSkip == -1)
-        ((FUN_00c2d720_shell*)this)->FUN_00c2d720(apBounds->capacity / 10 + 1);
+        reinterpret_cast<::NiPSysBoundUpdateModifier *>((((FUN_00c2d720_shell*)this)))->SetUpdateSkipCounter(apBounds->capacity / 10 + 1);
     int stride = kFirstBoundsPointEntry((int)m_usUpdateSkip, count / 10 + 1);
     stride = kBoundsMaximum(stride, 1);
     float lx = apBounds->positions[0].x;
@@ -676,7 +673,7 @@ void BoundUpdater::FUN_00c2d880(float time, TESBoundObjectBounds* apBounds)
         unsigned short n = ((FUN_00c25db0_shell*)apBounds)->FUN_00c25db0((unsigned short)i);
         for (unsigned short j = 0; j < n; ++j)
         {
-            NiPoint3* p = apBounds->GetSlotData((unsigned short)i, j);
+            NiPoint3* p = ((::NiPoint3 *)(reinterpret_cast<::FUN_00c25e00_cls *>((apBounds))->GetSlotData((unsigned short)i, j)));
             float r = ((FUN_00c25e40_shell*)apBounds)->FUN_00c25e40((unsigned short)i, j) *
                       ((FUN_00c25e20_shell*)apBounds)->GetInnerValue((unsigned short)i, j);
             double fTemp;
@@ -707,7 +704,7 @@ void BoundUpdater::FUN_00c2d880(float time, TESBoundObjectBounds* apBounds)
     kMergedBound.m_fBoundRadius = m_pkBounds[m_usCurrentBound].m_fBoundRadius;
     for (int k = 1; k < stride; ++k)
         if (m_pkBounds[k].m_fBoundRadius != 0)
-            kMergedBound.Merge(&m_pkBounds[k]);
+            reinterpret_cast<::Sphere *>(&(kMergedBound))->FUN_00a7f3f0((*(const ::Sphere *)(&m_pkBounds[k])));
     apBounds->bound.m_kCenter = kMergedBound.m_kCenter;
     apBounds->bound.m_fBoundRadius = kMergedBound.m_fBoundRadius;
     if (apBounds->bound.m_fBoundRadius == 0)
@@ -739,12 +736,10 @@ struct LocalPoint3
         return LocalPoint3((float)(x * d), (float)(y * d), (float)(z * d));
     }
 };
-extern LocalPoint3 NiPoint3_ZERO;
 struct LocalBound
 {
     LocalPoint3 m_kCenter;
     float m_fBoundRadius;
-    void Merge(const LocalBound* pkOther);
 };
 class GlobalObjectO2_00a7b610
 {
@@ -752,8 +747,6 @@ class GlobalObjectO2_00a7b610
     const char* m_pcName;
     const GlobalObjectO2_00a7b610* m_pBaseRTTI;
 };
-extern GlobalObjectO2_00a7b610 g_012027c0;
-extern GlobalObjectO2_00a7b610 g_01202680;
 struct NiPSysData
 {
     virtual void v0();
@@ -791,7 +784,6 @@ struct NiPSysData
     short unk52;
     float* m_pfSizes;
 };
-extern "C" double __cdecl sqrt(double);
 struct BoundUpdateModifier
 {
     void* m_vptr;
@@ -804,9 +796,6 @@ struct BoundUpdateModifier
     unsigned short m_usCurrentSample;
     LocalBound* m_pkBounds;
     void UpdateBounds(float fTime, NiPSysData* pkData);
-    void FUN_00c2d720(int iCount);
-    void FUN_00c2dce0(float fTime, NiPSysData* pkData);
-    void FUN_00c2d880(float fTime, NiPSysData* pkData);
 };
 // Computes the particle system's bounding sphere from sampled positions and radii, merging previous samples and storing the result in pkData->m_kBound.
 // @fnv 0x00c2df20
@@ -815,24 +804,24 @@ void BoundUpdateModifier::UpdateBounds(float fTime, NiPSysData* pkData)
     unsigned short usNumParticles = pkData->m_usNumParticles;
     if (usNumParticles <= 0)
     {
-        pkData->m_kBound.m_kCenter = NiPoint3_ZERO;
+        pkData->m_kBound.m_kCenter = (*reinterpret_cast<::LocalPoint3 *>((void *)&::NiPoint3::ZERO));
         pkData->m_kBound.m_fBoundRadius = 0.0f;
         m_usCurrentSample = 0;
         return;
     }
     if (pkData->IsKindOfType(&g_012027c0))
     {
-        FUN_00c2dce0(fTime, pkData);
+        reinterpret_cast<::ModifierHost *>(this)->FUN_00c2dce0(fTime, (::NiParticleSystem *)(pkData));
         return;
     }
     if (pkData->IsKindOfType(&g_01202680))
     {
-        FUN_00c2d880(fTime, pkData);
+        reinterpret_cast<::BoundUpdater *>(this)->FUN_00c2d880(fTime, (::TESBoundObjectBounds *)(pkData));
         return;
     }
     if (m_usUpdateSkip == -1)
     {
-        FUN_00c2d720(pkData->m_usMaxNumParticles / 50 + 1);
+        reinterpret_cast<::NiPSysBoundUpdateModifier *>(this)->SetUpdateSkipCounter(pkData->m_usMaxNumParticles / 50 + 1);
     }
     int pkPositions = usNumParticles / 50 + 1;
     int iStride = m_usUpdateSkip;
@@ -893,7 +882,7 @@ void BoundUpdateModifier::UpdateBounds(float fTime, NiPSysData* pkData)
     m_pkBounds[m_usCurrentSample].m_fBoundRadius = fRadius;
     for (int k = iStride; k < m_usUpdateSkip; ++k)
     {
-        m_pkBounds[k].m_kCenter = NiPoint3_ZERO;
+        m_pkBounds[k].m_kCenter = (*reinterpret_cast<::LocalPoint3 *>((void *)&::NiPoint3::ZERO));
         m_pkBounds[k].m_fBoundRadius = 0.0f;
     }
     LocalBound kBound;
@@ -905,7 +894,7 @@ void BoundUpdateModifier::UpdateBounds(float fTime, NiPSysData* pkData)
         {
             if (m_pkBounds[pkPositions].m_fBoundRadius != 0.0f)
             {
-                kBound.Merge(&m_pkBounds[pkPositions]);
+                reinterpret_cast<::Sphere *>(&(kBound))->FUN_00a7f3f0((*(const ::Sphere *)(&m_pkBounds[pkPositions])));
             }
         }
     }
@@ -920,3 +909,4 @@ void BoundUpdateModifier::UpdateBounds(float fTime, NiPSysData* pkData)
         m_usCurrentSample = 0;
     }
 }
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysboundupdatemodifier.inc"

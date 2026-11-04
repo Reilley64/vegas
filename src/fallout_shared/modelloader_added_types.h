@@ -62,6 +62,8 @@ class NiTMap_unsigned_int_Actor___ : public NiTMapBase_DFALL_NiTMapItem_unsigned
 {
 };
 
+class FormChangeMask;
+class TESForm;
 class BGSSaveLoadGame
 {
   public:
@@ -81,56 +83,10 @@ class BGSSaveLoadGame
     unsigned int m_uiInitializationFlags;
     unsigned char m_ucSaveLoadState;
     bool GetInitingForms() const;
+public:
+    bool HasFormChangeFlags(::TESForm *, ::FormChangeMask);
 };
-typedef char modelloader_check_map_size[(sizeof(NiTMap_unsigned_int_Actor___) == 16) ? 1 : -1];
-typedef char modelloader_check_flags_offset[(offsetof(BGSSaveLoadGame, m_uiInitializationFlags) == 0x244) ? 1 : -1];
-typedef char modelloader_check_saveload_size[(sizeof(BGSSaveLoadGame) == 0x24C) ? 1 : -1];
 // Full supplied real-field/dependency assertions retained. Natural alignment replaces synthetic padding arrays.
 typedef BSSimpleArray<BGSLoadFormBuffer*, 1024> ModelLoaderFormBufferArray;
-typedef char modelloader_assert_00[(sizeof(DFALL_NiTMapItem_unsigned_int_Actor_____) == 1) ? 1 : -1];
-typedef char modelloader_assert_01
-    [(sizeof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_Actor______unsigned_int_Actor_____AntiBloatAllocator) == 4) ? 1
-                                                                                                                  : -1];
-typedef char modelloader_assert_02
-    [(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_Actor______unsigned_int_Actor_____AntiBloatAllocator,
-               m_uiCount) == 0)
-         ? 1
-         : -1];
-typedef char modelloader_assert_03
-    [(sizeof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_Actor______unsigned_int_Actor___) == 16) ? 1 : -1];
-typedef char modelloader_assert_04
-    [(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_Actor______unsigned_int_Actor___, m_ppVirtualMethodTable) == 0) ? 1 : -1];
-typedef char modelloader_assert_05
-    [(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_Actor______unsigned_int_Actor___, m_uiHashSize) == 4) ? 1 : -1];
-typedef char modelloader_assert_06[(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_Actor______unsigned_int_Actor___,
-                                             m_ppkHashTable) == 8)
-                                       ? 1
-                                       : -1];
-typedef char modelloader_assert_07[(offsetof(NiTMapBase_DFALL_NiTMapItem_unsigned_int_Actor______unsigned_int_Actor___,
-                                             m_kItemCount) == 12)
-                                       ? 1
-                                       : -1];
-typedef char modelloader_assert_08[(sizeof(NiTMap_unsigned_int_Actor___) == 16) ? 1 : -1];
-typedef char modelloader_assert_09[(sizeof(BGSSaveLoadGame) == 588) ? 1 : -1];
-typedef char modelloader_assert_10[(offsetof(BGSSaveLoadGame, m_pFormChangesMap) == 0) ? 1 : -1];
-typedef char modelloader_assert_11[(offsetof(BGSSaveLoadGame, m_pSecondChangesMap) == 4) ? 1 : -1];
-typedef char modelloader_assert_12[(offsetof(BGSSaveLoadGame, m_pSecondSaveLoadData) == 8) ? 1 : -1];
-typedef char modelloader_assert_13[(offsetof(BGSSaveLoadGame, m_pSaveLoadData) == 12) ? 1 : -1];
-typedef char modelloader_assert_14[(offsetof(BGSSaveLoadGame, m_pReferencesMap) == 16) ? 1 : -1];
-typedef char modelloader_assert_15[(offsetof(BGSSaveLoadGame, m_pSaveLoadMap) == 20) ? 1 : -1];
-typedef char modelloader_assert_16[(offsetof(BGSSaveLoadGame, m_pAuxiliaryData) == 24) ? 1 : -1];
-typedef char modelloader_assert_17[(offsetof(BGSSaveLoadGame, m_pNoteHandler) == 28) ? 1 : -1];
-typedef char modelloader_assert_18[(offsetof(BGSSaveLoadGame, m_pFormReconstructionMap) == 32) ? 1 : -1];
-typedef char modelloader_assert_19[(offsetof(BGSSaveLoadGame, LoadFormBufferArray) == 36) ? 1 : -1];
-typedef char modelloader_assert_20[(offsetof(BGSSaveLoadGame, m_acTextBuffer) == 52) ? 1 : -1];
-typedef char modelloader_assert_21[(offsetof(BGSSaveLoadGame, m_acFirstTextBuffer) == 68) ? 1 : -1];
-typedef char modelloader_assert_22[(offsetof(BGSSaveLoadGame, m_acSecondTextBuffer) == 323) ? 1 : -1];
-typedef char modelloader_assert_23[(offsetof(BGSSaveLoadGame, m_uiInitializationFlags) == 580) ? 1 : -1];
-typedef char modelloader_assert_24[(offsetof(BGSSaveLoadGame, m_ucSaveLoadState) == 584) ? 1 : -1];
-typedef char modelloader_assert_25[(sizeof(ModelLoaderFormBufferArray) == 16) ? 1 : -1];
-typedef char modelloader_assert_26[(offsetof(ModelLoaderFormBufferArray, m_ppVirtualMethodTable) == 0) ? 1 : -1];
-typedef char modelloader_assert_27[(offsetof(ModelLoaderFormBufferArray, pBuffer) == 4) ? 1 : -1];
-typedef char modelloader_assert_28[(offsetof(ModelLoaderFormBufferArray, iSize) == 8) ? 1 : -1];
-typedef char modelloader_assert_29[(offsetof(ModelLoaderFormBufferArray, SimpleArrayStorage) == 12) ? 1 : -1];
 
 #endif

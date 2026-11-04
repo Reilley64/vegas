@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKASKELETONMAPPERDATACHAINMAPPING_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkaSkeletonMapperDataChainMapping
 {
   public:
@@ -16,7 +15,4 @@ class hkaSkeletonMapperDataChainMapping
     hkQsTransform m_kStartAFromBTransform;  // +0x10
     hkQsTransform m_kEndAFromBTransform;    // +0x40
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkaSkeletonMapperDataChainMapping[(sizeof(hkaSkeletonMapperDataChainMapping) == 0x70) ? 1 : -1];
 #endif

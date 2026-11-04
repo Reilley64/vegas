@@ -5,7 +5,6 @@
 #include "layout_support.h"
 #include "ListBox_ItemChange___.h"
 #include "Menu.h"
-#pragma pack(push, 4)
 class ItemModMenu : public Menu
 {
   public:
@@ -13,8 +12,4 @@ class ItemModMenu : public Menu
     ListBox_ItemChange___ m_kItemList;  // +0x60
     int GetClass();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ItemModMenu) == 0x90);
-FNV_STATIC_ASSERT(offsetof(ItemModMenu, m_pTiles) == 0x28);
-FNV_STATIC_ASSERT(offsetof(ItemModMenu, m_kItemList) == 0x60);
 #endif

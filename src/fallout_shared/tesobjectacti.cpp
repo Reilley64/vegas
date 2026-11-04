@@ -1,13 +1,54 @@
 
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_00408da0_Class.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00477f20_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_0048a520_shell.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00501c90_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_00865e70_shell.h"
+#include "fnv/decl/FUN_008ac890_shell.h"
+#include "fnv/decl/FakeForm.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/S_0048cca0.h"
+#include "fnv/decl/TESPackage.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_008649a0__FUN_008649a0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/symbols_004fd000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_01011000.h"
 #include "tesobjectacti_load.h"
 #include <malloc.h>
+#include "fnv/symbols_00472000.h"
 
 template <> BSStringT<char>::~BSStringT()
 {
-    Set(0, 0);
+    reinterpret_cast<::TextString *>(this)->FUN_004037f0(0, 0);
 }
 
-extern const char g_emptyTopicInfoPrompt[];
 // Resets several fields to zero and sets the prompt pointer to g_emptyTopicInfoPrompt.
 // @fnv 0x00510710
 void TESObjectACTI::ResetFormData()
@@ -17,109 +58,8 @@ void TESObjectACTI::ResetFormData()
     m_pWaterForm = 0;
     m_pTalkingActivator = 0;
     pRadioTemplate = 0;
-    m_kActivationPrompt = g_emptyTopicInfoPrompt;
+    m_kActivationPrompt = ::DAT_01011584;
 }
-// @fnv 0x00510a90
-bool TESObjectACTI::Load(TESFile* file)
-{
-    LoadRecordHeader(file);
-    SetInitializationState(false);
-    int chunk;
-    while (chunk = file->GetChunkID())
-    {
-        switch (chunk)
-        {
-        case 0x44494445: {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 512);
-            SetEditorID_AtRuntime(editorID);
-            break;
-        }
-        case 0x444e424f:
-            readOBNDSubRecord(file);
-            break;
-        case 0x4c4c5546:
-            TESFullNameLoader::LoadFullNameChunk(this, file);
-            break;
-        case 0x4c444f4d:
-        case 0x54444f4d:
-        case 0x44444f4d:
-        case 0x44534f4d:
-            TESModel::LoadModelData(this, file);
-            break;
-        case 0x53444f4d: {
-            struct TextureChunk
-            {
-                int size;
-                char* data;
-            } textureChunk;
-            textureChunk.size = file->GetChunkSize();
-            textureChunk.data = (char*)_alloca(textureChunk.size);
-            file->GetChunkData(textureChunk.data, textureChunk.size);
-            ParseTextureSwapData(textureChunk.data, textureChunk.size,
-                                 reinterpret_cast<TESFileFormVersion*>(file)->GetFormVersion());
-            break;
-        }
-        case 0x49524353: {
-            unsigned int script = 0;
-            file->GetChunkData(&script);
-            reinterpret_cast<CombatProcedure*>((char*)this + 0x5c)
-                ->Initialize(reinterpret_cast<CombatController*>(script));
-            TESScriptableForm::InitItem(this);
-            break;
-        }
-        case 0x54534544:
-        case 0x44545344:
-            BGSDestructibleObjectForm::LoadDestructibleData(this, file);
-            break;
-        case 0x4d414e53: {
-            unsigned int sound = 0;
-            file->GetChunkData(&sound);
-            SetLoopingSound(reinterpret_cast<TESSound*>(sound));
-            break;
-        }
-        case 0x4d414e56: {
-            unsigned int water = 0;
-            file->GetChunkData(&water);
-            reinterpret_cast<EffectSetting*>(this)->SetEffectShader(reinterpret_cast<TESEffectShader*>(water));
-            break;
-        }
-        case 0x4d414e49: {
-            unsigned int sound = 0;
-            file->GetChunkData(&sound);
-            reinterpret_cast<EffectSetting*>(this)->SetEnchantEffectShader(reinterpret_cast<TESEffectShader*>(sound));
-            break;
-        }
-        case 0x4d414e57: {
-            unsigned int station = 0;
-            file->GetChunkData(&station);
-            reinterpret_cast<EffectSetting*>(this)->SetCastSound(reinterpret_cast<TESSound*>(station));
-            break;
-        }
-        case 0x4d414e52: {
-            unsigned int radioTemplate = 0;
-            file->GetChunkData(&radioTemplate);
-            reinterpret_cast<EffectSetting*>(this)->SetBoltSound(reinterpret_cast<TESSound*>(radioTemplate));
-            break;
-        }
-        case 0x4f544158: {
-            int size = file->GetChunkSize();
-            if (size > 1)
-            {
-                char* text = new char[size];
-                file->GetChunkData(text, size);
-                SetActivationPrompt(BSStringT<char>(text));
-                delete[] text;
-            }
-            break;
-        }
-        }
-        if (!file->NextChunk())
-            break;
-    }
-    return true;
-}
-
 struct TESSound;
 struct FUN_004fd3a0_shell : public TESObjectACTI
 {
@@ -129,13 +69,13 @@ struct FUN_004fd3a0_shell : public TESObjectACTI
 // @fnv 0x004fd3a0
 TESSound* FUN_004fd3a0_shell::FUN_004fd3a0()
 {
-    return *(TESSound**)((char*)this + 0x74);
+    return this->m_pSoundEffect;
 }
 
 extern int DAT_01029ee0;
 
 // @fnv 0x00510620
-void* __fastcall FUN_00510620(void** pThis)
+void* FUN_00510620(void** pThis)
 {
     *pThis = &DAT_01029ee0;
     return pThis;
@@ -149,6 +89,106 @@ struct FloatValueProvider : public TESObjectACTI
 {
     void FUN_00510ea0(BSStringT<char> s);
 };
+// @fnv 0x00510a90
+bool TESObjectACTI::Load(TESFile* file)
+{
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    SetInitializationState(false);
+    int chunk;
+    while (chunk = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
+    {
+        switch (chunk)
+        {
+        case 0x44494445: {
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 512);
+            SetEditorID_AtRuntime(editorID);
+            break;
+        }
+        case 0x444e424f:
+            readOBNDSubRecord(file);
+            break;
+        case 0x4c4c5546:
+            ::ReadFullName(this, file);
+            break;
+        case 0x4c444f4d:
+        case 0x54444f4d:
+        case 0x44444f4d:
+        case 0x44534f4d:
+            TESModel::LoadModelData(this, file);
+            break;
+        case 0x53444f4d: {
+            struct TextureChunk
+            {
+                int size;
+                char* data;
+            } textureChunk;
+            textureChunk.size = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
+            textureChunk.data = (char*)_alloca(textureChunk.size);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(textureChunk.data), textureChunk.size);
+            reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(textureChunk.data, textureChunk.size,
+                                 reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((reinterpret_cast<TESFileFormVersion*>(file)))->FUN_00403570());
+            break;
+        }
+        case 0x49524353: {
+            unsigned int script = 0;
+            file->GetChunkData(&script);
+            reinterpret_cast<CombatProcedure*>(static_cast<TESScriptableForm *>(this))
+                ->Initialize(reinterpret_cast<CombatController*>(script));
+            TESScriptableForm::InitItem(this);
+            break;
+        }
+        case 0x54534544:
+        case 0x44545344:
+            ::FUN_004781e0(this, file);
+            break;
+        case 0x4d414e53: {
+            unsigned int sound = 0;
+            file->GetChunkData(&sound);
+            SetLoopingSound(reinterpret_cast<TESSound*>(sound));
+            break;
+        }
+        case 0x4d414e56: {
+            unsigned int water = 0;
+            file->GetChunkData(&water);
+            reinterpret_cast<::TESObjectACTI *>((reinterpret_cast<EffectSetting*>(this)))->SetActivateSound((::TESSound *)(::TESEffectShader *)(reinterpret_cast<TESEffectShader*>(water)));
+            break;
+        }
+        case 0x4d414e49: {
+            unsigned int sound = 0;
+            file->GetChunkData(&sound);
+            reinterpret_cast<EffectSetting*>(this)->SetEnchantEffectShader(reinterpret_cast<TESEffectShader*>(sound));
+            break;
+        }
+        case 0x4d414e57: {
+            unsigned int station = 0;
+            file->GetChunkData(&station);
+            reinterpret_cast<::FUN_008ac890_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetWaterForm((::TESWaterForm *)(::TESSound *)(reinterpret_cast<TESSound*>(station)));
+            break;
+        }
+        case 0x4d414e52: {
+            unsigned int radioTemplate = 0;
+            file->GetChunkData(&radioTemplate);
+            reinterpret_cast<EffectSetting*>(this)->SetBoltSound(reinterpret_cast<TESSound*>(radioTemplate));
+            break;
+        }
+        case 0x4f544158: {
+            int size = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
+            if (size > 1)
+            {
+                char* text = new char[size];
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(text), size);
+                reinterpret_cast<::FloatValueProvider *>(this)->FUN_00510ea0(BSStringT<char>(text));
+                delete[] text;
+            }
+            break;
+        }
+        }
+        if (!file->NextChunk())
+            break;
+    }
+    return true;
+}
 // Calls Set on the SH object at offset 0x88 with the given string.
 // @fnv 0x00510ea0
 void FloatValueProvider::FUN_00510ea0(BSStringT<char> s)
@@ -158,30 +198,18 @@ void FloatValueProvider::FUN_00510ea0(BSStringT<char> s)
 
 struct TESFullName_ext : TESFullName
 {
-    const char* GetFullName();
 };
 
 // @fnv 0x00511840
-const char* __fastcall FUN_00511840(char* apObject)
+const char* FUN_00511840(char* apObject)
 {
-    return ((TESFullName_ext*)(apObject + 0x30))->GetFullName();
+    return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((TESFullName_ext*)(apObject + 0x30))))->FUN_00408da0()));
 }
 
-void _Deallocate(void*);
 struct Holder005105F0 : TESObjectACTI
 {
     void* FUN_005105f0(unsigned int);
 };
-// Destructs the TESObjectACTI base and, when flags has bit 0 set, deallocates this object; returns this.
-// @fnv 0x005105f0
-void* Holder005105F0::FUN_005105f0(unsigned int flags)
-{
-    this->TESObjectACTI::~TESObjectACTI();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FormChangeMask
 {
     int flags;
@@ -196,28 +224,25 @@ struct BGSSaveFormBuffer
 };
 struct FUN_00484d60_holder
 {
-    void SaveIfChanged(BGSSaveFormBuffer*);
 };
 struct BGSSaveGameBuffer
 {
-    void SaveGameString(const char*, int);
 };
 struct FNStub
 {
-    const char* GetFullName() const;
 };
-struct FUN_00511860_holder
+struct FUN_00511860_holder : ::TESObjectACTI
 {
     void FUN_00511860(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 // @fnv 0x00511860
 void FUN_00511860_holder::FUN_00511860(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    ((FUN_00484d60_holder*)this)->SaveIfChanged(apSaveGameBuffer);
-    if (((BGSLoadFormBuffer*)apSaveGameBuffer)->GetChangeFlags(4))
+    reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged(apSaveGameBuffer);
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)apSaveGameBuffer)->GetChangeFlags(4)))->FUN_004280f0(4))
     {
-        const char* pfullname = ((FNStub*)((char*)this + 0x30))->GetFullName();
-        ((BGSSaveGameBuffer*)apSaveGameBuffer)->SaveGameString(pfullname, 0);
+        const char* pfullname = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)static_cast<TESFullName *>(this))))->FUN_00408da0()));
+        reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBuffer*)apSaveGameBuffer)))->FUN_00865e70(pfullname, 0);
     }
 }
 
@@ -283,8 +308,6 @@ struct TESModelTextureSwapInitItemProxy
     void InitItem(TESForm* form);
 };
 
-TESForm* _GetFormByNumericID(unsigned int formID);
-void _FNV_Warning(const char* format, ...);
 
 void BGSDestructibleObjectFormInitItemProxy::InitItem(TESForm* form)
 {}
@@ -296,62 +319,57 @@ void TESModelTextureSwapInitItemProxy::InitItem(TESForm* form)
 // @fnv 0x00510770
 void FUN_00510770_shell::FUN_00510770()
 {
-    if (IsFormInitialized())
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
 
-    reinterpret_cast<TESScriptableForm*>(reinterpret_cast<char*>(this) + 0x5C)->InitItem(this);
-    reinterpret_cast<BGSDestructibleObjectFormInitItemProxy*>(reinterpret_cast<char*>(this) + 0x68)->InitItem(this);
-    reinterpret_cast<TESModelTextureSwapInitItemProxy*>(reinterpret_cast<char*>(this) + 0x3C)->InitItem(this);
+    static_cast<TESScriptableForm *>(this)->InitItem(this);
+    reinterpret_cast<::BGSDestructibleObjectForm *>((reinterpret_cast<BGSDestructibleObjectFormInitItemProxy*>(static_cast<BGSDestructibleObjectForm *>(this))))->InitItem(this);
+    reinterpret_cast<::TESModelTextureSwap *>((reinterpret_cast<TESModelTextureSwapInitItemProxy*>(static_cast<TESModelTextureSwap *>(this))))->InitItem(this);
 
-    unsigned int itempint = reinterpret_cast<unsigned int>(m_pSoundEffect);
+    std::uintptr_t itempint = reinterpret_cast<std::uintptr_t>(m_pSoundEffect);
     if (itempint)
     {
-        RemapFormIDForFile(itempint, GetFile(-1));
-        m_pSoundEffect = dynamic_cast<TESSound*>(_GetFormByNumericID(itempint));
+        ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
+        m_pSoundEffect = dynamic_cast<TESSound*>(::FUN_004839c0(itempint));
         if (!m_pSoundEffect)
-            _FNV_Warning("MASTERFILE: Could not find looping sound (%08X) for activator '%s' (%08X).", itempint,
-                         GetName(), GetFormID());
+            ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(m_pLoopSound);
+    itempint = reinterpret_cast<std::uintptr_t>(m_pLoopSound);
     if (itempint)
     {
-        RemapFormIDForFile(itempint, GetFile(-1));
-        m_pLoopSound = dynamic_cast<TESSound*>(_GetFormByNumericID(itempint));
+        ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
+        m_pLoopSound = dynamic_cast<TESSound*>(::FUN_004839c0(itempint));
         if (!m_pLoopSound)
-            _FNV_Warning("MASTERFILE: Could not find activate sound (%08X) for activator '%s' (%08X).", itempint,
-                         GetName(), GetFormID());
+            ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(pRadioTemplate);
+    itempint = reinterpret_cast<std::uintptr_t>(pRadioTemplate);
     if (itempint)
     {
-        RemapFormIDForFile(itempint, GetFile(-1));
-        pRadioTemplate = dynamic_cast<TESSound*>(_GetFormByNumericID(itempint));
+        ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
+        pRadioTemplate = dynamic_cast<TESSound*>(::FUN_004839c0(itempint));
         if (!pRadioTemplate)
-            _FNV_Warning("MASTERFILE: Could not find pRadioTemplate (%08X) for activator '%s' (%08X).", itempint,
-                         GetName(), GetFormID());
+            ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(m_pWaterForm);
+    itempint = reinterpret_cast<std::uintptr_t>(m_pWaterForm);
     if (itempint)
     {
-        RemapFormIDForFile(itempint, GetFile(-1));
-        m_pWaterForm = dynamic_cast<TESWaterForm*>(_GetFormByNumericID(itempint));
+        ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
+        m_pWaterForm = dynamic_cast<TESWaterForm*>(::FUN_004839c0(itempint));
         if (!m_pWaterForm)
-            _FNV_Warning("MASTERFILE: Could not find water form (%08X) for activator '%s' (%08X).", itempint, GetName(),
-                         GetFormID());
+            ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(m_pTalkingActivator);
+    itempint = reinterpret_cast<std::uintptr_t>(m_pTalkingActivator);
     if (itempint)
     {
-        RemapFormIDForFile(itempint, GetFile(-1));
-        m_pTalkingActivator = dynamic_cast<BGSTalkingActivator*>(_GetFormByNumericID(itempint));
+        ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
+        m_pTalkingActivator = dynamic_cast<BGSTalkingActivator*>(::FUN_004839c0(itempint));
         if (!m_pTalkingActivator || !m_pTalkingActivator->IsRadioStation())
         {
-            _FNV_Warning("MASTERFILE: Could not find radio station (%08X) for activator '%s' (%08X).", itempint,
-                         GetName(), GetFormID());
+            ::FUN_005b5e40();
             m_pTalkingActivator = 0;
         }
     }
@@ -361,7 +379,6 @@ void FUN_00510770_shell::FUN_00510770()
 
 struct ACTIStr : public BSStringT<char>
 {
-    int CompareString(const BSStringT<char>* apOther, bool abCaseInsensitive);
 };
 
 struct ACTIView : public TESObjectACTI
@@ -369,12 +386,7 @@ struct ACTIView : public TESObjectACTI
     virtual void Unk_4E();
     virtual void Unk_4F();
     virtual TESForm* Unk_50();
-    TESSound* GetLoopSoundA();
-    TESForm* GetFormTwoA();
-    TESForm* GetFormThreeA();
-    TESSound* GetFormFourA();
     ACTIStr GetPromptA();
-    bool CompareFormA(TESForm* apForm);
     bool FUN_005111e0(TESForm* apForm);
 };
 
@@ -385,42 +397,42 @@ bool ACTIView::FUN_005111e0(TESForm* apForm)
     ACTIView* pOther = (ACTIView*)dynamic_cast<TESObjectACTI*>(apForm);
     if (!pOther)
         return true;
-    if (GetLoopSoundA() != pOther->GetLoopSoundA())
+    if (reinterpret_cast<::FUN_004fd3a0_shell *>(this)->FUN_004fd3a0() != reinterpret_cast<::FUN_004fd3a0_shell *>((pOther))->FUN_004fd3a0())
         return true;
-    if (GetFormTwoA() != pOther->GetFormTwoA())
+    if (((::TESForm *)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820())) != ((::TESForm *)(reinterpret_cast<::FUN_00407820_shell *>((pOther))->FUN_00407820())))
         return true;
-    if (GetFormThreeA() != pOther->GetFormThreeA())
+    if (((::TESForm *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>(this)->GetRefCount())) != ((::TESForm *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((pOther))->GetRefCount())))
         return true;
     if (Unk_50() != pOther->Unk_50())
         return true;
-    if (GetFormFourA() != pOther->GetFormFourA())
+    if (((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this))) != ((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pOther)))))
         return true;
-    iCompare = GetPromptA().CompareString(&pOther->GetPromptA(), true);
+    {
+        ACTIStr kPrompt = GetPromptA();
+        ACTIStr kOtherPrompt = pOther->GetPromptA();
+        iCompare = reinterpret_cast<::FUN_00501c90_shell *>((void *)&kPrompt)->CompareString(&kOtherPrompt, true);
+    }
     if (iCompare)
         return true;
-    if (CompareFormA(pOther))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(pOther))
         return true;
     return false;
 }
 
 struct StrLen
 {
-    unsigned int Length();
 };
 struct StrOut : BSStringT<char>
 {
-    unsigned int Length();
 };
 struct SoundId
 {
-    unsigned int FUN_0084e3a0();
 };
 struct Chunk487010
 {
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00487010();
 };
 struct Chunk48a520
 {
@@ -432,24 +444,19 @@ struct Chunk48a520
     int unk14;
     int unk18;
     int unk1C;
-    void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
 struct Chunk48cca0
 {
     int unk00;
     int unk04;
     int unk08;
-    void FUN_0048cca0();
 };
 struct Chunk477f20
 {
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00477f20();
 };
-void FUN_00485910(unsigned int, unsigned int);
-void FUN_004856f0(unsigned int, void*, unsigned int);
 
 struct ActiSave
 {
@@ -476,8 +483,6 @@ struct ActiSave
     SoundId* m_pTalkingActivator;
     BSStringT<char> m_kActivationPrompt;
 
-    void FUN_004855a0();
-    void FinishSave();
     StrOut GetString();
     void Save();
 };
@@ -486,55 +491,55 @@ struct ActiSave
 // @fnv 0x00510f00
 void ActiSave::Save()
 {
-    FUN_004855a0();
-    name30.FUN_00487010();
-    model3c.ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    script5c.FUN_0048cca0();
-    destruct68.FUN_00477f20();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>(&(name30))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>(&(model3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::S_0048cca0 *>(&(script5c))->FUN_0048cca0();
+    reinterpret_cast<::FUN_00477f20_shell *>(&(destruct68))->FUN_00477f20();
     if (m_pSoundEffect)
     {
-        unsigned int uiSoundId = m_pSoundEffect->FUN_0084e3a0();
-        FUN_00485910(0x4d414e53, uiSoundId);
+        unsigned int uiSoundId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pSoundEffect))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e53, uiSoundId);
     }
     if (m_pLoopSound)
     {
-        unsigned int uiSoundId = m_pLoopSound->FUN_0084e3a0();
-        FUN_00485910(0x4d414e56, uiSoundId);
+        unsigned int uiSoundId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pLoopSound))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e56, uiSoundId);
     }
     if (pRadioTemplate)
     {
-        unsigned int uiSoundId = pRadioTemplate->FUN_0084e3a0();
-        FUN_00485910(0x4d414e49, uiSoundId);
+        unsigned int uiSoundId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pRadioTemplate))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e49, uiSoundId);
     }
     if (m_pWaterForm)
     {
-        unsigned int uiSoundId = m_pWaterForm->FUN_0084e3a0();
-        FUN_00485910(0x4d414e57, uiSoundId);
+        unsigned int uiSoundId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pWaterForm))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e57, uiSoundId);
     }
     if (m_pTalkingActivator)
     {
-        unsigned int uiSoundId = m_pTalkingActivator->FUN_0084e3a0();
-        FUN_00485910(0x4d414e52, uiSoundId);
+        unsigned int uiSoundId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pTalkingActivator))->FUN_0084e3a0()));
+        ::FUN_00485910(0x4d414e52, uiSoundId);
     }
-    if (((StrLen*)&m_kActivationPrompt)->Length() > 0)
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((StrLen*)&m_kActivationPrompt)))->FUN_004048e0())) > 0)
     {
-        FUN_004856f0(0x4f544158, (void*)GetString().String(), GetString().Length() + 1);
+        StrOut kText = GetString();
+        StrOut kTextForLength = GetString();
+        ::FUN_004856f0((void *)(std::uintptr_t)0x4f544158, (void *)kText.pString,
+                       (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&kTextForLength)->FUN_004048e0())) + 1));
     }
-    FinishSave();
+    reinterpret_cast<::Holder *>(this)->FUN_00485680();
 }
 
 struct FUN_004280f0_cls
 {
-    bool FUN_004280f0();
 };
 struct FUN_00428110_cls
 {
     FUN_004280f0_cls* FUN_00428110(void* dst, unsigned int size);
-    void FUN_008649a0(char* dst);
 };
 struct FUN_00489100_cls
 {
-    void FUN_00489100(const char* src);
 };
 struct S_005118c0
 {
@@ -551,7 +556,6 @@ struct S_005118c0
     int unk28;
     int unk2c;
     FUN_00489100_cls unk30;
-    void FUN_00484da0(FUN_00428110_cls* stream);
     void FUN_005118c0(FUN_00428110_cls* stream);
 };
 // Reads a flag from the stream, and if set reads a string into buf and stores it in unk30.
@@ -560,11 +564,11 @@ void S_005118c0::FUN_005118c0(FUN_00428110_cls* stream)
 {
     int flag;
     char buf[260];
-    FUN_00484da0(stream);
-    if (stream->FUN_00428110(&flag, 4)->FUN_004280f0())
+    reinterpret_cast<::TESForm *>(this)->LoadGame(stream);
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((stream->FUN_00428110(&flag, 4)))->FUN_004280f0({}))
     {
-        stream->FUN_008649a0(buf);
-        unk30.FUN_00489100(buf);
+        reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((stream))->FUN_008649a0(buf);
+        reinterpret_cast<::TESFullName *>(&(unk30))->SetFullName(buf);
     }
 }
 
@@ -623,6 +627,15 @@ struct FUN_00510640 : FUN_0050f740, FUN_00591300, FUN_0048a490, Scriptable476, F
     FUN_004037d0 activationPrompt;
     virtual ~FUN_00510640();
 };
+// Destructs the TESObjectACTI base and, when flags has bit 0 set, deallocates this object; returns this.
+// @fnv 0x005105f0
+void* Holder005105F0::FUN_005105f0(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00510640 *>((this))->FUN_00510640::~FUN_00510640();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 // @fnv 0x00510640
 FUN_00510640::~FUN_00510640()
 {}
@@ -714,18 +727,7 @@ class ActiV511
     virtual void v79();
     virtual TESWaterForm* GetWaterForm();
 
-    TESSound* FUN_004fd3a0();
-    TESEffectShader* FUN_00407840();
-    TESSound* FUN_00407820();
-    TESSound* FUN_004fd3c0();
-    BSStringT<char> GetString();
 
-    void FUN_004febb0(TESSound* pkSound);
-    void FUN_004febd0(TESEffectShader* pkShader);
-    void FUN_00442a80(TESSound* pkSound);
-    void SetWaterForm(TESWaterForm* pkWater);
-    void FUN_004fb090(TESSound* pkSound);
-    void FUN_004851b0(TESForm* pkForm);
 
     void FUN_00511120(TESForm* pkForm);
 };
@@ -737,11 +739,62 @@ void ActiV511::FUN_00511120(TESForm* pkForm)
     if (!pkActi)
         return;
 
-    FUN_004febb0(pkActi->FUN_004fd3a0());
-    FUN_004febd0(pkActi->FUN_00407840());
-    FUN_00442a80(pkActi->FUN_00407820());
-    SetWaterForm(pkActi->GetWaterForm());
-    FUN_004fb090(pkActi->FUN_004fd3c0());
-    ((TESObjectACTI*)this)->SetActivationPrompt(pkActi->GetString());
-    FUN_004851b0(pkForm);
+    reinterpret_cast<::TESObjectACTI *>(this)->SetLoopingSound(reinterpret_cast<::FUN_004fd3a0_shell *>((pkActi))->FUN_004fd3a0());
+    reinterpret_cast<::EffectSetting *>(this)->SetEnchantEffectShader(((::TESEffectShader *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((pkActi))->GetRefCount())));
+    reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound(((::TESSound *)(reinterpret_cast<::FUN_00407820_shell *>((pkActi))->FUN_00407820())));
+    reinterpret_cast<::FUN_008ac890_shell *>(this)->SetWaterForm(pkActi->GetWaterForm());
+    reinterpret_cast<::EffectSetting *>(this)->SetBoltSound(((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pkActi)))));
+    reinterpret_cast<::FloatValueProvider *>((((TESObjectACTI*)this)))->FUN_00510ea0(reinterpret_cast<::FUN_005110e0_Holder *>((pkActi))->GetString());
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(pkForm);
 }
+
+// Adjustor thunk.
+//
+// The most derived form class inherits two different base sub-objects that
+// both provide the same virtual slot (FUN_00511940).  One of those bases sits
+// 0x3C bytes into the complete object, so the entry stored in that base's
+// vtable slot has to move `this` back by 0x3C before it can jump to the
+// implementation that expects the complete object pointer.
+//
+// MSVC emits such a thunk as
+//     sub ecx, 0x3C
+//     jmp <implementation>
+
+// First base of the complete object: 0x3C bytes long (vtable pointer plus the
+// state that precedes the second base sub-object).
+struct ThunkPrimary
+{
+    virtual void FUN_00511940();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+// Second base of the complete object, placed at offset 0x3C.
+struct ThunkSecondary
+{
+    virtual void FUN_00511940();
+};
+
+// Complete object: the virtual is overridden here, so the vtable slot of the
+// second base needs a `this` adjusting thunk.
+struct ThunkDerived : public ThunkPrimary, public ThunkSecondary
+{
+// @fnv 0x00511940
+    virtual void FUN_00511940();
+    ThunkDerived();
+};
+
+ThunkDerived::ThunkDerived()
+{}

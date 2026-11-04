@@ -2,6 +2,21 @@
 #ifndef FNV_TESIDLEFORM_H
 #define FNV_TESIDLEFORM_H
 
+#include <cstring>
+#include <malloc.h>
+#include "fnv/decl/FUN_004226e0_shell.h"
+#include "fnv/decl/FUN_004516b0_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_005ffbf0_shell.h"
+#include "fnv/decl/FUN_006004f0_shell.h"
+#include "fnv/decl/FUN_00843150_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_011cb000.h"
 class TESConditionItem;
 #include "layout_support.h"
 #include "BaseFormComponent.h"
@@ -24,7 +39,6 @@ class TESTopicInfo
   public:
     BSSimpleList<TESTopic*>* GetAddTopicList(void);
 };
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -41,11 +55,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -81,12 +90,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class TESModelAnim : public TESModel
 {
   public:
@@ -96,9 +99,6 @@ class TESModelAnim : public TESModel
     // TESModelAnim& __cdecl TESModelAnim::*(const TESModelAnim&)
     // void __cdecl TESModelAnim::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModelAnim) == 24);
-#pragma pack(push, 4)
 class IdleAnimationData
 {
   public:
@@ -109,17 +109,8 @@ class IdleAnimationData
     unsigned short m_usReplayDelay;  // +0x4, 2 bytes
     unsigned char m_ucIdleFlags;     // +0x6, 1 bytes
     unsigned char layoutPadding7[1];
-    void SwapEndian();
     // void __cdecl IdleAnimationData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(IdleAnimationData) == 8);
-FNV_STATIC_ASSERT(offsetof(IdleAnimationData, m_ucAnimationGroupSection) == 0);
-FNV_STATIC_ASSERT(offsetof(IdleAnimationData, m_ucLoopingMin) == 1);
-FNV_STATIC_ASSERT(offsetof(IdleAnimationData, m_ucLoopingMax) == 2);
-FNV_STATIC_ASSERT(offsetof(IdleAnimationData, m_usReplayDelay) == 4);
-FNV_STATIC_ASSERT(offsetof(IdleAnimationData, m_ucIdleFlags) == 6);
-#pragma pack(push, 4)
 class TESIdleForm : public TESForm, public TESModelAnim
 {
   public:
@@ -132,12 +123,7 @@ class TESIdleForm : public TESForm, public TESModelAnim
     TESIdleForm* m_pIdleForm;        // +0x48, 4 bytes
     void ResetFormData(void);
     void ClearData(void);
-    void UnregisterIdleForm();
-    bool IsFlag40Set();
     NiFormArray* AssignParentPath();
-    bool FUN_005ff1d0();
-    unsigned int GetChildCount();
-    TESIdleForm* GetChildByIndex(unsigned int);
     bool Load(TESFile* file);
     void InitItem(void);
     bool HasMissingPathArray(void);
@@ -196,13 +182,6 @@ class TESIdleForm : public TESForm, public TESModelAnim
     // TESIdleForm& __cdecl TESIdleForm::*(const TESIdleForm&)
     // void __cdecl TESIdleForm::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESIdleForm) == 76);
-FNV_STATIC_ASSERT(offsetof(TESIdleForm, Conditions) == 48);
-FNV_STATIC_ASSERT(offsetof(TESIdleForm, data) == 56);
-FNV_STATIC_ASSERT(offsetof(TESIdleForm, m_pParentPath) == 64);
-FNV_STATIC_ASSERT(offsetof(TESIdleForm, m_pParentIdleForm) == 68);
-FNV_STATIC_ASSERT(offsetof(TESIdleForm, m_pIdleForm) == 72);
 class BGSPerkEntry;
 class BGSCameraShot;
 class TESObjectANIO : public TESIdleForm
@@ -211,7 +190,6 @@ class TESObjectANIO : public TESIdleForm
 class NiFormArray
 {
   public:
-    unsigned int GetSize();
     TESForm*& FUN_00877a30(unsigned int);
     unsigned int GetIndexOfForm(TESForm*);
     void SetSize(unsigned int, unsigned int*);
@@ -223,37 +201,24 @@ class BGSImpactData
 {
   public:
     BGSTextureSet* GetDecalTextureSet() const;
-    void ReadTypedData(TESFile*, void*, unsigned short);
 };
-int __cdecl Warning(const char*, ...);
 class TESFileFormInt
 {
   public:
-    int GetTESForm();
 };
 class FUN_005a71d0
 {
   public:
     unsigned int parent;
     unsigned int previous;
-    void FUN_00462230();
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" void* __cdecl _alloca(unsigned int);
 class TESDataHandler
 {
   public:
-    bool FUN_004516b0();
-    bool FUN_004226e0();
 };
 class IdleAnimationManager
 {
   public:
-    void AddIdleToArray(TESIdleForm*);
-    bool FUN_00843150();
     NiFormArray* GetIdleArray(TESForm*);
-    NiFormArray* GetFormArray(TESIdleForm*);
 };
-extern TESDataHandler* g_dataHandler;
-extern IdleAnimationManager* DAT_011cb6a0;
 #endif

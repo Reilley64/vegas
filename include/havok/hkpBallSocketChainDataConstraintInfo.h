@@ -4,14 +4,10 @@
 #define FNV_HAVOK_HKPBALLSOCKETCHAINDATACONSTRAINTINFO_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpBallSocketChainDataConstraintInfo
 {
   public:
     hkVector4 m_kPivotInA;  // +0x0
     hkVector4 m_kPivotInB;  // +0x10
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpBallSocketChainDataConstraintInfo[(sizeof(hkpBallSocketChainDataConstraintInfo) == 0x20) ? 1 : -1];
 #endif

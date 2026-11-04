@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPVEHICLEDEFAULTSUSPENSIONWHEELSPRINGSUSPENSIONPARAMETERS_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpVehicleDefaultSuspensionWheelSpringSuspensionParameters
 {
   public:
@@ -12,7 +11,4 @@ class hkpVehicleDefaultSuspensionWheelSpringSuspensionParameters
     hkReal m_fDampingCompression;  // +0x4
     hkReal m_fDampingRelaxation;   // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleDefaultSuspensionWheelSpringSuspensionParameters
-    [(sizeof(hkpVehicleDefaultSuspensionWheelSpringSuspensionParameters) == 0xC) ? 1 : -1];
 #endif

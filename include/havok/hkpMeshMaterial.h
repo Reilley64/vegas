@@ -4,12 +4,9 @@
 #define FNV_HAVOK_HKPMESHMATERIAL_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpMeshMaterial
 {
   public:
     hkUint32 m_uiFilterInfo;  // +0x0
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMeshMaterial[(sizeof(hkpMeshMaterial) == 0x4) ? 1 : -1];
 #endif

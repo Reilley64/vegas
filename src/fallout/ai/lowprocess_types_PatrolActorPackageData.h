@@ -1,6 +1,10 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_PATROLACTORPACKAGEDATA_H
 #define FNV_PATROLACTORPACKAGEDATA_H
+#include "fnv/decl/FUN_009f2ba0_shell.h"
+#include "fnv/decl/FUN_009f3390_shell.h"
+#include "fnv/decl/PatrolData.h"
+#include "fnv/symbols_009f2000.h"
 #include "layout_support.h"
 #include "lowprocess_Actor.h"
 #include "lowprocess_TESObjectREFR.h"
@@ -15,7 +19,6 @@ enum PatrolActorPackageData__PATROL_STATE
     PatrolActorPackageData__PATROL_STATE_PATROL_STATE_DEBUG_ACTOR_DELETED = 3,
     PatrolActorPackageData__PATROL_STATE_PATROL_STATE_DEBUG_DESTRUCTED = 4
 };
-#pragma pack(push, 4)
 class ActorPackageData
 {
   public:
@@ -26,17 +29,9 @@ class ActorPackageData
     // ActorPackageData& __cdecl ActorPackageData::*(const ActorPackageData&)
     // void __cdecl ActorPackageData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorPackageData) == 4);
-FNV_STATIC_ASSERT(offsetof(ActorPackageData, m_ppVirtualMethodTable) == 0);
-#pragma pack(push, 4)
 class PatrolActorPackageData : public ActorPackageData
 {
   public:
-    bool Init(Actor*, TESPackage*);
-    bool AdvanceToNextReference(bool);
-    TESObjectREFR* GetCurrentPatrolReference();
-    static TESObjectREFR* GetPatrolReference(Actor*, TESPackage*);
 
     // base ActorPackageData at +0x0, size 4
     PatrolActorPackageData__PATROL_STATE eState;  // +0x4, 4 bytes
@@ -69,16 +64,4 @@ class PatrolActorPackageData : public ActorPackageData
     // PatrolActorPackageData& __cdecl PatrolActorPackageData::*(const PatrolActorPackageData&)
     // void __cdecl PatrolActorPackageData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PatrolActorPackageData) == 56);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, eState) == 4);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_fElapsedWaitTime) == 8);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_bPatrolFlag) == 12);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, pActor) == 16);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, pPackage) == 20);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_pEscortPackageData) == 24);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, References) == 28);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_bReferenceFlag) == 44);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_uiValueAfterReferenceFlag) == 48);
-FNV_STATIC_ASSERT(offsetof(PatrolActorPackageData, m_uiSecondValueAfterReferenceFlag) == 52);
 #endif

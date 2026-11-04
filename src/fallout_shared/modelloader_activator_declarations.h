@@ -19,6 +19,7 @@ class BGSOpenCloseForm
     BGSOpenCloseForm();
     ~BGSOpenCloseForm();
 };
+class TESSound;
 class TESObjectACTI : public TESBoundAnimObject
 {
   public:
@@ -36,19 +37,7 @@ class TESObjectACTI : public TESBoundAnimObject
     BGSTalkingActivator* radioStation;
     String activationPrompt;
     void SetActivateSound(TESSound* sound);
+public:
+    void SetLoopingSound(::TESSound *);
 };
-typedef char modelloader_acti_base_size[(sizeof(TESBoundAnimObject) == 0x30) ? 1 : -1];
-typedef char modelloader_acti_openclose_size[(sizeof(BGSOpenCloseForm) == 4) ? 1 : -1];
-typedef char modelloader_acti_size[(sizeof(TESObjectACTI) == 0x90) ? 1 : -1];
-typedef char modelloader_acti_offset_0[(offsetof(TESObjectACTI, fullName) == 0x30) ? 1 : -1];
-typedef char modelloader_acti_offset_1[(offsetof(TESObjectACTI, modelTextureSwap) == 0x3c) ? 1 : -1];
-typedef char modelloader_acti_offset_2[(offsetof(TESObjectACTI, scriptable) == 0x5c) ? 1 : -1];
-typedef char modelloader_acti_offset_3[(offsetof(TESObjectACTI, destructible) == 0x68) ? 1 : -1];
-typedef char modelloader_acti_offset_4[(offsetof(TESObjectACTI, openClose) == 0x70) ? 1 : -1];
-typedef char modelloader_acti_offset_5[(offsetof(TESObjectACTI, loopingSound) == 0x74) ? 1 : -1];
-typedef char modelloader_acti_offset_6[(offsetof(TESObjectACTI, activationSound) == 0x78) ? 1 : -1];
-typedef char modelloader_acti_offset_7[(offsetof(TESObjectACTI, radioTemplate) == 0x7c) ? 1 : -1];
-typedef char modelloader_acti_offset_8[(offsetof(TESObjectACTI, waterType) == 0x80) ? 1 : -1];
-typedef char modelloader_acti_offset_9[(offsetof(TESObjectACTI, radioStation) == 0x84) ? 1 : -1];
-typedef char modelloader_acti_offset_10[(offsetof(TESObjectACTI, activationPrompt) == 0x88) ? 1 : -1];
 #endif

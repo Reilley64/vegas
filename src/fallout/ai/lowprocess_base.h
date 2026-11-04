@@ -1,17 +1,17 @@
 // fallout/ai/lowprocess_base.h: declares BaseProcess
+#include <cstdint>
+#include "fnv/decl/FUN_0045cd60_shell.h"
 class PackageTargetHolder;
 // Source layout: BaseProcess. PC corrections are in generate_headers.py.
 #ifndef FNV_BASEPROCESS_H
 #define FNV_BASEPROCESS_H
 #include "layout_support.h"
 #include "lowprocess_ActorPackage.h"
-#pragma pack(push, 4)
+class ActorPackageContext;
 class BaseProcess
 {
   public:
     void FUN_007037c0(unsigned int);
-    PROCESS_TYPE GetProcessLevel();
-    float FUN_007df1f0();
     void FUN_00693d50(float);
     unsigned int FUN_0059bb30();
     void LoadGame(BGSLoadFormBuffer*);
@@ -224,7 +224,7 @@ class BaseProcess
     virtual void vfn_330();
     virtual void vfn_334();
     virtual void vfn_338();
-    virtual void vfn_33c(Actor*, TESObjectREFR*, int, int, int, int, bool, int, bool, int, int, bool, int);
+    virtual void vfn_33c(Actor*, TESObjectREFR*, int, int, int, int, bool, int, bool, int, int, bool, intptr_t);
     virtual void vfn_340();
     virtual void vfn_344();
     virtual void vfn_348();
@@ -519,14 +519,10 @@ class BaseProcess
     PROCESS_TYPE m_eProcessType;    // +0x28
     CachedValues* m_pCachedValues;  // +0x2C
     int GetAttackChance(Actor*, float, float, float, bool, bool);
+public:
+    ::ActorPackageContext *GetCurrentProcessData();
+public:
+    void StopPackage();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BaseProcess) == 0x30);
 
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_kProcessData) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_fValue2) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_fValue1) == 0x20);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_uiStateFlags) == 0x24);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_eProcessType) == 0x28);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_pCachedValues) == 0x2C);
 #endif

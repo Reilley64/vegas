@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom
 {
   public:
@@ -13,7 +12,4 @@ class hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom
     hkTransform m_kBodyALocalFrame;  // +0x10
     hkTransform m_kBodyBLocalFrame;  // +0x50
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpSetLocalTransformsConstraintAtom[(sizeof(hkpSetLocalTransformsConstraintAtom) == 0x90) ? 1 : -1];
 #endif

@@ -2,6 +2,42 @@
 #ifndef PATHSMOOTHERPOV_DECLS_H
 #define PATHSMOOTHERPOV_DECLS_H
 
+#include <cmath>
+#include <cstdint>
+#include "fnv/decl/BSMultiBoundSphere.h"
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00589850_Class.h"
+#include "fnv/decl/FUN_0068efb0_shell.h"
+#include "fnv/decl/FUN_00691140_shell.h"
+#include "fnv/decl/FUN_00691620_shell.h"
+#include "fnv/decl/FUN_00691640_shell.h"
+#include "fnv/decl/FUN_00698320_t.h"
+#include "fnv/decl/FUN_0069f920_cls.h"
+#include "fnv/decl/FUN_006a0840_shell.h"
+#include "fnv/decl/FUN_006a9520_Class.h"
+#include "fnv/decl/FUN_006a9560_Class.h"
+#include "fnv/decl/FUN_006b0570_shell.h"
+#include "fnv/decl/GetCenterX_006a6eb0.h"
+#include "fnv/decl/Holder670.h"
+#include "fnv/decl/S_FUN_006b05a0.h"
+#include "fnv/decl/TESRegion.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/_Dummy_0069e390.h"
+#include "fnv/decl/fnv_0068f0c0__FUN_0068f0c0_shell.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_006b9000.h"
+#include "fnv/symbols_006ba000.h"
+#include "fnv/symbols_006d4000.h"
+#include "fnv/symbols_009a3000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011d7000.h"
+#include "fnv/symbols_011de000.h"
 class NiPoint3
 {
   public:
@@ -14,19 +50,19 @@ class NiPoint3
     NiPoint3 operator*(float) const;
     NiPoint3& operator*=(float);
     NiPoint3& operator+=(const NiPoint3&);
-    float Dot(const NiPoint3&) const;
     float GetLengthSquared();
-    float FUN_00457990();
-    float FUN_00589850() const;
-    void ComputeMagnitude();
     float GetSquaredXYLength() const;
     float FUN_004a7290() const;
     static const NiPoint3 ZERO;
+public:
+    bool FUN_004390c0(const ::NiPoint3 &);
+public:
+    ::NiPoint3 &Subtract(const ::NiPoint3 &);
+public:
+    float ComputeMagnitude() const;
+public:
+    ::NiPoint3 Cross(const ::NiPoint3 &) const;
 };
-namespace std {
-float abs(float);
-}
-float FUN_004019b0(float);
 void FUN_005330e0(float&, float, float);
 class NavMeshClosedDoorInfo
 {
@@ -36,7 +72,6 @@ class NavMeshClosedDoorInfo
 class NavMeshTriangle
 {
   public:
-    bool FUN_00691140(unsigned int);
 };
 class NavMeshEdgeVertexPair
 {
@@ -47,31 +82,27 @@ class NavMeshEdgeData;
 class AvoidSphere
 {
   public:
-    const NiPoint3& FUN_006815c0();
-    float GetRadius() const;
 };
+class NavMeshTriangle;
+class NiPoint3;
 class NavMesh
 {
   public:
     static void Deallocate(void*);
     NavMeshClosedDoorInfo* GetClosedDoorInfo(unsigned short);
-    unsigned int FUN_00691620();
-    AvoidSphere& FUN_00691640(unsigned int);
-    int FindCrossedEdge(unsigned short, int, const NiPoint3&, const NiPoint3&);
-    bool MatchNavMesh(const NavMeshEdgeData&, NavMeshEdgeData&);
     NavMeshEdgeVertexPair FUN_0068f040(unsigned short, int);
-    NiPoint3 FUN_006971e0(unsigned short);
-    void FUN_0068f0c0(unsigned short, int, NiPoint3&, NiPoint3&);
     unsigned int GetCurrentMoveModeType();
-    const class NavMeshInfo* FUN_0068efb0();
     bool GetTriangleHeightAtPoint(unsigned short, const NiPoint3&, float, float, float&);
+public:
+    ::NavMeshTriangle *GetTriangle(unsigned short);
+public:
+    ::NiPoint3 GetPlaneNormal(unsigned short);
 };
 class TES
 {
   public:
     float UpdateTESState(const NiPoint3&, unsigned int);
 };
-extern TES* g_TES;
 class SineCosine
 {
   public:
@@ -80,7 +111,6 @@ class SineCosine
     SineCosine& operator=(const SineCosine&);
     SineCosine operator-(const SineCosine&) const;
     NiPoint3 MakePointOnCircle(float) const;
-    float FUN_006a0840() const;
 };
 enum ANGLE_DIRECTION
 {
@@ -148,8 +178,6 @@ class PathSmootherPOVPoint
 {
   public:
     PathSmootherPOVPoint();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     int eType;
     NiPoint3 Center;
     float fRadius;
@@ -184,7 +212,7 @@ template <class N, class L> class AStarNode
     AStarNode* GetField54() const;
     float FUN_006a7f50() const;
 };
-template <class T, int N = 1024> class BSSimpleArray
+template <class T, unsigned int N = 1024> class BSSimpleArray
 {
   public:
     BSSimpleArray();
@@ -215,7 +243,6 @@ class NavMeshTriangleReference
     NavMesh* m_pLocationNavMesh;
     unsigned short m_usTriangleIdentifier;
     float GetCenterX, m_fCenterY, m_fCenterZ;
-    NiPoint3 FUN_006a6eb0() const;
     NavMeshTriangle* FUN_006a78d0() const;
 };
 class NavMeshTriangleEdgeReference
@@ -226,6 +253,7 @@ class NavMeshTriangleEdgeReference
     int m_iEdgeIndex;
 };
 class NavMeshInfo;
+class TESObjectCELL;
 class PathingLocation
 {
   public:
@@ -241,38 +269,33 @@ class PathingLocation
     PathingLocation(const NiPoint3&, const NavMeshInfo*);
     PathingLocation(const NiPoint3&, const NavMeshInfo*, unsigned short);
     ~PathingLocation();
-    bool FUN_006a9520();
-    NiPoint3 FUN_005c3420() const;
-    unsigned int FUN_006dd4f0() const;
+public:
+    ::TESObjectCELL *GetContainingCell();
 };
 class PathingGraphNode
 {
   public:
-    PathingLocation& FUN_00717e50();
-    const NiPoint3& FUN_005d8a70();
-    void FUN_006b0570(const NiPoint3&);
 };
 class PathingSolution
 {
   public:
     char base[0x30];
     BSSimpleArray<void*> Doors;
-    void ReserveIndex(const PathingLocation&, const NiPoint3&);
+    bool m_bHasValidPath;  // +0x40
     bool FUN_006b05d0();
-    PathingGraphNode* FUN_006b05a0();
 };
 class PathingRequest
 {
   public:
-    bool GetByteAtOffset9B();
-    BSSimpleArray<void*>* GetString();
-    PathingLocation* FUN_006a9540();
-    float GetFloatAtOffset68();
+    unsigned char layoutPadding0[0x8C];
+    float m_fPathingRadius;            // +0x8C
+    float m_fAvoidanceRadius;          // +0x90
+    void* m_pPathingAvoidNodeArray;    // +0x94
+    bool bCantOpenDoors;               // +0x98
+    bool bFaceTargetAtGoal;            // +0x99
     bool FUN_00505c00();
     float FUN_00507e10();
 };
-float GetDirectionAngle(const NiPoint3&);
-float cos(float);
 float FUN_004e44b0(float);
 void WrapValueToRange(float&, float, float);
 
@@ -314,7 +337,7 @@ class PathSmootherPOVSearch : public AStarSearch<PathSmootherPOVAvoidanceNode, N
                        PathingSolution*, BSSimpleArray<NavMeshTriangleEdgeReference>*,
                        BSSimpleArray<const NavMeshInfo*>*);
     void AddAvoidanceNodes();
-    void InsertNode(unsigned int, const PathSmootherPOVAvoidanceNode&, float);
+    void InsertNode(std::uintptr_t, const PathSmootherPOVAvoidanceNode&, float);
     bool FUN_006b3380(BSSimpleArray<PathSmootherPOVAvoidanceNode>*, BSSimpleArray<NavMeshEdgeSegment>*, bool);
     void BuildFallbackPath();
     bool FUN_006b2fc0(BSSimpleArray<NavMeshTriangleEdgeReference>*);
@@ -330,14 +353,11 @@ class PathSmootherPOVSearch : public AStarSearch<PathSmootherPOVAvoidanceNode, N
     bool FUN_006b1e50(const NavMeshEdgePoint&, Sphere&, CircularArc, NavMeshEdgePoint*);
     bool FUN_006b23d0(const NavMeshEdgePoint&, Sphere&, CircularArc);
     bool FUN_006b25f0(const NavMeshEdgePoint&, const NiPoint3&, NavMeshEdgePoint*, bool, bool, float&);
-    unsigned int FUN_0069f900(PathSmootherPOVPoint*, ANGLE_DIRECTION);
-    int InsertOrUpdateNode(unsigned int, float, POVNode*&);
+    std::uintptr_t FUN_0069f900(PathSmootherPOVPoint*, ANGLE_DIRECTION);
+    int InsertOrUpdateNode(std::uintptr_t, float, POVNode*&);
     void SetPOVSearchNode(POVNode*, PathSmootherPOVPoint*, ANGLE_DIRECTION);
 };
-extern const NiPoint3 DAT_011a9484;
-bool FUN_006d4570(const PathingLocation&, float, NavMeshEdgePoint&);
 NiPoint3 FUN_006ba550(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&);
-bool FUN_006ba100(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&, NiPoint3&);
 class Segment
 {
   public:
@@ -354,9 +374,6 @@ class SphereIntersection
     float t2;
     SphereIntersection();
 };
-bool FUN_006bab00(const NiPoint3&, float, const NiPoint3&, const NiPoint3&);
-void IntersectLineCircle(const Sphere&, const Segment&, SphereIntersection&);
-float DistanceToSegment(const NiPoint3&, const NiPoint3&, const NiPoint3&, float*);
 union SETTING_VALUE
 {
     float f;
@@ -365,8 +382,5 @@ union SETTING_VALUE
 class SettingT_GameSettingCollection_
 {
   public:
-    SETTING_VALUE* Float();
 };
-extern SettingT_GameSettingCollection_ DAT_011d7084;
-bool FUN_009a3830(NavMesh* const&, NavMesh* const&);
 #endif

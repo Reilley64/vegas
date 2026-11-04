@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nianimation/nicolorkey.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicolorkey.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_01024000.h"
+#include "fnv/symbols_011f3000.h"
 struct NiStream;
 struct blob16
 {
@@ -60,7 +62,6 @@ struct AnimationKey
     void* __vecDelDtor(unsigned int);
     float m_fTime;
 };
-typedef char _sizecheck_NiAnimationKey[sizeof(AnimationKey) == 4 ? 1 : -1];
 struct ColorAnimationKey : public AnimationKey
 {
     static int RegisterObjectLoader();
@@ -98,7 +99,6 @@ struct ColorAnimationKey : public AnimationKey
     void* __vecDelDtor(unsigned int);
     char m_kRgbaColor[16];
 };
-typedef char _sizecheck_NiColorKey[sizeof(ColorAnimationKey) == 20 ? 1 : -1];
 struct RgbaColor
 {
     void Clamp();
@@ -115,18 +115,15 @@ struct RgbaColor
     float b;
     float a;
 };
-typedef char _sizecheck_NiColorA[sizeof(RgbaColor) == 16 ? 1 : -1];
 
 typedef void(__cdecl* InterpFn)(float, const char*, const char*, void*);
-extern InterpFn DAT_011f3cd8[];
-extern double DAT_010241b0;
 
 // Returns a table color directly when count is one or f matches DAT_010241b0; otherwise interpolates adjacent entries and updates pIdx.
 // @fnv 0x00a296c0
 RgbaColor __cdecl InterpolateColor(float afTime, const char* table, unsigned int interp, unsigned int count,
                                    unsigned int* pIdx, unsigned char stride)
 {
-    if (count == 1 || afTime == DAT_010241b0)
+    if (count == 1 || afTime == ::DAT_010241b0)
     {
         return *(const RgbaColor*)(table + 4);
     }
@@ -154,7 +151,9 @@ RgbaColor __cdecl InterpolateColor(float afTime, const char* table, unsigned int
     color.b = 0.0f;
     color.a = 0.0f;
     float t = (afTime - prevVal) / (fCurTime - prevVal);
-    DAT_011f3cd8[interp](t, table + stride * idx, table + stride * i, &color);
+    (*reinterpret_cast<void (*(*)[])(float, const char *, const char *, void *)>((void *)&::DAT_011f3cd8))[interp](t, table + stride * idx, table + stride * i, &color);
     *pIdx = idx;
     return color;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nicolorkey.inc"

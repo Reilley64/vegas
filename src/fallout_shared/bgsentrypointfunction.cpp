@@ -1,6 +1,60 @@
 // The class header lives in include/; a plain "BGSEntryPointFunction.h" resolves to this folder's
 // bgsentrypointfunction.h (case-insensitive lookup), which declares a different class.
+#include <cstring>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSFaceGenKeyframe.h"
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_005aa420_shell.h"
+#include "fnv/decl/FUN_005abe00.h"
+#include "fnv/decl/FUN_005ac1e0_shell.h"
+#include "fnv/decl/FUN_005e6600.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/Scr.h"
+#include "fnv/decl/ScriptCompareOwner.h"
+#include "fnv/decl/TESFile.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/TimeoutTimer.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0044a000.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_00476000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004ff000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_005e5000.h"
 #include "../../include/BGSEntryPointFunction.h"
+#include <new>
+#include "fnv/decl/BaseProcess.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00418800_shell.h"
+#include "fnv/decl/FUN_00419ad0_shell.h"
+#include "fnv/decl/FUN_00419ed0_shell.h"
+#include "fnv/decl/FUN_00419f80_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00488350_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_005abf60_shell.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00472000.h"
+#include "fnv/symbols_00482000.h"
+#include "fnv/symbols_00487000.h"
+#include "fnv/decl/FUN_00414220_shell.h"
+#include "fnv/decl/TextString.h"
 
 // @fnv 0x005e5b30
 unsigned char BGSEntryPointFunction::GetArgumentCount(ENTRY_POINT_FUNCTION_TYPE type)
@@ -23,27 +77,22 @@ void BGSEntryPointFunction::ApplyFunction(ENTRY_POINT_FUNCTION function, TESObje
 class EntryPointValueSource
 {
   public:
-    float ReadValueA();
-    float ReadValueB();
 };
 
-bool ValidateEntryFunctionArgs(int aiFunctionType, int aiDataType, int aiArg1, int aiArg2, unsigned char aucArgCount,
-                               float** apapValues, EntryPointValueSource* apSource);
 
-float RandomFloat(float afMin, float afMax);
 
 // Validates arguments, then adds a random float between the source's two values to the first value in apapValues.
 // @fnv 0x005e5d80
-void FUN_005e5d80(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+void FUN_005e5d80(std::intptr_t aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                   EntryPointValueSource* apSource)
 {
-    if (!ValidateEntryFunctionArgs(0, 2, aiArg1, aiArg2, aucArgCount, apapValues, apSource))
+    if (!::FUN_005e5b80(0, 2, (::TESObjectREFR *)(aiArg1), aiArg2, aucArgCount, (void **)(apapValues), apSource))
         return;
 
     float* pfValue = *apapValues;
     EntryPointValueSource* pSource = apSource;
 
-    *pfValue += RandomFloat(pSource->ReadValueA(), pSource->ReadValueB());
+    *pfValue += RandomFloat(reinterpret_cast<::TimeoutTimer *>((pSource))->FUN_006b9130(), reinterpret_cast<::BSFaceGenKeyframe *>((pSource))->GetTime());
 }
 
 class E5DF0Counter
@@ -104,30 +153,24 @@ class E5DF0Actor
 class E5DF0Modifier
 {
   public:
-    float FUN_006b9130();
-    float FUN_00488d50();
 };
 
-bool FUN_005e5b80(int iUnused, int iType, E5DF0Actor* pkActor, void* pvTarget, bool bFlag, float** ppfResult,
-                  E5DF0Modifier* pkModifier);
 
 // Calls FUN_005e5b80 to validate the modifier, then adds the product of the counter value and FUN_006b9130 to the result.
 // @fnv 0x005e5df0
 void FUN_005e5df0(E5DF0Actor* pkActor, void* pvTarget, bool bFlag, float** ppfResult, E5DF0Modifier* pkModifier)
 {
-    if (!FUN_005e5b80(0, 2, pkActor, pvTarget, bFlag, ppfResult, pkModifier))
+    if (!::FUN_005e5b80(0, 2, (::TESObjectREFR *)(pkActor), (std::intptr_t)(pvTarget), bFlag, (void **)(ppfResult), pkModifier))
         return;
 
     float* pfOut3 = *ppfResult;
     E5DF0Modifier* pkMod = pkModifier;
     E5DF0Actor* pkSource = pkActor;
-    float fSecondFunctionValue = pkMod->FUN_006b9130();
-    unsigned int uiIndex3 = (unsigned int)pkMod->FUN_00488d50();
+    float fSecondFunctionValue = reinterpret_cast<::TimeoutTimer *>((pkMod))->FUN_006b9130();
+    unsigned int uiIndex3 = (unsigned int)reinterpret_cast<::BSFaceGenKeyframe *>((pkMod))->GetTime();
     *pfOut3 += pkSource->m_kCounter.GetCount(uiIndex3) * fSecondFunctionValue;
 }
 
-unsigned int BSStringLength(const char* text);
-extern "C" char* __cdecl fnv_strcpy(char* dst, const char* src);
 
 struct StringOwner
 {
@@ -149,47 +192,41 @@ void FUN_005e6c60_shell::FUN_005e6c60(const char* text)
 
     if (text)
     {
-        ((StringOwner*)this)->m_pText = new char[BSStringLength(text) + 1];
-        fnv_strcpy(((StringOwner*)this)->m_pText, text);
+        ((StringOwner*)this)->m_pText = new char[::FUN_0044a670(text) + 1];
+        ::FUN_004046f0(((StringOwner*)this)->m_pText, text);
     }
 }
 
 class EntryPointSingleValueSource
 {
   public:
-    float FUN_006b9130();
 };
-bool __cdecl FUN_005e5b80(int, int, void*, void*, unsigned char, void*, void*);
 // Calls FUN_005e5b80 to validate arguments, then writes the result of a5->FUN_006b9130() into the float pointed to by *a4.
 // @fnv 0x005e5c70
 void __cdecl FUN_005e5c70(void* apArg1, void* apArg2, unsigned char a3, float** ppValue,
                           EntryPointSingleValueSource* apSource)
 {
     EntryPointSingleValueSource* pSource;
-    if (!FUN_005e5b80(0, 1, apArg1, apArg2, a3, ppValue, apSource))
+    if (!::FUN_005e5b80(0, 1, (::TESObjectREFR *)(apArg1), (std::intptr_t)(apArg2), a3, (void **)(ppValue), apSource))
         return;
     {
         float* pValue;
         pValue = *ppValue;
         pSource = apSource;
-        *pValue = pSource->FUN_006b9130();
+        *pValue = reinterpret_cast<::TimeoutTimer *>((pSource))->FUN_006b9130();
     }
 }
 
-namespace std {
-float __cdecl abs(float);
-}
+#include <cmath>
 
-bool ValidateEntryFunctionArgs(int aiFunctionType, int aiDataType, int aiArg1, int aiArg2, unsigned char aucArgCount,
-                               float** apapValues, EntryPointValueSource* apSource);
 
 // Validates entry function arguments, then sets the first value in apapValues to its absolute value.
 // @fnv 0x005e5ea0
-void __cdecl FUN_005e5ea0(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+void __cdecl FUN_005e5ea0(std::intptr_t aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                           EntryPointValueSource* apSource)
 {
     float* pfValue;
-    if (!ValidateEntryFunctionArgs(0, 0, aiArg1, aiArg2, aucArgCount, apapValues, apSource))
+    if (!::FUN_005e5b80(0, 0, (::TESObjectREFR *)(aiArg1), aiArg2, aucArgCount, (void **)(apapValues), apSource))
         return;
     pfValue = *apapValues;
     *pfValue = std::abs(*pfValue);
@@ -197,50 +234,30 @@ void __cdecl FUN_005e5ea0(int aiArg1, int aiArg2, unsigned char aucArgCount, flo
 
 class EntryPointValueSource;
 
-bool ValidateEntryFunctionArgs(int, int, int, int, unsigned char, float**, EntryPointValueSource*);
 
 // @fnv 0x005e5ef0
-void FUN_005e5ef0(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+void FUN_005e5ef0(std::intptr_t aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                   EntryPointValueSource* apSource)
 {
-    if (!ValidateEntryFunctionArgs(0, 0, aiArg1, aiArg2, aucArgCount, apapValues, apSource))
+    if (!::FUN_005e5b80(0, 0, (::TESObjectREFR *)(aiArg1), aiArg2, aucArgCount, (void **)(apapValues), apSource))
         return;
 
     float* pfValue = *apapValues;
     *pfValue = -std::abs(*pfValue);
 }
 
-void __cdecl _Deallocate(void*);
 struct Dummy
 {
-    void FUN_005e6470();
     void* FUN_005e6440(unsigned int);
 };
-// Calls FUN_005e6470, then calls _Deallocate on this when the low bit of flags is set, and returns this.
-// @fnv 0x005e6440
-void* Dummy::FUN_005e6440(unsigned int flags)
-{
-    FUN_005e6470();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_005e6490_shell
 {
-    void FUN_005e6470();
     void FUN_005e6490();
 };
 
-// @fnv 0x005e6490
-void FUN_005e6490_shell::FUN_005e6490()
-{
-    FUN_005e6470();
-}
-
 struct FUN_005e6420
 {
-    int m0;
+    std::intptr_t m0;
     FUN_005e6420();
 };
 extern int DAT_01046300;
@@ -253,7 +270,7 @@ struct FUN_005e64b0 : FUN_005e6420
 // @fnv 0x005e64b0
 FUN_005e64b0::FUN_005e64b0()
 {
-    m0 = (int)&DAT_01046300;
+    m0 = (std::intptr_t)&DAT_01046300;
     f4 = 0.0f;
     f8 = 0.0f;
 }
@@ -265,8 +282,6 @@ struct FUN_005e63f0
     unsigned int vtable;
     float value;
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct OneValueDuplicateEntry
 {
     unsigned int vtable;
@@ -379,42 +394,23 @@ FUN_005e6510* FUN_005e69d0_shell::FUN_005e69d0()
     return pduplicate;
 }
 
-unsigned int __cdecl _FUN_00485910(unsigned int, unsigned int);
 struct TESSound
 {
-    unsigned int Deallocate();
 };
 struct FUN_005e6ab0_StandIn
 {
     int f0;
     TESSound* pLeveledList;
-    void FUN_005e6250();
     void FUN_005e6ab0();
 };
-// @fnv 0x005e6ab0
-void FUN_005e6ab0_StandIn::FUN_005e6ab0()
-{
-    FUN_005e6250();
-    unsigned int ileveledListID = 0;
-    if (pLeveledList != 0)
-    {
-        ileveledListID = pLeveledList->Deallocate();
-        _FUN_00485910(0x44465045, ileveledListID);
-    }
-}
-
 struct BGSEntryPointFunctionData;
 struct TESLevItem;
 
 template <int Value> struct EndianSizeTag
 {
 };
-void __cdecl BSEndian(int*, EndianSizeTag<4>);
 struct TESFile_s
 {
-    unsigned int _ref_00401660();
-    void _ref_00472890(void*, unsigned int);
-    bool GetChunkData();
 };
 struct FUN_005e6b00_cls
 {
@@ -426,78 +422,72 @@ struct FUN_005e6b00_cls
 // @fnv 0x005e6b00
 bool FUN_005e6b00_cls::FUN_005e6b00(TESFile_s* apFile)
 {
-    unsigned int isize = apFile->_ref_00401660();
+    unsigned int isize = reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C();
     if (isize != 4)
         return false;
     unsigned int ileveledListID = 0;
-    apFile->_ref_00472890(&ileveledListID, 0);
-    if (apFile->GetChunkData())
-        BSEndian((int*)&ileveledListID, EndianSizeTag<4>());
+    reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&ileveledListID), 0);
+    if (reinterpret_cast<::TESFile *>((apFile))->IsEndianConversionRequired())
+        ::FUN_00401080((int*)&ileveledListID);
     value = ileveledListID;
     return true;
 }
 
 struct FUN_005abe00_shell
 {
-    void FUN_005abe00();
 };
 
 struct FUN_00413f40_shell
 {
-    FUN_005abe00_shell* FUN_00413f40();
 };
 
-unsigned int __cdecl _strlen(const char*);
-unsigned int __cdecl _BSStringLength(const char*);
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
-void __cdecl FUN_00485950(unsigned int, unsigned int);
 
 struct FUN_005e6e50_obj
 {
     int unk00;
     char* m_kChoiceText;
-    void FUN_005e6250();
     void FUN_005e6e50();
 };
 
-// @fnv 0x005e6e50
-void FUN_005e6e50_obj::FUN_005e6e50()
-{
-    FUN_005e6250();
-    unsigned int z = 0;
-    if (m_kChoiceText && _strlen(m_kChoiceText))
-        FUN_004856f0(0x32465045, m_kChoiceText, _BSStringLength(m_kChoiceText) + 1);
-    FUN_00485950(0x33465045, *(unsigned short*)((char*)this + 0x5c));
-    reinterpret_cast<FUN_00413f40_shell*>(this)->FUN_00413f40()->FUN_005abe00();
-}
-
-bool ValidateEntryFunctionArgs(int aiFunctionType, int aiDataType, int aiArg1, int aiArg2, unsigned char aucArgCount,
-                               float** apapValues, EntryPointValueSource* apSource);
 
 // Validates the arguments, then adds the return value of FUN_006b9130 to the first pointed-to float.
 // @fnv 0x005e5cc0
-void FUN_005e5cc0(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+void FUN_005e5cc0(std::intptr_t aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                   EntryPointValueSource* apSource)
 {
     EntryPointSingleValueSource* pSource;
-    if (!ValidateEntryFunctionArgs(0, 1, aiArg1, aiArg2, aucArgCount, apapValues, apSource))
+    if (!::FUN_005e5b80(0, 1, (::TESObjectREFR *)(aiArg1), aiArg2, aucArgCount, (void **)(apapValues), apSource))
         return;
 
     {
         float* pfValue;
         pfValue = *apapValues;
         pSource = reinterpret_cast<EntryPointSingleValueSource*>(apSource);
-        *pfValue += pSource->FUN_006b9130();
+        *pfValue += reinterpret_cast<::TimeoutTimer *>((pSource))->FUN_006b9130();
     }
 }
 
 struct FUN_005e6470_shell
 {
-    void __thiscall FUN_005e6470();
+    void FUN_005e6470();
 };
+// Calls FUN_005e6470, then calls _Deallocate on this when the low bit of flags is set, and returns this.
+// @fnv 0x005e6440
+void* Dummy::FUN_005e6440(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005e6470_shell *>(this)->FUN_005e6470();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+// @fnv 0x005e6490
+void FUN_005e6490_shell::FUN_005e6490()
+{
+    reinterpret_cast<::FUN_005e6470_shell *>(this)->FUN_005e6470();
+}
 
 // @fnv 0x005e6470
-void __thiscall FUN_005e6470_shell::FUN_005e6470()
+void FUN_005e6470_shell::FUN_005e6470()
 {
     *(const char**)this = "@d^";
 }
@@ -508,23 +498,13 @@ class OneValueSaveEntry
     void* vtable;
     float value;
 
-    void FUN_005e6250();
     void FUN_005e6760();
 };
 
-void __cdecl FUN_00485910(unsigned int chunkID, float value);
-
-// @fnv 0x005e6760
-void OneValueSaveEntry::FUN_005e6760()
-{
-    FUN_005e6250();
-    FUN_00485910(0x44465045, value);
-}
 
 class ActionPointCostSetting
 {
   public:
-    float* FUN_00403e20();
 };
 
 extern ActionPointCostSetting* DAT_0119baf8[22];
@@ -535,7 +515,7 @@ float FUN_0066dc70(int aiAction)
 {
     float cost = 0.0f;
     if (aiAction >= 0 && aiAction < 22)
-        cost = *DAT_0119baf8[aiAction]->FUN_00403e20();
+        cost = *((float *)&(::FUN_00403e20((float *)(DAT_0119baf8[aiAction]))));
     return cost;
 }
 
@@ -544,7 +524,6 @@ struct EntryFunctionDataView
     virtual ~EntryFunctionDataView();
     virtual unsigned int GetType();
 };
-int Warning(const char*, ...);
 
 // Checks the function type, argument count, non-null arguments, and, when present, data type; warns and returns false on mismatches.
 // @fnv 0x005e5b80
@@ -553,40 +532,35 @@ bool FUN_005e5b80(int aeExpectedFunctionType, unsigned char acExpectedFunctionDa
 {
     if (aeExpectedFunctionType != aeFunctionType)
     {
-        Warning(
-            "DEFAULT: Invalid function type %i passed to BGSEntryPointFunction::CheckFunctionArguments.  Expected %i.",
-            aeFunctionType, aeExpectedFunctionType);
+        ::FUN_005b5e40(
+            );
         return false;
     }
     if (::BGSEntryPointFunction::ms_auiArgumentCountsByType[aeExpectedFunctionType] != acArgumentCount)
     {
-        Warning(
-            "DEFAULT: Invalid argument count %i passed to BGSEntryPointFunction::CheckFunctionArguments.  Expected %i.",
-            acArgumentCount, ::BGSEntryPointFunction::ms_auiArgumentCountsByType[aeExpectedFunctionType]);
+        ::FUN_005b5e40(
+            );
         return false;
     }
     for (unsigned int i = 0; i < acArgumentCount; ++i)
     {
         if (!apFunctionArgument[i])
         {
-            Warning(
-                "DEFAULT: Invalid function argument %i passed to BGSEntryPointFunction::CheckFunctionArguments.  Function arguments cannot be zero.",
-                i);
+            ::FUN_005b5e40(
+                );
             return false;
         }
     }
     EntryFunctionDataView* pfunctionData = (EntryFunctionDataView*)apData;
     if (pfunctionData && pfunctionData->GetType() != acExpectedFunctionData)
     {
-        Warning(
-            "DEFAULT: Invalid function data type %i passed to BGSEntryPointFunction::CheckFunctionArguments.  Expected %i.",
-            pfunctionData->GetType(), acExpectedFunctionData);
+        ::FUN_005b5e40(
+            );
         return false;
     }
     return true;
 }
 
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
 
 class EntryPointFunctionDataStartView
 {
@@ -596,6 +570,33 @@ class EntryPointFunctionDataStartView
 
     void FUN_005e6250();
 };
+// @fnv 0x005e6ab0
+void FUN_005e6ab0_StandIn::FUN_005e6ab0()
+{
+    reinterpret_cast<::EntryPointFunctionDataStartView *>(this)->FUN_005e6250();
+    unsigned int ileveledListID = 0;
+    if (pLeveledList != 0)
+    {
+        ileveledListID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pLeveledList))->FUN_0084e3a0()));
+        ::FUN_00485910(0x44465045, ileveledListID);
+    }
+}
+// @fnv 0x005e6e50
+void FUN_005e6e50_obj::FUN_005e6e50()
+{
+    reinterpret_cast<::EntryPointFunctionDataStartView *>(this)->FUN_005e6250();
+    unsigned int z = 0;
+    if (m_kChoiceText && ::std::strlen(m_kChoiceText))
+        ::FUN_004856f0((void *)(0x32465045), m_kChoiceText, (void *)(std::uintptr_t)(::FUN_0044a670(m_kChoiceText) + 1));
+    ::FUN_00485950((void *)(0x33465045), *(unsigned short*)((char*)this + 0x5c));
+    reinterpret_cast<::FUN_005abe00 *>((((::FUN_005abe00_shell *)(reinterpret_cast<::TESTopicInfoData *>((reinterpret_cast<FUN_00413f40_shell*>(this)))->GetLinkToList()))))->ProcessHeader();
+}
+// @fnv 0x005e6760
+void OneValueSaveEntry::FUN_005e6760()
+{
+    reinterpret_cast<::EntryPointFunctionDataStartView *>(this)->FUN_005e6250();
+    ::FUN_00485910(0x44465045, value);
+}
 
 // @fnv 0x005e6250
 void EntryPointFunctionDataStartView::FUN_005e6250()
@@ -608,55 +609,50 @@ struct EntryPointFloatPair
 {
     float EntryPointTwoValueFunctionData;
     float fSecondFunctionValue;
-    void FUN_00462230();
 };
-bool FUN_00401500();
-void FUN_00485990(unsigned int, void*, int);
 class EntryPointTwoValueSave
 {
   public:
-    void FUN_005e6250();
     void FUN_005e6900();
 };
 // Copies two float fields into a local pair, conditionally byte-swaps it, and passes its address and size to a helper.
 // @fnv 0x005e6900
 void EntryPointTwoValueSave::FUN_005e6900()
 {
-    FUN_005e6250();
+    reinterpret_cast<::EntryPointFunctionDataStartView *>(this)->FUN_005e6250();
     EntryPointFloatPair data;
     data.EntryPointTwoValueFunctionData =
         reinterpret_cast<BGSEntryPointFunctionDataTwoValue*>(this)->EntryPointTwoValueFunctionData;
     data.fSecondFunctionValue = reinterpret_cast<BGSEntryPointFunctionDataTwoValue*>(this)->fSecondFunctionValue;
-    if (FUN_00401500())
-        data.FUN_00462230();
-    FUN_00485990(0x44465045, &data, 8);
-    if (FUN_00401500())
-        data.FUN_00462230();
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::S_00462230 *>(&(data))->FUN_00462230();
+    ::AppendChunk(0x44465045, &data, 8);
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::S_00462230 *>(&(data))->FUN_00462230();
 }
 
 namespace fnv_005e64e0 {
-extern "C" void __cdecl _Deallocate(void*);
 
 struct EntryPointDataBase_5e6490
 {
-    void __thiscall Destroy_5e6490();
+    void Destroy_5e6490();
 };
 
-void __thiscall EntryPointDataBase_5e6490::Destroy_5e6490()
+void EntryPointDataBase_5e6490::Destroy_5e6490()
 {}
 
 struct EntryPointData_5e64e0
 {
-    void* __thiscall FUN_005e64e0(unsigned int flags);
+    void* FUN_005e64e0(unsigned int flags);
 };
 
 // Calls the base class destructor, deallocates this object if the low bit of flags is set, and returns this.
 // @fnv 0x005e64e0
-void* __thiscall EntryPointData_5e64e0::FUN_005e64e0(unsigned int flags)
+void* EntryPointData_5e64e0::FUN_005e64e0(unsigned int flags)
 {
-    ((EntryPointDataBase_5e6490*)this)->Destroy_5e6490();
+    reinterpret_cast<::FUN_005e6490_shell *>((((EntryPointDataBase_5e6490*)this)))->FUN_005e6490();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 }  // namespace fnv_005e64e0
@@ -682,7 +678,6 @@ bool BGSEntryPointFunctionDataLeveledList::FUN_005e6a60(BGSEntryPointFunctionDat
 
 struct Script
 {
-    void Run(void*, bool, bool, bool);
 };
 
 struct NiFixedStr : Script
@@ -710,13 +705,12 @@ struct FUN_005e61b0_Local
     void* pLocals;
 };
 
-bool __cdecl FUN_005e5b80(int, int, void*, void*, bool, void*, void*);
 
 // Runs the challenge name object's script when it starts locked; otherwise adds the challenge pointer to pList.
 // @fnv 0x005e61b0
 void __cdecl FUN_005e61b0(void* arg1, void* arg2, bool arg3, FUN_005e61b0_Local* apLocal, TESChallenge* apChallenge)
 {
-    if (!FUN_005e5b80(2, 4, arg1, arg2, arg3, apLocal, apChallenge))
+    if (!::FUN_005e5b80(2, 4, (::TESObjectREFR *)(arg1), (std::intptr_t)(arg2), arg3, (void **)(apLocal), apChallenge))
         return;
 
     G2* pChallenge = apLocal->pList;
@@ -727,9 +721,9 @@ void __cdecl FUN_005e61b0(void* arg1, void* arg2, bool arg3, FUN_005e61b0_Local*
     {
         if (pList->GetStartsLocked())
         {
-            NiFixedStr* pName = &pList->SeqObj::GetName();
+            NiFixedStr* pName = &(*(::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((pList))->GetLinkToList()));
             if (pName)
-                pName->Script::Run(pLocals, 0, 0, 0);
+                reinterpret_cast<::FUN_005ac1e0_shell *>((pName))->FUN_005ac1e0((::TESObjectREFR *)(pLocals), (::ScriptLocals *)(0), (::TESObjectREFR *)(0), 0);
         }
         else
         {
@@ -740,16 +734,14 @@ void __cdecl FUN_005e61b0(void* arg1, void* arg2, bool arg3, FUN_005e61b0_Local*
 
 struct Place_5e65d0
 {
-    void FUN_005e6600();
     void* FUN_005e65d0(unsigned int);
 };
-void _Deallocate(void*);
 // @fnv 0x005e65d0
 void* Place_5e65d0::FUN_005e65d0(unsigned int flags)
 {
-    FUN_005e6600();
+    reinterpret_cast<::FUN_005e6600 *>(this)->FUN_005e6600::~FUN_005e6600();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
@@ -757,12 +749,8 @@ namespace fnv_005e6790 {
 template <int Value> struct EndianSizeTag
 {
 };
-void __cdecl BSEndian(int*, EndianSizeTag<4>);
 struct TESFile_s
 {
-    unsigned int _ref_00401660();
-    void _ref_00472890(void*, unsigned int);
-    bool GetChunkData();
 };
 struct FUN_005e6790_cls
 {
@@ -774,22 +762,20 @@ struct FUN_005e6790_cls
 // @fnv 0x005e6790
 bool FUN_005e6790_cls::FUN_005e6790(TESFile_s* apFile)
 {
-    unsigned int isize = apFile->_ref_00401660();
+    unsigned int isize = reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C();
     if (isize != 4)
         return false;
-    apFile->_ref_00472890(&value, 0);
-    if (apFile->GetChunkData())
-        BSEndian(&value, EndianSizeTag<4>());
+    reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&value), 0);
+    if (reinterpret_cast<::TESFile *>((apFile))->IsEndianConversionRequired())
+        ::FUN_00401080(&value);
     return true;
 }
 }  // namespace fnv_005e6790
 
 namespace fnv_005e6cd0 {
-void* __cdecl operator new(unsigned int);
 
 struct Script
 {
-    void CopyScriptContents(Script*);
 };
 
 struct NiFixedStr : Script
@@ -813,7 +799,6 @@ struct FUN_005e6540 : BGSEntryPointFunctionData
     unsigned short value;
 
     FUN_005e6540();
-    void FUN_005e6c60(char*);
 };
 
 struct FUN_005e6cd0_shell : FUN_005e6540
@@ -827,8 +812,8 @@ BGSEntryPointFunctionData* FUN_005e6cd0_shell::FUN_005e6cd0()
 {
     FUN_005e6540* pduplicate = new FUN_005e6540();
 
-    pduplicate->FUN_005e6c60(this->m_kChoiceText);
-    pduplicate->GetName().CopyScriptContents(&this->GetName());
+    reinterpret_cast<::FUN_005e6c60_shell *>((pduplicate))->FUN_005e6c60(this->m_kChoiceText);
+    reinterpret_cast<::FUN_005aa420_shell *>(&((*(::fnv_005e6cd0::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((pduplicate))->GetLinkToList()))))->CopyFromScript((::Script *)(::fnv_005e6cd0::Script *)(&(*(::fnv_005e6cd0::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((this))->GetLinkToList()))));
     pduplicate->value = this->value;
 
     return pduplicate;
@@ -861,12 +846,13 @@ class BGSEntryPointFunctionDataActivateChoice : public BGSEntryPointFunctionData
     unsigned int unk54;
     unsigned int unk58;
     unsigned short flags;
+public:
+    void InitializeComponent();
 };
 
 class ActivateChoiceForm
 {
   public:
-    bool FUN_005ab240(ActivateChoiceForm* other);
 };
 
 struct ActivationChoiceLabelView
@@ -878,11 +864,9 @@ struct ActivationChoiceLabelView
 class ActivateChoiceCompare : public BGSEntryPointFunctionDataActivateChoice
 {
   public:
-    ActivateChoiceForm* FUN_00413f40();
     bool FUN_005e6d80(BGSEntryPointFunctionData* other);
 };
 
-int __cdecl FUN_00408b20(const char* lhs, const char* rhs);
 
 // Returns true if the cast fails, a label comparison is nonzero, the form comparison returns true, or flags differ.
 // @fnv 0x005e6d80
@@ -902,7 +886,7 @@ bool ActivateChoiceCompare::FUN_005e6d80(BGSEntryPointFunctionData* other)
         FUN_00408b20(reinterpret_cast<ActivationChoiceLabelView*>(this)->text,
                      reinterpret_cast<ActivationChoiceLabelView*>(pOtherChoice)->text))
         return true;
-    if (FUN_00413f40()->FUN_005ab240(pOtherChoice->FUN_00413f40()))
+    if (reinterpret_cast<::ScriptCompareOwner *>((((::ActivateChoiceForm *)(reinterpret_cast<::TESTopicInfoData *>(this)->GetLinkToList()))))->IsDifferentFrom((::Script *)(::ActivateChoiceForm *)(((::ActivateChoiceForm *)(reinterpret_cast<::TESTopicInfoData *>((pOtherChoice))->GetLinkToList())))))
         return true;
     if (flags != pOtherChoice->flags)
         return true;
@@ -989,13 +973,11 @@ class ActivationChoiceFormView
     virtual void Unknown128();
     virtual void Unknown12C();
     virtual const char* GetName();
-    unsigned int FUN_0084e3a0();
 };
 
 class ActivationChoiceScript
 {
   public:
-    void FUN_005ab400(TESForm* form);
 };
 
 class ActivationChoiceInitializer : public BGSEntryPointFunctionData
@@ -1008,10 +990,6 @@ class ActivationChoiceInitializer : public BGSEntryPointFunctionData
 
 extern char str_010463f0[];
 
-int __cdecl FUN_0046e8a0();
-void __cdecl FUN_0043b2b0(bool disabled);
-void __cdecl FUN_004fffe0(int count);
-void __cdecl FUN_005b5e40(const char* message, const char* name, unsigned int formID);
 
 // Calls resultScript with form, then logs a message when the subsequent count returned by FUN_0046e8a0 is nonzero.
 // @fnv 0x005e7230
@@ -1020,30 +998,25 @@ void ActivationChoiceInitializer::FUN_005e7230(TESForm* form)
     int savedWarnings = FUN_0046e8a0();
     FUN_0043b2b0(true);
     FUN_004fffe0(0);
-    resultScript.FUN_005ab400(form);
+    reinterpret_cast<::Scr *>(&(resultScript))->FUN_005ab400(form);
     FUN_0043b2b0(false);
 
     int newWarnings = FUN_0046e8a0();
     FUN_004fffe0(savedWarnings);
 
     if (newWarnings != 0)
-        FUN_005b5e40(str_010463f0, reinterpret_cast<ActivationChoiceFormView*>(form)->GetName(),
-                     reinterpret_cast<ActivationChoiceFormView*>(form)->FUN_0084e3a0());
+        ::FUN_005b5e40();
 }
 
 namespace fnv_005e6970 {
 struct TESFile_s
 {
-    unsigned int _ref_00401660();
-    void _ref_00472890(void*, unsigned int);
-    bool _ref_00401680();
 };
 
 struct EntryPointTwoValueChunk_5e6970
 {
     float valueA;
     float valueB;
-    void FUN_00462230();
 };
 
 struct FUN_005e6970_cls
@@ -1060,18 +1033,19 @@ struct FUN_005e6970_cls
 bool FUN_005e6970_cls::FUN_005e6970(TESFile_s* apFile)
 {
     EntryPointTwoValueChunk_5e6970 data;
-    unsigned int size = apFile->_ref_00401660();
+    unsigned int size = reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C();
     if (size != 8)
         return false;
-    apFile->_ref_00472890(&data, size);
-    if (apFile->_ref_00401680())
-        data.FUN_00462230();
+    reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&data), size);
+    if (reinterpret_cast<::TESFile *>((apFile))->IsEndianConversionRequired())
+        reinterpret_cast<::S_00462230 *>(&(data))->FUN_00462230();
     valueA = data.valueA;
     valueB = data.valueB;
     return true;
 }
 }
 
+class TESFile;
 class TESForm
 {
   public:
@@ -1152,12 +1126,10 @@ class TESForm
     virtual void Unk128();
     virtual void Unk12C();
     virtual const char* GetName();
-    TESFile* FUN_00484e60(int);
-    unsigned int FUN_0084e3a0();
+public:
+    ::TESFile *GetFile(int);
 };
 
-void FUN_00485d50(unsigned int&, TESFile*);
-TESForm* FUN_004839c0(unsigned int);
 
 struct TESLevItem : TESForm
 {
@@ -1165,9 +1137,7 @@ struct TESLevItem : TESForm
 class EntryPointOwnerView : public TESForm
 {
   public:
-    int FUN_00474cb0();
 };
-int Warning(const char*, ...);
 
 struct LevListData
 {
@@ -1182,17 +1152,15 @@ void LevListData::FUN_005e6b70(TESForm* apOwner)
 {
     if (pLevItem)
     {
-        unsigned int itempint = (unsigned int)pLevItem;
-        FUN_00485d50(itempint, apOwner->FUN_00484e60(-1));
+        std::uintptr_t itempint = (std::uintptr_t)pLevItem;
+        ::ResolveFormID((unsigned int *)&(itempint), apOwner->GetFile(-1));
         pLevItem = dynamic_cast<TESLevItem*>(FUN_004839c0(itempint));
         if (!pLevItem)
         {
-            if (static_cast<EntryPointOwnerView*>(apOwner)->FUN_00474cb0())
-                Warning("MASTERFILE: Unable to find leveled list (%08X) on owner object \"%s\".", itempint,
-                        apOwner->GetName());
+            if (reinterpret_cast<::BGSCameraPath *>((static_cast<EntryPointOwnerView*>(apOwner)))->HasNameForWarning())
+                ::FUN_005b5e40();
             else
-                Warning("MASTERFILE: Unable to find leveled list (%08X) on owner object (%08X).", itempint,
-                        apOwner->FUN_0084e3a0());
+                ::FUN_005b5e40();
         }
     }
 }
@@ -1216,7 +1184,6 @@ struct TESForm_SV
 class ChoiceDataInitialization
 {
   public:
-    void FUN_005e6c30();
 };
 
 class Script_SV : public TESForm_SV
@@ -1255,5 +1222,440 @@ struct FUN_005e6540 : FUN_005e6420_SV
 // @fnv 0x005e6540
 FUN_005e6540::FUN_005e6540() : FUN_005e6420_SV(), label(0), m_script(), flags(0)
 {
-    reinterpret_cast<ChoiceDataInitialization*>(this)->FUN_005e6c30();
+    reinterpret_cast<::BGSEntryPointFunctionDataActivateChoice *>((reinterpret_cast<ChoiceDataInitialization*>(this)))->InitializeComponent();
 }
+
+struct ScriptLocals;
+
+struct BoundObj5e5f50
+{
+    virtual void b0();
+    virtual void b1();
+    virtual void b2();
+    virtual void b3();
+    virtual void b4();
+    virtual void b5();
+    virtual void b6();
+    virtual void b7();
+    virtual void b8();
+    virtual void b9();
+    virtual void b10();
+    virtual void b11();
+    virtual void b12();
+    virtual void b13();
+    virtual void b14();
+    virtual void b15();
+    virtual void b16();
+    virtual void b17();
+    virtual void b18();
+    virtual void b19();
+    virtual void b20();
+    virtual void b21();
+    virtual void b22();
+    virtual void b23();
+    virtual void b24();
+    virtual void b25();
+    virtual void b26();
+    virtual void b27();
+    virtual void b28();
+    virtual void b29();
+    virtual void b30();
+    virtual void b31();
+    virtual void b32();
+    virtual void b33();
+    virtual void b34();
+    virtual void b35();
+    virtual void b36();
+    virtual void b37();
+    virtual void b38();
+    virtual void b39();
+    virtual void b40();
+    virtual void b41();
+    virtual void b42();
+    virtual void b43();
+    virtual void b44();
+    virtual void b45();
+    virtual void b46();
+    virtual void b47();
+    virtual void b48();
+    virtual void b49();
+    virtual void b50();
+    virtual void b51();
+    virtual void b52();
+    virtual void b53();
+    virtual void b54();
+    virtual void b55();
+    virtual void b56();
+    virtual bool IsLeveledOrPlayable();
+};
+
+struct InventoryItemEntry
+{
+    int m_iCountDelta;
+    BoundObj5e5f50* pObj;
+};
+
+struct Actor5e5f50
+{
+    virtual void a0();
+    virtual void a1();
+    virtual void a2();
+    virtual void a3();
+    virtual void a4();
+    virtual void a5();
+    virtual void a6();
+    virtual void a7();
+    virtual void a8();
+    virtual void a9();
+    virtual void a10();
+    virtual void a11();
+    virtual void a12();
+    virtual void a13();
+    virtual void a14();
+    virtual void a15();
+    virtual void a16();
+    virtual void a17();
+    virtual void a18();
+    virtual void a19();
+    virtual void a20();
+    virtual void a21();
+    virtual void a22();
+    virtual void a23();
+    virtual void a24();
+    virtual void a25();
+    virtual void a26();
+    virtual void a27();
+    virtual void a28();
+    virtual void a29();
+    virtual void a30();
+    virtual void a31();
+    virtual void a32();
+    virtual void a33();
+    virtual void a34();
+    virtual void a35();
+    virtual void a36();
+    virtual void a37();
+    virtual void a38();
+    virtual void a39();
+    virtual void a40();
+    virtual void a41();
+    virtual void a42();
+    virtual void a43();
+    virtual void a44();
+    virtual void a45();
+    virtual void a46();
+    virtual void a47();
+    virtual void a48();
+    virtual void a49();
+    virtual void a50();
+    virtual void a51();
+    virtual void a52();
+    virtual void a53();
+    virtual void a54();
+    virtual void a55();
+    virtual void a56();
+    virtual void a57();
+    virtual void a58();
+    virtual void a59();
+    virtual void a60();
+    virtual void a61();
+    virtual void a62();
+    virtual void a63();
+    virtual void a64();
+    virtual void a65();
+    virtual void a66();
+    virtual void a67();
+    virtual void a68();
+    virtual void a69();
+    virtual void a70();
+    virtual void a71();
+    virtual void a72();
+    virtual void a73();
+    virtual void a74();
+    virtual void a75();
+    virtual void a76();
+    virtual void a77();
+    virtual void a78();
+    virtual void a79();
+    virtual void a80();
+    virtual void a81();
+    virtual void a82();
+    virtual void a83();
+    virtual void a84();
+    virtual void a85();
+    virtual void a86();
+    virtual void a87();
+    virtual void a88();
+    virtual void a89();
+    virtual void a90();
+    virtual void a91();
+    virtual void a92();
+    virtual void a93();
+    virtual void a94();
+    virtual void a95();
+    virtual void a96();
+    virtual void a97();
+    virtual void a98();
+    virtual void a99();
+    virtual void AddObjectToContainer(BoundObj5e5f50*, struct ExtraDataList*, int);
+};
+
+struct ListNode5e5f50
+{
+    bool FUN_008256d0();
+};
+
+struct TESContainer
+{
+    TESContainer();
+    virtual ~TESContainer();
+    InventoryItemEntry* pFirstItem;
+    ListNode5e5f50* pListNode;
+};
+
+struct TESLeveledList
+{
+};
+
+struct LevForm5e5f50
+{
+    virtual void vfn00();
+    unsigned char m_ucFormType;
+    unsigned int m_uiFormFlags;
+    unsigned int iFormID;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    TESLeveledList list;
+};
+
+struct DataLeveledList5e5f50
+{
+};
+
+class TESObjectREFR;
+
+struct InventoryChanges
+{
+public:
+    static ::InventoryChanges *CreateForReference(::TESObjectREFR *);
+};
+
+struct ExtraDataList
+{
+    ExtraDataList();
+    virtual ~ExtraDataList();
+    void* m_data;
+    unsigned char m_presenceBitfield[0x15];
+};
+
+// @fnv 0x005e5f50
+void __cdecl FUN_005e5f50(void* apPerkOwner, int aeFunctionType, unsigned char acArgumentCount,
+                          void** apFunctionArgument, void* apData)
+{
+    if (!::FUN_005e5b80(1, 3, (::TESObjectREFR *)(apPerkOwner), aeFunctionType, acArgumentCount, apFunctionArgument, apData))
+        return;
+    DataLeveledList5e5f50* pfunctionData = (DataLeveledList5e5f50*)apData;
+    Actor5e5f50* ptarget = (Actor5e5f50*)*apFunctionArgument;
+    TESContainer tempcont;
+    reinterpret_cast<::FUN_00488350_shell *>(&(((::LevForm5e5f50 *)(reinterpret_cast<::Callees *>((pfunctionData))->FUN_00726070()))->list))->AddLeveledItemsToContainer((::TESObjectREFR *)(apPerkOwner), &tempcont);
+    InventoryChanges* pinventory = ::InventoryChanges::CreateForReference((::TESObjectREFR *)(ptarget));
+    ListNode5e5f50* pCurrentElementNext = ((::ListNode5e5f50 *)(reinterpret_cast<::BaseProcess *>(&(tempcont))->GetCurrentProcessData()));
+    if (pinventory)
+    {
+        while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0() && *((::InventoryItemEntry **)((void *)(pCurrentElementNext))))
+        {
+            InventoryItemEntry* pdata = *((::InventoryItemEntry **)((void *)(pCurrentElementNext)));
+            BoundObj5e5f50* pboundObject = 0;
+            if (pdata->pObj && pdata->pObj->IsLeveledOrPlayable())
+                pboundObject = pdata->pObj;
+            if (pboundObject)
+            {
+                Script* pScript = ((::Script *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(pdata->pObj))));
+                if (pScript)
+                {
+                    ExtraDataList* pExtra = 0;
+                    for (int n = 0; n < pdata->m_iCountDelta; n++)
+                    {
+                        pExtra = new ExtraDataList;
+                        reinterpret_cast<::FUN_00419ad0_shell *>((pExtra))->FUN_00419ad0(1);
+                        if (pExtra && !reinterpret_cast<::FUN_00418800_shell *>((pExtra))->FUN_00418800())
+                        {
+                            reinterpret_cast<::FUN_00419ed0_shell *>((pExtra))->FUN_00419ed0(pScript);
+                            reinterpret_cast<::FUN_00419f80_shell *>((pExtra))->FUN_00419f80(reinterpret_cast<::FUN_005abf60_shell *>((reinterpret_cast<::FUN_00418800_shell *>((pExtra))->FUN_00418800()))->FUN_005abf60());
+                        }
+                    }
+                    ptarget->AddObjectToContainer(pboundObject, pExtra, 1);
+                }
+                else
+                    ptarget->AddObjectToContainer(pboundObject, 0, pdata->m_iCountDelta);
+            }
+            pCurrentElementNext = ((::ListNode5e5f50 *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+        }
+    }
+}
+
+class ScriptVariableInfo
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    BSStringT<char> name;
+
+    ScriptVariableInfo();
+public:
+    void Load(::TESFile *);
+};
+
+extern ScriptVariableInfo* DAT_011cb0fc;
+
+class FUN_005e2a20_shell
+{
+  public:
+};
+
+class FUN_00500910
+{
+  public:
+    BSStringT<char> name;
+    unsigned int formID;
+    unsigned int variableOrIndex;
+
+    FUN_00500910();
+};
+
+class ScriptHeader
+{
+  public:
+};
+
+class FUN_005d43e0_shell
+{
+  public:
+    void* FUN_005d43e0();
+};
+
+class FUN_005d43c0_
+{
+  public:
+    void* FUN_005d43c0();
+};
+
+class FUN_005aae70_shell
+{
+  public:
+    void FUN_005aae70(unsigned int, char*);
+};
+
+class FUN_00472840_impl
+{
+  public:
+    bool ReadChunkData(unsigned short*);
+};
+
+class FUN_005e6c60_shell_ctx
+{
+  public:
+public:
+    void FUN_005e6c60(const char *);
+};
+
+class Script_ctx : public TESForm
+{
+  public:
+};
+
+class ActivateChoice : public BGSEntryPointFunctionDataActivateChoice
+{
+  public:
+    bool FUN_005e6ee0(TESFile* file);
+};
+
+// @fnv 0x005e6ee0
+bool ActivateChoice::FUN_005e6ee0(TESFile* file)
+{
+    void* scvrBuf3;
+    unsigned int scdaSize4;
+    void* scdaData;
+    unsigned int scroRefID2;
+    FUN_00500910* scroObjVal;
+    unsigned int scrvRefID3;
+    FUN_00500910* _scrvObj;
+    void* epf2BufTmp;
+
+    switch (static_cast<int>(((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))))
+    {
+    case 0x44534c53:  // 'SLSD'
+    case 0x52564353:  // 'SCVR'
+        if (((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) == 0x44534c53)
+        {
+            DAT_011cb0fc = new ScriptVariableInfo();
+            reinterpret_cast<::ScriptVariableInfo *>((reinterpret_cast<FUN_005e2a20_shell*>(DAT_011cb0fc)))->Load(file);
+            reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43e0_shell*>((&unk08))->FUN_005d43e0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(DAT_011cb0fc)));
+        }
+        else if (DAT_011cb0fc)
+        {
+            scvrBuf3 = _alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(scvrBuf3), 0x200);
+            reinterpret_cast<::TextString *>(&(DAT_011cb0fc->name))->FUN_004037f0(reinterpret_cast<const char*>(scvrBuf3), 0);
+        }
+        break;
+
+    case 0x52484353:  // 'SCHR'
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(((::ScriptHeader *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<Script_ctx*>((&unk08))))->GetConditions()))), 0);
+        if (file->IsEndianConversionRequired())
+        {
+            reinterpret_cast<::FUN_00414220_shell *>((((::ScriptHeader *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<Script_ctx*>((&unk08))))->GetConditions()))))->FUN_00414220();
+        }
+        break;
+
+    case 0x41444353:  // 'SCDA'
+        scdaSize4 = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
+        scdaData = _alloca(scdaSize4);
+        memset(scdaData, 0, scdaSize4);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(scdaData), 0);
+        reinterpret_cast<FUN_005aae70_shell*>((&unk08))->FUN_005aae70(scdaSize4, reinterpret_cast<char*>(scdaData));
+        break;
+
+    case 0x4f524353:  // 'SCRO'
+        scroObjVal = new FUN_00500910();
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(&scroRefID2), 0);
+        scroObjVal->formID = scroRefID2;
+        reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43c0_*>((&unk08))->FUN_005d43c0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(scroObjVal)));
+        break;
+
+    case 0x56524353:  // 'SCRV'
+        _scrvObj = new FUN_00500910();
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(&scrvRefID3), 0);
+        _scrvObj->variableOrIndex = scrvRefID3;
+        reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43c0_*>((&unk08))->FUN_005d43c0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(_scrvObj)));
+        break;
+
+    case 0x32465045:  // 'EPF2'
+        epf2BufTmp = _alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(epf2BufTmp), 0);
+        reinterpret_cast<FUN_005e6c60_shell_ctx*>(this)->FUN_005e6c60((const char *)(epf2BufTmp));
+        break;
+
+    case 0x33465045:  // 'EPF3'
+        reinterpret_cast<FUN_00472840_impl*>(file)->ReadChunkData(&flags);
+        break;
+
+    default:
+        break;
+    }
+
+    return true;
+}
+
+#include "generated/data/fallout_shared/bgsentrypointfunction.inc"
+#include "generated/data/fallout_shared/bgsentrypointfunction_ctx_variant.inc"

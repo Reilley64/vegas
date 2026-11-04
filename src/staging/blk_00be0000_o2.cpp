@@ -2,14 +2,35 @@
 // src/staging/blk_00be0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/D3DRenderStateGroup.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00e7ecd0_cls.h"
+#include "fnv/decl/StageSet.h"
+#include "fnv/decl/StateGroup.h"
+#include "fnv/decl/fnv_00be0f10__ShaderDerived.h"
+#include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00be0000.h"
+#include "fnv/symbols_00e7e000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/symbols_011fa000.h"
+#include "fnv/symbols_011fb000.h"
+#include "fnv/symbols_011fc000.h"
+#include "fnv/symbols_011fd000.h"
+#include "fnv/symbols_011fe000.h"
 #include "../../include/layout_support.h"
 
 struct NiD3DPass
 {
     static void __cdecl CreateD3DPass(NiPointer<NiD3DPass>&);
+public:
+    void DestroyPass();
 };
 // @fnv 0x00be08e0
-bool __fastcall FUN_00be08e0(char* self, int)
+bool FUN_00be08e0(char* self, int)
 {
     NiD3DPass::CreateD3DPass(*(NiPointer<NiD3DPass>*)(self + 0x5c));
     return true;
@@ -63,13 +84,12 @@ class SubTarget
 class SubOwner
 {
   public:
-    SubTarget* GetSub(int kind);
 };
 
 // @fnv 0x00be08c0
-int __stdcall DispatchSubTarget(SubOwner* self)
+int DispatchSubTarget(SubOwner* self)
 {
-    SubTarget* sub = self->GetSub(3);
+    SubTarget* sub = ((::SubTarget *)(reinterpret_cast<::FUN_00a59d30_C *>((self))->FUN_00a59d30(3)));
     return sub->v39(self);
 }
 
@@ -101,19 +121,17 @@ struct FUN_00be08f0 : PassBase
 FUN_00be08f0::FUN_00be08f0(void* owner) : PassBase(owner, 2), unk2c(0)
 {}
 
-void __cdecl FUN_00aa1460(void* object, unsigned int size);
 
 struct FNVNiD3DPassStandIn
 {
-    void __thiscall FUN_00be0f10();
-    void* __thiscall FUN_00be2290(unsigned int flags);
+    void* FUN_00be2290(unsigned int flags);
 };
 
 // Calls FUN_00be0f10, then if bit 0 of flags is set calls FUN_00aa1460 on this with size 0x6c, and returns this.
 // @fnv 0x00be2290
-void* __thiscall FNVNiD3DPassStandIn::FUN_00be2290(unsigned int flags)
+void* FNVNiD3DPassStandIn::FUN_00be2290(unsigned int flags)
 {
-    FUN_00be0f10();
+    reinterpret_cast<::fnv_00be0f10::ShaderDerived *>(this)->fnv_00be0f10::ShaderDerived::~ShaderDerived();
 
     if (flags & 1)
         FUN_00aa1460(this, 0x6c);
@@ -127,8 +145,6 @@ struct RefObject
     virtual void DeleteThis();
     long m_iObjectReferenceCount;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct ShaderRefPointer
 {
     RefObject* object;
@@ -147,9 +163,7 @@ struct ShaderRefPointer
 };
 struct RenderStateBlock
 {
-    void SetNodeValue(unsigned int, unsigned int, bool);
 };
-RenderStateBlock* FUN_00e7f5d0();
 struct ShaderStage
 {
     unsigned int unk00;
@@ -177,12 +191,11 @@ struct ShaderStage
     unsigned int unk58;
     unsigned int unk5c;
     int references;
-    void FUN_00e7ecd0();
     __forceinline void Release()
     {
         --references;
         if (references == 0)
-            FUN_00e7ecd0();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
 struct ShaderStagePointer
@@ -196,9 +209,6 @@ struct ShaderStagePointer
             object->Release();
     }
 };
-void AssignStageFromPool(ShaderStagePointer*);
-void ConfigureBeamStage(ShaderStage*, unsigned int, unsigned int, unsigned int, bool);
-extern unsigned int DAT_011f9534;
 struct ShaderPass
 {
     unsigned int unk00;
@@ -231,12 +241,10 @@ struct ShaderPass
     {
         return stageCount;
     }
-    void FUN_00e80190();
-    void FUN_00e802b0(unsigned int, ShaderStage*);
     __forceinline RenderStateBlock* GetState()
     {
         if (!state)
-            state = FUN_00e7f5d0();
+            state = ((::RenderStateBlock *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
         return state;
     }
 };
@@ -248,14 +256,14 @@ struct ShaderPassPointer
     ~ShaderPassPointer()
     {
         if (object && --object->references == 0)
-            object->FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>((object))->DestroyPass();
     }
     __forceinline void operator=(ShaderPass* const& value)
     {
         if (object != value)
         {
             if (object && --object->references == 0)
-                object->FUN_00e80190();
+                reinterpret_cast<::NiD3DPass *>((object))->DestroyPass();
             object = value;
             if (object)
                 ++object->references;
@@ -266,12 +274,6 @@ struct ShaderPassPointer
         return object;
     }
 };
-extern ShaderPass* DAT_011fe244;
-extern ShaderPass* DAT_011fe7c0;
-extern ShaderPass* DAT_011fe7bc;
-extern ShaderPass* DAT_011fe7c8;
-extern ShaderPass* DAT_011fe7b4;
-extern ShaderPass* DAT_011fe7cc;
 extern RefObject* DAT_011fddec;
 extern RefObject* DAT_011fddf0;
 extern RefObject* DAT_011fddf4;
@@ -283,162 +285,146 @@ extern RefObject* DAT_011fdaf0;
 extern RefObject* DAT_011fdaf4;
 extern RefObject* DAT_011fdaf8;
 extern RefObject* DAT_011fdafc;
-extern unsigned int DAT_011fcecc;
-extern unsigned int DAT_011fc2ec;
-extern unsigned int DAT_011fb70c;
-extern unsigned int DAT_011fab2c;
-extern unsigned int DAT_011fd448;
-extern unsigned int DAT_011fc868;
-extern unsigned int DAT_011fbc88;
-extern unsigned int DAT_011fb0a8;
-extern unsigned int DAT_011fd444;
-extern unsigned int DAT_011fc864;
-extern unsigned int DAT_011fd450;
-extern unsigned int DAT_011fc870;
-extern unsigned int DAT_011fd43c;
-extern unsigned int DAT_011fc85c;
-extern unsigned int DAT_011fd454;
-extern unsigned int DAT_011fc874;
 // @fnv 0x00bea040
 void InitDefaultShaderPasses()
 {
     ShaderPassPointer pass;
     ShaderStagePointer stage;
-    pass = DAT_011fe244;
+    pass = (*reinterpret_cast<::ShaderPass * *>(&::fnv_00bfc860::DAT_011fe244));
     if (pass->Count() < 2)
     {
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 0, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 1, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 0, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 1, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
     }
     pass->vertexShader = DAT_011fddec;
     pass->pixelShader = DAT_011fdae8;
-    pass->GetState()->SetNodeValue(27, 0, 1);
-    pass->GetState()->SetNodeValue(15, 0, 1);
-    pass->GetState()->SetNodeValue(7, 1, 1);
-    pass->GetState()->SetNodeValue(23, 4, 1);
-    pass->GetState()->SetNodeValue(14, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(27, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(15, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(7, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(23, 4, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(14, 1, 1);
     DAT_011fcecc = 128;
     DAT_011fc2ec = 12;
     DAT_011fb70c = 128;
     DAT_011fab2c = 12;
-    pass = DAT_011fe7c0;
+    pass = (*reinterpret_cast<::ShaderPass * *>(&::fnv_00bfc860::DAT_011fe7c0));
     if (pass->Count() < 2)
     {
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 0, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 1, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 0, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 1, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
     }
     pass->vertexShader = DAT_011fddf0;
     pass->pixelShader = DAT_011fdaec;
-    pass->GetState()->SetNodeValue(27, 1, 1);
-    pass->GetState()->SetNodeValue(19, 5, 1);
-    pass->GetState()->SetNodeValue(20, 6, 1);
-    pass->GetState()->SetNodeValue(15, 1, 1);
-    pass->GetState()->SetNodeValue(25, 5, 1);
-    pass->GetState()->SetNodeValue(24, 0, 1);
-    pass->GetState()->SetNodeValue(7, 1, 1);
-    pass->GetState()->SetNodeValue(23, 4, 1);
-    pass->GetState()->SetNodeValue(14, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(27, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(19, 5, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(20, 6, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(15, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(25, 5, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(24, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(7, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(23, 4, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(14, 0, 1);
     DAT_011fd448 = 128;
     DAT_011fc868 = 12;
     DAT_011fbc88 = 128;
     DAT_011fb0a8 = 4;
-    pass = DAT_011fe7bc;
+    pass = (*reinterpret_cast<::ShaderPass * *>(&::fnv_00bfc860::DAT_011fe7bc));
     if (pass->Count() < 2)
     {
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 0, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 1, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 0, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 1, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
     }
     pass->vertexShader = DAT_011fddf4;
     pass->pixelShader = DAT_011fdaf0;
-    pass->GetState()->SetNodeValue(19, 5, 1);
-    pass->GetState()->SetNodeValue(20, 2, 1);
-    pass->GetState()->SetNodeValue(15, 1, 1);
-    pass->GetState()->SetNodeValue(25, 5, 1);
-    pass->GetState()->SetNodeValue(24, 0, 1);
-    pass->GetState()->SetNodeValue(7, 1, 1);
-    pass->GetState()->SetNodeValue(23, 4, 1);
-    pass->GetState()->SetNodeValue(14, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(19, 5, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(20, 2, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(15, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(25, 5, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(24, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(7, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(23, 4, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(14, 0, 1);
     DAT_011fd444 = 0;
     DAT_011fc864 = 8;
-    pass = DAT_011fe7c8;
+    pass = (*reinterpret_cast<::ShaderPass * *>(&::fnv_00bfc860::DAT_011fe7c8));
     if (pass->Count() < 2)
     {
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 0, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 1, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 0, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 1, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
     }
     pass->vertexShader = DAT_011fddf4;
     pass->pixelShader = DAT_011fdaf4;
-    pass->GetState()->SetNodeValue(27, 1, 1);
-    pass->GetState()->SetNodeValue(19, 5, 1);
-    pass->GetState()->SetNodeValue(20, 2, 1);
-    pass->GetState()->SetNodeValue(15, 1, 1);
-    pass->GetState()->SetNodeValue(25, 5, 1);
-    pass->GetState()->SetNodeValue(24, 0, 1);
-    pass->GetState()->SetNodeValue(7, 1, 1);
-    pass->GetState()->SetNodeValue(23, 4, 1);
-    pass->GetState()->SetNodeValue(14, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(27, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(19, 5, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(20, 2, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(15, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(25, 5, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(24, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(7, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(23, 4, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(14, 0, 1);
     DAT_011fd450 = 0;
     DAT_011fc870 = 8;
-    pass = DAT_011fe7b4;
+    pass = (*reinterpret_cast<::ShaderPass * *>(&::fnv_00bfc860::DAT_011fe7b4));
     if (pass->Count() < 2)
     {
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 0, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 1, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 0, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 1, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
     }
     pass->vertexShader = DAT_011fddf8;
     pass->pixelShader = DAT_011fdaf8;
-    pass->GetState()->SetNodeValue(19, 5, 1);
-    pass->GetState()->SetNodeValue(20, 2, 1);
-    pass->GetState()->SetNodeValue(15, 1, 1);
-    pass->GetState()->SetNodeValue(25, 5, 1);
-    pass->GetState()->SetNodeValue(24, 0, 1);
-    pass->GetState()->SetNodeValue(7, 1, 1);
-    pass->GetState()->SetNodeValue(23, 4, 1);
-    pass->GetState()->SetNodeValue(14, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(19, 5, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(20, 2, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(15, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(25, 5, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(24, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(7, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(23, 4, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(14, 0, 1);
     DAT_011fb70c = 128;
     DAT_011fd43c = 128;
     DAT_011fc85c = 8;
-    pass = DAT_011fe7cc;
+    pass = (*reinterpret_cast<::ShaderPass * *>(&::fnv_00bfc860::DAT_011fe7cc));
     if (pass->Count() < 2)
     {
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 0, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
-        AssignStageFromPool(&stage);
-        ConfigureBeamStage(stage.object, 1, 1, 2, true);
-        pass->FUN_00e802b0(pass->unk14, stage.object);
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 0, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
+        ::AssignStageFromPool((*(::StageReturn * *)(&stage)));
+        ::ConfigureBeamStage((::BeamStage *)(stage.object), 1, 1, 2, true);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(stage.object));
     }
     pass->vertexShader = DAT_011fddfc;
     pass->pixelShader = DAT_011fdafc;
-    pass->GetState()->SetNodeValue(27, 1, 1);
-    pass->GetState()->SetNodeValue(19, 5, 1);
-    pass->GetState()->SetNodeValue(20, 2, 1);
-    pass->GetState()->SetNodeValue(15, 1, 1);
-    pass->GetState()->SetNodeValue(25, 5, 1);
-    pass->GetState()->SetNodeValue(24, 0, 1);
-    pass->GetState()->SetNodeValue(7, 1, 1);
-    pass->GetState()->SetNodeValue(23, 4, 1);
-    pass->GetState()->SetNodeValue(14, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(27, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(19, 5, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(20, 2, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(15, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(25, 5, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(24, 0, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(7, 1, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(23, 4, 1);
+    reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(14, 0, 1);
     DAT_011fd454 = 128;
     DAT_011fc874 = 8;
 }
@@ -461,9 +447,7 @@ struct RenderObject
 };
 struct RenderState
 {
-    void SetNodeValue(unsigned int state, unsigned int value, unsigned int flags);
 };
-RenderState* __cdecl FUN_00e7f5d0();
 struct StageReturn
 {
     unsigned int unk00;
@@ -491,7 +475,6 @@ struct StageReturn
     unsigned int unk58;
     unsigned int unk5c;
     unsigned int references;
-    void ReturnToPool();
     void IncRefCount()
     {
         ++references;
@@ -499,10 +482,9 @@ struct StageReturn
     void DecRefCount()
     {
         if (--references == 0)
-            ReturnToPool();
+            reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
 };
-void __cdecl AssignStageFromPool(StageReturn*&);
 struct ShaderPassEntry
 {
     unsigned int unk00;
@@ -535,8 +517,6 @@ struct ShaderPassEntry
     {
         return unk18;
     }
-    void FUN_00e80190();
-    void FUN_00e802b0(unsigned int index, StageReturn* stage);
     void IncRefCount()
     {
         ++unk64;
@@ -544,16 +524,13 @@ struct ShaderPassEntry
     void DecRefCount()
     {
         if (--unk64 == 0)
-            FUN_00e80190();
+            reinterpret_cast<::NiD3DPass *>(this)->DestroyPass();
     }
 };
-void __cdecl ConfigureBeamStage(StageReturn*, unsigned int, unsigned int, unsigned int, unsigned int);
 extern NiPointer<ShaderPassEntry> DAT_011fe010;
 extern NiPointer<ShaderPassEntry> DAT_011fe014;
 extern NiPointer<ShaderPassEntry> DAT_011fe018;
-extern RenderObject* DAT_011fdd88;
 extern RenderObject* DAT_011fdb04;
-extern RenderObject* DAT_011fde04;
 extern unsigned int DAT_011fcc98, DAT_011fcc9c, DAT_011fcca0;
 extern unsigned int DAT_011fc0b8, DAT_011fc0bc, DAT_011fc0c0;
 // @fnv 0x00beb830
@@ -564,88 +541,88 @@ void __cdecl FUN_00beb830()
     pass = DAT_011fe010;
     if (pass->GetStageCount() < 1)
     {
-        AssignStageFromPool(stage.m_pObject);
-        ConfigureBeamStage(stage, 0, 1, 2, 1);
-        pass->FUN_00e802b0(pass->unk14, stage);
+        ::AssignStageFromPool((::StageReturn *&)(stage.m_pObject));
+        ::ConfigureBeamStage((::BeamStage *)(::fnv_00beb830::StageReturn *)(stage), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(::fnv_00beb830::StageReturn *)(stage));
     }
-    pass->unk5c = DAT_011fdd88;
+    pass->unk5c = (*reinterpret_cast<::fnv_00beb830::RenderObject * *>(&::fnv_00b79de0::DAT_011fdd88));
     pass->unk44 = DAT_011fdb04;
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(27, 0, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(27, 0, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(15, 0, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(15, 0, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(7, 1, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(7, 1, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(23, 4, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(23, 4, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(14, 1, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(14, 1, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(168, 3, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(168, 3, 1);
     DAT_011fcc98 = 0;
     DAT_011fc0b8 = 4;
     pass = DAT_011fe014;
     if (pass->GetStageCount() < 1)
     {
-        AssignStageFromPool(stage.m_pObject);
-        ConfigureBeamStage(stage, 0, 1, 2, 1);
-        pass->FUN_00e802b0(pass->unk14, stage);
+        ::AssignStageFromPool((::StageReturn *&)(stage.m_pObject));
+        ::ConfigureBeamStage((::BeamStage *)(::fnv_00beb830::StageReturn *)(stage), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(::fnv_00beb830::StageReturn *)(stage));
     }
-    pass->unk5c = DAT_011fdd88;
+    pass->unk5c = (*reinterpret_cast<::fnv_00beb830::RenderObject * *>(&::fnv_00b79de0::DAT_011fdd88));
     pass->unk44 = DAT_011fdb04;
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(27, 0, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(27, 0, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(15, 1, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(15, 1, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(7, 1, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(7, 1, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(23, 4, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(23, 4, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(14, 1, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(14, 1, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(168, 3, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(168, 3, 1);
     DAT_011fcc9c = 0;
     DAT_011fc0bc = 4;
     pass = DAT_011fe018;
     if (pass->GetStageCount() < 1)
     {
-        AssignStageFromPool(stage.m_pObject);
-        ConfigureBeamStage(stage, 0, 1, 2, 1);
-        pass->FUN_00e802b0(pass->unk14, stage);
+        ::AssignStageFromPool((::StageReturn *&)(stage.m_pObject));
+        ::ConfigureBeamStage((::BeamStage *)(::fnv_00beb830::StageReturn *)(stage), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(pass->unk14, (::Stage321 *)(::fnv_00beb830::StageReturn *)(stage));
     }
-    pass->unk5c = DAT_011fde04;
+    pass->unk5c = (*reinterpret_cast<::fnv_00beb830::RenderObject * *>(&::DAT_011fde04));
     pass->unk44 = DAT_011fdb04;
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(27, 0, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(27, 0, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(15, 0, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(15, 0, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(7, 1, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(7, 1, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(23, 4, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(23, 4, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(14, 1, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(14, 1, 1);
     if (!pass->unk30)
-        pass->unk30 = FUN_00e7f5d0();
-    pass->unk30->SetNodeValue(168, 3, 1);
+        pass->unk30 = ((::fnv_00beb830::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
+    reinterpret_cast<::StateGroup *>((pass->unk30))->SetNodeValue(168, 3, 1);
     DAT_011fcca0 = 2048;
     DAT_011fc0c0 = 4;
 }
@@ -653,11 +630,15 @@ void __cdecl FUN_00beb830()
 
 struct C0
 {
-    int __thiscall FUN_00be0b10();
+    char pad00[0x2c];
+    int unk2c;
+    int FUN_00be0b10();
 };
 
 // @fnv 0x00be0b10
-int __thiscall C0::FUN_00be0b10()
+int C0::FUN_00be0b10()
 {
-    return *(int*)((char*)this + 0x2c);
+    return unk2c;
 }
+
+#include "generated/data/staging/blk_00be0000_o2.inc"

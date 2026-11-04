@@ -2,6 +2,18 @@
 // src/havok/physics/dynamics/world/util/hkpworldmemoryutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldmemoryutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/D077D0Object.h"
+#include "fnv/decl/FUN_00c91180_Class.h"
+#include "fnv/decl/FUN_00c91190_Class.h"
+#include "fnv/decl/FUN_00c92b50_Class.h"
+#include "fnv/decl/WorldWatchDogHolder.h"
+#include "fnv/symbols_00cb6000.h"
+#include "fnv/symbols_00d01000.h"
+#include "fnv/symbols_00d88000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_01269000.h"
 struct S_00d01bc0_Node
 {
     int unk00;
@@ -15,7 +27,6 @@ struct S_00d01bc0_Node
     int unk20;
     unsigned char unk24;
     unsigned char m_flags;
-    bool FUN_00d077d0();
 };
 
 struct S_00d01bc0_Iter
@@ -25,33 +36,7 @@ struct S_00d01bc0_Iter
     S_00d01bc0_Node* m_node;
 };
 
-struct S_00d01bc0_Sink
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual bool v8(int key);
-};
 
-struct S_00d01bc0_Global
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    S_00d01bc0_Sink* m_sink;
-    S_00d01bc0_Sink* sink()
-    {
-        return m_sink;
-    }
-};
 
 struct S_00d01bc0_Handler
 {
@@ -111,23 +96,18 @@ struct S_00d01bc0_Owner
     int unkac;
     int unkb0;
     unsigned int m_uiItemCount;
-    void IncrementCounter();
-    void FUN_00c91190();
-    void ComputeMemoryUsage(S_00d01bc0_Iter* out);
-    S_00d01bc0_Handler* FUN_00c93570();
 };
 
-S_00d01bc0_Global* __cdecl FUN_00c85750();
-void __cdecl PropagateStateToChildren(S_00d01bc0_Owner* owner, S_00d01bc0_Node* node);
+
 
 // @fnv 0x00d01bc0
 void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
 {
-    pOwner->IncrementCounter();
+    reinterpret_cast<::FUN_00c91180_Class *>((pOwner))->IncrementCounter();
     unsigned int saved = pOwner->m_uiItemCount;
     S_00d01bc0_Iter iter;
-    pOwner->ComputeMemoryUsage(&iter);
-    if (!FUN_00c85750()->sink()->v8(iter.m_key))
+    reinterpret_cast<::FUN_00c92b50_Class *>((pOwner))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::S_00d01bc0_Iter *)(&iter));
+    if (!hkMemoryRouter::getInstance().m_solver->forwardToCanAllocTotal(iter.m_key))
     {
         do
         {
@@ -140,8 +120,8 @@ void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
                 {
                     do
                     {
-                        PropagateStateToChildren(pOwner, node);
-                        pOwner->ComputeMemoryUsage(&iter);
+                        ::PropagateStateToChildren((::Object *)(pOwner), (int *)(node));
+                        reinterpret_cast<::FUN_00c92b50_Class *>((pOwner))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::S_00d01bc0_Iter *)(&iter));
                         if (iter.m_node != node || iter.m_key != key)
                             break;
                         pOwner->m_uiItemCount >>= 1;
@@ -149,23 +129,23 @@ void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
                 }
                 s = (iter.m_node->m_flags >> 2) & 3;
             }
-            if (!FUN_00c85750()->sink()->v8(iter.m_key))
+            if (!hkMemoryRouter::getInstance().m_solver->forwardToCanAllocTotal(iter.m_key))
             {
                 S_00d01bc0_Node* node = iter.m_node;
-                if (!node->FUN_00d077d0())
+                if (!reinterpret_cast<::D077D0Object *>((node))->FUN_00d077d0())
                 {
                     node->m_flags = (node->m_flags & 0xf7) | 4;
                 }
                 else
                 {
-                    pOwner->FUN_00c93570()->v5(node, 0);
-                    pOwner->ComputeMemoryUsage(&iter);
+                    ((::S_00d01bc0_Handler *)(reinterpret_cast<::WorldWatchDogHolder *>((pOwner))->FUN_00c93570()))->v5(node, 0);
+                    reinterpret_cast<::FUN_00c92b50_Class *>((pOwner))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::S_00d01bc0_Iter *)(&iter));
                 }
             }
-        } while (!FUN_00c85750()->sink()->v8(iter.m_key));
+        } while (!hkMemoryRouter::getInstance().m_solver->forwardToCanAllocTotal(iter.m_key));
     }
     pOwner->m_uiItemCount = saved;
-    pOwner->FUN_00c91190();
+    reinterpret_cast<::FUN_00c91190_Class *>((pOwner))->FUN_00c91190();
 }
 
 struct D01CE0Action
@@ -239,17 +219,14 @@ struct ParamObj
     int unk04;
     ChildObj* m_08;
 
-    InnerObj* FUN_00c93570();
 };
 
-void __cdecl FUN_00d88040(int value);
-void __cdecl ApplyActionPhases(ParamObj* param);
 
 // Returns early if the inner object is null; otherwise loops up to 10 times while the child's m_28 is nonzero, calling v10, FUN_00d88040 and ApplyActionPhases.
 // @fnv 0x00d01df0
 void __cdecl ProcessChildLoop(ParamObj* param)
 {
-    if (param->FUN_00c93570() == 0)
+    if (((::InnerObj *)(reinterpret_cast<::WorldWatchDogHolder *>((param))->FUN_00c93570())) == 0)
     {
         return;
     }
@@ -262,10 +239,10 @@ void __cdecl ProcessChildLoop(ParamObj* param)
             break;
         }
 
-        InnerObj* inner = param->FUN_00c93570();
+        InnerObj* inner = ((::InnerObj *)(reinterpret_cast<::WorldWatchDogHolder *>((param))->FUN_00c93570()));
         inner->v10(param);
         FUN_00d88040(0);
-        ApplyActionPhases(param);
+        ::ApplyActionPhases((::D01CE0Context *)(param));
     }
 }
 
@@ -273,9 +250,6 @@ void __cdecl ProcessChildLoop(ParamObj* param)
 
 extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD DAT_0126835c;
-extern DWORD DAT_01269200;
-extern DWORD DAT_00fdf044;
 
 typedef LPVOID(WINAPI* PFN_TlsGetValue)(DWORD dwTlsIndex);
 
@@ -303,7 +277,7 @@ class TaskObj
     virtual void vtbl04(void);
     virtual void vtbl08(void);
     virtual DWORD vtbl0C(void);
-    virtual void vtbl10(DWORD arg);
+    virtual void vtbl10(void* arg);
     virtual void vtbl14(void);
     virtual void vtbl18(void);
     virtual void vtbl1C(void);
@@ -314,35 +288,24 @@ class TaskObj
 class Src
 {
   public:
-    TaskObj* GetA(void);
-    TaskObj* GetB(void);
 };
 
-struct D01D20Holder
-{
-    DWORD unk00;
-    DWORD unk04;
-    DWORD unk08;
-    DWORD unk0C;
-    TaskObj* m_pTask;
-};
 
-// If GetA is non-null and vtbl24 returns false, records profiler ticks around a vtbl10 call, then calls FUN_00d88040(0) if DAT_01269200 is set.
+// If GetA is non-null and the heap allocator cannot allocate the total from vtbl0C, records profiler ticks around a vtbl10 call, then calls FUN_00d88040(0) if DAT_01269200 is set.
 // @fnv 0x00d01d20
 void __cdecl FUN_00d01d20(Src* pSrc)
 {
     volatile DWORD tick;
-    if (pSrc->GetA() == 0)
+    if (((::TaskObj *)(reinterpret_cast<::WorldWatchDogHolder *>((pSrc))->FUN_00c93570())) == 0)
     {
         return;
     }
     PFN_TlsGetValue pfnTls;
-    TaskObj* pTask = pSrc->GetB();
+    TaskObj* pTask = ((::TaskObj *)(reinterpret_cast<::WorldWatchDogHolder *>((pSrc))->FUN_00c93570()));
     DWORD r = pTask->vtbl0C();
-    D01D20Holder* h = (D01D20Holder*)FUN_00c85750();
-    if (!h->m_pTask->vtbl24(r))
+    if (!hkMemoryRouter::getInstance().heap().canAllocTotal(r))
     {
-        pfnTls = (PFN_TlsGetValue)DAT_00fdf044;
+        pfnTls = &TlsGetValue;
         ProfBuf* pBuf = (ProfBuf*)pfnTls(DAT_0126835c);
         if (pBuf->m_pCur < pBuf->m_pRecordEnd)
         {
@@ -353,8 +316,8 @@ void __cdecl FUN_00d01d20(Src* pSrc)
             pRec->m_iTick = tick;
             pBuf->m_pCur = pRec + 1;
         }
-        TaskObj* pTask2 = pSrc->GetB();
-        pTask2->vtbl10((DWORD)pSrc);
+        TaskObj* pTask2 = ((::TaskObj *)(reinterpret_cast<::WorldWatchDogHolder *>((pSrc))->FUN_00c93570()));
+        pTask2->vtbl10(pSrc);
         ProfBuf* pBuf2 = (ProfBuf*)pfnTls(DAT_0126835c);
         if (pBuf2->m_pCur < pBuf2->m_pRecordEnd)
         {
@@ -366,7 +329,7 @@ void __cdecl FUN_00d01d20(Src* pSrc)
             pBuf2->m_pCur = pRec + 1;
         }
     }
-    if (DAT_01269200 != 0)
+    if ((*reinterpret_cast<unsigned long *>(&::DAT_01269200)) != 0)
     {
         FUN_00d88040(0);
     }

@@ -1,5 +1,73 @@
 // fallout_shared/sky/sun.cpp: Sun, NiPick, A6A0Sun (11 functions)
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSTerrainManager.h"
+#include "fnv/decl/Candidate.h"
+#include "fnv/decl/F940Owner.h"
+#include "fnv/decl/FUN_00416870_t.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_00450410_Class.h"
+#include "fnv/decl/FUN_00458b30_class.h"
+#include "fnv/decl/FUN_004769c0_shell.h"
+#include "fnv/decl/FUN_00476c90_Class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004bc280_S.h"
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_00596030_cls.h"
+#include "fnv/decl/FUN_00632d20_shell.h"
+#include "fnv/decl/FUN_006366b0_shell.h"
+#include "fnv/decl/FUN_006427a0_Class.h"
+#include "fnv/decl/FUN_006427c0_Class.h"
+#include "fnv/decl/FUN_00642890_Class.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/FUN_008d01e0_Class.h"
+#include "fnv/decl/FUN_008d0600_s.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/FUN_00bb0180_shell.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/NiAVObject.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiPointLight.h"
+#include "fnv/decl/NiTriGeom2.h"
+#include "fnv/decl/TESObjectTREE.h"
+#include "fnv/decl/TESRegionDataMap.h"
+#include "fnv/decl/TESRegionGrassObject.h"
+#include "fnv/decl/TaskQueueInterface.h"
+#include "fnv/decl/ThreeByThreeMatrix.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_004bc2e0__NiDynamicEffect.h"
+#include "fnv/decl/fnv_00544910__FUN_00544910_shell.h"
+#include "fnv/decl/fnv_00544970__FUN_00544970_shell.h"
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
+#include "fnv/decl/fnv_00baf3c0__FUN_00baf3c0.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_00408000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_00461000.h"
+#include "fnv/symbols_004dd000.h"
+#include "fnv/symbols_004e2000.h"
+#include "fnv/symbols_004ea000.h"
+#include "fnv/symbols_00514000.h"
+#include "fnv/symbols_00558000.h"
+#include "fnv/symbols_00595000.h"
+#include "fnv/symbols_00644000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_0070e000.h"
+#include "fnv/symbols_00966000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_0104f000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011de000.h"
 #include "sun_decls.h"
 // Initializes the Sun object's fields to zero and creates a BSShaderAccumulator for SunMode, disabling occlusion tests.
 // @fnv 0x006404f0
@@ -18,13 +86,13 @@ Sun::Sun()
 }
 
 // @fnv 0x00461110
-int __fastcall FUN_00461110(int param_1)
+std::intptr_t FUN_00461110(std::intptr_t param_1)
 {
     return param_1 + 0x78;
 }
 
 // @fnv 0x00514f30
-int __fastcall FUN_00514f30(int this_ptr)
+std::intptr_t FUN_00514f30(std::intptr_t this_ptr)
 {
     return this_ptr + 0xC0;
 }
@@ -41,25 +109,15 @@ void* NiPick::ScalarDeletingDestructor(unsigned int flags)
 {
     NiPick::~NiPick();
     if (flags & 1)
-        operator delete(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void __cdecl _Deallocate(void*);
 struct FUN_00640670_shell
 {
     void FUN_006406a0();
     void* FUN_00640670(unsigned int);
 };
-// @fnv 0x00640670
-void* FUN_00640670_shell::FUN_00640670(unsigned int flags)
-{
-    this->FUN_006406a0();
-    if (flags & 1)
-        _Deallocate(this);
-    return this;
-}
-
 struct FUN_00642660_shell
 {
     float m_data[3][3];
@@ -100,7 +158,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiPoint3
 {
     static struct blob12 ComponentProduct(void*, void*);
@@ -131,7 +188,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct RgbaColor
 {
     void Clamp();
@@ -148,7 +204,6 @@ struct RgbaColor
     float b;
     float a;
 };
-typedef char _sizecheck_NiColorA[sizeof(RgbaColor) == 16 ? 1 : -1];
 struct ShaderPropertyConversionData
 {
     void Convert(NiAVObject*, unsigned int);
@@ -223,7 +278,6 @@ struct ShaderPropertyConversionData
     char _pad_b3[1];
     int m_iShaderDataFlags;
 };
-typedef char _sizecheck_BSShaderData[sizeof(ShaderPropertyConversionData) == 184 ? 1 : -1];
 struct NiPoint2
 {
     static struct blob8 ComponentProduct(void*, void*);
@@ -239,7 +293,6 @@ struct NiPoint2
     float x;
     float y;
 };
-typedef char _sizecheck_NiPoint2[sizeof(NiPoint2) == 8 ? 1 : -1];
 struct FUN_00640810_shell : public Sun
 {
     void FUN_00640810(NiNode*);
@@ -263,12 +316,9 @@ struct SunColorA : RgbaColor
 };
 struct SkyObject
 {
-    void Initialize(NiNode*);
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 }
 
@@ -335,24 +385,20 @@ struct NiAVObject : _::NiMemObject
     virtual void vfn_00d0();
     virtual void vfn_00d4();
     virtual void vfn_00d8();
-    void FUN_00440490(float);
     char _pad_04[0x98];
 };
 struct NiNode : NiAVObject
 {
     virtual void AttachChildInAvailableSlot(NiAVObject* pkChild, bool abFirstAvailableSlot);
-    void FUN_004902f0(bool);
     char _pad_9c[0x10];
 };
 struct FUN_0051cf00 : NiNode
 {
     FUN_0051cf00();
-    void FUN_0051d000(int);
     char _pad_ac[0x8];
 };
 struct NiTriBasedGeom : NiAVObject
 {
-    void FUN_004902f0(bool);
     char _pad_9c[0x24];
 };
 struct NiTriShape : NiTriBasedGeom
@@ -364,8 +410,6 @@ struct NiTriShape : NiTriBasedGeom
 };
 struct NiPointLight : NiAVObject
 {
-    void FUN_0050dd20(float);
-    void SetEffectColor(const NiPoint3&);
     char _pad_9c[0x58];
 };
 struct NiDirectionalLight : NiPointLight
@@ -375,7 +419,6 @@ struct NiDirectionalLight : NiPointLight
 };
 struct FUN_004bc280_S
 {
-    void FUN_004bc280(const C3*);
 };
 struct GlobalObject_00e98f20
 {
@@ -384,27 +427,21 @@ struct GlobalObject_00e98f20
 };
 struct QuantityData
 {
-    void SetQuantity(unsigned int);
 };
 struct TESObjectREFR
 {
-    void SetFlags(unsigned int);
 };
 struct FUN_00632d20_shell
 {
-    void FUN_00632d20(bool);
 };
 struct RadioSignal
 {
-    void SetByteAtOffset17(unsigned char);
 };
 struct FUN_00baf3c0_S
 {
-    void FUN_00baf3c0();
 };
 struct FUN_00bb0180_S
 {
-    void AddProperties(NiAVObject*, unsigned int);
 };
 struct NP
 {
@@ -412,18 +449,12 @@ struct NP
 };
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct Setting_S
 {
-    float* Float();
 };
-void* __cdecl _NiMalloc(unsigned int);
 
-extern Setting_S g_011cce7c;
-extern Setting_S g_011cce50;
-extern NiColor DAT_011a9b7c;
-extern NiPoint3 _NiPoint3_ZERO;
 
 struct FUN_00640810_t
 {
@@ -445,31 +476,31 @@ void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
     NiPoint2* psunTexture;
     NiPoint2* pglareTexture;
 
-    ((_::SkyObject*)(Sun*)this)->Initialize(apSkyRoot);
+    reinterpret_cast<::F940Owner *>((((_::SkyObject*)(Sun*)this)))->CreateSortAdjustNode((::F940Parent *)(apSkyRoot));
 
     psunVertices = new _::SunPoint3[4];
-    psunVertices[0] = _::SunPoint3(-1.0 * *g_011cce7c.Float(), *g_011cce7c.Float(), 0.0f);
-    psunVertices[1] = _::SunPoint3(-1.0 * *g_011cce7c.Float(), -1.0 * *g_011cce7c.Float(), 0.0f);
-    psunVertices[2] = _::SunPoint3(*g_011cce7c.Float(), *g_011cce7c.Float(), 0.0f);
-    psunVertices[3] = _::SunPoint3(*g_011cce7c.Float(), -1.0 * *g_011cce7c.Float(), 0.0f);
+    psunVertices[0] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
+    psunVertices[1] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), -1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
+    psunVertices[2] = _::SunPoint3(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
+    psunVertices[3] = _::SunPoint3(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), -1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
 
     psunNormals = new _::SunPoint3[4];
-    psunNormals[0] = _NiPoint3_ZERO;
-    psunNormals[1] = _NiPoint3_ZERO;
-    psunNormals[2] = _NiPoint3_ZERO;
-    psunNormals[3] = _NiPoint3_ZERO;
+    psunNormals[0] = (*reinterpret_cast<::fnv_00640810::NiPoint3 *>((void *)&::NiPoint3::ZERO));
+    psunNormals[1] = (*reinterpret_cast<::fnv_00640810::NiPoint3 *>((void *)&::NiPoint3::ZERO));
+    psunNormals[2] = (*reinterpret_cast<::fnv_00640810::NiPoint3 *>((void *)&::NiPoint3::ZERO));
+    psunNormals[3] = (*reinterpret_cast<::fnv_00640810::NiPoint3 *>((void *)&::NiPoint3::ZERO));
 
     pglareVertices = new _::SunPoint3[4];
-    pglareVertices[0] = _::SunPoint3(-1.0 * *g_011cce50.Float(), *g_011cce50.Float(), 0.0f);
-    pglareVertices[1] = _::SunPoint3(-1.0 * *g_011cce50.Float(), -1.0 * *g_011cce50.Float(), 0.0f);
-    pglareVertices[2] = _::SunPoint3(*g_011cce50.Float(), *g_011cce50.Float(), 0.0f);
-    pglareVertices[3] = _::SunPoint3(*g_011cce50.Float(), -1.0 * *g_011cce50.Float(), 0.0f);
+    pglareVertices[0] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
+    pglareVertices[1] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), -1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
+    pglareVertices[2] = _::SunPoint3(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
+    pglareVertices[3] = _::SunPoint3(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), -1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
 
     pglareNormals = new _::SunPoint3[4];
-    pglareNormals[0] = _NiPoint3_ZERO;
-    pglareNormals[1] = _NiPoint3_ZERO;
-    pglareNormals[2] = _NiPoint3_ZERO;
-    pglareNormals[3] = _NiPoint3_ZERO;
+    pglareNormals[0] = (*reinterpret_cast<::fnv_00640810::NiPoint3 *>((void *)&::NiPoint3::ZERO));
+    pglareNormals[1] = (*reinterpret_cast<::fnv_00640810::NiPoint3 *>((void *)&::NiPoint3::ZERO));
+    pglareNormals[2] = (*reinterpret_cast<::fnv_00640810::NiPoint3 *>((void *)&::NiPoint3::ZERO));
+    pglareNormals[3] = (*reinterpret_cast<::fnv_00640810::NiPoint3 *>((void *)&::NiPoint3::ZERO));
 
     {
         _::SunColorA defaultColor(1.0f, 0.0f, 0.0f, 1.0f);
@@ -499,7 +530,7 @@ void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
     pglareTexture[2] = _::SunPoint2(1.0f, 0.0f);
     pglareTexture[3] = _::SunPoint2(1.0f, 1.0f);
 
-    ssunVertOrder = (unsigned short*)_NiMalloc(sizeof(unsigned short) * 6);
+    ssunVertOrder = (unsigned short*)::FUN_00aa1070(sizeof(unsigned short) * 6);
     ssunVertOrder[0] = 0;
     ssunVertOrder[1] = 1;
     ssunVertOrder[2] = 2;
@@ -507,7 +538,7 @@ void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
     ssunVertOrder[4] = 1;
     ssunVertOrder[5] = 3;
 
-    sglareVertOrder = (unsigned short*)_NiMalloc(sizeof(unsigned short) * 6);
+    sglareVertOrder = (unsigned short*)::FUN_00aa1070(sizeof(unsigned short) * 6);
     sglareVertOrder[0] = 0;
     sglareVertOrder[1] = 1;
     sglareVertOrder[2] = 2;
@@ -517,51 +548,47 @@ void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
 
     (NP&)((Sun*)this)->m_pThirdSceneObject =
         new NiTriShape(4, psunVertices, psunNormals, psunColors, psunTexture, 1, 0, 2, ssunVertOrder);
-    ((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pThirdSceneObject)->FUN_004902f0(true);
+    reinterpret_cast<::TaskQueueInterface *>((((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pThirdSceneObject)))->FUN_004902f0(true);
 
     (NP&)((Sun*)this)->m_pFirstSceneObject = new FUN_0051cf00;
-    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject)->FUN_004902f0(true);
-    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject)->FUN_0051d000(2);
-    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject)
-        ->AttachChildInAvailableSlot((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pThirdSceneObject, true);
+    reinterpret_cast<::TaskQueueInterface *>((((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFirstSceneObject)))->FUN_004902f0(true);
+    reinterpret_cast<::NiTriGeom2 *>((((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFirstSceneObject)))->FUN_0051d000(2);
+    ((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFirstSceneObject)
+        ->AttachChildInAvailableSlot((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pThirdSceneObject, true);
 
     (NP&)((Sun*)this)->m_pFourthSceneObject =
         new NiTriShape(4, pglareVertices, pglareNormals, pglareColors, pglareTexture, 1, 0, 2, sglareVertOrder);
-    ((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pFourthSceneObject)->FUN_004902f0(true);
+    reinterpret_cast<::TaskQueueInterface *>((((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFourthSceneObject)))->FUN_004902f0(true);
 
     (NP&)((Sun*)this)->m_pSecondSceneObject = new FUN_0051cf00;
-    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)->FUN_004902f0(true);
-    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)->FUN_0051d000(2);
-    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)
-        ->FUN_00440490(((Sun*)this)->m_fSunGlareIntensity);
-    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)
-        ->AttachChildInAvailableSlot((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pFourthSceneObject, true);
+    reinterpret_cast<::TaskQueueInterface *>((((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pSecondSceneObject)))->FUN_004902f0(true);
+    reinterpret_cast<::NiTriGeom2 *>((((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pSecondSceneObject)))->FUN_0051d000(2);
+    reinterpret_cast<::FUN_00440490_shell *>((((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pSecondSceneObject)))->FUN_00440490(((Sun*)this)->m_fSunGlareIntensity);
+    ((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pSecondSceneObject)
+        ->AttachChildInAvailableSlot((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFourthSceneObject, true);
 
-    ((NiNode*)(unsigned int)(const Flt&)((Sun*)this)->m_pRootNode)
-        ->AttachChildInAvailableSlot((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject, true);
+    ((NiNode*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pRootNode)
+        ->AttachChildInAvailableSlot((FUN_0051cf00*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFirstSceneObject, true);
 
     (NP&)((Sun*)this)->m_pMenuLight = new NiDirectionalLight;
-    ((NiDirectionalLight*)(unsigned int)(const Flt&)((Sun*)this)->m_pMenuLight)->FUN_0050dd20(1.0f);
-    ((FUN_004bc280_S*)(unsigned int)(const Flt&)((Sun*)this)->m_pMenuLight)->FUN_004bc280((const C3*)&DAT_011a9b7c);
-    ((NiDirectionalLight*)(unsigned int)(const Flt&)((Sun*)this)->m_pMenuLight)
-        ->SetEffectColor((const NiPoint3&)DAT_011a9b7c);
-    ((NiNode*)(unsigned int)(const Flt&)((Sun*)this)->m_pRootNode)
-        ->AttachChildInAvailableSlot((NiDirectionalLight*)(unsigned int)(const Flt&)((Sun*)this)->m_pMenuLight, true);
+    reinterpret_cast<::NiPointLight *>((((NiDirectionalLight*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pMenuLight)))->FUN_0050dd20(1.0f);
+    reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pMenuLight)))->FUN_004bc280((const ::C3 *)(const ::fnv_00640810::C3 *)((const C3*)&(*reinterpret_cast<::fnv_00640810::NiColor *>(&::DAT_011a9b7c))));
+    reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((((NiDirectionalLight*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pMenuLight)))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)((const NiPoint3&)(*reinterpret_cast<::fnv_00640810::NiColor *>(&::DAT_011a9b7c))));
+    ((NiNode*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pRootNode)
+        ->AttachChildInAvailableSlot((NiDirectionalLight*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pMenuLight, true);
 
     ((Sun*)this)->m_pSunGlarePick = new GlobalObject_00e98f20(0, 8);
-    ((QuantityData*)((Sun*)this)->m_pSunGlarePick)->SetQuantity(1);
-    ((TESObjectREFR*)((Sun*)this)->m_pSunGlarePick)->SetFlags(1);
-    ((FUN_00632d20_shell*)((Sun*)this)->m_pSunGlarePick)->FUN_00632d20(true);
-    ((RadioSignal*)((Sun*)this)->m_pSunGlarePick)->SetByteAtOffset17(1);
+    reinterpret_cast<::FUN_00537e90 *>((((QuantityData*)((Sun*)this)->m_pSunGlarePick)))->SetQuantity(1);
+    reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR*)((Sun*)this)->m_pSunGlarePick)))->AssignLandTexture((::TESLandTexture *)(1));
+    reinterpret_cast<::FUN_00632d20_shell *>((((FUN_00632d20_shell*)((Sun*)this)->m_pSunGlarePick)))->FUN_00632d20(true);
+    reinterpret_cast<::FUN_00458b30_class *>((((RadioSignal*)((Sun*)this)->m_pSunGlarePick)))->SetByteAtOffset17(1);
 
-    ((FUN_00baf3c0_S*)&bsshaderdata)->FUN_00baf3c0();
+    new ((void *)(((FUN_00baf3c0_S*)&bsshaderdata))) ::fnv_00baf3c0::FUN_00baf3c0();
     bsshaderdata.m_iShaderType = 6;
     bsshaderdata.m_iShaderOptionIndex = 0;
-    ((FUN_00bb0180_S*)&bsshaderdata)
-        ->AddProperties((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pThirdSceneObject, 1);
+    reinterpret_cast<::FUN_00bb0180_shell *>((((FUN_00bb0180_S*)&bsshaderdata)))->AddProperties((::NiAVObject *)(::fnv_00640810::NiAVObject *)((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pThirdSceneObject), 1);
     bsshaderdata.m_iShaderOptionIndex = 1;
-    ((FUN_00bb0180_S*)&bsshaderdata)
-        ->AddProperties((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pFourthSceneObject, 1);
+    reinterpret_cast<::FUN_00bb0180_shell *>((((FUN_00bb0180_S*)&bsshaderdata)))->AddProperties((::NiAVObject *)(::fnv_00640810::NiAVObject *)((NiTriShape*)(std::uintptr_t)(const Flt&)((Sun*)this)->m_pFourthSceneObject), 1);
 }
 }  // namespace fnv_00640810
 
@@ -682,7 +709,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct AutoMemContext
 {
     void Enter(int, bool, char*, int);
@@ -692,7 +718,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -700,7 +725,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -718,7 +742,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -778,7 +801,6 @@ struct ThreeByThreeMatrix
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 struct FUN_00641830_shell : public Sun
 {
     void UpdateSun(Sky*, float);
@@ -799,12 +821,10 @@ struct ThreeByThreeMatrix
 {
     ThreeByThreeMatrix operator*(const ThreeByThreeMatrix&) const;
     void SetYRotation(float);
-    void SetMatrixElement(int, int, float);
     float m[9];
 };
 struct SkyObject
 {
-    void Update(Sky*, float);
 };
 struct NiPoint3
 {
@@ -813,15 +833,13 @@ struct NiPoint3
 }
 struct Setting_S
 {
-    float* Float();
 };
 struct GlobalObject_0044f440
 {
-    float FUN_00450410();
 };
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct RgbaColor
 {
@@ -830,62 +848,43 @@ struct RgbaColor
 };
 struct P3
 {
-    void Set(float, float, float);
 };
 struct TESObjectTREE
 {
-    NiPoint3* GetData();
 };
 struct TESDataHandler
 {
-    NiPoint3* GetTESEyesList();
-    C3* GetTESRaceList();
-    float* GetBGSCameraShotList();
-    NiPoint3* GetTESCaravanDeckList();
 };
 struct NiAVObject
 {
-    void SetLocalRotation(const H::ThreeByThreeMatrix&);
-    void FUN_00440490(float);
-    void SetAppCulled(bool);
-    bool FUN_006366b0();
 };
 struct FUN_00440460_S
 {
-    void FUN_00440460(const V3*);
 };
 struct BGSTerrainManager
 {
-    unsigned int GetMinLevel();
 };
 struct BSAudio
 {
-    void* GetAudioBackendData();
 };
 struct Sky
 {
-    int FUN_00476c90();
     bool IsFlag4Set();
 };
 struct FUN_00476980_S
 {
-    void FUN_004769c0(int, int);
 };
 struct CP_008c48d0
 {
-    TESObjectCELL* GetPrevPath();
 };
 struct FUN_004a0c90_shell
 {
-    void FUN_004a0c90(float);
 };
 struct FUN_004bc280_S
 {
-    void FUN_004bc280(const C3*);
 };
 struct NiPointLight
 {
-    void SetEffectColor(const NiPoint3&);
     void FUN_0050dd50(const NiPoint3&);
 };
 struct TESWeather
@@ -894,122 +893,86 @@ struct TESWeather
 };
 struct KFModel
 {
-    NiAVObject* GetControllerSequence();
 };
 struct EffectSetting
 {
-    void* GetEffectID();
 };
 struct AnimIdle
 {
-    int GetSection();
 };
 struct PropHelper
 {
-    void* GetProperty(unsigned int);
 };
 struct Cell_S
 {
-    unsigned int FUN_00544910();
-    unsigned int FUN_00544970();
 };
 struct Sun_S
 {
-    float FUN_006427c0();
-    void FUN_00642890();
     void* pad[8];
     float m_fSunGlareIntensity;
 };
-float __cdecl FUN_00408860(float);
-float __cdecl FUN_004dd130(float, float);
-bool FUN_004e2180();
-NiAVObject* __fastcall FUN_00558310(NiNode_00558310*);
-NiNode_00558310* FUN_0045c670();
-float __fastcall FUN_00595ea0(char*);
-float __fastcall FUN_00595f50(char*);
-float __fastcall FUN_00595fc0(char*);
-float __fastcall FUN_00596030(void*);
-float __fastcall FUN_006447d0(const char*);
-float __fastcall GetFieldEC(const char*);
-void __fastcall _ref_006815c0(void*);
-int __fastcall _ref_0084e3a0(TES*);
-extern Setting_S originalRuntimeFloatSetting80;
-extern Setting_S originalRuntimeFloatSetting81;
-extern Setting_S originalRuntimeFloatSetting82;
-extern Setting_S originalRuntimeFloatSetting83;
-extern Setting_S originalRuntimeFloatSetting84;
-extern Setting_S originalRuntimeFloatSetting85;
-extern TES* g_TES;
-extern NiPoint3 _NiPoint3_ZERO;
-extern H::ThreeByThreeMatrix DAT_011a9448;
 extern float DAT_0104f2a8;
-extern const double DAT_01023128;
-extern double DAT_01011588;
-extern float _DAT_010162c0;
 
 // @fnv 0x00641830
 void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
 {
     H::AutoMemContext tempMemContext(0x21, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Sky\\Sun.cpp",
                                      300);
-    NiPoint3 newLoc = _NiPoint3_ZERO;
-    float fhour = GetFieldEC((const char*)apSky);
-    ((H::SkyObject*)this)->Update(apSky, afSecondsPassed);
-    if (apSky->FUN_00476c90() == 0)
+    NiPoint3 newLoc = (*reinterpret_cast<::fnv_00641830::NiPoint3 *>((void *)&::NiPoint3::ZERO));
+    float fhour = ::GetFieldEC((const char*)apSky);
+    reinterpret_cast<::FUN_008d0600_s *>((((H::SkyObject*)this)))->FUN_008d0600((std::intptr_t)(apSky), afSecondsPassed);
+    if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 0)
     {
-        H::ThreeByThreeMatrix lightDir = DAT_011a9448;
-        TESObjectCELL* pcell = g_TES ? ((CP_008c48d0*)g_TES)->GetPrevPath() : 0;
+        H::ThreeByThreeMatrix lightDir = (*reinterpret_cast<::fnv_00641830::H::ThreeByThreeMatrix *>(&::DAT_011a9448));
+        TESObjectCELL* pcell = (*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES)) ? ((::fnv_00641830::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)(*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES)))))->GetPrevPath())) : 0;
         if (pcell)
         {
             H::ThreeByThreeMatrix rotmat;
-            _ref_006815c0(&rotmat);
-            ((FUN_004a0c90_shell*)&lightDir)->FUN_004a0c90(((Cell_S*)pcell)->FUN_00544910() * DAT_01023128);
-            rotmat.SetYRotation(((Cell_S*)pcell)->FUN_00544970() * DAT_01023128);
+            (void *)(&rotmat);
+            reinterpret_cast<::FUN_004a0c90_shell *>((((FUN_004a0c90_shell*)&lightDir)))->FUN_004a0c90(reinterpret_cast<::fnv_00544910::FUN_00544910_shell *>((((Cell_S*)pcell)))->FUN_00544910() * ::DAT_01023128);
+            reinterpret_cast<::ThreeByThreeMatrix *>(&(rotmat))->SetYRotation(reinterpret_cast<::fnv_00544970::FUN_00544970_shell *>((((Cell_S*)pcell)))->FUN_00544970() * ::DAT_01023128);
             lightDir = lightDir * rotmat;
         }
         else
         {
-            lightDir.SetMatrixElement(1, 0, DAT_0104f2a8);
-            lightDir.SetMatrixElement(2, 0, DAT_0104f2a8);
+            reinterpret_cast<::FUN_00642660_shell *>(&(lightDir))->SetMatrixElement(1, 0, DAT_0104f2a8);
+            reinterpret_cast<::FUN_00642660_shell *>(&(lightDir))->SetMatrixElement(2, 0, DAT_0104f2a8);
         }
-        ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0x1c))->SetLocalRotation(lightDir);
-        ((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-            ->FUN_004bc280(((TESDataHandler*)apSky)->GetTESRaceList());
-        ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))->SetEffectColor(*((TESObjectTREE*)apSky)->GetData());
-        ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-            ->FUN_0050dd50(*((TESDataHandler*)apSky)->GetTESCaravanDeckList());
+        reinterpret_cast<::FUN_0043fa80_s *>(((*(NiAVObject**)&this->m_pMenuLight.m_pObject)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(lightDir));
+        reinterpret_cast<::FUN_004bc280_S *>(((*(FUN_004bc280_S**)&this->m_pMenuLight.m_pObject)))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)apSky)))))));
+        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>(((*(NiPointLight**)&this->m_pMenuLight.m_pObject)))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
+        (*(NiPointLight**)&this->m_pMenuLight.m_pObject)
+            ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((std::intptr_t)(((TESDataHandler*)apSky))))));
     }
-    else if (apSky->FUN_00476c90() == 1)
+    else if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 1)
     {
-        H::ThreeByThreeMatrix lightDir = DAT_011a9448;
-        TESObjectCELL* pcell = g_TES ? ((CP_008c48d0*)g_TES)->GetPrevPath() : 0;
+        H::ThreeByThreeMatrix lightDir = (*reinterpret_cast<::fnv_00641830::H::ThreeByThreeMatrix *>(&::DAT_011a9448));
+        TESObjectCELL* pcell = (*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES)) ? ((::fnv_00641830::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)(*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES)))))->GetPrevPath())) : 0;
         if (pcell)
         {
             H::ThreeByThreeMatrix rotmat;
-            _ref_006815c0(&rotmat);
-            ((FUN_004a0c90_shell*)&lightDir)->FUN_004a0c90(((Cell_S*)pcell)->FUN_00544910() * DAT_01023128);
-            rotmat.SetYRotation(((Cell_S*)pcell)->FUN_00544970() * DAT_01023128);
+            (void *)(&rotmat);
+            reinterpret_cast<::FUN_004a0c90_shell *>((((FUN_004a0c90_shell*)&lightDir)))->FUN_004a0c90(reinterpret_cast<::fnv_00544910::FUN_00544910_shell *>((((Cell_S*)pcell)))->FUN_00544910() * ::DAT_01023128);
+            reinterpret_cast<::ThreeByThreeMatrix *>(&(rotmat))->SetYRotation(reinterpret_cast<::fnv_00544970::FUN_00544970_shell *>((((Cell_S*)pcell)))->FUN_00544970() * ::DAT_01023128);
             lightDir = lightDir * rotmat;
         }
         else
         {
-            lightDir.SetMatrixElement(1, 0, DAT_0104f2a8);
-            lightDir.SetMatrixElement(2, 0, DAT_0104f2a8);
+            reinterpret_cast<::FUN_00642660_shell *>(&(lightDir))->SetMatrixElement(1, 0, DAT_0104f2a8);
+            reinterpret_cast<::FUN_00642660_shell *>(&(lightDir))->SetMatrixElement(2, 0, DAT_0104f2a8);
         }
-        ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0x1c))->SetLocalRotation(lightDir);
-        ((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-            ->FUN_004bc280(((TESDataHandler*)apSky)->GetTESRaceList());
-        ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))->SetEffectColor(*((TESObjectTREE*)apSky)->GetData());
-        ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-            ->FUN_0050dd50(*((TESDataHandler*)apSky)->GetTESCaravanDeckList());
+        reinterpret_cast<::FUN_0043fa80_s *>(((*(NiAVObject**)&this->m_pMenuLight.m_pObject)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(lightDir));
+        reinterpret_cast<::FUN_004bc280_S *>(((*(FUN_004bc280_S**)&this->m_pMenuLight.m_pObject)))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)apSky)))))));
+        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>(((*(NiPointLight**)&this->m_pMenuLight.m_pObject)))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
+        (*(NiPointLight**)&this->m_pMenuLight.m_pObject)
+            ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((std::intptr_t)(((TESDataHandler*)apSky))))));
     }
-    else if (apSky->FUN_00476c90() == 3 || apSky->FUN_00476c90() == 2)
+    else if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 3 || ((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 2)
     {
-        ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 4))
-            ->SetAppCulled(!((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 4))->FUN_006366b0());
-        float fSunriseBegin = (FUN_00595f50((char*)apSky) + FUN_00595ea0((char*)apSky)) / 2.0;
-        float fSunsetEnd = (FUN_00596030(apSky) + FUN_00595fc0((char*)apSky)) / 2.0;
-        float fhalftrans = *originalRuntimeFloatSetting82.Float() * DAT_01011588;
+        reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pRootNode.m_pObject)))->QueueActorDisarm(!reinterpret_cast<::FUN_006366b0_shell *>(((*(NiAVObject**)&this->m_pRootNode.m_pObject)))->FUN_006366b0());
+        float fSunriseBegin = (::fnv_00595f50::FUN_00595f50((::fnv_00595f50::Sky *)(char *)((char*)apSky)) + ::FUN_00595ea0((char*)apSky)) / 2.0;
+        float fSunsetEnd = (reinterpret_cast<::FUN_00596030_cls *>((apSky))->FUN_00596030() + ::fnv_00595fc0::FUN_00595fc0((char*)apSky)) / 2.0;
+        float fhalftrans = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting82)))))) * ::DAT_01011588;
         float fAlphaInBegin = fSunriseBegin - fhalftrans;
         float fAlphaInEnd = fSunriseBegin + fhalftrans;
         float fAlphaOutBegin = fSunsetEnd - fhalftrans;
@@ -1027,101 +990,95 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         {
             fDiscAlpha = 1.0f - (fhour - fAlphaOutBegin) / (fAlphaOutEnd - fAlphaOutBegin);
         }
-        TESWeather* pCurr = (TESWeather*)((BSAudio*)apSky)->GetAudioBackendData();
-        TESWeather* pLast = (TESWeather*)((AnimIdle*)apSky)->GetSection();
-        float fCurrPct = FUN_006447d0((const char*)apSky);
+        TESWeather* pCurr = (TESWeather*)((void *)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)apSky)))->FUN_0044edb0()));
+        TESWeather* pLast = (TESWeather*)((std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((AnimIdle*)apSky)))->FUN_00825c00()));
+        float fCurrPct = ::FUN_006447d0((const char*)apSky);
         float fGlareAlpha = (pCurr ? pCurr->GetWeatherData(4, fCurrPct * fDiscAlpha, 0.0f) : fDiscAlpha) +
                             (pLast ? pLast->GetWeatherData(4, (1.0f - fCurrPct) * fDiscAlpha, 0.0f) : 0.0f);
         void* pshadeProperty =
-            ((((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x10))->GetProperty(3) == 0)
+            ((((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pThirdSceneObject.m_pObject)))->FUN_00a59d30(3))) == 0)
                  ? 0
-                 : (((BGSTerrainManager*)((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x10))->GetProperty(3))
-                        ->GetMinLevel() == 13))
-                ? ((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x10))->GetProperty(3)
+                 : (reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pThirdSceneObject.m_pObject)))->FUN_00a59d30(3))))))->GetMinLevel() == 13))
+                ? ((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pThirdSceneObject.m_pObject)))->FUN_00a59d30(3)))
                 : 0;
         if (pshadeProperty)
         {
             *(RgbaColor*)((char*)pshadeProperty + 0x60) =
-                RgbaColor(((TESDataHandler*)apSky)->GetBGSCameraShotList()[0],
-                          ((TESDataHandler*)apSky)->GetBGSCameraShotList()[1],
-                          ((TESDataHandler*)apSky)->GetBGSCameraShotList()[2], fDiscAlpha);
+                RgbaColor(((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[0],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[1],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[2], fDiscAlpha);
         }
         pshadeProperty =
-            ((((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x14))->GetProperty(3) == 0)
+            ((((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pFourthSceneObject.m_pObject)))->FUN_00a59d30(3))) == 0)
                  ? 0
-                 : (((BGSTerrainManager*)((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x14))->GetProperty(3))
-                        ->GetMinLevel() == 13))
-                ? ((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x14))->GetProperty(3)
+                 : (reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pFourthSceneObject.m_pObject)))->FUN_00a59d30(3))))))->GetMinLevel() == 13))
+                ? ((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pFourthSceneObject.m_pObject)))->FUN_00a59d30(3)))
                 : 0;
         if (pshadeProperty)
         {
             *(RgbaColor*)((char*)pshadeProperty + 0x60) =
-                RgbaColor(((TESDataHandler*)apSky)->GetBGSCameraShotList()[0],
-                          ((TESDataHandler*)apSky)->GetBGSCameraShotList()[1],
-                          ((TESDataHandler*)apSky)->GetBGSCameraShotList()[2], fGlareAlpha);
+                RgbaColor(((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[0],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[1],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[2], fGlareAlpha);
         }
         {
             float fxNewAim = 0.0f;
-            H::ThreeByThreeMatrix newSunRot = DAT_011a9448;
+            H::ThreeByThreeMatrix newSunRot = (*reinterpret_cast<::fnv_00641830::H::ThreeByThreeMatrix *>(&::DAT_011a9448));
             float ftemp;
             NiPoint3 ksundirection;
             if (fAlphaInBegin < fhour && fhour < fAlphaOutEnd)
             {
                 ftemp = (fhour - fAlphaInBegin) / (fAlphaOutEnd - fAlphaInBegin);
-                fxNewAim = (1.0 - 2.0 * ftemp) * *originalRuntimeFloatSetting83.Float();
+                fxNewAim = (1.0 - 2.0 * ftemp) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting83))))));
             }
             else if (fhour >= fAlphaOutEnd)
             {
                 ftemp = (fhour - fAlphaOutEnd) / (24.0 - (fAlphaOutEnd - fAlphaInBegin));
-                fxNewAim = (2.0 * ftemp - 1.0) * *originalRuntimeFloatSetting83.Float();
+                fxNewAim = (2.0 * ftemp - 1.0) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting83))))));
             }
             else if (fhour <= fAlphaInBegin)
             {
                 ftemp = (24.0 - fAlphaOutEnd + fhour) / (24.0 - (fAlphaOutEnd - fAlphaInBegin));
-                fxNewAim = (2.0 * ftemp - 1.0) * *originalRuntimeFloatSetting83.Float();
+                fxNewAim = (2.0 * ftemp - 1.0) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting83))))));
             }
             newLoc.x = fxNewAim;
-            newLoc.y = ((GlobalObject_0044f440*)&originalRuntimeFloatSetting84)->FUN_00450410();
-            newLoc.z = FUN_00408860(((GlobalObject_0044f440*)&originalRuntimeFloatSetting83)->FUN_00450410()) -
-                       FUN_00408860(fxNewAim);
-            ((FUN_00440460_S*)(unsigned int)*(Flt*)((char*)this + 4))->FUN_00440460((const V3*)&newLoc);
-            ((FUN_00440460_S*)(unsigned int)*(Flt*)((char*)this + 0xc))->FUN_00440460((const V3*)&newLoc);
-            ((P3*)&ksundirection)
-                ->Set(-fxNewAim, ((GlobalObject_0044f440*)&originalRuntimeFloatSetting84)->FUN_00450410(),
-                      ((GlobalObject_0044f440*)&originalRuntimeFloatSetting85)->FUN_00450410());
-            ((H::NiPoint3*)&ksundirection)->ComputeMagnitude();
-            ((FUN_00476980_S*)&newSunRot)->FUN_004769c0(0, (int)&ksundirection);
-            ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0x1c))->SetLocalRotation(newSunRot);
-            ((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-                ->FUN_004bc280(((TESDataHandler*)apSky)->GetTESRaceList());
-            ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-                ->SetEffectColor(*((TESObjectTREE*)apSky)->GetData());
-            ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-                ->FUN_0050dd50(*((TESDataHandler*)apSky)->GetTESCaravanDeckList());
+            newLoc.y = reinterpret_cast<::FUN_00450410_Class *>((((GlobalObject_0044f440*)&(*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting84)))))->FUN_00450410();
+            newLoc.z = ::FUN_00408860(reinterpret_cast<::FUN_00450410_Class *>((((GlobalObject_0044f440*)&(*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting83)))))->FUN_00450410()) -
+                       ::FUN_00408860(fxNewAim);
+            reinterpret_cast<::FUN_00440460_S *>(((*(FUN_00440460_S**)&this->m_pRootNode.m_pObject)))->FUN_00440460((const ::V3 *)(const ::fnv_00641830::V3 *)((const V3*)&newLoc));
+            reinterpret_cast<::FUN_00440460_S *>(((*(FUN_00440460_S**)&this->m_pSecondSceneObject.m_pObject)))->FUN_00440460((const ::V3 *)(const ::fnv_00641830::V3 *)((const V3*)&newLoc));
+            reinterpret_cast<::FUN_00416870_t *>((((P3*)&ksundirection)))->FUN_00416870(-fxNewAim, reinterpret_cast<::FUN_00450410_Class *>((((GlobalObject_0044f440*)&(*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting84)))))->FUN_00450410(),
+                      reinterpret_cast<::FUN_00450410_Class *>((((GlobalObject_0044f440*)&(*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting85)))))->FUN_00450410());
+            reinterpret_cast<::FUN_004a0c10_s *>((((H::NiPoint3*)&ksundirection)))->FUN_004a0c10();
+            reinterpret_cast<::FUN_004769c0_shell *>((((FUN_00476980_S*)&newSunRot)))->FUN_004769c0(0, (float *)((std::intptr_t)&ksundirection));
+            reinterpret_cast<::FUN_0043fa80_s *>(((*(NiAVObject**)&this->m_pMenuLight.m_pObject)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(newSunRot));
+            reinterpret_cast<::FUN_004bc280_S *>(((*(FUN_004bc280_S**)&this->m_pMenuLight.m_pObject)))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)apSky)))))));
+            reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>(((*(NiPointLight**)&this->m_pMenuLight.m_pObject)))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
+            (*(NiPointLight**)&this->m_pMenuLight.m_pObject)
+                ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((std::intptr_t)(((TESDataHandler*)apSky))))));
         }
-        if (g_TES && _ref_0084e3a0(g_TES))
+        if ((*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES)) && reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES))))->FUN_0084e3a0())
         {
-            NiPoint3 origin = *((TESDataHandler*)FUN_00558310(FUN_0045c670()))->GetTESEyesList();
+            NiPoint3 origin = *((::fnv_00641830::NiPoint3 *)&(reinterpret_cast<::NiAVObject *>((((TESDataHandler*)((::fnv_00641830::NiAVObject *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_00641830::NiNode_00558310 *)(((::fnv_00641830::NiNode_00558310 *)(::FUN_0045c670())))))))))->FUN_0043c490()));
             NiPoint3 direction = newLoc;
-            float fscaleChange = *originalRuntimeFloatSetting81.Float() * afSecondsPassed;
-            ((H::NiPoint3*)&direction)->ComputeMagnitude();
+            float fscaleChange = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting81)))))) * afSecondsPassed;
+            reinterpret_cast<::FUN_004a0c10_s *>((((H::NiPoint3*)&direction)))->FUN_004a0c10();
             bool bblocked =
-                ((Sun_S*)this)->FUN_006427c0() >= 1.0 || (((EffectSetting*)g_TES)->GetEffectID(), FUN_004e2180());
-            float fscale = FUN_004dd130(1.0f - ((Sun_S*)this)->FUN_006427c0(), _DAT_010162c0);
-            ((Sun_S*)this)->FUN_00642890();
-            if (bblocked || fscale < *originalRuntimeFloatSetting80.Float())
+                reinterpret_cast<::FUN_006427c0_Class *>((((Sun_S*)this)))->FUN_006427c0() >= 1.0 || (((void *)(::FUN_0070ec90((char *)(((EffectSetting*)(*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES))))))), ((bool)(::FUN_004e2180())));
+            float fscale = ::fnv_004dd130::FUN_004dd130(1.0f - reinterpret_cast<::FUN_006427c0_Class *>((((Sun_S*)this)))->FUN_006427c0(), ::DAT_010162c0);
+            reinterpret_cast<::FUN_00642890_Class *>((((Sun_S*)this)))->FUN_00642890();
+            if (bblocked || fscale < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting80)))))))
             {
-                if (((Sun_S*)this)->m_fSunGlareIntensity - fscaleChange < *originalRuntimeFloatSetting80.Float())
+                if (((Sun_S*)this)->m_fSunGlareIntensity - fscaleChange < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting80)))))))
                 {
-                    ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))->SetAppCulled(true);
+                    reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->QueueActorDisarm(true);
                     ((Sun_S*)this)->m_fSunGlareIntensity = 0.0f;
                 }
                 else
                 {
-                    ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))->SetAppCulled(false);
+                    reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->QueueActorDisarm(false);
                     ((Sun_S*)this)->m_fSunGlareIntensity -= fscaleChange;
-                    ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))
-                        ->FUN_00440490(((Sun_S*)this)->m_fSunGlareIntensity);
+                    reinterpret_cast<::FUN_00440490_shell *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->FUN_00440490(((Sun_S*)this)->m_fSunGlareIntensity);
                 }
             }
             else
@@ -1135,22 +1092,21 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
                 {
                     ((Sun_S*)this)->m_fSunGlareIntensity += fscaleChange;
                 }
-                ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))->SetAppCulled(false);
-                ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))
-                    ->FUN_00440490(((Sun_S*)this)->m_fSunGlareIntensity);
+                reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->QueueActorDisarm(false);
+                reinterpret_cast<::FUN_00440490_shell *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->FUN_00440490(((Sun_S*)this)->m_fSunGlareIntensity);
             }
-            if (!((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))->FUN_006366b0())
+            if (!reinterpret_cast<::FUN_006366b0_shell *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->FUN_006366b0())
             {
-                ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))->SetAppCulled(true);
+                reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->QueueActorDisarm(true);
             }
         }
         if (apSky->IsFlag4Set())
         {
-            ((KFModel*)this)->GetControllerSequence()->SetAppCulled(true);
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_00641830::NiAVObject *)(reinterpret_cast<::TESRegionDataMap *>((((KFModel*)this)))->GetRegionMapName()))))->QueueActorDisarm(true);
         }
         else
         {
-            ((KFModel*)this)->GetControllerSequence()->SetAppCulled(false);
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_00641830::NiAVObject *)(reinterpret_cast<::TESRegionDataMap *>((((KFModel*)this)))->GetRegionMapName()))))->QueueActorDisarm(false);
         }
     }
 }
@@ -1246,6 +1202,14 @@ class FUN_006406a0 : public SkyObject
     bool bDoOcclusionTests;
     NiPointer<NiAVObject> m_pSunShaderAccumulator;
 };
+// @fnv 0x00640670
+void* FUN_00640670_shell::FUN_00640670(unsigned int flags)
+{
+    reinterpret_cast<::FUN_006406a0 *>((this))->FUN_006406a0::~FUN_006406a0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
 
 // @fnv 0x006406a0
 FUN_006406a0::~FUN_006406a0()
@@ -1263,7 +1227,6 @@ FUN_006406a0::~FUN_006406a0()
 
 // Sun update: with a world and enabled, point the glare at the new target and run its update at a scaled time step.
 
-extern const double g_dA6A0TimeScale;
 
 class AutoMemHelper
 {
@@ -1277,14 +1240,11 @@ class AutoMemHelper
 class A6A0World
 {
   public:
-    float GetTimeStep();
-    void SetTimeStep(float fTimeStep);
 };
 
 class A6A0Target
 {
   public:
-    void Update(A6A0World* pkWorld, void* pvArg0, void* pvArg1);
 };
 
 class A6A0Ref
@@ -1311,7 +1271,6 @@ class A6A0Sun
     unsigned char unk27;
     A6A0Ref m_kRoomNode;
 
-    A6A0World* GetWorld();
     void FUN_006426a0(void* pvArg0, A6A0Target* pkTarget, void* pvArg1);
 };
 
@@ -1319,16 +1278,18 @@ class A6A0Sun
 void A6A0Sun::FUN_006426a0(void* pvArg0, A6A0Target* pkTarget, void* pvArg1)
 {
     AutoMemHelper kMem(0x21, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Sky\\Sun.cpp", 0x222);
-    if (GetWorld() && m_bEnableState)
+    if (((::A6A0World *)(::fnv_006fa820::FUN_006fa820((const char *)this))) && m_bEnableState)
     {
         A6A0Target* pkCurrent = pkTarget;
         if (pkCurrent)
         {
             m_kRoomNode.Reset(pkTarget);
-            A6A0World* pkWorld = GetWorld();
-            pkWorld->SetTimeStep((float)(pkWorld->GetTimeStep() / g_dA6A0TimeScale));
-            pkCurrent->Update(pkWorld, pvArg0, pvArg1);
-            pkWorld->SetTimeStep((float)(pkWorld->GetTimeStep() * g_dA6A0TimeScale));
+            A6A0World* pkWorld = ((::A6A0World *)(::fnv_006fa820::FUN_006fa820((const char *)this)));
+            reinterpret_cast<::FUN_006427a0_Class *>((pkWorld))->SetValue((float)(reinterpret_cast<::FUN_008d01e0_Class *>((pkWorld))->FUN_008d01e0() / ::DAT_0104f2f0));
+            reinterpret_cast<::Candidate *>((pkCurrent))->RenderGeometryPass(pkWorld, (unsigned int)(std::uintptr_t)(pvArg0), pvArg1);
+            reinterpret_cast<::FUN_006427a0_Class *>((pkWorld))->SetValue((float)(reinterpret_cast<::FUN_008d01e0_Class *>((pkWorld))->FUN_008d01e0() * ::DAT_0104f2f0));
         }
     }
 }
+
+#include "generated/data/fallout_shared/sky/sun.inc"

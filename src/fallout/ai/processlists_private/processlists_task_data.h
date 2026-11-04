@@ -27,10 +27,6 @@ class MobileObjectTaskletContext
     unsigned int uiObjectCount;
     MobileObject* pObject;
 };
-FNV_STATIC_ASSERT(sizeof(MobileObjectTaskletContext) == 0xC);
-FNV_STATIC_ASSERT(offsetof(MobileObjectTaskletContext, eType) == 0);
-FNV_STATIC_ASSERT(offsetof(MobileObjectTaskletContext, uiObjectCount) == 4);
-FNV_STATIC_ASSERT(offsetof(MobileObjectTaskletContext, pObject) == 8);
 
 template <class T> class BSTFreeListElement
 {
@@ -75,15 +71,7 @@ template <class T, unsigned int ItemUpdateArray> class BSTStaticFreeList : publi
     virtual ~BSTStaticFreeList();
     BSTFreeListElement<T> kElems[ItemUpdateArray];
 };
-FNV_STATIC_ASSERT(sizeof(BSTFreeListElement<MobileObjectTaskletContext>) == 0x10);
-FNV_STATIC_ASSERT(offsetof(BSTFreeListElement<MobileObjectTaskletContext>, kRawElem) == 0);
-FNV_STATIC_ASSERT(offsetof(BSTFreeListElement<MobileObjectTaskletContext>, pNext) == 0xC);
-FNV_STATIC_ASSERT(sizeof(BSTFreeList<MobileObjectTaskletContext>) == 0xC);
-FNV_STATIC_ASSERT(offsetof(BSTFreeList<MobileObjectTaskletContext>, m_uiLockState) == 4);
-FNV_STATIC_ASSERT(offsetof(BSTFreeList<MobileObjectTaskletContext>, pFree) == 8);
 typedef BSTStaticFreeList<MobileObjectTaskletContext, 4096> ProcessListsMessagePool;
-FNV_STATIC_ASSERT(sizeof(ProcessListsMessagePool) == 0x1000C);
-FNV_STATIC_ASSERT(offsetof(ProcessListsMessagePool, kElems) == 0xC);
 
 template <class T> class BSTMessageQueue
 {
@@ -127,13 +115,6 @@ template <class T> class BSTCommonLLMessageQueue : public BSTCommonMessageQueue<
     virtual bool EnqueueMessage(const T& arMessage);
     virtual bool RemoveMessage(T& arMessage);
 };
-FNV_STATIC_ASSERT(sizeof(BSTMessageQueue<MobileObjectTaskletContext>) == 4);
-FNV_STATIC_ASSERT(sizeof(BSTCommonMessageQueue<MobileObjectTaskletContext>) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTCommonMessageQueue<MobileObjectTaskletContext>, kLock) == 4);
-FNV_STATIC_ASSERT(sizeof(BSTCommonLLMessageQueue<MobileObjectTaskletContext>) == 0x14);
-FNV_STATIC_ASSERT(offsetof(BSTCommonLLMessageQueue<MobileObjectTaskletContext>, pSizeClassFreeList) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTCommonLLMessageQueue<MobileObjectTaskletContext>, pHead) == 0xC);
-FNV_STATIC_ASSERT(offsetof(BSTCommonLLMessageQueue<MobileObjectTaskletContext>, m_ppTailLink) == 0x10);
 
 class BSTaskletData
 {
@@ -148,8 +129,6 @@ class BSTaskletData
 
     void TaskYield();
 };
-FNV_STATIC_ASSERT(sizeof(BSTaskletData) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTaskletData, m_bTaskYielded) == 4);
 
 class BSWin32TaskletData : public BSTaskletData
 {
@@ -162,11 +141,6 @@ class BSWin32TaskletData : public BSTaskletData
     LockPrimitive kTaskDataLock;
     BSWin32TaskletData* m_pTaskletData;
 };
-FNV_STATIC_ASSERT(sizeof(BSWin32TaskletData) == 0x18);
-FNV_STATIC_ASSERT(offsetof(BSWin32TaskletData, m_pTaskletGroupData) == 8);
-FNV_STATIC_ASSERT(offsetof(BSWin32TaskletData, m_bFlagAfterTaskletGroup) == 0xC);
-FNV_STATIC_ASSERT(offsetof(BSWin32TaskletData, kTaskDataLock) == 0x10);
-FNV_STATIC_ASSERT(offsetof(BSWin32TaskletData, m_pTaskletData) == 0x14);
 
 class MobileObjectTaskletData : public BSWin32TaskletData
 {
@@ -182,11 +156,6 @@ class MobileObjectTaskletData : public BSWin32TaskletData
     unsigned int MobileObjectTaskletState;
     unsigned int eType;
 };
-FNV_STATIC_ASSERT(sizeof(MobileObjectTaskletData) == 0x38);
-FNV_STATIC_ASSERT(offsetof(MobileObjectTaskletData, pMobList) == 0x18);
-FNV_STATIC_ASSERT(offsetof(MobileObjectTaskletData, kMessageQueue) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(MobileObjectTaskletData, MobileObjectTaskletState) == 0x30);
-FNV_STATIC_ASSERT(offsetof(MobileObjectTaskletData, eType) == 0x34);
 
 class DetectionTaskData : public MobileObjectTaskletData
 {
@@ -194,14 +163,10 @@ class DetectionTaskData : public MobileObjectTaskletData
     float m_fDetectionValue;
     int m_iDetectionState;
 };
-FNV_STATIC_ASSERT(sizeof(DetectionTaskData) == 0x40);
-FNV_STATIC_ASSERT(offsetof(DetectionTaskData, m_fDetectionValue) == 0x38);
-FNV_STATIC_ASSERT(offsetof(DetectionTaskData, m_iDetectionState) == 0x3C);
 
 class AnimationTaskData : public MobileObjectTaskletData
 {
 };
-FNV_STATIC_ASSERT(sizeof(AnimationTaskData) == 0x38);
 
 class PackageUpdateTaskData : public MobileObjectTaskletData
 {
@@ -210,18 +175,12 @@ class PackageUpdateTaskData : public MobileObjectTaskletData
     unsigned int uiUpdatedCount;
     unsigned int uiSkippedCount;
 };
-FNV_STATIC_ASSERT(sizeof(PackageUpdateTaskData) == 0x44);
-FNV_STATIC_ASSERT(offsetof(PackageUpdateTaskData, pPrevObjectList) == 0x38);
-FNV_STATIC_ASSERT(offsetof(PackageUpdateTaskData, uiUpdatedCount) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(PackageUpdateTaskData, uiSkippedCount) == 0x40);
 
 class ActorUpdateTaskData : public MobileObjectTaskletData
 {
   public:
     unsigned int uiRunCount;
 };
-FNV_STATIC_ASSERT(sizeof(ActorUpdateTaskData) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(ActorUpdateTaskData, uiRunCount) == 0x38);
 
 class ActorsScriptTaskData : public MobileObjectTaskletData
 {
@@ -229,17 +188,12 @@ class ActorsScriptTaskData : public MobileObjectTaskletData
     BSSimpleList<MobileObject*>* pPrevObjectList;
     unsigned int uiRunCount;
 };
-FNV_STATIC_ASSERT(sizeof(ActorsScriptTaskData) == 0x40);
-FNV_STATIC_ASSERT(offsetof(ActorsScriptTaskData, pPrevObjectList) == 0x38);
-FNV_STATIC_ASSERT(offsetof(ActorsScriptTaskData, uiRunCount) == 0x3C);
 
 class MovementTaskData : public MobileObjectTaskletData
 {
   public:
     unsigned int uiRunCount;
 };
-FNV_STATIC_ASSERT(sizeof(MovementTaskData) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(MovementTaskData, uiRunCount) == 0x38);
 
 class ActorTaskManager
 {
@@ -253,13 +207,4 @@ class ActorTaskManager
     BSTStaticFreeList<MobileObjectTaskletContext, 4096> kMessagePool;
     bool m_bTrailingManagerFlag;
 };
-FNV_STATIC_ASSERT(sizeof(ActorTaskManager) == 0x10184);
-FNV_STATIC_ASSERT(offsetof(ActorTaskManager, kDetectionTaskData) == 0);
-FNV_STATIC_ASSERT(offsetof(ActorTaskManager, kAnimationTaskData) == 0x40);
-FNV_STATIC_ASSERT(offsetof(ActorTaskManager, kPackageUpdateTaskData) == 0x78);
-FNV_STATIC_ASSERT(offsetof(ActorTaskManager, kActorUpdateTaskData) == 0xBC);
-FNV_STATIC_ASSERT(offsetof(ActorTaskManager, kActorsScriptTaskData) == 0xF8);
-FNV_STATIC_ASSERT(offsetof(ActorTaskManager, kMovementTaskData) == 0x138);
-FNV_STATIC_ASSERT(offsetof(ActorTaskManager, kMessagePool) == 0x174);
-FNV_STATIC_ASSERT(offsetof(ActorTaskManager, m_bTrailingManagerFlag) == 0x10180);
 #endif

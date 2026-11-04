@@ -1,6 +1,29 @@
 // fallout_shared/teslevcharacter.cpp: TESLevCreature, TESLevItem, TESLevCharacter, Entry (8 functions)
 
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00440d80_shell.h"
+#include "fnv/decl/FUN_004534f0_shell.h"
+#include "fnv/decl/FUN_0046dce0_class.h"
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0050a850.h"
+#include "fnv/decl/FormCloneOperation.h"
+#include "fnv/decl/Owner487a60.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/TmpEndian.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_00487000.h"
 #include "teslevcharacter_unit.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/symbols_00472000.h"
 
 // @fnv 0x0050ad40
 void TESLevCreature::InitItem()
@@ -23,17 +46,17 @@ void TESLevItem::LoadGame(BGSLoadFormBuffer* buffer)
 // @fnv 0x0050a930
 bool TESLevCharacter::Load(TESFile* file)
 {
-    unsigned char ucFormType = file->GetTESForm();
+    unsigned char ucFormType = ((unsigned char)(reinterpret_cast<::FUN_00472660_shell *>((file))->FUN_00472660()));
     if (ucFormType != 45)
         return false;
-    LoadRecordHeader(file);
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
     do
     {
-        switch ((int)file->GetChunkID())
+        switch ((int)((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
         {
         case 0x44494445: {
-            char* editorID = (char*)_alloca(file->GetChunkSize());
-            file->GetChunkData(editorID, 512);
+            char* editorID = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editorID), 512);
             SetEditorID_AtRuntime(editorID);
             break;
         }
@@ -42,7 +65,7 @@ bool TESLevCharacter::Load(TESFile* file)
             break;
         case 0x4f4c564c:
         case 0x44454f43:
-            switch ((int)file->GetChunkID())
+            switch ((int)((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())))
             {
             case 0x4f4c564c: {
                 struct Entry
@@ -54,10 +77,10 @@ bool TESLevCharacter::Load(TESFile* file)
                     unsigned short pad2;
                 } levelEntry;
                 memset(&levelEntry, 0, 12);
-                file->GetChunkData(&levelEntry, 12);
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&levelEntry), 12);
                 if (file->IsEndianConversionRequired())
-                    ((LeveledObject*)&levelEntry)->SwapEndian();
-                DAT_011c8e64 = CreateLeveledObject(levelEntry.level, levelEntry.count, levelEntry.form, 0);
+                    reinterpret_cast<::TmpEndian *>((((LeveledObject*)&levelEntry)))->SwapEndian();
+                DAT_011c8e64 = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(levelEntry.level, levelEntry.count, (std::intptr_t)(levelEntry.form), (int)(0))));
                 break;
             }
             case 0x44454f43:
@@ -73,17 +96,17 @@ bool TESLevCharacter::Load(TESFile* file)
             break;
         case 0x444c564c: {
             unsigned char chance = 0;
-            file->GetChunkData(&chance, 0);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&chance), 0);
             FUN_0042e680(chance);
             break;
         }
         case 0x464c564c:
-            file->GetChunkData(&m_ucChanceNone, 0);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&m_ucChanceNone), 0);
             break;
         case 0x474c564c: {
             unsigned int global = 0;
             file->GetChunkData(&global);
-            m_pLevelGlobal = (TESGlobal*)global;
+            m_pLevelGlobal = (TESGlobal*)(std::uintptr_t)global;
             break;
         }
         case 0x4c444f4d:
@@ -94,10 +117,10 @@ bool TESLevCharacter::Load(TESFile* file)
             break;
         case 0x53444f4d: {
             void* textureData;
-            unsigned int chunkSize = file->GetChunkSize();
+            unsigned int chunkSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             textureData = _alloca(chunkSize);
-            file->GetChunkData(textureData, chunkSize);
-            ParseTextureSwapData(textureData, chunkSize, ((TESFileFormVersion*)file)->GetFormVersion());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(textureData), chunkSize);
+            reinterpret_cast<::FUN_0048a7b0_shell *>(this)->LoadTextureSwapList(textureData, chunkSize, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570());
             break;
         }
         }
@@ -154,7 +177,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -191,7 +213,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_0050b3c0_shell : public TESLevItem
 {
     void FUN_0050b3c0(BGSLoadFormBuffer*);
@@ -199,15 +220,14 @@ struct FUN_0050b3c0_shell : public TESLevItem
 
 struct TESLeveledList_Revert_Access
 {
-    void Revert(BGSLoadFormBuffer*);
 };
 
 // Reverts the TESForm base and then the leveled list at offset 0x30 using the load game buffer.
 // @fnv 0x0050b3c0
 void FUN_0050b3c0_shell::FUN_0050b3c0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    TESForm::Revert(reinterpret_cast<unsigned int>(apLoadGameBuffer));
-    reinterpret_cast<TESLeveledList_Revert_Access*>(reinterpret_cast<char*>(this) + 0x30)->Revert(apLoadGameBuffer);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(reinterpret_cast<std::uintptr_t>(apLoadGameBuffer));
+    reinterpret_cast<::TESLeveledList *>((reinterpret_cast<TESLeveledList_Revert_Access*>(static_cast<TESLeveledList *>(this))))->Revert((::BGSLoadFormBuffer *)(apLoadGameBuffer));
 }
 }  // namespace fnv_0050b3c0
 
@@ -233,30 +253,27 @@ struct FUN_0050a770 : public TESBoundAnimObject, public FUN_00487650, public B2_
 // @fnv 0x0050a770
 FUN_0050a770::FUN_0050a770()
 {
-    SetFormType((ENUM_FORM_ID)0x2d);
+    reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x2d)));
     ClearData();
     SetInitializationState(true);
 }
 
-void __cdecl _Deallocate(void*);
 struct FUN_0050a820_shell
 {
-    void FUN_0050a850();
     void* FUN_0050a820(unsigned int);
 };
 // Calls FUN_0050a850, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0050a820
 void* FUN_0050a820_shell::FUN_0050a820(unsigned int flags)
 {
-    FUN_0050a850();
+    reinterpret_cast<::FUN_0050a850 *>(this)->FUN_0050a850::~FUN_0050a850();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
     void FUN_0050acb0(TESForm*);
 };
 // Casts apCopy to TESLevCharacter and, if the cast succeeds, calls FUN_004851b0 with apCopy.
@@ -266,14 +283,13 @@ void FUN_005e78f0_t::FUN_0050acb0(TESForm* apCopy)
     TESLevCharacter* pllcopy = dynamic_cast<TESLevCharacter*>(apCopy);
     if (!pllcopy)
         return;
-    FUN_004851b0(apCopy);
+    reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(apCopy);
 }
 
 namespace LevCharacterComparison {
 class Entry : public TESLevCharacter
 {
   public:
-    bool FUN_00485270(TESForm*);
     bool FUN_0050acf0(TESForm*);
 };
 
@@ -284,8 +300,103 @@ bool Entry::FUN_0050acf0(TESForm* other)
     TESLevCharacter* compared = dynamic_cast<TESLevCharacter*>(other);
     if (!compared)
         return true;
-    if (FUN_00485270(compared))
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(compared))
         return true;
     return false;
 }
 }
+
+// Adjustor thunk for FUN_0050ade0: sub ecx,0x4c; jmp FUN_0050a820.
+// The derived class overrides a virtual that both of its bases declare, so the
+// secondary base's vtable slot holds a thunk that moves `this` back by the size
+// of the primary base.
+// sizeof(PrimaryBase) = vptr (4) + 18 int fields (72) = 0x4c.
+struct PrimaryBase
+{
+    virtual void FUN_0050ade0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0050ade0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0050ade0
+    virtual void FUN_0050ade0();
+};
+
+Derived::Derived()
+{}
+
+// FUN_0050b3f0 : 8-byte MSVC this-adjusting (virtual) thunk.
+//     sub ecx, 0x4c ; jmp FUN_0050aea0
+//
+// MSVC emits such a stub in the vtable of a class that inherits the same
+// virtual slot through two bases: the slot of the second base holds a tiny
+// stub that moves `this` back onto the complete object (sub ecx, size of the
+// primary base) and tail-jumps to the implementation.
+//
+// The subtracted offset is the size of the primary base: a vtable pointer plus
+// 18 int members (4 + 72 = 0x4c bytes).  Both bases declare the same virtual
+// function; the derived class redeclares it and defines only its constructor,
+// which is what makes the compiler emit the vtables and the adjusting thunk.
+struct LevCharPrimaryBase
+{
+    virtual void FUN_0050b3f0();
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
+    int m_1c;
+    int m_20;
+    int m_24;
+    int m_28;
+    int m_2c;
+    int m_30;
+    int m_34;
+    int m_38;
+    int m_3c;
+    int m_40;
+    int m_44;
+    int m_48;
+};
+
+struct LevCharSecondaryBase
+{
+    virtual void FUN_0050b3f0();
+};
+
+struct LevCharDerived : LevCharPrimaryBase, LevCharSecondaryBase
+{
+    LevCharDerived();
+// @fnv 0x0050b3f0
+    virtual void FUN_0050b3f0();
+};
+
+LevCharDerived::LevCharDerived()
+{}
+
+#include "generated/data/fallout_shared/teslevcharacter.inc"

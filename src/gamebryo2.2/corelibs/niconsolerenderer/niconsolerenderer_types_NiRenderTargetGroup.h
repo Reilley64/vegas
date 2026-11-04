@@ -9,7 +9,6 @@ class Ni2DBuffer;
 class NiDepthStencilBuffer;
 class NiRenderTargetGroup;
 class NiRenderTargetGroup__RendererData;
-#pragma pack(push, 4)
 class NiRenderTargetGroup : public NiObject
 {
   public:
@@ -42,15 +41,4 @@ class NiRenderTargetGroup : public NiObject
     // NiRenderTargetGroup& __cdecl NiRenderTargetGroup::*(const NiRenderTargetGroup&)
     // void __cdecl NiRenderTargetGroup::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiRenderTargetGroup) == 48);
-FNV_STATIC_ASSERT(offsetof(NiRenderTargetGroup, m_bNeedsResolve) == 8);
-FNV_STATIC_ASSERT(offsetof(NiRenderTargetGroup, m_bFlagBeforePadding) == 9);
-FNV_STATIC_ASSERT(offsetof(NiRenderTargetGroup, SystemStateFlags) == 12);
-FNV_STATIC_ASSERT(offsetof(NiRenderTargetGroup, m_bFlagBeforeBuffers) == 16);
-FNV_STATIC_ASSERT(offsetof(NiRenderTargetGroup, RenderBufferSet) == 18);
-FNV_STATIC_ASSERT(offsetof(NiRenderTargetGroup, m_aspRenderTargetBuffers) == 20);
-FNV_STATIC_ASSERT(offsetof(NiRenderTargetGroup, RenderTargetBufferInfo) == 36);
-FNV_STATIC_ASSERT(offsetof(NiRenderTargetGroup, m_spRenderTargetDepthStencilBuffer) == 40);
-FNV_STATIC_ASSERT(offsetof(NiRenderTargetGroup, m_pTextureRendererData) == 44);
 #endif

@@ -1,7 +1,13 @@
 // bssystem/filefinder_filefinder_decls.h: declares NiFile, FileFinder, MemoryManager, BSFile, ArchiveManager
 #ifndef FNV_FILEFINDER_FILEFINDER_DECLS_H
 #define FNV_FILEFINDER_FILEFINDER_DECLS_H
+#include <cstddef>
 
+#include "runtime/crt.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00af5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f8000.h"
 class NiFile
 {
   public:
@@ -38,32 +44,21 @@ class FileFinder
     static NiFile* GetFile(const char*, NiFile::OpenMode, unsigned int, unsigned int);
     static FILE_LOCATION __cdecl Exist(const char*, char*, unsigned int, unsigned int);
     FILE_LOCATION GetFileLocation(char*, char*, unsigned int, unsigned int);
-    unsigned int FUN_00afe220(char*, unsigned int, unsigned int);
 };
-extern "C" FileFinder* g_fileFinder;
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 class MemoryManager
 {
   public:
-    void* Allocate(unsigned int);
 };
-extern MemoryManager g_memoryManager;
 class BSFile : public NiFile
 {
   public:
     char storage[340];
     BSFile(const char*, int, unsigned int, bool);
-    static __forceinline void* operator new(unsigned int size)
-    {
-        return g_memoryManager.Allocate(size);
-    }
-    static void operator delete(void*);
 };
 class ArchiveManager
 {
   public:
-    static NiFile* GetFile(const char*, unsigned int, unsigned int);
 };
 
 #endif

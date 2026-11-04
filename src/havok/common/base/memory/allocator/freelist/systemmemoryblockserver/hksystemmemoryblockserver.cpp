@@ -4,10 +4,10 @@
 
 struct FUN_00d60480
 {
-    int __thiscall GetValueAsInteger();
+    int GetValueAsInteger();
 };
 // @fnv 0x00d60480
-int __thiscall FUN_00d60480::GetValueAsInteger()
+int FUN_00d60480::GetValueAsInteger()
 {
     int end = *(int*)((char*)this + 0xc);
     if (!end)
@@ -117,7 +117,7 @@ void FUN_00d604f0_cls::FUN_00d604f0(int a)
 // Original: mov eax,[esp+4]; mov byte ptr [eax],0; ret 0x14
 
 // @fnv 0x00d60530
-void __stdcall FUN_00d60530(unsigned char* out, int a2, int a3, int a4, int a5)
+void FUN_00d60530(unsigned char* out, int a2, int a3, int a4, int a5)
 {
     *out = 0;
 }

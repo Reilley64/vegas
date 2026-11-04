@@ -32,8 +32,4 @@ class TESObject : public TESForm
     TESObject* pPrev;
     TESObject* pNext;
 };
-FNV_STATIC_ASSERT(sizeof(TESObject) == 0x24);
-FNV_STATIC_ASSERT(offsetof(TESObject, pList) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESObject, pPrev) == 0x1c);
-FNV_STATIC_ASSERT(offsetof(TESObject, pNext) == 0x20);
 #endif

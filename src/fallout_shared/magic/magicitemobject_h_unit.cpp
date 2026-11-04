@@ -7,4 +7,5 @@
 // function is emitted exactly once.
 //
 // Compiler: MSVC9 SP1 15.00.30729.01, flags /Od /Oy- /GS /EHsc /Gy
+#include "fnv/decl/fnv_00484730__FUN_00484730_shell.h"
 #include "magicitemobject.h"

@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkMoppBvTreeShapeBase.h"
 #include "hkpSingleShapeContainer.h"
-#pragma pack(push, 1)
 class hkpMoppBvTreeShape : public hkMoppBvTreeShapeBase
 {
   public:
@@ -14,6 +13,4 @@ class hkpMoppBvTreeShape : public hkMoppBvTreeShapeBase
     hkInt32 m_iChildSize;                  // +0x38
     char pad3C[0x4];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMoppBvTreeShape[(sizeof(hkpMoppBvTreeShape) == 0x40) ? 1 : -1];
 #endif

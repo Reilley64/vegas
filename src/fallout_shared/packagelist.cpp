@@ -1,9 +1,48 @@
 // fallout_shared/packagelist.cpp: PackageList, TESAIForm (10 functions)
 
+#include <cstdint>
+#include <new>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/ComparisonOwner.h"
+#include "fnv/decl/FUN_0041ca90.h"
+#include "fnv/decl/FUN_0041d8a0_shell.h"
+#include "fnv/decl/FUN_0041d8c0_shell.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/FUN_00569b80_shell.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/FUN_00677760_shell.h"
+#include "fnv/decl/FUN_00678cc0_shell.h"
+#include "fnv/decl/FUN_00678ce0_shell.h"
+#include "fnv/decl/FUN_009344a0_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FileMatchList.h"
+#include "fnv/decl/ItemChangeListNode.h"
+#include "fnv/decl/PackedByteIntRecord.h"
+#include "fnv/decl/RefList.h"
+#include "fnv/decl/TextString.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00422690__FUN_00422690_shell.h"
+#include "fnv/decl/fnv_006777b0__FUN_006777b0_shell.h"
+#include "fnv/decl/fnv_00678d40__FUN_00678d40_shell.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_004b1000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_0119b000.h"
+#include "fnv/symbols_011de000.h"
 #include "packagelist_decls.h"
 template <class T> class BSSimpleList
 {
   public:
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
+
     void RemoveAll();
     void AddHead(T&);
     T& GetItem();
@@ -20,35 +59,31 @@ template <class T> class BSSimpleList
 class PackageList
 {
   public:
-    BSSimpleList<TESPackage*>* GetListOfPackages();
     void Copy(const PackageList* src);
     void ClearPackageList();
     TESPackage* GetPackageForActor(Actor* actor);
     void CollectEligiblePackages(Actor*, BSSimpleList<TESPackage*>*, float, float);
     void InitItem(TESForm*);
     void AddPackage(TESPackage*);
-    BSSimpleList<TESPackage*>* GetListOfPackages() const;
 };
 
 class TESAIForm
 {
   public:
-    PackageList* GetPackageList();
-    const PackageList* GetPackageList() const;
     void CopyAIPackageList(const TESAIForm* src);
 };
 
 // @fnv 0x0067e400
 void PackageList::ClearPackageList()
 {
-    GetListOfPackages()->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((::BSSimpleList< ::TESPackage *> *)(this))))->RemoveAll();
 }
 
 // Copies the package list from src into this form's package list.
 // @fnv 0x0047f2d0
 void TESAIForm::CopyAIPackageList(const TESAIForm* src)
 {
-    GetPackageList()->Copy(src->GetPackageList());
+    ((::PackageList *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()))->Copy(((const ::PackageList *)(reinterpret_cast<::BGSCameraPath *>((void *)(src))->GetConditions())));
 }
 
 // Scans the package list for a package whose conditions and schedule match the actor, logs the pick, updates extra data and process state, and returns it.
@@ -63,22 +98,22 @@ TESPackage* PackageList::GetPackageForActor(Actor* actor)
         BSSimpleList<TESPackage*>* list;
     } selection;
     char message[300];
-    selection.list = GetListOfPackages();
+    selection.list = ((::BSSimpleList< ::TESPackage *> *)(this));
     selection.current = 0;
     if (actor)
-        selection.current = actor->GetCurrentPackage();
+        selection.current = reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0();
     if (!selection.list->IsEmpty())
     {
         selection.package = 0;
         selection.schedule = 0;
-        while (selection.list && (selection.package = selection.list->GetItem()))
+        while (selection.list && (selection.package = (selection.list->m_item)))
         {
             if ((selection.package->vfn_138(actor) && !selection.package->IsFlag10000Set() &&
                  !selection.package->IsMustReachLocation()) ||
                 (selection.package->IsMustReachLocation() &&
-                 !actor->GetExtraData()->CanReachPackageLocation(selection.package)))
+                 !reinterpret_cast<::FUN_0041d8c0_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))))->HasRunOncePackage(selection.package)))
             {
-                selection.schedule = selection.package->FUN_0041d8a0();
+                selection.schedule = reinterpret_cast<::FUN_0041d8a0_shell *>((selection.package))->FUN_0041d8a0();
                 if (selection.schedule)
                 {
                     bool bCalendarMonth;
@@ -87,29 +122,29 @@ TESPackage* PackageList::GetPackageForActor(Actor* actor)
                     bDayOfWeek = false;
                     bDayOfMonth = false;
                     bCalendarMonth = false;
-                    if (selection.schedule->FUN_0086a460() + selection.schedule->FUN_00726070() > 24)
+                    if (selection.schedule->FUN_0086a460() + ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((selection.schedule))->FUN_00726070())) > 24)
                     {
-                        bDayOfWeek = selection.package->IsScheduledForDay(true);
-                        int yesterday = g_calendar.GetGameHour() - 1;
+                        bDayOfWeek = reinterpret_cast<::fnv_00678d40::FUN_00678d40_shell *>((selection.package))->IsPackageScheduledForDay(true);
+                        int yesterday = ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->GetDayOfMonth())) - 1;
                         if (yesterday < 0)
                             yesterday = 30;
-                        if (selection.schedule->FUN_00678ce0() == yesterday)
+                        if (reinterpret_cast<::FUN_00678ce0_shell *>((selection.schedule))->FUN_00678ce0() == yesterday)
                             bDayOfMonth = true;
-                        int lastMonth = g_calendar.GetCurrentMonth() - 1;
+                        int lastMonth = (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetCurrentMonth() - 1;
                         if (lastMonth < 0)
                             lastMonth = 12;
                         if (selection.schedule->FUN_00678ca0() == lastMonth)
                             bCalendarMonth = true;
                     }
                     if ((selection.schedule->FUN_00678ca0() == -1 ||
-                         selection.schedule->FUN_00678ca0() == g_calendar.GetCurrentMonth() || bCalendarMonth) &&
-                        (selection.schedule->FUN_00678ce0() == 0 ||
-                         selection.schedule->FUN_00678ce0() == g_calendar.GetGameHour() || bDayOfMonth) &&
-                        (selection.schedule->GetSecondByte() == -1 || selection.package->IsScheduledForDay(false) ||
+                         selection.schedule->FUN_00678ca0() == (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetCurrentMonth() || bCalendarMonth) &&
+                        (reinterpret_cast<::FUN_00678ce0_shell *>((selection.schedule))->FUN_00678ce0() == 0 ||
+                         reinterpret_cast<::FUN_00678ce0_shell *>((selection.schedule))->FUN_00678ce0() == ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->GetDayOfMonth())) || bDayOfMonth) &&
+                        (reinterpret_cast<::FUN_00678cc0_shell *>((selection.schedule))->GetSecondByte() == -1 || reinterpret_cast<::fnv_00678d40::FUN_00678d40_shell *>((selection.package))->IsPackageScheduledForDay(false) ||
                          bDayOfWeek) &&
                         (selection.schedule->FUN_0086a460() == -1 ||
-                         IsHourInRange(selection.schedule->FUN_0086a460(), selection.schedule->FUN_00726070(),
-                                       g_calendar.GetGameTime())))
+                         IsHourInRange(selection.schedule->FUN_0086a460(), ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((selection.schedule))->FUN_00726070())),
+                                       (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTime())))
                     {
                         struct PackageTargetState
                         {
@@ -117,151 +152,45 @@ TESPackage* PackageList::GetPackageForActor(Actor* actor)
                             TESObjectREFR* reference;
                         } targetState;
                         targetState.reference = 0;
-                        targetState.packageTarget = selection.package->GetTarget();
+                        targetState.packageTarget = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>((selection.package))->GetData()));
                         if (targetState.packageTarget)
                             targetState.reference = targetState.packageTarget->GetReferenceTarget();
-                        if (selection.package->GetConditions()->ContainsTrait(actor, targetState.reference))
+                        if (((::PerkEntryConditionSet *)(reinterpret_cast<::PackedByteIntRecord *>((selection.package))->Endian()))->ContainsTrait(actor, targetState.reference))
                         {
-                            if (FUN_00703180() == actor)
+                            if (((::Actor *)(::fnv_00703180::FUN_00703180())) == actor)
                             {
                                 sprintf(
-                                    message, "%s Picked Package %s (%s)", actor->GetFullName(),
-                                    PrepareScriptMessage(g_packageTypeNames[selection.package->GetPackType()], false),
-                                    PrepareScriptMessage(selection.package->GetName(), false));
-                                DebugLog(message);
+                                    message, "%s Picked Package %s (%s)", reinterpret_cast<::FUN_0055d520_shell *>((actor))->FUN_0055d520(),
+                                    ((const char *)(::FUN_00464f30((std::intptr_t)(g_packageTypeNames[reinterpret_cast<struct ::FUN_0041ca90 *>((selection.package))->get()])))),
+                                    ((const char *)(::FUN_00464f30((std::intptr_t)(selection.package->GetName())))));
+                                ::FUN_00703c00(message, {});
                             }
-                            if (selection.package->GetProcedureType() == -1)
-                                selection.package->SetTargetFromReference(actor->GetLinkedRef());
+                            if (reinterpret_cast<::FUN_009611e0_shell *>((selection.package))->FUN_009611e0() == -1)
+                                reinterpret_cast<::fnv_006777b0::FUN_006777b0_shell *>((selection.package))->ComputePackageFlags(reinterpret_cast<::FUN_00569b80_shell *>((actor))->FUN_00569b80());
                             if (selection.current && selection.current != selection.package &&
-                                selection.current->GetPackType() == 1)
+                                reinterpret_cast<struct ::FUN_0041ca90 *>((selection.current))->get() == 1)
                             {
-                                Actor* leader = dynamic_cast<Actor*>(actor->GetProcess()->GetLowProcess40());
+                                Actor* leader = dynamic_cast<Actor*>(((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetLowProcess40());
                                 if (leader)
-                                    leader->GetExtraData()->AddFollowerActor(actor);
+                                    reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((leader))->FUN_005d43c0()))))->FUN_00422690((::fnv_00422690::Actor *)(actor));
                             }
                             if (selection.current && selection.current != selection.package)
                             {
-                                Script::GetLocalData(selection.current, actor->GetExtraData(), 0x800);
-                                actor->GetProcess()->HandleOnPackageChange(actor, selection.current);
-                                actor->GetProcess()->vfn_5a8(0);
+                                ::FUN_005ac750(selection.current, ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0())), 0x800);
+                                ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->HandleOnPackageChange(actor, selection.current);
+                                ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->vfn_5a8(0);
                             }
                             if (selection.package && selection.package != selection.current)
-                                Script::GetLocalData(selection.package, actor->GetExtraData(), 0x200);
+                                ::FUN_005ac750(selection.package, ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0())), 0x200);
                             return selection.package;
                         }
                     }
                 }
             }
-            selection.list = selection.list->GetNext();
+            selection.list = ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((selection.list))->FUN_00726070()));
         }
     }
     return selection.current;
-}
-
-// Scans packages over the coming days/hours, adds those whose schedule matches and are not current or already missed, then sorts the missed list by schedule.
-// @fnv 0x0067ec40
-void PackageList::CollectEligiblePackages(Actor* actor, BSSimpleList<TESPackage*>* pMissedList, float elapsed,
-                                          float startHour)
-{
-    struct CalendarScan
-    {
-        float hour;
-        int day;
-        int currentMonth;
-        int month;
-        int year;
-    } scan;
-    struct MissedPackageContext
-    {
-        int today;
-        TESPackage* current;
-        BSSimpleList<TESPackage*>* cursor;
-    } sortCtx;
-    sortCtx.current = 0;
-    scan.day = actor->GetProcess()->vfn_30();
-    scan.month = actor->GetProcess()->vfn_34();
-    scan.year = actor->GetProcess()->vfn_38();
-    scan.hour = startHour;
-    sortCtx.today = g_calendar.GetGameHour();
-    scan.currentMonth = g_calendar.GetCurrentMonth();
-    while (scan.day)
-    {
-        BSSimpleList<TESPackage*>* pList = GetListOfPackages();
-        if (actor)
-            sortCtx.current = actor->GetCurrentPackage();
-        if (!pList->IsEmpty())
-        {
-            TESPackage* pPackage = 0;
-            DurationData* pSchedule = 0;
-            while (pList && (pPackage = pList->GetItem()))
-            {
-                if (pPackage->FUN_0067efd0() && pPackage->FUN_00677760(actor))
-                {
-                    pSchedule = pPackage->FUN_0041d8a0();
-                    if (pSchedule && (pSchedule->FUN_00678ca0() == -1 || pSchedule->FUN_00678ca0() <= scan.month) &&
-                        (pSchedule->FUN_00678ce0() == 0 || pSchedule->FUN_00678ce0() <= scan.day) &&
-                        (pSchedule->GetSecondByte() == -1 ||
-                         pSchedule->GetSecondByte() <= g_calendar.GetGameDayOfWeek()) &&
-                        (pSchedule->FUN_0086a460() == -1 || pSchedule->FUN_0086a460() < scan.hour) &&
-                        pPackage != sortCtx.current && !pMissedList->IsInList(pPackage))
-                    {
-                        if (pPackage->GetProcedureType() == -1)
-                            pPackage->SetTargetFromReference(actor->GetLinkedRef());
-                        pMissedList->AddTail(pPackage);
-                    }
-                }
-                pList = pList->GetNext();
-            }
-            scan.hour += 1.0;
-            if (scan.hour > 23.0)
-            {
-                ++scan.day;
-                scan.hour = 0;
-                unsigned short usDaysInMonth = GetShortFromTable((signed char)scan.month);
-                if (scan.day > usDaysInMonth)
-                {
-                    scan.day -= usDaysInMonth;
-                    ++scan.month;
-                    if (scan.month >= 12)
-                    {
-                        scan.month -= 12;
-                        ++scan.year;
-                    }
-                }
-            }
-            if (scan.day == sortCtx.today && scan.month == scan.currentMonth &&
-                (int)scan.hour >= (int)g_calendar.GetGameTime())
-                scan.day = 0;
-        }
-        else
-            scan.day = 0;
-    }
-    sortCtx.cursor = pMissedList;
-    BSSimpleList<TESPackage*>* pNext = 0;
-    if (sortCtx.cursor)
-    {
-        unsigned int iCount = sortCtx.cursor->ItemsInList();
-        bool bSwapped = true;
-        while (iCount && bSwapped)
-        {
-            bSwapped = false;
-            pNext = sortCtx.cursor;
-            while (pNext)
-            {
-                TESPackage* pPackage1 = sortCtx.cursor->GetItem();
-                TESPackage* pPackage2 = pNext->GetItem();
-                if (pPackage1->CompareTo(pPackage2->FUN_0041d8a0()) == 1)
-                {
-                    sortCtx.cursor->SetItem(pPackage2);
-                    pNext->SetItem(pPackage1);
-                    bSwapped = true;
-                }
-                pNext = pNext->GetNext();
-            }
-            sortCtx.cursor = sortCtx.cursor->GetNext();
-            --iCount;
-        }
-    }
 }
 
 // Resolves each package form ID in the package list to a TESPackage, warning and removing entries that cannot be found.
@@ -274,7 +203,7 @@ void PackageList::InitItem(TESForm* form)
         BSSimpleList<TESPackage*>* previous;
         TESFile* file;
     } cursor;
-    cursor.list = GetListOfPackages();
+    cursor.list = ((::BSSimpleList< ::TESPackage *> *)(this));
     cursor.previous = 0;
     cursor.file = form ? form->GetFile(-1) : 0;
     while (cursor.list && !cursor.list->IsEmpty())
@@ -284,23 +213,23 @@ void PackageList::InitItem(TESForm* form)
             unsigned int formID;
             TESPackage* package;
         } packageEntry;
-        packageEntry.formID = reinterpret_cast<unsigned int>(cursor.list->GetItem());
+        packageEntry.formID = (unsigned int)reinterpret_cast<std::uintptr_t>((cursor.list->m_item));
         if (form)
-            TESForm::RemapFormIDForFile(packageEntry.formID, cursor.file);
-        packageEntry.package = dynamic_cast<TESPackage*>(TESForm::GetFormByID(packageEntry.formID));
+            ::ResolveFormID((unsigned int *)&(packageEntry.formID), cursor.file);
+        packageEntry.package = dynamic_cast<TESPackage*>(::FUN_004839c0(packageEntry.formID));
         if (!packageEntry.package)
         {
             BSStringT<char> debugName;
             if (form)
                 form->GetDebugName(&debugName);
             else
-                debugName.Set("UNKNOWN form", 0);
-            Warning("MASTERFILE: Could not find Package (%08X) for %s.", packageEntry.formID, debugName.String());
+                reinterpret_cast<::TextString *>(&(debugName))->FUN_004037f0("UNKNOWN form", 0);
+            ::FUN_005b5e40();
             if (cursor.previous)
             {
                 TESPackage* pMissingPackage = reinterpret_cast<TESPackage*>(packageEntry.formID);
-                cursor.previous->Remove(pMissingPackage);
-                cursor.list = cursor.previous->GetNext();
+                reinterpret_cast<::ItemChangeListNode *>((cursor.previous))->FUN_00905330((::InventoryStackRecord *const &)(pMissingPackage));
+                cursor.list = ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((cursor.previous))->FUN_00726070()));
             }
             else
                 cursor.list->RemoveHead();
@@ -309,7 +238,7 @@ void PackageList::InitItem(TESForm* form)
         {
             cursor.list->SetItem(packageEntry.package);
             cursor.previous = cursor.list;
-            cursor.list = cursor.list->GetNext();
+            cursor.list = ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((cursor.list))->FUN_00726070()));
         }
     }
 }
@@ -349,14 +278,14 @@ void PackageList::Copy(const PackageList* src)
         BSSimpleList<TESPackage*>* list;
     } cursor;
     ClearPackageList();
-    cursor.list = src->GetListOfPackages();
+    cursor.list = ((::BSSimpleList< ::TESPackage *> *)((void *)(src)));
     if (!cursor.list->IsEmpty())
     {
         while (cursor.list)
         {
-            cursor.package = cursor.list->GetItem();
+            cursor.package = (cursor.list->m_item);
             AddPackage(cursor.package);
-            cursor.list = cursor.list->GetNext();
+            cursor.list = ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((cursor.list))->FUN_00726070()));
         }
     }
 }
@@ -365,24 +294,130 @@ void PackageList::Copy(const PackageList* src)
 // @fnv 0x0067e420
 void PackageList::AddPackage(TESPackage* package)
 {
-    GetListOfPackages()->AddTail(package);
+    reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESPackage *> *)(this))))->FUN_00905820((void *)&(package));
 }
 
 struct FUN_0067efd0_shell : public TESPackage
 {
+    char pad04[0x1c - 4];
+    unsigned int uiPackageFlags;
     bool FUN_0067efd0();
 };
+// Scans packages over the coming days/hours, adds those whose schedule matches and are not current or already missed, then sorts the missed list by schedule.
+// @fnv 0x0067ec40
+void PackageList::CollectEligiblePackages(Actor* actor, BSSimpleList<TESPackage*>* pMissedList, float elapsed,
+                                          float startHour)
+{
+    struct CalendarScan
+    {
+        float hour;
+        int day;
+        int currentMonth;
+        int month;
+        int year;
+    } scan;
+    struct MissedPackageContext
+    {
+        int today;
+        TESPackage* current;
+        BSSimpleList<TESPackage*>* cursor;
+    } sortCtx;
+    sortCtx.current = 0;
+    scan.day = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->vfn_30();
+    scan.month = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->vfn_34();
+    scan.year = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->vfn_38();
+    scan.hour = startHour;
+    sortCtx.today = ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->GetDayOfMonth()));
+    scan.currentMonth = (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetCurrentMonth();
+    while (scan.day)
+    {
+        BSSimpleList<TESPackage*>* pList = ((::BSSimpleList< ::TESPackage *> *)(this));
+        if (actor)
+            sortCtx.current = reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0();
+        if (!pList->IsEmpty())
+        {
+            TESPackage* pPackage = 0;
+            DurationData* pSchedule = 0;
+            while (pList && (pPackage = (pList->m_item)))
+            {
+                if (reinterpret_cast<::FUN_0067efd0_shell *>((pPackage))->FUN_0067efd0() && reinterpret_cast<::FUN_00677760_shell *>((pPackage))->FUN_00677760(actor))
+                {
+                    pSchedule = reinterpret_cast<::FUN_0041d8a0_shell *>((pPackage))->FUN_0041d8a0();
+                    if (pSchedule && (pSchedule->FUN_00678ca0() == -1 || pSchedule->FUN_00678ca0() <= scan.month) &&
+                        (reinterpret_cast<::FUN_00678ce0_shell *>((pSchedule))->FUN_00678ce0() == 0 || reinterpret_cast<::FUN_00678ce0_shell *>((pSchedule))->FUN_00678ce0() <= scan.day) &&
+                        (reinterpret_cast<::FUN_00678cc0_shell *>((pSchedule))->GetSecondByte() == -1 ||
+                         reinterpret_cast<::FUN_00678cc0_shell *>((pSchedule))->GetSecondByte() <= (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameDayOfWeek()) &&
+                        (pSchedule->FUN_0086a460() == -1 || pSchedule->FUN_0086a460() < scan.hour) &&
+                        pPackage != sortCtx.current && !reinterpret_cast<::RefList *>((pMissedList))->FUN_005f65d0((void **)&(pPackage)))
+                    {
+                        if (reinterpret_cast<::FUN_009611e0_shell *>((pPackage))->FUN_009611e0() == -1)
+                            reinterpret_cast<::fnv_006777b0::FUN_006777b0_shell *>((pPackage))->ComputePackageFlags(reinterpret_cast<::FUN_00569b80_shell *>((actor))->FUN_00569b80());
+                        reinterpret_cast<::Callees *>((pMissedList))->FUN_00905820((void *)&(pPackage));
+                    }
+                }
+                pList = ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
+            }
+            scan.hour += 1.0;
+            if (scan.hour > 23.0)
+            {
+                ++scan.day;
+                scan.hour = 0;
+                unsigned short usDaysInMonth = ((unsigned short)(::GetShortFromTable((signed char)scan.month)));
+                if (scan.day > usDaysInMonth)
+                {
+                    scan.day -= usDaysInMonth;
+                    ++scan.month;
+                    if (scan.month >= 12)
+                    {
+                        scan.month -= 12;
+                        ++scan.year;
+                    }
+                }
+            }
+            if (scan.day == sortCtx.today && scan.month == scan.currentMonth &&
+                (int)scan.hour >= (int)(*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTime())
+                scan.day = 0;
+        }
+        else
+            scan.day = 0;
+    }
+    sortCtx.cursor = pMissedList;
+    BSSimpleList<TESPackage*>* pNext = 0;
+    if (sortCtx.cursor)
+    {
+        unsigned int iCount = sortCtx.cursor->ItemsInList();
+        bool bSwapped = true;
+        while (iCount && bSwapped)
+        {
+            bSwapped = false;
+            pNext = sortCtx.cursor;
+            while (pNext)
+            {
+                TESPackage* pPackage1 = (sortCtx.cursor->m_item);
+                TESPackage* pPackage2 = (pNext->m_item);
+                if (reinterpret_cast<::ComparisonOwner *>((pPackage1))->CompareTo((::ComparisonEntry *)(::DurationData *)(reinterpret_cast<::FUN_0041d8a0_shell *>((pPackage2))->FUN_0041d8a0())) == 1)
+                {
+                    sortCtx.cursor->SetItem(pPackage2);
+                    pNext->SetItem(pPackage1);
+                    bSwapped = true;
+                }
+                pNext = ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((pNext))->FUN_00726070()));
+            }
+            sortCtx.cursor = ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((sortCtx.cursor))->FUN_00726070()));
+            --iCount;
+        }
+    }
+}
 
 // @fnv 0x0067efd0
 bool FUN_0067efd0_shell::FUN_0067efd0()
 {
-    return (*(unsigned int*)((char*)this + 0x1c) & 4) ? true : false;
+    return (uiPackageFlags & 4) ? true : false;
 }
 
 class FUN_0067e4a0_cls
 {
   public:
-    unsigned int* FUN_006815c0();
     bool FUN_008256d0();
     bool FUN_0067e4a0(FUN_0067e4a0_cls* other);
 };
@@ -396,20 +431,20 @@ bool FUN_0067e4a0_cls::FUN_0067e4a0(FUN_0067e4a0_cls* other)
     FUN_0067e4a0_cls* p;
     FUN_0067e4a0_cls* s;
 
-    s = (FUN_0067e4a0_cls*)FUN_006815c0();
-    p = (FUN_0067e4a0_cls*)other->FUN_006815c0();
+    s = (FUN_0067e4a0_cls*)((unsigned int *)(this));
+    p = (FUN_0067e4a0_cls*)((unsigned int *)((void *)(other)));
     if (!s->FUN_008256d0())
     {
-        while (s != 0 && *s->FUN_006815c0() != 0 && p != 0 && *p->FUN_006815c0() != 0)
+        while (s != 0 && *((unsigned int *)((void *)(s))) != 0 && p != 0 && *((unsigned int *)((void *)(p))) != 0)
         {
-            r = *s->FUN_006815c0();
-            q = *p->FUN_006815c0();
+            r = *((unsigned int *)((void *)(s)));
+            q = *((unsigned int *)((void *)(p)));
             if (r != q)
             {
                 return true;
             }
-            s = (FUN_0067e4a0_cls*)((DurationData*)s)->FUN_00726070();
-            p = (FUN_0067e4a0_cls*)((DurationData*)p)->FUN_00726070();
+            s = (FUN_0067e4a0_cls*)((reinterpret_cast<::Callees *>((((DurationData*)s)))->FUN_00726070()));
+            p = (FUN_0067e4a0_cls*)((reinterpret_cast<::Callees *>((((DurationData*)p)))->FUN_00726070()));
         }
         if (s != 0 || p != 0)
         {

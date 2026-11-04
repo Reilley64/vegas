@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxIndexBuffer : public hkReferencedObject
 {
   public:
@@ -24,6 +23,4 @@ class hkxIndexBuffer : public hkReferencedObject
     hkUint32 m_uiVertexBaseOffset;   // +0x24
     hkUint32 m_fRestLength;          // +0x28
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxIndexBuffer[(sizeof(hkxIndexBuffer) == 0x2C) ? 1 : -1];
 #endif

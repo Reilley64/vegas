@@ -2,8 +2,12 @@
 #ifndef TALLGRASS_PRIVATE_H
 #define TALLGRASS_PRIVATE_H
 
+#include <windows.h>
+#include "fnv/decl/FUN_00b61250.h"
+#include "fnv/symbols_00b61000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_011f9000.h"
 extern unsigned long DAT_011c9f6c;
-extern unsigned int DAT_011f9ef4, DAT_011f9ef8;
 class NiShader;
 template <class A, class K, class V> class NiTMapBase;
 class TallGrassShaderProperty;
@@ -44,10 +48,9 @@ class MemoryManager
     static MemoryManager& Instance();
     void Deallocate(void*);
 };
-extern MemoryManager g_memoryManager;
 inline MemoryManager& MemoryManager::Instance()
 {
-    return g_memoryManager;
+    return ::g_memoryManager;
 }
 inline void TallGrassFree(void* data)
 {
@@ -67,23 +70,18 @@ class TallGrassShaderProperty
         }
     };
     static unsigned long GetCacheIdentifier();
-    __declspec(noalias) static NiTMapBase<NiTPointerAllocator<unsigned int>, unsigned long,
-                                          TallGrassCacheData*>* GetCacheDataMap();
     static void ClearCacheData();
     class GeometryCacheEntry;
-    __declspec(noalias) static NiTMapBase<NiTPointerAllocator<unsigned int>, const char*,
-                                          class NiPointerCachedGeometry>* GetGeometryCacheMap();
     static void ClearCaches();
 };
 template <class T> inline void DestroyGrass(T* pointer)
 {
     if (pointer)
     {
-        pointer->~T();
+        reinterpret_cast<::FUN_00b61250 *>((pointer))->FUN_00b61250::~FUN_00b61250();
         MemoryManager::Instance().Deallocate(pointer);
     }
 }
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class TallGrassRefObject
 {
   public:

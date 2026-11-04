@@ -2,6 +2,24 @@
 #ifndef FNV_NIFIXEDSTRING_FACEGEN_H
 #define FNV_NIFIXEDSTRING_FACEGEN_H
 
+#include <new>
+#include <cstring>
+#include "fnv/decl/FGOwner.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/FUN_0061cc40_shell.h"
+#include "fnv/decl/FUN_00629ab0_shell.h"
+#include "fnv/decl/FUN_0064db50_class.h"
+#include "fnv/decl/FUN_0065cc70_Holder.h"
+#include "fnv/decl/FUN_0065cea0_class.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/_Dummy_0044a170.h"
+#include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00604000.h"
+#include "fnv/symbols_00652000.h"
+#include "fnv/symbols_00aaf000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_011aa000.h"
 class NiTexture;
 template <class T> class NiPointer
 {
@@ -22,20 +40,18 @@ template <class T> class BSStringT
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
+namespace ActorValue { enum Index; }
 class TESRecipe
 {
   public:
-    void SetSkill(int);
-    void SetSkillLevel(int);
+public:
+    void SetRequiredSkill(::ActorValue::Index);
 };
 class NiNode;
 class NiAVObject
 {
   public:
-    NiNode* GetParent();
 };
 class FaceGenImage;
 struct FaceGenImageView
@@ -69,9 +85,6 @@ class FaceGenImage : public NiMemObject
   public:
     unsigned char data[44];
     FaceGenImage(unsigned int);
-    FaceGenImage* GetOrConvertImage();
-    void FUN_0064db50(unsigned int, FaceGenColor*);
-    FaceGenImageView _Doraise();
 };
 class NiTexture
 {
@@ -81,7 +94,6 @@ class NiTexture
 struct TextureChannel
 {
     unsigned char data[24];
-    const signed char* FUN_0065cc70(unsigned int);
 };
 struct TextureRow
 {
@@ -92,13 +104,10 @@ struct TextureRow
 struct TextureBasis
 {
     unsigned char data[24];
-    unsigned int FUN_0065cea0();
-    TextureRow* FUN_0065cec0(unsigned int);
 };
 struct FaceGenTextureFile
 {
     ~FaceGenTextureFile();
-    static void operator delete(void*);
     unsigned int flags;
     TextureBasis basis[2];
 };
@@ -106,7 +115,6 @@ struct FaceGenCoordinateValue
 {
     const float* values;
     unsigned int stride;
-    const float* FUN_00629ab0();
 };
 struct FaceGenCoordinateBasis
 {
@@ -122,7 +130,6 @@ struct BSFaceGenTexture
 {
     BSStringT<char> m_kEGTFileName;
     FaceGenTextureFile* m_pTextureData;
-    unsigned int GetCharacterSex();
 };
 class BSFaceGenModel
 {
@@ -138,19 +145,8 @@ struct BSFaceGenManager
 {
     static FaceGenCoordinates* GetFaceGenCoordinates();
 };
-NiTexture* GetFaceGenManagerValue();
 FaceGenTextureFile* FUN_00659780(const char*);
-bool FUN_00652040(BSFaceGenModel*);
-void FUN_00652140();
-void FUN_00652190();
-int Warning(const char*, ...);
-void ReportAssertionViolation(const char*, unsigned int);
-extern double DAT_010231d8;
 extern float DAT_01065b9c;
 extern float DAT_01065b98;
 struct NiPoint3StartupTable;
-extern NiPoint3StartupTable gNiPoint3StartupSrc;
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-void* __cdecl operator new[](unsigned int);
-void __cdecl operator delete[](void*);
 #endif

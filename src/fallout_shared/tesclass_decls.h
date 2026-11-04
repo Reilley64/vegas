@@ -1,12 +1,19 @@
 // fallout_shared/tesclass_decls.h: declares FormChangeMask, BGSLoadFormBuffer, TESFullName, TESDescription, TESTexture and more
 
+#include <cstring>
+#include <malloc.h>
+#include "fnv/decl/FUN_00472660_shell.h"
+#include "fnv/decl/FUN_00480130_shell.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_005b5000.h"
 #include "tesclass_form_decls.h"
 namespace ActorValue {
 enum Index
 {
     None = -1
 };
-bool IsSkill(Index);
 }
 class FormChangeMask
 {
@@ -19,7 +26,6 @@ class BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int);
-    void ReadTypedData(void*, unsigned int);
 };
 class TESFullName : public BaseFormComponent
 {
@@ -42,12 +48,10 @@ class TESAttributes : public BaseFormComponent
 {
   public:
     unsigned char attrs[7];
-    void FUN_00480130(unsigned char*);
 };
 class BGSImpactData
 {
   public:
-    void ReadTypedData(TESFile*, void*, unsigned short);
 };
 class LegacyActorBaseData
 {
@@ -65,7 +69,6 @@ class TESClassData
     char flags;
     int services;
     unsigned char trainingSkill, trainingLevel;
-    void SwapEndian();
 };
 class TESClass : public TESForm, public TESFullName, public TESDescription, public TESTexture, public TESAttributes
 {
@@ -75,14 +78,8 @@ class TESClass : public TESForm, public TESFullName, public TESDescription, publ
     void ResetFormData();
     void LoadGame(BGSLoadFormBuffer*);
     bool Load(TESFile*);
-    bool ValidateSkillActorValue();
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-
-extern "C" void* __cdecl _alloca(unsigned int);
-int __cdecl Warning(const char*, ...);
 class TESFileFormInt
 {
   public:
-    int GetTESForm();
 };

@@ -16,11 +16,14 @@ class NiStream
     char padding[0x244];
     NiBinaryStream* m_pUnderlyingStream;
 };
+class CloningProcess;
 class NiPSysModifier
 {
   public:
     virtual void LoadBinary(NiStream&);
     char padding[0x14];
+public:
+    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
 };
 class NiPSysGrowFadeModifier : public NiPSysModifier
 {

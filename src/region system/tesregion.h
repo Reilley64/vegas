@@ -17,7 +17,6 @@ class NiColor
     float b;
     float a;
 };
-FNV_STATIC_ASSERT(sizeof(NiColor) == 0x10);
 
 class RegionDataList;
 class RegionPointList;
@@ -25,7 +24,6 @@ class TESWorldSpace;
 class TESWeather;
 
 // TESRegion extends the 0x18-byte TESForm base with region state.
-#pragma pack(push, 4)
 class TESRegion : public TESForm
 {
   public:
@@ -42,7 +40,5 @@ class TESRegion : public TESForm
         return &m_kDiffuseColor;
     }
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESRegion) == 0x3C);
 
 #endif

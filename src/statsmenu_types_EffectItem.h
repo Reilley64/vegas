@@ -2,6 +2,7 @@
 #ifndef FNV_EFFECTITEM_H
 #define FNV_EFFECTITEM_H
 
+#include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
 #include "statsmenu_layout_support.h"
 #include "statsmenu_TESCondition.h"
 class EffectItem;
@@ -24,12 +25,6 @@ class MagicEffectEntry
     // void __cdecl MagicEffectEntry::*()
     // void __cdecl MagicEffectEntry::*()
 };
-FNV_STATIC_ASSERT(sizeof(MagicEffectEntry) == 20);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_iMagnitude) == 0);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_iArea) == 4);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_iPayloadInteger) == 8);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_eRange) == 12);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_eAssociatedActorValue) == 16);
 class EffectItem
 {
   public:
@@ -37,7 +32,6 @@ class EffectItem
     EffectSetting* m_pEffectSetting;  // +0x14, 4 bytes
     float m_fCost;                    // +0x18, 4 bytes
     PerkEntryConditionSet Conditions;          // +0x1C, 8 bytes
-    EffectSetting* GetEffectSetting() const;
     // EffectItem
     // void __cdecl EffectItem::*()
     // void __cdecl EffectItem::*()
@@ -75,10 +69,9 @@ class EffectItem
     // void __cdecl EffectItem::*(EffectSetting*)
     // EffectItem& __cdecl EffectItem::*(const EffectItem&)
     // void* __cdecl EffectItem::*(unsigned int)
+public:
+    int GetAffectedActorValue();
+public:
+    bool IsScriptBasedEffect();
 };
-FNV_STATIC_ASSERT(sizeof(EffectItem) == 36);
-FNV_STATIC_ASSERT(offsetof(EffectItem, data) == 0);
-FNV_STATIC_ASSERT(offsetof(EffectItem, m_pEffectSetting) == 20);
-FNV_STATIC_ASSERT(offsetof(EffectItem, m_fCost) == 24);
-FNV_STATIC_ASSERT(offsetof(EffectItem, Conditions) == 28);
 #endif

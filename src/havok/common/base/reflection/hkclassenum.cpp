@@ -2,16 +2,25 @@
 // src/havok/common/base/reflection/hkclassenum.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/reflection/hkclassenum.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include "havok/hkClassEnum_decl_hkclassenum.h"
+#include "fnv/decl/FUN_00d607b0_class.h"
+#include "fnv/decl/hkOArchive_2.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00d86000.h"
+#include "fnv/decl/ClassMember_d869.h"
+#include "fnv/decl/FUN_00d46cf0_C.h"
+#include "fnv/symbols_00c90000.h"
 #include "havok/hkClassEnum.h"
 
-extern "C" int __cdecl FUN_00d86980();
 
 // Reads a signed char, short or int from p depending on the size returned by FUN_00d86980, defaulting to 0.
 // @fnv 0x00d86b80
-int __stdcall ReadSignedValueBySize(const void* apData)
+int ReadSignedValueBySize(const void* apData)
 {
     int r = 0;
-    switch (FUN_00d86980())
+    switch (static_cast<::ClassMember_d869 *>(nullptr)->FUN_00d86980())
     {
     case 1:
         r = *(const signed char*)apData;
@@ -28,12 +37,11 @@ int __stdcall ReadSignedValueBySize(const void* apData)
 
 struct hkCustomAttributes
 {
-    void* __thiscall getAttribute(void* arg);
 };
 
 struct FUN_00db76a0_Class
 {
-    void* __thiscall GetAttribute(void* arg);
+    void* GetAttribute(void* arg);
 };
 
 // @fnv 0x00db76a0
@@ -41,7 +49,7 @@ void* FUN_00db76a0_Class::GetAttribute(void* arg)
 {
     hkCustomAttributes* a = *(hkCustomAttributes**)((char*)this + 0xc);
     if (a)
-        return a->getAttribute(arg);
+        return reinterpret_cast<::FUN_00d46cf0_C *>((a))->FindEntry((const char *)(arg));
     return 0;
 }
 
@@ -60,7 +68,6 @@ struct FUN_00db7870 : public FUN_00db7860
 
 struct hkObjDB76
 {
-    void FUN_00db7600(FUN_00db7860* p) throw();
     void FUN_00db76c0();
 };
 
@@ -69,7 +76,7 @@ struct hkObjDB76
 void hkObjDB76::FUN_00db76c0()
 {
     FUN_00db7870 tmp(0);
-    FUN_00db7600(&tmp);
+    reinterpret_cast<::hkClassEnum *>(this)->FUN_00db7600((::hkStreamWriter *)(::FUN_00db7860 *)(&tmp));
 }
 
 template <int SIZE> __forceinline void memCpyOneAlignedXdb76f0(void* dst, const void* src)
@@ -85,17 +92,15 @@ template <int SIZE> __forceinline void memCpyOneAlignedXdb76f0(void* dst, const 
 
 struct hkMemoryRouterXdb76f0
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 
 namespace hkRouterXdb76f0 {
-extern "C" hkMemoryRouterXdb76f0& __cdecl FUN_00c85750() throw();
 }
-void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T> class hkArrayXdb76f0
 {
@@ -110,9 +115,9 @@ template <class T> class hkArrayXdb76f0
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXdb76f0& router = hkRouterXdb76f0::FUN_00c85750();
+        hkMemoryRouterXdb76f0& router = (*static_cast<hkMemoryRouterXdb76f0*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXdb76f0<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }
@@ -151,4 +156,43 @@ bool hkOwnerXdb76f0::CollectMatchingEntries(unsigned int flags, hkArrayXdb76f0<v
     }
     *remaining = flags;
     return flags != 0;
+}
+
+
+class hkReferencedObject : public hkBaseObject
+{
+  public:
+    unsigned short memSizeAndFlags;
+    short referenceCount;
+};
+class hkStreamWriter;
+class hkOArchive : public hkReferencedObject
+{
+  public:
+    hkStreamWriter* writer;
+    hkBool byteSwap;
+    hkOArchive(hkStreamWriter*, hkBool);
+    virtual ~hkOArchive();
+};
+class hkClassEnumItem
+{
+  public:
+    int value;
+    const char* name;
+};
+// @fnv 0x00db7600
+void hkClassEnum::FUN_00db7600(hkStreamWriter* writer) const
+{
+    hkOArchive archive(writer, false);
+    const char* name = m_name;
+    reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((intptr_t)(name));
+    int count = m_items.m_iElementCount;
+    for (int i = 0; i < count; ++i)
+    {
+        const hkClassEnumItem& item = m_items.m_data[i];
+        const char* itemName = item.name;
+        reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((intptr_t)(itemName));
+        reinterpret_cast<::hkOArchive_2 *>(&(archive))->WriteInt(item.value);
+    }
+    reinterpret_cast<::hkOArchive_2 *>(&(archive))->WriteInt(count);
 }

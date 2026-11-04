@@ -2,9 +2,42 @@
 // src/fallout/ai/combat/combatgroupstrategy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatgroupstrategy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_group_fields.h"
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include <cctype>
+#include <malloc.h>
+#include "fnv/decl/AlchemyItem.h"
+#include "fnv/decl/B989700List.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004941c0_shell.h"
+#include "fnv/decl/FUN_00575650_Class.h"
+#include "fnv/decl/FUN_0063c8a0_shell.h"
+#include "fnv/decl/FUN_0098a340_shell.h"
+#include "fnv/decl/FUN_0098a390_shell.h"
+#include "fnv/decl/FUN_0098a410_shell.h"
+#include "fnv/decl/FUN_00990500_host.h"
+#include "fnv/decl/FUN_00990540_shell.h"
+#include "fnv/decl/FUN_009b73b0_shell.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/S006950d0.h"
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/Twin_0044ddc0.h"
+#include "fnv/decl/fnv_006db840__BSSimpleArray.h"
+#include "fnv/decl/fnv_0098a470__FUN_0098a470_shell.h"
+#include "fnv/symbols_00481000.h"
+#include "fnv/symbols_0098e000.h"
+#include "fnv/symbols_01018000.h"
+#include "fnv/symbols_0101e000.h"
+#include "fnv/symbols_01026000.h"
+#include "fnv/symbols_01034000.h"
+#include "fnv/symbols_01050000.h"
+#include "fnv/symbols_011a4000.h"
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct FUN_00990890_shell
@@ -15,13 +48,12 @@ struct FUN_00990890_shell
 // @fnv 0x00990890
 unsigned int FUN_00990890_shell::FUN_00990890()
 {
-    return reinterpret_cast<ArrSI*>(this + 0x18)->GetFlags();
+    return SimpleArraySize((reinterpret_cast<ArrSI*>(this + 0x18)));
 }
 
 namespace fnv_00990a60 {
 struct ArrSI
 {
-    unsigned int GetFlags();
 };
 
 struct FUN_00990a60_shell
@@ -32,49 +64,47 @@ struct FUN_00990a60_shell
 // @fnv 0x00990a60
 unsigned int FUN_00990a60_shell::GetArrFlags()
 {
-    return ((ArrSI*)(this + 0x28))->GetFlags();
+    return SimpleArraySize((((ArrSI*)(this + 0x28))));
 }
 }  // namespace fnv_00990a60
 
 struct FUN_00844160_holder
 {
-    void __thiscall FUN_00844160(int);
 };
 
 struct FUN_00990a80_shell
 {
-    void __thiscall ForwardToHolder(int arg);
+    void ForwardToHolder(int arg);
 };
-
-// @fnv 0x00990a80
-void __thiscall FUN_00990a80_shell::ForwardToHolder(int arg)
-{
-    ((FUN_00844160_holder*)((char*)this + 0x28))->FUN_00844160(arg);
-}
 
 struct FUN_00844160_shell
 {
-    void __thiscall FUN_00844160(int state);
+    void FUN_00844160(int state);
+public:
+    uintptr_t FUN_00844160(unsigned int);
 };
+// @fnv 0x00990a80
+void FUN_00990a80_shell::ForwardToHolder(int arg)
+{
+    reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_holder*)((char*)this + 0x28))))->FUN_00844160(arg);
+}
 
 struct FUN_00990aa0_shell
 {
-    void __thiscall FUN_00990aa0(int state);
+    void FUN_00990aa0(int state);
 };
 
-void __thiscall FUN_00844160_shell::FUN_00844160(int state)
+void FUN_00844160_shell::FUN_00844160(int state)
 {}
 
 // @fnv 0x00990aa0
-void __thiscall FUN_00990aa0_shell::FUN_00990aa0(int state)
+void FUN_00990aa0_shell::FUN_00990aa0(int state)
 {
     ((FUN_00844160_shell*)((char*)this + 0x18))->FUN_00844160(state);
 }
 
 struct ActorCombatGroup
 {
-    unsigned int GetCount(void);
-    void SetElementValue(int i, int a2);
 };
 
 struct MarkerStruct
@@ -91,16 +121,15 @@ struct CombatGroupStrategyFallBack
 void CombatGroupStrategyFallBack::FUN_00990bd0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
     unsigned int i = 0;
-    for (; i < apGroup->GetCount(); i++)
+    for (; i < reinterpret_cast<::FUN_00990890_shell *>((apGroup))->FUN_00990890(); i++)
     {
-        apGroup->SetElementValue((int)i, 2);
+        reinterpret_cast<::FUN_0098a390_shell *>((apGroup))->SetElementValue((int)i, 2);
     }
 }
 
 namespace fnv_00990d30 {
 struct ActorCombatGroup
 {
-    void* GetActorAtIndex(int);
 };
 
 struct CombatGroupStrategyAmbush
@@ -112,7 +141,7 @@ struct CombatGroupStrategyAmbush
 // @fnv 0x00990d30
 bool CombatGroupStrategyAmbush::FUN_00990d30(ActorCombatGroup* apGroup)
 {
-    if (apGroup->GetActorAtIndex(3) == 0)
+    if (reinterpret_cast<::FUN_0098a410_shell *>((apGroup))->FindByValue(3) == 0)
         return false;
     return true;
 }
@@ -121,29 +150,32 @@ bool CombatGroupStrategyAmbush::FUN_00990d30(ActorCombatGroup* apGroup)
 struct FUN_00990480_shell
 {
     bool FUN_00990480();
+    unsigned int pad00[0x16];
+    float unk58;
+    float unk5c;
 };
 
 // Returns whether the float at offset 0x58 is greater than the float at offset 0x5c.
 // @fnv 0x00990480
 bool FUN_00990480_shell::FUN_00990480()
 {
-    return *(float*)((char*)this + 0x58) > *(float*)((char*)this + 0x5c);
+    return this->unk58 > this->unk5c;
 }
 
 struct Grp_Call2
 {
-    bool __thiscall FUN_009899a0();
+    bool FUN_009899a0();
 };
 struct Holder904c0
 {
     Grp_Call2* m_pCombatData;
     int _pad;
     int m_iValue;
-    unsigned char __thiscall FUN_009904c0();
+    unsigned char FUN_009904c0();
 };
 // If the cached flag is unset, evaluates the held object's check and stores the result; returns whether the cached flag equals 1.
 // @fnv 0x009904c0
-unsigned char __thiscall Holder904c0::FUN_009904c0()
+unsigned char Holder904c0::FUN_009904c0()
 {
     if (m_iValue == -1)
         m_iValue = m_pCombatData->FUN_009899a0() != 0;
@@ -152,81 +184,78 @@ unsigned char __thiscall Holder904c0::FUN_009904c0()
 
 struct FUN_009905a0_shell
 {
-    void __thiscall UpdateMinProgress();
+    void UpdateMinProgress();
 };
 struct FUN_00990570_shell
 {
-    unsigned int __thiscall FUN_00990570();
+    unsigned int FUN_00990570();
+    unsigned int pad00[0x4];
+    unsigned int unk10;
 };
 // @fnv 0x00990570
-unsigned int __thiscall FUN_00990570_shell::FUN_00990570()
+unsigned int FUN_00990570_shell::FUN_00990570()
 {
-    if (*(unsigned int*)((char*)this + 0x10) == 0x80000000)
+    if (this->unk10 == 0x80000000)
         ((FUN_009905a0_shell*)this)->UpdateMinProgress();
-    return *(unsigned int*)((char*)this + 0x10);
+    return this->unk10;
 }
 
-extern const double DAT_01026998;
 struct DataOps
 {
-    int __thiscall _ref_00726070();
-    double __thiscall GetCachedValue();
 };
 struct GroupOps
 {
-    bool __thiscall FUN_0098a470(int, float);
 };
 struct DummyFallback
 {
-    bool __thiscall FUN_00990b70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    bool FUN_00990b70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 // @fnv 0x00990b70
-bool __thiscall DummyFallback::FUN_00990b70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+bool DummyFallback::FUN_00990b70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
-    if (((DataOps*)apGroupData)->_ref_00726070() < 2)
+    if (((int)reinterpret_cast<CombatGroupFields*>((((DataOps*)apGroupData)))->unk04) < 2)
         return false;
-    if (!((GroupOps*)apGroup)->FUN_0098a470(0, 30.0f))
+    if (!reinterpret_cast<::fnv_0098a470::FUN_0098a470_shell *>((((GroupOps*)apGroup)))->FUN_0098a470(0, 30.0f))
         return false;
-    if (((DataOps*)apGroupData)->GetCachedValue() > DAT_01026998)
+    if (((double)(reinterpret_cast<::FUN_00990500_host *>((((DataOps*)apGroupData)))->GetCachedValue())) > DAT_01026998)
         return false;
     return true;
 }
 
 struct HolderFor410
 {
-    int __thiscall FindByValue(int);
 };
 struct TargetClass
 {
-    bool __thiscall FUN_00990c10(struct ActorCombatGroup*);
+    bool FUN_00990c10(struct ActorCombatGroup*);
 };
 // Calls FindByValue with 2 on the group and returns true if it succeeds, otherwise false.
 // @fnv 0x00990c10
 bool TargetClass::FUN_00990c10(struct ActorCombatGroup* apGroup)
 {
-    if (!((HolderFor410*)apGroup)->FindByValue(2))
+    if (!((intptr_t)(reinterpret_cast<::FUN_0098a410_shell *>((((HolderFor410*)apGroup)))->FindByValue(2))))
         return false;
     return true;
 }
 
 struct CombatGroupStrategyAmbush
 {
-    void __thiscall FUN_00990cb0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    void FUN_00990cb0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 
 // @fnv 0x00990cb0
-void __thiscall CombatGroupStrategyAmbush::FUN_00990cb0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+void CombatGroupStrategyAmbush::FUN_00990cb0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
     unsigned int i;
     unsigned int i2;
-    unsigned int ifallBackCount4 = apGroup->GetCount() >> 1;
+    unsigned int ifallBackCount4 = reinterpret_cast<::FUN_00990890_shell *>((apGroup))->FUN_00990890() >> 1;
     for (i = 0; i < ifallBackCount4; ++i)
     {
-        apGroup->SetElementValue(i, 2);
+        reinterpret_cast<::FUN_0098a390_shell *>((apGroup))->SetElementValue(i, 2);
     }
-    for (i2 = ifallBackCount4; i2 < apGroup->GetCount(); ++i2)
+    for (i2 = ifallBackCount4; i2 < reinterpret_cast<::FUN_00990890_shell *>((apGroup))->FUN_00990890(); ++i2)
     {
-        apGroup->SetElementValue(i2, 3);
+        reinterpret_cast<::FUN_0098a390_shell *>((apGroup))->SetElementValue(i2, 3);
     }
 }
 
@@ -237,39 +266,38 @@ struct IntPair
 };
 struct CombatGroupStrategyAdvance
 {
-    void __thiscall FUN_00990e70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    void FUN_00990e70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 struct FUN_00990aa0_helper
 {
-    IntPair* __thiscall FUN_00990aa0(int);
+    IntPair* FUN_00990aa0(int);
 };
 // Iterates the group data's members and calls SetElementValue on the group with each member's _4 value and 4.
 // @fnv 0x00990e70
-void __thiscall CombatGroupStrategyAdvance::FUN_00990e70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+void CombatGroupStrategyAdvance::FUN_00990e70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
     int i;
     IntPair* pmember;
-    for (i = 0; i < (int)((ActorCombatGroup*)apGroupData)->GetCount(); i++)
+    for (i = 0; i < (int)reinterpret_cast<::FUN_00990890_shell *>((((ActorCombatGroup*)apGroupData)))->FUN_00990890(); i++)
     {
         pmember = ((FUN_00990aa0_helper*)apGroupData)->FUN_00990aa0(i);
-        apGroup->SetElementValue(pmember->_4, 4);
+        reinterpret_cast<::FUN_0098a390_shell *>((apGroup))->SetElementValue(pmember->_4, 4);
     }
 }
 
 namespace fnv_00990ec0 {
 struct FUN_0098a410_cls
 {
-    int __thiscall FindByValue(int);
 };
 struct CombatGroupStrategyAdvance
 {
-    bool __thiscall FUN_00990ec0(ActorCombatGroup* apGroup);
+    bool FUN_00990ec0(ActorCombatGroup* apGroup);
 };
 // Calls FindByValue with 4 on apGroup and returns true if the result is nonzero, false otherwise.
 // @fnv 0x00990ec0
-bool __thiscall CombatGroupStrategyAdvance::FUN_00990ec0(ActorCombatGroup* apGroup)
+bool CombatGroupStrategyAdvance::FUN_00990ec0(ActorCombatGroup* apGroup)
 {
-    if (((FUN_0098a410_cls*)apGroup)->FindByValue(4) == 0)
+    if (((intptr_t)(reinterpret_cast<::FUN_0098a410_shell *>((((FUN_0098a410_cls*)apGroup)))->FindByValue(4))) == 0)
         return false;
     return true;
 }
@@ -280,15 +308,11 @@ struct TaskQueueInterface
     static void __cdecl CopyStringToBuffer(char* buffer, unsigned int size, const char* name);
 };
 
-char* __cdecl FUN_004812f0(const char* lhs, const char* rhs);
-int __cdecl FUN_0098e980(int index);
-int __cdecl FUN_00eca7f4(int character);
 
-extern const char* DAT_011a4ed0[4];
 
 // Copies apName into a 260-byte buffer, lowercases it, then compares it against four names and returns the matching index's value or 0.
 // @fnv 0x00990250
-int FUN_00990250(const char* apName)
+void* FUN_00990250(const char* apName)
 {
     char psearchName[260];
     char* pChar;
@@ -297,7 +321,7 @@ int FUN_00990250(const char* apName)
     pChar = psearchName;
     while (*pChar)
     {
-        *pChar = static_cast<char>(FUN_00eca7f4(*pChar));
+        *pChar = static_cast<char>(std::toupper(*pChar));
         ++pChar;
     }
 
@@ -314,84 +338,32 @@ int FUN_00990250(const char* apName)
 
 struct FUN_00990a60_shell
 {
-    unsigned int __thiscall GetArrFlags();
 };
 
 struct FUN_00990a80_member
 {
-    IntPair* __thiscall ForwardToHolder(unsigned int index);
+    IntPair* ForwardToHolder(unsigned int index);
 };
 
 struct FUN_00990aa0_member
 {
-    IntPair* __thiscall FUN_00990aa0(unsigned int index);
+    IntPair* FUN_00990aa0(unsigned int index);
 };
 
 struct FUN_00990640_shell
 {
-    void __thiscall SortMembersByTargetDistance();
 };
 
 struct FUN_00990930_shell
 {
-    void __thiscall FUN_00990930(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    void FUN_00990930(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
-
-// @fnv 0x00990930
-void FUN_00990930_shell::FUN_00990930(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
-{
-    unsigned int irangedMemberCount;
-    unsigned int itotalMemberCount;
-    float frangedPercentage;
-    unsigned int irangedFlankers;
-    unsigned int imeleeMemberCount;
-
-    imeleeMemberCount = reinterpret_cast<FUN_00990a60_shell*>(apGroupData)->GetArrFlags();
-
-    {
-        unsigned int i;
-        IntPair* pmember;
-
-        for (i = 0; i < imeleeMemberCount; ++i)
-        {
-            pmember = reinterpret_cast<FUN_00990a80_member*>(apGroupData)->ForwardToHolder(i);
-            apGroup->SetElementValue(pmember->_4, 1);
-        }
-    }
-
-    irangedMemberCount = reinterpret_cast<ActorCombatGroup*>(apGroupData)->GetCount();
-    itotalMemberCount = reinterpret_cast<DataOps*>(apGroupData)->_ref_00726070();
-    frangedPercentage = static_cast<float>(irangedMemberCount) / static_cast<float>(itotalMemberCount);
-    irangedFlankers = 0;
-
-    if (frangedPercentage > 0.5)
-        irangedFlankers = static_cast<unsigned int>((frangedPercentage - 0.5) * irangedMemberCount);
-
-    if (irangedFlankers > 0)
-    {
-        reinterpret_cast<FUN_00990640_shell*>(apGroupData)->SortMembersByTargetDistance();
-
-        {
-            unsigned int i;
-            IntPair* pmember;
-
-            for (i = irangedMemberCount - irangedFlankers; i < irangedMemberCount; ++i)
-            {
-                pmember = reinterpret_cast<FUN_00990aa0_member*>(apGroupData)->FUN_00990aa0(i);
-                apGroup->SetElementValue(pmember->_4, 1);
-            }
-        }
-    }
-}
 
 struct CombatMemberState
 {
-    bool GetByteAtOffset();
-    bool FUN_00990480();
 };
 struct MemberController
 {
-    CombatMemberState* FUN_00586150();
 };
 struct CombatMemberActor
 {
@@ -665,8 +637,6 @@ struct CombatMemberActor
 };
 struct GroupMembers
 {
-    unsigned int FUN_00990890();
-    CombatMemberActor* GetIntAt(unsigned int);
 };
 struct IndexedMember
 {
@@ -680,7 +650,6 @@ struct IndexedMemberArray
     unsigned int size, capacity, growth;
     IndexedMemberArray();
     ~IndexedMemberArray();
-    void InsertAtEnd(const IndexedMember&);
 };
 struct FUN_00990320
 {
@@ -698,25 +667,23 @@ struct FUN_00990320
 FUN_00990320::FUN_00990320(GroupMembers* pGroup)
     : group(pGroup), activeCount(0), intersectionCount(-1), minimum(0x7fffffff), maximum(0x80000000), strength(0.0f)
 {
-    unsigned int count = pGroup->FUN_00990890();
+    unsigned int count = reinterpret_cast<::FUN_00990890_shell *>((pGroup))->FUN_00990890();
     for (unsigned int index = 0; index < count; ++index)
     {
-        CombatMemberActor* aActor = pGroup->GetIntAt(index);
-        CombatMemberState* state = aActor->GetController()->FUN_00586150();
-        if (!state->GetByteAtOffset())
+        CombatMemberActor* aActor = ((::CombatMemberActor *)(reinterpret_cast<::Target *>((pGroup))->GetIntAt(index)));
+        CombatMemberState* state = ((::CombatMemberState *)(reinterpret_cast<::InterfaceManager *>((aActor->GetController()))->FUN_00586150()));
+        if (!((bool)(reinterpret_cast<::FUN_009b73b0_shell *>((state))->GetByteAtOffset())))
         {
             ++activeCount;
-            if (state->FUN_00990480())
-                specialMembers.InsertAtEnd(IndexedMember(aActor, index));
+            if (reinterpret_cast<::FUN_00990480_shell *>((state))->FUN_00990480())
+                reinterpret_cast<::fnv_006db840::BSSimpleArray *>(&(specialMembers))->InsertAtEnd((const ::NiPoint2 &)((const ::IndexedMember &)(IndexedMember(aActor, index))));
             else
-                normalMembers.InsertAtEnd(IndexedMember(aActor, index));
+                reinterpret_cast<::fnv_006db840::BSSimpleArray *>(&(normalMembers))->InsertAtEnd((const ::NiPoint2 &)((const ::IndexedMember &)(IndexedMember(aActor, index))));
         }
     }
 }
 
-extern const float g_011dadbc_arg1;
 struct ContNode;
-ContNode* __fastcall FUN_00726070(ContNode* node);
 
 struct CombatGroupStrategyFlank
 {
@@ -726,7 +693,7 @@ struct CombatGroupStrategyFlank
 // @fnv 0x009908b0
 bool CombatGroupStrategyFlank::CanFlank(MarkerStruct* apGroupData, ActorCombatGroup* apGroup)
 {
-    if ((int)FUN_00726070((ContNode*)apGroup) < 3)
+    if (((int)reinterpret_cast<CombatGroupFields*>(((ContNode*)apGroup))->unk04) < 3)
     {
         return false;
     }
@@ -734,7 +701,7 @@ bool CombatGroupStrategyFlank::CanFlank(MarkerStruct* apGroupData, ActorCombatGr
     {
         return false;
     }
-    if (!reinterpret_cast<GroupOps*>(apGroupData)->FUN_0098a470(2, g_011dadbc_arg1))
+    if (!reinterpret_cast<::fnv_0098a470::FUN_0098a470_shell *>((reinterpret_cast<GroupOps*>(apGroupData)))->FUN_0098a470(2, ::DAT_01018f5c))
     {
         return false;
     }
@@ -755,14 +722,9 @@ struct NiPoint4
 };
 struct CombatGroupMember
 {
-    int FUN_00575650(NiPoint4*, float, int);
 };
-extern const float DAT_01050b98;
 struct CombatGroupMethods
 {
-    int FUN_0098a340(unsigned);
-    CombatGroupMember* GetIntAt(unsigned);
-    int FindRefInRadius(int);
 };
 struct CombatGroupStrategy
 {
@@ -772,15 +734,15 @@ struct CombatGroupStrategy
 bool CombatGroupStrategy::FUN_00990ac0(ActorCombatGroup* group)
 {
     bool bFound = false;
-    unsigned count = group->GetCount();
+    unsigned count = reinterpret_cast<::FUN_00990890_shell *>((group))->FUN_00990890();
     for (unsigned index = 0; index < count; ++index)
     {
-        if (((CombatGroupMethods*)group)->FUN_0098a340(index) == 1)
+        if (reinterpret_cast<::FUN_0098a340_shell *>((((CombatGroupMethods*)group)))->FUN_0098a340(index) == 1)
         {
-            CombatGroupMember* pData = ((CombatGroupMethods*)group)->GetIntAt(index);
+            CombatGroupMember* pData = ((::CombatGroupMember *)(reinterpret_cast<::Target *>((((CombatGroupMethods*)group)))->GetIntAt(index)));
             NiPoint4 position;
-            if (((CombatGroupMethods*)group)->FindRefInRadius(pData->FUN_00575650(&position, DAT_01050b98, 0)))
-                group->SetElementValue(index, 0);
+            if (((intptr_t)(reinterpret_cast<::B989700List *>((((CombatGroupMethods*)group)))->FindRefInRadius((::B9897F0Point *)(((intptr_t)(reinterpret_cast<::FUN_00575650_Class *>((pData))->FUN_00575650((::FUN_00575650_Result *)(::NiPoint4 *)(&position))))), {}, {}))))
+                reinterpret_cast<::FUN_0098a390_shell *>((group))->SetElementValue(index, 0);
             else
                 bFound = true;
         }
@@ -790,41 +752,36 @@ bool CombatGroupStrategy::FUN_00990ac0(ActorCombatGroup* group)
     return true;
 }
 
-extern const float DAT_01034294;
 
 struct FUN_00990c40_cls
 {
-    bool FUN_00990c40(int a1, int a2);
+    bool FUN_00990c40(intptr_t a1, intptr_t a2);
 };
 
 struct FUN_00990c40_arg2
 {
-    int _ref_00726070();
-    int FUN_00990570();
-    unsigned char FUN_009904c0();
 };
 
 struct FUN_00990c40_arg1
 {
-    bool FUN_0098a470(int count, float value);
 };
 
 // @fnv 0x00990c40
-bool FUN_00990c40_cls::FUN_00990c40(int a1, int a2)
+bool FUN_00990c40_cls::FUN_00990c40(intptr_t a1, intptr_t a2)
 {
-    if (((FUN_00990c40_arg2*)a2)->_ref_00726070() < 2)
+    if (((int)reinterpret_cast<CombatGroupFields*>((((FUN_00990c40_arg2*)a2)))->unk04) < 2)
     {
         return false;
     }
-    if (!((FUN_00990c40_arg1*)a1)->FUN_0098a470(3, DAT_01034294))
+    if (!reinterpret_cast<::fnv_0098a470::FUN_0098a470_shell *>((((FUN_00990c40_arg1*)a1)))->FUN_0098a470(3, ::g_011f2af8_arg1))
     {
         return false;
     }
-    if (((FUN_00990c40_arg2*)a2)->FUN_00990570() <= 0)
+    if (((int)(reinterpret_cast<::FUN_00990570_shell *>((((FUN_00990c40_arg2*)a2)))->FUN_00990570())) <= 0)
     {
         return false;
     }
-    if (((FUN_00990c40_arg2*)a2)->FUN_009904c0() != 0)
+    if (reinterpret_cast<::Holder904c0 *>((((FUN_00990c40_arg2*)a2)))->FUN_009904c0() != 0)
     {
         return false;
     }
@@ -834,10 +791,7 @@ bool FUN_00990c40_cls::FUN_00990c40(int a1, int a2)
 struct Vec990d60
 {
     float x, y, z;
-    Vec990d60 FUN_00439ef0(const Vec990d60*);
-    double FUN_004a7290();
 };
-extern const double DAT_0101ece0;
 struct Target990d60
 {
     virtual void unknown_slot_000();
@@ -969,7 +923,6 @@ struct Target990d60
 };
 struct Handle990d60
 {
-    Target990d60* FUN_004030b0();
 };
 struct Actor990d60
 {
@@ -1247,11 +1200,8 @@ struct Member990d60
 };
 struct Data990d60
 {
-    int FUN_00990890();
-    int FUN_00990540();
     Member990d60* FUN_00990aa0(unsigned int);
 };
-extern const float DAT_01034294;
 struct Strategy990d60
 {
     bool IsGroupTargetsSpread(GroupOps* group, Data990d60* data);
@@ -1259,40 +1209,34 @@ struct Strategy990d60
 // @fnv 0x00990d60
 bool Strategy990d60::IsGroupTargetsSpread(GroupOps* pGroupOps, Data990d60* data)
 {
-    if (data->FUN_00990890() < 2)
+    if (((int)(reinterpret_cast<::FUN_00990890_shell *>((data))->FUN_00990890())) < 2)
         return false;
-    if (!pGroupOps->FUN_0098a470(1, DAT_01034294))
+    if (!reinterpret_cast<::fnv_0098a470::FUN_0098a470_shell *>((pGroupOps))->FUN_0098a470(1, ::g_011f2af8_arg1))
         return false;
-    if (data->FUN_00990540() <= 0)
+    if (reinterpret_cast<::FUN_00990540_shell *>((data))->FUN_00990540() <= 0)
         return false;
-    unsigned int count = data->FUN_00990890();
+    unsigned int count = ((int)(reinterpret_cast<::FUN_00990890_shell *>((data))->FUN_00990890()));
     for (unsigned int index = 0; index < count; ++index)
     {
         Member990d60* member9 = data->FUN_00990aa0(index);
         Handle990d60* handle5 = member9->actor->GetTargetHandle();
-        Target990d60* target8 = handle5->FUN_004030b0();
+        Target990d60* target8 = ((::Target990d60 *)(reinterpret_cast<::AlchemyItem *>((handle5))->FUN_004030b0()));
         if (target8)
         {
-            Vec990d60 delta = member9->actor->GetTargetValue()->FUN_00439ef0(target8->GetTargetValue());
-            if (delta.FUN_004a7290() < DAT_0101ece0)
+            Vec990d60 delta = (*(::Vec990d60 *)(reinterpret_cast<::FUN_00439ef0_class *>((member9->actor->GetTargetValue()))->FUN_00439ef0((::NiPoint3 *)(target8->GetTargetValue()), *(const ::NiPoint3 *)nullptr)));
+            if (((double)(reinterpret_cast<::TESCombatStyle *>(&(delta))->UpdateCombatStyle())) < DAT_0101ece0)
                 return false;
         }
     }
     return true;
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
-extern const Vec990d60 DAT_011f426c;
 struct Centroid990640
 {
     float x, y, z;
-    void FUN_0063c8a0(const Vec990d60*);
-    void ScaleByInverse(float);
 };
 struct MemberList990640
 {
-    Member990d60* FUN_00844160(unsigned int);
-    IntPair& GetElement(unsigned int);
 };
 struct Strategy990640
 {
@@ -1303,27 +1247,72 @@ struct Strategy990640
     int maximum;
     float strength;
     MemberList990640 normalMembers;
-    unsigned int FUN_00990890();
     void SortMembersByTargetDistance();
 };
+// @fnv 0x00990930
+void FUN_00990930_shell::FUN_00990930(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+{
+    unsigned int irangedMemberCount;
+    unsigned int itotalMemberCount;
+    float frangedPercentage;
+    unsigned int irangedFlankers;
+    unsigned int imeleeMemberCount;
+
+    imeleeMemberCount = reinterpret_cast<::fnv_00990a60::FUN_00990a60_shell *>((reinterpret_cast<FUN_00990a60_shell*>(apGroupData)))->GetArrFlags();
+
+    {
+        unsigned int i;
+        IntPair* pmember;
+
+        for (i = 0; i < imeleeMemberCount; ++i)
+        {
+            pmember = reinterpret_cast<FUN_00990a80_member*>(apGroupData)->ForwardToHolder(i);
+            reinterpret_cast<::FUN_0098a390_shell *>((apGroup))->SetElementValue(pmember->_4, 1);
+        }
+    }
+
+    irangedMemberCount = reinterpret_cast<::FUN_00990890_shell *>((reinterpret_cast<ActorCombatGroup*>(apGroupData)))->FUN_00990890();
+    itotalMemberCount = ((int)reinterpret_cast<CombatGroupFields*>((reinterpret_cast<DataOps*>(apGroupData)))->unk04);
+    frangedPercentage = static_cast<float>(irangedMemberCount) / static_cast<float>(itotalMemberCount);
+    irangedFlankers = 0;
+
+    if (frangedPercentage > 0.5)
+        irangedFlankers = static_cast<unsigned int>((frangedPercentage - 0.5) * irangedMemberCount);
+
+    if (irangedFlankers > 0)
+    {
+        reinterpret_cast<::Strategy990640 *>((reinterpret_cast<FUN_00990640_shell*>(apGroupData)))->SortMembersByTargetDistance();
+
+        {
+            unsigned int i;
+            IntPair* pmember;
+
+            for (i = irangedMemberCount - irangedFlankers; i < irangedMemberCount; ++i)
+            {
+                pmember = reinterpret_cast<FUN_00990aa0_member*>(apGroupData)->FUN_00990aa0(i);
+                reinterpret_cast<::FUN_0098a390_shell *>((apGroup))->SetElementValue(pmember->_4, 1);
+            }
+        }
+    }
+}
 // Computes each member's target value, averages them into a centroid, then selection-sorts members by distance to that centroid.
 // @fnv 0x00990640
 void Strategy990640::SortMembersByTargetDistance()
 {
     // i: member count; a: positions; p: centroid; h: distances.
-    unsigned int i = FUN_00990890();
+    unsigned int i = reinterpret_cast<::FUN_00990890_shell *>(this)->FUN_00990890();
     Vec990d60* a = (Vec990d60*)_alloca(i * sizeof(Vec990d60));
-    Vec990d60 p = DAT_011f426c;
+    Vec990d60 p = (*reinterpret_cast<const ::Vec990d60 *>((void *)&::NiPoint3::ZERO));
     for (unsigned int memberIndex = 0; memberIndex < i; ++memberIndex)
     {
-        Member990d60* member = normalMembers.FUN_00844160(memberIndex);
+        Member990d60* member = ((::Member990d60 *)(reinterpret_cast<::FUN_00844160_shell *>(&(normalMembers))->FUN_00844160(memberIndex)));
         a[memberIndex] = *member->actor->GetTargetValue();
-        ((Centroid990640*)&p)->FUN_0063c8a0(&a[memberIndex]);
+        reinterpret_cast<::FUN_0063c8a0_shell *>((((Centroid990640*)&p)))->FUN_0063c8a0((void *)(&a[memberIndex]));
     }
-    ((Centroid990640*)&p)->ScaleByInverse((float)i);
+    reinterpret_cast<::FUN_004941c0_shell *>((((Centroid990640*)&p)))->ScaleByInverse((float)i);
     float* h = (float*)_alloca(i * sizeof(float));
     for (unsigned int j = 0; j < i; ++j)
-        h[j] = a[j].FUN_00439ef0(&p).FUN_004a7290();
+        h[j] = ((double)(reinterpret_cast<::TESCombatStyle *>((void *)&(const ::Vec990d60 &)((*(::Vec990d60 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(a[j]))->FUN_00439ef0((::NiPoint3 *)(&p), *(const ::NiPoint3 *)nullptr)))))->UpdateCombatStyle()));
     for (unsigned int k = 0; k < i - 1; ++k)
     {
         unsigned int nearest = k;
@@ -1342,9 +1331,11 @@ void Strategy990640::SortMembersByTargetDistance()
             float p = h[k];
             h[k] = h[nearest];
             h[nearest] = p;
-            IntPair j = normalMembers.GetElement(k);
-            normalMembers.GetElement(k) = normalMembers.GetElement(nearest);
-            normalMembers.GetElement(nearest) = j;
+            IntPair j = (*(::IntPair *)(reinterpret_cast<::S006950d0 *>(&(normalMembers))->GetElement(k)));
+            (*(::IntPair *)(reinterpret_cast<::S006950d0 *>(&(normalMembers))->GetElement(k))) = (*(::IntPair *)(reinterpret_cast<::S006950d0 *>(&(normalMembers))->GetElement(nearest)));
+            (*(::IntPair *)(reinterpret_cast<::S006950d0 *>(&(normalMembers))->GetElement(nearest))) = j;
         }
     }
 }
+
+#include "generated/data/fallout/ai/combat/combatgroupstrategy.inc"

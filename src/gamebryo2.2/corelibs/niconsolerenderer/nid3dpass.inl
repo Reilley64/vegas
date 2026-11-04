@@ -1,10 +1,11 @@
 
+#include <new>
 #include <stddef.h>
 
+#include "fnv/decl/ActiveArray.h"
 class NiMemObject
 {
 public:
-    static void operator delete(void*, unsigned int);
 };
 
 class D3DRenderStateGroup : public NiMemObject
@@ -54,7 +55,7 @@ public:
 
     void FreeObject(T* object)
     {
-        m_kAvailableObjects.Add(object);
+        reinterpret_cast<::ActiveArray *>(&(m_kAvailableObjects))->FindOrAdd((void *const &)(object));
     }
 };
 

@@ -5,12 +5,9 @@
 
 #include "hkBase.h"
 #include "hkpCollidable.h"
-#pragma pack(push, 1)
 class hkpLinkedCollidable : public hkpCollidable
 {
   public:
     hkArray<char> m_kCollisionEntries;  // +0x50
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpLinkedCollidable[(sizeof(hkpLinkedCollidable) == 0x5C) ? 1 : -1];
 #endif

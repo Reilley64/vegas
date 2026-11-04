@@ -1,5 +1,22 @@
 // Generated from actual zero-argument CRT callback and x87 operand protocols.
 // Original names/source paths remain unknown.
+#include "fnv/symbols_00a26000.h"
+#include "fnv/symbols_00a27000.h"
+#include "fnv/symbols_00a28000.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00a2a000.h"
+#include "fnv/symbols_00a2b000.h"
+#include "fnv/symbols_00a2c000.h"
+#include "fnv/symbols_00a2d000.h"
+#include "fnv/symbols_01011000.h"
+#include "fnv/symbols_01015000.h"
+#include "fnv/symbols_01029000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/symbols_010a5000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011f8000.h"
+#include "fnv/symbols_01203000.h"
 #include "original_callback_initializers.h"
 
 // @fnv 0x00f35290
@@ -2697,3 +2714,5 @@ void InitializeRuntimeFloatReciprocal539()
 {
     runtimeInitializationFloat4121 = kRuntimeInitializerUnit / runtimeInitializationFloat4122;
 }
+
+#include "generated/data/generated/crt_callback_float_reciprocal.inc"

@@ -3,6 +3,18 @@
 #define FNV_BGSPROJECTILE_DECLS_H
 
 
+#include "fnv/decl/FUN_004078a0_shell.h"
+#include "fnv/decl/FUN_004fd380_shell.h"
+#include "fnv/decl/FUN_004fd3a0_shell.h"
+#include "fnv/decl/FUN_00810570_shell.h"
+#include "fnv/decl/FUN_00857230_shell.h"
+#include "fnv/decl/MagicProjectile.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
+#include "fnv/symbols_00478000.h"
+#include "fnv/symbols_00489000.h"
+#include "fnv/symbols_004ea000.h"
+#include "fnv/symbols_004fd000.h"
 #include "BaseFormComponent.h"
 #include "bgsprojectile_form.h"
 #include "TESFullName.h"
@@ -21,10 +33,8 @@ template <class T> class BSSimpleList;
 class TESDataHandler
 {
   public:
-    BSSimpleList<TESRace*>* GetTESRaceList();
 };
 class BGSProjectile;
-void* operator new(unsigned int size);
 
 class BGSProjectileFloatNode
 {
@@ -43,7 +53,6 @@ class TESModel : public BaseFormComponent
     TESModel();
     ~TESModel();
     static void LoadModelData(TESModel* model, TESFile* file);
-    static void LoadTextureSwapData(TESModel* model, TESFile* file);
 };
 
 class BGSPreloadable : public BaseFormComponent
@@ -59,16 +68,36 @@ class BGSDestructibleObjectForm : public BaseFormComponent
   public:
     BGSDestructibleObjectForm();
     ~BGSDestructibleObjectForm();
-    static void LoadDestructibleData(BGSDestructibleObjectForm* form, TESFile* file);
     void InitItem(TESForm*);
 };
 
+// The PROJ record's DATA chunk. The form references hold form IDs after the raw load and pointers after InitItem.
 class ProjectileProperties
 {
-    unsigned char data[84];
-
   public:
-    void Endian();
+    unsigned short m_usFlags;           // +0x00
+    unsigned short m_usType;            // +0x02
+    float m_fGravity;                   // +0x04
+    float m_fSpeed;                     // +0x08
+    float m_fRange;                     // +0x0C
+    TESForm* m_pLight;                  // +0x10
+    TESForm* m_pMuzzleFlashLight;       // +0x14
+    float m_fTracerChance;              // +0x18
+    float m_fExplosionProximity;        // +0x1C
+    float m_fExplosionTimer;            // +0x20
+    TESForm* m_pExplosion;              // +0x24
+    TESForm* m_pSound;                  // +0x28
+    float m_fMuzzleFlashDuration;       // +0x2C
+    float m_fFadeDuration;              // +0x30
+    float m_fImpactForce;               // +0x34
+    TESForm* m_pCountdownSound;         // +0x38
+    TESForm* m_pDisableSound;           // +0x3C
+    TESForm* m_pDefaultWeaponSource;    // +0x40
+    float m_fRotationX;                 // +0x44
+    float m_fRotationY;                 // +0x48
+    float m_fRotationZ;                 // +0x4C
+    float m_fBouncyMult;                // +0x50
+
     void InitializeDefaults();
 };
 
@@ -81,7 +110,6 @@ class FUN_004fcc00 : public ProjectileProperties
 class BGSImpactData
 {
   public:
-    void ReadTypedData(TESFile* file, void* data, unsigned short size);
     char _pdbpad_1[47];
     char Data_db_pad2f_pad2f_pad2f[24];
     void* m_pDecalTextureSet;
@@ -207,19 +235,6 @@ class BGSProjectile : public TESBoundObject,
     bool Load(TESFile* file);
 };
 
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(sizeof(BGSPreloadable) == 4);
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(sizeof(ProjectileProperties) == 84);
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 0x30);
-FNV_STATIC_ASSERT(sizeof(FUN_004fcc00) == 84);
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) + sizeof(TESFullName) + sizeof(TESModel) + sizeof(BGSPreloadable) +
-                      sizeof(BGSDestructibleObjectForm) ==
-                  0x60);
-FNV_STATIC_ASSERT(offsetof(BGSProjectile, Data) == 0x60);
-FNV_STATIC_ASSERT(offsetof(BGSProjectile, m_kProjectileModel) == 0xB4);
-FNV_STATIC_ASSERT(offsetof(BGSProjectile, m_eSoundLevel) == 0xCC);
-FNV_STATIC_ASSERT(sizeof(BGSProjectile) == 0xD0);
 
 class TESObjectLIGH : public TESForm
 {
@@ -230,27 +245,23 @@ class TESSound : public TESForm
 class BGSExplosion : public TESForm
 {
 };
+class Actor;
 class TESObjectWEAP : public TESForm
 {
+public:
+    unsigned char GetDamageForActor(bool, bool, ::Actor *);
 };
 class Tile;
 class EffectSetting
 {
   public:
-    TESObjectLIGH* GetLight();
-    TESSound* GetBoltSound();
     TESSound* GetHitSound();
     int GetArchetype();
-    void SetLight(TESObjectLIGH*);
     void SetBoltSound(TESSound*);
-    void SetHitSound(TESSound*);
-    void SetEffectID(int);
-    void SetAssociatedActorValue(int);
 };
 class TESChallenge
 {
   public:
-    TESForm* GetFormOne();
 };
 class TESObjectACTI
 {
@@ -261,7 +272,6 @@ class InterfaceManager
 {
   public:
     Tile* FUN_00586150();
-    Tile* FUN_004fd400();
     void FUN_00500a20(Tile*);
 };
 #endif

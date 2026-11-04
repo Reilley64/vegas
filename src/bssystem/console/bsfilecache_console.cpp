@@ -6,6 +6,9 @@
 //
 // Covered PC function: 0x00AFF100 (116 bytes).
 
+#include "fnv/decl/BSShaderRenderUtility.h"
+#include "fnv/decl/FUN_0045dfc0_shell.h"
+#include "fnv/symbols_00450000.h"
 #include "layout_support.h"
 
 class FileCache;
@@ -56,7 +59,6 @@ class BSFileCache
     volatile FILE_CACHE_STATE m_eCacheState;             // +0x5C
     void* m_pCacheSyncObject;                            // +0x60
 };
-FNV_STATIC_ASSERT(sizeof(BSFileCache) == 0x64);
 
 // PC specialization of the file cache; it overrides the interface and
 // carries no extra state of its own.

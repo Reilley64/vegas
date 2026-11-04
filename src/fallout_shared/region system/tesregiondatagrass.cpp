@@ -1,28 +1,50 @@
 // fallout_shared/region system/tesregiondatagrass.cpp: TESRegionDataGrass, GrassRegion, RegionSaveShell, GrassMergeRegion (6 functions)
 
+#include <new>
+#include <cmath>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Controller.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004f15a0_shell.h"
+#include "fnv/decl/FUN_004f15c0_shell.h"
+#include "fnv/decl/FUN_004f1730.h"
+#include "fnv/decl/FUN_004f5e20.h"
+#include "fnv/decl/FUN_004f5ec0_shell.h"
+#include "fnv/decl/FUN_005bb4d0_shell.h"
+#include "fnv/decl/FUN_0084e3a0_Class.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/PatrolActorPackageData.h"
+#include "fnv/decl/RangeConsumer.h"
+#include "fnv/decl/RegionSource.h"
+#include "fnv/decl/S_00462230.h"
+#include "fnv/decl/TESFile.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
 #include "tesregiondatagrass_decls.h"
 // Default constructor for TESRegionDataGrass; the body is empty.
 // @fnv 0x004f1ed0
 TESRegionDataGrass::TESRegionDataGrass()
 {}
 
-void __cdecl _Deallocate(void*);
 struct Dummy1690
 {
-    void FUN_004f1730();
     void* FUN_004f1690(unsigned int);
 };
 // Calls FUN_004f1730, then frees this via _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x004f1690
 void* Dummy1690::FUN_004f1690(unsigned int flags)
 {
-    FUN_004f1730();
+    reinterpret_cast<::FUN_004f1730 *>(this)->FUN_004f1730::~FUN_004f1730();
     if (flags & 1)
-        _Deallocate(this);
+        ::FUN_00401030(this);
     return this;
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_004f16c0
 {
@@ -47,16 +69,11 @@ TESRegionData* FUN_004f1b60_shell::FUN_004f1b60()
 FUN_004f16c0::FUN_004f16c0(const void* pSource)
 {}
 
-void* __cdecl operator new(unsigned int size)
-{
-    return 0;
-}
 
 struct GrassRecord
 {
     unsigned int formID;
     unsigned int flags;
-    void FUN_00462230();
 };
 struct FUN_004f5620
 {
@@ -69,17 +86,10 @@ struct FUN_004f5620
 };
 struct FileReader
 {
-    unsigned int GetChunkID();
-    unsigned int GetChunkSize();
-    const char* GetFilename();
-    bool GetChunkData(void*, unsigned int);
-    bool IsEndianConversionRequired();
 };
 struct GrassList
 {
-    void AddGrassObject(FUN_004f5620*);
 };
-int Warning(const char*, ...);
 struct GrassRegion
 {
     virtual void v0();
@@ -100,28 +110,28 @@ bool GrassRegion::LoadGrassRecords(FileReader* file)
 {
     GrassRecord* records = 0;
     FUN_004f5620* objectX = 0;
-    if (!file || file->GetChunkID() != 0x53474452)
+    if (!file || ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0())) != 0x53474452)
         return false;
-    unsigned int size = file->GetChunkSize();
+    unsigned int size = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
     unsigned int count_ = size / 8;
     if (size % 8)
     {
-        Warning("MODELS: Invalid Region Grass Object Data in file \"%s\".", file->GetFilename());
+        ::FUN_005b5e40();
         return false;
     }
     if (count_)
     {
         records = new GrassRecord[count_];
-        file->GetChunkData(records, size);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(records), size);
         for (unsigned int index = 0; index < count_; index++)
         {
-            if (file->IsEndianConversionRequired())
-                records[index].FUN_00462230();
+            if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired())
+                reinterpret_cast<::S_00462230 *>(&(records[index]))->FUN_00462230();
             objectX = new FUN_004f5620(records[index]);
             if (objectX)
             {
                 if (objectX->Validate())
-                    GetGrassList()->AddGrassObject(objectX);
+                    reinterpret_cast<::FUN_004f5ec0_shell *>((GetGrassList()))->AddGrassObject((::TESRegionGrassObject *)(objectX));
                 else
                     delete objectX;
             }
@@ -140,12 +150,9 @@ struct SaveObj
 };
 struct NamedForm
 {
-    unsigned int GetRefID();
 };
 struct ObjNode
 {
-    SaveObj** Item();
-    ObjNode* Next();
 };
 struct ListHead
 {
@@ -157,16 +164,12 @@ struct ObjList
 };
 struct ObjListOwner : ListHead, ObjNode
 {
-    unsigned int Count();
 };
 struct SavePair
 {
     unsigned int form;
     unsigned int extra;
-    void Swap();
 };
-bool IsBigEndian();
-void WriteChunk(unsigned int type, void* data, unsigned int size);
 
 struct RegionSaveShell
 {
@@ -181,7 +184,6 @@ struct RegionSaveShell
     virtual void v20();
     virtual void v24();
     virtual ObjListOwner* GetList();
-    void Prepare();
     void WriteRegionSaveChunk();
 };
 
@@ -190,8 +192,8 @@ void RegionSaveShell::WriteRegionSaveChunk()
 {
     unsigned int count;
     SavePair* pPairs = 0;
-    count = GetList()->Count();
-    Prepare();
+    count = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((GetList()))->FUN_0044edb0()));
+    reinterpret_cast<::RegionSource *>(this)->WriteSaveData();
     if (count)
     {
         ObjNode* pNode = GetList();
@@ -199,25 +201,25 @@ void RegionSaveShell::WriteRegionSaveChunk()
         pPairs = new SavePair[count];
         while (pNode)
         {
-            SaveObj* pObj = *pNode->Item();
+            SaveObj* pObj = *((::SaveObj **)((void *)(pNode)));
             if (pObj)
             {
-                pPairs[uiIndex].form = ((NamedForm*)pObj->GetObj())->GetRefID();
-                pPairs[uiIndex].extra = pObj->GetObjC() ? ((NamedForm*)pObj->GetObjC())->GetRefID() : 0;
+                pPairs[uiIndex].form = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((NamedForm*)pObj->GetObj())))->FUN_0084e3a0()));
+                pPairs[uiIndex].extra = pObj->GetObjC() ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((NamedForm*)pObj->GetObjC())))->FUN_0084e3a0())) : 0;
                 uiIndex++;
             }
-            pNode = pNode->Next();
+            pNode = ((::ObjNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
-        if (IsBigEndian())
+        if (((bool)(::FUN_00401500())))
         {
             for (unsigned int uiSwapIndex = 0; uiSwapIndex < count; uiSwapIndex++)
-                pPairs[uiSwapIndex].Swap();
+                reinterpret_cast<::S_00462230 *>(&(pPairs[uiSwapIndex]))->FUN_00462230();
         }
-        WriteChunk(0x53474452, pPairs, count * 8);
-        if (IsBigEndian())
+        ::AppendChunk(0x53474452, pPairs, count * 8);
+        if (((bool)(::FUN_00401500())))
         {
             for (unsigned int uiRestoreIndex = 0; uiRestoreIndex < count; uiRestoreIndex++)
-                pPairs[uiRestoreIndex].Swap();
+                reinterpret_cast<::S_00462230 *>(&(pPairs[uiRestoreIndex]))->FUN_00462230();
         }
         delete[] pPairs;
     }
@@ -225,11 +227,7 @@ void RegionSaveShell::WriteRegionSaveChunk()
 
 struct GrassMergeList
 {
-    void ClearList();
-    void CopyTargetList(GrassMergeList* destination);
-    void FUN_004f61d0(float ownWeight, GrassMergeList* priority, float sourceWeight);
 };
-float __cdecl floor(float value);
 struct GrassMergeRegion : TESRegionData
 {
     virtual void v1();
@@ -242,10 +240,6 @@ struct GrassMergeRegion : TESRegionData
     virtual void v8();
     virtual void v9();
     virtual GrassMergeList* GetGrassList();
-    bool FUN_004f1540();
-    unsigned char FUN_005bb4d0();
-    void FUN_004f15a0(int value);
-    bool FUN_004f15c0(unsigned char value);
     void MergeGrassRegion(GrassMergeRegion* data, void* context);
 };
 // Merges another grass region's data into this one when the source type is 6, choosing between override, priority and weighted blending of the grass lists.
@@ -258,10 +252,10 @@ void GrassMergeRegion::MergeGrassRegion(GrassMergeRegion* apPriority, void* cont
         return;
     if (m_bHasRegionData)
     {
-        FUN_004f15a0(priority->FUN_004f1540());
-        FUN_004f15c0(priority->FUN_005bb4d0());
-        GetGrassList()->ClearList();
-        priority->GetGrassList()->CopyTargetList(GetGrassList());
+        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(reinterpret_cast<::PatrolActorPackageData *>((priority))->IsPatrolling());
+        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0(((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((priority))->FUN_005bb4d0())));
+        reinterpret_cast<::FUN_004f5e20 *>((GetGrassList()))->ClearList();
+        reinterpret_cast<::Controller *>((priority->GetGrassList()))->CopyTargetList((::TargetList *)(::GrassMergeList *)(GetGrassList()));
     }
     else if (priority->m_bHasRegionData)
     {
@@ -269,28 +263,28 @@ void GrassMergeRegion::MergeGrassRegion(GrassMergeRegion* apPriority, void* cont
     }
     else if (bOverride)
     {
-        if (priority->FUN_004f1540() && priority->FUN_005bb4d0() > FUN_005bb4d0())
+        if (reinterpret_cast<::PatrolActorPackageData *>((priority))->IsPatrolling() && ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((priority))->FUN_005bb4d0())) > ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())))
         {
-            FUN_004f15a0(priority->FUN_004f1540());
-            FUN_004f15c0(priority->FUN_005bb4d0());
-            GetGrassList()->ClearList();
-            priority->GetGrassList()->CopyTargetList(GetGrassList());
+            reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(reinterpret_cast<::PatrolActorPackageData *>((priority))->IsPatrolling());
+            reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0(((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((priority))->FUN_005bb4d0())));
+            reinterpret_cast<::FUN_004f5e20 *>((GetGrassList()))->ClearList();
+            reinterpret_cast<::Controller *>((priority->GetGrassList()))->CopyTargetList((::TargetList *)(::GrassMergeList *)(GetGrassList()));
         }
     }
-    else if (priority->FUN_004f1540())
+    else if (reinterpret_cast<::PatrolActorPackageData *>((priority))->IsPatrolling())
     {
-        FUN_004f15a0(priority->FUN_004f1540());
-        FUN_004f15c0(priority->FUN_005bb4d0());
-        GetGrassList()->ClearList();
-        priority->GetGrassList()->CopyTargetList(GetGrassList());
+        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(reinterpret_cast<::PatrolActorPackageData *>((priority))->IsPatrolling());
+        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0(((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((priority))->FUN_005bb4d0())));
+        reinterpret_cast<::FUN_004f5e20 *>((GetGrassList()))->ClearList();
+        reinterpret_cast<::Controller *>((priority->GetGrassList()))->CopyTargetList((::TargetList *)(::GrassMergeList *)(GetGrassList()));
     }
     else
     {
-        GetGrassList()->FUN_004f61d0((float)FUN_005bb4d0(), priority->GetGrassList(), (float)priority->FUN_005bb4d0());
-        source = FUN_005bb4d0() * FUN_005bb4d0() + (100 - FUN_005bb4d0()) * priority->FUN_005bb4d0();
+        reinterpret_cast<::RangeConsumer *>((GetGrassList()))->FUN_004f61d0((float)((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())), (::RangeHolder *)(::GrassMergeList *)(priority->GetGrassList()), (float)((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((priority))->FUN_005bb4d0())));
+        source = ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) + (100 - ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0()))) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((priority))->FUN_005bb4d0()));
         source +=
-            (100 - priority->FUN_005bb4d0()) * FUN_005bb4d0() + priority->FUN_005bb4d0() * priority->FUN_005bb4d0();
+            (100 - ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((priority))->FUN_005bb4d0()))) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) + ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((priority))->FUN_005bb4d0())) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((priority))->FUN_005bb4d0()));
         source *= 0.005f;
-        FUN_004f15c0((unsigned char)floor(source));
+        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0((unsigned char)floor(source));
     }
 }

@@ -2,27 +2,32 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysfieldattenuationctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysfieldattenuationctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202720;
 
 // @fnv 0x00c2b230
+#include <new>
+#include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/fnv_00c1b0f0__FUN_00c1b0f0_cls.h"
+#include "fnv/decl/fnv_00c31530__NiPSysModifierCtlrRuntime.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c32000.h"
+#include "fnv/symbols_01202000.h"
 void* __cdecl FUN_00c2b230()
 {
-    return &g_01202720;
+    return &(*reinterpret_cast<void * *>(&::g_01202720));
 }
 
 struct NiObjectNET;
 struct BaseStandIn
 {
-    bool IsTargetParticleSystem(NiObjectNET*);
 };
 struct B00c1bff0
 {
-    void* FUN_00c1b0f0(void*);
 };
 struct NiObjectNET : B00c1bff0
 {
 };
-extern char const* const g_01202688_arg1;
 struct NiPSysModifier
 {
     virtual void* _v0();
@@ -37,21 +42,21 @@ struct NiPSysFieldAttenuationCtlr : BaseStandIn
 // @fnv 0x00c2b290
 bool NiPSysFieldAttenuationCtlr::FUN_00c2b290(NiObjectNET* pkTarget)
 {
-    if (!BaseStandIn::IsTargetParticleSystem(pkTarget))
+    if (!reinterpret_cast<::fnv_00c31530::NiPSysModifierCtlrRuntime *>(this)->IsTargetParticleSystem((::fnv_00c31530::NiParticleSystemRuntime *)(pkTarget)))
         return false;
-    NiPSysModifier* pkModifier = (NiPSysModifier*)pkTarget->FUN_00c1b0f0((void*)((char*)this + 0x38));
+    NiPSysModifier* pkModifier = (NiPSysModifier*)reinterpret_cast<::fnv_00c1b0f0::FUN_00c1b0f0_cls *>((pkTarget))->FUN_00c1b0f0((unsigned int *)(void *)((void*)((char*)this + 0x38)));
     if (!pkModifier)
         return false;
     for (void* p = pkModifier->GetRTTI(); p; p = *(void**)((char*)p + 4))
     {
-        if (p == (void*)&g_01202688_arg1)
+        if (p == (void*)&(*reinterpret_cast<const char *const *>(&::g_012027e0)))
             return true;
     }
     return false;
 }
 
 // Candidate for CreateFieldAttenuationController (0x00c2b240, 75 bytes, /MT /O2 /GS /EHsc /Gy)
-// __thiscall factory: allocates 0x40 bytes, runs the base ctor (0xc32d80),
+// factory: allocates 0x40 bytes, runs the base ctor (0xc32d80),
 // installs the NiPSysFieldAttenuationCtlr vtable, then hands the object to
 // this->FUN_00c32de0 along with the caller's NiObjectNET*. Returns the new
 // object, or null (passing null through) when allocation fails.
@@ -59,10 +64,6 @@ bool NiPSysFieldAttenuationCtlr::FUN_00c2b290(NiObjectNET* pkTarget)
 // The game's operator new (0xaa13e0), declared under a stand-in name: the
 // shared symbol map binds the global ??2@YAPAXI@Z to a placeholder address.
 void* NiMemAlloc(unsigned int uiSize);
-inline void* operator new(unsigned int, void* pvWhere)
-{
-    return pvWhere;
-}
 
 // Stand-in for the base whose ctor lives at 0xc32d80.
 struct FieldCtlrBase
@@ -91,7 +92,6 @@ struct AttenCtlr
 
 struct Owner
 {
-    void FUN_00c32de0(AttenCtlr* pCtlr, NiObjectNET* pArg);
     NiPSysFieldAttenuationCtlr* CreateFieldAttenuationController(NiObjectNET* pArg);
 };
 
@@ -109,7 +109,7 @@ NiPSysFieldAttenuationCtlr* Owner::CreateFieldAttenuationController(NiObjectNET*
     {
         pCtlr = 0;
     }
-    this->FUN_00c32de0(pCtlr, pArg);
+    reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>((this))->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(pCtlr), (*(::CloningProcess *)(pArg)));
     return (NiPSysFieldAttenuationCtlr*)pCtlr;
 }
 
@@ -121,20 +121,16 @@ struct StrArr
     unsigned short index;
     unsigned short count;
     unsigned short growBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
 };
-char* __cdecl FUN_00a7d330(char*);
-void __stdcall FUN_00c32f60(StrArr*);
 // Appends the string returned by FUN_00a7d330(g_01202720) to the array, growing it if the index reaches capacity.
 // @fnv 0x00c2b2e0
-void __stdcall FUN_00c2b2e0(StrArr* array)
+void FUN_00c2b2e0(StrArr* array)
 {
     FUN_00c32f60(array);
-    char* value = FUN_00a7d330(static_cast<char*>(g_01202720));
+    char* value = ::FUN_00a7d330(static_cast<char*>((*reinterpret_cast<void * *>(&::g_01202720))));
     unsigned int index = array->index;
     unsigned int capacity = array->capacity;
     if (index >= capacity)
-        array->SetSize(index + array->growBy);
-    array->SetAt(index, value);
+        reinterpret_cast<::ViewerStrings *>((array))->SetSize(index + array->growBy);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((array))->SetAt(index, value);
 }

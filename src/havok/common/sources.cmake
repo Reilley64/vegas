@@ -3,6 +3,7 @@ set(VEGAS_HAVOK_COMMON_SOURCES
   src/havok/common/base/algorithm/collide/linesegment/hklinesegmentutil.cpp
   src/havok/common/base/algorithm/sort/hkradixsort.cpp
   src/havok/common/base/container/array/hkarrayutil.cpp
+  src/havok/common/base/container/string/havok_byte_fill.cpp
   src/havok/common/base/container/string/hkstring.cpp
   src/havok/common/base/container/string/hkstringbuf.cpp
   src/havok/common/base/container/string/hkstringptr.cpp

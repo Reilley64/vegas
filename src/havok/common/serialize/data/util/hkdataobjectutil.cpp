@@ -4,6 +4,7 @@
 
 #include "fnv/symbols_00c85000.h"
 #include <cstdint>
+#include "fnv/havok_byte_fill.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/AudioHandle.h"
@@ -1288,7 +1289,6 @@ struct DMemory
     DAllocator* unk10;
 };
 
-extern "C" void __cdecl FUN_00cb1280(void* p, int v, intptr_t n) throw();
 
 struct DOutArray
 {
@@ -1603,7 +1603,7 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
                 out->unk00 = CopyClassBytes(*mem->unk10, numBytes);
             }
             elemSize = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pClassInfo))->FUN_00d470d0();
-            FUN_00cb1280(out->unk00, 0, reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pClassInfo))->FUN_00d470d0() * apArray->FUN_00dbac00());
+            ::FUN_00cb1280(out->unk00, 0, reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pClassInfo))->FUN_00d470d0() * apArray->FUN_00dbac00());
             for (int i = 0; i < apArray->FUN_00dbac00(); i++)
             {
                 if (result != 0)
@@ -1626,7 +1626,7 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
         out->unk04 = apArray->FUN_00dbac00();
         out->unk00 = AllocElems<void*>(out->unk04);
         elemSize = sizeof(void*);
-        FUN_00cb1280(out->unk00, 0, out->unk04 * sizeof(void*));
+        ::FUN_00cb1280(out->unk00, 0, out->unk04 * sizeof(void*));
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
             DObj o = (*(::DObj *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::DValue &)(apArray->FUN_00dbabb0(i)))->CreateValueInto({})));
@@ -1649,7 +1649,7 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
         out->unk04 = apArray->FUN_00dbac00();
         out->unk00 = AllocElems<DVariant>(out->unk04);
         elemSize = sizeof(DVariant);
-        FUN_00cb1280(out->unk00, 0, out->unk04 * sizeof(DVariant));
+        ::FUN_00cb1280(out->unk00, 0, out->unk04 * sizeof(DVariant));
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
             DObj o = (*(::DObj *)(reinterpret_cast<::FUN_00dbaca0_cls *>((void *)&(const ::DValue &)(apArray->FUN_00dbabb0(i)))->CreateValueInto({})));
@@ -3485,7 +3485,6 @@ class GlobalObjectO2_00d472a0
     FlagBool FUN_00d46d80(ObjB* obj) throw();
 };
 
-extern "C" void* __cdecl _FUN_00cb1280(void*, int, unsigned int) throw();
 
 struct AllocatorVtbl
 {
@@ -3725,7 +3724,7 @@ RetDC4430 DC4430_Class::FUN_00dc4430(Arg1* apArg, intptr_t aiFlag) throw()
             AllocatorVtbl* heap = memory->m_pStreamAllocator;
             result.first = heap->allocate(mem);
             m_obj04->AddEntry((intptr_t)result.first, mem, 6);
-            _FUN_00cb1280(result.first, 0, reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pClassInfo))->FUN_00d470d0());
+            ::FUN_00cb1280(result.first, 0, static_cast<unsigned int>(reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((pClassInfo))->FUN_00d470d0()));
 
             Key64 temp;
             Key64* __restrict pReturnedKey = apArg->GetSourcePair(&temp);
@@ -3952,7 +3951,7 @@ int Reader355::ReadObject(char* destination, Object355* object) throw()
                 {
                     int bytes = sequence->count * elementSize;
                     sequence->data = AllocElems<char>(bytes);
-                    FUN_00cb1280(sequence->data, 0, bytes);
+                    ::FUN_00cb1280(sequence->data, 0, bytes);
                 }
                 tracker->AddEntry((intptr_t)sequence->data, sequence->count * elementSize, 6);
                 int i = 0;

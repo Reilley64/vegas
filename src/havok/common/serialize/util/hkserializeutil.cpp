@@ -1455,7 +1455,6 @@ inline const char* stringText(const hkStringPtr& s)
 {
     return reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(s.m_pcText) & ~1u);
 }
-void __cdecl FUN_00cb1280(void*, int, intptr_t);
 struct PackHeader
 {
     PackHeader()
@@ -1490,7 +1489,6 @@ struct SmallBool
         return value != 0;
     }
 };
-void __cdecl FUN_00cb1280(void*, int, intptr_t);
 inline unsigned int reverseWord(unsigned int word)
 {
     union WordBytes

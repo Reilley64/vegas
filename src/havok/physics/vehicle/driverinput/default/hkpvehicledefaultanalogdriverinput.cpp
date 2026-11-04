@@ -350,9 +350,9 @@ hkReal AnalogDriverInput::GetOutput(hkReal deltaTime, const void* vehicle, const
 }  // namespace fnv_00e436b0
 
 
-extern const float DAT_01011d78 = 0.0f;
+extern const float DAT_01011d78;
 extern const float DAT_01017718 = 3.0f;
-extern const float DAT_0104da4c = 1.1920928955078125e-07f;
+extern const float DAT_0104da4c;
 extern const float DAT_010ebf10 = 1.38888896f;
 extern const double DAT_0101ffa0 = 0.10000000149011612;
 

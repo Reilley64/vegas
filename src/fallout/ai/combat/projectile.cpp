@@ -461,11 +461,11 @@ struct DtorStandIn
 };
 struct DelStandIn
 {
-    void* Destroy(unsigned int flags);
+    void* Destroy_009bc890(unsigned int flags);
 };
 // Calls FUN_0083dec0 on this, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x009bc890
-void* DelStandIn::Destroy(unsigned int flags)
+void* DelStandIn::Destroy_009bc890(unsigned int flags)
 {
     reinterpret_cast<::QueuedMessage *>((((DtorStandIn*)this)))->QueuedMessage::~QueuedMessage();
     if (flags & 1)

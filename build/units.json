@@ -11030,7 +11030,7 @@
     },
     {
      "address": "0x00bc4ed0",
-     "symbol": "?UpdateShaderConstants@DistantLODShader@@QAEXXZ",
+     "symbol": "?UpdateShaderConstants@DistantLODShader_00bc4ed0@@QAEXXZ",
      "size": 350
     }
    ],
@@ -11057,7 +11057,7 @@
     "__ehhandler$?CreateShader@BloodSplatterBeamShader@@SAPAVBSShader@@XZ": "0x00f2c322",
     "??2BloodSplatterBeamShader@@SAPAXI@Z": "0x00aa13e0",
     "??0BloodSplatterBeamShader@@QAE@PAVNiD3DVertexDeclaration@@@Z": "0x00bc4830",
-    "__ehhandler$?UpdateShaderConstants@DistantLODShader@@QAEXXZ": "0x00f2c74e",
+    "__ehhandler$?UpdateShaderConstants@DistantLODShader_00bc4ed0@@QAEXXZ": "0x00f2c74e",
     "??0NiD3DShaderConstantMap@@QAE@PAVGraphicsRenderer@@I@Z": "0x00b7e330",
     "?CreateD3DPass@NiD3DPass@@SAXAAV?$NiPointer@VNiD3DPass@@@@@Z": "0x00e804d0",
     "?AssignStageFromPool@@YAXAAPAUStageReturn@@@Z": "0x00e7edf0",
@@ -11068,7 +11068,7 @@
     "?SetNodeValue@StateGroup@@QAEXII_N@Z": "0x00e7f430",
     "?ConfigureBeamStage@@YAXPAUBeamStage@@III_N@Z": "0x00be0cf0",
     "?CreateShader@BloodSplatterBeamShader@@SAPAVBSShader@@XZ": "0x00bc4af0",
-    "?UpdateShaderConstants@DistantLODShader@@QAEXXZ": "0x00bc4ed0"
+    "?UpdateShaderConstants@DistantLODShader_00bc4ed0@@QAEXXZ": "0x00bc4ed0"
    }
   },
   {
@@ -53128,7 +53128,7 @@
     },
     {
      "address": "0x009bc890",
-     "symbol": "?Destroy@DelStandIn@p07@@QAEPAXI@Z",
+     "symbol": "?Destroy_009bc890@DelStandIn@p07@@QAEPAXI@Z",
      "size": 44
     },
     {
@@ -53809,7 +53809,7 @@
     "?GetFlagMask@@YAHI@Z": "0x005e39b0",
     "?ApplySpeedAndVector@FUN_009bf370_shell@fnv_009bf370@@QAEXMVNiPoint3@@@Z": "0x009bf370",
     "?IsFightReactionAllowed@FUN_009c3930_shell@fnv_009c3930@@QAE_NPAUActor@2@0PAUTESFaction@2@@Z": "0x009c3930",
-    "?Destroy@DelStandIn@p07@@QAEPAXI@Z": "0x009bc890",
+    "?Destroy_009bc890@DelStandIn@p07@@QAEPAXI@Z": "0x009bc890",
     "?IsRandomBelowRadiusThreshold@PathingRequest@@QAE_NXZ": "0x004fdf60",
     "?FindItemByKey@FUN_009c3ee0_shell@@QAEPAUItem9c@@PAX@Z": "0x009c3ee0",
     "?BlendWithSetting@@YAMMMM@Z": "0x009c3f50",
@@ -55790,7 +55790,7 @@
     },
     {
      "address": "0x009edd50",
-     "symbol": "?Destroy@DelStandIn@p07@@QAEPAXI@Z",
+     "symbol": "?Destroy_009edd50@DelStandIn@p07@@QAEPAXI@Z",
      "size": 44
     },
     {
@@ -55981,7 +55981,7 @@
     "?GetResponseByIndex@DialogueItem_shell@@QAEHF@Z": "0x0083c970",
     "__ehhandler$?ResolveReferences@DialoguePackageState@fnv_009eff60@@QAEXXZ": "0x00f1936b",
     "?GetResponseByIndex@DialogueItem@fnv_009eff60@@QAEPAVDialogueResponse@@F@Z": "0x0083c970",
-    "?Destroy@DelStandIn@p07@@QAEPAXI@Z": "0x009edd50",
+    "?Destroy_009edd50@DelStandIn@p07@@QAEPAXI@Z": "0x009edd50",
     "?IsPointerMatch@FUN_009edd30_shell@@QAE_NPBX@Z": "0x009edd30",
     "?SaveGame@DialoguePackage@fnv_009f01d0@@QAEXPAUBGSSaveFormBuffer@2@@Z": "0x009f01d0",
     "?LoadSaveData@This@@QAEXXZ": "0x009efa50",
@@ -104658,7 +104658,7 @@
     },
     {
      "address": "0x007cb510",
-     "symbol": "?Destroy@DelStandIn@p07@@QAEPAXI@Z",
+     "symbol": "?Destroy_007cb510@DelStandIn@p07@@QAEPAXI@Z",
      "size": 44
     },
     {
@@ -106210,7 +106210,7 @@
     "?UpdateMenuSaveOptions@@YAXPAVMenu@@@Z": "0x007d2e50",
     "?SyncSliderWithSetting@fnv_007d2eb0@@YAXH@Z": "0x007d2eb0",
     "?ResetTaskQueueGlobals@@YAXXZ": "0x0082fa30",
-    "?Destroy@DelStandIn@p07@@QAEPAXI@Z": "0x007cb510",
+    "?Destroy_007cb510@DelStandIn@p07@@QAEPAXI@Z": "0x007cb510",
     "?UpdateColorSlotIndex@@YAXPAUColorSlot@@@Z": "0x007d1840",
     "?ApplyOrSyncColorSlot@fnv_007d1900@@YAXPAUColorSlot@1@@Z": "0x007d1900",
     "?ClearStartMenuEntries@@YAXXZ": "0x007ce6b0",
@@ -164203,6 +164203,11 @@
      "address": "0x0040a140",
      "symbol": "??1FUN_0040a140@@QAE@XZ",
      "size": 120
+    },
+    {
+     "address": "0x005f6e60",
+     "symbol": "?IsGuard@TESClass@@QAE_NXZ",
+     "size": 24
     }
    ],
    "symbols": {
@@ -164309,13 +164314,7 @@
     "/EHsc",
     "/Gy"
    ],
-   "functions": [
-    {
-     "address": "0x005f6e60",
-     "symbol": "?IsGuard@TESClass@@QAE_NXZ",
-     "size": 24
-    }
-   ],
+   "functions": [],
    "symbols": {}
   },
   {
@@ -498612,7 +498611,7 @@
     "??_7FUN_009064e0@@6B@": "0x0108864c",
     "?FUN_00528e40@QueuedMap@@QAEX_N@Z": "0x00528e40",
     "?FUN_0044b4b0@FUN_0044b4b0_Class@@QAEXXZ": "0x0044b4b0",
-    "?Destroy@DelStandIn@p07@@QAEPAXI@Z": "0x009bc890",
+    "?Destroy_009bc890@DelStandIn@p07@@QAEPAXI@Z": "0x009bc890",
     "?GetNextIndex@S5460@@QAEIXZ": "0x00905a10",
     "?SetVTable@FUN_00905670_Class@@QAEXXZ": "0x00905670",
     "?InitFromGlobal_00905910@GlobalObject_00869f00@@QAEXXZ": "0x00905910",

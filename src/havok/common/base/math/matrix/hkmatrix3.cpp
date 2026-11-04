@@ -1046,7 +1046,7 @@ void __cdecl FUN_00cd5530(float* out, const float* apMatrix, const float* in)
     }
 }
 
-extern const float DAT_0104da4c = 1.1920929e-7f;
+extern const float DAT_0104da4c;
 
 class ChainScalar
 {

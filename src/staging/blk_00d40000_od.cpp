@@ -1043,7 +1043,7 @@ int D52Class::FUN_00d52000(const VecD52& v)
 
 // namespace fnv_00d52000
 
-static const float DAT_01011d78 = 0.0f;
+extern const float DAT_01011d78;
 
 template <typename T> inline void D529E0_ConstructWithCopy(T* p, int n, const T& t)
 {

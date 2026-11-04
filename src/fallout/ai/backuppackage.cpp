@@ -308,6 +308,9 @@ struct Interface
 };
 
 SaveManager* DAT_011de45c;
+// Both pointer names bind the native save-pointer slot at 0x011de45c.
+__pragma(comment(linker,
+    "/alternatename:?g_TESSaveLoadGame@@3PEAUTESSaveLoadGame@@EA=?DAT_011de45c@@3PEAUSaveManager@@EA"))
 GlobalObject_0045cf30 g_011de4e8;
 
 

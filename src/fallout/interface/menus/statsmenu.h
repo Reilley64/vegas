@@ -3,12 +3,6 @@
 #include "fnv/decl/fnv_00a07dc0__FUN_00a07dc0_shell.h"
 #include "statsmenu_decls.h"
 
-// @fnv 0x0071f660
-int StatsMenu::GetClass()
-{
-    return 1003;
-}
-
 // @fnv 0x0071fa50
 void StatsMenu::AssignTileByID(int id, Tile* tile)
 {

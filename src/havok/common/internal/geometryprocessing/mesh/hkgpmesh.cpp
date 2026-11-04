@@ -7616,7 +7616,7 @@ LocResult LocTriangulator::LocatePoint(int x, int y)
 
 #endif
 extern const float DAT_010141cc;
-extern const float DAT_0104da4c=1.1920928955078125e-7f;
+extern const float DAT_0104da4c;
 struct EVec {
     float x,y,z,w;
     const __m128& quad() const {return reinterpret_cast<const __m128&>(*this);}
@@ -9259,7 +9259,7 @@ struct HostE10 {
     unsigned char flag101;
     void FUN_00e11e10();
 };
-extern const float DAT_010141cc = 0.0001f;
+extern const float DAT_010141cc;
 
 // Accumulates face normals into vertex acc20 fields, normalizes each vertex accumulator, and sets flag101 to 1.
 // @fnv 0x00e11e10

@@ -13472,7 +13472,7 @@ void FUN_00419bb0_cls::FUN_00419bb0(float value)
     }
 }
 
-unsigned int _data_011c16bc;
+extern unsigned int _data_011c16bc;
 
 struct FUN_00431f60 : BSExtraData
 {

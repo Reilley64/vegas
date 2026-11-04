@@ -141,11 +141,11 @@ struct DtorStandIn
 };
 struct DelStandIn
 {
-    void* Destroy(unsigned int flags);
+    void* Destroy_009edd50(unsigned int flags);
 };
 // Runs the destructor on this object, frees it when flags has bit 0 set, and returns this.
 // @fnv 0x009edd50
-void* DelStandIn::Destroy(unsigned int flags)
+void* DelStandIn::Destroy_009edd50(unsigned int flags)
 {
     ((DtorStandIn*)this)->FUN_0083dec0();
     if (flags & 1)

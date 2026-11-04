@@ -92,7 +92,7 @@ struct TESSaveLoadGame
 {
 };
 
-TESSaveLoadGame* g_TESSaveLoadGame;
+extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_00480240_shell : ::TESAttributes
 {

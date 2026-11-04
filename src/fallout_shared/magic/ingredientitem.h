@@ -72,10 +72,4 @@ class IngredientItem : public MagicItemObject,
 
 #include "ingredientitem_tesclass.h"
 
-// @fnv 0x005f6e60
-bool TESClass::IsGuard()
-{
-    return bool(data.m_ucClassFlags & 2);
-}
-
 #endif

@@ -379,7 +379,7 @@ struct TESSaveLoadGame
 {
 };
 
-TESSaveLoadGame* g_TESSaveLoadGame;
+extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0047f8c0_shell : ::TESAIForm
 {

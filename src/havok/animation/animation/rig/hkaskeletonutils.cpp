@@ -1755,7 +1755,7 @@ struct PoseBlend
 };
 
 extern const float DAT_01012054 = -1.0f;
-extern const float DAT_0104da4c = 1.192092896e-07f;
+extern const float DAT_0104da4c;
 
 static __m128 ld(const Vec4f& v)
 {

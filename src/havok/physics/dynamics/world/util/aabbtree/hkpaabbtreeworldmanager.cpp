@@ -2941,8 +2941,8 @@ struct CollectorState {
  float* m_88;
  void FUN_00d984b0(void* arg1, Obj* arg2, Vertex* arg3, void* arg4, MatrixData* arg5, FloatPtr arg6, void* volatile arg7, void* volatile arg8);
 };
-extern "C" const __m128 DAT_010ec7f0={1,1,1,1};
-extern "C" const float DAT_01016248=0.5f;
+extern "C" const __m128 DAT_010ec7f0;
+extern "C" const float DAT_01016248;
 inline void Vector::interpolate(const Vector& a,const Vector& b,const Scalar& scale) {
  __m128 weight=scale.spread();
  __m128 opposite=_mm_sub_ps(DAT_010ec7f0,weight);

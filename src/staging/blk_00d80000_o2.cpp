@@ -5264,7 +5264,7 @@ struct TreeCollector {
 extern const __m128 DAT_011b6de0;
 extern const float DAT_010cd644 = 1.0000000272564224e16f;
 extern const float DAT_0104e148 = -3.402820018375656e38f;
-extern const float DAT_0104da48 = 3.402820018375656e38f;
+extern const float DAT_0104da48;
 float __cdecl FUN_00c9e0f0(float a, float b);
 
 template<class T> struct TreeRef { T* p; TreeRef(T* q):p(q){} operator T*()const{return p;} T* operator->()const{return p;} };

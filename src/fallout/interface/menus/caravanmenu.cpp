@@ -21480,7 +21480,7 @@ struct D_Array
     int* data;
     unsigned int size, capacity;
 };
-extern const float DAT_01012054 = -1.0f;
+extern const float DAT_01012054;
 struct E_Move
 {
     int u00, u04, kind, lane, slot, card, priority;

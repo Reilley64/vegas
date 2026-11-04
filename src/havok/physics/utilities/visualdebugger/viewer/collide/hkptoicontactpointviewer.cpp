@@ -420,7 +420,7 @@ FUN_00d68740::FUN_00d68740()
 
 
 
-extern const float DAT_010c69c0=(0.85f-1.0f);
+extern const float DAT_010c69c0;
 
 struct Vec {
     union {

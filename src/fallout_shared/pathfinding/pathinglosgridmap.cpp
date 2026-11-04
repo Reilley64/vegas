@@ -1277,7 +1277,7 @@ struct TESConditionItem
 {
 };
 
-unsigned int _data_011c16bc;
+extern unsigned int _data_011c16bc;
 
 // @fnv 0x006e0070
 void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)

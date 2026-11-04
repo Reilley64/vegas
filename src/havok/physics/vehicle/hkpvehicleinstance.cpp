@@ -4216,7 +4216,7 @@ void hkpVehicleInstanceCustom::FUN_00e371d0(float deltaTime, int wheelNum, float
 
 
 
-extern const float DAT_0104da4c = 1.1920928955078125e-7f;
+extern const float DAT_0104da4c;
 
 struct __declspec(align(16)) FnvVec {
     float x;

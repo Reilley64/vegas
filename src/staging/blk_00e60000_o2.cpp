@@ -12369,10 +12369,10 @@ struct Polytope
     Face faces[100];
 };
 
-extern const float DAT_0104da4c = 1.1920928955078125e-7f;
+extern const float DAT_0104da4c;
 
 namespace fnv_00c88020 {
-extern "C" const float DAT_01016248 = 0.5f;
+extern "C" const float DAT_01016248;
 }
 using ::fnv_00c88020::DAT_01016248;
 

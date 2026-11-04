@@ -2148,7 +2148,7 @@ void __cdecl FUN_00d02250(PairList<TypedPair>& list)
 }
 
 
-extern const float DAT_0104da48 = 3.402820018375656e+38f;
+extern const float DAT_0104da48;
 
 struct ProfileNamedRecord : TraceRecord
 {

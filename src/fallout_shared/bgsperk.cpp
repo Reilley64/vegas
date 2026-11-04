@@ -1668,7 +1668,7 @@ BGSPerkEntry* FUN_005ea3a0_shell::FUN_005ea3a0()
 }
 }  // namespace fnv_005ea3a0
 
-unsigned int _data_011c16bc;
+extern unsigned int _data_011c16bc;
 
 struct ListX
 {

@@ -102,7 +102,7 @@ class MapPointer
     }
 };
 
-class DistantLODShader
+class DistantLODShader_00bc4ed0
 {
   public:
     unsigned char padding0[0x18];
@@ -118,7 +118,7 @@ class DistantLODShader
 
 // Creates the shader constant maps for the shader if not already present, setting constants on the first map.
 // @fnv 0x00bc4ed0
-void DistantLODShader::UpdateShaderConstants()
+void DistantLODShader_00bc4ed0::UpdateShaderConstants()
 {
     if (!m_spSecondShaderConstantMap.m_pShaderConstantMap)
     {

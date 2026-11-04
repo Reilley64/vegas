@@ -1830,7 +1830,7 @@ void Ce12a0Host::FUN_00ce12a0(void* a1, void* a2, Xf12a0* a3, Xf12a0* a4)
     }
 }
 
-extern const float DAT_0104da4c = 1.1920928955078125e-7f;
+extern const float DAT_0104da4c;
 
 struct ByteResult
 {

@@ -2619,7 +2619,7 @@ struct TrackMonitor
     char* capacity;
     char* limit;
 };
-extern const float DAT_0104e148 = -3.40282e+38f;
+extern const float DAT_0104e148;
 extern const char DAT_010cc9d0[];
 struct PreviousBodies
 {

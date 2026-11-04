@@ -1080,7 +1080,7 @@ void FUN_0064bcc0_shell::FUN_0064bcc0(float afX, float afY, float afZ, int)
 }
 }  // namespace fnv_0064bcc0
 
-unsigned int _data_011c16bc;
+extern unsigned int _data_011c16bc;
 
 struct FUN_0064b160_shell : public BSFaceGenAnimationData
 {

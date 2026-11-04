@@ -271,7 +271,7 @@ struct PipboyGeometry
 
 static const char s_szScanlines[] = "Data\\Textures\\Pipboy3000\\PipboyScanlines.dds";
 static const char s_szDistortMap[] = "Data\\Textures\\Pipboy3000\\PipboyDistortEffectMap.dds";
-extern const char g_szPipboyEnd[] = "";
+extern const char g_szPipboyEnd[];
 
 struct PipboyShader2
 {

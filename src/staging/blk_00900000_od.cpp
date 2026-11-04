@@ -111,7 +111,7 @@ FUN_009059f0_Class::FUN_009059f0_Class()
 namespace p07 {
 struct DelStandIn
 {
-    void* Destroy(unsigned int);
+    void* Destroy_009bc890(unsigned int);
     void* FUN_00905ae0();
 };
 }
@@ -119,7 +119,7 @@ struct DelStandIn
 // @fnv 0x00905ae0
 void* p07::DelStandIn::FUN_00905ae0()
 {
-    return Destroy(0);
+    return Destroy_009bc890(0);
 }
 
 extern "C" void __cdecl DAT_01088640();

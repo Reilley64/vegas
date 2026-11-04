@@ -8,12 +8,6 @@
 #include "tile_types_Tile__RefValueAction.h"
 #pragma function(memcmp)
 
-// @fnv 0x00a0c000
-float Tile__FloatAction::GetStoredFloatValue()
-{
-    return fValue;
-}
-
 // @fnv 0x00a0d180
 bool Tile__MenuStringMap::IsKeysEqual(const char* left, const char* right)
 {

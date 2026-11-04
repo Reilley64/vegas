@@ -4,7 +4,7 @@
 #include <windows.h>
 
 // @fnv 0x00ee6d86
-int __stdcall FUN_00ee6d86(unsigned short version, void* data)
+int FUN_00ee6d86(unsigned short version, void* data)
 {
     return WSAStartup(version, static_cast<LPWSADATA>(data));
 }

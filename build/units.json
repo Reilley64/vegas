@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2762,
+  "units": 2763,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -402226,16 +402226,6 @@
      "size": 54
     },
     {
-     "address": "0x00c85730",
-     "symbol": "?SetThreadLocalValue@@YAXPAX@Z",
-     "size": 19
-    },
-    {
-     "address": "0x00c85760",
-     "symbol": "?FUN_00c85760@fnv_00c85760@@YAPAXXZ",
-     "size": 13
-    },
-    {
      "address": "0x00c85770",
      "symbol": "?Clear@TargetClass@@QAEPAU1@XZ",
      "size": 28
@@ -402253,9 +402243,34 @@
     "?AllocateWithHeader@@YAPAXPAUFUN_00c85690_Allocator@@I@Z": "0x00c85690",
     "?ReleaseChildren@Owner@@QAEXXZ": "0x00c856f0",
     "?Clear@TargetClass@@QAEPAU1@XZ": "0x00c85770",
-    "?SetThreadLocalValue@@YAXPAX@Z": "0x00c85730",
     "?FUN_00c85750@@YAPAUHolder@@XZ": "0x00c85750",
     "?FUN_0044edb0@MagicCaster_shell@@QAEPAVMagicTarget@@XZ": "0x0044edb0"
+   }
+  },
+  {
+   "source": "src/runtime/havok_router_tls.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00c85730",
+     "symbol": "?SetThreadLocalValue@@YAXPAX@Z",
+     "size": 19
+    },
+    {
+     "address": "0x00c85760",
+     "symbol": "?FUN_00c85760@fnv_00c85760@@YAPAXXZ",
+     "size": 13
+    }
+   ],
+   "symbols": {
+    "?SetThreadLocalValue@@YAXPAX@Z": "0x00c85730"
    }
   },
   {
@@ -404236,7 +404251,7 @@
     "?DAT_0126835c@@3KA": "0x0126835c",
     "__imp__TlsGetValue@4": "0x00fdf044",
     "?FUN_00cb0df0@fnv_00cb0df0@@YAXPAUGrowBuffer@1@@Z": "0x00cb0df0",
-    "?FUN_00c85760@@YAHXZ": "0x00c85760",
+    "?FUN_00c85760@fnv_00c85760@@YAPAXXZ": "0x00c85760",
     "_DAT_011b3dbc": "0x011b3dbc",
     "?FUN_00c85750@@YAPAUBSAudio@@XZ": "0x00c85750",
     "_DAT_011b3dc0": "0x011b3dc0",
@@ -404266,8 +404281,7 @@
     "?FUN_00c85750@fnv_00cbbde0@@YAPAUS_00cbbde0_Router@1@XZ": "0x00c85750",
     "??0S_00cbbde0_StdioReader@fnv_00cbbde0@@QAE@PBD@Z": "0x00d2bd60",
     "??0S_00cbbde0_BufferedReader@fnv_00cbbde0@@QAE@PAUS_00cbbde0_Reader@1@H@Z": "0x00d2bc30",
-    "_SetThreadLocalValue": "0x00c85730",
-    "?SetThreadLocalValue@@YAXH@Z": "0x00c85730",
+    "?SetThreadLocalValue@@YAXPAX@Z": "0x00c85730",
     "?GetProcessorCount@@YAXPAH@Z": "0x00cbb960",
     "?FUN_00b4df30@@YAXPAX@Z": "0x00b4df30"
    }

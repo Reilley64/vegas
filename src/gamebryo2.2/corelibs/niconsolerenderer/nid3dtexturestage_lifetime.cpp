@@ -20,6 +20,7 @@ struct alignas(BeamStage) StageAllocation
     void* originalBase;
     StageDomain domain;
     std::size_t nativeExtent;
+    std::size_t allocationBytes;
     std::size_t alignment;
 };
 
@@ -39,7 +40,7 @@ void* AllocateStages(std::size_t bytes, StageDomain domain)
     auto space = total - sizeof(StageAllocation);
     std::align(alignment, bytes, aligned, space);
     auto* allocation = reinterpret_cast<StageAllocation*>(aligned) - 1;
-    ::new (allocation) StageAllocation{raw, domain, sizeof(BeamStage), alignof(BeamStage)};
+    ::new (allocation) StageAllocation{raw, domain, sizeof(BeamStage), total, alignof(BeamStage)};
     return aligned;
 }
 
@@ -55,7 +56,7 @@ void ReleaseStages(void* compilerBase) noexcept
     else if (allocation->domain == StageDomain::niArray)
         FUN_00aa1490(original, extent);
     else
-        FUN_00aa1460(original, extent);
+        FUN_00aa1460(original, static_cast<unsigned int>(allocation->allocationBytes));
 }
 
 void ChangeStringReference(char* name, int amount) noexcept

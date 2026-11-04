@@ -76,7 +76,7 @@ void FUN_00401030(void* p) { Free(p, 1); }
 void* FUN_00aa1420(std::size_t n) { return Allocate(n, 2); }
 void FUN_00aa1490(void* p, unsigned int extent) { assert(extent == sizeof(BeamStage)); Free(p, 2); }
 void* FUN_00aa13e0(std::size_t n) { return Allocate(n, 3); }
-void FUN_00aa1460(void* p, unsigned int extent) { assert(extent == sizeof(BeamStage)); Free(p, 3); }
+void FUN_00aa1460(void* p, unsigned int extent) { assert(extent == live.at(p).bytes); Free(p, 3); }
 void* FUN_00aa1070(unsigned int n) { return Allocate(n, 4); }
 void FUN_00aa10f0(void* p) { Free(p, 4); }
 

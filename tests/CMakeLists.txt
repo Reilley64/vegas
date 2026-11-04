@@ -30,3 +30,8 @@ add_executable(runtime_havok_router_tls_test runtime/havok_router_tls_test.cpp)
 target_include_directories(runtime_havok_router_tls_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(runtime_havok_router_tls_test PRIVATE game)
 add_test(NAME runtime.havok_router_tls COMMAND runtime_havok_router_tls_test)
+
+add_executable(runtime_havok_memory_prerequisite_test runtime/havok_memory_prerequisite_test.cpp)
+target_include_directories(runtime_havok_memory_prerequisite_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(runtime_havok_memory_prerequisite_test PRIVATE game)
+add_test(NAME runtime.havok_memory_prerequisite COMMAND runtime_havok_memory_prerequisite_test)

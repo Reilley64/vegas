@@ -35,11 +35,7 @@ class TESObjectDOOR
   public:
     void ClearRandomTeleportList();
 };
-class MersenneTwister
-{
-  public:
-    static MersenneTwister* GetRandomGenerator();
-};
+#include "bscore/bsrandom.h"
 class BGSHeadPart
 {
   public:

@@ -116,7 +116,7 @@ QuantityData::QuantityData() { reinterpret_cast<::FUN_00537e90 *>(this)->SetQuan
 // @fnv 0x00519550
 void TESObjectDOOR::ClearRandomTeleportList() { reinterpret_cast<::FileMatchList *>((reinterpret_cast<BSSimpleList<ActorCause*>*>(reinterpret_cast<char*>(this)+136)))->RemoveAll(); }
 // @fnv 0x00944460
-unsigned int GetRandomNumberInRange(int min, int max) { return ((unsigned int)(reinterpret_cast<::FUN_00944480_shell *>((MersenneTwister::GetRandomGenerator()))->IntInRange(min,max))); }
+unsigned int GetRandomNumberInRange(int min, int max) { return ((unsigned int)(MersenneTwister::GetRandomGenerator()->IntInRange(min,max))); }
 // @fnv 0x005e7790
 void BGSHeadPart::AddExtraPart(BGSHeadPart* part) { reinterpret_cast<BSSimpleList<SpellItem*>*>(reinterpret_cast<char*>(this)+72)->AddHead(reinterpret_cast<SpellItem*&>(part)); }
 // @fnv 0x004b0680

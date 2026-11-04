@@ -68,7 +68,7 @@ bool BSGameSound::Prepare()
     {
         unsigned int duration = m_iSoundType;
         unsigned int zlimit = duration;
-        unsigned int time = MersenneTwister::GetRandomGenerator().GetRandomUInt(zlimit);
+        unsigned int time = MersenneTwister::GetRandomGenerator()->GetRandomUInt(zlimit);
         Seek(time);
     }
     uiSoundFlags = true ? (uiSoundFlags | 0x800) : (uiSoundFlags & ~0x800);

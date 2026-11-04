@@ -300,18 +300,15 @@ float ComputeSkillValue(int aiSkill, float afA, float afB, int* apResult)
 }
 }  // namespace fnv_00648090
 
-struct MersenneTwister
-{
-    static MersenneTwister* __cdecl GetRandomGenerator();
-};
+#include "bscore/bsrandom.h"
 
 // @fnv 0x00648fa0
 void ComputeMedicineHealing(float& afLimbHealPercent, float& afHealthDamagePercent, int aiMedicineSkill,
                             bool abMorphineUsed, float afWoundPercent)
 {
-    afLimbHealPercent = reinterpret_cast<::FUN_00476b90_shell *>((MersenneTwister::GetRandomGenerator()))->FUN_00476b90(0.0f, aiMedicineSkill * g_d100 / g_d100 *
+    afLimbHealPercent = MersenneTwister::GetRandomGenerator()->FUN_00476b90(0.0f, aiMedicineSkill * g_d100 / g_d100 *
                                                                       (1.0 + abMorphineUsed * DAT_01011588));
-    afHealthDamagePercent = reinterpret_cast<::FUN_00476b90_shell *>((MersenneTwister::GetRandomGenerator()))->FUN_00476b90(
+    afHealthDamagePercent = MersenneTwister::GetRandomGenerator()->FUN_00476b90(
         0.0f, (aiMedicineSkill - g_d100) / g_d100 * ((afWoundPercent - g_d100) / g_d100) * g_d100 *
                   (1.0 - abMorphineUsed * DAT_01011588));
 }

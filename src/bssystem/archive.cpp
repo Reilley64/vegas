@@ -7659,17 +7659,11 @@ struct LNode
 };
 extern LNode* DAT_011f8160;
 
-class FUN_00aa5140
-{
-  public:
-    FUN_00aa5140();
-};
 
 __forceinline const char* ResolveNameInline(ArchiveEntry& entry, NP_afc& archive, int& index)
 {
     int id = entry.unk08;
-    static FUN_00aa5140 s_obj;
-    unsigned int name = reinterpret_cast<::MersenneTwister *>(&(s_obj))->GetRandomUInt(id);
+    unsigned int name = MersenneTwister::GetRandomGenerator()->GetRandomUInt(id);
     return reinterpret_cast<::fnv_00af96d0::ArcStand *>((((FUN_00af9ba0_shell*)(Archive*)archive)))->FUN_00af96d0(index, name);
 }
 

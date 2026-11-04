@@ -6039,9 +6039,9 @@ void This::FUN_009ad670()
             {
                 FloatConfiguredObject guard(1.0f);
                 BigObj* node = new BigObj(0);
-                reinterpret_cast<::FUN_004bc1f0_S *>((node))->FUN_004bc1f0((float)(reinterpret_cast<::FUN_004dfec0_Class *>((((Rnd*)((void *)(::MersenneTwister::GetRandomGenerator())))))->FUN_004dfec0() * 10.0),
-                                   (float)(reinterpret_cast<::FUN_004dfec0_Class *>((((Rnd*)((void *)(::MersenneTwister::GetRandomGenerator())))))->FUN_004dfec0() * 10.0),
-                                   (float)(reinterpret_cast<::FUN_004dfec0_Class *>((((Rnd*)((void *)(::MersenneTwister::GetRandomGenerator())))))->FUN_004dfec0() * 10.0 + 32.0));
+                reinterpret_cast<::FUN_004bc1f0_S *>((node))->FUN_004bc1f0((float)(::MersenneTwister::GetRandomGenerator()->FUN_004dfec0() * 10.0),
+                                   (float)(::MersenneTwister::GetRandomGenerator()->FUN_004dfec0() * 10.0),
+                                   (float)(::MersenneTwister::GetRandomGenerator()->FUN_004dfec0() * 10.0 + 32.0));
                 InitObj* collision = new InitObj(node);
                 Sphere* shape = new Sphere(8.0f, 1);
                 Big info;

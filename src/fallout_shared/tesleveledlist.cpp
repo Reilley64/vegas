@@ -121,7 +121,7 @@ bool TESLeveledList::GetUseAll()
 // @fnv 0x00487f50
 unsigned int DialogueRandom()
 {
-    return reinterpret_cast<::FUN_00476be0_Class *>((MersenneTwister::GetRandomGenerator()))->FUN_00476be0();
+    return MersenneTwister::GetRandomGenerator()->FUN_00476be0();
 }
 
 struct BGSSaveFormBuffer;

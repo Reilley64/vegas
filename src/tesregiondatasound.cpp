@@ -115,33 +115,10 @@ bool TESRegionDataSound::LoadRegionSoundData(TESFile* file)
     return true;
 }
 
-struct MersenneTwister
-{
-    void Init(unsigned int);
-    void Seed(unsigned int);
-    void Kill();
-    unsigned int GetRandomUInt(unsigned int, unsigned int);
-    unsigned int GetRandomUInt();
-    unsigned int GetRandomUInt(unsigned int);
-    int Int(int, int);
-    int Int();
-    float Float0To1();
-    float FloatNeg1To1();
-    float FloatTwoPi();
-    float FloatNegPiToPi();
-    bool Bool(float);
-    unsigned int m_uiSeed;
-    unsigned int m_uiLastValue;
-    char mt[2496];
-    unsigned int mti;
-};
-struct FUN_00944480_shell : public MersenneTwister
-{
-    int IntInRange(int, int);
-};
+#include "bscore/bsrandom.h"
 
 // @fnv 0x00944480
-int FUN_00944480_shell::IntInRange(int aiMin, int aiMax)
+int MersenneTwister::IntInRange(int aiMin, int aiMax)
 {
     return GetRandomUInt(aiMax - aiMin) + aiMin;
 }

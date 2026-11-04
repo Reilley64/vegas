@@ -717,11 +717,7 @@ void FUN_006d0730_shell::FUN_006d0730(void* pDest, void const* pSource, unsigned
     }
 }
 
-struct MersenneTwister
-{
-    static MersenneTwister* __cdecl GetRandomGenerator();
-    void FUN_006d1620();
-};
+#include "bscore/bsrandom.h"
 
 // @fnv 0x006d1600
 void __cdecl FUN_006d1600()
@@ -966,18 +962,12 @@ void FUN_006d07d0_shell::FUN_006d07d0(void* a, void* b, unsigned int c)
     }
 }
 
-namespace fnv_006d1620 {
-struct MersenneTwister
-{
-    float FUN_006d1620();
-};
 // @fnv 0x006d1620
 float MersenneTwister::FUN_006d1620()
 {
-    unsigned int v = reinterpret_cast<::FUN_00476be0_Class *>(this)->FUN_00476be0();
+    unsigned int v = FUN_00476be0();
     return (float)((double)v * ::DAT_0101e5a0 - (double)3.1415927f);
 }
-}  // namespace fnv_006d1620
 
 struct FUN_006d7ee0_shell
 {

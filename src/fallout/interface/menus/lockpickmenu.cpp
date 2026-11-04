@@ -790,7 +790,7 @@ void LockPickMenuImpl::HandleLockPickAction(int aiCode, int aiUnused)
     case 9: {
         float fPerk = 0.0f;
         ::ApplyPerkModifiers(0x20, (::Actor *)((*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer))), &fPerk);
-        if (reinterpret_cast<::MersenneTwister *>((((::RNG *)(::MersenneTwister::GetRandomGenerator()))))->GetRandomUInt(100) <
+        if (::MersenneTwister::GetRandomGenerator()->GetRandomUInt(100) <
             (unsigned int)::fnv_00648d30::FUN_00648d30(reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer))->kAVOwner))->GetActorValueAsInteger((::ActorValue::Index)(0x24)), ::DAT_011da28c[unk70]))
         {
             unk98 = 1;
@@ -959,7 +959,7 @@ void C::FUN_007908f0()
 
     if (((RunSeventhVirtualOperation > ::_DAT_01012060 && remA8 > val3) ||
          (RunSeventhVirtualOperation < ::_DAT_01012060 && val3 > remA8)) &&
-        ((int)(reinterpret_cast<::MersenneTwister *>((((Checker*)((void *)(::MersenneTwister::GetRandomGenerator())))))->GetRandomUInt({}))) == 0)
+        ((int)(::MersenneTwister::GetRandomGenerator()->GetRandomUInt({}))) == 0)
     {
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID(&DAT_0107462c, 0x101)))->FUN_00ad8830(false);
     }
@@ -1401,7 +1401,7 @@ void PickMenu::UpdateSweetSpot()
     ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&text), "%d", g_iDriverAngle_011da20c);
     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((unk48))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&(text))))), true);
     unk88 = g_iDriverAngle_011da20c + g_iPickAngle_011da208 / 2;
-    unk84 = reinterpret_cast<::TileListBoxCalls *>((unk64))->GetFloat(0xfb1) * reinterpret_cast<::MersenneTwister *>((((PickRandom*)((::RNG *)(::MersenneTwister::GetRandomGenerator())))))->Float0To1();
+    unk84 = reinterpret_cast<::TileListBoxCalls *>((unk64))->GetFloat(0xfb1) * ::MersenneTwister::GetRandomGenerator()->Float0To1();
     unk84 = FUN_0040ebd0(FUN_00404010(unk84, (float)unk88), reinterpret_cast<::TileListBoxCalls *>((unk64))->GetFloat(0xfb1) - unk88);
     range = (int)(unk84 - g_iPickAngle_011da208 / 2);
     for (int i = 0; i < 6; i++)

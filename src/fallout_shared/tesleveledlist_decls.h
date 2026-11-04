@@ -240,11 +240,7 @@ class TESContainer
     TESContainer();
     ~TESContainer();
 };
-class MersenneTwister
-{
-  public:
-    static MersenneTwister* GetRandomGenerator();
-};
+#include "bscore/bsrandom.h"
 unsigned int DialogueRandom();
 
 class BGSLoadGameBuffer

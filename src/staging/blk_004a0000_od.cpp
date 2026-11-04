@@ -305,19 +305,12 @@ unsigned short FUN_004a4200_class::FUN_004a4200()
     return unk1c;
 }
 
-struct BSRandomHelper
-{
-    float FUN_004a4260();
-};
-struct MersenneTwister
-{
-    static MersenneTwister* GetRandomGenerator();
-};
+#include "bscore/bsrandom.h"
 
 // @fnv 0x004a4240
 float FUN_004a4240()
 {
-    return reinterpret_cast<BSRandomHelper*>(MersenneTwister::GetRandomGenerator())->FUN_004a4260();
+    return MersenneTwister::GetRandomGenerator()->FUN_004a4260();
 }
 
 struct FUN_004a4440_Class
@@ -1089,13 +1082,10 @@ FUN_004a3cc0_Class* FUN_004a3cc0_Class::FUN_004a3cc0()
     return this;
 }
 
-struct UnsignedIntHelper
-{
-};
 // @fnv 0x004a4260
-float BSRandomHelper::FUN_004a4260()
+float MersenneTwister::FUN_004a4260()
 {
-    unsigned int val = reinterpret_cast<::FUN_00476be0_Class *>((((UnsignedIntHelper*)this)))->FUN_00476be0();
+    unsigned int val = FUN_00476be0();
     return (float)((double)val * DAT_0101e5a0);
 }
 

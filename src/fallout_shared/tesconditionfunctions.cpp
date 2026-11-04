@@ -2414,12 +2414,7 @@ bool __cdecl FUN_005a0040(TESObjectREFR* ref, void* apUnused1, void* apUnused2, 
     return true;
 }
 
-class MersenneTwister
-{
-  public:
-    static MersenneTwister* __cdecl GetRandomGenerator(void);
-    unsigned int GetRandomUInt(unsigned int);
-};
+#include "bscore/bsrandom.h"
 
 // @fnv 0x005a00a0
 unsigned int FUN_005a00a0(uintptr_t aiMax)

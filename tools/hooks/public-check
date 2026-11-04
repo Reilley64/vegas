@@ -17,12 +17,46 @@ set -euo pipefail
 root=$(git rev-parse --show-toplevel)
 allow_file="$root/tools/hooks/public-allow.txt"
 
-patterns=(
-  'home path|(/Users/[A-Za-z0-9._-]+|/home/[a-z_][a-z0-9_-]*|[A-Za-z]:\\\\?Users\\\\?)'
-  'private IP address|(^|[^0-9.])(10\.[0-9]{1,3}|192\.168|172\.(1[6-9]|2[0-9]|3[01]))\.[0-9]{1,3}\.[0-9]{1,3}([^0-9.]|$)'
-  'tracker URL|app\.plane\.so/'
-  'private key|-----BEGIN [A-Z ]*PRIVATE KEY-----'
-)
+# Byte-locale matching is shared with the range scanner.
+export LC_ALL=C
+content_email_file="$root/tools/hooks/public-content-emails.txt"
+content_emails=()
+# awk validates every record and propagates file-read failure before Bash stores text.
+if ! content_email_data=$(awk '
+  $0 !~ /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/ { exit 2 }
+  { print; count++ }
+  END { if (count == 0) exit 2 }
+' "$content_email_file"); then
+  echo "public-check: incomplete: invalid or unreadable content email policy" >&2
+  exit 2
+fi
+while IFS= read -r e; do
+  content_emails+=("$e")
+done <<<"$content_email_data"
+
+patterns=()
+if ! pattern_data=$(awk '
+  index($0, "|") < 2 || $0 ~ /[^ -~]/ { exit 2 }
+  { print; count++ }
+  END { if (count == 0) exit 2 }
+' "$root/tools/hooks/public-patterns.txt"); then
+  echo "public-check: incomplete: invalid or unreadable pattern policy" >&2
+  exit 2
+fi
+while IFS= read -r pattern; do
+  expression=${pattern#*|}
+  if [[ -z $expression ]]; then
+    echo "public-check: incomplete: empty policy expression" >&2
+    exit 2
+  fi
+  if printf '' | grep -E -- "$expression" >/dev/null 2>&1; then
+    :
+  elif (( $? != 1 )); then
+    echo "public-check: incomplete: invalid policy expression" >&2
+    exit 2
+  fi
+  patterns+=("$pattern")
+done <<<"$pattern_data"
 email_re='[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
 
 allowed_emails() {
@@ -35,6 +69,17 @@ email_allowed() {
   e=$(tr '[:upper:]' '[:lower:]' <<<"$1")
   [[ $e == *@users.noreply.github.com ]] && return 0
   allowed_emails | tr '[:upper:]' '[:lower:]' | grep -qxF -- "$e"
+}
+
+content_email_allowed() {
+  email_allowed "$1" && return 0
+  local e candidate
+  candidate=$(LC_ALL=C tr '[:upper:]' '[:lower:]' <<<"$1") || return 2
+  for e in "${content_emails[@]}"; do
+    e=$(LC_ALL=C tr '[:upper:]' '[:lower:]' <<<"$e") || return 2
+    [[ $e == "$candidate" ]] && return 0
+  done
+  return 1
 }
 
 drop_allowed() {
@@ -71,7 +116,7 @@ scan_text() {
     done < <(grep -iF -f <(printf '%s\n' "$deny") <<<"$text" || true)
   fi
   while IFS= read -r e; do
-    email_allowed "$e" || report "$where" "email address $e"
+    content_email_allowed "$e" || report "$where" "email address $e"
   done < <(grep -oE -- "$email_re" <<<"$text" | sort -u || true)
   if command -v gitleaks >/dev/null; then
     gitleaks stdin --no-banner --redact --log-level error <<<"$text" >/dev/null 2>&1 \
@@ -91,6 +136,37 @@ added_lines() {
   grep '^+' | grep -v '^+++ ' | cut -c2- || true
 }
 
+added_history_lines() {
+  LC_ALL=C grep -a '^+' | LC_ALL=C grep -av '^+++ ' | cut -c2- || true
+}
+
+scan_history_text() {
+  local where=$1 raw without_nul status
+  raw=$(mktemp) || return 2
+  without_nul=$(mktemp) || { rm -f -- "$raw"; return 2; }
+  if ! cat >"$raw" || ! LC_ALL=C tr -d '\000' <"$raw" >"$without_nul"; then
+    report "$where" "historical input processing failed"
+    rm -f -- "$raw" "$without_nul"
+    return 2
+  fi
+  # The transformed copy is only a detector, never scanner input.
+  if cmp -s -- "$raw" "$without_nul"; then
+    if scan_text "$where" <"$raw"; then status=0; else status=$?; fi
+  else
+    status=$?
+    if (( status == 1 )); then
+      report "$where" "NUL byte in historical text"
+      status=1
+    else
+      report "$where" "historical input comparison failed"
+      status=2
+    fi
+  fi
+  rm -f -- "$raw" "$without_nul" || status=2
+  return "$status"
+}
+
+
 case ${1:-} in
   staged)
     git diff --cached -U0 --no-color --no-ext-diff | added_lines | scan_text "staged changes" || found=1
@@ -103,8 +179,8 @@ case ${1:-} in
   range)
     shift
     while read -r rev; do
-      git show -U0 --no-color --no-ext-diff --format= "$rev" | added_lines | scan_text "commit $rev" || found=1
-      git log -1 --format=%B "$rev" | scan_text "message of $rev" || found=1
+      git show -U0 --no-color --no-ext-diff --format= "$rev" | added_history_lines | scan_history_text "commit $rev" || found=1
+      git log -1 --format=%B "$rev" | scan_history_text "message of $rev" || found=1
       check_ident "author of $rev" "$(git log -1 --format=%ae "$rev")"
       check_ident "committer of $rev" "$(git log -1 --format=%ce "$rev")"
     done < <(git rev-list "$@")

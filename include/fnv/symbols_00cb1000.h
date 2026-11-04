@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include "fnv/havok_byte_fill.h"
 
 struct DepthLimit;
 
@@ -27,8 +28,6 @@ namespace fnv_00cb11b0 { void *FUN_00cb11b0(void *, int, void *); }
 void *FUN_00cb1260(void *, const void *, uintptr_t);
 // 0x00cb1270
 void *FUN_00cb1270(char *, const char *, int);
-// 0x00cb1280
-void FUN_00cb1280(void *, int, uintptr_t);
 // 0x00cb1290
 int FUN_00cb1290(const unsigned char *, const unsigned char *, unsigned int);
 // 0x00cb13c0

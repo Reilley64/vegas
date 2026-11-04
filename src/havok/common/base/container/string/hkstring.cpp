@@ -284,12 +284,6 @@ void* __cdecl FUN_00cb1270(char* a, const char* b, int c)
 }
 
 
-// @fnv 0x00cb1280
-void __cdecl FUN_00cb1280(void* dest, int value, uintptr_t count)
-{
-    std::memset(dest, value, count);
-}
-
 #include <stdarg.h>
 
 // @fnv 0x00cb0f60

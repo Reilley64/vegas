@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2763,
+  "units": 2764,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -399606,11 +399606,6 @@
      "size": 5
     },
     {
-     "address": "0x00cb1280",
-     "symbol": "?FUN_00cb1280@@YAXPAXHI@Z",
-     "size": 5
-    },
-    {
      "address": "0x00cb1290",
      "symbol": "?FUN_00cb1290@@YAHPBE0I@Z",
      "size": 116
@@ -399675,7 +399670,6 @@
     "_FUN_00ec6e30": "0x00ec6e30",
     "?_memmove@@YAPAXPAXPBXI@Z": "0x00ec44d0",
     "?FUN_00ec7230@@YAPAXPADPBDH@Z": "0x00ec7230",
-    "?FUN_00ec61c0@@YAXPAXHI@Z": "0x00ec61c0",
     "_FUN_00ecddf1": "0x00ecddf1",
     "_strstr": "0x00ec7750",
     "?CallSwappedArgs@@YAHII@Z": "0x00cb1190",
@@ -399689,6 +399683,27 @@
     "?Vsnprintf@@YAHPADHPBDZZ": "0x00cb0f60",
     "?Get@BoolGuard@@QAEHPAUCls@@H@Z": "0x004a4840",
     "?FUN_006266f0@B6266F0Array@@QAEXPAUB6266F0Allocator@@ABUB6266F0Entry@@@Z": "0x006266f0"
+   }
+  },
+  {
+   "source": "src/havok/common/base/container/string/havok_byte_fill.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00cb1280",
+     "symbol": "?FUN_00cb1280@@YAXPAXHI@Z",
+     "size": 5
+    }
+   ],
+   "symbols": {
+    "?FUN_00ec61c0@@YAXPAXHI@Z": "0x00ec61c0"
    }
   },
   {
@@ -413843,7 +413858,7 @@
     "?FUN_00dba9d0@FUN_00dba9d0_cls@@QAEPAXPAUFUN_00dba760_cls@@@Z": "0x00dba9d0",
     "?FUN_00dba9c0@ValueQ@@QBEPBDXZ": "0x00dba9c0",
     "?FUN_00dbab30@S_00dbab30_Ref@@QAEHH@Z": "0x00dbab30",
-    "_FUN_00cb1280": "0x00cb1280",
+    "?FUN_00cb1280@@YAXPAXHI@Z": "0x00cb1280",
     "?FUN_00dbac00@DArray@@QAEHXZ": "0x00dbac00",
     "?FUN_00dbabb0@DArray@@QAE?AUDValue@@H@Z": "0x00dbabb0",
     "?FUN_00c6cd00@FUN_00c6cd00_cls@@QAEXPBV1@@Z": "0x00c6cd00",
@@ -413975,7 +413990,6 @@
     "?GetSourcePair@Arg1@@QAEPAUKey64@@PAU2@@Z": "0x00dba810",
     "?FUN_00dba690@DObjWrap@@QAEHXZ": "0x00dba690",
     "?FUN_00d47120@hkClassD47120@@QBEHXZ": "0x00d47120",
-    "__FUN_00cb1280": "0x00cb1280",
     "?FUN_00d46d80@GlobalObjectO2_00d472a0@@QAE?AUFlagBool@@PAUObjB@@@Z": "0x00d46d80",
     "?FUN_00cb1f40@hkMapBaseCB1F@@QAEHAAUhkMemoryAllocatorCB1F@@II@Z": "0x00cb1f40",
     "?FUN_00cb0fa0@fnv_00cb0fa0@@YAHPBD0@Z": "0x00cb0fa0",
@@ -414173,7 +414187,7 @@
     "?FUN_00db7e70@@YAHHHABUS_00db8670_MultiMapUlong@@AAUS_00db8670_MapUlong@@@Z": "0x00db7e70",
     "?FUN_00c908c0@@YAXPAUSpawnedObject@@PAUSpawnedArray@@HH@Z": "0x00c908c0",
     "?FUN_00db83c0@fnv_00db83c0@@YAHHPAUhkIntArray@1@PAUGraph@1@H0H@Z": "0x00db83c0",
-    "_FUN_00cb1280": "0x00cb1280",
+    "?FUN_00cb1280@@YAXPAXHI@Z": "0x00cb1280",
     "_FUN_00cb1260": "0x00cb1260",
     "?g_0126c6c8@@3VGlobalObjectO2_00d472a0@@A": "0x0126c6c8",
     "?FUN_00dbda20@@YAXPAX0@Z": "0x00dbda20",
@@ -415979,7 +415993,6 @@
     "??_C@_0BM@MCJFGKAH@Wrong?5platform?5for?5packfile?$AA@": "0x010cf9d8",
     "?FUN_00d48760@@YAPAXAAUVersionedDataBlock@@ABULoadFormat@@PAULoadError@@PBX@Z": "0x00d48760",
     "?FUN_00ec61c0@@YAPAXPAXHI@Z": "0x00ec61c0",
-    "?FUN_00cb1280@@YAXPAXHH@Z": "0x00cb1280",
     "?FUN_00cb1130@@YAPBDPBD0@Z": "0x00cb1130",
     "?CallWithZeroMiddleArg@@YAHPBDH@Z": "0x00cb10f0",
     "?FUN_00d2cab0@@YAXXZ": "0x00d2cab0",

@@ -4,6 +4,7 @@
 
 #include "fnv/symbols_00c85000.h"
 #include <cstdint>
+#include "fnv/havok_byte_fill.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/Archive.h"
@@ -1095,7 +1096,6 @@ struct Dbc860Sink
     virtual void Call(int value, void* a, void* b, void* c);
 };
 
-extern "C" void __cdecl FUN_00cb1280(void* dst, int a, intptr_t b);
 extern "C" void __cdecl FUN_00cb1260(void* dst, void* src, intptr_t n);
 extern "C" void __cdecl CopyIfNonEmpty(char* dst, const char* src, int count);
 
@@ -1106,7 +1106,7 @@ static __declspec(noinline) void __cdecl FUN_00dbc860(Dbc860Src* apSrc, int valu
     Dbc860Header header;
     Dbc860Frame f;
 
-    FUN_00cb1280(&header, -1, 0x40);
+    ::FUN_00cb1280(&header, -1, 0x40);
     header.magic0 = 0x57e0e057;
     header.magic1 = 0x10c0c010;
     header.guid.b0 = 0;
@@ -1114,7 +1114,7 @@ static __declspec(noinline) void __cdecl FUN_00dbc860(Dbc860Src* apSrc, int valu
     header.type = 7;
     FUN_00cb1260(&header.data, &apSrc->m_04, 4);
     header.extra = extra;
-    FUN_00cb1280(&header.tail0, -1, 8);
+    ::FUN_00cb1280(&header.tail0, -1, 8);
     if (apSrc->m_0c == 0)
     {
         ::FUN_00dbda20(&header.guid, (void *)(0x10));
@@ -2421,7 +2421,7 @@ struct Header
     int end;
     Header()
     {
-        FUN_00cb1280(this, 0, 4);
+        ::FUN_00cb1280(this, 0, 4);
     }
 };
 
@@ -2475,7 +2475,7 @@ void Writer::FUN_00dbc7a0(Context* context)
     ConstructHeaders(headers->data + headers->size, count - headers->size);
     headers->size = count;
     uintptr_t bytes = (::FUN_00dbd720)((uintptr_t)(headers));
-    FUN_00cb1280(headers->data, -1, (int)bytes);
+    ::FUN_00cb1280(headers->data, -1, (int)bytes);
     for (int i = 0; i < tagCount; ++i)
         (CopyIfNonEmpty)(headers->data[i].tag, tags[i], 19);
 }

@@ -52,3 +52,8 @@ add_executable(runtime_d3d_texture_stage_state_test
 )
 target_include_directories(runtime_d3d_texture_stage_state_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
 add_test(NAME runtime.d3d_texture_stage_state COMMAND runtime_d3d_texture_stage_state_test)
+
+add_executable(runtime_havok_byte_fill_test runtime/havok_byte_fill_test.cpp)
+target_include_directories(runtime_havok_byte_fill_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(runtime_havok_byte_fill_test PRIVATE game)
+add_test(NAME runtime.havok_byte_fill COMMAND runtime_havok_byte_fill_test)

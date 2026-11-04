@@ -3,7 +3,7 @@
 
 #include "fnv/symbols_00ee6000.h"
 
-extern "C" __declspec(dllimport) void* __stdcall D3DXMatrixTranspose(void* pOut, const void* pM);
+extern "C" __declspec(dllimport) void* D3DXMatrixTranspose(void* pOut, const void* pM);
 
 // The import thunk for d3dx9 D3DXMatrixTranspose.
 // @fnv 0x00ee6dd4

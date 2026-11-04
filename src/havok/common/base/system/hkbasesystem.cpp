@@ -32,7 +32,6 @@ struct FUN_00c903b0_Class
 {
 };
 extern intptr_t DAT_011b3dec;
-extern "C" int __cdecl FUN_00cbb990();
 extern "C" void __cdecl FUN_00cbbbd0();
 // @fnv 0x00cbbcb0
 int __cdecl ShutdownIfInitialized()

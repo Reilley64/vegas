@@ -35,3 +35,20 @@ add_executable(runtime_havok_memory_prerequisite_test runtime/havok_memory_prere
 target_include_directories(runtime_havok_memory_prerequisite_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(runtime_havok_memory_prerequisite_test PRIVATE game)
 add_test(NAME runtime.havok_memory_prerequisite COMMAND runtime_havok_memory_prerequisite_test)
+
+add_executable(runtime_d3d_texture_stage_lifetime_test
+  runtime/d3d_texture_stage_lifetime_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/niconsolerenderer/nid3dtexturestage_lifetime.cpp
+  ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/niconsolerenderer/nid3dtexturestage.cpp
+)
+target_include_directories(runtime_d3d_texture_stage_lifetime_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+add_test(NAME runtime.d3d_texture_stage_lifetime COMMAND runtime_d3d_texture_stage_lifetime_test)
+add_test(NAME runtime.d3d_texture_stage_outstanding_owner
+  COMMAND runtime_d3d_texture_stage_lifetime_test --outstanding-owner-termination)
+
+add_executable(runtime_d3d_texture_stage_state_test
+  runtime/d3d_texture_stage_state_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/niconsolerenderer/nid3dtexturestage.cpp
+)
+target_include_directories(runtime_d3d_texture_stage_state_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+add_test(NAME runtime.d3d_texture_stage_state COMMAND runtime_d3d_texture_stage_state_test)

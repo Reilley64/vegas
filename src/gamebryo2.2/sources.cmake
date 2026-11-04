@@ -152,6 +152,8 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslpixelshader.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslvertexshader.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpass.cpp
+  src/gamebryo2.2/corelibs/niconsolerenderer/nid3dtexturestage.cpp
+  src/gamebryo2.2/corelibs/niconsolerenderer/nid3dtexturestage_lifetime.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpass_h_unit.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpixelshader.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpixelshader_copies_039.cpp

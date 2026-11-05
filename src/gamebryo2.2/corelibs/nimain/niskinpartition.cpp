@@ -4,6 +4,7 @@
 #include <new>
 #include <cstdlib>
 #include <cstring>
+#include "fnv/skin_bone_set.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -65,29 +66,6 @@ void FUN_00a82600(intptr_t pTarget, int b, float c)
     *(int*)(pTarget + 4) = b;
 }
 
-struct Holder
-{
-    unsigned short* m_pusData;
-    unsigned int m_u4;
-    unsigned int m_uiCount;
-    bool ContainsSortedSubset(const Holder* pkOther);
-};
-// @fnv 0x00a82190
-bool Holder::ContainsSortedSubset(const Holder* pkOther)
-{
-    unsigned int uiSrc = 0;
-    for (unsigned int uiDst = 0; uiDst < pkOther->m_uiCount; ++uiDst)
-    {
-        while (uiSrc < m_uiCount && m_pusData[uiSrc] < pkOther->m_pusData[uiDst])
-            ++uiSrc;
-        if (uiSrc == m_uiCount)
-            return false;
-        if (m_pusData[uiSrc] != pkOther->m_pusData[uiDst])
-            return false;
-        ++uiSrc;
-    }
-    return true;
-}
 
 struct NiRefObject
 {
@@ -1967,7 +1945,7 @@ struct BoneLODControllerArray : BoneArray<unsigned short>
     unsigned int key;
     bool Contains(const BoneLODControllerArray* other) const
     {
-        return ((Holder*)this)->ContainsSortedSubset((const Holder*)other);
+        return fnv::ContainsSortedSkinBones({data, count}, {other->data, other->count});
     }
     ~BoneLODControllerArray()
     {
@@ -2562,9 +2540,11 @@ int __cdecl FindMatchingItem(ItemSet* set, const unsigned short* a2, const void*
                              unsigned char key);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int) throw();
 
-struct MergeSet : Holder
+struct MergeSet
 {
-
+    unsigned short* m_pusData;
+    unsigned int m_u4;
+    unsigned int m_uiCount;
     int key;
 
 
@@ -2640,7 +2620,7 @@ restart:
         for (k = 0; k < items->count;)
         {
             MergeSet* e = items->items[k];
-            if (e != a && a->ContainsSortedSubset(e))
+            if (e != a && fnv::ContainsSortedSkinBones({a->m_pusData, a->m_uiCount}, {e->m_pusData, e->m_uiCount}))
             {
                 delete e;
                 --items->count;
@@ -2665,7 +2645,8 @@ group:
         {
             MergeSet* x = items->items[k];
             MergeSet* y = items->items[j];
-            if (x->ContainsSortedSubset(y) && y->ContainsSortedSubset(x))
+            if (fnv::ContainsSortedSkinBones({x->m_pusData, x->m_uiCount}, {y->m_pusData, y->m_uiCount}) &&
+                fnv::ContainsSortedSkinBones({y->m_pusData, y->m_uiCount}, {x->m_pusData, x->m_uiCount}))
             {
                 cls[k] = cls[j];
                 break;

@@ -2,32 +2,7 @@
 #ifndef SHADOWSCENELIGHT_REFOBJECT_H
 #define SHADOWSCENELIGHT_REFOBJECT_H
 
-#define FNV_NIREFOBJECT_H
-#include "layout_support.h"
-#include "NiMemObject.h"
-extern volatile long DAT_011f4400;
-class NiRefObject : public NiMemObject
-{
-  public:
-    unsigned int m_uiRefCount;
-    NiRefObject() : m_uiRefCount(0)
-    {
-        InterlockedIncrement(&DAT_011f4400);
-    }
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    __forceinline void IncRefCount()
-    {
-        InterlockedIncrement(reinterpret_cast<volatile long*>(&m_uiRefCount));
-    }
-    __forceinline void DecRefCount()
-    {
-        if (InterlockedDecrement(reinterpret_cast<volatile long*>(&m_uiRefCount)) == 0)
-            DeleteThis();
-    }
-public:
-    static unsigned int ms_lObjectCount;
-};
+#include "NiRefObject.h"
 template <class T> class ShadowScenePointer
 {
   public:

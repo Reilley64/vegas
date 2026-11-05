@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2764,
+  "units": 2765,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -281635,11 +281635,6 @@
      "size": 168
     },
     {
-     "address": "0x00a82190",
-     "symbol": "?ContainsSortedSubset@Holder@@QAE_NPBU1@@Z",
-     "size": 93
-    },
-    {
      "address": "0x00a821f0",
      "symbol": "?ContainsAllValues@FNV_This_821f0@@QAEDPAUFNV_Arg_821f0@@@Z",
      "size": 83
@@ -281848,7 +281843,7 @@
     "?FindMatchingItem@@YAHPAUItemSet@@PBGPBXPAEE@Z": "0x00a82c90",
     "?InsertOrUpdate@HashTableBase@@QAEXII@Z": "0x00b57ea0",
     "?WriteToStream@PartitionSave@@QAEXAAUNiStreamFake@@@Z": "0x00a830d0",
-    "?ContainsSortedSubset@Holder@@QAE_NPBU1@@Z": "0x00a82190",
+    "?ContainsSortedSkinBones@fnv@@YA_NUSkinBoneSetView@1@0@Z": "0x00a82190",
     "?BuildIndexMappings@FUN_00a68820_cls@@QAEXPAPAG0I@Z": "0x00a68820",
     "?MergeGroupWeights@@YGXPAUWeightedMap@@PBGPIAUEntryGroup@@@Z": "0x00a82530",
     "?CompareVertices@NiGeometryDataCmp@@QAEHGGI@Z": "0x00a66db0",
@@ -510965,7 +510960,7 @@
     "?DAT_011aa2e8@@3VNiPixelFormat@@B": "0x011aa2e8",
     "??0FUN_00a8b110@@QAE@_NIPBUBmpColor@@@Z": "0x00a8b110",
     "?gNiPoint3StartupSrc@@3UNiPoint3StartupTable@@A": "0x011aa2a0",
-    "?ContainsSortedSubset@Holder@@QAE_NPBU1@@Z": "0x00a82190",
+    "?ContainsSortedSkinBones@fnv@@YA_NUSkinBoneSetView@1@0@Z": "0x00a82190",
     "?_memmove@@YAXPAXPBXI@Z": "0x00ec44d0",
     "?BuildTriangleSetMapping@SkinBuilder@@QAE_NPAUSkinGeom@@PAXI1PAUSkinItems@@PAPAHPAH@Z": "0x00a84310",
     "??0FUN_00a81ba0@@QAE@XZ": "0x00a81ba0",
@@ -572484,6 +572479,27 @@
    ],
    "symbols": {
     "__imp__LeaveCriticalSection@4": "0x00fdf100"
+   }
+  },
+  {
+   "source": "src/gamebryo2.2/corelibs/nimain/skin_bone_set.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00a82190",
+     "symbol": "?ContainsSortedSkinBones@fnv@@YA_NUSkinBoneSetView@1@0@Z",
+     "size": 93
+    }
+   ],
+   "symbols": {
+    "?ContainsSortedSkinBones@fnv@@YA_NUSkinBoneSetView@1@0@Z": "0x00a82190"
    }
   }
  ]

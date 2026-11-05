@@ -606,7 +606,7 @@ template <> inline ShadowSceneArray<NiNode*>::~ShadowSceneArray()
 
 NiRefObject::~NiRefObject()
 {
-    InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
+    NiAtomicSubtract(ms_lObjectCount);
 }
 
 struct FUN_00b9f0c0_cls : public NiRefObject

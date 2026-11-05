@@ -29,31 +29,8 @@ public:
     const NiRTTI* m_pBaseRTTI;
 };
 
-// Base of the engine allocation tracking; empty in this build.
-class NiMemObject
-{
-};
-
-// Reference counted engine object.
-class NiRefObject : public NiMemObject
-{
-public:
-    NiRefObject() : m_uiRefCount(0)
-    {
-    }
-
-    virtual ~NiRefObject()
-    {
-    }
-
-    virtual void DeleteThis()
-    {
-        delete this;
-    }
-
-protected:
-    NiUInt32 m_uiRefCount;
-};
+// Share reference counting, destruction and allocation ownership with NiRefObject.
+#include "NiRefObject.h"
 
 // GPU program base of the Nivid3D shader programs.
 class NiGPUProgram : public NiRefObject

@@ -5,6 +5,7 @@
 #include "fnv/symbols_00a71000.h"
 #include "fnv/symbols_00a88000.h"
 #include <cstdint>
+#include "fnv/skin_bone_set.h"
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -4480,23 +4481,8 @@ struct Holder
     {
         ::FUN_00aa10f0(data);
     }
-    bool ContainsSortedSubset(const Holder* other);
 };
 
-__declspec(noinline) bool Holder::ContainsSortedSubset(const Holder* other)
-{
-    unsigned int i = 0;
-    for (unsigned int j = 0; j < other->count; ++j, ++i)
-    {
-        while (i < count &&
-               static_cast<const unsigned short*>(data)[i] < static_cast<const unsigned short*>(other->data)[j])
-            ++i;
-        if (i == count ||
-            static_cast<const unsigned short*>(data)[i] != static_cast<const unsigned short*>(other->data)[j])
-            return false;
-    }
-    return true;
-}
 
 struct SourceGeometry
 {
@@ -4737,7 +4723,10 @@ bool GeometryBuilder::FUN_00a84980(SourceGeometry* source, SkinBuildData* other,
                 if (i)
                 {
                     Holder* previous = entries[i - 1];
-                    if (current->ContainsSortedSubset(previous) && current->count == previous->count)
+                    if (fnv::ContainsSortedSkinBones(
+                            {static_cast<const unsigned short*>(current->data), current->count},
+                            {static_cast<const unsigned short*>(previous->data), previous->count}) &&
+                        current->count == previous->count)
                         changes[i] = 0;
                     else
                         changes[i] = 1;

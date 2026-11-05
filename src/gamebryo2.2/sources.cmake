@@ -297,6 +297,7 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nimain/niskindata.cpp
   src/gamebryo2.2/corelibs/nimain/niskininstance.cpp
   src/gamebryo2.2/corelibs/nimain/niskinpartition.cpp
+  src/gamebryo2.2/corelibs/nimain/skin_bone_set.cpp
   src/gamebryo2.2/corelibs/nimain/niskinpartition_copies_036.cpp
   src/gamebryo2.2/corelibs/nimain/nismartpointer_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nisortadjustnode.cpp

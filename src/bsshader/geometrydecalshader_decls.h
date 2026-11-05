@@ -7,29 +7,7 @@
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_010a1000.h"
 
-class NiMemObject
-{
-  public:
-};
-
-class NiRefObject : public NiMemObject
-{
-  public:
-    unsigned int m_uiRefCount;
-    virtual ~NiRefObject()
-    {}
-    virtual void DeleteThis()
-    {}
-    void IncRefCount()
-    {
-        InterlockedIncrement(reinterpret_cast<volatile long*>(&m_uiRefCount));
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement(reinterpret_cast<volatile long*>(&m_uiRefCount)) == 0)
-            DeleteThis();
-    }
-};
+#include "fnv/ni_ref_object.h"
 
 class NiD3DPixelShader : public NiRefObject
 {

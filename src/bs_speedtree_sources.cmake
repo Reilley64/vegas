@@ -24,6 +24,7 @@ target_sources(game PRIVATE
   "src/bscore/bssimplearray_h_unit.cpp"
   "src/bscore/bssimplelist.cpp"
   "src/bscore/bssimplelist_h_unit.cpp"
+  "src/bscore/sandbox_procedure_data.cpp"
   "src/bscore/bsspinlock_h_unit.cpp"
   "src/bscore/bsstring.cpp"
   "src/bscore/bstfreelist_h_unit.cpp"

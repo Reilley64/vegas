@@ -139,25 +139,7 @@ class ButtonIcon
     float m_fGlyphWidthInPixels, m_fHorizontalOffset, m_fGlyphVerticalOffset, m_fHorizontalSpacing;
     NiRect<float> m_kTextureCoordinates;
 };
-enum SANDBOX_PROCEDURE
-{
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE = -1,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_SIT = 0,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_SLEEP = 1,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_EAT = 2,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_WANDER = 3,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_USE_IDLE_MARKER = 4,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_DIALOGUE = 5,
-    SANDBOX_PROCEDURE_NUM_SANDBOX_PROCEDURES = 6
-};
-class SandboxProcedureData
-{
-  public:
-    TESObjectREFR* pTarget;
-    SANDBOX_PROCEDURE eProcedure;
-    int m_iActivityState, m_iProcedureData;
-    SandboxProcedureData();
-};
+#include "SandboxProcedureData.h"
 class NiPoint3
 {
   public:

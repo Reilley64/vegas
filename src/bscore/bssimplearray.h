@@ -234,16 +234,6 @@ void BSSimpleArray<ButtonIcon, 1024>::Clear(bool freeBuffer)
         iSize = 0;
     }
 }
-// Candidate address 009f6500, 53 bytes.
-// Constructor ownership is inferred as documented; no separate PC annotation claimed.
-// @fnv 0x009F6500
-SandboxProcedureData::SandboxProcedureData()
-{
-    pTarget = 0;
-    eProcedure = SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE;
-    m_iActivityState = 0;
-    m_iProcedureData = 0;
-}
 // Candidate address 006e3de0, 129 bytes; inferred owner/operation requires review.
 // Do not define the covered construction helper until its own callees are admissible.
 // @fnv 0x006E3DE0

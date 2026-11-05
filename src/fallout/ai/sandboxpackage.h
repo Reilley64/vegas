@@ -39,6 +39,7 @@
 #include "layout_support.h"
 #undef g_timeGlobal
 #undef TimeGlobal
+#include "SandboxProcedureData.h"
 #include "Actor.h"
 #include "TESForm.h"
 #include "TESGlobal.h"
@@ -60,17 +61,6 @@ enum SandBoxActorPackageData__SANDBOX_STATE
     SandBoxActorPackageData__SANDBOX_STATE_SANDBOX_STATE_DOINGSTUFF = 3,
     SandBoxActorPackageData__SANDBOX_STATE_NUM_SANDBOX_STATES = 4
 };
-enum SANDBOX_PROCEDURE
-{
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE = -1,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_SIT = 0,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_SLEEP = 1,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_EAT = 2,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_WANDER = 3,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_USE_IDLE_MARKER = 4,
-    SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_DIALOGUE = 5,
-    SANDBOX_PROCEDURE_NUM_SANDBOX_PROCEDURES = 6
-};
 enum SANDBOX_ACTIVITY
 {
     SANDBOX_ACTIVITY_SANDBOX_ACTIVITY_NONE = -1,
@@ -84,16 +74,6 @@ class ActorPackageData
 {
   public:
     void** m_ppVirtualMethodTable;  // +0x0, 4 bytes
-};
-class SandboxProcedureData
-{
-  public:
-    TESObjectREFR* pTarget;        // +0x0, 4 bytes
-    SANDBOX_PROCEDURE eProcedure;  // +0x4, 4 bytes
-    int m_iActivityState;          // +0x8, 4 bytes
-    int m_iProcedureData;          // +0xC, 4 bytes
-    // Unit-local out-of-line declarations (owned by other units except
-    // SandboxProcedureData::LoadGame/InitLoadGame targets as noted).
 };
 class SandBoxActorPackageData : public ActorPackageData
 {

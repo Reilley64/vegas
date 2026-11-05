@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2776,
+  "units": 2777,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -3733,11 +3733,6 @@
      "size": 69
     },
     {
-     "address": "0x009f6500",
-     "symbol": "??0SandboxProcedureData@@QAE@XZ",
-     "size": 53
-    },
-    {
      "address": "0x00a0caf0",
      "symbol": "?InsertInSortedOrder@?$BSSimpleArray@PAVValue@Tile@@$07@@QAEXAAPAVValue@Tile@@P6AHPBX1@Z@Z",
      "size": 155
@@ -3799,7 +3794,6 @@
     "?FUN_00a0cf60@ArrayStub@@QAEXPAD0I@Z": "0x00a0cf60",
     "?ConstructSpawnedObjects@FUN_006e3c90_cls@@QAEXPADI@Z": "0x006e3c90",
     "?_InitialSetup@?$BSSimpleArray@VPathingAvoidanceNode@@$0EAA@@@IAEXII@Z": "0x006e3de0",
-    "??0SandboxProcedureData@@QAE@XZ": "0x009f6500",
     "?InsertInSortedOrder@?$BSSimpleArray@PAVValue@Tile@@$07@@QAEXAAPAVValue@Tile@@P6AHPBX1@Z@Z": "0x00a0caf0",
     "?BinarySearch@?$BSSimpleArray@PAVValue@Tile@@$07@@QAEIAAPAVValue@Tile@@P6AHPBX1@Z@Z": "0x00a0cb90",
     "?ReleaseElements@?$BSSimpleArray@VPacketNodeRecord@@$0EAA@@@QAEXPAVPacketNodeRecord@@I@Z": "0x006cfe30",
@@ -3815,6 +3809,28 @@
      "parent": "0x006ce7e0"
     }
    ]
+  },
+  {
+   "source": "src/bscore/sandbox_procedure_data.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/Od",
+    "/Oy-",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x009f6500",
+     "symbol": "??0SandboxProcedureData@@QAE@XZ",
+     "size": 53
+    }
+   ],
+   "symbols": {
+    "??0SandboxProcedureData@@QAE@XZ": "0x009f6500"
+   }
   },
   {
    "source": "src/bscore/bssimplelist.cpp",

@@ -1636,17 +1636,7 @@ enum MEM_CONTEXT
     MEM_CONTEXT_MEM_CONTEXT_DEFAULT = 65,
     MEM_CONTEXT_MEM_CONTEXT_COUNT = 66,
 };
-enum MagicCaster__State
-{
-    MagicCaster__State_NO_SPELL = 0,
-    MagicCaster__State_AIM = 1,
-    MagicCaster__State_CAST = 2,
-    MagicCaster__State_RELEASE = 3,
-    MagicCaster__State_FIND_TARGETS = 4,
-    MagicCaster__State_ERR_SPELL_DISABLED = 5,
-    MagicCaster__State_ERR_ALREADY_CASTING = 6,
-    MagicCaster__State_ERR_CANNOT_CAST = 7,
-};
+#include "MagicCasterState.h"
 enum PACKAGE_OBJECT_TYPE
 {
     PACKAGE_OBJECT_TYPE_POTYPE_NONE = 0,

@@ -12,12 +12,15 @@
 
 void* operator new(std::size_t size)
 {
-    return FUN_00401000(static_cast<unsigned int>(size));
+    void* memory = FUN_00401000(static_cast<unsigned int>(size));
+    if (memory == nullptr)
+        throw std::bad_alloc();
+    return memory;
 }
 
 void* operator new[](std::size_t size)
 {
-    return FUN_00401000(static_cast<unsigned int>(size));
+    return ::operator new(size);
 }
 
 void operator delete(void* memory) noexcept

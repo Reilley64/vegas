@@ -5,6 +5,7 @@
 // TESForm (all PC virtuals) comes from the canonical TESForm.h; TESDataHandler, TESObjectCELL and the NiTPointerMap
 // template come from the canonical layout_support.h.
 #include <cstdint>
+#include "fnv/decl/BGSSaveLoadChangesMap.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C6b7f20_Map.h"
@@ -44,18 +45,6 @@ class FormChangeRecord
   public:
     FormChangeMask flags;
     FormChangeMask savedFlags;
-};
-class FormChangeMask;
-class BGSSaveLoadChangesMap
-{
-  public:
-    bool ContainsChangeFlags(unsigned int, FormChangeMask);
-    void AddFormChangeFlags(unsigned int, FormChangeMask);
-    bool ClearChangeFlags(unsigned int, FormChangeMask);
-    bool HasFormChanges(uintptr_t);
-    FormChangeRecord* FUN_009a4250(uintptr_t);
-public:
-    void ApplyFormQuantityChange(unsigned int, ::FormChangeMask);
 };
 // The canonical NiTPointerMap template has no RemoveAll; the <unsigned int, unsigned int> instance used here declares it.
 template <> class NiTPointerMap<unsigned int, unsigned int>

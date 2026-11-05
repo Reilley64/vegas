@@ -2490,10 +2490,6 @@ struct FUN_00846b60
 };
 struct FUN_00845550
 {
-    unsigned int vtable, capacity;
-    void* entries;
-    unsigned int size;
-    FUN_00845550();
     UnloadFlags GetFirstEntry(unsigned int);
 };
 struct LoadHeader
@@ -3420,15 +3416,6 @@ void FUN_0084ab20_shell::FUN_0084ab20()
 }  // namespace fnv_0084ab20
 
 namespace fnv_00848e70 {
-class ChangesMap16
-{
-  public:
-    unsigned int value00;
-    unsigned int value04;
-    unsigned int value08;
-    unsigned int value0c;
-    ChangesMap16();
-};
 class ChangesMapOps
 {
   public:
@@ -3535,7 +3522,7 @@ extern void __cdecl FUN_0084e930(char*, int, ReconstructScratch*);
 void ReconstructLoadContext::FUN_00848e70(BGSSaveLoadChangesMap* changes, TESFile* file)
 {
     if (!changes)
-        changes = (BGSSaveLoadChangesMap*)new ChangesMap16;
+        changes = new BGSSaveLoadChangesMap;
     void* pos = pMap->GetFirstPos();
     while (pos)
     {
@@ -3701,7 +3688,7 @@ bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
                 delete (FUN_00847450*)oldState9;
                 reinterpret_cast<::SaveLoadFile *>((pSaveFile))->SetFilePosition(position5);
                 ((StatePrefix*)this)->previousChanges = ((StatePrefix*)this)->changes;
-                ((StatePrefix*)this)->changes = new FUN_00845550;
+                ((StatePrefix*)this)->changes = reinterpret_cast<FUN_00845550*>(new BGSSaveLoadChangesMap);
                 ::BGSSaveLoadHistory_Destroy(0);
                 reinterpret_cast<::FUN_00848df0_shell *>((((HandlerMethods*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->FUN_00848df0(true);
                 ::LoadGlobalDataRanges((::SaveLoadFile *)(pSaveFile), header.firstBlockOffset);

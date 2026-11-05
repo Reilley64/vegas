@@ -14,11 +14,18 @@ namespace
 unsigned int lastSize;
 void* lastAllocated;
 void* lastFreed;
+bool failNextAllocation;
 }
 
 void* FUN_00401000(unsigned int size)
 {
     lastSize = size;
+    if (failNextAllocation)
+    {
+        failNextAllocation = false;
+        lastAllocated = nullptr;
+        return nullptr;
+    }
     lastAllocated = std::malloc(size == 0 ? 1 : size);
     return lastAllocated;
 }
@@ -72,6 +79,32 @@ void SizedForms(Checks& checks)
     checks.Equal("sized delete[] returns the block to the game heap", true, memory == lastFreed);
 }
 
+void AllocationFailure(Checks& checks)
+{
+    // Explicit calls through volatile pointers cannot be elided like new-expressions.
+    using Allocate = void* (*)(std::size_t);
+    Allocate volatile allocate = &::operator new;
+    Allocate volatile allocateArray = &::operator new[];
+    for (Allocate function : {allocate, allocateArray})
+    {
+        bool threw = false;
+        failNextAllocation = true;
+        try
+        {
+            function(16);
+        }
+        catch (const std::bad_alloc&)
+        {
+            threw = true;
+        }
+        const unsigned int requestedSize = lastSize;
+        const bool returnedNull = lastAllocated == nullptr;
+        checks.Equal("allocation failure throws bad_alloc", true, threw);
+        checks.Equal("failed allocation forwards size", 16u, requestedSize);
+        checks.Equal("native allocator returned null", true, returnedNull);
+    }
+}
+
 void StandardContainers(Checks& checks)
 {
     void* data = nullptr;
@@ -91,6 +124,7 @@ int main()
     checks.Run("single objects", [&] { SingleObjects(checks); });
     checks.Run("arrays", [&] { Arrays(checks); });
     checks.Run("sized forms", [&] { SizedForms(checks); });
+    checks.Run("allocation failure", [&] { AllocationFailure(checks); });
     checks.Run("standard containers", [&] { StandardContainers(checks); });
     return checks.ExitCode();
 }

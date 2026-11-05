@@ -190,13 +190,11 @@ CF845 Ctm845::GetFirstEntry(void* actor)
 
 extern int DAT_01031fac;
 
-void FUN_005890c0(int* self, FUN_00845b30_arg a);
-
-// Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
+// Initializes the buckets, installs the map-base table, and returns self.
 // @fnv 0x00845b30
 int* FUN_00845b30(int* self, FUN_00845b30_arg aArg)
 {
-    FUN_005890c0(self, aArg);
+    reinterpret_cast<FUN_00845b90_shell*>(self)->InitArray(aArg.val);
     *(void**)self = (void*)&DAT_01031fac;
     return self;
 }
@@ -316,25 +314,17 @@ void FUN_00845960_shell::SetCombatTargetQuantity(uintptr_t formID, unsigned int 
 }
 
 extern int DAT_0107eda8;
-struct FUN_00845b90_shell
-{
-    int* vtable_;
-    int count_;
-    void* data_;
-    int tail_;
-    FUN_00845b90_shell* InitArray(int size);
-};
 
-// Sets the vtable, stores size in count_, allocates count_*4 bytes for data_, zeroes them, and returns this.
+// Initializes and zeroes the native bucket-pointer array, then returns this.
 // @fnv 0x00845b90
 FUN_00845b90_shell* FUN_00845b90_shell::InitArray(int aiCount)
 {
-    vtable_ = &DAT_0107eda8;
+    vtable_ = reinterpret_cast<void**>(&DAT_0107eda8);
     count_ = aiCount;
     tail_ = 0;
-    unsigned int bytes = count_ * 4;
-    data_ = ::FUN_00aa1070(bytes);
-    memset(data_, 0, count_ * 4);
+    unsigned int bytes = count_ * sizeof(*data_);
+    data_ = static_cast<void**>(::FUN_00aa1070(bytes));
+    memset(data_, 0, bytes);
     return this;
 }
 

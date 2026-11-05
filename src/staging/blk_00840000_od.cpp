@@ -4,6 +4,7 @@
 
 #include "fnv/simple_array_item.h"
 #include <cstdint>
+#include "fnv/decl/BGSSaveLoadChangesMap.h"
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
@@ -3893,14 +3894,7 @@ struct SaveMemberB
     SaveMemberB(int);
     ~SaveMemberB();
 };
-struct ChangesMap
-{
-    int field00;
-    int field04;
-    int field08;
-    int field0c;
-    ChangesMap();
-};
+struct ChangesMap;
 struct SaveMap
 {
     int field00;
@@ -4512,7 +4506,7 @@ struct FUN_00846f30
 FUN_00846f30::FUN_00846f30() : flag(0), memberB(0x25), field244(0), field248(0xff)
 {
     reinterpret_cast<::FUN_007d6bd0_Class *>(this)->FUN_007d6bd0(false);
-    changes = new ChangesMap;
+    changes = reinterpret_cast<ChangesMap*>(new BGSSaveLoadChangesMap);
     forms = new SaveMap(0x13af);
     refs = new SaveMap(0x25);
     saves = new SaveTable;

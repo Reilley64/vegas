@@ -1534,7 +1534,7 @@ void __cdecl FUN_00c3bd30(unsigned char ucParam1, unsigned char ucParam2, unsign
     {
         DAT_011f6370[i] = 0;
     }
-    (*reinterpret_cast<unsigned int *>(&::DAT_011f6388)) = (*reinterpret_cast<unsigned int *>(&::MessageHandler::pHandler));
+    DAT_011f6388 = reinterpret_cast<AbstractHeapLogger*>(MessageHandler::pHandler);
 }
 
 int __cdecl GetFileSize(int* buf, int* out);
@@ -5001,20 +5001,10 @@ FUN_00c3bab0::~FUN_00c3bab0()
 
 // namespace fnv_00c3bab0
 
-struct MH
-{
-    void* vtbl;
-    bool bStatic;
-    MH(bool b);
-};
-
-MH::MH(bool b)
-{}
-
 // @fnv 0x00c3c460
 void __cdecl FUN_00c3c460()
 {
-    MessageHandler::pHandler = (MessageHandler*)new MH(false);
+    MessageHandler::pHandler = (new MessageHandler)->FUN_00c3bcf0(false);
 }
 
 extern long volatile DAT_01202d94;

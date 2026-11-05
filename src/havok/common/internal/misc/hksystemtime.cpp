@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <new>
 #include "fnv/symbols_00e29000.h"
+#include "fnv/ray_similarity_math.h"
 #include <math.h>
 #include "fnv/symbols_simd.h"
 #include <ctime>
@@ -100,33 +101,6 @@ struct FNV_Ctx
     FNV_MemObj* obj;  // +0x10
 };
 
-static __forceinline __m128 dot3(__m128 a, __m128 b)
-{
-    __m128 q = _mm_mul_ps(a, b);
-    return _mm_add_ss(_mm_shuffle_ps(q, q, 0xaa), _mm_add_ss(_mm_shuffle_ps(q, q, 0x55), q));
-}
-namespace RaySimilarityMath
-{
-extern "C" __declspec(noinline) bool FUN_00e29920(const RayVector& a, const RayVector& b, const RayVector& n,
-                                                  const RayVector& a2, const RayVector& b2, const RayVector& n2,
-                                                  float thresh, float limit)
-{
-    float dot;
-    _mm_store_ss(&dot, dot3(*(const __m128*)&n, *(const __m128*)&n2));
-    if (dot < thresh)
-        return false;
-    __m128 d1 = _mm_sub_ps(*(const __m128*)&a2, *(const __m128*)&a);
-    __m128 d2 = _mm_sub_ps(*(const __m128*)&b2, *(const __m128*)&b);
-    float distance1;
-    _mm_store_ss(&distance1, dot3(d1, d1));
-    if (distance1 > limit)
-        return false;
-    float distance2;
-    _mm_store_ss(&distance2, dot3(d2, d2));
-    return !(distance2 > limit);
-}
-}  // namespace RaySimilarityMath
-
 static __forceinline __m128 normalizeVector(FNV_Vec4& result, __m128 value)
 {
     __m128 q = _mm_mul_ps(value, value);
@@ -190,7 +164,9 @@ void FUN_00e2a010(int corner, FNV_Vec4* A, FNV_Vec4* B, int n, float angle, floa
                         normalizeVector(nrm2, d2);
                         float sc;
                         _mm_store_ss(&sc, _mm_mul_ss(ang, _mm_load_ss(&scale)));
-                        if (RaySimilarityMath::FUN_00e29920(*(const RaySimilarityMath::RayVector*)&va, *(const RaySimilarityMath::RayVector*)&vb, *(const RaySimilarityMath::RayVector*)&nrm1, *(const RaySimilarityMath::RayVector*)&va2, *(const RaySimilarityMath::RayVector*)&vb2, *(const RaySimilarityMath::RayVector*)&nrm2, thresh, sc))
+                        if (RaySimilarityMath::FUN_00e29920(
+                                {_mm_load_ps(&va.x)}, {_mm_load_ps(&vb.x)}, {_mm_load_ps(&nrm1.x)},
+                                {_mm_load_ps(&va2.x)}, {_mm_load_ps(&vb2.x)}, {_mm_load_ps(&nrm2.x)}, thresh, sc))
                         {
                             rec->idx[rec->n] = i;
                             rec->n++;
@@ -639,8 +615,10 @@ extern "C" void __cdecl FUN_00e29cd0(int* indices, int numIndices, const S29cd0_
                 S29cd0_hkVector4 dir1;
                 dir1.setSub4(to1, from1);
                 dir1.fastNormalize3();
-                if (::RaySimilarityMath::FUN_00e29920((const ::RaySimilarityMath::RayVector &)(from), (const ::RaySimilarityMath::RayVector &)(to), (const ::RaySimilarityMath::RayVector &)(dir), (const ::RaySimilarityMath::RayVector &)(from1), (const ::RaySimilarityMath::RayVector &)(to1), (const ::RaySimilarityMath::RayVector &)(dir1), cosVariance,
-                                 len2 * S29cd0_hkSimdReal(distanceVariance2)))
+                if (::RaySimilarityMath::FUN_00e29920(
+                        {from.m_vComponents}, {to.m_vComponents}, {dir.m_vComponents},
+                        {from1.m_vComponents}, {to1.m_vComponents}, {dir1.m_vComponents}, cosVariance,
+                        len2 * S29cd0_hkSimdReal(distanceVariance2)))
                 {
                     cluster.AddBack(rayIdx);
                     goto NEXT_RAY;

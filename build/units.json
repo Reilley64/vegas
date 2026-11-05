@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2765,
+  "units": 2766,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -561006,13 +561006,7 @@
     "/EHsc",
     "/Gy"
    ],
-   "functions": [
-    {
-     "address": "0x00e29920",
-     "symbol": "FUN_00e29920",
-     "size": 227
-    }
-   ],
+   "functions": [],
    "symbols": {
     "?FUN_00c85750@@YAPAXXZ": "0x00c85750"
    }
@@ -572500,6 +572494,27 @@
    ],
    "symbols": {
     "?ContainsSortedSkinBones@fnv@@YA_NUSkinBoneSetView@1@0@Z": "0x00a82190"
+   }
+  },
+  {
+   "source": "src/havok/common/internal/misc/ray_similarity_math.cpp",
+   "compiler": "rtm",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00e29920",
+     "symbol": "FUN_00e29920",
+     "size": 227
+    }
+   ],
+   "symbols": {
+    "FUN_00e29920": "0x00e29920"
    }
   }
  ]

@@ -4684,67 +4684,6 @@ void FUN_00e2cfd0();
 
 inline TyremarkWheelView* allocateTyremarkWheel();
 
-namespace RaySimilarityMath {
-typedef __m128 __m128;
-
-struct RayScalar
-{
-    __m128 q;
-    RayScalar()
-    {}
-    RayScalar(float f) : q(_mm_load_ss(&f))
-    {}
-    RayScalar(const __m128& v) : q(v)
-    {}
-    operator float() const
-    {
-        float f;
-        _mm_store_ss(&f, q);
-        return f;
-    }
-};
-struct RayVector : FanSpace::FanVec
-{
-    void setSub(const RayVector& a, const RayVector& b)
-    {
-        q = _mm_sub_ps(a.q, b.q);
-    }
-    RayScalar dot3(const RayVector& b) const
-    {
-        __m128 p = _mm_mul_ps(q, b.q);
-        __m128 xy = _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p);
-        p = _mm_shuffle_ps(p, p, 0xaa);
-        p = _mm_add_ss(p, xy);
-        return RayScalar(p);
-    }
-    RayScalar lengthSquared3() const
-    {
-        return dot3(*this);
-    }
-};
-// @fnv 0x00e29920
-extern "C" bool __cdecl FUN_00e29920(const RayVector& a, const RayVector& b, const RayVector& c, const RayVector& d,
-                                     const RayVector& e, const RayVector& f, float g, float h)
-{
-    if (float(c.dot3(f)) < g)
-        return false;
-    RayScalar limit(h);
-    RayVector da, db;
-    da.setSub(d, a);
-    db.setSub(e, b);
-    RayScalar distance0;
-    distance0 = da.lengthSquared3();
-    if (distance0 > limit)
-        return false;
-    RayScalar distance1;
-    distance1 = db.lengthSquared3();
-    if (distance1 > limit)
-        return false;
-    return true;
-}
-
-}
-
 void __cdecl CallHandlerByIndex(int a, int b, int c);
 
 

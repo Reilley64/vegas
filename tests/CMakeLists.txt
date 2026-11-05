@@ -58,6 +58,13 @@ target_include_directories(runtime_havok_byte_fill_test PRIVATE ${CMAKE_CURRENT_
 target_link_libraries(runtime_havok_byte_fill_test PRIVATE game)
 add_test(NAME runtime.havok_byte_fill COMMAND runtime_havok_byte_fill_test)
 
+add_executable(runtime_ray_similarity_math_test
+  runtime/ray_similarity_math_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/internal/misc/ray_similarity_math.cpp
+)
+target_include_directories(runtime_ray_similarity_math_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
+add_test(NAME runtime.ray_similarity_math COMMAND runtime_ray_similarity_math_test)
+
 add_executable(runtime_skin_bone_set_test
   runtime/skin_bone_set_test.cpp
   ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nimain/skin_bone_set.cpp

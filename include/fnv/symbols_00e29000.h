@@ -1,7 +1,8 @@
 #pragma once
 
+#include "fnv/ray_similarity_math.h"
+
 class S29cd0_hkVector4;
-namespace RaySimilarityMath { struct RayVector; }
 struct E29250Matrix6;
 struct FUN_00e29620_class;
 struct S29cd0_hkpWorldRayCastBundleCommand;
@@ -15,7 +16,5 @@ void FUN_00e29250(::E29250Matrix6 &, const ::E29250Matrix6 &);
 void FUN_00e29470(void *, ::WrappedPointer, ::WrappedPointer);
 // 0x00e298f0
 void FUN_00e298f0(::FUN_00e29620_class *, intptr_t);
-// 0x00e29920
-namespace RaySimilarityMath { extern "C" bool FUN_00e29920(const ::RaySimilarityMath::RayVector &, const ::RaySimilarityMath::RayVector &, const ::RaySimilarityMath::RayVector &, const ::RaySimilarityMath::RayVector &, const ::RaySimilarityMath::RayVector &, const ::RaySimilarityMath::RayVector &, float, float); }
 // 0x00e29cd0
 extern "C" void FUN_00e29cd0(int *, int, const ::S29cd0_hkVector4 *, const ::S29cd0_hkVector4 *, int, float, float, ::S29cd0_hkpWorldRayCastOutput *, ::S29cd0_hkpWorldRayCastCommand *, int &, ::S29cd0_hkpWorldRayCastBundleCommand *, int &);

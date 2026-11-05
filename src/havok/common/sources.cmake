@@ -102,6 +102,7 @@ set(VEGAS_HAVOK_COMMON_SOURCES
   src/havok/common/internal/kdtree/build/hkkdtreebuildingutils.cpp
   src/havok/common/internal/kdtree/hkkdtree.cpp
   src/havok/common/internal/misc/hksystemtime.cpp
+  src/havok/common/internal/misc/ray_similarity_math.cpp
   src/havok/common/scenedata/alignscene/hkalignscenetonodeoptions.cpp
   src/havok/common/scenedata/attributes/hkxanimatedmatrixclass.cpp
   src/havok/common/scenedata/attributes/hkxattribute.cpp

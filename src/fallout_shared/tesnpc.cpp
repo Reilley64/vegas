@@ -1,5 +1,7 @@
 // fallout_shared/tesnpc.cpp: TESNPC, ActorValue, TESActorBaseData, FR2MatrixVTCData and more (114 functions)
 
+#include <cstring>
+
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -388,7 +390,13 @@ bool TESNPC::Load(TESFile* file)
                     memset(&item, 0, 8);
                     reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&item), 8);
                     if (file->IsEndianConversionRequired())
-                        reinterpret_cast<::S_00462230 *>(&(item))->FUN_00462230();
+                    {
+                        static_assert(sizeof(item) == 8);
+                        S_00462230 converter;
+                        std::memcpy(&converter, &item, sizeof(converter));
+                        converter.FUN_00462230();
+                        std::memcpy(&item, &converter, sizeof(converter));
+                    }
                     DAT_011cb7d8 = reinterpret_cast<::fnv_004817f0::FUN_004817f0_shell *>(this)->AddContainerObject((::fnv_004817f0::ContainerChanges *)(::ContainerItem *)(&item));
                     break;
                 }
@@ -2826,7 +2834,13 @@ bool NpcLoadShell::FUN_00602190(TESFile* apFile)
                 memset(&kItem, 0, sizeof(kItem));
                 reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&kItem), sizeof(kItem));
                 if (apFile->IsEndianConversionRequired())
-                    reinterpret_cast<::S_00462230 *>(&(kItem))->FUN_00462230();
+                {
+                    static_assert(sizeof(kItem) == 8);
+                    S_00462230 converter;
+                    std::memcpy(&converter, &kItem, sizeof(converter));
+                    converter.FUN_00462230();
+                    std::memcpy(&kItem, &converter, sizeof(converter));
+                }
                 DAT_011cb7d8 = reinterpret_cast<::fnv_004817f0::FUN_004817f0_shell *>(this)->AddContainerObject((::fnv_004817f0::ContainerChanges *)(::ContainerItem *)(&kItem));
                 break;
             }

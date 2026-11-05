@@ -470,11 +470,25 @@ bool TESObjectARMA::Load(TESFile* file)
             memset(&data, 0, sizeof(data));
             reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&data), sizeof(data));
             if (file->IsEndianConversionRequired())
-                reinterpret_cast<::FUN_00535aa0_Class *>(&(data))->FUN_00535aa0();
+            {
+                FUN_00535aa0_Class converter{};
+                std::memcpy(&converter.unk00, data.bytes, sizeof(converter.unk00));
+                std::memcpy(&converter.unk04, data.bytes + 4, sizeof(converter.unk04));
+                converter.FUN_00535aa0();
+                std::memcpy(data.bytes, &converter.unk00, sizeof(converter.unk00));
+                std::memcpy(data.bytes + 4, &converter.unk04, sizeof(converter.unk04));
+            }
             break;
         }
         if (chunk == 'ATAD' && file->IsEndianConversionRequired())
-            reinterpret_cast<::FUN_00535aa0_Class *>(&(data))->FUN_00535aa0();
+        {
+            FUN_00535aa0_Class converter{};
+            std::memcpy(&converter.unk00, data.bytes, sizeof(converter.unk00));
+            std::memcpy(&converter.unk04, data.bytes + 4, sizeof(converter.unk04));
+            converter.FUN_00535aa0();
+            std::memcpy(data.bytes, &converter.unk00, sizeof(converter.unk00));
+            std::memcpy(data.bytes + 4, &converter.unk04, sizeof(converter.unk04));
+        }
         if (!file->NextChunk())
             break;
     }

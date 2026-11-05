@@ -376,13 +376,6 @@ struct S
     void* DestroyIfFlagged(unsigned int);
 };
 
-// Replaces the short value pointed to by p with the result of FUN_00ec3bda applied to it.
-// @fnv 0x00407a90
-void __cdecl FUN_00407a90(short* psValue)
-{
-    short* tmp = psValue;
-    *tmp = fnv::crt::byteswap_ushort(*tmp);
-}
 
 struct FUN_00408550_Cls : public EffectSetting
 {

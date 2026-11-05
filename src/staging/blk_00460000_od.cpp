@@ -1048,18 +1048,8 @@ void __cdecl FUN_00460190()
 template <int N> struct EndianSizeTag
 {
 };
-struct S_00462230
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    void FUN_00462230();
-};
-// @fnv 0x00462230
-void S_00462230::FUN_00462230()
-{
-    ::FUN_00401080((int *)&unk00);
-    ::FUN_00401080((int *)&unk04);
-}
+#include "fnv/decl/S_00462230.h"
+
 
 struct FUN_00462480_Class
 {

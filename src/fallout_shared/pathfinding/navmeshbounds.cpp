@@ -8,13 +8,6 @@
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00407000.h"
-// Replaces the integer pointed to by p with the result of calling FUN_00ec3bad on its current value.
-// @fnv 0x00401080
-void FUN_00401080(int* piValue)
-{
-    int* q = piValue;
-    *q = fnv::crt::byteswap_ulong(*q);
-}
 
 struct Vec3i
 {

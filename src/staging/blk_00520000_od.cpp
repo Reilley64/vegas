@@ -667,20 +667,9 @@ template <int N> struct EndianSizeTag
 };
 
 
-struct FUN_00535aa0_Class
-{
-    unsigned short unk00;
-    char pad02[0x2];
-    unsigned int unk04;
-    void FUN_00535aa0();
-};
+#include "fnv/decl/FUN_00535aa0_Class.h"
 
-// @fnv 0x00535aa0
-void FUN_00535aa0_Class::FUN_00535aa0()
-{
-    ::FUN_00407a90((short *)&unk00);
-    ::FUN_00401080((int *)&unk04);
-}
+
 
 struct CallCls537
 {

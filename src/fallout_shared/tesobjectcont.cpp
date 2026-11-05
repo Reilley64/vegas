@@ -1,5 +1,7 @@
 // fallout_shared/tesobjectcont.cpp: TESObjectCONT (9 functions)
 
+#include <cstring>
+
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSExplosion.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -176,7 +178,13 @@ bool TESObjectCONT::Load(TESFile* file)
                 memset(&cntoItem, 0, 8);
                 reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&cntoItem), 8);
                 if (file->IsEndianConversionRequired())
-                    reinterpret_cast<::S_00462230 *>(&(cntoItem))->FUN_00462230();
+                {
+                    static_assert(sizeof(cntoItem) == 8);
+                    S_00462230 converter;
+                    std::memcpy(&converter, &cntoItem, sizeof(converter));
+                    converter.FUN_00462230();
+                    std::memcpy(&cntoItem, &converter, sizeof(converter));
+                }
                 DAT_011c9348 = reinterpret_cast<ContainerItemExtraOwner*>(
                     ((void *)(reinterpret_cast<::fnv_004817f0::FUN_004817f0_shell *>((static_cast<TESContainer *>(this)))->AddContainerObject((::fnv_004817f0::ContainerChanges *)(void *)(&cntoItem)))));
                 break;

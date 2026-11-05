@@ -22756,9 +22756,7 @@ struct CellSaveInteriorData
 {
 };
 
-struct S_00462230
-{
-};
+
 
 struct _ref_0084e3a0_standin
 {

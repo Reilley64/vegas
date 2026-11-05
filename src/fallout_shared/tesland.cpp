@@ -2730,7 +2730,7 @@ std::intptr_t FUN_00535ae0();
 
 struct FUN_0084e3a0_Class { int FUN_0084e3a0(); };
 
-struct FUN_00535aa0_Class { void FUN_00535aa0(); };
+#include "fnv/decl/FUN_00535aa0_Class.h"
 
 struct FUN_004855a0_shell {  };
 

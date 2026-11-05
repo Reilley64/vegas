@@ -355,6 +355,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesweatherlist.cpp
   src/fallout_shared/tesweightform.cpp
   src/fallout_shared/tesworldspace.cpp
+  src/fallout_shared/water_record_converters.cpp
 )
 target_sources(game PRIVATE ${VEGAS18_FALLOUT_SHARED_SOURCES})
 set_source_files_properties(${VEGAS18_FALLOUT_SHARED_SOURCES} PROPERTIES

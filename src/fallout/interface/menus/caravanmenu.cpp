@@ -76,6 +76,7 @@
 #include "fnv/decl/NiControllerManager.h"
 #include "fnv/decl/NiNode.h"
 #include "fnv/decl/NiTMap_S.h"
+#include "fnv/decl/NiUpdateData.h"
 #include "fnv/decl/S3e60.h"
 #include "fnv/decl/S8840.h"
 #include "fnv/decl/SSN_b5.h"
@@ -1983,16 +1984,6 @@ struct FUN_004bc1f0_S
     void FUN_004bc1f0(float x, float y, float z);
 };
 
-struct NiUpdateData
-{
-    float time;
-    bool a;
-    bool b;
-    bool c;
-    bool d;
-    bool e;
-    NiUpdateData(float time, bool a, bool b);
-};
 // For each of the 7 slots in entry a1, calls FUN_004bc1f0 with zeroed values and DAT_01017718, then FUN_00a59c60 with the result of FUN_0043d410.
 // @fnv 0x0074ecb0
 void FUN_0074ecb0_cls::FUN_0074ecb0(int aiEntryIndex)
@@ -2003,16 +1994,6 @@ void FUN_0074ecb0_cls::FUN_0074ecb0(int aiEntryIndex)
         FUN_0043d410_shell tmp;
         reinterpret_cast<::FUN_00a59c60_cls *>((((FUN_00a59c60_shell*)m_entries[aiEntryIndex].m_slots[i])))->FUN_00a59c60(((std::uintptr_t)(new ((void *)&(tmp)) ::NiUpdateData(0.0f, 0, 0))));
     }
-}
-
-NiUpdateData::NiUpdateData(float t, bool x, bool y)
-{
-    this->time = t;
-    this->a = x;
-    this->b = y;
-    this->c = false;
-    this->d = false;
-    this->e = false;
 }
 
 struct NiPoint3;

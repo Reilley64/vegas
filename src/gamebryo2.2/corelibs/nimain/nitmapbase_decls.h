@@ -3,6 +3,7 @@
 #define FNV_NITMAPBASE_DECLS_H
 
 #include "fnv/decl/InteriorCellLookup.h"
+#include "fnv/decl/NiUpdateData.h"
 #include "fnv/decl/ResourceDescriptor.h"
 #include "fnv/decl/fnv_005892c0__FUN_005892c0_t.h"
 #include "fnv/symbols_00464000.h"
@@ -110,15 +111,6 @@ class TESFile
     char reserved2[0x24];
     unsigned char compileIndex;
     void SetCompileIndex(unsigned char index);
-};
-class NiUpdateData
-{
-  public:
-    float time;
-    bool updateControllers;
-    bool isMultiThreaded;
-    bool flag6, flag7, flag8;
-    NiUpdateData(float time, bool updateControllers, bool isMultiThreaded);
 };
 class BGSReconstructFormsInAllFilesMap
 {

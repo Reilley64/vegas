@@ -81,7 +81,7 @@
 #include "fnv/symbols_011f1000.h"
 extern void* DAT_01090ed4;
 
-struct FUN_009ca6c0_shell
+struct FnvCombatAttackRangedCleanupShell
 {
     void FUN_009ca6c0();
 };
@@ -91,14 +91,14 @@ struct FUN_009d0980_shell
     void FUN_009d0980();
 };
 
-void FUN_009ca6c0_shell::FUN_009ca6c0()
+void FnvCombatAttackRangedCleanupShell::FUN_009ca6c0()
 {}
 
 // @fnv 0x009d0980
 void FUN_009d0980_shell::FUN_009d0980()
 {
     *(void**)this = &DAT_01090ed4;
-    reinterpret_cast<::FUN_009ca6c0_class *>((((FUN_009ca6c0_shell*)this)))->FUN_009ca6c0();
+    reinterpret_cast<::FUN_009ca6c0_class *>((((FnvCombatAttackRangedCleanupShell*)this)))->FUN_009ca6c0();
 }
 
 struct FUN_009d09f0_shell

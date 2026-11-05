@@ -73,12 +73,12 @@ void CombatProcedureAttackLow::FUN_009cbfd0(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*reinterpret_cast<TESObjectWEAP**>(reinterpret_cast<char*>(this) + 0x1c)), 0);
 }
 
-struct FUN_009ca6c0_shell
+struct FnvCombatAttackLowCleanupShell
 {
     void FUN_009ca6c0();
 };
 
-void FUN_009ca6c0_shell::FUN_009ca6c0()
+void FnvCombatAttackLowCleanupShell::FUN_009ca6c0()
 {}
 
 extern int DAT_01090aec;
@@ -92,7 +92,7 @@ struct FUN_009cbb50_shell
 void FUN_009cbb50_shell::FUN_009cbb50()
 {
     *(intptr_t*)this = (intptr_t)&DAT_01090aec;
-    reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FUN_009ca6c0_shell*>(this)))->FUN_009ca6c0();
+    reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FnvCombatAttackLowCleanupShell*>(this)))->FUN_009ca6c0();
 }
 
 struct FUN_009cbb20_shell

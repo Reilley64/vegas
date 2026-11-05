@@ -789,26 +789,6 @@ void FUN_009dfa00_shell::FUN_009dfa00(BGSLoadFormBuffer* apLoadGameBuffer)
 }  // namespace fnv_009dfa00
 
 namespace p07 {
-struct DtorStandIn
-{
-    void FUN_0083dec0();
-};
-struct DelStandIn
-{
-    void* DestroyIfFlagged(unsigned int flags);
-};
-// Calls the destructor on this, then frees this via Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x009daec0
-void* DelStandIn::DestroyIfFlagged(unsigned int flags)
-{
-    ((DtorStandIn*)this)->FUN_0083dec0();
-    if (flags & 1)
-        ::FUN_00401030(this);
-    return this;
-}
-}
-
-namespace p07 {
 struct NiPoint3
 {
     float x, y, z;
@@ -1019,6 +999,27 @@ FUN_009daef0::~FUN_009daef0()
 {
     FUN_009daf80((TESForm*)this);
 }
+
+namespace fnv_009daec0 {
+namespace p07 {
+struct DtorStandIn
+{
+};
+struct DelStandIn
+{
+    void* DestroyIfFlagged(unsigned int flags);
+};
+// Calls the destructor on this, then frees this via Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x009daec0
+void* DelStandIn::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_009daef0 *>((((DtorStandIn*)this)))->FUN_009daef0::~FUN_009daef0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+}
+}  // namespace fnv_009daec0
 
 namespace fnv_009db950 {
 struct ActorPathingMessageQueue

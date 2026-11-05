@@ -102,6 +102,7 @@ void FUN_009a5cd0_cls::ProcessAllProjectiles(intptr_t aiDeltaTime)
     }
 }
 
+namespace fnv_009a5020 {
 namespace p07 {
 struct DtorStandIn
 {
@@ -120,6 +121,7 @@ void* DelStandIn::DestroyIfFlagged(unsigned int flags)
     return this;
 }
 }
+}  // namespace fnv_009a5020
 
 struct NiBound;
 struct FUN_0043d450_Owner

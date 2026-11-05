@@ -445,6 +445,7 @@ void FUN_006ebf90(char** apObjectPtr)
         reinterpret_cast<::WaitableObject *>((((NiAVObject*)(*apObjectPtr + 0x14))))->FUN_00401970();
 }
 
+namespace fnv_006e9c90 {
 namespace p07 {
 struct DtorStandIn
 {
@@ -463,6 +464,7 @@ void* DelStandIn::DestroyAndFree(unsigned int flags)
     return this;
 }
 }
+}  // namespace fnv_006e9c90
 
 struct FUN_006e9f60_shell
 {

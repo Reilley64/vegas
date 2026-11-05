@@ -990,26 +990,6 @@ void FUN_0078d8b0(GlobalObject_00869f00* pThis)
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
 }
 
-namespace p07 {
-struct DtorStandIn
-{
-    void FUN_0083dec0();
-};
-struct DelStandIn
-{
-    void* DestroyAndFree(unsigned int flags);
-};
-// Runs the destructor, then frees this object if the flags bit 0 is set, and returns this.
-// @fnv 0x00788770
-void* DelStandIn::DestroyAndFree(unsigned int flags)
-{
-    ((DtorStandIn*)this)->FUN_0083dec0();
-    if (flags & 1)
-        ::FUN_00401030(this);
-    return this;
-}
-}
-
 namespace fnv_007890e0 {
 struct NiUpdateData
 {
@@ -2115,6 +2095,27 @@ FUN_007887a0::~FUN_007887a0()
     }
 }
 }  // namespace fnv_007887a0
+
+namespace fnv_00788770 {
+namespace p07 {
+struct DtorStandIn
+{
+};
+struct DelStandIn
+{
+    void* DestroyAndFree(unsigned int flags);
+};
+// Runs the destructor, then frees this object if the flags bit 0 is set, and returns this.
+// @fnv 0x00788770
+void* DelStandIn::DestroyAndFree(unsigned int flags)
+{
+    reinterpret_cast<::fnv_007887a0::FUN_007887a0 *>((((DtorStandIn*)this)))->FUN_007887a0::~FUN_007887a0();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+}
+}  // namespace fnv_00788770
 
 struct FUN_0078a280_shell : public LoadingMenu
 {

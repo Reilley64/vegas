@@ -1259,13 +1259,13 @@ void __cdecl FUN_0086c150(float value)
     DAT_011ff8b0 = value;
 }
 
-struct MessageHandler
+class MessageHandler
 {
+  public:
     unsigned char unk04;
     static MessageHandler* pHandler;
     virtual ~MessageHandler();
 };
-MessageHandler* MessageHandler::pHandler;
 
 // Deletes the global MessageHandler instance if it exists and its byte at offset 4 is zero.
 // @fnv 0x0086cd80

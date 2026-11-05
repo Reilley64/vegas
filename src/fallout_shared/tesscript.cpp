@@ -904,6 +904,7 @@ void FUN_005ae2e0_shell::FUN_005ae2e0()
     }
 }
 
+namespace fnv_005aa170 {
 namespace p07 {
 struct DtorStandIn
 {
@@ -922,6 +923,7 @@ void* DelStandIn::DestroyAndFree(unsigned int flags)
     return this;
 }
 }
+}  // namespace fnv_005aa170
 
 namespace fnv_005aa3f0 {
 namespace p07 {

@@ -458,15 +458,14 @@ void __cdecl FUN_00c3bc80(const char* pcSuffix)
 }  // namespace fnv_00c3bc80
 
 extern const void* DAT_010c14a8;
-struct MessageHandler;
-struct MessageHandler
+class MessageHandler
 {
+  public:
     const void* vtbl;
     bool bStatic;
     static MessageHandler* pHandler;
     MessageHandler* FUN_00c3bcf0(bool b);
 };
-MessageHandler* MessageHandler::pHandler;
 // Calls FUN_00aa4c60, sets the vtable to DAT_010c14a8, stores b in bStatic, sets MessageHandler::pHandler to this and returns this.
 // @fnv 0x00c3bcf0
 MessageHandler* MessageHandler::FUN_00c3bcf0(bool abStatic)

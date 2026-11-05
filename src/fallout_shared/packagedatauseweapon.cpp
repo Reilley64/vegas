@@ -88,26 +88,6 @@ void UseWeaponActorPackageData::SetReferenceTarget(TESObjectREFR* reference)
     m_pUseTarget = m_pUseTarget == reference ? 0 : m_pUseTarget;
 }
 
-namespace p07 {
-struct DtorStandIn
-{
-    void FUN_0083dec0();
-};
-struct DelStandIn
-{
-    void* DestroyIfFlagged(unsigned int flags);
-};
-// Runs the destructor on this, then frees this via Deallocate when flags has bit 0 set, and returns this.
-// @fnv 0x0067cb40
-void* DelStandIn::DestroyIfFlagged(unsigned int flags)
-{
-    ((DtorStandIn*)this)->FUN_0083dec0();
-    if (flags & 1)
-        ::FUN_00401030(this);
-    return this;
-}
-}
-
 struct FUN_00670b30
 {
     void* __vecDelDtor(unsigned int);
@@ -143,6 +123,27 @@ FUN_0067ccd0_cls::~FUN_0067ccd0_cls()
     c ? c->__vecDelDtor(1) : 0;
     data = 0;
 }
+
+namespace fnv_0067cb40 {
+namespace p07 {
+struct DtorStandIn
+{
+};
+struct DelStandIn
+{
+    void* DestroyIfFlagged(unsigned int flags);
+};
+// Runs the destructor on this, then frees this via Deallocate when flags has bit 0 set, and returns this.
+// @fnv 0x0067cb40
+void* DelStandIn::DestroyIfFlagged(unsigned int flags)
+{
+    reinterpret_cast<::FUN_0067ccd0_cls *>((((DtorStandIn*)this)))->FUN_0067ccd0_cls::~FUN_0067ccd0_cls();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
+}
+}
+}  // namespace fnv_0067cb40
 
 struct BGSLoadFormBuffer;
 

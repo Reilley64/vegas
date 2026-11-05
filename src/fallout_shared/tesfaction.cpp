@@ -347,6 +347,7 @@ void FUN_005fd800_shell::FUN_005fd800(BGSLoadFormBuffer* apLoadGameBuffer)
     }
 }
 
+namespace fnv_005fc8d0 {
 namespace p07 {
 struct DtorStandIn
 {
@@ -365,6 +366,7 @@ void* DelStandIn::DestroyAndFree(unsigned int flags)
     return this;
 }
 }
+}  // namespace fnv_005fc8d0
 
 struct FactionFormBase
 {

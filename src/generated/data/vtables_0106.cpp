@@ -98,7 +98,7 @@ extern "C" void fnv_fn_0067c7a0() __asm__("?FUN_0067c7a0@FUN_0067c7a0_shell@@QEA
 extern "C" void fnv_fn_0067c860() __asm__("?FUN_0067c860@TESUseItemPackageData@@QEAAXPEAUTESPackageData@@@Z");
 extern "C" void fnv_fn_0067c960() __asm__("?FUN_0067c960@FUN_0067c960_shell@@QEAA_NPEAUTESPackageData@@@Z");
 extern "C" void fnv_fn_0067c9d0() __asm__("?FUN_0067c9d0@TESUseItemPackageData@@QEAAXXZ");
-extern "C" void fnv_fn_0067cb40() __asm__("?DestroyIfFlagged@DelStandIn@p07@@QEAAPEAXI@Z");
+extern "C" void fnv_fn_0067cb40() __asm__("?DestroyIfFlagged@DelStandIn@p07@fnv_0067cb40@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_0067cd90() __asm__("?FUN_0067cd90@UseWeaponPackageData_Shell@@QEAAXPEAVTESPackageData@@@Z");
 extern "C" void fnv_fn_0067cfc0() __asm__("?FUN_0067cfc0@FUN_0067cfc0_shell@@QEAA_NPEAVTESPackageData@@@Z");
 extern "C" void fnv_fn_0067d1c0() __asm__("?InitItem@TESUseWeaponPackageData@@QEAAXPEAVTESForm@@@Z");

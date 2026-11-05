@@ -307,6 +307,7 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nimain/nispotlight.cpp
   src/gamebryo2.2/corelibs/nimain/nistencilproperty.cpp
   src/gamebryo2.2/corelibs/nimain/nistream.cpp
+  src/gamebryo2.2/corelibs/nimain/native_havok_startup.cpp
   src/gamebryo2.2/corelibs/nimain/nistream_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nistring.cpp
   src/gamebryo2.2/corelibs/nimain/nistringextradata.cpp

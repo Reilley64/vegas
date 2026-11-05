@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <cstdint>
 #include "fnv/decl/MagicCaster_shell.h"
 #include "fnv/symbols_01268000.h"
@@ -114,36 +115,6 @@ void FUN_00c856c0(FNV_Dispatch* owner, char* data)
     header->m_iObjectReferenceCount = 0;
     owner->unk08(header, size);
 }
-
-struct TargetClass
-{
-    int m_f00;
-    int m_f04;
-    int m_f08;
-    int m_f0c;
-    int m_f10;
-    int m_f14;
-    int m_f18;
-    int m_f1c;
-
-    TargetClass* Clear();
-};
-
-// @fnv 0x00c85770
-TargetClass* TargetClass::Clear()
-{
-    m_f00 = 0;
-    m_f04 = 0;
-    m_f08 = 0;
-    m_f0c = 0;
-    m_f10 = 0;
-    m_f14 = 0;
-    m_f18 = 0;
-    m_f1c = 0;
-    return this;
-}
-
-
 
 struct ReturnType
 {

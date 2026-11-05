@@ -4,6 +4,7 @@
 
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkMemoryRouter.h"
+#include "havok/InlineStorageString.h"
 #include "fnv/symbols_00c90000.h"
 #include <xmmintrin.h>
 #include <cstdint>
@@ -1016,63 +1017,6 @@ void hkStringBufD618::ToLower()
 }
 }  // namespace fnv_00d61890
 
-template <class T, int N> class hkInplaceArrayD61B
-{
-  public:
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    T m_kStorage[N];
-
-    hkInplaceArrayD61B() : m_data(m_kStorage), m_iElementCount(0), m_iCapacityState(N | 0x80000000)
-    {}
-
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    T& operator[](int i)
-    {
-        return m_data[i];
-    }
-    T* begin()
-    {
-        return m_data;
-    }
-    __forceinline void reserve(hkMemoryAllocator& kAlloc, int n)
-    {
-        const int iCap = getCapacity();
-        if (iCap < n)
-        {
-            int iCap2 = 2 * iCap;
-            int iNewCap = (n < iCap2) ? iCap2 : n;
-            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), iNewCap, sizeof(T));
-        }
-    }
-    __forceinline void SetSizeAndGrow(int n)
-    {
-        reserve(hkMemoryRouter::getInstance().temp(), n);
-        m_iElementCount = n;
-    }
-};
-
-class FUN_00d61b10
-{
-  public:
-    hkInplaceArrayD61B<char, 128> m_kStringBuffer;
-
-    FUN_00d61b10(const char* pcString, int iLength) throw();
-};
-
-// Resizes the inline char array to iLength+1, null-terminates it, and copies iLength bytes from pcString into it.
-// @fnv 0x00d61b10
-FUN_00d61b10::FUN_00d61b10(const char* pcString, int iLength) throw()
-{
-    m_kStringBuffer.SetSizeAndGrow(iLength + 1);
-    m_kStringBuffer[iLength] = 0;
-    ::FUN_00cb1260(m_kStringBuffer.begin(), pcString, iLength);
-}
-
 struct FUN_00d62630_Obj
 {
     void FUN_00d62630(int a1, int a2, int a3, int a4);
@@ -1083,58 +1027,6 @@ struct FUN_00d61df0_cls
     int unk04;
     FUN_00d61df0_cls* FUN_00d61df0(intptr_t arg);
 };
-
-class hkStringBufD61E
-{
-  public:
-    char* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    int getLength() const
-    {
-        return m_iElementCount - 1;
-    }
-    void SetSizeAndGrow(int n)
-    {
-        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().temp();
-        int iCap = m_iCapacityState & 0x3fffffff;
-        if (iCap < n)
-        {
-            int iNewCap = 2 * iCap;
-            ::FUN_00c908c0((::SpawnedObject *)&(kAlloc), (::SpawnedArray *)(void *)(this), n < iNewCap ? iNewCap : n, 1);
-        }
-        m_iElementCount = n;
-    }
-
-    void AppendStrings(const char* s0, const char* s1, const char* s2, const char* s3, const char* s4,
-                       const char* s5) throw();
-};
-
-// Appends up to six C strings to the buffer, resizing it to fit the combined length plus a terminator.
-// @fnv 0x00d61e30
-void hkStringBufD61E::AppendStrings(const char* pcString0, const char* pcString1, const char* pcString2,
-                                    const char* pcString3, const char* pcString4, const char* pcString5) throw()
-{
-    int aiLengths[6] = {};
-    const char* apcStrings[] = {pcString0, pcString1, pcString2, pcString3, pcString4, pcString5, 0};
-    int iOrigLen = getLength();
-    int iTotalLen = iOrigLen;
-    int i;
-    for (i = 0; apcStrings[i] != 0; i++)
-    {
-        aiLengths[i] = ::fnv_00cb10d0::FUN_00cb10d0(apcStrings[i]);
-        iTotalLen += aiLengths[i];
-    }
-    SetSizeAndGrow(iTotalLen + 1);
-    m_data[iTotalLen] = 0;
-    int iDstOffset = iOrigLen;
-    for (i = 0; apcStrings[i] != 0; i++)
-    {
-        ::FUN_00cb1260(m_data + iDstOffset, apcStrings[i], aiLengths[i]);
-        iDstOffset += aiLengths[i];
-    }
-}
 
 namespace hkRouterD620 {
 }
@@ -1224,29 +1116,6 @@ struct FUN_00d62100_Class
     int FUN_00d62630(int context, int first, int second, int third);
     int FUN_00d62100(int first, intptr_t second, int third);
 };
-struct SearchBase
-{
-    int FUN_00d61cc0();
-};
-struct SearchController : SearchBase
-{
-    int FindLastCharInRange(int token, int start, int limit);
-    int FUN_00d61fc0(int start, int position);
-    int FUN_00d62140();
-};
-
-// @fnv 0x00d62140
-int SearchController::FUN_00d62140()
-{
-    int first = reinterpret_cast<::FUN_00d61640_cls *>(this)->FindLastCharInRange(0x2f, 0, 0x7fffffff);
-    int second = reinterpret_cast<::FUN_00d61640_cls *>(this)->FindLastCharInRange(0x5c, 0, 0x7fffffff);
-    if (second <= first)
-        second = first;
-    if (second >= 0)
-        return FUN_00d61fc0(0, second);
-    return FUN_00d61cc0();
-}
-
 struct hkStringPtr
 {
     const char* m_stringAndFlags;
@@ -1275,35 +1144,6 @@ FUN_00d623a0::FUN_00d623a0(const hkStringPtr& str)
     m_iElementCount = 0;
     m_iCapacityState = 0x80000080;
     FUN_00d61c10(str.cString());
-}
-
-struct FUN_00d623d0
-{
-    void* m_p00;
-    int m_i04;
-    int m_i08;
-    int m_i0c;
-    int m_i10;
-    int m_i14;
-    int m_i18;
-    void* m_p1c;
-    int m_i20;
-    void* m_p24;
-
-    void AppendStrings(int a, int b, int c, int d, int e, int f);
-    FUN_00d623d0(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e, intptr_t f);
-};
-
-// Sets up the object's internal pointer and counters, then forwards the six arguments to AppendStrings.
-// @fnv 0x00d623d0
-FUN_00d623d0::FUN_00d623d0(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e, intptr_t f)
-{
-    m_p00 = (void*)&m_i0c;
-    m_i04 = 0;
-    m_i08 = 0x80000080;
-    ((char*)m_p00)[0] = 0;
-    ++m_i04;
-    reinterpret_cast<::hkStringBufD61E *>(this)->AppendStrings((const char *)(a), (const char *)(b), (const char *)(c), (const char *)(d), (const char *)(e), (const char *)(f));
 }
 
 struct FUN_00d62100_Obj
@@ -2306,79 +2146,6 @@ int* FUN_00d61a50_cls::FUN_00d61a50(intptr_t value)
     }
 
     return (int*)this;
-}
-
-template <class T> __forceinline void hkArrayCopyD61B8(T* pDst, const T* pSrc, int n)
-{
-    for (int i = 0; i < n; ++i)
-        pDst[i] = pSrc[i];
-}
-
-template <class T, int N> class hkInplaceArrayD61B8
-{
-  public:
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    T m_kStorage[N];
-
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-
-    __forceinline hkInplaceArrayD61B8(const hkInplaceArrayD61B8& kOther) throw()
-        : m_data(m_kStorage), m_iElementCount(0), m_iCapacityState(N | 0x80000000)
-    {
-        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().temp();
-        if (getCapacity() < kOther.m_iElementCount)
-        {
-            if ((m_iCapacityState & 0x80000000) == 0)
-                kAlloc.bufFree(m_data, getCapacity() * sizeof(T));
-            int n = kOther.m_iElementCount * sizeof(T);
-            m_data = static_cast<T*>(kAlloc.bufAlloc(n));
-            m_iCapacityState = n / sizeof(T);
-        }
-        m_iElementCount = kOther.m_iElementCount;
-        hkArrayCopyD61B8(m_data, kOther.m_data, m_iElementCount);
-    }
-};
-
-class FUN_00d61b80
-{
-  public:
-    hkInplaceArrayD61B8<char, 128> m_kStringBuffer;
-
-    FUN_00d61b80(const FUN_00d61b80& kOther) throw();
-};
-
-// Copy-constructs a FUN_00d61b80 by delegating to the hkInplaceArrayD61B8 copy constructor for m_kStringBuffer.
-// @fnv 0x00d61b80
-FUN_00d61b80::FUN_00d61b80(const FUN_00d61b80& kOther) throw() : m_kStringBuffer(kOther.m_kStringBuffer)
-{}
-
-struct FUN_00d61cc0_t
-{
-    char* m_pBuffer;
-    int m_iFadeIndex;
-    int m_iState2;
-    void FUN_00d61cc0();
-};
-// If the capacity bits of m_iState2 are below 1, reserves via ArrayReserveImpl, then sets m_iFadeIndex to 1 and writes a null at m_pBuffer.
-// @fnv 0x00d61cc0
-void FUN_00d61cc0_t::FUN_00d61cc0()
-{
-    hkMemoryAllocator* allocator = hkMemoryRouter::getInstance().m_temp;
-    int state = m_iState2 & 0x3fffffff;
-    if (state < 1)
-    {
-        int count = state << 1;
-        if (count <= 1)
-            count = 1;
-        ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(void *)(this), count, 1);
-    }
-    m_iFadeIndex = 1;
-    *m_pBuffer = 0;
 }
 
 namespace hkRouterD61F {
@@ -4715,112 +4482,6 @@ void __cdecl FUN_00d72e90(const float* source, OutputD72 output)
     result->hasSkew = (_mm_movemask_ps(_mm_cmple_ps(difference, tolerance)) & 15) != 15;
 }
 
-
-class InlineStorageString
-{
-  public:
-    char* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    char m_kStorage[128];
-
-    InlineStorageString(const InlineStorageString& other)
-    {
-        new ((void *)this) ::FUN_00d61b80((*(const ::FUN_00d61b80 *)(&other)));
-    }
-    ~InlineStorageString()
-    {
-        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().temp();
-        m_iElementCount = 0;
-        if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.bufFree(m_data, getCapacity());
-    }
-
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    int getLength() const
-    {
-        return m_iElementCount - 1;
-    }
-    const char* cString() const
-    {
-        return m_data;
-    }
-
-    void SetSizeAndGrow(int n)
-    {
-        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().temp();
-        int cap = getCapacity();
-        if (cap < n)
-        {
-            int cap2 = 2 * cap;
-            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, 1);
-        }
-        m_iElementCount = n;
-    }
-    void setLength(int length)
-    {
-        SetSizeAndGrow(length + 1);
-        m_data[length] = 0;
-    }
-
-    void FUN_00d61b80(const InlineStorageString* other) throw();
-    int FUN_00d62190(const char* from, const char* to, int rtype);
-};
-
-// @fnv 0x00d62190
-int InlineStorageString::FUN_00d62190(const char* from, const char* to, int rtype)
-{
-    int fromLen = ::fnv_00cb10d0::FUN_00cb10d0(from);
-    int toLen = ::fnv_00cb10d0::FUN_00cb10d0(to);
-    int replaced = 0;
-    if (toLen > fromLen)
-    {
-        InlineStorageString orig(*this);
-        reinterpret_cast<::FUN_00d61cc0_t *>(this)->FUN_00d61cc0();
-        int startIndex = 0;
-        int index = reinterpret_cast<::hkStringBufD614 *>((void *)&(orig))->FindSubstring(from, 0, 0x7fffffff);
-        if (index >= 0)
-        {
-            replaced = 1;
-            do
-            {
-                reinterpret_cast<::D62080_Object *>(this)->FUN_00d62080((intptr_t)(orig.cString() + startIndex), index - startIndex);
-                reinterpret_cast<::D62080_Object *>(this)->FUN_00d62080((intptr_t)(to), toLen);
-                startIndex = index + fromLen;
-                if (rtype == 0)
-                    break;
-                index = reinterpret_cast<::hkStringBufD614 *>((void *)&(orig))->FindSubstring(from, startIndex, 0x7fffffff);
-            } while (index >= 0);
-        }
-        reinterpret_cast<::D62080_Object *>(this)->FUN_00d62080((intptr_t)(orig.cString() + startIndex), orig.getLength() - startIndex);
-    }
-    else
-    {
-        char* p = m_data;
-        int src = 0;
-        int dst = 0;
-        int index = reinterpret_cast<::hkStringBufD614 *>((void *)this)->FindSubstring(from, 0, 0x7fffffff);
-        while (index != -1)
-        {
-            while (src < index)
-                p[dst++] = p[src++];
-            for (int i = 0; i < toLen; ++i)
-                p[dst++] = to[i];
-            src += fromLen;
-            if (rtype == 0)
-                break;
-            index = reinterpret_cast<::hkStringBufD614 *>((void *)this)->FindSubstring(from, index + fromLen, 0x7fffffff);
-        }
-        while (src < getLength())
-            p[dst++] = p[src++];
-        p[dst] = 0;
-        setLength(dst);
-    }
-    return replaced;
-}
 
 void __cdecl FUN_00d687c0(void);
 

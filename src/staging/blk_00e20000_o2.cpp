@@ -17,7 +17,7 @@
 #include "fnv/decl/FUN_00d1bb40_Class.h"
 #include "fnv/decl/FUN_00d21ce0_cls.h"
 #include "fnv/decl/FUN_00d47770.h"
-#include "fnv/decl/FUN_00d61cc0_t.h"
+#include "havok/InlineStorageString.h"
 #include "fnv/decl/FUN_00d61df0_cls.h"
 #include "fnv/decl/FUN_00d9a4d0_Class.h"
 #include "fnv/decl/FUN_00e3eaa0.h"
@@ -4598,10 +4598,6 @@ struct S_Pair2b0
     uintptr_t second;
 };
 
-struct S_Out2b0
-{
-};
-
 extern char str_010ebaa4[];
 extern char str_010ebaa0[];
 
@@ -4613,23 +4609,25 @@ struct S_Class2b0
     S_Pair2b0* unk08;
     int unk0c;
 
-    void FUN_00e3f2b0(S_Out2b0* param);
+    void FUN_00e3f2b0(InlineStorageString* param);
 };
 
 // Writes unk0c pairs from unk08 to param, formatting each with DAT_01021184 or DAT_01011584 based on Q_cls::FUN_00e3f210 and joining with str_010ebaa0.
 // @fnv 0x00e3f2b0
-void S_Class2b0::FUN_00e3f2b0(S_Out2b0* apOut)
+void S_Class2b0::FUN_00e3f2b0(InlineStorageString* apOut)
 {
-    reinterpret_cast<::FUN_00d61cc0_t *>((apOut))->FUN_00d61cc0();
+    apOut->Clear();
     for (int i = 0; i < unk0c; i++)
     {
         Q_cls* first = (Q_cls*)(unk08[i].first & ~(uintptr_t)1);
         Q_cls* second = (Q_cls*)(unk08[i].second & ~(uintptr_t)1);
         const char* a = reinterpret_cast<::FUN_00e3f210_cls *>((first))->HasDelimiter() ? (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)) : ::DAT_01011584;
         const char* b = reinterpret_cast<::FUN_00e3f210_cls *>((second))->HasDelimiter() ? (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)) : ::DAT_01011584;
-        reinterpret_cast<::hkOstreamD624 *>((apOut))->WriteFormatted(str_010ebaa4, a, first, a, b, second, b);
+        apOut->AppendStrings(a, reinterpret_cast<const char*>(first), a, "=", b, nullptr);
+        apOut->Append(reinterpret_cast<const char*>(second));
+        apOut->Append(b);
         if (i < unk0c - 1)
-            reinterpret_cast<::FUN_00d61df0_cls *>((apOut))->FUN_00d61df0((intptr_t)(str_010ebaa0));
+            apOut->Append(str_010ebaa0);
     }
 }
 

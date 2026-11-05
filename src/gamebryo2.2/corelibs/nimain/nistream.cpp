@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <cstring>
 #include "runtime/crt.h"
+#include "havok/PhysicsMemory.h"
+#include "havok/hkBaseSystem.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A64330Obj.h"
 #include "fnv/decl/AA1F10BinaryStream.h"
@@ -288,109 +290,8 @@ void NiStream::SaveTopLevelObjects()
 }
 
 
-class AutoMemContextC68
-{
-  public:
-    AutoMemContextC68(unsigned int m_uiGeometryShaderFlags)
-    {
-        m_uiPrevious = ::currentAllocationContext;
-        ::currentAllocationContext = m_uiGeometryShaderFlags;
-    }
-    ~AutoMemContextC68()
-    {
-        ::currentAllocationContext = m_uiPrevious;
-    }
-    unsigned int m_uiPrevious;
-};
-
-class hkBoolC68
-{
-  public:
-    hkBoolC68(bool b)
-    {
-        m_cBooleanValue = static_cast<char>(b);
-    }
-    operator bool() const
-    {
-        return m_cBooleanValue != 0;
-    }
-    char m_cBooleanValue;
-};
-
-class hkMemoryAllocatorC68
-{
-  public:
-    virtual ~hkMemoryAllocatorC68();
-    virtual void* AllocateMemoryBlock(int iNumBytes);
-    virtual void ReleaseBlock(void* p, int iNumBytes);
-};
-
-class hkMallocAllocatorC68 : public hkMemoryAllocatorC68
-{
-  public:
-    hkMallocAllocatorC68()
-    {}
-    virtual ~hkMallocAllocatorC68();
-};
-
-struct hkStackMemoryC68
-{
-    char* m_pcCur;
-    char* m_pcStart;
-    char* m_pcEnd;
-};
-
-struct hkMemoryRouterC68
-{
-    hkStackMemoryC68 m_kStack;
-    hkMemoryAllocatorC68* m_pkTemp;
-    hkMemoryAllocatorC68* m_pkHeap;
-    hkMemoryAllocatorC68* m_pkDebug;
-    hkMemoryAllocatorC68* m_pkSolver;
-    hkMemoryAllocatorC68& heap()
-    {
-        return *m_pkHeap;
-    }
-};
-hkMemoryRouterC68* __cdecl GetMemoryRouterC68();
-
-class hkMemorySystemC68
-{
-  public:
-    struct FrameInfo
-    {
-        FrameInfo();
-        int m_iSolverBufferSize;
-        int m_iLargeBlockSize;
-    };
-    class Flags
-    {
-      public:
-        Flags(int iFlags) : m_iFlags(iFlags)
-        {}
-        Flags(const Flags& kOther) : m_iFlags(kOther.m_iFlags)
-        {}
-        int m_iFlags;
-    };
-    virtual ~hkMemorySystemC68();
-    virtual hkMemoryRouterC68* CreateMemoryRouter(const FrameInfo& kInfo, Flags kFlags);
-};
-
-class hkFreeListMemorySystemC68 : public hkMemorySystemC68
-{
-  public:
-    hkFreeListMemorySystemC68();
-};
-
-typedef void(__cdecl* hkErrorReportFunctionC68)(const char* pcMessage, void* pvObject);
-class hkBaseSystemC68
-{
-  public:
-    static hkBoolC68 isInitialized()
-    {
-        return (*reinterpret_cast<bool *>(&::DAT_01268414));
-    }
-};
+// Legacy generated data still declares an unused pointer to this incomplete type.
+class hkMemorySystemC68;
 
 class hkReferencedObjectC68
 {
@@ -398,14 +299,14 @@ class hkReferencedObjectC68
     void* operator new(std::size_t uiBytes)
     {
         hkReferencedObjectC68* b =
-            static_cast<hkReferencedObjectC68*>(GetMemoryRouterC68()->heap().AllocateMemoryBlock(uiBytes));
+            static_cast<hkReferencedObjectC68*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(uiBytes)));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(uiBytes);
         return b;
     }
     void operator delete(void* p, std::size_t)
     {
         hkReferencedObjectC68* b = static_cast<hkReferencedObjectC68*>(p);
-        GetMemoryRouterC68()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
     virtual ~hkReferencedObjectC68();
     unsigned short m_usMemSizeAndFlags;
@@ -696,49 +597,9 @@ class bhkPoseArray
 };
 
 
-extern hkMemorySystemC68* g_pkMemorySystemC68;
-extern char g_acMemorySystemBufferC68[];
-inline hkMemorySystemC68& GetMemorySystemC68()
+// Unreachable registration graph retained until its native singleton owners are established.
+[[maybe_unused]] static void RegisterLegacyHavokGameObjects()
 {
-    return *g_pkMemorySystemC68;
-}
-extern char g_acStackBufferC68[0x60000];
-
-// Initializes the Havok physics system, sets up memory router and stack, registers Havok object loaders, and creates the world listener and singleton.
-// @fnv 0x00c68230
-void InitHavokPhysics()
-{
-    AutoMemContextC68 kContext(0x10);
-    bool bNeedsInit = !hkBaseSystemC68::isInitialized();
-    if (bNeedsInit)
-    {
-        static hkMallocAllocatorC68 s_kMallocAllocator;
-
-        hkMemorySystemC68::FrameInfo kInfo;
-        kInfo.m_iSolverBufferSize = 0;
-        hkFreeListMemorySystemC68* pkMemorySystem = new (g_acMemorySystemBufferC68) hkFreeListMemorySystemC68;
-        reinterpret_cast<::FUN_00cd06c0_t *>((pkMemorySystem))->FUN_00cd06c0((intptr_t)(&s_kMallocAllocator));
-        g_pkMemorySystemC68 = pkMemorySystem;
-        ::FUN_00cbbfb0((uintptr_t)(pkMemorySystem));
-
-        hkMemoryRouterC68* pkRouter = GetMemorySystemC68().CreateMemoryRouter(kInfo, hkMemorySystemC68::Flags(1));
-        pkRouter->m_pkTemp = pkRouter->m_pkHeap;
-        pkRouter->m_pkSolver = pkRouter->m_pkHeap;
-
-        char* pcStack = g_acStackBufferC68;
-        int iStackSize = sizeof(g_acStackBufferC68);
-        intptr_t iMisalign = (intptr_t)pcStack & 0xf;
-        if (iMisalign)
-        {
-            intptr_t iActionIndex = 0x10 - iMisalign;
-            pcStack += iActionIndex;
-            iStackSize -= iActionIndex;
-        }
-        pkRouter->m_kStack.m_pcStart = pcStack;
-        pkRouter->m_kStack.m_pcCur = pcStack;
-        pkRouter->m_kStack.m_pcEnd = pcStack + iStackSize;
-        ::fnv_00cbbb10::FUN_00cbbb10((intptr_t)(pkRouter), (uintptr_t)(((void (&)(const char *, void *))::FUN_0084cbd0)), (unsigned int)(0));
-
         ::fnv_00c828f0::InitializeSelectionMasks();
         g_pkWorldListenerC68 = new bhkWorldListenerC68;
 
@@ -799,7 +660,6 @@ void InitHavokPhysics()
 
         if (!(*reinterpret_cast<::bhkSingletonC68 * *>(&::DAT_012677d0)))
             (*reinterpret_cast<::bhkSingletonC68 * *>(&::DAT_012677d0)) = new bhkSingletonC68;
-    }
 }
 
 struct NiGlobalStringTable

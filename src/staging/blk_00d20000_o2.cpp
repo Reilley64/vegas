@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <new>
 #include <cstdio>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/D338e0Owner.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -23,7 +24,7 @@
 #include "fnv/decl/FUN_00db0920_cls.h"
 #include "fnv/decl/FnvString.h"
 #include "fnv/decl/HK_ASSERT_OBJECT_SIZE_OK_FUNC_t.h"
-#include "fnv/decl/InlineStorageString.h"
+#include "havok/InlineStorageString.h"
 #include "fnv/decl/hkStringD618.h"
 #include "fnv/decl/hkpModifierConstraintAtomD220.h"
 #include "fnv/symbols_00401000.h"
@@ -1609,23 +1610,6 @@ const char* __cdecl CallAndGetId(const char* a, FUN_00d61840_class* obj)
     obj->FUN_00d61c10(a);
     reinterpret_cast<::hkStringD618 *>((obj))->ReplaceChar(0x2f, 0x5c, 1);
     return obj->m_iWordAt00;
-}
-
-struct PathHelper {
-    char* m_data;
-
-    void FUN_00d61c10(const char* s);
-};
-
-// @fnv 0x00d2b360
-const char* __cdecl FUN_00d2b360(const char* path, PathHelper* aPathHelper)
-{
-    aPathHelper->FUN_00d61c10(path);
-    reinterpret_cast<::hkStringD618 *>((aPathHelper))->ReplaceChar('\\', '/', 1);
-    reinterpret_cast<::InlineStorageString *>((aPathHelper))->FUN_00d62190("/./", "/", 1);
-    if (reinterpret_cast<::FnvString *>((aPathHelper))->FUN_00d61560("./"))
-        reinterpret_cast<::FUN_00d617d0_cls *>((aPathHelper))->RemoveFront(2);
-    return aPathHelper->m_data;
 }
 
 struct FnvCpu_FUN_00d2c7d0_CpuInterface {
@@ -3859,7 +3843,7 @@ void __cdecl RegisterD3DAgents(DispatcherD3D* pkDispatcher);
 
 void* __cdecl FindSharedEntryValue(PairNode* pNodeA, PairNode* pNodeB);
 
-const char* __cdecl FUN_00d2b360(const char* path, PathHelper* aPathHelper);
+
 
 void FUN_00d39090();
 
@@ -4384,7 +4368,7 @@ void* __cdecl InitAndGetOffset(void* a, void* b, void* c);
 
 void* __cdecl FindSharedEntryValue(PairNode* a, PairNode* b);
 
-const char* __cdecl FUN_00d2b360(const char* path, PathHelper* str);
+
 
 struct Obj_d284f0 {
     float unk00[52];

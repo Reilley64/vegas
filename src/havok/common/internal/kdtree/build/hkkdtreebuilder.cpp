@@ -2,7 +2,7 @@
 #include <xmmintrin.h>
 #include <cstddef>
 #include <new>
-#include "fnv_asm_helpers.h"
+#include "havok/ErrorDiagnostics.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/SinkOwner.h"
 #include "fnv/symbols_00cfc000.h"
@@ -96,7 +96,7 @@ const wchar_t*Condition;
 const vc_attributes::YesNoMaybe SA_Yes=vc_attributes::Yes;
 const vc_attributes::YesNoMaybe SA_No=vc_attributes::No;
 const vc_attributes::AccessType SA_Read=vc_attributes::Read;
-typedef vc_attributes::PreAttribute SA_Pre;class hkMemoryAllocator
+typedef vc_attributes::PreAttribute SA_Pre;class KdAllocatorView
 {
 public:
 __forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}
@@ -114,7 +114,7 @@ class NineIntegerRecord
 {
 public:
 __forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}
-typedef hkMemoryAllocator Allocator;
+typedef KdAllocatorView Allocator;
 static NineIntegerRecord&__cdecl GetMonitorStream();inline Allocator&heap(){return*m_pStreamAllocator;}
 protected:
 StringPointerTriple m_aiEntries;
@@ -142,43 +142,8 @@ MASK_MEMSIZE=0x7fff
 hkUint16 m_usMemSizeAndFlags;
 public:
 hkReferencedObject(class FinishingFlag flag){}
-};class hkError;
-template<typename T>
-class hkSingleton
-{
-public:
-static T*s_instance;
-static __forceinline T&__cdecl GetMonitorStream()
-{
-return*(*reinterpret_cast<::hkError * *>(&::DAT_01268360));
-}
-protected:
-hkSingleton(){}
-};
-class hkStreamWriter;
-struct RouterHeapAllocatorProvider;
-class hkOstream:public hkReferencedObject
-{
-public:
-static const struct ClassMemberDescriptor Members[];~hkOstream();
-hkOstream&operator<<(const char*s);
-protected:
-hkStreamWriter*m_pStreamWriter;};class hkError:public hkReferencedObject,public hkSingleton<hkError>
-{
-public:
-enum Message
-{
-MESSAGE_REPORT,
-MESSAGE_WARNING,
-MESSAGE_ASSERT,
-MESSAGE_ERROR
-};
-virtual int message(Message m,int id,const char*description,const char*file,int line)=0;};
-class hkErrStream:public hkOstream
-{
-public:
-hkErrStream(void*buf,int bufSize);
-};template<bool N>struct BooleanTypeConstant{typedef BooleanTypeConstant<N>type;enum{result=N};};
+};struct RouterHeapAllocatorProvider;
+template<bool N>struct BooleanTypeConstant{typedef BooleanTypeConstant<N>type;enum{result=N};};
 typedef BooleanTypeConstant<true>hkTypeIsPod;
 template<typename T>
 class HavokElementArray
@@ -190,7 +155,7 @@ __forceinline HavokElementArray(const HavokElementArray&a){;}
 public:
 __forceinline void _useExternalArray(T*,int cap);
 protected:
-__forceinline HavokElementArray<T>&copyFromArray(hkMemoryAllocator&,const HavokElementArray<T>&src,hkTypeIsPod);
+__forceinline HavokElementArray<T>&copyFromArray(KdAllocatorView&,const HavokElementArray<T>&src,hkTypeIsPod);
 public:
 enum
 {
@@ -595,7 +560,9 @@ int evenJobSize=numPrimitives / 4;
 if(treeSize<KdTree::getSizeForFastBuild(evenJobSize)*4+8)
 {
 
-if(1){char assertBuf[512];hkErrStream ostr(assertBuf,sizeof(assertBuf));reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0(DAT_010da240);if(hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR,0x5010d60c,assertBuf,DAT_010da21c,408)){fnv_Breakpoint();}}else;
+havok::diagnostics::ErrorReference error;
+if (error.Get().Message(3, 0x5010d60c, DAT_010da240, DAT_010da21c, 408))
+    havok::diagnostics::Breakpoint();
 }
 FieldlessRecord*endEntries[4];
 endEntries[0]=buffersIn.m_pProjectedEntryBegin+evenJobSize;

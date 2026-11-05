@@ -5951,11 +5951,7 @@ void* __cdecl FUN_00cba1c0()
 }
 
 
-// @fnv 0x00cbbfb0
-void FUN_00cbbfb0(uintptr_t a1)
-{
-    DAT_01268418 = a1;
-}
+// FUN_00cbbfb0 is defined with native Havok startup staging.
 
 namespace fnv_00cbc5e0 {
 extern "C" void* __cdecl FUN_00aa13e0(size_t);

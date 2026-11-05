@@ -2,6 +2,7 @@
 // src/havok/common/base/thread/semaphore/win32/hkwin32semaphore.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/semaphore/win32/hkwin32semaphore.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#ifdef _WIN32
 #include <cstdint>
 #include <windows.h>
 #include "fnv/decl/Tree_d978.h"
@@ -78,4 +79,33 @@ struct FUN_00d04370_cls
 void FUN_00d04370_cls::FUN_00d04370()
 {
     CloseHandle(m_hHandle);
+}
+
+#endif
+
+#include "havok/hkCpuJobThreadPool.h"
+#include <exception>
+
+bool havok::threading::Semaphore::Create(int maximum)
+{
+    if (handle || maximum < 1 || maximum > 6)
+        std::terminate();
+    try { handle = std::make_unique<std::counting_semaphore<6>>(0); }
+    catch (const std::bad_alloc&) { return false; }
+    return true;
+}
+
+void havok::threading::Semaphore::Acquire()
+{
+    handle->acquire();
+}
+
+void havok::threading::Semaphore::Release()
+{
+    handle->release();
+}
+
+void havok::threading::Semaphore::Close()
+{
+    handle.reset();
 }

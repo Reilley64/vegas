@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/ErrorDiagnostics.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/CC0280Writer.h"
@@ -35,21 +36,6 @@ struct ErrorReporter
     virtual void vfn_08();
     virtual int Report(int severity, unsigned int category, const char* text, const char* file, int line);
 };
-// Builds a reference-count error message from object and context, reports it via DAT_01268360, and breaks if reporting returns nonzero.
-// @fnv 0x00cb1660
-void __cdecl ReportReferenceCountError(const void* object, const char* context)
-{
-    CharBuffer message;
-    unsigned int storage[128];
-    ((FUN_00cb1600_class*)&message)->FUN_00cb1600((char*)storage, 0x200);
-    int referenceCount = *(const short*)((const char*)object + 6);
-    reinterpret_cast<::SinkOwner *>((((::FUN_00cc01c0_class *)(reinterpret_cast<::SinkOwner *>((((::FUN_00cc01c0_class *)(reinterpret_cast<::SinkOwner *>((((::FUN_00cc01c0_class *)(reinterpret_cast<::SinkOwner *>((((::FUN_00cc01c0_class *)(reinterpret_cast<::SinkOwner *>((((::FUN_00cc01c0_class *)(reinterpret_cast<::SinkOwner *>((((::FUN_00cc01c0_class *)(reinterpret_cast<::SinkOwner *>((((::FUN_00cc01c0_class *)(reinterpret_cast<::SinkOwner *>((((::FUN_00cc01c0_class *)&(reinterpret_cast<::CC0280Writer *>((((::FUN_00cc01c0_class *)(reinterpret_cast<::SinkOwner *>((((::FUN_00cc01c0_class *)&(reinterpret_cast<::hkOstreamDBB7 *>((((::FUN_00cc01c0_class *)(reinterpret_cast<::SinkOwner *>((((FUN_00cc01c0_class*)&message)))->FUN_00cc01c0("Reference count error on object ")))))->FUN_00cc0120(object)))))->FUN_00cc01c0(" with ref count of ")))))->WriteInt(referenceCount)))))->FUN_00cc01c0(" in ")))))->FUN_00cc01c0(context)))))->FUN_00cc01c0(".\n")))))->FUN_00cc01c0(" * Are you calling delete instead of removeReference?\n")))))->FUN_00cc01c0(" * Have you called removeReference too many times?\n")))))->FUN_00cc01c0(
-            " * In a multithreaded environment, what is the hkReferencedObject lock mode you use (see setLockMode())?\n")))))->FUN_00cc01c0(" * Is this a valid object?\n")))))->FUN_00cc01c0(" * Do you have more than 32768 references? (unlikely)\n");
-    if (DAT_01268360->Report(3, 0x2c66f2d8, (char*)storage, ".\\System\\Error\\hkError.cpp", 0x21))
-        __debugbreak();
-    reinterpret_cast<struct ::FUN_00cc00e0 *>((((FUN_00cc00e0_class*)&message)))->FUN_00cc00e0::~FUN_00cc00e0();
-}
-
 struct CB1600Bool
 {
     char m_cBooleanValue;
@@ -149,37 +135,5 @@ struct FUN_00cb17b0 : S_00cb17b0_RefObj
 // @fnv 0x00cb17b0
 FUN_00cb17b0::FUN_00cb17b0()
 {}
-
-struct DiagBuffer
-{
-    unsigned int m_00;
-    unsigned int m_04;
-    unsigned int m_08;
-    unsigned int m_buf[128];
-    void FUN_00cb1600(unsigned int* buf, unsigned int size) throw();
-};
-
-struct DiagLogger
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual int Report(int level, unsigned int hash, const char* msg, const char* file, int line);
-};
-
-extern const char str_010c85ac[];
-
-// @fnv 0x00cb1750
-void FUN_00cb1750(const char* apMsg)
-{
-    DiagBuffer buf;
-    new ((void *)&(buf)) ::FUN_00cb1600(buf.m_buf, 0x200);
-    reinterpret_cast<::SinkOwner *>(&(buf))->FUN_00cc01c0(apMsg);
-    if (((DiagLogger*)DAT_01268360)->Report(3, 0x2636fe25, (const char*)buf.m_buf, str_010c85ac, 0x28) != 0)
-    {
-        __debugbreak();
-    }
-    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(buf))->FUN_00cc00e0::~FUN_00cc00e0();
-}
 
 #include "generated/data/havok/common/base/system/error/hkerror.inc"

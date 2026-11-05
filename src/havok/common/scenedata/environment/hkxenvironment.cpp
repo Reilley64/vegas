@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/InlineStorageString.h"
 #include <cstdint>
 #include <cstddef>
 #include "fnv/decl/FUN_00d619d0.h"
@@ -258,58 +259,6 @@ int hkxAttributeMapE3F3::FUN_00e3f3b0(const char* pcName, const char* pcValue) t
 }
 
 
-struct hkMemoryAllocator
-{
-    virtual void vf00();
-    virtual void vf01();
-    virtual void vf02();
-    virtual void vf03();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
-
-struct hkMemoryRouterStandIn
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    hkMemoryAllocator* m_pStreamAllocator;
-    hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-hkMemoryRouterStandIn* getMemoryRouter();
-
-class InlineStorageString
-{
-  public:
-    InlineStorageString();
-    __forceinline ~InlineStorageString()
-    {
-        hkMemoryAllocator& a = getMemoryRouter()->heap();
-        m_iElementCount = 0;
-        if ((m_iCapacityState & 0x80000000) == 0)
-        {
-            a.ReturnMemory(m_data, m_iCapacityState & 0x3fffffff);
-        }
-        m_data = 0;
-        m_iCapacityState = 0x80000000;
-    }
-    InlineStorageString& operator=(const InlineStorageString& other);
-    InlineStorageString& operator=(const char* s);
-    InlineStorageString& operator+=(const char* s);
-    const char* cString() const
-    {
-        return m_data;
-    }
-
-    char* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    char m_kStorage[128];
-};
-
 class hkOstream
 {
   public:
@@ -409,24 +358,26 @@ int hkxEnvironmentParser::FUN_00e3f520(const char* str)
             break;
         case 1: {
             char tmp[2] = {str[pos], 0};
-            reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::InlineStorageString &)(name))->FUN_00d61df0((intptr_t)(tmp));
+            name += tmp;
             pos++;
             break;
         }
         case 2: {
             char tmp[2] = {str[pos], 0};
-            reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::InlineStorageString &)(value))->FUN_00d61df0((intptr_t)(tmp));
+            value += tmp;
             pos++;
             break;
         }
         case 3:
             reinterpret_cast<::hkxAttributeMapE3F3 *>(this)->FUN_00e3f3b0(name.cString(), value.cString());
-            reinterpret_cast<::FUN_00d619d0 *>((void *)&(const ::InlineStorageString &)(name))->operator=((const ::FUN_00d619d0 &)(value = ""));
+            value = "";
+            name = value;
             pos++;
             break;
         case 4:
             reinterpret_cast<::hkxAttributeMapE3F3 *>(this)->FUN_00e3f3b0(name.cString(), 0);
-            reinterpret_cast<::FUN_00d619d0 *>((void *)&(const ::InlineStorageString &)(name))->operator=((const ::FUN_00d619d0 &)(value = ""));
+            value = "";
+            name = value;
             pos++;
             break;
         case 5:

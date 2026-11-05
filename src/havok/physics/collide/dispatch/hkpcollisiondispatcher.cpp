@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include "havok/InlineStorageString.h"
 #include "havok/hkpCollisionDispatcher.h"
 #include <cstring>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -5944,15 +5945,6 @@ struct hkError
     virtual void BeginSection(int id, const char*);
     virtual void EndSection();
 };
-struct InlineStorageString
-{
-    char* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    char m_buffer[128];
-    InlineStorageString(const char*, const char* = 0, const char* = 0, const char* = 0, const char* = 0, const char* = 0);
-    ~InlineStorageString();
-};
 struct hkOstream : DispatcherReferencedObject
 {
     void* m_pStreamWriter;
@@ -6087,11 +6079,4 @@ void DebugTableDispatcher::FUN_00cfc1d0()
         }
     }
     (*reinterpret_cast<hkError **>(&::DAT_01268360))->EndSection();
-}
-InlineStorageString::~InlineStorageString()
-{
-    hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().temp();
-    m_iElementCount = 0;
-    if ((m_iCapacityState & 0x80000000) == 0)
-        allocator.bufFree(m_data, m_iCapacityState & 0x3fffffff);
 }

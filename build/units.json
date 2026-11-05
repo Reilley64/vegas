@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2766,
+  "units": 2776,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -282947,11 +282947,6 @@
      "size": 109
     },
     {
-     "address": "0x00c68230",
-     "symbol": "?InitHavokPhysics@@YAXXZ",
-     "size": 1297
-    },
-    {
      "address": "0x00c89860",
      "symbol": "?FUN_00c89860@FUN_00c89860_cls@@QAEXPAUStream@@@Z",
      "size": 118
@@ -283331,7 +283326,6 @@
     "?WriteData@VStream@fnv_00a66850@@QAEXXZ": "0x00a64010",
     "__ehhandler$?RegisterThread@FUN_00c68050_shell@fnv_00c68050@@QAEXXZ": "0x00f33c18",
     "__ehhandler$?LinkObjects@LinkedHolder@@QAEXAAVNiStream@@@Z": "0x00f30788",
-    "?InitHavokPhysics@@YAXXZ": "0x00c68230",
     "?ClearGlobalStrings@@YAXXZ": "0x00a42230",
     "?SaveLinkIDs@NiStreamA63E@@QAE_NI@Z": "0x00a63e60",
     "?ReadLinks@LinkLoader@@QAE_NXZ": "0x00a64740",
@@ -401606,11 +401600,6 @@
      "address": "0x00d603e0",
      "symbol": "?FUN_00d603e0@D603E0Object@@QAEPAU1@I@Z",
      "size": 14
-    },
-    {
-     "address": "0x00d61f30",
-     "symbol": "?FUN_00d61f30@FUN_00d61f30_shell@@QAEXHHHHHH@Z",
-     "size": 49
     }
    ],
    "symbols": {
@@ -402222,11 +402211,6 @@
      "size": 54
     },
     {
-     "address": "0x00c85770",
-     "symbol": "?Clear@TargetClass@@QAEPAU1@XZ",
-     "size": 28
-    },
-    {
      "address": "0x0056d280",
      "symbol": "?FUN_0056d280@@YAPAUReturnType@@I@Z",
      "size": 59
@@ -402238,7 +402222,6 @@
     "__imp__TlsGetValue@4": "0x00fdf044",
     "?AllocateWithHeader@@YAPAXPAUFUN_00c85690_Allocator@@I@Z": "0x00c85690",
     "?ReleaseChildren@Owner@@QAEXXZ": "0x00c856f0",
-    "?Clear@TargetClass@@QAEPAU1@XZ": "0x00c85770",
     "?FUN_00c85750@@YAPAUHolder@@XZ": "0x00c85750",
     "?FUN_0044edb0@MagicCaster_shell@@QAEPAVMagicTarget@@XZ": "0x0044edb0"
    }
@@ -402324,11 +402307,6 @@
      "address": "0x00cd0940",
      "symbol": "?ResetRecordState@FUN_00cd0940_shell@@QAEXPAHE@Z",
      "size": 134
-    },
-    {
-     "address": "0x00cd0a60",
-     "symbol": "??0FUN_00cd0a60@@QAE@XZ",
-     "size": 199
     },
     {
      "address": "0x00cd0b30",
@@ -404047,11 +404025,6 @@
      "size": 59
     },
     {
-     "address": "0x00d2b640",
-     "symbol": "?Initialize@D2B640Object@@QAEPAU1@HH@Z",
-     "size": 102
-    },
-    {
      "address": "0x00d2b6b0",
      "symbol": "?ClearAndReset@FUN_00d2b6b0_cls@@QAEXXZ",
      "size": 90
@@ -404093,7 +404066,6 @@
     "?ReleaseReference@FUN_00c903b0_class@@QAEXXZ": "0x00c903b0",
     "?GetSelfWithNotify@Widget@fnv_00d2b710@@QAEPAXE@Z": "0x00d2b710",
     "?AppendObject@D2B600Container@@QAEXPAUD2B600Object@@H@Z": "0x00d2b600",
-    "?Initialize@D2B640Object@@QAEPAU1@HH@Z": "0x00d2b640",
     "?ClearAndReset@FUN_00d2b6b0_cls@@QAEXXZ": "0x00d2b6b0",
     "?Vsnprintf@@YAHPADHPBDZZ": "0x00cb0f60"
    }
@@ -404113,16 +404085,6 @@
      "address": "0x00cb1600",
      "symbol": "??0FUN_00cb1600@@QAE@PAXH@Z",
      "size": 85
-    },
-    {
-     "address": "0x00cb1660",
-     "symbol": "?ReportReferenceCountError@@YAXPBXPBD@Z",
-     "size": 229
-    },
-    {
-     "address": "0x00cb1750",
-     "symbol": "?FUN_00cb1750@@YAXPBD@Z",
-     "size": 94
     },
     {
      "address": "0x00cb17b0",
@@ -404152,7 +404114,6 @@
     "?FUN_00c903a0@FUN_00c903a0_class@@QAEXXZ": "0x00c903a0",
     "?FUN_00c85750@@YAPAUS_00cb17b0_Router@@XZ": "0x00c85750",
     "?WriteInt@CC0280Writer@@QAEAAV1@H@Z": "0x00cc0280",
-    "?ReportReferenceCountError@@YAXPBXPBD@Z": "0x00cb1660",
     "??0FUN_00cb1600@@QAE@PAXH@Z": "0x00cb1600",
     "?str_010c85ac@@3QBDB": "0x010c85ac"
    }
@@ -404169,11 +404130,6 @@
    ],
    "functions": [
     {
-     "address": "0x00cbb930",
-     "symbol": "?FUN_00cbb930@@YAHPAX@Z",
-     "size": 21
-    },
-    {
      "address": "0x00cbb950",
      "symbol": "?FUN_00cbb950@@YAXPAE@Z",
      "size": 13
@@ -404181,11 +404137,6 @@
     {
      "address": "0x00cbb960",
      "symbol": "?GetProcessorCount@@YAXPAH@Z",
-     "size": 47
-    },
-    {
-     "address": "0x00cbb990",
-     "symbol": "_FUN_00cbb990",
      "size": 47
     },
     {
@@ -404199,19 +404150,9 @@
      "size": 278
     },
     {
-     "address": "0x00cbbb10",
-     "symbol": "?FUN_00cbbb10@fnv_00cbbb10@@YAHHII@Z",
-     "size": 186
-    },
-    {
      "address": "0x00cbbbd0",
      "symbol": "_FUN_00cbbbd0",
      "size": 224
-    },
-    {
-     "address": "0x00cbbcb0",
-     "symbol": "?ShutdownIfInitialized@@YAHXZ",
-     "size": 107
     },
     {
      "address": "0x00cbbd20",
@@ -404242,7 +404183,6 @@
     "_DAT_01268a44": "0x01268a44",
     "?DAT_011b3dec@@3HA": "0x011b3dec",
     "?DAT_01268364@@3PAUFUN_00dcc670_Manager@@A": "0x01268364",
-    "_FUN_00cbb990": "0x00cbb990",
     "?FUN_00cb0db0@fnv_00cb0db0@@YAXXZ": "0x00cb0db0",
     "?DAT_0126835c@@3KA": "0x0126835c",
     "__imp__TlsGetValue@4": "0x00fdf044",
@@ -404262,12 +404202,10 @@
     "?InitBuffer@BufferOwner@@QAEPAV1@XZ": "0x00cbbd80",
     "?OpenFile@Candidate@@QAEPAXPBD@Z": "0x00d2bf70",
     "?ResizeAudioStream@@YAXPAUAudioAllocator@@PAUAudioStream@@H@Z": "0x00c90940",
-    "?ShutdownIfInitialized@@YAHXZ": "0x00cbbcb0",
     "?InvokeCallback@@YGXHH@Z": "0x00cbbd20",
     "?RemoveKey@FUN_00cbc810_cls@@QAEXPAI@Z": "0x00cbc810",
     "?FUN_00c85750@fnv_00cbb9c0@@YAPAUSpawnedHolder@1@XZ": "0x00c85750",
     "??_7SpawnedObject@fnv_00cbb9c0@@6B@": "0x010c8ed4",
-    "?FUN_00cbb930@@YAHPAX@Z": "0x00cbb930",
     "?FUN_00c85750@fnv_00cbbb10@@YAPAUAllocHolder@1@XZ": "0x00c85750",
     "_DAT_010c8eb8": "0x010c8eb8",
     "?Initialize@D2B640Object@@QAEPAU1@HH@Z": "0x00d2b640",
@@ -405808,11 +405746,6 @@
    ],
    "functions": [
     {
-     "address": "0x00d2cde0",
-     "symbol": "?FUN_00d2cde0@OwnerD2CD@@QAEXHH@Z",
-     "size": 70
-    },
-    {
      "address": "0x00d2ce30",
      "symbol": "?FUN_00d2ce30@FUN_00d2ce30_shell@@QAE_NXZ",
      "size": 12
@@ -405876,11 +405809,6 @@
      "address": "0x00d2d3b0",
      "symbol": "?DestroyIfFlagged@hkObjd2d3b0@@QAEPAV1@I@Z",
      "size": 42
-    },
-    {
-     "address": "0x00d87940",
-     "symbol": "?FUN_00d87940@Thr_00d87940@@QAEHKKPBDK@Z",
-     "size": 200
     }
    ],
    "symbols": {
@@ -405900,7 +405828,6 @@
     "?FUN_00d2cda0@C_d2cda0@@QAEPAU1@XZ": "0x00d2cda0",
     "?FUN_00d2cd80@FUN_00d2cd80_Obj@@QAEPAU1@XZ": "0x00d2cd80",
     "?DAT_00fdf0f8@fnv_00d2d110@@3P6GXPAUSYSTEM_INFO_D2D1@1@@ZA": "0x00fdf0f8",
-    "?FUN_00d87940@Thr_00d87940@@QAEHKKPBDK@Z": "0x00d87940",
     "__imp__TlsSetValue@8": "0x00fdf04c",
     "__imp__GetCurrentThread@0": "0x00fdf120",
     "__imp__TlsGetValue@4": "0x00fdf044",
@@ -540488,11 +540415,6 @@
      "size": 16
     },
     {
-     "address": "0x00cbbfb0",
-     "symbol": "?FUN_00cbbfb0@@YAXI@Z",
-     "size": 10
-    },
-    {
      "address": "0x00cbc460",
      "symbol": "??0FUN_00cbc460@@QAE@XZ",
      "size": 53
@@ -547020,11 +546942,6 @@
      "size": 34
     },
     {
-     "address": "0x00d2b360",
-     "symbol": "?FUN_00d2b360@@YAPBDPBDPAUPathHelper@@@Z",
-     "size": 78
-    },
-    {
      "address": "0x00d2be30",
      "symbol": "?SetFile@FUN_00d2be30@@QAEXPBD0@Z",
      "size": 28
@@ -549442,34 +549359,14 @@
      "size": 184
     },
     {
-     "address": "0x00d61b10",
-     "symbol": "??0FUN_00d61b10@@QAE@PBDH@Z",
-     "size": 106
-    },
-    {
-     "address": "0x00d61b80",
-     "symbol": "??0FUN_00d61b80@@QAE@ABV0@@Z",
-     "size": 135
-    },
-    {
      "address": "0x00d61c10",
      "symbol": "?FUN_00d61c10@hkStringBufD61C@fnv_00d61c10@@QAEAAV12@PBD@Z",
      "size": 165
     },
     {
-     "address": "0x00d61cc0",
-     "symbol": "?FUN_00d61cc0@FUN_00d61cc0_t@@QAEXXZ",
-     "size": 63
-    },
-    {
      "address": "0x00d61df0",
      "symbol": "?FUN_00d61df0@FUN_00d61df0_cls@@QAEPAU1@H@Z",
      "size": 53
-    },
-    {
-     "address": "0x00d61e30",
-     "symbol": "?AppendStrings@hkStringBufD61E@@QAEXPBD00000@Z",
-     "size": 255
     },
     {
      "address": "0x00d61f70",
@@ -549497,19 +549394,9 @@
      "size": 57
     },
     {
-     "address": "0x00d62140",
-     "symbol": "?FUN_00d62140@SearchController@@QAEHXZ",
-     "size": 66
-    },
-    {
      "address": "0x00d623a0",
      "symbol": "??0FUN_00d623a0@@QAE@ABUhkStringPtr@@@Z",
      "size": 45
-    },
-    {
-     "address": "0x00d623d0",
-     "symbol": "??0FUN_00d623d0@@QAE@HHHHHH@Z",
-     "size": 71
     },
     {
      "address": "0x00d62420",
@@ -549934,7 +549821,6 @@
     "?CompareStringsCaseInsensitive@@YAXPAXH@Z": "0x00cb0fe0",
     "?FindLastCharInRange@FUN_00d61640_cls@@QAEHDHH@Z": "0x00d61640",
     "?RemoveFront@FUN_00d617d0_cls@@QAEXH@Z": "0x00d617d0",
-    "?AppendStrings@hkStringBufD61E@@QAEXPBD00000@Z": "0x00d61e30",
     "?ReplaceRange@hkObjectD626@@QAEHHHHHH@Z": "0x00d625a0",
     "?ClearContainer@FUN_00ddf050_cls@@QAEXXZ": "0x00ddf050",
     "?WriteInt@CC0280Writer@@QAEAAV1@H@Z": "0x00cc0280",
@@ -550014,13 +549900,7 @@
     "/EHsc",
     "/Gy"
    ],
-   "functions": [
-    {
-     "address": "0x00d62190",
-     "symbol": "?FUN_00d62190@InlineStorageString@@QAEHPBD0H@Z",
-     "size": 522
-    }
-   ],
+   "functions": [],
    "symbols": {
     "?FUN_00cb10d0@fnv_00cb10d0@@YAHPBD@Z": "0x00cb10d0",
     "?FUN_00c85750@@YAPAXXZ": "0x00c85750",
@@ -550028,8 +549908,7 @@
     "??0FUN_00d61b80@@QAE@ABV0@@Z": "0x00d61b80",
     "?FUN_00d61cc0@FUN_00d61cc0_t@@QAEXXZ": "0x00d61cc0",
     "?FUN_00d62080@D62080_Object@@QAEXHH@Z": "0x00d62080",
-    "?FindSubstring@hkStringBufD614@@QAEHPBDHH@Z": "0x00d61480",
-    "?FUN_00d62190@InlineStorageString@@QAEHPBD0H@Z": "0x00d62190"
+    "?FindSubstring@hkStringBufD614@@QAEHPBDHH@Z": "0x00d61480"
    }
   },
   {
@@ -552381,11 +552260,6 @@
      "size": 50
     },
     {
-     "address": "0x00dcc8e0",
-     "symbol": "?ReadToken@TokenReader@fnv_00dcc8e0@@QAEPAU12@PAUTokenOwner@2@@Z",
-     "size": 217
-    },
-    {
      "address": "0x00dcc9c0",
      "symbol": "?FUN_00dcc9c0@S_00dcc9c0_Class@fnv_00dcc9c0@@QAEPAU12@PAUS_00dcc9c0_Target@2@@Z",
      "size": 101
@@ -552834,7 +552708,6 @@
     "?ReadDouble@DCC5E0Reader@@QAEAAV1@AAN@Z": "0x00dcc5e0",
     "?FindEntry@FUN_00dd9270_cls@@QAEHI@Z": "0x00dd9270",
     "?InvokeRecord@FUN_00dd92f0_cls@@QAEHHH@Z": "0x00dd92f0",
-    "?ReadToken@TokenReader@fnv_00dcc8e0@@QAEPAU12@PAUTokenOwner@2@@Z": "0x00dcc8e0",
     "?FactorTridiagonal@@YAXHMPAVS00dd0ff0_Jacobian@@PAUS00dd0ff0_AccumulatorOffset@@PBUS00dd0ff0_VelocityAccumulator@@PAUS00dd0ff0_Triple@@H@Z": "0x00dd0ff0",
     "?FUN_00cb0c00@@YAXH@Z": "0x00cb0c00",
     "?AllMatch@S_00dd8cf0@@QAE?AUS_00dd8cf0_Ret@@PBQBXH@Z": "0x00dd8cf0",
@@ -572515,6 +572388,281 @@
    ],
    "symbols": {
     "FUN_00e29920": "0x00e29920"
+   }
+  },
+  {
+   "source": "src/gamebryo2.2/corelibs/nimain/native_havok_startup.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00c68230",
+     "symbol": "?InitHavokPhysics@@YAXXZ",
+     "size": 1297
+    },
+    {
+     "address": "0x00cbbfb0",
+     "symbol": "?FUN_00cbbfb0@@YAXI@Z",
+     "size": 10
+    }
+   ],
+   "symbols": {
+    "?InitHavokPhysics@@YAXXZ": "0x00c68230"
+   }
+  },
+  {
+   "source": "src/havok/common/base/container/string/inline_storage_string.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00d61f30",
+     "symbol": "?FUN_00d61f30@FUN_00d61f30_shell@@QAEXHHHHHH@Z",
+     "size": 49
+    },
+    {
+     "address": "0x00d2b360",
+     "symbol": "?FUN_00d2b360@@YAPBDPBDPAUPathHelper@@@Z",
+     "size": 78
+    },
+    {
+     "address": "0x00d61b10",
+     "symbol": "??0FUN_00d61b10@@QAE@PBDH@Z",
+     "size": 106
+    },
+    {
+     "address": "0x00d61b80",
+     "symbol": "??0FUN_00d61b80@@QAE@ABV0@@Z",
+     "size": 135
+    },
+    {
+     "address": "0x00d61cc0",
+     "symbol": "?FUN_00d61cc0@FUN_00d61cc0_t@@QAEXXZ",
+     "size": 63
+    },
+    {
+     "address": "0x00d61e30",
+     "symbol": "?AppendStrings@hkStringBufD61E@@QAEXPBD00000@Z",
+     "size": 255
+    },
+    {
+     "address": "0x00d62140",
+     "symbol": "?FUN_00d62140@SearchController@@QAEHXZ",
+     "size": 66
+    },
+    {
+     "address": "0x00d623d0",
+     "symbol": "??0FUN_00d623d0@@QAE@HHHHHH@Z",
+     "size": 71
+    }
+   ],
+   "symbols": {
+    "?AppendStrings@hkStringBufD61E@@QAEXPBD00000@Z": "0x00d61e30"
+   }
+  },
+  {
+   "source": "src/havok/common/base/memory/router/native_memory_router.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00c85770",
+     "symbol": "?Clear@TargetClass@@QAEPAU1@XZ",
+     "size": 28
+    }
+   ],
+   "symbols": {
+    "?Clear@TargetClass@@QAEPAU1@XZ": "0x00c85770"
+   }
+  },
+  {
+   "source": "src/havok/common/base/memory/system/freelist/native_memory_system.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00cd0a60",
+     "symbol": "??0FUN_00cd0a60@@QAE@XZ",
+     "size": 199
+    }
+   ],
+   "symbols": {}
+  },
+  {
+   "source": "src/havok/common/base/system/error/native_error.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00d2b640",
+     "symbol": "?Initialize@D2B640Object@@QAEPAU1@HH@Z",
+     "size": 102
+    }
+   ],
+   "symbols": {
+    "?Initialize@D2B640Object@@QAEPAU1@HH@Z": "0x00d2b640"
+   }
+  },
+  {
+   "source": "src/havok/common/base/system/error/native_error_diagnostics.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00cb1660",
+     "symbol": "?ReportReferenceCountError@@YAXPBXPBD@Z",
+     "size": 229
+    },
+    {
+     "address": "0x00cb1750",
+     "symbol": "?FUN_00cb1750@@YAXPBD@Z",
+     "size": 94
+    }
+   ],
+   "symbols": {
+    "?ReportReferenceCountError@@YAXPBXPBD@Z": "0x00cb1660"
+   }
+  },
+  {
+   "source": "src/havok/common/base/system/native_base_system.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00cbb930",
+     "symbol": "?FUN_00cbb930@@YAHPAX@Z",
+     "size": 21
+    },
+    {
+     "address": "0x00cbb990",
+     "symbol": "_FUN_00cbb990",
+     "size": 47
+    },
+    {
+     "address": "0x00cbbb10",
+     "symbol": "?FUN_00cbbb10@fnv_00cbbb10@@YAHHII@Z",
+     "size": 186
+    },
+    {
+     "address": "0x00cbbcb0",
+     "symbol": "?ShutdownIfInitialized@@YAHXZ",
+     "size": 107
+    }
+   ],
+   "symbols": {
+    "?FUN_00cbb930@@YAHPAX@Z": "0x00cbb930",
+    "_FUN_00cbb990": "0x00cbb990",
+    "?ShutdownIfInitialized@@YAHXZ": "0x00cbbcb0"
+   }
+  },
+  {
+   "source": "src/havok/common/base/thread/thread/win32/hkwin32thread.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00d2cde0",
+     "symbol": "?FUN_00d2cde0@OwnerD2CD@@QAEXHH@Z",
+     "size": 70
+    },
+    {
+     "address": "0x00d87940",
+     "symbol": "?FUN_00d87940@Thr_00d87940@@QAEHKKPBDK@Z",
+     "size": 200
+    }
+   ],
+   "symbols": {
+    "?FUN_00d87940@Thr_00d87940@@QAEHKKPBDK@Z": "0x00d87940"
+   }
+  },
+  {
+   "source": "src/havok/common/base/container/string/inline_storage_string.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS-",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00d62190",
+     "symbol": "?FUN_00d62190@InlineStorageString@@QAEHPBD0H@Z",
+     "size": 522
+    }
+   ],
+   "symbols": {
+    "?FUN_00d62190@InlineStorageString@@QAEHPBD0H@Z": "0x00d62190"
+   }
+  },
+  {
+   "source": "src/havok/common/base/container/string/native_token_reader.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/O2",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00dcc8e0",
+     "symbol": "?ReadToken@TokenReader@fnv_00dcc8e0@@QAEPAU12@PAUTokenOwner@2@@Z",
+     "size": 217
+    }
+   ],
+   "symbols": {
+    "?ReadToken@TokenReader@fnv_00dcc8e0@@QAEPAU12@PAUTokenOwner@2@@Z": "0x00dcc8e0"
    }
   }
  ]

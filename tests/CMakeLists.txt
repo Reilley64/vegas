@@ -71,3 +71,55 @@ add_executable(runtime_skin_bone_set_test
 )
 target_include_directories(runtime_skin_bone_set_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
 add_test(NAME runtime.skin_bone_set COMMAND runtime_skin_bone_set_test)
+
+
+add_executable(runtime_havok_inline_string_test
+  runtime/havok_inline_string_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/base/container/string/inline_storage_string.cpp
+  ${PROJECT_SOURCE_DIR}/src/runtime/havok_router_tls.cpp
+)
+target_include_directories(runtime_havok_inline_string_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
+add_test(NAME runtime.havok_inline_string COMMAND runtime_havok_inline_string_test)
+
+add_executable(runtime_havok_owner_test runtime/havok_owner_test.cpp)
+target_include_directories(runtime_havok_owner_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(runtime_havok_owner_test PRIVATE game)
+add_test(NAME runtime.havok_owner COMMAND runtime_havok_owner_test)
+
+add_executable(runtime_havok_worker_pool_test runtime/havok_worker_pool_test.cpp)
+target_include_directories(runtime_havok_worker_pool_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(runtime_havok_worker_pool_test PRIVATE game)
+add_test(NAME runtime.havok_worker_pool COMMAND runtime_havok_worker_pool_test)
+
+add_executable(runtime_havok_base_system_test runtime/havok_base_system_test.cpp)
+target_include_directories(runtime_havok_base_system_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(runtime_havok_base_system_test PRIVATE game)
+add_test(NAME runtime.havok_base_system COMMAND runtime_havok_base_system_test "${CMAKE_CURRENT_BINARY_DIR}/havok-base-file.tmp")
+
+add_executable(runtime_havok_startup_stop_test runtime/havok_startup_stop_test.cpp)
+target_include_directories(runtime_havok_startup_stop_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(runtime_havok_startup_stop_test PRIVATE game)
+if(UNIX)
+  foreach(mode IN ITEMS direct fresh)
+    add_test(NAME runtime.havok_startup_stop.${mode}
+      COMMAND ${CMAKE_COMMAND}
+        -DPROGRAM=$<TARGET_FILE:runtime_havok_startup_stop_test>
+        -DMODE=${mode}
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_startup_abort.cmake)
+  endforeach()
+endif()
+
+add_executable(runtime_havok_core_caller_remedy_test runtime/havok_core_caller_remedy_test.cpp)
+target_include_directories(runtime_havok_core_caller_remedy_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(runtime_havok_core_caller_remedy_test PRIVATE game)
+add_test(NAME runtime.havok_core_caller_remedy COMMAND runtime_havok_core_caller_remedy_test)
+
+add_executable(runtime_havok_diagnostic_consumers_test runtime/havok_diagnostic_consumers_test.cpp)
+target_include_directories(runtime_havok_diagnostic_consumers_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(runtime_havok_diagnostic_consumers_test PRIVATE game)
+add_test(NAME runtime.havok_diagnostic_consumers COMMAND runtime_havok_diagnostic_consumers_test)
+
+add_executable(runtime_havok_core_review_remedy_test runtime/havok_core_review_remedy_test.cpp)
+target_include_directories(runtime_havok_core_review_remedy_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(runtime_havok_core_review_remedy_test PRIVATE game)
+add_test(NAME runtime.havok_core_review_remedy COMMAND runtime_havok_core_review_remedy_test)

@@ -4,6 +4,8 @@
 
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkMemoryRouter.h"
+#include "havok/PhysicsMemory.h"
+#include <exception>
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -28095,25 +28097,12 @@ struct FUN_00cbf430
 {
     ~FUN_00cbf430();
 };
-struct ShutdownMode
-{
-    int value;
-    ShutdownMode(int v) : value(v)
-    {}
-};
-struct ShutdownInterface
-{
-    virtual void v00(int);
-    virtual void v01();
-    virtual void v02(ShutdownMode);
-};
-static ShutdownInterface* DAT_012677d4;
 int __cdecl ShutdownIfInitialized();
 void __cdecl NotifyThreadObserverEnabled();
 void __cdecl RunCallbackIfPresent();
 
 
-// Runs FUN_00c66570, FUN_00c6d340 and FUN_00c6d3c0, releases DAT_012677a8, deletes DAT_012677d0, calls v02(3) and v00(0) on DAT_012677d4, then clears it.
+// Releases game and base-system users before the actual native memory-system owner.
 // @fnv 0x00c66670
 void __cdecl FUN_00c66670()
 {
@@ -28129,9 +28118,8 @@ void __cdecl FUN_00c66670()
     if ((*reinterpret_cast<::FUN_00cbf430 * *>(&::DAT_012677d0)))
         delete (*reinterpret_cast<::FUN_00cbf430 * *>(&::DAT_012677d0));
     ShutdownIfInitialized();
-    DAT_012677d4->v02(3);
-    DAT_012677d4->v00(0);
-    DAT_012677d4 = 0;
+    if (!g_havokPhysicsMemory.Shutdown())
+        std::terminate();
     ::FUN_00cbbfb0(0);
 }
 

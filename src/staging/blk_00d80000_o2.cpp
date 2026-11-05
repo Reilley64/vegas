@@ -79,6 +79,7 @@
 #include "fnv/symbols_simd.h"
 #include <intrin.h>
 #include "fnv/decl/BufferOwner.h"
+#include "havok/InlineStorageString.h"
 #include "fnv/decl/FUN_00d86b30_class.h"
 #include "fnv/decl/FnvClassNameNode.h"
 #include "fnv/symbols_00cb1000.h"
@@ -3125,41 +3126,25 @@ struct HkInplaceChars {
     HkBytes128 m_kStorage;
 };
 
-struct FUN_00d61b10 {
-    HkInplaceChars m_kStringBuffer;
-
-    FUN_00d61b10(const char*, int) throw();
-    ~FUN_00d61b10() throw() {
-        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
-        int cap = m_kStringBuffer.m_iCapacityState;
-        hkMemoryAllocator* allocator = router->m_temp;
-        m_kStringBuffer.m_iElementCount = 0;
-        if ((cap & 0x80000000) == 0)
-            allocator->bufFree(m_kStringBuffer.m_data, cap & 0x3fffffff);
-        m_kStringBuffer.m_iCapacityState = int(0x80000000u);
-        m_kStringBuffer.m_data = 0;
-    }
-};
-
 // Parses a type-code string by matching known prefixes or extracting a bracketed substring, then returns its type code.
 // @fnv 0x00d86d70
 int __cdecl GetTypeCodeFromString(const char* name) throw()
 {
     if (::FUN_00cb0fd0(name, DAT_010d3aa0, 8) == 0) {
         name += 8;
-        FUN_00d61b10 inner(name, FUN_00cb10d0(name) - 1);
-        return GetTypeCode(inner.m_kStringBuffer.m_data);
+        InlineStorageString inner(name, FUN_00cb10d0(name) - 1);
+        return GetTypeCode(inner.cString());
     }
     if (::FUN_00cb0fd0(name, DAT_010d3a90, 14) == 0) {
         name += 14;
-        FUN_00d61b10 inner(name, FUN_00cb10d0(name) - 1);
-        return GetTypeCode(inner.m_kStringBuffer.m_data);
+        InlineStorageString inner(name, FUN_00cb10d0(name) - 1);
+        return GetTypeCode(inner.cString());
     }
     const char* openBracket = FUN_00cb1140(name, '[');
     if (openBracket) {
         int length = int(FUN_00cb1140(name, ']') - openBracket) - 1;
-        FUN_00d61b10 inner(openBracket + 1, length);
-        return CallWithZeroMiddleArg(inner.m_kStringBuffer.m_data, 0);
+        InlineStorageString inner(openBracket + 1, length);
+        return CallWithZeroMiddleArg(inner.cString(), 0);
     }
     return 0;
 }

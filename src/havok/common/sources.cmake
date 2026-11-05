@@ -179,6 +179,22 @@ set(VEGAS_HAVOK_COMMON_SOURCES
   src/havok/common/visualize/shape/hkdisplayplane.cpp
   src/havok/common/visualize/shape/hkdisplaysemicircle.cpp
   src/havok/common/visualize/shape/hkdisplaysphere.cpp
+  src/havok/common/base/container/string/inline_storage_string.cpp
+  src/havok/common/base/container/string/native_token_reader.cpp
+  src/havok/common/base/memory/allocator/freelist/native_system_allocator.cpp
+  src/havok/common/base/memory/allocator/native_memory_allocator.cpp
+  src/havok/common/base/memory/allocator/solver/native_solver_allocator.cpp
+  src/havok/common/base/memory/allocator/thread/native_thread_memory.cpp
+  src/havok/common/base/memory/router/native_memory_router.cpp
+  src/havok/common/base/memory/system/freelist/native_memory_system.cpp
+  src/havok/common/base/object/native_reference.cpp
+  src/havok/common/base/system/error/native_diagnostic_breakpoint.cpp
+  src/havok/common/base/system/error/native_error.cpp
+  src/havok/common/base/system/error/native_error_diagnostics.cpp
+  src/havok/common/base/system/error/native_stack_trace.cpp
+  src/havok/common/base/system/native_base_system.cpp
+  src/havok/common/base/system/native_file_system.cpp
+  src/havok/common/base/thread/thread/hkworkerplatform.cpp
 )
 target_sources(game PRIVATE ${VEGAS_HAVOK_COMMON_SOURCES})
 # The units include project headers from include/. A pointer must never be narrowed to a 32-bit integer.

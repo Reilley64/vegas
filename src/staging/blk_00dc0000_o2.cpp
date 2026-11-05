@@ -24,7 +24,8 @@
 #include "fnv/decl/FUN_00d466e0.h"
 #include "fnv/decl/FUN_00d60b40.h"
 #include "fnv/decl/FUN_00d61470_Class.h"
-#include "fnv/decl/FUN_00d61cc0_t.h"
+#include "havok/InlineStorageString.h"
+#include "havok/TokenReader.h"
 #include "fnv/decl/FUN_00dd83a0_cls.h"
 #include "fnv/decl/FUN_00e05b40.h"
 #include "fnv/decl/OwnerD869.h"
@@ -710,44 +711,14 @@ FUN_00dcc6f0_cls* FUN_00dcc6f0_cls::FUN_00dcc6f0(int a1)
 }
 }  // namespace fnv_00dcc6f0
 
-namespace fnv_00dcc9c0 {
-
-struct S_00dcc9c0_StringBuf
-{
-    char* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    unsigned int m_kStorage[32];
-
-    S_00dcc9c0_StringBuf() throw();
-    ~S_00dcc9c0_StringBuf() throw()
-    {
-        hkMemoryAllocator& a = hkMemoryRouter::getInstance().temp();
-        m_iElementCount = 0;
-        if ((m_iCapacityState & 0x80000000) == 0)
-            a._bufFree<char>(m_data, m_iCapacityState & 0x3fffffff);
-    }
-};
-
-struct S_00dcc9c0_Target
-{
-};
-
-struct S_00dcc9c0_Class
-{
-    void ReadToken(S_00dcc9c0_StringBuf* buf) throw();
-    S_00dcc9c0_Class* FUN_00dcc9c0(S_00dcc9c0_Target* target) throw();
-};
-
 // @fnv 0x00dcc9c0
-S_00dcc9c0_Class* S_00dcc9c0_Class::FUN_00dcc9c0(S_00dcc9c0_Target* target) throw()
+fnv_00dcc8e0::TokenReader* fnv_00dcc8e0::TokenReader::ReadString(SStringPtr* target)
 {
-    S_00dcc9c0_StringBuf buf;
-    this->ReadToken(&buf);
-    reinterpret_cast<::SStringPtr *>((target))->FUN_00cb0c10(buf.m_data);
+    InlineStorageString buf;
+    ReadToken(&buf);
+    target->FUN_00cb0c10(buf.cString());
     return this;
 }
-}  // namespace fnv_00dcc9c0
 
 
 // @fnv 0x00dccb00
@@ -2862,118 +2833,7 @@ float MatchCaller(TokenReader* s)
     return FUN_00dcc3b0(s);
 }
 
-namespace fnv_00dcc8e0 {
-struct TokenBuffer
-{
-    char* m_data;
-    unsigned int m_len;
-    unsigned int m_cap;
-};
 
-struct TokenOwner
-{
-    int unk00;
-};
-
-struct TokenStream
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual int v04(char* buffer, int count);
-    virtual void v05(int count);
-    virtual void v06();
-    virtual void v07(int n);
-    virtual void v08();
-};
-
-extern "C" void _ReadWriteBarrier(void);
-namespace TokenParsing {
-static __declspec(noinline) void SkipWhitespace(TokenStream* stream)
-{
-    unsigned __int64 storage[8];
-    char* buffer = reinterpret_cast<char*>(storage);
-    stream->v07(64);
-    int n = stream->v04(buffer, 64);
-    while (n != 0)
-    {
-        int i = 0;
-        while (i < n)
-        {
-            char c = buffer[i];
-            if (c != ' ' && c != '\t' && c != '\r' && c != '\n')
-            {
-                stream->v08();
-                stream->v05(i);
-                return;
-            }
-            ++i;
-        }
-        stream->v07(64);
-        n = stream->v04(buffer, 64);
-    }
-}
-}
-
-template <class T> __forceinline void ConstructToken(T* p, int n, const T& value)
-{
-    for (int i = 0; i < n; ++i)
-        p[i] = value;
-}
-
-struct TokenReader
-{
-    int unk00;
-    int unk04;
-    TokenStream* m_08;
-    TokenReader* ReadToken(TokenOwner* owner);
-};
-
-// Reads a whitespace-delimited token from the stream into the owner's buffer, appending a null terminator, and returns this.
-// @fnv 0x00dcc8e0
-TokenReader* TokenReader::ReadToken(TokenOwner* owner)
-{
-    const int one = 1;
-    reinterpret_cast<::FUN_00d61cc0_t *>((owner))->FUN_00d61cc0();
-    TokenBuffer* buf = ((::fnv_00dcc8e0::TokenBuffer *)(reinterpret_cast<::FUN_00d61470_Class *>((owner))->FUN_00d61470()));
-    TokenParsing::SkipWhitespace(m_08);
-    m_08->v07(one);
-    int c = reinterpret_cast<::Stream *>((m_08))->ReadChar();
-    if (c != -1)
-    {
-        do
-        {
-            if (c == 0x20 || c == 9 || c == 0xd || c == 0xa)
-            {
-                break;
-            }
-            hkMemoryRouter* h = &hkMemoryRouter::getInstance();
-            if (buf->m_len == (buf->m_cap & 0x3fffffff))
-            {
-                ::ResizeAudioStream((::AudioAllocator *)(void *)(h->m_temp), (::AudioStream *)(void *)(buf), one);
-            }
-            char* slot = buf->m_data + buf->m_len;
-            char value = (char)c;
-            ConstructToken(slot, one, value);
-            buf->m_len += one;
-            m_08->v07(one);
-            c = reinterpret_cast<::Stream *>((m_08))->ReadChar();
-        } while (c != -1);
-    }
-    m_08->v08();
-    hkMemoryRouter* h2 = &hkMemoryRouter::getInstance();
-    if (buf->m_len == (buf->m_cap & 0x3fffffff))
-    {
-        ::ResizeAudioStream((::AudioAllocator *)(void *)(h2->m_temp), (::AudioStream *)(void *)(buf), one);
-    }
-    char* slot2 = buf->m_data + buf->m_len;
-    _ReadWriteBarrier();
-    *slot2 = 0;
-    buf->m_len += one;
-    return this;
-}
-}  // namespace fnv_00dcc8e0
 
 // @fnv 0x00dccb60
 void FUN_00dccb60(int value)

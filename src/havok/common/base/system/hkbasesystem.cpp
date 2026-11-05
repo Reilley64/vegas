@@ -11,7 +11,7 @@
 #include <new>
 #include "fnv/decl/BufferOwner.h"
 #include "fnv/decl/Candidate.h"
-#include "fnv/decl/D2B640Object.h"
+#include "havok/hkBaseSystem.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00c903b0_class.h"
 #include "fnv/decl/hkBufStreamWriterD274.h"
@@ -25,7 +25,7 @@
 #include "fnv/symbols_01268000.h"
 void __cdecl FUN_00cbb950(unsigned char* out)
 {
-    *out = DAT_01268414;
+    *out = havok::base::IsInitialized();
 }
 
 struct FUN_00c903b0_Class
@@ -33,52 +33,6 @@ struct FUN_00c903b0_Class
 };
 extern intptr_t DAT_011b3dec;
 extern "C" void __cdecl FUN_00cbbbd0();
-// @fnv 0x00cbbcb0
-int __cdecl ShutdownIfInitialized()
-{
-    if (DAT_01268414)
-    {
-        ::FUN_00c90410(0);
-        FUN_00cbbbd0();
-        if ((*reinterpret_cast<unsigned char *>(&::DAT_01268a44)) && DAT_011b3dec)
-        {
-            ((void(__cdecl*)())DAT_011b3dec)();
-            (*reinterpret_cast<unsigned char *>(&::DAT_01268a44)) = 0;
-        }
-        if ((*reinterpret_cast<int *>(&::DAT_01268360)))
-            reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268360)))))->ReleaseReference();
-        (*reinterpret_cast<int *>(&::DAT_01268360)) = 0;
-        if ((*reinterpret_cast<int *>(&::DAT_01268364)))
-            reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268364)))))->ReleaseReference();
-        (*reinterpret_cast<int *>(&::DAT_01268364)) = 0;
-        FUN_00cbb990();
-        DAT_01268414 = 0;
-    }
-    return 0;
-}
-
-
-// @fnv 0x00cbb930
-int __cdecl FUN_00cbb930(void* value)
-{
-    SetThreadLocalValue(value);
-    ::fnv_00cb0db0::FUN_00cb0db0();
-    return 0;
-}
-
-namespace impl {
-// @fnv 0x00cbb990
-extern "C" int __cdecl FUN_00cbb990()
-{
-    void* p = TlsGetValue(DAT_0126835c);
-    if (p)
-        ::fnv_00cb0df0::FUN_00cb0df0((::fnv_00cb0df0::GrowBuffer *)(p));
-    if (::fnv_00c85760::FUN_00c85760())
-        SetThreadLocalValue(nullptr);
-    return 0;
-}
-}
-
 extern "C" void* DAT_011b3dbc;
 typedef void(__cdecl* Callback)(int, int);
 // @fnv 0x00cbbd20
@@ -87,34 +41,9 @@ void InvokeCallback(int first, int second)
     ((Callback)DAT_011b3dbc)(first, second);
 }
 
-struct hkMemoryAllocator
+inline hkMemoryRouter* audio()
 {
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-};
-
-struct AudioMgr
-{
-    int unk00, unk04, unk08;
-    hkMemoryAllocator* unk0c;
-    hkMemoryAllocator* unk10;
-    hkMemoryAllocator& tempHeap()
-    {
-        return *unk0c;
-    }
-    hkMemoryAllocator& heap()
-    {
-        return *unk10;
-    }
-};
-
-struct BSAudio;
-inline AudioMgr* audio()
-{
-    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
+    return static_cast<hkMemoryRouter*>(::FUN_00c85750());
 }
 
 struct LocalBuf
@@ -145,7 +74,7 @@ struct ObjB : RefObj
 
 inline void* hkAlloc(int n)
 {
-    RefObj* p = (RefObj*)audio()->heap().AllocateMemoryBlock(n);
+    RefObj* p = (RefObj*)audio()->heap().blockAlloc(n);
     p->m_usMemSizeAndFlags = (short)n;
     return p;
 }
@@ -160,10 +89,10 @@ ObjB* FUN_00cbbee0(const char* a)
     ObjB* objB = (ObjB*)hkAlloc(sizeof(ObjB));
     ObjB* result = ((::ObjB *)(new ((void *)(objB)) ::hkBufStreamWriterD274((::hkStreamWriterD274 *)(src), 0x1000)));
     reinterpret_cast<::hkReferencedObjectC905 *>((src))->FUN_00c905b0();
-    hkMemoryAllocator& alloc = audio()->tempHeap();
+    hkMemoryAllocator& alloc = audio()->temp();
     localBuf.m_iElementCount = 0;
     if ((localBuf.m_iCapacityState & 0x80000000) == 0)
-        alloc.ReturnMemory(localBuf.m_data, localBuf.m_iCapacityState & 0x3fffffff);
+        alloc.bufFree(localBuf.m_data, localBuf.m_iCapacityState & 0x3fffffff);
     return result;
 }
 
@@ -258,7 +187,7 @@ extern "C" void __cdecl FUN_00cbbbd0()
 
     while (node)
     {
-        AudioMgr* pAudioMgr = audio();
+        hkMemoryRouter* pAudioMgr = audio();
         if (pendingList.m_iElementCount == (pendingList.m_iCapacityState & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&pAudioMgr->heap()), (::AudioStream *)(void *)(&pendingList), 4);
         pendingList.m_data[pendingList.m_iElementCount++] = node;
@@ -278,7 +207,7 @@ extern "C" void __cdecl FUN_00cbbbd0()
     hkMemoryAllocator& heap = audio()->heap();
     pendingList.m_iElementCount = 0;
     if (!(pendingList.m_iCapacityState & 0x80000000))
-        heap.ReturnMemory(pendingList.m_data, (pendingList.m_iCapacityState & 0x3fffffff) * 4);
+        heap.bufFree(pendingList.m_data, (pendingList.m_iCapacityState & 0x3fffffff) * sizeof(SoundNode*));
 }
 
 extern intptr_t DAT_01268790;
@@ -320,7 +249,7 @@ template <typename T> struct hkArray
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc->ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc->bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         }
     }
 };
@@ -351,7 +280,7 @@ void __cdecl FUN_00cbb9f0()
             }
             else
             {
-                pendingNodes.AddBack(audio()->unk0c, node);
+                pendingNodes.AddBack(audio()->m_temp, node);
                 SpawnedListNode* linked = *link;
                 node = node->m_08;
                 linked->m_08 = 0;
@@ -389,7 +318,7 @@ void __cdecl FUN_00cbb9f0()
         } while (pendingNodes.m_iElementCount != 0);
     }
 
-    pendingNodes.ClearAndRelease(audio()->unk0c);
+    pendingNodes.ClearAndRelease(audio()->m_temp);
 }
 
 #include <windows.h>
@@ -444,83 +373,6 @@ void __cdecl FUN_00cbb9c0()
     new (pSpawnedObject) SpawnedObject();
 }
 }  // namespace fnv_00cbb9c0
-
-namespace fnv_00cbbb10 {
-extern "C" unsigned char DAT_010c8eb8;
-extern intptr_t DAT_01268410;
-
-struct FNV_Allocator
-{
-    virtual void v0();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct AllocHolder
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    FNV_Allocator* m_pAllocator;
-};
-
-struct SpawnedObject8
-{
-    void* m_vtbl;
-    unsigned short m_size04;
-    unsigned short m_flags06;
-};
-
-struct SpawnedObject28
-{
-    unsigned int unk00;
-    unsigned short m_size04;
-};
-
-struct VirtualIface
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-};
-
-
-// Allocates and initializes two spawned objects, stores them in global pointers, and sets the initialization flag.
-// @fnv 0x00cbbb10
-int __cdecl FUN_00cbbb10(intptr_t a1, uintptr_t auParam1, unsigned int auParam2)
-{
-    if (DAT_01268414 != 0)
-    {
-        return 0;
-    }
-    ::FUN_00cbb930((void *)(a1));
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    SpawnedObject8* obj8 = (SpawnedObject8*)holder->m_pAllocator->Alloc(8);
-    obj8->m_size04 = 8;
-    obj8->m_flags06 = 1;
-    obj8->m_vtbl = &DAT_010c8eb8;
-    if ((*reinterpret_cast<int *>(&::DAT_01268364)) != 0)
-    {
-        reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268364)))))->ReleaseReference();
-    }
-    (*reinterpret_cast<int *>(&::DAT_01268364)) = (intptr_t)obj8;
-
-    holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    SpawnedObject28* obj28 = (SpawnedObject28*)holder->m_pAllocator->Alloc(0x28);
-    obj28->m_size04 = 0x28;
-    obj28 = ((::fnv_00cbbb10::SpawnedObject28 *)(reinterpret_cast<::D2B640Object *>((obj28))->Initialize(auParam1, auParam2)));
-    if ((*reinterpret_cast<int *>(&::DAT_01268360)) != 0)
-    {
-        reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268360)))))->ReleaseReference();
-    }
-    (*reinterpret_cast<int *>(&::DAT_01268360)) = (intptr_t)obj28;
-    ::FUN_00cbb9f0();
-    ((VirtualIface*)DAT_01268410)->v3();
-    DAT_01268414 = 1;
-    return 0;
-}
-}  // namespace fnv_00cbbb10
 
 namespace fnv_00cbbde0 {
 struct S_00cbbde0_Allocator

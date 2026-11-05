@@ -1,825 +1,328 @@
+#include "havok/hkCpuJobThreadPool.h"
 
-// src/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp).
-// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <algorithm>
+#include <new>
+#include <stdexcept>
 
-#include "fnv/symbols_00c85000.h"
-#include <cstdint>
-#include <windows.h>
-#include "fnv/decl/Dispatcher.h"
-#include "fnv/decl/FUN_00d04370_cls.h"
-#include "fnv/decl/FUN_00d04390.h"
-#include "fnv/decl/FUN_00d87920_cls.h"
-#include "fnv/symbols_00c90000.h"
-#include "fnv/symbols_00cb0000.h"
-#include "fnv/symbols_00cbb000.h"
-#include "fnv/symbols_00d04000.h"
-#include "fnv/symbols_00d2c000.h"
-#include "fnv/symbols_00d87000.h"
-#include "fnv/symbols_0102e000.h"
-#include "fnv/symbols_01268000.h"
-struct FUN_00d2ced0
+namespace
 {
-    void PerformVoidOperation();
-};
-// @fnv 0x00d2ced0
-void FUN_00d2ced0::PerformVoidOperation()
+thread_local bool workerMonitorPublished = false;
+}
+
+void havok::threading::SetWorkerContext(int number, int processor, void* monitor)
 {
-    int i = 0;
-    if (*(int*)((char*)this + 0x130) > i)
+    if (havok::base::GetMonitor())
+        throw std::logic_error("worker monitor already initialized");
+    havok::base::SetMonitor(static_cast<SpawnedBuffer*>(monitor));
+    workerMonitorPublished = true;
+    SetPlatformWorkerContext(number, processor);
+}
+
+void havok::threading::ClearWorkerContext()
+{
+    try
     {
-        char* p = (char*)this + 0x34;
-        do
+        if (workerMonitorPublished)
         {
-            *(int*)p = *(int*)(p - 4);
-            *(unsigned char*)(p - 0xb) = 1;
-            p += 0x30;
-            ++i;
-        } while (i < *(int*)((char*)this + 0x130));
+            havok::base::SetMonitor(nullptr);
+            workerMonitorPublished = false;
+        }
+        ClearPlatformWorkerContext();
+    }
+    catch (...) { std::terminate(); }
+}
+
+// @fnv 0x00d2d380
+hkCpuJobThreadPool::Cinfo::Cinfo() = default;
+
+// @fnv 0x00d2d110
+hkCpuJobThreadPool::hkCpuJobThreadPool(hkMemorySystem& memory, const Cinfo& config)
+    : memory(memory), config(config)
+{
+    if (config.numThreads < 0 || config.timerBufferBytes < 0 ||
+        config.numHardwareThreadIds < 0 ||
+        (config.numHardwareThreadIds && !config.hardwareThreadIds))
+        throw std::invalid_argument("invalid worker configuration");
+    const int desired = config.numThreads > 6 ? 5 : config.numThreads;
+    if (config.numHardwareThreadIds && config.numHardwareThreadIds < desired)
+        throw std::invalid_argument("missing worker processor ids");
+    if (!completion.Create(6))
+        throw std::bad_alloc();
+    try
+    {
+        while (count < desired)
+            InitializeWorkerThread();
+        // The retained constructor consumes this array; later growth uses default affinity.
+        this->config.hardwareThreadIds = nullptr;
+        this->config.numHardwareThreadIds = 0;
+    }
+    catch (...)
+    {
+        Shutdown();
+        throw;
     }
 }
 
-struct FUN_00d2d330_shell
+hkCpuJobThreadPool::~hkCpuJobThreadPool()
 {
-    void InitializeWorkerThread();
-    void FUN_00d2d330(int desired);
-};
+    Shutdown();
+}
 
-struct FUN_00d2ce30_shell
+// @fnv 0x00d2d240
+void hkCpuJobThreadPool::InitializeWorkerThread()
 {
-    unsigned char m_ucValue;
-    bool FUN_00d2ce30();
-};
+    WaitForCompletion();
+    if (closed || count == 6)
+        throw std::logic_error("worker pool cannot grow");
+    Worker& worker = workers[count];
+    worker.pool = this;
+    worker.number = count + 1;
+    worker.processor = config.numHardwareThreadIds > count ? config.hardwareThreadIds[count] :
+                       worker.number % std::max(1, havok::threading::ProcessorCount());
+    worker.quit = false;
+    worker.clearTimers = false;
+    worker.ready = false;
+    worker.exited = false;
+    worker.failure = nullptr;
+    if (!worker.wake.Create(1))
+        throw std::bad_alloc();
+    if (!worker.thread.Start(&CpuJobThreadMain, &worker, config.name, config.stackBytes))
+    {
+        worker.wake.Close();
+        throw std::bad_alloc();
+    }
+    // Readiness is separate from work completion. Failed initialization also acks.
+    completion.Acquire();
+    if (!worker.ready)
+    {
+        JoinWorker(worker);
+        if (worker.failure)
+            std::rethrow_exception(worker.failure);
+        throw std::bad_alloc();
+    }
+    ++count;
+}
 
 // @fnv 0x00d2ce30
-bool FUN_00d2ce30_shell::FUN_00d2ce30()
-{
-    return ((unsigned char*)this)[0x13c] != 0;
-}
-
-struct FUN_00d2ce90_class
-{
-    unsigned char padding_000[0x12c];
-    void* m_uiFilterValue;
-    int m_uiItemCount;
-    unsigned char padding_134[0x08];
-    bool m_running;
-
-    void FUN_00d2ce90();
-};
-
-
-// @fnv 0x00d2ce90
-void FUN_00d2ce90_class::FUN_00d2ce90()
-{
-    if (m_running)
-    {
-        for (int i = 0; i < m_uiItemCount; ++i)
-        {
-            ::FUN_00d04380(&m_uiFilterValue, {});
-        }
-
-        m_running = false;
-    }
-}
-
-struct FUN_00d2d380
-{
-    int m0;
-    int m4;
-    int m8;
-    int mC;
-    int m10;
-    int m14;
-    int m18;
-    const char* m1c;
-    FUN_00d2d380();
-};
-// Initializes the object's fields with default values and sets m1c to the string "HavokWorkerThread".
-// @fnv 0x00d2d380
-FUN_00d2d380::FUN_00d2d380()
-{
-    m0 = 1;
-    m4 = 0x3d0900;
-    mC = 0;
-    m10 = 0;
-    m14 = 0;
-    m18 = 0x80000000;
-    m1c = "HavokWorkerThread";
-    m8 = 0;
-}
-
-struct FUN_00d2ce40_cls
-{
-    int FUN_00d2ce40();
-};
+bool hkCpuJobThreadPool::IsProcessing() const { return running; }
 
 // @fnv 0x00d2ce40
-int FUN_00d2ce40_cls::FUN_00d2ce40()
+int hkCpuJobThreadPool::GetNumThreads() const { return count; }
+
+void hkCpuJobThreadPool::ProcessWork(Work function, void* argument)
 {
-    return *(int*)((char*)this + 0x130);
+    if (closed || running || !function)
+        throw std::logic_error("worker pool cannot dispatch");
+    for (int i = 0; i < count; ++i)
+        if (workers[i].exited)
+            throw std::logic_error("worker failed");
+    work = function;
+    workArgument = argument;
+    running = true;
+    for (int i = count - 1; i >= 0; --i)
+        workers[i].wake.Release();
 }
 
-class FUN_00d2cf00
+// @fnv 0x00d2ce90
+void hkCpuJobThreadPool::WaitForCompletion()
 {
-  public:
-    ~FUN_00d2cf00() throw();
-};
-
-class hkMemoryAllocatorXd2d3b0
-{
-  public:
-    virtual ~hkMemoryAllocatorXd2d3b0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterXd2d3b0
-{
-    void* m_00;
-    void* m_04;
-    void* m_08;
-    void* m_0c;
-    hkMemoryAllocatorXd2d3b0* m_pStreamAllocator;
-
-    hkMemoryAllocatorXd2d3b0& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-
-class hkObjd2d3b0 : public FUN_00d2cf00
-{
-  public:
-    hkObjd2d3b0* DestroyIfFlagged(unsigned int uiFlags) throw();
-
-    static void operator delete(void* p) throw()
-    {
-        (*static_cast<hkMemoryRouterXd2d3b0*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObjd2d3b0*>(p)->GetAllocationSize());
-    }
-    int GetAllocationSize() const
-    {
-        return reinterpret_cast<const unsigned short*>(this)[2];
-    }
-};
-
-struct hkBoolD2CD
-{
-    char m_cBooleanValue;
-    hkBoolD2CD& operator=(bool b)
-    {
-        m_cBooleanValue = (char)b;
-        return *this;
-    }
-};
-
-class ElemD2CD
-{
-  public:
-    int unk00[12];
-};
-
-class OwnerD2CD
-{
-  public:
-    int unk00[11];
-    ElemD2CD m_pElements[5];
-    int unk11C[3];
-    int m_128;
-    int unk12C;
-    int m_iCapacityFlags;
-    int unk134[2];
-    hkBoolD2CD m_13C;
-
-    void FUN_00d2cde0(int value, int unused);
-};
-
-// Stores value in m_128, sets m_13C to true, and calls FUN_00d04390(1) on each element up to m_iCapacityFlags.
-// @fnv 0x00d2cde0
-void OwnerD2CD::FUN_00d2cde0(int value, int unused)
-{
-    m_128 = value;
-    m_13C = true;
-    for (int i = m_iCapacityFlags - 1; i >= 0; i--)
-        reinterpret_cast<::FUN_00d04390 *>(&(m_pElements[i]))->wait(1);
+    if (!running)
+        return;
+    for (int i = 0; i < count; ++i)
+        completion.Acquire();
+    running = false;
+    for (int i = 0; i < count; ++i)
+        if (workers[i].failure)
+            std::rethrow_exception(workers[i].failure);
 }
 
-extern char DAT_010ce774;
+// @fnv 0x00d2d2c0
+int hkCpuJobThreadPool::GetTimerData(TimerData* output, int capacity)
+{
+    WaitForCompletion();
+    if (capacity < count || (count && !output))
+        throw std::invalid_argument("insufficient timer data storage");
+    for (int i = 0; i < count; ++i)
+    {
+        const SpawnedBuffer* monitor = workers[i].monitor;
+        output[i] = {monitor->m_00, monitor->m_04};
+    }
+    return count;
+}
 
-struct EventObjD2C
+// @fnv 0x00d2ced0
+void hkCpuJobThreadPool::ClearTimerData()
 {
-};
+    WaitForCompletion();
+    for (int i = 0; i < count; ++i)
+    {
+        if (workers[i].monitor)
+            workers[i].monitor->Reset();
+        workers[i].clearTimers = true;
+    }
+}
 
-struct ThreadObjD2C
+// @fnv 0x00d2d330
+void hkCpuJobThreadPool::SetNumThreads(int desired)
 {
-    void* m_threadPool;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    unsigned char m_ucState;
-    char pad19[3];
-    EventObjD2C m_evt;
-    int unk20;
-    int unk24;
-    int unk28;
-    EventObjD2C m_pTail;
-};
+    if (desired < 0 || closed)
+        throw std::invalid_argument("invalid worker count");
+    WaitForCompletion();
+    desired = std::min(desired, 6);
+    while (count < desired)
+        InitializeWorkerThread();
+    while (count > desired)
+        FUN_00d2ce50();
+}
 
-struct VBaseD2C
+void hkCpuJobThreadPool::ReleaseMonitor(Worker& worker)
 {
-    void* vptr00;
-    int unk04;
-    int unk08;
-    int unk0c;
-};
+    if (!worker.monitor)
+        return;
+    worker.monitor->~SpawnedBuffer();
+    worker.monitorAllocator->blockFree(worker.monitor, sizeof(SpawnedBuffer));
+    worker.monitor = nullptr;
+    worker.monitorAllocator = nullptr;
+}
 
-struct ArrBaseD2C
+void hkCpuJobThreadPool::JoinWorker(Worker& worker)
 {
-    ThreadObjD2C m_threads[6];
-};
+    // An acknowledgement proves router cleanup, not OS thread return.
+    worker.thread.JoinAndClose();
+    worker.wake.Close();
+    ReleaseMonitor(worker);
+}
 
-struct ClsD2C : VBaseD2C, ArrBaseD2C
+// @fnv 0x00d2ce50
+void hkCpuJobThreadPool::FUN_00d2ce50()
 {
-    int m_uiItemCount;
-    void FUN_00d2cf00();
-};
-// Runs the base destructor and, when bit 0 of uiFlags is set, frees the object via operator delete; returns this.
-// @fnv 0x00d2d3b0
-hkObjd2d3b0* hkObjd2d3b0::DestroyIfFlagged(unsigned int uiFlags) throw()
-{
-    reinterpret_cast<::ClsD2C *>((this))->FUN_00d2cf00();
-    if (uiFlags & 1)
-        hkObjd2d3b0::operator delete(this);
-    return this;
+    WaitForCompletion();
+    if (!count)
+        return;
+    Worker& worker = workers[--count];
+    if (!worker.exited)
+    {
+        worker.quit = true;
+        worker.wake.Release();
+        completion.Acquire();
+    }
+    JoinWorker(worker);
 }
 
 // @fnv 0x00d2cf00
-void ClsD2C::FUN_00d2cf00()
+void hkCpuJobThreadPool::Shutdown()
 {
-    *(void**)this = (void*)&DAT_010ce774;
-    reinterpret_cast<::FUN_00d2ce90_class *>(this)->FUN_00d2ce90();
-    for (int i = 0; i < m_uiItemCount; ++i)
-    {
-        ArrBaseD2C::m_threads[i].m_ucState = 1;
-        reinterpret_cast<::FUN_00d04390 *>(&(ArrBaseD2C::m_threads[i].m_evt))->wait(1);
-    }
-    for (int j = 0; j < m_uiItemCount; ++j)
-    {
-        ::FUN_00d04380(&ArrBaseD2C::m_threads[5].m_pTail, {});
-    }
-    FUN_00c90410(0);
-    reinterpret_cast<::FUN_00d04370_cls *>(&(ArrBaseD2C::m_threads[5].m_pTail))->FUN_00d04370();
-    int k = 5;
-    ArrBaseD2C* ab = static_cast<ArrBaseD2C*>(this);
-    ThreadObjD2C(*arr)[6] = &ab->m_threads;
-    ThreadObjD2C* th = &arr[0][6];
-    do
-    {
-        --th;
-        reinterpret_cast<::FUN_00d04370_cls *>(&(th->m_evt))->FUN_00d04370();
-        ::FUN_00d87a70();
-    } while (--k >= 0);
-    *(void**)this = (void*)&(*reinterpret_cast<char *>(&::DAT_0102e388));
-}struct Thr_00d87940
-{
-    uintptr_t m0;
-    unsigned int m4;
-    uintptr_t m8;
-    unsigned int mC;
-    int FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3);
-};
-
-
-
-namespace fnv_00d2d110 {
-struct SYSTEM_INFO_D2D1
-{
-    unsigned short wProcessorArchitecture;
-    unsigned short wReserved;
-    unsigned long dwPageSize;
-    void* lpMinimumApplicationAddress;
-    void* lpMaximumApplicationAddress;
-    unsigned long dwActiveProcessorMask;
-    unsigned long dwNumberOfProcessors;
-    unsigned long dwProcessorType;
-    unsigned long dwAllocationGranularity;
-    unsigned short wProcessorLevel;
-    unsigned short wProcessorRevision;
-};
-extern void(* DAT_00fdf0f8)(SYSTEM_INFO_D2D1* pkInfo);
-
-struct hkHardwareInfoD2D1
-{
-    int m_iHardwareInfoValue;
-};
-
-inline void hkGetHardwareInfoD2D1(hkHardwareInfoD2D1& kInfo)
-{
-    SYSTEM_INFO_D2D1 kSysInfo;
-    DAT_00fdf0f8(&kSysInfo);
-    kInfo.m_iHardwareInfoValue = kSysInfo.dwNumberOfProcessors;
-}
-
-
-class hkThreadD2D1
-{
-  public:
-    int m_iThreadHandle;
-    int m_uiThreadId;
-    int m_08;
-    int m_0c;
-
-};
-
-class FUN_00d2cd80
-{
-  public:
-    int m_00;
-    int m_04;
-    FUN_00d2cd80();
-};
-
-class FUN_00d2cda0
-{
-  public:
-    FUN_00d2cd80* m_sharedData;
-    int m_04;
-    hkThreadD2D1 m_iThreadHandle;
-    int m_uiThreadId;
-    int m_iOffset1C;
-    bool m_ucState;
-    bool m_bOffset21;
-    int m_24;
-    char* m_pOffset28;
-    char* m_pOffset2C;
-
-    FUN_00d2cda0();
-};
-
-struct hkCpuJobThreadPoolCinfoD2D1
-{
-    int m_iHardwareInfoValue;
-    int m_iStackSize;
-    int m_iTimerBufferPerThreadAllocation;
-    int m_iThreadPriority;
-    const int* m_pHardwareThreadIds;
-    int m_numHardwareThreadIds;
-    int m_hardwareThreadIdsCapacity;
-    const char* m_pName;
-};
-
-class hkReferencedObjectD2D1
-{
-  public:
-    hkReferencedObjectD2D1() : m_sReferenceCount(1)
-    {}
-    virtual void V0();
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-};
-
-class FUN_00d2d110 : public hkReferencedObjectD2D1
-{
-  public:
-    FUN_00d2cda0 m_kThreadData[6];
-    FUN_00d2cd80 m_kSharedData;
-    int m_iHardwareInfoValue;
-    int m_iStackSize;
-    int m_iThirdValue;
-    bool m_bFlag;
-    const char* m_pName;
-    int m_iTimerBufferPerThreadAllocation;
-
-    FUN_00d2d110(const hkCpuJobThreadPoolCinfoD2D1& kCi);
-};
-
-// Initializes the thread pool by copying config, capping thread count, and spawning worker threads with hardware-affinity assignment.
-// @fnv 0x00d2d110
-FUN_00d2d110::FUN_00d2d110(const hkCpuJobThreadPoolCinfoD2D1& kCi)
-{
-    m_bFlag = false;
-    m_pName = kCi.m_pName;
-    m_iTimerBufferPerThreadAllocation = kCi.m_iTimerBufferPerThreadAllocation;
-    m_iStackSize = kCi.m_iStackSize;
-    m_iThirdValue = kCi.m_iThreadPriority;
-    int iNumThreads = kCi.m_iHardwareInfoValue;
-    if (iNumThreads > 6)
-        iNumThreads = 5;
-    m_iHardwareInfoValue = iNumThreads;
-
-    SYSTEM_INFO_D2D1 kSysInfo;
-    DAT_00fdf0f8(&kSysInfo);
-    int iNumCores = kSysInfo.dwNumberOfProcessors;
-
-    for (int i = 0; i < iNumThreads; i++)
-    {
-        FUN_00d2cda0& kData = m_kThreadData[i];
-        kData.m_sharedData = &m_kSharedData;
-        int iThreadId = i + 1;
-        kData.m_uiThreadId = iThreadId;
-        kData.m_pOffset28 = 0;
-        kData.m_pOffset2C = 0;
-        kData.m_ucState = false;
-        kData.m_bOffset21 = false;
-        if (kCi.m_numHardwareThreadIds > 0)
-            kData.m_iOffset1C = kCi.m_pHardwareThreadIds[i];
-        else
-            kData.m_iOffset1C = iThreadId % iNumCores;
-        reinterpret_cast<::Thr_00d87940 *>(&(kData.m_iThreadHandle))->FUN_00d87940((uintptr_t)(((void *(&)(void *))::CpuJobThreadMain)), (uintptr_t)(&kData), m_pName, m_iTimerBufferPerThreadAllocation);
-    }
-    ::FUN_00c90410(1);
-}
-}  // namespace fnv_00d2d110
-
-#include <xmmintrin.h>
-
-struct hkThreadLocalD2
-{
-    void setData(void* p)
-    {
-        TlsSetValue(m_slot, p);
-    }
-    unsigned long m_slot;
-};
-
-struct hkMonitorStreamD2
-{
-    char* m_kRayStart;
-    char* m_kRayEnd;
-    char* GetStreamStart() const
-    {
-        return m_kRayStart;
-    }
-    char* GetStreamEnd() const
-    {
-        return m_kRayEnd;
-    }
-};
-struct hkMonitorTlsD2
-{
-    hkMonitorStreamD2* getData()
-    {
-        return (hkMonitorStreamD2*)TlsGetValue(m_slot);
-    }
-    unsigned long m_slot;
-};
-
-struct hkMemoryRouterD2
-{
-    hkMemoryRouterD2();
-    void* m_aiEntries;
-    void* m_pTemp;
-    void* m_pStreamAllocator;
-    void* m_pDebugAllocator;
-    void* m_pSolver;
-    void* m_pUserData;
-    void* m_pRefObjectLocalStore;
-    void* m_lifoStart;
-    void* m_lifoEnd;
-};
-
-struct hkMemorySystemFlagsD2
-{
-    hkMemorySystemFlagsD2(int v) : m_kStorage(v)
-    {}
-    hkMemorySystemFlagsD2(const hkMemorySystemFlagsD2& o) : m_kStorage(o.m_kStorage)
-    {}
-    int m_kStorage;
-};
-
-class hkMemorySystemD2
-{
-  public:
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void InitializeThreadRouter(hkMemoryRouterD2& router, const char* name, hkMemorySystemFlagsD2 flags);
-    virtual void ThreadQuit(hkMemoryRouterD2& router, hkMemorySystemFlagsD2 flags);
-};
-
-struct hkSemaphoreD2
-{
-    void* m_pCompletionSemaphore;
-};
-
-struct hkJobQueueD2
-{
-};
-
-struct hkCpuJobThreadPoolD2
-{
-    hkJobQueueD2* m_kQueues;
-    hkSemaphoreD2 m_kWorkerSemaphore;
-    int m_iHardwareInfoValue;
-    int m_bFlag;
-    int m_iThreadPriority;
-};
-
-struct hkCpuThreadDataD2
-{
-    hkCpuJobThreadPoolD2* m_threadPool;
-    void* m_iThreadHandle;
-    int m_uiThreadId;
-    int m_monitorStreamSize;
-    int m_hardwareThreadId0;
-    int m_hardwareThreadId1;
-    void* m_threadNumber;
-    unsigned long m_iOffset1C;
-    bool m_ucState;
-    bool m_bOffset21;
-    hkSemaphoreD2 m_pCompletionSemaphore;
-    char* m_pOffset28;
-    char* m_pOffset2C;
-};
-
-// Initializes thread-local state and memory router, then loops processing job queues until the thread state flag is set.
-// @fnv 0x00d2cfb0
-void* __cdecl CpuJobThreadMain(void* apThreadData)
-{
-    hkCpuThreadDataD2& threadData = *static_cast<hkCpuThreadDataD2*>(apThreadData);
-    hkCpuJobThreadPoolD2* threadPool = threadData.m_threadPool;
-
-    (*reinterpret_cast<::hkThreadLocalD2 *>(&::g_dwTlsIndex)).setData(threadData.m_threadNumber);
-    _mm_setcsr(_mm_getcsr() | 0x8000);
-    SetThreadIdealProcessor(GetCurrentThread(), threadData.m_iOffset1C);
-
-    hkMemoryRouterD2 memoryRouter;
-    ((::hkMemorySystemD2 *)(::FUN_00cbbfc0()))->InitializeThreadRouter(memoryRouter, "hkCpuJobThreadPool", hkMemorySystemFlagsD2(3));
-    ::FUN_00cbb930(&memoryRouter);
-
-    if (threadPool->m_iThreadPriority > 0)
-    {
-        hkMonitorStreamD2* pStream = (*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData();
-        ::ResizeBuffer((::SpawnedBuffer *)(pStream), threadPool->m_iThreadPriority);
-    }
-    threadData.m_pOffset28 = (*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData()->GetStreamStart();
-    threadData.m_pOffset2C = (*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData()->GetStreamEnd();
-
-    ::FUN_00d04380(&threadData.m_pCompletionSemaphore, {});
-    while (!threadData.m_ucState)
-    {
-        if (threadData.m_bOffset21)
+    if (closed)
+        return;
+    try { WaitForCompletion(); }
+    catch (...) { /* Worker failures do not cancel lifetime cleanup. */ }
+    int stopping = 0;
+    for (int i = 0; i < count; ++i)
+        if (!workers[i].exited)
         {
-            ::FUN_00cb0da0((::S_00cb0da0 *)(::hkMonitorStreamD2 *)((*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData()));
-            threadData.m_pOffset2C = (*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData()->GetStreamEnd();
-            threadData.m_bOffset21 = false;
+            ++stopping;
+            workers[i].quit = true;
+            workers[i].wake.Release();
         }
-        reinterpret_cast<::Dispatcher *>((threadPool->m_kQueues))->FUN_00d051b0();
-        threadData.m_pOffset2C = (*reinterpret_cast<::hkMonitorTlsD2 *>(&::DAT_0126835c)).getData()->GetStreamEnd();
-        reinterpret_cast<::FUN_00d04390 *>(&(threadPool->m_kWorkerSemaphore))->wait(1);
-        ::FUN_00d04380(&threadData.m_pCompletionSemaphore, {});
-    }
-
-    FUN_00cbb990();
-    ((::hkMemorySystemD2 *)(::FUN_00cbbfc0()))->ThreadQuit(memoryRouter, hkMemorySystemFlagsD2(3));
-    reinterpret_cast<::FUN_00d04390 *>(&(threadPool->m_kWorkerSemaphore))->wait(1);
-    return 0;
+    for (int i = 0; i < stopping; ++i)
+        completion.Acquire();
+    for (int i = 0; i < count; ++i)
+        JoinWorker(workers[i]);
+    count = 0;
+    closed = true;
+    completion.Close();
 }
 
-
-struct Pair_d2d2c0
+// @fnv 0x00d2cfb0
+void* CpuJobThreadMain(void* argument)
 {
-    int m_kPointA;
-    int m_kPointB;
-};
+    auto& worker = *static_cast<hkCpuJobThreadPool::Worker*>(argument);
+    worker.pool->RunWorker(worker);
+    return nullptr;
+}
 
-struct PairArray_d2d2c0
+void hkCpuJobThreadPool::RunWorker(Worker& worker)
 {
-    Pair_d2d2c0* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-
-struct Record_d2d2c0
-{
-    int m_kPointA;
-    int m_kPointB;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-};
-
-struct Owner_d2d2c0
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    Record_d2d2c0 m_records[5];
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int m_uiItemCount;
-
-    void FUN_00d2d2c0(PairArray_d2d2c0* arr, void* alloc);
-};
-
-// @fnv 0x00d2d2c0
-void Owner_d2d2c0::FUN_00d2d2c0(PairArray_d2d2c0* apPairArray, void* alloc)
-{
-    int index = 0;
-    if (m_uiItemCount > 0)
+    hkMemoryRouter router;
+    bool attached = false;
+    bool announced = false;
+    try
     {
-        int* source = &m_records[0].m_kPointB;
-        do
+        attached = memory.InitializeThreadRouter(router, "hkCpuJobThreadPool", 3);
+        if (!attached)
+            throw std::bad_alloc();
+        SetThreadLocalValue(&router);
+        worker.monitorAllocator = router.m_debug;
+        if (!worker.monitorAllocator)
+            throw std::bad_alloc();
+        void* storage = worker.monitorAllocator->blockAlloc(sizeof(SpawnedBuffer));
+        if (!storage)
+            throw std::bad_alloc();
+        worker.monitor = new (storage) SpawnedBuffer(*worker.monitorAllocator);
+        if (config.timerBufferBytes)
+            worker.monitor->Resize(config.timerBufferBytes);
+        havok::threading::SetWorkerContext(worker.number, worker.processor, worker.monitor);
+        worker.ready = true;
+        announced = true;
+        completion.Release();
+        worker.wake.Acquire();
+        while (!worker.quit)
         {
-            if (apPairArray->m_iElementCount == (apPairArray->m_iCapacityState & 0x3FFFFFFF))
-                ::ResizeAudioStream((::AudioAllocator *)(alloc), (::AudioStream *)(apPairArray), 8);
-            int remaining = 1;
-            do
+            if (worker.clearTimers)
             {
-                Pair_d2d2c0& pair = apPairArray->m_data[apPairArray->m_iElementCount];
-                ++apPairArray->m_iElementCount;
-                pair.m_kPointA = source[-1];
-                pair.m_kPointB = source[0];
-            } while (--remaining);
-            ++index;
-            source += 12;
-        } while (index < m_uiItemCount);
+                worker.monitor->Reset();
+                worker.clearTimers = false;
+            }
+            work(workArgument);
+            completion.Release();
+            worker.wake.Acquire();
+        }
     }
-}
-
-#include <windows.h>
-namespace fnv_00d2d240 {
-
-class hkThreadD2D
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-};
-
-struct hkWorkerThreadPoolBaseD2D
-{
-    int unk00;
-    int unk04;
-};
-
-struct WorkerThreadDataD2D
-{
-    hkWorkerThreadPoolBaseD2D* m_threadPool;
-    int unk04;
-    hkThreadD2D m_iThreadHandle;
-    int m_uiThreadId;
-    int m_iOffset1C;
-    bool m_ucState;
-    bool m_clearTimerData;
-    int unk24;
-    void* m_pOffset28;
-    void* m_pOffset2C;
-};
-
-class hkCpuJobThreadPoolD2D
-{
-  public:
-    int unk000;
-    int unk004;
-    WorkerThreadDataD2D m_kThreadData[6];
-    hkWorkerThreadPoolBaseD2D m_threadPoolBase;
-    int m_iHardwareInfoValue;
-    int unk134;
-    int unk138;
-    int unk13C;
-    const char* m_pName;
-    int m_iTimerBufferPerThreadAllocation;
-    void InitializeWorkerThread();
-};
-
-// Configures a WorkerThreadDataD2D entry with thread pool, ID, and processor affinity, then starts the worker thread via m_iThreadHandle.
-// @fnv 0x00d2d240
-void hkCpuJobThreadPoolD2D::InitializeWorkerThread()
-{
-    WorkerThreadDataD2D& data = m_kThreadData[m_iHardwareInfoValue];
-
-    data.m_threadPool = &m_threadPoolBase;
-    data.m_uiThreadId = m_iHardwareInfoValue + 1;
-    data.m_pOffset28 = 0;
-    data.m_pOffset2C = 0;
-    data.m_ucState = false;
-    data.m_clearTimerData = false;
-
-    SYSTEM_INFO sysInfo;
-    GetSystemInfo(&sysInfo);
-
-    int threadId = data.m_uiThreadId;
-    int processorCount = *(volatile int*)&sysInfo.dwNumberOfProcessors;
-    data.m_iOffset1C = threadId % processorCount;
-
-    reinterpret_cast<::Thr_00d87940 *>(&(data.m_iThreadHandle))->FUN_00d87940((uintptr_t)(((void (&)(void *))::CpuJobThreadMain)), (uintptr_t)(&data), m_pName, m_iTimerBufferPerThreadAllocation);
-
-    m_iHardwareInfoValue++;
-}
-}  // namespace fnv_00d2d240
-
-struct WorkerThreadHandleD2
-{
-    void* m_handle;
-    unsigned __int64 m_uiThreadId;
-
-};
-
-struct WorkerThreadRecordD2
-{
-    hkCpuJobThreadPoolD2* m_sharedData;
-    WorkerThreadHandleD2 m_iThreadHandle;
-    int m_uiThreadId;
-    int m_iOffset1C;
-    bool m_ucState;
-    bool m_bOffset21;
-    hkSemaphoreD2 m_pCompletionSemaphore;
-    char* m_monitorBegin;
-    char* m_monitorEnd;
-};
-
-struct WorkerThreadPoolViewD2
-{
-    void* m_ppVirtualMethodTable;
-    unsigned short m_memorySizeAndFlags;
-    unsigned short m_sReferenceCount;
-    WorkerThreadRecordD2 m_workers[6];
-    hkCpuJobThreadPoolD2 m_sharedData;
-
-    void FUN_00d2ce50();
-};
-// @fnv 0x00d2d330
-void FUN_00d2d330_shell::FUN_00d2d330(int desired)
-{
-    if (desired > 6)
-        desired = 6;
-    while (((int*)this)[0x130 / 4] < desired)
-        InitializeWorkerThread();
-    while (((int*)this)[0x130 / 4] > desired)
-        reinterpret_cast<::WorkerThreadPoolViewD2 *>(this)->FUN_00d2ce50();
-}
-
-// Decrements the shared counter, sets the selected worker state to true, calls its semaphore method, calls FUN_00d04380, and closes its thread handle.
-// @fnv 0x00d2ce50
-void WorkerThreadPoolViewD2::FUN_00d2ce50()
-{
-    WorkerThreadPoolViewD2* pool = this;
-    --pool->m_sharedData.m_iHardwareInfoValue;
-    WorkerThreadRecordD2& worker = pool->m_workers[pool->m_sharedData.m_iHardwareInfoValue];
-    worker.m_ucState = true;
-    reinterpret_cast<::FUN_00d04390 *>(&(worker.m_pCompletionSemaphore))->wait(1);
-    ::FUN_00d04380(&pool->m_sharedData.m_kWorkerSemaphore, {});
-    reinterpret_cast<::FUN_00d87920_cls *>(&(worker.m_iThreadHandle))->FUN_00d87920();
-}
-
-
-extern "C" unsigned long __cdecl _exception_code(void);
-
-struct THREADNAME_INFO
-{
-    unsigned long dwType;
-    const char* szName;
-    unsigned long dwThreadID;
-    unsigned long dwFlags;
-};
-
-
-// @fnv 0x00d87940
-int Thr_00d87940::FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3)
-{
-    unsigned long threadId;
-    m0 = (uintptr_t)CreateThread(0, a3, (unsigned long(*)(void*))a0, (void*)a1, 0, &threadId);
-    if (m0 == 0)
+    catch (...)
     {
-        return 1;
+        worker.failure = std::current_exception();
     }
-    m8 = threadId;
-    mC = 0;
-    THREADNAME_INFO info;
-    info.dwType = 0x1000;
-    info.szName = a2;
-    info.dwThreadID = threadId;
-    info.dwFlags = 0;
-    __try
-    {
-        RaiseException(0x406D1388, 0, sizeof(info) / sizeof(ULONG_PTR), (const ULONG_PTR*)&info);
-    }
-    __except (_exception_code() == 0x406D1388 ? -1 : 1)
-    {}
-    return 0;
+    havok::threading::ClearWorkerContext();
+    SetThreadLocalValue(nullptr);
+    if (attached)
+        memory.ThreadQuit(router, 3);
+    worker.exited = true;
+    if (!announced)
+        worker.ready = false;
+    // This is the last access before return. The controller must still join.
+    completion.Release();
 }
 
+hkCpuJobThreadPool* hkCpuJobThreadPool::Create(hkMemorySystem& memory, hkMemoryAllocator& allocator, const Cinfo& config)
+{
+    void* storage = allocator.blockAlloc(sizeof(hkCpuJobThreadPool));
+    if (!storage)
+        throw std::bad_alloc();
+    try
+    {
+        auto* pool = new (storage) hkCpuJobThreadPool(memory, config);
+        pool->objectAllocator = &allocator;
+        return pool;
+    }
+    catch (...)
+    {
+        allocator.blockFree(storage, sizeof(hkCpuJobThreadPool));
+        throw;
+    }
+}
+
+// @fnv 0x00d2d3b0
+hkCpuJobThreadPool* hkCpuJobThreadPool::DestroyIfFlagged(unsigned int flags)
+{
+    hkMemoryAllocator* allocator = objectAllocator;
+    if ((flags & 1) && !allocator)
+        throw std::logic_error("worker controller has no allocation owner");
+    this->~hkCpuJobThreadPool();
+    if (flags & 1)
+        allocator->blockFree(this, sizeof(hkCpuJobThreadPool));
+    return this;
+}
+
+// The immutable import-slot payload only needs this retained pointer type.
+namespace fnv_00d2d110 { struct SYSTEM_INFO_D2D1; }
 #include "generated/data/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.inc"

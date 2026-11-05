@@ -194,50 +194,6 @@ void D2B600Container::AppendObject(D2B600Object* object, int iUnused)
     m_kTrackedObjects.AddBack(object);
 }
 
-extern char DAT_010ce5d4[];
-
-struct D2B640Sub
-{
-    unsigned int m_00;
-    unsigned int m_04;
-    unsigned int m_08;
-
-};
-
-struct D2B640Object
-{
-    void* m_vtbl;
-    unsigned short unk04;
-    unsigned short m_06;
-    D2B640Sub m_08;
-    unsigned int m_14;
-    unsigned int m_18;
-    unsigned int m_1c;
-    unsigned int m_20;
-    unsigned int m_24;
-
-    D2B640Object* Initialize(int a1, int a2);
-};
-
-// @fnv 0x00d2b640
-D2B640Object* D2B640Object::Initialize(int a1, int a2)
-{
-    *(unsigned short volatile*)&m_06 = 1;
-    m_vtbl = DAT_010ce5d4;
-    D2B640Sub* sub = &this->m_08;
-    *(unsigned int volatile*)&sub->m_00 = 0;
-    *(unsigned int volatile*)&sub->m_04 = 0;
-    *(unsigned int volatile*)&sub->m_08 = 0xffffffffu;
-    FUN_00c85750_return* pResult = static_cast<FUN_00c85750_return*>(::FUN_00c85750());
-    reinterpret_cast<::FUN_00cb1fe0_t *>((sub))->EnsureCapacity(pResult->unk10, 0);
-    *(unsigned int volatile*)&m_14 = 0;
-    *(unsigned int volatile*)&m_18 = 0;
-    *(unsigned int volatile*)&m_1c = 0x80000000u;
-    *(unsigned int volatile*)&m_20 = (unsigned int)a1;
-    m_24 = (unsigned int)a2;
-    return this;
-}
-
 struct D2B6Allocator
 {
     virtual void v00();

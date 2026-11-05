@@ -10,7 +10,6 @@
 #include "fnv/decl/B60Owner.h"
 #include "fnv/decl/FUN_00cbf1a0_cls.h"
 #include "fnv/decl/FUN_00cf6da0_cls.h"
-#include "fnv/decl/FUN_00d61cc0_t.h"
 #include "fnv/decl/FUN_00dd7110_cls.h"
 #include "fnv/decl/FUN_00dd7200_hkFreeList.h"
 #include "fnv/decl/FUN_00dd7430_cls.h"
@@ -26,7 +25,6 @@
 #include "fnv/decl/hkFreeListFUN_00dd7480.h"
 #include "fnv/decl/hkFreeListGC.h"
 #include "fnv/decl/hkFreeListWalker.h"
-#include "fnv/decl/hkStringBufD61E.h"
 #include "fnv/symbols_00cc0000.h"
 #include "fnv/symbols_00d88000.h"
 #include "fnv/symbols_00dd7000.h"
@@ -239,19 +237,6 @@ struct D603E0Object : D603E0Base
 {
     D603E0Object* FUN_00d603e0(unsigned int uiFlags);
 };
-
-struct FUN_00d61f30_shell
-{
-    void FUN_00d61f30(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e, intptr_t f);
-};
-
-// Calls FUN_00d61cc0, then forwards the six arguments to AppendStrings.
-// @fnv 0x00d61f30
-void FUN_00d61f30_shell::FUN_00d61f30(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e, intptr_t f)
-{
-    reinterpret_cast<::FUN_00d61cc0_t *>(this)->FUN_00d61cc0();
-    reinterpret_cast<::hkStringBufD61E *>(this)->AppendStrings((const char *)(a), (const char *)(b), (const char *)(c), (const char *)(d), (const char *)(e), (const char *)(f));
-}
 
 struct FUN_00d5f850_cls
 {

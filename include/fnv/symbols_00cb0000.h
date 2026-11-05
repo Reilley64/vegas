@@ -1,7 +1,6 @@
 #pragma once
 #include <cstdint>
 
-namespace fnv_00cb0df0 { struct GrowBuffer; }
 struct S_00cb0da0;
 struct SpawnedBuffer;
 
@@ -12,7 +11,7 @@ void FUN_00cb0da0(::S_00cb0da0 *);
 // 0x00cb0db0
 namespace fnv_00cb0db0 { void FUN_00cb0db0(); }
 // 0x00cb0df0
-namespace fnv_00cb0df0 { void FUN_00cb0df0(::fnv_00cb0df0::GrowBuffer *); }
+namespace fnv_00cb0df0 { void FUN_00cb0df0(::SpawnedBuffer*); }
 // 0x00cb0e50
 void ResizeBuffer(::SpawnedBuffer *, int);
 // 0x00cb0f10

@@ -14,7 +14,8 @@ extern "C" int FUN_00cbb990();
 // 0x00cbb9f0
 void FUN_00cbb9f0();
 // 0x00cbbb10
-namespace fnv_00cbbb10 { int FUN_00cbbb10(intptr_t, uintptr_t, unsigned int); }
+struct hkMemoryRouter;
+namespace fnv_00cbbb10 { int FUN_00cbbb10(hkMemoryRouter*, void (*)(const char*, void*), void*); }
 // 0x00cbbfb0
 void FUN_00cbbfb0(uintptr_t);
 // 0x00cbbfc0

@@ -259,20 +259,7 @@ class GuardActorPackageData : public ActorPackageData
     virtual void SetReferenceTarget(TESObjectREFR* apReference);
 };
 
-class ActorPackageContext
-{
-  public:
-    TESPackage* pPackage;     // +0x0
-    ActorPackageData* pData;  // +0x4
-    TESObjectREFR* pTarget;   // +0x8
-    int m_iPackageValue;      // +0xC
-    float m_fPackageValue;    // +0x10
-    unsigned int iFlags;      // +0x14
-    void Clear();
-    void SetPackageAndTarget(TESPackage* apPackage, TESObjectREFR* apTarget);
-    void LoadGame(BGSLoadFormBuffer* apBuffer);
-    void ApplyLoadBuffer(BGSLoadFormBuffer* apBuffer);
-};
+#include "fnv/decl/ActorPackageContext.h"
 
 
 static const char s_kPackageTypeChangedWarning[] =

@@ -3,18 +3,7 @@
 #define FNV_BASEPROCESS_PACKET_H
 #include "fnv/decl/FUN_0049bb50_shell.h"
 #include "layout_support.h"
-class ActorPackageContext
-{
-  public:
-    TESPackage* pPackage;
-    ActorPackageData* pData;
-    TESObjectREFR* pTarget;
-    int m_iPackageValue;
-    float m_fPackageValue;
-    unsigned int iFlags;
-    void Clear();
-};
-class ActorPackageContext;
+#include "../../../include/ActorPackageContext.h"
 class BaseProcess
 {
   public:

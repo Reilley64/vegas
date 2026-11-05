@@ -123,3 +123,10 @@ add_executable(runtime_havok_core_review_remedy_test runtime/havok_core_review_r
 target_include_directories(runtime_havok_core_review_remedy_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
 target_link_libraries(runtime_havok_core_review_remedy_test PRIVATE game)
 add_test(NAME runtime.havok_core_review_remedy COMMAND runtime_havok_core_review_remedy_test)
+
+add_executable(runtime_clamped_acos_test
+  runtime/clamped_acos_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/base/math/clamped_acos.cpp
+)
+target_include_directories(runtime_clamped_acos_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
+add_test(NAME runtime.clamped_acos COMMAND runtime_clamped_acos_test)

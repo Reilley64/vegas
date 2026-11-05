@@ -17145,15 +17145,6 @@ void S00c6e050_Obj::FUN_00c6e050(volatile intptr_t a, volatile int b)
     ::FUN_00a29680();
 }
 
-// Returns acos(fValue), except returns 0.0f when |fValue| is at least 1 and positive, and pi when it is at least 1 and not positive.
-// @fnv 0x00c74a70
-float ClampedAcos(float fValue)
-{
-    if ((float)fabs(fValue) >= 1.0f)
-        return (fValue > 0.0f) ? 0.0f : 3.1415927f;
-    return (float)acos(fValue);
-}
-
 struct NiPoint3_c75
 {
     float x, y, z;

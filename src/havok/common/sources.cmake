@@ -12,6 +12,7 @@ set(VEGAS_HAVOK_COMMON_SOURCES
   src/havok/common/base/debugutil/statisticscollector/hkstatisticscollector.cpp
   src/havok/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp
   src/havok/common/base/debugutil/statisticscollector/util/hkstatisticscollectorutil.cpp
+  src/havok/common/base/math/clamped_acos.cpp
   src/havok/common/base/math/matrix/hkmatrix3.cpp
   src/havok/common/base/math/matrix/hkmatrix4.cpp
   src/havok/common/base/math/matrix/hkmatrix6.cpp

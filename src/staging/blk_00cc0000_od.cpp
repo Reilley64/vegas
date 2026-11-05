@@ -7049,8 +7049,6 @@ __forceinline void copyRotation(const hkQuaternion& q) {*(QuadWords*)&m_vec=*(co
     void FUN_00cb2850(const hkQuaternion& q0, const hkQuaternion& q1, float t);
 };
 
-float __cdecl ClampedAcos(float x);
-
 static __forceinline __m128 Dot3(__m128 a, __m128 b)
 {
     __m128 x2 = _mm_mul_ps(a, b);
@@ -7669,12 +7667,6 @@ struct Quat_cdb910
     Vec_cdb910 m_vec;
     void FUN_00cdb910(float t, const Vec_cdb910& from, const Vec_cdb910& to);
 };
-
-__declspec(noinline) float __cdecl ClampedAcos(float x)
-{
-    if ((float)fabs(x)>=1.0f) return x<0.0f ? ::DAT_0102b3c8 : 0.0f;
-    return (float)acos(x);
-}
 
 // @fnv 0x00cdbae0
 extern "C" hkBool __cdecl FUN_00cdbae0(const hkaTwoJointsIkSetup& setup, SkeletonPoseData& pose)

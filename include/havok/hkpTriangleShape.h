@@ -1,5 +1,4 @@
-// include/havok/hkpTriangleShape.h - generated from the Havok 7.1 reflection data in the PC exe (gen_havok_headers.py, 2026-10-17).
-// Reflected members at their exact offsets; unreflected bytes are padding. Size 0x60.
+// Native triangle value with real shape lifetime.
 #ifndef FNV_HAVOK_HKPTRIANGLESHAPE_H
 #define FNV_HAVOK_HKPTRIANGLESHAPE_H
 
@@ -8,13 +7,20 @@
 class hkpTriangleShape : public hkpConvexShape
 {
   public:
-    hkUint16 m_kWeldingInfo;     // +0x14
-    hkUint8 m_eWeldingType;      // +0x16 (WeldingType)
-    hkUint8 m_ucWeldingPadding;  // +0x17
-    char pad18[0x8];
-    hkVector4 m_kVertexA;          // +0x20
-    hkVector4 m_kVertexB;          // +0x30
-    hkVector4 m_kVertexC;          // +0x40
-    hkVector4 m_kVertexTransform;  // +0x50
+    hkpTriangleShape(hkReal radius, hkUint16 weldingInfo, hkUint8 weldingType,
+                     const hkVector4& a, const hkVector4& b, const hkVector4& c) noexcept;
+    // index is one of 0, 1, 2.
+    const hkVector4& getVertex(int index) const noexcept;
+    hkReal getRadius() const noexcept { return m_fSphereRadius; }
+    hkUint16 getWeldingInfo() const noexcept { return m_kWeldingInfo; }
+    hkUint8 getWeldingType() const noexcept { return m_eWeldingType; }
+
+    hkUint16 m_kWeldingInfo;
+    hkUint8 m_eWeldingType;
+    hkUint8 m_ucWeldingPadding;
+    hkVector4 m_kVertexA;
+    hkVector4 m_kVertexB;
+    hkVector4 m_kVertexC;
+    hkVector4 m_kVertexTransform;
 };
 #endif

@@ -10,7 +10,8 @@
 #include "fnv/symbols_0104e000.h"
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_010c6000.h"
-#include "havok/hkpShapeCollection.h"
+// This TU still owns its legacy ray/container family, not native collections.
+#include "havok/hkpShape.h"
 
 class hkPackedNiTriStripsShape;
 class hkNiTriStripsShape;

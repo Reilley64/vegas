@@ -641,15 +641,10 @@ struct S00cf5140_Output
     int m_uiShapeKeyIndex;
 };
 
-struct S00cf5140_Container
-{
-    int unk00;
-};
-
 struct S00cf5140_Filter
 {
     virtual S00cf5140_Bool IsCollisionEnabled(const S00cf5140_Input& aInput, const hkpShape& shape,
-                                              const S00cf5140_Container& container, unsigned int aKey) const;
+                                              const hkpShapeContainer& container, unsigned int aKey) const;
 };
 
 struct S00cf5140_ShapeIface
@@ -753,7 +748,7 @@ S00cf5140_Bool S00cf5140_Obj::FUN_00cf5140(const S00cf5140_Input& input, S00cf51
             if (isChildEnabled(i))
             {
                 if (input.m_pRayShapeCollectionFilter->IsCollisionEnabled(
-                        input, *this, *reinterpret_cast<const S00cf5140_Container*>(&pad10), i))
+                        input, *this, *static_cast<const hkpShapeContainer*>(this), i))
                 {
                     const S00cf5140_ShapeIface* child = reinterpret_cast<const S00cf5140_ShapeIface*>(m_kChildInfoList.m_data[i].m_pCollisionShape);
                     S00cf5140_Bool hit = child->RayCast(input, results);
@@ -950,7 +945,7 @@ void S00cf52c0_Obj::FUN_00cf52c0(const S00cf5140_Input& input, const hkpCdBody& 
             if (isChildEnabled(i))
             {
                 if (input.m_pRayShapeCollectionFilter
-                        ->IsCollisionEnabled(input, *this, *reinterpret_cast<const S00cf5140_Container*>(&pad10), i)
+                        ->IsCollisionEnabled(input, *this, *static_cast<const hkpShapeContainer*>(this), i)
                         .m_cBooleanValue)
                 {
                     child.m_pCollisionShape =

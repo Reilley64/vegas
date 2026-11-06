@@ -272,6 +272,8 @@ class FUN_00dccd00_C : public Base0DCCD, public Base1DCCD
 };
 
 
+// This legacy provider is still referenced by generated tables. Native mesh
+// operations live in native_mesh_shape.cpp; these private objects are not aliases.
 struct Msh_dccf60_Subpart
 {
     const char* m_pMaterialIndexBase;
@@ -719,28 +721,11 @@ S00dcd380_Mesh* S00dcd380_Host::FUN_00dcd380(int finishing)
     return new (this) S00dcd380_Mesh(flag);
 }
 
+// Retain required legacy providers until their generated-table callers migrate.
 struct MeshAabb;
 extern "C" void _ReadWriteBarrier();
 
-struct hkpMeshShapeSubpart
-{
-    const float* m_pMaterialIndexBase;
-    int m_iTriangleIndexStride;
-    int m_iStridedVertexCount;
-    const void* m_pMaterialDataBase;
-    hkUint8 m_ucIndexStridingType;
-    hkUint8 m_iMaterialIndexType;
-    hkUint16 unk12;
-    int m_iMaterialStriding;
-    int m_bFlipAlternateTriangles;
-    int m_iTriangleCount;
-    const void* m_pVertexBase;
-    int m_iVertexStriding;
-    const void* m_pIndexBase;
-    int m_iNumTriangles;
-    int m_iIndexStriding;
-    int m_iTriangleOffset;
-};
+// Use the canonical descriptor rather than another global type definition.
 static const float kRealMax = 3.402820018375656e+38f;
 static const float kRealMin = -3.402820018375656e+38f;
 __forceinline void setSplat(MeshVec& v, float f)
@@ -790,17 +775,17 @@ void MeshShapeHelper::FUN_00dccdd0(const hkTransform& placement, hkReal margin, 
             {
                 const hkUint16* indices =
                     hkAddByteOffsetConst((const hkUint16*)part.m_pMaterialDataBase, part.m_iMaterialStriding * face);
-                a = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[0] * part.m_iTriangleIndexStride);
-                b = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[1] * part.m_iTriangleIndexStride);
-                c = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[2] * part.m_iTriangleIndexStride);
+                a = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[0] * part.m_iTriangleIndexStride);
+                b = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[1] * part.m_iTriangleIndexStride);
+                c = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[2] * part.m_iTriangleIndexStride);
             }
             else
             {
                 const hkUint32* indices =
                     hkAddByteOffsetConst((const hkUint32*)part.m_pMaterialDataBase, part.m_iMaterialStriding * face);
-                a = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[0] * part.m_iTriangleIndexStride);
-                b = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[1] * part.m_iTriangleIndexStride);
-                c = hkAddByteOffsetConst(part.m_pMaterialIndexBase, indices[2] * part.m_iTriangleIndexStride);
+                a = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[0] * part.m_iTriangleIndexStride);
+                b = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[1] * part.m_iTriangleIndexStride);
+                c = hkAddByteOffsetConst(static_cast<const float*>(part.m_pMaterialIndexBase), indices[2] * part.m_iTriangleIndexStride);
             }
             ExpandAabbWithVertex(bounds, placement, a, m_kScaling);
             ExpandAabbWithVertex(bounds, placement, b, m_kScaling);

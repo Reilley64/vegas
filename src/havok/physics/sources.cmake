@@ -106,6 +106,8 @@ set(VEGAS_HAVOK_PHYSICS_SOURCES
   src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp
   src/havok/physics/collide/shape/deprecated/fastmesh/hkpfastmeshshape.cpp
   src/havok/physics/collide/shape/deprecated/fastmesh/native_fast_mesh.cpp
+  src/havok/physics/collide/shape/deprecated/mesh/native_mesh_shape.cpp
+  src/havok/physics/collide/shape/convex/triangle/native_triangle_shape.cpp
   src/havok/physics/collide/shape/deprecated/mesh/hkpmeshshape.cpp
   src/havok/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.cpp
   src/havok/physics/collide/shape/deprecated/storagemesh/hkpstoragemeshshape.cpp

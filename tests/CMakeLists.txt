@@ -154,6 +154,24 @@ target_include_directories(runtime_havok_mopp_lifetime_test PRIVATE
 target_link_libraries(runtime_havok_mopp_lifetime_test PRIVATE Threads::Threads)
 add_test(NAME runtime.havok_mopp_lifetime COMMAND runtime_havok_mopp_lifetime_test)
 
+add_executable(runtime_havok_mesh_collection_test runtime/havok_mesh_collection_test.cpp)
+if(WIN32)
+  target_link_libraries(runtime_havok_mesh_collection_test PRIVATE game)
+else()
+  # Reuse the accepted native construction/allocator sources, not test providers.
+  get_target_property(HAVOK_NATIVE_SHAPE_SOURCES runtime_havok_mopp_lifetime_test SOURCES)
+  list(REMOVE_ITEM HAVOK_NATIVE_SHAPE_SOURCES runtime/havok_mopp_lifetime_test.cpp)
+  target_sources(runtime_havok_mesh_collection_test PRIVATE
+    ${HAVOK_NATIVE_SHAPE_SOURCES}
+    ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/shape/deprecated/mesh/native_mesh_shape.cpp
+    ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/shape/convex/triangle/native_triangle_shape.cpp
+  )
+endif()
+target_include_directories(runtime_havok_mesh_collection_test PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(runtime_havok_mesh_collection_test PRIVATE Threads::Threads)
+add_test(NAME runtime.havok_mesh_collection COMMAND runtime_havok_mesh_collection_test)
+
 set(HAVOK_PACKFILE_RUNTIME_SOURCES
   ${PROJECT_SOURCE_DIR}/src/runtime/havok_memory_prerequisite.cpp
   ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/shape/deprecated/fastmesh/native_fast_mesh.cpp

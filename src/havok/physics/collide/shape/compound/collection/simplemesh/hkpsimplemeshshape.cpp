@@ -121,12 +121,7 @@ class hkReferencedObject : public hkBaseObject
 };
 }
 
-class hkpShapeContainer
-{
-  public:
-    virtual ~hkpShapeContainer() throw()
-    {}
-};
+// Use the shared resource-free native container lifetime.
 
 namespace hkDFCF {
 class ListenerDFCF : public hkReferencedObject

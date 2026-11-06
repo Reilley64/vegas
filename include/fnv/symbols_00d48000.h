@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include "havok/SerializeEntry.h"
 
 struct FUN_00d48330_vt;
 struct S00d48d30_Result;
@@ -20,5 +21,4 @@ extern "C" int FUN_00d485a0(intptr_t, intptr_t, int, int, int);
 int FUN_00d48620(int, int, int);
 // 0x00d48af0
 void FUN_00d48af0(void *, int *);
-// 0x00d48d30
-intptr_t FUN_00d48d30(::S00d48d30_Stream *, ::S00d48d30_Result *, intptr_t);
+// 0x00d48d30: constructed native serializer protocol is declared in SerializeEntry.h.

@@ -3,6 +3,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/NativePackfile.h"
+#include "havok/BuiltinTypeRegistry.h"
+#include "havok/PackfileRegistry.h"
+#include "havok/PackfileTypeInfo.h"
 #include <cstdint>
 #include "fnv/symbols_00401000.h"
 #include <new>
@@ -26,34 +30,6 @@
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010cf000.h"
 #include "fnv/symbols_01269000.h"
-struct hkDefaultBuiltinTypeRegistry
-{
-    int* v;
-    int _pad;
-    unsigned short _f;
-    hkDefaultBuiltinTypeRegistry* Initialize();
-};
-extern int DAT_010cf78c;
-// @fnv 0x00d478c0
-hkDefaultBuiltinTypeRegistry* hkDefaultBuiltinTypeRegistry::Initialize()
-{
-    *(unsigned short*)((char*)this + 6) = 1;
-    v = &DAT_010cf78c;
-    ::FUN_00d47860();
-    return this;
-}
-
-struct FUN_00d479e0_class
-{
-    void* FUN_00d479e0(const void* key);
-};
-
-// @fnv 0x00d479e0
-void* FUN_00d479e0_class::FUN_00d479e0(const void* key)
-{
-    return ((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d479e0_class*)((char*)this + 8))))->GetValue((intptr_t)(key), (int)(0))));
-}
-
 struct FUN_00d47a80_class
 {
     void* ForwardToOffsetMember(void* a);
@@ -63,20 +39,6 @@ struct FUN_00d47a80_class
 void* FUN_00d47a80_class::ForwardToOffsetMember(void* apArg)
 {
     return ((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d47a80_class*)((char*)this + 0xc))))->GetValue((intptr_t)(apArg), 0)));
-}
-
-struct HashEntryTable
-{
-};
-struct hkVtableClassRegistry
-{
-    uintptr_t LookupClassByVtable(const unsigned long* p);
-};
-// @fnv 0x00d47c40
-uintptr_t hkVtableClassRegistry::LookupClassByVtable(const unsigned long* pVtable)
-{
-    unsigned long v = *pVtable;
-    return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((HashEntryTable*)((char*)this + 8))))->LookupHashEntry(v, 0)));
 }
 
 struct D481D0Class
@@ -165,76 +127,6 @@ void FUN_00d47c60_class::FUN_00d47c60(void* key, int aiDefault)
     reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(z))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(p)), (uintptr_t)(key), aiDefault);
 }
 
-extern intptr_t DAT_01269b18;
-
-// @fnv 0x00d47a00
-intptr_t __cdecl FUN_00d47a00()
-{
-    return DAT_01269b18;
-}
-
-extern intptr_t DAT_01269b14;
-
-// @fnv 0x00d47a10
-intptr_t __cdecl FUN_00d47a10()
-{
-    return DAT_01269b14;
-}
-
-
-// @fnv 0x00d47a20
-intptr_t FUN_00d47a20()
-{
-    return DAT_01269b10;
-}
-
-struct D477C0Input
-{
-    int unk00, unk04, unk08;
-    void* value0c;
-};
-struct D477C0Source
-{
-};
-struct D477C0RegistryA
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void slot0c();
-    virtual void slot10();
-    virtual void slot14();
-    virtual void slot18();
-    virtual void registerObject(D477C0Source*, intptr_t);
-};
-struct D477C0RegistryB
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void registerInput(D477C0Input*);
-};
-struct D477C0RegistryC
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void registerLink(void*, D477C0Source*);
-};
-// @fnv 0x00d477c0
-void RegisterInputSource(D477C0Input* input, D477C0Source* source)
-{
-    D477C0RegistryA* registryA = *(D477C0RegistryA**)&DAT_01269b14;
-    registryA->registerObject(source, ((intptr_t)(reinterpret_cast<::FnvClassNameNode *>((source))->FUN_00d46d40())));
-    D477C0RegistryB* registryB = *(D477C0RegistryB**)&DAT_01269b18;
-    registryB->registerInput(input);
-    if (reinterpret_cast<::hkBlockD46E *>((source))->SumLinkedValues() > 0)
-    {
-        D477C0RegistryC* registryC = *(D477C0RegistryC**)&DAT_01269b10;
-        registryC->registerLink(input->value0c, source);
-    }
-}
-
 struct hkClassD478
 {
     const char* m_name;
@@ -259,103 +151,6 @@ class hkClassNameRegistryD478
 void hkClassNameRegistryD478::RegisterClass(const hkClassD478* pkClass)
 {
     reinterpret_cast<::hkStringMapD874 *>(&(m_map))->FUN_00d874d0(pkClass->getName(), (intptr_t)pkClass);
-}
-
-struct hkEntryD479
-{
-    int m_00;
-    void(__cdecl* m_func)(void* a, int b);
-};
-
-struct hkObjD479
-{
-    int m_00;
-    int m_04;
-    FUN_00d47a80_class m_map;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    hkEntryD479* FindEntryAndCall(void* a, void* key);
-};
-
-// Looks up key in m_map; if found, calls the entry's m_func with a and m_18, then returns the entry, else returns 0.
-// @fnv 0x00d47900
-hkEntryD479* hkObjD479::FindEntryAndCall(void* apArg, void* key)
-{
-    hkEntryD479* p = (hkEntryD479*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_map))->GetValue((intptr_t)(key), 0)));
-    if (p)
-    {
-        if (p->m_func)
-            p->m_func(apArg, m_18);
-        return p;
-    }
-    return 0;
-}
-
-struct FUN_00d47940_Result
-{
-    int unk00;
-    int unk04;
-    void(__cdecl* unk08)(int);
-};
-
-struct FUN_00d47940_Registry
-{
-};
-
-struct FUN_00d47940_Obj
-{
-    int unk00;
-    int unk04;
-    FUN_00d47940_Registry unk08;
-    void* FUN_00d47940(int param1, intptr_t param2);
-};
-
-// Looks up a result by key in the registry, and if found and it has a callback, invokes that callback with param1; returns the result.
-// @fnv 0x00d47940
-void* FUN_00d47940_Obj::FUN_00d47940(int param1, intptr_t aKey)
-{
-    FUN_00d47940_Result* result = (FUN_00d47940_Result*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(this->unk08))->GetValue((intptr_t)((const void*)aKey), (int)(0))));
-
-    if (result != 0 && result->unk08 != 0)
-    {
-        result->unk08(param1);
-    }
-
-    return result;
-}
-
-struct FUN_00d87430_Class
-{
-};
-struct FUN_00d47970_Class
-{
-    int unk00;
-    int unk04;
-    FUN_00d874d0_s m_map08;
-
-    void FUN_00d47970(void* iterator);
-};
-
-// @fnv 0x00d47970
-void FUN_00d47970_Class::FUN_00d47970(void* iterator)
-{
-    FUN_00d87410_Class* registry = (FUN_00d87410_Class*)((char*)iterator + 8);
-    int index = reinterpret_cast<::hkSetD874 *>((registry))->FUN_00d87410();
-    ((FUN_00d874b0_class*)registry)->SetBoolFromThreshold((char*)&iterator, index);
-    if (*(char*)&iterator != 0)
-    {
-        FUN_00d874d0_s* destination = &m_map08;
-        do
-        {
-            intptr_t key = ((FUN_00d87440_Class*)registry)->FUN_00d87440(index);
-            intptr_t value = reinterpret_cast<::FUN_00d87430_class *>((((FUN_00d87430_Class*)registry)))->GetEntry(index);
-            reinterpret_cast<::hkStringMapD874 *>((destination))->FUN_00d874d0((const char*)value, key);
-            index = ((SlotBitmap*)registry)->FindNextUsedSlot(index);
-            ((FUN_00d874b0_class*)registry)->SetBoolFromThreshold((char*)&iterator, index);
-        } while (*(char*)&iterator != 0);
-    }
 }
 
 class hkObjD47A
@@ -627,130 +422,6 @@ void FUN_00d47ce0_class::CollectMapValues(hkArrayD47C<int>& kValuesOut) const
 }
 }  // namespace fnv_00d47ce0
 
-namespace fnv_00d47d70 {
-
-struct MyAllocator
-{
-    virtual void unk00();
-    virtual void* allocate(int size);
-};
-
-struct MyRouter
-{
-    void* unk00; void* unk04; void* unk08; void* unk0c;
-    MyAllocator* heap;
-    __forceinline void* alloc(int size)
-    {
-        return heap->allocate(size);
-    }
-};
-
-
-struct MapHelper
-{
-    int m00, m04, m08, m0c;
-};
-
-struct DepthHelper
-{
-    int d0, d1, d2;
-};
-
-struct FUN_00d47d70_class : hkDefaultBuiltinTypeRegistry
-{
-    void InitGlobalObjects();
-};
-
-struct Obj1
-{
-    void* vtable;
-    short GetAllocationSize;
-    short refCount;
-    const char* name;
-    MapHelper map;
-    int unk1c;
-};
-
-struct Obj2
-{
-    void* vtable;
-    short GetAllocationSize;
-    short refCount;
-    MapHelper map;
-    int flag;
-};
-
-struct Obj3
-{
-    void* vtable;
-    short GetAllocationSize;
-    short refCount;
-    DepthHelper depth;
-};
-
-// @fnv 0x00d47d70
-void FUN_00d47d70_class::InitGlobalObjects()
-{
-    union
-    {
-        unsigned int i;
-        signed char c;
-    } u;
-
-    Obj1* p;
-    p = (Obj1*)static_cast<MyRouter*>(::FUN_00c85750())->alloc(0x20);
-    p->GetAllocationSize = 0x20;
-    p->refCount = 1;
-    p->vtable = &::DAT_010cf7d4;
-    p->name = ::str_010cf830;
-    u.c = 0;
-    new ((void *)&(p->map)) ::FUN_00d87790(u.i);
-    p->vtable = &::DAT_010cf804;
-
-    if (DAT_01269b14)
-    {
-        reinterpret_cast<::FUN_00c903b0_class *>(((void*)DAT_01269b14))->ReleaseReference();
-    }
-    DAT_01269b14 = (intptr_t)p;
-
-    Obj2* n;
-    n = (Obj2*)static_cast<MyRouter*>(::FUN_00c85750())->alloc(0x1c);
-    n->GetAllocationSize = 0x1c;
-    n->refCount = 1;
-    u.c = 0;
-    n->vtable = &DAT_010cf7b0;
-    new ((void *)&(n->map)) ::FUN_00d87790(u.i);
-    n->flag = 1;
-
-    if (DAT_01269b18)
-    {
-        reinterpret_cast<::FUN_00c903b0_class *>(((void*)DAT_01269b18))->ReleaseReference();
-    }
-    DAT_01269b18 = (intptr_t)n;
-
-    Obj3* kIter;
-    kIter = (Obj3*)static_cast<MyRouter*>(::FUN_00c85750())->alloc(0x14);
-    kIter->GetAllocationSize = 0x14;
-    kIter->refCount = 1;
-    kIter->vtable = &DAT_010cf844;
-    DepthHelper* pDepth;
-    pDepth = &kIter->depth;
-    pDepth->d0 = 0;
-    pDepth->d1 = 0;
-    pDepth->d2 = -1;
-    MyRouter* r = static_cast<MyRouter*>(::FUN_00c85750());
-    reinterpret_cast<::FUN_00cb1fe0_t *>((pDepth))->EnsureCapacity((intptr_t)(r->heap), 0);
-
-    if (DAT_01269b10)
-    {
-        reinterpret_cast<::FUN_00c903b0_class *>(((void*)DAT_01269b10))->ReleaseReference();
-    }
-    DAT_01269b10 = (intptr_t)kIter;
-
-    ::FUN_00d47860();
-}
-}  // namespace fnv_00d47d70
-
 namespace fnv_00d47eb0 {
 class hkMemoryAllocatorD47E
 {
@@ -922,80 +593,20 @@ hkObjectD47B* hkObjectD47B::FUN_00d47b70(unsigned int uiFlags) throw()
     return this;
 }
 
-// @fnv 0x00d47860
-struct DefaultNameRegistry
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void registerName(const void* name);
-};
-struct RuntimeTypeInfoRegistry
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void registerType(void* typeInfo);
-};
-struct NameRegistryTable
-{
-};
-extern int DAT_01268b0c;
-extern void* DAT_010d5430[];
-extern int DAT_010d59b8;
-void __cdecl FUN_00d47860()
-{
-    DefaultNameRegistry* reg = (DefaultNameRegistry*)DAT_01269b14;
-    reg->registerName(&DAT_01268b0c);
-    RuntimeTypeInfoRegistry* types = (RuntimeTypeInfoRegistry*)DAT_01269b18;
-    void** curr = DAT_010d5430;
-    while (*curr)
-    {
-        types->registerType(*curr);
-        ++curr;
-    }
-    reinterpret_cast<::FUN_00db78a0_cls *>((((NameRegistryTable*)DAT_01269b10)))->FUN_00db78a0((::FUN_00db78a0_item **)(DAT_010d5430), (void **)(void *)(&DAT_010d59b8));
-}
-
-
-struct FUN_00d47820_allocator
-{
-    virtual void FUN_00d47820_dummy() = 0;
-    virtual void* FUN_00d47820_alloc(unsigned int size)
-    {
-        return ::FUN_00401000(size);
-    }
-};
-
-struct FUN_00d47820_router
-{
-    void* vtable;
-    unsigned int m_iWordAt04;
-    unsigned int m_8;
-    unsigned int m_iThirdValue;
-    FUN_00d47820_allocator* allocator;
-};
-
-extern FUN_00d47820_router* _D1A0E0GetMemoryRouter();
-
-// @fnv 0x00d47820
-hkDefaultBuiltinTypeRegistry* FUN_00d47820()
-{
-    if (DAT_01269b10 != 0 && DAT_01269b14 != 0 && DAT_01269b18 != 0)
-    {
-        FUN_00d47820_router* router = _D1A0E0GetMemoryRouter();
-        void* memory = router->allocator->FUN_00d47820_alloc(8);
-        hkDefaultBuiltinTypeRegistry* registry = static_cast<hkDefaultBuiltinTypeRegistry*>(memory);
-        *reinterpret_cast<unsigned short*>(&registry->_pad) = 8;
-        return registry->Initialize();
-    }
-    return 0;
-}
-
 #include "generated/data/havok/common/serialize/util/hkbuiltintyperegistry.inc"
+
+// The actual reconstructed table is bounded here at its defining source.
+// Its class seed and paired-class storage are only scalar placeholders.
+// Preserve all generated metadata references but never cast those scalars to
+// native classes or arrays. The missing capability is visible to callers.
+namespace
+{
+struct BuiltinCatalogSource
+{
+    BuiltinCatalogSource()
+    {
+        havok::serialize::SetBuiltinCatalog({
+            std::span<void* const>(DAT_010d5430), {}, nullptr});
+    }
+} builtinCatalogSource;
+}

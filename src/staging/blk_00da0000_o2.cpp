@@ -2,6 +2,7 @@
 
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkMemoryRouter.h"
+#include "havok/PackfileTypeInfo.h"
 #include <cstddef>
 #include "generated/data/vtables.h"
 #include <windows.h>
@@ -806,41 +807,7 @@ unsigned int FUN_00db75b0_class::FUN_00db75b0(intptr_t a1, unsigned int* a2)
     return 1;
 }
 
-struct FUN_00db78a0_item
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    void* m_0c;
-};
-
-class FUN_00db78a0_cls
-{
-  public:
-    virtual void vSlot00();
-    virtual void vSlot04();
-    virtual void vSlot08();
-    virtual void vSlot0c(void* field, void* item);
-    void FUN_00db78a0(FUN_00db78a0_item** a, void** b);
-};
-
-// @fnv 0x00db78a0
-void FUN_00db78a0_cls::FUN_00db78a0(FUN_00db78a0_item** apItems, void** apValues)
-{
-    FUN_00db78a0_item** p = apItems;
-    if (*p == 0)
-        return;
-    do
-    {
-        void* item = *(void**)((char*)apValues + ((char*)p - (char*)apItems));
-        if (item == 0)
-            break;
-        void* field = (*p)->m_0c;
-        if (field != 0)
-            this->vSlot0c(field, item);
-        p++;
-    } while (*p != 0);
-}
+// FUN_00db78a0 is owned by the native builtin registry module.
 
 struct MapPair
 {

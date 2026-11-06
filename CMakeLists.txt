@@ -36,6 +36,7 @@ include(src/root_sources.cmake)
 include(src/fallout_shared/sources.cmake)
 include(src/staging/sources.cmake)
 include(src/fallout/sources.cmake)
+include(src/runtime/native_data_composition.cmake)
 
 add_executable(FalloutNV EXCLUDE_FROM_ALL src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)

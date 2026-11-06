@@ -44,34 +44,7 @@ struct FUN_00d47260_cls
     void* FUN_00d47260(const char* name) const;
 };
 
-struct FUN_00d472a0
-{
-    unsigned int m[11];
-    FUN_00d472a0(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f,
-                 unsigned int g, unsigned int h, unsigned int i, unsigned int j, unsigned int k, unsigned int l,
-                 unsigned int n);
-};
-
-// @fnv 0x00d472a0
-FUN_00d472a0::FUN_00d472a0(unsigned int auiValue0, unsigned int auiValue1, unsigned int auiValue2,
-                           unsigned int auiUnused, unsigned int auiValue3, unsigned int auiValue4,
-                           unsigned int auiValue5, unsigned int auiValue6, unsigned int auiValue7,
-                           unsigned int auiValue8, unsigned int auiValue9, unsigned int auiValue10,
-                           unsigned int auiValue11)
-{
-    m[0] = auiValue0;
-    m[1] = auiValue1;
-    m[2] = auiValue2;
-    m[3] = auiValue3;
-    m[4] = auiValue4;
-    m[5] = auiValue5;
-    m[6] = auiValue6;
-    m[7] = auiValue7;
-    m[8] = auiValue8;
-    m[9] = auiValue9;
-    m[10] = auiValue10;
-    m[11] = auiValue11;
-}
+// FUN_00d472a0 is owned by the native builtin metadata module.
 
 struct FUN_00d46f00_s
 {

@@ -6,6 +6,11 @@
 // @fnv 0x00d48640
 #include "fnv/symbols_00c85000.h"
 #include <cstdint>
+#include "havok/PackfileRegistry.h"
+#include "havok/PackfileResource.h"
+#include "havok/PackfileLoad.h"
+#include "havok/HeapLoad.h"
+#include "havok/SerializeEntry.h"
 #include "fnv/decl/DbbOwner.h"
 #include "fnv/decl/FUN_00dba680_cls.h"
 #include "fnv/decl/FUN_00dba810_cls.h"
@@ -20,7 +25,6 @@
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/DBA7F0Ref.h"
 #include "fnv/decl/DataObjectHandle.h"
-#include "fnv/decl/FUN_00d47970_Class.h"
 #include "fnv/decl/FUN_00d87790.h"
 #include "fnv/decl/FUN_00d877d0_class.h"
 #include "fnv/decl/FUN_00dba780_cls.h"
@@ -185,13 +189,10 @@ struct CtorBox
 
 // Constructs a CtorBox from a1, calls FUN_00d48d30 on its b field with a2 and a3, destroys the box, and returns the result.
 // @fnv 0x00d48ec0
-void* __cdecl FUN_00d48ec0(void* a1, intptr_t a2, int a3)
+S_Obj* FUN_00d48ec0(havok::serialize::LoadStream* stream, havok::serialize::LoadError* error,
+    const havok::serialize::SerializeOptions* options)
 {
-    CtorBox obj;
-    CtorBox* p = ((::CtorBox *)(reinterpret_cast<::FUN_00dcc670_Class *>(&(obj))->InitFromValue((int *)(a1))));
-    void* res = ((void *)(::FUN_00d48d30((::S00d48d30_Stream *)(p->b), (::S00d48d30_Result *)(a2), a3)));
-    reinterpret_cast<::FUN_00dcc160_cls *>(&(obj))->FUN_00dcc160();
-    return res;
+    return FUN_00d48d30(stream, error, options);
 }
 
 namespace fnv_00d48f00 {
@@ -228,20 +229,9 @@ struct Object180
     void* unk08;
     Object180* FUN_00dcc6a0(void* input, intptr_t arg2);
 };
-// @fnv 0x00d48f00
-intptr_t __cdecl FUN_00d48f00(Header180* pHeader, intptr_t arg2, intptr_t arg3, int arg4)
-{
-    Header180 defaultHeader;
-    if (pHeader->unk00 == defaultHeader.unk00 && pHeader->unk04 == defaultHeader.unk04 &&
-        ::FUN_00cb1290((const unsigned char *)(const void *)(&pHeader->unk10), (const unsigned char *)(const void *)(&DAT_011b7b88), 4) == 0 && ::fnv_00cb0fa0::FUN_00cb0fa0(&pHeader->unk28, ((const char *)(::FUN_00dc0fb0()))) == 0)
-        return ((intptr_t)(::CreateResourceFromArray(pHeader, (void *)(arg2), (void *)(0))));
-    Object180 wrapper;
-    Object180* result = wrapper.FUN_00dcc6a0(pHeader, arg2);
-    void* payload = result->unk08;
-    intptr_t value = ::FUN_00d48d30((::S00d48d30_Stream *)(payload), (::S00d48d30_Result *)(arg3), arg4);
-    reinterpret_cast<::FUN_00dcc160_cls *>(&(wrapper))->FUN_00dcc160();
-    return value;
-}
+// The retained buffer entry at 0x00d48f00 is owned by serializer_entry.cpp.
+// Its bounded native declaration is in SerializeEntry.h; no mixed Resource*/
+// S_Obj* result or domain-bypassing legacy fast path remains here.
 }  // namespace fnv_00d48f00
 
 struct S_00d49310_Lock
@@ -506,21 +496,6 @@ int __cdecl S00d48a90_Entry(int a1)
     return FUN_00d48a90(a1, 0, 0, 0);
 }
 
-struct S00d48d30_Bool
-{
-    char m_cBooleanValue;
-    S00d48d30_Bool()
-    {}
-};
-
-struct S00d48d30_Stream
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual S00d48d30_Bool IsStreamValid() const;
-};
-
 struct hkStringPtr
 {
     void* m_pcText;
@@ -529,149 +504,7 @@ public:
     void FUN_00cb0c70(const char *, ...);
 };
 
-struct S00d48d30_Result
-{
-    int m_iResultCode;
-    hkStringPtr m_message;
-};
-
-struct S00d48d30_Lock
-{
-    int unk00;
-    int unk04;
-    S00d48d30_Lock() throw();
-    ~S00d48d30_Lock() throw();
-};
-
-struct S00d48d30_Ref
-{
-    int unk00;
-    S00d48d30_Ref(const S00d48d30_Ref&) throw();
-    ~S00d48d30_Ref() throw();
-};
-
-struct S00d48d30_Format
-{
-    int m_type;
-    int attach(struct S00d48d30_Stream* s, struct S00d48d30_Result* out);
-};
-
-struct S00d48d30_Reader
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    S00d48d30_Reader() throw();
-    ~S00d48d30_Reader() throw();
-    void prepare();
-    int open(S00d48d30_Stream* s);
-    void close();
-};
-
-struct S00d48d30_Service
-{
-    virtual void s0();
-    virtual void s1();
-    virtual void s2();
-    virtual int getLoadOptions();
-    virtual int getDefaultOptions();
-};
-
-extern const char str_010cfacc[];
-extern const char str_010cfab8[];
-extern const char str_010cfa94[];
-
-int S00d48d30_Finish(intptr_t opts);
-
-static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Reader* reader, S00d48d30_Result* out)
-{
-    reader->prepare();
-    if (reader->open(s) == 0)
-    {
-        if (out != 0)
-        {
-            out->m_iResultCode = 3;
-            reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out->m_message))->FUN_00cb0c10(str_010cfa94);
-        }
-        reader->close();
-        return 1;
-    }
-    return 0;
-}
-
-static __declspec(noinline) intptr_t FUN_00d48760(S00d48d30_Stream* s, S00d48d30_Format* format, S00d48d30_Result* out,
-                                             intptr_t opts)
-{
-    if (format->m_type < 2)
-    {
-        return 0;
-    }
-    if (out != 0)
-    {
-        out->m_iResultCode = 0;
-    }
-    if (s == 0)
-    {
-        return 0;
-    }
-    if (format->attach(s, out) == 0)
-    {
-        return 0;
-    }
-    return S00d48d30_Finish(opts);
-}
-
-// Validates the stream, resolves load options, and dispatches to a format-specific loader based on the detected stream type.
-// @fnv 0x00d48d30
-intptr_t __cdecl FUN_00d48d30(S00d48d30_Stream* apStream, S00d48d30_Result* apResult, intptr_t aiOptions) throw()
-{
-    if (apStream == 0)
-    {
-        if (apResult != 0)
-        {
-            apResult->m_iResultCode = 1;
-            reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(apResult->m_message))->FUN_00cb0c10(str_010cfacc);
-        }
-        return 0;
-    }
-    if (!apStream->IsStreamValid().m_cBooleanValue)
-    {
-        if (apResult != 0)
-        {
-            apResult->m_iResultCode = 1;
-            reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(apResult->m_message))->FUN_00cb0c10(str_010cfab8);
-        }
-        return 0;
-    }
-    if (aiOptions == 0)
-    {
-        aiOptions = reinterpret_cast<S00d48d30_Service*>(DAT_01268b08)->getDefaultOptions();
-    }
-    S00d48d30_Lock lock;
-    S00d48d30_Format format;
-    FUN_00d48af0(apStream, &format.m_type);
-    switch (format.m_type)
-    {
-    case 2:
-    case 3:
-        return FUN_00d48760(apStream, &format, apResult,
-                            reinterpret_cast<S00d48d30_Service*>(DAT_01268b08)->getLoadOptions());
-    case 4: {
-        S00d48d30_Reader reader;
-        if (FUN_00d48a90(apStream, &reader, apResult) == 0)
-        {
-            return ((intptr_t)(::FUN_00dc3300((::S_PH *)&(const ::S00d48d30_Ref &)((*(::S00d48d30_Ref *)(reinterpret_cast<::FUN_00dc72a0_class *>(&(reader))->ForwardToReceiver({})))), (::S_Dom *)(aiOptions))));
-        }
-        return 0;
-    }
-    }
-    if (apResult != 0)
-    {
-        apResult->m_iResultCode = 2;
-        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(apResult->m_message))->FUN_00cb0c10(str_010cfa94);
-    }
-    return 0;
-}
+// The public native serializer and dictionary branch live in serializer_entry.cpp.
 
 struct S00d48680_Arr
 {
@@ -767,253 +600,11 @@ void __cdecl S00d48680_Entry(S00d48680_Obj* obj, S00d48680_Arr* arr)
     FUN_00d48680(obj, arr);
 }
 
-struct HashPolicy
-{
-};
-struct StringMapState
-{
-    void* entries;
-    int count;
-    int mask;
-    HashPolicy policy;
-    StringMapState() throw()
-    {
-        new ((void *)this) ::FUN_00d87790((*(int *)&(const ::HashPolicy &)(HashPolicy())));
-    }
-    void clear() throw()
-    {
-        reinterpret_cast<::FUN_00d877d0_class *>(this)->FreeBuffer();
-    }
-};
-struct RegistryBase
-{
-    void** dispatch;
-    unsigned short allocationSize;
-    unsigned short references;
-    RegistryBase() throw() : references(1)
-    {
-        dispatch = (*reinterpret_cast<void * (*)[]>(&::fnv_00d47d70::DAT_010cf7b0));
-    }
-};
-struct TypeRegistry : RegistryBase
-{
-    StringMapState types;
-    int finish;
-    TypeRegistry(int flag) throw() : finish(flag)
-    {}
-    void clear() throw()
-    {
-        types.clear();
-    }
-};
-struct RuntimeClass;
-struct ClassRegistry
-{
-    virtual void v0() throw();
-    virtual void v1() throw();
-    virtual void v2() throw();
-    virtual void v3() throw();
-    virtual const RuntimeClass* find(const char*) const throw();
-};
-struct Resource : hkReferencedObject
-{
-    virtual void v0() throw();
-    virtual void v1() throw();
-    virtual void v2() throw();
-    virtual void v3() throw();
-    virtual void v4() throw();
-    virtual void v5() throw();
-    virtual void* contents(const char*, const TypeRegistry*) const throw();
-    virtual const char* name() const throw();
-};
-struct ResourceRef
-{
-    Resource* ptr;
-    ResourceRef() throw() : ptr(0)
-    {}
-    void clear() throw()
-    {
-        if (ptr)
-            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(ptr))->FUN_00c905b0();
-        ptr = 0;
-    }
-    Resource* operator->() const
-    {
-        return ptr;
-    }
-    void take(Resource* p) throw()
-    {
-        if (ptr && ptr != p)
-            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(ptr))->FUN_00c905b0();
-        ptr = p;
-    }
-};
-struct ObjectImpl
-{
-    virtual ~ObjectImpl() throw();
-    unsigned short allocationSize;
-    unsigned short references;
-    int externalRefs;
-};
-struct RootObject
-{
-    ObjectImpl* impl;
-    __declspec(noinline) void FUN_00dba7f0() throw();
-    RootObject(ObjectImpl* p) throw()
-    {
-        reinterpret_cast<::DataObjectHandle *>(this)->FUN_00dba760((::RefObj *)(p));
-    }
-    void clear() throw()
-    {
-        reinterpret_cast<::DBA7F0Ref *>(this)->FUN_00dba7f0();
-    }
-};
-__declspec(noinline) void RootObject::FUN_00dba7f0() throw()
-{
-    if (impl)
-    {
-        --impl->references;
-        if (--impl->externalRefs == 0)
-            delete impl;
-    }
-}
-struct NativeWorld
-{
-    void* dispatch;
-    unsigned short allocationSize;
-    unsigned short references;
-    const ClassRegistry* classes;
-    void* vtableRegistry;
-    void* mapEntries;
-    int mapCount;
-    int mapMask;
-    HashPolicy mapPolicy;
-    void* rootPointer;
-    const RuntimeClass* rootClass;
-    ObjectImpl* FUN_00dbb4f0(void*, const RuntimeClass&) const throw();
-    NativeWorld() throw()
-    {
-        reinterpret_cast<::FUN_00dbb360_Class *>(this)->Initialize();
-    }
-    void clear() throw()
-    {
-        reinterpret_cast<::FUN_00dbb3f0::hkDataWorldNative *>(this)->FUN_00dbb3f0::hkDataWorldNative::~hkDataWorldNative();
-    }
-};
-struct ObjectResource;
-struct LoadFormat
-{
-    int type;
-    S_00d49350 version;
-    unsigned int layout;
-};
-struct LoadError
-{
-    int status;
-    hkStringPtr message;
-    void set(int c, const char* text)
-    {
-        status = c;
-        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(message))->FUN_00cb0c10(text);
-    }
-};
-struct LoadStream;
-struct LoadBuffer
-{
-    char* data;
-    intptr_t size;
-    unsigned int capacity;
-};
-struct LoadAllocator
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void freeBlock(void*, int) throw();
-};
-struct LoadMemory
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    LoadAllocator* heap;
-};
-extern const char str_010cf9d8[];
-void __cdecl FUN_00d48680(LoadStream&, LoadBuffer&) throw();
-struct DeprecatedLoader
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual Resource* load(LoadStream&, const LoadFormat&, LoadError*) throw();
-};
-static __declspec(noinline) __declspec(nothrow) Resource* FUN_00d48760(LoadStream& input, const LoadFormat& format,
-                                                                       LoadError* error,
-                                                                       const TypeRegistry& types) throw()
-{
-    if (format.type == 2)
-    {
-        if (::FUN_00cb1290((const unsigned char *)(const void *)(&format.layout), (const unsigned char *)(const void *)(&DAT_011b7b88), 4) == 0)
-        {
-            if (format.version.Equals(((const char *)(::FUN_00dc0fb0()))))
-            {
-                LoadBuffer buffer;
-                buffer.data = 0;
-                buffer.size = 0;
-                buffer.capacity = 0x80000000;
-                FUN_00d48680(input, buffer);
-                Resource* result = ((::Resource *)(::CreateResourceFromArray((void *)(buffer.data), (void *)(buffer.size), (void *)(&types))));
-                LoadMemory* memory = (LoadMemory*)static_cast<S00d48680_Sys*>(::FUN_00c85750());
-                buffer.size = 0;
-                if ((int)buffer.capacity >= 0)
-                    memory->heap->freeBlock(buffer.data, buffer.capacity & 0x3fffffff);
-                return result;
-            }
-        }
-        else
-        {
-            if (error)
-            {
-                error->status = 3;
-                reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(error->message))->FUN_00cb0c10(str_010cf9d8);
-            }
-            return 0;
-        }
-    }
-    return ((DeprecatedLoader*)DAT_01269b74)->load(input, format, error);
-}
-
-// Loads a resource via FUN_00d48760, resolves its class in classes, and constructs an ObjectResource from the parsed data.
-// @fnv 0x00d48840
-static __declspec(noinline) ObjectResource* FUN_00d48840(LoadStream* input, LoadFormat& format, LoadError* error,
-                                                         const ClassRegistry* classes, const TypeRegistry* types)
-{
-    TypeRegistry unfinished(0);
-    reinterpret_cast<::FUN_00d47970_Class *>(&(unfinished))->FUN_00d47970((void *)&(*types));
-    ResourceRef resource;
-    resource.take((Resource*)FUN_00d48760((S00d48d30_Stream*)input, (S00d48d30_Format*)&format,
-                                          (S00d48d30_Result*)error, (intptr_t)&unfinished));
-    NativeWorld data;
-    reinterpret_cast<::FUN_00dbb490_class *>(&(data))->SetReferencedObject((::hkReferencedObject *)(classes));
-    const RuntimeClass* rootClass = classes->find(resource->name());
-    if (rootClass)
-    {
-        RootObject root(data.FUN_00dbb4f0(resource->contents(0, types), *rootClass));
-        ObjectResource* result = ((::ObjectResource *)(::FUN_00dc32c0((void *)&(root), (void *)(classes), (void *)(types))));
-        root.clear();
-        data.clear();
-        resource.clear();
-        unfinished.clear();
-        return result;
-    }
-    data.clear();
-    resource.clear();
-    unfinished.clear();
-    return 0;
-}
+using LoadStream = havok::serialize::LoadStream;
+using LoadFormat = havok::serialize::LoadFormat;
+using LoadError = havok::serialize::LoadError;
+using ClassRegistry = havok::serialize::ClassNameRegistry;
+using TypeRegistry = havok::serialize::TypeRegistry;
 LoadStream* volatile inputSource;
 LoadFormat* volatile formatSource;
 LoadError* volatile errorSource;
@@ -1022,7 +613,14 @@ const TypeRegistry* volatile typeSource;
 ObjectResource* volatile outputSink;
 void CallHeapLoader()
 {
-    outputSink = FUN_00d48840(inputSource, *formatSource, errorSource, classSource, typeSource);
+    havok::serialize::LoadPolicy policy;
+    policy.version = static_cast<const char*>(::FUN_00dc0fb0());
+    std::memcpy(policy.layout.data(), &DAT_011b7b88, policy.layout.size());
+    // No source-compatible deprecated heap-resource provider is installed here.
+    // DAT_01269b74's genuine GlobalDispatch protocol is not this interface.
+    // Unsupported versions fail explicitly; explicit LoadPolicy capabilities
+    // remain available to genuine owning callers of the shared load entry.
+    outputSink = formatSource ? FUN_00d48840(inputSource, *formatSource, errorSource, classSource, typeSource, policy) : nullptr;
 }
 
 extern const char str_010cf9f4[];
@@ -1344,7 +942,7 @@ static __declspec(noinline) void* FUN_00d48760(VersionedDataBlock& input, const 
             {
                 Buffer bytes;
                 FUN_00d48680((S00d48680_Obj*)&input, &bytes);
-                return ::CreateResourceFromArray((void *)(bytes.begin()), (void *)(bytes.size()), (void *)(registry));
+                return ::CreateResourceFromArray((void *)(bytes.begin()), (void *)(bytes.size()), (void *)(registry), nullptr);
             }
         }
         else
@@ -1603,4 +1201,10 @@ void FUN_00d48af0(void* stream, int* out) throw()
     detect(static_cast<VersionedDataBlock*>(stream), *reinterpret_cast<FormatInfo*>(out));
 }
 
+// These generated definitions also serve other production objects. Their old
+// serializer-local declarations established external linkage; retain it when
+// moving the entry implementation, without moving or recreating the payload.
+extern const char str_010cfa94[36];
+extern const char str_010cfab8[17];
+extern const char str_010cfacc[23];
 #include "generated/data/havok/common/serialize/util/hkserializeutil.inc"

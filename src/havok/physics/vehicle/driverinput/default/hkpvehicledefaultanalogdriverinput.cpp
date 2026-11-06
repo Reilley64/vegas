@@ -10,6 +10,7 @@
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_01017000.h"
 #include "fnv/symbols_0101f000.h"
+#include "havok/ScalarConstants.h"
 #include "fnv/symbols_0104d000.h"
 #include "havok/hkpVehicleDefaultAnalogDriverInput.h"
 
@@ -354,7 +355,6 @@ extern const float DAT_01011d78;
 extern const float DAT_01017718 = 3.0f;
 extern const float DAT_0104da4c;
 extern const float DAT_010ebf10 = 1.38888896f;
-extern const double DAT_0101ffa0 = 0.10000000149011612;
 
 namespace e43780 {
 struct HkVec

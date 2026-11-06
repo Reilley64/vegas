@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/decl/ReferencedObjectHolder.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_01269000.h"
@@ -26,30 +27,8 @@ void FUN_00d47770::SetObject(hkReferencedObject* object, intptr_t extra)
     m_pObject = object;
 }
 
-struct hkVtableClassRegistry
-{
-    virtual void m_00();
-    virtual void m_04();
-    virtual void m_08();
-    virtual void m_0C();
-    virtual void* m_10(hkReferencedObject* object);
-};
 
-
-struct ReferencedObjectHolder
-{
-    hkReferencedObject* m_pObject;
-    void* FUN_00d477a0();
-};
-
-// @fnv 0x00d477a0
-void* ReferencedObjectHolder::FUN_00d477a0()
-{
-    hkReferencedObject* object = m_pObject;
-    if (object)
-        return (*reinterpret_cast<::hkVtableClassRegistry * *>(&::DAT_01269b10))->m_10(object);
-    return 0;
-}
+// ReferencedObjectHolder::FUN_00d477a0 is owned by the native builtin module.
 
 extern int DAT_010cf9c8;
 

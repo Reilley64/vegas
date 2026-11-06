@@ -13,6 +13,7 @@ set(VEGAS_HAVOK_COMMON_SOURCES
   src/havok/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp
   src/havok/common/base/debugutil/statisticscollector/util/hkstatisticscollectorutil.cpp
   src/havok/common/base/math/clamped_acos.cpp
+  src/havok/common/base/math/scalar_constants.cpp
   src/havok/common/base/math/matrix/hkmatrix3.cpp
   src/havok/common/base/math/matrix/hkmatrix4.cpp
   src/havok/common/base/math/matrix/hkmatrix6.cpp
@@ -142,18 +143,26 @@ set(VEGAS_HAVOK_COMMON_SOURCES
   src/havok/common/serialize/packfile/binary/hkbinarypackfilewriter.cpp
   src/havok/common/serialize/packfile/hkpackfiledata.cpp
   src/havok/common/serialize/packfile/hkpackfilewriter.cpp
+  src/havok/common/serialize/packfile/native_fast_mesh_packfile.cpp
   src/havok/common/serialize/resource/hkobjectresource.cpp
   src/havok/common/serialize/resourcedatabase/hkresourcehandle.cpp
   src/havok/common/serialize/serialize/hkrelocationinfo.cpp
   src/havok/common/serialize/serialize/platform/hkplatformobjectwriter.cpp
   src/havok/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp
   src/havok/common/serialize/tagfile/binary/hkbinarytagfilewriter.cpp
+  src/havok/common/serialize/data/native/native_world.cpp
+  src/havok/common/serialize/packfile/packfile_data_finishing.cpp
+  src/havok/common/serialize/util/builtin_type_registry.cpp
   src/havok/common/serialize/util/hkbuiltintyperegistry.cpp
   src/havok/common/serialize/util/hknativepackfileutils.cpp
   src/havok/common/serialize/util/hkrootlevelcontainer.cpp
   src/havok/common/serialize/util/hkserializeutil.cpp
   src/havok/common/serialize/util/hkstaticclassnameregistry.cpp
   src/havok/common/serialize/util/hkstructurelayout.cpp
+  src/havok/common/serialize/util/native_packfile_loader.cpp
+  src/havok/common/serialize/util/packfile_load.cpp
+  src/havok/common/serialize/util/packfile_registry_finishing.cpp
+  src/havok/common/serialize/util/packfile_resource.cpp
   src/havok/common/serialize/version/hkversionpatchmanager.cpp
   src/havok/common/serialize/version/hkversionutil.cpp
   src/havok/common/visualize/hkcommandrouter.cpp
@@ -196,6 +205,12 @@ set(VEGAS_HAVOK_COMMON_SOURCES
   src/havok/common/base/system/native_base_system.cpp
   src/havok/common/base/system/native_file_system.cpp
   src/havok/common/base/thread/thread/hkworkerplatform.cpp
+  src/havok/common/serialize/data/dict/dictionary_world.cpp
+  src/havok/common/serialize/data/dict/dictionary_reflection.cpp
+  src/havok/common/serialize/data/util/dictionary_conversion.cpp
+  src/havok/common/serialize/tagfile/binary/dictionary_reader.cpp
+  src/havok/common/serialize/util/serializer_entry.cpp
+  src/havok/common/serialize/packfile/native_resource_statistics.cpp
 )
 target_sources(game PRIVATE ${VEGAS_HAVOK_COMMON_SOURCES})
 # The units include project headers from include/. A pointer must never be narrowed to a 32-bit integer.

@@ -17902,53 +17902,8 @@ m_pChildAtom=((::D274C0Child *)(new ((void *)(child)) ::FUN_00d274c0((void *)(fi
 return this;
 }
 
-struct S00cc0850_Entry {
-    void* FUN_00cc0820();
-};
-
-struct S00cc0850_Registry {
-};
-
-struct S00cc0850_Slot {
-};
-
-extern int DAT_01268b9c;
-extern const char str_010c93d0[];
-
-// Looks up a key, then two named entries, on an object obtained from owner; on success stores that object in result and returns the found item, else 0.
-// @fnv 0x00cc0850
-void* __cdecl FUN_00cc0850(void* owner, void** apEntry)
-{
-    if (owner == 0 || apEntry == 0)
-        return 0;
-
-    void* entry = ((void *)(::FUN_00d48d30((::S00d48d30_Stream *)(owner), (::S00d48d30_Result *)(0), 0)));
-    if (entry != 0) {
-        S00cc0850_Slot* slot = reinterpret_cast<S00cc0850_Slot*>(
-            reinterpret_cast<S00cc0850_Entry*>(entry)->FUN_00cc0820());
-        if (slot != 0) {
-            void* key = ((void *)(reinterpret_cast<::FnvClassNameNode *>((reinterpret_cast<S00cc0850_Registry*>(&DAT_01268b9c)))->FUN_00d46d40()));
-            void* found = reinterpret_cast<::VariantListD480 *>((slot))->FindByName((const char *)(key), {});
-            if (found == 0) {
-                const char* names[3];
-                names[0] = str_010c93d0;
-                names[1] = str_010c93c0;
-                names[2] = 0;
-                for (int i = 0; names[i] != 0; ++i) {
-                    found = reinterpret_cast<::Cls_d48150 *>((slot))->FUN_00d48150((void *)(names[i]), 0);
-                    if (found != 0)
-                        break;
-                }
-            }
-            if (found != 0) {
-                *apEntry = entry;
-                return found;
-            }
-        }
-    }
-
-    return 0;
-}
+// The retained serializer/root-container consumer FUN_00cc0850 is owned by
+// serializer_entry.cpp, using constructed stream/resource/class contracts.
 
 extern "C" void FUN_004381b0();
 struct FUN_00a5d3d0 {
@@ -25156,7 +25111,7 @@ void __cdecl CollectUnusedIndices(SomeFilter* filter, MyArray<short>& out) throw
 
 
 
-void* __cdecl FUN_00cc0850(void* owner, void** result);
+// Native FUN_00cc0850 declaration: havok/SerializeEntry.h.
 
 extern "C" void FUN_00ec5fce(void*, unsigned int, unsigned int, const void*);
 

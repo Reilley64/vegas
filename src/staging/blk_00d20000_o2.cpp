@@ -1941,18 +1941,8 @@ void FUN_00d2d460(int, void* b, void* c)
     ::FUN_00da3510((*(::AgentSectorPointerArray *)(b)), (*(::CollisionAgentContext *)(c)));
 }
 
-// @fnv 0x00d2f530
-void __cdecl FUN_00d2f530(unsigned char* p)
-{
-    *p = DAT_011b4284;
-}
-
-
-// @fnv 0x00d2f540
-void __cdecl FUN_00d2f540(unsigned char value)
-{
-    DAT_011b4284 = value;
-}
+// The retained cache-setting entries are owned by the BvTree subsystem.
+#include "havok/BvTreeCache.h"
 
 
 struct D347D0Query {

@@ -196,12 +196,7 @@ template <typename TYPE> __forceinline const TYPE* hkAddByteOffsetConst(const TY
     return reinterpret_cast<const TYPE*>(reinterpret_cast<const char*>(base) + offset);
 }
 
-namespace MathUtilities {
-template <typename T> __forceinline T min2(T x, T y)
-{
-    return x < y ? x : y;
-}
-}
+#include "havok/SimpleContactRhs.h"
 
 class VectorComponentValue
 {
@@ -444,42 +439,7 @@ class hkContactPoint
 };
 
 
-class QuantizedFloat8
-{
-  public:
-    __forceinline operator hkReal() const
-    {
-        return ::DAT_010c7948[m_uiFilterValue];
-    }
-    hkUint8 m_uiFilterValue;
-};
-
-class hkContactPointMaterial
-{
-  public:
-    __forceinline hkReal getFriction() const
-    {
-        return m_fSlipAngle;
-    }
-    hkUint32 m_ulUserData;
-    QuantizedFloat8 m_fSlipAngle;
-    hkUint8 m_fElasticity;
-    QuantizedFloat8 m_usFlags;
-    hkUint8 m_flags;
-};
-
-class ContactImpulseInfo
-{
-  public:
-    hkReal m_fAccumulatedImpulse;
-    hkReal m_fImpulseLimit;
-};
-
-class PhysicsMaterial : public ContactImpulseInfo, public hkContactPointMaterial
-{
-  public:
-    hkReal m_uiUserData;
-};
+// Shared contact property declarations are in SimpleContactRhs.h.
 
 class UInt32Value
 {
@@ -925,28 +885,7 @@ __forceinline void addLastPosition(const hkVector4& pos, const hkVector4& dir, h
 }
 }
 
-extern hkReal DAT_011b6924;
-extern hkReal DAT_011b6928;
-
-__forceinline hkReal calculateRhs(const hkContactPoint* ccp, PhysicsMaterial& sr, hkReal distance, hkReal dt,
-                                  int& solverResultsModified)
-{
-    hkReal distanceOffset = sr.m_uiUserData;
-    hkReal RHS = distance - distanceOffset;
-    const hkReal estimatedRHS = -sr.m_fImpulseLimit;
-    const hkReal secondOrderError = estimatedRHS - RHS;
-    const hkReal maxDiff = dt * DAT_011b6924;
-    hkReal distanceOffsetRelaxation = MathUtilities::min2(-DAT_011b6928 * distanceOffset, maxDiff);
-    distanceOffset += distanceOffsetRelaxation;
-    RHS -= distanceOffsetRelaxation;
-    if (secondOrderError > 2.0 * distanceOffsetRelaxation + maxDiff)
-    {
-        distanceOffset -= secondOrderError;
-        RHS += secondOrderError;
-    }
-    sr.m_uiUserData = MathUtilities::min2(distanceOffset, -1.192092896e-07f);
-    return RHS;
-}
+// The retained calculateRhs body and its scalar storage live in simple_contact_rhs.cpp.
 
 // @fnv 0x00d72190
 extern "C" void __cdecl FUN_00d72190(Node* atomNode, Buffer* queryIn, int writeHeader, int* queryOut)

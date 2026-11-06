@@ -51,19 +51,7 @@
 #include "fnv/symbols_010e8000.h"
 #include "fnv/symbols_010e9000.h"
 #include "fnv/symbols_010ea000.h"
-struct Agg6
-{
-    const void* e[6];
-    Agg6(const void* a0, const void* a1, const void* a2, const void* a3, const void* a4, const void* a5)
-    {
-        e[0] = a0;
-        e[1] = a1;
-        e[2] = a2;
-        e[3] = a3;
-        e[4] = a4;
-        e[5] = a5;
-    }
-};
+#include "havok/PackfileTypeInfo.h"
 extern char d_0118aca0;
 extern char d_0118acbc;
 extern char d_0118b6f8;

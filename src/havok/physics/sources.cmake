@@ -95,6 +95,7 @@ set(VEGAS_HAVOK_PHYSICS_SOURCES
   src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesconnectivityclass.cpp
   src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp
   src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp
+  src/havok/physics/collide/shape/convex/cylinder/cylinder_settings.cpp
   src/havok/physics/collide/shape/convex/hkpconvexshape.cpp
   src/havok/physics/collide/shape/convex/sphere/hkpsphereshape.cpp
   src/havok/physics/collide/shape/convex/triangle/hkptriangleshape.cpp
@@ -102,6 +103,7 @@ set(VEGAS_HAVOK_PHYSICS_SOURCES
   src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape.cpp
   src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp
   src/havok/physics/collide/shape/deprecated/fastmesh/hkpfastmeshshape.cpp
+  src/havok/physics/collide/shape/deprecated/fastmesh/native_fast_mesh.cpp
   src/havok/physics/collide/shape/deprecated/mesh/hkpmeshshape.cpp
   src/havok/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.cpp
   src/havok/physics/collide/shape/deprecated/storagemesh/hkpstoragemeshshape.cpp
@@ -352,6 +354,8 @@ set(VEGAS_HAVOK_PHYSICS_SOURCES
   src/havok/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp
   src/havok/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollideclass.cpp
   src/havok/physics/vehicle/wheelcollide/rejectchassislistener/hkprejectchassislistener.cpp
+  src/havok/physics/collide/agent/compoundagent/bvtree/bvtree_cache.cpp
+  src/havok/physics/constraintsolver/constraint/contact/simple_contact_rhs.cpp
 )
 target_sources(game PRIVATE ${VEGAS_HAVOK_PHYSICS_SOURCES})
 # The units include project headers from include/. A pointer must never be narrowed to a 32-bit integer.

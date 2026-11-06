@@ -130,3 +130,53 @@ add_executable(runtime_clamped_acos_test
 )
 target_include_directories(runtime_clamped_acos_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
 add_test(NAME runtime.clamped_acos COMMAND runtime_clamped_acos_test)
+
+find_package(Threads REQUIRED)
+set(HAVOK_PACKFILE_RUNTIME_SOURCES
+  ${PROJECT_SOURCE_DIR}/src/runtime/havok_memory_prerequisite.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/shape/deprecated/fastmesh/native_fast_mesh.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/packfile/native_fast_mesh_packfile.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/util/native_packfile_loader.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/util/packfile_load.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/data/native/native_world.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/packfile/packfile_data_finishing.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/util/builtin_type_registry.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/util/packfile_registry_finishing.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/util/packfile_resource.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/data/dict/dictionary_world.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/data/dict/dictionary_reflection.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/data/util/dictionary_conversion.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/tagfile/binary/dictionary_reader.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/util/serializer_entry.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/packfile/native_resource_statistics.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/base/memory/allocator/freelist/native_system_allocator.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/base/memory/allocator/native_memory_allocator.cpp
+)
+foreach(suite IN ITEMS havok_fast_mesh_materialization havok_fast_mesh_loader havok_packfile_registry_resource havok_builtin_global_protocol havok_native_world_second_finish havok_legacy_packfile_builder havok_dictionary_serializer)
+  add_executable(runtime_${suite}_test runtime/${suite}_test.cpp ${HAVOK_PACKFILE_RUNTIME_SOURCES})
+  target_include_directories(runtime_${suite}_test PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+  target_link_libraries(runtime_${suite}_test PRIVATE Threads::Threads)
+  add_test(NAME runtime.${suite} COMMAND runtime_${suite}_test)
+endforeach()
+
+add_executable(runtime_havok_bvtree_cache_test runtime/havok_bvtree_cache_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/agent/compoundagent/bvtree/bvtree_cache.cpp)
+target_include_directories(runtime_havok_bvtree_cache_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+add_test(NAME runtime.havok_bvtree_cache COMMAND runtime_havok_bvtree_cache_test)
+
+add_executable(runtime_havok_simple_contact_rhs_test runtime/havok_simple_contact_rhs_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/physics/constraintsolver/constraint/contact/simple_contact_rhs.cpp)
+target_include_directories(runtime_havok_simple_contact_rhs_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+add_test(NAME runtime.havok_simple_contact_rhs COMMAND runtime_havok_simple_contact_rhs_test)
+
+add_executable(runtime_havok_cylinder_settings_test runtime/havok_cylinder_settings_test.cpp)
+target_include_directories(runtime_havok_cylinder_settings_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+if(WIN32)
+  target_link_libraries(runtime_havok_cylinder_settings_test PRIVATE game)
+else()
+  target_sources(runtime_havok_cylinder_settings_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/shape/convex/cylinder/cylinder_settings.cpp
+    ${PROJECT_SOURCE_DIR}/src/havok/common/base/math/scalar_constants.cpp)
+endif()
+add_test(NAME runtime.havok_cylinder_settings COMMAND runtime_havok_cylinder_settings_test)

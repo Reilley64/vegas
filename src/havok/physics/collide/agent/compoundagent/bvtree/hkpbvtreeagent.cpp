@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include "havok/BvTreeCache.h"
 #include "havok/hkpCollisionDispatcher.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>

@@ -1,0 +1,116 @@
+--- a/src/generated/data/havok/common/base/types/hkrefvariant.inc
++++ b/src/generated/data/havok/common/base/types/hkrefvariant.inc
+@@ -8 +7,0 @@
+-intptr_t DAT_01269b10;
+--- a/src/generated/data/havok/common/serialize/util/hkbuiltintyperegistry.inc
++++ b/src/generated/data/havok/common/serialize/util/hkbuiltintyperegistry.inc
+@@ -197,2 +196,0 @@
+-intptr_t DAT_01269b14;
+-intptr_t DAT_01269b18;
+--- a/src/generated/data/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.inc
++++ b/src/generated/data/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.inc
+@@ -10 +9,0 @@
+-unsigned char DAT_011b4284 = 1;
+--- a/src/generated/data/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.inc
++++ b/src/generated/data/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.inc
+@@ -5,2 +4,0 @@
+-float DAT_011b5be0 = 2.6874115f;
+-float DAT_011b5be4 = 0.37210527f;
+--- a/src/generated/data/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.inc
++++ b/src/generated/data/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.inc
+@@ -4,3 +3,0 @@
+-
+-hkReal DAT_011b6924 = 1.0f;
+-hkReal DAT_011b6928 = 0.05f;
+--- a/src/generated/data/staging/blk_00d20000_o2.inc
++++ b/src/generated/data/staging/blk_00d20000_o2.inc
+@@ -6 +5,0 @@
+-unsigned char DAT_011b4284 = 1;
+--- a/src/generated/data/staging/blk_00d40000_o2.inc
++++ b/src/generated/data/staging/blk_00d40000_o2.inc
+@@ -4,4 +3,0 @@
+-
+-double DAT_010d0f08 = 0.7070000171661377;
+-float DAT_011b5be0 = 2.6874115f;
+-float DAT_011b5be4 = 0.37210527f;
+--- a/src/generated/data/staging/blk_00d60000_o2.inc
++++ b/src/generated/data/staging/blk_00d60000_o2.inc
+@@ -5,2 +4,0 @@
+-float DAT_011b6924 = 1.0f;
+-float DAT_011b6928 = 0.05f;
+--- a/src/generated/data/vtables.h
++++ b/src/generated/data/vtables.h
+@@ -1643 +1642,0 @@
+-extern void* fnv_vftable_fnv_00db7a20_Thing[] __asm__("?DAT_010cf7b0@fnv_00d47d70@@3HA");
+@@ -1758 +1756,0 @@
+-extern void* fnv_vftable_DAT_010d6a94[] __asm__("DAT_010d6a94");
+@@ -1910 +1907,0 @@
+-extern void* fnv_vftable_DAT_010ea51c[] __asm__("DAT_010ea51c");
+--- a/src/generated/data/vtables_010c.cpp
++++ b/src/generated/data/vtables_010c.cpp
+@@ -1716 +1716 @@
+-extern "C" void fnv_fn_00d477c0() __asm__("?RegisterInputSource@@YAXPEAUD477C0Input@@PEAUD477C0Source@@@Z");
++extern "C" void fnv_fn_00d477c0() __asm__("?RegisterInputSource@@YAXPEAUAgg6@@PEBVhkClass@@@Z");
+@@ -1718,7 +1718,3 @@
+-extern "C" void fnv_fn_00d47900() __asm__("?FindEntryAndCall@hkObjD479@@QEAAPEAUhkEntryD479@@PEAX0@Z");
+-extern "C" void fnv_fn_00d47940() __asm__("?FUN_00d47940@FUN_00d47940_Obj@@QEAAPEAXHH@Z");
+-extern "C" void fnv_fn_00d47970() __asm__("?FUN_00d47970@FUN_00d47970_Class@@QEAAXPEAX@Z");
+-extern "C" void fnv_fn_00d479e0() __asm__("?FUN_00d479e0@FUN_00d479e0_class@@QEAAPEAXPEBX@Z");
+-extern "C" void fnv_fn_00d47a00() __asm__("?FUN_00d47a00@@YAHXZ");
+-extern "C" void fnv_fn_00d47a10() __asm__("?FUN_00d47a10@@YAHXZ");
+-extern "C" void fnv_fn_00d47a20() __asm__("?FUN_00d47a20@@YAHXZ");
++extern "C" void fnv_fn_00d47a00() __asm__("?FUN_00d47a00@@YA_JXZ");
++extern "C" void fnv_fn_00d47a10() __asm__("?FUN_00d47a10@@YA_JXZ");
++extern "C" void fnv_fn_00d47a20() __asm__("?FUN_00d47a20@@YA_JXZ");
+@@ -1734 +1730 @@
+-extern "C" void fnv_fn_00d47c40() __asm__("?LookupClassByVtable@hkVtableClassRegistry@@QEAAKPEBK@Z");
++extern "C" void fnv_fn_00d47c40() __asm__("?LookupClassByVtable@hkVtableClassRegistry@@QEAA_KPEBK@Z");
+@@ -8661,11 +8657,2 @@
+-// ??_7Thing@fnv_00db7a20@@6B@
+-void* fnv_vftable_fnv_00db7a20_Thing[] = {
+-    reinterpret_cast<void*>(&fnv_fn_00d47b70),
+-    reinterpret_cast<void*>(&fnv_fn_00c90350),
+-    reinterpret_cast<void*>(&fnv_fn_00c90360),
+-    reinterpret_cast<void*>(&fnv_fn_00d478e0),
+-    reinterpret_cast<void*>(&fnv_fn_00d47900),
+-    reinterpret_cast<void*>(&fnv_fn_00d47940),
+-    reinterpret_cast<void*>(&fnv_fn_00d47970),
+-    reinterpret_cast<void*>(&fnv_fn_00d479e0),
+-};
++// The native packfile registry is constructed as hkObjD479 and uses its
++// compiler-owned virtual table, not the former raw registry table.
+--- a/src/generated/data/vtables_010d.cpp
++++ b/src/generated/data/vtables_010d.cpp
+@@ -424,2 +423,0 @@
+-extern "C" void fnv_fn_00dc0ec0() __asm__("?FUN_00dc0ec0@FUN_00dc0ec0_cls@@QEAAHHH@Z");
+-extern "C" void fnv_fn_00dc0ed0() __asm__("?FUN_00dc0ed0@FUN_00dc0ed0_class@@QEAAXHH@Z");
+@@ -2003,11 +2001,2 @@
+-// _DAT_010d6a94
+-void* fnv_vftable_DAT_010d6a94[] = {
+-    nullptr, // ??_GFUN_00dc0f80@fnv_00dc0f80@@UAEPAXI@Z: no definition
+-    reinterpret_cast<void*>(&fnv_fn_00c90350),
+-    reinterpret_cast<void*>(&fnv_fn_00c90360),
+-    reinterpret_cast<void*>(&fnv_fn_00dc0eb0),
+-    reinterpret_cast<void*>(&fnv_fn_00dc0ef0),
+-    reinterpret_cast<void*>(&fnv_fn_00dc0ed0),
+-    reinterpret_cast<void*>(&fnv_fn_00dc0ec0),
+-    reinterpret_cast<void*>(&fnv_fn_00be0aa0),
+-};
++// Native packfile resources are constructed C++ owners. Their virtual tables
++// are compiler-owned; the former raw resource table is no longer published.
+--- a/src/generated/data/vtables_010e.cpp
++++ b/src/generated/data/vtables_010e.cpp
+@@ -1393,11 +1393,2 @@
+-// _DAT_010ea51c
+-void* fnv_vftable_DAT_010ea51c[] = {
+-    reinterpret_cast<void*>(&fnv_fn_00e05970),
+-    reinterpret_cast<void*>(&fnv_fn_00c90350),
+-    reinterpret_cast<void*>(&fnv_fn_00e05250),
+-    reinterpret_cast<void*>(&fnv_fn_00cc0760),
+-    reinterpret_cast<void*>(&fnv_fn_00e05370),
+-    reinterpret_cast<void*>(&fnv_fn_00e05410),
+-    reinterpret_cast<void*>(&fnv_fn_00e055f0),
+-    reinterpret_cast<void*>(&fnv_fn_00e05140),
+-};
++// The former packfile byte-layout table has no source construction/publication.
++// Native resource vtables are emitted for their actual C++ owners.

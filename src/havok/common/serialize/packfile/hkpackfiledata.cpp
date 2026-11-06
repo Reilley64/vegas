@@ -38,40 +38,13 @@ struct FUN_00cb1930_Class
     void* m_iUnknownValue;
 };
 
-struct FUN_00e05140_Class
-{
-    void* m_kPointA;
-    void* m_kPointB;
-    void* m_iThirdValue;
-    uintptr_t FUN_00e05140();
-};
-// @fnv 0x00e05140
-uintptr_t FUN_00e05140_Class::FUN_00e05140()
-{
-    if (m_iThirdValue)
-        return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00cb1930_Class*)((char*)this + 0x10))))->LookupHashEntry((intptr_t)(m_iThirdValue), 0)));
-    return 0;
-}
+// Native class lookup belongs to the actual owner in packfile_data_finishing.cpp.
 
 struct hkReferencedObject
 {
 };
 
-struct hkPackFileData
-{
-    hkReferencedObject* m_pObject;
-    void SetObject(hkReferencedObject* pObject);
-};
-
-// @fnv 0x00e05160
-void hkPackFileData::SetObject(hkReferencedObject* pObject)
-{
-    if (pObject)
-        reinterpret_cast<::FUN_00c90510_class *>((pObject))->FUN_00c90510();
-    if (*(hkReferencedObject**)((char*)this + 0x2c))
-        reinterpret_cast<::hkReferencedObjectC905 *>(((*(hkReferencedObject**)((char*)this + 0x2c))))->FUN_00c905b0();
-    *(hkReferencedObject**)((char*)this + 0x2c) = pObject;
-}
+// Native retention belongs to the resource owner, not a +0x2c receiver view.
 
 struct FUN_00e05950_class
 {
@@ -159,82 +132,8 @@ void FUN_00e05550_Class::AppendPair(int aiFirst, int aiSecond)
     slot[1] = aiSecond;
 }
 
-struct FUN_00e05250_Archive
-{
-    void** m_ppVirtualMethodTable;
-    char m_auiShapeKeys[0x0c];
-    unsigned char m_flag;
-};
-
-struct FUN_00e05250_Class
-{
-    char m_auiShapeKeys[0x34];
-    void* m_memoryData;
-    int m_memorySize;
-    int m_memoryHashSize;
-    void* m_chunksData;
-    int m_chunksSize;
-    int m_chunksHashSize;
-    void* m_exportsData;
-    int m_exportsSize;
-    int m_exportsHashSize;
-    void* m_importsData;
-    int m_importsSize;
-    int m_importsHashSize;
-
-    void WriteSections(FUN_00e05250_Archive* pArchive, int unused);
-};
-
-typedef void(* FUN_00e05250_Write)(FUN_00e05250_Archive*, int, const char*, void*, int, int);
-
-
-// @fnv 0x00e05250
-void FUN_00e05250_Class::WriteSections(FUN_00e05250_Archive* pArchive, int)
-{
-    if ((m_memoryHashSize & 0x80000000) == 0 || pArchive->m_flag != 0)
-    {
-        void* data = m_memoryData;
-        int size = (m_memoryHashSize & 0x3fffffff) * 4;
-        int hash = ::fnv_00d06f80::FUN_00d06f80((const char *)(data), size);
-
-        FUN_00e05250_Write write = reinterpret_cast<FUN_00e05250_Write>(pArchive->m_ppVirtualMethodTable[5]);
-
-        write(pArchive, 3, "memory", m_memoryData, m_memorySize * 4, hash);
-    }
-
-    if ((m_chunksHashSize & 0x80000000) == 0 || pArchive->m_flag != 0)
-    {
-        void* data = m_chunksData;
-        int size = (m_chunksHashSize & 0x3fffffff) * 12;
-        int hash = ::fnv_00d06f80::FUN_00d06f80((const char *)(data), size);
-
-        FUN_00e05250_Write write = reinterpret_cast<FUN_00e05250_Write>(pArchive->m_ppVirtualMethodTable[5]);
-
-        write(pArchive, 3, "chunks", m_chunksData, m_chunksSize * 12, hash);
-    }
-
-    if ((m_exportsHashSize & 0x80000000) == 0 || pArchive->m_flag != 0)
-    {
-        void* data = m_exportsData;
-        int size = (m_exportsHashSize & 0x3fffffff) * 8;
-        int hash = ::fnv_00d06f80::FUN_00d06f80((const char *)(data), size);
-
-        FUN_00e05250_Write write = reinterpret_cast<FUN_00e05250_Write>(pArchive->m_ppVirtualMethodTable[5]);
-
-        write(pArchive, 3, "exports", m_exportsData, m_exportsSize * 8, hash);
-    }
-
-    if ((m_importsHashSize & 0x80000000) == 0 || pArchive->m_flag != 0)
-    {
-        void* data = m_importsData;
-        int size = (m_importsHashSize & 0x3fffffff) * 8;
-        int hash = ::fnv_00d06f80::FUN_00d06f80((const char *)(data), size);
-
-        FUN_00e05250_Write write = reinterpret_cast<FUN_00e05250_Write>(pArchive->m_ppVirtualMethodTable[5]);
-
-        write(pArchive, 3, "imports", m_importsData, m_importsSize * 8, hash);
-    }
-}
+// Native resource statistics and its real collector protocol are owned by
+// native_resource_statistics.cpp; no raw virtual-slot receiver remains here.
 
 struct ByteSink
 {
@@ -391,45 +290,8 @@ void FUN_00e05410_Owner::CopyPairArrays(hkArrayE054<PairE054>& kFirstOut, hkArra
     kSecondOut = m_iSecondInteger;
 }
 
-struct FUN_00dce8d0_class
-{
-};
-
-struct FUN_00d874d0_s
-{
-};
-
-struct hkBoolE055
-{
-    char m_bValue;
-    hkBoolE055()
-    {}
-};
-
-struct hkClassE055
-{
-    hkBoolE055 FUN_00d46d80(const hkClassE055& kOther) const;
-};
-
-class hkClassRegistryE055
-{
-  public:
-    virtual void V0();
-    virtual void V1();
-    virtual void V2();
-    virtual void V3();
-    virtual const hkClassE055* GetClassByName(const char* pcName) const;
-};
-
-class hkFinishRegistryE055
-{
-  public:
-    virtual void V0();
-    virtual void V1();
-    virtual void V2();
-    virtual void V3();
-    virtual int RegisterLoadedObject(void* pvObject, const char* pcClassName) const;
-};
+// Native class/finish registry receivers are declared shared owners now;
+// unrelated legacy virtual receiver views are not used for native resources.
 
 struct hkPointerMapPairE055
 {
@@ -463,60 +325,8 @@ struct hkPointerMapE055 : public FUN_00e05950_class
     }
 };
 
-class hkPackfileDataE055
-{
-  public:
-    int m_iUnk00;
-    int m_iUnk04;
-    void* m_pvTopLevelObject;
-    int m_iUnk0c;
-    hkPointerMapE055 m_kTrackedTypes;
-    FUN_00d874d0_s m_kFinishedTypes;
-    int m_aiUnk20[3];
-    hkClassRegistryE055* m_pkClassRegistry;
-
-    void* FUN_00e055f0(const char* pcExpectedClassName, const hkFinishRegistryE055* pkFinish);
-};
-
-// @fnv 0x00e055f0
-void* hkPackfileDataE055::FUN_00e055f0(const char* pcExpectedClassName, const hkFinishRegistryE055* pkFinish)
-{
-    if (m_pvTopLevelObject)
-    {
-        const char* pcTopClassName =
-            (const char*)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00dce8d0_class*)&m_kTrackedTypes)))->LookupHashEntry((intptr_t)m_pvTopLevelObject, 0));
-        if (pcExpectedClassName)
-        {
-            const hkClassRegistryE055* pkRegistry = m_pkClassRegistry;
-            const hkClassE055* pkTopClass = pkRegistry->GetClassByName(pcTopClassName);
-            const hkClassE055* pkExpected = pkRegistry->GetClassByName(pcExpectedClassName);
-            if (!pkExpected->FUN_00d46d80(*pkTopClass).m_bValue)
-                goto fail;
-        }
-        if (((int)(reinterpret_cast<::FUN_00e05240_cls *>(this)->FUN_00e05240())) == 0 && pkFinish)
-        {
-            bool bFailed = false;
-            for (int i = m_kTrackedTypes.FindFirstNonEmptySlot(); m_kTrackedTypes.isValid(i);
-                 i = m_kTrackedTypes.getNext(i))
-            {
-                void* pvObject = (void*)m_kTrackedTypes.GetIteratorKey(i);
-                const char* pcClassName = (const char*)m_kTrackedTypes.getValue(i);
-                int iInfo = pkFinish->RegisterLoadedObject(pvObject, pcClassName);
-                if (iInfo)
-                    reinterpret_cast<::hkStringMapD874 *>(&(m_kFinishedTypes))->FUN_00d874d0(pcClassName, iInfo);
-                else
-                    bFailed = true;
-            }
-            if (bFailed)
-                goto fail;
-        }
-        return m_pvTopLevelObject;
-    }
-fail:
-    return 0;
-}
-
-extern "C" const void* DAT_010ea51c;
+// The native hkPackfileDataE055 owner and retained second finishing entry
+// are declared in NativeWorld.h and implemented in packfile_data_finishing.cpp.
 
 void __cdecl FUN_00c856c0(void* heap, void* ptr);
 
@@ -580,78 +390,8 @@ struct Map2Type
     int m_iFourthElementInteger;
 };
 
-struct FUN_00e057c0_Class
-{
-    const void* vtable;
-    int unk04;
-    int unk08;
-    void* unk0c;
-    Map1Type m_map1;
-    Map2Type m_map2;
-    hkReferencedObject* m_obj;
-    int unk30;
-    hkArray<void*> m_pMemoryAllocator;
-    hkArray<Chunk> m_kChunks;
-    hkArray<Export> m_kExports;
-    hkArray<Import> m_kImports;
-
-    void FUN_00e057c0();
-};
-
-class FUN_00e057c0
-{
-  public:
-    ~FUN_00e057c0() throw();
-};
-
-class hkMemoryAllocatorXe05970
-{
-  public:
-    virtual ~hkMemoryAllocatorXe05970() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterXe05970
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorXe05970* m_pStreamAllocator;
-
-    hkMemoryAllocatorXe05970& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-class hkObje05970 : public FUN_00e057c0
-{
-  public:
-    hkObje05970* FUN_00e05970(unsigned int uiFlags) throw();
-
-    static void operator delete(void* p) throw()
-    {
-        static_cast<hkMemoryRouterXe05970*>(FUN_00c85750())
-            ->heap()
-            .ReleaseBlock(p, static_cast<hkObje05970*>(p)->GetAllocationSize());
-    }
-    int GetAllocationSize() const
-    {
-        return reinterpret_cast<const unsigned short*>(this)[2];
-    }
-};
-
-// Calls the base destructor, then deletes this object via hkObje05970::operator delete when uiFlags has bit 0 set, and returns this.
-// @fnv 0x00e05970
-hkObje05970* hkObje05970::FUN_00e05970(unsigned int uiFlags) throw()
-{
-    reinterpret_cast<::FUN_00e057c0_Class *>((this))->FUN_00e057c0();
-    if (uiFlags & 1)
-        hkObje05970::operator delete(this);
-    return this;
-}
+// The constructed resource destructor owns cleanup and exact-sized deallocation.
+// No deleting wrapper reads allocation size from an unrelated word prefix.
 
 struct Crux53_HkRouter
 {
@@ -824,56 +564,8 @@ struct FUN_00e05370_Class
     FUN_00e05370_Map map;
     void Clear();
 };
-// @fnv 0x00e057c0
-void FUN_00e057c0_Class::FUN_00e057c0()
-{
-    this->vtable = &DAT_010ea51c;
-    reinterpret_cast<::FUN_00e05370_Class *>((this))->Clear();
+// Native final cleanup is implemented by packfile_data_finishing.cpp.
 
-    int i;
-    for (i = 0; i < this->m_pMemoryAllocator.m_iElementCount; ++i)
-    {
-        void* item = this->m_pMemoryAllocator.m_data[i];
-        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
-        FUN_00c856c0(router->m_heap, item);
-    }
-
-    for (i = 0; i < this->m_kChunks.m_iElementCount; ++i)
-    {
-        int size = this->m_kChunks.m_data[i].size;
-        void* data = this->m_kChunks.m_data[i].data;
-        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
-        router->m_heap->blockFree(data, size);
-    }
-
-    void* unk0c = this->unk0c;
-    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
-    FUN_00c856c0(router->m_heap, unk0c);
-
-    hkMemoryRouter* r1 = &hkMemoryRouter::getInstance();
-    this->m_kImports.ClearAndRelease(r1->m_heap);
-
-    hkMemoryRouter* r2 = &hkMemoryRouter::getInstance();
-    this->m_kExports.ClearAndRelease(r2->m_heap);
-
-    hkMemoryRouter* r3 = &hkMemoryRouter::getInstance();
-    this->m_kChunks.ClearAndRelease(r3->m_heap);
-
-    hkMemoryRouter* r4 = &hkMemoryRouter::getInstance();
-    this->m_pMemoryAllocator.ClearAndRelease(r4->m_heap);
-
-    if (this->m_obj)
-    {
-        reinterpret_cast<::hkReferencedObjectC905 *>((this->m_obj))->FUN_00c905b0();
-    }
-    this->m_obj = 0;
-
-    reinterpret_cast<::FUN_00d877d0_class *>(&(this->m_map2))->FreeBuffer();
-
-    this->m_map1.ClearAndRelease();
-
-    this->vtable = (const void*)&(*reinterpret_cast<int *>(&::DAT_0102e388));
-}
 // Invokes each registered callback with its entry id, then resets field08 and clears the list and map.
 // @fnv 0x00e05370
 void FUN_00e05370_Class::Clear()
@@ -904,112 +596,4 @@ void FUN_00e05370_Class::Clear()
     reinterpret_cast<::FUN_00d87760_class *>(&(map))->ClearEntries();
 }
 
-struct FUN_00cb1fe0_Class
-{
-};
-
-struct FUN_00d87790_Class
-{
-};
-
-struct FUN_00c90510_Class
-{
-};
-
-struct FUN_01268B08_Obj
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0C();
-    virtual int vf10();
-};
-
-extern "C" const void* DAT_010ea51c;
-
-struct S00e05700_Arr
-{
-    void* m_data;
-    int m_iElementCount;
-    int m_capFlags;
-
-    void reset(int capFlags)
-    {
-        m_data = 0;
-        m_iElementCount = 0;
-        m_capFlags = capFlags;
-    }
-};
-
-struct S00e05700_Class
-{
-    const void* unk00;
-    char unk04;
-    char unk05;
-    unsigned short unk06;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    hkReferencedObject* unk2C;
-    int unk30;
-    S00e05700_Arr arr34;
-    S00e05700_Arr arr40;
-    S00e05700_Arr arr4C;
-    S00e05700_Arr arr58;
-
-    S00e05700_Class* FUN_00e05700();
-};
-
-// Initializes fields, resets four arrays, and assigns DAT_01268b08->vf10()'s result to unk2C.
-// @fnv 0x00e05700
-S00e05700_Class* S00e05700_Class::FUN_00e05700()
-{
-    int zero = 0;
-
-    unk06 = 1;
-    unk00 = reinterpret_cast<const void*>(&DAT_010ea51c);
-    unk08 = zero;
-    unk0C = zero;
-
-    int* first = &unk10;
-    first[0] = zero;
-    first[1] = zero;
-    first[2] = -1;
-
-    void* audio = FUN_00c85750();
-    void* audioObject = *reinterpret_cast<void**>(reinterpret_cast<char*>(audio) + 0x10);
-
-    reinterpret_cast<::FUN_00cb1fe0_t *>((reinterpret_cast<FUN_00cb1fe0_Class*>(first)))->EnsureCapacity((intptr_t)(audioObject), zero);
-
-    unsigned char flag = static_cast<unsigned char>(zero);
-    int flagArg = *reinterpret_cast<int*>(&flag);
-    new ((void *)(reinterpret_cast<FUN_00d87790_Class*>(&this->unk1C))) ::FUN_00d87790(flagArg);
-
-    unk2C = 0;
-    unk30 = 1;
-    arr34.reset(static_cast<int>(0x80000000u));
-    arr40.reset(static_cast<int>(0x80000000u));
-    arr4C.reset(static_cast<int>(0x80000000u));
-    arr58.reset(static_cast<int>(0x80000000u));
-
-    intptr_t result = (*reinterpret_cast<::FUN_01268B08_Obj * *>(&::DAT_01268b08))->vf10();
-
-    if (result != 0)
-    {
-        reinterpret_cast<::FUN_00c90510_class *>((reinterpret_cast<FUN_00c90510_Class*>(result)))->FUN_00c90510();
-    }
-
-    if (unk2C != 0)
-    {
-        reinterpret_cast<::hkReferencedObjectC905 *>((unk2C))->FUN_00c905b0();
-    }
-
-    unk2C = reinterpret_cast<hkReferencedObject*>(result);
-    return this;
-}
+// S00e05700_Class construction is a real C++ factory in native_world.cpp.

@@ -3530,14 +3530,6 @@ void* __cdecl FUN_00e027a0()
     return &(*reinterpret_cast<int *>(&::DAT_010c9314));
 }
 
-// @fnv 0x00e030c0
-int __cdecl ReadIntAtOffset(intptr_t index, int* data)
-{
-    int base = *data;
-    *data = base + 4;
-    return *(int*)(base + index);
-}
-
 // @fnv 0x00e04a80
 void __cdecl UpdateStateFlags(void* pData)
 {
@@ -4270,28 +4262,6 @@ void __cdecl ConstructDerivedObject(void* pvObject, int iFinishing)
         flag.m_bFinishing = iFinishing;
         new (pvObject) hkDerivedE00(flag);
     }
-}
-
-// Returns the null-terminated string at base + *offset, advances *offset past the string plus padding to a 4-byte boundary.
-// @fnv 0x00e02f30
-char* __cdecl ReadPaddedString(char* base, int* piOffset)
-{
-    char* s = base + *piOffset;
-    unsigned int n = 0;
-    if (s[0] != 0)
-    {
-        do
-        {
-            ++n;
-        } while (s[n] != 0);
-    }
-    ++n;
-    while ((n & 3) != 0)
-    {
-        ++n;
-    }
-    *piOffset += n;
-    return s;
 }
 
 class BE04D90PointerMap
@@ -7153,94 +7123,6 @@ void S00e0bf50_Call(S00e0bf50_Acc* dst, S00e0bf50_Acc* src)
     FUN_00e0bf50(dst, src);
 }
 
-template <int SIZE> __forceinline void memCpyOneAlignedE030(void* dst, const void* src)
-{
-    const unsigned int* s = (const unsigned int*)src;
-    unsigned int* d = (unsigned int*)dst;
-    int i = 0;
-    do
-    {
-        d[i] = s[i];
-    } while (++i < SIZE / 4);
-}
-
-namespace hkRouterE030 {
-}
-
-template <class T> class hkArrayE030
-{
-  public:
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    __forceinline void AddBack(const T& e)
-    {
-        hkMemoryRouter& router = hkMemoryRouter::getInstance();
-        if (m_iElementCount == getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)(void *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
-        memCpyOneAlignedE030<sizeof(T)>(m_data + m_iElementCount, &e);
-        m_iElementCount++;
-    }
-    __forceinline T& AllocatePair()
-    {
-        hkMemoryRouter& router = hkMemoryRouter::getInstance();
-        if (m_iElementCount == getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)(void *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
-        for (int i = 0; i < 1; ++i)
-            new (m_data + m_iElementCount + i) T;
-        return m_data[m_iElementCount++];
-    }
-};
-
-struct RangeE030
-{
-    const char* m_iStart;
-    int m_iFirstValue;
-};
-
-
-class ParserE030
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    const char* m_pcBegin;
-    const char* m_pcEnd;
-
-    void FUN_00e03010(intptr_t iOffset, hkArrayE030<RangeE030>& kOut);
-};
-
-// Reads offset/padded-string pairs from m_pcBegin+iOffset until -1 or the end, appending one RangeE030 per pair to kOut.
-// @fnv 0x00e03010
-void ParserE030::FUN_00e03010(intptr_t iOffset, hkArrayE030<RangeE030>& kOut)
-{
-    const char* pcData = m_pcBegin + iOffset;
-    int iPos = 0;
-    while (iPos < m_pcEnd - m_pcBegin)
-    {
-        int iOff = ::ReadIntAtOffset((intptr_t)(pcData), &iPos);
-        if (iOff == -1)
-            break;
-        const char* iStart = ::ReadPaddedString((char *)(pcData), &iPos);
-        RangeE030& kRange = kOut.AllocatePair();
-        kRange.m_iStart = iStart;
-        kRange.m_iFirstValue = (int)(iOff + iOffset);
-    }
-}
-
 struct Slot00e04e10
 {
     virtual void v00();
@@ -7465,73 +7347,6 @@ int FUN_00e16e20(intptr_t a, int b, float afThreshold)
     if (::FUN_00e13870((char *)(a), b) < afThreshold)
         return 1;
     return 0;
-}
-
-struct ExportPlacement;
-
-struct ExportRecord
-{
-    const char* name;
-    void* object;
-};
-struct ExportAlloc
-{
-    __forceinline hkMemoryRouter& get(void*) const
-    {
-        return hkMemoryRouter::getInstance();
-    }
-};
-template <class T> __forceinline void createExportObjects(T* first, int count)
-{
-    for (int remaining = 0; remaining < count; ++remaining)
-        new (reinterpret_cast<ExportPlacement*>(first + remaining)) T;
-}
-template <class T> struct ExportStorage
-{
-    T* data;
-    int size;
-    int capacity;
-    __forceinline int capacityValue() const
-    {
-        return capacity & 0x3fffffff;
-    }
-    __forceinline T& addWith(hkMemoryRouter& router)
-    {
-        if (size == capacityValue())
-            ::ResizeAudioStream((::AudioAllocator *)(void *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
-        createExportObjects(data + size, 1);
-        return data[size++];
-    }
-};
-template <class T, class A> struct ExportList : ExportStorage<T>
-{
-    __forceinline T& add()
-    {
-        return this->addWith(A().get(this));
-    }
-};
-struct ExportSection
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
-    int exportStart;
-    int exportEnd;
-    void ReadRecords(const void* base, ExportList<ExportRecord, ExportAlloc>& out) const;
-};
-// Reads offset/padded-string pairs from base+exportStart until -1 or exportEnd, appending a name and a pointer base+offset to out per pair.
-// @fnv 0x00e02f60
-void ExportSection::ReadRecords(const void* base, ExportList<ExportRecord, ExportAlloc>& out) const
-{
-    const char* stream = static_cast<const char*>(base) + exportStart;
-    for (int cursor = 0; cursor < exportEnd - exportStart;)
-    {
-        int iOffset = ::ReadIntAtOffset((intptr_t)(stream), &cursor);
-        if (iOffset == -1)
-            break;
-        const char* label = ::ReadPaddedString((char *)(stream), &cursor);
-        ExportRecord& entry = out.add();
-        entry.name = label;
-        entry.object = const_cast<char*>(static_cast<const char*>(base)) + iOffset;
-    }
 }
 
 // @fnv 0x00e0cce0

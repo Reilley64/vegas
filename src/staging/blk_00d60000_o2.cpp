@@ -2488,8 +2488,7 @@ void fnv_probe_d6c1d0()
     FUN_00d6c1d0(g_d6c1d0_out, g_d6c1d0_mat, g_d6c1d0_src);
 }
 
-extern float DAT_011b6924;
-extern float DAT_011b6928;
+#include "havok/SimpleContactSettings.h"
 struct IntegratorD720
 {
     float unk00;

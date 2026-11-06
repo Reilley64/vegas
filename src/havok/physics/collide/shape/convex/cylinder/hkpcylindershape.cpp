@@ -11,6 +11,7 @@
 #include "fnv/symbols_011b5000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpCylinderShape.h"
+#include "havok/CylinderSettings.h"
 
 // @fnv 0x00d571b0
 int __cdecl FUN_00d571b0()
@@ -355,7 +356,6 @@ struct CylShapeAdapter : public hkpCylinderShape
     void FUN_00d576d0(const unsigned short* ids, int numIds, CylVec4* verticesOut) const;
 };
 
-extern float DAT_011b5be4;
 struct CylSimd
 {
     __m128 m_vValue;
@@ -725,8 +725,6 @@ void CylinderShape_d57b70::FUN_00d57b70(const hkTransform* localToWorld, hkReal 
 // is replaced by the first constructor.
 extern const float DAT_010cb428 = 1.4210854715202004e-14f;
 extern const double DAT_0103c7c8 = (double)0.05f;
-extern float DAT_011b5be0;
-
 struct CylinderSupportArithmetic {
     __m128 q;
     __forceinline float dot(const CylinderSupportArithmetic& other) const {

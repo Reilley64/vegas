@@ -23,6 +23,6 @@ extern double DAT_0101ff48;
 // 0x0101ff58
 extern double DAT_0101ff58;
 // 0x0101ffa0
-extern const double DAT_0101ffa0;
+#include "havok/ScalarConstants.h"
 // 0x0101ffc0
 extern const float g_011cc6cc_arg1;

@@ -2394,19 +2394,7 @@ FnvCpu_FUN_00d57120_CpuObject* FnvCpu_FUN_00d57120_CpuObject::FUN_00d57120(unsig
 }
 }  // namespace fnv_00d57120
 
-extern double DAT_010d0f08;
-extern float DAT_011b5be0;
-extern float DAT_011b5be4;
-
-// Converts a bit count to bytes, computes a normalized scale from it, and stores the scale and its reciprocal in two globals.
-// @fnv 0x00d57160
-void ComputeByteScale(int bits)
-{
-    int bytes = bits / 8;
-    float v = (float)(((double)bytes - ::DAT_0101ffa0) / DAT_010d0f08);
-    DAT_011b5be0 = v;
-    DAT_011b5be4 = 1.0f / v;
-}
+#include "havok/CylinderSettings.h"
 
 class ObjBaseA
 {
@@ -6544,9 +6532,6 @@ int* FUN_00d4be80();
 void* __cdecl FUN_00d4bee0();
 
 void* __cdecl FUN_00d4bf00();
-
-void ComputeByteScale(int bits);
-
 
 void FUN_00d42760();
 

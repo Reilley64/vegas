@@ -4,8 +4,6 @@
 extern int DAT_010cf060;
 // 0x010cf220
 extern char DAT_010cf220[];
-// 0x010cf7b0
-namespace fnv_00d47d70 { extern int DAT_010cf7b0; }
 // 0x010cf7d4
 extern int DAT_010cf7d4;
 // 0x010cf804

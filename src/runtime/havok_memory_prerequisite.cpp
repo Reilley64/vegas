@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <limits>
 #include <new>
+#include <stdexcept>
 
 namespace havok::native_memory
 {
@@ -87,6 +88,29 @@ Router::StackScope::~StackScope()
 System::System(Allocator& allocator, ScratchBytes workerScratch) noexcept
     : allocator(allocator), workerScratch(workerScratch) {}
 
+System::System(std::shared_ptr<Allocator> supplier, ScratchBytes workerScratch)
+    : ownedAllocator(std::move(supplier)),
+      allocator(ownedAllocator ? *ownedAllocator : throw std::invalid_argument("null native supplier")),
+      workerScratch(workerScratch) {}
+
+std::shared_ptr<Allocator> System::AcquireSupplier()
+{
+    std::lock_guard lock(mutex);
+    if (stopped || !ownedAllocator)
+        throw std::logic_error("native memory owner has no live owning supplier");
+    return ownedAllocator;
+}
+
+bool System::Shutdown() noexcept
+{
+    std::lock_guard lock(mutex);
+    for (const auto& record : records)
+        if (record.occupied) return false;
+    stopped = true;
+    ownedAllocator.reset();
+    return true;
+}
+
 System::~System()
 {
     for (const auto& record : records)
@@ -99,6 +123,7 @@ bool System::Reserve(Router& router)
     if (router.IsInitialized())
         return false;
     std::lock_guard lock(mutex);
+    if (stopped) return false;
     std::size_t index = 0;
     while (index < records.size() && records[index].occupied)
         ++index;

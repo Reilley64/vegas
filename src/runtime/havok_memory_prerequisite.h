@@ -3,6 +3,7 @@
 #include <array>
 #include <cstddef>
 #include <mutex>
+#include <memory>
 
 // Isolated native ownership operations, not installed game types or release layouts.
 // No solver/cache contract or thread-local publication is supplied here.
@@ -83,6 +84,13 @@ class System
 {
   public:
     explicit System(Allocator& allocator, ScratchBytes workerScratch) noexcept;
+    // Owned mode is used by serializer resources with native retained objects.
+    // A borrowed-router/reference constructor cannot produce an owning lease.
+    explicit System(std::shared_ptr<Allocator> allocator, ScratchBytes workerScratch);
+    std::shared_ptr<Allocator> AcquireSupplier();
+    // Refuse shutdown with attached workers; successful shutdown stops new
+    // admission/leases. Already acquired suppliers survive through final Free.
+    bool Shutdown() noexcept;
     ~System();
     System(const System&) = delete;
     System& operator=(const System&) = delete;
@@ -100,7 +108,9 @@ class System
   private:
     bool Reserve(Router& router);
     void Cleanup(Router& router, bool releaseRecord) noexcept;
+    std::shared_ptr<Allocator> ownedAllocator;
     Allocator& allocator;
+    bool stopped = false;
     const ScratchBytes workerScratch;
     std::mutex mutex;
     struct Record { bool occupied = false; };

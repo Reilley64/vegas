@@ -190,3 +190,13 @@ else()
   target_sources(runtime_d3dx_matrix_transpose_test PRIVATE ${PROJECT_SOURCE_DIR}/src/unmapped/d3dxmath.cpp)
 endif()
 add_test(NAME runtime.d3dx_matrix_transpose COMMAND runtime_d3dx_matrix_transpose_test)
+
+# Test the existing typed inverse entry against the real native provider.
+add_executable(runtime_d3dx_matrix_inverse_test runtime/d3dx_matrix_inverse_test.cpp)
+target_include_directories(runtime_d3dx_matrix_inverse_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+if(WIN32)
+  target_link_libraries(runtime_d3dx_matrix_inverse_test PRIVATE game)
+else()
+  target_sources(runtime_d3dx_matrix_inverse_test PRIVATE ${PROJECT_SOURCE_DIR}/src/unmapped/d3dxmath.cpp)
+endif()
+add_test(NAME runtime.d3dx_matrix_inverse COMMAND runtime_d3dx_matrix_inverse_test)

@@ -53,6 +53,7 @@ set(VEGAS_ROOT_SOURCES
   "src/unmapped/cuassembler.cpp"
   "src/unmapped/d3dx9shader.cpp"
   "src/unmapped/d3dxmath.cpp"
+  "src/unmapped/set_affine_matrix.cpp"
   "src/unmapped/debugtextactor.cpp"
   "src/unmapped/debugtextmanager.cpp"
   "src/unmapped/debugtextmedia.cpp"

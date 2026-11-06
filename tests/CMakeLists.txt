@@ -180,3 +180,13 @@ else()
     ${PROJECT_SOURCE_DIR}/src/havok/common/base/math/scalar_constants.cpp)
 endif()
 add_test(NAME runtime.havok_cylinder_settings COMMAND runtime_havok_cylinder_settings_test)
+
+# Test the existing public transpose entry; no inverse or D3DX test provider.
+add_executable(runtime_d3dx_matrix_transpose_test runtime/d3dx_matrix_transpose_test.cpp)
+target_include_directories(runtime_d3dx_matrix_transpose_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+if(WIN32)
+  target_link_libraries(runtime_d3dx_matrix_transpose_test PRIVATE game)
+else()
+  target_sources(runtime_d3dx_matrix_transpose_test PRIVATE ${PROJECT_SOURCE_DIR}/src/unmapped/d3dxmath.cpp)
+endif()
+add_test(NAME runtime.d3dx_matrix_transpose COMMAND runtime_d3dx_matrix_transpose_test)

@@ -1,72 +1,22 @@
-
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00ee6000.h"
 
-extern "C" __declspec(dllimport) void* D3DXMatrixTranspose(void* pOut, const void* pM);
+#include <cstring>
 
-// The import thunk for d3dx9 D3DXMatrixTranspose.
+// Native transpose of a 4x4 float matrix into caller-owned storage.
 // @fnv 0x00ee6dd4
 void* FUN_00ee6dd4(void* pOut, const void* pM)
 {
-    return D3DXMatrixTranspose(pOut, pM);
-}
-
-
-// Builds a 4x4 matrix from a 2D affine transform (layout depends on iMode), optionally inverts and transposes it, or sets identity when affine is null.
-// @fnv 0x00e83550
-void __cdecl SetAffineMatrix(float* afMatrix, const float* affine, bool bInvert, bool bTranspose, int iMode)
-{
-    if (affine)
-    {
-        afMatrix[0] = affine[0];
-        afMatrix[4] = affine[1];
-        afMatrix[1] = affine[3];
-        afMatrix[5] = affine[4];
-        if (iMode == 4 || iMode == 3)
-        {
-            afMatrix[8] = 0.0f;
-            afMatrix[12] = affine[2];
-            afMatrix[9] = 0.0f;
-            afMatrix[13] = affine[5];
-        }
-        else if (iMode == 2)
-        {
-            afMatrix[8] = affine[2];
-            afMatrix[12] = 0.0f;
-            afMatrix[9] = affine[5];
-            afMatrix[13] = 0.0f;
-        }
-        afMatrix[14] = 0.0f;
-        afMatrix[10] = 0.0f;
-        afMatrix[6] = 0.0f;
-        afMatrix[2] = 0.0f;
-        afMatrix[15] = 0.0f;
-        afMatrix[11] = 0.0f;
-        afMatrix[7] = 0.0f;
-        afMatrix[3] = 0.0f;
-        if (bInvert)
-            ::FUN_00ee6dda(afMatrix, nullptr, afMatrix);
-        if (bTranspose)
-            ::FUN_00ee6dd4(afMatrix, afMatrix);
-    }
-    else
-    {
-        afMatrix[14] = 0.0f;
-        afMatrix[13] = 0.0f;
-        afMatrix[12] = 0.0f;
-        afMatrix[11] = 0.0f;
-        afMatrix[9] = 0.0f;
-        afMatrix[8] = 0.0f;
-        afMatrix[7] = 0.0f;
-        afMatrix[6] = 0.0f;
-        afMatrix[4] = 0.0f;
-        afMatrix[3] = 0.0f;
-        afMatrix[2] = 0.0f;
-        afMatrix[1] = 0.0f;
-        afMatrix[15] = 1.0f;
-        afMatrix[10] = 1.0f;
-        afMatrix[5] = 1.0f;
-        afMatrix[0] = 1.0f;
-    }
+    static_assert(sizeof(float) == 4);
+    // Stage every element before writing pOut so exact in-place calls are safe.
+    // Copy representations rather than aliasing the callers' matrix structs.
+    unsigned char transposed[16 * sizeof(float)];
+    const auto* source = static_cast<const unsigned char*>(pM);
+    for (unsigned int row = 0; row < 4; ++row)
+        for (unsigned int column = 0; column < 4; ++column)
+            std::memcpy(transposed + (row * 4 + column) * sizeof(float),
+                        source + (column * 4 + row) * sizeof(float), sizeof(float));
+    std::memcpy(pOut, transposed, sizeof(transposed));
+    return pOut;
 }

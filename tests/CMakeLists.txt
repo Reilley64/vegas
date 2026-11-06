@@ -200,3 +200,13 @@ else()
   target_sources(runtime_d3dx_matrix_inverse_test PRIVATE ${PROJECT_SOURCE_DIR}/src/unmapped/d3dxmath.cpp)
 endif()
 add_test(NAME runtime.d3dx_matrix_inverse COMMAND runtime_d3dx_matrix_inverse_test)
+
+# Test the existing typed multiply entry and its public inverse/transpose pipeline.
+add_executable(runtime_d3dx_matrix_multiply_test runtime/d3dx_matrix_multiply_test.cpp)
+target_include_directories(runtime_d3dx_matrix_multiply_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+if(WIN32)
+  target_link_libraries(runtime_d3dx_matrix_multiply_test PRIVATE game)
+else()
+  target_sources(runtime_d3dx_matrix_multiply_test PRIVATE ${PROJECT_SOURCE_DIR}/src/unmapped/d3dxmath.cpp)
+endif()
+add_test(NAME runtime.d3dx_matrix_multiply COMMAND runtime_d3dx_matrix_multiply_test)

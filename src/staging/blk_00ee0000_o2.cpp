@@ -245,15 +245,6 @@ void __cdecl FUN_00ee6dda()
     __imp__D3DXMatrixInverse();
 }
 
-// FUN_00ee6de0: 6-byte 'jmp [IAT]' forwarder to d3dx9_38 D3DXMatrixMultiply (stdcall, 3 args).
-extern "C" __declspec(dllimport) void* D3DXMatrixMultiply(void* pOut, const void* pM1, const void* pM2);
-
-// @fnv 0x00ee6de0
-void* FUN_00ee6de0(void* pOut, const void* pM1, const void* pM2)
-{
-    return D3DXMatrixMultiply(pOut, pM1, pM2);
-}
-
 // FUN_00ee6de6: 6-byte jmp [IAT] stub forwarding to stdcall d3dx9_38 D3DXLoadSurfaceFromSurface (8 stack args).
 extern "C" __declspec(dllimport) int D3DXLoadSurfaceFromSurface(void* pDestSurface, const void* pDestPalette,
                                                                           const void* pDestRect, void* pSrcSurface,

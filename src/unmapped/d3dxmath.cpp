@@ -184,3 +184,29 @@ void* FUN_00ee6dda(void* pOut, float* pDeterminant, const void* pM)
     std::memcpy(pOut, inverse, sizeof(inverse));
     return pOut;
 }
+
+// Native row-major 4x4 float product, first * second, in borrowed storage.
+// Replaces the original D3DXMatrixMultiply forwarding leaf, not its SDK code.
+// @fnv 0x00ee6de0
+void* FUN_00ee6de0(void* pOut, const void* pM1, const void* pM2)
+{
+    static_assert(sizeof(float) == 4);
+    // Representation copies avoid imposing a struct type or alignment on callers.
+    // Stage both inputs and the output to support either exact alias and squaring.
+    float first[16], second[16], product[16];
+    std::memcpy(first, pM1, sizeof(first));
+    std::memcpy(second, pM2, sizeof(second));
+    for (unsigned int row = 0; row < 4; ++row)
+        for (unsigned int column = 0; column < 4; ++column)
+        {
+            // Double intermediates retain range for finite binary32 products;
+            // no epsilon, domain cutoff or original SDK bit-equivalence claim.
+            double value = 0;
+            for (unsigned int k = 0; k < 4; ++k)
+                value += double(first[row * 4 + k]) * second[k * 4 + column];
+            product[row * 4 + column] = std::fabs(value) > std::numeric_limits<float>::max() ?
+                std::copysign(std::numeric_limits<float>::infinity(), value) : static_cast<float>(value);
+        }
+    std::memcpy(pOut, product, sizeof(product));
+    return pOut;
+}

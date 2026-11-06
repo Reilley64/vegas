@@ -210,3 +210,14 @@ else()
   target_sources(runtime_d3dx_matrix_multiply_test PRIVATE ${PROJECT_SOURCE_DIR}/src/unmapped/d3dxmath.cpp)
 endif()
 add_test(NAME runtime.d3dx_matrix_multiply COMMAND runtime_d3dx_matrix_multiply_test)
+
+# Exercise the existing typed entry with genuine complete production objects.
+add_executable(runtime_d3dx_matrix_multiply_transpose_test runtime/d3dx_matrix_multiply_transpose_test.cpp)
+target_include_directories(runtime_d3dx_matrix_multiply_transpose_test PRIVATE
+  ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+if(WIN32)
+  target_link_libraries(runtime_d3dx_matrix_multiply_transpose_test PRIVATE game)
+else()
+  target_sources(runtime_d3dx_matrix_multiply_transpose_test PRIVATE ${PROJECT_SOURCE_DIR}/src/unmapped/d3dxmath.cpp)
+endif()
+add_test(NAME runtime.d3dx_matrix_multiply_transpose COMMAND runtime_d3dx_matrix_multiply_transpose_test)

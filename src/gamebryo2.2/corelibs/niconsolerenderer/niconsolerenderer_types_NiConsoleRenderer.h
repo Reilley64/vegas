@@ -13,7 +13,7 @@ class GeometryRelatedType;
 class Direct3DRenderState;
 class COMUnknownInterface;
 class RenderableGeometry;
-class D3DXMATRIX;
+struct D3DXMATRIX;
 class NiAccumulator;
 class NiBound;
 class RgbaColor;
@@ -457,7 +457,7 @@ class ShaderConstantLayout
     // unsigned int __cdecl ShaderConstantLayout::*()
     // unsigned int __cdecl ShaderConstantLayout::*()
 };
-class D3DXMATRIX : public _D3DMATRIX
+struct D3DXMATRIX : public _D3DMATRIX
 {
   public:
     // base _D3DMATRIX at +0x0, size 64

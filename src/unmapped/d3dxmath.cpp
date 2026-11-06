@@ -210,3 +210,14 @@ void* FUN_00ee6de0(void* pOut, const void* pM1, const void* pM2)
     std::memcpy(pOut, product, sizeof(product));
     return pOut;
 }
+
+// Native transposed product in caller-owned matrix storage.
+// @fnv 0x00ee6dfe
+D3DXMATRIX* FUN_00ee6dfe(D3DXMATRIX* pOut, const D3DXMATRIX* first, const D3DXMATRIX* second)
+{
+    // Stage the whole product before touching pOut, including exact aliases.
+    float product[16]{};
+    FUN_00ee6de0(product, first, second);
+    FUN_00ee6dd4(pOut, product);
+    return pOut;
+}

@@ -292,16 +292,6 @@ void* FUN_00ee6df8(void* pOut, const void* pV, const void* pM)
 
 struct D3DXMATRIX;
 
-extern "C" __declspec(dllimport) D3DXMATRIX* D3DXMatrixMultiplyTranspose(D3DXMATRIX* output,
-                                                                                   const D3DXMATRIX* first,
-                                                                                   const D3DXMATRIX* second);
-
-// @fnv 0x00ee6dfe
-D3DXMATRIX* FUN_00ee6dfe(D3DXMATRIX* output, const D3DXMATRIX* first, const D3DXMATRIX* second)
-{
-    return D3DXMatrixMultiplyTranspose(output, first, second);
-}
-
 // FUN_00ee6e04: 6-byte jmp [IAT] stub forwarding to stdcall d3dx9_38 D3DXMatrixRotationYawPitchRoll (4 args).
 extern "C" __declspec(dllimport) void* D3DXMatrixRotationYawPitchRoll(void* pOut, unsigned int Yaw,
                                                                                 unsigned int Pitch, unsigned int Roll);

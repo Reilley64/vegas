@@ -12,7 +12,7 @@ class BSPortal;
 class BSPortalGraph;
 class BSRenderedTexture;
 class BSShaderAccumulator;
-class D3DXMATRIX;
+struct D3DXMATRIX;
 class NiAVObject;
 class NiCamera;
 class NiFrustumPlanes;
@@ -61,7 +61,7 @@ class _D3DMATRIX
         float m[4][4];  // +0x0, 64 bytes
     };
 };
-class D3DXMATRIX : public _D3DMATRIX
+struct D3DXMATRIX : public _D3DMATRIX
 {
   public:
     // base _D3DMATRIX at +0x0, size 64

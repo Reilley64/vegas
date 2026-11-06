@@ -1,9 +1,4 @@
 #pragma once
 
-namespace fnv_00d543e0 {
-class FUN_00d543e0 {
-public:
-    // 0x00d543e0
-    ~FUN_00d543e0();
-};
-}
+#include "havok/hkpMoppBvTreeShape.h"
+// Cleanup at 0x00d543e0 is owned by the native MOPP destructor.

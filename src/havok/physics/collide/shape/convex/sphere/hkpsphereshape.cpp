@@ -17,21 +17,14 @@ void __cdecl FUN_00cd8040(char const* const* a1, char const* const* a2)
     reinterpret_cast<::FunctionContext *>((void *)(a1))->FUN_00c90360((void *)(&(*reinterpret_cast<const char *const *>(&::g_01268940))), {});
 }
 
-extern int DAT_010cb5ac;
-
 struct FUN_00cd8160 : hkpSphereShape
 {
     FUN_00cd8160(float radius);
 };
 
 // @fnv 0x00cd8160
-FUN_00cd8160::FUN_00cd8160(float radius)
+FUN_00cd8160::FUN_00cd8160(float radius) : hkpSphereShape(radius)
 {
-    m_fSphereRadius = radius;
-    m_sReferenceCount = 1;
-    m_ulUserData = 0;
-    m_type = 1;
-    *reinterpret_cast<const void**>(this) = &DAT_010cb5ac;
 }
 
 // @fnv 0x00cd8050

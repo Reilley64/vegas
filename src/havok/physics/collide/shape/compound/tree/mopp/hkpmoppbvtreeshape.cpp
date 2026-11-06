@@ -50,31 +50,6 @@ void FUN_00d54420_Owner::FUN_00d54420(int a, float b, int c)
 }
 
 
-struct FUN_00d54490
-{
-    FUN_00d54490(int, int);
-};
-
-struct FUN_00d544f0 : public FUN_00d54490
-{
-    int* m_vtable;
-    unsigned char m_bvTreeShapeBase[0x2c];  // filled by FUN_00d54490
-    int* m_childVtable;                     // +0x30, the hkpSingleShapeContainer child
-    hkReferencedObject* m_childShape;       // +0x34
-
-    FUN_00d544f0(hkReferencedObject*, int);
-};
-
-// @fnv 0x00d544f0
-FUN_00d544f0::FUN_00d544f0(hkReferencedObject* pReferencedObject, int value) : FUN_00d54490(10, value)
-{
-    m_vtable = &DAT_010d0dac;
-    m_childVtable = &DAT_010c6fd0;
-    m_childShape = pReferencedObject;
-
-    reinterpret_cast<::FUN_00c90510_class *>((pReferencedObject))->FUN_00c90510();
-}
-
 struct FUN_00d54930MemoryManager
 {
     virtual void ReportDiagnostic() = 0;
@@ -201,79 +176,6 @@ void FUN_00d54350_Obj::ForwardToTarget(const ::ObbQueryDetail::ObbTransform* a, 
     reinterpret_cast<::ObbQueryDetail::ObbMachine *>(&(local))->FUN_00dd1bf0((const ::ObbQueryDetail::ObbCodeView *)(unk14), a, b, c, d);
 }
 
-namespace fnv_00d543e0 {
-struct FUN_00c905b0_s
-{
-};
-
-class hkReferencedObjectD543
-{
-  public:
-    virtual ~hkReferencedObjectD543() throw()
-    {}
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-};
-
-class hkpShapeD543 : public hkReferencedObjectD543
-{
-  public:
-    unsigned long m_ulUserData;
-    unsigned int m_type;
-};
-
-class hkMoppBvTreeShapeBaseD543 : public hkpShapeD543
-{
-  public:
-    ~hkMoppBvTreeShapeBaseD543() throw()
-    {
-        reinterpret_cast<::hkReferencedObjectC905 *>((m_pMoppCode))->FUN_00c905b0();
-    }
-
-    int m_10;
-    FUN_00c905b0_s* m_pMoppCode;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-};
-
-class hkpShapeContainerD543
-{
-  public:
-    virtual ~hkpShapeContainerD543() throw()
-    {}
-};
-
-class hkpSingleShapeContainerD543 : public hkpShapeContainerD543
-{
-  public:
-    FUN_00c905b0_s* m_pContainedShape;
-
-    ~hkpSingleShapeContainerD543() throw()
-    {
-        if (m_pContainedShape)
-            reinterpret_cast<::hkReferencedObjectC905 *>((m_pContainedShape))->FUN_00c905b0();
-    }
-};
-
-class FUN_00d543e0 : public hkMoppBvTreeShapeBaseD543
-{
-  public:
-    virtual ~FUN_00d543e0() throw();
-
-    hkpSingleShapeContainerD543 m_pChildAtom;
-};
-
-// @fnv 0x00d543e0
-FUN_00d543e0::~FUN_00d543e0() throw()
-{}
-}  // namespace fnv_00d543e0
-
-
-
 struct FUN_00d1df70
 {
 };
@@ -399,42 +301,6 @@ int S00d54440_Obj::FUN_00d54440(int a, int aiUnused)
 }
 
 #include <xmmintrin.h>
-struct S00d54490_Ref
-{
-};
-struct S00d54490_Obj
-{
-    void* volatile unk00;
-    unsigned char unk04;
-    unsigned char unk05;
-    unsigned short volatile unk06;
-    int volatile unk08;
-    int unk0C;
-    volatile unsigned char unk10;
-    void* unk14;
-    hkUint8* unk18;
-    int unk1C;
-    float unk20[4];
-    S00d54490_Obj* FUN_00d54490(int arg1, const hkpMoppCode& arg2);
-};
-// Initializes the object from a hkpMoppCode, copying its code info and data and calling FUN_00c90510 on the source.
-// @fnv 0x00d54490
-S00d54490_Obj* S00d54490_Obj::FUN_00d54490(int arg1, const hkpMoppCode& arg2)
-{
-    const hkpMoppCode* src = &arg2;
-    this->unk06 = 1;
-    this->unk08 = 0;
-    this->unk0C = arg1;
-    this->unk10 = 0;
-    this->unk00 = &DAT_010d0d70;
-    this->unk14 = const_cast<hkpMoppCode*>(src);
-    reinterpret_cast<::FUN_00c90510_class *>(const_cast<hkpMoppCode*>(src))->FUN_00c90510();
-    *reinterpret_cast<__m128*>(&this->unk20) = *reinterpret_cast<const __m128*>(&src->m_info.m_offset);
-    this->unk18 = src->m_data.m_data;
-    this->unk1C = src->m_data.m_iElementCount;
-    return this;
-}
-
 namespace fnv_00d54520 {
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);

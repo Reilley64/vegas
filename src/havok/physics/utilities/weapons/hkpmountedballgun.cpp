@@ -163,7 +163,7 @@ template struct hkQueueQ<hkpRigidBody*>;
 
 // Moved from hkpmountedballgun_rtm_variant.cpp (VEGAS-15).
 #include "fnv/decl/FUN_00c91620_Class.h"
-#include "fnv/decl/FUN_00cd8160.h"
+#include "havok/hkpSphereShape.h"
 #include "fnv/decl/Owner.h"
 #include "fnv/decl/S00ca8c90_Body.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -183,16 +183,10 @@ struct S00e451b0_ZScalar
     {}
 };
 struct S00e451b0_ZInfo;
-struct S00e451b0_ZSphere
-{
-    int unk00;
-    unsigned short unk04;
-    short unk06;
-};
 struct __declspec(align(16)) S00e451b0_ZInfo
 {
     int unk00;
-    S00e451b0_ZSphere* unk04;
+    hkpSphereShape* unk04;
     int unk08, unk0c;
     __m128 unk10, unk20, unk30, unk40, unk50, unk60, unk70, unk80;
     float unk90, unk94, unk98, unk9c, unkA0, unkA4, unkA8, unkAc, unkB0;
@@ -278,9 +272,7 @@ void S00e451b0_ZGun::FUN_00e451b0(S00e451b0_ZWorld* world, const hkTransform* tr
         _mm_mul_ps(_mm_shuffle_ps(distance.q, distance.q, 0), direction), start);
     S00e451b0_ZInfo info;
     reinterpret_cast<::Owner *>(&(info))->FUN_00cf5ea0();
-    S00e451b0_ZSphere* sphere = (S00e451b0_ZSphere*)hkMemoryRouter::getInstance().heap().blockAlloc(0x20);
-    sphere->unk04 = 0x20;
-    sphere = ((::S00e451b0_ZSphere *)(new ((void *)(sphere)) ::FUN_00cd8160(m_fBulletRadius)));
+    hkpSphereShape* sphere = createBulletShape();
     info.unk90 = m_fBulletMass;
     __m128 position = *(__m128*)&m_vContactPosition;
     info.unkB0 = 0.01f;
@@ -311,7 +303,7 @@ void S00e451b0_ZGun::FUN_00e451b0(S00e451b0_ZWorld* world, const hkTransform* tr
     S00e451b0_ZBody* body = (S00e451b0_ZBody*)hkMemoryRouter::getInstance().heap().blockAlloc(0x220);
     body->unk04 = 0x220;
     body = ((::S00e451b0_ZBody *)(reinterpret_cast<::S00ca8c90_Body *>((body))->FUN_00ca8c90((*(const ::CInfo181 *)(&info)))));
-    reinterpret_cast<::hkReferencedObjectC905 *>((info.unk04))->FUN_00c905b0();
+    info.unk04->removeReference();
     body->unk9c = m_fBulletSpread;
     for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
         ((S00e451b0_ZListener**)m_kListeners.m_data)[i]->vC(body);

@@ -132,6 +132,28 @@ target_include_directories(runtime_clamped_acos_test PRIVATE ${CMAKE_CURRENT_SOU
 add_test(NAME runtime.clamped_acos COMMAND runtime_clamped_acos_test)
 
 find_package(Threads REQUIRED)
+add_executable(runtime_havok_mopp_lifetime_test runtime/havok_mopp_lifetime_test.cpp)
+if(WIN32)
+  target_link_libraries(runtime_havok_mopp_lifetime_test PRIVATE game)
+else()
+  # Host checks use the same production owners without building Windows callers.
+  target_sources(runtime_havok_mopp_lifetime_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/havok/common/base/object/native_referenced_object.cpp
+    ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/shape/compound/tree/mopp/native_mopp_construction.cpp
+    ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/shape/convex/sphere/native_sphere_construction.cpp
+    ${PROJECT_SOURCE_DIR}/src/havok/common/base/memory/allocator/native_memory_allocator.cpp
+    ${PROJECT_SOURCE_DIR}/src/havok/common/base/memory/allocator/freelist/native_system_allocator.cpp
+    ${PROJECT_SOURCE_DIR}/src/havok/common/base/memory/router/native_memory_router.cpp
+    ${PROJECT_SOURCE_DIR}/src/havok/common/base/memory/allocator/solver/native_solver_allocator.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/havok_memory_prerequisite.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/havok_router_tls.cpp
+  )
+endif()
+target_include_directories(runtime_havok_mopp_lifetime_test PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(runtime_havok_mopp_lifetime_test PRIVATE Threads::Threads)
+add_test(NAME runtime.havok_mopp_lifetime COMMAND runtime_havok_mopp_lifetime_test)
+
 set(HAVOK_PACKFILE_RUNTIME_SOURCES
   ${PROJECT_SOURCE_DIR}/src/runtime/havok_memory_prerequisite.cpp
   ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/shape/deprecated/fastmesh/native_fast_mesh.cpp

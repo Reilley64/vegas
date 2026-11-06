@@ -262,9 +262,6 @@ void __cdecl FUN_00e36aa0()
     FUN_00e36900();
 }
 
-inline hkBaseObject::~hkBaseObject()
-{}
-
 struct FUN_00d1df70
 {
     virtual void v00() throw();

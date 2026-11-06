@@ -1,11 +1,10 @@
-// include/havok/hkpShapeContainer.h - generated from the Havok 7.1 reflection data in the PC exe (gen_havok_headers.py, 2026-10-17).
-// Reflected members at their exact offsets; unreflected bytes are padding. Size 0x4.
+// Native container lifetime. Collection geometry dispatch is not supplied here.
 #ifndef FNV_HAVOK_HKPSHAPECONTAINER_H
 #define FNV_HAVOK_HKPSHAPECONTAINER_H
 #include "hkBase.h"
 class hkpShapeContainer
 {
   public:
-    char pad0[0x4];
+    virtual ~hkpShapeContainer();
 };
 #endif

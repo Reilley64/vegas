@@ -198,6 +198,7 @@ set(VEGAS_HAVOK_COMMON_SOURCES
   src/havok/common/base/memory/router/native_memory_router.cpp
   src/havok/common/base/memory/system/freelist/native_memory_system.cpp
   src/havok/common/base/object/native_reference.cpp
+  src/havok/common/base/object/native_referenced_object.cpp
   src/havok/common/base/system/error/native_diagnostic_breakpoint.cpp
   src/havok/common/base/system/error/native_error.cpp
   src/havok/common/base/system/error/native_error_diagnostics.cpp

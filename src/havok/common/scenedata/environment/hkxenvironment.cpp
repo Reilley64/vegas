@@ -127,8 +127,6 @@ struct EnvironmentLayout
     short referenceCount;
     EnvironmentArray variables;
 };
-hkBaseObject::~hkBaseObject()
-{}
 // Releases the environment's variable array, then calls the hkBaseObject destructor.
 // @fnv 0x00e3f820
 void HKXEnvironmentStandIn::DestroyEnvironment()

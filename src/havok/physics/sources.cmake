@@ -84,6 +84,7 @@ set(VEGAS_HAVOK_PHYSICS_SOURCES
   src/havok/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp
   src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp
   src/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp
+  src/havok/physics/collide/shape/compound/tree/mopp/native_mopp_construction.cpp
   src/havok/physics/collide/shape/compound/tree/mopp/hkpmopputility.cpp
   src/havok/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifier.cpp
   src/havok/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifierclass.cpp
@@ -98,6 +99,7 @@ set(VEGAS_HAVOK_PHYSICS_SOURCES
   src/havok/physics/collide/shape/convex/cylinder/cylinder_settings.cpp
   src/havok/physics/collide/shape/convex/hkpconvexshape.cpp
   src/havok/physics/collide/shape/convex/sphere/hkpsphereshape.cpp
+  src/havok/physics/collide/shape/convex/sphere/native_sphere_construction.cpp
   src/havok/physics/collide/shape/convex/triangle/hkptriangleshape.cpp
   src/havok/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.cpp
   src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape.cpp

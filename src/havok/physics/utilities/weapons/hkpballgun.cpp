@@ -12,6 +12,7 @@
 #include "fnv/decl/UnkHolder.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "havok/hkpBallGun.h"
+#include "havok/hkpSphereShape.h"
 
 struct FUN_00d1df70
 {
@@ -400,18 +401,12 @@ struct hkpShapeBase : public hkReferencedObject
     {}
 };
 
-struct FUN_00cd8160 : public hkpShapeBase
-{
-    FUN_00cd8160(hkReal radius) throw();
-    hkUint32 unk08, unk0C, unk10, unk14, unk18, unk1C;
-};
-
 struct FUN_00cf5ea0
 {
     FUN_00cf5ea0() throw();
 
     hkUint32 m_uiCollisionFilterData;
-    hkpShapeBase* m_pCollisionShape;
+    hkpShape* m_pCollisionShape;
     hkUint32 m_unk08;
     hkUint32 m_unk0C;
     hkQuadVector4 m_vContactPosition;
@@ -666,7 +661,7 @@ void hkpBallGunEx::FUN_00e470d0(hkpWorld* world, const hkQuadTransform& viewTran
     end.setAddMul4(start, forward, 200.0f);
 
     FUN_00cf5ea0 ci;
-    ci.m_pCollisionShape = new FUN_00cd8160(m_fBulletRadius);
+    ci.m_pCollisionShape = createBulletShape();
     ci.m_fViscosityFriction = m_fBulletMass;
     ci.m_fAllowedPenetrationDepth = 0.01f;
     ci.m_fSurfaceFriction = 0.2f;
@@ -698,7 +693,7 @@ void hkpBallGunEx::FUN_00e470d0(hkpWorld* world, const hkQuadTransform& viewTran
     }
 
     FUN_00ca8c90* bullet = new FUN_00ca8c90(ci);
-    reinterpret_cast<::hkReferencedObjectC905 *>((ci.m_pCollisionShape))->FUN_00c905b0();
+    ci.m_pCollisionShape->removeReference();
     bullet->m_fBulletSpread = m_fBulletSpread;
 
     for (i = 0; i < m_kListeners.m_iElementCount; i++)

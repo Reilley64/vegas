@@ -1,9 +1,4 @@
 #pragma once
 
-struct hkReferencedObject;
-
-struct FUN_00d544f0 {
-public:
-    // 0x00d544f0
-    FUN_00d544f0(::hkReferencedObject *, int);
-};
+#include "havok/hkpMoppBvTreeShape.h"
+// Construction at 0x00d544f0 is owned by hkpMoppBvTreeShape.

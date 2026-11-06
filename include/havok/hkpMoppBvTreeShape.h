@@ -1,5 +1,4 @@
-// include/havok/hkpMoppBvTreeShape.h - generated from the Havok 7.1 reflection data in the PC exe (gen_havok_headers.py, 2026-10-17).
-// Reflected members at their exact offsets; unreflected bytes are padding. Size 0x40.
+// Shared native MOPP construction and lifetime. Geometry queries are separate.
 #ifndef FNV_HAVOK_HKPMOPPBVTREESHAPE_H
 #define FNV_HAVOK_HKPMOPPBVTREESHAPE_H
 
@@ -9,8 +8,11 @@
 class hkpMoppBvTreeShape : public hkMoppBvTreeShapeBase
 {
   public:
-    hkpSingleShapeContainer m_pChildAtom;  // +0x30
-    hkInt32 m_iChildSize;                  // +0x38
-    char pad3C[0x4];
+    hkpMoppBvTreeShape(hkpShape* child, const hkpMoppCode& code);
+    ~hkpMoppBvTreeShape() override;
+    const hkpShape* getChild() const noexcept { return m_pChildAtom.getChild(); }
+    const hkpShapeContainer& getContainer() const noexcept { return m_pChildAtom; }
+    hkpSingleShapeContainer m_pChildAtom;
+    hkInt32 m_iChildSize; // Written by the separate child-size query, not construction.
 };
 #endif

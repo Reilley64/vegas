@@ -1,11 +1,12 @@
-// include/havok/hkpMoppCode.h - generated from the Havok 7.1 reflection data in the PC exe (gen_havok_headers.py, 2026-10-17).
-// Reflected members at their exact offsets; unreflected bytes are padding. Size 0x30.
+// Shared native MOPP code and its owned byte stream.
 #ifndef FNV_HAVOK_HKPMOPPCODE_H
 #define FNV_HAVOK_HKPMOPPCODE_H
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 #include "hkpMoppCodeCodeInfo.h"
+#include <span>
+class hkMemoryAllocator;
 class hkpMoppCode : public hkReferencedObject
 {
   public:
@@ -15,10 +16,19 @@ class hkpMoppCode : public hkReferencedObject
         BUILT_WITHOUT_CHUNK_SUBDIVISION = 1,
         BUILD_NOT_SET = 2
     };
-    char pad8[0x8];
-    hkpMoppCodeCodeInfo m_info;  // +0x10
-    hkArray<hkUint8> m_data;     // +0x20
-    hkInt8 m_eBuildType;         // +0x2C (BuildType)
-    char pad2D[0x3];
+    hkpMoppCode() noexcept;
+    // Materializes source-owned synthetic/builder code bytes, not a file layout.
+    hkpMoppCode(const hkpMoppCodeCodeInfo&, std::span<const hkUint8>);
+    ~hkpMoppCode() override;
+    std::span<const hkUint8> getData() const noexcept { return {m_data.m_data, static_cast<std::size_t>(m_data.m_iElementCount)}; }
+    const hkpMoppCodeCodeInfo& getCodeInfo() const noexcept { return m_info; }
+    BuildType getBuildType() const noexcept { return static_cast<BuildType>(m_eBuildType); }
+
+    hkpMoppCodeCodeInfo m_info;
+    hkArray<hkUint8> m_data;
+    hkInt8 m_eBuildType;
+
+  private:
+    hkMemoryAllocator* dataAllocator = nullptr;
 };
 #endif

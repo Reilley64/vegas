@@ -5,9 +5,13 @@
 
 #include "hkBase.h"
 #include "hkpFirstPersonGun.h"
+class hkpSphereShape;
 class hkpBallGun : public hkpFirstPersonGun
 {
   public:
+    // Returns one owned native reference; callers release it with removeReference().
+    hkpSphereShape* createBulletShape() const;
+
     hkReal m_fBulletRadius;       // +0x20
     hkReal m_fBulletVelocity;     // +0x24
     hkReal m_fBulletMass;         // +0x28

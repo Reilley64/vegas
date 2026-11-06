@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkReferencedObject.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/SearchArray.h"
 #include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
@@ -159,18 +160,6 @@ void FUN_00d9e450_class::AppendRecord(void* first, void* second, void* third)
     slot->third = third;
 }
 
-struct hkBaseObject
-{
-    virtual void BaseV() = 0;
-};
-struct hkReferencedObject : hkBaseObject
-{
-    unsigned short unk04;
-    unsigned short unk06;
-    hkReferencedObject();
-};
-hkReferencedObject::hkReferencedObject() : unk06(1)
-{}
 struct hkpWorldPostSimulationListener
 {
     virtual void ListenerMethod() = 0;

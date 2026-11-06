@@ -4,6 +4,7 @@
 
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkMemoryRouter.h"
+#include "havok/SphereConstruction.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -9558,29 +9559,12 @@ struct FUN_00c6d290 : ShapeRef
     FUN_00c6d290(CompoundInfo const&);
 };
 
-struct FUN_00cd8160
-{
-    int unk00;
-    unsigned short size, refs;
-    int unk08, unk0c;
-    float radius;
-    int unk14, unk18, unk1c;
-    static void* operator new(std::size_t n)
-    {
-        FUN_00cd8160* result = (FUN_00cd8160*)hkMemoryRouter::getInstance().heap().blockAlloc(int(n));
-        result->size = (unsigned short)n;
-        return result;
-    }
-    static void operator delete(void*);
-    FUN_00cd8160(float r);
-};
-
 struct ShapeInput;
 
 struct __declspec(align(16)) AuxInfo
 {
     unsigned int flags;
-    FUN_00cd8160* shape;
+    hkpSphereShape* shape;
     int unk08;
     ShapePtrArray entries;
     int unk18, unk1c;
@@ -10303,7 +10287,7 @@ void ShapeOwner::FUN_00c72410(ShapeInput* input)
         }
         if (!(auxRadius > 0))
             auxRadius = 1;
-        info.shape = new FUN_00cd8160(auxRadius * DAT_01267bcc);
+        info.shape = havok::createSphere(auxRadius * DAT_01267bcc);
         aux = new FUN_00c6d1e0(info, this);
     }
 }

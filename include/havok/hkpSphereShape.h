@@ -1,5 +1,4 @@
-// include/havok/hkpSphereShape.h - generated from the Havok 7.1 reflection data in the PC exe (gen_havok_headers.py, 2026-10-17).
-// Reflected members at their exact offsets; unreflected bytes are padding. Size 0x20.
+// Shared native sphere construction and state, not a serialized object layout.
 #ifndef FNV_HAVOK_HKPSPHERESHAPE_H
 #define FNV_HAVOK_HKPSPHERESHAPE_H
 
@@ -8,6 +7,9 @@
 class hkpSphereShape : public hkpConvexShape
 {
   public:
-    hkUint32 m_aiValuesD34[3];  // +0x14
+    hkpSphereShape() = default; // Retained for unported finishing paths.
+    explicit hkpSphereShape(hkReal radius);
+    hkReal getRadius() const noexcept { return m_fSphereRadius; }
+    hkUint32 m_aiValuesD34[3];  // Legacy, unreflected state.
 };
 #endif

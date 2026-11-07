@@ -577,22 +577,7 @@ struct BSFogProperty
     float m_fPower;
 };
 
-struct D3DXVECTOR4
-{
-    float x;
-    float y;
-    float z;
-    float w;
-    D3DXVECTOR4()
-    {}
-    D3DXVECTOR4(float fx, float fy, float afDepth, float fw)
-    {
-        x = fx;
-        y = fy;
-        z = afDepth;
-        w = fw;
-    }
-};
+#include "fnv/d3dx_types.h"
 
 struct GeometryState
 {

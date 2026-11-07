@@ -32,6 +32,7 @@
 #include "fnv/symbols_00e86000.h"
 #include "fnv/symbols_00e87000.h"
 #include "fnv/symbols_00ee6000.h"
+#include "fnv/d3dx_types.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011bf000.h"
 #include "fnv/symbols_011f4000.h"
@@ -1342,6 +1343,10 @@ struct Vector
 {
     float x, y, z, w;
 };
+struct __declspec(align(16)) Vec4
+{
+    float x, y, z, w;
+};
 extern Matrix DAT_0126f860;
 // Computes a matrix or vector constant based on type and mode, applies inverse or transpose in some matrix cases, and passes it to SetConstant.
 // @fnv 0x00e82b40
@@ -1388,8 +1393,17 @@ unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, uintptr_t type, 
         }
         case 7:
         case 10:
-            ::FUN_00ee6e34((::D3DXVECTOR4 *)(::Vector *)(&(*reinterpret_cast<::Vector *>(&::DAT_0126f900))), (const ::D3DXVECTOR4 *)(::Vector *)(&(*reinterpret_cast<::Vector *>(&::DAT_0126f8a0))), (const ::D3DXMATRIX *)(void *)(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants))));
-            return prog->SetConstant(entry, &(*reinterpret_cast<::Vector *>(&::DAT_0126f900)), 0) ? 0 : 80;
+        {
+            const D3DXVECTOR4 input{DAT_0126f8a0.x, DAT_0126f8a0.y, DAT_0126f8a0.z, DAT_0126f8a0.w};
+            D3DXMATRIX matrix{{.m = {}}};
+            for (unsigned int row = 0; row < 4; ++row)
+                for (unsigned int column = 0; column < 4; ++column)
+                    matrix.m[row][column] = g_afSCMatrixConstants[0][row * 4 + column];
+            D3DXVECTOR4 output;
+            ::FUN_00ee6e34(&output, &input, &matrix);
+            DAT_0126f900 = {output.x, output.y, output.z, output.w};
+            return prog->SetConstant(entry, &DAT_0126f900, 0) ? 0 : 80;
+        }
         }
         break;
     case 7:
@@ -1397,8 +1411,18 @@ unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, uintptr_t type, 
         switch (mode)
         {
         case 9:
-            ::FUN_00ee6e34((::D3DXVECTOR4 *)(::Vector *)(&(*reinterpret_cast<::Vector *>(&::DAT_0126f900))), (const ::D3DXVECTOR4 *)(::Vector *)(&(*reinterpret_cast<::Vector *>(&::DAT_0126f8b0))), (const ::D3DXMATRIX *)(void *)(&DAT_0126f860));
-            return prog->SetConstant(entry, &(*reinterpret_cast<::Vector *>(&::DAT_0126f900)), 0) ? 0 : 80;
+        {
+            const D3DXVECTOR4 input{DAT_0126f8b0.x, DAT_0126f8b0.y, DAT_0126f8b0.z, DAT_0126f8b0.w};
+            const D3DXMATRIX matrix{{.m = {
+                {DAT_0126f860.m0, DAT_0126f860.m1, DAT_0126f860.m2, DAT_0126f860.m3},
+                {DAT_0126f860.m4, DAT_0126f860.m5, DAT_0126f860.m6, DAT_0126f860.m7},
+                {DAT_0126f860.m8, DAT_0126f860.m9, DAT_0126f860.m10, DAT_0126f860.m11},
+                {DAT_0126f860.m12, DAT_0126f860.m13, DAT_0126f860.m14, DAT_0126f860.m15}}}};
+            D3DXVECTOR4 output;
+            ::FUN_00ee6e34(&output, &input, &matrix);
+            DAT_0126f900 = {output.x, output.y, output.z, output.w};
+            return prog->SetConstant(entry, &DAT_0126f900, 0) ? 0 : 80;
+        }
         case 3:
         case 4:
             (*reinterpret_cast<::Vector *>(&::DAT_0126f900)).x = (*reinterpret_cast<::Vector *>(&::DAT_0126f8b0)).x * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
@@ -3489,10 +3513,6 @@ union ScalarScratch
     float scalar;
     bool transpose;
     unsigned int integer;
-};
-struct __declspec(align(16)) Vec4
-{
-    float x, y, z, w;
 };
 extern float DAT_01099378;
 struct Entry

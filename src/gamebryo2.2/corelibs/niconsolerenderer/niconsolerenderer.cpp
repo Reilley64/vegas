@@ -91,6 +91,7 @@
 #include "fnv/symbols_00e90000.h"
 #include "fnv/symbols_00e91000.h"
 #include "fnv/symbols_00ee6000.h"
+#include "fnv/d3dx_types.h"
 #include "fnv/symbols_00ee8000.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_01015000.h"
@@ -27252,11 +27253,21 @@ void CameraRenderer18::FUN_00e6c780(const NiPoint3* position, const NiPoint3* di
         CameraVector18 corner18, clipPlane18;
         worldNormal18.x=0; worldNormal18.y=0; worldNormal18.w=0; worldNormal18.z=1;
         clipOrigin18.x=0; clipOrigin18.y=0; clipOrigin18.z=DAT_0126efd4;
-        ::FUN_00ee6e34((::D3DXVECTOR4 *)(::NiPoint3 *)((NiPoint3*)&clipNormal18),(const ::D3DXVECTOR4 *)(const ::NiPoint3 *)((const NiPoint3*)&worldNormal18),(const ::D3DXMATRIX *)(const ::D3DMATRIX_Custom *)((const D3DMATRIX_Custom*)view));
-        ::FUN_00ee6dec((NiPoint3*)&clipNormal18,(const NiPoint3*)&clipNormal18);
-        ::FUN_00ee6df8((NiPoint3*)&clipPosition18,(const NiPoint3*)&clipOrigin18,(const D3DMATRIX_Custom*)view);
+        const D3DXVECTOR4 worldNormal{worldNormal18.x, worldNormal18.y, worldNormal18.z, worldNormal18.w};
+        D3DXMATRIX viewMatrix{{.m = {}}};
+        for (unsigned int row = 0; row < 4; ++row)
+            for (unsigned int column = 0; column < 4; ++column)
+                viewMatrix.m[row][column] = view[row][column];
+        D3DXVECTOR4 clipNormal;
+        ::FUN_00ee6e34(&clipNormal, &worldNormal, &viewMatrix);
+        clipNormal18 = {clipNormal.x, clipNormal.y, clipNormal.z, clipNormal.w};
+        NiPoint3 normalizedNormal;
+        normalizedNormal.x=clipNormal18.x; normalizedNormal.y=clipNormal18.y; normalizedNormal.z=clipNormal18.z;
+        ::FUN_00ee6dec(&normalizedNormal, &normalizedNormal);
+        clipNormal18.x=normalizedNormal.x; clipNormal18.y=normalizedNormal.y; clipNormal18.z=normalizedNormal.z;
+        ::FUN_00ee6df8(&clipPosition18, &clipOrigin18, (const D3DMATRIX_Custom*)view);
         clipPlane18.x=clipNormal18.x; clipPlane18.y=clipNormal18.y; clipPlane18.z=clipNormal18.z;
-        clipPlane18.w=-dotView(*(NiPoint3*)&clipPosition18,*(NiPoint3*)&clipNormal18);
+        clipPlane18.w=-dotView(clipPosition18, normalizedNormal);
         corner18.x=(clipPlane18.x>0?1.0f:clipPlane18.x<0?DAT_01012054:0.0f)/proj[0][0];
         corner18.y=(clipPlane18.y>0?1.0f:clipPlane18.y<0?DAT_01012054:0.0f)/proj[1][1];
         corner18.z=1;

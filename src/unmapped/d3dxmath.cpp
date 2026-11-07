@@ -1,6 +1,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00ee6000.h"
+#include "fnv/d3dx_types.h"
 
 #include <algorithm>
 #include <array>
@@ -26,6 +27,24 @@ void* FUN_00ee6dd4(void* pOut, const void* pM)
                         source + (column * 4 + row) * sizeof(float), sizeof(float));
     std::memcpy(pOut, transposed, sizeof(transposed));
     return pOut;
+}
+
+// Four-component row-vector transformation. No divide or normalization.
+// @fnv 0x00ee6e34
+D3DXVECTOR4* FUN_00ee6e34(D3DXVECTOR4* output, const D3DXVECTOR4* input, const D3DXMATRIX* matrix)
+{
+    // Finish every read before the assignment, including an exact input alias.
+    const D3DXVECTOR4 result{
+        input->x * matrix->m[0][0] + input->y * matrix->m[1][0] +
+            input->z * matrix->m[2][0] + input->w * matrix->m[3][0],
+        input->x * matrix->m[0][1] + input->y * matrix->m[1][1] +
+            input->z * matrix->m[2][1] + input->w * matrix->m[3][1],
+        input->x * matrix->m[0][2] + input->y * matrix->m[1][2] +
+            input->z * matrix->m[2][2] + input->w * matrix->m[3][2],
+        input->x * matrix->m[0][3] + input->y * matrix->m[1][3] +
+            input->z * matrix->m[2][3] + input->w * matrix->m[3][3]};
+    *output = result;
+    return output;
 }
 
 namespace

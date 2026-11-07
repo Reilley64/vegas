@@ -663,15 +663,6 @@ unsigned short FUN_00eea4e0(char* self, int edx)
     return *reinterpret_cast<unsigned short*>(self + 0x18);
 }
 
-struct D3DXVECTOR4;
-struct D3DXMATRIX;
-extern "C" __declspec(dllimport) D3DXVECTOR4* D3DXVec4Transform(D3DXVECTOR4* output, const D3DXVECTOR4* input,
-                                                                          const D3DXMATRIX* matrix);
 
-// @fnv 0x00ee6e34
-D3DXVECTOR4* FUN_00ee6e34(D3DXVECTOR4* output, const D3DXVECTOR4* input, const D3DXMATRIX* matrix)
-{
-    return D3DXVec4Transform(output, input, matrix);
-}
 
 #include "generated/data/staging/blk_00ee0000_o2.inc"

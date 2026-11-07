@@ -34,53 +34,8 @@ class NiTexture;
 class NiTriBasedGeom;
 class ShadowSceneLight;
 class _D3DMATRIX;
-class _D3DMATRIX
-{
-  public:
-    union
-    {  // overlapping CodeView storage
-        struct
-        {
-            float _11;  // +0x0, 4 bytes
-            float _12;  // +0x4, 4 bytes
-            float _13;  // +0x8, 4 bytes
-            float _14;  // +0xC, 4 bytes
-            float _21;  // +0x10, 4 bytes
-            float _22;  // +0x14, 4 bytes
-            float _23;  // +0x18, 4 bytes
-            float _24;  // +0x1C, 4 bytes
-            float _31;  // +0x20, 4 bytes
-            float _32;  // +0x24, 4 bytes
-            float _33;  // +0x28, 4 bytes
-            float _34;  // +0x2C, 4 bytes
-            float _41;  // +0x30, 4 bytes
-            float _42;  // +0x34, 4 bytes
-            float _43;  // +0x38, 4 bytes
-            float _44;  // +0x3C, 4 bytes
-        };
-        float m[4][4];  // +0x0, 64 bytes
-    };
-};
-struct D3DXMATRIX : public _D3DMATRIX
-{
-  public:
-    // base _D3DMATRIX at +0x0, size 64
-    // D3DXMATRIX
-    // operator()
-    // float* __cdecl D3DXMATRIX::*()
-    // const float* __cdecl D3DXMATRIX::*()
-    // D3DXMATRIX& __cdecl D3DXMATRIX::*(const D3DXMATRIX&)
-    // operator*=
-    // D3DXMATRIX& __cdecl D3DXMATRIX::*(const D3DXMATRIX&)
-    // D3DXMATRIX& __cdecl D3DXMATRIX::*(const D3DXMATRIX&)
-    // D3DXMATRIX& __cdecl D3DXMATRIX::*(float)
-    // operator+
-    // operator-
-    // operator*
-    // D3DXMATRIX __cdecl D3DXMATRIX::*(float)
-    // int __cdecl D3DXMATRIX::*(const D3DXMATRIX&)
-    // int __cdecl D3DXMATRIX::*(const D3DXMATRIX&)
-};
+#include "fnv/d3dx_types.h"
+
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:

@@ -1301,11 +1301,6 @@ void FUN_004ec7e0_shell::FUN_004ec7e0()
     reinterpret_cast<::BGSPlaceableWater *>((this))->HasFlags(0x400);
 }
 
-bool BGSPlaceableWater::HasFlags(unsigned int)
-{
-    return true;
-}
-
 struct FUN_004e32a0_shell
 {
     BGSPlaceableWater m_water;

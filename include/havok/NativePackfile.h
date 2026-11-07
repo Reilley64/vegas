@@ -1,11 +1,16 @@
 #pragma once
 
-#include "havok/FastMesh.h"
 #include "havok/PackfileRegistry.h"
+#include "runtime/havok_memory_prerequisite.h"
 #include <span>
 #include <string>
 
 struct S_00dc0de0;
+namespace havok::fast_mesh
+{
+class FastMesh;
+using Handle = std::shared_ptr<const FastMesh>;
+}
 
 namespace havok::serialize
 {

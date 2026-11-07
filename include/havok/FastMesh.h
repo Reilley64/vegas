@@ -1,6 +1,8 @@
 #pragma once
 
 #include "runtime/havok_memory_prerequisite.h"
+#include "havok/hkpShapeCollection.h"
+#include "havok/hkpTriangleShape.h"
 
 #include <array>
 #include <cstddef>
@@ -87,7 +89,9 @@ class Shape
 class FastMesh;
 using Handle = std::shared_ptr<const FastMesh>;
 
-class FastMesh final : public Shape
+// The allocating decoder publishes this genuine native collection. Its handle
+// owns one native reference; native shape owners may retain it independently.
+class FastMesh final : public hkpShapeCollection, public Shape
 {
   public:
     // The shared supplier is captured before allocation and survives final Free.
@@ -99,13 +103,16 @@ class FastMesh final : public Shape
     FastMesh(const FastMesh&) = delete;
     FastMesh& operator=(const FastMesh&) = delete;
     bool GetTriangle(std::uint32_t key, Triangle&) const noexcept;
+    // Valid keys use the shared native collection protocol. The returned child
+    // is borrowed from the scoped buffer, not serialized/legacy scratch storage.
+    const hkpTriangleShape* getChildShape(hkUint32 key, hkpShapeBuffer&) const noexcept override;
     std::span<const std::byte> Material(std::uint32_t key) const noexcept;
     LoadedSubpart Subpart(std::size_t) const;
     std::size_t SubpartCount() const noexcept { return parts.size(); }
-    unsigned ShapeType() const noexcept { return shapeType; }
-    unsigned CollectionType() const noexcept { return collectionType; }
-    std::uintptr_t UserData() const noexcept { return userData; }
-    bool DisableWelding() const noexcept { return disableWelding; }
+    unsigned ShapeType() const noexcept { return getType(); }
+    unsigned CollectionType() const noexcept { return m_eCollectionType; }
+    std::uintptr_t UserData() const noexcept { return m_ulUserData; }
+    bool DisableWelding() const noexcept { return m_bDisableWelding != 0; }
     unsigned WeldingType() const noexcept { return weldingType; }
     const std::array<int,3>& ShapeKeys() const noexcept { return shapeKeys; }
     Aabb GetAabb(const Transform&, float tolerance) const override;
@@ -140,9 +147,6 @@ class FastMesh final : public Shape
     int subpartBits;
     unsigned weldingType;
     float radius;
-    std::uintptr_t userData;
-    unsigned shapeType, collectionType;
-    bool disableWelding;
     std::array<int,3> shapeKeys;
 };
 }

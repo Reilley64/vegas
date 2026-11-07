@@ -1,4 +1,5 @@
 #include "havok/FastMesh.h"
+#include "havok/hkpShapeBuffer.h"
 
 #include <algorithm>
 #include <cmath>
@@ -153,18 +154,20 @@ void FastMesh::Validate(const LoadedMesh& mesh, int finishing)
 }
 
 FastMesh::FastMesh(const LoadedMesh& mesh, int finishing, std::shared_ptr<native_memory::Allocator> supplier)
-    : resource(std::move(supplier)), parts(&resource), welding(mesh.welding.begin(),mesh.welding.end(),&resource),
+    : hkpShapeCollection(mesh.shapeType, static_cast<hkUint8>(mesh.collectionType)),
+      resource(std::move(supplier)), parts(&resource), welding(mesh.welding.begin(),mesh.welding.end(),&resource),
       scaling(mesh.scaling), subpartBits(mesh.subpartBits), weldingType(mesh.weldingType), radius(mesh.radius),
-      userData(mesh.userData), shapeType(mesh.shapeType), collectionType(mesh.collectionType),
-      disableWelding(mesh.disableWelding), shapeKeys(mesh.shapeKeys)
+      shapeKeys(mesh.shapeKeys)
 {
+    m_ulUserData = mesh.userData;
+    m_bDisableWelding = mesh.disableWelding;
     parts.reserve(mesh.subparts.size());
     for (const auto& p : mesh.subparts) parts.emplace_back(p,&resource);
     if (finishing)
     {
         for (auto& p : parts) if (p.state.materialIndexType == 0) p.state.materialIndexType = 1;
-        shapeType = 0x17;
-        collectionType = 5;
+        m_type = 0x17;
+        m_eCollectionType = COLLECTION_MESH_SHAPE;
     }
 }
 FastMesh::~FastMesh() = default;
@@ -173,19 +176,11 @@ Handle FastMesh::Finish(const LoadedMesh& mesh, int finishing, std::shared_ptr<n
 {
     Require(bool(supplier));
     Validate(mesh,finishing);
-    static_assert(alignof(FastMesh) <= 16);
-    void* block = supplier->Allocate(sizeof(FastMesh));
-    if (!block) throw std::bad_alloc();
-    FastMesh* object;
-    try { object = new (block) FastMesh(mesh,finishing,supplier); }
-    catch (...) { supplier->Free(block,sizeof(FastMesh)); throw; }
-    // shared_ptr calls this deleter even if allocating its control block throws.
-    // Capturing the supplier keeps it alive during and after the native destructor.
-    return Handle(object,[supplier=std::move(supplier)](const FastMesh* mesh) noexcept {
-        auto* object = const_cast<FastMesh*>(mesh);
-        object->~FastMesh();
-        supplier->Free(object,sizeof(FastMesh));
-    });
+    auto* object = new (supplier) FastMesh(mesh,finishing,supplier);
+    // The handle owns the initial native reference. Other real shape owners
+    // (including MOPP containers) can retain the same object after it is reset.
+    // shared_ptr also invokes this deleter if control-block allocation throws.
+    return Handle(object,[](const FastMesh* mesh) noexcept { mesh->removeReference(); });
 }
 Handle FastMesh::Create(float radius, int subpartBits, std::shared_ptr<native_memory::Allocator> supplier)
 {
@@ -208,18 +203,38 @@ bool FastMesh::GetTriangle(std::uint32_t key, Triangle& result) const noexcept
 {
     std::size_t part, triangle;
     if (!DecodeKey(key,part,triangle)) return false;
-    const auto p = parts[part].View();
-    const unsigned width = p.indexType == 1 ? 2 : 4;
-    const unsigned flip = p.flipAlternateTriangles & unsigned(triangle);
-    const std::array<unsigned,3> order{0,1+flip,1+(flip^1)};
+    hkpShapeBuffer buffer;
+    const hkpShapeCollection& collection = *this;
+    const auto* child = static_cast<const hkpTriangleShape*>(collection.getChildShape(key,buffer));
     Triangle output;
-    for (unsigned i=0; i<3; ++i)
-        output.vertices[i] = Vertex(p,ReadIndex(p.indices,triangle*std::size_t(p.triangleStride)+order[i]*width,p.indexType),scaling);
-    output.radius = radius;
-    output.welding = welding.empty() ? 0 : welding[std::size_t(p.weldingOffset)+triangle];
-    output.weldingType = std::uint8_t(weldingType);
+    for (int i=0; i<3; ++i)
+    {
+        const auto& v = child->getVertex(i);
+        output.vertices[i] = {v.x,v.y,v.z};
+    }
+    output.radius = child->getRadius();
+    output.welding = child->getWeldingInfo();
+    output.weldingType = child->getWeldingType();
     result = output;
     return true;
+}
+
+const hkpTriangleShape* FastMesh::getChildShape(hkUint32 key, hkpShapeBuffer& buffer) const noexcept
+{
+    const auto part = key >> (32-subpartBits);
+    const auto triangle = key & (~0u >> subpartBits);
+    const auto p = parts[part].View();
+    const unsigned width = p.indexType == 1 ? 2 : 4;
+    const unsigned flip = p.flipAlternateTriangles & triangle;
+    const std::array<unsigned,3> order{0,1+flip,1+(flip^1)};
+    std::array<hkVector4,3> vertices;
+    for (unsigned i=0; i<3; ++i)
+    {
+        const auto v = Vertex(p,ReadIndex(p.indices,std::size_t(triangle)*p.triangleStride+order[i]*width,p.indexType),scaling);
+        vertices[i] = {v.x,v.y,v.z,0};
+    }
+    return &buffer.setTriangle(radius, welding.empty() ? 0 : welding[std::size_t(p.weldingOffset)+triangle],
+                               std::uint8_t(weldingType), vertices[0], vertices[1], vertices[2]);
 }
 std::span<const std::byte> FastMesh::Material(std::uint32_t key) const noexcept
 {

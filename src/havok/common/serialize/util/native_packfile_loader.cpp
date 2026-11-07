@@ -1,3 +1,4 @@
+#include "havok/FastMesh.h"
 #include "havok/NativePackfile.h"
 #include "havok/hkClass.h"
 #include "havok/BuiltinTypeRegistry.h"

@@ -115,6 +115,10 @@ int main()
         checks.Equal("nonfinishing shape type", 91u, untouched->ShapeType());
         checks.Equal("nonfinishing collection type", 3u, untouched->CollectionType());
         checks.Equal("nonfinishing material type remains zero", 0u, untouched->Subpart(0).materialIndexType);
+        fixture.mesh.collectionType = 255;
+        auto byteCollection = FastMesh::Finish(fixture.mesh, 0, backing);
+        checks.Equal("nonfinishing collection state retains the full byte", 255u, byteCollection->CollectionType());
+        fixture.mesh.collectionType = 3;
         fixture.parts[0].materialIndexType = 2;
         std::array<std::byte,4> index16{std::byte{1},std::byte{0},std::byte{0},std::byte{0}};
         fixture.parts[0].materialIndices = index16;

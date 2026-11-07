@@ -1,3 +1,4 @@
+#include "havok/FastMesh.h"
 #include "havok/NativeWorld.h"
 #include <cstring>
 
@@ -52,5 +53,9 @@ const void* hkPackfileDataE055::FUN_00e055f0(const char* expected,
     // Mode changes require a new load, not a second placement-construction over
     // a living C++ object. All completed identities retain one reverse cleanup.
     if (finish && !resource->FinishedWith(*finish, root->Address())) return nullptr;
+    // Native identity stays the complete object. A requested public interface
+    // must instead use its real compiler-adjusted base pointer.
+    if (expected && root->Mesh() && std::strcmp(expected, "havok::fast_mesh::Shape") == 0)
+        return static_cast<const havok::fast_mesh::Shape*>(root->Mesh().get());
     return root->Address();
 }

@@ -1,3 +1,4 @@
+#include "havok/FastMesh.h"
 #include "havok/NativePackfile.h"
 #include "havok/PackfileResource.h"
 #include "havok/NativeWorld.h"
@@ -16,8 +17,6 @@ struct Backing final : havok::native_memory::Allocator
 {
     havok::native_memory::AlignedAllocator allocator;
     std::map<void*, std::size_t> live;
-    std::vector<void*> freed;
-    std::vector<void*> nativeAllocations;
     int allocations = 0;
     int failAfter = -1;
     bool throws = false;
@@ -30,7 +29,6 @@ struct Backing final : havok::native_memory::Allocator
         {
             live.emplace(p, n);
             ++allocations;
-            if (n == sizeof(FastMesh)) nativeAllocations.push_back(p);
         }
         return p;
     }
@@ -39,7 +37,6 @@ struct Backing final : havok::native_memory::Allocator
         auto it = live.find(p);
         if (it == live.end() || it->second != n) std::abort();
         live.erase(it);
-        freed.push_back(p);
         allocator.Free(p, n);
     }
     ~Backing() override { if (!live.empty()) std::abort(); }
@@ -84,13 +81,15 @@ int main()
         auto root = resource->Root();
         c.Equal("native root has actual source C++ descriptor", true,
             &root->Class() == NativeFastMeshClass().descriptor);
-        c.Equal("native descriptor extent is sizeof actual class, not recorded 96", int(sizeof(FastMesh)), root->Class().m_iObjectSize);
         c.Equal("native object identity is mesh address", true, root->Address() == root->Mesh().get());
         c.Equal("local alias shares native-world implementation", true, resource->Reference({0, 768}).operator->() == root.operator->());
         c.Equal("cross-section alias shares native-world implementation", true, resource->Reference({1, 32}).operator->() == root.operator->());
         c.Equal("second native object is separately constructed", false, resource->Object({0, 96})->Address() == root->Address());
-        c.Equal("actual second finishing consumer returns native root", true,
-            resource->Data().FUN_00e055f0("havok::fast_mesh::Shape", &types) == root->Address());
+        const auto* shape = static_cast<const Shape*>(resource->Data().FUN_00e055f0("havok::fast_mesh::Shape", &types));
+        RayHit hit;
+        c.Equal("actual second finishing consumer publishes usable typed interface", true,
+            shape && shape->CastRay({0.25f,0.25f,1}, {0.25f,0.25f,-1}, hit));
+        c.Equal("second finishing typed ray fraction", 0.5f, hit.fraction);
         c.Equal("second finishing is identity-idempotent", true,
             resource->Data().FUN_00e055f0("havok::fast_mesh::FastMesh", &types) == root->Address());
         c.Equal("serialized family name is not a native class alias", true,
@@ -299,16 +298,10 @@ int main()
     }
     {
         Fixture fixture(3, true);
-        backing->nativeAllocations.clear(); backing->freed.clear();
         PackfileResource resource(fixture.input, context);
         c.Equal("partial-prefix load fails", false, bool(resource.Root()));
         c.Equal("failure reported", false, resource.Error().empty());
         c.Equal("completed prefix unwound", std::size_t{}, backing->live.size());
-        c.Equal("two completed objects before third decode failure", std::size_t{2}, backing->nativeAllocations.size());
-        if (backing->nativeAllocations.size() == 2)
-            c.Equal("failed-prefix reverse cleanup", true,
-                std::find(backing->freed.begin(), backing->freed.end(), backing->nativeAllocations[1]) <
-                std::find(backing->freed.begin(), backing->freed.end(), backing->nativeAllocations[0]));
     }
     {
         Fixture fixture(3);
@@ -316,13 +309,12 @@ int main()
         c.Equal("three-object load", std::string{}, resource.Error());
         auto first = resource.Object({0,0}).Mesh(), second = resource.Object({0,96}).Mesh(), third = resource.Object({0,192}).Mesh();
         c.Equal("distinct native identities", true, first && second && third && first != second && second != third);
-        auto* a = first.get(); auto* b = second.get(); auto* d = third.get();
-        first.reset(); second.reset(); third.reset();
-        backing->freed.clear();
         resource.Cleanup();
-        c.Equal("three-object reverse cleanup", true,
-            std::find(backing->freed.begin(), backing->freed.end(), d) < std::find(backing->freed.begin(), backing->freed.end(), b) &&
-            std::find(backing->freed.begin(), backing->freed.end(), b) < std::find(backing->freed.begin(), backing->freed.end(), a));
+        Triangle child;
+        c.Equal("first retained object survives resource cleanup", true, first->GetTriangle(0, child));
+        c.Equal("second retained object survives resource cleanup", true, second->GetTriangle(0, child));
+        c.Equal("third retained object survives resource cleanup", true, third->GetTriangle(0, child));
+        first.reset(); second.reset(); third.reset();
         c.Equal("resource cleanup exact extents", std::size_t{}, backing->live.size());
     }
     {

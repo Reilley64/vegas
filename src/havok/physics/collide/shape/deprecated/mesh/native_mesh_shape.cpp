@@ -103,7 +103,7 @@ const hkpTriangleShape* hkpMeshShape::getChildShape(hkUint32 key, hkpShapeBuffer
     const unsigned flip = part.m_bFlipAlternateTriangles & face;
     const hkUint16 welding = m_kWeldingInfo.m_iElementCount == 0
         ? 0 : m_kWeldingInfo.m_data[part.m_iTriangleOffset + face];
-    return &buffer.triangle.emplace(m_fSphereRadius, welding, m_eWeldingType,
+    return &buffer.setTriangle(m_fSphereRadius, welding, m_eWeldingType,
         Vertex(part, face, 0, m_kScaling),
         Vertex(part, face, 1 + flip, m_kScaling),
         Vertex(part, face, 1 + (flip ^ 1), m_kScaling));

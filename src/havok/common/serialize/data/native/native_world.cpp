@@ -1,3 +1,4 @@
+#include "havok/FastMesh.h"
 #include "havok/NativeWorld.h"
 #include <limits>
 #include <stdexcept>

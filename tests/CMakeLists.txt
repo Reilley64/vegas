@@ -173,6 +173,11 @@ target_link_libraries(runtime_havok_mesh_collection_test PRIVATE Threads::Thread
 add_test(NAME runtime.havok_mesh_collection COMMAND runtime_havok_mesh_collection_test)
 
 set(HAVOK_PACKFILE_RUNTIME_SOURCES
+  ${PROJECT_SOURCE_DIR}/src/havok/common/base/object/native_referenced_object.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/shape/convex/triangle/native_triangle_shape.cpp
+  ${PROJECT_SOURCE_DIR}/src/runtime/havok_router_tls.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/shape/compound/tree/mopp/native_mopp_construction.cpp
+  ${PROJECT_SOURCE_DIR}/src/havok/common/base/memory/router/native_memory_router.cpp
   ${PROJECT_SOURCE_DIR}/src/runtime/havok_memory_prerequisite.cpp
   ${PROJECT_SOURCE_DIR}/src/havok/physics/collide/shape/deprecated/fastmesh/native_fast_mesh.cpp
   ${PROJECT_SOURCE_DIR}/src/havok/common/serialize/packfile/native_fast_mesh_packfile.cpp
@@ -192,8 +197,13 @@ set(HAVOK_PACKFILE_RUNTIME_SOURCES
   ${PROJECT_SOURCE_DIR}/src/havok/common/base/memory/allocator/freelist/native_system_allocator.cpp
   ${PROJECT_SOURCE_DIR}/src/havok/common/base/memory/allocator/native_memory_allocator.cpp
 )
-foreach(suite IN ITEMS havok_fast_mesh_materialization havok_fast_mesh_loader havok_packfile_registry_resource havok_builtin_global_protocol havok_native_world_second_finish havok_legacy_packfile_builder havok_dictionary_serializer)
-  add_executable(runtime_${suite}_test runtime/${suite}_test.cpp ${HAVOK_PACKFILE_RUNTIME_SOURCES})
+foreach(suite IN ITEMS havok_loaded_mesh_collection havok_fast_mesh_materialization havok_fast_mesh_loader havok_packfile_registry_resource havok_builtin_global_protocol havok_native_world_second_finish havok_legacy_packfile_builder havok_dictionary_serializer)
+  add_executable(runtime_${suite}_test runtime/${suite}_test.cpp)
+  if(WIN32)
+    target_link_libraries(runtime_${suite}_test PRIVATE game)
+  else()
+    target_sources(runtime_${suite}_test PRIVATE ${HAVOK_PACKFILE_RUNTIME_SOURCES})
+  endif()
   target_include_directories(runtime_${suite}_test PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
   target_link_libraries(runtime_${suite}_test PRIVATE Threads::Threads)

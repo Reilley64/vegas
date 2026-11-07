@@ -25,7 +25,7 @@ class hkpShapeCollection : public hkpShape, public hkpShapeContainer
     hkUint8 m_eCollectionType;
 
   protected:
-    hkpShapeCollection(hkUint32 type, CollectionType collectionType) noexcept
+    hkpShapeCollection(hkUint32 type, hkUint8 collectionType) noexcept
         : hkpShape(type), m_bDisableWelding(0), m_eCollectionType(collectionType) {}
 };
 #endif

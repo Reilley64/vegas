@@ -1,3 +1,4 @@
+#include "havok/FastMesh.h"
 #include "havok/NativeWorld.h"
 #include "fnv/decl/FUN_00d472a0.h"
 #include "havok/hkClassMember.h"

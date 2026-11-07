@@ -614,15 +614,15 @@ struct FUN_00702220
     ~FUN_00702220();
 };
 
-struct SL : public FUN_00702220
+struct HackingArrayElement : public FUN_00702220
 {
-    SL();
+    HackingArrayElement();
 };
 
 FUN_00702220::~FUN_00702220()
 {}
 
-SL::SL()
+HackingArrayElement::HackingArrayElement()
 {}
 
 struct FUN_00768810
@@ -633,14 +633,14 @@ struct FUN_00768810
     FUN_00768810(unsigned int aiSize);
 };
 
-// Stores aiSize, allocates an SL array of that size, and initializes each element via FUN_00768920(uiSize).
+// Stores aiSize, allocates a HackingArrayElement array of that size, and initializes each element via FUN_00768920(uiSize).
 // @fnv 0x00768810
 FUN_00768810::FUN_00768810(unsigned int aiSize)
 {
     unsigned int i;
 
     uiSize = aiSize;
-    pItems = reinterpret_cast<STR_0076b200*>(new SL[aiSize]);
+    pItems = reinterpret_cast<STR_0076b200*>(new HackingArrayElement[aiSize]);
 
     for (i = 0; i < uiSize; ++i)
         reinterpret_cast<::FUN_00768920_shell *>(&(pItems[i]))->FUN_00768920((void *)(uiSize));

@@ -29,6 +29,24 @@ void* FUN_00ee6dd4(void* pOut, const void* pM)
     return pOut;
 }
 
+// Three-component row-vector normal transformation in borrowed storage.
+// @fnv 0x00ee6df2
+void* FUN_00ee6df2(void* output, const void* input, const void* matrix)
+{
+    // Value copies follow the existing void*-based numerical contracts without
+    // overlaying callers' vector/matrix types. Stage before any output write.
+    float vector[3], source[16];
+    std::memcpy(vector, input, sizeof(vector));
+    std::memcpy(source, matrix, sizeof(source));
+    const float result[3]{
+        vector[0] * source[0] + vector[1] * source[4] + vector[2] * source[8],
+        vector[0] * source[1] + vector[1] * source[5] + vector[2] * source[9],
+        vector[0] * source[2] + vector[1] * source[6] + vector[2] * source[10]};
+    // No translation, homogeneous divide, fourth component or normalization.
+    std::memcpy(output, result, sizeof(result));
+    return output;
+}
+
 // Four-component row-vector transformation. No divide or normalization.
 // @fnv 0x00ee6e34
 D3DXVECTOR4* FUN_00ee6e34(D3DXVECTOR4* output, const D3DXVECTOR4* input, const D3DXMATRIX* matrix)

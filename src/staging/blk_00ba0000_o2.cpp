@@ -5432,7 +5432,7 @@ struct Vec4
     Vec4(float ax, float ay, float az, float aw) : x(ax), y(ay), z(az), w(aw)
     {}
 };
-struct Matrix44;
+struct D3DXMATRIXBB2;
 
 
 struct LightOwner
@@ -5445,12 +5445,12 @@ extern Vec3 DAT_01200628;
 extern float DAT_01200634;
 
 // @fnv 0x00bb1960
-void UpdateLightDirection(LightOwner* owner, const Matrix44* matrix, float scale)
+void UpdateLightDirection(LightOwner* owner, const D3DXMATRIXBB2* matrix, float scale)
 {
     Vec3 dir;
-    dir.x = -(*reinterpret_cast<::Vec3 *>(&::DAT_011fa1f0)).x;
-    dir.y = -(*reinterpret_cast<::Vec3 *>(&::DAT_011fa1f0)).y;
-    dir.z = -(*reinterpret_cast<::Vec3 *>(&::DAT_011fa1f0)).z;
+    dir.x = -::DAT_011fa1f0[0];
+    dir.y = -::DAT_011fa1f0[1];
+    dir.z = -::DAT_011fa1f0[2];
     Vec3 tmp;
     ::FUN_00ee6df2(&tmp, &dir, matrix);
     ::FUN_00ee6dec(&dir, &tmp);
@@ -5941,7 +5941,7 @@ int ShaderBB2::RenderGeometry(int iA, int iB, int iC, int iD, RenderObjBB2* pkOb
     ::FUN_00ee6dda(&kInvWorld, 0, &kWorld);
 
     GeometryBB2* pkGeom = pkObj->m_pkRenderableGeometry;
-    ::UpdateLightDirection((::LightOwner *)(IsSkinnedBB2(pkGeom) ? pkGeom : 0), (const ::Matrix44 *)&kInvWorld, pkXform->m_fScale);
+    ::UpdateLightDirection((::LightOwner *)(IsSkinnedBB2(pkGeom) ? pkGeom : 0), &kInvWorld, pkXform->m_fScale);
     FUN_00bb1a90();
     return 0;
 }

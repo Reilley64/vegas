@@ -2799,7 +2799,7 @@ void BSShader::SetupShaderPasses(BSShaderParam* apParam)
 
     BSVec4 kPos;
     float fW = (float)pHolder->ucLevel - 1.0;
-    ::FUN_00ee6df8(&kPos, &(*reinterpret_cast<::fnv_00b7dfe0::BSVec4 *>(&::DAT_011fa2a0)), &kMatrix);
+    ::FUN_00ee6df8(&kPos, &::DAT_011fa2a0, &kMatrix);
     kPos.w = fW;
     (*reinterpret_cast<::fnv_00b7dfe0::S * *>(&::DAT_0126f74c))->pDeviceHolder->pDevice->SetVertexShaderConstantF(0x10, &kPos.x, 1);
 
@@ -4999,7 +4999,7 @@ void Shell_b7e1::FUN_00b7e150(DrawArg* apDrawArg)
     ::fnv_00b7c7b0::FUN_00b7c7b0((uintptr_t)this);
     float scale = transform->scale;
     FourFloatVector data;
-    ::FUN_00ee6df8(&data, &(*reinterpret_cast<::rw_b7e1::Vector3 *>(&::DAT_011fa2a0)), &matrix);
+    ::FUN_00ee6df8(&data, &::DAT_011fa2a0, &matrix);
     data.w = scale;
     (*reinterpret_cast<::rw_b7e1::RendererStageContext * *>(&::DAT_0126f74c))->renderer->SetConstants(&data.x);
 }

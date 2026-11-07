@@ -281,15 +281,6 @@ void FUN_00ee6df2(void)
     g_D3DXVec3TransformNormal();
 }
 
-// FUN_00ee6df8: 6-byte jmp [IAT] stub forwarding to stdcall d3dx9_38 D3DXVec3TransformCoord.
-extern "C" __declspec(dllimport) void* D3DXVec3TransformCoord(void* pOut, const void* pV, const void* pM);
-
-// @fnv 0x00ee6df8
-void* FUN_00ee6df8(void* pOut, const void* pV, const void* pM)
-{
-    return D3DXVec3TransformCoord(pOut, pV, pM);
-}
-
 struct D3DXMATRIX;
 
 // FUN_00ee6e04: 6-byte jmp [IAT] stub forwarding to stdcall d3dx9_38 D3DXMatrixRotationYawPitchRoll (4 args).

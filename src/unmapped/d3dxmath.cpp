@@ -47,6 +47,24 @@ void* FUN_00ee6df2(void* output, const void* input, const void* matrix)
     return output;
 }
 
+// Three-component row-vector coordinate transformation with implicit input w=1.
+// @fnv 0x00ee6df8
+void* FUN_00ee6df8(void* output, const void* input, const void* matrix)
+{
+    // Borrow values without overlaying callers' types. Complete all reads and
+    // arithmetic before writing xyz, including an exact input/output alias.
+    float vector[3], source[16];
+    std::memcpy(vector, input, sizeof(vector));
+    std::memcpy(source, matrix, sizeof(source));
+    const float x = vector[0] * source[0] + vector[1] * source[4] + vector[2] * source[8] + source[12];
+    const float y = vector[0] * source[1] + vector[1] * source[5] + vector[2] * source[9] + source[13];
+    const float z = vector[0] * source[2] + vector[1] * source[6] + vector[2] * source[10] + source[14];
+    const float w = vector[0] * source[3] + vector[1] * source[7] + vector[2] * source[11] + source[15];
+    const float result[3]{x / w, y / w, z / w};
+    std::memcpy(output, result, sizeof(result));
+    return output;
+}
+
 // Four-component row-vector transformation. No divide or normalization.
 // @fnv 0x00ee6e34
 D3DXVECTOR4* FUN_00ee6e34(D3DXVECTOR4* output, const D3DXVECTOR4* input, const D3DXMATRIX* matrix)

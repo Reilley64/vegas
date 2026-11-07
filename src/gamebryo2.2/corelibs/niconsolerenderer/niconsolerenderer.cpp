@@ -27265,7 +27265,7 @@ void CameraRenderer18::FUN_00e6c780(const NiPoint3* position, const NiPoint3* di
         normalizedNormal.x=clipNormal18.x; normalizedNormal.y=clipNormal18.y; normalizedNormal.z=clipNormal18.z;
         ::FUN_00ee6dec(&normalizedNormal, &normalizedNormal);
         clipNormal18.x=normalizedNormal.x; clipNormal18.y=normalizedNormal.y; clipNormal18.z=normalizedNormal.z;
-        ::FUN_00ee6df8(&clipPosition18, &clipOrigin18, (const D3DMATRIX_Custom*)view);
+        ::FUN_00ee6df8(&clipPosition18, &clipOrigin18, &viewMatrix);
         clipPlane18.x=clipNormal18.x; clipPlane18.y=clipNormal18.y; clipPlane18.z=clipNormal18.z;
         clipPlane18.w=-dotView(clipPosition18, normalizedNormal);
         corner18.x=(clipPlane18.x>0?1.0f:clipPlane18.x<0?DAT_01012054:0.0f)/proj[0][0];

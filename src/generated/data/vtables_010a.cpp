@@ -280,7 +280,7 @@ extern "C" void fnv_fn_00a9b570() __asm__("?FUN_00a9b570@S00a9b570_Acc@@QEAAXXZ"
 extern "C" void fnv_fn_00a9b730() __asm__("?FUN_00a9b730@CloneAccumulator@@QEAAPEAVNiObject@@PEAUCloningProcess@@@Z");
 extern "C" void fnv_fn_00a9b790() __asm__("?FUN_00a9b790@S00a9b790_Acc@fnv_00a9b790@@QEAAXAEAVS00a9b790_NiVisibleArray@2@@Z");
 extern "C" void fnv_fn_00a9b850() __asm__("?FUN_00a9b850@FUN_00a9b850_shell@@QEAA_NPEAUFUN_00a9b850_Obj@@@Z");
-extern "C" void fnv_fn_00a9bbc0() __asm__("?Destroy@StandIn@@QEAAPEAXI@Z");
+extern "C" void fnv_fn_00a9bbc0() __asm__("?Destroy@StandIn@fnv_00a9bbc0@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00a9bd60() __asm__("?FUN_00a9bd60@@YAIPEBDII0@Z");
 extern "C" void fnv_fn_00a9bd70() __asm__("?FUN_00a9bd70@@YAHHHHHHHHHHH@Z");
 extern "C" void fnv_fn_00a9bd80() __asm__("?FUN_00a9bd80@@YAHHHHHHH@Z");

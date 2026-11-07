@@ -116,6 +116,8 @@ extern int DAT_010a1458;
 struct MMStandIn
 {
 };
+namespace fnv_00a9bbc0
+{
 struct StandIn
 {
     void* m_pVtable;
@@ -132,6 +134,7 @@ void* StandIn::Destroy(unsigned int auiFlags)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MMStandIn *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
 }
+} // namespace fnv_00a9bbc0
 
 // @fnv 0x00a99f30
 void FUN_00a99f30()

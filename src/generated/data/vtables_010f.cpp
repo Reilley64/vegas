@@ -304,7 +304,7 @@ extern "C" void fnv_fn_00e97ea0() __asm__("?AssembleShaderFile@ShaderLoader@@QEA
 extern "C" void fnv_fn_00e98080() __asm__("?FUN_00e98080@FUN_00e98080_shell@@QEAA_NPEBDIPEAPEAXPEAI12H@Z");
 extern "C" void fnv_fn_00e981f0() __asm__("?FUN_00e981f0@@YA_NPEBDPEAPEAXPEAI22H@Z");
 extern "C" void fnv_fn_00e98370() __asm__("?CopyShaderBuffer@@YA_N_JHPEAH111H@Z");
-extern "C" void fnv_fn_00e98790() __asm__("?Destroy@StandIn@@QEAAPEAXI@Z");
+extern "C" void fnv_fn_00e98790() __asm__("?Destroy@StandIn@fnv_00e98790@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00e98a70() __asm__("?Destroy@NiD3DShaderConstantManager@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00e98b10() __asm__("?FUN_00e98b10@FUN_00e98b10_Class@@QEAAPEAU1@E@Z");
 extern "C" void fnv_fn_00e98fd0() __asm__("?DestroyResults@FUN_00e98fd0_shell@@QEAAPEAX_N@Z");

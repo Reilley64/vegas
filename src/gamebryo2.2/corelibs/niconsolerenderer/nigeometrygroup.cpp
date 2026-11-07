@@ -67,6 +67,8 @@ struct FakeDevice
     virtual void F1();
     virtual unsigned long Release();
 };
+namespace fnv_00e98790
+{
 struct StandIn
 {
     void* Destroy(unsigned int);
@@ -83,6 +85,7 @@ void* StandIn::Destroy(unsigned int auiFlags)
         ::FUN_00aa1460(this, 12);
     return this;
 }
+} // namespace fnv_00e98790
 
 // FUN_00e98710 : installs the NiGeometryGroup vtable into the group object
 // and, when a D3D device is attached, releases that device through the

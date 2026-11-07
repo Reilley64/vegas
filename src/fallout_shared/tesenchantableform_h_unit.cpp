@@ -15,3 +15,10 @@
 #include "fnv/symbols_00485000.h"
 #include "fnv/symbols_00487000.h"
 #include "tesenchantableform.h"
+
+// @fnv 0x004be330
+EnchantmentItem* TESEnchantableForm::FindFormEnchantment(TESForm* form)
+{
+    TESEnchantableForm* enchantable = dynamic_cast<TESEnchantableForm*>(form);
+    return enchantable ? (EnchantmentItem*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)enchantable)))->FUN_00726070())) : 0;
+}

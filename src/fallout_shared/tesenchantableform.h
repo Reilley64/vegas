@@ -23,6 +23,7 @@ class TESEnchantableForm : public BaseFormComponent
     static EnchantmentItem* FindFormEnchantment(class TESForm* form);
     TESEnchantableForm();
     void InitializeComponent();
+    void SetFormEnchantmentAmount(unsigned short amount);
     void InitItem(class TESForm* owner);
 
     EnchantmentItem* m_pEnchantment;
@@ -32,12 +33,5 @@ class TESEnchantableForm : public BaseFormComponent
 };
 
 #include "tesenchantableform_decls.h"
-
-// @fnv 0x004be330
-EnchantmentItem* TESEnchantableForm::FindFormEnchantment(TESForm* form)
-{
-    TESEnchantableForm* enchantable = dynamic_cast<TESEnchantableForm*>(form);
-    return enchantable ? (EnchantmentItem*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)enchantable)))->FUN_00726070())) : 0;
-}
 
 #endif

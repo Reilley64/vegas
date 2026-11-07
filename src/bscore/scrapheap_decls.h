@@ -1,25 +1,12 @@
 // bscore/scrapheap_decls.h: declares ScrapHeapBuffer, ScrapHeapManager, Entry, MemoryManager
 
 #include <windows.h>
+#include "fnv/ScrapHeapBuffer.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/StateMachine.h"
 #include "fnv/symbols_00aa5000.h"
 #include "fnv/symbols_011f6000.h"
 class ScrapHeapManager;
-
-class ScrapHeapBuffer
-{
-  public:
-    char* m_pHeapBase;
-    char* m_pCurrentPosition;
-    char* m_pBufferLimit;
-    void* m_pBufferHeader;
-    unsigned int m_uiBufferSize;
-
-    ScrapHeapBuffer();
-    ~ScrapHeapBuffer();
-    void Init(unsigned int size);
-};
 
 class RecursiveSpinLock
 {

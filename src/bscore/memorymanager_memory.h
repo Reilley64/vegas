@@ -3,6 +3,7 @@
 #define FNV_MEMORYMANAGER_H
 
 #include <windows.h>
+#include "fnv/ScrapHeapBuffer.h"
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00aa45a0_Class.h"
@@ -10,12 +11,6 @@
 #include "layout_support.h"
 #include "MemoryPool.h"
 #include "IMemoryHeap.h"
-class ScrapHeapBuffer
-{
-  public:
-    char data[16];
-    ScrapHeapBuffer();
-};
 template <class K, class V> class BSMapBase
 {
   public:

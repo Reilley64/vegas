@@ -30,6 +30,7 @@
 #include "fnv/decl/FUN_009a3d00_class.h"
 #include "fnv/decl/FUN_00aa54a0_s.h"
 #include "fnv/decl/MemoryManager.h"
+#include "fnv/ScrapHeapBuffer.h"
 #include "fnv/decl/SHStub.h"
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "fnv/decl/fnv_006d0450__S5460.h"
@@ -436,10 +437,6 @@ FUN_006cf610::~FUN_006cf610()
     Clear(true);
 }
 
-struct ScrapHeapBuffer
-{
-    void* Allocate(unsigned int, unsigned int);
-};
 struct FUN_006cf6a0_Class
 {
     void* vfptr;

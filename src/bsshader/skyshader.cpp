@@ -69,11 +69,13 @@ void FUN_00b8a1a0(const NiPropertyState* apState)
         ::UpdateRendererStateCount(0, 0);
 }
 
+namespace fnv_00b8a360 {
 struct S
 {
     void FUN_00b88670();
     void* DestroyIfFlagged(unsigned int);
 };
+}  // namespace fnv_00b8a360
 void __cdecl _delete(void*, unsigned int);
 struct Struct00b884b0
 {
@@ -289,7 +291,7 @@ struct FUN_00b88670 : ShaderBase
 };
 // Calls FUN_00b88670, then frees this with _delete when bit 0 of a1 is set, and returns this.
 // @fnv 0x00b8a360
-void* S::DestroyIfFlagged(unsigned int auiFlags)
+void* fnv_00b8a360::S::DestroyIfFlagged(unsigned int auiFlags)
 {
     reinterpret_cast<::FUN_00b88670 *>(this)->FUN_00b88670::~FUN_00b88670();
     if (auiFlags & 1)

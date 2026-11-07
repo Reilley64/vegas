@@ -177,10 +177,12 @@ struct Holder
 {
     void FUN_00bc49a0();
 };
+namespace fnv_00bc4e70 {
 struct S
 {
     void* DestroyIfFlagged(unsigned int);
 };
+}  // namespace fnv_00bc4e70
 class ShaderBaseStub
 {
   public:
@@ -241,7 +243,7 @@ class FUN_00bc49a0 : public ShaderBaseStub
 };
 // Calls FUN_00bc49a0 on this, deletes this with size 0xc0 when flag has bit 0 set, and returns this.
 // @fnv 0x00bc4e70
-void* S::DestroyIfFlagged(unsigned int auiFlags)
+void* fnv_00bc4e70::S::DestroyIfFlagged(unsigned int auiFlags)
 {
     reinterpret_cast<::FUN_00bc49a0 *>((((Holder*)this)))->FUN_00bc49a0::~FUN_00bc49a0();
     if (auiFlags & 1)

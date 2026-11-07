@@ -22,13 +22,15 @@ void* __cdecl FUN_00a47a10()
     return &(*reinterpret_cast<void * *>(&::g_011f3f48));
 }
 
+namespace fnv_00a47cc0 {
 struct S
 {
     void* DestroyIfFlagged(unsigned int);
 };
+}  // namespace fnv_00a47cc0
 // Calls FUN_00a478f0, then if bit 0 of flag is set deletes this with size 0x34, and returns this.
 // @fnv 0x00a47cc0
-void* S::DestroyIfFlagged(unsigned int uiFlags)
+void* fnv_00a47cc0::S::DestroyIfFlagged(unsigned int uiFlags)
 {
     reinterpret_cast<::FUN_00a478f0 *>(this)->FUN_00a478f0::~FUN_00a478f0();
     if (uiFlags & 1)

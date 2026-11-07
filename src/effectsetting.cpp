@@ -370,11 +370,13 @@ TESSound* FUN_008ce390_shell::FUN_008ce390()
     return this->data.m_pAreaEffectSound;
 }
 
+namespace fnv_00407200 {
 struct S
 {
     void FUN_00407230();
     void* DestroyIfFlagged(unsigned int);
 };
+}  // namespace fnv_00407200
 
 
 struct FUN_00408550_Cls : public EffectSetting
@@ -751,7 +753,7 @@ class FUN_00407230 : public FormBase, public TESModel, public TESDescription, pu
     ~FUN_00407230();
 };
 // @fnv 0x00407200
-void* S::DestroyIfFlagged(unsigned int flags)
+void* fnv_00407200::S::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_00407230 *>(this)->FUN_00407230::~FUN_00407230();
     if (flags & 1)

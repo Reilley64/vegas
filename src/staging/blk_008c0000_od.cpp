@@ -6,6 +6,7 @@
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/ActorPackageContext.h"
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -216,14 +217,6 @@ int FUN_008c5000_shell::IsNonZero(intptr_t arg)
 {
     return FUN_008c5000(arg) != 0;
 }
-
-struct ActorPackageContext
-{
-    void Clear();
-};
-
-void ActorPackageContext::Clear()
-{}
 
 struct FUN_008c6c80_Class
 {

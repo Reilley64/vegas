@@ -1383,11 +1383,7 @@ inline NiPointer<NiD3DVertexShader>::~NiPointer()
     if (m_pObject)
         m_pObject->DecRefCount();
 }
-inline NiPointer<NiD3DPixelShader>::~NiPointer()
-{
-    if (m_pObject)
-        m_pObject->DecRefCount();
-}
+// Pixel-shader pointer destruction is defined by the shared smart-pointer unit.
 inline NiPointer<NiD3DVertexDeclaration>::~NiPointer()
 {
     if (m_pObject)

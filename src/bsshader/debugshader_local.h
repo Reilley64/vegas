@@ -54,6 +54,10 @@ template <class T> class NiPointer
         return *this;
     }
 };
+// The shared smart-pointer unit owns the pixel-shader release definition.
+// Keep this unit's default construction and assignment behavior local.
+class NiD3DPixelShader;
+template <> NiPointer<NiD3DPixelShader>::~NiPointer();
 #include "layout_support.h"
 class BeamStage;
 class BSShader;

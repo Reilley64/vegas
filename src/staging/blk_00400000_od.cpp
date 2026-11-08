@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <new>
+#include "fnv/magic/flag_byte.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSHungerStage.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -691,7 +692,7 @@ SettingBase_01012120* SettingBase_01012120::FUN_0040e130(const char* a, float af
 struct FUN_0040e230_Class
 {
     char pad[0x40];
-    unsigned char bFlags;
+    fnv::magic::FlagByte bFlags;
     void FUN_0040e230(unsigned int flags, bool set);
 };
 // Calls FUN_0040e230 on the inner object at this-0x18 with 1 and the inverse of b.
@@ -705,7 +706,7 @@ void Outer00409100::FUN_00409100(bool b)
 // @fnv 0x0040e230
 void FUN_0040e230_Class::FUN_0040e230(unsigned int flags, bool set)
 {
-    set ? bFlags |= flags : bFlags &= ~flags;
+    bFlags.SetFlags(flags, set);
 }
 
 int _FNV_GetFormType(void*);

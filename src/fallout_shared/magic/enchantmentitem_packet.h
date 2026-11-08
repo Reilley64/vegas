@@ -2,6 +2,8 @@
 #ifndef ENCHANTMENTITEM_PACKET_H
 #define ENCHANTMENTITEM_PACKET_H
 
+#include "fnv/magic/flag_byte.h"
+
 #include "fnv/decl/FUN_004f15a0_shell.h"
 #include "fnv/decl/fnv_00406340__EffectItemList.h"
 class EffectItemList
@@ -48,7 +50,7 @@ class EnchantmentItem : public MagicItemForm
     unsigned int type;
     unsigned int charge;
     unsigned int cost;
-    unsigned char flags;
+    fnv::magic::FlagByte flags;
     void ResetFormData();
 };
 #endif

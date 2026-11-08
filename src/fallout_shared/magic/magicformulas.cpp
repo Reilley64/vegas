@@ -14,7 +14,7 @@
 // @fnv 0x0040e210
 int FlaggedData::ContainsAnyFlag(unsigned int mask)
 {
-    return (flags & mask) != 0;
+    return flags.ContainsAnyFlag(mask);
 }
 // Returns the result of FUN_00874480 on the object from FUN_004b7210 when it exists and its GetIndex is nonzero, otherwise 0.
 // @fnv 0x00703350

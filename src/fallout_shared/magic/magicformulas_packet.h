@@ -3,13 +3,14 @@
 #define MAGICFORMULAS_PACKET_H
 
 #include <cstdint>
+#include "fnv/magic/flag_byte.h"
 #include "fnv/decl/FUN_009373f0_shell.h"
 #include "fnv/symbols_004b7000.h"
 #include "fnv/symbols_00874000.h"
 class FlaggedData
 {
     unsigned char padding[0x40];
-    unsigned char flags;
+    fnv::magic::FlagByte flags;
 
   public:
     int ContainsAnyFlag(unsigned int mask);

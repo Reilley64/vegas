@@ -32,7 +32,7 @@ void EnchantmentItem::ResetFormData()
 {
     cost = 0xffffffff;
     charge = 0xffffffff;
-    flags = 0;
+    flags.Reset();
     type = 2;
 }
 
@@ -105,7 +105,7 @@ void FUN_00409400_shell::CopySoundAndSpeakerData(MagicItem* apItem)
     reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)((char*)this - 0x18))))->SetValue((std::intptr_t)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)info)))))));
     reinterpret_cast<::FUN_00409480_shell *>((((TESTopicInfo*)((char*)this - 0x18))))->FUN_00409480((::TESActorBase *)(::MagicItem *)(((::MagicItem *)(reinterpret_cast<::Twin_00639b40 *>((((EP_008c48d0*)info)))->GetEntryPoint()))));
     reinterpret_cast<::LowProcess *>((((TES*)((char*)this - 0x18))))->SetCurrentBoundObject((::TESBoundObject *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)info)))->GetPrevPath()))));
-    this->effects.unk04 = (*(char*)&info->flags);
+    this->effects.unk04 = static_cast<char>(info->flags.Value());
 }
 
 namespace fnv_004094a0 {
@@ -227,7 +227,7 @@ bool EnchantmentComparison::FUN_00409360(MagicItem* apMagicItem)
     if (((unsigned int)(::GetField38((char *)(reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem))))) != ((unsigned int)(::GetField38((char *)this))) ||
         ((std::uintptr_t)(reinterpret_cast<::Twin_00639b40 *>((reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)))->GetEntryPoint())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())) ||
         ((std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)))->GetPrevPath())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) ||
-        pEnchantmentItem->flags != flags)
+        pEnchantmentItem->flags.Value() != flags)
         return true;
     return false;
 }

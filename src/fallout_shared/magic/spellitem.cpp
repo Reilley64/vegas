@@ -22,7 +22,7 @@ void SpellItem::ResetFormData()
     spellType = 0;
     cost = -1;
     level = 0;
-    flags = 0;
+    flags.Reset();
 }
 
 // @fnv 0x0040e280
@@ -413,7 +413,7 @@ struct SpeakerSink40E
 
 struct CopySource40E : TESForm, MagicBase
 {
-    unsigned char flags;
+    fnv::magic::FlagByte flags;
 };
 struct CopyOwner40E;
 struct CopyPart40E
@@ -428,7 +428,7 @@ struct CopyPart40E
     int unk1C;
     int unk20;
     int unk24;
-    unsigned char flags;
+    fnv::magic::FlagByte flags;
     virtual void FUN_0040e470(MagicItem* input);
 };
 struct CopyOwner40E : TESForm, CopyPart40E

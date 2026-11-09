@@ -31,8 +31,8 @@ private:
     };
     std::mutex scrapLock_{};
     ScrapEntry* scraps_ = nullptr;
-    // Installed only by the genuine production pool startup body, never by a
-    // test/provider API. Heap initialization alone does not publish pools.
+    // Unavailable until genuine pool startup and matching ownership operations
+    // are joined. Neither heap initialization nor pool construction publishes it.
     static void* AllocateFromPools(unsigned int);
     void* (*poolAllocate_)(unsigned int) = nullptr;
     bool m_bPoolAllocationEnabled = true;

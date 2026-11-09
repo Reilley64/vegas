@@ -257,7 +257,8 @@ void MemoryManager::FUN_00866770()
     CreateMemoryPool(508, 0x400000, (char *)("Pool 508"));
     CreateMemoryPool(576, 0x200000, (char *)("Pool 576"));
     CreateMemoryPool(596, 0x100000, (char *)("Pool 596"));
-    poolAllocate_ = &MemoryManager::AllocateFromPools;
+    // Do not publish pool allocation before this owner can also size, resize,
+    // and release its pool payloads. Heap-only ownership does not cover them.
 }
 
 #include "generated/data/fallout/misc/appmemory.inc"

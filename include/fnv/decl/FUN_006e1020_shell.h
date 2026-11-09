@@ -1,9 +1,6 @@
 #pragma once
 
-struct FUN_006e1020_shell {
-public:
-    // 0x006e0e80
-    ::FUN_006e1020_shell *FUN_006e0e80();
-    // 0x006e1020
-    ::FUN_006e1020_shell *FUN_006e1020();
-};
+// The historical shell-member FUN_006e0e80 declaration confused a derived
+// C++ constructor with an array method. The canonical native owner and actual
+// derived record are declared together here.
+#include "fnv/pathing/los_map_array.h"

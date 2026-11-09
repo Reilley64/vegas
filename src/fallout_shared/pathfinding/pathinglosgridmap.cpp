@@ -43,11 +43,15 @@
 #include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
 #include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 #include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/pathing/los_map_array.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00559000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00aa6000.h"
 #include "fnv/symbols_011de000.h"
+
+#include <stdexcept>
+
 struct PathingLOSGridMap
 {
     void* pUnk00;
@@ -184,47 +188,6 @@ extern "C"
 {
     void __declspec(dllimport) vprintf(const char*, void*);
 }
-extern int DAT_0106cef8;
-struct AX
-{
-    void FUN_006b3eb0(unsigned int, unsigned int);
-};
-struct FUN_006e1020_shell : AX
-{
-    FUN_006e1020_shell* FUN_006e1020();
-};
-// Sets the object's vtable pointer to DAT_0106cef8, calls FUN_006b3eb0 with 0, 0, and returns this.
-// @fnv 0x006e1020
-FUN_006e1020_shell* FUN_006e1020_shell::FUN_006e1020()
-{
-    *reinterpret_cast<unsigned int**>(this) = reinterpret_cast<unsigned int*>(&DAT_0106cef8);
-    FUN_006b3eb0(0, 0);
-    return this;
-}
-
-struct H_006e1070
-{
-    char data[16];
-};
-struct FUN_006e0190
-{
-    unsigned char b0;
-    char pad[3];
-    H_006e1070 m;
-    NavMeshInfo* pNavMeshInfo;
-    int i18;
-    FUN_006e0190();
-};
-// Initializes the embedded object, sets b0 and pNavMeshInfo to 0 and i18 to -1.
-// @fnv 0x006e0190
-FUN_006e0190::FUN_006e0190()
-{
-    reinterpret_cast<::FUN_006e1070_Class *>(&(m))->FUN_006e1070();
-    b0 = 0;
-    pNavMeshInfo = 0;
-    i18 = -1;
-}
-
 namespace fnv_006e05b0 {
 struct PathingLOSGridMap
 {
@@ -246,28 +209,30 @@ void PathingLOSGridMap::Reset()
 }
 }  // namespace fnv_006e05b0
 
-struct BGSLoadFormBuffer
-{
-};
 struct SetAtHelper
 {
-};
-struct FUN_006e0e80
-{
-    char d[0x14];
-    FUN_006e0e80();
-};
-struct FUN_006e0480
-{
-    void* kEntries[4];  // +0x00, a BSSimpleArray
-    NavMeshInfo* pNavMeshInfo;
-    ~FUN_006e0480();
-    void FUN_006e0070(BGSLoadFormBuffer*);
 };
 struct LocX
 {
     virtual void v0();
     virtual void LoadGame(BGSLoadFormBuffer*);
+};
+
+class LOSRecordGuard
+{
+public:
+    explicit LOSRecordGuard(FUN_006e0480* value) noexcept : value_(value) {}
+    ~LOSRecordGuard() { delete value_; }
+    FUN_006e0480* Get() const noexcept { return value_; }
+    FUN_006e0480* Release() noexcept
+    {
+        FUN_006e0480* value = value_;
+        value_ = nullptr;
+        return value;
+    }
+
+private:
+    FUN_006e0480* value_;
 };
 struct FUN_006e0d20_t : public PathingLOSGridMap
 {
@@ -277,20 +242,20 @@ struct FUN_006e0d20_t : public PathingLOSGridMap
 // @fnv 0x006e0d20
 void FUN_006e0d20_t::FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    unsigned int isaveGameCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
-    for (unsigned int iloop = 0; iloop < isaveGameCount; iloop++)
+    std::uint32_t saveGameCount = 0;
+    if (!apLoadGameBuffer || !apLoadGameBuffer->TryReadElementCount(saveGameCount))
+        throw std::runtime_error("malformed LOS map count");
+    for (std::uint32_t index = 0; index < saveGameCount; ++index)
     {
-        bool bremove = false;
-        FUN_006e0480* ppathingLOSGrid = (FUN_006e0480*)new FUN_006e0e80;
-        unsigned int inavmeshID;
-        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&inavmeshID));
-        ppathingLOSGrid->FUN_006e0070(apLoadGameBuffer);
-        if (inavmeshID == 0)
-            bremove = true;
-        if (!bremove)
-            reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)&this->kNavMeshGridMap))))->FUN_00844700(inavmeshID, (std::uintptr_t)ppathingLOSGrid);
-        else
-            delete ppathingLOSGrid;
+        LOSRecordGuard pathingLOSGrid(new FUN_006e0e80());
+        unsigned int navMeshID = 0;
+        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell*>(apLoadGameBuffer)->FUN_008648e0(&navMeshID);
+        pathingLOSGrid.Get()->FUN_006e0070(apLoadGameBuffer);
+        if (navMeshID != 0) {
+            reinterpret_cast<::FUN_00844700_Class*>(((SetAtHelper*)&this->kNavMeshGridMap))
+                ->FUN_00844700(navMeshID, reinterpret_cast<std::uintptr_t>(pathingLOSGrid.Get()));
+            pathingLOSGrid.Release();
+        }
     }
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->fCellSize), 4);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->fRadius), 4);
@@ -387,45 +352,6 @@ struct FUN_006e10c0_shell
 {
     void FUN_006e10c0(unsigned int, int);
 };
-
-struct FUN_006dfa70_index_shell
-{
-    void* kEntries[4];  // a BSSimpleArray
-    char* FUN_006e0ed0(void*);
-};
-
-struct FormLoadEntry
-{
-    bool m_bIsLoaded;
-    unsigned char pad0[3];
-    FUN_006dfa70_index_shell index;
-    unsigned int uiUnk14;
-    unsigned int uiUnk18;
-
-    void LoadForm(BGSLoadFormBuffer*);
-};
-
-// Reads a byte and four bytes into the object, then, if the flag is unset, reads a count and that many single bytes into indexed entries.
-// @fnv 0x006dfa70
-void FormLoadEntry::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
-{
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&uiUnk18), 4);
-
-    if (!m_bIsLoaded)
-    {
-        unsigned int isaveGameCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
-
-        reinterpret_cast<FUN_006e10c0_shell*>(&this->index)->FUN_006e10c0(isaveGameCount, 1);
-
-        for (unsigned int i = 0; i < isaveGameCount; ++i)
-        {
-            char* cindex = this->index.FUN_006e0ed0(reinterpret_cast<void*>(i));
-
-            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(cindex), 1);
-        }
-    }
-}
 
 namespace fnv_006e10c0 {
 struct BSSimpleArrayActor
@@ -1243,74 +1169,33 @@ std::intptr_t FUN_006a62f0_Class::AddOffset(void* arg)
 }
 
 struct Pathing;
-struct FormLoadEntry;
-struct BGSLoadFormBuffer;
-struct TESConditionItem;
 struct TES;
-struct _Mem_20a4;
-struct BSSimpleArray;
 
 class TESObjectREFR;
 struct Pathing
 {
 public:
-    ::TESObjectREFR *FindReferenceByFormId(unsigned int);
+    ::NavMeshInfo* FindReferenceByFormId(unsigned int);
 };
 
 struct TES
 {
 };
 
-struct _Mem_20a4
-{
-};
-
-struct BSSimpleArray : public _Mem_20a4
-{
-    void** m_ppVirtualMethodTable;
-    FormLoadEntry** pBuffer;
-    unsigned int iSize;
-    unsigned int iCapacity;
-};
-
-struct TESConditionItem
-{
-};
-
-extern unsigned int _data_011c16bc;
-
 // @fnv 0x006e0070
 void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    unsigned int inavmeshID;
+    if (!apLoadGameBuffer)
+        throw std::invalid_argument("null LOS load buffer");
 
-    inavmeshID = 0;
-    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&inavmeshID));
-
+    unsigned int navMeshID = 0;
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell*>(apLoadGameBuffer)->FUN_008648e0(&navMeshID);
     pNavMeshInfo =
-        ((::NavMeshInfo *)(((Pathing*)((::Pathing *)(reinterpret_cast<::Owner45A *>((((TES*)g_TES)))->FUN_0045af00())))->FindReferenceByFormId(inavmeshID)));
+        reinterpret_cast<Pathing*>(reinterpret_cast<::Owner45A*>(g_TES)->FUN_0045af00())
+            ->FindReferenceByFormId(navMeshID);
 
-    {
-        unsigned int isaveGameCount;
-
-        isaveGameCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
-        reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((_Mem_20a4*)this)))->FUN_006f2290(isaveGameCount, true);
-
-        {
-            unsigned int i;
-
-            for (i = 0; i < isaveGameCount; ++i)
-            {
-                FormLoadEntry** ppFormLoadEntry;
-
-                ppFormLoadEntry = &((BSSimpleArray*)this)->pBuffer[i];
-                *ppFormLoadEntry = (FormLoadEntry*)new FUN_006e0190();
-
-                (*ppFormLoadEntry)->LoadForm(apLoadGameBuffer);
-                reinterpret_cast<FUN_006e0190*>(*ppFormLoadEntry)->pNavMeshInfo = pNavMeshInfo;
-            }
-        }
-    }
+    if (!TryLoadEntries(*apLoadGameBuffer))
+        throw std::runtime_error("malformed LOS grid record");
 }
 
 struct LOSGridBase

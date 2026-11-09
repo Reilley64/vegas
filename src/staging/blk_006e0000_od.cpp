@@ -225,25 +225,6 @@ bool FUN_006ec0d0_Class::FUN_006ec0d0(int a1)
     return result;
 }
 
-struct FUN_006e1020_shell
-{
-    char pad00[0x10];
-    int unk10;
-    FUN_006e1020_shell* FUN_006e1020();
-    FUN_006e1020_shell* FUN_006e0e80();
-};
-FUN_006e1020_shell* FUN_006e1020_shell::FUN_006e1020()
-{
-    return this;
-}
-// @fnv 0x006e0e80
-FUN_006e1020_shell* FUN_006e1020_shell::FUN_006e0e80()
-{
-    this->FUN_006e1020();
-    this->unk10 = 0;
-    return this;
-}
-
 extern int DAT_0106ceb8;
 struct FUN_006e0ea0_Class
 {

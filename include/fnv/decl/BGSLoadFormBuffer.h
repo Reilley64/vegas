@@ -1,9 +1,11 @@
 #pragma once
 
-class BGSLoadFormBuffer {
+#include "fnv/decl/BGSLoadGameBuffer.h"
+
+class BGSLoadFormBuffer : public BGSLoadGameBuffer {
 public:
     // 0x008643b0
     BGSLoadFormBuffer();
     // 0x008a81c0
-    unsigned char GetVersion();
+    unsigned char GetVersion() override;
 };

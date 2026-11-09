@@ -11,8 +11,8 @@ class ScrapHeapBuffer;
 
 // Native owner. Legacy allocation/release entries are real bases in one
 // inheritance chain, not alternate owner declarations. No PC offsets describe it.
-// Whole-engine publication is held until pool/range/recovery and startup joins
-// can use this owner as well as the heap-only path.
+// The global/getter owns this complete, constant-initialized object. Full legacy
+// startup remains fail-closed until pool/range/recovery and callback joins exist.
 struct MemoryManager : FNV_MemoryManager {
 private:
     friend struct MemoryManagerStandIn;
@@ -69,7 +69,8 @@ public:
     ScrapHeapBuffer* GetGeneralAllocator();
 };
 
-// Existing receiver-only consumers use the object's address. Require the C++
-// standard-layout guarantee of base/owner pointer interconvertibility rather
-// than a guessed zero offset, including on the Windows build target.
+// This checks base/owner pointer interconvertibility, NOT construction. The
+// source-owned constant-initialized global supplies the actual receiver lifetime.
 static_assert(std::is_standard_layout_v<MemoryManager>);
+
+extern MemoryManager g_memoryManager;

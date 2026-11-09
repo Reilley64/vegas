@@ -291,11 +291,7 @@ struct MemoryManager
 };
 
 
-// @fnv 0x00401030
-void __cdecl FUN_00401030(void* ptr)
-{
-    reinterpret_cast<::FNV_MemoryManager *>((::FUN_00401020()))->FUN_00aa4060(ptr);
-}
+// 00401030 is defined with the complete native manager and getter.
 
 // @fnv 0x00845d20
 void ReadFileIntoBuffer(SaveLoadFile* file, unsigned int* apuiBuffer, unsigned int size)

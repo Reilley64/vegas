@@ -116,11 +116,8 @@ NiPointer<WaitableObject>& NiPointer<WaitableObject>::operator=(const NiPointer<
 }
 
 class MemoryManager;
-// @fnv 0x00401020
-MemoryManager* FUN_00401020()
-{
-    return &::g_memoryManager;
-}
+// The native getter is defined with the complete owner, not this declaration.
+MemoryManager* FUN_00401020();
 
 // @fnv 0x0042f4c0
 NavMeshPtr& NavMeshPtr::operator=(const NavMeshPtr& other)

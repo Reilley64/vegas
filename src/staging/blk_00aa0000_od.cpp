@@ -64,6 +64,7 @@ template <class T> inline T& as_lvalue(T&& value)
 #include "fnv/decl/FUN_0065fb10.h"
 #include "fnv/decl/FUN_00866690_Class.h"
 #include "fnv/decl/FUN_00aa39c0_cls.h"
+#include "fnv/memory/legacy_manager_startup.h"
 #include "fnv/decl/FUN_00aa64f0_t.h"
 #include "fnv/decl/FUN_00ac0ab0_Vector.h"
 #include "fnv/decl/FUN_00ac0d00_It.h"
@@ -4307,64 +4308,32 @@ struct MemoryManagerAA3880
 
 extern MemoryManagerAA3880 g_kMemoryAA3880;
 
-inline void* AllocateAA3880(unsigned int uiSize)
+void* AllocateAA3880(unsigned int uiSize)
 {
     void* pvMem = g_kMemoryAA3880.Allocate(uiSize);
     return pvMem;
 }
 
-struct TableBaseAA3880
+// Keep the genuine table construction definitions in their production TU.
+// They are not needed by, or substituted in, the startup-failure executable.
+TableBaseAA3880::TableBaseAA3880(unsigned int count)
 {
-    TableBaseAA3880(unsigned int ItemUpdateArray)
+    m_uiCount = count;
+    m_uiAllocatedCapacity = 0;
+    if (count)
     {
-        m_uiCount = ItemUpdateArray;
-        m_uiAllocatedCapacity = 0;
-        if (ItemUpdateArray)
-        {
-            m_ppvData = (void**)AllocateAA3880(m_uiCount * sizeof(void*));
-            ::std::memset(m_ppvData, 0, m_uiCount * sizeof(void*));
-        }
+        m_ppvData = static_cast<void**>(AllocateAA3880(count * sizeof(void*)));
+        std::memset(m_ppvData, 0, count * sizeof(void*));
     }
-    virtual ~TableBaseAA3880();
-    unsigned int m_uiCount;
-    void** m_ppvData;
-    unsigned int m_uiAllocatedCapacity;
-};
+}
 
-struct TableAA3880 : public TableBaseAA3880
-{
-    TableAA3880() : TableBaseAA3880(37)
-    {}
-    virtual ~TableAA3880();
-};
+TableAA3880::TableAA3880() : TableBaseAA3880(37)
+{}
 
-struct FUN_00aa3880
+// The original shell/table types and constructor are shared with the explicit
+// startup rejection seam. Keep the real OS preflight here, not a test supplier.
+void CheckMemoryForLegacyStartup()
 {
-    FUN_00aa3880();
-    bool m_bShaderEnabled;
-    char unk01;
-    short m_sCount;
-    short m_sIndex;
-    short unk06;
-    int m_iFlags;
-    void* m_apSlots[66];
-    TableAA3880 m_kTable;
-    int m_iActive;
-    bool m_bEnableState;
-    bool m_bVisible;
-    char unk12A;
-    char unk12B;
-    int m_iFirst;
-    int m_iSecond;
-    int m_iThird;
-};
-
-// @fnv 0x00aa3880
-FUN_00aa3880::FUN_00aa3880()
-    : m_bShaderEnabled(false), m_sCount(0), m_sIndex(0), m_iFlags(0), m_iActive(0), m_bEnableState(true),
-      m_bVisible(true), m_iFirst(0), m_iSecond(0), m_iThird(0)
-{
-    ::std::memset(m_apSlots, 0, sizeof(m_apSlots));
     MEMORYSTATUSEX kStatus;
     kStatus.dwLength = sizeof(kStatus);
     if (GlobalMemoryStatusEx(&kStatus) && kStatus.ullAvailPageFile < 0x20000000)
@@ -4372,9 +4341,6 @@ FUN_00aa3880::FUN_00aa3880()
         MessageBoxA(0, "Not enough memory to run application.", "Memory Error", 0x10);
         exit(0);
     }
-    reinterpret_cast<::FUN_00aa39c0_cls *>(this)->FUN_00aa39c0();
-    reinterpret_cast<::FUN_00866690_Class *>(this)->InitializeGlobal();
-    ::fnv_00aa58d0::FUN_00aa58d0();
 }
 
 struct HeapStandIn

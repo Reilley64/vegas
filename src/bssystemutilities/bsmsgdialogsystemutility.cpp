@@ -1,13 +1,10 @@
 // src/bssystemutilities/bsmsgdialogsystemutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bssystemutilities/bsmsgdialogsystemutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManager.h"
 #include "fnv/decl/FUN_00af3420_Class.h"
 #include "fnv/symbols_011f6000.h"
-struct MemoryManager
-{
-};
-MemoryManager g_memoryManager;
+// The complete native owner is defined in canonical_memory_manager.cpp.
 
 struct FUN_00af3440_shell
 {

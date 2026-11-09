@@ -148,21 +148,47 @@ add_test(NAME runtime.clamped_acos COMMAND runtime_clamped_acos_test)
 find_package(Threads REQUIRED)
 target_link_libraries(runtime_game_timer_test PRIVATE Threads::Threads)
 
-add_executable(runtime_canonical_memory_manager_test
-  runtime/canonical_memory_manager_test.cpp
-  ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
-  ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
-  ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
-  ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
-  ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
-  ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
-  ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp
-)
+add_executable(runtime_canonical_memory_manager_test runtime/canonical_memory_manager_test.cpp)
+if(WIN32)
+  target_link_libraries(runtime_canonical_memory_manager_test PRIVATE game)
+else()
+  target_sources(runtime_canonical_memory_manager_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/bscore/legacy_memory_manager_startup.cpp
+    ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nimain/nipalette_memory.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp)
+endif()
 target_include_directories(runtime_canonical_memory_manager_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
 if(UNIX)
   target_link_libraries(runtime_canonical_memory_manager_test PRIVATE Threads::Threads)
 endif()
 add_test(NAME runtime.canonical_memory_manager COMMAND runtime_canonical_memory_manager_test)
+
+# Unlike runtime.new's isolated forwarding fixture, this executable uses the
+# actual getter, complete native global, heap suppliers and matching release.
+add_executable(runtime_manager_new_test
+  runtime/manager_new_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/runtime/new.cpp)
+target_include_directories(runtime_manager_new_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+if(WIN32)
+  target_link_libraries(runtime_manager_new_test PRIVATE game)
+else()
+  target_sources(runtime_manager_new_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp)
+  target_include_directories(runtime_manager_new_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
+  target_link_libraries(runtime_manager_new_test PRIVATE Threads::Threads)
+endif()
+add_test(NAME runtime.manager_new COMMAND runtime_manager_new_test)
 
 add_executable(runtime_allocation_context_test runtime/allocation_context_test.cpp)
 if(WIN32)

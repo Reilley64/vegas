@@ -3549,11 +3549,7 @@ struct MemoryManager
 };
 
 
-// @fnv 0x00401000
-void* __cdecl FUN_00401000(unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((::FUN_00401020()))->FUN_00aa3e40(size);
-}
+// 00401000 is defined with the complete native manager and getter.
 
 struct QueuedItemList
 {

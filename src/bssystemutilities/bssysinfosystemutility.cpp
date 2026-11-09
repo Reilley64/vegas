@@ -1,7 +1,7 @@
 // bssystemutilities/bssysinfosystemutility.cpp: BSSysInfoSystemUtility (3 functions)
 
 #include "fnv/decl/BSShaderRenderUtility.h"
-#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00af3b50_Class.h"
 #include "fnv/symbols_00450000.h"
@@ -18,10 +18,7 @@ void BSSysInfoSystemUtility::Destroy()
     m_eLanguage = BSSysInfoSystemUtility__LANGUAGE_LANGUAGE_UNKNOWN;
 }
 
-struct MemoryManager
-{
-};
-MemoryManager g_memoryManager;
+// The complete native owner is defined in canonical_memory_manager.cpp.
 
 struct FUN_00af3b50_holder
 {

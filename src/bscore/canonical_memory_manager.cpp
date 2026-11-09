@@ -1,11 +1,35 @@
 #include "fnv/decl/MemoryManager.h"
 #include "fnv/tls.h"
+#include "fnv/symbols_00401000.h"
 
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
 #include <limits>
 #include <new>
+
+// Neither former empty provider is selected. Constant initialization establishes
+// the complete owner before any other TU can call the getter/global new. It
+// allocates nothing and publishes no initialized heap or pool claim.
+constinit MemoryManager g_memoryManager;
+
+// @fnv 0x00401020
+MemoryManager* FUN_00401020()
+{
+    return &g_memoryManager;
+}
+
+// @fnv 0x00401000
+void* FUN_00401000(unsigned int size)
+{
+    return FUN_00401020()->FUN_00aa3e40(size);
+}
+
+// @fnv 0x00401030
+void FUN_00401030(void* memory)
+{
+    FUN_00401020()->FUN_00aa4060(memory);
+}
 
 struct alignas(std::max_align_t) MemoryManager::BootstrapBlock {
     BootstrapBlock* next;

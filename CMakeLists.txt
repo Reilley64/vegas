@@ -12,6 +12,8 @@ enable_testing()
 add_subdirectory(third_party)
 
 add_library(game STATIC
+  src/bscore/legacy_memory_manager_startup.cpp
+  src/gamebryo2.2/corelibs/nimain/nipalette_memory.cpp
   src/bscore/engine_virtual_memory.cpp
   src/bscore/engine_memory_heap.cpp
   src/bscore/engine_heap_set.cpp
@@ -27,6 +29,8 @@ add_library(game STATIC
 )
 target_include_directories(game PUBLIC src)
 set_source_files_properties(
+  src/bscore/legacy_memory_manager_startup.cpp
+  src/gamebryo2.2/corelibs/nimain/nipalette_memory.cpp
   src/bscore/engine_virtual_memory.cpp
   src/bscore/engine_memory_heap.cpp
   src/bscore/engine_heap_set.cpp

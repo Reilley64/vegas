@@ -230,32 +230,8 @@ void* FUN_00aa46a0_holder::GetEntryAt(unsigned int index)
     return pEntry;
 }
 
-struct FUN_00aa39c0_tls
-{
-    unsigned char unk0000[0x2b4];
-    unsigned int m_2b4;
-};
-
-void ClearMemoryPoolTables();
-
-class FUN_00aa39c0_cls
-{
-  public:
-    unsigned char m_00;
-    void FUN_00aa39c0();
-};
-
-// Calls ClearMemoryPoolTables, InitializeHeaps, FUN_00866770 and FUN_00483710, sets m_00 to 1 and clears g_tls.m_2b4.
-// @fnv 0x00aa39c0
-void FUN_00aa39c0_cls::FUN_00aa39c0()
-{
-    ClearMemoryPoolTables();
-    reinterpret_cast<::MemoryManager *>(this)->InitializeHeaps();
-    m_00 = 1;
-    reinterpret_cast<::MemoryManager *>(this)->FUN_00866770();
-    reinterpret_cast<::TESForm *>(this)->ClearData();
-    ::g_tlsBlock.memoryContext = 0;
-}
+// The incompatible 00aa39c0 startup adapter is isolated in
+// legacy_memory_manager_startup.cpp; it cannot enter this native owner.
 
 extern FUN_00aa46a0_holder DAT_011f6238;
 extern unsigned short DAT_011f623a;

@@ -1,6 +1,10 @@
 #include "fnv/decl/MemoryManager.h"
 #include "fnv/tls.h"
 #include "AutoMemContext.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/decl/FUN_00aa39c0_cls.h"
+#include "fnv/memory/legacy_manager_startup.h"
+#include "fnv/memory/palette_allocation.h"
 
 #include <cstdint>
 #include <cstdio>
@@ -217,8 +221,78 @@ static void Unwind()
     } catch (const std::runtime_error&) {}
 }
 
-int main()
+static void ProductionBinding()
 {
+    auto* owner = FUN_00401020();
+    CHECK(owner == &g_memoryManager);
+    CHECK(!owner->HeapsInitialized());
+    auto* bootstrap = FUN_00401000(8192);
+    CHECK(bootstrap && owner->Size(bootstrap) == 8192);
+    std::memset(bootstrap, 0x35, 8192);
+    fnv_00404f30::FUN_00404f30(36);
+
+    auto rejectStartup = [&] {
+        try {
+            FUN_00aa3880 startup;
+            CHECK(false);
+        } catch (const fnv::memory::MemoryManagerStartupUnavailable&) {}
+        FUN_00aa39c0_cls adapter;
+        try {
+            adapter.FUN_00aa39c0();
+            CHECK(false);
+        } catch (const fnv::memory::MemoryManagerStartupUnavailable&) {}
+        CHECK(FUN_00401020() == owner);
+        CHECK(GetTlsField() == 36); // Failed startup never clears typed TLS.
+        CHECK(owner->Owns(bootstrap));
+        CHECK(static_cast<unsigned char*>(bootstrap)[8191] == 0x35);
+    };
+    rejectStartup();
+    CHECK(!owner->HeapsInitialized());
+    owner->InitializeHeaps(); // Actual admitted typed production init.
+    CHECK(owner->HeapsInitialized());
+    rejectStartup(); // Never writes the native owner's first byte, even now.
+    CHECK(owner->HeapsInitialized());
+    fnv::memory::ReleasePaletteAllocation(bootstrap);
+    CHECK(!owner->Owns(bootstrap));
+
+    for (int context : {9, 23, 36}) {
+        AutoMemContext scope(context);
+        auto* memory = FUN_00401000(8192);
+        CHECK(memory && FUN_00401020()->Owns(memory));
+        CHECK(reinterpret_cast<std::uintptr_t>(memory) > UINT32_MAX);
+        const auto expected = context == 9 ? Domain::Auxiliary
+            : context == 23 ? Domain::Context23 : Domain::Main;
+        CHECK(owner->HeapOwner(memory) == expected);
+        std::memset(memory, context, 8192);
+        // The exact boundary used by all three changed NiPalette releases,
+        // not a second provider or a direct local-owner test.
+        fnv::memory::ReleasePaletteAllocation(memory);
+        CHECK(owner->Owns(memory) == (expected == Domain::Auxiliary));
+    }
+    CHECK(!FUN_00401000(16)); // Coordinator's pool callback gate remains closed.
+    CHECK(!FUN_00401000(0x3fc));
+    auto* nonPool = FUN_00401000(0x400);
+    CHECK(nonPool);
+    FUN_00401030(nonPool);
+    CHECK(!owner->Owns(nonPool));
+    fnv::memory::ReleasePaletteAllocation(nullptr);
+    owner->ShutdownHeaps(); // Detached bounded heap clients; not engine exit.
+    CHECK(!owner->HeapsInitialized());
+    owner->InitializeHeaps();
+    auto* memory = FUN_00401000(8192);
+    CHECK(memory);
+    fnv::memory::ReleasePaletteAllocation(memory);
+    owner->ShutdownHeaps();
+}
+
+int main(int argc, char** argv)
+{
+    if (argc == 2 && std::strcmp(argv[1], "--reject-foreign-palette") == 0) {
+        int foreign = 0;
+        fnv::memory::ReleasePaletteAllocation(&foreign);
+        CHECK(false);
+    }
+    ProductionBinding();
     Bootstrap();
     Routing();
     ResizeAndRetire();

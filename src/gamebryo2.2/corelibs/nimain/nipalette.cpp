@@ -14,7 +14,7 @@
 #include "fnv/decl/FUN_00a5d3d0.h"
 #include "fnv/decl/FUN_00a5d610_Object.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/decl/MemoryManager.h"
+#include "fnv/memory/palette_allocation.h"
 #include "fnv/decl/NiRenderer.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
@@ -121,7 +121,7 @@ struct NiPalette
 void* NiPalette::DestroyPalette(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_0109f3fc;
-    ::g_memoryManager.FUN_00aa4060(m_pColorEntries);
+    fnv::memory::ReleasePaletteAllocation(m_pColorEntries);
     delete m_pTextureRendererData;
     reinterpret_cast<::FUN_00a8b010_Node *>((((S_00a8b010*)this)))->Unlink();
     reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
@@ -412,7 +412,7 @@ void DataArray::ReadFromSource(DataSource* source)
     reader->readBlock(&readState.elementCount, 4, 4);
     if (readState.elementCount != count)
     {
-        ::g_memoryManager.FUN_00aa4060(values);
+        fnv::memory::ReleasePaletteAllocation(values);
         count = readState.elementCount;
         values = new MemoryBlock[readState.elementCount];
     }
@@ -700,7 +700,7 @@ MyObj* FUN_00a8b190(MyObj* self, void*, const MyObj* rhs)
         self->f10 = 1;
         if (self->f0C != rhs->f0C)
         {
-            ::g_memoryManager.FUN_00aa4060((void*)self->f14);
+            fnv::memory::ReleasePaletteAllocation((void*)self->f14);
             uintptr_t count = (uintptr_t)rhs->f0C;
             self->f0C = (void*)count;
             self->f14 = (intptr_t)(new ArrayElement[count]);

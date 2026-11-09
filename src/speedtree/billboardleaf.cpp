@@ -147,7 +147,7 @@ LeafQ* FUN_00b405c0(Parser* p)
             reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         default:
-            throw FUN_00b09480("malformed billboard leaf", false);
+            throw FUN_00b09480("malformed billboard leaf", static_cast<unsigned char>(0));
         }
         iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     } while (iToken != 0x1b5d);

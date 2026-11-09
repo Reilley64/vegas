@@ -31602,6 +31602,10 @@ class basic_string : public StringValue<T, Alloc>
     {
         return _Mysize;
     }
+    const T* c_str() const
+    {
+        return _Myptr();
+    }
     unsigned max_size() const
     {
         unsigned num = Base::_Alval.max_size();
@@ -31701,11 +31705,14 @@ class runtime_error : public ::dtorb181::BxException
   public:
     runtime_error(const string& message) : _Str(message)
     {}
-    runtime_error(const FUN_0044a4c0& message) : _Str(*(const string*)&message)
+    runtime_error(const FUN_0044a4c0& message) : _Str(message.c_str())
     {}
     virtual ~runtime_error()
     {}
-    virtual const char* what() const;
+    virtual const char* what() const
+    {
+        return _Str.c_str();
+    }
 };
 }
 

@@ -40,6 +40,41 @@ void check_error(const char* text)
     check(std::strcmp(error.what(), expected.c_str()) == 0);
 }
 
+void check_error_constructor_kinds()
+{
+    const FUN_0044a4c0 message("byte constructor message");
+
+    FUN_00b09480 byteZero(message, static_cast<unsigned char>(0));
+    check(std::strcmp(byteZero.what(), "byte constructor message") == 0);
+
+    FUN_00b09480 byteNonzero(message, static_cast<unsigned char>(7));
+    check(std::strcmp(byteNonzero.what(), "e") == 0);
+
+    FUN_00b09480 booleanFalse(message, false);
+    check(std::strcmp(booleanFalse.what(), "byte constructor message []") == 0);
+}
+
+void check_production_messages()
+{
+    static_assert(std::numeric_limits<int>::max() == 2147483647);
+    static_assert(std::numeric_limits<unsigned int>::max() == 4294967295U);
+
+    FUN_0044a4c0 output;
+    const unsigned int aboveSignedMaximum =
+        static_cast<unsigned int>(std::numeric_limits<int>::max()) + 1U;
+    FUN_00b18860(
+        &output,
+        "collision object index (%u) exceeds maximum index (%u)",
+        aboveSignedMaximum,
+        std::numeric_limits<unsigned int>::max());
+    check_text(
+        output,
+        "collision object index (2147483648) exceeds maximum index (4294967295)");
+
+    FUN_00b18860(&output, "frond vertices exceed %d", 65535);
+    check_text(output, "frond vertices exceed 65535");
+}
+
 struct LifetimeProbe {
     static int alive;
     LifetimeProbe() { ++alive; }
@@ -136,11 +171,21 @@ int main()
         check_error("123456789012345");
         check_error("1234567890123456");
         check_error("a production parser error message large enough to require owned heap storage");
+        check_error_constructor_kinds();
+        check_production_messages();
+
+        const void* thrownMessageStorage = nullptr;
         try {
-            throw FUN_00b09480(FUN_0044a4c0("thrown parser error"), false);
+            FUN_0044a4c0 message("malformed branch data");
+            FUN_00b09480 error(message, false);
+            throw error;
         } catch (const FUN_00b09480& error) {
-            check(std::strcmp(error.what(), "thrown parser error []") == 0);
+            check(std::strcmp(error.what(), "malformed branch data []") == 0);
+            thrownMessageStorage = error.message.data();
+            check(g_memoryManager.Owns(thrownMessageStorage));
         }
+        check(!g_memoryManager.Owns(thrownMessageStorage));
+
         char formattedLarge[1401];
         std::memset(formattedLarge, 'x', sizeof(formattedLarge) - 1);
         formattedLarge[sizeof(formattedLarge) - 1] = '\0';

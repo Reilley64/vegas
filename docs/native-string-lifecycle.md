@@ -37,13 +37,17 @@ The shared `FUN_00ec78e0` / `FUN_00b096a0` / `FUN_00b09480` error owner now has
 one native polymorphic base, two native state integers and the canonical message
 member. The seven caller units no longer reserve guessed integer arrays for it.
 The canonical module supplies construction and virtual retirement, including
-the source-distinct boolean and byte error-constructor behavior; no captured
-vptr or raw receiver cast supplies its lifetime.
+the source-distinct boolean and byte error-constructor behavior. The billboard
+leaf caller explicitly selects the byte-zero constructor path rather than
+allowing `false` to bind to the boolean overload; no captured vptr or raw
+receiver cast supplies its lifetime.
 
-`FUN_00b18860` now formats into an already-live canonical owner. Its two external
-requiring objects, `speedtreert.cpp` and `projectedshadow.cpp`, consume `c_str()`
-without casting the result to unrelated local or host string layouts. The
-formatter's old empty output type and opaque `StringSlot` storage are retired.
+`FUN_00b18860` now formats into an already-live canonical owner. Its external
+requiring objects consume `c_str()` without casting the result to unrelated
+local or host string layouts. The frond vertex-limit error explicitly copies
+that text into its own string owner, and collision indices use unsigned
+formatting. The formatter's old empty output type and opaque `StringSlot`
+storage are retired.
 Formatting larger than the old stack buffer grows the same canonical owner and
 retains the destination if allocation fails.
 
@@ -60,8 +64,9 @@ storage join remain blocked and VEGAS-73 must remain open.
 `runtime.native_string` uses the real global MemoryManager and fixed pools. It
 covers empty/null, 15/16/large values, self and overlapping assignment/append,
 growth/shrink/reuse, copy independence, move, failed growth retention, partial
-construction, unwind retirement, high pointers, dynamic formatting, actual
-error construction/throw/catch and repeated retirement. The test supplies no
+construction, unwind retirement, high pointers, dynamic formatting, distinct
+byte-zero/byte-nonzero/boolean error construction, branch-error throw/catch and
+retirement, and unsigned formatting above `INT_MAX` through `UINT_MAX`. The test supplies no
 allocator and no parser facade.
 Complete Windows object, archive and link evidence is still required for the
 seven callers and formatting consumers. Full parser execution remains blocked

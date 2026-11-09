@@ -4,7 +4,7 @@
 
 #include "fnv/decl/B2AE90_Object.h"
 #include "fnv/decl/FUN_0044a4c0.h"
-#include "fnv/decl/FUN_00b096a0.h"
+#include "fnv/decl/FUN_00b09480.h"
 #include "fnv/decl/FUN_00b3f130_shell.h"
 #include "fnv/decl/S_00b3ed80.h"
 #include "fnv/decl/V3cdd0.h"
@@ -2032,35 +2032,6 @@ inline S2bde0_Str::S2bde0_Str(S2bde0_RStr s)
     AssignSubstring(s, 0, ::g_010173f0);
 }
 
-struct S2bde0_ExBase
-{
-    int iBase04;
-    int iBase08;
-    int iBase0C;
-    int iBase10;
-    int iBase14;
-    int iBase18;
-    int iBase1C;
-    int iBase20;
-    int iBase24;
-    S2bde0_ExBase(const S2bde0_Str& s);
-    virtual ~S2bde0_ExBase();
-};
-
-struct FUN_0044a4c0;
-
-struct FUN_00b09480 : S2bde0_ExBase
-{
-    FUN_00b09480(const S2bde0_Str& msg, bool bErrno) : S2bde0_ExBase(bErrno ? S2bde0_Str("e") : msg)
-    {
-        int dq[42];
-        dq[0] = 0;
-    }
-    virtual ~FUN_00b09480();
-public:
-    FUN_00b09480(const ::FUN_0044a4c0 &, bool);
-};
-
 struct S2bde0_Parser
 {
     S2bde0_RStr FUN_00b3ee40();
@@ -2221,7 +2192,7 @@ void S2bde0_Tree::FUN_00b2bde0(S2bde0_Parser* p)
             FUN_00b2c790(p);
             break;
         default:
-            throw FUN_00b09480(S2bde0_Str("malformed general tree information"), false);
+            throw FUN_00b09480(FUN_0044a4c0("malformed general tree information"), false);
         }
         iToken = reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement();
     } while (iToken != 0x3eb);
@@ -3761,22 +3732,6 @@ extern const char str_010a54cc[];
 
 extern char DAT_01170384;
 
-struct S00b2c790_Error
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-
-    void FUN_00b09480(S2bde0_Str* text, int value);
-};
-
 struct S00b2c790_Local
 {
     int unk00;
@@ -3889,7 +3844,6 @@ __forceinline void TreeClear()
 // @fnv 0x00b2c790
 void S2bde0_Tree::FUN_00b2c790(S2bde0_Parser* parser)
 {
-    S00b2c790_Error error2;
     int count_2;
     int index4;
     int item5;
@@ -3908,9 +3862,9 @@ void S2bde0_Tree::FUN_00b2c790(S2bde0_Parser* parser)
     branchCount = reinterpret_cast<::S_00b3ed80 *>((reinterpret_cast<ElementIterator*>(parser)))->GetNextElement();
     if (branchCount != 0x3f7)
     {
-        S2bde0_Str text4(str_010a54cc);
-        new ((void *)&(error2)) ::FUN_00b09480((*(const ::FUN_0044a4c0 *)(&text4)), 0);
-        throw error2;
+        FUN_0044a4c0 message(str_010a54cc);
+        FUN_00b09480 error(message, false);
+        throw error;
     }
 }
 

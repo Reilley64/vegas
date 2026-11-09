@@ -10893,7 +10893,7 @@ void SpeedTreeRTB0A2A0::FUN_00b0a2a0(unsigned int uiIndex, int& eType, float* pP
     if (m_pCollisionVectors)
     {
         if (uiIndex >= m_pCollisionVectors->size())
-            ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "collision object index (%d) exceeds maximum index (%d)", uiIndex, m_pCollisionVectors->size())->c_str());
+            ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "collision object index (%u) exceeds maximum index (%u)", uiIndex, m_pCollisionVectors->size())->c_str());
         else
         {
             eType = (*m_pCollisionVectors)[uiIndex].m_eRequestType;

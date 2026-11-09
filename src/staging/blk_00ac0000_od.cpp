@@ -22057,7 +22057,8 @@ bool __cdecl FUN_00ac7aa0(
         {
             FUN_00ad5770(input, &text, ((FnvIos*)((char*)input + input->m_ppVirtualMethodTable->m_iosOffset))->FUN_00ad30c0('\n'));
         }
-        if (line.equal(exclude->c_str()) && !exclude->empty())
+        if (!exclude->empty() && line.size() == exclude->size() &&
+            std::memcmp(line.data(), exclude->data(), exclude->size()) == 0)
             continue;
         output->FUN_00acaf50(FnvPair<FnvString, FnvString>(line, text));
         ++numLines;

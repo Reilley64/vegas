@@ -64,13 +64,19 @@ bool FixedPool::Initialize(std::size_t blockBytes, std::size_t reserveBytes,
         return false;
     }
 
-    pageCounts_ = reinterpret_cast<std::uint16_t*>(metadata_.base);
-    allocationBits_ = reinterpret_cast<std::uint64_t*>(metadata_.base + countBytes);
+    pageCounts_ = metadata_.base;
+    allocationBits_ = metadata_.base + countBytes;
     bitWordCount_ = bitWords;
-    for (std::size_t index = 0; index < pageCount_; ++index)
-        std::construct_at(pageCounts_ + index, std::uint16_t{0xffff});
-    for (std::size_t index = 0; index < bitWordCount_; ++index)
-        std::construct_at(allocationBits_ + index, std::uint64_t{0});
+    for (std::size_t index = 0; index < pageCount_; ++index) {
+        auto* address = reinterpret_cast<std::uint16_t*>(
+            pageCounts_ + index * sizeof(std::uint16_t));
+        std::construct_at(address, std::uint16_t{0xffff});
+    }
+    for (std::size_t index = 0; index < bitWordCount_; ++index) {
+        auto* address = reinterpret_cast<std::uint64_t*>(
+            allocationBits_ + index * sizeof(std::uint64_t));
+        std::construct_at(address, std::uint64_t{0});
+    }
     blockBytes_ = blockBytes;
     name_ = name;
     return true;
@@ -81,9 +87,11 @@ void FixedPool::Shutdown() noexcept
     std::lock_guard guard(lock_);
     free_ = nullptr;
     if (allocationBits_)
-        std::destroy_n(allocationBits_, bitWordCount_);
+        for (std::size_t index = 0; index < bitWordCount_; ++index)
+            std::destroy_at(AllocationWordAt(index));
     if (pageCounts_)
-        std::destroy_n(pageCounts_, pageCount_);
+        for (std::size_t index = 0; index < pageCount_; ++index)
+            std::destroy_at(PageCountAt(index));
     pageCounts_ = nullptr;
     allocationBits_ = nullptr;
     pageCount_ = bitWordCount_ = slotsPerPage_ = blockBytes_ = stride_ = 0;
@@ -91,6 +99,30 @@ void FixedPool::Shutdown() noexcept
     name_ = nullptr;
     metadata_.Release();
     region_.Release();
+}
+
+std::uint16_t* FixedPool::PageCountAt(std::size_t index) noexcept
+{
+    return std::launder(reinterpret_cast<std::uint16_t*>(
+        pageCounts_ + index * sizeof(std::uint16_t)));
+}
+
+const std::uint16_t* FixedPool::PageCountAt(std::size_t index) const noexcept
+{
+    return std::launder(reinterpret_cast<const std::uint16_t*>(
+        pageCounts_ + index * sizeof(std::uint16_t)));
+}
+
+std::uint64_t* FixedPool::AllocationWordAt(std::size_t index) noexcept
+{
+    return std::launder(reinterpret_cast<std::uint64_t*>(
+        allocationBits_ + index * sizeof(std::uint64_t)));
+}
+
+const std::uint64_t* FixedPool::AllocationWordAt(std::size_t index) const noexcept
+{
+    return std::launder(reinterpret_cast<const std::uint64_t*>(
+        allocationBits_ + index * sizeof(std::uint64_t)));
 }
 
 bool FixedPool::ContainsAddress(const void* memory) const noexcept
@@ -115,7 +147,7 @@ bool FixedPool::IsExactSlotLocked(const void* memory, std::size_t& slot) const n
     const auto pageBytes = NativePageSize();
     const auto pageIndex = offset / pageBytes;
     const auto pageOffset = offset % pageBytes;
-    if (pageCounts_[pageIndex] == 0xffff || pageOffset % stride_)
+    if (*PageCountAt(pageIndex) == 0xffff || pageOffset % stride_)
         return false;
     const auto pageSlot = pageOffset / stride_;
     if (pageSlot >= slotsPerPage_)
@@ -126,13 +158,13 @@ bool FixedPool::IsExactSlotLocked(const void* memory, std::size_t& slot) const n
 
 bool FixedPool::IsAllocatedLocked(std::size_t slot) const noexcept
 {
-    return (allocationBits_[slot / BitsPerWord] &
+    return (*AllocationWordAt(slot / BitsPerWord) &
             (std::uint64_t{1} << (slot % BitsPerWord))) != 0;
 }
 
 void FixedPool::SetAllocatedLocked(std::size_t slot, bool allocated) noexcept
 {
-    auto& word = allocationBits_[slot / BitsPerWord];
+    auto& word = *AllocationWordAt(slot / BitsPerWord);
     const auto mask = std::uint64_t{1} << (slot % BitsPerWord);
     if (allocated)
         word |= mask;
@@ -151,13 +183,13 @@ void FixedPool::PushLocked(void* memory) noexcept
 bool FixedPool::CommitPageLocked(std::size_t pageIndex) noexcept
 {
     const auto pageBytes = NativePageSize();
-    if (pageIndex >= pageCount_ || pageCounts_[pageIndex] != 0xffff ||
+    if (pageIndex >= pageCount_ || *PageCountAt(pageIndex) != 0xffff ||
         !region_.CommitRange(pageIndex * pageBytes, pageBytes))
         return false;
     auto* page = region_.base + pageIndex * pageBytes;
     for (std::size_t index = 0; index < slotsPerPage_; ++index)
         PushLocked(page + index * stride_);
-    pageCounts_[pageIndex] = 0;
+    *PageCountAt(pageIndex) = 0;
     ++committedPages_;
     return true;
 }
@@ -169,7 +201,7 @@ void* FixedPool::Allocate() noexcept
         return nullptr;
     if (!free_) {
         std::size_t pageIndex = 0;
-        while (pageIndex < pageCount_ && pageCounts_[pageIndex] != 0xffff)
+        while (pageIndex < pageCount_ && *PageCountAt(pageIndex) != 0xffff)
             ++pageIndex;
         if (pageIndex == pageCount_ || !CommitPageLocked(pageIndex))
             return nullptr;
@@ -185,7 +217,7 @@ void* FixedPool::Allocate() noexcept
     if (!IsExactSlotLocked(block, slot) || IsAllocatedLocked(slot))
         std::terminate();
     SetAllocatedLocked(slot, true);
-    ++pageCounts_[slot / slotsPerPage_];
+    ++*PageCountAt(slot / slotsPerPage_);
     ++allocatedBlocks_;
     return block;
 }
@@ -199,7 +231,7 @@ bool FixedPool::Deallocate(void* memory) noexcept
     if (!IsExactSlotLocked(memory, slot) || !IsAllocatedLocked(slot))
         return false;
     SetAllocatedLocked(slot, false);
-    --pageCounts_[slot / slotsPerPage_];
+    --*PageCountAt(slot / slotsPerPage_);
     --allocatedBlocks_;
     PushLocked(memory);
     return true;

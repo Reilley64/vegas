@@ -31,8 +31,8 @@ class FixedPool {
     VirtualRegion region_{};
     VirtualRegion metadata_{};
     FreeBlock* free_ = nullptr;
-    std::uint16_t* pageCounts_ = nullptr;
-    std::uint64_t* allocationBits_ = nullptr;
+    std::byte* pageCounts_ = nullptr;
+    std::byte* allocationBits_ = nullptr;
     std::size_t pageCount_ = 0;
     std::size_t bitWordCount_ = 0;
     std::size_t slotsPerPage_ = 0;
@@ -42,6 +42,10 @@ class FixedPool {
     std::size_t allocatedBlocks_ = 0;
     const char* name_ = nullptr;
 
+    std::uint16_t* PageCountAt(std::size_t index) noexcept;
+    const std::uint16_t* PageCountAt(std::size_t index) const noexcept;
+    std::uint64_t* AllocationWordAt(std::size_t index) noexcept;
+    const std::uint64_t* AllocationWordAt(std::size_t index) const noexcept;
     bool IsExactSlotLocked(const void* memory, std::size_t& slot) const noexcept;
     bool IsAllocatedLocked(std::size_t slot) const noexcept;
     void SetAllocatedLocked(std::size_t slot, bool allocated) noexcept;

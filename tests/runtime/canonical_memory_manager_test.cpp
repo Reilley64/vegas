@@ -43,6 +43,7 @@ static void Routing()
 {
     MemoryManager owner;
     MemoryManager other;
+    other.InitializeHeaps();
     owner.InitializeHeaps();
     owner.InitializeHeaps(); // Idempotent heap-only startup.
     CHECK(owner.HeapsInitialized());

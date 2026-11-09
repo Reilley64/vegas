@@ -13,6 +13,7 @@
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0044a4c0.h"
+#include "fnv/decl/fnv_00ac7aa0__Exclusion.h"
 #include "fnv/decl/fnv_00ac87b0__String.h"
 #include "fnv/decl/FUN_0044a8d0_Class.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -22025,7 +22026,8 @@ __forceinline void PadTail36()
 }
 
 // @fnv 0x00ac7aa0
-bool __cdecl FUN_00ac7aa0(FnvInput* input, FnvMap* output, FnvString* exclude, int limit)
+bool __cdecl FUN_00ac7aa0(
+    FnvInput* input, FnvMap* output, const fnv_00ac7aa0::Exclusion* exclude, int limit)
 {
     FnvString line;
     int numLines = 0;
@@ -22055,7 +22057,7 @@ bool __cdecl FUN_00ac7aa0(FnvInput* input, FnvMap* output, FnvString* exclude, i
         {
             FUN_00ad5770(input, &text, ((FnvIos*)((char*)input + input->m_ppVirtualMethodTable->m_iosOffset))->FUN_00ad30c0('\n'));
         }
-        if (line.equal(*exclude) && exclude->notEqual(&(*reinterpret_cast<char *>((void *)&::DAT_01011584))))
+        if (line.equal(exclude->c_str()) && !exclude->empty())
             continue;
         output->FUN_00acaf50(FnvPair<FnvString, FnvString>(line, text));
         ++numLines;
@@ -45267,9 +45269,10 @@ bool FUN_00ac8390(const char* buffer, const parser839::String& name, parser839::
         return false;
     }
     reinterpret_cast<::FUN_00acb1a0_cls *>(&(output))->ResetListSentinel();
+    fnv_00ac7aa0::Exclusion exclusion("//");
     if (name != &(*reinterpret_cast<char *>((void *)&::DAT_01011584)))
     {
-        if (!::FUN_00ac7aa0((::FnvInput *)&(stream), (::FnvMap *)&(output), (::FnvString *)&(const ::parser839::Text<char, ::parser839::Traits<char>, ::parser839::Alloc<char>> &)("//"), true))
+        if (!::FUN_00ac7aa0((::FnvInput *)&(stream), (::FnvMap *)&(output), &exclusion, true))
         {
             FUN_00ac6430(11, "Unable to parse string stream.");
             return false;
@@ -45281,7 +45284,7 @@ bool FUN_00ac8390(const char* buffer, const parser839::String& name, parser839::
         }
     }
     reinterpret_cast<::FUN_00acb1a0_cls *>(&(output))->ResetListSentinel();
-    if (!::FUN_00ac7aa0((::FnvInput *)&(stream), (::FnvMap *)&(output), (::FnvString *)&(const ::parser839::Text<char, ::parser839::Traits<char>, ::parser839::Alloc<char>> &)("//"), false))
+    if (!::FUN_00ac7aa0((::FnvInput *)&(stream), (::FnvMap *)&(output), &exclusion, false))
     {
         FUN_00ac6430(4, "string stream buffer");
         return false;
@@ -45524,14 +45527,17 @@ void FUN_00ac6430(int kind, QString s);
 bool FUN_00ac87b0(QString* pStr, const QString& a2, List87b0* a3)
 {
     QString path;
-    Stream87b0 stream(reinterpret_cast<::FUN_0044a970_Cls *>((pStr))->FUN_0044a970(), 1, 0x40);
+    Stream87b0 stream(pStr->c_str(), 1, 0x40);
     if (stream.IsBinary())
     {
         FUN_00ac6430(4, QString(*pStr, 0u));
         return false;
     }
+    const QString exclusionText("//");
+    const fnv_00ac87b0::StagingText exclusionSource = fnv_00ac87b0::ToStagingText(exclusionText);
+    fnv_00ac7aa0::Exclusion exclusion(exclusionSource.data, exclusionSource.length);
     reinterpret_cast<::FUN_00acb1a0_cls *>((a3))->ResetListSentinel();
-    if (!((unsigned char)(::FUN_00ac7aa0((::FnvInput *)(::Stream87b0 *)(&stream), (::FnvMap *)(a3), (::FnvString *)&(const ::fnv_00ac87b0::String &)("//"), 1))))
+    if (!((unsigned char)(::FUN_00ac7aa0((::FnvInput *)(::Stream87b0 *)(&stream), (::FnvMap *)(a3), &exclusion, 1))))
     {
         FUN_00ac6430(4, QString(*pStr, 0u));
         return false;
@@ -45542,7 +45548,7 @@ bool FUN_00ac87b0(QString* pStr, const QString& a2, List87b0* a3)
         return false;
     }
     reinterpret_cast<::FUN_00acb1a0_cls *>((a3))->ResetListSentinel();
-    if (!((unsigned char)(::FUN_00ac7aa0((::FnvInput *)(::Stream87b0 *)(&stream), (::FnvMap *)(a3), (::FnvString *)&(const ::fnv_00ac87b0::String &)("//"), 0))))
+    if (!((unsigned char)(::FUN_00ac7aa0((::FnvInput *)(::Stream87b0 *)(&stream), (::FnvMap *)(a3), &exclusion, 0))))
     {
         FUN_00ac6430(4, *pStr);
         return false;

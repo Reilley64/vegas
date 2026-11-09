@@ -2,6 +2,7 @@
 #include "fnv/decl/FUN_0044a4c0.h"
 #include "fnv/decl/FUN_00b09480.h"
 #include "fnv/decl/MemoryManager.h"
+#include "fnv/decl/fnv_00ac7aa0__Exclusion.h"
 #include "fnv/decl/fnv_00ac87b0__String.h"
 #include "fnv/symbols_00b18000.h"
 
@@ -87,6 +88,37 @@ void check_staging_string_lifecycle()
     fnv_00ac87b0::String moved(std::move(copied));
     check_text(moved, "a staging string long enough for owned storage");
     check_text(copied, "");
+}
+
+void check_staging_conversion()
+{
+    const fnv_00ac87b0::String smallPath("small/path.txt");
+    const fnv_00ac87b0::StagingText small = fnv_00ac87b0::ToStagingText(smallPath);
+    check(small.data == smallPath.c_str());
+    check(small.length == smallPath.size());
+    check(std::memcmp(small.data, "small/path.txt", small.length) == 0);
+    check(small.data[small.length] == '\0');
+
+    const char* heapPathText = "meshes/architecture/a/path/long/enough/for/owned/storage.nif";
+    const fnv_00ac87b0::String heapPath(heapPathText);
+    const fnv_00ac87b0::StagingText heap = fnv_00ac87b0::ToStagingText(heapPath);
+    check(!heapPath.uses_small_buffer());
+    check(g_memoryManager.Owns(heap.data));
+    check(heap.data == heapPath.c_str());
+    check(heap.length == std::strlen(heapPathText));
+    check(std::memcmp(heap.data, heapPathText, heap.length) == 0);
+    check(heap.data[heap.length] == '\0');
+
+    const fnv_00ac87b0::String exclusionText("//");
+    const fnv_00ac87b0::StagingText exclusion = fnv_00ac87b0::ToStagingText(exclusionText);
+    check(exclusion.length == 2);
+    check(exclusion.data[0] == '/');
+    check(exclusion.data[1] == '/');
+    check(exclusion.data[2] == '\0');
+
+    // Exercise the same bounded owned copy used by the production caller.
+    const fnv_00ac7aa0::Exclusion copiedExclusion(exclusion.data, exclusion.length);
+    check_text(copiedExclusion, "//");
 }
 
 void check_production_messages()
@@ -210,6 +242,7 @@ int main()
         check_production_messages();
         check_canonical_throw_lifecycle();
         check_staging_string_lifecycle();
+        check_staging_conversion();
 
         const void* thrownMessageStorage = nullptr;
         try {

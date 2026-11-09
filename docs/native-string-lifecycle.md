@@ -58,10 +58,18 @@ contract `fnv_0044a450::Value`; the archive has no material copy/destructor
 provider for that shell, so none is invented. The constructible 0x00ac87b0
 parser string is `fnv_00ac87b0::String`, a distinct wrapper over the canonical
 native string owner with ordinary copy/move/destruction. Its local function,
-table and error-call signatures all use that identity. No requiring archive
-object uses the old same-mangled global copy constructor, so that ambiguous
-symbol is retired rather than assigned an arbitrary provider. The separate
-`fnv_00b0d810::FUN_0044a500` was already namespaced and remains unchanged.
+table and error-call signatures all use that identity. `FUN_00ac87b0` passes
+its path to `Stream87b0` through `c_str()` and copies the bounded
+`ToStagingText` view of the exact `"//"` bytes into the distinct
+`fnv_00ac7aa0::Exclusion` owner. `FUN_00ac7aa0` and all four real staging call
+edges use that typed contract. The exclusion owns canonical storage with an
+exact length and terminator because the source-local `FnvString` material
+operation is archive-unprovided; neither `FUN_00ac87b0` nor the sibling
+`FUN_00ac8390` casts or constructs an incompatible string layout. No requiring
+archive object uses the old same-mangled global copy constructor, so that
+ambiguous symbol is retired rather than assigned an arbitrary provider. The
+separate `fnv_00b0d810::FUN_0044a500` was already namespaced and remains
+unchanged.
 
 `FUN_00b18860` now formats into an already-live canonical owner. Its external
 requiring objects consume `c_str()` without casting the result to unrelated
@@ -77,8 +85,11 @@ and storage declaration. Its real line supplier,
 `FUN_00ad43a0(ParserStream&, ParserString&)`, is undefined in the complete
 production archive. The formerly ambiguous local class is named `ParserString`
 and kept separate rather than being nominally rebound without its producer. No
-facade or substitute parser is provided, so end-to-end parser execution and its final
-storage join remain blocked and VEGAS-73 must remain open.
+facade or substitute parser is provided. The staging parser's source-local
+`FnvString::FUN_0044a7f0(char const*, unsigned int)` material operation is also
+archive-unprovided; the exclusion migration does not invent that supplier.
+End-to-end parser execution and its final storage join therefore remain blocked,
+and VEGAS-73 must remain open.
 
 ## Test boundary
 
@@ -89,9 +100,10 @@ construction, unwind retirement, high pointers, dynamic formatting, distinct
 byte-zero/byte-nonzero/boolean error construction, branch-error throw/catch and
 retirement, explicit copy plus canonical-base catch and destruction of the
 production `FUN_0044a310` path, construction/copy/move/destruction of the
-0x00ac87b0 staging string, and unsigned formatting above `INT_MAX` through
-`UINT_MAX`. The test supplies no allocator, exception provider or parser
-facade.
+0x00ac87b0 staging string, small-buffer and heap-backed staging path views,
+exact `"//"` exclusion bytes/length/termination, and unsigned formatting above
+`INT_MAX` through `UINT_MAX`. The test supplies no allocator, exception
+provider or parser facade.
 Complete Windows object, archive and link evidence is still required for the
 seven callers and formatting consumers. Full parser execution remains blocked
 by the missing production supplier above.

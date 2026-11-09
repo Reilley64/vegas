@@ -190,6 +190,49 @@ else()
 endif()
 add_test(NAME runtime.manager_new COMMAND runtime_manager_new_test)
 
+# Keep the client in another TU. Windows links it to the complete game archive;
+# host tests additionally place the actual provider object group on both sides
+# of the client object to exercise both initialization/destruction link orders.
+add_library(runtime_manager_static_client OBJECT runtime/manager_static_client.cpp)
+target_include_directories(runtime_manager_static_client PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+if(UNIX)
+  target_link_libraries(runtime_manager_static_client PRIVATE Threads::Threads)
+endif()
+if(WIN32)
+  add_executable(runtime_manager_static_lifetime_test runtime/manager_static_lifetime_test.cpp)
+  target_include_directories(runtime_manager_static_lifetime_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+  target_link_libraries(runtime_manager_static_lifetime_test PRIVATE
+    $<TARGET_OBJECTS:runtime_manager_static_client> game)
+  add_test(NAME runtime.manager_static_lifetime COMMAND runtime_manager_static_lifetime_test)
+else()
+  add_library(runtime_manager_static_providers OBJECT
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/new.cpp)
+  target_include_directories(runtime_manager_static_providers PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+  target_link_libraries(runtime_manager_static_providers PRIVATE Threads::Threads)
+  foreach(order IN ITEMS client_first owner_first)
+    set(test_target runtime_manager_static_${order}_test)
+    add_executable(${test_target} runtime/manager_static_lifetime_test.cpp)
+    target_include_directories(${test_target} PRIVATE ${PROJECT_SOURCE_DIR}/include)
+    if(order STREQUAL "client_first")
+      target_link_libraries(${test_target} PRIVATE
+        $<TARGET_OBJECTS:runtime_manager_static_client>
+        $<TARGET_OBJECTS:runtime_manager_static_providers>)
+    else()
+      target_link_libraries(${test_target} PRIVATE
+        $<TARGET_OBJECTS:runtime_manager_static_providers>
+        $<TARGET_OBJECTS:runtime_manager_static_client>)
+    endif()
+    target_link_libraries(${test_target} PRIVATE Threads::Threads)
+    add_test(NAME runtime.manager_static_${order} COMMAND ${test_target})
+  endforeach()
+endif()
+
 add_executable(runtime_allocation_context_test runtime/allocation_context_test.cpp)
 if(WIN32)
   target_link_libraries(runtime_allocation_context_test PRIVATE game)

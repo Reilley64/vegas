@@ -3,8 +3,10 @@
 The game target compiles these modules and the canonical `MemoryManager` heap
 owner. The production heap-startup, allocation, size/reallocation and release
 entries now use that owner. Both empty definitions are retired, rather than
-selecting either one. A single source-owned, `constinit` native global supplies
-the actual getter and production allocation/release receivers. This is a
+selecting either one. A single source-owned, constant-initialized native object
+supplies the getter and production allocation/release receivers for the full
+process lifetime. Clang's `no_destroy` attribute suppresses only that object's
+static destructor registration; it does not alter local-owner cleanup. This is a
 **bounded heap/bootstrap connection**, not completion of VEGAS-79 or permission
 to run the incompatible full startup sequence.
 
@@ -23,7 +25,11 @@ All 66 mappings start empty; context 36 uses Main. Failed initialization release
 acquired reservations before reporting failure. No external pointer table, raw
 receiver prefix, captured vptr, CRT allocator or test supplier supplies these
 heaps. The global manager is constructed without allocating or initializing
-heaps; its complete lifetime begins during constant initialization.
+heaps; its complete lifetime begins during constant initialization. Its static
+destructor is deliberately not registered, so late allocation clients retain
+live heaps, metadata and mutexes. Process storage reclamation ends the global
+service lifetime; this is not proof of ordered whole-engine shutdown. Detached
+local owners retain ordinary destruction.
 
 The arena and linear heap reuse the separately authored native heap work, with
 narrow changes to remove its pool/diagnostic dependencies. The algorithms retain
@@ -86,8 +92,9 @@ Requests above pool selection exercise the complete native heap entry without a
 pool supplier. A separate native thread-id/linked scrap association preserves the
 actual scrap constructor and destructor, not a dummy map prefix. Its nonempty
 lifecycle remains unmeasured. Heap-only shutdown requires no remaining scrap
-objects; automatic owner destruction retires those objects before their backing
-storage.
+objects; local-owner destruction retires those objects before their backing
+storage. The process-lifetime global does not perform automatic retirement
+before potentially still-attached static clients.
 
 ## Required whole-engine join
 
@@ -148,9 +155,14 @@ reinitialization use that same global.
 functions, not the isolated runtime.new forwarding fixture. A pre-main new
 expression tests cross-TU constant-initialization safety. Main covers native
 heap allocation, array delete, failed-constructor cleanup, pool unavailability
-and native-size overflow. These are bounded production-entry tests. Complete
-startup success, OS initialization failure, nonempty scrap, full engine shutdown
-and actual Windows execution remain separate, unclaimed coverage.
+and native-size overflow. The two `runtime.manager_static_*` tests retain real
+pre-main bootstrap and heap allocations through another TU's static destructor,
+read and delete them there, and allocate/delete again after main. Their actual
+production provider/client object groups are linked in both orders. Checks stay
+active under `NDEBUG`; no test allocator or replacement lifecycle is supplied.
+These are bounded production-entry tests. Complete startup success, OS
+initialization failure, nonempty scrap, full engine shutdown and actual Windows
+execution remain separate, unclaimed coverage.
 
 ## Supplier checks
 

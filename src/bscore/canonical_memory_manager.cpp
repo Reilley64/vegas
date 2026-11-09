@@ -8,10 +8,12 @@
 #include <limits>
 #include <new>
 
-// Neither former empty provider is selected. Constant initialization establishes
-// the complete owner before any other TU can call the getter/global new. It
-// allocates nothing and publishes no initialized heap or pool claim.
-constinit MemoryManager g_memoryManager;
+// Constant initialization binds the source-owned object before any dynamic
+// initializer can call global new. The allocation service must outlive every
+// static client, so Clang must not register its destructor; process reclamation
+// ends its storage lifetime. Explicitly constructed local owners retain normal
+// detached-client cleanup through MemoryManager::~MemoryManager.
+[[clang::no_destroy]] constinit MemoryManager g_memoryManager;
 
 // @fnv 0x00401020
 MemoryManager* FUN_00401020()

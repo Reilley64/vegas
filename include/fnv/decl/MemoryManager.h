@@ -11,8 +11,8 @@ class ScrapHeapBuffer;
 
 // Native owner. Legacy allocation/release entries are real bases in one
 // inheritance chain, not alternate owner declarations. No PC offsets describe it.
-// The global/getter owns this complete, constant-initialized object. Full legacy
-// startup remains fail-closed until pool/range/recovery and callback joins exist.
+// The global/getter owns this complete, constant-initialized process-lifetime
+// object. Full startup stays fail-closed until the remaining domain joins exist.
 struct MemoryManager : FNV_MemoryManager {
 private:
     friend struct MemoryManagerStandIn;
@@ -73,4 +73,6 @@ public:
 // source-owned constant-initialized global supplies the actual receiver lifetime.
 static_assert(std::is_standard_layout_v<MemoryManager>);
 
+// The process-lifetime owner itself, not a pointer or historical receiver prefix.
+// Local owners still have ordinary destruction.
 extern MemoryManager g_memoryManager;

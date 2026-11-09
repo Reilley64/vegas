@@ -12,6 +12,10 @@ enable_testing()
 add_subdirectory(third_party)
 
 add_library(game STATIC
+  src/bscore/engine_virtual_memory.cpp
+  src/bscore/engine_memory_heap.cpp
+  src/bscore/engine_heap_set.cpp
+  src/bscore/canonical_memory_manager.cpp
   src/fileformat/compression.cpp
   src/fileformat/plugin_header.cpp
   src/runtime/crt.cpp
@@ -22,6 +26,12 @@ add_library(game STATIC
   src/runtime/tls.cpp
 )
 target_include_directories(game PUBLIC src)
+set_source_files_properties(
+  src/bscore/engine_virtual_memory.cpp
+  src/bscore/engine_memory_heap.cpp
+  src/bscore/engine_heap_set.cpp
+  src/bscore/canonical_memory_manager.cpp
+  PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
 set_source_files_properties(src/runtime/endian_u16.cpp src/runtime/endian_u32.cpp PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
 set_source_files_properties(src/runtime/havok_router_tls.cpp PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
 target_link_libraries(game PRIVATE ZLIB::ZLIBSTATIC)

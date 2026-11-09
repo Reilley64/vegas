@@ -147,6 +147,19 @@ add_test(NAME runtime.clamped_acos COMMAND runtime_clamped_acos_test)
 
 find_package(Threads REQUIRED)
 target_link_libraries(runtime_game_timer_test PRIVATE Threads::Threads)
+
+add_executable(runtime_canonical_memory_manager_test
+  runtime/canonical_memory_manager_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+  ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
+  ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp
+)
+target_include_directories(runtime_canonical_memory_manager_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(runtime_canonical_memory_manager_test PRIVATE Threads::Threads)
+add_test(NAME runtime.canonical_memory_manager COMMAND runtime_canonical_memory_manager_test)
 add_executable(runtime_havok_mopp_lifetime_test runtime/havok_mopp_lifetime_test.cpp)
 if(WIN32)
   target_link_libraries(runtime_havok_mopp_lifetime_test PRIVATE game)

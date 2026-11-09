@@ -1,9 +1,9 @@
 # Native engine heap suppliers
 
-These modules are **not yet registered in the game target**. They implement the
-heap-owned portion of VEGAS-79, not the complete MemoryManager connection. The
-shared declaration and startup join must be serialized before publication.
-Passing the supplier test does not establish engine startup or TLS routing.
+The game target compiles these modules and the canonical `MemoryManager` heap
+owner. The production heap-startup, allocation, size/reallocation and release
+entries now use that owner. This is a **bounded prerequisite**, not a safe global
+manager publication or completion of VEGAS-79. Neither empty global is retired.
 
 ## Ownership
 
@@ -48,25 +48,63 @@ Initialize, shutdown and reset require detached external clients. The set's
 operations serialize initialization and use. This is not a shutdown protocol for
 Ni, pools, scrap heaps, TLS users or other engine clients.
 
-## Required production join
+## Canonical heap-owned manager seam
 
-The coordinator must serialize changes to `include/fnv/decl/MemoryManager.h` and
-the partial declaration in `src/bscore/memorymanager_memory.h` before the manager
-can embed this owner. The actual startup, allocation, free, size and reallocation
-providers must then use that same complete type, without stand-in receiver casts.
-The duplicate empty globals cannot be retired until that complete initialized
-owner and its requiring clients are joined.
+`include/fnv/decl/MemoryManager.h` now declares the real native owner, embedding
+`EngineHeapSet` and an individually tracked bootstrap allocation list. The
+competing padded manager/map declarations are gone. Allocation and release entry
+types are real empty bases in a single inheritance chain, preserving the entry
+names. A standard-layout assertion requires C++ base/owner pointer
+interconvertibility on each build target; no historical offset is assumed.
 
-The allocation provider must read the real allocation TLS field after its pool
-choice and pass that context into the heap set. This module neither reads nor
-changes the independently owned AutoMemContext protocol. It must not be tested
-as a replacement for that production consumption path.
+`InitializeHeaps` initializes that same owned set, propagating initialization
+failure as `bad_alloc`. `FUN_00aa3e40` consumes the actual typed
+`g_tlsBlock.memoryContext` through `AllocateFromHeaps`. `Size`, `Reallocate` and
+`FUN_00aa4060` find exact ownership before copying or releasing. A bootstrap
+allocation retains its CRT bootstrap domain after heap initialization. Unknown
+or interior pointers never reach CRT size/reallocate/free. Release of an unknown
+domain terminates; the nonterminating `ReleaseOwned` query reports rejection.
+The actual NiPalette consumers call the canonical release entry directly.
 
-No CMake source registration, existing provider retirement, generated data
-change, manager-init or context hunk is included. The full ordered archive,
-ordinary and unlimited executable links, global-new boundary, actual startup
-callbacks, pool/physical-range users, bootstrap ownership and scrap/client
-shutdown remain unverified by this increment. VEGAS-79 remains incomplete.
+Heap startup does **not** assert that pools exist. The real pool-startup body
+installs its own existing pool-selection operation after construction; there is
+no public provider setter or fixture callback. Until that operation is installed,
+small requests with pooling enabled fail closed instead of claiming pool startup.
+Requests above pool selection exercise the complete native heap entry without a
+pool supplier. A separate native thread-id/linked scrap association preserves the
+actual scrap constructor and destructor, not a dummy map prefix. Its nonempty
+lifecycle remains unmeasured. Heap-only shutdown requires no remaining scrap
+objects; automatic owner destruction retires those objects before their backing
+storage.
+
+## Required whole-engine join
+
+Global publication remains unsafe: pool allocations do not yet have admitted
+native size/reallocation/release ownership, the physical/range and direct legacy
+bootstrap domains are not in the new ownership index, and failure recovery is
+not wired to native heap types. Returning heap failure is not proof of the old
+recovery protocol. The existing `00aa3880` constructor and `00aa39c0` startup
+shell still require the actual owner/callback join; their byte-prefix writes and
+TESForm receiver must not be applied to this native owner. Detached-client and
+whole-engine shutdown remain separate work. The two empty globals and the
+existing getter are deliberately not selected as an initialized owner.
+
+No generated data or context-guard implementation changes are included. The
+`runtime/new.cpp` legacy unsigned boundary now rejects overflow before casting,
+but the global-new/getter/full-startup chain is not executed by these tests.
+The independent guard candidate has not been composed here, so nested guard
+restoration through heap routing remains unmeasured. VEGAS-79 remains incomplete.
+
+## Manager checks
+
+`tests/runtime/canonical_memory_manager_test.cpp` constructs the actual canonical
+owner and executes the production `InitializeHeaps`, allocation entry, size,
+reallocation and matching release, with the real production TLS owner. It covers
+all 66 contexts, distinct non-pool 9/23 domains, default 36, high pointers, exact
+ownership/rejection, bootstrap survival across initialization, failed/successful
+resize, thread isolation, explicit heap retirement/reinitialization and automatic
+owner cleanup during unwinding. It does not construct substitute heaps/managers,
+install a provider, or claim the full engine constructor ran.
 
 ## Supplier checks
 

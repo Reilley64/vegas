@@ -2,6 +2,7 @@
 
 
 #include "fnv/result_slot.h"
+#include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorStandIn008a.h"
@@ -731,7 +732,7 @@ void VATSEffectStub::FUN_00800370()
         unk2b5 = 0;
         return;
     }
-    float time = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::VTimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+    float time = (float)::fnv::timer::Time();
     if (unk2b4)
     {
         reinterpret_cast<::FUN_00800900_cls *>(this)->FUN_00800900(time);

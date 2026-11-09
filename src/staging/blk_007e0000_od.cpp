@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include <cstdlib>
 #include <cstring>
@@ -275,7 +276,7 @@ void FUN_007f7880_Class::FUN_007f7880(float a, float b, float c)
     f3 = a;
     f4 = b;
     f8 = c;
-    f5 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00();
+    f5 = ::fnv::timer::Time();
     f10 = 0.0f;
     f6 = 0.0f;
 }
@@ -322,7 +323,7 @@ struct FUN_007f7830_Class
 // @fnv 0x007f7830
 void FUN_007f7830_Class::UpdateIfActive()
 {
-    float fappTime = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00();
+    float fappTime = (float)::fnv::timer::Time();
     if (bActive)
         reinterpret_cast<::FalloffController *>(this)->UpdateFalloff(fappTime);
 }
@@ -342,7 +343,7 @@ struct FUN_007fecc0_Class
 void FUN_007fecc0_Class::FUN_007fecc0()
 {
     bActive = 1;
-    fTime = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00();
+    fTime = (float)::fnv::timer::Time();
     fValue = 0.0f;
 }
 
@@ -460,7 +461,7 @@ void FUN_007f78f0_Class::InitFromPoints(const NiPoint2* apPoint1, const NiPoint2
     f2 = *apPoint1;
     f4 = *apPoint2;
     f6 = *apPoint3;
-    fTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00();
+    fTime = ::fnv::timer::Time();
     f8 = ::DAT_011f4980;
 }
 
@@ -1367,7 +1368,7 @@ FUN_007faa20::FUN_007faa20()
     kParamA8 = WXParam(0.0f, 0.0f, 0.0f, 0.0f);
     bFlag2A = false;
     bFlag95 = false;
-    fTimeA4 = (double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::WXTimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() + std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::WXIntSetting *>(&::g_011db4f8))))));
+    fTimeA4 = (double)::fnv::timer::Time() + std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::WXIntSetting *>(&::g_011db4f8))))));
     fDurationA0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::WXFloatSetting *>(&::g_011db4d0))))));
     bFlag94 = false;
     iValue20 = 0;
@@ -1667,7 +1668,7 @@ FUN_007ffec0::FUN_007ffec0()
     unk2ac = 0.0f;
     unk2b0 = 0.0f;
     unk2c0 = 0.0f;
-    unk294 = (double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00() + std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011db75c))))));
+    unk294 = (double)::fnv::timer::Time() + std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011db75c))))));
     unk2b4 = false;
     unk2b5 = false;
     unk240 = 0;

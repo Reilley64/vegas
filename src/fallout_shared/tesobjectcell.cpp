@@ -1,6 +1,7 @@
 // fallout_shared/tesobjectcell.cpp: TESObjectCELL, Owner, Cell, hkpEntityListener and more (325 functions)
 
 #include "fnv/save_load_game_view.h"
+#include "fnv/game_timer.h"
 #include "fnv_result_slot.h"
 #include <cstdint>
 #include <cstddef>
@@ -27808,7 +27809,7 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
             m_bWaterCE = false;
             m_bWaterCF = false;
         }
-        m_fWaterTimer += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::CellTimer *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        m_fWaterTimer += ::fnv::timer::Seconds();
     }
     if (m_pkLoaded)
     {

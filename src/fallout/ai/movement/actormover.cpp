@@ -1,6 +1,7 @@
 // fallout/ai/movement/actormover.cpp: ActorMover, Mover, Tgt_b, MobileObject and more (79 functions)
 
 #include "fnv/pathing_location_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/result_slot.h"
@@ -4958,25 +4959,25 @@ void Mover::SetEnabled(bool abEnabled)
                     intervalSlot1 = DAT_01092234;
             }
         }
-        float elapsedSlot0 = (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ActorMovement::Clock *>(&::g_timeGlobal))))->FUN_00825c00() - lastTime) * ::DAT_01016978;
-        float total = (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ActorMovement::Clock *>(&::g_timeGlobal))))->FUN_00825c00() - startTime) * ::DAT_01016978;
+        float elapsedSlot0 = (::fnv::timer::Time() - lastTime) * ::DAT_01016978;
+        float total = (::fnv::timer::Time() - startTime) * ::DAT_01016978;
         if (elapsedSlot0 >= intervalSlot1)
         {
             retries = 0;
-            lastTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ActorMovement::Clock *>(&::g_timeGlobal))))->FUN_00825c00();
-            startTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ActorMovement::Clock *>(&::g_timeGlobal))))->FUN_00825c00();
+            lastTime = ::fnv::timer::Time();
+            startTime = ::fnv::timer::Time();
         }
         else if (total >= intervalSlot1 && retries >= 2)
         {
             UpdateTargeting();
             retries = 0;
-            lastTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ActorMovement::Clock *>(&::g_timeGlobal))))->FUN_00825c00();
-            startTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ActorMovement::Clock *>(&::g_timeGlobal))))->FUN_00825c00();
+            lastTime = ::fnv::timer::Time();
+            startTime = ::fnv::timer::Time();
         }
         else
         {
             ++retries;
-            lastTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ActorMovement::Clock *>(&::g_timeGlobal))))->FUN_00825c00();
+            lastTime = ::fnv::timer::Time();
         }
         reinterpret_cast<::TESForm *>(this)->ClearData();
     }
@@ -5585,7 +5586,7 @@ void FUN_009df100_shell::FUN_009df100(BGSSaveFormBuffer* buffer)
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&inDialog, 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&field78, 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&state, 4, 0);
-    unsigned int elapsed = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() - timeStamp;
+    unsigned int elapsed = ::fnv::timer::Time() - timeStamp;
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&elapsed, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&field84, 4, 0);
     location.Save(buffer);
@@ -5925,8 +5926,8 @@ void Mover::FUN_009df3d0(Buffer* buffer)
     {
         unsigned int uiSavedTime = 0;
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&uiSavedTime), 4);
-        if (uiSavedTime < reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::loadpath::Clock *>(&::g_timeGlobal))))->FUN_00825c00())
-            elapsed = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::loadpath::Clock *>(&::g_timeGlobal))))->FUN_00825c00() - uiSavedTime;
+        if (uiSavedTime < ::fnv::timer::Time())
+            elapsed = ::fnv::timer::Time() - uiSavedTime;
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a84), 4);
     }
     if (buffer->Version() >= 7)
@@ -6548,7 +6549,7 @@ void ActorMover_Standin::FUN_009ddc00()
             {
                 moveDelta = NiPoint3Ex(0.0f,
                                        reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>((((FUN_008a0b10_shell*)this->pActor)))->FUN_008a0b10() *
-                                           reinterpret_cast<::Twin_0084d030 *>((((FrameMoveTimeView14*)&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue(),
+                                           ::fnv::timer::Seconds(),
                                        0.0f);
             }
         }

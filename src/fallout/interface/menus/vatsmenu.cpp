@@ -1,6 +1,7 @@
 // fallout/interface/menus/vatsmenu.cpp: VATSMenuX, VATSMenu, Vec2Tmp, StandIn and more (58 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
 #include "fnv/inventory_entry_fields.h"
@@ -474,7 +475,7 @@ bool FUN_007f4bb0()
         return false;
     if (((DAT_Pointee_7f4bb0*)DAT_011db0d4)->flag)
     {
-        if ((unsigned int)(((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((AnimIdle*)&::g_timeGlobal)))->FUN_00825c00())) - ((DAT_Pointee_7f4bb0*)DAT_011db0d4)->t) > 0x1F4)
+        if ((unsigned int)(((int)(::fnv::timer::Time())) - ((DAT_Pointee_7f4bb0*)DAT_011db0d4)->t) > 0x1F4)
             return true;
     }
     return false;
@@ -497,7 +498,7 @@ bool FUN_007f4c00()
 {
     if (DAT_011db0d4 == 0)
         return false;
-    if (((DAT_Obj*)DAT_011db0d4)->b && (unsigned int)(((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_007f4c00::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00())) - ((DAT_Obj*)DAT_011db0d4)->v) > 0x1f4)
+    if (((DAT_Obj*)DAT_011db0d4)->b && (unsigned int)(((int)(::fnv::timer::Time())) - ((DAT_Obj*)DAT_011db0d4)->v) > 0x1f4)
         return true;
     return false;
 }
@@ -550,14 +551,14 @@ void FUN_007ef8b0_This::FUN_007ef8b0(int aiID, Tile* apTarget)
     case 2:
         if (!flag)
         {
-            t = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((AnimIdle*)&::g_timeGlobal)))->FUN_00825c00()));
+            t = ((int)(::fnv::timer::Time()));
             flag = 1;
         }
         break;
     case 3:
         if (!pad2[0])
         {
-            t = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((AnimIdle*)&::g_timeGlobal)))->FUN_00825c00()));
+            t = ((int)(::fnv::timer::Time()));
             pad2[0] = 1;
         }
         break;
@@ -4185,7 +4186,7 @@ void Owner7::UpdateLimbHighlight()
                 if (((std::uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->pObject)) != 3)
                 {
                     reinterpret_cast<::NiPoint3Interpolator *>((((InterpX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->CreateObject(3, false);
-                    DAT_011db0dc = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_007f07a0::TimeG *>(&::g_timeGlobal))))->FUN_00825c00();
+                    DAT_011db0dc = ::fnv::timer::Time();
                 }
                 return;
             }
@@ -8400,7 +8401,7 @@ void VATSMenuX::Update()
         {
             if (!m_bStateFlag6)
             {
-                m_uiTargetCount = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->FUN_00825c00()));
+                m_uiTargetCount = ((int)(::fnv::timer::Time()));
                 m_bStateFlag6 = 1;
             }
         }
@@ -8408,7 +8409,7 @@ void VATSMenuX::Update()
         {
             if (!m_bStateFlag10)
             {
-                m_uiTargetCount = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->FUN_00825c00()));
+                m_uiTargetCount = ((int)(::fnv::timer::Time()));
                 m_bStateFlag10 = 1;
             }
         }
@@ -8524,7 +8525,7 @@ void VATSMenuX::Update()
             m_bStateFlag2 = 1;
         }
     }
-    reinterpret_cast<::AimPlayer *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->FUN_009445b0(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->GetStoredFloatValue(), 0, (unsigned short *)(0), 0);
+    reinterpret_cast<::AimPlayer *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->FUN_009445b0(::fnv::timer::Seconds(), 0, (unsigned short *)(0), 0);
     if ((::FUN_00709d40() && (::fnv_00717a40::FUN_00717a40(10, 1) == 1 || ::fnv_00717a40::FUN_00717a40(6, 1) == 1)) ||
         (reinterpret_cast<::ButtonDevice *>((pInputA))->FUN_00a23a50(1, 1) && iMidRes != 1))
     {
@@ -8551,7 +8552,7 @@ void VATSMenuX::Update()
     {
         ::DAT_011dea34 = 0;
         reinterpret_cast<::fnv_00964260::SelActor *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->FUN_00964260();
-        reinterpret_cast<::fnv_008d3550::FaceActor *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->UpdateFaceAnimation(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->GetStoredFloatValue());
+        reinterpret_cast<::fnv_008d3550::FaceActor *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->UpdateFaceAnimation(::fnv::timer::Seconds());
         reinterpret_cast<::UAMActor *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->FUN_008885e0((::UAMAnim *)(void *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))->GetAnimation()), 0.0f);
         (*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))->UpdateCamera(0, 0);
         reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->UpdateCameraMode();
@@ -9108,9 +9109,9 @@ bool MenuM::UpdateVatsTargeting()
                 if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::StateM *>(&::g_011f2250))))->GetName())) != 3)
                 {
                     reinterpret_cast<::NiPoint3Interpolator *>(&((*reinterpret_cast<::StateM *>(&::g_011f2250))))->CreateObject(3, false);
-                    (*reinterpret_cast<unsigned int *>(&::fnv_007f07a0::DAT_011db0dc)) = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimerM *>(&::g_timeGlobal))))->FUN_00825c00();
+                    (*reinterpret_cast<unsigned int *>(&::fnv_007f07a0::DAT_011db0dc)) = ::fnv::timer::Time();
                 }
-                else if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimerM *>(&::g_timeGlobal))))->FUN_00825c00() - (*reinterpret_cast<unsigned int *>(&::fnv_007f07a0::DAT_011db0dc)) > 2000)
+                else if (::fnv::timer::Time() - (*reinterpret_cast<unsigned int *>(&::fnv_007f07a0::DAT_011db0dc)) > 2000)
                 {
                     scan8 = &target22->limbs;
                     count1 = 0;
@@ -9138,7 +9139,7 @@ bool MenuM::UpdateVatsTargeting()
                         }
                         fill6 = ((::LimbListM *)(reinterpret_cast<::Callees *>((fill6))->FUN_00726070()));
                     }
-                    (*reinterpret_cast<unsigned int *>(&::fnv_007f07a0::DAT_011db0dc)) = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimerM *>(&::g_timeGlobal))))->FUN_00825c00();
+                    (*reinterpret_cast<unsigned int *>(&::fnv_007f07a0::DAT_011db0dc)) = ::fnv::timer::Time();
                 }
                 reinterpret_cast<::VATSMenuX *>(this)->FUN_007f28d0();
                 next4 = &target22->limbs;

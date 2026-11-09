@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "generated/data/vtables.h"
 #include <new>
 #include <cstring>
@@ -2314,7 +2315,7 @@ bool Host::FUN_0050de60(Ptr p1, float* apTime, P3* p3)
         if ((m_a8 & 8) || (m_a8 & 0x40))
         {
             float base;
-            base = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+            base = ::fnv::timer::Seconds();
             float b = 1.0f;
             float flag;
             flag = 0.0f;
@@ -2381,7 +2382,7 @@ bool Host::FUN_0050de60(Ptr p1, float* apTime, P3* p3)
                 float tim2;
                 tim2 = reinterpret_cast<::FUN_00644a50_shell *>((((::Obj *)(::FUN_00559450((int *)&(p1))))))->FUN_00644a50();
                 float cnt;
-                cnt = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+                cnt = ::fnv::timer::Seconds();
                 float fin = DAT_0101e2bc;
                 if ((m_a8 & 0x40) || (m_a8 & 0x100))
                     fin = DAT_010181bc;

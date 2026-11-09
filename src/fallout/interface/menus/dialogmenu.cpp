@@ -1,6 +1,7 @@
 // fallout/interface/menus/dialogmenu.cpp: DialogMenu, TESTopicInfo, Interface, ListBoxProxy (19 functions)
 
 #include <cstring>
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include "fnv/av_object_fields.h"
@@ -359,7 +360,7 @@ void DialogMenu::UpdateDialog()
         }
         else if (!m_bSuppressDialogueText && m_fCameraTransitionAlpha >= 0.1)
             reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(this)))->FUN_00726070())))->Set(DAT_011d9508, 1);
-        m_fCameraTransitionTime += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        m_fCameraTransitionTime += ::fnv::timer::Seconds();
         m_fCameraTransitionAlpha = FUN_0040ebd0(m_fCameraTransitionTime / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1219))))))->f, 1.0f);
         if (m_fCameraTransitionAlpha == 1.0)
         {
@@ -383,14 +384,14 @@ void DialogMenu::UpdateDialog()
     case ePlaySpeech:
         if (DAT_011d951c > 0.0)
         {
-            DAT_011d951c -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+            DAT_011d951c -= ::fnv::timer::Seconds();
             break;
         }
         if (m_pDialogueSpeaker && m_pDialogueSpeaker->bDialogueSelected)
         {
             m_fCameraTransitionTime = 0.0f;
             m_eDialogState = eLoadSpeech;
-            m_uiDialogMenuFlags = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+            m_uiDialogMenuFlags = ::fnv::timer::Time();
         }
         break;
     case eLoadSpeech:
@@ -398,8 +399,8 @@ void DialogMenu::UpdateDialog()
         {
             reinterpret_cast<::FUN_00934250_shell *>((m_pDialogueSpeaker))->FUN_00934250();
             if (DAT_011d9594 == 0)
-                DAT_011d9594 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
-            if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() - DAT_011d9594 >= 500.0)
+                DAT_011d9594 = ::fnv::timer::Time();
+            if (::fnv::timer::Time() - DAT_011d9594 >= 500.0)
                 ::ResetActorState((void *)(std::uintptr_t)(reinterpret_cast<TESForm*>(m_pDialogueSpeaker)->iFormID), true);
         }
         else
@@ -422,7 +423,7 @@ void DialogMenu::UpdateDialog()
         }
         break;
     case eCameraZoomOut:
-        m_fCameraTransitionTime += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        m_fCameraTransitionTime += ::fnv::timer::Seconds();
         m_fCameraTransitionAlpha = 1.0f - FUN_0040ebd0(m_fCameraTransitionTime / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1220))))))->f, 1.0f);
         if (m_fCameraTransitionAlpha == 0.0)
         {
@@ -437,7 +438,7 @@ void DialogMenu::UpdateDialog()
         break;
     }
     if (::_g_thePlayer->IsInDialogueWithPlayer())
-        m_pDialogueSpeaker->vfn_264(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue(), 0, false);
+        m_pDialogueSpeaker->vfn_264(::fnv::timer::Seconds(), 0, false);
     ::_g_thePlayer->FocusOnActor(m_pDialogueSpeaker,
                               (float)(m_fCameraTransitionAlpha * (DAT_011a008c == 0.0 ? 1.0 : DAT_011a008c / 100.0)),
                               m_eDialogState == eCameraZoomOut);
@@ -511,7 +512,7 @@ void DialogMenu::HandleSelection(int id, Tile* tile)
         return;
     if (m_uiDialogMenuFlags)
     {
-        if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() - m_uiDialogMenuFlags >= 500)
+        if (::fnv::timer::Time() - m_uiDialogMenuFlags >= 500)
             m_uiDialogMenuFlags = 0;
         else
             return;
@@ -846,7 +847,7 @@ void DialogMenu::LoadTopicsList()
               true);
     reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<Tile*>(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>(&m_kResponseListBox)))->FUN_00825c00())))->FUN_00a012d0(DAT_011d9504, 0.0f, false);
     reinterpret_cast<::C764930ListMenu *>(&(m_kResponseListBox))->RebuildVisibleTiles();
-    m_uiDialogMenuFlags = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+    m_uiDialogMenuFlags = ::fnv::timer::Time();
 }
 
 // @fnv 0x00763fd0

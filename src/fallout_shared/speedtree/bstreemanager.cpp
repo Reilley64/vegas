@@ -1,6 +1,7 @@
 // fallout_shared/speedtree/bstreemanager.cpp: BSTreeManager, LFFreeList, TreeManager (27 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <cmath>
 #include <new>
 #include "fnv/decl/ActorTaskManager.h"
@@ -405,7 +406,7 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
     float fcamLoc[3];
     if (!abMenuMode)
     {
-        DAT_011d5dd4 += reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&(*reinterpret_cast<::fnv_006652e0::GameTimerRecord *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+        DAT_011d5dd4 += ::fnv::timer::Seconds();
         ::fnv_00b07060::FUN_00b07060(DAT_011d5dd4);
     }
     if (apCamera)
@@ -1080,7 +1081,7 @@ void C6658::Update()
     float sum = 0.0f;
     for (i = 0; i < 4; i++)
     {
-        ((float*)&DAT_011d5dd8)[i] += reinterpret_cast<::Twin_0084d030 *>((((Time6658*)&(*reinterpret_cast<char *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+        ((float*)&DAT_011d5dd8)[i] += ::fnv::timer::Seconds();
         if (value != 0.0)
             ((float*)&DAT_011d5dd8)[i] = ((float*)&DAT_011d5dd8)[i] * (*(float*)&DAT_011d5de8) / value;
         float speed4 = value * 20.0;
@@ -1102,8 +1103,8 @@ void C6658::Update()
     float d9 = (1.0 - *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5c74)))))))) +
                *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5c74))))))) * sum / 2.0;
     FUN_00bb1390(value * a7, value * b,
-                 reinterpret_cast<::Twin_0084d030 *>((((Time6658*)&(*reinterpret_cast<char *>(&::g_timeGlobal)))))->GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1299))))))) * outerc4,
-                 reinterpret_cast<::Twin_0084d030 *>((((Time6658*)&(*reinterpret_cast<char *>(&::g_timeGlobal)))))->GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1300))))))) * d9);
+                 ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1299))))))) * outerc4,
+                 ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1300))))))) * d9);
     (*(float*)&DAT_011d5de8) = value;
 }
 

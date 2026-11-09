@@ -1,6 +1,7 @@
 // fallout_shared/screensplatter.cpp: ScreenSplatter (16 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/CamLook.h"
 #include "fnv/decl/FUN_00440460_S.h"
@@ -391,7 +392,7 @@ void FUN_004e0110()
         unsigned int count;
         float splash5;
         count = ((RootCalls*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())->FUN_0043b480();
-        elapsed_2 = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        elapsed_2 = ::fnv::timer::Seconds();
         for (unsigned int i5 = 0; i5 < count; i5++)
         {
             NiAVObject* child4 = reinterpret_cast<::NiNode *>((((RootCalls*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())))->GetAt(i5);

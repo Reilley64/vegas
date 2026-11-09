@@ -1,6 +1,7 @@
 // fallout_shared/sky/sky.cpp: Sky, ThisCls, TESObjectCELL, Host and more (61 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <cmath>
 #include <malloc.h>
 #include <new>
@@ -1110,7 +1111,7 @@ void FUN_0063ac70_shell::FUN_0063ac70(float afSecondsPassed)
 
     if (m_fWeatherFade > 0.0)
         m_fWeatherFade =
-            1.0 - (((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0063ac70::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00())) - field104) / (((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting74))))))->f * 1000.0);
+            1.0 - (((int)(::fnv::timer::Time())) - field104) / (((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting74))))))->f * 1000.0);
     if (m_fWeatherFade < 0.0)
         m_fWeatherFade = 0.0f;
 
@@ -1268,7 +1269,7 @@ void FUN_0063d5e0_shell::FUN_0063d5e0()
                     {
                         m_pkActiveSoundList->FUN_0063e0d0(fWeight);
                         m_fWeatherFade = fWeight;
-                        field104 = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0063d5e0::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00()));
+                        field104 = ((int)(::fnv::timer::Time()));
                     }
                 }
             }

@@ -1,6 +1,7 @@
 // fallout/interface/menus/hudmainmenu.cpp: HUDMainMenu, HUDMainMenuS, Interface, TESSound and more (82 functions)
 
 #include "fallout/interface/tile_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
 #include "fnv/inventory_entry_fields.h"
@@ -1636,7 +1637,7 @@ void __cdecl FUN_0077a5b0(const char* apObjectiveName, bool abCompleted, bool ab
     if (HUDMainMenu_pme_access::g_pHudMainMenuInstance && apObjectiveName)
     {
         reinterpret_cast<::GlobalObject_0044fae0 *>(&(g_011d9730))->FUN_004538a0(0);
-        DAT_011d96ac = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00()));
+        DAT_011d96ac = ((int)(::fnv::timer::Time()));
         QuestObjective_local* pObjective = new QuestObjective_local;
         TaskQueueInterface::CopyStringToBuffer(pObjective->m_kName, 0x104, apObjectiveName);
         pObjective->m_bCompleted = abCompleted;
@@ -2040,7 +2041,7 @@ void FUN_00773e90_shell::FUN_00773e90(Tile* apTile, float afCurrValue, bool bRes
     }
     if (bResetValues)
     {
-        unsigned int iLastHardcoreFadeTimeLocal = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_00773e90::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00()));
+        unsigned int iLastHardcoreFadeTimeLocal = ((int)(::fnv::timer::Time()));
         unsigned int iCurrTimeDiff = iLastHardcoreFadeTimeLocal - DAT_011d9b00;
         DAT_011d9b00 = iLastHardcoreFadeTimeLocal;
         if (DAT_011d9afc)
@@ -2262,94 +2263,7 @@ void HUDMainMenuS::ShiftTileValues(int aishift)
 }
 }  // namespace fnv_0077f890
 
-struct GameTimerRecord
-{
-    void Update();
-    float GetSeconds();
-    float GetUnmodifiedSeconds();
-    unsigned int GetTime();
-    unsigned int GetStartTime();
-    void ClampAt(unsigned int);
-    bool QEnabled();
-    bool GetSecondsIsZero();
-    static void SetGlobalTimeMultiplierCache();
-    void RestoreGlobalTimeMultiplierCache();
-    static float QGlobalTimeMultiplier();
-    static float QGlobalTimeMultiplierTarget();
-    static void UpdateGlobalTimeMultiplier();
-    void SetUseGlobalTimeMultiplierTarget(bool);
-    bool QUseGlobalTimeMultiplierTarget();
-    float GetRealTimeSeconds();
-    void Enable();
-    void Disable();
-    void Init(unsigned int);
-    unsigned char m_ucFirstTimerByte;
-    char _pad_1[3];
-    float m_fFirstTimerValue;
-    float m_fSecondTimerValue;
-    float fTimeSinceScaleStart;
-    float m_fFourthTimerValue;
-    unsigned int m_uiFirstTimerValue;
-    unsigned int m_uiSecondTimerValue;
-    bool m_bFirstTimerFlag;
-    bool m_bSecondTimerFlag;
-    char _pad_1e[2];
-};
-struct FUN_00aa4ee0_shell : public GameTimerRecord
-{
-    void FUN_00aa4ee0();
-};
-
-struct FUN_00aa4ee0_t : public GameTimerRecord
-{
-    void FUN_00aa4ee0(unsigned int aiTime);
-};
-
-// @fnv 0x00aa4ee0
-void FUN_00aa4ee0_t::FUN_00aa4ee0(unsigned int aiTime)
-{
-    unsigned int iscaleTime = aiTime - m_uiSecondTimerValue;
-    if ((bool)(m_ucFirstTimerByte ? 0 : 1))
-    {
-        if (m_fFirstTimerValue != ::_DAT_01012060)
-        {
-            m_fSecondTimerValue += m_fFirstTimerValue;
-            unsigned int iclampTicks = (unsigned int)m_fSecondTimerValue;
-            m_fSecondTimerValue -= iclampTicks;
-            iscaleTime = m_uiFirstTimerValue + iclampTicks;
-            fTimeSinceScaleStart = m_fFirstTimerValue * (double)0.001f;
-        }
-        else
-        {
-            unsigned int uiDelta;
-            if (!(uiDelta = iscaleTime - m_uiFirstTimerValue))
-            {
-                m_bSecondTimerFlag = true;
-                uiDelta = 1;
-            }
-            else
-            {
-                m_bSecondTimerFlag = false;
-                if (uiDelta > 166)
-                    uiDelta = 166;
-            }
-            if (uiDelta < 10)
-            {
-                unsigned int uiSleep = 10 - uiDelta;
-                Sleep(uiSleep);
-                uiDelta = 10;
-            }
-            fTimeSinceScaleStart = uiDelta * (double)0.001f;
-        }
-        m_uiFirstTimerValue = iscaleTime;
-        m_fFourthTimerValue = fTimeSinceScaleStart;
-        fTimeSinceScaleStart *= DAT_011ac3a0;
-    }
-    else
-    {
-        fTimeSinceScaleStart = 0.0f;
-    }
-}
+#include "GameTimerRecord.h"
 
 struct FUN_00770070_Class
 {
@@ -2479,7 +2393,7 @@ void __cdecl ShowRegionData(const RegionDisplayInfo* aRegionData)
             if (!bshowRegion)
             {
                 reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((reinterpret_cast<TileValues_007728f0*>(g_pHudMainMenuInstance->m_pTiles[15])))->StartFade(4009, 0.0f, *((float *)&(::FUN_00403e20((float *)&(g_011d9774)))) * 255.0, 2.0f, (*(int *)&(const ::fnv_007728f0::TileValues_007728f0::TILE_FADE_CONTROL_TYPE &)(TileValues_007728f0::FADE_TYPE_0)));
-                reinterpret_cast<::Tile *>((reinterpret_cast<TileValues_007728f0*>(g_pHudMainMenuInstance->m_pTiles[15])))->Set(4100, (unsigned int)((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_007728f0::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00())));
+                reinterpret_cast<::Tile *>((reinterpret_cast<TileValues_007728f0*>(g_pHudMainMenuInstance->m_pTiles[15])))->Set(4100, (unsigned int)((int)(::fnv::timer::Time())));
             }
         }
     }
@@ -2535,7 +2449,7 @@ extern Tile* _pme;
 // @fnv 0x0077f420
 void __cdecl FUN_0077f420(bool bFlag)
 {
-    _pme->unk24c = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&((*reinterpret_cast<::fnv_0077f420::GameTimerRecord *>(&::g_timeGlobal))))->FUN_00825c00();
+    _pme->unk24c = ::fnv::timer::Time();
     if (_pme->unk1bc & 1)
     {
         if (bFlag)
@@ -2561,7 +2475,7 @@ extern char* _pme;
 // @fnv 0x0077f490
 void __cdecl UpdateTileOnFlag(bool abUseFirstTile)
 {
-    *(unsigned int*)(_pme + 0x250) = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&((*reinterpret_cast<::fnv_0077f490::GameTimerRecord *>(&::g_timeGlobal))))->FUN_00825c00();
+    *(unsigned int*)(_pme + 0x250) = ::fnv::timer::Time();
     if (*(unsigned int*)(_pme + 0x1bc) & 8)
     {
         if (abUseFirstTile)
@@ -5191,7 +5105,7 @@ void __cdecl UpdateMapMarkerHUD(MarkerEvent772* event)
             {
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Tile772*)HUDMainMenu_pme->m_pTiles[16])))->FUN_00a01350(0xfc4, (char *)(reinterpret_cast<::StringHolder *>((((::MarkerData772 *)(reinterpret_cast<::FUN_00569060_shell *>((event->reference))->FUN_00569060()))))->FUN_00438eb0()), true);
                 reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((((Tile772*)HUDMainMenu_pme->m_pTiles[16])))->StartFade(0xfa9, 0.0f, (float)(*((float *)&(::FUN_00403e20((float *)&(g_011d9774)))) * 255.0), {}, {});
-                reinterpret_cast<::Tile *>((((Tile772*)HUDMainMenu_pme->m_pTiles[16])))->Set(0x1004, ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00())));
+                reinterpret_cast<::Tile *>((((Tile772*)HUDMainMenu_pme->m_pTiles[16])))->Set(0x1004, ((int)(::fnv::timer::Time())));
             }
             reinterpret_cast<::fnv_00a07dc0::FUN_00a07dc0_shell *>((((Tile772*)HUDMainMenu_pme->m_pTiles[15])))->RemoveFadeItemsForTile(0xfa9);
             reinterpret_cast<::FUN_00a012d0_t *>((((Tile772*)HUDMainMenu_pme->m_pTiles[15])))->FUN_00a012d0(0xfa9, 0.0f, true);
@@ -5587,14 +5501,14 @@ void HUDMainMenuS::FUN_007737c0(float afDrinkinRads, float afStandinRads)
     float totalRads = afDrinkinRads + afStandinRads;
     if (afDrinkinRads > ::_DAT_01012060)
     {
-        reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<RadiationTile*>(g_pHudMainMenuInstance->m_pTiles[19])))->FUN_00a012d0(0x100a, (float)((double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::RandomGenerator *>(&::g_timeGlobal))))->FUN_00825c00() + ::DAT_01073490), 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<RadiationTile*>(g_pHudMainMenuInstance->m_pTiles[19])))->FUN_00a012d0(0x100a, (float)((double)::fnv::timer::Time() + ::DAT_01073490), 1);
         reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<RadiationTile*>(g_pHudMainMenuInstance->m_pTiles[19])))->FUN_00a012d0(0x1009, totalRads, 1);
         reinterpret_cast<::Tile *>((reinterpret_cast<RadiationTile*>(g_pHudMainMenuInstance->m_pTiles[19])))->Set(0x100b, 1);
     }
     else if (afStandinRads > ::_DAT_01012060)
     {
         if (((double)(reinterpret_cast<::TileListBoxCalls *>((reinterpret_cast<RadiationTile*>(g_pHudMainMenuInstance->m_pTiles[19])))->GetFloat(0x100a))) <=
-            (double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::RandomGenerator *>(&::g_timeGlobal))))->FUN_00825c00())
+            (double)::fnv::timer::Time())
         {
             reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<RadiationTile*>(g_pHudMainMenuInstance->m_pTiles[19])))->FUN_00a012d0(0x1009, totalRads, 1);
         }
@@ -5799,7 +5713,7 @@ void RadHUD::UpdateRadMeter()
     bool low;
     float delta;
     delta = 0.0f;
-    recent = reinterpret_cast<::TileListBoxCalls *>((((RadTile*)HUDMainMenu_pme->m_pTiles[19])))->GetFloat(0x100a) > reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_00774090::RadTime *>(&::g_timeGlobal))))->FUN_00825c00();
+    recent = reinterpret_cast<::TileListBoxCalls *>((((RadTile*)HUDMainMenu_pme->m_pTiles[19])))->GetFloat(0x100a) > ::fnv::timer::Time();
     low = reinterpret_cast<::FUN_005098e0_Object *>(&((*reinterpret_cast<::fnv_00774090::RadProcess *>(&::g_011e0e80))))->IsFlagged();
     if (!low && !recent && DAT_011a0120 == 4)
         return;
@@ -6325,11 +6239,11 @@ void FUN_00778c20(Tile179* tile, float value, float limit)
     float middle = 0.0f;
     if (alpha == 0.0)
         middle = DAT_011d979c != 0.0
-                     ? reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4009) + state * limit / DAT_011d979c * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_00778c20::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue()
+                     ? reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4009) + state * limit / DAT_011d979c * ::fnv::timer::Seconds()
                      : 0.0;
     else if (alpha == 1.0)
         middle = DAT_011d979c != 0.0
-                     ? reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4009) - state * limit / DAT_011d979c * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_00778c20::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue()
+                     ? reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4009) - state * limit / DAT_011d979c * ::fnv::timer::Seconds()
                      : 0.0;
     else if (alpha == 3.0)
         middle = DAT_011d979c;
@@ -6351,9 +6265,9 @@ void FUN_00778c20(Tile179* tile, float value, float limit)
                                       (float)actual, (float)low, value);
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(4009, 0.0f, true);
         reinterpret_cast<::Tile *>((tile))->Set(trait, 0);
-        reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(4110, reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_00778c20::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() + delay, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(4110, ::fnv::timer::Time() + delay, true);
     }
-    else if (reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4110) < reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_00778c20::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() && alpha == 3.0)
+    else if (reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4110) < ::fnv::timer::Time() && alpha == 3.0)
     {
         reinterpret_cast<::Tile *>((tile))->Set(trait, 1);
     }
@@ -6458,7 +6372,7 @@ void QHud::UpdateQuestNotification()
     int _unused;
     bool _y;
     if (!DAT_011d96c0 || m_eHudMenuMode == 7 || m_eHudMenuMode == 9 || m_eHudMenuMode == 8 ||
-        reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0077a650::QTime *>(&::g_timeGlobal))))->FUN_00825c00() - (unsigned int)DAT_011d96ac < 2000)
+        ::fnv::timer::Time() - (unsigned int)DAT_011d96ac < 2000)
         return;
     _y = ::FUN_007178a0();
     if (!::fnv_007735d0::FUN_007735d0((unsigned char *)this) && !reinterpret_cast<::fnv_0077b2c0::FUN_0077b2c0_shell *>((DAT_011d96bc))->FUN_0077b2c0() &&
@@ -6477,7 +6391,7 @@ void QHud::UpdateQuestNotification()
             reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::fnv_0077a650::QSound &)(aRepair))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_0077a650::QSound &)(((::fnv_0077a650::QAudio *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01073700, 289))));
         reinterpret_cast<::FUN_00ad8830_shell *>(&(aRepair))->FUN_00ad8830(false);
         aBy = 0;
-        aAlternate = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0077a650::QTime *>(&::g_timeGlobal))))->FUN_00825c00();
+        aAlternate = ::fnv::timer::Time();
         aLocation = ((::fnv_0077a650::QTile **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(((QTile*)HUDMainMenu_pme->m_pTiles[14])->children))->FUN_0073ac90()))[0];
         if (((::fnv_0077a650::QEntry *)(reinterpret_cast<::FUN_0077b2a0_shell *>((DAT_011d96bc))->GetQuestNamesHead()))->kind == 0)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((aLocation))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0077a650::QSetting *>(&::g_011d282c))))->GetMenuTitle()))), true);
@@ -6821,14 +6735,14 @@ void TileAnimationUpdater::UpdateTileAnimations(AnimatedTile* pRootTile)
         {
             pChild = ((::fnv_0077c170::AnimatedTile *)(reinterpret_cast<::ListStandIn *>(&(pRootTile->children))->FUN_0057cbe0((int **)&(tile))));
             if (pChild && reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0x1004) > 0.0 &&
-                (unsigned int)((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00())) > reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0x1004))
+                (unsigned int)((int)(::fnv::timer::Time())) > reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0x1004))
             {
                 reinterpret_cast<::Tile *>((pChild))->SetName(reinterpret_cast<::FUN_00a011f0_shell *>((pChild))->FUN_00a011f0(0xfc4));
                 reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((pChild))->StartFade(0xfa9, 0.0f, (float)(255.0 * *((float *)&(::FUN_00403e20((float *)&(DAT_011d9774))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting1233)))))), 0);
                 reinterpret_cast<::Tile *>((pChild))->Set(0x1004, 0);
             }
             else if (pChild && reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0x1005) > 0.0 &&
-                     (unsigned int)((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00())) > reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0x1005))
+                     (unsigned int)((int)(::fnv::timer::Time())) > reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0x1005))
             {
                 reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((pChild))->StartFade(0xfa9, reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0xfa9) > 175.0 ? reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0xfa9) : 175.0f,
                                   0.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting1234)))))), 0);
@@ -9654,14 +9568,14 @@ void HUDHotkeys::FUN_0077da60()
             {
                 reinterpret_cast<::HotkeyWheelUpdate *>((((HotkeyWheel*)m_kMenuData)))->FUN_007017b0();
                 DAT_011d9e90 = true;
-                DAT_011d9e8c = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0077da60::HUDTimer *>(&::g_timeGlobal))))->FUN_00825c00();
+                DAT_011d9e8c = ::fnv::timer::Time();
             }
             if (DAT_011d9e90)
             {
                 if (iSelected >= 0)
                 {
                     if (DAT_011d9e8c > 0 &&
-                        reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0077da60::HUDTimer *>(&::g_timeGlobal))))->FUN_00825c00() - DAT_011d9e8c > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0077da60::HUDSetting *>(&::originalRuntimeFloatSetting1225)))))) * 1000.0 &&
+                        ::fnv::timer::Time() - DAT_011d9e8c > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0077da60::HUDSetting *>(&::originalRuntimeFloatSetting1225)))))) * 1000.0 &&
                         !reinterpret_cast<::HotkeyWheelDisplay *>((((HotkeyWheel*)m_kMenuData)))->GetVisible())
                     {
                         reinterpret_cast<::HotkeyWheelDisplay *>((((HotkeyWheel*)m_kMenuData)))->SetVisible(true);
@@ -9734,7 +9648,7 @@ void HUDHotkeys::FUN_0077da60()
                     HotkeyList* pHotkeys = ((::fnv_0077da60::HotkeyList *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::fnv_0077da60::HUDPlayer * *>(&::_g_thePlayer))))));
                     HotkeyItem* pEntry = 0;
                     bool bIconTmp = false;
-                    DAT_011d9e8c = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0077da60::HUDTimer *>(&::g_timeGlobal))))->FUN_00825c00();
+                    DAT_011d9e8c = ::fnv::timer::Time();
                     reinterpret_cast<::HWShell *>((((HotkeyWheel*)m_kMenuData)))->FUN_00701bd0(i);
                     pEntry = pHotkeys ? ((::fnv_0077da60::HotkeyItem *)(reinterpret_cast<::InventoryChangesIter *>((pHotkeys))->FindEntryWithExtraListType(i))) : 0;
                     const char* pIconPathOld = 0;
@@ -9768,7 +9682,7 @@ void HUDHotkeys::FUN_0077da60()
                 else if (reinterpret_cast<::HotkeyWheelDisplay *>((((::fnv_0077da60::HUDInput *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_0077da60::HUDGlobals * *>(&::g_osGlobals))))->FUN_00877720()))))->SetHotkeyItem(i + 0x11, 0))
                 {
                     if (!reinterpret_cast<::HotkeyWheelDisplay *>((((HotkeyWheel*)m_kMenuData)))->GetVisible() && DAT_011d9e8c > 0 &&
-                        reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0077da60::HUDTimer *>(&::g_timeGlobal))))->FUN_00825c00() - DAT_011d9e8c > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0077da60::HUDSetting *>(&::originalRuntimeFloatSetting1225)))))) * 1000.0 && i != 1)
+                        ::fnv::timer::Time() - DAT_011d9e8c > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0077da60::HUDSetting *>(&::originalRuntimeFloatSetting1225)))))) * 1000.0 && i != 1)
                     {
                         reinterpret_cast<::HotkeyWheelDisplay *>((((HotkeyWheel*)m_kMenuData)))->SetVisible(true);
                         reinterpret_cast<::Tile *>((((HotkeyTile*)m_pTiles[41])))->Set(0xfa3, 1);
@@ -9780,7 +9694,7 @@ void HUDHotkeys::FUN_0077da60()
                         reinterpret_cast<::Tile *>((((HotkeyTile*)m_pTiles[49])))->Set(0xfa3, 0);
                     }
                     if (reinterpret_cast<::HotkeyWheelDisplay *>((((HotkeyWheel*)m_kMenuData)))->GetVisible())
-                        DAT_011d9e8c = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0077da60::HUDTimer *>(&::g_timeGlobal))))->FUN_00825c00();
+                        DAT_011d9e8c = ::fnv::timer::Time();
                 }
                 else if (reinterpret_cast<::HotkeyWheelDisplay *>((((::fnv_0077da60::HUDInput *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_0077da60::HUDGlobals * *>(&::g_osGlobals))))->FUN_00877720()))))->SetHotkeyItem(i + 0x11, 2))
                 {
@@ -9790,7 +9704,7 @@ void HUDHotkeys::FUN_0077da60()
                 }
             }
             if (reinterpret_cast<::HotkeyWheelDisplay *>((((HotkeyWheel*)m_kMenuData)))->GetVisible() && DAT_011d9e8c > 0 &&
-                reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0077da60::HUDTimer *>(&::g_timeGlobal))))->FUN_00825c00() - DAT_011d9e8c > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0077da60::HUDSetting *>(&::originalRuntimeFloatSetting1224)))))) * 1000.0)
+                ::fnv::timer::Time() - DAT_011d9e8c > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0077da60::HUDSetting *>(&::originalRuntimeFloatSetting1224)))))) * 1000.0)
             {
                 reinterpret_cast<::Tile *>((((HotkeyTile*)m_pTiles[41])))->Set(0xfa3, 0);
                 reinterpret_cast<::HotkeyWheelDisplay *>((((HotkeyWheel*)m_kMenuData)))->SetVisible(false);
@@ -11391,7 +11305,7 @@ bool FUN_007e9200()
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_bStateFlag10 = 0;
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_bStateFlag6 = 0;
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_bStateFlag3 = 0;
-        (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_uiTargetCount = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::VATSCreateTimerX *>(&::g_timeGlobal))))->FUN_00825c00()));
+        (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_uiTargetCount = ((int)(::fnv::timer::Time()));
         qMBds = ((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon();
         qYvz = qMBds ? ((::VATSCreateWeaponX *)(reinterpret_cast<::InventoryEntryFields *>((qMBds))->pObject)) : 0;
         if (!qYvz || ::FUN_006450c0((::TESObjectWEAP *)(qYvz)) || qYvz->GetWeaponType() == 10)
@@ -11527,14 +11441,14 @@ void HUDUpdate::FUN_00770430()
     if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((HUDTime*)m_cBuffer)))->FUN_00825c00() - lastUpdate < 200)
         return;
     if (m_iHudValueFirstAfterUnsignedValues == -1 ||
-        reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::HUDTime *>(&::g_timeGlobal))))->FUN_00825c00() - m_iHudValueFirstAfterUnsignedValues > 1000)
+        ::fnv::timer::Time() - m_iHudValueFirstAfterUnsignedValues > 1000)
     {
         m_iHudValueFirstAfterUnsignedValues = -1;
         reinterpret_cast<::Tile *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[75])))->Set(4003, 0);
         reinterpret_cast<::Tile *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[82])))->Set(4003, 0);
     }
     if (m_iHudValueSecondAfterUnsignedValues == -1 ||
-        reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::HUDTime *>(&::g_timeGlobal))))->FUN_00825c00() - m_iHudValueSecondAfterUnsignedValues > 1000)
+        ::fnv::timer::Time() - m_iHudValueSecondAfterUnsignedValues > 1000)
     {
         m_iHudValueSecondAfterUnsignedValues = -1;
         reinterpret_cast<::Tile *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[76])))->Set(4003, 0);
@@ -11561,11 +11475,11 @@ void HUDUpdate::FUN_00770430()
     reinterpret_cast<::FUN_00a012d0_t *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[77])))->FUN_00a012d0(4009, DAT_011d979c, true);
     if (reinterpret_cast<::TileListBoxCalls *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[15])))->GetFloat(4009) > 0.0 &&
         reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((((HUDTile*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[15])))->FUN_00a07fc0(4009) &&
-        reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::HUDTime *>(&::g_timeGlobal))))->FUN_00825c00() - reinterpret_cast<::TileListBoxCalls *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[15])))->GetFloat(4100) > DAT_01073480)
+        ::fnv::timer::Time() - reinterpret_cast<::TileListBoxCalls *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[15])))->GetFloat(4100) > DAT_01073480)
         reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((((HUDTile*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[15])))->StartFade(4009, reinterpret_cast<::TileListBoxCalls *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[15])))->GetFloat(4009), 0.0f, ::DAT_010162c0, 0);
     if (reinterpret_cast<::TileListBoxCalls *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[16])))->GetFloat(4009) > 0.0 &&
         reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((((HUDTile*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[16])))->FUN_00a07fc0(4009) &&
-        reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::HUDTime *>(&::g_timeGlobal))))->FUN_00825c00() - reinterpret_cast<::TileListBoxCalls *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[16])))->GetFloat(4100) > DAT_01073480)
+        ::fnv::timer::Time() - reinterpret_cast<::TileListBoxCalls *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[16])))->GetFloat(4100) > DAT_01073480)
         reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((((HUDTile*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[16])))->StartFade(4009, *((float *)&(::FUN_00403e20((float *)&(DAT_011d9774)))) * ::DAT_0101e568, 0.0f, ::DAT_010162c0, 0);
     if (reinterpret_cast<::FUN_00a01230_shell *>((((HUDTile*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[15])))->IsTraitNonZero(::FUN_00a01860(DAT_01073474)) &&
         reinterpret_cast<::TileListBoxCalls *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[64])))->GetFloat(4003) != 0.0 &&
@@ -11573,7 +11487,7 @@ void HUDUpdate::FUN_00770430()
         reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((((HUDTile*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[16])))->FUN_00a07fc0(4009))
     {
         reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((((HUDTile*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[15])))->StartFade(4009, 0.0f, *((float *)&(::FUN_00403e20((float *)&(DAT_011d9774)))) * ::DAT_0101e568, ::DAT_010162c0, 0);
-        reinterpret_cast<::Tile *>((((HUDTile*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[15])))->Set(4100, reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::HUDTime *>(&::g_timeGlobal))))->FUN_00825c00());
+        reinterpret_cast<::Tile *>((((HUDTile*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[15])))->Set(4100, ::fnv::timer::Time());
         reinterpret_cast<::Tile *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[15])))->Set(::FUN_00a01860(DAT_01073474), 0);
     }
     if (reinterpret_cast<::Actor *>((((HUDActor*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)))))->IsSneaking())
@@ -11659,15 +11573,15 @@ void HUDUpdate::FUN_00770430()
         UpdateActivatePrompt((RefX*)m_pCrosshairReference, 0, true);
     }
     if (m_bHudAnimationActive &&
-        reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::HUDTime *>(&::g_timeGlobal))))->FUN_00825c00() - m_uiHudValueSecondAfterActor > (unsigned)(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::HUDIntSetting *>(&::g_011d2220)))))) * 1000) &&
+        ::fnv::timer::Time() - m_uiHudValueSecondAfterActor > (unsigned)(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::HUDIntSetting *>(&::g_011d2220)))))) * 1000) &&
         HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_eHudMenuMode != 18 && HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_eHudMenuMode != 19)
     {
-        m_uiHudValueSecondAfterActor = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::HUDTime *>(&::g_timeGlobal))))->FUN_00825c00();
+        m_uiHudValueSecondAfterActor = ::fnv::timer::Time();
         FUN_007736d0(((::Script *)(::FUN_005cbb50((char *)(((HUDActor*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer))))))));
     }
     else if (m_uiHudValueSecondAfterActor == 0 && FUN_00458030() == 2)
     {
-        m_uiHudValueSecondAfterActor = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::HUDTime *>(&::g_timeGlobal))))->FUN_00825c00();
+        m_uiHudValueSecondAfterActor = ::fnv::timer::Time();
         FUN_007736d0(((::Script *)(::FUN_005cbb50((char *)(((HUDActor*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer))))))));
         m_bQuestObjectiveUpdatesEnabled = false;
     }
@@ -12150,14 +12064,14 @@ void XPMenu::FUN_0077c4e0()
                 reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[50]))->StartFade(4009, 0.0f, ::DAT_011d979c, 0.5f, 0);
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[50]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::XPSetting *>(&::g_011d4324))))->GetMenuTitle()))), true);
                 m_pTiles[50]->Set(4003, 1);
-                m_pTiles[50]->Set(4109, reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::XPClock *>(&::g_timeGlobal))))->FUN_00825c00());
+                m_pTiles[50]->Set(4109, ::fnv::timer::Time());
                 m_pTiles[50]->Set(4110, 1);
             }
             else
             {
-                if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::XPClock *>(&::g_timeGlobal))))->FUN_00825c00() - reinterpret_cast<::TileListBoxCalls *>((m_pTiles[50]))->GetFloat(4109) > 1500.0 && !noticeZero && noticeDone)
+                if (::fnv::timer::Time() - reinterpret_cast<::TileListBoxCalls *>((m_pTiles[50]))->GetFloat(4109) > 1500.0 && !noticeZero && noticeDone)
                 {
-                    m_pTiles[50]->Set(4109, reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::XPClock *>(&::g_timeGlobal))))->FUN_00825c00() + 2000);
+                    m_pTiles[50]->Set(4109, ::fnv::timer::Time() + 2000);
                     reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[50]))->StartFade(4009, ::DAT_011d979c, 0.0f, 0.5f, 0);
                 }
                 else if (!m_bSequenceActive && noticeDone && noticeZero)

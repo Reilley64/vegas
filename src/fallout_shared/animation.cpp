@@ -1,6 +1,7 @@
 // fallout_shared/animation.cpp: TESAnimGroup, Animation, AnimSequenceMultiple, TaskQueueInterface and more (156 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include <cctype>
 #include <cstring>
@@ -7434,13 +7435,13 @@ void SetSequenceProgress(float afPercent, ManagerStub* apManager, SeqStub* apSeq
         {
             reinterpret_cast<::TaskQueueInterface *>((apManager))->QueueReferenceStateTask(true);
             reinterpret_cast<::NiControllerManager *>((apManager))->ActivateControllerSequence((::NiControllerSequence *)(apSequence), 0, false, 1.0f, 0.0f, (::NiControllerSequence *)(::fnv_0049bf10::SeqStub *)(0));
-            reinterpret_cast<::AnimationSequence *>((apSequence))->FUN_00a34ba0(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0049bf10::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() / 1000.0 + reinterpret_cast<::FUN_00759450_shell *>((apSequence))->FUN_00759450(), true);
+            reinterpret_cast<::AnimationSequence *>((apSequence))->FUN_00a34ba0(::fnv::timer::Time() / 1000.0 + reinterpret_cast<::FUN_00759450_shell *>((apSequence))->FUN_00759450(), true);
         }
         if (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 1)
         {
             float fScaleMultiplier = reinterpret_cast<::FUN_00508100_shell *>((apSequence))->FUN_00508100() - reinterpret_cast<::FUN_00759450_shell *>((apSequence))->FUN_00759450();
             float fTime2 = reinterpret_cast<::FUN_00759450_shell *>((apSequence))->FUN_00759450() + fScaleMultiplier * afPercent;
-            reinterpret_cast<::fnv_00a328b0::SeqExt *>((apSequence))->FUN_00a328b0(fTime2 - reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0049bf10::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() / 1000.0f, true);
+            reinterpret_cast<::fnv_00a328b0::SeqExt *>((apSequence))->FUN_00a328b0(fTime2 - ::fnv::timer::Time() / 1000.0f, true);
         }
     }
 }
@@ -8138,7 +8139,7 @@ void FUN_00498910_shell::FUN_00498910(bool abFreeQueued, bool abForceDelete)
 // @fnv 0x00491180
 void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float afTime)
 {
-    float fTimeMultiplier = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobalStub *>(&::g_timeGlobal))))->GetStoredFloatValue() * m_fEquipAnimationRate;
+    float fTimeMultiplier = ::fnv::timer::Seconds() * m_fEquipAnimationRate;
     if (reinterpret_cast<::FUN_00493830_shell *>(this)->FUN_00493830())
     {
         for (; (*reinterpret_cast<unsigned int *>(&::DAT_011c56e8)) < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingStub *>(&::g_011c5778)))))); (*reinterpret_cast<unsigned int *>(&::DAT_011c56e8))++)
@@ -9092,7 +9093,7 @@ bool MovementAnimation::GetMovement(MotionPoint* apMovement, MotionActor* actor,
     float alternate, speed2, limitVal, scale4;
     if (!((::fnv_00494390::MotionRoot *)(::FUN_00559450((int *)&(root)))))
         return false;
-    float deltaTime7 = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_00494390::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue() * globalTimeMultiplier;
+    float deltaTime7 = ::fnv::timer::Seconds() * globalTimeMultiplier;
     const MotionPoint zero3 = (*reinterpret_cast<const ::fnv_00494390::MotionPoint *>((void *)&::NiPoint3::ZERO));
     MotionPoint origin3 = zero3;
     MotionPoint delta3 = movement;

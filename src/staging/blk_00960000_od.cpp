@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/A_00885520.h"
@@ -3436,7 +3437,7 @@ void PlayerDOFOwner::UpdateDepthOfField()
     }
     if (fTarget != fCurTmp)
     {
-        float fStep = 1.0f / *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting525)))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        float fStep = 1.0f / *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting525)))) * ::fnv::timer::Seconds();
         if (fTarget > fCurTmp)
             fCurTmp += fStep;
         else
@@ -4042,7 +4043,7 @@ void EffectOwner::UpdateImageSpaceEffects()
     }
     if (p != h)
     {
-        float depthStep = (1.0f / ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting529))))))->f) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_00965270::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        float depthStep = (1.0f / ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting529))))))->f) * ::fnv::timer::Seconds();
         if (p > h)
             h += depthStep;
         else
@@ -4051,7 +4052,7 @@ void EffectOwner::UpdateImageSpaceEffects()
     }
     if (s != eb)
     {
-        float blurStep = (1.0f / ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting529))))))->f) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_00965270::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        float blurStep = (1.0f / ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting529))))))->f) * ::fnv::timer::Seconds();
         if (s > eb)
             eb += blurStep;
         else

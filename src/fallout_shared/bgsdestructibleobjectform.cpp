@@ -1,6 +1,7 @@
 // fallout_shared/bgsdestructibleobjectform.cpp: BGSDestructibleObjectForm, TESObjectREFR, ActorValueOwner, TargetLocation (35 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/AttachmentHandler.h"
 #include "fnv/decl/C6b7f20_Map.h"
@@ -116,7 +117,7 @@ float TESObjectREFR::GetBoundingRadius()
 void BGSDestructibleObjectForm::UpdateDestructionMap()
 {
     void* pIterPos;
-    float fTime = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    float fTime = ::fnv::timer::Seconds();
     pIterPos = ((BGSReconstructFormsInAllFilesMap*)&g_011c4104)->GetFirstPos();
     while (pIterPos)
     {

@@ -1,6 +1,7 @@
 // fallout_shared/tesconditionfunctions.cpp: BGSQuestObjective, Script, IdleAnimationManager, TESQuest and more (272 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "fnv/tls.h"
 #include <new>
 #include <string.h>
@@ -467,7 +468,7 @@ bool __cdecl FUN_0059c430(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     }
     else
     {
-        afReturnValue = (*reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)).GetStoredFloatValue();
+        afReturnValue = ::fnv::timer::Seconds();
     }
     if (::g_tlsBlock.conditionFunctionDebug)
     {

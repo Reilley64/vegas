@@ -1,6 +1,7 @@
 // fallout/interface/forenderedmenu.cpp: FORenderedMenu, MenuStub, FOPipboyManager, HOLDER and more (44 functions)
 
 #include "fnv/av_object_fields.h"
+#include "fnv/game_timer.h"
 #include "fallout/interface/tile_fields.h"
 #include <cstdint>
 #include <new>
@@ -165,7 +166,7 @@ void FORenderedMenu::StartBurst(float duration, float intensity, float soundChan
     fBurstDuration = duration;
     m_fBurstSoundChance = intensity;
     m_fBurstIntensity = intensity;
-    m_fBurstElapsedTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+    m_fBurstElapsedTime = ::fnv::timer::Time();
 
     if (g_burstSoundEnabled && RandomBoolean(soundChance))
     {
@@ -505,7 +506,7 @@ struct S007fb100
 void S007fb100::FUN_007fb100()
 {
     b95 = 1;
-    f98 = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+    f98 = (float)::fnv::timer::Time();
     f9c = 0.0f;
 }
 
@@ -527,7 +528,7 @@ void FUN_007fb250_owner::FUN_007fb250(float afDuration, float afIntensity)
     this->unk60 = true;
     this->unk68 = afDuration;
     this->unk6c = afIntensity * (double)0.0001f;
-    this->unk64 = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+    this->unk64 = (float)::fnv::timer::Time();
     this->unk70 = 0.0f;
 }
 
@@ -676,7 +677,7 @@ void S_007fb2b0::FUN_007fb2b0(float x, float y, float z)
     f7c = x;
     f80 = y;
     f84 = z;
-    f78 = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+    f78 = (float)::fnv::timer::Time();
     f88 = 0.0f;
 }
 
@@ -913,7 +914,7 @@ bool FUN_007faf10_shell::UpdateScreenEffect()
     bool bmenuOpenPreviousUpdate;
     float fappTime;
 
-    fappTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+    fappTime = ::fnv::timer::Time();
     bmenuOpenPreviousUpdate = m_bMenuLightEnabled;
 
     m_bMenuLightEnabled = ((::FUN_007079f0_shell *)(::fnv_004b7210::FUN_004b7210()))->FUN_007079f0();

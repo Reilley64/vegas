@@ -1,6 +1,7 @@
 // fallout_shared/globalfunc.cpp: BipedNodeNames, NiAVObject, ActorMover, PathingGraphNode and more (110 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include <cmath>
 #include "runtime/crt.h"
@@ -3670,10 +3671,10 @@ bool __cdecl IsBoundVisible(NiBound* pkBound, NiCamera* pkCamera)
 
     static NiFrustumPlanesS g_kFrustumPlanes;
 
-    if (s_pkLastCamera != pkCamera || s_uiLastFrame != reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal))))->FUN_00825c00())
+    if (s_pkLastCamera != pkCamera || s_uiLastFrame != ::fnv::timer::Time())
     {
         reinterpret_cast<::SearchObject *>(&(g_kFrustumPlanes))->FUN_00a755d0((std::uintptr_t)(pkCamera));
-        s_uiLastFrame = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal))))->FUN_00825c00();
+        s_uiLastFrame = ::fnv::timer::Time();
         s_pkLastCamera = pkCamera;
     }
 

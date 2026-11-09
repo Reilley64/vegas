@@ -1,5 +1,6 @@
 
 #include "fnv_result_slot.h"
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -4599,7 +4600,7 @@ bool UpdateObstacleBounds(Obstacle* obstacle)
         obstacle->worldMax.y = ::FUN_00404010(obstacle->worldMax.y, worldCorners[boundIndex].y);
         obstacle->worldMax.z = ::FUN_00404010(obstacle->worldMax.z, worldCorners[boundIndex].z);
     }
-    obstacle->generation = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ObstacleBounds::Manager *>(&::g_timeGlobal))))->FUN_00825c00();
+    obstacle->generation = ::fnv::timer::Time();
     return true;
 }
 }
@@ -6264,7 +6265,7 @@ void C006c3640::FUN_006c3640()
     reinterpret_cast<::GlobalObject_0044fae0 *>(this)->FUN_004538a0((std::intptr_t)(&DAT_0106c498));
     reinterpret_cast<::TESForm *>(&(timer))->ClearData();
     bool changed = false;
-    time -= reinterpret_cast<::Twin_0084d030 *>((((TimeShell*)&(*reinterpret_cast<char *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+    time -= ::fnv::timer::Seconds();
     switch (state)
     {
     case 0: {
@@ -6970,7 +6971,7 @@ void ObsMgr::FUN_006c4d30()
         ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&v)), (*(const ::hkVector4 *)(&h)));
         V3 tmp;
         if (reinterpret_cast<::TESCombatStyle *>((((::fnv_006c4d30::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(v))->FUN_00439ef0((::NiPoint3 *)(::fnv_006c4d30::V3 *)(&tmp), (*(const ::NiPoint3 *)(&((::fnv_006c4d30::ObstData1920 *)(::FUN_00559450((int *)&(item))))->pos)))))))->UpdateCombatStyle() > kObsDist &&
-            reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_006c4d30::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() - ((::fnv_006c4d30::ObstData1920 *)(::FUN_00559450((int *)&(item))))->lastUpdate >= uiTimeLimitMs)
+            ::fnv::timer::Time() - ((::fnv_006c4d30::ObstData1920 *)(::FUN_00559450((int *)&(item))))->lastUpdate >= uiTimeLimitMs)
             reinterpret_cast<::ObstacleMgrX *>(this)->FUN_006c1760((*(const ::ObstPtrX *)(&item)));
     }
 }

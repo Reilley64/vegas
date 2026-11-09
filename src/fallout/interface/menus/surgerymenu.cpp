@@ -1,6 +1,7 @@
 // fallout/interface/menus/surgerymenu.cpp: SurgeryMenu, AnimOwner, MenuX, PainMenu and more (31 functions)
 
 #include "fnv/result_slot.h"
+#include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
 #include "fnv/inventory_entry_fields.h"
@@ -722,7 +723,7 @@ void AnimOwner::UpdateAnimation()
             seq = ((::NiControllerSequenceS *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((mgr))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedStringS &)(NiFixedStringS("Left")))));
             break;
         }
-        time += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        time += ::fnv::timer::Seconds();
         if (seq)
         {
             reinterpret_cast<::AnimationSequence *>((seq))->FUN_00a34ba0(time, true);
@@ -1770,7 +1771,7 @@ void FaceOwnerS::UpdateFaceGenNode()
     FaceCtrlS* ctrl =
         ((FaceRootS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))->GetObjectByName(NiFixedStringS("BSFaceGenNiNodeSkinned"))->GetCtrl();
     ctrl->SetValue(13, LinearInterpolate(0.0f, 1.0f, 0.0f, 100.0f, fAC));
-    NiUpdateDataS data(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeStubS*)&(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00() / 1000.0, true, false);
+    NiUpdateDataS data(::fnv::timer::Time() / 1000.0, true, false);
     reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))))->FUN_00a59c60((std::intptr_t)&(data));
 }
 
@@ -1918,10 +1919,10 @@ void MenuX::FUN_007e23c0()
     if (idle3 == true)
     {
         float rate = ScaleByConstant(1.0f);
-        valueac -= ((reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ClockX *>(&::g_timeGlobal))))->FUN_00825c00() - lastTime) / 1000.0) * rate;
+        valueac -= ((::fnv::timer::Time() - lastTime) / 1000.0) * rate;
         if (ScaleLimbWoundPercent(reinterpret_cast<::TileListBoxCalls *>((((::UiTile *)(this->unk04))))->GetFloat(DAT_011dad9c) / 100.0) * 100.0 > valueac)
             valueac = ScaleLimbWoundPercent(reinterpret_cast<::TileListBoxCalls *>((((::UiTile *)(this->unk04))))->GetFloat(DAT_011dad9c) / 100.0) * 100.0;
-        lastTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ClockX *>(&::g_timeGlobal))))->FUN_00825c00();
+        lastTime = ::fnv::timer::Time();
         unk8c = lastTime;
         Active(false);
         if (reinterpret_cast<::SoundPlaybackHandle *>(&(sound94))->IsPlaying())
@@ -2863,8 +2864,8 @@ void PickMenu::UpdateLockpick(bool abForcing)
                                    reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(DAT_011dad9c) / 100.0, fLockLevel / 100.0,
                                    DAT_011dea3c->kValues.GetActorValue(0x25));
         fResistanceTimeLocal = ::LinearInterpolate(fMinResistance, fMaxResistance, 0.0f, 1.0f, fResistanceTimeLocal);
-        float fShakeXVal = ApplyNoise(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::LockpickResistance::PickTimer *>(&::g_timeGlobal))))->FUN_00825c00() * 0.00025f);
-        float fShakeY = ApplyNoise((reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::LockpickResistance::PickTimer *>(&::g_timeGlobal))))->FUN_00825c00() + 0x3039) * 0.00025f);
+        float fShakeXVal = ApplyNoise(::fnv::timer::Time() * 0.00025f);
+        float fShakeY = ApplyNoise((::fnv::timer::Time() + 0x3039) * 0.00025f);
         fMagnitudeVal = ::LinearInterpolate(fMinMagnitude, fMaxMagnitude, 0.0f, 1.0f, fMagnitudeVal);
         fShakeXVal = ::LinearInterpolate(fShakeXVal >= 0.0 ? fMinMagnitude : -fMinMagnitude,
                                        fShakeXVal >= 0.0 ? fMaxMagnitude : -fMaxMagnitude, -0.5f, 0.5f, fShakeXVal) *
@@ -3665,7 +3666,7 @@ void PainMenu::FUN_007e28b0()
     float result = reinterpret_cast<::SurgeryView *>(this)->UpdateWoundInteraction();
     float value = ScaleByConstant(speed);
     float z = pain;
-    pain += (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::PainTimer *>(&::g_timeGlobal))))->FUN_00825c00() - last) / 1000.0 * 30.0;
+    pain += (::fnv::timer::Time() - last) / 1000.0 * 30.0;
     if (pain > 100.0)
         pain = 100.0f;
     unsigned int total = GetRandomNumberInRange(0, 5);
@@ -3690,14 +3691,14 @@ void PainMenu::FUN_007e28b0()
             reinterpret_cast<::FUN_00ad8830_shell *>(&(painSound))->FUN_00ad8830(false);
         }
     }
-    last = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::PainTimer *>(&::g_timeGlobal))))->FUN_00825c00();
+    last = ::fnv::timer::Time();
     reinterpret_cast<::FUN_0088b740_shell *>((g_thePlayer))->FUN_0088b740(valueId, float(reinterpret_cast<::LimbPercentageMenu *>(this)->GetLimbPercentage() - g_thePlayer->values.get(valueId)));
-    if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::PainTimer *>(&::g_timeGlobal))))->FUN_00825c00() - lastHurt >
+    if (::fnv::timer::Time() - lastHurt >
         LinearInterpolate(LinearInterpolate(100.0f, 500.0f, 0.0f, 100.0f, float(g_thePlayer->values.get(37))), 1000.0f,
                           100.0f, 0.0f, pain))
     {
         g_thePlayer->hurt(16, -1, 0);
-        lastHurt = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::PainTimer *>(&::g_timeGlobal))))->FUN_00825c00();
+        lastHurt = ::fnv::timer::Time();
     }
     char time[256];
     FUN_00406d00(time, 256, DAT_01077674, g_thePlayer->values.get(37));
@@ -3795,14 +3796,14 @@ float SurgeryView::UpdateWoundInteraction()
             i = ((::WoundNode *)(reinterpret_cast<::Callees *>((i))->FUN_00726070()));
         }
         if (h && hitTime == 0)
-            hitTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(((ClockValue&)(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00();
+            hitTime = ::fnv::timer::Time();
         if (h)
         {
             if (!reinterpret_cast<::SoundPlaybackHandle *>(&(activeSound))->IsPlaying())
                 reinterpret_cast<::FUN_00ad8830_shell *>(&(activeSound))->FUN_00ad8830(false);
             if (hitTime > 0)
             {
-                if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(((ClockValue&)(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00() - hitTime >
+                if (::fnv::timer::Time() - hitTime >
                     (unsigned)LinearInterpolate(500.0f, 0.0f, 0.0f, 100.0f,
                                                 (float)((PlayerView*)_g_thePlayer)->values.Get(37)))
                 {
@@ -3816,13 +3817,13 @@ float SurgeryView::UpdateWoundInteraction()
                     eb[0] = reinterpret_cast<::BSFaceGenMorphData *>((cf[0]))->FUN_00508120();
                     eb[1] = reinterpret_cast<::BSFaceGenMorphData *>((cf[1]))->FUN_00508120();
                     if (lastTime == 0)
-                        lastTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(((ClockValue&)(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00();
+                        lastTime = ::fnv::timer::Time();
                     else
                     {
                         eb[0] -= FUN_00408840(reinterpret_cast<::FUN_00508100_shell *>((cf[0]))->FUN_00508100() - reinterpret_cast<::FUN_00759450_shell *>((cf[0]))->FUN_00759450()) * 0.014999999664723873 *
-                                 ((reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(((ClockValue&)(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00() - lastTime) / 33.0);
+                                 ((::fnv::timer::Time() - lastTime) / 33.0);
                         eb[1] -= FUN_00408840(reinterpret_cast<::FUN_00508100_shell *>((cf[1]))->FUN_00508100() - reinterpret_cast<::FUN_00759450_shell *>((cf[1]))->FUN_00759450()) * 0.006000000052154064 *
-                                 ((reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(((ClockValue&)(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00() - lastTime) / 33.0);
+                                 ((::fnv::timer::Time() - lastTime) / 33.0);
                     }
                     for (int c = 0; c < 2; c++)
                     {
@@ -3846,15 +3847,15 @@ float SurgeryView::UpdateWoundInteraction()
             hitTime = 0;
         }
     }
-    lastTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(((ClockValue&)(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00();
+    lastTime = ::fnv::timer::Time();
     if (true)
     {
         float l, e, j;
         ComputeInjuryEffectScalars(&l, &e, &j, reinterpret_cast<::TileListBoxCalls *>((((::SurgeryView::ValueOwner *)(this->unk04))))->GetFloat(g_011dad9c) / 100.0f, amount / 100.0f,
                                    ((PlayerView*)_g_thePlayer)->values.Get(37));
         ScreenPoint c;
-        c.x = ApplyNoise((float)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(((ClockValue&)(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00() * 0.0002500000118743628));
-        c.y = ApplyNoise((float)((reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(((ClockValue&)(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00() + 12345) * 0.0002500000118743628));
+        c.x = ApplyNoise((float)(::fnv::timer::Time() * 0.0002500000118743628));
+        c.y = ApplyNoise((float)((::fnv::timer::Time() + 12345) * 0.0002500000118743628));
         Position3 k = (*(::Position3 *)&(reinterpret_cast<::NiAVObject *>((((SceneNode*)nodes[reinterpret_cast<::Thing *>(this)->GetIndex(p->index)])))->FUN_0043c490()));
         reinterpret_cast<::FUN_004bc1f0_S *>((((SceneNode*)nodes[reinterpret_cast<::Thing *>(this)->GetIndex(p->index)])))->FUN_004bc1f0(c.x, c.y, 1.0f);
         UpdateArgs ba(0.0f, false, false);

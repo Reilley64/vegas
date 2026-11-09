@@ -459,24 +459,6 @@ void* FUN_00aa4b50_Class::Destroy(unsigned int flags)
 }
 }  // namespace fnv_00aa4b50
 
-struct FUN_00aa50f0_Class
-{
-    void FUN_00aa50f0(unsigned int a);
-};
-// Zeroes the object's byte, floats and int fields, stores the given value at offset 24, and clears the bytes at offsets 28 and 29.
-// @fnv 0x00aa50f0
-void FUN_00aa50f0_Class::FUN_00aa50f0(unsigned int uiValue)
-{
-    *(unsigned char*)this = 0;
-    *(float*)(this + 4) = 0.0f;
-    *(float*)(this + 8) = 0.0f;
-    *(float*)(this + 12) = 0.0f;
-    *(int*)(this + 20) = 0;
-    *(unsigned int*)(this + 24) = uiValue;
-    *(unsigned char*)(this + 29) = 0;
-    *(unsigned char*)(this + 28) = 0;
-}
-
 namespace fnv_00aa8b20 {
 struct MemoryManager
 {

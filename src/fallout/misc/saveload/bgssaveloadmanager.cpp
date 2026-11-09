@@ -1,6 +1,7 @@
 // fallout/misc/saveload/bgssaveloadmanager.cpp: BGSSaveLoadManager, PathManager, Interface, FakeSaveMgr and more (39 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "fnv/save_load_game_view.h"
 #include <cstring>
 #include "runtime/crt.h"
@@ -286,7 +287,7 @@ void BGSSaveLoadManager::ProcessQueuedLoads()
         reinterpret_cast<::VATS *>((reinterpret_cast<InventoryStackRecord*>(&g_011f2250)))->FUN_009c8950(true, false);
         reinterpret_cast<NiPoint3Interpolator*>(&g_011f2250)->CreateObject(0, false);
     }
-    reinterpret_cast<::FUN_00aa4db0_shell *>((reinterpret_cast<GameTimerRecord*>(&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->FUN_00aa4db0(1.0f, true);
+    ::fnv::timer::SetMultiplier(1.0f, true);
     if (::_g_thePlayer)
         reinterpret_cast<VATS*>(::_g_thePlayer)->Update(2, true);
     reinterpret_cast<::S457d70 *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00457d70(1, (::Form457 *)(0), 0);

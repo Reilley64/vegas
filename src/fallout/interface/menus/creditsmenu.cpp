@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fallout/interface/tile_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
 #include <cstdint>
@@ -547,7 +548,7 @@ void CreditsMenuX::FUN_0075f910()
         return;
     if (((std::uintptr_t)(kLines.unk08)))
     {
-        m_fPackageValue -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        m_fPackageValue -= ::fnv::timer::Seconds();
         if (m_fPackageValue < 0.0 && uiLineIndex < ((std::uintptr_t)(kLines.unk08)))
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pCurrentLineTile))->FUN_00a01350(0xfcc, (char *)(const char *)(kLines.GetAt(uiLineIndex++)), true);
@@ -555,7 +556,7 @@ void CreditsMenuX::FUN_0075f910()
         }
     }
     NiPoint3 kPos = reinterpret_cast<::NiAVObject *>(((m_pController).operator->()))->FUN_0043c490();
-    kPos.z += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_011d94e4)))))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    kPos.z += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_011d94e4)))))) * ::fnv::timer::Seconds();
     reinterpret_cast<::FUN_00440460_S *>(((m_pController).operator->()))->FUN_00440460((const ::V3 *)&(kPos));
     NiUpdateData kData(0.0f, false, false);
     reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));

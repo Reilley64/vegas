@@ -1,6 +1,7 @@
 // fallout_shared/tesscript.cpp: Script, ScriptLocals, DelStandIn, ScriptInitOwner and more (82 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActList.h"
@@ -855,8 +856,8 @@ bool FUN_005ac1e0_shell::FUN_005ac1e0(TESObjectREFR* ownerObject, ScriptLocals* 
 
     if (((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()))->m_bQuest && fValueAtOffset38 > 0.0)
     {
-        fValueAtOffset38 -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
-        m_fValueAtOffset3C += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        fValueAtOffset38 -= ::fnv::timer::Seconds();
+        m_fValueAtOffset3C += ::fnv::timer::Seconds();
         if (fValueAtOffset38 > 0.0)
             return false;
     }

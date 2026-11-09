@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/havok_array_view.h"
+#include "fnv/game_timer.h"
 #include "fnv/tls.h"
 #include <cstdint>
 #include <new>
@@ -630,7 +631,7 @@ struct FUN_009ae580_shell : VCall190
 // @fnv 0x009ae580
 void FUN_009ae580_shell::FUN_009ae580(float afDelta)
 {
-    float fdelta = g_timeGlobal.GetStoredFloatValue();
+    float fdelta = ::fnv::timer::Seconds();
     f190(fdelta);
     m_fFirstFloatValue += fdelta;
 }

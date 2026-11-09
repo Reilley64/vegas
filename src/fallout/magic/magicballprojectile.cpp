@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/save_load_game_view.h"
+#include "fnv/game_timer.h"
 #include "fnv/magic_projectile_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
@@ -560,7 +561,7 @@ struct FUN_008cb380_shell
 // @fnv 0x008cb380
 void FUN_008cb380_shell::FUN_008cb380(float afUnused)
 {
-    float fTime = (*reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)).GetStoredFloatValue();
+    float fTime = ::fnv::timer::Seconds();
     v190(fTime);
 }
 
@@ -6229,8 +6230,8 @@ void Host::FUN_00936b20(int aiUnused)
                 if (pkSeq)
                 {
                     unsigned int uiDiff = 0;
-                    if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((&(*reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal))))->FUN_00825c00() > ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v468())
-                        uiDiff = (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((&(*reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal))))->FUN_00825c00() - ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v468()) / 33;
+                    if (::fnv::timer::Time() > ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v468())
+                        uiDiff = (::fnv::timer::Time() - ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v468()) / 33;
                     if (((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v466())
                     {
                         float fWeight = reinterpret_cast<::Spectrum4d50 *>((((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v466()))->FUN_004d50e0(uiDiff);
@@ -6252,7 +6253,7 @@ void Host::FUN_00936b20(int aiUnused)
                 }
             }
             m6c->v120();
-            NiUpdateData uData((float)((double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((&(*reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal))))->FUN_00825c00() / 1000.0), true, false);
+            NiUpdateData uData((float)((double)::fnv::timer::Time() / 1000.0), true, false);
             reinterpret_cast<::FUN_00a59c60_cls *>((pSceneObject->v116()))->FUN_00a59c60((std::intptr_t)&(uData));
         }
     }

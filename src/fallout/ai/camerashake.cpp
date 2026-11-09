@@ -1,6 +1,7 @@
 // fallout/ai/camerashake.cpp: FileFinder, Interface (4 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "fnv/decl/Controller.h"
 #include "fnv/decl/FUN_0045a5e0_shell.h"
 #include "fnv/decl/FUN_00877720_shell.h"
@@ -168,7 +169,7 @@ float UpdateCameraShake(float time, MatrixView* output)
         NiUpdateData old(time, true, false);
         reinterpret_cast<::FUN_00a59c60_cls *>((((CameraView*)DAT_011dfecc)))->FUN_00a59c60((std::intptr_t)&(old));
         *output = (*(::MatrixView *)(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(controller))->FUN_004b45b0({}))).FUN_0043f8d0((*(::MatrixView *)(::FUN_006a9540((char *)(((CameraView*)DAT_011dfecc))))));
-        DAT_011dfed8 -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeView *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        DAT_011dfed8 -= ::fnv::timer::Seconds();
         if (DAT_011dfed8 < 0.0)
         {
             DAT_011dfed8 = 0.0f;

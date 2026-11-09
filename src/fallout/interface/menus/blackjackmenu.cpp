@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -5175,7 +5176,7 @@ void BlackjackUpdate::FUN_00734db0()
     }
     else if (active)
     {
-        dt = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeUpdate *>(&::g_timeGlobal))))->FUN_00825c00())) - lastTime;
+        dt = ((int)(::fnv::timer::Time())) - lastTime;
         if (dt > 1000)
             dt = 0;
         if (DAT_011d90dc != state)
@@ -5183,7 +5184,7 @@ void BlackjackUpdate::FUN_00734db0()
         else
             DAT_011d90e0 += dt / 1000.0;
     }
-    lastTime = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeUpdate *>(&::g_timeGlobal))))->FUN_00825c00()));
+    lastTime = ((int)(::fnv::timer::Time()));
     DAT_011d90dc = state;
     if (!active)
         ((::FUN_00a012d0_t *)(reinterpret_cast<::FUN_0045cd60_shell *>((((InterfaceUpdate*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60()))->FUN_00a012d0(0xfa9, 255.0f, true);

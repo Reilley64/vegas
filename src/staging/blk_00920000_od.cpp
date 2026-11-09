@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/TaskQueueInterface.h"
@@ -1056,6 +1057,11 @@ struct FUN_0093e840_shell : GameTimerRecord
 void FUN_0093e840_shell::ApplyGlobalTimeMultiplier()
 {
     reinterpret_cast<::FUN_00aa4db0_shell *>(this)->FUN_00aa4db0(DAT_011ac3a8, false);
+}
+
+void fnv::timer::RestoreMultiplier()
+{
+    SetMultiplier(DAT_011ac3a8, false);
 }
 
 struct Vec3_00921e00
@@ -6313,7 +6319,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
         if (reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(5, 1))
             unke18 = 0.0f;
         unke18 -= elapsed;
-        reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::TickTime *>(&::g_timeGlobal))))->FUN_00aa4db0(::DAT_01017870, false);
+        ::fnv::timer::SetMultiplier(::DAT_01017870, false);
         if (unke20)
         {
             reinterpret_cast<::FUN_0088b030_shell *>((((::TickAnimation *)(reinterpret_cast<::PlayerCharacter *>(this)->GetAnimation(!reinterpret_cast<::FUN_004eaf60_shell *>(this)->FUN_004eaf60())))))->FUN_0088b030(DAT_0108b084);
@@ -6342,7 +6348,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
             ::ImageSpaceModifierInstanceForm::Trigger((::TESImageSpaceModifier *)(effect), 1.0f, (::NiAVObject *)(void *)(0));
             unke21 = true;
         }
-        reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::TickTime *>(&::g_timeGlobal))))->FUN_00aa4db0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting1076)))))), false);
+        ::fnv::timer::SetMultiplier(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting1076)))))), false);
         float animSpeed = 1.0f / ::FUN_00716440();
         reinterpret_cast<::FUN_0088b030_shell *>((((::TickAnimation *)(reinterpret_cast<::PlayerCharacter *>(this)->GetAnimation(!reinterpret_cast<::FUN_004eaf60_shell *>(this)->FUN_004eaf60())))))->FUN_0088b030(animSpeed);
         reinterpret_cast<::FUN_0088b030_shell *>((((::TickAnimation *)(reinterpret_cast<::PlayerCharacter *>(this)->GetAnimation(reinterpret_cast<::FUN_004eaf60_shell *>(this)->FUN_004eaf60())))))->FUN_0088b030(animSpeed);
@@ -6352,7 +6358,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
         void* effect = ((void *)(::TESForm::LookupFormByEditorID(DAT_0108b078)));
         ::ImageSpaceModifierInstanceForm::Stop((::TESImageSpaceModifier *)(effect));
         if (unke21)
-            reinterpret_cast<::FUN_0093e840_shell *>(&((*reinterpret_cast<::TickTime *>(&::g_timeGlobal))))->ApplyGlobalTimeMultiplier();
+            ::fnv::timer::RestoreMultiplier();
         unke21 = false;
     }
     if (unk1f0 && !unk68->vf474(true))
@@ -6385,7 +6391,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
     unk870 = 0.0f;
     unk874 = 0.0f;
     if (unk154 > 0.0)
-        unk154 -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TickTime *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        unk154 -= ::fnv::timer::Seconds();
     else
         unk150 = 0;
     reinterpret_cast<::FUN_00962d00_Class *>(this)->FUN_00962d00();
@@ -7673,7 +7679,7 @@ axesDone:
         TickWeapon* regenWeapon = ((::TickWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((unk68->vf148()))->GetName()));
         if (reinterpret_cast<::TESObjectWEAP *>((regenWeapon))->FUN_00709430(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((unk68->vf148()))->HasEffect(6)) > 0.0)
         {
-            reinterpret_cast<::FUN_009442e0_class *>(this)->FUN_009442e0(reinterpret_cast<::FUN_00944300_class *>(this)->FUN_00944300() - reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TickTime *>(&::g_timeGlobal))))->GetStoredFloatValue());
+            reinterpret_cast<::FUN_009442e0_class *>(this)->FUN_009442e0(reinterpret_cast<::FUN_00944300_class *>(this)->FUN_00944300() - ::fnv::timer::Seconds());
             if (unk68->vf14c() && reinterpret_cast<::FUN_00944300_class *>(this)->FUN_00944300() <= 0.0)
             {
                 reinterpret_cast<::FUN_009442e0_class *>(this)->FUN_009442e0(reinterpret_cast<::TESObjectWEAP *>((regenWeapon))->FUN_00709430(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((unk68->vf148()))->HasEffect(6)));

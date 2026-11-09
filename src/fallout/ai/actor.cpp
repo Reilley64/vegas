@@ -1,6 +1,7 @@
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/game_timer.h"
 #include "fnv/combat_controller_fields.h"
 #include "fnv/effect_item_fields.h"
 #include "fnv/av_object_fields.h"
@@ -43446,10 +43447,10 @@ void FUN_00567050_shell::FUN_00567050()
         else if (iRandom && ((Calendar*)iRandom)->GetDaysPassed())
         {
             if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == DAT_011f21cc)
-                reinterpret_cast<::FUN_00491180_shell *>((pAnim))->FUN_00491180((::TESObjectREFR *)(::Actor *)(this), reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&g_timeGlobal)))->GetStoredFloatValue() *
+                reinterpret_cast<::FUN_00491180_shell *>((pAnim))->FUN_00491180((::TESObjectREFR *)(::Actor *)(this), ::fnv::timer::Seconds() *
                                         reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATS *>(&::g_011f2250))))->FUN_009c8d60(), {});
             else
-                reinterpret_cast<::FUN_00491180_shell *>((pAnim))->FUN_00491180((::TESObjectREFR *)(::Actor *)(this), reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&g_timeGlobal)))->GetStoredFloatValue(), {});
+                reinterpret_cast<::FUN_00491180_shell *>((pAnim))->FUN_00491180((::TESObjectREFR *)(::Actor *)(this), ::fnv::timer::Seconds(), {});
         }
     }
 }
@@ -81088,9 +81089,9 @@ void ActorSoundView::FUN_008b3230(float elapsed)
             if (delta == 0.0 && !Paused())
             {
                 if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == (*reinterpret_cast<::ActorSoundView * *>(&::DAT_011f21cc)))
-                    delta = reinterpret_cast<::Twin_0084d030 *>(&(actorClock))->GetStoredFloatValue() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VatsView *>(&::g_011f2250))))->FUN_009c8d60();
+                    delta = ::fnv::timer::Seconds() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VatsView *>(&::g_011f2250))))->FUN_009c8d60();
                 else
-                    delta = reinterpret_cast<::Twin_0084d030 *>(&(actorClock))->GetStoredFloatValue();
+                    delta = ::fnv::timer::Seconds();
             }
             if (values.Get(51) > 0 && Animation())
                 delta = reinterpret_cast<::FUN_004e3d00_shell *>((Animation()))->FUN_004e3d00() * delta;
@@ -97667,7 +97668,7 @@ void UAMActor::FUN_008885e0(UAMAnim* apAnimation, float afDelta)
         bool bBusyX = (((bool)(reinterpret_cast<::FUN_00437bd0_stub *>(this)->FUN_00437bd0())) || IsMoving(false) || VF2E8() || VF230());
         bool bIdle = (!bBusyX && !::FUN_00579670((char *)this) && !bPlayerNotReadyTmp);
         bool bSaved;
-        float fTime2 = reinterpret_cast<::Twin_0084d030 *>(&(g_kUAMTimer))->GetStoredFloatValue();
+        float fTime2 = ::fnv::timer::Seconds();
         if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == (*reinterpret_cast<::UAMActor * *>(&::DAT_011f21cc)))
             fTime2 *= reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::UAMVATS *>(&::g_011f2250))))->FUN_009c8d60();
         if (bIdle)
@@ -134409,13 +134410,13 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
             else
             {
                 float qrUCJDN = pProcess->GetBreath();
-                qrUCJDN -= reinterpret_cast<::Twin_0084d030 *>(&(xkTimer))->GetStoredFloatValue();
+                qrUCJDN -= ::fnv::timer::Seconds();
                 if (qrUCJDN < 0.0)
                 {
                     bool qpydTG = CanDrown();
                     if (qpydTG)
                     {
-                        DamageAV(::fnv_00648a50::GetScaledLevelValue(kAV.GetAVInt(0x10)) * reinterpret_cast<::Twin_0084d030 *>(&(xkTimer))->GetStoredFloatValue(), 0.0f, 0);
+                        DamageAV(::fnv_00648a50::GetScaledLevelValue(kAV.GetAVInt(0x10)) * ::fnv::timer::Seconds(), 0.0f, 0);
                         ActorUpdateSnd qhQRuW;
                         reinterpret_cast<::FUN_00418890_shell *>((((::ActorUpdateExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)this)->FUN_005d43c0()))))->FUN_00418890((::SoundPlaybackHandle *)(::ActorUpdateSnd *)(&qhQRuW));
                         if (!reinterpret_cast<::SoundPlaybackHandle *>(&(qhQRuW))->IsValid())
@@ -134589,7 +134590,7 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                     ActorUpdateWater* qVCM = ((::ActorUpdateWater *)(reinterpret_cast<::FUN_00547770_shell *>((qnuVZg))->FUN_00547770()));
                     if (qVCM && reinterpret_cast<::FUN_00580060_shell *>((qVCM))->FUN_00580060())
                     {
-                        float qRBAdC = qVCM->kSub.GetDamage() * reinterpret_cast<::Twin_0084d030 *>(&(xkTimer))->GetStoredFloatValue();
+                        float qRBAdC = qVCM->kSub.GetDamage() * ::fnv::timer::Seconds();
                         if (qRBAdC > 0.0)
                         {
                             DamageAV(qRBAdC, 0.0f, 0);
@@ -134607,7 +134608,7 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                             qHXYKT->SetRads(qyFp);
                             reinterpret_cast<::B968730Actor *>((xpPlayer))->FUN_00968730();
                         }
-                        float qYePyBl = reinterpret_cast<::Twin_0084d030 *>(&(xkTimer))->GetStoredFloatValue() * qyFp;
+                        float qYePyBl = ::fnv::timer::Seconds() * qyFp;
                         if (this == xpPlayer)
                             reinterpret_cast<::FUN_0088b050_Helper *>(&((*reinterpret_cast<::ActorUpdateSound2 *>(&::g_011e0e80))))->Set(qYePyBl > 0.0);
                         ModAV(0x36, qYePyBl, 0);
@@ -134675,7 +134676,7 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
         {
             if (pProcess->GetCurrentDetectionAmount() == 3.4028234663852886e+38)
                 pProcess->SetLightingAmount(0.0f);
-            pProcess->SetLightingAmount(pProcess->GetCurrentDetectionAmount() - reinterpret_cast<::Twin_0084d030 *>(&(xkTimer))->GetStoredFloatValue());
+            pProcess->SetLightingAmount(pProcess->GetCurrentDetectionAmount() - ::fnv::timer::Seconds());
         }
     }
     reinterpret_cast<::ActorSoundView *>(this)->FUN_008b3230(afTime);
@@ -136209,7 +136210,7 @@ void UpdateActor::FUN_00886360(float delta)
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::fnv_00886360::CombatLock *>(&::g_011df69f))))->ClearData();
     ((ActorPacketView*)this)->vfn_140();
     *(unsigned char*)&m_bSecondOfTwoFlags = ((unsigned char)(reinterpret_cast<::fnv_008a40e0::MatchActor *>(this)->FUN_008a40e0((::fnv_008a40e0::RefView *)(0))));
-    float elapsed = reinterpret_cast<::Twin_0084d030 *>(&(g_timeGlobal))->GetStoredFloatValue();
+    float elapsed = ::fnv::timer::Seconds();
     if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == DAT_011f21cc)
         elapsed *= reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATS *>(&::g_011f2250))))->FUN_009c8d60();
     if (BooleanIntegerTwoFloatData > ::_DAT_01012060)
@@ -160545,7 +160546,7 @@ void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
         if (afDamageAmount > 0.0)
         {
             if (bContinuous)
-                afDamageAmount *= reinterpret_cast<::Twin_0084d030 *>(&(g_kTrapMultT8))->GetStoredFloatValue() * fVelocityMult;
+                afDamageAmount *= ::fnv::timer::Seconds() * fVelocityMult;
             DamageHealth(afDamageAmount, 0.0f, 0);
             NiPoint3T8 kTargetCenter = Get3D()->GetWorldTranslate() + (*reinterpret_cast<::NiPoint3T8 *>((void *)&::DAT_011a9484)) * (reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>(this)->GetActorHeight() * 0.5);
             NiPoint3T8 kWorldPosition;
@@ -160595,7 +160596,7 @@ void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
                     if (fPushBack > 1000.0)
                         fPushBack = 1000.0f;
                     if (bContinuous)
-                        fPushBack *= reinterpret_cast<::Twin_0084d030 *>(&(g_kTrapMultT8))->GetStoredFloatValue() * fVelocityMult;
+                        fPushBack *= ::fnv::timer::Seconds() * fVelocityMult;
                     ObjT8* pkObj = ((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName()));
                     if (pkObj)
                     {

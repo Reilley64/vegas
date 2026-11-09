@@ -8,6 +8,7 @@
 // split/morph distances from the [TerrainManager] INI mults.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Block.h"
@@ -463,7 +464,7 @@ void FUN_006ff2c0_shell::UpdateTileFromChunk()
         b->SetBool(0, 1, c);
         b->SetBool(1, 1, a);
         NiPoint2 pt = FUN_006ff210();
-        section = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_006ff2c0::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00()));
+        section = ((int)(::fnv::timer::Time()));
         reinterpret_cast<::FUN_006fb940_shell *>((b))->FUN_006fb940(pt.x, pt.y, 0.0f);
         flag = true;
     }
@@ -653,7 +654,7 @@ struct FUN_006ff3f0_shell : FUN_006ff380_shell
 void FUN_006ff3f0_shell::FUN_006ff3f0()
 {
     unsigned int delta;
-    unsigned int section = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00()));
+    unsigned int section = ((int)(::fnv::timer::Time()));
     delta = section - f50;
 
     if (!tile || !((::NiNode *)(tile->m_pSceneNode)))

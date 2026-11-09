@@ -1,6 +1,7 @@
 // fallout/interface/fopipboymanager.cpp: FOPipboyManager, FOPipboyManagerPC, SystemColorManager, Interface and more (29 functions)
 
 #include "fnv/av_object_fields.h"
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include "fnv/decl/BSAnimGroupSequence.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -699,7 +700,7 @@ void FOPipboyManagerPC::FUN_007fa220()
     if (pIdleSequence && ((::fnv_007fa220::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((void *)(pIdleSequence))->GetAnimGroup()))->GetType() != 1 && reinterpret_cast<::FUN_00494710_shell *>((panim))->FUN_00494710(1))
         reinterpret_cast<::fnv_00494740::FUN_00494740_t *>((panim))->FUN_00494740(1, (*(int *)&(const ::fnv_007fa220::ACTION_FLAGS &)((ACTION_FLAGS)1)), -1, (*(int *)&(const ::fnv_007fa220::ANIM_GROUP_SECTION &)((ANIM_GROUP_SECTION)-1)));
     reinterpret_cast<::FUN_008eeaa0Class *>((panim))->FUN_008eeaa0(0x17);
-    reinterpret_cast<::FUN_00491180_shell *>((panim))->FUN_00491180((::TESObjectREFR *)(::fnv_007fa220::Actor *)((Actor*)::_g_thePlayer), reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_007fa220::Twin_0084d030 *>(&::g_timeGlobal))))->GetStoredFloatValue(), -1.0f);
+    reinterpret_cast<::FUN_00491180_shell *>((panim))->FUN_00491180((::TESObjectREFR *)(::fnv_007fa220::Actor *)((Actor*)::_g_thePlayer), ::fnv::timer::Seconds(), -1.0f);
     reinterpret_cast<::ThisStub *>((panim))->FUN_00493900((Actor*)::_g_thePlayer);
 }
 }  // namespace fnv_007fa220
@@ -839,7 +840,7 @@ bool S07f7ee0::FUN_007f7ee0()
     float fappTime;
     if (!reinterpret_cast<::FUN_007faf10_shell *>((this))->UpdateScreenEffect())
         return false;
-    fappTime = (float)(unsigned int)((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((AnimIdle*)&g_timeGlobal)))->FUN_00825c00()));
+    fappTime = (float)(unsigned int)((int)(::fnv::timer::Time()));
     this->FUN_007f8320(fappTime);
     reinterpret_cast<::fnv_007fa220::FOPipboyManagerPC *>((this))->FUN_007fa220();
     return true;
@@ -1587,7 +1588,7 @@ void PipboyStub::UpdatePipboyLight(bool b)
 {
     if (b1stPersonLightOn)
     {
-        m_fFirstPersonLightIntensity = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_007fa7a0::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+        m_fFirstPersonLightIntensity = (float)::fnv::timer::Time();
         b3rdPersonLightOn = true;
         if (b)
             m_fThirdPersonLightIntensity = 0.0f;

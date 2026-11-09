@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/A5D2C0Object.h"
@@ -706,7 +707,7 @@ void FUN_00800650_Class::FUN_00800650(float a, float b, float c)
     fA = a;
     fC = b;
     fB = b;
-    fTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00();
+    fTime = ::fnv::timer::Time();
 }
 
 namespace fnv_008006b0 {
@@ -726,7 +727,7 @@ struct FUN_008006b0_Class
 void FUN_008006b0_Class::FUN_008006b0()
 {
     f284 = 1;
-    f288 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&((*reinterpret_cast<::fnv_008006b0::GameTimerRecord *>(&::g_timeGlobal))))->FUN_00825c00();
+    f288 = ::fnv::timer::Time();
     f28c = 0.0f;
 }
 }  // namespace fnv_008006b0

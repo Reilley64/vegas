@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorMovement__Mover.h"
@@ -1828,7 +1829,7 @@ void DialogueCameraX::FUN_009c7240()
         (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) = qJDuOZ->pActor;
         if (pShot && reinterpret_cast<::FUN_0058d630_shell *>((pShot))->FUN_0058d630() && fShotDelay > 0.0)
         {
-            fShotDelay -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->GetStoredFloatValue() / ::FUN_00716440();
+            fShotDelay -= ::fnv::timer::Seconds() / ::FUN_00716440();
             if (fShotDelay < 0.0)
             {
                 fShotDelay = 0.0f;
@@ -1848,7 +1849,7 @@ void DialogueCameraX::FUN_009c7240()
         }
         if (pShot && fShotTime > 0.0)
         {
-            fShotTime -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->GetStoredFloatValue() / ::FUN_00716440();
+            fShotTime -= ::fnv::timer::Seconds() / ::FUN_00716440();
             if (fShotTime <= 0.0)
             {
                 qbfQdhM = true;
@@ -2096,8 +2097,8 @@ void DialogueCameraX::FUN_009c7240()
             }
             if (xbSlowMo && ::DAT_011ca730 == 0.0)
                 ::DAT_011ca72c = ::DAT_011f21d4;
-            ::DAT_011f21d4 += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->GetStoredFloatValue() / ::FUN_00716440();
-            ::DAT_011f21d8 += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->GetStoredFloatValue() / ::FUN_00716440();
+            ::DAT_011f21d4 += ::fnv::timer::Seconds() / ::FUN_00716440();
+            ::DAT_011f21d8 += ::fnv::timer::Seconds() / ::FUN_00716440();
             if (::DAT_011f21d8 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting540)))))))
                 reinterpret_cast<::VATS *>(this)->FUN_009c8950(false, false);
             if (pShot && reinterpret_cast<::FUN_0058d630_shell *>((pShot))->FUN_0058d630())
@@ -2109,11 +2110,11 @@ void DialogueCameraX::FUN_009c7240()
                 }
                 reinterpret_cast<::Shot *>((pShot))->UpdateCamera(::DAT_011f21d4);
                 if (xbSlowMo)
-                    reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->FUN_00aa4db0(0.0001f, false);
+                    ::fnv::timer::SetMultiplier(0.0001f, false);
                 else if (xpLastTopic && xpLastTopic->iType == 0x12)
-                    reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->FUN_00aa4db0(0.3f, false);
+                    ::fnv::timer::SetMultiplier(0.3f, false);
                 else
-                    reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->FUN_00aa4db0(reinterpret_cast<::FUN_009d1b30_class *>((void *)(pShot))->GetFloatAtOffset50(), false);
+                    ::fnv::timer::SetMultiplier(reinterpret_cast<::FUN_009d1b30_class *>((void *)(pShot))->GetFloatAtOffset50(), false);
                 qRBAdC = ::DAT_011ca730;
                 if (qRBAdC > 0.5)
                     qRBAdC = 1.0f - qRBAdC;
@@ -2121,7 +2122,7 @@ void DialogueCameraX::FUN_009c7240()
             }
             else
             {
-                reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->FUN_00aa4db0(1.0f, false);
+                ::fnv::timer::SetMultiplier(1.0f, false);
             }
         }
         qfTOqo = 0.0f;
@@ -2228,10 +2229,10 @@ void DialogueCameraX::FUN_009c7240()
         }
         else
         {
-            ::DAT_011f21e0 -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->GetStoredFloatValue() * ::FUN_009443f0() / ::FUN_00716440();
+            ::DAT_011f21e0 -= ::fnv::timer::Seconds() * ::FUN_009443f0() / ::FUN_00716440();
             if (::DAT_011f21e0 <= 0.0)
             {
-                reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->FUN_00aa4db0(1.0f, false);
+                ::fnv::timer::SetMultiplier(1.0f, false);
                 if ((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0)) == (*reinterpret_cast<::RefX * *>(&::DAT_011f21e8)) || (*reinterpret_cast<::RefX * *>(&::DAT_011f21f0)) == (*reinterpret_cast<::RefX * *>(&::DAT_011f21ec)) || reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))))->FUN_008a7570() == -1 ||
                     reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))))->FUN_008a7570() == 7 || reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))))->FUN_008a7570() == 9 ||
                     reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))))->FUN_008a7570() == 0xf || reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))))->FUN_008a7570() == 0x11)
@@ -2251,15 +2252,15 @@ void DialogueCameraX::FUN_009c7240()
             }
             else
             {
-                ::DAT_011f21d4 += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->GetStoredFloatValue() / ::FUN_00716440();
+                ::DAT_011f21d4 += ::fnv::timer::Seconds() / ::FUN_00716440();
                 if (pShot && reinterpret_cast<::FUN_0058d630_shell *>((pShot))->FUN_0058d630())
                     reinterpret_cast<::Shot *>((pShot))->UpdateCamera(::DAT_011f21d4);
                 if (xbSlowMo)
-                    reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->FUN_00aa4db0(0.0001f, false);
+                    ::fnv::timer::SetMultiplier(0.0001f, false);
                 else if (pShot && reinterpret_cast<::FUN_0058d630_shell *>((pShot))->FUN_0058d630())
-                    reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->FUN_00aa4db0(reinterpret_cast<::FUN_009d1b30_class *>((void *)(pShot))->GetFloatAtOffset50(), false);
+                    ::fnv::timer::SetMultiplier(reinterpret_cast<::FUN_009d1b30_class *>((void *)(pShot))->GetFloatAtOffset50(), false);
                 else
-                    reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->FUN_00aa4db0(1.0f, false);
+                    ::fnv::timer::SetMultiplier(1.0f, false);
                 if (::DAT_011f21e4 && reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::RefX * *>(&::_g_thePlayer))))->FUN_008a7570() != 9 && reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::RefX * *>(&::_g_thePlayer))))->FUN_008a7570() != 0x11)
                     reinterpret_cast<::OSInputGlobals *>((((::InputX *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::OSX * *>(&::g_osGlobals))))->FUN_00877720()))))->FUN_00a24280(6);
             }

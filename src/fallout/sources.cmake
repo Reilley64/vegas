@@ -150,6 +150,7 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/interface/menus/quantitymenu.cpp
   src/fallout/interface/menus/racesexmenu.cpp
   src/fallout/interface/menus/recipemenu.cpp
+  src/fallout/interface/menus/recipemenu_timer.cpp
   src/fallout/interface/menus/recipemenu_h_unit.cpp
   src/fallout/interface/menus/repairmenu.cpp
   src/fallout/interface/menus/repairmenu_h_unit.cpp

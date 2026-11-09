@@ -1,6 +1,7 @@
 // fallout/ai/combat/vats.cpp: VATS, PlayerCharacter, SoundListView, ListHolder and more (26 functions)
 
 #include "fnv/havok_array_view.h"
+#include "fnv/game_timer.h"
 #include "fnv/form_fields.h"
 #include <cstdint>
 #include <new>
@@ -96,7 +97,7 @@
 // @fnv 0x0093e770
 void VATS::Update(int mode, bool force)
 {
-    reinterpret_cast<::FUN_0093e840_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->ApplyGlobalTimeMultiplier();
+    ::fnv::timer::RestoreMultiplier();
     if (reinterpret_cast<PlayerCharacter*>(this)->GetAnimation(
             !reinterpret_cast<::FUN_004eaf60_shell *>((reinterpret_cast<PlayerCharacter*>(this)))->FUN_004eaf60()))
     {

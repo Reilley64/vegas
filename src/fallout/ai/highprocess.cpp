@@ -1,6 +1,7 @@
 // fallout/ai/highprocess.cpp: HighProcess, HighProcessStandIn, Process, HighProcessHack and more (352 functions)
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/game_timer.h"
 #include "fnv/combat_controller_fields.h"
 #include "fnv/package_schedule_fields.h"
 #include "fnv/inventory_entry_fields.h"
@@ -820,7 +821,7 @@ void HighProcess::PlayRandomIdle(Actor* actor)
             vfn_338(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cdd30))))))->f);
         }
         else
-            vfn_338(context.timer - reinterpret_cast<::Twin_0084d030 *>((void *)(((const NiBound*)&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue());
+            vfn_338(context.timer - ::fnv::timer::Seconds());
     }
 }
 
@@ -862,7 +863,7 @@ bool HighProcess::CanProcessActor(Actor* actor, bool force)
         iCurrentProcedure = (int)context.hour;
         m_fAnimationBlendValue = 20.0f;
     }
-    m_fAnimationBlendValue -= reinterpret_cast<::Twin_0084d030 *>((void *)(((const NiBound*)&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+    m_fAnimationBlendValue -= ::fnv::timer::Seconds();
     if (changed)
     {
         context.interrupt = GetInterruptPackage();
@@ -1546,13 +1547,13 @@ void HighProcess::SetAnimAction(ANIMATION_ACTION action, BSAnimGroupSequence* se
 // @fnv 0x008eedc0
 void HighProcess::UpdatePlayerAwarenessTimer()
 {
-    m_fSecondLipSyncParameter -= reinterpret_cast<::Twin_0084d030 *>((void *)(((const NiBound*)&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+    m_fSecondLipSyncParameter -= ::fnv::timer::Seconds();
 }
 
 // @fnv 0x008e40a0
 void HighProcess::ResetDetectionState()
 {
-    m_fSocialTalkDelay -= reinterpret_cast<::Twin_0084d030 *>((void *)(((const NiBound*)&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+    m_fSocialTalkDelay -= ::fnv::timer::Seconds();
 }
 
 // ORs the given POSTANIM_ACTION into the process's accumulated post-animation action flags.
@@ -9374,7 +9375,7 @@ void HighProcessS::FUN_008f21f0(Actor* apActor)
     if (*(float*)((char*)this + 0x448) == -1.0)
         *(float*)((char*)this + 0x448) = *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting251))));
     else
-        *(float*)((char*)this + 0x448) = *(float*)((char*)this + 0x448) - reinterpret_cast<::Twin_0084d030 *>((void *)(((NiBound*)&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+        *(float*)((char*)this + 0x448) = *(float*)((char*)this + 0x448) - ::fnv::timer::Seconds();
     if (*(float*)((char*)this + 0x448) <= 0.0)
     {
         ((AV*)apActor)->f424(::_g_thePlayer, 0, 1, 0, 0, 0, 1, 0);
@@ -16062,7 +16063,7 @@ void ProcX::UpdateDialogue(ActorX* apActor, TopicX* apTopic, RefX* apArg3, bool 
                     {
                         FUN_v684(1);
                     }
-                    fSpeakTimer -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->GetStoredFloatValue();
+                    fSpeakTimer -= ::fnv::timer::Seconds();
                     if (pTargetB0)
                     {
                         m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
@@ -16082,7 +16083,7 @@ void ProcX::UpdateDialogue(ActorX* apActor, TopicX* apTopic, RefX* apArg3, bool 
     {
         if (fSpeakTimer > 0)
         {
-            fSpeakTimer -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerX *>(&::g_timeGlobal))))->GetStoredFloatValue();
+            fSpeakTimer -= ::fnv::timer::Seconds();
         }
         else
         {
@@ -16752,7 +16753,7 @@ void Target008dd980::FUN_008dd980(Actor008dd980* actor)
     if (!field_040)
         acquire(actor);
     reinterpret_cast<::FUN_008a5e40_shell *>((actor))->FUN_008a5e40(1);
-    field_2e0 += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::Clock008dd980 *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    field_2e0 += ::fnv::timer::Seconds();
     update(actor, 0x201, 1);
     if (((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
     {
@@ -24535,7 +24536,7 @@ bool HighProcess::IsCurrentPackageTarget(Actor* actor)
                                                                 ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting175))))->f;
                                                         else
                                                             m_fSavedTargetDistance -=
-                                                                reinterpret_cast<::Twin_0084d030 *>((void *)(((const NiBound*)&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+                                                                ::fnv::timer::Seconds();
                                                         if (m_fSavedTargetDistance <= 0.0)
                                                             reinterpret_cast<::FileMatchList *>((m_pAuxiliaryList))->RemoveAll();
                                                         int random = (int)(DialogueRandom() % 100);
@@ -25564,7 +25565,7 @@ bool ActorGroupOwner::CanAddActorToGroup(Actor* source, Actor* target)
     if (actorList->IsEmpty())
         timer = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting175))))->f;
     else
-        timer -= ((double)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue()));
+        timer -= ((double)(::fnv::timer::Seconds()));
     if (timer <= 0.0)
         reinterpret_cast<::FileMatchList *>((actorList))->RemoveAll();
     if (reinterpret_cast<::RefList *>((actorList))->FUN_005f65d0((void **)&(target)))
@@ -30530,8 +30531,8 @@ void Obj120::UpdatePackageExecution(Obj120* actor)
                 speechTimer = FUN_006465f0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting147)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting148)))))));
             }
             else
-                speechTimer -= reinterpret_cast<::Twin_0084d030 *>((((Time120*)&(*reinterpret_cast<::Clock008dd980 *>(&::g_timeGlobal)))))->GetStoredFloatValue();
-            reinterpret_cast<::FUN_00898250_Class *>((package38))->FUN_00898250(reinterpret_cast<::Twin_0084d030 *>((((Time120*)&(*reinterpret_cast<::Clock008dd980 *>(&::g_timeGlobal)))))->GetStoredFloatValue());
+                speechTimer -= ::fnv::timer::Seconds();
+            reinterpret_cast<::FUN_00898250_Class *>((package38))->FUN_00898250(::fnv::timer::Seconds());
             if (::GetField90Float((char *)(package38)) >= 5.0)
                 v288(actor, 1);
             return;
@@ -30581,7 +30582,7 @@ void Obj120::UpdatePackageExecution(Obj120* actor)
                 retryTimer = 20.f;
             }
             else
-                retryTimer -= reinterpret_cast<::Twin_0084d030 *>((((Time120*)&(*reinterpret_cast<::Clock008dd980 *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+                retryTimer -= ::fnv::timer::Seconds();
             if (((bool)(reinterpret_cast<::FUN_008df040_shell *>((package38))->FUN_008df040())))
             {
                 Obj120* follow = ((::fnv_008dddf0::Obj120 *)((*reinterpret_cast<void **>((char *)((package38)) + 0xa4))));
@@ -30702,7 +30703,7 @@ void Obj120::UpdatePackageExecution(Obj120* actor)
             if (weapon && reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((weapon))->FUN_004985f0())
                 v44(actor, 0, 2, 1, 0, 1);
             reinterpret_cast<::FUN_00810530_c *>((package38))->FUN_00810530(1);
-            reinterpret_cast<::FUN_00898250_Class *>((package38))->FUN_00898250(reinterpret_cast<::Twin_0084d030 *>((((Time120*)&(*reinterpret_cast<::Clock008dd980 *>(&::g_timeGlobal)))))->GetStoredFloatValue());
+            reinterpret_cast<::FUN_00898250_Class *>((package38))->FUN_00898250(::fnv::timer::Seconds());
         }
     }
     else
@@ -34333,7 +34334,7 @@ struct Setting93
 // @fnv 0x008e51b0
 void Owner93::UpdateSelectionTimer(Actor93* actor)
 {
-    timer -= reinterpret_cast<::Twin_0084d030 *>((((Timer93*)&(*reinterpret_cast<::Clock008dd980 *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+    timer -= ::fnv::timer::Seconds();
     if (timer > 0.0)
         return;
     timer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting93 *>(&::g_011e029c)))))) * ::RandomFloat(0.8f, 1.2f);
@@ -38597,7 +38598,7 @@ void ActorProxyFnv::HandleActorInteraction(ActorProxyFnv* target)
     }
     if (static_cast<double>(currentX->timer_090) > ::_DAT_01012060)
     {
-        currentX->timer_090 -= reinterpret_cast<::Twin_0084d030 *>((reinterpret_cast<FrameClock*>(&(*reinterpret_cast<::Clock008dd980 *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+        currentX->timer_090 -= ::fnv::timer::Seconds();
         return;
     }
 
@@ -40778,7 +40779,7 @@ void Process63::FUN_008ed420(Actor63* actor, const Vec63* overridePosition, floa
             return;
         }
         else
-            retry -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_008ed420::Clock63 *>(&::g_timeGlobal))))->GetStoredFloatValue();
+            retry -= ::fnv::timer::Seconds();
     }
     if (!((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
     {
@@ -40832,7 +40833,7 @@ void Process63::FUN_008ed420(Actor63* actor, const Vec63* overridePosition, floa
             timer = 0.0f;
         if (timer > 10.0)
         {
-            timer -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_008ed420::Clock63 *>(&::g_timeGlobal))))->GetStoredFloatValue();
+            timer -= ::fnv::timer::Seconds();
             return;
         }
         if (!reinterpret_cast<::TESObjectCELL *>((((::fnv_008ed420::Cell63 *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()))))->IsCellInterior())
@@ -47024,7 +47025,7 @@ bool Process::FUN_008f9320(Actor* actor)
                     return true;
                 }
                 else
-                    timer -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::BehaviorUpdate::GlobalState *>(&::g_timeGlobal))))->GetStoredFloatValue();
+                    timer -= ::fnv::timer::Seconds();
                 if (reinterpret_cast<::TESPackage *>((packageSlot2))->IsMustReachLocation() && !((::BehaviorUpdate::List *)(reinterpret_cast<::Callees *>((((::BehaviorUpdate::List *)(reinterpret_cast<::FUN_0041d8a0_shell *>((packageSlot2))->FUN_0041d8a0()))))->FUN_00726070())) &&
                     reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((actor->Animation()))->FUN_004985f0())
                 {
@@ -51818,7 +51819,7 @@ void FUN_00900830_shell::UpdateFollowerList(TESObjectREFR* apRef, float afTime)
                                 !((FUN_00900830_actor*)pActor)->v139(0))
                             {
                                 ((FUN_00900830_actor*)pActor)->v172(kFOffset);
-                                kFOffset += ItemUpdateArray * ::DAT_010290b0 * ((double)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue()));
+                                kFOffset += ItemUpdateArray * ::DAT_010290b0 * ((double)(::fnv::timer::Seconds()));
                             }
                             else
                                 ((FUN_00900830_actor*)pActor)->v174();
@@ -54610,7 +54611,7 @@ void Engine_00902c80::FUN_00902c80(Actor_00902c80* actor, CurrentTarget_00902c80
         ((SetTarget)(*(void***)this)[0x638 / 4])(this, selected);
         if (!aWasGreeting)
         {
-            reinterpret_cast<::FUN_00903160_Class *>((current))->FUN_00903160(reinterpret_cast<::Twin_0084d030 *>((reinterpret_cast<CurrentTimed_00902c80*>(&(*reinterpret_cast<::Clock008dd980 *>(&::g_timeGlobal)))))->GetStoredFloatValue());
+            reinterpret_cast<::FUN_00903160_Class *>((current))->FUN_00903160(::fnv::timer::Seconds());
             bool changeL = inRange3;
             bool switchMode = false;
             if (!inRange3 && ((double)(reinterpret_cast<::FUN_00621b00_shell *>((current))->FUN_00621b00())) >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CurrentSetting_00902c80 *>(&::originalRuntimeFloatSetting250)))))))
@@ -55738,7 +55739,7 @@ void FleeProcess::UpdateFleeTarget(FleeActor* actor)
         }
         else
         {
-            timer -= reinterpret_cast<::Twin_0084d030 *>((void *)(reinterpret_cast<const NiBound*>(&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+            timer -= ::fnv::timer::Seconds();
         }
     }
     else
@@ -55746,7 +55747,7 @@ void FleeProcess::UpdateFleeTarget(FleeActor* actor)
         if (((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())) && timer <= 0.0)
             Fallback(actor, true);
         else
-            timer -= reinterpret_cast<::Twin_0084d030 *>((void *)(reinterpret_cast<const NiBound*>(&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+            timer -= ::fnv::timer::Seconds();
     }
 }
 
@@ -62198,7 +62199,7 @@ bool This8e9::FUN_008e9640(Arg8ee* aArg, bool aB)
                                 }
                             }
                             else
-                                f334 -= ((double)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue()));
+                                f334 -= ((double)(::fnv::timer::Seconds()));
                         }
                     }
                     else if (!f40->vfn_0fc() && !reinterpret_cast<::FUN_00568680_shell *>((f40))->FUN_00568680())
@@ -63414,7 +63415,7 @@ void PackageHandler::FUN_008ee3e0(PackageActor* apActor)
             }
             else
             {
-                m_fPackageValue -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::PackageApproach::PackageClock *>(&::g_timeGlobal))))->GetStoredFloatValue();
+                m_fPackageValue -= ::fnv::timer::Seconds();
             }
         }
         else if (reinterpret_cast<::FUN_00440d80_shell *>((pTarget))->FUN_00440d80())
@@ -65433,13 +65434,13 @@ void This8ee::FUN_008eeec0(Arg8ee* aArg)
             if (aArg->vfn_100())
                 pActorY = aArg;
         }
-        f330 -= ((double)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue()));
+        f330 -= ((double)(::fnv::timer::Seconds()));
         bWasFlagB6 = reinterpret_cast<::FUN_008f21a0_shell *>(this)->FUN_008f21a0();
         reinterpret_cast<::FUN_008c8fd0_helper *>(this)->Set(false);
         reinterpret_cast<::HighProcess *>(this)->ClearTrackedActorEntries();
         if (pActorY != 0)
         {
-            f2c8 -= ((double)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue()));
+            f2c8 -= ((double)(::fnv::timer::Seconds()));
             if (pActorY->vfn_2e8())
             {
                 pPackage = vfn_20c();
@@ -65521,7 +65522,7 @@ void This8ee::FUN_008eeec0(Arg8ee* aArg)
             }
             reinterpret_cast<::TESForm *>((&g_011e0246))->ClearData();
             if (f3c0 > 0.0)
-                f3c0 -= ((double)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue()));
+                f3c0 -= ((double)(::fnv::timer::Seconds()));
             else
                 f3bc = 0.0f;
             iResult = 0;
@@ -65583,7 +65584,7 @@ void This8ee::FUN_008eeec0(Arg8ee* aArg)
                         }
                         else
                         {
-                            f298 -= ((double)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue()));
+                            f298 -= ((double)(::fnv::timer::Seconds()));
                         }
                     }
                 }
@@ -65701,7 +65702,7 @@ void This8ee::FUN_008eeec0(Arg8ee* aArg)
                         }
                         else
                         {
-                            f34c -= ((double)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue()));
+                            f34c -= ((double)(::fnv::timer::Seconds()));
                         }
                     }
                     vfn_82c();
@@ -67951,7 +67952,7 @@ bool UWProcess::FUN_008f7730(UWActor* actor)
             reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((actor->GetAnimation()))->FUN_004985f0())
             EndPackage(actor, -1);
         if (m_fFirstAnimationValue <= 0.0)
-            m_fSecondAnimationValue -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::UWTimer *>(&::g_timeGlobal))))->GetStoredFloatValue();
+            m_fSecondAnimationValue -= ::fnv::timer::Seconds();
     }
 
     if (combatTarget2)
@@ -67988,9 +67989,9 @@ bool HighProcess::ClearProcessState(Actor* actor)
         }
     }
     if (actor == (Actor*)::_g_thePlayer)
-        delta = (float)(reinterpret_cast<::Twin_0084d030 *>((void *)(((const NiBound*)&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue() / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting109))))->f);
+        delta = (float)(::fnv::timer::Seconds() / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting109))))->f);
     else
-        delta = (float)(reinterpret_cast<::Twin_0084d030 *>((void *)(((const NiBound*)&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue() / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting108))))->f);
+        delta = (float)(::fnv::timer::Seconds() / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting108))))->f);
     if (m_iSecondSerializedValue == BaseProcess::FadeInState || m_iSecondSerializedValue == BaseProcess::FadeTeleportIn)
     {
         fFadeAlpha += delta;
@@ -71195,7 +71196,7 @@ void ProcessEatProcess008e3140::FUN_008e3140(Actor* actor, TESObjectREFR* prefer
             }
             else
             {
-                vfn_338(timer - reinterpret_cast<::Twin_0084d030 *>((((ProcessEatEatTimerView*)&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue());
+                vfn_338(timer - ::fnv::timer::Seconds());
             }
         }
         return;
@@ -72084,7 +72085,7 @@ void Actor::FUN_008db810(Actor* actor)
     {
         reinterpret_cast<::FUN_009f7f20_class *>((package))->FUN_009f7f20((::MobileObject *)(actor), 1);
         reinterpret_cast<::FUN_009f7d70_cls *>((package))->FUN_009f7d70((::Actor9f7d *)(actor), 1);
-        uintptr_t time = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::PackagePathing::Timer *>(&::g_timeGlobal))))->FUN_00825c00();
+        uintptr_t time = ::fnv::timer::Time();
         if (time > ((unsigned int)(std::uintptr_t)(reinterpret_cast<::EffectSetting *>((package))->GetCastSound())) + 1500)
         {
             reinterpret_cast<::FUN_008ac890_shell *>((package))->SetWaterForm((::TESWaterForm *)(time));

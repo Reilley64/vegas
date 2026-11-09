@@ -1,6 +1,7 @@
 // fallout_shared/bgsloadedreferencecollection.cpp: LoadedReferenceMap, BGSLoadedReferenceCollection, TESContainer (4 functions)
 
 #include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/game_timer.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
 #include "fnv/decl/FUN_00438af0_Class.h"
 #include "fnv/decl/FUN_00440d80_shell.h"
@@ -35,7 +36,7 @@ bool LoadedReferenceMap::AddReference(TESObjectREFR* pRef)
 
     reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pRef))->FUN_0084e3a0())), (std::uintptr_t)(pRef));
     iCount++;
-    m_uiLastUpdateTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+    m_uiLastUpdateTime = ::fnv::timer::Time();
     return true;
 }
 

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fallout/interface/rendered_menu_fields.h"
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -1122,7 +1123,7 @@ void xRenderedMenu::Init()
 {
     float qahtre;
     m_158 = false;
-    m_168 = (double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ClockSource *>(&::g_timeGlobal))))->FUN_00825c00() + std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::xIntSetting *>(&::g_011db4f8))))));
+    m_168 = (double)::fnv::timer::Time() + std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::xIntSetting *>(&::g_011db4f8))))));
     m_164 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db4d0))))));
     xColorA qHXYKT(0.0f, 0.0f, 0.0f, 0.0f);
     if (reinterpret_cast<::SystemColorManager *>((((::xColorMgr *)(::FUN_00718b60()))))->GetColor(3, (::NiColor &)(qHXYKT)))

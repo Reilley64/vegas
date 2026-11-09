@@ -65,6 +65,16 @@ add_executable(runtime_ray_similarity_math_test
 target_include_directories(runtime_ray_similarity_math_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
 add_test(NAME runtime.ray_similarity_math COMMAND runtime_ray_similarity_math_test)
 
+add_executable(runtime_game_timer_test
+  runtime/game_timer_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/bstimer.cpp
+  ${PROJECT_SOURCE_DIR}/src/fallout/interface/menus/recipemenu_timer.cpp
+)
+target_include_directories(runtime_game_timer_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+add_test(NAME runtime.game_timer COMMAND runtime_game_timer_test)
+add_test(NAME runtime.game_timer_lazy_start COMMAND runtime_game_timer_test --lazy-start)
+add_test(NAME runtime.game_timer_update_start COMMAND runtime_game_timer_test --update-start)
+
 add_executable(runtime_magic_flag_byte_test runtime/magic_flag_byte_test.cpp)
 target_include_directories(runtime_magic_flag_byte_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
 add_test(NAME runtime.magic_flag_byte COMMAND runtime_magic_flag_byte_test)
@@ -136,6 +146,7 @@ target_include_directories(runtime_clamped_acos_test PRIVATE ${CMAKE_CURRENT_SOU
 add_test(NAME runtime.clamped_acos COMMAND runtime_clamped_acos_test)
 
 find_package(Threads REQUIRED)
+target_link_libraries(runtime_game_timer_test PRIVATE Threads::Threads)
 add_executable(runtime_havok_mopp_lifetime_test runtime/havok_mopp_lifetime_test.cpp)
 if(WIN32)
   target_link_libraries(runtime_havok_mopp_lifetime_test PRIVATE game)

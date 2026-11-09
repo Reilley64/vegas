@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include "fnv/game_timer.h"
 #include "fnv/decl/FUN_00711e00_StandIn.h"
 #include "fnv/decl/FUN_00877720_shell.h"
 #include "fnv/decl/MagicCaster_shell.h"
@@ -64,7 +65,7 @@ int FUN_0086a580(const char* text, const char* caption, unsigned int flags)
             return ret;
         }
 
-        (*reinterpret_cast<::LockObj *>(&::g_timeGlobal)).Lock();
+        ::fnv::timer::Pause();
         mode = flags & 0xf;
         if (DAT_011a3015 && ::g_osGlobals && reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720())
         {
@@ -129,49 +130,10 @@ int FUN_0086a580(const char* text, const char* caption, unsigned int flags)
         }
     }
 
-    (*reinterpret_cast<::LockObj *>(&::g_timeGlobal)).Unlock();
+    ::fnv::timer::Resume();
     return result;
 }
 
 
-struct GameTimerRecord
-{
-    unsigned char m_ucFirstTimerByte;
-    unsigned char unk01;
-    unsigned char unk02;
-    unsigned char unk03;
-    unsigned char unk04;
-    unsigned char unk05;
-    unsigned char unk06;
-    unsigned char unk07;
-    unsigned char unk08;
-    unsigned char unk09;
-    unsigned char unk0a;
-    unsigned char unk0b;
-    unsigned char unk0c;
-    unsigned char unk0d;
-    unsigned char unk0e;
-    unsigned char unk0f;
-    unsigned char unk10;
-    unsigned char unk11;
-    unsigned char unk12;
-    unsigned char unk13;
-    unsigned int m_uiFirstTimerValue;
-    unsigned int m_uiSecondTimerValue;
-
-    void FUN_00aa50a0();
-};
-
-// When m_ucFirstTimerByte is zero before incrementing, subtracts both stored values from GetTickCount() and stores the results.
-// @fnv 0x00aa50a0
-void GameTimerRecord::FUN_00aa50a0()
-{
-    if (m_ucFirstTimerByte++ == 0)
-    {
-        unsigned int uiTickCount = GetTickCount();
-        m_uiFirstTimerValue = uiTickCount - m_uiFirstTimerValue;
-        m_uiSecondTimerValue = uiTickCount - m_uiSecondTimerValue;
-    }
-}
 
 #include "generated/data/bsmenu/xuserinterface.inc"

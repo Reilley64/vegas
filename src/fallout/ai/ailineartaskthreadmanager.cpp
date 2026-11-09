@@ -1,6 +1,7 @@
 // fallout/ai/ailineartaskthreadmanager.cpp: AIThreadManager (21 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "fnv/tls.h"
 #include <windows.h>
 #include <new>
@@ -515,7 +516,7 @@ void FUN_00991500_shell::FUN_00991500(bool abFlag)
                        0x8b);
     if (!abFlag)
     {
-        FUN_009915e0((*reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)).GetStoredFloatValue());
+        FUN_009915e0(::fnv::timer::Seconds());
         for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((((ArrHelper*)this)))->GetShortAtOffsetA(); i++)
         {
             FUN_00986c40_obj* pEntry = (FUN_00986c40_obj*)*((Arr*)this)->GetAt(i);

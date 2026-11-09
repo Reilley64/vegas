@@ -1,6 +1,7 @@
 // fallout/interface/fadermanager.cpp: FaderManager, FM7 (10 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "fnv/decl/Bound88.h"
 #include "fnv/decl/FUN_00439410_cls.h"
 #include "fnv/decl/FUN_00440460_S.h"
@@ -183,39 +184,7 @@ void FaderManager::AddRoot(NiNode* pParent, float m_fProjectionDepth, bool abBel
     pParent->AddObject(pSortAdjustNode, true);
 }
 
-struct GameTimerRecord
-{
-    void Update();
-    float GetSeconds();
-    float GetUnmodifiedSeconds();
-    unsigned int GetTime();
-    unsigned int GetStartTime();
-    void ClampAt(unsigned int);
-    bool QEnabled();
-    bool GetSecondsIsZero();
-    static void SetGlobalTimeMultiplierCache();
-    void RestoreGlobalTimeMultiplierCache();
-    static float QGlobalTimeMultiplier();
-    static float QGlobalTimeMultiplierTarget();
-    static void UpdateGlobalTimeMultiplier();
-    void SetUseGlobalTimeMultiplierTarget(bool);
-    bool QUseGlobalTimeMultiplierTarget();
-    float GetRealTimeSeconds();
-    void Enable();
-    void Disable();
-    void Init(unsigned int);
-    unsigned char m_ucFirstTimerByte;
-    char _pad_1[3];
-    float m_fFirstTimerValue;
-    float m_fSecondTimerValue;
-    float fTimeSinceScaleStart;
-    float m_fFourthTimerValue;
-    unsigned int m_uiFirstTimerValue;
-    unsigned int m_uiSecondTimerValue;
-    bool m_bFirstTimerFlag;
-    bool m_bSecondTimerFlag;
-    char _pad_1e[2];
-};
+#include "GameTimerRecord.h"
 struct FUN_007013e0_shell : public GameTimerRecord
 {
     float FUN_007013e0();
@@ -235,7 +204,7 @@ void FaderManager::AdvanceFaders(bool bUpdate)
             {
                 if (pFader->fAlpha < 1.0)
                 {
-                    pFader->fAlpha += reinterpret_cast<::FUN_007013e0_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_007013e0() / pFader->fUnk0C;
+                    pFader->fAlpha += ::fnv::timer::UnmodifiedSeconds() / pFader->fUnk0C;
                     if (pFader->fAlpha > 1.0)
                         pFader->fAlpha = 1.0f;
                     if (pFader->m_pParentNode)
@@ -256,7 +225,7 @@ void FaderManager::AdvanceFaders(bool bUpdate)
                     if (s_iFadeDelay)
                         --s_iFadeDelay;
                     else
-                        pFader->fAlpha -= reinterpret_cast<::FUN_007013e0_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_007013e0() / pFader->fUnk0C;
+                        pFader->fAlpha -= ::fnv::timer::UnmodifiedSeconds() / pFader->fUnk0C;
                     if (pFader->fAlpha < 0.0)
                         pFader->fAlpha = 0.0f;
                     if (pFader->m_pParentNode)

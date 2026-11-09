@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstring>
+#include "fnv/game_timer.h"
 #include "fnv/simple_array_item.h"
 #include "fnv/simple_list_node_view.h"
 #include "fnv/inventory_entry_fields.h"
@@ -21846,7 +21847,7 @@ void CaravanGame::FUN_00741500()
     else if (active)
     {
         reinterpret_cast<::FUN_0073bab0_shell *>(this)->SetFlag(0x10000, 1);
-        dt = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::CMTime *>(&::g_timeGlobal))))->FUN_00825c00() - startTime;
+        dt = ::fnv::timer::Time() - startTime;
         if (DAT_011d9204 != state)
             DAT_011d9208 = 0.0f;
         else
@@ -21873,7 +21874,7 @@ void CaravanGame::FUN_00741500()
             padY = 0;
         my = -padY / DAT_01029790;
     }
-    startTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::CMTime *>(&::g_timeGlobal))))->FUN_00825c00();
+    startTime = ::fnv::timer::Time();
     DAT_011d9204 = state;
     if (!active || mode == 1)
         reinterpret_cast<::FUN_00a012d0_t *>((((::CMTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::CMIntfMgr *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0045cd60()))))->FUN_00a012d0(0xfa9, 255.0f, true);

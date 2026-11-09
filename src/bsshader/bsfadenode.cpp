@@ -1,6 +1,7 @@
 // bsshader/bsfadenode.cpp: BSFadeNode, NiFixedString, BSShaderManager, FadeViewer and more (22 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
@@ -942,7 +943,7 @@ void FadeNodeObj::FUN_00b4e490(FadeCuller& culler)
     {
         if (!IsFadedIn())
         {
-            fFadeAmount = ::FUN_0040ebd0(1.0f, ::FUN_0040ebd0(::DAT_011f63a0 / ::DAT_011ad7e4, DAT_011ad7f8) + fCurrentFade);
+            fFadeAmount = ::FUN_0040ebd0(1.0f, ::FUN_0040ebd0(::fnv::timer::Seconds() / ::DAT_011ad7e4, DAT_011ad7f8) + fCurrentFade);
             fCurrentFade = fFadeAmount;
             ::BSShaderRenderUtility::SetAlphaOnNode((::NiNode *)(::fnv_00b4e490::FadeNodeObj *)(this), fFadeAmount);
             fLastFade = fCurrentFade;
@@ -1019,7 +1020,7 @@ void FadeNodeObj::FUN_00b4e490(FadeCuller& culler)
     else if ((!IsFadedIn() && fFadeAmount > ::DAT_011ad7ec) ||
              (fCurrentFade > 0.0f && fCurrentFade < 1.0f && fFadeAmount > ::DAT_011ad7ec))
     {
-        fFadeAmount = ::FUN_0040ebd0(1.0f, ::FUN_0040ebd0(::DAT_011f63a0 / ::DAT_011ad7e4, DAT_011ad7f8) + fCurrentFade);
+        fFadeAmount = ::FUN_0040ebd0(1.0f, ::FUN_0040ebd0(::fnv::timer::Seconds() / ::DAT_011ad7e4, DAT_011ad7f8) + fCurrentFade);
         fCurrentFade = fFadeAmount;
         ::BSShaderRenderUtility::SetAlphaOnNode((::NiNode *)(::fnv_00b4e490::FadeNodeObj *)(this), fFadeAmount);
         fLastFade = fCurrentFade;
@@ -1029,7 +1030,7 @@ void FadeNodeObj::FUN_00b4e490(FadeCuller& culler)
     else if ((IsFadedIn() && fFadeAmount < ::DAT_011ad7f0) ||
              (fCurrentFade < 1.0f && fCurrentFade > 0.0f && fFadeAmount < ::DAT_011ad7f0))
     {
-        fCurrentFade = ::FUN_00404010(0.0f, fCurrentFade - ::FUN_0040ebd0(::DAT_011f63a0 / ::DAT_011ad7e8, DAT_011ad7f8));
+        fCurrentFade = ::FUN_00404010(0.0f, fCurrentFade - ::FUN_0040ebd0(::fnv::timer::Seconds() / ::DAT_011ad7e8, DAT_011ad7f8));
         ::BSShaderRenderUtility::SetAlphaOnNode((::NiNode *)(::fnv_00b4e490::FadeNodeObj *)(this), fCurrentFade);
         fLastFade = fCurrentFade;
         if (fCurrentFade <= 0.0f)

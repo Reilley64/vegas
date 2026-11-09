@@ -1,6 +1,7 @@
 // fallout/magic/magicmodelhiteffect.cpp: MagicModelHitEffect, Candidate (22 functions)
 
 #include "fnv/av_object_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/save_load_game_view.h"
@@ -150,7 +151,7 @@ bool MagicModelHitEffect::Init()
 
                             {
                                 NiUpdateData map(
-                                    static_cast<float>(static_cast<double>(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00()) / 1000.0), true,
+                                    static_cast<float>(static_cast<double>(::fnv::timer::Time()) / 1000.0), true,
                                     false);
                                 reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiAVObject*>(
                                     reinterpret_cast<NiPointer<NiNode>*>(&this->spRetainedObject)->operator->())))->FUN_00a59c60((std::intptr_t)&(map));

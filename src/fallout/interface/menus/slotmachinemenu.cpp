@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
@@ -1622,7 +1623,7 @@ void SlotMenu::Update()
     }
     else if (kKVis)
     {
-        dt = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_007c2c70::Timer *>(&::g_timeGlobal))))->FUN_00825c00())) - m_lastTime;
+        dt = ((int)(::fnv::timer::Time())) - m_lastTime;
         if (DAT_011daa2c != m_uiContentCount)
         {
             DAT_011daa30 = 0.0f;
@@ -1633,7 +1634,7 @@ void SlotMenu::Update()
         }
     }
     int tmp = 0;
-    m_lastTime = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_007c2c70::Timer *>(&::g_timeGlobal))))->FUN_00825c00()));
+    m_lastTime = ((int)(::fnv::timer::Time()));
     DAT_011daa2c = m_uiContentCount;
     if (!kKVis)
     {

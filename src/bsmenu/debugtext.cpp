@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "global_string_header.h"
+#include "fnv/game_timer.h"
 #include <cstdarg>
 #include "fnv/symbols_0043b000.h"
 #include <cstdint>
@@ -1546,7 +1547,7 @@ PendingD9* FUN_00a0d9e0(bool bCreate)
 
 void FUN_00a11820();
 
-inline float GetElapsed() { float value=DAT_011f63a0; return value; }
+inline float GetElapsed() { return ::fnv::timer::Seconds(); }
 
 
 

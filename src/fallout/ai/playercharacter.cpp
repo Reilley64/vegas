@@ -1,6 +1,7 @@
 // fallout/ai/playercharacter.cpp: PlayerView, PlayerCharacter_StandIn, PlayerCharacter, PlayerStub and more (251 functions)
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/game_timer.h"
 #include "fnv/form_fields.h"
 #include "fnv/inventory_entry_fields.h"
 #include "fnv/save_load_game_view.h"
@@ -9360,7 +9361,7 @@ void MatchPlayer::FUN_0093c200(MatchPoint position, float rise, float fall, floa
         reinterpret_cast<::FUN_005610f0_cls *>((((MatchController*)((void *)(::FUN_00559450((int *)&(pointerdec)))))))->FUN_005610f0((intptr_t)(&finalPosition));
     }
     ::fnv_006652e0::FUN_006652e0((::fnv_006652e0::NiAVObject *)(void *)(((void *)(::FUN_00524c90()))), 0);
-    reinterpret_cast<::Zt5TES *>(((*reinterpret_cast<::fnv_0093c200::MatchService * *>(&::g_TES))))->FUN_00453550((*reinterpret_cast<::fnv_0093c200::MatchTime *>(&::g_timeGlobal)).FUN_0084d030());
+    reinterpret_cast<::Zt5TES *>(((*reinterpret_cast<::fnv_0093c200::MatchService * *>(&::g_TES))))->FUN_00453550(::fnv::timer::Seconds());
     if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_0093c200::MatchSave * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
         ::LoadingMenu::UpdateLoadingScreenThread();
     if (playing)
@@ -17070,7 +17071,7 @@ bool PlayerX::FUN_00948310()
     qpydTG = pProcess->GetEquipped() ? ((::fnv_00948310::WeapX *)(reinterpret_cast<::Twin_0044ddc0 *>((pProcess->GetEquipped()))->GetName())) : 0;
     qhQRuW = ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4;
     qfTOqo = 0;
-    qBLsiu = (*reinterpret_cast<::fnv_00948310::TimerX *>(&::g_timeGlobal)).GetMovementDelta() * reinterpret_cast<::VATS *>(&((*reinterpret_cast<::fnv_00948310::DlgX *>(&::g_011f2250))))->GetModeTimeMultiplier();
+    qBLsiu = ::fnv::timer::Seconds() * reinterpret_cast<::VATS *>(&((*reinterpret_cast<::fnv_00948310::DlgX *>(&::g_011f2250))))->GetModeTimeMultiplier();
     if (qhQRuW)
     {
         ::DAT_011e07ac = 0;
@@ -20664,7 +20665,7 @@ void PlayerCharacter_Cand::FUN_0094df80()
         }
     }
 
-    reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((((::fnv_0094df80::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_0094df80::TES * *>(&::g_TES))))->GetBaseTexture()))))->FUN_0063ac70((*reinterpret_cast<::fnv_0094df80::TimeGlobal *>(&::g_timeGlobal)).FUN_0084d030());
+    reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((((::fnv_0094df80::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_0094df80::TES * *>(&::g_TES))))->GetBaseTexture()))))->FUN_0063ac70(::fnv::timer::Seconds());
     reinterpret_cast<::fnv_009723f0::ProcessListsEx *>(&((*reinterpret_cast<::fnv_0094df80::ProcessLists *>(&::g_011e0e80))))->UpdateCrimeLists();
     reinterpret_cast<::Actor *>((this))->ConfigureActorState(true, 0);
 
@@ -30861,7 +30862,7 @@ void PlayerView::FUN_00952290()
         float duration9 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00952290::BlendSetting *>(&::originalRuntimeFloatSetting213))))));
         if (blend5 == 1.0)
             duration9 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00952290::BlendSetting *>(&::originalRuntimeFloatSetting214))))));
-        float step9 = (blend5 - DAT_011A3B68) * ((*reinterpret_cast<::fnv_00952290::Clock *>(&::g_timeGlobal)).Delta() / duration9);
+        float step9 = (blend5 - DAT_011A3B68) * (::fnv::timer::Seconds() / duration9);
         DAT_011A3B68 += step9;
         if (step9 < 0.0 && DAT_011A3B68 < blend5)
             DAT_011A3B68 = blend5;
@@ -32174,8 +32175,8 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
                 }
                 qbfQdhM = xAngle - m_f670;
                 qidnYUK = xAngle - m_f674;
-                m_f670 += ::FUN_0040ebd0((*reinterpret_cast<::fnv_00953060::ClockSource *>(&::g_timeGlobal)).GetMovementDelta() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qbfQdhM;
-                m_f674 += ::FUN_0040ebd0((*reinterpret_cast<::fnv_00953060::ClockSource *>(&::g_timeGlobal)).GetMovementDelta() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qidnYUK;
+                m_f670 += ::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qbfQdhM;
+                m_f674 += ::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qidnYUK;
             }
         }
         else
@@ -32197,9 +32198,9 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
             if (xPitchOn)
             {
                 if (xFocus < 1.0)
-                    reinterpret_cast<::FUN_00931e50_shell *>(this)->AddModAngle(::FUN_0040ebd0((*reinterpret_cast<::fnv_00953060::ClockSource *>(&::g_timeGlobal)).GetMovementDelta() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg);
+                    reinterpret_cast<::FUN_00931e50_shell *>(this)->AddModAngle(::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg);
                 else
-                    reinterpret_cast<::FUN_00931e50_shell *>(this)->AddModAngle(qAXSCg * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * (*reinterpret_cast<::fnv_00953060::ClockSource *>(&::g_timeGlobal)).GetMovementDelta());
+                    reinterpret_cast<::FUN_00931e50_shell *>(this)->AddModAngle(qAXSCg * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * ::fnv::timer::Seconds());
                 if (xAbs(qAXSCg) < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0900)))))) * 0.01745329238474369 * qYePyBl)
                     xPitchOn = false;
             }
@@ -32217,9 +32218,9 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
                 if (!IsInFurniture())
                 {
                     if (xFocus < 1.0)
-                        reinterpret_cast<::MobileObject *>(this)->AdvanceMovement(::FUN_0040ebd0((*reinterpret_cast<::fnv_00953060::ClockSource *>(&::g_timeGlobal)).GetMovementDelta() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg);
+                        reinterpret_cast<::MobileObject *>(this)->AdvanceMovement(::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg);
                     else
-                        reinterpret_cast<::MobileObject *>(this)->AdvanceMovement(qAXSCg * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * (*reinterpret_cast<::fnv_00953060::ClockSource *>(&::g_timeGlobal)).GetMovementDelta());
+                        reinterpret_cast<::MobileObject *>(this)->AdvanceMovement(qAXSCg * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * ::fnv::timer::Seconds());
                 }
                 else
                 {
@@ -32229,9 +32230,9 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
                     while (qAXSCg < -3.1415927410125732)
                         qAXSCg += 6.2831854820251465;
                     if (xFocus < 1.0)
-                        m_f6e4 += ::FUN_0040ebd0((*reinterpret_cast<::fnv_00953060::ClockSource *>(&::g_timeGlobal)).GetMovementDelta() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg;
+                        m_f6e4 += ::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg;
                     else
-                        m_f6e4 += qAXSCg * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * (*reinterpret_cast<::fnv_00953060::ClockSource *>(&::g_timeGlobal)).GetMovementDelta();
+                        m_f6e4 += qAXSCg * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * ::fnv::timer::Seconds();
                 }
                 if (xAbs(qAXSCg) < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e08c4)))))) * 0.01745329238474369 * qYePyBl)
                     xYawOn = false;
@@ -32248,8 +32249,8 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
             reinterpret_cast<::fnv_00895110::PickActor *>(this)->FUN_00895110(1.0f, 1.0f);
             reinterpret_cast<::UAMActor *>(this)->FUN_008885e0((::UAMAnim *)(::fnv_00953060::xAnim *)(((::fnv_00953060::xAnim *)(reinterpret_cast<::PlayerCharacter *>(this)->GetAnimation(false)))), 0.0f);
             m_b64a = false;
-            reinterpret_cast<::fnv_008d3550::FaceActor *>(this)->UpdateFaceAnimation((*reinterpret_cast<::fnv_00953060::ClockSource *>(&::g_timeGlobal)).GetMovementDelta());
-            reinterpret_cast<::UAMActor *>(this)->FUN_008885e0((::UAMAnim *)(::fnv_00953060::xAnim *)(((::fnv_00953060::xAnim *)(reinterpret_cast<::PlayerCharacter *>(this)->GetAnimation(!m_b64a)))), (*reinterpret_cast<::fnv_00953060::ClockSource *>(&::g_timeGlobal)).GetMovementDelta());
+            reinterpret_cast<::fnv_008d3550::FaceActor *>(this)->UpdateFaceAnimation(::fnv::timer::Seconds());
+            reinterpret_cast<::UAMActor *>(this)->FUN_008885e0((::UAMAnim *)(::fnv_00953060::xAnim *)(((::fnv_00953060::xAnim *)(reinterpret_cast<::PlayerCharacter *>(this)->GetAnimation(!m_b64a)))), ::fnv::timer::Seconds());
         }
         if (!qrEZrs && qsSDDgz)
         {
@@ -32369,7 +32370,7 @@ struct Twin_0084d030
 void PlayerCharacterUpdate::FUN_00950930()
 {
     ++DAT_011e07a8;
-    float fTime = (float)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue() * ((double)(reinterpret_cast<::VATS *>(&(g_011f2250))->GetModeTimeMultiplier())));
+    float fTime = (float)(::fnv::timer::Seconds() * ((double)(reinterpret_cast<::VATS *>(&(g_011f2250))->GetModeTimeMultiplier())));
     Animation* pAnim = reinterpret_cast<::PlayerCharacter *>(this)->GetAnimation(false);
     if (pAnim)
         reinterpret_cast<::FUN_00491180_shell *>((((AnimationUpdate*)pAnim)))->FUN_00491180((::TESObjectREFR *)(::Actor *)(this), fTime, -1.0f);
@@ -32395,7 +32396,7 @@ struct FUN_00953d40_class
 void FUN_00953d40_class::FUN_00953d40()
 {
     if (bFlag)
-        fValue += reinterpret_cast<Twin_0084d030*>(&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))->GetStoredFloatValue();
+        fValue += ::fnv::timer::Seconds();
 }
 
 namespace fnv_00953d80 {
@@ -42564,12 +42565,12 @@ void TravelRef::FUN_0093cdf0(TravelRef* target)
     ::ApplyPerkModifiers(0x33, (::Actor *)(::TravelRef *)(this), &modifier7);
     if (CannotTravel() && modifier7 == 0.0)
         return;
-    static unsigned lastSave = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TravelTime *>(&::g_timeGlobal))))->FUN_00825c00();
-    unsigned elapsed2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TravelTime *>(&::g_timeGlobal))))->FUN_00825c00() - lastSave;
+    static unsigned lastSave = ::fnv::timer::Time();
+    unsigned elapsed2 = ::fnv::timer::Time() - lastSave;
     if (*(*reinterpret_cast<::TravelSetting *>(&::g_011d8980)).Bool() && (elapsed2 == 0 || elapsed2 > 20000))
     {
         reinterpret_cast<::FakeSaveMgr *>(((*reinterpret_cast<::TravelSave * *>(&::DAT_011de134))))->ResetAndUpdate();
-        lastSave = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TravelTime *>(&::g_timeGlobal))))->FUN_00825c00();
+        lastSave = ::fnv::timer::Time();
     }
     (*reinterpret_cast<::TravelRef * *>(&::_g_thePlayer))->flag20c = true;
     TravelSaved stored4;
@@ -46161,7 +46162,7 @@ void FUN_00963bf0_cls::RemoveExpiredItems()
     while (node != 0 && ((::FUN_00963bf0_item *)(((::Vec3 *)(void *)(node)))) != 0)
     {
         obj = ((::FUN_00963bf0_item *)(((::Vec3 *)(void *)(node))));
-        obj->m_04 = obj->m_04 - reinterpret_cast<::Twin_0084d030 *>((((FUN_00963bf0_glob*)&(*reinterpret_cast<::AimClock *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+        obj->m_04 = obj->m_04 - ::fnv::timer::Seconds();
         node = ((::BSSimpleList< ::FUN_00963bf0_item *> *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
     }
 }
@@ -64291,9 +64292,9 @@ void PlayerAudio::FUN_00962de0()
                         reinterpret_cast<::fnv_00965620::AimPlayer *>((reinterpret_cast<SoundEngine*>((*reinterpret_cast<void * *>(&::_g_thePlayer)))))->UpdateAim((::fnv_00965620::AimObject *)(0), (::fnv_00965620::AimObject *)(handle), &x3, &z6, (const ::fnv_00965620::NiPoint3_ext *)(0), DAT_0102efc4, DAT_0102efc4);
                     }
                     DAT_011e0d6c -=
-                        ((double)(DAT_011e0d6c - x3) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::AimClock *>(&::g_timeGlobal))))->GetStoredFloatValue()) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SoundSetting *>(&::g_011ce960))))));
+                        ((double)(DAT_011e0d6c - x3) * ::fnv::timer::Seconds()) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SoundSetting *>(&::g_011ce960))))));
                     DAT_011e0d68 -=
-                        ((double)(DAT_011e0d68 - z6) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::AimClock *>(&::g_timeGlobal))))->GetStoredFloatValue()) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SoundSetting *>(&::g_011ce960))))));
+                        ((double)(DAT_011e0d68 - z6) * ::fnv::timer::Seconds()) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SoundSetting *>(&::g_011ce960))))));
                     reinterpret_cast<::Matrix161 *>(&(rotation))->FUN_00a59540(DAT_011e0d6c, 0.0f, DAT_011e0d68);
                 }
                 if (selection)
@@ -64314,7 +64315,7 @@ void PlayerAudio::FUN_00962de0()
                         if (!active8)
                             volume *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SoundSetting *>(&::originalRuntimeFloatSetting643))))));
                         float delta = volume - DAT_011a3b2c;
-                        float scale = (float)(::FUN_00403e20((float *)&((*reinterpret_cast<::SmoothingSetting *>(&::originalRuntimeFloatSetting645)))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::AimClock *>(&::g_timeGlobal))))->GetStoredFloatValue());
+                        float scale = (float)(::FUN_00403e20((float *)&((*reinterpret_cast<::SmoothingSetting *>(&::originalRuntimeFloatSetting645)))) * ::fnv::timer::Seconds());
                         if (delta != ::_DAT_01012060)
                         {
                             if (FUN_00408840(delta) > scale)
@@ -69591,8 +69592,8 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                 reinterpret_cast<::FadeCurve *>((DAT_011e0774))->FUN_00946020(GetYaw(false), anglesScope52.z, durationScope53);
                 reinterpret_cast<::FadeCurve *>((DAT_011e0760))->FUN_00946020(reinterpret_cast<::MobileObject *>(this)->GetLooking(), anglesScope52.x, durationScope53);
             }
-            reinterpret_cast<::InterpolatorStep *>((DAT_011e0774))->FUN_00946140(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::AimClock *>(&::g_timeGlobal))))->GetStoredFloatValue());
-            reinterpret_cast<::InterpolatorStep *>((DAT_011e0760))->FUN_00946140(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::AimClock *>(&::g_timeGlobal))))->GetStoredFloatValue());
+            reinterpret_cast<::InterpolatorStep *>((DAT_011e0774))->FUN_00946140(::fnv::timer::Seconds());
+            reinterpret_cast<::InterpolatorStep *>((DAT_011e0760))->FUN_00946140(::fnv::timer::Seconds());
             float yawScope54 = ((double)(reinterpret_cast<::FUN_00946190_cls *>((DAT_011e0774))->FUN_00946190()));
             float pitchScope55 = ((double)(reinterpret_cast<::FUN_00946190_cls *>((DAT_011e0760))->FUN_00946190()));
             SetYaw(yawScope54);
@@ -70308,7 +70309,7 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
         vec = *p1;
         if ((*reinterpret_cast<unsigned char *>(&::DAT_011e07b9)))
         {
-            reinterpret_cast<::FUN_0063c8a0_shell *>((((StoreShell*)&DAT_011e0808)))->FUN_0063c8a0(&ResultSlot(((vec - DAT_011e0808) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting215)))))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue())));
+            reinterpret_cast<::FUN_0063c8a0_shell *>((((StoreShell*)&DAT_011e0808)))->FUN_0063c8a0(&ResultSlot(((vec - DAT_011e0808) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting215)))))) * ::fnv::timer::Seconds())));
             vec = DAT_011e0808;
         }
         else
@@ -70336,7 +70337,7 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
             len = reinterpret_cast<::NiPoint3 *>((void *)&(a7c))->ComputeMagnitude() - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0934)))))) * 0.5;
         }
     }
-    float scaled = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting216)))))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue() * f;
+    float scaled = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting216)))))) * ::fnv::timer::Seconds() * f;
     float lim = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting199))))));
     if ((*reinterpret_cast<unsigned char *>(&::DAT_011e07b8)))
         lim = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting198))))));
@@ -70408,7 +70409,7 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
     {
         if (DAT_011a3b38 > 0.0 && !DAT_011a3b32)
         {
-            DAT_011a3b38 -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue() * 4.0;
+            DAT_011a3b38 -= ::fnv::timer::Seconds() * 4.0;
             if (DAT_011a3b38 < 0.0)
                 DAT_011a3b38 = 0.0f;
             reinterpret_cast<::Actor *>(this)->UpdateActorPresentation();
@@ -70418,7 +70419,7 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
     {
         if (DAT_011a3b38 < 1.0)
         {
-            DAT_011a3b38 += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue() * 4.0;
+            DAT_011a3b38 += ::fnv::timer::Seconds() * 4.0;
             if (DAT_011a3b38 > 1.0 || (state != 0 || ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4))
                 DAT_011a3b38 = 1.0f;
             reinterpret_cast<::Actor *>(this)->UpdateActorPresentation();
@@ -70429,7 +70430,7 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
     if (state != 0)
     {
         NiPoint3 v158 = *p1 - v14c;
-        DAT_011e07dc = reinterpret_cast<::NiPoint3 *>((void *)&(v158))->ComputeMagnitude() / reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        DAT_011e07dc = reinterpret_cast<::NiPoint3 *>((void *)&(v158))->ComputeMagnitude() / ::fnv::timer::Seconds();
         if (state == -1)
         {
             NiPoint3 v16c = *p1 - *(NiPoint3*)((void *)(::FUN_0045bb80((intptr_t)(((ListShell*)(*reinterpret_cast<::NiPoint3 * *>(&::DAT_011e07d0)))))));

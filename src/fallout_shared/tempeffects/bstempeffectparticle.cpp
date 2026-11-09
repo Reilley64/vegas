@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BSMultiBoundSphere.h"
@@ -1172,7 +1173,7 @@ bool R01FxPlayer::LoadFromSave()
                     R01CellDynamicNode* aAFlags = ((::R01CellDynamicNode *)(reinterpret_cast<::TESObjectCELL *>((m_cell))->GetDynamicNode()));
                     aAFlags->AttachChildInAvailableSlot(((::R01Node *)(::FUN_00559450((int *)&(m_nodeRef)))), 1);
                     reinterpret_cast<::FUN_00a5a040_Class *>((((::R01Node *)(::FUN_00559450((int *)&(m_nodeRef))))))->FUN_00a5a040();
-                    NiUpdateData aA148((float)((double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::R01Rand *>(&::g_timeGlobal))))->FUN_00825c00() / ::DAT_01017b70));
+                    NiUpdateData aA148((float)((double)::fnv::timer::Time() / ::DAT_01017b70));
                     reinterpret_cast<::FUN_00a59c60_cls *>((((::R01Node *)(::FUN_00559450((int *)&(m_nodeRef))))))->FUN_00a59c60((std::intptr_t)(&aA148));
                     ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(::R01Node *)(((::R01Node *)(::FUN_00559450((int *)&(m_nodeRef))))));
                     if (a3_2)

@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectrefr.cpp: XActor, Owner, Thing, Ref and more (522 functions)
 #include "fnv_result_slot.h"
+#include "fnv/game_timer.h"
 #include <cstddef>
 #include "generated/data/vtables.h"
 #include <new>
@@ -23198,7 +23199,7 @@ Cls::~FUN_0055a430()
     if (FUN_00568680())
     {
         reinterpret_cast<::FUN_004538e0_Class *>(&((*reinterpret_cast<::fnv_0055a430::G43c *>(&::g_011e043c))))->FUN_004538e0(0);
-        (*reinterpret_cast<int *>(&::DAT_011ca28c)) = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0055a430::TimeG *>(&::g_timeGlobal))))->FUN_00825c00()));
+        (*reinterpret_cast<int *>(&::DAT_011ca28c)) = ((int)(::fnv::timer::Time()));
         for (val = ((::fnv_0055a430::N20 *)(reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::fnv_0055a430::ProcL *>(&::g_011e0e80))))->GetAliveActorList())); val != 0; val = ((::fnv_0055a430::N20 *)(reinterpret_cast<::Callees *>((val))->FUN_00726070())))
         {
             p10 = *val->FUN_006815c0();
@@ -23214,7 +23215,7 @@ Cls::~FUN_0055a430()
     }
     if (FUN_00401170() == 0x27)
     {
-        (*reinterpret_cast<int *>(&::DAT_011ca28c)) = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0055a430::TimeG *>(&::g_timeGlobal))))->FUN_00825c00()));
+        (*reinterpret_cast<int *>(&::DAT_011ca28c)) = ((int)(::fnv::timer::Time()));
     }
     ::GarbageCollector::Remove((::TESObjectREFR *)(::fnv_0055a430::FUN_0055a430 *)(this));
     if (((::fnv_0055a430::FUN_0055a430 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) != 0)
@@ -37710,7 +37711,7 @@ unsigned char FUN_0056a380_shell::FUN_0056a380()
                 {
                     TimedListEntry* entry;
                     found = 0;
-                    extraTime = (*reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)).GetStoredFloatValue();
+                    extraTime = ::fnv::timer::Seconds();
                     entry = ((::TimedListEntry *)(reinterpret_cast<::FUN_0041eda0_shell *>((((ExtraDataTiming*)FUN_005d43c0((TESObjectREFR*)this))))->FUN_0041eda0()));
                     current = reinterpret_cast<::FUN_0041f020_shell *>((((ExtraDataTiming*)FUN_005d43c0((TESObjectREFR*)this))))->FUN_0041f020();
                     fNewTime = current + extraTime;

@@ -1,6 +1,7 @@
 // fallout/audio/falloutradio.cpp: FalloutRadio, RadioConvTask, FalloutAudioMedia, Interface and more (61 functions)
 
 #include "fnv/dialogue_response_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstdint>
@@ -153,12 +154,12 @@ bool FalloutRadio::Update(bool force)
     bool update = false;
 
     if (DAT_011dd424 == 0)
-        DAT_011dd424 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+        DAT_011dd424 = ::fnv::timer::Time();
 
-    if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() - DAT_011dd424 > ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd5cc))))))->value && !Interface::IsGamePaused())
+    if (::fnv::timer::Time() - DAT_011dd424 > ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd5cc))))))->value && !Interface::IsGamePaused())
     {
         update = true;
-        DAT_011dd424 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+        DAT_011dd424 = ::fnv::timer::Time();
     }
 
     if (::_g_thePlayer != 0)

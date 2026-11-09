@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fallout/interface/menu_fields.h"
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include <cctype>
 #include "fnv/decl/Calendar.h"
@@ -499,7 +500,7 @@ bool MenuClass::FUN_007c0580()
     {
         return false;
     }
-    m_f40 += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobalStub *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    m_f40 += ::fnv::timer::Seconds();
     if (m_f40 >= 1.0)
     {
         m_f40 = 0.0f;

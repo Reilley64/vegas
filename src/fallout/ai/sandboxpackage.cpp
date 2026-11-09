@@ -2,6 +2,7 @@
 // Fallout: New Vegas - original source reconstruction.
 // Original: platforms/common/code/fallout/ai/sandboxpackage.cpp
 #include "fnv/package_schedule_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/form_fields.h"
 #include "fnv/simple_array_item.h"
 #include <cstdint>
@@ -143,7 +144,7 @@ bool SandBoxActorPackageData::IsLocationCheckDue()
 {
     if (pLocation != NULL && m_uiLastProcedureCheckDay != 0xFFFFFFFF)
     {
-        unsigned int uiNow = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00();
+        unsigned int uiNow = ::fnv::timer::Time();
         if (uiNow > m_uiLastProcedureCheckDay)
         {
             TESObjectREFR* pNext = reinterpret_cast<::FUN_0041e410_shell *>((((ExtraDataListHelper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pLocation))->FUN_005d43c0())))))->FUN_0041e410();
@@ -342,7 +343,7 @@ bool SandBoxActorPackageData::IsObjectWithinLocationRadius(MobileObject* object,
             m_uiLastProcedureCheckDay = 0;
             state.patrol = ((::RegionPoint *)(reinterpret_cast<::FUN_0041fe90_shell *>((((ExtraDataListHelper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pLocation))->FUN_005d43c0())))))->FUN_0041fe90()));
             if (state.patrol)
-                m_uiLastProcedureCheckDay = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() + (unsigned int)(reinterpret_cast<::CombatTargetTimestamp *>((state.patrol))->FUN_006a7f50() * 1000.0);
+                m_uiLastProcedureCheckDay = ::fnv::timer::Time() + (unsigned int)(reinterpret_cast<::CombatTargetTimestamp *>((state.patrol))->FUN_006a7f50() * 1000.0);
             if (eProcedure > -1 && eProcedure < 6)
             {
                 state.helper = ((void *)(reinterpret_cast<::FUN_0087f990_shell *>((state.actor))->FUN_0087f990()));
@@ -585,10 +586,10 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
     }
     if (m_pCurrentTarget && m_pCurrentFurniture != m_pCurrentTarget)
     {
-        m_uiActivityStartDay = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() + ::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011cdb3c))) * 1000;
+        m_uiActivityStartDay = ::fnv::timer::Time() + ::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011cdb3c))) * 1000;
         m_pCurrentFurniture = m_pCurrentTarget;
     }
-    if (m_pCurrentFurniture && reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() > m_uiActivityStartDay)
+    if (m_pCurrentFurniture && ::fnv::timer::Time() > m_uiActivityStartDay)
         m_pCurrentFurniture = 0;
     if (m_pCurrentTarget)
         reinterpret_cast<::fnv_00568150::FUN_00568150_shell *>((static_cast<TESObjectREFRHelper*>(m_pCurrentTarget)))->FUN_00568150(m_ucProcedureIndex, false);
@@ -596,11 +597,11 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
     m_ucProcedureIndex = 127;
     eProcedure = SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_NONE;
     m_fProcedureTime = 0.0f;
-    if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() >= m_uiProcedureIndex)
+    if (::fnv::timer::Time() >= m_uiProcedureIndex)
     {
         reinterpret_cast<::FUN_009f41c0_shell *>(this)->ResetReference();
         ScanSandboxTargets(apActor);
-        m_uiProcedureIndex = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() +
+        m_uiProcedureIndex = ::fnv::timer::Time() +
                              ::GetRandomNumberInRange(::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011cd0a4))) * 1000, ::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011cdf60))) * 1000);
     }
     bcanPerformActivity = IsActivityTime() && IsActivityProcedure();
@@ -918,7 +919,7 @@ void SandBoxActorPackageData::LoadGame(BGSLoadFormBuffer* apBuffer)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_ucProcedureIndex), 1);
     iSavedTimeStamp = 0;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&iSavedTimeStamp), 4);
-    m_uiActivityStartDay = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() - iSavedTimeStamp;
+    m_uiActivityStartDay = ::fnv::timer::Time() - iSavedTimeStamp;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiActivityEndDay), 4);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fActivityStartHour), 4);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fActivityEndHour), 4);
@@ -1142,7 +1143,7 @@ void SandBoxActorPackageData::InitLoadGame(BGSLoadFormBuffer* apBuffer)
                                         ((::RegionPoint *)(reinterpret_cast<::FUN_0041fe90_shell *>((((ExtraDataListHelper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pLocation))->FUN_005d43c0())))))->FUN_0041fe90()));
                                     if (pPatrolRefData != NULL)
                                     {
-                                        m_uiLastProcedureCheckDay = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() +
+                                        m_uiLastProcedureCheckDay = ::fnv::timer::Time() +
                                                                     (unsigned int)(reinterpret_cast<::CombatTargetTimestamp *>((pPatrolRefData))->FUN_006a7f50() * 1000.0);
                                     }
                                 }
@@ -1216,7 +1217,7 @@ void FUN_009f5a60_shell::SaveCrimeData(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_ucProcedureIndex, 1, 0);
 
     iprevTargetDelta3 =
-        reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() - pData->m_uiActivityStartDay;
+        ::fnv::timer::Time() - pData->m_uiActivityStartDay;
 
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&iprevTargetDelta3, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&pData->m_uiActivityEndDay, 4, 0);
@@ -1831,7 +1832,7 @@ void SandboxTargetData::FUN_009f3af0(SBActor* apActor, SBPackage* apPackage)
         uiTimeStamp = 0;
         SBPatrolData* pPatrol = ((::SBPatrolData *)(reinterpret_cast<::FUN_0041fe90_shell *>((((::SBExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((pTarget))->FUN_005d43c0()))))->FUN_0041fe90()));
         if (pPatrol)
-            uiTimeStamp = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() + (unsigned int)(reinterpret_cast<::CombatTargetTimestamp *>((pPatrol))->FUN_006a7f50() * 1000.0);
+            uiTimeStamp = ::fnv::timer::Time() + (unsigned int)(reinterpret_cast<::CombatTargetTimestamp *>((pPatrol))->FUN_006a7f50() * 1000.0);
     }
 }
 
@@ -2169,7 +2170,7 @@ bool SandBoxActorPackageData::HasProcessTarget(Actor* apActor)
                         }
                         if (bChanged)
                         {
-                            m_uiProcedureIndex = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00();
+                            m_uiProcedureIndex = ::fnv::timer::Time();
                             return true;
                         }
                     }
@@ -2177,7 +2178,7 @@ bool SandBoxActorPackageData::HasProcessTarget(Actor* apActor)
                 if (pLocation != NULL && eProcedure != SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_USE_IDLE_MARKER &&
                     m_uiLastProcedureCheckDay != 0xFFFFFFFF)
                 {
-                    if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00() > m_uiLastProcedureCheckDay)
+                    if (::fnv::timer::Time() > m_uiLastProcedureCheckDay)
                         return true;
                 }
                 if (!IsActorWithinLocationRadius(apActor, true))

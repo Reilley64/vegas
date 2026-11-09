@@ -1,6 +1,7 @@
 // fallout_shared/combatformulas.cpp: CombatDamageCalculator, NiCamera (52 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "fnv/decl/Actor8A7.h"
 #include "fnv/decl/AmmoOwner.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -2211,7 +2212,7 @@ float __cdecl FUN_00644ce0(ActorValueOwner* apOwner, DmgWeapon* apWeapon, float 
     if (apWeapon && reinterpret_cast<::FUN_00524b40_class *>((apWeapon))->FUN_00524b40() && ::FUN_006450c0((::TESObjectWEAP *)(apWeapon)))
     {
         if (!reinterpret_cast<::FUN_00525430_Class *>(&((*reinterpret_cast<::DmgVATS *>(&::g_011f2250))))->FUN_00525430() || pActor4 != (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
-            fTimeMult3 = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::DmgTimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+            fTimeMult3 = ::fnv::timer::Seconds();
     }
     return ((fBaseDamage4 + fAmmoBonus6) * kFDamage + fBonus6) * fHealthMult3 * fTimeMult3 * fTeammateMult;
 }

@@ -1,6 +1,7 @@
 // fallout/ai/processlists.cpp: ProcessLists, ProcessListsEx, TESObjectREFR, BGSProjectile and more (133 functions)
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/game_timer.h"
 #include "fnv/form_fields.h"
 #include "fnv/save_load_game_view.h"
 #include "fnv/package_fields.h"
@@ -1935,7 +1936,7 @@ void ProcessListsHigh::FUN_0096bcd0(float afDelta, bool abSleeping)
             }
         }
     }
-    ((ProcessListsUpdate*)this)->FUN_00977130(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0096bcd0::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue());
+    ((ProcessListsUpdate*)this)->FUN_00977130(::fnv::timer::Seconds());
 }
 }  // namespace fnv_0096bcd0
 
@@ -9690,7 +9691,7 @@ void DetectionLists::UpdateDetection()
     ActorEntity* p = 0;
     float a;
     unsigned int i = reinterpret_cast<::FUN_005be5c0_shell *>(&(actors))->FUN_005be5c0(0);
-    a = i * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::DetectTime *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    a = i * ::fnv::timer::Seconds();
     a = FUN_0040ebd0(a, 5.0f);
     if (i == 0)
         reinterpret_cast<::ST_008c8bb0 *>((((ActorEntity*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_008c8bb0(0);
@@ -9788,9 +9789,9 @@ void FUN_0096d810_shell::FUN_0096d810()
                                "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\ai\\ProcessLists.cpp", 0x521);
 
     if (m_fProcessListValue2 >= ::_DAT_01012060)
-        m_fProcessListValue2 -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0096d810::FUN_0084d030_timer *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        m_fProcessListValue2 -= ::fnv::timer::Seconds();
     if (m_fProcessUpdateTimer >= ::_DAT_01012060)
-        m_fProcessUpdateTimer -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0096d810::FUN_0084d030_timer *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        m_fProcessUpdateTimer -= ::fnv::timer::Seconds();
 
     DAT_011e0358 = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Settings970d50 *>(&::g_011de7b8))))->GetGameTime();
     (*reinterpret_cast<int *>(&::DAT_011e035c)) = ((int)(reinterpret_cast<::FUN_00867c60_shell *>(&((*reinterpret_cast<::Settings970d50 *>(&::g_011de7b8))))->FUN_00867c60()));
@@ -9803,7 +9804,7 @@ void FUN_0096d810_shell::FUN_0096d810()
     if (::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011c3ea4))) == 1)
         ::BGSDestructibleObjectForm::UpdateDestructionMap();
 
-    float fDiff = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0096d810::FUN_0084d030_timer *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    float fDiff = ::fnv::timer::Seconds();
     reinterpret_cast<::ProcessLists *>(this)->AdvanceProcessLists(fDiff + reinterpret_cast<::FUN_0096d490_shell *>(this)->FUN_0096d490());
     int iFrameRate = 1.0f / fDiff;
     bool bProcess = true;
@@ -9855,7 +9856,7 @@ void FUN_0096d810_shell::FUN_0096d810()
         if (m_fCrimeListUpdateTimer <= ::_DAT_01012060)
             UpdateCrimeLists();
         else
-            m_fCrimeListUpdateTimer -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0096d810::FUN_0084d030_timer *>(&::g_timeGlobal))))->GetStoredFloatValue();
+            m_fCrimeListUpdateTimer -= ::fnv::timer::Seconds();
     }
 }
 }  // namespace fnv_0096d810
@@ -10113,7 +10114,7 @@ void Target96::FUN_0096db30(float delta, bool flag, int level)
         {
             array = object;
             if (level)
-                delta = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0096db30::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() / 1000.0 - reinterpret_cast<::ActiveEffect *>((((::fnv_0096db30::Proc96 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((array))->GetBaseTexture()))))->GetDuration();
+                delta = ::fnv::timer::Time() / 1000.0 - reinterpret_cast<::ActiveEffect *>((((::fnv_0096db30::Proc96 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((array))->GetBaseTexture()))))->GetDuration();
             array->V210(delta, flag);
             if (!level)
             {

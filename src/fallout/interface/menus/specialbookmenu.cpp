@@ -4,6 +4,7 @@
 
 
 #include "fnv/simple_array_item.h"
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/AnimationSequence.h"
@@ -496,7 +497,7 @@ void MenuUpdate::FUN_007c6200()
                 if (!DAT_011a0854 || selection > 0)
                     sequence = ((::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((manager))->FUN_0047a520(
                         (::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString(DAT_011a0854 ? DAT_011a0878[selection] : DAT_011a0858[selection])))));
-                elapsed += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::MenuTime *>(&::g_timeGlobal))))->GetStoredFloatValue();
+                elapsed += ::fnv::timer::Seconds();
                 if (sequence)
                 {
                     reinterpret_cast<::AnimationSequence *>((sequence))->FUN_00a34ba0(elapsed, true);
@@ -1472,7 +1473,7 @@ void SpecialBookMenuX::InitMenu()
     reinterpret_cast<::NiAVObject *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
     new ((void *)&(akStart)) ::NiUpdateData(0.0f, 0, 0);
     reinterpret_cast<::FUN_00a59c60_cls *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_00a59c60((std::intptr_t)&(akStart));
-    ((BkMenuG*)DAT_011daa38)->m_fTime += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::BkTimer *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    ((BkMenuG*)DAT_011daa38)->m_fTime += ::fnv::timer::Seconds();
     aPCtrl = ((::BkCtrl *)(reinterpret_cast<::MyHost *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_00a5c570((const ::MyRTTI *)(void *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
     if (aPCtrl)
     {

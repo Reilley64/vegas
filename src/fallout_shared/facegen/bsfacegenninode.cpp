@@ -1,6 +1,7 @@
 // fallout_shared/facegen/bsfacegenninode.cpp: FaceNode, FaceGenNode, DumpNode (33 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/BGSQuestObjective.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1010,12 +1011,12 @@ void FUN_00663510_t::UpdateFaceGenAnimation(FaceGenUpdateData663510* UpdateData)
     if (((BSFaceGenNiNode*)this)->bAnimationUpdate)
     {
         ((FaceGenNode*)this)->GetAnimationData()->SetUpdated(false);
-        if (((unsigned char)(::GetByteAt1D((char*)&(*reinterpret_cast<::fnv_00663510::Twin_0084d030 *>(&::g_timeGlobal))))))
+        if (((unsigned char)(::fnv::timer::SecondsAreZero())))
             bchanged = ((FaceGenNode*)this)->GetAnimationData()->UpdateAnimation(0.0f);
         else
             bchanged = ((FaceGenNode*)this)
                            ->GetAnimationData()
-                           ->UpdateAnimation(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_00663510::Twin_0084d030 *>(&::g_timeGlobal))))->GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00663510::Setting_S *>(&::g_011c5724)))))));
+                           ->UpdateAnimation(::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00663510::Setting_S *>(&::g_011c5724)))))));
     }
     else
     {
@@ -1030,13 +1031,13 @@ void FUN_00663510_t::UpdateFaceGenAnimation(FaceGenUpdateData663510* UpdateData)
         reinterpret_cast<::FUN_004f0140_class *>((((NiAVObject*)this)))->FUN_004f0140())
     {
         bool beyeTrackingChanged;
-        if (((unsigned char)(::GetByteAt1D((char*)&(*reinterpret_cast<::fnv_00663510::Twin_0084d030 *>(&::g_timeGlobal))))))
+        if (((unsigned char)(::fnv::timer::SecondsAreZero())))
             beyeTrackingChanged =
                 reinterpret_cast<::FUN_0064be40_shell *>((((FaceGenNode*)this)->GetAnimationData()))->FUN_0064be40(0.0f, ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)this)))->FUN_009611e0())));
         else
             beyeTrackingChanged =
                 reinterpret_cast<::FUN_0064be40_shell *>((((FaceGenNode*)this)
-                    ->GetAnimationData()))->FUN_0064be40(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_00663510::Twin_0084d030 *>(&::g_timeGlobal))))->GetStoredFloatValue(), ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)this)))->FUN_009611e0())));
+                    ->GetAnimationData()))->FUN_0064be40(::fnv::timer::Seconds(), ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)this)))->FUN_009611e0())));
         bchanged = bchanged || beyeTrackingChanged;
     }
 

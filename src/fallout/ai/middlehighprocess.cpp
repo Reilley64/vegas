@@ -1,6 +1,7 @@
 // fallout/ai/middlehighprocess.cpp: MiddleHighProcess, FurnitureProcess, MiddleHighProcessStandIn, ActorPackage_GetTarget_Helper and more (180 functions)
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/game_timer.h"
 #include "fnv/package_schedule_fields.h"
 #include "fnv/form_fields.h"
 #include "fnv/inventory_entry_fields.h"
@@ -8868,7 +8869,7 @@ void B91FD90Owner::FUN_0091fd90(B91FD90Actor* pkActor)
 
     if (pkPackage->m_fTimer > ::_DAT_01012060)
     {
-        pkPackage->m_fTimer -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::B91FD90TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        pkPackage->m_fTimer -= ::fnv::timer::Seconds();
     }
     else if (IsReady())
     {
@@ -10337,7 +10338,7 @@ void CvOwner::UpdateLevel(CvActor* target, bool useTarget)
     }
     else
     {
-        SetValue(GetValue() - reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::CvTimer *>(&::g_timeGlobal))))->GetStoredFloatValue());
+        SetValue(GetValue() - ::fnv::timer::Seconds());
     }
 }
 
@@ -23065,7 +23066,7 @@ void Target::UpdateKnockedDownState(ActorStand* actor)
             unk13c = 4;
             B006815c0 velocity;
             reinterpret_cast<::fnv_00494390::MovementAnimation *>((idx))->GetMovement((::fnv_00494390::MotionPoint *)(::fnv_00920150::B006815c0 *)(&velocity), (::fnv_00494390::MotionActor *)(actor), 1, 0);
-            velocity = (*(::fnv_00920150::B006815c0 *)(reinterpret_cast<::P3 *>((void *)&(velocity))->FUN_004a0bd0({}))).FUN_0053d280(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_00920150::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue() * 50.0);
+            velocity = (*(::fnv_00920150::B006815c0 *)(reinterpret_cast<::P3 *>((void *)&(velocity))->FUN_004a0bd0({}))).FUN_0053d280(::fnv::timer::Seconds() * 50.0);
             if (actor->unkac)
             {
                 reinterpret_cast<::FlagController *>((actor->unkac))->FUN_00c7ba10(0);
@@ -27823,7 +27824,7 @@ void AimProcess::UpdateAimTurn(MobileObject* actor)
     right = 0.0f;
     up = 0.0f;
     float neutral =
-        m_fAnimationTime - m_fAnimationTime * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)&(g_011e0474)))) * *((float *)&(::FUN_00403e20((float *)&(g_011c5724))));
+        m_fAnimationTime - m_fAnimationTime * ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&(g_011e0474)))) * *((float *)&(::FUN_00403e20((float *)&(g_011c5724))));
     if (m_fAnimationTime > 0.0 && neutral < 0.0)
         m_fAnimationTime = 0.0f;
     else if (m_fAnimationTime < 0.0 && neutral > 0.0)
@@ -28383,7 +28384,7 @@ void ProcObj::FUN_00929960(ActV* apActor, bool abForce)
                         }
                         else
                         {
-                            f198 -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_00929960::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+                            f198 -= ::fnv::timer::Seconds();
                         }
                     }
                 }
@@ -28427,15 +28428,15 @@ unsigned char AutoFireProcess::UpdateAutoFire(Actor* apActor)
     WeapStub* pWeap = ((::WeapStub *)(reinterpret_cast<::Twin_0044ddc0 *>((((WeapEntryStub*)pWeapon)))->GetName()));
     if (!reinterpret_cast<::FUN_00524b40_class *>((pWeap))->FUN_00524b40())
         return 0;
-    float fDelta4 = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerStub *>(&::g_timeGlobal))))->GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724))))));
+    float fDelta4 = ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724))))));
     float fAnimMult6 = GetAnimation() ? reinterpret_cast<::FUN_004e3d00_shell *>((((AnimStub*)GetAnimation())))->FUN_004e3d00() : 1.0f;
     if (apActor == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
         m_fAnimationSpeed -= reinterpret_cast<::VATS *>(&((*reinterpret_cast<::VATSStub *>(&::g_011f2250))))->GetModeTimeMultiplier() * fDelta4 * fAnimMult6;
     else if (apActor == ::DAT_011f21cc)
         m_fAnimationSpeed -=
-            reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerStub *>(&::g_timeGlobal))))->GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724)))))) * fAnimMult6 * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATSStub *>(&::g_011f2250))))->FUN_009c8d60();
+            ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724)))))) * fAnimMult6 * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATSStub *>(&::g_011f2250))))->FUN_009c8d60();
     else
-        m_fAnimationSpeed -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerStub *>(&::g_timeGlobal))))->GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724)))))) * fAnimMult6;
+        m_fAnimationSpeed -= ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724)))))) * fAnimMult6;
     float fRate = reinterpret_cast<::FUN_00821640_shell *>((pWeap))->FUN_00821640() * reinterpret_cast<::FUN_00646020_shell *>((pWeap))->FUN_00646020(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((((WeapEntryStub*)pWeapon)))->HasEffect(8));
     unsigned char cShots2 = 0;
     float fInterval = 1.0f / fRate;
@@ -29257,7 +29258,7 @@ void B570ProcessCalls::UpdateTargetTracking(B570ActorCalls* actor, B570TargetDat
         if (type == 48)
             UpdateActiveEffects(actor, target);
     }
-    data->elapsed += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::B570TimeCalls *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    data->elapsed += ::fnv::timer::Seconds();
     if (data->elapsed >= duration)
     {
         bool busy = reinterpret_cast<::FUN_008ba530_cls *>((actor))->IsNodeKindSupported();
@@ -43486,7 +43487,7 @@ void MidProc::FUN_00918120(Actor* pActor, int a2, int a3, int a4)
             this->v162(pActor, 1);
             return;
         }
-        reinterpret_cast<::FUN_008db4c0_class *>((pPkg))->FUN_008db4c0((float)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue() * -1.0));
+        reinterpret_cast<::FUN_008db4c0_class *>((pPkg))->FUN_008db4c0((float)(::fnv::timer::Seconds() * -1.0));
         if (reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() > *(float*)((::Setting_S *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::originalRuntimeFloatSetting1295_t *>(&::originalRuntimeFloatSetting190)))))))
             reinterpret_cast<::FUN_008db4c0_class *>((pPkg))->FUN_008db4c0((float)(reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() * -1.0));
     }
@@ -45578,7 +45579,7 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
         if (!destinationTmp)
         {
             reinterpret_cast<::FUN_00810530_c *>((packageTmp))->FUN_00810530(1);
-            reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue());
+            reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250(::fnv::timer::Seconds());
             if (elapsed4 >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting234)))))))
                 v288(actor, 1);
             return;
@@ -45591,7 +45592,7 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
         Weapon* weapon6 = actor->FUN_008d6f30();
         if (weapon6)
         {
-            reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250((float)(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue() * -1.0));
+            reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250((float)(::fnv::timer::Seconds() * -1.0));
             float distance = reinterpret_cast<::RefS *>((actor))->FUN_005723b0((::RefS *)(destinationTmp), 0, 0);
             float threshold = 0;
             if (reinterpret_cast<::TESObjectCELL *>((weapon6))->IsCellInterior())
@@ -45608,7 +45609,7 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
                 if (countdown <= 0.0)
                     expired = true;
                 else
-                    countdown -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue();
+                    countdown -= ::fnv::timer::Seconds();
                 if (!reference)
                 {
                     reinterpret_cast<::FUN_009f1140_shell *>((packageTmp))->FUN_009f1140((::TESObjectREFR *)(actor), (::TESObjectREFR *)(destinationTmp));
@@ -45646,7 +45647,7 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
             else
             {
                 reinterpret_cast<::FUN_00810530_c *>((packageTmp))->FUN_00810530(1);
-                reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FleeUpdate::Timer *>(&::g_timeGlobal))))->GetStoredFloatValue());
+                reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250(::fnv::timer::Seconds());
                 if (elapsed4 >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting234)))))))
                     v288(actor, 1);
             }
@@ -45855,7 +45856,7 @@ void SearchFurnitureProcess::FUN_00922670(::Actor* actor, bool flag, ::TESObject
             --item2;
         }
     }
-    m_uiFaceGenDataFlags = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::FurnitureSearchDetail::FurnitureTime *>(&::g_timeGlobal))))->FUN_00825c00();
+    m_uiFaceGenDataFlags = ::fnv::timer::Time();
 }
 }
 

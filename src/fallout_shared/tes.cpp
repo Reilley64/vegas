@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include <cstdio>
 #include <cstring>
@@ -4458,7 +4459,7 @@ void Zt5TES::FUN_00453550(float afTime)
     }
     reinterpret_cast<::Processor *>((((::Zt5Listener *)(::FUN_00453720()))))->ProcessRequests();
     if (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c3ea4)))) == 1)
-        reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((pWeatherSky))->FUN_0063ac70(::fnv_007050d0::FUN_007050d0() ? (*reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)).GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011c5724)))))) : afTime);
+        reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((pWeatherSky))->FUN_0063ac70(::fnv_007050d0::FUN_007050d0() ? ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011c5724)))))) : afTime);
     if (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c3ea4)))) == 1)
         FUN_004537c0();
     FUN_00975080((char*)&(*reinterpret_cast<int *>(&::g_011e0e80)));
@@ -8128,7 +8129,7 @@ struct S_004537c0_Fade
 void Zt5TES::FUN_004537c0()
 {
     S_004537c0_Fade fadeData;
-    reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((((S_004537c0_Sky*)pWeatherSky)))->FUN_0063ac70(::fnv_007050d0::FUN_007050d0() ? (*reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)).GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011c5724)))))) : FUN_00453850());
+    reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((((S_004537c0_Sky*)pWeatherSky)))->FUN_0063ac70(::fnv_007050d0::FUN_007050d0() ? ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011c5724)))))) : FUN_00453850());
     new ((void *)&(fadeData)) ::NiUpdateData(::fnv_00563f30::DAT_011c3c08, 0, 0);
     reinterpret_cast<::FUN_00a59c60_cls *>((((::S_004537c0_Mgr *)(reinterpret_cast<::FUN_009611e0_shell *>((((S_004537c0_Tes*)this)))->FUN_009611e0()))))->FUN_00a59c60((std::intptr_t)(&fadeData));
 }

@@ -1,5 +1,6 @@
 // fallout_shared/tesscriptfunctions.cpp: Script, ActorValue, TESActorBaseData, DelStandIn and more (979 functions)
 #include <cmath>
+#include "fnv/game_timer.h"
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -10919,7 +10920,7 @@ bool FUN_005d5560(const ScriptParameter* apParameters, const char* apCompiledPar
     unsigned int bIgnoreAudio = 0;
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &fmultiplier, &bIgnoreAudio))
         return false;
-    reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::fnv_005d5560::GameTimerRecord *>(&::g_timeGlobal))))->FUN_00aa4db0(fmultiplier, true);
+    ::fnv::timer::SetMultiplier(fmultiplier, true);
     reinterpret_cast<::FUN_005d5610_Class *>((((FUN_005d5610_Class*)&BSAudioManager::GetRandomGenerator())))->FUN_005d5610(bIgnoreAudio != 0);
     if (g_tlsBlock.conditionFunctionDebug)
         DebugLog::_DebugLog("Global Time Multiplier >> '%0.2f'", fmultiplier);
@@ -29662,7 +29663,7 @@ bool __cdecl FUN_005c03d0(void* info,const char* data,RotationReference* referen
     case 'Y': rotation=((::RotationAngles *)(reinterpret_cast<::TESRecipe *>((reference))->GetData()))->y; break;
     case 'Z': rotation=((::RotationAngles *)(reinterpret_cast<::TESRecipe *>((reference))->GetData()))->z; break;
    }
-   rotation+=axis*0.01745329238474369*reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+   rotation+=axis*0.01745329238474369*::fnv::timer::Seconds();
    while(rotation>=6.2831854820251465) rotation-=6.2831854820251465;
    while(rotation<0.0) rotation+=6.2831854820251465;
    switch(amount) {

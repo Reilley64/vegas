@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -3536,8 +3537,8 @@ void Update97::UpdateScopeZoom(float elapsed)
                                                 reinterpret_cast<::FadeCurve *>((verticalBlend))->FUN_00946020(currentVertical, step, i);
                                                 previous = (*reinterpret_cast<::Actor97 * *>(&::DAT_011f21cc));
                                             }
-                                            reinterpret_cast<::InterpolatorStep *>((horizontalBlend))->FUN_00946140(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::Time97 *>(&::g_timeGlobal))))->GetStoredFloatValue());
-                                            reinterpret_cast<::InterpolatorStep *>((verticalBlend))->FUN_00946140(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::Time97 *>(&::g_timeGlobal))))->GetStoredFloatValue());
+                                            reinterpret_cast<::InterpolatorStep *>((horizontalBlend))->FUN_00946140(::fnv::timer::Seconds());
+                                            reinterpret_cast<::InterpolatorStep *>((verticalBlend))->FUN_00946140(::fnv::timer::Seconds());
                                             currentHorizontal = reinterpret_cast<::FUN_00946190_cls *>((horizontalBlend))->FUN_00946190();
                                             currentVertical = reinterpret_cast<::FUN_00946190_cls *>((verticalBlend))->FUN_00946190();
                                             if (((unsigned char)(reinterpret_cast<::MotionRule *>((verticalBlend))->FUN_00946280())))

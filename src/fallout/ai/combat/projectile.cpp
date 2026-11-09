@@ -1,6 +1,7 @@
 // fallout/ai/combat/projectile.cpp: Projectile, BGSProjectile, Holder, PlayerCharacter and more (71 functions)
 
 #include "fnv/form_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/bgs_projectile_fields.h"
 #include "fnv/combat_manager_fields.h"
 #include "fnv/projectile_fields.h"
@@ -12912,7 +12913,7 @@ class ProjPB : public RefPB
 // @fnv 0x009becc0
 void ProjPB::FUN_009becc0(float fUnused)
 {
-    float fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimerPB *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    float fTimeSinceScaleStart = ::fnv::timer::Seconds();
     if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(4))
     {
         if (((::RefPB *)(::FUN_00874480((char *)this))) == (*reinterpret_cast<::RefPB * *>(&::_g_thePlayer)))

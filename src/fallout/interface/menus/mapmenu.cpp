@@ -1,6 +1,7 @@
 // fallout/interface/menus/mapmenu.cpp: MapMenu, Interface, InsertBox, TileImage and more (116 functions)
 
 #include <cstring>
+#include "fnv/game_timer.h"
 #include "fallout/interface/tile_fields.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
@@ -476,7 +477,7 @@ void UpdateMapMenu(MapMenu* menu)
     {
         reinterpret_cast<::FUN_00ad88b0_h *>((&(*(::SoundPlaybackHandle *)(&reinterpret_cast<::SimpleListNodeView*>(menu->m_pkActiveSoundList)->m_item))))->FUN_00ad88b0();
         DAT_011da36f = true;
-        DAT_011da40c = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+        DAT_011da40c = ::fnv::timer::Time();
     }
     else if (!Interface::GetSelectedTargetIndex((Interface::enumMenus)0x3f5) &&
              !Interface::GetSelectedTargetIndex((Interface::enumMenus)0x3e9) && menu->m_pkActiveSoundList &&
@@ -484,7 +485,7 @@ void UpdateMapMenu(MapMenu* menu)
     {
         reinterpret_cast<::FUN_00ad8830_shell *>(&((*(::SoundPlaybackHandle *)(&reinterpret_cast<::SimpleListNodeView*>(menu->m_pkActiveSoundList)->m_item))))->FUN_00ad8830(false);
         DAT_011da36f = false;
-        menu->m_iMapSelectionIndex += reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() - DAT_011da40c;
+        menu->m_iMapSelectionIndex += ::fnv::timer::Time() - DAT_011da40c;
     }
 
     if (!((::FOPipboyManager *)(::fnv_00705990::FUN_00705990()))->IsUnk28Set())
@@ -529,7 +530,7 @@ void UpdateMapMenu(MapMenu* menu)
         case 0x23:
             if (menu->m_uiMapState)
             {
-                if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() - menu->m_uiMapState >= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d47bc))))))->f * 1000.0)
+                if (::fnv::timer::Time() - menu->m_uiMapState >= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d47bc))))))->f * 1000.0)
                 {
                     pcurrNote = menu->m_pSelectedNote;
                     pcurrTile = 0;
@@ -4567,7 +4568,7 @@ bool Controller::HandleInputCommand(int command, int ignored)
                         direction = (selected < 0) ? 1 : -1;
                     if (direction)
                     {
-                        if (!DAT_011da404 || (double)(unsigned)(((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::Clock *>(&::g_timeGlobal))))->FUN_00825c00())) - DAT_011da404) >
+                        if (!DAT_011da404 || (double)(unsigned)(((int)(::fnv::timer::Time())) - DAT_011da404) >
                                                  (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Metrics *>(&::g_011d8b88)))))))
                         {
                             int before = FUN_00a01860(::str_010702d8);
@@ -4577,7 +4578,7 @@ bool Controller::HandleInputCommand(int command, int ignored)
                             {
                                 reinterpret_cast<::FUN_00a01290_shell *>((item))->SetTraitAndReset(FUN_00a01860(::DAT_01070250), 1.0f);
                             }
-                            DAT_011da404 = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::Clock *>(&::g_timeGlobal))))->FUN_00825c00()));
+                            DAT_011da404 = ((int)(::fnv::timer::Time()));
                             changed = true;
                         }
                     }
@@ -6935,7 +6936,7 @@ void AMMenuView::UpdateHolotapePlayback()
             m_bLoading = false;
             m_fSoundVolume = (iCount - 1) * 500 + iTotalLoc;
             reinterpret_cast<::FUN_00ad8830_shell *>((((::fnv_0079a660::AMSoundHandle *)(reinterpret_cast<::SimpleListNodeView*>(m_pkCurrent)->m_item))))->FUN_00ad8830(false);
-            m_uiStartTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0079a660::AMTimer *>(&::g_timeGlobal))))->FUN_00825c00();
+            m_uiStartTime = ::fnv::timer::Time();
             FUN_00705210(((const char *)(::FUN_00559450((int *)(((::fnv_0079a660::AMSubtitleText *)(reinterpret_cast<::S006950d0 *>(&(m_kSubtitles))->GetElement(0))))))), *((::fnv_0079a660::AMSoundHandle *)(&reinterpret_cast<::SimpleListNodeView*>(m_pkCurrent)->m_item)),
                          (*reinterpret_cast<::fnv_0079a660::AMPlayer * *>(&::_g_thePlayer))->GetPosition(), (*reinterpret_cast<::fnv_0079a660::AMPlayer * *>(&::_g_thePlayer)), 0);
             reinterpret_cast<::FUN_007a1b10_shell *>(&(m_kSubtitles))->RemoveAt(0, 1);
@@ -6943,7 +6944,7 @@ void AMMenuView::UpdateHolotapePlayback()
     }
     else if (m_fSoundVolume > 0.0)
     {
-        float fTimeOffset = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0079a660::AMTimer *>(&::g_timeGlobal))))->FUN_00825c00() - m_uiStartTime;
+        float fTimeOffset = ::fnv::timer::Time() - m_uiStartTime;
         int iRemaining = 0;
         fTimeOffset = ::FUN_0040ebd0(fTimeOffset, m_fSoundVolume);
         iRemaining = (int)(m_fSoundVolume - fTimeOffset);
@@ -6955,8 +6956,8 @@ void AMMenuView::UpdateHolotapePlayback()
     if (m_pkCurrent && !reinterpret_cast<::SoundPlaybackHandle *>((((::fnv_0079a660::AMSoundHandle *)(reinterpret_cast<::SimpleListNodeView*>(m_pkCurrent)->m_item))))->IsValid())
     {
         if (!DAT_011da410)
-            DAT_011da410 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0079a660::AMTimer *>(&::g_timeGlobal))))->FUN_00825c00();
-        if (((::fnv_0079a660::AMSoundNode *)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pkCurrent))->FUN_0084e3a0())) && reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0079a660::AMTimer *>(&::g_timeGlobal))))->FUN_00825c00() - DAT_011da410 > 500)
+            DAT_011da410 = ::fnv::timer::Time();
+        if (((::fnv_0079a660::AMSoundNode *)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pkCurrent))->FUN_0084e3a0())) && ::fnv::timer::Time() - DAT_011da410 > 500)
         {
             m_pkCurrent = ((::fnv_0079a660::AMSoundNode *)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pkCurrent))->FUN_0084e3a0()));
             reinterpret_cast<::FUN_00ad8830_shell *>((((::fnv_0079a660::AMSoundHandle *)(reinterpret_cast<::SimpleListNodeView*>(m_pkCurrent)->m_item))))->FUN_00ad8830(false);
@@ -7666,7 +7667,7 @@ void Reconstruction798cb0::FUN_00798cb0(int aiEventCode, Tile* tile)
             }
             else if (!((bool)(reinterpret_cast<::FUN_00798420_shell *>((challenge))->GetUnk7d())))
             {
-                m_uiMapState = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+                m_uiMapState = ::fnv::timer::Time();
             }
         }
         else

@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include <cctype>
 #include "fnv/decl/AudioClass_ae5680.h"
@@ -100,7 +101,7 @@ bool Flt::Equals(unsigned int value)
 }
 
 
-struct FUN_0076bda0_class
+struct FUN_0076bda0_class : GameTimerRecord
 {
     FUN_0076bda0_class* FUN_0076bda0();
 };
@@ -108,7 +109,7 @@ struct FUN_0076bda0_class
 // @fnv 0x0076bda0
 FUN_0076bda0_class* FUN_0076bda0_class::FUN_0076bda0()
 {
-    reinterpret_cast<::FUN_00aa50f0_Class *>(this)->FUN_00aa50f0(((unsigned int)(::FUN_00457fe0())));
+    Init(static_cast<unsigned int>(::FUN_00457fe0()));
     return this;
 }
 
@@ -906,14 +907,14 @@ FUN_0076bb40::FUN_0076bb40()
     unk1b8 = 0;
     unk21c = 0;
     unk244 = 0;
-    unk248 = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobalStub *>(&::g_timeGlobal))))->FUN_00825c00()));
+    unk248 = ((int)(::fnv::timer::Time()));
     unk24c = -1;
     unk250 = -1;
     flags1c0 = (((bool)(reinterpret_cast<::GlobalObject_0045cf30 *>(&((*reinterpret_cast<::GO709f00Stub *>(&::g_011d8a38))))->GetBoolValue())) ? 0x40 : 0) | 0x3f | 0x80 | 0x100 | 0x200 | 0x400 | 0x800 | 0x1000 | 0x2000 |
                0x4000 | 0x8000 | 0x10000;
     unk1c4 = 4;
     unk254 = false;
-    DAT_011d96ac = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobalStub *>(&::g_timeGlobal))))->FUN_00825c00()));
+    DAT_011d96ac = ((int)(::fnv::timer::Time()));
     unk1fc = false;
     unk200 = 0;
     unk274 = 0.0f;

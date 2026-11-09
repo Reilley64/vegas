@@ -1,6 +1,7 @@
 // fallout/interface/hotkeyswheel.cpp: Wheel, HotkeyWheelUpdate, HWShell (9 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
 #include "fnv/inventory_entry_fields.h"
 #include <new>
@@ -1034,9 +1035,9 @@ int HWShell::FUN_00701bd0(int index)
             if (result5 != DAT_0119f33c)
             {
                 DAT_0119f33c = result5;
-                DAT_011d88f4 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+                DAT_011d88f4 = ::fnv::timer::Time();
             }
-            if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() - DAT_011d88f4 > DAT_0101b268 || result5 == -1 || cur == -1)
+            if (::fnv::timer::Time() - DAT_011d88f4 > DAT_0101b268 || result5 == -1 || cur == -1)
                 ((S_00701e00_Class*)this)->FUN_00701e00(result5);
         }
     }

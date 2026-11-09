@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/simple_array_item.h"
+#include "fnv/game_timer.h"
+#include "fnv/recipe_pulse.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include "fnv/inventory_entry_fields.h"
@@ -590,9 +592,7 @@ bool FUN_0072bc30_shell::FUN_0072bc30()
     return m_tile && reinterpret_cast<::FUN_00a01230_shell *>((m_tile))->IsTraitNonZero(trait);
 }
 
-struct GameTimerRecord
-{
-};
+// Shared timer storage is owned by this module in recipemenu_timer.cpp.
 
 struct Tile_Set_shell
 {
@@ -614,7 +614,6 @@ extern Tile* DAT_011d8eb0;
 extern float DAT_011d8eb8;
 extern unsigned int DAT_011d8ebc;
 
-GameTimerRecord g_timeGlobal;
 
 // @fnv 0x00728a70
 void FUN_00728a70_shell::FUN_00728a70()
@@ -624,11 +623,8 @@ void FUN_00728a70_shell::FUN_00728a70()
 
     if (DAT_0119fbf0)
     {
-        unsigned int deltaTime;
-        unsigned int brightnessValue;
         float stepValue = DAT_0106f49c;
         float currentValue = DAT_0106f498;
-        float maximumValue = 0.25f;
         float minimumValue = DAT_011d8eb8;
         float currentTime;
 
@@ -642,21 +638,11 @@ void FUN_00728a70_shell::FUN_00728a70()
             reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<Tile_Set_shell*>(DAT_011d8eac)))->FUN_00a012d0(4009, minimumValue, true);
         }
 
-        deltaTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00();
-        brightnessValue = deltaTime - DAT_011d8ebc;
-        DAT_011d8ebc = deltaTime;
-
-        if (DAT_011d8ea6)
-            DAT_011d8eb8 -= brightnessValue * maximumValue;
-        else
-            DAT_011d8eb8 += brightnessValue * maximumValue;
-
-        FUN_005330e0(DAT_011d8eb8, currentValue, stepValue);
-
-        if (DAT_011d8eb8 >= stepValue)
-            DAT_011d8ea6 = 1;
-        if (DAT_011d8eb8 <= currentValue)
-            DAT_011d8ea6 = 0;
+        fnv::RecipePulse pulse{DAT_011d8eb8, DAT_011d8ebc, DAT_011d8ea6};
+        pulse.Advance(currentValue, stepValue);
+        DAT_011d8eb8 = pulse.brightness;
+        DAT_011d8ebc = pulse.lastTime;
+        DAT_011d8ea6 = pulse.decreasing;
     }
 }
 

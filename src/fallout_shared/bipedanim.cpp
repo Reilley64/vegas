@@ -1,6 +1,7 @@
 // fallout_shared/bipedanim.cpp: BipedAnim, BipedAnimWeap, FaceLoader, BipedAnimHelper (75 functions)
 
 #include <cstring>
+#include "fnv/game_timer.h"
 #include <new>
 #include <cstdint>
 #include "runtime/crt.h"
@@ -998,7 +999,7 @@ void BipedAnim::AttachFaceGenNode(NiNode* rootNode, NiNode* objectNode, NiNode* 
             {
                 fScale = reinterpret_cast<::FUN_009cdae0_shell *>((attachment.parent))->GetFloatAt64();
                 attachment.parent->AddObject(objectNode, true);
-                NiUpdateData UpdateData((float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00(), false, false);
+                NiUpdateData UpdateData((float)::fnv::timer::Time(), false, false);
                 objectNode->UpdateDownwardPass(UpdateData, 0);
                 ShadowSceneNode* shadowScene = ::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0);
                 shadowScene->AddObject(objectNode);

@@ -1,6 +1,7 @@
 // fallout/ai/combat/combatstate.cpp: CombatState, Host, Holder, NavMeshSearchLOSArray and more (141 functions)
 
 #include "fnv/decl/S_009a7670_P3.h"
+#include "fnv/game_timer.h"
 #include "fnv/combat_manager_fields.h"
 #include "fnv/inventory_entry_fields.h"
 #include "fnv/combat_controller_fields.h"
@@ -9922,7 +9923,7 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(intptr_t a1, QOut* out, QState* st, intptr_t
                 unsigned int ts = ((unsigned int)(reinterpret_cast<::S_006e4740 *>((elem))->FUN_006e4740()));
                 if (ts)
                 {
-                    if ((reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0099b8e0::QClock *>(&::g_timeGlobal))))->FUN_00825c00() - ts) / ::DAT_01017b70 < ::DAT_01021928)
+                    if ((::fnv::timer::Time() - ts) / ::DAT_01017b70 < ::DAT_01021928)
                     {
                         elem->state = 1;
                         continue;

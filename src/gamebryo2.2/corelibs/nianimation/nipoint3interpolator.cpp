@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/nipoint3interpolator.cpp: NiPoint3Interpolator, NiPoint3InterpolatorRange, PosInterpEq (24 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/B5Owner.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -144,7 +145,7 @@ void NiPoint3Interpolator::CreateObject(int state, bool force)
                 delete DAT_011f21ec;
                 DAT_011f21ec = 0;
             }
-            reinterpret_cast<::FUN_00aa4db0_shell *>((reinterpret_cast<GameTimerRecord*>(&(*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal)))))->FUN_00aa4db0(1.0f, true);
+            ::fnv::timer::SetMultiplier(1.0f, true);
             DAT_011f21c0 = 0;
             DAT_011f21c4 = 0;
             DAT_011f21c8 = 0;

@@ -1,5 +1,6 @@
 // fallout/misc/main.cpp: Interface, SomeClass, BSFadeNodeCuller, Mover and more (192 functions)
 #include "fnv/av_object_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/vats_camera_data_view.h"
 #include "fnv/dx9_renderer_view.h"
 #include "fnv/simple_list_node_view.h"
@@ -1144,15 +1145,15 @@ struct Mover
 // @fnv 0x0086f260
 void Mover::FUN_0086f260()
 {
-    reinterpret_cast<::fnv_008a8150::FUN_008a8150_shell *>((((BGSLoadFormBuffer*)&(*reinterpret_cast<::fnv_0086f260::TG *>(&::g_timeGlobal)))))->FUN_008a8150(*(*reinterpret_cast<::fnv_0086f260::PL *>(&::g_011dedbc)).GetLifeStateControlFlag());
+    ::fnv::timer::SetUseGlobalMultiplierTarget(*(*reinterpret_cast<::fnv_0086f260::PL *>(&::g_011dedbc)).GetLifeStateControlFlag());
     if (!::DAT_011dea2b)
         ::FUN_00aa4e40();
-    reinterpret_cast<::GameTimerRecord *>((((GameTimerRecord*)&(*reinterpret_cast<::fnv_0086f260::TG *>(&::g_timeGlobal)))))->Update();
+    ::fnv::timer::Update();
     ::DAT_011afe60 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086f260::SetA *>(&::originalRuntimeFloatSetting807))))));
-    ::FUN_00c66760(reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&(*reinterpret_cast<::fnv_0086f260::TG *>(&::g_timeGlobal)))))->GetStoredFloatValue(), ((bool)(::FUN_00525420())), reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode == 4);
+    ::FUN_00c66760(::fnv::timer::Seconds(), ((bool)(::FUN_00525420())), reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode == 4);
     ::FUN_0086f330();
     ::DAT_011dea30 =
-        (float)(::DAT_011dea2b ? 0.0 : reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&(*reinterpret_cast<::fnv_0086f260::TG *>(&::g_timeGlobal)))))->GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086f260::SetA *>(&::g_011c5724)))))));
+        (float)(::DAT_011dea2b ? 0.0 : ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086f260::SetA *>(&::g_011c5724)))))));
 }
 }  // namespace fnv_0086f260
 
@@ -1340,7 +1341,7 @@ struct HotkeyWheelDisplay
 void FUN_0086f390_shell::FUN_0086f390()
 {
     reinterpret_cast<::InputPoller *>((((::fnv_0086f390::HotkeyWheelDisplay *)(::FUN_007fdf30()))))->FUN_00a23010();
-    reinterpret_cast<::FUN_00a257c0_Class *>((((::fnv_0086f390::HotkeyWheelDisplay *)(::FUN_007fdf30()))))->FUN_00a257c0(reinterpret_cast<::FUN_007013e0_shell *>(&((*reinterpret_cast<::fnv_0086f390::TimeGlobal *>(&::g_timeGlobal))))->FUN_007013e0());
+    reinterpret_cast<::FUN_00a257c0_Class *>((((::fnv_0086f390::HotkeyWheelDisplay *)(::FUN_007fdf30()))))->FUN_00a257c0(::fnv::timer::UnmodifiedSeconds());
     if (!this->unk06 && !(*reinterpret_cast<::fnv_0086f390::PlayerCharacter * *>(&::_g_thePlayer))->V8B(0))
     {
         if ((reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode == 4 && !reinterpret_cast<::C7D1360Actor *>(((*reinterpret_cast<::fnv_0086f390::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_007d1360()) || ::FUN_00709bc0())
@@ -1731,9 +1732,9 @@ void FUN_00871c90_shell::FUN_00871c90(bool abEnabled)
         FUN_00a253d0(((::fnv_00871c90::HotkeyWheelDisplay *)(::FUN_007fdf30())));
     }
     if (abEnabled)
-        reinterpret_cast<::GameTimerRecord *>((((GameTimerRecord*)&(*reinterpret_cast<::fnv_00871c90::TimeGlobal *>(&::g_timeGlobal)))))->Enable();
+        ::fnv::timer::Resume();
     else
-        reinterpret_cast<::GameTimerRecord *>((&(*reinterpret_cast<::fnv_00871c90::TimeGlobal *>(&::g_timeGlobal))))->FUN_00aa50a0();
+        ::fnv::timer::Pause();
     f = abEnabled;
 }
 }  // namespace fnv_00871c90
@@ -2923,11 +2924,11 @@ void FUN_0086fc60_shell::FUN_0086fc60()
     {
         if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086fc60::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
         {
-            reinterpret_cast<::EffectProcessLists *>(&((*reinterpret_cast<::fnv_0086fc60::ProcessListsH *>(&::g_011e0e80))))->FUN_009746c0(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0086fc60::Twin_0084d030 *>(&::g_timeGlobal))))->GetStoredFloatValue());
+            reinterpret_cast<::EffectProcessLists *>(&((*reinterpret_cast<::fnv_0086fc60::ProcessListsH *>(&::g_011e0e80))))->FUN_009746c0(::fnv::timer::Seconds());
         }
         else
         {
-            reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::fnv_0086fc60::ProcessListsH *>(&::g_011e0e80))))->UpdateInterfaceTempEffects(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0086fc60::Twin_0084d030 *>(&::g_timeGlobal))))->GetStoredFloatValue());
+            reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::fnv_0086fc60::ProcessListsH *>(&::g_011e0e80))))->UpdateInterfaceTempEffects(::fnv::timer::Seconds());
         }
         if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086fc60::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1 && !::DAT_011dea2b)
         {
@@ -3814,7 +3815,7 @@ void FUN_0086f6a0_shell::FUN_0086f6a0()
     else
         reinterpret_cast<::fnv_0096c860::FUN_0096c860_shell *>(&((*reinterpret_cast<::fnv_0086f6a0::ProcessLists *>(&::g_011e0e80))))->FUN_0096c860();
     ::FUN_0096c710((::ProcessLists *)(::fnv_0086f6a0::ProcessLists *)(&(*reinterpret_cast<::fnv_0086f6a0::ProcessLists *>(&::g_011e0e80))));
-    reinterpret_cast<::PLStub *>(&((*reinterpret_cast<::fnv_0086f6a0::ProcessLists *>(&::g_011e0e80))))->FUN_009781d0(reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&(*reinterpret_cast<::fnv_0086f6a0::GameTimerRecord *>(&::g_timeGlobal)))))->GetStoredFloatValue());
+    reinterpret_cast<::PLStub *>(&((*reinterpret_cast<::fnv_0086f6a0::ProcessLists *>(&::g_011e0e80))))->FUN_009781d0(::fnv::timer::Seconds());
     ppipboy = ((::fnv_0086f6a0::FOPipboyManager *)(::fnv_00705990::FUN_00705990()));
     if (::FUN_0086f840((char*)ppipboy))
         reinterpret_cast<::FUN_007fa990_cls *>((ppipboy))->FUN_007fa990();
@@ -3914,7 +3915,7 @@ void FUN_0086fd90_shell::FUN_0086fd90(bool abAdvanceTime)
     ::FUN_00b8b500((void *)(((::fnv_0086fd90::ImageSpaceManager *)(::ImageSpaceManager::FUN_004e3270()))), {});
     reinterpret_cast<::ImageSpaceManager *>((((::fnv_0086fd90::ImageSpaceManager *)(::ImageSpaceManager::FUN_004e3270()))))->BeginParamModifiers();
     if (abAdvanceTime)
-        ::FUN_0086ff50(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0086fd90::GameTimerRecord *>(&::g_timeGlobal))))->GetStoredFloatValue());
+        ::FUN_0086ff50(::fnv::timer::Seconds());
     ISMList_0086fd90* pModifierList = ((::fnv_0086fd90::ISMList_0086fd90 *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0086fd90::TES * *>(&::g_TES))))->GetData()));
     int iActiveCount = 0;
     int iactiveWeatherCount = 0;
@@ -8710,7 +8711,7 @@ void BootInit::FUN_0086cf20(ScenePart* scene)
     ::FUN_0040fbe0();
     reinterpret_cast<::FUN_00465040_shell *>(((*reinterpret_cast<::HandlerInit * *>(&::g_dataHandler))))->InitAllScripts();
     if (reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::InitSetting *>(&::g_011dee60))))->GetCellStandValue() > 0 && reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::InitSetting *>(&::g_011dee60))))->GetCellStandValue() < 200)
-        reinterpret_cast<::C86D4C0Timer *>(&((*reinterpret_cast<::TimeInit *>(&::g_timeGlobal))))->FUN_0086d4c0(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::InitSetting *>(&::g_011dee60)))))));
+        ::fnv::timer::SetFrequency(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::InitSetting *>(&::g_011dee60)))))));
 }
 
 namespace FrameUpdate {
@@ -8982,8 +8983,8 @@ void MainLoop::FUN_0086e650()
     {
         if (reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>(((*reinterpret_cast<::FrameUpdate::Service * *>(&::g_TES))))->FUN_00451530() && !((bool)(reinterpret_cast<::FUN_0086ef70_Class *>(((*reinterpret_cast<::FrameUpdate::Service * *>(&::g_TES))))->FUN_0086ef70())))
             reinterpret_cast<::BatchTES *>(((*reinterpret_cast<::FrameUpdate::Service * *>(&::g_TES))))->FUN_004556d0(0);
-        (*reinterpret_cast<::FrameUpdate::Service *>(&::g_011deb7c)).FUN_00559450()->Advance(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_timeGlobal))))->GetStoredFloatValue());
-        reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011de7b8))))->Update(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_timeGlobal))))->GetStoredFloatValue());
+        (*reinterpret_cast<::FrameUpdate::Service *>(&::g_011deb7c)).FUN_00559450()->Advance(::fnv::timer::Seconds());
+        reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011de7b8))))->Update(::fnv::timer::Seconds());
         if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) == 1)
             reinterpret_cast<::FUN_00455640_shell *>(((*reinterpret_cast<::FrameUpdate::Service * *>(&::g_TES))))->FUN_00455640();
     }
@@ -9094,7 +9095,7 @@ void MainLoop::FUN_0086e650()
     ::FUN_00a29680();
     ::FUN_005ae270();
     ::FUN_005a9d60();
-    DAT_011deef8 += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    DAT_011deef8 += ::fnv::timer::Seconds();
     if (::FUN_00702360() || ((*reinterpret_cast<::FrameUpdate::Service * *>(&::_g_thePlayer)) && ((bool)(reinterpret_cast<::FUN_00950090_Class *>(((*reinterpret_cast<::FrameUpdate::Service * *>(&::_g_thePlayer))))->FUN_00950090()))) || DAT_011deef8 >= 45.0)
     {
         DAT_011deef8 = 0.0f;
@@ -13104,7 +13105,7 @@ void Main86::FUN_0086ff70()
             ::FUN_0040fbe0();
             reinterpret_cast<::FUN_0096cfa0_cls *>((reinterpret_cast<Extra86*>(&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_0096cfa0();
         }
-        DAT_011def00 += reinterpret_cast<::FUN_007013e0_shell *>(&((*reinterpret_cast<::fnv_0086ff70::Frame86 *>(&::g_timeGlobal))))->FUN_007013e0();
+        DAT_011def00 += ::fnv::timer::UnmodifiedSeconds();
         ++DAT_011def04;
         if (DAT_011def00 >= ::g_01012070 && DAT_011def04 >= 10)
         {
@@ -13182,10 +13183,10 @@ void Main86::FUN_0086ff70()
                 ::FUN_00406d00(outputDirectory, 0x104, DAT_01082ca4, ((intptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0086ff70::GlobalText86 *>(&::g_011deb04))))->GetMenuTitle())),
                              *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011deecc)))))));
                 CreateDirectoryA(outputDirectory, 0);
-                reinterpret_cast<::C86D4C0Timer *>(&((*reinterpret_cast<::fnv_0086ff70::Frame86 *>(&::g_timeGlobal))))->FUN_0086d4c0(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011dee00)))))));
+                ::fnv::timer::SetFrequency(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011dee00)))))));
             }
             else
-                reinterpret_cast<::C86D4C0Timer *>(&((*reinterpret_cast<::fnv_0086ff70::Frame86 *>(&::g_timeGlobal))))->FUN_0086d4c0(0);
+                ::fnv::timer::SetFrequency(0);
         }
         else
             ::SaveScreenshot((const char *)(0));
@@ -14081,7 +14082,7 @@ void PlayerUpdateState::FUN_0086f940()
         {
             if (::_g_thePlayer->GetNiNode())
             {
-                reinterpret_cast<::InputPlayer *>((reinterpret_cast<PlayerCalls*>(::_g_thePlayer)))->FUN_009466d0(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0086f940::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue(), updateMode);
+                reinterpret_cast<::InputPlayer *>((reinterpret_cast<PlayerCalls*>(::_g_thePlayer)))->FUN_009466d0(::fnv::timer::Seconds(), updateMode);
             }
         }
         else
@@ -14090,7 +14091,7 @@ void PlayerUpdateState::FUN_0086f940()
             {
                 ++::DAT_011e07a8;
                 reinterpret_cast<PlayerUpdate*>(::_g_thePlayer)
-                    ->Unk_BE(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0086f940::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue() * reinterpret_cast<::VATS *>(&((*reinterpret_cast<::fnv_0086f940::UpdateScale *>(&::g_011f2250))))->GetModeTimeMultiplier());
+                    ->Unk_BE(::fnv::timer::Seconds() * reinterpret_cast<::VATS *>(&((*reinterpret_cast<::fnv_0086f940::UpdateScale *>(&::g_011f2250))))->GetModeTimeMultiplier());
                 --::DAT_011e07a8;
             }
             bChanged = false;

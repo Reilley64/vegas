@@ -1,6 +1,7 @@
 // fallout/ai/mobileobject.cpp: MobileObject, Actor, TESObjectREFR, VTableHelper and more (95 functions)
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/game_timer.h"
 #include "fnv/package_fields.h"
 #include "fnv/result_slot.h"
 #include <intrin.h>
@@ -6302,7 +6303,7 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
             if (reinterpret_cast<::fnv_009305a0::FUN_009305a0_Holder *>((((bhkCharControllerVT*)pcon)))->FUN_009305a0() || reinterpret_cast<::fnv_009305d0::FUN_009305d0_shell *>((((bhkCharControllerVT*)pcon)))->FUN_009305d0())
             {
                 reinterpret_cast<::FUN_00629650_Class *>((((CharFlags*)((char*)pcon + 0x410))))->FUN_00629650(0);
-                ::SetField558((void *)(((bhkCharControllerVT*)pcon)), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092f260::Setting_S *>(&::g_011e0574)))))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_0092f260::Twin_0084d030 *>(&::g_timeGlobal))))->GetStoredFloatValue());
+                ::SetField558((void *)(((bhkCharControllerVT*)pcon)), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092f260::Setting_S *>(&::g_011e0574)))))) * ::fnv::timer::Seconds());
             }
             if (pactor && (reinterpret_cast<::FUN_008846e0_shell *>((((FUN_008846e0_shell*)pactor)))->GetVtbl20Result() & 0x3f))
                 kMoveData.fSpeed = reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>((((Act_009e3520*)pactor)))->FUN_008a0b10();
@@ -13726,7 +13727,7 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
                     elapsed = (float)(::FUN_00ad8b30((unsigned int *)(apSoundRef)) / ::DAT_01017b70 + elapsed);
                 else
                     elapsed = (float)((double)duration * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::originalRuntimeFloatSetting184)))))) + elapsed);
-                ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v467(((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_009344d0::Clock *>(&::g_timeGlobal))))->FUN_00825c00())) + (int)timeMs);
+                ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v467(((int)(::fnv::timer::Time())) + (int)timeMs);
                 ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v465(curItem);
             }
             else

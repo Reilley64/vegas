@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fallout/interface/menu_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/result_slot.h"
 #include <cstdint>
 #include <new>
@@ -2143,13 +2144,13 @@ void xLockPickMenu::FUN_0078eb50()
     }
     else
     {
-        qSVM = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0078eb50::ClockSource *>(&::g_timeGlobal))))->FUN_00825c00())) - m_80;
+        qSVM = ((int)(::fnv::timer::Time())) - m_80;
         if (xg_iLastState_11da2a8 != m_28)
             xg_fElapsed_11da2ac = 0.0f;
         else
             xg_fElapsed_11da2ac += qSVM / 1000.0;
     }
-    m_80 = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0078eb50::ClockSource *>(&::g_timeGlobal))))->FUN_00825c00()));
+    m_80 = ((int)(::fnv::timer::Time()));
     xg_iLastState_11da2a8 = m_28;
     if (m_99)
     {

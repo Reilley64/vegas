@@ -1,6 +1,7 @@
 // fallout/interface/interfacemanager.cpp: InterfaceManager, ConsoleManager, IFH, BSAudioManager and more (208 functions)
 
 #include "fallout/interface/tile_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
 #include "fnv/inventory_entry_fields.h"
@@ -1472,7 +1473,7 @@ struct AI_
 // @fnv 0x007166f0
 void AI_::FUN_007166f0(int a)
 {
-    this->unk154 = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00()));
+    this->unk154 = ((int)(::fnv::timer::Time()));
     this->unk158 = 0;
     this->unk150 = a;
 }
@@ -1583,7 +1584,7 @@ struct FUN_00717050_this
 // @fnv 0x00717050
 void ToggleFlagOnInterval(FUN_00717050_this* pThis)
 {
-    unsigned int t = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_00717050::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00()));
+    unsigned int t = ((int)(::fnv::timer::Time()));
     if (t - pThis->unk1C > 500)
     {
         pThis->unk20 = !pThis->unk20;
@@ -2714,7 +2715,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
     }
     if (((bool)(::FUN_0070ec50((char*)((::fnv_0070c4a0::PBM *)(reinterpret_cast<::Interface *>((((IMX*)this)))->GetPipboyManager()))))))
     {
-        reinterpret_cast<::PipboyFadeManager *>((((::fnv_0070c4a0::PBM *)(reinterpret_cast<::Interface *>((((IMX*)this)))->GetPipboyManager()))))->UpdateFade((float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TG*)&(*reinterpret_cast<::fnv_0070c4a0::TG *>(&::g_timeGlobal)))))->FUN_00825c00());
+        reinterpret_cast<::PipboyFadeManager *>((((::fnv_0070c4a0::PBM *)(reinterpret_cast<::Interface *>((((IMX*)this)))->GetPipboyManager()))))->UpdateFade((float)::fnv::timer::Time());
     }
     reinterpret_cast<::FUN_007f7830_Class *>(&(((IMX*)this)->o178))->UpdateIfActive();
     reinterpret_cast<::VATSEffectStub *>(&(((IMX*)this)->o1dc))->FUN_00800370();
@@ -2887,7 +2888,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
             imouse_held = reinterpret_cast<::ButtonDevice *>((pcontrols))->FUN_00a23a50(0, 0);
             if (imouse_held)
             {
-                ((IMX*)this)->f48 += reinterpret_cast<::Twin_0084d030 *>((((TG*)&(*reinterpret_cast<::fnv_0070c4a0::TG *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+                ((IMX*)this)->f48 += ::fnv::timer::Seconds();
             }
             else
             {
@@ -2901,7 +2902,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
             imouse_held = pcontrols->SetHotkeyItem(5, 0);
             if (imouse_held)
             {
-                ((IMX*)this)->f48 += reinterpret_cast<::Twin_0084d030 *>((((TG*)&(*reinterpret_cast<::fnv_0070c4a0::TG *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+                ((IMX*)this)->f48 += ::fnv::timer::Seconds();
             }
             else
             {
@@ -3782,7 +3783,7 @@ InterfaceManager_FUN_0070a130::InterfaceManager_FUN_0070a130()
     m_c8 = true;
     DAT_011d8a68 = 0.0f;
     DAT_011d8a50 = 0;
-    DAT_011d8a64 = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_0070a130::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00()));
+    DAT_011d8a64 = ((int)(::fnv::timer::Time()));
 
     for (int a = 0; a < 10; a++)
         m_114[a] = 0;
@@ -7146,9 +7147,9 @@ void FUN_00716320_shell::UpdateNodeTimers()
     {
         if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::fnv_00716320::ArrSIH *>(&::g_011f2250)))))->GetName())) == 4)
             pNode->fTimeOffset +=
-                reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&(*reinterpret_cast<::fnv_00716320::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue() / ::FUN_00716440();
+                ::fnv::timer::Seconds() / ::FUN_00716440();
         else
-            pNode->fTimeOffset += reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&(*reinterpret_cast<::fnv_00716320::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue();
+            pNode->fTimeOffset += ::fnv::timer::Seconds();
         if (::FUN_00404010(0.0f, ::FUN_0040ebd0(1.0f, pNode->fTimeOffset / pNode->fDuration)) == 1.0)
         {
             FUN_00716320_Node* pPrev = pNode->pPrev;
@@ -7237,7 +7238,7 @@ struct FUN_00716730_t : public InterfaceManager
 int FUN_00716730_t::FUN_00716730(float afScale)
 {
     bool bReset;
-    unsigned int uiSection = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((AnimIdle*)&(*reinterpret_cast<::fnv_00716730::TimeGlobal *>(&::g_timeGlobal)))))->FUN_00825c00()));
+    unsigned int uiSection = ((int)(::fnv::timer::Time()));
     if (*((float *)&(::FUN_00403e20((float *)(((Setting_S*)&g_011d8b38))))) < 0.0)
         return 0;
     bReset = false;
@@ -11099,19 +11100,19 @@ int FUN_00710060_cls::FUN_00710060(bool p1, bool p2, bool* p3)
             unk15c = result2;
             if ((p1 && a1 + aA2 + nn5 + b2) || (p2 && aA4 + uA3 + b4 + B3))
             {
-                unk160 = (unsigned int)((double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_00710060::C825c00 *>(&::g_timeGlobal))))->FUN_00825c00() + *((float *)&(::FUN_00403e20((float *)&(DAT_011d8b38)))));
+                unk160 = (unsigned int)((double)::fnv::timer::Time() + *((float *)&(::FUN_00403e20((float *)&(DAT_011d8b38)))));
             }
             else
             {
-                unk160 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_00710060::C825c00 *>(&::g_timeGlobal))))->FUN_00825c00() * 2;
+                unk160 = ::fnv::timer::Time() * 2;
             }
         }
-        else if (unk15c == m6 && unk160 <= reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_00710060::C825c00 *>(&::g_timeGlobal))))->FUN_00825c00())
+        else if (unk15c == m6 && unk160 <= ::fnv::timer::Time())
         {
             result2 = unk15c;
             if ((p1 && a1 + aA2 + nn5 + b2) || (p2 && aA4 + uA3 + b4 + B3))
             {
-                unk160 = (unsigned int)((double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_00710060::C825c00 *>(&::g_timeGlobal))))->FUN_00825c00() + *((float *)&(::FUN_00403e20((float *)&(DAT_011d8aa4)))));
+                unk160 = (unsigned int)((double)::fnv::timer::Time() + *((float *)&(::FUN_00403e20((float *)&(DAT_011d8aa4)))));
             }
         }
         else if (unk15c != m6)
@@ -11155,7 +11156,7 @@ int FUN_00710060_cls::FUN_00710060(bool p1, bool p2, bool* p3)
     if (kPi)
     {
         unk15c = 0;
-        unk160 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_00710060::C825c00 *>(&::g_timeGlobal))))->FUN_00825c00() * 2;
+        unk160 = ::fnv::timer::Time() * 2;
     }
     return result2;
 }
@@ -12057,7 +12058,7 @@ void __cdecl UpdateAnimationTileFade(AnimationTile* apFirstTile, AnimationTile* 
         else
             reinterpret_cast<::FUN_00a012d0_t *>((apStatusTile))->FUN_00a012d0(4009, 255.0f, true);
     }
-    unsigned int alpha = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00()));  // Current time.
+    unsigned int alpha = ((int)(::fnv::timer::Time()));  // Current time.
     unsigned int uiDelta = alpha - DAT_011d8a64;     // Elapsed time.
     DAT_011d8a64 = alpha;
     if (DAT_011d8a50)

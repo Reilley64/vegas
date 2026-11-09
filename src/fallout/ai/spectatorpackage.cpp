@@ -1,5 +1,6 @@
 // fallout/ai/spectatorpackage.cpp: SpectatorPackage (1 function)
 #include "fnv/simple_array_item.h"
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include "fnv/symbols_009f9000.h"
 #include "spectatorpackage_decls.h"
@@ -518,16 +519,10 @@ public:
     void FUN_006797c0(::FUN_006797c0_arg *);
 };
 
-struct GameTimerRecord
-{
-};
-
 struct BGSSaveGameBuffer
 {
     void FUN_00865f60(unsigned int);
 };
-
-GameTimerRecord g_timeGlobal;
 
 struct SpectatorPackageSave : SpectatorPackage
 {
@@ -573,14 +568,14 @@ void FUN_009f8a10::InitLoadGame(void* apLoadGameBuffer)
 // @fnv 0x009f87d0
 void SpectatorPackageSave::FUN_009f87d0(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    int i;
+    unsigned int i;
     unsigned int threatInfo;
     unsigned int ipathTimeDelta;
     SpectatorThreatInfo* isaveGameCount;
 
     reinterpret_cast<FUN_006797c0_shell*>(this)->FUN_006797c0((::FUN_006797c0_arg *)(apSaveGameBuffer));
 
-    i = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00() - *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x80);
+    i = ::fnv::timer::ElapsedSince(*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x80));
 
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&i, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x84), 4, 0);
@@ -2782,7 +2777,7 @@ void FUN_009f7d70_cls::FUN_009f7d70(Actor9f7d* pkActor, bool bActive)
                     m_fTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9f7d *>(&::originalRuntimeFloatSetting143))))));
                 }
             }
-            m_fTimer -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::Timer9f7d *>(&::g_timeGlobal))))->GetStoredFloatValue();
+            m_fTimer -= ::fnv::timer::Seconds();
         }
     }
 }
@@ -3258,9 +3253,9 @@ void FUN_009f8900_class::FUN_009f8900(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::Package6798c0 *>((reinterpret_cast<TESPackage*>(this)))->LoadPackage((::LoadBuffer6798c0 *)(apLoadGameBuffer));
 
-    int ipathTimeDelta = 0;
+    unsigned int ipathTimeDelta = 0;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ipathTimeDelta), 4);
-    field80 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00() - ipathTimeDelta;
+    field80 = ::fnv::timer::TimestampFromElapsed(ipathTimeDelta);
 
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&field84), 4);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&field88), 4);

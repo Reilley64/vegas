@@ -1,6 +1,7 @@
 // fallout_shared/screencustomsplatter.cpp: ScreenCustomSplatter, BSPortal, BSCustomSplatterExtraData (15 functions)
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/CamLook.h"
 #include "fnv/decl/FUN_00440460_S.h"
@@ -304,7 +305,7 @@ void FUN_004de600()
     if ((*reinterpret_cast<unsigned char *>(&::DAT_011c77e8)))
     {
         unsigned int uiChildCount = reinterpret_cast<SplatterNode*>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c7810)).operator->())->FUN_0043b480();
-        float elapsed = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        float elapsed = ::fnv::timer::Seconds();
         for (unsigned int index = 0; index < uiChildCount; ++index)
         {
             SplatterObject* child = static_cast<SplatterObject*>(

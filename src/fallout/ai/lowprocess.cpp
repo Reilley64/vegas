@@ -1,6 +1,7 @@
 // fallout/ai/lowprocess.cpp: LowProcess, ActorX, DelStandIn, LowProcessProxy and more (123 functions)
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/game_timer.h"
 #include "fnv/package_schedule_fields.h"
 #include "fnv/inventory_entry_fields.h"
 #include "fnv/form_fields.h"
@@ -3670,7 +3671,7 @@ struct FUN_00907620_Holder
 // @fnv 0x00907620
 void FUN_00907620_Holder::FUN_00907620()
 {
-    m_fValue88 -= ((Twin_0084d030*)&::g_timeGlobal)->GetStoredFloatValue();
+    m_fValue88 -= ::fnv::timer::Seconds();
 }
 
 struct Holder908f40

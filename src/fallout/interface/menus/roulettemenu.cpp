@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/result_slot.h"
+#include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
 #include <cstdint>
@@ -15568,7 +15569,7 @@ void RouletteMenuX::FUN_007bd2a0()
     }
     else if (bActive2)
     {
-        iElapsed = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_007bd2a0::TimerX *>(&::g_timeGlobal))))->FUN_00825c00())) - m_iLastTime;
+        iElapsed = ((int)(::fnv::timer::Time())) - m_iLastTime;
         if (iElapsed > 1000)
         {
             iElapsed = 0;
@@ -15619,7 +15620,7 @@ void RouletteMenuX::FUN_007bd2a0()
         fMoveX4 = -reinterpret_cast<::Dummy_00a239e0 *>((((::fnv_007bd2a0::GamepadX *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_007bd2a0::InputX * *>(&::g_osGlobals))))->FUN_00877720()))))->FUN_00a239e0(1) * (((double)(::InterfaceManager::UpdateInterfaceState())) / ((double)(::FUN_00706e50()))) / 10.0;
         fMoveY4 = reinterpret_cast<::Dummy_00a239e0 *>((((::fnv_007bd2a0::GamepadX *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_007bd2a0::InputX * *>(&::g_osGlobals))))->FUN_00877720()))))->FUN_00a239e0(2) * (((double)(::InterfaceManager::UpdateInterfaceState())) / ((double)(::FUN_00706e50()))) / 10.0;
     }
-    m_iLastTime = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_007bd2a0::TimerX *>(&::g_timeGlobal))))->FUN_00825c00()));
+    m_iLastTime = ((int)(::fnv::timer::Time()));
     s_iLastState = m_iFadeIndex;
     switch (m_iFadeIndex)
     {

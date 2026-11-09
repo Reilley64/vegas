@@ -1,6 +1,7 @@
 // fallout/interface/interface.cpp: Interface, ConsoleManager, FileFinder, TESCreature and more (216 functions)
 
 #include "fallout/interface/tile_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
@@ -1205,7 +1206,7 @@ struct DialogMenu
 void* FUN_00705070(void* apArg1, void* apArg2, void* apArg3)
 {
     void* r;
-    reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::fnv_00705070::TimeGlobal *>(&::g_timeGlobal))))->FUN_00aa4db0(1.0f, true);
+    ::fnv::timer::SetMultiplier(1.0f, true);
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
     {
         r = ((void *)(::DialogMenu::Create((::MobileObject *)(apArg1), (::TESTopic *)(apArg2), (::MobileObject *)(apArg3))));

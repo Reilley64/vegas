@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -3000,7 +3001,7 @@ float FUN_0086a480(int aiMode)
 {
     if (aiMode == 3)
     {
-        return reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FUN_0086a480_holder *>(&::g_timeGlobal))))->GetStoredFloatValue();
+        return ::fnv::timer::Seconds();
     }
     if (aiMode == 2)
     {
@@ -3011,7 +3012,7 @@ float FUN_0086a480(int aiMode)
                 unsigned int lo;
                 unsigned int hi;
             } value;
-            value.lo = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::FUN_0086a480_holder *>(&::g_timeGlobal))))->FUN_00825c00();
+            value.lo = ::fnv::timer::Time();
             value.hi = 0;
             float r1 = (double)*(__int64*)&value / DAT_01017b70;
             return r1;
@@ -3025,7 +3026,7 @@ float FUN_0086a480(int aiMode)
     {
         if (!FUN_00702360())
         {
-            return reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::FUN_0086a480_holder *>(&::g_timeGlobal))))->GetStoredFloatValue();
+            return ::fnv::timer::Seconds();
         }
         else
         {

@@ -1,6 +1,7 @@
 // fallout/ai/aitaskmanager.cpp: MovementTaskData, PackageUpdateTaskData, Owner, ActorsScriptTaskData and more (87 functions)
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include "havok/hkMemoryRouter.h"
 #include <new>
@@ -397,7 +398,7 @@ struct PackageUpdateTaskData
 // @fnv 0x008c8ff0
 void PackageUpdateTaskData::RunPackageUpdateTask(unsigned int aiThread)
 {
-    reinterpret_cast<::fnv_00977130::FUN_00977130_shell *>(&((*reinterpret_cast<::fnv_008c8ff0::PkgObj *>(&::g_011e0e80))))->FUN_00977130(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_008c8ff0::Twin_0084d030 *>(&::g_timeGlobal))))->GetStoredFloatValue());
+    reinterpret_cast<::fnv_00977130::FUN_00977130_shell *>(&((*reinterpret_cast<::fnv_008c8ff0::PkgObj *>(&::g_011e0e80))))->FUN_00977130(::fnv::timer::Seconds());
     reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_008c8ff0::ATM *>(&::g_011dfbe8))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_008c8ff0
@@ -2082,7 +2083,7 @@ void __cdecl FUN_0077a480(TESQuest* quest)
     if (quest == 0 || (*reinterpret_cast<int *>(&::g_pHudMainMenuInstance)) == 0)
         return;
 
-    ::DAT_011d96ac = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&((*reinterpret_cast<::fnv_0077a480::GameTimerRecord *>(&::g_timeGlobal))))->FUN_00825c00();
+    ::DAT_011d96ac = ::fnv::timer::Time();
 
     Task* task = new Task;
     task->quest = quest;
@@ -3021,7 +3022,7 @@ class Owner
 // @fnv 0x008c84c0
 void Owner::UpdateProjectile(R* arg)
 {
-    float v6 = (double)m30 * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_008c84c0::TG *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    float v6 = (double)m30 * ::fnv::timer::Seconds();
     v6 = ::FUN_0040ebd0(v6, 5.0f);
     v6 = ::RandomFloat(0.0f, v6);
     R* p = NULL;

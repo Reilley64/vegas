@@ -1,6 +1,7 @@
 // fallout/ai/movement/detailedactorpathhandler.cpp: std, DetailedActorPathHandler, DetailedActorPathHandlerEx, DelStandIn and more (73 functions)
 
 #include "fnv/pathing_location_fields.h"
+#include "fnv/game_timer.h"
 #include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/result_slot.h"
@@ -3882,7 +3883,7 @@ void EvaluateAvoidance(Actor* apActor, PathingRequest* apRequest, unsigned int a
     float fRadius;
     float fAheadDist;
 
-    fTime = reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_009e5690::AnimIdle *>(&::g_timeGlobal))))->GetStoredFloatValue();
+    fTime = ::fnv::timer::Seconds();
     fSpeed = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b98))))));
     fScaleMultiplier = reinterpret_cast<::NiPoint3 *>(&(kNormDir))->GetLengthSquared();
     fTravelTime = fScaleMultiplier / fTime;
@@ -5539,7 +5540,7 @@ extern int DAT_011f2aa4;
 // @fnv 0x009e54a0
 bool UpdateAliveActorList()
 {
-    int section = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((AnimIdle*)&(*reinterpret_cast<::fnv_009e54a0::GameTimerRecord *>(&::g_timeGlobal)))))->FUN_00825c00()));
+    int section = ((int)(::fnv::timer::Time()));
     if (DAT_011f2aa4 != section)
     {
         BSSimpleList<Actor*>* pActorList = reinterpret_cast<::ProcessLists *>((((ProcessLists*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->GetAliveActorList();
@@ -8534,7 +8535,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
                 AvoidRotation rotation;
                 reinterpret_cast<::FUN_009e1640_shell *>(&(rotation))->SetRotationMatrix(current->v175(0));
                 AvoidPoint velocity = rotation.FUN_004b4500(((const ::fnv_009e5ae0::AvoidPoint *)(reinterpret_cast<::FUN_008b3d50_This *>((current))->FUN_008b3d50())));
-                AvoidPoint delta = velocity.FUN_0053d280(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_009e5ae0::AvoidTime *>(&::g_timeGlobal))))->GetStoredFloatValue());
+                AvoidPoint delta = velocity.FUN_0053d280(::fnv::timer::Seconds());
                 if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() > current->FUN_008be1b0())
                     reinterpret_cast<::FUN_00905450_StandIn *>((avoidNodes))->AppendNode((::PathingAvoidanceNode *)(&ResultSlot(AvoidElement(current->v125() + delta, avoidRadius, 2.0f, mode))));
                 AvoidPoint position = current->v125();
@@ -11154,7 +11155,7 @@ void __cdecl FUN_009e71b0(void* context, Request75* request, Handler75* handler)
             Matrix75 rotation;
             reinterpret_cast<::FUN_009e1640_shell *>(&(rotation))->SetRotationMatrix(actor->Heading(0));
             Point75 velocity = rotation.Transform(((const ::fnv_009e71b0::Point75 *)(reinterpret_cast<::FUN_008b3d50_This *>((actor))->FUN_008b3d50())));
-            Point75 delta = *(const Point75 *)&ResultSlot(reinterpret_cast<::Point3_0053d280 *>((void *)&(const ::fnv_009e71b0::Point75 &)(velocity))->FUN_0053d280(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_009e71b0::Time75 *>(&::g_timeGlobal))))->GetStoredFloatValue()));
+            Point75 delta = *(const Point75 *)&ResultSlot(reinterpret_cast<::Point3_0053d280 *>((void *)&(const ::fnv_009e71b0::Point75 &)(velocity))->FUN_0053d280(::fnv::timer::Seconds()));
             if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() > actor->Radius())
             {
                 reinterpret_cast<::FUN_00905450_StandIn *>((avoid))->AppendNode((::PathingAvoidanceNode *)&(const ::fnv_009e71b0::Area75 &)(Area75(reinterpret_cast<const Position75&>(actor->Position()) + delta, weight, 2.0f, kind)));

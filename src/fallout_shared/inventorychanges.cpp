@@ -1,6 +1,7 @@
 // fallout_shared/inventorychanges.cpp: Inventory, InventoryChanges, Target, TESBipedModelForm and more (144 functions)
 
 #include "fnv/save_load_game_view.h"
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -1417,7 +1418,7 @@ void VATS::FUN_009c8950(bool abForceQuit, bool abFinishCommandPlayback)
     {
         reinterpret_cast<::FUN_009ca410_shell *>(this)->ProcessVATSCommands();
         DAT_011f21e0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting543))))));
-        reinterpret_cast<::FUN_00aa4db0_shell *>(&(g_timeGlobal))->FUN_00aa4db0(1.0f, false);
+        ::fnv::timer::SetMultiplier(1.0f, false);
     }
 }
 

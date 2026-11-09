@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/game_timer.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -400,7 +401,7 @@ bool FUN_00526c40_Class::RemoveSound(TESSound* apSound)
     if (reinterpret_cast<::NiTMap_S *>((((MapH*)this)))->RemoveKey(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apSound))->FUN_0084e3a0()))))
     {
         --unk10;
-        unk14 = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00()));
+        unk14 = ((int)(::fnv::timer::Time()));
         return true;
     }
     return false;

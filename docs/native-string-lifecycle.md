@@ -37,10 +37,17 @@ The shared `FUN_00ec78e0` / `FUN_00b096a0` / `FUN_00b09480` error owner now has
 one native polymorphic base, two native state integers and the canonical message
 member. The seven caller units no longer reserve guessed integer arrays for it.
 The canonical module supplies construction and virtual retirement, including
-the source-distinct boolean and byte error-constructor behavior. The billboard
-leaf caller explicitly selects the byte-zero constructor path rather than
-allowing `false` to bind to the boolean overload; no captured vptr or raw
-receiver cast supplies its lifetime.
+the source-distinct boolean and byte error-constructor behavior.
+`src/unmapped/throw.cpp` also consumes this declaration directly: its
+`FUN_0044a310` constructor, destructor, RTTI and unwind cleanup all name the
+same global base rather than a competing translation-unit definition. Its
+pointer member preserves native pointer width. The unrelated legacy
+`FUN_0044a500_s` body lives with its existing `Unk65` provider in
+`raiseexception.cpp`, so linking the complete `throw.cpp` object does not pull
+that path's separate unresolved dependencies. The billboard leaf caller
+explicitly selects the byte-zero constructor path rather than allowing `false`
+to bind to the boolean overload; no captured vptr or raw receiver cast supplies
+its lifetime.
 
 `FUN_00b18860` now formats into an already-live canonical owner. Its external
 requiring objects consume `c_str()` without casting the result to unrelated
@@ -66,8 +73,10 @@ covers empty/null, 15/16/large values, self and overlapping assignment/append,
 growth/shrink/reuse, copy independence, move, failed growth retention, partial
 construction, unwind retirement, high pointers, dynamic formatting, distinct
 byte-zero/byte-nonzero/boolean error construction, branch-error throw/catch and
-retirement, and unsigned formatting above `INT_MAX` through `UINT_MAX`. The test supplies no
-allocator and no parser facade.
+retirement, canonical-base catch and destruction of the production
+`FUN_0044a310` path, and unsigned formatting above `INT_MAX` through
+`UINT_MAX`. The test supplies no allocator, exception provider or parser
+facade.
 Complete Windows object, archive and link evidence is still required for the
 seven callers and formatting consumers. Full parser execution remains blocked
 by the missing production supplier above.

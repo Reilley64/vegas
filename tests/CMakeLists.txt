@@ -247,6 +247,7 @@ if(WIN32)
 else()
   target_sources(runtime_native_string_test PRIVATE
     ${PROJECT_SOURCE_DIR}/src/speedtree/native_string.cpp
+    ${PROJECT_SOURCE_DIR}/src/unmapped/throw.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp

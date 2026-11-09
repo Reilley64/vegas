@@ -1,3 +1,4 @@
+#include "fnv/decl/FUN_0044a310.h"
 #include "fnv/decl/FUN_0044a4c0.h"
 #include "fnv/decl/FUN_00b09480.h"
 #include "fnv/decl/MemoryManager.h"
@@ -52,6 +53,22 @@ void check_error_constructor_kinds()
 
     FUN_00b09480 booleanFalse(message, false);
     check(std::strcmp(booleanFalse.what(), "byte constructor message []") == 0);
+}
+
+void check_canonical_throw_lifecycle()
+{
+    int payload = 73;
+    const void* caughtMember = nullptr;
+    try {
+        FUN_0044a310 error(&payload);
+        check(error.m_kMember.unk00 == &payload);
+        throw error;
+    } catch (const FUN_00ec78e0& error) {
+        const auto* typed = dynamic_cast<const FUN_0044a310*>(&error);
+        check(typed != nullptr);
+        caughtMember = typed->m_kMember.unk00;
+    }
+    check(caughtMember == &payload);
 }
 
 void check_production_messages()
@@ -173,6 +190,7 @@ int main()
         check_error("a production parser error message large enough to require owned heap storage");
         check_error_constructor_kinds();
         check_production_messages();
+        check_canonical_throw_lifecycle();
 
         const void* thrownMessageStorage = nullptr;
         try {

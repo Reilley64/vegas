@@ -102,7 +102,8 @@ The original `00aa3880` constructor now checks admission in its first member
 initializer, before the real table supplier can run. `00aa39c0` also rejects
 before any receiver access, pool-table clear, heap initialization, byte-prefix
 write or TESForm callback. Both throw `MemoryManagerStartupUnavailable` without
-allocating. The original table, OS preflight and later constructor calls remain
+allocating manager storage (the C++ exception runtime still owns exception
+storage). The original table, OS preflight and later constructor calls remain
 source inputs, but are not executed on failure. The incompatible startup shell
 is never cast to the native owner. Its final typed TLS clear remains after the
 admission boundary and cannot run on failure. This is deliberate failure, not a

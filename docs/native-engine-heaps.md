@@ -68,10 +68,11 @@ or interior pointers never reach CRT size/reallocate/free. Release of an unknown
 domain terminates; the nonterminating `ReleaseOwned` query reports rejection.
 The actual NiPalette consumers call the canonical release entry directly.
 
-Heap startup does **not** assert that pools exist. The real pool-startup body
-installs its own existing pool-selection operation after construction; there is
-no public provider setter or fixture callback. Until that operation is installed,
-small requests with pooling enabled fail closed instead of claiming pool startup.
+Heap startup does **not** assert that pools exist. Pool allocation remains
+unavailable even after the existing pool-construction calls: this owner must
+first gain matching pool size/reallocation/release operations. There is no public
+provider setter or fixture callback. Small requests with pooling enabled fail
+closed instead of publishing an unsupported allocation domain.
 Requests above pool selection exercise the complete native heap entry without a
 pool supplier. A separate native thread-id/linked scrap association preserves the
 actual scrap constructor and destructor, not a dummy map prefix. Its nonempty

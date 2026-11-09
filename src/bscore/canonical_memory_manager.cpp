@@ -60,10 +60,12 @@ void* MemoryManagerStandIn::FUN_00aa3e40(unsigned int size)
     if (size > std::numeric_limits<unsigned int>::max() - 3)
         return nullptr;
     if (size <= 0x3fc && owner.m_bPoolAllocationEnabled) {
-        // This heap-only lifecycle must not silently stand in for pool startup.
-        if (!owner.poolAllocate_)
+        // A small request may fall through only after this same owner has
+        // published all fixed families. Before publication the route remains
+        // unavailable instead of substituting a heap for pool startup.
+        if (!owner.PoolsInitialized())
             return nullptr;
-        if (auto* memory = owner.poolAllocate_(size))
+        if (auto* memory = owner.AllocateFromPools(size))
             return memory;
     }
     return owner.AllocateFromHeaps(size);
@@ -102,16 +104,23 @@ void* MemoryManager::AllocateFromHeaps(std::size_t bytes) noexcept
     return heaps_.Allocate(bytes, g_tlsBlock.memoryContext);
 }
 
+std::size_t MemoryManager::BootstrapSize(const void* memory) noexcept
+{
+    std::lock_guard guard(bootstrapLock_);
+    for (auto* block = bootstrap_; block; block = block->next)
+        if (block + 1 == memory)
+            return block->bytes;
+    return 0;
+}
+
 std::size_t MemoryManager::Size(const void* memory) noexcept
 {
     if (!memory)
         return 0;
-    {
-        std::lock_guard guard(bootstrapLock_);
-        for (auto* block = bootstrap_; block; block = block->next)
-            if (block + 1 == memory)
-                return block->bytes;
-    }
+    if (const auto bytes = BootstrapSize(memory))
+        return bytes;
+    if (const auto bytes = PoolSize(memory))
+        return bytes;
     return heaps_.Size(memory);
 }
 
@@ -137,6 +146,8 @@ bool MemoryManager::ReleaseOwned(void* memory) noexcept
             link = &block->next;
         }
     }
+    if (ReleasePoolOwned(memory))
+        return true;
     if (heaps_.OwnerOf(memory) == fnv::memory::EngineHeapDomain::None)
         return false;
     heaps_.Deallocate(memory);
@@ -162,11 +173,11 @@ void* MemoryManager::ResizeOwned(void* memory, std::size_t bytes) noexcept
         ReleaseOwned(memory);
         return nullptr;
     }
-    if (heaps_.OwnerOf(memory) != fnv::memory::EngineHeapDomain::None) {
+    if (!BootstrapSize(memory)) {
         if (bytes > std::numeric_limits<unsigned int>::max())
             return nullptr;
-        // Replacement allocation crosses the same pool-policy gate as an
-        // ordinary request. Failure leaves the original payload untouched.
+        // Pool and heap replacement allocation cross the same policy gate.
+        // Allocate before retirement so failure preserves owner and bytes.
         auto* replacement = FUN_00aa3e40(static_cast<unsigned int>(bytes));
         if (!replacement)
             return nullptr;
@@ -194,6 +205,11 @@ void MemoryManager::ShutdownHeaps() noexcept
     // Scrap backing allocations must outlive their actual destructors.
     if (scraps_)
         std::abort();
+    {
+        std::lock_guard startupGuard(poolStartupLock_);
+        std::lock_guard guard(poolLock_);
+        RetirePoolsLocked();
+    }
     heaps_.Shutdown();
     std::lock_guard guard(bootstrapLock_);
     while (bootstrap_) {

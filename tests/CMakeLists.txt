@@ -159,7 +159,9 @@ else()
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/fixed_pool.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/native_memory_pools.cpp
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
     ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp)
 endif()
@@ -182,7 +184,10 @@ else()
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/fixed_pool.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/native_memory_pools.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
     ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp)
   target_include_directories(runtime_manager_new_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
@@ -209,7 +214,10 @@ else()
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/fixed_pool.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/native_memory_pools.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
     ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp
     ${PROJECT_SOURCE_DIR}/src/runtime/new.cpp)

@@ -17,7 +17,9 @@ add_library(game STATIC
   src/bscore/engine_virtual_memory.cpp
   src/bscore/engine_memory_heap.cpp
   src/bscore/engine_heap_set.cpp
+  src/bscore/fixed_pool.cpp
   src/bscore/canonical_memory_manager.cpp
+  src/fallout/misc/native_memory_pools.cpp
   src/fileformat/compression.cpp
   src/fileformat/plugin_header.cpp
   src/runtime/crt.cpp
@@ -34,7 +36,9 @@ set_source_files_properties(
   src/bscore/engine_virtual_memory.cpp
   src/bscore/engine_memory_heap.cpp
   src/bscore/engine_heap_set.cpp
+  src/bscore/fixed_pool.cpp
   src/bscore/canonical_memory_manager.cpp
+  src/fallout/misc/native_memory_pools.cpp
   PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
 set_source_files_properties(src/runtime/endian_u16.cpp src/runtime/endian_u32.cpp PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
 set_source_files_properties(src/runtime/havok_router_tls.cpp PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")

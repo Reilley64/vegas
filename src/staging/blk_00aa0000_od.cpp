@@ -4385,19 +4385,9 @@ inline PoolStandIn* __cdecl GetPoolForSize(unsigned int size)
 }
 
 
-// The genuine legacy pool choice, admitted only by the real pool startup.
-// It does not pretend that heap-only startup constructed the pool owners.
-void* MemoryManager::AllocateFromPools(unsigned int requested)
-{
-    unsigned int size = requested <= 8 ? 8 : (requested + 3) & ~3u;
-    PoolStandIn* pool = size <= 0x3fc
-        ? reinterpret_cast<PoolStandIn*>(DAT_011f67b8[size >> 2]) : nullptr;
-    if (!pool)
-        pool = reinterpret_cast<PoolStandIn*>(::FUN_00aa4960(size));
-    return pool
-        ? reinterpret_cast<::fnv_00aa6aa0::FUN_00aa6aa0_shell*>(pool)->FUN_00aa6aa0(requested)
-        : nullptr;
-}
+// The canonical native owner now defines the genuine fixed-pool choice with
+// matching ownership, size, replacement and release operations. This staging
+// unit retains the legacy table helpers for other requiring objects only.
 
 void __cdecl NiFree4A60(void* pvMem);
 

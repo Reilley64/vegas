@@ -7,7 +7,7 @@ selecting either one. A single source-owned, constant-initialized native object
 supplies the getter and production allocation/release receivers for the full
 process lifetime. Clang's `no_destroy` attribute suppresses only that object's
 static destructor registration; it does not alter local-owner cleanup. This is a
-**bounded heap/bootstrap connection**, not completion of VEGAS-79 or permission
+**bounded heap/bootstrap/fixed-pool connection**, not completion of VEGAS-79 or permission
 to run the incompatible full startup sequence.
 
 ## Ownership
@@ -56,7 +56,27 @@ context; retirement always follows the original allocation's owner.
 
 Initialize, shutdown and reset require detached external clients. The set's
 operations serialize initialization and use. This is not a shutdown protocol for
-Ni, pools, scrap heaps, TLS users or other engine clients.
+Ni, scrap heaps, TLS users or other engine clients.
+
+The same canonical owner embeds the 37 fixed-pool families registered by
+`FUN_00866770`. Their block sizes, reservation capacities, names and source
+order remain those of the source entry; the native producer executes the same
+transactional `CreateMemoryPool` body for every family. Each pool reserves its source byte
+capacity, commits pages on demand and keeps native free links plus allocation
+bits in its own OS-backed metadata. Payloads are `max_align_t` aligned. Exact
+payload starts, not reservation membership, establish size and ownership. Pool
+lookup scans this owner's reservations with full-width addresses; the historical
+256-slot `address >> 24` cache is not used.
+
+Pool startup is transactional. The route remains unavailable until all 37
+owners are constructed, and any failure retires every staged reservation so the
+same owner can retry. Selection preserves the direct rounded-four-byte family,
+then the source 16/32-byte fallback policy and 576-byte fallback. An exhausted
+selected pool falls through to the context-selected heaps in the existing
+order. Pool allocation, size, replacement and matching release all use the same
+owner and serialize against pool retirement. Shutdown requires detached clients;
+local owners retire pools before heaps, while the process-lifetime global remains
+available to late static clients.
 
 ## Canonical heap-owned manager seam
 
@@ -85,13 +105,14 @@ All three changed NiPalette releases call `ReleasePaletteAllocation`, whose
 production definition obtains that same owner through the actual getter and
 calls the canonical release entry. No local test owner supplies that connection.
 
-Heap startup does **not** assert that pools exist. Pool allocation remains
-unavailable even after the existing pool-construction calls: this owner must
-first gain matching pool size/reallocation/release operations. There is no public
-provider setter or fixture callback. Small requests with pooling enabled fail
-closed instead of publishing an unsupported allocation domain.
-Requests above pool selection exercise the complete native heap entry without a
-pool supplier. A separate native thread-id/linked scrap association preserves the
+Heap startup alone does **not** assert that pools exist. Small requests with
+pooling enabled fail closed until the actual fixed-pool startup completes; there
+is no public provider setter or fixture callback. Once published, pool and heap
+blocks share the canonical size/reallocation/release boundary. Replacement is
+allocated through the same pool-policy gate before the old block is retired, so
+failure preserves its exact owner and bytes. Requests not selected by a fixed
+family continue through the complete native heap entry. A separate native
+thread-id/linked scrap association preserves the
 actual scrap constructor and destructor, not a dummy map prefix. Its nonempty
 lifecycle remains unmeasured. Heap-only shutdown requires no remaining scrap
 objects; local-owner destruction retires those objects before their backing
@@ -100,12 +121,12 @@ before potentially still-attached static clients.
 
 ## Required whole-engine join
 
-The complete global is available to heap/bootstrap allocation clients, but full
-startup is explicitly unavailable. Pool allocations still lack admitted native
-size/reallocation/release ownership; the physical/range and direct legacy
-bootstrap domains are not in the new ownership index, and failure recovery is
-not wired to native heap types. Returning heap failure is not proof of the old
-recovery protocol. No arbitrary host/heap route replaces pools.
+The complete global is available to heap/bootstrap/fixed-pool allocation clients,
+but full startup is explicitly unavailable. The physical/range and direct
+legacy bootstrap domains are not in the new ownership index, and failure
+recovery is not wired to native heap types. Returning heap failure is not proof
+of the old recovery protocol. No arbitrary host/heap route replaces another
+allocation domain.
 
 The original `00aa3880` constructor now checks admission in its first member
 initializer, before the real table supplier can run. `00aa39c0` also rejects
@@ -124,7 +145,7 @@ No generated data or context-guard implementation changes are included. The
 `runtime/new.cpp` legacy unsigned boundary now rejects overflow before casting,
 and `runtime.manager_new` now executes the actual global new/getter/native
 owner/matching delete connection, including failed-constructor delete and
-unavailable-pool failure. This does not establish complete global-new coverage
+unavailable-pool failure before fixed startup. This does not establish complete global-new coverage
 or successful full startup.
 The accepted guard is composed unchanged. Nested 9/23/36 scopes, early return
 and exception restoration now execute through the same real heap allocation
@@ -138,7 +159,8 @@ owner and executes the production `InitializeHeaps`, allocation entry, size,
 reallocation and matching release, with the real production TLS owner. It covers
 all 66 contexts, distinct non-pool 9/23 domains, default 36, high pointers, exact
 ownership/rejection, bootstrap survival across initialization, failed/successful
-resize (including unavailable-pool shrink, null-to-small rejection and actual
+resize (including unavailable-pool shrink before pool startup, successful pool
+cross-class replacement after startup, native-width failure and actual
 main-reservation exhaustion), payload preservation, thread isolation,
 explicit heap retirement/reinitialization and automatic
 owner cleanup during unwinding. It also exercises accepted guard restoration
@@ -163,9 +185,13 @@ pre-main bootstrap and heap allocations through another TU's static destructor,
 read and delete them there, and allocate/delete again after main. Their actual
 production provider/client object groups are linked in both orders. Checks stay
 active under `NDEBUG`; no test allocator or replacement lifecycle is supplied.
-These are bounded production-entry tests. Complete startup success, OS
-initialization failure, nonempty scrap, full engine shutdown and actual Windows
-execution remain separate, unclaimed coverage.
+The canonical suite verifies all 37 source families, exact capacities/names,
+zero/one/many allocations, exhaustion/fallback/reuse, high pointers, alignment,
+foreign/interior rejection, 0x60 and filename-sized requests, rollback/retry,
+cross-class replacement, matching release, threads and local-owner retirement.
+These are bounded production-entry tests. Complete manager startup success,
+physical/range domains, recovery, nonempty scrap, full engine shutdown and actual
+Windows execution remain separate, unclaimed coverage.
 
 ## Supplier checks
 

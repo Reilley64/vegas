@@ -1,5 +1,4 @@
 #include "fnv/tls.h"
-#include "AutoMemContext.h"
 // bscore/memorymanager.cpp: MemoryManager, TESQuest, TESActorBaseData, Actor and more (21 functions)
 
 #include <cstdint>
@@ -112,32 +111,6 @@ void FUN_00473960_shell::FUN_00473960()
         *(void**)&this->m_pDecompressedFormBuffer = 0;
         this->m_uiAuxBufferSize = 0;
     }
-}
-
-using ::AutoMemContext;
-
-using MemCtxGuard = ::AutoMemContext;
-struct MemoryPoolView : public MemoryPool
-{
-    bool HasMemory()
-    {
-        return m_pPoolBase != 0;
-    }
-};
-// Creates a MemoryPool with the given block and pool sizes and description, deleting it if it has no memory; returns early when aiBlockSize is below 8.
-// @fnv 0x00aa3cc0
-void MemoryManager::CreateMemoryPool(unsigned int aiBlockSize, unsigned int aiPoolSize, char* apDesc)
-{
-    MemCtxGuard tempMemContext(3);
-    if (aiBlockSize < 8)
-        return;
-    m_bPoolAllocationEnabled = false;
-    MemoryPool* pnewPool = new MemoryPool(aiBlockSize, aiPoolSize, apDesc);
-    if (!static_cast<MemoryPoolView*>(pnewPool)->HasMemory())
-    {
-        delete pnewPool;
-    }
-    m_bPoolAllocationEnabled = true;
 }
 
 struct FUN_00aa3a10_shell

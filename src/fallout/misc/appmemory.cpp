@@ -216,49 +216,4 @@ int StateMachine::RunStep(void* context, unsigned int step, bool* finished)
     return step + 1;
 }
 
-// Calls CreateMemoryPool repeatedly with fixed numeric values and matching "Pool N" names.
-// @fnv 0x00866770
-void MemoryManager::FUN_00866770()
-{
-    CreateMemoryPool(8, 0x600000, (char *)("Pool 8"));
-    CreateMemoryPool(12, 0x500000, (char *)("Pool 12"));
-    CreateMemoryPool(16, 0x400000, (char *)("Pool 16"));
-    CreateMemoryPool(20, 0x400000, (char *)("Pool 20"));
-    CreateMemoryPool(24, 0x800000, (char *)("Pool 24"));
-    CreateMemoryPool(28, 0x400000, (char *)("Pool 28"));
-    CreateMemoryPool(32, 0x800000, (char *)("Pool 32"));
-    CreateMemoryPool(36, 0x300000, (char *)("Pool 36"));
-    CreateMemoryPool(40, 0x200000, (char *)("Pool 40"));
-    CreateMemoryPool(44, 0x400000, (char *)("Pool 44"));
-    CreateMemoryPool(48, 0x200000, (char *)("Pool 48"));
-    CreateMemoryPool(52, 0x300000, (char *)("Pool 52"));
-    CreateMemoryPool(56, 0x100000, (char *)("Pool 56"));
-    CreateMemoryPool(64, 0x200000, (char *)("Pool 64"));
-    CreateMemoryPool(72, 0xd00000, (char *)("Pool 72"));
-    CreateMemoryPool(76, 0x100000, (char *)("Pool 76"));
-    CreateMemoryPool(80, 0x300000, (char *)("Pool 80"));
-    CreateMemoryPool(92, 0x200000, (char *)("Pool 92"));
-    CreateMemoryPool(96, 0xf00000, (char *)("Pool 96"));
-    CreateMemoryPool(100, 0x100000, (char *)("Pool 100"));
-    CreateMemoryPool(104, 0x400000, (char *)("Pool 104"));
-    CreateMemoryPool(120, 0x400000, (char *)("Pool 120"));
-    CreateMemoryPool(128, 0x100000, (char *)("Pool 128"));
-    CreateMemoryPool(160, 0x200000, (char *)("Pool 160"));
-    CreateMemoryPool(192, 0x200000, (char *)("Pool 192"));
-    CreateMemoryPool(200, 0x300000, (char *)("Pool 200"));
-    CreateMemoryPool(208, 0x300000, (char *)("Pool 208"));
-    CreateMemoryPool(240, 0x300000, (char *)("Pool 240"));
-    CreateMemoryPool(256, 0x100000, (char *)("Pool 256"));
-    CreateMemoryPool(272, 0x200000, (char *)("Pool 272"));
-    CreateMemoryPool(288, 0x300000, (char *)("Pool 288"));
-    CreateMemoryPool(400, 0x100000, (char *)("Pool 400"));
-    CreateMemoryPool(448, 0x100000, (char *)("Pool 448"));
-    CreateMemoryPool(480, 0x400000, (char *)("Pool 480"));
-    CreateMemoryPool(508, 0x400000, (char *)("Pool 508"));
-    CreateMemoryPool(576, 0x200000, (char *)("Pool 576"));
-    CreateMemoryPool(596, 0x100000, (char *)("Pool 596"));
-    // Do not publish pool allocation before this owner can also size, resize,
-    // and release its pool payloads. Heap-only ownership does not cover them.
-}
-
 #include "generated/data/fallout/misc/appmemory.inc"

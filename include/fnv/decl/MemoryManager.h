@@ -6,6 +6,7 @@
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/memory/engine_heap_set.h"
+#include "fnv/memory/fixed_pool.h"
 
 class ScrapHeapBuffer;
 
@@ -21,6 +22,14 @@ private:
     std::mutex bootstrapLock_{};
     BootstrapBlock* bootstrap_ = nullptr;
 
+    static constexpr std::size_t FixedPoolCount = 37;
+    std::mutex poolStartupLock_{};
+    std::mutex poolLock_{};
+    fnv::memory::FixedPool pools_[FixedPoolCount]{};
+    std::size_t stagedPoolCount_ = 0;
+    bool poolStartupActive_ = false;
+    bool poolsPublished_ = false;
+
     // Source thread-id -> scrap-heap association, with native links and keys.
     // Retirement is installed only by the actual scrap construction body.
     struct ScrapEntry {
@@ -31,10 +40,16 @@ private:
     };
     std::mutex scrapLock_{};
     ScrapEntry* scraps_ = nullptr;
-    // Unavailable until genuine pool startup and matching ownership operations
-    // are joined. Neither heap initialization nor pool construction publishes it.
-    static void* AllocateFromPools(unsigned int);
-    void* (*poolAllocate_)(unsigned int) = nullptr;
+    bool BeginPoolStartup();
+    void CompletePoolStartup();
+    void CancelPoolStartup() noexcept;
+    void CreateMemoryPoolStaged(unsigned int, unsigned int, char*);
+    void RetirePoolsLocked() noexcept;
+    fnv::memory::FixedPool* SelectPoolLocked(unsigned int) noexcept;
+    std::size_t BootstrapSize(const void*) noexcept;
+    std::size_t PoolSize(const void*) noexcept;
+    bool ReleasePoolOwned(void*) noexcept;
+    void* AllocateFromPools(unsigned int) noexcept;
     bool m_bPoolAllocationEnabled = true;
 
 public:
@@ -59,10 +74,15 @@ public:
     void* Reallocate(void*, unsigned int) noexcept;
     void* ResizeOwned(void*, std::size_t) noexcept;
     fnv::memory::EngineHeapDomain HeapOwner(const void*) noexcept;
-    // Detached heap/bootstrap clients only. Full engine shutdown is separate.
+    bool PoolsInitialized() noexcept;
+    std::size_t PoolFamilyCount() const noexcept { return FixedPoolCount; }
+    fnv::memory::FixedPoolStatistics PoolStatistics(std::size_t) noexcept;
+    std::size_t PoolOwnerIndex(const void*) noexcept;
+    // Detached heap/bootstrap/pool clients only. Full engine shutdown is separate.
     void ShutdownHeaps() noexcept;
 
-    // Unjoined production interfaces, not publication permission.
+    // Source fixed-pool startup. Publication occurs only after all 37 exact
+    // CreateMemoryPool calls complete successfully on this owner.
     void FUN_00866770();
     void CreateMemoryPool(unsigned int, unsigned int, char*);
     void* Allocate(unsigned int, const char*, const int, const char*);

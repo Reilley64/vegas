@@ -171,6 +171,26 @@ if(UNIX)
 endif()
 add_test(NAME runtime.canonical_memory_manager COMMAND runtime_canonical_memory_manager_test)
 
+add_executable(runtime_list_node_recycling_test runtime/list_node_recycling_test.cpp)
+if(WIN32)
+  target_link_libraries(runtime_list_node_recycling_test PRIVATE game)
+else()
+  target_sources(runtime_list_node_recycling_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/fixed_pool.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/native_memory_pools.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp)
+endif()
+target_include_directories(runtime_list_node_recycling_test PRIVATE
+  ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(runtime_list_node_recycling_test PRIVATE Threads::Threads)
+add_test(NAME runtime.list_node_recycling COMMAND runtime_list_node_recycling_test)
+
 # Unlike runtime.new's isolated forwarding fixture, this executable uses the
 # actual getter, complete native global, heap suppliers and matching release.
 add_executable(runtime_manager_new_test

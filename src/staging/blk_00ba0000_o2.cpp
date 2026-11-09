@@ -6,6 +6,7 @@
 #include "fnv/symbols_00a99000.h"
 #include "fnv/symbols_00a95000.h"
 #include "fnv/tls.h"
+#include "fnv/list_node.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -16552,23 +16553,9 @@ struct BA01A0Target
     }
 };
 
-struct BA01A0RefObject
-{
-    virtual ~BA01A0RefObject();
-    virtual void DeleteThis();
-    long m_uiRefCount;
-    void IncRefCount()
-    {
-        InterlockedIncrement(&m_uiRefCount);
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement(&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-};
+using BA01A0RefObject = NiRefObject;
 
-struct BA01A0Item : BA01A0RefObject
+struct BA01A0Item : NiRefObject
 {
     int unk08;
     int unk0C;
@@ -16618,13 +16605,11 @@ struct RefPtr_b9fcc0
     BA01A0RefObject* m_p;
     RefPtr_b9fcc0(BA01A0RefObject* p) : m_p(p)
     {
-        m_p->IncRefCount();
+        if (!fnv::list::TryRetainPayload(m_p))
+            throw std::overflow_error("native payload reference count overflow");
     }
-    RefPtr_b9fcc0(const RefPtr_b9fcc0& other) : m_p(other.m_p)
-    {
-        if (m_p)
-            m_p->IncRefCount();
-    }
+    RefPtr_b9fcc0(const RefPtr_b9fcc0& other) : RefPtr_b9fcc0(other.m_p)
+    {}
     ~RefPtr_b9fcc0()
     {
         if (m_p)
@@ -16632,12 +16617,7 @@ struct RefPtr_b9fcc0
     }
 };
 
-struct SessionNode
-{
-    SessionNode* next;
-    SessionNode* prev;
-    RefPtr_b9fcc0 value;
-};
+using SessionNode = fnv::list::RetainedNode;
 struct List_b9fcc0
 {
     SessionNode* head;
@@ -16755,27 +16735,11 @@ void BA01A0Owner::FUN_00ba01a0(BA01A0Item* item, void* key)
 
 __declspec(noinline) RefPtr_b9fcc0 List_b9fcc0::FUN_00b9efa0(void*& key)
 {
-    SessionNode* node = (SessionNode*)key;
-    if (node == head)
-    {
-        key = node->next;
-        return PopFront();
-    }
-    if (node == tail)
-    {
-        key = 0;
-        return PopBack();
-    }
-    SessionNode* previous = node->prev;
-    SessionNode* following = node->next;
-    key = following;
-    if (previous)
-        previous->next = following;
-    if (following)
-        following->prev = previous;
-    RefPtr_b9fcc0 result = node->value;
-    ReleaseRefCountedNode(node);
-    --count;
+    auto* node = static_cast<SessionNode*>(key);
+    auto retained = fnv::list::Remove(head, tail, count, node);
+    key = node;
+    RefPtr_b9fcc0 result(nullptr);
+    result.m_p = retained.Release();
     return result;
 }
 
@@ -16786,7 +16750,7 @@ __declspec(noinline) RefPtr_b9fcc0 List_b9fcc0::FUN_00b9fcc0(const RefPtr_b9fcc0
     {
         SessionNode* current = node;
         node = node->next;
-        if (current->value.m_p == item.m_p)
+        if (current->payload == item.m_p)
         {
             node = current;
             break;

@@ -6,6 +6,7 @@
 #include <cctype>
 #include <cstring>
 #include "runtime/crt.h"
+#include "fnv/list_node.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/AlphaList.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -890,13 +891,8 @@ void ShaderEntryOwner::FUN_00e93cc0()
                     if (pNext)
                         pNext->previous = pPrev;
                     candidate->element = 0;
-                    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::ShaderEntryNodePool *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
                     candidate->previous = 0;
-                    candidate->next = (*reinterpret_cast<::ShaderEntryNode * *>(&::DAT_011c5f58));
-                    --DAT_011c5f84;
-                    (*reinterpret_cast<::ShaderEntryNode * *>(&::DAT_011c5f58)) = candidate;
-                    if (!DAT_011c5f84)
-                        (*reinterpret_cast<::ShaderEntryNodePool *>(&::g_011c5f80)).first = 0;
+                    fnv::list::RecycleStorage(candidate);
                     --pEntries->count;
                 }
             }
@@ -1098,12 +1094,8 @@ struct FUN_0045cee0_shell
 // @fnv 0x0045cee0
 void FUN_0045cee0_shell::FUN_0045cee0(void* pkItem)
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-    PoolAllocatorBase<unsigned int>::LinkedListEntry* pkNode =
-        (PoolAllocatorBase<unsigned int>::LinkedListEntry*)pkItem;
-    pkNode->m_iData = 0;
-    pkNode->m_pkNext = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-    (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = pkNode;
-    reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fba0();
+    auto* node = static_cast<PoolAllocatorBase<unsigned int>::LinkedListEntry*>(pkItem);
+    node->m_iData = 0;
+    fnv::list::RecycleStorage(node);
 }
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramfactory.inc"

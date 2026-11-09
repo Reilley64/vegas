@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/list_node.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/symbols_011c5000.h"
 #include "fnv/symbols_011f4000.h"
@@ -30,28 +31,12 @@ struct FUN_00b63e90_cls
 void FUN_00b63e90_cls::ReleasePoolNodes()
 {
     PoolNode_b1698* cur = m_0c;
-    if (cur != 0)
+    while (cur)
     {
-        reinterpret_cast<::FUN_0040fbf0_shell *>((((PoolLock_b1698*)&(*reinterpret_cast<int *>(&::g_011c5f80)))))->FUN_0040fbf0((char *)(0));
-        do
-        {
-            PoolNode_b1698* node = cur;
-            cur = cur->m_00;
-            reinterpret_cast<::FUN_0040fbf0_shell *>((((PoolLock_b1698*)&(*reinterpret_cast<int *>(&::g_011c5f80)))))->FUN_0040fbf0((char *)(0));
-            node->m_04 = 0;
-            node->m_00 = (*reinterpret_cast<::PoolNode_b1698 * *>(&::DAT_011c5f58));
-            (*reinterpret_cast<int *>(&::DAT_011c5f84)) -= 1;
-            (*reinterpret_cast<::PoolNode_b1698 * *>(&::DAT_011c5f58)) = node;
-            if ((*reinterpret_cast<int *>(&::DAT_011c5f84)) == 0)
-            {
-                (*reinterpret_cast<int *>(&::g_011c5f80)) = 0;
-            }
-        } while (cur != 0);
-        (*reinterpret_cast<int *>(&::DAT_011c5f84)) -= 1;
-        if ((*reinterpret_cast<int *>(&::DAT_011c5f84)) == 0)
-        {
-            (*reinterpret_cast<int *>(&::g_011c5f80)) = 0;
-        }
+        auto* node = cur;
+        cur = cur->m_00;
+        node->m_04 = 0;
+        fnv::list::RecycleStorage(node);
     }
     unsigned int* p = m_08;
     m_0c = 0;

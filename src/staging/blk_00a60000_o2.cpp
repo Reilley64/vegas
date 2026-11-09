@@ -4,6 +4,7 @@
 #include "fnv/symbols_00a7b000.h"
 #include "fnv/symbols_00a75000.h"
 #include "fnv/tls.h"
+#include "fnv/list_node.h"
 #include <cstdint>
 #include <windows.h>
 // src/staging/blk_00a60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -197,13 +198,8 @@ void FUN_00a638c0(void* pNode)
 {
     FUN_00a638c0_Node* node = (FUN_00a638c0_Node*)pNode;
     node->unk08 = 0;
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
     node->unk04 = 0;
-    node->next = DAT_011c5f58;
-    --DAT_011c5f84;
-    DAT_011c5f58 = pNode;
-    if (!DAT_011c5f84)
-        *(unsigned int*)&(*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)) = 0;
+    fnv::list::RecycleStorage(node);
 }
 
 namespace fnv_00a63b30 {

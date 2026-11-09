@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <d3d9.h>
+#include "fnv/list_node.h"
 #include "fnv/decl/FUN_00e68830.h"
 #include "fnv/decl/NiD3DTextureData.h"
 #include "fnv/symbols_00e6e000.h"
@@ -8787,12 +8788,8 @@ void Target::FUN_00e8b630() {
   if(head) head->prev=0;
   else tail=0;
   node->data=0;
-  reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::LockObj *>(&::g_011c5f80))))->FUN_0040fbf0(0);
   node->prev=0;
-  node->next=(*reinterpret_cast<::PoolNode * *>(&::DAT_011c5f58));
-  --DAT_011c5f84;
-  (*reinterpret_cast<::PoolNode * *>(&::DAT_011c5f58))=node;
-  if(!DAT_011c5f84) (*reinterpret_cast<::LockObj *>(&::g_011c5f80)).value=0;
+  fnv::list::RecycleStorage(node);
   --listCount;
  }
  if(object) { object->Release(); object=0; }
@@ -10873,7 +10870,7 @@ struct LightInputNode { LightInputNode* next; SceneLight* light; };
 struct LightInput { unsigned int field00,field04,field08; LightInputNode* head; };
 inline SceneLight*& nextLight(PoolNode*& node) { SceneLight*& item=(SceneLight*&)node->data; node=node->next; return item; }
 struct ShadowSceneLightList { PoolNode* head; PoolNode* tail; unsigned int count;  SceneLight* FUN_004edf00();
- __forceinline void recycle(PoolNode* node) { node->data=0; reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::LockObj *>(&::g_011c5f80))))->FUN_0040fbf0(0); node->prev=0; node->next=(*reinterpret_cast<::PoolNode * *>(&::DAT_011c5f58)); --DAT_011c5f84; (*reinterpret_cast<::PoolNode * *>(&::DAT_011c5f58))=node; if (!DAT_011c5f84) (*reinterpret_cast<::LockObj *>(&::g_011c5f80)).value=0; }
+ __forceinline void recycle(PoolNode* node) { node->data=0; node->prev=0; fnv::list::RecycleStorage(node); }
  __forceinline SceneLight* remove(PoolNode*& node) { if(node==head) { PoolNode* old=head; head=old->next; if(head) head->prev=0; else tail=0; SceneLight* element=(SceneLight*)old->data; recycle(old); --count; return element; } else if(node==tail) { return FUN_004edf00(); } else { PoolNode* prev=node->prev; PoolNode* next=node->next; if(prev)prev->next=next; if(next)next->prev=prev; SceneLight* element=(SceneLight*)node->data; recycle(node); --count; return element; } }
 };
 struct LightManager { unsigned int field00,field04,field08,field0c; ShadowSceneLightList active; LightDevice* device; MobileTargetObj* render; unsigned int field24,field28; unsigned char field2c; bool enabled; unsigned short field2e;
@@ -11219,11 +11216,8 @@ public:
 
     void DeleteItem(NiTListItemE8B* pkItem)
     {
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::BSSpinLockE8B *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         pkItem->m_pkPrev = 0;
-        pkItem->m_pkNext = (*reinterpret_cast<::NiTListItemE8B * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::NiTListItemE8B * *>(&::DAT_011c5f58)) = pkItem;
-        (*reinterpret_cast<::BSSpinLockE8B *>(&::g_011c5f80)).Unlock();
+        fnv::list::RecycleStorage(pkItem);
     }
 
     void RemovePos(NiTListItemE8B* pkNode)

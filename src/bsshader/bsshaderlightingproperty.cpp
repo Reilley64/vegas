@@ -5,6 +5,7 @@
 
 #include <new>
 #include <windows.h>
+#include "fnv/list_node.h"
 #include "fnv/decl/AlphaList.h"
 #include "fnv/decl/B9DBE0Fader.h"
 #include "fnv/decl/BA01A0Owner.h"
@@ -107,14 +108,8 @@ void BSShaderLightingProperty::ClearLights()
         FNVPointerListItem* current = item;
         item = item->m_pkNext;
         current->m_element = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         current->m_pkPrev = 0;
-        current->m_pkNext = (FNVPointerListItem*)(*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-        --DAT_011c5f84;
-        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) =
-            (PoolAllocatorBase<unsigned int>::LinkedListEntry*)current;
-        if (!DAT_011c5f84)
-            *(unsigned int*)&(*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)) = 0;
+        fnv::list::RecycleStorage(current);
     }
     list->m_kItemCount.m_uiCount = 0;
     list->m_pkHead = 0;
@@ -1220,12 +1215,8 @@ struct LList
 };
 static inline void FreeNode(LItem* item)
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
     item->m_pkPrev = 0;
-    item->m_pkNext = (LItem*)(*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-    (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = (PoolNode*)item;
-    if (--DAT_011c5f84 == 0)
-        (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).m_lock = 0;
+    fnv::list::RecycleStorage(item);
 }
 __forceinline void LList::RemoveItem(LItem* cur)
 {

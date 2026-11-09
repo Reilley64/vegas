@@ -6,6 +6,7 @@
 
 #include <windows.h>
 #include <cstring>
+#include "fnv/list_node.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B4F9A0ShaderManager.h"
 #include "fnv/decl/ExtraOwnerB.h"
@@ -687,18 +688,8 @@ FUN_00b6f0b0::~FUN_00b6f0b0()
         else
             m84.tail = 0;
         node->item = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::S_00b6f0b0_Lock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         node->prev = 0;
-        node->next = (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58));
-        if (--(*reinterpret_cast<int *>(&::DAT_011c5f84)) == 0)
-        {
-            (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58)) = node;
-            (*reinterpret_cast<::S_00b6f0b0_Lock *>(&::g_011c5f80)).owner = 0;
-        }
-        else
-        {
-            (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58)) = node;
-        }
+        fnv::list::RecycleStorage(node);
         m84.count--;
         delete slot;
     }
@@ -714,18 +705,8 @@ FUN_00b6f0b0::~FUN_00b6f0b0()
         else
             m78.tail = 0;
         node->item = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::S_00b6f0b0_Lock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         node->prev = 0;
-        node->next = (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58));
-        if (--(*reinterpret_cast<int *>(&::DAT_011c5f84)) == 0)
-        {
-            (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58)) = node;
-            (*reinterpret_cast<::S_00b6f0b0_Lock *>(&::g_011c5f80)).owner = 0;
-        }
-        else
-        {
-            (*reinterpret_cast<::S_00b6f0b0_Node * *>(&::DAT_011c5f58)) = node;
-        }
+        fnv::list::RecycleStorage(node);
         m78.count--;
         delete slot;
     }

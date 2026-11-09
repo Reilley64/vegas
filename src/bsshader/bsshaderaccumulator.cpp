@@ -5,6 +5,7 @@
 
 #include <windows.h>
 #include <cstring>
+#include "fnv/list_node.h"
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/AlphaList.h"
 #include "fnv/decl/BB97550Shader.h"
@@ -335,14 +336,8 @@ void FUN_00b655b0(Self_00b655b0* self)
             self->tail = 0;
         }
         node->m_element = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         node->m_pUserData = 0;
-        node->m_pkNext = (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
-        if (--DAT_011c5f84 == 0)
-        {
-            (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
-        }
+        fnv::list::RecycleStorage(node);
         --self->count;
     }
 }
@@ -820,12 +815,8 @@ struct PtrList
         else
             m_pkTail = 0;
         pkNode->m_element = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00b64f90::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         pkNode->m_pkPrev = 0;
-        pkNode->m_pkNext = (ListNode*)(*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58)) = (PoolAlloc::LinkedListEntry*)pkNode;
-        if (--(*reinterpret_cast<::fnv_00b64f90::RecursiveSpinLock *>(&::g_011c5f80)).m_uiRecursionCount == 0)
-            (*reinterpret_cast<::fnv_00b64f90::RecursiveSpinLock *>(&::g_011c5f80)).m_uiOwningThreadID = 0;
+        fnv::list::RecycleStorage(pkNode);
         m_uiCount--;
     }
 };
@@ -922,12 +913,8 @@ struct OMList
         else
             m_pkTail = 0;
         pkNode->m_element = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00b656e0::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         pkNode->m_pUserData = 0;
-        pkNode->m_pkNext = (OMNode*)(*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58)) = (OMAllocNode*)pkNode;
-        if (--::DAT_011c5f84 == 0)
-            (*reinterpret_cast<::fnv_00b656e0::RecursiveSpinLock *>(&::g_011c5f80)).m_uiOwningThreadID = 0;
+        fnv::list::RecycleStorage(pkNode);
         m_uiCount--;
     }
 };

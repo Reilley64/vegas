@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <cstring>
 #include "runtime/crt.h"
+#include "fnv/list_node.h"
 #include "fnv/decl/A62190PixelFormat.h"
 #include "fnv/decl/Conv.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -479,14 +480,8 @@ void FUN_00a7aff0_shell::FUN_00a7aff0()
         }
         VirtualObj_00a7aff0* entry = (VirtualObj_00a7aff0*)node->data;
         node->data = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         node->prev = 0;
-        node->next = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
-        if (--DAT_011c5f84 == 0)
-        {
-            (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
-        }
+        fnv::list::RecycleStorage(node);
         --self->count;
         if (entry)
         {

@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/tls.h"
+#include "fnv/list_node.h"
 #include <cstdint>
 #include <new>
 #include <windows.h>
@@ -14866,15 +14867,8 @@ inline void List2_af60::RemoveHead()
         m_pTail = 0;
     }
     n->m_data = 0;
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00b9af60::Lock_af60 *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
     n->m_pSecondNode = 0;
-    n->m_next = (*reinterpret_cast<::fnv_00b9af60::Node2_af60 * *>(&::DAT_011c5f58));
-    (*reinterpret_cast<int *>(&::DAT_011c5f84)) -= 1;
-    (*reinterpret_cast<::fnv_00b9af60::Node2_af60 * *>(&::DAT_011c5f58)) = n;
-    if ((*reinterpret_cast<int *>(&::DAT_011c5f84)) == 0)
-    {
-        (*reinterpret_cast<::fnv_00b9af60::Lock_af60 *>(&::g_011c5f80)).m_pOwnerObject = 0;
-    }
+    fnv::list::RecycleStorage(n);
     m_uiItemCount--;
 }
 static __forceinline float CalcDist(Item_af60* a, const Point3_af60& dir, bool flag)

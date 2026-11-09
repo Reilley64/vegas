@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 #include <mutex>
 #include <type_traits>
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -40,6 +41,17 @@ private:
     };
     std::mutex scrapLock_{};
     ScrapEntry* scraps_ = nullptr;
+
+    struct ListNodeBlock;
+    struct ListNodeFreeLink;
+    std::mutex listNodeLock_{};
+    ListNodeBlock* listNodeBlocks_ = nullptr;
+    ListNodeFreeLink* freeListNodes_ = nullptr;
+    std::size_t freeListNodeCount_ = 0;
+    std::size_t liveListNodeCount_ = 0;
+    std::size_t listNodeBlockCount_ = 0;
+    void RefillListNodesLocked(std::size_t);
+
     bool BeginPoolStartup();
     void CompletePoolStartup();
     void CancelPoolStartup() noexcept;
@@ -78,7 +90,24 @@ public:
     std::size_t PoolFamilyCount() const noexcept { return FixedPoolCount; }
     fnv::memory::FixedPoolStatistics PoolStatistics(std::size_t) noexcept;
     std::size_t PoolOwnerIndex(const void*) noexcept;
-    // Detached heap/bootstrap/pool clients only. Full engine shutdown is separate.
+
+    struct ListNodePoolStatistics {
+        std::size_t blocks;
+        std::size_t freeNodes;
+        std::size_t liveNodes;
+    };
+    // Native storage for the common three-pointer list node. The storage is
+    // supplied and retired by this same allocation owner under the caller's
+    // real TLS context. Acquire throws bad_alloc without publishing a partial
+    // refill; recycle terminates on a foreign, interior, or duplicate node.
+    void RefillListNodes(std::size_t count = 2048);
+    void* AcquireListNodeStorage();
+    void RecycleListNodeStorage(void*) noexcept;
+    ListNodePoolStatistics ListNodeStatistics() noexcept;
+    fnv::memory::EngineHeapDomain ListNodeAllocationDomain(const void*) noexcept;
+    bool ShutdownListNodes() noexcept;
+
+    // Detached heap/bootstrap/pool/list clients only. Full engine shutdown is separate.
     void ShutdownHeaps() noexcept;
 
     // Source fixed-pool startup. Publication occurs only after all 37 exact

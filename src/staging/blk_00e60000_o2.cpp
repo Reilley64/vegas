@@ -4,6 +4,7 @@
 
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkMemoryRouter.h"
+#include "fnv/list_node.h"
 #include "../../include/layout_support.h"
 #include <d3d9.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -7931,29 +7932,13 @@ FUN_00e7b590::FUN_00e7b590(S00e7b590_D3D* dev, int aiAdapter, D3DDEVTYPE aiDevic
                     FUN_00e7b260* item =
                         new FUN_00e7b260(dev, aiAdapter, m_iOwnerObjectOffset, desc.Format, fullscreen, windowed);
 
-                    reinterpret_cast<::FUN_0040fbf0_shell *>(&(g_011c5f80))->FUN_0040fbf0((char *)(0));
-
-                    ListNode* poolNode = (*reinterpret_cast<::ListNode * *>(&::DAT_011c5f58));
-
-                    if (!poolNode)
-                    {
-
-                        FUN_0043a080();
-
-                        poolNode = (*reinterpret_cast<::ListNode * *>(&::DAT_011c5f58));
-                    }
-
-                    (*reinterpret_cast<::ListNode * *>(&::DAT_011c5f58)) = poolNode->next;
+                    auto* poolNode = static_cast<ListNode*>(fnv::list::AcquireStorage());
 
                     poolNode->item = 0;
 
                     poolNode->next = 0;
 
                     poolNode->prev = 0;
-
-                    if (--DAT_011c5f84 == 0)
-
-                        g_011c5f80.state = 0;
 
                     poolNode->item = item;
 
@@ -9849,17 +9834,11 @@ struct PoolAlloc
 {
     static ListItem* Allocate() throw()
     {
-        (*reinterpret_cast<::SpinLk *>(&::g_011c5f80)).FUN_0040fbf0();
-        if (!(*reinterpret_cast<::NiTAbstractPoolAllocator_unsigned_int *>(&::DAT_011c5f58)).head)
-            FUN_0043a080();
-        ListItem* p = (*reinterpret_cast<::NiTAbstractPoolAllocator_unsigned_int *>(&::DAT_011c5f58)).head;
-        ListItem*& next = (((*reinterpret_cast<::NiTAbstractPoolAllocator_unsigned_int *>(&::DAT_011c5f58)).head)->next);
-        (*reinterpret_cast<::NiTAbstractPoolAllocator_unsigned_int *>(&::DAT_011c5f58)).head = next;
-        p->data = 0;
-        p->next = 0;
-        p->prev = 0;
-        (*reinterpret_cast<::SpinLk *>(&::g_011c5f80)).Unlock();
-        return p;
+        auto* node = static_cast<ListItem*>(fnv::list::AcquireStorage());
+        node->data = 0;
+        node->next = 0;
+        node->prev = 0;
+        return node;
     }
 };
 

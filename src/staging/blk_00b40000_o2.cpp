@@ -3,9 +3,12 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include <limits>
 #include <new>
+#include <stdexcept>
 #include <windows.h>
 #include <cstring>
+#include "fnv/list_node.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B5Owner.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -282,12 +285,7 @@ struct NodePoolView
     unsigned int count;
     void* AddHead();
 };
-struct FUN_00b58570_Node
-{
-    FUN_00b58570_Node* next;
-    FUN_00b58570_Node* prev;
-    void* element;
-};
+using FUN_00b58570_Node = fnv::list::Node<void>;
 struct FUN_00b58570_Class
 {
     FUN_00b58570_Node* head;
@@ -299,19 +297,16 @@ struct FUN_00b58570_Class
 // @fnv 0x00b58570
 void* FUN_00b58570_Class::FUN_00b58570(void* source)
 {
-    FUN_00b58570_Node* node = (FUN_00b58570_Node*)(void*)reinterpret_cast<::FUN_0043a010_shell *>(&pool)->FUN_0043a010();
-    node->element = *(void**)source;
-    node->next = 0;
-    node->prev = tail;
+    if (pool.count == std::numeric_limits<unsigned int>::max())
+        throw std::length_error("native list node count overflow");
+    auto* node = fnv::list::AcquireNode<void>();
+    node->payload = *static_cast<void**>(source);
+    node->previous = tail;
     if (tail)
-    {
         tail->next = node;
-        ++pool.count;
-        tail = node;
-        return node;
-    }
+    else
+        head = node;
     ++pool.count;
-    head = node;
     tail = node;
     return node;
 }
@@ -337,12 +332,7 @@ int CompareFloatAtOffsetC(const void* pLeft, const void* pRight)
 struct P03MM
 {
 };
-struct FUN_00b584e0_Node
-{
-    void* pPrev;
-    void* pNext;
-    void* pData;
-};
+using FUN_00b584e0_Node = fnv::list::Node<void>;
 
 struct FUN_00b584e0_Class
 {
@@ -356,24 +346,19 @@ struct FUN_00b584e0_Class
 // @fnv 0x00b584e0
 FUN_00b584e0_Node* FUN_00b584e0_Class::FUN_00b584e0(void* pData)
 {
-    FUN_00b584e0_Node* pNewNode =
-        static_cast<FUN_00b584e0_Node*>(reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<P03MM*>(&g_memoryManager)))->FUN_00aa3e40(0xc));
-    pNewNode->pData = *static_cast<void**>(pData);
-    pNewNode->pPrev = 0;
-    pNewNode->pNext = pTail;
+    if (ItemUpdateArray == std::numeric_limits<unsigned int>::max())
+        throw std::length_error("native list node count overflow");
+    auto* node = fnv::list::AcquireNode<void>();
+    node->payload = *static_cast<void**>(pData);
+    node->next = nullptr;
+    node->previous = pTail;
     if (pTail)
-    {
-        pTail->pPrev = pNewNode;
-        ++ItemUpdateArray;
-        pTail = pNewNode;
-    }
+        pTail->next = node;
     else
-    {
-        ++ItemUpdateArray;
-        pHead = pNewNode;
-        pTail = pNewNode;
-    }
-    return pNewNode;
+        pHead = node;
+    ++ItemUpdateArray;
+    pTail = node;
+    return node;
 }
 
 struct ImageSpaceShaderParam
@@ -2775,17 +2760,7 @@ NiTStringMapB58* __cdecl GetNiTStringMap()
 struct Region;
 struct Portal;
 struct Frustum;
-struct Link
-{
-    Link* next;
-    Link* prev;
-    Region* data;
-};
-struct PoolLock
-{
-    void Unlock();
-    volatile int owner;
-};
+using Link = fnv::list::Node<Region>;
 struct LinkAllocator
 {
     unsigned count;
@@ -2804,60 +2779,41 @@ struct Pending
     }
     ~Pending()
     {
-        reinterpret_cast<::BSShaderLightingProperty *>(this)->ClearLights();
+        FUN_00b71300();
     }
     void FUN_00b71300() throw();
     Region*& getNext(Link*& p)
     {
-        Region*& data = p->data;
+        Region*& data = p->payload;
         p = p->next;
         return data;
     }
     __forceinline void push(Region* data)
     {
-        Link* n;
-        {
-            reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::PoolLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-            n = (*reinterpret_cast<::Link * *>(&::DAT_011c5f58));
-            if (!n)
-            {
-                FUN_0043a080();
-                n = (*reinterpret_cast<::Link * *>(&::DAT_011c5f58));
-            }
-            (*reinterpret_cast<::Link * *>(&::DAT_011c5f58)) = n->next;
-            n->data = 0;
-            n->next = 0;
-            n->prev = 0;
-            if (!--DAT_011c5f84)
-                (*reinterpret_cast<::PoolLock *>(&::g_011c5f80)).owner = 0;
-            Link* oldTail = tail;
-            n->data = data;
-            n->next = 0;
-            n->prev = oldTail;
-            if (oldTail)
-                oldTail->next = n;
-            else
-                head = n;
-            ++alloc.count;
-            tail = n;
-        }
+        if (alloc.count == std::numeric_limits<unsigned int>::max())
+            throw std::length_error("native list node count overflow");
+        auto* node = fnv::list::AcquireNode<Region>();
+        node->payload = data;
+        node->previous = tail;
+        if (tail)
+            tail->next = node;
+        else
+            head = node;
+        tail = node;
+        ++alloc.count;
     }
     __forceinline Region* pop()
     {
-        Link* n = head;
-        head = n->next;
+        if (!head)
+            return nullptr;
+        auto* node = head;
+        head = node->next;
         if (head)
-            head->prev = 0;
+            head->previous = nullptr;
         else
-            tail = 0;
-        Region* data = n->data;
-        n->data = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::PoolLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-        n->prev = 0;
-        n->next = (*reinterpret_cast<::Link * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::Link * *>(&::DAT_011c5f58)) = n;
-        if (!--DAT_011c5f84)
-            (*reinterpret_cast<::PoolLock *>(&::g_011c5f80)).owner = 0;
+            tail = nullptr;
+        auto* data = node->payload;
+        fnv::list::RecycleNode(node);
         --alloc.count;
         return data;
     }
@@ -2868,39 +2824,22 @@ struct VisitedList : Pending
 };
 __declspec(noinline) Link* LinkAllocator::AddHead()
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::PoolLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-    if (!(*reinterpret_cast<::Link * *>(&::DAT_011c5f58)))
-        FUN_0043a080();
-    Link* n = (*reinterpret_cast<::Link * *>(&::DAT_011c5f58));
-    (*reinterpret_cast<::Link * *>(&::DAT_011c5f58)) = (*reinterpret_cast<::Link * *>(&::DAT_011c5f58))->next;
-    n->data = 0;
-    n->next = 0;
-    n->prev = 0;
-    (*reinterpret_cast<::PoolLock *>(&::g_011c5f80)).Unlock();
-    return n;
+    return fnv::list::AcquireNode<Region>();
 }
 __declspec(noinline) void Pending::FUN_00b71300() throw()
 {
-    Link* n = head;
-    while (n)
+    while (head)
     {
-        Link* cur = n;
-        n = n->next;
-        cur->data = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::PoolLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-        cur->prev = 0;
-        cur->next = (*reinterpret_cast<::Link * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::Link * *>(&::DAT_011c5f58)) = cur;
-        if (!--DAT_011c5f84)
-            (*reinterpret_cast<::PoolLock *>(&::g_011c5f80)).owner = 0;
+        auto* node = head;
+        head = node->next;
+        fnv::list::RecycleNode(node);
     }
     alloc.count = 0;
-    head = 0;
-    tail = 0;
+    tail = nullptr;
 }
 inline Region*& Next(Link*& p)
 {
-    Region*& data = p->data;
+    Region*& data = p->payload;
     p = p->next;
     return data;
 }
@@ -3280,9 +3219,9 @@ void Traversal::UpdateVisibility(Region* start, View* view, void* arg, bool rese
         }
         {
             Link* n = ((::Link *)(reinterpret_cast<::FUN_0043a010_shell *>(&(pending.alloc))->FUN_0043a010()));
-            n->data = 0;
-            n->next = 0;
-            n->prev = 0;
+            n->payload = nullptr;
+            n->next = nullptr;
+            n->previous = nullptr;
             pending.head = n;
             pending.tail = n;
             pending.alloc.count = 1;
@@ -3311,9 +3250,9 @@ void Traversal::UpdateVisibility(Region* start, View* view, void* arg, bool rese
         reinterpret_cast<::FUN_0045c4e0_This *>((start))->SetFieldCC(f);
         {
             Link* n = ((::Link *)(reinterpret_cast<::FUN_0043a010_shell *>(&(pending.alloc))->FUN_0043a010()));
-            n->data = start;
-            n->next = 0;
-            n->prev = 0;
+            n->payload = start;
+            n->next = nullptr;
+            n->previous = nullptr;
             pending.head = n;
             pending.tail = n;
             pending.alloc.count = 1;

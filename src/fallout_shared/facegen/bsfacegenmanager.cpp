@@ -1,4 +1,5 @@
 #include "AutoMemContext.h"
+#include "fnv/list_node.h"
 // fallout_shared/facegen/bsfacegenmanager.cpp: BSFaceGenManager, FGModelCache, BSFaceGenModelMap_t, TESRace and more (111 functions)
 
 #include <cstdint>
@@ -7329,13 +7330,8 @@ void FUN_00a68e30_shell::FUN_00a68e30()
             m_pkTail = 0;
 
         node->data = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         node->prev = 0;
-        node->next = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-        --DAT_011c5f84;
-        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
-        if (!DAT_011c5f84)
-            (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
+        fnv::list::RecycleStorage(node);
 
         --m_uiCount;
     }

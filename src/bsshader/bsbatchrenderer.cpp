@@ -1,4 +1,5 @@
 #include "fnv/tls.h"
+#include "fnv/list_node.h"
 #include <cstdint>
 #include <new>
 #include <cstddef>
@@ -1758,20 +1759,11 @@ struct PoolLock
 };
 static inline AlphaNode* PoolCreateNode()
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00b9ac80::PoolLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-    AlphaNode* pkNode = (AlphaNode*)::DAT_011c5f58;
-    if (pkNode == 0)
-    {
-        ::FUN_0043a080();
-        pkNode = (AlphaNode*)::DAT_011c5f58;
-    }
-    ::DAT_011c5f58 = pkNode->m_pkNext;
-    pkNode->m_element = 0;
-    pkNode->m_pkNext = 0;
-    pkNode->m_pkPrev = 0;
-    if (--::DAT_011c5f84 == 0)
-        (*reinterpret_cast<int *>(&::g_011c5f80)) = 0;
-    return pkNode;
+    auto* node = static_cast<AlphaNode*>(fnv::list::AcquireStorage());
+    node->m_element = nullptr;
+    node->m_pkNext = nullptr;
+    node->m_pkPrev = nullptr;
+    return node;
 }
 // @fnv 0x00b9ac80
 void AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound* pBound, bool bFlag1,

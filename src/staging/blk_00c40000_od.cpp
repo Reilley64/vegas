@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "runtime/crt.h"
+#include "fnv/list_node.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B44F890Collection.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -12464,21 +12465,15 @@ struct PoolLock332
     }
 };
 
-extern PoolLock332 g_011c5f80;
-
-extern ListNode332* NiTAbstractPoolAllocator_unsigned_int_instance;
 
 struct Pool332
 {
     unsigned int count;
     void FUN_0045cee0(void* memory)
     {
-        g_011c5f80.Lock(0);
-        ListNode332* node = (ListNode332*)memory;
+        auto* node = static_cast<ListNode332*>(memory);
         node->previous = 0;
-        node->next = NiTAbstractPoolAllocator_unsigned_int_instance;
-        NiTAbstractPoolAllocator_unsigned_int_instance = node;
-        g_011c5f80.Unlock();
+        fnv::list::RecycleStorage(node);
     }
 };
 
@@ -22983,12 +22978,9 @@ public:
 
 template <> inline void NiTPointerAllocator<unsigned int>::Deallocate(void* pointer)
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&(ms_kPoolState))->FUN_0040fbf0((char *)(0));
-    LinkedListEntry* node = static_cast<LinkedListEntry*>(pointer);
+    auto* node = static_cast<LinkedListEntry*>(pointer);
     node->m_pUserData = 0;
-    node->m_pkNext = ms_pFreeList;
-    ms_pFreeList = node;
-    reinterpret_cast<::RecursiveSpinLock *>(&(ms_kPoolState))->FUN_0040fba0();
+    fnv::list::RecycleStorage(node);
 }
 
 struct MyNode

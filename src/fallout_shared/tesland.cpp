@@ -1,4 +1,5 @@
 #include "AutoMemContext.h"
+#include "fnv/list_node.h"
 // fallout_shared/tesland.cpp: TESPackage (7 functions)
 
 #include "fnv/decl/fnv_0041bb10__FUN_0041bb10_Class.h"
@@ -1440,13 +1441,8 @@ struct CacheList
             if (next)
                 next->previous = previous;
             slot = 0;
-            reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00b61370::CacheLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
             node->previous = 0;
-            node->next = (*reinterpret_cast<::fnv_00b61370::CacheListNode * *>(&::DAT_011c5f58));
-            (*reinterpret_cast<::fnv_00b61370::CacheLock *>(&::g_011c5f80)).live--;
-            (*reinterpret_cast<::fnv_00b61370::CacheListNode * *>(&::DAT_011c5f58)) = node;
-            if (!(*reinterpret_cast<::fnv_00b61370::CacheLock *>(&::g_011c5f80)).live)
-                (*reinterpret_cast<::fnv_00b61370::CacheLock *>(&::g_011c5f80)).state = 0;
+            fnv::list::RecycleStorage(node);
             count--;
             return item;
         }

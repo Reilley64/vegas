@@ -3,6 +3,7 @@
 // bsshader/bstexturemanager.cpp: free functions (3 functions)
 
 #include <windows.h>
+#include "fnv/list_node.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/S_004a0e10.h"
@@ -276,12 +277,9 @@ template <class T> class StubPtrAlloc : public StubPoolAlloc<T>
   public:
     void Deallocate(void* p)
     {
-        StubPoolAlloc<T>::ms_kPoolLock.Lock(0);
-        typename StubPoolAlloc<T>::LinkedListEntry* pkDel = (typename StubPoolAlloc<T>::LinkedListEntry*)p;
-        pkDel->m_pUserData = 0;
-        pkDel->m_pkNext = StubPoolAlloc<T>::ms_pFreeList;
-        StubPoolAlloc<T>::ms_pFreeList = pkDel;
-        StubPoolAlloc<T>::ms_kPoolLock.Unlock();
+        auto* node = static_cast<typename StubPoolAlloc<T>::LinkedListEntry*>(p);
+        node->m_pUserData = 0;
+        fnv::list::RecycleStorage(node);
     }
 };
 

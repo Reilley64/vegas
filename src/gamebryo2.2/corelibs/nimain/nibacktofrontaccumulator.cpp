@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "generated/data/vtables.h"
+#include "fnv/list_node.h"
 #include <new>
 #include "fnv/decl/BSShaderLightingProperty.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -263,13 +264,8 @@ void S_00aa0d00_Base::ReleaseAllItems()
             else
                 tail = 0;
             pNode->data = 0;
-            reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::S_00aa0d00_Aux *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
             pNode->prev = 0;
-            pNode->next = (*reinterpret_cast<::S_00aa0d00_Node * *>(&::DAT_011c5f58));
-            --DAT_011c5f84;
-            (*reinterpret_cast<::S_00aa0d00_Node * *>(&::DAT_011c5f58)) = pNode;
-            if (DAT_011c5f84 == 0)
-                (*reinterpret_cast<::S_00aa0d00_Aux *>(&::g_011c5f80)).unk00 = 0;
+            fnv::list::RecycleStorage(pNode);
             count--;
         }
         reinterpret_cast<::NiAccumulator *>(this)->ClearCamera();
@@ -409,16 +405,8 @@ void C_00aa0dc0::FUN_00aa0dc0()
         }
 
         item->data = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::S_00aa0d00_Aux *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         item->prev = 0;
-        item->next = (*reinterpret_cast<::S_00aa0d00_Node * *>(&::DAT_011c5f58));
-
-        --DAT_011c5f84;
-        (*reinterpret_cast<::S_00aa0d00_Node * *>(&::DAT_011c5f58)) = item;
-        if (DAT_011c5f84 == 0)
-        {
-            (*reinterpret_cast<::S_00aa0d00_Aux *>(&::g_011c5f80)).unk00 = 0;
-        }
+        fnv::list::RecycleStorage(item);
 
         --self->m_kUnsortedGeometryList.m_uiCount;
     }
@@ -585,23 +573,11 @@ typedef PoolAllocatorBase<NiBackToFrontListItem> NiBackToFrontItemPool;
 
 static inline NiBackToFrontListItem* NewListItem()
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-    NiBackToFrontItemPool::LinkedListEntry* pkReturn = (*reinterpret_cast<::PoolAllocatorBase< ::NiBackToFrontListItem>::LinkedListEntry * *>(&::DAT_011c5f58));
-    if (pkReturn == 0)
-    {
-        FUN_0043a080();
-        pkReturn = (*reinterpret_cast<::PoolAllocatorBase< ::NiBackToFrontListItem>::LinkedListEntry * *>(&::DAT_011c5f58));
-    }
-    (*reinterpret_cast<::PoolAllocatorBase< ::NiBackToFrontListItem>::LinkedListEntry * *>(&::DAT_011c5f58)) = (*reinterpret_cast<::PoolAllocatorBase< ::NiBackToFrontListItem>::LinkedListEntry * *>(&::DAT_011c5f58))->m_pkNext;
-    NiBackToFrontListItem* pkItem = reinterpret_cast<NiBackToFrontListItem*>(pkReturn);
-    pkItem->m_pInventoryEntryData = 0;
-    pkItem->m_pkNext = 0;
-    pkItem->m_pkPrevious = 0;
-    if (--(*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).m_uiCount == 0)
-    {
-        (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).m_uiLock = 0;
-    }
-    return pkItem;
+    auto* item = static_cast<NiBackToFrontListItem*>(fnv::list::AcquireStorage());
+    item->m_pInventoryEntryData = nullptr;
+    item->m_pkNext = nullptr;
+    item->m_pkPrevious = nullptr;
+    return item;
 }
 
 static inline void AddNodeTail(NiBackToFrontGeometryList& kList, NiBackToFrontListItem* pkNode)

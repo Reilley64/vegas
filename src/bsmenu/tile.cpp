@@ -1,4 +1,5 @@
 #include "fnv/tls.h"
+#include "fnv/list_node.h"
 #include "global_string_header.h"
 #include <new>
 #include <cstddef>
@@ -4973,7 +4974,6 @@ struct ReleaseNode {
 struct ReleaseChild { virtual ~ReleaseChild(); };
 struct ReleaseLink { ReleaseLink* next; ReleaseLink* prev; ReleaseChild* value; };
 struct ChildPoolBlock { ChildPoolBlock* next; void* data; };
-extern ChildPoolBlock* DAT_011c5f58;
 unsigned int __cdecl gm_GetCurrentThreadId();
 void __cdecl FUN_0040fca0(unsigned long);
 void __cdecl FUN_0040fbe0(...);
@@ -4996,16 +4996,12 @@ struct ChildPoolLock {
     }
     void Unlock();
 };
-extern ChildPoolLock g_011c5f80;
 struct ChildAllocator {
     unsigned int count;
     __forceinline void Deallocate(void* pointer) {
-        g_011c5f80.Lock(0);
-        ChildPoolBlock* block = (ChildPoolBlock*)pointer;
-        block->data = 0;
-        block->next = DAT_011c5f58;
-        DAT_011c5f58 = block;
-        g_011c5f80.Unlock();
+        auto* block = static_cast<ChildPoolBlock*>(pointer);
+        block->data = nullptr;
+        fnv::list::RecycleStorage(block);
     }
 };
 struct ReleaseChildren {
@@ -6847,48 +6843,19 @@ struct ParsedPoolLock {
         if (!recursion) owner = 0;
     }
 };
-extern ParsedPoolLock DAT_011c5f80;
-extern ParsedNode* DAT_011c5f58;
-extern unsigned int DAT_01188f7c;
-extern ParsedNode* DAT_011c5f54;
-inline void FUN_0043a080() {
-    DAT_011c5f58 = new ParsedNode[DAT_01188f7c];
-    ParsedNode* node = DAT_011c5f58 + DAT_01188f7c - 1;
-    node->next = 0;
-    unsigned int index = 1;
-    do {
-        node = DAT_011c5f58 + index;
-        node->next = node + 1;
-    } while (index++ < DAT_01188f7c - 2);
-    if (DAT_011c5f54) {
-        DAT_011c5f58->next = DAT_011c5f54;
-        DAT_011c5f54 = DAT_011c5f58;
-    } else {
-        DAT_011c5f54 = DAT_011c5f58;
-        DAT_011c5f54->next = 0;
-    }
-    ++DAT_011c5f58;
-}
 struct ParsedAllocator {
     unsigned count;
     ParsedNode* FUN_0043a010() {
-        DAT_011c5f80.FUN_0040fbf0(0);
-        if (!DAT_011c5f58) FUN_0043a080();
-        ParsedNode* node = DAT_011c5f58;
-        DAT_011c5f58 = DAT_011c5f58->next;
-        node->value = 0;
-        node->next = 0;
-        node->previous = 0;
-        DAT_011c5f80.FUN_0040fba0();
+        auto* node = static_cast<ParsedNode*>(fnv::list::AcquireStorage());
+        node->value = nullptr;
+        node->next = nullptr;
+        node->previous = nullptr;
         return node;
     }
     void FUN_0045cee0(ParsedNode* node) {
-        DAT_011c5f80.FUN_0040fbf0(0);
-        ParsedNode* item = node;
-        item->previous = 0;
-        item->next = DAT_011c5f58;
-        DAT_011c5f58 = item;
-        DAT_011c5f80.FUN_0040fba0();
+        node->value = nullptr;
+        node->previous = nullptr;
+        fnv::list::RecycleStorage(node);
     }
 };
 struct ParsedList {

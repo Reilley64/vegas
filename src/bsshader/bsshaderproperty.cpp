@@ -31,9 +31,7 @@
 #include "fnv/symbols_01200000.h"
 #include "fnv/symbols_01272000.h"
 #include "bsshaderproperty_decls.h"
-#include "fnv/decl/FUN_0040fbf0_shell.h"
-#include "fnv/symbols_0043a000.h"
-#include "fnv/symbols_011c5000.h"
+#include "fnv/list_node.h"
 
 // Initializes the shader property with geometry, pass, first-pass flag, light count, and copies the given lights into a newly allocated array.
 // @fnv 0x00ba8ec0
@@ -921,22 +919,8 @@ BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(NiGeometry* g
 }
 }  // namespace fnv_00bb73f0
 
-struct RecursiveSpinLock
-{
-public:
-    void FUN_0040fba0();
-};
-
-struct PoolMemoryAllocator
-{
-};
-
-struct FUN_0043a010_t
-{
-    FUN_0043a010_t* m_pNext;
-    void* m_pInventoryEntryData;
-    void* m_pItem2;
-};
+struct FUN_0043a010_t : fnv::list::Node<void>
+{};
 
 struct FUN_0043a010_shell
 {
@@ -946,16 +930,8 @@ struct FUN_0043a010_shell
 // @fnv 0x0043a010
 FUN_0043a010_t* FUN_0043a010_shell::FUN_0043a010()
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-    if (DAT_011c5f58 == 0)
-        ::FUN_0043a080();
-    FUN_0043a010_t* pkNode = (FUN_0043a010_t*)DAT_011c5f58;
-    DAT_011c5f58 = ((FUN_0043a010_t*)DAT_011c5f58)->m_pNext;
-    pkNode->m_pItem2 = 0;
-    pkNode->m_pNext = 0;
-    pkNode->m_pInventoryEntryData = 0;
-    reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fba0();
-    return pkNode;
+    auto* storage = fnv::list::AcquireStorage();
+    return std::construct_at(static_cast<FUN_0043a010_t*>(storage));
 }
 
 #include "generated/data/bsshader/bsshaderproperty.inc"

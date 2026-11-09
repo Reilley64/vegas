@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <windows.h>
 #include <new>
+#include "fnv/list_node.h"
 #include "fnv/decl/BoneHost.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/E7DE90Owner.h"
@@ -57,12 +58,8 @@ void ShaderCache::BindGPUProgram()
             tail = 0;
         ShaderEntry* entry = (ShaderEntry*)node->data;
         node->data = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         node->prev = 0;
-        node->next = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
-        if (--DAT_011c5f84 == 0)
-            (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
+        fnv::list::RecycleStorage(node);
         --count;
         ShaderData* data = entry->data;
         typedef void(* SetFunction)(Device*, unsigned int, unsigned int);

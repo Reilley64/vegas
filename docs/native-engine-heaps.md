@@ -231,6 +231,12 @@ owner cleanup during unwinding. It also exercises accepted guard restoration
 through actual allocation routing. It does not construct substitute heaps/managers,
 install a provider, or claim successful full engine startup.
 
+The common three-pointer list-node owner is another bounded client of this same
+manager. Its refill blocks follow the caller's typed TLS context, recycle under
+one native owner lock, and retire through the original allocation domain before
+heap shutdown. See `docs/native-list-node-lifecycle.md`. It adds no host pool or
+successful full-startup claim.
+
 The suite also uses the actual production getter/global, allocation boundary
 and NiPalette retirement boundary. It executes both original startup rejection
 entries (including the exact `00aa3880` constructor) before and after heap init;

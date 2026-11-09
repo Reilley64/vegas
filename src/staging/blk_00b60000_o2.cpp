@@ -4,6 +4,7 @@
 
 #include "fnv/symbols_00ba8000.h"
 #include "fnv/water_shader_property.h"
+#include "fnv/list_node.h"
 #include "fnv/decl/CopyObject.h"
 #include "fnv/symbols_00bc3000.h"
 #include "fnv/tls.h"
@@ -586,7 +587,6 @@ void FUN_00b60d70(void* self, int, int value)
 struct RecursiveSpinLock
 {
 };
-extern unsigned int DAT_011c5f84;
 struct NiTAbstractPoolAllocator_unsigned_int
 {
     struct LinkedListEntry
@@ -602,13 +602,8 @@ void FreePoolNode(void* p)
 {
     NiTAbstractPoolAllocator_unsigned_int::LinkedListEntry* n = (NiTAbstractPoolAllocator_unsigned_int::LinkedListEntry*)p;
     *(unsigned char*)&n->m_uiSize = 0;
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&(g_011c5f80))->FUN_0040fbf0((char *)(0));
     n->m_pkPrev = 0;
-    n->m_pkNext = NiTAbstractPoolAllocator_unsigned_int::ms_pFreeList;
-    --DAT_011c5f84;
-    NiTAbstractPoolAllocator_unsigned_int::ms_pFreeList = n;
-    if (!DAT_011c5f84)
-        *(unsigned int*)&g_011c5f80 = 0;
+    fnv::list::RecycleStorage(n);
 }
 
 extern int DAT_011ff9f0;
@@ -7943,7 +7938,6 @@ struct CopyNode
     void* data;
 };
 extern unsigned DAT_011c5f80;
-extern unsigned DAT_011c5f84;
 static __forceinline void AssignRef(CmPointer<CmObject>& target, const CmPointer<CmObject>& source)
 {
     CmObject*& dst = target.m_pObject;
@@ -7961,21 +7955,7 @@ static __forceinline void AssignRef(CmPointer<CmObject>& target, const CmPointer
 static __forceinline void AppendCopy(CmList* dest, void* const& value, unsigned count)
 {
     void* data = value;
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&(g_011c5f80))->FUN_0040fbf0((char *)(0));
-    NiTAbstractPoolAllocator_unsigned_int::LinkedListEntry* raw = NiTAbstractPoolAllocator_unsigned_int::ms_pFreeList;
-    if (!raw)
-    {
-        ::FUN_0043a080();
-        raw = NiTAbstractPoolAllocator_unsigned_int::ms_pFreeList;
-    }
-    NiTAbstractPoolAllocator_unsigned_int::ms_pFreeList =
-        (NiTAbstractPoolAllocator_unsigned_int::LinkedListEntry*)raw->m_pkNext;
-    raw->m_uiSize = 0;
-    raw->m_pkNext = 0;
-    raw->m_pkPrev = 0;
-    if (!(DAT_011c5f84 -= count))
-        DAT_011c5f80 = 0;
-    CopyNode* item = (CopyNode*)raw;
+    auto* item = static_cast<CopyNode*>(fnv::list::AcquireStorage());
     item->data = data;
     item->next = 0;
     item->prev = static_cast<CopyNode*>(dest->m_pTail);
@@ -8601,14 +8581,9 @@ struct StringOwner
 
 template <class T> inline void NiTPointerAllocator<T>::Deallocate(void* pointer)
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&(g_011c5f80))->FUN_0040fbf0((char *)(0));
-    typename PoolAllocatorBase<T>::LinkedListEntry* pkDelNode =
-        (typename PoolAllocatorBase<T>::LinkedListEntry*)pointer;
-    pkDelNode->m_pUserData = 0;
-    pkDelNode->m_pkNext = PoolAllocatorBase<T>::ms_pFreeList;
-    PoolAllocatorBase<T>::ms_pFreeList = pkDelNode;
-    if (--DAT_011c5f84 == 0)
-        DAT_011c5f80 = 0;
+    auto* node = static_cast<typename PoolAllocatorBase<T>::LinkedListEntry*>(pointer);
+    node->m_pUserData = 0;
+    fnv::list::RecycleStorage(node);
 }
 
 template <class Allocator, class T> inline void NiTPointerListBase<Allocator, T>::DeleteItem(NiTListItem<T>* pkItem)

@@ -6,6 +6,7 @@
 #include <new>
 #include <cstring>
 #include "runtime/crt.h"
+#include "fnv/list_node.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A72720StreamSet.h"
 #include "fnv/decl/AlphaList.h"
@@ -244,11 +245,8 @@ char* NiTPointerListBaseT<NiTPointerAllocator<unsigned int>,char*>::RemoveTail()
  else head = 0;
  char* result = node->data;
  node->data = 0;
- reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
  node->prev = 0;
- node->next = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
- (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
- if (--DAT_011c5f84 == 0) (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
+ fnv::list::RecycleStorage(node);
  --count;
  return result;
 }
@@ -522,13 +520,8 @@ struct LinkedListEntry { LinkedListEntry* next; LinkedListEntry* prev; char* dat
 void FUN_00e6e8a0(LinkedListEntry* pNode)
 {
     pNode->data = 0;
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
     pNode->prev = 0;
-    pNode->next = (LinkedListEntry*)(*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-    --DAT_011c5f84;
-    (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = (PoolAllocatorBase<unsigned int>::LinkedListEntry*)pNode;
-    if (!DAT_011c5f84)
-        (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
+    fnv::list::RecycleStorage(pNode);
 }
 
 struct NiTMapBase_StandIn {
@@ -1971,28 +1964,15 @@ char* FUN_00e6c690_shell::GetDepthDeviceDescription()
 }
 
 
-// Releases the object's referenced node via a decrement-and-destroy, then resets its fields and pushes it onto the DAT_011c5f58 list under a lock.
+// Releases the node's typed native payload and returns its complete
+// three-pointer storage to the canonical manager-owned pool.
 // @fnv 0x00e6e830
-void ReleaseRefCountedNode(void* param_1)
+void ReleaseRefCountedNode(void* storage)
 {
-    void** p = (void**)param_1;
-    void* node = p[2];
-    if (node)
-    {
-        void** obj = (void**)node;
-        if (InterlockedDecrement((long*)((char*)node + 4)) == 0)
-        {
-            void** vt = (void**)*obj;
-            ((void (*)(void*))vt[1])(node);
-        }
-        p[2] = 0;
-    }
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-    p[1] = 0;
-    p[0] = DAT_011c5f58;
-    DAT_011c5f58 = param_1;
-    if (--DAT_011c5f84 == 0)
-        (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
+    // The sole producer supplies one native three-pointer node. This conversion
+    // starts from that typed allocation boundary; it does not infer a payload
+    // offset or dispatch through bytes beside the pointer.
+    fnv::list::Retire(static_cast<fnv::list::RetainedNode*>(storage));
 }
 
 struct FUN_00e76500_shell
@@ -7167,14 +7147,8 @@ bool FUN_00e75000_cls::ProcessPendingNodes() {
                 }
                 node->m_08 = 0;
             }
-            reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
             node->m_04 = 0;
-            node->m_00 = (PoolNode_e75*)DAT_011c5f58;
-            DAT_011c5f84 -= 1;
-            DAT_011c5f58 = node;
-            if (DAT_011c5f84 == 0) {
-                (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
-            }
+            fnv::list::RecycleStorage(node);
             m_0908 -= 1;
             obj->Process();
             if (InterlockedDecrement(&obj->m_04) == 0) {
@@ -7794,12 +7768,8 @@ void Renderer::RenderInput(Input* input) {
 struct ShaderList : NiTPointerListBaseT<NiTPointerAllocator<unsigned int>, char*> {
     static void FreeNode(Node* pkNode) {
         pkNode->data = 0;
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         pkNode->prev = 0;
-        pkNode->next = (Node*)DAT_011c5f58;
-        DAT_011c5f58 = pkNode;
-        if (--DAT_011c5f84 == 0)
-            (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
+        fnv::list::RecycleStorage(pkNode);
     }
     char*& GetNext(Node*& pkPos) {
         char*& element = pkPos->data;
@@ -25164,28 +25134,15 @@ void PackingManager_cc0::FUN_00e74cc0(PackingEntry_cc0* entry)
     }
 }
 
-class RObj74 { public:
-    virtual ~RObj74();
-    virtual void DeleteThis();
-    long m_uiRefCount;
-    void IncRefCount() { InterlockedIncrement(&m_uiRefCount); }
-    void DecRefCount() { if (InterlockedDecrement(&m_uiRefCount) == 0) DeleteThis(); }
-};
-class RPtr74 { public:
-    RObj74* m_p;
-    RPtr74(const RPtr74& o) : m_p(o.m_p) { if (m_p) m_p->IncRefCount(); }
-    ~RPtr74() { if (m_p) m_p->DecRefCount(); }
-};
-struct Node74 { Node74* next; Node74* prev; RPtr74 elem; };
+using RObj74 = NiRefObject;
+using Node74 = fnv::list::RetainedNode;
 struct List74 {
-    Node74* head; Node74* tail; unsigned int count;
-    void RemoveHead() {
-        Node74* n = head;
-        head = n->next;
-        if (head) head->prev = 0; else tail = 0;
-        RPtr74 e = n->elem;
-        ::ReleaseRefCountedNode((void *)(n));
-        count--;
+    Node74* head;
+    Node74* tail;
+    unsigned int count;
+    void RemoveHead()
+    {
+        auto retained = fnv::list::PopFront(head, tail, count);
     }
     bool IsEmpty() const { return count == 0; }
     unsigned int GetSize() const { return count; }

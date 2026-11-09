@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "fnv/skin_bone_set.h"
+#include "fnv/list_node.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -115,14 +116,10 @@ struct RecursiveSpinLock
 // @fnv 0x00a82620
 void PoolFreeUIntNode(void* apNode)
 {
-    *(float*)((char*)apNode + 8) = 0.0f;
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-    *(int*)((char*)apNode + 4) = 0;
-    *(void***)apNode = *(void***)&(*reinterpret_cast<::NiTAbstractPoolAllocator_unsigned_int *>(&::DAT_011c5f58)).ms_pFreeList;
-    --DAT_011c5f84;
-    *(void***)&(*reinterpret_cast<::NiTAbstractPoolAllocator_unsigned_int *>(&::DAT_011c5f58)).ms_pFreeList = (void**)apNode;
-    if (!DAT_011c5f84)
-        *(unsigned int*)&(*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)) = 0;
+    auto* node = static_cast<fnv::list::Node<void>*>(apNode);
+    node->previous = nullptr;
+    node->payload = nullptr;
+    fnv::list::RecycleNode(node);
 }
 
 namespace fnv_00a82670 {

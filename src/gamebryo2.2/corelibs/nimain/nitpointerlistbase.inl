@@ -1,4 +1,5 @@
 
+#include "fnv/list_node.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_0043a010_shell.h"
 #include "fnv/decl/FUN_0045cee0_shell.h"
@@ -17,11 +18,8 @@ template<class T> void NiTPointerAllocator<T>::Deallocate(void* pointer)
 {
     typedef typename PoolAllocatorBase<T>::LinkedListEntry LinkedListEntry;
     LinkedListEntry* node = static_cast<LinkedListEntry*>(pointer);
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
     node->m_pUserData = 0;
-    node->m_pkNext = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-    (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
-    reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fba0();
+    fnv::list::RecycleStorage(node);
 }
 
 template<class Allocator, class T>

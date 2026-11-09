@@ -2,6 +2,7 @@
 #ifndef FNV_NIDYNAMICEFFECT_DECLS_H
 #define FNV_NIDYNAMICEFFECT_DECLS_H
 
+#include "fnv/list_node.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_00462d80_shell.h"
 #include "fnv/symbols_0043a000.h"
@@ -56,20 +57,11 @@ template <class T> class PoolMemoryAllocator : public PoolAllocatorBase<T>
 };
 inline NiTListItem<NiNode*>* NiDynamicEffectNewListItem()
 {
-    typedef PoolAllocatorBase<unsigned int> Pool;
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-    Pool::LinkedListEntry* item = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-    if (!item)
-    {
-        ::FUN_0043a080();
-        item = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-    }
-    (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = item->m_pkNext;
-    item->m_element = 0;
-    item->m_pkNext = 0;
-    item->m_pUserData = 0;
-    reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fba0();
-    return reinterpret_cast<NiTListItem<NiNode*>*>(item);
+    auto* item = static_cast<NiTListItem<NiNode*>*>(fnv::list::AcquireStorage());
+    item->m_element = nullptr;
+    item->m_pkNext = nullptr;
+    item->m_pkPrev = nullptr;
+    return item;
 }
 struct NiDynamicEffectTransform
 {

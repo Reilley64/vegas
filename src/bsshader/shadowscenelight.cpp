@@ -231,26 +231,18 @@ GlobalObjectO2_00b9fda0* FUN_00ba00e0(GlobalObjectO2_00b9fda0* this_ptr, int /*e
     return this_ptr;
 }
 
-struct ListItem_b9e7c0
-{
-    ListItem_b9e7c0* m_pkNext;
-    ListItem_b9e7c0* m_pkPrev;
-    NiRefObject* m_element;
-};
+using ListItem_b9e7c0 = fnv::list::RetainedNode;
 
 struct RefPtr_b9e7c0
 {
     NiRefObject* m_pObject;
     RefPtr_b9e7c0(NiRefObject* p) : m_pObject(p)
     {
-        if (m_pObject)
-            m_pObject->IncRefCount();
+        if (!fnv::list::TryRetainPayload(m_pObject))
+            throw std::overflow_error("native payload reference count overflow");
     }
-    RefPtr_b9e7c0(const RefPtr_b9e7c0& o) : m_pObject(o.m_pObject)
-    {
-        if (m_pObject)
-            m_pObject->IncRefCount();
-    }
+    RefPtr_b9e7c0(const RefPtr_b9e7c0& o) : RefPtr_b9e7c0(o.m_pObject)
+    {}
     ~RefPtr_b9e7c0()
     {
         if (m_pObject)
@@ -271,15 +263,9 @@ struct FUN_00b9e7c0_list
 // @fnv 0x00b9e7c0
 RefPtr_b9e7c0 FUN_00b9e7c0_list::PopFront()
 {
-    ListItem_b9e7c0* pkNode = m_pkHead;
-    m_pkHead = m_pkHead->m_pkNext;
-    if (m_pkHead)
-        m_pkHead->m_pkPrev = 0;
-    else
-        m_pkTail = 0;
-    RefPtr_b9e7c0 element = pkNode->m_element;
-    ::ReleaseRefCountedNode((void *)(pkNode));
-    m_uiCount--;
+    auto retained = fnv::list::PopFront(m_pkHead, m_pkTail, m_uiCount);
+    RefPtr_b9e7c0 element(nullptr);
+    element.m_pObject = retained.Release();
     return element;
 }
 
@@ -288,14 +274,11 @@ struct RefPtr_b9fcc0
     NiRefObject* m_pObject;
     RefPtr_b9fcc0(NiRefObject* p) : m_pObject(p)
     {
-        if (m_pObject)
-            m_pObject->IncRefCount();
+        if (!fnv::list::TryRetainPayload(m_pObject))
+            throw std::overflow_error("native payload reference count overflow");
     }
-    RefPtr_b9fcc0(const RefPtr_b9fcc0& o) : m_pObject(o.m_pObject)
-    {
-        if (m_pObject)
-            m_pObject->IncRefCount();
-    }
+    RefPtr_b9fcc0(const RefPtr_b9fcc0& o) : RefPtr_b9fcc0(o.m_pObject)
+    {}
     ~RefPtr_b9fcc0()
     {
         if (m_pObject)
@@ -307,12 +290,7 @@ struct RefPtr_b9fcc0
     }
 };
 
-struct ListItem_b9fcc0
-{
-    ListItem_b9fcc0* m_pkNext;
-    ListItem_b9fcc0* m_pkPrev;
-    RefPtr_b9fcc0 m_element;
-};
+using ListItem_b9fcc0 = fnv::list::RetainedNode;
 
 struct List_b9fcc0
 {
@@ -324,23 +302,24 @@ struct List_b9fcc0
     {
         return m_pkHead;
     }
-    const RefPtr_b9fcc0& GetNext(void*& kPos) const
+    NiRefObject* GetNext(void*& kPos) const
     {
-        const RefPtr_b9fcc0& element = ((ListItem_b9fcc0*)kPos)->m_element;
-        kPos = ((ListItem_b9fcc0*)kPos)->m_pkNext;
+        auto* node = static_cast<ListItem_b9fcc0*>(kPos);
+        auto* element = node->payload;
+        kPos = node->next;
         return element;
     }
-    void* FindPos(const RefPtr_b9fcc0& element, void* kStart = 0) const
+    void* FindPos(const RefPtr_b9fcc0& element, void* kStart = nullptr) const
     {
-        if (kStart == 0)
+        if (!kStart)
             kStart = GetHeadPos();
         while (kStart)
         {
             void* kPos = kStart;
-            if (element == GetNext(kStart))
+            if (element.m_pObject == GetNext(kStart))
                 return kPos;
         }
-        return 0;
+        return nullptr;
     }
     RefPtr_b9fcc0 FUN_00b9efa0(void*& kPos);
     RefPtr_b9fcc0 FUN_00b9fcc0(const RefPtr_b9fcc0& element);
@@ -353,26 +332,18 @@ RefPtr_b9fcc0 List_b9fcc0::FUN_00b9fcc0(const RefPtr_b9fcc0& element)
     return kPos ? FUN_00b9efa0(kPos) : element;
 }
 
-struct ListItem_b9e850
-{
-    ListItem_b9e850* m_pkNext;
-    ListItem_b9e850* m_pkPrev;
-    NiRefObject* m_element;
-};
+using ListItem_b9e850 = fnv::list::RetainedNode;
 
 struct RefPtr_b9e850
 {
     NiRefObject* m_pObject;
     RefPtr_b9e850(NiRefObject* p) : m_pObject(p)
     {
-        if (m_pObject)
-            m_pObject->IncRefCount();
+        if (!fnv::list::TryRetainPayload(m_pObject))
+            throw std::overflow_error("native payload reference count overflow");
     }
-    RefPtr_b9e850(const RefPtr_b9e850& o) : m_pObject(o.m_pObject)
-    {
-        if (m_pObject)
-            m_pObject->IncRefCount();
-    }
+    RefPtr_b9e850(const RefPtr_b9e850& o) : RefPtr_b9e850(o.m_pObject)
+    {}
     ~RefPtr_b9e850()
     {
         if (m_pObject)
@@ -393,15 +364,9 @@ struct FUN_00b9e850_list
 // @fnv 0x00b9e850
 RefPtr_b9e850 FUN_00b9e850_list::PopBack()
 {
-    ListItem_b9e850* pkNode = m_pkTail;
-    m_pkTail = m_pkTail->m_pkPrev;
-    if (m_pkTail)
-        m_pkTail->m_pkNext = 0;
-    else
-        m_pkHead = 0;
-    RefPtr_b9e850 element = pkNode->m_element;
-    ::ReleaseRefCountedNode((void *)(pkNode));
-    m_uiCount--;
+    auto retained = fnv::list::PopBack(m_pkHead, m_pkTail, m_uiCount);
+    RefPtr_b9e850 element(nullptr);
+    element.m_pObject = retained.Release();
     return element;
 }
 
@@ -1169,12 +1134,7 @@ void LightView::RenderFaces()
     (*reinterpret_cast<::RendererView * *>(&::DAT_011f9508))->slot43(&old);
 }
 
-struct BoundListItem
-{
-    BoundListItem* next;
-    BoundListItem* previous;
-    NiPointer<NiRefObject> element;
-};
+using BoundListItem = fnv::list::RetainedNode;
 struct BoundAllocator
 {
     unsigned int count;
@@ -1186,7 +1146,6 @@ struct RemovalList
     BoundListItem* m_pkTail;
     unsigned int m_uiCount;
     __declspec(noinline) NiPointer<NiRefObject> PopBack();
-    void ReleaseRefCountedNode(BoundListItem* item);
 };
 struct ActiveList
 {
@@ -1197,28 +1156,13 @@ struct ActiveList
 };
 void ActiveList::FUN_00a5a310(const NiPointer<NiRefObject>& item)
 {
-    BoundListItem* entry = allocator.FUN_0043a010();
-    entry->element = item;
-    entry->next = 0;
-    entry->previous = tail;
-    if (tail)
-        tail->next = entry;
-    else
-        head = entry;
-    ++allocator.count;
-    tail = entry;
+    fnv::list::PushBack(head, tail, allocator.count, item.m_pObject);
 }
 NiPointer<NiRefObject> RemovalList::PopBack()
 {
-    BoundListItem* entry = m_pkTail;
-    m_pkTail = entry->previous;
-    if (m_pkTail)
-        m_pkTail->next = 0;
-    else
-        m_pkHead = 0;
-    NiPointer<NiRefObject> value = entry->element;
-    ReleaseRefCountedNode(entry);
-    --m_uiCount;
+    auto retained = fnv::list::PopBack(m_pkHead, m_pkTail, m_uiCount);
+    NiPointer<NiRefObject> value;
+    value.m_pObject = retained.Release();
     return value;
 }
 class MultiBoundLists
@@ -1486,27 +1430,11 @@ struct RemovalList
 // @fnv 0x00b9efa0
 RefPtr_b9fcc0 RemovalList::FUN_00b9efa0(void*& position)
 {
-    ListItem_b9fcc0* item = (ListItem_b9fcc0*)position;
-    if (item == m_pkHead)
-    {
-        position = item->m_pkNext;
-        return RemoveHead();
-    }
-    if (item == m_pkTail)
-    {
-        position = 0;
-        return RemoveTail();
-    }
-    ListItem_b9fcc0* previous = item->m_pkPrev;
-    ListItem_b9fcc0* next = item->m_pkNext;
-    position = next;
-    if (previous)
-        previous->m_pkNext = next;
-    if (next)
-        next->m_pkPrev = previous;
-    RefPtr_b9fcc0 element = item->m_element;
-    ::ReleaseRefCountedNode((void *)(item));
-    --m_uiCount;
+    auto* node = static_cast<ListItem_b9fcc0*>(position);
+    auto retained = fnv::list::Remove(m_pkHead, m_pkTail, m_uiCount, node);
+    position = node;
+    RefPtr_b9fcc0 element(nullptr);
+    element.m_pObject = retained.Release();
     return element;
 }
 }  // namespace fnv_00b9efa0

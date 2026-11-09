@@ -2,8 +2,10 @@
 // src/gamebryo2.2/corelibs/nimain/nimainsdm.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nimainsdm.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdlib>
 #include "fnv/decl/A5B660StringTable.h"
 #include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/list_node.h"
 #include "fnv/decl/NiExtraDataMapA6F.h"
 #include "fnv/decl/NiPoint3.h"
 #include "fnv/decl/NiShaderConstantMap.h"
@@ -57,33 +59,11 @@
 #include "fnv/symbols_011c5000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
-struct MM
-{
-};
-extern void* DAT_011c5f54;
 // @fnv 0x00a8a200
-template <class T> struct PoolAllocatorBase
-{
-    struct LinkedListEntry
-    {
-        LinkedListEntry* next;
-    };
-    static LinkedListEntry* ms_pFreeList;
-};
 void FUN_00a8a200()
 {
-    void* p = DAT_011c5f54;
-    if (p)
-    {
-        do
-        {
-            void* n = *(void**)p;
-            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
-            p = n;
-        } while (p);
-    }
-    DAT_011c5f54 = 0;
-    (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = 0;
+    if (!fnv::list::ShutdownStorage())
+        std::abort();
 }
 
 namespace fnv_00a8a240 {

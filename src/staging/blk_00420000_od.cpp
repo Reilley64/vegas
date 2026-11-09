@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/simple_array_item.h"
+#include "fnv/list_node.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -1905,43 +1906,10 @@ void FUN_004385f0_Class::FUN_004385f0()
 }
 }  // namespace fnv_004385f0
 
-struct FUN_0043a080_Node
-{
-    FUN_0043a080_Node* next;
-    int field2;
-    int field3;
-};
-
-extern int DAT_01188f7c;
-extern void* DAT_011c5f54;
-
 // @fnv 0x0043a080
 void FUN_0043a080()
 {
-    DAT_011c5f58 = new FUN_0043a080_Node[DAT_01188f7c];
-
-    FUN_0043a080_Node* index = (FUN_0043a080_Node*)DAT_011c5f58 + DAT_01188f7c - 1;
-    index->next = 0;
-
-    unsigned int uiIndex = 1;
-    do
-    {
-        index = (FUN_0043a080_Node*)DAT_011c5f58 + uiIndex;
-        index->next = index + 1;
-    } while (uiIndex++ < DAT_01188f7c - 2);
-
-    if (DAT_011c5f54 != 0)
-    {
-        ((FUN_0043a080_Node*)DAT_011c5f58)->next = (FUN_0043a080_Node*)DAT_011c5f54;
-        DAT_011c5f54 = DAT_011c5f58;
-    }
-    else
-    {
-        DAT_011c5f54 = DAT_011c5f58;
-        ((FUN_0043a080_Node*)DAT_011c5f54)->next = 0;
-    }
-
-    DAT_011c5f58 = (FUN_0043a080_Node*)DAT_011c5f58 + 1;
+    fnv::list::RefillStorage();
 }
 
 struct Date

@@ -34,6 +34,7 @@ class FixedPool {
     std::uint16_t* pageCounts_ = nullptr;
     std::uint64_t* allocationBits_ = nullptr;
     std::size_t pageCount_ = 0;
+    std::size_t bitWordCount_ = 0;
     std::size_t slotsPerPage_ = 0;
     std::size_t blockBytes_ = 0;
     std::size_t stride_ = 0;

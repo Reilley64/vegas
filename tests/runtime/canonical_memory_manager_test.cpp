@@ -7,6 +7,7 @@
 #include "fnv/memory/palette_allocation.h"
 
 #include <array>
+#include <algorithm>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -175,6 +176,18 @@ static void FixedPools()
     owner.FUN_00aa4060(one);
     owner.FUN_00aa4060(task);
     owner.FUN_00aa4060(filename);
+
+    struct FallbackCase { unsigned int requested; std::size_t blockBytes; };
+    for (const auto [requested, expected] : {FallbackCase{57, 64},
+                                             FallbackCase{417, 448},
+                                             FallbackCase{512, 576}}) {
+        auto* allocation = owner.FUN_00aa3e40(requested);
+        CHECK(allocation && owner.Size(allocation) == expected);
+        const auto family = static_cast<std::size_t>(
+            std::find(blocks.begin(), blocks.end(), expected) - blocks.begin());
+        CHECK(family < blocks.size() && owner.PoolOwnerIndex(allocation) == family);
+        owner.FUN_00aa4060(allocation);
+    }
 
     // Exhaust the complete smallest-capacity family. Its next request follows
     // the source order into the selected heap, then released slots are reused.

@@ -4,6 +4,7 @@
 #include <cstring>
 #include <exception>
 #include <limits>
+#include <memory>
 #include <new>
 
 namespace fnv::memory {
@@ -65,8 +66,11 @@ bool FixedPool::Initialize(std::size_t blockBytes, std::size_t reserveBytes,
 
     pageCounts_ = reinterpret_cast<std::uint16_t*>(metadata_.base);
     allocationBits_ = reinterpret_cast<std::uint64_t*>(metadata_.base + countBytes);
-    std::fill_n(pageCounts_, pageCount_, std::uint16_t{0xffff});
-    std::memset(allocationBits_, 0, bitBytes);
+    bitWordCount_ = bitWords;
+    for (std::size_t index = 0; index < pageCount_; ++index)
+        std::construct_at(pageCounts_ + index, std::uint16_t{0xffff});
+    for (std::size_t index = 0; index < bitWordCount_; ++index)
+        std::construct_at(allocationBits_ + index, std::uint64_t{0});
     blockBytes_ = blockBytes;
     name_ = name;
     return true;
@@ -76,9 +80,13 @@ void FixedPool::Shutdown() noexcept
 {
     std::lock_guard guard(lock_);
     free_ = nullptr;
+    if (allocationBits_)
+        std::destroy_n(allocationBits_, bitWordCount_);
+    if (pageCounts_)
+        std::destroy_n(pageCounts_, pageCount_);
     pageCounts_ = nullptr;
     allocationBits_ = nullptr;
-    pageCount_ = slotsPerPage_ = blockBytes_ = stride_ = 0;
+    pageCount_ = bitWordCount_ = slotsPerPage_ = blockBytes_ = stride_ = 0;
     committedPages_ = allocatedBlocks_ = 0;
     name_ = nullptr;
     metadata_.Release();

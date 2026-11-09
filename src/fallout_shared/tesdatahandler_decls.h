@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tesdatahandler_decls.h: declares AutoMemContext, TESDataHandler
 #ifndef FNV_TESDATAHANDLER_DECLS_H
 #define FNV_TESDATAHANDLER_DECLS_H
@@ -44,14 +45,7 @@ enum MEM_CONTEXT
     MEM_CONTEXT_DEFAULT_OBJECTS = 47,
     MEM_CONTEXT_FORMS = 48
 };
-class AutoMemContext
-{
-    unsigned int previous;
-
-  public:
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class TESDataHandler
 {
   public:

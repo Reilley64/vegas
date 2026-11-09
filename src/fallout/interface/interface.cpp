@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/interface/interface.cpp: Interface, ConsoleManager, FileFinder, TESCreature and more (216 functions)
 
 #include "fallout/interface/tile_fields.h"
@@ -4927,12 +4928,7 @@ void ShowStatsMenu(bool show, bool fades)
     }
 }
 
-struct DecompScopeGuard
-{
-    int m_00;
-    DecompScopeGuard(int a, int b, const char* file, int line);
-    ~DecompScopeGuard();
-};
+using DecompScopeGuard = ::AutoMemContext;
 
 struct DecompArg12
 {

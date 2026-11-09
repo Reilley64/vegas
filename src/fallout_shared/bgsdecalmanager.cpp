@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/bgsdecalmanager.cpp: BGSDecalManager, BSA_, PD_, M3_ and more (61 functions)
 
 #include <cstdint>
@@ -2205,12 +2206,7 @@ struct DecalEmitter
     int FUN_00622f80(DecalRequest* apRequest, const DecalPoint& arPos, float afRange);
 };
 
-struct DecalMemContext
-{
-    int iOldContext;
-    DecalMemContext(int aiContext, bool abPush, const char* apFile, int aiLine);
-    ~DecalMemContext();
-};
+using DecalMemContext = ::AutoMemContext;
 
 struct DecalBoolSetting
 {

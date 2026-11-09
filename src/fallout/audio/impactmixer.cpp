@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/fallout/audio/impactmixer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/audio/impactmixer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -139,12 +140,7 @@ unsigned char FUN_008397d0_shell::GetByteAt7C6()
     return this->unk7c6;
 }
 
-struct AutoMemHelper
-{
-    int m;
-    AutoMemHelper(int, bool, char const*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 // @fnv 0x00837520
 void FUN_00837520()
 {
@@ -2284,12 +2280,7 @@ namespace ImpactSound {
 
 typedef NiPoint3 ImpactPoint;
 
-struct ImpactMemContext
-{
-    int iOldContext;
-    ImpactMemContext(int aiContext, bool abPush, const char* apFile, int aiLine);
-    ~ImpactMemContext();
-};
+using ImpactMemContext = ::AutoMemContext;
 
 struct ImpactTimer
 {

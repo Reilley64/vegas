@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 #include <cstdint>
 #include <cstddef>
 // bsshader/imagespacetexture.cpp: free functions (1 function)
@@ -435,12 +436,12 @@ struct TLSTagGuard
     unsigned int uiOld;
     TLSTagGuard(unsigned int uiTag)
     {
-        uiOld = ::currentAllocationContext;
-        ::currentAllocationContext = uiTag;
+        uiOld = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = uiTag;
     }
     ~TLSTagGuard()
     {
-        ::currentAllocationContext = uiOld;
+        ::g_tlsBlock.memoryContext = uiOld;
     }
 };
 

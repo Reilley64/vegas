@@ -3789,12 +3789,12 @@ struct MemoryContextScope
     int previous;
     __forceinline MemoryContextScope(int value)
     {
-        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = value;
+        previous = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = value;
     }
     __forceinline ~MemoryContextScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -3870,12 +3870,12 @@ struct MemContextGuard
     int m_iSaved;
     MemContextGuard(int aiMemoryContext)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~MemContextGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -4642,12 +4642,12 @@ struct HeapContextGuard
     int saved;
     HeapContextGuard(int ctx)
     {
-        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
+        saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = ctx;
     }
     ~HeapContextGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -5006,12 +5006,12 @@ struct BC878C0AllocTagScope
 
     BC878C0AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BC878C0AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -6083,12 +6083,12 @@ void bhkUnaryActionS_o2::FUN_00c86940(hkpActionS* action)
 
 inline unsigned int GetMemContext7100()
 {
-    return ::currentAllocationContext;
+    return ::g_tlsBlock.memoryContext;
 }
 
 inline void SetMemContext7100(unsigned int m_uiGeometryShaderFlags)
 {
-    ::currentAllocationContext = m_uiGeometryShaderFlags;
+    ::g_tlsBlock.memoryContext = m_uiGeometryShaderFlags;
 }
 
 class AutoMemContext7100

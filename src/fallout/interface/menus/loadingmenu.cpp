@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/interface/menus/loadingmenu.cpp: LoadingMenu, BSAudio, LoadingMenuStandIn, LoadingMenuX and more (71 functions)
 
 #include "fallout/interface/tile_fields.h"
@@ -2173,12 +2174,7 @@ enum MEM_CONTEXT
 {
     MEM_CONTEXT_0D = 0xd
 };
-struct AutoMemContext
-{
-    int iPrev;
-    AutoMemContext(MEM_CONTEXT aeContext, bool abFlag, const char* apFile, int aiLine);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class NiSourceTexture;
 class NiTexture;
 template <class T> class NiPointer

@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // NavMeshInfoMap: bounding-box verification and loaded-info initialization.
 // NavMeshBounds, BSSimpleArray 16, NiTPointerMap 16) with layout asserts.
@@ -38,13 +39,7 @@ class MemoryManager
 {
   public:
 };
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 #define NULL 0
 

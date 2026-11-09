@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/gridcell.cpp: GridCellArray, UnnamedHolder, GridCellArrayStandin, GridCellArray_Target and more (43 functions)
 
 #include <cstdint>
@@ -721,13 +722,7 @@ void GridCellArrayHelper::FUN_004baca0(bool abShow)
 }
 }  // namespace fnv_004baca0
 
-struct AutoMemHelper
-{
-    int m_eMemoryContext;
-
-    AutoMemHelper(int, bool, char const*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 typedef AutoMemHelper AutoMemContext;
 

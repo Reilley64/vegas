@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 #include <cstdint>
 #include <cstddef>
 
@@ -120,12 +121,12 @@ struct ScopedMemoryContext
     int oldVal;
     ScopedMemoryContext(int newVal)
     {
-        oldVal = (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).m_uiMemoryContext;
-        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).m_uiMemoryContext = newVal;
+        oldVal = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = newVal;
     }
     ~ScopedMemoryContext()
     {
-        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).m_uiMemoryContext = oldVal;
+        ::g_tlsBlock.memoryContext = oldVal;
     }
 };
 
@@ -604,12 +605,12 @@ struct MemContextGuard
     int oldVal;
     MemContextGuard(int newVal)
     {
-        oldVal = (*reinterpret_cast<::TlsBlock *>(&::g_tlsBlock)).m_uiMemoryContext;
-        (*reinterpret_cast<::TlsBlock *>(&::g_tlsBlock)).m_uiMemoryContext = newVal;
+        oldVal = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = newVal;
     }
     ~MemContextGuard()
     {
-        (*reinterpret_cast<::TlsBlock *>(&::g_tlsBlock)).m_uiMemoryContext = oldVal;
+        ::g_tlsBlock.memoryContext = oldVal;
     }
 };
 

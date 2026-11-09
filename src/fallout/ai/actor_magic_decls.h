@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/ai/actor_magic_decls.h: declares ExtraRefractionProperty, ExtraDataList, SettingT_GameSettingCollection_, ActorMagicProcess, ProcessLists and more
 
 #include <cstdint>
@@ -707,13 +708,7 @@ public:
 };
 #endif
 
-class AutoMemContext
-{
-  public:
-    unsigned int saved;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class Calendar
 {
   public:

@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/ai/middlehighprocess.cpp: MiddleHighProcess, FurnitureProcess, MiddleHighProcessStandIn, ActorPackage_GetTarget_Helper and more (180 functions)
 
 #include "fnv/simple_list_node_view.h"
@@ -36493,14 +36494,7 @@ class QueuedFileAccess
     int result;
     QueuedFileAccess(int);
 };
-class MemContextAccess
-{
-    int saved;
-
-  public:
-    MemContextAccess(int, bool, const char*, int);
-    ~MemContextAccess();
-};
+using MemContextAccess = ::AutoMemContext;
 extern char DAT_010898c0[];
 class SoundAccess
 {
@@ -38678,13 +38672,7 @@ void MiddleHighProcessExt::FUN_00928510(Actor* apActor, Animation* apAnimation)
 }
 }
 
-class AutoMemContext
-{
-  public:
-    AutoMemContext(MEM_CONTEXT aeContext, bool abPush, const char* apFile, int aiLine);
-    ~AutoMemContext();
-    int iPrevContext;
-};
+using ::AutoMemContext;
 
 class QueuedItemSV
 {

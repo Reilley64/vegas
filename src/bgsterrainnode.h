@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // BGSTerrainNode unit-local declarations.
 //
 // The distant-terrain node/manager layouts below are copied verbatim from the
@@ -69,13 +70,7 @@ class SettingT_GameSettingCollection_
 };
 
 
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;  // +0x0
-    AutoMemContext(MEM_CONTEXT context, bool track, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 
 enum BGSTerrainNode__PARENT_POSITION

@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00700000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -2337,12 +2338,7 @@ FUN_0071fbf0::FUN_0071fbf0() : nodef0(0), nodef4(0)
 }
 }  // namespace fnv_0071fbf0
 
-struct ScopedMenuAccess
-{
-    int handle;
-    ScopedMenuAccess(int kind, int enabled, const char* fileName, int line);
-    ~ScopedMenuAccess();
-};
+using ScopedMenuAccess = ::AutoMemContext;
 struct MenuFrame;
 struct MenuFrameProvider
 {

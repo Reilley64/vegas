@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 
 // src/bsmenu/debugtext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsmenu/debugtext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -1510,9 +1511,9 @@ struct ThreadDataD9 {
 
 __declspec(thread) ThreadDataD9 threadDataD9;
 
-inline unsigned GetCtxD9() { return (*reinterpret_cast<::ThreadDataD9 *>(&::g_tlsBlock)).m_uiMemoryContext; }
+inline unsigned GetCtxD9() { return ::g_tlsBlock.memoryContext; }
 
-inline void SetCtxD9(unsigned v) { (*reinterpret_cast<::ThreadDataD9 *>(&::g_tlsBlock)).m_uiMemoryContext = v; }
+inline void SetCtxD9(unsigned v) { ::g_tlsBlock.memoryContext = v; }
 
 struct ScopedCtxD9 {
     unsigned previous;
@@ -1632,8 +1633,8 @@ namespace fnv_00a0fe20 {
 extern "C" unsigned long __readfsdword(unsigned long);
 
 
-inline int A0FE20GetState() { return (*reinterpret_cast<int *>(&::currentAllocationContext)); }
-inline void A0FE20SetState(int s) { (*reinterpret_cast<int *>(&::currentAllocationContext)) = s; }
+inline int A0FE20GetState() { return ::g_tlsBlock.memoryContext; }
+inline void A0FE20SetState(int s) { ::g_tlsBlock.memoryContext = s; }
 
 inline int A0FE20Bit() { return 1; }
 
@@ -2989,9 +2990,9 @@ int CompareInsensitive(const char*,const char*);
 
 int CompareSensitive(const char*,const char*);
 
-inline unsigned GetState() { return ::currentAllocationContext; }
+inline unsigned GetState() { return ::g_tlsBlock.memoryContext; }
 
-inline void SetState(unsigned value) { ::currentAllocationContext=value; }
+inline void SetState(unsigned value) { ::g_tlsBlock.memoryContext=value; }
 
 inline int& DefaultVoice() {
     int& r=*(&(*reinterpret_cast<::Setting *>(&::g_011f33c8)) ? &(*reinterpret_cast<::Setting *>(&::g_011f33c8)).value : (DAT_01202800=0,&DAT_01202800));

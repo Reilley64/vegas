@@ -1,3 +1,5 @@
+#include "AutoMemContext.h"
+#include "fnv/tls.h"
 // bsmenu/tileimage.cpp: TileImage, FileFinder, BGSTextureSet, NiNode and more (7 functions)
 
 #include "global_string_header.h"
@@ -255,15 +257,7 @@ struct BooleanFlagObject
     void* __vecDelDtor(unsigned int);
     bool m_bFlag;
 };
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 
 struct NiGlobalStringTable
 {
@@ -398,11 +392,11 @@ struct OMMemContext
     int m_eMemoryContext;
     static int GetCurrent()
     {
-        return (*reinterpret_cast<int *>(&::currentAllocationContext));
+        return ::g_tlsBlock.memoryContext;
     }
     static void SetCurrent(int i)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = i;
+        ::g_tlsBlock.memoryContext = i;
     }
     OMMemContext(int iNew)
     {

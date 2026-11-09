@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/fallout_shared/speedtree/bstreemodel.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreemodel.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -1132,12 +1133,7 @@ struct GlobalObject_0044fae0
     void FUN_004538a0(int);
 };
 extern GlobalObject_0044fae0 g_011d5df8;
-struct AutoMemContext
-{
-    int previous;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct TreeCloneProcess
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
@@ -1254,12 +1250,7 @@ bool TreeCloneView::CloneFromModel(TreeCloneView* model)
 
 namespace fnv_0066ac40 {
 extern const char treePrefix[];
-struct AutoMemContext
-{
-    int previous;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct FUN_00b02e20
 {
     unsigned int unk00;
@@ -1588,12 +1579,7 @@ template <class T> struct Handle
     T* FUN_00559450();
     void FUN_0066b0d0(T*);
 };
-struct Scope
-{
-    int value;
-    Scope(int, int, const char*, int);
-    ~Scope();
-};
+using Scope = ::AutoMemContext;
 extern const char DAT_010667b8[], DAT_01066830[];
 struct UpdateData
 {

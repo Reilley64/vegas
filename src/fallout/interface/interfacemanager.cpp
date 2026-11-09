@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/interface/interfacemanager.cpp: InterfaceManager, ConsoleManager, IFH, BSAudioManager and more (208 functions)
 
 #include "fallout/interface/tile_fields.h"
@@ -2155,15 +2156,7 @@ struct NiFixedString;
 struct TileMenu;
 struct MenuTileComponent;
 struct MenuValueDescriptor;
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct GamepadManager
 {
     int InitGamePads();
@@ -2352,12 +2345,7 @@ struct S4d4
     int _a;
     void FUN_007182e0();
 };
-struct AMC
-{
-    AMC(int, bool, const char*, int);
-    ~AMC();
-    int _a;
-};
+using AMC = ::AutoMemContext;
 struct NP2
 {
     float x;
@@ -3509,13 +3497,7 @@ void __cdecl InitUIRoot(unsigned int uiStage, bool abInitialLoad)
 
 namespace fnv_0070a130 {
 namespace lc1 {
-class AutoMemContext
-{
-  public:
-    AutoMemContext(int aeContext, bool abEnter, const char* apFile, int aiLine);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 }
 
 template <class T> class NiPointer
@@ -3829,15 +3811,7 @@ InterfaceManager_FUN_0070a130::InterfaceManager_FUN_0070a130()
 }
 }  // namespace fnv_0070a130
 
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct NiUpdateData
 {
     float fTime;
@@ -3858,12 +3832,7 @@ struct FUN_0070adb0_shell : public InterfaceManager
 };
 
 namespace lc1 {
-struct AutoMemContext
-{
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 }
 
 
@@ -5797,15 +5766,7 @@ struct blob64
 {
     char b[64];
 };
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -5894,12 +5855,7 @@ enum MEM_CONTEXT
 {
     MC_INTERFACE = 13
 };
-struct AutoMemContext
-{
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 struct NiFrustum
 {
     NiFrustum(bool);
@@ -7168,12 +7124,7 @@ void FUN_00716320_shell::UpdateNodeTimers()
 }  // namespace fnv_00716320
 
 namespace fnv_007164c0 {
-struct AutoMemHelper
-{
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-    int m_iContext;
-};
+using AutoMemHelper = ::AutoMemContext;
 struct FUN_0070a8a0
 {
     int iKey;
@@ -7829,13 +7780,7 @@ void* FUN_0070ad80_Class::DestroyIfFlagged(unsigned int flags)
 }  // namespace fnv_0070ad80
 
 namespace fnv_0070b8f0 {
-class AutoMemHelper
-{
-  public:
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-    int m_data;
-};
+using AutoMemHelper = ::AutoMemContext;
 class NiAVObject
 {
   public:
@@ -12451,12 +12396,7 @@ struct Obj7fa
     Obj6629* FUN_006629f0();
 };
 
-struct ScopeE8
-{
-    int unk0;
-    ScopeE8(int a, int b, const char* f, int l);
-    ~ScopeE8();
-};
+using ScopeE8 = ::AutoMemContext;
 
 struct ObjE4
 {
@@ -12815,13 +12755,7 @@ enum MEM_CONTEXT
     MEM_CONTEXT_MEM_CONTEXT_INTERFACE = 13,
 };
 
-class AutoMemContext
-{
-  public:
-    int iPrevious;
-    AutoMemContext(MEM_CONTEXT aeMemoryContext, bool bOverride, const char* pcFile, int iLine);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 class FUN_00414430_Rect
 {
@@ -13890,12 +13824,7 @@ int __cdecl FUN_00717a40(int button, bool useStick)
 
 #include <stdlib.h>
 namespace fnv_007118d0 {
-struct AutoMemHelper
-{
-    int unk00;
-    AutoMemHelper(int aiType, bool abFlag, const char* apFile, int aiLine);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct InputMgrX
 {

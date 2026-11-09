@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // fallout_shared/distant terrain system/bgsterrainnode.cpp
 // BGSTerrainNode::BGSTerrainNode (0x006fd210).
@@ -1088,12 +1089,7 @@ void TerrainNodeX::UpdateVisibility(TerrainVisibility* pVisibility, int unused)
 }  // namespace fnv_006ff0d0
 
 extern "C" char DAT_0106e4e0;
-struct FUN_00404eb0
-{
-    int x;
-    FUN_00404eb0(int, bool, char*, int);
-    ~FUN_00404eb0();
-};
+using FUN_00404eb0 = ::AutoMemContext;
 struct Thread006f
 {
     void* m_pWorldSpace;

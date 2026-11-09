@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // Unit-local PC header for fallout_shared/tessound.cpp.
 // TESSound below is the PC layout inferred from codegen:
 //   +0x00..0x2F first base (TESBoundAnimObject, 48 bytes)
@@ -178,11 +179,5 @@ enum MEM_CONTEXT
 };
 // Canonical AutoMemContext declaration (decomp/include/AutoMemContext.h),
 // repeated here because the task include closure does not bundle it.
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;  // +0x0
-    AutoMemContext(MEM_CONTEXT context, bool track, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 #endif

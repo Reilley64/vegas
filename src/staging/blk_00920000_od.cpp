@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00920000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -4107,12 +4108,7 @@ struct FUN_00938180 : Actor122
     void FUN_005d14d0(int);
     int FUN_00931850();
 };
-struct Profile122
-{
-    int active;
-    Profile122(int, int, const char*, int);  //0x404eb0
-    ~Profile122();                           //0x404ee0
-};
+using Profile122 = ::AutoMemContext;
 struct Setting122
 {
     bool* FUN_00408d60();
@@ -5369,13 +5365,7 @@ struct BSSoundHandleEx
     ~BSSoundHandleEx();
     BSSoundHandleEx& operator=(const BSSoundHandleEx&);
 };
-class AutoMemContext
-{
-  public:
-    int active;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct TickAudio
 {
     BSSoundHandleEx FUN_00ad7550(const char*, int);

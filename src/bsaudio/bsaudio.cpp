@@ -1,3 +1,5 @@
+#include "AutoMemContext.h"
+#include "fnv/tls.h"
 // bsaudio/bsaudio.cpp: BSAudio, AudioUpdateStand, Owner (65 functions)
 
 #include <cstdint>
@@ -243,14 +245,14 @@ struct MemCtxGuard_00ad7740
     int saved;
     __forceinline MemCtxGuard_00ad7740(int v)
     {
-        int t = (*reinterpret_cast<::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext;
+        int t = ::g_tlsBlock.memoryContext;
         saved = t;
-        (*reinterpret_cast<::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext = v;
+        ::g_tlsBlock.memoryContext = v;
     }
     __forceinline ~MemCtxGuard_00ad7740()
     {
         int t = saved;
-        (*reinterpret_cast<::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext = t;
+        ::g_tlsBlock.memoryContext = t;
     }
 };
 struct AudioUpdateStand
@@ -277,14 +279,14 @@ struct MemCtxGuard_00ad7740
     int saved;
     __forceinline MemCtxGuard_00ad7740(int v)
     {
-        int t = (*reinterpret_cast<::fnv_00ad7fa0::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext;
+        int t = ::g_tlsBlock.memoryContext;
         saved = t;
-        (*reinterpret_cast<::fnv_00ad7fa0::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext = v;
+        ::g_tlsBlock.memoryContext = v;
     }
     __forceinline ~MemCtxGuard_00ad7740()
     {
         int t = saved;
-        (*reinterpret_cast<::fnv_00ad7fa0::TLSPad_00ad7740 *>(&::g_tlsBlock)).memContext = t;
+        ::g_tlsBlock.memoryContext = t;
     }
 };
 struct AudioUpdateStand
@@ -350,11 +352,11 @@ void FUN_00aa4a50_shell2::FUN_00aa4a50(int a)
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetMode(int v)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
+    ::g_tlsBlock.memoryContext = v;
 }
 struct AudioThreadModeScope
 {
@@ -362,7 +364,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
+        ::g_tlsBlock.memoryContext = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -719,11 +721,11 @@ namespace fnv_00ad7ee0 {
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetMode(int v)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
+    ::g_tlsBlock.memoryContext = v;
 }
 struct AudioThreadModeScope
 {
@@ -731,7 +733,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
+        ::g_tlsBlock.memoryContext = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -758,11 +760,11 @@ namespace fnv_00ad81c0 {
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetMode(int v)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
+    ::g_tlsBlock.memoryContext = v;
 }
 struct AudioThreadModeScope
 {
@@ -770,7 +772,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
+        ::g_tlsBlock.memoryContext = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -797,11 +799,11 @@ namespace fnv_00ad8270 {
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetMode(int v)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
+    ::g_tlsBlock.memoryContext = v;
 }
 struct AudioThreadModeScope
 {
@@ -809,7 +811,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
+        ::g_tlsBlock.memoryContext = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -835,11 +837,11 @@ namespace fnv_00ad8320 {
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetMode(int v)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
+    ::g_tlsBlock.memoryContext = v;
 }
 struct AudioThreadModeScope
 {
@@ -847,7 +849,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
+        ::g_tlsBlock.memoryContext = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -874,11 +876,11 @@ namespace fnv_00ad83d0 {
 __declspec(thread) int g_audioThreadMode = 59;
 inline int GetMode()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetMode(int v)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = v;
+    ::g_tlsBlock.memoryContext = v;
 }
 struct AudioThreadModeScope
 {
@@ -886,7 +888,7 @@ struct AudioThreadModeScope
     AudioThreadModeScope()
     {
         saved = GetMode();
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
+        ::g_tlsBlock.memoryContext = 11;
     }
     ~AudioThreadModeScope()
     {
@@ -929,15 +931,7 @@ void* FUN_00ad8790_shell::FUN_00ad8790(unsigned int flags)
     return this;
 }
 
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct FUN_00ad7230_shell : public BSAudio
 {
     void FUN_00ad7230(bool);
@@ -946,11 +940,11 @@ struct FUN_00ad7230_shell : public BSAudio
 
 inline int GetCurrentMemContext()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetCurrentMemContext(int aiContext)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
+    ::g_tlsBlock.memoryContext = aiContext;
 }
 
 struct MemContextScope
@@ -959,7 +953,7 @@ struct MemContextScope
     MemContextScope(int aiContext)
     {
         m_eMemoryContext = GetCurrentMemContext();
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
+        ::g_tlsBlock.memoryContext = aiContext;
     }
     ~MemContextScope()
     {
@@ -1030,11 +1024,11 @@ struct FUN_00ad73b0_t : public BSAudio
 };
 __forceinline int BSAudioGetMemContext()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 __forceinline void BSAudioSetMemContext(int aiMemoryContext)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    ::g_tlsBlock.memoryContext = aiMemoryContext;
 }
 struct BSAudioScopedMemContext
 {
@@ -1060,11 +1054,11 @@ namespace fnv_00ad7620 {
 
 inline int GetCurrentMemContext()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetCurrentMemContext(int aiContext)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
+    ::g_tlsBlock.memoryContext = aiContext;
 }
 
 struct MemContextScope
@@ -1073,7 +1067,7 @@ struct MemContextScope
     MemContextScope(int aiContext)
     {
         m_eMemoryContext = GetCurrentMemContext();
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
+        ::g_tlsBlock.memoryContext = aiContext;
     }
     ~MemContextScope()
     {
@@ -1118,15 +1112,7 @@ BSSoundHandleEx FUN_00ad7620_t::FUN_00ad7620(unsigned int aiFormID, unsigned int
 }  // namespace fnv_00ad7620
 
 namespace fnv_00ad77f0 {
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct FUN_00ad77f0_shell : public BSAudio
 {
     void FUN_00ad77f0(float, unsigned int);
@@ -1142,14 +1128,14 @@ struct OH2MemContext
     int m_eMemoryContext;
     __forceinline OH2MemContext(int aiContext)
     {
-        int iOld = (*reinterpret_cast<::fnv_00ad77f0::OH2TlsBlock *>(&::g_tlsBlock)).m_iThreadLocalValue;
+        int iOld = ::g_tlsBlock.memoryContext;
         m_eMemoryContext = iOld;
-        (*reinterpret_cast<::fnv_00ad77f0::OH2TlsBlock *>(&::g_tlsBlock)).m_iThreadLocalValue = aiContext;
+        ::g_tlsBlock.memoryContext = aiContext;
     }
     __forceinline ~OH2MemContext()
     {
         int iOld = m_eMemoryContext;
-        (*reinterpret_cast<::fnv_00ad77f0::OH2TlsBlock *>(&::g_tlsBlock)).m_iThreadLocalValue = iOld;
+        ::g_tlsBlock.memoryContext = iOld;
     }
 };
 // @fnv 0x00ad77f0

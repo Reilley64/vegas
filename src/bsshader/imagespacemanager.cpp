@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 #include <cstdint>
 #include <cstddef>
 // bsshader/imagespacemanager.cpp: ImageSpaceManager, Derived, Host, ImageSpaceManager_b8b and more (60 functions)
@@ -1672,12 +1673,12 @@ struct TlsAllocStateGuard
     unsigned int uiSaved;
     TlsAllocStateGuard(unsigned int uiState)
     {
-        uiSaved = ::currentAllocationContext;
-        ::currentAllocationContext = uiState;
+        uiSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = uiState;
     }
     ~TlsAllocStateGuard()
     {
-        ::currentAllocationContext = uiSaved;
+        ::g_tlsBlock.memoryContext = uiSaved;
     }
 };
 
@@ -1740,12 +1741,12 @@ struct ScopedMemoryContext
     int iOldContext;
     ScopedMemoryContext(int aiContext)
     {
-        iOldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
+        iOldContext = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiContext;
     }
     ~ScopedMemoryContext()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iOldContext;
+        ::g_tlsBlock.memoryContext = iOldContext;
     }
 };
 
@@ -2479,8 +2480,8 @@ class FUN_00b8cb30_cls
 // @fnv 0x00b8cb30
 void FUN_00b8cb30_cls::FUN_00b8cb30(int mode, int aiIndex, float* apValues, float afWeight)
 {
-    int iSavedContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x27;
+    int iSavedContext = ::g_tlsBlock.memoryContext;
+    ::g_tlsBlock.memoryContext = 0x27;
 
     float* p = 0;
     switch (mode)
@@ -2517,7 +2518,7 @@ void FUN_00b8cb30_cls::FUN_00b8cb30(int mode, int aiIndex, float* apValues, floa
 
     *p = *p - (float)(*p - t) * afWeight;
 
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = iSavedContext;
+    ::g_tlsBlock.memoryContext = iSavedContext;
 }
 
 // Adjustor thunk for FUN_00b8bd80: "sub ecx, 0x6c; jmp FUN_00b8bd50".
@@ -2815,13 +2816,13 @@ class AutoMemContext
 
     AutoMemContext(int newTag)
     {
-        m_iOldTag = (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).currentHeap;
-        (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).currentHeap = newTag;
+        m_iOldTag = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = newTag;
     }
 
     ~AutoMemContext()
     {
-        (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).currentHeap = m_iOldTag;
+        ::g_tlsBlock.memoryContext = m_iOldTag;
     }
 };
 

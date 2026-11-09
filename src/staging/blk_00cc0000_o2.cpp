@@ -18099,12 +18099,12 @@ struct PhysicsNode {
 struct AllocationScope {
     unsigned int m_previousTag;
     AllocationScope() {
-        m_previousTag = (*reinterpret_cast<::ThreadHeapContext *>(&::g_tlsBlock.memoryContext)).m_allocationTag;
-        (*reinterpret_cast<::ThreadHeapContext *>(&::g_tlsBlock.memoryContext)).m_allocationTag = 16;
+        m_previousTag = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 16;
     }
     __forceinline ~AllocationScope() throw() {
         FUN_00c87700();
-        (*reinterpret_cast<::ThreadHeapContext *>(&::g_tlsBlock.memoryContext)).m_allocationTag = m_previousTag;
+        ::g_tlsBlock.memoryContext = m_previousTag;
     }
 };
 struct PhysicsWorld {  PhysicsNode* CreateNode(bool); };

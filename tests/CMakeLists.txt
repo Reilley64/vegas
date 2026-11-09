@@ -160,6 +160,21 @@ add_executable(runtime_canonical_memory_manager_test
 target_include_directories(runtime_canonical_memory_manager_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
 target_link_libraries(runtime_canonical_memory_manager_test PRIVATE Threads::Threads)
 add_test(NAME runtime.canonical_memory_manager COMMAND runtime_canonical_memory_manager_test)
+
+add_executable(runtime_allocation_context_test runtime/allocation_context_test.cpp)
+if(WIN32)
+  target_link_libraries(runtime_allocation_context_test PRIVATE game)
+else()
+  target_sources(runtime_allocation_context_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp)
+endif()
+target_include_directories(runtime_allocation_context_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+if(UNIX)
+  target_link_libraries(runtime_allocation_context_test PRIVATE Threads::Threads)
+endif()
+add_test(NAME runtime.allocation_context COMMAND runtime_allocation_context_test)
+
 add_executable(runtime_havok_mopp_lifetime_test runtime/havok_mopp_lifetime_test.cpp)
 if(WIN32)
   target_link_libraries(runtime_havok_mopp_lifetime_test PRIVATE game)

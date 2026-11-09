@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 #include "havok/PhysicsMemory.h"
 #include "havok/hkBaseSystem.h"
 #include "fnv/symbols_0084c000.h"
@@ -20,12 +21,12 @@ class AutoMemContextC68
   public:
     AutoMemContextC68(unsigned int m_uiGeometryShaderFlags)
     {
-        m_uiPrevious = ::currentAllocationContext;
-        ::currentAllocationContext = m_uiGeometryShaderFlags;
+        m_uiPrevious = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = m_uiGeometryShaderFlags;
     }
     ~AutoMemContextC68()
     {
-        ::currentAllocationContext = m_uiPrevious;
+        ::g_tlsBlock.memoryContext = m_uiPrevious;
     }
     unsigned int m_uiPrevious;
 };

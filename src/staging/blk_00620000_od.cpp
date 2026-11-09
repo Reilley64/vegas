@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00620000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -5132,12 +5133,7 @@ struct FUN_00624de0 : Allocator622
 struct GlobalObject_0045cfe0
 {
 };
-struct AutoMemContext
-{
-    int unk00;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 // @fnv 0x00624bf0
 void __cdecl FUN_00624bf0()
 {

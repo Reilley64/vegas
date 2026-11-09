@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/screencustomsplatter_decls.h: declares PortalEntry, BSPortal, ScreenCustomSplatter, NiPoint3, NiUpdateData and more
 #ifndef SCREENCUSTOMSPLATTER_DECLS_H
 #define SCREENCUSTOMSPLATTER_DECLS_H
@@ -128,13 +129,7 @@ enum MEM_CONTEXT
 {
     MEM_CONTEXT_SCREEN = 7
 };
-class AutoMemContext
-{
-  public:
-    int state;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 union SETTING_VALUE
 {
     bool b;

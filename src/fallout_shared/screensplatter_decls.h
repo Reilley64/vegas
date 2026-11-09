@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/screensplatter_decls.h: declares ScreenSplatter, NiNode, ProcessLists, AutoMemContext, GraphicsRenderer and more
 #ifndef FNV_SCREENSPLATTER_PRIVATE_H
 #define FNV_SCREENSPLATTER_PRIVATE_H
@@ -78,13 +79,7 @@ class ProcessLists
     unsigned char* GetLifeStateControlFlag();
 };
 
-class AutoMemContext
-{
-  public:
-    unsigned int data;
-    AutoMemContext(MEM_CONTEXT context, bool enabled, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 class GraphicsRenderer
 {

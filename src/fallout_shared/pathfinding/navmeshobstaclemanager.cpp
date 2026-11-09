@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 #include "fnv_result_slot.h"
 #include "fnv/game_timer.h"
@@ -543,13 +544,7 @@ class GlobalObject_0045d260
     GlobalObject_0045d260(const char* pcCategory, const char* pcName, int iEnabled, int iVisible);
     bool m_bValue;
 };
-class AutoMemContext
-{
-  public:
-    AutoMemContext(MEM_CONTEXT aeMemoryContext, bool bPush, const char* pcFile, int iLine);
-    ~AutoMemContext();
-    int m_iContext;
-};
+using ::AutoMemContext;
 struct GlobalObject_0044dee0_d00483710 : GlobalObject_0044dee0
 {
     ~GlobalObject_0044dee0_d00483710();
@@ -6215,12 +6210,7 @@ void __cdecl FUN_006c3440(Reference* reference)
 }
 
 namespace fnv_006c3640 {
-struct AutoMemHelper
-{
-    int old;
-    AutoMemHelper(int, bool, char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 extern "C" char DAT_0106c3f0;
 extern "C" char DAT_0106c498;
 struct SettingShell
@@ -6998,12 +6988,7 @@ FUN_006c02c0::FUN_006c02c0()
 }
 
 namespace fnv_006c0720 {
-struct AutoMemContextScope
-{
-    int m_eMemoryContext;
-    AutoMemContextScope(int, bool, const char*, int);
-    ~AutoMemContextScope();
-};
+using AutoMemContextScope = ::AutoMemContext;
 struct NavMeshObstacleManagerObj
 {
     unsigned char data[0x1c0];

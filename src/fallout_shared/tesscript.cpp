@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tesscript.cpp: Script, ScriptLocals, DelStandIn, ScriptInitOwner and more (82 functions)
 
 #include <cstdint>
@@ -1332,12 +1333,7 @@ struct FUN_005ac020_shell : public Script
     void* CopyVariableList();
 };
 
-struct AutoMemHelper
-{
-    int aiMemoryContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct SL
 {
     int a;
@@ -1721,15 +1717,7 @@ class ScriptCompiler
   public:
 };
 
-class AutoMemHelper
-{
-  public:
-    AutoMemHelper(int size, bool flag, const char* fileName, int line);
-    ~AutoMemHelper();
-
-  private:
-    void* m_pBuffer;
-};
+using AutoMemHelper = ::AutoMemContext;
 
 extern int __tls_index;
 

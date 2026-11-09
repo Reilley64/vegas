@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00480000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -3659,14 +3660,7 @@ FUN_0049ec80::FUN_0049ec80()
     reinterpret_cast<::fnv_0049ee30::NiObjectNET *>(this)->FUN_0049ee30(0);
 }
 
-class AutoMemContext
-{
-    int previous;
-
-  public:
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 extern const char DAT_0101e018[];
 class NiPoint3
 {

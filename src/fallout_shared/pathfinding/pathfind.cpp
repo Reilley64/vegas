@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/pathfinding/pathfind.cpp: Pathing, ActorDeletionQueue, PathBuilder, ArrHelper and more (87 functions)
 
 #include <cstdint>
@@ -1149,12 +1150,7 @@ struct NP3S
 struct LocS
 {
 };
-struct AutoMemHelper
-{
-    int aiMemoryContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct FUN_006f33b0
 {
     int data[0x20b8 / 4];

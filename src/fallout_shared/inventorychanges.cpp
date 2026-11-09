@@ -6836,12 +6836,7 @@ FUN_0076b630* AmmoInventory::FindBestAmmoChange(AmmoScorer* scorer, int unused)
     return changeNode;
 }
 
-struct Scope64
-{
-    int value;
-    Scope64(int, int, const char*, int);
-    ~Scope64();
-};
+using Scope64 = ::AutoMemContext;
 struct Form64
 {
     int FUN_00401170();
@@ -7118,12 +7113,7 @@ Change64* Inventory64::FUN_004c94f0(int requested)
 }
 
 
-struct InventoryTrace4ca330
-{
-    unsigned int m_slot;
-    InventoryTrace4ca330(int category, int enabled, const char* file, int line);
-    ~InventoryTrace4ca330();
-};
+using InventoryTrace4ca330 = ::AutoMemContext;
 
 struct InventoryForm4ca330
 {
@@ -8457,12 +8447,7 @@ struct Extra;
 struct ExtraNode;
 struct Item;
 struct Inventory;
-struct AutoMemContext
-{
-    int context;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct Form
 {
 
@@ -11623,12 +11608,7 @@ struct ENodeC5
     bool FUN_008256d0();
 };
 
-struct MemHelperC5
-{
-    void* m_p;
-    MemHelperC5(int, bool, const char*, int);
-    ~MemHelperC5();
-};
+using MemHelperC5 = ::AutoMemContext;
 
 struct CItemC5
 {
@@ -12168,12 +12148,7 @@ bool Inv4d1440::HasExtraDataWithValue(int value)
 // 0x004d2480  /MT /Od /Oy- /GS /EHsc /Gy
 // thiscall, 1 stack arg (ret 4) -> bool.  SEH from AutoMemHelper local.
 
-struct AutoMemHelper
-{
-    int m_iOldMemContext;
-    AutoMemHelper(int context, bool track, const char* file, int line);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct GlobalObject_0096a2d0
 {
@@ -19524,12 +19499,7 @@ struct Extra_ctxr;
 struct ExtraNode_ctxr;
 struct Item_ctxr;
 struct Inventory_ctxr;
-struct AutoMemContext_ctxr
-{
-    int context;
-    AutoMemContext_ctxr(int, bool, const char*, int);
-    ~AutoMemContext_ctxr();
-};
+using AutoMemContext_ctxr = ::AutoMemContext;
 struct Form_ctxr
 {
 

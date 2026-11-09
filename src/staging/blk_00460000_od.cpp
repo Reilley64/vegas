@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00460000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -3478,12 +3479,7 @@ extern "C" int(* xg_FindNextFileA)(void*, xFindData*);
 extern "C" int(* xg_FindClose)(void*);
 extern "C" long(* xg_CompareFileTime)(const xFileTime*, const xFileTime*);
 int xFileExist(const char*, char*, unsigned int, unsigned int);
-struct xAutoMem
-{
-    xAutoMem(int, bool, const char*, int);
-    ~xAutoMem();
-    int m_kPointA;
-};
+using xAutoMem = ::AutoMemContext;
 struct xTimes
 {
     int m_auiShapeKeys[5];
@@ -5190,13 +5186,7 @@ struct XCLC
     XCLC();
 };
 
-class AutoMemContext
-{
-  public:
-    int m0;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 class VoiceStr
 {

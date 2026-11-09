@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/renderer.cpp: Renderer, SettingS (13 functions)
 
 #include <new>
@@ -394,12 +395,7 @@ class SettingT_GameSettingCollection_
   public:
     SETTING_VALUE* Bool();
 };
-struct S4eb0
-{
-    int context;
-    S4eb0(int, bool, const char*, int);
-    ~S4eb0();
-};
+using S4eb0 = ::AutoMemContext;
 struct GlobalObject_004a4a40
 {
 };

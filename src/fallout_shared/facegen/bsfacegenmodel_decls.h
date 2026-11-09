@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/facegen/bsfacegenmodel_decls.h: declares NiPoint3, AutoMemContext, FaceGenMorphTarget, FaceGenMorphData, FaceGenCoordinate and more
 #ifndef BSFACEGENMODEL_DECLS_H
 #define BSFACEGENMODEL_DECLS_H
@@ -48,13 +49,7 @@ enum MEM_CONTEXT
     FaceGenMeshContext = 56,
     FaceGenTextureContext = 57
 };
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT oldContext;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 enum HAIR_PART
 {
     HAIR_PART_NONE = -1,

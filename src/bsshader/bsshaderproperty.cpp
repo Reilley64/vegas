@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 // bsshader/bsshaderproperty.cpp: ShaderPassEntry, ShaderPassList, NiShadeProperty, ShaderPropertyRecord (23 functions)
 
 #include <cstdarg>
@@ -329,12 +330,12 @@ struct BB97550AllocTagScope
 
     BB97550AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BB97550AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 

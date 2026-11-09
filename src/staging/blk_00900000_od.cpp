@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00900000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -475,12 +476,7 @@ void FUN_00905b00_cls::ConstructSpawnedObject(intptr_t a)
     new (this) SpawnedObject_b9530(a);
 }
 
-struct FUN_00906400_Guard
-{
-    int m_iWordAt00;
-    FUN_00906400_Guard(int a, int b, const char* file, int line);
-    ~FUN_00906400_Guard();
-};
+using FUN_00906400_Guard = ::AutoMemContext;
 
 struct FUN_00906400_Sub
 {

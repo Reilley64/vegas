@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/interface/interface_rebase_closure.h: declares MessageMenu, LoadingMenu, AutoMemContext
 #ifndef FNV_INTERFACE_REBASE_CLOSURE_H
 #define FNV_INTERFACE_REBASE_CLOSURE_H
@@ -27,13 +28,5 @@ class LoadingMenu
 {
   public:
 };
-class AutoMemContext
-{
-  public:
-    AutoMemContext(MEM_CONTEXT, bool, const char*, unsigned int);
-    ~AutoMemContext();
-
-  private:
-    MEM_CONTEXT eOldMemContext;
-};
+using ::AutoMemContext;
 #endif

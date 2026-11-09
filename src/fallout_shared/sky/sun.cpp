@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/sky/sun.cpp: Sun, NiPick, A6A0Sun (11 functions)
 
 #include <cstdint>
@@ -709,15 +710,7 @@ struct NiPoint3
     float y;
     float z;
 };
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -811,12 +804,7 @@ struct C3;
 struct V3;
 struct NiNode_00558310;
 namespace H {
-struct AutoMemContext
-{
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-    int pad;
-};
+using ::AutoMemContext;
 struct ThreeByThreeMatrix
 {
     ThreeByThreeMatrix operator*(const ThreeByThreeMatrix&) const;
@@ -1228,14 +1216,7 @@ FUN_006406a0::~FUN_006406a0()
 // Sun update: with a world and enabled, point the glare at the new target and run its update at a scaled time step.
 
 
-class AutoMemHelper
-{
-  public:
-    AutoMemHelper(int aiMemoryContext, bool bPush, const char* pcFile, int iLine);
-    ~AutoMemHelper();
-
-    int m_iContext;
-};
+using AutoMemHelper = ::AutoMemContext;
 
 class A6A0World
 {

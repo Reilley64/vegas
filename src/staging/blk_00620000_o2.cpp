@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00620000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -3101,12 +3102,7 @@ void __cdecl FUN_0062bae0(Object62BAE0* pkObject, Point62BAE0* pkPoint, bool bLo
 }
 
 namespace fnv_00631ab0 {
-struct xAutoMem
-{
-    xAutoMem(int, bool, const char*, int);
-    ~xAutoMem();
-    int m_iWordAt00;
-};
+using xAutoMem = ::AutoMemContext;
 struct xFilter
 {
     xFilter(int);

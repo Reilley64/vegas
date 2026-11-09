@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/fallout_shared/distant terrain system/bgsdistanttreeblock.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsdistanttreeblock.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -655,13 +656,7 @@ struct NiBound
     NiBound();
 };
 
-struct AutoMemHelper
-{
-    int value;
-
-    AutoMemHelper(int context, bool flag, const char* file, int line);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 extern const char str_0106dd30[];
 
@@ -1166,12 +1161,7 @@ void TreeOwnerS::ClearEntries()
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(kEntries))->Clear(true);
 }
 
-struct TreeScopeGuard
-{
-    void* p;
-    TreeScopeGuard(int line, int flags, const char* file, int size);
-    ~TreeScopeGuard();
-};
+using TreeScopeGuard = ::AutoMemContext;
 
 struct TreeRecord
 {

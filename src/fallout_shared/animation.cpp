@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/animation.cpp: TESAnimGroup, Animation, AnimSequenceMultiple, TaskQueueInterface and more (156 functions)
 
 #include <cstdint>
@@ -4508,12 +4509,7 @@ struct List490
     void* head;
     void* tail;
 };
-struct Context490
-{
-    int old;
-    Context490(int, bool, const char*, int);
-    ~Context490();
-};
+using Context490 = ::AutoMemContext;
 struct Info490
 {
     unsigned char multiple;
@@ -7767,13 +7763,7 @@ void Target496::DetachObjectModels(Data496* data)
 }
 }  // namespace fnv_00496a50
 
-class AutoMemContextX
-{
-  public:
-    AutoMemContextX(int aeMemoryContext, bool bPush, const char* pFile, int iLine);
-    ~AutoMemContextX();
-    int iData;
-};
+using AutoMemContextX = ::AutoMemContext;
 class NiControllerManagerX
 {
   public:

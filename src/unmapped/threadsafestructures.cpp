@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
@@ -116,12 +117,7 @@ struct FUN_0044bd60_Class
     void* FUN_00449f80();
     bool FUN_0044bd60(void* a, void* b);
 };
-struct AutoMemHelper
-{
-    int m;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct InterfacedClass
 {
     InterfacedClass();
@@ -746,14 +742,7 @@ FUN_006ec870::~FUN_006ec870()
     delete m_pSlots;
 }
 
-class AutoMemHelper44B
-{
-  public:
-    AutoMemHelper44B(int iPool, bool bEnable, const char* pcFile, int iLine);
-    ~AutoMemHelper44B();
-
-    int m_iSaved;
-};
+using AutoMemHelper44B = ::AutoMemContext;
 
 extern const char g_pcFile44B[];
 

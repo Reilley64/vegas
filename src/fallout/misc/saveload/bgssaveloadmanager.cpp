@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/misc/saveload/bgssaveloadmanager.cpp: BGSSaveLoadManager, PathManager, Interface, FakeSaveMgr and more (39 functions)
 
 #include <cstdint>
@@ -768,12 +769,7 @@ void FUN_008517c0_shell::BuildSaveFileName(char* saveFileName, bool autosave, bo
 }
 }  // namespace fnv_008517c0
 
-struct FUN_00404eb0
-{
-    int contextId;
-    FUN_00404eb0(int category, int level, const char* sourceName, int messageId);
-    ~FUN_00404eb0();
-};
+using FUN_00404eb0 = ::AutoMemContext;
 struct MessageSink
 {
 };

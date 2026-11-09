@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/misc/saveload/bgssaveloadgame.cpp: BGSSaveLoadGame, DelStandIn, BGSSaveLoadGameImpl, FakeGame and more (59 functions)
 
 #include "fnv/tls.h"
@@ -1486,13 +1487,7 @@ void FakeGame::SetFormIDMapping(unsigned int aiOldFormID, unsigned int aiNewForm
     reinterpret_cast<::FUN_00844700_Class *>((pMap))->FUN_00844700(aiOldFormID, aiNewFormID);
 }
 
-class AutoMemContext
-{
-  public:
-    AutoMemContext(MEM_CONTEXT aeContext, bool abPush, const char* apFile, int aiLine);
-    ~AutoMemContext();
-    int iPrevContext;
-};
+using ::AutoMemContext;
 
 class TESObjectREFR : public TESForm
 {

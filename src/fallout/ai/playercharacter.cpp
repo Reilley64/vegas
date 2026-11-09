@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/ai/playercharacter.cpp: PlayerView, PlayerCharacter_StandIn, PlayerCharacter, PlayerStub and more (251 functions)
 
 #include "fnv/simple_list_node_view.h"
@@ -917,16 +918,7 @@ struct Initializer
     void FUN_0066b0d0(void*);
 };
 
-struct FUN_00404eb0
-{
-    unsigned int loggerState;
-    FUN_00404eb0(int, int, const void*, int);
-    ~FUN_00404eb0()
-    {
-        FUN_00404ee0();
-    }
-    void FUN_00404ee0();
-};
+using FUN_00404eb0 = ::AutoMemContext;
 
 struct Listener
 {
@@ -20694,12 +20686,7 @@ struct Point
 {
     float x, y, z;
 };
-struct MemScope
-{
-    int context;
-    MemScope(int, bool, const char*, int);
-    ~MemScope();
-};
+using MemScope = ::AutoMemContext;
 struct UpdateData
 {
     float time;
@@ -41586,13 +41573,7 @@ struct StartMenu
 {
 };
 
-struct AutoMemHelper
-{
-    int value;
-
-    AutoMemHelper(int, bool, char const*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct TaskQueueInterface
 {
@@ -41677,14 +41658,7 @@ void FUN_0095ee80_Class::ClearIdleAnims()
 }
 }  // namespace fnv_0095ee80
 
-class AutoMemContext
-{
-    unsigned int previousContext;
-
-  public:
-    AutoMemContext(MEM_CONTEXT context, bool enabled, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class SettingT_GameSettingCollection_
 {
   public:
@@ -59123,12 +59097,7 @@ struct InputMatrix
     InputMatrix();
     float xx, xy, xz, yx, yy, yz, zx, zy, zz;
 };
-struct InputProfiler
-{
-    int unk00;
-    InputProfiler(int, int, const char*, int);
-    ~InputProfiler();
-};
+using InputProfiler = ::AutoMemContext;
 struct InputSound
 {
     int unk00, unk04, unk08;

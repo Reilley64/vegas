@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/ai/processlists.cpp: ProcessLists, ProcessListsEx, TESObjectREFR, BGSProjectile and more (133 functions)
 
 #include "fnv/simple_list_node_view.h"
@@ -1770,12 +1771,7 @@ extern unsigned int DAT_011e0e30;
 
 namespace fnv_0096bcd0 {
 namespace lc1 {
-struct AutoMemContext
-{
-    AutoMemContext(int aeContext, bool abFlag, const char* apFile, int aiLine);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 }
 struct ExtraFollower
 {
@@ -9754,13 +9750,7 @@ void DetectionLists::UpdateDetection()
 
 namespace fnv_0096d810 {
 
-class AutoMemContext
-{
-  public:
-    AutoMemContext(MEM_CONTEXT aeContext, bool abPush, const char* apFile, int aiLine);
-    ~AutoMemContext();
-    int aiMemoryContext;
-};
+using ::AutoMemContext;
 
 struct FUN_0084d030_timer
 {

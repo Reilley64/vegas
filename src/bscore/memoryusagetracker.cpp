@@ -1,13 +1,54 @@
-// bscore/memoryusagetracker.cpp: AutoMemContext (1 function)
-#include "fnv/decl/fnv_00404f70__FUN_00404f70_shell.h"
-class AutoMemContext
+#include "AutoMemContext.h"
+#include "fnv/tls.h"
+
+// @fnv 0x00404eb0
+AutoMemContext::AutoMemContext(int context, bool overridable, const char* file, int line) noexcept
 {
-  public:
-    ~AutoMemContext();
-};
+    Enter(context, overridable, file, line);
+}
+
+AutoMemContext::AutoMemContext(int context) noexcept
+    : AutoMemContext(context, true, nullptr, 0)
+{
+}
 
 // @fnv 0x00404ee0
-AutoMemContext::~AutoMemContext()
+AutoMemContext::~AutoMemContext() noexcept
 {
-    reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(this)->FUN_00404f70();
+    Leave();
+}
+
+// @fnv 0x00404f00
+void AutoMemContext::Enter(int context, bool, const char*, int) noexcept
+{
+    // The source Enter always takes a fresh snapshot, even when already
+    // active (BootInit enters immediately after construction). This replaces
+    // the outstanding restoration point; it is not a second stacked entry.
+    // The source ignores overridable/file/line; do not invent a policy or
+    // retain a borrowed filename that is never consumed.
+    previousContext_ = GetTlsField();
+    active_ = true;
+    fnv_00404f30::FUN_00404f30(context);
+}
+
+// @fnv 0x00404f70
+void AutoMemContext::Leave() noexcept
+{
+    if (active_)
+    {
+        active_ = false;
+        fnv_00404f30::FUN_00404f30(previousContext_);
+    }
+}
+
+// @fnv 0x00404f50
+int GetTlsField()
+{
+    return g_tlsBlock.memoryContext;
+}
+
+// @fnv 0x00404f30
+void fnv_00404f30::FUN_00404f30(int context)
+{
+    g_tlsBlock.memoryContext = context;
 }

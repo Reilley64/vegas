@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/pathfinding/pathmanager_decls.h: declares QueuedMessage, ActorPathingMessageQueue, NiMemObject, PathingSolution, Pathing and more
 
 #include <new>
@@ -163,13 +164,7 @@ enum MEM_CONTEXT
     MEM_CONTEXT_DEFAULT = 0x2d
 };
 
-class AutoMemContext
-{
-  public:
-    int m_eMemoryContext;
-    AutoMemContext(MEM_CONTEXT context, bool track, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 class PathManagerImpl
 {

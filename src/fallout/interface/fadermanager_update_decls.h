@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/interface/fadermanager_update_decls.h: declares AutoMemContext, TimeGlobal, TileShaderProperty
 #ifndef FADERMANAGER_UPDATE_DECLS_H
 #define FADERMANAGER_UPDATE_DECLS_H
@@ -10,13 +11,7 @@ enum MEM_CONTEXT
 {
     MEM_CONTEXT_INTERFACE = 13
 };
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class TimeGlobal
 {
   public:

@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/fallout/ai/lipsyncbackgroundmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/lipsyncbackgroundmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -413,12 +414,7 @@ FUN_00905e50_Class::~FUN_00905e50_Class()
 }
 
 namespace fnv_00905f30 {
-struct S_00905f30_Mem
-{
-    S_00905f30_Mem(int ctx, bool b, const char* file, int line);
-    ~S_00905f30_Mem();
-    int unk00;
-};
+using S_00905f30_Mem = ::AutoMemContext;
 struct FUN_00905ba0
 {
     FUN_00905ba0(intptr_t owner, intptr_t actor, const char* tag);
@@ -750,13 +746,7 @@ extern char str_010885e8[];
 
 struct BGSTerrainManager;
 
-class AutoMemContext
-{
-  public:
-    int iPrevContext;
-    AutoMemContext(int aeContext, bool abPush, const char* apFile, int aiLine);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 struct FUN_00905c50_Class
 {

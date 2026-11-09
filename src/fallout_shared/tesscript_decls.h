@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tesscript_decls.h: declares TESForm, Script, SpellItem, MagicItem, EffectSetting and more
 #ifndef FNV_TESSCRIPT_DECLS_H
 #define FNV_TESSCRIPT_DECLS_H
@@ -384,13 +385,7 @@ enum MEM_CONTEXT
 {
     MEM_CONTEXT_SCRIPT = 21
 };
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 union SETTING_VALUE
 {
     float f;

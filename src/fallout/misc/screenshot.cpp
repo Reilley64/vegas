@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // src/fallout/misc/screenshot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/screenshot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
@@ -33,12 +34,7 @@
 #include "fnv/symbols_00ba3000.h"
 #include "fnv/symbols_011aa000.h"
 #include "fnv/symbols_011de000.h"
-struct S_00878f60_AutoMem
-{
-    int unk00;
-    S_00878f60_AutoMem(int context, bool push, const char* file, int line);
-    ~S_00878f60_AutoMem();
-};
+using S_00878f60_AutoMem = ::AutoMemContext;
 
 struct S_00878f60_FixedString
 {

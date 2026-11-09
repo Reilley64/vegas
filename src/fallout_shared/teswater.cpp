@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/teswater.cpp: BGSPlaceableWater, TESObjectCELL, WaterZoneManager, Owner and more (135 functions)
 
 #include "fnv_result_slot.h"
@@ -1995,13 +1996,7 @@ struct FUN_00a74480 : A51BF0Base
 
 typedef FUN_00a74480 BSRenderedTexture;
 
-struct AutoMemHelper
-{
-    void* p;
-
-    AutoMemHelper(int context, bool flag, const char* file, int line);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 
 struct TESWaterSystem_shell
@@ -3585,12 +3580,7 @@ enum MEM_CONTEXT
 {
     MC_Water = 0x1d
 };
-struct AutoMemContext
-{
-    int iPrevious;
-    AutoMemContext(MEM_CONTEXT aeMemoryContext, bool bPush, const char* pFile, int iLine);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 struct WaterColorParam
 {
@@ -3758,12 +3748,7 @@ struct WaterCamera
 {
     WaterPoint& FUN_0045bb80();
 };
-struct WaterContext
-{
-    int old;
-    WaterContext(int, bool, const char*, int);
-    ~WaterContext();
-};
+using WaterContext = ::AutoMemContext;
 struct WaterTime
 {
 };
@@ -7951,14 +7936,7 @@ struct RefActor;
 struct N;
 struct C;
 struct Camera;
-class AutoMemHelper
-{
-    int old;
-
-  public:
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct P3
 {
     float x, y, z;
@@ -8748,12 +8726,7 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
 }  // namespace fnv_004e9d40
 
 namespace fnv_004eaa00 {
-struct Scope60
-{
-    int token;
-    Scope60(int, int, const char*, int);
-    ~Scope60();
-};
+using Scope60 = ::AutoMemContext;
 struct Vector60
 {
     float x, y, z;
@@ -12696,13 +12669,7 @@ void WaterPlaneHost_o2_od_oy_noo2::FUN_004ecef0(float x, float y, float z, float
     reinterpret_cast<::Host_4ed190 *>((::FUN_0043c4b0()))->CallFooForEachElement((char *)(0), 1, (int *)(&output));
 }
 
-struct C4E7770AutoMemHelper
-{
-    C4E7770AutoMemHelper(int iType, bool bFlag, const char* pcFile, int iLine);
-    ~C4E7770AutoMemHelper();
-
-    int m_uiLogicalSize;
-};
+using C4E7770AutoMemHelper = ::AutoMemContext;
 
 extern const char g_ac4E7770AlphaSetting[];
 

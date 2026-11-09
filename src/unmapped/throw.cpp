@@ -3,12 +3,14 @@
 #include "fnv/decl/FUN_0044a310.h"
 #include "fnv/decl/FUN_00b096a0.h"
 
-FUN_0044a500::FUN_0044a500(void* value) : unk00(value)
+FUN_0044a310Pointer::FUN_0044a310Pointer(void* value) noexcept : value_(value)
 {}
 
 // Initializes the m_kMember field with the provided pointer.
 // @fnv 0x0044a310
 FUN_0044a310::FUN_0044a310(void* value) : m_kMember(value)
 {}
+
+FUN_0044a310::FUN_0044a310(const FUN_0044a310& other) = default;
 
 FUN_0044a310::~FUN_0044a310() noexcept = default;

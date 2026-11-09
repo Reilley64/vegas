@@ -41,13 +41,27 @@ the source-distinct boolean and byte error-constructor behavior.
 `src/unmapped/throw.cpp` also consumes this declaration directly: its
 `FUN_0044a310` constructor, destructor, RTTI and unwind cleanup all name the
 same global base rather than a competing translation-unit definition. Its
-pointer member preserves native pointer width. The unrelated legacy
-`FUN_0044a500_s` body lives with its existing `Unk65` provider in
-`raiseexception.cpp`, so linking the complete `throw.cpp` object does not pull
-that path's separate unresolved dependencies. The billboard leaf caller
+source-supported pointer member has a distinct `FUN_0044a310Pointer` identity,
+preserves native pointer width, and is explicitly non-owning: copies preserve
+the observed pointer and destruction performs no release because the source has
+no matching release edge. The pointee must outlive all exception copies. The
+unrelated legacy `FUN_0044a500_s` body lives with its existing `Unk65` provider
+in `raiseexception.cpp`, so linking the complete `throw.cpp` object does not
+pull that path's separate unresolved dependencies. The billboard leaf caller
 explicitly selects the byte-zero constructor path rather than allowing `false`
 to bind to the boolean overload; no captured vptr or raw receiver cast supplies
 its lifetime.
+
+The `FUN_0044a500` placeholder previously also named two incompatible global
+staging declarations. The 0x0044a450 copy path now names its unresolved member
+contract `fnv_0044a450::Value`; the archive has no material copy/destructor
+provider for that shell, so none is invented. The constructible 0x00ac87b0
+parser string is `fnv_00ac87b0::String`, a distinct wrapper over the canonical
+native string owner with ordinary copy/move/destruction. Its local function,
+table and error-call signatures all use that identity. No requiring archive
+object uses the old same-mangled global copy constructor, so that ambiguous
+symbol is retired rather than assigned an arbitrary provider. The separate
+`fnv_00b0d810::FUN_0044a500` was already namespaced and remains unchanged.
 
 `FUN_00b18860` now formats into an already-live canonical owner. Its external
 requiring objects consume `c_str()` without casting the result to unrelated
@@ -73,8 +87,9 @@ covers empty/null, 15/16/large values, self and overlapping assignment/append,
 growth/shrink/reuse, copy independence, move, failed growth retention, partial
 construction, unwind retirement, high pointers, dynamic formatting, distinct
 byte-zero/byte-nonzero/boolean error construction, branch-error throw/catch and
-retirement, canonical-base catch and destruction of the production
-`FUN_0044a310` path, and unsigned formatting above `INT_MAX` through
+retirement, explicit copy plus canonical-base catch and destruction of the
+production `FUN_0044a310` path, construction/copy/move/destruction of the
+0x00ac87b0 staging string, and unsigned formatting above `INT_MAX` through
 `UINT_MAX`. The test supplies no allocator, exception provider or parser
 facade.
 Complete Windows object, archive and link evidence is still required for the

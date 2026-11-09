@@ -13,6 +13,7 @@
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0044a4c0.h"
+#include "fnv/decl/fnv_00ac87b0__String.h"
 #include "fnv/decl/FUN_0044a8d0_Class.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_0065cfd0_cls.h"
@@ -45291,20 +45292,7 @@ bool FUN_00ac8390(const char* buffer, const parser839::String& name, parser839::
     }
 }
 
-struct FUN_0044a500 : FUN_0044a4c0
-{
-    FUN_0044a500() = default;
-    FUN_0044a500(const char* text) : FUN_0044a4c0(text)
-    {}
-    FUN_0044a500(const FUN_0044a500& other);
-    FUN_0044a500(const FUN_0044a500& other, unsigned int offset)
-    {
-        assign(other, offset, static_cast<unsigned int>(::g_010173f0));
-    }
-    ~FUN_0044a500() = default;
-};
-
-typedef FUN_0044a500 QString;
+using QString = fnv_00ac87b0::String;
 
 __forceinline bool operator<(const QString& a, const QString& b)
 {
@@ -45543,7 +45531,7 @@ bool FUN_00ac87b0(QString* pStr, const QString& a2, List87b0* a3)
         return false;
     }
     reinterpret_cast<::FUN_00acb1a0_cls *>((a3))->ResetListSentinel();
-    if (!((unsigned char)(::FUN_00ac7aa0((::FnvInput *)(::Stream87b0 *)(&stream), (::FnvMap *)(a3), (::FnvString *)&(const ::FUN_0044a500 &)("//"), 1))))
+    if (!((unsigned char)(::FUN_00ac7aa0((::FnvInput *)(::Stream87b0 *)(&stream), (::FnvMap *)(a3), (::FnvString *)&(const ::fnv_00ac87b0::String &)("//"), 1))))
     {
         FUN_00ac6430(4, QString(*pStr, 0u));
         return false;
@@ -45554,7 +45542,7 @@ bool FUN_00ac87b0(QString* pStr, const QString& a2, List87b0* a3)
         return false;
     }
     reinterpret_cast<::FUN_00acb1a0_cls *>((a3))->ResetListSentinel();
-    if (!((unsigned char)(::FUN_00ac7aa0((::FnvInput *)(::Stream87b0 *)(&stream), (::FnvMap *)(a3), (::FnvString *)&(const ::FUN_0044a500 &)("//"), 0))))
+    if (!((unsigned char)(::FUN_00ac7aa0((::FnvInput *)(::Stream87b0 *)(&stream), (::FnvMap *)(a3), (::FnvString *)&(const ::fnv_00ac87b0::String &)("//"), 0))))
     {
         FUN_00ac6430(4, *pStr);
         return false;

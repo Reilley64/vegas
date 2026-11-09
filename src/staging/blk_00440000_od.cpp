@@ -3190,14 +3190,20 @@ struct FUN_00ec7944
     unsigned int unknown08;
     FUN_00ec7944(const FUN_00ec7944& other);
 };
-struct FUN_0044a500
+namespace fnv_0044a450 {
+// Incomplete value contract used by the 0x0044a450 copy path. Its material
+// copy and retirement providers are not present in the archive, so it must not
+// share a nominal type with either a pointer observer or a native string.
+struct Value
 {
-    FUN_0044a500(const FUN_0044a500& other);
-    ~FUN_0044a500();
+    Value(const Value& other);
+    ~Value();
 };
+}  // namespace fnv_0044a450
+
 struct FUN_0044a450 : FUN_00ec7944
 {
-    FUN_0044a500 value;
+    fnv_0044a450::Value value;
     virtual ~FUN_0044a450();
     FUN_0044a450(const FUN_0044a450& other);
 };

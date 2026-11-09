@@ -2,6 +2,7 @@
 #include "fnv/decl/FUN_0044a4c0.h"
 #include "fnv/decl/FUN_00b09480.h"
 #include "fnv/decl/MemoryManager.h"
+#include "fnv/decl/fnv_00ac87b0__String.h"
 #include "fnv/symbols_00b18000.h"
 
 #include <cstdint>
@@ -61,14 +62,31 @@ void check_canonical_throw_lifecycle()
     const void* caughtMember = nullptr;
     try {
         FUN_0044a310 error(&payload);
-        check(error.m_kMember.unk00 == &payload);
-        throw error;
+        FUN_0044a310 copied(error);
+        check(error.m_kMember.get() == &payload);
+        check(copied.m_kMember.get() == &payload);
+        throw copied;
     } catch (const FUN_00ec78e0& error) {
         const auto* typed = dynamic_cast<const FUN_0044a310*>(&error);
         check(typed != nullptr);
-        caughtMember = typed->m_kMember.unk00;
+        caughtMember = typed->m_kMember.get();
     }
     check(caughtMember == &payload);
+}
+
+void check_staging_string_lifecycle()
+{
+    fnv_00ac87b0::String original("a staging string long enough for owned storage");
+    fnv_00ac87b0::String copied(original);
+    check_text(copied, "a staging string long enough for owned storage");
+
+    original.assign("changed");
+    check_text(original, "changed");
+    check_text(copied, "a staging string long enough for owned storage");
+
+    fnv_00ac87b0::String moved(std::move(copied));
+    check_text(moved, "a staging string long enough for owned storage");
+    check_text(copied, "");
 }
 
 void check_production_messages()
@@ -191,6 +209,7 @@ int main()
         check_error_constructor_kinds();
         check_production_messages();
         check_canonical_throw_lifecycle();
+        check_staging_string_lifecycle();
 
         const void* thrownMessageStorage = nullptr;
         try {

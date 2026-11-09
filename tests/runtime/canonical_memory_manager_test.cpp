@@ -1,5 +1,6 @@
 #include "fnv/decl/MemoryManager.h"
 #include "fnv/tls.h"
+#include "AutoMemContext.h"
 
 #include <cstdint>
 #include <cstdio>
@@ -107,6 +108,34 @@ static void ResizeAndRetire()
     owner.FUN_00aa4060(again);
 }
 
+static void CapacityFailure()
+{
+    MemoryManager owner;
+    owner.InitializeHeaps();
+    fnv_00404f30::FUN_00404f30(36);
+    auto* original = static_cast<unsigned char*>(owner.FUN_00aa3e40(8192));
+    CHECK(original);
+    original[0] = 0x31;
+    original[8191] = 0x73;
+    void* blocks[16]{};
+    unsigned count = 0;
+    while (count < 16) {
+        void* memory = owner.FUN_00aa3e40(32u * 1024 * 1024);
+        if (!memory)
+            break;
+        blocks[count++] = memory;
+    }
+    CHECK(count > 0 && count < 16); // Real main reservation exhaustion.
+    CHECK(!owner.Reallocate(original, 16u * 1024 * 1024));
+    CHECK(owner.Owns(original) && original[0] == 0x31 && original[8191] == 0x73);
+    for (unsigned i = 0; i < count; ++i)
+        owner.FUN_00aa4060(blocks[i]);
+    auto* replacement = static_cast<unsigned char*>(owner.Reallocate(original, 16u * 1024 * 1024));
+    CHECK(replacement && replacement[0] == 0x31 && replacement[8191] == 0x73);
+    CHECK(!owner.Owns(original));
+    owner.FUN_00aa4060(replacement);
+}
+
 static void Threaded()
 {
     MemoryManager owner;
@@ -129,6 +158,51 @@ static void Threaded()
     second.join();
 }
 
+static void GuardRouting()
+{
+    MemoryManager owner;
+    owner.InitializeHeaps();
+    fnv_00404f30::FUN_00404f30(36);
+    auto allocate = [&](Domain domain) {
+        void* memory = owner.FUN_00aa3e40(8192);
+        CHECK(memory && owner.HeapOwner(memory) == domain);
+        owner.FUN_00aa4060(memory);
+    };
+    allocate(Domain::Main);
+    {
+        AutoMemContext outer(9);
+        allocate(Domain::Auxiliary);
+        {
+            AutoMemContext inner(23);
+            allocate(Domain::Context23);
+            {
+                AutoMemContext normal(36);
+                allocate(Domain::Main);
+            }
+            CHECK(GetTlsField() == 23);
+            allocate(Domain::Context23);
+        }
+        CHECK(GetTlsField() == 9);
+        allocate(Domain::Auxiliary);
+    }
+    CHECK(GetTlsField() == 36);
+    try {
+        AutoMemContext exceptional(23);
+        allocate(Domain::Context23);
+        throw std::runtime_error("routing scope");
+    } catch (const std::runtime_error&) {}
+    CHECK(GetTlsField() == 36);
+    allocate(Domain::Main);
+    auto earlyReturn = [&] {
+        AutoMemContext early(9);
+        allocate(Domain::Auxiliary);
+        return;
+    };
+    earlyReturn();
+    CHECK(GetTlsField() == 36);
+    allocate(Domain::Main);
+}
+
 static void Unwind()
 {
     try {
@@ -147,7 +221,9 @@ int main()
     Bootstrap();
     Routing();
     ResizeAndRetire();
+    CapacityFailure();
     Threaded();
+    GuardRouting();
     Unwind();
     std::puts("canonical heap-owned manager seam passed");
 }

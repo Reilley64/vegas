@@ -60,7 +60,9 @@ interconvertibility on each build target; no historical offset is assumed.
 `InitializeHeaps` initializes that same owned set, propagating initialization
 failure as `bad_alloc`. `FUN_00aa3e40` consumes the actual typed
 `g_tlsBlock.memoryContext` through `AllocateFromHeaps`. `Size`, `Reallocate` and
-`FUN_00aa4060` find exact ownership before copying or releasing. A bootstrap
+`FUN_00aa4060` find exact ownership before copying or releasing. The existing
+unsigned `Reallocate` entry widens into native-size `ResizeOwned`, preserving
+requiring objects without an ambiguous overloaded-size boundary. A bootstrap
 allocation retains its CRT bootstrap domain after heap initialization. Unknown
 or interior pointers never reach CRT size/reallocate/free. Release of an unknown
 domain terminates; the nonterminating `ReleaseOwned` query reports rejection.
@@ -92,8 +94,10 @@ existing getter are deliberately not selected as an initialized owner.
 No generated data or context-guard implementation changes are included. The
 `runtime/new.cpp` legacy unsigned boundary now rejects overflow before casting,
 but the global-new/getter/full-startup chain is not executed by these tests.
-The independent guard candidate has not been composed here, so nested guard
-restoration through heap routing remains unmeasured. VEGAS-79 remains incomplete.
+The accepted guard is composed unchanged. Nested 9/23/36 scopes, early return
+and exception restoration now execute through the same real heap allocation
+entry; this does not establish the full engine startup chain. VEGAS-79 remains
+incomplete.
 
 ## Manager checks
 
@@ -102,8 +106,10 @@ owner and executes the production `InitializeHeaps`, allocation entry, size,
 reallocation and matching release, with the real production TLS owner. It covers
 all 66 contexts, distinct non-pool 9/23 domains, default 36, high pointers, exact
 ownership/rejection, bootstrap survival across initialization, failed/successful
-resize, thread isolation, explicit heap retirement/reinitialization and automatic
-owner cleanup during unwinding. It does not construct substitute heaps/managers,
+resize (including actual main-reservation exhaustion), thread isolation,
+explicit heap retirement/reinitialization and automatic
+owner cleanup during unwinding. It also exercises accepted guard restoration
+through actual allocation routing. It does not construct substitute heaps/managers,
 install a provider, or claim the full engine constructor ran.
 
 ## Supplier checks

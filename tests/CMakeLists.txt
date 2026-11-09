@@ -150,6 +150,7 @@ target_link_libraries(runtime_game_timer_test PRIVATE Threads::Threads)
 
 add_executable(runtime_canonical_memory_manager_test
   runtime/canonical_memory_manager_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
   ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
   ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
   ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
@@ -158,7 +159,9 @@ add_executable(runtime_canonical_memory_manager_test
   ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp
 )
 target_include_directories(runtime_canonical_memory_manager_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
-target_link_libraries(runtime_canonical_memory_manager_test PRIVATE Threads::Threads)
+if(UNIX)
+  target_link_libraries(runtime_canonical_memory_manager_test PRIVATE Threads::Threads)
+endif()
 add_test(NAME runtime.canonical_memory_manager COMMAND runtime_canonical_memory_manager_test)
 
 add_executable(runtime_allocation_context_test runtime/allocation_context_test.cpp)

@@ -148,6 +148,22 @@ add_test(NAME runtime.clamped_acos COMMAND runtime_clamped_acos_test)
 find_package(Threads REQUIRED)
 target_link_libraries(runtime_game_timer_test PRIVATE Threads::Threads)
 
+add_executable(runtime_canonical_memory_manager_test
+  runtime/canonical_memory_manager_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+  ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
+  ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp
+)
+target_include_directories(runtime_canonical_memory_manager_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+if(UNIX)
+  target_link_libraries(runtime_canonical_memory_manager_test PRIVATE Threads::Threads)
+endif()
+add_test(NAME runtime.canonical_memory_manager COMMAND runtime_canonical_memory_manager_test)
+
 add_executable(runtime_allocation_context_test runtime/allocation_context_test.cpp)
 if(WIN32)
   target_link_libraries(runtime_allocation_context_test PRIVATE game)

@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class MemoryManager;
+struct MemoryManager;
 struct BGSDehydrationStage;
 
 // 0x00401000

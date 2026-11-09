@@ -31,56 +31,9 @@
 #include <string.h>
 #include <malloc.h>
 
-// @fnv 0x00aa4150
-void* MemoryManager::Reallocate(void* apBlock, unsigned int size)
-{
-    void* allocation = 0;
-    unsigned int copySize = Size(apBlock);
-    if (copySize)
-    {
-        allocation = reinterpret_cast<::MemoryManagerStandIn *>(this)->FUN_00aa3e40(size);
-        if (copySize > size)
-            copySize = size;
-        memmove(allocation, apBlock, copySize);
-        reinterpret_cast<::FNV_MemoryManager *>(this)->FUN_00aa4060(apBlock);
-    }
-    else
-    {
-        void* resized = apBlock;
-        resized = realloc(resized, size);
-        allocation = resized;
-    }
-    return allocation;
-}
-
-// Returns the allocation size of a pointer by checking the owning MemoryPool, then the heap for the pointer or its physical address, falling back to _msize.
-// @fnv 0x00aa44c0
-unsigned int MemoryManager::Size(const void* pointer)
-{
-    unsigned int size;
-    MemoryPool* pool = MemoryPool::ms_pPoolAddressMap[reinterpret_cast<size_t>(pointer) >> kPoolAddressRegionShift];
-    if (pool && pool->PointerInPool(pointer))
-        size = pool->GetBlockSize();
-    else
-    {
-        IMemoryHeap* heap = ((::IMemoryHeap *)(reinterpret_cast<::FUN_00aa45a0_Class *>(this)->FindItemByArg((intptr_t)(pointer))));
-        if (heap)
-            size = heap->Size(pointer, 0);
-        else
-        {
-            heap = ((::IMemoryHeap *)(reinterpret_cast<::AA4610Allocator *>(this)->FindPoolContaining((void *)(pointer))));
-            if (heap)
-                size = heap->Size(pointer, 0);
-            else
-            {
-                unsigned int systemSize = 0;
-                systemSize = _msize(const_cast<void*>(pointer));
-                size = systemSize;
-            }
-        }
-    }
-    return size;
-}
+// Native size/reallocation of manager-owned heap/bootstrap allocations live in
+// canonical_memory_manager.cpp. Legacy pool/physical domains are not admitted
+// by that owner; whole-engine publication remains held.
 
 // @fnv 0x005f5760
 PerkEntryConditionSet* TESQuest::GetConditions()
@@ -120,18 +73,25 @@ void* Reallocate(void* pointer, unsigned int size)
     return FUN_00401020()->Reallocate(pointer, size);
 }
 
-// Looks up the scrap heap for the current thread ID, creating and storing a new one if none exists, and returns it.
+// Looks up the actual thread's scrap object using native keys and links.
 // @fnv 0x00aa42e0
 ScrapHeapBuffer* MemoryManager::GetGeneralAllocator()
 {
-    unsigned long threadID = GetCurrentThreadId();
-    ScrapHeapBuffer* heap = 0;
-    reinterpret_cast<::S_00adc830_Map *>(&(threadScrapHeaps))->GetAt(threadID, (::S_00adc830_Entry *&)(heap));
-    if (!heap)
-    {
-        heap = new ScrapHeapBuffer;
-        threadScrapHeaps.SetAt(threadID, heap);
+    std::lock_guard guard(scrapLock_);
+    const unsigned long thread = GetCurrentThreadId();
+    for (auto* entry = scraps_; entry; entry = entry->next)
+        if (entry->thread == thread)
+            return entry->heap;
+    // This remains the genuine scrap constructor, not an empty substitute.
+    auto* heap = new ScrapHeapBuffer;
+    auto* storage = AllocateBootstrap(sizeof(ScrapEntry));
+    if (!storage) {
+        delete heap;
+        throw std::bad_alloc();
     }
+    auto* entry = new (storage) ScrapEntry{scraps_, thread, heap,
+        [](ScrapHeapBuffer* value) noexcept { delete value; }};
+    scraps_ = entry;
     return heap;
 }
 
@@ -155,10 +115,6 @@ void FUN_00473960_shell::FUN_00473960()
 }
 
 using ::AutoMemContext;
-struct FUN_00aa3cc0_shell : public MemoryManager
-{
-    void CreateMemoryPool(unsigned int, unsigned int, char*);
-};
 
 using MemCtxGuard = ::AutoMemContext;
 struct MemoryPoolView : public MemoryPool
@@ -170,7 +126,7 @@ struct MemoryPoolView : public MemoryPool
 };
 // Creates a MemoryPool with the given block and pool sizes and description, deleting it if it has no memory; returns early when aiBlockSize is below 8.
 // @fnv 0x00aa3cc0
-void FUN_00aa3cc0_shell::CreateMemoryPool(unsigned int aiBlockSize, unsigned int aiPoolSize, char* apDesc)
+void MemoryManager::CreateMemoryPool(unsigned int aiBlockSize, unsigned int aiPoolSize, char* apDesc)
 {
     MemCtxGuard tempMemContext(3);
     if (aiBlockSize < 8)

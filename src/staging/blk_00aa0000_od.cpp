@@ -11,6 +11,7 @@
 #include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/MemoryManager.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_0044a690_cls.h"
 #include "fnv/decl/FUN_0044a8d0_Class.h"
@@ -292,28 +293,7 @@ struct P03MM
     void* Allocate(unsigned int);
 };
 
-struct HeapStandIn;
-
-struct MemoryManagerStandIn
-{
-    bool initialized;
-    char unk01;
-    char unk02;
-    char unk03;
-    int unk04;
-    int unk08;
-    HeapStandIn* heaps[0x41];
-    HeapStandIn* defaultHeap;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    char unk128;
-    bool usePools;
-
-    void* FUN_00aa3e40(unsigned int size);
-};
+// MemoryManagerStandIn is the canonical owner's allocation entry base.
 
 struct FUN_00aa8b00_Class
 {
@@ -407,10 +387,6 @@ char FUN_00aa4710_Class::FUN_00aa4710(int a, unsigned char b, int c)
     }
     return flag_;
 }
-
-struct MemoryManager
-{
-};
 
 struct FUN_00aa4b20_Class
 {
@@ -4443,71 +4419,18 @@ inline PoolStandIn* __cdecl GetPoolForSize(unsigned int size)
 }
 
 
-// @fnv 0x00aa3e40
-void* MemoryManagerStandIn::FUN_00aa3e40(unsigned int size)
+// The genuine legacy pool choice, admitted only by the real pool startup.
+// It does not pretend that heap-only startup constructed the pool owners.
+void* MemoryManager::AllocateFromPools(unsigned int requested)
 {
-    if (!initialized)
-    {
-        return reinterpret_cast<::FUN_00aa4290_Class *>(this)->AllocateBuffer(size, 0);
-    }
-    HeapStandIn* mainHeap = defaultHeap;
-    if (!mainHeap)
-    {
-        return reinterpret_cast<::FUN_00aa4290_Class *>(this)->AllocateBuffer(size, 0);
-    }
-    unsigned int requested3 = size;
-    void* result2 = 0;
-    if (size <= 8)
-    {
-        size = 8;
-    }
-    else
-    {
-        size = (size + 3) & ~3;
-    }
-    int heapIndex6 = ::g_tlsBlock.memoryContext;
-    if (usePools)
-    {
-        PoolStandIn* pool = size <= 0x3fc ? reinterpret_cast<PoolStandIn*>(DAT_011f67b8[size >> 2]) : 0;
-        if (!pool)
-        {
-            pool = ((::PoolStandIn *)(::FUN_00aa4960(size)));
-        }
-        if (pool)
-        {
-            result2 = reinterpret_cast<::fnv_00aa6aa0::FUN_00aa6aa0_shell *>((pool))->FUN_00aa6aa0(requested3);
-            if (result2)
-            {
-                return result2;
-            }
-        }
-    }
-    bool retry2 = false;
-    bool recovered7 = false;
-    int attempt2 = 0;
-    HeapStandIn* heap = 0;
-    HeapStandIn* threadHeapB = 0;
-    threadHeapB = heaps[heapIndex6];
-    do
-    {
-        heap = threadHeapB ? threadHeapB : mainHeap;
-        result2 = heap->Allocate(size, 0);
-        if (!result2 && heap != mainHeap)
-        {
-            heap = mainHeap;
-            result2 = heap->Allocate(size, 0);
-        }
-        if (!result2)
-        {
-            attempt2 = reinterpret_cast<::StateMachine *>(this)->RunStep(threadHeapB ? threadHeapB : mainHeap, attempt2, &retry2);
-            if (retry2)
-            {
-                result2 = reinterpret_cast<::FUN_00aa4290_Class *>(this)->AllocateBuffer(size, 0);
-                recovered7 = result2 != 0;
-            }
-        }
-    } while (!result2);
-    return result2;
+    unsigned int size = requested <= 8 ? 8 : (requested + 3) & ~3u;
+    PoolStandIn* pool = size <= 0x3fc
+        ? reinterpret_cast<PoolStandIn*>(DAT_011f67b8[size >> 2]) : nullptr;
+    if (!pool)
+        pool = reinterpret_cast<PoolStandIn*>(::FUN_00aa4960(size));
+    return pool
+        ? reinterpret_cast<::fnv_00aa6aa0::FUN_00aa6aa0_shell*>(pool)->FUN_00aa6aa0(requested)
+        : nullptr;
 }
 
 void __cdecl NiFree4A60(void* pvMem);

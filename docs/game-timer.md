@@ -83,8 +83,9 @@ production-used spectator elapsed-time operations with a synthetic four-byte
 payload. These are not claims of complete UI execution, complete spectator
 object construction or full save-format interoperability.
 
-Complete Windows-x64 recipe validation: 87 game TUs (86 existing members plus
-the companion), the actual executable entry, and three focused-test TUs
+Complete Windows-x64 recipe validation: 88 game TUs (87 existing members plus
+the companion), including the actor header unit, the actual executable entry,
+and three focused-test TUs
 compile. Actual compiler flags, includes, optimization and EH policy are
 retained; no error-limit weakening or pointer-cast suppression is added.
 Every attempt, argv/cwd, tool/source/object identity, changed-object symbol/
@@ -93,8 +94,8 @@ inventory is retained with the external validation evidence.
 
 The complete archive contains **2209** members: all original **2208** members
 with relative order preserved, plus the recipe companion adjacent to its
-module. All physical payload hashes are verified. There are 86 fresh existing
-game-object replacements and 2122 reused accepted payloads; reuse does not
+module. All physical payload hashes are verified. There are 87 fresh existing
+game-object replacements and 2121 reused accepted payloads; reuse does not
 claim fresh compilation of unrelated source. The executable entry is fresh;
 unchanged runtime/new and zlib inputs are retained.
 

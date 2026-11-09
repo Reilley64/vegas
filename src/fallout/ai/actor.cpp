@@ -158600,9 +158600,9 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
     if (fTimeSinceScaleStart == ::_DAT_01012060 && !FUN_00931850())
     {
         if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::DAT_011f21cc)))
-            fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&(DAT_011f6394))->GetStoredFloatValue() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::ActorUpdate3D::ActorList *>(&::g_011f2250))))->FUN_009c8d60();
+            fTimeSinceScaleStart = ::fnv::timer::Seconds() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::ActorUpdate3D::ActorList *>(&::g_011f2250))))->FUN_009c8d60();
         else
-            fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&(DAT_011f6394))->GetStoredFloatValue();
+            fTimeSinceScaleStart = ::fnv::timer::Seconds();
     }
     ::UpdateFlag800State((::Actor *)this);
     if (this != (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer)))

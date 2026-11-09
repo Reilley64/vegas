@@ -10,6 +10,7 @@
 #define FNV_SRC_FALLOUT_AI_ACTOR_H
 
 #include "fnv/vats_camera_data_view.h"
+#include "fnv/game_timer.h"
 #include <cstdint>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_00508100_shell.h"
@@ -385,9 +386,9 @@ void Actor::UpdateActorMovement(float delta)
         {
             if ((reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode) == 4 && this == DAT_011f21cc)
                 ((ActorProcessView*)m_pBaseProcess)
-                    ->Update(this, reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)->GetStoredFloatValue() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATS *>(&::g_011f2250))))->FUN_009c8d60());
+                    ->Update(this, ::fnv::timer::Seconds() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATS *>(&::g_011f2250))))->FUN_009c8d60());
             else
-                ((ActorProcessView*)m_pBaseProcess)->Update(this, reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)->GetStoredFloatValue());
+                ((ActorProcessView*)m_pBaseProcess)->Update(this, ::fnv::timer::Seconds());
         }
         if (!((ActorPacketView*)this)->IsMoving(false) && ((ActorProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->IsInIdleState() &&
             pCurrentAnimation && !pCurrentAnimation->GetControllerSequence(4))

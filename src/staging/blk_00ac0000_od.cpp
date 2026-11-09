@@ -12,6 +12,7 @@
 #include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_0044a4c0.h"
 #include "fnv/decl/FUN_0044a8d0_Class.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_0065cfd0_cls.h"
@@ -45290,74 +45291,17 @@ bool FUN_00ac8390(const char* buffer, const parser839::String& name, parser839::
     }
 }
 
-typedef vc9_std::basic_string<char, vc9_std::char_traits<char>, vc9_std::allocator<char> > PackString87;
-
-struct Alloc87 : vc9_std::allocator<char>
-{
-    __forceinline Alloc87() throw()
-    {}
-    __forceinline Alloc87(const Alloc87&) throw()
-    {}
-};
-
-struct FUN_0044a4c0 : PackString87
-{
-    int ComparePart(unsigned, unsigned, const char*, unsigned) const;
-    __forceinline int Compare(const FUN_0044a4c0& s) const
-    {
-        unsigned length = _Mysize;
-        return ComparePart(0, length, s._Myptr(), s.size());
-    }
-    __forceinline FUN_0044a4c0& AssignChars(const char* p, unsigned n)
-    {
-        if (_Inside(p))
-        {
-            assign(*this, unsigned(p - reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970()), n);
-            return *this;
-        }
-        if (_Grow(n))
-        {
-            vc9_std::_Traits_helper::copy_s<vc9_std::char_traits<char> >(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970(), _Myres, p, n);
-            _Eos(n);
-        }
-        return *this;
-    }
-    __forceinline FUN_0044a4c0(Alloc87 a = Alloc87())
-    {
-        _Alval = a;
-    }
-    __forceinline FUN_0044a4c0(const FUN_0044a4c0& s)
-    {}
-    FUN_0044a4c0(const char* s)
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
-        Assign(s);
-    }
-    __forceinline FUN_0044a4c0& Assign(const char* s)
-    {
-        AssignChars(s, ::strlen(s));
-        return *this;
-    }
-};
-
 struct FUN_0044a500 : FUN_0044a4c0
 {
-    FUN_0044a500()
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
-    }
-    FUN_0044a500(const char* s) : FUN_0044a4c0(s)
+    FUN_0044a500() = default;
+    FUN_0044a500(const char* text) : FUN_0044a4c0(text)
     {}
-    FUN_0044a500(const FUN_0044a500& s);
-    FUN_0044a500(const FUN_0044a500& s, unsigned off) : FUN_0044a4c0(s)
+    FUN_0044a500(const FUN_0044a500& other);
+    FUN_0044a500(const FUN_0044a500& other, unsigned int offset)
     {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
-        assign(s, off, (*reinterpret_cast<int *>(&::g_010173f0)));
+        assign(other, offset, static_cast<unsigned int>(::g_010173f0));
     }
-    ~FUN_0044a500()
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
-    }
+    ~FUN_0044a500() = default;
 };
 
 typedef FUN_0044a500 QString;

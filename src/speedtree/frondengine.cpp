@@ -8,6 +8,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include "fnv/decl/FUN_0044a4c0.h"
+#include "fnv/decl/FUN_00b09480.h"
 #include "fnv/decl/Target18.h"
 #include "fnv/decl/VecAlloc.h"
 #include "fnv/decl/VecStandIn.h"
@@ -402,34 +404,6 @@ namespace fnv_00b1ebc0 { namespace vecdb1eb { struct VdElemV; } }
 
 
 unsigned int g_010173f0;
-
-struct FUN_0044a4c0
-{
-    int iAl;
-    char acBuf[16];
-    int iSize;
-    int iRes;
-    FUN_0044a4c0()
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
-    }
-    FUN_0044a4c0(const char* s);
-    FUN_0044a4c0(const FUN_0044a4c0& r)
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
-        AssignSubstring(r, 0, *(unsigned*)&(*reinterpret_cast<int *>(&::g_010173f0)));
-    }
-    ~FUN_0044a4c0()
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
-    }
-    FUN_0044a4c0& AssignSubstring(const FUN_0044a4c0& r, unsigned o, unsigned n);
-    FUN_0044a4c0& operator=(const FUN_0044a4c0& r)
-    {
-        return AssignSubstring(r, 0, *(unsigned*)&(*reinterpret_cast<int *>(&::g_010173f0)));
-    }
-    FUN_0044a4c0 FUN_00b09f90();
-};
 
 struct FUN_00b1ada0_class
 {
@@ -1046,55 +1020,6 @@ FUN_00b12af0_shell* FUN_00b12af0(FUN_00b12af0_shell* apMatrix)
     apMatrix->m[7] = 0.0f;
     apMatrix->m[8] = 1.0f;
     return apMatrix;
-}
-
-
-struct FmtCtx
-{
-    unsigned unk00;
-    unsigned unk04;
-    unsigned unk08;
-    unsigned unk0c;
-    unsigned unk10;
-    unsigned unk14;
-    unsigned unk18;
-    unsigned unk1c;
-    unsigned unk20;
-    unsigned unk24;
-    unsigned unk28;
-    unsigned unk2c;
-    unsigned unk30;
-    unsigned unk34;
-    unsigned unk38;
-    unsigned unk3c;
-    unsigned unk40;
-    unsigned unk44;
-    unsigned unk48;
-    unsigned unk4c;
-    unsigned unk50;
-    unsigned unk54;
-    unsigned unk58;
-    unsigned flags;
-};
-
-struct FUN_0044a4c0_Str
-{
-};
-
-// Formats variadic arguments into a local buffer using fmt, then assigns the result to out and returns out.
-// @fnv 0x00b18860
-FUN_0044a4c0_Str* __cdecl FUN_00b18860(FUN_0044a4c0_Str* out, char const* fmt, ...)
-{
-    FmtCtx ctx;
-    char buf2[0x400];
-    va_list ap4;
-    ctx.flags = 0;
-    va_start(ap4, fmt);
-    ::std::vsprintf(buf2, fmt, ap4);
-    va_end(ap4);
-    new ((void *)(out)) ::FUN_0044a4c0(buf2);
-    ctx.flags |= 1;
-    return out;
 }
 
 
@@ -3619,19 +3544,6 @@ extern int DAT_010173f0;
 
 
 
-struct FUN_00b096a0
-{
-    int aiBase[9];
-    FUN_00b096a0(const FUN_0044a4c0& s);
-    virtual ~FUN_00b096a0();
-};
-
-struct FUN_00b09480 : FUN_00b096a0
-{
-    FUN_00b09480(const FUN_0044a4c0& msg, bool bErrno);
-    virtual ~FUN_00b09480();
-};
-
 struct RQ : FUN_0044a4c0
 {
 };
@@ -3788,7 +3700,7 @@ void Frond::FUN_00b18340(Parser* p)
                         kInfo.fD = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
                         break;
                     default:
-                        throw FUN_00b09480((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "malformed frond texture information (token %d)", iToken))),
+                        throw FUN_00b09480(*::FUN_00b18860(&ResultSlot(StringSlot{}), "malformed frond texture information (token %d)", iToken),
                                            false);
                     }
                     iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
@@ -3798,7 +3710,7 @@ void Frond::FUN_00b18340(Parser* p)
             break;
         }
         default:
-            throw FUN_00b09480((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "malformed frond info (token %d)", iToken))), false);
+            throw FUN_00b09480(*::FUN_00b18860(&ResultSlot(StringSlot{}), "malformed frond info (token %d)", iToken), false);
         }
         iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     } while (iToken != 0x32c9);
@@ -31909,7 +31821,7 @@ void FrondEngine::FUN_00b18fd0(FrondGeometry* output, void* context)
         }
     }
     if (vertexCount > 65535)
-        throw frondstd::runtime_error((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), vertexLimitMessage, 65535))));
+        throw frondstd::runtime_error(*::FUN_00b18860(&ResultSlot(StringSlot{}), vertexLimitMessage, 65535));
     reinterpret_cast<::VectorSet *>((geometry))->FUN_00b2fb30(geometryType);
     switch (mode)
     {

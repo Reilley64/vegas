@@ -6,6 +6,8 @@
 #include "fnv/symbols_01018000.h"
 #include "fnv/symbols_0101e000.h"
 #include "fnv/decl/B13970Self.h"
+#include "fnv/decl/FUN_0044a4c0.h"
+#include "fnv/decl/FUN_00b09480.h"
 #include "fnv/decl/ClsB3FCF0.h"
 #include "fnv/decl/FUN_00b15170.h"
 #include "fnv/decl/FUN_00b3ed20_cls.h"
@@ -169,33 +171,6 @@ void FUN_00b3f310_Host::FUN_00b3f620()
     unk60 = 0;
     unk70 = 0;
 }
-
-struct FUN_0044a4c0
-{
-    int iAl;
-    char acBuf[16];
-    int iSize;
-    int iRes;
-    FUN_0044a4c0(const char* s);
-    FUN_0044a4c0(const FUN_0044a4c0& r);
-    ~FUN_0044a4c0()
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
-    }
-};
-
-struct FUN_00b096a0
-{
-    int aiBase[9];
-    FUN_00b096a0(const FUN_0044a4c0& s);
-    virtual ~FUN_00b096a0();
-};
-
-struct FUN_00b09480 : FUN_00b096a0
-{
-    FUN_00b09480(const FUN_0044a4c0& msg, bool bErrno);
-    virtual ~FUN_00b09480();
-};
 
 struct ByteVec
 {

@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "fnv/decl/FNVTokenParser.h"
+#include "fnv/decl/FUN_0044a4c0.h"
 #include "fnv/decl/FUN_00594cd0_Class.h"
 #include "fnv/decl/FUN_00594d20_Class.h"
 #include "fnv/decl/FUN_00594d40_class.h"
@@ -1598,16 +1599,6 @@ inline void Dead3()
 }
 
 void FUN_00ec7894(void* p, void* t);
-
-struct FUN_0044a4c0
-{
-    int m[7];
-    FUN_0044a4c0(const char* s);
-    ~FUN_0044a4c0()
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
-    }
-};
 
 struct FUN_0044a310
 {

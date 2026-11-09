@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <cstring>
 #include "fnv/decl/CB28.h"
+#include "fnv/decl/FUN_0044a4c0.h"
+#include "fnv/decl/FUN_00b09480.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00aca270.h"
 #include "fnv/decl/FUN_00b0cf90_class.h"
@@ -4450,68 +4452,6 @@ void FUN_00b08750_class::FUN_00b08750()
 }
 
 
-struct FUN_00ec78e0
-{
-    void* vtbl;
-    int unk04;
-    int unk08;
-
-    FUN_00ec78e0();
-};
-
-struct FUN_00b096a0_Str
-{
-    void AssignSubstring(const FUN_00b096a0_Str&, unsigned int, unsigned int);
-
-    ~FUN_00b096a0_Str();
-};
-
-struct FUN_00b096a0 : FUN_00ec78e0
-{
-    FUN_00b096a0_Str m_str;
-
-    FUN_00b096a0(const FUN_00b096a0_Str& pName);
-};
-
-// @fnv 0x00b096a0
-FUN_00b096a0::FUN_00b096a0(const FUN_00b096a0_Str& pName)
-{
-    int v00;
-    int v01;
-    int v02;
-    int v03;
-    int v04;
-    int v05;
-    int v06;
-    int v07;
-    int v08;
-    int v09;
-    int v10;
-    int v11;
-    int v12;
-    int v13;
-    int v14;
-    int v15;
-    int v16;
-    int v17;
-    int v18;
-    int v19;
-    int v20;
-    int v21;
-    int v22;
-    int v23;
-    int v24;
-    int v25;
-
-    *(void**)this = (void*)&DAT_010a307c;
-
-    {
-        FUN_00b096a0_Str& s = m_str;
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(&(s))->FUN_0044a730(false, 0);
-        s.AssignSubstring(pName, 0, ::g_010173f0);
-    }
-}
-
 namespace fnv_00b09730 {
 struct FUN_00b09730_Local
 {
@@ -4727,39 +4667,6 @@ inline void Dead8()
     int d6;
     int d7;
 }
-
-struct FUN_0044a4c0
-{
-    int aBuf[7];
-    FUN_0044a4c0(const char* s);
-    ~FUN_0044a4c0()
-    {
-        Dead8();
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
-    }
-    void FUN_0044a730(bool b, unsigned n);
-};
-
-FUN_0044a4c0 __cdecl FUN_00ad4210(const FUN_0044a4c0& l, const char* r);
-
-FUN_0044a4c0 __cdecl FUN_00ad42e0(const FUN_0044a4c0& l, const FUN_0044a4c0& r);
-
-struct FUN_00b09480 : FUN_00b096a0
-{
-    FUN_00b09480(const FUN_0044a4c0& msg, bool bErrno);
-    virtual ~FUN_00b09480();
-};
-
-// @fnv 0x00b09480
-FUN_00b09480::FUN_00b09480(const FUN_0044a4c0& msg, bool bErrno)
-    : FUN_00b096a0(reinterpret_cast<const FUN_00b096a0_Str&>(
-          (const FUN_0044a4c0&)FUN_00ad4210(FUN_00ad42e0(FUN_00ad4210(msg, " ["),
-                                                         bErrno ? FUN_0044a4c0(::std::strerror(*(&errno))) : FUN_0044a4c0("")),
-                                            "]")))
-{}
-
-
-
 
 
 // @fnv 0x00b0b4b0
@@ -5214,11 +5121,11 @@ bool SpdCompQ::FUN_00b044a0(const float* pTransform, int nSeed, bool bStrips)
     }
     catch (std::exception& exc)
     {
-        ::AssignString((*(::fnv_00b044a0::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::Compute", exc.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::Compute", exc.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b044a0::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::Compute"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::Compute")->c_str());
         Dead1();
     }
     return m_b45;
@@ -5528,11 +5435,11 @@ SpeedTreeRTB05210* SpeedTreeRTB05210::FUN_00b05210()
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b05210::StringB05210 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::MakeInstance", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::MakeInstance", e.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b05210::StringB05210 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::MakeInstance"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::MakeInstance")->c_str());
     }
     return pInstance;
 }
@@ -5700,8 +5607,7 @@ bool SpdLoadQ::FUN_00b05420(const char* path)
                     }
                     else
                     {
-                        throw std::exception((*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "only read %d of %d from %s [%s]", count, length, path, ::std::strerror(*(&errno)))))
-                                                 .c_str());
+                        throw std::exception(::FUN_00b18860(&ResultSlot(StringSlot{}), "only read %d of %d from %s [%s]", count, length, path, ::std::strerror(*(&errno)))->c_str());
                     }
                     delete file_cswij;
                     file_cswij = 0;
@@ -5709,13 +5615,13 @@ bool SpdLoadQ::FUN_00b05420(const char* path)
                 else
                 {
                     throw std::exception(
-                        (*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "file seek failed on '%s' [%s]", path, ::std::strerror(*(&errno))))).c_str());
+                        ::FUN_00b18860(&ResultSlot(StringSlot{}), "file seek failed on '%s' [%s]", path, ::std::strerror(*(&errno)))->c_str());
                 }
             }
             else
             {
                 throw std::exception(
-                    (*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "failed to load file '%s' [%s]", path, ::std::strerror(*(&errno))))).c_str());
+                    ::FUN_00b18860(&ResultSlot(StringSlot{}), "failed to load file '%s' [%s]", path, ::std::strerror(*(&errno)))->c_str());
             }
         }
     }
@@ -5727,7 +5633,7 @@ bool SpdLoadQ::FUN_00b05420(const char* path)
             file_cswij = 0;
         }
         contents_lmol = 0;
-        ::AssignString((*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "CSpeedTreeRT::Load Tree - %s", e_jzu.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "CSpeedTreeRT::Load Tree - %s", e_jzu.what())->c_str());
     }
     catch (...)
     {
@@ -5737,7 +5643,7 @@ bool SpdLoadQ::FUN_00b05420(const char* path)
             file_cswij = 0;
         }
         contents_lmol = 0;
-        ::AssignString((*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "CSpeedTreeRT::LoadTree - threw an unknown system exception"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "CSpeedTreeRT::LoadTree - threw an unknown system exception")->c_str());
     }
     return bOk_dt;
 }
@@ -6271,11 +6177,11 @@ bool Tree59::FUN_00b059e0(const char* p1, int p2)
     }
     catch (Exc59& e)
     {
-        ::AssignString((*(::fnv_00b059e0::Str59 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::LoadTree", e.Msg()))));
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::LoadTree", e.Msg())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b059e0::Str59 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::LoadTree"))));
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::LoadTree")->c_str());
     }
     return result5;
 }
@@ -6545,11 +6451,11 @@ void SpeedTreeRTB06280::FUN_00b06280(float fSize, float fVariance)
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b06280::StringB06280 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetTreeSize", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetTreeSize", e.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b06280::StringB06280 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetTreeSize"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetTreeSize")->c_str());
     }
 }
 }
@@ -6711,11 +6617,11 @@ int SpeedTreeRTB06440::FUN_00b06440()
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b06440::StringB06440 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetTreeSize", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetTreeSize", e.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b06440::StringB06440 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetTreeSize"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetTreeSize")->c_str());
     }
     return iResult;
 }
@@ -6886,12 +6792,12 @@ void SpeedTreeRTB06660::FUN_00b06660(int eMethod)
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b06660::StringB06660 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetBranchLightingMethod", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetBranchLightingMethod", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::fnv_00b06660::StringB06660 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetBranchLightingMethod"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetBranchLightingMethod")->c_str());
     }
 }
 }
@@ -7073,12 +6979,12 @@ void SpeedTreeRTB06810::FUN_00b06810(int eMethod)
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b06810::StringB06810 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetLeafLightingMethod", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetLeafLightingMethod", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::fnv_00b06810::StringB06810 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetLeafLightingMethod"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetLeafLightingMethod")->c_str());
     }
 }
 }
@@ -7286,12 +7192,12 @@ void SpeedTreeRTB069C0::FUN_00b069c0(int eMethod)
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b069c0::StringB069C0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetFrondLightingMethod", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetFrondLightingMethod", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::fnv_00b069c0::StringB069C0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetFrondLightingMethod"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetFrondLightingMethod")->c_str());
     }
 }
 }
@@ -7427,11 +7333,11 @@ void __cdecl SpdTreeQ::FUN_00b06c10(const float* pPos, const float* pDir)
     }
     catch (CIdvException& e)
     {
-        ::AssignString((*(::fnv_00b06c10::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetCamera", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetCamera", e.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b06c10::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetCamera"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetCamera")->c_str());
     }
 }
 }
@@ -7571,11 +7477,11 @@ void __cdecl FUN_00b07060(float fTime)
     }
     catch (ExceptionB07& e)
     {
-        ::AssignString((*(::fnv_00b07060::stdb07::basic_string<char, ::fnv_00b07060::stdb07::char_traits<char>, ::fnv_00b07060::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetTime", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetTime", e.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b07060::stdb07::basic_string<char, ::fnv_00b07060::stdb07::char_traits<char>, ::fnv_00b07060::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetTime"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetTime")->c_str());
     }
 }
 }
@@ -7788,12 +7694,12 @@ void SpeedTreeRTB071F0::FUN_00b071f0(int iGroups)
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b071f0::StringB071F0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetLeafRockingState", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetLeafRockingState", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::fnv_00b071f0::StringB071F0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetLeafRockingState"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetLeafRockingState")->c_str());
     }
 }
 }
@@ -7966,11 +7872,11 @@ void SpeedTreeRTB07510::FUN_00b07510(int eMode)
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b07510::StringB07510 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetLeafWindMethod", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetLeafWindMethod", e.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b07510::StringB07510 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetLeafWindMethod"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetLeafWindMethod")->c_str());
     }
 }
 }
@@ -8169,12 +8075,12 @@ void SpeedTreeRTB076E0::FUN_00b076e0(int eMode)
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b076e0::StringB076E0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetBranchWindMethod", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetBranchWindMethod", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::fnv_00b076e0::StringB076E0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetBranchWindMethod"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetBranchWindMethod")->c_str());
     }
 }
 }
@@ -8381,12 +8287,12 @@ void SpeedTreeRTB07900::FUN_00b07900(int eMode)
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b07900::StringB07900 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetFrondWindMethod", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetFrondWindMethod", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::fnv_00b07900::StringB07900 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetFrondWindMethod"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetFrondWindMethod")->c_str());
     }
 }
 }
@@ -8491,11 +8397,11 @@ float SpdTreeQ::FUN_00b07b00(float fWaterLevelItem, float fLeaf, float fBranch)
     }
     catch (CIdvException& e)
     {
-        ::AssignString((*(::fnv_00b07b00::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetWindStrength", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetWindStrength", e.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b07b00::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetWindStrength"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetWindStrength")->c_str());
     }
     return fResult;
 }
@@ -8668,12 +8574,12 @@ void __cdecl FUN_00b07db0(unsigned short usMode)
     }
     catch (ExceptionB07& e)
     {
-        ::AssignString((*(::fnv_00b07db0::stdb07::basic_string<char, ::fnv_00b07db0::stdb07::char_traits<char>, ::fnv_00b07db0::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetNumWindMatrices", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetNumWindMatrices", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::fnv_00b07db0::stdb07::basic_string<char, ::fnv_00b07db0::stdb07::char_traits<char>, ::fnv_00b07db0::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetNumWindMatrices"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetNumWindMatrices")->c_str());
     }
 }
 }
@@ -8834,11 +8740,11 @@ void SpeedTreeRTB08050::FUN_00b08050(unsigned int uiStart, unsigned int ItemUpda
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b08050::StringB08050 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetLocalMatrices", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::SetLocalMatrices", e.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b08050::StringB08050 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetLocalMatrices"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::SetLocalMatrices")->c_str());
     }
 }
 }
@@ -8927,11 +8833,11 @@ void SpdTreeQ::FUN_00b08200()
     }
     catch (CIdvException& e)
     {
-        ::AssignString((*(::fnv_00b08200::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::ComputeLodLevel", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::ComputeLodLevel", e.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b08200::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::ComputeLodLevel"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::ComputeLodLevel")->c_str());
     }
 }
 }
@@ -9435,12 +9341,12 @@ void CSpeedTreeRTB08::FUN_00b088d0()
     }
     catch (ExceptionB07& e)
     {
-        ::AssignString((*(::fnv_00b088d0::stdb07::basic_string<char, ::fnv_00b088d0::stdb07::char_traits<char>, ::fnv_00b088d0::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::DeleteBranchGeometry", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::DeleteBranchGeometry", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::fnv_00b088d0::stdb07::basic_string<char, ::fnv_00b088d0::stdb07::char_traits<char>, ::fnv_00b088d0::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::DeleteBranchGeometry"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::DeleteBranchGeometry")->c_str());
     }
 }
 }
@@ -9571,12 +9477,12 @@ const float* SpeedTreeRTB08AF0::FUN_00b08af0(unsigned int& iIndex)
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b08af0::StringB08AF0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::GetLeafBillboardTable", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::GetLeafBillboardTable", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::fnv_00b08af0::StringB08AF0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::GetLeafBillboardTable"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::GetLeafBillboardTable")->c_str());
     }
     return pSearchEntries;
 }
@@ -10987,8 +10893,7 @@ void SpeedTreeRTB0A2A0::FUN_00b0a2a0(unsigned int uiIndex, int& eType, float* pP
     if (m_pCollisionVectors)
     {
         if (uiIndex >= m_pCollisionVectors->size())
-            ::AssignString((*(::fnv_00b0a2a0::StringB0A2A0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "collision object index (%d) exceeds maximum index (%d)", uiIndex, m_pCollisionVectors->size())))
-                             .c_str());
+            ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "collision object index (%d) exceeds maximum index (%d)", uiIndex, m_pCollisionVectors->size())->c_str());
         else
         {
             eType = (*m_pCollisionVectors)[uiIndex].m_eRequestType;
@@ -11165,12 +11070,12 @@ void SpeedTreeRTB0A7A0::FUN_00b0a7a0()
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::fnv_00b0a7a0::StringB0A7A0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::DeleteFrondGeometry", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::DeleteFrondGeometry", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::fnv_00b0a7a0::StringB0A7A0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::DeleteFrondGeometry"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::DeleteFrondGeometry")->c_str());
     }
 }
 }
@@ -12149,12 +12054,12 @@ const float* SpdTreeQ::FUN_00b0cb10()
     }
     catch (CIdvException& e)
     {
-        ::AssignString((*(::fnv_00b0cb10::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::GetLeafLodSizeAdjustments", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::GetLeafLodSizeAdjustments", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::fnv_00b0cb10::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::GetLeafLodSizeAdjustments"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::GetLeafLodSizeAdjustments")->c_str());
     }
     return pafLodSizes;
 }
@@ -12320,12 +12225,12 @@ FUN_00b02ef0::FUN_00b02ef0()
     }
     catch (ExcQ& e)
     {
-        AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::CSpeedTreeRT( )", e.what()))).c_str());
+        AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::CSpeedTreeRT( )", e.what())->c_str());
         Dead5Q();
     }
     catch (...)
     {
-        AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::CSpeedTreeRT( )"))).c_str());
+        AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::CSpeedTreeRT( )")->c_str());
         Dead5Q();
     }
 }
@@ -16015,12 +15920,12 @@ void CSpeedTreeRT::FUN_00b08cc0()
     }
     catch (std::exception& e)
     {
-        ::AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::ComputeLeafStaticLighting", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::ComputeLeafStaticLighting", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::ComputeLeafStaticLighting"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::ComputeLeafStaticLighting")->c_str());
     }
 }
 }
@@ -16111,11 +16016,11 @@ void SpeedTreeImpl::FUN_00b0ab20(void* m_pShaderGeometry, unsigned long ulGeomet
     }
     catch (const std::exception& e)
     {
-        ::AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::GetGeometry", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::GetGeometry", e.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::GetGeometry"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::GetGeometry")->c_str());
     }
 }
 }
@@ -16398,12 +16303,12 @@ void FUN_00b08ec0(int param_1)
     }
     catch (const std::exception& e)
     {
-        ::AssignString((*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::NotifyAllTreesOfEvent", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::NotifyAllTreesOfEvent", e.what())->c_str());
     }
     catch (...)
     {
         ::AssignString(
-            (*(::StrQ *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::NotifyAllTreesOfEvent"))).c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::NotifyAllTreesOfEvent")->c_str());
     }
 }
 }
@@ -16569,13 +16474,11 @@ FUN_00b036d0::FUN_00b036d0(FUN_00b036d0* pNewInstance)
     catch (IdvException& e)
     {
         AssignString(
-            (*(::CloneFormatting::String *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::CSpeedTreeRT(CSpeedTreeRT*)", e.what())))
-                .c_str());
+            ::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::CSpeedTreeRT(CSpeedTreeRT*)", e.what())->c_str());
     }
     catch (...)
     {
-        AssignString((*(::CloneFormatting::String *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::CSpeedTreeRT(CSpeedTreeRT*)")))
-                         .c_str());
+        AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::CSpeedTreeRT(CSpeedTreeRT*)")->c_str());
     }
 }
 
@@ -16846,11 +16749,11 @@ void CSpeedTreeRTD04::FUN_00b0d040(STexturesD04& sTextures)
     }
     catch (ExceptionB07& e)
     {
-        ::AssignString((*(::fnv_00b0d040::stdb07::basic_string<char, ::fnv_00b0d040::stdb07::char_traits<char>, ::fnv_00b0d040::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::GetTextures", e.what()))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - failed [%s]", "CSpeedTreeRT::GetTextures", e.what())->c_str());
     }
     catch (...)
     {
-        ::AssignString((*(::fnv_00b0d040::stdb07::basic_string<char, ::fnv_00b0d040::stdb07::char_traits<char>, ::fnv_00b0d040::stdb07::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::GetTextures"))).c_str());
+        ::AssignString(::FUN_00b18860(&ResultSlot(StringSlot{}), "%s - threw an unknown system exception", "CSpeedTreeRT::GetTextures")->c_str());
     }
 }
 }

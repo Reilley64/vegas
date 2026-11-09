@@ -324,7 +324,7 @@ void FrondInfo::FUN_00b3e750(ChunkReader* reader)
             break;
         }
         default:
-            throw IdvFileError((*(std::basic_string<char, std::char_traits<char>, std::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "malformed frond info (token %d)", token))));
+            throw IdvFileError(std::string(::FUN_00b18860(&ResultSlot(StringSlot{}), "malformed frond info (token %d)", token)->c_str()));
         }
         token = reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement();
     } while (token != 0x4651);

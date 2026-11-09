@@ -1,6 +1,6 @@
 #pragma once
 
-struct FUN_0044a4c0_Str;
+#include "fnv/decl/FUN_0044a4c0.h"
 
-// 0x00b18860
-::FUN_0044a4c0_Str *FUN_00b18860(::FUN_0044a4c0_Str *, const char *, ...);
+// 0x00b18860: formats into an already-live canonical native string.
+::FUN_0044a4c0* FUN_00b18860(::FUN_0044a4c0*, const char*, ...);

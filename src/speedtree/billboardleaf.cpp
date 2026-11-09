@@ -1,3 +1,5 @@
+#include "fnv/decl/FUN_0044a4c0.h"
+#include "fnv/decl/FUN_00b09480.h"
 #include "fnv/decl/FUN_00b3ed20_cls.h"
 #include "fnv/decl/FUN_00b3ede0_shell.h"
 #include "fnv/decl/FUN_00b40800_t.h"
@@ -59,37 +61,6 @@ struct V3
     float x;
     float y;
     float z;
-};
-
-struct FUN_0044a4c0
-{
-    int iAl;
-    char acBuf[16];
-    int iSize;
-    int iRes;
-    FUN_0044a4c0(const char* s);
-    FUN_0044a4c0(const FUN_0044a4c0& r);
-    ~FUN_0044a4c0()
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
-    }
-};
-
-struct FUN_00b096a0
-{
-    int aiBase[9];
-    FUN_00b096a0(const FUN_0044a4c0& s);
-    virtual ~FUN_00b096a0();
-};
-
-struct FUN_00b09480 : FUN_00b096a0
-{
-    FUN_00b09480(const FUN_0044a4c0& msg, unsigned char bErrno) : FUN_00b096a0(bErrno ? FUN_0044a4c0("e") : msg)
-    {
-        int dq[40];
-        dq[0] = 0;
-    }
-    virtual ~FUN_00b09480();
 };
 
 struct ByteVec

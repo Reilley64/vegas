@@ -1,4 +1,5 @@
 #include "AutoMemContext.h"
+#include "fnv/decl/FUN_0044a4c0.h"
 
 // src/staging/blk_00440000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -6276,34 +6277,6 @@ FUN_0045d970::~FUN_0045d970()
         reinterpret_cast<::FUN_00438af0_Class *>(((*reinterpret_cast<::fnv_0045d970::CleanupMap * *>(&::fnv_00483370::DAT_011c54c0))))->FUN_00438af0();
 }
 }  // namespace fnv_0045d970
-
-struct Allocator125
-{
-    Allocator125();
-    Allocator125(const Allocator125&);
-};
-struct StringBase125
-{
-    Allocator125 alloc;
-    StringBase125(Allocator125);
-};
-struct FUN_0044a4c0 : StringBase125
-{
-    union Buffer
-    {
-        char small[16];
-        char* pointer;
-    } buffer;
-    unsigned int length, capacity;
-    FUN_0044a4c0(const char* text);
-};
-// Initializes the string buffer to empty, then assigns the given text to it.
-// @fnv 0x0044a4c0
-FUN_0044a4c0::FUN_0044a4c0(const char* text) : StringBase125(Allocator125())
-{
-    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
-    reinterpret_cast<::fnv_0044a640::FUN_0044a640_Wrap *>(this)->AssignCString(text);
-}
 
 class GlobalObject_00528cb0
 {

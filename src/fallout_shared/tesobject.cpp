@@ -8405,26 +8405,29 @@ String FUN_00ac6fa0(const String& directory, const String& baseName, const Strin
     return candidateName;
 }
 
-class FUN_0044a4c0 : public BxStringVal
+// This parser family has no production line supplier in the accepted archive.
+// Keep its source-supported storage distinct instead of binding it nominally to
+// the canonical SpeedTree error string.
+class ParserString : public BxStringVal
 {
   public:
     BxQ_ad6bb0 storage;
     unsigned int length, capacity;
-    FUN_0044a4c0() : BxStringVal()
+    ParserString() : BxStringVal()
     {
         reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
     }
-    explicit FUN_0044a4c0(const char* s) : BxStringVal()
+    explicit ParserString(const char* s) : BxStringVal()
     {
         reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
         reinterpret_cast<BxString*>(this)->assign(s);
     }
-    FUN_0044a4c0(const FUN_0044a4c0& right) : BxStringVal(right)
+    ParserString(const ParserString& right) : BxStringVal(right)
     {
         reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
         reinterpret_cast<BxString*>(this)->assign(reinterpret_cast<const BxString&>(right), 0, ::g_010173f0);
     }
-    ~FUN_0044a4c0()
+    ~ParserString()
     {
         reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
@@ -8458,7 +8461,7 @@ class FUN_0044a4c0 : public BxStringVal
     {
         return 16 <= capacity ? storage._Ptr : storage._Buf;
     }
-    int FUN_00ac9da0(const FUN_0044a4c0& right) const
+    int FUN_00ac9da0(const ParserString& right) const
     {
         return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, length, (::std::intptr_t)(right.data()), right.size());
     }
@@ -8477,17 +8480,17 @@ class FUN_0044a4c0 : public BxStringVal
     }
 };
 
-inline bool operator==(const FUN_0044a4c0& a, const FUN_0044a4c0& b)
+inline bool operator==(const ParserString& a, const ParserString& b)
 {
     return a.FUN_00ac9da0(b) == 0;
 }
 
-inline bool operator==(const FUN_0044a4c0& a, const char* b)
+inline bool operator==(const ParserString& a, const char* b)
 {
     return a.compare(b) == 0;
 }
 
-inline bool operator!=(const FUN_0044a4c0& a, const char* b)
+inline bool operator!=(const ParserString& a, const char* b)
 {
     return !(a == b);
 }
@@ -8540,9 +8543,9 @@ class ParserStream : virtual public ParserIos
     int count;
 };
 
-extern ParserStream& __cdecl FUN_00ad43a0(ParserStream&, FUN_0044a4c0&);
+extern ParserStream& __cdecl FUN_00ad43a0(ParserStream&, ParserString&);
 
-inline ParserStream& ReadParserLine(ParserStream& stream, FUN_0044a4c0& value)
+inline ParserStream& ReadParserLine(ParserStream& stream, ParserString& value)
 {
     return (*(::ParserStream *)&(::fnv_00ad5770::FUN_00ad5770((::fnv_00ad5770::FUN_00ad5770_Q &)(stream), (::fnv_00ad5770::StrQ &)(value), reinterpret_cast<::GvIos *>((void *)&(stream))->FUN_00ad30c0('\n'))));
 }
@@ -8550,8 +8553,8 @@ inline ParserStream& ReadParserLine(ParserStream& stream, FUN_0044a4c0& value)
 namespace pairparser {
 struct FUN_00acb310
 {
-    FUN_0044a4c0 first, second;
-    FUN_00acb310(const FUN_0044a4c0& a, const FUN_0044a4c0& b) : first(a), second(b)
+    ParserString first, second;
+    FUN_00acb310(const ParserString& a, const ParserString& b) : first(a), second(b)
     {}
 };
 }
@@ -8568,9 +8571,9 @@ struct ParserPairs : GvVector<pairparser::FUN_00acb310>
 };
 
 // @fnv 0x00ac7f50
-bool __cdecl FUN_00ac7f50(ParserStream* stream, ParserPairs* result, const FUN_0044a4c0* excluded, int limit)
+bool __cdecl FUN_00ac7f50(ParserStream* stream, ParserPairs* result, const ParserString* excluded, int limit)
 {
-    FUN_0044a4c0 key;
+    ParserString key;
     int entries = 0;
     while (!stream->eof() && !stream->fail() && (!limit || entries < limit))
     {
@@ -8588,7 +8591,7 @@ bool __cdecl FUN_00ac7f50(ParserStream* stream, ParserPairs* result, const FUN_0
             else
                 break;
         }
-        FUN_0044a4c0 value("");
+        ParserString value("");
         if (!stream->eof() && !stream->fail())
             ReadParserLine(*stream, value);
         if (key == *excluded && *excluded != "")
@@ -8809,7 +8812,7 @@ bool FUN_00ac8c50(const Str& name, const Str& arg2, ac8parse::Vec* pVec)
         return false;
     }
     pVec->resize(0);
-    if (!::FUN_00ac7f50((::ParserStream *)(::ac8parse::Big *)(&kObj), (::ParserPairs *)(pVec), (const ::FUN_0044a4c0 *)&(const ::ac8parse::basic_string_ob1<char, ::ac8parse::char_traits_ob1<char>, ::ac8parse::allocator_ob1<char>> &)("//"), 1))
+    if (!::FUN_00ac7f50((::ParserStream *)(::ac8parse::Big *)(&kObj), (::ParserPairs *)(pVec), (const ::ParserString *)&(const ::ac8parse::basic_string_ob1<char, ::ac8parse::char_traits_ob1<char>, ::ac8parse::allocator_ob1<char>> &)("//"), 1))
     {
         ac8parse::FUN_00ac6430(4, name);
         return false;
@@ -8820,7 +8823,7 @@ bool FUN_00ac8c50(const Str& name, const Str& arg2, ac8parse::Vec* pVec)
         return false;
     }
     pVec->resize(0);
-    if (!::FUN_00ac7f50((::ParserStream *)(::ac8parse::Big *)(&kObj), (::ParserPairs *)(pVec), (const ::FUN_0044a4c0 *)&(const ::ac8parse::basic_string_ob1<char, ::ac8parse::char_traits_ob1<char>, ::ac8parse::allocator_ob1<char>> &)("//"), 0))
+    if (!::FUN_00ac7f50((::ParserStream *)(::ac8parse::Big *)(&kObj), (::ParserPairs *)(pVec), (const ::ParserString *)&(const ::ac8parse::basic_string_ob1<char, ::ac8parse::char_traits_ob1<char>, ::ac8parse::allocator_ob1<char>> &)("//"), 0))
     {
         ac8parse::FUN_00ac6430(4, name);
         return false;

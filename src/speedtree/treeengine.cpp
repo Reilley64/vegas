@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/decl/B2AE90_Object.h"
+#include "fnv/decl/FUN_0044a4c0.h"
+#include "fnv/decl/FUN_00b096a0.h"
 #include "fnv/decl/FUN_00b3f130_shell.h"
 #include "fnv/decl/S_00b3ed80.h"
 #include "fnv/decl/V3cdd0.h"
@@ -2219,7 +2221,7 @@ void S2bde0_Tree::FUN_00b2bde0(S2bde0_Parser* p)
             FUN_00b2c790(p);
             break;
         default:
-            throw FUN_00b09480("malformed general tree information", false);
+            throw FUN_00b09480(S2bde0_Str("malformed general tree information"), false);
         }
         iToken = reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement();
     } while (iToken != 0x3eb);
@@ -3633,35 +3635,6 @@ Vec& Vec::FUN_00b2db10(const Vec& _Right)
     }
     return *this;
 }
-
-struct FUN_0044a4c0
-{
-    int iAl;
-    char acBuf[16];
-    int iSize;
-    int iRes;
-    FUN_0044a4c0(const char* s);
-    FUN_0044a4c0(const FUN_0044a4c0& r);
-    ~FUN_0044a4c0()
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
-    }
-};
-
-struct FUN_00b096a0
-{
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    FUN_00b096a0(const FUN_0044a4c0& s);
-    virtual ~FUN_00b096a0();
-};
 
 namespace LodErrorDetail {
 struct FUN_00b09480 : FUN_00b096a0

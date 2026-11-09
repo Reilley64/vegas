@@ -73,7 +73,9 @@ other translation units before dynamic initialization.
 `InitializeHeaps` initializes that same owned set, propagating initialization
 failure as `bad_alloc`. `FUN_00aa3e40` consumes the actual typed
 `g_tlsBlock.memoryContext` through `AllocateFromHeaps`. `Size`, `Reallocate` and
-`FUN_00aa4060` find exact ownership before copying or releasing. The existing
+`FUN_00aa4060` find exact ownership before copying or releasing. Null and
+heap-owned reallocation requests cross the same unavailable-pool gate as ordinary
+allocation; failed replacement preserves the original allocation and bytes. The existing
 unsigned `Reallocate` entry widens into native-size `ResizeOwned`, preserving
 requiring objects without an ambiguous overloaded-size boundary. A bootstrap
 allocation retains its CRT bootstrap domain after heap initialization. Unknown
@@ -136,7 +138,8 @@ owner and executes the production `InitializeHeaps`, allocation entry, size,
 reallocation and matching release, with the real production TLS owner. It covers
 all 66 contexts, distinct non-pool 9/23 domains, default 36, high pointers, exact
 ownership/rejection, bootstrap survival across initialization, failed/successful
-resize (including actual main-reservation exhaustion), thread isolation,
+resize (including unavailable-pool shrink, null-to-small rejection and actual
+main-reservation exhaustion), payload preservation, thread isolation,
 explicit heap retirement/reinitialization and automatic
 owner cleanup during unwinding. It also exercises accepted guard restoration
 through actual allocation routing. It does not construct substitute heaps/managers,

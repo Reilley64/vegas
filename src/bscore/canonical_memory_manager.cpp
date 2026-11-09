@@ -150,8 +150,11 @@ void* MemoryManager::Reallocate(void* memory, unsigned int bytes) noexcept
 
 void* MemoryManager::ResizeOwned(void* memory, std::size_t bytes) noexcept
 {
-    if (!memory)
-        return AllocateFromHeaps(bytes);
+    if (!memory) {
+        if (bytes > std::numeric_limits<unsigned int>::max())
+            return nullptr;
+        return FUN_00aa3e40(static_cast<unsigned int>(bytes));
+    }
     const auto oldSize = Size(memory);
     if (!oldSize)
         return nullptr; // A foreign/interior pointer is never passed to CRT.
@@ -159,8 +162,18 @@ void* MemoryManager::ResizeOwned(void* memory, std::size_t bytes) noexcept
         ReleaseOwned(memory);
         return nullptr;
     }
-    if (heaps_.OwnerOf(memory) != fnv::memory::EngineHeapDomain::None)
-        return heaps_.Reallocate(memory, bytes, g_tlsBlock.memoryContext);
+    if (heaps_.OwnerOf(memory) != fnv::memory::EngineHeapDomain::None) {
+        if (bytes > std::numeric_limits<unsigned int>::max())
+            return nullptr;
+        // Replacement allocation crosses the same pool-policy gate as an
+        // ordinary request. Failure leaves the original payload untouched.
+        auto* replacement = FUN_00aa3e40(static_cast<unsigned int>(bytes));
+        if (!replacement)
+            return nullptr;
+        std::memcpy(replacement, memory, std::min(bytes, oldSize));
+        ReleaseOwned(memory);
+        return replacement;
+    }
     // Keep pre-startup allocations in their genuine bootstrap domain, even
     // after publication. Allocate before retiring; failure retains the payload.
     auto* replacement = AllocateBootstrap(bytes);

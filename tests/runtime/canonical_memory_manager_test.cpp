@@ -95,6 +95,10 @@ static void ResizeAndRetire()
     std::memset(memory, 0x6b, 8192);
     CHECK(!owner.ResizeOwned(memory, std::numeric_limits<std::size_t>::max()));
     CHECK(owner.Size(memory) >= 8192 && memory[8191] == 0x6b);
+    CHECK(!owner.Reallocate(nullptr, 16u));
+    CHECK(!owner.Reallocate(memory, 16u));
+    CHECK(owner.Owns(memory) && owner.HeapOwner(memory) == Domain::Context23);
+    CHECK(memory[0] == 0x6b && memory[8191] == 0x6b);
     g_tlsBlock.memoryContext = 36;
     auto* replacement = static_cast<unsigned char*>(owner.Reallocate(memory, 16384u));
     CHECK(replacement && owner.HeapOwner(replacement) == Domain::Main);

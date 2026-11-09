@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00640000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -3474,12 +3475,7 @@ unsigned int FUN_0065f6e0_Class::GetNestedValue()
 }
 
 extern const char DAT_0104f2ac;
-struct FUN_00404eb0
-{
-    int state;
-    FUN_00404eb0(int category, int enabled, const char* source, int line);
-    ~FUN_00404eb0();
-};
+using FUN_00404eb0 = ::AutoMemContext;
 struct FUN_00508050
 {
 };

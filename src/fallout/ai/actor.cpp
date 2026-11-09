@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 
 #include "fnv/simple_list_node_view.h"
@@ -80753,12 +80754,7 @@ void TESObjectREFR8B3::FUN_008b3180()
     }
 }
 
-struct MemScope
-{
-    int context;
-    MemScope(int, bool, const char*, int);
-    ~MemScope();
-};
+using MemScope = ::AutoMemContext;
 struct SoundInfo
 {
     int unk00;
@@ -127131,14 +127127,7 @@ struct MSetting
     unsigned char* FUN_00408d60();
 };
 MPt __cdecl operator*(float, const MPt&);
-class AutoMemContext
-{
-    int context;
-
-  public:
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct EValueOwner
 {
     virtual void v000();

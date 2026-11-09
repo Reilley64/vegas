@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_006e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -6330,12 +6331,7 @@ struct DTB_Array
     ~DTB_Array();
 };
 
-struct DTB_MemContext
-{
-    int unk00;
-    DTB_MemContext(MEM_CONTEXT ctx, bool b, const char* file, int line);
-    ~DTB_MemContext();
-};
+using DTB_MemContext = ::AutoMemContext;
 
 extern int DAT_011d859c;
 extern int DAT_011d8598;
@@ -9785,12 +9781,7 @@ struct TaskPtr
     TaskPtr& operator=(LoadTask* p);
     operator LoadTask*() const;
 };
-struct MemScope
-{
-    int context;
-    MemScope(int, bool, const char*, int);
-    ~MemScope();
-};
+using MemScope = ::AutoMemContext;
 struct FUN_006f5160;
 struct LoadTask
 {
@@ -10074,14 +10065,7 @@ struct GlobalObject_00528cb0
     GlobalObject_00528cb0(int value);
     ~GlobalObject_00528cb0();
 };
-class AutoMemContext
-{
-    int previous;
-
-  public:
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 extern const char DAT_0106e068[];
 struct FUN_006fa210
 {
@@ -11705,12 +11689,7 @@ struct Member490
     Member490();
     ~Member490();
 };
-struct Mem490
-{
-    int value;
-    Mem490(int, bool, const char*, int);
-    ~Mem490();
-};
+using Mem490 = ::AutoMemContext;
 struct Source490
 {
     virtual void v000();

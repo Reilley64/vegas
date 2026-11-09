@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/ai/combat/combattargetmap.cpp: CombatTargetMap, DelStandIn (7 functions)
 
 #include <cstdint>
@@ -107,12 +108,7 @@ FUN_009a40c0::FUN_009a40c0() : FUN_009a42f0(5, 0), m(0)
 
 namespace fnv_009a3fe0 {
 
-struct AutoMemHelper
-{
-    int pad;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 template <typename T, int N> struct BSSimpleArray
 {

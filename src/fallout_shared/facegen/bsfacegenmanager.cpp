@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/facegen/bsfacegenmanager.cpp: BSFaceGenManager, FGModelCache, BSFaceGenModelMap_t, TESRace and more (111 functions)
 
 #include <cstdint>
@@ -512,12 +513,7 @@ enum MEM_CONTEXT
 };
 
 struct Sol;
-struct AutoMemContext
-{
-    int pad;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct Sol
 {
     char pad[0x10];
@@ -1249,12 +1245,7 @@ struct GO
     ~GO();
     void* m_pObject;
 };
-struct AutoMemContextLocal
-{
-    AutoMemContextLocal(int, bool, const char*, int);
-    ~AutoMemContextLocal();
-    int iPrevious;
-};
+using AutoMemContextLocal = ::AutoMemContext;
 struct StrMem
 {
 };
@@ -1724,12 +1715,7 @@ void __cdecl AppendNormalMapSuffix(const char*, char*);
 int __cdecl FUN_00653880(void*, int, char, const char*);
 
 namespace lc1 {
-struct AutoMemContext
-{
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 struct FaceGenData
 {
     FaceGenData();
@@ -1976,15 +1962,7 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct OpaqueDataBlock
 {
     void* __vecDelDtor(unsigned int);
@@ -1997,12 +1975,7 @@ struct FUN_00650ea0_shell : public BSFaceGenManager
 };
 
 namespace lc1 {
-struct AutoMemContext
-{
-    AutoMemContext(int aeMemoryContext, bool bPush, const char* pFile, int iLine);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 }
 
 struct NarrowString
@@ -2292,12 +2265,7 @@ void FGManagerView::ClearModelTextures()
 
 namespace fnv_00651f70 {
 namespace lc1 {
-struct AutoMemContext
-{
-    int ctxId;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 }
 struct FaceGenImpl
 {
@@ -2325,12 +2293,7 @@ bool FUN_00651f70(int aiArg)
 
 namespace fnv_00652040 {
 namespace lc1 {
-struct AutoMemContext
-{
-    int ctxId;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 }
 struct FaceGenImpl
 {
@@ -2471,15 +2434,7 @@ struct FaceGenData
     int m_eFaceGenLOD;
     char Accessories[8];
 };
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -2575,12 +2530,7 @@ template <> class NiPointer<fnv_00655320::NiTriBasedGeom>
 };
 namespace fnv_00655320 {
 namespace lc1 {
-struct AutoMemContext
-{
-    AutoMemContext(int aeContext, bool abCheck, const char* apFile, int aiLine);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 }
 struct B006815c0
 {
@@ -2933,15 +2883,7 @@ struct FaceGenData
     int m_eFaceGenLOD;
     char Accessories[8];
 };
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -3003,12 +2945,7 @@ struct ThreeByThreeMatrix
 };
 
 namespace lc1 {
-struct AutoMemContext
-{
-    int m_eMemoryContext;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 }
 template <class T> class BSStringT
 {

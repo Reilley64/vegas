@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 #include <cstdint>
 #include <cstddef>
 // bshavok/bhkrigidbody_h_unit.cpp: WorldObject (4 functions)
@@ -43,13 +44,13 @@
 struct MemoryContextGuard
 {
     unsigned int previous;
-    __forceinline MemoryContextGuard() : previous(::currentAllocationContext)
+    __forceinline MemoryContextGuard() : previous(::g_tlsBlock.memoryContext)
     {
-        ::currentAllocationContext = 16;
+        ::g_tlsBlock.memoryContext = 16;
     }
     __forceinline ~MemoryContextGuard()
     {
-        ::currentAllocationContext = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 struct AllocationManager
@@ -699,13 +700,13 @@ struct ThreadState
 struct MemoryContext
 {
     unsigned int previous;
-    MemoryContext() : previous((*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2b4)
+    MemoryContext() : previous(::g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2b4 = 0x10;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~MemoryContext()
     {
-        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2b4 = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 

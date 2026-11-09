@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 // bsshader/shadowscenenode.cpp: ShadowSceneNode, Base, Self, BlendOwner and more (63 functions)
 
 #include <cstdint>
@@ -1149,12 +1150,12 @@ struct AutoMemContext
     int oldContext;
     AutoMemContext(int newContext)
     {
-        oldContext = (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).memContext;
-        (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).memContext = newContext;
+        oldContext = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = newContext;
     }
     ~AutoMemContext()
     {
-        (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).memContext = oldContext;
+        ::g_tlsBlock.memoryContext = oldContext;
     }
 };
 

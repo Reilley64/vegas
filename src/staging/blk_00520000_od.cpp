@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00520000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -743,12 +744,7 @@ void* FUN_005285c0_Class::FUN_005285c0(void* a, void* b, void* c)
 
 extern unsigned int _data_011c16bc;
 
-struct AutoMemHelper
-{
-    int m_auiShapeKeys;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct FUN_00526c90
 {
@@ -1184,13 +1180,7 @@ void QCellQueue::FUN_005283c0(QWorldSpace* ws, intptr_t x, intptr_t y)
 }  // namespace fnv_005283c0
 
 
-class AutoMemContext
-{
-  public:
-    int unk00;
-    AutoMemContext(MEM_CONTEXT aeMemoryContext, bool bPush, const char* pFile, int iLine);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 struct QueuedRefPtr
 {

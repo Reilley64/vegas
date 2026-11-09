@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/magic/effectitem.cpp: EffectItem, EffectItemList, ScriptEffect, Setting and more (52 functions)
 
 #include "fnv/tls.h"
@@ -455,67 +456,6 @@ void __cdecl FUN_004046f0(char* apStrDest, const char* apStrSource)
     std::strcpy(apStrDest, apStrSource);
 }
 
-struct S4eb0
-{
-    int a;
-    unsigned int b;
-    int c;
-    S4eb0* FUN_00404eb0(int, bool, char*, int);
-};
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
-struct FUN_00404f00_shell : public AutoMemContext
-{
-    void FUN_00404f00(int, bool, char*, int);
-};
-// Calls FUN_00404f00 with the given arguments and returns this.
-// @fnv 0x00404eb0
-S4eb0* S4eb0::FUN_00404eb0(int m, bool o, char* f, int l)
-{
-    reinterpret_cast<::FUN_00404f00_shell *>(this)->FUN_00404f00(m, o, f, l);
-    return this;
-}
-
-int __cdecl GetTlsField();
-
-// @fnv 0x00404f00
-void FUN_00404f00_shell::FUN_00404f00(int memContext, bool overridable, char* apFile, int aiLine)
-{
-    m_eMemoryContext = GetTlsField();
-    ::fnv_00404f30::FUN_00404f30(memContext);
-}
-
-namespace fnv_00404f70 {
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
-struct FUN_00404f70_shell : public AutoMemContext
-{
-    void FUN_00404f70();
-};
-
-
-// @fnv 0x00404f70
-void FUN_00404f70_shell::FUN_00404f70()
-{
-    ::fnv_00404f30::FUN_00404f30(m_eMemoryContext);
-}
-}  // namespace fnv_00404f70
-
-
 // @fnv 0x0044a670
 unsigned int __cdecl FUN_0044a670(const char* apString)
 {
@@ -558,12 +498,6 @@ int __cdecl FUN_00647b70(int iA, int iB)
 
 extern "C" int __tls_index;
 
-
-// @fnv 0x00404f50
-int __cdecl GetTlsField()
-{
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
-}
 
 struct MagicCaster;
 struct FUN_0045cd60_shell : public ActiveEffect
@@ -619,16 +553,6 @@ bool EffectItem_shell::FUN_00404470(int range)
     }
     return result;
 }
-
-namespace fnv_00404f30 {
-
-
-// @fnv 0x00404f30
-void __cdecl FUN_00404f30(int aiValue)
-{
-    ::g_tlsBlock.memoryContext = aiValue;
-}
-}  // namespace fnv_00404f30
 
 struct FUN_006808b0
 {
@@ -754,13 +678,7 @@ void FUN_00404f90_shell::RemoveSettingFromMap(ArrSI* apSetting)
 }
 
 namespace fnv_00404fd0 {
-struct AutoMemHelper
-{
-    int padding;
-
-    AutoMemHelper(int, bool, char const*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 template <class T> struct NiTPrimitiveArray
 {
@@ -964,19 +882,7 @@ struct SettingRegistry
     bool FUN_00405120();
 };
 extern "C" bool FUN_00404d30(SettingRegistry*);
-extern "C" void FUN_00404ee0(S4eb0*);
-struct ScopedContext
-{
-    int previousContext;
-    __forceinline ScopedContext(int context, bool temporary, char* file, int line)
-    {
-        reinterpret_cast<S4eb0*>(this)->FUN_00404eb0(context, temporary, file, line);
-    }
-    __forceinline ~ScopedContext()
-    {
-        FUN_00404ee0(reinterpret_cast<S4eb0*>(this));
-    }
-};
+using ScopedContext = ::AutoMemContext;
 // @fnv 0x00405120
 bool SettingRegistry::FUN_00405120()
 {

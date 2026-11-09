@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/testerrainlodmanager.cpp: free functions (11 functions)
 
 #include <cstdint>
@@ -179,12 +180,7 @@ FUN_0057cd10::FUN_0057cd10()
 }
 
 namespace fnv_0057cf00 {
-struct AutoMemHelper
-{
-    AutoMemHelper(int a, bool b, const char* file, int line);
-    ~AutoMemHelper();
-    int iOld;
-};
+using AutoMemHelper = ::AutoMemContext;
 struct Setting_S
 {
 };
@@ -318,12 +314,7 @@ class NiPoint3
 }  // namespace fnv_0057de00
 
 namespace TerrainLOD {
-struct AutoMemContext
-{
-    int context;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 extern const char DAT_010310d8[];
 struct Point3
 {
@@ -747,13 +738,7 @@ template <class T> class NiPointer
     ~NiPointer();
 };
 
-class AutoMemContext
-{
-  public:
-    int iPrevious;
-    AutoMemContext(MEM_CONTEXT aeMemoryContext, bool bOverride, const char* pcFile, int iLine);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 class BSFogProperty
 {

@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/fallout/ai/combat/explosion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/explosion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -2400,12 +2401,7 @@ struct MatrixWater
     float xx, xy, xz, yx, yy, yz, zx, zy, zz;
     MatrixWater();
 };
-struct AutoMemContext
-{
-    int context;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct SaveX
 {
 };

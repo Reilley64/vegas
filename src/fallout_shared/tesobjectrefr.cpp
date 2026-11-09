@@ -1,3 +1,5 @@
+#include "fnv/tls.h"
+#include "AutoMemContext.h"
 // fallout_shared/tesobjectrefr.cpp: XActor, Owner, Thing, Ref and more (522 functions)
 #include "fnv_result_slot.h"
 #include "fnv/game_timer.h"
@@ -31038,12 +31040,7 @@ enum MEM_CONTEXT
     MC_0x31 = 0x31
 };
 
-struct AutoMemContext
-{
-    int unk00;
-    AutoMemContext(MEM_CONTEXT ctx, bool b, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 class TESObjectREFR572;
 
@@ -46171,13 +46168,7 @@ enum MEM_CONTEXT
 {
     MC_REFR = 0x31
 };
-class AutoMemContext
-{
-  public:
-    AutoMemContext(MEM_CONTEXT aeMemoryContext, bool bPush, const char* pFile, int iLine);
-    ~AutoMemContext();
-    int iData;
-};
+using ::AutoMemContext;
 class FUN_0055a2f0 : public TESObjectREFR
 {
   public:
@@ -50795,12 +50786,7 @@ struct FUN_00565730_shell_ctx : public TESObjectREFR
     void FUN_00565730();
 };
 
-struct AutoMemHelper
-{
-    AutoMemHelper(int, bool, char const*, int);
-    ~AutoMemHelper();
-    int m_iValueAtOffset0C;
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct ShellH;
 
@@ -50994,12 +50980,12 @@ struct MemContextGuard
     int m_iOld;
     MemContextGuard(int aiMemoryContext)
     {
-        m_iOld = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iOld = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~MemContextGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iOld;
+        ::g_tlsBlock.memoryContext = m_iOld;
     }
 };
 
@@ -51162,12 +51148,12 @@ struct TlsScope
     int m_iSaved;
     TlsScope(int c)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = c;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = c;
     }
     ~TlsScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 struct BSFadeNode
@@ -51740,12 +51726,12 @@ struct F9_Scope
     int saved;
     F9_Scope()
     {
-        saved = (*reinterpret_cast<::F9_Ctx *>(&::g_tlsBlock)).unk2b4;
-        (*reinterpret_cast<::F9_Ctx *>(&::g_tlsBlock)).unk2b4 = 0x10;
+        saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~F9_Scope()
     {
-        (*reinterpret_cast<::F9_Ctx *>(&::g_tlsBlock)).unk2b4 = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -52669,12 +52655,12 @@ struct C9FA20_TlsGuard
     unsigned int m_saved;
     C9FA20_TlsGuard()
     {
-        m_saved = (*reinterpret_cast<::C9FA20_TlsBlock *>(&::g_tlsBlock)).m_2b4;
-        (*reinterpret_cast<::C9FA20_TlsBlock *>(&::g_tlsBlock)).m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~C9FA20_TlsGuard()
     {
-        (*reinterpret_cast<::C9FA20_TlsBlock *>(&::g_tlsBlock)).m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -53278,12 +53264,12 @@ struct MemContextGuard_o2_nood_iso
     int m_iOld;
     MemContextGuard_o2_nood_iso(int aiMemoryContext)
     {
-        m_iOld = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iOld = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~MemContextGuard_o2_nood_iso()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iOld;
+        ::g_tlsBlock.memoryContext = m_iOld;
     }
 };
 
@@ -53721,12 +53707,12 @@ struct F9_Scope_o2_nood_iso
     int saved;
     F9_Scope_o2_nood_iso()
     {
-        saved = (*reinterpret_cast<::F9_Ctx_o2_nood_iso *>(&::g_tlsBlock)).unk2b4;
-        (*reinterpret_cast<::F9_Ctx_o2_nood_iso *>(&::g_tlsBlock)).unk2b4 = 0x10;
+        saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~F9_Scope_o2_nood_iso()
     {
-        (*reinterpret_cast<::F9_Ctx_o2_nood_iso *>(&::g_tlsBlock)).unk2b4 = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -54597,12 +54583,12 @@ struct C9FA20_TlsGuard_o2_nood_iso
     unsigned int m_saved;
     C9FA20_TlsGuard_o2_nood_iso()
     {
-        m_saved = (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_iso *>(&::g_tlsBlock)).m_2b4;
-        (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_iso *>(&::g_tlsBlock)).m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~C9FA20_TlsGuard_o2_nood_iso()
     {
-        (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_iso *>(&::g_tlsBlock)).m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -54840,12 +54826,12 @@ struct MemContextGuard_o2_nood_rtm
     int m_iOld;
     MemContextGuard_o2_nood_rtm(int aiMemoryContext)
     {
-        m_iOld = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iOld = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~MemContextGuard_o2_nood_rtm()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iOld;
+        ::g_tlsBlock.memoryContext = m_iOld;
     }
 };
 
@@ -55283,12 +55269,12 @@ struct F9_Scope_o2_nood_rtm
     int saved;
     F9_Scope_o2_nood_rtm()
     {
-        saved = (*reinterpret_cast<::F9_Ctx_o2_nood_rtm *>(&::g_tlsBlock)).unk2b4;
-        (*reinterpret_cast<::F9_Ctx_o2_nood_rtm *>(&::g_tlsBlock)).unk2b4 = 0x10;
+        saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~F9_Scope_o2_nood_rtm()
     {
-        (*reinterpret_cast<::F9_Ctx_o2_nood_rtm *>(&::g_tlsBlock)).unk2b4 = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -56159,12 +56145,12 @@ struct C9FA20_TlsGuard_o2_nood_rtm
     unsigned int m_saved;
     C9FA20_TlsGuard_o2_nood_rtm()
     {
-        m_saved = (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_rtm *>(&::g_tlsBlock)).m_2b4;
-        (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_rtm *>(&::g_tlsBlock)).m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~C9FA20_TlsGuard_o2_nood_rtm()
     {
-        (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_rtm *>(&::g_tlsBlock)).m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -57121,13 +57107,13 @@ struct CollisionHandler
 struct ScopedMode
 {
     unsigned int oldValue;
-    ScopedMode() : oldValue(::currentAllocationContext)
+    ScopedMode() : oldValue(::g_tlsBlock.memoryContext)
     {
-        ::currentAllocationContext = 0x10;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~ScopedMode()
     {
-        ::currentAllocationContext = oldValue;
+        ::g_tlsBlock.memoryContext = oldValue;
     }
 };
 
@@ -57288,12 +57274,12 @@ struct HeapContextGuard
     int saved;
     HeapContextGuard(int ctx)
     {
-        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
+        saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = ctx;
     }
     ~HeapContextGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -57397,183 +57383,7 @@ FUN_00c9eec0_o2::~FUN_00c9eec0_o2()
 
 // namespace fnv_00c9eec0
 
-struct TlsBlock_t
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    int unk1A0;
-    int unk1A4;
-    int unk1A8;
-    int unk1AC;
-    int unk1B0;
-    int unk1B4;
-    int unk1B8;
-    int unk1BC;
-    int unk1C0;
-    int unk1C4;
-    int unk1C8;
-    int unk1CC;
-    int unk1D0;
-    int unk1D4;
-    int unk1D8;
-    int unk1DC;
-    int unk1E0;
-    int unk1E4;
-    int unk1E8;
-    int unk1EC;
-    int unk1F0;
-    int unk1F4;
-    int unk1F8;
-    int unk1FC;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20C;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21C;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22C;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23C;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24C;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25C;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26C;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27C;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28C;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29C;
-    int unk2A0;
-    int unk2A4;
-    int unk2A8;
-    int unk2AC;
-    int unk2B0;
-    int m_2b4;
-};
+
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
@@ -57583,13 +57393,13 @@ struct TlsGuard_t
 
     TlsGuard_t()
     {
-        m_saved = g_tlsBlock.m_2b4;
-        g_tlsBlock.m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
 
     ~TlsGuard_t()
     {
-        g_tlsBlock.m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -57864,12 +57674,12 @@ class C9F270MemContext
   public:
     C9F270MemContext(int aiMemoryContext)
     {
-        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iPrevious = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~C9F270MemContext()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+        ::g_tlsBlock.memoryContext = m_iPrevious;
     }
 
     int m_iPrevious;
@@ -57930,12 +57740,12 @@ struct TlsGuard
     int previous;
     TlsGuard()
     {
-        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+        previous = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~TlsGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -58222,12 +58032,12 @@ struct ThreadFlagGuard
     int previous;
     ThreadFlagGuard()
     {
-        previous = (*reinterpret_cast<::TLSBlock *>(&::g_tlsBlock)).value;
-        (*reinterpret_cast<::TLSBlock *>(&::g_tlsBlock)).value = 16;
+        previous = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 16;
     }
     ~ThreadFlagGuard()
     {
-        (*reinterpret_cast<::TLSBlock *>(&::g_tlsBlock)).value = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -58336,12 +58146,12 @@ struct BC9F970AllocTagScope
 
     BC9F970AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BC9F970AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -58395,12 +58205,12 @@ struct MemContextGuard_o2
     int iOld;
     MemContextGuard_o2()
     {
-        iOld = (*reinterpret_cast<::MemContextTLS *>(&::currentAllocationContext)).unk2b4;
-        (*reinterpret_cast<::MemContextTLS *>(&::currentAllocationContext)).unk2b4 = 0x10;
+        iOld = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~MemContextGuard_o2()
     {
-        (*reinterpret_cast<::MemContextTLS *>(&::currentAllocationContext)).unk2b4 = iOld;
+        ::g_tlsBlock.memoryContext = iOld;
     }
 };
 
@@ -58677,12 +58487,12 @@ struct TlsGuard_ca0090
     unsigned int m_saved;
     TlsGuard_ca0090()
     {
-        m_saved = (*reinterpret_cast<::Tls_ca0090 *>(&::g_tlsBlock)).m_2b4;
-        (*reinterpret_cast<::Tls_ca0090 *>(&::g_tlsBlock)).m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~TlsGuard_ca0090()
     {
-        (*reinterpret_cast<::Tls_ca0090 *>(&::g_tlsBlock)).m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -58743,12 +58553,12 @@ struct MemContextGuard_o2
     int iOld;
     MemContextGuard_o2(int iNew)
     {
-        iOld = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iNew;
+        iOld = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = iNew;
     }
     ~MemContextGuard_o2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iOld;
+        ::g_tlsBlock.memoryContext = iOld;
     }
 };
 
@@ -58849,12 +58659,12 @@ struct BCA05B0AllocTagScope
 
     BCA05B0AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BCA05B0AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -58930,12 +58740,12 @@ class CA0840MemContext
   public:
     CA0840MemContext(int aiMemoryContext)
     {
-        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iPrevious = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~CA0840MemContext()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+        ::g_tlsBlock.memoryContext = m_iPrevious;
     }
 
     int m_iPrevious;
@@ -59029,14 +58839,14 @@ struct FUN_00cb3860
 struct ThreadRouterScope
 {
     int previousMode;
-    ThreadRouterScope() : previousMode((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    ThreadRouterScope() : previousMode(::g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+        ::g_tlsBlock.memoryContext = 16;
     }
     ~ThreadRouterScope() throw()
     {
         ::FUN_00c87700();
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previousMode;
+        ::g_tlsBlock.memoryContext = previousMode;
     }
 };
 struct World
@@ -59972,12 +59782,12 @@ struct TagScope
     unsigned int old;
     TagScope(unsigned int tag)
     {
-        old = (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).tag;
-        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).tag = tag;
+        old = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = tag;
     }
     ~TagScope()
     {
-        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).tag = old;
+        ::g_tlsBlock.memoryContext = old;
     }
 };
 
@@ -62139,13 +61949,13 @@ void FUN_00c9d530_cls::FUN_00c9d530(FUN_00c9d530_arg* a1)
 struct AllocationScope
 {
     int old;
-    AllocationScope() : old((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    AllocationScope() : old(::g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+        ::g_tlsBlock.memoryContext = 16;
     }
     ~AllocationScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = old;
+        ::g_tlsBlock.memoryContext = old;
     }
 };
 
@@ -62379,12 +62189,12 @@ struct S00ca0900_Guard
     int previous;
     S00ca0900_Guard()
     {
-        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+        previous = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~S00ca0900_Guard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -62499,13 +62309,13 @@ struct PositionValue
 struct ModeScope
 {
     unsigned int saved;
-    ModeScope() : saved(::currentAllocationContext)
+    ModeScope() : saved(::g_tlsBlock.memoryContext)
     {
-        ::currentAllocationContext = 16;
+        ::g_tlsBlock.memoryContext = 16;
     }
     ~ModeScope()
     {
-        ::currentAllocationContext = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 struct Target
@@ -63179,13 +62989,13 @@ struct CollisionHandler_o2_od_noo2
 struct ScopedMode_o2_od_noo2
 {
     unsigned int oldValue;
-    ScopedMode_o2_od_noo2() : oldValue(::currentAllocationContext)
+    ScopedMode_o2_od_noo2() : oldValue(::g_tlsBlock.memoryContext)
     {
-        ::currentAllocationContext = 0x10;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~ScopedMode_o2_od_noo2()
     {
-        ::currentAllocationContext = oldValue;
+        ::g_tlsBlock.memoryContext = oldValue;
     }
 };
 
@@ -63324,12 +63134,12 @@ struct HeapContextGuard_o2_od_noo2
     int saved;
     HeapContextGuard_o2_od_noo2(int ctx)
     {
-        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
+        saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = ctx;
     }
     ~HeapContextGuard_o2_od_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -63557,13 +63367,13 @@ struct TlsGuard_t_o2_od_noo2
 
     TlsGuard_t_o2_od_noo2()
     {
-        m_saved = (*(TlsBlock_t_o2_od_noo2*)&g_tlsBlock).m_2b4;
-        (*(TlsBlock_t_o2_od_noo2*)&g_tlsBlock).m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
 
     ~TlsGuard_t_o2_od_noo2()
     {
-        (*(TlsBlock_t_o2_od_noo2*)&g_tlsBlock).m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -63808,12 +63618,12 @@ class C9F270MemContext_o2_od_noo2
   public:
     C9F270MemContext_o2_od_noo2(int aiMemoryContext)
     {
-        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iPrevious = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~C9F270MemContext_o2_od_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+        ::g_tlsBlock.memoryContext = m_iPrevious;
     }
 
     int m_iPrevious;
@@ -63868,12 +63678,12 @@ struct TlsGuard_o2_od_noo2
     int previous;
     TlsGuard_o2_od_noo2()
     {
-        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+        previous = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~TlsGuard_o2_od_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -64124,12 +63934,12 @@ struct ThreadFlagGuard_o2_od_noo2
     int previous;
     ThreadFlagGuard_o2_od_noo2()
     {
-        previous = (*reinterpret_cast<::TLSBlock_o2_od_noo2 *>(&::g_tlsBlock)).value;
-        (*reinterpret_cast<::TLSBlock_o2_od_noo2 *>(&::g_tlsBlock)).value = 16;
+        previous = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 16;
     }
     ~ThreadFlagGuard_o2_od_noo2()
     {
-        (*reinterpret_cast<::TLSBlock_o2_od_noo2 *>(&::g_tlsBlock)).value = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -64228,12 +64038,12 @@ struct BC9F970AllocTagScope_o2_od_noo2
 
     BC9F970AllocTagScope_o2_od_noo2(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BC9F970AllocTagScope_o2_od_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -64280,12 +64090,12 @@ struct MemContextGuard_o2_od_noo2
     int iOld;
     MemContextGuard_o2_od_noo2()
     {
-        iOld = (*reinterpret_cast<::MemContextTLS_o2_od_noo2 *>(&::currentAllocationContext)).unk2b4;
-        (*reinterpret_cast<::MemContextTLS_o2_od_noo2 *>(&::currentAllocationContext)).unk2b4 = 0x10;
+        iOld = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~MemContextGuard_o2_od_noo2()
     {
-        (*reinterpret_cast<::MemContextTLS_o2_od_noo2 *>(&::currentAllocationContext)).unk2b4 = iOld;
+        ::g_tlsBlock.memoryContext = iOld;
     }
 };
 
@@ -64543,12 +64353,12 @@ struct TlsGuard_ca0090_o2_od_noo2
     unsigned int m_saved;
     TlsGuard_ca0090_o2_od_noo2()
     {
-        m_saved = (*reinterpret_cast<::Tls_ca0090_o2_od_noo2 *>(&::g_tlsBlock)).m_2b4;
-        (*reinterpret_cast<::Tls_ca0090_o2_od_noo2 *>(&::g_tlsBlock)).m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~TlsGuard_ca0090_o2_od_noo2()
     {
-        (*reinterpret_cast<::Tls_ca0090_o2_od_noo2 *>(&::g_tlsBlock)).m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -64589,12 +64399,12 @@ struct BCA05B0AllocTagScope_o2_od_noo2
 
     BCA05B0AllocTagScope_o2_od_noo2(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BCA05B0AllocTagScope_o2_od_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -64656,12 +64466,12 @@ class CA0840MemContext_o2_od_noo2
   public:
     CA0840MemContext_o2_od_noo2(int aiMemoryContext)
     {
-        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iPrevious = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~CA0840MemContext_o2_od_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+        ::g_tlsBlock.memoryContext = m_iPrevious;
     }
 
     int m_iPrevious;
@@ -65495,13 +65305,13 @@ struct CollisionHandler_o2_od_oy_noo2
 struct ScopedMode_o2_od_oy_noo2
 {
     unsigned int oldValue;
-    ScopedMode_o2_od_oy_noo2() : oldValue(::currentAllocationContext)
+    ScopedMode_o2_od_oy_noo2() : oldValue(::g_tlsBlock.memoryContext)
     {
-        ::currentAllocationContext = 0x10;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~ScopedMode_o2_od_oy_noo2()
     {
-        ::currentAllocationContext = oldValue;
+        ::g_tlsBlock.memoryContext = oldValue;
     }
 };
 
@@ -65640,12 +65450,12 @@ struct HeapContextGuard_o2_od_oy_noo2
     int saved;
     HeapContextGuard_o2_od_oy_noo2(int ctx)
     {
-        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
+        saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = ctx;
     }
     ~HeapContextGuard_o2_od_oy_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -65873,13 +65683,13 @@ struct TlsGuard_t_o2_od_oy_noo2
 
     TlsGuard_t_o2_od_oy_noo2()
     {
-        m_saved = (*(TlsBlock_t_o2_od_oy_noo2*)&g_tlsBlock).m_2b4;
-        (*(TlsBlock_t_o2_od_oy_noo2*)&g_tlsBlock).m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
 
     ~TlsGuard_t_o2_od_oy_noo2()
     {
-        (*(TlsBlock_t_o2_od_oy_noo2*)&g_tlsBlock).m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -66124,12 +65934,12 @@ class C9F270MemContext_o2_od_oy_noo2
   public:
     C9F270MemContext_o2_od_oy_noo2(int aiMemoryContext)
     {
-        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iPrevious = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~C9F270MemContext_o2_od_oy_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+        ::g_tlsBlock.memoryContext = m_iPrevious;
     }
 
     int m_iPrevious;
@@ -66184,12 +65994,12 @@ struct TlsGuard_o2_od_oy_noo2
     int previous;
     TlsGuard_o2_od_oy_noo2()
     {
-        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+        previous = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~TlsGuard_o2_od_oy_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -66440,12 +66250,12 @@ struct ThreadFlagGuard_o2_od_oy_noo2
     int previous;
     ThreadFlagGuard_o2_od_oy_noo2()
     {
-        previous = (*reinterpret_cast<::TLSBlock_o2_od_oy_noo2 *>(&::g_tlsBlock)).value;
-        (*reinterpret_cast<::TLSBlock_o2_od_oy_noo2 *>(&::g_tlsBlock)).value = 16;
+        previous = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 16;
     }
     ~ThreadFlagGuard_o2_od_oy_noo2()
     {
-        (*reinterpret_cast<::TLSBlock_o2_od_oy_noo2 *>(&::g_tlsBlock)).value = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -66544,12 +66354,12 @@ struct BC9F970AllocTagScope_o2_od_oy_noo2
 
     BC9F970AllocTagScope_o2_od_oy_noo2(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BC9F970AllocTagScope_o2_od_oy_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -66596,12 +66406,12 @@ struct MemContextGuard_o2_od_oy_noo2
     int iOld;
     MemContextGuard_o2_od_oy_noo2()
     {
-        iOld = (*reinterpret_cast<::MemContextTLS_o2_od_oy_noo2 *>(&::currentAllocationContext)).unk2b4;
-        (*reinterpret_cast<::MemContextTLS_o2_od_oy_noo2 *>(&::currentAllocationContext)).unk2b4 = 0x10;
+        iOld = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~MemContextGuard_o2_od_oy_noo2()
     {
-        (*reinterpret_cast<::MemContextTLS_o2_od_oy_noo2 *>(&::currentAllocationContext)).unk2b4 = iOld;
+        ::g_tlsBlock.memoryContext = iOld;
     }
 };
 
@@ -66859,12 +66669,12 @@ struct TlsGuard_ca0090_o2_od_oy_noo2
     unsigned int m_saved;
     TlsGuard_ca0090_o2_od_oy_noo2()
     {
-        m_saved = (*reinterpret_cast<::Tls_ca0090_o2_od_oy_noo2 *>(&::g_tlsBlock)).m_2b4;
-        (*reinterpret_cast<::Tls_ca0090_o2_od_oy_noo2 *>(&::g_tlsBlock)).m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~TlsGuard_ca0090_o2_od_oy_noo2()
     {
-        (*reinterpret_cast<::Tls_ca0090_o2_od_oy_noo2 *>(&::g_tlsBlock)).m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -66905,12 +66715,12 @@ struct BCA05B0AllocTagScope_o2_od_oy_noo2
 
     BCA05B0AllocTagScope_o2_od_oy_noo2(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BCA05B0AllocTagScope_o2_od_oy_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -66972,12 +66782,12 @@ class CA0840MemContext_o2_od_oy_noo2
   public:
     CA0840MemContext_o2_od_oy_noo2(int aiMemoryContext)
     {
-        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iPrevious = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~CA0840MemContext_o2_od_oy_noo2()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+        ::g_tlsBlock.memoryContext = m_iPrevious;
     }
 
     int m_iPrevious;

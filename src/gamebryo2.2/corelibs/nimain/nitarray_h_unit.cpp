@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 
 // Header unit for gamebryo2.2/corelibs/nimain/nitarray.inl.
 // No @fnv markers here; the covered template members are defined and
@@ -73,13 +74,13 @@ struct PrimitiveStringArray
 struct MemoryContextScope
 {
     int previous;
-    __forceinline MemoryContextScope() : previous((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    __forceinline MemoryContextScope() : previous(::g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+        ::g_tlsBlock.memoryContext = 16;
     }
     __forceinline ~MemoryContextScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 struct __declspec(align(16)) ScalarVector4
@@ -150,14 +151,14 @@ struct TLSGuard
 {
     unsigned int saved;
 
-    TLSGuard() : saved((*reinterpret_cast<::fnv_00cf46e0::GlobalObjectO2_00a7b610 *>(&::g_tlsBlock)).m_02b4)
+    TLSGuard() : saved(::g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<::fnv_00cf46e0::GlobalObjectO2_00a7b610 *>(&::g_tlsBlock)).m_02b4 = 0x10;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
 
     ~TLSGuard()
     {
-        (*reinterpret_cast<::fnv_00cf46e0::GlobalObjectO2_00a7b610 *>(&::g_tlsBlock)).m_02b4 = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -218,12 +219,12 @@ struct BC8AD40AllocTagScope
 
     BC8AD40AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BC8AD40AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -272,12 +273,12 @@ class CC31C0MemContext
   public:
     CC31C0MemContext(int aiMemoryContext)
     {
-        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iPrevious = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~CC31C0MemContext()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+        ::g_tlsBlock.memoryContext = m_iPrevious;
     }
 
     int m_iPrevious;
@@ -417,12 +418,12 @@ struct BCC4740AllocTagScope
 
     BCC4740AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BCC4740AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -479,12 +480,12 @@ struct CF4520AllocTagScope
     int saved;
     CF4520AllocTagScope(int tag)
     {
-        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = tag;
+        saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = tag;
     }
     ~CF4520AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 struct CF4520Array
@@ -518,12 +519,12 @@ struct BCCCFD0AllocTagScope
 
     BCCCFD0AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BCCCFD0AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -615,12 +616,12 @@ struct CAA010TagScope
     int m_iSaved;
     CAA010TagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~CAA010TagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 

@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/modelloader.cpp: DelStandIn, QueuedTreeModel, ModelLoader, QueuedHelmet and more (493 functions)
 
 #include "fnv/tls.h"
@@ -1579,12 +1580,7 @@ struct VATS
     LightTarget* FUN_005d8710(void);
 };
 
-struct AutoMemContext_1
-{
-    AutoMemContext_1(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext_1(void);
-    int a;
-};
+using AutoMemContext_1 = ::AutoMemContext;
 
 struct TESAttackDamageForm_1
 {
@@ -4262,26 +4258,13 @@ struct blob48
 {
     char b[48];
 };
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct FUN_0043ecb0_shell : public QueuedHead
 {
     void FUN_0043ecb0();
 };
 
-struct MemCtx
-{
-    MemCtx(int, bool, const char*, int);
-    ~MemCtx();
-    int pad[1];
-};
+using MemCtx = ::AutoMemContext;
 struct TESNPC
 {
 };
@@ -4321,15 +4304,7 @@ void FUN_0043ecb0_shell::FUN_0043ecb0()
 }
 }  // namespace fnv_0043ecb0
 
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct FUN_00441ba0_shell : public QueuedPlayer
 {
     void FUN_00441ba0();
@@ -4340,12 +4315,7 @@ struct PC7d
     void LoadIdleAnimations(IO_TASK_PRIORITY, FUN_00441ba0_shell*);
 };
 extern int _data_011c16bc;
-struct AutoMemHelper
-{
-    int m_eMemoryContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct Q441560
 {
     void LoadBipedModel();
@@ -6911,12 +6881,7 @@ struct FUN_0043e2a0_shell : public QueuedKF
     void FUN_0043e2a0();
 };
 
-struct AutoMemHelper
-{
-    int iSaved;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct Proc_S
 {
 };
@@ -7018,15 +6983,7 @@ void Standin0043fb50::DispatchToVirtual(std::intptr_t aiValue)
 }
 
 namespace fnv_0043fed0 {
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct ReferenceIntersectionData
 {
     void Endian();
@@ -7179,12 +7136,7 @@ struct QRV
     virtual void v11();
     virtual void v12();
 };
-struct AutoMemHelper
-{
-    int m_eMemoryContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct DecalList
 {
     bool FUN_008256d0();
@@ -7240,27 +7192,13 @@ void FUN_0043fed0_shell::FUN_0043fed0()
 }  // namespace fnv_0043fed0
 
 namespace fnv_00440050 {
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct FUN_00440050_shell : public QueuedReference
 {
     void FUN_00440050();
 };
 
-class AutoMemHelper
-{
-  public:
-    AutoMemHelper(int, bool, char const*, int);
-    ~AutoMemHelper();
-    int iOld;
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct Flt
 {
@@ -7532,12 +7470,7 @@ struct FUN_00440a90_shell : public QueuedReference
 
 class TESObjectCELL;
 class NiAVObject;
-struct AutoMemHelper
-{
-    int m_eMemoryContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct TES
 {
 };
@@ -7715,12 +7648,7 @@ struct FUN_00440ba0_shell : public QueuedReference
     void FUN_00440ba0();
 };
 
-struct AutoMemHelper
-{
-    int m;
-    AutoMemHelper(int id, bool b, const char* file, int line);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct RefH
 {
 };
@@ -7788,12 +7716,7 @@ void FUN_00440ba0_shell::FUN_00440ba0()
 }  // namespace fnv_00440ba0
 
 namespace fnv_004412e0 {
-struct AutoMemHelper
-{
-    int m_eMemoryContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct TESObjectREFR_GetFlags_Helper
 {
 };
@@ -8269,26 +8192,13 @@ struct TESRaceForm : public BaseFormComponent
     void SetFormRace(TESRace*);
     TESRace* m_pRace;
 };
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct FUN_00441560_shell : public QueuedCharacter
 {
     void LoadBipedModel();
 };
 
-struct AutoMemHelper
-{
-    int iData;
-    AutoMemHelper(int, bool, char const*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct TESNPC
 {
 };
@@ -8526,12 +8436,7 @@ struct FUN_00441e40_shell : public QueuedFileLoad
     void FUN_00441e40();
 };
 
-struct AutoMemHelper
-{
-    int iSaved;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct Proc_S
 {
 };
@@ -9994,13 +9899,7 @@ struct BSTreeManager : public C665b80
 {
 };
 
-struct AutoMemHelper
-{
-    int m_data;
-
-    AutoMemHelper(int, bool, char const*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 typedef AutoMemHelper AutoMemContext;
 
@@ -10427,15 +10326,7 @@ void* FUN_00915790::DeleteThis(unsigned int flags)
 }
 
 namespace fnv_00449dc0 {
-class AutoMemHelper
-{
-  public:
-    AutoMemHelper(int, bool, char const*, int);
-    ~AutoMemHelper();
-
-  private:
-    void* member;
-};
+using AutoMemHelper = ::AutoMemContext;
 
 
 struct FUN_00449dc0_Class
@@ -12055,12 +11946,7 @@ void S_004445c0_This::FUN_004445c0(int aiArg1, int aiArg2, S_004445c0_Dest* pDes
     reinterpret_cast<::NP_0092c820 *>((pDest))->FUN_0092c820((const ::NP_0092c820 &)(sp));
 }
 
-struct MemCtx
-{
-    int m;
-    MemCtx(int a, int b, const char* file, int line);
-    ~MemCtx();
-};
+using MemCtx = ::AutoMemContext;
 struct Obj3D
 {
     virtual void v00();
@@ -14779,12 +14665,7 @@ struct FnvLink
 {
     FnvSceneNode* FUN_0043b230();
 };
-struct FnvGuard
-{
-    int lock;
-    FnvGuard(int, bool, const char*, int);
-    ~FnvGuard();
-};
+using FnvGuard = ::AutoMemContext;
 struct FnvHandle
 {
     FnvSceneNode* object;
@@ -18972,12 +18853,7 @@ void Self::DestroyAllStreams()
 }
 
 namespace fnv_0043d180 {
-struct Guard43
-{
-    int x;
-    Guard43(int, bool, char*, int);
-    ~Guard43();
-};
+using Guard43 = ::AutoMemContext;
 struct Update43
 {
     int data[3];
@@ -19535,13 +19411,7 @@ enum MEM_CONTEXT
 {
     MC_6 = 6
 };
-class AutoMemContext
-{
-  public:
-    AutoMemContext(MEM_CONTEXT aeMemoryContext, bool bPush, const char* pFile, int iLine);
-    ~AutoMemContext();
-    int iData;
-};
+using ::AutoMemContext;
 template <class T> unsigned int BSStringLength(const T* p);
 extern "C" int __cdecl tolower(int);
 class StrMapX
@@ -19887,13 +19757,7 @@ extern "C" const char DAT_010168c4[];
 extern "C" const char DAT_010168ec[];
 extern "C" const char DAT_010168f4[];
 
-class AutoMemHelper_MLd
-{
-  public:
-    void* m_buffer;
-    AutoMemHelper_MLd(int, bool, const char*, int);
-    ~AutoMemHelper_MLd();
-};
+using AutoMemHelper_MLd = ::AutoMemContext;
 
 class NiPointerShell_MLd
 {
@@ -20132,12 +19996,7 @@ struct CharacterClone : public QueuedCharacter
 };
 
 namespace lc1 {
-struct AutoMemContext
-{
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 }
 struct CloneObjectAccessor
 {
@@ -20235,14 +20094,7 @@ FUN_0044a040::~FUN_0044a040()
     reinterpret_cast<::FUN_0065f240 *>((((CleanupReceiver*)this)))->Clear();
 }
 
-class AutoMemContext_ctx
-{
-    int unk00;
-
-  public:
-    AutoMemContext_ctx(int, bool, const char*, int);
-    ~AutoMemContext_ctx();
-};
+using AutoMemContext_ctx = ::AutoMemContext;
 
 class NiFixedString
 {

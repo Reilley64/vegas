@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // Unit-local C++03 declarations. Layout evidence is itemized in NOTES.md.
 #ifndef FNV_THREAD_SAFE_STRUCTURES_MATCH_H
 #define FNV_THREAD_SAFE_STRUCTURES_MATCH_H
@@ -19,13 +20,7 @@ enum MEM_CONTEXT
 {
     MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD = 6
 };
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class InterfacedClass
 {
   public:

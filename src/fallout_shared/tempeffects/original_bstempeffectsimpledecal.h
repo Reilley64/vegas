@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tempeffects/original_bstempeffectsimpledecal.h: declares NiPoint3, QueuedFile, AutoMemContext, BSTempEffectSimpleDecal
 #ifndef FNV_ORIGINAL_BSTEMPEFFECTSIMPLEDECAL_H
 #define FNV_ORIGINAL_BSTEMPEFFECTSIMPLEDECAL_H
@@ -112,13 +113,7 @@ class QueuedFile
     unsigned char taskStorage[0x24];
 };
 
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;  // +0x0
-    AutoMemContext(MEM_CONTEXT context, bool track, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 class BSTempEffectSimpleDecal
 {

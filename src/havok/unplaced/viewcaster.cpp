@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/havok/unplaced/viewcaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/viewcaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -126,13 +127,7 @@ struct SpawnedObject
     virtual void v39(SpawnedObject* obj);
 };
 
-class ScopeGuard
-{
-  public:
-    unsigned int m_unk00;
-    ScopeGuard(unsigned int a, unsigned int b, const char* file, unsigned int line);
-    ~ScopeGuard();
-};
+using ScopeGuard = ::AutoMemContext;
 
 
 class FUN_00631ca0_cls
@@ -1073,13 +1068,7 @@ class List631
     int unk30;
 };
 
-class Scope631
-{
-  public:
-    Scope631(int iType, int iFlag, const char* pcFile, int iLine);
-    ~Scope631();
-    int unk00;
-};
+using Scope631 = ::AutoMemContext;
 
 class BoolSetting631
 {

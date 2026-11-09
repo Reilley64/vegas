@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/ai/ailineartaskthreadmanager.cpp: AIThreadManager (21 functions)
 
 #include <cstdint>
@@ -478,12 +479,7 @@ void FUN_008c7d80_shell::SetCurrent(int aiIndex, int aiValue)
     aiCurrent[aiIndex] = aiValue;
 }
 
-struct AutoMemHelper
-{
-    int aiMemoryContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct ArrHelper
 {
 };

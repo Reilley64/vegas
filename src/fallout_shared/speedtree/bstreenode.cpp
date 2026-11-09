@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/fallout_shared/speedtree/bstreenode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreenode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -979,12 +980,7 @@ enum MEM_CONTEXT
 {
     MEM_CONTEXT_SCENE = 0x1e
 };
-struct AutoMemContext
-{
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-    int state;
-};
+using ::AutoMemContext;
 // @fnv 0x0066bf80
 void FUN_0066bf80_owner::FUN_0066bf80(FUN_0066bf80_data* data, unsigned int flags)
 {

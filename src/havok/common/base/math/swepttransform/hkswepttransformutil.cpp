@@ -303,12 +303,12 @@ struct HeapContextGuard
     unsigned int m_uiOld;
     HeapContextGuard(unsigned int uiNew)
     {
-        m_uiOld = ::currentAllocationContext;
-        ::currentAllocationContext = uiNew;
+        m_uiOld = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = uiNew;
     }
     ~HeapContextGuard()
     {
-        ::currentAllocationContext = m_uiOld;
+        ::g_tlsBlock.memoryContext = m_uiOld;
     }
 };
 

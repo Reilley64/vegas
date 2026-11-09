@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/facegen/bsfacegenmodel.cpp: BSFaceGenModel, FaceGenTriData, DelStandIn, FileSizeInfo and more (43 functions)
 
 #include <cstdint>
@@ -859,12 +860,7 @@ struct FUN_0065bf80_shell : public BSFaceGenModel
     bool EnsureMorphData();
 };
 
-struct AutoMemHelper
-{
-    int iOldContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct S7010
 {
 };

@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 #include <cstdint>
 #include <cstddef>
 // bsshader/bsshadermanager.cpp: BSShaderManager, NiFixedString, SkyShaderProperty, StringHashMapBase (31 functions)
@@ -3541,12 +3542,12 @@ struct HeapScope
     int old;
     HeapScope(int heap)
     {
-        old = (*reinterpret_cast<::ShaderTLS *>(&::g_tlsBlock)).heap;
-        (*reinterpret_cast<::ShaderTLS *>(&::g_tlsBlock)).heap = heap;
+        old = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = heap;
     }
     ~HeapScope()
     {
-        (*reinterpret_cast<::ShaderTLS *>(&::g_tlsBlock)).heap = old;
+        ::g_tlsBlock.memoryContext = old;
     }
 };
 

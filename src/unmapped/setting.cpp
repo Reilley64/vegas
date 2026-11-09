@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
@@ -272,12 +273,7 @@ template <> SettingT<SettingCollection_01204368>::~SettingT()
 extern int _data_011c16bc;
 extern char const str_010121d0[];
 
-struct AutoMemHelper
-{
-    AutoMemHelper(int, bool, char const*, int);
-    ~AutoMemHelper();
-    void* padding;
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct Setting;
 

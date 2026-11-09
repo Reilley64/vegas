@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00540000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -46,16 +47,7 @@ struct FourFloatVector
     __m128 values;
 };
 
-struct FUN_00404eb0
-{
-    U32 flags;
-    FUN_00404eb0(int context, int enabled, const char* filename, int line);
-    ~FUN_00404eb0()
-    {
-        FUN_00404ee0();
-    }
-    void FUN_00404ee0();
-};
+using FUN_00404eb0 = ::AutoMemContext;
 
 struct __declspec(align(16)) FUN_00c681c0
 {

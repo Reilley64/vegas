@@ -1,3 +1,5 @@
+#include "AutoMemContext.h"
+#include "fnv/tls.h"
 #include <cstddef>
 // bsshader/tallgrassshader.cpp: TallGrassShader, Self, ShaderRegister, TallGrassPrograms and more (25 functions)
 
@@ -658,12 +660,12 @@ struct QAutoMemContext
     int m_eMemoryContext;
     QAutoMemContext(int iNew)
     {
-        m_eMemoryContext = reinterpret_cast<TLS_bacf00*>(&::g_tlsBlock)->m_eMemoryContext;
-        reinterpret_cast<TLS_bacf00*>(&::g_tlsBlock)->m_eMemoryContext = iNew;
+        m_eMemoryContext = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = iNew;
     }
     ~QAutoMemContext()
     {
-        reinterpret_cast<TLS_bacf00*>(&::g_tlsBlock)->m_eMemoryContext = m_eMemoryContext;
+        ::g_tlsBlock.memoryContext = m_eMemoryContext;
     }
 };
 struct FUN_00bacd00 : BSFadeNode
@@ -995,12 +997,12 @@ struct AutoMemContext_bad060
     int m_eOldContext;
     AutoMemContext_bad060(int aeMemoryContext)
     {
-        m_eOldContext = (*reinterpret_cast<::fnv_anon_00bad060::TLS_bad060 *>(&::g_tlsBlock)).m_iThreadLocalValue;
-        (*reinterpret_cast<::fnv_anon_00bad060::TLS_bad060 *>(&::g_tlsBlock)).m_iThreadLocalValue = aeMemoryContext;
+        m_eOldContext = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aeMemoryContext;
     }
     ~AutoMemContext_bad060()
     {
-        (*reinterpret_cast<::fnv_anon_00bad060::TLS_bad060 *>(&::g_tlsBlock)).m_iThreadLocalValue = m_eOldContext;
+        ::g_tlsBlock.memoryContext = m_eOldContext;
     }
 };
 
@@ -1018,13 +1020,13 @@ extern "C" char DAT_010b8c10, DAT_010b8bfc, DAT_010b8bec;
 struct AllocationScope
 {
     int previous;
-    AllocationScope() : previous((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    AllocationScope() : previous(::g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 28;
+        ::g_tlsBlock.memoryContext = 28;
     }
     ~AllocationScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 struct ShaderVariableMap : RefObj_bacd00
@@ -1653,18 +1655,7 @@ struct GrassThreadMemory
 };
 struct GrassMemoryScope
 {
-    GrassThreadMemory* thread;
-    int previous;
-    GrassMemoryScope()
-    {
-        thread = reinterpret_cast<GrassThreadMemory*>(&::g_tlsBlock);
-        previous = thread->context;
-        thread->context = 28;
-    }
-    ~GrassMemoryScope()
-    {
-        thread->context = previous;
-    }
+    AutoMemContext context{28};
 };
 struct GrassMacro
 {
@@ -2320,18 +2311,7 @@ struct StagePtr_c160
 };
 struct Scope_c160
 {
-    int previous;
-    TLS_bad060* tls;
-    Scope_c160()
-    {
-        tls = &(*reinterpret_cast<::fnv_anon_00bad060::TLS_bad060 *>(&::g_tlsBlock));
-        previous = tls->m_iThreadLocalValue;
-        tls->m_iThreadLocalValue = 28;
-    }
-    ~Scope_c160()
-    {
-        tls->m_iThreadLocalValue = previous;
-    }
+    AutoMemContext context{28};
 };
 struct Pass_c160
 {

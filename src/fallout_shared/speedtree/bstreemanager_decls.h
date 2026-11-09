@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/speedtree/bstreemanager_decls.h: declares AutoMemContext, MemoryManager
 #ifndef BSTREEMANAGER_DECLS_H
 #define BSTREEMANAGER_DECLS_H
@@ -25,13 +26,7 @@ template <> class NiPointer<NiNode>
 };
 #include "bstreemanager_types_BSTreeManager.h"
 #include "bstreemanager_types_TES.h"
-class AutoMemContext
-{
-  public:
-    MEM_CONTEXT m_eMemoryContext;
-    AutoMemContext(MEM_CONTEXT context, bool track, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class MemoryManager
 {
   public:

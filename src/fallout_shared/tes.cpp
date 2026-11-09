@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/fallout_shared/tes.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tes.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -6269,12 +6270,7 @@ void FUN_00459920_shell::FUN_00459920()
     }
 }
 
-struct AutoMemContext
-{
-    int iPrevContext;
-    AutoMemContext(int aeContext, bool abPush, const char* apFile, int aiLine);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 
 
@@ -7957,12 +7953,7 @@ struct AttachmentHandler
     void FUN_00451ef0(AttachRef*, AttachCell*, AttachRef*, bool);
 };
 namespace GridRefresh {
-struct Profile
-{
-    int unk00;
-    Profile(int, int, const char*, int);
-    ~Profile();
-};
+using Profile = ::AutoMemContext;
 struct Setting
 {
 };
@@ -8421,12 +8412,7 @@ struct TileReloadContext
 {
     void FUN_0045cda0();
 };
-struct ReloadContext
-{
-    int old;
-    ReloadContext(int, bool, const char*, int);
-    ~ReloadContext();
-};
+using ReloadContext = ::AutoMemContext;
 struct ReloadPathing
 {
 };
@@ -8758,12 +8744,7 @@ struct TileReloadContext
 {
     void FUN_004568c0(const char*, ReloadNode&, int, int);
 };
-struct ReloadContext
-{
-    int old;
-    ReloadContext(int, bool, const char*, int);
-    ~ReloadContext();
-};
+using ReloadContext = ::AutoMemContext;
 struct ReloadPathing
 {
 };
@@ -9885,12 +9866,7 @@ enum MEM_CONTEXT
 {
     MemoryContext7 = 7
 };
-struct AutoMemContext
-{
-    int old;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct QueuedFile
 {
     int unk00;
@@ -12044,12 +12020,7 @@ void ActorSpellView::UpdateSpells(bool equipped)
 }
 
 namespace fnv_0045a370 {
-struct AutoMemHelper
-{
-    int state;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct SettingT_GameSettingCollection_
 {
 };

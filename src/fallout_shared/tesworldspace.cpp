@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tesworldspace.cpp: TESWorldSpace, TESObjectCELL, TESRegion, InterfaceManager and more (90 functions)
 
 #include <cstdint>
@@ -2916,12 +2917,7 @@ bool WorldData::FindCellByEditorID(const char* editorID, int* outX, int* outY)
     return false;
 }
 
-struct AutoMemHelper
-{
-    int previousContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 extern const char DAT_01031f18[];
 extern const char DAT_01031ec0[];
 struct CellOperations

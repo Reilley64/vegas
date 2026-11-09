@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 // bssystem/bsfile.cpp: BSFile, BSFileW (21 functions)
 
 #include <cstdio>
@@ -575,12 +576,12 @@ unsigned int BSFileW::ReadWideString(WStrOut* out, unsigned int maxBytes)
 
 inline int GetMemContext()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 
 inline void SetMemContext(int aiMemoryContext)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    ::g_tlsBlock.memoryContext = aiMemoryContext;
 }
 
 struct MemContextGuard

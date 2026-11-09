@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/ai/combat/combatstate.cpp: CombatState, Host, Holder, NavMeshSearchLOSArray and more (141 functions)
 
 #include "fnv/decl/S_009a7670_P3.h"
@@ -6239,12 +6240,7 @@ struct Entry;
 struct Item;
 struct Controller;
 struct Process;
-struct Profile
-{
-    int value;
-    Profile(int, int, const char*, int);
-    ~Profile();
-};
+using Profile = ::AutoMemContext;
 struct Point
 {
     float x, y, z;

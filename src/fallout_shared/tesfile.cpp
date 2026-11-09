@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tesfile.cpp: TESFile, TgtOps, TESFile_Standin, GroupWriter and more (87 functions)
 
 #include <cstdint>
@@ -3296,12 +3297,7 @@ void FileOwner::ReleaseTempIDOwner()
 }
 
 namespace fnv_004740a0 {
-struct AutoMemX
-{
-    int m;
-    AutoMemX(int a, int b, const char* f, int l);
-    ~AutoMemX();
-};
+using AutoMemX = ::AutoMemContext;
 struct TagX
 {
 };

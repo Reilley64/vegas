@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 #include <cstdint>
 #include <cstddef>
 // bsshader/tallgrassshaderproperty.cpp: TallGrassShaderProperty, Holder, PointerMap (9 functions)
@@ -127,12 +128,12 @@ struct AutoMemContext
     int iPrevContext;
     AutoMemContext(int aiContext)
     {
-        iPrevContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
+        iPrevContext = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiContext;
     }
     ~AutoMemContext()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iPrevContext;
+        ::g_tlsBlock.memoryContext = iPrevContext;
     }
 };
 

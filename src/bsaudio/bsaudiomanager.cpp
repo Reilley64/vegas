@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 
 // src/bsaudio/bsaudiomanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsaudio/bsaudiomanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -2608,11 +2609,11 @@ struct AudioTls_adf080
 };
 static __forceinline UInt32 AudioGetContext_adf080()
 {
-    return (*reinterpret_cast<::fnv_00adf080::AudioTls_adf080 *>(&::g_tlsBlock)).m_uiMemoryContext;
+    return ::g_tlsBlock.memoryContext;
 }
 static __forceinline void AudioSetContext_adf080(UInt32 context)
 {
-    (*reinterpret_cast<::fnv_00adf080::AudioTls_adf080 *>(&::g_tlsBlock)).m_uiMemoryContext = context;
+    ::g_tlsBlock.memoryContext = context;
 }
 struct AudioMemoryContext_adf080
 {
@@ -8711,14 +8712,14 @@ inline bool Ready()
 }
 inline void SetState(int s)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = s;
+    ::g_tlsBlock.memoryContext = s;
 }
 struct StateGuard
 {
     int m_00;
     StateGuard(int s) : m_00(s)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
+        ::g_tlsBlock.memoryContext = 11;
     }
     ~StateGuard()
     {
@@ -8735,7 +8736,7 @@ void Host::FUN_00adb1a0(int a, int b, std::intptr_t c, std::intptr_t d, NavMeshP
 {
     if (Ready())
     {
-        StateGuard guard((*reinterpret_cast<int *>(&::currentAllocationContext)));
+        StateGuard guard(::g_tlsBlock.memoryContext);
         EnterCriticalSection(&m_ac);
         Record* result2 = FUN_00adad60();
         if (result2)
@@ -8956,11 +8957,11 @@ __forceinline const FUN_00ae86d0& Pass(const FUN_00ae86d0& m)
 }
 __forceinline int GetCtx()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 __forceinline void SetCtx(int value)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = value;
+    ::g_tlsBlock.memoryContext = value;
 }
 
 struct AutoMemContext
@@ -10599,14 +10600,14 @@ struct MemContext
     int saved;
     __forceinline MemContext()
     {
-        int tlsTemp = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        int tlsTemp = ::g_tlsBlock.memoryContext;
         saved = tlsTemp;
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 11;
+        ::g_tlsBlock.memoryContext = 11;
     }
     __forceinline ~MemContext()
     {
         int restore = saved;
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = restore;
+        ::g_tlsBlock.memoryContext = restore;
     }
 };
 

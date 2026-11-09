@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 
 // src/havok/unplaced/cellmopp.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/cellmopp.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -1002,12 +1003,12 @@ struct MemoryContextGuard
     int previous;
     MemoryContextGuard()
     {
-        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+        previous = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~MemoryContextGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -1248,13 +1249,13 @@ struct StringBuilder
 struct ThreadStateGuard
 {
     int previous;
-    ThreadStateGuard() : previous((*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2B4)
+    ThreadStateGuard() : previous(::g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2B4 = 0x10;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~ThreadStateGuard()
     {
-        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).unk2B4 = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 struct EP

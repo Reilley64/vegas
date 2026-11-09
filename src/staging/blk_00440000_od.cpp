@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00440000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -2982,13 +2983,7 @@ float FUN_00450410_Class::FUN_00450410()
     return *((float *)&(::FUN_00403e20((float *)(reinterpret_cast<Setting_S*>(this)))));
 }
 
-struct AutoMemHelper
-{
-    char data[3];
-
-    AutoMemHelper(int context, bool condition, const char* file, int line);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct FUN_004e1650
 {
@@ -3258,13 +3253,7 @@ FUN_0044a690_cls* FUN_0044a690_cls::EraseRange(unsigned int uiStart, unsigned in
 
 extern const char kThreadSafeStructuresSourceFile[];
 
-class AutoMemContext
-{
-  public:
-    AutoMemContext(MEM_CONTEXT aeMemoryContext, bool bPush, const char* pFile, int iLine);
-    ~AutoMemContext();
-    int iPrev;
-};
+using ::AutoMemContext;
 
 struct QHeadPtr
 {
@@ -3332,12 +3321,7 @@ void LockFreeQueue::Enqueue(const QHeadPtr& rkValue)
     *ppHazard = 0;
 }
 
-struct MemoryScope
-{
-    unsigned char category, previous, active;
-    MemoryScope(int, bool, const char*, int);
-    ~MemoryScope();
-};
+using MemoryScope = ::AutoMemContext;
 struct Node
 {
     int key;
@@ -6399,12 +6383,7 @@ struct FUN_0040fbf0_Class
 struct SpinQ
 {
 };
-struct AutoMemQ
-{
-    int m0;
-    AutoMemQ(int a, bool b, const char* f, int l);
-    ~AutoMemQ();
-};
+using AutoMemQ = ::AutoMemContext;
 struct CurQ
 {
     ~CurQ();
@@ -6486,12 +6465,7 @@ int FUN_0044e340(unsigned long index, void* value)
     return TlsSetValue(index, value);
 }
 
-struct AutoMemX
-{
-    int m;
-    AutoMemX(int a, int b, const char* f, int l);
-    ~AutoMemX();
-};
+using AutoMemX = ::AutoMemContext;
 struct FUN_0044ed50
 {
     ~FUN_0044ed50();

@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tesland.cpp: TESPackage (7 functions)
 
 #include "fnv/decl/fnv_0041bb10__FUN_0041bb10_Class.h"
@@ -2626,11 +2627,7 @@ FUN_00533120_cls::FUN_00533120_cls() : m_18(), m_24((this->m_vt = &DAT_0102dcd4,
     DAT_011c9f00++;
 }
 
-struct AutoMemContext {
-    int ctx;
-    AutoMemContext(int memContext, bool push, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 struct LandData {
     int unk00;
@@ -2994,7 +2991,7 @@ void FUN_00539360_cls::FUN_00539360(Out539* a, In539* b) {
 
 // namespace fnv_00539360
 
-struct Mem960 {int value;Mem960(int,bool,const char*,int);~Mem960();};
+using Mem960 = ::AutoMemContext;
 
 struct Color960 {float r,g,b,a;Color960(float,float,float,float);};
 
@@ -5741,11 +5738,7 @@ int __cdecl FUN_00406d90(float fValue)
 
 namespace TESLandInit {
 
-struct LandMemContext {
-    int iOldContext;
-    LandMemContext(int aiContext, bool abPush, const char* apFile, int aiLine);
-    ~LandMemContext();
-};
+using LandMemContext = ::AutoMemContext;
 
 struct LandMemObject {
 };

@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tesscriptfunctions.cpp: Script, ActorValue, TESActorBaseData, DelStandIn and more (979 functions)
 #include <cmath>
 #include "fnv/game_timer.h"
@@ -38900,12 +38901,7 @@ bool __cdecl FUN_005cfdf0(const ScriptParameter* parameters, const char* script,
     return true;
 }
 
-class AutoMemContext {
-public:
-    unsigned int previousContext;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class ShaderEffect {
 public:
     virtual ~ShaderEffect();

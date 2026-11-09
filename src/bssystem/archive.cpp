@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 #include <cstddef>
 // bssystem/archive.cpp: S_af9, NP_afc, ArchiveStand, CompressedArchiveFile and more (114 functions)
 
@@ -2784,11 +2785,11 @@ extern MemMgr_00affd80 _g_memoryManager;
 extern unsigned int DAT_011acff8;
 __forceinline int GetMemCtx_00affd80()
 {
-    return (*reinterpret_cast<int *>(&::currentAllocationContext));
+    return ::g_tlsBlock.memoryContext;
 }
 __forceinline void SetMemCtx_00affd80(int aiCtx)
 {
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiCtx;
+    ::g_tlsBlock.memoryContext = aiCtx;
 }
 struct MemCtxScope_00affd80
 {
@@ -2796,7 +2797,7 @@ struct MemCtxScope_00affd80
     __forceinline MemCtxScope_00affd80(int aiCtx)
     {
         iOld = GetMemCtx_00affd80();
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiCtx;
+        ::g_tlsBlock.memoryContext = aiCtx;
     }
     __forceinline ~MemCtxScope_00affd80()
     {

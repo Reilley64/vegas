@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/sky/sky.cpp: Sky, ThisCls, TESObjectCELL, Host and more (61 functions)
 
 #include <cstdint>
@@ -1001,12 +1002,7 @@ struct FUN_0063ac70_shell : public Sky
     void FUN_0063ac70(float);
 };
 
-struct AutoMemHelper
-{
-    int m_eMemoryContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct BSOcclusionPlane
 {
 };

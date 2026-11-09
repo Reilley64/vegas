@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/interface/menus/startmenu.cpp: StartMenu, BGSSaveLoadUI, StartMenu_Wrap, ListBox_Option and more (184 functions)
 
 #include "fallout/interface/tile_fields.h"
@@ -5345,14 +5346,7 @@ int FUN_007d5f30_cls::FUN_007d5f30()
     return 0u < m_04;
 }
 
-class SMMemContext
-{
-    int m_eOldMemContext;
-
-  public:
-    SMMemContext(MEM_CONTEXT aeContext, bool abPush, const char* apFile, int aiLine);
-    ~SMMemContext();
-};
+using SMMemContext = ::AutoMemContext;
 
 struct SMMenu;
 struct SMTile;
@@ -8520,14 +8514,7 @@ namespace fnv_007cbaf0 {
 #include <stdio.h>
 #include <string.h>
 
-class AutoMemContext
-{
-    unsigned int previousContext;
-
-  public:
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class NiSourceTexture;
 struct TES
 {

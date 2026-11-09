@@ -1,3 +1,5 @@
+#include "fnv/tls.h"
+#include "AutoMemContext.h"
 // bscore/memorymanager.cpp: MemoryManager, TESQuest, TESActorBaseData, Actor and more (21 functions)
 
 #include <cstdint>
@@ -152,40 +154,13 @@ void FUN_00473960_shell::FUN_00473960()
     }
 }
 
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct FUN_00aa3cc0_shell : public MemoryManager
 {
     void CreateMemoryPool(unsigned int, unsigned int, char*);
 };
 
-struct MemCtxGuard
-{
-    int iOld;
-    static int GetCtx()
-    {
-        return (*reinterpret_cast<int *>(&::currentAllocationContext));
-    }
-    static void SetCtx(int c)
-    {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = c;
-    }
-    MemCtxGuard(int c)
-    {
-        iOld = GetCtx();
-        SetCtx(c);
-    }
-    ~MemCtxGuard()
-    {
-        SetCtx(iOld);
-    }
-};
+using MemCtxGuard = ::AutoMemContext;
 struct MemoryPoolView : public MemoryPool
 {
     bool HasMemory()
@@ -323,7 +298,7 @@ void FUN_00aa39c0_cls::FUN_00aa39c0()
     m_00 = 1;
     reinterpret_cast<::MemoryManager *>(this)->FUN_00866770();
     reinterpret_cast<::TESForm *>(this)->ClearData();
-    (*reinterpret_cast<::FUN_00aa39c0_tls *>(&::g_tlsBlock)).m_2b4 = 0;
+    ::g_tlsBlock.memoryContext = 0;
 }
 
 extern FUN_00aa46a0_holder DAT_011f6238;

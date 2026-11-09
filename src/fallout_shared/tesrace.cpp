@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tesrace.cpp: TESRace, Obj, RaceCleanup, RaceReset and more (42 functions)
 
 #include <cstdint>
@@ -2074,13 +2075,7 @@ namespace fnv_00613c50 {
 // reconstruction of 0x00613c50
 extern "C" char DAT_0104b860[];
 
-class AutoMemHelper
-{
-  public:
-    int m_ctx;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 class NiFixedString
 {

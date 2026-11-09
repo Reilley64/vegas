@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 #include <cstdint>
 #include <new>
 #include <cstddef>
@@ -3417,12 +3418,12 @@ struct MemGuard
     unsigned int oldContext;
     MemGuard(unsigned int value)
     {
-        oldContext = (*reinterpret_cast<::fnv_00b9a5b0::AudioTlsState *>(&::g_tlsBlock)).context;
-        (*reinterpret_cast<::fnv_00b9a5b0::AudioTlsState *>(&::g_tlsBlock)).context = value;
+        oldContext = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = value;
     }
     ~MemGuard()
     {
-        (*reinterpret_cast<::fnv_00b9a5b0::AudioTlsState *>(&::g_tlsBlock)).context = oldContext;
+        ::g_tlsBlock.memoryContext = oldContext;
     }
 };
 

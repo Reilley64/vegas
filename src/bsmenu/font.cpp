@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 #include "global_string_header.h"
 #include <cstdint>
 #include <cstddef>
@@ -1230,8 +1231,8 @@ struct FontIconArray {
 };
 struct TlsModeGuard {
     int saved;
-    static int GetMode() { return (*reinterpret_cast<int *>(&::currentAllocationContext)); }
-    static void SetMode(int mode) { (*reinterpret_cast<int *>(&::currentAllocationContext)) = mode; }
+    static int GetMode() { return ::g_tlsBlock.memoryContext; }
+    static void SetMode(int mode) { ::g_tlsBlock.memoryContext = mode; }
     TlsModeGuard() {
         saved = GetMode();
         SetMode(12);
@@ -1790,8 +1791,8 @@ int unk2a8;
 int unk2ac;
 int unk2b0;
 unsigned int context; };
-inline unsigned int GetContext() { return (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).context; }
-inline void SetContext(unsigned int v) { (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).context=v; }
+inline unsigned int GetContext() { return ::g_tlsBlock.memoryContext; }
+inline void SetContext(unsigned int v) { ::g_tlsBlock.memoryContext=v; }
 struct ContextScope { unsigned int old; ContextScope(unsigned int v) { old=GetContext(); SetContext(v); } ~ContextScope() { SetContext(old); } };
 struct LoaderFile {
 virtual ~LoaderFile();
@@ -5086,7 +5087,7 @@ struct FUN_00a12020 : public Font {
     FUN_00a12020(int index, const char* name, int enabled);
 };
 }
-struct AllocatorScope { int previous; inline AllocatorScope(int value) { int saved = (*reinterpret_cast<int *>(&::currentAllocationContext)); previous = saved; (*reinterpret_cast<int *>(&::currentAllocationContext)) = value; } inline ~AllocatorScope() { int saved = previous; (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved; } };
+struct AllocatorScope { int previous; inline AllocatorScope(int value) { int saved = ::g_tlsBlock.memoryContext; previous = saved; ::g_tlsBlock.memoryContext = value; } inline ~AllocatorScope() { int saved = previous; ::g_tlsBlock.memoryContext = saved; } };
 struct FUN_00a168b0 : public FontManager {
     FUN_00a168b0();
 };

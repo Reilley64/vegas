@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
@@ -165,12 +166,7 @@ struct NavMeshCollection
 {
     NiPointer<NavMesh> GetNavMeshAt(unsigned int);
 };
-struct AutoMemHelper
-{
-    int m_old;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct TESObjectLAND;
 struct FUN_009604f0_shell
 {

@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/fallout_shared/distant terrain system/bgsdistantobjectblock.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsdistantobjectblock.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -813,14 +814,7 @@ enum MEM_CONTEXT
 {
     MEM_DISTANT_OBJECT = 36
 };
-class AutoMemContext
-{
-    int previous;
-
-  public:
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct Node
 {
     virtual void v00();
@@ -1444,22 +1438,7 @@ struct FUN_00559450_shell
     unsigned int unk04;
 };
 
-struct FUN_00404ee0_shell
-{
-    void FUN_00404eb0(unsigned int a, int b, const char* c, unsigned int d);
-    void FUN_00404ee0();
-};
-
-struct ScopeLock : FUN_00404ee0_shell
-{
-    void FUN_00404eb0_unused();
-    unsigned int unk00;
-    ScopeLock(unsigned int a, int b, const char* c, unsigned int d);
-    __forceinline ~ScopeLock()
-    {
-        FUN_00404ee0();
-    }
-};
+using ScopeLock = ::AutoMemContext;
 
 struct FUN_006f6d10_shell
 {
@@ -1518,12 +1497,7 @@ void BlockLoader::FUN_006f6270(void* apOutput, void* apWorld, short asX, short a
 }
 }  // namespace fnv_006f6270
 
-struct S_006f6370_AutoMem
-{
-    int unk00;
-    S_006f6370_AutoMem(int context, bool push, const char* file, int line);
-    ~S_006f6370_AutoMem();
-};
+using S_006f6370_AutoMem = ::AutoMemContext;
 
 struct S_006f6370_Obj
 {
@@ -1662,22 +1636,7 @@ struct FUN_00559450_shell
     unsigned int unk04;
 };
 
-struct FUN_00404ee0_shell
-{
-    void FUN_00404eb0(unsigned int a, int b, const char* c, unsigned int d);
-    void FUN_00404ee0();
-};
-
-struct ScopeLock : FUN_00404ee0_shell
-{
-    void FUN_00404eb0_unused();
-    unsigned int unk00;
-    ScopeLock(unsigned int a, int b, const char* c, unsigned int d);
-    __forceinline ~ScopeLock()
-    {
-        FUN_00404ee0();
-    }
-};
+using ScopeLock = ::AutoMemContext;
 
 struct NewObj
 {

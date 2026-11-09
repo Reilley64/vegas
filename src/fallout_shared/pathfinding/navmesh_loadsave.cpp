@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/pathfinding/navmesh_loadsave.cpp: NavMesh, TESForm, NavMeshStandIn, BSSimpleArrayActor and more (34 functions)
 
 #include "fnv/decl/ActorMover.h"
@@ -798,15 +799,7 @@ struct TESFile
     bool m_bIsDLC;
     char _pad_42b[1];
 };
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct NavMeshSaveDataHeader
 {
     unsigned int m_uiField0;
@@ -875,12 +868,7 @@ struct Flt
     operator unsigned int() const;
 };
 
-struct AutoMemHelper
-{
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-    int m_eMemoryContext;
-};
+using AutoMemHelper = ::AutoMemContext;
 struct SeqObj
 {
 };

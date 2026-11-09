@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/testopic.cpp: TESTopic, NavShell2, TopicFlagStandIn, TopicSaver and more (49 functions)
 
 #include <new>
@@ -408,14 +409,7 @@ void FUN_00619fe0(TopicInfoArray* apInfoArray)
     }
 }
 
-class AutoMemContext
-{
-    int dummy;
-
-  public:
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 
 class TESGlobal;
 class TESGlobalMap

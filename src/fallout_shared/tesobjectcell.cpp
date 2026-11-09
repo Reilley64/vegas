@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tesobjectcell.cpp: TESObjectCELL, Owner, Cell, hkpEntityListener and more (325 functions)
 
 #include "fnv/save_load_game_view.h"
@@ -2200,14 +2201,7 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 struct NiTransform
 {
     void ResetToIdentity();
@@ -2230,12 +2224,7 @@ enum MEM_CONTEXT
 {
 };
 
-struct AutoMemContext
-{
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-    int m_eMemoryContext;
-};
+using ::AutoMemContext;
 
 struct ThreeByThreeMatrix
 {
@@ -11082,12 +11071,7 @@ void FUN_00545670_cls::FUN_00545670(void* pObject)
 
 extern void* __cdecl FUN_00aa13e0(unsigned int);
 extern char DAT_0102ed50;
-struct FUN_00404eb0
-{
-    int m_uiContentCount;
-    FUN_00404eb0(int, int, const void*, int);
-    ~FUN_00404eb0();
-};
+using FUN_00404eb0 = ::AutoMemContext;
 struct Widget
 {
     virtual void slot00();
@@ -17866,12 +17850,7 @@ bool Cell::FUN_00550500(File* file)
 
 namespace fnv_00552970 {
 // 0x00552970  unit_9e852b306d07.cpp  /MT /Od /Oy- /GS /EHsc /Gy
-struct AutoMemHelper
-{
-    int field;
-    AutoMemHelper(int context, bool flag, const char* file, int line);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct ShNiVt
 {
@@ -18435,16 +18414,7 @@ FUN_005415b0::FUN_005415b0() : fieldb4(0), fieldb8(0), fieldbc(0), fieldd4(0)
     field58.slot0();
 }
 
-struct Mem960
-{
-    unsigned int handle;
-    Mem960(int, int, const char*, int);
-    void FUN_00404ee0();
-    ~Mem960()
-    {
-        FUN_00404ee0();
-    }
-};
+using Mem960 = ::AutoMemContext;
 struct LandscapeColorData;
 struct TESObjectLAND
 {
@@ -19007,13 +18977,7 @@ class NP
     operator void*() const;
 };
 
-class AutoMemHelper
-{
-  public:
-    int m;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 class CullProc
 {
@@ -21275,12 +21239,7 @@ void* __cdecl FUN_00aa13e0(unsigned int);
 struct ChildGeometryBase;
 
 
-struct ScopedCellOperation
-{
-    ScopedCellOperation(unsigned int, bool, const char*, unsigned int);
-    ~ScopedCellOperation();
-    unsigned int state;
-};
+using ScopedCellOperation = ::AutoMemContext;
 struct FourFloatVector
 {
     float x, y, z, w;

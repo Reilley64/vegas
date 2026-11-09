@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/fallout_shared/distant terrain system/bgsterrainchunk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsterrainchunk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -1676,12 +1677,7 @@ struct PropState_ctx
     virtual void* v70(NiGeometry*, NiProperty_ctx*);
 };
 
-struct AutoMemX
-{
-    int m;
-    AutoMemX(int a, int b, const char* f, int l);
-    ~AutoMemX();
-};
+using AutoMemX = ::AutoMemContext;
 
 struct Q28_ctx
 {

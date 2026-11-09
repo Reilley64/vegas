@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_006c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -2013,12 +2014,7 @@ void FUN_006dbfc0_Class::FUN_006dbfc0(unsigned int data, unsigned int size)
 
 extern const char str_0106649c[];
 
-struct AutoMemHelper
-{
-    int m_data;
-    AutoMemHelper(int context, bool flag, const char* source, int line);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct FUN_0044cd00_Class
 {
@@ -2405,13 +2401,7 @@ void FUN_006d01d0_Class::FUN_006d01d0(unsigned int count, bool clear)
     }
 }
 
-class AutoMemContext
-{
-  public:
-    AutoMemContext(MEM_CONTEXT aeMemoryContext, bool bPush, const char* pcFile, int iLine);
-    ~AutoMemContext();
-    int m_iPrev;
-};
+using ::AutoMemContext;
 
 struct SpinLock6c67
 {
@@ -2497,13 +2487,7 @@ FUN_006c6a80::~FUN_006c6a80()
 
 namespace fnv_006c6e60 {
 
-class AutoMemContext
-{
-  public:
-    AutoMemContext(MEM_CONTEXT context, bool flag, const char* source, int line);
-    ~AutoMemContext();
-    int m_data;
-};
+using ::AutoMemContext;
 
 
 struct TSQueueNode

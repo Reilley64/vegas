@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 #include "global_string_header.h"
 #include <new>
 #include <cstddef>
@@ -4906,8 +4907,8 @@ FUN_009ff340::~FUN_009ff340()
 }
 
 namespace fnv_009ff690 {
-__forceinline int GetMemoryContext() { return (*reinterpret_cast<int *>(&::currentAllocationContext)); }
-__forceinline void SetMemoryContext(int context) { (*reinterpret_cast<int *>(&::currentAllocationContext)) = context; }
+__forceinline int GetMemoryContext() { return ::g_tlsBlock.memoryContext; }
+__forceinline void SetMemoryContext(int context) { ::g_tlsBlock.memoryContext = context; }
 struct MemoryContextGuard {
     int previous;
     __forceinline MemoryContextGuard(int context) {
@@ -5659,8 +5660,8 @@ XmlNode* __cdecl FUN_00a01e20(const char* filename, const char* source, unsigned
 
 namespace fnv_00a04200 {
 extern char DAT_011f3330;
-inline int GetMemoryContext() { return (*reinterpret_cast<int *>(&::currentAllocationContext)); }
-inline void SetMemoryContext(int value) { (*reinterpret_cast<int *>(&::currentAllocationContext)) = value; }
+inline int GetMemoryContext() { return ::g_tlsBlock.memoryContext; }
+inline void SetMemoryContext(int value) { ::g_tlsBlock.memoryContext = value; }
 struct AutoMemContext {
     int previous;
     AutoMemContext(int value) { previous = GetMemoryContext(); SetMemoryContext(value); }
@@ -6655,8 +6656,8 @@ struct TileManager {
 };
 __forceinline TileManager* GetDebrisManager() { return (*reinterpret_cast<::fnv_00a01b00::TileManager * *>(&::NiRenderer::ms_pRenderer)); }
 
-__forceinline int GetMemContext() { return (*reinterpret_cast<int *>(&::currentAllocationContext)); }
-__forceinline void SetMemContext(int context) { (*reinterpret_cast<int *>(&::currentAllocationContext)) = context; }
+__forceinline int GetMemContext() { return ::g_tlsBlock.memoryContext; }
+__forceinline void SetMemContext(int context) { ::g_tlsBlock.memoryContext = context; }
 
 struct AutoMemContext {
     int m_eOldContext;
@@ -7708,8 +7709,8 @@ struct RenderTLS { int unk000; int unk004; int unk008; int unk00c; int unk010; i
 
 struct RenderHeapScope {
     int saved;
-    __forceinline RenderHeapScope() { { int current = (*reinterpret_cast<::RenderTLS *>(&::g_tlsBlock)).heapIndex; saved = current; } (*reinterpret_cast<::RenderTLS *>(&::g_tlsBlock)).heapIndex = 13; }
-    __forceinline ~RenderHeapScope() { int restore = saved; (*reinterpret_cast<::RenderTLS *>(&::g_tlsBlock)).heapIndex = restore; }
+    __forceinline RenderHeapScope() { { int current = ::g_tlsBlock.memoryContext; saved = current; } ::g_tlsBlock.memoryContext = 13; }
+    __forceinline ~RenderHeapScope() { int restore = saved; ::g_tlsBlock.memoryContext = restore; }
 };
 
 struct RenderPoint2 { float x,y; __forceinline RenderPoint2(float a,float b):x(a),y(b){} };
@@ -8239,8 +8240,8 @@ bool RenderTile::FUN_00a04640(bool clear) {
 
 namespace fnv_00a09410 {
 struct P03MM { void* Allocate(unsigned int); void Deallocate(void*); };
-__forceinline int GetMemoryContext() { return (*reinterpret_cast<int *>(&::currentAllocationContext)); }
-__forceinline void SetMemoryContext(int value) { (*reinterpret_cast<int *>(&::currentAllocationContext))=value; }
+__forceinline int GetMemoryContext() { return ::g_tlsBlock.memoryContext; }
+__forceinline void SetMemoryContext(int value) { ::g_tlsBlock.memoryContext=value; }
 struct ValueContext {
  int saved;
  __forceinline ValueContext() { saved=GetMemoryContext(); SetMemoryContext(13); }

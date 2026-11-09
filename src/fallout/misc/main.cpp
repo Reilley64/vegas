@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/misc/main.cpp: Interface, SomeClass, BSFadeNodeCuller, Mover and more (192 functions)
 #include "fnv/av_object_fields.h"
 #include "fnv/game_timer.h"
@@ -3209,12 +3210,7 @@ void ImageSpaceTexture::FUN_008748d0()
     reinterpret_cast<::FUN_00ba3770_struct *>(&this->unk7c)->FUN_00ba3770();
 }
 
-struct AutoMemHelper
-{
-    AutoMemHelper(int context, bool push, const char* file, int line);
-    ~AutoMemHelper();
-    int iOldContext;
-};
+using AutoMemHelper = ::AutoMemContext;
 struct BSRenderedTexture;
 struct BSFaceGenNiNode
 {
@@ -4134,12 +4130,7 @@ void FUN_008746d0_shell::FUN_008746d0(BSRenderedTexture* apRenderTexture)
 namespace fnv_00875e40 {
 class NiCamera;
 class BSRenderedTexture;
-struct AutoMemHelper
-{
-    int m;
-    AutoMemHelper(int id, bool b, const char* file, int line);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct ArrSI
 {
 };
@@ -4694,15 +4685,7 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
+using ::AutoMemContext;
 
 class GridCell;
 class NiNode;
@@ -4751,13 +4734,7 @@ struct FUN_00456520_Class
 {
     void FUN_00456520();
 };
-class AutoMemHelper
-{
-  public:
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-    int iOld;
-};
+using AutoMemHelper = ::AutoMemContext;
 struct PC_00605d70
 {
 };
@@ -6537,13 +6514,7 @@ struct SystemInfo86
     unsigned short level;
     unsigned short revision;
 };
-struct Context86
-{
-    int previous;
-    void FUN_00404eb0(int, bool, void*, int);
-    void FUN_00404f70();
-    void FUN_00404ee0();
-};
+using Context86 = ::AutoMemContext;
 struct Text86
 {
     int unk00;
@@ -6789,12 +6760,12 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 FUN_0086bcc0(1);
                 ::FUN_00c3a6d0();
                 FUN_0086bd70();
-                reinterpret_cast<::S4eb0 *>(&(memoryContext11))->FUN_00404eb0(0x10, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x8e0);
+                memoryContext11.Enter(0x10, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x8e0);
                 ::FUN_00453720();
-                reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memoryContext11))->FUN_00404f70();
-                reinterpret_cast<::FUN_00404f00_shell *>(&(memoryContext11))->FUN_00404f00(0xf, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x8e6);
+                memoryContext11.Leave();
+                memoryContext11.Enter(0xf, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x8e6);
                 ::fnv_00a61ad0::FUN_00a61ad0();
-                reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memoryContext11))->FUN_00404f70();
+                memoryContext11.Leave();
                 ::GetDebugFlags();
                 argumentCount8 = 0;
                 arguments5 = (unsigned short**)CommandLineToArgvW(GetCommandLineW(), &argumentCount8);
@@ -6836,7 +6807,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                     if (shellResult10 != 0)
                     {
                         shellExitResult20 = 0;
-                        reinterpret_cast<::AutoMemContext *>(&(memoryContext11))->AutoMemContext::~AutoMemContext();
+                        memoryContext11.Leave();
                         return shellExitResult20;
                     }
                 }
@@ -6852,13 +6823,13 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 ::fnv_00c3bbe0::FUN_00c3bbe0((const char *)(unsigned char *)(&UNK_01082a28));
                 ::FUN_00c3bc30((const char *)(unsigned char *)(&UNK_01082a10));
                 ::fnv_00c3bc80::FUN_00c3bc80((const char *)(unsigned char *)(&UNK_01082a00));
-                reinterpret_cast<::FUN_00404f00_shell *>(&(memoryContext11))->FUN_00404f00(0x18, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x992);
+                memoryContext11.Enter(0x18, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x992);
                 ::FUN_0040fbe0();
                 ((::Receiver86 *)&(::BSFileCache::GetRandomGenerator()))->FUN_0086bda0();
-                reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memoryContext11))->FUN_00404f70();
-                reinterpret_cast<::FUN_00404f00_shell *>(&(memoryContext11))->FUN_00404f00(0x13, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x99c);
+                memoryContext11.Leave();
+                memoryContext11.Enter(0x13, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x99c);
                 ::fnv_00876d20::FUN_00876d20();
-                reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memoryContext11))->FUN_00404f70();
+                memoryContext11.Leave();
                 windowClass10.style = 3;
                 windowClass10.lpfnWndProc = reinterpret_cast<WNDPROC>(&::fnv_0086a0a0::FUN_0086a0a0);
                 windowClass10.cbClsExtra = 0;
@@ -6881,11 +6852,11 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 globalsAllocation7 = (Receiver86*)::FUN_00401000(0xa4);
                 newGlobals20 = globalsAllocation7 ? ((::Receiver86 *)(new ((void *)(globalsAllocation7)) ::FUN_0086c160((void *)(std::uintptr_t)(window1), (void *)(std::uintptr_t)(param_1)))) : 0;
                 (*reinterpret_cast<unsigned char * *>(&::g_osGlobals)) = (unsigned char*)newGlobals20;
-                reinterpret_cast<::FUN_00404f00_shell *>(&(memoryContext11))->FUN_00404f00(0xd, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x9f8);
+                memoryContext11.Enter(0xd, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x9f8);
                 interfaceAllocation2 = (Receiver86*)::FUN_00401000(8);
                 newInterface17 = interfaceAllocation2 ? ((::Receiver86 *)(reinterpret_cast<::PerformanceTimerManager *>((interfaceAllocation2))->BeginFrame())) : 0;
                 (*reinterpret_cast<uintptr_t *>(&::DAT_011d8804)) = (uintptr_t)newInterface17;
-                reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memoryContext11))->FUN_00404f70();
+                memoryContext11.Leave();
                 ::FUN_0040fbe0();
                 ::FUN_0086d500(::g_osGlobals);
                 ::DAT_011f4509 = 1;
@@ -6902,7 +6873,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 reinterpret_cast<::fnv_004a03c0::DD *>((((::Receiver86 *)(::FUN_0043c4b0()))))->FUN_004a03c0();
                 ::FUN_00866ff0();
                 reinterpret_cast<::BEC16D0MoviePlayerThread *>(((*reinterpret_cast<::Receiver86 * *>(&::DAT_0126fac4))))->FUN_00ec16d0((void *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting86 *>(&::g_011de72c))))->GetMenuTitle()))), 0, -1, 1, 1, 0.0f);
-                reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memoryContext11))->FUN_00404f70();
+                memoryContext11.Leave();
                 ((Receiver86*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))->FUN_0086cf20((Receiver86*)((::BSFaceGenNiNode *)(::FUN_0045c670())));
                 FUN_0086be90(((Receiver86*)((::BSFaceGenNiNode *)(::FUN_0045c670())))->FUN_006629f0());
                 FUN_0086be80(((Receiver86*)((::BSFaceGenNiNode *)(::FUN_0045c670())))->FUN_006629f0());
@@ -7133,7 +7104,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 reinterpret_cast<::FUN_00aa47c0_Class *>((((::Receiver86 *)(::FUN_00401020()))))->FUN_00aa47c0((intptr_t)(&shutdownText46), 0);
                 result5 = 0;
                 reinterpret_cast<::FUN_008784d0 *>(&(shutdownText46))->FUN_008784d0::~FUN_008784d0();
-                reinterpret_cast<::AutoMemContext *>(&(memoryContext11))->AutoMemContext::~AutoMemContext();
+                memoryContext11.Leave();
                 return result5;
             }
         }
@@ -7418,14 +7389,7 @@ void __cdecl FUN_0086bd00(void)
     }
 }
 
-struct MemScope
-{
-    int context;
-    MemScope(int, bool, const char*, int);
-    ~MemScope();
-    void Enter(int, bool, const char*, int);
-    void Leave();
-};
+using MemScope = ::AutoMemContext;
 struct UpdateInfo
 {
     float time;
@@ -8633,7 +8597,7 @@ struct BootInit
 void BootInit::FUN_0086cf20(ScenePart* scene)
 {
     MemScope memory5(10, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp", 0xe4f);
-    reinterpret_cast<::FUN_00404f00_shell *>(&(memory5))->FUN_00404f00(10, true, (char *)("D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp"), 0xe51);
+    memory5.Enter(10, true, (char *)("D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp"), 0xe51);
     DAT_011dea20 = ((::SkyInit *)(::Sky::GetInstance()));
     ::fnv_00877730::FUN_00877730();
     int mode = FUN_0086d470();
@@ -8646,7 +8610,7 @@ void BootInit::FUN_0086cf20(ScenePart* scene)
     }
     ::FUN_0040fbe0();
     (*reinterpret_cast<::WorldInit * *>(&::g_TES)) = new WorldInit("DATA\\", mode, root_2, DAT_011dea20, DAT_011dea1c);
-    reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memory5))->FUN_00404f70();
+    memory5.Leave();
     reinterpret_cast<::FUN_00450c50_Class *>(((*reinterpret_cast<::WorldInit * *>(&::g_TES))))->FUN_00450c50();
     ::FUN_0040fbe0();
     ::BSTreeManager::Create(false);
@@ -8654,11 +8618,11 @@ void BootInit::FUN_0086cf20(ScenePart* scene)
     reinterpret_cast<::FUN_00b00df0_cls *>(&((*(::TaskInit *)&(::GetTaskletManager()))))->ReleaseAndSignal();
     FUN_00526e10();
     FUN_00990f20();
-    reinterpret_cast<::FUN_00404f00_shell *>(&(memory5))->FUN_00404f00(25, true, (char *)("D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp"), 0xe85);
+    memory5.Enter(25, true, (char *)("D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp"), 0xe85);
     reinterpret_cast<::FUN_00a5a040_Class *>((scene))->FUN_00a5a040();
     UpdateInfo update9(0.0f, false, false);
     reinterpret_cast<::FUN_00a59c60_cls *>((scene))->FUN_00a59c60((std::intptr_t)&(update9));
-    reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memory5))->FUN_00404f70();
+    memory5.Leave();
     bool found3 = false;
     InitSetting* plugins3[10] = {&(*reinterpret_cast<::InitSetting *>(&::g_011debf0)), &(*reinterpret_cast<::InitSetting *>(&::g_011deb88)), &(*reinterpret_cast<::InitSetting *>(&::g_011decf8)), &(*reinterpret_cast<::InitSetting *>(&::g_011dee9c)), &(*reinterpret_cast<::InitSetting *>(&::g_011dec34)),
                                  &(*reinterpret_cast<::InitSetting *>(&::g_011dee0c)), &(*reinterpret_cast<::InitSetting *>(&::g_011ded14)), &(*reinterpret_cast<::InitSetting *>(&::g_011dee48)), &(*reinterpret_cast<::InitSetting *>(&::g_011dea70)), &(*reinterpret_cast<::InitSetting *>(&::g_011ded48))};
@@ -8682,10 +8646,10 @@ void BootInit::FUN_0086cf20(ScenePart* scene)
         if (_fallback)
             reinterpret_cast<::EffectSettingCollection *>((_fallback))->InitializeCollection(true);
     }
-    reinterpret_cast<::FUN_00404f00_shell *>(&(memory5))->FUN_00404f00(52, true, (char *)("D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp"), 0xecb);
+    memory5.Enter(52, true, (char *)("D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp"), 0xecb);
     (*reinterpret_cast<::PlayerInit * *>(&::_g_thePlayer)) = new PlayerInit;
     (*reinterpret_cast<::PlayerInit * *>(&::_g_thePlayer))->SetID(20, true);
-    reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memory5))->FUN_00404f70();
+    memory5.Leave();
     ::FUN_0040fbe0();
     reinterpret_cast<::fnv_00463070::FUN_00463070_shell *>(((*reinterpret_cast<::HandlerInit * *>(&::g_dataHandler))))->LoadDataFiles(false);
     ::ChallengeManager::CheckCompletedChallenges();
@@ -8696,7 +8660,7 @@ void BootInit::FUN_0086cf20(ScenePart* scene)
     reinterpret_cast<::fnv_0045a1e0::Target45 *>(((*reinterpret_cast<::WorldInit * *>(&::g_TES))))->QueueLoadForAll();
     ::BSTempEffectSimpleDecal::QueueDecalDataFile();
     ::FUN_0040fbe0();
-    reinterpret_cast<::FUN_00404f00_shell *>(&(memory5))->FUN_00404f00(52, true, (char *)("D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp"), 0xf00);
+    memory5.Enter(52, true, (char *)("D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp"), 0xf00);
     {
         TESNPC* base2 = dynamic_cast<TESNPC*>(::FUN_004839c0(7));
         reinterpret_cast<::Fn575690 *>(((*reinterpret_cast<::PlayerInit * *>(&::_g_thePlayer))))->FUN_00575690(base2);
@@ -10490,12 +10454,7 @@ struct Update
     unsigned int flags, other;
     Update(float, int, int);
 };
-struct Guard
-{
-    unsigned int state;
-    Guard(int, int, const char*, int);
-    ~Guard();
-};
+using Guard = ::AutoMemContext;
 struct VecRef
 {
 };
@@ -11908,13 +11867,7 @@ struct VisibleList
     VisibleList();
     ~VisibleList();
 };
-struct MemoryContext
-{
-    int unk00;
-    MemoryContext(int, bool, const char*, int);
-    ~MemoryContext();
-    void FUN_00404f70();
-};
+using MemoryContext = ::AutoMemContext;
 struct LocalCull
 {
     int unk00;
@@ -12325,7 +12278,7 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
     if (::DAT_011f94b4)
         ::FUN_00a89af0((std::intptr_t)(((::fnv_00873200::ViewNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))));
     reinterpret_cast<::FUN_004a0fd0_shell *>((process))->FUN_004a0fd0((::NiNode *)(::fnv_00873200::ViewNode *)(0));
-    reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memory7))->FUN_00404f70();
+    memory7.Leave();
     m_88.FUN_00559450()->m_38 = false;
     m_88.FUN_00559450()->m_3a = false;
     ::FUN_008746c0();
@@ -12365,12 +12318,7 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
 namespace fnv_00877730 {
 struct GlobalObject_0045cf30;
 class ImageSpaceManager;
-struct AutoMemHelper
-{
-    unsigned int previousContext;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 union SETTING_VALUE
 {
     bool b;
@@ -14135,12 +14083,7 @@ void PlayerUpdateState::FUN_0086f940()
 
 namespace fnv_0086d590 {
 struct NiAVObject;
-struct AutoMemHelper
-{
-    int context;
-    AutoMemHelper(int, int, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 struct NiFixedString
 {

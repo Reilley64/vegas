@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/bgsmusictype.cpp: BGSMusicType, MusicTypeDeletion, MusicTypeWriter, MusicTypeCopyEntry and more (8 functions)
 
 #include <new>
@@ -233,13 +234,7 @@ bool MusicTypeCompareEntry::FUN_00591740(::TESForm* form)
     return false;
 }
 
-class AutoMemHelper
-{
-  public:
-    int unk00;
-    AutoMemHelper(int context, bool leave, const char* file, int line);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 class BSDirectoryIterator
 {

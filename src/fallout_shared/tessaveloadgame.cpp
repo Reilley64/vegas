@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/tessaveloadgame.cpp: TESSaveLoadGame, NiTPointerMap_Standin, Holder, ChangesMap and more (142 functions)
 
 #include "fnv/tls.h"
@@ -1134,12 +1135,7 @@ FUN_00855660::FUN_00855660()
 }
 }  // namespace fnv_00855660
 
-struct AutoMemHelper
-{
-    int m_uiLogicalSize;
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 struct ContainerItemExtra
 {
     int m_iExtraID;
@@ -2121,12 +2117,7 @@ void* FUN_00854ed0_standin::FUN_00854ed0(unsigned int flags)
 struct Form_00855010
 {
 };
-struct Guard_00855010
-{
-    int unk00;
-    Guard_00855010(int a, int b, const char* file, int line);
-    ~Guard_00855010();
-};
+using Guard_00855010 = ::AutoMemContext;
 struct Node_00855010
 {
     unsigned int unk00;
@@ -2138,10 +2129,6 @@ struct FUN_00855010_cls
     void* GetOrCreateNode(void* a1, unsigned int a2);
 };
 
-Guard_00855010::Guard_00855010(int a, int b, const char* file, int line)
-{}
-Guard_00855010::~Guard_00855010()
-{}
 Node_00855010::Node_00855010()
 {}
 
@@ -2212,12 +2199,7 @@ FUN_00855310_cls::~FUN_00855310_cls()
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
-struct ScopeLock_855970
-{
-    unsigned int m_unk00;
-    ScopeLock_855970(int a, int b, const char* file, int line);
-    ~ScopeLock_855970();
-};
+using ScopeLock_855970 = ::AutoMemContext;
 
 struct Key_855970
 {
@@ -3328,12 +3310,7 @@ struct Array
     Array(unsigned int, unsigned int);
     void FUN_00864240(unsigned int, const unsigned int&);
 };
-struct Scope
-{
-    unsigned int unk0;
-    Scope(int, int, const char*, int);
-    ~Scope();
-};
+using Scope = ::AutoMemContext;
 struct FUN_00856380;
 struct FUN_00856380
 {
@@ -7552,12 +7529,7 @@ enum MEM_CONTEXT
 {
     MC_11 = 0x11
 };
-struct AutoMemContext
-{
-    int unk00;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, unsigned int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 extern const char DAT_01080750[];
 
 struct SaveMemory
@@ -10363,12 +10335,12 @@ struct MemoryManager
 
 inline unsigned int GetCurrentContext()
 {
-    return ::currentAllocationContext;
+    return ::g_tlsBlock.memoryContext;
 }
 
 inline void SetCurrentContext(unsigned int context)
 {
-    ::currentAllocationContext = context;
+    ::g_tlsBlock.memoryContext = context;
 }
 
 struct HeapContextGuard

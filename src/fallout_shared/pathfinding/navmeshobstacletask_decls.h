@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout_shared/pathfinding/navmeshobstacletask_decls.h: declares ObstacleSource, ObstacleData, NavMeshPtr, NavMeshInfo, ObstacleTask and more
 #ifndef NAVMESHOBSTACLETASK_DECLS_H
 #define NAVMESHOBSTACLETASK_DECLS_H
@@ -116,13 +117,7 @@ enum MEM_CONTEXT
 {
     MEM_CONTEXT_NAVMESH = 46
 };
-class AutoMemContext
-{
-  public:
-    unsigned int context;
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class NiMemObject
 {
   public:

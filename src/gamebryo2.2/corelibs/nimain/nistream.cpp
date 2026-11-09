@@ -1,3 +1,4 @@
+#include "fnv/tls.h"
 // gamebryo2.2/corelibs/nimain/nistream.cpp: NiStream, NiStreamImpl, ThisObj, Receiver and more (64 functions)
 #include <cstdint>
 #include <cstddef>
@@ -6844,12 +6845,12 @@ struct MemContextScope
     int oldContext;
     MemContextScope(int newContext)
     {
-        oldContext = (*reinterpret_cast<::fnv_00c68050::TLSData *>(&::g_tlsBlock)).memContext;
-        (*reinterpret_cast<::fnv_00c68050::TLSData *>(&::g_tlsBlock)).memContext = newContext;
+        oldContext = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = newContext;
     }
     ~MemContextScope()
     {
-        (*reinterpret_cast<::fnv_00c68050::TLSData *>(&::g_tlsBlock)).memContext = oldContext;
+        ::g_tlsBlock.memoryContext = oldContext;
     }
 };
 
@@ -7270,12 +7271,12 @@ struct HeapContextGuard
     unsigned int m_uiOld;
     HeapContextGuard(unsigned int uiNew)
     {
-        m_uiOld = ::currentAllocationContext;
-        ::currentAllocationContext = uiNew;
+        m_uiOld = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = uiNew;
     }
     ~HeapContextGuard()
     {
-        ::currentAllocationContext = m_uiOld;
+        ::g_tlsBlock.memoryContext = m_uiOld;
     }
 };
 

@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // tesobjecttree.cpp: TESObjectTREE, BSShaderTextureSet, BGSImpactData, BSFadeNode and more (45 functions)
 
 #include <cstdint>
@@ -1455,14 +1456,7 @@ void FUN_0051c3b0_cls::BuildBillboardTexturePath(char* dst)
     *out4 = 0;
 }
 
-class AutoMemContext
-{
-    int m_pSecondNode;
-
-  public:
-    AutoMemContext(MEM_CONTEXT, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class NiPoint3
 {
   public:
@@ -1665,13 +1659,7 @@ class NiSourceTexture
     void IncRefCount();
     void DecRefCount();
 };
-class AutoMemContext
-{
-  public:
-    int previousContext;
-    AutoMemContext(int context, bool active, const char* file, int line);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 class TreeSceneObject : public NiMemObject
 {
   public:
@@ -1950,12 +1938,7 @@ TreeSceneObject* TreeBillboardBuilder::CreateBillboardSceneObject(bool variant)
 }  // namespace fnv_0051cba0
 
 namespace fnv_0051d440 {
-struct AutoMemContext
-{
-    int context;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct Texture;
 struct TexturePtr
 {

@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 
 // src/staging/blk_00860000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
@@ -2729,12 +2730,7 @@ void FUN_00866de0_cls::CallElementAt(int aiIndex)
     ::FUN_004424c0((char *)(m_pArr[aiIndex]));
 }
 
-struct ScopeGuardCtx
-{
-    int m_unk00;
-    ScopeGuardCtx(unsigned int size, int flag, const char* file, int line);
-    ~ScopeGuardCtx();
-};
+using ScopeGuardCtx = ::AutoMemContext;
 
 struct FUN_00866ff0_cls
 {
@@ -2763,8 +2759,6 @@ struct FUN_00866ff0_cls
 };
 
 
-ScopeGuardCtx::~ScopeGuardCtx()
-{}
 
 // @fnv 0x00866ff0
 void __cdecl FUN_00866ff0()
@@ -4235,13 +4229,7 @@ struct Global_p161
 {
 };
 int FUN_0040fc90();
-class AutoMemContext
-{
-  public:
-    int context;
-    AutoMemContext(int, bool, const char*, int);
-    ~AutoMemContext();
-};
+using ::AutoMemContext;
 struct Controls_p161
 {
 };
@@ -4301,10 +4289,10 @@ FUN_0086c160::FUN_0086c160(void* aiArg1, void* aiArg2)
     AutoMemContext context(13, true, DAT_010829c4, 3526);
     ::CreateC790Manager(aiArg2);
     reinterpret_cast<::ControlsIniLoader *>((((::Controls_p161 *)(::FUN_007fdf30()))))->LoadControlsFromIni();
-    reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(context))->FUN_00404f70();
-    reinterpret_cast<::FUN_00404f00_shell *>(&(context))->FUN_00404f00(11, true, (char *)(DAT_010829c4), 3541);
+    context.Leave();
+    context.Enter(11, true, (char *)(DAT_010829c4), 3541);
     reinterpret_cast<::FUN_0086ce40_class *>(this)->InitAudioCallbacks();
-    reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(context))->FUN_00404f70();
+    context.Leave();
 }
 
 // Recreate the global manager: delete the old instance and construct a new one for the given owner.

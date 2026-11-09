@@ -1,3 +1,4 @@
+#include "AutoMemContext.h"
 // fallout/ai/combat/combatmanager.cpp: CombatFlagHolder, CombatBox, CombatManager, CombatNodeArray and more (37 functions)
 
 #include "fnv/combat_group_fields.h"
@@ -1607,12 +1608,7 @@ void CombatMapRef::FUN_009950a0(CombatMap** ppCombatMap)
 
 extern const char $SG8126[];
 
-struct AutoMemHelper
-{
-    char pad[4];
-    AutoMemHelper(int, bool, const char*, int);
-    ~AutoMemHelper();
-};
+using AutoMemHelper = ::AutoMemContext;
 
 
 struct QuantityData

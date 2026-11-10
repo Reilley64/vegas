@@ -276,6 +276,11 @@ void FUN_0048ef40_shell::FUN_0048ef40()
     *(int**)this = &DAT_0101d8e8;
 }
 
+struct WaitableObject
+{
+public:
+    void FUN_00401970();
+};
 namespace fnv_0048f010 {
 struct TESAnimGroup;
 struct AnimSequenceSingle : public AnimSequenceBase
@@ -411,11 +416,6 @@ FUN_0048f0c0::FUN_0048f0c0(SingleSeq* apSingleSeq)
     delete apSingleSeq;
 }
 
-struct WaitableObject
-{
-public:
-    void FUN_00401970();
-};
 struct ST_0048f3a0
 {
 };

@@ -445,6 +445,29 @@ void* FUN_006950a0_shell::FUN_006950a0(unsigned int flags)
     return this;
 }
 
+struct BSSimpleArrayActor
+{
+    virtual ~BSSimpleArrayActor();
+    virtual int* FUN_alloc1(unsigned int);
+
+public:
+    void FUN_005eee80(unsigned int, bool);
+};
+struct FUN_006dc590 : public BSSimpleArrayActor
+{
+    void FUN_006dc590_(unsigned int, unsigned int);
+};
+
+struct FUN_0069b310_S : public FUN_006dc590
+{
+};
+
+struct FUN_0072ba80_shell : public FUN_0069b310_S
+{
+public:
+    void FUN_0072ba80(void *, unsigned int);
+};
+
 namespace fnv_00694b10 {
 struct S5460
 {
@@ -1300,14 +1323,6 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
 }
 }  // namespace fnv_00692950
 
-struct BSSimpleArrayActor
-{
-    virtual ~BSSimpleArrayActor();
-    virtual int* FUN_alloc1(unsigned int);
-
-public:
-    void FUN_005eee80(unsigned int, bool);
-};
 // Resizes dest to this container's count and copies each element from data into dest via GetAt.
 // @fnv 0x00694f80
 void SA00694f80::FUN_00694f80(DA00694f80* dest)
@@ -1319,21 +1334,6 @@ void SA00694f80::FUN_00694f80(DA00694f80* dest)
 
 BSSimpleArrayActor::~BSSimpleArrayActor()
 {}
-
-struct FUN_006dc590 : public BSSimpleArrayActor
-{
-    void FUN_006dc590_(unsigned int, unsigned int);
-};
-
-struct FUN_0069b310_S : public FUN_006dc590
-{
-};
-
-struct FUN_0072ba80_shell : public FUN_0069b310_S
-{
-public:
-    void FUN_0072ba80(void *, unsigned int);
-};
 
 struct FUN_00694890_shell : public FUN_0072ba80_shell
 {

@@ -4986,6 +4986,27 @@ void Mover::SetEnabled(bool abEnabled)
 }
 }
 
+class BackgroundPathLocation14
+{
+  public:
+};
+
+struct PathingRequest
+{
+  public:
+    virtual void vfn_00();
+    virtual void vfn_04();
+    virtual void vfn_08();
+    virtual void vfn_0c();
+    virtual unsigned int vfn_10();
+    BackgroundPathLocation14& GetOffsetC();
+    float GetSmoothingRandomness();
+    void IncRefCount();
+    void DecRefCount();
+public:
+    float GetCenterRadius();
+};
+
 namespace fnv_009de8b0 {
 struct Vec3
 {
@@ -6629,11 +6650,6 @@ void ActorMover_Standin::FUN_009ddc00()
     reinterpret_cast<::TESForm *>((((DummyTimer*)this)))->ClearData();
 }
 
-class BackgroundPathLocation14
-{
-  public:
-};
-
 struct Cell14
 {
 };
@@ -6655,22 +6671,6 @@ class NiMemObject
 
 struct BackgroundQueueAssign14
 {
-};
-
-struct PathingRequest
-{
-  public:
-    virtual void vfn_00();
-    virtual void vfn_04();
-    virtual void vfn_08();
-    virtual void vfn_0c();
-    virtual unsigned int vfn_10();
-    BackgroundPathLocation14& GetOffsetC();
-    float GetSmoothingRandomness();
-    void IncRefCount();
-    void DecRefCount();
-public:
-    float GetCenterRadius();
 };
 
 template <> class NiPointer<PathingRequest>

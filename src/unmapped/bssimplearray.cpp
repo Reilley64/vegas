@@ -625,6 +625,12 @@ void FUN_007a1c30_holder::ClearBuffer(bool freeStorage)
 }
 }  // namespace fnv_007a1c30
 
+struct FUN_0072ba80_shell
+{
+    void FUN_0072ba80(char* dst, unsigned int count);
+public:
+    void FUN_0072ba80(void *, unsigned int);
+};
 namespace fnv_008454f0 {
 struct NavMeshSearchLOSArray
 {
@@ -737,12 +743,6 @@ void FUN_006dc590::FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCoun
     }
 }
 
-struct FUN_0072ba80_shell
-{
-    void FUN_0072ba80(char* dst, unsigned int count);
-public:
-    void FUN_0072ba80(void *, unsigned int);
-};
 struct FUN_006f9eb0_class
 {
 };

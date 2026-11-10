@@ -706,6 +706,10 @@ void FUN_007af610_shell::UpdateHairMenuOption()
     }
 }
 
+struct FUN_007adc60_shell
+{
+    void FUN_007adc60(int, bool);
+};
 namespace fnv_007b1ca0 {
 class TESNPC;
 struct TESEyes;
@@ -874,10 +878,6 @@ struct FUN_007b5180_shell : FUN_007af610_shell
 };
 struct FUN_00601830_shell
 {
-};
-struct FUN_007adc60_shell
-{
-    void FUN_007adc60(int, bool);
 };
 struct FUN_007b18f0_shell
 {

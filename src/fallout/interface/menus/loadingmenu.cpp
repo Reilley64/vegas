@@ -2782,6 +2782,12 @@ void LoadingMenuX::ApplyLoadingScreenTexture(TileShaderProperty* apProperty)
     }
 }
 
+struct TileWork
+{
+    void Set(int, float, bool);
+public:
+    void FUN_00a0b520();
+};
 namespace fnv_0078c210 {
 struct NiPoint3
 {
@@ -3166,12 +3172,6 @@ struct FontMgr
 {
     Font* fonts[8];
     void Measure(Extent*, const char*, int, float, int);
-};
-struct TileWork
-{
-    void Set(int, float, bool);
-public:
-    void FUN_00a0b520();
 };
 // @fnv 0x0078bc80
 void LoadingStatsMenu::ApplySettings(LoadingStatsSettings* settings)

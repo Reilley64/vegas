@@ -1943,6 +1943,32 @@ struct PLArr
 };
 bool __cdecl FUN_006d7350(PathingLocation& a, PathingLocation& b, PathingLocation* c, void* d);
 
+struct PathingLocationSub
+{
+    void** m_ppVirtualMethodTable;
+    NiPoint3 Location;
+    const NavMeshInfo* m_pLocationNavMesh;
+    void* pNavMeshInfoArray;
+    TESObjectCELL* pCell;
+    void* m_pContainingWorldspace;
+    unsigned int m_uiPathingFlags;
+    unsigned short m_usTriangleID;
+    unsigned char uiFlags;
+    unsigned char layoutPadding27;
+
+    PathingLocationSub(const NiPoint3& pt, const NavMeshInfo* info, unsigned short tri);
+    ~PathingLocationSub();
+    NiPoint3 GetLocation() const;
+};
+
+class PathingLocationArray
+{
+  public:
+    unsigned int FUN_006cf1b0(const PathingLocation& loc);
+    unsigned int FUN_006cf1b0(const PathingLocationSub& loc);
+    PathingLocationSub* FUN_006cedd0(int index);
+};
+
 // Checks whether entries a and b can be connected, then updates m_pOutputSolution using path results and intermediate entries.
 // @fnv 0x006cb950
 bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
@@ -4943,32 +4969,6 @@ struct NavMeshExt : NavMesh
 
 struct TESObjectCELLExt : TESObjectCELL
 {
-};
-
-struct PathingLocationSub
-{
-    void** m_ppVirtualMethodTable;
-    NiPoint3 Location;
-    const NavMeshInfo* m_pLocationNavMesh;
-    void* pNavMeshInfoArray;
-    TESObjectCELL* pCell;
-    void* m_pContainingWorldspace;
-    unsigned int m_uiPathingFlags;
-    unsigned short m_usTriangleID;
-    unsigned char uiFlags;
-    unsigned char layoutPadding27;
-
-    PathingLocationSub(const NiPoint3& pt, const NavMeshInfo* info, unsigned short tri);
-    ~PathingLocationSub();
-    NiPoint3 GetLocation() const;
-};
-
-class PathingLocationArray
-{
-  public:
-    unsigned int FUN_006cf1b0(const PathingLocation& loc);
-    unsigned int FUN_006cf1b0(const PathingLocationSub& loc);
-    PathingLocationSub* FUN_006cedd0(int index);
 };
 
 template <class T, unsigned int Growth> class BSSimpleArrayExt : public BSSimpleArray<T, Growth>

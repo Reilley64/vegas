@@ -591,6 +591,20 @@ void Holder73b430::CallInnerFoo()
     inner.foo(0, 0x43534544);
 }
 
+struct TGF
+{
+public:
+    virtual ~TGF();
+};
+
+class Tile : public TGF
+{
+  public:
+    void Set(int, int);
+public:
+    static float GetInterfaceScale();
+};
+
 namespace fnv_0073b480 {
 class Menu
 {
@@ -646,20 +660,6 @@ FUN_007e7a80::FUN_007e7a80()
     m_78 = -1;
     m_7c = -1;
 }
-
-struct TGF
-{
-public:
-    virtual ~TGF();
-};
-
-class Tile : public TGF
-{
-  public:
-    void Set(int, int);
-public:
-    static float GetInterfaceScale();
-};
 
 int __cdecl __ftol2_sse(double);
 

@@ -2757,6 +2757,19 @@ FUN_006707c0::FUN_006707c0()
     m_uiRefCount = 0;
 }
 
+class TESObjectCELL
+{
+  public:
+    bool IsInterior();
+public:
+    bool IsCellInterior() const;
+public:
+    int GetCellGridX();
+public:
+    int GetCellGridY();
+public:
+    ::TESWorldSpace *GetParentWorldSpace();
+};
 namespace fnv_00676e40 {
 class ActiveEffect;
 class Actor;
@@ -6919,19 +6932,6 @@ public:
     static const ::NiPoint3 ZERO;
 };
 class TESWorldSpace;
-class TESObjectCELL
-{
-  public:
-    bool IsInterior();
-public:
-    bool IsCellInterior() const;
-public:
-    int GetCellGridX();
-public:
-    int GetCellGridY();
-public:
-    ::TESWorldSpace *GetParentWorldSpace();
-};
 class TESWorldSpace;
 struct Reference
 {

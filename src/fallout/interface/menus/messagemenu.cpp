@@ -146,6 +146,14 @@ FUN_007a8b10::~FUN_007a8b10()
         DAT_011da4ee = true;
 }
 
+class Tile
+{
+  public:
+public:
+    void Set(int, int);
+public:
+    static float GetInterfaceScale();
+};
 namespace fnv_007a8df0 {
 class Tile
 {
@@ -423,14 +431,6 @@ struct StrMem
     unsigned short sMaxLen;
     StrMem();
     ~StrMem();
-};
-class Tile
-{
-  public:
-public:
-    void Set(int, int);
-public:
-    static float GetInterfaceScale();
 };
 class Tile;
 struct InterfaceManager

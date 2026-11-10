@@ -391,6 +391,10 @@ void FUN_0059b9c0_shell::ClearListAndData()
     memset(&data, 0, 4);
 }
 
+struct FUN_00485e00_shell
+{
+    void FUN_00485e00();
+};
 namespace fnv_0059b1b0 {
 struct FUN_0048e370_shell
 {
@@ -478,10 +482,6 @@ struct FUN_0047b560_holder
 struct FUN_0050d100_shell
 {
     void* FUN_0050d100();
-};
-struct FUN_00485e00_shell
-{
-    void FUN_00485e00();
 };
 struct FUN_00485680
 {

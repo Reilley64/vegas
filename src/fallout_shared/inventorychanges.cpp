@@ -758,6 +758,10 @@ unsigned char FUN_004bfd80(unsigned char* pData)
     return (pData[0x180] & 1) != 0;
 }
 
+struct FUN_00418b10_shell
+{
+    bool FUN_00418b10();
+};
 namespace fnv_004bfda0 {
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
@@ -14134,10 +14138,6 @@ void InventoryClean::FUN_004cbbc0()
         changeScope4 = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((changeScope4))->FUN_00726070()));
     }
 }
-struct FUN_00418b10_shell
-{
-    bool FUN_00418b10();
-};
 // Scans the container and inventory changes for a usable weapon matching kind, scores candidates, and returns the best change with its score written to output.
 // @fnv 0x004c7400
 FUN_0076b630* Target::SelectBestWeapon(ActorStand* subject, float* apfScore, int kind, bool worn)

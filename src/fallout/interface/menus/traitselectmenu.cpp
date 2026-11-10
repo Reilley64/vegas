@@ -116,6 +116,14 @@ void Holder::FUN_007e7b30()
     reinterpret_cast<::fnv_00a1c520::FUN_00a1c520 *>((this))->fnv_00a1c520::FUN_00a1c520::~FUN_00a1c520();
 }
 
+class Tile
+{
+public:
+    void Set(int, int);
+public:
+    static float GetInterfaceScale();
+};
+
 namespace fnv_007e7de0 {
 class Tile
 {
@@ -408,14 +416,6 @@ void C7E85C0Menu::ChangePage(bool bPrevious)
     }
 }
 
-
-class Tile
-{
-public:
-    void Set(int, int);
-public:
-    static float GetInterfaceScale();
-};
 
 struct BSSoundHandleEx
 {

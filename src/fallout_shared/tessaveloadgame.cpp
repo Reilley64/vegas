@@ -654,6 +654,10 @@ void TESSaveLoadGameHelper::FUN_00484ce0(void* form, int flag)
 }
 }  // namespace fnv_00484ce0
 
+struct FUN_008579e0_shell
+{
+    void FUN_008579e0(void*, unsigned int);
+};
 namespace fnv_00484d00 {
 struct FUN_008579e0_shell
 {
@@ -8055,10 +8059,6 @@ struct SettingString
 class GlobalObject_0040c150;
 
 
-struct FUN_008579e0_shell
-{
-    void FUN_008579e0(void*, unsigned int);
-};
 // Disables save loading, collects expired cell change records into a map, removes matching change entries, frees the map, and restores the previous enabled state.
 // @fnv 0x008627b0
 void ExpiredSaveLoadGame::PurgeExpiredCellChanges()

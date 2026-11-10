@@ -2382,6 +2382,10 @@ struct SaveLoadManagerStandIn : SaveListPointer
 void __cdecl FUN_00af59e0();
 void HandleBackAction();
 
+struct FUN_008467b0_shell
+{
+    bool LoadSaveEntry();
+};
 // @fnv 0x007d3190
 void HandleSaveLoadMenuAction()
 {
@@ -8411,10 +8415,6 @@ class TESFullName
 struct P01ObjA
 {
     TESBoundObject* GetNext();
-};
-struct FUN_008467b0_shell
-{
-    bool LoadSaveEntry();
 };
 class TES
 {

@@ -337,6 +337,10 @@ void* FUN_007597c0_shell::FUN_007597c0(unsigned int flags)
     return this;
 }
 
+struct Holder
+{
+    void FUN_00759850();
+};
 namespace fnv_007597f0 {
 struct GlobalObject_0048f200
 {
@@ -367,10 +371,6 @@ struct ScriptObj
 struct ListBase
 {
     ScriptObj* RemoveHead();
-};
-struct Holder
-{
-    void FUN_00759850();
 };
 struct FUN_007598a0_shell
 {

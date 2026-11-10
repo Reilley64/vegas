@@ -5923,6 +5923,10 @@ void FUN_0091ecf0_shell::UpdatePackageSchedule(MobileObject* apActor, int aiSche
 }
 }  // namespace fnv_0091ecf0
 
+struct FUN_00493830_shell
+{
+    bool FUN_00493830();
+};
 namespace fnv_00923020 {
 class Actor;
 struct ActorCause;
@@ -13977,10 +13981,6 @@ void FUN_0092bff0_shell::QueueDeferredHideLimb(int aiLimbIndex, NiNode* apLimbNo
     m_kDeferredHideLimbList.AddHead(pDeferredHideLimb);
 }
 
-struct FUN_00493830_shell
-{
-    bool FUN_00493830();
-};
 struct FUN_00494710_shell
 {
     bool FUN_00494710(unsigned short);

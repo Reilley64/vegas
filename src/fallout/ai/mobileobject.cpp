@@ -1089,6 +1089,12 @@ void FUN_00931fb0_shell::FUN_00931fb0(bool abTF)
     }
 }
 
+struct ProcessLists
+{
+    void AddMobileObjectToList(MobileObject*);
+public:
+    void RemoveMobileObjectFromList(::MobileObject *);
+};
 namespace fnv_00932d60 {
 struct ActorCause;
 struct AlchemyItem;
@@ -1301,12 +1307,6 @@ struct FUN_009333e0_shell : public MobileObject
 
 class MagicCaster;
 class MobileObject;
-struct ProcessLists
-{
-    void AddMobileObjectToList(MobileObject*);
-public:
-    void RemoveMobileObjectFromList(::MobileObject *);
-};
 struct ST_009333e0
 {
     void FUN_0092ed60(bool);

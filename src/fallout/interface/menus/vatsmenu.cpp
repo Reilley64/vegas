@@ -2484,6 +2484,11 @@ struct PromptTile
 {
     void SetInt(int, int);
 };
+class Tile
+{
+  public:
+    void Set(int a1, int a2);
+};
 struct PromptMenu
 {
     int unk000;
@@ -5528,11 +5533,6 @@ extern int UNK_01077eac;
 extern int UNK_01077e98;
 struct GlobalManager
 {
-};
-class Tile
-{
-  public:
-    void Set(int a1, int a2);
 };
 // Closes the VATS menu, plays sounds, queues action requests for the actors and resets the VATS queue and wheel state.
 // @fnv 0x007ebd50

@@ -110,6 +110,18 @@ void ManyAliasAndMemberRemoval()
     CHECK(alias->m_uiRefCount == 1);
 }
 
+void TailRemovalLeavesOneNode()
+{
+    fnv::list::RetainedList list;
+    list.PushBack(new Payload(10));
+    list.PushBack(new Payload(11));
+    auto back = list.PopBack();
+    CHECK(static_cast<Payload*>(back.Get())->marker == 11);
+    CHECK(list.count == 1);
+    CHECK(list.tail == list.head);
+    CHECK(!list.head->next && !list.head->previous);
+}
+
 void NontrivialNodeLifetime()
 {
     const auto before = g_memoryManager.ListNodeStatistics();
@@ -143,6 +155,17 @@ void NontrivialNodeLifetime()
     bool threw = false;
     try {
         fnv::list::ConstructNode<ElementNode>(nullptr, nullptr, nullptr);
+    } catch (const std::invalid_argument&) {
+        threw = true;
+    }
+    CHECK(threw);
+
+    // An adopting constructor that throws returns the slot it was given.
+    void* storage = fnv::list::AcquireStorage();
+    CHECK(g_memoryManager.ListNodeStatistics().liveNodes == before.liveNodes + 1);
+    threw = false;
+    try {
+        fnv::list::AdoptNode<ElementNode>(storage, nullptr, nullptr, nullptr);
     } catch (const std::invalid_argument&) {
         threw = true;
     }
@@ -358,10 +381,21 @@ void Reached(const char* marker)
     std::fflush(stderr);
 }
 
-// Each mode must terminate inside the production recycler.
+// Each mode must terminate inside the production recycler or, for
+// --remove-uncounted, inside Remove.
 [[noreturn]] void InvalidRecycle(const char* mode)
 {
     g_memoryManager.InitializeHeaps();
+    if (!std::strcmp(mode, "--remove-uncounted")) {
+        // A node is linked while the list count is zero.
+        fnv::list::RetainedList list;
+        list.PushBack(new Payload(12));
+        list.count = 0;
+        Reached("remove-uncounted");
+        list.PopFront();
+        std::fprintf(stderr, "uncounted removal was accepted\n");
+        std::exit(2);
+    }
     auto* node = fnv::list::AcquireNode<void>();
     if (!std::strcmp(mode, "--recycle-foreign")) {
         void* foreign[3]{};
@@ -394,6 +428,7 @@ int main(int argc, char** argv)
     g_memoryManager.InitializeHeaps();
     EmptyAndOne();
     ManyAliasAndMemberRemoval();
+    TailRemovalLeavesOneNode();
     NontrivialNodeLifetime();
     OverflowPreservesStructure();
     RefillFailurePreservesStructureAndTls();

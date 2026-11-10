@@ -201,6 +201,13 @@ if(UNIX)
         -DMARKER=recycle-${mode}
         -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
   endforeach()
+  # Remove terminates on a linked node while the list count is zero.
+  add_test(NAME runtime.list_node_recycling.reject_uncounted_removal
+    COMMAND ${CMAKE_COMMAND}
+      -DPROGRAM=$<TARGET_FILE:runtime_list_node_recycling_test>
+      -DMODE=--remove-uncounted
+      -DMARKER=remove-uncounted
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
 endif()
 
 # Unlike runtime.new's isolated forwarding fixture, this executable uses the

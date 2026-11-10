@@ -109,7 +109,7 @@ void BSShaderLightingProperty::ClearLights()
         item = item->m_pkNext;
         current->m_element = 0;
         current->m_pkPrev = 0;
-        fnv::list::DestroyNode(current);
+        fnv::list::RecycleViewedNode(current);
     }
     list->m_kItemCount.m_uiCount = 0;
     list->m_pkHead = 0;

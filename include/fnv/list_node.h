@@ -161,7 +161,9 @@ inline void Retire(RetainedNode* node) noexcept
     auto* payload = node->payload;
     node->payload = nullptr;
     ReleasePayload(payload);
-    RecycleNode(node);
+    // The removal receivers are entered from units that began the node under
+    // their own layout-identical type.
+    RecycleViewedNode(node);
 }
 
 inline void PushBack(RetainedNode*& head, RetainedNode*& tail,

@@ -52,11 +52,30 @@ a unit with a stale narrower node shape fails to compile instead of sharing a
 slot.
 
 A migrated unit that acquires a node constructs or adopts its own node type,
-with the exceptions below. A unit calls `DestroyNode` only for a node type that
-the same unit begins: the parser list in `tile.cpp`, the lights list in
-`bsshaderlightingproperty.cpp`, and the `Node<Payload>` lists. Every other
-typed recycle site uses `RecycleViewedNode`, because the node was begun in
-another unit under that unit's own layout-identical type. The source's
+with the exceptions below. `DestroyNode` is called only where the function
+that ends the node cannot receive a node begun under another type:
+
+- `RecycleNode` on the `Node<Region>` portal lists in `blk_00b40000_o2.cpp`.
+  That unit begins every node of those lists and no other unit calls their
+  members.
+- The failed-retain path of `PushBack`, which ends the node it has just begun.
+- `ParsedAllocator::FUN_0045cee0` in `tile.cpp`. It has no caller; the parser
+  list is ended by `0x00ae8010` through the type-erased deallocator
+  `0x0045cee0`.
+
+Every other typed recycle site uses `RecycleViewedNode`, because the node was
+begun in another unit under that unit's own layout-identical type. Two of these
+are shared receivers:
+
+- `BSShaderLightingProperty::ClearLights` (`0x00b71300`). Other units call it
+  by receiver cast on their own lists.
+- `Retire`, and through it `Remove`, `PopFront`, `PopBack` and `Clear`. The
+  removal receivers `0x00b9e7c0`, `0x00b9e850`, `0x00b9efa0` and `0x00e6e830`
+  are entered from other units and from generated virtual-table slots. Those
+  callers begin the node under their own type (`blk_00b60000_o2.cpp` for
+  `0x00b9e7c0`), or their node type is not established.
+
+The source's
 type-erased pointer deallocators (`0x0045cee0`, `0x00a638c0`, `0x00a82620`,
 `0x00b63df0` and the `Deallocate(void*)` members) do not know the node type.
 Their typed callers clear the element first, and the deallocator passes the
@@ -79,6 +98,20 @@ Exceptions in migrated units, each left on its accepted form:
   a definition (`bstexturemanager.cpp` `MultiBoundPool`,
   `bsshaderlightingproperty.cpp` `Pool_b71560`, `blk_00b60000_o2.cpp`
   `Alloc051`) are not bound to the entry at all.
+- `bstpersistentlist.cpp` `0x00b63e90` passes its typed node straight to
+  `RecycleStorage`. Its local node type is two fields, not three pointers, so
+  it fails the `RecycleViewedNode` size check.
+- `blk_00c40000_od.cpp` `FUN_00c5b140` stores the element at offset 8 of its
+  16-byte node. That is the three-pointer node's `previous` field, which
+  `FUN_00559a70` (`blk_00540000_od.cpp`) then overwrites. This is unchanged
+  from the accepted tree.
+- `blk_00b60000_o2.cpp`, the local `RemoveHead` and `RemovePos` templates,
+  pass the list object (`this`), not the node, to `FUN_00e6e8a0`. This is
+  unchanged from the accepted tree, where it silently corrupted the pool. With
+  the manager-owned pool, `FUN_00e6e8a0` (`niconsolerenderer.cpp`) first zeroes
+  two fields of the list and then aborts as a foreign recycle. The path is
+  reachable through `FUN_00b61570` from `testerrainlodmanager.cpp`. The fix,
+  passing `pkNode` and `pkDelNode`, is tracked separately.
 - `ReleaseRefCountedNode` (`0x00e6e830`) and `FUN_00e6e8a0` receive an untyped
   node. Besides their source callers they fill generated virtual-table slots
   (4 and 28 slots in `vtables_0109.cpp`, `vtables_010e.cpp` and

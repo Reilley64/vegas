@@ -11,8 +11,6 @@
 #include "fnv/decl/FUN_004f15a0_shell.h"
 #include "fnv/decl/FUN_00509540_obj.h"
 #include "fnv/decl/FUN_00535aa0_Class.h"
-#include "fnv/decl/FUN_00624700_shell.h"
-#include "fnv/decl/FUN_00843170_shell.h"
 #include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "fnv/decl/FormCloneOperation.h"
 #include "fnv/decl/Holder.h"
@@ -35,11 +33,27 @@
 #include <malloc.h>
 
 // @fnv 0x004fc1b0
-BGSPlaceableWater::BGSPlaceableWater() : TESBoundObject(), TESModel()
+BGSPlaceableWater::BGSPlaceableWater() : TESBoundObject(), TESModel(), Data()
 {
-    new ((void *)&(Data)) ::HungerStageData();
     reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(static_cast<ENUM_FORM_ID>(0x23))));
     ResetFormData();
+}
+
+// The form factory and the water form's producers do not see the complete type.
+::BGSPlaceableWater* fnv::water::NewPlaceableWater()
+{
+    return new BGSPlaceableWater;
+}
+
+::TESForm* fnv::water::PlaceableWaterForm(::BGSPlaceableWater* apWater)
+{
+    return apWater;
+}
+
+// @fnv 0x00452460
+bool BGSPlaceableWater::HasFlags(unsigned int flags)
+{
+    return Data.HasFlags(flags);
 }
 
 // @fnv 0x004fc4b0
@@ -135,17 +149,15 @@ void FUN_004fc860_shell::FUN_004fc860(TESForm* apCopy)
     if (!pcopy)
         return;
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
-    __memcpy(((::PlaceableWaterData *)(reinterpret_cast<::FUN_00624700_shell *>(this)->FUN_00624700())), ((::PlaceableWaterData *)(reinterpret_cast<::FUN_00624700_shell *>((pcopy))->FUN_00624700())), 8);
+    Data = pcopy->Data;
 }
 
-// Sets or clears aiFlag in the ulFlags of the object returned by FUN_00624700, depending on abSet.
+// Sets or clears aiFlag in the flags of the placeable water's data, depending on abSet.
+// Every caller passes the address of a complete BGSPlaceableWater.
 // @fnv 0x004fc990
 void FUN_004fc990_t::FUN_004fc990(int aiFlag, bool abSet)
 {
-    if (abSet)
-        ((::PlaceableWaterData *)(reinterpret_cast<::FUN_00624700_shell *>((((BGSPlaceableWater*)this)))->FUN_00624700()))->ulFlags |= aiFlag;
-    else
-        ((::PlaceableWaterData *)(reinterpret_cast<::FUN_00624700_shell *>((((BGSPlaceableWater*)this)))->FUN_00624700()))->ulFlags &= ~aiFlag;
+    ((BGSPlaceableWater*)this)->Data.SetFlags(static_cast<std::uint32_t>(aiFlag), abSet);
 }
 
 struct FUN_004fc360_shell : public BGSPlaceableWater
@@ -241,13 +253,13 @@ bool BGSPlaceableWater::Load(TESFile* file)
             reinterpret_cast<::FUN_004fc3c0_shell *>(this)->FUN_004fc3c0(true);
             reinterpret_cast<::FUN_004fc3e0_shell *>(this)->FUN_004fc3e0(true);
             reinterpret_cast<::FUN_004fc400_shell *>(this)->SetFlag800(true);
-            FUN_004fc450(false);
+            reinterpret_cast<::fnv_004fc450::FUN_004fc450_shell *>(this)->FUN_004fc450(false);
             break;
         }
         case 0x4d414e44: {
             reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&Data), 8);
             if (reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((reinterpret_cast<TESFileFormVersion*>(file)))->FUN_00403570() < 9)
-                FUN_004fc450(false);
+                reinterpret_cast<::fnv_004fc450::FUN_004fc450_shell *>(this)->FUN_004fc450(false);
             if (reinterpret_cast<::TESFile *>((reinterpret_cast<TESFileGetChunkData*>(file)))->IsEndianConversionRequired())
                 reinterpret_cast<::S_00462230 *>(&(Data))->FUN_00462230();
             break;
@@ -281,18 +293,18 @@ struct FUN_004fc490_shell : public BGSPlaceableWater
 {
     void FUN_004fc490(bool);
 };
-// Reinitializes the object returned by FUN_00624700 and calls the FUN_004fc360..FUN_004fc490 helpers with true/false flags.
+// Clears the data and calls the FUN_004fc360..FUN_004fc490 helpers with true/false flags.
 // @fnv 0x004fc2e0
 void BGSPlaceableWater::ResetFormData()
 {
-    reinterpret_cast<::FUN_00843170_shell *>((((::PlaceableWaterData *)(reinterpret_cast<::FUN_00624700_shell *>(this)->FUN_00624700()))))->ClearFields();
+    Data.Clear();
     reinterpret_cast<::FUN_004fc360_shell *>(this)->FUN_004fc360(true);
     reinterpret_cast<::FUN_004fc380_shell *>(this)->FUN_004fc380(true);
     reinterpret_cast<::FUN_004fc3a0_shell *>(this)->FUN_004fc3a0(true);
     reinterpret_cast<::FUN_004fc3c0_shell *>(this)->FUN_004fc3c0(true);
     reinterpret_cast<::FUN_004fc3e0_shell *>(this)->FUN_004fc3e0(true);
     reinterpret_cast<::FUN_004fc400_shell *>(this)->SetFlag800(true);
-    FUN_004fc450(false);
+    reinterpret_cast<::fnv_004fc450::FUN_004fc450_shell *>(this)->FUN_004fc450(false);
     reinterpret_cast<::FUN_004fc470_shell *>(this)->FUN_004fc470(false);
     reinterpret_cast<::FUN_004fc490_shell *>(this)->FUN_004fc490(true);
     reinterpret_cast<::FUN_004fc420_shell *>(this)->FUN_004fc420(true);
@@ -320,7 +332,7 @@ bool FUN_004fc8c0_shell::FUN_004fc8c0(TESForm* apCompare)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pcomp))
         return true;
-    if (memcmp((char*)&this->Data, ((::PlaceableWaterData *)(reinterpret_cast<::FUN_00624700_shell *>((pcomp))->FUN_00624700())), 8))
+    if (!(this->Data == pcomp->Data))
         return true;
     return false;
 }

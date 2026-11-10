@@ -361,12 +361,6 @@ class BGSStaticCollection : public TESBoundObject
     BGSStaticCollection();
     unsigned char formData[0x20];
 };
-struct BGSPlaceableWater : public TESBoundObject
-{
-  public:
-    BGSPlaceableWater();
-    unsigned char formData[0x20];
-};
 class TESGrass : public TESBoundObject
 {
   public:

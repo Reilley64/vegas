@@ -3,9 +3,8 @@
 #define FNV_BGSPLACEABLEWATER_H
 
 #include "fnv/decl/FUN_00535aa0_Class.h"
-#include "fnv/decl/FUN_00624700_shell.h"
-#include "fnv/decl/FUN_00843170_shell.h"
 #include "fnv/decl/HungerStageData.h"
+#include "fnv/water/placeable_water.h"
 #include "fnv/decl/S_00462230.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
@@ -163,15 +162,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-class PlaceableWaterData
-{
-  public:
-    unsigned long ulFlags;         // +0x0, 4 bytes
-    TESWaterForm* m_pOwningWater;  // +0x4, 4 bytes
-    // void __cdecl PlaceableWaterData::*()
-    // void __cdecl PlaceableWaterData::*()
-    // void __cdecl PlaceableWaterData::*()
-};
 struct BGSPlaceableWater : public TESBoundObject, public TESModel
 {
   public:
@@ -182,7 +172,7 @@ struct BGSPlaceableWater : public TESBoundObject, public TESModel
     void ResetFormData();
     virtual void InitItem(void);
     virtual bool Load(TESFile* file);
-    void FUN_004fc450(bool);
+    bool HasFlags(unsigned int);
     // BGSPlaceableWater
     // void __cdecl BGSPlaceableWater::*()
     // PlaceableWaterData* __cdecl BGSPlaceableWater::*()

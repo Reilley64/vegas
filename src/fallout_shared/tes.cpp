@@ -105,7 +105,6 @@
 #include "fnv/decl/FUN_005d43c0_.h"
 #include "fnv/decl/FUN_005d8710_shell.h"
 #include "fnv/decl/FUN_00620130_Class.h"
-#include "fnv/decl/FUN_00624700_shell.h"
 #include "fnv/decl/FUN_0062de90_shell.h"
 #include "fnv/decl/FUN_0062e710_shell.h"
 #include "fnv/decl/FUN_006317a0_struct.h"
@@ -973,11 +972,6 @@ struct FUN_004e32c0_shell
 {
 };
 
-struct PlaceableWaterData
-{
-    unsigned int flags;
-};
-
 struct BGSPlaceableWater
 {
     bool HasFlags(unsigned int flags);
@@ -986,12 +980,6 @@ struct BGSPlaceableWater
 bool FUN_00452440_shell::FUN_00452440()
 {
     return reinterpret_cast<::BGSPlaceableWater *>((reinterpret_cast<FUN_004e32c0_shell*>(this)))->HasFlags(0x40000000);
-}
-
-// @fnv 0x00452460
-bool BGSPlaceableWater::HasFlags(unsigned int flags)
-{
-    return (((::PlaceableWaterData *)(reinterpret_cast<::FUN_00624700_shell *>((this))->FUN_00624700()))->flags & flags) ? true : false;
 }
 
 extern unsigned char DAT_0119b8c8;

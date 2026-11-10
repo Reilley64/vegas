@@ -60,6 +60,7 @@
 #include "fnv/symbols_01031000.h"
 #include "teswaterform_decls.h"
 #include "teswaterform_types_TESWaterForm.h"
+#include "fnv/water/placeable_water.h"
 
 // Initializes the object's fields with default constants and global values.
 // @fnv 0x0057e9c0
@@ -606,15 +607,6 @@ bool FUN_0057ff10_shell::FUN_0057ff10(TESForm* apCompare)
     return false;
 }
 
-struct BGSPlaceableWater : public TESForm
-{
-    unsigned char _padding[0x38];
-
-    BGSPlaceableWater();
-    void FUN_004fc450(bool);
-    void FUN_004fc3a0(bool);
-};
-
 struct FUN_00580310_t
 {
     void SetFlag400(bool);
@@ -636,21 +628,6 @@ struct FUN_00580130_shell : public TESWaterForm
 };
 
 
-BGSPlaceableWater::BGSPlaceableWater()
-{}
-
-void BGSPlaceableWater::FUN_004fc450(bool)
-{}
-
-void BGSPlaceableWater::FUN_004fc3a0(bool)
-{}
-
-void FUN_00580310_t::SetFlag400(bool)
-{}
-
-void FUN_005802d0_shell::FUN_005802d0(bool)
-{}
-
 void FUN_00589f50_shell::SetSound(void*)
 {}
 
@@ -662,9 +639,9 @@ BGSPlaceableWater* FUN_00580130_shell::FUN_00580130()
 
     if (this->m_pPlaceableAutoWater == 0)
     {
-        this->m_pPlaceableAutoWater = new BGSPlaceableWater;
+        this->m_pPlaceableAutoWater = fnv::water::NewPlaceableWater();
 
-        (this->m_pPlaceableAutoWater)
+        fnv::water::PlaceableWaterForm(this->m_pPlaceableAutoWater)
             ->NotifySaveLoadGameOfFormChange();
 
         reinterpret_cast<::fnv_004fc450::FUN_004fc450_shell *>(((this->m_pPlaceableAutoWater)))->FUN_004fc450(true);
@@ -684,7 +661,7 @@ BGSPlaceableWater* FUN_00580130_shell::FUN_00580130()
 
         ::FUN_00406d00(ptempname, 0x104, "PlaceableAutoWater");
 
-        (this->m_pPlaceableAutoWater)
+        fnv::water::PlaceableWaterForm(this->m_pPlaceableAutoWater)
             ->SetEditorID_AtRuntime(ptempname);
 
         reinterpret_cast<FUN_00589f50_shell*>(
@@ -696,13 +673,6 @@ BGSPlaceableWater* FUN_00580130_shell::FUN_00580130()
 }
 
 namespace fnv_00580330 {
-struct BGSPlaceableWater
-{
-    unsigned char m_auiShapeKeys[0x50];
-
-    BGSPlaceableWater();
-};
-
 struct FUN_005802d0_shell
 {
 };
@@ -711,11 +681,8 @@ struct FUN_00589f50_shell
 {
 };
 
-struct FUN_00580330_shell
+struct FUN_00580330_shell : public ::TESWaterForm
 {
-    unsigned char m_auiShapeKeys[0x184];
-    BGSPlaceableWater* m_pPlaceableWater;
-
     BGSPlaceableWater* FUN_00580330();
 };
 
@@ -727,9 +694,9 @@ BGSPlaceableWater* FUN_00580330_shell::FUN_00580330()
 
     if (m_pPlaceableWater == 0)
     {
-        m_pPlaceableWater = new BGSPlaceableWater;
+        m_pPlaceableWater = fnv::water::NewPlaceableWater();
 
-        reinterpret_cast<TESForm*>(m_pPlaceableWater)->NotifySaveLoadGameOfFormChange();
+        fnv::water::PlaceableWaterForm(m_pPlaceableWater)->NotifySaveLoadGameOfFormChange();
 
         reinterpret_cast<::fnv_005805a0::FUN_005805a0_t *>((m_pPlaceableWater))->SetFlag8000000(true);
         reinterpret_cast<::FUN_004fc360_shell *>((m_pPlaceableWater))->FUN_004fc360(true);
@@ -748,7 +715,7 @@ BGSPlaceableWater* FUN_00580330_shell::FUN_00580330()
 
         ::FUN_00406d00(ptempname, 0x104, "PlaceableLODWater");
 
-        reinterpret_cast<TESForm*>(m_pPlaceableWater)->SetEditorID_AtRuntime(ptempname);
+        fnv::water::PlaceableWaterForm(m_pPlaceableWater)->SetEditorID_AtRuntime(ptempname);
 
         reinterpret_cast<::FUN_00589f50_shell *>((reinterpret_cast<FUN_00589f50_shell*>(m_pPlaceableWater)))->SetSound(this);
     }

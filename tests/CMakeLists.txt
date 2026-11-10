@@ -79,6 +79,10 @@ add_executable(runtime_magic_flag_byte_test runtime/magic_flag_byte_test.cpp)
 target_include_directories(runtime_magic_flag_byte_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
 add_test(NAME runtime.magic_flag_byte COMMAND runtime_magic_flag_byte_test)
 
+add_executable(runtime_placeable_water_data_test runtime/placeable_water_data_test.cpp)
+target_include_directories(runtime_placeable_water_data_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+add_test(NAME runtime.placeable_water_data COMMAND runtime_placeable_water_data_test)
+
 add_executable(runtime_skin_bone_set_test
   runtime/skin_bone_set_test.cpp
   ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nimain/skin_bone_set.cpp

@@ -287,6 +287,7 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01272000.h"
 #include "fnv/tls.h"
+#include "fnv/water/placeable_water.h"
 #include "tesdatahandler_decls.h"
 // Allocates and returns a new TESForm subclass instance matching the given type code, warning on unknown types.
 // @fnv 0x00465110
@@ -353,7 +354,7 @@ TESForm* TESDataHandler::CreateFormForType(unsigned char type)
         form = new BGSMovableStatic;
         break;
     case 35:
-        form = new BGSPlaceableWater;
+        form = fnv::water::PlaceableWaterForm(fnv::water::NewPlaceableWater());
         break;
     case 36:
         form = new TESGrass;

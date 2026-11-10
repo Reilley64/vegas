@@ -14,7 +14,10 @@ Three conditions hold together. The retirement patch stays byte-unchanged and
 still applies. A pinned hash is recomputed only for a file the script changed,
 after every existing pin has been checked against the bytes before the
 rewrite. The diff of the composed output is recorded and consists of key-only
-respellings. No other edit of the generated files is permitted.
+respellings. When a script kept outside the repository respells mangled names
+in pinned composition inputs, that diff of the composed output is kept with
+the review evidence of the change, not in the repository. No other edit of the
+generated files is permitted.
 
 `src/runtime/native_data_retirements.patch` is the narrowly audited native
 ownership delta. It retires duplicate scalar storage and incompatible,

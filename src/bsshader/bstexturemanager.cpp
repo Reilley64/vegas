@@ -277,9 +277,7 @@ template <class T> class StubPtrAlloc : public StubPoolAlloc<T>
   public:
     void Deallocate(void* p)
     {
-        auto* node = static_cast<typename StubPoolAlloc<T>::LinkedListEntry*>(p);
-        node->m_pUserData = 0;
-        fnv::list::RecycleStorage(node);
+        fnv::list::RecycleStorage(p);
     }
 };
 

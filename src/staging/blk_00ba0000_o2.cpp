@@ -16606,7 +16606,7 @@ struct RefPtr_b9fcc0
     RefPtr_b9fcc0(BA01A0RefObject* p) : m_p(p)
     {
         if (!fnv::list::TryRetainPayload(m_p))
-            throw std::overflow_error("native payload reference count overflow");
+            fnv::list::ThrowPayloadCountOverflow();
     }
     RefPtr_b9fcc0(const RefPtr_b9fcc0& other) : RefPtr_b9fcc0(other.m_p)
     {}

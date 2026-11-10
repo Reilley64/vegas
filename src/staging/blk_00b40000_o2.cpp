@@ -3,9 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
-#include <limits>
 #include <new>
-#include <stdexcept>
 #include <windows.h>
 #include <cstring>
 #include "fnv/list_node.h"
@@ -297,8 +295,8 @@ struct FUN_00b58570_Class
 // @fnv 0x00b58570
 void* FUN_00b58570_Class::FUN_00b58570(void* source)
 {
-    if (pool.count == std::numeric_limits<unsigned int>::max())
-        throw std::length_error("native list node count overflow");
+    if (pool.count == UINT32_MAX)
+        fnv::list::ThrowNodeCountOverflow();
     auto* node = fnv::list::AcquireNode<void>();
     node->payload = *static_cast<void**>(source);
     node->previous = tail;
@@ -332,7 +330,12 @@ int CompareFloatAtOffsetC(const void* pLeft, const void* pRight)
 struct P03MM
 {
 };
-using FUN_00b584e0_Node = fnv::list::Node<void>;
+struct FUN_00b584e0_Node
+{
+    void* pPrev;
+    void* pNext;
+    void* pData;
+};
 
 struct FUN_00b584e0_Class
 {
@@ -342,23 +345,32 @@ struct FUN_00b584e0_Class
     FUN_00b584e0_Node* FUN_00b584e0(void* pData);
 };
 
-// Allocates a 12-byte node, stores the value pointed to by pData, links it before pTail, and updates pHead/pTail and the count.
+// Allocates one native three-pointer node directly from the memory manager, stores the value pointed to by pData, links it before pTail, and updates pHead/pTail and the count.
+// This list does not use the common node pool; its nodes stay in the manager's allocation domain.
 // @fnv 0x00b584e0
 FUN_00b584e0_Node* FUN_00b584e0_Class::FUN_00b584e0(void* pData)
 {
-    if (ItemUpdateArray == std::numeric_limits<unsigned int>::max())
-        throw std::length_error("native list node count overflow");
-    auto* node = fnv::list::AcquireNode<void>();
-    node->payload = *static_cast<void**>(pData);
-    node->next = nullptr;
-    node->previous = pTail;
+    void* storage =
+        reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<P03MM*>(&g_memoryManager)))->FUN_00aa3e40(static_cast<unsigned int>(sizeof(FUN_00b584e0_Node)));
+    if (!storage)
+        throw std::bad_alloc();
+    FUN_00b584e0_Node* pNewNode = ::new (storage) FUN_00b584e0_Node();
+    pNewNode->pData = *static_cast<void**>(pData);
+    pNewNode->pPrev = 0;
+    pNewNode->pNext = pTail;
     if (pTail)
-        pTail->next = node;
+    {
+        pTail->pPrev = pNewNode;
+        ++ItemUpdateArray;
+        pTail = pNewNode;
+    }
     else
-        pHead = node;
-    ++ItemUpdateArray;
-    pTail = node;
-    return node;
+    {
+        ++ItemUpdateArray;
+        pHead = pNewNode;
+        pTail = pNewNode;
+    }
+    return pNewNode;
 }
 
 struct ImageSpaceShaderParam
@@ -2790,8 +2802,8 @@ struct Pending
     }
     __forceinline void push(Region* data)
     {
-        if (alloc.count == std::numeric_limits<unsigned int>::max())
-            throw std::length_error("native list node count overflow");
+        if (alloc.count == UINT32_MAX)
+            fnv::list::ThrowNodeCountOverflow();
         auto* node = fnv::list::AcquireNode<Region>();
         node->payload = data;
         node->previous = tail;
@@ -3218,7 +3230,7 @@ void Traversal::UpdateVisibility(Region* start, View* view, void* arg, bool rese
                 reinterpret_cast<::FUN_00c47ae0_cls *>(&(frustum))->FUN_00c47ae0();
         }
         {
-            Link* n = ((::Link *)(reinterpret_cast<::FUN_0043a010_shell *>(&(pending.alloc))->FUN_0043a010()));
+            Link* n = fnv::list::AdoptNode<Link>(reinterpret_cast<::FUN_0043a010_shell *>(&(pending.alloc))->FUN_0043a010());
             n->payload = nullptr;
             n->next = nullptr;
             n->previous = nullptr;
@@ -3249,7 +3261,7 @@ void Traversal::UpdateVisibility(Region* start, View* view, void* arg, bool rese
             reinterpret_cast<::FUN_00c47ae0_cls *>((f))->FUN_00c47ae0();
         reinterpret_cast<::FUN_0045c4e0_This *>((start))->SetFieldCC(f);
         {
-            Link* n = ((::Link *)(reinterpret_cast<::FUN_0043a010_shell *>(&(pending.alloc))->FUN_0043a010()));
+            Link* n = fnv::list::AdoptNode<Link>(reinterpret_cast<::FUN_0043a010_shell *>(&(pending.alloc))->FUN_0043a010());
             n->payload = start;
             n->next = nullptr;
             n->previous = nullptr;

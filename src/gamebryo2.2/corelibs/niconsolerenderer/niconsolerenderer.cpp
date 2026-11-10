@@ -246,7 +246,7 @@ char* NiTPointerListBaseT<NiTPointerAllocator<unsigned int>,char*>::RemoveTail()
  char* result = node->data;
  node->data = 0;
  node->prev = 0;
- fnv::list::RecycleStorage(node);
+ fnv::list::DestroyNode(node);
  --count;
  return result;
 }
@@ -521,7 +521,7 @@ void FUN_00e6e8a0(LinkedListEntry* pNode)
 {
     pNode->data = 0;
     pNode->prev = 0;
-    fnv::list::RecycleStorage(pNode);
+    fnv::list::DestroyNode(pNode);
 }
 
 struct NiTMapBase_StandIn {
@@ -7148,7 +7148,7 @@ bool FUN_00e75000_cls::ProcessPendingNodes() {
                 node->m_08 = 0;
             }
             node->m_04 = 0;
-            fnv::list::RecycleStorage(node);
+            fnv::list::DestroyNode(node);
             m_0908 -= 1;
             obj->Process();
             if (InterlockedDecrement(&obj->m_04) == 0) {
@@ -7769,7 +7769,7 @@ struct ShaderList : NiTPointerListBaseT<NiTPointerAllocator<unsigned int>, char*
     static void FreeNode(Node* pkNode) {
         pkNode->data = 0;
         pkNode->prev = 0;
-        fnv::list::RecycleStorage(pkNode);
+        fnv::list::DestroyNode(pkNode);
     }
     char*& GetNext(Node*& pkPos) {
         char*& element = pkPos->data;

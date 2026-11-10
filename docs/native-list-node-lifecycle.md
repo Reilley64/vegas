@@ -28,6 +28,39 @@ counters, and block detachment. Exact slot starts are validated with
 corrupting the free chain. Recycling constructs the free-link lifetime only
 after the caller has detached or released the payload.
 
+## Node lifetimes
+
+A pool slot is storage, not an object. `include/fnv/list_node.h` is the only
+place that turns one into the other:
+
+- `ConstructNode<NodeType>(arguments...)` acquires a slot and constructs the
+  caller's complete node type in it, including a nontrivial element such as the
+  property pointer in `font.cpp`. If that constructor throws, the slot returns
+  to the pool.
+- `DestroyNode(node)` runs the node's destructor and then recycles the slot.
+- `AdoptNode<NodeType>(storage, arguments...)` is for a typed caller of the
+  type-erased allocator entry `0x0043a010`. That entry constructs a zeroed
+  `Node<void>`; the caller begins its own node in the same slot rather than
+  converting the pointer.
+
+Both templates require the node to be exactly three native pointers wide, so a
+unit with a stale narrower node shape fails to compile instead of sharing a
+slot.
+
+Every unit migrated to this owner constructs its own node type where it
+acquires one and destroys it where it recycles one. The source's type-erased
+pointer deallocators (`0x0045cee0`, `0x00a638c0`, `0x00a82620`, `0x00b63df0`
+and the `Deallocate(void*)` members) do not know the node type. Their typed
+callers clear the element first, and the deallocator passes the slot to
+`RecycleStorage` without reading or writing it through a stand-in type.
+
+Units that this work did not migrate still convert the result of `0x0043a010`
+to their own node types by cast. Moving them to `AdoptNode` is separate work.
+
+`FUN_00b584e0` is not a pool client. Its list allocates each node directly from
+the memory manager, so it keeps that allocation domain, sized as three native
+pointers.
+
 ## Retained payload lists
 
 `include/fnv/list_node.h` is the typed production boundary. Retained nodes use
@@ -37,6 +70,14 @@ member removal establish the returned reference before unlinking and retiring
 the node's reference. An overflow leaves links, count, payload, and pool
 membership unchanged. Empty head and tail removal returns an empty retained
 result.
+
+`NiRefObject`'s object count, destructor, `DeleteThis` and the list's
+retain/release functions are defined together in
+`src/gamebryo2.2/corelibs/nimain/nirefobject_lifetime.cpp`. That unit depends on
+nothing but the object declaration, so the memory manager does not depend on
+`NiRefObject`, and host and Windows tests link the same lifetime bodies and
+type identity as the game. `docs/native-data-ownership.md` records the
+retirement of the legacy duplicate count definition.
 
 The native count remains `unsigned int`. `TryIncRefCount` uses an atomic
 compare/exchange and refuses `UINT_MAX` rather than wrapping. List counts remain
@@ -59,29 +100,40 @@ recycler. Node shutdown refuses while any node remains live. Once clients are
 detached, it removes all blocks under the node lock and releases each block
 through the canonical manager before pool and heap shutdown.
 
-The generated data files remain unchanged. No source was added to the game
-archive, so the accepted 2,218 logical-member sequence and order are unchanged;
-`canonical_memory_manager.cpp` is the existing owner member. The expected
-duplicate-symbol reduction remains zero because this work does not consolidate
-the separate owning-return definitions. Only a complete link comparison may
-state the measured result.
+The committed generated data files remain unchanged. The accepted 2,218
+logical-member sequence and order are preserved, and
+`nirefobject_lifetime.cpp` is appended as member 2,219;
+`canonical_memory_manager.cpp` is the existing storage owner member. The
+expected duplicate-symbol reduction remains zero because this work does not
+consolidate the separate owning-return definitions. Only a complete link
+comparison may state the measured result.
 
 ## Verification boundary
 
 `runtime.list_node_recycling` uses the canonical manager, engine heaps, real TLS
-block, typed production nodes, and genuine C++ virtual payload objects. Checks
-remain active under `NDEBUG` and cover:
+block, typed production nodes, and payloads derived from the production
+`NiRefObject` and deleted through its `DeleteThis`. Checks remain active under
+`NDEBUG` and cover:
 
 - empty, one, many, head, tail, and middle removal;
 - node reuse, aliased payloads, and full-width pointers;
-- retain-before-retire and payload destruction;
-- reference-count overflow and checked refill failure with unchanged structure;
+- retain-before-retire, payload destruction, and the object count;
+- a node with a nontrivial element: construction, destruction, reuse of its
+  slot by another node type, adoption, and a throwing constructor;
+- reference-count overflow on push and removal, and list-count overflow at
+  `UINT32_MAX`, each with unchanged links, counts, and pool membership;
+- refill failure from checked sizing and from real exhaustion of the selected
+  engine heap, with unchanged structure, TLS context, and a released lock;
 - context 9 and 23 allocation domains and TLS preservation;
 - concurrent acquire/recycle from independent TLS contexts;
 - exception-unwind cleanup; and
 - refusal with outstanding nodes followed by successful shutdown retirement.
 
+`runtime.list_node_recycling.reject_*` run the same executable once per invalid
+recycle (foreign, interior, duplicate, null) and require the production
+recycler to abort.
+
 Optimized and ASan/UBSan/vptr runs execute the same owner and list operations.
-The Windows target additionally links this test to the complete `game` archive.
+The Windows target links this test to the complete `game` archive.
 These checks do not claim full startup, physical/range/recovery completion,
 whole-engine shutdown, gameplay, saves, Steam, or VEGAS-1 acceptance.

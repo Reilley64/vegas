@@ -892,7 +892,7 @@ void ShaderEntryOwner::FUN_00e93cc0()
                         pNext->previous = pPrev;
                     candidate->element = 0;
                     candidate->previous = 0;
-                    fnv::list::RecycleStorage(candidate);
+                    fnv::list::DestroyNode(candidate);
                     --pEntries->count;
                 }
             }
@@ -1094,8 +1094,6 @@ struct FUN_0045cee0_shell
 // @fnv 0x0045cee0
 void FUN_0045cee0_shell::FUN_0045cee0(void* pkItem)
 {
-    auto* node = static_cast<PoolAllocatorBase<unsigned int>::LinkedListEntry*>(pkItem);
-    node->m_iData = 0;
-    fnv::list::RecycleStorage(node);
+    fnv::list::RecycleStorage(pkItem);
 }
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramfactory.inc"

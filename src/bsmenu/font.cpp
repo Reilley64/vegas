@@ -1501,7 +1501,7 @@ struct AtlasShader : NiMemObjectAllocation {
 };
 struct AtlasPropertyPointer { AtlasShader* pointer;AtlasPropertyPointer(AtlasShader*);~AtlasPropertyPointer();AtlasPropertyPointer& FUN_006e5cc0(const AtlasPropertyPointer&); };
 struct AtlasPropertyNode { AtlasPropertyNode* next;AtlasPropertyNode* previous;AtlasPropertyPointer value; };
-struct AtlasNodeAllocator { unsigned count;AtlasPropertyNode* Allocate() { auto* node=static_cast<AtlasPropertyNode*>(fnv::list::AcquireStorage());node->value.pointer=nullptr;node->next=nullptr;node->previous=nullptr;return node;} };
+struct AtlasNodeAllocator { unsigned count;AtlasPropertyNode* Allocate() { return fnv::list::ConstructNode<AtlasPropertyNode>(nullptr,nullptr,static_cast<AtlasShader*>(nullptr)); } };
 struct AtlasPropertyList { AtlasPropertyNode* head;AtlasPropertyNode* tail;AtlasNodeAllocator allocator;
  AtlasPropertyNode* NewNode(){return allocator.Allocate();}
  void FUN_0049fa20(AtlasPropertyNode*);

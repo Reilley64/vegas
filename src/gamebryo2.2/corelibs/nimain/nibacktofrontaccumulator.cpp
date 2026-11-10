@@ -265,7 +265,7 @@ void S_00aa0d00_Base::ReleaseAllItems()
                 tail = 0;
             pNode->data = 0;
             pNode->prev = 0;
-            fnv::list::RecycleStorage(pNode);
+            fnv::list::DestroyNode(pNode);
             count--;
         }
         reinterpret_cast<::NiAccumulator *>(this)->ClearCamera();
@@ -406,7 +406,7 @@ void C_00aa0dc0::FUN_00aa0dc0()
 
         item->data = 0;
         item->prev = 0;
-        fnv::list::RecycleStorage(item);
+        fnv::list::DestroyNode(item);
 
         --self->m_kUnsortedGeometryList.m_uiCount;
     }
@@ -573,11 +573,7 @@ typedef PoolAllocatorBase<NiBackToFrontListItem> NiBackToFrontItemPool;
 
 static inline NiBackToFrontListItem* NewListItem()
 {
-    auto* item = static_cast<NiBackToFrontListItem*>(fnv::list::AcquireStorage());
-    item->m_pInventoryEntryData = nullptr;
-    item->m_pkNext = nullptr;
-    item->m_pkPrevious = nullptr;
-    return item;
+    return fnv::list::ConstructNode<NiBackToFrontListItem>();
 }
 
 static inline void AddNodeTail(NiBackToFrontGeometryList& kList, NiBackToFrontListItem* pkNode)

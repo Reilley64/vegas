@@ -7331,7 +7331,7 @@ void FUN_00a68e30_shell::FUN_00a68e30()
 
         node->data = 0;
         node->prev = 0;
-        fnv::list::RecycleStorage(node);
+        fnv::list::DestroyNode(node);
 
         --m_uiCount;
     }

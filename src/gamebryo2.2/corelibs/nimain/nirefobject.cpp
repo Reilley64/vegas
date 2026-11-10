@@ -5,12 +5,8 @@
 #include "fnv/symbols_0040f000.h"
 #include "fnv/symbols_00450000.h"
 #include "NiRefObject.h"
-#pragma optimize("gty", on)
-// @fnv 0x00cfcc20
-void NiRefObject::DeleteThis()
-{
-    delete this;
-}
+// NiRefObject::DeleteThis (0x00cfcc20) is defined with the rest of the object
+// lifetime in nirefobject_lifetime.cpp.
 #pragma optimize("", off)
 #include "nirefobject_queue.h"
 // Acquires the lock, enqueues command, releases the lock, and returns the enqueue result.

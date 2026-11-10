@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <cstring>
+#include "fnv/list_node.h"
 #include "fnv/decl/BB97550Shader.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CamLook.h"
@@ -239,7 +240,7 @@ struct RefPtr_b9e7c0
     RefPtr_b9e7c0(NiRefObject* p) : m_pObject(p)
     {
         if (!fnv::list::TryRetainPayload(m_pObject))
-            throw std::overflow_error("native payload reference count overflow");
+            fnv::list::ThrowPayloadCountOverflow();
     }
     RefPtr_b9e7c0(const RefPtr_b9e7c0& o) : RefPtr_b9e7c0(o.m_pObject)
     {}
@@ -275,7 +276,7 @@ struct RefPtr_b9fcc0
     RefPtr_b9fcc0(NiRefObject* p) : m_pObject(p)
     {
         if (!fnv::list::TryRetainPayload(m_pObject))
-            throw std::overflow_error("native payload reference count overflow");
+            fnv::list::ThrowPayloadCountOverflow();
     }
     RefPtr_b9fcc0(const RefPtr_b9fcc0& o) : RefPtr_b9fcc0(o.m_pObject)
     {}
@@ -340,7 +341,7 @@ struct RefPtr_b9e850
     RefPtr_b9e850(NiRefObject* p) : m_pObject(p)
     {
         if (!fnv::list::TryRetainPayload(m_pObject))
-            throw std::overflow_error("native payload reference count overflow");
+            fnv::list::ThrowPayloadCountOverflow();
     }
     RefPtr_b9e850(const RefPtr_b9e850& o) : RefPtr_b9e850(o.m_pObject)
     {}
@@ -567,11 +568,6 @@ template <> inline ShadowSceneArray<NiNode*>::~ShadowSceneArray()
         SimpleArrayStorage = 0;
         iSize = 0;
     }
-}
-
-NiRefObject::~NiRefObject()
-{
-    NiAtomicSubtract(ms_lObjectCount);
 }
 
 struct FUN_00b9f0c0_cls : public NiRefObject

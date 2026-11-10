@@ -109,7 +109,7 @@ void BSShaderLightingProperty::ClearLights()
         item = item->m_pkNext;
         current->m_element = 0;
         current->m_pkPrev = 0;
-        fnv::list::RecycleStorage(current);
+        fnv::list::DestroyNode(current);
     }
     list->m_kItemCount.m_uiCount = 0;
     list->m_pkHead = 0;
@@ -1216,7 +1216,7 @@ struct LList
 static inline void FreeNode(LItem* item)
 {
     item->m_pkPrev = 0;
-    fnv::list::RecycleStorage(item);
+    fnv::list::DestroyNode(item);
 }
 __forceinline void LList::RemoveItem(LItem* cur)
 {

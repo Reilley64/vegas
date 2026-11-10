@@ -689,7 +689,7 @@ FUN_00b6f0b0::~FUN_00b6f0b0()
             m84.tail = 0;
         node->item = 0;
         node->prev = 0;
-        fnv::list::RecycleStorage(node);
+        fnv::list::DestroyNode(node);
         m84.count--;
         delete slot;
     }
@@ -706,7 +706,7 @@ FUN_00b6f0b0::~FUN_00b6f0b0()
             m78.tail = 0;
         node->item = 0;
         node->prev = 0;
-        fnv::list::RecycleStorage(node);
+        fnv::list::DestroyNode(node);
         m78.count--;
         delete slot;
     }

@@ -16,10 +16,7 @@
 // Element ownership is released before the node is returned to the free list.
 template<class T> void NiTPointerAllocator<T>::Deallocate(void* pointer)
 {
-    typedef typename PoolAllocatorBase<T>::LinkedListEntry LinkedListEntry;
-    LinkedListEntry* node = static_cast<LinkedListEntry*>(pointer);
-    node->m_pUserData = 0;
-    fnv::list::RecycleStorage(node);
+    fnv::list::RecycleStorage(pointer);
 }
 
 template<class Allocator, class T>

@@ -481,7 +481,7 @@ void FUN_00a7aff0_shell::FUN_00a7aff0()
         VirtualObj_00a7aff0* entry = (VirtualObj_00a7aff0*)node->data;
         node->data = 0;
         node->prev = 0;
-        fnv::list::RecycleStorage(node);
+        fnv::list::DestroyNode(node);
         --self->count;
         if (entry)
         {

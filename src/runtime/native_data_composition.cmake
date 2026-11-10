@@ -6,6 +6,7 @@ function(vegas_compose_native_data)
   set(patch "${PROJECT_SOURCE_DIR}/src/runtime/native_data_retirements.patch")
   set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${patch}")
   set(inputs
+    "src/generated/data/bshavok/bhkrigidbody_h_unit.inc|801786c7bf38eb1b7cf2745845efd568055bd5ddfe38105314e26ae6289a9ae7"
     "src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc|b849ba5e6b9e86d467615f32cca7ad0ca16be0a80b4c47ae90b384c06d16a764"
     "src/generated/data/havok/common/base/types/hkrefvariant.inc|c6342266ee408e91dd568d634bf49904be2f142c125cde3c678f7cb980aaf360"
     "src/generated/data/havok/common/serialize/util/hkbuiltintyperegistry.inc|1c381558aecf21d0578815ee1c066aa02d6d3cb5dd88ffc5e4177995bfcd7046"

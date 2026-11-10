@@ -35,7 +35,6 @@ void FUN_00b63e90_cls::ReleasePoolNodes()
     {
         auto* node = cur;
         cur = cur->m_00;
-        node->m_04 = 0;
         fnv::list::RecycleStorage(node);
     }
     unsigned int* p = m_08;

@@ -57,11 +57,7 @@ template <class T> class PoolMemoryAllocator : public PoolAllocatorBase<T>
 };
 inline NiTListItem<NiNode*>* NiDynamicEffectNewListItem()
 {
-    auto* item = static_cast<NiTListItem<NiNode*>*>(fnv::list::AcquireStorage());
-    item->m_element = nullptr;
-    item->m_pkNext = nullptr;
-    item->m_pkPrev = nullptr;
-    return item;
+    return fnv::list::ConstructNode<NiTListItem<NiNode*>>();
 }
 struct NiDynamicEffectTransform
 {

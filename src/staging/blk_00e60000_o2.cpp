@@ -7932,13 +7932,7 @@ FUN_00e7b590::FUN_00e7b590(S00e7b590_D3D* dev, int aiAdapter, D3DDEVTYPE aiDevic
                     FUN_00e7b260* item =
                         new FUN_00e7b260(dev, aiAdapter, m_iOwnerObjectOffset, desc.Format, fullscreen, windowed);
 
-                    auto* poolNode = static_cast<ListNode*>(fnv::list::AcquireStorage());
-
-                    poolNode->item = 0;
-
-                    poolNode->next = 0;
-
-                    poolNode->prev = 0;
+                    auto* poolNode = fnv::list::ConstructNode<ListNode>();
 
                     poolNode->item = item;
 
@@ -9834,11 +9828,7 @@ struct PoolAlloc
 {
     static ListItem* Allocate() throw()
     {
-        auto* node = static_cast<ListItem*>(fnv::list::AcquireStorage());
-        node->data = 0;
-        node->next = 0;
-        node->prev = 0;
-        return node;
+        return fnv::list::ConstructNode<ListItem>();
     }
 };
 

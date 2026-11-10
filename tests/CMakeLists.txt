@@ -184,12 +184,24 @@ else()
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/native_memory_pools.cpp
     ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
+    ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nimain/nirefobject_lifetime.cpp
     ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp)
 endif()
 target_include_directories(runtime_list_node_recycling_test PRIVATE
   ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
 target_link_libraries(runtime_list_node_recycling_test PRIVATE Threads::Threads)
 add_test(NAME runtime.list_node_recycling COMMAND runtime_list_node_recycling_test)
+if(UNIX)
+  # The production recycler terminates on a slot it does not own.
+  foreach(mode IN ITEMS foreign interior duplicate null)
+    add_test(NAME runtime.list_node_recycling.reject_${mode}
+      COMMAND ${CMAKE_COMMAND}
+        -DPROGRAM=$<TARGET_FILE:runtime_list_node_recycling_test>
+        -DMODE=--recycle-${mode}
+        -DMARKER=recycle-${mode}
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
+  endforeach()
+endif()
 
 # Unlike runtime.new's isolated forwarding fixture, this executable uses the
 # actual getter, complete native global, heap suppliers and matching release.

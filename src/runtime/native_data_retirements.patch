@@ -1,3 +1,7 @@
+--- a/src/generated/data/bshavok/bhkrigidbody_h_unit.inc
++++ b/src/generated/data/bshavok/bhkrigidbody_h_unit.inc
+@@ -7 +6,0 @@
+-unsigned int NiRefObject::ms_lObjectCount;
 --- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc
 +++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc
 @@ -35 +34,0 @@

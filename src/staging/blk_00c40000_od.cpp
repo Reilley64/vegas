@@ -12471,9 +12471,7 @@ struct Pool332
     unsigned int count;
     void FUN_0045cee0(void* memory)
     {
-        auto* node = static_cast<ListNode332*>(memory);
-        node->previous = 0;
-        fnv::list::RecycleStorage(node);
+        fnv::list::RecycleStorage(memory);
     }
 };
 
@@ -22978,9 +22976,7 @@ public:
 
 template <> inline void NiTPointerAllocator<unsigned int>::Deallocate(void* pointer)
 {
-    auto* node = static_cast<LinkedListEntry*>(pointer);
-    node->m_pUserData = 0;
-    fnv::list::RecycleStorage(node);
+    fnv::list::RecycleStorage(pointer);
 }
 
 struct MyNode

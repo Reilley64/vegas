@@ -1442,7 +1442,7 @@ struct CacheList
                 next->previous = previous;
             slot = 0;
             node->previous = 0;
-            fnv::list::RecycleStorage(node);
+            fnv::list::DestroyNode(node);
             count--;
             return item;
         }

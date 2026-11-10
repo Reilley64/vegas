@@ -116,10 +116,7 @@ struct RecursiveSpinLock
 // @fnv 0x00a82620
 void PoolFreeUIntNode(void* apNode)
 {
-    auto* node = static_cast<fnv::list::Node<void>*>(apNode);
-    node->previous = nullptr;
-    node->payload = nullptr;
-    fnv::list::RecycleNode(node);
+    fnv::list::RecycleStorage(apNode);
 }
 
 namespace fnv_00a82670 {

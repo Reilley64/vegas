@@ -14868,7 +14868,7 @@ inline void List2_af60::RemoveHead()
     }
     n->m_data = 0;
     n->m_pSecondNode = 0;
-    fnv::list::RecycleStorage(n);
+    fnv::list::DestroyNode(n);
     m_uiItemCount--;
 }
 static __forceinline float CalcDist(Item_af60* a, const Point3_af60& dir, bool flag)

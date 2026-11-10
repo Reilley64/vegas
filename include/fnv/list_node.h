@@ -3,22 +3,57 @@
 #include <cstddef>
 #include <cstdint>
 #include <exception>
-#include <limits>
-#include <memory>
-#include <stdexcept>
-#include <type_traits>
-#include <utility>
+#include <new>
 
 class NiRefObject;
 
 namespace fnv::list {
 
-// Canonical MemoryManager-owned storage boundary. Production callers use this
-// seam instead of declaring another manager receiver or exposing pool state.
+// Every node of the common pool is exactly three native pointers.
+inline constexpr std::size_t NodeBytes = 3 * sizeof(void*);
+
+// Canonical MemoryManager-owned storage boundary. Storage carries no object
+// lifetime: AcquireStorage returns an unoccupied slot and RecycleStorage ends
+// whatever trivially destructible occupant remains by reusing its bytes.
+// Typed consumers use ConstructNode/DestroyNode below. Only the source's
+// type-erased pointer deallocators hand a slot straight to RecycleStorage,
+// after their typed caller has released the element.
 void RefillStorage();
 void* AcquireStorage();
 void RecycleStorage(void*) noexcept;
 bool ShutdownStorage() noexcept;
+
+// Out-of-line so that this header needs no standard exception or string
+// definitions in the many units that only recycle nodes.
+[[noreturn]] void ThrowNodeCountOverflow();
+[[noreturn]] void ThrowPayloadCountOverflow();
+
+// Begins the lifetime of the caller's complete node type, including a
+// nontrivial element, in one pool slot. The slot returns to the pool if the
+// node's own construction throws.
+template <class NodeType, class... Arguments>
+NodeType* ConstructNode(Arguments&&... arguments)
+{
+    static_assert(sizeof(NodeType) == NodeBytes);
+    static_assert(alignof(NodeType) <= alignof(void*));
+    void* storage = AcquireStorage();
+    try {
+        return ::new (storage) NodeType(static_cast<Arguments&&>(arguments)...);
+    } catch (...) {
+        RecycleStorage(storage);
+        throw;
+    }
+}
+
+// Ends the node's lifetime, running its element's destructor, before the slot
+// becomes a free link.
+template <class NodeType>
+void DestroyNode(NodeType* node) noexcept
+{
+    static_assert(sizeof(NodeType) == NodeBytes);
+    node->~NodeType();
+    RecycleStorage(node);
+}
 
 template <class Payload>
 struct Node {
@@ -27,21 +62,34 @@ struct Node {
     Payload* payload = nullptr;
 };
 
-static_assert(sizeof(Node<void>) == 3 * sizeof(void*));
-static_assert(std::is_standard_layout_v<Node<void>>);
+static_assert(sizeof(Node<void>) == NodeBytes);
+
+// The type-erased allocator entry 0x0043a010 returns a zeroed, trivially
+// destructible Node<void>. A typed caller of that entry begins its own node in
+// the same slot, which ends the erased node, instead of converting the pointer.
+template <class NodeType, class... Arguments>
+NodeType* AdoptNode(void* storage, Arguments&&... arguments)
+{
+    static_assert(sizeof(NodeType) == NodeBytes);
+    static_assert(alignof(NodeType) <= alignof(void*));
+    try {
+        return ::new (storage) NodeType(static_cast<Arguments&&>(arguments)...);
+    } catch (...) {
+        RecycleStorage(storage);
+        throw;
+    }
+}
 
 template <class Payload>
 Node<Payload>* AcquireNode()
 {
-    auto* storage = AcquireStorage();
-    return std::construct_at(static_cast<Node<Payload>*>(storage));
+    return ConstructNode<Node<Payload>>();
 }
 
 template <class Payload>
 void RecycleNode(Node<Payload>* node) noexcept
 {
-    std::destroy_at(node);
-    RecycleStorage(node);
+    DestroyNode(node);
 }
 
 bool TryRetainPayload(NiRefObject*) noexcept;
@@ -53,7 +101,7 @@ class RetainedPayload {
     explicit RetainedPayload(NiRefObject* payload) : payload_(payload)
     {
         if (!TryRetainPayload(payload_))
-            throw std::overflow_error("native payload reference count overflow");
+            ThrowPayloadCountOverflow();
     }
     RetainedPayload(const RetainedPayload& other) : RetainedPayload(other.payload_) {}
     RetainedPayload(RetainedPayload&& other) noexcept : payload_(other.Release()) {}
@@ -68,7 +116,7 @@ class RetainedPayload {
     RetainedPayload& operator=(RetainedPayload&& other) noexcept
     {
         if (this != &other) {
-            RetainedPayload replacement(std::move(other));
+            RetainedPayload replacement(static_cast<RetainedPayload&&>(other));
             Swap(replacement);
         }
         return *this;
@@ -107,16 +155,13 @@ inline void Retire(RetainedNode* node) noexcept
 inline void PushBack(RetainedNode*& head, RetainedNode*& tail,
                      std::uint32_t& count, NiRefObject* payload)
 {
-    if (count == std::numeric_limits<std::uint32_t>::max())
-        throw std::length_error("native list node count overflow");
+    if (count == UINT32_MAX)
+        ThrowNodeCountOverflow();
 
     auto* node = AcquireNode<NiRefObject>();
-    try {
-        if (!TryRetainPayload(payload))
-            throw std::overflow_error("native payload reference count overflow");
-    } catch (...) {
+    if (!TryRetainPayload(payload)) {
         RecycleNode(node);
-        throw;
+        ThrowPayloadCountOverflow();
     }
 
     node->payload = payload;

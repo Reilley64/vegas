@@ -4973,7 +4973,6 @@ struct ReleaseNode {
 };
 struct ReleaseChild { virtual ~ReleaseChild(); };
 struct ReleaseLink { ReleaseLink* next; ReleaseLink* prev; ReleaseChild* value; };
-struct ChildPoolBlock { ChildPoolBlock* next; void* data; };
 unsigned int __cdecl gm_GetCurrentThreadId();
 void __cdecl FUN_0040fca0(unsigned long);
 void __cdecl FUN_0040fbe0(...);
@@ -4999,9 +4998,7 @@ struct ChildPoolLock {
 struct ChildAllocator {
     unsigned int count;
     __forceinline void Deallocate(void* pointer) {
-        auto* block = static_cast<ChildPoolBlock*>(pointer);
-        block->data = nullptr;
-        fnv::list::RecycleStorage(block);
+        fnv::list::RecycleStorage(pointer);
     }
 };
 struct ReleaseChildren {
@@ -6846,16 +6843,10 @@ struct ParsedPoolLock {
 struct ParsedAllocator {
     unsigned count;
     ParsedNode* FUN_0043a010() {
-        auto* node = static_cast<ParsedNode*>(fnv::list::AcquireStorage());
-        node->value = nullptr;
-        node->next = nullptr;
-        node->previous = nullptr;
-        return node;
+        return fnv::list::ConstructNode<ParsedNode>();
     }
     void FUN_0045cee0(ParsedNode* node) {
-        node->value = nullptr;
-        node->previous = nullptr;
-        fnv::list::RecycleStorage(node);
+        fnv::list::DestroyNode(node);
     }
 };
 struct ParsedList {

@@ -337,7 +337,7 @@ void FUN_00b655b0(Self_00b655b0* self)
         }
         node->m_element = 0;
         node->m_pUserData = 0;
-        fnv::list::RecycleStorage(node);
+        fnv::list::DestroyNode(node);
         --self->count;
     }
 }
@@ -816,7 +816,7 @@ struct PtrList
             m_pkTail = 0;
         pkNode->m_element = 0;
         pkNode->m_pkPrev = 0;
-        fnv::list::RecycleStorage(pkNode);
+        fnv::list::DestroyNode(pkNode);
         m_uiCount--;
     }
 };
@@ -914,7 +914,7 @@ struct OMList
             m_pkTail = 0;
         pkNode->m_element = 0;
         pkNode->m_pUserData = 0;
-        fnv::list::RecycleStorage(pkNode);
+        fnv::list::DestroyNode(pkNode);
         m_uiCount--;
     }
 };

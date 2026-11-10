@@ -1,6 +1,5 @@
 #include "fnv/decl/MemoryManager.h"
 #include "fnv/list_node.h"
-#include "fnv/ni_ref_object.h"
 #include "fnv/tls.h"
 #include "fnv/symbols_00401000.h"
 
@@ -11,6 +10,7 @@
 #include <limits>
 #include <memory>
 #include <new>
+#include <stdexcept>
 
 // Constant initialization binds the source-owned object before any dynamic
 // initializer can call global new. The allocation service must outlive every
@@ -407,15 +407,9 @@ bool MemoryManager::ShutdownListNodes() noexcept
     return true;
 }
 
-bool fnv::list::TryRetainPayload(NiRefObject* payload) noexcept
+void fnv::list::ThrowNodeCountOverflow()
 {
-    return !payload || payload->TryIncRefCount();
-}
-
-void fnv::list::ReleasePayload(NiRefObject* payload) noexcept
-{
-    if (payload)
-        payload->DecRefCount();
+    throw std::length_error("native list node count overflow");
 }
 
 void fnv::list::RefillStorage()

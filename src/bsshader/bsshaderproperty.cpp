@@ -930,8 +930,7 @@ struct FUN_0043a010_shell
 // @fnv 0x0043a010
 FUN_0043a010_t* FUN_0043a010_shell::FUN_0043a010()
 {
-    auto* storage = fnv::list::AcquireStorage();
-    return std::construct_at(static_cast<FUN_0043a010_t*>(storage));
+    return fnv::list::ConstructNode<FUN_0043a010_t>();
 }
 
 #include "generated/data/bsshader/bsshaderproperty.inc"

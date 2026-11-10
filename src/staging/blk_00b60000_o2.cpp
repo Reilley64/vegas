@@ -600,10 +600,7 @@ struct NiTAbstractPoolAllocator_unsigned_int
 // @fnv 0x00b63df0
 void FreePoolNode(void* p)
 {
-    NiTAbstractPoolAllocator_unsigned_int::LinkedListEntry* n = (NiTAbstractPoolAllocator_unsigned_int::LinkedListEntry*)p;
-    *(unsigned char*)&n->m_uiSize = 0;
-    n->m_pkPrev = 0;
-    fnv::list::RecycleStorage(n);
+    fnv::list::RecycleStorage(p);
 }
 
 extern int DAT_011ff9f0;
@@ -7955,7 +7952,7 @@ static __forceinline void AssignRef(CmPointer<CmObject>& target, const CmPointer
 static __forceinline void AppendCopy(CmList* dest, void* const& value, unsigned count)
 {
     void* data = value;
-    auto* item = static_cast<CopyNode*>(fnv::list::AcquireStorage());
+    auto* item = fnv::list::ConstructNode<CopyNode>();
     item->data = data;
     item->next = 0;
     item->prev = static_cast<CopyNode*>(dest->m_pTail);
@@ -8581,9 +8578,7 @@ struct StringOwner
 
 template <class T> inline void NiTPointerAllocator<T>::Deallocate(void* pointer)
 {
-    auto* node = static_cast<typename PoolAllocatorBase<T>::LinkedListEntry*>(pointer);
-    node->m_pUserData = 0;
-    fnv::list::RecycleStorage(node);
+    fnv::list::RecycleStorage(pointer);
 }
 
 template <class Allocator, class T> inline void NiTPointerListBase<Allocator, T>::DeleteItem(NiTListItem<T>* pkItem)

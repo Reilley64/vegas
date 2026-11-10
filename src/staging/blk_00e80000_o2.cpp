@@ -8789,7 +8789,7 @@ void Target::FUN_00e8b630() {
   else tail=0;
   node->data=0;
   node->prev=0;
-  fnv::list::RecycleStorage(node);
+  fnv::list::DestroyNode(node);
   --listCount;
  }
  if(object) { object->Release(); object=0; }
@@ -10870,7 +10870,7 @@ struct LightInputNode { LightInputNode* next; SceneLight* light; };
 struct LightInput { unsigned int field00,field04,field08; LightInputNode* head; };
 inline SceneLight*& nextLight(PoolNode*& node) { SceneLight*& item=(SceneLight*&)node->data; node=node->next; return item; }
 struct ShadowSceneLightList { PoolNode* head; PoolNode* tail; unsigned int count;  SceneLight* FUN_004edf00();
- __forceinline void recycle(PoolNode* node) { node->data=0; node->prev=0; fnv::list::RecycleStorage(node); }
+ __forceinline void recycle(PoolNode* node) { node->data=0; node->prev=0; fnv::list::DestroyNode(node); }
  __forceinline SceneLight* remove(PoolNode*& node) { if(node==head) { PoolNode* old=head; head=old->next; if(head) head->prev=0; else tail=0; SceneLight* element=(SceneLight*)old->data; recycle(old); --count; return element; } else if(node==tail) { return FUN_004edf00(); } else { PoolNode* prev=node->prev; PoolNode* next=node->next; if(prev)prev->next=next; if(next)next->prev=prev; SceneLight* element=(SceneLight*)node->data; recycle(node); --count; return element; } }
 };
 struct LightManager { unsigned int field00,field04,field08,field0c; ShadowSceneLightList active; LightDevice* device; MobileTargetObj* render; unsigned int field24,field28; unsigned char field2c; bool enabled; unsigned short field2e;
@@ -11217,7 +11217,7 @@ public:
     void DeleteItem(NiTListItemE8B* pkItem)
     {
         pkItem->m_pkPrev = 0;
-        fnv::list::RecycleStorage(pkItem);
+        fnv::list::DestroyNode(pkItem);
     }
 
     void RemovePos(NiTListItemE8B* pkNode)

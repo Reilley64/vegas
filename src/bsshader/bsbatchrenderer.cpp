@@ -1759,11 +1759,7 @@ struct PoolLock
 };
 static inline AlphaNode* PoolCreateNode()
 {
-    auto* node = static_cast<AlphaNode*>(fnv::list::AcquireStorage());
-    node->m_element = nullptr;
-    node->m_pkNext = nullptr;
-    node->m_pkPrev = nullptr;
-    return node;
+    return fnv::list::ConstructNode<AlphaNode>();
 }
 // @fnv 0x00b9ac80
 void AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound* pBound, bool bFlag1,

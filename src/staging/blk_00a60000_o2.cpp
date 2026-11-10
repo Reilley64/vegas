@@ -186,20 +186,10 @@ void FUN_00a615c0_Class::ClearAllBuckets()
 struct RecursiveSpinLock
 {
 };
-struct FUN_00a638c0_Node
-{
-    void* next;
-    unsigned int unk04;
-    unsigned short unk08;
-};
-
 // @fnv 0x00a638c0
 void FUN_00a638c0(void* pNode)
 {
-    FUN_00a638c0_Node* node = (FUN_00a638c0_Node*)pNode;
-    node->unk08 = 0;
-    node->unk04 = 0;
-    fnv::list::RecycleStorage(node);
+    fnv::list::RecycleStorage(pNode);
 }
 
 namespace fnv_00a63b30 {

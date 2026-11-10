@@ -44,8 +44,9 @@ Related rows, unchanged:
   to it.
 - No unit has a row for `NiParticles::NiParticles()`, the base that the
   definition of `0x00a89740` constructs. The unit of `nitristrips.cpp` binds
-  `??0NiGeometry@@QAE@XZ` to `0x00a80540` instead, a name its object does not
-  emit.
+  `??0NiGeometry@@QAE@XZ` to `0x00a80540`; its object requires that name from
+  `0x00a9b150`, not from the definition of `0x00a89740`. Apart from its own
+  constructor `0x00a89740`, the unit has no row for any other constructor.
 - `0x00c5ceb0`, 31 bytes, and `0x00c5ced0`, 81 bytes, are functions of
   `blk_00c40000_od.cpp`. The same unit binds `??0EmitterObjectStub@@QAE@XZ` to
   `0x00c5ceb0`. Its object requires that name, and no object defines it.
@@ -146,6 +147,21 @@ declare the class with no members: `blk_00a80000_o2.cpp`,
 `NiTriStrips` with 8 bytes where `nitrishape.cpp` declares it with `0xc8`.
 This change does not endorse those declarations or sizes.
 
+Two callers' own stores already pass their allocations. This change does not
+alter them:
+
+- `FUN_00a87140` allocates `0xd0` bytes and stores 1 byte at `+0xd0`, 1 byte
+  past the end. Its unit declares `FUN_00a87140_class` with `0xd8` bytes.
+- `0x00a87340` allocates `0xd0` bytes and stores 4 bytes at `+0xd0` and 1
+  byte at `+0xd4`, 5 bytes past the end. Its unit declares `Target` with
+  `0xd8` bytes.
+
+The body of `0x00a80540` in `nitribasedgeom.cpp` is not in this chain today.
+Its own highest store is 8 bytes at `+0xd0`, so it writes up to `+0xd8`. If
+the chain ended in it, that would be against allocations of `0xc4`, `0xc4`,
+`0xd0`, `0xd0` and `0xd8` bytes. Its two callees, `NiAVObject::NiAVObject()`
+and `NiPropertyState::NiPropertyState()`, are not counted.
+
 ## Not covered
 
 These were open before this change and remain open.
@@ -153,10 +169,10 @@ These were open before this change and remain open.
 - The native geometry base. Each unit above declares its own view of the
   object. One shared declaration from `NiObject` down to this class, with
   native-width members, is VEGAS-86.
-- `NiParticles::NiParticles()` has no definition and no recipe row. The
-  recipe row above suggests that the base `0x00a89740` constructs is
-  `NiGeometry` (`0x00a80540`). That is an inference, and the base is not
-  changed here.
+- `NiParticles::NiParticles()` has no definition and no recipe row. That the
+  unit's only row for a constructor other than its own is `0x00a80540`
+  suggests that the base `0x00a89740` constructs is `NiGeometry`
+  (`0x00a80540`). That is an inference, and the base is not changed here.
 - `FUN_00a744a0::~FUN_00a744a0()` has no definition, so nothing can retire
   the class.
 - The table at `0x0109d454` is the compiler's, with one entry. The original

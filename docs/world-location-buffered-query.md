@@ -61,6 +61,15 @@ today, before or after this change: the complete link still stops on the other
 duplicate definitions. The successful lazy link of the game executable
 extracts none of these units.
 
+These units also cannot link because they require names that are defined
+nowhere. `teleportdata.cpp.obj` requires three:
+`FUN_00431ae0::FUN_00431ae0(int)`, `g_TESSaveLoadGame` and
+`Flt::operator unsigned int`. `bgsworldlocation.cpp.obj` requires four:
+`TESForm::FNV_GetFormType`, `NiPoint3::operator-`,
+`fnv_00527a40::NiPoint3::operator-` and
+`fnv_00527a40::NiPoint3::UpdateCombatStyle`. `combatgroup.cpp.obj` requires
+119 such names and `combatstate.cpp.obj` 163.
+
 Before, the placeholder was visible to the compiler in `teleportdata.cpp`, so
 the windows-x64 object's `FUN_009a96f0` was a single jump to `FUN_005653d0`:
 the location argument was never used. The caller at `0x0098a580` required the
@@ -72,10 +81,10 @@ After, `FUN_009a96f0` calls `FUN_005653d0` and, when that returns false, the
 function at `0x00527a00`, and the caller at `0x0098a580` reaches the same
 function. That is what the recipe binds both to. The location's form pointer
 is now read, a non-null form is asked for its type, and a worldspace is asked
-for a cell. The value returned by `0x00527a00` is still false in every case,
-because the only definition of `TESCallHelper::IsCellBuffered`, in
+for a cell. The value returned by `0x00527a00` is still false whenever it
+returns, because the only definition of `TESCallHelper::IsCellBuffered`, in
 `src/fallout_shared/tes.cpp`, returns false unconditionally. That definition
-is itself a placeholder and is not touched here.
+is taken to be a placeholder and is not touched here.
 
 This is recovered behaviour of the two addresses, not a native policy. This
 change sets no native policy.
@@ -87,12 +96,30 @@ These were open before this change and remain open in VEGAS-76.
 - **The location's size.** The producer `FUN_0043a3c0` writes three floats and
   a form pointer. `FUN_00527900` reads through a shell of two floats, an
   integer and a form pointer. Both place the pointer at offset 12 in the
-  original release's 32-bit layout and at offset 16 in a windows-x64 object.
-  The three callers above hold 16-byte objects of four 32-bit words. In a
-  windows-x64 object the read of the form pointer is therefore past the end of
-  each caller's object. The removed placeholder kept `FUN_009a96f0` from
-  reaching this read; it did not repair it. The repair is one typed location shared by producers,
-  callers and this query, which is the body of the ticket.
+  original release's 32-bit layout and at offset 16 in a windows-x64 object,
+  where the producer's object is 24 bytes. The three callers above hold
+  16-byte locations of four 32-bit words. In a windows-x64 object the read of
+  the form pointer is therefore past the end of each caller's location.
+  Measured in the rebuilt windows-x64 objects:
+  - `SelectActor` (`0x00986c60`) was not memory-safe at the previous tip.
+    `FUN_00575650` already builds the 24-byte object in the 16-byte `PoseData`
+    local. Its 8-byte store at +16 lands on a 4-byte local and on the first
+    four bytes of the function's other `PoseData`. The query's new read is of
+    those same 8 bytes.
+  - `FindNearestCombatNode` (`0x0098c3d0`) was not memory-safe either. It
+    calls both producers with a null result pointer, at
+    `combatstate.cpp:5291`, `5306` and `5310`, and each producer stores
+    through that pointer. The first two calls come before the query.
+  - In the caller at `0x0098a580` the read at +16 lands on the group's
+    `position`, the member after `location`, inside the object.
+  - `FUN_00575650` passes the form pointer through `int`, so only its low 32
+    bits survive. It does the same to the position pointer.
+
+  The removed placeholder kept `FUN_009a96f0` from reaching this read; it did
+  not repair any of this. The repair is one typed 24-byte location shared by
+  producers, callers and this query, and result buffers that are not null,
+  which is the body of the ticket. Both must land before any `IsCellBuffered`
+  supplier is admitted.
 - **`IsCellBuffered`.** The recipe lists the function at `0x004511e0` in
   `src/fallout_shared/tes.cpp` under another name, and the ticket records that
   its present body is not an admitted buffered-state supplier. Until one

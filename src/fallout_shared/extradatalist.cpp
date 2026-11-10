@@ -15698,11 +15698,6 @@ struct Extra00432aa0 : public BSExtraData
     Extra00432aa0(void* item);
 };
 
-struct ListHelper
-{
-    void AddHead(void*& item);
-};
-
 struct BaseExtraList_shell : public BaseExtraList
 {
     void AddOrCreateExtraItem(void* item, int unused);
@@ -15720,7 +15715,7 @@ void BaseExtraList_shell::AddOrCreateExtraItem(void* item, int unused)
     }
     else
     {
-        ((ListHelper*)pExtra->pList)->AddHead(item);
+        ((::BSSimpleList<void *>*)pExtra->pList)->AddHead(item);
     }
 }
 

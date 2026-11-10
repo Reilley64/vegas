@@ -15656,10 +15656,6 @@ struct FUN_00559450_shell
 struct FUN_004c8c10_shell
 {
 };
-struct G2
-{
-    void AddHead(ExtraDataList*&);
-};
 
 
 struct FUN_004c8220_shell : public InventoryChanges
@@ -15726,7 +15722,7 @@ InventoryStackRecord* FUN_004c8220_shell::FUN_004c8220(TESActorBase* apActorBase
                             pchange = new InventoryStackRecord;
                             pchange->m_pItemObject = pObj;
                             pchange->m_pExtraDataLists = (BSSimpleList<ExtraDataList*>*)new SL;
-                            ((G2*)pchange->m_pExtraDataLists)->AddHead(pcurextra);
+                            ((::BSSimpleList< ::ExtraDataList *>*)pchange->m_pExtraDataLists)->AddHead(pcurextra);
                         }
                     }
                     pextralist = ((::SimpleListNode *)(reinterpret_cast<::Callees *>((pextralist))->FUN_00726070()));
@@ -15785,7 +15781,7 @@ InventoryStackRecord* FUN_004c8220_shell::FUN_004c8220(TESActorBase* apActorBase
                             pchange = new InventoryStackRecord;
                             pchange->m_pItemObject = pObj;
                             pchange->m_pExtraDataLists = (BSSimpleList<ExtraDataList*>*)new SL;
-                            ((G2*)pchange->m_pExtraDataLists)->AddHead(pcurextra);
+                            ((::BSSimpleList< ::ExtraDataList *>*)pchange->m_pExtraDataLists)->AddHead(pcurextra);
                         }
                     }
                     pextralist = ((::SimpleListNode *)(reinterpret_cast<::Callees *>((pextralist))->FUN_00726070()));

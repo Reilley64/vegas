@@ -45740,12 +45740,6 @@ struct FurnitureCell
 struct FurnitureRef : ::TESObjectREFR
 {
 };
-struct FurnitureList
-{
-    void FUN_005ae3d0(::TESObjectREFR*&);
-    unsigned int FUN_005ae380();
-    void FUN_00726c60(::TESObjectREFR* const&);
-};
 struct FurnitureSetting
 {
 };
@@ -45789,19 +45783,19 @@ void SearchFurnitureProcess::FUN_00922670(::Actor* actor, bool flag, ::TESObject
     {
         reinterpret_cast<::TESDataHandler *>((reinterpret_cast<FurnitureSearchManager*>((*reinterpret_cast<::FurnitureSearchDetail::FurnitureSearchManager * *>(&::g_dataHandler)))))->GetReferencesInArea(a, p, i, f->FUN_00675de0(actor), i, (bool (*)(TESObjectREFR *, intptr_t))(((void (&)(TESObjectREFR *, Actor *))::fnv_00922960::FUN_00922960)), (intptr_t)(actor));
     }
-    reinterpret_cast<::FileMatchList *>((reinterpret_cast<FurnitureList*>(&m_kSecondaryReferenceList)))->RemoveAll();
-    FurnitureList* cf = &(*reinterpret_cast<::FurnitureSearchDetail::FurnitureList *>(&::g_011e0424));
+    reinterpret_cast<::FileMatchList *>((reinterpret_cast<::BSSimpleList< ::TESObjectREFR *>*>(&m_kSecondaryReferenceList)))->RemoveAll();
+    ::BSSimpleList< ::TESObjectREFR *>* cf = &(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011e0424));
     while (cf && ((::TESObjectREFR *)(((::Vec3 *)(void *)(cf)))))
     {
-        reinterpret_cast<FurnitureList*>(&m_kSecondaryReferenceList)->FUN_005ae3d0(*(::TESObjectREFR **)(void *)(cf));
-        cf = ((::FurnitureSearchDetail::FurnitureList *)(reinterpret_cast<::Callees *>((cf))->FUN_00726070()));
+        reinterpret_cast<::BSSimpleList< ::TESObjectREFR *>*>(&m_kSecondaryReferenceList)->AddHead(*(::TESObjectREFR **)(void *)(cf));
+        cf = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((cf))->FUN_00726070()));
     }
-    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::FurnitureSearchDetail::FurnitureList *>(&::g_011e0424))))->RemoveAll();
-    FurnitureList* eb = reinterpret_cast<FurnitureList*>(&m_kSecondaryReferenceList);
-    FurnitureList* h = 0;
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011e0424))))->RemoveAll();
+    ::BSSimpleList< ::TESObjectREFR *>* eb = reinterpret_cast<::BSSimpleList< ::TESObjectREFR *>*>(&m_kSecondaryReferenceList);
+    ::BSSimpleList< ::TESObjectREFR *>* h = 0;
     if (eb)
     {
-        unsigned int item2 = eb->FUN_005ae380();
+        unsigned int item2 = eb->ItemsInList();
         bool first = true;
         while (item2 && first)
         {
@@ -45814,13 +45808,13 @@ void SearchFurnitureProcess::FUN_00922670(::Actor* actor, bool flag, ::TESObject
                 if (!reinterpret_cast<::OwnerLookupView *>((static_cast<FurnitureRef*>(barterA)))->FUN_00567790() &&
                     reinterpret_cast<::OwnerLookupView *>((static_cast<FurnitureRef*>(found)))->FUN_00567790())
                 {
-                    eb->FUN_00726c60(found);
-                    h->FUN_00726c60(barterA);
+                    eb->SetItem(found);
+                    h->SetItem(barterA);
                     first = true;
                 }
-                h = ((::FurnitureSearchDetail::FurnitureList *)(reinterpret_cast<::Callees *>((h))->FUN_00726070()));
+                h = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((h))->FUN_00726070()));
             }
-            eb = ((::FurnitureSearchDetail::FurnitureList *)(reinterpret_cast<::Callees *>((eb))->FUN_00726070()));
+            eb = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((eb))->FUN_00726070()));
             --item2;
         }
     }

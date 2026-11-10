@@ -13206,11 +13206,6 @@ struct FUN_0055d520_shell
     char* FUN_0055d520();
 };
 
-char* FUN_0055d520_shell::FUN_0055d520()
-{
-    return 0;
-}
-
 void __cdecl _DebugLog(char const* format, ...)
 {}
 

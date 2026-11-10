@@ -484,6 +484,7 @@ void check_map_load_rollback_and_retry()
     damaged.Bytes()[thirdRecord + 11] = ' '; // after the first entry's flag
     void* held[2] = {};
     void* heldEntry = nullptr;
+    void* underConstruction = nullptr;
     bool thrown = false;
     std::uint32_t offset = 0;
     std::uint32_t navMeshID = 0;
@@ -497,13 +498,19 @@ void check_map_load_rollback_and_retry()
         heldEntry = load.KeptRecord(0)->GetAt(0);
         load.Keep(navMeshID);
         check(load.KeptCount() == 2);
-        load_record(load, reader, navMeshID);
+        FUN_006e0480* third = load.NewRecord();
+        underConstruction = third;
+        navMeshID = read_form_id(reader);
+        read_form_id(reader);
+        if (!third->TryLoadEntries(reader))
+            fnv::pathing::ThrowMalformedLOSSave();
         check(false);
     } catch (const std::runtime_error&) {
         thrown = true;
     }
     check(thrown);
     check(navMeshID == 13);
+    check(underConstruction != nullptr && !g_memoryManager.Owns(underConstruction));
     for (void* record : held)
         check(!g_memoryManager.Owns(record));
     check(!g_memoryManager.Owns(heldEntry));

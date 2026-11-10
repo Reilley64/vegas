@@ -448897,7 +448897,7 @@
     },
     {
      "address": "0x00d6a1e0",
-     "symbol": "?FUN_00d6a1e0@Parent@@WCA@AEPAU1@I@Z",
+     "symbol": "?FUN_00d6a1e0@Parent@fnv_00d6a1e0@@WCA@AEPAU12@I@Z",
      "size": 8
     },
     {
@@ -449959,7 +449959,7 @@
     },
     {
      "address": "0x00d63df0",
-     "symbol": "?FUN_00d63df0@Parent@@WCI@AEPAU1@I@Z",
+     "symbol": "?FUN_00d63df0@Parent@fnv_00d63df0@@WCI@AEPAU12@I@Z",
      "size": 8
     },
     {
@@ -450013,7 +450013,7 @@
     "?FUN_00c90510@FUN_00c90510_class@@QAEXXZ": "0x00c90510",
     "?FUN_00d63dd0@TO@@UAEXXZ": "0x00d63e10",
     "?FUN_00d63de0@FnvHavok00d63de0_Derived@@UAEXXZ": "0x00d63e10",
-    "?FUN_00d63df0@Parent@@UAEPAU1@I@Z": "0x00d63e10",
+    "?FUN_00d63df0@Parent@fnv_00d63df0@@UAEPAU12@I@Z": "0x00d63e10",
     "?FUN_00d63e00@Own_00d63e00@@UAEXXZ": "0x00d63e10",
     "?AllocAndInitObject@fnv_00d63d60@@YAPAXH@Z": "0x00d63d60",
     "?ClearValue@SearchArray@@QAEXH@Z": "0x00c918e0",

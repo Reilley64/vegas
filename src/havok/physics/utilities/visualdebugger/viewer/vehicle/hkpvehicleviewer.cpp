@@ -633,6 +633,7 @@ struct FnvHavok00d63de0_Derived : FnvHavok00d63de0_PrimaryBase, FnvHavok00d63de0
 FnvHavok00d63de0_Derived::FnvHavok00d63de0_Derived()
 {}
 
+namespace fnv_00d63df0 {
 struct Parent;
 struct FirstBase
 {
@@ -651,6 +652,7 @@ struct Parent : FirstBase, Receiver
 };
 Parent::Parent()
 {}
+}  // namespace fnv_00d63df0
 
 // FUN_00d63e00 : MSVC this-adjusting thunk  (sub ecx, 0x2c ; jmp <impl>)
 struct A1_00d63e00

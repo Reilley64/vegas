@@ -806,6 +806,7 @@ AdjDerived::AdjDerived()
 {}
 }  // namespace fnv_00d6a1d0
 
+namespace fnv_00d6a1e0 {
 struct Parent;
 struct FirstBase
 {
@@ -824,6 +825,7 @@ struct Parent : FirstBase, Receiver
 };
 Parent::Parent()
 {}
+}  // namespace fnv_00d6a1e0
 
 #include <math.h>
 

@@ -6,8 +6,10 @@
 #include <cstring>
 #include <limits>
 #include <new>
-#include <stdexcept>
 #include <utility>
+
+// 00845cc0, the save-load diagnostic of the source readers.
+void FUN_00845cc0(const char*, ...);
 
 namespace {
 constexpr std::uint32_t maximum_pointer_count =
@@ -42,19 +44,25 @@ std::size_t LOSSaveReader::RemainingBytes() const noexcept
     return *readOffset_ <= size_ ? size_ - *readOffset_ : 0;
 }
 
-bool LOSSaveReader::TryReadRaw(void* destination, std::size_t size) noexcept
+bool LOSSaveReader::CanReadRaw(std::size_t size) const noexcept
 {
-    const auto remaining = RemainingBytes();
-    if ((size != 0 && !destination) || size >= remaining ||
-        bytes_[*readOffset_ + size] != std::byte{'|'})
+    return size < RemainingBytes();
+}
+
+bool LOSSaveReader::TryReadRaw(void* destination, std::size_t size)
+{
+    if ((size != 0 && !destination) || !CanReadRaw(size))
         return false;
     if (size != 0)
         std::memcpy(destination, bytes_ + *readOffset_, size);
-    *readOffset_ += static_cast<std::uint32_t>(size + 1);
+    *readOffset_ += static_cast<std::uint32_t>(size);
+    if (bytes_[*readOffset_] != std::byte{'|'})
+        ::FUN_00845cc0("SAVELOAD: Invalid spacer hit while loading data from the buffer");
+    *readOffset_ += 1;
     return true;
 }
 
-bool LOSSaveReader::TryReadElementCount(std::uint32_t& count) noexcept
+bool LOSSaveReader::TryReadElementCount(std::uint32_t& count)
 {
     if (RemainingBytes() == 0)
         return false;
@@ -62,16 +70,11 @@ bool LOSSaveReader::TryReadElementCount(std::uint32_t& count) noexcept
     const auto kind = std::to_integer<std::uint8_t>(bytes_[*readOffset_]) & 3U;
     const std::size_t width = kind == 0 ? 1 : kind == 1 ? 2 : kind == 2 ? 4 : 0;
     std::uint8_t encoded[4] = {};
-    if (width == 0 || !TryReadRaw(encoded, width))
+    if (width != 0 && !TryReadRaw(encoded, width))
         return false;
     count = (std::uint32_t(encoded[0]) | std::uint32_t(encoded[1]) << 8U |
              std::uint32_t(encoded[2]) << 16U | std::uint32_t(encoded[3]) << 24U) >> 2U;
     return true;
-}
-
-void ThrowMalformedLOSSave()
-{
-    throw std::runtime_error("malformed LOS save data");
 }
 
 LOSByteArray::LOSByteArray() noexcept = default;
@@ -161,9 +164,9 @@ LOSMapLoad::~LOSMapLoad() noexcept
 
 bool LOSMapLoad::Begin(LOSSaveReader& reader)
 {
-    // Each record holds at least two packed 3-byte form IDs and one count,
-    // every one followed by its separator.
-    constexpr std::size_t minimum_record_bytes = 10;
+    // Each record consumes at least two packed 3-byte form IDs with their
+    // separators; its entry count can be the tag that consumes nothing.
+    constexpr std::size_t minimum_record_bytes = 8;
     std::uint32_t count = 0;
     if (slots_ || newest_ || !reader.TryReadElementCount(count))
         return false;
@@ -179,11 +182,17 @@ bool LOSMapLoad::Begin(LOSSaveReader& reader)
     return true;
 }
 
-FUN_006e0480* LOSMapLoad::NewRecord()
+FUN_006e0480* LOSMapLoad::NewRecord() noexcept
 {
     if (newest_ || kept_ == count_)
-        ThrowMalformedLOSSave();
-    newest_ = new FUN_006e0e80();
+        return nullptr;
+    // The global new reports exhausted storage by throwing; no caller of the
+    // map load handles an exception, so it ends here as a refused record.
+    try {
+        newest_ = new FUN_006e0480();
+    } catch (const std::bad_alloc&) {
+        newest_ = nullptr;
+    }
     return newest_;
 }
 
@@ -378,6 +387,7 @@ const FUN_006e0190* FUN_006e1020_shell::GetAt(std::uint32_t index) const noexcep
     return index < size_ ? data_[index] : nullptr;
 }
 
+FUN_006e0480::FUN_006e0480() noexcept = default;
 FUN_006e0480::~FUN_006e0480() noexcept = default;
 
 bool FUN_006e0480::TryLoadEntries(fnv::pathing::LOSSaveReader& reader)
@@ -399,8 +409,6 @@ bool FUN_006e0480::TryLoadEntries(fnv::pathing::LOSSaveReader& reader)
             return false;
         replacement.GetAt(i)->pNavMeshInfo = pNavMeshInfo;
     }
-    Swap(replacement);
+    kEntries.Swap(replacement);
     return true;
 }
-
-FUN_006e0e80::FUN_006e0e80() noexcept = default;

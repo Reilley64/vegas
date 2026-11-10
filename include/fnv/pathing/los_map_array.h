@@ -27,27 +27,32 @@ namespace fnv::pathing {
 
 // Bounded view of one save-load buffer. It borrows the bytes and advances the
 // owning buffer's own read cursor, so it interleaves with the other readers of
-// the same buffer. A rejected read changes neither cursor nor destination.
+// the same buffer. Within the buffer's extent it reads exactly as the source
+// readers 00864820 and 00864a60 do. Where they would read past the extent, the
+// read is refused instead and changes neither cursor nor destination; that
+// refusal is the one deliberate native difference.
 class LOSSaveReader {
 public:
     explicit LOSSaveReader(BGSLoadFormBuffer& buffer) noexcept;
     LOSSaveReader(const void* bytes, std::uint32_t size, std::uint32_t& readOffset) noexcept;
 
     std::size_t RemainingBytes() const noexcept;
-    // 00864820 format: the payload followed by one '|' separator.
-    bool TryReadRaw(void* destination, std::size_t size) noexcept;
-    // 00864a60 format: a one-, two- or four-byte little-endian value whose low
-    // two bits select the width; the count is the remaining 6, 14 or 30 bits.
-    bool TryReadElementCount(std::uint32_t& count) noexcept;
+    // Whether a payload of this size and its separator lie within the extent.
+    bool CanReadRaw(std::size_t size) const noexcept;
+    // 00864820: copies the payload and steps over the separator byte after it.
+    // A separator other than '|' is reported through 00845cc0 and the read
+    // still succeeds, as in the source.
+    bool TryReadRaw(void* destination, std::size_t size);
+    // 00864a60: a one-, two- or four-byte little-endian value whose low two
+    // bits select the width; the count is the remaining 6, 14 or 30 bits. The
+    // fourth tag reads as zero and consumes nothing, as in the source.
+    bool TryReadElementCount(std::uint32_t& count);
 
 private:
     const std::byte* bytes_;
     std::uint32_t size_;
     std::uint32_t* readOffset_;
 };
-
-// Malformed or truncated LOS save data, or exhausted storage for it.
-[[noreturn]] void ThrowMalformedLOSSave();
 
 // The byte array embedded in each LOS record. Its four virtual entries are the
 // source table 0106cf0c: destroy, allocate, free and reallocate.
@@ -81,8 +86,7 @@ private:
 };
 
 // The records of one 006e0d20 map load, held until the whole payload has
-// loaded. Destruction deletes every record still held, newest first, through
-// the record's virtual destructor.
+// loaded. Destruction deletes every record still held, newest first.
 class LOSMapLoad {
 public:
     LOSMapLoad() noexcept = default;
@@ -94,8 +98,9 @@ public:
     bool Begin(LOSSaveReader& reader);
     std::uint32_t Count() const noexcept { return count_; }
 
-    // Allocates the next record with the global new the map's delete pairs with.
-    FUN_006e0480* NewRecord();
+    // Allocates the next record with the global new the map's delete pairs
+    // with. Null when storage is exhausted or every counted record exists.
+    FUN_006e0480* NewRecord() noexcept;
     // Keeps the newest record under its nav mesh ID; a zero ID deletes it.
     void Keep(std::uint32_t navMeshID) noexcept;
 
@@ -175,21 +180,23 @@ private:
     std::uint32_t capacity_ = 0;
 };
 
-struct FUN_006e0480 : FUN_006e1020_shell {
-    FUN_006e0480() noexcept = default;
-    ~FUN_006e0480() noexcept override;
+// One LOS map record: the entry array at its start and the nav mesh it
+// belongs to. 006e0e80 is its constructor and 006e04b0 its destructor; neither
+// installs a table of its own, so the record contains the array rather than
+// deriving from it, and it is deleted through its own type.
+struct FUN_006e0480 {
+    FUN_006e0480() noexcept;
+    FUN_006e0480(const FUN_006e0480&) = delete;
+    FUN_006e0480& operator=(const FUN_006e0480&) = delete;
+    ~FUN_006e0480() noexcept;
 
-    // Reads the count and every derived record into a temporary owner. The live
-    // array is published only after the whole payload succeeds.
+    // Reads the count and every entry into a temporary owner. The live array
+    // is replaced only after the whole payload has loaded.
     bool TryLoadEntries(fnv::pathing::LOSSaveReader& reader);
+    // 006e0070 with its outcome: false leaves the record as it was.
+    bool TryLoadGame(BGSLoadFormBuffer* buffer);
     void FUN_006e0070(BGSLoadFormBuffer* buffer);
 
+    FUN_006e1020_shell kEntries;
     NavMeshInfo* pNavMeshInfo = nullptr;
-};
-
-// The actual allocated production type. Its extent follows the native base
-// layout and pointer width rather than the historical 0x14-byte shell.
-struct FUN_006e0e80 final : FUN_006e0480 {
-    FUN_006e0e80() noexcept;
-    ~FUN_006e0e80() noexcept override = default;
 };

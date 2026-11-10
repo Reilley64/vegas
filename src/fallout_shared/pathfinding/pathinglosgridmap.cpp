@@ -220,39 +220,53 @@ struct FUN_006e0d20_t : public PathingLOSGridMap
     void FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
-// Loads every record and the trailing values before the map or its fields change.
+// Hands the loaded records to the map in load order. 00844700 has no failure
+// result: it links a node or faults. Nothing may leave here with only part of
+// a load in the map.
+static void PublishLOSRecords(FUN_00844700_Class* apMap, fnv::pathing::LOSMapLoad& aLoad) noexcept
+{
+    for (std::uint32_t iloop = 0; iloop < aLoad.KeptCount(); iloop++)
+    {
+        apMap->FUN_00844700(aLoad.KeptID(iloop), (std::uintptr_t)aLoad.KeptRecord(iloop));
+        aLoad.Release(iloop);
+    }
+}
+
+// Loads every record, the trailing values and the location, then stores the
+// values and publishes the records. The source has no failure result here. Where
+// it would read past the buffer's extent, or storage is exhausted, this returns
+// instead: the records loaded so far are deleted, the map, the three values and
+// the location are as they were before the call, and the buffer's cursor rests
+// after the last complete read.
 // @fnv 0x006e0d20
 void FUN_006e0d20_t::FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     fnv::pathing::LOSSaveReader reader(*apLoadGameBuffer);
     fnv::pathing::LOSMapLoad load;
     if (!load.Begin(reader))
-        fnv::pathing::ThrowMalformedLOSSave();
+        return;
     for (std::uint32_t iloop = 0; iloop < load.Count(); iloop++)
     {
         FUN_006e0480* ppathingLOSGrid = load.NewRecord();
         unsigned int inavmeshID = 0;
         // The packed form ID is three bytes and a separator.
-        if (reader.RemainingBytes() < 4)
-            fnv::pathing::ThrowMalformedLOSSave();
+        if (!ppathingLOSGrid || !reader.CanReadRaw(3))
+            return;
         reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&inavmeshID));
-        ppathingLOSGrid->FUN_006e0070(apLoadGameBuffer);
+        if (!ppathingLOSGrid->TryLoadGame(apLoadGameBuffer))
+            return;
         load.Keep(inavmeshID);
     }
     float fLoadedCellSize;
     float fLoadedRadius;
     float fLoadedUnk48;
     if (!reader.TryReadRaw(&fLoadedCellSize, 4) || !reader.TryReadRaw(&fLoadedRadius, 4) || !reader.TryReadRaw(&fLoadedUnk48, 4))
-        fnv::pathing::ThrowMalformedLOSSave();
+        return;
     ((LocX*)((char*)&this->kLocation))->LoadGame(apLoadGameBuffer);
     this->fCellSize = fLoadedCellSize;
     this->fRadius = fLoadedRadius;
     this->fUnk48 = fLoadedUnk48;
-    for (std::uint32_t iloop = 0; iloop < load.KeptCount(); iloop++)
-    {
-        reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)&this->kNavMeshGridMap))))->FUN_00844700(load.KeptID(iloop), (std::uintptr_t)load.KeptRecord(iloop));
-        load.Release(iloop);
-    }
+    PublishLOSRecords(reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)&this->kNavMeshGridMap)))), load);
 }
 
 struct FUN_00aa6060_shell
@@ -1174,23 +1188,35 @@ struct TES
 {
 };
 
+// 006e0070 has no failure result. When its data ends early the record is left
+// as it was; 006e0d20 reads the outcome through TryLoadGame.
 // @fnv 0x006e0070
 void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)
+{
+    TryLoadGame(apLoadGameBuffer);
+}
+
+bool FUN_006e0480::TryLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     fnv::pathing::LOSSaveReader reader(*apLoadGameBuffer);
     unsigned int inavmeshID;
 
     inavmeshID = 0;
     // The packed form ID is three bytes and a separator.
-    if (reader.RemainingBytes() < 4)
-        fnv::pathing::ThrowMalformedLOSSave();
+    if (!reader.CanReadRaw(3))
+        return false;
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&inavmeshID));
 
+    NavMeshInfo* ppreviousInfo = pNavMeshInfo;
     pNavMeshInfo =
         ((::NavMeshInfo *)(((Pathing*)((::Pathing *)(reinterpret_cast<::Owner45A *>((((TES*)g_TES)))->FUN_0045af00())))->FindReferenceByFormId(inavmeshID)));
 
     if (!TryLoadEntries(reader))
-        fnv::pathing::ThrowMalformedLOSSave();
+    {
+        pNavMeshInfo = ppreviousInfo;
+        return false;
+    }
+    return true;
 }
 
 struct LOSGridBase

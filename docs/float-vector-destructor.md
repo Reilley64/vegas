@@ -105,6 +105,8 @@ link of every archive member. "Worker pool" is the link of
   never set up. These paths run only when a constructor exits by exception.
 - `blk_00b20000_od.cpp` declares the destructor for the member at `+0x3c` of
   the type that 00b37590 constructs and has no reference to it.
+- In the forced link the two frond unwind paths now bind the frond body, which
+  tail-calls `Date::~Date()`, a name with no definition; see "Not covered".
 
 No program that loads these objects links without `/force`, so there is no
 working behaviour to keep or to lose.
@@ -131,6 +133,10 @@ These were open before this change and remain open.
   24-byte declarations in `idvspline.cpp`, `modelloader.cpp` and
   `blk_00b20000_od.cpp`, with the 32-bit middle word of `FUN_0065f240` in
   `blk_00640000_od.cpp`.
+- Until that type exists, `fnv_00b1b000::FUN_00449fd0` and
+  `fnv_00b27910::FUN_00449fd0` are interim names. They take the recipe names
+  bound to `0x00449fd0` from six to eight. VEGAS-11 collapses them once the
+  single full-width type exists.
 - The placeholder destructor in `blk_00b20000_od.cpp`. It goes when the three
   external requirers have that type.
 - `Date::~Date()`, which the frond destructor body calls. It has no

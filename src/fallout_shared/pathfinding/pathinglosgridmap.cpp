@@ -13,7 +13,6 @@
 #include "fnv/decl/FUN_006dfdc0_Class.h"
 #include "fnv/decl/FUN_006dfe90_S.h"
 #include "fnv/decl/FUN_006dffc0_Class.h"
-#include "fnv/decl/FUN_006e1070_Class.h"
 #include "fnv/decl/FUN_006e1280_Class.h"
 #include "fnv/decl/FUN_006e12c0_Class.h"
 #include "fnv/decl/FUN_006e1500_class.h"
@@ -31,18 +30,16 @@
 #include "fnv/decl/MagicCaster_shell.h"
 #include "fnv/decl/Owner45A.h"
 #include "fnv/decl/PathingLocation.h"
+#include "fnv/decl/S006911c0.h"
 #include "fnv/decl/S2f850.h"
 #include "fnv/decl/S3e60.h"
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "fnv/decl/fnv_006dfb00__Owner_006dfb00.h"
 #include "fnv/decl/fnv_006e10a0__FUN_006e10a0_Class.h"
 #include "fnv/decl/fnv_006e1610__PathingLOSMap.h"
-#include "fnv/decl/fnv_006f2290__BSSimpleArrayActor.h"
 #include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
 #include "fnv/decl/fnv_00853130__NiTMapBase.h"
 #include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
-#include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
-#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
 #include "fnv/pathing/los_map_array.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00559000.h"
@@ -232,12 +229,13 @@ static void PublishLOSRecords(FUN_00844700_Class* apMap, fnv::pathing::LOSMapLoa
     }
 }
 
-// Loads every record, the trailing values and the location, then stores the
-// values and publishes the records. The source has no failure result here. Where
-// it would read past the buffer's extent, or storage is exhausted, this returns
-// instead: the records loaded so far are deleted, the map, the three values and
-// the location are as they were before the call, and the buffer's cursor rests
-// after the last complete read.
+// Loads every record and the trailing values, then publishes the records, stores
+// the values and loads the location, in the source's order. The source has no
+// failure result here. Where it would read past the buffer's extent, or storage
+// is exhausted, this returns instead: the records loaded so far are deleted, the
+// map, the three values and the location are as they were before the call, and
+// the buffer's cursor rests after the last complete read. No failure return
+// follows the third trailing read.
 // @fnv 0x006e0d20
 void FUN_006e0d20_t::FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer)
 {
@@ -262,11 +260,11 @@ void FUN_006e0d20_t::FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer)
     float fLoadedUnk48;
     if (!reader.TryReadRaw(&fLoadedCellSize, 4) || !reader.TryReadRaw(&fLoadedRadius, 4) || !reader.TryReadRaw(&fLoadedUnk48, 4))
         return;
-    ((LocX*)((char*)&this->kLocation))->LoadGame(apLoadGameBuffer);
+    PublishLOSRecords(reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)&this->kNavMeshGridMap)))), load);
     this->fCellSize = fLoadedCellSize;
     this->fRadius = fLoadedRadius;
     this->fUnk48 = fLoadedUnk48;
-    PublishLOSRecords(reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)&this->kNavMeshGridMap)))), load);
+    ((LocX*)((char*)&this->kLocation))->LoadGame(apLoadGameBuffer);
 }
 
 struct FUN_00aa6060_shell
@@ -353,11 +351,6 @@ void FUN_006df9c0_shell::FUN_006df9c0(BGSSaveGameBuffer* buffer)
         }
     }
 }
-
-struct FUN_006e10c0_shell
-{
-    void FUN_006e10c0(unsigned int, int);
-};
 
 namespace fnv_006e10c0 {
 struct BSSimpleArrayActor
@@ -458,16 +451,6 @@ struct Lock
 {
 };
 
-struct FUN_006e0730
-{
-    unsigned char data[20];
-    FUN_006e0730(NiPointer<NavMesh>*);
-};
-
-struct FUN_006dfba0_shell
-{
-};
-
 struct FUN_006e05f0_shell : public PathingLOSGridMap
 {
     bool AddNavMeshes(ArrSI*);
@@ -481,18 +464,26 @@ bool FUN_006e05f0_shell::AddNavMeshes(ArrSI* aArg)
     for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((aArg))->GetName())); ++index)
     {
         NiPointer<NavMesh> ptrNavMesh2(reinterpret_cast<NavMesh*>(reinterpret_cast<Arr*>(aArg)->GetAt(index)));
-        unsigned int navMeshID = 0;
+        // The nav mesh and the map's value keep their native width.
+        NavMesh* pnavMesh = ptrNavMesh2.ptr;
+        FUN_006e0480* precord = 0;
+        // What 006dfba0 reads from the nav mesh.
+        unsigned int ientryCount = reinterpret_cast<::S006911c0 *>((pnavMesh))->FUN_006911c0();
+        NavMeshInfo* pnavMeshInfo = reinterpret_cast<::FUN_0068efb0_shell *>((pnavMesh))->FUN_0068efb0();
 
-        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>((unsigned char*)&this->kNavMeshGridMap)))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<NavMesh*>(static_cast<unsigned int>(ptrNavMesh2))))->FUN_0084e3a0())),
-                         (::fnv_00853130::CombatThreatRecord *&)(navMeshID)))
+        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>((unsigned char*)&this->kNavMeshGridMap)))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pnavMesh))->FUN_0084e3a0())),
+                         (::fnv_00853130::CombatThreatRecord *&)(precord)))
         {
-            navMeshID = (unsigned int)reinterpret_cast<std::uintptr_t>(new FUN_006e0730(&ptrNavMesh2));
+            // 006e0730. With storage exhausted no record is made and the nav
+            // mesh is left out of the map.
+            precord = fnv::pathing::NewLOSRecord(pnavMeshInfo, ientryCount);
 
-            reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>((unsigned char*)&this->kNavMeshGridMap)))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<NavMesh*>(static_cast<unsigned int>(ptrNavMesh2))))->FUN_0084e3a0())), navMeshID);
+            if (precord)
+                reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>((unsigned char*)&this->kNavMeshGridMap)))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pnavMesh))->FUN_0084e3a0())), (std::uintptr_t)precord);
         }
         else
         {
-            reinterpret_cast<::InfoEntryArrY *>((reinterpret_cast<FUN_006dfba0_shell*>(navMeshID)))->RebuildFromNavMesh((*(const ::NavMeshPtrY *)(&ptrNavMesh2)));
+            precord->Rebuild(pnavMeshInfo, ientryCount);
         }
     }
 
@@ -804,8 +795,6 @@ bool LOSGridOwner::UpdateNavMeshes(LOSTargetPtr& arTarget)
     return true;
 }
 
-struct NavMeshInfoX;
-
 struct NavMeshX
 {
 };
@@ -821,16 +810,6 @@ template <class T> struct NiPtr
 struct NavMeshArrayX
 {
     NavMeshX* GetAt(unsigned int auiIndex);
-};
-
-struct GridEntryX
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    GridEntryX(NavMeshInfoX* apInfo);
 };
 
 struct EntryMapX
@@ -915,7 +894,23 @@ struct FUN_006e0b00_cls
     unsigned int m_i34;
     float GetRatio();
 };
-// Locks the map, creates or finds a GridEntryX per nav mesh and updates it, then stores the array value in fValue and unlocks.
+// 006dfb00 on the map record: stores the info, resolves its nav mesh and
+// rebuilds the record from it; an info with no nav mesh is cleared again.
+static void SetLOSRecordInfo(FUN_006e0480* apRecord, NavMeshInfo* apInfo)
+{
+    apRecord->pNavMeshInfo = apInfo;
+    NavMeshKey key;
+    if (!apInfo->ResolveNavMesh((*(::NavMeshPtr *)(&key))))
+    {
+        apRecord->pNavMeshInfo = 0;
+        return;
+    }
+    void* pnavMesh = ((void *)(::FUN_00559450((int *)&(key))));
+    unsigned int ientryCount = reinterpret_cast<::S006911c0 *>((pnavMesh))->FUN_006911c0();
+    apRecord->Rebuild(reinterpret_cast<::FUN_0068efb0_shell *>((pnavMesh))->FUN_0068efb0(), ientryCount);
+}
+
+// Locks the map, creates or finds a record per nav mesh and updates it, then stores the array value in fValue and unlocks.
 // @fnv 0x006e0920
 bool PathingLOSGridMapX::UpdateFromNavMeshArray(const NiPtr<NavMeshArrayX>& arNavMeshArray)
 {
@@ -923,10 +918,15 @@ bool PathingLOSGridMapX::UpdateFromNavMeshArray(const NiPtr<NavMeshArrayX>& arNa
     for (unsigned int i6 = 0; i6 < reinterpret_cast<::FUN_006d8990_shell *>(((arNavMeshArray).operator->()))->GetFlags(); i6++)
     {
         NiPtr<NavMeshX> spNavMesh2(arNavMeshArray->GetAt(i6));
-        GridEntryX* pEntry = 0;
+        FUN_006e0480* pEntry = 0;
         if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kMap))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((spNavMesh2).operator->()))->FUN_0084e3a0())), (::fnv_00853130::CombatThreatRecord *&)(pEntry)))
         {
-            pEntry = new GridEntryX(((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>(((spNavMesh2).operator->()))->FUN_0068efb0())));
+            // 006e0a90: an empty record, then 006dfb00. With storage exhausted
+            // no record is made and the nav mesh is left out of the map.
+            pEntry = fnv::pathing::NewLOSRecord();
+            if (!pEntry)
+                continue;
+            SetLOSRecordInfo(pEntry, reinterpret_cast<::FUN_0068efb0_shell *>(((spNavMesh2).operator->()))->FUN_0068efb0());
             reinterpret_cast<::FUN_00844700_Class *>(&(kMap))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((spNavMesh2).operator->()))->FUN_0084e3a0())), (std::uintptr_t)(pEntry));
         }
         reinterpret_cast<::FUN_006dfd70_Class *>((pEntry))->FUN_006dfd70((std::uintptr_t)&(arNavMeshArray));
@@ -1175,6 +1175,7 @@ std::intptr_t FUN_006a62f0_Class::AddOffset(void* arg)
 }
 
 struct Pathing;
+struct TESConditionItem;
 struct TES;
 
 class TESObjectREFR;
@@ -1187,6 +1188,12 @@ public:
 struct TES
 {
 };
+
+struct TESConditionItem
+{
+};
+
+extern unsigned int _data_011c16bc;
 
 // 006e0070 has no failure result. When its data ends early the record is left
 // as it was; 006e0d20 reads the outcome through TryLoadGame.

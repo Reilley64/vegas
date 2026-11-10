@@ -98,8 +98,8 @@ public:
     bool Begin(LOSSaveReader& reader);
     std::uint32_t Count() const noexcept { return count_; }
 
-    // Allocates the next record with the global new the map's delete pairs
-    // with. Null when storage is exhausted or every counted record exists.
+    // Allocates the next record through NewLOSRecord. Null when storage is
+    // exhausted or every counted record exists.
     FUN_006e0480* NewRecord() noexcept;
     // Keeps the newest record under its nav mesh ID; a zero ID deletes it.
     void Keep(std::uint32_t navMeshID) noexcept;
@@ -122,6 +122,15 @@ private:
     FUN_006e0480* newest_ = nullptr;
 };
 
+// Every producer of a map record allocates it here, with the global new the
+// map's delete pairs with. Null when storage is exhausted.
+// 006e0e80: an empty record with a null nav mesh info.
+FUN_006e0480* NewLOSRecord() noexcept;
+// 006e0730: an empty record that 006dfba0 then builds from the nav mesh, given
+// here as the two values 006dfba0 reads from it. A record whose entries cannot
+// be allocated is deleted.
+FUN_006e0480* NewLOSRecord(NavMeshInfo* info, std::uint32_t entryCount) noexcept;
+
 } // namespace fnv::pathing
 
 // One genuine LOS save record. The native NavMeshInfo pointer is not serialized;
@@ -134,7 +143,9 @@ struct FUN_006e0190 {
 
     bool TryLoad(fnv::pathing::LOSSaveReader& reader);
 
-    bool m_bIsLoaded = false;
+    // The flag byte exactly as saved. The source reads and writes it as one raw
+    // byte and takes zero to mean that index bytes follow.
+    std::uint8_t m_bIsLoaded = 0;
     fnv::pathing::LOSByteArray index;
     NavMeshInfo* pNavMeshInfo = nullptr;
     std::uint32_t uiUnk18 = ~std::uint32_t{0};
@@ -151,7 +162,8 @@ struct FUN_006e1020_shell {
     virtual ~FUN_006e1020_shell() noexcept;
 
     // Canonical provider for the retained source entry. The C++ constructor
-    // calls it, and a repeated source call safely retires the prior contents.
+    // calls it. It releases the existing contents, so unlike the source entry
+    // it must only be called on a constructed array, never on raw storage.
     FUN_006e1020_shell* FUN_006e1020() noexcept;
 
     bool Resize(std::uint32_t newSize, bool shrinkCapacity = false);
@@ -181,9 +193,9 @@ private:
 };
 
 // One LOS map record: the entry array at its start and the nav mesh it
-// belongs to. 006e0e80 is its constructor and 006e04b0 its destructor; neither
-// installs a table of its own, so the record contains the array rather than
-// deriving from it, and it is deleted through its own type.
+// belongs to. 006e0e80, 006e0730 and 006e0a90 are its constructors and 006e04b0
+// its destructor; none installs a table of its own, so the record contains the
+// array rather than deriving from it, and it is deleted through its own type.
 struct FUN_006e0480 {
     FUN_006e0480() noexcept;
     FUN_006e0480(const FUN_006e0480&) = delete;
@@ -196,6 +208,11 @@ struct FUN_006e0480 {
     // 006e0070 with its outcome: false leaves the record as it was.
     bool TryLoadGame(BGSLoadFormBuffer* buffer);
     void FUN_006e0070(BGSLoadFormBuffer* buffer);
+    // 006dfba0, given the nav mesh's info and entry count. Unless the record
+    // already has an info and that many entries, it gets one entry per index,
+    // each with a zero flag, this info and its index, and then the info. False
+    // when storage is exhausted, which leaves the record as it was.
+    bool Rebuild(NavMeshInfo* info, std::uint32_t entryCount);
 
     FUN_006e1020_shell kEntries;
     NavMeshInfo* pNavMeshInfo = nullptr;

@@ -186,13 +186,7 @@ FUN_006e0480* LOSMapLoad::NewRecord() noexcept
 {
     if (newest_ || kept_ == count_)
         return nullptr;
-    // The global new reports exhausted storage by throwing; no caller of the
-    // map load handles an exception, so it ends here as a refused record.
-    try {
-        newest_ = new FUN_006e0480();
-    } catch (const std::bad_alloc&) {
-        newest_ = nullptr;
-    }
+    newest_ = NewLOSRecord();
     return newest_;
 }
 
@@ -221,6 +215,27 @@ void LOSMapLoad::Release(std::uint32_t index) noexcept
         slots_[index].record = nullptr;
 }
 
+FUN_006e0480* NewLOSRecord() noexcept
+{
+    // The global new reports exhausted storage by throwing; no producer of a
+    // map record handles an exception, so it ends here as a refused record.
+    try {
+        return new FUN_006e0480();
+    } catch (const std::bad_alloc&) {
+        return nullptr;
+    }
+}
+
+FUN_006e0480* NewLOSRecord(NavMeshInfo* info, std::uint32_t entryCount) noexcept
+{
+    FUN_006e0480* record = NewLOSRecord();
+    if (record && !record->Rebuild(info, entryCount)) {
+        delete record;
+        record = nullptr;
+    }
+    return record;
+}
+
 } // namespace fnv::pathing
 
 FUN_006e0190::FUN_006e0190() noexcept = default;
@@ -247,7 +262,7 @@ bool FUN_006e0190::TryLoad(fnv::pathing::LOSSaveReader& reader)
     }
 
     index.Swap(replacement);
-    m_bIsLoaded = loaded != 0;
+    m_bIsLoaded = loaded;
     uiUnk18 = value;
     return true;
 }
@@ -410,5 +425,25 @@ bool FUN_006e0480::TryLoadEntries(fnv::pathing::LOSSaveReader& reader)
         replacement.GetAt(i)->pNavMeshInfo = pNavMeshInfo;
     }
     kEntries.Swap(replacement);
+    return true;
+}
+
+bool FUN_006e0480::Rebuild(NavMeshInfo* info, std::uint32_t entryCount)
+{
+    if (pNavMeshInfo && kEntries.Size() == entryCount)
+        return true;
+
+    FUN_006e1020_shell replacement;
+    if (!replacement.Resize(entryCount))
+        return false;
+    for (std::uint32_t i = 0; i < entryCount; ++i) {
+        if (!replacement.ConstructAt(i))
+            return false;
+        // 006dfcb0: the flag stays zero.
+        replacement.GetAt(i)->pNavMeshInfo = info;
+        replacement.GetAt(i)->uiUnk18 = i;
+    }
+    kEntries.Swap(replacement);
+    pNavMeshInfo = info;
     return true;
 }

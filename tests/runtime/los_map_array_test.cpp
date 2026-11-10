@@ -112,6 +112,45 @@ bool load_entries(FUN_006e0480& record, const SaveBytes& bytes)
     return load_entries(record, bytes.Data(), bytes.Size());
 }
 
+// The delete the map's 006e03e0 applies to each value: the record, its entry
+// storage and every entry with its index bytes are retired.
+void delete_as_map_value(FUN_006e0480* record)
+{
+    std::vector<void*> owned;
+    owned.push_back(record);
+    if (record->kEntries.Data())
+        owned.push_back(record->kEntries.Data());
+    for (std::uint32_t i = 0; i < record->kEntries.Size(); ++i) {
+        owned.push_back(record->kEntries.GetAt(i));
+        if (record->kEntries.GetAt(i)->index.Data())
+            owned.push_back(record->kEntries.GetAt(i)->index.Data());
+    }
+    for (void* block : owned)
+        check(g_memoryManager.Owns(block));
+    delete record;
+    for (void* block : owned)
+        check(!g_memoryManager.Owns(block));
+}
+
+// Arrays that count the calls of the source table's reallocate entry.
+struct CountingBytes : fnv::pathing::LOSByteArray {
+    int reallocations = 0;
+    std::byte* ReallocateBytes(std::byte* bytes, std::uint32_t count) noexcept override
+    {
+        ++reallocations;
+        return LOSByteArray::ReallocateBytes(bytes, count);
+    }
+};
+
+struct CountingItems : FUN_006e1020_shell {
+    int reallocations = 0;
+    FUN_006e0190** ReallocateItems(FUN_006e0190** items, std::uint32_t count) noexcept override
+    {
+        ++reallocations;
+        return FUN_006e1020_shell::ReallocateItems(items, count);
+    }
+};
+
 void check_zero_one_many_loads()
 {
     FUN_006e0480 record;
@@ -134,7 +173,7 @@ void check_zero_one_many_loads()
     check(entries.Size() == 1);
     check(entries.GetAt(0) != nullptr);
     check(g_memoryManager.Size(entries.GetAt(0)) >= sizeof(FUN_006e0190));
-    check(!entries.GetAt(0)->m_bIsLoaded);
+    check(entries.GetAt(0)->m_bIsLoaded == 0);
     check(entries.GetAt(0)->uiUnk18 == 0x11223344U);
     check(entries.GetAt(0)->pNavMeshInfo == record.pNavMeshInfo);
     check(entries.GetAt(0)->index.Size() == 3);
@@ -151,18 +190,35 @@ void check_zero_one_many_loads()
     many.Entry(true, 4, nullptr, 0);
     check(load_entries(record, many));
     check(entries.Size() == 4);
-    check(entries.GetAt(0)->m_bIsLoaded);
+    check(entries.GetAt(0)->m_bIsLoaded == 1);
     check(entries.GetAt(0)->index.Size() == 0);
     check(entries.GetAt(1)->index.Size() == 1);
     check(entries.GetAt(2)->index.Size() == 4);
     check(entries.GetAt(2)->index.Data()[3] == std::byte{64});
     check(entries.GetAt(3)->uiUnk18 == 4);
+
+    // A flag byte other than 0 or 1 is kept as saved and, being non-zero, has
+    // no index bytes after it: the next entry starts right behind its value.
+    SaveBytes other;
+    other.Count(2);
+    const std::uint8_t flag = 2;
+    const std::uint32_t value = 0x0badcafeU;
+    other.Raw(&flag, sizeof(flag));
+    other.Raw(&value, sizeof(value));
+    other.Entry(false, 6, manyIndices, 2);
+    check(load_entries(record, other));
+    check(entries.Size() == 2);
+    check(entries.GetAt(0)->m_bIsLoaded == 2);
+    check(entries.GetAt(0)->uiUnk18 == 0x0badcafeU);
+    check(entries.GetAt(0)->index.Size() == 0);
+    check(entries.GetAt(1)->m_bIsLoaded == 0 && entries.GetAt(1)->uiUnk18 == 6);
+    check(entries.GetAt(1)->index.Size() == 2);
     check(g_diagnostics == 0);
 }
 
 void check_resize_delete_and_reuse()
 {
-    FUN_006e1020_shell owner;
+    CountingItems owner;
     check(owner.Resize(3));
     check(owner.Capacity() == 3);
     check(g_memoryManager.Size(owner.Data()) >= 3 * sizeof(FUN_006e0190*));
@@ -172,7 +228,11 @@ void check_resize_delete_and_reuse()
     }
     auto* first = owner.GetAt(0);
     // A full block grows through the reallocation entry.
+    auto* fullBlock = owner.Data();
+    check(owner.reallocations == 0);
     check(owner.Resize(9));
+    check(owner.reallocations == 1);
+    check(owner.Data() == fullBlock || !g_memoryManager.Owns(fullBlock));
     check(owner.GetAt(0) == first);
     check(owner.GetAt(2)->uiUnk18 == 102);
     check(owner.GetAt(8) == nullptr);
@@ -194,11 +254,15 @@ void check_resize_delete_and_reuse()
     auto* partlyUsed = owner.Data();
     check(owner.Resize(12));
     check(owner.Capacity() == 12);
+    check(owner.reallocations == 1);
     check(!g_memoryManager.Owns(partlyUsed));
     check(owner.GetAt(0) == first);
     check(owner.GetAt(1)->uiUnk18 == 101);
     check(owner.GetAt(11) == nullptr);
 
+    // Capacity is released only at a quarter of it or less.
+    check(owner.Resize(4, true));
+    check(owner.Size() == 4 && owner.Capacity() == 12);
     check(owner.Resize(1, true));
     check(owner.Size() == 1);
     check(owner.Capacity() == 1);
@@ -213,14 +277,16 @@ void check_resize_delete_and_reuse()
 
 void check_byte_array_reallocation()
 {
-    FUN_006e0190 record;
-    auto& index = record.index;
+    CountingBytes index;
     check(index.Data() == nullptr);
     check(index.Resize(4));
     check(g_memoryManager.Owns(index.Data()));
     for (std::uint32_t i = 0; i < 4; ++i)
         index.Data()[i] = std::byte(i + 1);
+    auto* fullBlock = index.Data();
     check(index.Resize(8)); // full block: reallocation entry
+    check(index.reallocations == 1);
+    check(index.Data() == fullBlock || !g_memoryManager.Owns(fullBlock));
     check(index.Capacity() == 8);
     check(index.Data()[3] == std::byte{4});
     check(index.Data()[7] == std::byte{0});
@@ -228,9 +294,16 @@ void check_byte_array_reallocation()
     check(index.Capacity() == 8);
     auto* partlyUsed = index.Data();
     check(index.Resize(16)); // partly used block: allocate, copy and free
+    check(index.reallocations == 1);
     check(!g_memoryManager.Owns(partlyUsed));
     check(index.Data()[1] == std::byte{2});
     check(index.Data()[2] == std::byte{0});
+    // Capacity is released only at a quarter of it or less.
+    check(index.Resize(5, true));
+    check(index.Size() == 5 && index.Capacity() == 16);
+    check(index.Resize(4, true));
+    check(index.Size() == 4 && index.Capacity() == 4);
+    check(index.Data()[1] == std::byte{2});
     check(index.Resize(1, true));
     check(index.Capacity() == 1);
     check(index.Data()[0] == std::byte{1});
@@ -543,11 +616,11 @@ bool load_map(MapState& map, const std::uint8_t* bytes, std::uint32_t size, std:
         if (!reader.TryReadRaw(&value, sizeof(value)))
             return false;
     }
-    std::memcpy(map.values, values, sizeof(values));
     for (std::uint32_t i = 0; i < load.KeptCount(); ++i) {
         map.records.push_back({load.KeptID(i), load.KeptRecord(i)});
         load.Release(i);
     }
+    std::memcpy(map.values, values, sizeof(values));
     return true;
 }
 
@@ -587,6 +660,10 @@ void check_map_load_publication_and_delete()
         // One record at a time: the next is refused until this one is kept.
         check(load.NewRecord() == nullptr);
         load.Keep(navMeshID);
+        // A load that holds slots refuses a second Begin without reading.
+        const std::uint32_t before = offset;
+        check(!load.Begin(reader));
+        check(offset == before && load.Count() == 3 && load.KeptCount() == 1);
 
         // A zero nav mesh ID deletes the record.
         FUN_006e0480* second = load_record(load, reader, navMeshID);
@@ -617,16 +694,89 @@ void check_map_load_publication_and_delete()
     check(published[0]->kEntries.GetAt(0)->uiUnk18 == 10);
     check(published[1]->kEntries.GetAt(1)->uiUnk18 == 31);
     for (FUN_006e0480* record : published) {
-        void* entry = record->kEntries.GetAt(1);
-        void* index = record->kEntries.GetAt(1)->index.Data();
-        void* storage = record->kEntries.Data();
-        check(g_memoryManager.Owns(index));
-        delete record;
-        check(!g_memoryManager.Owns(record));
-        check(!g_memoryManager.Owns(entry));
-        check(!g_memoryManager.Owns(index));
-        check(!g_memoryManager.Owns(storage));
+        check(record->kEntries.GetAt(1)->index.Data() != nullptr);
+        delete_as_map_value(record);
     }
+    check(g_diagnostics == 0);
+}
+
+// The records the two nav-mesh producers make, 006e0730 in 006e05f0 and
+// 006e0a90 in 006e0920, and their rebuild by 006dfba0. The nav mesh info is
+// only stored, never read, so any address stands for it.
+void check_nav_mesh_records()
+{
+    int places[2] = {};
+    auto* info = reinterpret_cast<NavMeshInfo*>(&places[0]);
+    auto* otherInfo = reinterpret_cast<NavMeshInfo*>(&places[1]);
+
+    // 006e0730: one entry per index, each with a zero flag, the info and its
+    // index, and no index bytes.
+    FUN_006e0480* record = fnv::pathing::NewLOSRecord(info, 5);
+    check(record != nullptr);
+    check(g_memoryManager.Size(record) >= sizeof(FUN_006e0480));
+    check(record->pNavMeshInfo == info);
+    check(record->kEntries.Size() == 5 && record->kEntries.Capacity() == 5);
+    FUN_006e0190* built[5];
+    for (std::uint32_t i = 0; i < 5; ++i) {
+        built[i] = record->kEntries.GetAt(i);
+        check(built[i] != nullptr && g_memoryManager.Owns(built[i]));
+        check(built[i]->m_bIsLoaded == 0 && built[i]->uiUnk18 == i);
+        check(built[i]->pNavMeshInfo == info && built[i]->index.Size() == 0);
+    }
+    // Index bytes a later update gives an entry are retired with the record.
+    check(built[2]->index.Resize(3));
+
+    // The same entry count keeps the record as it is, whatever the info.
+    check(record->Rebuild(otherInfo, 5));
+    check(record->pNavMeshInfo == info);
+    for (std::uint32_t i = 0; i < 5; ++i)
+        check(record->kEntries.GetAt(i) == built[i]);
+    check(built[2]->index.Size() == 3);
+
+    // Another count retires the entries and builds the new ones.
+    void* oldStorage = record->kEntries.Data();
+    void* oldIndex = built[2]->index.Data();
+    check(record->Rebuild(otherInfo, 2));
+    check(record->pNavMeshInfo == otherInfo);
+    check(record->kEntries.Size() == 2 && record->kEntries.Capacity() == 2);
+    check(record->kEntries.GetAt(1)->uiUnk18 == 1);
+    check(record->kEntries.GetAt(1)->pNavMeshInfo == otherInfo);
+    check(!g_memoryManager.Owns(oldStorage) && !g_memoryManager.Owns(oldIndex));
+    for (FUN_006e0190* entry : built)
+        check(!g_memoryManager.Owns(entry));
+    check(record->kEntries.GetAt(0)->index.Resize(2));
+    delete_as_map_value(record);
+
+    // No entries: the record takes the info and stays empty.
+    record = fnv::pathing::NewLOSRecord(info, 0);
+    check(record != nullptr && record->pNavMeshInfo == info);
+    check(record->kEntries.Size() == 0 && record->kEntries.Data() == nullptr);
+    delete_as_map_value(record);
+
+    // 006e0a90: an empty record with a null info, the same record the loader
+    // starts from. A null info is rebuilt even at the same count, as it is for
+    // a record the loader made.
+    record = fnv::pathing::NewLOSRecord();
+    check(record != nullptr && record->pNavMeshInfo == nullptr);
+    check(record->kEntries.Size() == 0 && record->kEntries.Data() == nullptr);
+    SaveBytes one;
+    one.Count(1);
+    one.Entry(true, 9, nullptr, 0);
+    check(load_entries(*record, one));
+    FUN_006e0190* loaded = record->kEntries.GetAt(0);
+    check(record->Rebuild(info, 1));
+    check(!g_memoryManager.Owns(loaded));
+    check(record->pNavMeshInfo == info && record->kEntries.Size() == 1);
+    check(record->kEntries.GetAt(0)->m_bIsLoaded == 0 && record->kEntries.GetAt(0)->uiUnk18 == 0);
+    // 006dfb00 stores the info before it rebuilds: with no entries to make,
+    // the record is left as it is.
+    FUN_006e0480* input = fnv::pathing::NewLOSRecord();
+    check(input != nullptr);
+    input->pNavMeshInfo = otherInfo;
+    check(input->Rebuild(info, 0));
+    check(input->pNavMeshInfo == otherInfo && input->kEntries.Size() == 0);
+    delete_as_map_value(input);
+    delete_as_map_value(record);
     check(g_diagnostics == 0);
 }
 
@@ -759,8 +909,8 @@ void check_map_load_rollback_and_retry()
         check(!load_map(none, shortRecords.Data(), shortRecords.Size() - 1, offset, made));
         check(made.empty() && offset == 2);
     }
-    // The fourth tag is a count of zero and is not consumed; a second Begin
-    // and a record beyond the count are refused.
+    // The fourth tag is a count of zero and is not consumed; a record beyond
+    // the count is refused.
     const std::uint8_t reserved[] = {7, '|'};
     offset = 0;
     {
@@ -831,6 +981,12 @@ void check_allocation_failure_and_retry()
     check(load_entries(loaded, one));
     auto* loadedEntry = loaded.kEntries.GetAt(0);
 
+    int navMeshInfoPlace = 0;
+    auto* info = reinterpret_cast<NavMeshInfo*>(&navMeshInfoPlace);
+    FUN_006e0480* built = fnv::pathing::NewLOSRecord(info, 2);
+    check(built != nullptr);
+    auto* builtEntry = built->kEntries.GetAt(1);
+
     g_memoryManager.InitializeHeaps();
     check(g_memoryManager.HeapsInitialized());
     check(!g_memoryManager.PoolsInitialized());
@@ -853,6 +1009,15 @@ void check_allocation_failure_and_retry()
 
     check(!load_entries(loaded, one));
     check(loaded.kEntries.Size() == 1 && loaded.kEntries.GetAt(0) == loadedEntry);
+
+    // Neither nav-mesh producer gets a record, and a rebuild that cannot
+    // allocate leaves its record as it was.
+    check(fnv::pathing::NewLOSRecord() == nullptr);
+    check(fnv::pathing::NewLOSRecord(info, 3) == nullptr);
+    check(!built->Rebuild(nullptr, 3));
+    check(!built->Rebuild(nullptr, UINT32_MAX));
+    check(built->pNavMeshInfo == info && built->kEntries.Size() == 2);
+    check(built->kEntries.GetAt(1) == builtEntry && builtEntry->uiUnk18 == 1);
 
     // A small slot block cannot be allocated.
     std::uint32_t offset = 0;
@@ -893,6 +1058,20 @@ void check_allocation_failure_and_retry()
     check(record.index.Data()[1] == std::byte{0x5a});
     check(load_entries(loaded, one));
     check(loaded.kEntries.GetAt(0)->uiUnk18 == 5);
+    check(built->Rebuild(nullptr, 3));
+    check(built->pNavMeshInfo == nullptr && built->kEntries.Size() == 3);
+    check(!g_memoryManager.Owns(builtEntry));
+    delete_as_map_value(built);
+    built = fnv::pathing::NewLOSRecord(info, 3);
+    check(built != nullptr && reinterpret_cast<std::uintptr_t>(built) > UINT32_MAX);
+    check(built->kEntries.Size() == 3 && built->kEntries.GetAt(2)->uiUnk18 == 2);
+    // A record whose entries cannot be allocated is deleted, not left behind.
+    const std::size_t recordPool = g_memoryManager.PoolOwnerIndex(built);
+    check(recordPool < g_memoryManager.PoolFamilyCount());
+    const std::size_t recordsBefore = g_memoryManager.PoolStatistics(recordPool).allocatedBlocks;
+    check(fnv::pathing::NewLOSRecord(info, UINT32_MAX) == nullptr);
+    check(g_memoryManager.PoolStatistics(recordPool).allocatedBlocks == recordsBefore);
+    delete_as_map_value(built);
 
     for (const SaveBytes* bytes : {&few, &many}) {
         offset = 0;
@@ -954,6 +1133,7 @@ int main()
     check_wide_counts_through_loader();
     check_separators_truncation_bounds_and_retry();
     check_map_load_publication_and_delete();
+    check_nav_mesh_records();
     check_map_load_rollback_and_retry();
     check_allocation_failure_and_retry();
     check_normal_and_unwind_retirement();

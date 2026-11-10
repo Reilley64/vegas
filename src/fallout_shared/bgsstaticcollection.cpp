@@ -195,6 +195,7 @@ bool StaticCollectionComparison::FUN_004fe5e0(TESForm* other)
     return false;
 }
 
+namespace fnv_004fe630 {
 // sub ecx,0x30; jmp target  ==  MSVC adjustor thunk (multiple inheritance, primary base size 0x30)
 struct PrimaryBase
 {
@@ -226,3 +227,4 @@ struct Derived : PrimaryBase, SecondaryBase
 
 Derived::Derived()
 {}
+}  // namespace fnv_004fe630

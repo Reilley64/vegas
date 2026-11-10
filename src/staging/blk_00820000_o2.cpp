@@ -7,6 +7,7 @@
 #include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
+namespace fnv_00831ff0 {
 struct PrimaryBase
 {
     virtual void __cdecl FUN_00831ff0();
@@ -26,6 +27,7 @@ struct Derived : PrimaryBase, SecondaryBase
 
 Derived::Derived()
 {}
+}  // namespace fnv_00831ff0
 
 // FUN_00832000: __cdecl adjustor thunk (sub [esp+4],4; jmp target).
 // Primary base is only the vptr (4 bytes); the secondary base sits at +4 inside Derived.

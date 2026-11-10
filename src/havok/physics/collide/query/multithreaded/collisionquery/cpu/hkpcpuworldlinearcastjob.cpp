@@ -348,6 +348,7 @@ float FUN_00df7320_Collector::FUN_00df7320(FUN_00df7320_Shape* shape, FUN_00df73
     return reinterpret_cast<::DF7230CastCollector *>(this)->CastAgainstCollidable((const ::DF7230Collidable *)(target));
 }
 
+namespace fnv_00df7190 {
 struct Base1
 {
     virtual void FUN_00df7190();
@@ -364,6 +365,7 @@ struct Derived : Base1, Base2
 // @fnv 0x00df7190
 Derived::Derived()
 {}
+}  // namespace fnv_00df7190
 
 namespace fnv_00df71a0 {
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases

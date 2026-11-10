@@ -306,6 +306,7 @@ bool Entry::FUN_0050acf0(TESForm* other)
 }
 }
 
+namespace fnv_0050ade0 {
 // Adjustor thunk for FUN_0050ade0: sub ecx,0x4c; jmp FUN_0050a820.
 // The derived class overrides a virtual that both of its bases declare, so the
 // secondary base's vtable slot holds a thunk that moves `this` back by the size
@@ -348,6 +349,7 @@ struct Derived : PrimaryBase, SecondaryBase
 
 Derived::Derived()
 {}
+}  // namespace fnv_0050ade0
 
 // FUN_0050b3f0 : 8-byte MSVC this-adjusting (virtual) thunk.
 //     sub ecx, 0x4c ; jmp FUN_0050aea0

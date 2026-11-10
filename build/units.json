@@ -139642,7 +139642,7 @@
    "functions": [
     {
      "address": "0x004fe630",
-     "symbol": "?FUN_004fe630@Derived@@WDA@AEXXZ",
+     "symbol": "?FUN_004fe630@Derived@fnv_004fe630@@WDA@AEXXZ",
      "size": 8
     }
    ],
@@ -211804,7 +211804,7 @@
    "functions": [
     {
      "address": "0x0050ade0",
-     "symbol": "?FUN_0050ade0@Derived@@WEM@AEXXZ",
+     "symbol": "?FUN_0050ade0@Derived@fnv_0050ade0@@WEM@AEXXZ",
      "size": 8
     },
     {
@@ -217034,7 +217034,7 @@
    "functions": [
     {
      "address": "0x00511e30",
-     "symbol": "?FUN_00511e30@Derived@@WBI@AEXXZ",
+     "symbol": "?FUN_00511e30@Derived@fnv_00511e30@@WBI@AEXXZ",
      "size": 8
     }
    ],
@@ -423663,7 +423663,7 @@
    "functions": [
     {
      "address": "0x00e00c00",
-     "symbol": "?FUN_00e00c00@Derived@@WBA@AEXXZ",
+     "symbol": "?FUN_00e00c00@Derived@fnv_00e00c00@@WBA@AEXXZ",
      "size": 8
     },
     {
@@ -424603,7 +424603,7 @@
    "functions": [
     {
      "address": "0x00df7190",
-     "symbol": "?FUN_00df7190@Derived@@W3AEXXZ",
+     "symbol": "?FUN_00df7190@Derived@fnv_00df7190@@W3AEXXZ",
      "size": 8
     },
     {
@@ -424653,7 +424653,7 @@
     }
    ],
    "symbols": {
-    "?FUN_00df7190@Derived@@UAEXXZ": "0x00df71d0",
+    "?FUN_00df7190@Derived@fnv_00df7190@@UAEXXZ": "0x00df71d0",
     "?FUN_00df71a0@Derived@fnv_00df71a0@@UAEXXZ": "0x00df71d0",
     "?FUN_00df71b0@DF71B0Object@@UAEXXZ": "0x00df71d0",
     "??_7S_00df71d0_B3@@6B@": "0x010ccfac",
@@ -444979,7 +444979,7 @@
    "functions": [
     {
      "address": "0x00cbfc00",
-     "symbol": "?FUN_00cbfc00@Derived@@WBA@AEXXZ",
+     "symbol": "?FUN_00cbfc00@Derived@fnv_00cbfc00@@WBA@AEXXZ",
      "size": 8
     },
     {
@@ -445017,7 +445017,7 @@
     "?FUN_00e455f0@hkLayerFilter@@QAE?AVhkBoolC@@HH@Z": "0x00e455f0",
     "?FUN_00e455f0@hkpGroupCollisionFilterE459@@QBE?AVhkBoolE459@@II@Z": "0x00e455f0",
     "?FUN_00e455f0@hkpGroupCollisionFilterE459@fnv_00e45950@@QBE?AUhkBoolE459@2@II@Z": "0x00e455f0",
-    "?FUN_00cbfc00@Derived@@UAEXXZ": "0x00dff470"
+    "?FUN_00cbfc00@Derived@fnv_00cbfc00@@UAEXXZ": "0x00dff470"
    }
   },
   {
@@ -492554,7 +492554,7 @@
    "functions": [
     {
      "address": "0x00831ff0",
-     "symbol": "?FUN_00831ff0@Derived@@W3AAXXZ",
+     "symbol": "?FUN_00831ff0@Derived@fnv_00831ff0@@W3AAXXZ",
      "size": 10
     },
     {
@@ -498037,7 +498037,7 @@
    "functions": [
     {
      "address": "0x00905b90",
-     "symbol": "?FUN_00905b90@Derived@@WBE@AEXXZ",
+     "symbol": "?FUN_00905b90@Derived@fnv_00905b90@@WBE@AEXXZ",
      "size": 8
     }
    ],

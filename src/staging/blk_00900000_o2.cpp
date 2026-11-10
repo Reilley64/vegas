@@ -7,6 +7,7 @@
 #include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
+namespace fnv_00905b90 {
 // sub ecx,0x14; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x14).
 struct PrimaryBase
@@ -32,3 +33,4 @@ struct Derived : PrimaryBase, SecondaryBase
 
 Derived::Derived()
 {}
+}  // namespace fnv_00905b90

@@ -335,6 +335,7 @@ hkBoolE459 hkpGroupCollisionFilterE459::FUN_00e45950(const hkpShapeRayCastInputE
 }
 }  // namespace fnv_00e45950
 
+namespace fnv_00cbfc00 {
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
 struct PrimaryBase
@@ -359,3 +360,4 @@ struct Derived : PrimaryBase, SecondaryBase
 
 Derived::Derived()
 {}
+}  // namespace fnv_00cbfc00

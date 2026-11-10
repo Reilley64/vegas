@@ -561,6 +561,7 @@ FUN_00e489b0::FUN_00e489b0()
     m_iArrayLength = 0;
 }
 
+namespace fnv_00e00c00 {
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk for a virtual declared by both bases.
 struct PrimaryBase
 {
@@ -584,6 +585,7 @@ struct Derived : PrimaryBase, SecondaryBase
 
 Derived::Derived()
 {}
+}  // namespace fnv_00e00c00
 
 namespace fnv_00e00c10 {
 // sub ecx,0x14; jmp target  ==  MSVC adjustor thunk (multiple inheritance, primary base size 0x14).

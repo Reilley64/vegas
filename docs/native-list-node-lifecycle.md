@@ -173,6 +173,7 @@ block, typed production nodes, and payloads derived from the production
 - retain-before-retire, payload destruction, and the object count;
 - a node with a nontrivial element: construction, destruction, reuse of its
   slot by another node type, adoption, and a throwing constructor;
+- recycling a node through another unit's three-pointer view;
 - reference-count overflow on push and removal, and list-count overflow at
   `UINT32_MAX`, each with unchanged links, counts, and pool membership;
 - refill failure from checked sizing and from real exhaustion of the selected
@@ -184,7 +185,8 @@ block, typed production nodes, and payloads derived from the production
 
 `runtime.list_node_recycling.reject_*` run the same executable once per invalid
 recycle (foreign, interior, duplicate, null) and require the production
-recycler to abort.
+recycler to abort. The duplicate case keeps a second node live, so only the
+slot's allocated bit can reject the repeat.
 
 Optimized and ASan/UBSan/vptr runs execute the same owner and list operations.
 The Windows target links this test to the complete `game` archive.

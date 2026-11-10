@@ -71,9 +71,14 @@ passes to the allocating call before the constructor call, or, where the
 constructor runs on the function's own receiver, the size of that receiver's
 class as the unit declares it, compiled with the unit's command.
 
-The constructor's highest write is one byte at `+0x28`, so it needs `0x29`
-bytes. Its other writes are 8 bytes at `+0x0`, 8 at `+0x10`, 4 at `+0x18` and
-8 at `+0x20`, after the base constructor's own.
+The constructor's own highest write is one byte at `+0x28`, so it needs at
+least `0x29` bytes. Its other writes are 8 bytes at `+0x0`, 8 at `+0x10`, 4
+at `+0x18` and 8 at `+0x20`, after the base constructor's own.
+
+`0x29` is a lower bound. What `NiObject::NiObject()` writes is unknown until
+it has a definition. The owner unit declares `NiObject` with 16 bytes; that
+is a declaration, not a body. "Fits" and "short by" below are measured
+against `0x29`.
 
 | Unit | Function | Storage | Bytes | Short by |
 | --- | --- | --- | --- | --- |
@@ -101,9 +106,19 @@ bytes. Its other writes are 8 bytes at `+0x0`, 8 at `+0x10`, 4 at `+0x18` and
 | `nipsysrotationmodifier.cpp` | `0x00c20980` | allocated, `operator new` | `0x40` | fits |
 | `nipsysspawnmodifier.cpp` | `0x00c23d10` | allocated, `FUN_00aa13e0` | `0x34` | fits |
 
-Thirteen sites fit and ten are short. The two sites that use a scoped name
-allocate `0x18` bytes (`0x00c28b20`, short by 17) and `0x28` bytes
-(`0x00c2dec0`, short by 1); they have no constructor to call.
+Thirteen sites fit and ten are short.
+
+Three more sites reach `0x00c31720` under another name. None has a
+constructor to call:
+
+| Unit | Function | Name required | Storage | Bytes | Short by |
+| --- | --- | --- | --- | --- | --- |
+| `blk_00c20000_o2.cpp` | `0x00c28b20` | scoped, `fnv_00c28b20` | allocated, `operator new` | `0x18` | 17 |
+| `nipsysboundupdatemodifier.cpp` | `0x00c2dec0` | scoped, `fnv_00c2dec0` | allocated, `operator new` | `0x28` | 1 |
+| `nipsysgrowfademodifier.cpp` | `0x00c2a4b0` | stand-in, `FUN_00c31720::FUN_00c31720()` | allocated, `FUN_00aa13e0` | `0x38` | fits |
+
+That makes 26 sites: 23 under the global name, 2 under a scoped name and 1
+under the stand-in name.
 
 Notes on single rows:
 
@@ -111,10 +126,9 @@ Notes on single rows:
   and `FUN_00c465a0`; each contains its class's constructor inline. The `0x30`
   bytes of `0x00c5fee0` are the unit's `PositionModifierInstance`, whose first
   member is the one-byte `FUN_00c5fd30`.
-- No other object requires the constructors `0x00c60240` and `0x00c63330` by
-  name.
-  Both write their fields through a second declaration, not through the
-  one-byte class.
+- No other object requires the constructors `0x00c60240` and `0x00c63330`
+  by name. Both write their fields through a second declaration, not through
+  the one-byte class.
 - "Fits" is a statement about size only. Every unit lays its fields out by its
   own declaration, and most of those declarations keep the original release's
   32-bit offsets. For example `0x00c465a0` stores 4000 at `+0x10` and `1.0f` at
@@ -202,13 +216,13 @@ Nine of the functions above are object loaders, registered with
   `0x00c2d5b0`, `0x00c20640`, `0x00c23b20`, `0x00c2a2b0`
 - by `blk_00c20000_od.cpp`: `0x00c46740`, `0x00c5fee0`
 
-Eight are entries of generated tables: `0x00c637b0`, `0x00c2f150`,
+Nine are entries of generated tables: `0x00c637b0`, `0x00c2f150`,
 `0x00c2e570`, `0x00c2dec0` and `0x00c2d550` in
 `src/generated/data/vtables_010c.cpp`, and `0x00c2d240`, `0x00c285d0`,
-`0x00c20980` and `0x00c23d10` in `vtables_010b.cpp`. The generated entry for
-`0x00c20980` names it with an `int` parameter, the object defines it with a
-`CloningProcess&` parameter, and so that entry has no definition. This was so
-before this change.
+`0x00c20980`, `0x00c23d10` and `0x00c2a4b0` in `vtables_010b.cpp`. The
+generated entry for `0x00c20980` names it with an `int` parameter, the object
+defines it with a `CloningProcess&` parameter, and so that entry has no
+definition. This was so before this change.
 
 No generated file names the constructor. The recipe binds the class's table
 name `??_7NiPSysPositionModifier@@6B@` to `0x010c09cc`. The generated data
@@ -247,16 +261,19 @@ whichever it loads first without a report.
 | Forced | owner's | owner's |
 | Worker pool | emitter unit's | owner's |
 
-The worker pool row changes because that link loads members on demand, and
-the constructor's requirers now pull the owner's member in before the emitter
-unit's. Neither choice is right for both units. The archive has the same 488
-names with differing select-any content before and after.
+In the worker pool link four type records move (`??_R0` to `??_R3`), and
+three of them differ in content (`??_R1` to `??_R3`). The row changes because
+that link loads members on demand, and the constructor's requirers now pull
+the owner's member in before the emitter unit's. Neither choice is right for
+both units. The archive has the same 488 names with differing select-any
+content before and after.
 
 The two declarations under one name were there before this change and are
-not changed by it. It is not a second constructor: the emitter unit requires the constructor and does not define it.
-The recipe binds that requirement to `0x00c31720`, so the two declarations are
-two views of one class of the original release, and the repair is the shared
-declaration, not a second name.
+not changed by it. It is not a second constructor: the emitter unit requires
+the constructor and does not define it. The recipe binds that requirement to
+`0x00c31720`, so the two declarations are two views of one class of the
+original release, and the repair is the shared declaration, not a second
+name.
 
 ## Not covered
 
@@ -275,9 +292,10 @@ These were open before this change and remain open.
 - The three other names for `0x00c31720` in the table above, and the four
   recipe rows that no object emits.
 - The table at `0x010c09cc`.
-- The allocation domain. Of the 18 allocating sites, 13 use the global
-  `operator new`, four `FUN_00aa13e0` and one `Alloc00c2d240`; the deleting destructor in the
-  owner's table frees `0x30` bytes with the sized global `operator delete`.
+- The allocation domain. Of the 19 allocating sites, 13 use the global
+  `operator new`, five `FUN_00aa13e0` and one `Alloc00c2d240`; the deleting
+  destructor in the owner's table frees `0x30` bytes with the sized global
+  `operator delete`.
 - Name-handle retention in the derived classes and clones, typed string-table
   allocation, clone-map keys, stream and list attachment, and retirement on
   the normal, failure and unwind paths.

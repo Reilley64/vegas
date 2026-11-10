@@ -4,7 +4,9 @@
 `src/bscore/memoryusagetracker.cpp` owns its constructor, Enter, Leave,
 destructor, and the existing getter/setter entries. They all use
 `g_tlsBlock.memoryContext`, whose production per-thread initial value is 59.
-No heap or manager is constructed or called by this guard.
+No heap or manager is constructed or called by this guard. Process startup
+sets the main thread's context to 0, as the recorded manager startup does; see
+`docs/native-engine-heaps.md`.
 
 ## Lifetime contract
 

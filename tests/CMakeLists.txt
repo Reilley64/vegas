@@ -272,6 +272,45 @@ add_test(NAME runtime.ni_allocator_join.unpublished_free
     -DMODE=--free-without-holder
     -DMARKER=free-without-holder
     -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
+add_test(NAME runtime.ni_allocator_join.aligned_block_free
+  COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:runtime_ni_allocator_join_test>
+    -DMODE=--free-aligned-block
+    -DMARKER=free-aligned-block
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
+
+# The startup main runs: fnv::memory::StartProcessMemory, then the Ni entries
+# and global new and delete through what it established.
+add_executable(runtime_process_startup_test runtime/process_startup_test.cpp)
+if(WIN32)
+  target_link_libraries(runtime_process_startup_test PRIVATE game)
+  target_sources(runtime_process_startup_test PRIVATE ${PROJECT_SOURCE_DIR}/src/runtime/new.cpp)
+else()
+  target_sources(runtime_process_startup_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/bscore/memory_manager_startup.cpp
+    ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nisystem/ni_allocator_holder.cpp
+    ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nisystem/bsniallocator.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/newoverloads.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/new.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/fixed_pool.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/native_memory_pools.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp)
+  target_link_libraries(runtime_process_startup_test PRIVATE Threads::Threads)
+endif()
+target_include_directories(runtime_process_startup_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+add_test(NAME runtime.process_startup COMMAND runtime_process_startup_test)
+add_test(NAME runtime.process_startup.unpublished_ni_startup
+  COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:runtime_process_startup_test>
+    -DMODE=--ni-startup-unpublished
+    -DMARKER=ni-startup-unpublished
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
 
 add_executable(runtime_native_string_test runtime/native_string_test.cpp)
 if(WIN32)

@@ -8,7 +8,8 @@ supplies the getter and production allocation/release receivers for the full
 process lifetime. Clang's `no_destroy` attribute suppresses only that object's
 static destructor registration; it does not alter local-owner cleanup. This is a
 **bounded heap/bootstrap/fixed-pool connection**, not completion of VEGAS-79 or permission
-to run the incompatible full startup sequence.
+to run the incompatible full startup sequence. `main` starts the heaps, the
+pools and the Ni allocator through the composition in "Process startup" below.
 
 ## Ownership
 
@@ -119,10 +120,73 @@ objects; local-owner destruction retires those objects before their backing
 storage. The process-lifetime global does not perform automatic retirement
 before potentially still-attached static clients.
 
+## Process startup
+
+`fnv::memory::StartProcessMemory` in `src/bscore/memory_manager_startup.cpp` is
+the production startup of the global manager. `main` calls it first and
+returns 1 when it reports failure.
+
+Where startup happens is decided by this evidence:
+
+- No recorded unit calls the constructor `00aa3880`. `build/units.json` lists
+  its definition and its exception handler and no other reference, so it is
+  the dynamic initializer of the global at `0x011f6238`.
+- The native global is constant-initialized. A constructor that runs later
+  cannot construct it, and `FUN_00aa3880` is a 32-bit shell that must never be
+  laid over the native owner.
+- The legacy constructor also needs the table constructor and the page-file
+  preflight. Both are defined in the staging unit `blk_00aa0000_od.cpp`, which
+  the executable cannot link yet: it brings unresolved names with it.
+
+So the two legacy entries keep rejecting, and the startup statements of
+`00aa3880` are composed at `main` instead, in the recorded order:
+
+| Recorded statement | Native startup |
+| --- | --- |
+| slot clear, member initializers | constant initialization of the global |
+| page-file preflight | not composed: it is defined in that staging unit and needs user32, which the executable's link does not name |
+| `00aa39c0`: pool-table clear `00aa6840` | not composed: the native owner has no such tables, and the recorded loop writes 256 entries into a generated array of 144 |
+| `00aa39c0`: heap startup `00866e00` | `InitializeHeaps` |
+| `00aa39c0`: first-byte write | the owner's own initialized state |
+| `00aa39c0`: pool startup `00866770` | `FUN_00866770` |
+| `00aa39c0`: `00483710` | nothing: the recorded body is empty |
+| `00aa39c0`: allocation context 0 | `g_tlsBlock.memoryContext = 0` |
+| `00866690`: allocator, options, holder | `PublishManagerNiAllocator` |
+| `00866690`: system-utility call | not composed: the name is undefined |
+| `00aa58d0`: scrap heap object | not composed: 32-bit layout code |
+
+Native policy, not recovered behaviour:
+
+- **`main` calls startup explicitly.** The original relies on dynamic
+  initializer order. Allocations made before `main` use the bootstrap domain
+  and stay valid afterwards, as already admitted.
+- **A refused stage is reported.** The function returns false. Stages that did
+  start stay started, so blocks taken from them stay valid, and a later call
+  resumes at the refused stage. A refused publication leaves nothing allocated.
+- **A second call does nothing.**
+
+Startup leaves the calling thread in allocation context 0, as recorded. That
+context selects the linear heap, so a request on that thread with no pool
+family is not reclaimed one block at a time.
+
+`fnv::memory::RetireProcessMemory` retires the publication, then the pools,
+then the heaps and the remaining bootstrap blocks. It requires detached
+clients. Source records no retirement of the manager: the recorded exit path
+runs `00aa2170` and returns. So `main` does not call it, and the manager
+serves static destructors until the process ends.
+
+`runtime.process_startup` runs `StartProcessMemory` itself, in optimized and
+ASan/UBSan (with vptr) builds. It covers a heap reservation that the operating
+system refuses, the retry, a second startup, the Ni entries and global `new`
+and `delete` in pools and in the heaps of contexts 0, 9, 23 and 36, a
+bootstrap block that outlives startup, retirement, and startup after
+retirement. A refused pool or publication stage is not exercised.
+
 ## Required whole-engine join
 
 The complete global is available to heap/bootstrap/fixed-pool allocation clients,
-but full startup is explicitly unavailable. The physical/range and direct
+and to Ni clients after process startup, but the legacy startup entries stay
+explicitly unavailable. The physical/range and direct
 legacy bootstrap domains are not in the new ownership index, and failure
 recovery is not wired to native heap types. Returning heap failure is not proof
 of the old recovery protocol. No arbitrary host/heap route replaces another

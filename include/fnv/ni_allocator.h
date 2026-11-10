@@ -139,7 +139,23 @@ namespace fnv::memory
 // The allocator statements of the manager startup step 0x00866690: construct
 // the Bethesda allocator and its options, then publish the holder. Call it
 // after g_memoryManager's heap and fixed-pool startup. Throws std::bad_alloc
-// when the manager cannot supply the allocator or its options; the holder
-// then stays as it was.
+// when the manager cannot supply the allocator, its options or the holder;
+// DAT_011f6118 and DAT_011f6080 then keep their previous values and nothing
+// stays allocated.
 void PublishManagerNiAllocator();
+
+// Unpublishes the holder and the options, then returns the holder, the
+// options and the allocator they name to g_memoryManager, in that order.
+// Source records no such retirement; it exists for fnv::memory::
+// RetireProcessMemory. Blocks still held by clients must already be freed.
+// Holders and options that an earlier repeated publication left behind are
+// not tracked, as recorded, and go with the manager's heaps.
+void RetireManagerNiAllocator() noexcept;
+
+// The fence in front of 0x00aa20b0's fallback. That entry builds options that
+// own a NiStandardAllocator when none are published, and that allocator's
+// small-object pools are still 32-bit layout code. Native policy, not
+// recovered behaviour: Ni startup requires the options the manager startup
+// published. Returns them, or terminates when there are none.
+NiInitOptions* RequirePublishedNiOptions() noexcept;
 }

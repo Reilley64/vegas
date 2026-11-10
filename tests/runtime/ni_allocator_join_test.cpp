@@ -207,6 +207,132 @@ static void PublishedInterface()
     CHECK(allocator->Reallocate(grown, size, alignment, 8, false, 5000, nullptr, -1, nullptr) == nullptr);
     CHECK(g_memoryManager.Owns(grown - grown[-1])); // A failed replacement keeps the block.
     allocator->Deallocate(grown, 10, static_cast<unsigned int>(-1));
+
+    // The same through slot 6 with its aligned event, 14.
+    size = 100;
+    memory = static_cast<unsigned char*>(allocator->Alloc(size, alignment, 0xd, false, nullptr, -1, nullptr));
+    CHECK(memory);
+    for (unsigned int index = 0; index < 100; ++index)
+        memory[index] = static_cast<unsigned char>(index);
+    size = 5000;
+    grown = static_cast<unsigned char*>(allocator->Realloc(
+        memory, size, alignment, 14, false, static_cast<unsigned int>(-1), nullptr, -1, nullptr));
+    CHECK(grown && Aligned(grown, 16) && size == 5000 && alignment == 16);
+    CHECK(grown[-1] >= 1 && grown[-1] <= 16);
+    for (unsigned int index = 0; index < 100; ++index)
+        CHECK(grown[index] == static_cast<unsigned char>(index));
+    CHECK(g_memoryManager.Owns(grown - grown[-1]));
+    CHECK(g_memoryManager.Size(grown - grown[-1]) >= 5016);
+    size = 0x80000000u;
+    CHECK(allocator->Realloc(grown, size, alignment, 14, false, 5000, nullptr, -1, nullptr) == nullptr);
+    CHECK(g_memoryManager.Owns(grown - grown[-1]));
+    size = 5000;
+    CHECK(allocator->Realloc(nullptr, size, alignment, 14, false, 0, nullptr, -1, nullptr) == nullptr);
+    allocator->Free(grown, 0x10, static_cast<unsigned int>(-1));
+    CHECK(!g_memoryManager.Owns(grown - grown[-1]));
+}
+
+// The non-aligned events of slots 3 and 6 reach 0x00aa4200: 0xc is the event
+// 0x00aa11b0 passes. The replacement is checked before the copy, and a block
+// the manager does not own is refused, never handed to the CRT.
+static void PlainReallocation()
+{
+    NiAllocator* allocator = DAT_011f6080->allocator;
+    for (bool second : {false, true}) {
+        auto reallocate = [&](void* block, unsigned int bytes) {
+            unsigned int size = bytes;
+            unsigned int alignment = 4;
+            return static_cast<unsigned char*>(second
+                ? allocator->Realloc(block, size, alignment, 0xc, false, static_cast<unsigned int>(-1),
+                                     nullptr, -1, nullptr)
+                : allocator->Reallocate(block, size, alignment, 0xc, false, static_cast<unsigned int>(-1),
+                                        nullptr, -1, nullptr));
+        };
+        auto* memory = static_cast<unsigned char*>(FUN_00aa13e0(100));
+        CHECK(memory);
+        for (unsigned int index = 0; index < 100; ++index)
+            memory[index] = static_cast<unsigned char>(index + 1);
+        // Pool to heap.
+        auto* grown = reallocate(memory, 5000);
+        CHECK(grown && grown != memory);
+        CHECK(!g_memoryManager.Owns(memory));
+        CHECK(g_memoryManager.HeapOwner(grown) == Domain::Main && g_memoryManager.Size(grown) >= 5000);
+        for (unsigned int index = 0; index < 100; ++index)
+            CHECK(grown[index] == static_cast<unsigned char>(index + 1));
+        // Heap to pool: only the new size is copied.
+        auto* shrunk = reallocate(grown, 40);
+        CHECK(shrunk && !g_memoryManager.Owns(grown));
+        CHECK(g_memoryManager.PoolOwnerIndex(shrunk) < g_memoryManager.PoolFamilyCount());
+        for (unsigned int index = 0; index < 40; ++index)
+            CHECK(shrunk[index] == static_cast<unsigned char>(index + 1));
+        // A refused replacement keeps the block and its bytes.
+        CHECK(reallocate(shrunk, 0x80000000u) == nullptr);
+        CHECK(g_memoryManager.Owns(shrunk));
+        for (unsigned int index = 0; index < 40; ++index)
+            CHECK(shrunk[index] == static_cast<unsigned char>(index + 1));
+        // Blocks the manager does not own: null, an interior address, the
+        // stack and a CRT block. None is replaced, moved or released.
+        CHECK(reallocate(nullptr, 64) == nullptr);
+        CHECK(reallocate(shrunk + 8, 64) == nullptr);
+        CHECK(g_memoryManager.Owns(shrunk) && shrunk[8] == 9);
+        unsigned char local[16] = {0x11};
+        CHECK(reallocate(local, 64) == nullptr && local[0] == 0x11);
+        auto* foreign = static_cast<unsigned char*>(std::malloc(16));
+        CHECK(foreign);
+        foreign[0] = 0x22;
+        CHECK(reallocate(foreign, 64) == nullptr && foreign[0] == 0x22);
+        std::free(foreign);
+        FUN_00aa1460(shrunk, 40);
+        CHECK(!g_memoryManager.Owns(shrunk));
+    }
+}
+
+// 0x00aa13e0 serves a zero size as a one-byte request: the same pool family
+// and capacity, a zeroed first byte, and a block that frees normally. The
+// manager also rounds a zero size up to its smallest family, and a released
+// pool block's first bytes hold the pool's free links, so a request passed
+// through as zero is not separable from this by behaviour.
+static void ZeroSizeDefault()
+{
+    auto* one = static_cast<unsigned char*>(FUN_00aa13e0(1));
+    CHECK(one);
+    const auto family = g_memoryManager.PoolOwnerIndex(one);
+    CHECK(family < g_memoryManager.PoolFamilyCount());
+    const auto capacity = g_memoryManager.Size(one);
+    std::memset(one, 0xa5, capacity);
+    for (int round = 0; round < 2; ++round) {
+        auto* zero = static_cast<unsigned char*>(FUN_00aa13e0(0));
+        CHECK(zero && zero != one);
+        CHECK(g_memoryManager.PoolOwnerIndex(zero) == family && g_memoryManager.Size(zero) == capacity);
+        CHECK(zero[0] == 0);
+        std::memset(zero, 0xa5, capacity);
+        FUN_00aa1460(zero, 0);
+        CHECK(!g_memoryManager.Owns(zero));
+    }
+    CHECK(one[0] == 0xa5);
+    FUN_00aa1460(one, 1);
+}
+
+// 0x00aa13e0 and 0x00aa1460 use the plain events (1 and 3), not the aligned
+// ones. The allocation returns the manager's own block start, which an aligned
+// allocation never does, and the free releases exactly the address it is
+// given. The allocator treats every plain free event alike, so the literal 3
+// is not separable from 4 or 9 by behaviour; --free-aligned-block shows the
+// event is not the aligned one.
+static void PlainEvents()
+{
+    NiAllocator* allocator = DAT_011f6080->allocator;
+    auto* plain = static_cast<unsigned char*>(FUN_00aa13e0(300));
+    CHECK(plain && g_memoryManager.Owns(plain));
+    unsigned int size = 300;
+    unsigned int alignment = 16;
+    auto* aligned = static_cast<unsigned char*>(
+        allocator->Allocate(size, alignment, 7, false, nullptr, -1, nullptr));
+    CHECK(aligned && !g_memoryManager.Owns(aligned) && g_memoryManager.Owns(aligned - aligned[-1]));
+    // An aligned free of the plain block would step back by plain[-1] first.
+    FUN_00aa1460(plain, 300);
+    CHECK(!g_memoryManager.Owns(plain));
+    allocator->Deallocate(aligned, 10, static_cast<unsigned int>(-1));
 }
 
 // Startup publishes twice in the recorded order: 0x00866690 and then 0x00aa3050
@@ -280,11 +406,29 @@ int main(int argc, char** argv)
         FUN_00aa1460(&block, sizeof(block));
         return 0;
     }
+    if (argc == 2 && std::strcmp(argv[1], "--free-aligned-block") == 0) {
+        // An aligned block's address is inside the manager's block. 0x00aa1460
+        // frees with a plain event, so the manager sees an address it does not
+        // own and terminates; an aligned event would have released the block.
+        g_memoryManager.InitializeHeaps();
+        g_memoryManager.FUN_00866770();
+        fnv::memory::PublishManagerNiAllocator();
+        unsigned int size = 300;
+        unsigned int alignment = 16;
+        void* aligned = DAT_011f6080->allocator->Allocate(size, alignment, 7, false, nullptr, -1, nullptr);
+        CHECK(aligned);
+        std::fprintf(stderr, "free-aligned-block\n");
+        FUN_00aa1460(aligned, 300);
+        return 0;
+    }
     Unpublished();
     Startup();
     AllocateAndFree();
     AllocationFailure();
     PublishedInterface();
+    PlainReallocation();
+    ZeroSizeDefault();
+    PlainEvents();
     DoublePublication();
     Retirement();
     return 0;

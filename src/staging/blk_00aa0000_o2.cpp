@@ -1091,7 +1091,10 @@ void __cdecl FUN_00aa20b0(void* value)
 {
     int oldState = ::g_tlsBlock.memoryContext;
     ::g_tlsBlock.memoryContext = 15;
-    void* existing = DAT_011f6118;
+    // Terminates when no options are published, so the two branches below that
+    // run without existing options, and the NiStandardAllocator they lead to,
+    // are never entered. See fnv::memory::RequirePublishedNiOptions.
+    void* existing = ::fnv::memory::RequirePublishedNiOptions();
     if (!value)
     {
         if (!existing)

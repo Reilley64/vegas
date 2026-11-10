@@ -31,8 +31,10 @@ NiInitOptions::~NiInitOptions()
 
 // Allocates a holder from g_memoryManager, stores the options' allocator in it, publishes it and initializes the allocator.
 // The recorded body writes through a null holder or null options. Native
-// policy, not recovered behaviour: in either case nothing is published and the
-// holder stays as it was, so allocation through it keeps failing closed.
+// policy, not recovered behaviour: without options, or when the manager
+// refuses the holder's storage, nothing is published and DAT_011f6080 keeps
+// its previous value. This entry is extern "C" and reports neither case, so a
+// caller that must know compares DAT_011f6080 before and after.
 // A repeated call publishes a new holder and never frees the previous one, as
 // recorded: 0x00866690 and 0x00aa3050 both call this during startup.
 // @fnv 0x00aa2020
@@ -48,10 +50,57 @@ extern "C" void InitHolder()
     DAT_011f6080->allocator->Initialize();
 }
 
+// The recorded statements are the two constructions, the options store and
+// the writer call. Native policy, not recovered behaviour: a refused stage
+// undoes the earlier ones and restores the previous options before throwing.
 void fnv::memory::PublishManagerNiAllocator()
 {
-    DAT_011f6118 = new NiInitOptions(new BSNiAllocator);
+    BSNiAllocator* allocator = new BSNiAllocator;
+    NiInitOptions* options;
+    try
+    {
+        options = new NiInitOptions(allocator);
+    }
+    catch (...)
+    {
+        delete allocator;
+        throw;
+    }
+    void* previousOptions = DAT_011f6118;
+    HolderB3718* previousHolder = DAT_011f6080;
+    DAT_011f6118 = options;
     InitHolder();
+    // A published holder is always new storage: the previous one is not freed.
+    if (DAT_011f6080 == previousHolder)
+    {
+        DAT_011f6118 = previousOptions;
+        delete options;
+        delete allocator;
+        throw std::bad_alloc();
+    }
+}
+
+void fnv::memory::RetireManagerNiAllocator() noexcept
+{
+    HolderB3718* holder = DAT_011f6080;
+    NiInitOptions* options = static_cast<NiInitOptions*>(DAT_011f6118);
+    DAT_011f6080 = nullptr;
+    DAT_011f6118 = nullptr;
+    g_memoryManager.FUN_00aa4060(holder);
+    if (options)
+    {
+        NiAllocator* allocator = options->ownsAllocator ? nullptr : options->allocator;
+        delete options;
+        delete allocator;
+    }
+}
+
+NiInitOptions* fnv::memory::RequirePublishedNiOptions() noexcept
+{
+    NiInitOptions* options = static_cast<NiInitOptions*>(DAT_011f6118);
+    if (!options)
+        std::abort();
+    return options;
 }
 
 // Defaults the size to 1 if zero, then allocates through the holder's allocator (size, alignment 4, operator new) and returns the block.

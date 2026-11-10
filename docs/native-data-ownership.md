@@ -9,10 +9,11 @@ ownership delta. It retires duplicate scalar storage and incompatible,
 source-audited unused byte-layout tables/declarations; it does not replace
 required objects with stubs, rename incompatible receivers or clone values.
 The genuine owner modules and typed declarations remain the source of the
-native globals and protocols. This patch preserves the same twelve-file
-retirements previously reviewed for VEGAS-1, not additional engine work.
+native globals and protocols. The patch covers fifteen files. Twelve are the
+retirements previously reviewed for VEGAS-1, unchanged, not additional engine
+work.
 
-VEGAS-86 adds three inputs for the Ni allocator join, described in
+VEGAS-86 adds the other three for the Ni allocator join, described in
 `docs/ni-allocator.md`: the base allocator table at `0x010a24d0` and its
 `vtables.h` declaration, and the generated definitions of `DAT_011f6080` and
 `DAT_011f6118`. Native source now owns all three.

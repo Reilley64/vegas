@@ -177,8 +177,10 @@ void* BSNiAllocator::Realloc(void* memory, unsigned int& sizeInBytes, unsigned i
     return reinterpret_cast<::FUN_00aa4200_Helper *>(&::g_memoryManager)->FUN_00aa4200(memory, sizeInBytes, (uintptr_t)(file), line, (uintptr_t)(function));
 }
 
-// No body is identified for slots 7 and 8 of this class: its unit has no room
-// for one between 0x00aa2230 and 0x00aa24d0, and its table is not in the
+// No body is identified for slots 7 and 8 of this class. The recorded bodies
+// from 0x00aa2240 to 0x00aa24c1 are contiguous apart from alignment padding,
+// so none lies among them, but an empty body shared with another function
+// elsewhere would leave no trace there, and the table 0x010a2528 is not in the
 // generated data. The object has no state and every other slot forwards to the
 // already started g_memoryManager, so these do nothing. That is native policy,
 // not recovered behaviour.
@@ -188,25 +190,26 @@ void BSNiAllocator::Initialize()
 void BSNiAllocator::Shutdown()
 {}
 
+// The recorded body copies into the replacement without checking it, and
+// passes a block the manager does not own to the CRT's realloc. Native policy,
+// not recovered behaviour: a refused replacement returns null and keeps the
+// old block, and a block the manager does not own, null included, returns
+// null. Source shows no foreign block arriving: the two callers reach this
+// only from 0x00aa11b0 and 0x00aa1250, which handle a null block and a zero
+// size themselves and pass blocks the same allocator returned.
 // @fnv 0x00aa4200
 void* FUN_00aa4200_Helper::FUN_00aa4200(void* old, unsigned int size, uintptr_t a, unsigned int b, uintptr_t c)
 {
-    void* result2 = 0;
-    unsigned int oldSize;
-    oldSize = ((MemoryManager*)this)->Size(old);
-    if (oldSize)
-    {
-        result2 = reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager*)this)))->FUN_00aa3e40(size);
-        if (oldSize > size)
-            oldSize = size;
-        std::memmove(result2, old, oldSize);
-        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)this)))->FUN_00aa4060(old);
-    }
-    else
-    {
-        void* tmp = old;
-        tmp = std::realloc(tmp, size);
-        result2 = tmp;
-    }
-    return result2;
+    MemoryManager* owner = reinterpret_cast<MemoryManager*>(this);
+    size_t oldSize = owner->Size(old);
+    if (!oldSize)
+        return nullptr;
+    void* replacement = owner->FUN_00aa3e40(size);
+    if (!replacement)
+        return nullptr;
+    if (oldSize > size)
+        oldSize = size;
+    std::memmove(replacement, old, oldSize);
+    owner->FUN_00aa4060(old);
+    return replacement;
 }

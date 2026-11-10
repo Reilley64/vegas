@@ -4408,13 +4408,12 @@ bool FUN_005cc3d0(TESObjectREFR* a, void* b, TESObjectREFR* c, void* d, void* e,
     return ::fnv_0059c860::FUN_0059c860(c, 0, 0, g);
 }
 
-extern bool __cdecl FUN_005a1ad0(TESObjectREFR*, void*, void*, double&);
 
 // @fnv 0x005cc910
 bool FUN_005cc910(const ScriptParameter* p, const char* name, TESObjectREFR* refr, TESObjectREFR* refr2, Script* script, ScriptLocals* locals, double& result, unsigned int& index)
 {
     if (refr) {
-        return FUN_005a1ad0(refr, 0, 0, result);
+        return ::fnv_005a1ad0::FUN_005a1ad0(refr, 0, 0, result);
     }
     return true;
 }
@@ -4688,12 +4687,11 @@ char __cdecl FUN_005da260(void* a, void* b, void* c)
 class PC7d;
 extern PC7d* g_thePlayer;
 
-void __cdecl FUN_00703da0(void);
 
 // @fnv 0x005da540
 char __cdecl FUN_005da540()
 {
-    FUN_00703da0();
+    ::fnv_00703da0::FUN_00703da0();
     ::FUN_00709470(9, (std::intptr_t)(*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)), 0, 0, 1);
     return 1;
 }
@@ -5214,12 +5212,11 @@ void FUN_005c84f0(void* p1, void* p2, void* p3, void* p4, void* p5, void* p6, vo
     FUN_005a0150(p3, 0, 0, p7);
 }
 
-bool __cdecl FUN_005a1e70(TESObjectREFR*, void*, void*, double&);
 
 // @fnv 0x005cd630
 bool __cdecl FUN_005cd630(const ScriptParameter* param, const char* name, TESObjectREFR* refr, TESObjectREFR* refr2, Script* script, ScriptLocals* locals, double& result, unsigned int& index)
 {
-    return FUN_005a1e70(0, 0, 0, result);
+    return ::fnv_005a1e70::FUN_005a1e70(0, 0, 0, result);
 }
 
 struct FUN_005ce9d0 {
@@ -5727,12 +5724,11 @@ bool __cdecl FUN_005c6e10(const ScriptParameter* parameters, const char* scriptD
     return FUN_0059dc90(thisObject, 0, 0, result);
 }
 
-bool __cdecl FUN_0059e650(TESObjectREFR*, void*, void*, double&);
 
 // @fnv 0x005c7350
 bool __cdecl FUN_005c7350(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
 {
-    return FUN_0059e650(thisObject, 0, 0, result);
+    return ::fnv_0059e650::FUN_0059e650(thisObject, 0, 0, result);
 }
 
 extern "C" void __cdecl FUN_005a1880(int, int, int, int);
@@ -5954,13 +5950,12 @@ bool FUN_005cb720(const ScriptParameter* parameters, const char* scriptData,
     return true;
 }
 
-bool __cdecl FUN_005a0800(TESObjectREFR*, void*, void*, double&);
 
 // @fnv 0x005cb750
 bool __cdecl FUN_005cb750(const ScriptParameter* p, const char* c, TESObjectREFR* b, TESObjectREFR* a, Script* s, ScriptLocals* l, double& d, unsigned int& u)
 {
     if (b)
-        return FUN_005a0800(b, 0, 0, d);
+        return ::fnv_005a0800::FUN_005a0800(b, 0, 0, d);
     return true;
 }
 
@@ -6852,12 +6847,11 @@ bool __cdecl FUN_005cc490(const ScriptParameter* a, const char* b, TESObjectREFR
     return true;
 }
 
-bool __cdecl FUN_005a1c30(TESObjectREFR*, void*, void*, double&);
 // @fnv 0x005ccaf0
 bool __cdecl FUN_005ccaf0(const ScriptParameter*, const char*, TESObjectREFR* p, TESObjectREFR*, Script*, ScriptLocals*, double& d, unsigned int&)
 {
     if (p)
-        return FUN_005a1c30(p, 0, 0, d);
+        return ::fnv_005a1c30::FUN_005a1c30(p, 0, 0, d);
     return true;
 }
 
@@ -10104,7 +10098,6 @@ bool __cdecl FUN_005cb050(const ScriptParameter* apParameters, const char* apCom
 }
 
 namespace fnv_005cd5b0 {
-bool FUN_005a1e50(bool const*);
 struct FUN_005c1a00 { void Set(int, char); };
 // @fnv 0x005cd5b0
 bool FUN_005cd5b0(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
@@ -10112,7 +10105,7 @@ bool FUN_005cd5b0(const ScriptParameter* parameters, const char* scriptData, TES
     int value = 0;
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject, container, script, locals, &value))
         return false;
-    if (FUN_005a1e50((bool const*)(*reinterpret_cast<::fnv_005cd5b0::FUN_005c1a00 * *>(&::_g_thePlayer))))
+    if (::FUN_005a1e50((bool const*)(*reinterpret_cast<::fnv_005cd5b0::FUN_005c1a00 * *>(&::_g_thePlayer))))
     {
         if (value < 0)
             value = 0;
@@ -14807,7 +14800,6 @@ struct ContextStack17 {
 struct FormListData17 {  };
 struct FormList17 {  };
 extern void* DAT_011dea3c;
-bool FUN_00703d50();
 void FUN_00703c00(const char*,...);
 extern const char DAT_01034044[];
 // @fnv 0x00594e40
@@ -14909,7 +14901,7 @@ bool FUN_00594e40(void* unused,int value,void* parameter,double& result) {
    h=true;
   }
  }
- if(FUN_00703d50()) FUN_00703c00(DAT_01034044,value,parameter,result);
+ if(::fnv_00703d50::FUN_00703d50()) FUN_00703c00(DAT_01034044,value,parameter,result);
  return h;
 }
 
@@ -15664,7 +15656,6 @@ void FUN_005ba6b0()
     DAT_011f9fc2 = !DAT_011f9fc2;
 }
 
-void __cdecl FUN_00703000();
 void __cdecl FUN_00703c00(const char* fmt, const char* text);
 
 
@@ -15672,7 +15663,7 @@ void __cdecl FUN_00703c00(const char* fmt, const char* text);
 bool __cdecl FUN_005ba760()
 {
     const char* text;
-    FUN_00703000();
+    ::fnv_00703000::FUN_00703000();
     if (::g_tlsBlock.conditionTarget != nullptr)
     {
         if (FUN_00702fc0())
@@ -16090,7 +16081,6 @@ bool __cdecl FUN_005bc510()
 
 namespace fnv_005bd3c0 {
 extern unsigned char DAT_011d73cc;
-void FUN_00703000();
 
 struct PathingHandle {
 };
@@ -16101,7 +16091,7 @@ bool __cdecl FUN_005bd3c0()
     if (DAT_011d73cc == 0) {
         DAT_011d73cc = 1;
         if ((int)((unsigned char)(::FUN_00702fc0())) == 0) {
-            FUN_00703000();
+            ::fnv_00703000::FUN_00703000();
         }
         reinterpret_cast<::FUN_008029c0_class *>((((::fnv_005bd3c0::PathingHandle *)(std::uintptr_t)(::FUN_005ba8d0()))))->FUN_008029c0({}, {});
     } else {
@@ -16142,7 +16132,6 @@ struct QueuedCellManagerStandIn {
 struct PlayerStandIn5bd {
 };
 
-void __cdecl FUN_00703da0(void);
 
 // @fnv 0x005bd660
 bool FUN_005bd660(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, double* result, unsigned int* opcodeOffset)
@@ -16164,7 +16153,7 @@ bool FUN_005bd660(const ScriptParameter* parameters, const char* scriptData, TES
     if (!cell)
         cell = ((::CellStandIn *)(reinterpret_cast<::FUN_00461330_shell *>(((*reinterpret_cast<::DataHandlerStandIn * *>(&::g_dataHandler))))->FUN_00461330((const char *)(0), x, y4, (::TESWorldSpace *)(worldSpace))));
     if (cell) {
-        FUN_00703da0();
+        ::fnv_00703da0::FUN_00703da0();
         reinterpret_cast<::fnv_0093db60::PlayerCenterOnCell *>(((*reinterpret_cast<::PlayerStandIn5bd * *>(&::_g_thePlayer))))->FUN_0093db60((const char *)(0), (::fnv_0093db60::CellS *)(cell));
     }
     reinterpret_cast<::ActorFieldsView*>(*reinterpret_cast<::PlayerStandIn5bd * *>(&::_g_thePlayer))->bUnk206 = true;
@@ -25738,7 +25727,6 @@ struct GridScene {  };
 extern GridPlayer* DAT_011dea3c; 
   
 
- int FUN_00406d90(float); 
 NiAVObject* FUN_004b3570(NiPoint3,NiPoint3,NiPoint3,RgbaColor*,bool);
 
 // @fnv 0x005b7b40
@@ -25771,8 +25759,8 @@ bool FUN_005b7b40(int form,int flags,int option,int source,int destination,int q
    if(process23) {
     NiPoint3 baseCamera32=camera3;
     reinterpret_cast<::TESObjectCELL_Ext *>((process23))->FUN_00555b10((*(const ::NiPoint3 *)(&camera3)),(*(::NiPoint3 *)(&baseCamera32)),1);
-    int baseX=(FUN_00406d90(baseCamera32.x)-2048)>>12;
-    int baseY31=(FUN_00406d90(baseCamera32.y)-2048)>>12;
+    int baseX=(::FUN_00406d90(baseCamera32.x)-2048)>>12;
+    int baseY31=(::FUN_00406d90(baseCamera32.y)-2048)>>12;
     std::intptr_t centerX2=baseX+cellX2-(cellCount7>>1);
     int centerY18=baseY31+cellY2-(cellCount7>>1);
     origin=NiPoint3(float(centerX2*4096+2048),float(centerY18*4096+2048),0);
@@ -25781,8 +25769,8 @@ bool FUN_005b7b40(int form,int flags,int option,int source,int destination,int q
    }
   } else {
    GridProcess* cell5=((::fnv_005b7b40::GridProcess *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*reinterpret_cast<::fnv_005b7b40::GridPlayer * *>(&::_g_thePlayer))))->FUN_00575d70()));
-   int baseX27=FUN_00406d90(camera3.x)>>12;
-   int baseY2=FUN_00406d90(camera3.y)>>12;
+   int baseX27=::FUN_00406d90(camera3.x)>>12;
+   int baseY2=::FUN_00406d90(camera3.y)>>12;
    int centerX2=baseX27+cellX2-(cellCount7>>1);
    int centerY2=baseY2+cellY2-(cellCount7>>1);
    origin=NiPoint3(float(centerX2*4096),float(centerY2*4096),0);
@@ -25847,13 +25835,13 @@ bool FUN_005b7b40(int form,int flags,int option,int source,int destination,int q
  if(reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>(((*reinterpret_cast<::fnv_005b7b40::GridPlayer * *>(&::_g_thePlayer))))->FUN_00575d10()) {
   NiPoint3 adjusted16;
   reinterpret_cast<::TESObjectCELL_Ext *>((((::fnv_005b7b40::GridProcess *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_005b7b40::GridPlayer * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_00555b10((*(const ::NiPoint3 *)((*reinterpret_cast<::fnv_005b7b40::GridPlayer * *>(&::_g_thePlayer))->GetPosition())),(*(::NiPoint3 *)(&adjusted16)),1);
-  int x15=(FUN_00406d90(adjusted16.x)-2048)>>12;
-  int y=(FUN_00406d90(adjusted16.y)-2048)>>12;
+  int x15=(::FUN_00406d90(adjusted16.x)-2048)>>12;
+  int y=(::FUN_00406d90(adjusted16.y)-2048)>>12;
   center23=NiPoint3(float(x15*4096+4096),float(y*4096+4096),0);
   player=adjusted16;
  } else {
-  int x26=FUN_00406d90((*reinterpret_cast<::fnv_005b7b40::GridPlayer * *>(&::_g_thePlayer))->GetPosition()->x)>>12;
-  int y2=FUN_00406d90((*reinterpret_cast<::fnv_005b7b40::GridPlayer * *>(&::_g_thePlayer))->GetPosition()->y)>>12;
+  int x26=::FUN_00406d90((*reinterpret_cast<::fnv_005b7b40::GridPlayer * *>(&::_g_thePlayer))->GetPosition()->x)>>12;
+  int y2=::FUN_00406d90((*reinterpret_cast<::fnv_005b7b40::GridPlayer * *>(&::_g_thePlayer))->GetPosition()->y)>>12;
   center23=NiPoint3(float(x26*4096+2048),float(y2*4096+2048),0);
  }
  player.z=0;
@@ -25879,7 +25867,6 @@ bool FUN_005b7b40(int form,int flags,int option,int source,int destination,int q
 }  // namespace fnv_005b7b40
 
 extern bool DAT_0118c6f0;   // menus visible
-void __cdecl FUN_00703810(bool bShow);
 
 // Script command: ToggleMenus.
 // @fnv 0x005b9490
@@ -25888,7 +25875,7 @@ bool __cdecl FUN_005b9490(const ScriptParameter* apParameters, const char* apCom
                           unsigned int* apOffset)
 {
     DAT_0118c6f0 ^= 1;
-    FUN_00703810(DAT_0118c6f0);
+    ::fnv_00703810::FUN_00703810(DAT_0118c6f0);
     if (g_tlsBlock.conditionFunctionDebug)
         static_cast<void (__cdecl*)(const char*, ...)>(FUN_00703c00)("Menus -> %s", DAT_0118c6f0 ? "On" : "Off");
     return true;
@@ -28125,7 +28112,6 @@ bool FUN_005bd410(void* p1,void* p2,void* p3,void* p4,void* p5,void* p6,void* p7
 
 namespace fnv_005bd5e0 {
 
-extern void __cdecl FUN_00703da0();
 struct Player5bd {  };
 extern Player5bd* g_thePlayer;
 // @fnv 0x005bd5e0
@@ -28133,7 +28119,7 @@ bool __cdecl FUN_005bd5e0(int a,int b,int c,int d,int e,int f,int unusedArg,int 
     char cellText[0x200];
     if (!::FUN_005accb0((const ::ExtractParameter *)(std::uintptr_t)(a), (const char *)(std::uintptr_t)(b), (unsigned int *)(std::uintptr_t)(h), (::TESObjectREFR *)(std::uintptr_t)(c), (::TESObjectREFR *)(std::uintptr_t)(d), (::ExtractScript *)(std::uintptr_t)(e), (::ScriptLocals *)(std::uintptr_t)(f), cellText))
         return false;
-    FUN_00703da0();
+    ::fnv_00703da0::FUN_00703da0();
     reinterpret_cast<::fnv_0093db60::PlayerCenterOnCell *>(((*reinterpret_cast<::fnv_005bd5e0::Player5bd * *>(&::_g_thePlayer))))->FUN_0093db60((const char *)(cellText),(::fnv_0093db60::CellS *)(0));
     return true;
 }
@@ -38113,7 +38099,6 @@ virtual bool v22c(int);
 extern Reference* DAT_011dea3c;
 struct ActorManager {  };
 struct WorldManager {  };
-void __cdecl FUN_00703da0();
 // @fnv 0x005ccb20
 void __cdecl FUN_005ccb20(Reference* moved,Reference* destination,float dx,float dy,float dz) {
  if(moved==(*reinterpret_cast<::MoveReference::Reference * *>(&::_g_thePlayer)) && (*reinterpret_cast<::MoveReference::Reference * *>(&::_g_thePlayer))->v22c(0)) return;
@@ -38140,7 +38125,7 @@ void __cdecl FUN_005ccb20(Reference* moved,Reference* destination,float dx,float
      else if(cellSlot7 && reinterpret_cast<::TESObjectCELL *>((cellSlot7))->IsCellInterior()) request->cell=cellSlot7;
      request->destination=destination;
      reinterpret_cast<::B93BE30ProcessManager *>(((*reinterpret_cast<::MoveReference::Reference * *>(&::_g_thePlayer))))->FUN_0093be30((::B93BE30Request *)(request));
-     FUN_00703da0();
+     ::fnv_00703da0::FUN_00703da0();
    } else {
      bool movable=moved->v0fc();
      reinterpret_cast<::Reference *>((moved))->FUN_00575830((::Position *)(::MoveReference::Point *)(&positionSlot4));
@@ -46113,7 +46098,6 @@ public:
 };
 
 
-void _FUN_00703da0();
 
 // @fnv 0x005bd780
 bool FUN_005bd780(const ScriptParameter* apParameters,
@@ -46161,7 +46145,7 @@ bool FUN_005bd780(const ScriptParameter* apParameters,
             ((::fnv_005bd780::LLD_Cell *)(reinterpret_cast<::FUN_00461330_shell *>(((*reinterpret_cast<::fnv_005bd780::DH * *>(&::g_dataHandler))))->FUN_00461330((const char *)(0), ix, iy, (::TESWorldSpace *)(pworld)))));
 
     if (pcell) {
-        _FUN_00703da0();
+        ::fnv_00703da0::FUN_00703da0();
         reinterpret_cast<::fnv_0093db60::PlayerCenterOnCell *>(((*reinterpret_cast<::fnv_005bd780::LLD_PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0093db60((const char *)(0), (::fnv_0093db60::CellS *)(::fnv_005bd780::LLD_Cell *)(reinterpret_cast<LLD_Cell*>(pcell)));
     }
 

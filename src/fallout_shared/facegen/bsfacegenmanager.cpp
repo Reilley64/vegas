@@ -1330,8 +1330,6 @@ struct TextureFormatHelper
 {
 };
 float FUN_00652440(FaceGenData*, int, int);
-void FUN_00652140();
-void FUN_00652190();
 int FUN_00653880(BSS*, int, unsigned char, const char*);
 struct NodeCalls
 {
@@ -1496,10 +1494,10 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
     void* pshaderprop;
     NiUpdateData UpdateData;
 
-    FUN_00652140();
+    ::FUN_00652140();
     if (apNode == 0 || arNpcData == 0)
     {
-        FUN_00652190();
+        ::fnv_00652190::FUN_00652190();
         return;
     }
     cage = (char)::FUN_00406ce0(FUN_00652440(arNpcData, 0, 0));
@@ -1659,7 +1657,7 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
     reinterpret_cast<::FUN_00a5a040_Class *>((((NiAVObjectHelper*)apNode)))->FUN_00a5a040();
     new ((void *)(((NiUpdateDataInit*)&UpdateData))) ::NiUpdateData(0.0f, false, false);
     reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeHelper*)apNode)))->FUN_00a59c60((std::intptr_t)&(UpdateData));
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
 }
 }  // namespace fnv_00655fa0
 
@@ -1866,7 +1864,6 @@ struct FGModelMap
 {
 };
 void FUN_00652140();
-void FUN_00652190();
 
 struct FGModelCache
 {
@@ -1894,7 +1891,7 @@ bool FGModelCache::FUN_00650200(void* key, Helper62d0* out)
         loaded = true;
         res = true;
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
     return res;
 }
 
@@ -1925,8 +1922,6 @@ struct NavMeshVertexMap
 struct Map62d0
 {
 };
-void FUN_00652140();
-void FUN_00652190();
 
 struct FGMapOwner
 {
@@ -1943,7 +1938,7 @@ unsigned int FGMapOwner::GetModelValueSum(int aiMode)
     unsigned int id6 = 0;
     GO ptr(0);
     unsigned int result3 = 0;
-    FUN_00652140();
+    ::FUN_00652140();
     pos2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(map))->GetFirstPos();
     while (pos2)
     {
@@ -1958,7 +1953,7 @@ unsigned int FGMapOwner::GetModelValueSum(int aiMode)
             break;
         }
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
     return result3;
 }
 }  // namespace fnv_00650930
@@ -2244,14 +2239,12 @@ struct FGManagerView
     NavMeshVertexMap map;
     void ClearModelTextures();
 };
-void FUN_00652140();
-void FUN_00652190();
 
 // Calls FUN_00652140, iterates positions from map, clears texture data on each model found, then calls FUN_00652190.
 // @fnv 0x00651e70
 void FGManagerView::ClearModelTextures()
 {
-    FUN_00652140();
+    ::FUN_00652140();
     void* pos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(map))->GetFirstPos();
     while (pos)
     {
@@ -2265,7 +2258,7 @@ void FGManagerView::ClearModelTextures()
                 reinterpret_cast<::BSFaceGenModel *>((reinterpret_cast<BSFaceGenModelHelper*>(model)))->ClearTextureData();
         }
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
 }
 }  // namespace fnv_00651e70
 
@@ -3446,18 +3439,16 @@ struct FGModelCache
     void FUN_00650ba0(void*);
     void FUN_0064ffd0(const char* apcKey, void* apModel);
 };
-void FUN_00652140();
-void FUN_00652190();
 
 // @fnv 0x0064ffd0
 void FGModelCache::FUN_0064ffd0(const char* apcKey, void* apModel)
 {
-    FUN_00652140();
+    ::FUN_00652140();
     GO spentry(0);
     if (!apModel)
     {
         reinterpret_cast<::NiTMap_S *>(&kMap)->RemoveKey((std::uintptr_t)apcKey);
-        FUN_00652190();
+        ::fnv_00652190::FUN_00652190();
         return;
     }
     (NP&)spentry = new FUN_00650100();
@@ -3465,7 +3456,7 @@ void FGModelCache::FUN_0064ffd0(const char* apcKey, void* apModel)
     static_cast<FaceGenModelEntryView*>((void*)(Flt&)spentry)->lastUseTick = ((unsigned int)(::FUN_00457fe0()));
     kMap.InsertOrUpdate((std::uintptr_t)apcKey, SpObst((unsigned int*)&spentry));
     FUN_00650ba0((void*)(Flt&)spentry);
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
 }
 }  // namespace fnv_0064ffd0
 
@@ -3485,8 +3476,6 @@ struct FGModelMap
 struct TaskQueueInterface
 {
 };
-void FUN_00652140();
-void FUN_00652190();
 
 struct BSFaceGenModelMap_t
 {
@@ -3503,7 +3492,7 @@ bool BSFaceGenModelMap_t::FUN_00650780(const char* apKey)
         return false;
     bool bres = false;
     GO spentry(0);
-    FUN_00652140();
+    ::FUN_00652140();
     if (!reinterpret_cast<::Map62d0 *>(&kMap)->FUN_006c62d0((std::uintptr_t)((void*)apKey), (void **)&(spentry)))
     {
         char* pext;
@@ -3522,7 +3511,7 @@ bool BSFaceGenModelMap_t::FUN_00650780(const char* apKey)
         reinterpret_cast<::fnv_0065c400::FUN_0065c400_t *>(static_cast<FaceGenModelEntryView*>(spentry.m_pObject)->model)->FUN_0065c400();
         bres = true;
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
     return bres;
 }
 }  // namespace fnv_00650780
@@ -3534,8 +3523,6 @@ struct Flt {
 struct Dummy_00650910
 {
 };
-void FUN_00652140();
-void FUN_00652190();
 struct UnusedModel
 {
     unsigned int FUN_0065c490();
@@ -3555,7 +3542,7 @@ void BSFaceGenModelMap_t::FUN_00650ba0(void* aspNewEntry)
     unsigned int totalSizePrev;
     unsigned int totalSize;
     size = 0;
-    FUN_00652140();
+    ::FUN_00652140();
     for (cnt = 0; cnt < 2; cnt++)
     {
         if (aspNewEntry)
@@ -3586,7 +3573,7 @@ void BSFaceGenModelMap_t::FUN_00650ba0(void* aspNewEntry)
                 break;
         }
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
 }
 }  // namespace fnv_00650ba0
 
@@ -4045,7 +4032,6 @@ struct FaceGenCacheEntryMap
 
 unsigned int BSStringLength(const char* apString);
 void FUN_00652140();
-void FUN_00652190();
 
 struct FaceGenModelCacheX
 {
@@ -4076,13 +4062,11 @@ bool FaceGenModelCacheX::TouchCachedModel(FGModelKey* apKey)
         bChanged = true;
         bResultTmp = true;
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
     return bResultTmp;
 }
 
-bool FUN_00652160();
 void FUN_00652140();
-void FUN_00652190();
 
 struct FGCacheModel
 {
@@ -4141,7 +4125,7 @@ void FaceGenModelCache650::PurgeUnusedModels(bool abForce)
     bool bStillHasData;
     void* pPos3;
     if (!abForce)
-        bLocked = FUN_00652160();
+        bLocked = ::fnv_00652160::FUN_00652160();
     else
         FUN_00652140();
     if (bLocked)
@@ -4164,7 +4148,7 @@ void FaceGenModelCache650::PurgeUnusedModels(bool abForce)
         }
         if (!bStillHasData)
             bHasData = false;
-        FUN_00652190();
+        ::fnv_00652190::FUN_00652190();
     }
 }
 
@@ -4196,7 +4180,6 @@ struct FGMap650
 };
 
 void FUN_00652140();
-void FUN_00652190();
 
 struct FGCache650
 {
@@ -4924,7 +4907,7 @@ void FGCache650::FUN_00650cb0(int aeType, FGEntry650* apExclude)
             break;
         }
     }
-    FUN_00652190();
+    ::fnv_00652190::FUN_00652190();
 }
 
 // Sums a base 0x34 plus per-range counts times 0x58 and per-item values times 3 across two ranges, returning the total.
@@ -6073,7 +6056,6 @@ FUN_00659190_class* FUN_00659190_class::FUN_00659190()
 }
 
 namespace fnv_006518e0 {
-void FUN_00651e30();
 struct Cache
 {
     virtual ~Cache();
@@ -7232,7 +7214,7 @@ struct FUN_006518e0 : Base
 // @fnv 0x006518e0
 FUN_006518e0::~FUN_006518e0()
 {
-    FUN_00651e30();
+    ::FUN_00651e30();
     if (cache)
         reinterpret_cast<::FaceGenModelCache650 *>((cache))->PurgeUnusedModels(false);
     delete cache;

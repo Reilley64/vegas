@@ -17519,7 +17519,6 @@ struct Controller
     float offset;
     void FUN_00c76350(const Transform&);
 };
-float __cdecl GetElapsedSeconds();
 __forceinline float realValue(P064Quad v)
 {
     float value;
@@ -17892,10 +17891,10 @@ void Controller::FUN_00c76350(const Transform& world)
         component(inputData, &Input::modelFromWorld) = pose->getModel(legs[i].solver->bone);
         currentLeg = (short)i;
         unk238 = 0;
-        float start = GetElapsedSeconds();
+        float start = ::GetElapsedSeconds();
 
         ::FUN_00cd8d90((::NativeSolver *)(legs[i].solver), (void *)&(inputData), (const ::NativeInput &)(result), (*(::NativeOutput *)(pose)), *(::NativePose *)nullptr);
-        float q = GetElapsedSeconds();
+        float q = ::GetElapsedSeconds();
         legs[i].height = component(result, &Output::height);
         ::DAT_01267c1c += (q - start) * 1000.0;
         Transform solved = pose->getLocalAfter(bone);

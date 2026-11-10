@@ -25267,7 +25267,6 @@ inline Vec3 Vec3::FUN_004b3800(const Vec3& v) const
 {
     return Vec3(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 }
-void* FUN_00aa1070(unsigned int);
 extern const unsigned short DAT_010c2d10[];
 // @fnv 0x00c5a0f0
 MeshRoot* FUN_00c5a0f0(const Vec3& start, const Vec3& end, float width, float height, const Color4* shaftColor,
@@ -25307,7 +25306,7 @@ MeshRoot* FUN_00c5a0f0(const Vec3& start, const Vec3& end, float width, float he
         for (unsigned int i2 = 0; i2 < 6; ++i2)
             colors[i2] = *tipColor;
     }
-    unsigned short* indices_10 = (unsigned short*)FUN_00aa1070(48);
+    unsigned short* indices_10 = (unsigned short*)::FUN_00aa1070(48);
     std::memmove(indices_10, DAT_010c2d10, 48);
     Mesh* meshTmp = new Mesh(6, verticesX3, 0, colors, 0, 0, 0, 8, indices_10);
     meshTmp->Update();

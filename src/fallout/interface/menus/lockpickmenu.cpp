@@ -2064,7 +2064,6 @@ extern int xg_iLastState_11da2a8;
 extern bool xg_bMsg_11da2a4;
 extern int xg_iDir_11a0394;
 bool xF702450(int);
-float xF404010(float, float);
 
 static const char s_szIcon[] = "Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds";
 static const char s_szEnter[] = "UILockpickingEnter";
@@ -2237,7 +2236,7 @@ void xLockPickMenu::FUN_0078eb50()
             {
                 float OLD2 = m_8c;
                 m_8c -= qSVM * 90 / 1000.0;
-                m_8c = xF404010(m_8c, 0.0f);
+                m_8c = ::FUN_00404010(m_8c, 0.0f);
                 reinterpret_cast<::fnv_00790f40::FUN_00790f40_cls *>(this)->AdvanceSequence(0.0f);
                 if (m_8c < 30.0 && OLD2 > 30.0)
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_0078eb50::xSound &)(((::fnv_0078eb50::xAudio *)(::FUN_00453a70()))->FUN_00ad7550(s_szSqueakA, 0x101)))->FUN_00ad8830(false);
@@ -2372,7 +2371,7 @@ void xLockPickMenu::FUN_0078eb50()
             char qJDuOZ[0x20];
             if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0078eb50::xFltSetting *>(&::g_011d41c8)))))) != 0.0)
                 m_94 -= qQMZREG / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0078eb50::xFltSetting *>(&::g_011d41c8))))));
-            m_94 = xF404010(m_94, 0.0f);
+            m_94 = ::FUN_00404010(m_94, 0.0f);
             reinterpret_cast<::fnv_00790f40::FUN_00790f40_cls *>(this)->AdvanceSequence(xg_iDir_11a0394 * 0.25);
             if (::FUN_004b71d0())
                 reinterpret_cast<::Controller *>((((::fnv_0078eb50::xControls *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_0078eb50::xOS * *>(&::g_osGlobals))))->FUN_00877720()))))->FUN_00a255b0(0.5f, 0.0f, 0xfa, 0, 0, 0, 0);

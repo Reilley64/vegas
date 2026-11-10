@@ -1697,7 +1697,6 @@ extern bool xDAT_011a0b68;
 extern int xDAT_011db180;
 
 bool xFUN_00702450(int aiID);
-void xFUN_00705780();
 unsigned char xFUN_007f5050(int aiAction, int a2);
 
 struct VATSMenu007ef830 : VATSMenu
@@ -6170,7 +6169,6 @@ struct LimbSelection
     int m_iLimbIndex;
 };
 
-void FUN_00705780();
 int __cdecl FUN_00406d50(char* apDest, unsigned int auiSize, const char* apSrc);
 
 struct VATSMenuQueue
@@ -6205,7 +6203,7 @@ void VATSMenuQueue::UpdateQueueEntry(VATSAction* apAction, bool abAddEntry, bool
         reinterpret_cast<::B9C88A0List *>(&((*reinterpret_cast<::VatsQueueText::VATSQueue *>(&::g_011f2250))))->PopLastItem(&iType, &bFlag);
         reinterpret_cast<::VATSMenuX *>(this)->UpdateLimbTiles();
         if (iType == 0x16 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VatsQueueText::VATSQueue *>(&::g_011f2250))))->GetName())) == 2)
-            FUN_00705780();
+            ::FUN_00705780();
         if (!((bool)(::fnv_009526b0::FUN_009526b0())))
         {
             WeaponHolder* pHolder = ((::VatsQueueText::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VatsQueueText::PlayerLink * *>(&::_g_thePlayer))))->GetBaseTexture()))->FUN_vt148();
@@ -8578,7 +8576,7 @@ void VATSMenuX::Update()
             (::FUN_004b71d0() && ::fnv_00717a40::FUN_00717a40(9, 1) == 2 &&
              ((::QueueX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->m_item))->GetSize() > 0 && ((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) == 2))
         {
-            xFUN_00705780();
+            ::FUN_00705780();
             return;
         }
         {

@@ -2408,7 +2408,6 @@ class VTMenu
 
 
 void FUN_00782470(int iFlag);
-void FUN_00782a90();
 void FUN_00782620();
 void UpdateItemLabel(Tile* pkTile);
 void IsNotFormType2E();
@@ -2500,7 +2499,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
                     {
                         reinterpret_cast<::ThiS *>(&(m_kSelection))->FUN_007019e0((::ObjRef *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))));
                         m_kTargets.FUN_005ae3d0(((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->pObject)));
-                        FUN_00782a90();
+                        ::FUN_00782a90();
                     }
                 }
             }
@@ -2532,7 +2531,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             bool bLeft = reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((pkProcess->GetWeaponInfo(2)))->HasEffect({});
             ((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))->PlayAttack(pkAnimOut, iType, bLeft, 0);
             m_kTargets.FUN_005ae3d0(((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->pObject)));
-            FUN_00782a90();
+            ::FUN_00782a90();
         }
         break;
     case 30:

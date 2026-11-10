@@ -23167,7 +23167,6 @@ struct Sub64
 struct Obj6c
 {
 };
-void __cdecl FUN_0057acc0(unsigned int);
 Cls* __cdecl FUN_007038d0();
 struct G43c
 {
@@ -23265,7 +23264,7 @@ Cls::~FUN_0055a430()
     N18* iterX = 0;
     bool saved3;
     Cls* aTmp68;
-    FUN_0057acc0((std::uintptr_t)this);
+    ::FUN_0057acc0((std::uintptr_t)this);
     if (FUN_00568680())
     {
         reinterpret_cast<::FUN_004538e0_Class *>(&((*reinterpret_cast<::fnv_0055a430::G43c *>(&::g_011e043c))))->FUN_004538e0(0);

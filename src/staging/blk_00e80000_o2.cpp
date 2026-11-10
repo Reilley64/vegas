@@ -9192,7 +9192,6 @@ struct FUN_00aa4060_Class {
 };
 
 
-void __cdecl FUN_00aa10f0(void* data);
 
 struct FUN_00e8f7c0_Class {
     void* m_vptr;
@@ -9207,7 +9206,7 @@ void* FUN_00e8f7c0_Class::FUN_00e8f7c0(unsigned char deleting)
 {
     m_vptr = (void*)&::DAT_010f02b0;
     static_cast<::S_00b601a0_Map *>(nullptr)->FUN_00b601a0();
-    FUN_00aa10f0(m_data);
+    ::FUN_00aa10f0(m_data);
     if (deleting & 1) {
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e8f7c0::FUN_00aa4060_Class *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }

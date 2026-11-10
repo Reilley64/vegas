@@ -1105,7 +1105,6 @@ inline SmallBool __cdecl checkMagicPair(unsigned int a, unsigned int b)
 {
     return ((a == 0xcab00d1e && b == 0xd011face) || (reverseWord(a) == 0xcab00d1e && reverseWord(b) == 0xd011face));
 }
-const char* __cdecl FUN_00cb1130(const char*, const char*);
 int __cdecl FUN_00cb10d0(const char*);
 const char* __cdecl FUN_00cb1140(const char*, int);
 int __cdecl CallWithZeroMiddleArg(const char*, int);
@@ -1118,7 +1117,7 @@ static __declspec(noinline) const char* FUN_00d48420(const char* p)
 }
 static __declspec(noinline) int ParseQuotedValue(const char* text, const char* key, hkStringPtr& out)
 {
-    const char* first = FUN_00cb1130(text, key);
+    const char* first = ::fnv_00cb1130::FUN_00cb1130(text, key);
     if (!first)
         return 0;
     first += FUN_00cb10d0(key);
@@ -1161,11 +1160,11 @@ static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
         reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10(binary->version);
         ::fnv_00d2caa0::FUN_00d2caa0(&out.layout, (void *)(binary->layout), 4);
     }
-    else if (FUN_00cb1130(bytes, "<hkpackfile ") || FUN_00cb1130(bytes, "<hkpackfile>"))
+    else if (::fnv_00cb1130::FUN_00cb1130(bytes, "<hkpackfile ") || ::fnv_00cb1130::FUN_00cb1130(bytes, "<hkpackfile>"))
     {
         out.type = 3;
         BufferedText header;
-        reinterpret_cast<::FUN_00d61a50_cls *>(&(header))->FUN_00d61a50((intptr_t)(FUN_00cb1130(bytes, "<hkpackfile")));
+        reinterpret_cast<::FUN_00d61a50_cls *>(&(header))->FUN_00d61a50((intptr_t)(::fnv_00cb1130::FUN_00cb1130(bytes, "<hkpackfile")));
         hkStringPtr version;
         new ((void *)(reinterpret_cast<StringOps*>(&version))) struct ::FUN_00cb0a60();
         if (ParseQuotedValue(header.cString(), "classversion", version))

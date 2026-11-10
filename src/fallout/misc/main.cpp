@@ -2986,7 +2986,6 @@ struct InterfaceH
 {
     static bool GetSelectedTargetIndex(int menu);
 };
-void __cdecl FUN_00706230(int x, int y);
 
 struct FUN_00871d10_t
 {
@@ -3005,7 +3004,7 @@ bool FUN_00871d10_t::FUN_00871d10(int x, int y)
     if (!InterfaceH::GetSelectedTargetIndex(0x41e))
         ::fnv_00703080::FUN_00703080((float)(x / (double)((int)(::FUN_004dc1f0()))), (float)(y / (double)FUN_004dc200()));
     else
-        FUN_00706230(x, y);
+        ::fnv_00706230::FUN_00706230(x, y);
     return true;
 }
 

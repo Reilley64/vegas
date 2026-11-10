@@ -1709,7 +1709,6 @@ bool __cdecl FUN_00af5700(char* apFileName)
 }  // namespace fnv_00af5700
 
 namespace fnv_00af5fa0 {
-const char* __cdecl SkipDataPrefix(const char* apFileName);
 class NiRefObject
 {
   public:
@@ -1790,7 +1789,7 @@ void* LoadFileFromArchives(const char* apFileName, unsigned int auiBufferSize, u
     unsigned int uiFileIndex = 0;
     FileNameHash kFileNameHash;
     FileNameHash kDirectoryNameHash;
-    apFileName = SkipDataPrefix(apFileName);
+    apFileName = ::SkipDataPrefix(apFileName);
     if (aeArchiveTypeFlags == 0xffff)
         aeArchiveTypeFlags = ::FUN_00af7d80(apFileName);
     FileNameHash::CreateDirectoryAndFileHashes(apFileName, kDirectoryNameHash, kFileNameHash);
@@ -1814,7 +1813,6 @@ namespace fnv_00af6160 {
 struct _RTL_CRITICAL_SECTION : ::CRITICAL_SECTION
 {
 };
-const char* __cdecl SkipDataPrefix(const char* apFileName);
 class NiRefObject
 {
   public:
@@ -1898,7 +1896,7 @@ Archive* FindArchiveForFile(const char* apFileName, unsigned int aeArchiveTypeFl
     unsigned int uiFileIndex;
     FileNameHash kFileNameHash;
     FileNameHash kDirectoryNameHash;
-    apFileName = SkipDataPrefix(apFileName);
+    apFileName = ::SkipDataPrefix(apFileName);
     if (aeArchiveTypeFlags == 0xffff)
         aeArchiveTypeFlags = ::FUN_00af7d80(apFileName);
     FileNameHash::CreateDirectoryAndFileHashes(apFileName, kDirectoryNameHash, kFileNameHash);
@@ -7519,7 +7517,6 @@ FUN_00afb300::FUN_00afb300(const char* name, Archive* arch, unsigned int off, un
 
 namespace fnv_00af7400 {
 
-const char* __cdecl SkipDataPrefix(const char*);
 
 class FUN_00afd390_class
 {
@@ -7685,7 +7682,7 @@ __forceinline const char* ResolveNameInline(ArchiveEntry& entry, NP_afc& archive
 bool __cdecl ResolveArchivePath(const char* path, char* dest, unsigned int flags)
 {
     int index = 0;
-    path = SkipDataPrefix(path);
+    path = ::SkipDataPrefix(path);
     unsigned int len5 = std::strlen(path);
     if (flags == 0xffff && (signed char)path[len5 - 1] != '\\')
     {
@@ -8248,7 +8245,6 @@ struct PathArchiveNode
     PathArchiveNode* next;
 };
 
-const char* SkipDataPrefix(const char*);
 
 // Finds the archive entry matching path and mask, picks the lowest-offset file, and writes its resolved name into output.
 // @fnv 0x00af7800
@@ -8257,7 +8253,7 @@ bool FUN_00af7800(const char* path, char* output, unsigned mask)
 
     unsigned directoryIndex = 0;
 
-    path = SkipDataPrefix(path);
+    path = ::SkipDataPrefix(path);
 
     unsigned length2 = strlen(path);
 

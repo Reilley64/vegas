@@ -972,7 +972,6 @@ void* Ee9b10_Owner::LookupAndVisit(const char* name, Ee9b10_Visitor* visitor)
 }  // namespace fnv_00ee9b10
 
 namespace fnv_00ee9bf0 {
-void* __cdecl FUN_00aa1070(unsigned int);
 
 struct S_00ee9bf0_Base
 {
@@ -994,7 +993,7 @@ struct S_00ee9bf0_B
     {
         unk0c = 0x25;
         unk14 = 0;
-        unk10 = FUN_00aa1070(0x94);
+        unk10 = ::FUN_00aa1070(0x94);
         std::memset(unk10, 0, unk0c * 4);
     }
 };

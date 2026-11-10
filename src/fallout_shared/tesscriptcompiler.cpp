@@ -2582,7 +2582,6 @@ extern unsigned DAT_011cadbc;
 
 int FUN_005af5f0(CompileState*, CompileWord*, char*, unsigned*, unsigned char, int);
 
-bool FUN_005afeb0(const char*);
 
 bool FUN_005b1a90(const char*, unsigned);
 
@@ -2744,7 +2743,7 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
         {
             const char* variableName1 = word6.text;
 
-            if (!FUN_005afeb0(variableName1))
+            if (!::fnv_005afeb0::FUN_005afeb0(variableName1))
             {
                 ::ReportScriptError((::CStringArgument *)(compiler), "Invalid variable name '%s'.\r\nCompiled script not saved!", variableName1);
                 return false;

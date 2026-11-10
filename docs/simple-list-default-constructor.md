@@ -128,6 +128,9 @@ test.
 
 These were open before this change and remain open.
 
+`docs/shared-simple-list.md` records what a later change did about the
+shared definition, the element types and the second copy.
+
 - 119 undefined names are still bound to the address. 17 are the template's
   own name with an element type the owning unit does not declare:
   `LitWaterRef*`, `fnv_008ad1c0::MoveActor454*`, `TeammateEntry*`,

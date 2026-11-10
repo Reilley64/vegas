@@ -9432,10 +9432,6 @@ struct Flt_s
 {
     operator std::uintptr_t();
 };
-struct FUN_0043ea30_s
-{
-    void FUN_0043ea30();
-};
 struct FUN_00490fa0_s
 {
 };
@@ -16110,10 +16106,6 @@ struct AnimList
 struct AnimNode
 {
 };
-struct Weapon445
-{
-    int GetType();
-};
 struct Actor445
 {
     virtual void v00();
@@ -16321,10 +16313,10 @@ void AnimLoader445::QueueModelAnimations(TESModel* model, int priority, std::int
                 reinterpret_cast<::ModelLoader *>(this)->QueueFileList((::BSSimpleList<const char *> *)(i), (::IO_TASK_PRIORITY)(priority), (::QueuedFile *)(queued), 0);
                 delete i;
                 actorCast = actor->IsActor() ? actor : 0;
-                if (actorCast && ((::Weapon445 *)(reinterpret_cast<::FUN_008a1710_shell *>((actorCast))->FUN_008a1710())))
+                if (actorCast && ((::TESObjectWEAP *)(reinterpret_cast<::FUN_008a1710_shell *>((actorCast))->FUN_008a1710())))
                 {
                     const char* p;
-                    p = DAT_011977a4[::DAT_0118a838[((::Weapon445 *)(reinterpret_cast<::FUN_008a1710_shell *>((actorCast))->FUN_008a1710()))->GetType()]];
+                    p = DAT_011977a4[::DAT_0118a838[((::TESObjectWEAP *)(reinterpret_cast<::FUN_008a1710_shell *>((actorCast))->FUN_008a1710()))->GetWeaponType()]];
                     if (p && *p)
                     {
                         std::sprintf(extraList, "\\%sHolster.KF", p);
@@ -17137,7 +17129,7 @@ void FUN_0043e9b0_s::FUN_0043e9b0()
     {
         reinterpret_cast<::FUN_00490fa0_cls *>((((FUN_00490fa0_s*)*(void**)((char*)this + 0x38))))->FUN_00490fa0((::FUN_00490fa0_src *)((std::uintptr_t)*(Flt_s*)((char*)this + 0x30)));
         if (*(void**)((char*)this + 0x3c))
-            ((FUN_0043ea30_s*)*(void**)((char*)this + 0x3c))->FUN_0043ea30();
+            ((::fnv_0043ea30::FUN_0043ea30_shell*)*(void**)((char*)this + 0x3c))->FUN_0043ea30();
     }
 }
 
@@ -20123,18 +20115,6 @@ class FUN_0043c3b0_This_ctx
     int FUN_0043c3b0();
 };
 
-class FUN_0043e480_shell_ctx
-{
-  public:
-    void FUN_0043e480(bool);
-};
-
-class FUN_0043c3d0_shell_ctx
-{
-  public:
-    bool FUN_0043c3d0();
-};
-
 class TextureNode
 {
   public:
@@ -20231,9 +20211,9 @@ void CQueuedTexture::FUN_0043c150()
 
     if (this->unk30)
     {
-        ((FUN_0043e480_shell_ctx*)(void*)this)->FUN_0043e480(true);
+        ((::FUN_0043e480_shell*)(void*)this)->FUN_0043e480(true);
         if (reinterpret_cast<::ParentByteQuery *>((((TextureNode*)(void*)(NiNode*)this->unk30)))->FUN_0043c430() == 3 &&
-            !((FUN_0043c3d0_shell_ctx*)(void*)this)->FUN_0043c3d0())
+            !((::FUN_0043c3d0_shell*)(void*)this)->FUN_0043c3d0())
         {
             ((TextureNode*)(void*)(NiNode*)this->unk30)->vfn_8c();
         }
@@ -20246,7 +20226,7 @@ void CQueuedTexture::FUN_0043c150()
         int tlsVal;
         const char* path = fileEntry->vfn_18();
         tlsVal = FUN_0043c410();
-        if (((FUN_0043c3d0_shell_ctx*)(void*)this)->FUN_0043c3d0())
+        if (((::FUN_0043c3d0_shell*)(void*)this)->FUN_0043c3d0())
         {
             FUN_0043c3f0(1);
         }

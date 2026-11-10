@@ -35849,11 +35849,6 @@ void Dummy629670::FUN_00886c80(bool b)
 }
 }  // namespace fnv_00886c80
 
-struct FUN_009314d0_class
-{
-    void FUN_009314d0(float);
-};
-
 struct FUN_00887ac0_class
 {
     void FUN_00887ac0(float f);
@@ -113233,7 +113228,7 @@ struct FUN_00887a10_cls
 // @fnv 0x00887ac0
 void FUN_00887ac0_class::FUN_00887ac0(float afValue)
 {
-    FUN_009314d0_class* result = ((::FUN_009314d0_class *)(reinterpret_cast<::FUN_00887a10_cls *>(this)->FUN_00887a10()));
+    ::fnv_009314d0::FUN_009314d0_class* result = ((::fnv_009314d0::FUN_009314d0_class *)(reinterpret_cast<::FUN_00887a10_cls *>(this)->FUN_00887a10()));
     if (result)
         result->FUN_009314d0(afValue);
 }
@@ -165090,10 +165085,6 @@ struct FUN_009eb500
 struct CrimeLimit
 {
 };
-struct CrimeCalendar
-{
-    int FUN_00867d20();
-};
 struct CrimeQueue
 {
 };
@@ -165412,7 +165403,7 @@ void FUN_008c00e0_shell::FUN_008c00e0(TESObjectREFR* victimRef, int amount, int 
         base->status = victim;
     TESNPC* form = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())));
     ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((entry))->GetBaseTexture()))->ClearCrime(true);
-    reinterpret_cast<::BaseExtraList_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((target))->FUN_005d43c0()))))->AddOrCreateExtraItem(isLowLevel, reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetGameTime());
+    reinterpret_cast<::BaseExtraList_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((target))->FUN_005d43c0()))))->AddOrCreateExtraItem(isLowLevel, reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->GetGameTime());
     reinterpret_cast<::fnv_009eb9c0::Crime *>((isLowLevel))->AddActor((Actor*)this);
     reinterpret_cast<::fnv_009721f0::FUN_009721f0_shell *>(&((*reinterpret_cast<::CrimeQueue *>(&::g_011e0e80))))->AddObjectToList((::fnv_009721f0::TESFormList *)(isLowLevel));
     reinterpret_cast<::FUN_008bff50_Standin *>((target))->FUN_008bff50();
@@ -165423,7 +165414,7 @@ void FUN_008c00e0_shell::FUN_008c00e0(TESObjectREFR* victimRef, int amount, int 
         if (m_iIntegerAfterActorListValid > 0)
         {
             int day = m_iIntegerAfterActorListValid & 0x1ff;
-            if (day != ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetDayOfMonth())))
+            if (day != ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->GetDayOfMonth())))
             {
                 alert = false;
                 m_bActorListValid = false;
@@ -165439,7 +165430,7 @@ void FUN_008c00e0_shell::FUN_008c00e0(TESObjectREFR* victimRef, int amount, int 
     {
         m_bActorListValid = true;
         m_iIntegerAfterActorListValid =
-            ((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8)).FUN_00867d20() << 9) | ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetDayOfMonth())) | (((int)(reinterpret_cast<::FUN_00867c60_shell *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->FUN_00867c60())) << 13);
+            ((*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetCurrentMonth() << 9) | ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->GetDayOfMonth())) | (((int)(reinterpret_cast<::FUN_00867c60_shell *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->FUN_00867c60())) << 13);
     }
     reinterpret_cast<::Me *>((target))->FUN_008bf500((Actor*)this);
 }

@@ -4391,10 +4391,6 @@ struct RefMapOps
 {
     TESWorldSpace* FUN_00575d70();
 };
-struct SettingQuestOps
-{
-    SETTING_VALUE* FUN_00408d60();
-};
 extern const char markerWorld[], markerLocal[], markerTexture[];
 struct MarkerValue
 {
@@ -4428,7 +4424,7 @@ void MarkerMap::FUN_0079e0a0()
         tile = ((::fnv_0079e0a0::MarkerTile *)(reinterpret_cast<::TileFloatList *>((((MarkerTile*)m_pMapTile)))->FUN_00a03eb0(29)));
     }
     for (QuestNode* node = ((::fnv_0079e0a0::QuestNode *)(reinterpret_cast<::fnv_00952ba0::PlayerCharacterStandIn *>((((PlayerQuestOps*)::_g_thePlayer)))->FUN_00952ba0()));
-         (*reinterpret_cast<::fnv_0079e0a0::SettingQuestOps *>(&::g_011e07f0)).FUN_00408d60()->b && node && *((::fnv_0079e0a0::QuestTargetOps **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::fnv_0079e0a0::QuestNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+         (*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011e07f0)).Bool()->b && node && *((::fnv_0079e0a0::QuestTargetOps **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::fnv_0079e0a0::QuestNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
         TESObjectREFR* reference = reinterpret_cast<::RegionObjectEntry *>(((*((::fnv_0079e0a0::QuestTargetOps **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->GetReference(true);
         TESObjectREFR* target = m_iMapDisplayMode == 33

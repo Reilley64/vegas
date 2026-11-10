@@ -3594,10 +3594,6 @@ struct ResourceProvider
 struct TileB
 {
 };
-struct FUN_00a03c90_shell
-{
-    Menu* FUN_00a03c90();
-};
 struct TileMenuO
 {
 };
@@ -3696,7 +3692,7 @@ intptr_t FUN_00784c80()
     if (objB)
         delete (DelObj*)objB;
     menu = ((void *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((TileB*)((::fnv_00784c80::Tile *)(reinterpret_cast<::InterfaceManager *>((((ResourceProvider*)objA)))->FUN_00586150())))))->FUN_00a01b00({})));
-    DAT_011d9fdc = (intptr_t)(void*)((FUN_00a03c90_shell*)menu)->FUN_00a03c90();
+    DAT_011d9fdc = (intptr_t)(void*)((::FUN_00a03c90_shell*)menu)->FUN_00a03c90();
     if (DAT_011d9fdc && ((MenuV*)(void*)(uintptr_t)DAT_011d9fdc)->GetID() == FUN_00785180())
     {
         reinterpret_cast<::FUN_00a1dc70_shell *>((((FUN_00a1dc70_shell*)(void*)(uintptr_t)DAT_011d9fdc)))->FUN_00a1dc70((::TileMenu *)(::fnv_00784c80::TileMenu *)((TileMenu*)menu), false);

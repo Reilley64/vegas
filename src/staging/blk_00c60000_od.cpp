@@ -1735,10 +1735,6 @@ FUN_00c61330::FUN_00c61330(int iA, int iB) : C61330Base(iA, iB)
     reinterpret_cast<::NiAVObject *>(this)->FUN_00c61610();
 }
 
-struct FUN_00c61c50_sub
-{
-    void FUN_00c628c0(unsigned int n);
-};
 struct FUN_00c61c50_cls
 {
     unsigned int pad0[0x18];
@@ -6029,10 +6025,10 @@ void FUN_00c61c50_cls::FUN_00c61c50(uintptr_t x, uintptr_t y)
     unsigned int n = m_66;
     if (n != 0)
     {
-        ((FUN_00c61c50_sub*)(x + 0x5c))->FUN_00c628c0(n);
+        ((::PtrArray< ::NiPtr< ::RefObj>>*)(x + 0x5c))->FUN_00c628c0(n);
         while (n-- != 0)
         {
-            reinterpret_cast<::SetAtArray *>((((FUN_00c61c50_sub*)(x + 0x5c))))->FUN_00c62b90(n, (*(const ::NiPointer< ::SetAtRefObject> *)(&m_60[n])));
+            reinterpret_cast<::SetAtArray *>((((::PtrArray< ::NiPtr< ::RefObj>>*)(x + 0x5c))))->FUN_00c62b90(n, (*(const ::NiPointer< ::SetAtRefObject> *)(&m_60[n])));
         }
     }
 }

@@ -24403,12 +24403,6 @@ class TESForm_ctx
   public:
 };
 
-class FUN_00439f90_shell_ctx
-{
-  public:
-    bool FUN_00439f90();
-};
-
 class FUN_00569ac0_shell
 {
   public:
@@ -24598,7 +24592,7 @@ void Cell_Sub_ctx::FUN_00544ce0()
         iter = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
         if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)(((TESForm_ctx*)item5)))->FUN_00440d80() || reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
         {
-            if (((FUN_00439f90_shell_ctx*)item5)->FUN_00439f90())
+            if (((::FUN_00439f90_shell*)item5)->FUN_00439f90())
             {
                 reinterpret_cast<::CellLike *>((((FUN_00545740_shell*)this)))->GetOrCreateFaceGenNode((::RefForm *)(item5));
                 if (reinterpret_cast<::fnv_00569ac0::FUN_00569ac0_shell *>((((FUN_00569ac0_shell*)item5)))->FUN_00569ac0())

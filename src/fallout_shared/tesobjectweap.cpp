@@ -3747,7 +3747,6 @@ struct FireWeapon : TESObjectWEAP {
  void FUN_00524db0(FireRef*);
    
 };
-struct FireString { int GetModelLength(); };
 struct FireVats {
   
   
@@ -3839,7 +3838,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
    else muzzle11 = ((::FireNode *)(reinterpret_cast<::UnkClass25700 *>(this)->FUN_00525700((::NiAVObject *)(::FireNode *)(player12 ? ((::FireNode *)(std::uintptr_t)(::FUN_00950be0((bool *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)))))) : reference->root()))));
    if (muzzle11) {
     position6 = *((::FirePoint *)(::FUN_0045bb80((std::intptr_t)(muzzle11))));
-    if (((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))!=4 && actor19==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_008bbc10_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_008bbc10() && ((::FireString *)(reinterpret_cast<::FUN_00504e60_shell *>(this)->FUN_00504e60()))->GetModelLength()) {
+    if (((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))!=4 && actor19==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_008bbc10_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_008bbc10() && ((::TESActorBase *)(reinterpret_cast<::FUN_00504e60_shell *>(this)->FUN_00504e60()))->GetSex()) {
      bool useFace2 = false;
      if (reinterpret_cast<::FUN_004ad030_shell *>(this)->GetFlag()) {
       FireProcess* faceProcess = ((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->GetBaseTexture()));

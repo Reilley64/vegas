@@ -332,12 +332,6 @@ struct BSThread
 {
 };
 
-class MagicTarget
-{
-  public:
-    Actor* GetOwnerActor() const;
-};
-
 struct FUN_0082c810_shell
 {
 };
@@ -614,7 +608,7 @@ void FUN_0080c650_shell::UpdateDarknessEffect()
 
     Actor* ptargetActor =
         reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType()
-            ? reinterpret_cast<MagicTarget*>(reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType())->GetOwnerActor()
+            ? reinterpret_cast<::MagicTarget*>(reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType())->GetOwnerActor()
             : 0;
     float fnewDarkness;
 

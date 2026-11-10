@@ -36905,10 +36905,6 @@ struct Actor17
     virtual void v418();
     Form17* FUN_007af430();
 };
-struct Procedure17
-{
-    int FUN_00680080();
-};
 struct Rule17
 {
 };
@@ -37614,7 +37610,7 @@ void Process17::ProcessPackage(Actor17* actor)
     int h = reinterpret_cast<::FUN_00672930_cls *>((p))->FUN_00672930();
     if (h <= 0)
         h = 1;
-    Procedure17* a = ((::Procedure17 *)(reinterpret_cast<::Script *>((p))->GetData()));
+    ::PackageTargetRecord* a = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>((p))->GetData()));
     if (!v80c(actor, h))
     {
         if (!target || reinterpret_cast<::FUN_00440d80_shell *>((target))->FUN_00440d80() || reinterpret_cast<::TESForm *>((target))->GetDisabled() || !acquire)
@@ -37628,7 +37624,7 @@ void Process17::ProcessPackage(Actor17* actor)
             v288(actor, 1);
         return;
     }
-    if (!reinterpret_cast<struct ::FUN_0041ca90 *>((p))->get() && (a->FUN_00680080() == 12 || (a->FUN_00680080() >= 19 && a->FUN_00680080() <= 23)))
+    if (!reinterpret_cast<struct ::FUN_0041ca90 *>((p))->get() && (a->GetTargetObjectType() == 12 || (a->GetTargetObjectType() >= 19 && a->GetTargetObjectType() <= 23)))
     {
         v7c8(actor, true);
         if (v280() > 1)
@@ -37643,7 +37639,7 @@ void Process17::ProcessPackage(Actor17* actor)
             else
             {
                 v288(actor, 1);
-                if (a->FUN_00680080() == 19 || a->FUN_00680080() == 20)
+                if (a->GetTargetObjectType() == 19 || a->GetTargetObjectType() == 20)
                 {
                     bool p = true;
                     bool h = true;
@@ -37694,7 +37690,7 @@ void Process17::ProcessPackage(Actor17* actor)
                 v08c(actor);
             if (reinterpret_cast<struct ::FUN_0041ca90 *>((p))->get() == 8 || reinterpret_cast<struct ::FUN_0041ca90 *>((p))->get() == 16)
             {
-                if (((::Procedure17 *)(reinterpret_cast<::Script *>((p))->GetData())) && reinterpret_cast<::PackageTargetRecord *>((((::Procedure17 *)(reinterpret_cast<::Script *>((p))->GetData()))))->GetTargetKind() && reinterpret_cast<::PackageTargetRecord *>((((::Procedure17 *)(reinterpret_cast<::Script *>((p))->GetData()))))->GetTargetKind() != 3 &&
+                if (((::PackageTargetRecord *)(reinterpret_cast<::Script *>((p))->GetData())) && reinterpret_cast<::PackageTargetRecord *>((((::PackageTargetRecord *)(reinterpret_cast<::Script *>((p))->GetData()))))->GetTargetKind() && reinterpret_cast<::PackageTargetRecord *>((((::PackageTargetRecord *)(reinterpret_cast<::Script *>((p))->GetData()))))->GetTargetKind() != 3 &&
                     !((intptr_t)(reinterpret_cast<::FUN_00672f20_cls *>((p))->FUN_00672f20())))
                 {
                     v12c(0);
@@ -37705,7 +37701,7 @@ void Process17::ProcessPackage(Actor17* actor)
                 if (target)
                     procedure = ::FUN_00679ba0(((::Form17 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())));
                 else
-                    procedure = ((::Procedure17 *)(reinterpret_cast<::Script *>((p))->GetData()))->FUN_00680080();
+                    procedure = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>((p))->GetData()))->GetTargetObjectType();
                 switch (procedure)
                 {
                 case 1:
@@ -37765,7 +37761,7 @@ void Process17::ProcessPackage(Actor17* actor)
                     else
                         v7c8(actor, true);
                 }
-                else if (((::Procedure17 *)(reinterpret_cast<::Script *>((p))->GetData())) && ((::Actor17 *)(reinterpret_cast<::PackageTargetRecord *>((((::Procedure17 *)(reinterpret_cast<::Script *>((p))->GetData()))))->GetReferenceTarget())) == target)
+                else if (((::PackageTargetRecord *)(reinterpret_cast<::Script *>((p))->GetData())) && ((::Actor17 *)(reinterpret_cast<::PackageTargetRecord *>((((::PackageTargetRecord *)(reinterpret_cast<::Script *>((p))->GetData()))))->GetReferenceTarget())) == target)
                     v7c8(actor, true);
                 else
                     v288(actor, 1);
@@ -45657,7 +45653,6 @@ struct Ref;
 class Actor;
 struct Package;
 struct PackageData;
-struct TargetData;
 struct List;
 struct Form
 {
@@ -45669,10 +45664,6 @@ struct List
     List* next;
     int FUN_005ae380();
     Ref** FUN_006815c0();
-};
-struct TargetData
-{
-    int FUN_00680080();
 };
 struct PackageData
 {
@@ -46797,7 +46788,7 @@ bool Process::FUN_008f9320(Actor* actor)
     int repetitionsSlot23 = 1;
     PackageData* dataSlot11 = ((::BehaviorUpdate::PackageData *)(reinterpret_cast<::PackageFields *>((packageSlot2))->pLocation));
     void* extraSlot11 = ((void *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(actor))));
-    TargetData* targetDataSlot10 = ((::BehaviorUpdate::TargetData *)(reinterpret_cast<::Script *>((packageSlot2))->GetData()));
+    ::PackageTargetRecord* targetDataSlot10 = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>((packageSlot2))->GetData()));
     if (dataSlot11 && ((::BehaviorUpdate::Ref *)(reinterpret_cast<::LocationDescriptor *>((dataSlot11))->GetLocationReference())))
         reference = ((::BehaviorUpdate::Ref *)(reinterpret_cast<::LocationDescriptor *>((dataSlot11))->GetLocationReference()));
     if (!reference && !HasTarget())
@@ -46850,7 +46841,7 @@ bool Process::FUN_008f9320(Actor* actor)
             action = ::FUN_00679ba0(formSlot25);
         }
         else if (reinterpret_cast<::PackageTargetRecord *>((targetDataSlot10))->GetTargetKind() == 2)
-            action = targetDataSlot10->FUN_00680080();
+            action = targetDataSlot10->GetTargetObjectType();
         if (target && !action)
         {
             formSlot25 = ((::BehaviorUpdate::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430()));
@@ -46945,7 +46936,7 @@ bool Process::FUN_008f9320(Actor* actor)
             break;
         case 4:
         case 19: {
-            TargetData* useDataSlot0 = ((::BehaviorUpdate::TargetData *)(reinterpret_cast<::Script *>((packageSlot2))->GetData()));
+            ::PackageTargetRecord* useDataSlot0 = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>((packageSlot2))->GetData()));
             Form* useFormSlot0 = 0;
             if (!CanUse(actor, 1))
             {
@@ -57076,10 +57067,6 @@ struct P20T
     ~P20T();
     int FUN_004459e0(int a);
 };
-struct P1cT
-{
-    int FUN_00680080();
-};
 struct Sub5C
 {
     int f00;
@@ -58162,7 +58149,7 @@ void HostT::FUN_008dfa10(RefrT* apRefr)
     P28T* byte8aLocal14;
     bool p20Local8;
     P20T* v84Local15;
-    P1cT* p14Local2;
+    ::PackageTargetRecord* p14Local2;
     P18T* p18Local4;
     M40T* p1cLocal57;
     bool vB0Local10;
@@ -58206,7 +58193,7 @@ void HostT::FUN_008dfa10(RefrT* apRefr)
         v660();
         reinterpret_cast<::fnv_008b3d30::FUN_008b3d30_shell *>((apRefr))->FUN_008b3d30();
     }
-    p14Local2 = ((::fnv_008dfa10::P1cT *)(reinterpret_cast<::Script *>((p18Local4))->GetData()));
+    p14Local2 = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>((p18Local4))->GetData()));
     if (0 != p14Local2)
     {
         xLocal22 = reinterpret_cast<::PackageTargetRecord *>((p14Local2))->GetTargetKind();
@@ -58259,7 +58246,7 @@ void HostT::FUN_008dfa10(RefrT* apRefr)
         void* cntLocal36;
         unsigned long v74Local9;
         uintptr_t flag21Local1;
-        P1cT* valLocal3;
+        ::PackageTargetRecord* valLocal3;
         P28T* p68Local5;
         if (((int)(reinterpret_cast<::BGSMessageInitAccess *>((p18Local4))->GetIconFormID())) != 0 && p18Local4->v13c(apRefr, 0, ::DAT_01012054, 0))
         {
@@ -58276,7 +58263,7 @@ void HostT::FUN_008dfa10(RefrT* apRefr)
                     reinterpret_cast<::Animation *>((p68Local5))->SpecialIdleFree(1, 0);
                 }
                 flag21Local1 = ((int)(reinterpret_cast<::BGSMessageInitAccess *>((p18Local4))->GetIconFormID()));
-                valLocal3 = ((::fnv_008dfa10::P1cT *)(reinterpret_cast<::Script *>((p18Local4))->GetData()));
+                valLocal3 = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>((p18Local4))->GetData()));
                 if (v84Local15 != 0)
                 {
                     v7c = 0;
@@ -58332,8 +58319,8 @@ void HostT::FUN_008dfa10(RefrT* apRefr)
                         m_375 = 0;
                     }
                     delete v84Local15;
-                    if (valLocal3->FUN_00680080() == 0xc ||
-                        (valLocal3->FUN_00680080() >= 0x13 && valLocal3->FUN_00680080() <= 0x17))
+                    if (valLocal3->GetTargetObjectType() == 0xc ||
+                        (valLocal3->GetTargetObjectType() >= 0x13 && valLocal3->GetTargetObjectType() <= 0x17))
                     {
                         while (!m_5c.FUN_008256d0())
                         {

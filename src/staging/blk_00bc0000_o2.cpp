@@ -7700,11 +7700,6 @@ void FUN_00bd92b0_class::FUN_00bd92b0(int a1, int a2, int a3, int a4)
 
 class NiGeometry;
 class ShadowSceneLight;
-struct PassArray9840
-{
-    void FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
-                                 ShadowSceneLight*, ShadowSceneLight*);
-};
 struct Shader9840
 {
     void* field00;
@@ -7722,7 +7717,7 @@ struct Shader9840
     void* field30;
     void* field34;
     void* field38;
-    PassArray9840* passes;
+    ::BSShaderProperty::ShaderPassList* passes;
     int FUN_00bd9840(NiGeometry*, ShadowSceneLight*, unsigned short*, unsigned char, bool&, bool, bool, bool,
                                 bool);
 };
@@ -7739,7 +7734,7 @@ int Shader9840::FUN_00bd9840(NiGeometry* geometry, ShadowSceneLight* light, unsi
             {
                 if (type == 1)
                 {
-                    passes->FUN_00ba9ee0(geometry, 300, out, 1, light, 0, 0, 0);
+                    passes->Add(geometry, 300, out, 1, light, 0, 0, 0);
                 }
                 else
                 {
@@ -7750,7 +7745,7 @@ int Shader9840::FUN_00bd9840(NiGeometry* geometry, ShadowSceneLight* light, unsi
             {
                 if (type == 1)
                 {
-                    passes->FUN_00ba9ee0(geometry, 304, out, 1, light, 0, 0, 0);
+                    passes->Add(geometry, 304, out, 1, light, 0, 0, 0);
                 }
                 else
                 {
@@ -7764,7 +7759,7 @@ int Shader9840::FUN_00bd9840(NiGeometry* geometry, ShadowSceneLight* light, unsi
             {
                 if (type == 1)
                 {
-                    passes->FUN_00ba9ee0(geometry, 301, out, 1, light, 0, 0, 0);
+                    passes->Add(geometry, 301, out, 1, light, 0, 0, 0);
                 }
                 else
                 {
@@ -7775,7 +7770,7 @@ int Shader9840::FUN_00bd9840(NiGeometry* geometry, ShadowSceneLight* light, unsi
             {
                 if (type == 1)
                 {
-                    passes->FUN_00ba9ee0(geometry, 305, out, 1, light, 0, 0, 0);
+                    passes->Add(geometry, 305, out, 1, light, 0, 0, 0);
                 }
                 else
                 {
@@ -7790,7 +7785,7 @@ int Shader9840::FUN_00bd9840(NiGeometry* geometry, ShadowSceneLight* light, unsi
         {
             if (type == 1)
             {
-                passes->FUN_00ba9ee0(geometry, 302, out, 1, light, 0, 0, 0);
+                passes->Add(geometry, 302, out, 1, light, 0, 0, 0);
             }
             else
             {
@@ -7801,7 +7796,7 @@ int Shader9840::FUN_00bd9840(NiGeometry* geometry, ShadowSceneLight* light, unsi
         {
             if (type == 1)
             {
-                passes->FUN_00ba9ee0(geometry, 303, out, 1, light, 0, 0, 0);
+                passes->Add(geometry, 303, out, 1, light, 0, 0, 0);
             }
             else
             {
@@ -8230,11 +8225,6 @@ int ShaderTarget::FUN_00bdc0d0(NiGeometry* geometry, ShadowSceneLight* light0, S
     return 0;
 }
 
-struct PassArray
-{
-    void FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
-                      ShadowSceneLight*, ShadowSceneLight*);
-};
 struct ShaderPassSelector : Shader_00bd9540
 {
     int FUN_00bdda20(NiGeometry* geom, ShadowSceneLight* light0, ShadowSceneLight* light1, unsigned short* count,
@@ -8256,7 +8246,7 @@ int ShaderPassSelector::FUN_00bdda20(NiGeometry* geom, ShadowSceneLight* light0,
                 {
                     if (type == 1)
                     {
-                        ((PassArray*)pPasses)->FUN_00ba9ee0(geom, 0x132, *out, 2, light0, light1, 0, 0);
+                        ((::BSShaderProperty::ShaderPassList*)pPasses)->Add(geom, 0x132, *out, 2, light0, light1, 0, 0);
                     }
                     else
                     {
@@ -8267,7 +8257,7 @@ int ShaderPassSelector::FUN_00bdda20(NiGeometry* geom, ShadowSceneLight* light0,
                 {
                     if (type == 1)
                     {
-                        ((PassArray*)pPasses)->FUN_00ba9ee0(geom, 0x137, *out, 2, light0, light1, 0, 0);
+                        ((::BSShaderProperty::ShaderPassList*)pPasses)->Add(geom, 0x137, *out, 2, light0, light1, 0, 0);
                     }
                     else
                     {
@@ -8279,7 +8269,7 @@ int ShaderPassSelector::FUN_00bdda20(NiGeometry* geom, ShadowSceneLight* light0,
             {
                 if (type == 1)
                 {
-                    ((PassArray*)pPasses)->FUN_00ba9ee0(geom, 0x134, *out, 2, light0, light1, 0, 0);
+                    ((::BSShaderProperty::ShaderPassList*)pPasses)->Add(geom, 0x134, *out, 2, light0, light1, 0, 0);
                 }
                 else
                 {
@@ -8291,7 +8281,7 @@ int ShaderPassSelector::FUN_00bdda20(NiGeometry* geom, ShadowSceneLight* light0,
         {
             if (type == 1)
             {
-                ((PassArray*)pPasses)->FUN_00ba9ee0(geom, 0x133, *out, 2, light0, light1, 0, 0);
+                ((::BSShaderProperty::ShaderPassList*)pPasses)->Add(geom, 0x133, *out, 2, light0, light1, 0, 0);
             }
             else
             {
@@ -8307,7 +8297,7 @@ int ShaderPassSelector::FUN_00bdda20(NiGeometry* geom, ShadowSceneLight* light0,
             {
                 if (type == 1)
                 {
-                    ((PassArray*)pPasses)->FUN_00ba9ee0(geom, 0x135, *out, 2, light0, light1, 0, 0);
+                    ((::BSShaderProperty::ShaderPassList*)pPasses)->Add(geom, 0x135, *out, 2, light0, light1, 0, 0);
                 }
                 else
                 {
@@ -8319,7 +8309,7 @@ int ShaderPassSelector::FUN_00bdda20(NiGeometry* geom, ShadowSceneLight* light0,
         {
             if (type == 1)
             {
-                ((PassArray*)pPasses)->FUN_00ba9ee0(geom, 0x136, *out, 2, light0, light1, 0, 0);
+                ((::BSShaderProperty::ShaderPassList*)pPasses)->Add(geom, 0x136, *out, 2, light0, light1, 0, 0);
             }
             else
             {
@@ -8508,11 +8498,6 @@ int Shader_00bdde10::FUN_00bdde10(NiGeometry* geom, ShadowSceneLight* light0, Sh
 
 class NiGeometry;
 class ShadowSceneLight;
-struct RPA
-{
-    void Add(NiGeometry* geom, unsigned short pass, bool enabled, unsigned char numLights, ShadowSceneLight* l0,
-             ShadowSceneLight* l1, ShadowSceneLight* l2, ShadowSceneLight* l3);
-};
 struct Shader_bddfb0
 {
     int unk00;
@@ -8530,7 +8515,7 @@ struct Shader_bddfb0
     int unk30;
     int unk34;
     int unk38;
-    RPA* pPasses;
+    ::BSShaderProperty::ShaderPassList* pPasses;
     int FUN_00bddfb0(NiGeometry* geom, ShadowSceneLight* l0, ShadowSceneLight* l1, ShadowSceneLight* l2,
                      unsigned short* count, unsigned char type, bool* out, bool a, bool b, bool c, bool d);
 };
@@ -12531,11 +12516,6 @@ int ShaderPropertyBD9::FUN_00bd9da0(NiGeometryBD9* pkGeometry, unsigned short* p
 
 class NiGeometry;
 class ShadowSceneLight;
-struct RenderPassSink
-{
-    void SubmitPass(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
-                    ShadowSceneLight*, ShadowSceneLight*);
-};
 struct ShaderSelector
 {
     int unk00;
@@ -12553,7 +12533,7 @@ struct ShaderSelector
     int unk30;
     int unk34;
     int unk38;
-    RenderPassSink* pPasses;
+    ::BSShaderProperty::ShaderPassList* pPasses;
     int FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count, unsigned char type, bool* out,
                      bool a, bool b, bool c, bool d, bool e, bool f, bool g);
 };
@@ -12575,7 +12555,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x88, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x88, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12588,7 +12568,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x6e, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x6e, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12604,14 +12584,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x86, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x86, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x87, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x87, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12621,14 +12601,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x6b, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x6b, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x6c, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x6c, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12644,7 +12624,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x6d, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x6d, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12663,14 +12643,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x83, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x83, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x84, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x84, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12680,14 +12660,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x69, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x69, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x6a, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x6a, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12706,14 +12686,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x81, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x81, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x82, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x82, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12723,14 +12703,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x66, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x66, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x67, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x67, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12749,7 +12729,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x85, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x85, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12762,7 +12742,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x68, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x68, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12778,7 +12758,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x7f, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x7f, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12787,14 +12767,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                             if (!g)
                             {
                                 if (type == 1)
-                                    pPasses->SubmitPass(geom, 0x80, true, 1, light, 0, 0, 0);
+                                    pPasses->Add(geom, 0x80, true, 1, light, 0, 0, 0);
                                 else
                                     ++*count;
                             }
                             else
                             {
                                 if (type == 1)
-                                    pPasses->SubmitPass(geom, 0x7b, true, 1, light, 0, 0, 0);
+                                    pPasses->Add(geom, 0x7b, true, 1, light, 0, 0, 0);
                                 else
                                     ++*count;
                             }
@@ -12805,7 +12785,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x64, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x64, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12814,14 +12794,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                             if (!g)
                             {
                                 if (type == 1)
-                                    pPasses->SubmitPass(geom, 0x65, true, 1, light, 0, 0, 0);
+                                    pPasses->Add(geom, 0x65, true, 1, light, 0, 0, 0);
                                 else
                                     ++*count;
                             }
                             else
                             {
                                 if (type == 1)
-                                    pPasses->SubmitPass(geom, 0x7a, true, 1, light, 0, 0, 0);
+                                    pPasses->Add(geom, 0x7a, true, 1, light, 0, 0, 0);
                                 else
                                     ++*count;
                             }
@@ -12844,7 +12824,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x92, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x92, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12857,7 +12837,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x79, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x79, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12873,14 +12853,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x90, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x90, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x91, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x91, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12890,14 +12870,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x76, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x76, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x77, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x77, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12913,7 +12893,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x78, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x78, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12932,14 +12912,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x8d, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x8d, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x8e, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x8e, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12949,14 +12929,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x74, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x74, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x75, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x75, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12975,14 +12955,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x8b, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x8b, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x8c, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x8c, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -12992,14 +12972,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x71, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x71, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x72, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x72, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -13018,7 +12998,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x8f, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x8f, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -13031,7 +13011,7 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x73, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x73, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -13047,14 +13027,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x89, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x89, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x8a, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x8a, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -13064,14 +13044,14 @@ int ShaderSelector::FUN_00bda0a0(NiGeometry* geom, ShadowSceneLight* light, unsi
                         if (!f)
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x6f, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x6f, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
                         else
                         {
                             if (type == 1)
-                                pPasses->SubmitPass(geom, 0x70, true, 1, light, 0, 0, 0);
+                                pPasses->Add(geom, 0x70, true, 1, light, 0, 0, 0);
                             else
                                 ++*count;
                         }
@@ -13101,13 +13081,13 @@ struct ShaderTwoLightSelector
     int unk30;
     int unk34;
     int unk38;
-    PassArray* passes;
+    ::BSShaderProperty::ShaderPassList* passes;
 
     __forceinline void RegisterPass(NiGeometry* geometry, ShadowSceneLight* light0, ShadowSceneLight* light1,
                                     unsigned short* count, unsigned char type, unsigned short pass)
     {
         if (type == 1)
-            passes->FUN_00ba9ee0(geometry, pass, true, 2, light0, light1, 0, 0);
+            passes->Add(geometry, pass, true, 2, light0, light1, 0, 0);
         else
             ++*count;
     }
@@ -17269,7 +17249,7 @@ struct ShaderBdaf10
     int unk30;
     int unk34;
     int unk38;
-    PassArray9840* m_3c;
+    ::BSShaderProperty::ShaderPassList* m_3c;
     int unk40;
     int unk44;
     int unk48;
@@ -17322,7 +17302,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
     if (DAT_011f91a7)
     {
         if (type == 1)
-            m_3c->FUN_00ba9ee0(geom, 0x93, *pOut, 0, 0, 0, 0, 0);
+            m_3c->Add(geom, 0x93, *pOut, 0, 0, 0, 0, 0);
         else
             ++*count;
         *pOut = false;
@@ -17332,7 +17312,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
             {
                 if (type == 1)
                 {
-                    m_3c->FUN_00ba9ee0(geom, 0x1f2, *pOut, 0, 0, 0, 0, 0);
+                    m_3c->Add(geom, 0x1f2, *pOut, 0, 0, 0, 0, 0);
                     ((PassSinkBdaf10*)m_3c)->m_04[((PassSinkBdaf10*)m_3c)->m_10 - 1]->m_0b = i + 1;
                 }
                 else
@@ -17346,14 +17326,14 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
     if (!flag6)
     {
         if (type == 1)
-            m_3c->FUN_00ba9ee0(geom, 0x93, *pOut, 1, light, 0, 0, 0);
+            m_3c->Add(geom, 0x93, *pOut, 1, light, 0, 0, 0);
         else
             ++*count;
     }
     else
     {
         if (type == 1)
-            m_3c->FUN_00ba9ee0(geom, 0x94, *pOut, 1, light, 0, 0, 0);
+            m_3c->Add(geom, 0x94, *pOut, 1, light, 0, 0, 0);
         else
             ++*count;
     }
@@ -17361,7 +17341,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
     if (*info->m_b4 != 0)
     {
         if (type == 1)
-            m_3c->FUN_00ba9ee0(geom, 0x1f1, false, 0, 0, 0, 0, 0);
+            m_3c->Add(geom, 0x1f1, false, 0, 0, 0, 0, 0);
         else
             ++*count;
     }
@@ -17377,7 +17357,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
             if (!(col.r == (*reinterpret_cast<::SelectColor *>(&::DAT_011f4998)).r && col.g == (*reinterpret_cast<::SelectColor *>(&::DAT_011f4998)).g && col.b == (*reinterpret_cast<::SelectColor *>(&::DAT_011f4998)).b))
             {
                 if (type == 1)
-                    m_3c->FUN_00ba9ee0(geom, 0x1ef, *pOut, 1, (ShadowSceneLight*)obj, 0, 0, 0);
+                    m_3c->Add(geom, 0x1ef, *pOut, 1, (ShadowSceneLight*)obj, 0, 0, 0);
                 else
                     ++*count;
             }
@@ -17392,7 +17372,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
             {
                 if (type == 1)
                 {
-                    m_3c->FUN_00ba9ee0(geom, 0x1f2, *pOut, 1, light, 0, 0, 0);
+                    m_3c->Add(geom, 0x1f2, *pOut, 1, light, 0, 0, 0);
                     ((PassSinkBdaf10*)m_3c)->m_04[((PassSinkBdaf10*)m_3c)->m_10 - 1]->m_0b = i + 1;
                 }
                 else
@@ -17404,7 +17384,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
             {
                 if (type == 1)
                 {
-                    m_3c->FUN_00ba9ee0(geom, 0x1f3, *pOut, 1, light, 0, 0, 0);
+                    m_3c->Add(geom, 0x1f3, *pOut, 1, light, 0, 0, 0);
                     ((PassSinkBdaf10*)m_3c)->m_04[((PassSinkBdaf10*)m_3c)->m_10 - 1]->m_0b = i + 1;
                 }
                 else
@@ -17422,7 +17402,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
         {
             if (type == 1)
             {
-                m_3c->FUN_00ba9ee0(geom, 0x1f4, *pOut, 0, 0, 0, 0, 0);
+                m_3c->Add(geom, 0x1f4, *pOut, 0, 0, 0, 0, 0);
                 ((PassSinkBdaf10*)m_3c)->m_04[((PassSinkBdaf10*)m_3c)->m_10 - 1]->m_0b = i + 1;
             }
             else
@@ -17443,7 +17423,7 @@ void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, u
                 {
                     if (type == 1)
                     {
-                        m_3c->FUN_00ba9ee0(geom, 0x1f5, *pOut, 1, (ShadowSceneLight*)obj, 0, 0, 0);
+                        m_3c->Add(geom, 0x1f5, *pOut, 1, (ShadowSceneLight*)obj, 0, 0, 0);
                         ((PassSinkBdaf10*)m_3c)->m_04[((PassSinkBdaf10*)m_3c)->m_10 - 1]->m_0b = i + 1;
                     }
                     else
@@ -19741,7 +19721,7 @@ int Shader_00bd9770::FUN_00bd9770(NiGeometry* pkGeometry, ShadowSceneLight* pkLi
         {
             if (ucType == 1)
             {
-                passes->FUN_00ba9ee0(pkGeometry, 0x7c, true, 2, pkLight0, pkLight1, 0, 0);
+                passes->Add(pkGeometry, 0x7c, true, 2, pkLight0, pkLight1, 0, 0);
             }
             else
             {
@@ -19752,7 +19732,7 @@ int Shader_00bd9770::FUN_00bd9770(NiGeometry* pkGeometry, ShadowSceneLight* pkLi
         {
             if (ucType == 1)
             {
-                passes->FUN_00ba9ee0(pkGeometry, 0x7e, true, 2, pkLight0, pkLight1, 0, 0);
+                passes->Add(pkGeometry, 0x7e, true, 2, pkLight0, pkLight1, 0, 0);
             }
             else
             {
@@ -19764,7 +19744,7 @@ int Shader_00bd9770::FUN_00bd9770(NiGeometry* pkGeometry, ShadowSceneLight* pkLi
     {
         if (ucType == 1)
         {
-            passes->FUN_00ba9ee0(pkGeometry, 0x7d, true, 2, pkLight0, pkLight1, 0, 0);
+            passes->Add(pkGeometry, 0x7d, true, 2, pkLight0, pkLight1, 0, 0);
         }
         else
         {
@@ -19790,7 +19770,7 @@ int Shader_00bd9f00::FUN_00bd9f00(NiGeometry* pkGeometry, unsigned short* puiPas
     {
         if (ucType == 1)
         {
-            passes->FUN_00ba9ee0(pkGeometry, 3, *pbEnabled, 0, 0, 0, 0, 0);
+            passes->Add(pkGeometry, 3, *pbEnabled, 0, 0, 0, 0, 0);
         }
         else
         {
@@ -19801,7 +19781,7 @@ int Shader_00bd9f00::FUN_00bd9f00(NiGeometry* pkGeometry, unsigned short* puiPas
     {
         if (ucType == 1)
         {
-            passes->FUN_00ba9ee0(pkGeometry, bSecond ? 2 : 1, *pbEnabled, 0, 0, 0, 0, 0);
+            passes->Add(pkGeometry, bSecond ? 2 : 1, *pbEnabled, 0, 0, 0, 0, 0);
         }
         else
         {

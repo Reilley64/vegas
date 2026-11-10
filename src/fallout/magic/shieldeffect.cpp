@@ -270,10 +270,6 @@ struct FUN_00828120_x
 struct FUN_00828120_y
 {
 };
-struct FUN_00828120_z
-{
-    Actor* FUN_00822b40();
-};
 
 struct FUN_00828120_cls : ShieldEffect
 {
@@ -566,7 +562,7 @@ void FUN_00828120_cls::FUN_00828120()
     if (((unsigned char)(reinterpret_cast<::S3e60 *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(this)->effect)->setting)->FUN_00403e60(2))) || *(float*)&this->pad7 == ::_DAT_01012060)
     {
         actor = (reinterpret_cast<::ActiveEffectFields *>(this)->target != 0)
-                    ? ((FUN_00828120_z*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->FUN_00822b40()
+                    ? ((::MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
                     : 0;
         reinterpret_cast<::ActiveEffect828 *>((((ShieldEffectMod*)this)))->FUN_008282e0((::Actor828 *)(actor), *(float*)&this->pad6);
     }
@@ -604,7 +600,7 @@ void FUN_00828260_cls::FUN_00828260()
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
     if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00828120_x *)(reinterpret_cast<::EffectItemFields *>(unk0c)->setting))))->FUN_00403e60({}))))
     {
-        Actor* actor = ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->FUN_00822b40() : 0;
+        Actor* actor = ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetOwnerActor() : 0;
         reinterpret_cast<::ActiveEffect828 *>(this)->FUN_008282e0((::Actor828 *)(actor), -unk1c);
     }
 }

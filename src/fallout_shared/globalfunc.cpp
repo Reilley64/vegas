@@ -1898,10 +1898,6 @@ struct NiPick
 struct FUN_00456630_helper
 {
 };
-struct FUN_0043d450_Owner
-{
-    NiBound* FUN_0043d450();
-};
 struct Pt
 {
     float x, y, z;
@@ -1924,7 +1920,7 @@ bool PickObjectsInRadius(NiPick* pick, const NiPoint3& origin, const NiPoint3& d
     {
         if (!object->IsVisualObject())
             return false;
-        FUN_004b2800_Bound kBound = *(FUN_004b2800_Bound*)((FUN_0043d450_Owner*)object)->FUN_0043d450();
+        FUN_004b2800_Bound kBound = *(FUN_004b2800_Bound*)((::FUN_0043d450_Owner*)object)->FUN_0043d450();
         NiPoint3Ex kDiff = *((::fnv_004b2800::NiPoint3Ex *)((void *)(&kBound))) - origin;
         if (reinterpret_cast<::NiPoint3 *>((void *)(((Pt*)&kDiff)))->ComputeMagnitude() < reinterpret_cast<::Twin_0084d030 *>((((NiBound*)&kBound)))->GetStoredFloatValue() + radius)
         {

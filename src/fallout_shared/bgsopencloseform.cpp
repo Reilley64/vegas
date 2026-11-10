@@ -564,18 +564,6 @@ class OCF
     virtual bool v2();
 };
 
-class FUN_00572d50_shell_ctxr
-{
-  public:
-    void FUN_00572d50(int);
-};
-
-class FUN_00572db0_shell_ctxr
-{
-  public:
-    void FUN_00572db0(int);
-};
-
 struct TSETTING_VALUE
 {
     unsigned char b;
@@ -630,14 +618,14 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
                             if (pPathNodeDoor)
                                 p28 = (SoundH*)((void *)(reinterpret_cast<::FUN_00407820_shell *>((((DoorX*)pPathNodeDoor)))->FUN_00407820()));
                             p2c = pSeqA;
-                            ((FUN_00572d50_shell_ctxr*)apRefr)->FUN_00572d50(4);
+                            ((::FUN_00572d50_shell*)apRefr)->FUN_00572d50(4);
                         }
                         else
                         {
                             if (pPathNodeDoor)
                                 p28 = (SoundH*)(std::uintptr_t)reinterpret_cast<::TESPackage *>((((DoorX*)pPathNodeDoor)))->GetRefCount();
                             p2c = pSeqB;
-                            ((FUN_00572db0_shell_ctxr*)apRefr)->FUN_00572db0(4);
+                            ((::FUN_00572db0_shell*)apRefr)->FUN_00572db0(4);
                         }
                         if (!((SettingX*)&(*reinterpret_cast<::SettingX *>(&::g_011c4c64)))->Bool()->b && apActor && ((RefV*)apActor)->v100() &&
                             apActor != (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)) && ((RefV*)apRefr)->v1d0())
@@ -703,11 +691,11 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
         {
         case BGSOpenCloseForm::OPEN:
         case BGSOpenCloseForm::OPENING:
-            ((FUN_00572db0_shell_ctxr*)apRefr)->FUN_00572db0(4);
+            ((::FUN_00572db0_shell*)apRefr)->FUN_00572db0(4);
             break;
         default:
             bOpen = true;
-            ((FUN_00572d50_shell_ctxr*)apRefr)->FUN_00572d50(4);
+            ((::FUN_00572d50_shell*)apRefr)->FUN_00572d50(4);
             break;
         }
         OCF* pOCF2 = ((::OCF *)(::GetOpenCloseForm((::TESForm *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefr))->FUN_007af430()))))));

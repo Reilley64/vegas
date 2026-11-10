@@ -1458,10 +1458,6 @@ void* Fake52::FUN_004e52c0(unsigned int flags)
 }
 
 namespace fnv_004e65d0 {
-struct GlobalObject_0045cf30
-{
-    SETTING_VALUE* Bool();
-};
 struct S_004e65d0
 {
     void FUN_004e6370(int, int, int);
@@ -1473,7 +1469,7 @@ bool S_004e65d0::FUN_004e65d0()
     (*reinterpret_cast<unsigned char *>(&::DAT_011ad86e)) = 1;
     if (!(*reinterpret_cast<unsigned char *>(&::waterEnabled)))
     {
-        if ((*reinterpret_cast<::fnv_004e65d0::GlobalObject_0045cf30 *>(&::g_011c7adc)).Bool()->b)
+        if ((*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011c7adc)).Bool()->b)
         {
             (*reinterpret_cast<unsigned char *>(&::waterEnabled)) = 1;
             FUN_004e6370(1, 0, 0);

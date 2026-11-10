@@ -5137,10 +5137,6 @@ struct Geometry : SceneObject
 struct PartitionSkin
 {
 };
-struct ObjectName
-{
-    const char* FUN_007fa950();
-};
 struct PartitionOwner
 {
     int unk00;
@@ -5156,7 +5152,7 @@ struct PartitionOwner
     int unk28;
     int unk2C;
     int unk30;
-    ObjectName* names[15];
+    ::StrOwner* names[15];
     void ApplyPartitionState(SceneObject* target, SceneObject* root, intptr_t excluded, SceneObject* source);
 };
 // For each non-excluded name, if its node under root has target as an ancestor, enables that partition entry on the skin of each geometry in source.

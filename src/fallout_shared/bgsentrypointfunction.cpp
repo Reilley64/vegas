@@ -1564,13 +1564,6 @@ class FUN_00472840_impl
     bool ReadChunkData(unsigned short*);
 };
 
-class FUN_005e6c60_shell_ctx
-{
-  public:
-public:
-    void FUN_005e6c60(const char *);
-};
-
 class Script_ctx : public TESForm
 {
   public:
@@ -1645,7 +1638,7 @@ bool ActivateChoice::FUN_005e6ee0(TESFile* file)
     case 0x32465045:  // 'EPF2'
         epf2BufTmp = _alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
         reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(epf2BufTmp), 0);
-        reinterpret_cast<FUN_005e6c60_shell_ctx*>(this)->FUN_005e6c60((const char *)(epf2BufTmp));
+        reinterpret_cast<::FUN_005e6c60_shell*>(this)->FUN_005e6c60((const char *)(epf2BufTmp));
         break;
 
     case 0x33465045:  // 'EPF3'

@@ -228,10 +228,6 @@ FUN_009f9250::FUN_009f9250(TESObjectREFR* apRef, int aiUnk88, int aiUnk8c, int a
     iUnk94 = aiUnk94;
     iUnk98 = 0;
 }
-struct PTHelper
-{
-    void SetTargetObjectReference(TESObjectREFR*);
-};
 struct BSSimpleList_TESObjectREFR_Helper
 {
     bool FUN_008256d0();
@@ -248,19 +244,19 @@ void FUN_009f1350_shell::RemoveRef(TESObjectREFR* apRef)
     reinterpret_cast<::ItemChangeListNode *>((((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))))->FUN_00905330((::InventoryStackRecord *const &)(apRef));
     TESObjectREFR* pref = 0;
     if (reinterpret_cast<PackageFields*>(this)->pPackageTarget)
-        pref = reinterpret_cast<::PackageTargetRecord *>((((PTHelper*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)))->GetReferenceTarget();
+        pref = reinterpret_cast<::PackageTargetRecord *>((((::PackageTargetRecord*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)))->GetReferenceTarget();
     if (pref && pref == apRef)
     {
         if (!((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))->FUN_008256d0())
         {
-            ((PTHelper*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)
+            ((::PackageTargetRecord*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)
                 ->SetTargetObjectReference(*(((::TESObjectREFR **)(((::Vec3 *)(void *)(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))))))));
             ((LocationDescriptor*)reinterpret_cast<PackageFields*>(this)->pLocation)
                 ->FUN_0067f3c0(*(((::TESObjectREFR **)(((::Vec3 *)(void *)(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))))))));
         }
         else
         {
-            ((PTHelper*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)->SetTargetObjectReference(0);
+            ((::PackageTargetRecord*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)->SetTargetObjectReference(0);
             ((LocationDescriptor*)reinterpret_cast<PackageFields*>(this)->pLocation)->FUN_0067f3c0(0);
         }
     }

@@ -282,11 +282,6 @@ class Actor
     void** vtbl;
 };
 
-struct Ref
-{
-    Actor* FUN_00822b40();
-};
-
 struct Population
 {
 };
@@ -315,7 +310,7 @@ void FrenzyEffectCore::FUN_0080ddd0()
     if (exhausted)
         return;
     {
-        Actor* actor = ((::Ref *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::Ref *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->FUN_00822b40() : 0;
+        Actor* actor = ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetOwnerActor() : 0;
         if (actor != 0 && ((unsigned char)(reinterpret_cast<::FUN_00493bb0_Class *>((actor))->FUN_00493bb0())))
         {
             ((ActorAction)actor->vtbl[269])(actor, 0);

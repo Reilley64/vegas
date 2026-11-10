@@ -40891,13 +40891,6 @@ class PackageActorView : public Actor
 
 bool FUN_00881570(Actor* pActor);
 
-class PackageClockView
-{
-
-  public:
-    float FUN_00867da0();
-};
-
 
 class PackageLowProcessView : public LowProcess
 {
@@ -40951,7 +40944,7 @@ bool PackageProcessView::FUN_00917df0(Actor* pActor, bool bArg2)
         StopRunOncePackage();
     }
 
-    float fGameHour = reinterpret_cast<PackageClockView&>(::g_011de7b8).FUN_00867da0();
+    float fGameHour = reinterpret_cast<::Calendar&>(::g_011de7b8).GetGameTime();
 
     bool bResultTmp = false;
 

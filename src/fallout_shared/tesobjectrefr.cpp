@@ -50881,16 +50881,6 @@ struct RefH_ctx
 {
 };
 
-struct FUN_00419ed0_shell_ctx
-{
-    void FUN_00419ed0(Script*);
-};
-
-struct FUN_00419f80_shell_ctx
-{
-    void FUN_00419f80(ScriptLocals*);
-};
-
 class Script
 {
 };
@@ -51040,8 +51030,8 @@ void FUN_00565730_shell_ctx::FUN_00565730()
     pScript = ((::Script *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(pObj))));
     if (pScript)
     {
-        ((FUN_00419ed0_shell_ctx*)((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor_ctx*)this)))->FUN_005d43c0())))->FUN_00419ed0(pScript);
-        ((FUN_00419f80_shell_ctx*)((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor_ctx*)this)))->FUN_005d43c0())))->FUN_00419f80(reinterpret_cast<::FUN_005abf60_shell *>((pScript))->FUN_005abf60());
+        ((::FUN_00419ed0_shell*)((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor_ctx*)this)))->FUN_005d43c0())))->FUN_00419ed0(pScript);
+        ((::FUN_00419f80_shell*)((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor_ctx*)this)))->FUN_005d43c0())))->FUN_00419f80(reinterpret_cast<::FUN_005abf60_shell *>((pScript))->FUN_005abf60());
     }
     pCont = ((::TESContainer *)(reinterpret_cast<::s55d310::Owner *>((this))->FUN_0055d310()));
     if (pCont)

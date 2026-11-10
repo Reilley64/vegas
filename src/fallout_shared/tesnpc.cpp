@@ -8260,18 +8260,6 @@ class Helper009f8770
   public:
 };
 
-class FUN_00484d40_Host_ctx
-{
-  public:
-    void FUN_00484d40(unsigned int* apFormID, int aiSize);
-};
-
-class FUN_004ac110_shell_ctx
-{
-  public:
-    TESRace* FUN_004ac110();
-};
-
 class FUN_009611e0_shell_ctx
 {
   public:
@@ -8598,12 +8586,12 @@ void TESNPCFace::FUN_00609f60(Actor* apActor)
         }
     }
     bool bPrevHadRace = false;
-    if (((FUN_004ac110_shell_ctx*)this)->FUN_004ac110())
+    if (((::FUN_004ac110_shell*)this)->FUN_004ac110())
         bPrevHadRace = false;
     else
         ::FUN_005b5e40();
     unsigned int uiNewRace;
-    ((FUN_00484d40_Host_ctx*)this)->FUN_00484d40(&uiNewRace, 4);
+    ((::FUN_00484d40_Host*)this)->FUN_00484d40(&uiNewRace, 4);
     TESRace* pRace = dynamic_cast<TESRace*>(FUN_004839c0(uiNewRace));
     if (uiNewRace && !pRace)
         ::FUN_005b5e40();
@@ -8611,12 +8599,12 @@ void TESNPCFace::FUN_00609f60(Actor* apActor)
         bChanged = true;
     reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(pRace));
     bool bNowHasRace = false;
-    if (((FUN_004ac110_shell_ctx*)this)->FUN_004ac110())
+    if (((::FUN_004ac110_shell*)this)->FUN_004ac110())
         bNowHasRace = false;
     else
         ::FUN_005b5e40();
     unsigned int uiNewHairFormID;
-    ((FUN_00484d40_Host_ctx*)this)->FUN_00484d40(&uiNewHairFormID, 4);
+    ((::FUN_00484d40_Host*)this)->FUN_00484d40(&uiNewHairFormID, 4);
     TESHair* pReadHair = dynamic_cast<TESHair*>(FUN_004839c0(uiNewHairFormID));
     if (uiNewHairFormID && !pReadHair)
         ::FUN_005b5e40();
@@ -8624,7 +8612,7 @@ void TESNPCFace::FUN_00609f60(Actor* apActor)
         bChanged = true;
     m_pHair = pReadHair;
     unsigned int uiEyes;
-    ((FUN_00484d40_Host_ctx*)this)->FUN_00484d40(&uiEyes, 4);
+    ((::FUN_00484d40_Host*)this)->FUN_00484d40(&uiEyes, 4);
     TESEyes* pCurEyeForm = dynamic_cast<TESEyes*>(FUN_004839c0(uiEyes));
     if (uiEyes && !pCurEyeForm)
         ::FUN_005b5e40();

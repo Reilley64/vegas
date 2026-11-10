@@ -132,8 +132,9 @@ with that unit's command, each write from the rebuilt objects:
 | `FUN_00730810::FUN_00730810()` itself, highest write | 8 bytes at `+0x3a`, needs `0x42` |
 | `FUN_00730810` as `repairservicesmenu.cpp` declares it | 1 |
 
-So before, the helper constructor wrote 48 bytes past the list box's own base
-and stayed inside the 72-byte object as `listbox.cpp` declares it. The
+So before, the helper constructor wrote 8 bytes at `+0x30`, ending 48 bytes
+past the list box's own 8-byte base, and stayed inside the 72-byte object as
+`listbox.cpp` declares it. The
 constructor body then overwrote all of it except the two padding bytes at
 `+0x32`.
 
@@ -192,6 +193,16 @@ These were open before this change and remain open.
 - The list box base. `listbox.cpp`'s `Parent` has no constructor definition
   and no recipe address. Whether the original release has a separate base
   constructor is not established here.
+  `listbox.cpp.obj` still requires the global `Parent::Parent()`. Six other
+  units of the archive declare a global class `Parent` of their own:
+  `seendata.cpp`, `bgsdistantobjectblock.cpp`,
+  `hkpsimulationislandviewer.cpp`, `blk_00c00000_o2.cpp`,
+  `blk_00c80000_o2.cpp` and `bhkrigidbody.cpp`. Three units declare a global
+  `FirstBase` and fourteen a global `Receiver`; 21 units besides
+  `listbox.cpp` declare at least one of the three names. No archive member
+  defines the global `Parent::Parent()` today. If one of the six defined it
+  out of line later, that definition would be the only one, so the list box
+  call would bind to it again and no link would report a duplicate.
 - The rest of the list box: the real base, derived and `Section`
   declarations, `Section::Section()` and `Section::~Section()`,
   `G2::AddHead`, the order of `FUN_007a1950` and the list insertion, and

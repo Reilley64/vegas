@@ -105,18 +105,7 @@ template <class _Elem, class _Traits = char_traits<_Elem>, class _Ax = allocator
     }
 
     _Myt& assign(const _Myt& _Right, size_type _Roff, size_type _Count);
-    _Myt& assign(const _Elem* _Ptr, size_type _Count)
-    {
-        if (_Inside(_Ptr))
-            return (assign(*this, _Ptr - reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970(), _Count));
-
-        if (_Grow(_Count))
-        {
-            _Traits_helper::copy_s<_Traits>(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970(), _Myres, _Ptr, _Count);
-            _Eos(_Count);
-        }
-        return (*this);
-    }
+    _Myt& assign(const _Elem* _Ptr, size_type _Count);
     _Myt& assign(const _Elem* _Ptr)
     {
         return (assign(_Ptr, _Traits::length(_Ptr)));

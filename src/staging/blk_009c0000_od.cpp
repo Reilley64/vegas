@@ -170,6 +170,7 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
+#include <cmath>
 
 template <class T>
 T Point3Difference(const T& arFrom, const void* apSubtrahend)
@@ -3278,7 +3279,6 @@ struct ImpFloatSetting
 {
 };
 
-float __cdecl FUN_00406cc0(float afValue);
 ImpAttachHandle __cdecl FUN_00c85ef0(void* apObject, void* apType);
 ImpPoint __cdecl FUN_004a3760(float afScale, const ImpPoint& arPoint);
 void __cdecl FUN_006890b0(ImpCell* apCell, float afSize, const char* apTexture, ImpPoint kWorldPosition, ImpPoint kPos,
@@ -3429,7 +3429,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                     reinterpret_cast<::fnv_00623090::Host *>((pNewDecal))->FUN_00623090(apPos, (::fnv_00623090::Vir *)(::ProjectileImpact::ImpResults *)(&kResultsVal));
                     int iTheCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((::ProjectileImpact::ImpHitList *)(reinterpret_cast<::TESTopicInfoData *>(&(kResultsVal))->GetLinkToList()))))->FUN_00726070()));
                     float fPathHeading = ((float)(::FUN_004a4240()));
-                    unsigned char m_ucClipIdentifier = (int)FUN_00406cc0(::RandomFloat(0.0f, 4.0f));
+                    unsigned char m_ucClipIdentifier = (int)::std::floor(::RandomFloat(0.0f, 4.0f));
                     ImpSurface* pLastSurface = 0;
                     for (int i = 0; i < iTheCount; i++)
                     {

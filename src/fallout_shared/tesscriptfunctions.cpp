@@ -49619,7 +49619,6 @@ struct DecalCamera {
 };
 struct DecalRenderManager {};
 struct DecalWorld {  };
-float floor(float);
 
 // @fnv 0x005bfe90
 bool FUN_005bfe90(const ScriptParameter* parameters,const char* data,DecalReference* reference,TESObjectREFR* container,Script* script,ScriptLocals* locals,double& result,unsigned int& offset) {
@@ -49656,7 +49655,7 @@ bool FUN_005bfe90(const ScriptParameter* parameters,const char* data,DecalRefere
             }
             params.category=-1;
             params.rotation=((float)(::FUN_004a4240()));
-            params.angle=(int)floor(::RandomFloat(0.0f,::DAT_0101e570));
+            params.angle=(int)::std::floor(::RandomFloat(0.0f,::DAT_0101e570));
             size=::RandomFloat(reinterpret_cast<::FUN_004a40a0_Class *>((impact))->FUN_004a40a0(),reinterpret_cast<::FUN_004a40c0_Class *>((impact))->GetModifierValue());
             params.height=size;
             params.width=params.height;

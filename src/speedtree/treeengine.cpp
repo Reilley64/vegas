@@ -47,6 +47,7 @@
 #include "fnv/symbols_00b3f000.h"
 #include "fnv/symbols_00b40000.h"
 #include "fnv/symbols_0101e000.h"
+#include <cerrno>
 
 struct Point3B2BC70
 {
@@ -749,10 +750,6 @@ inline SptString operator+(const SptString& left, const SptString& right)
     return SptString(left).append(right);
 }
 
-int* FUN_00ec85e3();
-
-char* FUN_00ecdb42(int);
-
 struct SptException
 {
     int unk04;
@@ -773,7 +770,7 @@ struct SptRuntimeError : SptException
 struct SptError : SptRuntimeError
 {
     SptError(const SptString& text, bool append)
-        : SptRuntimeError(text + " [" + (append ? SptString(FUN_00ecdb42(*FUN_00ec85e3())) : SptString("")) + "]")
+        : SptRuntimeError(text + " [" + (append ? SptString(::std::strerror(errno)) : SptString("")) + "]")
     {}
     SptError(const SptError&);
     ~SptError();

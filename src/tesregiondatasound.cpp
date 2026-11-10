@@ -24,6 +24,7 @@
 #include "tesregiondatasound_decls.h"
 #include "fnv/decl/FUN_004615d0_shell.h"
 #include "fnv/symbols_00944000.h"
+#include <cmath>
 
 struct Arg_004727f0
 {
@@ -446,7 +447,6 @@ void RegionSoundWriter::WriteRegionSoundData()
     }
 }
 
-double __cdecl blendFloor(float);
 class RegionBlend
 {
   public:
@@ -508,7 +508,7 @@ void RegionBlend::BlendFrom(RegionBlend* source, void* context)
         float weight = ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) + (100 - ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0()))) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0()));
         weight += (100 - ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0()))) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) + ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0())) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0()));
         weight *= 0.004999999888241291;
-        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0((unsigned char)blendFloor(weight));
+        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0((unsigned char)::std::floor(weight));
     }
 }
 

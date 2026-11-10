@@ -139,6 +139,7 @@
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
+#include <cstring>
 
 struct Scene892;
 struct SharedBody;
@@ -13452,7 +13453,6 @@ call:
 }
 
 namespace fnv_00c828f0 {
-void FUN_00ec61c0(void*, int, unsigned int);
 extern int DAT_01267ea4;
 extern int DAT_01267e94;
 extern int DAT_01267e9c;
@@ -13490,9 +13490,9 @@ inline void SetFlagPair(unsigned int uiA, unsigned int uiB, bool bSelected)
 // @fnv 0x00c828f0
 void InitializeSelectionMasks()
 {
-    FUN_00ec61c0((*reinterpret_cast<unsigned int (*)[32]>(&::DAT_01268078)), 0, sizeof((*reinterpret_cast<unsigned int (*)[32]>(&::DAT_01268078))));
-    FUN_00ec61c0(::selected_target_masks, 0xFF, sizeof(::selected_target_masks));
-    FUN_00ec61c0(DAT_01267e70, 0, sizeof(DAT_01267e70));
+    ::std::memset((*reinterpret_cast<unsigned int (*)[32]>(&::DAT_01268078)), 0, sizeof((*reinterpret_cast<unsigned int (*)[32]>(&::DAT_01268078))));
+    ::std::memset(::selected_target_masks, 0xFF, sizeof(::selected_target_masks));
+    ::std::memset(DAT_01267e70, 0, sizeof(DAT_01267e70));
     SetFlagPair(6, 1, true);
     SetFlagPair(12, 1, true);
     SetFlagPair(7, 1, true);

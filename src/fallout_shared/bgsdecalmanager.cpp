@@ -2384,8 +2384,6 @@ extern "C" char DAT_0101e47c[];
 extern "C" char DAT_0101e484[];
 extern "C" char DAT_0101e490[];
 
-int FUN_00ec8a19(const char* text, const char* prefix, int len);
-
 struct XObj
 {
 };
@@ -2505,7 +2503,7 @@ bool XMgr::FUN_004a1a70(XRef* ref)
         pName4 = (const char*)((::XList *)(reinterpret_cast<::TESTopicInfoData *>((ref->m28))->GetLinkToList()))->FUN_0043b1b0();
         if (pName4 != 0 && (std::strncmp(pName4, DAT_0101e484, 10) == 0 || std::strncmp(pName4, DAT_0101e47c, 5) == 0 ||
                             std::strncmp(pName4, DAT_0101e474, 7) == 0 || std::strncmp(pName4, DAT_0101e468, 9) == 0 ||
-                            FUN_00ec8a19(pName4, &DAT_0101e460, 5) == 0 || FUN_00ec8a19(pName4, DAT_0101e450, 15) == 0))
+                            ::std::strncmp(pName4, &DAT_0101e460, 5) == 0 || ::std::strncmp(pName4, DAT_0101e450, 15) == 0))
             return true;
         if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_011f4a20))), (::NiAVObject *)(ref->m28)) && !reinterpret_cast<::FUN_00456630_helper *>((ref->m28))->FUN_00456610())
         {

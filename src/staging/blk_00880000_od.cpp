@@ -76,6 +76,7 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011df000.h"
 #include "../../include/layout_support.h"
+#include <cmath>
 
 class TESActorBase;
 class Actor
@@ -1599,7 +1600,6 @@ struct BoolSetting
 struct FloatSetting
 {
 };
-float FUN_00406cc0(float);
 // @fnv 0x0088fb00
 void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target)
 {
@@ -1670,7 +1670,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
                     point = node2->FUN_0045bb80() + reinterpret_cast<::Point3_0053d280 *>((void *)(void *)&(const ::NiPoint3 &)((GetNodePosition(false) - node2->FUN_0045bb80())))->FUN_0053d280(2.0f);
                 }
             }
-            char randomIndex2 = (char)(int)FUN_00406cc0(::RandomFloat(0.0f, 4.0f));
+            char randomIndex2 = (char)(int)::std::floor(::RandomFloat(0.0f, 4.0f));
             float global = ((float)(::FUN_004a4240()));
             float size = ::RandomFloat(reinterpret_cast<::FUN_004a40a0_Class *>((_projectile))->FUN_004a40a0(), reinterpret_cast<::FUN_004a40c0_Class *>((_projectile))->GetModifierValue());
             NiPoint3 normal9;

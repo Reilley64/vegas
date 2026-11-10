@@ -14739,7 +14739,6 @@ struct AimPlayer : AimObject
 };
 AimVector FUN_009a88e0(AimPlayer*, AimVector);
 AimVector GetPitchYaw(AimVector, AimVector);
-int FUN_00ec7d40(int);
 extern AimVector DAT_011e0bd0;
 extern AimObject* DAT_011e0be0;
 extern unsigned int DAT_011e0bdc;
@@ -58009,7 +58008,6 @@ int FUN_00a24180_shell::FUN_00a24180(int aiButton, int aiExtra)
 }
 
 extern bool DAT_011f35c8;
-int FUN_00ec7d40(int iValue);
 
 class OSInputGlobals
 {
@@ -58078,9 +58076,9 @@ void OSInputGlobals::FUN_00a24280(int iControl)
             if (iPrevAxisValue != -1)
             {
                 int iAxisDelta = iPrevAxisValue - iAxisValue;
-                if (FUN_00ec7d40(iAxisDelta) == 9000)
+                if (::std::abs(iAxisDelta) == 9000)
                     iAxisValue += (int)(iAxisDelta * 0.5);
-                else if (FUN_00ec7d40(iAxisDelta) == 27000)
+                else if (::std::abs(iAxisDelta) == 27000)
                     iAxisValue = 31500;
             }
             m_aiJoystickAxis[(unsigned short)((((unsigned long)(m_aaucControls[iControlSlot][iControl])) >> 16) &
@@ -60420,7 +60418,6 @@ extern unsigned int DAT_011e0be8;
 extern unsigned char DAT_011e0bec, DAT_011e0be5, DAT_011e0be4;
 extern const char DAT_0108b064[], DAT_0108b050[];
 extern const double DAT_0108b048;
-int FUN_00ec7d40(int);
 class ArrowProjectile : public TESObjectREFR
 {
   public:
@@ -60550,11 +60547,11 @@ void InputPlayer::FUN_009466d0(float dt, bool paused)
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(3);
             else if (axisX < 0)
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(2);
-            DAT_011a3b40 = FUN_00ec7d40(axisX) * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::InputSetting *>(&::g_011e0964))))));
+            DAT_011a3b40 = ::std::abs(axisX) * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::InputSetting *>(&::g_011e0964))))));
             if (DAT_011a3b40 > ::DAT_01016ff0)
                 DAT_011a3b40 = ::DAT_01016088;
         }
-        if (FUN_00ec7d40(axisY) < FUN_00ec7d40(axisX))
+        if (::std::abs(axisY) < ::std::abs(axisX))
         {
             DAT_011a3b3c = std::abs(axisX) * DAT_0108b048;
             if (axisX < 0)
@@ -69595,16 +69592,16 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                 {
                     int axisScope62 = 0;
                     axisScope62 = reinterpret_cast<::FUN_00a23390_t *>((inputScope7))->GetAxisState(0, 10);
-                    if (FUN_00ec7d40(axisScope62) < 8689)
+                    if (::std::abs(axisScope62) < 8689)
                         axisScope62 = 0;
                     wheelScope61Local16 = (int)(axisScope62 * ::DAT_0101ffa0 * delta);
                     horizontalScope59 = reinterpret_cast<::FUN_00a23390_t *>((inputScope7))->GetAxisState(0, 9);
-                    if (FUN_00ec7d40(horizontalScope59) < 8689)
+                    if (::std::abs(horizontalScope59) < 8689)
                         horizontalScope59 = 0;
                     horizontalScope59 /= 5;
                     if (horizontalScope59 || wheelScope61Local16)
                     {
-                        if (FUN_00ec7d40(axisScope62) > FUN_00ec7d40(horizontalScope59))
+                        if (::std::abs(axisScope62) > ::std::abs(horizontalScope59))
                             horizontalScope59 = 0;
                         else
                             wheelScope61Local16 = 0;
@@ -69614,9 +69611,9 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                 {
                     horizontalScope59 = reinterpret_cast<::FUN_00a23390_t *>((inputScope7))->GetAxisState(0, 9);
                     verticalScope9 = reinterpret_cast<::FUN_00a23390_t *>((inputScope7))->GetAxisState(0, 10);
-                    if (FUN_00ec7d40(horizontalScope59) < 8689)
+                    if (::std::abs(horizontalScope59) < 8689)
                         horizontalScope59 = 0;
-                    if (FUN_00ec7d40(verticalScope9) < 8689)
+                    if (::std::abs(verticalScope9) < 8689)
                         verticalScope9 = 0;
                 }
                 if (horizontalScope59 || verticalScope9)

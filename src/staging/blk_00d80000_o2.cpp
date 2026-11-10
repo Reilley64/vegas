@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <windows.h>
 #include <stdlib.h>
+#include <cstring>
 
 // src/staging/blk_00d80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -3175,13 +3176,6 @@ unsigned __int64 OwnerD87A::GetCurrentValue() const
     return m_uiCurrentValue;
 }
 
-__declspec(noinline) extern "C" void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int size)
-{
-    unsigned char* p = (unsigned char*)destination;
-    for (unsigned int i = 0; i < size; ++i)
-        p[i] = (unsigned char)value;
-    return destination;
-}
 struct MonitorBuffer {
     void* m_ppVirtualMethodTable;
     int m_uiItemCount;
@@ -3193,7 +3187,7 @@ struct MonitorBuffer {
 void MonitorBuffer::FUN_00d880b0()
 {
     m_uiItemCount = 0;
-    FUN_00ec61c0(m_buffer, 0, sizeof(m_buffer));
+    ::std::memset(m_buffer, 0, sizeof(m_buffer));
 }
 
 struct hkStepInfoD881;

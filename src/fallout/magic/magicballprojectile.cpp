@@ -209,6 +209,7 @@
 #include "fnv/symbols_00b6b000.h"
 #include "fnv/symbols_00c69000.h"
 #include "fnv/symbols_00c6a000.h"
+#include <cmath>
 struct FUN_00810a80_shell
 {
     float GetFloatAtOffset53C();
@@ -2620,8 +2621,6 @@ struct FUN_00817160_shell
 
 
 
-float __cdecl FUN_00406cc0(float);
-
 int __cdecl FUN_00ec62c0();
 
 struct FUN_0081a320_class;
@@ -3208,8 +3207,8 @@ void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
                     reinterpret_cast<::FUN_00ad89e0_shell *>(&(m_bc))->FUN_00ad89e0(1.0f * (1.0f - ((m_a8 - fSegmentTime) / fSegmentTime)));
             }
 
-            if ((int)FUN_00406cc0(fPreviousTime / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1146))))))) !=
-                (int)FUN_00406cc0(m_a8 / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1146))))))))
+            if ((int)::std::floor(fPreviousTime / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1146))))))) !=
+                (int)::std::floor(m_a8 / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1146))))))))
             {
 
                 float ratio = (m_ac - m_a8) / m_ac;

@@ -35821,14 +35821,12 @@ class TESAnimGroup
 
 extern Actor* DAT_011dea3c;
 
-int __cdecl FUN_00ec7750(const char* a, const char* b);
-
 // @fnv 0x00571760
 void Actor::FUN_00571760(TESObjectWEAP* pWeapon)
 {
     if (!((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0())))
         return;
-    if (FUN_00ec7750(reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(), "Lily"))
+    if (::std::strstr(reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(), "Lily"))
         ::FUN_005b5e40();
     bool flagA9 = false;
     bool flagB7 = false;
@@ -43536,7 +43534,6 @@ struct TraversalHandler
 {
 };
 extern const char DAT_01030f08[];
-extern "C" int FUN_00ec8a19(const char*, const char*, unsigned int);
 // Recursively checks child nodes, may remove or attach nodes, and calls two node methods when a change is recorded.
 // @fnv 0x00577e20
 bool __cdecl FUN_00577e20(TraversalNode* node)
@@ -43553,7 +43550,7 @@ bool __cdecl FUN_00577e20(TraversalNode* node)
             if (child)
             {
                 TraversalNode* sub = child->AsNode();
-                if (sub && ((bool)(reinterpret_cast<::NiFixedString *>((void *)&((*(::fnv_00577e20::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((sub))->GetLinkToList()))))->IsNotEmpty())) && !FUN_00ec8a19((*(::fnv_00577e20::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((sub))->GetLinkToList())), DAT_01030f08, 4))
+                if (sub && ((bool)(reinterpret_cast<::NiFixedString *>((void *)&((*(::fnv_00577e20::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((sub))->GetLinkToList()))))->IsNotEmpty())) && !::std::strncmp((*(::fnv_00577e20::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((sub))->GetLinkToList())), DAT_01030f08, 4))
                     sub->Remove(i);
             }
         }
@@ -45558,7 +45555,6 @@ struct DlgBoolSetting
 };
 extern DlgActor* DAT_011dea3c;
 
-int __cdecl FUN_00ec623a(char* apBuffer, const char* apFormat, ...);
 void __cdecl FUN_00705210(const char* apText, DlgTarget kTarget, DlgPoint kPos, DlgActor* apListener, int aiFlags);
 
 static const char s_szSubtitleFormat[] = "'%s' :%s";
@@ -45673,7 +45669,7 @@ void DlgActor::FUN_00935f60()
                     if (((bool)(::fnv_00703150::FUN_00703150())))
                     {
                         char acSubtitle[260];
-                        FUN_00ec623a(acSubtitle, s_szSubtitleFormat, reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(),
+                        ::std::sprintf(acSubtitle, s_szSubtitleFormat, reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(),
                                      ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)((void *)(pLine))))))));
                         FUN_00705210(acSubtitle, ((::DialogueUpdate::DlgProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->FUN_vt48c(0), *GetPos(), DAT_011dea3c, 0);
                     }

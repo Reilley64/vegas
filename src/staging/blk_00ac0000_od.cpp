@@ -30627,7 +30627,6 @@ Ctype4110* Ctype4110::FUN_00ad4110(unsigned int flags)
 
 namespace fnv_00ad47f0 {
 namespace std {
-bool __cdecl uncaught_exception();
 template <class C> struct char_traits
 {
     typedef int int_type;
@@ -30823,7 +30822,7 @@ template <class C, class T> class basic_ostream : public virtual basic_ios<C, T>
         }
         ~sentry()
         {
-            if (!uncaught_exception())
+            if (!(::std::uncaught_exceptions() > 0))
                 reinterpret_cast<::fnv_00ad03e0::OstrQ *>(&(this->_Myostr))->FUN_00ad03e0();
         }
         operator bool() const

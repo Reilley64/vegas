@@ -26,6 +26,7 @@
 #include "fnv/symbols_011cf000.h"
 #include "fnv/symbols_011d0000.h"
 #include "fnv/symbols_011d1000.h"
+#include <cmath>
 union SETTING_VALUE
 {
   public:
@@ -144,14 +145,12 @@ float __cdecl FUN_00648a10(intptr_t aiEndurance)
                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)(((SettingT_GameSettingCollection__Float_Access*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting862)))))))->f;
 }
 
-double __cdecl _floor(float);
-
 // Computes a floored value from aiIntelligence and DAT_01011588 plus 10, adding 1 when aiLevel is even and aiIntelligence is odd.
 // @fnv 0x00648c10
 int __cdecl ComputeIntelligenceResult(int aiIntelligence, int aiLevel)
 {
     float fresult = (double)aiIntelligence * DAT_01011588 + 10.0;
-    int iresult = _floor(fresult);
+    int iresult = ::std::floor(fresult);
     if (aiLevel % 2 == 0 && aiIntelligence % 2 == 1)
     {
         iresult += 1;

@@ -6469,8 +6469,6 @@ int C_00adc830::FUN_00adc830(unsigned int uiKey)
     return iValue;
 }
 
-extern void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-
 
 
 struct MessageStackMember : BottomlessStack
@@ -6513,7 +6511,7 @@ struct CachedPointerMapBase
         entries = ::FUN_00aa1070(bytes);
         unsigned int clearBytes = capacity * sizeof(void*);
         void* clearEntries = entries;
-        fnv_zlib_memset(clearEntries, 0, clearBytes);
+        ::std::memset(clearEntries, 0, clearBytes);
     }
 };
 

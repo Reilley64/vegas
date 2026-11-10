@@ -26,6 +26,7 @@
 #include "fnv/symbols_00485000.h"
 #include "fnv/symbols_005b5000.h"
 #include "tesregiondataweather_decls.h"
+#include <cmath>
 // @fnv 0x004f51f0
 void TESRegionDataWeather::LoadWeatherData(TESFile* file, TESRegion* region)
 {
@@ -164,7 +165,6 @@ struct RegionWeather
     RegionWeatherList list;
     void MergeWeather(RegionWeather*, int);
 };
-double _floor(float);
 // @fnv 0x004f5320
 void RegionWeather::MergeWeather(RegionWeather* apOther, int enabled)
 {
@@ -203,6 +203,6 @@ void RegionWeather::MergeWeather(RegionWeather* apOther, int enabled)
         float weight = ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) + (100 - ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0()))) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0()));
         weight += (100 - ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0()))) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>(this)->FUN_005bb4d0())) + ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0())) * ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((other))->FUN_005bb4d0()));
         weight *= 0.004999999888241291;
-        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0((unsigned char)_floor(weight));
+        reinterpret_cast<::FUN_004f15c0_shell *>(this)->FUN_004f15c0((unsigned char)::std::floor(weight));
     }
 }

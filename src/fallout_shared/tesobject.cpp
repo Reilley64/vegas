@@ -168,6 +168,7 @@
 #include "fnv/symbols_01021000.h"
 #include "fnv/symbols_01063000.h"
 #include "fnv/symbols_010a3000.h"
+#include <cstring>
 
 // @fnv 0x0050fbe0
 NiNode* TESObject::_CreateNiNode(TESObjectREFR* reference, bool arg1)
@@ -3735,8 +3736,6 @@ bool SeekBinaryFile::FUN_00ac53a0(long offset)
     return true;
 }
 
-extern "C" unsigned __cdecl FUN_00ec6130(const char*);
-
 inline void DeadX()
 {
     const char* d_dmji;
@@ -3789,7 +3788,7 @@ struct StrX
     }
     static unsigned LenX(const char* p)
     {
-        return FUN_00ec6130(p);
+        return ::std::strlen(p);
     }
 };
 
@@ -6588,7 +6587,6 @@ struct BxLengthError : public BxLogicError
     {}
 };
 
-void* FUN_00ec44d0(void* dst, const void* src, unsigned int count);
 }
 using namespace errac6;
 
@@ -6607,7 +6605,7 @@ void FUN_00ac6430(int code, BxString message)
             ::ReportAssertionViolation("D:\\_Fallout3\\Platforms\\Common\\Code\\SDK\\FaceGen\\lastError.cpp", 0x41);
         }
         uiLength = uiLength < 0x100 ? uiLength : 0xff;
-        FUN_00ec44d0((*reinterpret_cast<char (*)[256]>(&::DAT_011f6c8c)), &message[0], uiLength);
+        ::std::memmove((*reinterpret_cast<char (*)[256]>(&::DAT_011f6c8c)), &message[0], uiLength);
         (*reinterpret_cast<char (*)[256]>(&::DAT_011f6c8c))[uiLength] = 0;
     }
 }
@@ -7945,8 +7943,6 @@ Entry48* Owner_ob1::FUN_00ad1960(int a, int b, int c, int d, bool e)
     return (Entry48*)mem;
 }
 
-extern "C" void* __cdecl FUN_00ec9a47(const char* name, const char* mode);
-
 struct PadStr : StrFld
 {
     PadStr(const PadStr& r) : StrFld(r)
@@ -7983,7 +7979,7 @@ bool FileReader::FUN_00ac4910(FileString kPath)
 {
     reinterpret_cast<::FUN_00ac5430_cls *>((((GvBinaryFile*)this)))->FUN_00ac5430();
     ((GvBinaryFile*)this)->pFile =
-        (GvFileHandle*)FUN_00ec9a47(kPath.capacity >= 16 ? kPath.storage.pointer : kPath.storage.buffer, "wb");
+        (GvFileHandle*)::std::fopen(kPath.capacity >= 16 ? kPath.storage.pointer : kPath.storage.buffer, "wb");
     if (!((GvBinaryFile*)this)->pFile)
     {
         FUN_00ac6430(5, *(PadStr*)&kPath);

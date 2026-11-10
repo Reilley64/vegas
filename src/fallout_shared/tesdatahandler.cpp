@@ -5,6 +5,7 @@
 #include <new>
 #include <cerrno>
 #include <cstring>
+#include <cstdio>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AmmoOwner.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -7469,7 +7470,6 @@ struct BoundView : TESBoundObject
 struct WorldView : TES
 {
 };
-extern "C" int sprintf(char*, const char*, ...);
 int FileExists(const char*, char*, unsigned int, unsigned int);
 struct ModelTest : TESDataHandler
 {
@@ -7566,7 +7566,7 @@ void ModelTest::FUN_0046ddb0(bool force)
                             else if (bound && (*(*reinterpret_cast<::fnv_0046ddb0::TestSetting *>(&::g_011c3fa8)).Bool() || force || *(*reinterpret_cast<::fnv_0046ddb0::TestSetting *>(&::g_011c4080)).Bool()))
                             {
                                 char message[260];
-                                sprintf(message, "Loading %smodel \"%s\" for %s \"%s\".", label,
+                                ::std::sprintf(message, "Loading %smodel \"%s\" for %s \"%s\".", label,
                                         model->GetModelFilePath(), ::DAT_0118a2d8[index], bound->GetEditorID());
                                 ::FUN_00703c00(message, {});
                                 reinterpret_cast<::fnv_0086ff70::Main86 *>(((*reinterpret_cast<::fnv_0046ddb0::TestAudio * *>(&::g_osGlobals))))->FUN_0086ff70();

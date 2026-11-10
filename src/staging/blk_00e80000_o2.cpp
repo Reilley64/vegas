@@ -9954,7 +9954,6 @@ PoolItemStub* __cdecl AllocatePoolItem()
     return item;
 }
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 extern float DAT_0126f9c4;
 struct Vec3 { float x,y,z; };
 struct Matrix { Vec3 a,b,c; };
@@ -10066,7 +10065,7 @@ S_00e8b4b0_Class* S_00e8b4b0_Class::Init(intptr_t value1, int value2) {
 bool LightState::UpdateFromSource(LightSource* source) {
 if (f68 != source->fa8) {
 f68 = source->fa8;
-fnv_zlib_memset(this, 0, 0x68);
+::std::memset(this, 0, 0x68);
 switch (source->kind) {
 case 4:
 f00=2; f34=source->f8c; f38=source->f90; f3c=source->f94;
@@ -10394,8 +10393,6 @@ struct PairEntry {
     int val;
 };
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-
 extern int DAT_0126f91c;
 extern int DAT_0126f920;
 extern int DAT_0126f924;
@@ -10609,7 +10606,7 @@ FUN_00e881a0::FUN_00e881a0(void* renderer)
 
     m_10f4 = 0;
     m_10f5 = 0;
-    fnv_zlib_memset(DAT_0126f958, 0xffff, 0x42);
+    ::std::memset(DAT_0126f958, 0xffff, 0x42);
 
     DAT_0126f958[1] = 0;
     DAT_0126f958[2] = 1;

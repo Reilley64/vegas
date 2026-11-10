@@ -62,6 +62,7 @@
 #include "fnv/symbols_011c5000.h"
 #include "fnv/symbols_011de000.h"
 #include <xmmintrin.h>
+#include <cmath>
 
 namespace {
 // Twelve bytes for a NiPoint3 result that a call writes through its hidden result pointer;
@@ -249,8 +250,6 @@ struct TESView
 
 NiPoint3 __cdecl FUN_004a3760(float, const NiPoint3&);
 
-float __cdecl FUN_00406cc0(float);
-
 struct ImpactTask
 {
     int remaining;
@@ -357,7 +356,7 @@ void ImpactTask::FUN_004a2d50()
                     decal.height = radius;
                     decal.depth = DAT_0101e574;
                     decal.lifetime = ::FUN_004a4240();
-                    decal.rotation = (unsigned char)(int)FUN_00406cc0(::RandomFloat(0, DAT_0101e570));
+                    decal.rotation = (unsigned char)(int)::std::floor(::RandomFloat(0, DAT_0101e570));
                     decal.reference = target;
                     decal.texture = texture;
                     decal.flag73 = impact->FUN_004a4100();

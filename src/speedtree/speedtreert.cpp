@@ -4535,11 +4535,7 @@ V* S::FUN_00b05000(V* out, M* apMatrix)
 
 void __cdecl _memmove(void* dst, const void* src, unsigned int size);
 
-unsigned int _strlen(const char* s);
-
 char* DuplicateString(const char* pOrig);
-
-unsigned int _strlen(const char*);
 
 struct Mat
 {
@@ -9717,8 +9713,6 @@ void S00b092a0_cls::FUN_00b092a0(S00b092a0_Reader* r)
     } while (tok != 0x2329);
 }
 
-unsigned int __cdecl _strlen(const char* s);
-
 int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 
 int __cdecl memmove_s(void*, unsigned int, const void*, unsigned int);
@@ -9733,7 +9727,7 @@ struct SpdCharTraits
     }
     static unsigned int length(const char* p)
     {
-        return _strlen(p);
+        return ::std::strlen(p);
     }
     static char* copy(char* dst, unsigned int size, const char* src, unsigned int count)
     {
@@ -16256,7 +16250,7 @@ struct Iterator
 inline void AssignString(const char* s)
 {
     ErrorStringView& target = *(ErrorStringView*)&DAT_011f8ba4;
-    unsigned count = _strlen(s);
+    unsigned count = ::std::strlen(s);
     if (target.inside(s))
     {
         target.AssignSubstring(target, s - target.myptr(), count);

@@ -218,6 +218,7 @@
 #include "fnv/decl/_Dummy_0069e390.h"
 #include "fnv/symbols_011a9000.h"
 #include <xmmintrin.h>
+#include <cmath>
 
 // @fnv 0x009e39c0
 void DetailedActorPathHandler::SetInitialPathState()
@@ -2352,7 +2353,6 @@ class NiPoint3Ex : public NiPoint3
 namespace std {
 float abs(float f);
 }
-double _fabs(double d);
 NiPoint3Ex __cdecl GetPitchYaw(NiPoint3 kFrom, NiPoint3 kTo);
 
 struct FUN_009e2aa0_shell
@@ -2427,7 +2427,7 @@ bool FUN_009e2aa0_shell::FUN_009e2aa0(float fTimeDelta)
         }
         NiPoint3Ex kAngles = GetPitchYaw(*(*(Actor**)((char*)this + 4))->GetPos(), *(NiPoint3*)((char*)this + 0x34));
         if (reinterpret_cast<::FUN_005a2030_shell *>((void *)((*(Actor**)((char*)this + 4))))->FUN_005a2030() &&
-            _fabs(std::abs(kAngles.x) - 1.5707963267948966) < 0.2617993950843811)
+            ::std::fabs(std::abs(kAngles.x) - 1.5707963267948966) < 0.2617993950843811)
             fDesiredHeadingAngle = fDesiredHeading_2;
         else
             fDesiredHeadingAngle = kAngles.z;
@@ -2440,7 +2440,7 @@ bool FUN_009e2aa0_shell::FUN_009e2aa0(float fTimeDelta)
             {
                 float fDegrees2 = fDesiredHeading * 57.2957763671875;
                 if (std::abs(fDegrees2) > 135.0 && reinterpret_cast<::FUN_00494710_shell *>(((*(Actor**)((char*)this + 4))->GetAnimation()))->FUN_00494710(4) &&
-                    (_fabs(std::abs(kAngles.x) - 1.5707963267948966) >= 0.2617993950843811 ||
+                    (::std::fabs(std::abs(kAngles.x) - 1.5707963267948966) >= 0.2617993950843811 ||
                      !reinterpret_cast<::FUN_005a2030_shell *>((void *)((*(Actor**)((char*)this + 4))))->FUN_005a2030()))
                 {
                     uiMoveFlags3 = 2;

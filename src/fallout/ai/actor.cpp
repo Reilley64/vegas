@@ -127952,7 +127952,6 @@ struct EColor
 extern const float DAT_01075a9c;
 extern EActor* _g_thePlayer;
 extern MTES* g_TES;
-float __cdecl floor(float);
 void __cdecl FUN_006890b0(MDecalMgr*, float, const char*, MPt, MPt, float, int, MColObj*);
 
 // Processes an impact event by spawning decals and impact models on the actor, optionally casting a ray to place decals on hit surfaces.
@@ -127985,7 +127984,7 @@ void EActor::FUN_0088e8d0(float elapsed, ERequest* event)
         {
             unsigned int partMask = -1;
             float time = ((float)(::FUN_004a4240()));
-            unsigned char index = (unsigned char)(int)floor(::RandomFloat(0.0f, ::DAT_0101e570));
+            unsigned char index = (unsigned char)(int)::std::floor(::RandomFloat(0.0f, ::DAT_0101e570));
             int material = allowed ? 4 : ((::fnv_0088e8d0::EBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->race.GetMaterial();
             EWeapon* weapon = 0;
             if (event->source)

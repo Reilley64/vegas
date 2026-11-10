@@ -3686,7 +3686,6 @@ void FUN_00b8d770_cls::CreateBlendShader()
 }
 
 namespace fnv_00b8d8c0 {
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 struct S_00b8d8c0_Desc
 {
     const char* unk00;
@@ -3886,10 +3885,10 @@ void S_00b8d8c0_Cls::FUN_00b8d8c0()
     S_00b8d8c0_Desc s2;
     s1.unk00 = "imagespace\\1x\\v\\base.v.hlsl";
     s1.unk04 = 0;
-    FUN_00ec61c0(&s1.unk08, 0, 0x44);
+    ::std::memset(&s1.unk08, 0, 0x44);
     s2.unk00 = "imagespace\\2x\\p\\blur.p.hlsl";
     s2.unk04 = 0;
-    FUN_00ec61c0(&s2.unk08, 0, 0x44);
+    ::std::memset(&s2.unk08, 0, 0x44);
     v13c(&s1, &s2, "BLUR", "vs_1_1", "ps_2_a");
     v14c();
 }
@@ -4016,7 +4015,6 @@ void FUN_00b8da00_cls::InitBlur3Shader()
 }
 
 namespace fnv_00b8db50 {
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 struct S_00b8db50_Desc
 {
     const char* unk00;
@@ -4216,12 +4214,12 @@ void S_00b8db50_Cls::FUN_00b8db50()
     S_00b8db50_Desc s2;
     s1.unk00 = "imagespace\\1x\\v\\base.v.hlsl";
     s1.unk04 = 0;
-    FUN_00ec61c0(&s1.unk08, 0, 0x44);
+    ::std::memset(&s1.unk08, 0, 0x44);
     s2.unk00 = "imagespace\\2x\\p\\blur2.p.hlsl";
     s2.unk04 = "TEXTAP";
     s2.unk08 = &DAT_01063f18;
     s2.unk0c = 0;
-    FUN_00ec61c0(&s2.unk10, 0, 0x3c);
+    ::std::memset(&s2.unk10, 0, 0x3c);
     v13c(&s1, &s2, "BLUR5", "vs_1_1", "ps_2_a");
     v14c();
 }
@@ -4502,7 +4500,6 @@ void FUN_00b8ddf0_cls::CreateBlur9Shader()
 }
 
 namespace fnv_00b8df40 {
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 struct S_00b8df40_Desc
 {
     const char* unk00;
@@ -4702,12 +4699,12 @@ void S_00b8df40_Cls::InitBlur11Shader()
     S_00b8df40_Desc s2;
     s1.unk00 = "imagespace\\1x\\v\\base.v.hlsl";
     s1.unk04 = 0;
-    FUN_00ec61c0(&s1.unk08, 0, 0x44);
+    ::std::memset(&s1.unk08, 0, 0x44);
     s2.unk00 = "imagespace\\2x\\p\\blur2.p.hlsl";
     s2.unk04 = "TEXTAP";
     s2.unk08 = "11";
     s2.unk0c = 0;
-    FUN_00ec61c0(&s2.unk10, 0, 0x3c);
+    ::std::memset(&s2.unk10, 0, 0x3c);
     v13c(&s1, &s2, "BLUR11", "vs_1_1", "ps_2_a");
     v14c();
 }
@@ -6153,7 +6150,6 @@ ImageSpacePass* ImageSpacePass::FUN_00b91640(unsigned char abFree)
 }
 
 namespace fnv_00b916f0 {
-extern "C" void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int size);
 
 extern "C" const char str_010b0130[];
 extern "C" const char str_010b0124[];
@@ -6274,12 +6270,12 @@ void FUN_00b916f0_Object::InitializeShader()
 
     first.shader = &str_010b0158;
     first.unk04 = 0;
-    FUN_00ec61c0(first.data, 0, sizeof(first.data));
+    ::std::memset(first.data, 0, sizeof(first.data));
 
     second.shader = str_010b0124;
     second.name = str_010b0130;
     second.terminator = reinterpret_cast<const int*>(DAT_01011584);
-    FUN_00ec61c0(second.data, 0, sizeof(second.data));
+    ::std::memset(second.data, 0, sizeof(second.data));
 
     vf13C(&first, &second, str_010b4dbc, &str_010a93ec, &str_010a93cc);
     vf14C();
@@ -6688,7 +6684,6 @@ void B91AB0ImageSpaceEffect::CreateCopyUnpackShaders()
 }
 
 namespace fnv_00b91bf0 {
-extern "C" void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int size);
 
 struct FUN_00b91bf0_First
 {
@@ -6813,7 +6808,7 @@ void FUN_00b91bf0_Object::InitMotionBlurShader()
     first.terminator = reinterpret_cast<const int*>(DAT_01011584);
     first.unk08 = 0;
     first.unk0C = 0;
-    FUN_00ec61c0(first.data, 0, sizeof(first.data));
+    ::std::memset(first.data, 0, sizeof(first.data));
 
     second.shader = "imagespace\\2x\\p\\MotionBlur.p.hlsl";
     second.name = "NUM_SAMPLES";
@@ -6821,7 +6816,7 @@ void FUN_00b91bf0_Object::InitMotionBlurShader()
     second.macro = "NO_VELOCITY";
     second.terminator = reinterpret_cast<const int*>(DAT_01011584);
     second.unk14 = 0;
-    FUN_00ec61c0(second.data, 0, sizeof(second.data));
+    ::std::memset(second.data, 0, sizeof(second.data));
 
     vf13C(&first, &second, "MOTBLUR", "vs_1_1", "ps_2_0");
     vf14C();
@@ -7147,8 +7142,6 @@ struct FUN_00b921f0_Desc
     FUN_00b921f0_Buf m_kDefines;
 };
 
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-
 struct FUN_00b921f0_Class : public FUN_00b921f0_Vt
 {
     void CreateRefractionShader();
@@ -7163,13 +7156,13 @@ void FUN_00b921f0_Class::CreateRefractionShader()
     kDesc1.m_pfValue = reinterpret_cast<const float*>(DAT_01011584);
     kDesc1.m_i0c = 0;
     kDesc1.m_i10 = 0;
-    FUN_00ec61c0(&kDesc1.m_kDefines, 0, 0x38);
+    ::std::memset(&kDesc1.m_kDefines, 0, 0x38);
 
     FUN_00b921f0_Desc kDesc2;
     kDesc2.m_pPath = "imagespace\\2x\\p\\refraction_P20.p.hlsl";
     kDesc2.m_pName = 0;
     kDesc2.m_pfValue = 0;
-    FUN_00ec61c0(&kDesc2.m_i0c, 0, 0x40);
+    ::std::memset(&kDesc2.m_i0c, 0, 0x40);
 
     v079(&kDesc1, &kDesc2, "REFRACT", "vs_1_1", "ps_2_0");
     v083();
@@ -7257,7 +7250,6 @@ namespace fnv_00b92390 {
 extern "C" char DAT_010b5ad4;
 extern "C" char DAT_010b33c4;
 extern "C" char DAT_010b5acc;
-extern "C" void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int size);
 
 struct ShaderConstants
 {
@@ -7293,14 +7285,14 @@ void ShaderEffect::ConfigureShaderPasses()
     first.renderer = &DAT_010b33c4;
     first.state = &DAT_01011584;
     first.mode = 0;
-    FUN_00ec61c0(&first.constants, 0, sizeof(first.constants));
+    ::std::memset(&first.constants, 0, sizeof(first.constants));
 
     ShaderPassParameters second;
     second.shader = &DAT_010b0820;
     second.renderer = &DAT_010b33c4;
     second.state = &DAT_01011584;
     second.mode = 0;
-    FUN_00ec61c0(&second.constants, 0, sizeof(second.constants));
+    ::std::memset(&second.constants, 0, sizeof(second.constants));
 
     const char* enabled = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     ConfigureEffect configure = (ConfigureEffect)vtable[0x13c / 4];
@@ -8956,7 +8948,6 @@ bool Shader_b93420::FUN_00b93420()
 }
 
 namespace fnv_00b93670 {
-extern "C" void* __cdecl FUN_00ec61c0(void* object, int value, unsigned int capacity);
 
 struct S_00b93670_frame
 {
@@ -9099,14 +9090,14 @@ void S_00b93670_cls::InitHorizontalButterflyShader()
     shaderFrame.unk4c = "imagespace\\1x\\v\\base.v.hlsl";
     shaderFrame.unk50 = 0;
     shaderFrame.unk54 = 0;
-    FUN_00ec61c0(&shaderFrame.unk58, 0, 0x40);
+    ::std::memset(&shaderFrame.unk58, 0, 0x40);
 
     shaderFrame.unk00 = "water\\2_ab\\p\\waterhmap.p.hlsl";
     shaderFrame.unk04 = "HORIZONTAL_BUTTERFLY";
     shaderFrame.unk08 = 0;
     shaderFrame.unk0c = 0;
     shaderFrame.unk10 = 0;
-    FUN_00ec61c0(&shaderFrame.unk14, 0, 0x38);
+    ::std::memset(&shaderFrame.unk14, 0, 0x38);
 
     const char* renderer = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
 
@@ -9466,7 +9457,6 @@ void FUN_00b93c60_cls::InitVerticalScrambleShader()
 }
 
 namespace fnv_00b93db0 {
-extern "C" void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int size);
 
 struct FUN_00b93db0_Block40
 {
@@ -9624,14 +9614,14 @@ void FUN_00b93db0_Object::FUN_00b93db0()
     first.shader = "imagespace\\1x\\v\\base.v.hlsl";
     first.unk04 = 0;
     first.unk08 = 0;
-    FUN_00ec61c0(&first.data, 0, sizeof(first.data));
+    ::std::memset(&first.data, 0, sizeof(first.data));
 
     second.shader = "water\\2_ab\\p\\waterhmap.p.hlsl";
     second.name = "NORMALS";
     second.unk08 = 0;
     second.unk0C = 0;
     second.unk10 = 0;
-    FUN_00ec61c0(&second.data, 0, sizeof(second.data));
+    ::std::memset(&second.data, 0, sizeof(second.data));
 
     const char* gpuProfile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
 

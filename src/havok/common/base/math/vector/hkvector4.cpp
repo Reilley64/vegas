@@ -1403,23 +1403,8 @@ struct RayShape
     virtual void v7();
     virtual BoolResult cast(const RayIn&, RayOut&) const;
 };
-__declspec(noinline) void* __cdecl GetValidatedPointer(void* obj)
-{
-    BoundingVolumeNode* n = (BoundingVolumeNode*)obj;
-    BoundingVolumeNode* result = 0;
-    if (n)
-    {
-        int type = n->type;
-        if (type == 10)
-        {
-            n = n->f34;
-            type = n->type;
-        }
-        if (type == 0x17 || type == 0x1e || type == 0x1f)
-            result = n;
-    }
-    return result;
-}
+// 00c6ead0. Defined once, in the unit the recipe lists it in; see docs/shape-validation.md.
+void* __cdecl GetValidatedPointer(void* obj);
 typedef char(__cdecl* PredFn)(int v);
 extern "C" void _ReadWriteBarrier();
 static __forceinline float scalar(__m128 x)

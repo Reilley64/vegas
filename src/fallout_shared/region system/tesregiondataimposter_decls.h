@@ -16,18 +16,7 @@ class TESTopic;
 class TESGrass;
 struct QuantityData;
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    bool AddHead(T& item);
-    void AddTail(T& item);
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    void SetItem(const T& item);
-    void RemoveHead();
-};
+#include "fnv/bs_simple_list.h"
 
 template <> class BSSimpleList<TESGrass*>
 {

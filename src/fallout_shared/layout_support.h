@@ -19,27 +19,7 @@ class MediaSet;
 class MediaLocationController;
 class NiNode;
 class TESSound;
-#ifdef FNV_KEEPS_OWN_BSSIMPLELIST
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    ~BSSimpleList();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsEmpty();
-    void RemoveAll();
-    void RemoveHead();
-    void Remove(const T& item);
-    void AddTail(const T& item);
-    void AddHead(T& item);
-    void SetItem(const T& item);
-};
-#else
 #include "fnv/bs_simple_list.h"
-#endif
 template <class T> class BSStringT
 {
   public:

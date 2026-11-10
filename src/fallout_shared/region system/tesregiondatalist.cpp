@@ -8,16 +8,7 @@
 #include "fnv/symbols_004f2000.h"
 class TESRegionData;
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    unsigned int ItemsInList();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    void RemoveHead();
-};
+#include "fnv/bs_simple_list.h"
 
 class TESRegionData
 {

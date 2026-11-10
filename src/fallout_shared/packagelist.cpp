@@ -37,24 +37,7 @@
 #include "fnv/symbols_0119b000.h"
 #include "fnv/symbols_011de000.h"
 #include "packagelist_decls.h"
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-
-    void RemoveAll();
-    void AddHead(T&);
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsEmpty();
-    void SetItem(T const& item);
-    void Remove(T const& item);
-    void RemoveHead();
-    bool IsInList(T& item);
-    void AddTail(T const& item);
-    unsigned int ItemsInList();
-};
+#include "fnv/bs_simple_list.h"
 
 class PackageList
 {

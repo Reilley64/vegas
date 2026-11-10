@@ -19,19 +19,7 @@ class BaseProcess
     ActorPackageContext* GetCurrentProcessData();
 };
 
-template <class T> class BSSimpleList
-{
-  public:
-    BSSimpleList();
-    ~BSSimpleList();
-    T m_item;
-    BSSimpleList* m_pkNext;
-    BSSimpleList* GetNext();
-    void Remove(const T&);
-    void SetItem(const T&);
-    T& GetItem();
-    void RemoveHead();
-};
+#include "fnv/bs_simple_list.h"
 
 class TESFile;
 class BGSCameraShot;

@@ -26,21 +26,7 @@ enum ENUM_FORM_ID
 {
     FORM_ID_LTEX = 18
 };
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    ~BSSimpleList();
-    void AddTail(const T& item);
-    bool IsEmpty();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    void Remove(const T& item);
-    void RemoveHead();
-    void SetItem(const T& item);
-};
+#include "fnv/bs_simple_list.h"
 // Source layout: BaseFormComponent. PC corrections are in generate_headers.py.
 class BaseFormComponent
 {

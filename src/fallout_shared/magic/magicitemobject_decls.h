@@ -131,13 +131,7 @@ class TESFullName
     char name[8];
 };
 class EffectSetting;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    unsigned int ItemsInList();
-};
+#include "fnv/bs_simple_list.h"
 class EffectItemList
 {
   public:

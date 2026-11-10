@@ -72,19 +72,7 @@ public:
     void SetCompletionCallback(void (*)(void *, bool), void *);
 };
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    bool IsEmpty();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsInList(T&);
-    void Remove(const T&);
-    void RemoveHead();
-    void SetItem(const T&);
-};
+#include "fnv/bs_simple_list.h"
 
 class Conversation_decl;
 void __cdecl FUN_00832c40();

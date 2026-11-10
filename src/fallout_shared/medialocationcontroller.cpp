@@ -1,7 +1,4 @@
 // fallout_shared/medialocationcontroller.cpp: MediaLocationController, MediaSetEntry, FormStub_cls, MLCFullName_cls and more (25 functions)
-// This unit calls BSSimpleList<T>::SetItem, which fnv/bs_simple_list.h does not declare,
-// so it keeps the declaration it had (docs/shared-simple-list.md).
-#define FNV_KEEPS_OWN_BSSIMPLELIST
 
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"

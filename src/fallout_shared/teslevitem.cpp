@@ -145,8 +145,6 @@ struct FUN_00485680_shell
 
 void FUN_004855a0_shell::FUN_004855a0()
 {}
-void FUN_00488400_shell::SaveLeveledList()
-{}
 void FUN_00485680_shell::FUN_00485680()
 {}
 

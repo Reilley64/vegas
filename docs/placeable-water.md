@@ -20,7 +20,8 @@ member is `PlaceableWaterData` from `include/fnv/water/placeable_water.h`:
 `src/fallout_shared/teswaterform.cpp` no longer defines any of the three. Its
 `TESForm`-plus-padding `BGSPlaceableWater`, the empty constructor and the empty
 `FUN_004fc450`, `FUN_004fc3a0`, `SetFlag400` and `FUN_005802d0` bodies are
-removed. The empty `FUN_00589f50_shell::SetSound` body stays for VEGAS-78.
+removed. The empty `FUN_00589f50_shell::SetSound` body was removed later; see
+`docs/owning-water-setter.md`.
 
 ## Producers
 
@@ -108,7 +109,8 @@ header. It is not a test of form construction, publication or retirement.
 - `FUN_004fc860` (copy), `FUN_004fc8c0` (compare) and `FUN_004fc7b0` (save)
   have no consumer: no object in the archive references them. They run only
   once the form's dispatch is wired.
-- The producers still end with the empty `SetSound` body. VEGAS-78 owns it.
+- The producers ended with the empty `SetSound` body. They now store the
+  owning water; see `docs/owning-water-setter.md`.
 - No source path destroys the forms the two water-form producers publish.
 - Each producer has one caller, and both pass a `TESWaterForm*`:
   `bgsautowater.cpp` calls `FUN_00580130` on the result of `FUN_00547770`, and

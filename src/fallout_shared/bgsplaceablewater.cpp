@@ -50,6 +50,13 @@ BGSPlaceableWater::BGSPlaceableWater() : TESBoundObject(), TESModel(), Data()
     return apWater;
 }
 
+// The water form's producers end with this store. In the original it is the
+// shared one-field setter at 0x00589f50. See docs/owning-water-setter.md.
+void fnv::water::SetOwningWater(::BGSPlaceableWater* apWater, ::TESWaterForm* apOwner)
+{
+    apWater->Data.m_pOwningWater = apOwner;
+}
+
 // @fnv 0x00452460
 bool BGSPlaceableWater::HasFlags(unsigned int flags)
 {

@@ -617,19 +617,11 @@ struct FUN_005802d0_shell
     void FUN_005802d0(bool);
 };
 
-struct FUN_00589f50_shell
-{
-    void SetSound(void*);
-};
-
 struct FUN_00580130_shell : public TESWaterForm
 {
     BGSPlaceableWater* FUN_00580130();
 };
 
-
-void FUN_00589f50_shell::SetSound(void*)
-{}
 
 // Returns the BGSPlaceableWater stored at offset 0x180, creating and initialising it with editor ID "PlaceableAutoWater" if it is null.
 // @fnv 0x00580130
@@ -664,9 +656,7 @@ BGSPlaceableWater* FUN_00580130_shell::FUN_00580130()
         fnv::water::PlaceableWaterForm(this->m_pPlaceableAutoWater)
             ->SetEditorID_AtRuntime(ptempname);
 
-        reinterpret_cast<FUN_00589f50_shell*>(
-            this->m_pPlaceableAutoWater)
-            ->SetSound(this);
+        fnv::water::SetOwningWater(this->m_pPlaceableAutoWater, this);
     }
 
     return this->m_pPlaceableAutoWater;
@@ -674,10 +664,6 @@ BGSPlaceableWater* FUN_00580130_shell::FUN_00580130()
 
 namespace fnv_00580330 {
 struct FUN_005802d0_shell
-{
-};
-
-struct FUN_00589f50_shell
 {
 };
 
@@ -717,7 +703,7 @@ BGSPlaceableWater* FUN_00580330_shell::FUN_00580330()
 
         fnv::water::PlaceableWaterForm(m_pPlaceableWater)->SetEditorID_AtRuntime(ptempname);
 
-        reinterpret_cast<::FUN_00589f50_shell *>((reinterpret_cast<FUN_00589f50_shell*>(m_pPlaceableWater)))->SetSound(this);
+        fnv::water::SetOwningWater(m_pPlaceableWater, this);
     }
 
     return m_pPlaceableWater;

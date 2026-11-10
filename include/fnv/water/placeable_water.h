@@ -49,8 +49,10 @@ namespace fnv::water
 // The owner unit's entries for a caller that cannot see the complete type.
 // NewPlaceableWater allocates and constructs one complete BGSPlaceableWater.
 // PlaceableWaterForm returns its TESForm base.
+// SetOwningWater stores the water form that owns apWater in its data.
 ::BGSPlaceableWater* NewPlaceableWater();
 ::TESForm* PlaceableWaterForm(::BGSPlaceableWater* apWater);
+void SetOwningWater(::BGSPlaceableWater* apWater, ::TESWaterForm* apOwner);
 }  // namespace fnv::water
 
 #endif

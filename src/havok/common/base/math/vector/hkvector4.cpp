@@ -1403,7 +1403,7 @@ struct RayShape
     virtual void v7();
     virtual BoolResult cast(const RayIn&, RayOut&) const;
 };
-// 00c6ead0. Defined once, in the unit the recipe lists it in; see docs/shape-validation.md.
+// 00c6ead0, defined in src/staging/blk_00c60000_o2.cpp.
 void* __cdecl GetValidatedPointer(void* obj);
 typedef char(__cdecl* PredFn)(int v);
 extern "C" void _ReadWriteBarrier();

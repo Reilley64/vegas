@@ -60,19 +60,25 @@ definitions. Now one defines it and one requires it:
 
 `0x00c6eb00` is in turn required by one object, `blk_00c60000_od.cpp.obj`,
 from the function tagged `0x00c711d0`. No generated data names the function or
-its address.
+its address. `0x00c711d0` is required by three generated dispatch-table
+objects: `vtables_0107.cpp.obj`, `vtables_0108.cpp.obj` and
+`vtables_0109.cpp.obj`.
 
 ## What the call reads now
 
 The two bodies were the same code on the original release's fixed offsets.
-Built for windows-x64 they differed in one instruction: where the child of a
-type-10 shape is read.
+Laid out at 32-bit widths, both declarations put the type at `+0x0c` and the
+child at `+0x34`. Built for windows-x64 they differed in one instruction:
+where the child of a type-10 shape is read.
 
 | Reader | Type | Child of a type-10 shape |
 | --- | --- | --- |
 | removed body, through the `hkvector4.cpp` node declaration | `+0x18` | `+0x48` |
 | kept body, through the staging unit's shape declaration | `+0x18` | `+0x58` |
 | native `hkpShape` and `hkpMoppBvTreeShape` in `include/havok` | `+0x18` | `+0x58` |
+
+On windows-x64 the node declaration and the staging declaration are `0x60`
+bytes and the native `hkpMoppBvTreeShape` is `0x68`.
 
 The last row is the class the tree constructs with type 10, in
 `native_mopp_construction.cpp`. Its child pointer is the contained shape of
@@ -108,7 +114,7 @@ No program that links today contains either object.
   The clamped arc cosine test contains `clamped_acos.cpp.obj`, which does not
   name the function.
 - The worker-pool test does not link. Its link reported ten duplicate names
-  before and reports nine now.
+  before and nine after, as measured for this change.
 
 In the two forced links, of the whole archive and of the worker-pool test,
 the call already resolved to the staging definition before this change,
@@ -129,9 +135,12 @@ These were open before this change and remain open.
 - The node declaration of `hkvector4.cpp`. `0x00c6eb00` also performs the same
   validation inline, earlier in its body, through that declaration. On
   windows-x64 the inline copy still reads the child of a type-10 shape at
-  `+0x48`, which the call now reads at `+0x58`. The same declaration supplies
-  the triangle's points and radius. Replacing it needs the shape and argument
-  contract above.
+  `+0x48`, which the call now reads at `+0x58`. The inline copy runs first,
+  on the same shape pointer the call later passes. So on a native type-10
+  shape the function has already read a float and padding as the child before
+  the call's `+0x58` read is reached, at the previous tip and now. The same
+  declaration supplies the triangle's points and radius. Replacing it needs
+  the shape and argument contract above.
 - The use of the result. `0x00c6eb00` takes the validated shape's container at
   `+0x10` and calls its entry 5. The native `hkpShape` is `0x20` bytes, so a
   container cannot start at `+0x10` of a native shape. The native container
@@ -144,7 +153,8 @@ These were open before this change and remain open.
   names that no archive member defines, and `hkvector4.cpp.obj` requires 8
   such names besides compiler support. A program that requires only this
   function still fails to link on the nine other duplicate names, and when
-  forced it leaves 35,426 names undefined. So no test executes the function.
+  forced it leaves 35,426 names undefined, as measured for this change. So no
+  test executes the function.
   The evidence for this change is the rebuilt windows-x64 objects, the
   composed archive and the complete links.
 

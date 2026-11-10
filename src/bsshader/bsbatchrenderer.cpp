@@ -208,7 +208,7 @@ void FUN_00b99840(void* apList, int, void* const* pElement)
     ListNode_b99840* node = self->m_pkFree;
     if (!node)
     {
-        node = (ListNode_b99840*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>((((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)(&self->m_uiCount))))->FUN_0043a010()));
+        node = fnv::list::AdoptNode<ListNode_b99840>(reinterpret_cast<::FUN_0043a010_shell *>((((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)(&self->m_uiCount))))->FUN_0043a010());
     }
     else
     {
@@ -651,7 +651,7 @@ void PushFront(FUN_00b99890_List* list, int, unsigned int* value)
 {
     FUN_00b99890_Node* node = list->freeList;
     if (!node)
-        node = (FUN_00b99890_Node*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(list->pool))->FUN_0043a010()));
+        node = fnv::list::AdoptNode<FUN_00b99890_Node>(reinterpret_cast<::FUN_0043a010_shell *>(&(list->pool))->FUN_0043a010());
     else
         list->freeList = node->next;
     node->item = *value;
@@ -1823,7 +1823,7 @@ void AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound* pBound, bo
             }
             if (pkGroup == 0)
             {
-                AlphaNode* val = ((::fnv_00b9ac80::AlphaNode *)(reinterpret_cast<::FUN_0043a010_shell *>(&(pkList->m_kItemCount))->FUN_0043a010()));
+                AlphaNode* val = fnv::list::AdoptNode<::fnv_00b9ac80::AlphaNode>(reinterpret_cast<::FUN_0043a010_shell *>(&(pkList->m_kItemCount))->FUN_0043a010());
                 val->m_element = c;
                 val->m_pkNext = 0;
                 val->m_pkPrev = pkList->m_pkTail;
@@ -2860,7 +2860,7 @@ void Thing::AddNode(int index, std::intptr_t value)
     Node* node;
     if (entry->m_free == 0)
     {
-        node = ((::fnv_00b99a90::Node *)(reinterpret_cast<::FUN_0043a010_shell *>((&entry->m_uiItemCount))->FUN_0043a010()));
+        node = fnv::list::AdoptNode<::fnv_00b99a90::Node>(reinterpret_cast<::FUN_0043a010_shell *>((&entry->m_uiItemCount))->FUN_0043a010());
     }
     else
     {
@@ -2918,7 +2918,7 @@ void Thing::AppendNode(int index, std::intptr_t value)
     Node* node;
     if (entry->m_free == 0)
     {
-        node = (Node*)(reinterpret_cast<::FUN_0043a010_shell *>(&entry->m_uiItemCount)->FUN_0043a010());
+        node = fnv::list::AdoptNode<Node>(reinterpret_cast<::FUN_0043a010_shell *>(&entry->m_uiItemCount)->FUN_0043a010());
     }
     else
     {

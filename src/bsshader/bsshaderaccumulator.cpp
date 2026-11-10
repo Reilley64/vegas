@@ -337,7 +337,7 @@ void FUN_00b655b0(Self_00b655b0* self)
         }
         node->m_element = 0;
         node->m_pUserData = 0;
-        fnv::list::DestroyNode(node);
+        fnv::list::RecycleViewedNode(node);
         --self->count;
     }
 }
@@ -394,7 +394,7 @@ bool __cdecl InsertNodeAtHead(void* pList, void* data, void* arg3, void* arg4, i
         return true;
     InsertList* list = (InsertList*)pList;
     NodePoolView* pHead = &list->m_kPool;
-    InsertListNode* node = ((InsertListNode *)(reinterpret_cast<::FUN_0043a010_shell *>((pHead))->FUN_0043a010()));
+    InsertListNode* node = fnv::list::AdoptNode<InsertListNode>(reinterpret_cast<::FUN_0043a010_shell *>((pHead))->FUN_0043a010());
     node->m_element = data;
     node->m_pkNext = 0;
     node->m_pkPrev = list->m_pkTail;
@@ -816,7 +816,7 @@ struct PtrList
             m_pkTail = 0;
         pkNode->m_element = 0;
         pkNode->m_pkPrev = 0;
-        fnv::list::DestroyNode(pkNode);
+        fnv::list::RecycleViewedNode(pkNode);
         m_uiCount--;
     }
 };
@@ -914,7 +914,7 @@ struct OMList
             m_pkTail = 0;
         pkNode->m_element = 0;
         pkNode->m_pUserData = 0;
-        fnv::list::DestroyNode(pkNode);
+        fnv::list::RecycleViewedNode(pkNode);
         m_uiCount--;
     }
 };
@@ -1687,7 +1687,7 @@ void RefVolAccum::UpdateOrAddItem(unsigned int key, const RefVolSrc* src, bool f
         item = 0;
     }
 
-    RefVolNode* newNode = ((::RefVolNode *)(reinterpret_cast<::FUN_0043a010_shell *>(&(list->m_kItemCount))->FUN_0043a010()));
+    RefVolNode* newNode = fnv::list::AdoptNode<::RefVolNode>(reinterpret_cast<::FUN_0043a010_shell *>(&(list->m_kItemCount))->FUN_0043a010());
     newNode->m_element = item;
     newNode->m_pkPrev = 0;
     newNode->m_pkNext = list->m_pkHead;

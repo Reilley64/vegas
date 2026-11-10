@@ -481,7 +481,7 @@ void FUN_00a7aff0_shell::FUN_00a7aff0()
         VirtualObj_00a7aff0* entry = (VirtualObj_00a7aff0*)node->data;
         node->data = 0;
         node->prev = 0;
-        fnv::list::DestroyNode(node);
+        fnv::list::RecycleViewedNode(node);
         --self->count;
         if (entry)
         {
@@ -2257,7 +2257,7 @@ struct ReaderList
     NodePool pool;
     __forceinline void AddHead(ReaderStorage* reader)
     {
-        ReaderNode* node = ((::ReaderNode *)(reinterpret_cast<::FUN_0043a010_shell *>(&(pool))->FUN_0043a010()));
+        ReaderNode* node = fnv::list::AdoptNode<::ReaderNode>(reinterpret_cast<::FUN_0043a010_shell *>(&(pool))->FUN_0043a010());
         node->value = reader;
         node->prev = 0;
         node->next = head;

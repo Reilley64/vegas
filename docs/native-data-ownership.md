@@ -6,25 +6,27 @@ the original game to build the native reconstruction.
 
 `src/runtime/native_data_retirements.patch` is the narrowly audited native
 ownership delta. It retires duplicate scalar storage and incompatible,
-source-audited unused byte-layout tables/declarations; it does not replace
-required objects with stubs, rename incompatible receivers or clone values.
-The genuine owner modules and typed declarations remain the source of the
-native globals and protocols. The patch covers sixteen files. Twelve are the
-retirements previously reviewed for VEGAS-1, unchanged, not additional engine
-work.
+source-audited unused byte-layout tables/declarations, and it moves one sole
+legacy definition to its owner module; it does not replace required objects
+with stubs, rename incompatible receivers or clone values. The genuine owner
+modules and typed declarations remain the source of the native globals and
+protocols. The patch covers sixteen hashed inputs. Twelve are the retirements
+previously reviewed for VEGAS-1, unchanged, not additional engine work. The
+other four are the three retirements and the one move below.
 
 VEGAS-86 adds three for the Ni allocator join, described in
 `docs/ni-allocator.md`: the base allocator table at `0x010a24d0` and its
 `vtables.h` declaration, and the generated definitions of `DAT_011f6080` and
 `DAT_011f6118`. Native source now owns all three.
 
-VEGAS-57 adds one retirement: the `NiRefObject::ms_lObjectCount` definition in
-`bshavok/bhkrigidbody_h_unit.inc`. That zero-initialized 32-bit count is now
-defined once by `nirefobject_lifetime.cpp`, beside the constructor's and
-destructor's use of it, so the object lifetime has one closed owner that host
-and Windows tests link unchanged. The symbol name, type, size and initial value
-are the same; every consumer, including the legacy `DAT_011f4400` alternate
-names, still resolves it by that name. No other line of that input changes.
+VEGAS-57 adds that move: the `NiRefObject::ms_lObjectCount` definition in
+`bshavok/bhkrigidbody_h_unit.inc`. It was the only definition of the count, not
+a duplicate. The zero-initialized 32-bit count is now defined once by
+`nirefobject_lifetime.cpp`, beside the constructor's and destructor's use of
+it, so the object lifetime has one closed owner that host and Windows tests
+link unchanged. The symbol name, type, size and initial value are the same;
+every consumer, including the legacy `DAT_011f4400` alternate names, still
+resolves it by that name. No other line of that input changes.
 
 Native CMake verifies the sixteen committed input hashes, copies them into the
 build directory, and applies that patch using the existing Git patch engine.

@@ -132,6 +132,13 @@ void NontrivialNodeLifetime()
     fnv::list::DestroyNode(adopted);
     CHECK(live == 0);
 
+    // A unit that did not begin a node recycles it through its own
+    // three-pointer view; the slot returns to the pool as storage.
+    struct View { View* next; View* previous; unsigned int item; };
+    auto* begun = fnv::list::AcquireNode<int>();
+    fnv::list::RecycleViewedNode(reinterpret_cast<View*>(begun));
+    CHECK(g_memoryManager.ListNodeStatistics().liveNodes == before.liveNodes);
+
     // A node constructor that throws returns its slot.
     bool threw = false;
     try {
@@ -364,6 +371,9 @@ void Reached(const char* marker)
         Reached("recycle-interior");
         fnv::list::RecycleStorage(reinterpret_cast<unsigned char*>(node) + sizeof(void*));
     } else if (!std::strcmp(mode, "--recycle-duplicate")) {
+        // A second live node keeps the live count above zero, so only the
+        // slot's own allocated bit can reject the repeat.
+        fnv::list::AcquireNode<void>();
         fnv::list::RecycleNode(node);
         Reached("recycle-duplicate");
         fnv::list::RecycleStorage(node);

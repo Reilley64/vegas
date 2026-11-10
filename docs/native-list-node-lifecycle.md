@@ -10,8 +10,8 @@ pointer.
 ## Owner and allocation domain
 
 `MemoryManager` owns every node block, its allocation bitmap, free chain,
-statistics, and synchronization. A refill normally creates 2,048 nodes, matching
-the source refill count. Checked size arithmetic rejects zero, overflowing, and
+statistics, and synchronization. A refill creates a fixed 2,048 nodes. Checked
+size arithmetic rejects zero, overflowing, and
 unrepresentable requests before allocation. A failed allocation publishes
 neither a block nor a partial free chain.
 
@@ -42,17 +42,48 @@ place that turns one into the other:
   type-erased allocator entry `0x0043a010`. That entry constructs a zeroed
   `Node<void>`; the caller begins its own node in the same slot rather than
   converting the pointer.
+- `RecycleViewedNode(node)` is for a unit that recycles a node it did not
+  begin. The unit only views the slot through its own trivially destructible
+  layout, so the slot is reused as storage and no lifetime of the view type is
+  claimed.
 
-Both templates require the node to be exactly three native pointers wide, so a
-unit with a stale narrower node shape fails to compile instead of sharing a
+All of these require the node type to be exactly three native pointers wide, so
+a unit with a stale narrower node shape fails to compile instead of sharing a
 slot.
 
-Every unit migrated to this owner constructs its own node type where it
-acquires one and destroys it where it recycles one. The source's type-erased
-pointer deallocators (`0x0045cee0`, `0x00a638c0`, `0x00a82620`, `0x00b63df0`
-and the `Deallocate(void*)` members) do not know the node type. Their typed
-callers clear the element first, and the deallocator passes the slot to
-`RecycleStorage` without reading or writing it through a stand-in type.
+A migrated unit that acquires a node constructs or adopts its own node type,
+with the exceptions below. A unit calls `DestroyNode` only for a node type that
+the same unit begins: the parser list in `tile.cpp`, the lights list in
+`bsshaderlightingproperty.cpp`, and the `Node<Payload>` lists. Every other
+typed recycle site uses `RecycleViewedNode`, because the node was begun in
+another unit under that unit's own layout-identical type. The source's
+type-erased pointer deallocators (`0x0045cee0`, `0x00a638c0`, `0x00a82620`,
+`0x00b63df0` and the `Deallocate(void*)` members) do not know the node type.
+Their typed callers clear the element first, and the deallocator passes the
+slot to `RecycleStorage` without reading or writing it through a stand-in type.
+
+Exceptions in migrated units, each left on its accepted form:
+
+- `blk_00c40000_od.cpp`, `FUN_00c5ae70` and `FUN_00c5b140`: the local node
+  types are 12 and 16 bytes, so they cannot be adopted. They still convert the
+  `0x0043a010` result by cast.
+- `nitpointerlistbase.inl`, the `NiPointer<BSMultiBound>` `AddTail`
+  (`0x00a5a310`): `BSMultiBound` is incomplete in that unit, so the element's
+  constructor cannot be instantiated there. It still converts by cast and
+  reads the zeroed element as a null pointer.
+- `niconsolefragmentshader.cpp` `0x00e8b5f0`, `niconsolerenderer.cpp`
+  `0x00e72e50` and `nidevimageconverter.cpp` `0x00a7b0b0` keep the result as an
+  untyped pointer. The first and third still write it at 32-bit offsets.
+  `tile.cpp` `0x00a0d280` discards the result.
+- Local list types that declare their own typed `FUN_0043a010` member without
+  a definition (`bstexturemanager.cpp` `MultiBoundPool`,
+  `bsshaderlightingproperty.cpp` `Pool_b71560`, `blk_00b60000_o2.cpp`
+  `Alloc051`) are not bound to the entry at all.
+- `ReleaseRefCountedNode` (`0x00e6e830`) and `FUN_00e6e8a0` receive an untyped
+  node. Besides their source callers they fill generated virtual-table slots
+  (4 and 28 slots in `vtables_0109.cpp`, `vtables_010e.cpp` and
+  `vtables_010f.cpp`). The node type those receivers pass is not established,
+  so that binding is unverified.
 
 Units that this work did not migrate still convert the result of `0x0043a010`
 to their own node types by cast. Moving them to `AdoptNode` is separate work.
@@ -76,8 +107,10 @@ retain/release functions are defined together in
 `src/gamebryo2.2/corelibs/nimain/nirefobject_lifetime.cpp`. That unit depends on
 nothing but the object declaration, so the memory manager does not depend on
 `NiRefObject`, and host and Windows tests link the same lifetime bodies and
-type identity as the game. `docs/native-data-ownership.md` records the
-retirement of the legacy duplicate count definition.
+type identity as the game. The count's only legacy definition was moved to that
+unit; `docs/native-data-ownership.md` records the move. Units that use the
+retained list functions include `fnv/ni_ref_object.h` rather than declaring
+their own class of that name.
 
 The native count remains `unsigned int`. `TryIncRefCount` uses an atomic
 compare/exchange and refuses `UINT_MAX` rather than wrapping. List counts remain
@@ -99,6 +132,26 @@ exception-unwind, and explicit clear paths therefore converge on the same
 recycler. Node shutdown refuses while any node remains live. Once clients are
 detached, it removes all blocks under the node lock and releases each block
 through the canonical manager before pool and heap shutdown.
+
+## Deliberate native policy
+
+The following behaviour is chosen for the native owner. It is not recovered
+from the source.
+
+- Shutdown at `0x00a8a200` aborts if any node is still live, and recycling a
+  node after shutdown aborts. The source released every block unconditionally.
+  Whether ordered whole-engine shutdown can keep this is an open decision for
+  VEGAS-79.
+- Foreign, interior, duplicate and null recycling aborts.
+- Removal calls `std::terminate` if a node is present while the list count is
+  zero (`Remove` in `list_node.h`).
+- Removing from an empty list returns an empty result.
+- A payload reference count at `UINT_MAX` and a list count at `UINT32_MAX`
+  throw instead of wrapping.
+- `FUN_00b584e0` throws `std::bad_alloc` when the manager returns null.
+- A refill is a fixed 2,048 nodes. The source read the count from
+  `DAT_01188f7c`.
+- The manager's `std::mutex` replaces the recursive spin lock at `0x011c5f80`.
 
 The committed generated data files remain unchanged. The accepted 2,218
 logical-member sequence and order are preserved, and

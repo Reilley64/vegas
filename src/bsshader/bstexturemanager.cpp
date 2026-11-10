@@ -1391,7 +1391,7 @@ struct RTList
     void DeleteItem(RTNode*);
     void AddTail(RTEntry* const& pkElement)
     {
-        RTNode* pkNode = (RTNode*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(m_kItemCount))->FUN_0043a010()));
+        RTNode* pkNode = fnv::list::AdoptNode<RTNode>(reinterpret_cast<::FUN_0043a010_shell *>(&(m_kItemCount))->FUN_0043a010());
         pkNode->m_element = pkElement;
         pkNode->m_pkNext = 0;
         pkNode->m_pkPrev = m_pkTail;

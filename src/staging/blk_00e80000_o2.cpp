@@ -8789,7 +8789,7 @@ void Target::FUN_00e8b630() {
   else tail=0;
   node->data=0;
   node->prev=0;
-  fnv::list::DestroyNode(node);
+  fnv::list::RecycleViewedNode(node);
   --listCount;
  }
  if(object) { object->Release(); object=0; }
@@ -9248,7 +9248,7 @@ void AddKeyToList(unsigned int key) {
         } while (cur != 0);
     }
     if (pFound == 0) {
-        ListNode_b5254* n = ((::ListNode_b5254 *)(reinterpret_cast<::FUN_0043a010_shell *>(&(DAT_0126f100))->FUN_0043a010()));
+        ListNode_b5254* n = fnv::list::AdoptNode<::ListNode_b5254>(reinterpret_cast<::FUN_0043a010_shell *>(&(DAT_0126f100))->FUN_0043a010());
         n->m_08 = key;
         n->m_00 = 0;
         n->m_04 = DAT_0126f0fc;
@@ -10870,7 +10870,7 @@ struct LightInputNode { LightInputNode* next; SceneLight* light; };
 struct LightInput { unsigned int field00,field04,field08; LightInputNode* head; };
 inline SceneLight*& nextLight(PoolNode*& node) { SceneLight*& item=(SceneLight*&)node->data; node=node->next; return item; }
 struct ShadowSceneLightList { PoolNode* head; PoolNode* tail; unsigned int count;  SceneLight* FUN_004edf00();
- __forceinline void recycle(PoolNode* node) { node->data=0; node->prev=0; fnv::list::DestroyNode(node); }
+ __forceinline void recycle(PoolNode* node) { node->data=0; node->prev=0; fnv::list::RecycleViewedNode(node); }
  __forceinline SceneLight* remove(PoolNode*& node) { if(node==head) { PoolNode* old=head; head=old->next; if(head) head->prev=0; else tail=0; SceneLight* element=(SceneLight*)old->data; recycle(old); --count; return element; } else if(node==tail) { return FUN_004edf00(); } else { PoolNode* prev=node->prev; PoolNode* next=node->next; if(prev)prev->next=next; if(next)next->prev=prev; SceneLight* element=(SceneLight*)node->data; recycle(node); --count; return element; } }
 };
 struct LightManager { unsigned int field00,field04,field08,field0c; ShadowSceneLightList active; LightDevice* device; MobileTargetObj* render; unsigned int field24,field28; unsigned char field2c; bool enabled; unsigned short field2e;
@@ -11217,7 +11217,7 @@ public:
     void DeleteItem(NiTListItemE8B* pkItem)
     {
         pkItem->m_pkPrev = 0;
-        fnv::list::DestroyNode(pkItem);
+        fnv::list::RecycleViewedNode(pkItem);
     }
 
     void RemovePos(NiTListItemE8B* pkNode)

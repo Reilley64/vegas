@@ -81,7 +81,7 @@ void BSShaderLightingProperty::CopyMemberData(BSShaderLightingProperty* source, 
     FNVPointerListBase* list = (FNVPointerListBase*)this;
     FNVPointerListItem* before = (FNVPointerListItem*)source;
     bsshaderlightingproperty_NodePool* allocator = (bsshaderlightingproperty_NodePool*)&list->m_kItemCount;
-    FNVPointerListItem* node = ((FNVPointerListItem *)(reinterpret_cast<::FUN_0043a010_shell *>((allocator))->FUN_0043a010()));
+    FNVPointerListItem* node = fnv::list::AdoptNode<FNVPointerListItem>(reinterpret_cast<::FUN_0043a010_shell *>((allocator))->FUN_0043a010());
     node->m_element = *(void**)&process;
     node->m_pkNext = before;
     node->m_pkPrev = before->m_pkPrev;
@@ -1216,7 +1216,7 @@ struct LList
 static inline void FreeNode(LItem* item)
 {
     item->m_pkPrev = 0;
-    fnv::list::DestroyNode(item);
+    fnv::list::RecycleViewedNode(item);
 }
 __forceinline void LList::RemoveItem(LItem* cur)
 {
@@ -3196,7 +3196,7 @@ struct LList
     LPool alloc;
     LItem* NewItem()
     {
-        return ((::fnv_00b718b0::LItem *)(reinterpret_cast<::FUN_0043a010_shell *>(&(alloc))->FUN_0043a010()));
+        return fnv::list::AdoptNode<::fnv_00b718b0::LItem>(reinterpret_cast<::FUN_0043a010_shell *>(&(alloc))->FUN_0043a010());
     }
     void AddNodeHead(LItem* n)
     {

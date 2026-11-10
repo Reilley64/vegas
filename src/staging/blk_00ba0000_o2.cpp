@@ -7,6 +7,7 @@
 #include "fnv/symbols_00a95000.h"
 #include "fnv/tls.h"
 #include "fnv/list_node.h"
+#include "fnv/ni_ref_object.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -3784,25 +3785,6 @@ void FUN_00bae720_Class::FUN_00bae720(int a1)
 }
 
 extern "C" void _ReadWriteBarrier(void);
-
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    volatile long m_uiRefCount;
-    void IncRefCount()
-    {
-        InterlockedIncrement(&m_uiRefCount);
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement(&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-public:
-    static unsigned int ms_lObjectCount;
-};
 
 class FUN_00bae980_cls
 {

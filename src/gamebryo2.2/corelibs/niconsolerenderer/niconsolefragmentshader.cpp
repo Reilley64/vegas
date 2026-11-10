@@ -59,7 +59,7 @@ void ShaderCache::BindGPUProgram()
         ShaderEntry* entry = (ShaderEntry*)node->data;
         node->data = 0;
         node->prev = 0;
-        fnv::list::DestroyNode(node);
+        fnv::list::RecycleViewedNode(node);
         --count;
         ShaderData* data = entry->data;
         typedef void(* SetFunction)(Device*, unsigned int, unsigned int);

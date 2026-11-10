@@ -15,7 +15,8 @@ inline constexpr std::size_t NodeBytes = 3 * sizeof(void*);
 // Canonical MemoryManager-owned storage boundary. Storage carries no object
 // lifetime: AcquireStorage returns an unoccupied slot and RecycleStorage ends
 // whatever trivially destructible occupant remains by reusing its bytes.
-// Typed consumers use ConstructNode/DestroyNode below. Only the source's
+// Typed consumers use ConstructNode/AdoptNode/DestroyNode below, or
+// RecycleViewedNode for a node another unit began. Only the source's
 // type-erased pointer deallocators hand a slot straight to RecycleStorage,
 // after their typed caller has released the element.
 void RefillStorage();
@@ -52,6 +53,17 @@ void DestroyNode(NodeType* node) noexcept
 {
     static_assert(sizeof(NodeType) == NodeBytes);
     node->~NodeType();
+    RecycleStorage(node);
+}
+
+// For a unit that recycles a node it did not begin. The unit only views the
+// slot through its own three-pointer, trivially destructible layout, so the
+// slot is reused as storage and no lifetime of the view type is claimed.
+template <class NodeView>
+void RecycleViewedNode(NodeView* node) noexcept
+{
+    static_assert(sizeof(NodeView) == NodeBytes);
+    static_assert(__is_trivially_destructible(NodeView));
     RecycleStorage(node);
 }
 

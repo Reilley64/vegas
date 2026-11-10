@@ -1004,7 +1004,7 @@ void FUN_00a077c0(Tile* apTile)
         && ((bool)(int)(DAT_011f332c.iVal == 0) || apTile != DAT_011f3328[2]))
     {
         ::DAT_011f32d8++;
-        pNode = ((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(DAT_011f332c))->FUN_0043a010()));
+        pNode = fnv::list::AdoptNode<DListNodeView>(reinterpret_cast<::FUN_0043a010_shell *>(&(DAT_011f332c))->FUN_0043a010());
         ((DListNodeView*)pNode)->m_pItem = apTile;
         reinterpret_cast<::FUN_00559a70_Class *>(&((*reinterpret_cast<::fnv_00a077c0::FUN_004ed8c0_shell_00a077c0 *>(&::DAT_011f3324))))->FUN_00559a70(pNode);
         pTile1 = apTile;
@@ -1603,7 +1603,7 @@ void FUN_00a0c900_shell::FUN_00a0c900(const char* pcKey, std::uintptr_t val)
         }
         pkItem = pkItem->m_pkNext;
     }
-    pkItem = (NiTMapItem_00a0c900*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>((((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)&m_uiCount)))->FUN_0043a010()));
+    pkItem = fnv::list::AdoptNode<NiTMapItem_00a0c900>(reinterpret_cast<::FUN_0043a010_shell *>((((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)&m_uiCount)))->FUN_0043a010());
     SetValue(pkItem, pcKey, val);
     pkItem->m_pkNext = m_ppkHashTable[uiIndex];
     m_ppkHashTable[uiIndex] = pkItem;
@@ -6878,7 +6878,7 @@ struct ParsedList {
         tail = node;
         ++allocator.count;
     }
-    inline ParsedNode* NewItem() { return ((::fnv_00a0a410::ParsedNode *)(reinterpret_cast<::FUN_0043a010_shell *>(&(allocator))->FUN_0043a010())); }
+    inline ParsedNode* NewItem() { return fnv::list::AdoptNode<::fnv_00a0a410::ParsedNode>(reinterpret_cast<::FUN_0043a010_shell *>(&(allocator))->FUN_0043a010()); }
     __forceinline void Append(ParsedToken* const& token) {
         ParsedNode* node = NewItem();
         node->value = token;

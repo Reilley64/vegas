@@ -7,6 +7,7 @@
 #include <cstring>
 #include "runtime/crt.h"
 #include "fnv/list_node.h"
+#include "fnv/ni_ref_object.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A72720StreamSet.h"
 #include "fnv/decl/AlphaList.h"
@@ -130,7 +131,6 @@ class NiRenderTargetGroup;
 #include "niconsolerenderer_packet.h"
 enum _D3DFORMAT { D3DFMT_PACKET_FORCE_DWORD=0x7fffffff };
 struct RendererPacketEntry { unsigned int pad[2]; void* resource; };
-class NiMemObject { public: };
 class GraphicsRenderer : public NiMemObject {
 public:
  virtual ~GraphicsRenderer() throw();
@@ -246,7 +246,7 @@ char* NiTPointerListBaseT<NiTPointerAllocator<unsigned int>,char*>::RemoveTail()
  char* result = node->data;
  node->data = 0;
  node->prev = 0;
- fnv::list::DestroyNode(node);
+ fnv::list::RecycleViewedNode(node);
  --count;
  return result;
 }
@@ -521,7 +521,7 @@ void FUN_00e6e8a0(LinkedListEntry* pNode)
 {
     pNode->data = 0;
     pNode->prev = 0;
-    fnv::list::DestroyNode(pNode);
+    fnv::list::RecycleViewedNode(pNode);
 }
 
 struct NiTMapBase_StandIn {
@@ -1560,7 +1560,7 @@ struct FUN_00e752b0_shell {
 // @fnv 0x00e752b0
 void FUN_00e752b0_shell::FUN_00e752b0(void* pkD3DShader)
 {
-    Node* pkNode = (Node*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(m_Pool))->FUN_0043a010()));
+    Node* pkNode = fnv::list::AdoptNode<Node>(reinterpret_cast<::FUN_0043a010_shell *>(&(m_Pool))->FUN_0043a010());
     pkNode->data = pkD3DShader;
     pkNode->prev = 0;
     pkNode->next = m_Head;
@@ -1969,9 +1969,6 @@ char* FUN_00e6c690_shell::GetDepthDeviceDescription()
 // @fnv 0x00e6e830
 void ReleaseRefCountedNode(void* storage)
 {
-    // The sole producer supplies one native three-pointer node. This conversion
-    // starts from that typed allocation boundary; it does not infer a payload
-    // offset or dispatch through bytes beside the pointer.
     fnv::list::Retire(static_cast<fnv::list::RetainedNode*>(storage));
 }
 
@@ -3314,14 +3311,6 @@ done:
 }
 
 struct NiPixelFormat;
-class NiRefObject {
-public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    long m_uiRefCount;
-    void IncRefCount() { InterlockedIncrement(&m_uiRefCount); }
-    void DecRefCount() { if (InterlockedDecrement(&m_uiRefCount) == 0) DeleteThis(); }
-};
 class NiPixelData : public NiRefObject {
 public:
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int) throw();
@@ -7148,7 +7137,7 @@ bool FUN_00e75000_cls::ProcessPendingNodes() {
                 node->m_08 = 0;
             }
             node->m_04 = 0;
-            fnv::list::DestroyNode(node);
+            fnv::list::RecycleViewedNode(node);
             m_0908 -= 1;
             obj->Process();
             if (InterlockedDecrement(&obj->m_04) == 0) {
@@ -7769,7 +7758,7 @@ struct ShaderList : NiTPointerListBaseT<NiTPointerAllocator<unsigned int>, char*
     static void FreeNode(Node* pkNode) {
         pkNode->data = 0;
         pkNode->prev = 0;
-        fnv::list::DestroyNode(pkNode);
+        fnv::list::RecycleViewedNode(pkNode);
     }
     char*& GetNext(Node*& pkPos) {
         char*& element = pkPos->data;

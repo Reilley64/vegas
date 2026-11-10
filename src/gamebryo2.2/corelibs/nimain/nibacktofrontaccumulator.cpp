@@ -265,7 +265,7 @@ void S_00aa0d00_Base::ReleaseAllItems()
                 tail = 0;
             pNode->data = 0;
             pNode->prev = 0;
-            fnv::list::DestroyNode(pNode);
+            fnv::list::RecycleViewedNode(pNode);
             count--;
         }
         reinterpret_cast<::NiAccumulator *>(this)->ClearCamera();
@@ -406,7 +406,7 @@ void C_00aa0dc0::FUN_00aa0dc0()
 
         item->data = 0;
         item->prev = 0;
-        fnv::list::DestroyNode(item);
+        fnv::list::RecycleViewedNode(item);
 
         --self->m_kUnsortedGeometryList.m_uiCount;
     }

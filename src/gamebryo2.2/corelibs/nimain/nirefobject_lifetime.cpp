@@ -12,8 +12,8 @@
 
 #include <stdexcept>
 
-// Sole definition. docs/native-data-ownership.md records the retirement of
-// the legacy duplicate.
+// Sole definition. The only legacy definition was moved here from generated
+// data; docs/native-data-ownership.md records that move.
 unsigned int NiRefObject::ms_lObjectCount;
 
 NiRefObject::~NiRefObject()

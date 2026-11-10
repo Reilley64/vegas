@@ -467,7 +467,7 @@ struct DirList
     }
     void AddHead(char* e)
     {
-        DirNode* n = (DirNode*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(m_kItemCount))->FUN_0043a010()));
+        DirNode* n = fnv::list::AdoptNode<DirNode>(reinterpret_cast<::FUN_0043a010_shell *>(&(m_kItemCount))->FUN_0043a010());
         n->m_element = e;
         n->m_pkPrev = 0;
         n->m_pkNext = m_pkHead;
@@ -892,7 +892,7 @@ void ShaderEntryOwner::FUN_00e93cc0()
                         pNext->previous = pPrev;
                     candidate->element = 0;
                     candidate->previous = 0;
-                    fnv::list::DestroyNode(candidate);
+                    fnv::list::RecycleViewedNode(candidate);
                     --pEntries->count;
                 }
             }

@@ -109,8 +109,8 @@ Every name the recipe binds to the addresses involved:
 In the windows-x64 archive eight members change, by 26 symbol rows each: the
 constructor, the thunk, three undefined virtual functions, four tables and
 seventeen type records take the new names. No other member's symbols change,
-and `hkpaabbtreeworldmanager.cpp.obj` is byte for byte the same. No member is
-added, removed or reordered.
+and `hkpaabbtreeworldmanager.cpp.obj` is identical apart from the COFF
+timestamp. No member is added, removed or reordered.
 
 ## The class that keeps the global name
 
@@ -197,7 +197,7 @@ No program that links today contains any of this:
   of the nine objects. Its map is the same below the header.
 - 54 of the 55 test executables link ordinarily. None loads any of the nine.
 - `tests/runtime_havok_worker_pool_test` does not link, before or after, on
-  the same 35,362 undefined-symbol errors.
+  the same 35,361 undefined names (35,362 errors).
 
 ## Links
 
@@ -211,7 +211,7 @@ to the same path.
 | Every member, forced, no error limit: duplicate blocks / symbols | 14 / 7 | 6 / 6 |
 | Every member, forced: undefined names | 35,674 | 35,674 |
 | Every member, forced: imports | 137 | the same 137 |
-| Worker pool test, no error limit | 0 duplicates, 35,362 undefined | same |
+| Worker pool test, no error limit | 0 duplicates, 35,361 undefined names (35,362 errors) | same |
 | Worker pool test, forced: undefined names | 35,352 | the same 35,352 |
 
 The duplicate that leaves is `Derived::Derived()` with its eight blocks. None
@@ -252,11 +252,20 @@ These were open before this change and remain open.
 
   No link reports them. Nothing refers to the two tables. Giving these
   classes their own names needs `tesvalueform.cpp` and
-  `hkptoicountviewer.cpp`, which have no part in the duplicate.
+  `hkptoicountviewer.cpp`, which have no part in the duplicate. VEGAS-89
+  holds this residue.
+
+  The two tables, `??_7PrimaryBase@@6B@` and `??_7SecondaryBase@@6B@`, are
+  selection "largest", not select-any. An inventory of select-any names only
+  does not see them. The two `PrimaryBase` type records are select-any.
 - The AABB-tree helper keeps the global names `Derived`, `PrimaryBase` and
   `SecondaryBase` because the generated table binds
-  `Derived::FUN_00d089c0`. Giving it its own name needs the generator, which
-  is outside the repository, to emit the new name.
+  `Derived::FUN_00d089c0`. Renaming it needs a coordinator-admitted change to
+  the native-data composition under `docs/native-data-ownership.md`. Two
+  routes exist in the tree: the retirement patch already rewrites asm labels
+  in `vtables_010c.cpp`, and hand-written `/alternatename` directives exist
+  in non-generated sources. Neither route is admitted for a namespace rename
+  today, and both are outside this change.
 - Six more archive members name a global class `Derived` in a symbol without
   defining its constructor: `blk_00aa0000_od`, `niposdata`, `nianimationsdm`,
   `hkpcollisioncallbackutil`, `hkpendofstepcallbackutil` and the generated

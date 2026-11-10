@@ -13,6 +13,35 @@ it once as a function, 269 bytes, in the unit
 tag. It writes the list's chance, its flags and, when set, the form id of its
 global, then one 12-byte chunk per entry and each entry's extra data.
 
+This is the plugin-record serialisation path. The body writes four kinds of
+chunk, read from the tags in the rebuilt object:
+
+| Chunk | Content | Read from the receiver |
+| --- | --- | --- |
+| `LVLD` | one byte | `+0x10` |
+| `LVLF` | one byte | `+0x11` |
+| `LVLG` | a form id, only when the pointer is set | the pointer at `+0x18` |
+| `LVLO` | 12 bytes, one chunk per entry | the entries, from the list-head accessor |
+
+## The output is not original-compatible
+
+On windows-x64 both callers would write bytes taken from the wrong storage.
+"What the real body reads" has the measurements.
+
+- `0x0050a8e0` passes a receiver 8 bytes before its list base. The chunks
+  would be filled from storage that starts 8 bytes before that base.
+- `0x0050b530` passes a `0x10`-byte base that ends where its object ends. The
+  real body needs `0x20` bytes, so `LVLD`, `LVLF` and `LVLG` would be filled
+  from past the end of the object.
+
+The output was not original-compatible before this change either: one caller
+wrote nothing and the other could only reach the empty body. Nothing in this
+change is credited toward byte-compatible output.
+
+The receiver repair must land with a test that compares the written chunk
+bytes through the public save entry. Until then no linking program may
+contain these objects.
+
 ## The removed definition
 
 `src/fallout_shared/teslevitem.cpp` used to define the same name a second time
@@ -73,15 +102,21 @@ byte at `+0x10`, one byte at `+0x11` and a pointer at `+0x18`, so it needs
 each entry, reads a pointer at `+0x00`, two 16-bit values at `+0x08` and
 `+0x0a`, and a pointer at `+0x10`. It writes nothing to the receiver.
 
+The list-head accessor is `BaseProcess::GetCurrentProcessData()`, the
+function at `0x00717e50` in `teleportdata.cpp`, reached through a cast. Its
+windows-x64 body returns the receiver plus `0x08`. So the first node is read
+at receiver `+0x08`, in every caller.
+
 In `tesleveledlist.cpp` the receiver class is `0x28` bytes, with the chance at
 `+0x10`, the flags at `+0x11`, the global at `+0x18` and the list at `+0x20`.
+The accessor's `+0x08` is not that `+0x20`.
 Each size below comes from the unit's own declarations compiled with that
 unit's command.
 
 | Caller | Object it declares | Receiver it passes | Against the `0x20` bytes read |
 | --- | --- | --- | --- |
-| `0x0050b530` in `teslevitem.cpp` | `0x50` bytes | the second base, at `+0x40`, `0x10` bytes | 16 bytes short; the reads at `+0x10`, `+0x11` and `+0x18` are past the end of the object |
-| `0x0050a8e0` in `teslevcreature.cpp` | `0x70` bytes | the fixed offset `+0x30` | inside the object, but not at a list |
+| `0x0050b530` in `teslevitem.cpp` | `0x50` bytes | the second base, at `+0x40`, `0x10` bytes | 16 bytes short; the reads at `+0x10`, `+0x11` and `+0x18` are past the end of the object, at `+0x50`, `+0x51` and `+0x58` of it; the first node is read at `+0x48` |
+| `0x0050a8e0` in `teslevcreature.cpp` | `0x70` bytes | the fixed offset `+0x30` | inside the object, but not at a list: 8 bytes before the list base; the reads are at `+0x40`, `+0x41` and `+0x48` of the object and the first node at `+0x38` |
 
 `teslevitem.cpp` declares that second base as a virtual pointer and one
 integer. It is not a leveled list declaration.
@@ -125,7 +160,10 @@ These were open before this change and remain open.
 - One leveled list declaration. `tesleveledlist.cpp`, `teslevitem.cpp` and
   `teslevcreature.cpp` each declare their own, with different sizes on
   windows-x64.
-- The other fixed offset in `0x0050a8e0`, `+0x4c`.
+- The other fixed offset in `0x0050a8e0`, `+0x4c`. The VEGAS-18 criterion on
+  fixed offsets stays open for both `+0x30` and `+0x4c` in
+  `teslevcreature.cpp`.
+- Byte-compatible output, and the test of the written chunk bytes, as above.
 - Two more untagged empty bodies in `teslevitem.cpp`,
   `FUN_004855a0_shell::FUN_004855a0()` and
   `FUN_00485680_shell::FUN_00485680()`. Each has one definition and no

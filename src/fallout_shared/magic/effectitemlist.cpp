@@ -50,8 +50,13 @@
 #include "fnv/symbols_00485000.h"
 #include "fnv/symbols_00559000.h"
 
-// Out-of-line reference for the inline ActorPathHandler::CompleteNoPathUpdate so the
-// translation unit emits the method body attributed to the header.
+// @fnv 0x009dfdf0
+ActorPathHandler::PATH_HANDLER_RESULT ActorPathHandler::CompleteNoPathUpdate(float fSeconds)
+{
+    return PATH_HANDLER_RESULT_DONE;
+}
+
+// Reference to ActorPathHandler::CompleteNoPathUpdate, which this unit defines above.
 ActorPathHandler::PATH_HANDLER_RESULT CallNoPathUpdate(ActorPathHandler* pHandler, float fSeconds)
 {
     return pHandler->CompleteNoPathUpdate(fSeconds);

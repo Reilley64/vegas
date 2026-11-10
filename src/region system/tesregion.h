@@ -34,11 +34,8 @@ class TESRegion : public TESForm
     float fWeatherChance;                              // +0x28
     NiColor m_kDiffuseColor;                           // +0x2C
 
-// @fnv 0x005d8a70
-    NiColor* GetDiffuseColor()
-    {
-        return &m_kDiffuseColor;
-    }
+    // Defined once, in tesregion_h_unit.cpp.
+    NiColor* GetDiffuseColor();
 };
 
 #endif

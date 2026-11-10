@@ -538,13 +538,15 @@ struct FUN_0050ea10_class
     char pad[0xc];
     NiPoint3 m_kCenter;
     NiPoint3 m_kExtents;
-    // Computes the box minimum corner by subtracting m_kExtents from m_kCenter and stores it in arPoint.
-// @fnv 0x0050ea10
-    void FUN_0050ea10(NiPoint3& arMinCorner) const
-    {
-        arMinCorner = m_kCenter - m_kExtents;
-    }
+    void FUN_0050ea10(NiPoint3& arMinCorner) const;
 };
+
+// Computes the box minimum corner by subtracting m_kExtents from m_kCenter and stores it in arPoint.
+// @fnv 0x0050ea10
+void FUN_0050ea10_class::FUN_0050ea10(NiPoint3& arMinCorner) const
+{
+    arMinCorner = m_kCenter - m_kExtents;
+}
 
 static void (FUN_0050ea10_class::*volatile p)(NiPoint3&) const = &FUN_0050ea10_class::FUN_0050ea10;
 

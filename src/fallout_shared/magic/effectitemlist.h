@@ -20,11 +20,8 @@ class ActorPathHandler
         PATH_HANDLER_RESULT_DONE_SLEEP_SPECIAL = 6
     };
 
-// @fnv 0x009dfdf0
-    PATH_HANDLER_RESULT CompleteNoPathUpdate(float fSeconds)
-    {
-        return PATH_HANDLER_RESULT_DONE;
-    }
+    // Defined once, in effectitemlist.cpp.
+    PATH_HANDLER_RESULT CompleteNoPathUpdate(float fSeconds);
 };
 
 #endif

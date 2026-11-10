@@ -17,6 +17,13 @@
 #include "fnv/symbols_00b00000.h"
 #include "astarsearch.h"
 
+// @fnv 0x00b00a00
+BSWin32TaskletManager& GetTaskletManager()
+{
+    static BSWin32TaskletManager s_TaskletManager(6);
+    return s_TaskletManager;
+}
+
 struct FUN_00996840_shell
 {
     unsigned int FUN_00996840(unsigned int a);

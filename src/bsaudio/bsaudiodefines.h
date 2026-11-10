@@ -47,67 +47,10 @@ class BSAudioDefinition
     unsigned int m_uiSoundParameterB;  // +0x234, 4 bytes
     unsigned int m_uiSoundParameter6;  // +0x238, 4 bytes
 
-// @fnv 0x00ae8770
-    BSAudioDefinition()
-    {
-        Name[0] = 0;
-        FileName[0] = 0;
-        pName = Name;
-        pFileName = FileName;
-        fFirstValue = 0.0f;
-        fSecondValue = 0.0f;
-        Location = NiPoint3::ZERO;
-        uiSoundFlags = 0;
-        m_fMinimumDistance = 0.0f;
-        m_fMaximumDistance = 0.0f;
-        m_uiSoundParameterA = 0;
-        m_uiSoundParameterB = 0;
-        m_uiSoundParameter6 = 0;
-    }
-
-// @fnv 0x00ae8830
-    ~BSAudioDefinition()
-    {
-        pName = 0;
-        pFileName = 0;
-        fFirstValue = 0.0f;
-        fSecondValue = 0.0f;
-        uiSoundFlags = 0;
-        m_fMinimumDistance = 0.0f;
-        m_fMaximumDistance = 0.0f;
-        m_uiSoundParameterA = 0;
-        m_uiSoundParameterB = 0;
-        m_uiSoundParameter6 = 0;
-    }
-
-// @fnv 0x00ae88c0
-    BSAudioDefinition& operator=(const BSAudioDefinition& aCopy)
-    {
-        Name[0] = 0;
-        FileName[0] = 0;
-        if (aCopy.pName)
-        {
-            char* pSrcName = aCopy.pName;
-            char* pDstName = pName;
-            strcpy(pDstName, pSrcName);
-        }
-        if (aCopy.pFileName)
-        {
-            char* pDstFile = aCopy.pFileName;
-            char* pSrcFile = pFileName;
-            strcpy(pSrcFile, pDstFile);
-        }
-        fFirstValue = aCopy.fFirstValue;
-        fSecondValue = aCopy.fSecondValue;
-        Location = aCopy.Location;
-        uiSoundFlags = aCopy.uiSoundFlags;
-        m_fMinimumDistance = aCopy.m_fMinimumDistance;
-        m_fMaximumDistance = aCopy.m_fMaximumDistance;
-        m_uiSoundParameterA = aCopy.m_uiSoundParameterA;
-        m_uiSoundParameterB = aCopy.m_uiSoundParameterB;
-        m_uiSoundParameter6 = aCopy.m_uiSoundParameter6;
-        return *this;
-    }
+    // Defined once, in bsaudiodefines_h_unit.cpp.
+    BSAudioDefinition();
+    ~BSAudioDefinition();
+    BSAudioDefinition& operator=(const BSAudioDefinition& aCopy);
 };
 
 class BSSoundInfo
@@ -134,16 +77,8 @@ class BSSoundInfo
         m_kAudioDefinition = aCopy->m_kAudioDefinition;
     }
 
-// @fnv 0x00ae8af0
-    ~BSSoundInfo()
-    {
-        m_uiSoundID = 0;
-        m_fSoundVolume = 0.0f;
-        m_fFadeDuration = 0.0f;
-        m_uiValueAt0C = 0;
-        m_uiPlaybackFlags = 0;
-        m_bValueAt14 = false;
-    }
+    // Defined once, in bsaudiodefines_h_unit.cpp.
+    ~BSSoundInfo();
 };
 
 template <class Allocator, class T>

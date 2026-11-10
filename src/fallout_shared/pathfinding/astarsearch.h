@@ -14,12 +14,8 @@
 #include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
 #include "astarsearch_decls.h"
 
-// @fnv 0x00b00a00
-inline BSWin32TaskletManager& GetTaskletManager()
-{
-    static BSWin32TaskletManager s_TaskletManager(6);
-    return s_TaskletManager;
-}
+// Defined once, in astarsearch_h_unit.cpp.
+BSWin32TaskletManager& GetTaskletManager();
 
 template <>
 // @fnv 0x006a7e00

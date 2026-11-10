@@ -73,11 +73,8 @@ class BSShaderNoLightingProperty : public BSShaderProperty
     NiTexturingProperty::ClampMode m_eClampMode;  // +0x74
     RgbaColor m_kEmissiveColor;                   // +0x78
 
-// @fnv 0x008d8520
-    NiTexture* GetBaseTexture()
-    {
-        return m_pNoLightingTexture.m_pObject;
-    }
+    // Defined once, in bsshadernolightingproperty_h_unit.cpp.
+    NiTexture* GetBaseTexture();
 };
 
 #endif

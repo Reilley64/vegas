@@ -34,7 +34,9 @@ The header defines the three members out of line and not inline. So each
 unit that includes it emits them. Two did: the recipe's unit and the file
 with no unit. That is one transcription emitted twice, not two functions.
 The recipe decides the owner: the address rows belong to
-`bhkcollisionobject_h_unit.cpp`.
+`bhkcollisionobject_h_unit.cpp`. Ownership rests on those function rows, as
+in the addendum of the coordinator's ruling on one function transcribed
+twice.
 
 Symbol rows for the three names:
 
@@ -65,7 +67,8 @@ defines and requires nothing. The header and the owning unit are untouched.
 
 ## The two emissions were the same code
 
-At the previous tip, in the windows-x64 archive:
+At 39c4fbb99, the commit this change was made on, in the windows-x64
+archive:
 
 | Name | Bytes | Relocations | Both objects |
 | --- | --- | --- | --- |
@@ -104,7 +107,7 @@ accept duplicates the first loaded definition is kept. Measured in four
 forced links with a map, of the whole archive and of the worker-pool test,
 each with and without collection of unreferenced sections:
 
-| Name | Previous tip | Now |
+| Name | At 39c4fbb99 | Now |
 | --- | --- | --- |
 | `GetRTTI` | `bhkcollisionobject_h_unit.cpp.obj` | the same |
 | `GetFromNiAVObject` | `bhkcollisionobject_h_unit.cpp.obj` | the same |
@@ -128,7 +131,7 @@ Windows-x64, 2,223 archive members in the same order before and after. One
 object differs, `bhkcollisionobject.cpp.obj`: it loses the three definitions
 and the four names they required.
 
-| Link | Previous tip | This change |
+| Link | At 39c4fbb99 | This change |
 | --- | --- | --- |
 | on demand, ordinary and unlimited | links, 78 imports | every list identical |
 | forced, whole archive: duplicate symbols / blocks | 7 / 14 | 4 / 11 |
@@ -148,10 +151,22 @@ These were open before this change and remain open.
   Each is a second name for a function this change keeps, under a different
   signature, and each is still undefined. Joining them to the members needs
   the callers' argument types, which this change does not establish.
-- The class declaration. `include/fnv/decl/bhkCollisionObject.h`, which the
-  requirers include, declares the class with the two static members only.
-  The header of the owning unit declares it with a base and two virtual
-  members. The static members are named alike under both.
+- The class declaration. The tree holds 24 definitions of a struct named
+  `bhkCollisionObject`. The header of the owning unit declares it with a
+  base and two virtual members. `include/fnv/decl/bhkCollisionObject.h`
+  declares it with the two static members only. The static members are named
+  alike under both.
+- Of the 22 distinct units that require a lookup, 15 include
+  `include/fnv/decl/bhkCollisionObject.h`. The other seven declare the class
+  locally: `mobileobject.cpp`, `grenadeprojectile.cpp`,
+  `bgsdestructibleobjectform.cpp`, `globalfunc.cpp`, `teshavokutilities.cpp`
+  and `playercharacter.cpp` in their own file, and `bipedanim.cpp` through
+  `bipedanim_decls.h`. Two of the 15, `actor.cpp` and
+  `navmeshobstaclemanager.cpp`, hold a further definition of the name in
+  their own file. None of the 22 includes the owning unit's header.
+- `src/bshavok/bhkcollisionobject.cpp` now defines nothing: its object holds
+  no symbol of its own. The file has no recipe unit. Its deletion is still
+  owed under VEGAS-17's "variant units are deleted".
 - The bodies reach their callees through casts to stand-in classes. The
   second lookup calls the function at `0x004b5a50` under the name
   `NiShader::DynamicCast`; that this name is a stand-in is an inference from

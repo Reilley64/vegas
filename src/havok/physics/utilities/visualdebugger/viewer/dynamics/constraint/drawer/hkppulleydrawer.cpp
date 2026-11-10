@@ -18,7 +18,7 @@
 
 typedef float hkReal;
 
-struct hkTransform;
+class hkTransform;
 struct hkRotation;
 
 struct hkVector4
@@ -57,8 +57,9 @@ struct hkRotation
     hkVector4 m_kColumn2;
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
 };
@@ -88,8 +89,9 @@ struct hkpPulleyConstraintData
     hkReal m_fRopeLength;
 };
 
-struct hkpConstraintInstance
+class hkpConstraintInstance
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

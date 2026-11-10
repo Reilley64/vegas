@@ -1,8 +1,8 @@
 #pragma once
 
 class NiAVObject;
-struct BSFaceGenAnimationData;
-struct TESObjectCELL;
+class BSFaceGenAnimationData;
+class TESObjectCELL;
 
 // 0x00524c90
 ::BSFaceGenAnimationData *FUN_00524c90();

@@ -104,21 +104,21 @@ class GlobalObject_0045cf30 : public SettingT<INISettingCollection>
     {
     }
 };
-class GlobalObject_0045cfe0 : public SettingT<INISettingCollection>
+struct GlobalObject_0045cfe0 : public SettingT<INISettingCollection>
 {
   public:
     GlobalObject_0045cfe0(const char* key, int value) : SettingT(key, value)
     {
     }
 };
-class GlobalObject_0045d060 : public SettingT<SettingCollection_011f35a4>
+struct GlobalObject_0045d060 : public SettingT<SettingCollection_011f35a4>
 {
   public:
     GlobalObject_0045d060(const char* key, float value) : SettingT(key, value)
     {
     }
 };
-class GlobalObject_004a4a40 : public SettingT<SettingCollection_011f35a4>
+struct GlobalObject_004a4a40 : public SettingT<SettingCollection_011f35a4>
 {
   public:
     GlobalObject_004a4a40(const char* key, int value) : SettingT(key, value)
@@ -201,7 +201,7 @@ class GlobalObject_0044dee0
     ~GlobalObject_0044dee0();
     char storage[4];
 };
-class GlobalObject_0044fae0
+struct GlobalObject_0044fae0
 {
   public:
     GlobalObject_0044fae0();
@@ -228,21 +228,21 @@ class GlobalObject_0048f200
     ~GlobalObject_0048f200();
     char storage[4];
 };
-class GlobalObject_004a9bf0
+struct GlobalObject_004a9bf0
 {
   public:
     GlobalObject_004a9bf0(int);
     ~GlobalObject_004a9bf0();
     char storage[4];
 };
-class GlobalObject_004a9d80
+struct GlobalObject_004a9d80
 {
   public:
     GlobalObject_004a9d80();
     ~GlobalObject_004a9d80();
     char storage[4];
 };
-class GlobalObject_004a9e90
+struct GlobalObject_004a9e90
 {
   public:
     GlobalObject_004a9e90(int);
@@ -277,7 +277,7 @@ class GlobalObject_004d5c80
     ~GlobalObject_004d5c80();
     char storage[4];
 };
-class GlobalObject_004ee810
+struct GlobalObject_004ee810
 {
   public:
     GlobalObject_004ee810();
@@ -326,7 +326,7 @@ class GlobalObject_00631850
     ~GlobalObject_00631850();
     char storage[4];
 };
-class GlobalObject_00633c90
+struct GlobalObject_00633c90
 {
   public:
     GlobalObject_00633c90(intptr_t);
@@ -367,7 +367,7 @@ class GlobalObject_00682510
     ~GlobalObject_00682510();
     char storage[4];
 };
-class GlobalObject_006836f0
+struct GlobalObject_006836f0
 {
   public:
     GlobalObject_006836f0();
@@ -475,7 +475,7 @@ class GlobalObject_007da010
     ~GlobalObject_007da010();
     char storage[4];
 };
-class GlobalObject_007da090
+struct GlobalObject_007da090
 {
   public:
     GlobalObject_007da090();
@@ -489,7 +489,7 @@ class GlobalObject_0082ee80
     ~GlobalObject_0082ee80();
     char storage[4];
 };
-class GlobalObject_0083b5e0
+struct GlobalObject_0083b5e0
 {
   public:
     GlobalObject_0083b5e0(int);
@@ -531,7 +531,7 @@ class GlobalObject_00869db0
     ~GlobalObject_00869db0();
     char storage[4];
 };
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
     GlobalObject_00869f00(int, int);
@@ -579,7 +579,7 @@ class GlobalObject_008caab0
     ~GlobalObject_008caab0();
     char storage[4];
 };
-class GlobalObject_008caae0
+struct GlobalObject_008caae0
 {
   public:
     GlobalObject_008caae0();
@@ -592,7 +592,7 @@ class GlobalObject_009137b0
     ~GlobalObject_009137b0();
     char storage[4];
 };
-class GlobalObject_0096a2d0
+struct GlobalObject_0096a2d0
 {
   public:
     GlobalObject_0096a2d0();
@@ -631,7 +631,7 @@ class GlobalObject_00a7b610
     GlobalObject_00a7b610(const char*, const char*);
     char storage[4];
 };
-class GlobalObject_00b3f100
+struct GlobalObject_00b3f100
 {
   public:
     GlobalObject_00b3f100();

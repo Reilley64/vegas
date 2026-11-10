@@ -1,9 +1,9 @@
 #pragma once
 
 class NiAVObject;
-class hkpRigidBody;
+struct hkpRigidBody;
 
-class bhkCollisionObject {
+struct bhkCollisionObject {
 public:
     // 0x0043b610
     static ::bhkCollisionObject *GetFromNiAVObject(::NiAVObject *);

@@ -1,7 +1,7 @@
 #pragma once
 
 class ExtraDismemberedLimbs;
-class InventoryChanges;
+struct InventoryChanges;
 
 class ExtraDataList {
 public:

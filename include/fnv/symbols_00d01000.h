@@ -1,6 +1,6 @@
 #pragma once
 
-class Src;
+struct Src;
 namespace fnv_00d01380 { struct World833; }
 namespace fnv_00d01440 { struct World833; }
 struct D014F0World;

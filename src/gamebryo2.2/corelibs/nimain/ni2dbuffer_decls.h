@@ -39,7 +39,7 @@ class Ni2DBuffer
     void* rendererData;
     bool CreateRendererData(const NiPixelFormat&, MultiSamplePreference);
 };
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;

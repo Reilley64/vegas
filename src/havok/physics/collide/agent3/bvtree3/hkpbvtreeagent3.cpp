@@ -712,7 +712,7 @@ template <typename T, typename Allocator = RouterHeapAllocatorProvider> class hk
 #include "fnv/symbols_simd.h"
 
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4& hkVector4Parameter;
 class VectorComponentValue
 {
@@ -767,7 +767,7 @@ class Vector4Comparison
 
   private:
     hkQuadReal m_uiMask;
-    friend class hkVector4;
+    friend struct hkVector4;
 };
 namespace MathUtilities {
 template <typename T> inline T __cdecl min2(T x, T y)
@@ -777,7 +777,7 @@ template <typename T> inline T __cdecl min2(T x, T y)
 }
 class hkRotation;
 class hkTransform;
-class hkVector4
+struct hkVector4
 {
   public:
     __forceinline void* __cdecl operator new(std::size_t nbytes)

@@ -3,8 +3,8 @@
 #define FNV_NITEXTURETRANSFORM_H
 
 #include "layout_support.h"
-class ThreeByThreeMatrix;
-class NiPoint2;
+struct ThreeByThreeMatrix;
+struct NiPoint2;
 class NiPoint4;
 class TextureMapTransform;
 class FourComponentNumericValue;
@@ -14,7 +14,7 @@ enum NiTextureTransform__TransformMethod
     NiTextureTransform__TransformMethod_MAX_TRANSFORM = 1,
     NiTextureTransform__TransformMethod_MAYA_TRANSFORM = 2
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x;  // +0x0, 4 bytes
@@ -85,7 +85,7 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     NiPoint4 m_afEntries[3];  // +0x0, 48 bytes

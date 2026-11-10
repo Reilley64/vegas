@@ -35,12 +35,12 @@ struct BSResizableTriShape;
 struct BSSegmentedTriShape;
 struct Direct3DDeviceInterface;
 struct NiD3DShaderProgramCreator;
-struct NiGeometry;
+class NiGeometry;
 struct NiLines;
-struct NiNode;
+class NiNode;
 struct NiParticles;
-struct NiShaderConstantMapEntry;
-struct NiTriBasedGeom;
+class NiShaderConstantMapEntry;
+class NiTriBasedGeom;
 struct NiTriShape;
 struct NiTriStrips;
 struct ShaderPassRenderer;
@@ -49,8 +49,9 @@ struct bhkBlendCollisionObject;
 struct bhkLimitedHingeConstraint;
 struct bhkNiCollisionObject;
 struct bhkRigidBody;
-struct NiGPUProgram : public NiRefObject
+class NiGPUProgram : public NiRefObject
 {
+  public:
     virtual void __vslot_0();
     virtual void* GetRTTI();
     virtual NiNode* IsSceneNode();

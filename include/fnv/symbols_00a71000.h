@@ -1,5 +1,5 @@
 #pragma once
-class NiStream;
+struct NiStream;
 
 namespace fnv_00a71430 { struct FUN_00a712f0; }
 

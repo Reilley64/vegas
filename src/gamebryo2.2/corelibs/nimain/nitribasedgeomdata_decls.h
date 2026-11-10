@@ -5,10 +5,10 @@
 #include "fnv/decl/fnv_00a67ea0__GeomEA0.h"
 #include "fnv/decl/fnv_00a68520__NiGeometryDataSave.h"
 #include "fnv/symbols_00d3d000.h"
-class NiStream;
-class NiPoint3;
-class NiPoint2;
-class RgbaColor;
+struct NiStream;
+struct NiPoint3;
+struct NiPoint2;
+struct RgbaColor;
 enum NiGeometryData__DataFlags
 {
     DataFlags_None = 0

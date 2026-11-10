@@ -2884,8 +2884,9 @@ struct ArrHolder
 {
 };
 
-struct Script
+class Script
 {
+  public:
     ArrHolder* GetData(int* found);
 };
 
@@ -4068,10 +4069,10 @@ unsigned char FUN_005ece50_class::FUN_005ece50(FUN_005ece50_class* other)
     return bStack_5;
 }
 
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
-struct TESSound;
+class TESSound;
 struct SoundDataHandler
 {
 };
@@ -5201,7 +5202,7 @@ void PartitionOwner::ApplyPartitionState(SceneObject* target, SceneObject* root,
 
 namespace s5e5d20 {
 
-struct Actor
+class Actor
 {
 };
 
@@ -5590,8 +5591,9 @@ struct IdlePointerArrayBase
     ~IdlePointerArrayBase();
 };
 
-template <> struct NiPointer<AnimIdle> : IdlePointerArrayBase
+template <> class NiPointer<AnimIdle> : public IdlePointerArrayBase
 {
+  public:
     void* value;
 
     NiPointer();

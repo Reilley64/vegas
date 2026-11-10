@@ -361,7 +361,7 @@ class NiD3DVertexShader : public NiD3DShaderProgram
 class NiD3DPixelShader : public NiD3DShaderProgram
 {
 };
-class NiRenderer;
+struct NiRenderer;
 class NiD3DShaderDeclaration : public NiRefObject
 {
   public:

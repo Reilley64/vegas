@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 class Refr_C;
 
 // 0x004a1060

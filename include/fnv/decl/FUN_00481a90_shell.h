@@ -1,6 +1,6 @@
 #pragma once
 
-class InventoryItemEntry;
+struct InventoryItemEntry;
 
 struct FUN_00481a90_shell {
 public:

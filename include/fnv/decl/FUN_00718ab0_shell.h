@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESImageSpaceModifier;
+class TESImageSpaceModifier;
 
 struct FUN_00718ab0_shell {
 public:

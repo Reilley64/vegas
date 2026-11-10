@@ -645,7 +645,7 @@ struct GunListener
     virtual void gunAction(const MyVec& from, const MyVec* to = 0);
 };
 
-struct hkTransform;
+class hkTransform;
 struct hkpRigidBody;
 struct hkpGravityGunEx : public hkpGravityGun
 {

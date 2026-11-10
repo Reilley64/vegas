@@ -9,9 +9,9 @@
 #include "processlists_lock_free_map.h"
 
 class Actor;
-class Crime;
+struct Crime;
 class MagicShaderHitEffect;
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 class BSTempEffect;
 class MuzzleFlash;
 class DialoguePackage;

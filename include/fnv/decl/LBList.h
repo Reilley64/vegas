@@ -1,6 +1,6 @@
 #pragma once
 
-struct Tile;
+class Tile;
 
 struct LBList {
 public:

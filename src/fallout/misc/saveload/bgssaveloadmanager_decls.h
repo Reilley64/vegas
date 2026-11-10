@@ -65,7 +65,7 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f2000.h"
 #include "fnv/symbols_011f6000.h"
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
@@ -89,7 +89,7 @@ extern int(__cdecl* DAT_00fdf0d4)(char*);
 extern int(* DAT_00fdf1b8)(const char*, const char*, int);
 
 class SaveLoadFile;
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
 };
@@ -97,7 +97,7 @@ class SaveLoadHeader
 {
   public:
 };
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
@@ -105,7 +105,7 @@ class InterfaceManager
 {
   public:
 };
-class Interface
+struct Interface
 {
   public:
     static bool IsInterfaceActive();
@@ -160,7 +160,7 @@ class ChallengeManager
   public:
     static void CheckCompletedChallenges();
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };
@@ -195,7 +195,7 @@ public:
 class GlobalObject_009c6a30
 {
 };
-class NiPoint3;
+struct NiPoint3;
 struct NiPoint3;
 class BGSTerrainManager
 {
@@ -350,7 +350,7 @@ class BGSSaveLoadUI
     void FUN_007d0bd0(bool);
     void FUN_007d0bb0();
 };
-class GameSettingCollection
+struct GameSettingCollection
 {
   public:
 };
@@ -359,7 +359,7 @@ class LoadingMenu
   public:
     static void UpdateLoadingScreenThread();
 };
-class BSAudio
+struct BSAudio
 {
   public:
     void Update(bool);
@@ -378,7 +378,7 @@ class PathManager
     bool CallMemberFunction();
 };
 
-class TESQueuedCellManager
+struct TESQueuedCellManager
 {
   public:
 };
@@ -401,7 +401,7 @@ class GameTimerRecord
 {
   public:
 };
-class ScriptLocals
+struct ScriptLocals
 {
   public:
     void ProcessPendingTasks();

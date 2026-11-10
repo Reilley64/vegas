@@ -220,16 +220,18 @@ struct P3L : P3
 };
 class NavMeshClosedDoorInfo;
 class NavMeshTriangle;
-struct NavMesh
+class NavMesh
 {
+  public:
     P3 GetNavMeshData(unsigned short);
 public:
     ::NavMeshTriangle *GetTriangle(unsigned short);
 public:
     ::NavMeshClosedDoorInfo *GetClosedDoorInfo(unsigned short);
 };
-struct NavMeshTriangleReference
+class NavMeshTriangleReference
 {
+  public:
     P3 FUN_006a6eb0() const;
 };
 struct FUN_006aac10_shell

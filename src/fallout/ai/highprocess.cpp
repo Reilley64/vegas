@@ -1996,8 +1996,9 @@ NiPoint3 S5620::GetNiPoint3()
     return ::SetNiPoint3FromHkVector4(k, (*(const ::hkVector4 *)(::FUN_008e5670((::DummyClass *)this))));
 }
 
-struct TESFile
+class TESFile
 {
+  public:
     const char* GetName(void);
 };
 
@@ -2429,7 +2430,7 @@ void FUN_005075f0_class::FUN_005075f0(float value)
 }
 
 struct LandscapeColorData;
-struct TESObjectLAND
+class TESObjectLAND
 {
 public:
     bool FUN_0053f180(const ::LandscapeColorData &, float &);
@@ -3217,7 +3218,7 @@ void FUN_008dbda0Class::SetPathingLocation(const PathingLocation& apLocation)
     mPathingLocation = apLocation;
 }
 
-struct Actor;
+class Actor;
 struct ST_8dd8a0
 {
     virtual void a0() = 0;
@@ -3558,7 +3559,7 @@ struct RegionPoint
 {
 };
 extern float DAT_01087820;
-struct Actor;
+class Actor;
 struct DetectionViewData;
 struct MyHigh
 {
@@ -9568,8 +9569,9 @@ void FUN_008d73b0_Class::FUN_008d73b0(BGSSaveFormBuffer* buffer)
 }
 }  // namespace fnv_008d73b0
 
-struct TESObjectSTAT : TESForm
+class TESObjectSTAT : public TESForm
 {
+  public:
     virtual ~TESObjectSTAT();
 };
 struct PathingAvoidanceNode
@@ -10201,7 +10203,7 @@ class SaveFormIDHelper
   public:
 };
 
-class BGSSaveFormBuffer : public SaveFormIDHelper
+struct BGSSaveFormBuffer : public SaveFormIDHelper
 {
   public:
 };
@@ -10529,7 +10531,7 @@ bool FUN_008ffdc0_Class::IsTargetDetectable(Actor* apActor, Actor* apTarget)
 }  // namespace fnv_008ffd10
 
 namespace fnv_00902190 {
-struct Projectile
+class Projectile
 {
 };
 
@@ -17500,7 +17502,7 @@ void FUN_008ebbe0_cls::FUN_008ebbe0(intptr_t a1)
     }
 }
 
-class SpawnedObject;
+struct SpawnedObject;
 class FUN_008ee370_cls
 {
   public:
@@ -17666,7 +17668,7 @@ class FUN_008ee370_cls
     virtual SpawnedObject* vf27c();
     bool FUN_008ee370(int a1, int a2);
 };
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     virtual int vf000();
@@ -17932,10 +17934,10 @@ bool FUN_008eea80_Class::FUN_008eea80()
     return (this->unk24 & 1) ? true : false;
 }
 
-class PathingLocation;
+struct PathingLocation;
 template <class, unsigned int> class BSSimpleArray;
 enum PATHING_REQUEST_TYPE;
-class PathingRequest
+struct PathingRequest
 {
   public:
     PathingRequest();
@@ -34389,7 +34391,7 @@ void Owner93::UpdateSelectionTimer(Actor93* actor)
 }
 
 namespace PackageMovement {
-struct Actor;
+class Actor;
 struct Package;
 struct Object;
 struct Request;
@@ -34761,8 +34763,9 @@ struct Object
     virtual void slot414();
     virtual void Stop();
 };
-struct Actor : Object
+class Actor : public Object
 {
+  public:
     bool SetPathingRequestAvoidNodes(Request&);
 };
 struct Request
@@ -45656,7 +45659,7 @@ struct Vec
 };
 struct Form;
 struct Ref;
-struct Actor;
+class Actor;
 struct Package;
 struct PackageData;
 struct TargetData;
@@ -45896,8 +45899,9 @@ struct Anim
 {
     bool FUN_004985f0();
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void slot0();
     virtual void slot4();
     virtual void slot8();
@@ -47254,8 +47258,9 @@ struct ActorObj
     virtual void a63();
     virtual unsigned char VCall100();
 };
-struct TESSound
+class TESSound
 {
+  public:
     void* m_00;
 };
 struct ListNode
@@ -71435,38 +71440,38 @@ void IdleLoadedProcessView::FUN_008eedf0(AnimIdle* idle, KFModel* model)
     }
 }
 
-class NiControllerManager;
+struct NiControllerManager;
 class QuestDialogueInfo;
 class TESIdleForm;
 class TESObjectWEAP;
 class NiAVObject;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 #define TESObjectCELL HighProcessSharedCell
 #undef TESObjectCELL
-class Animation;
+struct Animation;
 class BSAnimGroupSequence;
 class NiBSBoneLODController;
 class GlobalObject_0045d260;
 class HighProcessDetectionEventView;
-class DetectionViewData;
+struct DetectionViewData;
 class DetectionEvent;
 class ActorGroupState;
 class ActorValueStore;
 class AnimIdle;
-class KFModel;
+struct KFModel;
 class LipSyncAnimation;
 class MuzzleFlash;
 class DetectionEventData;
 class TopicInfoRecord;
 class ActorPathingMessageQueue;
-class PathingRequest;
+struct PathingRequest;
 class NiBillboardNode;
 class BSBound;
 class ActorSupportClass;
 class BSFaceGenAnimationData;
 class BSFaceGenNiNode;
 class BSShaderPPLightingProperty;
-class BooleanFloatQuery;
+struct BooleanFloatQuery;
 class FurnitureMark;
 class bhkCharacterController;
 class bhkSimpleShapePhantom;
@@ -71487,13 +71492,13 @@ enum DEFAULT_OBJECT;
 class PlayerCharacter;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting109;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting108;
-class ScriptLocals;
+struct ScriptLocals;
 class BSPortalGraph;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting134;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting135;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting137;
 extern unsigned int DAT_011e01e0;
-class Interface;
+struct Interface;
 extern GlobalObject_0045d260 g_011e0246;
 extern bool DAT_011f1221;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1045;
@@ -71505,7 +71510,7 @@ class DetectionParameters;
 class BSFileEntry;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting347;
 extern PlayerDetectionCounter DAT_011a3780[];
-struct TESObjectREFR;
+class TESObjectREFR;
 class NiTexture;
 
 class NiNode;
@@ -71513,7 +71518,7 @@ class Biped;
 
 namespace PackagePathing {
 
-struct Actor;
+class Actor;
 struct Request;
 struct List;
 struct Vec
@@ -71653,8 +71658,9 @@ struct Request
     Request();
     ~Request();
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void slot0();
     virtual void slot4();
     virtual void slot8();

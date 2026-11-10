@@ -60,9 +60,10 @@ unsigned char FUN_00401500()
     return DAT_011c54ba;
 }
 
-struct TESObjectREFR;
-struct TESFullName : public BaseFormComponent
+class TESObjectREFR;
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -78,8 +79,9 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-struct TESTexture : public BaseFormComponent
+class TESTexture : public BaseFormComponent
 {
+  public:
     virtual unsigned int GetTexturePathLength();
     virtual char* NormalizeTextureFilePath(void*);
     virtual char* GetRegularTextureFilePath(void*);
@@ -251,9 +253,9 @@ bool FUN_00482df0_shell::FUN_00482df0(BaseFormComponent* apComponent)
     return false;
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
 

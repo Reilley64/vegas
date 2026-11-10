@@ -11,7 +11,7 @@
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_010d1000.h"
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 

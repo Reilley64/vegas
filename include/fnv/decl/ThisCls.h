@@ -1,6 +1,6 @@
 #pragma once
 
-class PathingLocation;
+struct PathingLocation;
 struct ArgObj;
 struct BuildStatus;
 struct P0;

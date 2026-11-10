@@ -78,7 +78,7 @@ struct CloningProcess
 {
     void* m_pCloneMap;
 };
-class NiStream;
+struct NiStream;
 struct NiPSysModifierCtlr
 {
     void CopyMemberData(NiPSysModifierCtlr*, CloningProcess&);
@@ -420,8 +420,9 @@ void FloatController::FUN_00a4f0c0(float* updateData)
 }
 
 namespace fnv_00c312f0 {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     bool Exists();
     unsigned int GetLength();
     unsigned int GetRefCount();

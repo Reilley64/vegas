@@ -608,8 +608,9 @@ void FUN_0043acb0_shell::ReleaseScriptRunLock()
 }
 
 namespace fnv_0043b1b0 {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     bool Exists();
     unsigned int GetLength();
     unsigned int GetRefCount();
@@ -712,8 +713,9 @@ int FUN_0043b4d0_shell::FUN_0043b4d0()
     return iFilter & 0x7f;
 }
 
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     int v;
     FormChangeMask(int);
 };
@@ -1237,8 +1239,8 @@ unsigned int FUN_0043dc30_shell::InitScriptRunLockTask()
     return InitScriptRunLock(&DAT_01202da0);
 }
 
-struct EffectSetting;
-struct MagicItem;
+class EffectSetting;
+class MagicItem;
 struct QueuedMagicItem : public QueuedFile
 {
     virtual void __vslot_0();
@@ -1323,8 +1325,9 @@ struct KFModelLookup
 {
     KFModel* Lookup(const char*);
 };
-struct Tile
+class Tile
 {
+  public:
     Tile* GetParent() const;
 };
 template <class T> struct BSStringT
@@ -1603,22 +1606,22 @@ void FUN_00441820(char* apObject)
 }
 
 namespace fnv_004418b0 {
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct ActorMover;
-struct ActorValueOwner;
+class ActorValueOwner;
 struct AlchemyItem;
 struct Animation;
-struct BGSImpactDataSet;
+class BGSImpactDataSet;
 struct BGSLoadFormBuffer;
-struct BGSPerk;
+class BGSPerk;
 struct BGSPerkEntry;
 struct BGSSaveFormBuffer;
 struct BGSTextureSet;
-struct BipedAnimObject;
-struct BSAnimGroupSequence;
+class BipedAnimObject;
+class BSAnimGroupSequence;
 struct BSAnimNote;
-struct BSFaceGenAnimationData;
+class BSFaceGenAnimationData;
 struct BSFaceGenModel;
 struct BSShaderPPLightingProperty;
 struct SoundPlaybackHandle;
@@ -1629,46 +1632,46 @@ struct CombatController;
 struct ActorCombatGroup;
 struct ContinuousBeamProjectile;
 struct Crime;
-struct DialogueResponse;
+class DialogueResponse;
 struct DetectionParameters;
-struct EffectItem;
-struct ExtraDataList;
+class EffectItem;
+class ExtraDataList;
 struct FurnitureMark;
 struct BooleanFloatQuery;
 struct IDebugText;
-struct InventoryStackRecord;
-struct MagicCaster;
-struct MagicItem;
+class InventoryStackRecord;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
-struct MobileObject;
+class MagicTarget;
+class MobileObject;
 struct NiPoint3;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingLocation;
 struct PathingRequest;
-struct Projectile;
+class Projectile;
 struct SpellItem;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
 struct TESClass;
 struct TESCombatStyle;
 struct TESFaction;
-struct TESIdleForm;
-struct TESNPC;
-struct TESObjectBOOK;
-struct TESObjectCELL;
+class TESIdleForm;
+class TESNPC;
+class TESObjectBOOK;
+class TESObjectCELL;
 struct TESObjectLIGH;
 struct TESRace;
 struct TESSkill;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
 struct TrapEntry;
 struct TrespassPackage;
 struct WeaponObject;
-struct bhkCharacterController;
+class bhkCharacterController;
 struct bhkRagdollController;
 struct bhkRagdollPenetrationUtil;
 struct bhkRigidBody;
@@ -1736,7 +1739,7 @@ void FUN_004418b0_shell::AttachHeadAndFaceParts()
 }  // namespace fnv_004418b0
 
 extern int DAT_01016d7c;
-struct PlayerCharacter;
+class PlayerCharacter;
 struct S1b20
 {
     void FUN_00441440(PlayerCharacter*, int);
@@ -1904,8 +1907,9 @@ struct FUN_00444ed0_shell : public TESObjectREFR
     bool FUN_00444ed0();
 };
 
-struct TESFile
+class TESFile
 {
+  public:
     const char* GetName();
 };
 
@@ -1980,9 +1984,9 @@ struct SetterHelper
 {
 };
 
-struct Actor;
-struct BGSAcousticSpace;
-struct BGSEncounterZone;
+class Actor;
+class BGSAcousticSpace;
+class BGSEncounterZone;
 struct BGSLightingTemplate;
 struct BGSLoadFormBuffer;
 struct BGSMusicType;
@@ -1993,7 +1997,7 @@ struct BSPortalGraph;
 struct CellMopp;
 struct CellRecord;
 struct ExteriorData;
-struct ExtraDataList;
+class ExtraDataList;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct InteriorData;
@@ -2002,24 +2006,24 @@ struct IntSeenData;
 struct InventoryChanges;
 struct LoadedCellData;
 struct NavMeshCollection;
-struct NiCamera;
+class NiCamera;
 struct NiColor;
 struct NiPick;
 struct NiPoint3;
 struct NiRenderedTexture;
 struct SeenData;
-struct TESActorBase;
+class TESActorBase;
 struct TESClimate;
-struct TESFile;
+class TESFile;
 struct TESGlobal;
 struct TESImageSpace;
-struct TESObjectCELL;
-struct TESObjectLAND;
-struct TESRegionList;
+class TESObjectCELL;
+class TESObjectLAND;
+class TESRegionList;
 struct TESRegionObjectBase;
 struct RegionPoint;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct _D3DLOCKED_RECT;
 struct BhkPickData;
 struct bhkWorld;
@@ -2279,7 +2283,7 @@ bool FUN_00449190_cls::SetState(int eCurrentState, int eNewState)
 
 int __cdecl FUN_0043b460(long volatile*, std::intptr_t, long);
 
-class Interface
+struct Interface
 {
   public:
 };
@@ -2310,7 +2314,7 @@ void C_00449210::FUN_00449210(int aiIndex, void* val)
     v1();
 }
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 public:
     void FUN_0040fba0();
@@ -2355,7 +2359,7 @@ void FUN_00449500_shell::FUN_00449500(const char* param_1, char** param_2)
 }
 
 namespace fnv_00449530 {
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 struct R530
@@ -2380,7 +2384,7 @@ bool FUN_00449530_S::FUN_00449530(std::intptr_t a, std::intptr_t b)
 }  // namespace fnv_00449530
 
 namespace fnv_00449580 {
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 struct R449b
@@ -2405,7 +2409,7 @@ bool Q449b::FUN_00449580(void* a, void* b, bool c)
 }  // namespace fnv_00449580
 
 namespace fnv_004495d0 {
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 struct R449
@@ -2728,7 +2732,7 @@ NP_0044aed0& NP_0044aed0::FUN_0044aed0(WaitableObject* pObject)
 }
 
 namespace fnv_0044b010 {
-struct NiControllerSequence;
+class NiControllerSequence;
 struct TESAnimGroup;
 struct KFModel
 {
@@ -2768,7 +2772,7 @@ void FUN_0044b010_shell::FUN_0044b010()
 }  // namespace fnv_0044b010
 
 namespace fnv_0044b050 {
-struct NiControllerSequence;
+class NiControllerSequence;
 struct TESAnimGroup;
 struct KFModel
 {
@@ -3023,7 +3027,7 @@ struct NiRTTI
     void* m_pBaseRTTI;
 };
 
-class NiObject;
+struct NiObject;
 struct FUN_0045baf0_helper
 {
 };
@@ -3045,8 +3049,9 @@ struct LNode
     Item** _ref_006815c0();
 };
 class BGSAddonNode;
-struct TESDataHandler
+class TESDataHandler
 {
+  public:
     Item* FindNthMatchingItem(void* a, int n);
 public:
     ::BGSAddonNode *GetAddonNodeByIndex(unsigned int);
@@ -3362,8 +3367,9 @@ struct FUN_0043c550_shell : public QueuedTexture
     void ApplyQueuedTexture();
 };
 
-struct Tile
+class Tile
 {
+  public:
     Tile* GetParent() const;
 };
 struct BSStringT
@@ -3531,8 +3537,9 @@ struct _NiStreamDtorAlias
     virtual ~_NiStreamDtorAlias();
 };
 namespace FUN_0043d090 {
-struct BSStream : public _NiStreamDtorAlias
+class BSStream : public _NiStreamDtorAlias
 {
+  public:
     NP pSceneObject;
     virtual ~BSStream();
     void DestroyObject();
@@ -4241,19 +4248,19 @@ FUN_0043eaf0::FUN_0043eaf0(int aiOwner, int aiBaseArg) : QueuedFileBase(aiBaseAr
 }  // namespace fnv_0043eaf0
 
 namespace fnv_0043ecb0 {
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct BSFaceGenAnimationData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct IncompleteStruct;
 struct ReactionInfo;
 struct CloningProcess;
-struct NiCullingProcess;
+class NiCullingProcess;
 struct NiObject;
 struct NiUpdateData;
-struct TESDescription;
-struct TESFile;
+class TESDescription;
+class TESFile;
 struct blob48
 {
     char b[48];
@@ -4265,7 +4272,7 @@ struct FUN_0043ecb0_shell : public QueuedHead
 };
 
 using MemCtx = ::AutoMemContext;
-struct TESNPC
+class TESNPC
 {
 };
 struct TESRace
@@ -4446,17 +4453,18 @@ void QueueModelHolder::FUN_00443d30(std::uintptr_t apModel, std::intptr_t aiArg1
 }
 
 namespace fnv_00444f10 {
-struct MagicItem;
-struct TESEffectShader;
-struct TESFile;
+class MagicItem;
+class TESEffectShader;
+class TESFile;
 struct TESObjectLIGH;
-struct TESSound;
+class TESSound;
 struct blob8
 {
     char b[8];
 };
-struct TESDescription : public BaseFormComponent
+class TESDescription : public BaseFormComponent
 {
+  public:
     virtual char* GetDescription(TESForm*, int);
     virtual void InitializeComponent();
     virtual void ClearComponent();
@@ -4475,8 +4483,9 @@ struct TESDescription : public BaseFormComponent
     void SetDescription(char*);
     unsigned long m_uiDescriptionFileOffset;
 };
-struct EffectSetting : public TESForm, public TESModel, public TESDescription, public TESFullName, public TESIcon
+class EffectSetting : public TESForm, public TESModel, public TESDescription, public TESFullName, public TESIcon
 {
+  public:
     virtual void __vslot_10();
     virtual void Save();
     virtual bool Load(TESFile*);
@@ -4602,22 +4611,22 @@ void FUN_00444f10_shell::FUN_00444f10(MagicItem* apMagicItem, EffectSetting* apA
 }  // namespace fnv_00444f10
 
 struct PackedRecordData;
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BGSVoiceType;
 struct ContainerChanges;
-struct ContainerItemExtra;
+class ContainerItemExtra;
 struct InventoryItemEntry;
 struct InventoryChanges;
 struct MagicItemForm;
 struct PackageList;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
 struct TESFaction;
-struct TESFile;
+class TESFile;
 struct TESLevItem;
-struct TESNPC;
+class TESNPC;
 struct TESRace;
 struct TESActorBaseData : public BaseFormComponent
 {
@@ -4745,8 +4754,9 @@ struct TESActorBaseData : public BaseFormComponent
     int m_pDeathItem;
     char m_pVoiceType[8];
 };
-struct TESContainer : public BaseFormComponent
+class TESContainer : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -4905,8 +4915,9 @@ struct TESAnimation : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kKFFileList[8];
 };
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     virtual int GetBaseActorValue(int);
     virtual float GetBaseActorValueFloat(int);
     virtual int GetActorValue(int);
@@ -5027,7 +5038,7 @@ void* FUN_00445200_holder::InsertIdle(void* apIdle, void* apKey, int aePriority,
 }
 
 namespace fnv_004471c0 {
-struct NiControllerSequence;
+class NiControllerSequence;
 struct TESAnimGroup;
 struct KFModel
 {
@@ -6718,7 +6729,7 @@ FUN_0043b640::FUN_0043b640(const char* apFilename, void* apStream)
 namespace fnv_0043cb50 {
 struct BGSTextureSet;
 struct FileFormCollection;
-struct TESFile;
+class TESFile;
 struct FileEntryList
 {
     bool ClearData();
@@ -6856,15 +6867,15 @@ void FUN_0043cb50_shell::QueueTextureFiles(FileEntryList* apTextureList)
 namespace fnv_0043e2a0 {
 struct BSFile;
 struct NiBinaryStream;
-struct NiFile;
-struct NiFixedString;
+class NiFile;
+class NiFixedString;
 struct NiObject;
 struct NiObjectGroup;
 struct NiObjectNET;
 struct NiPoint2;
 struct NiPoint3;
 struct NiSearchPath;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct SaveContentDescriptor;
 struct _iobuf;
@@ -6900,8 +6911,9 @@ struct FUN_00c3cff0_t
 {
     BSFile* FUN_00c3cff0(int, int);
 };
-struct BSStream
+class BSStream
 {
+  public:
     BSStream();
     virtual ~BSStream();
     unsigned int data[0x171];
@@ -7274,7 +7286,7 @@ struct FUN_00440780_shell : public QueuedReference
     void FUN_00440780();
 };
 
-struct TESObjectCELL;
+class TESObjectCELL;
 struct TES
 {
 };
@@ -7291,7 +7303,7 @@ struct SetterHelper
 struct ActorS
 {
 };
-struct NiAVObject;
+class NiAVObject;
 struct RefA
 {
 };
@@ -7652,7 +7664,7 @@ using AutoMemHelper = ::AutoMemContext;
 struct RefH
 {
 };
-struct TESObjectCELL
+class TESObjectCELL
 {
 };
 struct BSOcclusionPlane
@@ -7728,16 +7740,17 @@ struct DismembermentPart
     int unk0;
     BSSimpleArray<unsigned int, 1024> parts;
 };
-struct ExtraDismemberedLimbs
+class ExtraDismemberedLimbs
 {
+  public:
     char pad[0x20];
     BSSimpleArray<unsigned int, 1024> limbs;
     DismembermentPart* GetInfoAt(unsigned int);
 };
-struct ExtraDataList
+class ExtraDataList
 {
 };
-struct Actor
+class Actor
 {
 };
 struct QueuedActor;
@@ -7781,25 +7794,25 @@ void QueuedActor::QueueDismemberedLimbLoads()
 
 namespace fnv_00441560 {
 struct PackedRecordData;
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BGSVoiceType;
-struct BipedAnimObject;
+class BipedAnimObject;
 struct BSFaceGenModel;
 struct BSShaderPPLightingProperty;
 struct ContainerChanges;
-struct ContainerItemExtra;
+class ContainerItemExtra;
 struct InventoryItemEntry;
 struct InventoryChanges;
 struct MagicItemForm;
 struct PackageList;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
 struct TESFaction;
-struct TESFile;
+class TESFile;
 struct TESLevItem;
-struct TESNPC;
+class TESNPC;
 struct TESObjectLIGH;
 struct TESRace;
 struct BipedAnim
@@ -8001,8 +8014,9 @@ struct TESActorBaseData : public BaseFormComponent
     int m_pDeathItem;
     char m_pVoiceType[8];
 };
-struct TESContainer : public BaseFormComponent
+class TESContainer : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -8161,8 +8175,9 @@ struct TESAnimation : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kKFFileList[8];
 };
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     virtual int GetBaseActorValue(int);
     virtual float GetBaseActorValueFloat(int);
     virtual int GetActorValue(int);
@@ -8199,10 +8214,10 @@ struct FUN_00441560_shell : public QueuedCharacter
 };
 
 using AutoMemHelper = ::AutoMemContext;
-struct TESNPC
+class TESNPC
 {
 };
-struct TESModel;
+class TESModel;
 struct N_008c48d0
 {
 };
@@ -8384,7 +8399,7 @@ struct BSFile;
 struct BSFileEntry;
 struct LoadedFile;
 struct NiBinaryStream;
-struct NiFile;
+class NiFile;
 struct SaveContentDescriptor;
 struct _iobuf;
 struct blob16
@@ -8690,7 +8705,7 @@ bool FUN_00443540_shell::FUN_00443540(BSFileEntry* apTextureFileEntry, std::intp
 }  // namespace fnv_00443540
 
 namespace fnv_004446a0 {
-struct NiControllerSequence;
+class NiControllerSequence;
 struct TESAnimGroup;
 struct KFModel
 {
@@ -8775,7 +8790,7 @@ bool FUN_004446a0_shell::QueueKFModelLoad(char* apKFFileName, int aePriority, Qu
 }  // namespace fnv_004446a0
 
 namespace fnv_00444dc0 {
-struct TESObject;
+class TESObject;
 struct TES
 {
 };
@@ -9344,7 +9359,7 @@ void FUN_00443270_shell::FUN_00443270(File_443270* pFile, bool bAll)
 }
 }  // namespace fnv_00443270
 
-struct NiFile;
+class NiFile;
 struct FileFinder
 {
     static NiFile* GetFile(char const*, int, unsigned int, unsigned int);
@@ -9746,8 +9761,9 @@ KFModel* KFModelPtr::FUN_009052e0(const KFModelPtr& other)
 }
 }  // namespace fnv_009052e0
 
-struct NiFile
+class NiFile
 {
+  public:
     static NiFile* __cdecl GetFile(const char*, int, unsigned int);
     virtual ~NiFile();
 };
@@ -10006,7 +10022,7 @@ class FUN_0043c610_shell
 };
 
 
-class QueuedHelmet
+struct QueuedHelmet
 {
   public:
     void FUN_0043f2b0();
@@ -13490,7 +13506,7 @@ bool QueueWalker::ProcessEntry(int index, int arg, NP_0092c820* dest)
 
 extern "C" int __cdecl FUN_00aa1a20(unsigned int, unsigned int, unsigned int);
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     virtual int vfn_00(int);
@@ -14974,7 +14990,7 @@ struct AttachRef
     virtual void v124();
     virtual const V3* GetPos();
 };
-struct OSGlobals;
+class OSGlobals;
 unsigned int gm_GetCurrentThreadId();
 struct AttachTES
 {

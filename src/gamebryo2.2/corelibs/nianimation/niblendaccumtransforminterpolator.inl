@@ -17,7 +17,7 @@
 #include "fnv/decl/S00496440.h"
 #include "fnv/decl/S_004963e0.h"
 #include "fnv/decl/fnv_00496420__FUN_00496420_shell.h"
-class NiPoint3
+struct NiPoint3
 {
 public:
     static const NiPoint3 ZERO;
@@ -63,7 +63,7 @@ protected:
     unsigned int m_uiRefCount;
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
 

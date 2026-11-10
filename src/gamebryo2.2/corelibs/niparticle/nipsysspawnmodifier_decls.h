@@ -6,15 +6,15 @@
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
-class NiStream;
-class NiPSysModifier;
+struct NiStream;
+struct NiPSysModifier;
 class NiPSysSpawnModifier;
-class NiParticleSystem;
+struct NiParticleSystem;
 class NiPSysBoundUpdateModifier;
-class NiBound;
-class NiRTTI;
-class CloningProcess;
-class NiPSysModifier : public NiObject
+struct NiBound;
+struct NiRTTI;
+struct CloningProcess;
+struct NiPSysModifier : public NiObject
 {
   public:
     virtual void LoadBinary(NiStream& kStream);
@@ -109,7 +109,7 @@ class NiBinaryStream
     }
 };
 
-class NiStream
+struct NiStream
 {
   public:
     unsigned char m_auStreamHeader[0x24C];

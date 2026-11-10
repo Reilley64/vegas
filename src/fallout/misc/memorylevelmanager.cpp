@@ -178,11 +178,11 @@ void ActorReferenceArray::ResetActorReferences()
     }
 }
 
-class NiRenderer
+struct NiRenderer
 {
   public:
 };
-class IOManager;
+struct IOManager;
 
 void __cdecl FUN_008781e0(int);
 void __cdecl FUN_00a5b460(void);
@@ -204,9 +204,9 @@ void __cdecl FUN_00878200(unsigned char* aFreeData)
     reinterpret_cast<::FUN_00c3e340_cls *>((::DAT_01202d98))->FUN_00c3e340();
 }
 
-class ShadowSceneNode;
+struct ShadowSceneNode;
 
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

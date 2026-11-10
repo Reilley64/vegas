@@ -1,7 +1,7 @@
 #pragma once
 
-struct NavMesh;
-struct NavMeshTriangleReference;
+class NavMesh;
+class NavMeshTriangleReference;
 
 struct NavMeshSearchClosePoint {
 public:

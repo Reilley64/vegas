@@ -6,7 +6,7 @@
 
 #pragma comment(linker, "/alternatename:?$SG3295@fnv_0079b460@@3QBDB=?DAT_01011584@@3QBDB")
 #pragma comment(linker, "/alternatename:?$SG7947@@3QBDB=str_0106f8d0")
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 
 extern "C" char fnv_data_011d2460[] __asm__("?g_011d2460@@3VGlobalObject_0040c150@@A");
 extern "C" char fnv_data_011d4510[] __asm__("?g_011d4510@@3VGlobalObject_0040c150@@A");

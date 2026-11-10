@@ -24,8 +24,8 @@ void* __cdecl FUN_00a94820()
     return &(*reinterpret_cast<void * *>(&::g_011f5ebc));
 }
 
-class NiStream;
-struct NiExtraData
+struct NiStream;
+class NiExtraData
 {
 public:
     void LoadBinary(::NiStream &);

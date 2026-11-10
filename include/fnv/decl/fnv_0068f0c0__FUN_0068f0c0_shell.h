@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 
 namespace fnv_0068f0c0 {
 struct FUN_0068f0c0_shell {

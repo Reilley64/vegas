@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 struct Node;
 
 struct FUN_006ee740_Class {

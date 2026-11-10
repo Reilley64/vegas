@@ -23,7 +23,7 @@
 
 class BSAudioListener;
 
-class BSAudio
+struct BSAudio
 {
   public:
     void** m_ppVirtualMethodTable;
@@ -167,7 +167,7 @@ class BSAudioManager
     void FUN_00ad9f30();
 };
 
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int uiSoundID;

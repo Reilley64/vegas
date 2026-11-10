@@ -1,7 +1,7 @@
 #pragma once
 
-struct HighProcess;
-struct TESIdleForm;
+class HighProcess;
+class TESIdleForm;
 
 // 0x00621170
 namespace fnv_00621170 { void FUN_00621170(void *); }

@@ -397,8 +397,9 @@ void FUN_0092c890_class::FUN_0092c890()
         reinterpret_cast<::FUN_004b0ef0_cls *>((reinterpret_cast<ObjB*>(reinterpret_cast<int*>(this)[0])))->FUN_004b0ef0();
 }
 
-struct bhkCharacterController
+class bhkCharacterController
 {
+  public:
     int FUN_005c0880(char*);
 };
 int FUN_005c0880(char*);
@@ -469,8 +470,9 @@ FUN_00937d30_cls* FUN_00937d30_cls::FUN_00937d30()
     return this;
 }
 
-struct ActorValueModifierList
+class ActorValueModifierList
 {
+  public:
     void RemoveAllModifiers();
     void FUN_00937d50(intptr_t a);
 };
@@ -616,8 +618,9 @@ struct FUN_0092ca00 : FUN_0092c950
 FUN_0092ca00::~FUN_0092ca00()
 {}
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void v0();
     virtual bool IsEnabled();
 public:
@@ -755,11 +758,12 @@ void FUN_00937b50_cls::FUN_00937b50(BGSSaveFormBuffer* buf)
     reinterpret_cast<::FUN_00865ff0_shell *>((buf))->FUN_00865ff0(iCount, uiPos);
 }
 
-struct NiAVObject
+class NiAVObject
 {
 };
-struct NiNode
+class NiNode
 {
+  public:
     unsigned int GetNumChildren();
     NiAVObject* GetAt(unsigned int);
 };
@@ -850,15 +854,17 @@ enum PTYPE
     PTYPE_COUNT
 };
 
-struct TESPackage
+class TESPackage
 {
+  public:
     char pad[0x90];
     float unk90;
     PTYPE GetPackType();
 };
 
-struct Actor
+class Actor
 {
+  public:
     char pad[0x7c - 4];
     bool m_bFirstFlag;
     bool m_bSecondBooleanValue;
@@ -1317,8 +1323,9 @@ struct NiRTTI
     int unk00;
 };
 
-struct NiControllerSequence
+class NiControllerSequence
 {
+  public:
     int unk00;
 };
 

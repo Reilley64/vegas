@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_0057ace0 { struct TESTopicInfo; }
+namespace fnv_0057ace0 { class TESTopicInfo; }
 
 namespace fnv_0057ace0 {
 struct FUN_0057ace0_shell {

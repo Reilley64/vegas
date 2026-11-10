@@ -17,7 +17,7 @@
 #include "bsdistanttreeshader_types_NiPointer_NiGPUProgram_.h"
 #include "bsdistanttreeshader_types_NiConsoleShaderDeclaration.h"
 
-class NiRenderer;
+struct NiRenderer;
 extern "C" void* fnv_zlib_memset(void*, int, unsigned long);
 
 class NiMemObjectAllocation

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiGlobalStringTable {
+struct NiGlobalStringTable {
 public:
     // 0x004f31b0
     void AddString();

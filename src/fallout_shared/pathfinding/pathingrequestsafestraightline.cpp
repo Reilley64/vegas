@@ -109,11 +109,12 @@ FUN_006e6010::FUN_006e6010(std::intptr_t ai) : FUN_006e3fb0_base(ai)
     pTarget = ((int)(reinterpret_cast<::FUN_004036b0_Class *>((((S_004036b0*)(void*)ai)))->FUN_004036b0()));
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
-struct TESObjectREFR : TESForm
+class TESObjectREFR : public TESForm
 {
 };
 struct Holder_006e6140

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_006c1cb0 { struct TESObjectREFR; }
+namespace fnv_006c1cb0 { class TESObjectREFR; }
 namespace fnv_006c1cb0 { struct bhkRigidBody; }
 
 namespace fnv_006c1cb0 {

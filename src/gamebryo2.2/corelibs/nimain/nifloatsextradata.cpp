@@ -20,8 +20,8 @@ void* __cdecl FUN_00a89120()
     return &(*reinterpret_cast<void * *>(&::g_011f5b60));
 }
 
-class NiStream;
-struct NiExtraData
+struct NiStream;
+class NiExtraData
 {
 public:
     void LoadBinary(::NiStream &);
@@ -389,7 +389,7 @@ void A89210IntsExtraData::FUN_00a89210(A89210Stream& kStream)
 }
 
 
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
 

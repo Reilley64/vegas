@@ -1,6 +1,6 @@
 #pragma once
 
-class hkVector4;
+struct hkVector4;
 struct HkShape;
 struct MassBody;
 struct Mat4CE;

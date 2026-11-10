@@ -3207,7 +3207,7 @@ FUN_00632b40::FUN_00632b40(const FUN_00632b40& t)
     reinterpret_cast<::AlignedVector *>((void *)&(const ::S00632b40_Vector &)((*(::S00632b40_Vector *)(reinterpret_cast<::FUN_004b4cf0_shell *>((void *)this)->FUN_004b4cf0(3)))))->FUN_004a3f10((const ::AlignedVector &)(c3));
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

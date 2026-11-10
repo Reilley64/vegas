@@ -1,6 +1,6 @@
 #pragma once
 
-class GameSettingCollection;
+struct GameSettingCollection;
 namespace fnv_00404820 { struct StrArg; }
 struct FUN_004047f0_arg;
 template <class> class BSStringT;

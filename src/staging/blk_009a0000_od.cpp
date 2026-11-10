@@ -707,7 +707,7 @@ void* FUN_009a44b0_Class::FUN_009a44b0(unsigned int flags)
 struct BGSSaveFormBuffer
 {
 };
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 struct CombatTargetTimestamp
 {
 public:
@@ -775,7 +775,7 @@ FUN_009a5d80_class* FUN_009a5d80_class::Construct(unsigned int size)
 }
 
 class Actor;
-struct TESObjectWEAP
+class TESObjectWEAP
 {
 public:
     unsigned char GetDamageForActor(bool, bool, ::Actor *);
@@ -808,8 +808,9 @@ bool FUN_009aa280_Class::FUN_009aa280(int aiValue)
     return false;
 }
 
-struct CombatWorldStateListNode
+class CombatWorldStateListNode
 {
+  public:
     CombatWorldStateListNode* GetNext();
     CombatWorldStateListNode* operator->();
 };
@@ -935,12 +936,12 @@ void FUN_009b0cf0_class::FUN_009b0cf0(int a)
 }
 }  // namespace fnv_009b0cf0
 
-struct NiAVObject;
+class NiAVObject;
 struct NiAdditionalGeometryData
 {
     static NiAVObject* __cdecl GetShadowSceneNodeForIndex(int);
 };
-struct ExtraDataList
+class ExtraDataList
 {
 };
 struct Flt
@@ -1010,7 +1011,7 @@ namespace fnv_009bb7f0 {
 struct TESChallenge
 {
 };
-struct NiAVObject;
+class NiAVObject;
 struct NiLight;
 struct TESObjectLIGH
 {
@@ -1325,8 +1326,9 @@ void FUN_009a3d00_class::FUN_009a3d00(unsigned int a, unsigned int b)
     }
 }
 
-struct Projectile
+class Projectile
 {
+  public:
     Projectile(bool b);
     ~Projectile();
 };
@@ -1358,7 +1360,7 @@ struct Sky
 struct IC
 {
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct Obj
@@ -1400,7 +1402,7 @@ void InitFromObjects(BooleanFloatQuery* hd, void* target, void* weapon, void* so
 }  // namespace fnv_009b5650
 
 struct NiLight;
-struct ShadowSceneLight;
+class ShadowSceneLight;
 struct ShadowSceneNode
 {
 };
@@ -1485,7 +1487,7 @@ struct XActor
 {
 };
 class TESSound;
-struct EffectSetting
+class EffectSetting
 {
 public:
     ::TESSound *GetCastSound();
@@ -1849,8 +1851,9 @@ struct FUN_009a6080_Class
 {
     void* FUN_009a6080();
 };
-struct bhkCharacterController
+class bhkCharacterController
 {
+  public:
     float& GetVectorElement(int);
 };
 // @fnv 0x009a6050
@@ -1899,8 +1902,9 @@ FUN_009ab970_Class::NiPoint3& FUN_009ab970_Class::FUN_009ab970(NiPoint3& akDest)
 struct TESSaveLoadGame
 {
 };
-struct TESWorldSpace
+class TESWorldSpace
 {
+  public:
     void* GetWorldTerrainManager();
 };
 struct KFModel
@@ -2020,7 +2024,7 @@ void __cdecl FUN_009b2e90(void* p, int count, ByteTag tag)
 }
 
 namespace fnv_009b3100 {
-struct bhkCharacterController
+class bhkCharacterController
 {
 };
 struct FUN_009b3100_class
@@ -2389,7 +2393,7 @@ void FUN_009a3c50_cls::UpdateThreat(int a1, int a2)
     }
 }
 
-class Obj;
+struct Obj;
 
 class Iface
 {
@@ -2455,7 +2459,7 @@ class Iface
     virtual void v58(Obj* p);
 };
 
-class Obj
+struct Obj
 {
   public:
 };

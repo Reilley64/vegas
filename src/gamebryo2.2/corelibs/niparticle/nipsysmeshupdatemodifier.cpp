@@ -32,13 +32,13 @@ void* __cdecl FUN_00c21720()
     return &(*reinterpret_cast<void * *>(&::g_01202530));
 }
 
-class CloningProcess;
-class CloningProcess;
-class NiStream;
-class NiPSysModifier
+struct CloningProcess;
+struct CloningProcess;
+struct NiStream;
+struct NiPSysModifier
 {
   public:
-    virtual void ProcessClone(class CloningProcess&);
+    virtual void ProcessClone(struct CloningProcess&);
 public:
     void LinkObject(::NiStream &);
 public:
@@ -73,7 +73,7 @@ class NiAVObject
     virtual void v23();
     virtual void v24();
     virtual void v25();
-    virtual void ProcessClone(class CloningProcess&);
+    virtual void ProcessClone(struct CloningProcess&);
 };
 class NiPSysMeshUpdateModifier : public NiPSysModifier
 {
@@ -82,11 +82,11 @@ class NiPSysMeshUpdateModifier : public NiPSysModifier
     class NiAVObject** m_ppkMeshes;
     unsigned short m_usPad;
     unsigned short m_usNumMeshes;
-    void FUN_00c20f30(class CloningProcess&);
+    void FUN_00c20f30(struct CloningProcess&);
 };
 // Calls the base modifier's ProcessClone, then clones each non-null mesh in m_ppkMeshes up to m_usNumMeshes.
 // @fnv 0x00c20f30
-void NiPSysMeshUpdateModifier::FUN_00c20f30(class CloningProcess& kCloning)
+void NiPSysMeshUpdateModifier::FUN_00c20f30(struct CloningProcess& kCloning)
 {
     NiPSysModifier::ProcessClone(kCloning);
     unsigned int ui;
@@ -104,8 +104,9 @@ struct NiStream
 {
     int _d;
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -209,14 +210,16 @@ void NiPSysMeshUpdateModifier::AppendString(StrArr* pkStrings)
 }
 }  // namespace fnv_00c21840
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual void v00();
     virtual void DeleteThis();
     volatile long refCount;
 };
-struct NiPointer
+class NiPointer
 {
+  public:
     NiRefObject* ptr;
     explicit NiPointer(NiRefObject* p) : ptr(p)
     {
@@ -721,8 +724,8 @@ struct StreamSlot
 {
     BinaryStream* stream;
 };
-class NiObject;
-class NiStream
+struct NiObject;
+struct NiStream
 {
   public:
     virtual void v00();

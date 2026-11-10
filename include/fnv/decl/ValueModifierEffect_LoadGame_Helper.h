@@ -1,6 +1,6 @@
 #pragma once
 
-struct Actor;
+class Actor;
 
 struct ValueModifierEffect_LoadGame_Helper {
 public:

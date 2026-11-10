@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00773e90 { struct Tile; }
+namespace fnv_00773e90 { class Tile; }
 
 namespace fnv_00773e90 {
 struct FUN_00773e90_shell {

@@ -337,8 +337,9 @@ void* FUN_00b664f0_class::FUN_00b664f0(unsigned int flags)
     return this;
 }
 
-struct NiAccumulator
+class NiAccumulator
 {
+  public:
     void ClearCamera();
 };
 struct NiRenderer
@@ -496,7 +497,7 @@ void FUN_00b7deb0_class::FUN_00b7deb0()
     FUN_00b7c600();
 }
 
-struct NiTexture
+class NiTexture
 {
 };
 struct NiObjectNET_stub
@@ -584,7 +585,7 @@ void FUN_00b60d70(void* self, int, int value)
     ((FUN_00b60d70_Object*)self)->unk90 = value;
 }
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 struct NiTAbstractPoolAllocator_unsigned_int
@@ -612,8 +613,9 @@ public:
 public:
     static void SetColorWriteMask(unsigned int, ::BSRENDERSTATE_LOCK);
 };
-struct AccumWIP
+class AccumWIP
 {
+  public:
     void* vtbl;
     unsigned int m_uiRefCount;
     void* unk08;
@@ -668,7 +670,7 @@ struct NiStream
 {
     void* GetLoadedObject();
 };
-class NiRTTI;
+struct NiRTTI;
 struct NiObject
 {
     virtual ~NiObject();
@@ -798,8 +800,9 @@ struct _Base_00441d20
 {
     ~_Base_00441d20();
 };
-struct BSStream
+class BSStream
 {
+  public:
     ~BSStream();
 };
 struct FUN_00b606f0_class : _Base_00441d20
@@ -819,8 +822,9 @@ struct BSShaderAccumulatorRenderers
     void* m_apkBatchRenderer[6];
     unsigned int m_uiBatchRendererCount;
 };
-struct BSShaderAccumulator : BSShaderAccumulatorRenderers
+class BSShaderAccumulator : public BSShaderAccumulatorRenderers
 {
+  public:
     void FUN_00b63120(unsigned int a, int b);
 };
 // Iterates the batch renderers, calling HasListedItemInRange on each until one returns true.
@@ -1199,7 +1203,7 @@ void* __cdecl FUN_00b6fd00()
     return &(*reinterpret_cast<void * *>(&::g_011fa05c));
 }
 
-struct BeamStage
+class BeamStage
 {
 };
 
@@ -2354,7 +2358,7 @@ RenderPassB66* ShaderPropertyB66::GetOrCreateRenderPass(void* pvOwner)
     return m_pRenderPass;
 }
 
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* m_pcName;
@@ -4187,7 +4191,7 @@ void FUN_00b6f8d0_class::FUN_00b6f8d0(void(__cdecl* callback)(void*, int, int), 
 }
 }  // namespace fnv_00b6f8d0
 
-class NiStream;
+struct NiStream;
 
 typedef unsigned int(__cdecl* StreamReadFn)(NiStream* stream, void* buf, unsigned int size, unsigned int* io,
                                             unsigned int count);
@@ -4831,8 +4835,9 @@ struct Context
     int unkd8;
     LightData* light;
 };
-struct BSFogProperty
+class BSFogProperty
 {
+  public:
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     V3 color;
     float nearDepth, farDepth;
@@ -5443,7 +5448,7 @@ void FUN_00b7c510_cls::UpdateSpawnedObjectFlags()
 }  // namespace fnv_00b7c510
 
 namespace fnv_00b7ce90 {
-struct NiTexture;
+class NiTexture;
 struct RenderState;
 
 struct TexStage
@@ -5780,8 +5785,9 @@ struct FeatureFlags
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int active20;
 };
-struct NiQuaternion
+class NiQuaternion
 {
+  public:
     float w, x, y, z;
 };
 struct ThreeByThreeMatrix
@@ -5796,8 +5802,9 @@ public:
 public:
     ::NiPoint3 *ScaleTo(::NiPoint3 *, float);
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix rotate;
     NiPoint3 translate;
     float scale;

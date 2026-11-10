@@ -7,7 +7,7 @@ namespace fnv_00655320 { struct FaceGenData; }
 namespace fnv_006558b0 { class BSFaceGenNiNode; }
 namespace fnv_006558b0 { struct FaceGenData; }
 namespace fnv_00655fa0 { struct FaceGenData; }
-namespace fnv_00655fa0 { struct NiAVObject; }
+namespace fnv_00655fa0 { class NiAVObject; }
 
 // 0x00655270
 std::uintptr_t FUN_00655270();

@@ -298,7 +298,7 @@ class BSFaceGenMorphData
   public:
 };
 
-class CloningProcess;
+struct CloningProcess;
 
 class FUN_00aa0fc0 : public BSFaceGenMorphData
 {
@@ -417,7 +417,7 @@ void C_00aa0dc0::FUN_00aa0dc0()
 }
 
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -430,7 +430,7 @@ class NiPoint3
     }
 };
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];
@@ -451,7 +451,7 @@ class NiTransform
     float m_fScale;
 };
 
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;

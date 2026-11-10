@@ -71,7 +71,7 @@ struct DepthDevice
     virtual int CreateDepthStencilSurface(unsigned int, unsigned int, unsigned int, unsigned int,
                                                     unsigned int, unsigned int, DepthSurface**, void*);
 };
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;

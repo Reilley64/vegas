@@ -266,7 +266,7 @@ void TargetHolder::AppendString(StrArr* pkStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcString);
 }
 
-class CloningProcess
+struct CloningProcess
 {
   public:
     void* m_pCloneMap;
@@ -1048,12 +1048,12 @@ struct PathInterpExt : public NiPathInterp
 };
 
 static const float kNegMax = -3.402823466e+38f;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
 };
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 class NiQuaternion
 {
   public:
@@ -1288,8 +1288,8 @@ static __forceinline AnimInfo ComputePositionAtTime(const MyPosData* data)
     info.keys = data->m_pKeyArray;
     return info;
 }
-class NiObject;
-class NiStream
+struct NiObject;
+struct NiStream
 {
   public:
 public:

@@ -308,7 +308,7 @@ void* Owner_00e93ab0::DestroyIfFlagged(unsigned int flags)
 }
 
 namespace fnv_00e92f30 {
-struct NiD3DPixelShader;
+class NiD3DPixelShader;
 struct NiD3DShaderProgramCreator
 {
     virtual void vf00();
@@ -321,8 +321,9 @@ struct NiD3DShaderProgramCreator
     virtual void vf07();
     virtual bool Recreate(NiD3DPixelShader* pkPixelShader);
 };
-struct NiD3DPixelShader
+class NiD3DPixelShader
 {
+  public:
     virtual void vf00();
     virtual void vf01();
     virtual void vf02();
@@ -903,7 +904,7 @@ void ShaderEntryOwner::FUN_00e93cc0()
 }
 
 namespace fnv_00e93850 {
-class NiD3DShaderProgramCreator
+struct NiD3DShaderProgramCreator
 {
   public:
     virtual void vf00();
@@ -1073,7 +1074,7 @@ void* __cdecl FUN_00e932f0(const char* pcFilename)
 void DestroyProgram();
 extern "C" void* __cdecl _fnv_zlib_memset(void* dst, int value, unsigned int size);
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 public:
     void FUN_0040fba0();

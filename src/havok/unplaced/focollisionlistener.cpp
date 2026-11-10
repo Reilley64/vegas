@@ -190,8 +190,9 @@ struct Reference
 struct Form
 {
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();

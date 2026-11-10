@@ -8,7 +8,7 @@ union SETTING_VALUE
 {
     float f;
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:

@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?g_pkRenderer@@3PEAVGraphicsRenderer@@EA=?DAT_011f9508@@3PEAVNiRenderer@@EA")
+#pragma comment(linker, "/alternatename:?g_pkRenderer@@3PEAVGraphicsRenderer@@EA=?DAT_011f9508@@3PEAUNiRenderer@@EA")
 
 int DAT_011ff9d8[1];
 unsigned int DAT_011ffa9c;

@@ -3,9 +3,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/decl/FUN_004f15a0_shell.h"
-struct TESForm;
-struct BaseFormComponent
+class TESForm;
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -54,8 +55,9 @@ void FUN_00475120_shell::CopyFormTypeFromComponent(BaseFormComponent* component)
     reinterpret_cast<::FUN_004f15a0_shell *>((((SFTX*)this)))->FUN_004f15a0(((FUN_00475120_shell*)clipRounds)->GetFormType());
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     int FNV_GetFormType();
 };
 struct FUN_00475170_shell : public BGSClipRoundsForm

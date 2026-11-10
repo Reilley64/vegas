@@ -339,7 +339,7 @@ struct FUN_00650170_thiscall
     void* DestroyIfFlagged(unsigned int flags);
 };
 
-struct NiNode;
+class NiNode;
 struct EBase
 {
     int a;
@@ -424,7 +424,7 @@ FUN_00651520::FUN_00651520()
 {}
 
 namespace fnv_00651630 {
-template <class T> class FaceGenMatrix
+template <class T> struct FaceGenMatrix
 {
   public:
     FaceGenMatrix();
@@ -653,7 +653,7 @@ class BGSTerrainManager
   public:
 };
 
-template <typename T> class FaceGenMatrix
+template <typename T> struct FaceGenMatrix
 {
   public:
     void SetDimensions(unsigned int, unsigned int);
@@ -708,7 +708,7 @@ void* __cdecl FUN_00653230(void* apGeom)
     return DynamicCastByRTTI(&(*reinterpret_cast<int *>(&::g_011d5bb8)), pGeometryNode);
 }
 
-struct NiNode;
+class NiNode;
 
 NiNode* __cdecl GetNodeFromGeometry(void*);
 void* __cdecl DynamicCastByRTTI(void*, NiNode*);
@@ -753,10 +753,10 @@ struct GeometryVertexBuffer : BSStringT<char>
     int c;
     GeometryVertexBuffer();
 };
-struct NiGeometryData
+class NiGeometryData
 {
 };
-struct NiGeometry
+class NiGeometry
 {
 };
 struct Morph653
@@ -902,10 +902,11 @@ void FUN_00656fd0_shell::CopyV3(V3* out)
 }
 
 namespace fnv_00657010 {
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 struct NiProperty;
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -915,15 +916,16 @@ struct NiAVObject
     virtual void v6();
     virtual NiTriBasedGeom* vGeom();
 };
-struct NiGeometryData
+class NiGeometryData
 {
+  public:
     void SetDataConsistency(int);
 };
-struct NiGeometry : NiAVObject
+class NiGeometry : public NiAVObject
 {
 };
 struct NiSkinInstance;
-struct NiTriBasedGeom : NiGeometry
+class NiTriBasedGeom : public NiGeometry
 {
 };
 struct BSShader
@@ -1171,7 +1173,7 @@ void FloatVec::PushBack(const float& afValue)
 namespace fnv_00655fa0 {
 struct TESEyes;
 struct TESHair;
-struct TESModel;
+class TESModel;
 struct NiMemObject
 {
     char _pad_0[1];
@@ -1197,8 +1199,9 @@ struct FaceGenData
     int m_eFaceGenLOD;
     char Accessories[8];
 };
-struct NiFixedString
+class NiFixedString
 {
+  public:
     bool Exists();
     unsigned int GetLength();
     unsigned int GetRefCount();
@@ -1222,7 +1225,7 @@ struct NiUpdateData
     char _pad_9[3];
 };
 
-struct NiAVObject;
+class NiAVObject;
 struct BGSTerrainManager
 {
 };
@@ -1290,8 +1293,9 @@ struct BSShaderManager
 struct TES
 {
 };
-struct TESTexture
+class TESTexture
 {
+  public:
     static const char* NormalizeTextureFilePath(BSS&, const char*);
 };
 struct FNStub
@@ -1659,8 +1663,8 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
 }
 }  // namespace fnv_00655fa0
 
-struct QueuedFile;
-struct TESModel;
+class QueuedFile;
+class TESModel;
 struct TESRace;
 struct TESHair;
 struct TESEyes;
@@ -1685,8 +1689,9 @@ struct Arr
     unsigned int* GetAt(int);
     char data[16];
 };
-struct TESTexture
+class TESTexture
 {
+  public:
     static void ConvertTexturePath(const char*, char*);
 };
 struct ModelLoader
@@ -2401,7 +2406,7 @@ struct NiPoint3;
 struct NiStream;
 struct TESEyes;
 struct TESHair;
-struct TESModel;
+class TESModel;
 struct blob48
 {
     char b[48];
@@ -2548,8 +2553,9 @@ struct NiTriBasedGeomSkinQuery
 {
 };
 namespace fx {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     NiFixedString(const char* apString);
     ~NiFixedString();
     const char* m_kHandle;
@@ -2561,7 +2567,7 @@ class TES
 };
 class BSFaceGenModel;
 class BSFileEntry;
-class NiObject;
+struct NiObject;
 class NiSourceTexture;
 class NiTriBasedGeom;
 class NiShadeProperty;
@@ -2850,7 +2856,7 @@ struct NiPoint3;
 struct NiStream;
 struct TESEyes;
 struct TESHair;
-struct TESModel;
+class TESModel;
 struct blob48
 {
     char b[48];
@@ -3014,8 +3020,9 @@ template <> class NiPointer<fnv_006558b0::NiTriBasedGeom>
     fnv_006558b0::NiTriBasedGeom* operator->() const;
 };
 namespace fnv_006558b0 {
-struct TESModel
+class TESModel
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -3027,8 +3034,9 @@ struct TESEyesFormBase
 {
     char pad[0x24];
 };
-struct TESTexture
+class TESTexture
 {
+  public:
     char pad[0xc];
 };
 struct TESEyes : public TESEyesFormBase, public TESTexture
@@ -3340,13 +3348,13 @@ struct FourComponentNumericValue
     char u[16];
 };
 
-struct NiAVObject;
-struct NiExtraData;
-struct NiGeometryData;
+class NiAVObject;
+class NiExtraData;
+class NiGeometryData;
 struct Flt {
     operator void*() const;
 };
-struct NiGeometry
+class NiGeometry
 {
 };
 struct TriBasedGeomHelper
@@ -3877,7 +3885,7 @@ unsigned int __cdecl FUN_006521b0(int a, int b)
 }
 }  // namespace fnv_006521b0
 
-struct Tile
+class Tile
 {
 };
 
@@ -4667,7 +4675,7 @@ void FUN_00652e00(MatrixProxy (*a)[2], MatrixProxy (*b)[2], MatrixProxy (*out)[2
 }
 
 namespace fnv_00653120 {
-struct NiNode;
+class NiNode;
 struct NiAVObjectLike
 {
     void** vtable;
@@ -5135,8 +5143,9 @@ const char* __cdecl FUN_00653a10(BSStr* aStr, const char* apModel)
 }
 
 namespace fnv_00654720 {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* text;
     NiFixedString(const char*);
     ~NiFixedString();
@@ -5377,8 +5386,9 @@ struct FG547Setting
 struct FG547TextureLoader
 {
 };
-struct NiExtraData
+class NiExtraData
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -5599,7 +5609,7 @@ bool __cdecl BuildCharacterParts(FG547Node** root, FG547Node** alternate, FG547D
 }
 }  // namespace fnv_00654720
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -7290,8 +7300,9 @@ struct S00a67410_o2
     void FUN_00a67410(BSFaceGenMorphData_o2* outData);
 };
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
+  public:
     unsigned int value;
 };
 

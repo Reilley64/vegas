@@ -258,8 +258,9 @@
 struct ActorCause
 {
 };
-struct NiPointer
+class NiPointer
 {
+  public:
     NiPointer& operator=(ActorCause*);
 };
 struct FUN_009ac170_shell
@@ -289,7 +290,7 @@ const NiRTTI* bhkLiquidAction::GetRTTI() const
     return &(*reinterpret_cast<::NiRTTI *>(&::g_01268420));
 }
 
-struct NavMesh;
+class NavMesh;
 
 struct NavMeshPtr
 {
@@ -316,7 +317,7 @@ NavMesh* FUN_009afc30_shell::FUN_009afc30()
 namespace fnv_009b2770 {
 struct BGSLoadFormBuffer;
 
-struct MobileObject
+class MobileObject
 {
 };
 
@@ -723,7 +724,7 @@ template <typename T> class BSSimpleList
     virtual void F21(int)
     {}
 };
-struct TESDataHandler
+class TESDataHandler
 {
 };
 struct FUN_009b0d30_shell
@@ -784,8 +785,9 @@ class TESActorBase;
 enum ACTOR_LIFE_STATE;
 enum SEX;
 enum SIT_SLEEP_STATE;
-struct Actor
+class Actor
 {
+  public:
     bool FUN_00565690();
 public:
     ::TESActorBase *GetActorBase();
@@ -2158,8 +2160,9 @@ void B17A0Ref::Update3D(int iUnused)
 // FUN_009b2790 v01 - worker7 data round
 struct BGSLoadFormBuffer;
 
-struct MobileObject
+class MobileObject
 {
+  public:
     virtual void Revert(BGSLoadFormBuffer* apBuffer);
 };
 
@@ -2405,8 +2408,9 @@ using ::AutoMemContext;
 struct SaveX
 {
 };
-struct HighProcess
+class HighProcess
 {
+  public:
     int unk000;
     int unk004;
     int unk008;
@@ -3602,7 +3606,7 @@ FUN_009ac5a0::~FUN_009ac5a0()
     }
 }
 
-class BGSSaveFormBuffer
+struct BGSSaveFormBuffer
 {
   public:
 };

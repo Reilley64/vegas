@@ -3,7 +3,7 @@
 #ifndef FNV_HAVOK_HKPCONSTRAINTATOM_H
 #define FNV_HAVOK_HKPCONSTRAINTATOM_H
 #include "hkBase.h"
-class hkpConstraintAtom
+struct hkpConstraintAtom
 {
   public:
     enum AtomType

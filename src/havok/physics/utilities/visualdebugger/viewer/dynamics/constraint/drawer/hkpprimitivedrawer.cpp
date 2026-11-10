@@ -134,7 +134,7 @@ void ArrowDrawObject::FUN_00e10d50(const ArrowDrawVector* a0, const ArrowDrawVec
 
 typedef float hkReal;
 
-class __declspec(align(16)) hkVector4
+struct __declspec(align(16)) hkVector4
 {
   public:
     hkVector4()

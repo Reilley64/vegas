@@ -2,7 +2,7 @@
 #ifndef FNV_INVENTORYCHANGES_H
 #define FNV_INVENTORYCHANGES_H
 #include "layout_support.h"
-class InventoryChanges
+struct InventoryChanges
 {
   public:
     BSSimpleList<InventoryStackRecord*>* m_pEntryList;  // +0x0

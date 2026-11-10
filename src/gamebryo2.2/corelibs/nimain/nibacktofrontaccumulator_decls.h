@@ -14,7 +14,7 @@ class RecursiveSpinLock
     unsigned int m_uiCount;
 };
 
-class __declspec(novtable) NiObject
+struct __declspec(novtable) NiObject
 {
   public:
     NiObject() throw();

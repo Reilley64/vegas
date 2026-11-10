@@ -335,10 +335,11 @@ struct FUN_006317a0_struct : public GO
     TV** AddEight(intptr_t);
 };
 
-struct ExtraDataList;
+class ExtraDataList;
 
-struct InventoryStackRecord
+class InventoryStackRecord
 {
+  public:
     BSSimpleList<ExtraDataList*>* m_pExtraDataLists;
     FUN_006317a0_struct object;
 public:
@@ -677,7 +678,7 @@ class BSSoundHandleEx
     unsigned int uiState;
     ~BSSoundHandleEx();
 };
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);

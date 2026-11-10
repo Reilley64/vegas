@@ -19,13 +19,14 @@
 #include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_011de000.h"
-struct ActiveEffect
+class ActiveEffect
 {
+  public:
     virtual ~ActiveEffect()
     {}
 };
 namespace ActorValue { enum Index; }
-struct Actor;
+class Actor;
 struct ValueModifierEffect : ActiveEffect
 {
     virtual void CopyData(ActiveEffect*);
@@ -69,7 +70,7 @@ void ShieldEffect::FUN_00828050(ActiveEffect* apDestination)
         pvme->m_uiUnknownValue = m_uiUnknownValue;
 }
 
-struct Actor;
+class Actor;
 struct LimbConditionEffect
 {
 };
@@ -92,7 +93,7 @@ unsigned short FUN_008283a0_shell::GetSaveSize(Actor* apActor)
 }
 
 namespace fnv_008283f0 {
-struct Actor;
+class Actor;
 struct TESSaveLoadGame
 {
 };
@@ -116,7 +117,7 @@ void ShieldEffect_008283f0::SaveShieldData(Actor* actor)
 }  // namespace fnv_008283f0
 
 namespace fnv_00828430 {
-struct Actor;
+class Actor;
 struct Base00802dd0
 {
 };
@@ -141,11 +142,12 @@ void FUN_00828430_shell::FUN_00828430(ActiveEffect* pEffect)
 struct BSThread
 {
 };
-struct EffectSetting
+class EffectSetting
 {
 };
-struct MagicTarget
+class MagicTarget
 {
+  public:
     Actor* GetOwnerActor() const;
 };
 struct GameTimerRecord
@@ -258,7 +260,7 @@ FUN_00827f20::FUN_00827f20(void* a, void* b, void* apItem) : EffectBase(a, b, ap
     reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(reinterpret_cast<::EffectItem *>((((EffectItemStub*)apItem)))->GetAffectedActorValue()));
 }
 
-struct Actor;
+class Actor;
 struct FUN_00828120_a
 {
 };

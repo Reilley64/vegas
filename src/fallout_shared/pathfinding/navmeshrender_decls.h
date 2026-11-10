@@ -10,7 +10,7 @@ class ObstacleData;
 class bhkRigidBody;
 class NavMesh;
 
-class NavMeshPtr : public NiPointer<NavMesh>
+struct NavMeshPtr : public NiPointer<NavMesh>
 {
   public:
     NavMeshPtr();

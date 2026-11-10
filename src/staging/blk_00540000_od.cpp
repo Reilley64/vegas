@@ -477,8 +477,9 @@ void* FUN_005422b0Class::FUN_00559970(unsigned int flags)
 }
 }  // namespace fnv_00559970
 
-struct GlobalObject_00559cc0
+class GlobalObject_00559cc0
 {
+  public:
     void* FUN_00559cf0(unsigned int flags);
 };
 // @fnv 0x00559cf0
@@ -695,7 +696,7 @@ void FUN_00551100(int v)
 struct ArrSI
 {
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct FUN_005516f0_Class
@@ -800,8 +801,9 @@ void __cdecl CallIfPresent()
 }
 }  // namespace fnv_00554780
 
-struct ExtraDataList
+class ExtraDataList
 {
+  public:
     void FUN_00554960(bool);
     bool FUN_00554910();
 };
@@ -824,10 +826,10 @@ struct FUN_00421a40_class
 {
     float GetExtraFloatValue();
 };
-struct TESTopicInfo
+class TESTopicInfo
 {
 };
-class NiPoint3;
+struct NiPoint3;
 struct TESObjectCELL_Ext : public TESObjectCELL
 {
     float FUN_00555ad0();
@@ -1203,7 +1205,7 @@ struct FUN_009604f0_shell
 {
     BSSimpleList_551110* FUN_009604f0();
 };
-struct TESObject
+class TESObject
 {
 };
 struct FUN_00551110_Cell : public TESObjectCELL

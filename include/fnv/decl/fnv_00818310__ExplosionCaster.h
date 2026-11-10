@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 namespace fnv_00818310 { class ExplosionActor; }
 namespace fnv_00818310 { struct ExplosionEffect; }
 

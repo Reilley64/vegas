@@ -15,7 +15,7 @@
 // BSFaceGenMorphData, exposes the static ms_kRTTI and the virtual
 // GetRTTI override, and holds the four morph pointer arrays.
 
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* m_pcName;
@@ -32,7 +32,7 @@ class NiRefObject
     unsigned int m_uiRefCount;  // +0x4
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
 

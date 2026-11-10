@@ -1,6 +1,6 @@
 #pragma once
 
-class ScriptLocals;
+struct ScriptLocals;
 class TESObjectREFR;
 
 struct FUN_005ac1e0_shell {

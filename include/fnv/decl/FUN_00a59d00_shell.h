@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiNode;
+class NiNode;
 
 struct FUN_00a59d00_shell {
 public:

@@ -4,7 +4,7 @@
 
 #include <cstdint>
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?ms_pSystemUtility@BSSystemUtility@@2PEAU1@EA=?ms_pSystemUtility@BSSystemUtility@@2PEAV1@EA")
 
 namespace fnv_0086d590 { const char str_0101fe78[8] = "Weather"; }

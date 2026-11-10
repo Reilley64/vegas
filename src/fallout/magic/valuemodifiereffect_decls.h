@@ -353,7 +353,7 @@ class SettingT_GameSettingCollection_
 };
 namespace ActorValue {
 }
-class Interface
+struct Interface
 {
   public:
 };
@@ -821,7 +821,7 @@ class BaseProcess
     virtual void vfn_728();
     virtual void vfn_72c(PlayerCharacter*, float);
 };
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static TaskQueueInterface* GetSingleton();

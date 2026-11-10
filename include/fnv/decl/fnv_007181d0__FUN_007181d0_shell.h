@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_007181d0 { struct FORenderedMenu; }
+namespace fnv_007181d0 { class FORenderedMenu; }
 
 namespace fnv_007181d0 {
 struct FUN_007181d0_shell {

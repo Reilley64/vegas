@@ -93,8 +93,9 @@ void* FUN_004f29c0_This::FUN_004f29c0(unsigned int flags)
     return this;
 }
 
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength() const;
 };
 
@@ -181,7 +182,7 @@ bool FUN_004f2ab0_shell::FUN_004f2ab0(const Flt& aName)
     return false;
 }
 
-struct NiPixelFormat;
+class NiPixelFormat;
 struct NiPixelData
 {
     unsigned int unk00;
@@ -215,8 +216,9 @@ struct NiPixelData
     unsigned int unk70;
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int);
 };
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_kHandle;
     NiFixedString(const char*);
     ~NiFixedString();

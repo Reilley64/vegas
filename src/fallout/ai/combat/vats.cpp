@@ -132,7 +132,7 @@ float VATS::GetModeTimeMultiplier()
 }
 
 struct BooleanFloatQuery;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct VATSCommand
 {
     void Initialize();
@@ -159,11 +159,11 @@ struct FUN_009ca410_shell : public VATS
     void ProcessVATSCommands();
 };
 
-struct PlayerCharacter;
+class PlayerCharacter;
 
 struct Animation;
 
-struct Actor
+class Actor
 {
 public:
     void UpdateActorPresentation();
@@ -339,7 +339,7 @@ void FUN_0063cfe0_shell::FUN_0063cfe0()
     m_inner.v5();
 }
 
-struct HUDMainMenu
+class HUDMainMenu
 {
 };
 struct VATS_COMMAND_LIST
@@ -405,7 +405,7 @@ void FUN_009c8e00_shell::FUN_009c8e00(VATSCommand* apCommand)
 }
 
 struct NiLight;
-struct ShadowSceneLight;
+class ShadowSceneLight;
 
 struct _FUN_0052aa80_shell
 {
@@ -650,7 +650,7 @@ bool VatsList9c9::IsValidCommand(VatsCmd9c9* pkCmd)
     return false;
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -951,7 +951,7 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting548;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting554;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting555;
 
-struct TESObjectWEAP;
+class TESObjectWEAP;
 struct FUN_008a1710_shell
 {
     TESObjectWEAP* FUN_008a1710();
@@ -1053,7 +1053,7 @@ namespace fnv_009c9ae0 {
 
 struct NiPoint3;
 struct BaseProcess;
-struct NiAVObject;
+class NiAVObject;
 struct ActorObj9c9;
 
 struct NiPoint3
@@ -1231,8 +1231,9 @@ struct ShadowSceneNode9c9
     float FUN_00b5b610(NiPoint3 kPos, int* piOut, float* pfA, float* pfB, NiPoint3 kPos2, NiAVObject* pkLight);
 };
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     NiBound9c9 const& FUN_0043d450() const;
     void FUN_0050dd50(NiPoint3 const& krValue);
 };
@@ -1308,7 +1309,7 @@ void VATS9c9::FUN_009c9ae0(ActorObj9c9* apActor)
 }  // namespace fnv_009c9ae0
 
 namespace fnv_009c9fe0 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

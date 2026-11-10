@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 
 // import slot of steam_api.dll SteamAPI_RegisterCallback, which no x64 library exports
 void (*g_pfnFFB90Notify)(FFB90Request *, int) = nullptr;

@@ -10,7 +10,7 @@ class NiFixedString
   public:
     char* m_handle;
 };
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char*);

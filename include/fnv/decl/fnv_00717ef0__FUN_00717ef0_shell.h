@@ -1,7 +1,7 @@
 #pragma once
 
 class Tile;
-namespace fnv_00717ef0 { struct Menu; }
+namespace fnv_00717ef0 { class Menu; }
 
 namespace fnv_00717ef0 {
 struct FUN_00717ef0_shell {

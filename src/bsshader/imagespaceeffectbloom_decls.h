@@ -40,13 +40,13 @@ template <class T> class NiTPrimitiveArray : public NiTArray<T, NiTMallocInterfa
 
 class ImageSpaceTexture;
 class ImageSpaceEffect;
-class ImageSpaceEffectParam;
+struct ImageSpaceEffectParam;
 class ImageSpaceShaderParam;
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class NiTexture;
 class NiD3DShaderConstantMap;
 
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     virtual ~ImageSpaceEffectParam();
@@ -54,7 +54,7 @@ class ImageSpaceEffectParam
     NiTPrimitiveArray<int> m_kFilterModes;
 };
 
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
@@ -108,7 +108,7 @@ public:
 };
 
 // Only the PC prefix read by Setup is required here.
-class ImageSpaceManager
+struct ImageSpaceManager
 {
   public:
     BSRenderedTexture* m_pCurrentRenderedTexture;

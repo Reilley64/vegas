@@ -8,8 +8,8 @@
 #include "nipsysrotationmodifier_layout_support.h"
 class NiAVObject;
 class NiPSysMeshUpdateModifier;
-class NiPSysModifier;
-class NiParticleSystem;
+struct NiPSysModifier;
+struct NiParticleSystem;
 #include "nipsysrotationmodifier_types_NiPSysModifier.h"
 class NiPSysMeshUpdateModifier : public NiPSysModifier
 {

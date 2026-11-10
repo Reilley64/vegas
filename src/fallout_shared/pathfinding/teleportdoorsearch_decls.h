@@ -15,7 +15,7 @@ class TESObjectREFR;
 class PathingActorData;
 class ParentSpaceNode;
 class TeleportLink;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -24,7 +24,7 @@ public:
     float ComputeMagnitude() const;
 };
 class TESObjectCELL;
-class PathingLocation
+struct PathingLocation
 {
   public:
     char data[40];
@@ -55,7 +55,7 @@ class TESObjectCELL
 {
   public:
 };
-class ExtraRadioData
+struct ExtraRadioData
 {
   public:
 };

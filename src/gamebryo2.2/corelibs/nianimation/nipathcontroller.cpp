@@ -38,7 +38,7 @@ NiRTTI* __cdecl FUN_00a49e00()
     return &(*reinterpret_cast<void * *>(&::g_011f3f80));
 }
 
-struct AnimationKey;
+class AnimationKey;
 struct FUN_00a49e10_shell
 {
     char _0[0x40];
@@ -129,8 +129,9 @@ struct CloningProcess
     char _pad_d[3];
 };
 
-struct NiTimeController
+class NiTimeController
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -1198,7 +1199,7 @@ namespace fnv_00a49e70 {
 // Refines the prior NiPathController draft, another contributor (2026-10-23).
 extern "C" double __cdecl atan(double);
 extern "C" double __cdecl sqrt(double);
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

@@ -3,8 +3,8 @@
 #define FNV_NITRANSFORMDATA_FNV_NIRTTI_H
 
 #include "nitransformdata_layout_support.h"
-class NiRTTI;
-class NiRTTI
+struct NiRTTI;
+struct NiRTTI
 {
   public:
     const char* m_pcName;       // +0x0, 4 bytes

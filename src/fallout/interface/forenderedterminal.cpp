@@ -73,8 +73,9 @@
 #include "fnv/symbols_01203000.h"
 struct ShadowSceneNode;
 struct NiPoint3;
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual ~NiAVObject();
 public:
     ::NiPoint3 &FUN_0043c490();
@@ -167,7 +168,7 @@ struct FUN_004bc1f0_S
     void FUN_004bc1f0(float, float, float);
 };
 class NiAVObject;
-struct NiNode
+class NiNode
 {
 public:
     ::NiAVObject *GetAt(unsigned int);

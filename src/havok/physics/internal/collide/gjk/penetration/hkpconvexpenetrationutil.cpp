@@ -338,8 +338,9 @@ struct LocalStruct70
     float m_f;
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     hkVector4 m_rotation[3];
     hkVector4 m_vTranslation;
     void operator=(const hkTransform& o)

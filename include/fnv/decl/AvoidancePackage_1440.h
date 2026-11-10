@@ -1,6 +1,6 @@
 #pragma once
 
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 
 struct AvoidancePackage_1440 {
 public:

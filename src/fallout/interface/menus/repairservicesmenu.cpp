@@ -120,8 +120,9 @@ bool FUN_007b78a0_shell::FUN_007b78a0()
 }
 
 namespace fnv_007b8ae0 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 
@@ -153,18 +154,19 @@ struct FUN_007b74d0_shell
     void FUN_007b7500();
     void* DestroyIfFlagged(unsigned int);
 };
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 public:
     static float GetInterfaceScale();
 };
-struct Menu
+class Menu
 {
 public:
     void SetMenuVisibility(bool);
 };
-struct TESTopic
+class TESTopic
 {
 };
 struct DAT_holder
@@ -181,7 +183,7 @@ void __cdecl FUN_007b78e0()
 }
 
 namespace fnv_007b82c0 {
-struct Tile
+class Tile
 {
 };
 struct RepairBatch
@@ -235,7 +237,7 @@ struct IC : FUN_004bddd0_t
 {
 };
 
-struct InventoryStackRecord : IC
+class InventoryStackRecord : public IC
 {
 public:
     static float RoundToNearestStep(float, float);
@@ -417,7 +419,7 @@ class BSSoundHandleEx
     unsigned int id, state, flags;
     ~BSSoundHandleEx();
 };
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);

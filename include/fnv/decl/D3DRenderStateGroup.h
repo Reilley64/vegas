@@ -1,6 +1,6 @@
 #pragma once
 
-struct D3DRenderStateGroup {
+class D3DRenderStateGroup {
 public:
     // 0x00e7f5d0
     static ::D3DRenderStateGroup *GetCurrentRenderStateGroup();

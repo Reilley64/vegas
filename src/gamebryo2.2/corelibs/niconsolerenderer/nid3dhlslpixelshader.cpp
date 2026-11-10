@@ -135,8 +135,9 @@ void FUN_00e96d00_Class::FUN_00e96d00()
 #include <stddef.h>
 #include <windows.h>
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* m_kHandle;
     NiFixedString(const NiFixedString& kString)
     {
@@ -196,8 +197,9 @@ struct __declspec(align(16)) Matrix16
 };
 
 
-struct NiShaderConstantMapEntry
+class NiShaderConstantMapEntry
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

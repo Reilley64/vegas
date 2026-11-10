@@ -41,8 +41,8 @@ class Actor;
 class TESObjectREFR;
 class FormChangeMask;
 class GlobalObject_008c71b0;
-class BGSLoadFormBuffer;
-class BGSLoadGameBuffer;
+struct BGSLoadFormBuffer;
+struct BGSLoadGameBuffer;
 
 class TESForm
 {
@@ -93,7 +93,7 @@ class TESAttributes
   public:
 };
 
-class Crime
+struct Crime
 {
   public:
 };
@@ -110,7 +110,7 @@ class TESDataHandler
 };
 
 class TESForm;
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
     bool ShouldSaveForm(TESForm*, bool);
@@ -128,12 +128,12 @@ class FormChangeMask
     operator bool() const;
 };
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
 };
 
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int);

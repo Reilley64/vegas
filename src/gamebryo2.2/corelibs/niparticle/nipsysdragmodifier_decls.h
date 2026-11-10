@@ -9,12 +9,12 @@
 #include "NiPoint3.h"
 
 class NiAVObject;
-class NiPSysData;
-class NiParticleSystem;
-class CloningProcess;
+struct NiPSysData;
+struct NiParticleSystem;
+struct CloningProcess;
 
 // These method declarations preserve the canonical particle header ABI.
-class NiStream : public NiObject
+struct NiStream : public NiObject
 {
   public:
     unsigned int GetLinkIDFromObject(const NiObject* pkObject);
@@ -22,8 +22,8 @@ class NiStream : public NiObject
     NiObject* GetLoadedObject(unsigned int uiLinkID);
 };
 
-class CloningProcess;
-class NiPSysModifier : public NiObject
+struct CloningProcess;
+struct NiPSysModifier : public NiObject
 {
   public:
     virtual void LoadBinary(NiStream& kStream);
@@ -52,8 +52,8 @@ public:
 };
 
 // The three-float LoadBinary implementations are folded together in the PC
-class NiStream;
-class NiColor
+struct NiStream;
+struct NiColor
 {
   public:
     float r, g, b;

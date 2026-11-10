@@ -8,9 +8,9 @@
 class NiBlendInterpolator;
 class NiBlendInterpolator__InterpArrayItem;
 class NiInterpolator;
-class NiObjectNET;
-class RgbaColor;
-class NiPoint3;
+struct NiObjectNET;
+struct RgbaColor;
+struct NiPoint3;
 class NiQuatTransform;
 class NiQuaternion;
 class NiBoolInterpolator;

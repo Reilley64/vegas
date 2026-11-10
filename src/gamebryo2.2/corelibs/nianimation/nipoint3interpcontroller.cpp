@@ -44,13 +44,13 @@ const char* const* FUN_00a57ca0()
 }
 
 namespace fnv_00a57cb0 {
-class NiRTTI;
+struct NiRTTI;
 struct GlobalObjectO2_00a7b610;
 struct NiPoint3
 {
     float x, y, z;
 };
-class NiObject
+struct NiObject
 {
   public:
 };
@@ -73,11 +73,12 @@ void FUN_00a57cb0(void* self, int, NiObject* pkInterp, int)
 }  // namespace fnv_00a57cb0
 
 struct ActorCombatGroup;
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class A> struct NiTArray
+template <class T, class A> class NiTArray
 {
+  public:
     void SetSize(unsigned int);
     void SetAt(unsigned int, T&);
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
 struct FUN_00982ca0_Class {
 public:

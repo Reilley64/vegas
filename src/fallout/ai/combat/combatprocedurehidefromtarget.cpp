@@ -42,8 +42,9 @@
 #include "fnv/symbols_009a8000.h"
 #include "fnv/symbols_009a9000.h"
 #include "fnv/symbols_011cf000.h"
-struct CombatProcedure
+class CombatProcedure
 {
+  public:
     enum COMBAT_PROCEDURES
     {
         eHideFromTarget = 9

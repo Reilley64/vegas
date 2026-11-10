@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSSaveFormBuffer;
+struct BGSSaveFormBuffer;
 
 class ProjectileHelper {
 public:

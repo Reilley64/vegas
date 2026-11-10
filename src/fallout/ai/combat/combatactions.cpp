@@ -455,7 +455,7 @@ struct Weap;
 struct ActH2
 {
 };
-struct Actor
+class Actor
 {
 };
 struct TESAmmoInitCalls
@@ -475,7 +475,7 @@ float FUN_0097b5a0_cls::FUN_0097b5a0(CombatController* c, int iValue)
 }
 }  // namespace fnv_0097b5a0
 
-struct Tile
+class Tile
 {
 };
 struct CombatController;
@@ -716,8 +716,9 @@ void DrawWeaponStandIn::FUN_0097c990(char* apDebugText, unsigned int aiMaxLength
 }
 
 namespace fnv_0097ccf0 {
-struct Tile
+class Tile
 {
+  public:
     void FUN_0097cd10(unsigned char v);
 };
 
@@ -802,7 +803,7 @@ void FUN_0097caf0_cls::FUN_0097caf0(FUN_00980250_shell* c, int aiValue)
 namespace fnv_0097ae00 {
 struct CombatController;
 
-struct Actor
+class Actor
 {
 };
 
@@ -1050,7 +1051,7 @@ void FUN_0097bab0_shell::FUN_0097bab0(CombatController* apCombatController, int 
 }  // namespace fnv_0097bab0
 
 namespace fnv_0097c090 {
-struct TESObjectWEAP;
+class TESObjectWEAP;
 struct CombatController;
 
 struct FUN_0097bca0_cls
@@ -1126,7 +1127,7 @@ void FUN_0097c280_shell::FUN_0097c280(CombatController* apCombatController, int 
 namespace fnv_0097c310 {
 struct CombatController;
 
-struct Actor
+class Actor
 {
 };
 
@@ -1193,7 +1194,7 @@ void FUN_0097c620_shell::FUN_0097c620(CombatController* apCombatController, int 
 }  // namespace fnv_0097c620
 
 namespace fnv_0097c790 {
-struct TESObjectWEAP;
+class TESObjectWEAP;
 struct CombatController;
 typedef int COMBAT_WEAPON_TYPE;
 
@@ -1240,12 +1241,12 @@ void FUN_0097c790_shell::FUN_0097c790(CombatController* apCombatController, int 
 
 namespace fnv_0097c8e0 {
 struct CombatController;
-struct TESObjectWEAP;
+class TESObjectWEAP;
 typedef int COMBAT_WEAPON_TYPE;
 
 
 
-struct Actor
+class Actor
 {
 };
 
@@ -1334,8 +1335,8 @@ void FUN_0097cdb0_shell::FUN_0097cdb0(CombatController* apCombatController, int 
 }  // namespace fnv_0097cdb0
 
 namespace fnv_0097cf10 {
-struct TESObjectREFR;
-struct TESBoundObject;
+class TESObjectREFR;
+class TESBoundObject;
 struct CombatController;
 
 struct CombatReferenceEntry
@@ -1380,7 +1381,7 @@ void FUN_0097cf10_shell::FUN_0097cf10(CombatController* apCombatController, int 
 }  // namespace fnv_0097cf10
 
 namespace fnv_0097d060 {
-struct TESBoundObject;
+class TESBoundObject;
 struct CombatController;
 
 struct IMH
@@ -1466,7 +1467,7 @@ struct CombatAvoidanceSphere : AvoidSphere
     bool FUN_0097be60(int);
 };
 
-struct CombatProcedure
+class CombatProcedure
 {
 };
 

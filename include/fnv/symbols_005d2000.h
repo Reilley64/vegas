@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESImageSpaceModifier;
+class TESImageSpaceModifier;
 
 // 0x005d2860
 ::TESImageSpaceModifier *FUN_005d2860();

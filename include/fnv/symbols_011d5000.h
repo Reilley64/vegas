@@ -1,15 +1,15 @@
 #pragma once
 
 class BSFadeNode;
-class GameSettingCollection;
+struct GameSettingCollection;
 class GlobalObject2_0040c150;
 class GlobalObject2_00a7b610;
 class GlobalObject_0040c150;
 class GlobalObject_0040e0b0;
 class GlobalObject_0044f440;
-class GlobalObject_0044fae0;
+struct GlobalObject_0044fae0;
 class GlobalObject_0045cf30;
-class GlobalObject_0045cfe0;
+struct GlobalObject_0045cfe0;
 class GlobalObject_00a7b610;
 namespace fnv_0043da00 { struct BSTreeManager; }
 struct ActionMenuSetting;

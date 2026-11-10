@@ -5,13 +5,13 @@
 #pragma comment(linker, "/alternatename:?$SG3295@@3QBDB=?DAT_01011584@@3QBDB")
 #pragma comment(linker, "/alternatename:?$SG5889@fnv_00618660@@3PADA=?DAT_01011584@@3QBDB")
 #pragma comment(linker, "/alternatename:?_g_thePlayer@@3PEAVPlayerCharacter@@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
-#pragma comment(linker, "/alternatename:?g_011d20ac@@3UGlobalObject_0040c150@@A=?g_011d20ac@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d210c@@3UGlobalObject_0040c150@@A=?g_011d210c@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2394@@3UGlobalObject_0040c150@@A=?g_011d2394@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d252c@@3UGlobalObject_0040c150@@A=?g_011d252c@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2538@@3UGlobalObject_0040c150@@A=?g_011d2538@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d276c@@3UGlobalObject_0040c150@@A=?g_011d276c@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2898@@3UGlobalObject_0040c150@@A=?g_011d2898@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d20ac@@3VGlobalObject_0040c150@@A=?g_011d20ac@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d210c@@3VGlobalObject_0040c150@@A=?g_011d210c@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2394@@3VGlobalObject_0040c150@@A=?g_011d2394@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d252c@@3VGlobalObject_0040c150@@A=?g_011d252c@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2538@@3VGlobalObject_0040c150@@A=?g_011d2538@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d276c@@3VGlobalObject_0040c150@@A=?g_011d276c@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2898@@3VGlobalObject_0040c150@@A=?g_011d2898@@3VGlobalObject_0040c150@@A")
 
 namespace fnv_00516dc0 { char DAT_0102b0d0[55] = "Interface\\Icons\\Message Icons\\glow_message_padlock.dds"; }
 namespace fnv_00516dc0 { char DAT_0102b108[51] = "Interface\\Icons\\Message Icons\\glow_message_key.dds"; }

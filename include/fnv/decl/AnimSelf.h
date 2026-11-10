@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
 struct AnimSelf {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 namespace fnv_00697810 { struct NavCallback_00697810; }
 
 namespace fnv_00697810 {

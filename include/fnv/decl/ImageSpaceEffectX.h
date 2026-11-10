@@ -1,6 +1,6 @@
 #pragma once
 
-class ImageSpaceEffectParam;
+struct ImageSpaceEffectParam;
 struct ImageSpaceManagerX;
 
 struct ImageSpaceEffectX {

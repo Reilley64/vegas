@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class NiFixedString;
-class NiObject;
+struct NiObject;
 class ShaderEntry;
 
 // 0x00aa0020

@@ -5,7 +5,7 @@
 #include "fnv/decl/sb717a0__WatchSet.h"
 #include "fnv/symbols_011f4000.h"
 #include "shadowscenelight_types_ShadowSceneLight.h"
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 center;
@@ -20,7 +20,7 @@ class NiLight : public NiRefObject
 {
 };
 class NiRenderTargetGroup;
-class BSRenderedTexture : public NiRefObject
+struct BSRenderedTexture : public NiRefObject
 {
 public:
     ::NiRenderTargetGroup *GetGroup();
@@ -30,7 +30,7 @@ public:
 class NiTriBasedGeom : public NiRefObject
 {
 };
-class NiFrustum;
+struct NiFrustum;
 class NiCamera : public NiRefObject
 {
 public:

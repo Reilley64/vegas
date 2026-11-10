@@ -163,7 +163,7 @@ FUN_0092c950::FUN_0092c950()
     reinterpret_cast<::FUN_0061cc40_shell *>(this)->FUN_0061cc40(2);
 }
 
-struct Actor;
+class Actor;
 struct ActorPackageData;
 struct Animation;
 struct ArrowProjectile;
@@ -171,64 +171,64 @@ struct BGSBodyPartData;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BGSVoiceType;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct BSBound;
-struct BSFaceGenAnimationData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSShaderPPLightingProperty;
-struct BaseFormComponent;
+class BaseFormComponent;
 struct BipedAnim;
 struct CHUNK;
 struct ContainerChanges;
 struct ActorCombatGroup;
-struct ContainerItemExtra;
+class ContainerItemExtra;
 struct InventoryItemEntry;
-struct ExtraDataList;
+class ExtraDataList;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct FurnitureMark;
 struct HWND__;
 struct BooleanFloatQuery;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct LipSyncAnimation;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicItemForm;
-struct MagicTarget;
+class MagicTarget;
 struct MiddleHighProcess;
-struct MobileObject;
-struct NiAVObject;
+class MobileObject;
+class NiAVObject;
 struct NiColor;
 struct NiControllerManager;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct TargetDoorController;
-struct PackageTargetRecord;
+class PackageTargetRecord;
 struct PatrolActorPackageData;
 struct SpellItem;
-struct TESActorBase;
+class TESActorBase;
 struct TESActorBaseData;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESEffectShader;
+class TESBoundObject;
+class TESContainer;
+class TESEffectShader;
 struct TESFaction;
-struct TESFile;
-struct TESForm;
-struct TESIdleForm;
+class TESFile;
+class TESForm;
+class TESIdleForm;
 struct TESLevItem;
 struct TESLevSpell;
-struct TESObject;
-struct TESObjectARMO;
+class TESObject;
+class TESObjectARMO;
 struct TESObjectCLOT;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
 struct TESWaterForm;
-struct TESWorldSpace;
-struct bhkCharacterController;
+class TESWorldSpace;
+class bhkCharacterController;
 struct blob4
 {
     char b[4];
@@ -267,13 +267,13 @@ float FUN_0092ce00_shell::GetActorValueWithModifiers(TESActorBase* apActorBase, 
 }
 
 namespace fnv_0092eaa0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {
@@ -389,13 +389,13 @@ void FUN_0092eaa0_shell::FUN_0092eaa0(BGSLoadFormBuffer* apLoadGameBuffer)
 }  // namespace fnv_0092eaa0
 
 namespace fnv_0092eb00 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {

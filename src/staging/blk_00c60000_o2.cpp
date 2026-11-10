@@ -460,7 +460,7 @@ void FUN_00c6cba0_class::FUN_00c6cba0()
     }
 }
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 
@@ -1582,7 +1582,7 @@ void FUN_00c6b320_Class::FUN_00c6b320(hkReferencedObject* a)
 
 extern int DAT_010c4314;
 class NiAVObject;
-class NiStream;
+struct NiStream;
 struct NiCollisionObject
 {
     NiCollisionObject(void*);
@@ -1616,8 +1616,9 @@ struct NiStream
 {
     void* GetLoadedObject();
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     char pad[0x30];
     unsigned int m_uFlags;
 };
@@ -4595,8 +4596,9 @@ bool FUN_00c6b7b0(FnvProbeObj* pObj, void* b)
 
 namespace fnv_00c6b860 {
 void* __cdecl FUN_00a5b690(unsigned int value);
-struct NiFixedString
+class NiFixedString
 {
+  public:
     void* m_data;
     NiFixedString(unsigned int value) : m_data(FUN_00a5b690(value))
     {}
@@ -14109,7 +14111,7 @@ void ConstructElementArray(ElementC76* pkArray, uintptr_t ItemUpdateArray)
         new (&pkArray[i]) ElementC76;
 }
 
-class NiRTTI;
+struct NiRTTI;
 struct FilterInfo
 {
     int unk00;
@@ -14139,7 +14141,7 @@ struct PhysicsBody
         return world ? &world->collidable : 0;
     }
 };
-class NiObject
+struct NiObject
 {
   public:
     NiObject* DynamicCast(const NiRTTI*);
@@ -15001,8 +15003,9 @@ intptr_t FUN_00c75180(Input134* input)
 }
 
 namespace fnv_00c66240 {
-struct NiAVObject
+class NiAVObject
 {
+  public:
     void FUN_00c66240(NiObject* a);
 };
 // Calls FUN_00c87c50 with the given NiObject.
@@ -15975,7 +15978,7 @@ void FUN_00c6c110(Node_c6c1* apNode, bool bForce)
     }
 }
 
-class NiStream;
+struct NiStream;
 
 struct CBinaryStream
 {
@@ -16005,7 +16008,7 @@ class FakeThis00a81040
     void FUN_00a81040(NiStream& kStream);
 };
 
-class NiStream
+struct NiStream
 {
   public:
     virtual void v00();
@@ -19775,7 +19778,7 @@ void QuatResult::FUN_00c74b70(const float* a, const float* b)
     *this = result;
 }
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -21096,7 +21099,7 @@ void __cdecl FUN_00c67320(C67320Source* source, C67320Params* params)
     node->SetPosition(&position);
 }
 
-struct hkReferencedObject;
+class hkReferencedObject;
 struct AddRefT
 {
 };

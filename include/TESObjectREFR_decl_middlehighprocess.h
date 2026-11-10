@@ -15,7 +15,7 @@
 #include "PlacedObjectInfo.h"
 #include "TESChildCell.h"
 #include "TESForm.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESWorldSpace;
 class TESObjectREFR : public TESForm
 {

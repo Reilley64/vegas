@@ -1,6 +1,6 @@
 #pragma once
 
-class FormRecordHeader;
+struct FormRecordHeader;
 
 struct FUN_004854e0_shell {
 public:

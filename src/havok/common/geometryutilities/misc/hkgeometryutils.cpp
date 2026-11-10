@@ -61,7 +61,7 @@ class CapsuleScalar
     }
 };
 
-struct hkTransform;
+class hkTransform;
 struct hkQuaternion;
 struct __declspec(align(16)) hkVector4
 {
@@ -232,8 +232,9 @@ struct __declspec(align(16)) hkRotation
         ((float*)&m_kColumn2)[2] = 1.0f;
     }
 };
-struct __declspec(align(16)) hkTransform
+class __declspec(align(16)) hkTransform
 {
+  public:
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
 };

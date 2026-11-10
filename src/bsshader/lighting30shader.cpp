@@ -313,7 +313,7 @@ void __cdecl ApplyLighting30Packet(const Lighting30Packet4* apPacket, bool param
     DAT_01200bf4 = param_2;
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -731,8 +731,9 @@ struct RefObj_bbce70
     virtual void DeleteThis();
     volatile long m_uiRefCount;
 };
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     char pad[0x64];
     unsigned int m_uiRefCount;
     void DestroyPass();
@@ -791,13 +792,15 @@ bool Lighting30Shader_s::FUN_00bbce70()
 }
 }  // namespace fnv_00bbce70
 
-struct NiTexture
+class NiTexture
 {
+  public:
     int m_iFadeNodeMode;
 };
 
-struct BeamStage
+class BeamStage
 {
+  public:
     unsigned char m_pad00[0x8];
     NiTexture* m_pBeamTexture;
 
@@ -3087,7 +3090,7 @@ class NiD3DShaderConstantMap : public NiObject
 {
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;

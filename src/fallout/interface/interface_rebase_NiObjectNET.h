@@ -4,7 +4,7 @@
 #include "interface_rebase_layout_support.h"
 #include "interface_rebase_NiFixedString.h"
 #include "interface_rebase_NiObject.h"
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_kName;                       // +0x8

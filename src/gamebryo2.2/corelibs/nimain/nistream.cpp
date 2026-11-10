@@ -377,7 +377,7 @@ class bhkSingletonC68
     unsigned int unk18;
 };
 
-class NiObject;
+struct NiObject;
 typedef NiObject*(__cdecl* CreateFunctionC68)();
 class NiStreamC68
 {
@@ -544,7 +544,7 @@ class bhkAabbPhantom
 {
   public:
 };
-class bhkCollisionObject
+struct bhkCollisionObject
 {
   public:
 };
@@ -1966,8 +1966,9 @@ bool NiStreamA63E::SaveLinkIDs(unsigned int uiStartPos)
 }
 
 namespace fnv_00a63ee0 {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     bool Exists();
     unsigned int GetLength();
     unsigned int GetRefCount();
@@ -6074,8 +6075,9 @@ struct NiObject
     virtual void load(void*);
     long refCount;
 };
-struct NiPointer
+class NiPointer
 {
+  public:
     NiObject* object;
 };
 struct NiStreamTopObjects
@@ -6879,7 +6881,7 @@ void FUN_00c68050_shell::RegisterThread()
 }
 }  // namespace fnv_00c68050
 
-struct GlobalObjectO2_00c67fe0
+class GlobalObjectO2_00c67fe0
 {
 };
 // @fnv 0x00c681b0
@@ -7424,7 +7426,7 @@ struct BinaryStream
     }
 };
 
-class NiObject;
+struct NiObject;
 class FUN_00a64df0_Stream
 {
   public:

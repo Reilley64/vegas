@@ -26,12 +26,12 @@ class FormChangeMask
 };
 
 // Buffer API declarations; this unit does not access their storage.
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
 };
 
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int mask);

@@ -1,10 +1,10 @@
 #pragma once
 
 class BGSVoiceType;
-class GameSettingCollection;
+struct GameSettingCollection;
 class GlobalObject2_0040c150;
 class GlobalObject2_0045cfe0;
-class GlobalObject2_0096a2d0;
+struct GlobalObject2_0096a2d0;
 class GlobalObject_004037b0;
 class GlobalObject_0040c150;
 class GlobalObject_0040e0b0;

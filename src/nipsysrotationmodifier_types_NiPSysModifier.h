@@ -5,11 +5,11 @@
 #include "nipsysrotationmodifier_layout_support.h"
 #include "nipsysrotationmodifier_NiFixedString.h"
 #include "nipsysrotationmodifier_NiObject.h"
-class NiPSysModifier;
-class NiPSysData;
-class CloningProcess;
-class NiParticleSystem;
-class NiPSysModifier : public NiObject
+struct NiPSysModifier;
+struct NiPSysData;
+struct CloningProcess;
+struct NiParticleSystem;
+struct NiPSysModifier : public NiObject
 {
   public:
     virtual void LoadBinary(NiStream& stream);

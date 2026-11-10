@@ -1,6 +1,6 @@
 #pragma once
 
-struct CombatWorldStateListNode;
+class CombatWorldStateListNode;
 
 struct TrapHolder {
 public:

@@ -27,8 +27,9 @@
 #include "fnv/symbols_00482000.h"
 #include "fnv/symbols_00483000.h"
 #include "fnv/symbols_005b5000.h"
-struct CombatProcedure
+class CombatProcedure
 {
+  public:
     enum COMBAT_PROCEDURES
     {
         eUseCombatItem = 0xb
@@ -79,7 +80,7 @@ void* FUN_009daa60_shell::DestroyIfFlagged(unsigned int flags)
     return this;
 }
 
-struct TESBoundObject;
+class TESBoundObject;
 struct Base_009daa10
 {
     char _pad[16];
@@ -103,12 +104,14 @@ FUN_009daa10::FUN_009daa10(TESBoundObject* apItem)
 struct BGSLoadFormBuffer
 {
 };
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
-struct TESBoundObject : TESForm
+class TESBoundObject : public TESForm
 {
+  public:
     virtual ~TESBoundObject();
 };
 struct CombatProcedureUseCombatItem_LoadGame : CombatProcedureUseCombatItem

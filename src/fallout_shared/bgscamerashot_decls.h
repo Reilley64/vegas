@@ -11,13 +11,13 @@
 #include "fnv/symbols_00529000.h"
 #include "fnv/symbols_005b5000.h"
 class BSExtraData;
-class InventoryChanges;
+struct InventoryChanges;
 class TESBoundObject;
 class TESObjectCELL;
 class CellDataNode;
 class AnimData;
 class ValidBip01Names;
-class ScriptLocals;
+struct ScriptLocals;
 class NiAVObject;
 template <class T> class NiPointer
 {
@@ -47,7 +47,7 @@ class TESFileFormInt
 {
   public:
 };
-class CombatController;
+struct CombatController;
 class CombatProcedure
 {
   public:

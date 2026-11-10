@@ -4,7 +4,7 @@
 
 #include "fnv/decl/FUN_005a9290_shell.h"
 #include "layout_support.h"
-class ScriptLocals
+struct ScriptLocals
 {
   public:
     Script* m_pOwnerScript;  // +0x0

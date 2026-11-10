@@ -971,7 +971,7 @@ static __forceinline void maximumLane(const RealLane& a, const RealLane& b, Real
 }
 
 class hkMatrix3;
-class hkVector4
+struct hkVector4
 {
   public:
     hkQuadReal m_vComponents;

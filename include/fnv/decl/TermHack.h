@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESObjectREFR;
+class TESObjectREFR;
 
 struct TermHack {
 public:

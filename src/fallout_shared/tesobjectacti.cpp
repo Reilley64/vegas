@@ -60,7 +60,7 @@ void TESObjectACTI::ResetFormData()
     pRadioTemplate = 0;
     m_kActivationPrompt = ::DAT_01011584;
 }
-struct TESSound;
+class TESSound;
 struct FUN_004fd3a0_shell : public TESObjectACTI
 {
     TESSound* FUN_004fd3a0();
@@ -210,8 +210,9 @@ struct Holder005105F0 : TESObjectACTI
 {
     void* FUN_005105f0(unsigned int);
 };
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     int flags;
     operator bool() const;
 };
@@ -287,7 +288,7 @@ class TESSound : public TESForm
   public:
 };
 
-class TESWaterForm : public TESForm
+struct TESWaterForm : public TESForm
 {
   public:
 };

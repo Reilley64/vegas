@@ -1,7 +1,7 @@
 #pragma once
 
-template <class, class> struct NiTPrimitiveArray;
-template <class> struct NiTMallocInterface;
+template <class, class> class NiTPrimitiveArray;
+template <class> class NiTMallocInterface;
 
 struct Wrapper86b80 {
 public:

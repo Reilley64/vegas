@@ -2,7 +2,7 @@
 
 namespace fnv_00444dc0 { struct FUN_00444dc0_ref; }
 namespace fnv_00444dc0 { struct QHeadPtrDest; }
-namespace fnv_00444dc0 { struct TESObject; }
+namespace fnv_00444dc0 { class TESObject; }
 
 namespace fnv_00444dc0 {
 struct FUN_00444dc0_t {

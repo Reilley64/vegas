@@ -1,7 +1,7 @@
 #pragma once
 
 class TESObjectREFR;
-struct BGSCameraPath;
+class BGSCameraPath;
 
 struct FUN_0095f530_shell {
 public:

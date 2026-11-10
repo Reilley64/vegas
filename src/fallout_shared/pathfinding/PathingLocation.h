@@ -6,8 +6,8 @@
 
 #include "layout_support.h"
 #include "NiPoint3.h"
-class NavMeshPtr;
-class PathingLocation
+struct NavMeshPtr;
+struct PathingLocation
 {
   public:
     void** m_ppVirtualMethodTable;                                                   // +0x0

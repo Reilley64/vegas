@@ -1,7 +1,7 @@
 #pragma once
 
-class BGSLoadFormBuffer;
-class BGSLoadGameBuffer;
+struct BGSLoadFormBuffer;
+struct BGSLoadGameBuffer;
 class TESForm;
 
 class BGSLoadGameSubBuffer {

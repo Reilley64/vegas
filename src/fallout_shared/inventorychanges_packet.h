@@ -8,10 +8,10 @@
 #include "fnv/decl/fnv_0041d030__FUN_0041d030_shell.h"
 #include "../../include/layout_support.h"
 #include "BaseExtraList.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
 #define FNV_INVENTORYCHANGES_H
-class InventoryChanges
+struct InventoryChanges
 {
   public:
     BSSimpleList<InventoryStackRecord*>* m_pEntryList;

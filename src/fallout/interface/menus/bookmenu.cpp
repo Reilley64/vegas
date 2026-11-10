@@ -35,8 +35,9 @@
 #include "fnv/decl/FUN_00a1dc70_shell.h"
 #include "fnv/decl/fnv_00a01b00__TileLoader.h"
 #include "fnv/symbols_005b5000.h"
-struct Menu
+class Menu
 {
+  public:
     Menu();
     unsigned int m_ppVirtualMethodTable;
     unsigned int m_kPointA;
@@ -144,24 +145,24 @@ void* FUN_0073ad00_shell::FUN_0073ad00(unsigned int flags)
 
 struct BSCullingProcess;
 struct BSRenderedTexture;
-struct BSShaderAccumulator;
+class BSShaderAccumulator;
 struct ShaderRenderProperty;
-struct FOPipboyManager;
-struct FORenderedMenu;
+class FOPipboyManager;
+class FORenderedMenu;
 struct ShadowLightData;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct ListBoxBase;
-struct Menu;
-struct MobileObject;
-struct NiAVObject;
+class Menu;
+class MobileObject;
+class NiAVObject;
 struct NiAlphaProperty;
-struct NiDirectionalLight;
-struct NiNode;
+class NiDirectionalLight;
+class NiNode;
 struct SceneGraph;
 struct ShadowSceneNode;
-struct TESImageSpaceModifier;
-struct TESObjectREFR;
-struct Tile;
+class TESImageSpaceModifier;
+class TESObjectREFR;
+class Tile;
 struct TileImage;
 struct ViewCaster;
 struct blob12
@@ -512,7 +513,7 @@ bool FUN_0073b460_shell::FUN_0073b460()
 }
 
 namespace fnv_0073af90 {
-struct Tile;
+class Tile;
 struct BookMenu
 {
     char _pad0[0x28];
@@ -538,7 +539,7 @@ void BookMenu::SetTileByID(int aiID, Tile* apTile)
 }  // namespace fnv_0073af90
 
 namespace fnv_0073afd0 {
-struct Tile
+class Tile
 {
 };
 struct InterfaceManager
@@ -591,16 +592,17 @@ void Holder73b430::CallInnerFoo()
 }
 
 namespace fnv_0073b480 {
-struct Menu
+class Menu
 {
 };
 
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 
-struct TESObject
+class TESObject
 {
 };
 
@@ -651,8 +653,9 @@ public:
     virtual ~TGF();
 };
 
-struct Tile : TGF
+class Tile : public TGF
 {
+  public:
     void Set(int, int);
 public:
     static float GetInterfaceScale();
@@ -1099,8 +1102,9 @@ template <class T> struct BSStringT
     const T* FUN_00559450();
     unsigned int FUN_004048e0();
 };
-struct NiFile
+class NiFile
 {
+  public:
     enum OpenMode
     {
         read = 0
@@ -1157,13 +1161,13 @@ void LoadBook::LoadBookFile()
     reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x100a, 0);
 }
 
-struct TESObjectBOOK
+class TESObjectBOOK
 {
 };
 struct Tile_00a01b00 : Tile
 {
 };
-struct TileMenu : Tile
+class TileMenu : public Tile
 {
 };
 struct IMH

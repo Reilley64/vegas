@@ -504,7 +504,7 @@ struct FUN_00a5c290_shell : public NiObjectNET
 struct NiGlobalStringTable
 {
 };
-class NiBinaryExtraData;
+struct NiBinaryExtraData;
 struct FUN_00a5d450_holder
 {
 };
@@ -1118,7 +1118,7 @@ struct BSFadeNode
 struct NamedObj
 {
 };
-struct NiShader
+class NiShader
 {
 };
 class NiTexture;

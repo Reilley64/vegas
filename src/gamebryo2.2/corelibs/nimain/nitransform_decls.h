@@ -2,15 +2,15 @@
 #ifndef NITRANSFORM_DECLS_H
 #define NITRANSFORM_DECLS_H
 #include "fnv/decl/S_00a59a30_Matrix3.h"
-class NiStream;
-class NiPoint3
+struct NiStream;
+struct NiPoint3
 {
   public:
     float x, y, z;
     static const NiPoint3 ZERO;
 };
-class NiStream;
-class NiColor
+struct NiStream;
+struct NiColor
 {
   public:
     float r, g, b;
@@ -18,7 +18,7 @@ class NiColor
 public:
     void SaveBinary(::NiStream &);
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m[3][3];
@@ -49,7 +49,7 @@ struct NiBinaryStream
         position += read(this, data, 4, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     char pad[0x24c];

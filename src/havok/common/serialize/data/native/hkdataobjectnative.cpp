@@ -6,7 +6,7 @@
 #include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
-class InventoryEntry;
+struct InventoryEntry;
 class NiNode;
 struct ArgStruct;
 struct EntryEx;
@@ -73,7 +73,7 @@ void FUN_00dbb610(int* p)
     *p = 0;
 }
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 
@@ -96,7 +96,7 @@ void FUN_00dbb490_class::SetReferencedObject(hkReferencedObject* apObject)
 }
 
 namespace fnv_00dbb4c0 {
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 struct FUN_00dbb4c0_class

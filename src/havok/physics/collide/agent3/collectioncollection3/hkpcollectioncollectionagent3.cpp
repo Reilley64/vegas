@@ -1073,7 +1073,7 @@ return x>y ? x:y;
 }
 }
 class hkTransform;
-class hkVector4
+struct hkVector4
 {
 public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}

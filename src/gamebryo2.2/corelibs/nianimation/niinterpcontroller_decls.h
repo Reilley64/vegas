@@ -10,7 +10,7 @@ struct NiBinaryStream
         position += read(this, buffer, bytes, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     char padding[0xd8];

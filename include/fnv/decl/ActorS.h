@@ -1,6 +1,6 @@
 #pragma once
 
-struct BGSEncounterZone;
+class BGSEncounterZone;
 
 struct ActorS {
 public:

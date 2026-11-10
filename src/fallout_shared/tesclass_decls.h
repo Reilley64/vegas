@@ -22,7 +22,7 @@ class FormChangeMask
   public:
     operator bool() const;
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int);

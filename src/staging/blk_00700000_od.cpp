@@ -648,7 +648,7 @@ namespace fnv_00703920 {
 struct Modifier
 {
 };
-struct Tile
+class Tile
 {
 };
 // If FUN_004b7210 returns a non-null object whose GetKey is nonzero, calls SetByteAtOffsetEC(1) on it and Tile::UpdateAll(false).
@@ -678,8 +678,8 @@ namespace fnv_007062e0 {
 struct Modifier
 {
 };
-struct TESObjectREFR;
-struct HUDMainMenu
+class TESObjectREFR;
+class HUDMainMenu
 {
 };
 // @fnv 0x007062e0
@@ -709,8 +709,9 @@ struct FUN_00709840
 {
     FUN_00709840();
 };
-struct TileMenu
+class TileMenu
 {
+  public:
     char pad00[0x3c];
     int unk3c;
     TileMenu* TileMenuConstructor(int, int);
@@ -1462,8 +1463,9 @@ struct NiFrustum
     NiFrustum(bool bOrtho);
 };
 
-struct NiCamera
+class NiCamera
 {
+  public:
     void UpdateViewFrustum(const NiFrustum& kFrustum);
 };
 
@@ -1578,8 +1580,9 @@ int __cdecl FUN_00719ca0(FUN_00719ca0_cls* apLeft, FUN_00719ca0_cls* apRight)
     }
 }
 
-struct TESBoundObject
+class TESBoundObject
 {
+  public:
     virtual void s0();
 };
 
@@ -2237,7 +2240,7 @@ class GlobalObject_0041a250
     bool active;
     void* object;
 };
-class GlobalObject_00633c90
+struct GlobalObject_00633c90
 {
   public:
     GlobalObject_00633c90();

@@ -3,11 +3,11 @@
 class FGRoot;
 class NiAVObject;
 class NiExtraData;
-class NiObject;
-namespace fnv_00653120 { struct NiNode; }
-namespace fnv_00653340 { struct NiAVObject; }
+struct NiObject;
+namespace fnv_00653120 { class NiNode; }
+namespace fnv_00653340 { class NiAVObject; }
 namespace fnv_00653340 { struct NiPoint3; }
-namespace fnv_00653470 { struct NiGeometry; }
+namespace fnv_00653470 { class NiGeometry; }
 namespace fnv_00653520 { struct StrMem; }
 namespace fnv_00653620 { template <class> struct BSStringT; }
 namespace fnv_006536d0 { struct StrMem; }

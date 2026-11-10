@@ -20,7 +20,7 @@
 
 class Actor;
 class ActiveEffect;
-class Animation;
+struct Animation;
 class ArrowProjectile;
 class BSAnimGroupSequence;
 class BSBound;
@@ -28,7 +28,7 @@ class ActorSupportClass;
 class BSFaceGenAnimationData;
 class BSFaceGenNiNode;
 class BSShaderPPLightingProperty;
-class BooleanFloatQuery;
+struct BooleanFloatQuery;
 class InventoryStackRecord;
 class LipSyncAnimation;
 class MagicItem;

@@ -457,7 +457,7 @@ bool FUN_005f25d0(unsigned short ausType)
     return IsNine(*(int*)(GetType(ausType) * 0x24 + 0x11977e4));
 }
 
-struct TESSound;
+class TESSound;
 struct SoundPlaybackEntry
 {
     float fTime;
@@ -539,16 +539,16 @@ struct CHUNK;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiStream;
-struct TESBoundObject;
-struct TESFile;
-struct TESForm;
-struct TESObject;
+class TESBoundObject;
+class TESFile;
+class TESForm;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESSound;
+class TESObjectREFR;
+class TESSound;
 struct TESWaterForm;
 struct blob8
 {
@@ -574,8 +574,9 @@ struct TimedTextEntry
     float m_fTime;
     NiFixedString m_kText;
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -605,7 +606,7 @@ enum ANIM_ENUM
 {
 };
 
-struct TESSound
+class TESSound
 {
 };
 
@@ -613,11 +614,11 @@ struct BSAudio
 {
 };
 
-struct TESDataHandler
+class TESDataHandler
 {
 };
 
-struct TESFile
+class TESFile
 {
 };
 

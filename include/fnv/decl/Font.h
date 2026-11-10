@@ -1,9 +1,9 @@
 #pragma once
 
 class FontCharacterInfo;
-class NiPoint3;
+struct NiPoint3;
 class NiTriShape;
-class RgbaColor;
+struct RgbaColor;
 
 class Font {
 public:

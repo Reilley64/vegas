@@ -1,6 +1,6 @@
 #pragma once
 
-class GridCell;
+struct GridCell;
 
 class GridCellArray {
 public:

@@ -6,7 +6,7 @@ class FUN_00b668b0;
 class NiAVObject;
 class NiCamera;
 class NiObj6220;
-class NiPoint3;
+struct NiPoint3;
 namespace fnv_004b68a0 { struct ArrSI; }
 namespace fnv_004b68a0 { struct FUN_004b68a0_data; }
 namespace fnv_004b6bc0 { struct bhkCollisionObject; }

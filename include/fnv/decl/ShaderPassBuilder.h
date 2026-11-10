@@ -1,7 +1,7 @@
 #pragma once
 
-struct NiGeometry;
-struct ShadowSceneLight;
+class NiGeometry;
+class ShadowSceneLight;
 
 struct ShaderPassBuilder {
 public:

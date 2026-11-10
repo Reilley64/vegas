@@ -5,7 +5,7 @@
 #include "niblendtransforminterpolator_layout_support.h"
 #include "niblendtransforminterpolator_NiFixedString.h"
 #include "niblendtransforminterpolator_NiObject.h"
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_kName;                       // +0x8

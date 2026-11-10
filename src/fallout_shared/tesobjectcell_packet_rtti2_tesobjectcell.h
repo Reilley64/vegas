@@ -95,7 +95,7 @@ class GarbageCollectorObjectPtr
   public:
     NiAVObject* operator->() const;
 };
-class GlobalObject_00633c90 : public GarbageCollectorObjectPtr
+struct GlobalObject_00633c90 : public GarbageCollectorObjectPtr
 {
 };
 struct InteriorCellData

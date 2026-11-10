@@ -25,9 +25,9 @@
 #include "TESForm.h"
 #include "layout_support.h"
 class NiAVObject;
-class NiObjectNET;
-class NiBound;
-class ImageSpaceManager;
+struct NiObjectNET;
+struct NiBound;
+struct ImageSpaceManager;
 #include <malloc.h>
 enum TESImageModifierChunks
 {
@@ -57,7 +57,7 @@ class TimedFloatKey : public TimedAnimationKey
     TimedFloatKey();
     ~TimedFloatKey();
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
@@ -76,7 +76,7 @@ class AlphaColor : public ColorAnimationKey
     AlphaColor();
     ~AlphaColor();
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
@@ -250,9 +250,9 @@ extern float DAT_0118aba8[2];
 
 extern float DAT_011c96fc;
 void FUN_005330e0(float&, float, float);
-class NiPoint2;
-class RgbaColor;
-class ImageSpaceManager
+struct NiPoint2;
+struct RgbaColor;
+struct ImageSpaceManager
 {
   public:
     static ImageSpaceManager* FUN_004e3270();

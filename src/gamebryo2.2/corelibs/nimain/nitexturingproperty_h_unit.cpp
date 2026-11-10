@@ -2,15 +2,17 @@
 
 #include "fnv/decl/S_0060af60.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
-struct NiTexture;
+class NiTexture;
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
 };
 
-template <class T> struct NiTArray
+template <class T> class NiTArray
 {
+  public:
     T& GetAt(unsigned int index) const;
     void SetAt(unsigned int index, const T& value);
 };
@@ -41,8 +43,9 @@ class NiTexturingProperty
     void SetBaseMapClampMode(ClampMode mode);
 };
 
-struct NiTexture
+class NiTexture
 {
+  public:
     virtual void UnkVirtual();
 
     int unk04;

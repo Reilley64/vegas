@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?g_pD3DRenderer@@3PEAXEA=?ms_pRenderer@NiRenderer@@2PEAV1@EA")
-#pragma comment(linker, "/alternatename:?ms_pRenderer@NiRenderer@@2PEAU1@EA=?ms_pRenderer@NiRenderer@@2PEAV1@EA")
+#pragma comment(linker, "/alternatename:?g_pD3DRenderer@@3PEAXEA=?ms_pRenderer@NiRenderer@@2PEAU1@EA")
+#pragma comment(linker, "/alternatename:?ms_pRenderer@NiRenderer@@2PEAU1@EA=?ms_pRenderer@NiRenderer@@2PEAU1@EA")
 
 void (*DAT_0126f738[1])(void *, void *, unsigned int, unsigned int, unsigned int);

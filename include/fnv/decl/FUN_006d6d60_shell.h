@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 
 struct FUN_006d6d60_shell {
 public:

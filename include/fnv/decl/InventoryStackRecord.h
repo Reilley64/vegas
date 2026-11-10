@@ -1,7 +1,7 @@
 #pragma once
 
 class Actor;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
 class InventoryStackRecord {
 public:

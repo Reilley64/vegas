@@ -2,7 +2,7 @@
 
 class RefView;
 
-class CellView {
+struct CellView {
 public:
     // 0x00548230
     void FUN_00548230(::RefView *, bool);

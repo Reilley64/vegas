@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-class NiPoint3;
+struct NiPoint3;
 
 struct Thing {
 public:

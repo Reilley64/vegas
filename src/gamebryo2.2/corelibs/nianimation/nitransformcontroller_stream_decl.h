@@ -3,8 +3,8 @@
 #define NITRANSFORMCONTROLLER_STREAM_DECL_H
 
 #include "fnv/decl/FUN_00a645b0_cls.h"
-class NiObject;
-class NiStream
+struct NiObject;
+struct NiStream
 {
   public:
     NiObject* GetLoadedObject();

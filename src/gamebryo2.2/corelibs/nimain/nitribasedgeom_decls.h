@@ -1,5 +1,5 @@
 // gamebryo2.2/corelibs/nimain/nitribasedgeom_decls.h: declares NiObject, BSTextureSet, NiAVObject, NiPropertyState, NiGeometry and more
-class NiObject
+struct NiObject
 {
   public:
     NiObject();
@@ -26,7 +26,7 @@ class NiPropertyState
     char props[0x1c];
 };
 class NiGeometryData;
-class NiStream;
+struct NiStream;
 class NiGeometry : public NiAVObject
 {
   public:

@@ -81,15 +81,16 @@ void* FUN_00a61590_class::ClearAndReset()
     return this;
 }
 
-struct NiShader;
+class NiShader;
 template <class K, class V> class NiTPointerMap;
 template <class K, class V> class NiTStringTemplateMap
 {
   public:
     virtual void Test(int);
 };
-struct NiUnionBV
+class NiUnionBV
 {
+  public:
     virtual void Test(int);
 };
 
@@ -183,7 +184,7 @@ void FUN_00a615c0_Class::ClearAllBuckets()
     this->unkfa4 = 0;
 }
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 // @fnv 0x00a638c0
@@ -285,8 +286,9 @@ void* FUN_00a7d670_Class::FUN_00a7d670()
 }
 
 struct CloningProcess;
-struct NiDirectionalLight
+class NiDirectionalLight
 {
+  public:
     char pad00[0xf0];
     float unkf0;
     float unkf4;
@@ -1633,7 +1635,7 @@ void FUN_00a69b40_Class::FUN_00a69b40(intptr_t param_2)
     }
 }
 
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* __cdecl AddString(const char* str);
@@ -4080,8 +4082,9 @@ void ObjA609::LoadFile()
     }
 }
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* m_handle;
     NiFixedString& operator=(const char* value);
     void Assign(const char* value)
@@ -4179,8 +4182,9 @@ struct SourceTextureBase : NiObjectA61
     unsigned int pixelLayout, alphaFormat, mipmapFormat;
     unsigned int unk24, unk28, unk2c;
 };
-struct NiSourceTexture : SourceTextureBase
+class NiSourceTexture : public SourceTextureBase
 {
+  public:
     NiFixedString fileName;
     NiFixedString resolvedName;
     NiObjectA61* pixelData;
@@ -4418,7 +4422,7 @@ struct LockState
 
 }
 
-class GlobalObject_0096a2d0
+struct GlobalObject_0096a2d0
 {
   public:
 };

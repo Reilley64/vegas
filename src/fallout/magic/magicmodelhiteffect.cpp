@@ -263,10 +263,10 @@ FUN_0081c630::FUN_0081c630(TESObjectREFR* ref, AE_0081c630* ae) : Base_0081c630(
     b28 = false;
 }
 
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
-struct NiQuaternion;
+class NiQuaternion;
 struct hkVector4;
 struct blob4
 {
@@ -413,8 +413,8 @@ FUN_0081c720::FUN_0081c720(TESObjectREFR* apTarget, const char* apFilename, floa
 }
 }  // namespace fnv_0081c720
 
-struct ActiveEffect;
-struct TESObjectREFR;
+class ActiveEffect;
+class TESObjectREFR;
 struct Flt
 {
     operator unsigned int() const;

@@ -481,7 +481,7 @@ class TESObjectREFR : public TESForm
   public:
 };
 
-struct TESDataHandler
+class TESDataHandler
 {
 };
 

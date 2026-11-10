@@ -555,8 +555,9 @@ struct _NiStreamCtorAlias
     virtual ~_NiStreamCtorAlias();
 };
 
-struct BSStream : _NiStreamCtorAlias
+class BSStream : public _NiStreamCtorAlias
 {
+  public:
     char pad[0x5c0];
     int m_5c4;
     int m_5c8;

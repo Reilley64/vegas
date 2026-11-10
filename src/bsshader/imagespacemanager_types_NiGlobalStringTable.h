@@ -6,7 +6,7 @@
 #include "_RTL_CRITICAL_SECTION.h"
 #include "layout_support.h"
 class NiCriticalSection;
-class NiGlobalStringTable;
+struct NiGlobalStringTable;
 class NiTPrimitiveArray_char___;
 class NiTPrimitiveArray_char___ : public NiTArray<char*, NiTMallocInterface<char*> >
 {
@@ -33,7 +33,7 @@ class NiCriticalSection
     // unsigned int __cdecl NiCriticalSection::*()
     // void* __cdecl NiCriticalSection::*(unsigned int)
 };
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char*);

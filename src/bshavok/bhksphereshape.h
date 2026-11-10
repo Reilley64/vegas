@@ -10,13 +10,13 @@
 #include "fnv/symbols_01268000.h"
 #include "layout_support.h"
 
-class NiRTTI;
-class NiObject;
+struct NiRTTI;
+struct NiObject;
 class NiNode;
-class NiColor;
-class NiPoint3;
-class CloningProcess;
-class NiStream;
+struct NiColor;
+struct NiPoint3;
+struct CloningProcess;
+struct NiStream;
 class hkpConvexShape;
 class PhysicsShapeClass;
 class hkpShape;

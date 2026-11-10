@@ -80,9 +80,10 @@ struct Holder00ba37f0
 
 
 struct EnchantmentItem;
-struct TESForm;
-struct BaseFormComponent
+class TESForm;
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -144,8 +145,9 @@ void Holder00ba37f0::FUN_00ba37f0(Tex00ba37f0* apTex)
     b1 = 0;
 }
 
-struct BeamStage
+class BeamStage
 {
+  public:
     char _0[8];
     void* m_8;
 };

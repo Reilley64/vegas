@@ -516,8 +516,9 @@ struct BeamTextureState
 {
 };
 
-struct BeamStage
+class BeamStage
 {
+  public:
     char _pad0[4];
     unsigned int m_arg2;
     char _pad8[8];
@@ -681,12 +682,12 @@ struct BSSegmentedTriShape;
 struct Direct3DDeviceInterface;
 struct GeometryRelatedType;
 struct NiD3DShaderProgramCreator;
-struct NiGeometry;
+class NiGeometry;
 struct NiLines;
-struct NiNode;
+class NiNode;
 struct NiParticles;
-struct NiShaderConstantMapEntry;
-struct NiTriBasedGeom;
+class NiShaderConstantMapEntry;
+class NiTriBasedGeom;
 struct NiTriShape;
 struct NiTriStrips;
 struct ShaderPassRenderer;
@@ -752,8 +753,9 @@ struct ShaderBufferRecord
     char pData[1];
     char _pad_105[3];
 };
-struct NiGPUProgram : public NiRefObject
+class NiGPUProgram : public NiRefObject
 {
+  public:
     virtual void __vslot_0();
     virtual void* GetRTTI();
     virtual NiNode* IsSceneNode();
@@ -811,8 +813,9 @@ struct NiD3DShaderProgram : public NiGPUProgram
     GraphicsRenderer* m_pShaderObject;
     ShaderPassRenderer* m_pRenderState;
 };
-struct NiD3DPixelShader : public NiD3DShaderProgram
+class NiD3DPixelShader : public NiD3DShaderProgram
 {
+  public:
     virtual void __vslot_0();
     virtual GeometryRelatedType* GetD3DPixelShader();
     virtual void SetD3DPixelShader(GeometryRelatedType*);

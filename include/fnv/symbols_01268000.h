@@ -3,7 +3,7 @@
 
 class GlobalObjectO2_00a7b610;
 class GlobalObjectO2_00d107b0;
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 struct ErrorReporter;
 struct FUN_00dcc670_Manager;
 struct GlobalObjectO2_00a7b610;

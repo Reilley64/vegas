@@ -1,6 +1,6 @@
 #pragma once
 
-class NiObject;
+struct NiObject;
 
 struct MyIsEqual {
 public:

@@ -31,7 +31,7 @@ class NiBinaryStream
 // NiObjectNET and NiProperty use the canonical nimain unit idiom (see
 // nitexture_match.h): members with their canonical names and a non-virtual
 // LoadBinary(NiStream&).  NiProperty::LoadBinary calls the base directly.
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_kName;                       // +0x8

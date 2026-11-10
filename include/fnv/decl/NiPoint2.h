@@ -1,8 +1,8 @@
 #pragma once
 
-class NiStream;
+struct NiStream;
 
-class NiPoint2 {
+struct NiPoint2 {
 public:
     // 0x00452dc0
     NiPoint2(float, float);

@@ -99,15 +99,15 @@ struct BGSMenuIcon;
 struct BGSMessageIcon;
 struct BGSTextureSet;
 struct BipedAnim;
-struct NiAVObject;
+class NiAVObject;
 struct NiPoint3;
-struct Script;
-struct TESBoundObject;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class Script;
+class TESBoundObject;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct FileEntryList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -129,8 +129,9 @@ struct BGSClipRoundsForm : public BaseFormComponent
     unsigned char m_ucClipRounds;
     char _pad_5[3];
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -203,7 +204,7 @@ void FUN_0047b540_shell::FUN_0047b540()
     *(int*)((char*)this + 8) = 0;
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct TESRaceForm

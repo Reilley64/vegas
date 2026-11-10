@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_005726e0 { struct NiAVObject; }
+namespace fnv_005726e0 { class NiAVObject; }
 
 namespace fnv_005726e0 {
 struct FUN_005726e0_shell {

@@ -9,14 +9,14 @@
 class BSMultiBoundNode;
 class BSPortal;
 class BSPortalGraph;
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class BSShaderAccumulator;
 struct D3DXMATRIX;
 class NiAVObject;
 class NiCamera;
 class NiFrustumPlanes;
 class NiLight;
-class NiPlane;
+struct NiPlane;
 class NiTAbstractPoolAllocator_unsigned_int_;
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiAVObject___;
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiAVObject_____AntiBloatAllocator;
@@ -183,7 +183,7 @@ class NiTPointerList_NiPointer_NiAVObject___
     // NiTPointerList<NiPointer<NiAVObject> >& __cdecl NiTPointerList<NiPointer<NiAVObject> >::*(const NiTPointerList<NiPointer<NiAVObject> >&)
     // void* __cdecl NiTPointerList<NiPointer<NiAVObject> >::*(unsigned int)
 };
-class NiPlane
+struct NiPlane
 {
   public:
     NiPoint3 m_kPlaneNormal;  // +0x0, 12 bytes

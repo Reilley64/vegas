@@ -2,7 +2,7 @@
 #ifndef FNV_NIPOINT3_H
 #define FNV_NIPOINT3_H
 #include "layout_support.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     NiPoint3(float x, float y, float z);

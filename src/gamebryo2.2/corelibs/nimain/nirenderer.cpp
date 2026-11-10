@@ -187,7 +187,7 @@ FUN_00a62b60::~FUN_00a62b60()
 #include <math.h>
 extern float DAT_0109bb88;
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

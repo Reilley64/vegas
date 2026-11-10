@@ -10,8 +10,9 @@
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011f5000.h"
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* m_kHandle;
 };
 struct NiMaterial;
@@ -48,8 +49,9 @@ struct RefCountedNamedObject
     virtual void w4();
     virtual IndexedObjectCollection* w5();
 };
-struct NiShaderFactory
+class NiShaderFactory
 {
+  public:
     static NiShaderFactory* __cdecl GetInstance();
     virtual void v0();
     virtual void v1();

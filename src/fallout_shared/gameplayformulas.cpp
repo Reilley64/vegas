@@ -38,7 +38,7 @@ union SETTING_VALUE
     unsigned char h;  // +0x0
 };
 
-class GameSettingCollection
+struct GameSettingCollection
 {
 };
 
@@ -213,12 +213,14 @@ class ActorValueOwner
 struct Setting_S
 {
 };
-struct TESObjectWEAP
+class TESObjectWEAP
 {
+  public:
     int GetWeaponType() const;
 };
-struct TESObjectARMO
+class TESObjectARMO
 {
+  public:
     unsigned char GetArmorType();
 };
 struct CombatDamageCalculator
@@ -272,7 +274,7 @@ namespace fnv_00648090 {
 struct Setting_S
 {
 };
-struct InventoryStackRecord
+class InventoryStackRecord
 {
 };
 

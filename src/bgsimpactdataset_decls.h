@@ -7,7 +7,7 @@
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "bgsimpactdataset_TESForm.h"
-class ImpactSwap;
+struct ImpactSwap;
 class BGSImpactData;
 class BGSImpactDataSet;
 class BGSPreloadable;
@@ -62,7 +62,7 @@ class BGSImpactDataSet : public TESForm, public BGSPreloadable
     // void __cdecl BGSImpactDataSet::*()
 };
 #endif
-class ImpactSwap
+struct ImpactSwap
 {
   public:
 };

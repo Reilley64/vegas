@@ -571,7 +571,7 @@ void FUN_00d0bfc0_cls::RemoveMatchingEntries(ScopeQuery* pQuery) {
 
 
 
-class hkVector4 {
+struct hkVector4 {
 public:
     __m128 m_vComponents;
     hkVector4& operator=(const hkVector4& v) { m_vComponents = v.m_vComponents; return *this; }
@@ -584,7 +584,7 @@ public:
     hkVector4 m_kColumn2;
 };
 
-class FUN_008cd6a0_Class {
+struct FUN_008cd6a0_Class {
 public:
 };
 
@@ -7409,7 +7409,7 @@ hkpLinkedCollidable*m_pCollidable;
 };
 protected:
 hkArray<struct CollisionKeyEntry>m_kCollisionEntries;};
-class hkpRigidBody;
+struct hkpRigidBody;
 class hkpWorldObject:public hkReferencedObject
 {
 public:
@@ -8227,7 +8227,7 @@ protected:
 mutable hkMultiThreadCheck m_kMultiThreadCheck;
 public:
 hkReal m_fIslandValueBeforeActions1;};
-class hkpRigidBody:public hkpEntity
+struct hkpRigidBody:public hkpEntity
 {
 public:
 static const struct ClassMemberDescriptor Members[];

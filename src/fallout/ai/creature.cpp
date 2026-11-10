@@ -140,7 +140,7 @@ unsigned char GetByteAtOffset1B4(void* thisPtr)
     return *(unsigned char*)((char*)thisPtr + 0x1b4);
 }
 
-struct NiFixedString;
+class NiFixedString;
 
 // @fnv 0x008d4ca0
 NiFixedString* FUN_008d4ca0()
@@ -148,7 +148,7 @@ NiFixedString* FUN_008d4ca0()
     return ::DAT_011c6250;
 }
 
-struct NiFixedString;
+class NiFixedString;
 
 
 // @fnv 0x008d4cb0
@@ -236,11 +236,12 @@ void* S::FUN_008d44d0(unsigned int flags)
     return this;
 }
 
-struct TESActorBase
+class TESActorBase
 {
+  public:
     virtual ~TESActorBase();
 };
-struct TESCreature : TESActorBase
+class TESCreature : public TESActorBase
 {
 };
 struct XActor
@@ -334,15 +335,16 @@ void Holder::FUN_008d49f0(int aiArg, float afValue, void* a3)
 
 extern int DAT_011dffe4;
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
     virtual NiAVObject* GetParent();
 };
 
-struct NiNode
+class NiNode
 {
 };
 

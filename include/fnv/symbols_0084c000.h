@@ -1,7 +1,7 @@
 #pragma once
 
 class B84C490SaveBuffer;
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 
 // 0x0084c030
 bool FUN_0084c030(unsigned int, ::BGSLoadGameBuffer *);

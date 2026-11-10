@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESObjectREFR;
+class TESObjectREFR;
 
 struct FUN_00501ae0_shell {
 public:

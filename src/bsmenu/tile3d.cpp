@@ -41,7 +41,7 @@
 #include "tile3d_decls.h"
 
 class NiNode;
-class RgbaColor;
+struct RgbaColor;
 
 template <> class BSStringT<char>
 {
@@ -169,9 +169,9 @@ void FUN_00a20720_shell::InitTile(Tile* apParent, const char* apName, Tile* apRe
     reinterpret_cast<::FUN_00aa4ee0_t *>(&(DAT_011f3560))->FUN_00aa4ee0(GetTickCount());
 }
 
-struct NiTimeController;
+class NiTimeController;
 struct NiRTTI;
-struct NiAVObject
+class NiAVObject
 {
 };
 struct FUN_00a20c80_shell : public Tile3D
@@ -544,7 +544,7 @@ class NiExtraData
     int unk08;
 };
 
-class NiObjectNET
+struct NiObjectNET
 {
   public:
     virtual ~NiObjectNET();
@@ -1071,7 +1071,7 @@ namespace fnv_00a21340 {
 struct NiMemObject
 {
 };
-struct NiTexture;
+class NiTexture;
 struct TileShaderProperty : NiMemObject
 {
     unsigned int f00;
@@ -1123,7 +1123,7 @@ struct TileShaderProperty : NiMemObject
 
 struct AVObj;
 struct Geometry;
-struct NiNode;
+class NiNode;
 
 struct AVObj
 {
@@ -1160,8 +1160,9 @@ struct NodeArray
     }
 };
 
-struct NiNode : AVObj
+class NiNode : public AVObj
 {
+  public:
     unsigned int f04;
     unsigned int f08;
     unsigned int f0c;

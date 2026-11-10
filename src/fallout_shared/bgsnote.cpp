@@ -396,8 +396,9 @@ void FUN_005e9200_shell::FUN_005e9200(void* apArg)
         ((Helper005e9200*)m_pText)->f2(apArg);
 }
 
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     unsigned int m_flags;
     operator bool() const;
 };
@@ -421,8 +422,9 @@ void BGSNoteStandin::FUN_005e9480(BGSLoadFormBuffer* apLoadGameBuffer)
 }
 
 namespace fnv_005e94d0 {
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     int data;
     operator bool() const;
 };

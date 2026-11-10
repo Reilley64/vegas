@@ -3,7 +3,7 @@
 
 class TESObjectREFR;
 namespace fnv_004a3e00 { struct NiPoint3; }
-namespace fnv_004a3e00 { struct bhkCharacterController; }
+namespace fnv_004a3e00 { class bhkCharacterController; }
 struct Flt;
 struct NiPoint3_local;
 struct hkVector4;

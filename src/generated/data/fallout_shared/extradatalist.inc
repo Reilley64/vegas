@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 
 char DAT_010152d0[68] = "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ExtraDataList.cpp";
 namespace fnv_00426a30 { int DAT_010157b0 = 0x45564153; }

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00411b00 { struct LockExtraData; }
+namespace fnv_00411b00 { class LockExtraData; }
 struct Y00411e40;
 
 // 0x00411b00

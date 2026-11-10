@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 struct P062Ammo;
 struct P062Object;
 

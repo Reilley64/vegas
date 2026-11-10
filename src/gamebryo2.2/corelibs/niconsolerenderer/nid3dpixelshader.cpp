@@ -16,7 +16,7 @@
 class GeometryRelatedType;
 
 // Forward declarations of the renderer types named by the base chain.
-class NiD3DShaderProgramCreator;
+struct NiD3DShaderProgramCreator;
 class Direct3DDeviceInterface;
 class GraphicsRenderer;
 class ShaderPassRenderer;
@@ -97,7 +97,7 @@ void NiD3DPixelShader::SetD3DPixelShader(GeometryRelatedType* const pixelShader)
     m_pD3DPixelShader = pixelShader;
 }
 
-struct NiD3DPixelShader;
+class NiD3DPixelShader;
 
 
 struct FUN_00e898d0_shell : NiD3DPixelShader
@@ -3872,8 +3872,9 @@ struct ScriptAttributeTypes
 };
 
 
-struct NiShaderConstantMapEntry
+class NiShaderConstantMapEntry
 {
+  public:
     unsigned int unk00[5];
     unsigned int m_uiValue1;
     unsigned int unk18;

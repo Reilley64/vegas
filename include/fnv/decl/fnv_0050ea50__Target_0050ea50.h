@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_0050ea50 { class NiPoint3; }
+namespace fnv_0050ea50 { struct NiPoint3; }
 
 namespace fnv_0050ea50 {
 class Target_0050ea50 {

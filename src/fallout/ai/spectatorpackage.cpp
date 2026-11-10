@@ -418,12 +418,14 @@ void Wrap::FUN_009f8730()
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((uintptr_t)&u88), 4);
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
-struct Actor : TESForm
+class Actor : public TESForm
 {
+  public:
     virtual ~Actor();
 };
 struct TESObjectREFRHelper
@@ -617,7 +619,7 @@ struct BGSLoadFormBuffer
 };
 
 enum PACKAGE_PROCEDURE_TYPE;
-struct TESPackage
+class TESPackage
 {
 public:
     void SetProcedureType(::PACKAGE_PROCEDURE_TYPE);
@@ -2381,7 +2383,7 @@ struct BaseProcess
     virtual void SetFallback(int v);
 };
 
-struct MobileObject
+class MobileObject
 {
 };
 

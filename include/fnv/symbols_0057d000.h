@@ -2,10 +2,10 @@
 #include <cstdint>
 
 class NiFixedString;
-class NiPoint3;
+struct NiPoint3;
 namespace TerrainLOD { struct Point3; }
 namespace fnv_0057de00 { class LODLand; }
-namespace fnv_0057de00 { class NiPoint3; }
+namespace fnv_0057de00 { struct NiPoint3; }
 namespace fnv_0057de00 { struct LODSettings; }
 struct Mgr;
 

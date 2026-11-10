@@ -585,7 +585,7 @@ void MyCtlr::FUN_00c1bbc0(float afValue1, float afValue2)
         pk->v49(afValue1, afValue2);
 }
 
-struct NiBlendInterpolator;
+class NiBlendInterpolator;
 struct FUN_00a40520
 {
     FUN_00a40520(bool, float, unsigned char);

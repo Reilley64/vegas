@@ -1,7 +1,7 @@
 #pragma once
 
 struct FUN_00613790_shell;
-struct Script;
+class Script;
 
 struct ScriptCompiler {
 public:

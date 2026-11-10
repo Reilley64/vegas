@@ -467,8 +467,9 @@ struct IdentifierHistoryEntry
     unsigned int ipreviousID;
 };
 
-struct Script
+class Script
 {
+  public:
     char* GetData();
 };
 

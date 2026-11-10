@@ -3,7 +3,7 @@
 class GlobalObjectO2_00a7b610;
 class NiShaderConstantMapEntry;
 namespace fnv_00bfc860 { class NiD3DPass; }
-struct NiShaderConstantMapEntry;
+class NiShaderConstantMapEntry;
 template <class> class NiPointer;
 
 // 0x011fe000

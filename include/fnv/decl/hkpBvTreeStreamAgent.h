@@ -2,7 +2,7 @@
 
 struct GskAgentInput;
 struct WorldOperationEntry;
-struct hkpCdBody;
+class hkpCdBody;
 
 class hkpBvTreeStreamAgent {
 public:

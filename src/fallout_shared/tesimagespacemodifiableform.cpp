@@ -36,8 +36,9 @@ void TESImageSpaceModifiableForm::InitItem(TESForm* owner)
     }
 }
 
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent()
     {}
 };

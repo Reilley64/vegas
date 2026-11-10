@@ -5,7 +5,7 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-class hkaSkeleton;
+struct hkaSkeleton;
 class hkpConstraintInstance;
 class hkaRagdollInstance : public hkReferencedObject
 {

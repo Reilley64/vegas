@@ -442,7 +442,7 @@ struct NiStream {
 };
 struct Base_00a26eb0 {
 };
-class NiStream;
+struct NiStream;
 struct NiColor {
     void LoadBinary(NiStream&);
 public:
@@ -1002,7 +1002,7 @@ A281E0BezPosKey* LoadBezPosKeys(A281E0Stream& kStream, unsigned int uiNumKeys)
     return pkKeys;
 }
 
-class NiStream;
+struct NiStream;
 
 class NiColorSaveHelper {
 public:
@@ -1229,7 +1229,7 @@ void __cdecl FUN_00a28dc0(FNVAnim* pAnim, unsigned int count, unsigned int flag)
 }
 
 // The game class NiBound - a 16-byte bound (three position floats and a radius).
-class NiBound {
+struct NiBound {
 public:
     float x, y, z, r;
 };
@@ -5419,7 +5419,8 @@ void ApplyCallbackBackwards(char *p, int iTileIndex, int nCount, Fn_00a26fa0_cb 
 
 int __cdecl FUN_00ec658f(void (__cdecl* pfn)(void));
 
-struct NiFixedString {
+class NiFixedString {
+  public:
     char* m_kHandle;
     NiFixedString() {}
     NiFixedString(char* const& s) : m_kHandle(s) {}
@@ -5427,7 +5428,7 @@ struct NiFixedString {
 };
 
 
-class NiObject : public NiRefObject {
+struct NiObject : public NiRefObject {
 public:
     NiObject();
 };

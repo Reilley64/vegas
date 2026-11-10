@@ -2,13 +2,13 @@
 #include <cstdint>
 
 class ActorValueOwner428;
-class GameSettingCollection;
+struct GameSettingCollection;
 namespace fnv_00643670 { struct Dummy; }
-namespace fnv_006439d0 { struct ActorValueOwner; }
-namespace fnv_00643a10 { struct ActorValueOwner; }
-namespace fnv_00643a70 { struct ActorValueOwner; }
+namespace fnv_006439d0 { class ActorValueOwner; }
+namespace fnv_00643a10 { class ActorValueOwner; }
+namespace fnv_00643a70 { class ActorValueOwner; }
 namespace fnv_00643b50 { class ActorValueOwner; }
-namespace fnv_00643ff0 { struct Actor; }
+namespace fnv_00643ff0 { class Actor; }
 struct ActorBase1;
 struct ActorStub;
 struct FUN_0066ef50_Class;

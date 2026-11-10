@@ -808,7 +808,7 @@ unsigned int FUN_00857ba0_shell::ReadFromStream(NiBinaryStream* stream, void* bu
     return result;
 }
 
-struct TESSound
+class TESSound
 {
 };
 struct DummyPointerMap;
@@ -819,7 +819,7 @@ struct Holder
     void FUN_0085f2b0(TESSound* sound, unsigned short flag);
 };
 namespace fnv_0085f420 {
-struct TESSound
+class TESSound
 {
 };
 struct DummyPointerMap
@@ -1875,8 +1875,9 @@ struct NiTMap
 {
 };
 class TESFile;
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 public:
     bool GetDisabled() const;
@@ -1885,8 +1886,9 @@ public:
 public:
     ::TESFile *GetFile(int);
 };
-struct TESObjectREFR : TESForm
+class TESObjectREFR : public TESForm
 {
+  public:
     virtual ~TESObjectREFR();
 };
 struct FUN_0085f070_shell
@@ -1896,7 +1898,7 @@ struct FUN_0085f070_shell
     void FUN_0085f070();
 };
 namespace fnv_0085f3d0 {
-struct TESForm
+class TESForm
 {
 };
 struct FUN_0085f3d0
@@ -2113,8 +2115,9 @@ struct FUN_0084fda0
 FUN_0084fda0::FUN_0084fda0()
 {}
 
-struct BGSAcousticSpace
+class BGSAcousticSpace
 {
+  public:
     virtual void m_Virtual00();
     virtual void m_Virtual04();
     virtual void m_Virtual08();
@@ -2170,7 +2173,7 @@ void* FUN_0084fd70_class::DestroyAndFree(unsigned int flags)
 }
 
 namespace fnv_00850720 {
-struct BGSSaveLoadManager
+class BGSSaveLoadManager
 {
 };
 // Calls ConsumeByteAtE4 and, if it returns 1, invokes DAT_011de134->LoadGame with DAT_011de138, DAT_011a224c, DAT_011de23c and true.
@@ -2426,7 +2429,7 @@ struct BSOcclusionPlane
 {
 };
 
-struct ExtraDataList
+class ExtraDataList
 {
 };
 
@@ -4679,7 +4682,7 @@ bool FUN_00856300_cls::FUN_00856300(ProbeTarget* target, std::intptr_t value)
     return result;
 }
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float xx, xy, xz, yx, yy, yz, zx, zy, zz;
@@ -4694,7 +4697,7 @@ class Controller
 {
   public:
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     NiUpdateData(float, bool, bool);
@@ -4702,7 +4705,7 @@ class NiUpdateData
     bool controllers, multi;
     int flags;
 };
-class Node
+struct Node
 {
   public:
 };
@@ -6176,7 +6179,7 @@ struct StartMenu
     char const* GetMenuTitle();
 };
 
-struct GlobalObject_0040c150 : public StartMenu
+class GlobalObject_0040c150 : public StartMenu
 {
 };
 

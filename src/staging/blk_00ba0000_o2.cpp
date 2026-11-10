@@ -298,8 +298,9 @@ void* FUN_00ba8270_Class::FUN_00ba8270(bool b)
 
 extern const void* DAT_010b895c;
 
-struct ImageSpaceEffect
+class ImageSpaceEffect
 {
+  public:
     ImageSpaceEffect();
 public:
     void SetTextureArraySize(int);
@@ -365,8 +366,9 @@ int FUN_00bad4d0_Class::FUN_00bad4d0()
     return 0;
 }
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     char pad00[0x9c];
     char unk9c;
 };
@@ -638,7 +640,7 @@ void FUN_00bb9540_Class::CallVirtualSlots83And84()
     ((Fn)m_ppVirtualMethodTable[84])(this);
 }
 
-struct BeamStage
+class BeamStage
 {
 };
 // @fnv 0x00bb9640
@@ -727,9 +729,9 @@ void FUN_00ba5100_Class::FUN_00ba5100()
     reinterpret_cast<::fnv_00e814b0::UnkShader *>((((LodShaderBase*)this)))->FUN_00e814b0();
 }
 
-struct NiD3DPass;
+class NiD3DPass;
 template <class> class NiPointer;
-struct NiD3DPass
+class NiD3DPass
 {
 public:
     bool ApplyRenderStateChanges(bool);
@@ -773,7 +775,7 @@ void FUN_00bad4f0_Class::FUN_00bad4f0(int a)
 struct NiObjectNET_stub
 {
 };
-struct NiTexture;
+class NiTexture;
 struct NiPointer_NiTexture
 {
     NiTexture* p;
@@ -868,7 +870,7 @@ void FUN_00bb36b0_Class::FUN_00bb36b0(int a)
 }
 
 namespace fnv_00bb79e0 {
-struct NiTexture;
+class NiTexture;
 struct NiObjectNET_stub
 {
     char pad00[0x60];
@@ -895,8 +897,9 @@ void FUN_00bb79e0_Class::FUN_00bb79e0(intptr_t arg)
 }
 }  // namespace fnv_00bb79e0
 
-struct NiTexture
+class NiTexture
 {
+  public:
     void* m_vft;
 };
 struct ImageSpaceTexture
@@ -916,7 +919,7 @@ void FUN_00bb9010_Class::FUN_00bb9010()
 }
 
 namespace fnv_00bb9560 {
-struct NiD3DPass
+class NiD3DPass
 {
 };
 struct FUN_00c072c0_Class
@@ -1349,8 +1352,9 @@ FUN_00bb4520_Class::FUN_00bb4520_Class()
 }
 
 extern "C" void __cdecl _delete(void*, unsigned int);
-struct BSFogProperty
+class BSFogProperty
 {
+  public:
     void* m_vft;
     BSFogProperty* FUN_00bb8250(unsigned char flags);
 };
@@ -1478,7 +1482,7 @@ void FUN_00bb96d0(std::uintptr_t)
     DAT_012010bc[8] = 0;
 }
 
-class NiRTTI;
+struct NiRTTI;
 struct NiObject : A51BF0Base
 {
     virtual ~NiObject();
@@ -5330,7 +5334,7 @@ struct TlsFlagGuard
     }
 };
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     void* m_vtbl;
@@ -6975,7 +6979,7 @@ void FUN_00bb3740_cls::FUN_00bb3740(NiRefObject* obj)
 }
 }  // namespace fnv_00bb3740
 
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* m_pcName;
@@ -8894,7 +8898,7 @@ struct S_00ba63e0_MM
 {
     void Deallocate(void*);
 };
-class NiObject
+struct NiObject
 {
   public:
     NiObject();
@@ -16752,7 +16756,7 @@ struct Bound2760
 {
     float x, y, z, radius;
 };
-class NiBound;
+struct NiBound;
 
 struct GeometryData2760
 {
@@ -18280,7 +18284,7 @@ struct P368Vec3
     };
 };
 
-class NiBound;
+struct NiBound;
 
 struct P368Sphere
 {

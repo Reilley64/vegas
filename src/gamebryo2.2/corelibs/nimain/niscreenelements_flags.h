@@ -2,7 +2,7 @@
 #ifndef NISCREENELEMENTS_FLAGS_H
 #define NISCREENELEMENTS_FLAGS_H
 #include "fnv/decl/FUN_0043b370_cls.h"
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     void SetTaskFlag2000(bool enabled);

@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-class NiPoint3;
+struct NiPoint3;
 namespace CircleIntersection { struct Circle; }
 namespace CircleIntersection { struct Line; }
 namespace CircleIntersection { struct Result; }

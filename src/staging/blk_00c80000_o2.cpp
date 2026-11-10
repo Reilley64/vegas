@@ -224,7 +224,7 @@ struct bhkBoxShape
     void FUN_00c84e50(bool b);
 };
 struct NiStream;
-class NiRTTI;
+struct NiRTTI;
 struct NiObject
 {
     virtual void LinkObject(NiStream&);
@@ -4478,7 +4478,7 @@ void FUN_00c89d10_cls::FUN_00c89d10(int arg)
 }
 }  // namespace fnv_00c89d10
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 struct FUN_009ba5f0_shell
@@ -7372,7 +7372,7 @@ struct NiBinaryStream
     }
 };
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     int m_00;
@@ -8346,7 +8346,7 @@ class NiFixedString
             InterlockedDecrement(reinterpret_cast<long*>(m_kHandle - 8));
     }
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float m_fTime;
@@ -14192,7 +14192,7 @@ void FUN_00c84d00_cls::FUN_00c84d00(FUN_00c84d00_obj* apObj)
     *p = 0;
 }
 
-class Obj
+struct Obj
 {
   public:
     virtual void* v00();

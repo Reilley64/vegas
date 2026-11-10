@@ -96,7 +96,7 @@ class GlobalObjectO2_00b54280
     ~GlobalObjectO2_00b54280();
     char storage[4];
 };
-class GlobalObjectO2_00b8a9e0
+struct GlobalObjectO2_00b8a9e0
 {
   public:
     GlobalObjectO2_00b8a9e0();
@@ -131,7 +131,7 @@ class GlobalObjectO2_00d107b0
     ~GlobalObjectO2_00d107b0();
     char storage[4];
 };
-class GlobalObjectO2_00d472a0
+struct GlobalObjectO2_00d472a0
 {
   public:
     GlobalObjectO2_00d472a0(const char*, const char*, int, int, int, const char*, int, const char*, int, const char*,

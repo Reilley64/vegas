@@ -22,14 +22,14 @@
 #include "fnv/symbols_00846000.h"
 #include "fnv/symbols_0084d000.h"
 #include "fnv/symbols_011de000.h"
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     void** m_ppVirtualMethodTable;
     ~BGSLoadGameBuffer();
 };
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     void** m_ppVirtualMethodTable;
@@ -40,7 +40,7 @@ public:
 };
 
 class TESObjectREFR;
-class BSTreeNode;
+struct BSTreeNode;
 
 template <> class NiPointer<TESForm>
 {
@@ -178,7 +178,7 @@ class MiddleHighProcess
     unsigned int m_uiFaceGenDataFlags;
 };
 
-class QuantityData
+struct QuantityData
 {
   public:
 };
@@ -195,7 +195,7 @@ class TESRecipe
 public:
     void SetRequiredSkill(::ActorValue::Index);
 };
-class Animation
+struct Animation
 {
   public:
 };
@@ -209,7 +209,7 @@ class TESObjectREFR : public TESForm
 {
   public:
 };
-class Animation;
+struct Animation;
 class PlayerCharacter : public TESObjectREFR
 {
   public:

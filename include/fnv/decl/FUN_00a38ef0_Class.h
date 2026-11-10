@@ -1,6 +1,6 @@
 #pragma once
 
-class CloningProcess;
+struct CloningProcess;
 
 struct FUN_00a38ef0_Class {
 public:

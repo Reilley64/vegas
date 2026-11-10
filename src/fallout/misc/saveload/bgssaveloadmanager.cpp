@@ -616,7 +616,7 @@ struct Sky
 {
 };
 class BaseProcess;
-struct MobileObject
+class MobileObject
 {
 };
 struct FakeSaveMgr
@@ -964,12 +964,12 @@ void MgrStandIn851::CopyPlayerName(char* dest)
         ::TaskQueueInterface::CopyStringToBuffer(dest, 0x104, "");
 }
 
-class Modifier
+struct Modifier
 {
   public:
 };
 
-struct Menu
+class Menu
 {
   public:
     virtual ~Menu();
@@ -1013,7 +1013,7 @@ struct S7010
 {
 };
 
-struct Actor
+class Actor
 {
 };
 

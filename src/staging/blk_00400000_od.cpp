@@ -143,8 +143,9 @@ struct FUN_00405600_class
     void* FUN_00405600(int param_2);
 };
 
-struct EffectSetting
+class EffectSetting
 {
+  public:
     void FUN_00405e60();
 public:
     int GetArchetype();
@@ -331,9 +332,10 @@ void FUN_004181c0_class::SetIndexedValue(int index, int value)
     unkec[index] = value;
 }
 
-struct BSExtraData;
-struct BaseExtraList
+class BSExtraData;
+class BaseExtraList
 {
+  public:
     BSExtraData* FUN_00418200();
 };
 // @fnv 0x00418200
@@ -344,7 +346,7 @@ BSExtraData* BaseExtraList::FUN_00418200()
 }
 
 namespace fnv_0041af30 {
-struct BaseExtraList
+class BaseExtraList
 {
 };
 
@@ -360,8 +362,9 @@ void FUN_0041af30_shell::FUN_0041af30()
 }
 }  // namespace fnv_0041af30
 
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
+  public:
     ~GlobalObject_0040c150();
     GlobalObject_0040c150* FUN_004049d0(unsigned int flags);
 };
@@ -413,8 +416,9 @@ void* FUN_004053d0_class::FUN_004053d0(unsigned int flags)
 }
 
 namespace fnv_0040ecd0 {
-struct BSExtraData
+class BSExtraData
 {
+  public:
     virtual ~BSExtraData();
     void* FUN_0040ecd0(unsigned int flags);
 };
@@ -641,7 +645,7 @@ struct Outer00409100
 struct Inner0040e230 : Inner0040e230_Head, Outer00409100
 {
 };
-struct TESSound;
+class TESSound;
 extern TESSound* DAT_011c3538;
 extern TESSound* DAT_011c353c;
 extern TESSound* DAT_011c3540;
@@ -731,8 +735,9 @@ void* Holder0040e9f0::GetValueIfFormType42()
 struct Interface
 {
 };
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
+  public:
     unsigned int* pCount;
     unsigned int count;
     void FUN_0040fba0();
@@ -795,8 +800,9 @@ struct ScriptS
 {
 };
 
-struct BGSDehydrationStage : ScriptS
+class BGSDehydrationStage : public ScriptS
 {
+  public:
     static BGSDehydrationStage** __cdecl AllocateStageArray(unsigned int count);
 };
 
@@ -859,8 +865,9 @@ FUN_0040a1c0_Class::~FUN_0040a1c0_Class()
 
 namespace fnv_00411ea0 {
 int DAT_01014458;
-struct BSExtraData
+class BSExtraData
 {
+  public:
     virtual ~BSExtraData();
 };
 struct FUN_00411ea0 : BSExtraData

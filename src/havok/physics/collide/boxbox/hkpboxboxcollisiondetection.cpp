@@ -64,8 +64,9 @@ struct hkVector4
     }
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     hkVector4 m_kColumn0;
     hkVector4 m_kColumn1;
     hkVector4 m_kColumn2;
@@ -1095,8 +1096,9 @@ __forceinline void ContactVector::_setRotatedDir(const ContactRotation& aRb, con
     m_vComponents = _mm_add_ps(t1, t2);
 }
 
-struct __declspec(align(16)) hkContactPoint
+class __declspec(align(16)) hkContactPoint
 {
+  public:
     ContactVector m_vContactPosition;
     ContactVector m_vSeparatingNormal;
 

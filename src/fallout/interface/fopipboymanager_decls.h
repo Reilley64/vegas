@@ -47,7 +47,7 @@ struct NiRTTI
     const char* name;
     const NiRTTI* base;
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m[3][3];
@@ -56,7 +56,7 @@ class ThreeByThreeMatrix
 public:
     ::ThreeByThreeMatrix operator+(const ::ThreeByThreeMatrix &) const;
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -67,7 +67,7 @@ class NiUpdateData
     bool updateTransforms;
     NiUpdateData(float, bool, bool);
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -185,7 +185,7 @@ class StatsMenu
   public:
     static float GetChartScale();
 };
-class Animation;
+struct Animation;
 class PlayerCharacter
 {
   public:
@@ -194,7 +194,7 @@ class PlayerCharacter
 public:
     ::Animation *GetAnimation(bool) const;
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
@@ -207,7 +207,7 @@ template <class T> class SettingT
     SETTING_VALUE* Bool();
 };
 class FOPipboyManager;
-class Interface
+struct Interface
 {
   public:
     unsigned char interfaceState[0x174];
@@ -216,7 +216,7 @@ class Interface
 public:
     static bool IsInterfaceActive();
 };
-class NiColor;
+struct NiColor;
 class SystemColorManager
 {
   public:
@@ -282,7 +282,7 @@ class FORenderedMenu
     bool m_bMenuLightAttached;
     char renderedTail_padd3[1];
     char m_pMenuLightNode[4];
-    bool CreateMenuLight(const char*, class ShadowSceneNode*);
+    bool CreateMenuLight(const char*, struct ShadowSceneNode*);
     void OnMenuOpen();
 public:
     void StartBurst(float, float, float);

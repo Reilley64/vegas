@@ -38,11 +38,11 @@ class NiFixedString
     operator const char*() const;
 };
 class NiTimeController;
-class NiObjectNET
+struct NiObjectNET
 {
   public:
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -66,7 +66,7 @@ enum OBJECT_ACTION
 {
     ACTION_OPEN = 4
 };
-class ExtraRadioData;
+struct ExtraRadioData;
 class ExtraDataList
 {
   public:
@@ -203,7 +203,7 @@ class LowProcess
   public:
     TESObjectREFR* GetActiveCombatTarget();
 };
-class NiControllerManager
+struct NiControllerManager
 {
   public:
     static NiFixedString* FindSequenceByName();
@@ -238,7 +238,7 @@ class AIThreadManager
 {
   public:
 };
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static TaskQueueInterface* GetSingleton();

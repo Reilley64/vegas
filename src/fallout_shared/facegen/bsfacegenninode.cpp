@@ -59,9 +59,9 @@
 #include "fnv/symbols_011f6000.h"
 #include "bsfacegenninode.h"
 
-class CloningProcess;
+struct CloningProcess;
 class NiAVObject;
-class NiUpdateData;
+struct NiUpdateData;
 class NiNode
 {
   public:
@@ -155,10 +155,10 @@ struct FUN_00663a70_shell : public BSFaceGenNiNode
     void UpdateFaceGenNode(NiUpdateData*, unsigned int);
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
-struct NiNode
+class NiNode
 {
 };
 struct Stand663
@@ -178,13 +178,13 @@ struct BSFadeNode;
 struct BSMultiBoundNode;
 struct BSResizableTriShape;
 struct BSSegmentedTriShape;
-struct NiAVObject;
-struct NiCullingProcess;
-struct NiGeometry;
+class NiAVObject;
+class NiCullingProcess;
+class NiGeometry;
 struct NiLines;
-struct NiNode;
+class NiNode;
 struct NiParticles;
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 struct NiTriShape;
 struct NiTriStrips;
 struct NiVisibleArray;
@@ -202,7 +202,7 @@ struct FUN_00663ae0_shell : public BSFaceGenNiNode
 };
 
 struct NiBound;
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -211,8 +211,9 @@ struct DummyAccum
     char pad[0x19c];
     int iRenderMode;
 };
-struct NiCullingProcess
+class NiCullingProcess
 {
+  public:
     char pad[0xc4];
     DummyAccum* pAccumulator;
 };
@@ -314,8 +315,9 @@ struct NiUpdateData
 {
 };
 
-struct NiNode
+class NiNode
 {
+  public:
     virtual void UpdateTransformAndBounds(NiUpdateData&);
 };
 
@@ -976,7 +978,7 @@ class ProcessLists
   public:
     unsigned char* GetLifeStateControlFlag();
 };
-class Interface
+struct Interface
 {
   public:
 };
@@ -1855,7 +1857,7 @@ void FaceNode::AttachBones(SceneNode* parent, bool warn)
 }
 
 namespace fnv_00663050 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

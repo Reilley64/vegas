@@ -6,7 +6,7 @@
 #include "fnv/decl/NiGeometryData.h"
 #include "fnv/symbols_00525000.h"
 #include "fnv/symbols_00a7e000.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

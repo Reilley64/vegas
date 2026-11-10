@@ -442,8 +442,9 @@ struct B1_4fe
     char pad[0x2c];
 };
 namespace stand {
-struct TESFullName
+class TESFullName
 {
+  public:
     virtual void f0();
     TESFullName();
     ~TESFullName();
@@ -489,8 +490,9 @@ struct TESBipedModelForm
     ~TESBipedModelForm();
     char pad[0xd8];
 };
-struct BGSDestructibleObjectForm
+class BGSDestructibleObjectForm
 {
+  public:
     virtual void f0();
     BGSDestructibleObjectForm();
     ~BGSDestructibleObjectForm();

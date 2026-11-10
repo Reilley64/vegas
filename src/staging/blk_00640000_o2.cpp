@@ -22,10 +22,11 @@
 #include "fnv/symbols_011aa000.h"
 #include "fnv/symbols_011d5000.h"
 
-struct NiTexture;
+class NiTexture;
 
-struct NiPixelFormat
+class NiPixelFormat
 {
+  public:
     int m_00;
     int m_04;
     int m_08;
@@ -599,8 +600,9 @@ struct ParamObj
 {
 };
 
-struct NiTexture
+class NiTexture
 {
+  public:
     void* m_00;
     void* m_04;
     NiPtrTex m_08;

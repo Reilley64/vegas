@@ -61,9 +61,10 @@ struct FUN_007614a0_class
     void InitializeWithGlobal();
 };
 
-struct TESSound;
-struct EffectSetting
+class TESSound;
+class EffectSetting
 {
+  public:
     TESSound* GetCastSound();
 };
 
@@ -188,8 +189,9 @@ struct FUN_007615d0_class
 struct Holder_004b9900
 {
 };
-struct NiFixedString
+class NiFixedString
 {
+  public:
     void FUN_00761760(int* data, unsigned int n);
 public:
     void *FUN_004b9900(unsigned int);
@@ -223,8 +225,9 @@ void NiFixedString::FUN_00761760(int* data, unsigned int n)
         reinterpret_cast<::NiFixedString *>((((Holder_004b9900*)(data + i))))->FUN_004b9900(0);
 }
 
-struct GlobalObject_0076b930
+class GlobalObject_0076b930
 {
+  public:
     void FUN_0076b930();
     GlobalObject_0076b930* FUN_0076b870(unsigned int flags);
 };
@@ -694,8 +697,9 @@ void Owner::FUN_0076b6a0(Flt* value)
     }
 }
 
-struct Menu
+class Menu
 {
+  public:
     Menu();
     virtual ~Menu();
     int unk04;

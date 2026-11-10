@@ -531,8 +531,9 @@ struct FUN_006b5d00 : Base5a
     virtual ~FUN_006b5d00();
 };
 namespace fnv_006b77e0 {
-struct TESObjectCELL
+class TESObjectCELL
 {
+  public:
     bool IsInterior();
 };
 struct CellH
@@ -1052,8 +1053,8 @@ void FUN_006b6b20_shell::ClearNavMeshInfoMaps()
     ((FUN_006b6b20_FormVT*)this)->Unk_32(true);
 }
 
-struct NavMesh;
-struct NavMeshInfo;
+class NavMesh;
+class NavMeshInfo;
 struct NavMeshPtr;
 struct MeshInfoArray;
 struct GridArray;

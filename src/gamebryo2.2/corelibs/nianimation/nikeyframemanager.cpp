@@ -170,8 +170,8 @@ struct SequenceData
 };
 
 
-class NiStream;
-struct NiTimeController
+struct NiStream;
+class NiTimeController
 {
 public:
     void LinkObject(::NiStream &);

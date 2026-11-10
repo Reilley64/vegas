@@ -18,7 +18,7 @@ class NiRenderedTexture
         return GetType() == type;
     }
 };
-class BSRenderedTexture
+struct BSRenderedTexture
 {
   public:
     unsigned char base[8];

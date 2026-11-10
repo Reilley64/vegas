@@ -1,7 +1,7 @@
 #pragma once
 
 class ConvexFeaturePairCache;
-class hkVector4;
+struct hkVector4;
 struct AgentSubtypeMarker;
 struct WorldOperationEntry;
 

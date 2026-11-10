@@ -4,8 +4,9 @@
 #include "fnv/decl/FUN_00e806c0.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_0126f000.h"
-struct NiD3DShaderConstantMap
+class NiD3DShaderConstantMap
 {
+  public:
     void* Destroy(unsigned int flags);
 };
 

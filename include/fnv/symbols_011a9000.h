@@ -1,8 +1,8 @@
 #pragma once
 
-class NiPoint3;
-class RgbaColor;
-class ThreeByThreeMatrix;
+struct NiPoint3;
+struct RgbaColor;
+struct ThreeByThreeMatrix;
 struct Color_5345c0;
 struct NiColor;
 struct NiPoint3;

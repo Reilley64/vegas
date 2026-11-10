@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 
 double DAT_010356f0 = 18.0;
 float DAT_01047224 = 18.0f;

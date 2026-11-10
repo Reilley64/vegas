@@ -2,7 +2,7 @@
 #ifndef FNV_TRANSFORM_DECLS_H
 #define FNV_TRANSFORM_DECLS_H
 
-class Matrix4f
+struct Matrix4f
 {
   public:
     Matrix4f();

@@ -1,8 +1,8 @@
 #pragma once
 
-class NiStream;
+struct NiStream;
 
-struct NiTexture {
+class NiTexture {
 public:
     // 0x0064ceb0
     ::NiTexture *FUN_0064ceb0(float, float, float, void *);

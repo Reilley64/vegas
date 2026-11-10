@@ -1,8 +1,8 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 
-class ThreeByThreeMatrix {
+struct ThreeByThreeMatrix {
 public:
     // 0x004168a0
     void MakeAxisAngleRotation(float, float, float, float);

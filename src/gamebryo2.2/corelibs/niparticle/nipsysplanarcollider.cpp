@@ -410,7 +410,7 @@ struct Vec3f
 
 
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     unsigned int unk00;

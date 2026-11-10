@@ -7,12 +7,12 @@
 class Actor;
 class TESObjectREFR;
 class FormChangeMask;
-class BGSLoadFormBuffer;
-class BGSLoadGameBuffer;
+struct BGSLoadFormBuffer;
+struct BGSLoadGameBuffer;
 class PackedFormID;
 class FormLoadContext;
 class BGSSaveLoadFormInfo;
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     virtual unsigned char GetVersion();
@@ -95,7 +95,7 @@ class FormLoadContext
     // void __cdecl FormLoadContext::*()
 };
 #pragma pack(pop)
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
     // base BGSLoadGameBuffer at +0x0, size 16

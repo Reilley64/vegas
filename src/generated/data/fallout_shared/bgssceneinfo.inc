@@ -2,13 +2,13 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?DAT_011c3b3c@@3PEAUSceneLoader@@EA=?g_modelLoader@@3PEAVModelLoader@@EA")
+#pragma comment(linker, "/alternatename:?DAT_011c3b3c@@3PEAUSceneLoader@@EA=?g_modelLoader@@3PEAUModelLoader@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011c3f2c@@3PEAUSceneSource@@EA=?g_dataHandler@@3PEAUDH@@EA")
-#pragma comment(linker, "/alternatename:?DAT_011c5a90@fnv_004a82d0@@3UStatTextureCount@1@A=?g_011c5a90@@3VGlobalObject_0045cfe0@@A")
-#pragma comment(linker, "/alternatename:?DAT_011c5ab4@@3USceneCache@@A=?g_011c5ab4@@3VGlobalObject_004a9d80@@A")
-#pragma comment(linker, "/alternatename:?DAT_011c5b30@fnv_004a82d0@@3UStatUnique@1@A=?g_011c5b30@@3VGlobalObject2_0096a2d0@@A")
-#pragma comment(linker, "/alternatename:?DAT_011c5c40@fnv_004a8bb0@@3UClear245@1@A=?g_011c5c40@@3VGlobalObject_004a9bf0@@A")
-#pragma comment(linker, "/alternatename:?DAT_011c63cc@fnv_004a8bb0@@3UGlobalObject2_0045cfe0@@A=?g_011c63cc@@3VGlobalObject_0045cfe0@@A")
+#pragma comment(linker, "/alternatename:?DAT_011c5a90@fnv_004a82d0@@3UStatTextureCount@1@A=?g_011c5a90@@3UGlobalObject_0045cfe0@@A")
+#pragma comment(linker, "/alternatename:?DAT_011c5ab4@@3USceneCache@@A=?g_011c5ab4@@3UGlobalObject_004a9d80@@A")
+#pragma comment(linker, "/alternatename:?DAT_011c5b30@fnv_004a82d0@@3UStatUnique@1@A=?g_011c5b30@@3UGlobalObject2_0096a2d0@@A")
+#pragma comment(linker, "/alternatename:?DAT_011c5c40@fnv_004a8bb0@@3UClear245@1@A=?g_011c5c40@@3UGlobalObject_004a9bf0@@A")
+#pragma comment(linker, "/alternatename:?DAT_011c63cc@fnv_004a8bb0@@3UGlobalObject2_0045cfe0@@A=?g_011c63cc@@3UGlobalObject_0045cfe0@@A")
 
 extern "C" char fnv_data_011c5bb0[] __asm__("?g_011c5bb0@@3VGlobalObject_0044f440@@A");
 

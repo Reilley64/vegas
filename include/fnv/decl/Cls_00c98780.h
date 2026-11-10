@@ -1,7 +1,7 @@
 #pragma once
 #include "havok/hkUlong.h"
 
-struct hkTransform;
+class hkTransform;
 struct hkVector4;
 
 struct Cls_00c98780 {

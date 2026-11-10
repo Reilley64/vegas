@@ -4,7 +4,7 @@
 
 #include <stddef.h>
 class TESForm;
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 template <class T> class NiPointer
 {
   public:

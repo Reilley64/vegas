@@ -22,7 +22,7 @@ class TESObjectREFRHelper
 {
   public:
 };
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class GuardActorPackageData
 {
   public:
@@ -34,7 +34,7 @@ class GuardActorPackageData
     void LoadGame(BGSLoadFormBuffer*);
     void InitLoadGame(BGSLoadFormBuffer*);
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };

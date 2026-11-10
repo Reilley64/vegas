@@ -2,8 +2,8 @@
 #include <cstdint>
 
 class NiAVObject;
-class NiPick;
-class NiPoint3;
+struct NiPick;
+struct NiPoint3;
 namespace fnv_004b2800 { struct NiPick; }
 struct Color87;
 struct FUN_004a7800;

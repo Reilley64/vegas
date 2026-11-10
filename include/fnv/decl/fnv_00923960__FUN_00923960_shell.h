@@ -1,7 +1,7 @@
 #pragma once
 
 class BipedAnim;
-namespace fnv_00923960 { struct Actor; }
+namespace fnv_00923960 { class Actor; }
 namespace fnv_00923960 { struct Animation; }
 
 namespace fnv_00923960 {

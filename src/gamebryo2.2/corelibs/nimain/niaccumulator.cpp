@@ -11,13 +11,15 @@ char const* const* __cdecl FUN_00aa0b00()
     return &(*reinterpret_cast<const char *const *>(&::g_011f6060));
 }
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 extern int DAT_010a2304;
-struct NiAccumulator : NiRefObject
+class NiAccumulator : public NiRefObject
 {
+  public:
     void* FUN_00aa0b10(unsigned int);
 };
 // Sets the vtable to DAT_010a2304, runs the NiRefObject destructor, and frees this with _delete when a1 has bit 0 set.

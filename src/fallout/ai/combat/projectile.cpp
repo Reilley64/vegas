@@ -476,68 +476,68 @@ void* DelStandIn::Destroy_009bc890(unsigned int flags)
 }
 
 namespace fnv_0080f7b0 {
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct ActorMover;
 struct AlchemyItem;
 struct Animation;
-struct BGSImpactDataSet;
+class BGSImpactDataSet;
 struct BGSLoadFormBuffer;
-struct BGSPerk;
+class BGSPerk;
 struct BGSPerkEntry;
 struct BGSSaveFormBuffer;
 struct BGSTextureSet;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct BSAnimNote;
-struct BSFaceGenAnimationData;
+class BSFaceGenAnimationData;
 struct BipedAnim;
 struct CombatGroupCollection;
 struct CombatController;
 struct ActorCombatGroup;
 struct ContinuousBeamProjectile;
 struct Crime;
-struct DialogueResponse;
+class DialogueResponse;
 struct DetectionParameters;
-struct EffectItem;
-struct ExtraDataList;
+class EffectItem;
+class ExtraDataList;
 struct FurnitureMark;
 struct BooleanFloatQuery;
 struct IDebugText;
-struct InventoryStackRecord;
-struct MagicCaster;
-struct MagicItem;
+class InventoryStackRecord;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
-struct NiAVObject;
-struct NiNode;
+class MagicTarget;
+class NiAVObject;
+class NiNode;
 struct LocationDescriptor;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingLocation;
 struct PathingRequest;
-struct QueuedFile;
+class QueuedFile;
 struct SpellItem;
-struct TESActorBase;
-struct TESBoundObject;
+class TESActorBase;
+class TESBoundObject;
 struct TESClass;
 struct TESCombatStyle;
 struct TESFaction;
-struct TESIdleForm;
-struct TESObject;
-struct TESObjectBOOK;
-struct TESObjectCELL;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESIdleForm;
+class TESObject;
+class TESObjectBOOK;
+class TESObjectCELL;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
 struct TESRace;
 struct TESSkill;
-struct TESTopic;
-struct TESWorldSpace;
+class TESTopic;
+class TESWorldSpace;
 struct TargetEntry;
 struct TrapEntry;
 struct TrespassPackage;
 struct WeaponObject;
-struct bhkCharacterController;
+class bhkCharacterController;
 struct bhkRagdollController;
 struct bhkRagdollPenetrationUtil;
 struct bhkRigidBody;
@@ -557,8 +557,9 @@ struct blob12
 {
     char b[12];
 };
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     virtual int GetBaseActorValue(int);
     virtual float GetBaseActorValueFloat(int);
     virtual int GetActorValue(int);
@@ -621,7 +622,7 @@ void FUN_00978f10_shell::FUN_00978f10()
     reinterpret_cast<::TESSound *>(this)->FUN_0077eac0();
 }
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 
@@ -768,7 +769,7 @@ bool BGSProjectile::IsFlag200Set() const
 }  // namespace fnv_009c2e60
 
 struct ShadowSceneNode;
-struct NiAVObject;
+class NiAVObject;
 struct Flt
 {
     operator unsigned int() const;
@@ -777,14 +778,14 @@ struct NP
 {
     NP& operator=(void*);
 };
-struct ExtraDataList
+class ExtraDataList
 {
 };
 struct NiAdditionalGeometryData
 {
     static ShadowSceneNode* GetShadowSceneNodeForIndex(int);
 };
-class NiPoint3;
+struct NiPoint3;
 struct Big;
 struct Holder
 {
@@ -1250,10 +1251,11 @@ void FUN_009bba90_shell::FUN_009bba90(BGSLoadFormBuffer* apLoadGameBuffer)
 }
 
 namespace fnv_009bbb40 {
-struct NiAVObject;
+class NiAVObject;
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -1374,7 +1376,7 @@ struct TESObjectREFR
 
 };
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 
@@ -1417,19 +1419,20 @@ void FUN_009bbb40_shell::ValidateWorldObjectCount(void* apLoadGameBuffer)
 }  // namespace fnv_009bbb40
 
 namespace fnv_009bdff0 {
-struct NiNode;
-struct TESObjectREFR;
+class NiNode;
+class TESObjectREFR;
 struct NiObjectNET;
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
     virtual NiNode* vfn_0c();
 };
 
-struct NiTimeController
+class NiTimeController
 {
 };
 
@@ -1591,14 +1594,16 @@ struct ActorSubObj
     virtual int GetAv(int);
 };
 
-struct Actor
+class Actor
 {
+  public:
     char pad_00[0xa4];
     ActorSubObj m_a4;
 };
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -1878,8 +1883,9 @@ struct BSMultiBoundRoom
     void* FUN_006ab360();
 };
 
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength();
 };
 
@@ -1888,7 +1894,7 @@ class TESActorBase;
 enum ACTOR_LIFE_STATE;
 enum SEX;
 enum SIT_SLEEP_STATE;
-struct Actor
+class Actor
 {
 public:
     ::TESActorBase *GetActorBase();
@@ -1908,8 +1914,9 @@ public:
 };
 
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -2082,8 +2089,9 @@ struct S9b46c0
 {
 };
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -2151,8 +2159,9 @@ struct TESObjectREFR
     virtual bool IsActor();
 };
 
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -2415,8 +2424,9 @@ struct ActorH
 {
 };
 
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -2710,7 +2720,7 @@ struct TESObjectLIGH
 {
 };
 
-struct EffectSetting
+class EffectSetting
 {
 };
 
@@ -2864,10 +2874,11 @@ void XActor::FUN_009c3d90()
 }  // namespace fnv_009c3d90
 
 namespace fnv_009bb970 {
-struct NiAVObject;
+class NiAVObject;
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual NiAVObject* m0()
     {
         return 0;
@@ -4322,8 +4333,9 @@ struct BaseProcess9c
     virtual void Activate18();
     int GetProcessLevel();
 };
-struct HighProcess : public BaseProcess9c
+class HighProcess : public BaseProcess9c
 {
+  public:
     HighProcess();
     int unk004;
     int unk008;
@@ -10763,7 +10775,7 @@ class FUN_00865df0_buf
   public:
 };
 
-class BGSSaveFormBuffer : public FUN_00865df0_buf
+struct BGSSaveFormBuffer : public FUN_00865df0_buf
 {
   public:
 };
@@ -11547,8 +11559,9 @@ struct Virtuals
 struct ActorValues
 {
 };
-struct Actor : Virtuals
+class Actor : public Virtuals
 {
+  public:
     int unk04;
     int unk08;
     int unk0C;
@@ -11761,7 +11774,7 @@ FUN_009bbc40::~FUN_009bbc40()
 {}
 
 namespace fnv_009bc470 {
-struct NiNode;
+class NiNode;
 class NiAVObject
 {
   public:
@@ -12038,10 +12051,11 @@ FUN_009bc470::~FUN_009bc470()
 struct NiRTTI;
 
 
-class CloningProcess;
-class NiUpdateData;
-struct NiNode
+struct CloningProcess;
+struct NiUpdateData;
+class NiNode
 {
+  public:
     unsigned int GetNumChildren();
     NiAVObject* GetAt(unsigned int);
 public:
@@ -14096,7 +14110,7 @@ bool RefP9::FUN_009c03f0()
     return bHitDetected;
 }
 
-class hkVector4
+struct hkVector4
 {
   public:
     hkVector4();

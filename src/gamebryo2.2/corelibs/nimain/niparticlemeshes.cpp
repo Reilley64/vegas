@@ -21,7 +21,7 @@
 #include "fnv/symbols_00a9b000.h"
 #include "fnv/symbols_010a0000.h"
 #include "fnv/symbols_011f5000.h"
-class NiRTTI;
+struct NiRTTI;
 
 class NiParticles
 {
@@ -72,7 +72,7 @@ void* FUN_00a98ed0_shell::FUN_00a98ed0(unsigned int flags)
     return p;
 }
 
-class NiRenderer;
+struct NiRenderer;
 class NiParticleMeshesData;
 struct HackBase
 {
@@ -97,11 +97,12 @@ void FUN_00a99090_shell::FUN_00a99090(NiRenderer* pkRenderer)
     }
 }
 
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class A> struct NiTPrimitiveArray
+template <class T, class A> class NiTPrimitiveArray
 {
+  public:
     T* m_pData;
     unsigned int m_u04;
     unsigned short m_usMax;
@@ -133,8 +134,9 @@ struct FUN_00a808f0_shell
 {
     void UpdateSelectiveUpdateFlags(bool*, bool, bool*);
 };
-struct NiNode
+class NiNode
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -192,16 +194,19 @@ void FUN_00a99000_shell::FUN_00a99000(bool& bSelectiveUpdate, bool bSelectiveUpd
 }
 
 namespace fnv_00a99040 {
-struct NiPropertyState
+class NiPropertyState
 {
+  public:
     char _pad[28];
 };
-struct NiGeometry
+class NiGeometry
 {
+  public:
     virtual void UpdatePropertiesDownwardPass(NiPropertyState*);
 };
-struct NiNode
+class NiNode
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();

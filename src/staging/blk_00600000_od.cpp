@@ -325,8 +325,9 @@ bool FUN_0061f420(std::uintptr_t auiValue, std::uintptr_t auiOther)
     return false;
 }
 
-struct TESResponseList
+class TESResponseList
 {
+  public:
     void ClearResponses();
 };
 
@@ -624,8 +625,8 @@ struct FUN_0060bcf0_class
 {
     void* FUN_0060bcf0(unsigned int flags);
 };
-template <typename T, typename A> struct NiTArray;
-template <> struct NiTArray<int, int>
+template <typename T, typename A> class NiTArray;
+template <> class NiTArray<int, int>
 {
 };
 struct FUN_0060bd90_cls
@@ -735,8 +736,9 @@ void* FUN_0061bf50_class::FUN_0061c0f0(unsigned int flags)
     return this;
 }
 
-struct TESTopicInfo
+class TESTopicInfo
 {
+  public:
     virtual void F00() = 0;
     virtual void F01() = 0;
     virtual void F02() = 0;
@@ -999,8 +1001,9 @@ struct StartMenu
     char const* GetMenuTitle();
 };
 
-struct GlobalObject_0040c150 : public StartMenu
+class GlobalObject_0040c150 : public StartMenu
 {
+  public:
     char const* FUN_006167d0();
 };
 

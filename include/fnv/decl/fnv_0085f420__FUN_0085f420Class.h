@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_0085f420 { struct TESSound; }
+namespace fnv_0085f420 { class TESSound; }
 
 namespace fnv_0085f420 {
 struct FUN_0085f420Class {

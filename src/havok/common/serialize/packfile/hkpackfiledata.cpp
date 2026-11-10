@@ -40,7 +40,7 @@ struct FUN_00cb1930_Class
 
 // Native class lookup belongs to the actual owner in packfile_data_finishing.cpp.
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 

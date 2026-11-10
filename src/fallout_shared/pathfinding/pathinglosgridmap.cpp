@@ -93,7 +93,7 @@ void FUN_006e0ed0_shell::FUN_006e0ed0(void* arg)
 }
 
 
-struct NavMeshInfo
+class NavMeshInfo
 {
 public:
     bool ResolveNavMesh(::NavMeshPtr &);
@@ -431,12 +431,13 @@ struct GO
     operator unsigned int();
 };
 
-struct NavMesh
+class NavMesh
 {
 };
 
-template <class T> struct NiPointer : public GO
+template <class T> class NiPointer : public GO
 {
+  public:
     T* ptr;
     NiPointer(T*);
     ~NiPointer();

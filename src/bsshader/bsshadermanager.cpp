@@ -116,7 +116,7 @@
 #include "fnv/symbols_011aa000.h"
 #include <math.h>
 
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
 
   public:
@@ -124,8 +124,8 @@ class NiGlobalStringTable
 };
 
 
-class NiRTTI;
-class NiRenderer;
+struct NiRTTI;
+struct NiRenderer;
 class BSFileEntry;
 class BSFogProperty;
 
@@ -141,7 +141,7 @@ class NiRefObject
             DeleteThis();
     }
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     NiObject* DynamicCast(const NiRTTI*);
@@ -257,7 +257,7 @@ class NiAVObject
 public:
     ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     void SetFogPropertyForIndex(BSFogProperty*);
@@ -4302,8 +4302,9 @@ struct NativeB66810 : NiRefObject
     NativeB66810(bool);
     virtual ~NativeB66810();
 };
-struct NiGeometryData : NiObject
+class NiGeometryData : public NiObject
 {
+  public:
     virtual void v08();
     virtual void v0c();
     virtual void v10();
@@ -4366,9 +4367,10 @@ struct NiGeometryData : NiObject
 struct NiTriBasedGeomData : NiGeometryData
 {
 };
-struct NiTriBasedGeom;
-struct NiGeometry : NiObject
+class NiTriBasedGeom;
+class NiGeometry : public NiObject
 {
+  public:
     virtual void v08();
     virtual void v0c();
     virtual void v10();
@@ -4396,8 +4398,9 @@ struct NiGeometry : NiObject
         return GetData()->GetVertexCount();
     }
 };
-struct NiTriBasedGeom : NiGeometry
+class NiTriBasedGeom : public NiGeometry
 {
+  public:
     unsigned short* GetStripIndices()
     {
         return ((unsigned short *)(::FUN_00a75f10((char *)(geometryData))));

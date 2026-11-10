@@ -78,7 +78,7 @@ bool FUN_00a864d0_Class::FUN_00a864d0(A46BB0Object* pkObject)
     return true;
 }
 
-class NiStream;
+struct NiStream;
 struct SkinGraph
 {
     void* vtable;

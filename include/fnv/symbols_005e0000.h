@@ -1,7 +1,7 @@
 #pragma once
 
-class GlobalObject_00869f00;
-namespace fnv_005e0540 { class GlobalObject_00869f00; }
+struct GlobalObject_00869f00;
+namespace fnv_005e0540 { struct GlobalObject_00869f00; }
 struct NiTArray_Layout;
 
 // 0x005e03d0

@@ -38,7 +38,7 @@ FUN_00404d00_class::FUN_00404d00_class()
     m_kPointB = 0;
 }
 
-struct AnimSequenceBase;
+class AnimSequenceBase;
 struct NiTMapItem
 {
     NiTMapItem* m_pkNext;
@@ -303,7 +303,7 @@ void FUN_00438af0_Class::FUN_00438af0()
     this->unk0C = 0;
 }
 
-struct AnimSequenceBase;
+class AnimSequenceBase;
 struct MapEntry49c250
 {
     MapEntry49c250* m_pkNext;
@@ -493,7 +493,7 @@ void FUN_00844700_Class::FUN_00844700(std::uintptr_t key, std::uintptr_t value)
     ++this->count;
 }
 
-struct AnimSequenceBase;
+class AnimSequenceBase;
 
 struct FUN_00a0c6c0_node
 {
@@ -801,7 +801,7 @@ void S_00b601a0_Map::FUN_00b601a0()
     m_uiCount = 0;
 }
 
-struct NiTexture;
+class NiTexture;
 
 class NiTexture;
 

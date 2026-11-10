@@ -2,7 +2,7 @@
 #include <cstdint>
 
 namespace fnv_007d6ff0 { struct DebrisData; }
-namespace fnv_007d6ff0 { struct Tile; }
+namespace fnv_007d6ff0 { class Tile; }
 
 namespace fnv_007d6ff0 {
 struct FUN_007d6ff0_shell {

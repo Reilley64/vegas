@@ -1,9 +1,9 @@
 #pragma once
 
 class C5784F0Object;
-namespace fnv_00578250 { struct NiAVObject; }
+namespace fnv_00578250 { class NiAVObject; }
 namespace fnv_00578400 { class _FakeNiNode; }
-struct NiNode;
+class NiNode;
 struct NodeView;
 
 // 0x00578060

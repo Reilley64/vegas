@@ -77,7 +77,7 @@ FUN_00d4d720::FUN_00d4d720(::FUN_00c90510_Entity* entity, const float* axis, flo
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <cstddef>
 
-class hkpRigidBody;
+struct hkpRigidBody;
 class hkpPhantom;
 
 

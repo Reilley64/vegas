@@ -909,7 +909,7 @@ bhkPackedNiTriStripsShape* CreatePackedNiTriStripsShape()
     return new bhkPackedNiTriStripsShape;
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     virtual void v00();
@@ -7424,8 +7424,9 @@ struct WorldLock_t
     virtual void Mark(unsigned int id, LockFlag_t flag);
 };
 
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     void* vtbl;
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;
@@ -7625,7 +7626,7 @@ struct hkVector4
 {
     float x, y, z, w;
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -8903,7 +8904,7 @@ struct WalkLeaf
     WalkLink links;
 };
 class NiAVObject;
-class NiRTTI;
+struct NiRTTI;
 class GarbageCollectorObjectPtr
 {
   public:
@@ -10193,7 +10194,7 @@ struct NiRTTI
 };
 
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -10771,7 +10772,7 @@ struct ScopedMemContext
 };
 
 
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
 };
@@ -10797,7 +10798,7 @@ struct NiRTTI
     const NiRTTI* m_pBaseRTTI;
 };
 
-class NiObject
+struct NiObject
 {
   public:
     virtual void v00();

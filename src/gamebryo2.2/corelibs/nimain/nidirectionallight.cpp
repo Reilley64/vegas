@@ -93,8 +93,9 @@ struct FUN_00a75cb0_shell : public NiDirectionalLight
     void FUN_00a75cb0(NiUpdateData*);
 };
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     void UpdateWorldData(NiUpdateData&);
 };
 
@@ -112,11 +113,12 @@ void FUN_00a75cb0_shell::FUN_00a75cb0(NiUpdateData* UpdateData)
 }
 
 namespace fnv_00a75d70 {
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class A> struct NiTPrimitiveArray
+template <class T, class A> class NiTPrimitiveArray
 {
+  public:
     char _pad[8];
     unsigned short m_usMax;
     unsigned short m_usSize;
@@ -155,7 +157,7 @@ NiDirectionalLight* __cdecl CreateNiDirectionalLight()
     return new (FUN_00aa13e0(sizeof(NiDirectionalLight))) NiDirectionalLight;
 }
 
-class NiObject;
+struct NiObject;
 
 
 void* FUN_00a75c20(char* pObject);

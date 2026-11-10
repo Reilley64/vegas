@@ -383,7 +383,7 @@ struct FUN_004a3c90
     FUN_004a3c90(const FUN_004a3c90*);
 };
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -398,9 +398,9 @@ struct hkVector4
     hkVector4();
 };
 
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -414,7 +414,7 @@ public:
     float ComputeMagnitude() const;
 };
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float elements[3][3];

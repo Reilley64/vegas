@@ -1,6 +1,6 @@
 #pragma once
 
-struct ExtraRefractionProperty;
+class ExtraRefractionProperty;
 
 struct FUN_00422820_shell {
 public:

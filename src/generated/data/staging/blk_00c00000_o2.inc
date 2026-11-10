@@ -10,7 +10,7 @@
 #pragma comment(linker, "/alternatename:?DAT_011f9518@fnv_00c0bcf0@@3PEAUC0BCF0Texture@1@EA=?DAT_011f9518@@3PEAVNiTexture@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011f9534@fnv_00c0fdc0@@3IA=?DAT_011f9534@@3IA")
 #pragma comment(linker, "/alternatename:?_DAT_011f91ac@@3PEAUManager374@@EA=?DAT_011f91ac@@3PEAUImageSpaceManager@@EA")
-#pragma comment(linker, "/alternatename:?g_pFnvHolder@@3PEAUFnvHolder@@EA=?DAT_011f9508@@3PEAVNiRenderer@@EA")
+#pragma comment(linker, "/alternatename:?g_pFnvHolder@@3PEAUFnvHolder@@EA=?DAT_011f9508@@3PEAUNiRenderer@@EA")
 #pragma comment(linker, "/alternatename:_DAT_011F941E=?DAT_011f941e@@3_NA")
 #pragma comment(linker, "/alternatename:fnv_particle_shader_renderer_level=?DAT_011f91c0@@3HA")
 

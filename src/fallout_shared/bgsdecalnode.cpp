@@ -76,9 +76,10 @@ void* BGSDecalNode::DestroyDecalNode(unsigned int flags)
 }
 
 namespace fnv_004ee4d0 {
-struct NiAVObject;
-struct NiNode
+class NiAVObject;
+class NiNode
 {
+  public:
     virtual void AttachChildInAvailableSlot(NiAVObject*, bool);
 };
 struct BGSDecalNode : NiNode
@@ -109,7 +110,7 @@ struct FUN_004ee560_shell
 struct PropHelper
 {
 };
-struct EffectSetting
+class EffectSetting
 {
 };
 struct BSTempEffect
@@ -221,7 +222,7 @@ struct TargetHost
 {
     void CallVirtualAndForward(VirtParam*, void*);
 };
-struct BSSimpleList
+class BSSimpleList
 {
 };
 struct DecalNode
@@ -250,11 +251,11 @@ void DecalNode::RemoveEffect(void* apEffect)
     reinterpret_cast<::ListReader *>(((*(BSSimpleList**)((char*)this + 0xac))))->FUN_00631620((const ::NodeValue &)(tmp));
 }
 
-struct NiFixedString
+class NiFixedString
 {
 };
 
-struct NiAVObject
+class NiAVObject
 {
 public:
     int IsVisualObject();

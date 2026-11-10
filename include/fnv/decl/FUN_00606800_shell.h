@@ -1,6 +1,6 @@
 #pragma once
 
-struct BipedAnimObject;
+class BipedAnimObject;
 
 struct FUN_00606800_shell {
 public:

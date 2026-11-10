@@ -1560,7 +1560,7 @@ bool FUN_006061b0_shell::FUN_006061b0(TESObjectREFR* apRef, BipedAnim* apBipedAn
     return bresult;
 }
 
-struct BipedAnimObject;
+class BipedAnimObject;
 struct FUN_00606800_shell : public BipedAnim
 {
     BipedAnimObject* FUN_00606800();
@@ -1577,17 +1577,18 @@ struct NiAdditionalGeometryData;
 struct NiBound;
 struct CloningProcess;
 struct RgbaColor;
-struct NiCullingProcess;
-struct NiGeometryData;
+class NiCullingProcess;
+class NiGeometryData;
 struct NiObject;
 struct NiPoint2;
-struct NiPropertyState;
+class NiPropertyState;
 struct NiRenderer;
-struct NiShader;
+class NiShader;
 struct NiSkinInstance;
 struct NiStream;
-struct NiGeometry : public NiAVObject
+class NiGeometry : public NiAVObject
 {
+  public:
     virtual void __vslot_0();
     virtual void RenderImmediate(NiRenderer*);
     virtual void RenderWithRenderer(NiRenderer*);
@@ -1653,8 +1654,9 @@ struct NiGeometry : public NiAVObject
     unsigned int m_uiGeometryShaderFlags;
     char _pad_ec[4];
 };
-struct NiTriBasedGeom : public NiGeometry
+class NiTriBasedGeom : public NiGeometry
 {
+  public:
     virtual void __vslot_0();
     virtual void GetTrianglePoints(unsigned short, NiPoint3**, NiPoint3**, NiPoint3**);
     virtual void* GetRTTI();
@@ -1953,7 +1955,7 @@ void QueueHelper::FUN_00444040(intptr_t aiArg1, int aiArg2, intptr_t aiArg3, int
     reinterpret_cast<::FUN_004440d0_shell *>(this)->QueueTaskByKey(aiArg1, (*(::QOut444 *)(&obj)), aiArg2, (::QueuedFile *)(std::uintptr_t)(aiArg3), aiArg4, abFlag1, abFlag2, abFlag3);
 }
 
-struct BSFaceGenManager;
+class BSFaceGenManager;
 struct NP
 {
     NP(int);
@@ -2155,7 +2157,7 @@ struct FUN_005f16f0_shell
 {
 };
 
-struct TESNPC;
+class TESNPC;
 
 struct FUN_00608da0_shell : TESNPC
 {
@@ -2229,7 +2231,7 @@ void FUN_00603bb0_Owner::FUN_00603bb0()
 
 namespace fnv_006072c0 {
 struct NiSkinInstance;
-struct NiTriBasedGeom
+class NiTriBasedGeom
 {
 };
 struct Inner6072
@@ -2457,7 +2459,7 @@ struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
-struct TESObject
+class TESObject
 {
 };
 struct GO
@@ -2547,7 +2549,7 @@ void FUN_00608e00_shell::FUN_00608e00(unsigned int aiFlags)
 }
 
 struct TESCombatStyle;
-struct TESForm;
+class TESForm;
 struct STR00
 {
 };
@@ -2575,7 +2577,7 @@ void FUN_00608e80_shell::FUN_00608e80(unsigned int aiFlags, unsigned int aiCurre
 }
 
 namespace fnv_006046a0 {
-struct TESObject
+class TESObject
 {
 };
 
@@ -7774,7 +7776,7 @@ class Shell_00608f00_Flags
     unsigned int flags;
     Shell_00608f00_Flags();
 };
-class BGSSaveFormBuffer
+struct BGSSaveFormBuffer
 {
   public:
     Shell_00608f00_Flags FUN_00428110();
@@ -8550,7 +8552,7 @@ class QHeadLocal : public FaceGenPaletteEntry
     QHeadLocal(TESNPC* apNPC, int aiFlag);
 };
 
-class Animation;
+struct Animation;
 
 class NiAVObject;
 
@@ -8728,8 +8730,9 @@ struct ElemT;
 
 struct ObjX;
 
-struct NiTimeController
+class NiTimeController
 {
+  public:
     virtual void z00();
     virtual void z01();
     virtual void z02();

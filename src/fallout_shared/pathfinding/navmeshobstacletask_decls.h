@@ -32,7 +32,7 @@ template <class T> class NiPointer
     bool operator==(const NiPointer&) const;
     T* operator->() const;
 };
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     NavMesh* ptr;
@@ -67,7 +67,7 @@ class ObstacleTask
     ~ObstacleTask();
 };
 class NavMeshTriangle;
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
 };
@@ -108,8 +108,8 @@ class ObstacleTaskData
     bool AddOperation(const NiPointer<ObstacleData>&, OBSTACLE_TASK_TYPE);
     void Process();
 };
-class BGSLoadGameBuffer;
-class Interface
+struct BGSLoadGameBuffer;
+struct Interface
 {
   public:
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-class GameSettingCollection;
+struct GameSettingCollection;
 class GlobalObject2_0040c150;
 class GlobalObject_0040c150;
 class GlobalObject_0040e0b0;

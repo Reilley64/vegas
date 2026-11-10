@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class Modifier;
+struct Modifier;
 class TESDataHandler;
 namespace fnv_00560870 { class NiAVObject; }
 namespace fnv_00560870 { struct VisitDataStandIn; }

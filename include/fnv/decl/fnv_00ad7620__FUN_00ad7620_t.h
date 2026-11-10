@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 namespace fnv_00ad7620 { struct BSSoundHandleEx; }
 
 namespace fnv_00ad7620 {

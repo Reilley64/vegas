@@ -373,12 +373,13 @@ struct BSFile;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct TESBitArrayFile;
-struct TESObjectCELL;
+class TESObjectCELL;
 struct _FILETIME;
 struct _SYSTEMTIME;
 struct _WIN32_FIND_DATAA;
-struct TESFile
+class TESFile
 {
+  public:
     bool CreateTES(char*, char*, int);
     bool CreateTES(int);
     bool OpenTESFile(char*, char*, int, bool);
@@ -2085,7 +2086,7 @@ class NiFixedString
     ~NiFixedString();
 };
 
-class NiObjectNET
+struct NiObjectNET
 {
   public:
 };
@@ -2259,8 +2260,9 @@ class GlobalObject_0045cf30
   public:
     unsigned char* Bool();
 };
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* value;
     NiFixedString(const char*);
     ~NiFixedString();
@@ -2395,7 +2397,7 @@ struct RaceLoadReactionEndian
 struct RaceLoadReactionList
 {
 };
-class NiPoint3;
+struct NiPoint3;
 struct RaceLoadReactionAccess
 {
 };

@@ -46,8 +46,9 @@ struct FUN_0080b370_shell : FUN_0080b560_shell
 class MagicCaster;
 class MagicItem;
 class EffectItem;
-struct ActiveEffect
+class ActiveEffect
 {
+  public:
     ActiveEffect(MagicCaster*, MagicItem*, EffectItem*);
 };
 extern int DAT_01079a9c;
@@ -71,14 +72,14 @@ FUN_0080b560::FUN_0080b560(MagicCaster* a, MagicItem* pItem, EffectItem* pEffect
 }
 
 namespace fnv_0080b7c0 {
-struct Actor;
+class Actor;
 struct BSThread
 {
 };
-struct MagicTarget
+class MagicTarget
 {
 };
-struct MagicCaster
+class MagicCaster
 {
 };
 struct Proc_S
@@ -169,8 +170,8 @@ FUN_0080b560* FUN_0080b590_object::CreateAndApplyEffect()
 }
 
 namespace fnv_0080b660 {
-struct Actor;
-struct MagicCaster
+class Actor;
+class MagicCaster
 {
 };
 struct SourceA

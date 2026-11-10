@@ -1,7 +1,7 @@
 #pragma once
 
 class NavMeshInfo;
-class NiPoint3;
+struct NiPoint3;
 
 struct FUN_006d6e50 {
 public:

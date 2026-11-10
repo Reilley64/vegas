@@ -801,7 +801,7 @@ void FUN_00646310(void* a, bool b, float* pfValue, float* pfScaledValue)
 }
 
 void __cdecl ClampInt(int*, int, int);
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:
@@ -886,14 +886,15 @@ struct FUN_00646020_shell
 struct FUN_0051f5f0_shell
 {
 };
-struct TESCreature
+class TESCreature
 {
 };
 struct TESObjectWEAP_GetReloadAnim
 {
 };
-struct PlayerCharacter
+class PlayerCharacter
 {
+  public:
     Animation* GetAnimation(bool);
 };
 int __cdecl GetType(unsigned short);

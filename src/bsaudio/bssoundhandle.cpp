@@ -285,7 +285,7 @@ void FUN_00ad8c70_Class::FUN_00ad8c70(unsigned short param)
     reinterpret_cast<::fnv_00adbec0::FUN_00adbec0_cls *>((reinterpret_cast<BSAudioManagerHelper*>(&BSAudioManager::GetRandomGenerator())))->FUN_00adbec0(id, param);
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct NiMemObject
 {
     char _pad_0[1];

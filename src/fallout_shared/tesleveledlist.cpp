@@ -127,11 +127,11 @@ unsigned int DialogueRandom()
 struct BGSSaveFormBuffer;
 struct BGSTextureSet;
 struct BipedAnim;
-struct NiAVObject;
+class NiAVObject;
 struct NiPoint3;
-struct TESActorBase;
-struct TESModel;
-struct TESModelTextureSwap;
+class TESActorBase;
+class TESModel;
+class TESModelTextureSwap;
 struct TESFormList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -139,8 +139,9 @@ struct blob12
 {
     char b[12];
 };
-struct TESObject : public TESForm
+class TESObject : public TESForm
 {
+  public:
     virtual void __vslot_10();
     virtual NiAVObject* GetModel3D();
     virtual bool IsBoundAnimObject();
@@ -180,8 +181,9 @@ struct TESObject : public TESForm
     TESObject* m_pPreviousObject;
     TESObject* m_pNextObject;
 };
-struct TESBoundObject : public TESObject
+class TESBoundObject : public TESObject
 {
+  public:
     virtual void __vslot_10();
     virtual NiAVObject* Get3DObject(TESObjectREFR*);
     virtual bool IsBoundItem(char*);
@@ -210,8 +212,9 @@ struct TESBoundAnimObject : public TESBoundObject
     virtual bool IsBoundItem(char*);
     void __local_vftable_ctor_closure();
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -226,11 +229,11 @@ namespace fnv_00487840 {
 struct BGSSaveFormBuffer;
 struct BGSTextureSet;
 struct BipedAnim;
-struct NiAVObject;
+class NiAVObject;
 struct NiPoint3;
-struct TESActorBase;
-struct TESModel;
-struct TESModelTextureSwap;
+class TESActorBase;
+class TESModel;
+class TESModelTextureSwap;
 struct TESFormList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -238,8 +241,9 @@ struct blob12
 {
     char b[12];
 };
-struct TESObject : public TESForm
+class TESObject : public TESForm
 {
+  public:
     virtual void __vslot_10();
     virtual NiAVObject* GetModel3D();
     virtual bool IsBoundAnimObject();
@@ -279,8 +283,9 @@ struct TESObject : public TESForm
     TESObject* m_pPreviousObject;
     TESObject* m_pNextObject;
 };
-struct TESBoundObject : public TESObject
+class TESBoundObject : public TESObject
 {
+  public:
     virtual void __vslot_10();
     virtual NiAVObject* Get3DObject(TESObjectREFR*);
     virtual bool IsBoundItem(char*);
@@ -309,8 +314,9 @@ struct TESBoundAnimObject : public TESBoundObject
     virtual bool IsBoundItem(char*);
     void __local_vftable_ctor_closure();
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -385,11 +391,11 @@ namespace fnv_0050ad90 {
 struct BGSSaveFormBuffer;
 struct BGSTextureSet;
 struct BipedAnim;
-struct NiAVObject;
+class NiAVObject;
 struct NiPoint3;
-struct TESActorBase;
-struct TESModel;
-struct TESModelTextureSwap;
+class TESActorBase;
+class TESModel;
+class TESModelTextureSwap;
 struct TESFormList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -397,8 +403,9 @@ struct blob12
 {
     char b[12];
 };
-struct TESObject : public TESForm
+class TESObject : public TESForm
 {
+  public:
     virtual void __vslot_10();
     virtual NiAVObject* GetModel3D();
     virtual bool IsBoundAnimObject();
@@ -438,8 +445,9 @@ struct TESObject : public TESForm
     TESObject* m_pPreviousObject;
     TESObject* m_pNextObject;
 };
-struct TESBoundObject : public TESObject
+class TESBoundObject : public TESObject
 {
+  public:
     virtual void __vslot_10();
     virtual NiAVObject* Get3DObject(TESObjectREFR*);
     virtual bool IsBoundItem(char*);
@@ -468,8 +476,9 @@ struct TESBoundAnimObject : public TESBoundObject
     virtual bool IsBoundItem(char*);
     void __local_vftable_ctor_closure();
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -495,11 +504,11 @@ namespace fnv_0050b370 {
 struct BGSSaveFormBuffer;
 struct BGSTextureSet;
 struct BipedAnim;
-struct NiAVObject;
+class NiAVObject;
 struct NiPoint3;
-struct TESActorBase;
-struct TESModel;
-struct TESModelTextureSwap;
+class TESActorBase;
+class TESModel;
+class TESModelTextureSwap;
 struct TESFormList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -507,8 +516,9 @@ struct blob12
 {
     char b[12];
 };
-struct TESObject : public TESForm
+class TESObject : public TESForm
 {
+  public:
     virtual void __vslot_10();
     virtual NiAVObject* GetModel3D();
     virtual bool IsBoundAnimObject();
@@ -548,8 +558,9 @@ struct TESObject : public TESForm
     TESObject* m_pPreviousObject;
     TESObject* m_pNextObject;
 };
-struct TESBoundObject : public TESObject
+class TESBoundObject : public TESObject
 {
+  public:
     virtual void __vslot_10();
     virtual NiAVObject* Get3DObject(TESObjectREFR*);
     virtual bool IsBoundItem(char*);
@@ -570,8 +581,9 @@ struct TESBoundObject : public TESObject
     void __local_vftable_ctor_closure();
     char TESBoundObjectBounds[12];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -735,8 +747,9 @@ void* FUN_00c61270_shell::FUN_00c61270()
     return &(*reinterpret_cast<void * *>(&::g_01204398));
 }
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     static void* FUN_00c61280(NiRefObject* obj, unsigned int flags);
 };
@@ -799,13 +812,13 @@ void TmpEndian::SwapEndian()
     ::FUN_00407a90((short *)(unsigned short *)(&f2));
 }
 
-class NiStream;
+struct NiStream;
 struct FUN_00c4f9f0_shell
 {
     char _pad[12];
     void FUN_00c4f9f0(NiStream&);
 };
-class NiStream;
+struct NiStream;
 struct NiColor
 {
     char _pad[12];
@@ -869,10 +882,10 @@ struct Host : FUN_00c38050_Holder
     NiColor c1;
     NiColor c2;
     int f24;
-    void FUN_00c60f10(class NiStream&);
+    void FUN_00c60f10(struct NiStream&);
 };
 // @fnv 0x00c60f10
-void Host::FUN_00c60f10(class NiStream& s)
+void Host::FUN_00c60f10(struct NiStream& s)
 {
     reinterpret_cast<::fnv_00c4fa60::FUN_00c4fa60_shell *>(this)->FUN_00c4fa60((::fnv_00c4fa60::NiStream &)(s));
     reinterpret_cast<::NiColor *>(&(c1))->SaveBinary(s);
@@ -1645,8 +1658,9 @@ bool LeveledComparison::FUN_004889d0(BaseFormComponent* component)
 }
 
 namespace fnv_00c610a0 {
-struct BSShaderAccumulator : FUN_00c60d50_shell
+class BSShaderAccumulator : public FUN_00c60d50_shell
 {
+  public:
     int unk04;
     int unk08;
     int unk0c;
@@ -1744,7 +1758,7 @@ extern const char str_010c3570[];
 
 extern const char str_010c3568[];
 
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* GetName() const
@@ -1760,7 +1774,7 @@ class NiViewerStringsArray
   public:
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

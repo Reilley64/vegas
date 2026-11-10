@@ -1,6 +1,6 @@
 #pragma once
 
-class ScriptLocals;
+struct ScriptLocals;
 class ScriptReferencedObject;
 
 namespace fnv_005ac4f0 {

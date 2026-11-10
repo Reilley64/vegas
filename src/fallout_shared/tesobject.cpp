@@ -587,7 +587,7 @@ float FUN_0050ebf0_shell::FUN_0050ebf0()
 }  // namespace fnv_0050ebf0
 
 struct BGSDebris;
-struct BGSDestructibleObjectForm;
+class BGSDestructibleObjectForm;
 struct BGSExplosion;
 struct BGSMenuIcon;
 struct BGSMessageIcon;
@@ -595,21 +595,23 @@ struct BGSTextureSet;
 struct CollisionComponent;
 struct DestructionStageData;
 struct IDebugText;
-struct QueuedFile;
-struct Script;
+class QueuedFile;
+class Script;
 struct TESIcon;
-struct TESModelTextureSwap;
-struct TESTexture;
+class TESModelTextureSwap;
+class TESTexture;
 struct DistantTreeTextureInfo;
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -1209,7 +1211,7 @@ void FUN_0050ece0_class::FUN_0050ece0()
 }
 
 namespace fnv_0050ea50 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;

@@ -17,7 +17,7 @@ class BGSDestructibleObjectForm;
 class BGSOpenCloseForm;
 class BSFileEntry;
 class TESObjectCONTData;
-class InventoryItemEntry;
+struct InventoryItemEntry;
 class CollisionComponent;
 class ShortPoint3;
 class TESBoundAnimObject;

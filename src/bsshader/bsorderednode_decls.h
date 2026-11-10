@@ -16,7 +16,7 @@ class NiBinaryStream
         return result;
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     void* vtable;
@@ -29,7 +29,7 @@ class NiNode
   public:
     char data[0xac];
 };
-class NiStream;
+struct NiStream;
 class NiSphere
 {
   public:

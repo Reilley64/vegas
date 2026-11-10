@@ -16,8 +16,8 @@ struct NiBinaryStream
         position += read(this, buffer, bytes, (size = bytes, &size), 1);
     }
 };
-class NiObject;
-class NiStream
+struct NiObject;
+struct NiStream
 {
   public:
     char padding[0x24c];
@@ -25,8 +25,8 @@ class NiStream
 public:
     ::NiObject *GetLoadedObject();
 };
-class NiStream;
-class NiColor
+struct NiStream;
+struct NiColor
 {
   public:
     void LoadBinary(NiStream&);

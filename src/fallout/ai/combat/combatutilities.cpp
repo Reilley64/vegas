@@ -192,8 +192,9 @@ public:
 public:
     static const ::NiPoint3 ZERO;
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void v0() = 0;
     virtual void v1() = 0;
     virtual void v2() = 0;
@@ -342,7 +343,7 @@ struct NiPoint3
 struct TopicH
 {
 };
-struct TESObjectREFR : TopicH
+class TESObjectREFR : public TopicH
 {
 };
 typedef int ACTOR_SEGMENT_INVIEW;
@@ -384,8 +385,9 @@ void __cdecl FUN_009a9370(CombatController* apCombatController, CombatCoverPoint
 }  // namespace fnv_009a9370
 
 struct GameSettingCollection;
-template <typename T> struct SettingT
+template <typename T> class SettingT
 {
+  public:
     float* Float();
 };
 struct PathingRequest
@@ -775,8 +777,9 @@ struct AlchemyItem
     void* FUN_004030b0();
 };
 
-struct Actor
+class Actor
 {
+  public:
     virtual void vfunc000();
     virtual void vfunc004();
     virtual void vfunc008();
@@ -1050,8 +1053,9 @@ public:
     bool IsSneaking();
 };
 
-struct ExtraFollower
+class ExtraFollower
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -1068,7 +1072,7 @@ struct FUN_00422700_shell
     ExtraFollower* FUN_00422700();
 };
 
-struct ExtraDataList;
+class ExtraDataList;
 
 struct TopicInfoArray
 {
@@ -3597,7 +3601,7 @@ struct DebugPoint
     DebugPoint ApplyScaled(float fScale) const;
 };
 
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;
@@ -3607,7 +3611,7 @@ class RgbaColor
     RgbaColor(float fR, float fG, float fB, float fA);
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -4160,7 +4164,7 @@ struct NiPoint3
     float z;
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -4803,7 +4807,7 @@ struct FUN_00931ed0_shell
 {
     bhkFilter* FUN_00931ed0(void* p);
 };
-struct TESObjectCELL;
+class TESObjectCELL;
 class TESObjectREFR;
 struct FUN_0059ce80_shell
 {

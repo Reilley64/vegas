@@ -240,8 +240,9 @@ FUN_009b7940_shell* FUN_009b7940_shell::Initialize()
     return this;
 }
 
-template <typename T, unsigned int N> struct BSSimpleArray
+template <typename T, unsigned int N> class BSSimpleArray
 {
+  public:
     void* pData;
     unsigned int uiSize;
     unsigned int uiCapacity;
@@ -901,7 +902,7 @@ struct ActorCore
     int unk9c;
     int unka0;
 };
-struct Actor : ActorCore, ValueInterface
+class Actor : public ActorCore, public ValueInterface
 {
 };
 struct Process

@@ -26,7 +26,7 @@ class TESDataHandlerAccess
   public:
 };
 
-class QuantityData
+struct QuantityData
 {
   public:
 };

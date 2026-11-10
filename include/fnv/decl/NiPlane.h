@@ -1,8 +1,8 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 
-class NiPlane {
+struct NiPlane {
 public:
     // 0x00439090
     bool operator==(const ::NiPlane &);

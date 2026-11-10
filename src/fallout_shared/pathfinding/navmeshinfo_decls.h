@@ -13,7 +13,7 @@ template <class T> class NiPointer
     T* m_ptr;
     T* operator->() const;
 };
-class NavMeshPtr : public NiPointer<NavMesh>
+struct NavMeshPtr : public NiPointer<NavMesh>
 {
 };
 class NavMeshInfo
@@ -27,7 +27,7 @@ class PathingLocationData
 {
   public:
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     char pad[0x10];

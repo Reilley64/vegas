@@ -34,7 +34,7 @@ void ParalysisEffect::FUN_008264b0()
 }
 
 namespace fnv_00826550 {
-struct Actor;
+class Actor;
 
 struct BaseEffect
 {

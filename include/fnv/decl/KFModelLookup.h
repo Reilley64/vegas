@@ -1,6 +1,6 @@
 #pragma once
 
-class KFModel;
+struct KFModel;
 
 class KFModelLookup {
 public:

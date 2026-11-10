@@ -10,7 +10,7 @@
 #include "Actor.h"
 #undef PlayerCharacter
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     virtual unsigned char GetVersion();

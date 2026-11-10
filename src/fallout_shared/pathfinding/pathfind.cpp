@@ -409,8 +409,8 @@ FUN_006c6c60::FUN_006c6c60()
     reinterpret_cast<::S2f850 *>((((HZ*)this)))->FUN_0042fcb0(0, 0);
 }
 
-struct TESObjectCELL;
-struct TESWorldSpace;
+class TESObjectCELL;
+class TESWorldSpace;
 struct ParentSpaceNode
 {
     bool m_bIsWorldspace;
@@ -567,7 +567,7 @@ bool __cdecl DoBoundsOverlap(const NiPoint3* bound1Min, const NiPoint3* bound1Ma
     return true;
 }
 
-struct NiAVObject
+class NiAVObject
 {
 };
 struct WaitableObject
@@ -594,7 +594,7 @@ NiPtr* NiPtr::Assign(char* pObject)
     return this;
 }
 
-struct NavMeshInfo;
+class NavMeshInfo;
 struct BSSimpleArrayPacketReserve
 {
 };
@@ -1258,12 +1258,13 @@ struct HArr
 {
 };
 
-struct TESSound : public HArr
+class TESSound : public HArr
 {
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     unsigned int _FNV_GetFormType();
 };
 
@@ -1378,7 +1379,7 @@ struct FUN_00459470_Class
 {
 };
 
-struct EffectSetting
+class EffectSetting
 {
 };
 
@@ -5337,7 +5338,7 @@ bool __cdecl BuildPathNodeHolder(NiPointer<PathSource>& pSource, EntryListNode* 
     return true;
 }
 
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;

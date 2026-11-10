@@ -2,17 +2,17 @@
 #pragma once
 
 #include <windows.h>
-class CloningProcess;
-class NiStream;
-class NiObject;
-class NiObject
+struct CloningProcess;
+struct NiStream;
+struct NiObject;
+struct NiObject
 {
   public:
     virtual void vfn_00();
     virtual void DeleteThis();
     long refCount;
 };
-class NiStream
+struct NiStream
 {
   public:
     unsigned char data[0xd8];
@@ -56,7 +56,7 @@ class NiTimeController
     virtual void ProcessClone(CloningProcess&);
     unsigned char data[48];
 };
-class NiStream;
+struct NiStream;
 class NiInterpController : public NiTimeController
 {
   public:

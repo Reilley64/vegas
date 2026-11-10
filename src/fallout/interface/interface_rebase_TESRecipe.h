@@ -5,7 +5,7 @@
 #include "interface_rebase_TESFullName.h"
 #include "interface_rebase_TESCondition.h"
 class TESRecipeCategory;
-class QuantityData;
+struct QuantityData;
 class TESRecipe : public TESForm, public TESFullName
 {
   public:

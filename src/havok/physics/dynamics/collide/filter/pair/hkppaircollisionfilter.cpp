@@ -760,7 +760,7 @@ const ::vc_attributes::YesNoMaybe SA_No = ::vc_attributes::No;
 const ::vc_attributes::AccessType SA_Read = ::vc_attributes::Read;
 typedef ::vc_attributes::PreAttribute SA_Pre;
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4& hkVector4Parameter;
 class VectorComponentValue
 {
@@ -792,7 +792,7 @@ template <typename T> inline T __cdecl min2(T x, T y)
 }
 }
 class hkMatrix3;
-class hkVector4
+struct hkVector4
 {
   public:
     __forceinline void* __cdecl operator new(std::size_t nbytes)

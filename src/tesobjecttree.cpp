@@ -193,7 +193,7 @@ bool TESObjectTREE::Load(TESFile* file)
     return true;
 }
 
-class NiObject
+struct NiObject
 {
   public:
 };
@@ -336,8 +336,9 @@ float FUN_006447b0_shell::GetField84Float()
     return m_f84;
 }
 
-struct BGSImpactData
+class BGSImpactData
 {
+  public:
     char pad[0x38];
     float m_fAngleThreshold;
     float FUN_009a9350() const;
@@ -1457,7 +1458,7 @@ void FUN_0051c3b0_cls::BuildBillboardTexturePath(char* dst)
 }
 
 using ::AutoMemContext;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -1474,7 +1475,7 @@ class P2
     P2();
     P2(float, float);
 };
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     float a;

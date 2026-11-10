@@ -1,7 +1,7 @@
 #pragma once
 
 namespace q72 {
-struct Menu {
+class Menu {
 public:
     // 0x007a7260
     void FUN_007a7260();

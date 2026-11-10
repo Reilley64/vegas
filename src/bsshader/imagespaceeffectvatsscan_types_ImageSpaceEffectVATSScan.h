@@ -9,8 +9,8 @@
 #include "layout_support.h"
 class ImageSpaceEffect;
 class ImageSpaceEffect__EffectInput;
-class ImageSpaceEffectParam;
-class ImageSpaceManager;
+struct ImageSpaceEffectParam;
+struct ImageSpaceManager;
 class ImageSpaceEffectMultiTexture;
 class ImageSpaceTexture;
 class NiTPrimitiveArray_ImageSpaceEffect___;

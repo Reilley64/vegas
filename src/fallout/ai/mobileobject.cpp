@@ -492,12 +492,12 @@ bhkCharacterController* CopyCharacterControllerVector(bhkCharacterController* ou
     return output;
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct FourComponentNumericValue;
 struct hkVector4;
 struct hkpAllRayHitCollector;
 struct hkpClosestRayHitCollector;
-struct hkpPhantom;
+class hkpPhantom;
 struct hkpRigidBody;
 struct blob1
 {
@@ -1094,20 +1094,20 @@ struct ActorCause;
 struct AlchemyItem;
 struct BGSProjectile;
 struct BGSSaveFormBuffer;
-struct SaveLoadFile;
+class SaveLoadFile;
 struct CombatController;
 struct EnchantmentItem;
-struct InventoryStackRecord;
-struct NiAVObject;
+class InventoryStackRecord;
+class NiAVObject;
 struct ThreeByThreeMatrix;
-struct NiQuaternion;
-struct Projectile;
+class NiQuaternion;
+class Projectile;
 struct ProjectileAuxiliaryData;
 struct ProjectileSupportData;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESFaction;
-struct TESFile;
-struct TESObjectWEAP;
+class TESFile;
+class TESObjectWEAP;
 struct BhkPickData;
 struct bhkRigidBody;
 struct hkVector4;
@@ -1201,7 +1201,7 @@ class RecursiveSpinLock
   public:
 };
 
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
@@ -1418,8 +1418,9 @@ struct BGSSaveLoadGame
 struct TESSaveLoadGame
 {
 };
-struct PlayerCharacter
+class PlayerCharacter
 {
+  public:
     bool IsSleepingOrResting();
 };
 struct TES
@@ -1628,8 +1629,9 @@ int DummyFlags::HasFlag20()
 }
 }  // namespace fnv_009304b0
 
-struct TESObject
+class TESObject
 {
+  public:
     virtual void f00();
     virtual void f01();
     virtual void f02();
@@ -1858,10 +1860,10 @@ bool FUN_009305a0_Holder::FUN_009305a0()
 }  // namespace fnv_009305a0
 
 namespace fnv_00934f90 {
-struct TESObject
+class TESObject
 {
 };
-struct TESObjectREFR;
+class TESObjectREFR;
 struct BGSTalkingActivator
 {
 };
@@ -2299,7 +2301,7 @@ bool FUN_009305d0_shell::FUN_009305d0()
 }
 }  // namespace fnv_009305d0
 
-struct TESObjectCELL;
+class TESObjectCELL;
 
 struct TES
 {
@@ -2521,7 +2523,7 @@ bool FUN_00931880_shell::FUN_00931880()
 }
 
 namespace fnv_00931920 {
-struct TESObjectCELL;
+class TESObjectCELL;
 
 struct TES
 {
@@ -3309,7 +3311,7 @@ struct FUN_009319c0_shell : public MobileObject
     bool FUN_009319c0(int);
 };
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 struct ActorDeletionQueue
@@ -3542,13 +3544,13 @@ struct TopicH
 struct CharCtl_S
 {
 };
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 struct TESResponse
 {
 };
-struct ActiveEffect
+class ActiveEffect
 {
 };
 struct Calendar
@@ -3966,12 +3968,12 @@ void FUN_00932520_shell::UpdateFlags(unsigned int aiFlags, unsigned int aiOldFla
 
 namespace fnv_00932a00 {
 struct AlchemyItem;
-struct SaveLoadFile;
+class SaveLoadFile;
 struct EnchantmentItem;
-struct NiAVObject;
+class NiAVObject;
 struct ThreeByThreeMatrix;
-struct NiQuaternion;
-struct TESBoundObject;
+class NiQuaternion;
+class TESBoundObject;
 struct bhkRigidBody;
 struct hkVector4;
 struct blob4
@@ -4437,12 +4439,12 @@ void FUN_00932a00_t::FUN_00932a00(BGSLoadFormBuffer* apLoadGameBuffer)
 
 namespace fnv_00932b70 {
 struct AlchemyItem;
-struct SaveLoadFile;
+class SaveLoadFile;
 struct EnchantmentItem;
-struct NiAVObject;
+class NiAVObject;
 struct ThreeByThreeMatrix;
-struct NiQuaternion;
-struct TESBoundObject;
+class NiQuaternion;
+class TESBoundObject;
 struct bhkRigidBody;
 struct hkVector4;
 struct blob4
@@ -5093,17 +5095,18 @@ SoundPlaybackHandle FUN_00933150_shell::PlaySoundByFormID(unsigned int formID, b
 
 struct ActorValueInfo;
 struct BGSLoadFormBuffer;
-struct BGSPerk;
+class BGSPerk;
 struct FormRecordHeader;
 struct TESFileGroup;
-struct TESResponseList;
-struct TESActorBase;
+class TESResponseList;
+class TESActorBase;
 struct TESTopicInfoData;
-struct TESFile;
-struct TESQuest;
+class TESFile;
+class TESQuest;
 struct TopicInfoData;
-struct TESTopicInfo : public TESForm
+class TESTopicInfo : public TESForm
 {
+  public:
     virtual void __vslot_10();
     virtual void Save();
     virtual bool Load(TESFile*);
@@ -5259,7 +5262,7 @@ void FUN_00934250_shell::FUN_00934250()
 }
 
 namespace fnv_009c45d0 {
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 struct TES
@@ -5554,9 +5557,9 @@ bool FUN_009c45d0_t::FUN_009c45d0()
 namespace fnv_0092f260 {
 struct AlchemyItem;
 struct EnchantmentItem;
-struct NiAVObject;
+class NiAVObject;
 struct NiStream;
-struct TESBoundObject;
+class TESBoundObject;
 struct bhkRigidBody;
 struct blob12
 {
@@ -6435,8 +6438,9 @@ struct ExtraSayTopicInfoOnceADay : public BSExtraData
     BSSimpleList<TopicInfoVisitRecord*>* pList;
 };
 class DialogueResponse;
-struct DialogueItem
+class DialogueItem
 {
+  public:
     TESObjectREFR* FUN_005e3fa0();
 public:
     ::DialogueResponse *GetActiveResponse();
@@ -6547,7 +6551,7 @@ struct DelStandIn
 };
 }
 
-struct TESCreature
+class TESCreature
 {
 };
 
@@ -6595,7 +6599,7 @@ unsigned short FUN_00931ff0_shell::FUN_00931ff0(unsigned int aiFlags)
 }
 
 namespace fnv_00932880 {
-class BGSSaveFormBuffer;
+struct BGSSaveFormBuffer;
 
 class TESResponse
 {
@@ -6607,7 +6611,7 @@ class SaveFormIDHelper
   public:
 };
 
-class BGSSaveFormBuffer : public SaveFormIDHelper
+struct BGSSaveFormBuffer : public SaveFormIDHelper
 {
   public:
 };
@@ -8848,7 +8852,7 @@ SoundPlaybackHandle VoiceHost::PlayVoiceTopic(VoiceTopic* topic, void* listener,
     return pItem;
 }
 
-struct TESObjectCELL;
+class TESObjectCELL;
 
 struct ProcessStandIn
 {

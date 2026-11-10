@@ -423,8 +423,9 @@ void FUN_00c0bb20_class::FUN_00c0bb20(intptr_t apTarget, intptr_t apSource)
     *(int*)(*(uintptr_t*)(*(uintptr_t*)(apTarget + 0x24) + 0x14) + 8) = *(int*)(*(uintptr_t*)(apSource + 0xb4));
 }
 
-struct NiShaderConstantMapEntry
+class NiShaderConstantMapEntry
 {
+  public:
     int m_iWordAt00;
     int m_iWordAt04;
     unsigned char m_8;
@@ -716,8 +717,9 @@ void FUN_00c03390_class::FUN_00c03390(int)
     reinterpret_cast<::FUN_00a41520_cls *>(&m_kArray28)->FUN_00ba3aa0(2, (::KeyPair **)&(texture));
 }
 
-struct BeamStage
+class BeamStage
 {
+  public:
     char pad00[8];
     void* m_p08;
     char pad0c[0x54];
@@ -729,8 +731,9 @@ struct StageReturn : BeamStage
 };
 
 template <class> class NiPointer;
-struct NiD3DPass : StageReturn
+class NiD3DPass : public StageReturn
 {
+  public:
     bool ApplyRenderStateChanges(bool);
 public:
     void SetAlphaBlendMode(unsigned int, unsigned int, bool);
@@ -960,8 +963,9 @@ void FUN_00c04490_class::ResetStages(int)
 }  // namespace fnv_00c04490
 
 extern int DAT_010bca64;
-struct ImageSpaceEffect
+class ImageSpaceEffect
 {
+  public:
     intptr_t m_iWordAt00;
     int m_iWordAt04;
     int m_8;
@@ -1031,7 +1035,7 @@ struct FUN_00c056a0_class
     FUN_00c056a0_class* FUN_00c05760(char flag);
 };
 namespace fnv_00c12480 {
-struct NiD3DPass
+class NiD3DPass
 {
 };
 
@@ -1053,7 +1057,7 @@ bool FUN_00c12480(int* pObject)
 }  // namespace fnv_00c12480
 
 namespace fnv_00c16350 {
-struct NiD3DPass
+class NiD3DPass
 {
 };
 
@@ -4461,7 +4465,7 @@ void FUN_00c1a500_cls::UpdateOutput(uintptr_t a1)
     }
 }
 
-class NiRenderer;
+struct NiRenderer;
 
 struct C1A550Point3
 {
@@ -5157,7 +5161,7 @@ struct RenderSettings
     RenderColor clearColor;
 };
 extern bool DAT_011f9426;
-struct NiRenderTargetGroup;
+class NiRenderTargetGroup;
 struct BSRenderedTexture : NiRefObject
 {
     void IncRefCount()

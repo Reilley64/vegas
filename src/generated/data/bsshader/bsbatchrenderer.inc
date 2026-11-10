@@ -3,7 +3,7 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 #pragma comment(linker, "/alternatename:?g_memoryManager@@3VMemoryManager@@A=?g_memoryManager@@3UMemoryManager@@A")
-#pragma comment(linker, "/alternatename:?ms_pRenderer@NiRenderer@@2PEAU1@EA=?ms_pRenderer@NiRenderer@@2PEAV1@EA")
+#pragma comment(linker, "/alternatename:?ms_pRenderer@NiRenderer@@2PEAU1@EA=?ms_pRenderer@NiRenderer@@2PEAU1@EA")
 
 namespace fnv_00b988e0 { unsigned char DAT_011ad8ec = 1; }
 short DAT_011ae63c = -1;

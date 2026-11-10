@@ -1470,9 +1470,9 @@ void FUN_00975f90_cls::ClearMobileObjectData()
     }
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct TESObjectLIGH;
-struct TESObjectWEAP;
+class TESObjectWEAP;
 struct MuzzleFlash
 {
     void Init(TESObjectREFR*);
@@ -1773,8 +1773,9 @@ namespace fnv_0096bcd0 {
 namespace lc1 {
 using ::AutoMemContext;
 }
-struct ExtraFollower
+class ExtraFollower
 {
+  public:
     void* pVtbl;
     unsigned char m_ucExtraDataType;
     BSExtraData* pNext;
@@ -2623,15 +2624,15 @@ void FUN_0096aaf0_shell::FUN_0096aaf0(intptr_t arg1, int arg2)
 
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct FindData;
 struct KFModel;
-struct NiAVObject;
+class NiAVObject;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiNode;
+class NiControllerSequence;
+class NiNode;
 struct TESAnimGroup;
-struct TESIdleForm;
+class TESIdleForm;
 struct Animation
 {
     void SetField(unsigned char, unsigned char, unsigned char);
@@ -3639,8 +3640,9 @@ struct TESFormList
     void* GetFirst();
 };
 struct TESTopicInfoData;
-struct TESTopicInfo
+class TESTopicInfo
 {
+  public:
     CTSHelper FUN_008bcc60();
 };
 struct TESObjectREFR_GetFlags_Helper
@@ -3742,7 +3744,7 @@ struct BhkPhysicsObject;
 struct bhkSerializable;
 struct bhkShapePhantom;
 struct PhysicsSimulationContext;
-struct hkReferencedObject;
+class hkReferencedObject;
 struct hkSerializableCinfo;
 struct hkStatisticsCollector;
 struct hkStepInfo;
@@ -3751,7 +3753,7 @@ struct CharacterProxyConfiguration;
 struct Vector4Data;
 struct hkpCharacterProxy;
 struct hkpCharacterProxyListener;
-struct hkpPhantom;
+class hkpPhantom;
 struct hkpShapePhantom;
 struct CharacterPhysicsController;
 struct hkpSurfaceInfo;
@@ -3927,48 +3929,48 @@ struct BGSBodyPartData;
 struct BGSListForm;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct BSBound;
-struct BSFaceGenAnimationData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSShaderPPLightingProperty;
 struct BipedAnim;
 struct ActorCombatGroup;
 struct DetectionEvent;
 struct DetectionViewData;
-struct DialogueItem;
+class DialogueItem;
 struct DetectionParameters;
 struct FurnitureMark;
 struct GuardActorPackageData;
-struct HighProcess;
+class HighProcess;
 struct BooleanFloatQuery;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct KFModel;
 struct LipSyncAnimation;
 struct LowProcess;
-struct MagicItem;
+class MagicItem;
 struct MiddleHighProcess;
 struct MiddleLowProcess;
 struct DetectionEventData;
 struct MuzzleFlash;
-struct NiAVObject;
+class NiAVObject;
 struct NiBSBoneLODController;
 struct NiBillboardNode;
 struct NiControllerManager;
-struct NiNode;
+class NiNode;
 struct TargetDoorController;
-struct PackageTargetRecord;
-struct PathingAvoidNodeArray;
+class PackageTargetRecord;
+class PathingAvoidNodeArray;
 struct PathingLocation;
 struct PatrolActorPackageData;
 struct SpellItem;
-struct TESEffectShader;
+class TESEffectShader;
 struct TESFaction;
-struct TESIdleForm;
-struct TESObjectSTAT;
-struct TESObjectWEAP;
-struct TESWorldSpace;
-struct bhkCharacterController;
+class TESIdleForm;
+class TESObjectSTAT;
+class TESObjectWEAP;
+class TESWorldSpace;
+class bhkCharacterController;
 struct bhkSimpleShapePhantom;
 struct blob4
 {
@@ -4094,8 +4096,9 @@ struct ActorV_S
     virtual void V087();
     virtual bool IsDisabledOrDeleted();
 };
-struct HighProcess
+class HighProcess
 {
+  public:
     virtual void V000();
     virtual void V001();
     virtual void V002();
@@ -4708,8 +4711,9 @@ struct Modifier
 {
 };
 
-struct ConsoleManager
+class ConsoleManager
 {
+  public:
     static ConsoleManager* __cdecl Instance(bool create);
 };
 
@@ -10362,8 +10366,9 @@ FUN_0096a2d0* Target96::FUN_0096f450(unsigned int uiControllerId, Actor96* pExcl
 }
 
 namespace fnv_0096f600 {
-struct ExtraFollower
+class ExtraFollower
 {
+  public:
     int f0;
     int f4;
     int f8;
@@ -10378,7 +10383,7 @@ struct FUN_00422690_shell
 struct EffectSettingShell
 {
 };
-struct EffectSetting
+class EffectSetting
 {
 };
 struct DetEv18
@@ -12516,7 +12521,7 @@ class TES
   public:
 };
 
-class ModelLoader
+struct ModelLoader
 {
   public:
     bool FUN_00445750(Actor* pActor);

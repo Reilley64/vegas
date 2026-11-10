@@ -1,7 +1,7 @@
 #pragma once
 
 struct Callback;
-struct TESWorldSpace;
+class TESWorldSpace;
 
 struct Container {
 public:

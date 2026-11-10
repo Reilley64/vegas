@@ -10,8 +10,9 @@ struct RootContactPoint
     char _pad[0x48];
     const char* name;
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     int _d;
 };
 struct bhkNiCollisionObject
@@ -25,8 +26,9 @@ struct hkpWorldObject
 struct ArrSI
 {
 };
-struct NiShader
+class NiShader
 {
+  public:
     static NiAVObject* __cdecl DynamicCast(NiAVObject*);
 };
 struct DecalCaster

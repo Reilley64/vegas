@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 
 namespace fnv_00696cf0 {
 struct Host696 {

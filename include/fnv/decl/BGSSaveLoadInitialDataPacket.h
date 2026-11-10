@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class FormChangeMask;
 class TESForm;
 enum INITIAL_DATA_TYPE;

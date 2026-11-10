@@ -300,8 +300,9 @@ void* FUN_007da090_Class::FUN_007da090()
     return this;
 }
 
-struct Tile
+class Tile
 {
+  public:
     void Set(int x, int y);
 };
 class TileMenu;
@@ -774,8 +775,9 @@ FUN_007d9f90::FUN_007d9f90()
     FUN_006b3eb0(0, 0);
 }
 
-struct GlobalObject_007d9f90
+class GlobalObject_007d9f90
 {
+  public:
     void* FUN_007d9fc0(unsigned int flags);
 };
 // Calls ResetToGlobal, then deletes this when flags has bit 0 set, and returns this.
@@ -788,8 +790,9 @@ void* GlobalObject_007d9f90::FUN_007d9fc0(unsigned int flags)
     return this;
 }
 
-struct GlobalObject_007da010
+class GlobalObject_007da010
 {
+  public:
     void* FUN_007da040(unsigned int flags);
     ~GlobalObject_007da010();
 };
@@ -1004,8 +1007,9 @@ void FUN_007c9dc0_Class::InvokeCallbacksForSlot()
     }
 }
 
-struct Menu
+class Menu
 {
+  public:
     Menu();
     virtual ~Menu();
     int unk04;
@@ -1292,13 +1296,13 @@ struct NiFrustum
     bool orthographic;
     NiFrustum(bool);
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3(float, float, float);
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;

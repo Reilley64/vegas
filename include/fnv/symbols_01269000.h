@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 class HkBool;
 struct FUN_00d60570_t;
 struct GlobalDispatch;

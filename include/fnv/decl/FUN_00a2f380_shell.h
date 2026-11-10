@@ -1,6 +1,6 @@
 #pragma once
 
-class NiControllerManager;
+struct NiControllerManager;
 struct CloningProcess;
 
 struct FUN_00a2f380_shell {

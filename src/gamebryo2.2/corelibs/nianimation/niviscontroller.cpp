@@ -81,7 +81,7 @@ const char* const* __cdecl FUN_00a577b0()
     return &(*reinterpret_cast<const char *const *>(&::g_011f4228));
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     unsigned int m_uiNifVersion;  // +0xd8
@@ -133,7 +133,7 @@ bool NiTransformController::IsTargetOfType(NiObjectNET* pkTarget) const
 }
 
 extern void* DAT_0109ab44;
-struct NiTimeController
+class NiTimeController
 {
 };
 struct FUN_00a57640_shell : NiTimeController

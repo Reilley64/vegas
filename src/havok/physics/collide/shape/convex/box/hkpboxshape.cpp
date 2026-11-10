@@ -90,7 +90,7 @@ void __cdecl FUN_00c9db60(int a, int* b) {
     return reinterpret_cast<::FunctionContext *>((a))->FUN_00c90360(&(*reinterpret_cast<int *>(&::g_01268940)), {});
 }
 
-struct hkAabb;
+class hkAabb;
 
 void __cdecl ComputeAabbFromTransform(const hkTransform& transform, const hkVector4& halfExtents, hkReal tolerance, hkAabb& out);
 

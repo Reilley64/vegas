@@ -4,7 +4,7 @@
 
 #include <cstdint>
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 
 extern "C" char fnv_data_01011f58[] __asm__("?g_011c9210_arg1@@3QBDB");
 extern "C" char fnv_data_01013a60[] __asm__("?g_011c3628_arg1@@3QBDB");

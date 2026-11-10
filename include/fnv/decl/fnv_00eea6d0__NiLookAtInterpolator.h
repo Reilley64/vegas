@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00eea6d0 { struct NiFixedString; }
+namespace fnv_00eea6d0 { class NiFixedString; }
 
 namespace fnv_00eea6d0 {
 struct NiLookAtInterpolator {

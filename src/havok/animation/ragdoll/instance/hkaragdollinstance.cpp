@@ -805,7 +805,7 @@ struct hkaBone
     hkBool m_bLockTranslation;
 };
 
-class hkaSkeleton : public hkReferencedObject
+struct hkaSkeleton : public hkReferencedObject
 {
   public:
     hkStringPtr m_name;

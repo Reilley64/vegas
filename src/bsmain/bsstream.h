@@ -16,7 +16,7 @@
 #define FNV_BSSTREAM_H
 
 
-class NiObjectNET;
+struct NiObjectNET;
 class BSNodeReferences;
 
 // Shared engine reference-counting pointer. Construction and destruction
@@ -39,7 +39,7 @@ template <class T> class NiTStringMap;
 // unit self-contained, sized to the PC runtime 0x5c4 (which includes the base
 // vftable pointer) with its out-of-line constructor; BSStream reuses the
 // engine's NiStream constructor body.
-class NiStream
+struct NiStream
 {
   public:
     NiStream();

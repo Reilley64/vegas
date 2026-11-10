@@ -9,8 +9,9 @@ template <class T> class NiTNewInterface
 };
 template <class T, class A> class ObjectPool;
 extern ObjectPool<D3DRenderStateGroup, NiTNewInterface<D3DRenderStateGroup> >* DAT_0126f718;
-struct D3DRenderStateGroup
+class D3DRenderStateGroup
 {
+  public:
     bool m_bHasBeenApplied;
     static D3DRenderStateGroup* GetCurrentRenderStateGroup();
 };

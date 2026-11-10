@@ -15,8 +15,8 @@ class COMUnknownInterface;
 class RenderableGeometry;
 struct D3DXMATRIX;
 class NiAccumulator;
-class NiBound;
-class RgbaColor;
+struct NiBound;
+struct RgbaColor;
 class NiCriticalSection;
 class NiD3DGeometryGroupManager;
 class NiD3DShaderInterface;
@@ -27,12 +27,12 @@ class GeometryObject;
 class NiMaterial;
 class NiPixelData;
 class NiPixelFormat;
-class NiPoint2;
+struct NiPoint2;
 class NiPropertyState;
 class NiRenderTargetGroup;
 class NiRenderedCubeMap;
 class NiRenderedTexture;
-class NiRenderer;
+struct NiRenderer;
 class NiShader;
 class NiTAbstractPoolAllocator_unsigned_int_;
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface___;
@@ -116,7 +116,7 @@ class NiCriticalSection
     // unsigned int __cdecl NiCriticalSection::*()
     // void* __cdecl NiCriticalSection::*(unsigned int)
 };
-class NiRenderer : public NiObject
+struct NiRenderer : public NiObject
 {
   public:
     // base NiObject at +0x0, size 8
@@ -278,7 +278,7 @@ class Direct3DResourceRecord
     void* m_pPointerAtOffset10;         // +0x10, 4 bytes
     unsigned long m_uiFieldAtOffset14;  // +0x14, 4 bytes
 };
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;  // +0x0, 12 bytes

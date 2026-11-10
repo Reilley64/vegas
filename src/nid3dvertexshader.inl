@@ -14,7 +14,7 @@ class RenderableGeometry;
 class COMUnknownInterface;
 
 // Forward declarations of the renderer types named by the base chain.
-class NiD3DShaderProgramCreator;
+struct NiD3DShaderProgramCreator;
 class Direct3DDeviceInterface;
 class GraphicsRenderer;
 class ShaderPassRenderer;
@@ -22,7 +22,7 @@ class ShaderPassRenderer;
 typedef unsigned int NiUInt32;
 
 // Run time type descriptor handed out by GetRTTI.
-class NiRTTI
+struct NiRTTI
 {
 public:
     const char* m_pcName;

@@ -21,7 +21,7 @@ struct TESEscortPackageData
     void FUN_0067bca0();
     void* DestroyIfFlagged(unsigned int);
 };
-struct TESForm;
+class TESForm;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct LocationDescriptor;

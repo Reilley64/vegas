@@ -1,6 +1,6 @@
 #pragma once
 
-class SpawnedObject;
+struct SpawnedObject;
 
 class FUN_004f7130_cls {
 public:

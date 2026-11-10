@@ -237,11 +237,12 @@ bool FUN_009ab9c0_struct::FUN_009ab9c0(void* arg1, NiPoint3* arg2, void* arg3, v
 }
 
 struct NiRTTI;
-struct NiAVObject;
+class NiAVObject;
 
 
-struct NiGeometryData
+class NiGeometryData
 {
+  public:
     enum Consistency
     {
         MUTABLE = 0
@@ -251,19 +252,21 @@ public:
     bool IsGeometryDataStreamable(bool);
 };
 
-struct NiGeometry
+class NiGeometry
 {
 };
 
-struct NiNode
+class NiNode
 {
+  public:
     unsigned int GetNumChildren();
     NiAVObject* GetAt(unsigned int);
 };
 
 struct NiPoint3;
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void vfunc_00();
     virtual void vfunc_04();
     virtual void vfunc_08();
@@ -741,7 +744,7 @@ void ScScaler::ScaleObject(ScAVObject* pkObject, float fScale)
     }
 }
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     NiUpdateData(float fTime, bool m_bUpdateEnabled, bool bUpdateRelatives);

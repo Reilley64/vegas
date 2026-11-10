@@ -1,6 +1,6 @@
 #pragma once
 
-class InventoryChanges;
+struct InventoryChanges;
 
 // 0x004bf0e0
 void FUN_004bf0e0(::InventoryChanges *);

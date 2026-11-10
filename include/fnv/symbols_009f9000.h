@@ -4,7 +4,7 @@
 
 struct FUN_009f9c20_cls;
 struct S_009f9bb0_Rec;
-struct SpectatorPackage;
+class SpectatorPackage;
 
 // 0x009f9968
 unsigned int FUN_009f9968(unsigned int);

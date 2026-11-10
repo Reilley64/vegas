@@ -2,11 +2,11 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 
-extern "C" char fnv_data_011c39c4[] __asm__("?originalRuntimeFloatSetting12@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011c39dc[] __asm__("?originalRuntimeFloatSetting11@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011c3a10[] __asm__("?originalRuntimeFloatSetting13@@3V?$SettingT@VGameSettingCollection@@@@A");
+extern "C" char fnv_data_011c39c4[] __asm__("?originalRuntimeFloatSetting12@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011c39dc[] __asm__("?originalRuntimeFloatSetting11@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011c3a10[] __asm__("?originalRuntimeFloatSetting13@@3V?$SettingT@UGameSettingCollection@@@@A");
 extern "C" char fnv_data_011c3a7c[] __asm__("?g_011c3a7c@@3VGlobalObject_0040e0b0@@A");
 
 const float g_f433260DefaultZ = 0.97f;

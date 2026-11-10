@@ -83,8 +83,9 @@ void BGSBipedModelList::InitItem(TESForm* owner)
     }
 }
 
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent();
 };
 struct FUN_00474fc0_shell : BGSBipedModelList

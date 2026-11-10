@@ -25,7 +25,7 @@ class BGSCameraPath
     PerkEntryConditionSet* GetConditions();
     BSSimpleList<BGSCameraShot*>* GetShotList();
 };
-class QuantityData
+struct QuantityData
 {
   public:
     QuantityData();

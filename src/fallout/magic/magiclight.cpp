@@ -387,7 +387,7 @@ class NiAVObject
         v0DC(), v0E0(), v0E4();
     virtual void VE8(NiNode* pNode);
 };
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
 };

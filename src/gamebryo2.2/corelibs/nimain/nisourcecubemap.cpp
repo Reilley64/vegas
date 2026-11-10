@@ -33,7 +33,7 @@
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011a9000.h"
 #include "fnv/symbols_011f4000.h"
-class NiStream;
+struct NiStream;
 
 extern "C"
 {
@@ -54,8 +54,9 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a60cb0()
 }
 
 struct TextureLoadStream;
-struct NiSourceTexture
+class NiSourceTexture
 {
+  public:
     NiSourceTexture();
 public:
     void FUN_00a60180(::TextureLoadStream &);
@@ -276,7 +277,7 @@ class NiRefObject
     }
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
 
@@ -314,7 +315,7 @@ template <class T> class NiPointer
     T* m_pObject;
 };
 
-class NiStream
+struct NiStream
 {
   public:
     NiObject* GetLoadedObject() throw();
@@ -923,7 +924,7 @@ NiCubeMap* __cdecl CreateCubeMap(void* a1, void* a2, void* a3, void* a4, void* a
     return pkMap;
 }
 
-class NiStream;
+struct NiStream;
 
 struct NiBinaryStream
 {
@@ -941,7 +942,7 @@ struct NiBinaryStream
     }
 };
 
-class NiStream
+struct NiStream
 {
   public:
     int unk00;
@@ -1173,7 +1174,7 @@ void __cdecl FUN_00a60870()
     static_cast<::ControllerA606 *>(nullptr)->FUN_00a60600(*(::NiStream *)nullptr);
 }
 
-struct NiGPUProgram;
+class NiGPUProgram;
 
 template <class T> class NiPointer
 {

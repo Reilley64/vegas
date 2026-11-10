@@ -1,8 +1,8 @@
 #pragma once
 
-class NiFrustum;
-class NiStream;
-class NiUpdateData;
+struct NiFrustum;
+struct NiStream;
+struct NiUpdateData;
 struct NiPoint3;
 
 class NiCamera {

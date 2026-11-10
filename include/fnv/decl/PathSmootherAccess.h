@@ -1,7 +1,7 @@
 #pragma once
 
 class NavMeshEdgePoint;
-class NiPoint3;
+struct NiPoint3;
 
 class PathSmootherAccess {
 public:

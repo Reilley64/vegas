@@ -70,8 +70,9 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-struct NiQuaternion
+class NiQuaternion
 {
+  public:
     void SetW(float);
     void SetX(float);
     void SetY(float);
@@ -126,15 +127,15 @@ namespace fnv_00640020 {
 struct Atmosphere;
 struct BGSLoadGameBuffer;
 struct BGSSaveGameBuffer;
-struct BSFogProperty;
+class BSFogProperty;
 struct BSMultiBoundNode;
 struct Clouds;
-struct ImageSpaceModifierInstanceForm;
+class ImageSpaceModifierInstanceForm;
 struct Moon;
 struct NiColor;
-struct NiDirectionalLight;
+class NiDirectionalLight;
 struct NiFogProperty;
-struct NiNode;
+class NiNode;
 struct NiStream;
 struct Precipitation;
 struct Sky;
@@ -203,8 +204,9 @@ class NiAVObject
     virtual void* IsMultiBoundNode();
     virtual NiGeometry* IsGeometry();
 };
-struct NiNode : public NiAVObject
+class NiNode : public NiAVObject
 {
+  public:
     NiAVObject* GetAt(unsigned int);
 };
 class NiGeometry : public NiAVObject
@@ -266,7 +268,7 @@ union SETTING_VALUE
     int i;
     char* s;
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:
@@ -487,8 +489,9 @@ template <class T> class NiPointer
     T* operator->() const;
     NiPointer& operator=(T*);
 };
-struct BSStream
+class BSStream
 {
+  public:
     virtual ~BSStream();
     unsigned int version;
     char header[64];

@@ -45,7 +45,7 @@ template <class T> class NiTPrimitiveArray : public NiTArray<T, NiTMallocInterfa
 {
 };
 class ImageSpaceTexture;
-class ImageSpaceEffectParam;
+struct ImageSpaceEffectParam;
 class ImageSpaceEffect
 {
   public:

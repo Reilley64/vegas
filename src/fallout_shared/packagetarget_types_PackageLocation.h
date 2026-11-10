@@ -13,8 +13,8 @@
 #include "TESForm.h"
 #include "TESObjectREFR.h"
 #include "layout_support.h"
-class LocationDescriptor;
-class LocationDescriptor
+struct LocationDescriptor;
+struct LocationDescriptor
 {
   public:
     char m_ucLocationType;  // +0x0, 1 bytes

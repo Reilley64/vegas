@@ -3,7 +3,7 @@
 class NiNode;
 namespace sa359d0 { struct ControllerBase; }
 struct BinaryDataRecord;
-template <class> struct NiPointer;
+template <class> class NiPointer;
 
 // 0x00a35700
 void FUN_00a35700(::BinaryDataRecord *, unsigned int, ::NiPointer< ::NiNode> &);

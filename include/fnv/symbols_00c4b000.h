@@ -5,12 +5,12 @@
 
 class FUN_00c4b470_owner;
 class NiObjectC4BB;
-class NiPoint3;
-class ThreeByThreeMatrix;
+struct NiPoint3;
+struct ThreeByThreeMatrix;
 namespace fnv_00c4b500 { struct Node; }
 struct C4B0C0_Obj;
 struct Mat3;
-struct NiCamera;
+class NiCamera;
 struct ObjQ;
 struct Plane;
 struct Pt;

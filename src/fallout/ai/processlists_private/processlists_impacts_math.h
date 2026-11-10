@@ -11,7 +11,7 @@ class BSMemObject
 {
 };
 
-class ThreeByThreeMatrix : public BSMemObject
+struct ThreeByThreeMatrix : public BSMemObject
 {
   public:
     ThreeByThreeMatrix();

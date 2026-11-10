@@ -3,7 +3,7 @@
 
 namespace fnv_00754de0 { struct ActorOps; }
 namespace fnv_00754de0 { struct TileOps; }
-struct Actor;
+class Actor;
 struct FUN_00754460_self;
 
 // 0x00754460

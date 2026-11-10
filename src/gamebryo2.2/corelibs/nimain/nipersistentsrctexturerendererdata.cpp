@@ -49,7 +49,7 @@ struct NiObject
 {
 };
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     static int __cdecl RegisterObjectLoader(char const*, NiObject*(__cdecl*)(void));
@@ -881,8 +881,9 @@ struct MemoryManager
 {
 };
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual void Unknown() throw();
     virtual void DeleteThis() throw();
     volatile long m_uiRefCount;
@@ -893,8 +894,9 @@ struct NiRefObject
     }
 };
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
     NiPointer() : m_pObject(0)
     {}
@@ -1115,8 +1117,9 @@ template <class Key, class Val> struct NiTMap : public NiTMapBase<void, Key, Val
     }
 };
 
-template <class T> struct NiTArray
+template <class T> class NiTArray
 {
+  public:
     virtual ~NiTArray() throw()
     {
         NiFree(m_pBase);

@@ -243,7 +243,7 @@ class ExtraDataList;
 class NiNode;
 class AnimData;
 class ValidBip01Names;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

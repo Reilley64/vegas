@@ -1,6 +1,6 @@
 #pragma once
 
-class PathingRequest;
+struct PathingRequest;
 
 class ActorMoverBuildPath14 {
 public:

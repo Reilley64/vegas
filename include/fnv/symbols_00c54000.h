@@ -1,8 +1,8 @@
 #pragma once
 
-class NiObject;
+struct NiObject;
 struct C54400Owner;
-struct NiAVObject;
+class NiAVObject;
 
 // 0x00c54210
 ::NiAVObject *FUN_00c54210();

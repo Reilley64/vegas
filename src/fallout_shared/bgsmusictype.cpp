@@ -38,8 +38,9 @@
 #include "fnv/symbols_00472000.h"
 #include <windows.h>
 
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
+  public:
     T m_item;
     BSSimpleList<T>* m_pkNext;
     bool IsEmpty();

@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?DAT_01268910@@3QEBDEB=?g_01268910@@3VGlobalObjectO2_00d472a0@@A")
+#pragma comment(linker, "/alternatename:?DAT_01268910@@3QEBDEB=?g_01268910@@3UGlobalObjectO2_00d472a0@@A")
 #pragma comment(linker, "/alternatename:DAT_0126835c=?DAT_0126835c@@3KA")
 
 namespace fnv_00d217d0 { char str_010ce1f8[15] = "TtrcShpCollect"; }

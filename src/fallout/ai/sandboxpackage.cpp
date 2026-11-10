@@ -386,11 +386,12 @@ struct NiPoint3POD
     float y;
     float z;
 };
-struct DurationData
+class DurationData
 {
 };
-struct TESPackage
+class TESPackage
 {
+  public:
     const NiPoint3 GetPackageLocationPosition(MobileObject*);
 };
 struct BaseProcessVT
@@ -2045,7 +2046,7 @@ template <class C> class SettingT
   public:
     float* Float();
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 struct SandboxTarget
 {
     SbRefHelper* pRef;

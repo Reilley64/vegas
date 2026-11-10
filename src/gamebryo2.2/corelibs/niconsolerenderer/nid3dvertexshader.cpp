@@ -1413,8 +1413,9 @@ struct IDirect3DDevice9
 };
 
 
-struct NiShaderConstantMapEntry
+class NiShaderConstantMapEntry
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

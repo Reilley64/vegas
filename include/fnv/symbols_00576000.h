@@ -2,7 +2,7 @@
 
 namespace fnv_005764f0 { struct ArrSI; }
 namespace fnv_005764f0 { struct UpdateArg; }
-struct TESForm;
+class TESForm;
 
 // 0x00576040
 bool FUN_00576040(::TESForm *);

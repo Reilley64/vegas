@@ -134,7 +134,7 @@ extern "C" void fnv_fn_00d54720() __asm__("?FUN_00d54720@S00d54720_MoppShape@@QE
 extern "C" void fnv_fn_00d54810() __asm__("?FUN_00d54810@hkMoppBvTreeShapeBaseQ@@QEBAHAEBUhkAabbq@@PEAIH@Z");
 extern "C" void fnv_fn_00d548f0() __asm__("?FUN_00d548f0@hkpSingleChildShapeD548@@QEAAPEAV1@I@Z");
 extern "C" void fnv_fn_00d54930() __asm__("?Destroy@FUN_00d54930Object@@QEAAPEAU1@E@Z");
-extern "C" void fnv_fn_00d54f80() __asm__("?FUN_00d54f80@hkObjectD54F@@QEBAXPEAVhkStatisticsCollectorD54F@@PEBVGlobalObjectO2_00d472a0@@@Z");
+extern "C" void fnv_fn_00d54f80() __asm__("?FUN_00d54f80@hkObjectD54F@@QEBAXPEAVhkStatisticsCollectorD54F@@PEBUGlobalObjectO2_00d472a0@@@Z");
 extern "C" void fnv_fn_00d54f90() __asm__("?FUN_00d54f90@ShapeD54F90@@QEBAXAEBURayCastInputD54F90@@AEBUCdBodyD54F90@@AEAUCollectorD54F90@@@Z");
 extern "C" void fnv_fn_00d55000() __asm__("?FUN_00d55000@PlaneShapeStandIn@@QEBAXAEBURayInput@@AEBUCdBody@@AEAURayCollector@@@Z");
 extern "C" void fnv_fn_00d55160() __asm__("?FUN_00d55160@FUN_00d55160_StandIn@@QEAAXPEAUFUN_00d55160_Source@@PEAM@Z");
@@ -159,7 +159,7 @@ extern "C" void fnv_fn_00d576d0() __asm__("?FUN_00d576d0@CylShapeAdapter@@QEBAXP
 extern "C" void fnv_fn_00d57830() __asm__("?FUN_00d57830@S00d57830@@QEAAXPEAT__m128@@@Z");
 extern "C" void fnv_fn_00d57870() __asm__("?CopyField30@FnvCpu_FUN_00d57870_CpuObject@@QEAAXPEAUFnvCpu_FUN_00d57870_CpuData0@@@Z");
 extern "C" void fnv_fn_00d57890() __asm__("?FUN_00d57890@CylVertices@@QEAAPEAUhkVector4@@UVertexOutput@@@Z");
-extern "C" void fnv_fn_00d57b70() __asm__("?FUN_00d57b70@CylinderShape_d57b70@@QEBAXPEBUhkTransform@@MPEAUhkAabb@@@Z");
+extern "C" void fnv_fn_00d57b70() __asm__("?FUN_00d57b70@CylinderShape_d57b70@@QEBAXPEBVhkTransform@@MPEAVhkAabb@@@Z");
 extern "C" void fnv_fn_00d57d50() __asm__("?FUN_00d57d50@hkpCylinderShape_S@@UEBA?AVhkBool_S@@AEBUShapeRayCastQuery@@AEAUShapeRayCastOutput@@@Z");
 extern "C" void fnv_fn_00d584f0() __asm__("?FUN_00d584f0@@YAHHH@Z");
 extern "C" void fnv_fn_00d58ce0() __asm__("?FUN_00d58ce0@FUN_00d58ce0_Class@@QEAAPEAXE@Z");
@@ -175,10 +175,10 @@ extern "C" void fnv_fn_00d5a4e0() __asm__("?FUN_00d5a4e0@FUN_00d5a4e0_StandIn@@Q
 extern "C" void fnv_fn_00d5d720() __asm__("?FUN_00d5d720@FUN_00d5d720_cls@@QEAAXXZ");
 extern "C" void fnv_fn_00d5d730() __asm__("?FUN_00d5d730@FUN_00d5d730_class@@QEAAXPEAUFUN_00d5d730_Collector@@PEBD@Z");
 extern "C" void fnv_fn_00d5d760() __asm__("?FUN_00d5d760@GetChildShapeHost@@QEAAPEAVhkpSingleShapeContainer@@XZ");
-extern "C" void fnv_fn_00d5d800() __asm__("?GetAabb@Cls_00d5d800@@QEAAXAEBUhkTransform@@MAEAUAabb_00d5d800@@@Z");
+extern "C" void fnv_fn_00d5d800() __asm__("?GetAabb@Cls_00d5d800@@QEAAXAEBVhkTransform@@MAEAUAabb_00d5d800@@@Z");
 extern "C" void fnv_fn_00d5d840() __asm__("?FUN_00d5d840@TransformShape_d5d8@@QEAAMAEBT__m128@@@Z");
 extern "C" void fnv_fn_00d5d940() __asm__("?FUN_00d5d940@RtStandin@@QEBA?AUhkBoolResult@@AEBUShapeRayCastQuery@@AEAUShapeRayCastOutput@@@Z");
-extern "C" void fnv_fn_00d5dae0() __asm__("?FUN_00d5dae0@hkpConvexTransformShapeWrapper@fnv_00d5dae0@@QEBAXAEBUShapeRayCastQuery@2@AEBUhkpCdBody@2@AEAUhkpRayHitCollector@2@@Z");
+extern "C" void fnv_fn_00d5dae0() __asm__("?FUN_00d5dae0@hkpConvexTransformShapeWrapper@fnv_00d5dae0@@QEBAXAEBUShapeRayCastQuery@2@AEBVhkpCdBody@2@AEAUhkpRayHitCollector@2@@Z");
 extern "C" void fnv_fn_00d5dc70() __asm__("?FUN_00d5dc70@XformShape@@QEAAXAEBUV4@@AEAU2@@Z");
 extern "C" void fnv_fn_00d5dd40() __asm__("?FUN_00d5dd40@TransformHost@@QEAAXPEBGHPEAM@Z");
 extern "C" void fnv_fn_00d5de40() __asm__("?FUN_00d5de40@FUN_00d5de40_Obj@@QEAAXPEAUhkVector4@@@Z");
@@ -200,7 +200,7 @@ extern "C" void fnv_fn_00d5e300() __asm__("?FUN_00d5e300@ConvexListShapeQ@@QEBAX
 extern "C" void fnv_fn_00d5e3c0() __asm__("?FUN_00d5e3c0@hkpConvexListShapeD5E3@fnv_00d5e3c0@@QEBAXAEBUhkTransformD5E3@2@MAEAUhkAabbD5E3@2@@Z");
 extern "C" void fnv_fn_00d5e480() __asm__("?FUN_00d5e480@S00d5e480_Class@@QEAAXPEAUS00d5e480_Visitor@@H@Z");
 extern "C" void fnv_fn_00d5e500() __asm__("?FUN_00d5e500@Node@@UEAAPEA_NPEIA_NPEAXPEAUState@@@Z");
-extern "C" void fnv_fn_00d5e600() __asm__("?FUN_00d5e600@FUN_00d5e600_Class@@QEBAXAEBUShapeRayCastQuery@@AEBUhkpCdBody@@AEAUhkpRayHitCollector@@@Z");
+extern "C" void fnv_fn_00d5e600() __asm__("?FUN_00d5e600@FUN_00d5e600_Class@@QEBAXAEBUShapeRayCastQuery@@AEBVhkpCdBody@@AEAUhkpRayHitCollector@@@Z");
 extern "C" void fnv_fn_00d5e850() __asm__("?Destroy@FUN_00d5e850_Class@@QEAAPEAU1@H@Z");
 extern "C" void fnv_fn_00d5e880() __asm__("?FUN_00d5e880@@YAHH@Z");
 extern "C" void fnv_fn_00d5e890() __asm__("?FUN_00d5e890@@YAXPEAXI@Z");
@@ -343,13 +343,13 @@ extern "C" void fnv_fn_00dabe90() __asm__("?FUN_00dabe90@hkpGskBaseAgent@@UEAAX_
 extern "C" void fnv_fn_00dabeb0() __asm__("?Reset@FUN_00dabeb0_cls@@QEAAX_N@Z");
 extern "C" void fnv_fn_00dabed0() __asm__("?SetValueIfExpected@FUN_00dabed0_cls@@QEAAXMMPEBX@Z");
 extern "C" void fnv_fn_00dac0b0() __asm__("?FUN_00dac0b0@S_00dac0b0_Agent@@QEAAXU?$S_00dac0b0_Pad@$$CBUS_00dac0b0_Body@@@@0PEBXU?$S_00dac0b0_Pad@US_00dac0b0_Out@@@@@Z");
-extern "C" void fnv_fn_00dac9e0() __asm__("?ProcessGskContact@FUN_00dac9e0_cls@@QEAAXPEBUhkpCdBody@@0PEBUGskAgentInput@@PEAUhkpCdPointCollector@@@Z");
+extern "C" void fnv_fn_00dac9e0() __asm__("?ProcessGskContact@FUN_00dac9e0_cls@@QEAAXPEBVhkpCdBody@@0PEBUGskAgentInput@@PEAUhkpCdPointCollector@@@Z");
 extern "C" void fnv_fn_00dacaf0() __asm__("?cleanup@FUN_00dacaf0@@QEAAXPEAX@Z");
 extern "C" void fnv_fn_00dacb20() __asm__("?FUN_00dacb20@hkpGskfAgent@@QEAAXG@Z");
 extern "C" void fnv_fn_00dacb60() __asm__("?AddPotential@hkpGskfAgent@@QEAAXG@Z");
 extern "C" void fnv_fn_00dacba0() __asm__("?ClearSlotById@hkObjDACB@@QEAAXF@Z");
 extern "C" void fnv_fn_00dacd50() __asm__("?FUN_00dacd50@hkGskAgentS@@QEAAXAEBUhkCdBodyS@@0AEBUhkInputS@@PEAX@Z");
-extern "C" void fnv_fn_00daf540() __asm__("?FUN_00daf540@hkpIterativeLinearCastAgent@@QEAAXPEBUhkpCdBody@@0PEBUShapeSweepParameters@@PEAUhkpCdPointCollector@@2@Z");
+extern "C" void fnv_fn_00daf540() __asm__("?FUN_00daf540@hkpIterativeLinearCastAgent@@QEAAXPEBVhkpCdBody@@0PEBUShapeSweepParameters@@PEAUhkpCdPointCollector@@2@Z");
 extern "C" void fnv_fn_00db7810() __asm__("?FUN_00db7810@StateObject@@QEAAHPEAEH@Z");
 extern "C" void fnv_fn_00db7890() __asm__("?FUN_00db7890@@YAXPEAX@Z");
 extern "C" void fnv_fn_00db7a70() __asm__("?FUN_00db7a70@FnvCpu_FUN_00db7a70_CpuObject@@QEAAHXZ");
@@ -527,7 +527,7 @@ extern "C" void fnv_fn_00dccb70() __asm__("?SetTableValue@FUN_00dccb70_Class@@QE
 extern "C" void fnv_fn_00dccbc0() __asm__("?FUN_00dccbc0@MeshShapeDCCBC0@@QEAAHXZ");
 extern "C" void fnv_fn_00dccc30() __asm__("?GetNextNonDegenerateTriangleKey@hkpMeshShapeDCC@@QEBAII@Z");
 extern "C" void fnv_fn_00dccd00() __asm__("?FindValue@Base1DCCD@@QEAAPEAXI@Z");
-extern "C" void fnv_fn_00dccdd0() __asm__("?FUN_00dccdd0@MeshShapeHelper@@QEBAXAEBUhkTransform@@MAEAUMeshAabb@@@Z");
+extern "C" void fnv_fn_00dccdd0() __asm__("?FUN_00dccdd0@MeshShapeHelper@@QEBAXAEBVhkTransform@@MAEAUMeshAabb@@@Z");
 extern "C" void fnv_fn_00dccf60() __asm__("?CreateTriangle@Msh_dccf60_Mesh@@QEBAPEBXIPEAX@Z");
 extern "C" void fnv_fn_00dcd140() __asm__("?CollectSubPartsStats@hkObjDCD1@@QEBAXPEAVhkStatisticsCollectorDCD1@@PEBVhkClassDCD1@@@Z");
 extern "C" void fnv_fn_00dcd1b0() __asm__("?FUN_00dcd1b0@S00dcd1b0_Obj@@QEAAXH@Z");
@@ -588,7 +588,7 @@ extern "C" void fnv_fn_00ddc960() __asm__("?ForwardToTarget@S_00ddc960_cls@@QEAA
 extern "C" void fnv_fn_00ddc980() __asm__("?FUN_00ddc980@FUN_00ddc980_cls@fnv_00ddc980@@QEAAXHHH@Z");
 extern "C" void fnv_fn_00ddc9a0() __asm__("?FUN_00ddc9a0@FUN_00ddc9a0_cls@fnv_00ddc9a0@@QEAAXHI@Z");
 extern "C" void fnv_fn_00ddc9c0() __asm__("?ForwardToOwner@Interface@@QEAAXIIIMMMI@Z");
-extern "C" void fnv_fn_00ddca00() __asm__("?FUN_00ddca00@BehaviorForwarder@@QEAAHAEBV?$HavokElementArray@H@@00AEBV?$HavokElementArray@VhkVector4@@@@AEBV?$HavokElementArray@PEAD@@00AEBV?$HavokElementArray@VhkQsTransform@@@@@Z");
+extern "C" void fnv_fn_00ddca00() __asm__("?FUN_00ddca00@BehaviorForwarder@@QEAAHAEBV?$HavokElementArray@H@@00AEBV?$HavokElementArray@UhkVector4@@@@AEBV?$HavokElementArray@PEAD@@00AEBV?$HavokElementArray@UhkQsTransform@@@@@Z");
 extern "C" void fnv_fn_00ddca10() __asm__("?FUN_00ddca10@ForwarderInterfaceDDCA@@QEAAPEAUSinkDDCA@@HHHH@Z");
 extern "C" void fnv_fn_00ddca30() __asm__("?FUN_00ddca30@FUN_00ddca30_cls@fnv_00ddca30@@QEAAXHHHHI@Z");
 extern "C" void fnv_fn_00ddca50() __asm__("?ForwardToDelegate@ForwarderInterface@@UEAAPEAUSink@@HHHHHH@Z");

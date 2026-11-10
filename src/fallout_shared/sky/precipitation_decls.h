@@ -19,7 +19,7 @@ struct NiRTTI;
 class NiProperty;
 class SkyShaderProperty;
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;
@@ -121,7 +121,7 @@ enum ENUM_LOD_MULT
 {
     ENUM_LOD_MULT_Default = 0
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

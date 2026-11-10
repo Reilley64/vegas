@@ -1,7 +1,7 @@
 #pragma once
 
-class NiBound;
-class NiPoint3;
+struct NiBound;
+struct NiPoint3;
 
 struct CameraBoundMatcher {
 public:

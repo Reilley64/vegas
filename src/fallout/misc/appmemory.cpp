@@ -25,7 +25,7 @@
 #include "fnv/symbols_011f1000.h"
 #include "fnv/symbols_01202000.h"
 unsigned int gm_GetCurrentThreadId();
-struct OSGlobals
+class OSGlobals
 {
 };
 struct TES
@@ -40,8 +40,9 @@ struct Worker
 {
 };
 int FUN_00652130();
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
+  public:
     void FUN_0040fba0();
 };
 struct IOManager

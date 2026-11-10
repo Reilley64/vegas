@@ -63,7 +63,7 @@
 #include <xmmintrin.h>
 
 
-struct TESObjectREFR;
+class TESObjectREFR;
 
 // The TelekinesisEffect members after ValueModifierEffect.
 struct TelekinesisEffectFields : ValueModifierEffectFields
@@ -107,10 +107,10 @@ float FUN_0082af40_shell::GetTelekinesisStrength()
     return this->unk644;
 }
 
-struct Actor
+class Actor
 {
 };
-struct Actor;
+class Actor;
 struct ValueModifierEffect
 {
 public:
@@ -143,7 +143,7 @@ unsigned short TelekinesisEffect::FUN_0082b190(Actor* apActor)
 }
 
 namespace fnv_0082b290 {
-struct Actor;
+class Actor;
 struct TESSaveLoadGame;
 
 struct ValueModifierEffect
@@ -276,7 +276,7 @@ struct TESChallenge
 {
 };
 class EffectSetting;
-struct ActiveEffect
+class ActiveEffect
 {
 public:
     ::EffectSetting *GetEffectSetting() const;
@@ -375,12 +375,14 @@ void FUN_0082b200_shell::SaveLoad(Actor* apActor)
     }
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual ~TESObjectREFR();
 };
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
 struct InvisibilityEffect
@@ -610,7 +612,7 @@ struct TelekinesisReference
     virtual void v115();
     virtual SceneObject* GetSceneObject();
 };
-struct MagicCaster
+class MagicCaster
 {
 };
 struct ShaderDefinition
@@ -684,7 +686,7 @@ struct NiRTTI
 struct NiObject
 {
 };
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
 struct CasterPosition

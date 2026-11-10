@@ -143,7 +143,7 @@ struct blob64
 {
     char b[64];
 };
-class NiPoint3;
+struct NiPoint3;
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -494,12 +494,12 @@ FUN_004a3a70::FUN_004a3a70() : m(0)
 }
 
 namespace fnv_004a3da0 {
-struct NiAVObject;
+class NiAVObject;
 struct FourComponentNumericValue;
 struct hkVector4;
 struct hkpAllRayHitCollector;
 struct hkpClosestRayHitCollector;
-struct hkpPhantom;
+class hkpPhantom;
 struct hkpRigidBody;
 struct blob1
 {
@@ -634,11 +634,11 @@ void FUN_004a3f70(char* self, Flt f)
     *(unsigned int*)(self + 0x24) = (unsigned int)f;
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct hkVector4;
 struct hkpAllRayHitCollector;
 struct hkpClosestRayHitCollector;
-struct hkpPhantom;
+class hkpPhantom;
 struct hkpRigidBody;
 struct blob1
 {
@@ -729,10 +729,11 @@ void FUN_004a3fb0_shell::FUN_004a3fb0(hkpAllRayHitCollector* apCollector)
     m_pClosestCollector = 0;
 }
 
-struct NiSourceTexture;
+class NiSourceTexture;
 struct ScriptCompiler;
-struct ConsoleManager
+class ConsoleManager
 {
+  public:
     static void Release();
     ScriptCompiler* QConsoleCompiler();
     void Init();
@@ -806,11 +807,11 @@ bool S3e60::FUN_0056d340(uintptr_t auiFlag)
 }
 
 namespace fnv_008cdd90 {
-struct NiAVObject;
+class NiAVObject;
 struct hkVector4;
 struct hkpAllRayHitCollector;
 struct hkpClosestRayHitCollector;
-struct hkpPhantom;
+class hkpPhantom;
 struct hkpRigidBody;
 struct blob1
 {
@@ -906,14 +907,14 @@ struct BSFadeNode;
 struct BSMultiBoundNode;
 struct BSResizableTriShape;
 struct BSSegmentedTriShape;
-struct NiAVObject;
-struct NiAccumulator;
-struct NiCullingProcess;
-struct NiGeometry;
+class NiAVObject;
+class NiAccumulator;
+class NiCullingProcess;
+class NiGeometry;
 struct NiLines;
-struct NiNode;
+class NiNode;
 struct NiParticles;
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 struct NiTriShape;
 struct NiTriStrips;
 struct NiVisibleArray;
@@ -1116,8 +1117,9 @@ void T_::ForwardToSubObject(void* apParam)
 }  // namespace fnv_004a3f90
 
 namespace bsrandom_singleton {
-struct MersenneTwister
+class MersenneTwister
 {
+  public:
     static MersenneTwister* __cdecl GetRandomGenerator(void);
     void AddGeometryDecal(void* a, int b, char c);
 };
@@ -1360,8 +1362,9 @@ struct M788
 };
 struct bsrandom_singleton
 {
-    struct MersenneTwister
+    class MersenneTwister
     {
+      public:
         static bsrandom_singleton::MersenneTwister* GetRandomGenerator();
     };
 };
@@ -1393,8 +1396,9 @@ std::uintptr_t FUN_004a0330_shell::FUN_004a0330()
 }
 }  // namespace fnv_004a0330
 
-struct NiGeometryData
+class NiGeometryData
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -1439,8 +1443,9 @@ struct NiGeometryData
     virtual void v41();
     virtual void v42();
 };
-struct NiGeometry
+class NiGeometry
 {
+  public:
     void FUN_004a1ff0();
 };
 // Calls FUN_005495f0 to get the geometry data and then invokes its v42 method.
@@ -1862,8 +1867,9 @@ void Camera::UpdateCamera(Input* input)
 }
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     unsigned int GetFormType();
 };
 class Refr_C

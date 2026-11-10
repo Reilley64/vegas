@@ -10,7 +10,7 @@
 #include "fnv/symbols_011a0000.h"
 #include "fnv/symbols_011d1000.h"
 #include "fnv/symbols_011de000.h"
-struct ActiveEffect
+class ActiveEffect
 {
 };
 
@@ -63,7 +63,7 @@ FUN_0082b7b0::FUN_0082b7b0(void* a, void* b, void* c) : ValueModifierEffect(a, b
     reinterpret_cast<ValueAndConditionsEffectFields*>(this)->unk4c = -1;
 }
 
-struct Actor;
+class Actor;
 namespace ActorValue {
 enum Index
 {

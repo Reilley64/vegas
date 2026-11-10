@@ -1,6 +1,6 @@
 #pragma once
 
-struct BGSAcousticSpace;
+class BGSAcousticSpace;
 
 struct FUN_008d17d0_Class {
 public:

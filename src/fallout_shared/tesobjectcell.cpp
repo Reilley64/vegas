@@ -933,8 +933,9 @@ struct InteriorData
     InteriorData();
 };
 
-struct PathingActorData
+class PathingActorData
 {
+  public:
     char pad[0xc];
     PathingActorData();
 };
@@ -1054,7 +1055,7 @@ struct FUN_00544910_shell : public TESObjectCELL
     unsigned int FUN_00544910();
 };
 
-class BGSMessageInitAccess
+struct BGSMessageInitAccess
 {
   public:
 };
@@ -1441,7 +1442,7 @@ struct FUN_00546780_shell : public NiAVObject
     void FUN_00546780(bool);
 };
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static ::TaskQueueInterface *GetSingleton();
@@ -1560,7 +1561,7 @@ unsigned int FUN_00546af0_shell::FUN_00546af0()
     return ((unsigned int)(reinterpret_cast<::FUN_00421820_Class *>((((::BSSimpleList< ::TESImageSpaceModifier *> *)(reinterpret_cast<::FUN_004610d0_shell *>((reinterpret_cast<TESDataHandler*>(this)))->GetExtraDataList()))))->FUN_00421820()));
 }
 
-struct BGSAcousticSpace;
+class BGSAcousticSpace;
 struct FUN_00547590_shell : public TESObjectCELL
 {
     BGSAcousticSpace* FUN_00547590();
@@ -1573,8 +1574,8 @@ BGSAcousticSpace* FUN_00547590_shell::FUN_00547590()
     return ((::BGSAcousticSpace *)(std::uintptr_t)(reinterpret_cast<::FUN_0041c160_Class *>((((::BSSimpleList< ::TESImageSpaceModifier *> *)(reinterpret_cast<::FUN_004610d0_shell *>((((TESDataHandler*)this)))->GetExtraDataList()))))->FUN_0041c160()));
 }
 
-struct BGSImpactData;
-struct TESForm;
+class BGSImpactData;
+class TESForm;
 struct ImpactSwap
 {
     void Save();
@@ -1616,25 +1617,27 @@ struct TESFileGroup;
 struct HWND__;
 struct NiColor;
 struct NiPoint3;
-struct NiTexture;
+class NiTexture;
 struct SpellItem;
-struct TESBoundObject;
-struct TESForm;
+class TESBoundObject;
+class TESForm;
 struct TESWaterForm;
 struct WaterShaderSettings;
 struct blob8
 {
     char b[8];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -1766,7 +1769,7 @@ FUN_0054ad60_This* FUN_0054ad60(FUN_0054ad60_This* pThis, FUN_0054ad60_Arg aInit
     return pThis;
 }
 
-struct TESObjectSTAT;
+class TESObjectSTAT;
 struct RefStub
 {
     void* FUN_00569080();
@@ -1789,7 +1792,7 @@ struct FUN_0054b950_shell : public TESObjectCELL
 
 class TESForm;
 class TESObjectCELL;
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 public:
@@ -2054,13 +2057,14 @@ void FUN_00552900_shell::FUN_00552900(bool abAltered)
     }
 }
 
-struct TESBoundObject;
+class TESBoundObject;
 struct ScriptLocals
 {
     TESBoundObject* GetLocalData();
 };
-struct Script
+class Script
 {
+  public:
     void GetLocalData();
 };
 struct FUN_00c93820_stub
@@ -2117,11 +2121,11 @@ void S::FUN_00553440(std::intptr_t aiArg)
 }  // namespace fnv_00553440
 
 namespace fnv_00553480 {
-struct TESBoundObject;
+class TESBoundObject;
 struct ScriptLocals
 {
 };
-struct Script
+class Script
 {
 };
 struct FUN_005533f0_stub
@@ -2202,8 +2206,9 @@ struct NiMemObject
     char _pad_0[1];
 };
 using ::AutoMemContext;
-struct NiTransform
+class NiTransform
 {
+  public:
     void ResetToIdentity();
     void Invert(NiTransform*);
     void CalculateInverse(NiTransform*);
@@ -2238,8 +2243,9 @@ struct NiPoint3
     float z;
 };
 
-struct NiTransform
+class NiTransform
 {
+  public:
     NiTransform();
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
@@ -2248,8 +2254,9 @@ struct NiTransform
 }
 
 class bhkWorld;
-struct NiQuaternion
+class NiQuaternion
 {
+  public:
     static const NiQuaternion IDENTITY;
 };
 
@@ -2472,12 +2479,12 @@ bool FUN_00553bb0_caller::FUN_00553bb0()
     return (sound && ((*(::SoundDataDummy *)(reinterpret_cast<::Holder *>((sound))->CopyBig({}))).f4 & 2)) ? true : false;
 }
 
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
+class NiQuaternion;
+class TESForm;
 struct hkVector4;
 struct blob4
 {
@@ -2596,8 +2603,9 @@ unsigned int FUN_00558200(char* this_ptr)
     return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(this_ptr + 0x38))))->GetName()));
 }
 
-struct NavMeshTriangle
+class NavMeshTriangle
 {
+  public:
     void Clear();
     bool HasEdgeExtraInfo();
     bool IsPreferred();
@@ -2697,14 +2705,15 @@ struct TESFileGroup;
 struct HWND__;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESForm;
+class TESBoundObject;
+class TESForm;
 struct blob8
 {
     char b[8];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -2966,7 +2975,7 @@ void CompactArray(NiTArray_CombatGroup* pThis)
     ::FUN_004ede70(pOldBase);
 }
 
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -2979,8 +2988,8 @@ void FUN_00703980()
         ::FUN_007160b0((::InterfaceManager *)(::Modifier *)(((::Modifier *)(::fnv_004b7210::FUN_004b7210()))));
 }
 
-class IOManager;
-class NiRenderer
+struct IOManager;
+struct NiRenderer
 {
   public:
 };
@@ -3347,13 +3356,13 @@ struct TESFileGroup;
 struct HWND__;
 struct NiColor;
 struct NiPoint3;
-struct Script;
-struct TESBoundObject;
-struct TESForm;
-struct TESFullName;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class Script;
+class TESBoundObject;
+class TESForm;
+class TESFullName;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
 struct FileEntryList;
 struct TESWaterForm;
@@ -3366,8 +3375,9 @@ struct blob12
 {
     char b[12];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -3378,7 +3388,7 @@ struct FUN_005575d0_shell : public TESObjectCELL
     void UpdateNavMeshObstacles();
 };
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct RefStub;
 int _FNV_GetFormType(void*);
 struct NodeStub
@@ -3988,7 +3998,7 @@ struct CheckWithinMultiBoundTask
 };
 
 
-struct NiRenderTargetGroup;
+class NiRenderTargetGroup;
 struct BSRenderedTexture
 {
     NiRenderTargetGroup* GetGroup();
@@ -4155,7 +4165,7 @@ void TESObjectCELL_s::FUN_00546c70()
 }
 }  // namespace fnv_00546c70
 
-struct ExtraDataList;
+class ExtraDataList;
 struct FUN_0041c290_shell
 {
 };
@@ -4288,7 +4298,7 @@ intptr_t FUN_00558dd0_class::FUN_00558dd0(unsigned int index)
     return this->m_iWordAt04 + index * 16;
 }
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 struct FUN_00558e80_Class
@@ -4640,14 +4650,14 @@ bool FUN_0054c740_shell::FUN_0054c740(bool bIgnore3D, bool bIgnoreActors)
 
 namespace fnv_00550c60 {
 struct PackedRecordData;
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BGSVoiceType;
 struct BipedAnim;
 struct CHUNK;
 struct ContainerChanges;
-struct ContainerItemExtra;
+class ContainerItemExtra;
 struct InventoryItemEntry;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -4659,21 +4669,21 @@ struct NiPoint3;
 struct PackageList;
 struct SpellItem;
 struct TESAIForm;
-struct TESActorBase;
+class TESActorBase;
 struct TESActorBaseData;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
+class TESBoundObject;
+class TESContainer;
 struct TESFaction;
-struct TESForm;
+class TESForm;
 struct TESLevItem;
 struct TESLevSpell;
-struct TESObject;
-struct TESObjectARMO;
+class TESObject;
+class TESObjectARMO;
 struct TESObjectCLOT;
 struct TESFormList;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESObjectWEAP;
+class TESPackage;
 struct TESWaterForm;
 struct blob8
 {
@@ -4683,8 +4693,9 @@ struct blob12
 {
     char b[12];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -5211,15 +5222,15 @@ bool S00553bf0::FUN_00553bf0(ScriptS* apPick, NiPoint3* apPos, std::intptr_t aiA
 namespace fnv_00555740 {
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct BaseFormComponent;
+class BaseFormComponent;
 struct CHUNK;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESForm;
+class TESBoundObject;
+class TESForm;
 struct blob8
 {
     char b[8];
@@ -5243,8 +5254,9 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     FormChangeMask GetChangeFlags();
     void ReadTypedData(void*, unsigned int);
 };
-struct TESForm
+class TESForm
 {
+  public:
     virtual void LoadGame(void*);
 };
 struct SeenData
@@ -5336,7 +5348,7 @@ struct BSMultiBoundRoom;
 struct BSNiNode;
 struct BSOcclusionPlane;
 struct CloningProcess;
-struct NiCullingProcess;
+class NiCullingProcess;
 struct NiObject;
 struct NiStream;
 struct NiUpdateData;
@@ -5414,7 +5426,7 @@ class RecipeCraftingInfo
 struct TESRecipe
 {
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     float x, y, z;
@@ -5735,8 +5747,9 @@ bool FUN_00547250_shell::CheckWaterHeight(void* apPos, float* afHeight)
 
 namespace fnv_00550340 {
 struct FormS;
-struct TESForm
+class TESForm
 {
+  public:
     void Revert(unsigned int);
 };
 struct FileH
@@ -6208,8 +6221,9 @@ bool FUN_00550200::IsPointInCell(const NiPoint3& point)
 }  // namespace fnv_00550200
 
 namespace fnv_00555570 {
-struct TESForm
+class TESForm
 {
+  public:
     void Revert(unsigned int flags);
 };
 
@@ -7026,7 +7040,7 @@ void FUN_00545c10_class::ClearAdditionalGeometryData()
 }  // namespace fnv_00545c10
 
 namespace fnv_00546b10 {
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
@@ -7745,7 +7759,7 @@ class SaveFormIDHelper
   public:
 };
 
-class BGSLoadFormBuffer : public SaveFormIDHelper
+struct BGSLoadFormBuffer : public SaveFormIDHelper
 {
   public:
     FormChangeMask GetChangeFlags();
@@ -7756,7 +7770,7 @@ class BGSSaveGameBuffer : public BGSLoadFormBuffer
   public:
 };
 
-class BGSSaveFormBuffer : public BGSSaveGameBuffer
+struct BGSSaveFormBuffer : public BGSSaveGameBuffer
 {
   public:
 };
@@ -9494,7 +9508,7 @@ struct CellTarget
     int FUN_0084e3a0();
     void FUN_00552bd0(bool);
 };
-class NiPick;
+struct NiPick;
 
 struct FUN_00553d00_shell : public TESObjectCELL
 {
@@ -9879,7 +9893,7 @@ struct Inner
     int m_iValue;
 };
 
-class Owner
+struct Owner
 {
   public:
     char m_00[0x64];
@@ -15849,7 +15863,7 @@ struct NiAVObject_Shell : public NiAVObject
 };
 
 
-struct OSGlobals
+class OSGlobals
 {
 };
 extern OSGlobals* g_osGlobals;
@@ -16216,7 +16230,7 @@ FUN_004375c0::~FUN_004375c0()
 }  // namespace fnv_004375c0
 
 namespace fnv_0054cfd0 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -18416,8 +18430,9 @@ FUN_005415b0::FUN_005415b0() : fieldb4(0), fieldb8(0), fieldbc(0), fieldd4(0)
 
 using Mem960 = ::AutoMemContext;
 struct LandscapeColorData;
-struct TESObjectLAND
+class TESObjectLAND
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -18987,7 +19002,7 @@ class CullProc
     ~CullProc();
 };
 
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     float a;
@@ -19061,7 +19076,7 @@ class BSA
     BSA(int, int, int);
 };
 
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
 };
@@ -19073,7 +19088,7 @@ class AVObj
 
 class ImageSpaceEffect;
 
-class ImageSpaceManager
+struct ImageSpaceManager
 {
   public:
 };
@@ -19483,7 +19498,7 @@ bool __cdecl FUN_00554810(Obj5548* pkObj)
 }
 
 namespace fnv_00555c20 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -19492,7 +19507,7 @@ class NiPoint3
     NiPoint3(float fx, float fy, float afDepth);
     bool operator==(const NiPoint3& other);
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x;
@@ -20094,7 +20109,7 @@ void FUN_0054b830_cls::FUN_0054b830(ListArg* pOut)
 
 namespace s54ba00 {
 
-struct Actor
+class Actor
 {
 };
 
@@ -20128,7 +20143,7 @@ void Owner::FUN_0054ba00()
 
 namespace s54ba80 {
 
-struct Actor
+class Actor
 {
 };
 
@@ -20178,8 +20193,9 @@ struct Process
 {
 };
 
-struct Actor
+class Actor
 {
+  public:
     Process* FUN_005d43c0();
 };
 
@@ -20650,8 +20666,9 @@ class Process
 };
 
 
-struct Actor
+class Actor
 {
+  public:
     Process* FUN_0043fcd0();
 };
 
@@ -20896,7 +20913,7 @@ struct FUN_0054ad60 : CountingSemaphore
     ~FUN_0054ad60();
 };
 namespace N {
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 }
@@ -21724,7 +21741,7 @@ unsigned short FUN_00554b90_shell::FUN_00554b90(unsigned int flags)
 }
 }  // namespace fnv_00554b90
 
-struct Actor;
+class Actor;
 struct CellOwnerCheck : public TESObjectCELL
 {
     bool FUN_00546ca0(Actor*);
@@ -21733,8 +21750,9 @@ struct CellOwnerCheck : public TESObjectCELL
 struct FNV_Ref;
 
 
-struct TESNPC : TESBoundObject
+class TESNPC : public TESBoundObject
 {
+  public:
     virtual ~TESNPC();
 };
 
@@ -21881,9 +21899,9 @@ bool CellOwnerCheck::FUN_00546ee0(TESActorBase* apActorBase)
 }
 }  // namespace fnv_00546ee0
 
-struct Actor;
+class Actor;
 struct BGSSaveFormBuffer;
-struct SaveLoadFile;
+class SaveLoadFile;
 struct CHUNK;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -21891,9 +21909,9 @@ struct HWND__;
 struct NiColor;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESBoundObject;
-struct TESForm;
+class NiQuaternion;
+class TESBoundObject;
+class TESForm;
 struct hkVector4;
 
 struct CellInitLoadView : public TESObjectCELL
@@ -22373,7 +22391,7 @@ void FUN_00551110_Cell::FUN_005576c0()
     ::FUN_00541ae0((char *)this);
 }
 
-struct Actor;
+class Actor;
 class TESFaction;
 __if_exists(::TESBoundObject::~TESBoundObject)
 {
@@ -23843,7 +23861,7 @@ struct TESObjectLAND_ctx3
 {
 };
 
-struct NavMesh
+class NavMesh
 {
 };
 
@@ -25598,8 +25616,9 @@ extern int(* DAT_00fdf1c0)(void*);
 
 extern int(* DAT_00fdf1c4)(void*);
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual void v0();
     virtual void DeleteThis();
     unsigned int m_uiRefCount;
@@ -26294,8 +26313,9 @@ NiAVObject* FUN_0054f4f0();
 
 class CellView_rtti;
 
-struct BSExtraData
+class BSExtraData
 {
+  public:
     virtual ~BSExtraData();
     unsigned char type;
     unsigned char unknown05, unknown06, unknown07;

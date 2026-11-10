@@ -730,8 +730,9 @@ void* FUN_00ba2ff0(WorkerThreadState* self, void*, unsigned int flags)
 
 // namespace fnv_00ba2ff0
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual void F0();
     virtual void DeleteThis();
     long m_uiRefCount;
@@ -742,8 +743,9 @@ struct NiRefObject
     }
 };
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
     ~NiPointer()
     {

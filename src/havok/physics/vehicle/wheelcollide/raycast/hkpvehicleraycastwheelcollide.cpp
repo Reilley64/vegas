@@ -50,8 +50,9 @@ void* FUN_00e41ef0_self::FUN_00e41ef0(void* world)
     return ((void *)(reinterpret_cast<::FUN_00c936a0_World *>((((FUN_00c936a0_host*)world)))->FUN_00c936a0((::hkpPhantom *)(m_pPhantom))));
 }
 
-struct __declspec(align(16)) hkAabb
+class __declspec(align(16)) hkAabb
 {
+  public:
     float m_data[8];
 };
 

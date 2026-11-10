@@ -1,6 +1,6 @@
 #pragma once
 
-class FormFlagRecord;
+struct FormFlagRecord;
 class TESForm;
 
 struct ActList {

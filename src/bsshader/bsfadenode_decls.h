@@ -28,13 +28,13 @@ class NiRefObject : public NiMemObject
             DeleteThis();
     }
 };
-class NiRTTI;
-class NiObject : public NiRefObject
+struct NiRTTI;
+struct NiObject : public NiRefObject
 {
 public:
     ::NiObject *DynamicCast(const ::NiRTTI *);
 };
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     unsigned char objectNetData[16];
@@ -80,7 +80,7 @@ class MemoryManager
 {
   public:
 };
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char*);
@@ -128,8 +128,8 @@ class NiAVObject : public NiObjectNET
 public:
     ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
-class CloningProcess;
-class NiUpdateData;
+struct CloningProcess;
+struct NiUpdateData;
 class NiNode : public NiAVObject
 {
   public:
@@ -144,8 +144,9 @@ public:
 class FadingSceneNode;
 class BSMultiBoundRoom;
 class BSPortal;
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
+  public:
     T m_item;
     BSSimpleList* m_pkNext;
 };
@@ -174,8 +175,8 @@ class BSFadeNode : public NiNode
 };
 // PC depth texture forwarding declarations. The singleton has no known
 // canonical data name, so its address-based name is kept here.
-class BSRenderedTexture;
-class ImageSpaceManager
+struct BSRenderedTexture;
+struct ImageSpaceManager
 {
   public:
     BSRenderedTexture* GetDepthRenderedTexture();

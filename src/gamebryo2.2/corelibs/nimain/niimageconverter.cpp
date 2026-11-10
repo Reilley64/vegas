@@ -74,10 +74,10 @@ void CreateImageConverter()
     }
 }
 
-struct NiFile;
+class NiFile;
 struct NiImageReader;
 struct NiPixelData;
-struct NiPixelFormat;
+class NiPixelFormat;
 struct NiStream;
 struct blob68
 {
@@ -110,8 +110,9 @@ namespace fnv_00a76650 {
 struct Sub80
 {
 };
-struct NiRefObject
+class NiRefObject
 {
+  public:
     unsigned int m_uiRefCount;
     NiRefObject() : m_uiRefCount(0)
     {
@@ -136,8 +137,9 @@ namespace fnv_00a76680 {
 struct Sub80
 {
 };
-struct NiRefObject
+class NiRefObject
 {
+  public:
     unsigned int m_uiRefCount;
     virtual ~NiRefObject()
     {
@@ -281,8 +283,9 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-struct NiPixelFormat
+class NiPixelFormat
 {
+  public:
     void SetField(unsigned char, unsigned char, unsigned char);
     unsigned char GetField(unsigned char, unsigned char);
     void SetBit(bool, unsigned char);
@@ -553,8 +556,9 @@ namespace fnv_00a76bb0 {
 struct Sub80
 {
 };
-struct NiRefObject
+class NiRefObject
 {
+  public:
     unsigned int m_uiRefCount;
     virtual ~NiRefObject()
     {

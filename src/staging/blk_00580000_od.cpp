@@ -386,7 +386,7 @@ void FUN_00582000_Class::ClearArray()
         m_cByteAtOffset1[i] = 0;
 }
 
-struct TESSound
+class TESSound
 {
 };
 struct FUN_00582040_Class
@@ -663,8 +663,8 @@ unsigned int FUN_0058b680_Class::FUN_0058b680(TESForm* form)
     return result;
 }
 
-struct TESSound;
-struct TESTopicInfo;
+class TESSound;
+class TESTopicInfo;
 struct FUN_0058b630_shell
 {
     TESSound* GetCameraPathAt(unsigned int index);
@@ -729,7 +729,7 @@ struct NiFormArray
     NiFormArray();
     ~NiFormArray();
 };
-struct BGSCameraPath;
+class BGSCameraPath;
 struct NiTPrimitiveArray_BGSCameraPath
 {
     NiTPrimitiveArray_BGSCameraPath(unsigned int, unsigned int);
@@ -862,8 +862,9 @@ struct BSS
     char c[8];
     ~BSS();
 };
-struct PerkEntryConditionSet
+class PerkEntryConditionSet
 {
+  public:
     ~PerkEntryConditionSet();
 };
 struct FUN_00591170 : BSS
@@ -1008,8 +1009,9 @@ bool AudioMarkerData_589600::LoadFromFile(TESFile* apFile)
     return true;
 }
 
-struct ContainerItemExtra
+class ContainerItemExtra
 {
+  public:
     void* pVTable;
     int iCount;
     void* pItem;
@@ -1068,8 +1070,9 @@ struct FNStub
     unsigned char m_auiShapeKeys[0x0c];
 };
 
-struct TESModel : FNStub
+class TESModel : public FNStub
 {
+  public:
     unsigned int GetModelLength();
     float m_0c;
     float m_10;
@@ -1481,7 +1484,7 @@ struct ModelComponent
     virtual void v4();
     virtual const char* Name();
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };
@@ -1498,7 +1501,7 @@ struct BSSoundHandleEx
     unsigned int flags;
     ~BSSoundHandleEx();
 };
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);

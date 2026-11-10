@@ -168,11 +168,12 @@ void NiBSplineCompColorInterpolator::LoadFromStream(NiStream& stream)
 }  // namespace fnv_00a51930
 
 namespace fnv_00a519b0 {
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class A> struct NiTPrimitiveArray
+template <class T, class A> class NiTPrimitiveArray
 {
+  public:
     char _pad[8];
     unsigned short m_usMaxSize;
     unsigned short m_usSize;

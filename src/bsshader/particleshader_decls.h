@@ -11,7 +11,7 @@ extern "C"
 {
 }
 
-class NiRenderer;
+struct NiRenderer;
 class NiD3DVertexDeclaration
 {
   public:

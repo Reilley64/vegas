@@ -14,7 +14,7 @@ class NiControllerManagerSequences : public BSSimpleArray<unsigned int, 1024>
 {
   public:
 };
-class NiControllerManager
+struct NiControllerManager
 {
   public:
     static NiFixedString* FindSequenceByName();

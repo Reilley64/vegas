@@ -15,7 +15,7 @@
 struct BSFadeNode
 {
 };
-struct NiBlendInterpolator;
+class NiBlendInterpolator;
 // @fnv 0x00a57750
 NiBlendInterpolator* FUN_00a57750(int aiUnused, int aiArg, int aiUnused2, float a4, int a5)
 {
@@ -41,8 +41,8 @@ void FUN_00a57800(StrArr* apStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apStrings))->SetAt(e, pString);
 }
 
-class NiRTTI;
-class NiObject
+struct NiRTTI;
+struct NiObject
 {
   public:
     NiObject* DynamicCast(const NiRTTI*);

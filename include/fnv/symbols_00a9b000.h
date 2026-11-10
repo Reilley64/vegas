@@ -1,5 +1,5 @@
 #pragma once
-class NiStream;
+struct NiStream;
 
 enum NiShaderAttributeDesc_AttributeType;
 struct NiAlphaAccumulator;

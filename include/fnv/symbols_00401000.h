@@ -2,7 +2,7 @@
 #include <cstdint>
 
 struct MemoryManager;
-struct BGSDehydrationStage;
+class BGSDehydrationStage;
 
 // 0x00401000
 void *FUN_00401000(unsigned int);

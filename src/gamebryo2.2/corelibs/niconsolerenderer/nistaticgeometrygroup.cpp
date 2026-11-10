@@ -180,7 +180,7 @@ void NiGeometryGroup::FUN_00e94d00(void* pkObj)
 namespace fnv_00e94db0 {
 struct Direct3DDeviceInterface;
 struct NiGeometryBufferData;
-struct NiGeometryData;
+class NiGeometryData;
 struct NiGeometryGroup;
 struct NiScreenTexture;
 struct NiSkinInstance;

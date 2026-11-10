@@ -6,7 +6,7 @@
 // Shared classes come from the canonical include/ headers (Actor, MobileObject, TESObjectREFR, TESForm,
 // PlayerCharacter, BaseProcess, BSSimpleList). Two leaf types stay unit-local supersets of the canonical ones,
 // same layout, because matched functions use members the canonical headers do not declare:
-//   NiPoint3: static ZERO (?ZERO@NiPoint3@@2V1@B, 0x011f426c).
+//   NiPoint3: static ZERO (?ZERO@NiPoint3@@2U1@B, 0x011f426c).
 //   NiPointer: out-of-line operator= on incomplete T (PathingSolution/PathingRequest), operator-> (0x00559450).
 #include "fnv/decl/FUN_009dd130_shell.h"
 #define NiPointer FNV_NiPointer_Canonical
@@ -16,7 +16,7 @@
 #undef NiPoint3
 #undef NiPointer
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -45,10 +45,10 @@ template <class T> class NiPointer
 #include "BaseProcess.h"
 
 class PathingSolution;
-class PathingRequest;
+struct PathingRequest;
 class TESTopicInfo;
 
-class NiPoint3;
+struct NiPoint3;
 class ActorMover
 {
   public:

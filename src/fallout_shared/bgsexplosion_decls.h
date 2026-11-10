@@ -25,7 +25,7 @@ class TESFileChunkData16
   public:
 };
 
-class CombatController;
+struct CombatController;
 class CombatProcedure
 {
   public:

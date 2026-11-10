@@ -405,7 +405,7 @@ void FUN_00a2edf0(char* self, int edx, void* scene)
     *(void**)(self + 0x18) = scene;
 }
 
-struct NiFixedString;
+class NiFixedString;
 template <class K, class V> struct NiTMapItem;
 template <class T> struct DFALL;
 template <class T, class V> struct NiTFixedStringMapBase
@@ -528,23 +528,23 @@ NiObject* FUN_00a2f850_shell::FUN_00a2f850(CloningProcess* kCloning)
 
 namespace fnv_00a2e2e0 {
 struct FourComponentFloatVector;
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
 struct CloningProcess;
 struct NiCollisionObject;
-struct NiCullingProcess;
+class NiCullingProcess;
 struct NiDynamicEffectState;
-struct NiExtraData;
-struct NiNode;
+class NiExtraData;
+class NiNode;
 struct NiObjectGroup;
 struct NiObjectNET;
 struct NiProperty;
-struct NiPropertyState;
-struct NiQuaternion;
+class NiPropertyState;
+class NiQuaternion;
 struct NiRenderer;
 struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct FUN_00a2e2e0_shell : public NiControllerManager
 {
@@ -808,12 +808,12 @@ S00a2efa0* S00a2efa0::FUN_00a2efa0(NiObjectNET* pkTarget, bool bCumulative)
 }  // namespace fnv_00a2efa0
 
 namespace fnv_00a2f6e0 {
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
 struct NiObjectGroup;
 struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct FUN_00a2f6e0_shell : public NiControllerManager
 {
@@ -1165,7 +1165,7 @@ void FUN_00a2e9f0_cls::FUN_00a2e9f0(NiStreamImpl& stream)
     stream.SaveLinkID(m_pkLast);
 }
 
-struct NiAVObject
+class NiAVObject
 {
 };
 struct SequenceNotifier
@@ -2336,12 +2336,14 @@ DAT_0109619c::DAT_0109619c() throw()
 }
 
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual ~TESObjectREFR();
 };
-struct Actor : TESObjectREFR
+class Actor : public TESObjectREFR
 {
+  public:
     virtual void v1(int);
     virtual void v2(int);
     virtual void v3(int);

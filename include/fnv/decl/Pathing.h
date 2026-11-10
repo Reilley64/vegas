@@ -1,7 +1,7 @@
 #pragma once
 
-class NiPoint3;
-class PathingRequest;
+struct NiPoint3;
+struct PathingRequest;
 class PathingSolution;
 class TESObjectCELL;
 class TESObjectREFR;

@@ -230,8 +230,9 @@ struct GameSettingCollection
     float* Float();
 };
 
-template <class T> struct SettingT
+template <class T> class SettingT
 {
+  public:
     float* Float();
 };
 
@@ -1424,12 +1425,14 @@ struct GameSettingCollection
     float f;
     float* Float();
 };
-template <typename T> struct SettingT
+template <typename T> class SettingT
 {
+  public:
     float* Float();
 };
-template <> struct SettingT<GameSettingCollection> : public GameSettingCollection
+template <> class SettingT<GameSettingCollection> : public GameSettingCollection
 {
+  public:
     float* Float();
 };
 // Returns FUN_00404010 called with value times the float setting and value minus another float setting.
@@ -1496,8 +1499,9 @@ namespace fnv_00644540 {
 struct GameSettingCollection
 {
 };
-template <class T> struct SettingT
+template <class T> class SettingT
 {
+  public:
     float* Float();
 };
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting334;
@@ -1541,8 +1545,9 @@ void __cdecl ClampUInt(unsigned int* puiValue, unsigned int low, unsigned int hi
         *puiValue = low;
 }
 
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     float GetActorValueFloatByIndex(ActorValue::Index);
 };
 // Computes carry weight from actor value 37 divided by g_d100, scaled by a setting and offset by another setting.
@@ -1559,7 +1564,7 @@ float __cdecl FUN_00649530(ActorValueOwner* apOwner)
 }
 
 namespace fnv_00649580 {
-struct ActorValueOwner
+class ActorValueOwner
 {
 };
 // Reads actor value 44, divides it by g_d100, scales it by a runtime setting and adds another setting's float value, returning the sum.
@@ -1754,8 +1759,9 @@ struct Holder00aad6b0
 {
 };
 
-struct BSFaceGenManager
+class BSFaceGenManager
 {
+  public:
     char pad00[0x118];
     Holder00aad6b0 unk118;
     char pad119[0x3];
@@ -2774,7 +2780,7 @@ void FUN_0065ff60_class::FUN_0065ff60(int aiArg1, int aiArg2, int aiArg3, int ai
 
 struct NiRTTI;
 struct NiProperty;
-struct NiTexture;
+class NiTexture;
 
 struct PropHelper
 {
@@ -3129,7 +3135,7 @@ struct StartMenu
     char const* GetMenuTitle();
 };
 
-struct GlobalObject_0040c150 : public StartMenu
+class GlobalObject_0040c150 : public StartMenu
 {
 };
 
@@ -4504,8 +4510,9 @@ FUN_0064fe10_cls::~FUN_0064fe10_cls()
     reinterpret_cast<::FUN_00438af0_Class *>((reinterpret_cast<FUN_00438af0_cls*>(&m_04)))->FUN_00438af0();
 }
 
-struct PathingSolution
+class PathingSolution
 {
+  public:
     void IncRefCount();
     void DecRefCount();
 };
@@ -6622,8 +6629,9 @@ struct CloneVector
 {
     float x, y, z;
 };
-struct FUN_00649680 : NiMemObject
+class FUN_00649680 : public NiMemObject
 {
+  public:
     int value00, value04, value08;
     FUN_0064ec10_obj* extra;
     CloneComponent member10, member24, member38, member4c, member60, member74;
@@ -7429,13 +7437,13 @@ class NiRefObject
 
 class NiExtraData;
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual ~NiObject();
 };
 
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
 };

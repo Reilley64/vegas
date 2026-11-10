@@ -23,7 +23,7 @@
 #pragma comment(linker, "/alternatename:?DAT_011dea3c@DialogueUpdate@@3PEAUDlgActor@1@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011dea3c@fnv_0055a430@@3PEAUPlayer@1@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011dea3c@fnv_005659f0@@3PEAUActor79@1@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
-#pragma comment(linker, "/alternatename:?DAT_011dea3c@fnv_00571760@@3PEAUActor@1@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
+#pragma comment(linker, "/alternatename:?DAT_011dea3c@fnv_00571760@@3PEAVActor@1@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011dea3c@fnv_00574b30@@3PEAURefOps@1@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011dea3c@fnv_0088db20@@3PEAVEqActorView@1@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
 #pragma comment(linker, "/alternatename:?_NiPoint3_ZERO@@3U_NiPoint3_pod@@A=?ZERO@NiPoint3@@2U1@B")

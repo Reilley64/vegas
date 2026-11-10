@@ -1,6 +1,6 @@
 #pragma once
 
-class NiObject;
+struct NiObject;
 
 struct FUN_00a72160_shell {
 public:

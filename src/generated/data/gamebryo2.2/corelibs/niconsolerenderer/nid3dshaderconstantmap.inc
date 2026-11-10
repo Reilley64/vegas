@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 
 float DAT_01099378 = 4.2949673e+09f;
 namespace fnv_00e829b0 { const unsigned int g_ShaderMatrixDesc0[4] = {0x3f800000u, 0xbe257eb5u, 0x3c088865u, 0xb9500c47u}; }

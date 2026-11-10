@@ -12,10 +12,10 @@
 class NiInterpController;
 class NiInterpolator;
 class NiFloatData;
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 class NiPSysEmitterCtlr;
-class NiPSysModifier;
+struct NiPSysModifier;
 class NiPSysModifierCtlr;
 class NiSingleInterpController;
 class NiTPrimitiveSet_float_;

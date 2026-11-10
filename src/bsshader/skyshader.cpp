@@ -40,8 +40,9 @@ void* __cdecl FUN_00b887b0()
 }
 
 
-struct NiPropertyState
+class NiPropertyState
 {
+  public:
     void* m_spProperties[16];
 };
 
@@ -171,8 +172,9 @@ void Struct00b884b0::AttachAll()
 }
 
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     virtual void DeleteThis();
     long m_uiRefCount;
@@ -183,13 +185,14 @@ struct NiRefObject
     }
 };
 
-struct NiD3DPixelShader : NiRefObject
+class NiD3DPixelShader : public NiRefObject
 {
 };
 
 template <class> class NiPointer;
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     void* vtbl;
     int unk04;
     int unk08;
@@ -475,8 +478,8 @@ void FUN_00b89cc0(Holder_Stand* apHolder)
 }
 
 namespace fnv_00b8a1f0 {
-struct NiD3DPass;
-struct NiD3DPixelShader;
+class NiD3DPass;
+class NiD3DPixelShader;
 struct NiD3DVertexShader;
 
 template <class T> class NiPointer
@@ -1493,8 +1496,9 @@ bool ShaderPassBuilder::InitPasses()
     return true;
 }
 
-struct NiD3DShaderConstantMap : NiRefObject
+class NiD3DShaderConstantMap : public NiRefObject
 {
+  public:
     NiD3DShaderConstantMap(void*, int);
     virtual void Add(const char*, unsigned int, unsigned int, unsigned int, unsigned int, const char*, unsigned int,
                      unsigned int, void*, unsigned int);

@@ -1,7 +1,7 @@
 #pragma once
 
 class Script;
-class SpawnedObject;
+struct SpawnedObject;
 struct FunctionData;
 
 // 0x00682320

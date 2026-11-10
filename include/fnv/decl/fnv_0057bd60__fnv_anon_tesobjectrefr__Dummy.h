@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_0057bd60 { struct MobileObject; }
+namespace fnv_0057bd60 { class MobileObject; }
 
 namespace fnv_0057bd60 { namespace fnv_anon_tesobjectrefr {
 struct Dummy {

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiRenderer;
+struct NiRenderer;
 
 struct FUN_0043f010 {
 public:

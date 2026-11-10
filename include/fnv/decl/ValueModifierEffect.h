@@ -3,7 +3,7 @@
 class ActiveEffect;
 class Actor;
 namespace ActorValue { enum Index; }
-struct Actor;
+class Actor;
 
 class ValueModifierEffect {
 public:

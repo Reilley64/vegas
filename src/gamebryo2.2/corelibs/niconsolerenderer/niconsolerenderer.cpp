@@ -157,8 +157,8 @@ public:
 };
 
 class ShaderPassRenderer { public: static unsigned int Create(unsigned int); };
-class NiObject;
-class NiStream { public:  static int RegisterObjectLoader(const char*,NiObject* (*)()); };
+struct NiObject;
+struct NiStream { public:  static int RegisterObjectLoader(const char*,NiObject* (*)()); };
 extern char DAT_011f4648[256];
 
 extern const char DAT_010ee6c8[];
@@ -443,7 +443,8 @@ struct ThreeByThreeMatrix {
     float m[3][3];
 };
 
-struct NiTransform {
+class NiTransform {
+  public:
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
     float pad[3];
@@ -1269,7 +1270,8 @@ struct BSBatchRenderer__AlphaList {
     BSBatchRenderer__GeometryGroup* Remove(BSBatchRenderer__GeometryGroup*&);
 };
 class GraphicsRenderer;
-struct NiD3DShaderInterface {
+class NiD3DShaderInterface {
+  public:
     void SetShaderObject(GraphicsRenderer*);
 public:
     static unsigned int InitializeShaderRenderer(::GraphicsRenderer *);
@@ -1419,10 +1421,11 @@ void FakeRenderer::PurgeShader(FakeShader* pkShader)
 }
 
 struct DepthDevice;
-struct Ni2DBuffer;
-struct NiPixelFormat;
-struct NiDX9AdditionalDepthStencilBufferData
+class Ni2DBuffer;
+class NiPixelFormat;
+class NiDX9AdditionalDepthStencilBufferData
 {
+  public:
 	static NiDX9AdditionalDepthStencilBufferData* __cdecl Create(DepthDevice*, Ni2DBuffer**, NiPixelFormat const*, unsigned int);
 };
 struct S_00e69a20
@@ -3310,7 +3313,7 @@ done:
     return (found ? -1 : 0) & (uintptr_t)this;
 }
 
-struct NiPixelFormat;
+class NiPixelFormat;
 class NiPixelData : public NiRefObject {
 public:
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int) throw();
@@ -4432,7 +4435,7 @@ struct SourceManager {
 };
 extern const char DAT_010ed96c[];
 struct Class87d40;
-struct NiGeometryData;
+class NiGeometryData;
 struct VertexRecord;
 struct Renderer {
     void* LockRenderSource(SourceManager* manager, int* pitch);
@@ -7153,7 +7156,8 @@ struct Property : NiMemObject { int unk00,unk04,unk08,unk0c,unk10,unk14; unsigne
 struct P1 : Property { P1() throw(); };
 struct NiAlphaProperty : Property { NiAlphaProperty() throw(); };
 struct P3 : Property { P3() throw(); };
-struct NiPropertyState {
+class NiPropertyState {
+  public:
  int unk00,unk04,unk08,unk0c,unk10,unk14,unk18;
  NiPropertyState() throw();
 };
@@ -13544,7 +13548,7 @@ bool E6F260Renderer::IsDepthStencilCompatible(E6F260Buffer* pkRenderTarget, E6F2
 }
 
 namespace fnv_00e73f60 {
-class NiRTTI {
+struct NiRTTI {
 public:
     const char* m_pcName;
     const NiRTTI* m_pBaseRTTI;
@@ -17729,7 +17733,7 @@ void E6F310Renderer::FUN_00e6f310(NiRectF* pkRect, unsigned int uiFlags)
     m_pkDevice->Clear(1, &pDataToSerialize, ulClearFlags, m_ulClearColor, m_fClearDepth, m_ulClearStencil);
 }
 
-class NiRTTI;
+struct NiRTTI;
 class NiAVObject;
 
 struct PacketTarget { int unk00; int unk04; void* unk08; void Release(); };
@@ -25559,7 +25563,8 @@ struct E7Skin { unsigned int unk00, unk04; void* weights; void* indices; void* p
 struct BSFaceGenModel {
 };
 struct NiPoint2;
-struct NiGeometryData {
+class NiGeometryData {
+  public:
     unsigned int unk00, unk04;
     unsigned short vertices, unk0a, flags, unk0e;
     unsigned int unk10, unk14, unk18, unk1c;
@@ -27242,7 +27247,8 @@ struct NiComponentSpec {
     bool m_bSigned;
 };
 
-struct NiPixelFormat {
+class NiPixelFormat {
+  public:
     unsigned char m_ucFlags;
     unsigned char m_ucBitsPerPixel;
     int m_eFormat;
@@ -28885,7 +28891,7 @@ struct NiFrustum {
  float left,right,top,bottom,nearDistance,farDistance; bool orthographic;
  NiFrustum(bool);
 };
-struct NiShaderFactory { static NiShaderFactory* GetInstance(); };
+class NiShaderFactory { public: static NiShaderFactory* GetInstance(); };
 struct InitPoint { float x,y,z; };
 struct InitViewport { float left,right,top,bottom; };
 extern float DAT_0126efd4;

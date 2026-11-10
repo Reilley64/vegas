@@ -1,6 +1,6 @@
 #pragma once
 
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 
 struct FUN_00aa5410_Helper {
 public:

@@ -270,7 +270,7 @@ struct ConstraintRuntimeInfo
     hkUint16 m_iSchemaByteSize;
 };
 
-struct hkpConstraintInstance;
+class hkpConstraintInstance;
 
 struct hkpConstraintOwner
 {
@@ -288,8 +288,9 @@ struct hkpConstraintOwner
 
 };
 
-struct hkpConstraintInstance
+class hkpConstraintInstance
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

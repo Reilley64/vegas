@@ -17,8 +17,8 @@ class MagicItem;
 class EffectItem;
 class BaseProcess;
 class PlayerCharacter;
-class SoundPlaybackHandle;
-class BSAudio;
+struct SoundPlaybackHandle;
+struct BSAudio;
 class TESImageSpaceModifier;
 class NiAVObject;
 class MagicTarget
@@ -337,7 +337,7 @@ class PlayerCharacter
   public:
     bool IsSleepingOrResting();
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -345,7 +345,7 @@ class SoundPlaybackHandle
     unsigned int eState;
     ~SoundPlaybackHandle();
 };
-class BSAudio
+struct BSAudio
 {
   public:
     SoundPlaybackHandle GetSoundHandleByEditorID(const char*, unsigned int);

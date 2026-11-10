@@ -42,7 +42,7 @@
 #include "fnv/symbols_00c6a000.h"
 #include "fnv/symbols_011c3000.h"
 #include "fnv/symbols_011de000.h"
-struct Actor;
+class Actor;
 
 struct ReanimateEffect
 {
@@ -64,7 +64,7 @@ unsigned short ReanimateEffect::FUN_00827440(Actor* apActor)
 // Minimal stand-ins
 class Actor;
 
-struct ActiveEffect
+class ActiveEffect
 {
 };
 
@@ -95,8 +95,9 @@ void FUN_00827510_shell::LoadGame(Actor* apActor)
     reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(this->unk60, 16);
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void Revert(unsigned int);
 };
 struct ActorVirt
@@ -438,8 +439,9 @@ struct DH
 };
 
 
-struct MagicTarget
+class MagicTarget
 {
+  public:
     Actor* GetOwnerActor() const;
 };
 
@@ -451,14 +453,16 @@ struct Proc_S
 {
 };
 
-struct MagicCaster
+class MagicCaster
 {
+  public:
     Actor* GetCasterActor();
 };
 
 enum ACTOR_LIFE_STATE;
-struct Actor : ActorVirt
+class Actor : public ActorVirt
 {
+  public:
 
     virtual void a117()
     {}
@@ -1929,8 +1933,9 @@ void Reanimation::StartReanimation()
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void a0();
     virtual TESObjectREFR* a1();
 };

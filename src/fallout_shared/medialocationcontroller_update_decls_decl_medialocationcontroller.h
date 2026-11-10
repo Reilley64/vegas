@@ -147,7 +147,7 @@ class MediaSet : public TESForm, public TESFullName
 };
 #endif
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -243,7 +243,7 @@ class BGSDefaultObjectManager
 public:
     static ::TESForm *GetDefaultObjectByIndex(::DEFAULT_OBJECT);
 };
-class BSAudio
+struct BSAudio
 {
   public:
 };

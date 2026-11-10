@@ -404,7 +404,7 @@ Dummy_0069af30* FUN_0069af30(Dummy_0069af30* pThis)
 
 extern int DAT_0106b1b8;
 
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
 };
@@ -1129,7 +1129,7 @@ Holder* Holder::FUN_00696ca0(Holder* apSource)
     return this;
 }
 
-struct FindTriangleForLocationFilter;
+class FindTriangleForLocationFilter;
 struct FUN_00697670_StandIn : NavMesh
 {
     unsigned short FindTriangleForLocation(const NiPoint3&, FindTriangleForLocationFilter*);
@@ -1314,7 +1314,7 @@ unsigned int FUN_0069a940_shell::FUN_0069a940(unsigned short triangle, GlobalObj
 }
 }  // namespace fnv_0069a940
 
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 template <> class NiTPointerMap<unsigned int, SoundPlaybackHandle*>
 {
   public:
@@ -1484,10 +1484,10 @@ C006b39a0& C006b39a0::FUN_006b39a0(C006b39a0 const& rhs)
 
 struct BGSLoadGameBuffer;
 struct BGSSaveGameBuffer;
-struct FindTriangleForLocationFilter;
+class FindTriangleForLocationFilter;
 struct NavMeshPtr;
-struct TESObjectCELL;
-struct TESWorldSpace;
+class TESObjectCELL;
+class TESWorldSpace;
 struct blob12
 {
     char b[12];
@@ -3979,7 +3979,7 @@ bool NavChangeBuilder::FUN_006bbd30(NavMeshOwner* apMesh, const NavObstaclePtr& 
     return true;
 }
 
-struct FindTriangleForLocationFilter;
+class FindTriangleForLocationFilter;
 
 struct NiPoint3Ops697
 {

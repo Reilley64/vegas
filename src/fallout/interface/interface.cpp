@@ -327,7 +327,7 @@ class BSSystemUtility
 };
 
 class FOPipboyManager;
-class Interface
+struct Interface
 {
   public:
     static const char* GetInterfaceName();
@@ -740,7 +740,7 @@ bool FUN_00644640_shell::FUN_00644640()
     return *((bool*)((char*)this + 0x7c));
 }
 
-class Modifier
+struct Modifier
 {
   public:
     char GetKey(void);
@@ -769,7 +769,7 @@ bool FUN_007023a0_shell::FUN_007023a0()
 }
 
 namespace fnv_007023c0 {
-class Modifier
+struct Modifier
 {
   public:
     unsigned char GetKey();
@@ -804,7 +804,7 @@ int FUN_00702400(int a)
 }  // namespace fnv_00702400
 
 namespace fnv_00702450 {
-class Modifier
+struct Modifier
 {
   public:
     char GetKey();
@@ -842,7 +842,7 @@ bool __cdecl FUN_00702450(Interface::enumMenus aeMenuID)
 }  // namespace fnv_00702450
 
 namespace fnv_00702640 {
-class Modifier
+struct Modifier
 {
   public:
     unsigned char GetKey();
@@ -876,7 +876,7 @@ bool __cdecl FUN_007027b0(int aiMenuID)
 }
 
 namespace fnv_007027e0 {
-class Modifier
+struct Modifier
 {
   public:
     unsigned char GetKey();
@@ -893,7 +893,7 @@ void FUN_007027e0()
 }  // namespace fnv_007027e0
 
 namespace fnv_00702810 {
-class Modifier
+struct Modifier
 {
   public:
     char GetKey();
@@ -910,7 +910,7 @@ void FUN_00702810()
 }  // namespace fnv_00702810
 
 namespace fnv_00702840 {
-class Modifier
+struct Modifier
 {
   public:
     unsigned char GetKey();
@@ -927,7 +927,7 @@ void FUN_00702840()
 }  // namespace fnv_00702840
 
 namespace fnv_00702870 {
-class Modifier
+struct Modifier
 {
   public:
     unsigned char GetKey();
@@ -949,7 +949,7 @@ void FUN_00702870()
 }  // namespace fnv_00702870
 
 namespace fnv_007028b0 {
-class Modifier
+struct Modifier
 {
   public:
     bool GetKey();
@@ -1034,7 +1034,7 @@ struct Modifier
 {
     bool GetKey();
 };
-struct ConsoleManager
+class ConsoleManager
 {
 };
 // @fnv 0x00703d50
@@ -1051,7 +1051,7 @@ struct Modifier
 {
     bool GetKey();
 };
-struct ConsoleManager
+class ConsoleManager
 {
 };
 // @fnv 0x00703da0
@@ -1076,7 +1076,7 @@ char ConsumeByteAtE4()
 }
 
 namespace fnv_00704140 {
-class Modifier
+struct Modifier
 {
   public:
     unsigned char GetKey();
@@ -1094,7 +1094,7 @@ void* FUN_00704140()
 }  // namespace fnv_00704140
 
 namespace fnv_00704490 {
-class Modifier
+struct Modifier
 {
   public:
     unsigned char GetKey();
@@ -1112,7 +1112,7 @@ void* FUN_00704490()
 }  // namespace fnv_00704490
 
 namespace fnv_007046c0 {
-class Modifier
+struct Modifier
 {
   public:
     unsigned char GetKey();
@@ -1130,7 +1130,7 @@ void* FUN_007046c0()
 }  // namespace fnv_007046c0
 
 namespace fnv_007048c0 {
-class Modifier
+struct Modifier
 {
   public:
     unsigned char GetKey();
@@ -1153,7 +1153,7 @@ Tile* CreateInventoryMenuIfModifierKey()
 }  // namespace fnv_007048c0
 
 namespace fnv_00704be0 {
-class Modifier
+struct Modifier
 {
   public:
     char GetKey(void);
@@ -1171,7 +1171,7 @@ void* FUN_00704be0()
 }  // namespace fnv_00704be0
 
 namespace fnv_00704f50 {
-class Modifier
+struct Modifier
 {
   public:
     char GetKey();
@@ -1218,7 +1218,7 @@ void* FUN_00705070(void* apArg1, void* apArg2, void* apArg3)
 }  // namespace fnv_00705070
 
 namespace fnv_007050d0 {
-class Modifier
+struct Modifier
 {
   public:
     char GetKey(void);
@@ -1234,7 +1234,7 @@ bool FUN_007050d0()
 }  // namespace fnv_007050d0
 
 namespace fnv_007053f0 {
-class Modifier
+struct Modifier
 {
   public:
     char GetKey(void);
@@ -1255,7 +1255,7 @@ void FUN_007053f0()
 }  // namespace fnv_007053f0
 
 namespace fnv_007058e0 {
-class Modifier
+struct Modifier
 {
   public:
     char GetKey(void);
@@ -1276,7 +1276,7 @@ struct Modifier
 {
     bool GetKey();
 };
-struct TESNPC
+class TESNPC
 {
 };
 // If FUN_004b7210() returns a Modifier whose GetKey() is true, returns the TESNPC result of FUN_00602170(); otherwise returns 0.
@@ -1299,7 +1299,7 @@ struct Modifier
 {
     bool GetKey();
 };
-struct TESNPC
+class TESNPC
 {
 };
 // If FUN_004b7210() returns a Modifier whose GetKey() is true, returns its FUN_00602170() result; otherwise returns 0.
@@ -1318,7 +1318,7 @@ void* FUN_00705990()
 }  // namespace fnv_00705990
 
 namespace fnv_007059d0 {
-class Modifier
+struct Modifier
 {
   public:
     char GetKey(void);
@@ -1334,7 +1334,7 @@ void FUN_007059d0()
 }  // namespace fnv_007059d0
 
 namespace fnv_00705a00 {
-class Modifier
+struct Modifier
 {
   public:
     char GetKey();
@@ -1356,7 +1356,7 @@ bool __cdecl FUN_00705a00()
 }  // namespace fnv_00705a00
 
 namespace fnv_00705a90 {
-class Modifier
+struct Modifier
 {
   public:
     char GetKey();
@@ -1528,11 +1528,11 @@ void __cdecl FUN_00706a90()
 }  // namespace fnv_00706a90
 
 struct BGSNote;
-struct BGSQuestObjective;
+class BGSQuestObjective;
 struct TESChallenge;
-struct TESQuest;
-struct RegionObjectEntry;
-struct TESWorldSpace;
+class TESQuest;
+class RegionObjectEntry;
+class TESWorldSpace;
 struct PathingPath;
 struct blob12
 {
@@ -1827,7 +1827,7 @@ Tile* GetNextTile()
     return (Tile*)((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60()));
 }
 
-class ModelLoader
+struct ModelLoader
 {
   public:
 };
@@ -2081,7 +2081,7 @@ void FUN_00705b70(char aiStatsTab, char aiInventoryTab, char aiMapTab, int aiWhi
 
 struct InterfaceManager;
 class PlayerCharacter;
-struct MobileObject;
+class MobileObject;
 struct DialogH
 {
 };
@@ -2125,7 +2125,7 @@ void ResetInterfaceState()
 }
 
 struct InterfaceManager;
-struct NavMesh;
+class NavMesh;
 struct S3de0
 {
     void FUN_00713de0(NavMesh*);
@@ -2257,7 +2257,7 @@ void __cdecl FUN_00705420(int a, BSS name, bool flag)
 }  // namespace fnv_00705420
 
 namespace fnv_00702330 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -2311,7 +2311,7 @@ namespace fnv_00702960 {
 struct Modifier
 {
 };
-struct BGSMoviePlayer
+class BGSMoviePlayer
 {
 };
 
@@ -2354,7 +2354,7 @@ void FUN_007030c0(int aiArg1, int aiArg2)
 }  // namespace fnv_007030c0
 
 namespace fnv_00703390 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -2436,7 +2436,7 @@ void __cdecl FUN_00704470(intptr_t arg)
 }
 
 namespace fnv_00704690 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -2477,7 +2477,7 @@ void FUN_00704f80(unsigned int a1, unsigned int a2)
 }  // namespace fnv_00704f80
 
 namespace fnv_00704fc0 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -2522,7 +2522,7 @@ unsigned int FUN_00705770()
 }
 
 namespace fnv_00705800 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -2590,7 +2590,7 @@ void FUN_00705a60()
 }  // namespace fnv_00705a60
 
 namespace fnv_00705ad0 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -2638,7 +2638,7 @@ void FUN_00706230(int aiArg1, int aiArg2)
 }  // namespace fnv_00706230
 
 namespace fnv_00706270 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -2770,7 +2770,7 @@ class ConsoleManager
   public:
 };
 
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -2807,7 +2807,7 @@ char __cdecl FUN_00704400()
 }
 
 namespace fnv_00705cb0 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -2911,7 +2911,7 @@ void FUN_00703080(float afValue1, float afValue2)
 }  // namespace fnv_00703080
 
 namespace fnv_007037e0 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -2946,7 +2946,7 @@ namespace fnv_00705d10 {
 struct Modifier
 {
 };
-struct IdleAnimationManager
+class IdleAnimationManager
 {
 };
 // Returns FUN_00843150's result when FUN_004b7210 is non-null and GetKey is nonzero; otherwise returns -1.
@@ -3016,8 +3016,8 @@ int FUN_00707010(void* aiArg, float afArg1, float afArg2)
 }
 
 namespace fnv_00706860 {
-struct SaveLoadFile;
-struct NiQuaternion;
+class SaveLoadFile;
+class NiQuaternion;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -3182,7 +3182,7 @@ void __cdecl FUN_00703610()
 }  // namespace fnv_00703610
 
 namespace fnv_007024e0 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -3246,7 +3246,7 @@ bool FUN_007024e0()
 }  // namespace fnv_007024e0
 
 namespace fnv_00704170 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -3375,7 +3375,7 @@ void __cdecl UpdatePipboyMapVisibility(bool abVisibility, bool abAnyVisibleState
 }  // namespace fnv_00704170
 
 namespace fnv_007056f0 {
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -3458,8 +3458,9 @@ struct INISettingCollection : SettingCollectionList<Setting>
 {
 };
 
-template <class T> struct SettingT
+template <class T> class SettingT
 {
+  public:
     static INISettingCollection* GetCollection();
 };
 
@@ -3538,7 +3539,7 @@ class List_009e03e0
   public:
 };
 
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -5123,7 +5124,7 @@ bool __cdecl FUN_007070c0(const char* apName, char* apBuffer, unsigned int auiBu
     return bFound;
 }
 
-class NiStream
+struct NiStream
 {
   public:
     virtual ~NiStream();
@@ -7013,7 +7014,7 @@ class DatHolder
   public:
     unsigned char* FUN_00408d60();
 };
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     SpawnedObject();

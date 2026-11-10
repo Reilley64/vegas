@@ -1,6 +1,6 @@
 #pragma once
 
-struct MobileObject;
+class MobileObject;
 
 struct FUN_009f7f20_class {
 public:

@@ -121,12 +121,13 @@ struct BSFile;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct TESBitArrayFile;
-struct TESObjectCELL;
+class TESObjectCELL;
 struct _FILETIME;
 struct _SYSTEMTIME;
 struct _WIN32_FIND_DATAA;
-struct TESFile
+class TESFile
 {
+  public:
     bool CreateTES(char*, char*, int);
     bool CreateTES(int);
     bool OpenTESFile(char*, char*, int, bool);
@@ -342,8 +343,9 @@ unsigned short FUN_00403570_shell::FUN_00403570()
 }  // namespace fnv_00403570
 
 extern unsigned int _data_011c16bc;
-struct TESBoundObject
+class TESBoundObject
 {
+  public:
     char pad[0x2c];
     TESBoundObject();
     ~TESBoundObject();
@@ -360,8 +362,9 @@ struct Sec
 {
     virtual void v1();
 };
-struct EffectItemList : public Prim, public Sec
+class EffectItemList : public Prim, public Sec
 {
+  public:
     EffectItemList();
 };
 }
@@ -387,8 +390,9 @@ bool FUN_004029d0_shell::FUN_004029b0()
 }
 }  // namespace fnv_004029b0
 
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void Free();
 };
 
@@ -570,7 +574,7 @@ bool H0050fb90::FUN_0050fb90()
     return false;
 }
 
-struct TESFile;
+class TESFile;
 struct FUN_00401660_t
 {
 };

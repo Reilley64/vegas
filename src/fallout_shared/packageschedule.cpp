@@ -35,8 +35,9 @@ void* PackedByteIntRecord::Endian()
     return (void*)((char*)this + 0x40);
 }
 
-struct DurationData
+class DurationData
 {
+  public:
     int GetStartMonth();
     void SetStartMonth(int);
     int GetStartDayOfWeek();
@@ -74,8 +75,9 @@ DurationData* ResetSchedule(DurationData* pThis)
 }
 
 namespace fnv_0067fd40 {
-struct DurationData
+class DurationData
 {
+  public:
     int GetStartMonth();
     void SetStartMonth(int);
     int GetStartDayOfWeek();
@@ -217,8 +219,9 @@ namespace fnv_0067fe10 {
 struct BoundHolder
 {
 };
-struct DurationData : BoundHolder
+class DurationData : public BoundHolder
 {
+  public:
     char FUN_0067fe10(DurationData* other);
 };
 // Returns 1 if other is null or any of five compared values differ, otherwise returns 0.

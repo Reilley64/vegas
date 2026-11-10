@@ -49,7 +49,7 @@
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_011cf000.h"
 #include "fnv/symbols_011f1000.h"
-struct CombatProcedure
+class CombatProcedure
 {
 };
 
@@ -108,7 +108,7 @@ void FUN_009cafa0_shell::FUN_009cafa0()
 struct Setting_S
 {
 };
-struct Projectile
+class Projectile
 {
 };
 struct IMH
@@ -486,11 +486,11 @@ struct NiPoint3
 };
 
 
-struct Actor;
+class Actor;
 struct PathingRequest
 {
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct InterfaceManager

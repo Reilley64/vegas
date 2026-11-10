@@ -3,4 +3,4 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 #pragma comment(linker, "/alternatename:?DAT_00fdf1c0@fnv_00c4f8e0@@3P6AHPEAJ@ZEA=?DAT_00fdf1c0@@3P6AHPEAX@ZEA")
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")

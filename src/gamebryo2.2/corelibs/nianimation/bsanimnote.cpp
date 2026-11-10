@@ -94,7 +94,7 @@ bool TmpNote::Matches(NiObject* apObject)
     return false;
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
 public:
@@ -165,8 +165,9 @@ bool BSAnimNotes::FUN_00a448c0(NiStream& arStream)
     return bret;
 }
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 struct MemoryManager

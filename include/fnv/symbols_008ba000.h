@@ -2,7 +2,7 @@
 
 class C8BA210Listener;
 class RangeOwner;
-namespace fnv_008ba2f0 { struct ActorValueOwner; }
+namespace fnv_008ba2f0 { class ActorValueOwner; }
 
 // 0x008ba090
 void CheckRangeConditions(::RangeOwner *, float, float, float);

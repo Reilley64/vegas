@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 struct BGSLoadGameBuffer;
 
 struct DetectionViewData {

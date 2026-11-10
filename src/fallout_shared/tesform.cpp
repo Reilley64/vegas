@@ -622,7 +622,7 @@ FUN_00483630_holder::~FUN_00483630_holder()
         FUN_00483b80();
 }
 
-struct TESTopicInfo;
+class TESTopicInfo;
 struct Arr
 {
     unsigned int* GetAt(int);
@@ -661,15 +661,16 @@ void ResolveFormID(unsigned int* aiID, TESFile* apFile)
 }
 
 struct NiFormArray;
-struct PerkEntryConditionSet;
-struct TESIdleForm;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
-struct TESObjectREFR;
+class PerkEntryConditionSet;
+class TESIdleForm;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
+class TESObjectREFR;
 struct FileEntryList;
-struct IdleAnimationManager
+class IdleAnimationManager
 {
+  public:
     void RemoveIdleForm(TESIdleForm*);
     void InitializeIdleAnimations();
     void ResetIdleAnimations();
@@ -712,28 +713,28 @@ void FUN_005ffbf0_shell::AddIdleToArray(TESIdleForm* apIdle)
         reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)m_acIdleName)))->FUN_0096a610((std::intptr_t)&((const unsigned int&)apIdle));
 }
 
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct ActorCause;
 struct ActorMover;
 struct AlchemyItem;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ExplosionForm;
-struct BGSImpactDataSet;
+class BGSImpactDataSet;
 struct BGSLoadGameBuffer;
-struct BGSPerk;
+class BGSPerk;
 struct BGSPerkEntry;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BGSTextureSet;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct BSAnimNote;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
@@ -747,11 +748,11 @@ struct ActorCombatGroup;
 struct ContinuousBeamProjectile;
 struct Crime;
 struct GameFormRecord;
-struct DialogueResponse;
+class DialogueResponse;
 struct DetectionParameters;
 struct TeleportableReference;
-struct EffectItem;
-struct ExtraDataList;
+class EffectItem;
+class ExtraDataList;
 struct ExtraLock;
 struct TESFileGroup;
 struct FurnitureMark;
@@ -759,73 +760,73 @@ struct BooleanIntegerAccessor;
 struct BooleanFloatQuery;
 struct IDebugText;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct CellDataNode;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
-struct MapMarkerData;
-struct MobileObject;
-struct Point3Offset;
-struct NiAVObject;
+class MagicTarget;
+class MapMarkerData;
+class MobileObject;
+class Point3Offset;
+class NiAVObject;
 struct AnimationInterpolator;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct NiPointLight;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct LocationDescriptor;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingLocation;
 struct PathingRequest;
-struct Projectile;
-struct QueuedFile;
+class Projectile;
+class QueuedFile;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
-struct Script;
+class RagDollData;
+class Script;
 struct ScriptLocals;
 struct SpellItem;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESClass;
 struct TESCombatStyle;
-struct TESContainer;
+class TESContainer;
 struct TESFaction;
 struct TESGlobal;
-struct TESIdleForm;
-struct TESModel;
-struct TESObject;
-struct TESObjectARMO;
-struct TESObjectBOOK;
-struct TESObjectCELL;
+class TESIdleForm;
+class TESModel;
+class TESObject;
+class TESObjectARMO;
+class TESObjectBOOK;
+class TESObjectCELL;
 struct TESObjectCLOT;
 struct TESObjectLIGH;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
 struct TESRace;
 struct TESSkill;
-struct TESSound;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESSound;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
 struct TrapEntry;
 struct TrespassPackage;
 struct WaterZone;
 struct WeaponObject;
-struct bhkCharacterController;
+class bhkCharacterController;
 struct bhkNiCollisionObject;
 struct bhkRagdollController;
 struct bhkRagdollPenetrationUtil;
@@ -851,8 +852,9 @@ struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     virtual int GetBaseActorValue(int);
     virtual float GetBaseActorValueFloat(int);
     virtual int GetActorValue(int);
@@ -900,28 +902,28 @@ bool FUN_004011d0_shell::FUN_004011d0()
 }
 
 namespace fnv_004011f0 {
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct ActorCause;
 struct ActorMover;
 struct AlchemyItem;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ExplosionForm;
-struct BGSImpactDataSet;
+class BGSImpactDataSet;
 struct BGSLoadGameBuffer;
-struct BGSPerk;
+class BGSPerk;
 struct BGSPerkEntry;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BGSTextureSet;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct BSAnimNote;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
@@ -935,11 +937,11 @@ struct ActorCombatGroup;
 struct ContinuousBeamProjectile;
 struct Crime;
 struct GameFormRecord;
-struct DialogueResponse;
+class DialogueResponse;
 struct DetectionParameters;
 struct TeleportableReference;
-struct EffectItem;
-struct ExtraDataList;
+class EffectItem;
+class ExtraDataList;
 struct ExtraLock;
 struct TESFileGroup;
 struct FurnitureMark;
@@ -947,73 +949,73 @@ struct BooleanIntegerAccessor;
 struct BooleanFloatQuery;
 struct IDebugText;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct CellDataNode;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
-struct MapMarkerData;
-struct MobileObject;
-struct Point3Offset;
-struct NiAVObject;
+class MagicTarget;
+class MapMarkerData;
+class MobileObject;
+class Point3Offset;
+class NiAVObject;
 struct AnimationInterpolator;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct NiPointLight;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct LocationDescriptor;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingLocation;
 struct PathingRequest;
-struct Projectile;
-struct QueuedFile;
+class Projectile;
+class QueuedFile;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
-struct Script;
+class RagDollData;
+class Script;
 struct ScriptLocals;
 struct SpellItem;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESClass;
 struct TESCombatStyle;
-struct TESContainer;
+class TESContainer;
 struct TESFaction;
 struct TESGlobal;
-struct TESIdleForm;
-struct TESModel;
-struct TESObject;
-struct TESObjectARMO;
-struct TESObjectBOOK;
-struct TESObjectCELL;
+class TESIdleForm;
+class TESModel;
+class TESObject;
+class TESObjectARMO;
+class TESObjectBOOK;
+class TESObjectCELL;
 struct TESObjectCLOT;
 struct TESObjectLIGH;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
 struct TESRace;
 struct TESSkill;
-struct TESSound;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESSound;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
 struct TrapEntry;
 struct TrespassPackage;
 struct WaterZone;
 struct WeaponObject;
-struct bhkCharacterController;
+class bhkCharacterController;
 struct bhkNiCollisionObject;
 struct bhkRagdollController;
 struct bhkRagdollPenetrationUtil;
@@ -1039,8 +1041,9 @@ struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     virtual int GetBaseActorValue(int);
     virtual float GetBaseActorValueFloat(int);
     virtual int GetActorValue(int);
@@ -1433,8 +1436,9 @@ void FUN_00484a70_shell::FUN_00484a70(bool abSet)
         m_08 &= ~0x80;
 }
 
-struct BSExtraData
+class BSExtraData
 {
+  public:
     virtual ~BSExtraData();
     int _a;
     int _b;
@@ -1452,8 +1456,9 @@ FUN_004362a0::~FUN_004362a0()
 }
 
 namespace fnv_004363c0 {
-struct BSExtraData
+class BSExtraData
 {
+  public:
     virtual ~BSExtraData();
 };
 struct FUN_004363c0
@@ -1472,8 +1477,9 @@ FUN_004363c0::~FUN_004363c0()
 }  // namespace fnv_004363c0
 
 namespace fnv_004364e0 {
-struct BSExtraData
+class BSExtraData
 {
+  public:
     virtual ~BSExtraData();
     int _04;
     int _08;
@@ -1494,8 +1500,9 @@ FUN_004364e0::~FUN_004364e0()
 }  // namespace fnv_004364e0
 
 namespace fnv_00436600 {
-struct BSExtraData
+class BSExtraData
 {
+  public:
     virtual ~BSExtraData();
 };
 struct FUN_00436600 : BSExtraData
@@ -1510,8 +1517,9 @@ FUN_00436600::~FUN_00436600()
 }  // namespace fnv_00436600
 
 namespace fnv_00436720 {
-struct BSExtraData
+class BSExtraData
 {
+  public:
     virtual ~BSExtraData();
     int _a;
     int _b;
@@ -1839,8 +1847,9 @@ void S_486a60::FUN_00486a60()
     ::FUN_00aa10f0(entries);
 }
 
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength() const;
 };
 struct FNStub
@@ -1925,9 +1934,9 @@ void FUN_004846e0_shell::FUN_004846e0(bool abSet)
 }
 
 namespace fnv_00483720 {
-struct Actor;
-struct BGSAcousticSpace;
-struct BGSEncounterZone;
+class Actor;
+class BGSAcousticSpace;
+class BGSEncounterZone;
 struct BGSLightingTemplate;
 struct BGSMusicType;
 struct BGSSaveFormBuffer;
@@ -1937,7 +1946,7 @@ struct BSPortalGraph;
 struct CellMopp;
 struct CellRecord;
 struct ExteriorData;
-struct ExtraDataList;
+class ExtraDataList;
 struct TESFileGroup;
 struct InteriorData;
 struct ImpactSwap;
@@ -1945,27 +1954,27 @@ struct IntSeenData;
 struct InventoryChanges;
 struct LoadedCellData;
 struct NavMeshCollection;
-struct NiAVObject;
-struct NiCamera;
+class NiAVObject;
+class NiCamera;
 struct NiColor;
-struct NiNode;
+class NiNode;
 struct NiPick;
 struct NiPoint3;
 struct NiRenderedTexture;
 struct SeenData;
-struct TESActorBase;
+class TESActorBase;
 struct TESClimate;
 struct TESGlobal;
 struct TESImageSpace;
-struct TESObject;
-struct TESObjectCELL;
-struct TESObjectLAND;
-struct TESObjectREFR;
-struct TESRegionList;
+class TESObject;
+class TESObjectCELL;
+class TESObjectLAND;
+class TESObjectREFR;
+class TESRegionList;
 struct TESRegionObjectBase;
 struct RegionPoint;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct _D3DLOCKED_RECT;
 struct BhkPickData;
 struct bhkWorld;
@@ -1974,8 +1983,9 @@ struct blob12
 {
     char b[12];
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -2051,9 +2061,9 @@ void FUN_00483720_shell::ClearFormData()
 }  // namespace fnv_00483720
 
 namespace fnv_00483870 {
-struct Actor;
-struct BGSAcousticSpace;
-struct BGSEncounterZone;
+class Actor;
+class BGSAcousticSpace;
+class BGSEncounterZone;
 struct BGSLightingTemplate;
 struct BGSMusicType;
 struct BGSSaveFormBuffer;
@@ -2063,7 +2073,7 @@ struct BSPortalGraph;
 struct CellMopp;
 struct CellRecord;
 struct ExteriorData;
-struct ExtraDataList;
+class ExtraDataList;
 struct TESFileGroup;
 struct InteriorData;
 struct ImpactSwap;
@@ -2071,27 +2081,27 @@ struct IntSeenData;
 struct InventoryChanges;
 struct LoadedCellData;
 struct NavMeshCollection;
-struct NiAVObject;
-struct NiCamera;
+class NiAVObject;
+class NiCamera;
 struct NiColor;
-struct NiNode;
+class NiNode;
 struct NiPick;
 struct NiPoint3;
 struct NiRenderedTexture;
 struct SeenData;
-struct TESActorBase;
+class TESActorBase;
 struct TESClimate;
 struct TESGlobal;
 struct TESImageSpace;
-struct TESObject;
-struct TESObjectCELL;
-struct TESObjectLAND;
-struct TESObjectREFR;
-struct TESRegionList;
+class TESObject;
+class TESObjectCELL;
+class TESObjectLAND;
+class TESObjectREFR;
+class TESRegionList;
 struct TESRegionObjectBase;
 struct RegionPoint;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct _D3DLOCKED_RECT;
 struct BhkPickData;
 struct bhkWorld;
@@ -2100,8 +2110,9 @@ struct blob12
 {
     char b[12];
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -2179,9 +2190,10 @@ void FUN_00483870_shell::FUN_00483870()
 }  // namespace fnv_00483870
 
 namespace fnv_00484730 {
-struct TESObjectREFR;
-struct TESFullName : public BaseFormComponent
+class TESObjectREFR;
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -2197,8 +2209,9 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-struct TESDescription : public BaseFormComponent
+class TESDescription : public BaseFormComponent
 {
+  public:
     virtual char* GetDescription(TESForm*, int);
     virtual void InitializeComponent();
     virtual void ClearComponent();
@@ -2217,8 +2230,9 @@ struct TESDescription : public BaseFormComponent
     void SetDescription(char*);
     unsigned long m_uiDescriptionFileOffset;
 };
-struct TESTexture : public BaseFormComponent
+class TESTexture : public BaseFormComponent
 {
+  public:
     virtual unsigned int GetTexturePathLength();
     virtual char* NormalizeTextureFilePath(void*);
     virtual char* GetRegularTextureFilePath(void*);
@@ -2290,7 +2304,7 @@ struct Arr
 {
     unsigned int* GetAt(int);
 };
-struct TESTopicInfo;
+class TESTopicInfo;
 struct NiTLargeArray_TESTopicInfo
 {
     TESTopicInfo* RemoveAt(unsigned int);
@@ -2543,8 +2557,9 @@ void FUN_00485340_shell::FUN_00485340(BaseFormComponent* apCopyFC)
 }  // namespace fnv_00485340
 
 namespace fnv_00436180 {
-struct BSExtraData
+class BSExtraData
 {
+  public:
     virtual ~BSExtraData();
 };
 struct FUN_00436180 : BSExtraData
@@ -3520,7 +3535,7 @@ struct TypeInfo
     const char* unk04;
     unsigned int unk08;
 };
-struct TESDataHandler
+class TESDataHandler
 {
 };
 struct BaseFC

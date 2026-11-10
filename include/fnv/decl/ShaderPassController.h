@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiGeometry;
+class NiGeometry;
 
 struct ShaderPassController {
 public:

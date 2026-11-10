@@ -1,7 +1,7 @@
 #pragma once
 
-struct NiAccumulator;
-struct NiCamera;
+class NiAccumulator;
+class NiCamera;
 
 struct HolderForAccum {
 public:

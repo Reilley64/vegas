@@ -2,7 +2,7 @@
 #ifndef NIBOUND_DECLS_H
 #define NIBOUND_DECLS_H
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -24,7 +24,7 @@ class NiPoint3
         return NiPoint3(x + p.x, y + p.y, z + p.z);
     }
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m[3][3];
@@ -41,7 +41,7 @@ class NiTransform
     NiPoint3 m_kTranslation;
     float m_fScale;
 };
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;

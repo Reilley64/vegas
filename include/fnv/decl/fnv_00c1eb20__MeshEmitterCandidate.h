@@ -1,7 +1,7 @@
 #pragma once
 
 namespace fnv_00c1eb20 { struct MeshPoint; }
-struct NiGeometry;
+class NiGeometry;
 
 namespace fnv_00c1eb20 {
 struct MeshEmitterCandidate {

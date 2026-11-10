@@ -54,13 +54,13 @@ void NiParticleSystem::SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSel
 }
 
 namespace fnv_00c1b810 {
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObject;
 struct NiObjectGroup;
 struct NiSearchPath;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct NiMemObject
 {
@@ -802,7 +802,7 @@ struct S_00a80710
 
 class NiTransform;
 
-class NiBound
+struct NiBound
 {
   public:
     void Update(NiBound const& src, NiTransform const& xf);
@@ -2247,8 +2247,9 @@ struct Bound
     unsigned int m_uiKey;
 };
 
-struct NiPointer
+class NiPointer
 {
+  public:
     Bound* m_object;
 };
 
@@ -2903,7 +2904,7 @@ bool FUN_00c1b0b0_cls::FUN_00c1b0b0(S_00c1b0b0_Stream* kStream)
 }
 
 
-class CloningProcess;
+struct CloningProcess;
 
 class NiRefObject
 {
@@ -2959,7 +2960,7 @@ template <class T> class NiPointerC1B
     T* m_pObject;
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual void v02();
@@ -3129,8 +3130,9 @@ void BSMultiBoundNode::FUN_00c1b6f0(BSMultiBoundNode* pDest, CloningProcess& kCl
 
 #include <windows.h>
 namespace fnv_00c1b4a0 {
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     virtual void DeleteThis();
     LONG m_uiRefCount;

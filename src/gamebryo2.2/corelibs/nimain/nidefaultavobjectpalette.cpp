@@ -411,7 +411,7 @@ template <class Alloc, class K, class V> class NiTMapBase
     bool GetAt(const K key, V& val) const;
 };
 
-class CloningProcess
+struct CloningProcess
 {
   public:
     NiTMapBase<NiTPointerAllocator<unsigned int>, NiObject*, NiObject*>* m_pCloneMap;

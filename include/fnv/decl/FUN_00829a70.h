@@ -1,8 +1,8 @@
 #pragma once
 
-struct EffectItem;
-struct MagicCaster;
-struct MagicItem;
+class EffectItem;
+class MagicCaster;
+class MagicItem;
 
 struct FUN_00829a70 {
 public:

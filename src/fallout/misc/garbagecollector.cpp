@@ -217,7 +217,7 @@ void FUN_00868d70(bool abTryLock)
     }
 }
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 public:
     void FUN_0040fba0();
@@ -235,7 +235,7 @@ void __cdecl LockGlobalObject(const char* apLabel)
 }
 
 namespace fnv_00867f70 {
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 // @fnv 0x00867f70
@@ -246,7 +246,7 @@ bool __cdecl FUN_00867f70()
 }  // namespace fnv_00867f70
 
 namespace fnv_00867f80 {
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 

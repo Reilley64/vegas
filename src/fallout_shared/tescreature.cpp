@@ -256,10 +256,11 @@ TESCreature::TESCreature()
         reinterpret_cast<::FUN_0047d800_shell *>(((static_cast<TESActorBaseData *>(this))))->FUN_0047d800((::TESFaction *)(DAT_011cb550), 0);
 }
 
-struct BGSImpactDataSet;
-struct QueuedFile;
-struct BaseFormComponent
+class BGSImpactDataSet;
+class QueuedFile;
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -339,7 +340,7 @@ void FUN_005f9af0_shell::SetCreatureType(unsigned char acVal)
     m_ucCreatureType = acVal;
 }
 
-struct BGSImpactDataSet;
+class BGSImpactDataSet;
 struct FUN_005f9b30_shell : public TESCreature
 {
     BGSImpactDataSet* GetImpactDataSet();
@@ -385,13 +386,14 @@ float FUN_00821660_shell::FUN_00821660()
 }
 
 struct NiFormArray;
-struct TESIdleForm;
-struct TESObject;
-struct TESObjectREFR;
+class TESIdleForm;
+class TESObject;
+class TESObjectREFR;
 enum ANIM_GROUP_WEAPON_ENUM;
 template <class> class BSSimpleList;
-struct IdleAnimationManager
+class IdleAnimationManager
 {
+  public:
     void RemoveIdleForm(TESIdleForm*);
     void InitializeIdleAnimations();
     void ResetIdleAnimations();
@@ -2492,7 +2494,7 @@ class Actor : public TESObjectREFR
 public:
     ::TESActorBase *GetActorBase();
 };
-struct ExtraDataList;
+class ExtraDataList;
 struct ExtraDataNode
 {
 };
@@ -2501,7 +2503,7 @@ struct InventoryEntryData
     ~InventoryEntryData();
 };
 class TESObjectREFR;
-class InventoryChanges
+struct InventoryChanges
 {
   public:
 public:
@@ -3319,8 +3321,9 @@ struct ActorPrefix
 struct Queue
 {
 };
-struct Actor : ActorPrefix, LimbOwner
+class Actor : public ActorPrefix, public LimbOwner
 {
+  public:
     void ApplyEffectToBodyParts(Effect*, int, int, void*, void*, int, int, bool);
 };
 // Checks the actor's creature/special state, then applies the effect to matching body parts, calling FUN_00572fc0 and FUN_008b52a0 or queueing via FUN_0087b440.

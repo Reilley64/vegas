@@ -69,7 +69,7 @@ void FUN_00a74830(NiCombatArray* pkStrings)
 }
 
 struct CloningProcess;
-struct NiGeometryData;
+class NiGeometryData;
 struct NiObject;
 struct NiPoint3;
 struct NiRenderer;
@@ -78,8 +78,9 @@ struct blob16
 {
     char b[16];
 };
-struct NiTriBasedGeom : public NiGeometry
+class NiTriBasedGeom : public NiGeometry
 {
+  public:
     virtual void __vslot_0();
     virtual void GetTrianglePoints(unsigned short, NiPoint3**, NiPoint3**, NiPoint3**);
     virtual void* GetRTTI();

@@ -25,9 +25,9 @@
 #include "fnv/symbols_011a0000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
-struct Actor;
+class Actor;
 
-struct Actor;
+class Actor;
 struct ValueModifierEffect
 {
 public:
@@ -121,13 +121,15 @@ void FUN_0080e000_shell::FUN_0080e000(Actor* apActor)
 }
 }  // namespace fnv_0080e000
 
-struct Actor;
-struct MagicCaster
+class Actor;
+class MagicCaster
 {
+  public:
     Actor* GetCasterActor();
 };
-struct MagicTarget
+class MagicTarget
 {
+  public:
     Actor* GetOwnerActor() const;
 };
 struct PCH
@@ -274,8 +276,9 @@ void* __cdecl CreateFrenzyEffectObject(void* apFirst, void* apSecond, void* apTh
     return new FrenzyEffectObject(apFirst, apSecond, apThird);
 }
 
-struct Actor
+class Actor
 {
+  public:
     void** vtbl;
 };
 

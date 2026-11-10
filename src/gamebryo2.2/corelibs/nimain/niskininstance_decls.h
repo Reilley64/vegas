@@ -6,8 +6,8 @@
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/S_00a64670_Foo.h"
 #include "fnv/symbols_00aa1000.h"
-class NiStream;
-class NiObject
+struct NiStream;
+struct NiObject
 {
   public:
     virtual ~NiObject();
@@ -16,7 +16,7 @@ class NiObject
     virtual void LoadBinary(NiStream&);
     virtual void LinkObject(NiStream&);
 };
-class NiStream
+struct NiStream
 {
   public:
     char padding[0xd8];

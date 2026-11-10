@@ -982,11 +982,11 @@ float FUN_006e7990_shell::FindSegmentAtFraction(float afPosition, float afScale,
 }
 }  // namespace fnv_006e8680
 
-struct Actor;
+class Actor;
 struct BGSSaveFormBuffer;
-struct SaveLoadFile;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
-struct NiQuaternion;
+class NiQuaternion;
 struct hkVector4;
 struct blob4
 {
@@ -1109,8 +1109,9 @@ struct FUN_006a7ad0_shell
     unsigned int iSize;
     unsigned int iCapacity;
 };
-struct PathingAvoidNodeArray
+class PathingAvoidNodeArray
 {
+  public:
     int pad[6];
     PathingAvoidNodeArray();
     ~PathingAvoidNodeArray();

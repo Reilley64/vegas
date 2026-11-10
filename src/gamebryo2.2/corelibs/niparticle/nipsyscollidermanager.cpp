@@ -61,8 +61,8 @@ struct CloningProcess
     char _pad_d[3];
 };
 
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 struct NiPSysModifier
 {
     char _pad[24];

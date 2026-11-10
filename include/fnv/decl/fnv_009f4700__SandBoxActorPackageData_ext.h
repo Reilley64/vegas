@@ -1,7 +1,7 @@
 #pragma once
 
 class Actor;
-namespace fnv_009f4700 { struct TESPackage; }
+namespace fnv_009f4700 { class TESPackage; }
 
 namespace fnv_009f4700 {
 struct SandBoxActorPackageData_ext {

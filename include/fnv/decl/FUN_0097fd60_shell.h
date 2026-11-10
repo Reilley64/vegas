@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESEffectShader;
+class TESEffectShader;
 
 struct FUN_0097fd60_shell {
 public:

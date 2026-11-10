@@ -4,8 +4,8 @@
 
 #include "layout_support.h"
 #include "NiPoint3.h"
-class NiPlane;
-class NiPlane
+struct NiPlane;
+struct NiPlane
 {
   public:
     bool operator==(const NiPlane&);

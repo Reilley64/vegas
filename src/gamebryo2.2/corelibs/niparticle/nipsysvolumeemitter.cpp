@@ -48,7 +48,7 @@ struct FUN_00c31c90_shell : public NiPSysVolumeEmitter
     void FUN_00c31c90(CloningProcess*);
 };
 
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 template <class T> class NiTStringPointerMap
 {
   public:
@@ -88,9 +88,9 @@ void FUN_00c31c90_shell::FUN_00c31c90(CloningProcess* kCloning)
 }
 
 struct BSPSysArrayEmitter;
-struct NiAVObject;
+class NiAVObject;
 struct CloningProcess;
-struct NiTransform;
+class NiTransform;
 struct blob12
 {
     char b[12];
@@ -128,8 +128,9 @@ struct FUN_00c31cf0_shell : public NiPSysVolumeEmitter
     void ComputeEmitterInitialPositionAndVelocity(NiPoint3*, NiPoint3*);
 };
 
-struct NiTransform
+class NiTransform
 {
+  public:
     int m_data[13];
     void CalculateInverse(NiTransform&);
     NiTransform operator*(NiTransform const&) const;

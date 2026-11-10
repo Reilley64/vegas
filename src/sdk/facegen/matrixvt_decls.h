@@ -32,9 +32,9 @@ class FaceGenCoordinateBasis
     FaceGenCoordinateValue FUN_0060b370(unsigned int row, unsigned int col);
 };
 
-template <class T> class FaceGenMatrix;
+template <class T> struct FaceGenMatrix;
 
-template <> class FaceGenMatrix<float> : public FaceGenCoordinateBasis
+template <> struct FaceGenMatrix<float> : public FaceGenCoordinateBasis
 {
   public:
     FR2MatrixVTCData data;

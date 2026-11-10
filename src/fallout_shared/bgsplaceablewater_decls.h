@@ -9,8 +9,9 @@
 #include "fnv/symbols_011ca000.h"
 #include "TESForm.h"
 
-class TESWaterForm : public TESForm
+struct TESWaterForm : public TESForm
 {
+  private:
     char _pdbpad_18[20];
     bool m_bNeedsUpdate;
     char _pdbpad_2d[3];

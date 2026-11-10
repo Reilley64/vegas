@@ -1,6 +1,6 @@
 #pragma once
 
-struct ExtraLeveledItem;
+class ExtraLeveledItem;
 
 struct FUN_00418720_shell {
 public:

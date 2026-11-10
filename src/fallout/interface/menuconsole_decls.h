@@ -56,7 +56,7 @@ extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 int __cdecl _mbsicmp(const unsigned char*, const unsigned char*);
 int __cdecl _mbsnicmp(const unsigned char*, const unsigned char*, unsigned int);
 template <class T> unsigned int BSStringLength(const T*);
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
@@ -74,7 +74,7 @@ class SettingT_GameSettingCollection_
 };
 extern bool DAT_011d8ce4;
 
-class NiFrustum
+struct NiFrustum
 {
   public:
     float m_fLeftBound, m_fRightBound, m_fTopBound, m_fBottomBound, m_fNearPlane, m_fFarPlane;
@@ -304,7 +304,7 @@ class MenuSystem
   public:
     static MenuSystem* Instance(bool);
 };
-class RgbaColor;
+struct RgbaColor;
 class DebugText
 {
   public:

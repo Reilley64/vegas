@@ -57,20 +57,21 @@ struct FUN_007e8e40_shell : FUN_007e8e20_shell
     int unk48;
 };
 
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 public:
     static float GetInterfaceScale();
 };
-struct Menu
+class Menu
 {
 public:
     void SetMenuVisibility(bool);
 };
-struct FORenderedMenu;
+class FORenderedMenu;
 
-struct BSSimpleList
+class BSSimpleList
 {
 };
 
@@ -145,7 +146,7 @@ bool TMenu::HandleGamepadButton(int aiButton, float afValue)
 }
 
 namespace fnv_007e9010 {
-struct Tile
+class Tile
 {
 };
 struct FUN_007e9010_Owner
@@ -366,8 +367,9 @@ class AA
     virtual ~AA();
 };
 
-struct TileMenu
+class TileMenu
 {
+  public:
     int unk;
 };
 

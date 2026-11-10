@@ -572,8 +572,9 @@ struct Global_011de4e8
 {
     const unsigned char* FUN_00408d60();
 };
-struct ActorPackageContext
+class ActorPackageContext
 {
+  public:
     int FUN_005ae380();
 };
 struct FUN_0048c2e0_shell : BaseProcess

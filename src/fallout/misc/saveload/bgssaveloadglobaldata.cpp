@@ -108,7 +108,7 @@ struct ImageSpaceModifierFormView
     char pad00[0x1c];
     void* pImageSpaceModifier;
 };
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 class TESObjectCELL;
 
 class ProcessLists
@@ -349,7 +349,7 @@ void __cdecl LoadGlobalDataRanges(SaveLoadFile* file, unsigned int count)
 }
 
 namespace Local {
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     BGSLoadGameBuffer();
@@ -431,18 +431,18 @@ void __cdecl FUN_0084c110(unsigned int aiStart, unsigned int aiEnd)
 }
 }  // namespace fnv_0084c110
 
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSReconstructFormsInAllFilesMap;
 struct BGSSaveLoadChangesMap;
-struct SaveLoadFile;
+class SaveLoadFile;
 struct FormIDConverter;
-struct SaveLoadChangeHistory;
+class SaveLoadChangeHistory;
 struct LoadGameSubBufferQueue;
 struct BGSSaveLoadReferencesMap;
 struct IDebugText;
-struct TESObjectCELL;
-struct TESObjectREFR;
+class TESObjectCELL;
+class TESObjectREFR;
 struct blob4
 {
     char b[4];
@@ -608,7 +608,7 @@ struct GlobalListNode
 {
 };
 
-struct TESDataHandler
+class TESDataHandler
 {
 };
 
@@ -640,7 +640,7 @@ void FUN_0084cc90(BGSSaveFormBuffer* apBuffer)
 }
 
 namespace fnv_00866200 {
-struct SaveLoadFile
+class SaveLoadFile
 {
 };
 
@@ -1003,7 +1003,7 @@ int FNV_GetFormType(TESForm*);
 void __cdecl FUN_0084cbd0(const char*, ...);
 class PlayerCharacter;
 class TESDataHandler;
-class BGSSaveLoadGame;
+struct BGSSaveLoadGame;
 
 // @fnv 0x0084c5a0
 void LoadPlayerLocation(BGSLoadGameBuffer* apLoadGameBuffer)
@@ -1264,7 +1264,7 @@ struct TESGlobalEx : public TESGlobal
 {
 };
 
-struct SaveLoadChangeHistory
+class SaveLoadChangeHistory
 {
 };
 
@@ -1322,7 +1322,7 @@ struct NiBound
 {
 };
 
-struct NiTimeController
+class NiTimeController
 {
 };
 

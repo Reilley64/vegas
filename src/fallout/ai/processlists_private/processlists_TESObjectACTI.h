@@ -9,7 +9,7 @@
 #include "processlists_TESScriptableForm.h"
 #include "processlists_types_BGSDestructibleObjectForm.h"
 #include "processlists_BGSOpenCloseForm.h"
-class TESWaterForm;
+struct TESWaterForm;
 class BGSTalkingActivator;
 class TESSound;
 class TESObjectACTI : public TESBoundAnimObject,

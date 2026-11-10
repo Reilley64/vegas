@@ -10,10 +10,10 @@
 #include "fnv/symbols_011f6000.h"
 #include "MemoryManager.h"
 
-class NiUpdateData;
+struct NiUpdateData;
 class NiTexturingProperty__Map;
 
-class NiObjectNET;
+struct NiObjectNET;
 class NiInterpolator
 {
   public:
@@ -106,12 +106,12 @@ struct TexturePropertyLayout
         return shaders ? shaders->Get(i) : 0;
     }
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;

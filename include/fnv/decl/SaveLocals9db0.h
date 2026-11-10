@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSSaveFormBuffer;
+struct BGSSaveFormBuffer;
 
 struct SaveLocals9db0 {
 public:

@@ -228,8 +228,9 @@ FUN_006e9e20::~FUN_006e9e20()
     }
 }
 
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     int v;
     FormChangeMask();
     ~FormChangeMask();
@@ -7518,7 +7519,7 @@ struct GlobalTargetObj
 };
 
 class NiNode;
-class GlobalObject_00633c90
+struct GlobalObject_00633c90
 {
   public:
     GlobalTargetObj* operator->() const;

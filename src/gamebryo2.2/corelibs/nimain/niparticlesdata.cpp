@@ -140,8 +140,8 @@ void* FUN_00a96a10_shell::FUN_00a96a10(unsigned int flags)
     return this;
 }
 
-class NiStream;
-class RgbaColor
+struct NiStream;
+struct RgbaColor
 {
   public:
     float r, g, b, a;

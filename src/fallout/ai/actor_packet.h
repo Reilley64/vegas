@@ -19,7 +19,7 @@
 #include "layout_support.h"
 #include "TESForm.h"
 #define FNV_NIPOINT3_H
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -70,7 +70,7 @@ public:
 };
 
 class Actor;
-class Animation;
+struct Animation;
 class NiControllerSequence
 {
   public:
@@ -327,7 +327,7 @@ class ProcessBuffer
   public:
     float FUN_004d50e0(unsigned int);
 };
-class ActorProcessView
+struct ActorProcessView
 {
   public:
     virtual void vfn_0();
@@ -803,7 +803,7 @@ class ActorProcessView
 class NiNode;
 class TESObjectREFR;
 template <class> class BSSimpleList;
-class Animation
+struct Animation
 {
   public:
     bool IsGroupQueued(unsigned short);
@@ -851,8 +851,8 @@ class GlobalObject_0044f440
   public:
     char data;
 };
-class GameSettingCollection;
-class Animation;
+struct GameSettingCollection;
+struct Animation;
 struct Biped;
 class PlayerCharacter
 {

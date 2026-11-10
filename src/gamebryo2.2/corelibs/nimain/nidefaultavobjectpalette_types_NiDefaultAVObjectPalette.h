@@ -8,8 +8,8 @@
 class DFALL_NiTMapItem_NiFixedString_NiAVObject_____;
 class NiAVObject;
 class NiAVObjectPalette;
-class NiStream;
-class CloningProcess;
+struct NiStream;
+struct CloningProcess;
 class NiDefaultAVObjectPalette;
 class NiTFixedStringMap_NiAVObject___;
 class NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject___;

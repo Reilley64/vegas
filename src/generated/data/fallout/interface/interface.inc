@@ -3,7 +3,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 
 extern "C" char fnv_data_011c91e0[] __asm__("?g_011c91e0@@3VGlobalObject_0040c150@@A");
 extern "C" char fnv_data_011c9204[] __asm__("?g_011c9204@@3VGlobalObject_0040c150@@A");

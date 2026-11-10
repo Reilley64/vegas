@@ -2,7 +2,7 @@
 
 class AccumWIP;
 class B644B0Owner;
-struct AccumWIP;
+class AccumWIP;
 struct B64440A2;
 struct B644B0Shape;
 struct BSBatchRendererView;

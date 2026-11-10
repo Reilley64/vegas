@@ -281,7 +281,7 @@ void* FUN_00906130_Class::FUN_00906130(unsigned int flags)
     return this;
 }
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 public:
     void FUN_0040fba0();

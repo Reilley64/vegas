@@ -30,7 +30,7 @@ int __cdecl CompareByOffsetD4(const void* apFirst, const void* apSecond)
     return static_cast<const BorderUniqueIdFields*>(apFirst)->m_uiUniqueId < static_cast<const BorderUniqueIdFields*>(apSecond)->m_uiUniqueId;
 }
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 struct Item : hkReferencedObject
@@ -608,8 +608,9 @@ struct hkVector4
     }
 };
 
-struct hkAabb
+class hkAabb
 {
+  public:
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
 };
@@ -617,7 +618,7 @@ struct hkAabb
 
 namespace bpb {
 
-struct hkpPhantom;
+class hkpPhantom;
 
 struct hkpWorld
 {
@@ -821,8 +822,9 @@ struct hkpWorld
     hkVector4 m_broadPhaseExtentsMax;
 };
 
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     virtual ~hkReferencedObject();
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;
@@ -862,8 +864,9 @@ struct hkpTypedBroadPhaseHandle
     }
 };
 
-struct hkpPhantom : hkReferencedObject
+class hkpPhantom : public hkReferencedObject
 {
+  public:
     int m_pOwningWorld;
     int m_ulUserData;
     int m_pCollisionShape;

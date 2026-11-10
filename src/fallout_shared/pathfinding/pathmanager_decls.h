@@ -9,7 +9,7 @@
 #include "fnv/symbols_00559000.h"
 #include "fnv/symbols_005dc000.h"
 class WaitableObject;
-class PathingRequest;
+struct PathingRequest;
 class ActorPathingMessageQueue;
 class PathingSolution;
 

@@ -2,7 +2,7 @@
 
 class RotationMatrix3x3;
 
-class Vector3D {
+struct Vector3D {
 public:
     // 0x00b12890
     ::Vector3D operator*(const ::RotationMatrix3x3 &) const;

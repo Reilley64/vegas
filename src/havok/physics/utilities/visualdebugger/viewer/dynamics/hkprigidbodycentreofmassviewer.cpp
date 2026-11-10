@@ -313,7 +313,7 @@ void FUN_00d69b20_cls::AttachAndDispatch(ArgOwner* apOwner)
 }
 
 namespace fnv_00d69fa0 {
-class SpawnedObject;
+struct SpawnedObject;
 
 class FUN_00d69b20_cls
 {

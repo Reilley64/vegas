@@ -2,7 +2,7 @@
 
 namespace fnv_00569670 { struct PointTester; }
 namespace fnv_00569670 { struct XAVObject; }
-struct NiAVObject;
+class NiAVObject;
 
 // 0x00569410
 bool FUN_00569410(::NiAVObject *);

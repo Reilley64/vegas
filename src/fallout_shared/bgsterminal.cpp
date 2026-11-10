@@ -347,7 +347,7 @@ bool PlayerCharacter::HasNote(BGSNote* note)
     return note && reinterpret_cast<::RefList *>(&(notes))->FUN_005f65d0((void **)&(note));
 }
 
-struct BaseExtraList
+class BaseExtraList
 {
 };
 
@@ -358,7 +358,7 @@ void __cdecl FUN_00501a10(Script* apScript)
         reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>((reinterpret_cast<BaseExtraList*>(((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apScript))->FUN_005d43c0())))))->RemoveExtra(0x50);
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 
@@ -545,8 +545,9 @@ bool FUN_00501ae0_shell::FUN_00501ae0(TESObjectREFR* apRef)
     return bunlocked;
 }
 
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     int m_flags;
     FormChangeMask();
     operator bool() const;
@@ -679,13 +680,13 @@ void __cdecl SetScriptLockState(Script* apRef, bool abLock)
     }
 }
 
-class ScriptLocals;
+struct ScriptLocals;
 
-struct ExtraDataList
+class ExtraDataList
 {
 };
 
-class ScriptLocals;
+struct ScriptLocals;
 class TESObjectREFR;
 struct FUN_005ac1e0_shell
 {

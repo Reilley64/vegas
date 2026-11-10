@@ -13,7 +13,7 @@ struct Vec4Q
     {}
 };
 
-class Node
+struct Node
 {
   public:
     virtual void v00();

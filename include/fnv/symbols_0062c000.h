@@ -3,7 +3,7 @@
 
 class Refr62C3C0;
 class VtObj;
-struct NiAVObject;
+class NiAVObject;
 
 // 0x0062c300
 float FUN_0062c300(::NiAVObject *);

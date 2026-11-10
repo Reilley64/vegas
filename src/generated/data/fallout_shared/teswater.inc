@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?g_011c7a7c@@3UGlobalObject_0044f440@@A=?g_011c7a7c@@3VGlobalObject_0044f440@@A")
 #pragma comment(linker, "/alternatename:?g_011c7b54@@3UGlobalObject_0044f440@@A=?g_011c7b54@@3VGlobalObject_0044f440@@A")
 #pragma comment(linker, "/alternatename:?g_011c7ba4@@3UGlobalObject_0044f440@@A=?g_011c7ba4@@3VGlobalObject_0044f440@@A")

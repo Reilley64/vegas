@@ -15,7 +15,7 @@ class BSShaderProperty;
 class BSShaderProperty__RenderPass;
 class BSShaderProperty__RenderPassArray;
 class BSTextureSet;
-class RgbaColor;
+struct RgbaColor;
 class NiShadeProperty;
 class NiTAbstractPoolAllocator_unsigned_int_;
 class NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___;
@@ -261,7 +261,7 @@ class BSShaderLightingProperty : public BSShaderProperty
     // BSShaderLightingProperty& __cdecl BSShaderLightingProperty::*(const BSShaderLightingProperty&)
     // void __cdecl BSShaderLightingProperty::*()
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes

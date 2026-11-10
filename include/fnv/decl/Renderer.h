@@ -1,7 +1,7 @@
 #pragma once
 
 struct Class87d40;
-struct NiGeometryData;
+class NiGeometryData;
 struct VertexRecord;
 
 class Renderer {

@@ -283,7 +283,7 @@ struct FUN_00894cc0_shell
 {
     bool FUN_00894cc0(bool);
 };
-struct CombatProcedure
+class CombatProcedure
 {
 };
 struct FUN_009cc4d0_shell : CombatProcedure
@@ -340,7 +340,7 @@ struct FUN_00894900_shell
 {
     bool FUN_00894900();
 };
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 struct CombatTargetTimestamp
 {
 public:
@@ -507,7 +507,7 @@ void FUN_009d0530_shell::UpdateFlags(unsigned short mask, bool clear)
 }
 
 namespace fnv_009d0590 {
-struct TESObjectREFR;
+class TESObjectREFR;
 struct NiPoint3
 {
     float x;
@@ -859,12 +859,12 @@ struct ActorV
     virtual void v08b();
     virtual bool V230();
 };
-struct TESObjectWEAP;
+class TESObjectWEAP;
 struct FUN_0051f5f0_shell
 {
     unsigned int GetByteAt11D();
 };
-struct MobileObject
+class MobileObject
 {
 };
 struct FatigueProxy
@@ -2769,8 +2769,9 @@ namespace CombatReaction {
 struct Animation
 {
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();

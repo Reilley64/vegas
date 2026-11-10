@@ -197,19 +197,19 @@ void FUN_008c7490(FUN_008c7490_this* pThis)
     reinterpret_cast<::SemaphoreWaitReceiver *>(&(pThis->sem))->FUN_004424e0();
 }
 
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct PackedTaskQueueProcessor;
 struct Character;
 struct DismemberLimbTaskData;
 struct BooleanFloatQuery;
-struct MobileObject;
-struct NiAVObject;
+class MobileObject;
+class NiAVObject;
 struct NiColor;
-struct NiNode;
-struct TESBoundObject;
-struct TESObjectREFR;
-struct TESObjectWEAP;
+class NiNode;
+class TESBoundObject;
+class TESObjectREFR;
+class TESObjectWEAP;
 struct TaskQueueInterface
 {
     void ThreadProcessInput();
@@ -291,7 +291,7 @@ class GlobalObject2_0040c150
 {
   public:
 };
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -574,7 +574,7 @@ struct GlobalObject_0045cf30
     unsigned char* Bool();
 };
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 
@@ -590,7 +590,7 @@ struct NavMeshObstacleManager
 {
 };
 
-struct BGSDestructibleObjectForm
+class BGSDestructibleObjectForm
 {
 };
 
@@ -693,7 +693,7 @@ void __cdecl FUN_008c7bd0()
 }  // namespace fnv_008c7bd0
 
 namespace fnv_008c7f50 {
-class Sky;
+struct Sky;
 
 struct Zt5TES
 {
@@ -711,7 +711,7 @@ struct FUN_0087a6d0_shell
 {
 };
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
 };
@@ -728,7 +728,7 @@ struct SkyObject
 {
 };
 
-struct BGSDestructibleObjectForm
+class BGSDestructibleObjectForm
 {
 };
 

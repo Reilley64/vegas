@@ -1,6 +1,6 @@
 #pragma once
 
-class ScriptLocals;
+struct ScriptLocals;
 
 // 0x005a94f0
 unsigned short GetScriptLocalsSerializedSize(::ScriptLocals *);

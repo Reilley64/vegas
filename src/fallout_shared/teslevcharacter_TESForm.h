@@ -13,7 +13,7 @@
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 class TESFile;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESForm : public BaseFormComponent
 {
   public:

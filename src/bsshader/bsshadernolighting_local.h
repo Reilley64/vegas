@@ -69,7 +69,7 @@ template <> class NiPointer<NiD3DVertexDeclaration>
     ~NiPointer();
     operator NiD3DShaderDeclaration*() const;
 };
-class NiRenderer;
+struct NiRenderer;
 class NiGeometry;
 class NiTransform;
 class NiPropertyState;
@@ -347,7 +347,7 @@ class BSShaderProperty : public NiShadeProperty
 class BSShader;
 class BSShaderNoLighting;
 class Direct3DDeviceInterface;
-class RgbaColor;
+struct RgbaColor;
 class NiD3DDefaultShader;
 class NiD3DDefaultShader__PassFogStatus;
 class NiD3DPass;
@@ -1347,7 +1347,7 @@ class BSShader : public NiD3DDefaultShader
     unsigned char layoutPadding65[3];
     int m_iPassId;  // +0x68, 4 bytes
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     RgbaColor(float R, float G, float B, float A) : r(R), g(G), b(B), a(A)
@@ -1443,7 +1443,7 @@ inline NiPointer<NiD3DVertexDeclaration>::operator NiD3DShaderDeclaration*() con
 extern RgbaColor DAT_01202010;
 
 #include "NiPoint3.h"
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;
@@ -1458,7 +1458,7 @@ class NiTransform
     void ResetToIdentity();
 };
 class NiSkinInstance;
-class NiGeometryBufferData;
+struct NiGeometryBufferData;
 class NiD3DShaderProgram;
 class NiGeometryData
 {

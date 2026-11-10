@@ -2,7 +2,7 @@
 #define FNV_UNIT_TESFORM_FORM_H
 
 #include "tesform_layout_support.h"
-class FormRecordHeader
+struct FormRecordHeader
 {
   public:
     unsigned int form;                    // +0x0

@@ -36,7 +36,7 @@ class NiRefObject : public NiMemObject
 };
 
 class GraphicsRenderer;
-class NiRenderer;
+struct NiRenderer;
 
 class NiD3DShaderConstantMap : public NiRefObject
 {

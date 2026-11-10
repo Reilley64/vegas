@@ -101,9 +101,9 @@ class Actor : public TESObjectREFR
 
 class TESFile;
 template <class T> class BSStringT;
-class BGSSaveFormBuffer;
+struct BGSSaveFormBuffer;
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };
@@ -202,7 +202,7 @@ class TESPackage : public TESForm
     PTYPE GetPackType();
 };
 
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
@@ -490,14 +490,14 @@ bool FUN_008c6b00_shell::FUN_008c6b00(int aeFlag)
 
 struct BGSTextureSet;
 struct BipedAnim;
-struct NiAVObject;
+class NiAVObject;
 struct NiPoint3;
-struct Script;
-struct TESBoundObject;
-struct TESFile;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class Script;
+class TESBoundObject;
+class TESFile;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
 struct FileEntryList;
 struct TESWaterForm;
@@ -520,8 +520,9 @@ struct BGSClipRoundsForm : public BaseFormComponent
     unsigned char m_ucClipRounds;
     char _pad_5[3];
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -537,8 +538,9 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-struct TESTexture : public BaseFormComponent
+class TESTexture : public BaseFormComponent
 {
+  public:
     virtual unsigned int GetTexturePathLength();
     virtual char* NormalizeTextureFilePath(void*);
     virtual char* GetRegularTextureFilePath(void*);
@@ -803,7 +805,7 @@ unsigned short NvOuter::ComputeTotal(int aiFlags)
     return (unsigned short)total;
 }
 
-class BGSSaveFormBuffer
+struct BGSSaveFormBuffer
 {
   public:
     virtual void Unk_00();

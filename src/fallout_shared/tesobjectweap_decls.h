@@ -74,7 +74,7 @@ class TESObjectSTAT : public TESBoundObject
 class TESObjectIMOD : public TESBoundObject
 {
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

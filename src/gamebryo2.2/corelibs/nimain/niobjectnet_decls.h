@@ -15,8 +15,8 @@
 #include "NiRefObject.h"
 #include "NiFixedString.h"
 
-class NiStream;
-class CloningProcess;
+struct NiStream;
+struct CloningProcess;
 class NiExtraData;
 class NiTimeController;
 class NiInterpolator;
@@ -27,7 +27,7 @@ class NiAVObject
     NiExtraData* GetExtraData(const NiFixedString&);
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual void Slot02()
@@ -112,7 +112,7 @@ class NiTimeController : public NiObject
     NiTimeController* m_spNextController;
 };
 
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_kName;
@@ -139,7 +139,7 @@ public:
 };
 
 
-class NiStream
+struct NiStream
 {
   public:
     char m_kPad000[0xD8];

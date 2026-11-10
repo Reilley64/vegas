@@ -1,12 +1,12 @@
 #pragma once
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class BSFaceGenNiNode;
 class BipedAnim;
 class NiNode;
 class TESHair;
 class TESObjectREFR;
-template <class> class FaceGenMatrix;
+template <class> struct FaceGenMatrix;
 
 class TESNPC {
 public:

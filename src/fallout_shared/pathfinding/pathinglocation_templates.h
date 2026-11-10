@@ -1,7 +1,7 @@
 // fallout_shared/pathfinding/pathinglocation_templates.h: declares NiPoint3
 
 #include "fnv/decl/TESCombatStyle.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

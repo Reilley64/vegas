@@ -187,8 +187,9 @@ int FUN_0073bb30_shell::FUN_0073bb30()
     return 0x43b;
 }
 
-struct Tile
+class Tile
 {
+  public:
     unsigned int uiFlags;
 public:
     void Set(int, int);
@@ -373,7 +374,7 @@ struct FUN_0073bab0_shell
 
     void SetFlag(int a, int b);
 };
-struct OSGlobals
+class OSGlobals
 {
 };
 
@@ -456,7 +457,7 @@ struct FUN_00a01290_shell
     void SetTraitAndReset(int, float);
 };
 namespace ActorValue { enum Index; }
-struct ActorValueOwner
+class ActorValueOwner
 {
 public:
     float GetActorValueFloatByIndex(::ActorValue::Index);
@@ -538,7 +539,7 @@ struct Interface
 {
 };
 
-struct BSSimpleArray
+class BSSimpleArray
 {
 };
 
@@ -984,8 +985,9 @@ struct CardArray
 {
     void FUN_005ae3d0(Card* const& card);
 };
-struct Menu
+class Menu
 {
+  public:
     unsigned int unk000;
     unsigned int unk004;
     unsigned int unk008;
@@ -1998,7 +2000,7 @@ void FUN_0074ecb0_cls::FUN_0074ecb0(int aiEntryIndex)
 }
 
 struct NiPoint3;
-struct NiAVObject : public FUN_004bc1f0_S
+class NiAVObject : public FUN_004bc1f0_S
 {
 public:
     ::NiPoint3 &FUN_0043c490();
@@ -3080,20 +3082,21 @@ struct NiRTTI
     int unk00;
 };
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_kHandle;
     NiFixedString(const char* s);
     ~NiFixedString();
 };
 
-struct NiControllerSequence;
+class NiControllerSequence;
 
 struct NiControllerManager
 {
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -5326,8 +5329,9 @@ extern const char DAT_0107138c[];
 extern const char DAT_0107137c[];
 extern const char DAT_01071368[];
 extern const char DAT_01071358[];
-struct Menu
+class Menu
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -17520,8 +17524,9 @@ struct NiFixedStringBase
 {
     void FUN_004381b0();
 };
-struct NiFixedString : NiFixedStringBase
+class NiFixedString : public NiFixedStringBase
 {
+  public:
     const char* m_str;
     NiFixedString(const char*);
     ~NiFixedString();

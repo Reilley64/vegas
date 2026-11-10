@@ -412,7 +412,7 @@ struct AngleVec3
     float z;
 };
 
-struct RecipeCraftingInfo;
+class RecipeCraftingInfo;
 class TESRecipe
 {
   public:
@@ -613,11 +613,11 @@ void FUN_0059ce80_shell::FUN_0059ce80(uintptr_t aiGroup)
     iFilter |= (aiGroup << 16);
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct hkVector4;
 struct hkpAllRayHitCollector;
 struct hkpClosestRayHitCollector;
-struct hkpPhantom;
+class hkpPhantom;
 struct hkpRigidBody;
 struct blob1
 {
@@ -1034,7 +1034,7 @@ bool __cdecl FUN_0059dd90(TESObjectREFR* reference, void* arg1, void* arg2, doub
 
 void __cdecl DebugLog(char const*, ...);
 
-class Sky;
+struct Sky;
 class TES
 {
   public:
@@ -1437,7 +1437,7 @@ bool __cdecl FUN_0059de90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_0059df40 {
 void __cdecl DebugLog(char const*, ...);
 
-class Sky;
+struct Sky;
 class TES
 {
   public:
@@ -1476,7 +1476,7 @@ bool __cdecl FUN_0059df40(TESObjectREFR* reference, void* pMatchValue, void* pUn
 }  // namespace fnv_0059df40
 
 namespace fnv_0059dfe0 {
-class Sky;
+struct Sky;
 class TES
 {
   public:
@@ -2110,7 +2110,7 @@ namespace fnv_0059f3c0 {
 int _FNV_GetFormType(void* form);
 void __cdecl DebugLog(char const* format, ...);
 
-struct TESObject
+class TESObject
 {
 };
 
@@ -2118,8 +2118,9 @@ enum SEX
 {
 };
 
-struct TESActorBase
+class TESActorBase
 {
+  public:
     SEX GetSex(void);
 };
 
@@ -2147,7 +2148,7 @@ bool __cdecl FUN_0059f3c0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 void __cdecl DebugLog(char const*, ...);
 
-struct TESObject
+class TESObject
 {
 };
 
@@ -2508,15 +2509,15 @@ bool __cdecl FUN_005a0550(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct FindData;
 struct KFModel;
-struct NiAVObject;
+class NiAVObject;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiNode;
+class NiControllerSequence;
+class NiNode;
 struct TESAnimGroup;
-struct TESIdleForm;
+class TESIdleForm;
 struct Animation
 {
     void SetField(unsigned char, unsigned char, unsigned char);
@@ -2864,16 +2865,17 @@ namespace fnv_005a1c90 {
 int _FNV_GetFormType(void* form);
 void __cdecl DebugLog(const char*, ...);
 
-struct TESPackage
+class TESPackage
 {
+  public:
     bool IsMustComplete();
 };
 
 namespace FNV_Helpers {
-struct ExtraDataList
+class ExtraDataList
 {
 };
-struct Actor
+class Actor
 {
 };
 }
@@ -3517,7 +3519,7 @@ std::uintptr_t FUN_005a4320(char* this_ptr)
 }
 
 namespace fnv_005a4340 {
-class Sky;
+struct Sky;
 class TES
 {
   public:
@@ -4009,7 +4011,7 @@ bool __cdecl FUN_005a4480(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_005a4780 {
 void __cdecl DebugLog(char const*, ...);
 
-class Sky;
+struct Sky;
 class TES
 {
   public:
@@ -4311,7 +4313,7 @@ bool __cdecl FUN_005a49f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 
 namespace fnv_005a51e0 {
-struct MapMarkerData
+class MapMarkerData
 {
 };
 
@@ -4349,7 +4351,7 @@ bool __cdecl FUN_005a51e0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 namespace fnv_005a5330 {
 void __cdecl DebugLog(char const*, ...);
 
-class Sky;
+struct Sky;
 class TES
 {
   public:
@@ -4681,7 +4683,7 @@ uintptr_t FUN_005a6260(char* thisPtr)
     return *reinterpret_cast<unsigned int*>(thisPtr + 0x610);
 }
 
-struct TESObjectCELL;
+class TESObjectCELL;
 class TESObjectREFR;
 int _FNV_GetFormType(void*);
 void DebugLog(const char*, ...);
@@ -4718,7 +4720,7 @@ bool FUN_0059ee80(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     return true;
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct TESFaction;
 struct XActor
 {
@@ -4750,7 +4752,7 @@ bool FUN_0059fc50(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     return true;
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 void DebugLog(const char*, ...);
 // Sets the return value to 0, then if the reference is valid and passes a check, queries its perk rank and sets the return value to 1 when the rank is nonzero.
 // @fnv 0x005a4630
@@ -4771,7 +4773,7 @@ bool FUN_005a4630(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     return true;
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct ActorH
 {
 };
@@ -4795,7 +4797,7 @@ bool GetFactionRelation(TESObjectREFR* apRefObject, void* apParam1, void* apPara
     return true;
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct TESH
 {
 };
@@ -4905,16 +4907,16 @@ struct BipedAnim;
 struct CollisionComponent;
 struct DestructionStageData;
 struct IDebugText;
-struct NiAVObject;
-struct NiControllerSequence;
-struct NiNode;
-struct QueuedFile;
-struct TESBoundObject;
-struct TESFile;
+class NiAVObject;
+class NiControllerSequence;
+class NiNode;
+class QueuedFile;
+class TESBoundObject;
+class TESFile;
 struct TESKey;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
 struct FileEntryList;
 struct TESWaterForm;
@@ -4923,8 +4925,9 @@ struct blob12
 {
     char b[12];
 };
-struct LockExtraData
+class LockExtraData
 {
+  public:
     int GetLockLevel(TESObjectREFR*);
     void SetLockLevel(int);
     int GetLevel(TESObjectREFR*);
@@ -4947,8 +4950,9 @@ struct TESMagicTargetForm
     static bool CanBeMagicTarget(TESForm*);
     char _pad_0[1];
 };
-struct BGSDestructibleObjectForm : public BaseFormComponent
+class BGSDestructibleObjectForm : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -5567,18 +5571,18 @@ struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BipedAnim;
 struct InventoryIterator;
-struct InventoryStackRecord;
-struct NiAVObject;
+class InventoryStackRecord;
+class NiAVObject;
 struct IndexedPointerCollection;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESFile;
+class TESBoundObject;
+class TESContainer;
+class TESFile;
 struct TESLevItem;
-struct TESObject;
+class TESObject;
 struct TESFormList;
-struct TESObjectWEAP;
+class TESObjectWEAP;
 struct TESWaterForm;
 struct blob12
 {
@@ -5756,16 +5760,16 @@ struct BGSListForm;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct InventoryIterator;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct IndexedPointerCollection;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESFile;
+class TESBoundObject;
+class TESContainer;
+class TESFile;
 struct TESLevItem;
-struct TESObject;
-struct TESObjectWEAP;
+class TESObject;
+class TESObjectWEAP;
 struct InventoryChanges
 {
     void ForceWeightRecalculation();
@@ -6272,8 +6276,9 @@ struct FUN_0059ef60_FormTypeShell
 class BGSCameraShot;
 class PerkEntryConditionSet;
 template <class> class BSSimpleList;
-struct BGSCameraPath
+class BGSCameraPath
 {
+  public:
     int HasNameForWarning();
 public:
     ::PerkEntryConditionSet *GetConditions();
@@ -6376,7 +6381,7 @@ bool FUN_005a0410(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
 }
 
 namespace fnv_0059d400 {
-class NiColor;
+struct NiColor;
 class TESFaction;
 class PlayerCharacter;
 struct FactionReaction
@@ -6390,7 +6395,7 @@ struct ContNode
     ContNode* m_next;
 };
 bool FUN_008256d0(ContNode*);
-struct TESRegion
+class TESRegion
 {
 };
 struct TESActorBaseData
@@ -6500,14 +6505,15 @@ bool FUN_0059d400(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
 }  // namespace fnv_0059d400
 
 namespace fnv_0059d610 {
-struct TESObject
+class TESObject
 {
 };
-struct TESActorBase
+class TESActorBase
 {
+  public:
     int GetSex();
 };
-struct TESNPC : TESActorBase
+class TESNPC : public TESActorBase
 {
 };
 struct FNV_GetFormTypeHelper
@@ -7143,15 +7149,15 @@ bool FUN_0059d6e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
 
 namespace fnv_0059e1a0 {
 struct FormFlagRecord;
-struct ActorValueOwner;
+class ActorValueOwner;
 struct AlchemyItem;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct ExtraLeveledItem;
+class ExtraLeveledItem;
 struct InventoryChanges;
 struct ScriptDefinition;
-struct TESBoundObject;
-struct TESObjectWEAP;
+class TESBoundObject;
+class TESObjectWEAP;
 struct ScriptLocals
 {
     void ClearActionFlags();
@@ -7185,8 +7191,9 @@ struct ScriptLocals
     void* m_pVariableList;
     ScriptDefinition* m_pExtendedLocals;
 };
-struct InventoryStackRecord
+class InventoryStackRecord
 {
+  public:
     void Copy(InventoryStackRecord*);
     void MergeEntryData(InventoryStackRecord*);
     void ClearEntryData();
@@ -7476,9 +7483,9 @@ bool __cdecl FUN_005a02f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }  // namespace fnv_005a02f0
 
 namespace fnv_005a05e0 {
-struct TESObjectWEAP;
+class TESObjectWEAP;
 struct BGSListForm;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct TES
 {
 };
@@ -7771,7 +7778,7 @@ bool __cdecl GetObjectScale(TESObjectREFR* apRefObject, void* apParam1, void* ap
 }  // namespace fnv_0059c930
 
 namespace fnv_0059d1d0 {
-struct LockExtraData
+class LockExtraData
 {
 };
 struct P01RefA
@@ -7816,7 +7823,7 @@ class TES
 {
   public:
 };
-class Sky
+struct Sky
 {
   public:
 };
@@ -7908,8 +7915,9 @@ struct FUN_005a2310_Class
 {
 };
 void __cdecl _DebugLog(const char*);
-struct PlayerCharacter
+class PlayerCharacter
 {
+  public:
     bool bDebugLogging;
 };
 // Sets afReturnValue to 1.0 if apParam1 is a faction that passes IsFlag20Set, logs the result when debug logging is on, and returns true.
@@ -8836,7 +8844,7 @@ struct InventoryChanges
     static InventoryChanges* __cdecl CreateForReference(TESObjectREFR*);
     int GetObjectCount(TESForm*);
 };
-struct TESContainer;
+class TESContainer;
 // Sets result to the reference's inventory count of form 15 (gold), logs it when debug logging is on, and returns true.
 // @fnv 0x0059dbe0
 bool FUN_0059dbe0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
@@ -9644,12 +9652,13 @@ bool __cdecl FUN_0059c860(TESObjectREFR* reference, void* apUnused1, void* apUnu
 }  // namespace fnv_0059c860
 
 namespace fnv_0059d100 {
-struct TESObject
+class TESObject
 {
+  public:
     unsigned int _FNV_GetFormType();
 };
 
-struct LockExtraData
+class LockExtraData
 {
 };
 
@@ -9743,7 +9752,7 @@ struct FUN_004ac110_shell
 {
 };
 
-struct TESNPC : public FUN_004ac110_shell
+class TESNPC : public FUN_004ac110_shell
 {
 };
 
@@ -10054,12 +10063,12 @@ extern unsigned int __tls_index;
 int _FNV_GetFormType(TESObjectREFR* reference);
 void __cdecl _DebugLog(const char* format, ...);
 
-class BSAudio
+struct BSAudio
 {
   public:
 };
 
-class Sky : public BSAudio
+struct Sky : public BSAudio
 {
   public:
 };
@@ -11329,7 +11338,7 @@ struct FUN_004ac110_shell
 {
 };
 
-struct TESNPC : public FUN_004ac110_shell
+class TESNPC : public FUN_004ac110_shell
 {
 };
 
@@ -11389,11 +11398,11 @@ extern unsigned int __tls_index;
 extern int _FNV_GetFormType(std::uintptr_t form);
 extern void __cdecl _DebugLog(const char* format, double value);
 
-struct TESObject
+class TESObject
 {
 };
 
-struct TESCreature
+class TESCreature
 {
 };
 
@@ -11615,7 +11624,7 @@ bool FUN_005a0710(TESObjectREFR* reference, void* arg1, void* arg2, double& resu
 }  // namespace fnv_005a0710
 
 namespace fnv_005a0800 {
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -11623,7 +11632,7 @@ struct Model : NiAVObject
 {
 };
 
-struct NiFixedString
+class NiFixedString
 {
 };
 
@@ -13010,11 +13019,11 @@ bool __cdecl FUN_005a1a40(TESObjectREFR* apRefObject, void*, void*, double& afRe
 }
 
 namespace fnv_005a1ad0 {
-struct NiFixedString
+class NiFixedString
 {
 };
 
-struct NiExtraData
+class NiExtraData
 {
 };
 
@@ -16392,7 +16401,7 @@ bool __cdecl FUN_005a1b80(SourceLocal* source, unsigned int arg1, unsigned int a
 }
 
 namespace fnv_005a1e70 {
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
 void __cdecl _DebugLog(const char* format, ...);
@@ -17861,8 +17870,9 @@ bool FUN_0059c680(ActorV* apActor, void* aiActorValue, void* apUnused, double& a
 }  // namespace fnv_0059c680
 
 namespace fnv_0059d320 {
-struct TESObject
+class TESObject
 {
+  public:
     int FNV_GetFormType();
 };
 struct Character
@@ -17982,7 +17992,7 @@ struct TlsData
     void* pTarget;
 };
 void FUN_00703c00(const char*, ...);
-class Sky
+struct Sky
 {
   public:
 };
@@ -22040,7 +22050,7 @@ struct Process
 {
 };
 
-struct Actor
+class Actor
 {
 };
 

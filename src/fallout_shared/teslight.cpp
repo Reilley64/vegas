@@ -372,7 +372,7 @@ void FUN_0050e5c0_shell::FUN_0050e5c0(std::uintptr_t aiFlags)
     reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(static_cast<TESValueForm *>(this))))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(aiFlags));
 }
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
 struct TESValueFormLoadGame
 {
@@ -404,15 +404,17 @@ struct TESBoundAnimObject
     virtual void v0();
     char pad[0x2c];
 };
-struct TESFullName
+class TESFullName
 {
+  public:
     TESFullName();
     ~TESFullName();
     virtual void v0();
     char pad[0x8];
 };
-struct TESModelTextureSwap
+class TESModelTextureSwap
 {
+  public:
     TESModelTextureSwap();
     ~TESModelTextureSwap();
     virtual void v0();
@@ -452,8 +454,9 @@ struct TESValueForm
     virtual void v0();
     char pad[0x4];
 };
-struct BGSDestructibleObjectForm
+class BGSDestructibleObjectForm
 {
+  public:
     BGSDestructibleObjectForm();
     ~BGSDestructibleObjectForm();
     virtual void v0();
@@ -1363,7 +1366,7 @@ Light* LightForm::FUN_0050d810(Reference* reference, Scene* pScene, bool force)
 }
 
 // 0x0050c350  unit_0e65a86e7dd7.cpp  /MT /Od /Oy- /GS /EHsc /Gy
-class NiRTTI
+struct NiRTTI
 {
   public:
     int m;
@@ -1379,7 +1382,7 @@ class GlobalObject_0044f440
 {
   public:
 };
-class GlobalObject_0045cfe0
+struct GlobalObject_0045cfe0
 {
   public:
 };

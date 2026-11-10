@@ -1,7 +1,7 @@
 #pragma once
 
 struct FUN_00e76c30_Info;
-struct NiD3DVertexDeclaration;
+class NiD3DVertexDeclaration;
 struct NiRenderer;
 
 // 0x00e76700

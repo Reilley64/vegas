@@ -363,8 +363,9 @@ bool FUN_004a6d90_shell::IsPointInsideBox(NiPoint3& aPoint)
 }
 
 struct CloningProcess;
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     unsigned int m_uiRefCount;
 };
@@ -421,8 +422,9 @@ FUN_00c335d0* FUN_00c33730_shell::FUN_00c33730(CloningProcess& kCloning)
 
 namespace fnv_00c36330 {
 struct CloningProcess;
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     unsigned int m_uiRefCount;
 };
@@ -455,8 +457,9 @@ FUN_00c36310* FUN_00c36330_shell::FUN_00c36330(CloningProcess& kCloning)
 
 namespace fnv_00c37ee0 {
 struct CloningProcess;
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     unsigned int m_uiRefCount;
 };
@@ -484,8 +487,9 @@ FUN_00c37ec0* FUN_00c37ee0_shell::FUN_00c37ee0(CloningProcess& kCloning)
 
 namespace fnv_00c4fb30 {
 struct CloningProcess;
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     unsigned int m_uiRefCount;
 };
@@ -681,7 +685,7 @@ void FUN_00c4fa10_shell::FUN_00c4fa10(NiStream& stream)
 }  // namespace fnv_00c4fa10
 
 namespace fnv_00c4fa30 {
-class NiStream;
+struct NiStream;
 
 struct NiObject
 {
@@ -908,7 +912,7 @@ struct FUN_004a7b40
     FUN_004a7b40(const FUN_004a7b40_Pt&, float);
 };
 namespace fnv_00c36400 {
-class NiStream;
+struct NiStream;
 struct ThreeByThreeMatrix
 {
 };
@@ -945,7 +949,7 @@ bool FUN_00c36450_shell::FUN_00c36450(int aiValue)
 }
 }  // namespace fnv_00c36450
 
-class NiStream;
+struct NiStream;
 struct FUN_00a59a90_tgt
 {
 };
@@ -996,7 +1000,7 @@ namespace fnv_00c37fc0 {
 struct NiColor
 {
     float r, g, b;
-    void LoadBinary(class NiStream&);
+    void LoadBinary(struct NiStream&);
 };
 struct FUN_00c4f9f0_shell
 {
@@ -1006,11 +1010,11 @@ struct FUN_00c37fc0_shell : FUN_00c4f9f0_shell
 {
     NiColor unk0C;
     NiColor unk18;
-    void FUN_00c37fc0(class NiStream&);
+    void FUN_00c37fc0(struct NiStream&);
 };
 // Calls the base loader, then reads two NiColor members from the stream.
 // @fnv 0x00c37fc0
-void FUN_00c37fc0_shell::FUN_00c37fc0(class NiStream& aStream)
+void FUN_00c37fc0_shell::FUN_00c37fc0(struct NiStream& aStream)
 {
     reinterpret_cast<::FUN_00c4f9f0_shell *>(this)->FUN_00c4f9f0(aStream);
     unk0C.LoadBinary(aStream);
@@ -1018,8 +1022,8 @@ void FUN_00c37fc0_shell::FUN_00c37fc0(class NiStream& aStream)
 }
 }  // namespace fnv_00c37fc0
 
-class NiStream;
-class NiStream;
+struct NiStream;
+struct NiStream;
 struct NiColor
 {
     float r, g, b;
@@ -1106,18 +1110,19 @@ void FUN_00c4f9b0_class::CopyMembersStreamWithField(NiObject* pDest, void* pArg)
 
 struct TCEq
 {
-    bool FUN_00c4fa80(class NiObject*);
+    bool FUN_00c4fa80(struct NiObject*);
 };
 // @fnv 0x00c4fa80
-bool TCEq::FUN_00c4fa80(class NiObject* apObject)
+bool TCEq::FUN_00c4fa80(struct NiObject* apObject)
 {
     bool result = reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(apObject));
     return result;
 }
 
 namespace fnv_00c4fad0 {
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 struct FUN_00c4fad0_host : NiRefObject
@@ -1136,7 +1141,7 @@ void* FUN_00c4fad0_host::FUN_00c4fad0(unsigned int flags)
 }  // namespace fnv_00c4fad0
 
 namespace fnv_00c4fc10 {
-class NiStream;
+struct NiStream;
 struct NiColor
 {
 };
@@ -1173,7 +1178,7 @@ unsigned char FUN_00c38020_shell::FUN_00c4fc70(std::intptr_t a)
 }  // namespace fnv_00c4fc70
 
 namespace fnv_00c4fca0 {
-class NiStream;
+struct NiStream;
 struct NiColor
 {
     float r;
@@ -4631,7 +4636,7 @@ bool OccShape::FUN_00c387f0(Frustum6* pkPlanes)
     return true;
 }
 
-class CloningProcess;
+struct CloningProcess;
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
@@ -4795,9 +4800,9 @@ int ObjA_ob1::FUN_00c4f860()
 
 namespace fnv_00c4ff60 {
 template <class T> class NiTArray;
-class NiControllerManager;
-class NiBound;
-class NiStream;
+struct NiControllerManager;
+struct NiBound;
+struct NiStream;
 class NiObjectCopyInfo;
 class bhkLimitedHingeConstraint;
 class bhkRigidBody;
@@ -4814,7 +4819,7 @@ class NiGeometry;
 class BSMultiBoundNode;
 class BSFadeNode;
 class NiNode;
-class NiRTTI;
+struct NiRTTI;
 class NiRefObject
 {
   public:
@@ -4822,7 +4827,7 @@ class NiRefObject
     virtual void DeleteThis();
     unsigned int references;
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual NiRTTI* GetType();

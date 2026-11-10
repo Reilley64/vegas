@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_0042e110 { struct BSExtraData; }
+namespace fnv_0042e110 { class BSExtraData; }
 
 namespace fnv_0042e110 {
 struct FUN_0042e110 {

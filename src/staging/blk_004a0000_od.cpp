@@ -484,7 +484,7 @@ struct FUN_004afb50_class
     FUN_004afb50_class* InitializeWithGlobal(int a);
 };
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 public:
     void FUN_0040fba0();
@@ -502,7 +502,7 @@ void FUN_004afb80_shell::LockAtOffset()
 }
 
 namespace fnv_004afba0 {
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 
@@ -637,7 +637,7 @@ float FUN_004b5590(float afY, float afX)
     return (float)atan2((double)afY, (double)afX);
 }
 
-struct TESSound
+class TESSound
 {
 };
 
@@ -1085,7 +1085,7 @@ float MersenneTwister::FUN_004a4260()
 }
 
 struct ObstacleData;
-template <class T> struct NiPointer;
+template <class T> class NiPointer;
 struct FUN_004a4650_ListBase
 {
     NiTListItem<NiPointer<ObstacleData> >* m_pItemHead;
@@ -1466,7 +1466,7 @@ void __cdecl FUN_004b0220(intptr_t pObject)
 }
 
 extern int DAT_0101fc8c;
-template <> struct NiTMallocInterface<void*>
+template <> class NiTMallocInterface<void*>
 {
 };
 struct FUN_004b07b0_Struct
@@ -1750,8 +1750,9 @@ void FUN_004bcbd0_Class::ProcessNodes()
     }
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     unsigned int FNV_GetFormType();
 };
 
@@ -2686,8 +2687,9 @@ void __cdecl FUN_004ab0c0(Ref_cls* apRef)
 
 class NiExtraData;
 class NiFixedString;
-struct NiAVObject
+class NiAVObject
 {
+  public:
     void IncRefCount();
     void DecRefCount();
 public:
@@ -2864,7 +2866,7 @@ struct NiObject
 {
 };
 
-struct NiAVObject : NiObject
+class NiAVObject : public NiObject
 {
 };
 

@@ -3,7 +3,7 @@
 #include <cstdint>
 
 struct TESForm_0045c6b0;
-struct TESObjectREFR;
+class TESObjectREFR;
 
 // 0x0045c670
 std::uintptr_t FUN_0045c670();

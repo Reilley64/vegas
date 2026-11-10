@@ -58,8 +58,9 @@ BSShader* ParticleShader::CreateShader()
     return pParticleShader;
 }
 
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     char pad00[0x64];
     int m_iRefCount;
     void DestroyPass();
@@ -606,7 +607,7 @@ struct NiUpdateData
     char c8;
 };
 
-class NiObject
+struct NiObject
 {
   public:
     virtual void vfn_0();

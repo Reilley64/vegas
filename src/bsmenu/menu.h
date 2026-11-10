@@ -4,7 +4,7 @@
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/symbols_011f6000.h"
 #include "menu_decls.h"
-class MenuValueDescriptor
+struct MenuValueDescriptor
 {
   public:
     unsigned int m_uiValueId;

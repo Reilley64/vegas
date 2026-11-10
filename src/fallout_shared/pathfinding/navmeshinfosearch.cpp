@@ -247,7 +247,7 @@ void* FUN_006b83f0_shell::DestroyAndFree(unsigned int flags)
     return this;
 }
 
-struct NavMeshInfo;
+class NavMeshInfo;
 struct NavMeshInfoMap
 {
     virtual void d00();
@@ -322,9 +322,10 @@ void StandInSearch::RegisterNavMeshInfo(TeleportableReference* pInfo)
 
 namespace fnv_006b8c50 {
 struct InventoryChanges;
-struct TESActorBase;
-struct PathingActorData
+class TESActorBase;
+class PathingActorData
 {
+  public:
     TESActorBase* m_pActorBaseFormItem;
     InventoryChanges* m_pInventoryChangesValue;
     bool m_bCanIgnoreLocks;

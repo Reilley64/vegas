@@ -995,14 +995,14 @@ void Cls::ApplyEffect()
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BGSTextureSet;
-struct MagicItem;
-struct NiAVObject;
-struct Script;
-struct TESFile;
-struct TESForm;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObjectREFR;
+class MagicItem;
+class NiAVObject;
+class Script;
+class TESFile;
+class TESForm;
+class TESModel;
+class TESModelTextureSwap;
+class TESObjectREFR;
 struct FileEntryList;
 struct DistantTreeTextureInfo;
 struct LimbConditionEffect : public ValueModifierEffect
@@ -1020,15 +1020,17 @@ struct LimbConditionEffect : public ValueModifierEffect
     virtual void ApplyActorValueModifier(Actor*, float, int);
     int m_eModifiedActorValue;
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -1044,8 +1046,9 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-struct TESTexture : public BaseFormComponent
+class TESTexture : public BaseFormComponent
 {
+  public:
     virtual unsigned int GetTexturePathLength();
     virtual char* NormalizeTextureFilePath(void*);
     virtual char* GetRegularTextureFilePath(void*);
@@ -1668,7 +1671,7 @@ struct MiscStatManager
 };
 
 namespace Local {
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
 }

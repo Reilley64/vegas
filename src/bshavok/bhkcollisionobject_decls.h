@@ -4,7 +4,7 @@
 
 #include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
 #include "fnv/symbols_00653000.h"
-class NiRTTI;
+struct NiRTTI;
 class NiProperty;
 class SkyShaderProperty;
 class NiAVObject;

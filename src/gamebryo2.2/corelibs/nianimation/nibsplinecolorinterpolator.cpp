@@ -320,11 +320,12 @@ void FUN_00a51ca0(Obj34* self, void* unused, NiStream* stream)
     }
 }
 
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class I> struct NiTPrimitiveArray
+template <class T, class I> class NiTPrimitiveArray
 {
+  public:
     void* unk00;
     int unk04;
     unsigned short capacity;

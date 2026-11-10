@@ -19,7 +19,7 @@
 #undef NiPoint3
 #include "pathinglocation_templates.h"
 class TESObjectCELL;
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 class TESForm
 {
   public:
@@ -42,7 +42,7 @@ public:
     ::TESWorldSpace *GetParentWorldSpace();
 };
 
-class PathingLocation
+struct PathingLocation
 {
   public:
     void** m_ppVirtualMethodTable;

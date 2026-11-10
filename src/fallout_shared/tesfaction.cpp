@@ -580,7 +580,7 @@ void Holder::FUN_005fc970(int flag, bool value)
 
 struct HackReact
 {
-    void SetReactionValue(struct TESForm* form, int v);
+    void SetReactionValue(class TESForm* form, int v);
 };
 struct Unk_005fd3d0
 {
@@ -605,10 +605,10 @@ struct Unk_005fd3d0
     virtual void v18(int v);
     char pad[32];
     HackReact m_hack;
-    void FUN_005fd3d0(struct TESForm* form, int v);
+    void FUN_005fd3d0(class TESForm* form, int v);
 };
 // @fnv 0x005fd3d0
-void Unk_005fd3d0::FUN_005fd3d0(struct TESForm* form, int v)
+void Unk_005fd3d0::FUN_005fd3d0(class TESForm* form, int v)
 {
     m_hack.SetReactionValue(form, v);
     v18(4);
@@ -714,13 +714,13 @@ void FakeFaction::ModifyReputation(int aiCount, bool bModRep)
 struct FUN_005e78f0_t
 {
 };
-struct NiAVObject
+class NiAVObject
 {
 };
-struct TESTopicInfo
+class TESTopicInfo
 {
 };
-struct BGSAcousticSpace
+class BGSAcousticSpace
 {
 };
 struct BSStr

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 struct PathingAvoidanceNode;
 
 struct FUN_006915d0_helper {

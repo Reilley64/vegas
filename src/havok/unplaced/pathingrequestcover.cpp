@@ -146,8 +146,8 @@ void FUN_006e4500_class::FUN_006e4500(unsigned short ausValue, unsigned short b,
     ((char*)this)[0x52] = 0;
 }
 
-class BGSLoadGameBuffer;
-class NavMeshPtr;
+struct BGSLoadGameBuffer;
+struct NavMeshPtr;
 struct PathingLocation
 {
     PathingLocation& operator=(const PathingLocation&);
@@ -340,7 +340,7 @@ class NavMesh
   public:
 };
 
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     NavMesh* m_p;

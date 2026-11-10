@@ -1,6 +1,6 @@
 #pragma once
 
-class hkVector4;
+struct hkVector4;
 namespace fnv_00dea6b0 { struct S00dea6b0_Vec; }
 namespace fnv_00dea810 { struct FourPointsArray; }
 namespace fnv_00dea810 { struct hkVector4q; }

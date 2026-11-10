@@ -3,7 +3,7 @@
 class BSShaderAccumulator;
 class NiTexture;
 struct NativeB66810;
-struct NiGeometry;
+class NiGeometry;
 
 // 0x00b54090
 ::NiTexture *GetImageSpaceTexture();

@@ -2,9 +2,9 @@
 
 class NiAVObject;
 class NiLight;
-class NiPoint3;
+struct NiPoint3;
 
-class ShadowSceneNode {
+struct ShadowSceneNode {
 public:
     // 0x00b5b4d0
     float CalculateLightingAtPoint(::NiPoint3, int &, float &, float &, ::NiLight *);

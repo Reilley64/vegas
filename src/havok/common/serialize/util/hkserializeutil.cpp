@@ -70,7 +70,7 @@ void __cdecl FUN_00d48660(int a, int b, int c)
 }
 
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 

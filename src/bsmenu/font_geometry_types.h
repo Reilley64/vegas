@@ -32,7 +32,7 @@ class NiRefObject : public NiMemObject
     virtual void DeleteThis();
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
 };
@@ -43,7 +43,7 @@ class NiFixedString
     char* m_kHandle;  // +0x0
 };
 
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_kName;                       // +0x8
@@ -53,7 +53,7 @@ class NiObjectNET : public NiObject
     unsigned short m_usMaxSize;                  // +0x16
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0
@@ -63,7 +63,7 @@ public:
     static const ::NiPoint3 ZERO;
 };
 
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes
@@ -92,7 +92,7 @@ class FontCharacterInfo
 };
 
 // PC NiPoint2 coordinates: JohnnyGuitar NiPoint2.hpp declarations only.
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x;
@@ -137,7 +137,7 @@ class NiTPointerList_NiPointer_NiProperty___
   public:
 };
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];  // PC: +0x0, 36 bytes
@@ -188,7 +188,7 @@ class NiTriShape : public NiTriBasedGeom
   public:
 };
 
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;  // +0x0, 12 bytes

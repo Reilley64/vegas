@@ -2,7 +2,7 @@
 
 class BGSEncounterZone;
 class BSExtraData;
-class ExtraRadioData;
+struct ExtraRadioData;
 class NiNode;
 class TESModel;
 

@@ -60,7 +60,7 @@ void FUN_008d1920()
     }
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -80,7 +80,7 @@ struct Controls
 {
 };
 
-struct OSGlobals
+class OSGlobals
 {
 };
 

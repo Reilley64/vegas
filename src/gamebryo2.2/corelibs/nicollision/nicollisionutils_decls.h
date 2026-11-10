@@ -1,6 +1,6 @@
 // gamebryo2.2/corelibs/nicollision/nicollisionutils_decls.h: declares NiPoint3, NiPosData, RayTriangleIntersector
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

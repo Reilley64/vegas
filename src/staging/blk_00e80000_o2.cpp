@@ -6508,7 +6508,8 @@ void FUN_00e88af0_Class::FUN_00e88af0() {
 //     +0x04  dword      +0x08  dword      +0x0c  dword
 //     +0x10  dword      +0x14  dword      +0x18  byte flag
 //   The single caller (0x00e73547) pushes a 0/1 byte and calls this setter.
-struct NiD3DGeometryGroupManager {
+class NiD3DGeometryGroupManager {
+  public:
     int m_vtbl;         // +0x00
     int m_04;           // +0x04
     int m_08;           // +0x08

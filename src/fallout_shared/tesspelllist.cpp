@@ -88,7 +88,7 @@ std::intptr_t GetOffsetC(std::intptr_t apBase)
     return apBase + 0xc;
 }
 
-struct TESDataHandler
+class TESDataHandler
 {
 };
 struct LH

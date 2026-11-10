@@ -32,7 +32,7 @@ class NiRefObject : public NiMemObject
             DeleteThis();
     }
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
 };
@@ -43,7 +43,7 @@ class NiFixedString
 };
 class NiTimeController;
 class NiExtraData;
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_kName;                       // +0x8
@@ -60,8 +60,9 @@ struct NiMatrix33
 {
     float cr[3][3];
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     NiMatrix33 rotate;
     NiVector3 translate;
     float scale;
@@ -83,7 +84,7 @@ template <class Item> class DList
 };
 class NiNode;
 class bhkNiCollisionObject;
-class NiBound;
+struct NiBound;
 class NiProperty;
 class NiAVObject : public NiObjectNET
 {

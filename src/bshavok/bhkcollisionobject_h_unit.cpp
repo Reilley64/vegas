@@ -1017,12 +1017,12 @@ void Cls_00c658c0::FUN_00c658c0()
 namespace fnv_00c65b00 {
 #include <xmmintrin.h>
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float entry[3][3];

@@ -9,7 +9,7 @@
 #include "fnv/symbols_011f9000.h"
 typedef unsigned int UInt32;
 typedef unsigned short UInt16;
-class NiRTTI;
+struct NiRTTI;
 class NiNode;
 class BSFadeNode;
 class BSMultiBoundNode;
@@ -26,11 +26,11 @@ class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
 class NiSkinInstance;
-class NiGeometryBufferData;
+struct NiGeometryBufferData;
 class NiPropertyState;
 class NiDynamicEffectState;
 class NiTransform;
-class NiBound;
+struct NiBound;
 class NiShaderDeclaration;
 class NiShaderConstantMap;
 class NiGPUProgram;
@@ -49,10 +49,10 @@ class NiDX9RenderState;
 class NiDX9VertexBufferManager;
 class NiVBChip;
 class NiGeometryData;
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 class NiObjectGroup;
-class NiControllerManager;
+struct NiControllerManager;
 struct IDirect3DDevice9;
 struct IDirect3DVertexDeclaration9;
 typedef IDirect3DDevice9* LPDIRECT3DDEVICE9;
@@ -97,7 +97,7 @@ class NiFixedString
   public:
     char* m_kHandle;
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
@@ -124,7 +124,7 @@ class NiRefObject : public NiMemObject
     virtual void DeleteThis();
     unsigned int m_uiRefCount;
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual ~NiObject();

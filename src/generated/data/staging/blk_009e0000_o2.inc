@@ -10,7 +10,7 @@
 #pragma comment(linker, "/alternatename:?DAT_00fdf1c0@@3PEAPEAXEA=?DAT_00fdf1c0@@3P6AHPEAX@ZEA")
 #pragma comment(linker, "/alternatename:?DAT_00fdf1c4@@3P6APEAXPEAH@ZEA=?DAT_00fdf1c4@@3P6AHPEAX@ZEA")
 #pragma comment(linker, "/alternatename:?DAT_00fdf1c4@fnv_009fce80@@3P6AHPEAH@ZEA=?DAT_00fdf1c4@@3P6AHPEAX@ZEA")
-#pragma comment(linker, "/alternatename:?DAT_00fdf45c@fnv_009f9cd0@@3P6AXPEAX@ZEA=?DAT_00fdf45c@@3P6AXPEAUSpectatorPackage@@@ZEA")
+#pragma comment(linker, "/alternatename:?DAT_00fdf45c@fnv_009f9cd0@@3P6AXPEAX@ZEA=?DAT_00fdf45c@@3P6AXPEAVSpectatorPackage@@@ZEA")
 #pragma comment(linker, "/alternatename:?DAT_00fdf460@fnv_009f9cd0@@3P6APEAXK@ZEA=?DAT_00fdf460@@3P6APEAXI@ZEA")
 #pragma comment(linker, "/alternatename:DAT_00fdf1c0=?DAT_00fdf1c0@@3P6AHPEAX@ZEA")
 

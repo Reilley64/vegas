@@ -1,6 +1,6 @@
 #pragma once
 
-struct EffectItemList;
+class EffectItemList;
 
 class B5B10Owner {
 public:

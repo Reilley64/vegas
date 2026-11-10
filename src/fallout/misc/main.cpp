@@ -655,7 +655,7 @@ void FUN_004ed8c0_shell::FUN_004ed8c0(int* piValue)
     reinterpret_cast<::FUN_00559a70_Class *>(this)->FUN_00559a70(n);
 }
 
-struct BGSAddonNode;
+class BGSAddonNode;
 struct Arr86
 {
     void SetAt(unsigned int, BGSAddonNode*&);
@@ -681,7 +681,7 @@ unsigned int S86::FUN_0086bae0(unsigned int key, BGSAddonNode* node)
 }
 
 namespace fnv_0086bbd0 {
-struct BGSAddonNode;
+class BGSAddonNode;
 struct Arr86
 {
     void SetAt(unsigned int, BGSAddonNode*&);
@@ -735,9 +735,9 @@ void FUN_0086bda0(intptr_t param_1)
     }
 }
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 
-class Interface
+struct Interface
 {
   public:
 public:
@@ -873,8 +873,8 @@ bool FUN_0086e3f0_shell::FUN_0086e3f0(unsigned short usNumVertices, unsigned sho
 }
 
 namespace fnv_0086e420 {
-struct NiGeometryData;
-struct NiGeometry
+class NiGeometryData;
+class NiGeometry
 {
 };
 struct NiScreenElementsData
@@ -895,7 +895,7 @@ namespace fnv_0086e460 {
 struct NiScreenElementsData
 {
 };
-struct NiGeometry
+class NiGeometry
 {
 };
 struct FUN_0086e460_shell : public NiGeometry
@@ -1136,7 +1136,7 @@ struct GameTimerRecord
 struct Twin_0084d030
 {
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct Mover
@@ -1177,8 +1177,9 @@ struct FUN_0086f390_shell : public Main
     unsigned char unk06;
 };
 
-struct PlayerCharacter
+class PlayerCharacter
 {
+  public:
     virtual void p0();
     virtual void p1();
     virtual void p2();
@@ -1320,7 +1321,7 @@ struct PlayerCharacter
     virtual void p138();
     virtual bool V8B(int);
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct TimeGlobal
@@ -1359,7 +1360,7 @@ struct FUN_0086f640_shell : public Main
     void FUN_0086f640();
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     void Update(bool);
@@ -1521,7 +1522,7 @@ class GlobalObject2_0040c150
   public:
 };
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
 };
@@ -1584,11 +1585,12 @@ struct P3
 struct ShadowSceneNode
 {
 };
-struct NiNode
+class NiNode
 {
+  public:
     const P3& FUN_0045bb80() const;
 };
-struct BSFaceGenAnimationData : public NiNode
+class BSFaceGenAnimationData : public NiNode
 {
 };
 struct BSFaceGenNiNode
@@ -1938,13 +1940,13 @@ void FUN_00874ac0_shell::FUN_00874ac0(bool b)
 }  // namespace fnv_00874ac0
 
 struct BSRenderedTexture;
-struct ImageSpaceEffect;
+class ImageSpaceEffect;
 struct ImageSpaceEffectParam;
 struct ImageSpaceTexture;
 struct RgbaColor;
 struct NiPoint2;
 struct NiScreenElements;
-struct NiTexture;
+class NiTexture;
 struct GraphicsRenderer;
 struct blob16
 {
@@ -2115,7 +2117,7 @@ struct FUN_00874b50_shell : public Main
     void FUN_00874b50(BSRenderedTexture*, bool, unsigned int);
 };
 
-struct NiRenderTargetGroup;
+class NiRenderTargetGroup;
 struct BSRenderedTexture
 {
     NiRenderTargetGroup* GetGroup(void);
@@ -2139,13 +2141,13 @@ void FUN_00874b50_shell::FUN_00874b50(BSRenderedTexture* apRenderTexture, bool a
 
 namespace fnv_00874b90 {
 struct BSRenderedTexture;
-struct ImageSpaceEffect;
+class ImageSpaceEffect;
 struct ImageSpaceEffectParam;
 struct ImageSpaceTexture;
 struct RgbaColor;
 struct NiPoint2;
 struct NiScreenElements;
-struct NiTexture;
+class NiTexture;
 struct GraphicsRenderer;
 struct blob16
 {
@@ -2474,7 +2476,7 @@ struct TES
 struct TopicH
 {
 };
-struct BGSCameraPath
+class BGSCameraPath
 {
 };
 struct RefrHelper
@@ -2775,8 +2777,9 @@ namespace fnv_0086efe0 {
 struct SettingFloat
 {
 };
-struct TESWorldSpace
+class TESWorldSpace
 {
+  public:
     enum PARENT_USE_FLAG
     {
         USE_LAND = 1
@@ -3012,7 +3015,7 @@ struct FUN_008727d0_shell : public Main
     void FUN_008727d0();
 };
 
-struct BSFaceGenAnimationData;
+class BSFaceGenAnimationData;
 struct ShadowSceneNode
 {
 };
@@ -3044,7 +3047,7 @@ struct FUN_004e2190_shell
 struct MTRenderingSystem_Helper
 {
 };
-struct TaskThreadManager : MTRenderingSystem_Helper
+class TaskThreadManager : public MTRenderingSystem_Helper
 {
 };
 
@@ -3149,7 +3152,7 @@ char FUN_00874650Class::FUN_00874650()
 }
 
 namespace fnv_00874690 {
-class GlobalObject_00633c90
+struct GlobalObject_00633c90
 {
   public:
     void* operator->() const;
@@ -3216,9 +3219,9 @@ struct BSFaceGenNiNode
 {
     void* GetAnimationData();
 };
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class NiCamera;
-struct BSShaderAccumulator
+class BSShaderAccumulator
 {
 public:
     void SetupDepth(::NiCamera *, ::NiCamera *, ::BSRenderedTexture *);
@@ -3613,38 +3616,38 @@ void* FUN_0086bf10::DeleteThis(unsigned int flags)
 }
 
 namespace fnv_0086f6a0 {
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct ActorCause;
 struct AlchemyItem;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ExplosionForm;
 struct BGSLoadFormBuffer;
 struct BGSLoadGameBuffer;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
 struct BSRenderedTexture;
 struct BSShaderNoLightingProperty;
 struct SoundPlaybackHandle;
-struct BaseFormComponent;
+class BaseFormComponent;
 struct BaseProcess;
 struct BipedAnim;
 struct CHUNK;
 struct CellMopp;
 struct GameFormRecord;
-struct DialogueResponse;
+class DialogueResponse;
 struct TeleportableReference;
-struct EffectItem;
-struct ExtraDataList;
+class EffectItem;
+class ExtraDataList;
 struct ExtraLock;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -3652,65 +3655,65 @@ struct FurnitureMark;
 struct HWND__;
 struct BooleanIntegerAccessor;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct CellDataNode;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
-struct MapMarkerData;
-struct MobileObject;
-struct Point3Offset;
-struct NiAVObject;
-struct NiCamera;
+class MagicTarget;
+class MapMarkerData;
+class MobileObject;
+class Point3Offset;
+class NiAVObject;
+class NiCamera;
 struct AnimationInterpolator;
 struct NiColor;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct NiPointLight;
-struct NiTexture;
+class NiTexture;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct LocationDescriptor;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
-struct Script;
+class RagDollData;
+class Script;
 struct ScriptLocals;
 struct ShadowSceneNode;
 struct SpellItem;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESFile;
-struct TESForm;
+class TESBoundObject;
+class TESContainer;
+class TESFile;
+class TESForm;
 struct TESGlobal;
-struct TESIdleForm;
-struct TESModel;
-struct TESObjectARMO;
+class TESIdleForm;
+class TESModel;
+class TESObjectARMO;
 struct TESObjectCLOT;
 struct TESObjectLIGH;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
-struct TESSound;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
+class TESSound;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
-struct Tile;
+class Tile;
 struct TrapEntry;
 struct WaterZone;
-struct bhkCharacterController;
+class bhkCharacterController;
 struct bhkNiCollisionObject;
 struct hkpRigidBody;
 struct blob4
@@ -3754,7 +3757,7 @@ struct FUN_0086f6a0_act : FUN_0086f6a0_vs<256>
 {
     virtual void Slot257(float);
 };
-struct FOPipboyManager
+class FOPipboyManager
 {
 };
 struct GlobalObject_0045cfe0
@@ -3974,15 +3977,15 @@ struct FUN_008746d0_shell : public Main
     void FUN_008746d0(BSRenderedTexture*);
 };
 
-struct NiNode;
-struct NiRenderTargetGroup;
+class NiNode;
+class NiRenderTargetGroup;
 struct NiColor;
 struct ImageSpaceEffectParam
 {
     ImageSpaceEffectParam(float, float, float, float);
     float r, g, b, a;
 };
-struct NiAVObject
+class NiAVObject
 {
 };
 struct BSRenderedTexture
@@ -4129,7 +4132,7 @@ void FUN_008746d0_shell::FUN_008746d0(BSRenderedTexture* apRenderTexture)
 
 namespace fnv_00875e40 {
 class NiCamera;
-class BSRenderedTexture;
+struct BSRenderedTexture;
 using AutoMemHelper = ::AutoMemContext;
 struct ArrSI
 {
@@ -4174,7 +4177,7 @@ struct FUN_00710ab0_Class;
 struct BSShaderManager
 {
 };
-struct BSShaderAccumulator
+class BSShaderAccumulator
 {
 };
 struct FUN_00875e40_shell
@@ -4225,7 +4228,7 @@ void Outer00875fa0::FUN_00875fa0(Param00875fa0* pParam, void* b)
 
 namespace fnv_00876850 {
 struct BSRenderedTexture;
-struct BSShaderAccumulator;
+class BSShaderAccumulator;
 struct ShaderRenderType;
 struct GeometryDeviceType;
 struct ShaderComRelatedType;
@@ -4245,18 +4248,18 @@ struct COMUnknownInterface;
 struct RenderableGeometry;
 struct ImageSpaceEffectRenderer;
 struct Direct3D;
-struct ImageSpaceEffect;
+class ImageSpaceEffect;
 struct ImageSpaceEffectParam;
 struct ImageSpaceTexture;
 struct NiBillboardNode;
-struct NiCamera;
+class NiCamera;
 struct RgbaColor;
-struct NiDirectionalLight;
-struct NiNode;
+class NiDirectionalLight;
+class NiNode;
 struct NiPick;
 struct NiPoint2;
 struct NiScreenElements;
-struct NiTexture;
+class NiTexture;
 struct NiTriShape;
 struct GraphicsRenderer;
 struct Sky;
@@ -4687,11 +4690,11 @@ struct NiUpdateData
 };
 using ::AutoMemContext;
 
-class GridCell;
+struct GridCell;
 class NiNode;
-class IOManager;
+struct IOManager;
 class TESObjectREFR;
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
@@ -9974,7 +9977,7 @@ char FUN_00872780_Class::FUN_00872780()
 
 extern double DAT_01082d20;
 
-struct NiRenderTargetGroup;
+class NiRenderTargetGroup;
 struct BSRenderedTexture;
 struct TexObj
 {
@@ -10159,7 +10162,7 @@ BSRenderedTexture* Host::FUN_00872f50(P1* apSource, BSRenderedTexture* apFallbac
 namespace fnv_00874c10 {
 struct BSFaceGenNiNode;
 
-struct BSFaceGenAnimationData
+class BSFaceGenAnimationData
 {
 };
 
@@ -10189,8 +10192,9 @@ struct NiPoint3WithNeg : public NiPoint3
 {
 };
 
-struct NiNode
+class NiNode
 {
+  public:
     void Update(NiUpdateData*);
 };
 
@@ -10218,7 +10222,7 @@ struct BGSBodyPart
 {
 };
 
-struct FORenderedMenu
+class FORenderedMenu
 {
 };
 
@@ -12317,7 +12321,7 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
 
 namespace fnv_00877730 {
 struct GlobalObject_0045cf30;
-class ImageSpaceManager;
+struct ImageSpaceManager;
 using AutoMemHelper = ::AutoMemContext;
 union SETTING_VALUE
 {
@@ -12642,13 +12646,14 @@ struct ISHolder
 struct StateObj
 {
 };
-struct PlayerCharacter;
+class PlayerCharacter;
 struct BSShaderManager
 {
 };
-struct NiCamera;
-struct NiAVObject
+class NiCamera;
+class NiAVObject
 {
+  public:
     void Update(NiUpdateData& d);
 };
 struct CamNode
@@ -14082,11 +14087,12 @@ void PlayerUpdateState::FUN_0086f940()
 }  // namespace fnv_0086f940
 
 namespace fnv_0086d590 {
-struct NiAVObject;
+class NiAVObject;
 using AutoMemHelper = ::AutoMemContext;
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     int value;
     NiFixedString(const char*);
     ~NiFixedString();
@@ -14410,8 +14416,9 @@ struct FUN_00b5e0f0 : NiMemObject
     unsigned int unknown_1f8;
     unsigned int unknown_1fc;
 };
-struct BSFogProperty : NiMemObject
+class BSFogProperty : public NiMemObject
 {
+  public:
     BSFogProperty();
     unsigned int unknown_00;
     unsigned int unknown_04;
@@ -14913,8 +14920,9 @@ struct S00875bf0_Scene875
 struct S00875bf0_Face875
 {
 };
-struct FORenderedMenu
+class FORenderedMenu
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void* v2();
@@ -14984,7 +14992,7 @@ struct BSShaderManagerRenderMode
 struct S00875bf0_BSA_
 {
 };
-class ShadowSceneNode;
+struct ShadowSceneNode;
 struct S00875bf0_FaceNode875
 {
     void* GetAnimationData();

@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiTexture;
+class NiTexture;
 
 struct TileShaderProperty {
 public:

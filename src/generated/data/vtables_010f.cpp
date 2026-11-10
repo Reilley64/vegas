@@ -18,7 +18,7 @@ extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEA
 extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
 extern "C" void fnv_fn_00a5d470() __asm__("?IsSameAs@A5d470Class@@UEAA_NPEAUA5d470Object@@@Z");
 extern "C" void fnv_fn_00a5d610() __asm__("?ReadGroup@FUN_00a5d610_Object@@QEAAXPEAUNiStream@@@Z");
-extern "C" void fnv_fn_00a5d6e0() __asm__("?AppendCameraPathEntries@A5D6E0This@@QEAAXPEAV?$NiTArray@PEAUBGSCameraPath@@V?$NiTMallocInterface@PEAUBGSCameraPath@@@@@@@Z");
+extern "C" void fnv_fn_00a5d6e0() __asm__("?AppendCameraPathEntries@A5D6E0This@@QEAAXPEAV?$NiTArray@PEAVBGSCameraPath@@V?$NiTMallocInterface@PEAVBGSCameraPath@@@@@@@Z");
 extern "C" void fnv_fn_00a63840() __asm__("?FUN_00a63840@FUN_00a63840_Class@@QEAAII@Z");
 extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
 extern "C" void fnv_fn_00a8f3f0() __asm__("?FUN_00a8f3f0@@YAHHHHHHHHH@Z");
@@ -82,7 +82,7 @@ extern "C" void fnv_fn_00e81470() __asm__("?FUN_00e81470@FUN_00e81470_class@@QEA
 extern "C" void fnv_fn_00e814b0() __asm__("?FUN_00e814b0@UnkShader@fnv_00e814b0@@QEAAXXZ");
 extern "C" void fnv_fn_00e814f0() __asm__("?FUN_00e814f0@@YADXZ");
 extern "C" void fnv_fn_00e81500() __asm__("?FUN_00e81500@@YAEXZ");
-extern "C" void fnv_fn_00e81880() __asm__("?FUN_00e81880@FUN_00e81880_shell@@QEAA_NPEAUNiGeometry@@@Z");
+extern "C" void fnv_fn_00e81880() __asm__("?FUN_00e81880@FUN_00e81880_shell@@QEAA_NPEAVNiGeometry@@@Z");
 extern "C" void fnv_fn_00e87980() __asm__("?FUN_00e87980@NiD3DRenderState@@QEAAXPEAX@Z");
 extern "C" void fnv_fn_00e879e0() __asm__("?FUN_00e879e0@FUN_00e879e0_Class@@QEAAXPEAM@Z");
 extern "C" void fnv_fn_00e87a40() __asm__("?FUN_00e87a40@FUN_00e87a40_This@@QEAAXXZ");
@@ -197,7 +197,7 @@ extern "C" void fnv_fn_00e91f80() __asm__("?FUN_00e91f80@fnv_00e91f80@@YAXPEAD@Z
 extern "C" void fnv_fn_00e91fa0() __asm__("?FUN_00e91fa0@FUN_00e91fa0_shell@fnv_00e91fa0@@QEAAXXZ");
 extern "C" void fnv_fn_00e91fc0() __asm__("?FUN_00e91fc0@@YAPEBDXZ");
 extern "C" void fnv_fn_00e920a0() __asm__("?FUN_00e920a0@ShaderFactory@@QEAAPEAUShaderLibrary@@PEBDI_N@Z");
-extern "C" void fnv_fn_00e921d0() __asm__("?GetShaderByNameAndImplementation@FUN_00e921d0_shell@fnv_00e921d0@@QEAAPEAUNiShader@2@PEBDI@Z");
+extern "C" void fnv_fn_00e921d0() __asm__("?GetShaderByNameAndImplementation@FUN_00e921d0_shell@fnv_00e921d0@@QEAAPEAVNiShader@2@PEBDI@Z");
 extern "C" void fnv_fn_00e92270() __asm__("?HasEntry@E92270Library@@QEAA_NPEBDI@Z");
 extern "C" void fnv_fn_00e92330() __asm__("?FUN_00e92330@FUN_00e92330_cls@@QEAA_N_K@Z");
 extern "C" void fnv_fn_00e923f0() __asm__("?FUN_00e923f0@NiD3DShaderFactory_shell@@QEAAXPEBDI@Z");
@@ -211,7 +211,7 @@ extern "C" void fnv_fn_00e926b0() __asm__("?FUN_00e926b0@FUN_00e926b0_shell@fnv_
 extern "C" void fnv_fn_00e926f0() __asm__("?FUN_00e926f0@FakeCls@fnv_00e926f0@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00e92730() __asm__("?IsDefaultShader@@YA_NPEAVNiShader@@@Z");
 extern "C" void fnv_fn_00e92910() __asm__("?SetEntryNameAndObject@FUN_00e92910_cls@@QEAAXPEAUBE92910Entry@@PEBDV?$BE92910Pointer@VBE92910RefObject@@@@@Z");
-extern "C" void fnv_fn_00e929c0() __asm__("?RegisterShaderImplementation@FUN_00e929c0_shell@fnv_00e929c0@@QEAAXPEAUNiShader@2@I@Z");
+extern "C" void fnv_fn_00e929c0() __asm__("?RegisterShaderImplementation@FUN_00e929c0_shell@fnv_00e929c0@@QEAAXPEAVNiShader@2@I@Z");
 extern "C" void fnv_fn_00e92a40() __asm__("?FUN_00e92a40@ShaderFactory_e92a40@@QEAAXPEAUFUN_00d47a30_class@@@Z");
 extern "C" void fnv_fn_00e92a70() __asm__("?GetShaderRefObject@ShaderFactoryView@@QEAAPEAVShaderRefObject@@PEBD@Z");
 extern "C" void fnv_fn_00e92ae0() __asm__("?FUN_00e92ae0@OwnerE92A@@QEAAXPEBD@Z");
@@ -245,14 +245,14 @@ extern "C" void fnv_fn_00e94a80() __asm__("?FUN_00e94a80@S@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00e94c20() __asm__("?GetOrCreateNode@FUN_00e94c20_cls@@QEAAPEAUVbNode@@PEAUVbDesc@@I@Z");
 extern "C" void fnv_fn_00e94d00() __asm__("?FUN_00e94d00@NiGeometryGroup@fnv_00e94d00@@QEAAXPEAX@Z");
 extern "C" void fnv_fn_00e94d30() __asm__("?Destroy@NiUnsharedGeometryGroup@@QEAAPEAXI@Z");
-extern "C" void fnv_fn_00e94db0() __asm__("?FUN_00e94db0@NiGeometryGroup@fnv_00e94db0@@QEAAXPEAUNiGeometryData@2@@Z");
+extern "C" void fnv_fn_00e94db0() __asm__("?FUN_00e94db0@NiGeometryGroup@fnv_00e94db0@@QEAAXPEAVNiGeometryData@2@@Z");
 extern "C" void fnv_fn_00e94de0() __asm__("?CreateScreenTextureBufferData@S@@QEAAXPEAUNiScreenTexture@@@Z");
 extern "C" void fnv_fn_00e94e30() __asm__("?FUN_00e94e30@NiUnsharedGeometryGroupE94@@QEAAPEAVNiVBChipE94@@PEAUNiBuffDataE94@@I@Z");
 extern "C" void fnv_fn_00e94ee0() __asm__("?FUN_00e94ee0@@YAXPEAUNiGeometryBufferData@@I@Z");
 extern "C" void fnv_fn_00e94f30() __asm__("?ClearBuffers@BufferManager@@QEAAXXZ");
-extern "C" void fnv_fn_00e950f0() __asm__("?FUN_00e950f0@NiDynamicGeometryGroup@@QEAAXPEAUNiGeometryData@@@Z");
-extern "C" void fnv_fn_00e95140() __asm__("?FUN_00e95140@NiDynamicGeometryGroup@fnv_00e95140@@QEAAXPEAUNiGeometryData@2@@Z");
-extern "C" void fnv_fn_00e95190() __asm__("?FUN_00e95190@NiDynamicGeometryGroup@fnv_00e95190@@QEAAXPEAUNiGeometryData@@@Z");
+extern "C" void fnv_fn_00e950f0() __asm__("?FUN_00e950f0@NiDynamicGeometryGroup@@QEAAXPEAVNiGeometryData@@@Z");
+extern "C" void fnv_fn_00e95140() __asm__("?FUN_00e95140@NiDynamicGeometryGroup@fnv_00e95140@@QEAAXPEAVNiGeometryData@2@@Z");
+extern "C" void fnv_fn_00e95190() __asm__("?FUN_00e95190@NiDynamicGeometryGroup@fnv_00e95190@@QEAAXPEAVNiGeometryData@@@Z");
 extern "C" void fnv_fn_00e951e0() __asm__("?FUN_00e951e0@@YAXPEAUNiGeometryBufferData@@I@Z");
 extern "C" void fnv_fn_00e95300() __asm__("?FUN_00e95300@S_00e95300@@QEAAPEAU1@H@Z");
 extern "C" void fnv_fn_00e95380() __asm__("?DestroyDynamicMap@FUN_00e95380_shell@@QEAAPEAXI@Z");
@@ -286,7 +286,7 @@ extern "C" void fnv_fn_00e96d00() __asm__("?FUN_00e96d00@FUN_00e96d00_Class@@QEA
 extern "C" void fnv_fn_00e96d10() __asm__("?FUN_00e96d10@NiD3DHLSLPixelShader@@QEAAIXZ");
 extern "C" void fnv_fn_00e96d40() __asm__("?FUN_00e96d40@FUN_00e96d40_Class@@QEAAPEBDI@Z");
 extern "C" void fnv_fn_00e96da0() __asm__("?FUN_00e96da0@Player@fnv_00e96da0@@QEAA_NPEAUEntry@2@_JH@Z");
-extern "C" void fnv_fn_00e96fb0() __asm__("?FUN_00e96fb0@HLSLPixelShader@@QEAA_NPEAUNiShaderConstantMapEntry@@PEBXIIPEBG@Z");
+extern "C" void fnv_fn_00e96fb0() __asm__("?FUN_00e96fb0@HLSLPixelShader@@QEAA_NPEAVNiShaderConstantMapEntry@@PEBXIIPEBG@Z");
 extern "C" void fnv_fn_00e97210() __asm__("?ReleaseConstTable@MyHolder@@QEAAXXZ");
 extern "C" void fnv_fn_00e97240() __asm__("?FUN_00e97240@@YAXXZ");
 extern "C" void fnv_fn_00e97250() __asm__("?GetConstants@ShaderWrap@@QEAAIXZ");
@@ -295,7 +295,7 @@ extern "C" void fnv_fn_00e972e0() __asm__("?FUN_00e972e0@VS_00e972e0_Shader@@QEA
 extern "C" void fnv_fn_00e974f0() __asm__("?FUN_00e974f0@ArrayShader@@QEAA_NPEAUVS_00e972e0_Entry@@PEBXIIUOrderArg@@@Z");
 extern "C" void fnv_fn_00e97870() __asm__("??0FUN_00e97870_Class@@QEAA@E@Z");
 extern "C" void fnv_fn_00e978d0() __asm__("?CreateShaderProgram@PixelShaderCreator@@QEAA_NPEAUPixelShaderInterface@@@Z");
-extern "C" void fnv_fn_00e97940() __asm__("?FUN_00e97940@NiD3DShaderProgramCreatorAsm@@QEAA_NPEAUNiD3DPixelShader@@@Z");
+extern "C" void fnv_fn_00e97940() __asm__("?FUN_00e97940@NiD3DShaderProgramCreatorAsm@@QEAA_NPEAVNiD3DPixelShader@@@Z");
 extern "C" void fnv_fn_00e97980() __asm__("?FUN_00e97980@VertexShaderCreatorAsm@@QEAAPEAUNiD3DVertexShader@@PEBD00HPEAX_K_NH@Z");
 extern "C" void fnv_fn_00e97af0() __asm__("?FUN_00e97af0@VertexShaderCreatorHLSL@@QEAAPEAUNiD3DVertexShader@@PEBD0000PEAX_K_NH@Z");
 extern "C" void fnv_fn_00e97c60() __asm__("?FUN_00e97c60@ShaderCreatorAsmStub@fnv_00e97c60@@QEAAPEAUNiD3DPixelShaderStub@2@PEBD000H@Z");
@@ -315,7 +315,7 @@ extern "C" void fnv_fn_00e9e8c0() __asm__("?FUN_00e9e8c0@E9E8C0Array@@QEAA_NPEAV
 extern "C" void fnv_fn_00e9e930() __asm__("?FUN_00e9e930@S_00e9e930@@QEAAXPEAUS_00e9e930_A@@PEAX@Z");
 extern "C" void fnv_fn_00e9ecc0() __asm__("?FUN_00e9ecc0@@YA_JXZ");
 extern "C" void fnv_fn_00e9ecd0() __asm__("?FUN_00e9ecd0@TexCache@@QEAAXPEAUSource@@@Z");
-extern "C" void fnv_fn_00e9ed50() __asm__("?FUN_00e9ed50@FUN_00e9ed50_cls@@QEAAXAEAVNiStream@@@Z");
+extern "C" void fnv_fn_00e9ed50() __asm__("?FUN_00e9ed50@FUN_00e9ed50_cls@@QEAAXAEAUNiStream@@@Z");
 extern "C" void fnv_fn_00e9eef0() __asm__("?FUN_00e9eef0@Source365@@QEAAPEAUState365@@XZ");
 extern "C" void fnv_fn_00e9efb0() __asm__("?FUN_00e9efb0@@YAPEAUS@@PEAX@Z");
 extern "C" void fnv_fn_00e9f020() __asm__("?FUN_00e9f020@Obj@@QEAAXPEAD@Z");
@@ -352,7 +352,7 @@ extern "C" void fnv_fn_00eaceb0() __asm__("?AssignFromSource@FUN_00eaceb0_shell@
 extern "C" void fnv_fn_00ead0b0() __asm__("?DestroyIfFlagged@NiCollisionData@fnv_00ead0b0@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00ead0f0() __asm__("?UpdateCollision@NiCollDataStandIn@@QEAAXPEAUNiAVObjectStandIn@@@Z");
 extern "C" void fnv_fn_00ead2b0() __asm__("?MatchesOther@FUN_00ead2b0_cls@@QEAA_NPEAU1@@Z");
-extern "C" void fnv_fn_00ead330() __asm__("?FUN_00ead330@NiCollisionData@fnv_00ead330@@QEAAXPEAUNiAVObject@2@@Z");
+extern "C" void fnv_fn_00ead330() __asm__("?FUN_00ead330@NiCollisionData@fnv_00ead330@@QEAAXPEAVNiAVObject@2@@Z");
 extern "C" void fnv_fn_00ead550() __asm__("?UpdateCollideState@FNV_Owner@@QEAAXII@Z");
 extern "C" void fnv_fn_00ead670() __asm__("?LoadFromStream@FUN_00ead670_cls@@QEAAXAEAUNiStreamImpl@@@Z");
 extern "C" void fnv_fn_00ead760() __asm__("?FUN_00ead760@NiCollisionData@fnv_00ead760@@QEAAXAEAUNiStream@2@@Z");
@@ -382,7 +382,7 @@ extern "C" void fnv_fn_00ec1ee0() __asm__("?FUN_00ec1ee0@FUN_00ec1ee0_cls@fnv_00
 extern "C" void fnv_fn_00ec60fa() __asm__("_purecall");
 extern "C" void fnv_fn_00ee8990() __asm__("?FUN_00ee8990@@YA_NXZ");
 extern "C" void fnv_fn_00eea530() __asm__("?FUN_00eea530@FnvCpu_FUN_00eea530_CpuObject@@QEAAHXZ");
-extern "C" void fnv_fn_00eea540() __asm__("?FUN_00eea540@NiD3DShaderProgram@@QEAAXPEAVNiD3DShaderProgramCreator@@@Z");
+extern "C" void fnv_fn_00eea540() __asm__("?FUN_00eea540@NiD3DShaderProgram@@QEAAXPEAUNiD3DShaderProgramCreator@@@Z");
 
 // _DAT_010f003c
 void* fnv_vftable_DAT_010f003c[] = {

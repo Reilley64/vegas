@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-class BSBatchRenderer__PassList;
+struct BSBatchRenderer__PassList;
 namespace fnv_00b99110 { struct DrawPass; }
 namespace fnv_00b994f0 { struct Pass_b994f0; }
 struct BSBatchRenderer_View_00b99bc0;

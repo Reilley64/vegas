@@ -1,6 +1,6 @@
 #pragma once
 
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 
 struct FUN_00418890_shell {
 public:

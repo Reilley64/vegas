@@ -124,7 +124,7 @@ void FUN_0085a290_t::DeleteFormById(unsigned int uiFormId)
         reinterpret_cast<::FUN_00855220_shell *>((pChanges))->FUN_00855220(uiFormId, true);
 }
 
-struct Actor;
+class Actor;
 struct LH
 {
 };
@@ -140,7 +140,7 @@ bool Crime::IsActorInList(Actor* apActor)
     return reinterpret_cast<::RefList *>(&(_list))->FUN_005f65d0((void **)&(apActor));
 }
 
-struct Actor;
+class Actor;
 struct SL
 {
 };
@@ -213,7 +213,7 @@ void FUN_009ec830_t::AddHeadAtOffset(int* a)
 }
 
 namespace fnv_009ec850 {
-struct Actor
+class Actor
 {
 };
 struct MyList
@@ -643,7 +643,7 @@ void FUN_009ecec0_shell::SaveCrimeList(BGSSaveFormBuffer* apSaveGameBuffer)
 }
 }  // namespace fnv_009ecec0
 
-struct TESPackage
+class TESPackage
 {
 };
 
@@ -978,10 +978,11 @@ namespace fnv_00970b30 {
 // 0x00970b30  /MT /Od /Oy- /GS /EHsc /Gy
 struct TESFaction;
 struct BaseProcess;
-struct TESActorBase;
+class TESActorBase;
 
-struct Actor
+class Actor
 {
+  public:
     virtual void d000();
     virtual void d001();
     virtual void d002();

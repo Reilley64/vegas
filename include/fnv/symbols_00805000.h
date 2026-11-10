@@ -5,7 +5,7 @@ class ActiveEffect;
 class ActiveEffectList_5d40;
 class Actor;
 class ActorStandin_5d40;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class SaveEffectObj;
 namespace fnv_00805b40 { struct AENode; }
 struct SaveSizeListNode;

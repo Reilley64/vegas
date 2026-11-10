@@ -21,15 +21,16 @@ struct TESFileGroup;
 struct HWND__;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESForm;
-struct TESObjectREFR;
+class TESBoundObject;
+class TESForm;
+class TESObjectREFR;
 struct blob8
 {
     char b[8];
 };
-struct TESDescription : public BaseFormComponent
+class TESDescription : public BaseFormComponent
 {
+  public:
     virtual char* GetDescription(TESForm*, int);
     virtual void InitializeComponent();
     virtual void ClearComponent();
@@ -48,8 +49,9 @@ struct TESDescription : public BaseFormComponent
     void SetDescription(char*);
     unsigned long m_uiDescriptionFileOffset;
 };
-struct TESTexture : public BaseFormComponent
+class TESTexture : public BaseFormComponent
 {
+  public:
     virtual unsigned int GetTexturePathLength();
     virtual char* NormalizeTextureFilePath(void*);
     virtual char* GetRegularTextureFilePath(void*);
@@ -103,8 +105,9 @@ void FUN_004870f0_shell::CopyFullNameFrom(BaseFormComponent* apCopyFC)
     reinterpret_cast<::TextString *>((((BSStr*)&this->m_kName)))->FUN_004037f0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pCopy)))->FUN_00408da0())), 0);
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
 // Casts apObj to TESFullName and returns its full name, or an empty string if the cast fails.

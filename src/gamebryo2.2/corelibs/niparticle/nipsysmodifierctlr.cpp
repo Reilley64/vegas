@@ -36,8 +36,9 @@ struct NiObjectNET
 {
     virtual ~NiObjectNET();
 };
-struct NiTimeController
+class NiTimeController
 {
+  public:
     virtual void SetTarget(NiObjectNET*);
 };
 struct NiParticleSystem

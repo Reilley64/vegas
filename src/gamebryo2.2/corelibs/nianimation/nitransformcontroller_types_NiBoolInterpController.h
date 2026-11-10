@@ -12,9 +12,9 @@ class NiBoolInterpController;
 class NiInterpController;
 class NiInterpolator;
 class NiSingleInterpController;
-class CloningProcess;
-class NiStream;
-class NiUpdateData;
+struct CloningProcess;
+struct NiStream;
+struct NiUpdateData;
 class NiTimeController : public NiObject
 {
   public:

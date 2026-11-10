@@ -71,8 +71,9 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 class Actor;
-struct MagicTarget
+class MagicTarget
 {
+  public:
     virtual ~MagicTarget()
     {}
 public:
@@ -103,12 +104,12 @@ struct FUN_00807eb0_shell : BoundItemEffect
     void* FUN_00807eb0(unsigned int flags);
     void FUN_00807ee0();
 };
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
-struct InventoryStackRecord;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
+class InventoryStackRecord;
 
-struct Actor;
+class Actor;
 struct AssociatedItemEffect
 {
 public:
@@ -150,8 +151,9 @@ FUN_00807e10::FUN_00807e10(MagicCaster* apCaster, MagicItem* apSpell, EffectItem
     this->unka8 = 0;
 }
 
-struct TESBoundObject
+class TESBoundObject
 {
+  public:
     virtual void vfunc00();
 };
 
@@ -166,8 +168,9 @@ struct ModelS
     unsigned int GetModelLength() const;
 };
 
-struct TESObjectWEAP : TESBoundObject
+class TESObjectWEAP : public TESBoundObject
 {
+  public:
     int unk04;
     int unk08;
     int unk0c;
@@ -185,8 +188,9 @@ struct TESObjectWEAP : TESBoundObject
     ModelS model;
 };
 
-struct TESNPC : TESBoundObject
+class TESNPC : public TESBoundObject
 {
+  public:
     int GetSex();
 };
 
@@ -365,9 +369,9 @@ FUN_00807ee0::~FUN_00807ee0()
 }
 
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 
 class B085F0Effect
 {
@@ -537,11 +541,12 @@ AEEffect* AEEffect::Clone()
     return pNewInstance;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void formVirtual();
 };
-struct TESObjectARMO : TESForm
+class TESObjectARMO : public TESForm
 {
 };
 struct ItemData
@@ -951,7 +956,7 @@ struct EffectObj
     void Update(float delta);
 };
 namespace fnv_00809a00 {
-struct Actor;
+class Actor;
 
 struct FormIDEntry;
 
@@ -1037,7 +1042,7 @@ class TESForm
     virtual char* GetSaveSizeLabel();
 };
 
-struct EffectItem
+class EffectItem
 
 {
 
@@ -1209,7 +1214,7 @@ unsigned short BoundItemEffectSaveSizeLayout::FUN_00809a00(Actor* apActor)
 
 // Adapted from contributor Worker18 (2026-10-23); independently verified and modified.
 
-struct Actor;
+class Actor;
 
 
 struct Obj12
@@ -1383,8 +1388,9 @@ struct Sound
     virtual int VCall130();
 };
 
-struct TESSound
+class TESSound
 {
+  public:
 
     void* m_00;
 };
@@ -1401,7 +1407,7 @@ struct TimeGlobal : FUN_008579e0_shell
 };
 
 class TESSound;
-struct EffectSetting : TimeGlobal
+class EffectSetting : public TimeGlobal
 {
 
 public:
@@ -1588,8 +1594,9 @@ struct SaveHeader
     unsigned char unk04;
     unsigned char flags;
 };
-struct TESForm
+class TESForm
 {
+  public:
     virtual void vfunc00();
     virtual void vfunc04();
     virtual void vfunc08();
@@ -2317,8 +2324,8 @@ struct EffectSettingQ
     char pad00[0x18];
     TESModel kModel;
 };
-struct EffectItem;
-struct EffectItemList
+class EffectItem;
+class EffectItemList
 {
 };
 class MagicItem
@@ -2335,7 +2342,7 @@ class MagicItem
     EffectItemList kList;
     EffectSettingQ* FUN_0040a300(int iUnk);
 };
-struct EffectItem
+class EffectItem
 {
 };
 struct MagicTarget_00822b40
@@ -3054,8 +3061,9 @@ struct ArmoViewQ
     BIArmor::BISlots bipedModel;
 };
 class EffectSetting;
-struct ActiveEffect
+class ActiveEffect
 {
+  public:
     virtual ~ActiveEffect();
     int unk04;
     int unk08;

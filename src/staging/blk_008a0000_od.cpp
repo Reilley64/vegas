@@ -115,7 +115,7 @@ char FUN_008a08c0_Class::GetByteAt7C4()
 }
 
 class TESActorBase;
-struct Actor
+class Actor
 {
 public:
     ::TESActorBase *GetActorBase();
@@ -2230,8 +2230,9 @@ struct NiPoint3
 {
     float x, y, z;
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
     float m_fScale;
@@ -2571,7 +2572,7 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
 typedef unsigned int size_t_;
 
 struct ActorX;
-struct TESForm;
+class TESForm;
 struct RefObj;
 
 
@@ -2600,8 +2601,9 @@ struct Sub4
     virtual int s2(int);
     virtual float s3(int);
 };
-struct TESForm
+class TESForm
 {
+  public:
     char pad[0x100];
     Sub4 m100;
 };

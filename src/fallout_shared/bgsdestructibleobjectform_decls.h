@@ -457,7 +457,7 @@ class SettingT_GameSettingCollection_
   public:
     SETTING_VALUE* Int();
 };
-class GlobalObject_0045cfe0
+struct GlobalObject_0045cfe0
 {
 };
 class TESFile;
@@ -470,7 +470,7 @@ class BGSReconstructFormsInAllFilesMap
 class GlobalObject_00479190
 {
 };
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static TaskQueueInterface* GetSingleton();
@@ -506,7 +506,7 @@ class TES
 {
   public:
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };
@@ -573,7 +573,7 @@ class PatrolActorPackageData
   public:
     bool IsPatrolling();
 };
-class BSAudio
+struct BSAudio
 {
   public:
 };

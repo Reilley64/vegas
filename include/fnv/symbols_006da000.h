@@ -1,7 +1,7 @@
 #pragma once
 
-class NiPoint3;
-class PathingLocation;
+struct NiPoint3;
+struct PathingLocation;
 namespace fnv_006da7c0 { struct CellOps; }
 
 // 0x006da420

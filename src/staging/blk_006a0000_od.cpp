@@ -1019,7 +1019,7 @@ void* FUN_006a1cc0_class::FUN_006a1cc0(unsigned int uiFlags)
     return this;
 }
 
-class Modifier
+struct Modifier
 {
   public:
 };
@@ -1037,7 +1037,7 @@ class ArrSI
 {
   public:
 };
-class Arr
+struct Arr
 {
   public:
     unsigned int* GetAt(int);
@@ -2544,12 +2544,13 @@ int FUN_006b4060_class::GetNextIndex()
     return m_8 - 1;
 }
 
-struct NavMeshTriangle
+class NavMeshTriangle
 {
 };
-class NiPoint3;
-struct NavMesh
+struct NiPoint3;
+class NavMesh
 {
+  public:
     NavMeshTriangle* GetTriangle(unsigned short index);
 public:
     bool FindHeightOnTriangle(unsigned short, const ::NiPoint3 &, float &, float, float);
@@ -10376,8 +10377,8 @@ FUN_006a9cb0::FUN_006a9cb0()
     request = 0;
 }
 
-class NavMeshPtr;
-class PathingLocation
+struct NavMeshPtr;
+struct PathingLocation
 {
   public:
     PathingLocation();
@@ -13387,9 +13388,10 @@ FUN_006b38b0::~FUN_006b38b0()
 {}
 
 struct NavMeshEdgeSegment;
-template <class T, unsigned S> struct BSSimpleArray;
-template <> struct BSSimpleArray<NavMeshEdgeSegment, 1024>
+template <class T, unsigned S> class BSSimpleArray;
+template <> class BSSimpleArray<NavMeshEdgeSegment, 1024>
 {
+  public:
     ~BSSimpleArray();
 };
 struct FUN_006b38e0
@@ -13779,7 +13781,7 @@ struct NavMesh68
 {
 };
 
-class PathingLocation
+struct PathingLocation
 {
   public:
     int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20, m_24;
@@ -13787,7 +13789,7 @@ class PathingLocation
     ~PathingLocation();
 };
 
-class NavMeshPtr;
+struct NavMeshPtr;
 class FUN_006dd0d0
 {
   public:
@@ -13800,7 +13802,7 @@ struct Ret559
 {
 };
 
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     NavMesh* m_p;

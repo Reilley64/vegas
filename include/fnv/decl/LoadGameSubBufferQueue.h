@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESForm;
 enum QUEUED_SUB_BUFFER_TYPE;
 

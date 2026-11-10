@@ -3,7 +3,7 @@
 
 struct FUN_004769c0_shell;
 struct FUN_004b4cf0_shell;
-struct NiTransform;
+class NiTransform;
 struct TopicH;
 
 // 0x006240d0

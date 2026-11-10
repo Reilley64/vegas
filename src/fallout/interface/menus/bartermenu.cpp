@@ -193,8 +193,9 @@ struct BarterMenu
 };
 
 namespace fnv_0072e530 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 struct BarterMenu
@@ -529,10 +530,10 @@ struct BaseProcess
     virtual void v284();
     virtual bool v285(int a);
 };
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
-struct Tile
+class Tile
 {
 public:
     void Set(int, int);
@@ -632,7 +633,7 @@ class TESBipedModelForm
 public:
     static ::TESBipedModelForm *GetFormAsBipedModel(const ::TESForm *);
 };
-class InventoryEntry
+struct InventoryEntry
 {
   public:
 };
@@ -2391,8 +2392,8 @@ struct DataHandler
 struct TileLike
 {
 };
-struct PlayerCharacter;
-class InventoryEntry;
+class PlayerCharacter;
+struct InventoryEntry;
 bool __cdecl IsFilteredFromBarter(EntryObj* e);
 void __cdecl AddHeadImpl(void* list, void** pp);
 struct IMObj
@@ -2570,16 +2571,17 @@ int CompareF070Entries(F070Entry* pkA, F070Entry* pkB)
 }
 
 namespace fnv_0072fd10 {
-struct ExtraDataList;
-struct TESObjectREFR;
-struct InventoryStackRecord;
+class ExtraDataList;
+class TESObjectREFR;
+class InventoryStackRecord;
 
 struct ExtraDataListNode
 {
 };
 
-struct InventoryStackRecord
+class InventoryStackRecord
 {
+  public:
     ExtraDataListNode* m_extendData;
     int m_countDelta;
     TESBoundObject* m_type;
@@ -2800,7 +2802,7 @@ struct TESQuestStageList
 {
 };
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 

@@ -3,11 +3,11 @@
 
 class BSXFlags;
 class NiAVObject;
-class NiBound;
+struct NiBound;
 class NiCamera;
 class NiNode;
-class NiObjectNET;
-class NiPoint3;
+struct NiObjectNET;
+struct NiPoint3;
 class TESSound;
 struct BSShaderPPLightingProperty;
 struct FNVNode;

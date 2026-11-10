@@ -10,7 +10,7 @@
 #include "MemoryManager.h"
 
 
-class Matrix4f
+struct Matrix4f
 {
   public:
     float m_fComponents[4][4];

@@ -283,7 +283,7 @@ void __cdecl FUN_00e99260()
     }
 }
 
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     int unk;

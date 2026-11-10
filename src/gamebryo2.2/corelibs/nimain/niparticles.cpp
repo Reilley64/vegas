@@ -23,8 +23,9 @@ char const* const* __cdecl FUN_00a9b1b0()
     return &(*reinterpret_cast<const char *const *>(&::g_011f5f64));
 }
 
-struct NiGeometryData
+class NiGeometryData
 {
+  public:
     enum Consistency
     {
     };

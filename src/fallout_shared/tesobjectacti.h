@@ -22,7 +22,7 @@ class TESModelTextureSwap;
 class TESObjectACTI;
 class TESFormList;
 class FileEntryList;
-class TESWaterForm;
+struct TESWaterForm;
 class DistantTreeTextureInfo;
 class TESObject : public TESForm
 {

@@ -571,11 +571,12 @@ struct Node
     State* state;
 };
 
-struct bhkCharacterController;
+class bhkCharacterController;
 
 
-struct bhkCharacterController
+class bhkCharacterController
 {
+  public:
     void SubtractVectors(Vec4* result);
     bool FUN_00c6fa20();
 };

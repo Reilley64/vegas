@@ -7,7 +7,7 @@ class NiD3DPassPool;
 class NiGeometryGroup;
 class Setting_01017720_011f96a0;
 namespace fnv_00e7dc90 { class FNV_VirtualDevice; }
-namespace fnv_00e7f2b0 { struct D3DRenderStateGroup; }
+namespace fnv_00e7f2b0 { class D3DRenderStateGroup; }
 namespace fnv_00e7f2b0 { struct NiD3DRenderStateEntry; }
 struct CriticalSectionE7CF;
 struct DepthDevice;

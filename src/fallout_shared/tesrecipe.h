@@ -70,7 +70,7 @@ class TESRecipeCategory : public TESForm, public TESFullName
     virtual bool Load(TESFile* file);
 };
 
-class QuantityData
+struct QuantityData
 {
   public:
     unsigned int Quantity;  // +0x0, 4 bytes

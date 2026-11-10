@@ -153,8 +153,9 @@ class hkBool
     }
 };
 
-struct hkAabb
+class hkAabb
 {
+  public:
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
     void includePoint(const hkVector4& p)

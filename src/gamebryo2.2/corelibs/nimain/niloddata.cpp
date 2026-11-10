@@ -22,8 +22,9 @@ const char* __cdecl FUN_00aa09e0()
 
 extern long volatile DAT_011f4400;
 extern int DAT_0109b4f4;
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject()
     {}
     unsigned int m_uiRefCount;
@@ -45,8 +46,9 @@ FUN_00a5d3a0::FUN_00a5d3a0()
 
 namespace fnv_00aa09f0 {
 extern int DAT_010a2254;
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 struct NiObject : public NiRefObject

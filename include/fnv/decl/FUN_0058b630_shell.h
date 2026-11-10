@@ -1,6 +1,6 @@
 #pragma once
 
-struct BGSCameraPath;
+class BGSCameraPath;
 
 struct FUN_0058b630_shell {
 public:

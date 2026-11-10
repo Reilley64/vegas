@@ -22,8 +22,8 @@ void* __cdecl FUN_00bb7d60()
     return &(*reinterpret_cast<void * *>(&::g_012007d8));
 }
 
-struct NiGeometry;
-struct ShadowSceneLight;
+class NiGeometry;
+class ShadowSceneLight;
 struct ShaderPassEntry
 {
     char _0[6];
@@ -65,8 +65,9 @@ BSShaderProperty::ShaderPassList* TallGrassShader::SetupGeometryGroup(NiGeometry
     return m_aiIndexedValues;
 }
 
-struct NiTexture
+class NiTexture
 {
+  public:
     virtual void F0()
     {}
     virtual void F1()

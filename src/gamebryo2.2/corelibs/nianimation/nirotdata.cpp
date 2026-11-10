@@ -100,8 +100,9 @@ void* Struct00a47ba0::FUN_00a47ba0(unsigned int auiFlags)
 }
 
 extern int DAT_010984ec;
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 struct StandIn
@@ -128,8 +129,9 @@ void* StandIn::FUN_00a481e0(unsigned int auiFlags)
 }
 
 namespace fnv_00a49d00 {
-struct TimedRotationKey
+class TimedRotationKey
 {
+  public:
     int a;
     int b;
     int c;
@@ -440,9 +442,9 @@ void FUN_00b66620_cls::FUN_00b66620(int value)
     m_d8 = (value != 3) ? 3 : 0;
 }
 
-class NiStream;
+struct NiStream;
 
-class NiObject
+struct NiObject
 {
   public:
     virtual void LoadBinary(NiStream& kStream);

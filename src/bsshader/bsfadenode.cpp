@@ -88,14 +88,14 @@ BSRenderedTexture* BSShaderManager::GetSceneDepthRenderedTexture()
 struct BSTreeModel;
 struct CSpeedTreeRT;
 struct NiBinaryStream;
-struct NiCullingProcess;
+class NiCullingProcess;
 struct NiObjectGroup;
 struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiTexturingProperty;
 struct NiThread;
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 struct NiUpdateData;
 struct bhkSimpleShapePhantom;
 struct BSTreeNode : public BSFadeNode
@@ -693,8 +693,9 @@ bool Fade::UpdateFade(Fade* camera, int unused)
 }
 
 #include <math.h>
-struct NiCamera : NiAVObject
+class NiCamera : public NiAVObject
 {
+  public:
     unsigned char cameraData[0x110 - 0x9c];
     float m_fLODAdjust;
 };

@@ -438,7 +438,7 @@ BipedAnim* FUN_00950ad0_shell::FUN_00950ad0()
 }
 
 struct MediaLocation;
-struct MediaLocationController;
+class MediaLocationController;
 struct MusicMarkerReference
 {
     TESObjectREFR* m_pMarkerReference;
@@ -473,7 +473,7 @@ struct BGSTalkingActivator
 {
 };
 
-struct TESObject
+class TESObject
 {
 };
 
@@ -592,7 +592,7 @@ struct TopicH
 {
 };
 
-struct bhkCharacterController
+class bhkCharacterController
 {
 };
 struct MobileObject_Standin
@@ -3809,10 +3809,10 @@ class ActiveEffect;
 template <class T> class BSSimpleList;
 
 class Actor;
-class Animation;
+struct Animation;
 class NiNode;
 class ParentSpaceNode;
-class GameSettingCollection;
+struct GameSettingCollection;
 extern GlobalObject_0045d260 g_011df69c;
 enum ACTOR_LIFE_STATE;
 #undef PlayerCharacter

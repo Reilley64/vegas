@@ -5,9 +5,9 @@
 
 #include "nitrishape_types_NiGeometryData__DataFlags.h"
 
-class NiPoint2;
-class NiPoint3;
-class RgbaColor;
+struct NiPoint2;
+struct NiPoint3;
+struct RgbaColor;
 class NiTriShape;
 
 class NiMemObject

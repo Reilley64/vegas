@@ -14,7 +14,7 @@
 class NiNode;
 class FOPipboyManager;
 class TESForm;
-class Interface
+struct Interface
 {
   public:
     enum enumGamepadButtons
@@ -128,7 +128,7 @@ class GlobalObject_00719b80 : public BSSimpleArray<TESIdleForm*, 1024>
 {
 };
 extern GlobalObject_00719b80 g_011d8b44;
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;

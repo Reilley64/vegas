@@ -3625,7 +3625,7 @@ class VectorComponentValue
   private:
     hkQuadReal m_vValue;
 };
-class hkVector4
+struct hkVector4
 {
   public:
     __forceinline void* __cdecl operator new(std::size_t nbytes)

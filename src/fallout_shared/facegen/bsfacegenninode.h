@@ -7,7 +7,7 @@
 #include "layout_support.h"
 #undef NiPointer
 
-class NiRTTI;
+struct NiRTTI;
 class Actor;
 
 class BSFaceGenAnimationData

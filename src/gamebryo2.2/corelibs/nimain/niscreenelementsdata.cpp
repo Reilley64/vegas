@@ -208,7 +208,7 @@ void FUN_00a886f0_shell::AppendMemberDescriptions(void* pkStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 }
 
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
@@ -568,7 +568,7 @@ struct NiBinaryStream
         return uiWritten;
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     int unk000, unk004, unk008, unk00c, unk010, unk014, unk018, unk01c, unk020, unk024, unk028, unk02c, unk030, unk034,

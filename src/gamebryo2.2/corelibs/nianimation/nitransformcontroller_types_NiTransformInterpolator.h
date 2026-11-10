@@ -13,8 +13,8 @@ class NiQuatTransform;
 class NiQuaternion;
 class NiTransformData;
 class NiTransformInterpolator;
-class ThreeByThreeMatrix;
-class CloningProcess;
+struct ThreeByThreeMatrix;
+struct CloningProcess;
 class NiInterpolator : public NiObject
 {
   public:

@@ -119,7 +119,7 @@ class bhkWorld
 extern float DAT_011e0e2c;
 extern double DAT_0108c160;
 class Actor;
-class Crime
+struct Crime
 {
   public:
 public:

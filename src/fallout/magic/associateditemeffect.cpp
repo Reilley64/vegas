@@ -15,12 +15,12 @@
 #include "fnv/symbols_00483000.h"
 #include "fnv/symbols_011a0000.h"
 #include "fnv/symbols_011de000.h"
-struct Actor;
+class Actor;
 struct FUN_00806da0_shell
 {
     unsigned short FUN_00806da0(Actor* apActor);
 };
-struct ActiveEffect
+class ActiveEffect
 {
 public:
     void CopyData(::ActiveEffect *);
@@ -59,8 +59,8 @@ void AssociatedItemEffect::FUN_00806e30(Actor* apActor)
 }
 
 namespace fnv_00806e70 {
-struct Actor;
-struct TESForm;
+class Actor;
+class TESForm;
 struct InitLoadGameHelper
 {
 };
@@ -82,7 +82,7 @@ void AssociatedItemEffect::FUN_00806e70(Actor* apActor)
 }  // namespace fnv_00806e70
 
 namespace fnv_00806de0 {
-struct TESForm
+class TESForm
 {
 };
 struct TESSaveLoadGame
@@ -108,9 +108,9 @@ void AssociatedItemEffect::FUN_00806de0(Actor* apActor)
 }
 }  // namespace fnv_00806de0
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 struct ItemEffectClone
 {
     virtual void v00();

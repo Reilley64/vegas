@@ -98,8 +98,9 @@ enum COMBAT_PROCEDURES
     eCombatProcedure = 10
 };
 
-struct CombatProcedure
+class CombatProcedure
 {
+  public:
     virtual int GetType() = 0;
 };
 
@@ -144,8 +145,8 @@ void FUN_009d8d00_shell::SetFieldEC(intptr_t aiValue)
     this->unkec = aiValue;
 }
 
-struct TESObjectREFR;
-struct TESBoundObject;
+class TESObjectREFR;
+class TESBoundObject;
 struct FUN_009d9fa0_shell
 {
     void* m_packed[0x3c / 4];
@@ -267,13 +268,15 @@ void CombatProcedureSearch_LoadGame::FUN_009da640(BGSLoadFormBuffer* buffer)
 }
 
 struct BGSLoadFormBuffer;
-struct TESForm
+class TESForm
 {
+  public:
     virtual void Revert(unsigned int);
 };
-class ExtraRadioData;
-struct TESObjectREFR : TESForm
+struct ExtraRadioData;
+class TESObjectREFR : public TESForm
 {
+  public:
     virtual ~TESObjectREFR();
 public:
     ::ExtraRadioData *GetExtraRadioData();
@@ -293,13 +296,13 @@ void FUN_009da6c0_holder::RevertAndResolveRef(BGSLoadFormBuffer* apLoadGameBuffe
 }
 
 class TESActorBase;
-struct Actor
+class Actor
 {
 public:
     ::TESActorBase *GetActorBase();
 };
 class TESSound;
-struct EffectSetting
+class EffectSetting
 {
 public:
     ::TESSound *GetCastSound();
@@ -716,8 +719,9 @@ struct SETTING_VALUE
     float f;
 };
 
-template <typename T> struct SettingT
+template <typename T> class SettingT
 {
+  public:
     SETTING_VALUE* Float();
 };
 
@@ -772,7 +776,7 @@ struct OwnerSub
 {
 };
 
-class NavMeshPtr;
+struct NavMeshPtr;
 struct PathingLocation
 {
     int unk00;
@@ -799,8 +803,9 @@ public:
 
 bool FUN_006d7490(PathingLocation*, void*, int, int);
 
-template <typename T> struct NiPointer
+template <typename T> class NiPointer
 {
+  public:
     int unk00;
     NiPointer(void*);
     ~NiPointer();

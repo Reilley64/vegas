@@ -150,7 +150,7 @@ struct IntegerDataBlock
 };
 struct GeometryCacheEntry;
 template <class T> class NiPointer;
-struct NiGPUProgram;
+class NiGPUProgram;
 template <> class NiPointer<NiGPUProgram>
 {
   public:

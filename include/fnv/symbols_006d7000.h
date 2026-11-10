@@ -1,10 +1,10 @@
 #pragma once
 
 class NavMesh;
-class NiPoint3;
+struct NiPoint3;
 class P110DataPtr;
 class P110Location;
-class PathingLocation;
+struct PathingLocation;
 class TESObjectCELL;
 class TESWorldSpace;
 namespace fnv_006d74c0 { struct EdgeFilter; }

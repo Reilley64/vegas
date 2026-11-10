@@ -90,8 +90,9 @@ void FUN_005f0140_obj::FUN_005f0140()
 //     +0x1c  BSS unk1c          (non trivial destructor -> compiler cleanup)
 // ---------------------------------------------------------------------------
 
-struct BGSDehydrationStage : public TESForm
+class BGSDehydrationStage : public TESForm
 {
+  public:
     ~BGSDehydrationStage();
 };
 

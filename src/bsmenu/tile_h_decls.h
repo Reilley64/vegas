@@ -72,7 +72,7 @@ class NiExtraData
     unsigned int refs;
     char* name;
 };
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char*);

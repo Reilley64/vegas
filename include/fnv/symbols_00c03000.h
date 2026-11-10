@@ -2,7 +2,7 @@
 #include <cstdint>
 
 struct L08;
-struct NiTexture;
+class NiTexture;
 struct Source374;
 
 // 0x00c03010

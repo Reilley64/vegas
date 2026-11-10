@@ -14,11 +14,11 @@ class MemoryManager
   public:
 };
 extern float DAT_011ae6c8, DAT_011ae6cc;
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
 };
 class ImageSpaceEffect;
-class ImageSpaceManager
+struct ImageSpaceManager
 {
   public:
     char pad[8];

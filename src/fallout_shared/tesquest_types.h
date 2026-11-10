@@ -42,15 +42,15 @@
 class TESQuest;
 class PlayerQuestData;
 class RegionObjectEntry;
-class QuantityData;
+struct QuantityData;
 class TESRecipe
 {
   public:
 };
 class ScriptLocalVariable;
-class FormFlagRecord;
+struct FormFlagRecord;
 class ScriptDefinition;
-class ScriptLocals
+struct ScriptLocals
 {
   public:
     Script* m_pOwnerScript;
@@ -208,7 +208,7 @@ class FormChangeMask
     FormChangeMask(unsigned int value);
     operator bool() const;
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int mask);

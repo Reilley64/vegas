@@ -53,7 +53,7 @@ void Dispatcher::NotifyAll(unsigned int value)
 #include "fnv/symbols_simd.h"
 
 
-class hkVector4
+struct hkVector4
 {
   public:
     __m128 m_vComponents;

@@ -9,7 +9,7 @@
 #include "fnv/symbols_01201000.h"
 #include "MemoryManager.h"
 class ImageSpaceTexture;
-class ImageSpaceEffectParam;
+struct ImageSpaceEffectParam;
 template <> class NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> >
 {
   public:

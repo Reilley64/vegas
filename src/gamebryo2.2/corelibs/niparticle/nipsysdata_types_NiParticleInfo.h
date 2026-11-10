@@ -4,9 +4,9 @@
 
 #include "layout_support.h"
 #include "NiPoint3.h"
-class Point3ParameterData;
-class NiStream;
-class Point3ParameterData
+struct Point3ParameterData;
+struct NiStream;
+struct Point3ParameterData
 {
   public:
     NiPoint3 m_kValue;               // +0x0, 12 bytes

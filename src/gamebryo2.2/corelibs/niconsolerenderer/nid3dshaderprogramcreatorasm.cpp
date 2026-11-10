@@ -6,8 +6,9 @@
 #include "fnv/symbols_00e98000.h"
 #include "fnv/symbols_0126f000.h"
 struct GeometryRelatedType;
-struct NiD3DPixelShader
+class NiD3DPixelShader
 {
+  public:
     virtual void f00();
     virtual void f01();
     virtual void f02();

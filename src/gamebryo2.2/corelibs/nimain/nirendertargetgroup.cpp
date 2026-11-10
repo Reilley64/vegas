@@ -21,9 +21,10 @@ NiRTTI* __cdecl FUN_00ee8530()
     return &(*reinterpret_cast<::NiRTTI *>(&::g_012708ec));
 }
 
-struct NiPixelFormat;
-struct NiRenderTargetGroup
+class NiPixelFormat;
+class NiRenderTargetGroup
 {
+  public:
     const NiPixelFormat* GetPixelFormat() const;
 };
 
@@ -71,8 +72,9 @@ struct NiMemObject
     char _pad_0[1];
 };
 
-struct NiRenderTargetGroup
+class NiRenderTargetGroup
 {
+  public:
     char _pad_0[0x24];
     int FUN_00ee84d0() const;
 };
@@ -89,8 +91,9 @@ int NiRenderTargetGroup::FUN_00ee84d0() const
 }  // namespace fnv_00ee84d0
 
 namespace fnv_00ee84e0 {
-struct NiRenderTargetGroup
+class NiRenderTargetGroup
 {
+  public:
     char _pad_0[0x20];
     void* m_depthStencil;
     int FUN_00ee84e0() const;
@@ -113,8 +116,9 @@ struct NiMemObject
     char _pad_0[1];
 };
 
-struct NiRenderTargetGroup
+class NiRenderTargetGroup
 {
+  public:
     char _pad_0[0x0c];
     NiMemObject* m_pBuffers[1];
     NiMemObject* FUN_00ee84f0(unsigned int uiIndex) const;
@@ -133,8 +137,9 @@ struct NiMemObject
     char _pad_0[1];
 };
 
-struct NiRenderTargetGroup : NiMemObject
+class NiRenderTargetGroup : public NiMemObject
 {
+  public:
     char _pad_1[7];
     bool m_bNeedsResolve;
     void FUN_00ee8550(bool abResolve);
@@ -148,8 +153,9 @@ void NiRenderTargetGroup::FUN_00ee8550(bool abResolve)
 }  // namespace fnv_00ee8550
 
 namespace fnv_00ee86e0 {
-struct NiRenderTargetGroup
+class NiRenderTargetGroup
 {
+  public:
     char _pad_0[12];
     void* m_pBufferRendererData[4];
     void* FUN_00ee86e0(unsigned int uiIndex) const;
@@ -169,8 +175,9 @@ namespace fnv_00ee87e0 {
 extern "C" void __cdecl __Dummy_00b6fef0(void*, int);
 void __cdecl FUN_00ee8560();
 
-struct NiRenderTargetGroup
+class NiRenderTargetGroup
 {
+  public:
     char _pad_0[1];
     void* FUN_00ee87e0(unsigned int flags);
 };

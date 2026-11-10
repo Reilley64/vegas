@@ -182,8 +182,9 @@ void WriteEnabledFlag(SStream* stream, SObj* object)
     output->written += write(output, &enabled, 1, &size, 1);
 }
 
-struct AnimationKey
+class AnimationKey
 {
+  public:
     float m_fTime;
 };
 

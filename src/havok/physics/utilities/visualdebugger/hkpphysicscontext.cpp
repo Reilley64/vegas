@@ -438,7 +438,7 @@ void* FUN_00cd2900_owner::DestroyIfFlagged(unsigned flags)
 }
 }  // namespace fnv_00cd2900
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 class Handler
 {
   public:
@@ -1287,8 +1287,9 @@ struct hkBaseObject
     virtual void b08();
 };
 
-struct hkReferencedObject : hkBaseObject
+class hkReferencedObject : public hkBaseObject
 {
+  public:
     unsigned short memSizeAndFlags;
     short refCount;
 

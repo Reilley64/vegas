@@ -3,7 +3,7 @@
 class GameLockA;
 class GameLockB;
 class GlobalObjectO2_00a7b610;
-class GlobalObjectO2_00b8a9e0;
+struct GlobalObjectO2_00b8a9e0;
 class GlobalObject_00a7b610;
 class NiFixedString;
 class NiGPUProgram;

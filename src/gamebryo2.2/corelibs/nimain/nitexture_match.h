@@ -7,8 +7,8 @@
 #include "fnv/symbols_011f4000.h"
 class NiExtraData;
 
-class NiStream;
-class NiObjectNET
+struct NiStream;
+struct NiObjectNET
 {
   public:
     unsigned char m_akPrefix[16];
@@ -16,7 +16,7 @@ class NiObjectNET
     unsigned short m_usExtraDataCount;
     unsigned short m_usMaxSize;
 
-    void LoadBinary(class NiStream&);
+    void LoadBinary(struct NiStream&);
     void DeleteExtraData(unsigned short index);
 public:
     void LinkObject(::NiStream &);

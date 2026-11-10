@@ -34,7 +34,7 @@ class WorldPhysicsSettings
 };
 
 
-class hkpRigidBody
+struct hkpRigidBody
 {
   public:
     char layoutPadding000[0x120];

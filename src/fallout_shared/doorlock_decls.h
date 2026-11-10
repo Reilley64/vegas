@@ -16,9 +16,9 @@ class TESObjectREFR;
 class TESGlobal;
 class TESForm;
 class LockExtraData;
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESActorBase;
-class InventoryChanges;
+struct InventoryChanges;
 
 class TESObjectREFR
 {
@@ -32,7 +32,7 @@ class LowProcess
     TESObjectREFR* GetTarget();
 };
 
-class ExtraRadioData
+struct ExtraRadioData
 {
   public:
 };

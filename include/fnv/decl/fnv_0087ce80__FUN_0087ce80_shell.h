@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_0087ce80 { struct TESObjectCELL; }
+namespace fnv_0087ce80 { class TESObjectCELL; }
 
 namespace fnv_0087ce80 {
 struct FUN_0087ce80_shell {

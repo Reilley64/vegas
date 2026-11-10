@@ -74,8 +74,9 @@ NiAGDDataBlock* __cdecl FUN_00a727c0()
 }  // namespace fnv_00a727c0
 
 namespace fnv_00a73080 {
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 extern int DAT_0102e274;
@@ -1706,7 +1707,7 @@ void Descriptor73530::FUN_00a73530(StringArray73530* output)
     AppendConsistency(output);
 }
 
-class NiObject
+struct NiObject
 {
   public:
     virtual void v0();

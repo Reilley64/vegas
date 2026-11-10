@@ -31,8 +31,9 @@ void* FUN_0080f3c0::Copy()
     return pCopy;
 }
 
-struct LockExtraData
+class LockExtraData
 {
+  public:
     char m_cOwner;
     char unk01;
     char unk02;
@@ -41,7 +42,7 @@ struct LockExtraData
     char m_cActionFlags;
 };
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 
@@ -64,8 +65,9 @@ class NonActorMagicTarget : public BSExtraData, public MagicTarget
 {
 };
 
-struct ActiveEffect
+class ActiveEffect
 {
+  public:
     void ApplyLockEffect();
 };
 

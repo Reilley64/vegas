@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 struct _Fake_FUN_00870790;
 
 // 0x008705c0

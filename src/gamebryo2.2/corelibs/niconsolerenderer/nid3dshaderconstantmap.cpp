@@ -713,8 +713,9 @@ struct FUN_00e82090_shell : public NiD3DShaderConstantMap
 };
 
 namespace L {
-struct NiShaderConstantMapEntry : BSFadeNode
+class NiShaderConstantMapEntry : public BSFadeNode
 {
+  public:
     NiShaderConstantMapEntry() throw();
     virtual void DeleteThis(unsigned int);
     unsigned int m_uiRefCount;
@@ -2158,7 +2159,7 @@ public:
     void CalculateInverse(::NiTransform &);
 };
 
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;

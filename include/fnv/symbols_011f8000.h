@@ -2,8 +2,8 @@
 
 class ArchivePtr;
 class FileFinder;
-class GlobalObject_00b3f100;
-class Vector3D;
+struct GlobalObject_00b3f100;
+struct Vector3D;
 namespace fnv_00af6540 { struct Archive; }
 namespace fnv_00af6540 { template <class> class NiPointer; }
 namespace fnv_00b07db0 { class WindMatricesB07; }

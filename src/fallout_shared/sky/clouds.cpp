@@ -110,7 +110,7 @@ void FUN_00634900_shell::FUN_00634900(void* aFilename)
     *(BSStringT<char>*)((char*)this + 0x74) = *(const NiFixedString_access*)aFilename;
 }
 
-struct NiTexture;
+class NiTexture;
 struct FUN_009c8680_shell : public SkyShaderProperty
 {
     NiTexture* FUN_009c8680();

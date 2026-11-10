@@ -38,7 +38,7 @@ class FileFinder
   public:
     static BSFile* GetFile(const char*, NiFile::OpenMode, unsigned int, unsigned int);
 };
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 class ShaderBufferCollection
 {
   public:

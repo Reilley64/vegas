@@ -6,7 +6,7 @@
 #include <cstring>
 #include "fnv/decl/FUN_00a8f010_cls.h"
 #include "fnv/symbols_00a7b000.h"
-class NiObject
+struct NiObject
 {
   public:
     unsigned int m_uiRefCount;

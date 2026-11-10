@@ -1,6 +1,6 @@
 #pragma once
 
-class CloningProcess;
+struct CloningProcess;
 class NiTimeController;
 
 class NiTimeControllerCM {

@@ -1,6 +1,6 @@
 #pragma once
 
-class Modifier;
+struct Modifier;
 
 struct Host37870 {
 public:

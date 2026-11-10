@@ -184,11 +184,12 @@ const NiRTTI* FUN_0066b5b0_shell::GetNiRTTI()
     return &(*reinterpret_cast<::NiRTTI *>(&::g_011d5e70));
 }
 
-struct NiAVObject;
+class NiAVObject;
 
-class NiUpdateData;
-struct NiNode
+struct NiUpdateData;
+class NiNode
 {
+  public:
     NiAVObject* GetAt(unsigned int);
 public:
     void UpdateDownwardPass(::NiUpdateData &, unsigned int);
@@ -208,10 +209,11 @@ NiAVObject* BSTreeNode::GetFirstChild()
 }
 
 namespace fnv_0066b5e0 {
-struct NiAVObject;
+class NiAVObject;
 
-struct NiNode
+class NiNode
 {
+  public:
     NiAVObject* GetAt(unsigned int);
 };
 
@@ -228,10 +230,11 @@ NiAVObject* BSTreeNode::FUN_0066b5e0()
 }  // namespace fnv_0066b5e0
 
 namespace fnv_0066b600 {
-struct NiAVObject;
+class NiAVObject;
 
-struct NiNode
+class NiNode
 {
+  public:
     NiAVObject* GetAt(unsigned int);
 };
 
@@ -277,7 +280,7 @@ struct NiAlphaProperty : NiProperty
     void FUN_0094db80(unsigned char);
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -327,7 +330,7 @@ bool BSTreeNode::FUN_0066be30(unsigned char acTest)
 }
 }  // namespace fnv_0066be30
 
-struct NiCullingProcess;
+class NiCullingProcess;
 struct DummyNode
 {
     void FUN_0066bf50(NiCullingProcess* arCuller);
@@ -476,7 +479,7 @@ struct Flt {
     operator void*() const;
 };
 
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 
 struct FUN_0066b620_shell : ::TreeNodeGeometryView
 {
@@ -501,7 +504,7 @@ const char* const* FUN_0066d400_shell::GetArg1Ptr()
     return &(*reinterpret_cast<const char *const *>(&::g_01268168));
 }
 
-struct NiAVObject
+class NiAVObject
 {
 public:
     void SetLocalRotation(float, float, float, float);
@@ -524,7 +527,7 @@ bool BSTreeNodeVisibility::FUN_0066bc40(bool abVisible)
 }
 
 namespace fnv_0066bc90 {
-struct NiAVObject
+class NiAVObject
 {
 };
 struct StandInBC90
@@ -724,7 +727,7 @@ void* FUN_0066d770_shell::FUN_0066d770()
 }
 
 namespace fnv_0066bce0 {
-struct NiAVObject
+class NiAVObject
 {
 };
 struct FUN_0066bce0_holder
@@ -972,7 +975,7 @@ struct FUN_0066bf80_data
 {
     float time;
 };
-struct NiCamera;
+class NiCamera;
 struct FUN_00a5dd70_shell
 {
 };
@@ -999,8 +1002,9 @@ void FUN_0066bf80_owner::FUN_0066bf80(FUN_0066bf80_data* data, unsigned int flag
 
 class NiTexture;
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
     NiPointer(T* apObject);
     ~NiPointer();
@@ -3406,7 +3410,7 @@ struct NiPoint3
     float z;
 };
 
-class hkVector4
+struct hkVector4
 {
   public:
     __m128 m_vComponents;
@@ -4197,7 +4201,7 @@ void This_o2::FUN_00c84e20(unsigned int* output)
     *output = (this != 0 && middle != 0) ? middle->value : 0;
 }
 
-class NiObject;
+struct NiObject;
 
 struct NiStream
 {
@@ -4207,7 +4211,7 @@ public:
     ::NiObject *GetLoadedObject();
 };
 
-class NiStream;
+struct NiStream;
 
 struct NiCollisionObject
 {
@@ -4389,8 +4393,9 @@ struct NiPoint3_o2
     char* FUN_00a59af0(const char*);
 };
 
-struct NiTransform
+class NiTransform
 {
+  public:
     float rotation[9];
     NiPoint3_o2 translate;
     float scale;

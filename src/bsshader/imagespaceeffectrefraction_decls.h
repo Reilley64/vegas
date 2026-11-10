@@ -18,12 +18,12 @@
 #include "MemoryManager.h"
 
 class ImageSpaceEffect;
-class ImageSpaceEffectParam;
-class ImageSpaceManager;
+struct ImageSpaceEffectParam;
+struct ImageSpaceManager;
 class ImageSpaceTexture;
 class NiTexture;
-class BSRenderedTexture;
-class NiRenderer;
+struct BSRenderedTexture;
+struct NiRenderer;
 
 template <class T> class NiTPrimitiveArray : public NiTArray<T, NiTMallocInterface<T> >
 {
@@ -32,7 +32,7 @@ template <class T> class NiTPrimitiveArray : public NiTArray<T, NiTMallocInterfa
     void SetAt(unsigned int index, const T& value);
 };
 
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
@@ -42,7 +42,7 @@ struct WaterTintRecord
     float r, g, b, a;
 };
 
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     void** m_ppVirtualMethodTable;
@@ -109,14 +109,14 @@ class RefractionImageSpaceEffect : public ImageSpaceEffect
     BSRenderedTexture* GetRefractionTexture(bool create);
 };
 
-class ImageSpaceManager
+struct ImageSpaceManager
 {
   public:
     BSRenderedTexture* m_pCurrentRenderedTexture;
     NiTPrimitiveArray<ImageSpaceEffect*> pEffectList;
 };
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;
@@ -136,7 +136,7 @@ class NiRenderer
     char _pdbpad_20a[118];
 };
 
-class BSTextureManager
+struct BSTextureManager
 {
   public:
 };

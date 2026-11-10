@@ -1,6 +1,6 @@
 #pragma once
 
-struct ExtraFollower;
+class ExtraFollower;
 
 struct FUN_00422700_shell {
 public:

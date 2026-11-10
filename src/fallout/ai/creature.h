@@ -3,7 +3,7 @@
 #define FNV_LUNA_CREATURE_H
 
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 enum ANIM_GROUP_ENUM
 {
     kAnimGroupRun = 3

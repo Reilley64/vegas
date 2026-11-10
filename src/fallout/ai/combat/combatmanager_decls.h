@@ -15,7 +15,7 @@
 #include "PlayerCharacter.h"
 #include "AutoMemContext.h"
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 
 class ActorCombatGroup
 {

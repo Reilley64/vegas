@@ -290,13 +290,13 @@ unsigned int TESResponse::GetResponseID()
     return Data.m_ucResponseFlags;
 }
 
-struct DialogueResponse
+class DialogueResponse
 {
 };
 struct BSStr
 {
 };
-struct TESObject
+class TESObject
 {
 };
 struct RegionPointList

@@ -4,7 +4,7 @@
 
 #include "fnv/decl/Matrix161.h"
 #include "layout_support.h"
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 class NiPoint4;
 class FourComponentNumericValue;
 class FourComponentNumericValue
@@ -52,7 +52,7 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[9];  // PC: nine floats

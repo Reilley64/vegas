@@ -21,10 +21,10 @@ template <class T, unsigned int N> class BSSimpleArray;
 #include "NiRefObject.h"
 #include "PathingLocation.h"
 #include "layout_support.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class PathingActorData;
 class PathingAvoidNodeArray;
-class PathingRequest;
+struct PathingRequest;
 enum PATHING_REQUEST_TYPE
 {
     PATHING_REQUEST_STANDARD = 0
@@ -66,7 +66,7 @@ class PathingRequestAvoidPointer
     PathingRequestAvoidPointer(PathingAvoidNodeArray*);
     ~PathingRequestAvoidPointer();
 };
-class PathingRequest : public PathingInfo
+struct PathingRequest : public PathingInfo
 {
   public:
     PathingRequest();

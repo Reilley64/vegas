@@ -3,7 +3,7 @@
 
 #include "fnv/symbols_00404000.h"
 #include "fnv/symbols_011c8000.h"
-class GameSettingCollection;
+struct GameSettingCollection;
 
 GameSettingCollection* GetGameSettingCollection();
 

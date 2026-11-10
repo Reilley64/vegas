@@ -36,7 +36,7 @@ class NiAVObject;
 #ifndef FNV_EXTRADATALIST_H
 #define FNV_EXTRADATALIST_H
 #include "BaseExtraList.h"
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 class ExtraRefractionProperty
 {
   public:
@@ -513,7 +513,7 @@ class ActorMagicProcess
     virtual void vfn_700(Actor*, float);
 };
 
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int id;
@@ -529,7 +529,7 @@ class ProcessLists
   public:
     unsigned char* GetLifeStateControlFlag();
 };
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -671,7 +671,7 @@ class InventoryStackRecord
     ~InventoryStackRecord();
 };
 class TESObjectREFR;
-class InventoryChanges
+struct InventoryChanges
 {
   public:
 public:

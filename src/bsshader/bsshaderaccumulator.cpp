@@ -530,7 +530,7 @@ void __cdecl FUN_00b65e80(void* pObject)
     }
 }
 
-struct NiGPUProgram : public NiRefObject
+class NiGPUProgram : public NiRefObject
 {
 };
 struct NiRenderer;
@@ -789,8 +789,9 @@ void __cdecl FUN_00b665a0(void* p)
 }
 
 namespace fnv_00b64f90 {
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
+  public:
     unsigned int m_uiOwningThreadID;
     unsigned int m_uiRecursionCount;
 };
@@ -880,8 +881,9 @@ void AccumS::FUN_00b64f90()
 namespace fnv_00b656e0 {
 void __cdecl NiFree(void*);
 void FUN_00ba8cd0(char*);
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
+  public:
     unsigned int m_uiOwningThreadID;
 };
 struct OMNode
@@ -918,7 +920,7 @@ struct OMList
         m_uiCount--;
     }
 };
-class BSBatchRenderer__PassList
+struct BSBatchRenderer__PassList
 {
   public:
     virtual ~BSBatchRenderer__PassList();
@@ -1122,7 +1124,7 @@ FUN_00b656e0::~FUN_00b656e0()
 }  // namespace fnv_00b656e0
 
 namespace fnv_00b65c60 {
-struct NiRenderTargetGroup;
+class NiRenderTargetGroup;
 struct NiRenderer
 {
     void SetCurrentCamera(NiCamera*);
@@ -1256,12 +1258,13 @@ struct A51BF0Base
 {
 };
 
-struct NiAVObject : A51BF0Base
+class NiAVObject : public A51BF0Base
 {
 };
 
-struct NiNode : NiAVObject
+class NiNode : public NiAVObject
 {
+  public:
     unsigned char m_auiShapeKeys[0xAC];
 
     NiNode(unsigned short);

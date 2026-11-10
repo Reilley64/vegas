@@ -4,7 +4,7 @@
 
 struct StreamBuffer;
 struct NiStream;
-class NiStream;
+struct NiStream;
 struct NiColor
 {
     float red;

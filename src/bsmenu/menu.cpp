@@ -89,7 +89,7 @@ struct TileChildList
         return element;
     }
 };
-struct NiNode;
+class NiNode;
 // The Tile members used below; the pads stand for members not named yet.
 struct TileView
 {
@@ -100,7 +100,7 @@ struct TileView
 };
 
 class Tile;
-class Interface
+struct Interface
 {
   public:
 public:
@@ -195,7 +195,7 @@ void Menu::SetMenuRootTile(int aiClass, Tile* apTile)
         g_menuByClassArray.SetAt(iIndex, apTile);
 }
 
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* __cdecl AddString(const char*);
@@ -248,7 +248,7 @@ struct MenuValueDescriptor
     char* m_pName;
 };
 
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 struct EmptyStruct
 {
 };
@@ -379,7 +379,7 @@ struct XMLStorageX
 struct MapX_00a1e240
 {
 };
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 template <class K, class V> class BSMapBase
 {
   public:
@@ -512,7 +512,7 @@ void FUN_00a1dc70_shell::FUN_00a1dc70(TileMenu* apMenu, bool abDontAddToStack)
 
 struct BSFile;
 struct NiBinaryStream;
-struct NiFile;
+class NiFile;
 struct SaveContentDescriptor;
 struct _iobuf;
 struct blob16
@@ -816,7 +816,7 @@ unsigned int FUN_00a1e4d0_shell::FUN_00a1e4d0(unsigned int uiIndex, Tile*& eleme
 }
 
 namespace fnv_00a1cb30 {
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 template <class K, class V> class BSMapBase
 {
   public:
@@ -953,7 +953,7 @@ struct NiPoint3
     float z;
 };
 
-struct NiNode;
+class NiNode;
 template <class T> class NiPointer
 {
   public:
@@ -1025,8 +1025,9 @@ float FUN_00a1dfb0()
 }
 
 namespace fnv_00a1ddb0 {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     bool Exists();
     unsigned int GetLength();
     unsigned int GetRefCount();

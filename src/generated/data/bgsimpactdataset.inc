@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ms_pImpactDataSet@BGSImpactDataSet@@2PEAV1@EA=?ms_pImpactDataSet@BGSImpactDataSet@@2PEAU1@EA")
+#pragma comment(linker, "/alternatename:?ms_pImpactDataSet@BGSImpactDataSet@@2PEAV1@EA=?ms_pImpactDataSet@BGSImpactDataSet@@2PEAV1@EA")
 
 ::ModelLoader *g_modelLoader;
 ImpactSwap *DAT_011ca834;

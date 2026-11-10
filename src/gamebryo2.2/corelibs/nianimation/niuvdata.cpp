@@ -170,8 +170,9 @@ void FUN_00a452e0_shell::FUN_00a452e0(void* keys, unsigned int count, unsigned i
 
 extern int DAT_01097f84;
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     ~NiRefObject();
 };
 

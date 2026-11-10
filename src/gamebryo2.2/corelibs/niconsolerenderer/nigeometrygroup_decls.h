@@ -6,7 +6,7 @@
 #include "fnv/symbols_00fdf000.h"
 #include "fnv/symbols_010f0000.h"
 extern void* NiGeometryGroup_vtable[];
-class NiGeometryBufferData;
+struct NiGeometryBufferData;
 class NiGeometryGroup
 {
   public:
@@ -16,7 +16,7 @@ class NiGeometryGroup
     long m_uiRefCount;
     void* m_pD3DDevice;
 };
-class NiGeometryBufferData
+struct NiGeometryBufferData
 {
   public:
     NiGeometryBufferData();

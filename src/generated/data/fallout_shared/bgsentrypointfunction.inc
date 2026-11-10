@@ -20,7 +20,7 @@ extern "C" char fnv_data_011d6068[] __asm__("?g_011d6068@@3VGlobalObject_0040e0b
 extern "C" char fnv_data_011d6098[] __asm__("?g_011d6098@@3VGlobalObject_0040e0b0@@A");
 extern "C" void fnv_fn_005e5c70() __asm__("?FUN_005e5c70@@YAXPEAX0EPEAPEAMPEAVEntryPointSingleValueSource@@@Z");
 extern "C" void fnv_fn_005e5cc0() __asm__("?FUN_005e5cc0@@YAXHHEPEAPEAMPEAVEntryPointValueSource@@@Z");
-extern "C" void fnv_fn_005e5d20() __asm__("?FUN_005e5d20@s5e5d20@@YAXPEAX0EPEAPEAMPEAUActor@1@@Z");
+extern "C" void fnv_fn_005e5d20() __asm__("?FUN_005e5d20@s5e5d20@@YAXPEAX0EPEAPEAMPEAVActor@1@@Z");
 extern "C" void fnv_fn_005e5d80() __asm__("?FUN_005e5d80@@YAXHHEPEAPEAMPEAVEntryPointValueSource@@@Z");
 extern "C" void fnv_fn_005e5df0() __asm__("?FUN_005e5df0@@YAXPEAVE5DF0Actor@@PEAX_NPEAPEAMPEAVE5DF0Modifier@@@Z");
 extern "C" void fnv_fn_005e5ea0() __asm__("?FUN_005e5ea0@@YAXHHEPEAPEAMPEAVEntryPointValueSource@@@Z");

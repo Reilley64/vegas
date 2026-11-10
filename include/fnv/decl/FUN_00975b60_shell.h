@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 
 struct FUN_00975b60_shell {
 public:

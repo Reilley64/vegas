@@ -1,12 +1,12 @@
 #pragma once
-class NiStream;
+struct NiStream;
 
 #include <cstdint>
 
 struct BSSP_stub2;
 struct BSSP_stub4;
 struct BSSP_stub;
-class CloningProcess;
+struct CloningProcess;
 struct FUN_00ba8c30_shell2;
 struct SpawnedObject;
 

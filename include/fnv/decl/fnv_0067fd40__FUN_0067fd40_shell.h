@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_0067fd40 { struct DurationData; }
+namespace fnv_0067fd40 { class DurationData; }
 
 namespace fnv_0067fd40 {
 struct FUN_0067fd40_shell {

@@ -1,7 +1,7 @@
 #pragma once
 
 class BillboardNode;
-class NiPoint3;
+struct NiPoint3;
 
 // 0x00a7e770
 ::BillboardNode *FUN_00a7e770();

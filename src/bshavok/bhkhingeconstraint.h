@@ -17,7 +17,7 @@
 //   - NiRTTI.h: the real NiRTTI declaration (name/base members and
 //     constructor) and the bhkConstraint layout.
 
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* m_pcName;

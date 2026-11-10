@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESObjectCELL;
+class TESObjectCELL;
 
 struct FUN_00453490_shell {
 public:

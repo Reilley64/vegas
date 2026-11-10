@@ -5,7 +5,7 @@
 #include "layout_support.h"
 #include "NiObject.h"
 #include "layout_support.h"
-class NiPalette;
+struct NiPalette;
 class NiPixelData;
 class NiPixelFormat;
 class NiPixelFormat__NiComponentSpec;

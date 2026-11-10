@@ -52,9 +52,9 @@
 #include "fnv/symbols_00bc1000.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_011d1000.h"
-struct Actor;
+class Actor;
 
-struct ActiveEffect
+class ActiveEffect
 {
 public:
     bool IsDone() const;
@@ -134,7 +134,7 @@ void FUN_00803b50_shell::FUN_00803b50(float value)
 }
 
 namespace fnv_00803d00 {
-struct Actor;
+class Actor;
 
 struct ValueModifierEffect
 {
@@ -155,7 +155,7 @@ void AbsorbEffect::FUN_00803d00(Actor* apActor)
 }  // namespace fnv_00803d00
 
 namespace fnv_0082a650 {
-struct ActiveEffect
+class ActiveEffect
 {
 };
 struct ValueModifierEffect
@@ -461,9 +461,9 @@ FUN_00802cb0_absorb::FUN_00802cb0_absorb(int aiArg1, int aiArg2, int aiArg3)
     m_50.Set(0);
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 
 struct F40ActiveEffect
 {

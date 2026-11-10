@@ -98,12 +98,12 @@
 #include "fnv/symbols_011f1000.h"
 #include "fnv/symbols_011f2000.h"
 #include "fnv/symbols_011f6000.h"
-class NiControllerManager;
+struct NiControllerManager;
 class QuestDialogueInfo;
 class TESIdleForm;
 class TESObjectWEAP;
 class NiAVObject;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 #define TESObjectCELL HighProcessSharedCell
 #include "layout_support.h"
 #undef TESObjectCELL
@@ -115,7 +115,7 @@ public:
     unsigned char GetField24();
 };
 #include "ActorPackageContext.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     NiPoint3 operator-(const NiPoint3&) const;
@@ -134,7 +134,7 @@ struct HighProcessRawPosition
 {
     float x, y, z;
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -154,36 +154,36 @@ public:
 public:
     void SetCompletionCallback(void (*)(void *, bool), void *);
 };
-class BSAudio
+struct BSAudio
 {
   public:
 public:
     void SetAudioState(unsigned int);
 };
-class Animation;
+struct Animation;
 class BSAnimGroupSequence;
 class NiBSBoneLODController;
 class GlobalObject_0045d260;
 class HighProcessDetectionEventView;
-class DetectionViewData;
+struct DetectionViewData;
 class DetectionEvent;
 class ActorGroupState;
 class ActorValueStore;
 class AnimIdle;
-class KFModel;
+struct KFModel;
 class LipSyncAnimation;
 class MuzzleFlash;
 class DetectionEventData;
 class TopicInfoRecord;
 class ActorPathingMessageQueue;
-class PathingRequest;
+struct PathingRequest;
 class NiBillboardNode;
 class BSBound;
 class ActorSupportClass;
 class BSFaceGenAnimationData;
 class BSFaceGenNiNode;
 class BSShaderPPLightingProperty;
-class BooleanFloatQuery;
+struct BooleanFloatQuery;
 class FurnitureMark;
 class bhkCharacterController;
 class bhkSimpleShapePhantom;
@@ -992,7 +992,7 @@ public:
     static ::TESForm *GetDefaultObjectByIndex(::DEFAULT_OBJECT);
 };
 
-class NiBound
+struct NiBound
 {
   public:
 };
@@ -1078,7 +1078,7 @@ class DetectionEventData
     TESObjectREFR* target;
     NiPoint3 position;
 };
-class ScriptLocals;
+struct ScriptLocals;
 class BSPortalGraph;
 class TESWorldSpace
 {
@@ -1110,7 +1110,7 @@ class Script
   public:
     char* GetData();
 };
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     virtual unsigned char GetVersion();
@@ -1118,11 +1118,11 @@ class BGSLoadGameBuffer
     virtual void vfn_8();
     virtual Actor* GetActor();
 };
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
 };
-class CombatTargetTimestamp
+struct CombatTargetTimestamp
 {
   public:
     CombatTargetTimestamp(float);
@@ -1138,7 +1138,7 @@ enum DETECTION_LEVEL
     DETECTION_NOTICED = 2,
     DETECTION_SEEN = 3
 };
-class DetectionViewData
+struct DetectionViewData
 {
   public:
     Actor* pActor;
@@ -1167,7 +1167,7 @@ class TopicInfoRecord
     void FUN_008d7420(BGSLoadFormBuffer*);
     void FUN_008d74a0(BGSLoadFormBuffer*);
 };
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
@@ -1180,7 +1180,7 @@ class FaderManager
   public:
     float GetFadeValue(FADER_ENUM);
 };
-class Interface;
+struct Interface;
 class ActorMover
 {
   public:
@@ -1320,7 +1320,7 @@ class AnimIdle
         PlayDefault = 2
     };
 };
-class Animation
+struct Animation
 {
   public:
     void SpecialIdleFree(bool, bool);
@@ -1363,7 +1363,7 @@ enum ACTOR_SOUND_HANDLE
 class MobileObject;
 class TESObjectCELL;
 class TESObjectREFR;
-class LocationDescriptor
+struct LocationDescriptor
 {
   public:
 public:
@@ -1475,7 +1475,7 @@ class ActorGroupState
     unsigned char padding[2];
     int priority;
 };
-struct TESObjectREFR;
+class TESObjectREFR;
 class FleePackage
 {
   public:
@@ -1518,8 +1518,8 @@ template <> class NiPointer<ActorPathingMessageQueue>
 };
 
 class NiNode;
-class NiControllerManager;
-class NiControllerManager
+struct NiControllerManager;
+struct NiControllerManager
 {
   public:
 };
@@ -1548,7 +1548,7 @@ class ExtraRefractionProperty
     unsigned char layout00[12];
     float value;
 };
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     void AddObject(NiAVObject*);
@@ -1558,7 +1558,7 @@ class NiAdditionalGeometryData
   public:
     static ShadowSceneNode* GetShadowSceneNodeForIndex(int);
 };
-class Interface
+struct Interface
 {
   public:
     static bool IsPipBoyOpen();

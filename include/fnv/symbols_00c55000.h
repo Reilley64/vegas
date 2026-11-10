@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 class NiTriShape;
 namespace fnv_00c55170 { struct AvCaller; }
 struct BoxColor;

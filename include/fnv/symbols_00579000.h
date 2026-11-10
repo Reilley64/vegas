@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESForm;
+class TESForm;
 
 // 0x005790b0
 float FUN_005790b0();

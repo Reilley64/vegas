@@ -6,7 +6,7 @@
 // layout_support.h forward declarations (included first by pathfind_decls.h).
 #include "fnv/decl/NLLocation.h"
 #include "fnv/decl/TaskQueueInterface.h"
-class NavMeshPtr;
+struct NavMeshPtr;
 template <class T> class NiPointer
 {
   public:
@@ -20,9 +20,9 @@ template <class T> class NiPointer
     T* operator->() const;
     T* Get();
 };
-class NavMeshPtr;
+struct NavMeshPtr;
 class TESObjectCELL;
-class PathingLocation
+struct PathingLocation
 {
   public:
     void** m_ppVirtualMethodTable;                         // +0x0

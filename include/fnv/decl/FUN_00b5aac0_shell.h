@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiDirectionalLight;
+class NiDirectionalLight;
 
 struct FUN_00b5aac0_shell {
 public:

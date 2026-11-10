@@ -1,7 +1,7 @@
 #pragma once
 
 class NiAVObject;
-class NiPoint2;
+struct NiPoint2;
 class TESImageSpaceModifier;
 struct SpawnedObject;
 

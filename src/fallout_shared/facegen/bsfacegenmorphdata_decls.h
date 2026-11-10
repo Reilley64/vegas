@@ -16,7 +16,7 @@ extern const char DAT_01065e40[];
 extern const char DAT_01065dd0[];
 extern const char DAT_01065d60[];
 extern const char DAT_01065ce8[];
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -45,7 +45,7 @@ class BSFaceGenMorphStatistical : public BSFaceGenMorph
     unsigned int extra;
     BSFaceGenMorphStatistical(unsigned int, unsigned int);
 };
-template <class T> class FaceGenMatrix
+template <class T> struct FaceGenMatrix
 {
   public:
     T* FUN_006578b0(unsigned int) const;

@@ -460,7 +460,7 @@ class TESModel
     unsigned int GetModelLength() const;
 };
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -470,9 +470,9 @@ class NiUpdateData
 };
 class NiFixedString;
 class NiTimeController;
-class NiRTTI;
+struct NiRTTI;
 class NiExtraData;
-class CloningProcess;
+struct CloningProcess;
 class NiAVObject
 {
   public:
@@ -510,14 +510,14 @@ class TESCreature : public TESBoundObject
     NiNode* Create3DModel(TESObjectREFR*);
 };
 
-class NiObjectNET
+struct NiObjectNET
 {
   public:
 };
 class NiTimeController
 {
 };
-class NiRTTI
+struct NiRTTI
 {
 };
 class GlobalObject_00a7b610
@@ -532,7 +532,7 @@ class TESChallenge
 {
   public:
 };
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -544,7 +544,7 @@ class SettingT_GameSettingCollection_
 {
   public:
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:
@@ -631,7 +631,7 @@ class PlayerCharacter
 {
   public:
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     unsigned int a, b, c, d, e, f, g;

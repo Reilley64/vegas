@@ -40,7 +40,7 @@ class NiStreamFixedStrings : public NiTLargeObjectArray_NiFixedString_
     void RemoveAll();
 };
 
-class NiStream;
+struct NiStream;
 class NiStreamableObject : public NiObject
 {
   public:
@@ -123,7 +123,7 @@ inline void NiStreamWriteUInt(NiBinaryStream* stream, unsigned int& value)
     stream->m_uiStreamFlags += stream->m_pfnWrite(stream, &value, sizeof(value), &componentSize, 1);
 }
 
-class NiStream : public NiStreamAtlas
+struct NiStream : public NiStreamAtlas
 {
   public:
     NiObjectGroup* GetObjectGroup(unsigned int groupID);

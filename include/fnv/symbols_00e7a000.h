@@ -4,7 +4,7 @@
 struct ColorStream;
 struct E7Descriptor;
 struct E7Skin;
-struct NiGeometryData;
+class NiGeometryData;
 
 // 0x00e7a0a0
 unsigned int ConvertColorStream(::ColorStream *);

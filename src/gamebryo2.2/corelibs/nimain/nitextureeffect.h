@@ -18,7 +18,7 @@
 
 typedef long LONG;
 
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char* pcString);

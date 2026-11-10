@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_0041c090 { struct BGSAcousticSpace; }
+namespace fnv_0041c090 { class BGSAcousticSpace; }
 
 namespace fnv_0041c090 {
 struct FUN_0041c090_shell {

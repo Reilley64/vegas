@@ -9,8 +9,9 @@
 #include "fnv/symbols_00a3d000.h"
 #include "fnv/symbols_00e7c000.h"
 #include "fnv/symbols_011f3000.h"
-struct AnimationKey
+class AnimationKey
 {
+  public:
     int _00;
     int _04;
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-struct RagDollData;
+class RagDollData;
 
 struct FUN_0041d6d0_shell {
 public:

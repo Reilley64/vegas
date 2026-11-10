@@ -1,6 +1,6 @@
 #pragma once
 
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 
 struct FUN_00989490_shell {
 public:

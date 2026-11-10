@@ -15,7 +15,7 @@ template <class T> class NiPointer
     bool operator==(T*) const;
     bool operator!=(T*) const;
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

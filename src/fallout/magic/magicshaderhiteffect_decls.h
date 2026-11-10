@@ -130,7 +130,7 @@ class NiFixedString
     NiFixedString(const char*);
     ~NiFixedString();
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     unsigned int data[7];
@@ -141,7 +141,7 @@ class NiMemObject
 {
   public:
 };
-class NiObjectNET : public NiMemObject
+struct NiObjectNET : public NiMemObject
 {
   public:
     virtual void vfn_0();
@@ -690,7 +690,7 @@ class BGSTESTexture
   public:
     unsigned int GetModelLength() const;
 };
-class ParticleShaderProperty
+struct ParticleShaderProperty
 {
   public:
 };
@@ -719,8 +719,9 @@ class TESEffectShader : public TESForm
     char m_kParticleShaderTexture[12];
     char m_kHolesTexture[12];
 };
-struct DebrisModelEntry
+class DebrisModelEntry
 {
+  public:
     signed char chance;
     const char* filename;
 };
@@ -744,7 +745,7 @@ template <class T> class WeightedResultList
 class Model : public NiObjectNET
 {
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };
@@ -752,7 +753,7 @@ class TES
 {
   public:
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int id;
@@ -760,12 +761,12 @@ class SoundPlaybackHandle
     unsigned int state;
     ~SoundPlaybackHandle();
 };
-class BSAudio
+struct BSAudio
 {
   public:
     SoundPlaybackHandle GetSoundHandleByEditorID(const char*, unsigned int);
 };
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static TaskQueueInterface* GetSingleton();

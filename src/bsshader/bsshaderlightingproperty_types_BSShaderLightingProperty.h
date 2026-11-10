@@ -12,7 +12,7 @@ class NiMemObjectAllocation
   public:
 };
 class ShadowSceneLight;
-class CloningProcess;
+struct CloningProcess;
 class bsshaderlightingproperty_NodePool
 {
   public:

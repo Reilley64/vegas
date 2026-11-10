@@ -4282,7 +4282,7 @@ void CFBF60Dispatcher::FUN_00cfbf60(int primaryType, int alternateType)
 }
 
 extern "C" int DAT_010cc7c0;
-struct hkReferencedObject
+class hkReferencedObject
 {
 public:
     void removeReference();
@@ -5945,8 +5945,9 @@ struct hkError
     virtual void BeginSection(int id, const char*);
     virtual void EndSection();
 };
-struct hkOstream : DispatcherReferencedObject
+class hkOstream : public DispatcherReferencedObject
 {
+  public:
     void* m_pStreamWriter;
     hkOstream(void*, int);
     virtual ~hkOstream();

@@ -6,7 +6,7 @@
 class NiAVObject;
 class NiNode;
 class NiPropertyState;
-class NiUpdateData;
+struct NiUpdateData;
 namespace fnv_00a5e5b0 { struct NiStream; }
 
 // 0x00a5e1f0

@@ -1,6 +1,6 @@
 #pragma once
 
-class ScriptLocals;
+struct ScriptLocals;
 
 struct ItemChangeShell {
 public:

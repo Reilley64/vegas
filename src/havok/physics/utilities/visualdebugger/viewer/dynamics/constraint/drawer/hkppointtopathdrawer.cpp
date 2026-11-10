@@ -13,7 +13,7 @@
 #include "fnv/symbols_00cab000.h"
 #include "fnv/symbols_01016000.h"
 
-struct hkTransform;
+class hkTransform;
 
 struct hkVector4
 {
@@ -31,8 +31,9 @@ struct hkVector4
     void FUN_00c7f640(const hkTransform& t, const hkVector4& v);
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     hkVector4 m_kColumn0;
     hkVector4 m_kColumn1;
     hkVector4 m_kColumn2;

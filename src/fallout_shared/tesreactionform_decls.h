@@ -17,7 +17,7 @@ class ReactionInfo
   public:
     std::uintptr_t formID;
 };
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESForm;
 class ActorPackageContext;
 class InventoryStackRecord;
@@ -72,7 +72,7 @@ class FormChangeMask
     int flags;
     operator bool() const;
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int);

@@ -22,7 +22,7 @@ class TESObjectREFR_LoadProxy
   public:
 };
 
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -59,7 +59,7 @@ class TESChildCell
   public:
     virtual void Secondary();
 };
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class MobileObject : public TESForm, public TESChildCell
 {
   public:
@@ -88,13 +88,13 @@ class NiTransform
     void ResetToIdentity();
     char storage[0x34];
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     NiPoint2();
     unsigned int data[2];
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     static const NiPoint3 ZERO;

@@ -241,8 +241,9 @@ struct NiPoint3
     NiPoint3 operator-(const NiPoint3&) const;
 };
 
-struct MobileObject
+class MobileObject
 {
+  public:
     virtual void Slot0();
     virtual void Slot1();
     virtual void Slot2();
@@ -530,8 +531,9 @@ void __cdecl FUN_00af4470(int aiDirString, int aiFileString, int aiFileOffset)
     DAT_011ace04 = aiFileOffset;
 }
 
-struct BSFileCache
+class BSFileCache
 {
+  public:
     char pad[0x5c];
     int state;
     static BSFileCache& GetRandomGenerator();
@@ -1774,8 +1776,9 @@ template <class T> class NiPointer
     }
     T* m_pObject;
 };
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
+  public:
     T m_item;
     BSSimpleList<T>* m_pkNext;
 };
@@ -1878,8 +1881,9 @@ template <class T> class NiPointer
     }
     T* m_pObject;
 };
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
+  public:
     T m_item;
     BSSimpleList<T>* m_pkNext;
 };
@@ -2395,8 +2399,9 @@ ArchiveFile* ArchiveStand::CreateArchiveFile(ArchiveFileEntryStand* entry, unsig
 
 namespace fnv_00afc7f0 {
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual void _v00();
     virtual void DeleteThis();
     long m_uiRefCount;
@@ -2420,8 +2425,9 @@ struct Archive : public ArchiveBase, public NiRefObject
 {
 };
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
 
     ~NiPointer()
@@ -2458,8 +2464,9 @@ struct P03MM
 };
 extern P03MM _g_memoryManager;
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     virtual void DeleteThis();
     long m_uiRefCount;
@@ -2487,8 +2494,9 @@ struct Archive : public ArchiveBase, public NiRefObject
 {
 };
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
 
     NiPointer() : m_pObject(0)
@@ -2571,8 +2579,9 @@ struct P03MM
 };
 extern P03MM _g_memoryManager;
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     virtual void DeleteThis();
     long m_uiRefCount;
@@ -2600,8 +2609,9 @@ struct Archive : public ArchiveBase, public NiRefObject
 {
 };
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
 
     NiPointer() : m_pObject(0)
@@ -2745,8 +2755,9 @@ template <class T> class NiPointer
     }
     T* m_pObject;
 };
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
+  public:
     T m_item;
     BSSimpleList<T>* m_pkNext;
 };
@@ -5401,8 +5412,9 @@ struct ArcPtr
     }
 };
 namespace fnv_00afc960 {
-struct BSSimpleList
+class BSSimpleList
 {
+  public:
     ArcPtr m_item;
     BSSimpleList* m_pkNext;
     ~BSSimpleList()

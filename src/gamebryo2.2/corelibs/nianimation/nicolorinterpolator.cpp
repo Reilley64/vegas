@@ -26,9 +26,9 @@
 #include "fnv/symbols_011f3000.h"
 #include "NiObject.h"
 
-class NiObjectNET;
-class NiStream;
-class RgbaColor
+struct NiObjectNET;
+struct NiStream;
+struct RgbaColor
 {
   public:
     RgbaColor()
@@ -206,7 +206,7 @@ void HostA3BCB0::FUN_00a3bcb0(float afArg1, float afArg2)
         reinterpret_cast<::NiColorDataHack *>((((DummyA3D0E0*)(NiColorData*)m_spColorData)))->FUN_00a3d0e0(afArg1, afArg2);
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     virtual void f0();
@@ -306,7 +306,7 @@ void FUN_00a48990_StandIn::FUN_00a48990(NiStream& kStream)
 }
 }  // namespace fnv_00a48990
 
-class NiStream;
+struct NiStream;
 struct HC1Base
 {
     bool FUN_00aa0ad0(NiStream*);
@@ -351,7 +351,7 @@ bool FUN_00a489f0_StandIn::FUN_00a489f0(NiStream* pkStream)
     return true;
 }
 
-class NiObjectNET;
+struct NiObjectNET;
 class NiColorData;
 
 struct ColorValueWords

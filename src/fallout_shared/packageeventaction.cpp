@@ -221,11 +221,11 @@ struct QuantityData
 {
 };
 
-struct MagicCaster
+class MagicCaster
 {
 };
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 

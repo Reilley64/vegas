@@ -26,7 +26,7 @@ class NiMemObject
 {
   public:
 };
-class NiObject : public NiMemObject
+struct NiObject : public NiMemObject
 {
   public:
     virtual ~NiObject();
@@ -171,15 +171,15 @@ struct TaskQueueInterface
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
 #include <string.h>
-class FileNameHash;
-class NiPoint2
+struct FileNameHash;
+struct NiPoint2
 {
   public:
     unsigned char last, last2, length, first;
     unsigned int crc;
     NiPoint2();
 };
-class FileNameHash
+struct FileNameHash
 {
   public:
 };

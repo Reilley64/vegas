@@ -23,7 +23,7 @@
 #include "fnv/symbols_011c3000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 class ImageSpaceModifierInstance;
 class NiAVObject;
 class NiTexture;
@@ -44,7 +44,7 @@ template <class T> class BSSimpleList
     BSSimpleList* GetNext();
     void Remove(const NiPointer<NiAVObject>&);
 };
-class NiPoint3;
+struct NiPoint3;
 class TES
 {
   public:
@@ -81,12 +81,12 @@ class CombatManager
   public:
     void ApplyLoadBuffer(BGSLoadGameBuffer*);
 };
-class Interface
+struct Interface
 {
   public:
 };
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     virtual unsigned char GetVersion();
@@ -120,7 +120,7 @@ class MagicCaster
 
 void FUN_0084cd40(BGSLoadGameBuffer*);
 void FUN_008368b0(BGSLoadGameBuffer*);
-class Sky
+struct Sky
 {
   public:
     static Sky* GetInstance();

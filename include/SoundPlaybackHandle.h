@@ -8,7 +8,7 @@
 #include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
 #include "layout_support.h"
 class NiAVObject;
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;                // +0x0

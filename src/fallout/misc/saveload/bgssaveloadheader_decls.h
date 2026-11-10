@@ -37,7 +37,7 @@ class BGSSaveLoadManager
     unsigned int m_uiSaveLoadSubstate;
 };
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     BGSLoadGameBuffer();

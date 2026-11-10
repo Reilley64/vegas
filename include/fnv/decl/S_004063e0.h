@@ -1,6 +1,6 @@
 #pragma once
 
-struct Actor;
+class Actor;
 
 struct S_004063e0 {
 public:

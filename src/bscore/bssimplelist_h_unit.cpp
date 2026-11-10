@@ -1268,16 +1268,18 @@ void FUN_00832010()
 }
 
 class Actor;
-struct TESBoundObject
+class TESBoundObject
 {
+  public:
     virtual ~TESBoundObject();
 };
 struct FUN_0095ec40_FormData
 {
     char data[0x18];
 };
-struct MagicItem
+class MagicItem
 {
+  public:
     void* pVtbl;
 };
 struct EnchantmentItem : FUN_0095ec40_FormData, MagicItem

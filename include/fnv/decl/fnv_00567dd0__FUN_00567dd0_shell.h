@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00567dd0 { struct BGSEncounterZone; }
+namespace fnv_00567dd0 { class BGSEncounterZone; }
 
 namespace fnv_00567dd0 {
 struct FUN_00567dd0_shell {

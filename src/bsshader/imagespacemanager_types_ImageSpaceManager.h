@@ -9,7 +9,7 @@
 #include "layout_support.h"
 #include "NiObject.h"
 #include "layout_support.h"
-class BSTextureManager
+struct BSTextureManager
 {
   public:
     enum RenderTargetType
@@ -17,13 +17,13 @@ class BSTextureManager
         BSTM_RT_SCENE_DEPTH_BUFFER = 33
     };
 };
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class ImageSpaceEffect;
-class ImageSpaceManager;
+struct ImageSpaceManager;
 class ImageSpaceModifierParameterData;
 class ImageSpaceTexture;
-class RgbaColor;
-class NiPoint2;
+struct RgbaColor;
+struct NiPoint2;
 class NiRect_float_;
 class NiScreenElements;
 class NiScreenElementsData;
@@ -244,7 +244,7 @@ class ImageSpaceTexture
     // void* __cdecl ImageSpaceTexture::*(unsigned int)
     // declarations for the targets of this unit's covered code
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes
@@ -270,7 +270,7 @@ class RgbaColor
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x;  // +0x0, 4 bytes
@@ -309,7 +309,7 @@ class NiRect_float_
     // char* __cdecl NiRect<float>::*(const char*)
     // void __cdecl NiRect<float>::*()
 };
-class ImageSpaceManager
+struct ImageSpaceManager
 {
   public:
     void CreateMenuBackgroundGeometry();

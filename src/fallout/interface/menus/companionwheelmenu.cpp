@@ -152,7 +152,7 @@ struct FUN_00884480_shell
 {
     bool FUN_00884480(void);
 };
-struct Actor
+class Actor
 {
 public:
     bool IsSneaking();
@@ -217,7 +217,7 @@ struct MyStandin754c30
     void FUN_00754c60();
     void* FUN_00754c30(unsigned int);
 };
-struct Tile
+class Tile
 {
 public:
     void Set(int, int);
@@ -257,15 +257,17 @@ void FUN_00756930_shell::FUN_00756930()
     ::CloseMenuAndRefresh(1);
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void v0();
     static TESForm* __cdecl LookupFormByEditorID(const char*);
 public:
     void NotifySaveLoadGameOfFormChange();
 };
-struct TESTopic
+class TESTopic
 {
+  public:
     virtual void v0();
 };
 struct Tile2
@@ -283,26 +285,26 @@ struct FUN_007560c0_shell
     void ToggleFollowersTacticsDistance();
 };
 namespace fnv_007575b0 {
-struct Actor;
+class Actor;
 struct ScriptLocals;
-struct Script
+class Script
 {
 };
 struct ScriptS
 {
 };
-struct ExtraDataList
+class ExtraDataList
 {
 };
 struct XActor
 {
 };
-struct MobileObject;
-struct PlayerCharacter;
-struct TESTopicInfo
+class MobileObject;
+class PlayerCharacter;
+class TESTopicInfo
 {
 };
-struct TESTopic
+class TESTopic
 {
 };
 struct FUN_007575b0_shell
@@ -336,7 +338,7 @@ void FUN_007575b0_shell::RunTopicResultScripts(TESTopic* aRelatedTopic)
 }
 }  // namespace fnv_007575b0
 
-struct MagicCaster
+class MagicCaster
 {
 public:
     void RemoveCastingArt();
@@ -741,8 +743,9 @@ struct InteractionActor;
 struct PackageNode
 {
 };
-struct TESPackage
+class TESPackage
 {
+  public:
     virtual ~TESPackage();
     unsigned int unk04;
     unsigned int unk08;
@@ -796,8 +799,9 @@ struct DialoguePolicy
 };
 class DialogueResponse;
 class TESObjectREFR;
-struct DialogueItem
+class DialogueItem
 {
+  public:
     ~DialogueItem();
 public:
     ::TESObjectREFR *FUN_005e3fa0();
@@ -1311,10 +1315,10 @@ public:
     void SetCompletionCallback(void (*)(void *, bool), void *);
 };
 
-struct TESQuest;
-struct TESTopicInfo;
-struct TESObjectREFR;
-struct TESTopic;
+class TESQuest;
+class TESTopicInfo;
+class TESObjectREFR;
+class TESTopic;
 
 struct SoundFile
 {
@@ -1325,7 +1329,7 @@ struct SoundPath
     const char* CStr();
 };
 
-struct DialogueResponse
+class DialogueResponse
 {
 };
 
@@ -1679,7 +1683,7 @@ void CWheelMenu_757690::SetItemTextAndValue(CStringArg_757690 text, CValueArg_75
 
 namespace ScriptAnimation {
 struct Reference;
-struct Actor;
+class Actor;
 struct Idle;
 struct Process;
 struct Sequence;
@@ -2374,8 +2378,9 @@ struct Process
     virtual void v412();
     virtual int GetState(int);
 };
-struct Actor : Reference
+class Actor : public Reference
 {
+  public:
     int unk04;
     int unk08;
     int unk0c;

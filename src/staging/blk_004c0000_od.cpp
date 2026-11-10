@@ -201,7 +201,7 @@ void FUN_004d8510_StandIn::FUN_004d8510()
     reinterpret_cast<::C8AAHost *>(this)->GetResultValue(0x42);
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct bhkShape;
 void* GetLocalSubValue(TESObjectREFR* p, int a);
 struct FUN_004d85a0_Class
@@ -970,7 +970,7 @@ struct Date
 {
     ~Date();
 };
-struct NiNode;
+class NiNode;
 // @fnv 0x004dc560
 void FUN_004dc560()
 {
@@ -1088,7 +1088,7 @@ void* FUN_004de550_StandIn::FUN_004de550(unsigned int flags)
     return this;
 }
 
-struct NiTexture;
+class NiTexture;
 struct SkyTextureManager
 {
     static void __cdecl LoadTextureFromPath(NiPointer<NiTexture>*, char const*);
@@ -1557,7 +1557,7 @@ void __cdecl ExpandTreeItemsRecursively(void* tree, intptr_t startingItem, int e
 
 int FUN_00406d50(char* pcDest, unsigned int uiSize, const char* pcSrc);
 
-class NiObject
+struct NiObject
 {
   public:
     int m_aiObject[2];
@@ -1586,7 +1586,7 @@ class NiAVObject : public NiObject
     ::NiPoint3 &FUN_0043c490();
 };
 
-class NiStream
+struct NiStream
 {
   public:
     NiStream();
@@ -3209,7 +3209,7 @@ class ListT
 {
   public:
 };
-class Owner
+struct Owner
 {
   public:
     int unk00;
@@ -3444,7 +3444,7 @@ class BGSMoviePlayer
   public:
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -3464,7 +3464,7 @@ struct S45b
 {
 };
 
-class GlobalObject_00633c90
+struct GlobalObject_00633c90
 {
   public:
 };
@@ -3478,7 +3478,7 @@ class E73shell
   public:
 };
 
-class Interface
+struct Interface
 {
   public:
     static void Init(bool);
@@ -4358,7 +4358,7 @@ class NiFixedString
   public:
     const char* text;
 };
-class NiRTTI : public BSStringT<char>
+struct NiRTTI : public BSStringT<char>
 {
 };
 class ViewerStrings
@@ -4373,7 +4373,7 @@ class ViewerStrings
 };
 class NiTimeController;
 class NiTriBasedGeom;
-class NiObject
+struct NiObject
 {
   public:
     virtual ~NiObject();
@@ -4402,7 +4402,7 @@ class NiObject
     virtual void Unk23();
     virtual void GetViewerStrings(ViewerStrings* strings);
 };
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
 };

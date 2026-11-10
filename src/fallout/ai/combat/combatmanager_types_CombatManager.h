@@ -12,16 +12,16 @@ class ActorCombatGroup;
 class CombatManager;
 class CombatTargetMap;
 class CombatThreatMap;
-class CombatTargetTimestamp;
-class BGSLoadGameBuffer;
+struct CombatTargetTimestamp;
+struct BGSLoadGameBuffer;
 class NiTMap_Actor_____int64_;
 class NiTPrimitiveArray_CombatGroup___;
 class NiTPrimitiveArray_CombatGroup___ : public NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> >
 {
   public:
 };
-class BGSLoadGameBuffer;
-class CombatTargetTimestamp
+struct BGSLoadGameBuffer;
+struct CombatTargetTimestamp
 {
   public:
     float fTimeStamp;  // +0x0, 4 bytes

@@ -458,7 +458,7 @@ int FUN_00e9c7c0()
 }
 
 #include <math.h>
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
@@ -1675,7 +1675,7 @@ bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Opti
 
 #include <math.h>
 namespace fnv_00e9b4f0 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

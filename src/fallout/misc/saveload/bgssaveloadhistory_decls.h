@@ -51,11 +51,11 @@ template <> class BSSimpleList<ActorCause*>
   public:
     void RemoveAll();
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };
-class BGSLoadGameBuffer : public BGSLoadFormBuffer
+struct BGSLoadGameBuffer : public BGSLoadFormBuffer
 {
   public:
     BGSLoadGameBuffer();

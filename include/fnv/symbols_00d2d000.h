@@ -2,7 +2,7 @@
 
 class hkAabb;
 class hkTransform;
-class hkVector4;
+struct hkVector4;
 class hkpCdBody;
 struct Agent;
 struct FUN_00cfbd60_Obj;

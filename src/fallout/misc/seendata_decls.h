@@ -6,12 +6,12 @@
 #include <cstring>
 #include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 #include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;

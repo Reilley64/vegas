@@ -11,7 +11,7 @@
 #include "fnv/symbols_01024000.h"
 #include "layout_support.h"
 #include "TESObjectREFR.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 enum PROCESS_TYPE;
 class MobileObject : public TESObjectREFR
 {
@@ -97,7 +97,7 @@ public:
 public:
     bool IsInDialogueWithPlayer() const;
 };
-class MobileObjectCellAccess
+struct MobileObjectCellAccess
 {
   public:
 };

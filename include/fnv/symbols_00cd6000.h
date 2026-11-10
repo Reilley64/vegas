@@ -1,9 +1,9 @@
 #pragma once
 
-class ContactRecord;
+struct ContactRecord;
 class ContactVector;
 struct Feature;
-struct hkContactPoint;
+class hkContactPoint;
 struct hkVector4;
 
 // 0x00cd6260

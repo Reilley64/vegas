@@ -222,7 +222,7 @@ DebrisModelEntry* BGSDebris::AddDebrisModel(char chance, const char* path, char 
 
 template <class T> unsigned int __cdecl BSStringLength(T const*);
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void __cdecl CopyStringToBuffer(char*, unsigned int, char const*);

@@ -273,7 +273,7 @@ void NiPointLight::FUN_0050dd20(float afValue)
 #pragma optimize("", on)
 
 struct BSTempEffect;
-struct NiCullingProcess;
+class NiCullingProcess;
 struct NiObject;
 struct BGSDecalNode : public NiNode
 {
@@ -319,12 +319,12 @@ struct BSFadeNode;
 struct BSMultiBoundNode;
 struct BSResizableTriShape;
 struct BSSegmentedTriShape;
-struct NiCullingProcess;
-struct NiGeometry;
+class NiCullingProcess;
+class NiGeometry;
 struct NiLines;
 struct NiObject;
 struct NiParticles;
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 struct NiTriShape;
 struct NiTriStrips;
 struct NiVisibleArray;
@@ -495,7 +495,7 @@ void FUN_00a5dce0_shell::FUN_00a5dce0(CloningProcess* kCloning)
 
 namespace fnv_00a5dd40 {
 struct BSTempEffect;
-struct NiCullingProcess;
+class NiCullingProcess;
 struct NiObject;
 struct BGSDecalNode : public NiNode
 {
@@ -2464,7 +2464,7 @@ struct ObjectArray
 {
 };
 
-class Node
+struct Node
 {
   public:
     virtual void v00();

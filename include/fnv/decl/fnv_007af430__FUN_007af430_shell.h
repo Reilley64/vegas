@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_007af430 { struct TESBoundObject; }
+namespace fnv_007af430 { class TESBoundObject; }
 
 namespace fnv_007af430 {
 struct FUN_007af430_shell {

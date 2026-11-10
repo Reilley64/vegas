@@ -27,7 +27,7 @@ struct __declspec(align(16)) FUN_00d41f00_Local
 };
 
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
 };
@@ -199,7 +199,7 @@ protected:
 hkSingleton(){}
 };
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
 {
@@ -235,7 +235,7 @@ return x<y ? x:y;
 }
 }
 class hkTransform;
-class hkVector4
+struct hkVector4
 {
 public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}

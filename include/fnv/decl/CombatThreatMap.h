@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 struct BGSSaveFormBuffer;
 
 class CombatThreatMap {

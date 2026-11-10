@@ -154,14 +154,14 @@ void* __cdecl FUN_00a39700()
 }
 }  // namespace fnv_00a39700
 
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObject;
 struct NiObjectGroup;
 struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct FUN_00a39720_shell : public NiBlendAccumTransformInterpolator
 {
@@ -316,8 +316,9 @@ struct Item
     ThreeByThreeMatrix m;
     Item() throw();
 };
-struct NiBlendInterpolator
+class NiBlendInterpolator
 {
+  public:
     virtual void LoadBinary(NiStream&);
     char d[0x9];
     unsigned char count;

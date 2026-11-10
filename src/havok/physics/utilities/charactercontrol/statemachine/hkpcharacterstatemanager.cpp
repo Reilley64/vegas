@@ -7,7 +7,7 @@
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_0102e000.h"
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 

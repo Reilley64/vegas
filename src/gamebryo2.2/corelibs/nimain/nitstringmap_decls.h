@@ -47,7 +47,7 @@ template <class T_Map, class T_Value> class NiTStringTemplateMap : public T_Map
     void SetAt(const char* key, T_Value value);
 };
 
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 bool FUN_00b7fce0(const char* left, const char* right);
 template <> class NiTPointerMap<const char*, ShaderBufferRecord*>
 {

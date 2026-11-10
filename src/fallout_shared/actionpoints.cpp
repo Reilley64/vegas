@@ -21,7 +21,7 @@ union SETTING_VALUE
     unsigned char h;  // +0x0
 };
 
-class GameSettingCollection
+struct GameSettingCollection
 {
 };
 

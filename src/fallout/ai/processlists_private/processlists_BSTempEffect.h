@@ -4,7 +4,7 @@
 
 #include "processlists_NiObject.h"
 class BGSSaveGameBuffer;
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 class BSTempEffect : public NiObject
 {
   public:

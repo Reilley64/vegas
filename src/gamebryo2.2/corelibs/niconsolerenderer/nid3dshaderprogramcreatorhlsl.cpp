@@ -25,8 +25,9 @@
 #include "fnv/symbols_010f1000.h"
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_00c85000.h"
-struct NiD3DPixelShader
+class NiD3DPixelShader
 {
+  public:
     void* DestroyPixelShader(unsigned int flags);
 };
 

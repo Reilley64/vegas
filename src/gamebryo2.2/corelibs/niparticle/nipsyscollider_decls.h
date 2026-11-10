@@ -4,10 +4,10 @@
 
 #include "fnv/decl/A54440Hash.h"
 #include "NiRefObject.h"
-class NiStream;
-class CloningProcess;
+struct NiStream;
+struct CloningProcess;
 #define FNV_NIOBJECT_H
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual void GetType();
@@ -69,13 +69,13 @@ class NiPSysCollider : public NiObject
     NiPSysColliderManager* m_pColliderManager;
     NiPointer<NiPSysCollider> m_spNextController;
 };
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 template <class T> class NiTStringPointerMap
 {
   public:
     bool GetAt(const char* key, T& value);
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     NiTPointerMap<NiObject*, NiObject*>* m_pCloneMap;

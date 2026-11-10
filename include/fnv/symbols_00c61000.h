@@ -1,7 +1,7 @@
 #pragma once
 
 struct FUN_00c60d50_shell;
-struct NiAVObject;
+class NiAVObject;
 
 // 0x00c610a0
 namespace fnv_00c610a0 { ::FUN_00c60d50_shell *FUN_00c610a0(); }

@@ -22,7 +22,7 @@ struct S_00a2af70_P;
 struct S_00a2af70_V;
 struct S_a2c300_Stream;
 struct TCBKeyS;
-struct TimedRotationKey;
+class TimedRotationKey;
 struct VertexRecord;
 
 // 0x00a2a070

@@ -3,8 +3,8 @@
 #define FNV_NIRTTI_H
 
 #include "layout_support.h"
-class NiRTTI;
-class NiRTTI
+struct NiRTTI;
+struct NiRTTI
 {
   public:
     const char* m_pcName;       // +0x0, 4 bytes

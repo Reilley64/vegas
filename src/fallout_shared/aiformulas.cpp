@@ -171,7 +171,7 @@ int __cdecl ComputeClampedSettingSum(int aiFirst, int aiSecond, float afThird)
 }
 
 namespace fnv_00643a70 {
-struct ActorValueOwner
+class ActorValueOwner
 {
 };
 
@@ -259,7 +259,7 @@ struct ActorValue
         kDummy = 0
     };
 };
-struct ActorValueOwner
+class ActorValueOwner
 {
 };
 // @fnv 0x006439d0
@@ -279,7 +279,7 @@ struct ActorValue
         AV_Dummy = 0
     };
 };
-struct ActorValueOwner
+class ActorValueOwner
 {
 };
 struct Setting_S
@@ -799,8 +799,9 @@ struct TESClass
 public:
     bool IsTagSkill(::ActorValue::Index) const;
 };
-struct TESForm
+class TESForm
 {
+  public:
     virtual void f00();
     virtual void f01();
     virtual void f02();
@@ -867,7 +868,7 @@ struct TESForm
     virtual void f3f();
     virtual bool IsNPC();
 };
-struct TESNPC : TESForm
+class TESNPC : public TESForm
 {
 };
 struct ActorStub
@@ -933,8 +934,9 @@ struct NiPoint3
     NiPoint3 operator-(const NiPoint3&) const;
 };
 class TESPackage;
-struct Actor
+class Actor
 {
+  public:
     virtual void virtual000();
     virtual void virtual004();
     virtual void virtual008();
@@ -1073,8 +1075,9 @@ struct FollowerNode
     FollowerNode* next;
     bool FUN_008256d0();
 };
-struct ExtraFollower
+class ExtraFollower
 {
+  public:
     void* type;
     void* next;
     unsigned int flags;

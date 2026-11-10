@@ -4,11 +4,11 @@
 class ContainerMenu;
 class F57EA0Menu;
 class FUN_00766aa0_Menu;
-class GlobalObject2_0096a2d0;
+struct GlobalObject2_0096a2d0;
 class GlobalObject_0044f440;
-class GlobalObject_0044fae0;
+struct GlobalObject_0044fae0;
 class GlobalObject_004de370;
-class GlobalObject_00633c90;
+struct GlobalObject_00633c90;
 class GlobalObject_0076b930;
 class HUDMainMenu;
 class Menu755;

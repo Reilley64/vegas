@@ -223,8 +223,9 @@ struct Font
 
 };
 
-struct FontManager
+class FontManager
 {
+  public:
     Font* fonts[8];
     bool multibyte;
     static FontManager* Get();

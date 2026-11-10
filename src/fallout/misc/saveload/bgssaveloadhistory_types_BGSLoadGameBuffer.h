@@ -4,8 +4,8 @@
 
 #include "layout_support.h"
 class SaveLoadFile;
-class BGSLoadGameBuffer;
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer;
+struct BGSLoadGameBuffer
 {
   public:
     BGSLoadGameBuffer();

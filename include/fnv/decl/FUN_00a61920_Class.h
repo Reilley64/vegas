@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-struct NiShader;
+class NiShader;
 
 class FUN_00a61920_Class {
 public:

@@ -46,14 +46,14 @@ class ScreenCustomSplatter
     static void Clear();
     static void Init();
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3(float, float, float);
     static const NiPoint3 ZERO;
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -62,7 +62,7 @@ class NiUpdateData
     unsigned int pad2;
     NiUpdateData(float, bool, bool);
 };
-class NiFrustum
+struct NiFrustum
 {
   public:
     float left, right, top, bottom, nearPlane, farPlane;
@@ -141,7 +141,7 @@ template <class T> class SettingT
   public:
     SETTING_VALUE* Bool();
 };
-class NiRenderer;
+struct NiRenderer;
 class GraphicsRenderer
 {
   public:

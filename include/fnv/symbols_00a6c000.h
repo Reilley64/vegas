@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class BSDismemberSkinInstance;
-class NiObject;
+struct NiObject;
 struct TCChain;
 struct TCEq;
 

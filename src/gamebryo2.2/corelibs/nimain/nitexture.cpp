@@ -125,11 +125,12 @@ void* FUN_00a473b0(void* self, int, unsigned int flags)
 }
 
 struct ActorCombatGroup;
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class A> struct NiTArray
+template <class T, class A> class NiTArray
 {
+  public:
     void* m_vtbl;
     unsigned int m_pad4;
     unsigned short m_usMaxSize;

@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 
 // 0x008d66b0
 namespace fnv_008d66b0 { void LoadWeaponWobbleModels(); }

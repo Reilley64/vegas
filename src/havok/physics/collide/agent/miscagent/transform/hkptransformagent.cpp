@@ -1154,7 +1154,7 @@ struct Output {
     CollisionCacheState m_fTimeOfImpact;
 };
 
-struct hkpCdBody; struct GskAgentInput;
+class hkpCdBody; struct GskAgentInput;
 
 struct hkpGskAgent {
 };

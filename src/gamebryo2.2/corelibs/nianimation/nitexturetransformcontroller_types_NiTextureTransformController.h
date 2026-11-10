@@ -14,7 +14,7 @@ class NiSingleInterpController;
 class NiTextureTransformController;
 class NiTexturingProperty;
 class NiTexturingProperty__Map;
-class NiUpdateData;
+struct NiUpdateData;
 enum NiTextureTransformController__TransformMember
 {
     NiTextureTransformController__TransformMember_TT_TRANSLATE_U = 0,

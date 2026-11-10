@@ -336,7 +336,7 @@ void FUN_00a74510()
     FUN_00a89770();
 }
 
-class NiStream;
+struct NiStream;
 
 
 // @fnv 0x00a98eb0

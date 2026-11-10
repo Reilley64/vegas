@@ -2,7 +2,7 @@
 
 class TESActorBase;
 struct DummyVtable;
-struct PathManager;
+class PathManager;
 
 // 0x0047d0b0
 ::PathManager *GetPathManager();

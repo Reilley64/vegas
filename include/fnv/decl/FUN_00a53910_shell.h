@@ -1,6 +1,6 @@
 #pragma once
 
-class NiBoolData;
+struct NiBoolData;
 template <class> class NiPointer;
 
 struct FUN_00a53910_shell {

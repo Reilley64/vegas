@@ -209,21 +209,21 @@ void NiPoint3Interpolator::CreateObject(int state, bool force)
 }
 #pragma optimize("", on)
 
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObjectGroup;
 struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct FUN_00a49530_shell : public NiPoint3Interpolator
 {
     void FUN_00a49530(NiStream*);
 };
 
-class NiStream;
-class NiColor
+struct NiStream;
+struct NiColor
 {
   public:
     void LoadBinary(NiStream&);
@@ -315,13 +315,13 @@ unsigned char FUN_00a49440(char* self, int, int)
     return *((unsigned char*)d + 0x14);
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObjectGroup;
 struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct FUN_00a49590_shell : public NiPoint3Interpolator
 {
@@ -370,13 +370,13 @@ bool FUN_00a49590_shell::FUN_00a49590(NiStream* kStream)
     return true;
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObjectGroup;
 struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct FUN_00a495c0_shell : public NiPoint3Interpolator
 {

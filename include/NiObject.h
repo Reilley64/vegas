@@ -3,8 +3,8 @@
 #define FNV_NIOBJECT_H
 #include "layout_support.h"
 #include "NiRefObject.h"
-class NiRTTI;
-class NiObject : public NiRefObject
+struct NiRTTI;
+struct NiObject : public NiRefObject
 {
   public:
 public:

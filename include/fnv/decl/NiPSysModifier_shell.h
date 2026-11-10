@@ -1,6 +1,6 @@
 #pragma once
 
-class NiParticleSystem;
+struct NiParticleSystem;
 
 struct NiPSysModifier_shell {
 public:

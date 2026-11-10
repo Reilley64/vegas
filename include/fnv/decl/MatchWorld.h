@@ -1,6 +1,6 @@
 #pragma once
 
-struct FUN_00d065e0;
+class FUN_00d065e0;
 template <class> class hkArrayXc937a0;
 
 struct MatchWorld {

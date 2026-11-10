@@ -1009,7 +1009,7 @@ enum OBJECT_ACTION
 };
 
 class BSExtraData;
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
 public:
@@ -1028,9 +1028,9 @@ public:
     static void EndMediaUpdate();
     static void Update();
 };
-class ScriptLocals;
+struct ScriptLocals;
 class BGSQuestObjective;
-class ScriptLocals;
+struct ScriptLocals;
 class TESQuest
 {
 public:
@@ -2203,20 +2203,20 @@ int __cdecl FUN_005b5e40(...)
     return ret;
 }
 
-struct BSFogProperty;
+class BSFogProperty;
 struct BSRenderedTexture;
 struct BSShader;
-struct BSShaderAccumulator;
+class BSShaderAccumulator;
 struct BSTextureManager;
 struct ImageSpaceManager;
-struct NiAVObject;
+class NiAVObject;
 struct NiAlphaProperty;
 struct NiColor;
 struct RgbaColor;
-struct NiGeometry;
-struct NiTexture;
+class NiGeometry;
+class NiTexture;
 struct NiTexturingProperty;
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 struct NiTriShape;
 struct GraphicsRenderer;
 struct ShadowSceneNode;
@@ -2414,11 +2414,12 @@ void S1a130::FUN_005ba130(bool e) { b = a && e; }
 
 namespace fnv_005bd5c0 {
 struct Font;
-struct NiNode;
+class NiNode;
 struct NiTriShape;
 struct blob8 { char b[8]; };
 struct blob12 { char b[12]; };
-struct FontManager {
+class FontManager {
+  public:
     static void Init();
     static FontManager* Instance();
     static void Free();
@@ -2448,7 +2449,7 @@ Font* FUN_005bd5c0_shell::FUN_005bd5c0(int a)
 }
 }  // namespace fnv_005bd5c0
 
-struct MobileObject;
+class MobileObject;
 struct MobileObjectProcessArray {
     void Init();
     void AddActor(MobileObject*, int);
@@ -2493,8 +2494,8 @@ class GlobalObject2_0040c150 {
 public:
 };
 
-class NiPoint3;
-class TaskQueueInterface {
+struct NiPoint3;
+struct TaskQueueInterface {
 public:
     static TaskQueueInterface* __cdecl GetSingleton(void);
 public:
@@ -2577,7 +2578,7 @@ class GlobalObject2_0040c150
 public:
 };
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
 public:
 };
@@ -2609,7 +2610,7 @@ unsigned int FUN_005c3bd0_shell::FUN_005c3bd0()
     return static_cast<::ByteFieldsView*>(reinterpret_cast<struct ::FUN_005a8080 *>((this))->GetField())->ucUnk01;
 }
 
-class Interface
+struct Interface
 {
 public:
 public:
@@ -2737,10 +2738,11 @@ std::intptr_t FUN_005cbb50(char* pThis)
     return *(int*)(pThis + 0x6b8);
 }
 
-struct PerkEntryConditionSet;
-struct TESFile;
+class PerkEntryConditionSet;
+class TESFile;
 struct PathingPath;
-struct RegionObjectEntry {
+class RegionObjectEntry {
+  public:
     void Save();
     void Load(TESFile*);
     void InitItem(TESForm*);
@@ -2789,7 +2791,7 @@ bool __cdecl FUN_005cd870(const ScriptParameter* paramInfo, const char* scriptDa
 
 namespace fnv_005cf490 {
 class PlayerCharacter;
-struct TESSound {  };
+class TESSound {  };
 void __cdecl DebugLog(char const*, ...);
 
 // @fnv 0x005cf490
@@ -3057,7 +3059,7 @@ float Sd4e0::FUN_005dd4e0(unsigned int i)
 }
 
 namespace fnv_005de0f0 {
-struct MobileObject;
+class MobileObject;
 struct MobileObjectProcessArray {
     void Init();
     void AddActor(MobileObject*, int);
@@ -3217,7 +3219,7 @@ void* FUN_005e04c0(void* pThis)
     return pThis;
 }
 
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
 public:
     void Clear(bool);
@@ -3233,7 +3235,7 @@ void FUN_005e04f0(GlobalObject_00869f00* pThis)
 }
 
 namespace fnv_005e0540 {
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
 public:
     void Clear(bool);
@@ -3259,7 +3261,7 @@ void* FUN_00709840(void* pThis)
 }
 
 namespace fnv_00968670 {
-struct MobileObject;
+class MobileObject;
 struct MobileObjectProcessArray {
     void Init();
     void AddActor(MobileObject*, int);
@@ -3358,15 +3360,16 @@ bool __cdecl FUN_005ce360(const ScriptParameter* p, const char* s, TESObjectREFR
     return true;
 }
 
-struct NiAVObject;
-struct AnimationKey;
+class NiAVObject;
+class AnimationKey;
 struct NiColorInterpolator;
 struct NiFloatInterpolator;
 struct AlphaColor;
 struct TimedFloatKey;
-struct TESFile;
-struct TESSound;
-struct TESImageSpaceModifier : public TESForm {
+class TESFile;
+class TESSound;
+class TESImageSpaceModifier : public TESForm {
+  public:
     virtual void __vslot_10();
     bool GetAnimatable();
     float GetDuration();
@@ -3462,7 +3465,7 @@ void* DelStandIn::FUN_00709980(unsigned int flags)
 }
 }
 
-struct Tile { virtual ~Tile();  };
+class Tile { public: virtual ~Tile();  };
 struct FUN_007099b0 : public Tile
 {
     virtual ~FUN_007099b0();
@@ -3507,8 +3510,8 @@ class NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> > {
 public:
 };
 
-struct NiNode;
-struct FOPipboyManager {
+class NiNode;
+class FOPipboyManager {
 };
 
 struct FUN_005b8fc0_shell {
@@ -3535,16 +3538,16 @@ int _FNV_GetFormType(TESForm*);
 struct ScriptH {
 };
 
-struct TESContainer {
+class TESContainer {
 };
 
 struct StandIn_RefrPersist {
 };
 
-struct TESObject {
+class TESObject {
 };
 
-struct TESSound {
+class TESSound {
 };
 
 
@@ -3566,7 +3569,7 @@ bool FUN_005ce3e0(const ScriptParameter* apParameters, const char* apCompiledPar
 }  // namespace fnv_005ce3e0
 
 void __cdecl DebugLog(const char*, ...);
-struct BGSQuestObjective { bool GetCompleted() const; public:
+class BGSQuestObjective { public: bool GetCompleted() const; public:
     bool GetDisplayed() const;
 };
 struct TESQuestObjectiveView {  };// @fnv 0x005d7e30
@@ -3596,8 +3599,8 @@ struct FormFlagRecord;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct ScriptDefinition;
-struct TESFile;
-struct RegionObjectEntry;
+class TESFile;
+class RegionObjectEntry;
 struct ScriptParameter {
     char* m_pTypeString;
     int m_eParameterType;
@@ -3640,7 +3643,7 @@ struct ScriptLocals {
 void __cdecl DebugLog(const char*, ...);
 bool __cdecl ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 
-struct BGSQuestObjective {
+class BGSQuestObjective {
 };
 
 struct StandIn_Quest {
@@ -3749,7 +3752,7 @@ void FUN_005b6cb0_Class::FUN_005b6cb0()
     cUnk01 = 1;
 }
 
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
 public:
 };
@@ -4162,7 +4165,8 @@ bool __cdecl FUN_005bfd40()
 }
 
 class BGSImpactData;
-struct BGSImpactDataSet {
+class BGSImpactDataSet {
+  public:
     static BGSImpactDataSet* ms_pImpactDataSet;
 public:
     ::BGSImpactData *GetImpactDataForMaterial(int);
@@ -4242,7 +4246,7 @@ struct GlobalObject_0045cf30 {
     unsigned char* GetLifeStateControlFlag(void);
 };
 
-struct BGSSaveLoadManager {
+class BGSSaveLoadManager {
 public:
     bool LoadGame(const char *, int, bool, bool);
 };
@@ -4495,7 +4499,8 @@ char FUN_005cf660()
     return 1;
 }
 
-struct HUDMainMenu {
+class HUDMainMenu {
+  public:
     unsigned char unk_205;
 };
 
@@ -4750,7 +4755,7 @@ struct FUN_005db4c0_struct {
     void FUN_005db4c0(bool);
 };
 
-class Interface {
+struct Interface {
 public:
 };
 
@@ -5034,7 +5039,7 @@ char __cdecl FUN_005b7000()
     return 1;
 }
 
-class TESClimate;
+struct TESClimate;
 enum Sky__SKY_MODE;
 struct Sky
 {
@@ -5309,12 +5314,13 @@ bool __cdecl FUN_005d2610(int a1, int a2, double& afResult, int a4, int a5, int 
 }
 
 namespace fnv_005d2800 {
-struct TESImageSpaceModifier;
-struct NiAVObject;
-struct ImageSpaceModifierInstanceForm {
+class TESImageSpaceModifier;
+class NiAVObject;
+class ImageSpaceModifierInstanceForm {
+  public:
     static ImageSpaceModifierInstanceForm* __cdecl Trigger(TESImageSpaceModifier*, float, NiAVObject*);
 };
-struct TESImageSpaceModifier {
+class TESImageSpaceModifier {
 };
 
 // @fnv 0x005d2800
@@ -5388,7 +5394,8 @@ struct FUN_005db4c0_struct {
     void FUN_005db4c0(bool);
 };
 
-struct BSShaderAccumulator {
+class BSShaderAccumulator {
+  public:
     void FUN_005db4c0(bool);
 };
 
@@ -6392,7 +6399,7 @@ void __cdecl DebugLog(const char*, ...);
 namespace fnv_005b78a0 {
 struct ThreeByThreeMatrix { float m00, m01, m02, m10, m11, m12, m20, m21, m22; };
 struct NiPoint3 { float x, y, z; NiPoint3(float fX, float fY, float fZ); };
-class NiUpdateData {
+struct NiUpdateData {
 public:
     float fTime;
     bool m_bUpdateEnabled;
@@ -6401,7 +6408,7 @@ public:
     NiUpdateData(float fTime, bool m_bUpdateEnabled, bool bIsMultiThreaded);
 };
 struct BSFadeNode { };
-struct NiAVObject : BSFadeNode {
+class NiAVObject : public BSFadeNode {
 };
 class NiNode : public NiAVObject {
 public:
@@ -6419,7 +6426,7 @@ struct FUN_00555bc0_shell {  };
 struct FUN_00555ad0_shell {  };
 struct TESObjectCELL_Ext {  };
 struct CellH {   };
-class GridCell { public: TESObjectCELL* pCell; };
+struct GridCell { public: TESObjectCELL* pCell; };
 struct TES {
     GridCell* FUN_00457050(int iX, int iY);
 };
@@ -6502,8 +6509,9 @@ MyVec005bb9b0& UnknownClass005bb9b0::FUN_005bb9b0(MyVec005bb9b0& akDest)
 }
 
 class TESObjectCELL;
-struct MagicCaster
+class MagicCaster
 {
+  public:
     virtual void C0();
     virtual void C1();
     virtual void C2();
@@ -6767,7 +6775,7 @@ extern FUN_005cb8e0_Player* g_thePlayer;
 void DebugLog(const char*, ...);
 struct Flt { operator unsigned int(); };
 struct SoundH {  };
-struct TESObject {  };
+class TESObject {  };
 struct FUN_005cb8e0_FormVT : public TESForm {
     virtual void X58();
     virtual void X59();
@@ -6865,7 +6873,7 @@ bool FUN_005cde00(const ScriptParameter * a1, const char * a2, TESObjectREFR * a
 }  // namespace fnv_005cde00
 
 namespace fnv_005d15d0 {
-class IOManager;
+struct IOManager;
 struct BSAudio {
 };
 struct S5d {
@@ -6912,7 +6920,7 @@ namespace fnv_005d1920 {
 struct FNStub {  };
 struct FullNameEx {  };
 struct XActor {  };
-struct TESObject {  };
+class TESObject {  };
 int _FNV_GetFormType(void*);
 struct VRef { virtual void w00(); virtual void w01(); virtual void w02(); virtual void w03(); virtual void w04(); virtual void w05(); virtual void w06(); virtual void w07(); virtual void w08(); virtual void w09(); virtual void w10(); virtual void w11(); virtual void w12(); virtual void w13(); virtual void w14(); virtual void w15(); virtual void w16(); virtual void w17(); virtual void w18(); virtual void w19(); virtual void w20(); virtual void w21(); virtual void w22(); virtual void w23(); virtual void w24(); virtual void w25(); virtual void w26(); virtual void w27(); virtual void w28(); virtual void w29(); virtual void w30(); virtual void w31(); virtual void w32(); virtual void w33(); virtual void w34(); virtual void w35(); virtual void w36(); virtual void w37(); virtual void w38(); virtual void w39(); virtual void w40(); virtual void w41(); virtual void w42(); virtual void w43(); virtual void w44(); virtual void w45(); virtual void w46(); virtual void w47(); virtual void w48(); virtual void w49(); virtual void w50(); virtual void w51(); virtual void w52(); virtual void w53(); virtual void w54(); virtual void w55(); virtual void w56(); virtual void w57(); virtual void w58(); virtual void w59(); virtual void w60(); virtual void w61(); virtual void w62(); virtual void w63(); virtual bool IsActor(); };
 struct VBase { virtual void w00(); virtual void w01(); virtual void w02(); virtual void w03(); virtual void w04(); virtual void w05(); virtual void w06(); virtual void w07(); virtual void w08(); virtual void w09(); virtual void w10(); virtual void w11(); virtual void w12(); virtual void w13(); virtual void w14(); virtual void w15(); virtual void w16(); virtual void w17(); virtual void MarkChanged(unsigned int); };
@@ -6945,7 +6953,7 @@ bool __cdecl FUN_005d1920(const ScriptParameter* paramInfo, const char* scriptDa
 }
 }  // namespace fnv_005d1920
 
-struct MobileObject {  public:
+class MobileObject {  public:
     bool IsCombatStateActive() const;
 };
 struct FUN_00974a50_shell {  };
@@ -7173,7 +7181,7 @@ Holder* Holder::FUN_005e0490(unsigned int a, unsigned int b)
 
 namespace fnv_005b4a80 {
 struct FUN_004077c0_shell {  };
-struct TESSound {  };
+class TESSound {  };
 // @fnv 0x005b4a80
 bool FUN_005b4a80(const ScriptParameter* p1, const char* p2, TESObjectREFR* p3, TESObjectREFR* p4, Script* p5, ScriptLocals* p6, double& result, unsigned int& p7)
 {
@@ -7205,7 +7213,8 @@ struct INISettingCollection {
 };
 struct INIPrefSettingCollection : INISettingCollection {
 };
-template <class T> struct SettingT {
+template <class T> class SettingT {
+  public:
     static T* __cdecl GetCollection();
 };
 
@@ -7265,7 +7274,8 @@ template <class T> struct SettingCollectionList {
 };
 struct INISettingCollection : SettingCollectionList<Setting> {};
 struct INIPrefSettingCollection : SettingCollectionList<Setting> {};
-template <class T> struct SettingT {
+template <class T> class SettingT {
+  public:
     static T* __cdecl GetCollection();
 };
 struct S0042fa20 {
@@ -7486,9 +7496,9 @@ struct FUN_005c45e0_V {
 struct RefH {  };
 struct FUN_004077c0_shell {  };
 struct FUN_0056aac0_t {  };
-struct TESSound {  };
-struct BGSCameraPath { int HasNameForWarning(); };
-struct MobileObject {  };
+class TESSound {  };
+class BGSCameraPath { public: int HasNameForWarning(); };
+class MobileObject {  };
 struct FUN_00705b10_Dummy { void Set(int); };
 struct FUN_00565090_shell {  };
 struct FUN_005650d0_s {  };
@@ -7754,14 +7764,14 @@ struct Actor_S
     virtual bool V216();
 };
 struct ActorV_S { int GetSex(); };
-struct TESObject {  };
-struct TESSound {  };
-struct MobileObject {  };
+class TESObject {  };
+class TESSound {  };
+class MobileObject {  };
 struct Character { void Reset3D(); };
-struct TESActorBase { int GetSex(); };
+class TESActorBase { public: int GetSex(); };
 struct TESRace;
 struct FUN_004ac110_shell {  };
-struct TESNPC { void CopyActorBaseData(TESNPC*); };
+class TESNPC { public: void CopyActorBaseData(TESNPC*); };
 struct Arr { unsigned int* GetAt(int); };
 struct Flt { operator unsigned int(); };
 struct FUN_005e0560
@@ -7851,7 +7861,8 @@ bool __cdecl FUN_005c7fd0(const ScriptParameter* parameters, const char* scriptD
 struct TESFormInitFlag {
 };
 class PerkEntryConditionSet;
-struct BGSCameraPath {
+class BGSCameraPath {
+  public:
     virtual ~BGSCameraPath();
 public:
     std::intptr_t HasNameForWarning();
@@ -8870,7 +8881,7 @@ bool __cdecl FUN_005d1890(const ScriptParameter* parameters, const char* scriptD
 
 namespace fnv_005d3b90 {
 struct GlobalObject_0045cfe0 {  };
-struct Actor;
+class Actor;
 struct TaskQueueInterface {  };
 // @fnv 0x005d3b90
 bool FUN_005d3b90(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
@@ -8945,7 +8956,7 @@ bool __cdecl FUN_005d4870(const ScriptParameter* apParameters, const char* apCom
 }
 
 namespace fnv_005d4b90 {
-struct Actor;
+class Actor;
 struct GlobalObject_0045cfe0 {  };
 struct TaskQueueInterface {  };
 
@@ -8970,7 +8981,7 @@ bool FUN_005d4b90(const ScriptParameter* parameters, const char* scriptData,
 }  // namespace fnv_005d4b90
 
 namespace fnv_005d9170 {
-struct ConsoleManager { static ConsoleManager* __cdecl Instance(bool); };
+class ConsoleManager { public: static ConsoleManager* __cdecl Instance(bool); };
 struct Holder {  };
 extern "C" void _DebugLog(const char*, ...);
 // @fnv 0x005d9170
@@ -9092,10 +9103,10 @@ struct TESActorBaseDataX {  };
 struct TESObjectCELL_Ext {  };
 struct ActorS {  };
 struct TESRecipe {  };
-struct TESObject {  };
+class TESObject {  };
 struct DH {  };
 struct FUN_0046a010_shell {  };
-struct TESSound {  };
+class TESSound {  };
 
 // @fnv 0x005d9810
 bool __cdecl FUN_005d9810(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer,
@@ -9173,7 +9184,7 @@ struct FUN_00452370_shell { bool FUN_00452370() const; };
 struct FUN_004846e0_shell { void FUN_004846e0(bool); };
 struct FUN_004759a0_First;
 struct FUN_00576100_Class { bool FUN_00576100(); };
-struct TESObject {  };
+class TESObject {  };
 
 // @fnv 0x005daae0
 bool FUN_005daae0(const ScriptParameter* parameters, const char* scriptData,
@@ -9221,7 +9232,7 @@ bool __cdecl FUN_005dc3b0(const ScriptParameter* parameters, const char* scriptD
 }
 
 namespace fnv_005de920 {
-struct PlayerCharacter : TESObjectREFR {
+class PlayerCharacter : public TESObjectREFR {
 };
 
 // @fnv 0x005de920
@@ -9422,7 +9433,7 @@ bool FUN_005b4b20(const ScriptParameter* params, const char* scriptData, TESObje
 }  // namespace fnv_005b4b20
 
 namespace fnv_005b5760 {
-struct TESObject {  };
+class TESObject {  };
 struct FUN_005a2e20 {  };
 // @fnv 0x005b5760
 bool FUN_005b5760(const ScriptParameter* a, const char* b, TESObjectREFR* c, TESObjectREFR* d, Script* e, ScriptLocals* f, double& g, unsigned int& h)
@@ -9552,7 +9563,7 @@ bool FUN_005b7420()
 }
 
 namespace fnv_005b7660 {
-class Sky
+struct Sky
 {
 public:
     static Sky* GetInstance();
@@ -9576,8 +9587,9 @@ bool FUN_005b7660(const ScriptParameter* parameters, const char* scriptData, TES
 class TESImageSpaceModifier;
 class NiAVObject;
 class TESImageSpaceModifier;
-struct ImageSpaceModifierInstanceForm
+class ImageSpaceModifierInstanceForm
 {
+  public:
     TESImageSpaceModifier* modifier;
     float strength;
     static ImageSpaceModifierInstanceForm* Trigger(TESImageSpaceModifier*, float, NiAVObject*);
@@ -9597,8 +9609,8 @@ bool FUN_005b76f0(const ScriptParameter* params, const char* scriptData, TESObje
 }
 
 namespace fnv_005b7760 {
-struct TESImageSpaceModifier;
-struct ImageSpaceModifierInstanceForm {
+class TESImageSpaceModifier;
+class ImageSpaceModifierInstanceForm {
 };
 
 // @fnv 0x005b7760
@@ -10151,7 +10163,7 @@ bool FUN_005ce260(const ScriptParameter* parameters, const char* scriptData,
 }
 
 namespace fnv_005ce5c0 {
-struct TESSound {  };
+class TESSound {  };
 void __cdecl _DebugLog(const char*, ...);
 
 // @fnv 0x005ce5c0
@@ -10175,7 +10187,7 @@ struct FUN_00569b80_shell
 {
 };
 
-struct TESSound
+class TESSound
 {
 };
 
@@ -10266,7 +10278,7 @@ bool __cdecl FUN_005d2970(const ScriptParameter*, const char*, TESObjectREFR* ap
     return bretval;
 }
 
-struct IdleSystem { static IdleSystem& GetRandomGenerator(); };
+class IdleSystem { public: static IdleSystem& GetRandomGenerator(); };
 struct FUN_00af2420_class { bool FUN_00af2420(int); };
 extern bool DAT_011d8ce4;
 // @fnv 0x005d3b20
@@ -10491,7 +10503,7 @@ bool FUN_005d9500(const ScriptParameter* parameters, const char* scriptData,
 
 namespace fnv_005d9730 {
 struct FUN_0089f4e0_shell {  };
-struct TESSound {  };
+class TESSound {  };
 extern TESObjectREFR* g_thePlayer;
 extern void _DebugLog(const char*, ...);
 // @fnv 0x005d9730
@@ -10802,7 +10814,7 @@ enum Sky__SKY_MODE { SKY_OFF = 0, SKY_ON = 1, SKY_AUTO = 2, SKY_DISABLED = 3 };
 class TES {
 public:
 };
-class Sky {
+struct Sky {
 public:
 };
 struct FUN_00455400_cell {
@@ -10930,7 +10942,7 @@ bool FUN_005d5560(const ScriptParameter* apParameters, const char* apCompiledPar
 }  // namespace fnv_005d5560
 
 namespace fnv_005d8660 {
-struct NiAVObject
+class NiAVObject
 {
 };
 struct LodObject : NiAVObject
@@ -10977,7 +10989,8 @@ namespace fnv_005db1b0 {
 struct Descriptor {
     const char* FUN_00511840();
 };
-struct TESSound : Descriptor {
+class TESSound : public Descriptor {
+  public:
     const char* FUN_00511840();
 };
 struct BSAudio {
@@ -11403,7 +11416,7 @@ public:
     TESFile* GetFile(int);
 };
 
-class TESClimate : public FUN_00485b60
+struct TESClimate : public FUN_00485b60
 {
 };
 
@@ -11412,7 +11425,7 @@ class TESSound
 public:
 };
 
-class Sky : public TESSound
+struct Sky : public TESSound
 {
 public:
     static Sky* GetInstance();
@@ -11443,7 +11456,7 @@ bool FUN_005b7490()
 
 namespace fnv_005b7520 {
 struct Sky { static Sky* GetInstance();  };
-struct TESFile {  bool OpenTESFile(int, bool); };
+class TESFile { public:  bool OpenTESFile(int, bool); };
 struct FUN_004734d0_shell {  };
 struct TESWeather { virtual void V0(); virtual void V1(); virtual void V2(); virtual void V3(); virtual void V4(); virtual void V5(); virtual void V6(); virtual void V7(); virtual void V8(void*); virtual void V9(); virtual void V10(); virtual void V11(); virtual void V12(); virtual void V13(); virtual void V14(); virtual void V15(); virtual void V16(); virtual void V17(); virtual void V18(); virtual void V19(); virtual void V20(); virtual void V21(); virtual void V22(); virtual void V23(); virtual void V24(); virtual void V25(); virtual void V26(); virtual void V27(); virtual void V28(); virtual void V29(); virtual void V30(); virtual void V31(); virtual void V32(); virtual void V33(); virtual void V34(); virtual void V35(); virtual void V36(); virtual void V37(); virtual void V38(); virtual void V39(); virtual void V40(); virtual void V41(); virtual void V42(); virtual void V43(); virtual void V44(); virtual void V45(); virtual void V46(); virtual void V47(); virtual void V48(); virtual void V49(); };
 struct FUN_00485b60 { void* GetFile(int); };
@@ -11522,7 +11535,7 @@ bool FUN_005b9ea0(
 }
 }  // namespace fnv_005b9ea0
 
-class NiPoint3
+struct NiPoint3
 {
 public:
     float x;
@@ -11720,7 +11733,7 @@ class TESSound : public ArrSI
 public:
 };
 
-class BSAudio : public TESSound
+struct BSAudio : public TESSound
 {
 };
 
@@ -11862,7 +11875,7 @@ class ShadowLightData : public FUN_00800e50_Class
 {
 };
 
-class Interface
+struct Interface
 {
 public:
 };
@@ -12167,7 +12180,7 @@ public:
     unsigned char* Bool();
 };
 
-class GlobalObject_0045cfe0 : public Setting
+struct GlobalObject_0045cfe0 : public Setting
 {
 public:
 };
@@ -13565,7 +13578,7 @@ bool FUN_005da1e0(const ScriptParameter* param1, const char* param2, TESObjectRE
 }
 
 namespace fnv_005db110 {
-struct OSGlobals
+class OSGlobals
 {
 };
 
@@ -13872,7 +13885,7 @@ struct FUN_00518030_shell
 {
 };
 
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
 
@@ -14286,8 +14299,9 @@ namespace fnv_005de700 {
 unsigned int _data_011c16bc;
 double g_d100;
 
-struct ContainerItemExtra
+class ContainerItemExtra
 {
+  public:
     unsigned char padding[12];
 
     ContainerItemExtra();
@@ -14490,7 +14504,7 @@ class FUN_0044ac20_class : public FUN_00800ed0_This
 public:
 };
 
-class Interface
+struct Interface
 {
 public:
 };
@@ -14903,7 +14917,7 @@ class ScriptParameter;
 class ScriptHeaderData;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 bool __cdecl ExtractArgs(const ScriptParameter*, const char*, unsigned int*,
     TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
@@ -14924,7 +14938,7 @@ bool __cdecl FUN_005b4b80(const ScriptParameter* parameters, const char* scriptD
 namespace fnv_005b5860 {
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 class ExtendedREFR : public TESObjectREFR {
 public:
@@ -15895,12 +15909,12 @@ using namespace fnv_anon_005bbc50;
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 void __cdecl DebugLog(const char*, ...);
 
-class NiPoint2
+struct NiPoint2
 {
 public:
     float x;
@@ -15952,7 +15966,7 @@ bool FUN_005bbc50(const ScriptParameter* apParameters, const char* apCompiledPar
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 struct ToggleTarget {
     char pad[0xbc];
@@ -16100,7 +16114,7 @@ bool __cdecl FUN_005bd3c0()
 struct ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 
@@ -16173,7 +16187,7 @@ namespace fnv_005bd900 {
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 
 
@@ -17440,8 +17454,8 @@ bool __cdecl FUN_005c4a70(int a8, int a0c, std::intptr_t a10, int a14, int a18, 
 }
 
 struct ScriptParameter;
-struct TESObjectREFR;
-struct Script;
+class TESObjectREFR;
+class Script;
 struct ScriptLocals;
 
 bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
@@ -17657,7 +17671,7 @@ bool __cdecl FUN_005c6f50(void* pvParamInfo, void* pvScriptData, void* pvThisObj
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 
 
@@ -17743,7 +17757,7 @@ unsigned char __cdecl FUN_005c7c10(int a,int b,int c,int d,int e,int f,int g,int
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class C7CA0Form;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
@@ -17801,7 +17815,7 @@ namespace fnv_005c7f10 {
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class TESForm;
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 struct CommandTarget {
@@ -17838,7 +17852,7 @@ bool __cdecl FUN_005c7f10(const ScriptParameter* parameters,
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 
 
@@ -18008,7 +18022,7 @@ bool FUN_005cae30(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, vo
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 bool __cdecl FUN_005a0f90(TESObjectREFR*, unsigned int, unsigned int, double&);
 
@@ -18880,7 +18894,7 @@ bool FUN_005ceb50(B5CEB50ParamInfo* pkParamInfo, void* pvScriptData, B5CEB50Ref*
     return ::fnv_005a2590::FUN_005a2590((::TESObjectREFR *)(pkThisObj), 0, 0, (*(double *)(pdResult)));
 }
 
-class ScriptParameter; class Script; class ScriptLocals;
+class ScriptParameter; class Script; struct ScriptLocals;
 class TESBoundObject { public: virtual ~TESBoundObject(); };
 class BGSTalkingActivator : public TESBoundObject { public:  };
 class RefStub {
@@ -19371,7 +19385,7 @@ bool __cdecl FUN_005d11b0(unsigned int input, unsigned int actor, unsigned int f
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 
@@ -20249,7 +20263,7 @@ bool FUN_005d23d0(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, int 
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 
 // @fnv 0x005d25f0
@@ -20294,9 +20308,9 @@ struct ImageSpaceEffectParam {
     float a;
     ImageSpaceEffectParam(float r, float g, float b, float a);
 };
-struct NiAVObject {
+class NiAVObject {
 };
-struct NiNode {
+class NiNode {
 };
 struct FogPropertyStandIn {
     int unk00;
@@ -20462,7 +20476,7 @@ public:
 class TESObjectREFR;
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 
 // @fnv 0x005d3780
@@ -20493,7 +20507,7 @@ bool FUN_005d3780(const ScriptParameter* paramInfo, const char* scriptData, TESO
 namespace fnv_005d3930 {
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class TESObjectREFR;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
@@ -20507,7 +20521,7 @@ struct ImageSpaceEffectParam
     ImageSpaceEffectParam(float afR, float afG, float afB, float afA);
 };
 
-struct NiAVObject;
+class NiAVObject;
 
 struct NiProperty
 {
@@ -20520,12 +20534,13 @@ struct NiProperty
     ImageSpaceEffectParam kColor;
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
-struct NiNode
+class NiNode
 {
+  public:
     NiAVObject* GetAt(unsigned int auiIndex);
 };
 
@@ -22431,7 +22446,7 @@ bool __cdecl FUN_005d73d0(int a1, int a2, int a3, int a4, int a5, int a6, int a7
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 
 
@@ -22459,7 +22474,7 @@ bool __cdecl FUN_005d7540(int a1, int a2, std::intptr_t a3, int a4, int a5, int 
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 extern bool __cdecl FUN_005a4090(TESObjectREFR*, int, int, double&);
 
@@ -22600,7 +22615,7 @@ void __cdecl FUN_005d8300(const ScriptParameter* pParameters, const char* pScrip
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 
@@ -22968,7 +22983,7 @@ void __cdecl FUN_005da280(const ScriptParameter* apParameters, const char* apScr
 
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 struct RaceNode
 {
@@ -23764,7 +23779,7 @@ bool FUN_005ddd10(int a1, int a2, int a3, int a4, int a5, int a6, int unk20, int
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 class ScriptValueTarget {
 public:
@@ -23943,10 +23958,11 @@ bool __cdecl FUN_005de4a0(
 }  // namespace fnv_005de4a0
 
 namespace fnv_005de9f0 {
-class ScriptParameter; class TESObjectREFR; class Script; class ScriptLocals;
+class ScriptParameter; class TESObjectREFR; class Script; struct ScriptLocals;
 extern const char str_0103d21c[];
 
-struct ActorValueOwner {
+class ActorValueOwner {
+  public:
     virtual float Unknown0(int);
     virtual float Unknown1(int);
     virtual float Unknown2(int);
@@ -24437,7 +24453,7 @@ bool __cdecl FUN_005dfc70(const ScriptParameter* apParameters, const char* apCom
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 extern bool __cdecl ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 // @fnv 0x005dfe30
 bool __cdecl FUN_005dfe30(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* reference, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
@@ -24855,7 +24871,7 @@ namespace fnv_005b5e60 {
 struct FUN_008783c0 { unsigned int unk00,unk04,unk08,unk0c,unk10,unk14; FUN_008783c0(const char*); ~FUN_008783c0(); };
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class TESObjectREFR;
 class MemoryManager;
 struct ModelLoader;
@@ -25126,7 +25142,7 @@ namespace fnv_005b6800 {
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 int __cdecl FUN_00406f60(void* s, const char* format, ...);
 void __cdecl DebugLog(const char* format, ...);
 struct RefVirt {
@@ -25337,7 +25353,7 @@ bool __cdecl FUN_005b6a30(const ScriptParameter* apParameters, const char* apCom
 
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class TESObjectREFR;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
@@ -25466,14 +25482,14 @@ bool FUN_005b7590(void* paramInfo, void* scriptData, void* thisObj, void* contai
 }  // namespace fnv_005b7590
 
 namespace fnv_005b7b40 {
-class NiPoint3 { public:
+struct NiPoint3 { public:
  float x,y,z;
  NiPoint3(); NiPoint3(float,float,float);
  NiPoint3 operator-(const NiPoint3&) const;
  NiPoint3& operator+=(const NiPoint3&);
 };
-class NiPoint2 { public: float x,y; NiPoint2(); NiPoint2(float,float); };
-class RgbaColor { public: float r,g,b,a; RgbaColor(); RgbaColor(float,float,float,float); };
+struct NiPoint2 { public: float x,y; NiPoint2(); NiPoint2(float,float); };
+struct RgbaColor { public: float r,g,b,a; RgbaColor(); RgbaColor(float,float,float,float); };
 class NiMemObject { public: };
 class NiAVObject : public NiMemObject { public:
  virtual void vf000();
@@ -26362,7 +26378,7 @@ bool __cdecl FUN_005b9b40(const ScriptParameter* paramInfo, const char* scriptDa
 
 struct ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 struct NiColorA_5b9c90 {
     float r;
@@ -27122,7 +27138,7 @@ bool __cdecl FUN_005bade0(const ScriptParameter* params, const char* data, Diagn
 }
 
 struct NiPoint3;
-struct NiAVObject {
+class NiAVObject {
 public:
     ::NiPoint3 &FUN_0043c490();
 };
@@ -27526,7 +27542,7 @@ bool __cdecl FUN_005bc310(const ScriptParameter* paramInfo, const char* scriptDa
 
 namespace fnv_005bc3b0 {
 void FUN_00703c00(const char*, ...);
-class ScriptParameter; class TESObjectREFR; class Script; class ScriptLocals;
+class ScriptParameter; class TESObjectREFR; class Script; struct ScriptLocals;
 class ProcMgr { public:  };
 extern bool DAT_011f1228;
 // @fnv 0x005bc3b0
@@ -28721,7 +28737,7 @@ bool __cdecl FUN_005be080(const ScriptParameter* paramInfo, const char* scriptDa
 
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class ActorValueOwner {
 public:
     virtual void Method0();
@@ -29384,7 +29400,7 @@ extern unsigned long _tls_index;
 struct GameSettingValue {
     unsigned int FUN_004f8940();
 };
-class GameSettingCollection {
+struct GameSettingCollection {
 public:
 };
 // @fnv 0x005be900
@@ -29428,7 +29444,7 @@ bool FUN_005be900(const ScriptParameter* parameters, const char* scriptData,
 }  // namespace fnv_005be900
 
 namespace fnv_005bf8d0 {
-class ScriptParameter; class TESObjectREFR; class Script; class ScriptLocals;
+class ScriptParameter; class TESObjectREFR; class Script; struct ScriptLocals;
 
 class MenuX { public:  };
 class Mgr2 { public:   };
@@ -29843,7 +29859,7 @@ bool FUN_005c0bf0(void* unusedA,void* unusedB,ScriptReference* reference) {
 namespace fnv_005c0df0 {
 struct ScriptParameter;
 struct ScriptLocals;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 
 struct NiRTTI {
     const char* m_pcName;
@@ -29858,7 +29874,7 @@ public:
     const char* m_kHandle;
 };
 
-class NiObject {
+struct NiObject {
 public:
     int unk00;
 };
@@ -29868,7 +29884,7 @@ public:
     NiFixedString& GetName();
 };
 
-class NiControllerManager {
+struct NiControllerManager {
 public:
 };
 
@@ -29884,7 +29900,7 @@ public:
     virtual NiNode* Get3D();
 };
 
-class Animation {
+struct Animation {
 public:
 };
 
@@ -31476,7 +31492,7 @@ struct ItemChangeShell {
     ScriptLocals* FUN_004bdea0();
 };
 class TESObjectREFR;
-class InventoryChanges {
+struct InventoryChanges {
 public:
 public:
     static ::InventoryChanges *CreateForReference(::TESObjectREFR *);
@@ -31919,7 +31935,7 @@ bool FUN_005c3bf0()
 namespace fnv_005c3cf0 {
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 void __cdecl DebugLog(const char*, ...);
 
@@ -32020,7 +32036,7 @@ public:
 
 class AnimSeq;
 
-class Animation {
+struct Animation {
 public:
     int unk000;
     int unk004;
@@ -32781,7 +32797,7 @@ struct Extra {
     signed char flags;
 };
 
-class Ref {
+struct Ref {
 public:
     virtual void d0();
     virtual void d4();
@@ -33044,7 +33060,7 @@ bool __cdecl FUN_005c43d0(int a1, int a2, Ref* ref, int a4, Ref* scr, Extra* ex,
 struct ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 
@@ -33586,7 +33602,7 @@ bool __cdecl FUN_005c7660(int a1, int a2, int a3, int a4, int a5, int a6, int un
 }
 
 namespace fnv_005c7e60 {
-class ScriptParameter; class TESObjectREFR; class Script; class ScriptLocals;
+class ScriptParameter; class TESObjectREFR; class Script; struct ScriptLocals;
 
 extern char DAT_011846d4, DAT_011841cc;
 class FormX { public:   };
@@ -34153,8 +34169,9 @@ bool __cdecl FUN_005c8740(int a,int b,Ref* source,int d,int e,int f,double* resu
 }  // namespace fnv_005c8740
 
 namespace ScriptIdle {
-struct Actor;struct Process;struct Idle;struct Event;struct Result {unsigned int unk0,unk4,unk8;~Result();};
-struct Actor {
+class Actor;struct Process;struct Idle;struct Event;struct Result {unsigned int unk0,unk4,unk8;~Result();};
+class Actor {
+  public:
 virtual void slot0();
 virtual void slot4();
 virtual void slot8();
@@ -35630,7 +35647,7 @@ bool __cdecl FUN_005ca470(const ScriptParameter* paramInfo, const char* scriptDa
 class TESForm;
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 struct IdleModel {
     virtual void m_000();
@@ -36887,7 +36904,7 @@ bool __cdecl FUN_005cb2d0(const ScriptParameter* parameters, const char* scriptD
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class CB690Form;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
@@ -37020,7 +37037,8 @@ bool __cdecl FUN_005cbdb0(const ScriptParameter* param,const char* text,TESObjec
 }
 }  // namespace fnv_005cbdb0
 
-struct LockExtraData {
+class LockExtraData {
+  public:
     char m_uiLockState;
 public:
     void SetLocked(bool);
@@ -38239,7 +38257,7 @@ bool CmdCD::FUN_005cd0e0(void* p1, void* p2, RefCD* p3, RefCD* p4, RefCD* p5, vo
 
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class TESObjectREFR;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
@@ -38334,7 +38352,7 @@ bool __cdecl FUN_005cd750(const ScriptParameter* apParameters, const char* apCom
 namespace fnv_005cdc10 {
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class ExtraDataList;
 
 class TESPackage;
@@ -38504,7 +38522,7 @@ bool __cdecl FUN_005cdec0(std::intptr_t a0, std::intptr_t a1, std::intptr_t a2, 
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 class CE0C0Form {
 public:
@@ -39322,8 +39340,8 @@ extern "C" bool __cdecl FUN_005d2910(void* first, void* second, void* condition,
 }  // namespace fnv_005d2910
 
 struct ScriptParameter;
-struct TESObjectREFR;
-struct Script;
+class TESObjectREFR;
+class Script;
 struct ScriptLocals;
 
 struct WaterObj {
@@ -41046,7 +41064,7 @@ bool FUN_005d6d40(const ScriptParameter* parameters,const char* data,InventoryDi
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 
@@ -41260,7 +41278,7 @@ bool FUN_005d7c20(const ScriptParameter* a, const char* b, TESObjectREFR* c, TES
 }  // namespace fnv_005d7c20
 
 namespace fnv_005d7d30 {
-class ScriptParameter; class TESObjectREFR; class Script; class ScriptLocals;
+class ScriptParameter; class TESObjectREFR; class Script; struct ScriptLocals;
 
 class Objective { public:   };
 class QuestX { public: virtual void V0();virtual void V1();virtual void V2();virtual void V3();virtual void V4();virtual void V5();virtual void V6();virtual void V7();virtual void V8();virtual void V9();virtual void V10();virtual void V11();virtual void V12();virtual void V13();virtual void V14();virtual void V15();virtual void V16();virtual void V17();virtual void V18();virtual void V19();virtual void V20();virtual void V21();virtual void V22();virtual void V23();virtual void V24();virtual void V25();virtual void V26();virtual void V27();virtual void V28();virtual void V29();virtual void V30();virtual void V31();virtual void V32();virtual void V33();virtual void V34();virtual void V35();virtual void V36();virtual void V37();virtual void V38();virtual void V39();virtual void V40();virtual void V41();virtual void V42();virtual void V43();virtual void V44();virtual void V45();virtual void V46();virtual void V47();virtual void V48();virtual void V49();virtual void V50();virtual void V51();virtual void V52();virtual void V53();virtual void V54();virtual void V55();virtual void V56();virtual void V57();virtual void V58();virtual void V59();virtual void V60();virtual void V61();virtual void V62();virtual void V63();virtual void V64();virtual void V65();virtual void V66();virtual void V67();virtual void V68();virtual void V69();virtual void V70();virtual void V71();virtual void V72();virtual void V73();virtual void V74();virtual void V75();virtual void V76();virtual void V77(); virtual const char* GetName();
@@ -41755,7 +41773,8 @@ struct AddItemScript : TESForm {
     virtual void V75();
     virtual const char* GetName();
 };
-struct TESContainer {
+class TESContainer {
+  public:
     unsigned int flags;
     TESForm* firstItem;
     void* nextItem;
@@ -41855,7 +41874,7 @@ bool __cdecl FUN_005d8e80(const ScriptParameter* parameters, const char* compile
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class D92E0Form;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
@@ -41877,7 +41896,7 @@ bool FUN_005d92e0(const ScriptParameter* apParameters, const char* apCompiledPar
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class D97B0Form;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
@@ -42384,7 +42403,7 @@ bool __cdecl FUN_005da2a0(const ScriptParameter* parameters, const char* scriptD
 
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class TESObjectREFR;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
@@ -44107,7 +44126,7 @@ namespace fnv_005ded40 {
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 struct Data5de
 {
@@ -44207,7 +44226,7 @@ bool __cdecl FUN_005deef0(int a1, int a2, int a3, int a4, int a5, int a6, double
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 void DebugLog(const char* fmt, ...);
 
@@ -44737,7 +44756,7 @@ struct FNVWipController;
 struct FNVWipResource;
 struct FNVWipAllocation;
 extern void* DAT_011dea3c;
-class Animation;
+struct Animation;
 class PlayerCharacter { public: virtual ~PlayerCharacter(); public:
     bool IsSleepingOrResting();
 public:
@@ -45731,7 +45750,8 @@ std::uintptr_t FUN_0084e3a0();
 struct ItemListContainer { TargetRef* ref; TargetString name; };
 struct TargetList { bool FUN_008256d0(); };
 struct HandlerAccess { bool FUN_00469860(unsigned int); };
-struct Projectile {
+class Projectile {
+  public:
 virtual void p0();
 virtual void p1();
 virtual void p2();
@@ -45838,7 +45858,7 @@ void Projectile::FUN_009bc8f0() {
 namespace fnv_005b6b50 {
 class TESWorldSpace;
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
 public:
 };
@@ -46005,7 +46025,7 @@ bool FUN_005b98a0(const ScriptParameter* apParameters,
 }
 
 namespace fnv_005ba7c0 {
-class TaskQueueInterface
+struct TaskQueueInterface
 {
 public:
 };
@@ -46076,7 +46096,7 @@ class W_00585b30 : public TESWorldSpace
 public:
 };
 
-class TESQueuedCellManager
+struct TESQueuedCellManager
 {
 public:
 };
@@ -46518,7 +46538,7 @@ bool FUN_005c11f0(
 }
 
 namespace fnv_005c2500 {
-class BSAudio
+struct BSAudio
 {
 public:
 };
@@ -46628,8 +46648,8 @@ bool FUN_005c40d0(
 }  // namespace fnv_005c40d0
 
 struct ScriptParameter;
-struct TESObjectREFR;
-struct Script;
+class TESObjectREFR;
+class Script;
 struct ScriptLocals;
 
 
@@ -47607,7 +47627,7 @@ bool FUN_005d0920(const ScriptParameter* parameters, const char* scriptData, TES
 }
 
 float FUN_005d10f0(char const*);
-struct bhkCharacterController {
+class bhkCharacterController {
 };
 struct S_00931f80 {
 };
@@ -47669,7 +47689,7 @@ bool __cdecl FUN_005d13e0(
 }  // namespace fnv_005d13e0
 
 struct ScriptParameter;
-class ScriptLocals;
+struct ScriptLocals;
 class Script;
 class TESObjectREFR;
 
@@ -47690,8 +47710,9 @@ bool __cdecl FUN_005d1870(
 }
 
 namespace fnv_005d21e0 {
-struct TESModel
+class TESModel
 {
+  public:
     virtual void V0();
     virtual void V1();
     virtual void V2();
@@ -47701,13 +47722,14 @@ struct TESModel
     unsigned int GetModelLength(void);
 };
 
-struct EffectSetting
+class EffectSetting
 {
+  public:
     unsigned char unknown[0x18];
     TESModel model;
 };
 
-struct MobileObject
+class MobileObject
 {
 };
 
@@ -47815,7 +47837,7 @@ namespace fnv_005d5230 {
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 extern bool ExtractArgs(
     const ScriptParameter* parameters,
@@ -48019,7 +48041,7 @@ bool __cdecl FUN_005d5780(const ScriptParameter* apParameters,
 class ScriptParameter;
 class TESObjectREFR;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 
 
 
@@ -48275,14 +48297,14 @@ bool __cdecl FUN_005d9430(
 namespace fnv_005d9b20 {
 class Actor;
 
-class GlobalObject_0045cfe0
+struct GlobalObject_0045cfe0
 {
 public:
 };
 
 GlobalObject_0045cfe0 g_011c3ea4;
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
 public:
 };
@@ -48393,7 +48415,7 @@ bool __cdecl FUN_005dd870(
 }  // namespace fnv_005dd870
 
 namespace fnv_005de840 {
-class TESWaterForm;
+struct TESWaterForm;
 
 struct FUN_00580680_Class
 {
@@ -48453,7 +48475,7 @@ bool FUN_005de840(const ScriptParameter* apParameters,
 
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 struct PlayerMethods {
 };
 
@@ -48835,12 +48857,12 @@ namespace fnv_005c25f0 {
 // Local names preserve VC9 stack-slot order.
 class ScriptParameter;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class TESObjectREFR;
 class TESObjectCELL;
 class TESWorldSpace;
 struct XActor;
-class NiPoint3 { public: float x, y, z; };
+struct NiPoint3 { public: float x, y, z; };
 class PtOp { public: NiPoint3 operator-(const NiPoint3&) const; };
 class Pt { public: float Length() const; };
 static float PtLength(const NiPoint3& d) { return ((const Pt&)d).Length(); }
@@ -49006,7 +49028,7 @@ public:
 };
 class PathBuilderDetailedPathInfos;
 class S3e60;
-class PathingLocation
+struct PathingLocation
 {
 public:
     PathingLocation(TESObjectREFR*);
@@ -49678,8 +49700,8 @@ bool FUN_005bfe90(const ScriptParameter* parameters,const char* data,DecalRefere
 }  // namespace fnv_005bfe90
 
 struct ScriptParameter;
-struct TESObjectREFR;
-struct Script;
+class TESObjectREFR;
+class Script;
 struct ScriptLocals;
 struct QuestEffect;
 struct FormIterator;
@@ -51137,7 +51159,7 @@ class PackageSV {
 public:
 };
 __if_not_exists(NiPoint3::z) {
-class NiPoint3 { public: float x, y, z; };
+struct NiPoint3 { public: float x, y, z; };
 }
 class ProcessSV {
 public:

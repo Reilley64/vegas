@@ -1,6 +1,6 @@
 #pragma once
 
-struct CombatGoal;
+class CombatGoal;
 
 // 0x00994830
 bool IsValidCode(int);

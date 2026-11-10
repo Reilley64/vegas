@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESWorldSpace;
+class TESWorldSpace;
 
 struct FUN_005340b0_Class {
 public:

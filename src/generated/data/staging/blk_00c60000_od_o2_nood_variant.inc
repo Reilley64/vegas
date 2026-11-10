@@ -9,7 +9,7 @@
 #pragma comment(linker, "/alternatename:?DAT_010c7170@@3T__m128@P064Intrinsics@@A=?DAT_010c7170@@3T__m128@@A")
 #pragma comment(linker, "/alternatename:?DAT_010c71b0@@3T__m128@P064Intrinsics@@A=?DAT_010c71b0@@3T__m128@@B")
 #pragma comment(linker, "/alternatename:?DAT_010c71e0@@3T__m128@P064Intrinsics@@A=?DAT_010c71e0@@3T__m128@@B")
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:DAT_00fdf1c4=?DAT_00fdf1c4@@3P6AHPEAX@ZEA")
 
 char str_010c41fc[13] = "TtPickObject";

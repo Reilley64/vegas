@@ -18,7 +18,7 @@
 #include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 #include "fnv/decl/s56ae10__Owner.h"
 #include "fnv/symbols_00573000.h"
-class ExtraRadioData;
+struct ExtraRadioData;
 class LockExtraData;
 class ExtraLock;
 // Source layout: TESObjectREFR. PC corrections are in generate_headers.py.

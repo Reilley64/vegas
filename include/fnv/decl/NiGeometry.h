@@ -1,12 +1,12 @@
 #pragma once
 
-class CloningProcess;
+struct CloningProcess;
 class NiCullingProcess;
 class NiGeometryData;
 class NiPropertyState;
-class NiStream;
+struct NiStream;
 
-struct NiGeometry {
+class NiGeometry {
 public:
     // 0x004a1ff0
     void FUN_004a1ff0();

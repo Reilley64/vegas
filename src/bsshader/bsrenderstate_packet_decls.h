@@ -4,7 +4,7 @@
 
 #include "fnv/symbols_00b6b000.h"
 #include "fnv/symbols_011ff000.h"
-class NiRenderer
+struct NiRenderer
 {
   public:
     virtual void vfn_0();
@@ -108,7 +108,7 @@ class NiRenderer
     unsigned int state;
     static NiRenderer* ms_pRenderer;
 };
-class BSRenderedTexture
+struct BSRenderedTexture
 {
   public:
     static void EndAllAndResetRendererState();

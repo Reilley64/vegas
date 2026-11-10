@@ -164,7 +164,7 @@ FUN_00e40fa0::FUN_00e40fa0()
 {}
 
 namespace fnv_00e40fd0 {
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 struct Allocator;

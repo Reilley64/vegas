@@ -57,7 +57,7 @@ protected:
     ProgramType m_iProgramType;
 };
 
-class NiD3DShaderProgramCreator;
+struct NiD3DShaderProgramCreator;
 class Direct3DDeviceInterface;
 class NiD3DRenderer;
 class NiD3DRenderState;

@@ -396,7 +396,7 @@ void FUN_00c2e430_shell::FUN_00c2e430(NiStream& stream)
     reinterpret_cast<NiStrTable&>(stream).Add(::FUN_00a7d450("Update Skip", this->unk18));
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -405,7 +405,7 @@ class NiPoint3
     static const NiPoint3 ZERO;
 };
 
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;

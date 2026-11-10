@@ -7,8 +7,9 @@
 #include "fnv/symbols_01024000.h"
 #include "fnv/symbols_01097000.h"
 #include "fnv/symbols_011f3000.h"
-struct NiQuaternion
+class NiQuaternion
 {
+  public:
     float m_fVectorX;
     float m_fVectorY;
     float m_fVectorZ;
@@ -30,8 +31,9 @@ class AnimationKey
     };
 };
 
-struct TimedRotationKey
+class TimedRotationKey
 {
+  public:
     float m_fTime;
     NiQuaternion m_kRotationValue;
 

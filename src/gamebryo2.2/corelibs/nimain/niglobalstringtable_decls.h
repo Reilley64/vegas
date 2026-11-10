@@ -13,7 +13,7 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_0126f000.h"
 #include "runtime/crt.h"
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     void AddString();

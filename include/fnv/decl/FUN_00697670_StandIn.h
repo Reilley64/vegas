@@ -1,7 +1,7 @@
 #pragma once
 
-class NiPoint3;
-struct FindTriangleForLocationFilter;
+struct NiPoint3;
+class FindTriangleForLocationFilter;
 
 struct FUN_00697670_StandIn {
 public:

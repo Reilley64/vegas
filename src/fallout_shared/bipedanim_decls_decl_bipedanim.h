@@ -112,12 +112,12 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f9000.h"
-class NiUpdateData;
+struct NiUpdateData;
 class BSShaderPPLightingProperty;
 class NiTexture;
 class NiSourceTexture;
 class QueuedFile;
-class QueuedHelmet;
+struct QueuedHelmet;
 class TESBipedModelForm;
 class NiNode;
 class NiAVObject;
@@ -140,7 +140,7 @@ class TESRace;
 class TESNPC;
 class ExtraDataList;
 class ExtraDismemberedLimbs;
-class Animation;
+struct Animation;
 class InventoryStackRecord;
 class BaseProcess;
 class BGSBipedModelList;
@@ -167,13 +167,13 @@ enum IO_TASK_PRIORITY
 {
     TASK_DEFAULT = 0
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     static const NiPoint3 ZERO;
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float entry[3][3];
@@ -181,7 +181,7 @@ class ThreeByThreeMatrix
     void SetYRotation(float);
     ThreeByThreeMatrix operator*(const ThreeByThreeMatrix&) const;
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     void* cloneMap;
@@ -233,7 +233,7 @@ template <class T> struct vector
     T* _Myend;
 };
 }
-template <class T> class FaceGenMatrix
+template <class T> struct FaceGenMatrix
 {
   public:
     oldstd::vector<T> kData;
@@ -246,7 +246,7 @@ class NiMemObject
 {
   public:
 };
-class NiObject : public NiMemObject
+struct NiObject : public NiMemObject
 {
   public:
     virtual void vfn_0();
@@ -308,7 +308,7 @@ class NiObject : public NiMemObject
     NiObject* CloneObject(CloningProcess&);
 };
 class NiTimeController;
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
 public:
@@ -437,7 +437,7 @@ class TESForm
 class TESBoundObject : public TESForm
 {
 };
-template <class> class FaceGenMatrix;
+template <class> struct FaceGenMatrix;
 class TESNPC : public TESBoundObject
 {
   public:
@@ -837,7 +837,7 @@ class Actor : public TESObjectREFR
     void SetAimingWeapon(bool, bool, bool);
     bool IsInIdleState();
 };
-class Animation;
+struct Animation;
 struct Biped;
 class PlayerCharacter : public Actor
 {
@@ -853,14 +853,14 @@ class ExtraDismemberedLimbs
 {
   public:
 };
-class InventoryChanges;
+struct InventoryChanges;
 class ExtraDataList
 {
   public:
     InventoryChanges* GetContainerChangeData();
     ExtraDismemberedLimbs* GetDismemberedLimbs();
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };
@@ -965,7 +965,7 @@ class DialogMenuInterfaceCalls
 {
   public:
 };
-class Interface
+struct Interface
 {
   public:
     static void SetHUDVisible(bool);
@@ -1010,7 +1010,7 @@ class NiSkinInstance : public NiObject
 extern "C" int __cdecl _strnicmp(const char*, const char*, unsigned int);
 template <class T> unsigned int BSStringLength(const T*);
 
-class InventoryChanges
+struct InventoryChanges
 {
   public:
 };
@@ -1018,7 +1018,7 @@ class SceneObjectLookup
 {
   public:
 };
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     void RemoveObject(NiAVObject*);
@@ -1048,7 +1048,7 @@ struct NiRTTI
 };
 class SkyShaderProperty;
 const NiFixedString& FUN_004ae780();
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -1075,7 +1075,7 @@ class bhkWorldObject
 {
   public:
 };
-class bhkCollisionObject
+struct bhkCollisionObject
 {
   public:
     static bhkCollisionObject* GetFromNiAVObject(NiAVObject*);
@@ -1177,7 +1177,7 @@ extern const char* DAT_01188c38[5];
 extern TESModel DAT_011c5d10[20];
 extern SettingT<INISettingCollection> DAT_011d5a10, DAT_011d5a44;
 int FUN_004af340();
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
@@ -1242,7 +1242,7 @@ class BSShaderManager
 public:
     static void GetTexture(const char *, bool, ::NiPointer< ::NiTexture> &, bool, bool);
 };
-class Animation
+struct Animation
 {
   public:
 };
@@ -1347,7 +1347,7 @@ class GlobalObject_0045cf30
 {
 };
 extern GlobalObject_0045cf30 g_011d5a10;
-class GlobalObject_0044fae0
+struct GlobalObject_0044fae0
 {
 public:
     void FUN_004538a0(int);

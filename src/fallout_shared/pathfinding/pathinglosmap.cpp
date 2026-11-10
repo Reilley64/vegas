@@ -101,7 +101,7 @@ char MaxChar(char acFirst, char acSecond)
     return c;
 }
 
-struct NiTArray
+class NiTArray
 {
 };
 
@@ -139,7 +139,7 @@ bool PathingLOSMap::HasNavMeshEntry(unsigned int aiNavMeshID)
 struct ArrHelper
 {
 };
-struct Script
+class Script
 {
 };
 struct FUN_006e1770_shell
@@ -147,7 +147,7 @@ struct FUN_006e1770_shell
     bool FUN_006e1770(std::uintptr_t a, std::uintptr_t b);
 };
 namespace fnv_006e2000 {
-struct Script
+class Script
 {
 };
 struct FUN_006d7ee0_shell
@@ -226,7 +226,7 @@ FUN_006e1470::~FUN_006e1470()
     ::FUN_0042f830((::FUN_0042f830_struct *)&(m_1c));
 }
 
-struct NavMesh;
+class NavMesh;
 
 struct NavMeshPtr
 {
@@ -235,7 +235,7 @@ public:
 };
 
 class NavMeshTriangle;
-struct NavMesh
+class NavMesh
 {
 public:
     ::NavMeshTriangle *GetTriangle(unsigned short);
@@ -407,7 +407,7 @@ class NiMemObject
   public:
 };
 
-class NiObject : public NiMemObject
+struct NiObject : public NiMemObject
 {
   public:
     virtual ~NiObject();
@@ -472,7 +472,7 @@ class NiAVObject : public NiObject
     virtual void vf53();
 };
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -587,7 +587,7 @@ template <class T> class NiPointer
     T* operator->() const;
 };
 
-struct NavMeshTriangle
+class NavMeshTriangle
 {
 };
 

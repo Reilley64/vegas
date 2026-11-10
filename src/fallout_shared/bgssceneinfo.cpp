@@ -120,7 +120,7 @@ struct Flt
     operator std::uintptr_t() const;
 };
 
-struct Script
+class Script
 {
 };
 
@@ -418,8 +418,9 @@ void __cdecl FUN_004a8fe0()
 struct GlobalObject_0045cfe0
 {
 };
-struct TESWorldSpace
+class TESWorldSpace
 {
+  public:
     TESWorldSpace* GetParentWorld(int);
 };
 struct CP_008c48d0
@@ -458,13 +459,13 @@ int FUN_004a9050()
     return iValue;
 }
 
-struct NiNode;
+class NiNode;
 
 struct GlobalObject_004a9e90
 {
 };
 
-struct GlobalObject_004aa1b0
+class GlobalObject_004aa1b0
 {
 };
 

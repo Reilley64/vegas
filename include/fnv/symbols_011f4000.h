@@ -2,10 +2,10 @@
 
 class BSFileEntryMap;
 class GlobalObjectO2_00a7b610;
-class NiGlobalStringTable;
+struct NiGlobalStringTable;
 class NiObjectGroup;
-class NiPoint2;
-class NiPoint3;
+struct NiPoint2;
+struct NiPoint3;
 class NiQuaternion;
 class NiShader;
 class RecursiveSpinLock;
@@ -13,9 +13,9 @@ struct A616E0Pool;
 struct FUN_00e940a0_Global;
 struct NiBound;
 struct NiColor;
-struct NiFixedString;
+class NiFixedString;
 struct NiPoint3StartupTable;
-struct NiUnionBV;
+class NiUnionBV;
 struct RefObj;
 struct RefObj_a62;
 struct S00a6f4d0;

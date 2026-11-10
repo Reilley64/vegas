@@ -20,13 +20,13 @@
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "layout_support.h"
 
-class CloningProcess;
+struct CloningProcess;
 class NiGeometryData;
-class NiObject;
+struct NiObject;
 class NiObjectGroup;
-class NiObjectNET;
-class NiRTTI;
-class NiStream;
+struct NiObjectNET;
+struct NiRTTI;
+struct NiStream;
 class NiTimeController;
 class NiViewerStringsArray;
 
@@ -59,7 +59,7 @@ class NiRefObject : public NiMemObject
 // ---------------------------------------------------------------------------
 // NiObject. Virtual order matches the FNV PC vtable used by this unit.
 // ---------------------------------------------------------------------------
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual ~NiObject();
@@ -104,7 +104,7 @@ class NiFixedString
 // ---------------------------------------------------------------------------
 // NiObjectNET.
 // ---------------------------------------------------------------------------
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     virtual ~NiObjectNET();
@@ -192,7 +192,7 @@ template <class T> void NiBinaryStreamLoad(NiBinaryStream& is, T* pValue, unsign
 // ---------------------------------------------------------------------------
 // NiStream (only what this unit uses).
 // ---------------------------------------------------------------------------
-class NiStream : public NiObject
+struct NiStream : public NiObject
 {
   public:
     NiObject* GetLoadedObject();

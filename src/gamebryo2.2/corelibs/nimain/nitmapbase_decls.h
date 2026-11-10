@@ -13,7 +13,7 @@
 
 class NiShader;
 class RefCountedNamedObject;
-class NiObject;
+struct NiObject;
 
 template <> class NiPointer<RefCountedNamedObject>
 {

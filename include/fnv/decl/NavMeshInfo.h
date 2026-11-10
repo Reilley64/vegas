@@ -1,6 +1,6 @@
 #pragma once
 
-class NavMeshPtr;
+struct NavMeshPtr;
 
 class NavMeshInfo {
 public:

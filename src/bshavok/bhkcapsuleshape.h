@@ -6,14 +6,14 @@
 #include "fnv/symbols_01268000.h"
 #include "layout_support.h"
 
-class NiRTTI;
-class NiObject;
+struct NiRTTI;
+struct NiObject;
 class NiNode;
-class NiColor;
-class NiPoint3;
-class CloningProcess;
-class NiStream;
-class hkVector4;
+struct NiColor;
+struct NiPoint3;
+struct CloningProcess;
+struct NiStream;
+struct hkVector4;
 class hkSphere;
 class hkTransform;
 class hkContactPoint;

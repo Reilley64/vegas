@@ -1,7 +1,7 @@
 #pragma once
 
 class Actor;
-class PathingRequest;
+struct PathingRequest;
 class PathingSolution;
 
 class PathBuilder {

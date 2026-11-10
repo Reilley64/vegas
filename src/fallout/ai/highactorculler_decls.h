@@ -30,7 +30,7 @@ class NiCullingProcess;
 class NiCamera;
 class BSPortalGraph;
 
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;
@@ -79,13 +79,13 @@ class NiCamera : public NiAVObject
     const NiPoint3& FUN_0045bb80() const;
 };
 
-class NiFrustum
+struct NiFrustum
 {
   public:
     float m_fLeftBound, m_fRightBound, m_fTopBound, m_fBottomBound, m_fNearPlane, m_fFarPlane;
     bool m_bOrthographic;
 };
-class NiPlane
+struct NiPlane
 {
   public:
     NiPoint3 m_kPlaneNormal;

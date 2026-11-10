@@ -15,7 +15,7 @@ template <class T> class NiPointer
     NiPointer& operator=(T*);
     NiPointer& operator=(const NiPointer&);
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

@@ -91,7 +91,7 @@ void FreeMemoryList()
 }
 }  // namespace fnv_00a8a240
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
 public:

@@ -2,7 +2,7 @@
 #include "havok/hkUlong.h"
 
 class hkMatrix3;
-class hkVector4;
+struct hkVector4;
 
 class AxisDisplayOwner {
 public:

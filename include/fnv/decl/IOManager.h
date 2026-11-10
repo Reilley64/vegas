@@ -1,6 +1,6 @@
 #pragma once
 
-class IOManager {
+struct IOManager {
 public:
     // 0x0043d690
     void SubmitTask();

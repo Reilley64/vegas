@@ -15,8 +15,8 @@ class LockFreeMap_BSFileEntry___NiPointer_QueuedTexture___;
 class LockFreeMap_TESObjectREFR___NiPointer_QueuedHelmet___;
 class LockFreeMap_TESObjectREFR___NiPointer_QueuedReference___;
 class LockFreeQueue_NiPointer_AttachDistant3DTask___;
-class ModelLoader;
-class ModelLoader
+struct ModelLoader;
+struct ModelLoader
 {
   public:
     NiNode* LoadFile(const char*, int, bool, bool, bool, bool);

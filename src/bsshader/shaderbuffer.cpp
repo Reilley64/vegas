@@ -20,7 +20,7 @@
 #include "fnv/decl/FUN_0045cec0_Class.h"
 #include "fnv/decl/FUN_00a41520_cls.h"
 
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 
 template <class T> class NiTStringPointerMap
 {
@@ -142,7 +142,7 @@ class ShaderLookupTable
 };
 
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     unsigned int unk00;

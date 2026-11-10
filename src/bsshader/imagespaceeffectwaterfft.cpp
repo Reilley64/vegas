@@ -158,7 +158,7 @@ struct RenderTarget
     virtual unsigned int GetHeight(int i);
 };
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     virtual void v00();

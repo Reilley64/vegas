@@ -1,7 +1,7 @@
 #pragma once
 
-struct ContainerItemExtra;
-struct TESForm;
+class ContainerItemExtra;
+class TESForm;
 
 struct FUN_00487a00_shell {
 public:

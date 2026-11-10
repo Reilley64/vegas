@@ -1,7 +1,7 @@
 #pragma once
 
 class MagicItem;
-class NiPoint3;
+struct NiPoint3;
 struct AETargetList;
 
 struct AEGatherer {

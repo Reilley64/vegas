@@ -16,7 +16,7 @@ class DFALL_NiTMapItem_unsigned_short_NavMeshPOVData___;
 class EdgeExtraInfo;
 class NavMesh;
 class NavMeshClosedDoorInfo;
-class NavMeshGrid;
+struct NavMeshGrid;
 class NavMeshPOVData;
 class NavMeshTriangleHandle;
 class NavMeshStaticAvoidNode;
@@ -227,7 +227,7 @@ class NiTMap_unsigned_short_NavMeshPOVData_
     // void __cdecl NiTMap<unsigned short,NavMeshPOVData>::*()
     // void __cdecl NiTMap<unsigned short,NavMeshPOVData>::*()
 };
-class NavMeshGrid
+struct NavMeshGrid
 {
   public:
     unsigned int m_uiGridIndex;                                // +0x0, 4 bytes
@@ -286,7 +286,7 @@ class NavMeshStaticAvoidNode : public PathingAvoidanceNode
     // void __cdecl NavMeshStaticAvoidNode::*(float)
 };
 class NavMeshTriangle;
-class NiPoint3;
+struct NiPoint3;
 class NavMesh : public TESForm, public TESChildCell, public NiRefObject
 {
   public:

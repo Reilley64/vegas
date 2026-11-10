@@ -1,8 +1,8 @@
 #pragma once
 
 struct BSFadeNode;
-template <class, class> struct NiTPrimitiveArray;
-template <class> struct NiTMallocInterface;
+template <class, class> class NiTPrimitiveArray;
+template <class> class NiTMallocInterface;
 
 // 0x00c876f0
 void FUN_00c876f0();

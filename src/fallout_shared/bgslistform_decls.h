@@ -22,7 +22,7 @@
 #include "fnv/symbols_005b5000.h"
 #include "BaseFormComponent.h"
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
 class TESForm : public BaseFormComponent
 {
@@ -129,8 +129,8 @@ class BGSListForm : public TESForm
 
     BGSListForm();
     virtual void ClearData();
-    virtual void Revert(class BGSLoadFormBuffer* buffer);
-    virtual void LoadGame(class BGSLoadFormBuffer* buffer);
+    virtual void Revert(struct BGSLoadFormBuffer* buffer);
+    virtual void LoadGame(struct BGSLoadFormBuffer* buffer);
     virtual bool Load(class TESFile* file);
     virtual void InitItem();
     void IncludeForm(TESForm* form);
@@ -181,12 +181,12 @@ class FormChangeMask
     operator bool() const;
 };
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
 };
 
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
     FormChangeMask GetOldChangeFlags(unsigned int flags);

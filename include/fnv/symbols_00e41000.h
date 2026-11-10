@@ -1,6 +1,6 @@
 #pragma once
 
-class hkQsTransform;
+struct hkQsTransform;
 struct Motion363;
 struct OutVec;
 struct Projection363_Input;

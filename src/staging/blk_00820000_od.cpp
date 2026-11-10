@@ -695,14 +695,16 @@ struct FUN_0083c750_class
     void FUN_0083c750();
     void* FUN_0083c720(unsigned int flags);
 };
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
     public:
     ::ENUM_FORM_ID GetFormType() const;
 };
-struct TESObjectREFR : TESForm
+class TESObjectREFR : public TESForm
 {
+  public:
     virtual ~TESObjectREFR();
 };
 struct FUN_0083d0d0_Class
@@ -755,7 +757,7 @@ struct SoundDataDummy
     int a;
     int b;
 };
-struct TESSound
+class TESSound
 {
 public:
     unsigned char GetField45();
@@ -780,10 +782,10 @@ struct BSAudio
 {
     uintptr_t GetSynchTime();
 };
-struct EffectSetting
+class EffectSetting
 {
 };
-struct TESObject
+class TESObject
 {
 };
 struct SndX
@@ -819,16 +821,19 @@ struct S_00836470
     void UpdateSoundItems(int);
 };
 
-struct TESTopic : TESForm
+class TESTopic : public TESForm
 {
+  public:
     virtual ~TESTopic();
 };
-struct TESTopicInfo : TESForm
+class TESTopicInfo : public TESForm
 {
+  public:
     virtual ~TESTopicInfo();
 };
-struct TESQuest : TESForm
+class TESQuest : public TESForm
 {
+  public:
     virtual ~TESQuest();
 };
 struct BGSLoadGameBuffer
@@ -984,11 +989,12 @@ FUN_00825a10::FUN_00825a10() : BE((unsigned char)0x32), m_caster()
 }
 
 extern int DAT_0107bf1c;
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
-struct ActiveEffect
+class MagicCaster;
+class MagicItem;
+class EffectItem;
+class ActiveEffect
 {
+  public:
     void* vtbl;
     ActiveEffect(MagicCaster* caster, MagicItem* item, EffectItem* effect);
 };
@@ -1178,8 +1184,9 @@ struct BGSLoadGameBufferHelper
 {
 };
 
-struct TESIdleForm : TESForm
+class TESIdleForm : public TESForm
 {
+  public:
     virtual ~TESIdleForm()
     {}
 };

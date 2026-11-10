@@ -84,8 +84,9 @@ float TESWeightForm::GetWeightForForm(TESForm* form, bool useFormWeight)
         return -1.0f;
 }
 
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent();
 };
 struct Modifier

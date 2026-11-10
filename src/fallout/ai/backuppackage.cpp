@@ -98,7 +98,7 @@ struct BGSLoadFormBuffer
 {
 };
 enum PACKAGE_PROCEDURE_TYPE;
-struct TESPackage
+class TESPackage
 {
 public:
     void SetMustReachLocation(bool);
@@ -128,15 +128,17 @@ struct Saver
 {
 };
 
-struct TESSound
+class TESSound
 {
+  public:
     unsigned int formID;
     unsigned char byte04;
     unsigned char flags;
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void V000()
     {}
     virtual void V001()

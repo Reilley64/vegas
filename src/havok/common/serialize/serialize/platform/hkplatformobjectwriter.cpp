@@ -51,7 +51,7 @@ char* OffsetView::FUN_00e02a70()
     return unk08 + 12;
 }
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 struct FUN_00e02d40_helper

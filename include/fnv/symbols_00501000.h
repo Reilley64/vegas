@@ -1,7 +1,7 @@
 #pragma once
 
 class Script;
-struct TESObjectREFR;
+class TESObjectREFR;
 
 // 0x005012c0
 bool FUN_005012c0(::TESObjectREFR *);

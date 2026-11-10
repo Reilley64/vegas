@@ -14,7 +14,7 @@ struct Accumulator6b;
 struct FUN_00b6b180_Obj;
 struct FUN_00b6b180_Tex;
 struct FUN_00b6b930_Object;
-struct NiRenderTargetGroup;
+class NiRenderTargetGroup;
 struct PixelData;
 struct PointerList6b;
 

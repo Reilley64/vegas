@@ -82,7 +82,7 @@ class FormLoadContext
 
 #pragma pack(pop)
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     BGSLoadGameBuffer();
@@ -103,7 +103,7 @@ class BGSLoadGameBuffer
     unsigned int m_uiReadOffset;
 };
 
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
     BGSLoadFormBuffer();

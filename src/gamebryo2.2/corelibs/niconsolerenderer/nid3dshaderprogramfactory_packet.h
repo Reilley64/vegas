@@ -5,7 +5,7 @@
 #include "fnv/symbols_00e93000.h"
 #include "fnv/symbols_0126f000.h"
 class NiShader;
-class NiD3DShaderProgramCreator;
+struct NiD3DShaderProgramCreator;
 template <class K, class V> class NiTPointerMap
 {
 };

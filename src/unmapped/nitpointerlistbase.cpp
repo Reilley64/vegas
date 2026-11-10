@@ -42,7 +42,7 @@ void* FUN_004edb30_t::FUN_004edd50(unsigned int flags)
 
 extern int DAT_010232b4;
 
-struct NiTMallocInterface
+class NiTMallocInterface
 {
 };
 
@@ -79,7 +79,7 @@ void* FUN_004edc90_t::FUN_004edc90(int a, int b)
 
 namespace fnv_004edcc0 {
 struct ActorCombatGroup;
-struct NiTMallocInterface
+class NiTMallocInterface
 {
 };
 struct FUN_004edcc0_t
@@ -158,7 +158,7 @@ void FUN_004edc30_t::ClearAndFreeMap()
 }
 }  // namespace fnv_004edc30
 
-struct Script;
+class Script;
 struct NiTListItem
 {
     NiTListItem* m_pNext;

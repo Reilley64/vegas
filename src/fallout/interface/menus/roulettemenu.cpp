@@ -133,8 +133,9 @@ int FUN_007b8f30_shell::FUN_007b8f30()
     return 0x43a;
 }
 
-struct Tile
+class Tile
 {
+  public:
     void* m_pRenderedNodeEntry;
 public:
     void Set(int, int);
@@ -185,7 +186,7 @@ int __cdecl FUN_007bc820()
 }
 
 namespace fnv_007bed00 {
-struct Tile
+class Tile
 {
 };
 
@@ -384,7 +385,7 @@ struct ThreeByThreeMatrix : public FUN_004a0c90_shell
 };
 
 struct NiPoint3;
-struct NiAVObject
+class NiAVObject
 {
 public:
     ::NiPoint3 &FUN_0043c490();
@@ -486,7 +487,7 @@ struct NiUpdateData
 };
 
 class NiAVObject;
-struct NiNode
+class NiNode
 {
 public:
     ::NiAVObject *GetAt(unsigned int);
@@ -5761,8 +5762,9 @@ struct PathOwner
 struct ModelLoader
 {
 };
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* value;
     NiFixedString(const char*);
     ~NiFixedString();
@@ -10019,7 +10021,7 @@ struct BetList
     void FUN_005ae3d0(FUN_00733f50*&);
 };
 namespace ActorValue { enum Index; }
-struct ActorValueOwner
+class ActorValueOwner
 {
 public:
     int GetActorValueAsInteger(::ActorValue::Index);
@@ -10382,7 +10384,7 @@ bool RouletteState::RemoveEntryById(int id)
 
 namespace fnv_007bf480 {
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     NiUpdateData(float fTime, bool m_bUpdateEnabled, bool bIsMultiThreaded);
@@ -15409,8 +15411,9 @@ struct PlayerX
                             int a10);
 };
 
-struct InventoryStackRecord
+class InventoryStackRecord
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

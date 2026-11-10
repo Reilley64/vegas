@@ -206,7 +206,7 @@ NiObject* FUN_004eec20_shell::FUN_004eec20(CloningProcess* arCloneData)
 }
 
 struct NiTPrimitiveArray_char_ptr;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 
 struct FUN_00a34540_shell : BSAnimGroupSequence
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 class NiTexture;
-class ShadowSceneNode;
+struct ShadowSceneNode;
 
 class FORenderedMenu {
 public:

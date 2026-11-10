@@ -1,6 +1,6 @@
 #pragma once
 
-class Node;
+struct Node;
 struct Vec4Blk;
 
 class Cls_dafcd0 {

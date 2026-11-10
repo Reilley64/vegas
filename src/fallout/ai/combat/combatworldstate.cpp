@@ -483,7 +483,7 @@ struct Process
     virtual void v450();
     virtual bool Ready();
 };
-struct Actor
+class Actor
 {
 };
 struct Caster

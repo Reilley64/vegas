@@ -4,7 +4,7 @@
 
 #include "fnv/symbols_00690000.h"
 class NavMesh;
-class NavMeshPtr;
+struct NavMeshPtr;
 class NavMeshInfo
 {
   public:

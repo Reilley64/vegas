@@ -10,8 +10,8 @@ class FourComponentFloatVector;
 class NiAVObject;
 class NiCamera;
 class NiCollisionObject;
-class NiFrustum;
-class ThreeByThreeMatrix;
+struct NiFrustum;
+struct ThreeByThreeMatrix;
 class NiPoint4;
 class NiRect_float_;
 class NiTAbstractPoolAllocator_unsigned_int_;
@@ -81,7 +81,7 @@ class NiPoint4
         float m_afExtents[4];
     };
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];
@@ -104,7 +104,7 @@ class NiAVObject : public NiObjectNET
     NiTransform m_kLocalTransform;
     NiTransform m_kWorldSpaceTransform;
 };
-class NiFrustum
+struct NiFrustum
 {
   public:
     float m_fLeftBound;

@@ -33,7 +33,7 @@ template <class T> class BSSimpleList
     void AddHead(T& item);
 };
 
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x;

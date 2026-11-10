@@ -1,8 +1,8 @@
 #pragma once
 
-class NiPoint2;
-class NiPoint3;
-class RgbaColor;
+struct NiPoint2;
+struct NiPoint3;
+struct RgbaColor;
 
 struct NiGeometryData_shell {
 public:

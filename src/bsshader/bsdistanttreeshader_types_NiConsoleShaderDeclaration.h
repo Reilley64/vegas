@@ -7,7 +7,7 @@
 #include "NiObject.h"
 class Direct3DDeviceInterface;
 class COMUnknownInterface;
-class NiRenderer;
+struct NiRenderer;
 class NiD3DShaderDeclaration;
 class NiD3DShaderDeclaration__ShaderRegisterStream;
 class NiShaderDeclaration;

@@ -1,8 +1,8 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 struct GridCell;
-struct TESObjectREFR;
+class TESObjectREFR;
 
 struct TES {
 public:

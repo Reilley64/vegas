@@ -351,8 +351,9 @@ bool FUN_00580060_shell::FUN_00580060()
     return false;
 }
 
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength() const;
 };
 
@@ -400,8 +401,9 @@ void FUN_005800c0_shell::SetNP(void* apValue)
     m_np = apValue;
 }
 
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     unsigned int uiFlags;
     operator bool() const;
 };
@@ -427,8 +429,9 @@ void FUN_005806e0_s::FUN_005806e0(FUN_00865df0_buf* apSaveGameBuffer)
 }
 
 namespace fnv_005807a0 {
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     unsigned int m_flags;
     __forceinline operator bool() const
     {
@@ -545,8 +548,9 @@ struct FUN_0057ff10_shell : public TESWaterForm
     bool FUN_0057ff10(TESForm* apCompare);
 };
 
-struct TESPackage
+class TESPackage
 {
+  public:
     unsigned int GetRefCount();
 };
 

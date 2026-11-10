@@ -39,9 +39,10 @@ void* NiSortAdjustNode::Destructor(unsigned int flags)
     return this;
 }
 
-class CloningProcess;
-struct NiNode
+struct CloningProcess;
+class NiNode
 {
+  public:
     NiNode(unsigned short) throw();
 public:
     void CopyMemberData(::NiNode *, ::CloningProcess &);
@@ -64,8 +65,8 @@ void* __cdecl FUN_00a952a0()
 }
 
 namespace fnv_00a95410 {
-class NiObject;
-class NiStream
+struct NiObject;
+struct NiStream
 {
   public:
     unsigned char _pad[0xD8];

@@ -2,16 +2,16 @@
 #include <cstdint>
 
 class NiAnimTarget;
-class NiStream;
+struct NiStream;
 class NiFixedString;
 struct ActorCombatGroup;
 struct FUN_00a57580_cls;
 struct FUN_00a575b0_Object;
 template <class, class> class NiTPrimitiveArray;
-template <class, class> struct NiTArray;
-template <class, class> struct NiTPrimitiveArray;
+template <class, class> class NiTArray;
+template <class, class> class NiTPrimitiveArray;
 template <class> class NiTMallocInterface;
-template <class> struct NiTMallocInterface;
+template <class> class NiTMallocInterface;
 
 // 0x00a57050
 ::NiAnimTarget *FUN_00a57050(intptr_t, int);

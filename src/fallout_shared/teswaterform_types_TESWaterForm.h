@@ -9,12 +9,12 @@
 #include "TESFullName.h"
 #include "TESTexture.h"
 #include "layout_support.h"
-class BGSPlaceableWater;
-class BSRenderedTexture;
-class RgbaColor;
+struct BGSPlaceableWater;
+struct BSRenderedTexture;
+struct RgbaColor;
 class NiTexture;
 class TESAttackDamageForm;
-class TESWaterForm;
+struct TESWaterForm;
 class WaterShaderSettings;
 class TESAttackDamageForm : public BaseFormComponent
 {
@@ -33,7 +33,7 @@ class TESAttackDamageForm : public BaseFormComponent
     // TESAttackDamageForm& __cdecl TESAttackDamageForm::*(const TESAttackDamageForm&)
     // void* __cdecl TESAttackDamageForm::*(unsigned int)
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes
@@ -117,7 +117,7 @@ class WaterShaderSettings
     // void __cdecl WaterShaderSettings::*()
     // void __cdecl WaterShaderSettings::*()
 };
-class TESWaterForm : public TESForm, public TESFullName, public TESAttackDamageForm
+struct TESWaterForm : public TESForm, public TESFullName, public TESAttackDamageForm
 {
   public:
     // base TESForm at +0x0, size 24

@@ -30,7 +30,7 @@
 #include "fnv/symbols_006a8000.h"
 #include "fnv/symbols_009a3000.h"
 #include "fnv/symbols_011d6000.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -126,7 +126,7 @@ class PathingAvoidNodeArray
 {
   public:
 };
-class PathingRequest
+struct PathingRequest
 {
   public:
     NiPoint3 FUN_006a7910() const;
@@ -195,7 +195,7 @@ class NavMeshSearch
     bool Search(BSSimpleArray<NavMeshTriangleReference>*, BSSimpleArray<NavMeshTriangleEdgeReference>*, bool);
     int CreateOrUpdateNode(unsigned int, float, SearchNode*&);
 };
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     NavMesh* ptr;

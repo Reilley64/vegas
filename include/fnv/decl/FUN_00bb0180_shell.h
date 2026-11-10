@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiAVObject;
+class NiAVObject;
 
 struct FUN_00bb0180_shell {
 public:

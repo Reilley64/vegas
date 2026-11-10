@@ -19,13 +19,13 @@ class BSFaceGenAnimationData;
 class NiProperty;
 class NiTexture;
 class ParentSpaceNode;
-class RgbaColor;
+struct RgbaColor;
 template <class T> class NiPointer
 {
   public:
     T* m_pObject;
 };
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     float r;
@@ -34,7 +34,7 @@ class ImageSpaceEffectParam
     float a;
     ImageSpaceEffectParam(float, float, float, float);
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;
@@ -92,7 +92,7 @@ extern "C" const char DAT_0101e1c8[];
 extern "C" const char DAT_0101e19c[];
 extern "C" const char DAT_0101e174[];
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     void FinishScene();

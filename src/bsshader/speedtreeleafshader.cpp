@@ -101,8 +101,9 @@ void* FUN_00bb2bb0_holder::DestroyIfFlagged(unsigned int flags)
 }
 
 struct NiRenderer;
-struct NiD3DVertexDeclaration
+class NiD3DVertexDeclaration
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();

@@ -55,8 +55,9 @@ struct S0980
 {
     void* FUN_009f0980(unsigned int);
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void f00();
     virtual void f01();
     virtual void f02();
@@ -252,12 +253,13 @@ struct BGSLoadGameBuffer
 {
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
 
-struct TESPackage : public TESForm
+class TESPackage : public TESForm
 {
 };
 

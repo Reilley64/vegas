@@ -257,7 +257,7 @@ float GetFloatAtOffset68(const char* pThis)
     return *(const float*)(pThis + 0x68);
 }
 
-class NiBound
+struct NiBound
 {
   public:
     NiBound();
@@ -460,8 +460,9 @@ bool This_006a08a0::IsTypeFour(const SeqObj* apNode)
     return (*(const ::Node_006a08a0 *)(reinterpret_cast<::TESTopicInfoData *>((void *)(apNode))->GetLinkToList())).m_pAvoidNode->eType == 4;
 }
 
-struct NavMeshEdgeData
+class NavMeshEdgeData
 {
+  public:
     int a;
     int b;
     int c;
@@ -5785,7 +5786,7 @@ struct P072Outer
     unsigned int unk00, unk04, unk08, unk0c;
 };
 class NavMesh;
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     NavMesh* object;

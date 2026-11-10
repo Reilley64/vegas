@@ -964,12 +964,13 @@ void* FUN_004612e0_shell::FUN_004612e0()
     return &topicList;
 }
 
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct TESActorBase;
-struct BaseFormComponent
+class TESActorBase;
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -1208,7 +1209,7 @@ void* FUN_00464df0_shell::FUN_00464df0()
     return &masterFiles;
 }
 
-struct NiNodeBooleanState;
+class NiNodeBooleanState;
 struct FUN_00464e10_shell : public PlayerCharacter
 {
     NiNodeBooleanState* FUN_00464e10();
@@ -1301,16 +1302,16 @@ void FUN_0046a010_shell::FUN_0046a010(bool abVal)
 struct BSMultiBoundNode;
 struct BSParticleSystemManager;
 struct BSRenderedTexture;
-struct BSShaderAccumulator;
+class BSShaderAccumulator;
 struct Controls;
 struct EngineGraphicsType;
 struct HINSTANCE__;
 struct HWND__;
 struct ImageSpaceManager;
-struct NiAVObject;
-struct NiCamera;
-struct NiGeometry;
-struct NiNode;
+class NiAVObject;
+class NiCamera;
+class NiGeometry;
+class NiNode;
 struct NiRenderedTexture;
 struct GraphicsRenderer;
 struct SceneGraph;
@@ -1521,8 +1522,8 @@ void* FUN_009c1a50_shell::FUN_009c1a50()
 }
 
 namespace fnv_00463070 {
-struct RecipeCraftingInfo;
-struct PerkEntryConditionSet;
+class RecipeCraftingInfo;
+class PerkEntryConditionSet;
 struct TESRecipeCategory;
 struct TESDataHandlerThread : public BSThread
 {

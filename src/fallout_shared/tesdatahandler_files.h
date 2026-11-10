@@ -125,7 +125,7 @@ class CompileWarningSetting
 };
 extern CompileWarningSetting DAT_011c4024, DAT_011c4048;
 extern unsigned int DAT_011c3f24, DAT_011c3f28;
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
@@ -186,7 +186,7 @@ class TESTopicInfo : public TESForm
 public:
     ::BSSimpleList< ::TESTopic *> *GetAddTopicList();
 };
-class InventoryChanges;
+struct InventoryChanges;
 class ExtraDataList
 {
   public:
@@ -195,7 +195,7 @@ public:
 public:
     void RemoveExtraDataType0x15();
 };
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
@@ -208,7 +208,7 @@ class ActorDeletionQueue
   public:
     void FUN_0096d470(MobileObject*, intptr_t);
 };
-class GameSettingCollection
+struct GameSettingCollection
 {
   public:
     virtual void vfn_0();

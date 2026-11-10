@@ -40,7 +40,7 @@ void VampirismEffect::FUN_0082d110(Actor* apActor)
     Character* pcharacter = dynamic_cast<Character*>(apActor);
 }
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     SpawnedObject(int aA, int aB, int aC);

@@ -1,6 +1,6 @@
 #pragma once
 
-class KFModel;
+struct KFModel;
 
 namespace fnv_0043e210 {
 struct FUN_0043e210 {

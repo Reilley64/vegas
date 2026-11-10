@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00cbeaf0 { struct hkAabb; }
+namespace fnv_00cbeaf0 { class hkAabb; }
 struct BoundsArg;
 struct PointArrayArg;
 struct PointBoundsOutput;

@@ -2,7 +2,7 @@
 
 class FORenderedMenu;
 class NiNode;
-class QuantityData;
+struct QuantityData;
 struct DisplayItem;
 struct DisplayTile;
 

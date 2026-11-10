@@ -6,7 +6,7 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 class hkaMeshBindingMapping;
-class hkaSkeleton;
+struct hkaSkeleton;
 class hkxMesh;
 class hkaMeshBinding : public hkReferencedObject
 {

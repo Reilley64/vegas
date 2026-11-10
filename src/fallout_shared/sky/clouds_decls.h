@@ -30,7 +30,7 @@
 class NiNode;
 class NiGeometry;
 class NiTexture;
-class Sky;
+struct Sky;
 class TESWeather;
 class NiProperty;
 class SkyShaderProperty;
@@ -63,12 +63,12 @@ class NiFixedString
     NiFixedString(const char*);
     ~NiFixedString();
 };
-class NiColor
+struct NiColor
 {
   public:
     float r, g, b;
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
@@ -81,7 +81,7 @@ class NiTimeController
 {
   public:
 };
-class NiObjectNET
+struct NiObjectNET
 {
   public:
 };
@@ -175,7 +175,7 @@ class TESWeather
 {
   public:
 };
-class Sky
+struct Sky
 {
   public:
 };
@@ -227,7 +227,7 @@ class NiNode : public NiAVObject
 public:
     ::NiAVObject *GetAt(unsigned int);
 };
-class NiStream
+struct NiStream
 {
   public:
     virtual ~NiStream();

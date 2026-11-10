@@ -62,7 +62,7 @@ class NiTexture
     virtual const NiFixedString& GetPath() const;
 };
 
-class FileNameHash
+struct FileNameHash
 {
   public:
     unsigned char cLast, cSecondToLast, cLength, cFirst;

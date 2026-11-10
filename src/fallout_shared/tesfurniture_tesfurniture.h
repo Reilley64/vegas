@@ -21,10 +21,10 @@
 #include "tesfurniture_NiPoint3.h"
 class NiAVObject;
 class NiNode;
-class TESWaterForm;
+struct TESWaterForm;
 class BGSTalkingActivator;
 // PC column reads at 01189fa0/4/8 have the corresponding 16-byte row stride.
-class GameSettingCollection;
+struct GameSettingCollection;
 union SETTING_VALUE
 {
     bool b;

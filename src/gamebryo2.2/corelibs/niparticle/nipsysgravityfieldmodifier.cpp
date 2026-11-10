@@ -24,7 +24,7 @@ struct NiStream
     void GetLoadedObject();
 };
 
-class NiStream;
+struct NiStream;
 struct NiColor
 {
     void SaveBinary(NiStream&);
@@ -335,8 +335,9 @@ struct ThreeByThreeMatrix
                     m[2][0] * p.x + m[2][1] * p.y + m[2][2] * p.z);
     }
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_kOrientation;
     Vec3 m_kTranslation;
     float m_fScale;

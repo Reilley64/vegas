@@ -78,8 +78,9 @@ bool FUN_00a57100_Caller::FUN_00a57100(NiStream& kStream)
     return true;
 }
 
-struct NiTimeController : NiObjectNET
+class NiTimeController : public NiObjectNET
 {
+  public:
     virtual void SetTarget(NiObjectNET*);
 };
 struct FakeController : NiTimeController
@@ -118,7 +119,7 @@ struct StrArr
 
 };
 
-template <class T> struct NiTPrimitiveArray : public StrArr
+template <class T> class NiTPrimitiveArray : public StrArr
 {
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 struct tagRECT;
 
 // 0x004b10d0

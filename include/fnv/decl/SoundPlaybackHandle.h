@@ -1,6 +1,6 @@
 #pragma once
 
-class SoundPlaybackHandle {
+struct SoundPlaybackHandle {
 public:
     // 0x00418900
     ::SoundPlaybackHandle &operator=(const ::SoundPlaybackHandle &);

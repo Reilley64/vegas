@@ -609,7 +609,7 @@ void FUN_00a7c820_shell::AppendPixelDataDebugStrings(StrArr* pkStrings)
     pkStrings->Add(pcString);
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
 public:
@@ -824,7 +824,7 @@ bool NiPixelDataEq::FUN_00a7bf10(NiObject* pkObject)
 }
 
 #include <windows.h>
-class NiPalette : public NiObject
+struct NiPalette : public NiObject
 {
   public:
     unsigned int unk08;

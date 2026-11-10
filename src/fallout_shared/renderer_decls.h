@@ -5,12 +5,12 @@
 
 #include "fnv/symbols_004bc000.h"
 #include "fnv/symbols_005d4000.h"
-class NiColor
+struct NiColor
 {
   public:
     float r, g, b;
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;

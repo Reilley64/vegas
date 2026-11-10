@@ -150,7 +150,7 @@ bool S00693b90::FUN_00693b90()
 
 extern unsigned int DAT_0106b0dc;
 
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
 };
@@ -589,8 +589,9 @@ namespace fnv_00692950 {
 struct BSFile;
 struct FormRecordHeader;
 struct TESFileGroup;
-struct NavMeshInfo
+class NavMeshInfo
 {
+  public:
     unsigned int uiNavMeshID;
     unsigned int uiDoorFormID;
     char pad08[0x1c];
@@ -601,8 +602,9 @@ struct TESBitArrayFile;
 struct _FILETIME;
 struct _SYSTEMTIME;
 struct _WIN32_FIND_DATAA;
-struct TESFile
+class TESFile
 {
+  public:
     bool CreateTES(char*, char*, int);
     bool CreateTES(int);
     bool OpenTESFile(char*, char*, int, bool);
@@ -892,7 +894,7 @@ struct ContainerItemExtraFileData
 struct BSXFlags_shell
 {
 };
-struct ActiveEffect
+class ActiveEffect
 {
 };
 struct TESRecipe

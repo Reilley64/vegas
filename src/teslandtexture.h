@@ -192,19 +192,19 @@ class BSFadeNode;
 class BSMultiBoundNode;
 class BSResizableTriShape;
 class BSSegmentedTriShape;
-class CloningProcess;
+struct CloningProcess;
 class NiGeometry;
 class NiLines;
 class NiNode;
 class NiParticles;
-class NiStream;
+struct NiStream;
 class NiTriBasedGeom;
 class NiTriShape;
 class NiTriStrips;
-class NiControllerManager;
+struct NiControllerManager;
 class NiObjectGroup;
-class NiBound;
-class NiRTTI;
+struct NiBound;
+struct NiRTTI;
 class NiViewerStringsArray;
 class NiRefObject
 {
@@ -213,7 +213,7 @@ class NiRefObject
     virtual void DeleteThis();
     unsigned int m_uiRefCount;
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual ~NiObject();

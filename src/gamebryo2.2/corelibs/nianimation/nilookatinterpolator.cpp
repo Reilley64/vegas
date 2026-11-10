@@ -64,8 +64,9 @@ void* NiLookAtInterpolator::FUN_00a4c5c0(unsigned int flags)
 }
 
 class NiAVObject;
-struct NiFixedString
+class NiFixedString
 {
+  public:
     void* p;
 };
 struct NiAVObjectPalette
@@ -126,7 +127,7 @@ void Host_00a4bb80::FUN_00a4bb80(CloningProcess& kCloning)
         *(void**)((char*)pkDest + 0x10) = *(void**)((char*)this + 0x10);
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     virtual void F0();
@@ -709,8 +710,9 @@ void FUN_00a4c780_cls::FUN_00a4c780(Arg_b9286* a)
 
 namespace fnv_00eea6d0 {
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* m_kHandle;
 };
 
@@ -1400,9 +1402,10 @@ struct NiPoint3
     {}
 };
 
-class ThreeByThreeMatrix;
-struct NiQuaternion
+struct ThreeByThreeMatrix;
+class NiQuaternion
 {
+  public:
     int w, x, y, z;
     NiQuaternion() : w((*reinterpret_cast<int *>(&::DAT_011f3704))), x(DAT_011f3708), y(DAT_011f370c), z(DAT_011f3710)
     {}

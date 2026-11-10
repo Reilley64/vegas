@@ -219,7 +219,7 @@ void FUN_00822820_cls::FUN_00822820(Elem4* apElems, unsigned int auiCount)
 }
 
 namespace fnv_00822860 {
-struct NavMeshInfo;
+class NavMeshInfo;
 struct S2f850
 {
     void FUN_0042fa60(NavMeshInfo**, unsigned int);
@@ -1158,8 +1158,8 @@ struct FUN_0081bed0_s
 {
     void LoadFormData(BGSLoadFormBuffer*);
 };
-struct TESBoundObject;
-struct TESEffectShader;
+class TESBoundObject;
+class TESEffectShader;
 struct FUN_008222f0_s : public FUN_0081bed0_s
 {
     void FUN_008222f0(BGSLoadGameBuffer*);
@@ -2385,8 +2385,9 @@ namespace ParticleUpdate {
 struct Scene
 {
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v4();
     virtual void v8();

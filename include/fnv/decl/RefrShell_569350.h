@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESForm;
+class TESForm;
 
 struct RefrShell_569350 {
 public:

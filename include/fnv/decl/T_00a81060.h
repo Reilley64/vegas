@@ -1,6 +1,6 @@
 #pragma once
 
-class NiObject;
+struct NiObject;
 
 struct T_00a81060 {
 public:

@@ -235,13 +235,15 @@ void FUN_00a36840(StrArr* pkStrings)
 }
 }  // namespace fnv_00a36840
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
+  private:
     float m_afEntries[3][3];
 };
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     char _pad[0x34];
     ThreeByThreeMatrix m_kRotate;
     NiPoint3 m_kTranslate;

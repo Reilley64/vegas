@@ -1,7 +1,7 @@
 #pragma once
 
 class hkpPhantom;
-struct hkTransform;
+class hkTransform;
 
 // 0x00d05db0
 void FUN_00d05db0();

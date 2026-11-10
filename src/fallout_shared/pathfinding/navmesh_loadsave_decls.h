@@ -77,7 +77,7 @@ template <> class NiPointer<ObstacleData>
     NiPointer(const NiPointer&);
     ~NiPointer();
 };
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     NavMesh* operator->() const;

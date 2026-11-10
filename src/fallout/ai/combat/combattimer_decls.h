@@ -4,11 +4,11 @@
 
 #include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 #include "fnv/symbols_00435000.h"
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };
-class BGSLoadGameBuffer : public BGSLoadFormBuffer
+struct BGSLoadGameBuffer : public BGSLoadFormBuffer
 {
 };
 class Actor
@@ -17,7 +17,7 @@ class Actor
 };
 extern float DAT_0108e360;
 extern float DAT_011f1bf0;
-class CombatTargetTimestamp
+struct CombatTargetTimestamp
 {
   public:
     float fTimeStamp;

@@ -92,7 +92,7 @@ bool FUN_005fdf60_shell::FUN_005fdf60()
     return true;
 }
 
-struct TESNPC;
+class TESNPC;
 struct TESRace;
 struct TESRaceForm : public BaseFormComponent
 {

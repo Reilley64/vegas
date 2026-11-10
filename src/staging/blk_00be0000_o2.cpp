@@ -23,8 +23,9 @@
 #include "fnv/symbols_011fe000.h"
 #include "../../include/layout_support.h"
 
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     static void __cdecl CreateD3DPass(NiPointer<NiD3DPass>&);
 public:
     void DestroyPass();

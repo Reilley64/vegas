@@ -598,9 +598,9 @@ struct Renderer
 
 extern int DAT_011bf400;
 
-class NiRenderer;
+struct NiRenderer;
 
-struct NiPixelFormat;
+class NiPixelFormat;
 
 struct NiDepthStencilBuffer
 {

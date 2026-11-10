@@ -7,7 +7,7 @@ class Actor
 {
   public:
 };
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TimeoutTimer
 {
   public:

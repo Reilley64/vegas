@@ -22,7 +22,7 @@ class RotationMatrix3x3
         m_fComponents[2][2] = 1.0f;
     }
 };
-class Vector3D
+struct Vector3D
 {
   public:
     float x, y, z;

@@ -29,8 +29,9 @@ struct FUN_0050b980_shell
     void* Destroy(unsigned int flags);
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm()
     {}
 public:
@@ -90,8 +91,9 @@ struct TmpEndian
 {
     void SwapEndian();
 };
-struct TESLeveledList
+class TESLeveledList
 {
+  public:
     void FUN_0042e680(unsigned char);
 public:
     bool GetAllBelow();

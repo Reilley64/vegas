@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class NiAVObject;
-namespace fnv_007062e0 { struct TESObjectREFR; }
+namespace fnv_007062e0 { class TESObjectREFR; }
 namespace fnv_00706860 { struct BGSLoadGameBuffer; }
 struct Buffer;
 struct TutorialManagerLayout;

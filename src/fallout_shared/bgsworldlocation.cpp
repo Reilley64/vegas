@@ -14,7 +14,7 @@
 #include "fnv/symbols_00483000.h"
 #include "fnv/symbols_00527000.h"
 #include "fnv/symbols_011de000.h"
-struct TESObjectCELL
+class TESObjectCELL
 {
 public:
     bool IsCellInterior() const;
@@ -119,8 +119,9 @@ void FUN_00527ba0_This::FUN_00527ba0(BGSLoadGameBuffer* apLoadGameBuffer)
         m_pPathingCell = 0;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     int FNV_GetFormType();
 };
 struct FUN_00527990_shell

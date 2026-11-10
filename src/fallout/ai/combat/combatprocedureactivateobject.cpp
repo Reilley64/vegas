@@ -56,8 +56,8 @@ int CombatProcedureActivateObject::FUN_006e4ba0()
     return 8;
 }
 
-struct TESObjectREFR;
-struct TESBoundObject;
+class TESObjectREFR;
+class TESBoundObject;
 struct TESObjectREFRHelper
 {
 };
@@ -480,7 +480,7 @@ void CombatProcedureActivateObject::FUN_009cab00(TESObjectREFR* apRef)
 }
 }  // namespace fnv_009cab00
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -666,8 +666,8 @@ void FUN_009cab30_shell::FUN_009cab30(FUN_009cab30_TextOutput* apOutput, int aiX
 struct BGSSaveFormBuffer
 {
 };
-struct TESObjectREFR;
-struct TESBoundObject;
+class TESObjectREFR;
+class TESBoundObject;
 struct FUN_009cacb0_shell : CombatProcedure
 {
     TESObjectREFR* m_pReference;

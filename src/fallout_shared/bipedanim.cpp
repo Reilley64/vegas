@@ -500,14 +500,14 @@ bool BipedAnim::CanLoadHiddenBipedObjects()
            ((SettingT<INISettingCollection>*)&g_011d5a44)->Bool()->b;
 }
 
-struct NiNode;
-struct TESObjectREFR;
+class NiNode;
+class TESObjectREFR;
 struct FUN_004aaca0_S
 {
     FUN_004aaca0_S* Construct(int a, NiNode* n);
 };
-struct BipedAnimObject;
-struct TESForm;
+class BipedAnimObject;
+class TESForm;
 struct FUN_004aaff0_S
 {
     void FUN_004aaff0(int a, bool b, TESForm* f);
@@ -1186,8 +1186,9 @@ bool FUN_004ad010_shell::IsFlag4Set()
     return *(unsigned char*)(this + 0x100) & 4;
 }
 
-struct BSPackedTask
+class BSPackedTask
 {
+  public:
     std::intptr_t f0;
     std::intptr_t f1;
     std::intptr_t f2;
@@ -1332,7 +1333,7 @@ void FUN_004aeb20_holder::AttachFaceGenModel(BSFaceGenModel* apFaceGenModel, NiN
         reinterpret_cast<::FUN_00a5a040_Class *>((((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((m_pActor))->FUN_0043fcd0()))))->FUN_00a5a040();
 }
 
-struct TESObjectSTAT;
+class TESObjectSTAT;
 struct FUN_004ab500_shell : TESObjectWEAP
 {
     TESObjectSTAT* GetModSlotStat(unsigned char iModSlots);
@@ -2583,7 +2584,7 @@ void BipedAnim::FUN_004abd30(IO_TASK_PRIORITY priority, NiPointer<QueuedHelmet>&
     QueueBipedObjectLoads(modelFlags, priority, file);
 }
 
-struct NiShader
+class NiShader
 {
 };
 

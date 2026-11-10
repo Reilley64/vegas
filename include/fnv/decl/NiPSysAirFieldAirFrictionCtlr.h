@@ -1,6 +1,6 @@
 #pragma once
 
-class CloningProcess;
+struct CloningProcess;
 
 class NiPSysAirFieldAirFrictionCtlr {
 public:

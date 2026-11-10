@@ -299,7 +299,7 @@ void FUN_009daf80(TESForm* pForm)
     pForm->TESForm::ClearData();
 }
 
-class PathingRequest;
+struct PathingRequest;
 
 struct FUN_009db090_shell
 {
@@ -310,7 +310,7 @@ struct FUN_009dba30_fix : public ActorMover
     bool FUN_009dba30(const PathingRequest* apRequest);
 };
 
-struct PathingSolution
+class PathingSolution
 {
 };
 struct ArrHelper
@@ -616,11 +616,11 @@ void FUN_009ddf60_shell::SetMoveModeFlags(unsigned int auiPreferredMoveMode)
 }
 
 namespace fnv_009dfa00 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
-struct NiQuaternion;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {
@@ -707,7 +707,7 @@ struct FUN_009dfa00_shell : public ActorMover
     void FUN_009dfa00(BGSLoadFormBuffer*);
 };
 
-class PathingRequest
+struct PathingRequest
 {
   public:
     virtual void vfn_00();
@@ -952,7 +952,7 @@ struct Flt
 {
     operator unsigned int() const;
 };
-struct PathingSolution
+class PathingSolution
 {
 };
 
@@ -1119,7 +1119,7 @@ bool Tgt_b::FUN_009dbb60(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, floa
 }  // namespace fnv_009dbb60
 
 namespace fnv_00564db0 {
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct ArrSI
@@ -1198,7 +1198,7 @@ void FUN_009de060_Class::FUN_009de060(int aiValue)
 }
 
 namespace fnv_009de160 {
-struct PathingSolution;
+class PathingSolution;
 struct ActorAvoidListNode
 {
     Actor* pItem;
@@ -1837,8 +1837,9 @@ struct PathingLocation : _Mem_2064
 struct FUN_006d3ae0
 {
 };
-struct PathingActorData
+class PathingActorData
 {
+  public:
     PathingActorData& operator=(const PathingActorData& o);
 };
 struct FUN_006e2b50_shell
@@ -1899,14 +1900,14 @@ class _Mem_2064
     ~_Mem_2064();
 };
 
-class PathingLocation : public _Mem_2064
+struct PathingLocation : public _Mem_2064
 {
   public:
     PathingLocation(NiPoint3 const& arPoint, TESObjectCELL* apCell, TESWorldSpace* apWorldSpace);
     int data[10];
 };
 
-class PathingRequest
+struct PathingRequest
 {
   public:
     void SetDestination(PathingLocation* apDest);
@@ -1930,7 +1931,7 @@ struct FUN_006e2b90
 {
 };
 
-struct TESPackage
+class TESPackage
 {
 };
 
@@ -1988,7 +1989,7 @@ struct Flt
 {
     operator unsigned int();
 };
-struct PathingSolution
+class PathingSolution
 {
 };
 struct ActorStub_009dc7f0
@@ -2060,40 +2061,40 @@ void DoorTeleportSpaceReceiver::UpdateTeleportPathState()
 }  // namespace fnv_009dc7f0
 
 namespace fnv_009df8c0 {
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct BGSIdleCollection;
 struct BGSSaveFormBuffer;
-struct SaveLoadFile;
-struct CombatAction;
-struct CombatGoal;
+class SaveLoadFile;
+class CombatAction;
+class CombatGoal;
 struct ActorCombatGroup;
 struct CombatPlan;
 struct CombatBehavior;
-struct CombatProcedure;
+class CombatProcedure;
 struct CombatState;
 struct IDebugText;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct ThreeByThreeMatrix;
-struct NiQuaternion;
+class NiQuaternion;
 struct LocationDescriptor;
-struct DurationData;
-struct PackageTargetRecord;
-struct Projectile;
-struct Script;
+class DurationData;
+class PackageTargetRecord;
+class Projectile;
+class Script;
 struct TESCombatStyle;
-struct PerkEntryConditionSet;
+class PerkEntryConditionSet;
 struct TESEscortPackageData;
-struct TESFile;
-struct TESIdleForm;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESFile;
+class TESIdleForm;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
 struct TESPackageData;
 struct TESPatrolPackageData;
-struct TESTopic;
+class TESTopic;
 struct TESUseWeaponPackageData;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct hkVector4;
 struct blob4
 {
@@ -2557,7 +2558,7 @@ void FUN_009df8c0_shell::FUN_009df8c0(BGSLoadFormBuffer* apLoadGameBuffer)
 }  // namespace fnv_009df8c0
 
 struct PathingRequest;
-struct PathingSolution;
+class PathingSolution;
 struct FUN_006d0b80
 {
     FUN_006d0b80(PathingRequest*, PathingSolution*);
@@ -2584,7 +2585,7 @@ int FUN_006d53b0(PathingRequest* pRequest, PathingSolution* b)
     return ::fnv_006c93d0::FUN_006c93d0((::fnv_006c93d0::Dummy_006c93a0 *)&(obj));
 }
 
-struct TESForm;
+class TESForm;
 void FUN_009daf80(TESForm*);
 struct Sol11
 {
@@ -3998,8 +3999,8 @@ struct FUN_009ea770
     FUN_009ea770(ActorX* a, ThisCls* b, RefPtr<SolT>& c, ReqT* d);
 };
 
-class PathingRequest;
-struct PathingSolution;
+struct PathingRequest;
+class PathingSolution;
 
 class PointX
 {
@@ -4734,8 +4735,9 @@ struct Area
 struct Map
 {
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v4();
     virtual void v8();
@@ -5248,8 +5250,8 @@ struct Player13 : public RefrV
 struct TES
 {
 };
-struct TESWorldSpace;
-struct TESObjectREFR;
+class TESWorldSpace;
+class TESObjectREFR;
 struct Helper13
 {
     int m_00;
@@ -5475,7 +5477,7 @@ void Tgt13::UpdateTargeting()
 }
 }  // namespace fnv_009de8b0
 
-class BGSSaveFormBuffer
+struct BGSSaveFormBuffer
 {
   public:
 };
@@ -5674,8 +5676,9 @@ struct Process
     int a00;
     ProcessFlags flags;
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v000();
     virtual void v004();
     virtual void v008();
@@ -6274,10 +6277,11 @@ struct Actor884750
 };
 
 class ActorPathingMessageQueue;
-class PathingRequest;
+struct PathingRequest;
 template <class> class NiPointer;
-struct PathManager
+class PathManager
 {
+  public:
     PathManager();
     virtual ~PathManager();
 public:
@@ -6344,7 +6348,7 @@ class NiControllerSequence
   public:
 };
 
-struct BSAnimGroupSequence : public NiControllerSequence
+class BSAnimGroupSequence : public NiControllerSequence
 {
 };
 
@@ -6653,7 +6657,7 @@ struct BackgroundQueueAssign14
 {
 };
 
-class PathingRequest
+struct PathingRequest
 {
   public:
     virtual void vfn_00();
@@ -7093,7 +7097,7 @@ struct PathManager14
 {
 };
 
-struct PathManager;
+class PathManager;
 PathManager* __cdecl GetPathManager();
 void FUN_009daf80(TESForm*);
 
@@ -7167,7 +7171,7 @@ bool FUN_009dba30_fix::FUN_009dba30(const PathingRequest* apRequest)
 
 
 
-class NiPoint3;
+struct NiPoint3;
 struct TaskQueueInterface
 {
 public:

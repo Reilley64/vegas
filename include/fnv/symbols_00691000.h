@@ -1,6 +1,6 @@
 #pragma once
 
-class GlobalObject_00869f00;
+struct GlobalObject_00869f00;
 namespace fnv_00691720 { struct FUN_00691720_arg; }
 struct FUN_006916f0_arg;
 

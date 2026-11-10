@@ -2,7 +2,7 @@
 
 #include "fnv/symbols_01096000.h"
 #include "fnv/symbols_0109a000.h"
-class NiStream;
+struct NiStream;
 class NiBinaryStream
 {
   public:

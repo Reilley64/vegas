@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESForm;
+class TESForm;
 
 struct OwnerLookupView {
 public:

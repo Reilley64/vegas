@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiAVObject;
+class NiAVObject;
 struct NiPoint3b;
 
 struct MeshEmitter_c1cf50 {

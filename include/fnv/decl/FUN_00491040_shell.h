@@ -1,6 +1,6 @@
 #pragma once
 
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 
 struct FUN_00491040_shell {
 public:

@@ -35,7 +35,7 @@ class EffectSetting
 {
   public:
 };
-class PathingRequest
+struct PathingRequest
 {
   public:
     float GetTargetRadius();

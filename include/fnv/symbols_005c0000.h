@@ -2,7 +2,7 @@
 
 class C0B10Ref;
 class TESObjectREFR;
-struct BGSImpactDataSet;
+class BGSImpactDataSet;
 
 // 0x005c02f0
 ::BGSImpactDataSet *FUN_005c02f0();

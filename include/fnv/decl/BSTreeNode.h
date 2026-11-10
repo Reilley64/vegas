@@ -2,7 +2,7 @@
 
 class BSTreeModel;
 
-class BSTreeNode {
+struct BSTreeNode {
 public:
     // 0x008d83e0
     ::BSTreeModel *GetModelFilePath();

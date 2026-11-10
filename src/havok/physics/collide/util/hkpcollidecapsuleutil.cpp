@@ -93,8 +93,9 @@ struct hkVector4
     }
 };
 
-struct hkContactPoint
+class hkContactPoint
 {
+  public:
     hkVector4 m_vContactPosition;
     hkVector4 m_vSeparatingNormal;
 };
@@ -1013,8 +1014,9 @@ static __forceinline void projectPoints(const ContactTransform& transform, const
         projectOne(out[i], local, in[i]);
     } while (--i >= 0);
 }
-class ContactRecord
+struct ContactRecord
 {
+  private:
     ContactVector position, normal;
 
   public:

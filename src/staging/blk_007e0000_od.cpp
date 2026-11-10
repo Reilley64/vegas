@@ -135,8 +135,9 @@ void __cdecl FUN_007f7a50(float afValue1, float afValue2)
     DAT_011ae5d4 = 1;
 }
 
-struct FOPipboyManager
+class FOPipboyManager
 {
+  public:
     void InitializeMenuLight();
     void FUN_007fa200();
 };
@@ -366,15 +367,17 @@ bool FUN_007eb8d0_Class::HasAllSlotsSet(int* piIndex)
     return true;
 }
 
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
     virtual ~Tile();
     public:
     static float GetInterfaceScale();
 };
-struct Menu
+class Menu
 {
+  public:
     virtual ~Menu();  // the original class is polymorphic (rtti_variants.py)
     virtual void M01();
     virtual void M02();
@@ -714,7 +717,7 @@ FUN_007f7790_cls::~FUN_007f7790_cls()
     delete m_pPointer;
 }
 
-class NiColor;
+struct NiColor;
 
 struct ImageSpaceEffectParam
 {
@@ -1068,7 +1071,7 @@ void Light7FD::FUN_007fd660(float fScale)
     reinterpret_cast<::SSN_b5 *>((((::ShadowSceneNode7FD *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3)))))->FUN_00b5ca70((::Node_b5 *)(::NiAVObject7FD *)(((::NiAVObject7FD *)(::FUN_00559450((int *)&(m_spLight))))), fRadius);
 }
 
-struct NiNode;
+class NiNode;
 template <class T> class NiPtrS
 {
   public:
@@ -1786,7 +1789,7 @@ bool RemoveView::RemoveNodeFromList(RemoveNode* node, RemoveNode* previous)
 
 void __cdecl FUN_007f7a50(float a, float b);
 
-struct Menu;
+class Menu;
 
 
 void FUN_007e65b0();

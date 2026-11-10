@@ -1,6 +1,6 @@
 #pragma once
 
-class PathingLocation;
+struct PathingLocation;
 namespace fnv_006dcbb0 { struct PathingLocation; }
 namespace fnv_006dcd70 { struct PathingLocation; }
 namespace fnv_006dcd70 { struct RefArg; }

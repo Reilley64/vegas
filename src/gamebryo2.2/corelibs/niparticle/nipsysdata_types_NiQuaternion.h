@@ -4,7 +4,7 @@
 
 #include "layout_support.h"
 class NiQuaternion;
-class NiPoint3;
+struct NiPoint3;
 class NiQuaternion
 {
   public:

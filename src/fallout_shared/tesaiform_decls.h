@@ -92,7 +92,7 @@ class SettingT_GameSettingCollection_
 {
   public:
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:
@@ -113,7 +113,7 @@ class PatrolActorPackageData
   public:
     bool IsPatrolling();
 };
-class BSAudio
+struct BSAudio
 {
   public:
 };

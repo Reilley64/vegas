@@ -36,8 +36,8 @@
 #include "fnv/symbols_00487000.h"
 #include "fnv/symbols_00489000.h"
 #include "fnv/symbols_005b5000.h"
-struct MagicItem;
-struct MagicCaster
+class MagicItem;
+class MagicCaster
 {
 };
 struct TESObjectCLOT
@@ -131,8 +131,9 @@ struct B1_4fe
     {}
 };
 
-struct TESFullName
+class TESFullName
 {
+  public:
     int* vtable;
     unsigned char padding[8];
     TESFullName();
@@ -195,8 +196,9 @@ public:
 };
 
 class TESForm;
-struct BGSDestructibleObjectForm
+class BGSDestructibleObjectForm
 {
+  public:
     int* vtable;
     unsigned char padding[4];
     BGSDestructibleObjectForm();
@@ -249,8 +251,9 @@ FUN_00515440::FUN_00515440()
 }
 
 namespace fnv_005156d0 {
-struct TESForm
+class TESForm
 {
+  public:
     bool GetInitialized();
     void SetInitializationState(bool);
 };
@@ -263,7 +266,7 @@ struct TESEnchantableForm
 {
 };
 
-struct BGSDestructibleObjectForm
+class BGSDestructibleObjectForm
 {
 };
 
@@ -618,8 +621,9 @@ struct ClothingLoader
 
     bool ReadFromStream(RecordReader*);
 };
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 public:
     void SetInitializationState(bool);

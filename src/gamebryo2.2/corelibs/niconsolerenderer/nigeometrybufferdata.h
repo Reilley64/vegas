@@ -21,7 +21,7 @@ struct COMUnknownInterface
 class NiGeometryGroup;
 class NiVBChip;
 
-class NiGeometryBufferData
+struct NiGeometryBufferData
 {
   public:
     NiGeometryBufferData();

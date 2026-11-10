@@ -8,7 +8,7 @@
 #include "layout_support.h"
 class BSAnimNote;
 class NiAVObject;
-class NiControllerManager;
+struct NiControllerManager;
 class NiControllerSequence__IDTag;
 class NiControllerSequence__InterpArrayItem;
 class NiStringPalette;

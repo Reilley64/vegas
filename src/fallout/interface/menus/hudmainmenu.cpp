@@ -607,7 +607,7 @@ void FUN_00771540_shell::UpdateActorValueMeter(int aeActorValue)
     }
 }
 
-struct ActiveEffect;
+class ActiveEffect;
 class TESForm
 {
 
@@ -897,7 +897,7 @@ public:
     virtual void vfc();
 };
 class BSExtraData;
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESActorBase;
 class BSPackedTask;
 class CompassStub;
@@ -914,57 +914,57 @@ public:
     ::TESActorBase *GetActorBase();
     bool IsSneaking();
 };
-struct Actor;
+class Actor;
 struct ActorCause;
 struct ActorMover;
-struct ActorValueOwner;
+class ActorValueOwner;
 struct ActorCombatEntry;
 struct AlchemyItem;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
 struct MusicMarkerReference;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ExplosionForm;
-struct BGSImpactDataSet;
+class BGSImpactDataSet;
 struct BGSLoadFormBuffer;
 struct BGSLoadGameBuffer;
 struct BGSMusicType;
 struct BGSNote;
-struct BGSPerk;
+class BGSPerk;
 struct BGSPerkEntry;
-struct BGSQuestObjective;
+class BGSQuestObjective;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BGSTextureSet;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct BSAnimNote;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
 struct SoundPlaybackHandle;
-struct BaseFormComponent;
+class BaseFormComponent;
 struct BaseProcess;
 struct BipedAnim;
 struct CHUNK;
 struct BipedActor;
 struct CombatGroupCollection;
 struct CellMopp;
-struct NiNodeBooleanState;
+class NiNodeBooleanState;
 struct CombatController;
 struct ActorCombatGroup;
 struct ContinuousBeamProjectile;
 struct Crime;
 struct GameFormRecord;
 struct DialoguePackage;
-struct DialogueResponse;
+class DialogueResponse;
 struct DetectionParameters;
 struct TeleportableReference;
-struct EffectItem;
-struct ExtraDataList;
+class EffectItem;
+class ExtraDataList;
 struct ExtraLock;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -974,90 +974,90 @@ struct BooleanIntegerAccessor;
 struct FurnitureRelatedType;
 struct BooleanFloatQuery;
 struct IDebugText;
-struct ImageSpaceModifierInstanceDOF;
+class ImageSpaceModifierInstanceDOF;
 struct ImageSpaceModifierInstanceDRB;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct CellDataNode;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
 struct MagicShaderHitEffect;
-struct MagicTarget;
-struct MapMarkerData;
-struct MediaLocationController;
-struct MobileObject;
-struct Point3Offset;
-struct NiAVObject;
+class MagicTarget;
+class MapMarkerData;
+class MediaLocationController;
+class MobileObject;
+class Point3Offset;
+class NiAVObject;
 struct AnimationInterpolator;
 struct NiColor;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct NiPointLight;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct PlayerTargetLocation;
 struct LocationDescriptor;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingLocation;
 struct PathingRequest;
 struct IntegerPairPointerRecord;
-struct Projectile;
-struct QueuedFile;
+class Projectile;
+class QueuedFile;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
-struct Script;
+class RagDollData;
+class Script;
 struct ScriptLocals;
 struct SpellItem;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESCaravanCard;
 struct TESClass;
 struct TESCombatStyle;
-struct TESContainer;
+class TESContainer;
 struct TESFaction;
-struct TESFile;
-struct TESForm;
+class TESFile;
+class TESForm;
 struct TESGlobal;
-struct TESIdleForm;
-struct TESModel;
-struct TESObject;
-struct TESObjectARMO;
-struct TESObjectBOOK;
+class TESIdleForm;
+class TESModel;
+class TESObject;
+class TESObjectARMO;
+class TESObjectBOOK;
 struct TESObjectCLOT;
 struct TESObjectDOOR;
 struct TESObjectLIGH;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
-struct TESQuest;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
+class TESQuest;
 struct PlayerQuestData;
 struct TESRace;
-struct TESRegion;
-struct TESRegionList;
+class TESRegion;
+class TESRegionList;
 struct TESReputation;
 struct TESSkill;
-struct TESSound;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESSound;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
 struct PathingPath;
 struct TrapEntry;
 struct TrespassPackage;
 struct WaterZone;
 struct WeaponObject;
-struct bhkCharacterController;
+class bhkCharacterController;
 struct bhkMouseSpringAction;
 struct bhkNiCollisionObject;
 struct bhkRagdollController;
@@ -1092,8 +1092,9 @@ NiAVObject* FUN_007721a0(char* thisPtr)
 }
 
 namespace fnv_007735d0 {
-struct Tile
+class Tile
 {
+  public:
     bool ContainsTrait(int);
 };
 struct StrOp
@@ -1123,8 +1124,9 @@ bool FUN_007735d0(unsigned char* self)
 }  // namespace fnv_007735d0
 
 namespace fnv_00773650 {
-struct Tile
+class Tile
 {
+  public:
     bool ContainsTrait(int);
 };
 struct StrOp
@@ -1153,15 +1155,16 @@ bool FUN_00773650(unsigned char* self)
 }
 }  // namespace fnv_00773650
 
-struct BGSQuestObjective
+class BGSQuestObjective
 {
+  public:
     bool HasFlag();
 };
 struct Node
 {
     bool _ref_008256d0();
 };
-struct Script
+class Script
 {
 };
 struct PM
@@ -1186,8 +1189,9 @@ void __cdecl FUN_007736d0(Script* script)
 }
 
 namespace fnv_00774800 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 
@@ -1218,8 +1222,9 @@ void __cdecl FUN_00774800(Tile* apTile, int aeBrightness)
 }  // namespace fnv_00774800
 
 namespace fnv_007748b0 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 
@@ -1298,7 +1303,7 @@ public:
     virtual CompassStub* vf20();
 };
 
-class Interface
+struct Interface
 {
   public:
     enum enumMenus
@@ -1322,7 +1327,7 @@ void FUN_00775670_shell::FUN_00775670()
 }
 
 class BSExtraData;
-class ExtraRadioData;
+struct ExtraRadioData;
 
 
 // @fnv 0x00778930
@@ -1372,8 +1377,9 @@ struct NiPoint3_helper : NiPoint3
 {
 };
 
-struct PlayerCharacter
+class PlayerCharacter
 {
+  public:
     virtual void v000();
     virtual void v001();
     virtual void v002();
@@ -1591,7 +1597,7 @@ class AnimIdle
   public:
 };
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void __cdecl CopyStringToBuffer(char*, unsigned int, char const*);
@@ -1700,10 +1706,10 @@ bool FUN_0077b2c0_shell::FUN_0077b2c0()
 }  // namespace fnv_0077b2c0
 
 namespace fnv_0077f3c0 {
-struct NiAVObject
+class NiAVObject
 {
 };
-struct NiNode
+class NiNode
 {
 };
 struct StrOp
@@ -1728,8 +1734,9 @@ void __cdecl SetHudVisible(bool visible)
 }  // namespace fnv_0077f3c0
 
 namespace fnv_0077f500 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 struct TList
@@ -1781,8 +1788,9 @@ void ResetHudTiles(void* self)
 }  // namespace fnv_0077f500
 
 namespace fnv_00773050 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 
@@ -1847,7 +1855,7 @@ uintptr_t FUN_00772820::Get()
     return *reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xcc);
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -1927,7 +1935,7 @@ unsigned char FUN_007735b0_class::GetByteAt5F8()
     return this->unk5f8;
 }
 
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int uiSoundID;
@@ -1947,7 +1955,7 @@ public:
     bool Release();
     void SetCompletionCallback(void (*)(void *, bool), void *);
 };
-class BSAudio
+struct BSAudio
 {
   public:
     SoundPlaybackHandle GetSoundHandleByEditorID(const char* pEditorID, unsigned int uiFlags);
@@ -1983,9 +1991,9 @@ void __cdecl UpdateRadiationHUD(float afDrinkinRads, float afStandinRads)
 
 namespace fnv_00773e90 {
 struct RecursiveLock;
-struct NiAVObject;
-struct NiNode;
-struct Tile;
+class NiAVObject;
+class NiNode;
+class Tile;
 struct TileShaderProperty;
 struct MenuValueDescriptor;
 struct FUN_00773e90_shell : public HUDMainMenu
@@ -1993,8 +2001,9 @@ struct FUN_00773e90_shell : public HUDMainMenu
     void FUN_00773e90(Tile*, float, bool);
 };
 
-struct Tile
+class Tile
 {
+  public:
     void Set(int trait, int value);
     void Set(int trait, float value, bool propagate);
 };
@@ -2075,7 +2084,7 @@ class Tile
   public:
     void Set(int trait, const char* value, bool propagate);
 };
-struct Actor
+class Actor
 {
 };
 struct PC7d : Actor
@@ -2159,8 +2168,9 @@ void __cdecl FUN_0077da30()
 }
 }  // namespace fnv_0077da30
 
-struct TESSound
+class TESSound
 {
+  public:
     bool FUN_0077eac0();
 };
 
@@ -2177,9 +2187,9 @@ bool TESSound::FUN_0077eac0()
 
 namespace fnv_0077f5e0 {
 struct RecursiveLock;
-struct NiAVObject;
-struct NiNode;
-struct Tile;
+class NiAVObject;
+class NiNode;
+class Tile;
 struct TileShaderProperty;
 struct MenuValueDescriptor;
 struct FUN_0077f5e0_shell : public HUDMainMenu
@@ -2187,8 +2197,9 @@ struct FUN_0077f5e0_shell : public HUDMainMenu
     void ResetWaitTiles();
 };
 
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
     void Set(int, float, bool);
 };
@@ -2401,8 +2412,9 @@ void __cdecl ShowRegionData(const RegionDisplayInfo* aRegionData)
 }  // namespace fnv_007728f0
 
 namespace fnv_00778a90 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, const char*, bool);
 };
 struct StartMenu
@@ -2426,8 +2438,9 @@ void __cdecl UpdateHealthInfoTiles(int aiHealth, int aiInfoLabel, int aiInfoValu
 }  // namespace fnv_00778a90
 
 namespace fnv_0077f420 {
-struct Tile
+class Tile
 {
+  public:
     char pad00[0x154];
     ::fnv_0077f420::Tile* unk154;
     char pad158[0x18];
@@ -2461,8 +2474,9 @@ void __cdecl FUN_0077f420(bool bFlag)
 }  // namespace fnv_0077f420
 
 namespace fnv_0077f490 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 struct GameTimerRecord
@@ -2491,8 +2505,9 @@ struct GetModHelper_4bcf00
     unsigned char padding[0x1a0];
 };
 
-struct TESObjectWEAP : public GetModHelper_4bcf00
+class TESObjectWEAP : public GetModHelper_4bcf00
 {
+  public:
     unsigned char padding[4];
     float ammoRegenRate;
     float FUN_00709430(bool bModValue);
@@ -2909,7 +2924,7 @@ struct ExtraNameX
 
 struct PerceivedX
 {
-    class RefX* pActor;
+    struct RefX* pActor;
     bool bVisible;
 };
 
@@ -2940,7 +2955,7 @@ struct FontX
     PointX GetSize(const char* apText, int aiFont, float afWidth, int aiArg);
 };
 
-class RefX : public TESForm
+struct RefX : public TESForm
 {
 
   public:
@@ -4103,7 +4118,7 @@ struct FUN_0077f2f0_mgr
 
 extern int DAT_011d96c0;
 extern char DAT_011d9770;
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;
@@ -4152,7 +4167,7 @@ extern GlobalObject_00633c90 g_011d9770;
 extern GlobalObject_00633c90 g_011d975c;
 extern int g_011d96bc;
 
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     virtual void v0();
@@ -4635,8 +4650,8 @@ struct BaseProcess
 public:
     ::ActorPackageContext *GetCurrentProcessData();
 };
-class SoundPlaybackHandle;
-struct MobileObject
+struct SoundPlaybackHandle;
+class MobileObject
 {
 public:
     ::SoundPlaybackHandle PlaySoundByEditorName(const char *, bool, unsigned int, bool);
@@ -12107,10 +12122,10 @@ void XPMenu::FUN_0077c4e0()
 
 class NiNode;
 class NiTimeController;
-class NiRTTI;
+struct NiRTTI;
 class NiSourceTexture;
 class NiControllerSequence;
-class ShadowSceneNode;
+struct ShadowSceneNode;
 struct NiPoint3Stub
 {
     float x;
@@ -12179,7 +12194,7 @@ class NiFixedString
 class NiTextureFormatPrefs;
 class NiFixedString;
 class NiTexture__FormatPrefs;
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;

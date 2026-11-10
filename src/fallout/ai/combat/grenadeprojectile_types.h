@@ -13,7 +13,7 @@
 class ActorCause;
 class GrenadeProjectile;
 class NiLight;
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 class NiPoint4;
 class NiTransform;
 class Projectile;
@@ -67,7 +67,7 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     NiPoint4 m_afEntries[3];  // +0x0, 48 bytes

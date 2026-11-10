@@ -295,7 +295,7 @@ struct NiFrustum
     float unk14;
     float unk18;
 };
-struct NiCamera
+class NiCamera
 {
 };
 struct FUN_00507700_cls : NiCamera
@@ -304,7 +304,7 @@ struct FUN_00507700_cls : NiCamera
 struct Stub_00a6faf0 : FUN_00507700_cls
 {
 };
-struct BSFaceGenAnimationData : Stub_00a6faf0
+class BSFaceGenAnimationData : public Stub_00a6faf0
 {
 };
 struct Light

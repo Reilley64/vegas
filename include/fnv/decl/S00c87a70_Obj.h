@@ -1,6 +1,6 @@
 #pragma once
 
-class Item;
+struct Item;
 
 struct S00c87a70_Obj {
 public:

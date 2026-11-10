@@ -1,8 +1,8 @@
 // gamebryo2.2/corelibs/nimain/nirefobject_queue.h: declares Interface, ScrapHeapTaskQueue
 
 #include "fnv/symbols_0040f000.h"
-class BGSLoadGameBuffer;
-class Interface
+struct BGSLoadGameBuffer;
+struct Interface
 {
   public:
 };

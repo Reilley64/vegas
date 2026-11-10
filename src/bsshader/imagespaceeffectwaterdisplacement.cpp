@@ -153,8 +153,8 @@ struct Type_00b6b380 : public NiMemObject
     Type_00b6b380(void*, int, int, void*);
 };
 
-struct NiAccumulator;
-struct NiCamera;
+class NiAccumulator;
+class NiCamera;
 struct HolderForAccum
 {
     virtual void Dispose();
@@ -261,8 +261,9 @@ struct NiScreenElements : public NiMemObject
 };
 
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
     NiPointer() : m_pObject(0)
     {}
@@ -307,8 +308,9 @@ struct NiUpdateData
 };
 
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_kHandle;
     __forceinline NiFixedString(const char* s)
     {
@@ -700,8 +702,9 @@ template <class T> class NiTPrimitiveArray
     __declspec(noalias) void SetAt(unsigned int uiIndex, const T& element);
 };
 
-struct ImageSpaceEffect
+class ImageSpaceEffect
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -798,7 +801,7 @@ class MemObj
 {
   public:
 };
-class ImageSpaceEffectParam : public MemObj
+struct ImageSpaceEffectParam : public MemObj
 {
 };
 class ImageSpaceShaderParam : public ImageSpaceEffectParam

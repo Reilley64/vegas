@@ -444,7 +444,7 @@ void FUN_0058e450_shell::FUN_0058e450()
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
-struct TESQuest;
+class TESQuest;
 struct TopicInfo_Ext
 {
     TESQuest* GetParentQuest();

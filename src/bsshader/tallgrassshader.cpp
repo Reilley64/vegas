@@ -483,7 +483,7 @@ void* FUN_00baced0(void* self, int, unsigned int flags)
     return self;
 }
 
-struct NiTexture;
+class NiTexture;
 struct ImageSpaceTexture
 {
 };
@@ -600,8 +600,9 @@ FUN_00bacd00::FUN_00bacd00(RefObj_bacd00* pDecl)
 
 namespace fnv_00bacf00 {
 struct NiRenderer;
-struct NiD3DVertexDeclaration
+class NiD3DVertexDeclaration
 {
+  public:
     virtual void d0();
     virtual void d1();
     virtual void d2();

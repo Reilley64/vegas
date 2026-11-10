@@ -2,5 +2,5 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?DAT_011c7d20@s4ee050@@3UNodeList@1@A=?g_011c7d20@@3VGlobalObject2_0096a2d0@@A")
-#pragma comment(linker, "/alternatename:?g_011c7d20@@3UEffectsList@@A=?g_011c7d20@@3VGlobalObject2_0096a2d0@@A")
+#pragma comment(linker, "/alternatename:?DAT_011c7d20@s4ee050@@3UNodeList@1@A=?g_011c7d20@@3UGlobalObject2_0096a2d0@@A")
+#pragma comment(linker, "/alternatename:?g_011c7d20@@3UEffectsList@@A=?g_011c7d20@@3UGlobalObject2_0096a2d0@@A")

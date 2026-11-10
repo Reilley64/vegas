@@ -2,7 +2,7 @@
 #ifndef NIINTERPOLATOR_PRIVATE_DECLS_H
 #define NIINTERPOLATOR_PRIVATE_DECLS_H
 #include "fnv/symbols_01015000.h"
-class NiObject
+struct NiObject
 {
   public:
     NiObject();

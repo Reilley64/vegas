@@ -8,7 +8,7 @@
 #include "layout_support.h"
 class NiPersistentSrcTextureRendererData;
 class NiPixelData;
-class NiStream;
+struct NiStream;
 class NiSourceTexture;
 class NiTexture;
 class NiTexture__FormatPrefs;

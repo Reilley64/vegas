@@ -322,7 +322,7 @@ class IdleAnimationManager : public NiTMap<const char*, IdleAnimationDirectoryEn
     static bool GetUsedItemActivate();
 };
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
@@ -336,7 +336,7 @@ extern "C" const char fnv_idle_1hp_fast_left[];
 extern "C" const char fnv_idle_1hp_left[];
 template <class T> unsigned int BSStringLength(const T* string);
 
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

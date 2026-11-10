@@ -28,7 +28,7 @@ class ExtraDataList
   public:
 };
 
-class LocationDescriptor
+struct LocationDescriptor
 {
   public:
     TESObjectREFR* GetLocationReference();

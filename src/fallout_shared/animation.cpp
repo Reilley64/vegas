@@ -300,8 +300,9 @@ template <typename K, typename V> struct NiTMap
     void NewItem(void*);
 };
 class CombatThreatRecord;
-struct NiAVObject
+class NiAVObject
 {
+  public:
     NiFixedString& GetName();
     void FUN_00401970();
 };
@@ -377,7 +378,7 @@ void* FUN_0048f200(void* pThis)
 }
 
 struct TESAnimGroup;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct SequenceListHead48
 {
 };
@@ -426,7 +427,7 @@ void FUN_0048f3a0_shell::FUN_0048f3a0(BSAnimGroupSequence* seq, bool b)
     reinterpret_cast<::FUN_005597d0_shell *>(((*(ST_0048f3a0**)&this->m_pSingleSequence)))->FUN_005597d0((int *)(::BSAnimGroupSequence **)(&seq));
 }
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     void FUN_004902f0(bool);
@@ -444,7 +445,7 @@ void TaskQueueInterface::FUN_004902f0(bool bUpdate)
     reinterpret_cast<::FUN_0043b370_cls *>(this)->FUN_0043b370(bUpdate, 2);
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct FUN_00490310_shell : public TESObjectREFR
 {
     NiAVObject* FUN_00490310(NiAVObject*, NiFixedString*);
@@ -457,7 +458,7 @@ NiAVObject* FUN_00490310_shell::FUN_00490310(NiAVObject* apRoot, NiFixedString* 
     return ((::NiAVObject *)(::FUN_00c4b310((::ObjQ *)(apRoot), (const char *)(apSearch), 1)));
 }
 
-struct NiAVObject;
+class NiAVObject;
 namespace fnv_00490d90 {
 struct FUN_00490d90_shell : public NiControllerManager
 {
@@ -967,7 +968,7 @@ unsigned char FUN_00495580()
     return *(*reinterpret_cast<::ProcessLists *>(&::g_01267c30)).GetLifeStateControlFlag();
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct ThreeByThreeMatrix;
 struct RagdollAnimationData;
 struct bhkConstraint;
@@ -1432,19 +1433,19 @@ void FUN_004974a0_shell::FUN_004974a0()
     this->m_cSkipNextBlend = 1;
 }
 
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct ActorMover;
-struct ActorValueOwner;
+class ActorValueOwner;
 struct AlchemyItem;
-struct BGSImpactDataSet;
+class BGSImpactDataSet;
 struct BGSLoadFormBuffer;
-struct BGSPerk;
+class BGSPerk;
 struct BGSPerkEntry;
 struct BGSSaveFormBuffer;
 struct BGSTextureSet;
 struct BSAnimNote;
-struct BSFaceGenAnimationData;
+class BSFaceGenAnimationData;
 struct SoundPlaybackHandle;
 struct BaseProcess;
 struct BipedAnim;
@@ -1454,59 +1455,59 @@ struct CombatController;
 struct ActorCombatGroup;
 struct ContinuousBeamProjectile;
 struct Crime;
-struct DialogueResponse;
+class DialogueResponse;
 struct DetectionParameters;
-struct EffectItem;
-struct ExtraDataList;
+class EffectItem;
+class ExtraDataList;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct FurnitureMark;
 struct HWND__;
 struct BooleanFloatQuery;
 struct IDebugText;
-struct InventoryStackRecord;
-struct MagicCaster;
-struct MagicItem;
+class InventoryStackRecord;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
-struct MobileObject;
-struct NiAVObject;
+class MagicTarget;
+class MobileObject;
+class NiAVObject;
 struct NiColor;
 struct NiFormArray;
 struct LocationDescriptor;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingLocation;
 struct PathingRequest;
-struct Projectile;
-struct QueuedFile;
+class Projectile;
+class QueuedFile;
 struct SpellItem;
-struct TESActorBase;
+class TESActorBase;
 struct TESClass;
 struct TESCombatStyle;
-struct PerkEntryConditionSet;
+class PerkEntryConditionSet;
 struct TESFaction;
-struct TESFile;
-struct TESForm;
-struct TESIdleForm;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
-struct TESObjectBOOK;
-struct TESObjectCELL;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESFile;
+class TESForm;
+class TESIdleForm;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
+class TESObjectBOOK;
+class TESObjectCELL;
+class TESObjectWEAP;
+class TESPackage;
 struct TESRace;
 struct TESSkill;
 struct FileEntryList;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
 struct TrapEntry;
 struct TrespassPackage;
 struct WeaponObject;
-struct bhkCharacterController;
+class bhkCharacterController;
 struct bhkRagdollController;
 struct bhkRagdollPenetrationUtil;
 struct bhkRigidBody;
@@ -1790,7 +1791,7 @@ template <typename T> class BSStringT
 };
 
 class bhkWorldObject;
-class bhkCollisionObject
+struct bhkCollisionObject
 {
   public:
 };
@@ -1999,16 +2000,16 @@ float GetFieldB4Float(char* pObject)
 }
 
 namespace fnv_00825c00 {
-struct ActiveEffect;
-struct Actor;
-struct BSExtraData;
-struct EffectItem;
-struct MagicItem;
+class ActiveEffect;
+class Actor;
+class BSExtraData;
+class EffectItem;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
+class MagicTarget;
 struct SpellItem;
-struct TESObjectCELL;
+class TESObjectCELL;
 struct hkpRigidBody;
 struct blob12
 {
@@ -2049,8 +2050,9 @@ struct GameTimerRecord
     bool m_bSecondTimerFlag;
     char _pad_1e[2];
 };
-struct MagicCaster
+class MagicCaster
 {
+  public:
     virtual void CastSpellOnCaster(SpellItem*, bool);
     virtual void CastSpellOnSelf(SpellItem*, bool);
     virtual void CastSpellAtLocation(SpellItem*, bool);
@@ -2527,8 +2529,9 @@ class TESAnimGroup
   public:
     static ANIM_GROUP_ENUM __cdecl GetType(unsigned short);
 };
-struct PlayerCharacter : public TESObjectREFR
+class PlayerCharacter : public TESObjectREFR
 {
+  public:
     Animation* GetAnimation(bool) const;
 };
 struct AnimGroupInfo
@@ -2744,7 +2747,7 @@ struct FUN_004efe80_S
 struct Flt
 {
 };
-struct TESDataHandler
+class TESDataHandler
 {
 };
 // @fnv 0x0049bca0
@@ -2764,7 +2767,7 @@ void FUN_0049bca0_shell::FUN_0049bca0(float afTime, NiPoint3* apTranslate, bool 
 }
 }  // namespace fnv_0049bca0
 
-struct AnimSequenceBase;
+class AnimSequenceBase;
 struct MapItem
 {
     MapItem* m_pkNext;
@@ -2972,7 +2975,7 @@ void FUN_004955c0_t::FUN_004955c0(int aeSequenceType, unsigned short ausGroup, i
 }
 }  // namespace fnv_004955c0
 
-struct Script
+class Script
 {
 };
 struct ArrSI
@@ -3194,7 +3197,7 @@ void FUN_0049bd90_shell::FUN_0049bd90(void* a1)
 }
 
 namespace fnv_0048f080 {
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct MyBase080
 {
     virtual void Dummy() = 0;
@@ -7445,7 +7448,7 @@ void SetSequenceProgress(float afPercent, ManagerStub* apManager, SeqStub* apSeq
 
 namespace fnv_004939d0 {
 
-class PathingRequest
+struct PathingRequest
 {
   public:
 };
@@ -9521,7 +9524,7 @@ FUN_004965d0::FUN_004965d0(Item4965* apItem, void* apField14, void* apFieldC, Ac
 }  // namespace fnv_004965d0
 
 namespace fnv_004975e0 {
-struct TESForm;
+class TESForm;
 
 struct SaveFormInfo
 {

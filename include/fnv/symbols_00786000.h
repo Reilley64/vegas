@@ -1,13 +1,13 @@
 #pragma once
 
-namespace fnv_007864e0 { struct TESObjectREFR; }
-namespace fnv_007864e0 { struct Tile; }
-namespace fnv_00786570 { struct BGSPerk; }
-namespace fnv_00786570 { struct Tile; }
+namespace fnv_007864e0 { class TESObjectREFR; }
+namespace fnv_007864e0 { class Tile; }
+namespace fnv_00786570 { class BGSPerk; }
+namespace fnv_00786570 { class Tile; }
 namespace fnv_007865d0 { class BGSPerk; }
 namespace fnv_007865d0 { template <class> class ListBoxItem; }
 struct LevelValue;
-struct Tile;
+class Tile;
 
 // 0x00786170
 void FUN_00786170(::Tile *, int);

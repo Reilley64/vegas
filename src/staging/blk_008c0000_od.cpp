@@ -749,14 +749,15 @@ struct B006815c0
     B006815c0();
 };
 class NiNode;
-struct TESObjectREFR
+class TESObjectREFR
 {
 public:
     void Get3D(::NiNode *, bool);
     virtual ~TESObjectREFR();
 };
-struct HighProcess
+class HighProcess
 {
+  public:
     HighProcess();
     char pad[0x46c];
 };
@@ -936,20 +937,23 @@ void FUN_008d6000_Class::InitTiming(uintptr_t a, uintptr_t b)
     m_iThirdValue = ((unsigned int)(::FUN_00457fe0())) + 0x708;
 }
 
-struct NiNode
+class NiNode
 {
+  public:
     int x;
 };
 struct NiFrustum
 {
     int x;
 };
-struct NiCamera
+class NiCamera
 {
+  public:
     const NiFrustum& GetViewFrustum() const;
 };
-struct MagicCaster
+class MagicCaster
 {
+  public:
     void SetSelectedMagicItem(int);
 };
 struct S694a0
@@ -1012,7 +1016,7 @@ void __cdecl FUN_008d68d0()
     }
 }
 
-struct NiTimeController
+class NiTimeController
 {
 };
 struct Model
@@ -1095,10 +1099,10 @@ void* FUN_008d10e0_Class::FUN_008d10e0(void* aiArg, int aiValue)
     return this;
 }
 
-struct TESTopicInfo
+class TESTopicInfo
 {
 };
-struct BGSAcousticSpace
+class BGSAcousticSpace
 {
 };
 struct BSFaceGenMorphData
@@ -3686,7 +3690,7 @@ float __cdecl FUN_008d1d00()
     return DAT_011dfed8;
 }
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m00;
@@ -3722,8 +3726,9 @@ struct AnimTimeSource
 {
 };
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     AnimTimeSource* GetObject3D();
 };
 
@@ -3822,7 +3827,7 @@ struct PathPoint
 {
     float x, y, z;
 };
-class PathingRequest
+struct PathingRequest
 {
   public:
     PathingRequest();
@@ -4573,7 +4578,7 @@ struct ArrowProjectile
     int unk8c;
     bool ProcessImpact();
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

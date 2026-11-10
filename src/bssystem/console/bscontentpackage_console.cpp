@@ -17,7 +17,7 @@
 #include "fnv/symbols_00450000.h"
 #include "layout_support.h"
 
-class ExtraRadioData;
+struct ExtraRadioData;
 
 class ExtraDataList
 {

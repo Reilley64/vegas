@@ -161,7 +161,7 @@ class SettingT_GameSettingCollection_
   public:
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     float GetMusicVolume();

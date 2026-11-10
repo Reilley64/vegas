@@ -6,7 +6,7 @@
 #include "fnv/decl/FUN_00a41520_cls.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_011f6000.h"
-struct ImageSpaceEffect;
+class ImageSpaceEffect;
 struct ImageSpaceEffectParam;
 struct ImageSpaceManager;
 struct ImageSpaceTexture;
@@ -82,8 +82,9 @@ void FUN_00ba3b50_t::SetArrayEntry(int uiIndex, int a2, int a3, int a4, int a5)
 struct NiTPrimitiveArray_ImageSpaceTexture___
 {
 };
-struct ImageSpaceEffect
+class ImageSpaceEffect
 {
+  public:
     void SetTextureArraySize(int count);
 };
 // Sets the size of the effect, parameter, texture and output arrays to count.
@@ -123,9 +124,10 @@ void Holder::FUN_00ba3ba0(unsigned int auiIndex, int aiValue0, int aiValue1, int
 }
 }  // namespace fnv_00ba3ba0
 
-struct NiCamera;
-struct NiAccumulator
+class NiCamera;
+class NiAccumulator
 {
+  public:
     void SetSortingCamera(NiCamera const*);
 };
 struct HolderForAccum

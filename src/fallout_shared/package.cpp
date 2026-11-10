@@ -369,9 +369,9 @@ void FUN_00671a20_shell::FUN_00671a20(bool enabled)
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct LocationDescriptor;
-struct TESForm;
+class TESForm;
 struct TESPackageData;
-struct TESTopic;
+class TESTopic;
 struct FUN_006727b0_shell : public TESPackage
 {
     bool FUN_006727b0();
@@ -404,9 +404,9 @@ struct FUN_00672930_cls
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct LocationDescriptor;
-struct TESForm;
+class TESForm;
 struct TESPackageData;
-struct TESTopic;
+class TESTopic;
 struct FUN_00672dd0_shell : public TESPackage
 {
     LocationDescriptor* FUN_00672dd0();
@@ -547,7 +547,7 @@ void TESPackage::ResetFormData()
 class TESObjectCELL;
 class TESObjectREFR;
 struct NiPoint3;
-struct TESDataHandler
+class TESDataHandler
 {
 public:
     void GetReferencesInArea(::TESObjectCELL *, const ::NiPoint3 &, float, const ::NiPoint3 &, float, bool (*)(TESObjectREFR *, intptr_t), intptr_t);
@@ -581,27 +581,28 @@ void FUN_00674e00_cls::SetFlag4000(bool set)
         flags &= ~0x4000;
 }
 
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct AlchemyItem;
-struct EffectItem;
-struct MagicCaster;
-struct MagicItem;
+class EffectItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
-struct NiNode;
+class MagicTarget;
+class NiNode;
 struct SpellItem;
-struct TESBoundObject;
-struct TESForm;
-struct TESObjectCELL;
+class TESBoundObject;
+class TESForm;
+class TESObjectCELL;
 struct hkpRigidBody;
 struct blob12
 {
     char b[12];
 };
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     virtual int GetBaseActorValue(int);
     virtual float GetBaseActorValueFloat(int);
     virtual int GetActorValue(int);
@@ -736,22 +737,22 @@ bool FUN_00677760_shell::FUN_00677760(Actor* apActor)
 }
 
 namespace fnv_00678670 {
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct AlchemyItem;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct EffectItem;
-struct MagicCaster;
-struct MagicItem;
+class EffectItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
-struct NiNode;
+class MagicTarget;
+class NiNode;
 struct SpellItem;
-struct TESBoundObject;
-struct TESForm;
-struct TESObjectCELL;
+class TESBoundObject;
+class TESForm;
+class TESObjectCELL;
 struct hkpRigidBody;
 struct blob12
 {
@@ -793,8 +794,9 @@ struct LocationDescriptor
     unsigned int m_pLocationData;
     int eObjType;
 };
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     virtual int GetBaseActorValue(int);
     virtual float GetBaseActorValueFloat(int);
     virtual int GetActorValue(int);
@@ -835,7 +837,7 @@ struct FUN_00678670_shell : public TESPackage
     float FUN_00678670(MobileObject*, bool);
 };
 
-struct TESObjectSTAT;
+class TESObjectSTAT;
 struct GlobalObject2_0040c150
 {
 };
@@ -1578,11 +1580,11 @@ bool FUN_0067ac50_shell::FUN_0067ac50()
     return (this->f22 & 0x100) ? true : false;
 }
 
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct Crime;
-struct TESForm;
+class TESForm;
 struct FUN_00670a50_shell : public TESPackage
 {
     void DestroyPackage();
@@ -1593,8 +1595,9 @@ struct Date
     ~Date();
 };
 class TESFile;
-struct PerkEntryConditionSet
+class PerkEntryConditionSet
 {
+  public:
     void InitializeConditionItems();
     void InitItem(::TESForm *);
 public:
@@ -1679,11 +1682,11 @@ void FUN_00672fc0_shell::FUN_00672fc0(PackageTargetRecord* apPackTarg)
 }
 
 namespace fnv_006768d0 {
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct AlchemyItem;
-struct BGSAcousticSpace;
-struct BGSEncounterZone;
+class BGSAcousticSpace;
+class BGSEncounterZone;
 struct BGSLightingTemplate;
 struct BGSLoadFormBuffer;
 struct BGSMusicType;
@@ -1691,14 +1694,14 @@ struct BGSSaveFormBuffer;
 struct BSFile;
 struct BSMultiBoundNode;
 struct BSPortalGraph;
-struct BaseFormComponent;
+class BaseFormComponent;
 struct CHUNK;
 struct CellMopp;
 struct Crime;
 struct CellRecord;
 struct ExteriorData;
-struct EffectItem;
-struct ExtraDataList;
+class EffectItem;
+class ExtraDataList;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
@@ -1707,37 +1710,37 @@ struct ImpactSwap;
 struct IntSeenData;
 struct InventoryChanges;
 struct LoadedCellData;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
+class MagicTarget;
 struct NavMeshCollection;
-struct NiAVObject;
-struct NiCamera;
+class NiAVObject;
+class NiCamera;
 struct NiColor;
-struct NiNode;
+class NiNode;
 struct NiPick;
 struct NiPoint3;
 struct NiRenderedTexture;
 struct SeenData;
 struct SpellItem;
-struct TESActorBase;
-struct TESBoundObject;
+class TESActorBase;
+class TESBoundObject;
 struct TESClimate;
-struct TESFile;
-struct TESForm;
-struct TESFullName;
+class TESFile;
+class TESForm;
+class TESFullName;
 struct TESGlobal;
 struct TESImageSpace;
-struct TESObject;
-struct TESObjectCELL;
-struct TESObjectLAND;
-struct TESRegionList;
+class TESObject;
+class TESObjectCELL;
+class TESObjectLAND;
+class TESRegionList;
 struct TESRegionObjectBase;
 struct RegionPoint;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct _D3DLOCKED_RECT;
 struct BhkPickData;
 struct bhkWorld;
@@ -2078,7 +2081,7 @@ struct VT
 struct LocationDescriptor
 {
 };
-struct TESObjectSTAT;
+class TESObjectSTAT;
 struct BoundHolder
 {
 };
@@ -2090,15 +2093,17 @@ class GlobalObject2_0040c150
   public:
 };
 int _FNV_GetFormType(TESForm*);
-struct TESObjectCELL
+class TESObjectCELL
 {
+  public:
     bool IsInterior();
 };
 struct Proc_S
 {
 };
-struct Script
+class Script
 {
+  public:
     char* GetText();
 };
 struct RefH
@@ -2302,8 +2307,8 @@ bool TESPackageX::CheckPackageLocation(MobileObject* apMobileObject, bool bignor
 namespace fnv_006777b0 {
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct TESForm;
-struct TESObjectCELL;
+class TESForm;
+class TESObjectCELL;
 struct LocationDescriptor
 {
     int GetLocType();
@@ -2753,45 +2758,45 @@ FUN_006707c0::FUN_006707c0()
 }
 
 namespace fnv_00676e40 {
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct AlchemyItem;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct BGSLoadFormBuffer;
 struct BGSMusicType;
 struct BGSSaveFormBuffer;
 struct BGSTerrainManager;
 struct BSPortalGraph;
-struct BaseFormComponent;
+class BaseFormComponent;
 struct CHUNK;
 struct Crime;
-struct EffectItem;
+class EffectItem;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
 struct ImpactSwap;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
+class MagicTarget;
 struct NiColor;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct SpellItem;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESClimate;
-struct TESFile;
-struct TESForm;
-struct TESFullName;
+class TESFile;
+class TESForm;
+class TESFullName;
 struct GlobalVariableForm;
 struct TESImageSpace;
-struct TESObject;
-struct TESObjectCELL;
+class TESObject;
+class TESObjectCELL;
 struct TESTerrainLODManager;
-struct TESTexture;
+class TESTexture;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct PointerPairData;
 struct hkpRigidBody;
 struct blob8
@@ -2813,8 +2818,9 @@ struct NiPoint3
     NiPoint3 operator-(const NiPoint3& kPt) const;
 };
 
-struct TESObjectCELL
+class TESObjectCELL
 {
+  public:
     bool IsCellInterior() const;
 };
 
@@ -3486,10 +3492,10 @@ bool FUN_00676e40_Package::IsActorInPackageRadius(FO::MobileObject* apMobileObje
 namespace fnv_00671e10 {
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct TESForm;
-struct TESObjectCELL;
+class TESForm;
+class TESObjectCELL;
 struct TESPackageData;
-struct TESTopic;
+class TESTopic;
 struct LocationDescriptor
 {
     int GetLocType();
@@ -4009,8 +4015,8 @@ void FUN_0067ab70_shell::FUN_0067ab70(bool abSet)
 namespace fnv_00671d30 {
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct TESForm;
-struct TESObjectCELL;
+class TESForm;
+class TESObjectCELL;
 struct LocationDescriptor
 {
     int GetLocType();
@@ -4159,8 +4165,9 @@ unsigned int FUN_00675670_shell::FUN_00675670()
 }
 }  // namespace fnv_00675670
 
-struct Script
+class Script
 {
+  public:
     int GetText();
 public:
     char *GetData();
@@ -4312,8 +4319,9 @@ int FUN_006784c0_shell::FUN_006784c0()
     return pdata->m_iValue;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void Revert(unsigned int);
     unsigned int unk04;
     unsigned int unk08;
@@ -4648,8 +4656,9 @@ struct Date
     ~Date();
     unsigned int a, b;
 };
-struct PerkEntryConditionSet
+class PerkEntryConditionSet
 {
+  public:
     ~PerkEntryConditionSet();
     unsigned int a, b;
 };
@@ -4688,7 +4697,7 @@ FUN_006708b0::~FUN_006708b0()
 }  // namespace fnv_006708b0
 
 namespace fnv_00675a50 {
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct BGSLoadFormBuffer;
 struct BGSMusicType;
 struct BGSSaveFormBuffer;
@@ -4702,17 +4711,17 @@ struct ImpactSwap;
 struct NiColor;
 struct NiPoint3;
 struct LocationDescriptor;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESClimate;
-struct TESFile;
-struct TESForm;
+class TESFile;
+class TESForm;
 struct GlobalVariableForm;
 struct TESImageSpace;
-struct TESObject;
-struct TESObjectCELL;
+class TESObject;
+class TESObjectCELL;
 struct TESTerrainLODManager;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct PointerPairData;
 struct blob8
 {
@@ -4722,15 +4731,17 @@ struct blob12
 {
     char b[12];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -4746,8 +4757,9 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-struct TESTexture : public BaseFormComponent
+class TESTexture : public BaseFormComponent
 {
+  public:
     virtual unsigned int GetTexturePathLength();
     virtual char* NormalizeTextureFilePath(void*);
     virtual char* GetRegularTextureFilePath(void*);
@@ -5278,8 +5290,9 @@ struct VLog
     virtual TESObjectREFR* GetRef();
 };
 
-struct Script
+class Script
 {
+  public:
     int GetText();
 };
 struct BoundHolder
@@ -5367,8 +5380,8 @@ TESWorldSpace* FUN_00675a50_shell::FUN_00675a50(MobileObject* apActor)
 namespace fnv_00676140 {
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct TESForm;
-struct TESObjectCELL;
+class TESForm;
+class TESObjectCELL;
 struct LocationDescriptor
 {
     int GetLocType();
@@ -5410,8 +5423,9 @@ struct FUN_00676140_shell : public TESPackage
     TESObjectREFR* FUN_00676140(MobileObject*);
 };
 
-struct Script
+class Script
 {
+  public:
     int GetText();
 };
 struct BoundHolder
@@ -5848,8 +5862,8 @@ struct FUN_0067a1b0_shell : public TESPackage
     void FUN_0067a1b0(TESPackage*);
 };
 
-struct TESQuest;
-struct TESRegion;
+class TESQuest;
+class TESRegion;
 struct FUN_0067a380_shell
 {
 };
@@ -5946,11 +5960,12 @@ struct FUN_0067a770_shell
 struct Fake067a790
 {
 };
-struct TESTopicInfo
+class TESTopicInfo
 {
+  public:
     TESQuest* GetParentQuest();
 };
-struct BGSAcousticSpace
+class BGSAcousticSpace
 {
 };
 struct FUN_0067a700_shell
@@ -6009,7 +6024,7 @@ void FUN_0067a1b0_shell::FUN_0067a1b0(TESPackage* apCopy)
 }
 }  // namespace fnv_0067a1b0
 
-struct ExtraFollower;
+class ExtraFollower;
 struct ShellH;
 struct FUN_00422700_shell
 {
@@ -6111,8 +6126,9 @@ void FUN_006730a0_shell::CallOrResetObject(void* value)
 }  // namespace fnv_006730a0
 
 namespace fnv_00673200 {
-struct PerkEntryConditionSet
+class PerkEntryConditionSet
 {
+  public:
     virtual ~PerkEntryConditionSet();
 };
 
@@ -6162,7 +6178,7 @@ class Script
     int GetText();
 };
 
-class LocationDescriptor
+struct LocationDescriptor
 {
   public:
     void Save(int);
@@ -6511,8 +6527,9 @@ unsigned short FUN_00678fd0_shell::FUN_00678fd0()
 }
 
 namespace fnv_00679b10 {
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     unsigned int value;
     FormChangeMask(const FormChangeMask&);
     operator bool() const;
@@ -6902,8 +6919,9 @@ public:
     static const ::NiPoint3 ZERO;
 };
 class TESWorldSpace;
-struct TESObjectCELL
+class TESObjectCELL
 {
+  public:
     bool IsInterior();
 public:
     bool IsCellInterior() const;
@@ -6914,7 +6932,7 @@ public:
 public:
     ::TESWorldSpace *GetParentWorldSpace();
 };
-struct TESWorldSpace;
+class TESWorldSpace;
 struct Reference
 {
     virtual void virtual_0();
@@ -7097,7 +7115,7 @@ struct Reference
     virtual void virtual_177();
     virtual Reference* GetPackageTarget();
 };
-struct Actor : Reference
+class Actor : public Reference
 {
 };
 struct Location
@@ -7162,7 +7180,7 @@ bool Package::IsTargetWithinRadius(Actor* actor, int extra)
 }
 
 namespace fnv_00677570 {
-struct TESWorldSpace;
+class TESWorldSpace;
 struct CellStandIn
 {
     bool IsInterior();
@@ -14020,7 +14038,7 @@ struct P : TESPackage
 {
 };
 
-struct TESObjectREFR;
+class TESObjectREFR;
 
 class FleePackage : public P
 {

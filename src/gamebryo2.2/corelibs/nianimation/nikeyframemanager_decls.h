@@ -4,7 +4,7 @@
 
 #include <cstdint>
 #include "fnv/decl/Twin_0044ddc0.h"
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
 };

@@ -24,7 +24,7 @@ class FUN_007002d0
     FUN_007002d0();
     ~FUN_007002d0();
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;

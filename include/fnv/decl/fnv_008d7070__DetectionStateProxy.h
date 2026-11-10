@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_008d7070 { class BGSSaveFormBuffer; }
+namespace fnv_008d7070 { struct BGSSaveFormBuffer; }
 
 namespace fnv_008d7070 {
 struct DetectionStateProxy {

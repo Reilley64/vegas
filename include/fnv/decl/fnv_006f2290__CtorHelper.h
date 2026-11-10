@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_006f2290 { struct NavMeshInfo; }
+namespace fnv_006f2290 { class NavMeshInfo; }
 
 namespace fnv_006f2290 {
 struct CtorHelper {

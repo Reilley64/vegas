@@ -1325,7 +1325,7 @@ void FUN_008781e0(int value)
     DAT_011a95fc = value;
 }
 
-struct TESSound
+class TESSound
 {
 };
 struct FUN_00878f20_shell
@@ -1418,7 +1418,7 @@ GlobalObject_0087d420* GlobalObject_0087d420::FUN_0087d450(unsigned int flags)
     return this;
 }
 
-struct BGSSaveLoadManager
+class BGSSaveLoadManager
 {
 };
 struct FUN_008660b0_shell
@@ -1563,7 +1563,7 @@ FUN_00864160::FUN_00864160(unsigned int ItemUpdateArray, int iExtra)
 struct TESGlobal
 {
 };
-struct TESForm;
+class TESForm;
 struct FUN_00867890_shell
 {
     TESForm* f0;
@@ -2209,8 +2209,9 @@ struct FUN_00866690_Class
 
 
 namespace std {
-struct StandardLibrarySingletonObject
+class StandardLibrarySingletonObject
 {
+  public:
     virtual void vfn_00() = 0;
     virtual void vfn_04(int, int, int) = 0;
 };
@@ -2311,9 +2312,9 @@ struct SoundPlaybackManager;
 struct TESRecipe;
 struct BGSMessage;
 struct BGSMenuIcon;
-struct BGSCameraPath;
+class BGSCameraPath;
 struct TES;
-struct TESSound;
+class TESSound;
 
 typedef void(__cdecl* AudioCallback)();
 
@@ -2351,8 +2352,9 @@ struct BGSMessage
 {
 };
 
-struct BGSCameraPath
+class BGSCameraPath
 {
+  public:
     void AssignParentPath(BGSCameraPath* value);
 };
 
@@ -6372,12 +6374,13 @@ struct Vector
 struct Setting
 {
 };
-struct Actor;
+class Actor;
 struct Manager
 {
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();

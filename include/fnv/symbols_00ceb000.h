@@ -1,6 +1,6 @@
 #pragma once
 
-class hkVector4;
+struct hkVector4;
 struct BodyList;
 struct ConstraintList;
 struct FUN_00cebe80_Struct;

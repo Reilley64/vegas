@@ -1,6 +1,6 @@
 #pragma once
 
-class NavMeshPtr {
+struct NavMeshPtr {
 public:
     // 0x0042f4c0
     ::NavMeshPtr &operator=(const ::NavMeshPtr &);

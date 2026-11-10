@@ -1,6 +1,6 @@
 #pragma once
 
-class PathingLocation;
+struct PathingLocation;
 
 struct FUN_006d3ac0_Class {
 public:

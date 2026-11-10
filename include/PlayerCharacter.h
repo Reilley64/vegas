@@ -4,7 +4,7 @@
 #include "fnv/decl/FUN_00493bb0_Class.h"
 #include "layout_support.h"
 #include "Character.h"
-class Animation;
+struct Animation;
 class PlayerCharacter : public Character
 {
   public:

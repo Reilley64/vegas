@@ -1,6 +1,6 @@
 #pragma once
 
-class NiColor;
+struct NiColor;
 
 class TESRegion {
 public:

@@ -171,7 +171,7 @@ class TESModel
 class EffectSetting : public TESForm, public TESModel
 {
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

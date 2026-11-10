@@ -17,7 +17,7 @@ class TimeGlobal
   public:
 };
 class NiTexture;
-struct NiTexture;
+class NiTexture;
 class TileShaderProperty : public NiMemObject
 {
   public:

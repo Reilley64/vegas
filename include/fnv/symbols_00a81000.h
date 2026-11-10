@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-class NiStream;
+struct NiStream;
 struct BSFadeNode;
 struct FUN_00a81760_obj;
 struct S;

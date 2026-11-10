@@ -73,8 +73,9 @@ struct BaseFC
     BaseFC();
     virtual void V0();
 };
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
+  public:
     char p[4];
     RecursiveSpinLock();
     ~RecursiveSpinLock();
@@ -103,39 +104,39 @@ FUN_0047c880::~FUN_0047c880()
 }
 
 struct PackedRecordData;
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BipedAnim;
 struct CHUNK;
 struct ContainerChanges;
-struct ContainerItemExtra;
+class ContainerItemExtra;
 struct InventoryItemEntry;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
 struct InventoryChanges;
 struct MagicItemForm;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
 struct PackageList;
 struct SpellItem;
 struct TESAIForm;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESForm;
+class TESBoundObject;
+class TESContainer;
+class TESForm;
 struct TESHealthForm;
 struct TESLevSpell;
-struct TESObject;
-struct TESObjectARMO;
+class TESObject;
+class TESObjectARMO;
 struct TESObjectCLOT;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
 struct TESWaterForm;
 struct blob8
 {
@@ -193,7 +194,7 @@ struct FUN_0047c9d0_shell : public TESActorBaseData
     void DeleteRegionColorEntries();
 };
 
-class NiColor;
+struct NiColor;
 class TESRegion
 {
   public:
@@ -327,7 +328,7 @@ bool FUN_0047cdd0_shell::FUN_0047cdd0()
     return bretval;
 }
 
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
@@ -568,17 +569,18 @@ struct HWND__;
 struct NiColor;
 struct NiPoint3;
 struct FactionRankPresentation;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESFaction;
-struct TESForm;
-struct TESObjectREFR;
+class TESForm;
+class TESObjectREFR;
 struct TESReputation;
 struct blob8
 {
     char b[8];
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -629,8 +631,9 @@ struct FUN_0047d680_shell : public TESActorBaseData
     int GetFactionRank(TESFaction*, bool);
 };
 
-struct TESRegion
+class TESRegion
 {
+  public:
     NiColor* GetDiffuseColor(void);
 };
 
@@ -758,8 +761,9 @@ struct ActorSub
     virtual void V1();
     virtual int V2(int);
 };
-struct Actor
+class Actor
 {
+  public:
     char pad[0xa4];
     ActorSub sub;
 };
@@ -854,39 +858,39 @@ void FUN_0047e270_shell::SetSpeedMult(unsigned short asSpeedMult)
 
 namespace fnv_0047e2a0 {
 struct PackedRecordData;
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BipedAnim;
 struct CHUNK;
 struct ContainerChanges;
-struct ContainerItemExtra;
+class ContainerItemExtra;
 struct InventoryItemEntry;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
 struct InventoryChanges;
 struct MagicItemForm;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
 struct PackageList;
 struct SpellItem;
 struct TESAIForm;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESForm;
+class TESBoundObject;
+class TESContainer;
+class TESForm;
 struct TESHealthForm;
 struct TESLevSpell;
-struct TESObject;
-struct TESObjectARMO;
+class TESObject;
+class TESObjectARMO;
 struct TESObjectCLOT;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
 struct TESWaterForm;
 struct blob8
 {
@@ -956,7 +960,7 @@ struct SoundListView
 struct FUN_0047c9d0_shell
 {
 };
-class NiColor;
+struct NiColor;
 class TESRegion
 {
   public:
@@ -1217,8 +1221,9 @@ struct FormIDEntry
     unsigned char padding[5];
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void v00() = 0;
     virtual void v01() = 0;
     virtual void v02() = 0;
@@ -1734,12 +1739,12 @@ bool FUN_0047d410_cls::IsDifferentFrom(BaseFormComponent* component)
 }
 
 namespace fnv_0047ce10 {
-struct Actor;
+class Actor;
 struct ActorCause;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ExplosionForm;
 struct BGSLoadFormBuffer;
 struct BGSLoadGameBuffer;
@@ -1747,8 +1752,8 @@ struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BGSTextureSet;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
@@ -1756,10 +1761,10 @@ struct SoundPlaybackHandle;
 struct BipedAnim;
 struct CHUNK;
 struct CellMopp;
-struct ContainerItemExtra;
+class ContainerItemExtra;
 struct GameFormRecord;
 struct TeleportableReference;
-struct ExtraDataList;
+class ExtraDataList;
 struct ExtraLock;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -1767,57 +1772,57 @@ struct FurnitureMark;
 struct HWND__;
 struct BooleanIntegerAccessor;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct LeveledObject;
 struct CellDataNode;
-struct MagicCaster;
-struct MagicTarget;
-struct MapMarkerData;
-struct MobileObject;
-struct Point3Offset;
-struct NiAVObject;
+class MagicCaster;
+class MagicTarget;
+class MapMarkerData;
+class MobileObject;
+class Point3Offset;
+class NiAVObject;
 struct AnimationInterpolator;
 struct NiColor;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct NiPointLight;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
-struct Script;
+class RagDollData;
+class Script;
 struct ScriptLocals;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESForm;
+class TESBoundObject;
+class TESContainer;
+class TESForm;
 struct TESGlobal;
-struct TESLeveledList;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
-struct TESObjectARMO;
-struct TESObjectCELL;
+class TESLeveledList;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
+class TESObjectARMO;
+class TESObjectCELL;
 struct TESObjectCLOT;
 struct TESObjectLIGH;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESSound;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESSound;
 struct FileEntryList;
-struct TESTopic;
-struct TESTopicInfo;
+class TESTopic;
+class TESTopicInfo;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct DistantTreeTextureInfo;
 struct TargetEntry;
 struct TrapEntry;

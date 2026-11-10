@@ -3,8 +3,9 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/decl/FUN_00416870_t.h"
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     bool Activate(TESObjectREFR*, bool, TESObjectREFR*, int);
 };
 

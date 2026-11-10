@@ -1,6 +1,6 @@
 #pragma once
 
-class hkVector4;
+struct hkVector4;
 namespace CapsuleMassSimd { struct CapsuleMassVector; }
 struct Receiver;
 struct hkpMassProperties;

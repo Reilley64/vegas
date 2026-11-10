@@ -17,7 +17,7 @@ class NiMemObject
 
 #include "NiProperty.h"
 
-class NiColor
+struct NiColor
 {
   public:
     float r, g, b;
@@ -93,7 +93,7 @@ template <> class NiPointer<BSFogProperty>
 };
 
 // Only the PC prefix through m_spFogProperty is needed by this header unit.
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     unsigned char sceneNodePrefix[0x134];

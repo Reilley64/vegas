@@ -8,7 +8,7 @@ struct B7C1F0Property;
 struct Matrix;
 struct NiD3DShader;
 struct SlotObject;
-template <class> struct NiPointer;
+template <class> class NiPointer;
 
 // 0x00b7c0a0
 void FUN_00b7c0a0(::NiD3DShader *, unsigned int, unsigned int);

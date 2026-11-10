@@ -59,8 +59,9 @@ struct B_004b6100
     int ClassifySphereAgainstPlane(NiPlane_004b6100*);
 };
 struct S694a0;
-struct NiAVObject
+class NiAVObject
 {
+  public:
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     B_004b6100* bound;
     virtual void vslot0();
@@ -307,7 +308,7 @@ void Sub694a0::ProcessWorkerWithHandler(void* worker, Handler* handler, void* te
 }
 
 struct S694a0;
-struct NiAVObject;
+class NiAVObject;
 struct NiPlane
 {
     int a, b, c, d;

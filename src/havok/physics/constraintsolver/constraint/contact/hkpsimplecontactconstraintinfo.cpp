@@ -231,7 +231,7 @@ class hkMatrix3;
 class hkRotation;
 
 
-class hkVector4
+struct hkVector4
 {
   public:
     __forceinline hkVector4()

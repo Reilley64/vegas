@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESObjectSTAT;
+class TESObjectSTAT;
 
 struct FUN_004ab500_shell {
 public:

@@ -1,12 +1,12 @@
 #pragma once
 
 class NiBinaryStream;
-class NiObject;
+struct NiObject;
 class NiObjectGroup;
 class NiTexture;
 template <class> class NiPointer;
 
-class NiStream {
+struct NiStream {
 public:
     // 0x00a632f0
     bool Load(char *, int);

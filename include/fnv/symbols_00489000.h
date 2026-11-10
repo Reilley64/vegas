@@ -1,8 +1,8 @@
 #pragma once
 
-struct TESFile;
-struct TESForm;
-struct TESModel;
+class TESFile;
+class TESForm;
+class TESModel;
 
 // 0x00489190
 void FUN_00489190(char *, ::TESForm *);

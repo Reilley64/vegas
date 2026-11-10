@@ -15,7 +15,7 @@
 // exposes the static ms_kRTTI and the virtual GetRTTI override, and holds the
 // TESAnimGroup m_spAnimGroup pointer at +0x74.
 
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* m_pcName;

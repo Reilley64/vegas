@@ -333,7 +333,7 @@ bool BGSTalkingActivator::IsRadioStation()
     return reinterpret_cast<::FUN_004011d0_shell *>(this)->FUN_004011d0();
 }
 
-struct Actor;
+class Actor;
 struct FUN_00516bf0_shell : public BGSTalkingActivator
 {
     Actor* FUN_00516bf0();
@@ -399,8 +399,9 @@ void FUN_004fecf0_::CopyVoiceTypeFromActivator(TESForm* apCopy)
     SetVoiceType((BGSVoiceType*)((PlayerMover*)acti)->GetActorStateFlags());
 }
 
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     int flags;
     operator bool() const;
 };
@@ -427,8 +428,9 @@ void FUN_004ff800_shell::FUN_004ff800(BGSSaveFormBuffer* apSaveGameBuffer)
 }
 
 namespace fnv_004ff850 {
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     int m_uiFileCount;
     operator bool() const;
 };
@@ -457,8 +459,9 @@ void FUN_004ff850_shell::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
 }  // namespace fnv_004ff850
 
 namespace fnv_004ff930 {
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     unsigned int m_flags;
     operator bool() const;
 };

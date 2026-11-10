@@ -1,6 +1,6 @@
 #pragma once
 
-class CombatController;
+struct CombatController;
 
 class CombatProcedure {
 public:

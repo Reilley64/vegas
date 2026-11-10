@@ -18,7 +18,7 @@
 #include "fnv/symbols_00649000.h"
 #include "fnv/symbols_011a0000.h"
 #include "fnv/symbols_011a1000.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

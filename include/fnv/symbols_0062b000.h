@@ -2,16 +2,16 @@
 #include <cstdint>
 
 class NiAVObject;
-class NiPoint3;
+struct NiPoint3;
 struct FUN_0062bc10_obj;
 struct MaterialSelector;
-struct NiAVObject;
+class NiAVObject;
 struct Node;
 struct Object62BAE0;
 struct Point3;
 struct Point62BAE0;
 struct SceneNode;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct Vec3Arg;
 struct WorldObject62b3;
 struct bhkWorldObject;

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiStream;
+struct NiStream;
 
 struct EffectObject {
 public:

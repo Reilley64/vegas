@@ -1,6 +1,6 @@
 #pragma once
 
-class CloningProcess;
+struct CloningProcess;
 class NiGeomMorpherController;
 
 struct FUN_00a3ba70_shell {

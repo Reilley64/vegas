@@ -1,6 +1,6 @@
 #pragma once
 
-class PathingLocation;
+struct PathingLocation;
 
 namespace fnv_006cd1f0 {
 class PathBuilderMethods {

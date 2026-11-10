@@ -194,8 +194,9 @@ struct BSString
     }
 };
 
-struct Tile
+class Tile
 {
+  public:
     virtual void Dummy();
 
     bool FUN_00a216b0(float x, float y);

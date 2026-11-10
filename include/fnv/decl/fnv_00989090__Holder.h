@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00989090 { struct Actor; }
+namespace fnv_00989090 { class Actor; }
 namespace fnv_00989090 { struct CombatTargetTimestamp; }
 
 namespace fnv_00989090 {

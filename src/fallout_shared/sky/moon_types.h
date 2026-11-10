@@ -13,7 +13,7 @@
 #include "../../../include/AutoMemContext.h"
 class NiNode;
 class NiTriShape;
-class Sky;
+struct Sky;
 template <class T> class NiPointer
 {
   public:

@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-struct AnimationKey;
+class AnimationKey;
 struct FloatRecord_b5532;
 struct MyStream;
 struct S00a26b40_Key;

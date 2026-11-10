@@ -45,8 +45,9 @@ template <class T> class NiPointer
     operator T*() const;
     void* FUN_00458b50();
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -113,15 +114,16 @@ struct TESObjectREFR
     virtual void v3f();
     virtual bool IsActor();
 };
-struct TESObjectCELL;
+class TESObjectCELL;
 struct S00561ef0
 {
 };
 struct P01ObjA
 {
 };
-struct MobileObject
+class MobileObject
 {
+  public:
     unsigned int GetCurrentProcessLevel();
 };
 struct FUN_00881d10
@@ -132,8 +134,9 @@ struct FUN_00452440_shell
 {
     bool FUN_00452440();
 };
-struct BSSimpleList
+class BSSimpleList
 {
+  public:
     TESObjectREFR* m_item;
     BSSimpleList* m_pkNext;
     bool FUN_008256d0();
@@ -158,8 +161,9 @@ struct FUN_008d0370_shell
 public:
     bool FUN_008d0370(::TESForm *);
 };
-struct BGSLoadedReferenceCollection
+class BGSLoadedReferenceCollection
 {
+  public:
     void FUN_005270b0(TESObjectREFR*);
 };
 struct NavMeshCollection
@@ -167,7 +171,7 @@ struct NavMeshCollection
     NiPointer<NavMesh> GetNavMeshAt(unsigned int);
 };
 using AutoMemHelper = ::AutoMemContext;
-struct TESObjectLAND;
+class TESObjectLAND;
 struct FUN_009604f0_shell
 {
     BSSimpleList* FUN_009604f0();
@@ -175,15 +179,16 @@ struct FUN_009604f0_shell
 struct FakeCell
 {
 };
-struct EffectSetting
+class EffectSetting
 {
 };
 struct S00551440
 {
     void FUN_00551440(bool);
 };
-struct TESObjectCELL
+class TESObjectCELL
 {
+  public:
     char pad00[0x64];
     NavMeshCollection* m_pNavMeshArray;
     char pad68[0x40];

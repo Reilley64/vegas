@@ -6,9 +6,9 @@
 #include "layout_support.h"
 #include "NiRefObject.h"
 
-class NiStream;
-class NiRTTI;
-class NiObject : public NiRefObject
+struct NiStream;
+struct NiRTTI;
+struct NiObject : public NiRefObject
 {
   public:
     virtual const NiRTTI* GetRTTI() const;
@@ -113,7 +113,7 @@ inline void ReadBinaryValue(NiStream& stream, AnimationKey::KeyType& type)
     ReadBinaryValue(*stream.m_pUnderlyingStream, type);
 }
 
-class NiBoolData : public NiObject
+struct NiBoolData : public NiObject
 {
   public:
     unsigned int m_uiNumKeys;

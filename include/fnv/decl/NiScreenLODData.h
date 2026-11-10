@@ -1,6 +1,6 @@
 #pragma once
 
-class NiBound;
+struct NiBound;
 
 class NiScreenLODData {
 public:

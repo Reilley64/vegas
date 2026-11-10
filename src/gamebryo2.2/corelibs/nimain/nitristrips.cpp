@@ -135,8 +135,9 @@ char const* const* __cdecl FUN_00a71d20()
     return &(*reinterpret_cast<const char *const *>(&::g_011f4a20));
 }
 
-struct NiGeometry
+class NiGeometry
 {
+  public:
     NiGeometry(void);
 };
 

@@ -326,8 +326,9 @@ int FUN_00854960(FUN_008547f0_shell* pFirst, FUN_008547f0_shell* pSecond)
     }
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual bool v00() = 0;
     virtual bool v01() = 0;
     virtual bool v02() = 0;
@@ -408,16 +409,17 @@ struct TESForm
     unsigned int FNV_GetFormType() const;
 };
 
-struct MobileObject : TESForm
+class MobileObject : public TESForm
 {
 };
 
-struct TESObjectREFR : MobileObject
+class TESObjectREFR : public MobileObject
 {
 };
 
-struct TESQuest
+class TESQuest
 {
+  public:
     virtual bool q00() = 0;
     virtual bool q01() = 0;
     virtual bool q02() = 0;
@@ -499,12 +501,13 @@ struct TESQuest
     virtual char const* GetName() = 0;
 };
 
-struct TESTopicInfo : TESForm
+class TESTopicInfo : public TESForm
 {
+  public:
     TESQuest* GetParentQuest();
 };
 
-struct TESFullName
+class TESFullName
 {
 };
 

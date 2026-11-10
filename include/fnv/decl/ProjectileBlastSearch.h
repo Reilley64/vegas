@@ -1,7 +1,7 @@
 #pragma once
 
 class NiAVObject;
-class NiPoint3;
+struct NiPoint3;
 
 struct ProjectileBlastSearch {
 public:

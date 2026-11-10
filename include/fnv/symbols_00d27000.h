@@ -3,7 +3,7 @@
 #include <cstdint>
 
 class hkpConstraintInstance;
-class hkpModifierConstraintAtom;
+struct hkpModifierConstraintAtom;
 namespace fnv_00d27ac0 { struct Constraint; }
 namespace fnv_00d27ac0 { struct ConstraintPointer; }
 struct D27690_Instance;
@@ -11,7 +11,7 @@ struct D27690_Owner;
 struct FUN_00d277f0_arg;
 struct FUN_00d277f0_node;
 struct S_00d27820_P;
-struct hkpConstraintInstance;
+class hkpConstraintInstance;
 struct hkpConstraintOwner;
 struct hkpModifierConstraintAtom;
 

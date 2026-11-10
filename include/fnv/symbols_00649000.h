@@ -1,7 +1,7 @@
 #pragma once
 
 class ActorValueOwner;
-namespace fnv_00649580 { struct ActorValueOwner; }
+namespace fnv_00649580 { class ActorValueOwner; }
 
 // 0x00649050
 namespace fnv_00649050 { void FUN_00649050(int, float *, float *); }

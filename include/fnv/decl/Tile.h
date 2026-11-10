@@ -1,6 +1,6 @@
 #pragma once
 
-struct Tile {
+class Tile {
 public:
     // 0x006faa90
     void SetNodeFloat(float);

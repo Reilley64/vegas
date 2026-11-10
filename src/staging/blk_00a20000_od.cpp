@@ -4599,7 +4599,7 @@ bool InputHandler::HandleInput(int key)
     return false;
 }
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     virtual void v00();

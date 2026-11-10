@@ -1,6 +1,6 @@
 #pragma once
 
-class NiStream;
+struct NiStream;
 
 struct S00c25340_Data {
 public:

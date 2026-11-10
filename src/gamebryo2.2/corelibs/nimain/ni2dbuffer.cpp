@@ -40,8 +40,9 @@ bool FUN_00a88a50(NiObject* pkObject)
     return false;
 }
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     long rc;
 };

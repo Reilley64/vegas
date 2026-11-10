@@ -958,7 +958,7 @@ bool MenuLogic::FUN_0075d510(InventoryEntry* entry, ExpectedReference* reference
     return false;
 }
 
-struct ExtraDataList
+class ExtraDataList
 {
 public:
     void SetExtraHealth(float);
@@ -4883,8 +4883,9 @@ void InventoryMenu::FUN_0075c280(MenuForm* filter)
 }
 }  // namespace fnv_0075c280
 
-struct TESModelTextureSwap : TESBoundObject
+class TESModelTextureSwap : public TESBoundObject
 {
+  public:
     virtual void vfn_0004();
     virtual void vfn_0008();
     virtual void vfn_000c();

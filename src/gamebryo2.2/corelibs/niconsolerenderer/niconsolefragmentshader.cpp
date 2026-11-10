@@ -182,7 +182,7 @@ struct NiRenderer
     static NiRenderer* ms_pRenderer;
 };
 
-struct NiD3DVertexDeclaration
+class NiD3DVertexDeclaration
 {
 };
 
@@ -226,7 +226,7 @@ void* NiFragmentShaderInstanceDescriptor::FUN_00e8d540(unsigned int flags)
     return this;
 }
 
-struct NiRefObject;
+class NiRefObject;
 struct BSShaderBloodSplatter
 {
     void FUN_00b80600(NiRefObject*);
@@ -495,8 +495,9 @@ void __cdecl FUN_00e8d330()
     static_cast<::FUN_00e80590_cls *>(nullptr)->FUN_00e80590();
 }
 
-struct NiD3DShaderConstantMap
+class NiD3DShaderConstantMap
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -517,8 +518,9 @@ struct NiD3DShaderConstantMap
     NiD3DShaderConstantMap(void* pkRenderer, int eType) throw();
 };
 
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

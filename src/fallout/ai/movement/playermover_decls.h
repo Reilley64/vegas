@@ -23,7 +23,7 @@
 #include "fnv/symbols_011de000.h"
 class NiControllerSequence;
 class TESAnimGroup;
-class Animation
+struct Animation
 {
   public:
 };
@@ -41,7 +41,7 @@ enum ANIMATION_ACTION
 {
     ANIMATION_ACTION_NONE = -1
 };
-class Animation;
+struct Animation;
 class PlayerCharacter : public Actor
 {
   public:

@@ -66,7 +66,7 @@ class PlayerCharacter;
 class TESObjectCELL;
 class TESWorldSpace;
 class NiNode;
-class Animation;
+struct Animation;
 class BaseProcess;
 class TESSound;
 struct NiPoint3
@@ -262,18 +262,18 @@ class ExtraLock
 public:
     void Unlock();
 };
-class TeleportableReference
+struct TeleportableReference
 {
   public:
     TESObjectCELL* FUN_0043a2b0();
     TESWorldSpace* GetTeleportWorldspace();
 };
-class Animation
+struct Animation
 {
   public:
     void SpecialIdleFree(bool, bool);
 };
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
   public:
@@ -777,7 +777,7 @@ class Setting
 {
   public:
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -787,7 +787,7 @@ class SoundPlaybackHandle
     ~SoundPlaybackHandle();
     SoundPlaybackHandle& operator=(const SoundPlaybackHandle&);
 };
-class BSAudio
+struct BSAudio
 {
   public:
     void Update(bool);
@@ -847,7 +847,7 @@ class DoorAccessData
     DoorAccessData(TESObjectREFR*);
     ~DoorAccessData();
 };
-class Interface
+struct Interface
 {
   public:
 };

@@ -178,8 +178,9 @@ FUN_00a40520* FUN_00a4f2c0(unsigned short usIndex, bool bManagerControlled, bool
 }
 
 struct NiStream;
-struct NiTexture
+class NiTexture
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -796,7 +797,7 @@ struct StreamIo
     }
 };
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     char m_000[0xd8];
@@ -824,8 +825,9 @@ struct FUN_00a5d3a0 : NiMemObject
     FUN_00a5d3a0() throw();
 };
 
-struct NiFloatData : FUN_00a5d3a0
+class NiFloatData : public FUN_00a5d3a0
 {
+  public:
     int m_08Count;
     void* m_0cKeys;
     int m_10Type;

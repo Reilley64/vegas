@@ -8,8 +8,9 @@ struct SearchPackage
     void* DestroyIfFlagged(unsigned int flags);
 };
 
-struct TESPackage
+class TESPackage
 {
+  public:
     int unk04;
     int unk08;
     int unk0c;

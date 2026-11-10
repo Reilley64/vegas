@@ -3,7 +3,7 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 #pragma comment(linker, "/alternatename:?DAT_011f426c@fnv_00654720@@3UNiPoint3@1@B=?ZERO@NiPoint3@@2U1@B")
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?ZERO@NiPoint3@fnv_006558b0@@2U12@B=?ZERO@NiPoint3@@2U1@B")
 
 namespace fnv_00654720 { const char DAT_01019710[10] = "Meshes\\%s"; }

@@ -11,8 +11,8 @@
 #include "fnv/symbols_00574000.h"
 #include "layout_support.h"
 #include "TESObjectREFR_decl_middlehighprocess.h"
-class BGSLoadFormBuffer;
-class SoundPlaybackHandle;
+struct BGSLoadFormBuffer;
+struct SoundPlaybackHandle;
 class TESPackage;
 class bhkCharacterController;
 class MobileObject : public TESObjectREFR

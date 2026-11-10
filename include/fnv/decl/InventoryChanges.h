@@ -2,7 +2,7 @@
 
 class TESObjectREFR;
 
-class InventoryChanges {
+struct InventoryChanges {
 public:
     // 0x004bf220
     static ::InventoryChanges *CreateForReference(::TESObjectREFR *);

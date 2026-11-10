@@ -37,7 +37,7 @@
 #include "fnv/symbols_0119b000.h"
 #include "fnv/symbols_011c3000.h"
 #include "fnv/symbols_011de000.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -134,7 +134,7 @@ class NiFixedString
 public:
     void *FUN_004b9900(unsigned int);
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -289,14 +289,14 @@ class BSFaceGenManager
   public:
     static FaceGenCoordinate* GetFaceGenCoordinates();
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     unsigned int state[7];
     CloningProcess(float);
     ~CloningProcess();
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

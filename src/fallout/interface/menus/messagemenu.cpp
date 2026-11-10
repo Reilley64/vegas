@@ -153,7 +153,7 @@ class Tile
     void Set(int, int);
 };
 
-class Interface
+struct Interface
 {
   public:
 };
@@ -213,9 +213,9 @@ uintptr_t __cdecl GetCurrentArrayElement()
 
 namespace fnv_007aa070 {
 struct RecursiveLock;
-struct NiAVObject;
-struct NiNode;
-struct Tile;
+class NiAVObject;
+class NiNode;
+class Tile;
 struct TileShaderProperty;
 struct MenuValueDescriptor;
 struct FUN_007aa070_shell : public MessageMenu
@@ -1433,7 +1433,7 @@ void FUN_007aa5c0()
 
 namespace fnv_007aae70 {
 
-class ScriptLocals;
+struct ScriptLocals;
 class TESBoundObject;
 class Script
 {

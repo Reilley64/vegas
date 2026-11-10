@@ -1,9 +1,9 @@
 #pragma once
 
-class GameSettingCollection;
+struct GameSettingCollection;
 class GlobalObject_0044f440;
-class GlobalObject_0045cfe0;
-class GlobalObject_0096a2d0;
+struct GlobalObject_0045cfe0;
+struct GlobalObject_0096a2d0;
 class NiFixedString;
 template <class> class SettingT;
 

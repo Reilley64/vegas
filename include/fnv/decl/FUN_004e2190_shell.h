@@ -1,6 +1,6 @@
 #pragma once
 
-struct BSShaderAccumulator;
+class BSShaderAccumulator;
 
 struct FUN_004e2190_shell {
 public:

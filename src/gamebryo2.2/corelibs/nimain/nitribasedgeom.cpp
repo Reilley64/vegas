@@ -169,7 +169,7 @@ void ParticleDownwardPassReceiver::FUN_00c1ad90(void* data, unsigned int value)
     ((FUN_00a59f90_holder*)this)->FUN_00a59f90(*(NiUpdateData*)data, value);
 }
 
-class NiStream;
+struct NiStream;
 class ParticleLinkEndpoint : public NiGeometry
 {
   public:

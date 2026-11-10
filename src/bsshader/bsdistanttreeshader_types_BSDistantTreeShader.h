@@ -13,7 +13,7 @@ class BSDistantTreeShader__InstanceData;
 class BSShader;
 class Direct3DDeviceInterface;
 struct _D3DXMACRO;
-class RgbaColor;
+struct RgbaColor;
 class NiD3DDefaultShader;
 class NiD3DDefaultShader__PassFogStatus;
 class NiD3DPass;
@@ -941,7 +941,7 @@ class BSShader : public NiD3DDefaultShader
     int m_iPassId;  // +0x68, 4 bytes
     BSShader();
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes

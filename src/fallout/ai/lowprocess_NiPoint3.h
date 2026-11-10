@@ -5,7 +5,7 @@
 #include "fnv/decl/TESCombatStyle.h"
 #include "lowprocess_support.h"
 #include "NiMemObject.h"
-class NiPoint3 : public NiMemObject
+struct NiPoint3 : public NiMemObject
 {
   public:
     NiPoint3& Subtract(const NiPoint3&);

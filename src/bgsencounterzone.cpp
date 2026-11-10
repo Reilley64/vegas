@@ -185,7 +185,7 @@ union SETTING_VALUE
 {
     float f;
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:
@@ -360,7 +360,7 @@ struct Zone81
 {
     bool FUN_00526320();
 };
-struct TESObject
+class TESObject
 {
 };
 struct Calendar
@@ -405,8 +405,9 @@ bool FUN_00526320_shell::FUN_00526320()
     return (Data.cFlags & 1) ? true : false;
 }
 
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     unsigned int f;
     FormChangeMask();
     operator bool() const;
@@ -439,8 +440,9 @@ void FUN_00526410::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 }
 
 namespace fnv_00526570 {
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     unsigned int flags;
     FormChangeMask();
     operator bool() const;

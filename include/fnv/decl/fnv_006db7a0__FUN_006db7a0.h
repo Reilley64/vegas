@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_006db7a0 { class ScrapHeapBuffer; }
+namespace fnv_006db7a0 { struct ScrapHeapBuffer; }
 
 namespace fnv_006db7a0 {
 class FUN_006db7a0 {

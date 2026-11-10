@@ -8,16 +8,16 @@
 #include "NiPoint3.h"
 #include "layout_support.h"
 class NiAdditionalGeometryData;
-class NiRTTI;
-class NiStream;
-class NiBound;
-class RgbaColor;
+struct NiRTTI;
+struct NiStream;
+struct NiBound;
+struct RgbaColor;
 class NiGeometryData;
 class NiGeometryData__RendererData;
-class NiPoint2;
+struct NiPoint2;
 class NiTriBasedGeomData;
 class NiTriStripsData;
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;  // +0x0, 12 bytes

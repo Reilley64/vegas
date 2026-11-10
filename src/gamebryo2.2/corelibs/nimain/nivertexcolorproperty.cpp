@@ -15,7 +15,7 @@
 #include "fnv/symbols_00a5f000.h"
 #include "fnv/symbols_00a7d000.h"
 #include "fnv/symbols_011f4000.h"
-class NiStream;
+struct NiStream;
 struct NiProperty
 {
     NiProperty();

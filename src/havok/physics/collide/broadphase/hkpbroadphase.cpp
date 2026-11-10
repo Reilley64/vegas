@@ -76,7 +76,7 @@ class Spawned
 
 
 
-class Owner
+struct Owner
 {
   public:
     const void* m_vtable;

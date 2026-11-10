@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 struct LightObj;
 
 struct FUN_00b9dae0_cls {

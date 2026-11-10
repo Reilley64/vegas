@@ -339,12 +339,12 @@ void FUN_006c09d0(void* pThis)
     ((void(*)(BSWin32TaskletManager*, void*)) & FUN_00b00bc0)(&::GetTaskletManager(), pThis);
 }
 
-struct Actor;
+class Actor;
 struct ActorCause;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ExplosionForm;
 struct BGSLoadFormBuffer;
 struct BGSLoadGameBuffer;
@@ -352,8 +352,8 @@ struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BGSTextureSet;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
@@ -363,7 +363,7 @@ struct CHUNK;
 struct CellMopp;
 struct GameFormRecord;
 struct TeleportableReference;
-struct ExtraDataList;
+class ExtraDataList;
 struct ExtraLock;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -371,57 +371,57 @@ struct FurnitureMark;
 struct HWND__;
 struct BooleanIntegerAccessor;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct CellDataNode;
-struct MagicCaster;
-struct MagicTarget;
-struct MapMarkerData;
-struct MobileObject;
-struct Point3Offset;
-struct NiAVObject;
+class MagicCaster;
+class MagicTarget;
+class MapMarkerData;
+class MobileObject;
+class Point3Offset;
+class NiAVObject;
 struct AnimationInterpolator;
 struct NiColor;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct NiPointLight;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
-struct Script;
+class RagDollData;
+class Script;
 struct ScriptLocals;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESFile;
-struct TESForm;
-struct TESFullName;
+class TESBoundObject;
+class TESContainer;
+class TESFile;
+class TESForm;
+class TESFullName;
 struct TESGlobal;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
-struct TESObjectARMO;
-struct TESObjectCELL;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
+class TESObjectARMO;
+class TESObjectCELL;
 struct TESObjectCLOT;
 struct TESObjectLIGH;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESSound;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESSound;
 struct FileEntryList;
-struct TESTopic;
-struct TESTopicInfo;
+class TESTopic;
+class TESTopicInfo;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct DistantTreeTextureInfo;
 struct TargetEntry;
 struct TrapEntry;
@@ -458,7 +458,7 @@ struct Call_006c0c80
 struct Call_00905330
 {
 };
-class GlobalObject_0044fae0
+struct GlobalObject_0044fae0
 {
   public:
     GlobalObject_0044fae0();
@@ -474,7 +474,7 @@ class FUN_006c5fc0
     ~FUN_006c5fc0();
     int m_kNextStreamField[4];
 };
-class GlobalObject2_0096a2d0
+struct GlobalObject2_0096a2d0
 {
   public:
     GlobalObject2_0096a2d0();
@@ -482,7 +482,7 @@ class GlobalObject2_0096a2d0
     void* m_pkItem;
     void* m_pkNext;
 };
-class GlobalObject_004ee810
+struct GlobalObject_004ee810
 {
   public:
     GlobalObject_004ee810();
@@ -531,7 +531,7 @@ class StrList
     void* m_pkItem;
     void* m_pkNext;
 };
-class GlobalObject_00633c90
+struct GlobalObject_00633c90
 {
   public:
     GlobalObject_00633c90(intptr_t iValue);
@@ -656,8 +656,9 @@ struct FUN_006c44d0_shell : public NavMeshObstacleManager
 };
 
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     unsigned int GetFlags(void);
 };
 
@@ -1418,8 +1419,9 @@ hkpEntity* FUN_0061f580_shell::FUN_0061f580()
     return (hkpEntity*)this;
 }
 
-struct NavMeshClosedDoorInfo
+class NavMeshClosedDoorInfo
 {
+  public:
     NavMeshClosedDoorInfo();
 };
 struct FUN_006923c0
@@ -1510,7 +1512,7 @@ struct SettingT_GameSettingCollection_
 {
     TSETTING_VALUE* Bool();
 };
-struct Actor;
+class Actor;
 struct LH
 {
     bool IsInList(Actor*&);
@@ -1712,7 +1714,7 @@ struct Arr
 {
     void** GetAt(int);
 };
-struct EffectSetting
+class EffectSetting
 {
 };
 struct FUN_006969e0_shell
@@ -1799,8 +1801,9 @@ struct bhkWorldObject
 struct bhkCollisionObject
 {
 };
-struct NiNode
+class NiNode
 {
+  public:
     unsigned int GetNumChildren();
     NiAVObject* GetAt(unsigned int);
 };
@@ -2089,7 +2092,7 @@ struct FUN_006c39c0_shell : public NavMeshObstacleManager
 struct ATM
 {
 };
-struct PathManager
+class PathManager
 {
 };
 struct FUN_006ebc70_shell
@@ -2176,20 +2179,20 @@ void FUN_006c39c0_shell::FUN_006c39c0()
 }  // namespace fnv_006c39c0
 
 namespace fnv_006c45e0 {
-struct Actor;
+class Actor;
 struct ActorCause;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ExplosionForm;
 struct BGSLoadFormBuffer;
 struct BGSLoadGameBuffer;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
@@ -2199,7 +2202,7 @@ struct CHUNK;
 struct CellMopp;
 struct GameFormRecord;
 struct TeleportableReference;
-struct ExtraDataList;
+class ExtraDataList;
 struct ExtraLock;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -2207,51 +2210,51 @@ struct FurnitureMark;
 struct HWND__;
 struct BooleanIntegerAccessor;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct CellDataNode;
-struct MagicCaster;
-struct MagicTarget;
-struct MapMarkerData;
-struct MobileObject;
-struct Point3Offset;
-struct NiAVObject;
+class MagicCaster;
+class MagicTarget;
+class MapMarkerData;
+class MobileObject;
+class Point3Offset;
+class NiAVObject;
 struct AnimationInterpolator;
 struct NiColor;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct NiPointLight;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
-struct Script;
+class RagDollData;
+class Script;
 struct ScriptLocals;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESFile;
-struct TESForm;
+class TESBoundObject;
+class TESContainer;
+class TESFile;
+class TESForm;
 struct TESGlobal;
-struct TESModel;
-struct TESObjectARMO;
-struct TESObjectCELL;
+class TESModel;
+class TESObjectARMO;
+class TESObjectCELL;
 struct TESObjectCLOT;
 struct TESObjectLIGH;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESSound;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESSound;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
 struct TrapEntry;
 struct WaterZone;
@@ -2272,8 +2275,9 @@ struct blob48
 {
     char b[48];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -2574,7 +2578,7 @@ struct NiPoint2
     float x, y;
     NiPoint2(float fx, float fy);
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     int m_iWordAt00;
@@ -2582,7 +2586,7 @@ class SoundPlaybackHandle
     int m_8;
     ~SoundPlaybackHandle();
 };
-class BSAudio
+struct BSAudio
 {
   public:
     SoundPlaybackHandle GetSoundHandleByEditorID(const char* name, unsigned int flags);
@@ -2753,7 +2757,7 @@ FUN_00807790::FUN_00807790(int a1, ScriptLocalsX* a2, unsigned int auiFlags) : m
 
 namespace fnv_006c1cb0 {
 struct bhkRigidBody;
-struct TESObjectREFR;
+class TESObjectREFR;
 
 struct GO
 {
@@ -3816,8 +3820,8 @@ void ManagerView::FUN_006c09f0()
 }
 }  // namespace fnv_006c09f0
 
-struct TESObjectREFR;
-struct TESBoundObject;
+class TESObjectREFR;
+class TESBoundObject;
 struct TESObjectDOOR;
 
 struct RefSP0dc0
@@ -4939,7 +4943,7 @@ void DebugObstacleManager::SetEnabled(bool show)
 }
 
 namespace fnv_006c5840 {
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     float afValues[4];
@@ -6471,8 +6475,9 @@ struct Triangle
 {
 };
 
-struct NavMesh
+class NavMesh
 {
+  public:
     EdgeVertices FUN_0068f040(unsigned short m_usTriangleID, int m_iEdgeNumber);
 };
 
@@ -6489,7 +6494,7 @@ template <class T> class NiPointer
     T* m_pObject;
 };
 
-struct NavMeshInfo;
+class NavMeshInfo;
 
 struct Portal
 {
@@ -6523,7 +6528,7 @@ struct PortalLink
     PortalLink(int m_uiSoundID, unsigned short m_usTriangleID);
 };
 
-struct NavMeshInfo
+class NavMeshInfo
 {
 };
 

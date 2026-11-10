@@ -122,8 +122,9 @@ void LevelUpMenu::RefreshNetworkState()
     NetworkSystemUtility::GetRandomGenerator();
 }
 
-struct EffectSetting
+class EffectSetting
 {
+  public:
     bool IsDetrimentalToActorValue(int av);
 };
 // Returns whether the effect's detrimental flag differs from the actor value's damage-positive flag, treating av -1 as not damage-positive.
@@ -138,10 +139,10 @@ bool EffectSetting::IsDetrimentalToActorValue(int aiActorValue)
 }
 
 struct RecursiveLock;
-struct Menu;
-struct NiAVObject;
-struct NiNode;
-struct Tile;
+class Menu;
+class NiAVObject;
+class NiNode;
+class Tile;
 struct TileShaderProperty;
 struct MenuValueDescriptor;
 
@@ -198,16 +199,19 @@ struct ActorValue
     {
     };
 };
-struct NiNodeBooleanState
+class NiNodeBooleanState
 {
+  public:
     void FUN_008d5270();
 };
-struct Actor
+class Actor
 {
+  public:
     void ConfigureActorState(bool, bool);
 };
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 struct ListBox_enum_ActorValue__Index_
@@ -304,11 +308,12 @@ void* FUN_00784bc0_shell::FUN_00784bc0(unsigned int flags)
     return this;
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
-struct PerkEntryConditionSet
+class PerkEntryConditionSet
 {
+  public:
     bool ContainsTrait(TESObjectREFR*, TESObjectREFR*, bool&, bool);
 };
 struct FUN_00785150_This
@@ -340,8 +345,9 @@ bool FUN_00785190_This::HasAllValsNonZero()
     return true;
 }
 
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 public:
     void SetName(const char *);
@@ -366,8 +372,8 @@ void FUN_00786200(Tile* pTile)
 }
 
 namespace fnv_00786570 {
-struct BGSPerk;
-struct Tile
+class BGSPerk;
+class Tile
 {
 };
 template <int N> struct Pad;
@@ -395,8 +401,9 @@ void FUN_00786570(Tile* apTile, BGSPerk* apPerk)
 
 namespace fnv_007871c0 {
 struct WeatherEntry;
-struct BSSimpleList
+class BSSimpleList
 {
+  public:
     void Sort(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
 };
 struct Holder
@@ -421,7 +428,7 @@ struct Unk_7879c0
     void* FUN_007879c0(unsigned int);
 };
 namespace fnv_007864e0 {
-struct TESObjectREFR;
+class TESObjectREFR;
 struct PC7d;
 struct FUN_006aabf0_shell
 {
@@ -429,11 +436,12 @@ struct FUN_006aabf0_shell
 struct FUN_00785150_This
 {
 };
-struct Actor
+class Actor
 {
 };
-struct Tile
+class Tile
 {
+  public:
     void Set(int, float, bool);
 };
 // @fnv 0x007864e0
@@ -465,7 +473,7 @@ struct FUN_00787c20_shell
 };
 
 namespace fnv_00786110 {
-struct Tile
+class Tile
 {
 };
 struct Interface
@@ -554,14 +562,14 @@ int FUN_007879f0::GetIntegerResult()
 }
 
 namespace fnv_00785990 {
-struct GlobalObject_0040c150;
+class GlobalObject_0040c150;
 
 
 struct StartMenu
 {
 };
 
-struct Tile
+class Tile
 {
 };
 
@@ -682,7 +690,7 @@ struct TGF
 {
 };
 
-struct Tile : public TGF
+class Tile : public TGF
 {
 };
 
@@ -1754,7 +1762,7 @@ void __cdecl FUN_00786170(Tile* apTile, int a2)
     reinterpret_cast<::fnv_007866e0::FUN_007866e0_shell *>((reinterpret_cast<FUN_007866e0_shell*>(DAT_011d9fdc)))->UpdateDisplayValue((::fnv_007866e0::Tile *)((const char*)apTile));
 }
 
-struct EffectItem
+class EffectItem
 {
 public:
     int GetAffectedActorValue();
@@ -2271,8 +2279,9 @@ LBTile* LBItemListBox::AddItemTile(intptr_t item, const char* text, int (*sortFu
 
 extern int DAT_011d9fe8;
 extern int DAT_011d9fd4;
-struct Menu
+class Menu
 {
+  public:
     Menu();
     virtual ~Menu();
     int unk04;
@@ -2336,8 +2345,9 @@ struct Member94
     int unk28;
     int unk2C;
 };
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
+  public:
     T item;
     BSSimpleList* next;
     BSSimpleList();
@@ -3576,8 +3586,8 @@ struct ActorV
     virtual int q295();
     virtual unsigned char FUN_v4a0(void* a1, int a2);
 };
-struct Tile;
-struct TileMenu;
+class Tile;
+class TileMenu;
 struct ResourceProvider
 {
 };

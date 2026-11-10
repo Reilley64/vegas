@@ -127,7 +127,7 @@ void FUN_00a928b0_shell::ClearFixedStrings()
     }
 }
 
-class NiStream;
+struct NiStream;
 struct FUN_00a6ff10_holder
 {
 };
@@ -493,7 +493,7 @@ bool FUN_00a93040_cls::FUN_00a93040(FUN_00a93040_cls* other)
     return false;
 }
 
-class NiStream;
+struct NiStream;
 struct NiObjectStub;
 
 struct NiBinaryStreamStub
@@ -518,7 +518,7 @@ template <class T> inline void StreamSaveBinary(NiBinaryStreamStub& kStream, con
     kStream.BinaryWrite(&kValue, sizeof(T), &uiSize, 1);
 }
 
-class NiStream
+struct NiStream
 {
   public:
     virtual void v00();

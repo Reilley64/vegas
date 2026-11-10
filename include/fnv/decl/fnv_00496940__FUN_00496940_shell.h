@@ -1,6 +1,6 @@
 #pragma once
 
-class NiControllerManager;
+struct NiControllerManager;
 
 namespace fnv_00496940 {
 struct FUN_00496940_shell {

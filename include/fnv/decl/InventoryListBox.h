@@ -2,7 +2,7 @@
 
 struct InventoryEntry;
 struct InventoryOwner;
-struct Tile;
+class Tile;
 
 struct InventoryListBox {
 public:

@@ -2,8 +2,8 @@
 #include <cstdint>
 
 struct CellMopp;
-struct TESFile;
-template <class> struct BSSimpleList;
+class TESFile;
+template <class> class BSSimpleList;
 
 // 0x00537b10
 ::BSSimpleList< ::TESFile *> *GetSourceFilesFromForm(char *);

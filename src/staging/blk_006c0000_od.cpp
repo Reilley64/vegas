@@ -504,7 +504,7 @@ struct FUN_006d32c0_Class
     void FUN_006d32c0();
 };
 
-class NavMeshPtr;
+struct NavMeshPtr;
 struct PathingLocation
 {
     PathingLocation& operator=(const PathingLocation&);
@@ -849,7 +849,7 @@ FUN_006c6260_Class::FUN_006c6260_Class(unsigned int count)
     ::FUN_00403d30(m_data, 0, m_uiItemCount * 4);
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct FUN_006c6400_Node
 {
     NiPointer<NiAVObject> m_ptr;
@@ -2061,7 +2061,7 @@ void FUN_006d32c0_StandIn::FUN_006d32c0()
     reinterpret_cast<::PathingLocation *>(this)->HasValidTriangle();
 }
 
-class PathingLocation;
+struct PathingLocation;
 struct PathingRequest
 {
     ~PathingRequest();
@@ -2944,7 +2944,7 @@ struct FUN_006cf440
 struct RequestHelper
 {
 };
-struct PathingSolution
+class PathingSolution
 {
 };
 class PathHandler
@@ -3755,8 +3755,9 @@ struct PathingRequestHelper
     PathingRequestHelper();
     ~PathingRequestHelper();
 };
-struct PathingSolution
+class PathingSolution
 {
+  public:
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
     unsigned int unk18, unk1c, unk20, unk24, unk28, unk2c;
     unsigned int unk30, unk34, unk38, unk3c, unk40;
@@ -4606,7 +4607,7 @@ FUN_006c6e00::~FUN_006c6e00()
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArray_SandBoxChoiceListItem_1024_*>(this)))->Clear(true);
 }
 
-class Obj
+struct Obj
 {
   public:
     int a, b, c;
@@ -5280,7 +5281,7 @@ void Owner6C74::Destroy()
     ::FUN_0044e360(m_uiTlsIndex);
 }
 
-struct NavMeshEdgeData;
+class NavMeshEdgeData;
 struct FUN_006cfd70 : public BSSimpleArray<NavMeshEdgeData, 1024>
 {
     virtual ~FUN_006cfd70();
@@ -5410,7 +5411,7 @@ bool PathHandler::FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingCont
 }
 
 namespace fnv_006db680 {
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 class MemoryManager
 {
   public:
@@ -5444,7 +5445,7 @@ FUN_006db680::FUN_006db680(unsigned int count, unsigned int capacity, ScrapHeapB
 }  // namespace fnv_006db680
 
 namespace fnv_006db7a0 {
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 class MemoryManager
 {
   public:

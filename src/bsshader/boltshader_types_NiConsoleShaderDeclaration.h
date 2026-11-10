@@ -11,7 +11,7 @@ class NiD3DShaderDeclaration;
 class NiD3DShaderDeclaration__ShaderRegisterStream;
 class NiShaderDeclaration;
 class GraphicsRenderer;
-class NiRenderer;
+struct NiRenderer;
 class NiD3DVertexDeclaration;
 class VertexDeclarationLayout;
 class _D3DVERTEXELEMENT9;

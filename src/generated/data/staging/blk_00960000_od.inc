@@ -2,9 +2,9 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?g_011d20ac@@3UGlobalObject_0040c150@@A=?g_011d20ac@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d28b0@@3UGlobalObject_0040c150@@A=?g_011d28b0@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2e50@@3UGlobalObject_0040c150@@A=?g_011d2e50@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d20ac@@3VGlobalObject_0040c150@@A=?g_011d20ac@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d28b0@@3VGlobalObject_0040c150@@A=?g_011d28b0@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2e50@@3VGlobalObject_0040c150@@A=?g_011d2e50@@3VGlobalObject_0040c150@@A")
 
 extern "C" void fnv_api_QueryPerformanceFrequency() __asm__("QueryPerformanceFrequency");
 

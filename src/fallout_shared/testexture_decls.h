@@ -22,7 +22,7 @@ class TESFullName
     void SetFullName(const char* name);
 };
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char* destination, unsigned int size, const char* source);

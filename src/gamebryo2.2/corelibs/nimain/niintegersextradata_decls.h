@@ -2,9 +2,9 @@
 #ifndef NIINTEGERSEXTRADATA_DECLS_H
 #define NIINTEGERSEXTRADATA_DECLS_H
 
-class NiStream;
+struct NiStream;
 template <class T> void ReadBinaryValue(NiStream&, T&);
-class NiStream;
+struct NiStream;
 class NiExtraData
 {
   public:

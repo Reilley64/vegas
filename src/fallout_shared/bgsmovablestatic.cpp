@@ -44,16 +44,16 @@ struct CHUNK;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESFile;
-struct TESForm;
-struct TESObject;
+class TESBoundObject;
+class TESFile;
+class TESForm;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESSound;
+class TESObjectREFR;
+class TESSound;
 struct TESWaterForm;
 struct blob8
 {
@@ -67,8 +67,9 @@ struct blob36
 {
     char b[36];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -85,20 +86,23 @@ void FUN_004fbf00_shell::FUN_004fbf00(TESSound* apSound)
     *reinterpret_cast<TESSound**>(&this->pSoundLoop_db) = apSound;
 }
 
-struct TESFullName
+class TESFullName
 {
+  public:
     int a[3];
     TESFullName();
     ~TESFullName();
 };
-struct BGSDestructibleObjectForm
+class BGSDestructibleObjectForm
 {
+  public:
     int a[2];
     BGSDestructibleObjectForm();
     ~BGSDestructibleObjectForm();
 };
-struct TESObjectSTAT
+class TESObjectSTAT
 {
+  public:
     TESObjectSTAT();
     ~TESObjectSTAT();
 };

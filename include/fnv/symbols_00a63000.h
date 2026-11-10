@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class NiObject;
+struct NiObject;
 
 // 0x00a633b0
 void FUN_00a633b0(const ::NiObject *);

@@ -3,7 +3,7 @@
 #define NIPOSDATA_DECLS_H
 
 #include "fnv/symbols_011f3000.h"
-class NiStream;
+struct NiStream;
 class PositionKeyInterpolator;
 class AnimationKey
 {
@@ -19,7 +19,7 @@ class AnimationKey
         NUMKEYTYPES
     };
 };
-class NiObject
+struct NiObject
 {
   public:
     virtual void LoadBinary(NiStream&);
@@ -47,7 +47,7 @@ class NiBinaryStream
         position += read(this, data, bytes, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     unsigned char padding[0x24c];

@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSLoadGameBuffer {
+struct BGSLoadGameBuffer {
 public:
     // 0x00848d50
     void ResetReadPosition();

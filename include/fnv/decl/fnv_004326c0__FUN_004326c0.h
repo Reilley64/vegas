@@ -1,8 +1,8 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 class TESObjectCELL;
-namespace fnv_004326c0 { struct TESWorldSpace; }
+namespace fnv_004326c0 { class TESWorldSpace; }
 
 namespace fnv_004326c0 {
 struct FUN_004326c0 {

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00403ca0 { struct EffectItem; }
+namespace fnv_00403ca0 { class EffectItem; }
 
 namespace fnv_00403ca0 {
 struct FUN_00403ca0 {

@@ -17,7 +17,7 @@ class TESForm;
 class TESObjectREFR;
 class TESActorBase;
 class Script;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 enum ENUM_FORM_ID
 {
     FORM_NONE = 0,

@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class NiPoint3;
+struct NiPoint3;
 
 struct StateTracker {
 public:

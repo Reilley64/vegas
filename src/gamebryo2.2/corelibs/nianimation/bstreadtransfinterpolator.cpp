@@ -680,8 +680,9 @@ struct FixedStringHeader
     volatile long references;
     unsigned int unk04;
 };
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* value;
     static FixedStringHeader* Header(const char* text)
     {
@@ -713,7 +714,7 @@ struct TreadTransformEntry
     NiFixedString name;
     TreadTransformEntry();
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
 class NiInterpolator : public NiObject

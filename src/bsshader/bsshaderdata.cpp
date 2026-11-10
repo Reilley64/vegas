@@ -18,7 +18,7 @@ struct BSShaderNoLightingProperty;
 struct BSShaderPPLightingProperty;
 struct BSShaderProperty;
 struct BSShaderTextureSet;
-struct NiAVObject;
+class NiAVObject;
 struct NiAlphaController;
 struct NiMaterialColorController;
 struct SkyShaderProperty;
@@ -135,8 +135,9 @@ struct _D3DXMACRO
     const char* Name;
     const char* Definition;
 };
-struct NiD3DPixelShader
+class NiD3DPixelShader
 {
+  public:
     virtual void v0();
     virtual void DeleteThis();
     long m_uiRefCount;

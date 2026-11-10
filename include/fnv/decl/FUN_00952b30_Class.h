@@ -1,6 +1,6 @@
 #pragma once
 
-class BSAudio;
+struct BSAudio;
 
 struct FUN_00952b30_Class {
 public:

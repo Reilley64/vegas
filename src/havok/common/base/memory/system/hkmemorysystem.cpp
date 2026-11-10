@@ -148,7 +148,7 @@ void S00cbc000_Caller(S00cbc000_Stats* s, int handle, unsigned int limit, const 
     FUN_00cbc000(s, limit, handle, name);
 }
 
-struct hkOstream;
+class hkOstream;
 
 struct SixUnsignedValueRecord
 {

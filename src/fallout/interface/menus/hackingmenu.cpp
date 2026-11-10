@@ -144,7 +144,7 @@ int HackingMenu::FUN_00765870()
 }
 
 namespace fnv_00765880 {
-struct Tile;
+class Tile;
 
 struct HackingMenu
 {
@@ -216,7 +216,7 @@ void HackingMenu::FUN_00767ff0(int aiID, void* apTarget)
 
 struct WeatherEntry;
 
-struct BSSimpleList
+class BSSimpleList
 {
 };
 
@@ -505,8 +505,9 @@ void FUN_0076b2a0_shell::FreeAll()
 }
 }  // namespace fnv_0076b2a0
 
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 public:
     void SetName(const char *);
@@ -719,7 +720,7 @@ class FORenderedTerminal : public FORenderedMenu
   public:
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     NiNode* GetSynchTime();
@@ -2523,7 +2524,7 @@ void Hack83::BuildHackingPasswordFile()
 
 namespace s767610 {
 
-struct Tile
+class Tile
 {
 };
 

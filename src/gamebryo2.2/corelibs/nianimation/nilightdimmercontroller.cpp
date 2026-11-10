@@ -76,11 +76,12 @@ void* FUN_00a4d0d0()
     return 0;
 }
 
-template <typename T> struct NiTMallocInterface
+template <typename T> class NiTMallocInterface
 {
 };
-template <typename T, typename A> struct NiTPrimitiveArray
+template <typename T, typename A> class NiTPrimitiveArray
 {
+  public:
     char _pad[8];
     unsigned short m_pRayCursor;
     unsigned short m_iElementCount;
@@ -124,7 +125,7 @@ void* FloatInterpOwner::CreateFloatInterpController(intptr_t arg)
     return obj;
 }
 
-class NiRTTI;
+struct NiRTTI;
 
 struct DynCastHelper
 {

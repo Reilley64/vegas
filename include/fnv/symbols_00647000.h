@@ -5,8 +5,8 @@ class ActorValueOwner;
 class FloatSource;
 struct FUN_00647a30_Flag;
 struct FUN_00647a30_Obj;
-struct TESObjectARMO;
-struct TESObjectWEAP;
+class TESObjectARMO;
+class TESObjectWEAP;
 
 // 0x006477b0
 float FUN_006477b0(int);

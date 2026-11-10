@@ -1099,7 +1099,7 @@ template <class TPARENT, class TKEY, class TVAL> bool NiTMapBase<TPARENT, TKEY, 
     return false;
 }
 
-class CloningProcess
+struct CloningProcess
 {
   public:
     NiTMapBase<NiTPointerAllocator<unsigned int>, NiObject*, NiObject*>* m_pCloneMap;

@@ -56,8 +56,9 @@ unsigned int FormIDConverter::RegisterFormID(unsigned int formID)
 }
 
 struct BSFile;
-struct SaveLoadFile
+class SaveLoadFile
 {
+  public:
     unsigned int Read(void*, unsigned int);
     unsigned int Write(void*, unsigned int);
     bool Open();
@@ -189,8 +190,9 @@ void FUN_0044ee40_cls::ClearSlots()
 
 namespace fnv_00846e00 {
 struct BSFile;
-struct SaveLoadFile
+class SaveLoadFile
 {
+  public:
     unsigned int Read(void*, unsigned int);
     unsigned int Write(void*, unsigned int);
     bool Open();

@@ -1358,12 +1358,14 @@ struct FUN_008579e0_shell
 {
     void FUN_008579e0(void*, unsigned int);
 };
-struct NiQuaternion
+class NiQuaternion
 {
+  public:
     static const Quat16 IDENTITY;
 };
-struct PlayerCharacter : SaveBaseObj
+class PlayerCharacter : public SaveBaseObj
 {
+  public:
     virtual void v74();
     virtual void v75();
     virtual void v76();
@@ -2969,7 +2971,7 @@ class BSSoundHandleEx
     ~BSSoundHandleEx();
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx FUN_00ad73b0(unsigned int auiFormId, unsigned int uiFlags);

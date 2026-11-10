@@ -3,7 +3,7 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 #pragma comment(linker, "/alternatename:?DAT_011f6238@@3UReviewedMemory@@A=?g_memoryManager@@3UMemoryManager@@A")
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?_g_memoryManager@@3UMM@@A=?g_memoryManager@@3UMemoryManager@@A")
 #pragma comment(linker, "/alternatename:?g_011f6238@@3UFNVHeap@@A=?g_memoryManager@@3UMemoryManager@@A")
 #pragma comment(linker, "/alternatename:?g_timeGlobal@@3VTimeGlobal@@A=?g_timeGlobal@@3UGameTimerRecord@@A")

@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-struct TESForm;
+class TESForm;
 
 // 0x00679ba0
 int FUN_00679ba0(void *);

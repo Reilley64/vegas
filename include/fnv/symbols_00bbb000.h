@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 namespace fnv_00bbba00 { struct ShaderTransform; }
 struct DummyVTable;
 struct Lighting30Packet4;

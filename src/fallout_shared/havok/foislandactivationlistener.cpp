@@ -88,7 +88,7 @@ struct NiPoint3
     float x, y, z;
 };
 struct hkVector4;
-struct NiTransform;
+class NiTransform;
 struct TopicH
 {
 };
@@ -107,7 +107,7 @@ NiTransform* FUN_00624ad0(NiTransform* arNiTran, TopicH* arTopicH)
     return arNiTran;
 }
 
-struct NiTArray
+class NiTArray
 {
 };
 struct FUN_006228e0_shell
@@ -146,7 +146,7 @@ FUN_006241c0_shell::FUN_006241c0_shell()
     m_ptr = &DAT_0104de10;
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct FUN_00807730_shell
@@ -340,7 +340,7 @@ struct CF845
     CF845(int);
 };
 
-class NiRTTI;
+struct NiRTTI;
 
 struct Type2;
 struct Type5;
@@ -991,8 +991,9 @@ struct FUN_0056ded0
     FUN_0056ded0();
 };
 
-struct NiTransform
+class NiTransform
 {
+  public:
     float a00, a01, a02, a10, a11, a12, a20, a21, a22;
     NiPoint3 translation;
     float scale;

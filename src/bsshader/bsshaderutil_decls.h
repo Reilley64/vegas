@@ -115,7 +115,7 @@ class BSShaderAccumulator
     NiPointer<NiRefObject> texture;
 };
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;
@@ -135,7 +135,7 @@ class NiRenderer
     char _pdbpad_20a[118];
 };
 
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char* value);

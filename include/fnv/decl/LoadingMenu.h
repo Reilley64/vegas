@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 
 class LoadingMenu {
 public:

@@ -4,12 +4,12 @@
 
 #pragma comment(linker, "/alternatename:?DAT_00fdf1c0@@3P6AXPEAX@ZEA=?DAT_00fdf1c0@@3P6AHPEAX@ZEA")
 #pragma comment(linker, "/alternatename:?DAT_00fdf1c4@@3P6AXPEAX@ZEA=?DAT_00fdf1c4@@3P6AHPEAX@ZEA")
-#pragma comment(linker, "/alternatename:?DAT_011c5f80@@3IA=?g_011c5f80@@3VGlobalObject_0096a2d0@@A")
+#pragma comment(linker, "/alternatename:?DAT_011c5f80@@3IA=?g_011c5f80@@3UGlobalObject_0096a2d0@@A")
 #pragma comment(linker, "/alternatename:?DAT_011f4400@@3JC=?ms_lObjectCount@NiRefObject@@2IA")
-#pragma comment(linker, "/alternatename:?DAT_011f4748@gfxB6BA@@3PEAURendererSurfaceB6BA@@EA=?ms_pRenderer@NiRenderer@@2PEAV1@EA")
+#pragma comment(linker, "/alternatename:?DAT_011f4748@gfxB6BA@@3PEAURendererSurfaceB6BA@@EA=?ms_pRenderer@NiRenderer@@2PEAU1@EA")
 #pragma comment(linker, "/alternatename:?ms_pFreeList@NiTAbstractPoolAllocator_unsigned_int@@2PEAULinkedListEntry@1@EA=?DAT_011c5f58@@3PEAXEA")
-#pragma comment(linker, "/alternatename:?ms_pRenderer@NiRenderer@@2PEAU1@EA=?ms_pRenderer@NiRenderer@@2PEAV1@EA")
-#pragma comment(linker, "/alternatename:DAT_011f4748=?ms_pRenderer@NiRenderer@@2PEAV1@EA")
+#pragma comment(linker, "/alternatename:?ms_pRenderer@NiRenderer@@2PEAU1@EA=?ms_pRenderer@NiRenderer@@2PEAU1@EA")
+#pragma comment(linker, "/alternatename:DAT_011f4748=?ms_pRenderer@NiRenderer@@2PEAU1@EA")
 
 double DAT_010ae8b0 = 0.3199999928474426;
 double DAT_010ae8b8 = 0.3100000023841858;

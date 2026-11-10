@@ -32,7 +32,7 @@ void __cdecl FUN_0080cec0()
     DAT_011dc034 = 0;
 }
 
-struct TESEffectShader;
+class TESEffectShader;
 
 
 // @fnv 0x0080d0d0
@@ -118,7 +118,7 @@ void DetectLifeEffect::FUN_0080d0e0()
 }
 }  // namespace fnv_0080d0e0
 
-struct ActiveEffect;
+class ActiveEffect;
 
 struct SpawnedEffect
 {
@@ -170,7 +170,7 @@ ActiveEffect* FUN_0080cdb0_cls::CreateSpawnedEffect()
     return e;
 }
 
-struct TESEffectShader;
+class TESEffectShader;
 struct NiPoint3
 {
     float x, y, z;

@@ -1,7 +1,7 @@
 #pragma once
 
 class NiAVObject;
-class NiRTTI;
+struct NiRTTI;
 
 class NiShader {
 public:

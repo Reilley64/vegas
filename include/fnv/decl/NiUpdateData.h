@@ -1,6 +1,6 @@
 #pragma once
 
-class NiUpdateData {
+struct NiUpdateData {
 public:
     float time;
     bool updateControllers;

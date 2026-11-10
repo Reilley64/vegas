@@ -11,7 +11,7 @@ class TESTextureLoader
 {
   public:
 };
-class CombatController;
+struct CombatController;
 class CombatProcedure
 {
   public:

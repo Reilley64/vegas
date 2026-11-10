@@ -886,7 +886,7 @@ int FUN_00d56160_cls::Vec4(FUN_00d56160_items* items, unsigned int value)
 }
 }  // namespace fnv_00d56160
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 struct Container

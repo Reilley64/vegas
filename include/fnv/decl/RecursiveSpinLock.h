@@ -1,6 +1,6 @@
 #pragma once
 
-struct RecursiveSpinLock {
+class RecursiveSpinLock {
 public:
     // 0x0040fba0
     void FUN_0040fba0();

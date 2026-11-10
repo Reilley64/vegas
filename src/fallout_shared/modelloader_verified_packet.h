@@ -21,14 +21,14 @@ class BSFileEntry;
 class Archive;
 class TESObjectREFR;
 class QueuedFile;
-class KFModel;
+struct KFModel;
 class BGSPerkEntry;
 class CountingSemaphore;
 class BSStream;
 class NiNode;
 struct NiPoint3;
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;
@@ -58,7 +58,7 @@ enum IO_TASK_PRIORITY
     IO_TASK_PRIORITY_DEFAULT = 0
 };
 
-class LocationDescriptor
+struct LocationDescriptor
 {
   public:
 };
@@ -90,7 +90,7 @@ template <class T> class BSSimpleList
     void RemoveHead();
 };
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
@@ -98,7 +98,7 @@ public:
     static ::TaskQueueInterface *GetSingleton();
 };
 
-class ModelLoader
+struct ModelLoader
 {
   public:
     bool EnqueueFile(const char*, IO_TASK_PRIORITY, QueuedFile*);
@@ -254,7 +254,7 @@ class QueuedTexture : public QueuedFile
     const char* m_pFileName;     // +0x30
     unsigned char m_ucFlags;     // +0x34
 };
-class IOManager
+struct IOManager
 {
   public:
     virtual void vfn_00();
@@ -291,13 +291,13 @@ class TESSpellList
 {
   public:
 };
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 template <class K, class V> class NiTPointerMap
 {
   public:
     bool IsEmpty();
 };
-class KFModel;
+struct KFModel;
 class AnimIdle
 {
   public:
@@ -322,7 +322,7 @@ class NiNode : public NiAVObject
 public:
     ::NiAVObject *GetAt(unsigned int);
 };
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESModel;
 class TESObjectREFR
 {

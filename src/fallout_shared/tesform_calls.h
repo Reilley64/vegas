@@ -14,12 +14,12 @@ class FormChangeMask
     FormChangeMask(int flags);
     operator bool() const;
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags(unsigned int flags);
 };
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
     void NotifyFormIDChanged(TESForm* form, FormChangeMask flags, bool force);

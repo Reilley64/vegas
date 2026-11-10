@@ -632,7 +632,7 @@ unsigned char FUN_004524f0_Class::GetByteB5()
     return unkb5;
 }
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 public:
     void FUN_0040fba0();
@@ -993,7 +993,7 @@ unsigned short FUN_0045a1a0_Class::GetShortAtOffset58()
     return unk58;
 }
 
-struct QueuedFile;
+class QueuedFile;
 struct QIdlePtr
 {
     QueuedFile* operator=(QueuedFile*);
@@ -1234,8 +1234,9 @@ void FUN_0045dfa0_shell::FUN_0045dfa0()
     FUN_00473270(((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::FUN_0045dfc0_shell *>(this)->FUN_0045dfc0())));
 }
 
-struct HUDMainMenu
+class HUDMainMenu
 {
+  public:
     enum HUD_MENU_MODE
     {
         HUD_MENU_NONE = 0
@@ -2223,8 +2224,9 @@ void __cdecl FUN_004505e0(intptr_t value)
 }
 
 namespace fnv_004505f0 {
-struct NiNode
+class NiNode
 {
+  public:
     NiNode(unsigned short);
 };
 extern int DAT_010178bc;
@@ -2343,7 +2345,7 @@ void This_00450d00::FUN_00450d00()
     _p64 = 0;
 }
 
-struct NiNode;
+class NiNode;
 // @fnv 0x00451010
 std::uintptr_t __cdecl FUN_00451010()
 {
@@ -2470,7 +2472,7 @@ NiPoint3& NiPoint3::Subtract(const NiPoint3& aPoint)
 }
 
 struct CloningProcess;
-struct NiAVObject
+class NiAVObject
 {
 };
 void __cdecl FUN_00457a00(NiAVObject*);
@@ -2826,7 +2828,7 @@ struct BSFaceGenNiNode
     void* GetAnimationData();
 };
 class TESModel;
-struct TESObjectREFR
+class TESObjectREFR
 {
 public:
     ::TESModel *GetTESModel();
@@ -3083,7 +3085,7 @@ struct Vector3
 {
 };
 
-struct TESObjectLAND
+class TESObjectLAND
 {
 };
 
@@ -4039,7 +4041,7 @@ void* __cdecl FUN_00458b20()
     return &(*reinterpret_cast<int *>(&::DAT_01267e30));
 }
 
-struct TESForm;
+class TESForm;
 
 struct SaveBuffer
 {
@@ -4840,7 +4842,7 @@ namespace SceneUpdate {
 struct World;
 struct Array;
 struct Entity;
-struct Actor;
+class Actor;
 struct Region;
 struct Cell;
 struct Query;
@@ -5008,8 +5010,9 @@ struct Region
     int unk20;
     List actors;
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -5469,8 +5472,9 @@ struct FUN_005100d0
     int unk0c;
     FUN_005100d0(int);
 };
-struct TESRegionList
+class TESRegionList
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

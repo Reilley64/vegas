@@ -1,7 +1,7 @@
 #pragma once
 
-struct NavMeshTriangleEdgeReference;
-struct NavMeshTriangleReference;
+class NavMeshTriangleEdgeReference;
+class NavMeshTriangleReference;
 struct PathingRequest;
 template <class, unsigned int> class BSSimpleArray;
 

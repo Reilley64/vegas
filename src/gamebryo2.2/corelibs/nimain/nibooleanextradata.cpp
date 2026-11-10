@@ -23,8 +23,8 @@ NiRTTI* __cdecl FUN_00a9af30()
     return &(*reinterpret_cast<::NiRTTI *>(&::g_011f5f5c));
 }
 
-class NiStream;
-struct NiExtraData
+struct NiStream;
+class NiExtraData
 {
 public:
     void LoadBinary(::NiStream &);
@@ -75,7 +75,7 @@ namespace fnv_00a9af10 {
 struct NiObject
 {
 };
-struct NiExtraData : NiObject
+class NiExtraData : public NiObject
 {
 };
 struct NiBooleanExtraData : NiExtraData

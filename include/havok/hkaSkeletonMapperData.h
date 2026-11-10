@@ -4,7 +4,7 @@
 #define FNV_HAVOK_HKASKELETONMAPPERDATA_H
 
 #include "hkBase.h"
-class hkaSkeleton;
+struct hkaSkeleton;
 class hkaSkeletonMapperDataChainMapping;
 class hkaSkeletonMapperDataSimpleMapping;
 class hkaSkeletonMapperData

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace PackageMovement { struct Actor; }
+namespace PackageMovement { class Actor; }
 
 namespace PackageMovement {
 struct Process {

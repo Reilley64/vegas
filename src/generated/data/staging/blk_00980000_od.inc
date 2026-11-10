@@ -4,12 +4,12 @@
 
 extern "C" void fnv_api_SendMessageA() __asm__("SendMessageA");
 extern "C" void fnv_api_ShowWindow() __asm__("ShowWindow");
-extern "C" char fnv_data_011ce0cc[] __asm__("?originalRuntimeFloatSetting451@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011ce930[] __asm__("?originalRuntimeFloatSetting450@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011ceee4[] __asm__("?originalRuntimeFloatSetting453@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011cefbc[] __asm__("?originalRuntimeFloatSetting449@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011cf180[] __asm__("?originalRuntimeFloatSetting452@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011cf6f4[] __asm__("?originalRuntimeFloatSetting454@@3V?$SettingT@VGameSettingCollection@@@@A");
+extern "C" char fnv_data_011ce0cc[] __asm__("?originalRuntimeFloatSetting451@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011ce930[] __asm__("?originalRuntimeFloatSetting450@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011ceee4[] __asm__("?originalRuntimeFloatSetting453@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cefbc[] __asm__("?originalRuntimeFloatSetting449@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cf180[] __asm__("?originalRuntimeFloatSetting452@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cf6f4[] __asm__("?originalRuntimeFloatSetting454@@3V?$SettingT@UGameSettingCollection@@@@A");
 
 // import slot of USER32.dll ShowWindow
 void (*DAT_00fdf288)(int, int) = reinterpret_cast< void (*)(int, int)>(&fnv_api_ShowWindow);

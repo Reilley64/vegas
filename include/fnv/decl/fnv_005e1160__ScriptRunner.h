@@ -1,7 +1,7 @@
 #pragma once
 
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 namespace fnv_005e1160 { class TESObjectREFR; }
 
 namespace fnv_005e1160 {

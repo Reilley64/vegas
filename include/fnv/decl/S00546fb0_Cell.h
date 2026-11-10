@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESObjectLAND;
+class TESObjectLAND;
 
 struct S00546fb0_Cell {
 public:

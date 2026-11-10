@@ -295,11 +295,12 @@ template <typename T> struct BSStringT
     operator const char*() const;
 };
 
-struct TESFile;
-template <typename T> struct BSSimpleList;
+class TESFile;
+template <typename T> class BSSimpleList;
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
 
@@ -310,9 +311,9 @@ BSSimpleList<TESFile*>* GetSourceFilesFromForm(char* thisPtr)
     return ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(((TESForm*)(const char*)(*(BSStringT<char>*)(thisPtr + 0xb8)))))));
 }
 
-struct Actor;
-struct BGSAcousticSpace;
-struct BGSEncounterZone;
+class Actor;
+class BGSAcousticSpace;
+class BGSEncounterZone;
 struct BGSLightingTemplate;
 struct BGSLoadFormBuffer;
 struct BGSMusicType;
@@ -320,12 +321,12 @@ struct BGSSaveFormBuffer;
 struct BSFile;
 struct BSMultiBoundNode;
 struct BSPortalGraph;
-struct BaseFormComponent;
+class BaseFormComponent;
 struct CHUNK;
 struct CellMopp;
 struct CellRecord;
 struct ExteriorData;
-struct ExtraDataList;
+class ExtraDataList;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
@@ -335,31 +336,31 @@ struct IntSeenData;
 struct InventoryChanges;
 struct LoadedCellData;
 struct NavMeshCollection;
-struct NiAVObject;
-struct NiCamera;
+class NiAVObject;
+class NiCamera;
 struct NiColor;
-struct NiNode;
+class NiNode;
 struct NiPick;
 struct NiPoint3;
 struct NiRenderedTexture;
 struct SeenData;
-struct TESActorBase;
-struct TESBoundObject;
+class TESActorBase;
+class TESBoundObject;
 struct TESClimate;
-struct TESFile;
-struct TESForm;
-struct TESFullName;
+class TESFile;
+class TESForm;
+class TESFullName;
 struct TESGlobal;
 struct TESImageSpace;
-struct TESObject;
-struct TESObjectCELL;
-struct TESObjectLAND;
-struct TESObjectREFR;
-struct TESRegionList;
+class TESObject;
+class TESObjectCELL;
+class TESObjectLAND;
+class TESObjectREFR;
+class TESRegionList;
 struct TESRegionObjectBase;
 struct RegionPoint;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct _D3DLOCKED_RECT;
 struct BhkPickData;
 struct bhkWorld;
@@ -1654,12 +1655,14 @@ TESWorldSpace* FUN_005340b0_Class::FUN_005340b0()
 
 namespace fnv_005340e0 {
 struct DoorH_od {  };
-struct TESObjectCELL {};
-struct TESWorldSpace {
+class TESObjectCELL {};
+class TESWorldSpace {
+  public:
 	enum PARENT_USE_FLAG { PARENT_USE_FLAG_0 = 0 };
 	TESWorldSpace* GetParentWorld(PARENT_USE_FLAG);
 };
-struct TESObjectLAND : ::LandFormView {
+class TESObjectLAND : public ::LandFormView {
+  public:
 	void FUN_00534160(int);
 	void FUN_005340e0(TESObjectCELL* apCell);
 };
@@ -1832,7 +1835,7 @@ const char* const* FUN_00537ca0_class::FUN_00537ca0()
 
 struct FUN_00a73080_holder {  };
 
-class ShadowSceneNode;
+struct ShadowSceneNode;
 
 struct NiAdditionalGeometryData {
     void* FUN_00537cb0(unsigned int flags);
@@ -1879,15 +1882,15 @@ struct QuantityData {  };
 
 struct TESRaceForm {  };
 
-struct TESObjectREFR {  };
+class TESObjectREFR {  };
 
-struct MagicCaster {  };
+class MagicCaster {  };
 
 struct TESConditionItem {  };
 
-struct TESQuest;
+class TESQuest;
 
-struct BGSQuestObjective { void SetOwner(TESQuest*); };
+class BGSQuestObjective { public: void SetOwner(TESQuest*); };
 
 struct FUN_00537e30_cls { char _pad[24]; int _m18; int _m1c; FUN_00537e30_cls* FUN_00537e30(); };
 
@@ -2107,9 +2110,9 @@ FUN_0053a510::FUN_0053a510()
 }
 
 namespace fnv_0053a550 {
-struct TESWorldSpace;
-struct TESObjectCELL;
-struct TESWorldSpace {
+class TESWorldSpace;
+class TESObjectCELL;
+class TESWorldSpace {
 };
 struct DoorH_od {
     float FUN_0053a550();
@@ -2257,14 +2260,15 @@ unsigned char FUN_0053e260_Class::FUN_0053e260(int index, int offset)
 
 namespace fnv_0053f0e0 {
 struct NiPoint3_od { float x; float y; float z; };
-struct NiGeometry { int _0; };
+class NiGeometry { public: int _0; };
 struct LandscapeColorData {
  int m00; int m04; int m08; int m0C; int m10; int m14; int m18; int m1C;
  int m20; int m24; int m28; int m2C; int m30; int m34; int m38; int m3C;
  int m40; int m44; int m48; int m4C;
  void FUN_0053a510();
 };
-struct TESObjectLAND {
+class TESObjectLAND {
+  public:
  bool FUN_0053b550(LandscapeColorData*, const NiPoint3_od*, int);
  NiGeometry* FUN_0053f120(LandscapeColorData*);
  NiGeometry* FUN_0053f0e0(const NiPoint3_od&);
@@ -2282,7 +2286,7 @@ NiGeometry* TESObjectLAND::FUN_0053f0e0(const NiPoint3_od& coord)
 
 class NiAVObject;
 
-struct NiNode {  public:
+class NiNode {  public:
     ::NiAVObject *GetAt(unsigned int);
 };
 
@@ -2304,15 +2308,17 @@ struct LandscapeColorData
     void FUN_0053a510();
 };
 
-struct TESObjectLAND
+class TESObjectLAND
 {
+  public:
     bool FUN_0053f180(const LandscapeColorData&, float&);
 };
 
 namespace fnv_0053fa10 {
 struct RgbaColor { float r, g, b, a; };
 struct LandscapeColorData { char _00[0x18]; int m_iGridX; char _1C[0x20]; int m_iGridY; };
-struct TESObjectLAND {
+class TESObjectLAND {
+  public:
     void FUN_005345c0(int m_iGridX, int m_iGridY, RgbaColor* color);
     bool FUN_0053fa10(const LandscapeColorData* cdata, RgbaColor* color);
 };
@@ -2326,7 +2332,7 @@ bool TESObjectLAND::FUN_0053fa10(const LandscapeColorData* cdata, RgbaColor* col
 
 // namespace fnv_0053fa10
 
-struct QueuedFile;
+class QueuedFile;
 
 struct BGSTextureSet {
     void LoadTextures(int, QueuedFile*, bool);
@@ -2416,7 +2422,8 @@ void FUN_00538eb0(Prm* p)
 
 namespace fnv_00539010 {
 struct TESForm_od {  };
-struct TESObjectREFR {
+class TESObjectREFR {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -2469,7 +2476,8 @@ struct TESObjectREFR {
     virtual void v49();
     virtual void SetTargetingState(int);
 };
-struct TESObjectLAND : TESForm_od {
+class TESObjectLAND : public TESForm_od {
+  public:
     void FUN_00539010(bool altered);
 };
 // @fnv 0x00539010
@@ -3563,7 +3571,7 @@ struct FUN_0053f390_cls {
     FUN_0053f390_v2* FUN_0053f390(FUN_0053f390_v2* out, int n);
 };
 
-class NiPoint2 { public: float x,y; NiPoint2(float,float); };
+struct NiPoint2 { public: float x,y; NiPoint2(float,float); };
 
 struct UVBounds { float x,y,z,w; };
 
@@ -4792,7 +4800,8 @@ struct Texture53 {   };
 
 struct GeoData53 {    };
 
-struct NiTimeController {
+class NiTimeController {
+  public:
  virtual void slot0();
  virtual void slot1();
  virtual void slot2();
@@ -9398,14 +9407,16 @@ struct LandWorld535d
 {
 };
 
-struct QueuedFile
+class QueuedFile
 {
+  public:
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
     QueuedFile(int);
 };
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* value;
     operator T*() const;
     NiPointer& operator=(T*);

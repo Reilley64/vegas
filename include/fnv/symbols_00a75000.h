@@ -1,5 +1,5 @@
 #pragma once
-class NiStream;
+struct NiStream;
 #include <cstdint>
 
 class NiDirectionalLight;

@@ -1,7 +1,7 @@
 #pragma once
 
-namespace fnv_00444f10 { struct EffectSetting; }
-namespace fnv_00444f10 { struct MagicItem; }
+namespace fnv_00444f10 { class EffectSetting; }
+namespace fnv_00444f10 { class MagicItem; }
 
 namespace fnv_00444f10 {
 struct FUN_00444f10_shell {

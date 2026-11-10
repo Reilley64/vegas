@@ -21,7 +21,7 @@ __forceinline void NiIntegerRead(void* data, NiBinaryStream* input,
     unsigned int size = 4;
     input->m_uiStreamFlags += read(input, data, 4, &size, 1);
 }
-class NiStream
+struct NiStream
 {
   public:
     char padding[0x24c];

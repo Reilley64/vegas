@@ -817,7 +817,7 @@ struct BaseCall
     unsigned int unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -1744,7 +1744,7 @@ class NiTimeController;
 
 struct PhysicsBody;
 
-class NiRTTI;
+struct NiRTTI;
 
 struct hkVector4
 {
@@ -1854,7 +1854,7 @@ struct CollisionObject : public VirtualObject
     float beginValue, endValue;
 };
 
-class NiObject : public VirtualObject
+struct NiObject : public VirtualObject
 {
   public:
     NiObject* DynamicCast(const NiRTTI* rtti);

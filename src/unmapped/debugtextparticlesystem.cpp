@@ -494,8 +494,9 @@ static __forceinline void resizeBones(HavokArray<BoneName>& bones, int count)
     constructBones(bones.data + bones.size, count - bones.size);
     bones.size = count;
 }
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     unsigned short memorySize, referenceCount;
     __forceinline hkReferencedObject() : referenceCount(1)
     {}

@@ -110,8 +110,8 @@ class HeapBlockList
     int iCount;
     HeapFreeList* pFirst;
 };
-class AbstractHeapLogger;
-class AbstractHeapLogger
+struct AbstractHeapLogger;
+struct AbstractHeapLogger
 {
   public:
     static __forceinline AbstractHeapLogger* Get()

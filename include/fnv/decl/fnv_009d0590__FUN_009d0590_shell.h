@@ -1,7 +1,7 @@
 #pragma once
 
 namespace fnv_009d0590 { struct NiPoint3; }
-namespace fnv_009d0590 { struct TESObjectREFR; }
+namespace fnv_009d0590 { class TESObjectREFR; }
 
 namespace fnv_009d0590 {
 struct FUN_009d0590_shell {

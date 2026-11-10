@@ -1,7 +1,7 @@
 #pragma once
 
-class NiObjectNET;
-class NiStream;
+struct NiObjectNET;
+struct NiStream;
 namespace fnv_00a5c290 { struct CloningProcess; }
 
 // 0x00a5d7a0

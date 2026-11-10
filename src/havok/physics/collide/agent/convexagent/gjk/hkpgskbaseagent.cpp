@@ -85,8 +85,9 @@ void FUN_00dabed0_cls::SetValueIfExpected(float expected, float value, const voi
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const void* m_pCollisionShape;
     int m_uiCollisionShapeKey;
     const void* m_pMotionState;
@@ -99,8 +100,9 @@ struct GskAgentInput
     float m_fScalar;
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     __m128 m_kColumn0;
     __m128 m_kColumn1;
     __m128 m_kColumn2;
@@ -122,8 +124,9 @@ struct GskOutput
     __m128 m_vHitNormal;
 };
 
-struct hkContactPoint
+class hkContactPoint
 {
+  public:
     __m128 m_vContactPosition;
     __m128 m_vSeparatingNormal;
 };
@@ -1148,7 +1151,7 @@ hkReferencedObject(class FinishingFlag flag){}
 };
 
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
 {
@@ -1172,7 +1175,7 @@ class Vector4Comparison;
 typedef const Vector4Comparison&hkVector4ComparisonParameter;
 class hkRotation;
 class hkTransform_S;
-class hkVector4
+struct hkVector4
 {
 public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}

@@ -21,7 +21,7 @@ bool GetLimbConditionEffectInitialized()
     return g_bLimbConditionEffectInitialized;
 }
 
-struct Actor;
+class Actor;
 struct LimbConditionEffect
 {
     unsigned short FUN_0080f2b0(Actor* apActor);
@@ -39,7 +39,7 @@ unsigned short LimbConditionEffect::FUN_0080f2b0(Actor* apActor)
 class ActiveEffect;
 class Actor;
 namespace ActorValue { enum Index; }
-struct Actor;
+class Actor;
 struct ValueModifierEffect
 {
     ValueModifierEffect(void*, void*, void*);
@@ -107,8 +107,9 @@ struct BGSLoadFormBuffer
 {
     virtual unsigned char GetVersion();
 };
-struct ActiveEffect
+class ActiveEffect
 {
+  public:
     virtual void LoadGame(BGSLoadFormBuffer*);
 };
 struct MyEffect : ActiveEffect
@@ -171,8 +172,9 @@ struct GameSettingCollection
 {
     float fValue;
 };
-template <class T> struct SettingT
+template <class T> class SettingT
 {
+  public:
     float* Float();
 };
 namespace ActorValue { enum Index; }

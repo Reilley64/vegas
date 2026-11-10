@@ -36,8 +36,9 @@ struct RendererData
 {
     virtual ~RendererData();
 };
-struct NiTexture
+class NiTexture
 {
+  public:
     int _00[9];
     RendererData* m_pTextureRendererData;
     int _28[2];

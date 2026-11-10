@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-struct NiCamera;
+class NiCamera;
 
 // 0x00709470
 void FUN_00709470(int, std::intptr_t, int, int, int);

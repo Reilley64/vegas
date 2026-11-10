@@ -10,13 +10,13 @@
 #include "layout_support.h"
 class FindTriangleForLocationFilter;
 class NavMesh;
-class NavMeshPtr;
+struct NavMeshPtr;
 class PathBuilder;
 class PathBuilder__FindTriangleForLocationWaterFilter;
-class PathingRequest;
+struct PathingRequest;
 class PathingSolution;
 class PathingInfoEntry;
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 class MemoryManager
 {
   public:
@@ -38,7 +38,7 @@ class PathBuilder__FindTriangleForLocationWaterFilter : public FindTriangleForLo
     // FindTriangleForLocationWaterFilter
     // PathBuilder::FindTriangleForLocationWaterFilter& __cdecl PathBuilder::FindTriangleForLocationWaterFilter::*(const PathBuilder::FindTriangleForLocationWaterFilter&)
 };
-class NavMeshPtr : public NiPointer<NavMesh>
+struct NavMeshPtr : public NiPointer<NavMesh>
 {
   public:
     // base NiPointer<NavMesh> at +0x0, size 4

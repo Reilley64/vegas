@@ -145,11 +145,11 @@ void FUN_00617fc0_shell::FUN_00617fc0()
 
 typedef int CHUNK_ID;
 
-struct TESFile;
-struct TESDescription;
-struct TESTexture;
+class TESFile;
+class TESDescription;
+class TESTexture;
 
-struct TESFile
+class TESFile
 {
 public:
     bool IsEndianConversionRequired();
@@ -157,18 +157,21 @@ public:
     bool NextChunk();
 };
 
-struct TESDescription
+class TESDescription
 {
+  public:
     static void __cdecl ReadDescriptionFromFile(TESDescription*, TESFile*);
 };
 
-struct TESTexture
+class TESTexture
 {
+  public:
     static void __cdecl ReadTextureData(TESTexture*, TESFile*);
 };
 
-struct TESForm
+class TESForm
 {
+  public:
 
     virtual void _slot00()
     {}
@@ -458,8 +461,9 @@ struct FUN_005e79a0_t
 {
 };
 
-struct TESRegion
+class TESRegion
 {
+  public:
     NiColor* GetDiffuseColor();
 };
 

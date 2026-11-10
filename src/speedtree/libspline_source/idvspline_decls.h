@@ -15,7 +15,7 @@
 #include "fnv/symbols_005ac000.h"
 #include "fnv/symbols_005b5000.h"
 class TESObjectREFR;
-class ScriptLocals;
+struct ScriptLocals;
 class Script
 {
   public:

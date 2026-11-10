@@ -13,8 +13,9 @@
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_01183000.h"
 #include "fnv/symbols_01184000.h"
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent();
 };
 struct BGSAmmoForm : BaseFormComponent

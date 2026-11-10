@@ -2,7 +2,7 @@
 
 struct A51BF0;
 struct NiStreamM;
-class NiStream;
+struct NiStream;
 
 // 0x00a411f0
 namespace fnv_00a411f0 { int *FUN_00a411f0(); }

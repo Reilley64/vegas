@@ -2960,7 +2960,7 @@ struct Map0C
 
 };
 
-class GlobalObjectO2_00d472a0
+struct GlobalObjectO2_00d472a0
 {
   public:
     FlagBool FUN_00d46d80(ObjB* obj) throw();

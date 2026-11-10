@@ -23,7 +23,7 @@ class BSFaceGenMorph
     void** m_ppVirtualMethodTable;
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     NiPoint3();

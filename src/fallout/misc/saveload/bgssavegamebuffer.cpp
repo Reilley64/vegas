@@ -38,8 +38,9 @@ struct FUN_00424940_shell
     unsigned char FUN_00424940(void);
 };
 
-struct BGSSaveLoadManager
+class BGSSaveLoadManager
 {
+  public:
     unsigned char FUN_00424940(void);
 };
 
@@ -255,7 +256,7 @@ void FUN_00865db0_shell::FUN_00865db0(uintptr_t a, unsigned int uiUnused)
 }
 
 namespace fnv_00865df0 {
-struct TESForm
+class TESForm
 {
 };
 struct Dummy84eaf0
@@ -347,8 +348,9 @@ struct ThreeByThreeMatrix
     float m21;
     float m22;
 };
-struct NiQuaternion
+class NiQuaternion
 {
+  public:
     float x;
     float y;
     float z;

@@ -2,26 +2,26 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-extern "C" char fnv_data_011d2334[] __asm__("?g_011d2334@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d273c[] __asm__("?g_011d273c@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d2bc8[] __asm__("?g_011d2bc8@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d2fb8[] __asm__("?g_011d2fb8@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d321c[] __asm__("?g_011d321c@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d3378[] __asm__("?g_011d3378@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d3678[] __asm__("?g_011d3678@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d38c4[] __asm__("?g_011d38c4@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d39a8[] __asm__("?g_011d39a8@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d4240[] __asm__("?g_011d4240@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d4258[] __asm__("?g_011d4258@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d43a8[] __asm__("?g_011d43a8@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d4744[] __asm__("?g_011d4744@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d48c4[] __asm__("?g_011d48c4@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d4aa4[] __asm__("?g_011d4aa4@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d4ba0[] __asm__("?g_011d4ba0@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d4bdc[] __asm__("?g_011d4bdc@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d4c18[] __asm__("?g_011d4c18@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d4dd4[] __asm__("?g_011d4dd4@@3VGlobalObject_0045cfe0@@A");
-extern "C" char fnv_data_011d50d4[] __asm__("?g_011d50d4@@3VGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d2334[] __asm__("?g_011d2334@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d273c[] __asm__("?g_011d273c@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d2bc8[] __asm__("?g_011d2bc8@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d2fb8[] __asm__("?g_011d2fb8@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d321c[] __asm__("?g_011d321c@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d3378[] __asm__("?g_011d3378@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d3678[] __asm__("?g_011d3678@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d38c4[] __asm__("?g_011d38c4@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d39a8[] __asm__("?g_011d39a8@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d4240[] __asm__("?g_011d4240@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d4258[] __asm__("?g_011d4258@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d43a8[] __asm__("?g_011d43a8@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d4744[] __asm__("?g_011d4744@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d48c4[] __asm__("?g_011d48c4@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d4aa4[] __asm__("?g_011d4aa4@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d4ba0[] __asm__("?g_011d4ba0@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d4bdc[] __asm__("?g_011d4bdc@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d4c18[] __asm__("?g_011d4c18@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d4dd4[] __asm__("?g_011d4dd4@@3UGlobalObject_0045cfe0@@A");
+extern "C" char fnv_data_011d50d4[] __asm__("?g_011d50d4@@3UGlobalObject_0045cfe0@@A");
 
 float DAT_0102978c = 32767.0f;
 double DAT_010356f8 = 17.0;

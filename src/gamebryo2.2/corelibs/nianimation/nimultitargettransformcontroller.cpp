@@ -31,7 +31,7 @@
 #include "fnv/decl/MemoryManagerStandIn.h"
 class NiInterpolator;
 class NiAVObject;
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m[9];
@@ -45,7 +45,7 @@ class NiQuaternion
     float m_fScalarPart;
     void FromRotationMatrix(const ThreeByThreeMatrix&) throw();
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -248,7 +248,7 @@ struct FUN_00a300d0_shell : public NiMultiTargetTransformController
     void FUN_00a300d0(CloningProcess*);
 };
 
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 
 template <class T> class NiTStringPointerMap
 {
@@ -435,8 +435,9 @@ int* __cdecl FUN_00a2fbd0()
 }
 
 namespace fnv_00a30240 {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* s;
 };
 struct NiInterpController
@@ -846,8 +847,9 @@ bool FUN_00a2fae0_cls::Equals(FUN_00a2fae0_cls* other)
 }
 
 extern float DAT_0109643c;
-struct NiBlendInterpolator
+class NiBlendInterpolator
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -1303,8 +1305,8 @@ class NiBinaryStream
         return uiBytesRead;
     }
 };
-class NiObject;
-class NiStream
+struct NiObject;
+struct NiStream
 {
   public:
     int unk000;

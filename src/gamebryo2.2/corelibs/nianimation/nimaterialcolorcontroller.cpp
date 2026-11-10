@@ -648,7 +648,7 @@ struct StreamRecord
     unsigned int bytesRead;
     int(__cdecl* read)(StreamRecord*, void*, unsigned int, unsigned int*, unsigned int);
 };
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     StreamRecord* record()
@@ -706,8 +706,9 @@ void Stand840::Load(NiStream* stream)
         reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
 }
 
-struct NiNode
+class NiNode
 {
+  public:
     char _pad[0xAC];
     NiNode(unsigned short);
 };

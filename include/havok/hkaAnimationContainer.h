@@ -8,7 +8,7 @@
 class hkaAnimation;
 class hkaAnimationBinding;
 class hkaMeshBinding;
-class hkaSkeleton;
+struct hkaSkeleton;
 class hkaAnimationContainer : public hkReferencedObject
 {
   public:

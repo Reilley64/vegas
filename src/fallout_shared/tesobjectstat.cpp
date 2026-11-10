@@ -156,8 +156,9 @@ bool FUN_005e79a0_t::FUN_0051b650(TESForm* form)
     return false;
 }
 
-struct TESSound : public TESForm
+class TESSound : public TESForm
 {
+  public:
     virtual ~TESSound()
     {}
 };

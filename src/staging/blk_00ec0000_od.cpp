@@ -45,7 +45,7 @@ static void MoviePlayerA_Load(MoviePlayerA* player, const char* list);
 static void NiTStringMapCopy_Destroy(NiTStringMapCopy* map);
 
 
-struct BGSMoviePlayer
+class BGSMoviePlayer
 {
 };
 // @fnv 0x00ec16b0

@@ -55,9 +55,9 @@ struct SkyWeatherView
     void* currWeather;
     void* transWeather;
 };
-struct Actor;
+class Actor;
 class EffectSetting;
-struct ActiveEffect
+class ActiveEffect
 {
 public:
     ::EffectSetting *GetEffectSetting() const;
@@ -81,7 +81,7 @@ unsigned short SunDamageEffect::FUN_0082a390(Actor* apActor)
 }
 
 namespace fnv_0082a420 {
-struct ActiveEffect
+class ActiveEffect
 {
 };
 
@@ -146,9 +146,9 @@ void FUN_0082a3e0_shell::SaveSunDamageEffect(Actor* apActor)
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&reinterpret_cast<SunDamageEffectFields*>(this)->unk48, 4);
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 struct FUN_0080bc70_base
 {
     char _pad[72];
@@ -172,9 +172,9 @@ FUN_00829a70::FUN_00829a70(MagicCaster* a, MagicItem* pItem, EffectItem* pEffect
     b4c = 0;
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 
 struct AC0ActiveEffect
 {
@@ -712,9 +712,9 @@ void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
     }
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 struct FUN_00829a70;
 
 // Allocates and constructs a FUN_00829a70 from the given MagicCaster, MagicItem and EffectItem, returning the new object.

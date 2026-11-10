@@ -62,8 +62,9 @@ void FUN_0048b5c0_shell::FUN_0048b5c0()
     ::FUN_004856f0((void *)(0x43504650), &unk8, (void *)(4));
 }
 
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent();
 };
 struct TESProduceForm : BaseFormComponent
@@ -108,7 +109,7 @@ bool ProduceFormData::FUN_0048b6a0(BaseFormComponent* apOther)
     return false;
 }
 
-struct TESFile;
+class TESFile;
 
 struct FUN_00485b60_Cls
 {
@@ -191,15 +192,16 @@ struct FUN_00485b60_Cls
     virtual int v76();
 };
 
-struct TESForm;
+class TESForm;
 
 extern const char DAT_0101d2b4[];
 extern const char DAT_0101d2f8[];
 extern const char DAT_0101d340[];
 
 class TESFile;
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 public:
     ::TESFile *GetFile(int);

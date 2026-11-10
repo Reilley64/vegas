@@ -1505,7 +1505,7 @@ void B8C4890Actor::SetProcessValue(float fValue)
         m_pkProcess->SetValue(fValue);
 }
 
-struct EffectSetting
+class EffectSetting
 {
 };
 class SummonCreatureEffect;
@@ -4819,7 +4819,7 @@ struct Manager8c37
 {
 };
 
-class NiRTTI;
+struct NiRTTI;
 
 struct Child8c37
 {
@@ -5127,7 +5127,7 @@ void Actor::ConfigureActorState(bool first, bool second)
     ActorConditionAndAnimationState = time;
 }
 
-class NiRTTI;
+struct NiRTTI;
 
 struct Sequence8c39
 {
@@ -8121,7 +8121,7 @@ class NiControllerSequence;
 class Actor;
 class BSFileEntry;
 class NiAVObject;
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 class PlayerCharacter;
 
 class TESObjectREFR;

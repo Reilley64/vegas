@@ -1,6 +1,6 @@
 #pragma once
 
-class PathingRequest;
+struct PathingRequest;
 
 struct FUN_009dba30_fix {
 public:

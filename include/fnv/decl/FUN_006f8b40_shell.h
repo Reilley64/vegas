@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiFile;
+class NiFile;
 
 struct FUN_006f8b40_shell {
 public:

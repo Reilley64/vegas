@@ -82,8 +82,9 @@ struct BaseH
     virtual ~BaseH();
 };
 
-struct NiControllerSequence : BaseH
+class NiControllerSequence : public BaseH
 {
+  public:
     void* FUN_00a35820(unsigned int);
 public:
     NiControllerSequence();
@@ -143,7 +144,7 @@ struct NiBinaryStream
         m_uiStreamFlags += m_pfnWrite(this, pv, uiBytes, &uiComponentSize, 1);
     }
 };
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     virtual void V00();
@@ -166,7 +167,7 @@ public:
 public:
     ::NiObject *DeserializeObject();
 };
-class NiRTTI;
+struct NiRTTI;
 struct NiObject
 {
     void* m_vtbl;
@@ -333,8 +334,9 @@ void* __cdecl FUN_00a326c0()
 extern char DAT_01096584;
 extern int(* DAT_00fdf1c4)(void*);
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     ~NiRefObject();
 };
 
@@ -3636,8 +3638,9 @@ class NiNode : public DynCastHelper
 {
 };
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* p;
     NiPointer(T* object = 0) throw()
     {
@@ -3899,8 +3902,9 @@ struct NiStringPtr
     char* m_kHandle;
 };
 
-struct NiControllerSequence
+class NiControllerSequence
 {
+  public:
     NiStringPtr m_kName;
     NiStringPtr m_kParentName;
     NiStringPtr m_kSourceName;

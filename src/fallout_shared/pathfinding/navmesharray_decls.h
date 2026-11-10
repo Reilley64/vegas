@@ -12,7 +12,7 @@ template <class T> class NiPointer
     ~NiPointer();
 };
 typedef NiPointer<NavMesh> NavMeshPtr;
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
     NavMesh*& GetAt(unsigned int);

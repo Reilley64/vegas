@@ -135,7 +135,7 @@ FUN_0081b7b0::~FUN_0081b7b0()
 }
 }  // namespace fnv_0081b7b0
 
-struct ActiveEffect;
+class ActiveEffect;
 
 struct FUN_008df040_shell
 {
@@ -161,7 +161,7 @@ unsigned short FUN_0081bd30_s::GetSaveSize(ActiveEffect* apEffect, TESObjectREFR
 }
 
 namespace fnv_0081bd80 {
-struct ActiveEffect;
+class ActiveEffect;
 
 struct TESSaveLoadGame
 {
@@ -188,7 +188,7 @@ void FUN_0081bd80_s::FUN_0081bd80(ActiveEffect* apEffect, TESObjectREFR* apTarge
 }
 }  // namespace fnv_0081bd80
 
-struct ActiveEffect;
+class ActiveEffect;
 
 struct FUN_0081be50_s
 {

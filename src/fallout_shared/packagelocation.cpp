@@ -279,7 +279,7 @@ enum ACTION_FLAGS
 enum ANIM_GROUP_SECTION
 {
 };
-class Animation
+struct Animation
 {
   public:
 };
@@ -1574,7 +1574,7 @@ void FUN_0067fb20_holder::UpdateStoredValue()
     }
 }
 
-class LocationDescriptor;
+struct LocationDescriptor;
 class TESForm;
 struct LocationInputStream
 {

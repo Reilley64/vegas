@@ -583,9 +583,9 @@ void FUN_00800e50_Class::FUN_00800e50(std::intptr_t aiValue)
     }
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 struct ConcussionEffect
 {
     char data[0x4c];
@@ -766,11 +766,12 @@ FUN_0080a900* FUN_0080ac70(void* apArg1, void* apArg2, void* apArg3)
 }
 
 extern int DAT_01079c8c;
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
-struct ActiveEffect
+class MagicCaster;
+class MagicItem;
+class EffectItem;
+class ActiveEffect
 {
+  public:
     ActiveEffect(MagicCaster*, MagicItem*, EffectItem*);
     const void* m_00;
     int m_04;
@@ -1048,12 +1049,12 @@ struct LodObject
 {
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
 class NiAVObject;
-struct NiNode : NiAVObject
+class NiNode : public NiAVObject
 {
 public:
     ::NiAVObject *GetAt(unsigned int);
@@ -2790,9 +2791,9 @@ void FUN_00800870_Class::UpdateProgress(float value)
     }
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 
 struct ActiveEffectStandIn
 {

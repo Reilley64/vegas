@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPick;
+struct NiPick;
 
 struct FUN_00553d00_shell {
 public:

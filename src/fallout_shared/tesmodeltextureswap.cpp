@@ -331,25 +331,27 @@ void FUN_00409aa0_shell::FUN_00409aa0(unsigned int flags, bool set)
 struct BGSMenuIcon;
 struct BipedAnim;
 struct NiPoint3;
-struct Script;
-struct TESBoundObject;
-struct TESObject;
+class Script;
+class TESBoundObject;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct TESWaterForm;
 struct blob12
 {
     char b[12];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -365,8 +367,9 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-struct TESTexture : public BaseFormComponent
+class TESTexture : public BaseFormComponent
 {
+  public:
     virtual unsigned int GetTexturePathLength();
     virtual char* NormalizeTextureFilePath(void*);
     virtual char* GetRegularTextureFilePath(void*);

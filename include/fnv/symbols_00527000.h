@@ -1,7 +1,7 @@
 #pragma once
 
 struct FUN_00527770_arg;
-struct TESForm;
+class TESForm;
 
 // 0x00527770
 int *FUN_00527770(int *, ::FUN_00527770_arg);

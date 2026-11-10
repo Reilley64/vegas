@@ -1,6 +1,6 @@
 #pragma once
 
-struct ExtraAmmo;
+class ExtraAmmo;
 
 struct FUN_0042eb40_shell {
 public:

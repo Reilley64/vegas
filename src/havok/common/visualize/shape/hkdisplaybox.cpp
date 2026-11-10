@@ -8,7 +8,7 @@
 #include "fnv/symbols_00c90000.h"
 
 
-struct hkTransform;
+class hkTransform;
 struct hkMemoryAllocator;
 
 struct __declspec(align(16)) hkVector4
@@ -24,8 +24,9 @@ struct hkRotation
 {
     hkVector4 c0, c1, c2;
 };
-struct hkTransform
+class hkTransform
 {
+  public:
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
 };

@@ -23,7 +23,7 @@
 #include "nimaterialproperty_decls.h"
 
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;

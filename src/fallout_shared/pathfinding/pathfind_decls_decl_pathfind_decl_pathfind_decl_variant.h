@@ -46,14 +46,14 @@ class ActorDeletionQueue
   public:
     void FUN_0096d470(MobileObject*, int);
 };
-class PathingLocation;
+struct PathingLocation;
 class FindTriangleForLocationFilter;
 class NavMesh
 {
   public:
     NiPoint3 GetNavMeshData(unsigned short);
 };
-class NavMeshPtr : public NiPointer<NavMesh>
+struct NavMeshPtr : public NiPointer<NavMesh>
 {
   public:
     NavMeshPtr();
@@ -92,7 +92,7 @@ enum PATHING_REQUEST_TYPE
     RequestOptimal = 7,
     RequestUnknown = 8
 };
-class PathingRequest
+struct PathingRequest
 {
   public:
     virtual void vfn_0();

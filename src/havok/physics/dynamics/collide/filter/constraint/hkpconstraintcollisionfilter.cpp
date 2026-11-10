@@ -124,15 +124,17 @@ struct hkBool
         m_cBooleanValue = (char)b;
     }
 };
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     void* m_pCollisionShape;
 };
 struct hkpCollidable : hkpCdBody
 {
 };
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     virtual ~hkReferencedObject();
     int m_usMemSizeAndFlags;
 };

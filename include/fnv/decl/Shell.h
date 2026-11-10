@@ -1,6 +1,6 @@
 #pragma once
 
-class Ref;
+struct Ref;
 
 class Shell {
 public:

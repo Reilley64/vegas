@@ -627,7 +627,7 @@ struct MobileObjectProcessArray
 {
 };
 namespace S {
-struct BSSimpleList
+class BSSimpleList
 {
 };
 }
@@ -4805,8 +4805,9 @@ struct EffectStub
 {
 };
 
-template <class T> struct SettingT
+template <class T> class SettingT
 {
+  public:
     float* Float();
 };
 struct GameSettingCollection;
@@ -4879,7 +4880,7 @@ struct CalcObject
 {
     float* FUN_00403e20();
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <> class SettingT<GameSettingCollection>
 {
   public:

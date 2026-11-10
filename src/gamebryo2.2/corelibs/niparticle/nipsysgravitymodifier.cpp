@@ -96,13 +96,13 @@ NiPSysGravityModifier* NiPSysGravityModifier::FUN_00c22b00(CloningProcess& proce
 }  // namespace fnv_00c22b00
 
 namespace fnv_00c2e520 {
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObject;
 struct NiObjectGroup;
 struct NiSearchPath;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct NiMemObject
 {

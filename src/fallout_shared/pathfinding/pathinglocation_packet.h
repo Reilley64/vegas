@@ -23,11 +23,11 @@ class PathingLocationArray
     void ConstructItems(PathingLocation*, unsigned int);
 };
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };
@@ -44,7 +44,7 @@ class TES
 };
 const BSSimpleArray<NavMeshInfo_const*, 1024>* FUN_006d6f40(TESObjectCELL*);
 const BSSimpleArray<NavMeshInfo_const*, 1024>* ForwardToPathing(TESWorldSpace*, unsigned int);
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     void* pointer;

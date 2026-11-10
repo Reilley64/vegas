@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_0041fa60 { struct BGSPrimitive; }
+namespace fnv_0041fa60 { class BGSPrimitive; }
 
 namespace fnv_0041fa60 {
 struct FUN_0041fa60_shell {

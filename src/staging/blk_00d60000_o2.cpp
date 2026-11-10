@@ -3477,7 +3477,7 @@ __forceinline void hkVector4::SetRotatedDirection(const hkQuaternion& quat, cons
     this->setAdd4(ret, ret);
 }
 
-class hkQsTransform
+struct hkQsTransform
 {
   public:
     hkVector4 m_vTranslation;
@@ -3588,7 +3588,7 @@ class EntityBody : public MotionObjectBase
     MaxMotion motion;
 };
 
-class hkpRigidBody : public EntityBody
+struct hkpRigidBody : public EntityBody
 {
   public:
     __forceinline RigidMotion* getRigidMotion() const

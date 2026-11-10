@@ -298,8 +298,9 @@ bool S3c60::AddAudioFormEntry(Form* pForm, ArrSI* pAudio)
 
 struct Calendar;
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v000()
     {}
     virtual void v001()
@@ -689,11 +690,11 @@ struct FUN_00932490_shell
 {
 };
 
-struct MagicCaster
+class MagicCaster
 {
 };
 
-struct EffectItem
+class EffectItem
 {
 };
 
@@ -710,15 +711,17 @@ struct MI_0081c630
     ES_0081c630* GetEffectSettingForRange(int);
 };
 
-struct MagicItem
+class MagicItem
 {
+  public:
     unsigned char m_ucUnknownByte[0x0c];
     EffectItemList_shell m_effectItemList;
 
 };
 
-struct MobileObject
+class MobileObject
 {
+  public:
     unsigned int GetCurrentProcessLevel();
 };
 
@@ -1095,8 +1098,9 @@ bool Handler::FUN_00815480(Event* pEvent, intptr_t value, bool flag)
     return true;
 }
 
-struct HighProcess
+class HighProcess
 {
+  public:
     int unk000;
     int unk004;
     int unk008;
@@ -1422,8 +1426,9 @@ struct SecondaryRef
     int unk80;
     int unk84;
 };
-struct MobileObject : PrimaryRef, SecondaryRef
+class MobileObject : public PrimaryRef, public SecondaryRef
 {
+  public:
     MobileObject();
     ~MobileObject();
 };
@@ -4287,7 +4292,7 @@ void Actor80F::FUN_00813f30()
 
 namespace fnv_00819ca0 {
 
-struct Actor;
+class Actor;
 struct Visual;
 struct Scene;
 struct Resource;
@@ -5123,8 +5128,9 @@ struct Visual
     Scene* FUN_00621ad0();
     Handle FUN_0070c440();
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void slot000();
     virtual void slot004();
     virtual void slot008();

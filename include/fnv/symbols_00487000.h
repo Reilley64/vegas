@@ -6,7 +6,7 @@ class TESFile;
 class TESForm;
 class TESFullName;
 struct TESHealthForm_Dummy;
-struct TESLeveledList;
+class TESLeveledList;
 
 // 0x00487050
 void ReadFullName(::TESFullName *, ::TESFile *);

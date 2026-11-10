@@ -90,8 +90,8 @@ void FUN_00618940(void* thisPtr)
 }
 
 struct BGSEntryPointFunctionData;
-struct TESFile;
-struct TESForm;
+class TESFile;
+class TESForm;
 struct FUN_009b3120_shell : public BSTempEffectDebris
 {
     int FUN_009b3120();

@@ -124,8 +124,9 @@ void FUN_0062d740_shell::FUN_0062d740()
     m_field = (std::intptr_t)&(*reinterpret_cast<int *>(&::DAT_0104e3d0));
 }
 
-struct CombatWorldStateListNode
+class CombatWorldStateListNode
 {
+  public:
     CombatWorldStateListNode* GetNext();
 };
 
@@ -229,8 +230,9 @@ void* FUN_0062e230_shell::FUN_0062e230(std::uintptr_t a, std::uintptr_t b, unsig
     return this;
 }
 
-struct BSSimpleList
+class BSSimpleList
 {
+  public:
     BSSimpleList* FUN_006207a0(BSSimpleList* target);
 };
 struct TESRaceForm
@@ -811,14 +813,14 @@ void* FUN_0062dfa0_shell::FUN_0062dfa0()
 }  // namespace fnv_0062dfa0
 
 struct bhkWorld;
-struct TESObjectCELL;
-struct ExtraDataList
+class TESObjectCELL;
+class ExtraDataList
 {
 };
 struct BSOcclusionPlane
 {
 };
-struct TESObject
+class TESObject
 {
 };
 // Returns the TESObject obtained from the plane's cull result extra data world, or null if any step is missing.
@@ -889,7 +891,7 @@ FUN_0062d840_shell* FUN_0062d7c0_shell::FUN_0062d7c0(std::uintptr_t a, std::uint
     return new FUN_0062d840_shell(a, b);
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct RootContactPoint
 {
     void* m_p0;
@@ -1613,8 +1615,9 @@ FUN_0062c7a0_Cache::~FUN_0062c7a0_Cache()
     }
 }
 
-struct TESObjectREFR : Ref62C
+class TESObjectREFR : public Ref62C
 {
+  public:
     virtual void v61();
     virtual void v62();
     virtual void v63();
@@ -1874,7 +1877,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
     return world;
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct EventContext
 {
 };
@@ -2063,7 +2066,7 @@ void TrapListener::AddListener(CollisionArgument* apCollisionArgument)
     }
 }
 
-struct BSSimpleList;
+class BSSimpleList;
 
 struct Item62DE
 {

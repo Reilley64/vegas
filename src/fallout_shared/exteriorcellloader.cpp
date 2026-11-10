@@ -148,10 +148,10 @@ void FUN_00527c70_shell::FUN_00527c70()
     reinterpret_cast<::fnv_00440640::FUN_00449a20_cls *>((((FUN_00440640_shell*)this)))->FUN_00440640();
 }
 
-struct NiNode
+class NiNode
 {
 };
-struct TESObjectCELL
+class TESObjectCELL
 {
 public:
     void FUN_005571a0(bool);
@@ -187,8 +187,9 @@ struct TES
 struct DH
 {
 };
-struct TESWorldSpace
+class TESWorldSpace
 {
+  public:
     int m_00;
     int m_04;
     int m_08;

@@ -158,7 +158,7 @@ struct hkBool
     char m_cBooleanValue;
 };
 
-struct hkpCdBody;
+class hkpCdBody;
 struct CollisionAgentContext;
 
 struct hkpShapeCollectionFilter
@@ -187,8 +187,9 @@ struct CollisionAgentContext
     hkpCollisionFilter* m_pCollisionFilter;
 };
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const hkpShape* m_pCollisionShape;
     unsigned int m_uiCollisionShapeKey;
     const void* m_pMotionState;

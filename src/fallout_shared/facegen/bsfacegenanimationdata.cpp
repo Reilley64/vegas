@@ -563,10 +563,10 @@ struct FUN_0064b630_shell : public BSFaceGenAnimationData
 struct Setting_S
 {
 };
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
-struct BSFaceGenManager
+class BSFaceGenManager
 {
 };
 struct ArrHelper

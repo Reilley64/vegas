@@ -8,7 +8,7 @@
 #include "NiRefObject.h"
 class DFALL_NiTMapItem_NiFixedString_NiGlobalConstantEntry_____;
 class NiGlobalConstantEntry;
-class NiRenderer;
+struct NiRenderer;
 class NiShaderFactory;
 class RefCountedNamedObject;
 class NiTFixedStringMap_NiGlobalConstantEntry___;

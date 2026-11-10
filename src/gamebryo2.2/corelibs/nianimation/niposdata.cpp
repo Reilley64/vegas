@@ -103,8 +103,9 @@ void MyPosData::FUN_00a48f70(float afArg1, float afArg2)
     m_pKeyArray = pkKeys;
 }
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     int _04;
 };

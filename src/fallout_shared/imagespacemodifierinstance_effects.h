@@ -6,7 +6,7 @@
 #include "fnv/decl/FUN_0043d450_Owner.h"
 #include "fnv/decl/FUN_00b8b7d0_cls.h"
 #include "fnv/decl/fnv_00b8b8d0__ImageSpaceDistanceEffect.h"
-class NiBound;
+struct NiBound;
 // Call declarations only; no NiAVObject member data is accessed here.
 class NiAVObject : public NiObject
 {
@@ -58,8 +58,8 @@ class NiAVObject : public NiObject
     virtual void vfn_b8();
     virtual void UpdateWorldBound();
 };
-class NiPoint2;
-class ImageSpaceManager
+struct NiPoint2;
+struct ImageSpaceManager
 {
   public:
     static ImageSpaceManager* FUN_004e3270();

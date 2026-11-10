@@ -4,7 +4,7 @@
 
 #include "fnv/symbols_00401000.h"
 #include "bgsloadgamebuffer_decls.h"
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     void** m_ppVirtualMethodTable;

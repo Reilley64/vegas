@@ -1,6 +1,6 @@
 #pragma once
 
-class NiColor;
+struct NiColor;
 
 struct FUN_0063b600_shell {
 public:

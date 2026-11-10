@@ -75,7 +75,7 @@ class TESObjectLAND
   public:
 };
 
-class GridCell
+struct GridCell
 {
   public:
     TESObjectCELL* pCell;
@@ -182,10 +182,10 @@ struct FUN_004baec0_shell : public GridCellArray
     void FUN_004baec0();
 };
 
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class NiNode;
 
-class BSTextureManager
+struct BSTextureManager
 {
   public:
 };
@@ -578,8 +578,9 @@ void FUN_004bc480_shell::FUN_004bc480(int arg)
 }
 
 struct bhkWorld;
-struct ExtraDataList
+class ExtraDataList
 {
+  public:
     void FUN_00554960(bool);
 public:
     bool HasExtraDataType0x2F();
@@ -1002,11 +1003,12 @@ int FUN_004bcc30_List::FUN_004bcc30()
     return total;
 }
 
-struct TESBoundObject
+class TESBoundObject
 {
+  public:
     virtual ~TESBoundObject();
 };
-struct TESObjectWEAP : TESBoundObject
+class TESObjectWEAP : public TESBoundObject
 {
 };
 struct HealthForm4bcdb0

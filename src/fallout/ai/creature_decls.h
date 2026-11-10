@@ -5,9 +5,9 @@
 
 #include "fnv/decl/FUN_00494300_shell.h"
 #include "fnv/decl/fnv_00897910__AnimOwner.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class InventoryStackRecord;
-class Animation
+struct Animation
 {
   public:
 };

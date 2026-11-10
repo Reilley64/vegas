@@ -7,7 +7,7 @@
 #pragma comment(linker, "/alternatename:?DAT_011f329c@fnv_00a0b8d0@@3PAPEAUTileElement@1@A=?DAT_011f329c@@3PAPEAXA")
 #pragma comment(linker, "/alternatename:?DAT_011f32c8@fnv_00a01e20@@3EA=?DAT_011f32c8@fnv_00a01b00@@3EA")
 #pragma comment(linker, "/alternatename:?DAT_011f32dc@fnv_00a0b8d0@@3IA=?DAT_011f32dc@@3HA")
-#pragma comment(linker, "/alternatename:?DAT_011f32f4@fnv_00a00a30@@3VMapA00@1@A=?DAT_011f32f4@@3U?$BSMapBase@KPEAVScrapHeapBuffer@@@@A")
+#pragma comment(linker, "/alternatename:?DAT_011f32f4@fnv_00a00a30@@3VMapA00@1@A=?DAT_011f32f4@@3U?$BSMapBase@KPEAUScrapHeapBuffer@@@@A")
 #pragma comment(linker, "/alternatename:?DAT_011f3308@fnv_00a00a30@@3VMapA00@1@A=?DAT_011f3308@@3VScrapListShell@@A")
 #pragma comment(linker, "/alternatename:?DAT_011f3318@fnv_00a07580@@3UTileQueue_00a07580@1@A=?DAT_011f3318@@3US009ff340_List@@A")
 #pragma comment(linker, "/alternatename:?DAT_011f3320@fnv_00a04200@@3PEAXEA=?DAT_011f3320@@3HA")

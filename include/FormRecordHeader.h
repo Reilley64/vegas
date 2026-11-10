@@ -2,7 +2,7 @@
 #define FNV_FORM_H
 #include "layout_support.h"
 #pragma pack(push, 4)
-class FormRecordHeader
+struct FormRecordHeader
 {
   public:
     unsigned int form;                    // +0x0

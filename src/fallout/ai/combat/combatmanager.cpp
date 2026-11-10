@@ -237,36 +237,36 @@ void FUN_00991dc0_shell::FUN_00991dc0()
 }
 
 namespace fnv_00991770 {
-struct ActiveEffect;
+class ActiveEffect;
 struct BGSIdleCollection;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct CombatAction;
-struct CombatGoal;
+class CombatAction;
+class CombatGoal;
 struct CombatPlan;
 struct CombatBehavior;
-struct CombatProcedure;
+class CombatProcedure;
 struct CombatState;
 struct IDebugText;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct LocationDescriptor;
-struct DurationData;
-struct PackageTargetRecord;
-struct Projectile;
-struct Script;
-struct TESBoundObject;
+class DurationData;
+class PackageTargetRecord;
+class Projectile;
+class Script;
+class TESBoundObject;
 struct TESCombatStyle;
-struct PerkEntryConditionSet;
+class PerkEntryConditionSet;
 struct TESEscortPackageData;
-struct TESFile;
-struct TESIdleForm;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESFile;
+class TESIdleForm;
+class TESObjectWEAP;
+class TESPackage;
 struct TESPackageData;
 struct TESPatrolPackageData;
-struct TESTopic;
+class TESTopic;
 struct TESUseWeaponPackageData;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct blob12
 {
     char b[12];
@@ -276,7 +276,7 @@ struct FUN_00991770_shell : public CombatManager
     void UpdateDetectionVisuals();
 };
 
-class NiObject;
+struct NiObject;
 class NiAVObject;
 class NiNode;
 
@@ -752,36 +752,36 @@ void FUN_00991770_shell::UpdateDetectionVisuals()
 }  // namespace fnv_00991770
 
 namespace fnv_00992d90 {
-struct ActiveEffect;
+class ActiveEffect;
 struct BGSIdleCollection;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct CombatAction;
-struct CombatGoal;
+class CombatAction;
+class CombatGoal;
 struct CombatPlan;
 struct CombatBehavior;
-struct CombatProcedure;
+class CombatProcedure;
 struct CombatState;
 struct IDebugText;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct LocationDescriptor;
-struct DurationData;
-struct PackageTargetRecord;
-struct Projectile;
-struct Script;
-struct TESBoundObject;
+class DurationData;
+class PackageTargetRecord;
+class Projectile;
+class Script;
+class TESBoundObject;
 struct TESCombatStyle;
-struct PerkEntryConditionSet;
+class PerkEntryConditionSet;
 struct TESEscortPackageData;
-struct TESFile;
-struct TESIdleForm;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESFile;
+class TESIdleForm;
+class TESObjectWEAP;
+class TESPackage;
 struct TESPackageData;
 struct TESPatrolPackageData;
-struct TESTopic;
+class TESTopic;
 struct TESUseWeaponPackageData;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct blob12
 {
     char b[12];
@@ -809,7 +809,7 @@ struct IMH
 {
 };
 
-struct PathingSolution
+class PathingSolution
 {
 };
 
@@ -1646,7 +1646,7 @@ FUN_00985d10* FUN_00991e80_shell::FUN_00991e80()
     return pgroup;
 }
 
-class CombatController
+struct CombatController
 {
   public:
     char pad[0x188];
@@ -1844,36 +1844,36 @@ void FUN_00992920_shell::ProcessCombatTarget(TargetObj* pTarget)
 }  // namespace fnv_00992920
 
 namespace fnv_00991600 {
-struct ActiveEffect;
+class ActiveEffect;
 struct BGSIdleCollection;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct CombatAction;
-struct CombatGoal;
+class CombatAction;
+class CombatGoal;
 struct CombatPlan;
 struct CombatBehavior;
-struct CombatProcedure;
+class CombatProcedure;
 struct CombatState;
 struct IDebugText;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct LocationDescriptor;
-struct DurationData;
-struct PackageTargetRecord;
-struct Projectile;
-struct Script;
-struct TESBoundObject;
+class DurationData;
+class PackageTargetRecord;
+class Projectile;
+class Script;
+class TESBoundObject;
 struct TESCombatStyle;
-struct PerkEntryConditionSet;
+class PerkEntryConditionSet;
 struct TESEscortPackageData;
-struct TESFile;
-struct TESIdleForm;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESFile;
+class TESIdleForm;
+class TESObjectWEAP;
+class TESPackage;
 struct TESPackageData;
 struct TESPatrolPackageData;
-struct TESTopic;
+class TESTopic;
 struct TESUseWeaponPackageData;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct blob12
 {
     char b[12];
@@ -1891,7 +1891,7 @@ struct Arr
 struct StrArr
 {
 };
-struct BGSCameraPath;
+class BGSCameraPath;
 template <class T> class NiTMallocInterface;
 template <class T, class A> class NiTArray;
 template <> class NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >
@@ -1960,11 +1960,11 @@ struct FUN_00968630_stub
 {
 };
 
-struct PathingSolution : FUN_00968630_stub
+class PathingSolution : public FUN_00968630_stub
 {
 };
 
-struct TESWorldSpace
+class TESWorldSpace
 {
 };
 
@@ -2292,9 +2292,9 @@ unsigned int FUN_009931c0_shell::CountCombatGroupMembers(Actor* apActor, unsigne
 }  // namespace fnv_009931c0
 
 namespace fnv_00993440 {
-struct SaveLoadFile;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
-struct NiQuaternion;
+class NiQuaternion;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -3600,11 +3600,11 @@ FUN_0097d3a0::FUN_0097d3a0(Actor* apActor, int a2, TESPackage* apPackage)
 
 namespace fnv_00992480 {
 
-struct TESPackage
+class TESPackage
 {
 };
 
-struct SpectatorPackage : public TESPackage
+class SpectatorPackage : public TESPackage
 {
 };
 

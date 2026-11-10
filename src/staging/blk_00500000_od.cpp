@@ -136,7 +136,7 @@ unsigned char FUN_00505c20_class::GetByteAtOffset9A()
     return unk9a;
 }
 
-struct NiNode;
+class NiNode;
 struct GO
 {
     void* operator=(void*);
@@ -388,7 +388,7 @@ struct FUN_00510110_class
 {
     void FUN_00510110();
 };
-struct TESObject
+class TESObject
 {
 };
 struct FUN_00510360_Class
@@ -650,7 +650,7 @@ void* FUN_00501cd0_class::FUN_00501cd0()
     return this;
 }
 
-struct TESForm;
+class TESForm;
 
 // @fnv 0x00505000
 TESForm* __cdecl FUN_00505000()
@@ -722,8 +722,9 @@ void FUN_00507690_Class::FUN_00507690(NiPoint4 aPoint)
     m_0xe4 = aPoint;
 }
 
-struct BGSImpactData
+class BGSImpactData
 {
+  public:
     float FUN_009a9350() const;
 };
 struct PathingRequest
@@ -1029,11 +1030,12 @@ bool __cdecl InitSettingsDefaults()
     return true;
 }
 
-struct TESBoundObject;
-struct Actor;
+class TESBoundObject;
+class Actor;
 
-struct LockExtraData
+class LockExtraData
 {
+  public:
     void* pVft;
     TESBoundObject* pKey;
     bool IsLocked();
@@ -1044,8 +1046,8 @@ struct P01RefA
     virtual ~P01RefA();
 };
 
-class ExtraRadioData;
-struct TESObjectREFR : public P01RefA
+struct ExtraRadioData;
+class TESObjectREFR : public P01RefA
 {
 public:
     ::ExtraRadioData *GetExtraRadioData();
@@ -1139,8 +1141,9 @@ struct ActorPad04 : public ActorVTable
     char pad04[0xa0];
 };
 
-struct Actor : public ActorPad04, public ActorValueOwner
+class Actor : public ActorPad04, public ActorValueOwner
 {
+  public:
     virtual bool ActorCheck();
     virtual void V65();
     virtual void V66();
@@ -2670,7 +2673,7 @@ bool FUN_005098e0_Object::IsFlagged() const
     return unk15C || unk15D;
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;

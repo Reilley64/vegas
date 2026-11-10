@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 class TESObjectREFR;
 
 namespace fnv_0041b080 {

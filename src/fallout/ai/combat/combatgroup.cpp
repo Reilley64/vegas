@@ -393,7 +393,7 @@ void FUN_0098a360_shell::FUN_0098a360(intptr_t a1, int a2)
         *(int*)(v1 + 4) = a2;
 }
 
-struct BSSimpleArray
+class BSSimpleArray
 {
 };
 
@@ -553,15 +553,17 @@ struct FUN_0098eff0_shell
     void* FUN_0098eff0();
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm()
     {}
 public:
     bool GetInitialized() const;
 };
-struct Actor : public TESForm
+class Actor : public TESForm
 {
+  public:
     virtual ~Actor()
     {}
 };
@@ -605,7 +607,7 @@ bool FUN_009865b0_shell::FUN_009865b0(intptr_t param)
 }
 
 namespace fnv_009866d0 {
-struct Actor
+class Actor
 {
 };
 struct FUN_00903600_shell
@@ -665,10 +667,10 @@ char FUN_00986a80_shell::FUN_00986a80(intptr_t param)
 }
 
 namespace fnv_00986aa0 {
-struct PathingSolution
+class PathingSolution
 {
 };
-struct Actor
+class Actor
 {
 };
 struct FUN_005a4320_shell
@@ -748,7 +750,7 @@ void StandIn_00989010::SetTripleAndValue(ThreeInts_00989010* apTriple, intptr_t 
     v = aiValue;
 }
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 struct CombatTargetTimestamp
 {
     int v;
@@ -778,7 +780,7 @@ int MyClass::GetResultForArg(intptr_t arg)
 }
 
 namespace fnv_00989090 {
-struct Actor
+class Actor
 {
 };
 struct CombatTargetTimestamp
@@ -808,10 +810,10 @@ CombatTargetTimestamp Holder::GetCombatTargetTimestamp(Actor* apTarget)
 }  // namespace fnv_00989090
 
 namespace fnv_009890e0 {
-struct Actor
+class Actor
 {
 };
-struct TESForm
+class TESForm
 {
 };
 struct CoordinateTriple
@@ -1282,7 +1284,7 @@ struct CTSHelper
 struct Setting_S
 {
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
 };
@@ -1420,7 +1422,7 @@ struct FUN_00990500_host
     float f14;
     float GetCachedValue();
 };
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ActorS
 {
     virtual void vfn_0();
@@ -1834,13 +1836,14 @@ struct ActorV
     virtual void* V1d0();
 };
 class PerkEntryConditionSet;
-struct BGSCameraPath
+class BGSCameraPath
 {
+  public:
     int HasNameForWarning();
 public:
     ::PerkEntryConditionSet *GetConditions();
 };
-struct MobileObject
+class MobileObject
 {
 };
 struct FormIDStandIn
@@ -2020,7 +2023,7 @@ void FUN_00986bd0_shell::FUN_00986bd0()
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<GlobalObject_00869f00*>(reinterpret_cast<char*>(this) + 0x18)))->Clear(false);
 }
 
-class CoordinateTriple
+struct CoordinateTriple
 {
   public:
 public:
@@ -2173,7 +2176,7 @@ ImageSpaceEffectParam* FUN_00985be0_shell::GetEffectColor(ImageSpaceEffectParam*
     return result;
 }
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -2411,7 +2414,7 @@ void FUN_0098a390_shell::SetElementValue(unsigned int uiIndex, unsigned int uiVa
     reinterpret_cast<CombatClusterMember*>(m_aiIndexedValues.FUN_006dad90(uiIndex))->m_uiGoalFlags = uiValue;
 }
 
-struct PathingSolution
+class PathingSolution
 {
 };
 
@@ -2776,7 +2779,7 @@ struct GlobalObject_0040e0b0
 {
 };
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 struct TimeoutTimer
 {
     bool CheckTimer();
@@ -3458,8 +3461,9 @@ struct AvoidanceVectorData
     float x, y, z, r0, r1, r2, r3, r4, r5;
     AvoidanceVectorData(const AvoidVector&);
 };
-struct PathingAvoidNodeArray
+class PathingAvoidNodeArray
 {
+  public:
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14;
     PathingAvoidNodeArray();
 };
@@ -6927,7 +6931,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
 }
 
 namespace CombatAssessment {
-struct Actor;
+class Actor;
 struct Point;
 struct PositionData;
 typedef PositionData Position;
@@ -7329,8 +7333,9 @@ struct DetectionViewData
 struct CombatState
 {
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v000();
     virtual void v004();
     virtual void v008();
@@ -7860,7 +7865,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
 }
 
 template <class T> class SettingT;
-class GameSettingCollection;
+struct GameSettingCollection;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting382;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting383;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting384;
@@ -8051,7 +8056,7 @@ PathingAvoidNodeArray* FUN_009892a0_shell::FUN_009892a0(AvoidMember9892* pActor,
 }
 
 namespace CombatRegion {
-struct Actor;
+class Actor;
 struct Group;
 struct Vec
 {
@@ -8146,8 +8151,9 @@ struct ShapePtr
     Shape* value;
     void FUN_0066b0d0(Shape*);
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void slot0();
     virtual void slot4();
     virtual void slot8();
@@ -9062,7 +9068,7 @@ struct LoadExtra
     int id;
     int value;
 };
-struct TESObjectREFR : TESForm
+class TESObjectREFR : public TESForm
 {
 };
 struct ParentNode

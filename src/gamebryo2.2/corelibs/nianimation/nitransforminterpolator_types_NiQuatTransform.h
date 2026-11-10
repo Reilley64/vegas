@@ -6,7 +6,7 @@
 #include "fnv/symbols_011a8000.h"
 #include "fnv/symbols_011f3000.h"
 #include "layout_support.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -79,7 +79,7 @@ struct TransformWords
 {
     unsigned int words[8];
 };
-class NiStream;
+struct NiStream;
 class NiQuatTransform
 {
   public:

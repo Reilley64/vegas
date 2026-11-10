@@ -3,7 +3,7 @@ union SETTING_VALUE
 {
     float f;
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:
@@ -14,7 +14,7 @@ enum ACTOR_SOUND_HANDLE
 {
     ActorSoundVoice = 0
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;

@@ -2,7 +2,7 @@
 
 class TESObjectREFR;
 namespace fnv_0059f540 { class RefP; }
-namespace s59f890 { struct Actor; }
+namespace s59f890 { class Actor; }
 namespace s59f890 { struct ListForm; }
 
 // 0x0059f0c0

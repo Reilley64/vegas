@@ -3,9 +3,9 @@
 struct Arg;
 struct Context;
 struct Geom;
-struct NiGeometry;
+class NiGeometry;
 struct Passes;
-struct ShadowSceneLight;
+class ShadowSceneLight;
 struct Transform;
 
 struct Shader {

@@ -4,9 +4,9 @@
 
 #include "fnv/decl/THIS_00a68ce0.h"
 #include "fnv/symbols_00a26000.h"
-class NiStream;
+struct NiStream;
 
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x;
@@ -35,7 +35,7 @@ struct NiBinaryStreamStandIn
     }
 };
 
-class NiStream
+struct NiStream
 {
   public:
     int unk000;

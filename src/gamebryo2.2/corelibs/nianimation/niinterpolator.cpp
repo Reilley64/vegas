@@ -19,7 +19,7 @@ NiInterpolator::NiInterpolator() : m_fLastTime(::DAT_01015f5c)
 }
 
 struct BSBlendTreadTransfInterpolator;
-struct NiBlendInterpolator;
+class NiBlendInterpolator;
 struct CloningProcess;
 struct NiObjectNET;
 struct NiQuatTransform;
@@ -43,8 +43,9 @@ const char* const* __cdecl FUN_00a57070()
     return &(*reinterpret_cast<const char *const *>(&::g_011f4200));
 }
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 extern void* NiInterpolator_VTable[];
@@ -59,11 +60,12 @@ void NiKeyBasedInterpolator::FUN_00a57010()
     reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class A> struct NiTPrimitiveArray
+template <class T, class A> class NiTPrimitiveArray
 {
+  public:
     char _0[8];
     unsigned short m_usMaxSize;
     unsigned short m_usSize;

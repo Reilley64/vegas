@@ -12,7 +12,7 @@ struct LinearJac;
 struct MatrixTriple;
 struct OffsetRecord;
 struct PoweredChain;
-struct hkAabb;
+class hkAabb;
 struct hkChainInfo;
 
 // 0x00df1060

@@ -5,11 +5,11 @@
 #include "fnv/decl/NiObject_b.h"
 #include "niobject_nirefobject.h"
 
-class NiRTTI;
+struct NiRTTI;
 
 // Unit-private declaration view. NiObject's supplied canonical layout is
 // NiRefObject with no additional fields. The bundled headers stay unchanged.
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     NiObject* DynamicCast(const NiRTTI* rtti);

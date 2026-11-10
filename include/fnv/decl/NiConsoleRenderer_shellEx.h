@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiD3DShaderInterface;
+class NiD3DShaderInterface;
 
 struct NiConsoleRenderer_shellEx {
 public:

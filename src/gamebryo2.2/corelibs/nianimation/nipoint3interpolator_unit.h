@@ -5,9 +5,9 @@
 #include "fnv/symbols_011a9000.h"
 #include "NiObject.h"
 
-class NiObjectNET;
+struct NiObjectNET;
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;

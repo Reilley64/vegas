@@ -152,8 +152,9 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(bool& deferred, TESObjectREFR* spe
     return FindMatchingTopicInfo(this, deferred, speaker, listener, filter, previousTopic, history);
 }
 
-struct TESObject
+class TESObject
 {
+  public:
     int _FNV_GetFormType();
 };
 struct FUN_00616f40_shell
@@ -1119,8 +1120,9 @@ struct ParentSpaceNode
     int b;
     int c;
 };
-struct NavMeshTriangleEdgeReference
+class NavMeshTriangleEdgeReference
 {
+  public:
     int a;
     int b;
     int c;

@@ -7,7 +7,7 @@
 #include "TimeoutTimer.h"
 #include "ActorValueModifierList.h"
 class Actor;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class PatrolActorPackageData;
 class TESActorBase;
 class TESObjectREFR;

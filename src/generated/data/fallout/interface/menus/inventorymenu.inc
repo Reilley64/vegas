@@ -2,13 +2,13 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?g_011d20c4@@3UGlobalObject_0040c150@@A=?g_011d20c4@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d22c8@@3UGlobalObject_0040c150@@A=?g_011d22c8@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d29b8@@3UGlobalObject_0040c150@@A=?g_011d29b8@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d29f4@@3UGlobalObject_0040c150@@A=?g_011d29f4@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2acc@@3UGlobalObject_0040c150@@A=?g_011d2acc@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2af0@@3UGlobalObject_0040c150@@A=?g_011d2af0@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2c7c@@3UGlobalObject_0040c150@@A=?g_011d2c7c@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d20c4@@3VGlobalObject_0040c150@@A=?g_011d20c4@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d22c8@@3VGlobalObject_0040c150@@A=?g_011d22c8@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d29b8@@3VGlobalObject_0040c150@@A=?g_011d29b8@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d29f4@@3VGlobalObject_0040c150@@A=?g_011d29f4@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2acc@@3VGlobalObject_0040c150@@A=?g_011d2acc@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2af0@@3VGlobalObject_0040c150@@A=?g_011d2af0@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2c7c@@3VGlobalObject_0040c150@@A=?g_011d2c7c@@3VGlobalObject_0040c150@@A")
 
 namespace InventorySelection { float DAT_0104f754 = -3.0e+01f; }
 namespace InventorySelection { float DAT_01050280 = 4.5e+02f; }

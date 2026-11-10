@@ -42,7 +42,7 @@ struct BSBatchRenderer__RenderPass
     unsigned char padding[8];
     BSBatchRenderer__RenderPassInfo* pInfo;
 };
-class BSBatchRenderer__PassList
+struct BSBatchRenderer__PassList
 {
   public:
     void* pHead;

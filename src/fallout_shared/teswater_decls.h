@@ -19,7 +19,7 @@ class NiRefObject
         InterlockedIncrement(reinterpret_cast<volatile long*>(&m_uiRefCount));
     }
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     NiObject();

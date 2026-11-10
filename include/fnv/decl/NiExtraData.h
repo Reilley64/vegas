@@ -1,7 +1,7 @@
 #pragma once
 
 class NiFixedString;
-class NiStream;
+struct NiStream;
 
 class NiExtraData {
 public:

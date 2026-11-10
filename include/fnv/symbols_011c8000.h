@@ -1,9 +1,9 @@
 #pragma once
 
 class BSFadeNode;
-class GameSettingCollection;
+struct GameSettingCollection;
 class GlobalObject2_0040c150;
-class GlobalObject2_0096a2d0;
+struct GlobalObject2_0096a2d0;
 class GlobalObject_0040c150;
 class GlobalObject_0044f440;
 class GlobalObject_0045cf30;

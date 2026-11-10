@@ -12,7 +12,7 @@
 #include "fnv/symbols_00485000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESFile;
 enum ENUM_FORM_ID;
 class TESForm : public BaseFormComponent

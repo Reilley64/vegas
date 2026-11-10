@@ -106,7 +106,7 @@ int FUN_00828da0_shell::GetZero(intptr_t a, intptr_t b, int c)
     return v1;
 }
 
-struct Actor;
+class Actor;
 struct FUN_00806da0_shell
 {
     unsigned short FUN_00806da0(Actor*);
@@ -133,7 +133,7 @@ unsigned short FUN_00829720_shell::FUN_00829720(Actor* actor)
     return isize;
 }
 
-struct Actor;
+class Actor;
 struct AssociatedItemEffect
 {
     void FUN_00806e30(Actor* actor);
@@ -283,7 +283,7 @@ bool RecordSelector::SelectRecord(void* context, int flags, SelectedRecord* outp
     }
 }
 
-struct Actor;
+class Actor;
 struct ListNode
 {
     void* value;
@@ -295,8 +295,9 @@ struct PlayerEffects
     virtual void slot1();
     virtual ListNode* GetFirst();
 };
-struct Actor
+class Actor
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -336,12 +337,12 @@ struct Actor
     int unk90;
     PlayerEffects effects;
 };
-struct ActiveEffect;
-struct EffectSetting
+class ActiveEffect;
+class EffectSetting
 {
 };
 class EffectSetting;
-struct ActiveEffect
+class ActiveEffect
 {
 public:
     ::EffectSetting *GetEffectSetting() const;
@@ -1510,11 +1511,12 @@ struct S_008294e0_Named
 {
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
-struct TESBoundObject : TESForm
+class TESBoundObject : public TESForm
 {
 };
 
@@ -2252,12 +2254,13 @@ struct hkBool
     operator bool() const;
 };
 
-struct TESObjectCELL;
+class TESObjectCELL;
 struct bhkWorld;
 
 
-struct MobileObject
+class MobileObject
 {
+  public:
     virtual void Vfn000();
     virtual void Vfn001();
     virtual void Vfn002();

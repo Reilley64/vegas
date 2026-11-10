@@ -1,6 +1,6 @@
 #pragma once
 
-class NiObject;
+struct NiObject;
 
 class NiTriStripsDataA75F {
 public:

@@ -228,8 +228,9 @@ void MissileProjectile::FUN_009baad0(BGSLoadFormBuffer* apLoadGameBuffer)
 
 namespace fnv_009bab70 {
 struct BGSLoadFormBuffer;
-struct Projectile
+class Projectile
 {
+  public:
     void FUN_009c58e0(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 struct MissileProjectile : Projectile
@@ -878,8 +879,9 @@ struct Sub
     bool FUN_008256d0();
 };
 
-struct Actor
+class Actor
 {
+  public:
     virtual void v000();
     virtual void v001();
     virtual void v002();

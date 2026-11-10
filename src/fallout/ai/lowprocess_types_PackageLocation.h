@@ -14,8 +14,8 @@ enum PACK_LOC_TYPE
 #include "lowprocess_TESForm.h"
 #include "lowprocess_TESObjectREFR.h"
 #include "layout_support.h"
-class LocationDescriptor;
-class LocationDescriptor
+struct LocationDescriptor;
+struct LocationDescriptor
 {
   public:
     PACKAGE_OBJECT_TYPE GetObjectType();

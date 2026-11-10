@@ -293,8 +293,9 @@ struct BGSNote
 {
     FNStub* GetNoteTexture();
 };
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 struct TileProcessor

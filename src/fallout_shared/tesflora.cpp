@@ -69,8 +69,9 @@ void FUN_00508920_obj::FUN_00508920()
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void f00();
 public:
     bool GetInitialized() const;

@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class CombatProcedure;
 
 struct FUN_009823c0_shell {

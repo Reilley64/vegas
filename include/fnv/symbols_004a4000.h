@@ -1,8 +1,8 @@
 #pragma once
 #include <cstdint>
 
-class NiPoint3;
-class RgbaColor;
+struct NiPoint3;
+struct RgbaColor;
 struct FUN_004a4650_ListBase;
 struct FUN_004a5280;
 struct Target004a4d40;

@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESForm;
+class TESForm;
 
 struct FUN_0067bc60_shell {
 public:

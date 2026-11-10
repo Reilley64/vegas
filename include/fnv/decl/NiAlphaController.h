@@ -1,8 +1,8 @@
 #pragma once
 
-class CloningProcess;
+struct CloningProcess;
 
-class NiAlphaController {
+struct NiAlphaController {
 public:
     // 0x00a57620
     void CopyMemberData(::NiAlphaController *, ::CloningProcess &);

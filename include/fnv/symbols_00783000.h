@@ -1,6 +1,6 @@
 #pragma once
 
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct ModObject;
 struct ModTile;
 template <class> struct ListBoxItem;

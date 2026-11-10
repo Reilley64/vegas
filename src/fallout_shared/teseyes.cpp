@@ -226,7 +226,7 @@ void FUN_005fc3a0_shell::CopyFromEyes(TESForm* apCopy)
     ((FUN_005fc5b0_shell*)this)->FUN_005fc5b0(((FUN_005fc590_shell*)eyes)->IsFlag4Clear());
 }
 
-struct TESNPC;
+class TESNPC;
 struct TESHairRaceResult;
 struct TESHairCanBeNPCData
 {
@@ -235,15 +235,17 @@ struct TESHairCanBeNPCData
 struct LH
 {
 };
-struct TESDataHandler
+class TESDataHandler
 {
 };
-struct TESActorBase
+class TESActorBase
 {
+  public:
     int GetSex();
 };
-struct TESNPC : public TESActorBase
+class TESNPC : public TESActorBase
 {
+  public:
     TESHairCanBeNPCData* FUN_004ac110();
 };
 struct FUN_005fc5f0_shell : public TESEyes

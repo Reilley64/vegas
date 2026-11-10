@@ -4,10 +4,10 @@
 
 #include "fnv/symbols_00401000.h"
 class NiAVObject;
-class Animation;
+struct Animation;
 class NavMeshInfo;
 template <class T> class NiPointer;
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 class MemoryManager
 {
   public:

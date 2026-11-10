@@ -30,7 +30,7 @@ class DebrisModelEntry
 };
 void* Allocate(unsigned int);
 template <class T> unsigned int BSStringLength(const T*);
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

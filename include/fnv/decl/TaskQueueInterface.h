@@ -1,9 +1,9 @@
 #pragma once
 
 class BSPackedTask;
-class NiPoint3;
+struct NiPoint3;
 
-class TaskQueueInterface {
+struct TaskQueueInterface {
 public:
     // 0x00406d30
     static void CopyStringToBuffer(char *, unsigned int, const char *);

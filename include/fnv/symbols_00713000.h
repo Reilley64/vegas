@@ -1,6 +1,6 @@
 #pragma once
 
-struct GlobalObject_008c71d0;
+class GlobalObject_008c71d0;
 struct Owner;
 
 // 0x007133f0

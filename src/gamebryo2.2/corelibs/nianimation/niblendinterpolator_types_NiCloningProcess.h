@@ -8,14 +8,14 @@
 #include "niblendinterpolator_NiObject.h"
 #include "niblendinterpolator_NiTPointerMap.h"
 #include "niblendinterpolator_layout_support.h"
-class CloningProcess;
+struct CloningProcess;
 enum NiObjectNET__CopyType
 {
     NiObjectNET__CopyType_COPY_NONE = 0,
     NiObjectNET__CopyType_COPY_EXACT = 1,
     NiObjectNET__CopyType_COPY_UNIQUE = 2
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     NiTPointerMap<NiObject*, NiObject*>* m_pCloneMap;  // +0x0, 4 bytes

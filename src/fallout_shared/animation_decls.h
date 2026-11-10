@@ -9,7 +9,7 @@
 // Unit-local supersets of canonical leaf types (same layout), because matched functions use members the canonical
 // headers do not declare yet:
 //   NiPointer: ctors, operator T*, operator->, copy assignment (out-of-line calls in matched code).
-//   NiPoint3: default ctor (called by Animation::Animation) and static ZERO (?ZERO@NiPoint3@@2V1@B, 0x011f426c).
+//   NiPoint3: default ctor (called by Animation::Animation) and static ZERO (?ZERO@NiPoint3@@2U1@B, 0x011f426c).
 //   NiFixedString: operator const char* (0x0043b1b0).
 // Still unit-local because no canonical header exists: NiNode, NiAVObject, NiControllerManager, NiControllerSequence,
 // NiUpdateData, AnimSequenceBase, AnimIdle, KFModel, TESBoundObject.
@@ -36,13 +36,13 @@
 #include "../../include/AutoMemContext.h"
 class NiNode;
 class NiAVObject;
-class NiControllerManager;
+struct NiControllerManager;
 class AnimIdle;
-class KFModel;
+struct KFModel;
 class AnimSequenceBase;
 class BSAnimGroupSequence;
 class IdleReplayDelayEntry;
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -64,7 +64,7 @@ class NiMemObject
   public:
 };
 class NiControllerSequence;
-class NiControllerManager : public NiMemObject
+struct NiControllerManager : public NiMemObject
 {
   public:
     char data[0x68];
@@ -154,12 +154,12 @@ class TESObjectREFR_AnimationExt : public TESObjectREFR
 {
   public:
 };
-class KFModel
+struct KFModel
 {
   public:
     void* GetControllerSequence();
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };
@@ -170,7 +170,7 @@ enum ANIM_GROUP_ACTION
     AGA_NONE = -1,
     AGA_START = 0
 };
-class Animation
+struct Animation
 {
   public:
     unsigned char m_uiObjectFlags;  // +0x0, 1 bytes

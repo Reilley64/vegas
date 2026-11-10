@@ -37,19 +37,21 @@ void* __cdecl FUN_00aa06e0()
     return &(*reinterpret_cast<void * *>(&::g_011f6048));
 }
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* m_pcString;
 };
 
-struct NiShader
+class NiShader
 {
+  public:
     NiFixedString m_kShaderFilename;
 };
 
-struct NiGeometry;
+class NiGeometry;
 struct NiSkinInstance;
-struct NiPropertyState;
+class NiPropertyState;
 struct NiDynamicEffectState;
 
 struct NiSingleShaderMaterial
@@ -114,8 +116,9 @@ struct NiGlobalStringTable
     static char* __cdecl AddString(char const*);
 };
 
-struct NiShaderFactory
+class NiShaderFactory
 {
+  public:
     virtual void f0();
     virtual void f1();
     virtual ShaderForUnload* Create(char const*, int, int);

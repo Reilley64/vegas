@@ -260,7 +260,7 @@ struct FUN_004dc540_shell : public FORenderedMenu
 {
     void FUN_004dc540(NiAVObject*);
 };
-class NiPick
+struct NiPick
 {
   public:
     class Record
@@ -663,7 +663,7 @@ enum ACTION_FLAGS
 enum ANIM_GROUP_SECTION
 {
 };
-class Animation
+struct Animation
 {
   public:
 };
@@ -772,7 +772,7 @@ void FOPipboyManagerPC::UpdatePipboyLightFade(float afTime)
 }  // namespace fnv_007fa810
 
 namespace fnv_007ff960 {
-class NiColor
+struct NiColor
 {
   public:
     float r, g, b;
@@ -1602,14 +1602,14 @@ class NiNode;
 class NiGeometry;
 class INISettingCollection;
 class FOPipboyManager;
-class NiColor;
+struct NiColor;
 
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
 };
-class NiPoint3;
+struct NiPoint3;
 class NiCamera
 {
   public:

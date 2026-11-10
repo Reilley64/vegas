@@ -135,7 +135,7 @@ class CountingSemaphore;
 class BSTCommonMessageQueue_BSPackedTask_;
 class BSTCommonScrapHeapMessageQueue_BSPackedTask_;
 class BSTMessageQueue_BSPackedTask_;
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 class BSTMessageQueue_BSPackedTask_
 {
   public:
@@ -218,8 +218,8 @@ class PackedTaskQueueProcessor
 #define FNV_TASKQUEUEINTERFACE_H
 #include "layout_support.h"
 class PackedTaskQueueProcessor;
-class TaskQueueInterface;
-class TaskQueueInterface
+struct TaskQueueInterface;
+struct TaskQueueInterface
 {
   public:
     PackedTaskQueueProcessor* m_pPrimaryTaskProcessor;    // +0x0, 4 bytes

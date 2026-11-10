@@ -1,10 +1,10 @@
 #pragma once
 
-class GlobalObject_00869f00;
+struct GlobalObject_00869f00;
 class NavMeshEdgeSegment;
 class NavMeshTriangleReference;
 namespace fnv_006b35f0 { struct GlobalObject_00869f00; }
-namespace fnv_006b3710 { class GlobalObject_00869f00; }
+namespace fnv_006b3710 { struct GlobalObject_00869f00; }
 struct AX;
 struct UW;
 template <class, unsigned int> class BSSimpleArray;

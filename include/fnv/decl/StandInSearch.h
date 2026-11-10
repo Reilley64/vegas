@@ -1,6 +1,6 @@
 #pragma once
 
-class TeleportableReference;
+struct TeleportableReference;
 
 struct StandInSearch {
 public:

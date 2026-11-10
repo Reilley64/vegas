@@ -7,8 +7,8 @@
 #include "TESForm.h"
 #include "layout_support.h"
 class BGSLoadGameSubBuffer;
-class BGSLoadGameBuffer;
-class BGSLoadFormBuffer;
+struct BGSLoadGameBuffer;
+struct BGSLoadFormBuffer;
 class LoadGameSubBufferQueue;
 class DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer___;
 class NiTMap_TESForm___BGSLoadGameSubBuffer_;

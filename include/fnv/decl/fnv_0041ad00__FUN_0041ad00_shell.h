@@ -1,7 +1,7 @@
 #pragma once
 
 class TESObjectCELL;
-namespace fnv_0041ad00 { struct TESWorldSpace; }
+namespace fnv_0041ad00 { class TESWorldSpace; }
 
 namespace fnv_0041ad00 {
 struct FUN_0041ad00_shell {

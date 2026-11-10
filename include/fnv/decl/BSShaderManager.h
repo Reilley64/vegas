@@ -1,7 +1,7 @@
 #pragma once
 
 class BSFogProperty;
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class NiAVObject;
 class NiTexture;
 template <class> class NiPointer;

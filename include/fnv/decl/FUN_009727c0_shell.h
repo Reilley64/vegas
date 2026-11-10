@@ -1,6 +1,6 @@
 #pragma once
 
-class Crime;
+struct Crime;
 
 struct FUN_009727c0_shell {
 public:

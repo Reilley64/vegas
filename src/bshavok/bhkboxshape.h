@@ -4,8 +4,8 @@
 
 
 #include "fnv/symbols_01268000.h"
-class NiRTTI;
-class hkVector4;
+struct NiRTTI;
+struct hkVector4;
 
 class bhkBoxShape
 {

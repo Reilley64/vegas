@@ -689,8 +689,9 @@ hkBoolq FUN_00d26940(const hkAabbq* aabb, const hkpTriSampledHeightFieldCollecti
 
 typedef hkUint32 hkpShapeKey;
 
-struct hkAabb
+class hkAabb
 {
+  public:
     __m128 m_kMinimumCorner;
     __m128 m_kMaximumCorner;
 

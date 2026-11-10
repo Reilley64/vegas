@@ -380,8 +380,9 @@ struct BSFadeNode
     }
 };
 
-struct NiD3DShaderConstantMap : BSFadeNode
+class NiD3DShaderConstantMap : public BSFadeNode
 {
+  public:
     NiD3DShaderConstantMap(void*, int);
     virtual int AddEntry(const char* pcKey, unsigned int uiFlags, unsigned int uiExtra, unsigned int uiShaderRegister,
                          unsigned int uiRegisterCount, const char* pcVariableName, unsigned int uiConstantDataSize,

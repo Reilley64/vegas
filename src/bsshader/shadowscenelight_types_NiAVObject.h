@@ -10,7 +10,7 @@
 class FourComponentFloatVector;
 class NiAVObject;
 class NiCollisionObject;
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 class NiPoint4;
 class NiTAbstractPoolAllocator_unsigned_int_;
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___;
@@ -145,7 +145,7 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     NiPoint4 m_afEntries[3];  // +0x0, 48 bytes

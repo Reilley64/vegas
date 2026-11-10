@@ -1,8 +1,8 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 
-class BSAudio {
+struct BSAudio {
 public:
     // 0x007624c0
     static void DeactivateAudio();

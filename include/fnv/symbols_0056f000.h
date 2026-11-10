@@ -7,7 +7,7 @@ namespace fnv_0056fc30 { struct NiAVObjectX; }
 namespace fnv_0056fc30 { struct V3; }
 struct FilterArg_0056f0f0;
 struct M3;
-struct NiAVObject;
+class NiAVObject;
 
 // 0x0056f0f0
 void FUN_0056f0f0(unsigned int *, ::FilterArg_0056f0f0);

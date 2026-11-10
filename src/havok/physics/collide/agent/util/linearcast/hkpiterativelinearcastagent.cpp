@@ -41,8 +41,9 @@ struct __declspec(align(16)) hkVector4
     }
 };
 
-struct __declspec(align(16)) hkTransform
+class __declspec(align(16)) hkTransform
 {
+  public:
     hkVector4 m_kColumn0;
     hkVector4 m_kColumn1;
     hkVector4 m_kColumn2;
@@ -67,16 +68,18 @@ struct hkpShape
     int m_type;
 };
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const hkpShape* m_pCollisionShape;
     unsigned int m_uiCollisionShapeKey;
     const void* m_kMotionState;
     const hkpCdBody* m_parent;
 };
 
-struct __declspec(align(16)) hkContactPoint
+class __declspec(align(16)) hkContactPoint
 {
+  public:
     __forceinline float distanceValue() const
     {
         return m_vSeparatingNormal.w;

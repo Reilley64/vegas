@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace fnv_00651630 { template <class> class FaceGenMatrix; }
+namespace fnv_00651630 { template <class> struct FaceGenMatrix; }
 struct Sol;
 struct _stack_bool;
 

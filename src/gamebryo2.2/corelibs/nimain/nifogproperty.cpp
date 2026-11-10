@@ -36,7 +36,7 @@ void FUN_00a9a120()
     }
 }
 
-class NiStream;
+struct NiStream;
 struct NiProperty
 {
     virtual void Dummy()
@@ -46,7 +46,7 @@ struct NiProperty
 public:
     void LoadBinary(::NiStream &);
 };
-class NiStream;
+struct NiStream;
 struct NiColor
 {
     float r;
@@ -190,7 +190,7 @@ NiFogProperty* __cdecl CreateNiFogProperty()
     return 0;
 }
 
-class NiObject;
+struct NiObject;
 
 struct EqBase
 {

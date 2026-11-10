@@ -5,9 +5,9 @@
 #include "layout_support.h"
 #include "layout_support.h"
 class DFALL_NiTMapItem_unsigned_int_unsigned_int___;
-class ImageSpaceEffectParam;
+struct ImageSpaceEffectParam;
 class ImageSpaceShaderParam;
-class RgbaColor;
+struct RgbaColor;
 class NiD3DShaderConstantMap;
 class NiTMap_unsigned_int_unsigned_int_;
 class NiTMapBase_DFALL_NiTMapItem_unsigned_int_unsigned_int____unsigned_int_unsigned_int_;
@@ -147,7 +147,7 @@ class NiTPrimitiveArray_enum_NiTexturingProperty__FilterMode_
     // void __cdecl NiTPrimitiveArray<enum NiTexturingProperty::FilterMode>::*()
     // void __cdecl NiTPrimitiveArray<enum NiTexturingProperty::FilterMode>::*()
 };
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     void** m_ppVirtualMethodTable;                                                         // +0x0, 4 bytes
@@ -157,7 +157,7 @@ class ImageSpaceEffectParam
     // ImageSpaceEffectParam& __cdecl ImageSpaceEffectParam::*(const ImageSpaceEffectParam&)
     // void __cdecl ImageSpaceEffectParam::*()
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes

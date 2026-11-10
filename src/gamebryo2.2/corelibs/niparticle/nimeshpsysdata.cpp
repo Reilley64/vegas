@@ -179,8 +179,9 @@ bool FUN_00c30940_shell::FUN_00c30940(NiStream& kStream)
     return true;
 }
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     unsigned char _0[0x30];
     unsigned int m_uiObjectFlags;
 };
@@ -1246,9 +1247,10 @@ void NiMeshPSysDataSI::FUN_00c30e80(unsigned short usParticleIndex)
     spParticle.Release();
 }
 
-struct NiAVObject;
-template <class T> struct NiPointer
+class NiAVObject;
+template <class T> class NiPointer
 {
+  public:
     T* object;
 };
 struct Heap436

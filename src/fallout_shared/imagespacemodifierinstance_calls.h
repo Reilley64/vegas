@@ -35,7 +35,7 @@ template <> class BSSimpleList<NiPointer<ImageSpaceModifierInstance> >
 class TESSound : public TESForm
 {
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -44,7 +44,7 @@ class SoundPlaybackHandle
     unsigned int eState;
     ~SoundPlaybackHandle();
 };
-class BSAudio
+struct BSAudio
 {
   public:
     SoundPlaybackHandle GetSoundHandleByFormID(unsigned int formID, unsigned int flags, bool assumeSuccess);

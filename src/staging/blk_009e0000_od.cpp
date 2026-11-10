@@ -60,8 +60,9 @@
 
 extern "C" void* DAT_010939ec;
 
-struct TESPackage
+class TESPackage
 {
+  public:
     TESPackage();
     ~TESPackage();
 };
@@ -169,7 +170,7 @@ struct FUN_009e9b20_Class
     void InitBuffer(unsigned int requested, unsigned int savedSize);
 };
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct BSSimpleArray_TESObjectREFR_1024
 {
     BSSimpleArray_TESObjectREFR_1024();
@@ -1551,7 +1552,7 @@ FUN_009eb660::~FUN_009eb660()
     reinterpret_cast<::FileMatchList *>(&(m1c))->RemoveAll();
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -1712,7 +1713,7 @@ NiPoint3 FUN_009ed380(RefPoint* source, RefPoint* target)
 }
 
 namespace fnv_009ed4b0 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -1721,11 +1722,12 @@ class NiPoint3
     NiPoint3 operator*(float s) const;
 };
 
-struct TESWorldSpace;
+class TESWorldSpace;
 struct ParentCellStub;
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void v000();
     virtual void v001();
     virtual void v002();

@@ -35,8 +35,9 @@ struct AStarNodeData
     unsigned int pad04[0x36];
     int unkdc;
 };
-struct AStarNode
+class AStarNode
 {
+  public:
     int m_i;
     int m_iUnknownValue;
     AStarNodeData* m_p;

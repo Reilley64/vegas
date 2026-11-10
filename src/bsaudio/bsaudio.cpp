@@ -321,7 +321,7 @@ void* FUN_00798450_shell::FUN_00798450(unsigned int flags)
 struct TESResponse
 {
 };
-struct Tile
+class Tile
 {
 };
 // The menu field FUN_007c2420 sets; the pad stands for members not named here.

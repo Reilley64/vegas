@@ -623,8 +623,9 @@ struct hkVector4
     };
 };
 
-struct hkAabb
+class hkAabb
 {
+  public:
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
 };

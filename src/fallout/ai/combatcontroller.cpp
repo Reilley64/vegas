@@ -209,7 +209,7 @@ intptr_t FUN_007031c0(intptr_t pThis)
     return *(int*)(pThis + 0xf0);
 }
 
-struct Actor;
+class Actor;
 struct BGSExplosion;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
@@ -223,15 +223,15 @@ struct CombatSaveData;
 struct TimeoutTimer;
 struct CombatPathingType;
 struct IDebugText;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingCoverLocation;
 struct PathingLocation;
 struct PathingRequestCoveredMove;
-struct Projectile;
-struct TESBoundObject;
-struct TESForm;
-struct TESObjectREFR;
-struct TESObjectWEAP;
+class Projectile;
+class TESBoundObject;
+class TESForm;
+class TESObjectREFR;
+class TESObjectWEAP;
 struct blob4
 {
     char b[4];
@@ -594,8 +594,9 @@ void* Unknown1::FUN_0097d960(unsigned int flags)
 }
 
 namespace fnv_0097d990 {
-struct MobileObject
+class MobileObject
 {
+  public:
     unsigned int GetCurrentProcessLevel();
 };
 struct CombatController
@@ -697,10 +698,11 @@ bool FUN_0097fd40_shell::FUN_0097fd40() const
     return ((TESActorBaseData*)this)->GetFlag(3);
 }
 
-struct TESEffectShader;
+class TESEffectShader;
 
-struct EffectSetting
+class EffectSetting
 {
+  public:
     void SetEnchantEffectShader(TESEffectShader*);
 };
 
@@ -743,7 +745,7 @@ void FUN_00980740_shell::FUN_00980740(int index)
 }
 
 namespace fnv_009807d0 {
-struct Actor
+class Actor
 {
 };
 
@@ -835,8 +837,9 @@ intptr_t __cdecl FUN_00982070(int index)
 
 namespace fnv_00982310 {
 struct BGSLoadFormBuffer;
-struct TESNPC
+class TESNPC
 {
+  public:
     void Revert(BGSLoadFormBuffer*);
 };
 struct CombatController
@@ -862,7 +865,7 @@ void CombatController::FUN_00982310(BGSLoadFormBuffer* apLoadGameBuffer)
 struct Calendar
 {
 };
-struct TESWorldSpace;
+class TESWorldSpace;
 bool FUN_00995870(unsigned int);
 struct FUN_00995830_Class
 {
@@ -877,8 +880,8 @@ void FUN_00995830_Class::FUN_00995830()
     }
 }
 
-struct Actor;
-struct ActorValueOwner;
+class Actor;
+class ActorValueOwner;
 struct AlchemyItem;
 struct BGSListForm;
 struct BGSLoadFormBuffer;
@@ -886,33 +889,33 @@ struct BGSSaveFormBuffer;
 struct BipedAnim;
 struct CHUNK;
 struct ContainerChanges;
-struct ContainerItemExtra;
+class ContainerItemExtra;
 struct InventoryItemEntry;
-struct ExtraDataList;
-struct ExtraLeveledItem;
+class ExtraDataList;
+class ExtraLeveledItem;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
 struct InventoryIterator;
-struct InventoryStackRecord;
-struct NiAVObject;
+class InventoryStackRecord;
+class NiAVObject;
 struct NiColor;
 struct IndexedPointerCollection;
-struct Script;
+class Script;
 struct ScriptLocals;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESFile;
-struct TESForm;
+class TESBoundObject;
+class TESContainer;
+class TESFile;
+class TESForm;
 struct TESLevItem;
-struct TESObject;
-struct TESObjectARMO;
+class TESObject;
+class TESObjectARMO;
 struct TESObjectCLOT;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESObjectWEAP;
+class TESObjectREFR;
+class TESObjectWEAP;
 struct TESWaterForm;
 struct blob8
 {
@@ -1030,8 +1033,9 @@ struct InventoryChanges
     bool m_bChanged;
     char _pad_11[3];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -1045,15 +1049,16 @@ struct FUN_004c8f30_shell : public InventoryChanges
 struct BSSimpleListRef
 {
 };
-struct TESContainer
+class TESContainer
 {
+  public:
     int GetObjectCount(TESObject*);
 };
 struct FUN_004bffb0_shell
 {
     TESContainer* FUN_004bffb0();
 };
-struct InventoryStackRecord
+class InventoryStackRecord
 {
 };
 struct FUN_004bfba0_shell
@@ -1139,9 +1144,9 @@ struct FUN_00981970_shell
 struct BSAudio
 {
 };
-struct TESObjectWEAP;
+class TESObjectWEAP;
 class TESActorBase;
-struct Actor
+class Actor
 {
 public:
     ::TESActorBase *GetActorBase();
@@ -1419,13 +1424,13 @@ void Holder0097::ForwardToInner(intptr_t a, float b)
 }
 
 namespace fnv_0097f9c0 {
-struct Actor
+class Actor
 {
 };
 struct ActorCombatGroup
 {
 };
-struct PlayerCharacter : Actor
+class PlayerCharacter : public Actor
 {
 };
 struct CombatController
@@ -1547,7 +1552,7 @@ void CombatController::ResetCombatState()
 }  // namespace fnv_00981660
 
 namespace fnv_00981690 {
-struct CombatProcedure;
+class CombatProcedure;
 struct CombatController
 {
     char pad1[0x84];
@@ -1677,7 +1682,7 @@ struct FUN_006797c0_shell
 struct FUN_009a5eb0_shell
 {
 };
-struct CombatProcedure;
+class CombatProcedure;
 struct GridArray
 {
     unsigned int pad00[0x1];
@@ -1778,8 +1783,9 @@ struct FUN_008b3bd0_shell
 {
 };
 
-struct Actor
+class Actor
 {
+  public:
     virtual void v000();
     virtual void v001();
     virtual void v002();
@@ -2021,7 +2027,7 @@ void FUN_0097ef50_shell::ResetModifierIfActive()
 }  // namespace fnv_0097ef50
 
 namespace fnv_0097f4d0 {
-struct Actor
+class Actor
 {
 };
 
@@ -2045,7 +2051,7 @@ struct Class80
 {
 };
 
-class CombatController
+struct CombatController
 {
   public:
     char pad0[0x80];
@@ -2092,11 +2098,12 @@ bool CombatController::FUN_0097f4d0(void* arg)
 }  // namespace fnv_0097f4d0
 
 namespace fnv_0097f820 {
-struct TESObjectREFR;
-struct TESBoundObject;
+class TESObjectREFR;
+class TESBoundObject;
 
-struct CombatProcedure
+class CombatProcedure
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -2144,13 +2151,14 @@ void FUN_0097f820_shell::ProcessActivation(TESObjectREFR* apRef, TESBoundObject*
 }  // namespace fnv_0097f820
 
 namespace fnv_0097f930 {
-struct Actor;
+class Actor;
 struct ActorCombatGroup
 {
 };
 
-struct PlayerCharacter
+class PlayerCharacter
 {
+  public:
     virtual void v000();
     virtual void v001();
     virtual void v002();
@@ -2475,7 +2483,7 @@ void FUN_0097fb80_shell::FUN_0097fb80()
 
 namespace fnv_0097feb0 {
 class InventoryStackRecord;
-class Animation;
+struct Animation;
 class BSAnimGroupSequence;
 class TESAnimGroup;
 
@@ -2483,7 +2491,7 @@ struct TESAnimGroup
 {
 };
 
-struct BSAnimGroupSequence
+class BSAnimGroupSequence
 {
 };
 
@@ -2655,7 +2663,7 @@ float FUN_0097feb0(Actor* apActor, ANIM_GROUP_ENUM aePowerAttack)
 }  // namespace fnv_0097feb0
 
 namespace fnv_00980110 {
-class CombatController;
+struct CombatController;
 
 class CombatProcedure
 {
@@ -2666,7 +2674,7 @@ class CombatProcedure
     virtual void Unk0c();
 };
 
-class CombatController
+struct CombatController
 {
   public:
     char pad[0x84];
@@ -2693,7 +2701,7 @@ void CombatController::FUN_00980110(CombatProcedure* apActionProcedure)
 }  // namespace fnv_00980110
 
 namespace fnv_009801b0 {
-class CombatController;
+struct CombatController;
 
 class CombatProcedure
 {
@@ -2704,7 +2712,7 @@ class CombatProcedure
     virtual void Unk0c();
 };
 
-class CombatController
+struct CombatController
 {
   public:
     char pad[0x88];
@@ -2762,7 +2770,7 @@ class CombatProcedure
     virtual int GetType();
 };
 
-class CombatController
+struct CombatController
 {
   public:
     char pad0[0x8c];
@@ -2850,7 +2858,7 @@ class CombatProcedure
     virtual void Unk10(int);
 };
 
-class CombatController
+struct CombatController
 {
   public:
     char pad0[0x84];
@@ -2963,7 +2971,7 @@ struct AIProcess
     virtual bool MethodB4(TES*, TESPackage**);
 };
 
-class CombatController
+struct CombatController
 {
   public:
     char pad[0xbc];
@@ -2998,7 +3006,7 @@ void CombatController::FUN_00981380()
 }  // namespace fnv_00981380
 
 namespace fnv_00981450 {
-struct PathingSolution
+class PathingSolution
 {
 };
 
@@ -3150,7 +3158,7 @@ struct AIProcess
     virtual int vfunc_20c();
 };
 
-class CombatController
+struct CombatController
 {
   public:
     char pad0[0x80];
@@ -3200,7 +3208,7 @@ bool CombatController::FUN_00981450()
 namespace fnv_00981570 {
 extern unsigned int DAT_011a4884[];
 
-struct Actor
+class Actor
 {
 };
 
@@ -3330,7 +3338,7 @@ void FUN_0097f8c0_shell::FUN_0097f8c0()
 }
 
 namespace fnv_009805b0 {
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -3439,8 +3447,9 @@ struct BGSLoadFormBuffer
 {
 };
 
-struct CombatProcedure
+class CombatProcedure
 {
+  public:
     virtual void FUN_009823c0_vt0();
     virtual void FUN_009823c0_vt1();
     virtual void FUN_009823c0_vt2(void*);
@@ -3798,7 +3807,7 @@ C97FB40Handle C97FB40Object::GetHandle()
     return m_kHandle;
 }
 
-class SpawnedObject;
+struct SpawnedObject;
 class FUN_00980400_list
 {
   public:
@@ -3810,7 +3819,7 @@ class FUN_00980400_list
   public:
     unsigned int GetSize();
 };
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     virtual void v00();
@@ -9275,7 +9284,7 @@ void* Target::FUN_00994bd0(Input* apInput, bool flag)
 namespace ActorValue {
  enum Index;
 }
-struct ActorValueOwner
+class ActorValueOwner
 {
 public:
     int GetActorValueAsInteger(::ActorValue::Index);

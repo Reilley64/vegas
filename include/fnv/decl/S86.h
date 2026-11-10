@@ -1,6 +1,6 @@
 #pragma once
 
-struct BGSAddonNode;
+class BGSAddonNode;
 
 struct S86 {
 public:

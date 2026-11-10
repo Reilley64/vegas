@@ -1,7 +1,7 @@
 #pragma once
 
 class NiPixelFormat;
-struct NiPixelFormat;
+class NiPixelFormat;
 struct NiPoint3StartupTable;
 struct PixelTemplate;
 

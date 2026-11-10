@@ -3,7 +3,7 @@
 class TESEffectShader;
 class TESSound;
 
-struct EffectSetting {
+class EffectSetting {
 public:
     // 0x00405e60
     void FUN_00405e60();

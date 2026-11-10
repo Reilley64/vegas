@@ -7,7 +7,7 @@ class S2db70_Vector4;
 struct Arg2;
 struct OutItem;
 struct S_00dfaac0_Transform;
-struct hkTransform;
+class hkTransform;
 
 // 0x00dfaac0
 int TestPenetration(const ::S2db70_Shape *, const ::S2db70_Shape *, const ::S_00dfaac0_Transform &, float, ::S2db70_Vector4 *, ::S2db70_Vector4 *, ::S2db70_Vector4 *, int, ::S2db70_Out *);

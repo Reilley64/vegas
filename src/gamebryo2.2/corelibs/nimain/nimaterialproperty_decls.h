@@ -6,7 +6,7 @@
 #include "fnv/decl/FUN_00462d80_shell.h"
 #include "NiObjectNET.h"
 
-class NiStream;
+struct NiStream;
 
 // Private declaration of the canonical NiProperty layout with its stream API.
 #ifndef FNV_NIPROPERTY_H
@@ -18,8 +18,8 @@ class NiProperty : public NiObjectNET
 };
 #endif
 
-class NiStream;
-class NiColor
+struct NiStream;
+struct NiColor
 {
   public:
     float r, g, b;
@@ -55,7 +55,7 @@ class NiBinaryStream
 };
 
 // Only the stream prefix used by this unit is required.
-class NiStream
+struct NiStream
 {
   public:
     void** m_ppVirtualMethodTable;

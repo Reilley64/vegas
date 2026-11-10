@@ -11,7 +11,7 @@
 #include "BaseFormComponent.h"
 #include "TESForm.h"
 #include "layout_support.h"
-class BGSPlaceableWater;
+struct BGSPlaceableWater;
 class PlaceableWaterData;
 class BSFileEntry;
 class ShortPoint3;
@@ -19,7 +19,7 @@ class TESBoundObject__BOUND_DATA;
 class TESModel;
 class TESFormList;
 class FileEntryList;
-class TESWaterForm;
+struct TESWaterForm;
 class TESObject : public TESForm
 {
   public:
@@ -172,7 +172,7 @@ class PlaceableWaterData
     // void __cdecl PlaceableWaterData::*()
     // void __cdecl PlaceableWaterData::*()
 };
-class BGSPlaceableWater : public TESBoundObject, public TESModel
+struct BGSPlaceableWater : public TESBoundObject, public TESModel
 {
   public:
     // base TESBoundObject at +0x0, size 48

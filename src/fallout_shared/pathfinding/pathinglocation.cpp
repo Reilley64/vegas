@@ -1411,7 +1411,7 @@ bool NLLocation::UpdateMeshLocation()
     }
 }
 
-class PathingRequest;
+struct PathingRequest;
 class PathingSolution;
 
 class FUN_006d0b80

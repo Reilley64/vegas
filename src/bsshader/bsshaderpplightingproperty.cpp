@@ -2298,8 +2298,9 @@ FUN_00b66f50::FUN_00b66f50()
 struct Pool
 {
 };
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual void v00();
     virtual void DeleteThis();
     long m_uiRefCount;

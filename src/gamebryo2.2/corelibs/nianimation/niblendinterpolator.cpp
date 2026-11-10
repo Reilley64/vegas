@@ -1172,8 +1172,8 @@ struct LoadInterpItem
 struct InterpolatorRegistry;
 class NiBinaryStream;
 class NiTexture;
-class NiObject;
-class NiStream
+struct NiObject;
+struct NiStream
 {
   public:
     unsigned int m_header0;

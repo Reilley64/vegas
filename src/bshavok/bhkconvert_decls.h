@@ -30,8 +30,9 @@ struct hkRotation
 {
     float data[12];
 };
-struct hkTransform : hkRotation
+class hkTransform : public hkRotation
 {
+  public:
     hkVector4 position;
 };
 struct NiPoint3
@@ -42,8 +43,9 @@ struct ThreeByThreeMatrix
 {
     float data[9];
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix rotation;
     NiPoint3 position;
     float scale;

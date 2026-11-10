@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class NiPoint3;
+struct NiPoint3;
 
 namespace fnv_00696a50 {
 struct FUN_00696a50_shell {

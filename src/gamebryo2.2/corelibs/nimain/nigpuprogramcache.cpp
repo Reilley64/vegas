@@ -822,7 +822,7 @@ class SpawnedBase
     void* m_p;
 };
 
-class SpawnedObject : public SpawnedBase
+struct SpawnedObject : public SpawnedBase
 {
   public:
     virtual ~SpawnedObject() throw()

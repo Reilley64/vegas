@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESObjectCELL;
+class TESObjectCELL;
 struct Vector2;
 struct Vector3;
 

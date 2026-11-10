@@ -12,8 +12,8 @@
 class ImageSpaceEffect;
 class ImageSpaceEffect__EffectInput;
 class ImageSpaceEffectWithTwoTextures;
-class ImageSpaceManager;
-class ImageSpaceEffectParam;
+struct ImageSpaceManager;
+struct ImageSpaceEffectParam;
 class ImageSpaceTexture;
 class NiTPrimitiveArray_ImageSpaceEffect___;
 class NiTPrimitiveArray_ImageSpaceEffect__EffectInput___;

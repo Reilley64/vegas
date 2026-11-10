@@ -241,7 +241,7 @@ void FUN_006c93a0(Dummy_006c93a0* pThis)
     pThis->f1c = -1;
 }
 
-struct PathingActorData;
+class PathingActorData;
 struct FUN_006c9900_shell : public PathingRequest
 {
     PathingActorData* FUN_006c9900();
@@ -288,7 +288,7 @@ void* FUN_006cd5a0(void* pThis)
     return pThis;
 }
 
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct IDebugText;
@@ -332,7 +332,7 @@ bool FUN_006e2330_shell::FUN_006e2330()
 }
 
 namespace fnv_006c99c0 {
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct BGSLoadFormBuffer;
 struct BGSMusicType;
 struct BGSSaveFormBuffer;
@@ -342,13 +342,13 @@ struct FormRecordHeader;
 struct IDebugText;
 struct ImpactSwap;
 struct TESClimate;
-struct TESFile;
+class TESFile;
 struct GlobalVariableForm;
 struct TESImageSpace;
-struct TESObject;
+class TESObject;
 struct TESTerrainLODManager;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct PacketNodeRecord;
 struct PointerPairData;
 struct blob8
@@ -359,8 +359,9 @@ struct blob12
 {
     char b[12];
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -376,8 +377,9 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-struct TESTexture : public BaseFormComponent
+class TESTexture : public BaseFormComponent
 {
+  public:
     virtual unsigned int GetTexturePathLength();
     virtual char* NormalizeTextureFilePath(void*);
     virtual char* GetRegularTextureFilePath(void*);
@@ -542,8 +544,9 @@ struct blob12
 {
     char b[12];
 };
-struct NavMeshTriangleReference
+class NavMeshTriangleReference
 {
+  public:
     NavMeshTriangle* GetTriangle();
     struct blob12 GetNavMeshData();
     struct blob8 GetCenter2D();
@@ -560,7 +563,7 @@ struct FUN_006cc5e0_shell : public PathBuilder
     int FUN_006cc5e0(PathingLocation*, PathingLocation*, unsigned int, unsigned int);
 };
 
-struct NavMeshTriangleEdgeReference;
+class NavMeshTriangleEdgeReference;
 
 }  // namespace fnv_006cc5e0
 template <> class BSSimpleArray<fnv_006cc5e0::NavMeshTriangleEdgeReference, 1024>
@@ -4396,7 +4399,7 @@ int FUN_006c93f0_Object::ProcessIndexRange(::std::intptr_t index)
 class NavMeshInfo_;
 class PathingLocationS;
 class VirtualPathingNodeS;
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 class PathingSolutionS;
 
 struct FNVHashMap
@@ -4723,7 +4726,7 @@ struct RayCastItem
     RayCastItem(const RayCastItem& other);
 };
 
-class NavMeshPtr;
+struct NavMeshPtr;
 class NavMeshInfo
 {
   public:

@@ -26,7 +26,7 @@ void FUN_00d552c0_StandIn::FUN_00d552c0(const ::hkTransformD262* param1, float p
     ::FUN_00d26230(*param1, reinterpret_cast<const ::hkVector4D262&>(m_kAabbHalfExtents), reinterpret_cast<const ::hkVector4D262&>(m_kAabbCenter), param2, *param3);
 }
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 
 class hkStatisticsCollectorD54F;
 

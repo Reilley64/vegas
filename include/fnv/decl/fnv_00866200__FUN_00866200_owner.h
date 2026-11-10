@@ -1,7 +1,7 @@
 #pragma once
 
 namespace fnv_00866200 { struct BGSSaveLoadChangeFlags; }
-namespace fnv_00866200 { struct SaveLoadFile; }
+namespace fnv_00866200 { class SaveLoadFile; }
 
 namespace fnv_00866200 {
 struct FUN_00866200_owner {

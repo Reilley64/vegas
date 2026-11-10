@@ -1,6 +1,6 @@
 #pragma once
 
-struct TileMenu {
+class TileMenu {
 public:
     // 0x00709810
     ::TileMenu *TileMenuConstructor(int, int);

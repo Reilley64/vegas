@@ -1,6 +1,6 @@
 #pragma once
 
-namespace CombatAssessment { struct Actor; }
+namespace CombatAssessment { class Actor; }
 namespace CombatAssessment { struct Time; }
 
 namespace CombatAssessment {

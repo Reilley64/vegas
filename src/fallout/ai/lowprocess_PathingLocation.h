@@ -3,7 +3,7 @@
 #define FNV_PATHINGLOCATION_H
 #include "lowprocess_support.h"
 #include "lowprocess_NiPoint3.h"
-class PathingLocation
+struct PathingLocation
 {
   public:
     PathingLocation(TESObjectREFR*);

@@ -20,7 +20,7 @@
 
 
 
-struct hkTransform;
+class hkTransform;
 
 struct hkVector4
 {
@@ -110,8 +110,9 @@ struct FloatArrayDescriptor
     int m_iVertexStride;
 };
 
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     void* m_vtbl;
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiRTTI;
+struct NiRTTI;
 
 struct NiObject {
 public:

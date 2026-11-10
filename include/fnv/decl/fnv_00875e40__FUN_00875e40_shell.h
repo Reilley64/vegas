@@ -1,7 +1,7 @@
 #pragma once
 
-namespace fnv_00875e40 { class BSRenderedTexture; }
-namespace fnv_00875e40 { struct BSShaderAccumulator; }
+namespace fnv_00875e40 { struct BSRenderedTexture; }
+namespace fnv_00875e40 { class BSShaderAccumulator; }
 
 namespace fnv_00875e40 {
 struct FUN_00875e40_shell {

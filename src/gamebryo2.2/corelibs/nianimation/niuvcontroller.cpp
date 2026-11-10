@@ -282,7 +282,7 @@ bool NiUVController::FUN_00a45970(NiStream& kStream)
 }  // namespace fnv_00a45970
 
 namespace fnv_00a45cf0 {
-struct NiTimeController
+class NiTimeController
 {
 };
 
@@ -349,12 +349,14 @@ struct NiObject
 struct NiUVData : NiObject
 {
 };
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
 };
-struct NiTimeController
+class NiTimeController
 {
+  public:
     virtual void LinkObject(NiStream&);
     char _pad[0x44];
 };

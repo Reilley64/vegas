@@ -79,7 +79,7 @@ FUN_00cf45d0_class::FUN_00cf45d0_class()
     vtable = (intptr_t)&DAT_010cc164;
 }
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 

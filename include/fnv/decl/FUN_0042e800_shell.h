@@ -1,6 +1,6 @@
 #pragma once
 
-struct ExtraFactionChanges;
+class ExtraFactionChanges;
 
 struct FUN_0042e800_shell {
 public:

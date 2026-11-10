@@ -199,9 +199,10 @@
 #include "fnv/symbols_00cdf000.h"
 #include "fnv/symbols_00d6a000.h"
 
-struct hkReferencedObject {
+class hkReferencedObject {
 };
-struct hkOstream {
+class hkOstream {
+  public:
     void* m_pVtable;
     unsigned short m_iFlags;
     unsigned short m_iUnk;
@@ -236,13 +237,13 @@ FUN_00cc1710_Class* FUN_00cc1710_Class::FUN_00cc1710(int aiFlags)
     return this;
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream {  public:
     ::NiObject *GetLoadedObject();
 public:
     ::NiObject *DeserializeObject();
 };
-struct NiExtraData { void LoadBinary(NiStream&); };
+class NiExtraData { public: void LoadBinary(NiStream&); };
 struct FUN_00cc1970 : NiExtraData {
     void LoadBinary(NiStream& stream);
 };
@@ -604,7 +605,7 @@ void FUN_00cdf250_class::FUN_00cdf250(const ::MProduct* a)
 
 namespace fnv_00cdf7a0 {
 extern int DAT_010c82a4;
-struct hkReferencedObject {  };
+class hkReferencedObject {  };
 struct FUN_00cdf7a0Class {
     int m_vtbl;
     int m_auiShapeKeys;
@@ -5050,7 +5051,7 @@ public:
     char m_08[0x140 - 8];
 };
 
-class Owner {
+struct Owner {
 public:
     int m_00;
     Payload* m_pkPayload;
@@ -10658,7 +10659,7 @@ struct AutoMemContext {
 struct ThreeByThreeMatrix {
  float m00,m01,m02,m10,m11,m12,m20,m21,m22;
 };
-struct NiTransform { ThreeByThreeMatrix rotation; NiPoint3 translation; float scale; };
+class NiTransform { public: ThreeByThreeMatrix rotation; NiPoint3 translation; float scale; };
 struct Transform403 { hkVector4 row0,row1,row2,translation; };
 struct Output403 {
  virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
@@ -24888,7 +24889,7 @@ void* FUN_00cceda0_cls::FUN_00cceda0(unsigned int arg)
 }
 
 
-struct hkReferencedObject;
+class hkReferencedObject;
 
 
 

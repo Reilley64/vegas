@@ -22,7 +22,7 @@ enum PACK_LOC_TYPE
 };
 
 // LocationDescriptor's nonvirtual, 12-byte layout is shared by the PC accessors
-class LocationDescriptor
+struct LocationDescriptor
 {
   public:
     char m_ucLocationType;

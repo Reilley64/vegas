@@ -15,8 +15,8 @@
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_0109d000.h"
 #include "fnv/symbols_011f4000.h"
-class NiStream;
-struct NiExtraData
+struct NiStream;
+class NiExtraData
 {
 public:
     void LinkObject(::NiStream &);
@@ -45,7 +45,7 @@ void* __cdecl FUN_00a7f8e0()
     return 0;
 }
 
-class NiStream;
+struct NiStream;
 
 struct NiBinaryStreamStandIn
 {
@@ -73,7 +73,7 @@ struct NiBinaryStreamStandIn
     }
 };
 
-class NiStream
+struct NiStream
 {
   public:
     char pad[0x24c];

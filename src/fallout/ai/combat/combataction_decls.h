@@ -5,8 +5,9 @@
 #include "fnv/symbols_005b5000.h"
 
 class UnsignedIdHandle;
-struct CombatWorldStateListNode
+class CombatWorldStateListNode
 {
+  public:
     UnsignedIdHandle* item;
     CombatWorldStateListNode* next;
 public:

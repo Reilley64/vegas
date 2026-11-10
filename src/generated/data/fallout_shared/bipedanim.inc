@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?g_TESSaveLoadGame@@3PEAUTESSaveLoadGame@@EA=?DAT_011de45c@@3PEAUSaveManager@@EA")
 
 extern "C" char fnv_data_01013be8[] __asm__("?g_011c3804_arg1@@3QBDB");

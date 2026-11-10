@@ -478,7 +478,7 @@ unsigned char FUN_0063dd50_shell::FUN_0063dd50(int index)
 }
 
 namespace fnv_0063e010 {
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
 };
@@ -1006,7 +1006,7 @@ using AutoMemHelper = ::AutoMemContext;
 struct BSOcclusionPlane
 {
 };
-struct MobileObject
+class MobileObject
 {
 };
 struct PC7d : public BSOcclusionPlane
@@ -2329,8 +2329,9 @@ namespace fnv_0063ef20 {
 struct TESObjectDoorController
 {
 };
-struct ImageSpaceModifierInstanceDOF : public TESObjectDoorController
+class ImageSpaceModifierInstanceDOF : public TESObjectDoorController
 {
+  public:
     int f00;
     int f04;
     unsigned char f08;

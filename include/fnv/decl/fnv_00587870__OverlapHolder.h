@@ -2,7 +2,7 @@
 
 class TESObjectREFR;
 namespace fnv_00587870 { struct CellH; }
-namespace fnv_00587870 { template <class> struct BSSimpleList; }
+namespace fnv_00587870 { template <class> class BSSimpleList; }
 
 namespace fnv_00587870 {
 struct OverlapHolder {

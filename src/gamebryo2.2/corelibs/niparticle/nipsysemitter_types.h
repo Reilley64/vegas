@@ -1,17 +1,17 @@
 // gamebryo2.2/corelibs/niparticle/nipsysemitter_types.h: declares NiPSysModifier, RgbaColor, NiPSysEmitter
 
-class NiStream;
+struct NiStream;
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_NIPSYSEMITTER_H
 #define FNV_NIPSYSEMITTER_H
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
-class RgbaColor;
+struct RgbaColor;
 class NiPSysEmitter;
-class NiPSysModifier;
-class NiParticleSystem;
-class NiPSysModifier : public NiObject
+struct NiPSysModifier;
+struct NiParticleSystem;
+struct NiPSysModifier : public NiObject
 {
   public:
     virtual void LoadBinary(NiStream&);
@@ -39,7 +39,7 @@ class NiPSysModifier : public NiObject
     // NiPSysModifier& __cdecl NiPSysModifier::*(const NiPSysModifier&)
     // void __cdecl NiPSysModifier::*()
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     void LoadBinary(NiStream&);

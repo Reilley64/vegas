@@ -1321,8 +1321,9 @@ void MessageQueueHandler::FUN_008c8240(int eType)
 }
 }  // namespace fnv_008c8240
 
-struct Script
+class Script
 {
+  public:
     static bool __cdecl IsConsolePlatform();
 };
 struct MobileObjectExt
@@ -1534,7 +1535,7 @@ struct ATM
 {
     void QueryPerformanceCounter(int);
 };
-struct Actor
+class Actor
 {
 };
 struct PackageUpdateTaskData
@@ -2044,7 +2045,7 @@ struct GameTimerRecord
 };
 
 
-struct TESQuest
+class TESQuest
 {
 };
 
@@ -2054,7 +2055,7 @@ class ATM
     void QueryPerformanceCounter(int);
 };
 
-class GlobalObject_0044fae0 : public ATM
+struct GlobalObject_0044fae0 : public ATM
 {
 };
 
@@ -2062,7 +2063,7 @@ struct Obj_009529d0
 {
 };
 
-struct PlayerCharacter : public Obj_009529d0
+class PlayerCharacter : public Obj_009529d0
 {
 };
 
@@ -2172,8 +2173,9 @@ struct PlayerPC
 // Stand-in for the game's HighProcess.  What matters here is the
 // virtual layout (the four slots the original calls sit at vtable
 // offsets 0x100 / 0x220 / 0x224 / 0x348) and the byte at +0xBC.
-struct HighProcess
+class HighProcess
 {
+  public:
     int unk04;
     int unk08;
     int unk0C;
@@ -3008,7 +3010,7 @@ class SL
 };
 
 
-class Owner
+struct Owner
 {
   public:
     char pad30[0x30];
@@ -3106,8 +3108,9 @@ class BaseProcess
     virtual void Unk08();
     virtual void UpdateActor(Actor* actor, int mode);
 };
-struct ExtraFollower
+class ExtraFollower
 {
+  public:
     void* unk00;
     void* unk04;
     void* unk08;

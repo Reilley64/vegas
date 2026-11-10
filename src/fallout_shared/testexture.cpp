@@ -239,8 +239,9 @@ const char* FUN_00487410_shell::GetLeafTexturePath()
 }
 
 namespace fnv_0048e370 {
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength() const;
 };
 struct FNStub
@@ -285,8 +286,9 @@ namespace fnv_0048e4f0 {
 struct FNStub
 {
 };
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength();
 };
 struct FUN_0048e4f0_shell : TESModel

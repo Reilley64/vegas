@@ -245,7 +245,7 @@ void* FUN_00bc34a0_class::FUN_00bc34a0(float* out)
 }
 
 struct NiStream;
-class NiStream;
+struct NiStream;
 struct RgbaColor
 {
 public:
@@ -480,8 +480,8 @@ void FUN_00bd9150(void* p)
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(*(void**)p);
 }
 
-struct NiGeometry;
-struct ShadowSceneLight;
+class NiGeometry;
+class ShadowSceneLight;
 struct BSShaderProperty
 {
     struct ShaderPassList
@@ -587,7 +587,7 @@ int Shader_00bd9540::FUN_00bd9540(NiGeometry* geom, ShadowSceneLight* light, uns
     return 0;
 }
 
-struct NiTexture;
+class NiTexture;
 struct ImageSpaceTexture
 {
 };
@@ -1183,8 +1183,9 @@ FUN_00bce7d0_class* FUN_00bce7d0_class::FUN_00bce7d0(int flags)
 }
 
 
-struct NiShader
+class NiShader
 {
+  public:
     virtual void Initialize();
 };
 
@@ -1197,8 +1198,9 @@ struct RefObject
 };
 
 template <class> class NiPointer;
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     char m_auiShapeKeys[0x64];
     int m_iObjectReferenceCount;
 
@@ -3177,7 +3179,7 @@ void Prop_bc3960::AppendStrings(StrArr_bc3960* pkStrings)
     pkStrings->Add(reinterpret_cast<::RgbaColor *>(&(m_kColor60))->ToString(DAT_010babec));
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -7696,8 +7698,8 @@ void FUN_00bd92b0_class::FUN_00bd92b0(int a1, int a2, int a3, int a4)
     reinterpret_cast<::Holder *>((sub))->FUN_00ba38b0();
 }
 
-struct NiGeometry;
-struct ShadowSceneLight;
+class NiGeometry;
+class ShadowSceneLight;
 struct PassArray9840
 {
     void FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
@@ -7811,8 +7813,8 @@ int Shader9840::FUN_00bd9840(NiGeometry* geometry, ShadowSceneLight* light, unsi
     return 0;
 }
 
-struct NiGeometry;
-struct ShadowSceneLight;
+class NiGeometry;
+class ShadowSceneLight;
 
 struct Shader_00bd9bc0
 {
@@ -8504,8 +8506,8 @@ int Shader_00bdde10::FUN_00bdde10(NiGeometry* geom, ShadowSceneLight* light0, Sh
     return 0;
 }
 
-struct NiGeometry;
-struct ShadowSceneLight;
+class NiGeometry;
+class ShadowSceneLight;
 struct RPA
 {
     void Add(NiGeometry* geom, unsigned short pass, bool enabled, unsigned char numLights, ShadowSceneLight* l0,
@@ -8861,7 +8863,7 @@ void NiFloatControllerBC3::UpdateFloatController(NiUpdateDataBC3& kUpdateData)
 struct NiMemObject
 {
 };
-struct NiFloatData;
+class NiFloatData;
 struct NiFloatInterpolator : NiMemObject
 {
     virtual void v00();
@@ -9122,7 +9124,7 @@ struct StrArray
         return idx;
     }
 };
-struct NiTexture;
+class NiTexture;
 struct TexPtr
 {
     NiTexture* m_pObject;
@@ -12160,7 +12162,7 @@ struct FUN_00bd6190
     int arg;
     FUN_00bd6190(Source*, int, bool);
 };
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     virtual ~ImageSpaceEffectParam();
@@ -12527,8 +12529,8 @@ int ShaderPropertyBD9::FUN_00bd9da0(NiGeometryBD9* pkGeometry, unsigned short* p
     return 0;
 }
 
-struct NiGeometry;
-struct ShadowSceneLight;
+class NiGeometry;
+class ShadowSceneLight;
 struct RenderPassSink
 {
     void SubmitPass(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
@@ -15429,7 +15431,7 @@ bool FUN_00bd16d0_class::FUN_00bd16d0(NiGeometry* geom)
     return ((FUN_00e81880_shell*)this)->FUN_00e81880(geom);
 }
 
-struct NiTexture;
+class NiTexture;
 
 struct PassTexSlot
 {
@@ -16001,8 +16003,8 @@ FUN_00bd9160::~FUN_00bd9160()
     }
 }
 
-struct NiGeometry;
-struct ShadowSceneLight;
+class NiGeometry;
+class ShadowSceneLight;
 struct ShaderPassList
 {
     int unk00;
@@ -17047,8 +17049,8 @@ FUN_00bd8290::FUN_00bd8290(int iArg)
     m_sp13c = new BSShaderAccumulator((BSShaderManager::BATCHRENDERER_CREATION_MODE)0x63, 1, 0x2f7);
 }
 
-struct NiGeometry;
-struct ShadowSceneLight;
+class NiGeometry;
+class ShadowSceneLight;
 
 
 struct PassElem
@@ -17246,7 +17248,7 @@ struct IterObj
     F8Obj* m_f8;
 };
 
-struct NiGeometry
+class NiGeometry
 {
 };
 
@@ -17522,8 +17524,8 @@ int BDBF60_Shader::FUN_00bdbf60(NiGeometry* geom, ShadowSceneLight* light, Shado
     return 0;
 }
 
-struct NiGeometry;
-struct ShadowSceneLight;
+class NiGeometry;
+class ShadowSceneLight;
 struct ShaderPassOwner
 {
     unsigned int unk00;

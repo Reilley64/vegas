@@ -1,7 +1,7 @@
 #pragma once
 
-struct NiAVObject;
-struct NiSourceTexture;
+class NiAVObject;
+class NiSourceTexture;
 struct ParticleShaderProperty;
 
 struct FUN_005077c0Class {

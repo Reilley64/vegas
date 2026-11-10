@@ -264,7 +264,7 @@ bool ShaderPass_4e30::FUN_00c04e30(int arg)
 }
 
 // Native NiObject/NiTexture contracts: JIP-LN-NVSE internal/netimmerse.h.
-class NiRTTI;
+struct NiRTTI;
 
 class NiNode;
 
@@ -298,17 +298,17 @@ class bhkLimitedHingeConstraint;
 
 class NiObjectCopyInfo;
 
-class NiStream;
+struct NiStream;
 
-class NiBound;
+struct NiBound;
 
-class NiControllerManager;
+struct NiControllerManager;
 
 class NiTimeController;
 
 class NiExtraData;
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual NiRTTI* GetType();
@@ -352,7 +352,7 @@ class NiFixedString
     const char* str;
 };
 
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_blockName;

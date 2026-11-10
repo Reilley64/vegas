@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace fnv_00e7e880 { class SpawnedObject; }
+namespace fnv_00e7e880 { struct SpawnedObject; }
 struct StageReturn;
 
 // 0x00e7e7a0

@@ -768,8 +768,9 @@ extern volatile long DAT_011f4400;
 
 
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
 
     virtual void v00();
     virtual void Destroy();
@@ -1954,8 +1955,9 @@ struct NiStream
 
 };
 
-struct BSStream : NiStream
+class BSStream : public NiStream
 {
+  public:
     int unk5c4, unk5c8;
     BSStream()
     {

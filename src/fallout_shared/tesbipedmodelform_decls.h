@@ -9,7 +9,7 @@
 #include "fnv/symbols_0043b000.h"
 #include "fnv/symbols_011c3000.h"
 class BSExtraData;
-class InventoryChanges;
+struct InventoryChanges;
 class TESBoundObject;
 class TESObjectCELL;
 class CellDataNode;
@@ -48,7 +48,7 @@ class BipedAnim
   public:
     void SetBipedObject(TESForm*, TESModel*, BIPED_OBJECT);
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

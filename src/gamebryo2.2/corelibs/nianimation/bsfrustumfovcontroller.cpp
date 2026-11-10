@@ -271,7 +271,7 @@ class A42D00Controller
     A42D00InterpPtr m_spControllerInterpolator;
 };
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     int unk000;
@@ -461,9 +461,10 @@ void FUN_00a44cf0()
 }
 
 #include <math.h>
-class NiFrustum;
-struct NiCamera
+struct NiFrustum;
+class NiCamera
 {
+  public:
     float _pad_0[0x38];
     float m_fFieldOfView;
 public:

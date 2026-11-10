@@ -3,15 +3,15 @@
 
 class NiPixelData;
 class NiPixelFormat;
-class NiPoint3;
+struct NiPoint3;
 struct ActorCombatGroup;
 struct CheckerColor;
 struct FUN_00a62a40_this;
 struct NiStream;
 struct Settings_a62;
 struct Vector4f;
-template <class, class> struct NiTArray;
-template <class> struct NiTMallocInterface;
+template <class, class> class NiTArray;
+template <class> class NiTMallocInterface;
 
 // 0x00a62030
 void FUN_00a62030();

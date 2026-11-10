@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 
 // 0x00877260
 namespace fnv_00877260 { void FUN_00877260(::NiPoint3); }

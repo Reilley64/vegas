@@ -1,7 +1,7 @@
 #pragma once
 
 class Actor;
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 class MagicShaderHitEffect;
 class MobileObject;
 class TESObjectREFR;

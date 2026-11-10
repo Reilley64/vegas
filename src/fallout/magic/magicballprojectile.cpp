@@ -573,7 +573,7 @@ struct SaveManager
 {
 };
 
-struct ActorPackageContext
+class ActorPackageContext
 {
 };
 
@@ -638,7 +638,7 @@ struct STR00
 {
 };
 
-struct Projectile
+class Projectile
 {
 };
 
@@ -1184,7 +1184,7 @@ struct Self
     Obj* m68;
     bool FUN_008cf7a0();
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -1197,7 +1197,7 @@ struct _ref_006815c0
 {
     _ref_006815c0();
 };
-class ThreeByThreeMatrix : public _ref_006815c0
+struct ThreeByThreeMatrix : public _ref_006815c0
 {
   public:
     float m_afEntries[3][3];
@@ -1219,7 +1219,7 @@ class NiFixedString
     NiFixedString(const char* pcString);
     ~NiFixedString();
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float m_fTime;
@@ -1228,7 +1228,7 @@ class NiUpdateData
     int m_iUnk;
     NiUpdateData(float fTime, bool m_bUpdateEnabled, bool bIsMultiThreaded);
 };
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
 };
@@ -1245,7 +1245,7 @@ class NiControllerSequence
   public:
 };
 class NiControllerSequence;
-class NiControllerManager : public NiTimeController
+struct NiControllerManager : public NiTimeController
 {
   public:
 public:
@@ -2219,8 +2219,9 @@ struct Sound
 {
     unsigned id, flags, state;
 };
-struct Projectile
+class Projectile
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -4933,16 +4934,16 @@ struct ProjectileNodeStandin
     CustomFlags FUN_0070c440();
 };
 
-struct EffectItem
+class EffectItem
 {
 };
 
-struct TESSound
+class TESSound
 {
 };
 
 class TESSound;
-struct EffectSetting
+class EffectSetting
 {
 public:
     ::TESSound *GetHitSound();
@@ -7749,8 +7750,9 @@ struct Animation
 {
     void SpecialIdleFree(bool, bool);
 };
-struct TESPackage
+class TESPackage
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();

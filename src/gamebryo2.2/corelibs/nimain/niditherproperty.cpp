@@ -79,11 +79,12 @@ NiCullingProperty* NiCullingProperty::FUN_00a9a5f0(CloningProcess& process)
     return copy;
 }
 
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class I> struct NiTPrimitiveArray
+template <class T, class I> class NiTPrimitiveArray
 {
+  public:
     void* unk00;
     int unk04;
     unsigned short capacity;

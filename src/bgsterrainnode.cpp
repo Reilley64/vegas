@@ -355,8 +355,9 @@ NiPoint2 FUN_006ff210_shell::FUN_006ff210()
 }
 
 namespace fnv_006ff2c0 {
-struct NiNode
+class NiNode
 {
+  public:
     virtual void v0() = 0;
     virtual void v1() = 0;
     virtual void v2() = 0;
@@ -419,8 +420,9 @@ struct NiNode
     virtual void v59() = 0;
     virtual void SetBool(int a, int b, int c) = 0;
 };
-struct Tile
+class Tile
 {
+  public:
     unsigned char pad[0x2c];
     void* m_pSceneNode;
 };
@@ -472,8 +474,9 @@ void FUN_006ff2c0_shell::UpdateTileFromChunk()
 }
 }  // namespace fnv_006ff2c0
 
-struct NiNode
+class NiNode
 {
+  public:
     virtual void v0() = 0;
     virtual void v1() = 0;
     virtual void v2() = 0;
@@ -536,12 +539,13 @@ struct NiNode
     virtual void v59() = 0;
     virtual void SetBool(int a, int b, int c) = 0;
 };
-struct Tile
+class Tile
 {
+  public:
     unsigned char pad[0x2c];
     void* m_pSceneNode;
 };
-struct Tile;
+class Tile;
 struct FUN_006ff380_shell
 {
     int f0, f4, f8, fc;

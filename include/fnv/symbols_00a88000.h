@@ -1,5 +1,5 @@
 #pragma once
-class NiStream;
+struct NiStream;
 
 struct FUN_00a88970_q;
 struct FUN_00a88970_v;

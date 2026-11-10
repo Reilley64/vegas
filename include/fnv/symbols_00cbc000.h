@@ -2,7 +2,7 @@
 
 namespace fnv_00cbc5e0 { struct FUN_00cbc550; }
 struct MemSystemInfo;
-struct hkOstream;
+class hkOstream;
 
 // 0x00cbc220
 void FUN_00cbc220(::hkOstream *, ::MemSystemInfo *);

@@ -1,6 +1,6 @@
 #pragma once
 
-struct QueuedFile;
+class QueuedFile;
 
 struct FUN_0045a1c0_cls {
 public:

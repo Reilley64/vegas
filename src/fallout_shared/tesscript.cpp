@@ -1132,7 +1132,7 @@ struct LocalListStub
 struct EffectSettingStub
 {
 };
-struct MobileObject
+class MobileObject
 {
 };
 
@@ -1192,11 +1192,11 @@ void FUN_005a9290_shell::SetScriptVariable(uintptr_t auiID, double value)
 }
 
 namespace fnv_005a9f20 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
+class NiQuaternion;
 struct hkVector4;
 struct blob4
 {
@@ -1421,7 +1421,7 @@ void CopyListToView(FUN_008256d0* pSourceList, SoundListView* pTargetView)
 
 namespace fnv_005aa090 {
 
-struct Script;
+class Script;
 struct FUN_005a8ea0_shell
 {
 };
@@ -1573,7 +1573,7 @@ class ATM
   public:
 };
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     unsigned int ReadFormIdentifier();
@@ -1882,7 +1882,7 @@ void FUN_005a9d00_shell::FUN_005a9d00()
     m_pExtendedLocals = 0;
 }
 
-class BGSSaveFormBuffer
+struct BGSSaveFormBuffer
 {
   public:
 };

@@ -82,7 +82,7 @@ float S_00eaee50::FUN_00eaee50(const S_00eaee50_Point3& kOffsetA, const S_00eaee
     return ::FUN_00eaf310((const ::S_Seg &)(kA), (const ::S_Seg &)(kB), (*(float *)(&m_fParamA)), (*(float *)(&m_fParamB))) * m_fScale - 1.0;
 }
 
-class NiPoint3 : public S_00eaee50_Point3
+struct NiPoint3 : public S_00eaee50_Point3
 {
   public:
     NiPoint3()

@@ -146,7 +146,7 @@ void FUN_00527740_class::FUN_00527740()
 }
 
 struct BSTreeNode;
-struct TESObjectREFR;
+class TESObjectREFR;
 
 template <class Key, class Node> struct LockFreeMap
 {
@@ -383,7 +383,7 @@ void* FUN_005293c0_Class::FUN_005293c0(unsigned int flags)
 struct GameTimerRecord
 {
 };
-struct TESSound
+class TESSound
 {
 };
 struct MapH
@@ -408,7 +408,7 @@ bool FUN_00526c40_Class::RemoveSound(TESSound* apSound)
     return false;
 }
 
-struct BGSLoadedReferenceCollection;
+class BGSLoadedReferenceCollection;
 // @fnv 0x00526eb0
 void FUN_00526eb0()
 {
@@ -447,8 +447,9 @@ char* FUN_005271b0_Class::GetFieldByType(uintptr_t type)
     }
 }
 
-struct InventoryStackRecord
+class InventoryStackRecord
 {
+  public:
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
@@ -470,7 +471,7 @@ FUN_00527270::FUN_00527270()
 }
 
 namespace fnv_00527350 {
-struct BGSLoadedReferenceCollection;
+class BGSLoadedReferenceCollection;
 struct MapX
 {
 };
@@ -595,7 +596,7 @@ struct FUN_00527f90_Holder
     void FUN_00527e50();
     void* FUN_00527f90(unsigned int);
 };
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 public:
     void FUN_0040fba0();
@@ -1083,7 +1084,7 @@ void FUN_005282d0_cls::FUN_005282d0()
 }
 
 namespace fnv_005283c0 {
-struct TESObjectCELL;
+class TESObjectCELL;
 
 struct QWorldSpace
 {
@@ -1120,7 +1121,7 @@ struct QTaskPtr
     operator QIOTask*() const;
 };
 
-class IOManager
+struct IOManager
 {
   public:
     virtual void v00();
@@ -1813,7 +1814,7 @@ void Cls::FUN_00529330()
     ::FUN_0044e360(this->m_iWordAt04);
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -1935,7 +1936,7 @@ int FUN_005281f0_Class::FUN_005281f0()
     return count;
 }
 
-class NiObject
+struct NiObject
 {
   public:
     virtual void slot0();

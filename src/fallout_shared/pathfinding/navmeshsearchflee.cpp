@@ -69,7 +69,7 @@ FUN_006ab410::FUN_006ab410()
 
 class NavMesh;
 class NavMeshTriangleEdgeReference;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -79,7 +79,7 @@ public:
 public:
     static const ::NiPoint3 ZERO;
 };
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     NavMesh* m_pObject;
@@ -104,7 +104,7 @@ template <class N, class L> class AStarNode
     N kNode;
     const N& FUN_00413f40() const;
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     bool FindNavMeshTriangle(NavMeshPtr&, unsigned short&);
@@ -113,7 +113,7 @@ class PathingAvoidNodeArray
 {
   public:
 };
-class PathingRequest
+struct PathingRequest
 {
   public:
 };

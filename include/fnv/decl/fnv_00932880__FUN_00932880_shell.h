@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00932880 { class BGSSaveFormBuffer; }
+namespace fnv_00932880 { struct BGSSaveFormBuffer; }
 
 namespace fnv_00932880 {
 struct FUN_00932880_shell {

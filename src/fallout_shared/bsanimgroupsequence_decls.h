@@ -37,13 +37,13 @@ class NiFixedString
     ~NiFixedString();
     operator const char*() const;
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     static const NiPoint3 ZERO;
 };
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* name;
@@ -260,7 +260,7 @@ class TESDataHandler
   public:
     TESSound* GetSoundByEditorID(const char*);
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -270,7 +270,7 @@ class SoundPlaybackHandle
     ~SoundPlaybackHandle();
     SoundPlaybackHandle& operator=(const SoundPlaybackHandle&);
 };
-class BSAudio
+struct BSAudio
 {
   public:
     SoundPlaybackHandle GetSoundHandleByFormID(unsigned int, unsigned int);
@@ -280,7 +280,7 @@ class SoundPlaybackManager
   public:
     static bool CanPlaySoundAt(TESSound*, NiPoint3, float);
 };
-class TimedTextEntry
+struct TimedTextEntry
 {
   public:
     float m_fTime;

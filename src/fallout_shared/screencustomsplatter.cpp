@@ -180,8 +180,9 @@ void FUN_004deb10_shell::FUN_004deb10()
 }
 
 extern int DAT_010228c4;
-struct NiExtraData
+class NiExtraData
 {
+  public:
     char _pad[12];
     NiExtraData(BSFadeNode*);
 };
@@ -350,8 +351,9 @@ void FUN_004de600()
     }
 }
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_kHandle;
     NiFixedString(const char* str);
     ~NiFixedString();

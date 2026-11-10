@@ -54,7 +54,7 @@ int FUN_00d2bb40_cls::FUN_00d2bb40()
 }
 
 extern int DAT_010ce688;
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 struct hkBufferedStreamReader

@@ -3,7 +3,7 @@
 #define BSBLENDTREADTRANSFINTERPOLATOR_DECLS_H
 
 #include "fnv/decl/FUN_00a37260_shell.h"
-class NiObjectNET;
+struct NiObjectNET;
 class NiQuatTransform;
 class NiBlendInterpolator
 {

@@ -4,8 +4,8 @@
 
 #include "fnv/symbols_011f3000.h"
 class TimedAnimationKey;
-class NiStream;
-class NiObject
+struct NiStream;
+struct NiObject
 {
   public:
     virtual void LoadBinary(NiStream&);

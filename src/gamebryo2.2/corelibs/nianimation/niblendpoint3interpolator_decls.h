@@ -9,10 +9,10 @@
 #include "NiObject.h"
 #include "NiPoint3.h"
 
-class NiObjectNET;
+struct NiObjectNET;
 class NiAVObject;
 class NiQuatTransform;
-class NiStream;
+struct NiStream;
 class NiBlendInterpolator__InterpArrayItem;
 
 // The PC NiObject slots preceding the interpolator Update overloads.

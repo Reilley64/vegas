@@ -1,7 +1,7 @@
 #pragma once
 
 struct AvoidMember9892;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct Pos9892;
 
 struct FUN_009892a0_shell {

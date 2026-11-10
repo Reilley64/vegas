@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSMessageInitAccess;
+struct BGSMessageInitAccess;
 class TESObjectREFR;
 
 // 0x009f27a0

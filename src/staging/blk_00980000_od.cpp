@@ -1102,8 +1102,9 @@ struct FUN_009825e0_class
     void FUN_00982530();
     FUN_009825e0_class* FUN_009825e0(unsigned int flags);
 };
-struct InventoryStackRecord
+class InventoryStackRecord
 {
+  public:
     static float __cdecl GetConditionPercent(float);
 };
 struct FUN_00982750_Class
@@ -1479,7 +1480,7 @@ unsigned int FUN_00994270::FindIndex(unsigned int key)
     return 0;
 }
 
-struct CombatGoal;
+class CombatGoal;
 // @fnv 0x00994a80
 CombatGoal* FUN_00994a80(int index)
 {
@@ -1918,7 +1919,7 @@ struct FUN_00844160_shell
     std::uintptr_t FUN_00844160(unsigned int);
 };
 class TESSound;
-struct EffectSetting
+class EffectSetting
 {
 public:
     ::TESSound *GetCastSound();
@@ -1928,7 +1929,7 @@ struct TESAmmoInitCalls
 public:
     void *FUN_00923000();
 };
-struct Actor;
+class Actor;
 struct ActorCombatGroup
 {
 };
@@ -2094,8 +2095,9 @@ float FUN_00980090_t::GetPointY(const void* ap)
     return f;
 }
 
-struct TESPackage
+class TESPackage
 {
+  public:
     unsigned int GetRefCount();
 };
 struct FUN_00981920_Class
@@ -2331,8 +2333,9 @@ struct ExtraRadioData : GO
 };
 
 class BGSEncounterZone;
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     ExtraRadioData* GetExtraRadioData(void);
 public:
     ::BGSEncounterZone *FindEncounterZone();
@@ -2606,7 +2609,7 @@ void DeallocateAll()
     }
 }
 
-struct Actor;
+class Actor;
 
 struct CombatGroup_GetCount
 {
@@ -6249,8 +6252,9 @@ struct Position
 struct Threat : Position
 {
 };
-struct Actor
+class Actor
 {
+  public:
     int FUN_00931850();
 };
 struct Setting
@@ -7237,7 +7241,7 @@ struct CombatTask
 struct CombatTarget
 {
 };
-struct CombatAction
+class CombatAction
 {
 };
 struct CombatArray
@@ -8422,7 +8426,7 @@ FUN_00996c00_cls::FUN_00996c00_cls()
 
 namespace CombatPosition {
 
-struct Actor;
+class Actor;
 struct Context;
 struct State;
 struct Path;
@@ -8652,8 +8656,9 @@ struct History
     int FUN_00719b20(unsigned int*, int, void*);
 };
 
-struct Actor
+class Actor
 {
+  public:
     int FUN_007058c0();
 };
 
@@ -9640,7 +9645,7 @@ FUN_00983820::~FUN_00983820()
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
-struct TESSound
+class TESSound
 {
 };
 

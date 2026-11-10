@@ -1,7 +1,7 @@
 #pragma once
 
 class TESObjectREFR;
-namespace fnv_0056a470 { class NiPoint3; }
+namespace fnv_0056a470 { struct NiPoint3; }
 
 namespace fnv_0056a470 {
 struct XActor {

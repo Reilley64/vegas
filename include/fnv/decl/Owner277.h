@@ -1,6 +1,6 @@
 #pragma once
 
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 
 struct Owner277 {
 public:

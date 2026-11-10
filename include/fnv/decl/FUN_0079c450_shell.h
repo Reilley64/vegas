@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 class TESWorldSpace;
 
 struct FUN_0079c450_shell {

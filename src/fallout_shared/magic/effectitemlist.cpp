@@ -72,8 +72,9 @@ struct _Type
 };
 }
 
-struct EffectSetting
+class EffectSetting
 {
+  public:
     int GetArchetype();
 };
 
@@ -83,19 +84,20 @@ bool IsArchetypeFlagSet(EffectSetting* pThis)
     return ::HasEffectArchetypeFlag((*(int *)&(const ::MagicEffectSystem::_Type::Type &)((MagicEffectSystem::_Type::Type)pThis->GetArchetype())), 0x7c);
 }
 
-struct Actor;
-struct EffectSetting;
-struct MagicItem;
-struct Script;
-struct PerkEntryConditionSet;
-struct TESFile;
-struct TESForm;
+class Actor;
+class EffectSetting;
+class MagicItem;
+class Script;
+class PerkEntryConditionSet;
+class TESFile;
+class TESForm;
 struct blob8
 {
     char b[8];
 };
-struct EffectItem
+class EffectItem
 {
+  public:
     void Save();
     bool Load(TESFile*, char*);
     void Copy(EffectItem*);
@@ -227,8 +229,9 @@ void* ConstructWithVTable(void* apObject)
 extern int DAT_01011cf4;
 extern int DAT_01011d0c;
 namespace stand {
-struct TESFullName
+class TESFullName
 {
+  public:
     TESFullName();
     ~TESFullName();
     void* vt0;
@@ -302,8 +305,9 @@ struct EffectItemNode
 };
 
 class EffectItem;
-struct EffectItemList : public EffectItemHeader, public EffectItemNode
+class EffectItemList : public EffectItemHeader, public EffectItemNode
 {
+  public:
     bool FUN_00405da0();
 public:
     void AddItem(::EffectItem *);
@@ -341,8 +345,9 @@ struct EffectItemDeleter
     ~EffectItemDeleter();
 };
 
-struct EffectItemList : public EffectItemHeader, public EffectItemNode
+class EffectItemList : public EffectItemHeader, public EffectItemNode
 {
+  public:
     void FUN_00406340();
 };
 
@@ -368,7 +373,7 @@ void EffectItemList::FUN_00406340()
 
 namespace fnv_00403ca0 {
 class EffectSetting;
-struct EffectItem
+class EffectItem
 {
 };
 struct FUN_00403ba0
@@ -380,8 +385,9 @@ struct FUN_00403ba0
     int m_eRange;
     int m_eAssociatedActorValue;
 };
-struct PerkEntryConditionSet
+class PerkEntryConditionSet
 {
+  public:
     PerkEntryConditionSet();
     ~PerkEntryConditionSet();
     void* pHead;
@@ -407,7 +413,7 @@ FUN_00403ca0::FUN_00403ca0(EffectItem* pEffectItem)
 }  // namespace fnv_00403ca0
 
 namespace fnv_004062a0 {
-struct EffectItem;
+class EffectItem;
 struct EffectItemDetrimental
 {
 };
@@ -418,8 +424,9 @@ struct EffectItemNode
     EffectItemNode* next;
 };
 
-struct EffectItemList : public EffectItemNode
+class EffectItemList : public EffectItemNode
 {
+  public:
     virtual ~EffectItemList();
     bool HasDetrimentalEffect();
 };
@@ -456,8 +463,9 @@ struct EffectItemNode
     EffectItemNode* next;
 };
 
-struct EffectItemList : public EffectItemNode
+class EffectItemList : public EffectItemNode
 {
+  public:
     virtual ~EffectItemList();
     EffectItem* FindCostliestEffectItem(int aeRange, bool abAreaOnly);
 };
@@ -542,8 +550,9 @@ struct BSSimpleList_Standin
     bool _ref_008256d0();
 };
 
-struct EffectItemList : public BSSimpleList_Standin
+class EffectItemList : public BSSimpleList_Standin
 {
+  public:
     virtual ~EffectItemList();
     int m_iEffectCount;
 

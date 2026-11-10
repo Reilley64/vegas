@@ -9,9 +9,9 @@
 #include "NiPoint3.h"
 #include "MemoryManager.h"
 
-class NiParticleSystem;
+struct NiParticleSystem;
 
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;
@@ -27,7 +27,7 @@ class NiBound
     }
 };
 
-class NiPSysModifier : public NiObject
+struct NiPSysModifier : public NiObject
 {
   public:
     NiFixedString m_kName;

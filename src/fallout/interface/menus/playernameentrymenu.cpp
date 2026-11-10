@@ -43,8 +43,9 @@ struct S_7ab770
 struct FullNameEx
 {
 };
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 struct NPC007ab9a0
@@ -248,8 +249,9 @@ public:
     static void MapCharacter(unsigned char &);
 };
 
-struct FontManager
+class FontManager
 {
+  public:
     static FontManager* Instance();
 };
 

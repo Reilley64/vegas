@@ -194,7 +194,7 @@ class FormChangeMask
     operator bool() const;
 };
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     virtual void vfn_0();
@@ -243,7 +243,7 @@ class TESContainer
 #include "bscore/bsrandom.h"
 unsigned int DialogueRandom();
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
 };

@@ -61,7 +61,7 @@ class INIPrefSettingCollection : public INISettingCollection
     virtual ~INIPrefSettingCollection();
 };
 
-class GameSettingCollection : public SettingCollection<Setting>
+struct GameSettingCollection : public SettingCollection<Setting>
 {
 };
 

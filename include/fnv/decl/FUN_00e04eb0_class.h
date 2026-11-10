@@ -1,6 +1,6 @@
 #pragma once
 
-struct hkReferencedObject;
+class hkReferencedObject;
 
 struct FUN_00e04eb0_class {
 public:

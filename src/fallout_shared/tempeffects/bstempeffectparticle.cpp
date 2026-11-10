@@ -165,8 +165,9 @@ bool BSTempEffectParticle::FUN_00689af0()
 }
 
 class NiAVObject;
-struct NiNode
+class NiNode
 {
+  public:
     virtual ~NiNode();
     virtual void f1();
     virtual void f2();
@@ -203,8 +204,9 @@ void FUN_0068a8d0_shell::FUN_0068a8d0(void* pValue)
     ((void(*)(void*))InitLoopSounds)(this);
 }
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_pString;
     NiFixedString(const char*);
     ~NiFixedString();
@@ -219,7 +221,7 @@ struct Model
 {
 };
 
-struct NiControllerSequence
+class NiControllerSequence
 {
 };
 
@@ -1307,7 +1309,7 @@ bool ParticleUpdate::UpdateTransform(float time)
 }
 
 namespace fnv_00688fc0 {
-struct TESObjectCELL;
+class TESObjectCELL;
 
 extern int DAT_01069c5c;
 
@@ -1318,8 +1320,9 @@ struct SoundPlaybackHandle
     unsigned char m_auiShapeKeys[0x0c];
 };
 
-struct NiTransform
+class NiTransform
 {
+  public:
     NiTransform();
     unsigned char m_auiShapeKeys[0x34];
 };

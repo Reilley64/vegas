@@ -8,7 +8,7 @@
 #include "fnv/decl/FUN_004f0000_shell.h"
 #include "fnv/symbols_0043b000.h"
 #include "fnv/symbols_004a8000.h"
-class NiRTTI;
+struct NiRTTI;
 class NiNode;
 class BSFadeNode;
 class BSMultiBoundNode;
@@ -24,24 +24,24 @@ class bhkNiCollisionObject;
 class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 class NiObjectGroup;
-class NiControllerManager;
+struct NiControllerManager;
 class NiTimeController;
 class NiExtraData;
 class NiCollisionObject;
-class NiUpdateData;
+struct NiUpdateData;
 class FourComponentFloatVector;
 template <class T> class NiTPrimitiveArray;
 typedef NiTPrimitiveArray<char*> NiViewerStringsArray;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     static const NiPoint3 ZERO;
 };
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;
@@ -60,7 +60,7 @@ class NiRefObject
     virtual void DeleteThis();
     unsigned int m_uiRefCount;
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual const NiRTTI* GetRTTI() const;
@@ -108,7 +108,7 @@ class NiFixedString
   public:
     const char* m_kHandle;
 };
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_kName;
@@ -166,7 +166,7 @@ template <class Allocator, class T> class NiTPointerListBase : public NiTListBas
 template <class T> class NiTPointerList : public NiTPointerListBase<NiTPointerAllocator<unsigned int>, T>
 {
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];

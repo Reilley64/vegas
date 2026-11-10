@@ -1,7 +1,7 @@
 #pragma once
 
 class ExtraDataList;
-namespace fnv_004bfda0 { struct TESBoundObject; }
+namespace fnv_004bfda0 { class TESBoundObject; }
 
 namespace fnv_004bfda0 {
 struct FUN_004bfda0_shell {

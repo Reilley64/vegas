@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class InventoryEntry;
+struct InventoryEntry;
 class NiNode;
 struct ArgStruct;
 struct EntryEx;

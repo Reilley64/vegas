@@ -442,8 +442,8 @@ class VectorComponentValue
 typedef const VectorComponentValue& hkSimdRealParameter;
 class hkRotation;
 class hkTransform;
-class hkQsTransform;
-class hkVector4
+struct hkQsTransform;
+struct hkVector4
 {
   public:
     __forceinline void* __cdecl operator new(std::size_t nbytes)

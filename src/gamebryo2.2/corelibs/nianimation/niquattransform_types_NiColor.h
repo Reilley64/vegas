@@ -3,10 +3,10 @@
 #define FNV_NICOLOR_H
 
 #include "layout_support.h"
-class NiStream;
-class NiColor;
-class NiStream;
-class NiColor
+struct NiStream;
+struct NiColor;
+struct NiStream;
+struct NiColor
 {
   public:
     void LoadBinary(NiStream& stream);

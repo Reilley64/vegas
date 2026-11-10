@@ -228,7 +228,7 @@ class TESTexture : public BaseFormComponent
 public:
     static void ReadTextureData(::TESTexture *, ::TESFile *);
 };
-class BGSTextureModel : public TESModel
+struct BGSTextureModel : public TESModel
 {
   public:
     BGSTextureModel();
@@ -338,7 +338,7 @@ class TESActorBase : public TESForm
     SEX GetSex() const;
 };
 class TESHair;
-template <class> class FaceGenMatrix;
+template <class> struct FaceGenMatrix;
 class TESNPC : public TESActorBase
 {
   public:
@@ -358,7 +358,7 @@ class TESObjectREFR
 class PlayerCharacter : public TESObjectREFR
 {
 };
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);

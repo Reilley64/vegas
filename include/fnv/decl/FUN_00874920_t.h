@@ -1,7 +1,7 @@
 #pragma once
 
 struct BSRenderedTexture;
-struct BSShaderAccumulator;
+class BSShaderAccumulator;
 
 struct FUN_00874920_t {
 public:

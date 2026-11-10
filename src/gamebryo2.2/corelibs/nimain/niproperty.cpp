@@ -30,8 +30,9 @@ struct NiUpdateData
 {
     float fTime;
 };
-struct NiTimeController
+class NiTimeController
 {
+  public:
     virtual ~NiTimeController()
     {}
     virtual void v01()

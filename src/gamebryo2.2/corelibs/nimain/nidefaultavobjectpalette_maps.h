@@ -2,7 +2,7 @@
 #define NIDEFAULTAVOBJECTPALETTE_MAPS_H
 
 
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 
 template <class T> class NiTStringPointerMap
 {

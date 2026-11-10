@@ -9,7 +9,7 @@ class Direct3DDeviceInterface;
 class COMUnknownInterface;
 class NiD3DShaderDeclaration;
 class NiD3DShaderDeclaration__ShaderRegisterStream;
-class NiRenderer;
+struct NiRenderer;
 class NiShaderDeclaration;
 class GraphicsRenderer;
 class NiD3DVertexDeclaration;

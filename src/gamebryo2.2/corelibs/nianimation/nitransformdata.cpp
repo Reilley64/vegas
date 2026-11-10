@@ -180,7 +180,7 @@ const NiRTTI* __cdecl FUN_00a4e0a0()
     return &(*reinterpret_cast<const ::NiRTTI *>(&::g_011f3fbc));
 }
 
-struct NiBlendInterpolator;
+class NiBlendInterpolator;
 struct FUN_00a4eaa0_shell : public NiFloatsExtraDataPoint3Controller
 {
     NiBlendInterpolator* FUN_00a4eaa0(unsigned short, bool, bool, float, unsigned char);
@@ -586,7 +586,7 @@ struct AnimationBinaryStream
         position += write(this, data, bytes, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     unsigned int unk000;

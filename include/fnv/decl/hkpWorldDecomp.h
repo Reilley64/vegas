@@ -1,6 +1,6 @@
 #pragma once
 
-struct hkpAction;
+class hkpAction;
 
 struct hkpWorldDecomp {
 public:

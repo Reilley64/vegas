@@ -1189,8 +1189,9 @@ template <int N> struct VT : VT<N - 1>
 template <> struct VT<0>
 {
 };
-struct Actor : VT<31>
+class Actor : public VT<31>
 {
+  public:
     virtual void Target(void*);
 };
 struct ThisStandIn
@@ -1211,8 +1212,9 @@ void ThisStandIn::FUN_005e9ee0(Actor* apActor, bool bAlt)
 }  // namespace fnv_005e9ee0
 
 namespace fnv_005e9f20 {
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -1895,7 +1897,7 @@ struct SeqObj
     NiFixedStr& GetName();
 };
 
-struct Script
+class Script
 {
 };
 

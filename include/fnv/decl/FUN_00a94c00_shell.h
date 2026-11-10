@@ -1,7 +1,7 @@
 #pragma once
 
 struct CloningProcess;
-struct NiDirectionalLight;
+class NiDirectionalLight;
 
 struct FUN_00a94c00_shell {
 public:

@@ -37,7 +37,7 @@ void* NiUnsharedGeometryGroup::Destroy(unsigned int flags)
 
 struct Direct3DDeviceInterface;
 struct NiGeometryBufferData;
-struct NiGeometryData;
+class NiGeometryData;
 struct NiGeometryGroup;
 struct NiScreenTexture;
 struct NiSkinInstance;
@@ -124,7 +124,7 @@ void NiDynamicGeometryGroup::FUN_00e950f0(NiGeometryData* pkData)
 namespace fnv_00e95140 {
 struct Direct3DDeviceInterface;
 struct NiGeometryBufferData;
-struct NiGeometryData;
+class NiGeometryData;
 struct NiGeometryGroup;
 struct NiScreenTexture;
 struct NiSkinInstance;
@@ -193,7 +193,7 @@ void NiDynamicGeometryGroup::FUN_00e95190(NiGeometryData* pkData)
 
 struct Direct3DDeviceInterface;
 struct NiGeometryBufferData;
-struct NiGeometryData;
+class NiGeometryData;
 struct NiGeometryGroup;
 struct NiScreenTexture;
 struct NiSkinInstance;

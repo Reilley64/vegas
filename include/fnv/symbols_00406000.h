@@ -2,7 +2,7 @@
 #include <cstdint>
 
 struct EffectItemList_shell;
-struct EffectSetting;
+class EffectSetting;
 struct FUN_00406f90_this;
 
 // 0x004064b0

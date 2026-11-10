@@ -9,14 +9,14 @@ class FOPipboyManager;
 class FORenderedMenu;
 class NiAVObject;
 class NiCamera;
-class NiColor;
-class RgbaColor;
+struct NiColor;
+struct RgbaColor;
 class NiGeometry;
 class NiPointLight;
 class NiScreenElements;
 class NiTexture;
-class ShadowSceneNode;
-class NiColor
+struct ShadowSceneNode;
+struct NiColor
 {
   public:
     float r;  // +0x0, 4 bytes
@@ -41,7 +41,7 @@ class NiColor
     // float __cdecl NiColor::*()
     // void __cdecl NiColor::*()
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes

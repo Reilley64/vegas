@@ -333,7 +333,8 @@ void* FUN_00a982d0()
 struct CloningProcess;
 struct NiBinaryExtraData;
 struct NiFloatsExtraData;
-struct NiExtraData {
+class NiExtraData {
+  public:
     void* p;
 };
 struct FUN_00a99c40_shell : public NiExtraData {
@@ -711,7 +712,8 @@ FUN_00a87140_class* FUN_00a87140() {
     return p;
 }
 
-struct NiDirectionalLight {
+class NiDirectionalLight {
+  public:
     void FUN_00a7d6a0(NiDirectionalLight* dst, CloningProcess& cp);
 };
 struct FUN_00a94c00_shell {
@@ -1838,7 +1840,8 @@ void S_a91120::AppendItems(unsigned int n) {
 namespace fnv_00a98240 {
 extern "C" const void* DAT_010a08ac;
 void __cdecl NiFree(void*);
-struct NiRefObject {
+class NiRefObject {
+  public:
     virtual void Reserved();
     virtual void Release();
     volatile long referenceCount;
@@ -3637,7 +3640,7 @@ bool BitmapReader::ReadBitmapHeader(NiBinaryStream& stream, unsigned int& outWid
     return true;
 }
 
-class NiPoint3 {
+struct NiPoint3 {
 public:
     float x, y, z;
     float& operator[](int i) { return (&x)[i]; }
@@ -3659,7 +3662,7 @@ float Ready() const { return y; }
 public:
     static const ::NiPoint3 ZERO;
 };
-class ThreeByThreeMatrix {
+struct ThreeByThreeMatrix {
 public:
     float m[3][3];
     ThreeByThreeMatrix() {}
@@ -3713,7 +3716,8 @@ static __forceinline void XformZ(const ThreeByThreeMatrix& m, const float& x, co
         r.y = m.Entry(1,0)*x + (m.Entry(1,1)*y) + m.Entry(1,2)*z + t.y;
         r.z = m.Entry(2,0)*x + (m.Entry(2,1)*y) + m.Entry(2,2)*z + t.z;
 }
-struct NiTransform {
+class NiTransform {
+  public:
     ThreeByThreeMatrix rotate;
     NiPoint3 translate;
     float scale;

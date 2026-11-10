@@ -341,8 +341,9 @@ struct ShapeRayCastQuery
     int unk2c;
 };
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const hkpShape* m_pCollisionShape;
     unsigned int m_uiCollisionShapeKey;
     const void* m_kMotionState;

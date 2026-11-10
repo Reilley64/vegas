@@ -150,8 +150,9 @@ struct Setting
         return r;
     }
 };
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* m_kHandle;
     NiFixedString(const char* s)
     {
@@ -167,8 +168,9 @@ struct NiFixedString
         NiGlobalStringTable::DecRef(&((StringHeader*)m_kHandle - 1)->refs);
     }
 };
-struct NiTexture
+class NiTexture
 {
+  public:
     virtual void S0();
     virtual void DeleteThis();
     long m_uiRefCount;
@@ -238,8 +240,9 @@ void ResolveTexturePath(const char* apFilename, float* afScale, float afZoom, ch
 }
 
 namespace fnv_00a1fa20 {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     bool Exists();
     unsigned int GetLength();
     unsigned int GetRefCount();
@@ -505,7 +508,7 @@ struct GeometryData
 {
     void FUN_00a67050(int);
 };
-struct NiNode;
+class NiNode;
 struct PropertyList
 {
     void* head;
@@ -513,8 +516,9 @@ struct PropertyList
     unsigned int count;
     void FUN_00439fd0(const NiPointer<NiNode>&);
 };
-struct NiNode : NiObject
+class NiNode : public NiObject
 {
+  public:
     virtual void vfn_08();
     virtual void vfn_0c();
     virtual void vfn_10();

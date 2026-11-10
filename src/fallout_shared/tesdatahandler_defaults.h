@@ -19,7 +19,7 @@ class TESGlobalMap
 {
   public:
 };
-class Sky
+struct Sky
 {
   public:
     static Sky* GetInstance();

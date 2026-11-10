@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 
 const char DAT_01020778[71] = "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp";
 XExtra17 *DAT_011c6448;

@@ -2,11 +2,11 @@
 #include <cstdint>
 
 class GlobalObject2_0045cfe0;
-class GlobalObject2_0096a2d0;
+struct GlobalObject2_0096a2d0;
 class GlobalObject_0044f440;
-class GlobalObject_0044fae0;
+struct GlobalObject_0044fae0;
 class GlobalObject_0045cf30;
-class GlobalObject_0045cfe0;
+struct GlobalObject_0045cfe0;
 class GlobalObject_0045d260;
 class GlobalObject_004de370;
 class GlobalObject_006815c0;
@@ -16,7 +16,7 @@ class GlobalObject_0096d020;
 class GlobalObject_00e98f20;
 class MobileObject;
 class NiCamera;
-class NiPoint3;
+struct NiPoint3;
 namespace fnv_0094ae40 { struct Obj117; }
 namespace fnv_0094e1d0 { struct Node; }
 struct ActivationRef;

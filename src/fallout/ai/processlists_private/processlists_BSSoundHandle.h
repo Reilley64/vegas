@@ -2,7 +2,7 @@
 #define FNV_BSSOUNDHANDLE_H
 
 #include "processlists_layout_support.h"
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;  // +0x0

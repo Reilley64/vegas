@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiGeometry;
+class NiGeometry;
 struct V3;
 
 struct FUN_006624c0 {

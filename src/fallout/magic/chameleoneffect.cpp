@@ -36,12 +36,14 @@ FUN_0080acf0_shell::FUN_0080acf0_shell(void* a, void* b, void* c) : ValueModifie
     *reinterpret_cast<int**>(this) = &DAT_0107994c;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void Revert(unsigned int);
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void d0();
     virtual void d1();
     virtual void d2();
@@ -285,11 +287,12 @@ void ChameleonEffect::FUN_0080b1b0(Actor* apActor)
 }
 
 namespace fnv_0080b310 {
-struct TESForm
+class TESForm
 {
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -694,8 +697,9 @@ void FUN_0080b0c0_cls::FUN_0080b0c0(FUN_0080b0c0_arg* a1)
 }
 
 
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -1013,8 +1017,9 @@ struct ChamActor
 };
 
 class Actor;
-struct MagicTarget
+class MagicTarget
 {
+  public:
     virtual void m0();
     virtual void m1();
     virtual void m2();

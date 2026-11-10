@@ -2,7 +2,7 @@
 #include "havok/hkUlong.h"
 
 struct hkDebugDisplayHandler;
-struct hkpConstraintInstance;
+class hkpConstraintInstance;
 
 struct ConstraintVisualizer {
 public:

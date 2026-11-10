@@ -49,7 +49,7 @@
 #define NULL 0
 #endif
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
 class SandBoxActorPackageData;
 class SandboxProcedureData;
@@ -155,7 +155,7 @@ class TimeGlobal
 extern TimeGlobal g_timeGlobal;
 
 // Minimal buffer declaration (same shape as the accepted actorpackagedata.h).
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };

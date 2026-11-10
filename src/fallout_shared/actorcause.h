@@ -7,7 +7,7 @@
 #include "layout_support.h"
 
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 
 class ActorCause
 {

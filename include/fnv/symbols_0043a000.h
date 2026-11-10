@@ -1,6 +1,6 @@
 #pragma once
 
-class TeleportableReference;
+struct TeleportableReference;
 
 // 0x0043a080
 void FUN_0043a080();

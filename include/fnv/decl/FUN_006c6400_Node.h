@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiAVObject;
+class NiAVObject;
 template <class> class NiPointer;
 
 struct FUN_006c6400_Node {

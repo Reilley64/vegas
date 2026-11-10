@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class BSRenderedTexture;
+struct BSRenderedTexture;
 struct HolderForAccum;
 
 struct FUN_00b8c830_class {

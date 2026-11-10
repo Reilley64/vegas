@@ -141,7 +141,7 @@ int BlackJackMenu::FUN_00731790()
 }
 
 namespace fnv_007317a0 {
-struct Tile;
+class Tile;
 struct BlackJackMenu
 {
     char mBase[0x34];
@@ -216,8 +216,9 @@ void* FUN_007317d0_shell::DestroyIfFlagged(unsigned int flags)
 struct Proc_S
 {
 };
-struct Tile
+class Tile
 {
+  public:
     void Set(int, float, bool);
 public:
     void Set(int, int);
@@ -317,7 +318,7 @@ int FUN_00738fb0_shell::GetAdjustedValue(int aiValue)
     }
 }
 
-struct NiAVObject
+class NiAVObject
 {
 };
 struct SceneObjectLookup
@@ -461,7 +462,7 @@ struct NiUpdateData
 };
 
 class NiAVObject;
-struct NiNode
+class NiNode
 {
 public:
     ::NiAVObject *GetAt(unsigned int);
@@ -687,7 +688,7 @@ struct Padding16ByteBlock
     int m_uiFilterValue;
 };
 
-struct BSSimpleList
+class BSSimpleList
 {
 };
 
@@ -751,7 +752,7 @@ struct StartMenu
     char const* GetMenuTitle();
 };
 
-struct GlobalObject_0040c150 : public StartMenu
+class GlobalObject_0040c150 : public StartMenu
 {
 };
 
@@ -1600,8 +1601,9 @@ void BlackJackChipsX::UpdateChipPositions()
 }
 
 namespace fnv_007c06f0 {
-struct Menu
+class Menu
 {
+  public:
     int unk04;
     int unk08;
     int unk0C;

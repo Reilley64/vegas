@@ -7,7 +7,7 @@
 #include "fnv/symbols_00408000.h"
 #include "fnv/symbols_00416000.h"
 #include "fnv/symbols_01017000.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     NiPoint3();
@@ -17,7 +17,7 @@ class NiPoint3
     float z;
 };
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[9];
@@ -42,7 +42,7 @@ template <class T> class BSSimpleList
     T& GetItem();
 };
 
-class NiPlane
+struct NiPlane
 {
   public:
     NiPoint3 normal;

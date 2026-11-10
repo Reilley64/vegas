@@ -559,7 +559,7 @@ struct QuatPoint
         return kR;
     }
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];

@@ -12,15 +12,15 @@
 class BGSDecalNode;
 class BGSTextureSet;
 class RenderQuery;
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class BSTempEffect;
 class BSTempEffectSimpleDecal;
 class DecalPointRecord;
 class NiAVObject;
-class NiColor;
-class RgbaColor;
-class NiPlane;
-class NiPoint2;
+struct NiColor;
+struct RgbaColor;
+struct NiPlane;
+struct NiPoint2;
 class BSTempEffect : public NiObject
 {
   public:
@@ -60,7 +60,7 @@ class BSTempEffect : public NiObject
     // void __cdecl BSTempEffect::*()
     // BSTempEffect& __cdecl BSTempEffect::*(const BSTempEffect&)
 };
-class NiPlane
+struct NiPlane
 {
   public:
     NiPoint3 m_kPlaneNormal;  // +0x0, 12 bytes
@@ -79,7 +79,7 @@ class NiPlane
     // void __cdecl NiPlane::*(NiStream&)
     // char* __cdecl NiPlane::*(const char*)
 };
-class NiColor
+struct NiColor
 {
   public:
     float r;  // +0x0, 4 bytes

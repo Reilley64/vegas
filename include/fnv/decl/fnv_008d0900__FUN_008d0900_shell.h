@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_008d0900 { struct MobileObject; }
+namespace fnv_008d0900 { class MobileObject; }
 
 namespace fnv_008d0900 {
 struct FUN_008d0900_shell {

@@ -1,6 +1,6 @@
 #pragma once
 
-struct AnimSequenceBase;
+class AnimSequenceBase;
 
 struct FUN_00a0c6c0_cls {
 public:

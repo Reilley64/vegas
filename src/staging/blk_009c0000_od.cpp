@@ -398,8 +398,9 @@ void* PathBuilder::FUN_009dfd50()
     return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>(this)->FUN_006e8f40((int)(m_8 - 1))));
 }
 
-struct InventoryStackRecord
+class InventoryStackRecord
 {
+  public:
     char pad[0x40];
     void* m_40;
     void* m_44;
@@ -499,8 +500,8 @@ void* FUN_009c6440_Class::FUN_009c6440(void* a, int aiStoredValue)
     return this;
 }
 
-struct NiAVObject;
-struct TESObjectREFR
+class NiAVObject;
+class TESObjectREFR
 {
 public:
     bool IsLimbMissing(int);
@@ -554,8 +555,9 @@ void* FUN_009c8870_Class::FUN_009c8870(unsigned int flags)
     return this;
 }
 
-struct PathingAvoidNodeArray
+class PathingAvoidNodeArray
 {
+  public:
     int x;
 };
 struct PathingRequestAvoidPointer

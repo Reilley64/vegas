@@ -1,6 +1,6 @@
 #pragma once
 
-class RgbaColor;
+struct RgbaColor;
 
 struct FUN_00a3bc60_shell {
 public:

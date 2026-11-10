@@ -1,5 +1,5 @@
 #pragma once
-class NiStream;
+struct NiStream;
 
 struct BSMaterialEmittanceMultController;
 struct Derived_00bc33f0;

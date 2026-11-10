@@ -2584,7 +2584,7 @@ struct MyClass
 struct M;
 struct R;
 struct StrArray;
-struct Tile;
+class Tile;
 struct V;
 // Objects that the CSpeedTreeRT accessors below reach through its members.
 // The pads stand for members not named yet and follow the 32-bit layout.

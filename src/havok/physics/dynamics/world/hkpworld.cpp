@@ -613,7 +613,7 @@ void FUN_00c91f40_Class::SetRefObj(RefObj* apRefObj)
 }
 }  // namespace fnv_00c91f40
 
-struct hkpAction;
+class hkpAction;
 
 struct hkpPhysicsSystem
 {
@@ -2446,7 +2446,7 @@ void* WorldWatchDogHolder::FUN_00c93570() {
 }
 
 
-struct hkpPhantom;
+class hkpPhantom;
 
 
 
@@ -2459,7 +2459,8 @@ struct PendingOperation {
     hkpPhantom* m_pPhantom;
 };
 
-struct hkpPhantom : hkReferencedObject {
+class hkpPhantom : public hkReferencedObject {
+  public:
     hkpWorld* m_pOwningWorld;
     int unk0C;
     int unk10;
@@ -9307,7 +9308,8 @@ void Src_00c91c50::FUN_00c91c50(Dst_00c91c50* pOut)
     pOut->b_e0 = (this->i_1c0 != 0);
 }
 
-struct FUN_00d065e0 {
+class FUN_00d065e0 {
+  public:
     void* vtable;
     unsigned short memorySize;
     short referenceCount;
@@ -9487,7 +9489,7 @@ struct HandleC944 {
     unsigned int m_uiCollisionFilterData;
     CollidableC944* getOwner() { return reinterpret_cast<CollidableC944*>(reinterpret_cast<char*>(this) + m_iOwnerOffset); }
 };
-struct hkpCdBody { void* m_pCollisionShape; unsigned int m_uiCollisionShapeKey; void* m_pMotionState; hkpCdBody* m_parent; };
+class hkpCdBody { public: void* m_pCollisionShape; unsigned int m_uiCollisionShapeKey; void* m_pMotionState; hkpCdBody* m_parent; };
 struct CollidableC944 : hkpCdBody {
     signed char m_iOwnerOffset;
     unsigned char m_uiForceCollideOntoPpu;
@@ -13002,7 +13004,7 @@ struct hkpBroadPhaseHandle {
     unsigned char unk00;
 };
 
-struct hkpPhantom;
+class hkpPhantom;
 
 struct PhantomBatchAccess : hkpPhantom {
     int unk1C;
@@ -13453,7 +13455,8 @@ namespace BatchAdd {
 
 
 
-struct hkAabb {
+class hkAabb {
+  public:
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
 };
@@ -13682,7 +13685,8 @@ struct ResizableArray {
     }
 };
 
-struct hkpAction {
+class hkpAction {
+  public:
     virtual void v00();
     virtual void v04();
     virtual void v08();

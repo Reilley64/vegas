@@ -241,14 +241,14 @@ void Obj::AppendTriListInfo(StrArr* pStrArr)
     pStrArr->Add(FUN_00a7d5a0("m_pusTriList", list));
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObject;
 struct NiObjectGroup;
 struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct FUN_00a7bbe0_shell : public NiTriShapeData
 {
@@ -317,14 +317,14 @@ void FUN_00a7bbe0_shell::FUN_00a7bbe0(NiStream* kStream)
 }
 
 namespace fnv_00a7b940 {
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObject;
 struct NiObjectGroup;
 struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct FUN_00a7b940_shell : public NiTriShapeData
 {

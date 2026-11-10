@@ -56,7 +56,7 @@ class NiExtraData : public NiMemObject
     void SetName(const NiFixedString&);
 };
 
-class NiObjectNET : public NiMemObject
+struct NiObjectNET : public NiMemObject
 {
   public:
     virtual void vfn_00();
@@ -155,14 +155,14 @@ class NiSortAdjustNode : public NiNode
     NiSortAdjustNode(unsigned int);
 };
 
-class Interface
+struct Interface
 {
   public:
     static NiNode* GetInterfaceNode();
     static void SetInterfaceNodeVisible(bool);
 };
 
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char*);

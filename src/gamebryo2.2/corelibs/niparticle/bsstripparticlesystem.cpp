@@ -99,12 +99,14 @@ void __cdecl FUN_00c21940()
     static_cast<::FUN_00c1b0b0_cls *>(nullptr)->FUN_00c1b0b0({});
 }
 
-struct NiCullingProcess
+class NiCullingProcess
 {
+  public:
     void* p;
 };
-struct NiGeometry
+class NiGeometry
 {
+  public:
     void OnVisible(NiCullingProcess&);
 };
 struct FUN_00c256f0_cls : NiGeometry

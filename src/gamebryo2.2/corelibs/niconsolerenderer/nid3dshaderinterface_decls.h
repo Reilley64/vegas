@@ -9,7 +9,7 @@
 #include "fnv/symbols_00e92000.h"
 #include "fnv/symbols_00e93000.h"
 #include "fnv/symbols_0126f000.h"
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;
@@ -140,7 +140,7 @@ class NiMemObject
 {
   public:
 };
-class Program : public NiMemObject
+struct Program : public NiMemObject
 {
   public:
     unsigned char data[28];

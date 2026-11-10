@@ -1,6 +1,6 @@
 #pragma once
 
-class GlobalObject_00869f00;
+struct GlobalObject_00869f00;
 struct Dummy_0069af30;
 
 // 0x0069af30

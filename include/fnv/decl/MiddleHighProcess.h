@@ -2,10 +2,10 @@
 
 #include <cstdint>
 
-class Animation;
+struct Animation;
 class BSBound;
 class BSFaceGenNiNode;
-class BooleanFloatQuery;
+struct BooleanFloatQuery;
 class FurnitureMark;
 class MagicItem;
 class MagicTarget;

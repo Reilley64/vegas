@@ -288,8 +288,9 @@ struct NavMeshSearchLOSArray
 {
     void FUN_006a8500();
 };
-template <class T, unsigned int N> struct BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
+  public:
     int m_00;
     T* pBuffer;
     unsigned int iSize;
@@ -1323,7 +1324,7 @@ void* FUN_006e94d0::FUN_006e94d0_006e94d0(unsigned int flags)
 }
 
 namespace fnv_006f2290 {
-struct NavMeshInfo;
+class NavMeshInfo;
 
 struct CtorHelper
 {
@@ -1535,8 +1536,9 @@ class PathingGraphNode
     unsigned char m_data[0x3c];
 };
 
-template <class T, unsigned int Capacity> struct BSSimpleArray
+template <class T, unsigned int Capacity> class BSSimpleArray
 {
+  public:
     void ReleaseElements(T* pItems, unsigned int ItemUpdateArray);
 };
 

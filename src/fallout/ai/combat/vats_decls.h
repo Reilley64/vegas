@@ -19,14 +19,14 @@
 #include "fnv/symbols_011f6000.h"
 #include "layout_support.h"
 
-class VATSCommand;
+struct VATSCommand;
 class Projectile;
 class TESIdleForm;
 class ImageSpaceModifierInstanceForm;
 class ImageSpaceModifierInstanceRB;
 class ShadowSceneLight;
 
-class Animation
+struct Animation
 {
   public:
 public:
@@ -40,7 +40,7 @@ class TimeGlobal
 
 // PC receiver view for the legacy VATS::Update identity. Its caller passes
 // PlayerCharacter; the last write is at +0xE18 in the PC player layout.
-class Animation;
+struct Animation;
 class PlayerCharacter
 {
   public:

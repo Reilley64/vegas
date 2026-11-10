@@ -16,10 +16,10 @@
 #include "fnv/decl/fnv_009807d0__CombatController.h"
 #include "fnv/symbols_00495000.h"
 #include "fnv/symbols_00649000.h"
-struct ActiveEffect
+class ActiveEffect
 {
 };
-struct MagicCaster
+class MagicCaster
 {
 };
 struct CalmEffect : ActiveEffect

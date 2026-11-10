@@ -11,14 +11,14 @@
 #include "fnv/symbols_00537000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011a9000.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3();
     NiPoint3(float, float, float);
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
@@ -56,7 +56,7 @@ class NiAlphaProperty : public NiObject
     unsigned char layout[24];
     NiAlphaProperty();
 };
-class NiBound
+struct NiBound
 {
   public:
 };
@@ -116,7 +116,7 @@ class BSShaderManager
   public:
     static void UpdateObjectTypeRecurse(NiAVObject*, bool, bool);
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;

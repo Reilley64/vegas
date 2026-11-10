@@ -10,7 +10,7 @@ class SandBoxActorPackageData
     PTYPE GetPackageType();
 };
 class TESObjectCELL;
-class NiObject
+struct NiObject
 {
   public:
     NiObject();

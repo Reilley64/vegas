@@ -1,6 +1,6 @@
 #pragma once
 
-struct BaseFormComponent;
+class BaseFormComponent;
 
 struct FUN_00474bc0_shell {
 public:

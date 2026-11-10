@@ -40,8 +40,9 @@ void BGSIdleMarker::InitItem()
     }
 }
 
-struct TESBoundObject
+class TESBoundObject
 {
+  public:
     TESBoundObject();
     ~TESBoundObject();
     virtual void vfn_0();

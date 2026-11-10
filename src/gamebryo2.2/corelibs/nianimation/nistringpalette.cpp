@@ -17,8 +17,9 @@ void* __cdecl FUN_00a47140()
     return &(*reinterpret_cast<void * *>(&::g_011f3f30));
 }
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     int m_ref;
 };

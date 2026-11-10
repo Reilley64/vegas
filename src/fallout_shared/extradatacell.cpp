@@ -523,7 +523,7 @@ bool ExtraMusicTypeShell::FUN_0040ef60(BSExtraData* apOther)
     return false;
 }
 
-struct BGSAcousticSpace;
+class BGSAcousticSpace;
 extern int DAT_01183ba8;
 struct ExtraCellAcousticSpace : BSExtraData
 {

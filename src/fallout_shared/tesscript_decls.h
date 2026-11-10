@@ -47,11 +47,11 @@
 class TESQuest;
 class NiNode;
 class BSFadeNode;
-class FormFlagRecord;
+struct FormFlagRecord;
 class TESBoundObject;
 class ScriptFunctionInfo;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class ScriptVariableInfo;
 class ScriptReferencedObject;
 class ScriptLocalVariable;
@@ -273,7 +273,7 @@ class TESContainer
     static bool IsValidContainerType(unsigned char type);
 };
 
-class ScriptLocals
+struct ScriptLocals
 {
   public:
     Script* m_pOwnerScript;
@@ -448,7 +448,7 @@ class ScriptExecutor
     bool Run(Script*, TESObjectREFR*, ScriptLocals*, TESObjectREFR*, bool, bool, bool, float);
 };
 extern int DAT_011cae50;
-class FormFlagRecord
+struct FormFlagRecord
 {
   public:
     TESForm* pForm;

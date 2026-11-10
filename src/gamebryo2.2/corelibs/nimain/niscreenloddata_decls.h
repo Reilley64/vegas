@@ -27,7 +27,7 @@ class NiTransform
 public:
     void CalculateInverse(::NiTransform &);
 };
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 center;

@@ -18,7 +18,7 @@ class NiBinaryStream
         m_uiCurrentPos += m_pfnRead(this, buffer, size, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     char pad0[0xd8];
@@ -26,7 +26,7 @@ class NiStream
     char padDC[0x24c - 0xdc];
     NiBinaryStream* m_pUnderlyingStream;
 };
-class TimedTextEntry
+struct TimedTextEntry
 {
   public:
     float m_fTime;

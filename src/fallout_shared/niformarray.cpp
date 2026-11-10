@@ -58,15 +58,16 @@ struct TESFileGroup;
 struct HWND__;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESForm;
-struct TESObjectREFR;
+class TESBoundObject;
+class TESForm;
+class TESObjectREFR;
 struct blob8
 {
     char b[8];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);

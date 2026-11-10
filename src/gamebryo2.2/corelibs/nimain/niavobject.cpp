@@ -60,8 +60,9 @@ struct NiUpdateData
     char _pad_9[3];
 };
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     void UpdateTimeControllers(NiUpdateData&, bool);
 };
 
@@ -132,7 +133,7 @@ void FUN_00a59c90_shell::FUN_00a59c90(NiUpdateData& aUpdateData)
         ((void(*)(void*))(*(void***)(*(void***)((char*)this + 0x18)))[63])(*(void***)((char*)this + 0x18));
 }
 
-struct NiNode;
+class NiNode;
 struct FUN_00a59d00_shell
 {
     void SetParent(NiNode* pkParent);
@@ -469,7 +470,7 @@ void* FUN_00a5aa90_shell::FUN_00a5aa90(unsigned int auiFlags)
     return this;
 }
 
-struct NiNode;
+class NiNode;
 struct Holder00a59cc0
 {
     char _pad[20];
@@ -542,8 +543,9 @@ void FUN_00a59db0_shell::FUN_00a59db0(int arg)
 
 namespace fnv_00a59e20 {
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     char _pad_0[1];
     intptr_t FUN_00a59e20(intptr_t param);
 };
@@ -560,10 +562,11 @@ intptr_t NiAVObject::FUN_00a59e20(intptr_t param)
 }  // namespace fnv_00a59e20
 
 namespace fnv_00a5a430 {
-struct NiNode;
+class NiNode;
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     char _pad_0[0x14];
     NiNode* m_pEventualParent;
     virtual void UpdateSceneObject(void);
@@ -1432,7 +1435,7 @@ FUN_00b4e150::FUN_00b4e150() : B4E150SortAdjustNode(0)
     m_iF = 0;
 }
 
-struct NiPropertyState
+class NiPropertyState
 {
 };
 

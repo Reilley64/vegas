@@ -10,16 +10,16 @@ class GlobalObject_00a7b610;
 class MenuClassArray;
 class NiColorKeyA3D;
 class NiQuaternion;
-class NiStream;
+struct NiStream;
 class PositionKeyInterpolator;
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 class ScrapListShell;
 class Setting_01017720_011f96a0;
 class TimedRotationKey;
 namespace fnv_00a00a30 { class FadeNodeA00; }
 namespace fnv_00a00a30 { class TileTemplateA00; }
 namespace fnv_00a00a30 { template <class> class SimpleListA00; }
-namespace fnv_00a1ca20 { class ScrapHeapBuffer; }
+namespace fnv_00a1ca20 { struct ScrapHeapBuffer; }
 namespace fnv_00a1ca20 { template <class, class> class BSMapBase; }
 struct A0A220HandlerMap;
 struct A29FE0Context;

@@ -108,9 +108,9 @@ void NightEyeEffect::FUN_00825860()
 }  // namespace fnv_00825860
 
 namespace fnv_00825920 {
-struct Actor;
+class Actor;
 struct PC7d;
-struct ActiveEffect
+class ActiveEffect
 {
 };
 struct NightEyeEffect : ActiveEffect
@@ -128,8 +128,8 @@ void NightEyeEffect::FUN_00825920(Actor* apActor)
 }  // namespace fnv_00825920
 
 namespace fnv_00825950 {
-struct Actor;
-struct TESForm
+class Actor;
+class TESForm
 {
 };
 struct TESSaveLoadGame
@@ -181,7 +181,7 @@ S_008258a0_Effect* FUN_008258a0(int aiArg0, int aiArg1, int aiArg2)
 }
 
 
-struct ActiveEffect;
+class ActiveEffect;
 
 struct SpawnedEffect
 {

@@ -122,7 +122,7 @@ class NavMeshBounds
     void CopyTo(NavMeshBounds* other);
 };
 
-class NavMeshPtr;
+struct NavMeshPtr;
 class NavMeshInfo
 {
   public:

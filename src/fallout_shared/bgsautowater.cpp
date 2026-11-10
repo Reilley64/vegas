@@ -59,7 +59,7 @@
 #include "fnv/symbols_0049d000.h"
 #include "fnv/symbols_0049e000.h"
 #include <cmath>
-class NiPoint3;
+struct NiPoint3;
 struct Pt
 {
     float x, y, z;

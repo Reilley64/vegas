@@ -28,7 +28,7 @@ class GlobalObject2_004a4a40 : public SettingT<SettingCollection_011f35a4>
     {
     }
 };
-class GlobalObject2_0096a2d0
+struct GlobalObject2_0096a2d0
 {
   public:
     GlobalObject2_0096a2d0();

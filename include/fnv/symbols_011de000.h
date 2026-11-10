@@ -6,17 +6,17 @@
 class GlobalObject2_0045cfe0;
 struct TES;
 class GlobalObject_0044f440;
-class GlobalObject_0044fae0;
+struct GlobalObject_0044fae0;
 class GlobalObject_0045cf30;
-class GlobalObject_0045cfe0;
-class GlobalObject_00633c90;
+struct GlobalObject_0045cfe0;
+struct GlobalObject_00633c90;
 class GlobalObject_008677d0;
 class GlobalObject_008699c0;
 class GlobalObject_00877f10;
-class GlobalObject_0096a2d0;
+struct GlobalObject_0096a2d0;
 class OSGlobals;
 class PlayerCharacter;
-struct BGSSaveLoadManager;
+class BGSSaveLoadManager;
 struct SkyInit;
 struct TESSaveLoadGame;
 

@@ -187,11 +187,12 @@ struct Setting_S
 struct GlobalObject_0045cfe0
 {
 };
-struct NiAVObject
+class NiAVObject
 {
 };
-struct NiNode : public NiAVObject
+class NiNode : public NiAVObject
 {
+  public:
     NiNode(unsigned short count);
     char pad[0xac];
 };
@@ -288,7 +289,7 @@ void UpdateTerrainLODMaxRange()
 }
 }  // namespace fnv_0057cf00
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -301,7 +302,7 @@ public:
 };
 
 namespace fnv_0057de00 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

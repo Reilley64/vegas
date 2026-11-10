@@ -1,6 +1,6 @@
 #pragma once
 
-class TeleportableReference;
+struct TeleportableReference;
 
 struct FUN_0043a860_shell {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_009c30d0 { struct Actor; }
+namespace fnv_009c30d0 { class Actor; }
 
 namespace fnv_009c30d0 {
 struct FUN_009c30d0_shell {

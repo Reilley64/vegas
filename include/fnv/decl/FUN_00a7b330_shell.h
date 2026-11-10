@@ -1,6 +1,6 @@
 #pragma once
 
-class NiBinaryExtraData;
+struct NiBinaryExtraData;
 struct CloningProcess;
 
 struct FUN_00a7b330_shell {

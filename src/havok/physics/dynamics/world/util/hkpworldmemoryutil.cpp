@@ -285,7 +285,7 @@ class TaskObj
     virtual bool vtbl24(DWORD arg);
 };
 
-class Src
+struct Src
 {
   public:
 };

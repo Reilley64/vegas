@@ -1,12 +1,12 @@
 #pragma once
 
-class BGSLoadFormBuffer;
-class BGSSaveFormBuffer;
+struct BGSLoadFormBuffer;
+struct BGSSaveFormBuffer;
 class FormChangeMask;
 class GameFileBuf;
 class TESForm;
 enum INITIAL_DATA_TYPE;
-namespace fnv_0084e730 { struct FormChangeMask; }
+namespace fnv_0084e730 { class FormChangeMask; }
 struct BGSNumericIDIndex3;
 
 // 0x0084e730

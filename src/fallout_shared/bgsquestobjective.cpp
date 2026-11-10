@@ -67,8 +67,9 @@ void BGSQuestObjective::Initialize()
     m_pOwnerQuest = 0;
 }
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
+  public:
     RecursiveSpinLock();
     ~RecursiveSpinLock();
     int pad[2];
@@ -117,13 +118,14 @@ struct BSFile;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct TESBitArrayFile;
-struct TESForm;
-struct TESObjectCELL;
+class TESForm;
+class TESObjectCELL;
 struct _FILETIME;
 struct _SYSTEMTIME;
 struct _WIN32_FIND_DATAA;
-struct TESFile
+class TESFile
 {
+  public:
     bool CreateTES(char*, char*, int);
     bool CreateTES(int);
     bool OpenTESFile(char*, char*, int, bool);
@@ -503,8 +505,9 @@ struct BSAudio
 {
 };
 
-struct TESQuest
+class TESQuest
 {
+  public:
     virtual void V00()
     {}
     virtual void V01()
@@ -565,7 +568,7 @@ struct FUN_00952a20_shell
 {
 };
 
-struct PlayerCharacter : Obj_009529d0
+class PlayerCharacter : public Obj_009529d0
 {
 };
 

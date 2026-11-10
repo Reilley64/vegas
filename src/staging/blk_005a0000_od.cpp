@@ -272,7 +272,7 @@ struct Flt
 {
     operator unsigned int();
 };
-struct NiNode
+class NiNode
 {
 };
 // Returns false if g_011c786c is null, otherwise returns whether its FUN_00453470 result is greater than zero.
@@ -798,8 +798,9 @@ FUN_005a7870_cls::~FUN_005a7870_cls()
 
 struct ScriptLocals;
 
-struct Script
+class Script
 {
+  public:
     static bool __cdecl GetValue(double& result, char const* format, unsigned int& value, TESObjectREFR* reference1,
                                  TESObjectREFR* reference2, Script* script, ScriptLocals* locals, bool evaluate);
 };

@@ -58,7 +58,7 @@ struct hkaBone
     hkBool m_bLockTranslation;
 };
 
-class hkaSkeleton : public hkReferencedObject
+struct hkaSkeleton : public hkReferencedObject
 {
   public:
     hkStringPtr m_name;
@@ -77,8 +77,9 @@ class hkaSkeletonMapperDataSimpleMapping
     hkQsTransform m_kAFromBTransform;
 };
 
-struct hkOstream
+class hkOstream
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

@@ -172,11 +172,11 @@ NiObject* FUN_00a507e0_obj::Clone(CloningProcess& kCloning)
     return (NiObject*)pkObject;
 }
 
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
 
-template <class T, class A> struct NiTPrimitiveArray
+template <class T, class A> class NiTPrimitiveArray
 {
 };
 

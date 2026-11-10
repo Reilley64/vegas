@@ -300,7 +300,7 @@ template <class T> inline void SerializeValue(NiBinaryStream* pkStr, const T& va
     pkStr->BinaryWrite(&value, sizeof(T), &uiSize, 1);
 }
 
-class NiStream;
+struct NiStream;
 struct NiColor
 {
     float r, g, b;
@@ -629,8 +629,9 @@ struct ThreeByThreeMatrix
     NiPoint3 operator*(const NiPoint3& pt) const;
 };
 
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
     float m_fScale;

@@ -82,8 +82,9 @@ struct __declspec(align(16)) FUN_0056ded0
     FUN_0056ded0();
 };
 
-struct NiTransform
+class NiTransform
 {
+  public:
     float rotation[9];
     float translation[3];
     float scale;

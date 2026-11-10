@@ -1,8 +1,8 @@
 #pragma once
 
-class NiStream;
+struct NiStream;
 
-class NiColor {
+struct NiColor {
 public:
     // 0x00a59be0
     void LoadBinary(::NiStream &);

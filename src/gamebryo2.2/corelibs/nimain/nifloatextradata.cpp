@@ -67,8 +67,9 @@ bool FUN_00a9a3f0_Class::MatchesFloatValue(NiObject* pObject)
 struct BSFadeNode
 {
 };
-struct NiExtraData
+class NiExtraData
 {
+  public:
     void* CloneFloatExtraData(void*);
 };
 // @fnv 0x00a9a430
@@ -92,7 +93,7 @@ void* NiExtraData::CloneFloatExtraData(void* kCloning)
 }
 
 namespace fnv_00a9a480 {
-struct NiExtraData
+class NiExtraData
 {
 };
 
@@ -129,8 +130,9 @@ struct NiStream
     char _pad[0x250];
     NiBinaryStream* m_pBackingStream;
 };
-struct NiExtraData
+class NiExtraData
 {
+  public:
     char _pad[0xc];
 };
 struct Cls_00a9a4e0 : NiExtraData

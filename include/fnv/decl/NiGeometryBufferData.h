@@ -1,6 +1,6 @@
 #pragma once
 
-class NiGeometryBufferData {
+struct NiGeometryBufferData {
 public:
     // 0x00e8eee0
     void ReleaseBuffers();

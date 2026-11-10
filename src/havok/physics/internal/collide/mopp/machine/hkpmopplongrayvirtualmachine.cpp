@@ -166,8 +166,9 @@ class Scalar4
         return _mm_shuffle_ps(bits, bits, 0);
     }
 };
-class hkVector4
+struct hkVector4
 {
+  private:
     __m128 bits;
 
   public:

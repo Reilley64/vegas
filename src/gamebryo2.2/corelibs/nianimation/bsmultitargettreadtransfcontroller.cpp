@@ -75,7 +75,7 @@ void FUN_00a35fc0_shell::SetSlotValue(unsigned short usIndex, void* pValue)
         *(int*)((char*)pValue + 0x30) |= 0x80;
 }
 
-class NiStream;
+struct NiStream;
 struct NiInterpController
 {
     static unsigned short INVALID_INDEX;

@@ -1,6 +1,6 @@
 #pragma once
 
-struct NavMeshEdgeData;
+class NavMeshEdgeData;
 struct S12;
 
 struct FUN_006a0c10 {

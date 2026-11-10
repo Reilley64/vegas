@@ -21,7 +21,7 @@
 
 class SoundMessageRecord;
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     static const NiPoint3 ZERO;

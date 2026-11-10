@@ -1,6 +1,6 @@
 #pragma once
 
-class PathingLocation;
+struct PathingLocation;
 
 namespace fnv_006cc5e0 {
 struct FUN_006cc5e0_shell {

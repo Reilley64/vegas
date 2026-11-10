@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00846e00 { struct SaveLoadFile; }
+namespace fnv_00846e00 { class SaveLoadFile; }
 
 namespace fnv_00846e00 {
 struct FUN_00846e00_cls {

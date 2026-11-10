@@ -40,7 +40,7 @@ void hkpBallSocketChainData_00d53cf0::GetConstraintSizeInfo(bool abEnabled, S_00
     }
 }
 
-class hkpConstraintAtom;
+struct hkpConstraintAtom;
 // hkpConstraintData::ConstraintInfo: solver sizes, then the atoms and their total size.
 struct GenericConstraintAtomScheme
 {
@@ -385,7 +385,7 @@ void Chain_00d53d30::Push(const __m128& a, const __m128& b)
     e.b = b;
 }
 
-struct hkpConstraintInstance;
+class hkpConstraintInstance;
 struct hkpBallSocketChainDataConstraintInfo
 {
     hkVector4 m_kPivotInA, m_kPivotInB;

@@ -1,6 +1,6 @@
 #pragma once
 
-struct BGSEncounterZone;
+class BGSEncounterZone;
 
 struct FUN_00421c30_shell {
 public:

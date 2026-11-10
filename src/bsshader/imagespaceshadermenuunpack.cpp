@@ -18,8 +18,9 @@
 #include "fnv/symbols_011ae000.h"
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_01202000.h"
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual void vf00();
     virtual void DeleteThis();
     volatile long refCount;
@@ -36,8 +37,9 @@ struct NiRefObject
     }
 };
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* ptr;
     NiPointer() : ptr(0)
     {}
@@ -85,8 +87,9 @@ template <class T> struct NiPointer
 };
 
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* handle;
     NiFixedString(char* h) : handle(h)
     {}

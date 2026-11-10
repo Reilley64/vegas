@@ -7,19 +7,19 @@
 #include "NiObject.h"
 #include "NiPoint3.h"
 #include "layout_support.h"
-class NiStream;
+struct NiStream;
 class NiAVObject;
-class CloningProcess;
-class ThreeByThreeMatrix;
+struct CloningProcess;
+struct ThreeByThreeMatrix;
 class NiPSysCollider;
 class NiPSysColliderManager;
 class NiPSysPlanarCollider;
 class NiPSysSpawnModifier;
-class NiPlane;
+struct NiPlane;
 class NiPoint4;
 class NiTransform;
 class FourComponentNumericValue;
-class NiStream;
+struct NiStream;
 class NiPSysCollider : public NiObject
 {
   public:
@@ -78,8 +78,8 @@ class NiPSysCollider : public NiObject
 public:
     void LinkObject(::NiStream &);
 };
-class NiPoint3;
-class NiPlane
+struct NiPoint3;
+struct NiPlane
 {
   public:
     NiPoint3 m_kPlaneNormal;  // +0x0, 12 bytes
@@ -147,7 +147,7 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     NiPoint4 m_afEntries[3];  // +0x0, 48 bytes

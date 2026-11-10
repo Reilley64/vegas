@@ -9,10 +9,10 @@
 #include "fnv/symbols_00aa1000.h"
 #include "nitrishapedata_types_NiGeometryData__DataFlags.h"
 
-class NiPoint2;
-class NiPoint3;
-class RgbaColor;
-class NiStream;
+struct NiPoint2;
+struct NiPoint3;
+struct RgbaColor;
+struct NiStream;
 
 class MemoryManager
 {

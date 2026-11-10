@@ -39,8 +39,9 @@ struct ThreeByThreeMatrix
     }
 };
 
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
     float m_fScale;
@@ -1221,7 +1222,7 @@ static float magnitude(float v)
 {
     return (float)fabs(v);
 }
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

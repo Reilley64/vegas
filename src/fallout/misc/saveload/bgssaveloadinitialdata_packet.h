@@ -44,10 +44,10 @@
 #undef TESObjectCELL
 #undef TESDataHandler
 class TESObjectCELL;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 #ifndef FNV_NIPOINT3_H
 #define FNV_NIPOINT3_H
-class NiPoint3
+struct NiPoint3
 {
   public:
     NiPoint3();
@@ -323,11 +323,11 @@ class TESObjectREFR : public TESForm
 class PlayerCharacter : public TESObjectREFR
 {
 };
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };

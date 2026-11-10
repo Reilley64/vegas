@@ -23,7 +23,7 @@ class TESFile
   public:
     unsigned int GetOffset();
 };
-class CombatController;
+struct CombatController;
 class CombatProcedure
 {
   public:

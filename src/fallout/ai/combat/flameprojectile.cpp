@@ -104,7 +104,7 @@ void FlameProjectile::FUN_009b3f00(BGSLoadFormBuffer* apLoadGameBuffer)
 
 namespace fnv_009b3f50 {
 struct BGSLoadFormBuffer;
-struct Projectile
+class Projectile
 {
 };
 struct FlameProjectile : Projectile
@@ -172,7 +172,7 @@ void StandInFlame::Save(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x154, 4, 0);
 }
 
-struct Projectile
+class Projectile
 {
 };
 struct FUN_009b3f80_shell : Projectile
@@ -205,7 +205,7 @@ void FUN_005de0a0_shell::FUN_005de0a0(unsigned int aFlags, bool abSet)
 }  // namespace fnv_005de0a0
 
 struct RTTI;
-struct NiNode;
+class NiNode;
 
 struct Object
 {
@@ -218,15 +218,16 @@ struct Object
     virtual NiNode* Slot3();
 };
 
-struct NiAVObject;
+class NiAVObject;
 
-struct NiNode : Object
+class NiNode : public Object
 {
+  public:
     unsigned int GetNumChildren();
     NiAVObject* GetAt(unsigned int index);
 };
 
-struct NiAVObject : NiNode
+class NiAVObject : public NiNode
 {
 };
 

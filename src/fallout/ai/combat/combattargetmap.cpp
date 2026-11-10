@@ -110,8 +110,9 @@ namespace fnv_009a3fe0 {
 
 using AutoMemHelper = ::AutoMemContext;
 
-template <typename T, int N> struct BSSimpleArray
+template <typename T, int N> class BSSimpleArray
 {
+  public:
     unsigned int Add(T&);
 };
 
@@ -154,9 +155,9 @@ void FUN_009a3fe0_struct::AddAttackerToTarget(void* apTarget, void* apAttacker)
 
 extern void* DAT_0108e1e8;
 
-struct Actor;
+class Actor;
 struct ActorCombatTargetData;
-struct TESFile;
+class TESFile;
 struct BGSReconstructFormsInFileMap;
 
 struct MyMap

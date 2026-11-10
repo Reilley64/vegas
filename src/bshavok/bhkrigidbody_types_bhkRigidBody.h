@@ -9,7 +9,7 @@
 #include "NiObject.h"
 #include <xmmintrin.h>
 #include "layout_support.h"
-class NiPoint3;
+struct NiPoint3;
 class NiQuaternion;
 class hkpMotion;
 class bhkEntity;

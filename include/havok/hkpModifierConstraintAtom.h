@@ -5,7 +5,7 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-class hkpModifierConstraintAtom : public hkpConstraintAtom
+struct hkpModifierConstraintAtom : public hkpConstraintAtom
 {
   public:
     char pad2[0xE];

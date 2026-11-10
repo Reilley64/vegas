@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class NiObject;
+struct NiObject;
 namespace fnv_00a36f80 { struct BlendInterpS; }
 namespace fnv_00a36f80 { struct StreamS; }
 namespace fnv_00a36fd0 { struct BlendS; }

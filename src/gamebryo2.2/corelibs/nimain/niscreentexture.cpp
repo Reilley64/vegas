@@ -71,8 +71,9 @@ bool NiScreenTexture::FUN_00a954f0(NiStream& kStream)
 
 extern int DAT_010a048c;
 void __cdecl _NiFreeAlias(void*);
-struct NiRefObject
+class NiRefObject
 {
+  public:
     ~NiRefObject();
 };
 struct ShadowObj
@@ -219,7 +220,7 @@ struct BSStreamHeader
     char m_acProcessScript[64];
     char m_acExportScript[64];
 };
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     virtual ~NiStream();
@@ -342,7 +343,7 @@ template <class T> inline void SerializeValue(NiStream& kStream, const T& value)
 {
     WriteBinaryArray(*kStream.m_pBackingStream, &value, 1);
 }
-class NiStream;
+struct NiStream;
 struct RgbaColor
 {
     float r, g, b, a;

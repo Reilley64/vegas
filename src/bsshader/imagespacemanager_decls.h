@@ -5,7 +5,7 @@
 
 #include <windows.h>
 #include "NiFixedString.h"
-class NiGlobalStringTable;
+struct NiGlobalStringTable;
 class NiScreenElementsData;
 extern NiFixedString EmptyFS;
 extern volatile unsigned int DAT_011f91ac;
@@ -14,7 +14,7 @@ extern float DAT_0104a494;
 extern const char DAT_010b04ac[];
 void* Allocate(unsigned int size);
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;

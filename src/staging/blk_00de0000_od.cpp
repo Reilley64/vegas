@@ -2553,7 +2553,7 @@ typedef unsigned char hkUint8;
 
 typedef unsigned short hkUint16;
 
-class hkVector4
+struct hkVector4
 {
   public:
     __m128 m_vComponents;
@@ -2585,8 +2585,9 @@ struct hkpShape
     int m_type;
 };
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const hkpShape* m_pCollisionShape;
     const hkpShape* getShape() const
     {

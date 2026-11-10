@@ -33,8 +33,9 @@ void* __cdecl FUN_00a415e0()
 }
 
 extern int DAT_010976fc;
-struct NiRefObject
+class NiRefObject
 {
+  public:
     ~NiRefObject();
 };
 struct S41660
@@ -1146,7 +1147,7 @@ struct MorphPoint3
     MorphPoint3()
     {}
 };
-struct NiFloatData;
+class NiFloatData;
 struct NiFloatInterpolator
 {
     virtual void V00();

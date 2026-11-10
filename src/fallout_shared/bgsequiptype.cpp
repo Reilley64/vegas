@@ -110,7 +110,7 @@ struct FUN_004029d0_shell
 struct S_004036b0
 {
 };
-struct Actor;
+class Actor;
 struct S_004063e0
 {
 public:

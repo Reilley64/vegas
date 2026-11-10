@@ -18,7 +18,7 @@ class NiBSplineBasisData
 {
   public:
 };
-class NiStream;
+struct NiStream;
 class NiBinaryStream;
 
 typedef unsigned int(__cdecl* NiBinaryStreamRead)(NiBinaryStream*, void*, unsigned int, const unsigned int&,
@@ -33,14 +33,14 @@ class NiBinaryStream
     NiBinaryStreamRead m_pfnRead;
     NiBinaryStreamWrite m_pfnWrite;
 };
-class NiStream
+struct NiStream
 {
   public:
     void** m_ppVirtualMethodTable;
     unsigned char m_opaque004[0x248];
     NiBinaryStream* m_pUnderlyingStream;
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
 class __declspec(novtable) NiBSplineData : public NiObject

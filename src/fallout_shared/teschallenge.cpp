@@ -432,8 +432,9 @@ void FUN_00616640_shell::FUN_00616640(unsigned int aiFlags, unsigned int aiCurre
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((this))->FUN_00484c50(aiFlags, aiCurrentFlags);
 }
 
-struct TESQuest
+class TESQuest
 {
+  public:
     PerkEntryConditionSet* GetConditions(void);
 };
 

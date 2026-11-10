@@ -103,8 +103,9 @@ struct RgbaColor
         a = fA;
     }
 };
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     virtual void DeleteThis();
     unsigned int m_uiRefCount;
@@ -115,8 +116,9 @@ struct NiRefObject
             DeleteThis();
     }
 };
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
     NiPointer(T* pObject = 0)
     {
@@ -1318,7 +1320,7 @@ extern int DAT_010b8250;
 struct MemoryManagerDealloc
 {
 };
-struct NiNode : NiRefObject
+class NiNode : public NiRefObject
 {
 };
 template <class T> NiPointer<T>::~NiPointer()

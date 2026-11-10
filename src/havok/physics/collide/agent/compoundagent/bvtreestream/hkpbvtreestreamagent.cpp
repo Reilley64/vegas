@@ -1247,7 +1247,7 @@ struct S2ee10_Output
     S2ee10_ToiInfo m_fTimeOfImpact;
 };
 
-struct hkpCdBody;
+class hkpCdBody;
 struct CollisionAgentContext;
 class hkpAgentBase
 {
@@ -1567,7 +1567,7 @@ __forceinline hkInplaceArray<T,N,Allocator>::hkInplaceArray(int size)
 
 ;
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
 {
@@ -1615,10 +1615,10 @@ __forceinline void setAnd(hkVector4ComparisonParameter a,hkVector4ComparisonPara
 __forceinline hkBool32 allAreSet(Mask m)const{return(_mm_movemask_ps(m_uiMask)&m)==m;}
 private:
 hkQuadReal m_uiMask;
-friend class hkVector4;};
+friend struct hkVector4;};
 class hkRotation;
 class hkTransform;
-class hkVector4
+struct hkVector4
 {
 public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}

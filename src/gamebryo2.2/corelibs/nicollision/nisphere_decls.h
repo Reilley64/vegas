@@ -2,7 +2,7 @@
 #ifndef FNV_NISPHERE_DECLS_H
 #define FNV_NISPHERE_DECLS_H
 #include "fnv/decl/NiPoint3.h"
-class NiPlane
+struct NiPlane
 {
   public:
     float normal[3];

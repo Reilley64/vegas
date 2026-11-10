@@ -283,7 +283,7 @@ __forceinline VectorComponentValue operator-(hkSimdRealParameter r) { return _mm
 VectorComponentValue __cdecl SubtractScalarFloat(hkSimdRealParameter r, hkSimdRealParameter s);
 __declspec(noinline) VectorComponentValue __cdecl AddScalarFloat(hkSimdRealParameter r, hkSimdRealParameter s) { return _mm_add_ss(r.getQuad(),s.getQuad()); }
 class hkMatrix3;
-class hkVector4
+struct hkVector4
 {
 public:
     __forceinline void commitIncrement(hkVector4& dest) const { dest.add4(*this); }

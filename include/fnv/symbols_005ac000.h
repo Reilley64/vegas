@@ -2,7 +2,7 @@
 
 class ExtraDataList;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class TESForm;
 class TESObjectREFR;
 struct ExtractParameter;

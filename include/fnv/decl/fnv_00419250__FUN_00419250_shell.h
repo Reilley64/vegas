@@ -1,7 +1,7 @@
 #pragma once
 
 namespace fnv_00419250 { struct ExtraMapMarker; }
-namespace fnv_00419250 { struct MapMarkerData; }
+namespace fnv_00419250 { class MapMarkerData; }
 
 namespace fnv_00419250 {
 struct FUN_00419250_shell {

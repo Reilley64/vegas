@@ -134,7 +134,7 @@ void FUN_00a93c00_shell::FUN_00a93c00(NiSwitchNode* pkDest, CloningProcess& kClo
     pkDest->m_0b0 = m_0b0;
 }
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;
@@ -265,8 +265,9 @@ NiObject* FUN_00a94500_Holder::CloneSwitchNode(CloningProcess& kCloning)
 struct StrArr
 {
 };
-struct NiPointer
+class NiPointer
 {
+  public:
     NiAVObject* m_pObject;
 };
 struct FUN_00a5ee30_shell

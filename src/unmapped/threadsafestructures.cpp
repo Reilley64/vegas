@@ -98,7 +98,7 @@ void FUN_0044f200_Class::FUN_0044f200()
         FilterListByQueueData();
 }
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 public:
     void FUN_0040fba0();

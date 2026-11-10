@@ -771,7 +771,7 @@ struct GeometryStream
 struct GeometryData
 {
 };
-struct NiGeometry
+class NiGeometry
 {
 };
 struct FUN_006624c0 : NiExtraData

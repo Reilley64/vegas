@@ -337,8 +337,9 @@ struct _Call_a5d3a0
 {
     _Call_a5d3a0();
 };
-struct NiPixelFormat
+class NiPixelFormat
 {
+  public:
     char _0[0x44];
     NiPixelFormat();
 };
@@ -944,8 +945,9 @@ void FUN_00e91a90(StrArr* pkStrings)
 }
 }  // namespace fnv_00e91a90
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 public:
     static unsigned int ms_lObjectCount;
@@ -1516,8 +1518,9 @@ void* __cdecl CreateRenderedTextureData(uintptr_t a1, unsigned int a2, unsigned 
 
 struct NiRenderer;
 
-struct NiD3DVertexDeclaration
+class NiD3DVertexDeclaration
 {
+  public:
     bool FUN_00e90970();
 };
 // If the byte at offset 0x10 is zero, calls NiD3DShader::Initialize and then FUN_00e90970(this) on success; returns false on failure, otherwise true.
@@ -1562,8 +1565,9 @@ bool NiD3DVertexDeclaration::FUN_00e90970()
     return true;
 }
 
-struct D3DRenderStateGroup
+class D3DRenderStateGroup
 {
+  public:
     static D3DRenderStateGroup* __cdecl GetCurrentRenderStateGroup();
 };
 
@@ -1573,8 +1577,9 @@ struct NiShaderData
     D3DRenderStateGroup* renderStateGroup;
 };
 
-struct NiShader
+class NiShader
 {
+  public:
     unsigned char padding[0x3c];
     NiShaderData* shaderData;
 
@@ -8082,7 +8087,7 @@ NiDX9RenderedCubeMapData* __cdecl FUN_00e901a0(NiRenderedCubeMap* pkTexture, NiD
 }
 
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
 public:
@@ -8103,13 +8108,13 @@ void FUN_00c36040_Class::FUN_00c36040(NiStream* stream)
 }
 
 namespace fnv_00c36070 {
-class NiStream;
-class NiObject
+struct NiStream;
+struct NiObject
 {
   public:
-    virtual void LinkObject(class NiStream&);
+    virtual void LinkObject(struct NiStream&);
 };
-class NiStream
+struct NiStream
 {
   public:
 };
@@ -8121,10 +8126,10 @@ struct Holder : public NiObject
 {
     char _pad[8];
     GO m_go;
-    void FUN_00c36070(class NiStream&);
+    void FUN_00c36070(struct NiStream&);
 };
 // @fnv 0x00c36070
-void Holder::FUN_00c36070(class NiStream& stream)
+void Holder::FUN_00c36070(struct NiStream& stream)
 {
     int _u1;
     int _u2;
@@ -8367,8 +8372,9 @@ unsigned char Cls::FUN_00c36240(int arg)
     return 0;
 }
 
-struct NiNode
+class NiNode
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();

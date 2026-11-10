@@ -509,7 +509,7 @@ __declspec(noinline) Point3ParameterData::Point3ParameterData() throw()
 void* _NiMalloc(unsigned int size) throw();
 void _NiFreeAlias(void*) throw();
 
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;

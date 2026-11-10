@@ -55,7 +55,7 @@ class NiQuaternion
 public:
     void MakeUnitLength();
 };
-class NiStream;
+struct NiStream;
 class NiQuatTransform
 {
   public:

@@ -9,7 +9,7 @@
 #include "fnv/symbols_0040e000.h"
 #include "fnv/symbols_01017000.h"
 #include "fnv/symbols_011c7000.h"
-struct TESRegion;
+class TESRegion;
 struct G2
 {
     void AddHead(TESRegion* const&);
@@ -18,8 +18,9 @@ struct LH
 {
 };
 
-struct TESRegionList
+class TESRegionList
 {
+  public:
     bool AddRegion(TESRegion* apRegion);
 };
 

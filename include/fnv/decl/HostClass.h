@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class NiObject;
+struct NiObject;
 struct ArgClass;
 
 struct HostClass {

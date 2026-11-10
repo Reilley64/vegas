@@ -13,7 +13,7 @@
 class TESObjectREFR;
 class TESForm;
 class TESObjectREFR;
-class InventoryChanges
+struct InventoryChanges
 {
   public:
 public:
@@ -36,7 +36,7 @@ class CombatPrefix
     CombatLOS* los;
     char pad6c[0x3c];
 };
-class CombatState : public CombatPrefix, public CombatLocations
+struct CombatState : public CombatPrefix, public CombatLocations
 {
   public:
     intptr_t GetInventoryItemCount(TESForm*);

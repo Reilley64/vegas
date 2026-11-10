@@ -1,5 +1,5 @@
 
-class NiStream;
+struct NiStream;
 class NiBinaryStream
 {
   public:
@@ -12,7 +12,7 @@ class NiBinaryStream
         position += read(this, value, size, &componentSize, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     char prefix[0x24c];

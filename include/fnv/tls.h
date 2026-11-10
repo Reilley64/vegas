@@ -5,7 +5,7 @@ class BaseExtraList;
 class BSExtraData;
 class NiAVObject;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class ScriptLocalVariable;
 class ScriptReferencedObject;
 class TESForm;

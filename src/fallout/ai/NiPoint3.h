@@ -3,7 +3,7 @@
 #define FNV_NIPOINT3_H
 #include "fnv/decl/FUN_00416870_t.h"
 #include "layout_support.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0

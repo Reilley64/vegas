@@ -3,7 +3,7 @@
 class NiControllerSequence;
 class NiFixedString;
 
-class NiControllerManager {
+struct NiControllerManager {
 public:
     // 0x0047a510
     static ::NiFixedString *FindSequenceByName();

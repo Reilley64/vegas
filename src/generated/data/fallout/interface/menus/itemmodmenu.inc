@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ms_pActionPointSource@InventoryMenu@@2PEAUInventoryStackRecord@@EA=?ms_pActionPointSource@InventoryMenu@@2PEAVInventoryStackRecord@@EA")
+#pragma comment(linker, "/alternatename:?ms_pActionPointSource@InventoryMenu@@2PEAVInventoryStackRecord@@EA=?ms_pActionPointSource@InventoryMenu@@2PEAVInventoryStackRecord@@EA")
 
 const char DAT_01073b64[24] = {95, 73, 115, 73, 116, 101, 109, 77, 111, 100, 73, 116, 101, 109};
 const char DAT_01073bc4[24] = "IMM_ItemModListTemplate";

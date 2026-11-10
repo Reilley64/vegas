@@ -2688,7 +2688,7 @@ class hkDataArrayImplDC76
   public:
 };
 
-class FUN_00dba680_cls
+struct FUN_00dba680_cls
 {
   public:
     hkDataClassImplDC76* m_pClassImpl;
@@ -2785,8 +2785,9 @@ FUN_00dc8030_Class* FUN_00dc8030_Class::FUN_00dc8030()
 }  // namespace fnv_00dc8030
 
 namespace fnv_00dc80c0 {
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     void RetainReference();
     void removeReference() throw();
 };
@@ -7252,7 +7253,7 @@ void hkObjDCA5::CopyFrom(const __int64* src, int aiCount)
         m_data.m_data[i] = (int)src[i];
 }
 
-class Obj
+struct Obj
 {
   public:
     virtual void v0();

@@ -5,7 +5,7 @@
 
 class NiRefObject;
 struct GO;
-struct NiD3DPass;
+class NiD3DPass;
 struct Params;
 
 // 0x00b79050

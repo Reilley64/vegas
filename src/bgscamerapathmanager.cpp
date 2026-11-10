@@ -78,7 +78,7 @@ void CameraPathManager::UpdateCameraPaths()
 struct NiFormArray_008b2010
 {
 };
-struct TESFile
+class TESFile
 {
 };
 struct FUN_0058b510_shell
@@ -122,7 +122,7 @@ TESFile* FUN_0058bb50_shell::FUN_0058bb50(unsigned int arg1, unsigned int arg2)
 
 extern int DAT_01032748;
 struct ActorCombatGroup;
-template <> struct NiTMallocInterface<ActorCombatGroup*>
+template <> class NiTMallocInterface<ActorCombatGroup*>
 {
 };
 struct FUN_0058bc00_obj

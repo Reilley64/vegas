@@ -13,12 +13,12 @@
 #include "NiFixedString.h"
 
 
-class NiStream;
-class CloningProcess;
-class NiParticleSystem;
+struct NiStream;
+struct CloningProcess;
+struct NiParticleSystem;
 
 // Only the base operations used by this translation unit are exposed here.
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual void LoadBinary(NiStream& kStream);
@@ -27,7 +27,7 @@ class NiObject : public NiRefObject
     // Base copying operation has no identified name in the PC symbol evidence.
 };
 
-class CloningProcess
+struct CloningProcess
 {
   public:
     NiTPointerMap<NiObject*, NiObject*>* m_pCloneMap;
@@ -36,7 +36,7 @@ class CloningProcess
     char m_bExactType;
 };
 
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 template <class T> class NiTStringPointerMap
 {
   public:
@@ -67,7 +67,7 @@ class NiBinaryStream : public NiMemObject
     }
 };
 
-class NiStream : public NiObject
+struct NiStream : public NiObject
 {
   public:
     unsigned char m_streamHeader[0xD8 - 8];
@@ -84,7 +84,7 @@ template <class T> inline void NiBinaryStreamLoad(NiBinaryStream& kStream, T* pV
     kStream.BinaryRead(pValue, sizeof(T), &uiSize, 1);
 }
 
-class NiPSysModifier : public NiObject
+struct NiPSysModifier : public NiObject
 {
   public:
     virtual void LoadBinary(NiStream& kStream);

@@ -1,6 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsysmodifieractivectlr_decls.h: declares NiPSysModifierCtlr, NiPSysAirFieldAirFrictionCtlr
 
-class CloningProcess;
+struct CloningProcess;
 class NiPSysModifierCtlr
 {
   public:

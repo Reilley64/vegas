@@ -1089,7 +1089,7 @@ void RenderOwner::DrawSlots(void* destination)
     }
 }
 
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* m_pcName;

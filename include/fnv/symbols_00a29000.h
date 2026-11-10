@@ -5,7 +5,7 @@ struct A290A0Key;
 struct A290A0Stream;
 struct A29FE0Block;
 struct A29FE0Context;
-struct AnimationKey;
+class AnimationKey;
 struct CompareBlock;
 struct Elem48;
 struct Helper;

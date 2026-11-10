@@ -84,13 +84,13 @@
 #include "fnv/symbols_01050000.h"
 #include "fnv/symbols_01053000.h"
 #include "fnv/symbols_0108e000.h"
-struct Actor
+class Actor
 {
 public:
     bool IsSneaking();
 };
 
-struct CombatProcedure
+class CombatProcedure
 {
 };
 
@@ -145,7 +145,7 @@ struct CoordinateTriple
 {
 };
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 struct CombatTargetTimestamp
 {
 public:
@@ -394,8 +394,9 @@ struct Controller
 struct Context
 {
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();

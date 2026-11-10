@@ -11,7 +11,7 @@ class Tile;
 
 class TileLayout;
 class LoadingMenu;
-class RgbaColor;
+struct RgbaColor;
 class NiTAbstractPoolAllocator_unsigned_int_;
 class NiTListBase_NiTPointerAllocator_unsigned_int__Tile___;
 class NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator;
@@ -159,7 +159,7 @@ class NiTPointerList_Tile___ : public NiTPointerListBase_NiTPointerAllocator_uns
     // NiTPointerList<Tile *>& __cdecl NiTPointerList<Tile *>::*(const NiTPointerList<Tile *>&)
     // void* __cdecl NiTPointerList<Tile *>::*(unsigned int)
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes

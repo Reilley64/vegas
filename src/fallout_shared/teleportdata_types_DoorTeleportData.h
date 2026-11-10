@@ -4,8 +4,8 @@
 #include "layout_support.h"
 #include "NiPoint3.h"
 #include "TESObjectREFR.h"
-class TeleportableReference;
-class TeleportableReference
+struct TeleportableReference;
+struct TeleportableReference
 {
   public:
     TESObjectREFR* m_pLinkedDoorReference;  // +0x0, 4 bytes

@@ -48,7 +48,7 @@ CtlrStandin* CtlrStandin::FUN_00c31260()
     return this;
 }
 
-class NiRTTI;
+struct NiRTTI;
 struct NiObject
 {
 public:

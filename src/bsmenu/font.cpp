@@ -644,13 +644,13 @@ FUN_00a121e0::~FUN_00a121e0()
 }  // namespace fnv_00a121e0
 
 namespace fnv_00a14a20 {
-struct BSShaderAccumulator;
+class BSShaderAccumulator;
 struct BSShaderProperty;
 struct CloningProcess;
 struct NiProperty;
 struct NiShadeProperty;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiUpdateData;
 struct TileShaderProperty;
 struct blob16 { char b[16]; };
@@ -679,20 +679,23 @@ struct TileShaderProperty : BSFadeNode {
     TileShaderProperty(bool);
 };
 namespace L {
-struct NiFixedString : ::NiFixedString {
+class NiFixedString : public ::NiFixedString {
+  public:
     NiFixedString(const char* s) { if (s == 0) m_kHandle = ::DAT_0109b220; else m_kHandle = ::NiGlobalStringTable::AddString(s); }
     ~NiFixedString() {
         if (m_kHandle == ::DAT_0109b220) return;
         NiGlobalStringTable::DecRef(&((StringHeader*)m_kHandle - 1)->refs);
     }
 };
-struct NiGeometryData {
+class NiGeometryData {
+  public:
     char pad[0x38];
     unsigned char m_ucKeepFlags;
     unsigned char m_ucCompressFlags;
 };
 struct GeomPtr { NiGeometryData* m_pObject; operator NiGeometryData*() const { return m_pObject; } NiGeometryData* operator->() const { return m_pObject; } };
-struct NiAVObject : BSFadeNode {
+class NiAVObject : public BSFadeNode {
+  public:
     void SetName(const ::NiFixedString&);
 };
 struct NiPoint3 {

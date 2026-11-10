@@ -52,8 +52,8 @@ struct NiStream
     void* GetLoadedObject();
 };
 
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 struct NiPSysModifier
 {
     virtual void LinkObject(NiStream&);

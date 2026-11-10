@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class TESForm;
-struct TESForm;
+class TESForm;
 
 // 0x0048e3b0
 bool IsChunkTypeIcon(int);

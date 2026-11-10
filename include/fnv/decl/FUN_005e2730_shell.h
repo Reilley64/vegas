@@ -1,7 +1,7 @@
 #pragma once
 
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class TESObjectREFR;
 
 struct FUN_005e2730_shell {

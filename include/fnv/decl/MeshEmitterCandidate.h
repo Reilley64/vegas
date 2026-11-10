@@ -1,7 +1,7 @@
 #pragma once
 
 struct MeshPoint;
-struct NiGeometry;
+class NiGeometry;
 
 struct MeshEmitterCandidate {
 public:

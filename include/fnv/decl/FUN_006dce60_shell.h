@@ -1,7 +1,7 @@
 #pragma once
 
-class NiPoint3;
-class PathingLocation;
+struct NiPoint3;
+struct PathingLocation;
 class TESObjectCELL;
 
 struct FUN_006dce60_shell {

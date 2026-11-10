@@ -143,7 +143,7 @@ class ExtraDataList
 {
   public:
 };
-class GlobalObject_00633c90
+struct GlobalObject_00633c90
 {
   public:
     char data[4];
@@ -208,7 +208,7 @@ class BGSTextureSet
     BSTextureSet textures;
     BSShaderTextureSet* BuildShaderTextureSet();
 };
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);

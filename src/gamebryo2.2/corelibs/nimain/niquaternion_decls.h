@@ -13,19 +13,19 @@ class NiBinaryStream
     NiBinaryStreamRead m_pfnRead;
     unsigned int(__cdecl* m_pfnWrite)(NiBinaryStream*, const void*, unsigned int, unsigned int*, unsigned int);
 };
-class NiStream
+struct NiStream
 {
   public:
     unsigned char m_ucUnknownByte[0x24c];
     NiBinaryStream* m_pUnderlyingStream;
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
     void LoadBinary(NiStream& arStream);
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m[3][3];

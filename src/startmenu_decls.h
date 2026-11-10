@@ -11,7 +11,7 @@ template <class T> class ListBox
     unsigned char data[44];
     bool IsSelected(Tile*);
 };
-class Interface
+struct Interface
 {
   public:
     enum enumMenus

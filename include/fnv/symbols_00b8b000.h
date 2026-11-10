@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace fnv_00b8bb70 { class NiPoint3; }
+namespace fnv_00b8bb70 { struct NiPoint3; }
 
 // 0x00b8b1c0
 std::intptr_t FUN_00b8b1c0(std::intptr_t, std::intptr_t);

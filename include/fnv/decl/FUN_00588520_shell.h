@@ -1,6 +1,6 @@
 #pragma once
 
-template <class> struct BSSimpleList;
+template <class> class BSSimpleList;
 
 struct FUN_00588520_shell {
 public:

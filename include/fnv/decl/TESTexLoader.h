@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiSourceTexture;
+class NiSourceTexture;
 template <class> struct TexPtr;
 
 struct TESTexLoader {

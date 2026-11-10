@@ -524,7 +524,7 @@ class VectorComponentValue
     __m128 m_vValue;
 };
 
-class hkVector4
+struct hkVector4
 {
   public:
     __forceinline hkVector4()
@@ -590,8 +590,9 @@ class hkRotation : public hkMatrix3
         m_kColumn2 = o.m_kColumn2;
     }
 };
-struct hkTransform
+class hkTransform
 {
+  public:
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
     __forceinline hkRotation& getRotation()

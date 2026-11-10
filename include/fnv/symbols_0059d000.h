@@ -1,7 +1,7 @@
 #pragma once
 
 class TESObjectREFR;
-namespace fnv_0059d610 { struct TESObject; }
+namespace fnv_0059d610 { class TESObject; }
 
 // 0x0059d010
 bool FUN_0059d010(::TESObjectREFR *, void *, void *, double *);

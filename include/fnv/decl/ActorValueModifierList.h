@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class Modifier;
+struct Modifier;
 
 class ActorValueModifierList {
 public:

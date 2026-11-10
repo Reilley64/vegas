@@ -11,7 +11,7 @@
 #include "layout_support.h"
 class PathingActorData;
 class PathingAvoidNodeArray;
-class PathingRequest;
+struct PathingRequest;
 class PathingActorData
 {
   public:
@@ -22,7 +22,7 @@ class PathingActorData
     // PathingActorData
     // PathingActorData& __cdecl PathingActorData::*(const PathingActorData&)
 };
-class PathingRequest : public NiRefObject
+struct PathingRequest : public NiRefObject
 {
   public:
     // base NiRefObject at +0x0, size 8

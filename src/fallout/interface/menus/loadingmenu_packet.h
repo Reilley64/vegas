@@ -63,7 +63,7 @@ class NiNode
 {
   public:
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
 };
@@ -139,7 +139,7 @@ public:
 public:
     static float GetInterfaceScale();
 };
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
@@ -179,7 +179,7 @@ union SETTING_VALUE
     int i;
     float f;
 };
-class GlobalObject_0045cfe0
+struct GlobalObject_0045cfe0
 {
   public:
     char storage[12];
@@ -217,7 +217,7 @@ class TESQuest : public TESForm
 public:
     void SetEnabled(bool);
 };
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
 };

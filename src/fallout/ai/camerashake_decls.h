@@ -20,7 +20,7 @@ public:
 class NiNode : public NiAVObject
 {
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiObjectNET;
+struct NiObjectNET;
 namespace fnv_00a5c290 { struct CloningProcess; }
 
 namespace fnv_00a5c290 {

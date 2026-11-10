@@ -9,7 +9,7 @@
 #include "fnv/memory/engine_heap_set.h"
 #include "fnv/memory/fixed_pool.h"
 
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 
 // Native owner. Legacy allocation/release entries are real bases in one
 // inheritance chain, not alternate owner declarations. No PC offsets describe it.

@@ -12,7 +12,7 @@
 #include "fnv/decl/S_00a64670_Foo.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_011f6000.h"
-class NiRTTI;
+struct NiRTTI;
 class NiNode;
 class NiGeometry;
 class NiTriBasedGeom;
@@ -29,19 +29,19 @@ class bhkNiCollisionObject;
 class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
-class NiControllerManager;
+struct NiControllerManager;
 class NiTimeController;
 class NiExtraData;
 class NiCollisionObject;
-class NiStream;
-class NiBound;
+struct NiStream;
+struct NiBound;
 class NiFixedString;
 class NiCullingProcess;
 class NiDX9Renderer;
 class GeometryProperties;
 class NiRenderTargetGroup;
 template <class T> class NiTArray;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -51,7 +51,7 @@ class NiPoint3
 public:
     char *FUN_00a59af0(const char *);
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];
@@ -64,13 +64,13 @@ class NiTransform
     NiPoint3 m_kTranslation;
     float m_fScale;
 };
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;
     float m_fBoundRadius;
 };
-class NiFrustum
+struct NiFrustum
 {
   public:
     float m_fLeftBound, m_fRightBound, m_fTopBound, m_fBottomBound, m_fNearPlane, m_fFarPlane;
@@ -83,7 +83,7 @@ template <class T> class NiRect
   public:
     T m_fMinimumU, m_fMaximumU, m_fMinimumV, m_fMaximumV;
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;
@@ -96,7 +96,7 @@ class NiRefObject
     virtual void DeleteThis();
     volatile long m_uiRefCount;
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual NiRTTI* GetType();
@@ -133,7 +133,7 @@ class NiObject : public NiRefObject
     virtual void Unk_21(unsigned int argument);
     virtual NiControllerManager* GetControllerManager();
 };
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     const char* m_kName;
@@ -141,7 +141,7 @@ class NiObjectNET : public NiObject
     NiExtraData** m_ppExtraData;
     unsigned short m_usExtraDataCount, m_usMaxSize;
 };
-class CloningProcess;
+struct CloningProcess;
 class NiAVObject : public NiObjectNET
 {
   public:
@@ -214,7 +214,7 @@ class NiBinaryStream
     ReadFunction m_pfnRead;
     WriteFunction m_pfnWrite;
 };
-class NiStream
+struct NiStream
 {
   public:
     void** m_ppVirtualMethodTable;
@@ -230,7 +230,7 @@ class MemoryManager
 {
   public:
 };
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;

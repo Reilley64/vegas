@@ -55,11 +55,11 @@ namespace fnv_006fd130 {
 struct BGSDistantTreeBlock;
 struct BGSTerrainChunk;
 struct BGSTerrainNode;
-struct NiCamera;
-struct NiNode;
-struct NiTexture;
-struct TESObjectREFR;
-struct TESWorldSpace;
+class NiCamera;
+class NiNode;
+class NiTexture;
+class TESObjectREFR;
+class TESWorldSpace;
 struct BGSTerrainManager
 {
     static BGSTerrainManager* GetActiveManager();
@@ -208,7 +208,7 @@ struct Arr
 struct GlobalObject_00869f00
 {
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct FUN_006fcf30_shell
@@ -675,8 +675,9 @@ struct Dfcfa0Ref
     virtual void v124();
     virtual int GetBlock();
 };
-template <class T, unsigned int N> struct BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
+  public:
     unsigned int Add(const T& value);
 };
 struct Dfcfa0Manager : FUN_006fcef0_shell
@@ -725,7 +726,7 @@ struct TES
 {
 };
 
-struct NiNode
+class NiNode
 {
 };
 struct NiNodeHolder

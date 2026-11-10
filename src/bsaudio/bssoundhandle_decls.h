@@ -15,9 +15,9 @@
 #include "fnv/symbols_011f6000.h"
 typedef void(__cdecl* BSSoundCompletionCallback)(void*, bool);
 
-class BSAudio;
+struct BSAudio;
 
-class BSAudio
+struct BSAudio
 {
   public:
     void** m_ppVirtualMethodTable;
@@ -39,7 +39,7 @@ class BSAudioManager
     static BSAudioManager& GetRandomGenerator();
 };
 
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -63,7 +63,7 @@ public:
     bool Release();
 };
 
-class NiColor;
+struct NiColor;
 
 class SystemColorManager
 {

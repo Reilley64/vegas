@@ -77,16 +77,18 @@ public:
 };
 class NavMeshClosedDoorInfo;
 class NavMeshTriangle;
-struct NavMesh
+class NavMesh
 {
+  public:
     NiPoint3 GetNavMeshData(unsigned short);
 public:
     ::NavMeshTriangle *GetTriangle(unsigned short);
 public:
     ::NavMeshClosedDoorInfo *GetClosedDoorInfo(unsigned short);
 };
-struct NavMeshTriangleReference
+class NavMeshTriangleReference
 {
+  public:
     void* m_pLocationNavMesh;
     float m_fPathingCostCur;
     void* pMesh;
@@ -122,7 +124,7 @@ struct PathingRequest_Pos
 {
     PathingLocation* GetStart();
 };
-struct PathingAvoidNodeArray
+class PathingAvoidNodeArray
 {
 };
 struct PathingRequest
@@ -134,7 +136,7 @@ struct NavMeshNodeInfo
     unsigned short m_usTriangleIdentifier;
     NiPoint3 kPos;
 };
-struct PathingSolution
+class PathingSolution
 {
 };
 void FUN_005330e0(float& a, float b, float c);
@@ -2416,7 +2418,7 @@ bool FUN_006a8dc0_shell::AddAdjacentNodes(NMNode* apNode, NMNodeArray* apNodes)
     return true;
 }
 
-struct NavMeshInfo;
+class NavMeshInfo;
 
 struct NavMesh_Stub
 {

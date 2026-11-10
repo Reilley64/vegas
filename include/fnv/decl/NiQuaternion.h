@@ -1,6 +1,6 @@
 #pragma once
 
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 
 class NiQuaternion {
 public:

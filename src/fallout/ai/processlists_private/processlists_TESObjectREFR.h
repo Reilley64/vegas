@@ -11,7 +11,7 @@
 #include "processlists_TESChildCell.h"
 #include "processlists_TESForm.h"
 class BGSEncounterZone;
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
   public:

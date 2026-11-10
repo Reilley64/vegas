@@ -622,7 +622,8 @@ struct __declspec(align(16)) hkVector4A {
     }
 };
 
-struct hkAabb {
+class hkAabb {
+  public:
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
 };

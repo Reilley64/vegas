@@ -68,7 +68,7 @@ class BGSImpactData : public TESForm, public TESModel
   public:
     BGSTextureSet* GetDecalTextureSet() const;
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

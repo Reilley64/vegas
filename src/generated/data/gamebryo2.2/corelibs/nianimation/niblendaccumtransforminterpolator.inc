@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 
 ::NiPoint3 DAT_011a8400 = {-3.4028235e+38f, -3.4028235e+38f, -3.4028235e+38f};
 int DAT_011a8404 = -0x800001;

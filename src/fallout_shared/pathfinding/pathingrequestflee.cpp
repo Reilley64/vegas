@@ -9,7 +9,7 @@
 #include "fnv/decl/FUN_00865e50_shell.h"
 #include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 #include "fnv/symbols_00aa1000.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 struct PathingRequest
 {
     ~PathingRequest();

@@ -381,7 +381,7 @@ Dummy_007a1a70* FUN_007a1a70(Dummy_007a1a70* pThis)
     return pThis;
 }
 
-struct NiTexture;
+class NiTexture;
 struct FUN_009c8640_shell : public TileShaderProperty
 {
     NiTexture* FUN_009c8640();
@@ -830,7 +830,7 @@ void FUN_00798480_This::FUN_00798480(int aiID, Tile* apTarget)
     }
 }
 
-struct MagicTarget;
+class MagicTarget;
 struct MagicCaster_shell
 {
     MagicTarget* FUN_0044edb0();
@@ -1217,11 +1217,12 @@ struct FUN_00798ad0_shell : public MapMenu
 };
 namespace fnv_0079b8e0 {
 namespace S {
-struct BSSimpleList
+class BSSimpleList
 {
+  public:
     bool _ref_008256d0();
 };
-struct RegionObjectEntry
+class RegionObjectEntry
 {
 };
 struct BSAudio
@@ -1229,7 +1230,7 @@ struct BSAudio
     void* GetAudioBackendData();
 };
 }
-struct BGSQuestObjective
+class BGSQuestObjective
 {
 };
 struct FNStub
@@ -1548,7 +1549,7 @@ bool __cdecl FUN_0079b720(TESChallenge* challenge)
 }
 }  // namespace fnv_0079b720
 
-struct MobileObject
+class MobileObject
 {
 };
 
@@ -2344,7 +2345,7 @@ struct LBItem
     LBItem(Tile* t, intptr_t* o);
 };
 
-struct Tile;
+class Tile;
 struct LBList
 {
     LBItem* item;
@@ -4230,11 +4231,12 @@ struct Reference
     Reference* marker;
     void* FUN_00575d70();
 };
-struct Tile
+class Tile
 {
 };
-struct Menu
+class Menu
 {
+  public:
     int unk000;
     int unk004;
     int unk008;
@@ -7706,7 +7708,7 @@ void Reconstruction798cb0::FUN_00798cb0(int aiEventCode, Tile* tile)
 
 
 
-class PathingLocation
+struct PathingLocation
 {
   public:
     int unk00;
@@ -7802,7 +7804,7 @@ class DialogueItem;
 class DialogueResponse;
 class PathingPath;
 class Character;
-class BSAudio;
+struct BSAudio;
 class FOPipboyManager;
 class InterfaceManager;
 class BSRenderedMenu;

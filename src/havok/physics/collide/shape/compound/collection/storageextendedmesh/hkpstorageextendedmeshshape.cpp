@@ -1621,7 +1621,7 @@ static __declspec(noinline) int FUN_00d49c20(int stride, int triangles)
         return triangles * 4;
     }
 }
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 
 template <class T> inline void initializeItems(T*, int)
 {}

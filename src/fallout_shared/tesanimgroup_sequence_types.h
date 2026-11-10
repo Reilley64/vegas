@@ -4,7 +4,7 @@
 
 #include "tesanimgroup_types.h"
 class NiAVObject;
-class NiControllerManager;
+struct NiControllerManager;
 class NiControllerSequence__IDTag;
 class NiControllerSequence__InterpArrayItem;
 class NiStringPalette;
@@ -17,7 +17,7 @@ class NiFixedString
 public:
     int IsNotEmpty() const;
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
 template <class T> class NiPointer : public NiMemObject

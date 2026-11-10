@@ -2791,7 +2791,7 @@ void FUN_00ad0550_cls::Initialize()
 }
 
 namespace fnv_00ad06e0 {
-class SpawnedObject
+struct SpawnedObject
 {
   public:
 };
@@ -5290,8 +5290,9 @@ struct PoolX
 
 extern "C" PoolX g_pool_011f6238;
 
-struct FUN_00ac05b0
+class FUN_00ac05b0
 {
+  public:
     char b[0x38];
     FUN_00ac05b0(const FUN_00ac05b0& o);
 };

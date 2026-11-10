@@ -25,7 +25,7 @@ class BGSTerrainChunk;
 class BGSDistantObjectBlock;
 class BGSDistantTreeBlock;
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0
@@ -57,7 +57,7 @@ union SETTING_VALUE
     unsigned char h;  // +0x0
 };
 
-class GameSettingCollection
+struct GameSettingCollection
 {
 };
 

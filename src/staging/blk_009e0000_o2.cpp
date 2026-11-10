@@ -62,8 +62,9 @@ void FUN_009f9a30_class::FUN_009f9a30()
     this->unk20 = 1;
 }
 
-struct SpectatorPackage
+class SpectatorPackage
 {
+  public:
     int IsComplete(const SpectatorPackage&);
     SpectatorPackage* FUN_009f9d10(const SpectatorPackage&);
 };

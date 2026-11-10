@@ -28,7 +28,7 @@ enum FADER_ENUM
 };
 
 // Forward declarations for vtable signature fidelity (JIP-LN-NVSE order).
-class NiRTTI;
+struct NiRTTI;
 class NiNode;
 class BSFadeNode;
 class BSMultiBoundNode;
@@ -45,14 +45,14 @@ class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
 class NiObjectCopyInfo;
-class NiStream;
-class NiBound;
-class NiControllerManager;
-class NiUpdateData;
+struct NiStream;
+struct NiBound;
+struct NiControllerManager;
+struct NiUpdateData;
 class NiMatrix33;
 class NiVector3;
 class NiFixedString;
-class NiPoint3;
+struct NiPoint3;
 class NiCullingProcess;
 class NiDX9Renderer;
 class GeometryProperties;
@@ -70,7 +70,7 @@ class NiRefObject : public NiMemObject
     /*04*/ virtual void Free(void);
 };
 
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     /*08*/ virtual NiRTTI* GetType();
@@ -108,7 +108,7 @@ class NiObject : public NiRefObject
     /*88*/ virtual NiControllerManager* GetControllerManager();
 };
 
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
 };

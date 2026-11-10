@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESIdleForm;
+class TESIdleForm;
 
 struct FUN_008b2010_shell {
 public:

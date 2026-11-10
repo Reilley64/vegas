@@ -187,8 +187,9 @@ void FUN_00a7b2c0_shell::FUN_00a7b2c0(NiStream& kStream)
 }
 
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 

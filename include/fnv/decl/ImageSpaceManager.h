@@ -1,10 +1,10 @@
 #pragma once
 
-class NiPoint2;
-class RgbaColor;
+struct NiPoint2;
+struct RgbaColor;
 enum ImageSpaceManager__ImageSpaceEffectEnum;
 
-class ImageSpaceManager {
+struct ImageSpaceManager {
 public:
     // 0x004e3270
     static ::ImageSpaceManager *FUN_004e3270();

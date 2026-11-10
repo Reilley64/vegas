@@ -10,7 +10,7 @@
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011f6000.h"
-class NiStream;
+struct NiStream;
 class NiTexture;
 template <class T> class NiPointer
 {
@@ -59,8 +59,8 @@ class NiBinaryStream
         return BinaryRead(p, n, &size, 1);
     }
 };
-class NiObject;
-class NiStream
+struct NiObject;
+struct NiStream
 {
   public:
     unsigned char prefix[0xd8];
@@ -141,7 +141,7 @@ class TextureMapTransform
     TextureMapTransform() throw();
     void LoadBinary(NiStream&);
 };
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char*);

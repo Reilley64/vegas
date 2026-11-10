@@ -14,7 +14,7 @@
 #include "TESGlobal.h"
 #include "layout_support.h"
 class TESActorBase;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class BSFileEntry;
 class LeveledObject;
 class ContainerItemExtra;
@@ -57,7 +57,7 @@ class TESBoundAnimObject : public TESBoundObject
 {
   public:
 };
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESLeveledList : public BaseFormComponent
 {
   public:

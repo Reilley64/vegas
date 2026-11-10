@@ -13,7 +13,7 @@
 #include "fnv/symbols_00a5d000.h"
 #include "fnv/symbols_00a7d000.h"
 #include "fnv/symbols_00aa1000.h"
-class NiRTTI;
+struct NiRTTI;
 
 class NiStencilProperty
 {
@@ -28,7 +28,7 @@ const NiRTTI* NiStencilProperty::GetRTTI() const
 }
 
 
-class NiObject;
+struct NiObject;
 struct EqBase
 {
     bool FUN_00a6f070(NiObject*);
@@ -75,7 +75,7 @@ char* FUN_00a6f2d0(const char* name, int stencil)
 
 extern void* DAT_0101e07c;
 
-class NiStream;
+struct NiStream;
 struct NiProperty
 {
 public:

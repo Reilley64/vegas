@@ -66,7 +66,7 @@ class TESWeatherList : public BSSimpleList<WeatherEntry*>
     ~TESWeatherList();
     static void LoadWeatherEntries(TESWeatherList* weatherList, TESFile* file, TESForm* form);
 };
-class TESClimate : public TESForm
+struct TESClimate : public TESForm
 {
   public:
     TESClimate();

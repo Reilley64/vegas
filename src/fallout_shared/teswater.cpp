@@ -302,15 +302,15 @@ void FUN_004e2120_s::f(bool abUnderWater)
 struct BSMultiBoundNode;
 struct BSParticleSystemManager;
 struct BSRenderedTexture;
-struct BSShaderAccumulator;
+class BSShaderAccumulator;
 struct Controls;
 struct EngineGraphicsType;
 struct HINSTANCE__;
 struct HWND__;
 struct ImageSpaceManager;
-struct NiAVObject;
-struct NiCamera;
-struct NiGeometry;
+class NiAVObject;
+class NiCamera;
+class NiGeometry;
 struct NiRenderedTexture;
 struct GraphicsRenderer;
 struct SceneGraph;
@@ -585,12 +585,12 @@ bool FUN_004eaf60_shell::FUN_004eaf60()
 }
 
 struct BSRenderedTexture;
-struct ImageSpaceEffect;
+class ImageSpaceEffect;
 struct ImageSpaceEffectParam;
 struct ImageSpaceTexture;
 struct RgbaColor;
 struct NiScreenElements;
-struct NiTexture;
+class NiTexture;
 struct GraphicsRenderer;
 struct blob16
 {
@@ -1712,8 +1712,9 @@ namespace fnv_006db840 {
 struct S5460
 {
 };
-struct BSSimpleArray
+class BSSimpleArray
 {
+  public:
     unsigned int m_uiItemCount;
     NiPoint2* pBuffer;
     unsigned int InsertAtEnd(const NiPoint2& value);
@@ -3591,7 +3592,7 @@ struct WaterColorParam
     WaterColorParam(float fR, float fG, float fB, float fA);
 };
 
-struct NiRenderTargetGroup;
+class NiRenderTargetGroup;
 struct WaterRenderedTexture
 {
 };
@@ -4709,10 +4710,10 @@ struct WaterShaderProperty
     WaterNodeLink node;
 };
 struct NiProperty;
-struct NiGeometry
+class NiGeometry
 {
 };
-struct NiAVObject
+class NiAVObject
 {
 };
 struct InteriorState
@@ -10275,8 +10276,9 @@ struct FUN_00a712f0 : NiMemObject
     int unk110;
     FUN_00a712f0();
 };
-struct BSShaderAccumulator : NiMemObject
+class BSShaderAccumulator : public NiMemObject
 {
+  public:
     virtual void v00();
     virtual void v04();
     virtual void v08();
@@ -11118,8 +11120,9 @@ struct NiUpdateData
     unsigned int flags;
     NiUpdateData(float, bool, bool);
 };
-struct NiCamera
+class NiCamera
 {
+  public:
     unsigned int unk000;
     unsigned int unk004;
     unsigned int unk008;
@@ -11578,7 +11581,7 @@ void TESWaterSystem_Impl::FUN_004e5fe0(TESObjectREFR* apRef)
 
 namespace s4e5e50 {
 
-class Ref;
+struct Ref;
 
 struct RefNode;
 
@@ -11591,7 +11594,7 @@ struct RefList
     void FUN_0049f590(RefNode*& pkCurNode);
 };
 
-class Ref
+struct Ref
 {
   public:
     virtual void v00();

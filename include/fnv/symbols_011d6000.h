@@ -1,15 +1,15 @@
 #pragma once
 
-class GameSettingCollection;
+struct GameSettingCollection;
 class GlobalObject2_0040c150;
-class GlobalObject2_0096a2d0;
+struct GlobalObject2_0096a2d0;
 class GlobalObject2_00a7b610;
 class GlobalObject_0045cf30;
-class GlobalObject_004ee810;
+struct GlobalObject_004ee810;
 class GlobalObject_00528cb0;
-class GlobalObject_00633c90;
+struct GlobalObject_00633c90;
 class GlobalObject_0066ef90;
-class GlobalObject_006836f0;
+struct GlobalObject_006836f0;
 class GlobalObject_00a7b610;
 namespace fnv_006780e0 { class V; }
 template <class> class SettingT;

@@ -1,7 +1,7 @@
 #pragma once
 
-namespace fnv_00576420 { struct BSFaceGenAnimationData; }
-namespace fnv_00576420 { struct NiNode; }
+namespace fnv_00576420 { class BSFaceGenAnimationData; }
+namespace fnv_00576420 { class NiNode; }
 
 namespace fnv_00576420 {
 struct FUN_00576420_shell {

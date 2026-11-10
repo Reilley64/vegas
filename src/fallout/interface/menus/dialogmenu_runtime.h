@@ -73,7 +73,7 @@ template <> class BSSimpleList<MediaSet*>
     MediaSet* m_item;
     BSSimpleList* m_pkNext;
 };
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
@@ -212,7 +212,7 @@ class PlayerQuestData
 {
   public:
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -987,7 +987,7 @@ template <> class SettingT<INISettingCollection>
     SETTING_VALUE* Bool();
 };
 extern int DAT_011d9508;
-class BSAudio
+struct BSAudio
 {
   public:
     static void EnableAudio();

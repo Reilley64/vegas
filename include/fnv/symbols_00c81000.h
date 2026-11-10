@@ -5,7 +5,7 @@ class C11F0Object;
 class C11F0Owner;
 namespace fnv_00c81730 { struct bhkBlendCollisionObject; }
 struct C11F0Color;
-struct NiNode;
+class NiNode;
 struct S00c81c50_Obj;
 struct TreeNode_cls;
 

@@ -12,7 +12,7 @@ class ReactionInfo
   public:
     char data[12];
 };
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 #include "tesfaction_types_TESFaction.h"
 #include "tesfaction_types_BGSLoadFormBuffer.h"
 #include "tesfaction_types_RANK_DATA.h"

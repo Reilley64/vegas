@@ -1,7 +1,7 @@
 #pragma once
 
 class Tile;
-struct Menu;
+class Menu;
 
 struct FUN_00717e70_shell {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 
-struct BSFaceGenAnimationData;
+class BSFaceGenAnimationData;
 
 struct FUN_008adcb0_shell {
 public:

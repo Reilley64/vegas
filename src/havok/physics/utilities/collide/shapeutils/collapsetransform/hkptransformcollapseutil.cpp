@@ -155,7 +155,7 @@ struct FUN_00c90510_Obj
 {
 };
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 
@@ -642,7 +642,7 @@ class VectorComponentValue
   private:
     hkQuadReal m_vValue;
 };
-struct hkTransform;
+class hkTransform;
 class hkRotation;
 struct hkVector4
 {
@@ -751,8 +751,9 @@ class hkRotation : public hkMatrix3
     }
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
     __forceinline static const hkTransform& GetIdentityTransform()
@@ -1129,7 +1130,7 @@ void ShapeData::FUN_00d738f0(const ShapeD738* value)
 }
 
 #include <math.h>
-struct hkTransform;
+class hkTransform;
 inline hkVector4::hkVector4(float x, float y, float z, float w)
 {
     m_vComponents = _mm_setr_ps(x, y, z, w);

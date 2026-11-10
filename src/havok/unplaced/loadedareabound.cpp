@@ -77,7 +77,7 @@ struct Point3
     float y;
     float z;
 };
-struct Actor;
+class Actor;
 struct Refr;
 struct ObjA
 {
@@ -420,8 +420,9 @@ struct Proc
     virtual void vtbl324();
     virtual Refr* v514();
 };
-struct Actor : Refr
+class Actor : public Refr
 {
+  public:
     virtual void vtbl000();
     virtual void vtbl001();
     virtual void vtbl002();
@@ -902,8 +903,9 @@ struct CF845
     int unk;
 };
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void vtbl000();
     virtual void vtbl001();
     virtual void vtbl002();

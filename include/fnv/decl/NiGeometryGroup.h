@@ -1,6 +1,6 @@
 #pragma once
 
-class NiGeometryBufferData;
+struct NiGeometryBufferData;
 
 class NiGeometryGroup {
 public:

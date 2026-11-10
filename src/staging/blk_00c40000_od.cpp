@@ -334,7 +334,7 @@ void FUN_00c430d0::LoadBinary(NiStream& stream)
     NiIntegerExtraData::LoadBinary(stream);
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryExtraData {
     void FUN_00c430f0(NiAVObject* a);
 };
@@ -384,11 +384,11 @@ char NiStringExtraData::FUN_00c43160(const char* other)
     return result;
 }
 
-struct NiFixedString;
+class NiFixedString;
 class NiExtraData;
 class NiFixedString;
-class NiUpdateData;
-struct NiAVObject {  void FUN_00c43470(); public:
+struct NiUpdateData;
+class NiAVObject { public:  void FUN_00c43470(); public:
     void EnsureWorldBound();
 public:
     ::NiExtraData *GetExtraData(const ::NiFixedString &);
@@ -412,9 +412,9 @@ void* FUN_00c43650_Class::FUN_00c43650()
     return &(*reinterpret_cast<void * *>(&::g_01202de0));
 }
 
-class CloningProcess;
-class NiUpdateData;
-struct NiNode {
+struct CloningProcess;
+struct NiUpdateData;
+class NiNode {
 public:
     void CopyMemberData(::NiNode *, ::CloningProcess &);
 public:
@@ -554,8 +554,8 @@ bool FUN_00c45ab0()
 }
 
 struct NiStream;
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 struct NiPSysModifier {
     void LinkObject(NiStream&);
     void FUN_00c467f0(NiStream& stream);
@@ -585,7 +585,8 @@ struct NiStream {
     void ResetStreamState();
 };
 
-struct NiNode {
+class NiNode {
+  public:
     void FUN_00c46ca0(NiStream& stream);
 };
 
@@ -840,7 +841,7 @@ GlobalObject_00a7b610* FUN_00c4b210_Class::FUN_00c4b210()
     return &::g_01202e8c;
 }
 
-struct NiNode;
+class NiNode;
 struct NiNode_Helper {  };
 struct FUN_00c51550 : NiNode_Helper { void Copy(NiNode* a, void* b); };
 // @fnv 0x00c51550
@@ -907,8 +908,9 @@ intptr_t FUN_00c54dc0_class::FUN_00c54dc0(int)
 }
 
 struct NiStream;
-class NiStream;
-struct NiExtraData {
+struct NiStream;
+class NiExtraData {
+  public:
     void LinkObject(NiStream&);
 public:
     void LoadBinary(::NiStream &);
@@ -958,9 +960,10 @@ unsigned int FUN_00c5b5d0_class::FUN_00c5b5d0()
 
 struct NiStream;
 
-class CloningProcess;
-class NiStream;
-struct NiPSysEmitterCtlr {
+struct CloningProcess;
+struct NiStream;
+class NiPSysEmitterCtlr {
+  public:
     void LinkObject(NiStream&);
 public:
     void CopyMemberData(::NiPSysEmitterCtlr *, ::CloningProcess &);
@@ -1099,7 +1102,8 @@ GlobalObject_00a7b610* GlobalObject_00a7b610::GetGlobalInstance()
 
 namespace fnv_00c5f570 {
 
-struct NiNode {
+class NiNode {
+  public:
     NiNode(unsigned short);
 };
 
@@ -1205,7 +1209,7 @@ void FUN_00c5eb60_Class::ResetAndFreeAlias()
 }
 
 void __cdecl FUN_00c3f8c0();
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 struct MemoryManager { void Deallocate(void*); public:
     void *Reallocate(void *, unsigned int);
 public:
@@ -1542,7 +1546,7 @@ FUN_00c54d70_class* FUN_00c54d70_class::FUN_00c54d70(unsigned int flags)
 }  // namespace fnv_00c54d70
 
 struct NiStream;
-class NiStream;
+struct NiStream;
 struct NiColor {
     float r, g, b;
     void SaveBinary(NiStream&);
@@ -2305,7 +2309,7 @@ struct FUN_00c5bef0_class {
     void RemoveRange(unsigned int a, unsigned int b);
 };
 struct NiObject;
-class NiObject;
+struct NiObject;
 struct NiStream {
     NiObject* DeserializeObject();
 public:
@@ -3506,7 +3510,7 @@ void __cdecl RunWorkItems(S_00c44d90_Cls* pWorkQueue)
     }
 }
 
-class NiStream;
+struct NiStream;
 
 
 class NiNodeC45 {
@@ -4989,7 +4993,7 @@ void ActorTable::SetActorList(int* list)
 }
 }  // namespace fnv_00c49100
 
-class NiPoint3 { public: float x,y,z; public:
+struct NiPoint3 { public: float x,y,z; public:
     char *FUN_00a59af0(const char *);
 public:
     bool FUN_004390c0(const ::NiPoint3 &);
@@ -7637,7 +7641,8 @@ void* FUN_00c5f360_Class::FUN_00c5f360(unsigned int flags)
 // @fnv 0x00c5ed60
 FUN_00c5ed60::~FUN_00c5ed60() {}
 
-struct BSShaderAccumulator {
+class BSShaderAccumulator {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -12156,7 +12161,7 @@ struct ColorA
     {}
 };
 
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
@@ -14143,8 +14148,9 @@ void __cdecl FUN_00c52c30(BoneRootNode* pkNode, BoneRootSet* pkSet)
     }
 }
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     int m_chars;
 };
 
@@ -17138,7 +17144,7 @@ class BasisVector : public NiPoint3
     }
 };
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m[3][3];
@@ -18710,7 +18716,7 @@ static __forceinline void fnvDead4()
     int aiDead[4];
 }
 
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* GetRealBufferStart(char* const& kHandle)
@@ -18780,7 +18786,7 @@ template <class T> class NiRect
     T m_fMaximumV;
 };
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     ThreeByThreeMatrix()
@@ -24411,8 +24417,9 @@ struct TESObjectDoorController
 };
 char* __cdecl FUN_00a5b690(const char*);
 extern char* DAT_0109b220;
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* m_p;
     NiFixedString(const char* text)
     {
@@ -25369,8 +25376,9 @@ namespace fnv_00c5f2e0 {
 extern char* DAT_0109b220;
 extern MemoryManager _g_memoryManager;
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* m_kHandle;
     ~NiFixedString()
     {

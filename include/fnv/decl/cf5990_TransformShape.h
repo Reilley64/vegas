@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class hkpShape;
-struct hkTransform;
+class hkTransform;
 
 struct cf5990_TransformShape {
 public:

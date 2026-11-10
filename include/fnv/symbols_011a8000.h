@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 
 // 0x011a8244
 extern const char *g_kTextKeyA;

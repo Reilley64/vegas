@@ -10,7 +10,7 @@
 class TESQuest;
 class ScriptVariableInfo;
 class ScriptReferencedObject;
-class ScriptLocals;
+struct ScriptLocals;
 class PerkEntryConditionSet;
 #include "layout_support.h"
 #include "TESForm.h"

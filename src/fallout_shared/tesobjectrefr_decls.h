@@ -15,7 +15,7 @@ union SETTING_VALUE
     float f;
 };
 
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:
@@ -48,7 +48,7 @@ class BGSEncounterZone;
 extern unsigned char DAT_011dd435;
 
 class BSExtraData;
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESObjectCELL;
 class TESModel;
 class TESObjectREFR

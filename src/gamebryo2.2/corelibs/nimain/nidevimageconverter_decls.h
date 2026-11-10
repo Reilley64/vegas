@@ -77,7 +77,7 @@ class NiPixelFormat
 struct NiPoint3StartupTable;
 extern NiPoint3StartupTable gNiPoint3StartupSrc;
 #define SOURCE_FORMAT_RGB reinterpret_cast<const NiPixelFormat&>(gNiPoint3StartupSrc)
-class NiPalette : public NiMemObject
+struct NiPalette : public NiMemObject
 {
   public:
     void** m_ppVirtualMethodTable;

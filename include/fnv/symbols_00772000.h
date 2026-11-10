@@ -1,10 +1,10 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 namespace fnv_007728f0 { struct RegionDisplayInfo; }
 struct HealthActor;
 struct MarkerEvent772;
-struct NiAVObject;
+class NiAVObject;
 
 // 0x007721a0
 ::NiAVObject *FUN_007721a0(char *);

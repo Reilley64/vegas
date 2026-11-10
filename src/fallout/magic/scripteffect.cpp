@@ -44,9 +44,10 @@ struct T8277c0
     void FUN_008277f0();
     void* DestroyIfFlagged(unsigned int);
 };
-struct Actor;
-struct TESForm
+class Actor;
+class TESForm
 {
+  public:
     virtual void Revert(unsigned int);
 };
 struct ScriptLocalsCall
@@ -138,9 +139,9 @@ FUN_008277f0::~FUN_008277f0()
             this->unk4c);
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 struct FUN_00827a40_shell : ScriptEffect
 {
     FUN_00827a40_shell(MagicCaster*, MagicItem*, EffectItem*);
@@ -385,7 +386,7 @@ void FUN_00827d30_class::FUN_00827d30(Actor* apActor)
     }
 }
 
-struct Actor
+class Actor
 {
 };
 

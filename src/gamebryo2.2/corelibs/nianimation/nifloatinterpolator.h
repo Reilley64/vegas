@@ -20,7 +20,7 @@
 #define FNV_FORCEINLINE __forceinline
 
 
-class NiStream;
+struct NiStream;
 
 // ---------------------------------------------------------------------------
 // NiMemObject / NiRefObject.
@@ -51,7 +51,7 @@ class NiRefObject : public NiMemObject
 // ---------------------------------------------------------------------------
 // NiObject.
 // ---------------------------------------------------------------------------
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual ~NiObject();
@@ -97,7 +97,7 @@ class NiBinaryStream : public NiMemObject
     }
 };
 
-class NiStream
+struct NiStream
 {
   public:
     NiObject* DeserializeObject();

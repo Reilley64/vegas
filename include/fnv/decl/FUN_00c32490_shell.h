@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPSysData;
+struct NiPSysData;
 
 struct FUN_00c32490_shell {
 public:

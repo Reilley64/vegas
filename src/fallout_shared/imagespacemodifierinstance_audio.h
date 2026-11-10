@@ -2,7 +2,7 @@
 #ifndef FNV_IMAGESPACEMODIFIERINSTANCE_AUDIO_H
 #define FNV_IMAGESPACEMODIFIERINSTANCE_AUDIO_H
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

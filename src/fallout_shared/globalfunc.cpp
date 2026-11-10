@@ -622,7 +622,7 @@ float __cdecl FUN_004b1520(float _X, float _Y)
     return (float)std::fmod((double)_X, (double)_Y);
 }
 
-class NiPick
+struct NiPick
 {
   public:
     bool PerformPick(const NiPoint3&, const NiPoint3&, bool);
@@ -838,16 +838,16 @@ struct PhysicsSimulationContext;
 struct hkMatrix3;
 struct hkMotionState;
 struct hkMultiThreadCheck;
-struct hkReferencedObject;
+class hkReferencedObject;
 struct hkStatisticsCollector;
-struct hkTransform;
+class hkTransform;
 struct hkVector4;
 struct hkaiObjectData;
 struct hkdBreakableBody;
-struct hkpAction;
+class hkpAction;
 struct hkpBreakableBody;
 struct hkpCollidable;
-struct hkpConstraintInstance;
+class hkpConstraintInstance;
 struct hkpContactListener;
 struct hkpDynamicsContactMgr;
 struct hkpEntity;
@@ -1557,7 +1557,7 @@ struct FUN_004b4ee0_shell
 {
     void FUN_004b4ee0();
 };
-struct TESDataHandler
+class TESDataHandler
 {
 };
 struct FUN_004b4ec0_shell
@@ -1951,16 +1951,16 @@ bool PickObjectsInRadius(NiPick* pick, const NiPoint3& origin, const NiPoint3& d
 }
 }  // namespace fnv_004b2800
 
-struct BSShaderAccumulator;
+class BSShaderAccumulator;
 struct BSShaderTextureSet;
 struct BSTextureSet;
 struct NiAdditionalGeometryData;
 struct CloningProcess;
-struct NiGeometry;
+class NiGeometry;
 struct NiObject;
 struct NiStream;
-struct NiTriBasedGeom;
-struct ShadowSceneLight;
+class NiTriBasedGeom;
+class ShadowSceneLight;
 struct blob16
 {
     char b[16];
@@ -2403,7 +2403,7 @@ void FUN_004b70f0(NiNode* apNode, float afPhase)
     }
 }
 
-struct NiCamera;
+class NiCamera;
 struct NiBoundStandIn
 {
     float m_afRadius;
@@ -2413,7 +2413,7 @@ struct NiBoundStandIn
 struct FUN_0098ddd0_shell
 {
 };
-struct PackageTargetRecord
+class PackageTargetRecord
 {
 };
 // @fnv 0x004b61d0
@@ -2593,7 +2593,7 @@ void __cdecl ProcessObjectMatch(NiAVObject* object, FUN_004b6a00_data* data)
 }
 
 namespace fnv_004b6e90 {
-class NiObject
+struct NiObject
 {
 };
 
@@ -2650,7 +2650,7 @@ void* NiAVObject_004b5b00::GetExtraDataAt(unsigned short index)
     return reinterpret_cast<char*>(m_pExtraDataArray) + index * 0x30;
 }
 
-class NiRTTI;
+struct NiRTTI;
 
 struct FixedStr6220
 {
@@ -3310,7 +3310,7 @@ const char* __cdecl FUN_004b1b60(unsigned char type)
 }
 
 namespace stand {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -3777,7 +3777,7 @@ FUN_004b5040::FUN_004b5040(std::uintptr_t value)
     ++DAT_01268124;
 }
 
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* name;
@@ -4038,12 +4038,13 @@ void MouseSpringOwner_o2_nood::FUN_00c87260(MouseSpringInfo* pkInfo)
     finish(pkInfo);
 }
 
-struct BeamStage
+class BeamStage
 {
 };
 
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     bool ApplyRenderStateChanges(bool);
 public:
     void DestroyPass();
@@ -4082,7 +4083,7 @@ void FUN_00ba6240(OutBa* a1)
     ((NiD3DPass*)s)->ApplyRenderStateChanges(false);
 }
 
-class NiObject;
+struct NiObject;
 
 struct NiStream
 {
@@ -4151,12 +4152,13 @@ void S86870::FUN_00c86870(NiStream* s)
     reinterpret_cast<::FUN_00c87670_Class *>(this)->FUN_00c87670((*(::NiStream *)(s)));
 }
 
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
 
-template <class T, class A> struct NiTPrimitiveArray
+template <class T, class A> class NiTPrimitiveArray
 {
+  public:
     char _0[8];
     unsigned short m_8;
     unsigned short m_kOutgoingTangent;
@@ -4626,10 +4628,10 @@ class ObjectCandidate
     virtual void Reset();
     int unk04;
     int activeObject;
-    bool FUN_00c86ab0(class Item* item);
+    bool FUN_00c86ab0(struct Item* item);
 };
 
-class Item
+struct Item
 {
   public:
     int unk00;
@@ -5280,8 +5282,9 @@ template <class T> class NiD3DPointer
     }
 };
 
-struct D3DRenderStateGroup
+class D3DRenderStateGroup
 {
+  public:
     void SetRenderState(unsigned int uiState, unsigned int uiValue, bool bSave);
 public:
     static ::D3DRenderStateGroup *GetCurrentRenderStateGroup();

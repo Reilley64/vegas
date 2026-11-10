@@ -1,7 +1,7 @@
 #pragma once
 
-namespace fnv_00774800 { struct Tile; }
-namespace fnv_007748b0 { struct Tile; }
+namespace fnv_00774800 { class Tile; }
+namespace fnv_007748b0 { class Tile; }
 struct BarTile;
 
 // 0x00774800

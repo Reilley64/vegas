@@ -1,6 +1,6 @@
 #pragma once
 
-class bhkRagdollController;
+struct bhkRagdollController;
 
 // 0x00495460
 float GetFloatAtOffset1C(char *);

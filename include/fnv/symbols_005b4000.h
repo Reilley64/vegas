@@ -3,7 +3,7 @@
 #include <cstdint>
 
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class TESObjectREFR;
 template <class> class BSStringT;
 

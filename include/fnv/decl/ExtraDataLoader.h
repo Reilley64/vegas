@@ -1,6 +1,6 @@
 #pragma once
 
-class LoadBuffer;
+struct LoadBuffer;
 
 class ExtraDataLoader {
 public:

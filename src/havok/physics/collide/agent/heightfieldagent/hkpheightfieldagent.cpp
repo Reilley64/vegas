@@ -337,7 +337,7 @@ struct StringCursor {
     __forceinline void timerEnd(const char* name) { timerSplit(name); }
 };
 
-struct hkTransform;
+class hkTransform;
 
 struct hkVector4 {
     union { __m128 m_vComponents; struct { float x,y,z,w; }; };
@@ -346,7 +346,8 @@ struct hkVector4 {
     __forceinline void SetTransformedPoint(const hkTransform& a, const hkVector4& b);
 };
 
-struct hkTransform {
+class hkTransform {
+  public:
     hkVector4 m_kColumn0;
     hkVector4 m_kColumn1;
     hkVector4 m_kColumn2;
@@ -439,7 +440,8 @@ struct hkMotionState {
     hkTransform m_kMotionTransform;
 };
 
-struct hkpCdBody {
+class hkpCdBody {
+  public:
     const hkpShape* m_pCollisionShape;
     int m_uiCollisionShapeKey;
     const hkMotionState* m_pMotionState;
@@ -451,7 +453,8 @@ struct CollisionAgentContext {
     float m_fScalar;
 };
 
-struct hkContactPoint {
+class hkContactPoint {
+  public:
     hkVector4 m_vContactPosition;
     hkVector4 m_vSeparatingNormal;
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiStream;
+struct NiStream;
 
 namespace fnv_00a5dd40 {
 struct FUN_00a5dd40_shell {

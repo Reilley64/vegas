@@ -40,7 +40,7 @@ void NiFloatExtraDataController::Update(NiUpdateData& update)
     }
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
 public:

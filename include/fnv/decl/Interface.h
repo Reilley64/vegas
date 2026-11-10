@@ -7,7 +7,7 @@ class TESObjectREFR;
 class TESWorldSpace;
 class Tile;
 
-class Interface {
+struct Interface {
 public:
     // 0x00702250
     static void Init(bool);

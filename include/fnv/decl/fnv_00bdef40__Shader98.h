@@ -1,7 +1,7 @@
 #pragma once
 
 namespace fnv_00bdef40 { struct Light98; }
-struct NiGeometry;
+class NiGeometry;
 
 namespace fnv_00bdef40 {
 struct Shader98 {

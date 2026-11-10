@@ -238,7 +238,7 @@ template <class T, unsigned int N> class BSSimpleArray
     unsigned int GetSize();
 };
 class BSFileEntry;
-class LocationDescriptor
+struct LocationDescriptor
 {
   public:
 };
@@ -271,7 +271,7 @@ class StartMenu
   public:
     const char* GetMenuTitle();
 };
-class Interface
+struct Interface
 {
   public:
     static bool ShowMessage(const char*, int, const char*, const char*, float, bool);

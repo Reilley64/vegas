@@ -281,9 +281,10 @@ void FUN_006205c0_Class::ForwardToMember(void* arg)
     reinterpret_cast<::AlignedVector *>((&unk20))->FUN_004a3f10((*(const ::AlignedVector *)(arg)));
 }
 
-struct TESIdleForm;
-struct HighProcess
+class TESIdleForm;
+class HighProcess
 {
+  public:
     TESIdleForm* GetSelectedIdleForm();
 };
 // Returns the idle form from the given process, or null if the process pointer is null.
@@ -618,7 +619,7 @@ void __cdecl NoOpLoop(intptr_t unused, int count)
     }
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct FUN_00626d00_Class
@@ -2432,7 +2433,7 @@ void FUN_00624d70_Class::ExtractTes4Prefix(char* path)
     }
 }
 
-struct NiTexture;
+class NiTexture;
 struct SkyShaderProperty
 {
     void SetTexture(NiTexture*);
@@ -2472,7 +2473,7 @@ void FUN_006349e0(void* self)
 }
 
 namespace fnv_006369a0 {
-struct NiTexture;
+class NiTexture;
 struct SkyShaderProperty
 {
     void SetTexture(NiTexture*);
@@ -3023,7 +3024,7 @@ struct SubObj
 {
 };
 
-struct HighProcess;
+class HighProcess;
 
 struct Owner
 {
@@ -3975,8 +3976,8 @@ void* __cdecl FUN_0062aad0()
     return &::DAT_012683b0;
 }
 
-struct NiTriBasedGeom;
-struct TESObjectREFR;
+class NiTriBasedGeom;
+class TESObjectREFR;
 struct TES;
 struct FUN_00559450_h
 {
@@ -4020,7 +4021,7 @@ unsigned int __cdecl FUN_0062b150(uintptr_t param_1, uintptr_t uiValue)
     return uiResult;
 }
 
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:

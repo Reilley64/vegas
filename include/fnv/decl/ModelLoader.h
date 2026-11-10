@@ -4,7 +4,7 @@ class QueuedFile;
 enum IO_TASK_PRIORITY;
 template <class> class BSSimpleList;
 
-class ModelLoader {
+struct ModelLoader {
 public:
     // 0x00442600
     void ProcessQueuedFile();

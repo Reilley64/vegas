@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00451ea0 { struct TESObjectREFR; }
+namespace fnv_00451ea0 { class TESObjectREFR; }
 
 namespace fnv_00451ea0 {
 struct TES {

@@ -12,7 +12,7 @@
 #include "fnv/symbols_00a89000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
-class NiObject;
+struct NiObject;
 class NiPropertyState
 {
   public:
@@ -30,7 +30,7 @@ inline void DestroyPropertyState(NiPropertyState* p)
     }
 }
 
-class NiStream
+struct NiStream
 {
   public:
     unsigned char pad[0xD8];
@@ -41,7 +41,7 @@ class NiStream
 class NiNode;
 class NiAVObject;
 class NiFixedString;
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -49,9 +49,9 @@ class NiUpdateData
     bool forceUpdate;
 };
 class NiCullingProcess;
-class NiBound;
-class CloningProcess;
-class ShaderBufferRecord;
+struct NiBound;
+struct CloningProcess;
+struct ShaderBufferRecord;
 
 template <class T> class NiPointer
 {
@@ -78,7 +78,7 @@ template <class T> class NiTStringPointerMap
     bool GetAt(const char* key, T& value);
 };
 
-class CloningProcess
+struct CloningProcess
 {
   public:
     NiTStringPointerMap<ShaderBufferRecord*>* m_pCloneMap;
@@ -185,12 +185,12 @@ class NiAVObject
     }
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
 };
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;

@@ -23,7 +23,7 @@ class FormChangeMask
     FormChangeMask();
     FormChangeMask(int flags);
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     FormChangeMask GetChangeFlags();

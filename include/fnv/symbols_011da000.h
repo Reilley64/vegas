@@ -2,18 +2,18 @@
 #include <cstdint>
 
 class GlobalObject2_0045cfe0;
-class GlobalObject2_0096a2d0;
+struct GlobalObject2_0096a2d0;
 class GlobalObject_004037b0;
 class GlobalObject_0044f440;
 class GlobalObject_0045cf30;
 class GlobalObject_0048f200;
-class GlobalObject_00633c90;
+struct GlobalObject_00633c90;
 class GlobalObject_00788300;
 class GlobalObject_007ab590;
 class GlobalObject_007ab610;
 class GlobalObject_007d9f90;
 class GlobalObject_007da010;
-class GlobalObject_007da090;
+struct GlobalObject_007da090;
 class MapMenu;
 class RepairMenu;
 namespace RouletteCleanup { struct MenuRef; }

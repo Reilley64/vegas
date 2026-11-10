@@ -1,7 +1,7 @@
 #pragma once
 
-class LocationDescriptor;
-struct DurationData;
+struct LocationDescriptor;
+class DurationData;
 
 // 0x0067f030
 ::LocationDescriptor *FUN_0067f030(::LocationDescriptor *);

@@ -875,7 +875,7 @@ void __cdecl FUN_00d367d0(hkpCollisionDispatcherD367* pkDispatcher)
 namespace fnv_00d36e80 {
 
 
-struct hkpCdBody;
+class hkpCdBody;
 
 struct hkVector4
 {

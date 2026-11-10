@@ -1,6 +1,6 @@
 #pragma once
 
-class PathingLocation;
+struct PathingLocation;
 
 // 0x006dd5a0
 int IsPathingLocationFlagSet(::PathingLocation *);

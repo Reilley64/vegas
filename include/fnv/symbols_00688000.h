@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiFixedString;
+class NiFixedString;
 
 // 0x00688460
 ::NiFixedString *FUN_00688460();

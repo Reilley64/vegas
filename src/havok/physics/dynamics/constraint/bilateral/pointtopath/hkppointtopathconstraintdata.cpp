@@ -30,7 +30,7 @@ void FUN_00dee720(int aiUnused, void* apData)
     info->m_sizeOfExternalRuntime = 0x3c;
 }
 
-class hkpConstraintAtom;
+struct hkpConstraintAtom;
 // hkpConstraintData::ConstraintInfo: solver sizes, then the atoms and their total size.
 struct GenericConstraintAtomScheme
 {
@@ -442,8 +442,9 @@ struct hkMatrix3
     }
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     hkMatrix3 m_rotation;
     hkVector4 m_vTranslation;
 

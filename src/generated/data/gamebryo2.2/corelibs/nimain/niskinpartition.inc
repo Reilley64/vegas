@@ -2,4 +2,4 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ms_pRenderer@NiRenderer@@2PEAU1@EA=?ms_pRenderer@NiRenderer@@2PEAV1@EA")
+#pragma comment(linker, "/alternatename:?ms_pRenderer@NiRenderer@@2PEAU1@EA=?ms_pRenderer@NiRenderer@@2PEAU1@EA")

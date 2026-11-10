@@ -63,7 +63,7 @@ struct NiUpdateData
     char _pad_9[3];
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 

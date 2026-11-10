@@ -10,8 +10,9 @@ class MemoryManager
 {
   public:
 };
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
+  private:
     char storage[36];
 };
 class ImageSpaceShaderParam : public ImageSpaceEffectParam
@@ -44,7 +45,7 @@ class ImageSpaceEffect
 public:
     void SetTextureArraySize(int);
 };
-class ImageSpaceManager
+struct ImageSpaceManager
 {
   public:
     char prefix[8];

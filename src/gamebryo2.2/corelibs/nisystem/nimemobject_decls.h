@@ -8,7 +8,7 @@ class Flag512Receiver
   public:
     void SetFlag512(bool enabled);
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
@@ -20,7 +20,7 @@ class SNAEntry
 };
 
 // Declarations for the constructor/getter span.
-class NiObject
+struct NiObject
 {
   public:
     unsigned int words[2];

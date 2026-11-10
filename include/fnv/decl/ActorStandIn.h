@@ -1,8 +1,8 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 class TESObjectREFR;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingRequest;
 
 struct ActorStandIn {

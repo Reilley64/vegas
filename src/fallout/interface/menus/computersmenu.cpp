@@ -117,8 +117,9 @@
 #include "fnv/symbols_011d8000.h"
 #include "fnv/symbols_011d9000.h"
 #include "fnv/symbols_011de000.h"
-struct Tile
+class Tile
 {
+  public:
     Tile* pParent;
 public:
     void Set(int, int);
@@ -208,7 +209,7 @@ bool FUN_00758a60_shell::FUN_00758a60()
 }
 
 namespace fnv_007596a0 {
-struct Tile
+class Tile
 {
 };
 extern char $SG7172[];
@@ -444,7 +445,7 @@ void FUN_007583b0_shell::SetFlag4(bool aFlag)
         m_74 &= ~4;
 }
 
-struct BSSimpleList
+class BSSimpleList
 {
 };
 
@@ -1344,7 +1345,7 @@ struct HH84
 struct Tile_Set_Helper
 {
 };
-struct TESObjectREFR;
+class TESObjectREFR;
 template <class T> struct ListBox
 {
     void Traverse(void (*f)(Tile*, T), int, int);
@@ -1661,7 +1662,7 @@ public:
     ::TESDescription *GetNoteDescription();
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -3124,8 +3125,9 @@ void ChallengeMenu::RefreshDisplay()
 }
 
 #include <string.h>
-struct Menu
+class Menu
 {
+  public:
     Menu();
     virtual ~Menu();
     int unk04;

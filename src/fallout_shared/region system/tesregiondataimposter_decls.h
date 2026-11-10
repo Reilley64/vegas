@@ -14,7 +14,7 @@ class TESForm;
 class TESObjectREFR;
 class TESTopic;
 class TESGrass;
-class QuantityData;
+struct QuantityData;
 
 template <class T> class BSSimpleList
 {

@@ -9,7 +9,7 @@
 #include "boltshader_types_BoltShader.h"
 #include "boltshader_types_NiConsoleShaderDeclaration.h"
 
-class NiRenderer;
+struct NiRenderer;
 
 class BoltShaderDeclarationCalls : public NiD3DVertexDeclaration
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-class NiRenderer;
-struct NiPixelFormat;
+struct NiRenderer;
+class NiPixelFormat;
 
 struct NiDepthStencilBuffer {
 public:

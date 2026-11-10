@@ -38,7 +38,7 @@ void* __cdecl CallWithZeroedArgs(void* apArg1, void* apArg2, void* apArg3, void*
 }
 
 extern unsigned char DAT_011c7a64;
-struct EffectSetting
+class EffectSetting
 {
 };
 // @fnv 0x005d2a50

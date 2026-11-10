@@ -89,8 +89,9 @@ struct PageTable
 };
 
 // Stand-in for the class that owns FUN_00802220 (this pointer is unused by it).
-struct FontManager
+class FontManager
 {
+  public:
     void FUN_00802220(PageTable* pPages, int index, unsigned char value);
 };
 
@@ -468,8 +469,9 @@ struct GeomObj
 {
 };
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_psz;
     NiFixedString(const char* s);
     ~NiFixedString();

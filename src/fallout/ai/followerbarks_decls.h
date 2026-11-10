@@ -23,7 +23,7 @@ template <class T> class BSSimpleList
     void RemoveHead();
 };
 template <> void BSSimpleList<const char*>::RemoveHead();
-class GlobalObject2_0096a2d0
+struct GlobalObject2_0096a2d0
 {
 };
 class BarkPlaybackEntry

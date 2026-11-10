@@ -1,7 +1,7 @@
 #pragma once
 
 class ContainerItemExtra;
-class InventoryItemEntry;
+struct InventoryItemEntry;
 class TESObject;
 
 namespace fnv_004818e0 {

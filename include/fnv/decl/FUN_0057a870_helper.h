@@ -1,6 +1,6 @@
 #pragma once
 
-struct BSExtraData;
+class BSExtraData;
 
 struct FUN_0057a870_helper {
 public:

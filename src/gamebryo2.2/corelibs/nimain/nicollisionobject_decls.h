@@ -4,9 +4,9 @@
 
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/Owner62B.h"
-class NiStream;
+struct NiStream;
 class NiAVObject;
-class NiObject
+struct NiObject
 {
   public:
     NiObject();
@@ -23,7 +23,7 @@ class NiCollisionObject : public NiObject
     void SetSceneObject(NiAVObject*);
     NiAVObject* m_pkSceneObject;
 };
-class NiStream
+struct NiStream
 {
   public:
     NiObject* GetLoadedObject();

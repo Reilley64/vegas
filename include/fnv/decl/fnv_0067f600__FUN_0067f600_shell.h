@@ -1,6 +1,6 @@
 #pragma once
 
-class LocationDescriptor;
+struct LocationDescriptor;
 
 namespace fnv_0067f600 {
 struct FUN_0067f600_shell {

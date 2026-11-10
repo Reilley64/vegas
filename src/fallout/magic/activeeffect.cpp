@@ -412,15 +412,15 @@ struct CHUNK;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESFile;
-struct TESForm;
-struct TESObject;
+class TESBoundObject;
+class TESFile;
+class TESForm;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct TESWaterForm;
 struct blob8
 {
@@ -430,8 +430,9 @@ struct blob12
 {
     char b[12];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -2922,8 +2923,8 @@ class MagicCaster;
 class MagicTarget;
 class MagicItem;
 class TESBoundObject;
-class BGSLoadFormBuffer;
-class BGSSaveFormBuffer;
+struct BGSLoadFormBuffer;
+struct BGSSaveFormBuffer;
 template <typename T> class BSSimpleList;
 class BSTempEffect;
 class PerkEntryConditionSet;

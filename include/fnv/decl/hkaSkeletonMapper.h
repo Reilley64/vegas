@@ -1,6 +1,6 @@
 #pragma once
 
-class hkQsTransform;
+struct hkQsTransform;
 
 class hkaSkeletonMapper {
 public:

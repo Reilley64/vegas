@@ -51,7 +51,7 @@ struct BGSSaveFormBuffer
 {
 };
 
-struct CombatProcedure
+class CombatProcedure
 {
 };
 
@@ -94,11 +94,12 @@ struct BGSLoadFormBuffer
 struct BGSLoadGameBuffer
 {
 };
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
-struct TESObjectWEAP : TESForm
+class TESObjectWEAP : public TESForm
 {
 };
 struct CombatProcedure_Helper
@@ -117,7 +118,7 @@ void FUN_009da9b0_shell::FUN_009da9b0(BGSLoadFormBuffer* apLoadGameBuffer)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x14), 1);
 }
 
-struct TESObjectWEAP;
+class TESObjectWEAP;
 struct FUN_009ca680_holder
 {
     char _pad[16];
@@ -138,9 +139,9 @@ FUN_009da720::FUN_009da720(TESObjectWEAP* apWeapon)
     m_ucWeaponState = 0;
 }
 
-struct TESForm;
-struct TESObjectWEAP;
-struct ExtraDataList;
+class TESForm;
+class TESObjectWEAP;
+class ExtraDataList;
 struct InvEntry
 {
 };
@@ -425,7 +426,7 @@ struct BaseProcess
     virtual void v276();
     virtual bool IsWeaponOut();
 };
-struct Actor
+class Actor
 {
 };
 struct CombatController

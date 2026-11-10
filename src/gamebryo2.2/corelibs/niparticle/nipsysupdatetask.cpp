@@ -21,8 +21,9 @@ void* __cdecl FUN_00c25870()
     return &(*reinterpret_cast<void * *>(&::g_01202580));
 }
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     ~NiRefObject();
 };
 extern int DAT_010be45c;

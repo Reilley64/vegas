@@ -55,8 +55,9 @@ struct FUN_008cd6a0_Class
     }
 };
 
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     virtual void vf0();
     short m_usMemSizeAndFlags;
     short m_sReferenceCount;

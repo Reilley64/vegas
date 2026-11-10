@@ -195,8 +195,9 @@ struct S_EffectArray
 {
 };
 
-struct ImageSpaceEffect
+class ImageSpaceEffect
 {
+  public:
     virtual ~ImageSpaceEffect();
     int unk04;
     int unk08;

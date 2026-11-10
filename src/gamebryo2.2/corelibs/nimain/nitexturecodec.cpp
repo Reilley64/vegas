@@ -4,7 +4,7 @@
 
 #include "fnv/decl/FUN_00a8bdf0_cls.h"
 #include "fnv/symbols_011aa000.h"
-struct NiPixelFormat;
+class NiPixelFormat;
 struct PixelData
 {
     char unk00[0x50];

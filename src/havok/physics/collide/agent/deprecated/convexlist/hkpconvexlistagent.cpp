@@ -755,8 +755,9 @@ struct hkVector4
     }
 };
 
-struct hkContactPoint
+class hkContactPoint
 {
+  public:
     hkVector4 m_vContactPosition;
     hkVector4 m_vSeparatingNormal;
     float getDistance() const
@@ -819,8 +820,9 @@ struct hkpClosestCdPointCollector
     }
 };
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const void* m_pCollisionShape;
 };
 

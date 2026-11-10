@@ -2,7 +2,7 @@
 
 namespace fnv_00849d00 { struct FormIDConverter; }
 namespace fnv_00849d00 { struct LoadFormBufferH; }
-namespace fnv_00849d00 { struct SaveLoadFile; }
+namespace fnv_00849d00 { class SaveLoadFile; }
 
 namespace fnv_00849d00 {
 struct BGSSaveLoadGameImpl {

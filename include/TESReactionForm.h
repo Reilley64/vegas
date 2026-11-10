@@ -4,7 +4,7 @@
 
 #include "layout_support.h"
 #include "BaseFormComponent.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESForm;
 class TESReactionForm : public BaseFormComponent
 {

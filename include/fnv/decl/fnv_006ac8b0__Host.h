@@ -1,7 +1,7 @@
 #pragma once
 
-class NiPoint3;
-struct NavMesh;
+struct NiPoint3;
+class NavMesh;
 
 namespace fnv_006ac8b0 {
 struct Host {

@@ -12,7 +12,7 @@
 #include "fnv/symbols_008d1000.h"
 #include "layout_support.h"
 #include "ActorPackageContext.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESPackage;
 class MobileObject;
 class TESObjectREFR;
@@ -68,7 +68,7 @@ class ActorPackageDataVirtualCall
     virtual void Slot0() = 0;
     virtual void SetReferenceTarget(TESObjectREFR*) = 0;
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };

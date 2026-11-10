@@ -9,8 +9,9 @@ struct blob16
 {
     char b[16];
 };
-struct AnimationKey
+class AnimationKey
 {
+  public:
     static int RegisterObjectLoader();
     static void RegisterSupportedFunctions(int, int);
     static AnimationKey* CreateObjectFromStream(NiStream*, unsigned int);

@@ -2,7 +2,7 @@
 #ifndef NILINES_DECLS_H
 #define NILINES_DECLS_H
 
-class CloningProcess;
+struct CloningProcess;
 class NiGeometryData;
 class NiAVObject
 {

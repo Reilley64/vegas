@@ -4,7 +4,7 @@
 
 #include "layout_support.h"
 class NiQuaternion;
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 class NiQuaternion
 {
   public:

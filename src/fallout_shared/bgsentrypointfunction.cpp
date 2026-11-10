@@ -394,7 +394,7 @@ FUN_005e6510* FUN_005e69d0_shell::FUN_005e69d0()
     return pduplicate;
 }
 
-struct TESSound
+class TESSound
 {
 };
 struct FUN_005e6ab0_StandIn
@@ -676,7 +676,7 @@ bool BGSEntryPointFunctionDataLeveledList::FUN_005e6a60(BGSEntryPointFunctionDat
     return false;
 }
 
-struct Script
+class Script
 {
 };
 
@@ -774,7 +774,7 @@ bool FUN_005e6790_cls::FUN_005e6790(TESFile_s* apFile)
 
 namespace fnv_005e6cd0 {
 
-struct Script
+class Script
 {
 };
 
@@ -1397,7 +1397,7 @@ struct Actor5e5f50
     virtual void a97();
     virtual void a98();
     virtual void a99();
-    virtual void AddObjectToContainer(BoundObj5e5f50*, struct ExtraDataList*, int);
+    virtual void AddObjectToContainer(BoundObj5e5f50*, class ExtraDataList*, int);
 };
 
 struct ListNode5e5f50
@@ -1405,15 +1405,16 @@ struct ListNode5e5f50
     bool FUN_008256d0();
 };
 
-struct TESContainer
+class TESContainer
 {
+  public:
     TESContainer();
     virtual ~TESContainer();
     InventoryItemEntry* pFirstItem;
     ListNode5e5f50* pListNode;
 };
 
-struct TESLeveledList
+class TESLeveledList
 {
 };
 
@@ -1446,8 +1447,9 @@ public:
     static ::InventoryChanges *CreateForReference(::TESObjectREFR *);
 };
 
-struct ExtraDataList
+class ExtraDataList
 {
+  public:
     ExtraDataList();
     virtual ~ExtraDataList();
     void* m_data;

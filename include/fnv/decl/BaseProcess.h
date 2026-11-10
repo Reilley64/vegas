@@ -1,7 +1,7 @@
 #pragma once
 
 class ActorPackageContext;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESPackage;
 
 class BaseProcess {

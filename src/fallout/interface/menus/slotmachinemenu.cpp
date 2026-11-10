@@ -143,7 +143,7 @@ char FUN_007c1450_shell::FUN_007c1450()
 }
 
 namespace fnv_007c0810 {
-struct Tile;
+class Tile;
 struct SlotMachineMenu
 {
     char pad[0xa0];
@@ -192,13 +192,13 @@ int FUN_007c5760_shell::FUN_007c5760()
         return 0;
 }
 
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
 };
 struct FNStub
 {
 };
-struct Tile
+class Tile
 {
 public:
     void Set(int, int);
@@ -359,8 +359,9 @@ void FUN_007c19c0()
     reinterpret_cast<::FUN_00c4f2d0_class *>((accum))->FUN_00c4f2d0();
 }
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_psz;
     NiFixedString(const char*);
     ~NiFixedString();
@@ -624,7 +625,7 @@ void FUN_007c56e0_shell::FUN_007c56e0()
     reinterpret_cast<::FUN_007c5760_shell *>(this)->FUN_007c5760();
 }
 
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
 
@@ -1098,7 +1099,7 @@ struct BSSoundHandleEx
     int flags;
     ~BSSoundHandleEx();
 };
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);

@@ -1,6 +1,6 @@
 #pragma once
 
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 
 class ShaderBufferCollection {
 public:

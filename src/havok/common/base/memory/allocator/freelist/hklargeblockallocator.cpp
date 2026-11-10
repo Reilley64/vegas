@@ -27,7 +27,7 @@ void* FUN_00dd8a80(void* p, void* apUnused)
     return reinterpret_cast<char*>(reinterpret_cast<size_t*>(p)[-3] & 0xfffffffc) - 0x10;
 }
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 struct hkLargeBlockAllocator

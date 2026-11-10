@@ -11489,7 +11489,7 @@ struct NiUpdateData
         e = false;
     }
 };
-struct NiAVObject
+class NiAVObject
 {
 };
 struct FUN_00bd8290 : NiAVObject
@@ -11810,9 +11810,9 @@ class ImageSpaceManagerB8C
     bool m_bUseAltTarget;
 };
 
-class BSRenderedTexture;
-struct NiAccumulator;
-struct NiCamera;
+struct BSRenderedTexture;
+class NiAccumulator;
+class NiCamera;
 struct ScopedMemoryContext
 {
     int iOldContext;
@@ -14967,7 +14967,7 @@ void Renderer_af60::UpdateVisibility(int idx, Cam_af60* cam, bool abUseRadius, f
 }
 }  // namespace fnv_00b9af60
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -14982,7 +14982,7 @@ public:
     static const ::NiPoint3 ZERO;
 };
 
-class NiPlane
+struct NiPlane
 {
   public:
     NiPoint3 m_kPlaneNormal;

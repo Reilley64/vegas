@@ -1,8 +1,8 @@
 #pragma once
 
-class CloningProcess;
-class NiObjectNET;
-class NiStream;
+struct CloningProcess;
+struct NiObjectNET;
+struct NiStream;
 
 class NiTimeController {
 public:

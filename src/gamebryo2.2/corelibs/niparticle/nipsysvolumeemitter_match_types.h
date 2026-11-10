@@ -9,13 +9,13 @@
 #include "NiFixedString.h"
 #include "NiObject.h"
 class NiAVObject;
-class NiStream;
-class RgbaColor;
+struct NiStream;
+struct RgbaColor;
 class NiPSysEmitter;
-class NiPSysModifier;
+struct NiPSysModifier;
 class NiPSysVolumeEmitter;
-class NiParticleSystem;
-class NiPSysModifier : public NiObject
+struct NiParticleSystem;
+struct NiPSysModifier : public NiObject
 {
   public:
     NiFixedString m_kName;         // +0x8, 4 bytes
@@ -24,7 +24,7 @@ class NiPSysModifier : public NiObject
     bool m_bModifierActive;        // +0x14, 1 bytes
     unsigned char layoutPadding15[3];
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes
@@ -58,7 +58,7 @@ class NiPSysVolumeEmitter : public NiPSysEmitter
     NiAVObject* m_pkEmitterObject;  // +0x54, 4 bytes
 };
 // Only out-of-line interfaces used by this unit. No NiStream layout is accessed.
-class NiStream
+struct NiStream
 {
   public:
     NiObject* GetLoadedObject();

@@ -88,7 +88,7 @@ Unk65* Unk65a::FUN_007ab230(Unk65* other)
 
 extern "C" void* __cdecl DAT_01075794;
 
-struct NavMeshInfo;
+class NavMeshInfo;
 
 struct AX
 {
@@ -189,7 +189,7 @@ void FUN_007b52a0_class::FUN_007b52a0()
         FUN_00730490(m_ptr, m_uiItemCount + 1);
 }
 
-struct EffectSetting
+class EffectSetting
 {
 };
 struct MapMenu_007a1880
@@ -211,7 +211,7 @@ void __cdecl FUN_007a1880(EffectSetting* effect)
     }
 }
 
-struct NavMeshInfo;
+class NavMeshInfo;
 struct NavMeshInfo4
 {
     NavMeshInfo* m_pObjectInfo;
@@ -747,8 +747,9 @@ struct Head
 {
     int m_iWordAt00;
 };
-struct Menu : Head, SL
+class Menu : public Head, public SL
 {
+  public:
     char pad0c[0x10];
     unsigned short m_usElementCount;
     float m_fValue;

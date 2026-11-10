@@ -1,6 +1,6 @@
 #pragma once
 
-struct CombatWorldStateListNode;
+class CombatWorldStateListNode;
 
 struct FUN_0062de90_shell {
 public:

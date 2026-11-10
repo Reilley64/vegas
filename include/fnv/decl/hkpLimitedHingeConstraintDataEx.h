@@ -1,6 +1,6 @@
 #pragma once
 
-struct hkTransform;
+class hkTransform;
 struct hkVector4;
 
 struct hkpLimitedHingeConstraintDataEx {

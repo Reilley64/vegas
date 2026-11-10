@@ -91,11 +91,12 @@ bool FUN_00bc3050(FUN_00bc3050_Obj* pkTarget)
     return false;
 }
 
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class Alloc> struct NiTPrimitiveArray
+template <class T, class Alloc> class NiTPrimitiveArray
 {
+  public:
     char _pad[8];
     unsigned short m_usMaxSize;
     unsigned short m_usSize;

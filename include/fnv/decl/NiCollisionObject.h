@@ -1,7 +1,7 @@
 #pragma once
 
 class NiAVObject;
-class NiStream;
+struct NiStream;
 
 struct NiCollisionObject {
 public:

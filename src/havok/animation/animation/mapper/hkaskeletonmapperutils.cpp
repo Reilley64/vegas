@@ -551,8 +551,9 @@ template <typename T> struct hkArray
         return m_data[i];
     }
 };
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     virtual ~hkReferencedObject();
     unsigned short memSizeAndFlags;
     unsigned short referenceCount;
@@ -581,8 +582,9 @@ struct hkaSkeletonMapperData
     hkaSkeleton* m_pSkeletonB;
     hkArray<hkaSkeletonMapperDataSimpleMapping> m_kSimpleMappings;
 };
-struct hkOstream : hkReferencedObject
+class hkOstream : public hkReferencedObject
 {
+  public:
     void* m_pStreamWriter;
     hkOstream(char* buf, int bufLen);
     virtual ~hkOstream();

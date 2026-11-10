@@ -380,7 +380,7 @@ class BSSoundHandleEx
     ~BSSoundHandleEx();
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char* apEditorID, unsigned int auiFlags);
@@ -1283,11 +1283,11 @@ void FUN_00833c90_shell::SetFlag40(bool enabled)
 }
 
 namespace fnv_008372e0 {
-struct TESTopic
+class TESTopic
 {
 };
 struct Character;
-struct PlayerCharacter;
+class PlayerCharacter;
 struct Conversation
 {
     Conversation(Character*, Character*, TESTopic*);
@@ -1324,7 +1324,7 @@ class TESActorBase : public TESForm
 };
 
 
-class LoadBuffer
+struct LoadBuffer
 {
   public:
 };
@@ -2383,7 +2383,7 @@ class Form2
     int GetFormType();
 };
 
-class Ref
+struct Ref
 {
   public:
 };
@@ -2522,7 +2522,7 @@ class FUN_00833060_shell
   public:
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     unsigned int GetSynchTime();

@@ -5,7 +5,7 @@
 #include "fnv/decl/HighProcess.h"
 #include "fnv/decl/fnv_0067fd40__FUN_0067fd40_shell.h"
 class TESPatrolPackageData;
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESObjectREFR
 {
   public:
@@ -74,7 +74,7 @@ class TESPackage
     unsigned short f22, f24;
     char pad26[2];
     TESPatrolPackageData* data;
-    class LocationDescriptor* pPackageLocation;
+    struct LocationDescriptor* pPackageLocation;
     PackageTargetRecord* pPackageTarget;
     unsigned int f34;
     DurationData schedule;

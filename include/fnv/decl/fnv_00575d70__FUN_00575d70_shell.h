@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00575d70 { struct TESWorldSpace; }
+namespace fnv_00575d70 { class TESWorldSpace; }
 
 namespace fnv_00575d70 {
 struct FUN_00575d70_shell {

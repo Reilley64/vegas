@@ -2,8 +2,8 @@
 #include <cstdint>
 
 class TESForm;
-namespace fnv_004826d0 { struct Script; }
-namespace fnv_004826d0 { struct TESForm; }
+namespace fnv_004826d0 { class Script; }
+namespace fnv_004826d0 { class TESForm; }
 
 // 0x004826d0
 namespace fnv_004826d0 { ::fnv_004826d0::Script *FUN_004826d0(::fnv_004826d0::TESForm *); }

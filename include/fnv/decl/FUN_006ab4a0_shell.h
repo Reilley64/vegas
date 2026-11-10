@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class PathBuilderDetailedPathInfos;
-class PathingLocation;
+struct PathingLocation;
 struct NavMeshSearchLocation;
 
 struct FUN_006ab4a0_shell {

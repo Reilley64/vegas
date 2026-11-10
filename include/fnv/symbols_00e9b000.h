@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00e9b4f0 { class NiPoint3; }
+namespace fnv_00e9b4f0 { struct NiPoint3; }
 namespace fnv_00e9b4f0 { struct Options; }
 namespace fnv_00e9b4f0 { struct Shape; }
 

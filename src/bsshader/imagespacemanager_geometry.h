@@ -14,13 +14,13 @@
 #include "fnv/symbols_0109b000.h"
 #include "NiObject.h"
 #include "NiFixedString.h"
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
     bool a, b, c, d, e;
 };
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char*);

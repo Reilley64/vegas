@@ -23,7 +23,7 @@ int* __cdecl FUN_00c307c0()
     return &(*reinterpret_cast<int *>(&::g_012027b8));
 }
 
-class NiStream;
+struct NiStream;
 struct NiPSysModifierFloatCtlr
 {
     NiPSysModifierFloatCtlr();
@@ -36,9 +36,10 @@ public:
     void LinkObject(::NiStream &);
 };
 
-class CloningProcess;
-struct NiPSysAirFieldAirFrictionCtlr : NiPSysModifierFloatCtlr
+struct CloningProcess;
+class NiPSysAirFieldAirFrictionCtlr : public NiPSysModifierFloatCtlr
 {
+  public:
     void FUN_00c307d0(float& rfValue);
 public:
     void CopyMemberData(::NiPSysAirFieldAirFrictionCtlr *, ::CloningProcess &);
@@ -59,11 +60,12 @@ struct StrArr
     unsigned short _pad1;
     unsigned short m_usGrow;
 };
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class A> struct NiTPrimitiveArray
+template <class T, class A> class NiTPrimitiveArray
 {
+  public:
     char _pad[8];
     unsigned short m_usAlloc;
     unsigned short m_usSize;
@@ -162,7 +164,7 @@ void WorkerAirFriction::FUN_00c307e0(float value)
 
 
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     void* m_vtbl;

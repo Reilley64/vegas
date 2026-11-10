@@ -177,7 +177,7 @@ void FUN_0068c8b0_shell::SetFieldE8(float value)
     fE8 = value;
 }
 
-struct NiFixedString;
+class NiFixedString;
 
 
 // @fnv 0x0068c8d0
@@ -406,8 +406,8 @@ void FUN_0068b220_shell::FUN_0068b220()
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArrayActor*>(reinterpret_cast<unsigned char*>(this) + 0xf8)))->Clear(true);
 }
 
-struct NiNode;
-struct TESObjectCELL;
+class NiNode;
+class TESObjectCELL;
 
 struct Pt3
 {
@@ -848,7 +848,7 @@ bool FUN_0068de30_holder::ReleaseTextureObject()
     }
 }
 
-struct TESObjectCELL;
+class TESObjectCELL;
 struct DecalNode;
 
 void __cdecl FUN_00b5b0e0(void* pObject);
@@ -1458,7 +1458,7 @@ struct Setting
     unsigned char* Bool();
 };
 extern int DAT_0119c298;
-struct NiFixedString;
+class NiFixedString;
 NiFixedString* __cdecl FUN_0068c8d0();
 struct SceneOps
 {

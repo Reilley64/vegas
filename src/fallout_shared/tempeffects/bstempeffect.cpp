@@ -50,8 +50,8 @@ void FUN_00682860_shell::FUN_00682860()
 }
 
 struct BGSEntryPointFunctionData;
-struct TESFile;
-struct TESForm;
+class TESFile;
+class TESForm;
 struct TESLevItem;
 struct FUN_009cbb10_shell : public BSTempEffect
 {

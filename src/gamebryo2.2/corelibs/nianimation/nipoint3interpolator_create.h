@@ -41,7 +41,7 @@ class ImageSpaceModifierInstanceDOF
   public:
     void FUN_005bbd60(bool);
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
@@ -64,7 +64,7 @@ class LightTarget
 {
   public:
 };
-class Interface
+struct Interface
 {
   public:
 };
@@ -104,7 +104,7 @@ class GlobalObject_009c6a30
 class TimeGlobal
 {
 };
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     virtual void vfn_0();

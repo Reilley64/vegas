@@ -150,7 +150,7 @@ class BGSReconstructFormsInAllFilesMap : public BGSReconstructFormsInAllFilesMap
     virtual ~BGSReconstructFormsInAllFilesMap();
 };
 
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };

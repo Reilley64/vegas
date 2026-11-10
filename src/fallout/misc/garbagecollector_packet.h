@@ -29,7 +29,7 @@ class GlobalObject_00869db0
     unsigned int GetSize();
     void RemoveAll();
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
     bool FUN_00868250();
@@ -46,7 +46,7 @@ class NavMesh
     char padding[28];
     WaitableObject debug;
 };
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
     void** m_ppVirtualMethodTable;

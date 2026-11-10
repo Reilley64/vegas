@@ -15,7 +15,7 @@ class NiBinaryStream
         position += reader(this, buffer, bytes, sizes, count);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     char padding[0x24c];

@@ -9,8 +9,8 @@ class NiBlendBoolInterpolator;
 class NiBlendInterpolator;
 class NiBlendInterpolator__InterpArrayItem;
 class NiInterpolator;
-class NiObjectNET;
-class NiStream;
+struct NiObjectNET;
+struct NiStream;
 class NiInterpolator : public NiObject
 {
   public:

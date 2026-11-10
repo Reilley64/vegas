@@ -103,7 +103,7 @@ class TESTopicInfo
     BSSimpleList<TESTopic*>* GetAddTopicList();
 };
 class ExtraRefractionProperty;
-class InventoryChanges;
+struct InventoryChanges;
 class ExtraDataList
 {
   public:
@@ -112,7 +112,7 @@ public:
 };
 class Biped;
 class HighProcessCombatSource;
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
   public:

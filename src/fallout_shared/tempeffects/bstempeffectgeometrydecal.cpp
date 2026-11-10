@@ -126,7 +126,7 @@ void __cdecl ForwardFloatAndInt(float afValue, int aiValue)
     ::PowFloat(afValue, aiValue);
 }
 
-struct NiFixedString;
+class NiFixedString;
 
 
 // @fnv 0x00688460
@@ -2101,14 +2101,14 @@ void DDecal::BuildDecalGeometry()
     delete[] flags_7;
 }
 
-struct NiFixedString;
+class NiFixedString;
 struct NiPoint2
 {
     float x;
     float y;
 };
 struct NiObj;
-struct NiAVObject;
+class NiAVObject;
 struct DPoint;
 struct DBone;
 struct DNewPartition;

@@ -12,11 +12,11 @@ struct Link;
 struct Param;
 struct Sink;
 struct Sound;
-struct TESIdleForm;
-template <class, class> struct NiTPrimitiveArray;
-template <class> struct NiTMallocInterface;
+class TESIdleForm;
+template <class, class> class NiTPrimitiveArray;
+template <class> class NiTMallocInterface;
 
-class Owner {
+struct Owner {
 public:
     // 0x004d7d70
     void *GetByIndex(unsigned int);

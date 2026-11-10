@@ -1,7 +1,7 @@
 #pragma once
 
 class FUN_00a98b10;
-class NiStream;
+struct NiStream;
 struct NiParticleMeshes;
 
 // 0x00a982d0

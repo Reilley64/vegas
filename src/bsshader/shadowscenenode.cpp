@@ -723,10 +723,10 @@ void FUN_00cb9930(void* self, int, unsigned* dst, unsigned* src, unsigned count)
 }
 
 struct CloningProcess;
-struct NiDirectionalLight;
+class NiDirectionalLight;
 struct NiDynamicEffect;
 struct NiLight;
-struct NiNode;
+class NiNode;
 struct NiStream;
 struct NiUpdateData;
 struct FUN_00b5aac0_shell : public ShadowSceneNode
@@ -743,8 +743,9 @@ struct NiColor
 struct BSFadeNode
 {
 };
-struct NiDirectionalLight : public BSFadeNode
+class NiDirectionalLight : public BSFadeNode
 {
+  public:
     NiDirectionalLight();
     char pad0[0xa8];
     unsigned int m_uiRevID;
@@ -4117,8 +4118,9 @@ struct Router
     }
 };
 Router& FUN_00c85750();
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     virtual ~hkReferencedObject();
     unsigned short bytes, refs;
     static __forceinline void* operator new(std::size_t amount)
@@ -7948,7 +7950,7 @@ struct Obj4
     int m_04;
 };
 
-class Item : public NiRefObject
+struct Item : public NiRefObject
 {
 
   public:
@@ -9353,7 +9355,7 @@ struct S00b5eca0_Tex
 struct S00b5eca0_Mgr
 {
 };
-class NiRenderer;
+struct NiRenderer;
 extern NiRenderer* DAT_011f9508;
 struct S00b5eca0_Settings
 {

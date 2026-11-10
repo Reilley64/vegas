@@ -2,7 +2,7 @@
 
 struct CollisionInput;
 struct VirtObj;
-struct hkpCdBody;
+class hkpCdBody;
 
 struct CapsuleTriangleAgent {
 public:

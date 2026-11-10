@@ -13,7 +13,7 @@
 #include "fnv/symbols_006d2000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_01018000.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 struct PathingRequest
 {
     char* m_Name;

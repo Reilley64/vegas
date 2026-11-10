@@ -25,7 +25,7 @@
 #include "fnv/symbols_011a9000.h"
 #include "fnv/symbols_011f6000.h"
 #include <math.h>
-class NiRTTI;
+struct NiRTTI;
 
 class NiBillboardNode
 {
@@ -112,10 +112,11 @@ struct NiUpdateData
 {
     float m_fTime;
 };
-class CloningProcess;
-class NiUpdateData;
-struct NiNode
+struct CloningProcess;
+struct NiUpdateData;
+class NiNode
 {
+  public:
     virtual void UpdateSelectedDownwardPass(NiUpdateData&, unsigned int);
     virtual void f01() = 0;
     virtual void f02() = 0;
@@ -213,8 +214,9 @@ struct FUN_00a7e610_shell : NiBillboardNode
 {
     void FUN_00a7e610(NiCullingProcess* process);
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void Dummy()
     {}
     NiAVObject();
@@ -239,8 +241,9 @@ struct NiUpdateData
     float m_fTime;
     bool m_bUpdate;
 };
-struct NiNode
+class NiNode
 {
+  public:
     virtual void F00() = 0;
     virtual void F01() = 0;
     virtual void F02() = 0;
@@ -308,7 +311,7 @@ void NiNode::FUN_00a7dae0(NiUpdateData& UpdateData, unsigned int uFlags)
 }
 }  // namespace fnv_00a7dae0
 
-class NiObject;
+struct NiObject;
 struct BaseForCall
 {
 };

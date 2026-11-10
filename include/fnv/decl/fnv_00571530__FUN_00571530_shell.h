@@ -1,7 +1,7 @@
 #pragma once
 
-namespace fnv_00571530 { struct NiAVObject; }
-namespace fnv_00571530 { struct NiFixedString; }
+namespace fnv_00571530 { class NiAVObject; }
+namespace fnv_00571530 { class NiFixedString; }
 
 namespace fnv_00571530 {
 struct FUN_00571530_shell {

@@ -5,11 +5,11 @@
 class NiD3DShaderProgram;
 class NiGeometry;
 class NiSkinInstance;
-class NiGeometryBufferData;
+struct NiGeometryBufferData;
 class NiPropertyState;
 class NiDynamicEffectState;
 class NiTransform;
-class NiBound;
+struct NiBound;
 class NiExtraData;
 class NiSkinPartition
 {
@@ -274,7 +274,7 @@ class NiD3DShaderConstantMap
                                             const NiBound&, unsigned int, bool);
     void ResetShaderConstantMap();
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -283,7 +283,7 @@ public:
 public:
     static const ::NiPoint3 ZERO;
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m[3][3];

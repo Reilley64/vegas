@@ -241,8 +241,9 @@ struct Helper38
     char _pad[0x38];
     unsigned char m_uiObjectFlags;
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void f0();
     virtual void f1();
     virtual void f2();
@@ -1655,7 +1656,7 @@ struct M_004b4500
     NiPoint3b FUN_004b4500(const NiPoint3* pkPoint);
 };
 
-struct NiTransform : M_004b4500
+class NiTransform : public M_004b4500
 {
 };
 

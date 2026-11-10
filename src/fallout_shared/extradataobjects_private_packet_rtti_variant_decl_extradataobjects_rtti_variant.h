@@ -37,7 +37,7 @@ class TESObjectCELL;
 class TESGlobal;
 class TESKey;
 class Script;
-class ScriptLocals;
+struct ScriptLocals;
 class RagDollData;
 class Point3Offset;
 class TESForm;

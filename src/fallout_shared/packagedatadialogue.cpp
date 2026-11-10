@@ -99,7 +99,7 @@ FUN_0067b280_cls::~FUN_0067b280_cls()
     a ? a->__vecDelDtor(1) : 0;
 }
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 struct FUN_0067fc50_impl
 {
 };
@@ -277,7 +277,7 @@ ConstructorHost* ConstructorHost::Construct(float initial, unsigned int object, 
 
 class TESForm;
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };

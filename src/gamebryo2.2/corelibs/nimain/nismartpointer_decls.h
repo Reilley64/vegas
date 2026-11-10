@@ -30,7 +30,7 @@ class WaitableObject
     void FUN_00401970();
 };
 
-class KFModel
+struct KFModel
 {
   public:
 };
@@ -55,14 +55,14 @@ template <class T> struct NiPointerRefOps
 
 class PathingAvoidNodeArray;
 template <class T, unsigned int N> class BSSimpleArray;
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     void* object;
     NavMeshPtr& operator=(const NavMeshPtr&);
 };
 
-class PathingLocation
+struct PathingLocation
 {
   public:
     PathingLocation& operator=(const PathingLocation&);
@@ -73,7 +73,7 @@ class PathingAvoidPointerView
   public:
 };
 
-class PathingRequest
+struct PathingRequest
 {
   public:
     char prefix[0x34];

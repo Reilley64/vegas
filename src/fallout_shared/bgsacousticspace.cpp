@@ -154,8 +154,9 @@ struct NiFormArray
 };
 class BGSCameraShot;
 template <class> class BSSimpleList;
-struct BGSCameraPath
+class BGSCameraPath
 {
+  public:
     virtual ~BGSCameraPath()
     {}
 public:
@@ -270,8 +271,9 @@ struct FUN_00792780_Class
 struct CP_008c48d0
 {
 };
-struct TESTopicInfo
+class TESTopicInfo
 {
+  public:
     TESRegion* GetParentQuest();
 };
 struct EP_008c48d0
@@ -283,8 +285,9 @@ struct BSOcclusionPlane
 struct Idle_008b2010
 {
 };
-struct BGSAddonNode
+class BGSAddonNode
 {
+  public:
     void SetIndex(std::uintptr_t);
 };
 struct FUN_005e78f0_t

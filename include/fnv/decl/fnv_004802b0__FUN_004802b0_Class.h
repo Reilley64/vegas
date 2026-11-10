@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_004802b0 { class BGSLoadFormBuffer; }
+namespace fnv_004802b0 { struct BGSLoadFormBuffer; }
 
 namespace fnv_004802b0 {
 struct FUN_004802b0_Class {

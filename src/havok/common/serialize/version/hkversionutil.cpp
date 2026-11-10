@@ -144,7 +144,7 @@ struct FUN_00d46d40_s
 {
 };
 
-class GlobalObjectO2_00d472a0 : public FUN_00d46d40_s
+struct GlobalObjectO2_00d472a0 : public FUN_00d46d40_s
 {
   public:
     int m_00;

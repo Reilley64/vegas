@@ -4350,7 +4350,8 @@ LoadedObject* LoadedObject::Initialize(LoadedFlag flag)
 }
 
 
-struct Actor : ActorEntry {
+class Actor : public ActorEntry {
+  public:
     __forceinline ExtendedListeners* listeners() {
         if (!m_pExtendedListeners) m_pExtendedListeners = new ExtendedListeners;
         return m_pExtendedListeners;
@@ -7865,7 +7866,7 @@ typedef __m128 hkQuadReal;
 
 class hkMatrix3;
 
-class hkVector4
+struct hkVector4
 {
 public:
     hkQuadReal m_vComponents;
@@ -8774,7 +8775,7 @@ __forceinline ValueWrapper(){}
 private:
 TYPE m_kStorage;};
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
 {
@@ -8839,7 +8840,7 @@ return x;
 }
 class hkMatrix3;
 class hkRotation;
-class hkVector4
+struct hkVector4
 {
 public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}

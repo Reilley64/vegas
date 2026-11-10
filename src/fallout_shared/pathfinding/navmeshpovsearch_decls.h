@@ -4,7 +4,7 @@
 #include "fnv/decl/FUN_004941c0_shell.h"
 #include "fnv/decl/FUN_00595c80_shell.h"
 #include "fnv/symbols_00401000.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

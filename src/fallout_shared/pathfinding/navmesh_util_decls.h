@@ -16,7 +16,7 @@
 #include "fnv/symbols_00558000.h"
 #include "fnv/symbols_0069b000.h"
 #include <cmath>
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -137,7 +137,7 @@ template <class T> class NiPointer
     NiPointer(const NiPointer&);
     ~NiPointer();
 };
-class NiPoint3;
+struct NiPoint3;
 class NavMeshVertex;
 class EdgeExtraInfo;
 class NavMeshTriangleDoorPortal;

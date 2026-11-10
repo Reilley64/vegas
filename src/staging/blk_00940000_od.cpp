@@ -354,12 +354,14 @@ unsigned int FUN_0094c8c0_class::GetField6EC()
 }
 
 struct Biped;
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     Biped* pBiped;
 };
-struct PlayerCharacter : TESObjectREFR
+class PlayerCharacter : public TESObjectREFR
 {
+  public:
     char pad[0x68c];
     Biped* unk68c;
     Biped* FUN_00950b00(bool firstPerson);
@@ -474,7 +476,7 @@ struct FUN_00952b30_BSSimpleList
 struct BSAudio
 {
 };
-struct TESObject
+class TESObject
 {
 };
 struct FUN_00952b30_Class

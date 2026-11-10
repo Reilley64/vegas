@@ -5,9 +5,9 @@
 #include "layout_support.h"
 #include "NiPoint3.h"
 class NavMeshInfo;
-class NiPoint3;
+struct NiPoint3;
 class TESObjectREFR;
-class PathingLocation
+struct PathingLocation
 {
   public:
     void** m_ppVirtualMethodTable;                                                   // +0x0

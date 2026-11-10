@@ -53,8 +53,9 @@ struct hkMatrix3
 struct hkRotation : hkMatrix3
 {
 };  // 48
-struct hkTransform
+class hkTransform
 {
+  public:
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
 };  // 64

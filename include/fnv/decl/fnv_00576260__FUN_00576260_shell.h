@@ -1,7 +1,7 @@
 #pragma once
 
-namespace fnv_00576260 { struct InventoryStackRecord; }
-namespace fnv_00576260 { struct TESBoundObject; }
+namespace fnv_00576260 { class InventoryStackRecord; }
+namespace fnv_00576260 { class TESBoundObject; }
 
 namespace fnv_00576260 {
 struct FUN_00576260_shell {

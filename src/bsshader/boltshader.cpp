@@ -269,8 +269,9 @@ struct FUN_00bc1950_shell : public BoltShader
 struct BSFadeNode
 {
 };
-struct NiD3DShaderConstantMap : BSFadeNode
+class NiD3DShaderConstantMap : public BSFadeNode
 {
+  public:
     NiD3DShaderConstantMap(void*, int);
     virtual void Slot0();
     virtual void DeleteThis();
@@ -674,7 +675,7 @@ struct IndexU16
 };
 
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

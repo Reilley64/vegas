@@ -959,7 +959,7 @@ struct StringCursor
 
 struct ShapeRayCastQuery;
 struct hkpRayHitCollector;
-struct hkpCdBody;
+class hkpCdBody;
 
 struct hkpShapeV : hkpShape
 {
@@ -975,8 +975,9 @@ struct hkpShapeV : hkpShape
                                       hkpRayHitCollector& collector) const;
 };
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const hkpShapeV* m_pCollisionShape;
     hkUint32 m_uiCollisionShapeKey;
     const void* m_pMotionState;

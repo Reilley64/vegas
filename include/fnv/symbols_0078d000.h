@@ -1,7 +1,7 @@
 #pragma once
 
 class CountingSemaphore;
-class GlobalObject_00869f00;
+struct GlobalObject_00869f00;
 class LKTile;
 struct BGSSaveFormBuffer;
 struct LockRef;

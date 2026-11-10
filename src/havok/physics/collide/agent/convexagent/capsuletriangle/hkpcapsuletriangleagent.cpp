@@ -524,8 +524,9 @@ struct hkpShape
     __m128 m_kVertices[4];  // +0x20
 };
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const hkpShape* m_pCollisionShape;
     unsigned int m_shapeKey;
     const ContactMatrix* m_kMotionState;

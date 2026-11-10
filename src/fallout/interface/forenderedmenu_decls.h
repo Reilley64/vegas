@@ -38,7 +38,7 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
 class NiGeometry;
-class ShadowSceneNode;
+struct ShadowSceneNode;
 class BSShaderAccumulator;
 class NiAVObject;
 class NiScreenElements;
@@ -46,8 +46,8 @@ class NiTexture;
 class NiPointLight;
 class NiCamera;
 class Tile;
-class NiColor;
-class NiObject;
+struct NiColor;
+struct NiObject;
 class NiProperty;
 
 template <class T> class NiPointer
@@ -132,7 +132,7 @@ class FORenderedMenu
 };
 
 
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -148,7 +148,7 @@ public:
 };
 
 
-class BSAudio
+struct BSAudio
 {
   public:
     SoundPlaybackHandle GetSoundHandleByEditorID(const char* editorID, unsigned int flags);
@@ -172,7 +172,7 @@ struct NiPoint3
 {
     float x, y, z;
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -262,7 +262,7 @@ class NiGeometry : public NiAVObject
 };
 class ShadowSceneLight;
 class NiLight;
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
 };
@@ -292,7 +292,7 @@ class SettingT_GameSettingCollection_
   public:
 };
 
-class NiObject
+struct NiObject
 {
 };
 class NiProperty : public NiObject

@@ -1,6 +1,6 @@
 #pragma once
 
-class Modifier;
+struct Modifier;
 
 struct FUN_009375b0_shell {
 public:

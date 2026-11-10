@@ -1,7 +1,7 @@
 #pragma once
 
 class TESObjectREFR;
-namespace fnv_0081bd80 { struct ActiveEffect; }
+namespace fnv_0081bd80 { class ActiveEffect; }
 
 namespace fnv_0081bd80 {
 struct FUN_0081bd80_s {

@@ -260,8 +260,9 @@ FUN_0040e2c0::~FUN_0040e2c0()
     reinterpret_cast<::SpellItem *>(this)->ClearData();
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
     int unk04;
     int unk08;
@@ -356,7 +357,7 @@ void ObjE360::FUN_0040e360()
         reinterpret_cast<::Class005a6b10 *>(&(m_sub))->FUN_005a6b10();
 }
 
-struct Actor;
+class Actor;
 struct MagicEffectKind
 {
     virtual void slot0();

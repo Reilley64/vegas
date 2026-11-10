@@ -11,7 +11,7 @@ class BSShader;
 class BoltShader;
 class BoltShader__SegmentData;
 class Direct3DDeviceInterface;
-class RgbaColor;
+struct RgbaColor;
 class NiD3DDefaultShader;
 class NiD3DDefaultShader__PassFogStatus;
 class NiD3DPass;
@@ -938,7 +938,7 @@ class BSShader : public NiD3DDefaultShader
     unsigned char layoutPadding65[3];
     int m_iPassId;  // +0x68, 4 bytes
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes

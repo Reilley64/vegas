@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_008814b0 { struct TESPackage; }
+namespace fnv_008814b0 { class TESPackage; }
 
 namespace fnv_008814b0 {
 struct FUN_008814b0_shell {

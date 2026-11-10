@@ -550,8 +550,9 @@ struct NiColor
     float b;
 };
 
-struct BSFogProperty
+class BSFogProperty
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

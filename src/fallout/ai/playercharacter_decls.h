@@ -11,7 +11,7 @@
 #include "layout_support.h"
 class TESObjectWEAP;
 class ActorCombatGroup;
-class Animation;
+struct Animation;
 class BSAnimGroupSequence;
 enum ACTION_FLAGS
 {
@@ -24,7 +24,7 @@ enum ANIM_GROUP_SECTION
 class NiNode;
 class TESObjectREFR;
 template <class> class BSSimpleList;
-class Animation
+struct Animation
 {
   public:
 public:
@@ -61,7 +61,7 @@ struct PlayerCharacterAnimGroupInfo
 #include "layout_support.h"
 #include "playercharacter_actor_decls.h"
 #include "../../../include/Character.h"
-class Animation;
+struct Animation;
 class BGSNote;
 struct Biped;
 class PlayerCharacter : public Character

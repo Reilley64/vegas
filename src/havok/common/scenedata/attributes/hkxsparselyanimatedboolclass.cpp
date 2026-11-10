@@ -22,8 +22,9 @@ struct NineIntegerRecord
     }
 };
 
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 

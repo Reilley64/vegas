@@ -1,7 +1,7 @@
 #pragma once
 
 namespace fnv_004062a0 {
-struct EffectItemList {
+class EffectItemList {
 public:
     // 0x004062a0
     bool HasDetrimentalEffect();

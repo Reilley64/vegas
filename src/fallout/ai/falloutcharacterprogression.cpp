@@ -156,7 +156,7 @@ struct BSAudio : Snd_
 struct XActor
 {
 };
-struct Actor : XActor
+class Actor : public XActor
 {
 };
 struct PC7d : Actor
@@ -232,15 +232,15 @@ struct FUN_008d55e0_shell
 {
 };
 
-struct Actor
+class Actor
 {
 };
 
-struct PlayerCharacter : public Actor
+class PlayerCharacter : public Actor
 {
 };
 
-struct TESDataHandler
+class TESDataHandler
 {
 };
 
@@ -304,7 +304,7 @@ struct Flt
     operator unsigned int();
 };
 
-struct NiNodeBooleanState;
+class NiNodeBooleanState;
 
 struct FUN_00464e10_shell
 {
@@ -317,8 +317,9 @@ struct SubA4
     virtual int vfunc_8(int av);
 };
 
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -557,7 +558,7 @@ struct Actor
 
 };
 
-struct PlayerCharacter : public Actor
+class PlayerCharacter : public Actor
 {
 };
 
@@ -621,8 +622,9 @@ struct FUN_00464e10_shell
 {
 };
 
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -843,7 +845,7 @@ struct Actor
 
 };
 
-struct PlayerCharacter : public Actor
+class PlayerCharacter : public Actor
 {
 };
 

@@ -70,7 +70,7 @@ class TESForm
 };
 class TESSound;
 class BGSAcousticSpace;
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 struct NiPoint3
 {
     float x, y, z;
@@ -101,7 +101,7 @@ struct RegionSound
     unsigned int weatherFlags;
     unsigned int chance;
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int id;
@@ -118,7 +118,7 @@ public:
 public:
     bool IsValid() const;
 };
-class BSAudio
+struct BSAudio
 {
   public:
     virtual void vfn_0();
@@ -180,7 +180,7 @@ enum Sky__SKY_MODE
     SM_FULL = 3,
     SM_COUNT = 4
 };
-class Sky
+struct Sky
 {
   public:
     void** vtable;
@@ -406,14 +406,14 @@ class TESDataHandler
 public:
     unsigned int GetCompiledFileCount();
 };
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 public:
     void QueueActorDisarm(bool);
 };
-class Interface
+struct Interface
 {
   public:
     enum enumMenus
@@ -439,14 +439,14 @@ class SoundPlaybackManager
     static bool ResolveSoundFile(const char*, char*, unsigned int*, void**);
     static void ResetAcousticSpace(BGSAcousticSpace*);
     static bool CanPlaySoundAt(TESSound*, NiPoint3, float);
-    static void LoadGame(class BGSLoadGameBuffer*);
+    static void LoadGame(struct BGSLoadGameBuffer*);
     static void SetAcousticSpace(BGSAcousticSpace*);
 };
 extern bool DAT_011dcfb0, DAT_011dcfb1;
 extern unsigned int DAT_011dcfac;
 extern BGSAcousticSpace* DAT_011dcfb8;
 extern int DAT_011dcfc0;
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
 };

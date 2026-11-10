@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiGeometry;
+class NiGeometry;
 struct NiPoint3;
 
 struct C1d9e0_Emitter {

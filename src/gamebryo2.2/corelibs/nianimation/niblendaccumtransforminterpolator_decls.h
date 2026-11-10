@@ -3,8 +3,8 @@
 #include "fnv/symbols_01096000.h"
 #include "fnv/symbols_011a8000.h"
 #include "fnv/symbols_011f3000.h"
-class NiObjectNET;
-class NiPoint3
+struct NiObjectNET;
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -18,7 +18,7 @@ class NiQuaternion
 public:
     static const ::NiQuaternion IDENTITY;
 };
-class NiStream;
+struct NiStream;
 class NiQuatTransform
 {
   public:

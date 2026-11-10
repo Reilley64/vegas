@@ -167,7 +167,7 @@ float S009d8440::FUN_009d8440()
     }
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct CombatProcedureAttackRanged
 {
 };
@@ -213,7 +213,7 @@ void FUN_009d84b0_shell::FUN_009d84b0()
 }
 
 namespace fnv_009d84e0 {
-struct Tile;
+class Tile;
 struct IMH
 {
 };
@@ -239,7 +239,7 @@ void FUN_009d84e0_shell::FUN_009d84e0()
 }
 }  // namespace fnv_009d84e0
 
-struct Actor
+class Actor
 {
 };
 struct TESAmmoInitCalls
@@ -250,7 +250,7 @@ struct FUN_00666f00_shell
 {
     bool FUN_00666f00();
 };
-struct CombatProcedure
+class CombatProcedure
 {
 };
 struct CombatProcedureEngageTarget
@@ -1765,8 +1765,9 @@ void MoveDebug::PrintDebugInfo(DebugDisplay* display, int x, int y)
                        reinterpret_cast<::TimeoutTimer *>(&(destinationTimer))->FUN_006b9130());
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 public:
     bool GetDisabled() const;
@@ -2064,7 +2065,7 @@ void MoveProcedure::FUN_009d6ca0()
     }
 }
 
-struct TESObjectREFR : TESForm
+class TESObjectREFR : public TESForm
 {
 };
 

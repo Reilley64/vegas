@@ -23,7 +23,7 @@ class SaveLoadFile
     unsigned Read(void*, unsigned);
     unsigned GetFilePosition();
 };
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     char data[16];

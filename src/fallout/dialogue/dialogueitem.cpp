@@ -85,8 +85,9 @@ void* DelStandIn::FUN_005c90d0(unsigned int flags)
 }
 
 namespace fnv_0083c670 {
-struct DialogueResponse
+class DialogueResponse
 {
+  public:
     ~DialogueResponse();
 };
 struct ListX
@@ -191,7 +192,7 @@ DialogueResponse* DialogueItem_shell::GetResponseByIndex(short index)
 }
 
 bool _ref_008256d0(void*);
-struct DialogueResponse;
+class DialogueResponse;
 DialogueResponse*& _ref_006815c0(void*);
 struct StandIn
 {
@@ -339,8 +340,9 @@ namespace fnv_0083c520 {
 struct TESResponse
 {
 };
-struct TESResponseList
+class TESResponseList
 {
+  public:
     TESResponseList();
     ~TESResponseList();
     operator unsigned int() const;
@@ -349,10 +351,11 @@ struct TESResponseList
 struct FUN_0061e760_shell
 {
 };
-struct DialogueResponse;
+class DialogueResponse;
 typedef ::BSSimpleList<DialogueResponse*> DialogueResponseList;
-struct DialogueResponse
+class DialogueResponse
 {
+  public:
     DialogueResponse(TESQuest*, TESTopic*, TESTopicInfo*, TESObjectREFR*, TESResponse*);
     char* pResponseText;
     unsigned short usResponseLen;

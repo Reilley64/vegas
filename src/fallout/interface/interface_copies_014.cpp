@@ -20,7 +20,7 @@ class BSSystemUtility
     static int s_iUpdateEnabled;
 };
 
-class Interface
+struct Interface
 {
   public:
     static const char* GetInterfaceName();

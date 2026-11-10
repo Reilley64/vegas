@@ -566,7 +566,7 @@ class NiFixedString
     const char* m_kHandle;
 };
 
-class TimedTextEntry
+struct TimedTextEntry
 {
   public:
     float m_fTime;

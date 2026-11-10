@@ -220,18 +220,18 @@ class TESGrass
 
 float __cdecl CalcEffectCost(float, int, int, int, bool);
 
-struct Actor;
+class Actor;
 struct AlchemyItem;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
-struct NiNode;
+class MagicTarget;
+class NiNode;
 struct SpellItem;
-struct TESBoundObject;
-struct TESObjectCELL;
-struct TESObjectREFR;
+class TESBoundObject;
+class TESObjectCELL;
+class TESObjectREFR;
 struct hkpRigidBody;
 struct blob12
 {
@@ -242,8 +242,9 @@ struct TESChildCell
     virtual TESObjectCELL* GetSaveParentCell();
 };
 namespace ActorValue { enum Index; }
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     virtual int GetBaseActorValue(int);
     virtual float GetBaseActorValueFloat(int);
     virtual int GetActorValue(int);
@@ -391,16 +392,16 @@ int FUN_004044d0_shell::FUN_004044d0()
 namespace fnv_004045e0 {
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct ExtraDataList;
+class ExtraDataList;
 struct ScriptHeaderData;
 struct ScriptReferencedObject;
-struct Script;
+class Script;
 struct CStringArgument;
 struct ScriptCompiler;
 struct ScriptLocals;
-struct TESObject;
-struct TESObjectREFR;
-struct TESQuest;
+class TESObject;
+class TESObjectREFR;
+class TESQuest;
 struct FUN_004045e0_shell : public EffectItem
 {
     Script* GetScriptFromEffectSetting();
@@ -408,7 +409,7 @@ struct FUN_004045e0_shell : public EffectItem
 
 int _FNV_GetFormType(int);
 __pragma(comment(
-    linker, "/alternatename:?EffectSetting_GetArchetype@@YIHPAUEffectSetting@@@Z=?GetArchetype@EffectSetting@@QAEHXZ"))
+    linker, "/alternatename:?EffectSetting_GetArchetype@@YIHPAVEffectSetting@@@Z=?GetArchetype@EffectSetting@@QAEHXZ"))
     __pragma(comment(
         linker,
         "/alternatename:?EffectSetting_GetArchetype@@YIHAAVEffectSetting@@@Z=?GetArchetype@EffectSetting@@QAEHXZ"))
@@ -463,7 +464,7 @@ unsigned int __cdecl FUN_0044a670(const char* apString)
 }
 
 namespace fnv_005f5f80 {
-struct Actor;
+class Actor;
 struct ActorMover;
 struct ActorPathHandler;
 struct BGSLoadFormBuffer;
@@ -472,7 +473,7 @@ struct DetailedActorPathHandler;
 struct IDebugText;
 struct NiPoint3;
 struct PathingRequest;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct blob12
 {
     char b[12];
@@ -499,7 +500,7 @@ int __cdecl FUN_00647b70(int iA, int iB)
 extern "C" int __tls_index;
 
 
-struct MagicCaster;
+class MagicCaster;
 struct FUN_0045cd60_shell : public ActiveEffect
 {
     MagicCaster* FUN_0045cd60();
@@ -680,7 +681,7 @@ void FUN_00404f90_shell::RemoveSettingFromMap(ArrSI* apSetting)
 namespace fnv_00404fd0 {
 using AutoMemHelper = ::AutoMemContext;
 
-template <class T> struct NiTPrimitiveArray
+template <class T> class NiTPrimitiveArray
 {
 };
 

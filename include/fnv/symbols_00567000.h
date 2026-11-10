@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00567ec0 { struct BGSEncounterZone; }
+namespace fnv_00567ec0 { class BGSEncounterZone; }
 struct bhkCharacterController_00567730;
 
 // 0x00567470

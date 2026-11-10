@@ -2,5 +2,5 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?DAT_0126f718@@3PEAV?$ObjectPool@VD3DRenderStateGroup@@V?$NiTNewInterface@VD3DRenderStateGroup@@@@@@EA=?DAT_0126f718@fnv_00e7f2b0@@3PEAUD3DRenderStateGroup@1@EA")
+#pragma comment(linker, "/alternatename:?DAT_0126f718@@3PEAV?$ObjectPool@VD3DRenderStateGroup@@V?$NiTNewInterface@VD3DRenderStateGroup@@@@@@EA=?DAT_0126f718@fnv_00e7f2b0@@3PEAVD3DRenderStateGroup@1@EA")
 #pragma comment(linker, "/alternatename:?DAT_0126f71c@@3PEAV?$ObjectPool@UNiD3DRenderStateEntry@D3DRenderStateGroup@@V?$NiTNewInterface@UNiD3DRenderStateEntry@D3DRenderStateGroup@@@@@@EA=?DAT_0126f71c@fnv_00e7f2b0@@3PEAUNiD3DRenderStateEntry@1@EA")

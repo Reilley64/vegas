@@ -1,6 +1,6 @@
 #pragma once
 
-struct Actor;
+class Actor;
 
 struct FUN_00806da0_shell {
 public:

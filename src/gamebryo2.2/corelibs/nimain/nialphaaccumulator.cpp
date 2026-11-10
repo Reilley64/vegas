@@ -612,7 +612,7 @@ FUN_00a9b540::~FUN_00a9b540()
 {}
 
 namespace fnv_00a9b790 {
-class NiRenderer;
+struct NiRenderer;
 
 struct S00a9b790_Node
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiObject;
+struct NiObject;
 
 struct FUN_00c87c50_cls {
 public:

@@ -263,7 +263,7 @@ void A9F60Tracker::InitEntry(A9F60Entry* pkEntry, A9F60Actor* pkActor, unsigned 
     pkEntry->m_fScore = fScore6;
 }
 
-struct NavMeshTriangle
+class NavMeshTriangle
 {
 };
 
@@ -312,7 +312,7 @@ struct FloatSetting
 {
 };
 
-struct TESForm;
+class TESForm;
 
 struct DoorCheckSource
 {

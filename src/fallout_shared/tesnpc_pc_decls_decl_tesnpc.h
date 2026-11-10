@@ -310,9 +310,9 @@ class BGSHeadPart;
 class BSFaceGenNiNode;
 class BipedAnim;
 class BaseProcess;
-class CombatController;
+struct CombatController;
 class TESClass;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class PlayerQuestData;
 enum SEX
 {
@@ -578,7 +578,7 @@ public:
 class TESDialoguePackage : public TESPackage
 {
 };
-class CombatController
+struct CombatController
 {
   public:
 };
@@ -844,7 +844,7 @@ class FaceGenCoordinateBasis
 {
   public:
 };
-template <class T> class FaceGenMatrix : public FaceGenCoordinateBasis
+template <class T> struct FaceGenMatrix : public FaceGenCoordinateBasis
 {
   public:
     unsigned char vectorData[24];
@@ -997,7 +997,7 @@ class FormChangeMask
     unsigned int flags;
     operator bool() const;
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     virtual unsigned char GetVersion();
@@ -1017,7 +1017,7 @@ class BSFaceGenManager
 public:
     static void InitializeFaceGenCoordinates(::FaceGenCoordinates *);
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;
@@ -1025,7 +1025,7 @@ class NiUpdateData
     bool updateControllers;
     NiUpdateData(float, bool, bool);
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m[3][3];
@@ -1121,7 +1121,7 @@ class ActorAnimData
 {
   public:
 };
-class NiControllerManager
+struct NiControllerManager
 {
   public:
 };
@@ -1156,7 +1156,7 @@ void ComputeAngleRange(float*, float*);
 void FUN_00649fe0(float*, float*);
 void GetEyeAngleLimits(float*, float*);
 
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
@@ -1166,7 +1166,7 @@ class InventoryStackRecord
     ~InventoryStackRecord();
 };
 class TESObjectREFR;
-class InventoryChanges
+struct InventoryChanges
 {
   public:
 public:
@@ -1190,7 +1190,7 @@ class SettingT_GameSettingCollection_
   public:
     SETTING_VALUE* Float();
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:

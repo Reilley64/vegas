@@ -22,20 +22,20 @@
 #include "NiPoint3.h"
 
 class NiAdditionalGeometryData;
-class NiBound;
-class CloningProcess;
-class RgbaColor;
+struct NiBound;
+struct CloningProcess;
+struct RgbaColor;
 class NiGeometryData;
 class NiObjectGroup;
-class NiPoint2;
-class NiRTTI;
-class NiStream;
+struct NiPoint2;
+struct NiRTTI;
+struct NiStream;
 class NiViewerStringsArray;
 
 // ---------------------------------------------------------------------------
 // NiObject. Virtual order matches the FNV PC vtable used by this unit.
 // ---------------------------------------------------------------------------
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual ~NiObject();
@@ -71,7 +71,7 @@ class NiObject : public NiRefObject
 // ---------------------------------------------------------------------------
 // NiBound (16 bytes: center + radius).
 // ---------------------------------------------------------------------------
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;    // +0x0
@@ -106,7 +106,7 @@ class NiAdditionalGeometryData : public NiObject
 // NiStream (only what this unit uses).
 // ---------------------------------------------------------------------------
 class NiObjectGroup;
-class NiStream : public NiObject
+struct NiStream : public NiObject
 {
   public:
     NiObject* GetLoadedObject();

@@ -109,7 +109,7 @@ int CreditsMenu::FUN_0075f1c0()
     return 0x417;
 }
 
-struct Tile;
+class Tile;
 
 struct FUN_0075f8e0
 {
@@ -393,8 +393,9 @@ struct Screen
     int unk2c;
     InputState input;
 };
-struct Menu
+class Menu
 {
+  public:
     virtual ~Menu();  // polymorphic: its RTTI is used (rtti_fix.py)
 };
 struct GlobalView
@@ -417,7 +418,7 @@ struct NiUpdateData
     int unk04;
     int unk08;
 };
-struct NiNode
+class NiNode
 {
 };
 struct NiNodePtr
@@ -426,8 +427,9 @@ struct NiNodePtr
     NiNode* operator->() const;
     NiNode* m_pObject;
 };
-struct NiFixedString
+class NiFixedString
 {
+  public:
     operator const char*() const;
     const char* m_kHandle;
 };
@@ -440,8 +442,9 @@ struct NiFixedStringArray
     int unk0C;
     int unk10;
 };
-struct Tile
+class Tile
 {
+  public:
     virtual ~Tile();  // polymorphic: its RTTI is used (rtti_fix.py)
     void Set(int aiID, int aiValue);
 public:
@@ -477,7 +480,7 @@ void __cdecl FUN_0075f600()
 struct InputManager
 {
 };
-struct OSGlobals
+class OSGlobals
 {
 };
 struct TimeGlobal

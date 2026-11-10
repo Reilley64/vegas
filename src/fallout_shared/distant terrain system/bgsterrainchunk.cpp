@@ -93,7 +93,7 @@ unsigned char FUN_006fb150_shell::GetByteAtOffset5C()
     return ucUnk5c;
 }
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -585,7 +585,7 @@ void UpdateSoundListItems()
     }
 }
 
-struct QueuedFile
+class QueuedFile
 {
 };
 
@@ -987,7 +987,7 @@ struct PropState
     virtual void* v70(NiGeometry*, NiProperty*);
 };
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     virtual void v0();

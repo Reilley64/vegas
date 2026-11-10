@@ -895,8 +895,9 @@ FUN_00cf5750::~FUN_00cf5750()
 
 struct hkpRayHitCollector;
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const hkpShape* m_pCollisionShape;
     hkUint32 m_uiCollisionShapeKey;
     const void* m_kMotionState;

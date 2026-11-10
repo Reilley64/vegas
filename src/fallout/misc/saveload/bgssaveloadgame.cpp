@@ -234,7 +234,7 @@ bool BGSSaveLoadGame::ShouldSaveForm(TESForm* form, bool force)
 }
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct SaveLoadFile;
+class SaveLoadFile;
 struct blob4
 {
     char b[4];
@@ -293,11 +293,11 @@ void FUN_00848ca0_shell::FUN_00848ca0(bool abValue)
 }
 
 namespace fnv_00848dd0 {
-struct SaveLoadFile;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {
@@ -490,11 +490,11 @@ void FUN_0084a580_shell::RemoveActorFromMap(Actor* apActor)
 }
 
 namespace fnv_0084a810 {
-struct SaveLoadFile;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {
@@ -589,11 +589,11 @@ void FUN_0084a810_shell::FUN_0084a810(int type, BGSLoadFormBuffer* buffer, TESFo
 }  // namespace fnv_0084a810
 
 namespace fnv_008665b0 {
-struct SaveLoadFile;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {
@@ -707,15 +707,16 @@ namespace fnv_00849d00 {
 struct BSFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {
     char b[4];
 };
-struct SaveLoadFile
+class SaveLoadFile
 {
+  public:
     unsigned int Read(void*, unsigned int);
     unsigned int Write(void*, unsigned int);
     bool Open();
@@ -830,7 +831,7 @@ struct NiPoint3
 {
     float x, y, z;
 };
-struct TESWorldSpace;
+class TESWorldSpace;
 struct ChangeFlagsT
 {
     unsigned int iFlags;
@@ -858,8 +859,9 @@ struct ReferencePlacementData
     unsigned char cFlags;
     ReferencePlacementData();
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void Unk_00();
     virtual void Unk_01();
     virtual void Unk_02();
@@ -947,7 +949,7 @@ struct TESFormH
 struct TESObjectCELLH
 {
 };
-struct TESWorldSpace
+class TESWorldSpace
 {
 };
 struct TES
@@ -1402,8 +1404,9 @@ void Holder0084::CallVirtualWithOne(Fake0084* apObject)
 }
 
 class SaveLoadFile;
-struct SaveLoadChangeHistory
+class SaveLoadChangeHistory
 {
+  public:
     void AddNoteWithArguments(char const*, char*);
 public:
     void Init();
@@ -2661,7 +2664,7 @@ class GlobalObject_008c71b0
     GlobalObject_008c71b0(const GlobalObject_008c71b0&);
     int flags;
 };
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     virtual void V0();
@@ -2679,7 +2682,7 @@ class LoadBufferArray
     unsigned int GetSize();
     void Clear(bool);
 };
-class IOManager
+struct IOManager
 {
   public:
 };

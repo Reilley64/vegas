@@ -217,9 +217,9 @@ class BC28C60GravityModifier : public BC28C60Modifier
     BC28C60GravityModifier* FUN_00c28c60(BC28C60CloningProcess& kCloning);
 };
 
-class NiStream;
-class CloningProcess;
-class NiPSysModifier
+struct NiStream;
+struct CloningProcess;
+struct NiPSysModifier
 {
   public:
     void LoadBinary(NiStream& stream);

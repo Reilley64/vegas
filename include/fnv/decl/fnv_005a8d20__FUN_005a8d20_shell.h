@@ -1,6 +1,6 @@
 #pragma once
 
-class ScriptLocals;
+struct ScriptLocals;
 
 namespace fnv_005a8d20 {
 struct FUN_005a8d20_shell {

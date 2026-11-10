@@ -1,7 +1,7 @@
 #ifndef NIQUATTRANSFORM_DECLS_H
 #define NIQUATTRANSFORM_DECLS_H
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m[3][3];

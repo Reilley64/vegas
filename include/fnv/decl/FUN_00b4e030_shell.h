@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiCamera;
+class NiCamera;
 
 struct FUN_00b4e030_shell {
 public:

@@ -7,7 +7,7 @@
 #include "fnv/symbols_005a4000.h"
 #include "fnv/symbols_006a9000.h"
 #include "fnv/symbols_011d7000.h"
-class PathingRequest
+struct PathingRequest
 {
   public:
     void* layoutPadding0[2];             // +0x00, the NiRefObject base
@@ -58,7 +58,7 @@ union SETTING_VALUE
     char* s;
 };
 
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
 };

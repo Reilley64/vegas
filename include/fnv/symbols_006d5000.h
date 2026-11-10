@@ -1,9 +1,9 @@
 #pragma once
 #include <cstdint>
 
-class PathingRequest;
+struct PathingRequest;
 struct FUN_006abbb0;
-struct PathingSolution;
+class PathingSolution;
 struct RouteLocation;
 
 // 0x006d5340

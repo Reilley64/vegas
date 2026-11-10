@@ -1,6 +1,6 @@
 #pragma once
 
-class PathingLocation;
+struct PathingLocation;
 struct PathingLocation;
 
 struct PathingLocationArray {

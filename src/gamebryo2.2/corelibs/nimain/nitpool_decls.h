@@ -5,8 +5,9 @@
 #include "fnv/symbols_00e7f000.h"
 #include "fnv/symbols_011f6000.h"
 #include "MemoryManager.h"
-struct D3DRenderStateGroup
+class D3DRenderStateGroup
 {
+  public:
     unsigned char data[20];
 };
 class NiStreamLinkIDSet

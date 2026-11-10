@@ -12,7 +12,7 @@
 #include "fnv/symbols_0070e000.h"
 #include "fnv/symbols_011d8000.h"
 #include "fnv/symbols_011de000.h"
-class Interface
+struct Interface
 {
   public:
     enum enumMenus

@@ -10,14 +10,14 @@ class BSMultiBoundNode;
 class Clouds;
 class ImageSpaceModifierInstanceForm;
 class Moon;
-class NiColor;
+struct NiColor;
 class Precipitation;
-class Sky;
+struct Sky;
 class SkySound;
 class SkyTextureManager;
 class Stars;
 class Sun;
-class TESClimate;
+struct TESClimate;
 class TESWeather;
 enum Sky__SKY_MODE
 {
@@ -27,7 +27,7 @@ enum Sky__SKY_MODE
     Sky__SKY_MODE_SM_FULL = 3,
     Sky__SKY_MODE_SM_COUNT = 4
 };
-class NiColor
+struct NiColor
 {
   public:
     float r;  // +0x0, 4 bytes
@@ -57,7 +57,7 @@ class SkyTextureManager
   public:
     // void __cdecl SkyTextureManager::*(NiPointer<NiTexture>*, const char*)
 };
-class Sky
+struct Sky
 {
   public:
     void** m_ppVirtualMethodTable;                          // +0x0, 4 bytes

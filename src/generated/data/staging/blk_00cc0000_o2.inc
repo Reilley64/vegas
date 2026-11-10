@@ -66,7 +66,7 @@
 #pragma comment(linker, "/alternatename:?DAT_012686c4@fnv_00cd0480@@3PEADEA=?g_012686c4@@3VGlobalObjectO2_00a7b610@@A")
 #pragma comment(linker, "/alternatename:?DAT_012686d0@fnv_00ccbd70@@3HA=?DAT_012686d0@@3HA")
 #pragma comment(linker, "/alternatename:?DAT_012686e8@@3HA=?g_012686e8@@3VGlobalObjectO2_00a7b610@@A")
-#pragma comment(linker, "/alternatename:?DAT_01268b9c@@3HA=?g_01268b9c@@3VGlobalObjectO2_00d472a0@@A")
+#pragma comment(linker, "/alternatename:?DAT_01268b9c@@3HA=?g_01268b9c@@3UGlobalObjectO2_00d472a0@@A")
 #pragma comment(linker, "/alternatename:?DAT_01268f78@@3UCpuOpaque@@A=?g_01268f78@@3VGlobalObjectO2_00a7b610@@A")
 #pragma comment(linker, "/alternatename:?DAT_01268f84@@3HA=?g_01268f84@@3VGlobalObjectO2_00a7b610@@A")
 #pragma comment(linker, "/alternatename:?_DAT_012682cc@fnv_00cc9e60@@3HA=?ms_uiInstances@CCA1B0Level2@@2IA")

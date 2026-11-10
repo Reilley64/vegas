@@ -29,7 +29,7 @@ class SkyShaderProperty;
 class NiTimeController;
 class NiControllerSequence;
 class NiNode;
-class NiUpdateData;
+struct NiUpdateData;
 struct NiPoint3;
 class NiAVObject
 {
@@ -38,7 +38,7 @@ class NiAVObject
 public:
     ::NiPoint3 &FUN_0043c490();
 };
-class NiObjectNET
+struct NiObjectNET
 {
   public:
 };
@@ -68,7 +68,7 @@ class NiFixedString
     NiFixedString(const char*);
     ~NiFixedString();
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -116,13 +116,13 @@ class NiControllerSequence : public NiObject
     virtual NiControllerManager* IsNiControllerManager();                // v88
     virtual bool Deactivate(float afEaseOutTime, bool abTransition);     // v8C
 };
-class NiControllerManager
+struct NiControllerManager
 {
   public:
     void DeactivateAllSequences(float);
     bool ActivateControllerSequence(NiControllerSequence*, int, bool, float, float, NiControllerSequence*);
 };
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

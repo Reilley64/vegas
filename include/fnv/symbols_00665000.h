@@ -1,7 +1,7 @@
 #pragma once
 
 class NiSourceTexture;
-namespace fnv_006652e0 { struct NiAVObject; }
+namespace fnv_006652e0 { class NiAVObject; }
 
 // 0x006652e0
 namespace fnv_006652e0 { void FUN_006652e0(::fnv_006652e0::NiAVObject *, bool); }

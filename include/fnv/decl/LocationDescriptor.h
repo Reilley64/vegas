@@ -5,7 +5,7 @@ class TESForm;
 class TESObjectCELL;
 class TESObjectREFR;
 
-class LocationDescriptor {
+struct LocationDescriptor {
 public:
     // 0x0067f2a0
     ::TESObjectREFR *ResolveLocationReference(::MobileObject *);

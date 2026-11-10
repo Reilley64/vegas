@@ -3,7 +3,7 @@
 
 class A49B30Point3Interpolator;
 class NiRotData;
-namespace fnv_00a49d00 { struct TimedRotationKey; }
+namespace fnv_00a49d00 { class TimedRotationKey; }
 struct Derived;
 
 // 0x00a49020

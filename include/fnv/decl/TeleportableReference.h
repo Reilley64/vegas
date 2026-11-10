@@ -6,7 +6,7 @@ class TESForm;
 class TESObjectREFR;
 class TESWorldSpace;
 
-class TeleportableReference {
+struct TeleportableReference {
 public:
     // 0x0043a210
     void SetLinkedDoorReference(::TESObjectREFR *, bool);

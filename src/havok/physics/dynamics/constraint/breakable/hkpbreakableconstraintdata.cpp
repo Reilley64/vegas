@@ -696,7 +696,7 @@ FUN_00d4df30::FUN_00d4df30(hkpConstraintDataD4D* constraintData) : m_pConstraint
 }
 }  // namespace fnv_00d4df30
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 
 class hkBoolD4E0
 {

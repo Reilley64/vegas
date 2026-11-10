@@ -333,7 +333,7 @@ ParticleSystem* __cdecl FUN_00554010(const FUN_006815c0* origin)
     return system;
 }
 
-class NiPoint3;
+struct NiPoint3;
 
 struct hkVector4
 {

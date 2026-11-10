@@ -73,7 +73,7 @@ struct PointResult
 template <class T> T& PointSlot(PointResult&& r) { return *reinterpret_cast<T*>(&r); }
 }  // namespace
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     union

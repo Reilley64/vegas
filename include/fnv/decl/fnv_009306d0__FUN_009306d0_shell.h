@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_009306d0 { struct bhkCharacterController; }
+namespace fnv_009306d0 { class bhkCharacterController; }
 
 namespace fnv_009306d0 {
 struct FUN_009306d0_shell {

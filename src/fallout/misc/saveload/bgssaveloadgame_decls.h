@@ -74,7 +74,7 @@ public:
     void Clear();
 };
 class LoadGameSubBufferQueue;
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
     BGSSaveLoadChangesMap* m_pFormChangesMap;

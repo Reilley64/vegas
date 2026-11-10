@@ -1,6 +1,6 @@
 #pragma once
 
-struct LockExtraData;
+class LockExtraData;
 
 struct FUN_00569160_shell {
 public:

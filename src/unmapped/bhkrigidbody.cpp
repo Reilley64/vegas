@@ -890,7 +890,7 @@ SpawnedObject* __cdecl FUN_00c8ed70()
     return new SpawnedObject();
 }
 
-struct NiNode;
+class NiNode;
 struct HavokShape
 {
     void FUN_00c8f080();
@@ -923,8 +923,9 @@ struct HavokObject
     HavokProperty* property;
 
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     float rotation[3][3];
     float translation[3];
     float scale;
@@ -934,8 +935,9 @@ struct NiBound
     float center[3];
     float radius;
 };
-struct NiNode
+class NiNode
 {
+  public:
     void* vtbl;
     unsigned int referenceCount;
     const char* name;

@@ -1,7 +1,7 @@
 #pragma once
 
-namespace fnv_00489940 { struct TESFile; }
-namespace fnv_00489940 { struct TESForm; }
+namespace fnv_00489940 { class TESFile; }
+namespace fnv_00489940 { class TESForm; }
 
 namespace fnv_00489940 {
 struct FUN_00489940_shell {

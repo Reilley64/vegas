@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiTransform;
+class NiTransform;
 
 struct S_00eba480 {
 public:

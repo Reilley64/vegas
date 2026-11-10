@@ -77,8 +77,9 @@ void FUN_006295a0_shell::FUN_006295a0()
     reinterpret_cast<::FUN_004589c0_cls *>(reinterpret_cast<FUN_006295a0_shell*>(kUnk10))->FUN_004589c0(::DAT_0104e148);
 }
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -87,8 +88,9 @@ struct NiAVObject
 struct NiObjectNET
 {
 };
-struct NiNode : public NiAVObject
+class NiNode : public NiAVObject
 {
+  public:
     NiAVObject* GetAt(unsigned int);
     unsigned int GetNumChildren();
 };
@@ -137,7 +139,7 @@ void FUN_0062be70_shell::FUN_0062be70()
     reinterpret_cast<::Callees *>(&(m_node))->FUN_00726070();
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 
@@ -351,7 +353,7 @@ void CountCollisionShapes(NiAVObject* object, unsigned int* firstCount, unsigned
     }
 }
 
-class GameSettingCollection;
+struct GameSettingCollection;
 union SETTING_VALUE
 {
     float f;
@@ -478,7 +480,7 @@ void Owner62B::AttachTarget(void* pvTarget)
         ((::Target62B *)(::FUN_00559450((int *)&(m_kRoomNode))))->SetOwner(this);
 }
 
-struct BGSAcousticSpace;
+class BGSAcousticSpace;
 struct SoundPlaybackManager
 {
     static void __cdecl ResetAcousticSpace(BGSAcousticSpace*);

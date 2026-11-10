@@ -783,7 +783,7 @@ std::uintptr_t FUN_004e7ff0()
 }
 
 namespace fnv_004e8000 {
-struct NiNode
+class NiNode
 {
 };
 
@@ -1088,8 +1088,9 @@ bool S_004fee20::FUN_004fee20()
 }
 
 namespace fnv_004fee60 {
-struct TESForm
+class TESForm
 {
+  public:
     int GetFormType() const;
 };
 struct BGSTalkingActivator
@@ -1395,16 +1396,18 @@ void* FUN_004ede90_Class::InsertBefore(void* apNode, void** apNewNode)
 }
 
 namespace fnv_004f0640 {
-struct NiAVObject;
+class NiAVObject;
 
-struct NiNode
+class NiNode
 {
+  public:
     unsigned int GetNumChildren();
     NiAVObject* GetAt(unsigned int index);
 };
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void V0();
     virtual void V1();
     virtual void V2();
@@ -1461,7 +1464,7 @@ class NiNode
     NiAVObject* GetAt(unsigned int index);
 };
 
-class NiUpdateData;
+struct NiUpdateData;
 class NiAVObject
 {
   public:
@@ -1538,8 +1541,9 @@ struct LodObject
     virtual TaskQueueInterface* v4();
 };
 
-struct TESSound
+class TESSound
 {
+  public:
     virtual void v000()
     {}
     virtual void v001()
@@ -2496,7 +2500,7 @@ unsigned char FUN_004f6f70_cls::IsLandTexture()
     return m_04 != 0 ? (unsigned char)(dynamic_cast<TESLandTexture*>(m_04) != 0) : (unsigned char)0;
 }
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     SpawnedObject();

@@ -18,10 +18,10 @@ function(vegas_compose_native_data)
     "src/generated/data/staging/blk_00d40000_o2.inc|5f78a93054fd4128e84d47f94d424db208bae43dd720677d129117d6f5f5474c"
     "src/generated/data/staging/blk_00d60000_o2.inc|a32d81f583e186a35485315433504afa49f4876f58ae39d88fd8c05922905b73"
     "src/generated/data/vtables.h|3751c0b212ad29b7380d86b632c14d5d36868e76c78c5eaed11b035f95288c48"
-    "src/generated/data/vtables_010a.cpp|7feb5a02504d953dafcc059fcf0790c9d9b2ccb30d83b7c081fe67331cdd7229"
-    "src/generated/data/vtables_010c.cpp|21ed6daad46431d6fc44cb269fef81b5219097f6712fdbbc6dbd454205ac4c27"
-    "src/generated/data/vtables_010d.cpp|792afac5e0052599724a354577c9ad090c727e4f82889313b551ef48dfd86f32"
-    "src/generated/data/vtables_010e.cpp|84bf82374edbd3d9a9007ad2b02f033b2905ea2d5b3f474e9748d0158d24ef46"
+    "src/generated/data/vtables_010a.cpp|0eb7d4db3145867ae87400146b32154eadf02c1c3ba635befa3e3e58f5e9af93"
+    "src/generated/data/vtables_010c.cpp|d40012aecb190d485d7feb085a9217e7c3c40ac530d5bc1bfa0f8a2e3ca4d3e3"
+    "src/generated/data/vtables_010d.cpp|ed67c8bec41ed476610646445144816f71541b77d7c26c6fcf85a97380e1f469"
+    "src/generated/data/vtables_010e.cpp|76c6ec007716bece303350f4d4f1a296ca216cb9aa1a0082dbf9024d835812d4"
   )
   foreach(input IN LISTS inputs)
     string(REPLACE "|" ";" fields "${input}")

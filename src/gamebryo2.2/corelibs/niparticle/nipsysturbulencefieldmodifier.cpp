@@ -242,8 +242,9 @@ struct TMatrix3
     float m_afEntries[3][3];
 };
 
-struct NiTransform
+class NiTransform
 {
+  public:
     TMatrix3 m_kOrientation;
     TPoint3 m_kTranslation;
     float m_fScale;
@@ -423,8 +424,9 @@ public:
     float ComputeMagnitude() const;
 };
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

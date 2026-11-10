@@ -924,8 +924,9 @@ struct Shape
 };
 
 class NiAVObject;
-struct NiNode
+class NiNode
 {
+  public:
     unsigned int FUN_0043b480();
 public:
     ::NiAVObject *GetAt(unsigned int);

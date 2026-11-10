@@ -71,7 +71,7 @@ struct StageHolder
 struct Calendar
 {
 };
-struct TESWorldSpace;
+class TESWorldSpace;
 struct FUN_00983280_holder
 {
     void FUN_00983280(int, StageHolder*);
@@ -102,7 +102,7 @@ struct FUN_00983420_shell
 {
     bool GetOrCreateCoverItem(int, StageHolder*);
 };
-struct TESWorldSpace;
+class TESWorldSpace;
 struct FUN_009a0560_shell
 {
     bool FUN_009a0560(StageHolder*);

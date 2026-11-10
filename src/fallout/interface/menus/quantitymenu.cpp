@@ -51,8 +51,9 @@ void SleepWaitMenu::AssignTileByID(int index, Tile* tile)
 }
 
 namespace fnv_007abdf0 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 struct Holder

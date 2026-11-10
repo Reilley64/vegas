@@ -502,7 +502,7 @@ void FUN_0078a1c0_shell::ToggleFlagBit(int aBit)
     usFlags ^= 1 << aBit;
 }
 
-struct NiControllerSequence
+class NiControllerSequence
 {
 };
 
@@ -749,10 +749,10 @@ struct FUN_0078b9b0_shell : public LoadingMenu
     void FUN_0078b9b0(void*);
 };
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 
 class TESObjectREFR;
-class Interface
+struct Interface
 {
   public:
 public:
@@ -858,7 +858,7 @@ struct RecursiveLock
     int m_uiRecursionCount;
 };
 
-class NiRenderer
+struct NiRenderer
 {
   public:
 };
@@ -946,7 +946,7 @@ CountingSemaphore* InitSemaphore(CountingSemaphore* pThis)
     return pThis;
 }
 
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
 float __cdecl GetLevelProgress();
@@ -979,7 +979,7 @@ void* FUN_0078d880(void* pThis)
 }  // namespace fnv_0078d880
 
 
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
 };
@@ -1151,13 +1151,13 @@ struct FUN_00424940_shell
 struct FUN_0041fd00_shell
 {
 };
-struct HUDMainMenu
+class HUDMainMenu
 {
 };
 struct InterfaceH
 {
 };
-struct BGSMoviePlayer
+class BGSMoviePlayer
 {
 };
 struct TESGlobalValueReader
@@ -1166,7 +1166,7 @@ struct TESGlobalValueReader
 struct OSGlobalsH
 {
 };
-struct TESObjectCELL
+class TESObjectCELL
 {
 };
 struct FUN_00575d10_shell
@@ -1499,7 +1499,7 @@ int FUN_00788f20()
 }
 
 struct NiControllerManager;
-struct NiControllerSequence;
+class NiControllerSequence;
 struct FUN_00789820_shell : public LoadingMenu
 {
     void FUN_00789820();
@@ -1556,7 +1556,7 @@ class BGSMoviePlayer
 {
   public:
 };
-class BSAudio
+struct BSAudio
 {
   public:
     void Update(bool);
@@ -1567,7 +1567,7 @@ struct FalloutAudioMedia
 public:
     static void FadeOutMedia(int, ::MEDIATYPE);
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;
@@ -1600,7 +1600,7 @@ struct NiControllerManager
 struct EP_008c48d0
 {
 };
-struct TESTopicInfo
+class TESTopicInfo
 {
 };
 struct BSSimpleListTESRaceSize
@@ -1923,7 +1923,7 @@ void UpdateIfEnabled(int aiValue)
 }
 
 namespace fnv_007887a0 {
-class NiRenderer;
+struct NiRenderer;
 
 struct BSS
 {
@@ -1967,7 +1967,7 @@ struct SndX
 struct QuestX
 {
 };
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -2213,7 +2213,7 @@ class TES
 {
   public:
 };
-struct NiTexture;
+class NiTexture;
 struct TileShaderProperty
 {
 public:
@@ -3443,11 +3443,11 @@ void LoadingMenuX::FUN_0078bb60(BGSPerkEntry* entry)
 
 namespace s78cc50 {
 
-struct Tile
+class Tile
 {
 };
 
-struct TileMenu
+class TileMenu
 {
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 
-struct DurationData;
+class DurationData;
 
 struct FUN_0041d8a0_shell {
 public:

@@ -470,11 +470,11 @@ void* FakeCls::FUN_00e926f0(unsigned int auiFlags)
 }
 }  // namespace fnv_00e926f0
 
-class NiRTTI;
+struct NiRTTI;
 class NiShader
 {
   public:
-    class NiShader* DynamicCast(class NiRTTI const*);
+    class NiShader* DynamicCast(struct NiRTTI const*);
 };
 class GraphicsRenderer;
 class NiD3DShaderInterface
@@ -618,8 +618,9 @@ void FUN_00e91e60_shell::FUN_00e91e60(GraphicsRenderer* pkRenderer)
 }
 
 namespace fnv_00e921d0 {
-struct NiShader
+class NiShader
 {
+  public:
     int m_iRefCount;
 };
 struct NiTStringPointerMap_00e93020
@@ -646,12 +647,13 @@ NiShader* FUN_00e921d0_shell::GetShaderByNameAndImplementation(const char* pcNam
 
 namespace fnv_00e929c0 {
 // Stand-ins for types not declared in this unit
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_pcString;  // +0x00
 };
 
-struct NiShader
+class NiShader
 {
 };
 

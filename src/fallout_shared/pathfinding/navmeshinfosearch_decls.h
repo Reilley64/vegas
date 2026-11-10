@@ -19,7 +19,7 @@
 #include "layout_support.h"
 // PC NiPoint3 layout with the out-of-line arithmetic used by this search.
 #define FNV_NIPOINT3_H
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -62,7 +62,7 @@ class ExtraDataList
 {
   public:
 };
-class TeleportableReference
+struct TeleportableReference
 {
   public:
 };
@@ -73,7 +73,7 @@ class TESForm
 public:
     bool GetDisabled() const;
 };
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
   public:
@@ -148,7 +148,7 @@ template <class NodeDataType, class LinkDataType> class AStarOpenList
     AStarOpenList();
 };
 template <class T, unsigned int GrowBy> class BSSimpleArray;
-class ScrapHeapBuffer
+struct ScrapHeapBuffer
 {
   public:
     class Header;

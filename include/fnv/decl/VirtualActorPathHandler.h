@@ -2,7 +2,7 @@
 
 class Actor;
 class ActorMover;
-class PathingRequest;
+struct PathingRequest;
 class PathingSolution;
 template <class> class NiPointer;
 

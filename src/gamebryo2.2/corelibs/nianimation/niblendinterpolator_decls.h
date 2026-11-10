@@ -4,8 +4,8 @@
 
 
 #include <windows.h>
-class CloningProcess;
-class ShaderBufferRecord;
+struct CloningProcess;
+struct ShaderBufferRecord;
 extern "C" const float fnvNegMax;
 
 template <class T> class NiTStringPointerMap
@@ -20,7 +20,7 @@ template <> class NiTStringPointerMap<ShaderBufferRecord*>
 };
 typedef NiTStringPointerMap<ShaderBufferRecord*> NiShaderBufferPointerMap;
 
-class NiObject
+struct NiObject
 {
   public:
     virtual void Slot00()
@@ -124,7 +124,7 @@ class NiBlendInterpolator : public NiInterpolator
 };
 typedef NiBlendInterpolator::InterpArrayItem NiBlendInterpolator_InterpArrayItem;
 
-class CloningProcess
+struct CloningProcess
 {
   public:
     NiTStringPointerMap<ShaderBufferRecord*>* m_pCloneMap;

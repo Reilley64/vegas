@@ -243,7 +243,7 @@ inline float NiSymmetricRandom()
 {
     return (float)(2.0 * std::rand() / 32767.0 - 1.0);
 }
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -273,7 +273,7 @@ struct Point3ParameterData
     unsigned short m_usFlags;
     unsigned short m_usFirstValue;
 };
-class NiPSysData
+struct NiPSysData
 {
   public:
     virtual void slot00();
@@ -350,7 +350,7 @@ class NiPSysData
     unsigned short unk6e;
     Point3ParameterData* m_pkParticleInfo;
 };
-class NiParticleSystem
+struct NiParticleSystem
 {
   public:
     unsigned int unk00;

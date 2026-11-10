@@ -6,9 +6,9 @@
 #include "nipsysrotationmodifier_NiFixedString.h"
 #include "nipsysrotationmodifier_NiObject.h"
 #include "nipsysrotationmodifier_NiPoint3.h"
-class NiPSysModifier;
+struct NiPSysModifier;
 class NiPSysRotationModifier;
-class NiParticleSystem;
+struct NiParticleSystem;
 #include "nipsysrotationmodifier_types_NiPSysModifier.h"
 class NiPSysRotationModifier : public NiPSysModifier
 {

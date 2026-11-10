@@ -344,8 +344,9 @@ void __cdecl FUN_00e80150()
 }
 }  // namespace fnv_00e80150
 
-struct NiTexture
+class NiTexture
 {
+  public:
     int x;
 };
 // Returns the NiTexture at index idx from the array at obj+0xb0, falling back to a default texture based on the flag at obj+0x20.
@@ -5019,7 +5020,7 @@ FUN_00e7ee80* FUN_00e7f0a0(unsigned int count)
 }
 
 namespace fnv_00e7e880 {
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     unsigned int unk00;

@@ -51,10 +51,10 @@ FUN_0080ed20_shell* FUN_0080ed20_shell::DivideByScalar(float divisor)
     return this;
 }
 
-struct Actor
+class Actor
 {
 };
-struct TESForm
+class TESForm
 {
 };
 struct LightEffect : TESForm
@@ -111,7 +111,7 @@ struct Flt
     operator unsigned int();
 };
 struct NiLight;
-struct ShadowSceneLight;
+class ShadowSceneLight;
 struct ShadowSceneNode
 {
 };
@@ -182,10 +182,11 @@ void FUN_0080efd0_shell::FUN_0080efd0(Actor* apActor)
     v20();
 }
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class EffectSetting;
-struct ActiveEffect
+class ActiveEffect
 {
+  public:
     virtual void ApplyLoadBuffer(BGSLoadFormBuffer*);
     virtual void vf01();
     virtual void vf02();
@@ -425,7 +426,7 @@ struct NiPoint3_POD : FUN_0080ed20_shell
 {
 };
 
-class NiPoint3 : public NiPoint3_POD
+struct NiPoint3 : public NiPoint3_POD
 {
   public:
     NiPoint3();
@@ -721,7 +722,7 @@ union SETTING_VALUE
 {
     float f;
 };
-class GameSettingCollection
+struct GameSettingCollection
 {
 };
 template <class T> class SettingT
@@ -746,7 +747,7 @@ struct PathingRequest
 {
 };
 
-struct EffectSetting
+class EffectSetting
 {
 public:
     int GetArchetype();
@@ -760,7 +761,7 @@ class Actor;
 class TESObjectREFR;
 class ActiveEffect;
 template <class> class BSSimpleList;
-struct MagicTarget
+class MagicTarget
 {
 public:
     ::Actor *GetOwnerActor() const;
@@ -955,8 +956,8 @@ FUN_0080e610::FUN_0080e610(void* caster, void* item, void* effect) : LightEffect
 
 }  // namespace fnv_0080e610
 
-struct EffectSetting;
-struct MagicTarget;
+class EffectSetting;
+class MagicTarget;
 
 template <class T> class BSSimpleList
 {

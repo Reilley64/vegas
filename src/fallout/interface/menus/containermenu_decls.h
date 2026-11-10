@@ -45,7 +45,7 @@ class PlayerCharacter
 {
   public:
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned m_uiSoundResourceID;
@@ -57,7 +57,7 @@ class SoundPlaybackHandle
 public:
     ::SoundPlaybackHandle &operator=(const ::SoundPlaybackHandle &);
 };
-class BSAudio
+struct BSAudio
 {
   public:
     SoundPlaybackHandle GetSoundHandleByEditorID(const char*, unsigned);

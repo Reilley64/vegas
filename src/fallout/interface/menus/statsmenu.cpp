@@ -496,25 +496,25 @@ void FUN_007e07f0(char* this_ptr)
     }
 }
 
-struct BGSRadiationStage;
+class BGSRadiationStage;
 struct SpellListEntry;
 struct BSCullingProcess;
 struct BSRenderedTexture;
-struct BSShaderAccumulator;
+class BSShaderAccumulator;
 struct ShaderRenderProperty;
-struct FOPipboyManager;
-struct FORenderedMenu;
+class FOPipboyManager;
+class FORenderedMenu;
 struct ShadowLightData;
-struct InventoryStackRecord;
-struct NiAVObject;
+class InventoryStackRecord;
+class NiAVObject;
 struct NiAlphaProperty;
-struct NiDirectionalLight;
-struct NiNode;
+class NiDirectionalLight;
+class NiNode;
 struct SceneGraph;
 struct ShadowSceneNode;
 struct SpellItem;
-struct TESFile;
-struct TESImageSpaceModifier;
+class TESFile;
+class TESImageSpaceModifier;
 struct TileImage;
 struct ViewCaster;
 struct blob12
@@ -912,18 +912,20 @@ class SpellItem : public TESForm
 class AlchemyItem : public TESForm
 {
 };
-struct BGSRadiationStage
+class BGSRadiationStage
 {
+  public:
     static BGSRadiationStage* __cdecl GetStageForLevel(float level);
 };
-struct BGSDehydrationStage
+class BGSDehydrationStage
 {
+  public:
     static BGSDehydrationStage* __cdecl FindStage(float level);
 };
-struct BGSSleepDeprevationStage
+class BGSSleepDeprevationStage
 {
 };
-struct BGSHungerStage
+class BGSHungerStage
 {
 };
 struct GameSettingString
@@ -1455,8 +1457,9 @@ struct MenuActiveS
 struct MenuTileS
 {
 };
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
+  public:
     int x;
 };
 struct Flt
@@ -1483,8 +1486,9 @@ struct FUN_007dfe40_shell : public StatsMenu
     int FUN_007dfe40();
 };
 
-struct Script
+class Script
 {
+  public:
     int GetText();
 };
 struct AEHelper
@@ -1602,7 +1606,7 @@ void FUN_007dcb40_t::SetReputationEntry(TESReputation* pRep)
 }
 }  // namespace fnv_007dcb40
 
-struct FOPipboyManager
+class FOPipboyManager
 {
 public:
     bool IsUnk28Set();
@@ -1636,7 +1640,7 @@ class FORenderedMenu
 class FOPipboyManager : public FORenderedMenu
 {
 };
-class Interface
+struct Interface
 {
   public:
     FOPipboyManager* GetPipboyManager();
@@ -3326,7 +3330,7 @@ bool C0E0Menu::FUN_007dc0e0(int iKey, int iUnused)
     return false;
 }
 
-struct FORenderedMenu
+class FORenderedMenu
 {
 };
 bool __cdecl FUN_00702450(int);
@@ -4831,7 +4835,7 @@ class BSSoundHandleEx
     int eState;
     ~BSSoundHandleEx();
 };
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);
@@ -5227,7 +5231,7 @@ class BSSoundHandleEx
     unsigned int state;
     ~BSSoundHandleEx();
 };
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);

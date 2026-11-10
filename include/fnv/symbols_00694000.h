@@ -1,6 +1,6 @@
 #pragma once
 
-class GlobalObject_00869f00;
+struct GlobalObject_00869f00;
 
 // 0x00694500
 bool FUN_00694500(unsigned int, bool);

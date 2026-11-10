@@ -63,7 +63,7 @@ NiKeyBasedInterpolator* NiKeyBasedInterpolator::FUN_00a3ca50(unsigned int flags)
 }
 
 namespace fnv_00a3ca80 {
-struct AnimationKey;
+class AnimationKey;
 struct NiKeyBasedInterpolator
 {
     AnimationKey* FUN_00a3ca80(unsigned int uiWhichKey, unsigned short usChannel);
@@ -107,8 +107,9 @@ void NiKeyBasedInterpolator::FUN_00a3cbf0(StrArr* pkStrings)
 }
 }  // namespace fnv_00a3cbf0
 
-struct AnimationKey
+class AnimationKey
 {
+  public:
     float m_fTime;
 };
 

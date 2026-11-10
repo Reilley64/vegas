@@ -451,7 +451,7 @@ struct LayoutRulesDDB3
     unsigned char m_bEmptyBaseClassOptimization;
 };
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 
 class FUN_00d605d0_Class
 {

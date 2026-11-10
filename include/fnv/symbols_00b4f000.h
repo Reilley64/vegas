@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class ShadowSceneNode;
+struct ShadowSceneNode;
 
 // 0x00b4f2f0
 void FUN_00b4f2f0(int, ::ShadowSceneNode *);

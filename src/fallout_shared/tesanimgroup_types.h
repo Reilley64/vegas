@@ -15,7 +15,7 @@ class NiRefObject : public NiMemObject
     virtual void DeleteThis();
     unsigned int m_uiRefCount;
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

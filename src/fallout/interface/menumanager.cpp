@@ -276,8 +276,8 @@ unsigned int VATSMenuView::FUN_00726710()
     return GetRaceCount((char*)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(numFiltered);
 }
 
-struct Tile;
-struct NiNode;
+class Tile;
+class NiNode;
 template <class T> class NiPointer
 {
   public:
@@ -363,8 +363,8 @@ FUN_0071fef0::~FUN_0071fef0()
 }
 
 namespace fnv_00720170 {
-struct Tile;
-struct NiNode;
+class Tile;
+class NiNode;
 template <class T> class NiPointer
 {
   public:
@@ -434,8 +434,8 @@ FUN_00720170_t::FUN_00720170_t()
 }  // namespace fnv_00720170
 
 namespace fnv_00720420 {
-struct Tile;
-struct NiNode;
+class Tile;
+class NiNode;
 template <class T> class NiPointer
 {
   public:
@@ -500,8 +500,8 @@ FUN_00720420::~FUN_00720420()
 }  // namespace fnv_00720420
 
 namespace fnv_00720860 {
-struct Tile;
-struct NiNode;
+class Tile;
+class NiNode;
 template <class T> class NiPointer
 {
   public:
@@ -588,9 +588,9 @@ FUN_00720860::~FUN_00720860()
 
 namespace fnv_00720e60 {
 struct RecursiveLock;
-struct NiAVObject;
-struct NiNode;
-struct Tile;
+class NiAVObject;
+class NiNode;
+class Tile;
 struct TileShaderProperty;
 struct MenuValueDescriptor;
 struct FUN_00720e60_shell : public MenuSystem
@@ -605,7 +605,7 @@ struct FUN_006317a0_struct
 {
 };
 struct IMH;
-struct Tile
+class Tile
 {
 };
 struct IMH
@@ -656,8 +656,9 @@ Menu* FUN_00720e60_shell::FindTopMenu()
 }
 }  // namespace fnv_00720e60
 
-struct Tile
+class Tile
 {
+  public:
     virtual ~Tile();  // polymorphic: its RTTI is used (rtti_fix.py)
     void Set(int, int);
 };
@@ -707,7 +708,7 @@ void FUN_007254d0_t::FUN_007254d0()
 }
 
 namespace fnv_00726530 {
-struct Tile
+class Tile
 {
 };
 struct ListBoxBase_t
@@ -754,8 +755,8 @@ void FUN_00726530_t::FUN_00726530()
 }  // namespace fnv_00726530
 
 namespace fnv_007b8d30 {
-struct Tile;
-struct NiNode;
+class Tile;
+class NiNode;
 template <class T> class NiPointer
 {
   public:
@@ -763,8 +764,9 @@ template <class T> class NiPointer
     ~NiPointer();
     T* m_pObject;
 };
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
+  public:
     BSSimpleList();
     T m_item;
     BSSimpleList<T>* m_pkNext;
@@ -923,7 +925,7 @@ void* FUN_00720770_shell::FUN_00720770(unsigned int flags)
     return this;
 }
 
-struct Tile;
+class Tile;
 struct TutorialMenu
 {
     char _0x28[0x28];
@@ -949,30 +951,30 @@ int QuantityMenu::FUN_00720a30()
     return 0x3f8;
 }
 
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct ActorCause;
 struct ActorMover;
 struct AlchemyItem;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct BGSExplosion;
 struct ExplosionForm;
-struct BGSImpactDataSet;
+class BGSImpactDataSet;
 struct BGSLoadFormBuffer;
 struct BGSLoadGameBuffer;
-struct BGSPerk;
+class BGSPerk;
 struct BGSPerkEntry;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BGSTextureSet;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct BSAnimNote;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
@@ -990,11 +992,11 @@ struct CombatThreatMap;
 struct ContinuousBeamProjectile;
 struct Crime;
 struct GameFormRecord;
-struct DialogueResponse;
+class DialogueResponse;
 struct DetectionParameters;
 struct TeleportableReference;
-struct EffectItem;
-struct ExtraDataList;
+class EffectItem;
+class ExtraDataList;
 struct ExtraLock;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -1004,76 +1006,76 @@ struct BooleanIntegerAccessor;
 struct BooleanFloatQuery;
 struct IDebugText;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct CellDataNode;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
-struct MagicTarget;
-struct MapMarkerData;
-struct MobileObject;
-struct Point3Offset;
-struct NiAVObject;
+class MagicTarget;
+class MapMarkerData;
+class MobileObject;
+class Point3Offset;
+class NiAVObject;
 struct AnimationInterpolator;
 struct NiColor;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct NiPointLight;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct LocationDescriptor;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingLocation;
 struct PathingRequest;
-struct Projectile;
-struct QueuedFile;
+class Projectile;
+class QueuedFile;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
-struct Script;
+class RagDollData;
+class Script;
 struct ScriptLocals;
 struct SpellItem;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESClass;
 struct TESCombatStyle;
-struct TESContainer;
+class TESContainer;
 struct TESFaction;
-struct TESFile;
-struct TESForm;
+class TESFile;
+class TESForm;
 struct TESGlobal;
-struct TESIdleForm;
-struct TESModel;
-struct TESObject;
-struct TESObjectARMO;
-struct TESObjectBOOK;
-struct TESObjectCELL;
+class TESIdleForm;
+class TESModel;
+class TESObject;
+class TESObjectARMO;
+class TESObjectBOOK;
+class TESObjectCELL;
 struct TESObjectCLOT;
 struct TESObjectLIGH;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
 struct TESRace;
 struct TESSkill;
-struct TESSound;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESSound;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
 struct TrapEntry;
 struct TrespassPackage;
 struct WaterZone;
 struct WeaponObject;
-struct bhkCharacterController;
+class bhkCharacterController;
 struct bhkNiCollisionObject;
 struct bhkRagdollController;
 struct bhkRagdollPenetrationUtil;
@@ -1158,8 +1160,9 @@ struct CombatManager
     unsigned int m_uiDebugFlags;
     char m_spDebugRootNode[4];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -1170,8 +1173,9 @@ struct TESChildCell
     virtual TESObjectCELL* GetSaveParentCell();
 };
 namespace ActorValue { enum Index; }
-struct ActorValueOwner
+class ActorValueOwner
 {
+  public:
     virtual int GetBaseActorValue(int);
     virtual float GetBaseActorValueFloat(int);
     virtual int GetActorValue(int);
@@ -1425,8 +1429,9 @@ void FUN_00720a70_Host::FUN_00720a70()
 }  // namespace fnv_00720a70
 
 namespace fnv_00720e00 {
-struct Tile
+class Tile
 {
+  public:
     virtual ~Tile();
 };
 struct FakeMgr
@@ -1447,7 +1452,7 @@ bool FakeMgr::DestroyMenuByClass(int aiMenuClass)
 }
 }  // namespace fnv_00720e00
 
-struct Tile;
+class Tile;
 struct S0071
 {
     unsigned char _pad[0x2c];
@@ -1464,7 +1469,7 @@ void S0071::FUN_0071ffe0(int aiID, Tile* apTile)
     }
 }
 
-struct Tile;
+class Tile;
 struct FUN_00720140_Holder
 {
     char _pad[0x28];
@@ -1611,7 +1616,7 @@ struct FUN_009ca4a0
     ~FUN_009ca4a0();
 };
 
-struct Tile;
+class Tile;
 
 struct FUN_00720040 : public FUN_00a1c4a0
 {
@@ -1644,8 +1649,9 @@ FUN_00720040::FUN_00720040()
 
 namespace fnv_00720550 {
 namespace Reconstructed {
-struct Menu
+class Menu
 {
+  public:
     Menu();
     virtual ~Menu();
     unsigned int rootTile, extraHead, extraNext, state10, state14, state18, state1C, menuID, visibility;
@@ -1668,8 +1674,9 @@ struct MenuEntry
     MenuEntry();
     ~MenuEntry();
 };
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* object;
     NiPointer();
     ~NiPointer();

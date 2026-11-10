@@ -31,7 +31,7 @@ inline const NiParticleModifierPointer& NiParticleGetNext(NiParticleModifierNode
     position = position->next;
     return *value;
 }
-class NiParticleSystem
+struct NiParticleSystem
 {
   public:
     char padding[0x2c];

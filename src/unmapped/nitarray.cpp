@@ -139,8 +139,9 @@ struct MM
 {
 };
 class NiNode;
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* ptr;
     ~NiPointer();
 };

@@ -1,8 +1,8 @@
 #pragma once
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class GlobalObject_008c71b0;
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 enum PROCESS_TYPE;
 
 class MobileObject {

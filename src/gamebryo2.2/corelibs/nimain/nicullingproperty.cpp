@@ -47,7 +47,7 @@ void __cdecl FUN_00a8fd80()
 }
 
 extern int DAT_0109f68c;
-class NiStream;
+struct NiStream;
 struct NiProperty
 {
     NiProperty();

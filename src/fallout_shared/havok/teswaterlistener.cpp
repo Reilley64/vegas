@@ -194,7 +194,7 @@ struct BSOcclusionPlane
 {
 };
 
-struct ExtraDataList
+class ExtraDataList
 {
 };
 
@@ -292,7 +292,7 @@ struct BSSimpleList_Ragdoll
     char kRecord10[4];
     void* FUN_006310e0();
 };
-struct TESDataHandler
+class TESDataHandler
 {
 };
 struct FUN_006310c0_shell
@@ -569,8 +569,8 @@ void FUN_006312d0_shell::FUN_006312d0(void* apWaterRef)
     }
 }
 
-struct TESObjectREFR;
-struct EffectSetting
+class TESObjectREFR;
+class EffectSetting
 {
 };
 class TESObjectREFR;
@@ -955,7 +955,7 @@ struct WaterSplash_62e970
     void SpawnWaterSplash(Body_62e970* apBody, float afWaterZ);
 };
 
-class GameSettingCollection;
+struct GameSettingCollection;
 union SETTING_VALUE
 {
     float f;
@@ -993,7 +993,7 @@ class BSSoundHandleEx
     BSSoundHandleEx& operator=(const BSSoundHandleEx& rhs);
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char* editorID, unsigned int flags);
@@ -1042,7 +1042,7 @@ class TES_Ext
   public:
 };
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static TaskQueueInterface* GetSingleton();
@@ -1316,7 +1316,7 @@ class TESBoundObject
   public:
     virtual void vf0();
 };
-class BGSPlaceableWater : public TESBoundObject
+struct BGSPlaceableWater : public TESBoundObject
 {
   public:
 };
@@ -1367,8 +1367,9 @@ struct SceneHolder
 struct WaterForm
 {
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();

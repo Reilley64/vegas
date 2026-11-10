@@ -153,7 +153,7 @@ FUN_00a42f60::FUN_00a42f60()
 }
 
 struct CloningProcess;
-class NiRTTI;
+struct NiRTTI;
 struct NiObject
 {
 public:
@@ -420,8 +420,9 @@ void* FUN_00a54160_class::FUN_00a54160(unsigned char flags)
 }
 
 void __cdecl FUN_00a57500(NiFixedString*);
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_kHandle;
 };
 // The global string table keeps this header in front of each string.
@@ -3245,7 +3246,7 @@ struct NiBinaryStream
         m_uiPosition += m_pRead(this, id, 4, &length, 1);
     }
 };
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     unsigned int unk000;
@@ -3453,7 +3454,7 @@ void FUN_00a5d610_Object::ReadGroup(NiStream* stream)
     }
 }
 
-struct BGSCameraPath
+class BGSCameraPath
 {
 };
 template <class T> class NiTMallocInterface;
@@ -4463,7 +4464,7 @@ class Task
     virtual ~Task();
 };
 
-class Owner;
+struct Owner;
 
 class Manager
 {
@@ -4551,7 +4552,7 @@ class Manager
 };
 
 
-class Owner
+struct Owner
 {
   public:
     virtual void v00();
@@ -5148,7 +5149,7 @@ class Listener
 
 struct Owner;
 
-class Item
+struct Item
 {
   public:
     virtual void v00();
@@ -5589,8 +5590,9 @@ struct ExtraName
         return handle;
     }
 };
-struct NiTexture
+class NiTexture
 {
+  public:
     void* m_pVTable;
     long m_iObjectReferenceCount;
 };

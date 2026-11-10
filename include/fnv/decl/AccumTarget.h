@@ -1,6 +1,6 @@
 #pragma once
 
-class NiObjectNET;
+struct NiObjectNET;
 
 struct AccumTarget {
 public:

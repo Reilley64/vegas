@@ -38,7 +38,7 @@
 #include "fnv/symbols_011a9000.h"
 #include "fnv/symbols_011d7000.h"
 #include "fnv/symbols_011de000.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -84,7 +84,7 @@ class AvoidSphere
   public:
 };
 class NavMeshTriangle;
-class NiPoint3;
+struct NiPoint3;
 class NavMesh
 {
   public:
@@ -254,7 +254,7 @@ class NavMeshTriangleEdgeReference
 };
 class NavMeshInfo;
 class TESObjectCELL;
-class PathingLocation
+struct PathingLocation
 {
   public:
     void* vtable;
@@ -284,7 +284,7 @@ class PathingSolution
     bool m_bHasValidPath;  // +0x40
     bool FUN_006b05d0();
 };
-class PathingRequest
+struct PathingRequest
 {
   public:
     unsigned char layoutPadding0[0x8C];

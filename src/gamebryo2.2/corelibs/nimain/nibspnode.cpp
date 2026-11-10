@@ -23,13 +23,13 @@
 #include "fnv/symbols_010a1000.h"
 #include "fnv/symbols_011f5000.h"
 struct NiStream;
-class CloningProcess;
-struct NiNode
+struct CloningProcess;
+class NiNode
 {
 public:
     void CopyMemberData(::NiNode *, ::CloningProcess &);
 };
-class NiStream;
+struct NiStream;
 struct NiSphere
 {
     void LoadBinary(NiStream&);
@@ -54,7 +54,7 @@ namespace fnv_00a9a840 {
 struct NiUpdateData
 {
 };
-struct NiAVObject
+class NiAVObject
 {
 };
 struct NiBSPNode : NiAVObject
@@ -104,7 +104,7 @@ struct NiStream;
 struct NiSphere
 {
 };
-struct NiNode
+class NiNode
 {
 };
 struct NiBSPNode : NiNode

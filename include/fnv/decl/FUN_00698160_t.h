@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 struct NavEdgeHit;
 
 struct FUN_00698160_t {

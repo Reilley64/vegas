@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESTopic;
+class TESTopic;
 
 struct FUN_0057bd40_shell {
 public:

@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class Crime;
+struct Crime;
 class TESObjectREFR;
 
 namespace fnv_00972570 {

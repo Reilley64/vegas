@@ -2,7 +2,7 @@
 
 class TESBoundObject;
 
-class ScriptLocals {
+struct ScriptLocals {
 public:
     // 0x00541c80
     ::TESBoundObject *GetLocalData();

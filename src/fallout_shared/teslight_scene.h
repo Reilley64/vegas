@@ -9,7 +9,7 @@
 #include "fnv/symbols_011f4000.h"
 class NiAVObject;
 class NiNode;
-class NiRTTI;
+struct NiRTTI;
 class TESObjectREFR;
 
 class NiMemObject

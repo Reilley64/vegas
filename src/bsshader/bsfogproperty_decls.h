@@ -13,7 +13,7 @@ class NiProperty
     void* unk0c;
     unsigned char pad10[0x8];
 };
-class NiColor
+struct NiColor
 {
   public:
     float r, g, b;
@@ -36,7 +36,7 @@ class NiFogProperty : public NiProperty
         m_kFogTint = ::DAT_011f4998;
     }
 };
-class NiPlane
+struct NiPlane
 {
   public:
     NiPlane();

@@ -363,8 +363,9 @@ struct hkVector4f
     float z;
     float w;
 };
-struct hkContactPoint
+class hkContactPoint
 {
+  public:
     hkVector4f m_vContactPosition;
     hkVector4f m_vSeparatingNormal;
 };

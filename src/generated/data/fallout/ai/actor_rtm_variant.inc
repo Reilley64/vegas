@@ -3,7 +3,7 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 #pragma comment(linker, "/alternatename:?DAT_011f6394@ActorUpdate3D@@3UClock@1@A=?g_timeGlobal@@3UGameTimerRecord@@A")
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?g_timeGlobal@@3VTimeGlobal@@A=?g_timeGlobal@@3UGameTimerRecord@@A")
 
 const char DAT_0102fdc8[5] = "Lily";

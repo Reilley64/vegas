@@ -662,7 +662,7 @@ public:
 __forceinline hkArray&operator=(const HavokElementArray<T>&a);};
 #include "fnv/symbols_simd.h"
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
 {
@@ -715,7 +715,7 @@ MASK_YZW=14,
 MASK_XYZW=15
 };private:
 hkQuadReal m_uiMask;};
-class hkVector4
+struct hkVector4
 {
 public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}

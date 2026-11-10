@@ -438,8 +438,9 @@ struct NormVec3
     float y;
     float z;
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     float rotation[9];
     Vec3 translation;
     float scale;
@@ -613,8 +614,9 @@ struct AirVector
         return x * b.x + y * b.y + z * b.z;
     }
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     float r00, r01, r02, r10, r11, r12, r20, r21, r22;
     AirVector translate;
     float scale;

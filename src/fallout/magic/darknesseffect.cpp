@@ -36,14 +36,15 @@ FUN_0080c460_shell::FUN_0080c460_shell(void* apArg1, void* apArg2, void* apArg3)
     vtbl = &DAT_01079d2c;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void Revert(unsigned int);
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
-struct Actor : TESObjectREFR
+class Actor : public TESObjectREFR
 {
 };
 struct DarknessEffect : TESForm
@@ -141,8 +142,9 @@ struct BSThread
 {
 };
 
-struct MagicTarget
+class MagicTarget
 {
+  public:
     Actor* GetOwnerActor(void) const;
 };
 
@@ -330,8 +332,9 @@ struct BSThread
 {
 };
 
-struct MagicTarget
+class MagicTarget
 {
+  public:
     Actor* GetOwnerActor() const;
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 
 struct DummyFlags;
-struct bhkCharacterController;
+class bhkCharacterController;
 
 // 0x009304a0
 int FUN_009304a0();

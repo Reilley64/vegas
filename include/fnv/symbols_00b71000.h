@@ -1,10 +1,10 @@
 #pragma once
 
 class BlobObj_cls;
-class NiPoint3;
-class ThreeByThreeMatrix;
+struct NiPoint3;
+struct ThreeByThreeMatrix;
 namespace fnv_00b71130 { struct LProp; }
-struct BeamStage;
+class BeamStage;
 struct FUN_00b71360_water;
 struct NiD3DShader;
 

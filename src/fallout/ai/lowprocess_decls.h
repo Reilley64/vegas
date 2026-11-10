@@ -444,7 +444,7 @@ class FormChangeMask
     unsigned int value;
     operator bool() const;
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     virtual unsigned char GetVersion();
@@ -500,11 +500,11 @@ class Date
   public:
     ~Date();
 };
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
 };
-class BGSMessageInitAccess
+struct BGSMessageInitAccess
 {
   public:
     unsigned int GetIconFormID();

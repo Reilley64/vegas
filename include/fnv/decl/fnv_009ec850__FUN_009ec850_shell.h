@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace fnv_009ec850 { struct Actor; }
+namespace fnv_009ec850 { class Actor; }
 
 namespace fnv_009ec850 {
 struct FUN_009ec850_shell {

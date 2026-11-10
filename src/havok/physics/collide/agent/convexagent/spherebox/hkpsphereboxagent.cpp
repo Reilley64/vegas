@@ -1304,7 +1304,7 @@ hkReferencedObject(class FinishingFlag flag){}
 };
 
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
 {
@@ -1359,11 +1359,11 @@ MASK_XYZW=15
 };__forceinline hkBool32 anyIsSet(Mask m)const{return _mm_movemask_ps(m_uiMask)&m;}
 private:
 hkQuadReal m_uiMask;
-friend class hkVector4;};
+friend struct hkVector4;};
 class hkMatrix3;
 class hkRotation;
 class hkTransform;
-class hkVector4
+struct hkVector4
 {
 public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}

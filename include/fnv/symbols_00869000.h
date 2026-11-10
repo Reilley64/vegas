@@ -1,7 +1,7 @@
 #pragma once
 
 class GlobalObject_004aff00;
-class GlobalObject_00869f00;
+struct GlobalObject_00869f00;
 struct Arr;
 struct Caller008693c0;
 struct FUN_008693f0_Class;

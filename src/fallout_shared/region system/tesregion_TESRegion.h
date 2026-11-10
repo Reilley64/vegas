@@ -8,12 +8,12 @@
 #include "layout_support.h"
 #include "tesregion_TESForm.h"
 #include "layout_support.h"
-class NiColor;
+struct NiColor;
 class TESRegion;
 class RegionDataList;
 class RegionPointList;
 class TESWeather;
-class NiColor
+struct NiColor
 {
   public:
     float r;  // +0x0, 4 bytes

@@ -1,19 +1,19 @@
 // gamebryo2.2/corelibs/nimain/niplane_decls.h: declares NiPoint3, NiPlane, NiColor, NiBinaryStream, NiStream and more
-class NiStream;
-class NiPoint3
+struct NiStream;
+struct NiPoint3
 {
   public:
     float x, y, z;
     static const NiPoint3 ZERO;
 };
-class NiPlane
+struct NiPlane
 {
   public:
     NiPoint3 normal;
     float constant;
     NiPlane();
 };
-class NiColor
+struct NiColor
 {
   public:
     float r, g, b;
@@ -38,7 +38,7 @@ class NiBinaryStream
         position += write(this, value, 4, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     char padding[0x24c];

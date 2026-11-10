@@ -1,11 +1,11 @@
 #pragma once
 
-class BGSLoadFormBuffer;
-class PathingLocation;
+struct BGSLoadFormBuffer;
+struct PathingLocation;
 enum PATHING_REQUEST_TYPE;
 template <class, unsigned int> class BSSimpleArray;
 
-class PathingRequest {
+struct PathingRequest {
 public:
     // 0x0051b840
     void SetActorRadius(float);

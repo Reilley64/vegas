@@ -6,8 +6,9 @@
 
 // Base of the object: a NiRefObject-like polymorphic base whose constructor is
 #include <windows.h>
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual void v0();
 
     int m_kPointA;

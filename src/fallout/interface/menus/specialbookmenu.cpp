@@ -120,7 +120,7 @@ intptr_t FUN_007ca030_shell::FUN_007ca030()
     return -1;
 }
 
-struct NiAVObject
+class NiAVObject
 {
 public:
     void SetLocalRotation(float, float, float, float);
@@ -129,7 +129,7 @@ struct NiAdditionalGeometryData
 {
     static NiAVObject* __cdecl GetShadowSceneNodeForIndex(int);
 };
-struct NiNode
+class NiNode
 {
 };
 struct ModelLoader
@@ -146,11 +146,12 @@ struct GO
 struct GlobalObject_00869f00
 {
 };
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
-struct Menu
+class Menu
 {
 };
 struct FUN_00b5ddb0_self
@@ -225,7 +226,7 @@ class NiFixedString
 struct PropHelper
 {
 };
-struct NiTimeController
+class NiTimeController
 {
 };
 struct SceneRoot_007ca080
@@ -375,8 +376,9 @@ struct NiUpdateData
     bool isCulled;
     NiUpdateData(float, bool, bool);
 };
-struct NiControllerSequence
+class NiControllerSequence
 {
+  public:
     void Update(float, bool);
 };
 struct MenuController
@@ -1861,7 +1863,7 @@ struct FUN_006815c0
 struct BookPickResult
 {
 };
-class NiPoint3;
+struct NiPoint3;
 struct NiPick
 {
     int unk00;

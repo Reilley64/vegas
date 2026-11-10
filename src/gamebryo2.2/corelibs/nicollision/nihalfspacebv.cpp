@@ -43,14 +43,14 @@ int __cdecl FUN_00e9e670()
 }
 
 struct NiStream;
-class NiStream;
+struct NiStream;
 struct NiSphere
 {
     void SaveBinary(NiStream&);
 public:
     void LoadBinary(::NiStream &);
 };
-class NiStream;
+struct NiStream;
 struct NiColor
 {
     void SaveBinary(NiStream&);

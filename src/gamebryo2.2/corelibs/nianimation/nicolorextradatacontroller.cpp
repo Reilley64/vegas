@@ -114,8 +114,8 @@ struct RgbaColor
 {
     float r, g, b, a;
 };
-class NiRTTI;
-class NiObject
+struct NiRTTI;
+struct NiObject
 {
   public:
     NiObject* DynamicCast(NiRTTI const*);

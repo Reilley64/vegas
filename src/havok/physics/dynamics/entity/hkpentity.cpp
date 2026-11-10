@@ -297,7 +297,7 @@ hkpConstraintInstance* FUN_00c9c390_Class::GetEntry(int index)
     return m_kSlaveConstraints.m_data[index - m_eSmallArraySerializeOverrideType.m_iElementCount];
 }
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 
 class hkStatisticsCollector
 {

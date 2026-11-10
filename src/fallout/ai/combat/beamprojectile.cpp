@@ -63,12 +63,14 @@
 struct ActorCause
 {
 };
-struct NiPointer
+class NiPointer
 {
+  public:
     NiPointer& operator=(ActorCause* apCause);
 };
-struct Projectile
+class Projectile
 {
+  public:
     NiPointer m_actorCause;  // +0x120
     void FUN_00978ed0(ActorCause* apCause);
 public:
@@ -82,8 +84,9 @@ void Projectile::FUN_00978ed0(ActorCause* apCause)
 }
 
 namespace fnv_00979260 {
-struct Projectile
+class Projectile
 {
+  public:
     float m_fFirstLightParameter;
     float GetFirstLightParameter();
 };
@@ -110,7 +113,7 @@ void FUN_009795c0_shell::FUN_009795c0(float value)
 
 namespace fnv_009abf10 {
 struct BGSLoadFormBuffer;
-struct Projectile
+class Projectile
 {
 };
 struct BeamProjectile : Projectile
@@ -144,8 +147,9 @@ void BeamProjectile::FUN_009b4cf0(BGSLoadFormBuffer* apLoadGameBuffer)
 namespace fnv_009bab00 {
 struct BGSLoadFormBuffer;
 
-struct Projectile
+class Projectile
 {
+  public:
     virtual void InitLoadGame(BGSLoadFormBuffer*);
 };
 
@@ -188,8 +192,8 @@ void FUN_009abef0_shell::FUN_009abef0(S5870_Buf* apLoadGameBuffer)
 }
 
 struct NiRTTI;
-struct NiAVObject;
-class NiPoint3
+class NiAVObject;
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -207,8 +211,8 @@ struct NiBound
 struct NiTriShape
 {
 };
-struct NiGeometryData;
-struct NiGeometry
+class NiGeometryData;
+class NiGeometry
 {
 };
 struct FUN_004d7d50_StandIn
@@ -219,7 +223,7 @@ struct TESGrass
 {
     float GetLowestAllowedSlope();
 };
-struct EffectSetting
+class EffectSetting
 {
 };
 struct BeamCtl
@@ -277,8 +281,9 @@ struct FUN_0047d370_shell
 struct FUN_005f8f10_shell
 {
 };
-struct NiGeometryData
+class NiGeometryData
 {
+  public:
     bool IsGeometryDataStreamable(bool);
 };
 struct FUN_00a673d0_shell
@@ -288,7 +293,7 @@ struct FUN_00a673d0_shell
 struct N_008c48d0
 {
 };
-struct Script
+class Script
 {
 };
 struct BeamPair
@@ -509,8 +514,9 @@ struct SoundManager
     SoundPlaybackHandle FUN_00ad7480(Descriptor*, Reference*);
 };
 class TESActorBase;
-struct Actor
+class Actor
 {
+  public:
     virtual void method0();
     virtual void method1();
     virtual void method2();

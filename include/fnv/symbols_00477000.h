@@ -3,7 +3,7 @@
 
 class NiFixedString;
 class TESObjectREFR;
-struct NiAVObject;
+class NiAVObject;
 struct ReferenceView;
 
 // 0x004772e0

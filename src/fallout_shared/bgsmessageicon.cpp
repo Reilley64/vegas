@@ -38,7 +38,7 @@ FUN_0047a130::FUN_0047a130()
     InitIcon();
 }
 
-struct TESFile;
+class TESFile;
 struct NiPoint3Stub
 {
     float x, y, z;

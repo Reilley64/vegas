@@ -334,7 +334,7 @@ struct Flt
 {
     operator unsigned int();
 };
-struct TESObject
+class TESObject
 {
 };
 struct FUN_0049ec60
@@ -643,7 +643,7 @@ void* S486f40::FUN_00486f40(intptr_t aiArg, bool abFlag)
     return this;
 }
 
-struct IdleAnimationManager
+class IdleAnimationManager
 {
 };
 void __cdecl FUN_004858f0(unsigned int, unsigned char);
@@ -713,8 +713,9 @@ FUN_0048b560::FUN_0048b560() : BFC_s()
     ((FUN_0048b590_shell*)this)->ClearFields();
 }
 
-struct TESSound
+class TESSound
 {
+  public:
     void* m_auiShapeKeys;
     void* m_sound;
 };
@@ -734,8 +735,9 @@ void FUN_0048b830_Class::ReleaseSound()
     }
 }
 
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength() const;
 };
 struct FNStub
@@ -998,17 +1000,19 @@ void FUN_0049ff80()
     (*reinterpret_cast<::FUN_0049fe20_class * *>(&::bsrandom_singleton::DAT_011c57f8)) = 0;
 }
 
-struct TESModelTextureSwap;
-struct TESForm
+class TESModelTextureSwap;
+class TESForm
 {
+  public:
     virtual ~TESForm();
     unsigned int FNV_GetFormType();
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
-struct TESActorBase
+class TESActorBase
 {
+  public:
     int GetSex();
 };
 struct TESBipedModelForm : TESForm
@@ -2339,16 +2343,16 @@ FUN_0048fb50::~FUN_0048fb50()
 }
 
 // Load v4 worker5: Animation load-from-buffer transcription.
-struct TESIdleForm : TESForm
+class TESIdleForm : public TESForm
 {
 };
 struct BGSLoadFormBuffer;
-struct Actor;
+class Actor;
 struct BaseProcess;
 struct Animation;
 struct KFModel;
 struct Biped;
-struct ExtraDataList;
+class ExtraDataList;
 struct MyNode;
 
 struct NiMemObject
@@ -2458,7 +2462,7 @@ struct FUN_005ae3d0_S
 {
     void FUN_005ae3d0(ExtraDataList** a);
 };
-struct PlayerCharacter;
+class PlayerCharacter;
 class ActorPackageContext;
 struct BaseProcess
 {
@@ -2887,8 +2891,9 @@ Entry487a60* Owner487a60::InsertEntryByPriority(unsigned short priority, unsigne
         reinterpret_cast<::Callees *>((((::Node487a60 *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()))))->FUN_00905820((void *)&(entry));
     return entry;
 }
-struct Actor
+class Actor
 {
+  public:
     virtual void vp0();
     virtual void vp1();
     virtual void vp2();
@@ -3084,9 +3089,10 @@ struct BGSLoadFormBuffer
     virtual void vp2();
     virtual Actor* V3();
 };
-class Animation;
-struct PlayerCharacter : Actor
+struct Animation;
+class PlayerCharacter : public Actor
 {
+  public:
     Biped* FUN_00950b00(bool a);
 public:
     ::Animation *GetAnimation(bool) const;
@@ -3662,7 +3668,7 @@ FUN_0049ec80::FUN_0049ec80()
 
 using ::AutoMemContext;
 extern const char DAT_0101e018[];
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -3830,7 +3836,7 @@ void __cdecl BuildWaterSurfaces(CellView* cell)
     }
 }
 
-struct TESFile
+class TESFile
 {
 public:
     bool IsEndianConversionRequired();

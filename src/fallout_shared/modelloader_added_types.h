@@ -20,7 +20,7 @@ class BGSSaveLoadReferencesMap;
 class LoadGameSubBufferQueue;
 class SaveLoadChangeHistory;
 class BGSReconstructFormsInAllFilesMap;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class Actor;
 class NiTMap_unsigned_int_unsigned_int_;
 
@@ -64,7 +64,7 @@ class NiTMap_unsigned_int_Actor___ : public NiTMapBase_DFALL_NiTMapItem_unsigned
 
 class FormChangeMask;
 class TESForm;
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
     BGSSaveLoadChangesMap* m_pFormChangesMap;

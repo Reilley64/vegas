@@ -3582,7 +3582,7 @@ void __cdecl Cb5750_Owner::AddCollisionShape(Cb5750_Param* param) throw()
 
 namespace fnv_00cb5dd0 {
 struct Producer;
-struct Actor;
+class Actor;
 
 
 template <class T> struct Array
@@ -3649,8 +3649,9 @@ struct Handle
     unsigned char unk24;
     unsigned char flags25;
 };
-struct Actor
+class Actor
 {
+  public:
     int unk00;
     int unk04;
     int unk08;
@@ -4184,8 +4185,9 @@ struct Array
     int size;
     unsigned capacity;
 };
-struct Actor
+class Actor
 {
+  public:
     unsigned short& id()
     {
         return reinterpret_cast<IslandFields*>(this)->m_dirtyListIndex;
@@ -4260,7 +4262,7 @@ template <class T> inline void S00cb4c60_copy(T* p, int n, const T& v)
 struct hkpWorld;
 struct hkpSimulationIsland;
 struct hkpEntity;
-struct hkpAction;
+class hkpAction;
 struct hkBool
 {
     char value;
@@ -4303,8 +4305,9 @@ template <class T> struct hkArrayNative
         count = size;
     }
 };
-struct hkpConstraintInstance
+class hkpConstraintInstance
 {
+  public:
     int unk00, unk04;
     hkpSimulationIsland* owner;
 };
@@ -4323,8 +4326,9 @@ struct ConstraintRuntimeInfo
     int unk28;
     int unk2c;
 };
-struct hkpAction
+class hkpAction
 {
+  public:
     int unk00, unk04, unk08;
     hkpSimulationIsland* owner;
 };

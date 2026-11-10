@@ -38,13 +38,13 @@ void FUN_00835f80_shell::FUN_00835f80(BGSLoadFormBuffer* apBuffer)
     apBuffer->ReadTypedData(&this->_1f, 1);
 }
 
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -101,13 +101,13 @@ unsigned char FUN_00864720_shell::FUN_00864720()
 }
 
 namespace fnv_008647f0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -161,13 +161,13 @@ void FUN_008647f0_shell::FUN_008647f0(char* apBuffer, unsigned int aiSize, unsig
 }  // namespace fnv_008647f0
 
 namespace fnv_00864980 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -218,15 +218,15 @@ void FUN_00864980_shell::FUN_00864980(NiQuaternion* apData, unsigned int aiSize)
 }  // namespace fnv_00864980
 
 namespace fnv_009f38b0 {
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct SaveLoadFile;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {
@@ -304,7 +304,7 @@ void FUN_009f38b0_shell::FUN_009f38b0(BGSLoadFormBuffer* apLoadGameBuffer)
 }
 }  // namespace fnv_009f38b0
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 struct SaveGameLoader
 {
 public:
@@ -328,13 +328,13 @@ void FUN_0084c2a0(unsigned int start, unsigned int end, unsigned char flag)
 }
 
 namespace fnv_00864820 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -436,13 +436,13 @@ FUN_008646b0::FUN_008646b0()
 }
 
 namespace fnv_008646f0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -507,8 +507,9 @@ struct FUN_00864740_shell
     unsigned int m_uiReadOffset;
     int ReadAndVerifySize(SaveLoadFile* apFile);
 };
-struct SaveLoadFile
+class SaveLoadFile
 {
+  public:
     unsigned int Read(void*, unsigned int);
 };
 struct FUN_00864790_shell
@@ -541,13 +542,13 @@ int FUN_00864790_shell::ReadFromFile(SaveLoadFile* file, unsigned int uiSize)
 }
 
 namespace fnv_008648a0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -623,13 +624,13 @@ uintptr_t FUN_008648a0_t::FUN_008648a0()
 }  // namespace fnv_008648a0
 
 namespace fnv_008648e0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -720,13 +721,13 @@ unsigned char FUN_00864940_shell::FUN_00864940()
 }
 
 namespace fnv_008649a0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {
@@ -909,7 +910,7 @@ void FUN_0066e750(BGSLoadGameBuffer* apLoadGameBuffer)
     }
 }
 
-struct NiQuaternion
+class NiQuaternion
 {
 };
 
@@ -954,13 +955,13 @@ FUN_0081db60_shell* FUN_0081db60_shell::FUN_0081db60(unsigned int deletingFlags)
 }
 
 namespace fnv_00864a60 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct BGSLoadGameBuffer
 {

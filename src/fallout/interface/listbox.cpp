@@ -245,10 +245,10 @@ FUN_007a62e0_shell* FUN_007a62e0_shell::FUN_007a62e0(int param2, int* pSource)
 }
 
 struct RecursiveLock;
-struct Menu;
-struct NiAVObject;
-struct NiNode;
-struct Tile;
+class Menu;
+class NiAVObject;
+class NiNode;
+class Tile;
 struct TileShaderProperty;
 struct MenuValueDescriptor;
 
@@ -289,7 +289,7 @@ struct FUN_007d8eb0_shell
 };
 
 
-struct BSSimpleList
+class BSSimpleList
 {
 };
 
@@ -300,7 +300,7 @@ struct FUN_00721410_class
 };
 
 namespace fnv_00722370 {
-struct BSSimpleList
+class BSSimpleList
 {
 };
 
@@ -325,7 +325,7 @@ void FUN_00722370_shell::FUN_00722370(int* pCompare)
 }  // namespace fnv_00722370
 
 namespace fnv_00722b20 {
-struct BSSimpleList
+class BSSimpleList
 {
 };
 struct FUN_007254d0_t
@@ -469,7 +469,7 @@ struct FUN_00721bc0_shell
     void FUN_00721bc0(int(__cdecl* param)(void*, void*));
     void FUN_00724930();
 };
-struct Tile
+class Tile
 {
 public:
     void Set(int, int);
@@ -624,7 +624,7 @@ Member_007a8b10* FUN_007643c0_p07::DestroySelf(unsigned int flags)
     return this;
 }
 
-struct BSSimpleList;
+class BSSimpleList;
 struct FUN_007a6480_shell
 {
     void FUN_007a6480();
@@ -805,7 +805,7 @@ void NavMeshSearchLOSArray::FUN_007d8e20(bool freeStorage)
 }
 
 namespace fnv_007a3cf0 {
-struct BSSimpleList
+class BSSimpleList
 {
 };
 
@@ -877,8 +877,9 @@ void ListBox_71ad30::UpdateScrollPages()
 }
 
 namespace fnv_00723890 {
-struct InventoryStackRecord
+class InventoryStackRecord
 {
+  public:
     ~InventoryStackRecord();
 };
 struct TileV

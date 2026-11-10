@@ -5,16 +5,16 @@
 #include "layout_support.h"
 #include "NiObject.h"
 #include "layout_support.h"
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 template <class T> class NiTStringPointerMap;
-class CloningProcess;
+struct CloningProcess;
 enum NiObjectNET__CopyType
 {
     NiObjectNET__CopyType_COPY_NONE = 0,
     NiObjectNET__CopyType_COPY_EXACT = 1,
     NiObjectNET__CopyType_COPY_UNIQUE = 2
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     NiTStringPointerMap<ShaderBufferRecord*>* m_pCloneMap;  // +0x0, 4 bytes

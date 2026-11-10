@@ -37,10 +37,11 @@
 #include "fnv/symbols_011f6000.h"
 #include "nitlargearray.inl"
 
-struct TESRegion;
+class TESRegion;
 
-struct BGSAcousticSpace
+class BGSAcousticSpace
 {
+  public:
     unsigned char unk00[0x48];
     TESRegion* m_pRegion;
 };

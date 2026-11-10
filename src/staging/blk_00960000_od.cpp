@@ -323,7 +323,7 @@ unsigned int FUN_00968650_Class::FUN_00968650()
     return reinterpret_cast<::FUN_00658930_class *>((((Arr*)this)))->GetShortAtOffsetA();
 }
 
-struct TESForm;
+class TESForm;
 struct TESRace;
 struct TESRace
 {
@@ -742,7 +742,7 @@ struct StartMenu
 {
     const char* GetMenuTitle();
 };
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
 };
 struct FUN_009627a0_Class
@@ -762,10 +762,10 @@ void FUN_009627a0_Class::ShowStartMenuMessageOnce()
     }
 }
 
-struct TESSound
+class TESSound
 {
 };
-struct TESObjectREFR;
+class TESObjectREFR;
 struct FUN_0056aac0_map
 {
 };
@@ -1021,27 +1021,30 @@ struct FUN_00978f40_Class
     void FUN_00978f70();
     void* FUN_00978f40(unsigned int flags);
 };
-struct CombatAction
+class CombatAction
 {
+  public:
     static CombatAction* __cdecl CreateAction(int type);
 };
 struct CombatActionAttackRangedExplosive
 {
     static void __cdecl Execute(int, CombatAction*);
 };
-struct BGSQuestObjective
+class BGSQuestObjective
 {
+  public:
     BSSimpleList<RegionObjectEntry*>* GetTargetList();
 };
-struct RegionObjectEntry
+class RegionObjectEntry
 {
 };
 struct Flt
 {
     operator unsigned int();
 };
-struct CombatWorldStateListNode
+class CombatWorldStateListNode
 {
+  public:
     CombatWorldStateListNode* GetNext();
 };
 
@@ -1354,7 +1357,7 @@ unsigned char FUN_00962810_Class::FUN_00962810(TESSound* sound)
     return result;
 }
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct BSSimpleListX
 {
 };
@@ -1501,8 +1504,9 @@ struct BSScrapArray_00978db0
     virtual ~BSScrapArray_00978db0();
     void* DestroyAndFreeIfFlagged(unsigned int flags);
 };
-struct BGSPerk
+class BGSPerk
 {
+  public:
     int a;
     int b;
     int c;
@@ -1949,7 +1953,7 @@ struct PAVActor
     AX* FUN_008c1c00();
 };
 
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 struct MemoryManager
 {
 public:
@@ -2985,8 +2989,9 @@ struct TimeGlobal
 
 void FUN_005330e0(float& value, float lo, float hi);
 
-struct ImageSpaceModifierInstanceDOF
+class ImageSpaceModifierInstanceDOF
 {
+  public:
     enum DepthOfFieldMode
     {
         kMode0,
@@ -3449,13 +3454,13 @@ void PlayerDOFOwner::UpdateDepthOfField()
 }
 
 namespace fnv_00965270 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3 operator-(const NiPoint3&) const;
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;

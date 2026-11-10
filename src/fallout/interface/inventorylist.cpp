@@ -4,7 +4,7 @@
 
 #include "fnv/decl/FUN_004be2d0_shell.h"
 #include "fnv/symbols_00469000.h"
-struct InventoryStackRecord
+class InventoryStackRecord
 {
 };
 // @fnv 0x00719c80

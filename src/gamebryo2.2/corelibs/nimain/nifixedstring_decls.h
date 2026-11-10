@@ -9,7 +9,7 @@ class NiFixedString
     char* m_kHandle;
     NiFixedString& operator=(const char* pcString);
 };
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char* pcString);

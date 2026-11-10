@@ -2,12 +2,12 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?g_0126c698@@3UGlobalObjectO2_00d472a0@@A=?g_0126c698@@3VGlobalObjectO2_00d472a0@@A")
-#pragma comment(linker, "/alternatename:?g_0126c6c8@@3UGlobalObjectO2_00d472a0@@A=?g_0126c6c8@@3VGlobalObjectO2_00d472a0@@A")
-#pragma comment(linker, "/alternatename:?g_0126ca58@@3UGlobalObjectO2_00d472a0@@A=?g_0126ca58@@3VGlobalObjectO2_00d472a0@@A")
-#pragma comment(linker, "/alternatename:?g_0126ca88@@3UGlobalObjectO2_00d472a0@@A=?g_0126ca88@@3VGlobalObjectO2_00d472a0@@A")
-#pragma comment(linker, "/alternatename:?g_0126cab8@@3UGlobalObjectO2_00d472a0@@A=?g_0126cab8@@3VGlobalObjectO2_00d472a0@@A")
-#pragma comment(linker, "/alternatename:?g_0126cae8@@3UGlobalObjectO2_00d472a0@@A=?g_0126cae8@@3VGlobalObjectO2_00d472a0@@A")
+#pragma comment(linker, "/alternatename:?g_0126c698@@3UGlobalObjectO2_00d472a0@@A=?g_0126c698@@3UGlobalObjectO2_00d472a0@@A")
+#pragma comment(linker, "/alternatename:?g_0126c6c8@@3UGlobalObjectO2_00d472a0@@A=?g_0126c6c8@@3UGlobalObjectO2_00d472a0@@A")
+#pragma comment(linker, "/alternatename:?g_0126ca58@@3UGlobalObjectO2_00d472a0@@A=?g_0126ca58@@3UGlobalObjectO2_00d472a0@@A")
+#pragma comment(linker, "/alternatename:?g_0126ca88@@3UGlobalObjectO2_00d472a0@@A=?g_0126ca88@@3UGlobalObjectO2_00d472a0@@A")
+#pragma comment(linker, "/alternatename:?g_0126cab8@@3UGlobalObjectO2_00d472a0@@A=?g_0126cab8@@3UGlobalObjectO2_00d472a0@@A")
+#pragma comment(linker, "/alternatename:?g_0126cae8@@3UGlobalObjectO2_00d472a0@@A=?g_0126cae8@@3UGlobalObjectO2_00d472a0@@A")
 
 intptr_t DAT_011b7aec = 0;
 char DAT_011b7b89;

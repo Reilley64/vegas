@@ -71,7 +71,7 @@ enum MEM_CONTEXT
     MEM_CONTEXT_MEM_CONTEXT_TES_ACTOR = 50
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0

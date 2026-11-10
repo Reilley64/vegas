@@ -3077,8 +3077,9 @@ struct ShapeInfo_SI
     float m_f3C;
 };
 
-struct hkReferencedObject
+class hkReferencedObject
 {
+  public:
     virtual ~hkReferencedObject();
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;

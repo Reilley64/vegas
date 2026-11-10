@@ -26,10 +26,11 @@ void* __cdecl FUN_00a4cd30()
     return &(*reinterpret_cast<void * *>(&::g_011f3f98));
 }
 
-class CloningProcess;
-class NiStream;
-struct NiTimeController
+struct CloningProcess;
+struct NiStream;
+class NiTimeController
 {
+  public:
     virtual ~NiTimeController();
 public:
     void ProcessClone(::CloningProcess &);
@@ -84,7 +85,7 @@ namespace fnv_00a4c840 {
 struct NiObject
 {
 };
-struct NiAVObject : NiObject
+class NiAVObject : public NiObject
 {
 };
 
@@ -93,8 +94,9 @@ struct NiStream
     NiObject* GetLoadedObject();
 };
 
-struct NiTimeController
+class NiTimeController
 {
+  public:
     virtual void LinkObject(NiStream&);
 };
 

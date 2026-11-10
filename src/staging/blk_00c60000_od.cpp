@@ -38,7 +38,7 @@
 #include "fnv/decl/NiObject_00a7b3d0.h"
 #include "fnv/decl/NiPSysBoxEmitterWrapper.h"
 struct FUN_00438fc0_file;
-class NiPoint3
+struct NiPoint3
 {
   public:
     NiPoint3()
@@ -321,8 +321,8 @@ void* FUN_00c600f0_Class::FUN_00c600f0()
 
 struct NiStream;
 
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 struct NiPSysModifier
 {
     virtual void LinkObject(NiStream&);
@@ -457,9 +457,10 @@ char FUN_00c614e0_Class::FUN_00c614e0(intptr_t arg)
     return result;
 }
 
-struct NiFixedString;
-struct NiAVObject
+class NiFixedString;
+class NiAVObject
 {
+  public:
     void FUN_00c61610();
 public:
     ::NiExtraData *GetExtraData(const ::NiFixedString &);
@@ -496,7 +497,7 @@ void* FUN_00c61820_class::FUN_00c61820(int)
 
 struct NiStream;
 
-class NiStream;
+struct NiStream;
 struct NiPSysVolumeEmitter
 {
     void LoadBinary(NiStream&);
@@ -555,7 +556,7 @@ void FUN_00c61f80_cls::FUN_00c61f80(void* apParam)
     reinterpret_cast<::Stub_00c31b60 *>(this)->FUN_00c31b60(apParam);
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct NiPSysCylinderEmitter
 {
     bool FUN_00c61fa0(NiAVObject*);
@@ -739,8 +740,9 @@ intptr_t FUN_00c64fc0_class::GetThisAddress(int)
 }
 
 struct NiStream;
-struct NiExtraData
+class NiExtraData
 {
+  public:
     void LinkObject(NiStream& stream);
     void FUN_00c65160(NiStream& stream);
     void LoadBinary(::NiStream &);
@@ -1048,7 +1050,7 @@ FUN_00c60240::FUN_00c60240()
 }
 
 struct NiStream;
-class NiStream;
+struct NiStream;
 struct RgbaColor
 {
 public:
@@ -1488,7 +1490,7 @@ NiAVObject* __cdecl FUN_00c61510()
     return object;
 }
 
-class NiBinaryExtraData;
+struct NiBinaryExtraData;
 struct CloningProcess;
 struct FUN_00a7b330_shell
 {
@@ -4402,8 +4404,9 @@ struct MemMgr
 extern char str_010c3610[];
 
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* m_pData;
     __forceinline NiFixedString(const char* s)
     {
@@ -4773,7 +4776,7 @@ void FUN_00c62390_cls::FUN_00c62390(void* a1, void* a2)
 namespace fnv_00c625f0 {
 float FUN_004579e0(float);
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -6445,8 +6448,9 @@ struct Pool_11f6238
 extern const char str_010c36b0[];
 void __cdecl FUN_00401030(void* buffer);
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char* m_handle;
 
     NiFixedString(const char* text)
@@ -6632,7 +6636,7 @@ void Emitter61::FUN_00c61cc0(Cloning61& kCloning)
     }
 }
 
-class NiRTTI;
+struct NiRTTI;
 
 
 
@@ -7000,8 +7004,9 @@ struct hkpShape
     hkpShapeInfo* m_info;
 };
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const hkpShape* m_pCollisionShape;
     unsigned int m_uiCollisionShapeKey;
     const void* m_pMotionState;
@@ -16351,8 +16356,9 @@ union TransformWorkspace
     QsTransform transform;
 };
 
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
     float m_fScale;

@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class NiAVObject;
-class NiRTTI;
+struct NiRTTI;
 namespace fnv_0043bd00 { struct AbstractHeapLogger; }
 
 // 0x0043b1d0

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace bounds_detail { class NiPoint3; }
+namespace bounds_detail { struct NiPoint3; }
 
 namespace bounds_detail {
 class NavMeshBounds {

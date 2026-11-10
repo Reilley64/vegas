@@ -1,9 +1,9 @@
 #pragma once
 
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class NiCamera;
 
-struct BSShaderAccumulator {
+class BSShaderAccumulator {
 public:
     // 0x00b63120
     void FUN_00b63120(unsigned int, int);

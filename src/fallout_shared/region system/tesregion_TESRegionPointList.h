@@ -6,11 +6,11 @@
 #include "fnv/decl/fnv_0050f9c0__FUN_0050f9c0_shell.h"
 #include "layout_support.h"
 #include "layout_support.h"
-class NiPoint2;
+struct NiPoint2;
 class RegionPoint;
 class RegionPointList;
 class TESRegionPointList__ScaleResult;
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x;  // +0x0, 4 bytes

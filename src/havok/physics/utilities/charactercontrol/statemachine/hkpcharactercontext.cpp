@@ -9,7 +9,7 @@
 #include "fnv/decl/hkpCharacterStateView.h"
 #include "fnv/symbols_0102e000.h"
 extern int DAT_010c8198;
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 struct FUN_00ca95e0_class
@@ -211,7 +211,7 @@ class VectorComponentValue
 
 typedef const VectorComponentValue& hkSimdRealParameter;
 
-class hkVector4
+struct hkVector4
 {
   public:
     __m128 m_vComponents;

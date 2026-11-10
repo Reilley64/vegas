@@ -46,12 +46,14 @@ struct BGSSaveFormBuffer : BGSSaveGameBuffer
 {
     virtual ~BGSSaveFormBuffer();
 };
-struct CombatProcedure
+class CombatProcedure
 {
+  public:
     virtual ~CombatProcedure();
 };
-struct TESObjectWEAP
+class TESObjectWEAP
 {
+  public:
     virtual ~TESObjectWEAP();
 };
 struct CombatProcedureAttackLow : CombatProcedure
@@ -173,8 +175,9 @@ struct CombatProcedure_Helper
 {
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
 

@@ -2,20 +2,20 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-extern "C" char fnv_data_011cfeb8[] __asm__("?originalRuntimeFloatSetting1097@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011cff10[] __asm__("?originalRuntimeFloatSetting1103@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011d01a4[] __asm__("?originalRuntimeFloatSetting1101@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011d0388[] __asm__("?originalRuntimeFloatSetting1094@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011d052c[] __asm__("?originalRuntimeFloatSetting1096@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011d06c4[] __asm__("?originalRuntimeFloatSetting1104@@3V?$SettingT@VGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cfeb8[] __asm__("?originalRuntimeFloatSetting1097@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cff10[] __asm__("?originalRuntimeFloatSetting1103@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011d01a4[] __asm__("?originalRuntimeFloatSetting1101@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011d0388[] __asm__("?originalRuntimeFloatSetting1094@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011d052c[] __asm__("?originalRuntimeFloatSetting1096@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011d06c4[] __asm__("?originalRuntimeFloatSetting1104@@3V?$SettingT@UGameSettingCollection@@@@A");
 extern "C" char fnv_data_011d0784[] __asm__("?g_011d0784@@3VGlobalObject_0040e0b0@@A");
-extern "C" char fnv_data_011d0838[] __asm__("?originalRuntimeFloatSetting1095@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011d0b6c[] __asm__("?originalRuntimeFloatSetting1105@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011d0c6c[] __asm__("?originalRuntimeFloatSetting1098@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011d0d8c[] __asm__("?originalRuntimeFloatSetting1099@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011d0e58[] __asm__("?originalRuntimeFloatSetting1100@@3V?$SettingT@VGameSettingCollection@@@@A");
+extern "C" char fnv_data_011d0838[] __asm__("?originalRuntimeFloatSetting1095@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011d0b6c[] __asm__("?originalRuntimeFloatSetting1105@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011d0c6c[] __asm__("?originalRuntimeFloatSetting1098@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011d0d8c[] __asm__("?originalRuntimeFloatSetting1099@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011d0e58[] __asm__("?originalRuntimeFloatSetting1100@@3V?$SettingT@UGameSettingCollection@@@@A");
 extern "C" char fnv_data_011d0e88[] __asm__("?g_011d0e88@@3VGlobalObject_0040e0b0@@A");
-extern "C" char fnv_data_011d11dc[] __asm__("?originalRuntimeFloatSetting1102@@3V?$SettingT@VGameSettingCollection@@@@A");
+extern "C" char fnv_data_011d11dc[] __asm__("?originalRuntimeFloatSetting1102@@3V?$SettingT@UGameSettingCollection@@@@A");
 extern "C" char fnv_data_011d12a8[] __asm__("?g_011d12a8@@3VGlobalObject_0040e0b0@@A");
 
 FNVFloatSource *DAT_0119b310[5] = {(::FNVFloatSource *)(fnv_data_011d0388), (::FNVFloatSource *)(fnv_data_011d0838), (::FNVFloatSource *)(fnv_data_011d12a8), (::FNVFloatSource *)(fnv_data_011d052c), (::FNVFloatSource *)(fnv_data_011cfeb8)};

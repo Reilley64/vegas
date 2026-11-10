@@ -9,7 +9,7 @@
 #include "TESForm.h"
 
 // 32-bit RGBA color (4 floats, 16 bytes).
-class NiColor
+struct NiColor
 {
   public:
     float r;

@@ -9,7 +9,7 @@
 
 class NiCollisionObject;
 class FourComponentFloatVector;
-class CloningProcess;
+struct CloningProcess;
 
 class NiBinaryStream
 {
@@ -92,8 +92,8 @@ class NiDynamicEffect : public NiAVObject
     NiTListBase<NiTPointerAllocator<unsigned int>, NiNode*> m_kAffectedNodes;
 };
 
-class NiStream;
-class NiColor
+struct NiStream;
+struct NiColor
 {
   public:
     float r, g, b;

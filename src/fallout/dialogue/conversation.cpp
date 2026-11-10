@@ -201,7 +201,7 @@ struct TESSaveLoadGame
 {
 };
 class TESSound;
-struct EffectSetting
+class EffectSetting
 {
 public:
     ::TESSound *GetHitSound();

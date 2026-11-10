@@ -519,7 +519,7 @@ struct FUN_00781680_shell : public InventoryMenu
     void FUN_00781680();
 };
 
-struct GlobalObject_0040c150 : public InventoryMenuSetting
+class GlobalObject_0040c150 : public InventoryMenuSetting
 {
 };
 
@@ -641,7 +641,7 @@ struct XExtra
 {
 };
 
-struct ExtraDataList : XExtra
+class ExtraDataList : public XExtra
 {
 };
 
@@ -1158,7 +1158,7 @@ bool __cdecl FUN_00780f70()
 namespace InventorySelection {
 struct Item;
 struct Form;
-struct Tile
+class Tile
 {
 };
 struct TileRef
@@ -1206,8 +1206,9 @@ extern double DAT_01073ae8, DAT_01073ae0;
 extern const char DAT_0106eb24[], DAT_01073aac[];
 int FUN_00479430(Form*);
 void FUN_00406d50(char*, unsigned int, const char*);
-struct Menu
+class Menu
 {
+  public:
     unsigned int unk0;
     void* unk4;
     unsigned int unk8;
@@ -1482,7 +1483,7 @@ struct ItemLabelSource : InventoryStackRecord
 };
 class Actor;
 class TESAmmo;
-struct TESObjectWEAP
+class TESObjectWEAP
 {
 };
 struct ItemLabelPlayer

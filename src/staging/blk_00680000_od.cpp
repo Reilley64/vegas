@@ -163,8 +163,9 @@ void FUN_00692290_class::FUN_00692290(unsigned int requested, unsigned int saved
     }
 }
 
-struct PackageTargetRecord
+class PackageTargetRecord
 {
+  public:
     char pad00[0x4];
     void* unk04;
     int GetTargetKind();
@@ -1342,12 +1343,14 @@ struct NavMeshPtr
 public:
     ::NavMeshPtr &operator=(const ::NavMeshPtr &);
 };
-struct NavMeshTriangleReference
+class NavMeshTriangleReference
 {
+  public:
     int pad;
 };
-struct NavMeshTriangleEdgeReference
+class NavMeshTriangleEdgeReference
 {
+  public:
     int pad;
 };
 struct AStarConnectionArray
@@ -1447,7 +1450,7 @@ bool FUN_0069da10_C::FUN_0069da10(unsigned short ausValue, int aiIndex)
 struct Dummy006815c0
 {
 };
-struct NavMesh
+class NavMesh
 {
 };
 struct FUN_0069df10_Param
@@ -1835,7 +1838,7 @@ struct BSIntToTypeA
 void BSEndian(unsigned char*, BSIntToType0);
 void BSEndian(unsigned char*, BSIntToType1);
 void BSEndian(unsigned char*, BSIntToTypeA);
-struct TESFile
+class TESFile
 {
 public:
     bool IsEndianConversionRequired();
@@ -2208,7 +2211,7 @@ FUN_006826f0::~FUN_006826f0()
     delete next;
 }
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     virtual int vDel(int flags);
@@ -3201,7 +3204,7 @@ void PathBounds69B::FUN_0069be00()
 }
 
 namespace bounds_detail {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -3561,7 +3564,7 @@ struct FUN_0069ad70 : NavMeshVertexMap
 FUN_0069ad70::~FUN_0069ad70()
 {}
 
-struct NavMeshInfo;
+class NavMeshInfo;
 struct FUN_0069b7b0 : BSSimpleArray<NavMeshInfo*, 1024>
 {
     virtual ~FUN_0069b7b0();

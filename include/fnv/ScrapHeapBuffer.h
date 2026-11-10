@@ -1,6 +1,6 @@
 #pragma once
 
-class ScrapHeapBuffer
+struct ScrapHeapBuffer
 {
   public:
     char* m_pHeapBase;

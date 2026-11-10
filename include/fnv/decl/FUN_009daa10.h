@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESBoundObject;
+class TESBoundObject;
 
 struct FUN_009daa10 {
 public:

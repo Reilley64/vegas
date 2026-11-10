@@ -2396,7 +2396,7 @@ void ImageSpaceDistanceEffect::SetDistanceEffect(float strength, int mode, float
 }  // namespace fnv_00b8b8d0
 
 namespace fnv_00b8bb70 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

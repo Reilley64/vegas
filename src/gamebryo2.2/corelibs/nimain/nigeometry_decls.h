@@ -23,7 +23,7 @@
 #include "fnv/symbols_011f5000.h"
 #include "fnv/symbols_011f6000.h"
 class NiAVObject;
-class NiRTTI
+struct NiRTTI
 {
   public:
     bool IsExactly(const NiRTTI* type) const
@@ -32,9 +32,9 @@ class NiRTTI
     }
 };
 class NiGeometry;
-class NiBound;
+struct NiBound;
 class NiTransform;
-class CloningProcess;
+struct CloningProcess;
 class NiGeometryData;
 class NiCollisionObject
 {
@@ -102,7 +102,7 @@ class NiCullingProcess
     virtual void Slot18();
     virtual void Append(NiGeometry* geometry);
 };
-class NiStream;
+struct NiStream;
 struct NiBinaryReader
 {
     typedef int(__cdecl* ReadProc)(NiBinaryReader*, unsigned int*, unsigned int, void*, unsigned int);
@@ -117,7 +117,7 @@ class NiFixedString
 };
 template <class T> void ReadBinaryValue(NiStream& stream, T& value);
 template <> void ReadBinaryValue<unsigned int>(NiStream& stream, unsigned int& value);
-class NiObject
+struct NiObject
 {
   public:
     virtual ~NiObject();
@@ -242,25 +242,25 @@ class RecursiveSpinLock
 {
   public:
 };
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 template <class T> class NiTStringPointerMap
 {
   public:
     bool GetAt(const char* key, T& value);
 };
-class CloningProcess
+struct CloningProcess
 {
   public:
     NiTStringPointerMap<ShaderBufferRecord*>* m_pCloneMap;
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
     static const NiPoint3 ZERO;
 };
 #pragma intrinsic(memcpy)
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 center;
@@ -297,7 +297,7 @@ class MemoryManager
   public:
 };
 class NiLODNode;
-class NiBound;
+struct NiBound;
 class NiScreenLODData
 {
   public:
@@ -318,7 +318,7 @@ class NiFlags
         return (bits >> pos) & 1;
     }
 };
-class NiObjectNET
+struct NiObjectNET
 {
   public:
 };
@@ -552,7 +552,7 @@ class NiGeometry : public NiAVObject
     virtual void LoadBinary(NiStream& stream);
     virtual void ProcessClone(CloningProcess& process);
 };
-class NiStream
+struct NiStream
 {
   public:
     NiObject* GetLoadedObject();

@@ -46,7 +46,7 @@ class ExtraDataList : public BaseExtraList
 #include "RecursiveSpinLock.h"
 #include "NiMemObject.h"
 // No canonical headers yet for these.
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static TaskQueueInterface* GetSingleton();

@@ -5,7 +5,7 @@
 struct M;
 struct R;
 struct StrArray;
-struct Tile;
+class Tile;
 struct V;
 
 struct S {

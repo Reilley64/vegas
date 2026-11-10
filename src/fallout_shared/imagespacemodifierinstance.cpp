@@ -182,7 +182,7 @@ class ImageSpaceModifierInstanceTemp : public ImageSpaceModifierInstance
 };
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
-class RgbaColor;
+struct RgbaColor;
 class NiColorData;
 class NiColorInterpolator;
 class NiFloatData;
@@ -191,10 +191,10 @@ class NiInterpolator;
 class NiKeyBasedInterpolator;
 class AlphaColor;
 class TimedFloatKey;
-class NiPoint2;
+struct NiPoint2;
 class TESImageSpaceModifier;
 class TESImageSpaceModifier__ImageSpaceModifierData;
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x;  // +0x0, 4 bytes
@@ -320,7 +320,7 @@ class NiFloatInterpolator : public NiKeyBasedInterpolator
     // void __cdecl NiFloatInterpolator::*()
     // void __cdecl NiFloatInterpolator::*()
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes

@@ -56,19 +56,19 @@ struct CHUNK;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESFile;
-struct TESForm;
-struct TESFullName;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class TESBoundObject;
+class TESFile;
+class TESForm;
+class TESFullName;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESTexture;
+class TESObjectREFR;
+class TESTexture;
 struct FileEntryList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -80,8 +80,9 @@ struct blob12
 {
     char b[12];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -205,13 +206,13 @@ void FUN_009d2520_shell::FUN_009d2550()
     reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FUN_009ca6c0_shell*>(this)))->FUN_009ca6c0();
 }
 
-struct Actor
+class Actor
 {
 };
 struct TESAmmoInitCalls
 {
 };
-struct CombatProcedure
+class CombatProcedure
 {
 };
 struct CombatProcedureEngageTarget
@@ -244,7 +245,7 @@ struct FUN_00996de0_Class
 {
     Actor* FUN_00996de0();
 };
-struct Projectile;
+class Projectile;
 struct FUN_009d33e0_shell : CombatProcedure
 {
     void UpdateCombatProcedure(Projectile* apProjectile);

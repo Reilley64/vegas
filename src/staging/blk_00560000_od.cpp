@@ -147,7 +147,7 @@ void FormChangeRecord::FUN_005621f0(unsigned int flags)
     unk17.Clear(flags);
 }
 
-struct GlobalObject_00559cc0
+class GlobalObject_00559cc0
 {
 };
 
@@ -181,8 +181,9 @@ void TaskQueueInterface::FUN_00566930(bool abSet)
     reinterpret_cast<::FUN_0047aa60_cls *>(this)->FUN_0047aa60(abSet, 0x40);
 }
 
-struct ExtraDataList
+class ExtraDataList
 {
+  public:
     void* FUN_0041db50(unsigned char);
 };
 struct XActor
@@ -455,8 +456,9 @@ struct FUN_004b4cf0_shell
     void* FUN_004b4cf0(unsigned int);
 };
 struct NiPoint3;
-struct bhkCharacterController
+class bhkCharacterController
 {
+  public:
     float& GetVectorElement(int);
 public:
     void FUN_00561630(const ::NiPoint3 &);
@@ -581,7 +583,7 @@ struct FUN_00560d10_shell
 struct Modifier
 {
 };
-struct PackageTargetRecord
+class PackageTargetRecord
 {
 };
 struct AlphaColor
@@ -609,7 +611,7 @@ void FUN_00560d50_Struct::FUN_00560d50(hkVector4 const& aVector)
     ::SetNiPoint3FromHkVector4((::NiPoint3 &)(aVector), (*(const ::hkVector4 *)(((void *)&(::fnv_00560d80::FUN_00560d80((void *)this))))));
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct ArrSI
@@ -649,8 +651,8 @@ bool ArrSI::FUN_00564d80()
 }
 }  // namespace fnv_00564d80
 
-struct BGSEncounterZone;
-struct TESWorldSpace
+class BGSEncounterZone;
+class TESWorldSpace
 {
 };
 struct FUN_00458400_cls
@@ -995,7 +997,7 @@ void FUN_00577090_shell::FUN_00577090()
     FUN_005770e0_shell::GetCharacterControllerValue(2, 2) = f;
 }
 
-struct TESSound
+class TESSound
 {
 };
 struct Holder0057c400
@@ -1790,11 +1792,12 @@ struct NiRTTI
 struct NiObject
 {
 };
-struct NiFixedString
+class NiFixedString
 {
+  public:
     operator const char*() const;
 };
-struct NiControllerSequence
+class NiControllerSequence
 {
 };
 struct NiControllerManager : NiObject

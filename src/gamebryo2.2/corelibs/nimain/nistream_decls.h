@@ -2,9 +2,9 @@
 #ifndef FNV_NISTREAM_DECLS_H
 #define FNV_NISTREAM_DECLS_H
 #include "fnv/symbols_0044a000.h"
-class NiObject;
-class NiObject;
-class NiStream
+struct NiObject;
+struct NiObject;
+struct NiStream
 {
   public:
     virtual void vfn_00();

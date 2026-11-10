@@ -8,7 +8,7 @@ class NiBinaryStream
     unsigned int position;
     unsigned int(__cdecl* read)(NiBinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
 };
-class NiStream
+struct NiStream
 {
   public:
     void* vtable;
@@ -16,8 +16,8 @@ class NiStream
     char padding[0x244];
     NiBinaryStream* m_pUnderlyingStream;
 };
-class CloningProcess;
-class NiPSysModifier
+struct CloningProcess;
+struct NiPSysModifier
 {
   public:
     virtual void LoadBinary(NiStream&);

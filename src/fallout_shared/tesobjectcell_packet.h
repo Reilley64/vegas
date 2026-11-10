@@ -96,7 +96,7 @@ public:
     ::NiExtraData *GetExtraData(const ::NiFixedString &);
 };
 class BSExtraData;
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESObjectREFR
 {
   public:
@@ -125,7 +125,7 @@ class GarbageCollectorObjectPtr
   public:
     NiAVObject* operator->() const;
 };
-class GlobalObject_00633c90 : public GarbageCollectorObjectPtr
+struct GlobalObject_00633c90 : public GarbageCollectorObjectPtr
 {
 };
 extern GlobalObject_00633c90 g_011deda4;
@@ -177,7 +177,7 @@ class BaseExtraList
   public:
     char data[0x20];
 };
-class InventoryChanges;
+struct InventoryChanges;
 class ExtraDataList : public BaseExtraList
 {
   public:

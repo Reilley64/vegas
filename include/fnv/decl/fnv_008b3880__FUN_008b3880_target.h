@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_008b3880 { struct PathingAvoidNodeArray; }
+namespace fnv_008b3880 { class PathingAvoidNodeArray; }
 namespace fnv_008b3880 { struct PathingRequest; }
 
 namespace fnv_008b3880 {

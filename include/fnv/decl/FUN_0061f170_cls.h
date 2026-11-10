@@ -1,6 +1,6 @@
 #pragma once
 
-class ArgObj;
+struct ArgObj;
 
 struct FUN_0061f170_cls {
 public:

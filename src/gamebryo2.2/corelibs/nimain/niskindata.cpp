@@ -413,7 +413,7 @@ struct SkinTransform
     float scale;
 };
 
-class NiStream;
+struct NiStream;
 struct NiSphere
 {
     float x, y, z, r;

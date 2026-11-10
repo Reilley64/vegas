@@ -759,8 +759,8 @@ void FUN_00ddcbc0()
 }  // namespace fnv_00ddcbc0
 
 template <class T> class HavokElementArray;
-class hkVector4;
-class hkQsTransform;
+struct hkVector4;
+struct hkQsTransform;
 
 struct BehaviorReceiver : TargetIface
 {

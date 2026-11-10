@@ -361,8 +361,9 @@ struct P03MM
 {
     void* Allocate(unsigned int);
 };
-struct D3DRenderStateGroup
+class D3DRenderStateGroup
 {
+  public:
     void* p[4];
     unsigned int a;
     unsigned int b;
@@ -495,8 +496,9 @@ struct NiComponentSpec
     bool m_bSigned;
 };
 
-struct NiPixelFormat
+class NiPixelFormat
 {
+  public:
     unsigned char m_ucFlags;
     unsigned char m_ucBitsPerPixel;
     int m_eFormat;
@@ -865,8 +867,9 @@ unsigned char __cdecl FUN_00e7cca0(int* pObject)
     return 1;
 }
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     void* vtbl;
 public:
     static unsigned int ms_lObjectCount;
@@ -950,7 +953,7 @@ struct BSBatchRenderer__AlphaList
 {
 };
 
-struct NiRefObject
+class NiRefObject
 {
 };
 
@@ -4403,7 +4406,7 @@ struct D3DTexture_e7d250
     virtual long GetSurfaceLevel(unsigned int Level, D3DSurface_e7d250** ppSurfaceLevel) = 0;
 };
 
-struct NiPixelFormat;
+class NiPixelFormat;
 
 class Ni2DBufferStub;
 
@@ -7827,7 +7830,7 @@ struct FUN_00e7b260 : ModeItem404
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
-class GlobalObject_0096a2d0
+struct GlobalObject_0096a2d0
 {
 
   public:
@@ -11751,7 +11754,7 @@ class hkRotation;
 
 class hkTransform;
 
-class __declspec(align(16)) hkVector4
+struct __declspec(align(16)) hkVector4
 {
   public:
     __forceinline void operator=(const hkVector4& v)

@@ -120,7 +120,7 @@ struct BoxShapeD401
     alignas(16) float m_halfExtents[4];  // +0x20
 };
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     void* vptr;

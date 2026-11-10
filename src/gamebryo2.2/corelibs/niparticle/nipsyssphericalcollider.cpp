@@ -51,7 +51,7 @@ struct NiStream
     char _pad1[0x24C - 0xD8 - 4];
     NiBinaryStream* m_pUnderlyingStream;
 };
-class CloningProcess;
+struct CloningProcess;
 struct NiPSysCollider
 {
     virtual void LoadBinary(NiStream&);
@@ -74,8 +74,9 @@ void NiPSysSphericalCollider::FUN_00c28070(NiStream& kStream)
 }
 
 namespace fnv_00c28200 {
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     virtual void DeleteThis();
     volatile long m_uiRefCount;
@@ -142,7 +143,7 @@ struct NiObject
     virtual ~NiObject();
 };
 
-struct NiAVObject : NiObject
+class NiAVObject : public NiObject
 {
 };
 
@@ -157,8 +158,9 @@ struct NiPSysCollider
     virtual void ProcessClone(CloningProcess&);
 };
 
-struct NiPSysPlanarCollider : NiPSysCollider
+class NiPSysPlanarCollider : public NiPSysCollider
 {
+  public:
     char _pad[0x28];
     void* unk2c;
     NiAVObject* m_pkColliderObject;
@@ -183,8 +185,9 @@ void NiPSysPlanarCollider::FUN_00c29450(CloningProcess& kCloning)
 }  // namespace fnv_00c29450
 
 struct CloningProcess;
-struct NiPSysPlanarCollider
+class NiPSysPlanarCollider
 {
+  public:
     void CopyMemberData(NiPSysPlanarCollider*, CloningProcess&);
 };
 struct FUN_00c28250_shell : NiPSysSphericalCollider
@@ -208,8 +211,9 @@ struct ColliderPoint
 {
     float x, y, z;
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
     ColliderPoint translation;
     float scale;

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00951940 { struct NiNode; }
+namespace fnv_00951940 { class NiNode; }
 
 namespace fnv_00951940 {
 struct FUN_00951940_Class {

@@ -182,16 +182,17 @@ struct FourComponentFloatVector;
 struct NiAdditionalGeometryData;
 struct NiBound;
 struct RgbaColor;
-struct NiCullingProcess;
+class NiCullingProcess;
 struct NiObject;
 struct NiPoint2;
-struct NiPropertyState;
+class NiPropertyState;
 struct NiRenderer;
-struct NiShader;
+class NiShader;
 struct NiSkinInstance;
 struct NiStream;
-struct NiGeometry : public NiAVObject
+class NiGeometry : public NiAVObject
 {
+  public:
     virtual void __vslot_0();
     virtual void RenderImmediate(NiRenderer*);
     virtual void RenderWithRenderer(NiRenderer*);

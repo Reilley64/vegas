@@ -13,8 +13,8 @@ class MagicHitEffect;
 class MagicModelHitEffect;
 class NiAVObject;
 // BSTempEffect and MagicHitEffect: magichiteffect_classes.h (shared by the magic hit-effect units).
-class BGSLoadFormBuffer;
-class BGSLoadGameBuffer;
+struct BGSLoadFormBuffer;
+struct BGSLoadGameBuffer;
 class TESForm;
 class BGSLoadGameSubBuffer
 {

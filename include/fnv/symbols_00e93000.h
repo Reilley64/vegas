@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class NiD3DShaderProgramCreator;
+struct NiD3DShaderProgramCreator;
 struct Program;
 struct ShaderArg;
 

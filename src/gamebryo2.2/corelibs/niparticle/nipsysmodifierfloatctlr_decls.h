@@ -8,8 +8,8 @@ class NiMemObject
 {
   public:
 };
-class NiRTTI;
-class NiObject
+struct NiRTTI;
+struct NiObject
 {
   public:
     virtual void vfn_0();
@@ -19,7 +19,7 @@ public:
     ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 class NiFloatData;
-class NiStream
+struct NiStream
 {
   public:
     unsigned char pad[0xd8];

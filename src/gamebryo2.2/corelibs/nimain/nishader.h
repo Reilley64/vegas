@@ -3,13 +3,13 @@
 #include "fnv/decl/NiObject_b.h"
 #include "fnv/symbols_01267000.h"
 #pragma optimize("", off)
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* m_pcName;
     const NiRTTI* m_pBaseRTTI;
 };
-class NiObject
+struct NiObject
 {
   public:
     bool IsKindOfType(const NiRTTI*) const;

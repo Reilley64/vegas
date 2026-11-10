@@ -6,7 +6,7 @@ class CF4BC0Object;
 class CF4BC0Stream;
 class F4A30Node;
 class F4A30Result;
-struct hkReferencedObject;
+class hkReferencedObject;
 
 // 0x00cf4790
 const char *GetConstraintTypeName(intptr_t);

@@ -4,7 +4,7 @@
 #include <cstdint>
 
 namespace fnv_0044dd60 { struct VirtualDeletable; }
-struct BGSLoadGameSubBuffer;
+class BGSLoadGameSubBuffer;
 struct Value;
 
 // 0x0044d580

@@ -68,8 +68,8 @@ void* Holder00a92080::FUN_00a92080(unsigned int flags)
     return this;
 }
 
-class NiStream;
-struct NiExtraData
+struct NiStream;
+class NiExtraData
 {
 public:
     void LoadBinary(::NiStream &);

@@ -137,7 +137,7 @@ float __cdecl FUN_00649390(float afBase, float afTime, float afStart, float afEn
     }
 }
 
-class GameSettingCollection;
+struct GameSettingCollection;
 union SETTING_VALUE
 {
     float value;

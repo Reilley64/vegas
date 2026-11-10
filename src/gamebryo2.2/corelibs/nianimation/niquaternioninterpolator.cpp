@@ -37,8 +37,9 @@ enum NiAnimationKey_KeyContent
     kCONTENT_LIGHT = 9
 };
 
-struct AnimationKey
+class AnimationKey
 {
+  public:
     typedef NiAnimationKey_KeyContent KeyContent;
 };
 
@@ -59,8 +60,9 @@ AnimationKey::KeyContent NiQuaternionInterpolator::FUN_00a487e0()
 
 namespace fnv_00a48960 {
 struct NiRotData;
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_p;
 };
 struct NiKeyBasedInterpolator
@@ -206,7 +208,7 @@ void* FUN_00a48dd0_shell::Release(unsigned int uiDeleteFlags)
 //   +0x0c .. +0x1b   the NiBound value of the object
 //   +0x1c            pointer to the key data (null when the interpolator is constant)
 
-class NiBound
+struct NiBound
 {
   public:
     float m_fVectorY;
@@ -237,8 +239,9 @@ bool NiQuaternionInterpolatorStandIn::FUN_00a48800(unsigned int nTime)
 }
 
 
-struct NiQuaternion
+class NiQuaternion
 {
+  public:
     float m_fVectorX;
     float m_fVectorY;
     float m_fVectorZ;
@@ -246,15 +249,17 @@ struct NiQuaternion
     bool operator!=(const NiQuaternion& q) const;
 };
 
-struct TimedRotationKey
+class TimedRotationKey
 {
+  public:
     float m_fTime;
     NiQuaternion m_kRotationValue;
 };
 
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual void Dtor();
     virtual void DeleteThis();
     long m_uiRefCount;
@@ -720,7 +725,7 @@ void FUN_00a48ac0_cls::GetKeyRange(float* outLo, float* outHi)
     *outHi = 0.0f;
 }
 
-class CloningProcess;
+struct CloningProcess;
 struct A48E20_Color
 {
     float r, g, b, a;

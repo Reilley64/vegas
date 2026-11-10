@@ -425,8 +425,8 @@ bool FUN_005dc960_shell::FUN_005dc960()
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct CoordinateTriple;
-struct TESForm;
-struct TESObjectREFR;
+class TESForm;
+class TESObjectREFR;
 struct CombatAvoidanceSphere
 {
     void Copy(void*);
@@ -553,7 +553,7 @@ struct CoordinateTriple
 {
 };
 
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 struct CombatTargetTimestamp
 {
 public:
@@ -695,7 +695,7 @@ void* FUN_009052c0_shell::FUN_009052c0(int index)
     return this->unk04 + index * 0x54;
 }
 
-struct Tile;
+class Tile;
 struct IMH
 {
 };
@@ -883,8 +883,9 @@ void FUN_00997bf0_shell::FUN_00997bf0()
 }
 }  // namespace fnv_00997bf0
 
-struct MobileObject
+class MobileObject
 {
+  public:
     unsigned int GetCurrentProcessLevel();
     unsigned int pad00[0x29];
     void* unka4;
@@ -998,7 +999,7 @@ bool FUN_0099a3e0_s::FUN_0099a3e0()
 }
 
 class TESActorBase;
-struct Actor
+class Actor
 {
 public:
     ::TESActorBase *GetActorBase();
@@ -1057,7 +1058,7 @@ void FUN_0099a650_shell::FUN_0099a650(intptr_t aiUnused, bool b)
 }
 
 namespace fnv_0099a6b0 {
-struct Actor
+class Actor
 {
 };
 
@@ -1186,7 +1187,7 @@ struct NiPoint3
     float y;
     float z;
 };
-struct Actor
+class Actor
 {
 };
 struct AlchemyItem
@@ -1211,8 +1212,8 @@ bool FUN_0099abc0_This::UpdateLastSeenFiringLocation(NiPoint3& arLastSeenFiringL
 }
 }  // namespace fnv_0099abc0
 
-struct MagicItem;
-struct MagicCaster
+class MagicItem;
+class MagicCaster
 {
 };
 struct FUN_0099b520_shell : MagicCaster
@@ -1268,8 +1269,9 @@ struct ParentSpaceNode
     int b;
     int c;
 };
-template <class T, unsigned int N> struct BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
+  public:
     T& GetAt(int);
 };
 struct ArrSI : public BSSimpleArray<ParentSpaceNode, 1024>
@@ -1382,7 +1384,7 @@ struct Obj_1c4
 {
 };
 struct GameSettingCollection;
-template <class T> struct SettingT;
+template <class T> class SettingT;
 
 struct FUN_009a0be0_Class
 {
@@ -1422,7 +1424,7 @@ struct S006950d0
 {
 };
 
-struct Actor
+class Actor
 {
 };
 
@@ -1467,7 +1469,7 @@ struct CombatTimeStamp_ctor
 {
     void CombatTargetTimestamp(float);
 };
-struct Actor
+class Actor
 {
 };
 
@@ -1506,8 +1508,9 @@ void FUN_009a0ec0_shell::SetNodeBlockAndTimestamp(const FUN_009a0ec0_Block* apBl
 }  // namespace fnv_009a0ec0
 
 namespace fnv_009a1010 {
-struct Actor
+class Actor
 {
+  public:
     float FUN_008be600();
 };
 
@@ -1931,14 +1934,15 @@ FUN_0097ee20_shell* FUN_0097ee20_shell::FUN_0097ee20()
 }
 
 struct TES;
-struct TESWorldSpace;
+class TESWorldSpace;
 
 struct TES
 {
 };
 
-struct TESWorldSpace
+class TESWorldSpace
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -1993,7 +1997,7 @@ struct CombatTargetTimestamp
     int v;
     CombatTargetTimestamp(float);
 };
-struct Actor
+class Actor
 {
 };
 struct FUN_0099a680_s
@@ -2022,7 +2026,7 @@ struct C99
 namespace fnv_0099a7d0 {
 bool FUN_00981990(void*);
 int _FNV_GetFormType(void*);
-struct Actor
+class Actor
 {
 };
 struct CTSHelper
@@ -2478,7 +2482,7 @@ struct MyClass
 {
 };
 
-struct EffectSetting : AlchemyItem
+class EffectSetting : public AlchemyItem
 {
 };
 
@@ -2893,7 +2897,7 @@ struct Member
     virtual _ref_006815c0* GetPos();
 };
 
-struct EffectSetting
+class EffectSetting
 {
 };
 
@@ -3086,7 +3090,7 @@ struct Member
     virtual _ref_006815c0* GetPos();
 };
 
-struct EffectSetting
+class EffectSetting
 {
 };
 
@@ -3406,9 +3410,9 @@ struct HArr
 {
 };
 
-template <typename T, int N> struct BSSimpleArray;
+template <typename T, int N> class BSSimpleArray;
 
-template <> struct BSSimpleArray<void*, 1024> : HArr
+template <> class BSSimpleArray<void*, 1024> : public HArr
 {
 };
 
@@ -3660,7 +3664,7 @@ void FUN_009a3610_arr::FUN_009a3610(unsigned int aiNewSize, bool abFreeMemory)
 }
 }  // namespace fnv_009a3610
 
-struct TESObjectWEAP;
+class TESObjectWEAP;
 
 
 struct ActH2
@@ -3725,7 +3729,7 @@ struct GameSettingCollection
 {
 };
 
-template <class T> struct SettingT : public Setting_S
+template <class T> class SettingT : public Setting_S
 {
 };
 
@@ -3767,8 +3771,9 @@ void FUN_009a0910_shell::FUN_009a0910(FUN_009a0910_Vector* apVector, unsigned ch
 }  // namespace fnv_009a0910
 
 namespace fnv_009a3480 {
-struct Actor
+class Actor
 {
+  public:
     unsigned int field_0;
     unsigned int field_4;
 };
@@ -4747,7 +4752,7 @@ public:
     virtual void FormSlot();
 };
 
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
   public:
@@ -6233,7 +6238,7 @@ struct UpdateState
     void FUN_00998a50();
 };
 namespace CombatWeapons {
-struct Actor;
+class Actor;
 struct Weapon;
 struct Ammo;
 struct Entry;
@@ -6388,7 +6393,7 @@ struct Process
     virtual void slot164();
     virtual void EquipAmmo(Equip*);
 };
-struct Projectile
+class Projectile
 {
 };
 struct Weapon : Item
@@ -6408,8 +6413,9 @@ struct InventoryIterator
 struct Inventory
 {
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void slot0();
     virtual void slot4();
     virtual void slot8();
@@ -7621,7 +7627,7 @@ struct FUN_0099ccd0_Actor
     virtual void Unk_AE();
     virtual float GetCurrentTargetDistance(int iUnk);
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     int m_data[10];
@@ -10255,7 +10261,7 @@ struct Request9f48
     Actor9f48* m_pkTarget;
 };
 
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:
@@ -10752,7 +10758,7 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
 }
 
 namespace fnv_0097ee90 {
-class GameSettingCollection;
+struct GameSettingCollection;
 
 template <class T> class SettingT
 {
@@ -10787,7 +10793,7 @@ union SETTING_VALUE
     float f;
 };
 
-class GameSettingCollection;
+struct GameSettingCollection;
 template <typename T> class SettingT
 {
   public:
@@ -10800,8 +10806,9 @@ class TESObjectREFR
     int unk00;
 };
 
-struct Actor : public TESObjectREFR
+class Actor : public TESObjectREFR
 {
+  public:
     float FUN_008be1b0();
 };
 
@@ -10844,7 +10851,7 @@ class GlobalObject_0045d260
   public:
 };
 
-class NiPoint3;
+struct NiPoint3;
 
 class Arg0Class
 {
@@ -10878,7 +10885,7 @@ class Arg2Class : public FUN_0099b8b0_shell
 {
 };
 
-class PathingLocation
+struct PathingLocation
 {
   public:
     PathingLocation(TESObjectREFR* actor);
@@ -10887,7 +10894,7 @@ class PathingLocation
     int unk_00, unk_04, unk_08, unk_0c, unk_10, unk_14, unk_18, unk_1c, unk_20, unk_24;
 };
 
-class PathingRequest
+struct PathingRequest
 {
   public:
     void FUN_006e4bf0();
@@ -10913,7 +10920,7 @@ class FUN_006e4a50 : public PathingRequest
 };
 
 
-class CombatController
+struct CombatController
 {
   public:
     int unk_000, unk_004, unk_008, unk_00c, unk_010, unk_014, unk_018, unk_01c;
@@ -11174,7 +11181,7 @@ void FUN_0099a2a0_s::FUN_0099a2a0()
 struct RefCalls_9a2a30
 {
 };
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
 struct RefSlot
 {

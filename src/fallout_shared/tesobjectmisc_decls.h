@@ -17,7 +17,7 @@
 #include "fnv/symbols_0047a000.h"
 #include "fnv/symbols_00485000.h"
 #include "fnv/symbols_00487000.h"
-class CombatController;
+struct CombatController;
 class CombatProcedure
 {
   public:

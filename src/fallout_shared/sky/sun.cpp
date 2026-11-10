@@ -138,10 +138,10 @@ struct BSShaderNoLightingProperty;
 struct BSShaderPPLightingProperty;
 struct BSShaderProperty;
 struct BSShaderTextureSet;
-struct NiAVObject;
+class NiAVObject;
 struct NiAlphaController;
 struct NiMaterialColorController;
-struct NiNode;
+class NiNode;
 struct NiStream;
 struct SkyShaderProperty;
 struct TallGrassShaderProperty;
@@ -329,8 +329,9 @@ struct NiColor
 };
 struct C3;
 
-struct NiAVObject : _::NiMemObject
+class NiAVObject : public _::NiMemObject
 {
+  public:
     virtual void vfn_0000();
     virtual void vfn_0004();
     virtual void vfn_0008();
@@ -388,8 +389,9 @@ struct NiAVObject : _::NiMemObject
     virtual void vfn_00d8();
     char _pad_04[0x98];
 };
-struct NiNode : NiAVObject
+class NiNode : public NiAVObject
 {
+  public:
     virtual void AttachChildInAvailableSlot(NiAVObject* pkChild, bool abFirstAvailableSlot);
     char _pad_9c[0x10];
 };
@@ -398,8 +400,9 @@ struct FUN_0051cf00 : NiNode
     FUN_0051cf00();
     char _pad_ac[0x8];
 };
-struct NiTriBasedGeom : NiAVObject
+class NiTriBasedGeom : public NiAVObject
 {
+  public:
     char _pad_9c[0x24];
 };
 struct NiTriShape : NiTriBasedGeom
@@ -413,8 +416,9 @@ struct NiPointLight : NiAVObject
 {
     char _pad_9c[0x58];
 };
-struct NiDirectionalLight : NiPointLight
+class NiDirectionalLight : public NiPointLight
 {
+  public:
     NiDirectionalLight();
     char _pad_f4[0x8];
 };
@@ -429,7 +433,7 @@ struct GlobalObject_00e98f20
 struct QuantityData
 {
 };
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 struct FUN_00632d20_shell
@@ -594,10 +598,10 @@ void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
 }  // namespace fnv_00640810
 
 namespace fnv_00641830 {
-struct Actor;
+class Actor;
 struct Atmosphere;
-struct BGSAcousticSpace;
-struct BGSEncounterZone;
+class BGSAcousticSpace;
+class BGSEncounterZone;
 struct BGSLightingTemplate;
 struct BGSLoadFormBuffer;
 struct BGSLoadGameBuffer;
@@ -605,7 +609,7 @@ struct BGSMusicType;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BSFile;
-struct BSFogProperty;
+class BSFogProperty;
 struct BSMultiBoundNode;
 struct BSPortalGraph;
 struct CHUNK;
@@ -613,24 +617,24 @@ struct CellMopp;
 struct Clouds;
 struct CellRecord;
 struct ExteriorData;
-struct ExtraDataList;
+class ExtraDataList;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
 struct InteriorData;
-struct ImageSpaceModifierInstanceForm;
+class ImageSpaceModifierInstanceForm;
 struct ImpactSwap;
 struct IntSeenData;
 struct InventoryChanges;
 struct LoadedCellData;
 struct Moon;
 struct NavMeshCollection;
-struct NiAVObject;
-struct NiCamera;
+class NiAVObject;
+class NiCamera;
 struct NiColor;
-struct NiDirectionalLight;
+class NiDirectionalLight;
 struct NiFogProperty;
-struct NiNode;
+class NiNode;
 struct NiPick;
 struct NiRenderedTexture;
 struct NiStream;
@@ -639,23 +643,23 @@ struct SeenData;
 struct Sky;
 struct SkyTextureManager;
 struct Stars;
-struct TESActorBase;
-struct TESBoundObject;
+class TESActorBase;
+class TESBoundObject;
 struct TESClimate;
-struct TESFile;
-struct TESForm;
+class TESFile;
+class TESForm;
 struct TESGlobal;
 struct TESImageSpace;
-struct TESObject;
-struct TESObjectCELL;
-struct TESObjectLAND;
-struct TESObjectREFR;
-struct TESRegionList;
+class TESObject;
+class TESObjectCELL;
+class TESObjectLAND;
+class TESObjectREFR;
+class TESRegionList;
 struct TESRegionObjectBase;
 struct RegionPoint;
 struct TESWaterForm;
 struct TESWeather;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct _D3DLOCKED_RECT;
 struct BhkPickData;
 struct bhkWorld;
@@ -711,15 +715,17 @@ struct NiPoint3
     float z;
 };
 using ::AutoMemContext;
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -840,10 +846,10 @@ struct P3
 struct TESObjectTREE
 {
 };
-struct TESDataHandler
+class TESDataHandler
 {
 };
-struct NiAVObject
+class NiAVObject
 {
 };
 struct FUN_00440460_S
@@ -882,7 +888,7 @@ struct TESWeather
 struct KFModel
 {
 };
-struct EffectSetting
+class EffectSetting
 {
 };
 struct AnimIdle

@@ -50,8 +50,8 @@ std::uintptr_t FUN_0061f6c0_shell::FUN_0061f6c0()
     return flt;
 }
 
-struct BGSAcousticSpace;
-struct TESObjectREFR
+class BGSAcousticSpace;
+class TESObjectREFR
 {
 };
 class BGSAcousticSpace;
@@ -88,13 +88,13 @@ void FUN_0061f8e0_shell::FUN_0061f8e0(bool abDoRemoval)
     reinterpret_cast<::FUN_00438af0_Class *>(reinterpret_cast<MyMap*>(kRefCounts))->FUN_00438af0();
 }
 
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
 struct W_0043b4f0
 {
 };
-struct TESObjectREFR;
+class TESObjectREFR;
 struct RootContactPoint
 {
     unsigned int pad0[8];

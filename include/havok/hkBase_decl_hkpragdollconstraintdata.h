@@ -54,8 +54,9 @@ struct hkRotation : hkMatrix3
 {
     hkBool IsOrthonormal(float epsilon) const;
 };  // 48
-struct hkTransform
+class hkTransform
 {
+  public:
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
 };  // 64

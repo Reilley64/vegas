@@ -1,7 +1,7 @@
 #pragma once
 
 struct FUN_0053f120_Param;
-struct NiAVObject;
+class NiAVObject;
 
 struct FUN_0053f120_Holder {
 public:

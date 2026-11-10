@@ -970,7 +970,7 @@ public:
 ResizableArray(FinishingFlag f){}
 };
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
 {
@@ -996,8 +996,8 @@ hkQuadReal m_vValue;};
 typedef const VectorComponentValue&hkSimdRealParameter;
 extern const hkQuadReal DAT_010c71e0;
 class hkQuaternion;
-class hkQsTransform;
-class hkVector4
+struct hkQsTransform;
+struct hkVector4
 {
 public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
@@ -1626,7 +1626,7 @@ inline void setSimulationIsland(hkpSimulationIsland*island);
 public:
 hkpAction(class FinishingFlag flag):hkReferencedObject(flag),m_name(flag){}
 };
-class hkpRigidBody:public hkpEntity
+struct hkpRigidBody:public hkpEntity
 {
 public:
 static const struct ClassMemberDescriptor Members[];
@@ -1767,7 +1767,7 @@ class hkpTyremarksInfo*m_pTyremarksInfo;
 class hkpVehicleVelocityDamper*m_pVelocityDamper;
 hkArray<struct WheelInfo>m_kWheelInfoArray;
 public:
-inline class hkpRigidBody*getChassis(void)const;};
+inline struct hkpRigidBody*getChassis(void)const;};
 class hkDebugDisplayHandler
 {
 public:

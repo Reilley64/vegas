@@ -17,14 +17,14 @@ class SettingT_GameSettingCollection_
 {
   public:
 };
-class GameSettingCollection
+struct GameSettingCollection
 {
   public:
 };
 
 // Declaration source: include/NiPoint3.h; natural PC alignment.
 // Source layout: NiPoint3. PC corrections are in generate_headers.py.
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0

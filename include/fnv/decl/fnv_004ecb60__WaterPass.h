@@ -1,7 +1,7 @@
 #pragma once
 
 class WaterSurface;
-namespace fnv_004ecb60 { struct NiCamera; }
+namespace fnv_004ecb60 { class NiCamera; }
 
 namespace fnv_004ecb60 {
 struct WaterPass {

@@ -9,13 +9,13 @@ class NiFixedString
   public:
     const char* data;
 };
-class NiStream
+struct NiStream
 {
   public:
     char padding[0xd8];
     unsigned int version;
 };
-class CloningProcess;
+struct CloningProcess;
 class NiSingleInterpController
 {
   public:

@@ -431,8 +431,9 @@ __forceinline void hkVector4::setRotatedInverseDir(const hkQuaternion& q, const 
     sum.addMul4(real, cross);
     setAdd4(sum, sum);
 }
-struct hkTransform
+class hkTransform
 {
+  public:
     hkVector4 m_vTranslation;
     hkQuaternion m_rotation;
     hkVector4 m_vScale;

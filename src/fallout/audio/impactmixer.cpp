@@ -261,7 +261,7 @@ struct BSAudioStandIn
     SoundPlaybackHandle FUN_00ad73b0(BGSSoundDescriptor* pkSound);
 };
 
-struct BGSImpactData
+class BGSImpactData
 {
 };
 
@@ -272,7 +272,7 @@ struct BGSImpactDataEntry
 };
 extern BGSImpactDataEntry g_akImpactData_011dd670[];
 
-struct TESWorldSpace;
+class TESWorldSpace;
 struct FootstepActor
 {
     virtual void v000();
@@ -2049,7 +2049,7 @@ struct BSSoundHandleEx
     ~BSSoundHandleEx();
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx FUN_00ad7480(const char* path, unsigned int flags, TESSound* sound);

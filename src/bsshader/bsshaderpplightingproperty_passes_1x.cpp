@@ -9,8 +9,9 @@
 #include "bsshaderpplightingproperty_passes_1x_decls.h"
 
 
-struct NiGeometry
+class NiGeometry
 {
+  public:
     char pad00[0x08];
     const char* m_kName;
     char pad0C[0x0C];

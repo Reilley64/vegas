@@ -6,7 +6,7 @@ struct S_009a7670_P3;
 struct SceneRef;
 struct ShotActor;
 struct SightReference;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct Vec3;
 struct Vec3Arg;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-struct FormChangeMask;
+class FormChangeMask;
 
 struct W_0043b4f0 {
 public:

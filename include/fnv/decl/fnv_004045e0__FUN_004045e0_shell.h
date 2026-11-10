@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_004045e0 { struct Script; }
+namespace fnv_004045e0 { class Script; }
 
 namespace fnv_004045e0 {
 struct FUN_004045e0_shell {

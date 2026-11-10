@@ -2,17 +2,17 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?g_011d2070@@3UGlobalObject_0040c150@@A=?g_011d2070@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d21b4@@3UGlobalObject_0040c150@@A=?g_011d21b4@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d25d4@@3UGlobalObject_0040c150@@A=?g_011d25d4@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d29dc@@3UGlobalObject_0040c150@@A=?g_011d29dc@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d29e8@@3UGlobalObject_0040c150@@A=?g_011d29e8@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2b14@@3UGlobalObject_0040c150@@A=?g_011d2b14@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2be0@@3UGlobalObject_0040c150@@A=?g_011d2be0@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2c4c@@3UGlobalObject_0040c150@@A=?g_011d2c4c@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2e14@@3UGlobalObject_0040c150@@A=?g_011d2e14@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2eec@@3UGlobalObject_0040c150@@A=?g_011d2eec@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2f7c@@3UGlobalObject_0040c150@@A=?g_011d2f7c@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2070@@3VGlobalObject_0040c150@@A=?g_011d2070@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d21b4@@3VGlobalObject_0040c150@@A=?g_011d21b4@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d25d4@@3VGlobalObject_0040c150@@A=?g_011d25d4@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d29dc@@3VGlobalObject_0040c150@@A=?g_011d29dc@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d29e8@@3VGlobalObject_0040c150@@A=?g_011d29e8@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2b14@@3VGlobalObject_0040c150@@A=?g_011d2b14@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2be0@@3VGlobalObject_0040c150@@A=?g_011d2be0@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2c4c@@3VGlobalObject_0040c150@@A=?g_011d2c4c@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2e14@@3VGlobalObject_0040c150@@A=?g_011d2e14@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2eec@@3VGlobalObject_0040c150@@A=?g_011d2eec@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2f7c@@3VGlobalObject_0040c150@@A=?g_011d2f7c@@3VGlobalObject_0040c150@@A")
 
 char DAT_01076e94[17] = "lb_item_template";
 namespace fnv_007d52a0 { const char str_0107702c[7] = "_alpha"; }

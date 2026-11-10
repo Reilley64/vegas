@@ -14,7 +14,7 @@
 #include "fnv/symbols_0104e000.h"
 #include "fnv/symbols_011de000.h"
 class Actor;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESForm;
 class TESObjectREFR;
 class TESPackage;
@@ -35,7 +35,7 @@ class MobileObject
 {
   public:
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     virtual unsigned char GetVersion();

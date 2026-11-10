@@ -1,6 +1,6 @@
 #pragma once
 
-class Animation;
+struct Animation;
 
 struct FUN_008b70d0_shell {
 public:

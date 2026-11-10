@@ -1,7 +1,7 @@
 #pragma once
 
-struct TESObjectCELL;
-struct TESWorldSpace;
+class TESObjectCELL;
+class TESWorldSpace;
 
 struct FUN_006dcee0_t {
 public:

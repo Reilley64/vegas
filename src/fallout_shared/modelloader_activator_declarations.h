@@ -2,7 +2,7 @@
 // Requires the reviewed ModelLoader form declarations. No bodies or globals.
 #ifndef FNV_MODELLOADER_ACTIVATOR_DECLARATIONS_H
 #define FNV_MODELLOADER_ACTIVATOR_DECLARATIONS_H
-class TESWaterForm;
+struct TESWaterForm;
 class BGSTalkingActivator;
 class TESBoundAnimObject : public TESBoundObject
 {

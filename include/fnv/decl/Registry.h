@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class Obj;
+struct Obj;
 struct Item;
 
 class Registry {

@@ -8,8 +8,8 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f9000.h"
 class ImageSpaceEffect;
-class ImageSpaceEffectParam;
-class ImageSpaceManager;
+struct ImageSpaceEffectParam;
+struct ImageSpaceManager;
 class ImageSpaceTexture;
 class MemoryManager
 {
@@ -28,7 +28,7 @@ template <class T, class A> class NiTArray
     // SetAt consumes the reference without retaining its address.
     __declspec(noalias) void SetAt(unsigned int, const T&);
 };
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     void** m_ppVirtualMethodTable;
@@ -76,7 +76,7 @@ class HDRImageSpaceEffect : public ImageSpaceEffect
     float* pVector4;
     void Setup(ImageSpaceManager*, ImageSpaceEffectParam*);
 };
-class ImageSpaceManager
+struct ImageSpaceManager
 {
   public:
     ImageSpaceEffect* GetEffect(int index)
@@ -126,7 +126,7 @@ class NiRenderTargetGroup
     virtual void vfn_88();
     virtual unsigned int Unk_23(unsigned int);
 };
-class NiRenderer
+struct NiRenderer
 {
   public:
     virtual void vfn_0();

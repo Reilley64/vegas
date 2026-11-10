@@ -537,7 +537,7 @@ struct S_A69F80
 namespace fnv_00a6bac0 {
 struct MapBase
 {
-    void FUN_00a6b830(class NiStream&);
+    void FUN_00a6b830(struct NiStream&);
 };
 struct MyStream
 {
@@ -550,11 +550,11 @@ struct Holder
 {
     char _pad[16];
     int _v;
-    void WriteToStream(class NiStream&);
+    void WriteToStream(struct NiStream&);
 };
 // Calls the base class stream writer, then writes the 4-byte value at this+16 to the stream and advances its position.
 // @fnv 0x00a6bac0
-void Holder::WriteToStream(class NiStream& aStream)
+void Holder::WriteToStream(struct NiStream& aStream)
 {
     ((MapBase*)this)->FUN_00a6b830(aStream);
     MyStream* __restrict ostr = *(MyStream**)((char*)&aStream + 0x250);
@@ -1997,7 +1997,7 @@ void LinkProperty::LoadFromStream(LinkStream& stream)
 }
 
 struct NiStream;
-class NiStream;
+struct NiStream;
 struct NiSkinInstance
 {
     virtual void FUN_00a6c670(NiStream&);

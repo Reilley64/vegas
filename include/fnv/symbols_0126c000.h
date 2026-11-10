@@ -1,6 +1,6 @@
 #pragma once
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 
 // 0x0126c020
 extern ::GlobalObjectO2_00d472a0 g_0126c020;

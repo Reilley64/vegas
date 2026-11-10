@@ -200,8 +200,9 @@ struct ThreeByThreeMatrix
 {
     float m_afEntries[3][3];
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
     float m_fScale;

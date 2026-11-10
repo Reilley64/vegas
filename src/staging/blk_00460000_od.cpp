@@ -247,8 +247,9 @@ void FUN_00464f40_class::FUN_00464f40()
     FUN_00470110();
 }
 
-struct NavMesh
+class NavMesh
 {
+  public:
     NavMesh* FUN_00464ff0(intptr_t);
 };
 
@@ -1025,8 +1026,9 @@ void* FUN_004792f0_Class::FUN_004792f0(unsigned int flags)
     return this;
 }
 
-struct BGSImpactDataSet
+class BGSImpactDataSet
 {
+  public:
     static BGSImpactDataSet* ms_pImpactDataSet;
 };
 BGSImpactDataSet* BGSImpactDataSet::ms_pImpactDataSet;
@@ -1037,7 +1039,7 @@ void FUN_00460160()
     BGSImpactDataSet::ms_pImpactDataSet = 0;
 }
 
-struct BGSEncounterZone
+class BGSEncounterZone
 {
 };
 // @fnv 0x00460190
@@ -1092,7 +1094,7 @@ void FUN_0046e8e0_This::FUN_0046e8e0(KFModel* a, int b, int c, int d, int e)
 
 extern int DAT_01019a14;
 // @fnv 0x0046ffd0
-template <> struct NiTMallocInterface<void*>
+template <> class NiTMallocInterface<void*>
 {
 };
 void FUN_0045d930_class::FUN_0046ffd0()
@@ -1288,8 +1290,9 @@ void* FUN_00474820_Class::FUN_00474820(unsigned int flags)
     return this;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     unsigned int GetFormType();
 public:
     bool GetDisabled() const;
@@ -1314,8 +1317,9 @@ void* FUN_00474a00_shell::GetAmmoForm()
 }
 
 namespace fnv_00474a40 {
-struct TESForm
+class TESForm
 {
+  public:
     unsigned int vtbl;
     unsigned int formID;
     int FNV_GetFormType();
@@ -1491,7 +1495,7 @@ bool FUN_0047b470_This::FUN_0047b470()
             ((unsigned char)((FUN_00573eb0_Class*)this)->FUN_0047b4b0() == 0));
 }
 
-struct Actor;
+class Actor;
 struct LH
 {
     bool IsInList(Actor*&);
@@ -1539,8 +1543,9 @@ struct BSSimpleListTESRaceSize
     int GetSize();
     BSSimpleList<TESForm*>* GetNext();
 };
-struct TESObject
+class TESObject
 {
+  public:
     unsigned int GetNext();
 };
 struct FUN_00474a00
@@ -1579,9 +1584,10 @@ TESForm* FUN_00474920_shell::GetFormOrScriptForm()
 }
 
 struct GlobalObject_00a7b610;
-struct NiAVObject;
-struct NiNode
+class NiAVObject;
+class NiNode
 {
+  public:
     unsigned int GetNumChildren();
     NiAVObject* GetAt(unsigned int);
 };
@@ -1794,8 +1800,9 @@ void* GetBipedPointer(TESForm* form)
     return result;
 }
 
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent();
 };
 struct TESAttackDamageForm : public BaseFormComponent
@@ -2712,7 +2719,7 @@ struct Standin77900
 {
     float FUN_00477900();
 };
-class PathingRequest
+struct PathingRequest
 {
   public:
 public:
@@ -3080,7 +3087,7 @@ bool FUN_0047ab40(Ref_47ab40* ref, NamedObject_47ab40* obj)
     return result;
 }
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -5203,7 +5210,7 @@ struct FUN_00585940_shell
 {
 };
 
-struct TESWorldSpace : TESForm
+class TESWorldSpace : public TESForm
 {
   public:
     virtual ~TESWorldSpace();

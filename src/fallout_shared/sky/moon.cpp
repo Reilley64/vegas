@@ -87,7 +87,7 @@ float Moon::GetMoonShadowVisibility()
         return 0.0f;
 }
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     void FUN_004902f0(bool);
@@ -337,7 +337,7 @@ FUN_00634a70::FUN_00634a70(const char* name, float fadeStart, float fadeEnd, flo
     m_eUpdateStatus = 0;
 }
 
-struct NiTexture;
+class NiTexture;
 struct TESSaveLoadGame;
 
 
@@ -361,7 +361,7 @@ struct RgbaColor
     RgbaColor(float, float, float, float);
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -563,7 +563,7 @@ class NiMemObject
   public:
 };
 
-class NiObject : public NiMemObject
+struct NiObject : public NiMemObject
 {
   public:
     virtual ~NiObject();
@@ -573,7 +573,7 @@ class NiObject : public NiMemObject
 };
 
 namespace stand {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -582,7 +582,7 @@ class NiPoint3
 };
 }
 
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
@@ -590,7 +590,7 @@ class NiPoint2
     NiPoint2(float, float);
 };
 
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     float r, g, b, a;
@@ -830,7 +830,7 @@ class B006815c0
     B006815c0();
 };
 
-class Sky
+struct Sky
 {
   public:
     static Sky* GetInstance();

@@ -34,7 +34,7 @@
 
 class Script;
 class TESObjectREFR;
-class TESWaterForm;
+struct TESWaterForm;
 class BGSTalkingActivator;
 
 // with BGSDefaultObjectManager::IsFormInitialized (0x004013e0) through

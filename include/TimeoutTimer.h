@@ -1,7 +1,7 @@
 #ifndef FNV_COMBATTIMER_H
 #define FNV_COMBATTIMER_H
 #include "layout_support.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TimeoutTimer
 {
   public:

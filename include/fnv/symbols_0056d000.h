@@ -1,10 +1,10 @@
 #pragma once
 
 struct FetcherC;
-struct NiTransform;
+class NiTransform;
 struct ReturnType;
 struct VisitorB;
-struct hkTransform;
+class hkTransform;
 
 // 0x0056d280
 ::ReturnType *FUN_0056d280(unsigned int);

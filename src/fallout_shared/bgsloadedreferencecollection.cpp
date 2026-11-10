@@ -45,15 +45,16 @@ struct S_00526b40
     void FUN_00526b70();
     void* FUN_00526b40(unsigned int);
 };
-struct TESSound;
+class TESSound;
 struct ExtraRadioData;
-struct TESObjectSTAT;
+class TESObjectSTAT;
 
 
 unsigned int _FNV_GetFormType(TESForm* object);
 
-struct TESContainer
+class TESContainer
 {
+  public:
     static bool __cdecl IsValidContainerType(unsigned char type);
 };
 
@@ -66,8 +67,9 @@ struct TESObjectREFR_ext
 {
 };
 
-struct BGSLoadedReferenceCollection
+class BGSLoadedReferenceCollection
 {
+  public:
     unsigned char pad0[0x18];
     FUN_00526c40_Class member18;
     unsigned char pad1[0x47];

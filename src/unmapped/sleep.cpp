@@ -3,7 +3,7 @@
 
 #include <windows.h>
 #include "fnv/decl/FUN_0078d200_cls.h"
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 

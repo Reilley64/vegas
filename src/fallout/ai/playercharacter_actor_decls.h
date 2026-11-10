@@ -5,7 +5,7 @@
 #include "fnv/decl/MiddleHighProcess.h"
 #include "fnv/decl/fnv_00897910__AnimOwner.h"
 #include "layout_support.h"
-class Animation;
+struct Animation;
 class InventoryStackRecord;
 #include "playercharacter_actorvalueowner_decls.h"
 #include "CachedValuesOwner.h"

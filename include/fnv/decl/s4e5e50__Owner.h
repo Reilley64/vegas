@@ -1,6 +1,6 @@
 #pragma once
 
-namespace s4e5e50 { class Ref; }
+namespace s4e5e50 { struct Ref; }
 namespace s4e5e50 { struct Cell; }
 
 namespace s4e5e50 {

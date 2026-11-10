@@ -3,8 +3,9 @@
 
 #include "fnv/decl/FUN_00408da0_Class.h"
 #include "fnv/symbols_00404000.h"
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent();
 };
 struct FNStub
@@ -29,8 +30,9 @@ void TESSoundFile::FUN_0048cf00(BaseFormComponent* apCopyFC)
     SetName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pcopy)))->FUN_00408da0())));
 }
 
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength();
 };
 struct FUN_0048cf50_shell : public TESSoundFile

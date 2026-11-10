@@ -4,7 +4,7 @@
 
 #include "layout_support.h"
 #include "NiObjectNET.h"
-class NiStream;
+struct NiStream;
 class NiInterpolator;
 class NiInterpolator : public NiObject
 {

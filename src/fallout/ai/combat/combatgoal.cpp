@@ -402,7 +402,7 @@ void InitCombatGoalTable()
     }
 }
 
-struct CombatGoal;
+class CombatGoal;
 
 struct FUN_00984470_Class
 {

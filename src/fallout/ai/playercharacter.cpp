@@ -2134,7 +2134,7 @@ void FUN_00572230_shell::FUN_00572230()
     reinterpret_cast<::B572270Object *>((((FUN_00572270_shell*)this)))->FUN_00572270();
 }
 
-class ArgObj
+struct ArgObj
 {
   public:
     virtual void Unk_00();
@@ -3964,7 +3964,7 @@ void ActorX::FUN_0093aa10(int av, float delta)
 }
 
 
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
@@ -5328,8 +5328,8 @@ struct BSSoundHandleEx
     void operator=(const BSSoundHandleEx& other);
 };
 
-class NiPoint3;
-class BSAudio
+struct NiPoint3;
+struct BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char* name, unsigned int flags);
@@ -6548,7 +6548,7 @@ struct PlayerLike
 struct CellQuery
 {
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
@@ -9392,7 +9392,7 @@ struct LLD_Point3
     float z;
 };
 
-struct TESWorldSpace
+class TESWorldSpace
 {
 };
 
@@ -13299,7 +13299,7 @@ class BSSoundHandleEx
     bool Play(bool);
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char* name, unsigned int flags);
@@ -13386,13 +13386,13 @@ void PlayerCharacterEx::FUN_0093e530(intptr_t a1, float afValue, bool a3, unsign
 }
 }  // namespace fnv_0093e530
 
-struct PathingSolution
+class PathingSolution
 {
 };
 struct CombatManager
 {
 };
-struct Actor;
+class Actor;
 struct FUN_009869a0_shell
 {
 public:
@@ -20291,8 +20291,9 @@ struct FUN_0094c7a0_class : public PlayerCharacter
 struct FUN_0040b800_shell
 {
 };
-struct MagicItem
+class MagicItem
 {
+  public:
     void Preload(bool);
 public:
     static ::MagicItem *GetMagicItemByID(unsigned int);
@@ -20306,7 +20307,7 @@ struct FUN_0094c8e0_shell
     void* unk6ec;
 };
 namespace fnv_0094df80 {
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -20319,7 +20320,7 @@ struct MagicTarget_Accessor
 {
 };
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 
@@ -20339,7 +20340,7 @@ union SETTING_VALUE
     float f;
 };
 
-class GameSettingCollection;
+struct GameSettingCollection;
 template <typename T> class SettingT
 {
   public:
@@ -20352,7 +20353,7 @@ class TimeGlobal
     float FUN_0084d030();
 };
 
-class Sky
+struct Sky
 {
   public:
     void Update(float);
@@ -23877,7 +23878,7 @@ struct GlobalObject2_0040c150 : GlobalObject2_0045cfe0
 struct InventoryMenuSetting
 {
 };
-struct GlobalObject_0040c150 : InventoryMenuSetting
+class GlobalObject_0040c150 : public InventoryMenuSetting
 {
 };
 class KarmaActor : public MobileObject,
@@ -25546,7 +25547,7 @@ void FUN_009503d0_Obj::FUN_009503d0()
     }
 }
 
-struct NiAVObject
+class NiAVObject
 {
 };
 struct PC_00605d70
@@ -28693,21 +28694,23 @@ struct NiRTTI
 {
     const char* name;
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
     virtual NiCollisionObject* GetCollisionObject();
 };
-struct NiTimeController : NiAVObject
+class NiTimeController : public NiAVObject
 {
 };
 struct NiObjectNET : NiAVObject
 {
 };
-struct NiNode : NiObjectNET
+class NiNode : public NiObjectNET
 {
+  public:
     NiAVObject* GetAt(unsigned int);
     unsigned int GetNumChildren();
 };
@@ -31107,7 +31110,7 @@ struct FUN_009528c0_shell
     bool AddChallenge(TESChallenge* pkChallenge);
 };
 namespace fnv_00952ba0 {
-struct TESQuest
+class TESQuest
 {
 };
 
@@ -31141,7 +31144,7 @@ BSSimpleList<RegionObjectEntry*>* PlayerCharacterStandIn::FUN_00952ba0()
 }  // namespace fnv_00952ba0
 
 struct TESQuestTargetX;
-struct TESContainer;
+class TESContainer;
 struct QTNode
 {
 };
@@ -34098,7 +34101,7 @@ void FUN_00952c30_shell::FUN_00952c30(TESObjectREFR* apMovingRef)
     }
 }
 
-class Obj
+struct Obj
 {
   public:
     virtual void v0();
@@ -34904,7 +34907,7 @@ class FUN_00954610_cls
 
 
 namespace fnv_009549a0 {
-struct TESPackage
+class TESPackage
 {
 };
 
@@ -35102,8 +35105,9 @@ struct VObj;
 }
 namespace fnv_00960520
 {
-struct Projectile
+class Projectile
 {
+  public:
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
     int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
@@ -35183,8 +35187,9 @@ class TESSaveLoadGame
 {
   public:
 };
-struct TESWorldSpace
+class TESWorldSpace
 {
+  public:
     void* form;
     unsigned char flags04;
     unsigned char id05;
@@ -37212,8 +37217,9 @@ struct TESSaveLoadGame
 {
 };
 
-struct BGSSaveLoadManager
+class BGSSaveLoadManager
 {
+  public:
     void UpdateSaveTimestamp();
 };
 
@@ -41586,7 +41592,7 @@ struct GM_008b2010
 template <class T> class BSSimpleList;
 struct IdleAnimationDirectoryEntry;
 
-struct IdleAnimationManager
+class IdleAnimationManager
 {
 };
 
@@ -41785,7 +41791,7 @@ void PC7d::LoadIdleAnimations(IO_TASK_PRIORITY priority, FUN_00441ba0_shell* tas
     delete i;
 }
 
-struct HUDMainMenu
+class HUDMainMenu
 {
 };
 
@@ -41849,7 +41855,7 @@ void FUN_0095f590_shell::FUN_0095f590(unsigned char flags)
 }
 
 namespace fnv_00961280 {
-struct Script : public TESForm
+class Script : public TESForm
 {
   public:
 };
@@ -52106,7 +52112,7 @@ struct bhkCollisionObject
 public:
     static ::bhkCollisionObject *GetFromNiAVObject(::NiAVObject *);
 };
-struct bhkCharacterController;
+class bhkCharacterController;
 struct ArrSI
 {
     void* vtable;
@@ -52193,7 +52199,7 @@ struct FUN_00c6fd60_Class
 {
     void* FUN_00c6fd60();
 };
-struct bhkCharacterController;
+class bhkCharacterController;
 struct MobileObjectStandIn : public TESObjectREFR
 {
 };
@@ -55451,7 +55457,7 @@ void TheClass::FUN_00969110(bool a1)
 }
 
 namespace fnv_009691d0 {
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct FUN_004c3380_S
 {
 };
@@ -55494,8 +55500,9 @@ void FUN_009691d0_S::FUN_009691d0()
 }  // namespace fnv_009691d0
 
 namespace fnv_00969700 {
-struct TESPackage
+class TESPackage
 {
+  public:
     enum Type
     {
         TYPE_0x25 = 0x25
@@ -55807,7 +55814,7 @@ struct BaseProcess
     virtual void v138();
     virtual void* v139();
 };
-struct TESPackage
+class TESPackage
 {
 };
 struct PCStandIn
@@ -56942,7 +56949,7 @@ char FUN_00969b80_class::FUN_00969b80()
 
 namespace fnv_00969bc0 {
 struct TESCaravanCard;
-struct Actor;
+class Actor;
 struct LH
 {
 };
@@ -66370,8 +66377,8 @@ void PlayerLoadStateQ::FUN_00956f70(unsigned int flags, unsigned int arg)
 }  // namespace fnv_00956f70
 
 class LoadProcessView;
-class BGSLoadFormBuffer;
-struct BGSCameraPath;
+struct BGSLoadFormBuffer;
+class BGSCameraPath;
 
 static const char s_UIHealthHeartbeatBLP[] = "UIHealthHeartbeatBLP";
 static const char s_UIHealthHeartbeatALP[] = "UIHealthHeartbeatALP";
@@ -66676,7 +66683,7 @@ struct blob4 : public BGSChangeFlags_s
 {
 };
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
     virtual unsigned char GetVersion();
@@ -68351,7 +68358,7 @@ struct ActorStandIn
     virtual void v2e8();
     virtual void v2ec();
     virtual void v2f0();
-    virtual void vf2f4(struct TESPackage* p, int a, int b);
+    virtual void vf2f4(class TESPackage* p, int a, int b);
     virtual void v2f8();
     virtual void v2fc();
     virtual void v300();
@@ -68541,8 +68548,9 @@ struct PkgTarget
 };
 
 enum PACKAGE_PROCEDURE_TYPE;
-struct TESPackage
+class TESPackage
 {
+  public:
     void SetMustReachLocation(bool b);
     void SetMustComplete(bool b);
 public:

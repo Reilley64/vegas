@@ -7,7 +7,7 @@
 #include "hkReferencedObject.h"
 class hkaBone;
 class hkaSkeletonLocalFrameOnBone;
-class hkaSkeleton : public hkReferencedObject
+struct hkaSkeleton : public hkReferencedObject
 {
   public:
     hkStringPtr m_name;                                   // +0x8

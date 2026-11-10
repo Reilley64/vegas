@@ -1,7 +1,7 @@
 #pragma once
 
 namespace CaravanSetup {
-struct Menu {
+class Menu {
 public:
     // 0x0073d850
     void InitMenu();

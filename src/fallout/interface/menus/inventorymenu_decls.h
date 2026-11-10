@@ -225,7 +225,7 @@ class PlayerCharacter
     ActorValueOwner actorValueOwner;
 };
 class FOPipboyManager;
-class Interface
+struct Interface
 {
   public:
     enum enumMenus

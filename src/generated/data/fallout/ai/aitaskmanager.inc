@@ -2,9 +2,9 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?g_011dfbe8@@3UGlobalObject_0044fae0@@A=?g_011dfbe8@@3VGlobalObject_0044fae0@@A")
-#pragma comment(linker, "/alternatename:?g_011dfc04@@3UGlobalObject_0044fae0@@A=?g_011dfc04@@3VGlobalObject_0044fae0@@A")
-#pragma comment(linker, "/alternatename:?g_011dfc38@@3UGlobalObject_0044fae0@@A=?g_011dfc38@@3VGlobalObject_0044fae0@@A")
+#pragma comment(linker, "/alternatename:?g_011dfbe8@@3UGlobalObject_0044fae0@@A=?g_011dfbe8@@3UGlobalObject_0044fae0@@A")
+#pragma comment(linker, "/alternatename:?g_011dfc04@@3UGlobalObject_0044fae0@@A=?g_011dfc04@@3UGlobalObject_0044fae0@@A")
+#pragma comment(linker, "/alternatename:?g_011dfc38@@3UGlobalObject_0044fae0@@A=?g_011dfc38@@3UGlobalObject_0044fae0@@A")
 
 bool DAT_011a34e7 = true;
 int DAT_011d96ac;

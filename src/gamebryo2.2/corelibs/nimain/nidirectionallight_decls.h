@@ -2,7 +2,7 @@
 #ifndef NIDIRECTIONALLIGHT_DECLS_H
 #define NIDIRECTIONALLIGHT_DECLS_H
 
-class CloningProcess;
+struct CloningProcess;
 struct NiPoint3
 {
     float x, y, z;

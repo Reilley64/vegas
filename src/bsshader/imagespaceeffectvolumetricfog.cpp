@@ -15,8 +15,9 @@ struct ImageSpaceEffectParam
 {
 };
 
-template <typename T> struct NiTPrimitiveArray
+template <typename T> class NiTPrimitiveArray
 {
+  public:
     void* m_pBase;
     unsigned short m_usMaxSize;
     unsigned short m_usGrowBy;

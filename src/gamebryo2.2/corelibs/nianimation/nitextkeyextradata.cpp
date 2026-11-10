@@ -32,7 +32,7 @@ void* __cdecl FUN_00a46b60()
     return &(*reinterpret_cast<void * *>(&::g_011f3f28));
 }
 
-struct NiExtraData
+class NiExtraData
 {
 public:
     void LoadBinary(::NiStream &);
@@ -587,7 +587,7 @@ void S00a46cf0_Object::FUN_00a46cf0(S00a46cf0_Stream& kStream)
 }
 
 void* __cdecl FUN_00a46b60();
-class NiStream;
+struct NiStream;
 bool LoadFromStream(NiTextKeyExtraData* _this, void* _edx, NiStream* stream);
 
 struct MemoryManager
@@ -631,8 +631,9 @@ struct DynamicMemoryAllocator
 };
 
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_pcString;
     ~NiFixedString();
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 
 // 0x00879ca0
 void SnapToGridCell(::NiPoint3 &);

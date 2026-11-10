@@ -68,7 +68,7 @@ template <class T, unsigned int Growth> class BSSimpleArray
     template <class U> unsigned int Find(U&, unsigned int, bool(__cdecl*)(U&, U&));
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -93,7 +93,7 @@ class NavMeshInfo
     NavMeshInfo();
     ~NavMeshInfo();
     void LoadSerializedData(char*, TESFile*, int);
-    bool AcquireNavMesh(class NavMeshPtr&);
+    bool AcquireNavMesh(struct NavMeshPtr&);
     void CopyTo(NavMeshInfo*);
     void SetNavMesh(NavMesh*);
     void ReleaseNavMesh();
@@ -269,7 +269,7 @@ template <class T> class NiPointer
   public:
     T* m_pObject;
 };
-class NavMeshPtr : public NiPointer<NavMesh>
+struct NavMeshPtr : public NiPointer<NavMesh>
 {
   public:
     NavMeshPtr();

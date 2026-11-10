@@ -419,8 +419,9 @@ struct FUN_00a7aff0_shell : public NiDevImageConverter
     void FUN_00a7aff0();
 };
 
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
+  public:
     int value;
 };
 

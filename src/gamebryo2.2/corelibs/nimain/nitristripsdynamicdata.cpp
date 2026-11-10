@@ -156,7 +156,7 @@ void* Standin00a761a0::DestroyIfFlagged(unsigned int auiFlags)
     return this;
 }
 
-class NiStream;
+struct NiStream;
 
 struct NiBinaryStreamStandIn
 {
@@ -179,7 +179,7 @@ struct NiBinaryStreamStandIn
     }
 };
 
-class NiStream
+struct NiStream
 {
   public:
     int unk000;

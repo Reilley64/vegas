@@ -109,7 +109,7 @@ class TESForm;
 class TESObjectCELL;
 class TESWorldSpace;
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -117,7 +117,7 @@ class NiPoint3
     float z;
 };
 
-class CoordinateTriple
+struct CoordinateTriple
 {
   public:
     NiPoint3 Point;
@@ -155,7 +155,7 @@ class EdgeExtraInfo
     int reserved;
 };
 
-class PathingLocation
+struct PathingLocation
 {
   public:
     void** m_ppVirtualMethodTable;
@@ -171,7 +171,7 @@ class PathingLocation
     PathingLocation(const CoordinateTriple&, NavMeshInfo*, unsigned short);
 };
 
-class NavMeshPtr;
+struct NavMeshPtr;
 class NavMeshInfo
 {
   public:
@@ -184,7 +184,7 @@ public:
 };
 
 class NavMeshTriangle;
-class NiPoint3;
+struct NiPoint3;
 template <> class BSSimpleArray<unsigned short, 1024>
 {
   public:
@@ -297,8 +297,9 @@ PathingLocation::PathingLocation(const CoordinateTriple& location, NavMeshInfo* 
     m_usTriangleID = triangle;
 }
 
-struct BSExtraData
+class BSExtraData
 {
+  public:
     virtual void vb();
     char pad[8];
     BSExtraData(unsigned char);
@@ -366,7 +367,7 @@ void* FUN_0068ed30_impl::DestroyNavMesh(unsigned int flags)
     return this;
 }
 
-struct NavMeshInfo;
+class NavMeshInfo;
 struct FUN_0068efb0_shell : public NavMesh
 {
     NavMeshInfo* FUN_0068efb0();
@@ -406,7 +407,7 @@ void* FUN_0068f0a0_shell::FUN_0068f0a0(unsigned short asVertexIndex)
     return ((BSSimpleArray<EdgeExtraInfo, 1024>*)(&this->Vertices))->FUN_006a1440(asVertexIndex);
 }
 
-struct EdgeExtraInfo;
+class EdgeExtraInfo;
 struct FUN_0068f230_shell : public NavMesh
 {
     EdgeExtraInfo* FUN_0068f230(unsigned short, int);
@@ -534,7 +535,7 @@ template <class T, unsigned int Growth> NavMeshStaticAvoidNode* BSSimpleArray<T,
 
 template NavMeshStaticAvoidNode* BSSimpleArray<NavMeshStaticAvoidNode, 1024>::FUN_00691750(int);
 
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
     void* vtable;
@@ -652,8 +653,9 @@ void* FUN_00691fb0(int** pThis)
 }
 }  // namespace fnv_00691fb0
 
-struct NavMeshClosedDoorInfo
+class NavMeshClosedDoorInfo
 {
+  public:
     unsigned int m_uiDoorFormID;
     unsigned short m_usDoorTriangleIndex;
     char _pad_6[2];
@@ -711,7 +713,7 @@ struct FUN_0068f0c0_shell : public NavMesh
     bool FUN_0068f0c0(unsigned short, int, NiPoint3*, NiPoint3*);
 };
 
-struct NavMeshTriangle
+class NavMeshTriangle
 {
 };
 struct NavMesh_GetTriangle_h
@@ -895,7 +897,7 @@ void* FUN_0042fd40_shell::FUN_0042fd40(void* apSource)
 }  // namespace fnv_0042fd40
 
 namespace fnv_0068f160 {
-struct NavMeshTriangle
+class NavMeshTriangle
 {
 };
 
@@ -954,7 +956,7 @@ void FUN_00691160_shell::FUN_00691160()
 }
 
 namespace fnv_00691b40 {
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
 };
@@ -975,7 +977,7 @@ void FUN_00691b40_shell::FUN_00691b40()
 }  // namespace fnv_00691b40
 
 namespace fnv_00691dc0 {
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
     void FUN_00691dc0();
@@ -1664,8 +1666,9 @@ struct ArrSI
 struct GlobalObject_00869f00
 {
 };
-struct NavMeshTriangle
+class NavMeshTriangle
 {
+  public:
     bool GetFlag(int);
     bool HasFlags();
 };
@@ -1861,7 +1864,7 @@ struct InfoView
     virtual void FillCellName(StrMem*);
 };
 
-class NavMeshPtr
+struct NavMeshPtr
 {
   public:
     NavMeshPtr();
@@ -2124,7 +2127,7 @@ void NavMeshGridX::GetCellCoords(NiPoint3 const& point, unsigned int& outRow, un
     outRow = row;
 }
 
-struct NavMeshTriangle;
+class NavMeshTriangle;
 struct NiPoint3;
 struct TriLike
 {

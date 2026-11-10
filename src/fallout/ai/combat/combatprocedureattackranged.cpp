@@ -127,7 +127,7 @@ void FUN_009d0a10_shell::SetByteAt142(unsigned char value)
     this->unk142 = value;
 }
 
-struct Actor;
+class Actor;
 class CombatProcedureAttackRanged
 {
   public:
@@ -159,7 +159,7 @@ void* FUN_009d0950_shell::FUN_009d0950(unsigned int flags)
 struct FUN_009cc4d0_shell
 {
 };
-struct CombatProcedure
+class CombatProcedure
 {
 };
 struct FUN_009d1c30_shell
@@ -175,7 +175,7 @@ namespace fnv_009d2310 {
 struct BGSSaveFormBuffer
 {
 };
-struct CombatProcedure
+class CombatProcedure
 {
 };
 struct FUN_009a5eb0_shell
@@ -775,7 +775,7 @@ bool FUN_009d1d30_cls::GetVec3(FUN_009d1d30_Vec3* apDst, unsigned int auiArg)
 }
 
 
-struct Actor;
+class Actor;
 
 struct Sub14
 {

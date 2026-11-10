@@ -268,7 +268,8 @@ struct C_00e8f010 {
 };
 struct NiPoint2 { float x,y; };
 struct Color { float r,g,b,a; };
-struct NiGeometryData {
+class NiGeometryData {
+  public:
     virtual void f0();
     virtual void f1();
     virtual void f2();

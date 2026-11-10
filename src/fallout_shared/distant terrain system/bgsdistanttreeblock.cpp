@@ -520,7 +520,7 @@ struct BGSDistantTreeBlock
 struct IOTask
 {
 };
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 template <typename A, typename B> struct NiTPointerMap
 {
     bool IsEmpty();
@@ -638,7 +638,7 @@ struct NiBinaryStream
 {
 };
 
-struct NiFile : public NiBinaryStream
+class NiFile : public NiBinaryStream
 {
 };
 

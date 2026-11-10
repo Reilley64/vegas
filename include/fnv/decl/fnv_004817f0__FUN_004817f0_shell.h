@@ -1,6 +1,6 @@
 #pragma once
 
-class InventoryItemEntry;
+struct InventoryItemEntry;
 namespace fnv_004817f0 { struct ContainerChanges; }
 
 namespace fnv_004817f0 {

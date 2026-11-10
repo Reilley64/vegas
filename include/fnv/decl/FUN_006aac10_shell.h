@@ -1,6 +1,6 @@
 #pragma once
 
-struct NavMesh;
+class NavMesh;
 
 struct FUN_006aac10_shell {
 public:

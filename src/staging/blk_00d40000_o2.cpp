@@ -133,7 +133,7 @@ void FUN_00d4de30(intptr_t a, intptr_t b)
     ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(a), (::fnv_00d6f2b0::EventRecord **)(b), 0, 8);
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
 public:
@@ -1446,7 +1446,7 @@ struct TlsFlagGuard
     }
 };
 
-class SpawnedObject
+struct SpawnedObject
 {
   public:
     unsigned int unk00;
@@ -3220,7 +3220,7 @@ void __cdecl FUN_00d47f40(FUN_00d48300_Obj* obj, int aiValue)
     }
 }
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_01268b24;
 
 // @fnv 0x00d47f60
@@ -4054,7 +4054,7 @@ class FUN_00d21ce0_cls
     void* m_pOwnerObject;
 };
 
-class FUN_00dd0420_Class
+struct FUN_00dd0420_Class
 {
   public:
     FUN_00dd0420_Class* FUN_00dd0420(int flag);

@@ -129,9 +129,10 @@ S16* FUN_007feb40_This::GetValueAtC0(S16* pValue)
 struct Animation
 {
 };
-class Animation;
-struct PlayerCharacter
+struct Animation;
+class PlayerCharacter
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -256,8 +257,9 @@ struct PlayerCharacter
 public:
     ::Animation *GetAnimation(bool) const;
 };
-struct Menu
+class Menu
 {
+  public:
     bool FUN_007fe4e0();
 };
 // @fnv 0x007fe4e0
@@ -521,8 +523,8 @@ struct FUN_007fe560_cls : S_007fe560_Base
     void InitTerminalLight();
 };
 
-struct NiNode;
-struct Menu;
+class NiNode;
+class Menu;
 
 struct NodePtr
 {
@@ -593,8 +595,8 @@ struct MenuTile
 {
 };
 
-class ShadowSceneNode;
-struct FORenderedMenu
+struct ShadowSceneNode;
+class FORenderedMenu
 {
 public:
     void OnMenuOpen();

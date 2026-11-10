@@ -16,7 +16,7 @@ class NiDirectionalLight;
 class NiFogProperty;
 class NiSourceTexture;
 class QueuedFile;
-class Sky;
+struct Sky;
 class TES;
 class TES__ParticleObjectCache;
 class TESRegion;

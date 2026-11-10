@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-struct hkReferencedObject;
+class hkReferencedObject;
 
 struct FUN_009ba5f0_shell {
 public:

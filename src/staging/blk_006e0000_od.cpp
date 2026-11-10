@@ -572,7 +572,7 @@ void* FUN_006ed0e0_Class::FUN_006ed0e0()
 }
 
 struct PathingLocation;
-struct PathingSolution
+class PathingSolution
 {
 };
 struct FUN_006ed7a0_Class
@@ -2251,7 +2251,7 @@ FUN_006f4cd0_Class::FUN_006f4cd0_Class()
 }
 }  // namespace fnv_006f4cd0
 
-struct FindTriangleForLocationFilter;
+class FindTriangleForLocationFilter;
 struct PathingLocationProxy
 {
     bool FindContainingTriangle(FindTriangleForLocationFilter*);
@@ -2275,7 +2275,7 @@ struct PathingLocation
 {
     PathingLocation& operator=(const PathingLocation&);
 };
-struct FindTriangleForLocationFilter;
+class FindTriangleForLocationFilter;
 struct PathingLocationProxy
 {
     bool FindContainingTriangle(FindTriangleForLocationFilter*);
@@ -2521,8 +2521,9 @@ struct Flt
 {
     operator unsigned int();
 };
-struct Tile
+class Tile
 {
+  public:
     int _0;
     Flt _4;
     void SetNodeFloat(float);
@@ -2568,7 +2569,7 @@ struct FUN_00759d80_Class
 {
     unsigned char FUN_00759d80();
 };
-struct FORenderedMenu
+class FORenderedMenu
 {
 };
 struct FUN_006fea10_Class
@@ -2754,10 +2755,11 @@ void FUN_006ecc70_Class::PushFront(int* p)
 }
 
 bool __cdecl FUN_00696540(const NiPoint3*, const NiPoint3*, const NiPoint3*, const NiPoint3*);
-struct NavMeshTriangleReference;
-struct NavMeshTriangleEdgeReference;
-struct AStarNode
+class NavMeshTriangleReference;
+class NavMeshTriangleEdgeReference;
+class AStarNode
 {
+  public:
     NavMeshTriangleReference* m_pReferencedNode;
     NavMeshTriangleEdgeReference* m_pLink;
     int m_i;
@@ -3876,12 +3878,13 @@ struct LocalBSSimpleList
 
 
 namespace fnv_006ee5d0 {
-struct NavMesh
+class NavMesh
 {
 };
 
-struct NavMeshTriangleReference
+class NavMeshTriangleReference
 {
+  public:
     NavMesh* m_pNavMesh;
     unsigned short m_flags;
 };
@@ -5101,7 +5104,7 @@ void* FUN_006ee070_cls::CreateObject()
     return mem;
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -5343,7 +5346,7 @@ void Host_6f03a0::FUN_006f03a0()
 }
 
 namespace fnv_006f1d30 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -7491,7 +7494,7 @@ public:
 class TESObjectREFR : public TESForm
 {
 };
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };
@@ -8627,7 +8630,7 @@ class NiPoint3Ex : public NiPoint3
     NiPoint3Ex operator*(float) const;
 };
 class TESObjectCELL;
-class PathingLocation
+struct PathingLocation
 {
   public:
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
@@ -10149,7 +10152,7 @@ class QueuedFile
     void IncRefCount();
     void DecRefCount();
 };
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -10496,7 +10499,7 @@ bool FUN_006ec7e0_C::FUN_006ec7e0(void* a1, void* a2, void* a3, bool a4)
     return bResult;
 }
 
-struct NavMesh;
+class NavMesh;
 
 struct P3
 {
@@ -10509,8 +10512,8 @@ struct P3
 };
 
 class NavMeshTriangle;
-class NiPoint3;
-struct NavMesh
+struct NiPoint3;
+class NavMesh
 {
 public:
     ::NavMeshTriangle *GetTriangle(unsigned short);
@@ -11554,8 +11557,9 @@ FUN_006f9940::~FUN_006f9940()
 }
 
 namespace fnv_006fc490 {
-struct NiNode
+class NiNode
 {
+  public:
     virtual void v000();
     virtual void v004();
     virtual void v008();

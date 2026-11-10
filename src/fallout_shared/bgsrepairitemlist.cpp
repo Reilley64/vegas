@@ -35,8 +35,9 @@ void BGSRepairItemList::InitItem(TESForm* owner)
     }
 }
 
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent()
     {}
 };
@@ -64,8 +65,9 @@ void* FUN_0047b850(void* pThis)
 
 namespace fnv_0047b880 {
 extern int DAT_0101a4c4;
-struct TESFile
+class TESFile
 {
+  public:
     void InitializeComponent(void);
 };
 struct FUN_0047b880

@@ -12,7 +12,7 @@ class NiBinaryStream;
 class NiObjectGroup;
 class ProcessorAffinityInfo;
 class NiSearchPath;
-class NiStream;
+struct NiStream;
 class NiStream__BackgroundLoadProcedure;
 class NiTLargeObjectArray_NiFixedString_;
 class NiTLargeObjectArray_NiPointer_NiObject___;
@@ -172,7 +172,7 @@ class ProcessorAffinityInfo
     // ProcessorAffinityInfo::Processor __cdecl ProcessorAffinityInfo::*()
     // void __cdecl ProcessorAffinityInfo::*(ProcessorAffinityInfo::Processor)
 };
-class NiStream
+struct NiStream
 {
   public:
     NiObject* GetLoadedObject();

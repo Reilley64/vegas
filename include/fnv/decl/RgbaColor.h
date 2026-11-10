@@ -1,8 +1,8 @@
 #pragma once
 
-class NiStream;
+struct NiStream;
 
-class RgbaColor {
+struct RgbaColor {
 public:
     // 0x005321d0
     ::RgbaColor &FUN_005321d0(float);

@@ -3,7 +3,7 @@
 
 class TESForm;
 
-class CombatState {
+struct CombatState {
 public:
     // 0x00575610
     intptr_t GetInventoryItemCount(::TESForm *);

@@ -1,11 +1,11 @@
 #pragma once
 
 class BGSMenuIcon;
-class GameSettingCollection;
+struct GameSettingCollection;
 class GlobalObject2_0045cfe0;
 class GlobalObject_0045cf30;
 class GlobalObject_00479190;
-class GlobalObject_0096a2d0;
+struct GlobalObject_0096a2d0;
 class TESObjectREFR;
 template <class, class> class NiTPointerMap;
 template <class> class SettingT;

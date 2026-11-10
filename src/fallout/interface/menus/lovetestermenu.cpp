@@ -549,8 +549,9 @@ void FUN_007948d0()
     reinterpret_cast<::FUN_00c4f2d0_class *>((camera))->FUN_00c4f2d0();
 }
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_kHandle;
     NiFixedString(const char* s);
     ~NiFixedString();
@@ -560,12 +561,13 @@ struct NiProperty
 {
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
-struct NiNode
+class NiNode
 {
+  public:
     virtual void f00();
     virtual void f01();
     virtual void f02();
@@ -636,8 +638,9 @@ struct SceneGlob
     NiNode* root;
 };
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
     NiPointer(T* p);
     ~NiPointer();
@@ -667,8 +670,9 @@ FUN_00794e70::FUN_00794e70(int iFirst, int iSecond, const char* pcObjectName) : 
 }
 
 namespace fnv_007950b0 {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_kHandle;
     NiFixedString(const char* pcString);
     ~NiFixedString();
@@ -678,7 +682,7 @@ struct NiProperty
 {
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -1066,8 +1070,9 @@ struct FUN_00ad8830_shell
 {
     bool FUN_00ad8830(bool);
 };
-struct Menu
+class Menu
 {
+  public:
     void FUN_00795e20();
 };
 struct PlayerOps
@@ -1292,7 +1297,7 @@ void __cdecl FUN_007917a0()
 struct Controls
 {
 };
-struct OSGlobals
+class OSGlobals
 {
 };
 struct InventoryMenuSetting
@@ -1306,12 +1311,14 @@ struct NiUpdateData
     bool updateControllers, isMT, updateGeom, updateShadow, updateBounds;
     NiUpdateData(float, bool, bool);
 };
-struct NiControllerSequence
+class NiControllerSequence
 {
+  public:
     void Update(float, bool);
 };
-struct NiTimeController
+class NiTimeController
 {
+  public:
     virtual void slot00();
     virtual void slot01();
     virtual void slot02();
@@ -2733,7 +2740,7 @@ struct Vec3
 struct Hit
 {
 };
-class NiPoint3;
+struct NiPoint3;
 struct NiPick
 {
     int u00, u04, u08, u0c, u10, u14, u18, u1c, u20, u24, u28, u2c, u30;

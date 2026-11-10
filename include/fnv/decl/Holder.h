@@ -3,7 +3,7 @@
 
 class FUN_008515f0;
 class NiFixedString;
-class NiPoint3;
+struct NiPoint3;
 class NiTexture;
 class RefObject;
 class TESForm;
@@ -11,11 +11,11 @@ class TESSound;
 struct Big;
 struct Item;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct Node;
 struct RefObj;
 struct ReferenceLightData;
-struct Tile;
+class Tile;
 struct Vec3;
 
 struct Holder {

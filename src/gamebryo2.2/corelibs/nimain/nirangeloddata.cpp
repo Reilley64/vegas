@@ -93,7 +93,7 @@ void NiRangeLODData::SetRangeCount(unsigned int uiNumRanges)
     }
 }
 
-class NiObject;
+struct NiObject;
 struct LODRange
 {
     float m_fNearPlane;

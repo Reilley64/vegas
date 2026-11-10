@@ -1,7 +1,7 @@
 #pragma once
 
 struct ArrQ;
-struct NiNode;
+class NiNode;
 struct ParamT;
 
 struct ThisT {

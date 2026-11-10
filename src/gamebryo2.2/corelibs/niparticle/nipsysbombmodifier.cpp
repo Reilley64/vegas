@@ -30,8 +30,8 @@ struct CloningProcess
 {
     NiTStringPointerMap_00e93020* m_pCloneMap;
 };
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 struct NiPSysModifier
 {
     virtual void ProcessClone(CloningProcess&);
@@ -808,8 +808,9 @@ struct ThreeByThreeMatrix
     float m_20, m_21, m_22;
     BombPoint FUN_004b4500(const NiPoint3& pt) const;
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_kOrientation;
     BombPoint m_kTranslation;
     float m_fScale;
@@ -818,8 +819,9 @@ public:
 public:
     ::NiTransform operator*(const ::NiTransform &) const;
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

@@ -264,14 +264,14 @@ float FUN_00507b20Class::FUN_00507b20()
     return *(float*)((char*)this + 0x118);
 }
 
-struct TESEffectShader;
+class TESEffectShader;
 struct FUN_00505cf0Class
 {
     void FUN_00505d20();
     void* DestroyIfFlagged(unsigned int flags);
 };
-struct NiAVObject;
-struct NiSourceTexture;
+class NiAVObject;
+class NiSourceTexture;
 struct ParticleShaderProperty
 {
 };
@@ -376,8 +376,9 @@ struct FUN_00485e00_shell
 {
 };
 
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength();
 };
 
@@ -398,7 +399,7 @@ struct FUN_005060f0Data
     BGSDebris* mAddon;
 };
 
-struct BGSPerk;
+class BGSPerk;
 struct BSSimpleListT
 {
 };
@@ -456,15 +457,16 @@ struct NiPropStub
 {
 };
 
-struct NiAVObject;
+class NiAVObject;
 
 struct NiNodeStub
 {
     unsigned int GetChildCount();
 };
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void V00();
     virtual void V04();
     virtual void V08();

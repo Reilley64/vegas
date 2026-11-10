@@ -26,8 +26,9 @@ struct hkRotation
 {
     hkVector4 c0, c1, c2;
 };
-struct hkTransform
+class hkTransform
 {
+  public:
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
 };

@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?g_0126c5f0@@3UGlobalObjectO2_00d472a0@@A=?g_0126c5f0@@3VGlobalObjectO2_00d472a0@@A")
+#pragma comment(linker, "/alternatename:?g_0126c5f0@@3UGlobalObjectO2_00d472a0@@A=?g_0126c5f0@@3UGlobalObjectO2_00d472a0@@A")
 
 double DAT_010ebf18 = 3.5999999046325684;
 double DAT_010ebf20 = 1.6050000190734863;

@@ -40,8 +40,9 @@ unsigned int FUN_00865b10_shell::GetValuePlusNine()
     return value + 9;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual void f0();
     virtual void f1();
     virtual void f2();
@@ -104,7 +105,7 @@ struct TESForm
     virtual void f59();
     virtual bool IsReference();
 };
-struct TESObjectREFR : TESForm
+class TESObjectREFR : public TESForm
 {
 };
 struct BGSSaveFormBuffer
@@ -128,9 +129,10 @@ TESObjectREFR* BGSSaveFormBuffer::GetFormAsReference()
 }
 
 namespace fnv_00865b80 {
-struct Actor;
-struct TESObjectREFR
+class Actor;
+class TESObjectREFR
 {
+  public:
     virtual void v00()
     {}
     virtual void v01()
@@ -264,7 +266,7 @@ struct TESObjectREFR
         return false;
     }
 };
-struct Actor : TESObjectREFR
+class Actor : public TESObjectREFR
 {
 };
 struct BGSSaveFormBuffer

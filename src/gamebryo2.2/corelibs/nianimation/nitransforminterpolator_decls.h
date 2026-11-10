@@ -17,8 +17,8 @@ class NiKeyBasedInterpolator
 };
 
 class NiTransformData;
-class NiObjectNET;
-class CloningProcess;
+struct NiObjectNET;
+struct CloningProcess;
 
 class NiBoolInterpolator
 {

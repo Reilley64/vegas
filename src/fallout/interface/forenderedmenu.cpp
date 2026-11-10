@@ -305,7 +305,7 @@ struct NP_0081c630
 {
     NP_0081c630& operator=(void*);
 };
-struct ExtraDataList
+class ExtraDataList
 {
 };
 struct LightNodeV
@@ -605,11 +605,11 @@ void Interface::FUN_007fa8d0(bool abCulled)
 }
 
 namespace fnv_007fb040 {
-struct Menu;
-struct Tile
+class Menu;
+class Tile
 {
 };
-struct Menu
+class Menu
 {
 };
 struct Interface
@@ -634,10 +634,10 @@ void FUN_007fb040_shell::FUN_007fb040()
 }
 }  // namespace fnv_007fb040
 
-struct Tile
+class Tile
 {
 };
-struct Menu;
+class Menu;
 struct FUN_007fc8d0_shell : public FORenderedMenu
 {
     void FUN_007fc8d0();
@@ -783,12 +783,13 @@ struct SndX
 {
 };
 
-struct TESImageSpaceModifier
+class TESImageSpaceModifier
 {
 };
 
-struct ImageSpaceModifierInstanceForm
+class ImageSpaceModifierInstanceForm
 {
+  public:
     static void __cdecl Stop(TESImageSpaceModifier*);
 };
 
@@ -2723,8 +2724,9 @@ struct Four
 {
     int a, b, c, d;
 };
-struct Menu
+class Menu
 {
+  public:
     char p0[0xc];
     Node node;
     char p0d[0xb];

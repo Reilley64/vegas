@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?DAT_0126f718@@3PEAV?$ObjectPool@UD3DRenderStateGroup@@V?$NiTNewInterface@UD3DRenderStateGroup@@@@@@EA=?DAT_0126f718@fnv_00e7f2b0@@3PEAUD3DRenderStateGroup@1@EA")
+#pragma comment(linker, "/alternatename:?DAT_0126f718@@3PEAV?$ObjectPool@VD3DRenderStateGroup@@V?$NiTNewInterface@VD3DRenderStateGroup@@@@@@EA=?DAT_0126f718@fnv_00e7f2b0@@3PEAVD3DRenderStateGroup@1@EA")
 
 char str_010a93cc = 112;
 char str_010a93ec = 118;

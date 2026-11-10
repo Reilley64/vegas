@@ -67,7 +67,7 @@
 #include "layout_support.h"
 #ifndef FNV_NIPOINT3_H
 #define FNV_NIPOINT3_H
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -76,8 +76,8 @@ class NiPoint3
 #endif
 class BSPackedTask;
 class TESObjectWEAP;
-class NiUpdateData;
-class BooleanFloatQuery;
+struct NiUpdateData;
+struct BooleanFloatQuery;
 class DismemberLimbTaskData;
 class Date;
 class bhkWorld;
@@ -750,7 +750,7 @@ public:
     unsigned int pad04[0x2a];
     void* unkac;
 };
-class BooleanFloatQuery
+struct BooleanFloatQuery
 {
   public:
     Actor* m_pkAttacker;
@@ -795,12 +795,12 @@ class BipedAnim
       // @ref 0x00b553d0 SetNodeTranslation@BipedAnim
     void AttachFaceGenNode();                                      // @ref 0x00571b50 AttachFaceGenNode@BipedAnim
 };
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     void RemoveObject(NiAVObject*);  // @ref 0x00b5b1c0 RemoveObject@ShadowSceneNode
 };
-class ShadowSceneNode;
+struct ShadowSceneNode;
 class NiAdditionalGeometryData
 {
   public:
@@ -808,7 +808,7 @@ class NiAdditionalGeometryData
 public:
     static ::ShadowSceneNode *GetShadowSceneNodeForIndex(int);
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;

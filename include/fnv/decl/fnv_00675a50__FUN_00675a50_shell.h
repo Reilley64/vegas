@@ -1,7 +1,7 @@
 #pragma once
 
 class MobileObject;
-namespace fnv_00675a50 { struct TESWorldSpace; }
+namespace fnv_00675a50 { class TESWorldSpace; }
 
 namespace fnv_00675a50 {
 struct FUN_00675a50_shell {

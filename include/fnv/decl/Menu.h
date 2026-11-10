@@ -2,7 +2,7 @@
 
 class Tile;
 
-struct Menu {
+class Menu {
 public:
     // 0x007c0000
     void UpdateClockText();

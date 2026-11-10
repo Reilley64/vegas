@@ -10,7 +10,7 @@
 #include "fnv/symbols_00937000.h"
 #include "layout_support.h"
 
-class Modifier
+struct Modifier
 {
   public:
     char cKey;

@@ -45,7 +45,7 @@ class VectorComponentValue
     __m128 m_vValue;
 };
 
-class hkVector4
+struct hkVector4
 {
   public:
     __forceinline void operator=(const hkVector4& v)

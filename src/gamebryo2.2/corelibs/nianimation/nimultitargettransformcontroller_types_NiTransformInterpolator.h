@@ -6,7 +6,7 @@
 #include "NiObject.h"
 #include "NiPoint3.h"
 #include "layout_support.h"
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 class NiInterpolator;
 class NiKeyBasedInterpolator;
 class NiQuatTransform;

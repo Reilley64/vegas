@@ -24,7 +24,7 @@ class TESObjectREFR : public TESForm
 {
 };
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     virtual unsigned char vfn_0();
@@ -40,7 +40,7 @@ enum MEDIATYPE
     MEDIATYPE_RADIO = 7
 };
 
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -99,7 +99,7 @@ class FalloutRadio
     static RadioConversation* GetRadioConversation(BGSTalkingActivator*);
 };
 
-class TeleportableReference
+struct TeleportableReference
 {
   public:
     void InitLoadGame(BGSLoadGameBuffer*);
@@ -114,7 +114,7 @@ class FalloutAudioMedia
     static bool IsRadioPlaying();
 };
 
-class Interface
+struct Interface
 {
   public:
     static bool IsGamePaused();

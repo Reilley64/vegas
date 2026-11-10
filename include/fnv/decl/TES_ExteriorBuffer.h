@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESWorldSpace;
+class TESWorldSpace;
 
 struct TES_ExteriorBuffer {
 public:

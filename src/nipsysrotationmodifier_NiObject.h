@@ -4,7 +4,7 @@
 
 #include "nipsysrotationmodifier_layout_support.h"
 #include "nipsysrotationmodifier_NiRefObject.h"
-class NiRTTI;
+struct NiRTTI;
 class NiNode;
 class BSFadeNode;
 class BSMultiBoundNode;
@@ -20,13 +20,13 @@ class bhkNiCollisionObject;
 class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 class NiObjectGroup;
-class NiBound;
-class NiControllerManager;
+struct NiBound;
+struct NiControllerManager;
 template <class T> class NiTPrimitiveArray;
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual const NiRTTI* GetRTTI() const;

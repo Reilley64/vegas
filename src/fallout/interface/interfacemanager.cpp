@@ -363,7 +363,7 @@
 #include "fnv/symbols_00b5d000.h"
 #include "fnv/symbols_011f4000.h"
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -522,12 +522,12 @@ void SSN::FUN_0070b760(unsigned char ucValue)
     ::FUN_00b4f2f0(ucValue, (::ShadowSceneNode *)(::SSN *)(this));
 }
 
-struct EffectSetting;
-struct Menu;
-struct NiFixedString;
+class EffectSetting;
+class Menu;
+class NiFixedString;
 struct PerkForm;
 struct TESReputation;
-struct TileMenu;
+class TileMenu;
 struct MenuValueDescriptor;
 struct FUN_0070b790_shell : public InterfaceManager
 {
@@ -537,14 +537,14 @@ struct FUN_0070b790_shell : public InterfaceManager
 struct Tile_
 {
 };
-struct Menu
+class Menu
 {
 };
 namespace fnv_0070b810 {
-struct InventoryStackRecord;
-struct Menu;
-struct NiFixedString;
-struct TileMenu;
+class InventoryStackRecord;
+class Menu;
+class NiFixedString;
+class TileMenu;
 struct MenuValueDescriptor;
 struct FUN_0070b810_shell : public InterfaceManager
 {
@@ -799,12 +799,12 @@ struct S4
     void FUN_007123a0(unsigned char);
 };
 struct BSRenderedTexture;
-struct ImageSpaceEffect;
+class ImageSpaceEffect;
 struct ImageSpaceEffectParam;
 struct ImageSpaceTexture;
 struct RgbaColor;
 struct NiScreenElements;
-struct NiTexture;
+class NiTexture;
 struct GraphicsRenderer;
 struct blob16
 {
@@ -1271,7 +1271,7 @@ struct FUN_00714fd0_shell : public InterfaceManager
     int RemoveFromStack(int, bool);
 };
 
-class ImageSpaceManager
+struct ImageSpaceManager
 {
   public:
 };
@@ -1648,7 +1648,7 @@ bool __cdecl FUN_007178a0()
 }
 
 namespace fnv_00717990 {
-class BSAudio
+struct BSAudio
 {
   public:
     unsigned int GetSynchTime();
@@ -1693,9 +1693,9 @@ bool __cdecl FUN_00717990()
 }
 }  // namespace fnv_00717990
 
-struct Menu;
-struct NiFixedString;
-struct TileMenu;
+class Menu;
+class NiFixedString;
+class TileMenu;
 struct MenuValueDescriptor;
 struct FUN_00717e70_shell : public InterfaceManager
 {
@@ -1731,9 +1731,9 @@ void FUN_00717e70_shell::FUN_00717e70(Menu* apMenu, int aiID, Tile* apTarget)
 }
 
 namespace fnv_00717ef0 {
-struct Menu;
-struct NiFixedString;
-struct TileMenu;
+class Menu;
+class NiFixedString;
+class TileMenu;
 struct MenuValueDescriptor;
 struct FUN_00717ef0_shell : public InterfaceManager
 {
@@ -1795,26 +1795,27 @@ struct CHUNK;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
-struct NiAVObject;
-struct AnimationKey;
+class NiAVObject;
+class AnimationKey;
 struct NiColor;
 struct NiColorInterpolator;
 struct NiFloatInterpolator;
 struct AlphaColor;
 struct TimedFloatKey;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESFile;
-struct TESForm;
-struct TESImageSpaceModifier;
-struct TESObjectREFR;
-struct TESSound;
+class TESBoundObject;
+class TESFile;
+class TESForm;
+class TESImageSpaceModifier;
+class TESObjectREFR;
+class TESSound;
 struct blob8
 {
     char b[8];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -1825,7 +1826,7 @@ struct FUN_00718ab0_shell : public InterfaceManager
     TESImageSpaceModifier* FUN_00718ab0();
 };
 
-class Animation;
+struct Animation;
 class PlayerCharacter
 {
   public:
@@ -1951,9 +1952,9 @@ bhkFilter FUN_0070c440_stub::FUN_0070c440()
 }
 
 namespace fnv_007157b0 {
-struct Menu;
-struct NiFixedString;
-struct TileMenu;
+class Menu;
+class NiFixedString;
+class TileMenu;
 struct MenuValueDescriptor;
 struct FUN_007157b0_shell : public InterfaceManager
 {
@@ -1961,7 +1962,7 @@ struct FUN_007157b0_shell : public InterfaceManager
 };
 
 namespace fnv_00717ef0 {
-struct Menu;
+class Menu;
 struct FUN_00717ef0_shell
 {
 };
@@ -2016,13 +2017,13 @@ void FUN_00716010_stub::FUN_00716010(void* p)
 namespace fnv_007181d0 {
 struct BSRenderedTexture;
 struct BSShaderNoLightingProperty;
-struct FORenderedMenu;
-struct NiAVObject;
-struct NiCamera;
+class FORenderedMenu;
+class NiAVObject;
+class NiCamera;
 struct NiColor;
-struct NiGeometry;
+class NiGeometry;
 struct NiPointLight;
-struct NiTexture;
+class NiTexture;
 struct ShadowSceneNode;
 struct blob16
 {
@@ -2037,8 +2038,9 @@ struct FUN_007181d0_shell : public InterfaceManager
     ::fnv_007181d0::FORenderedMenu* unk16c;
 };
 
-struct FORenderedMenu
+class FORenderedMenu
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -2151,9 +2153,9 @@ void SystemColor::FUN_007193b0(RgbaColor* aOutColor) const
 }
 
 namespace fnv_0070c4a0 {
-struct Menu;
-struct NiFixedString;
-struct TileMenu;
+class Menu;
+class NiFixedString;
+class TileMenu;
 struct MenuTileComponent;
 struct MenuValueDescriptor;
 using ::AutoMemContext;
@@ -4117,20 +4119,20 @@ FUN_0070b6c0::~FUN_0070b6c0()
 }
 
 namespace fnv_0070bc20 {
-struct Actor;
+class Actor;
 struct ActorCause;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ExplosionForm;
 struct BGSLoadFormBuffer;
 struct BGSLoadGameBuffer;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
@@ -4140,7 +4142,7 @@ struct CHUNK;
 struct CellMopp;
 struct GameFormRecord;
 struct TeleportableReference;
-struct ExtraDataList;
+class ExtraDataList;
 struct ExtraLock;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -4148,51 +4150,51 @@ struct FurnitureMark;
 struct HWND__;
 struct BooleanIntegerAccessor;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct CellDataNode;
-struct MagicCaster;
-struct MagicTarget;
-struct MapMarkerData;
-struct MobileObject;
-struct Point3Offset;
-struct NiAVObject;
+class MagicCaster;
+class MagicTarget;
+class MapMarkerData;
+class MobileObject;
+class Point3Offset;
+class NiAVObject;
 struct AnimationInterpolator;
 struct NiColor;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPointLight;
 struct NiStream;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
-struct Script;
+class RagDollData;
+class Script;
 struct ScriptLocals;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
-struct TESFile;
-struct TESForm;
+class TESBoundObject;
+class TESContainer;
+class TESFile;
+class TESForm;
 struct TESGlobal;
-struct TESModel;
-struct TESObjectARMO;
-struct TESObjectCELL;
+class TESModel;
+class TESObjectARMO;
+class TESObjectCELL;
 struct TESObjectCLOT;
 struct TESObjectLIGH;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESSound;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESSound;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
 struct TrapEntry;
 struct WaterZone;
@@ -4247,8 +4249,9 @@ struct NiPoint3
     float y;
     float z;
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -4286,9 +4289,9 @@ struct FUN_0070bc20_shell : public InterfaceManager
     void* unk13c;
 };
 
-struct NiAVObject;
+class NiAVObject;
 struct bhkWorld;
-struct NiCamera;
+class NiCamera;
 
 struct Vec3
 {
@@ -4328,34 +4331,37 @@ struct NiPick
     ~NiPick();
 };
 
-struct TESForm
+class TESForm
 {
+  public:
     unsigned char GetFormType();
 };
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 
-struct TESObjectCELL
+class TESObjectCELL
 {
 };
 
-struct TESContainer
+class TESContainer
 {
 };
 
-struct HUDMainMenu
+class HUDMainMenu
 {
 };
 
-struct bhkCharacterController
+class bhkCharacterController
 {
+  public:
     CollisionFilter FUN_0070c440();
 };
 
-struct PlayerCharacter
+class PlayerCharacter
 {
+  public:
     virtual void Unk000();
     virtual void Unk001();
     virtual void Unk002();
@@ -4701,11 +4707,11 @@ void FUN_0070bc20_shell::UpdateActivatePick()
 }  // namespace fnv_0070bc20
 
 namespace fnv_0070ee80 {
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BGSTextureSet;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct BipedAnim;
 struct CHUNK;
 struct FormRecordHeader;
@@ -4713,24 +4719,24 @@ struct TESFileGroup;
 struct FindData;
 struct HWND__;
 struct KFModel;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiNode;
+class NiControllerSequence;
+class NiNode;
 struct NiPoint3;
 struct TESAnimGroup;
-struct TESBoundObject;
-struct TESFile;
-struct TESForm;
-struct TESFullName;
-struct TESIdleForm;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class TESBoundObject;
+class TESFile;
+class TESForm;
+class TESFullName;
+class TESIdleForm;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESTexture;
+class TESObjectREFR;
+class TESTexture;
 struct FileEntryList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -4904,8 +4910,9 @@ struct Animation
     char LocalOutput[8];
     char m_acTrailingData[8];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -4921,14 +4928,15 @@ struct FUN_0070ee80_shell : public InterfaceManager
     void (*unk4c0)();
 };
 
-struct TESObjectWEAP
+class TESObjectWEAP
 {
+  public:
     int GetWeaponType() const;
 };
-struct InventoryStackRecord
+class InventoryStackRecord
 {
 };
-struct PlayerCharacter;
+class PlayerCharacter;
 struct BaseProcess
 {
     virtual void Unk_000();
@@ -5244,8 +5252,9 @@ struct BaseProcess
     virtual bool IsIdleReady(PlayerCharacter*);
 
 };
-struct PlayerCharacter
+class PlayerCharacter
 {
+  public:
     virtual void Unk_000();
     virtual void Unk_001();
     virtual void Unk_002();
@@ -5552,14 +5561,14 @@ struct PlayerCharacter
 struct TESAnimGroup
 {
 };
-struct BSAnimGroupSequence
+class BSAnimGroupSequence
 {
 };
 struct AnimationHelper
 {
     int GetSlotValue(int);
 };
-struct FOPipboyManager
+class FOPipboyManager
 {
 };
 struct InterfaceHelper
@@ -5579,16 +5588,16 @@ struct InterfaceManager_PopFromEnterStack_helper
 struct ContainerMenu
 {
 };
-struct HUDMainMenu
+class HUDMainMenu
 {
 };
 struct MapMenuHelper
 {
 };
-struct TESImageSpaceModifier
+class TESImageSpaceModifier
 {
 };
-struct ImageSpaceModifierInstanceForm
+class ImageSpaceModifierInstanceForm
 {
 };
 struct SoundPlaybackHandle
@@ -5889,7 +5898,7 @@ struct M3_
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
 };
 
-class NiRenderer
+struct NiRenderer
 {
 };
 
@@ -6150,8 +6159,9 @@ struct BSFaceGenNiNode
 struct MTRenderingSystem_Helper
 {
 };
-struct TaskThreadManager
+class TaskThreadManager
 {
+  public:
     static TaskThreadManager* GetSingleton();
 public:
     static void EndRenderingTaskThread();
@@ -6183,7 +6193,7 @@ void IMStandIn::FUN_00713f00()
 }
 
 namespace fnv_00715ca0 {
-struct NiNode
+class NiNode
 {
 };
 struct TileX
@@ -6262,9 +6272,9 @@ void FUN_00717660_shell::FUN_00717660()
 }  // namespace fnv_00717660
 
 namespace fnv_00717f80 {
-struct Menu;
-struct NiFixedString;
-struct TileMenu;
+class Menu;
+class NiFixedString;
+class TileMenu;
 struct MenuValueDescriptor;
 struct ListBoxBase
 {
@@ -6398,9 +6408,9 @@ FUN_00718c90::FUN_00718c90()
 }
 
 namespace fnv_0070f6e0 {
-struct Menu;
-struct NiFixedString;
-struct TileMenu;
+class Menu;
+class NiFixedString;
+class TileMenu;
 struct MenuValueDescriptor;
 struct FUN_0070f6e0_shell : public InterfaceManager
 {
@@ -6409,8 +6419,9 @@ struct FUN_0070f6e0_shell : public InterfaceManager
     int unk14c;
 };
 
-struct Menu
+class Menu
 {
+  public:
     virtual ~Menu();
     virtual void SetTile(int id, Tile* tile);
     virtual void HandleLeftClickPress(int id, Tile* tile);
@@ -6898,7 +6909,7 @@ int* FUN_00713d70()
     return &(*reinterpret_cast<int *>(&::DAT_011f3330));
 }
 
-struct GlobalObject_008c71d0;
+class GlobalObject_008c71d0;
 
 // @fnv 0x00713d80
 GlobalObject_008c71d0* FUN_00713d80()
@@ -7436,8 +7447,9 @@ namespace fnv_007e6620 {
 struct TileQ
 {
 };
-struct Menu
+class Menu
 {
+  public:
     virtual ~Menu();
     virtual void SetTile(unsigned int, Tile*);
     virtual void HandleLeftClickPress(unsigned int, Tile*);
@@ -7785,7 +7797,7 @@ class NiAVObject
 {
   public:
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
 };
@@ -7816,7 +7828,7 @@ class HUDMainMenu
 struct FUN_0071d770_shell
 {
 };
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -7968,14 +7980,14 @@ struct BSFadeNode;
 struct BSMultiBoundNode;
 struct BSResizableTriShape;
 struct BSSegmentedTriShape;
-struct NiAVObject;
-struct NiAccumulator;
-struct NiCullingProcess;
-struct NiGeometry;
+class NiAVObject;
+class NiAccumulator;
+class NiCullingProcess;
+class NiGeometry;
 struct NiLines;
-struct NiNode;
+class NiNode;
 struct NiParticles;
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 struct NiTriShape;
 struct NiTriStrips;
 struct NiVisibleArray;
@@ -8373,7 +8385,7 @@ struct FUN_00716a10
 FUN_00716a10::~FUN_00716a10()
 {}
 
-struct TESDataHandler
+class TESDataHandler
 {
 };
 struct FUN_00717600_shell
@@ -12836,7 +12848,7 @@ class PickResults
   public:
 };
 
-class NiPick
+struct NiPick
 {
   public:
     int unk00;
@@ -13564,7 +13576,7 @@ class BSSoundHandleEx
     int m_iFadeIndex;
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     BSSoundHandleEx GetSoundHandleByEditorID(const char* pcEditorID, unsigned int uiFlags);
@@ -14101,7 +14113,7 @@ void Shell5::AddColor(const char* apName, unsigned int aiRed, unsigned int aiGre
 }
 }  // namespace fnv_00718ee0
 
-struct TESForm
+class TESForm
 {
   public:
     virtual ~TESForm();
@@ -14498,7 +14510,7 @@ class RenderStateManager
     unsigned int unk120;
     RenderStateEntry states[256];
 };
-class NiRenderer
+struct NiRenderer
 {
   public:
     unsigned int unk000;
@@ -15144,8 +15156,9 @@ struct NiBound
     float x, y, z;
     float radius;
 };
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     virtual void DeleteThis();
     volatile long m_uiRefCount;

@@ -51,7 +51,7 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f9000.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -61,7 +61,7 @@ class NiPoint3
 public:
     float ComputeMagnitude() const;
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
@@ -72,9 +72,9 @@ public:
 class TESObjectCELL;
 class TESWorldSpace;
 class TESObjectREFR;
-class TESWaterForm;
+struct TESWaterForm;
 class NiNode;
-class GridCell;
+struct GridCell;
 template <class T> class BSSimpleList
 {
   public:
@@ -87,7 +87,7 @@ class LoadedAreaBound
 {
   public:
 };
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
@@ -329,19 +329,19 @@ class TES
 public:
     ::GridCell *FUN_00457050(int, int);
 };
-class TESQueuedCellManager
+struct TESQueuedCellManager
 {
   public:
     int CallVirtual17();
 };
-class Interface
+struct Interface
 {
   public:
     static bool IsGamePaused();
 };
 int FUN_00ec7d40(int);
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];
@@ -562,7 +562,7 @@ class TESObjectREFR
     virtual void vfn_1cc();
     virtual NiNode* GetNiNode_v();
 };
-class NiPlane
+struct NiPlane
 {
   public:
     NiPoint3 m_kPlaneNormal;

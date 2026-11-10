@@ -359,7 +359,7 @@ bool FUN_007ef710_This::HandleKey(int aiKey)
     return false;
 }
 
-struct Tile;
+class Tile;
 struct FUN_0070ec70_This
 {
 };
@@ -397,13 +397,14 @@ Vec2Tmp Vec2Tmp::DivideBy(float scale) const
     return result;
 }
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 public:
     float GetBoundingRadius();
 };
-template <> struct BSSimpleList<ItemListContainer*>
+template <> class BSSimpleList<ItemListContainer*>
 {
+  public:
     bool FUN_008256d0();
     ItemListContainer** FUN_006815c0();
 };
@@ -411,8 +412,8 @@ struct StandIn
 {
     BSSimpleList<ItemListContainer*>* FindListEntryForTarget(TESObjectREFR* apTarget);
 };
-struct Tile;
-struct Menu
+class Tile;
+class Menu
 {
 };
 void __cdecl ShutdownVats();
@@ -435,7 +436,7 @@ Tile* FUN_007f4830(Tile* apParent, char const* axName)
     return 0;
 }
 
-struct Tile;
+class Tile;
 void __cdecl ShutdownVats();
 // @fnv 0x007f4890
 Tile* __cdecl FUN_007f4890(Tile* a1, char const* a2)
@@ -504,7 +505,7 @@ bool FUN_007f4c00()
 }
 }  // namespace fnv_007f4c00
 
-struct Tile;
+class Tile;
 struct ListBox
 {
     virtual void v0();
@@ -637,7 +638,7 @@ void FUN_00800ed0_This::FUN_00800ed0()
     sel = -1;
 }
 
-struct OSGlobals
+class OSGlobals
 {
 };
 struct InputManager
@@ -686,7 +687,7 @@ bool __cdecl FUN_007eeb50(int aiKey, bool abHeld, int aiEnabled)
         return ::fnv_00717a40::FUN_00717a40(iButton, 1) == 2;
 }
 
-struct Actor;
+class Actor;
 struct FUN_007f3cf0_This : StandIn
 {
     char pad[0x100 - sizeof(Menu)];
@@ -720,8 +721,9 @@ public:
     static const ::NiPoint3 ZERO;
 };
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     NiPoint3 GetWorldTranslation();
 };
 
@@ -757,8 +759,9 @@ struct P3 : Pt
     P3 operator-(P3 const&) const;
 };
 
-struct TESObjectWEAP
+class TESObjectWEAP
 {
+  public:
     int GetWeaponType();
 public:
     float FUN_00709430(bool);
@@ -777,7 +780,7 @@ struct GameSettingCollection
 {
 };
 
-template <class T> struct SettingT : Setting_S
+template <class T> class SettingT : public Setting_S
 {
 };
 
@@ -949,7 +952,7 @@ struct FUN_00452370_shell : public Sky
 };
 
 class TESActorBase;
-struct Actor : public ActH2
+class Actor : public ActH2
 {
 public:
     ::TESActorBase *GetActorBase();
@@ -990,15 +993,15 @@ bool __cdecl FUN_007f4f30(FUN_00452370_shell* apTarget)
 }
 
 namespace fnv_007f5050 {
-struct TESCreature
+class TESCreature
 {
 };
 
-struct TESObjectWEAP
+class TESObjectWEAP
 {
 };
 
-struct InventoryStackRecord : ArrSI
+class InventoryStackRecord : public ArrSI
 {
 };
 
@@ -1114,7 +1117,7 @@ struct GameSettingCollection
 {
 };
 
-template <class T> struct SettingT : Setting_S
+template <class T> class SettingT : public Setting_S
 {
 };
 
@@ -2595,10 +2598,11 @@ void __cdecl FUN_007eb920(WeaponPrompt* weapon)
 }
 
 namespace VatsShutdown {
-struct Actor;
+class Actor;
 struct Request;
-struct Menu
+class Menu
 {
+  public:
     unsigned int unk0;
     unsigned int unk4;
     unsigned int unk8;
@@ -2666,7 +2670,7 @@ struct Menu
 struct Input
 {
 };
-struct Tile
+class Tile
 {
 };
 struct List
@@ -2705,8 +2709,9 @@ struct Queue
 {
     int FUN_005ae380();
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void slot0();
     virtual void slot4();
     virtual void slot8();
@@ -3898,7 +3903,7 @@ struct SortRef
     virtual void v174();
     virtual float GetCurrentTargetDistance(int);
 };
-struct Actor;
+class Actor;
 
 // Sorts two objects by the absolute angular difference between the player's heading and the direction from the player to each object's position.
 // @fnv 0x007f0380
@@ -4449,8 +4454,9 @@ float VATSMenu1290::CalculateVATSChance(ListReader1290* targetNode)
 }  // namespace fnv_007f1290
 
 namespace fnv_007f3d60 {
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -4934,7 +4940,7 @@ struct WeaponTypeCall
     int FUN_00446390();
 };
 
-class NiPoint2
+struct NiPoint2
 {
   public:
     NiPoint2();
@@ -5468,8 +5474,9 @@ public:
     void SetAudioState(unsigned int);
 };
 
-struct PlayerCharacter : public Actor
+class PlayerCharacter : public Actor
 {
+  public:
     virtual void v138();
     virtual void v139();
     virtual void v140();
@@ -5523,8 +5530,9 @@ extern int UNK_01077e98;
 struct GlobalManager
 {
 };
-struct Tile
+class Tile
 {
+  public:
     void Set(int a1, int a2);
 };
 // Closes the VATS menu, plays sounds, queues action requests for the actors and resets the VATS queue and wheel state.
@@ -6147,7 +6155,7 @@ struct GameText
 
 extern intptr_t DAT_011db198;
 
-struct Tile
+class Tile
 {
 };
 
@@ -6874,7 +6882,7 @@ void AimMenu::FUN_007f3070()
 struct Obj548;
 struct StepObj;
 struct MidObj;
-class NiPoint2;
+struct NiPoint2;
 struct Vec3
 {
     float x;

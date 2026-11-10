@@ -13,7 +13,7 @@
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010ea000.h"
 #include "fnv/symbols_01268000.h"
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 
@@ -35,7 +35,7 @@ void FUN_00e04eb0_class::FUN_00e04eb0(hkReferencedObject* apObject)
 }
 
 namespace fnv_00e04ee0 {
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 

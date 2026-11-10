@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?g_011cbbaec@@3UGlobalObject_0040c150@@A=?g_011cbaec@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011cbbaec@@3VGlobalObject_0040c150@@A=?g_011cbaec@@3VGlobalObject_0040c150@@A")
 #pragma comment(linker, "/alternatename:?g_k616890A0@@3VB616890Setting@@A=?g_011cbd94@@3VGlobalObject_0040c150@@A")
 #pragma comment(linker, "/alternatename:?g_k616890A1@@3VB616890Setting@@A=?g_011cbba4@@3VGlobalObject_0040c150@@A")
 #pragma comment(linker, "/alternatename:?g_k616890A2@@3VB616890Setting@@A=?g_011cbc94@@3VGlobalObject_0040c150@@A")
@@ -20,8 +20,8 @@
 #pragma comment(linker, "/alternatename:?g_k616890D2@@3VB616890Setting@@A=?g_011cbd50@@3VGlobalObject_0040c150@@A")
 #pragma comment(linker, "/alternatename:?g_k616890D3@@3VB616890Setting@@A=?g_011cbca0@@3VGlobalObject_0040c150@@A")
 #pragma comment(linker, "/alternatename:?g_kVoiceExtension@@3UVFSetting@@A=?g_011cbe14@@3VGlobalObject2_0045cfe0@@A")
-#pragma comment(linker, "/alternatename:?originalRuntimeFloatSetting50@@3USetting_S@@A=?originalRuntimeFloatSetting50@@3V?$SettingT@VGameSettingCollection@@@@A")
-#pragma comment(linker, "/alternatename:?originalRuntimeFloatSetting51@@3USetting_S@@A=?originalRuntimeFloatSetting51@@3V?$SettingT@VGameSettingCollection@@@@A")
+#pragma comment(linker, "/alternatename:?originalRuntimeFloatSetting50@@3USetting_S@@A=?originalRuntimeFloatSetting50@@3V?$SettingT@UGameSettingCollection@@@@A")
+#pragma comment(linker, "/alternatename:?originalRuntimeFloatSetting51@@3USetting_S@@A=?originalRuntimeFloatSetting51@@3V?$SettingT@UGameSettingCollection@@@@A")
 
 extern "C" char fnv_data_0104aab0[] __asm__("?DAT_0104aab0@@3DA");
 extern "C" char fnv_data_0104aac0[] __asm__("?DAT_0104aac0@@3DA");

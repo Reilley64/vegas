@@ -1,7 +1,7 @@
 #pragma once
 
 struct CloningProcess;
-struct NiAVObject;
+class NiAVObject;
 
 struct FUN_00457ba0_class {
 public:

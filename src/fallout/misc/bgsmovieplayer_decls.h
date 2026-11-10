@@ -32,7 +32,7 @@ class Direct3DDeviceInterface
     virtual int TestCooperativeLevel();
 };
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     char _pdbpad_1[7];
@@ -52,7 +52,7 @@ class NiRenderer
 };
 
 
-class BSAudio
+struct BSAudio
 {
   public:
     void Update(bool);

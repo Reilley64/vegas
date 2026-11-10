@@ -256,8 +256,9 @@ struct GO
     void operator=(void*);
 };
 
-template <class T> struct NiPointer : public GO
+template <class T> class NiPointer : public GO
 {
+  public:
     using GO::operator=;
 };
 
@@ -267,8 +268,9 @@ struct NiAdditionalGeometryData
 };
 
 struct NiPoint3;
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v00()
     {}
     virtual void v01()
@@ -392,7 +394,7 @@ public:
     ::NiPoint3 &FUN_0043c490();
 };
 
-struct NiNode : public NiAVObject
+class NiNode : public NiAVObject
 {
 };
 
@@ -400,7 +402,7 @@ struct FUN_00b5ddb0_self : public NiAVObject
 {
 };
 
-struct NiGeometry : public FUN_00b5ddb0_self
+class NiGeometry : public FUN_00b5ddb0_self
 {
 };
 
@@ -2288,8 +2290,9 @@ struct DataF
     PtrBox m_aiIndexedValues[8];
     void* m_e8;
 };
-struct NiFixedString
+class NiFixedString
 {
+  public:
     NiFixedString(const char*);
     ~NiFixedString();
     int m_str;
@@ -2310,7 +2313,7 @@ void HostF::FUN_007e5ee0(int a1, int a2)
 }
 }  // namespace fnv_007e5ee0
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -2336,8 +2339,8 @@ struct SceneObject
 struct PickRecord
 {
 };
-class NiPoint3;
-class NiPick
+struct NiPoint3;
+struct NiPick
 {
   public:
     unsigned int pickType, sortType, intersectType, coordinateType;

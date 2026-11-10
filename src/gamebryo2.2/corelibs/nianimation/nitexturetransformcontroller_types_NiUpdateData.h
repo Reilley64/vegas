@@ -3,8 +3,8 @@
 #define FNV_NIUPDATEDATA_H
 
 #include "layout_support.h"
-class NiUpdateData;
-class NiUpdateData
+struct NiUpdateData;
+struct NiUpdateData
 {
   public:
     float fTime;            // +0x0, 4 bytes

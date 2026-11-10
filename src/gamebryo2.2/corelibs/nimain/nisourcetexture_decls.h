@@ -22,7 +22,7 @@ class NiMemObject
   public:
 };
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;

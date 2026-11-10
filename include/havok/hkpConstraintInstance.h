@@ -8,7 +8,7 @@
 #include "hkpConstraintInstanceSmallArraySerializeOverrideType.h"
 class hkpConstraintData;
 class hkpEntity;
-class hkpModifierConstraintAtom;
+struct hkpModifierConstraintAtom;
 class hkpConstraintInstance : public hkReferencedObject
 {
   public:

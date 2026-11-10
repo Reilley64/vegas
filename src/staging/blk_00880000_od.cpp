@@ -78,8 +78,9 @@
 #include "../../include/layout_support.h"
 
 class TESActorBase;
-struct Actor
+class Actor
 {
+  public:
     void FUN_00884c60();
 public:
     ::TESActorBase *GetActorBase();
@@ -165,8 +166,9 @@ void FUN_00891130_class::FUN_00891130(unsigned char aValue)
     reinterpret_cast<::fnv_00620760::BGSZoneTargetListener *>(((&unk10)))->SetFlags(1, (int)aValue);
 }
 
-struct TESObject
+class TESObject
 {
+  public:
     unsigned int FNV_GetFormType();
 };
 
@@ -209,11 +211,12 @@ bool FUN_00891150_Class::FUN_00891150()
 
 
 
-struct TESObjectREFR;
+class TESObjectREFR;
 struct LocationDescriptor;
 
-struct TESPackage
+class TESPackage
 {
+  public:
     void SetMustReachLocation(bool);
     void SetMustComplete(bool);
 };
@@ -229,8 +232,9 @@ struct LocationDescriptor
     void FUN_0067f3c0(TESObjectREFR*);
 };
 
-struct TESObjectREFR
+class TESObjectREFR
 {
+  public:
     virtual void v000()
     {}
     virtual void v001()
@@ -970,7 +974,7 @@ void FUN_008885a0_Class::FUN_008885a0()
         reinterpret_cast<::fnv_004939d0::AnimationShell *>((result))->UpdateAnimationForRef((::TESObjectREFR *)(void *)(this));
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

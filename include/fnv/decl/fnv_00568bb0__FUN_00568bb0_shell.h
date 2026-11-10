@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00568bb0 { struct ExtraDataList; }
+namespace fnv_00568bb0 { class ExtraDataList; }
 
 namespace fnv_00568bb0 {
 struct FUN_00568bb0_shell {

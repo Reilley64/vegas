@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00e04ee0 { struct hkReferencedObject; }
+namespace fnv_00e04ee0 { class hkReferencedObject; }
 
 namespace fnv_00e04ee0 {
 struct FUN_00e04ee0_class {

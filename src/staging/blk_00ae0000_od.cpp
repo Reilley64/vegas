@@ -322,7 +322,7 @@ void FUN_00afd960_Class::FUN_00afd960()
     ::SwapByteQuadWords((::Vector4f *)(void *)((char*)&this->iField), 1);
 }
 
-struct NiFile;
+class NiFile;
 struct FileFinder
 {
     static NiFile* __cdecl GetFile(const char*, int, unsigned int, unsigned int);
@@ -8493,8 +8493,9 @@ struct GuidAF
 
 extern GuidAF DAT_01101004, DAT_01100fd4;
 
-struct Setting_01017720_011f96a0
+class Setting_01017720_011f96a0
 {
+  public:
     int vtable;
     unsigned int value;
 };

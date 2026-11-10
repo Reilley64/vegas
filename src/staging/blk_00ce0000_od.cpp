@@ -496,7 +496,7 @@ struct hkVector4
     }
 };
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 

@@ -45,7 +45,7 @@ template <class T> class SettingCollectionMap
     TESFile* pFile;
 };
 
-class GameSettingCollection : public SettingCollectionMap<Setting>
+struct GameSettingCollection : public SettingCollectionMap<Setting>
 {
   public:
     virtual bool ReadSetting(Setting& setting);

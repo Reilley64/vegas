@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSLoadFormBuffer {
+struct BGSLoadFormBuffer {
 public:
     // 0x008643b0
     BGSLoadFormBuffer();

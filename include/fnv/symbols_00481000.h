@@ -4,9 +4,9 @@ class TESForm;
 class TESObject;
 class TESObjectREFR;
 struct FUN_004895b0_model;
-struct TESForm;
-struct TESModelTextureSwap;
-struct TESObjectREFR;
+class TESForm;
+class TESModelTextureSwap;
+class TESObjectREFR;
 
 // 0x00481010
 ::FUN_004895b0_model *FUN_00481010(::TESForm *, ::TESObjectREFR *);

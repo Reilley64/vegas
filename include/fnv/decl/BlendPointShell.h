@@ -1,7 +1,7 @@
 #pragma once
 
-class NiObjectNET;
-class NiPoint3;
+struct NiObjectNET;
+struct NiPoint3;
 
 struct BlendPointShell {
 public:

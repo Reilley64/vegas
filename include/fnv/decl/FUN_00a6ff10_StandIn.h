@@ -1,6 +1,6 @@
 #pragma once
 
-class NiStream;
+struct NiStream;
 
 class FUN_00a6ff10_StandIn {
 public:

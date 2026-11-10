@@ -120,15 +120,16 @@ struct Time
 struct Setting
 {
 };
-struct Tile
+class Tile
 {
 public:
     void Set(int, int);
 public:
     static float GetInterfaceScale();
 };
-struct Menu
+class Menu
 {
+  public:
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C, unk30;
     Tile* tile;
     void UpdateClockText();
@@ -169,7 +170,7 @@ struct ProcessLists
 struct Interface
 {
 };
-struct Tile
+class Tile
 {
 };
 struct MenuState

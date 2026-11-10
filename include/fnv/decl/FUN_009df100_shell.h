@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSSaveFormBuffer;
+struct BGSSaveFormBuffer;
 
 struct FUN_009df100_shell {
 public:

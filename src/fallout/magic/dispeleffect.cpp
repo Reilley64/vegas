@@ -16,8 +16,9 @@
 #include "fnv/symbols_00403000.h"
 #include "fnv/symbols_00495000.h"
 #include "fnv/symbols_011d1000.h"
-struct ActiveEffect
+class ActiveEffect
 {
+  public:
     void CopyData(ActiveEffect*);
 };
 
@@ -32,8 +33,9 @@ void DispelEffect::FUN_00829b90(ActiveEffect* apDestination)
     ActiveEffect::CopyData(apDestination);
 }
 
-struct MagicTarget
+class MagicTarget
 {
+  public:
     virtual ~MagicTarget()
     {}
 };

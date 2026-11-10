@@ -98,8 +98,9 @@ struct RendererData
 {
     virtual ~RendererData();
 };
-struct NiRefObject
+class NiRefObject
 {
+  public:
     ~NiRefObject();
 };
 struct MM
@@ -130,11 +131,12 @@ void* NiPalette::DestroyPalette(unsigned int auiFlags)
     return this;
 }
 
-template <class T> struct NiTMallocInterface
+template <class T> class NiTMallocInterface
 {
 };
-template <class T, class A> struct NiTPrimitiveArray
+template <class T, class A> class NiTPrimitiveArray
 {
+  public:
     void SetSize(unsigned int);
     void SetAt(unsigned int, T&);
 };

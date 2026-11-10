@@ -1,6 +1,6 @@
 #pragma once
 
-struct NavMeshTriangleReference;
+class NavMeshTriangleReference;
 struct PathingRequestS;
 
 struct FUN_006ac220_shell {

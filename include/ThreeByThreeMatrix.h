@@ -3,7 +3,7 @@
 
 #include "layout_support.h"
 #include "NiPoint3.h"
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];  // +0x0

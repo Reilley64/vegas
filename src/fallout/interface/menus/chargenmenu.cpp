@@ -65,7 +65,7 @@ int CharGenMenu::FUN_00753340()
 }
 
 namespace fnv_00753350 {
-struct Tile;
+class Tile;
 
 struct CharGenMenu
 {
@@ -105,7 +105,7 @@ extern int DAT_011d92a0;
 struct TGF
 {
 };
-struct Tile
+class Tile
 {
 public:
     void Set(int, int);
@@ -154,7 +154,7 @@ bool FUN_00753770_shell::HasAllSlotsSet()
 }
 
 namespace fnv_007542d0 {
-struct Tile
+class Tile
 {
 };
 struct Interface
@@ -280,7 +280,7 @@ struct StartMenu
     char const* GetMenuTitle();
 };
 
-struct GlobalObject_0040c150 : StartMenu
+class GlobalObject_0040c150 : public StartMenu
 {
 };
 
@@ -399,7 +399,7 @@ void __cdecl FUN_007537b0()
 struct TileX
 {
 };
-struct Tile;
+class Tile;
 struct LBList
 {
     virtual void Select(TileX*);

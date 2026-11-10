@@ -9,7 +9,7 @@
 #include "fnv/symbols_004ed000.h"
 #include "fnv/symbols_0104d000.h"
 
-class NiRTTI
+struct NiRTTI
 {
   public:
     NiRTTI(const char* pcName, const NiRTTI* pkBaseRTTI);

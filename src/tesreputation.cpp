@@ -161,8 +161,9 @@ void FUN_006159e0_shell::SetValue(TESReputation* apReputation)
 struct FNStub
 {
 };
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength(void) const;
 };
 extern const char $SG5812[];
@@ -809,7 +810,7 @@ struct TESSoundFile
 struct Interface
 {
 };
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
 

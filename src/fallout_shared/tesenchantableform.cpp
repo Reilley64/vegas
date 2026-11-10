@@ -84,30 +84,31 @@ void FUN_0047bd70_shell::FUN_0047bd70()
 }
 
 struct ExplosionEffectSettings;
-struct BGSImpactData;
-struct BGSImpactDataSet;
+class BGSImpactData;
+class BGSImpactDataSet;
 struct BGSTextureSet;
 struct BipedAnim;
-struct NiAVObject;
+class NiAVObject;
 struct NiPoint3;
-struct QueuedFile;
-struct TESBoundObject;
-struct TESImageSpaceModifier;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class QueuedFile;
+class TESBoundObject;
+class TESImageSpaceModifier;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESObjectLIGH;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESSound;
+class TESObjectREFR;
+class TESSound;
 struct FileEntryList;
 struct TESWaterForm;
 struct blob12
 {
     char b[12];
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();

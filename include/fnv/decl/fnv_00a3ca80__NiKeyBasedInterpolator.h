@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00a3ca80 { struct AnimationKey; }
+namespace fnv_00a3ca80 { class AnimationKey; }
 
 namespace fnv_00a3ca80 {
 struct NiKeyBasedInterpolator {

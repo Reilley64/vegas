@@ -427,8 +427,8 @@ void FUN_00b79950(char* pThis, intptr_t, NiRefObject* pObj)
     }
 }
 
-class ThreeByThreeMatrix;
-class NiPoint3;
+struct ThreeByThreeMatrix;
+struct NiPoint3;
 
 
 struct TransformView_b799a0
@@ -637,8 +637,9 @@ void FUN_00b79180(void* param_1)
 }
 
 template <class> class NiPointer;
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     char pad[0x64];
     int refs;
     void DestroyPass();
@@ -906,7 +907,7 @@ void UpdateEyePosition(unsigned int type, char* geom, Matrix_b78ef0 matrix)
 }
 }  // namespace fnv_00b78ef0
 
-struct BSFogProperty;
+class BSFogProperty;
 struct GeomS
 {
     virtual void Gb0();
@@ -1126,8 +1127,9 @@ namespace fnv_00b7a170 {
 struct BSShader
 {
 };
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     char pad[0x64];
     unsigned int m_uiRefCount;
 };

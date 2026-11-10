@@ -4,7 +4,7 @@ class BSFaceGenModel;
 class BipedAnimObject;
 class NiNode;
 class QueuedFile;
-class QueuedHelmet;
+struct QueuedHelmet;
 class TESForm;
 class TESObjectREFR;
 class TESRace;

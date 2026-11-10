@@ -209,7 +209,7 @@ int __cdecl FUN_00c4bd20(Setting* setting)
     return res;
 }
 
-class NiRTTI
+struct NiRTTI
 {
   public:
     const char* m_pcName;
@@ -365,13 +365,14 @@ struct ThreeByThreeMatrix
         return m_afEntries[uiRow][uiCol];
     }
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_kOrientation;
     NiPoint3 m_kTranslation;
     float m_fScale;
 };
-struct NiAVObject
+class NiAVObject
 {
 };
 struct Mat4
@@ -458,13 +459,13 @@ void __cdecl FUN_00c4c2d0(NiAVObject* pObj, const void* bInverse, Mat4* pOut)
 
 // namespace fnv_00c4c2d0
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
 };
 
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     enum Axis
@@ -830,8 +831,9 @@ struct Source
     NiFrustum property;
 };
 
-struct NiCamera
+class NiCamera
 {
+  public:
     int unk00;
     int unk04;
     int unk08;

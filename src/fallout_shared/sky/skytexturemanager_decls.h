@@ -14,7 +14,7 @@ class SkyTextureManager
 };
 
 // Only the virtual interface used by this unit is required here.
-class IOManager
+struct IOManager
 {
   public:
     virtual void vfn_00();

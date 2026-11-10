@@ -2,7 +2,7 @@
 #ifndef NICONTROLLERSEQUENCE_DECLS_H
 #define NICONTROLLERSEQUENCE_DECLS_H
 
-class ShaderBufferRecord;
+struct ShaderBufferRecord;
 template <class T> class NiTStringPointerMap
 {
   public:

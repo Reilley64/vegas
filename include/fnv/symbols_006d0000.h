@@ -1,6 +1,6 @@
 #pragma once
 
-class PathingRequest;
+struct PathingRequest;
 class PathingSolution;
 
 // 0x006d0870

@@ -26,7 +26,7 @@ class hkBool
 class hkRotation;
 class hkTransform;
 
-class hkVector4
+struct hkVector4
 {
   public:
     __m128 m_vComponents;

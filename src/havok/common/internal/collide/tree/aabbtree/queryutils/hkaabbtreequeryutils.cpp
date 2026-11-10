@@ -1001,8 +1001,9 @@ struct Collector
     virtual float GetHitDistance(const Node16* leaf);
 };
 
-struct hkAabb
+class hkAabb
 {
+  public:
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
     __forceinline hkAabb()

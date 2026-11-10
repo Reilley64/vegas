@@ -2,7 +2,7 @@
 
 class MagicCaster;
 class MagicItem;
-struct EffectItem;
+class EffectItem;
 
 struct FUN_0080c070 {
 public:

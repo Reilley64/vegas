@@ -182,7 +182,7 @@ bool FUN_0067c720_shell::FUN_0067c720(const FUN_0067c720_shell* apCompare)
     return false;
 }
 
-struct MagicCaster
+class MagicCaster
 {
 };
 

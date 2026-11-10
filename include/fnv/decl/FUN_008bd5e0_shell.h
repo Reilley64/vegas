@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiQuaternion;
+class NiQuaternion;
 
 struct FUN_008bd5e0_shell {
 public:

@@ -272,8 +272,9 @@ unsigned short TESObjectBOOK_GetSaveSize::FUN_00515220(unsigned int aiFlags)
     return isize;
 }
 
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     unsigned int m_flags;
     FormChangeMask(unsigned int flags) : m_flags(flags)
     {}

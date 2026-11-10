@@ -33,8 +33,8 @@ struct DisintegrateArmorEffect
 };
 
 namespace fnv_0080d4f0 {
-struct Actor;
-struct ActiveEffect
+class Actor;
+class ActiveEffect
 {
 };
 struct TESSaveLoadGame
@@ -121,16 +121,18 @@ FUN_0080d210::~FUN_0080d210()
         delete m_pUserData;
 }
 
-struct TESBoundObject
+class TESBoundObject
 {
+  public:
     virtual void v0();
 };
 struct Sub70
 {
 };
 
-struct TESObjectARMO : TESBoundObject
+class TESObjectARMO : public TESBoundObject
 {
+  public:
     virtual void v1();
     char pad04[0x6c];
     Sub70 bipedModel;

@@ -415,7 +415,7 @@ void __cdecl FUN_00df89b0(Interface* apInterface, Source* apSource, Output* apOu
 }
 
 struct hkRotation;
-struct hkTransform;
+class hkTransform;
 
 struct hkVector4
 {
@@ -437,8 +437,9 @@ struct hkRotation
     hkVector4 m_kColumn2;
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
 };
@@ -498,7 +499,7 @@ struct ShapeRayCastQuery
     int unk2C;
 };
 
-struct hkpCdBody;
+class hkpCdBody;
 
 struct __declspec(align(16)) ShapeRayCastOutput
 {
@@ -563,8 +564,9 @@ struct hkpShape
                                       hkpRayHitCollector& collector) const;
 };
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const hkpShape* m_pCollisionShape;
     unsigned int m_uiCollisionShapeKey;
     const hkTransform* m_pMotionState;

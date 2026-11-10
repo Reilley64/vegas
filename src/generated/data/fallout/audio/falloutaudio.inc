@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?DAT_011dcfb8@@3PEAVBGSAcousticSpace@@EA=?DAT_011dcfb8@@3PEAUBGSAcousticSpace@@EA")
+#pragma comment(linker, "/alternatename:?DAT_011dcfb8@@3PEAVBGSAcousticSpace@@EA=?DAT_011dcfb8@@3PEAVBGSAcousticSpace@@EA")
 
 bool DAT_011ccb74;
 bool DAT_011dcfa6;

@@ -1,7 +1,7 @@
 #pragma once
 
 namespace fnv_00979260 {
-struct Projectile {
+class Projectile {
 public:
     // 0x00979260
     float GetFirstLightParameter();

@@ -6,7 +6,7 @@
 // layout_support.h forward declarations (included first by pathfind_decls.h).
 #include "fnv/decl/NLLocation.h"
 #include "fnv/decl/TaskQueueInterface.h"
-class NavMeshPtr;
+struct NavMeshPtr;
 template <class T> class NiPointer
 {
   public:
@@ -20,7 +20,7 @@ template <class T> class NiPointer
     T* operator->() const;
     T* Get();
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     PathingLocation(TESObjectREFR* ref);     // declared for the original code (decl_variants.py) public:

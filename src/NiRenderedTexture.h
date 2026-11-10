@@ -12,7 +12,7 @@
 #include "fnv/symbols_011ab000.h"
 #include "fnv/symbols_011f4000.h"
 typedef unsigned int UInt32;
-class NiRTTI;
+struct NiRTTI;
 class NiNode;
 class BSFadeNode;
 class BSMultiBoundNode;
@@ -29,9 +29,9 @@ class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
 class NiObjectCopyInfo;
-class NiStream;
-class NiBound;
-class NiControllerManager;
+struct NiStream;
+struct NiBound;
+struct NiControllerManager;
 class NiTimeController;
 class NiExtraData;
 class NiTexture;
@@ -63,7 +63,7 @@ class NiRefObject : public NiMemObject
     virtual void DeleteThis();
     unsigned int m_uiRefCount;
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     /*08*/ virtual NiRTTI* GetType();
@@ -105,7 +105,7 @@ class NiFixedString
   public:
     char* m_kHandle;
 };
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
   public:
     NiFixedString m_kName;
@@ -130,7 +130,7 @@ class Ni2DBuffer : public NiObject
     char m_pRendererData[4];
 };
 // Renderer instance fields omitted: only its virtual interface is used.
-class NiRenderer : public NiObject
+struct NiRenderer : public NiObject
 {
   public:
     virtual void Unk_23();

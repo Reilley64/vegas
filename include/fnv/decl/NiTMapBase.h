@@ -1,6 +1,6 @@
 #pragma once
 
-struct AnimSequenceBase;
+class AnimSequenceBase;
 
 struct NiTMapBase {
 public:

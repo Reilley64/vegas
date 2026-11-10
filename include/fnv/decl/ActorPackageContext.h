@@ -3,7 +3,7 @@
 class TESPackage;
 class ActorPackageData;
 class TESObjectREFR;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class ActorPackageContext
 {
   public:

@@ -5,7 +5,7 @@ class B55480AVObject;
 class BSFogProperty;
 class NiAVObject;
 class NiGeometry;
-class NiPoint3;
+struct NiPoint3;
 struct PropHelper;
 struct Shader;
 

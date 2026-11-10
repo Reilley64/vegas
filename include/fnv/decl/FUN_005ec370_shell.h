@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESFile;
+class TESFile;
 
 struct FUN_005ec370_shell {
 public:

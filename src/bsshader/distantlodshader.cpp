@@ -340,7 +340,7 @@ struct ShaderVTable
     {}
 };
 
-struct NiD3DVertexDeclaration : ShaderVTable
+class NiD3DVertexDeclaration : public ShaderVTable
 {
 };
 
@@ -381,7 +381,7 @@ FUN_00bd5670* FUN_00bd5920()
 }
 
 template <class> class NiPointer;
-struct NiD3DPass
+class NiD3DPass
 {
 public:
     static void CreateD3DPass(::NiPointer< ::NiD3DPass> &);

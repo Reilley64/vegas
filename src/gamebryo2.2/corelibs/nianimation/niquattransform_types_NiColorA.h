@@ -3,9 +3,9 @@
 #define FNV_NICOLORA_H
 
 #include "layout_support.h"
-class NiStream;
-class RgbaColor;
-class RgbaColor
+struct NiStream;
+struct RgbaColor;
+struct RgbaColor
 {
   public:
     void LoadBinary(NiStream& stream);

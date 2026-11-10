@@ -9,9 +9,9 @@
 #include "NiPoint3.h"
 #include "layout_support.h"
 class NiBSplineBasisData;
-class NiStream;
-class CloningProcess;
-class NiObjectNET;
+struct NiStream;
+struct CloningProcess;
+struct NiObjectNET;
 class NiBSplineCompTransformInterpolator;
 class NiBSplineData;
 class NiBSplineInterpolator;

@@ -2,8 +2,8 @@
 
 #include <cstdint>
 
-class NiPoint3;
-class PathingLocation;
+struct NiPoint3;
+struct PathingLocation;
 class TESObjectCELL;
 class TESSound;
 class TESWorldSpace;

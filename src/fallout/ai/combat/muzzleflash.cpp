@@ -115,8 +115,9 @@ void FUN_009bb690_shell::FUN_009bb690()
 }
 
 class NiNode;
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* pointer;
     NiPointer(T*);
     ~NiPointer();
@@ -125,7 +126,7 @@ template <class T> struct NiPointer
 struct ProjectileData
 {
 };
-struct Projectile
+class Projectile
 {
 };
 struct FUN_009bacb0
@@ -339,8 +340,9 @@ struct ThreeByThreeMatrix
 public:
     ::ThreeByThreeMatrix Transpose();
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     ThreeByThreeMatrix m_rot;
     NiPoint3 m_trans;
     float m_vScale;
@@ -686,8 +688,9 @@ struct PlayerCls
     virtual void v120();
     virtual void* v121();
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -1446,8 +1449,9 @@ struct GO
     ~GO();
     void operator=(void*);
 };
-struct TESModel
+class TESModel
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();

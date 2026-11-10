@@ -9,7 +9,7 @@
 class BSAnimGroupSequence;
 class BSAnimNote;
 class NiAVObject;
-class NiControllerManager;
+struct NiControllerManager;
 class NiControllerSequence__IDTag;
 class NiControllerSequence__InterpArrayItem;
 class NiStringPalette;

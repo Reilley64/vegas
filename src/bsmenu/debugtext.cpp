@@ -233,7 +233,8 @@ void FUN_00a11c00_shell::FUN_00a11c00(NiTMapItem* item)
     reinterpret_cast<::fnv_00adddd0::FUN_00a1b940 *>((((NiTPointerMap*)this)))->FUN_00a11db0((::fnv_00adddd0::MsgNode *)(temp));
 }
 
-struct BSSimpleArray {
+class BSSimpleArray {
+  public:
     int _pad;
     void** m_data;
     unsigned int FUN_00a11d20(void* &aValue);
@@ -2528,7 +2529,8 @@ FUN_00a11a80::FUN_00a11a80(int a, const char* name, int x, int y)
 struct NiMemObject {
 };
 
-struct NiExtraData : NiMemObject {
+class NiExtraData : public NiMemObject {
+  public:
     unsigned int m_uiRefCount;
     unsigned int m_pcName;
     virtual ~NiExtraData();
@@ -2886,8 +2888,9 @@ struct ListItem : ListObject_a11640
     int m_18;
 };
 
-template <class T> struct NiTArray
+template <class T> class NiTArray
 {
+  public:
     int m_00;
     T* m_pBase;
     unsigned short m_usMaxSize;
@@ -3516,9 +3519,10 @@ inline float NiAbs(float value) { return (float)fabs((double)value); }
 
 struct TextEntryAllocator { inline void* Allocate(unsigned int n) const { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(n); } };
 
-struct NiAVObject;
+class NiAVObject;
 
-struct NiAVObject : NiObject {
+class NiAVObject : public NiObject {
+  public:
  virtual void vf3();
  virtual void vf4();
  virtual void vf5();

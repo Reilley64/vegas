@@ -235,7 +235,7 @@ namespace fnv_004fe080 {
 struct FUN_004fd4f0_Class
 {
 };
-struct TESCreature
+class TESCreature
 {
 };
 struct TESObjectWEAP_Ext : TESObjectWEAP

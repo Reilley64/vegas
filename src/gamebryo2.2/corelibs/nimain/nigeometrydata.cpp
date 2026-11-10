@@ -1924,7 +1924,7 @@ struct BoundEquality : NiBound
     }
 };
 
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
@@ -1938,7 +1938,7 @@ class RgbaColor
     }
 };
 
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;

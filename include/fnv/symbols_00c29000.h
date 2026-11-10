@@ -1,7 +1,7 @@
 #pragma once
 
 class C29E50Object;
-class NiPoint3;
+struct NiPoint3;
 struct ParticleFactoryObject;
 
 // 0x00c29900

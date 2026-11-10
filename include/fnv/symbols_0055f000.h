@@ -1,7 +1,7 @@
 #pragma once
 
 class AnimationInterpolatorNode;
-struct NiNode;
+class NiNode;
 
 // 0x0055fdb0
 unsigned short FUN_0055fdb0(::AnimationInterpolatorNode *);

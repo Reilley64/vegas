@@ -159,8 +159,9 @@ void NiGeomMorpherUpdateTask::FUN_00a56bb0()
     Tail();
 }
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     virtual void Unk_04();
     int m_ref;

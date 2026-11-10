@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 class bhkCharacterController;
 
 namespace fnv_0092f260 {

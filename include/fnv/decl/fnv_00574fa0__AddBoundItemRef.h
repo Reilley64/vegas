@@ -1,7 +1,7 @@
 #pragma once
 
-struct ExtraDataList;
-struct TESBoundObject;
+class ExtraDataList;
+class TESBoundObject;
 
 namespace fnv_00574fa0 {
 struct AddBoundItemRef {

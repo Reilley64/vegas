@@ -1,6 +1,6 @@
 #pragma once
 
-class VATSCommand;
+struct VATSCommand;
 
 struct FUN_009c9280_shell {
 public:

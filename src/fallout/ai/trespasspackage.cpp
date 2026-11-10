@@ -24,7 +24,7 @@ struct BGSLoadFormBuffer
 {
 };
 
-struct TESPackage
+class TESPackage
 {
 };
 
@@ -61,7 +61,7 @@ void* TrespassPackageShell::FUN_009f9220(unsigned int flags)
     return this;
 }
 
-struct TESForm;
+class TESForm;
 
 struct FUN_00679a90_shell
 {

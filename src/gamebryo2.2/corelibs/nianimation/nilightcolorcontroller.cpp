@@ -125,7 +125,7 @@ void S00a4d150::GetLightColor(NiPoint3& kValue)
     }
 }
 
-class NiRTTI;
+struct NiRTTI;
 struct NiObject
 {
 public:
@@ -240,7 +240,7 @@ struct NiBinaryStream
     void* _8;
     int(__cdecl* _c)(NiBinaryStream*, void*, int, unsigned int*, int);
 };
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     char _pad[0x250];
@@ -442,8 +442,9 @@ struct Controller34
     void** vtable;
 };
 
-struct NiTimeController
+class NiTimeController
 {
+  public:
     unsigned int unk00;
     unsigned int unk04;
     unsigned short flags08;

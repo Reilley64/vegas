@@ -5318,7 +5318,7 @@ float FUN_00b37ad0_class::FUN_00b37ad0(float a2)
 
 namespace fnv_00b397f0 {
 
-class GlobalObject_00b3f100
+struct GlobalObject_00b3f100
 {
   public:
     int unk00;

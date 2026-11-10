@@ -1,7 +1,7 @@
 #pragma once
 
 struct BSFadeNode_Dummy;
-struct NiAVObject;
+class NiAVObject;
 
 // 0x00476ab0
 void FUN_00476ab0(::BSFadeNode_Dummy *);

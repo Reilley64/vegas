@@ -1,6 +1,6 @@
 #ifndef FNV_IMAGESPACEEFFECTPARAM_H
 #define FNV_IMAGESPACEEFFECTPARAM_H
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     float r, g, b, a;

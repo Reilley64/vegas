@@ -13,7 +13,7 @@ class BGSDestructibleObjectForm;
 class BGSMessageIcon;
 class BSFileEntry;
 class CollisionComponent;
-class NiColor;
+struct NiColor;
 class ShortPoint3;
 class LightSourceData;
 class TESBoundAnimObject;
@@ -343,7 +343,7 @@ class LightSourceData
     float fFOV;             // +0x14, 4 bytes
     // void __cdecl LightSourceData::*()
 };
-class NiColor
+struct NiColor
 {
   public:
     float r;  // +0x0, 4 bytes

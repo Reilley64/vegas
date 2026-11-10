@@ -1,6 +1,6 @@
 #pragma once
 
-struct MediaLocationController;
+class MediaLocationController;
 
 struct FUN_009698a0_shell {
 public:

@@ -12,7 +12,7 @@
 class FourComponentFloatVector;
 class NiAVObject;
 class NiCollisionObject;
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 class NiPoint4;
 class NiTAbstractPoolAllocator_unsigned_int_;
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___;
@@ -147,7 +147,7 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     NiPoint4 m_afEntries[3];  // +0x0, 48 bytes
@@ -296,7 +296,7 @@ class NiAVObject : public NiObjectNET
 };
 // Minimal owner declaration for this unit (full PC layout pending canonical
 class NiRenderTargetGroup;
-class BSRenderedTexture
+struct BSRenderedTexture
 {
   public:
     virtual void vfn_00();
@@ -311,7 +311,7 @@ class BSRenderedTexture
 public:
     ::NiRenderTargetGroup *GetGroup();
 };
-class BSTextureManager
+struct BSTextureManager
 {
   public:
 };
@@ -357,7 +357,7 @@ inline float ShadowMax(float a, float b)
 {
     return a > b ? a : b;
 }
-class ShadowSceneNode
+struct ShadowSceneNode
 {
   public:
     char pad[0xb4];

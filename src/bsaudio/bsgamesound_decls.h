@@ -98,8 +98,8 @@ class BSAudioManager
     }
     static BSAudioManager& GetRandomGenerator();
 };
-class BSAudio;
-class BSAudio
+struct BSAudio;
+struct BSAudio
 {
   public:
     virtual void vfn_00();

@@ -616,7 +616,7 @@ ResizableArray(FinishingFlag f){}
 };
 #include "fnv/symbols_simd.h"
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
 {
@@ -647,8 +647,8 @@ private:
 hkQuadReal m_vValue;};
 typedef const VectorComponentValue&hkSimdRealParameter;
 class hkTransform;
-class hkQsTransform;
-class hkVector4
+struct hkQsTransform;
+struct hkVector4
 {
 public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
@@ -990,7 +990,7 @@ hkpLinkedCollidable*m_pCollidable;
 };
 protected:
 hkArray<struct CollisionKeyEntry>m_kCollisionEntries;};
-class hkpRigidBody;
+struct hkpRigidBody;
 class hkpWorldObject:public hkReferencedObject
 {
 public:
@@ -1374,7 +1374,7 @@ public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
 inline const hkArray<hkpRigidBody*>&getRigidBodies()const;
 protected:
-hkArray<class hkpRigidBody*>m_ppRigidBodies;
+hkArray<struct hkpRigidBody*>m_ppRigidBodies;
 hkArray<class hkpConstraintInstance*>m_ppConstraints;
 hkArray<class hkpAction*>m_ppActions;
 hkArray<class hkpPhantom*>m_kPhantoms;
@@ -1387,7 +1387,7 @@ inline const hkArray<hkpRigidBody*>&hkpPhysicsSystem::getRigidBodies()const
 {
 return m_ppRigidBodies;
 }
-class hkpRigidBody:public hkpEntity
+struct hkpRigidBody:public hkpEntity
 {
 public:
 static const struct ClassMemberDescriptor Members[];

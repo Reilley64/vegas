@@ -1,7 +1,7 @@
 #pragma once
 
 class BGSImpactData;
-class ImpactSwap;
+struct ImpactSwap;
 
 class BGSImpactDataSet {
 public:

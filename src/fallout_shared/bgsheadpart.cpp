@@ -134,12 +134,13 @@ struct BSFile;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct TESBitArrayFile;
-struct TESObjectCELL;
+class TESObjectCELL;
 struct _FILETIME;
 struct _SYSTEMTIME;
 struct _WIN32_FIND_DATAA;
-struct TESFile
+class TESFile
 {
+  public:
     bool CreateTES(char*, char*, int);
     bool CreateTES(int);
     bool OpenTESFile(char*, char*, int, bool);

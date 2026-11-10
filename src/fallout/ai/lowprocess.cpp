@@ -3848,7 +3848,7 @@ void Holder908f40::FUN_00908f40(void* apActor)
     w(apActor, 1);
 }
 
-struct Actor;
+class Actor;
 struct Holder9177a0
 {
     virtual void v0();
@@ -9398,11 +9398,11 @@ bool FUN_0090e660(TESObjectREFR* refr, intptr_t apActor)
 }
 
 class Cell;
-class Ref;
+struct Ref;
 class Pkg;
 class Info;
 
-class Ref
+struct Ref
 {
   public:
 };
@@ -11080,8 +11080,9 @@ namespace fnv_00911b00 {
 
 class List_009e03e0;
 
-struct ExtraFollower
+class ExtraFollower
 {
+  public:
     int m0;
     int m4;
     int m8;

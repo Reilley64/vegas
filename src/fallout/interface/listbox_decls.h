@@ -8,7 +8,7 @@ class ListBox_int_
 {
   public:
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int soundID;

@@ -1,7 +1,7 @@
 #pragma once
 
 struct LodObject;
-struct TESWorldSpace;
+class TESWorldSpace;
 
 // 0x006f55f0
 void FormatLODBlockFileName(char *, ::TESWorldSpace *, int, short, short);

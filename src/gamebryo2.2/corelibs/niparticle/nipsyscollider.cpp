@@ -313,7 +313,7 @@ unsigned int FUN_00c32450_shell::FUN_00c32450(float param1, unsigned int param2,
 // Stand-ins for the classes the pack header only forward-declares.
 // Field offsets follow the offsets used by FUN_00c32490's machine code.
 
-class NiPSysData : public NiObject
+struct NiPSysData : public NiObject
 {
   public:
     // NiObject supplies virtual slots 0..24 (vtable 0x00..0x64).

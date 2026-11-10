@@ -16,14 +16,14 @@ struct NiBinaryStream
         position += write(this, data, 4, &size, 1);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     char padding[0x24c];
     NiBinaryStream* input;
     NiBinaryStream* output;
 };
-class NiColor
+struct NiColor
 {
   public:
     float r, g, b;

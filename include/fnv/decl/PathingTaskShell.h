@@ -1,7 +1,7 @@
 #pragma once
 
 class ActorPathingMessageQueue;
-class PathingRequest;
+struct PathingRequest;
 template <class> class NiPointer;
 
 struct PathingTaskShell {

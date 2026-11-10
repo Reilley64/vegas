@@ -33,7 +33,7 @@ class BSStream;
 class NiNode;
 struct NiPoint3;
 
-class NiRenderer
+struct NiRenderer
 {
   public:
     static NiRenderer* ms_pRenderer;
@@ -49,7 +49,7 @@ enum IO_TASK_PRIORITY
     IO_TASK_PRIORITY_DEFAULT = 0
 };
 
-class LocationDescriptor
+struct LocationDescriptor
 {
   public:
     BSFileEntry* SetLocRef();
@@ -88,13 +88,13 @@ template <class T> class BSSimpleList
     void RemoveHead();
 };
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
 
-class ModelLoader
+struct ModelLoader
 {
   public:
     bool EnqueueFile(const char*, IO_TASK_PRIORITY, QueuedFile*);
@@ -196,7 +196,7 @@ class QueuedAnimIdle : public QueuedFile
     void OnChildCompletion();
     void ProcessLoadedAnimIdle();
 };
-class IOManager
+struct IOManager
 {
   public:
     virtual void vfn_00();
@@ -232,13 +232,13 @@ class TESSpellList
   public:
     BSSimpleList<InventoryStackRecord*>* GetOffsetC();
 };
-class SoundPlaybackHandle;
+struct SoundPlaybackHandle;
 template <class K, class V> class NiTPointerMap
 {
   public:
     bool IsEmpty();
 };
-class KFModel;
+struct KFModel;
 class AnimIdle
 {
   public:

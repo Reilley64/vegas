@@ -116,7 +116,7 @@ class OffsetData
     unsigned int iOffset;
     BGSReconstructFormsMap* m_pFormLookupMap;
 };
-class ScrapHeapBuffer
+struct ScrapHeapBuffer
 {
   public:
 };
@@ -140,7 +140,7 @@ class ButtonIcon
     NiRect<float> m_kTextureCoordinates;
 };
 #include "SandboxProcedureData.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

@@ -36,7 +36,7 @@ template <class K, class V> class BSMapBase : public NiTPointerMap<unsigned int,
     virtual ~BSMapBase();
 };
 
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 class PointerMapValue;
 class DistantTreeTextureInfo;
 class BGSDistantTreeBlock

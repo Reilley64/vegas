@@ -197,8 +197,9 @@ void FUN_004f9360()
 }  // namespace fnv_004f9360
 
 class TESSound;
-struct EffectSetting
+class EffectSetting
 {
+  public:
     TESSound* GetCastSound();
 };
 struct FUN_004fc940_cls

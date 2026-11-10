@@ -168,9 +168,10 @@ void __cdecl FUN_007915e0()
     CreateLoveTesterMenu(0x23);
 }
 
-struct NiAVObject;
-struct NiNode
+class NiAVObject;
+class NiNode
 {
+  public:
     unsigned int GetNumChildren();
     NiAVObject* GetAt(unsigned int index);
 };
@@ -249,7 +250,7 @@ struct FUN_007883b0
 struct GlobalObject_0045cfe0
 {
 };
-struct Actor
+class Actor
 {
 };
 struct ActorValueUtility
@@ -568,8 +569,9 @@ bool FUN_00791750_cls::HasAllFlagsSet(int* index)
     return true;
 }
 
-struct Menu
+class Menu
 {
+  public:
     Menu();
     virtual ~Menu();
     int unk04;

@@ -8,14 +8,14 @@
 #include "fnv/symbols_006fa000.h"
 #include "ragdolldata_types_NiMatrix3.h"
 class NiNode;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
 public:
     static const ::NiPoint3 ZERO;
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;
@@ -33,7 +33,7 @@ class bhkWorldObject
   public:
     bhkFilter FUN_0043b4f0();
 };
-class bhkCollisionObject
+struct bhkCollisionObject
 {
   public:
     virtual void vfn_0();

@@ -6,7 +6,7 @@
 class Actor;
 class TESForm;
 class TESObjectREFR;
-struct NavMeshInfo;
+class NavMeshInfo;
 struct FUN_006e0480;
 
 // The save-load buffer as the LOS map load reads it: the reader prefix that

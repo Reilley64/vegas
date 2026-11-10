@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESContainer;
+class TESContainer;
 
 struct FUN_004bffb0_shell {
 public:

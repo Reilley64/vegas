@@ -68,7 +68,7 @@
 #include "playermover_layout.h"
 
 #define FNV_NIPOINT3_H
-class NiPoint3
+struct NiPoint3
 {
   public:
     static const NiPoint3 ZERO;
@@ -83,12 +83,12 @@ public:
 #include "playermover_actor.h"
 #include "playermover_decls.h"
 
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
 };
 
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
 };
 

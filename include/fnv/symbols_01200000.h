@@ -3,7 +3,7 @@
 class BSPixelShaderPtr;
 class GlobalObjectO2_00a7b610;
 class GlobalObjectO2_00ba3690;
-class NiPoint3;
+struct NiPoint3;
 class NiRefObject;
 struct ComTarget;
 struct FUN_00b80b30_mgr;

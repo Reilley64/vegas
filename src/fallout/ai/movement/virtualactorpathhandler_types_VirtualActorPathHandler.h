@@ -7,9 +7,9 @@
 #include "Actor.h"
 #include "layout_support.h"
 class ActorPathHandler;
-class PathingRequest;
+struct PathingRequest;
 class PathingSolution;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class VirtualActorPathHandler;
 class ActorPathHandler
 {

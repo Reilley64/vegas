@@ -3,11 +3,11 @@
 #include "fnv/decl/fnv_005a9f20__FUN_005a9f20_shell.h"
 #include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 class TESObjectREFR;
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };
-class ScriptLocals
+struct ScriptLocals
 {
   public:
     void* master;

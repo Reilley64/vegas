@@ -323,7 +323,7 @@ struct FUN_007b3b80_shell
     void FUN_007b3b80(intptr_t a, int b);
 };
 
-struct Tile
+class Tile
 {
 public:
     void Set(int, int);
@@ -592,7 +592,7 @@ int FUN_007b5300_shell::GetSecondField(FUN_007b5300_param* p)
 }
 
 namespace fnv_007ac500 {
-struct Tile;
+class Tile;
 struct RaceSexMenu
 {
     char pad[0x78];
@@ -638,7 +638,7 @@ struct BSAudio
 struct OptList
 {
 };
-struct FORenderedMenu
+class FORenderedMenu
 {
 };
 class Tile;
@@ -654,8 +654,9 @@ struct FUN_007af180_shell : FUN_007adc30_shell
     char padf0[0x30];
     int unk120;
 };
-struct TESActorBase
+class TESActorBase
 {
+  public:
     int GetSex();
 };
 struct HairResult
@@ -706,7 +707,7 @@ void FUN_007af610_shell::UpdateHairMenuOption()
 }
 
 namespace fnv_007b1ca0 {
-struct TESNPC;
+class TESNPC;
 struct TESEyes;
 struct TESHair
 {
@@ -717,8 +718,9 @@ struct FUN_005fdf40_shell
 struct FUN_005fc5f0_shell
 {
 };
-struct TESActorBase
+class TESActorBase
 {
+  public:
     int GetSex();
 };
 struct HairNode
@@ -732,8 +734,9 @@ struct FUN_004ac110_shell
 {
     TESRace* FUN_004ac110();
 };
-struct TESNPC
+class TESNPC
 {
+  public:
     TESHair* GetHair();
 };
 struct FUN_007adc60_shell
@@ -786,8 +789,9 @@ struct NiUpdateData
     NiUpdateData(float, bool, bool);
 };
 class NiAVObject;
-struct NiNode
+class NiNode
 {
+  public:
     void Update(NiUpdateData const&);
 public:
     ::NiAVObject *GetAt(unsigned int);
@@ -928,7 +932,7 @@ int FUN_007b1e50_shell::GetReferencedValue()
     return *((int *)(&reinterpret_cast<::SimpleListNodeView*>(&(m_ref))->m_item));
 }
 
-struct Menu
+class Menu
 {
 public:
     void SetMenuVisibility(bool);
@@ -959,17 +963,17 @@ public:
 struct SettingT_GameSettingCollection_
 {
 };
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
 };
 struct StrH
 {
 };
-struct GlobalObject_004037b0
+class GlobalObject_004037b0
 {
 };
 int __cdecl FUN_004b7220();
-struct Actor
+class Actor
 {
 };
 class TESObjectREFR;
@@ -1420,7 +1424,7 @@ void StatsMenu7AE::FUN_007ae1b0(int iType, HighProcess7AE* pkProcess)
 }
 
 class TESNPC;
-struct TESFullName
+class TESFullName
 {
 };
 struct Hair
@@ -1431,7 +1435,7 @@ struct Hair
 struct HairNode
 {
 };
-struct TESDataHandler
+class TESDataHandler
 {
 };
 struct HairOption
@@ -1706,7 +1710,7 @@ struct HairOption
 struct HairOptionList
 {
 };
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
 };
 struct HairMenu
@@ -3594,8 +3598,9 @@ int FUN_0072fa60(int);
 extern int DAT_011a07b0, DAT_011a07ac;
 extern double DAT_01075af8, DAT_01075af0;
 extern float DAT_01075aec;
-struct Menu
+class Menu
 {
+  public:
     virtual void slot0();
     virtual void slot4();
     virtual void slot8();

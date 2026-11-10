@@ -10,7 +10,7 @@ struct S_00d43030_ContactMgr;
 struct S_00d43dc0_CdBody;
 struct S_00d43dc0_CdBodyPairCollector;
 struct S_00d43dc0_CollisionInput;
-struct hkpCdBody;
+class hkpCdBody;
 
 // 0x00d43030
 ::S_00d43030_Agent *CreateTransformAgent(const ::S_00d43030_CdBody &, const ::S_00d43030_CdBody &, const ::S_00d43030_CollisionInput &, ::S_00d43030_ContactMgr *);

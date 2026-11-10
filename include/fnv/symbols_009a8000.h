@@ -1,7 +1,7 @@
 #pragma once
 
 namespace fnv_009a8600 { struct NiPoint3; }
-namespace fnv_009a8600 { struct TESObjectREFR; }
+namespace fnv_009a8600 { class TESObjectREFR; }
 namespace fnv_009a86e0 { class TESObjectREFR; }
 namespace fnv_009a86e0 { struct NiPoint3Ex; }
 namespace fnv_009a8d80 { struct S_009a8d80_Obj; }
@@ -19,7 +19,7 @@ struct S_009a6d70_Point;
 struct S_009a82b0_Point3;
 struct S_009a82b0_Ref;
 struct S_009a8460_Actor;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct TrajActor;
 struct TrajOut;
 struct TrajRef;

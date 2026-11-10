@@ -172,8 +172,9 @@ int LockPickMenu::FUN_0078da90()
 }
 
 namespace fnv_0078daa0 {
-struct Tile
+class Tile
 {
+  public:
     void* m_pRenderedNodeEntry;
 };
 
@@ -217,7 +218,7 @@ void* LockPickMenuProxy::FUN_0078dad0(unsigned int flags)
 struct Proc_S
 {
 };
-struct Tile
+class Tile
 {
 public:
     void Set(int, int);
@@ -239,7 +240,7 @@ void FUN_007902b0_shell::FUN_007902b0(int aiID, Tile* apTarget)
 }
 
 namespace fnv_007902f0 {
-struct Tile
+class Tile
 {
 };
 struct Proc_S
@@ -354,12 +355,13 @@ struct NiUpdateData
     NiUpdateData(float afTime, bool abUpdateControllers, bool abIsMultiThreaded);
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
-struct NiNode
+class NiNode
 {
+  public:
     NiAVObject* GetAt(unsigned int auiIndex);
 };
 
@@ -868,7 +870,7 @@ extern double DAT_010356f8;
 extern char DAT_0107462c;
 extern float DAT_011da2c0;
 
-struct OSGlobals
+class OSGlobals
 {
 };
 
@@ -901,7 +903,7 @@ struct BSAudioS_
 {
 };
 
-struct Tile;
+class Tile;
 struct TileList
 {
 };
@@ -1021,7 +1023,7 @@ struct SetHelper
     int m_08;
 };
 class NiAVObject;
-struct NiNode
+class NiNode
 {
 public:
     ::NiAVObject *GetAt(unsigned int);
@@ -1129,8 +1131,9 @@ struct UpdData
 struct AVObj
 {
 };
-struct NiFixedString
+class NiFixedString
 {
+  public:
     void* m_00;
     NiFixedString(const char* s);
     ~NiFixedString();

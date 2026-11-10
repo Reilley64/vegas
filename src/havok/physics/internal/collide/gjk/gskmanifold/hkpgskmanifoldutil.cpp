@@ -934,7 +934,7 @@ class Vector4Comparison
     hkQuadReal m_uiMask;
 };
 
-class hkVector4
+struct hkVector4
 {
   public:
     __forceinline void operator=(const hkVector4& v)

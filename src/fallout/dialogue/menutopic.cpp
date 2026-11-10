@@ -1329,8 +1329,9 @@ void MenuTopic83f3::SaveTopic()
 }  // namespace fnv_0083f3e0
 
 struct TESResponse;
-struct TESResponseList
+class TESResponseList
 {
+  public:
     TESResponse* QResponseList();
     void AddTail(TESResponse*);
     void Remove(TESResponse*);
@@ -1363,7 +1364,7 @@ struct FUN_0061e760_shell
 {
     TESResponseList* FUN_0061e760(TESResponseList*);
 };
-struct TESIdleForm;
+class TESIdleForm;
 class DialogueResponse
 {
   public:

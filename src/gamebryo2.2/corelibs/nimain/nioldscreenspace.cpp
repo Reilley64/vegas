@@ -214,7 +214,7 @@ void HolderBase::FUN_00a2e620()
     m_usExtra = 0;
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
 public:
@@ -415,8 +415,9 @@ BSFadeNode* FUN_00a91ee0()
 }
 
 namespace fnv_00a90560 {
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 struct MemoryManager
@@ -482,7 +483,7 @@ template <class T> inline void ReadBinaryValue(NiStream& kStream, T& val)
 {
     NiBinaryStreamLoad(NiStreamInput(kStream), &val, 1);
 }
-class NiStream;
+struct NiStream;
 struct NiColor
 {
     float r, g, b;

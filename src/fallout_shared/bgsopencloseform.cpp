@@ -532,9 +532,9 @@ class SoundH
   public:
 };
 
-class BSAudio;
+struct BSAudio;
 
-class BSAudioSoundHandle;
+struct BSAudioSoundHandle;
 
 class BSAudioS_
 {
@@ -551,7 +551,7 @@ class TaskQ2
   public:
 };
 
-class RefX
+struct RefX
 {
   public:
 };
@@ -587,7 +587,7 @@ class SettingX
     TSETTING_VALUE* Bool();
 };
 
-class BSAudioSoundHandle
+struct BSAudioSoundHandle
 {
   public:
     int m0;

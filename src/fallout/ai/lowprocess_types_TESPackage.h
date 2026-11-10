@@ -41,7 +41,7 @@ class BGSIdleCollection;
 class PackageRuntimeData;
 class PackedByteIntRecord;
 class PackageEventActionData;
-class LocationDescriptor;
+struct LocationDescriptor;
 class DurationData;
 class PackageTargetRecord;
 class TESCombatStyle;

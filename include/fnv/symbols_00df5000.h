@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class hkVector4;
+struct hkVector4;
 struct ContactConstraint;
 struct ContactParams;
 struct Jac;

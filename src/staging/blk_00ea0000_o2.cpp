@@ -760,7 +760,7 @@ bool RayIntersectsBound(BoundedObject* object, const Vector3& origin, const Vect
 
 namespace sead090 {
 
-class Node
+struct Node
 {
   public:
 
@@ -845,7 +845,7 @@ S_00eaedc0_Class* S_00eaedc0_Class::Initialize(int a1, int a2, float a3, float a
 }
 
 #include <math.h>
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -1513,7 +1513,7 @@ namespace fnv_00eb1d20 {
 // FUN_00eb1d20: squared distance between a segment and a triangle (Eberly's
 // Segment3/Triangle3 SqrDistance), returning the segment and triangle params.
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

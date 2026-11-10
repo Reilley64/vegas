@@ -1,15 +1,15 @@
 #pragma once
 #include <cstdint>
 
-class GlobalObject2_0096a2d0;
+struct GlobalObject2_0096a2d0;
 class GlobalObject_0041a250;
 class GlobalObject_0044f440;
-class GlobalObject_0044fae0;
-class GlobalObject_0045cfe0;
+struct GlobalObject_0044fae0;
+struct GlobalObject_0045cfe0;
 class GlobalObject_006815c0;
 class GlobalObject_0082ee80;
-class GlobalObject_0083b5e0;
-class GlobalObject_0096a2d0;
+struct GlobalObject_0083b5e0;
+struct GlobalObject_0096a2d0;
 class MediaLocationController;
 class MediaLocationRecord;
 struct BGSSaveLoadGame;

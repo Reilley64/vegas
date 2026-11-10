@@ -1,6 +1,6 @@
 #pragma once
 
-class NiD3DShaderProgramCreator;
+struct NiD3DShaderProgramCreator;
 
 class NiD3DShaderProgramFactory {
 public:

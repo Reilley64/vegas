@@ -10,7 +10,7 @@ class NiMapAllocator
 {
   public:
 };
-class GlobalObject_004ee810
+struct GlobalObject_004ee810
 {
   public:
 };

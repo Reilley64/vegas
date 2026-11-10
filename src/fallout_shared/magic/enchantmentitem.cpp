@@ -65,18 +65,21 @@ void* Unnamed::FUN_00409270(unsigned int flags)
     return this;
 }
 
-struct TESActorBase
+class TESActorBase
 {
+  public:
     virtual ~TESActorBase();
 };
-struct TESSound;
+class TESSound;
 struct TESTopicInfoData;
-struct MagicItem
+class MagicItem
 {
+  public:
     virtual ~MagicItem();
 };
-struct TESTopicInfo
+class TESTopicInfo
 {
+  public:
     virtual ~TESTopicInfo();
 };
 struct EP_008c48d0
@@ -85,7 +88,7 @@ struct EP_008c48d0
 struct CP_008c48d0
 {
 };
-struct BGSAcousticSpace
+class BGSAcousticSpace
 {
 };
 struct TES

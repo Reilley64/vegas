@@ -15,7 +15,7 @@
 #include "OBJ_REFR_decl_grenadeprojectile.h"
 #include "TESChildCell.h"
 #include "TESForm.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESWorldSpace;
 class TESObjectREFR : public TESForm
 {

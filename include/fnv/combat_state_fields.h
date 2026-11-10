@@ -1,6 +1,6 @@
 #pragma once
 
-class CombatCoverPointData;
+struct CombatCoverPointData;
 
 // Members of CombatState (CombatControllerFields::pCombatState) that combat code reads directly. The release build
 // reads them through the folded 4-byte getters at 0x0097b050 (GetFieldValue, +0xE4) and 0x0097fb60 (GetFieldAtE8).

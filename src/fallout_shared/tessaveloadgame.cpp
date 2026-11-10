@@ -555,7 +555,7 @@ bool FUN_00863c90_Class::IsEqual(unsigned char aucLeft, unsigned char aucRight)
 
 struct ActorCombatGroup;
 
-struct NiTMallocInterface
+class NiTMallocInterface
 {
 };
 
@@ -891,8 +891,9 @@ struct BufferHeader_s
     int c;
 };
 class TESSound;
-struct EffectSetting
+class EffectSetting
 {
+  public:
     void SetBoltSound(TESSound*);
 };
 struct FUN_004534f0_shell
@@ -1136,8 +1137,9 @@ FUN_00855660::FUN_00855660()
 }  // namespace fnv_00855660
 
 using AutoMemHelper = ::AutoMemContext;
-struct ContainerItemExtra
+class ContainerItemExtra
 {
+  public:
     int m_iExtraID;
     char* m_pString;
 };
@@ -1168,7 +1170,7 @@ void FUN_008558a0::SetExtraDataString(int iExtraID, const char* pString)
     ((G2*)*(int**)((char*)this + 4))->AddHead((int*)&pExtra);
 }
 
-struct MobileObject
+class MobileObject
 {
 };
 struct FUN_00857bd0
@@ -1224,7 +1226,7 @@ void FUN_00858570_class::LoadTempEffectsList(std::intptr_t apFile)
 }
 }  // namespace fnv_00858570
 
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
 struct FUN_008616f0_shell
@@ -1310,9 +1312,9 @@ bool FUN_00862430_cls::HasInvalidComponents(FUN_00862430_vec* pVec)
 
 namespace fnv_008632a0 {
 
-struct TESTopicInfo;
+class TESTopicInfo;
 
-template <class T> struct NiTMallocInterface;
+template <class T> class NiTMallocInterface;
 
 template <class T, class A> class NiTLargeArray
 {
@@ -1877,7 +1879,7 @@ class BSFile
 {
 };
 
-class Arr : public TESForm
+struct Arr : public TESForm
 {
   public:
     unsigned int* GetAt(int);
@@ -2007,7 +2009,7 @@ struct FUN_00862150StandIn
 };
 
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
 };
@@ -2509,8 +2511,8 @@ struct TES_861f20
 {
 };
 
-struct TESBoundObject;
-struct TESWorldSpace;
+class TESBoundObject;
+class TESWorldSpace;
 
 struct TESObjectREFR_861f20
 {
@@ -3865,7 +3867,7 @@ class C857A10Buffer
 };
 
 namespace ChangeValidation {
-struct Actor;
+class Actor;
 }
 class TESPackage
 {
@@ -4201,7 +4203,7 @@ struct Reference
     virtual World* v294();
     virtual Cell* v298();
 };
-struct Actor : Reference
+class Actor : public Reference
 {
 };
 struct Changes
@@ -8343,8 +8345,8 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
     reinterpret_cast<::fnv_008a8150::FUN_008a8150_shell *>(this)->FUN_008a8150(wasEnabled);
 }
 
-struct TESSound;
-struct EffectSetting
+class TESSound;
+class EffectSetting
 {
 };
 
@@ -9606,7 +9608,7 @@ struct CreatedForm77
     virtual void v00();
     int unk04, unk08, unk0c, unk10, unk14;
 };
-struct TESBoundObject : public TESForm
+class TESBoundObject : public TESForm
 {
   public:
     int FUN_00401170();

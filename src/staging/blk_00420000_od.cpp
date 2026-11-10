@@ -109,7 +109,7 @@
 #include "fnv/symbols_0056f000.h"
 #include "fnv/symbols_006b3000.h"
 
-struct BaseExtraList
+class BaseExtraList
 {
 };
 
@@ -138,8 +138,9 @@ bool FUN_0042ce90_class::FUN_0042ce90() const
 }
 
 namespace fnv_0042e040 {
-struct BaseExtraList
+class BaseExtraList
 {
+  public:
     void RemoveExtra(unsigned char);
 };
 
@@ -159,8 +160,8 @@ void FUN_0042e040_shell::FUN_0042e040()
 }  // namespace fnv_0042e040
 
 namespace fnv_0042e110 {
-struct BSExtraData;
-struct BaseExtraList
+class BSExtraData;
+class BaseExtraList
 {
 };
 struct FUN_0042e110 : BaseExtraList
@@ -209,8 +210,9 @@ void GlobalObject_00869f00::FUN_0042ff80()
 
 extern void* DAT_01015968;
 
-struct BSExtraData
+class BSExtraData
 {
+  public:
     virtual ~BSExtraData();
 };
 
@@ -501,7 +503,7 @@ void TaskQueueInterface::FUN_0043b350(bool enabled)
     reinterpret_cast<::FUN_0043b370_cls *>(this)->FUN_0043b370(enabled, 0x80);
 }
 
-struct TESForm
+class TESForm
 {
 public:
     void ClearData();
@@ -999,7 +1001,7 @@ void FUN_0042dee0_shell::FUN_0042dee0(intptr_t aiValue)
     }
 }
 
-struct ExtraDataList
+class ExtraDataList
 {
 };
 struct ExtraLock
@@ -1053,8 +1055,9 @@ FUN_0042e650_class::FUN_0042e650_class(unsigned char aucValue) : BE(0x8e)
 struct G00559a40
 {
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     char pad[0x1c];
     G00559a40 unk1c;
 };
@@ -1171,11 +1174,12 @@ void FUN_00438900_class::FUN_00438900()
 struct FNStub
 {
 };
-struct TESModel
+class TESModel
 {
+  public:
     unsigned int GetModelLength();
 };
-struct TESSound
+class TESSound
 {
 };
 struct FUN_00438c10_Class : public FNStub
@@ -1515,8 +1519,9 @@ FUN_00438820_Class::FUN_00438820_Class(int aiCount)
 struct BaseExtraList2
 {
 };
-struct TESLeveledList
+class TESLeveledList
 {
+  public:
     void FUN_0042e680(unsigned char type);
 };
 struct FUN_0042e5a0_class

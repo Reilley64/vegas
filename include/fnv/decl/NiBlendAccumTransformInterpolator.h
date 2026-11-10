@@ -1,6 +1,6 @@
 #pragma once
 
-class NiObjectNET;
+struct NiObjectNET;
 class NiQuatTransform;
 
 class NiBlendAccumTransformInterpolator {

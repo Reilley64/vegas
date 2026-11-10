@@ -1,6 +1,6 @@
 #pragma once
 
-class Animation;
+struct Animation;
 namespace fnv_008b73f0 { struct FNVAnimationLink; }
 
 namespace fnv_008b73f0 {

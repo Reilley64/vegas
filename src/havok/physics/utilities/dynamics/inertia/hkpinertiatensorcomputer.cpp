@@ -2891,7 +2891,7 @@ class VectorComponentValue
 };
 typedef const VectorComponentValue& hkSimdRealParameter;
 
-class hkVector4
+struct hkVector4
 {
   public:
     __forceinline hkVector4()

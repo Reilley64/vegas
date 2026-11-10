@@ -160,7 +160,7 @@ struct StrArr
 struct FUN_00a5ea70_t
 {
 };
-struct NiNode;
+class NiNode;
 struct Zx3ListNode
 {
     Zx3ListNode* m_pkNext;

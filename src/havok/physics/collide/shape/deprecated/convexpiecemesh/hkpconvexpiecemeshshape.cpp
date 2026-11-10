@@ -185,7 +185,7 @@ void D::FUN_00e490d0()
     this->D::~D();
 }
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 
 
 template <class T> class hkArrayE494

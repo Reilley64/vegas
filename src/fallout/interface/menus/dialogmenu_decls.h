@@ -21,7 +21,7 @@
 #include "fnv/symbols_00a09000.h"
 #include "layout_support.h"
 #include "TESTopic.h"
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -40,7 +40,7 @@ class Tile
     void SetName(const char*);
     static float GetInterfaceScale();
 };
-class Interface
+struct Interface
 {
   public:
     enum enumMenus

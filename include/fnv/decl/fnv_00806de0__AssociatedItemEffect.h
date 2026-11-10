@@ -1,6 +1,6 @@
 #pragma once
 
-struct Actor;
+class Actor;
 
 namespace fnv_00806de0 {
 struct AssociatedItemEffect {

@@ -77,7 +77,7 @@ enum CHALLENGE_TYPE
 #define FNV_TESFORM_H
 #include "teschallenge_support.h"
 #include "BaseFormComponent.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESForm : public BaseFormComponent
 {
   public:
@@ -268,7 +268,7 @@ public:
     void FUN_005f60e0(int);
 };
 #endif
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };
@@ -304,7 +304,7 @@ template <> class SettingT<INISettingCollection>
     SETTING_VALUE* Bool();
 };
 class PlayerCharacter;
-class Interface
+struct Interface
 {
   public:
 };

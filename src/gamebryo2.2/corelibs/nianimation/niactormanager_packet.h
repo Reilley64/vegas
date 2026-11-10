@@ -7,7 +7,7 @@ class ActorManagerPacket
   public:
     static void InitializePoint3();
 };
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char*);

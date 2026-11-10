@@ -1311,8 +1311,9 @@ struct DataObjectImplReference
     DataObjectImplReference(hkDataObjectImpl* impl);
 };
 
-struct hkOstream
+class hkOstream
 {
+  public:
     void* m_ppVirtualMethodTable;
     int m_usMemSizeAndFlags;
     void* m_pStreamWriter;

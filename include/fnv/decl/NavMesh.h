@@ -4,7 +4,7 @@
 class NavMeshClosedDoorInfo;
 class NavMeshStaticAvoidNode;
 class NavMeshTriangle;
-class NiPoint3;
+struct NiPoint3;
 
 class NavMesh {
 public:

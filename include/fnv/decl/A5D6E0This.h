@@ -1,6 +1,6 @@
 #pragma once
 
-struct BGSCameraPath;
+class BGSCameraPath;
 template <class, class> class NiTArray;
 template <class> class NiTMallocInterface;
 

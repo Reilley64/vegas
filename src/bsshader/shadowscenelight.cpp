@@ -1788,8 +1788,9 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
 }  // namespace fnv_00b9dfc0
 
 struct NiRTTI;
-struct NiShader
+class NiShader
 {
+  public:
     NiShader* DynamicCast(const NiRTTI*);
 };
 struct ShadowSceneLight_b9f480;

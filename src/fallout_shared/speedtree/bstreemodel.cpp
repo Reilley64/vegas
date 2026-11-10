@@ -761,8 +761,9 @@ struct BSStr
     operator const char*() const;
 };
 
-struct NiTexture
+class NiTexture
 {
+  public:
     void SetFlag4000(unsigned int flags);
 };
 
@@ -1140,11 +1141,12 @@ struct TreeCloneProcess
     TreeCloneProcess(float);
     ~TreeCloneProcess();
 };
-struct NiNode
+class NiNode
 {
 };
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* object;
     NiPointer();
     ~NiPointer();
@@ -1480,7 +1482,7 @@ struct bhkCollisionObject
 {
 };
 
-class NiStream
+struct NiStream
 {
   public:
     int m_kNextStreamField[0x5cc / 4];

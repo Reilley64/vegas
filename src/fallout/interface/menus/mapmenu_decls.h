@@ -102,7 +102,7 @@ class DialogueItem;
 class DialogueResponse;
 class PathingPath;
 class Character;
-class BSAudio;
+struct BSAudio;
 class FOPipboyManager;
 class InterfaceManager;
 class BSRenderedMenu;
@@ -141,7 +141,7 @@ template <class T> class BSStringT
     int __cdecl PrintfString(const char*, ...);
     operator const T*() const;
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -152,13 +152,13 @@ class NiPoint3
 public:
     float ComputeMagnitude() const;
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     NiPoint2();
     float x, y;
 };
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int id;
@@ -205,7 +205,7 @@ class OSGlobals
 {
   public:
 };
-class Interface
+struct Interface
 {
   public:
     enum enumMenus
@@ -257,7 +257,7 @@ public:
 };
 class NiTexture;
 class NiProperty;
-struct NiTexture;
+class NiTexture;
 class TileShaderProperty
 {
   public:
@@ -358,7 +358,7 @@ class TESForm
 public:
     bool GetDisabled() const;
 };
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
   public:
@@ -550,7 +550,7 @@ class Conversation
     bool FirstItem();
     void* Destroy(bool);
 };
-class BSAudio
+struct BSAudio
 {
   public:
     SoundPlaybackHandle GetSoundHandleByFormID(unsigned int, unsigned int);

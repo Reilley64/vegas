@@ -1,6 +1,6 @@
 #pragma once
 
-struct NavMeshClosedDoorInfo;
+class NavMeshClosedDoorInfo;
 struct PositionRotation;
 
 // 0x00692710

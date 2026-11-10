@@ -1,6 +1,6 @@
 #pragma once
 
-struct SaveLoadFile;
+class SaveLoadFile;
 
 struct FUN_00864790_shell {
 public:

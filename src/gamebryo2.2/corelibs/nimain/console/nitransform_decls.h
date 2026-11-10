@@ -2,13 +2,13 @@
 #ifndef NITRANSFORM_DECLS_H
 #define NITRANSFORM_DECLS_H
 #include "fnv/decl/P3.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     NiPoint3();
     float x, y, z;
 };
-class ThreeByThreeMatrix
+struct ThreeByThreeMatrix
 {
   public:
     float entry[9];

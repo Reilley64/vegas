@@ -329,7 +329,7 @@ void FOVATSEffectManager_008019d0::FUN_008019d0()
     DAT_012007fc = 0;
 }
 
-struct NiAVObject;
+class NiAVObject;
 
 struct RefLike
 {

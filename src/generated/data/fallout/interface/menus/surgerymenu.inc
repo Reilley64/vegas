@@ -3,14 +3,14 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 #pragma comment(linker, "/alternatename:?DAT_011dad9c@LockpickResistance@@3HA=?DAT_011dad9c@@3HA")
-#pragma comment(linker, "/alternatename:?DAT_011dadb4@@3UCameraHolder@@A=?g_011dadb4@@3VGlobalObject_00633c90@@A")
-#pragma comment(linker, "/alternatename:?DAT_011dae5c@@3UBipPointer@@A=?g_011dae5c@@3VGlobalObject_00633c90@@A")
+#pragma comment(linker, "/alternatename:?DAT_011dadb4@@3UCameraHolder@@A=?g_011dadb4@@3UGlobalObject_00633c90@@A")
+#pragma comment(linker, "/alternatename:?DAT_011dae5c@@3UBipPointer@@A=?g_011dae5c@@3UGlobalObject_00633c90@@A")
 #pragma comment(linker, "/alternatename:?DAT_011dea0c@LockpickResistance@@3PEAUPickGlobals@1@EA=?g_osGlobals@@3PEAVOSGlobals@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011dea3c@@3PEAUDecalCell@@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011dea3c@LockpickResistance@@3PEAUPickPlayer@1@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?g_011dad9c@@3HA=?DAT_011dad9c@@3HA")
-#pragma comment(linker, "/alternatename:?g_kE5810Queue@@3VE5810Node@@A=?g_011dae48@@3VGlobalObject2_0096a2d0@@A")
+#pragma comment(linker, "/alternatename:?g_kE5810Queue@@3VE5810Node@@A=?g_011dae48@@3UGlobalObject2_0096a2d0@@A")
 #pragma comment(linker, "/alternatename:?g_osGlobals@@3PEAUOsX@@EA=?g_osGlobals@@3PEAVOSGlobals@@EA")
 #pragma comment(linker, "/alternatename:?g_pE5810Interface@@3PEAXEA=?DAT_011dada4@@3PEAXEA")
 #pragma comment(linker, "/alternatename:?g_thePlayer@@3PEAUPainPlayer@@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")

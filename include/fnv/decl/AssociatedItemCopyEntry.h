@@ -1,6 +1,6 @@
 #pragma once
 
-struct ActiveEffect;
+class ActiveEffect;
 
 struct AssociatedItemCopyEntry {
 public:

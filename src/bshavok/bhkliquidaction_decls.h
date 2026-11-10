@@ -10,7 +10,7 @@ class FUN_0056d410
     virtual ~FUN_0056d410();
     unsigned char storage[16];
 };
-class GlobalObject_004ee810
+struct GlobalObject_004ee810
 {
   public:
     GlobalObject_004ee810();

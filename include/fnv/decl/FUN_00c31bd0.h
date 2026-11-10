@@ -1,7 +1,7 @@
 #pragma once
 
 class NiAVObject;
-class RgbaColor;
+struct RgbaColor;
 
 struct FUN_00c31bd0 {
 public:

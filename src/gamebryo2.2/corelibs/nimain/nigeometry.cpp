@@ -218,11 +218,11 @@ void NiGeometry::ProcessClone(CloningProcess& process)
     }
 }
 
-struct NiAccumulator;
+class NiAccumulator;
 struct NiD3DShaderDeclaration;
 struct NiDynamicEffectState;
 struct NiRenderer;
-struct NiShader;
+class NiShader;
 struct NiTriShape;
 struct NiTriStrips;
 struct FUN_00a80610_shell : public NiGeometry
@@ -252,16 +252,16 @@ void FUN_00a80610_shell::FUN_00a80610(NiRenderer* pkRenderer)
 }
 
 struct BSStripParticleSystem;
-struct NiAccumulator;
+class NiAccumulator;
 struct RgbaColor;
 struct NiD3DShaderDeclaration;
 struct NiDynamicEffectState;
 struct NiPSysModifier;
 struct NiParticleSystem;
 struct NiParticles;
-struct NiQuaternion;
+class NiQuaternion;
 struct NiRenderer;
-struct NiShader;
+class NiShader;
 struct NiTriShape;
 struct NiTriStrips;
 struct NiUpdateData;
@@ -285,7 +285,7 @@ void FUN_00a80650_shell::FUN_00a80650(NiRenderer* pkRenderer)
 
 struct BSResizableTriShape;
 struct NiRenderer;
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 struct NiTriShape;
 struct blob16
 {
@@ -329,11 +329,11 @@ struct Direct3D9RenderSystem;
 struct COMUnknownInterface;
 struct RenderableGeometry;
 struct Direct3D;
-struct Ni2DBuffer;
-struct NiAccumulator;
+class Ni2DBuffer;
+class NiAccumulator;
 struct RgbaColor;
-struct NiD3DGeometryGroupManager;
-struct NiD3DPixelShader;
+class NiD3DGeometryGroupManager;
+class NiD3DPixelShader;
 struct NiD3DShaderDeclaration;
 struct NiD3DVertexShader;
 struct NiDepthStencilBuffer;
@@ -353,22 +353,22 @@ struct NiPalette;
 struct NiParticles;
 struct NiParticlesData;
 struct NiPixelData;
-struct NiPixelFormat;
+class NiPixelFormat;
 struct NiPoint2;
-struct NiRenderTargetGroup;
+class NiRenderTargetGroup;
 struct NiRenderedCubeMap;
 struct NiRenderedTexture;
 struct NiRenderer;
 struct RendererSupportType;
 struct NiScreenTexture;
-struct NiShader;
+class NiShader;
 struct NiSkinData;
 struct NiSkinInstance;
 struct NiSkinPartition;
 struct NiSourceCubeMap;
-struct NiSourceTexture;
-struct NiTimeController;
-struct NiTriBasedGeom;
+class NiSourceTexture;
+class NiTimeController;
+class NiTriBasedGeom;
 struct NiTriShape;
 struct NiTriStrips;
 struct NiUnsharedGeometryGroup;
@@ -380,7 +380,7 @@ struct ShaderPassRenderer;
 struct ShaderPassRenderContext;
 struct GraphicsRenderer;
 struct RendererShaderPassContext;
-struct NiD3DVertexDeclaration;
+class NiD3DVertexDeclaration;
 struct Direct3DPresentationState;
 struct Direct3DRendererState;
 struct VertexDeclarationLayout;
@@ -695,7 +695,7 @@ void GeomStub::FUN_00a809b0(NiRenderer* pkRenderer)
 namespace fnv_00a7ff60 {
 struct BSResizableTriShape;
 struct NiRenderer;
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 struct NiTriShape;
 struct blob16
 {

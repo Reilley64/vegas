@@ -1,6 +1,6 @@
 #pragma once
 
-class VATSCommand;
+struct VATSCommand;
 
 struct MyList {
 public:

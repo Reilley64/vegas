@@ -294,7 +294,7 @@ void FUN_004799f0_shell::FUN_004799f0()
 }
 
 
-struct TESForm;
+class TESForm;
 
 struct IdleCollectionStandIn
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-class GridCell;
+struct GridCell;
 
 namespace fnv_004ba4e0 {
 struct S {

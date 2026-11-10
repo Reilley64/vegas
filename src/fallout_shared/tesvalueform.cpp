@@ -998,8 +998,9 @@ struct S_0059bf90_Derived : S_0059bf90_Base1, S_0059bf90_Base2
 S_0059bf90_Derived::S_0059bf90_Derived()
 {}
 
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual ~BaseFormComponent();
 };
 
@@ -1077,8 +1078,9 @@ void TESValueForm::FUN_0048ea10(unsigned int a, std::uintptr_t b)
 // namespace fnv_0048ea10
 
 namespace fnv_0048ea40 {
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     int flags;
     operator bool() const;
 };
@@ -1103,8 +1105,9 @@ void TESValueForm::FUN_0048ea40(BGSSaveFormBuffer* aBuffer)
 
 // namespace fnv_0048ea40
 
-struct FormChangeMask
+class FormChangeMask
 {
+  public:
     unsigned int flags;
     operator bool() const;
 };

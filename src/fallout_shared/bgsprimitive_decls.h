@@ -12,7 +12,7 @@
 #include "fnv/symbols_00549000.h"
 #include "fnv/symbols_00a5b000.h"
 #include <cmath>
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -24,19 +24,19 @@ public:
 public:
     char *FUN_00a59af0(const char *);
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
 };
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;
     float m_fBoundRadius;
     NiBound();
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float m_fTime;
@@ -148,7 +148,7 @@ class BGSPrimitive
     NiPointer<BSFadeNode> m_pController;
     unsigned int m_uiPrimitiveFlags;
 };
-class BGSPrimitiveBox : public BGSPrimitive
+struct BGSPrimitiveBox : public BGSPrimitive
 {
   public:
     BGSPrimitiveBox();

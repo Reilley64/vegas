@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class NiAVObject;
-class ShadowSceneNode;
+struct ShadowSceneNode;
 namespace fnv_00b5b260 { struct LightOwnerA; }
 namespace fnv_00b5b260 { struct LightOwnerB; }
 namespace fnv_00b5b260 { struct S00b5b260_Geom; }

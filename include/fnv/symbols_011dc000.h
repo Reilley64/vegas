@@ -3,7 +3,7 @@
 
 class AcousticSpaceOwner;
 class GlobalObject_0044f440;
-class GlobalObject_0045cfe0;
+struct GlobalObject_0045cfe0;
 class GlobalObject_00a7b610;
 class TESSound;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_005690a0 { struct LockExtraData; }
+namespace fnv_005690a0 { class LockExtraData; }
 
 namespace fnv_005690a0 {
 struct TESObjectREFR_ext {

@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 namespace seg6b9 { struct S6Point; }
 struct FUN_006b9940_cls;
 struct NiPoint2;

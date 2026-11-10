@@ -71,7 +71,7 @@ class NiGPUProgram : public NiRefObject
     ProgramType m_iProgramType;
 };
 
-class NiD3DShaderProgramCreator;
+struct NiD3DShaderProgramCreator;
 class Direct3DDeviceInterface;
 class NiD3DRenderer;
 class NiD3DRenderState;
@@ -446,7 +446,7 @@ class NiBinaryStream
     NIBINARYSTREAM_WRITEFN m_pfnWrite;
 };
 
-class NiStream
+struct NiStream
 {
   public:
     int unk000;

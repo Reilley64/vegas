@@ -687,7 +687,7 @@ TESForm* __cdecl ResolveReferenceForm(unsigned int formID, ReferencePlacementDat
 }
 
 
-class BGSSaveFormBuffer
+struct BGSSaveFormBuffer
 {
   public:
 };

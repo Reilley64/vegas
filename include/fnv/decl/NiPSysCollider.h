@@ -1,7 +1,7 @@
 #pragma once
 
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 
 class NiPSysCollider {
 public:

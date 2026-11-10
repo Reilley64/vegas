@@ -1,7 +1,7 @@
 #pragma once
 
 struct hkBool;
-struct hkContactPoint;
+class hkContactPoint;
 
 struct BoxAgent {
 public:

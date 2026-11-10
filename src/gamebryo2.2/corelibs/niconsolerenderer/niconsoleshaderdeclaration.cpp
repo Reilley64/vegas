@@ -15,8 +15,9 @@ struct BSFadeNode
 };
 
 
-struct NiD3DVertexDeclaration
+class NiD3DVertexDeclaration
 {
+  public:
     void* m_vtbl;
     void* m_auiShapeKeys[0x2b / 4];
     void* m_pkVertexElements;

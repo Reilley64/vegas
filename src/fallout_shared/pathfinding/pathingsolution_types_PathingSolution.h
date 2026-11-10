@@ -29,7 +29,7 @@ class PathingInfoEntry;
 class PathingInfoParams;
 class PathingGraphNode;
 class PathingSolution;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class Sphere;
 class TeleportLink;
 class PathingPath;

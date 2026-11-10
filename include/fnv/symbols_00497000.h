@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class Actor;
-class Animation;
+struct Animation;
 namespace fnv_004975e0 { struct SavedAnim; }
 struct FUN_004965d0;
 

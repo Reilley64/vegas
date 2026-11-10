@@ -187,13 +187,13 @@ template <class T> class NiPointer
     ~NiPointer();
     operator T*() const;
 };
-class KFModel;
-class ModelLoader
+struct KFModel;
+struct ModelLoader
 {
   public:
 };
 void FUN_0040ab50();
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);

@@ -1,7 +1,7 @@
 #pragma once
 
 struct PhysicsMaterial;
-struct hkContactPoint;
+class hkContactPoint;
 struct hkpConstraintOwner;
 
 struct hkpSimpleContactConstraintData {

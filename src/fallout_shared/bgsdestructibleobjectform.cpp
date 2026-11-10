@@ -634,11 +634,12 @@ float Standin77900::FUN_00477900()
                                   : (double)(*(float*)((char*)this + 0x7c) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting818))))))));
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct bhkWorldObject;
 
-struct NiNode
+class NiNode
 {
+  public:
     unsigned int GetNumChildren();
     NiAVObject* GetAt(unsigned int index);
 };
@@ -766,7 +767,7 @@ struct NiBound
 {
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 

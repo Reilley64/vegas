@@ -323,8 +323,9 @@ struct FUN_0061cc60_holder
     FUN_0061cc60_node* head;
     void AddNode(std::intptr_t a);
 };
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
+  public:
     int x[2];
     RecursiveSpinLock();
     ~RecursiveSpinLock();

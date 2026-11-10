@@ -1,7 +1,7 @@
 #pragma once
 
 class NiAVObject;
-class NiPoint3;
+struct NiPoint3;
 class Obj_c9b;
 namespace fnv_00c9b470 { struct Scene; }
 struct FUN_00c9aeb0_t;

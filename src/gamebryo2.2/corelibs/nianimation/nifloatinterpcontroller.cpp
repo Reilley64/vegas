@@ -166,7 +166,7 @@ void NiFloatInterpController::SetInterpolatorValue(NiInterpolator* pkInterp, uns
 }  // namespace fnv_00a57670
 
 struct NiStream;
-class NiStream;
+struct NiStream;
 struct NiSingleInterpController
 {
 public:

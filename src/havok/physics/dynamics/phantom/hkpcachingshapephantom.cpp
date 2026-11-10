@@ -1188,8 +1188,9 @@ void hkOwnerD4D0::FUN_00d4d030()
 
 class hkpCdPointCollector;
 
-struct hkAabb
+class hkAabb
 {
+  public:
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
 };

@@ -23,7 +23,7 @@ class MemoryManager
 extern void* DAT_010f16ec[];
 extern void* DAT_010f16dc[];
 
-class NiPick
+struct NiPick
 {
   public:
     enum PickType

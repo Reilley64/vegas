@@ -36,14 +36,14 @@ NiTriBasedGeomData* InitializeTriBasedGeomData(NiTriBasedGeomData* pThis)
     return pThis;
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObject;
 struct NiObjectGroup;
 struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct FUN_00a8aa30_shell : public NiTriBasedGeomData
 {
@@ -68,14 +68,14 @@ void FUN_00a8aa30_shell::FUN_00a8aa30(NiStream* kStream)
     input->position += input->read(input, reinterpret_cast<char*>(&this->m_usTriangles), 2, &size, 1);
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObject;
 struct NiObjectGroup;
 struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct FUN_00a8aa70_shell : public NiTriBasedGeomData
 {
@@ -117,7 +117,7 @@ struct StrArr
 
 };
 
-template <class T> struct NiTPrimitiveArray : public StrArr
+template <class T> class NiTPrimitiveArray : public StrArr
 {
 };
 

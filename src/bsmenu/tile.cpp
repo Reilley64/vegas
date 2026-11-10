@@ -612,7 +612,7 @@ bool FUN_00a07fc0_shell::FUN_00a07fc0(int aiTrait)
 }
 }  // namespace fnv_00a07fc0
 
-struct NiNode;
+class NiNode;
 struct TileX {
     char pad[0x28];
     TileX* pParent;
@@ -1388,9 +1388,9 @@ TileTemplate_00a0af10* BuildStorage_00a0af10::FindTemplateByName(const char* pNa
 }
 
 struct RgbaColor;
-struct NiNode;
+class NiNode;
 struct NiStream;
-struct NiTexture;
+class NiTexture;
 struct TileShaderProperty;
 struct blob4 { char b[4]; };
 struct FUN_00a0b280_shell : public Tile {
@@ -2755,7 +2755,7 @@ public:
     ChildArray<ChildPtr<NiAVObject> >& GetChildren() { return m_kChildren; }
 };
 
-struct NiAVObject;
+class NiAVObject;
 
 // namespace fnv_00a1e1d0
 
@@ -3323,7 +3323,8 @@ struct Tile_Helper {
     virtual int GetType();
 };
 
-struct TileMenu {
+class TileMenu {
+  public:
     char pad[0x3c];
     Menu* pMenu;
 };
@@ -3364,7 +3365,8 @@ FUN_00a0abe0::~FUN_00a0abe0() {
     member_0c = 0;
 }
 
-struct Tile__TileTemplate {
+class Tile__TileTemplate {
+  public:
     void Clear();
 };
 
@@ -3449,7 +3451,7 @@ void FUN_00a01350_shell::FUN_00a01350(int aiTrait, char* apValue, bool abClearAc
 
 // namespace fnv_00a01350
 
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 
 template<class K, class V> struct BSMapEntry {
     BSMapEntry* m_pkNext;
@@ -5194,7 +5196,8 @@ struct TileRect : Tile3D {
     __forceinline TileRect() {}
     virtual ~TileRect();
 };
-struct TileMenu : TileRect {
+class TileMenu : public TileRect {
+  public:
     __forceinline TileMenu() : unk3c(0) {}
     virtual ~TileMenu();
     int unk3c;
@@ -6592,7 +6595,7 @@ struct MemoryManager { void Deallocate(void*); };
 extern void (*DAT_00fdf05c)(void*);
 extern void (*DAT_00fdf100)(void*);
 struct FUN_00a031b0_shell {  };
-struct Tile__TileTemplate;
+class Tile__TileTemplate;
 
 struct TemplateListNode {
     Tile__TileTemplate* pItem;

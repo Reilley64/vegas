@@ -2,7 +2,7 @@
 
 class Actor;
 class ActorCombatGroup;
-class CombatController;
+struct CombatController;
 
 struct FUN_009922b0_shell {
 public:

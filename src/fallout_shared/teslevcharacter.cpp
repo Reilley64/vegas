@@ -130,12 +130,12 @@ bool TESLevCharacter::Load(TESFile* file)
 }
 
 namespace fnv_0050b3c0 {
-struct Actor;
-struct SaveLoadFile;
+class Actor;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {

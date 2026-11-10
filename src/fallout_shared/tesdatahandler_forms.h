@@ -361,7 +361,7 @@ class BGSStaticCollection : public TESBoundObject
     BGSStaticCollection();
     unsigned char formData[0x20];
 };
-class BGSPlaceableWater : public TESBoundObject
+struct BGSPlaceableWater : public TESBoundObject
 {
   public:
     BGSPlaceableWater();
@@ -717,7 +717,7 @@ class EffectSetting : public TESForm
 public:
     ::TESSound *GetHitSound();
 };
-class TESClimate : public TESForm
+struct TESClimate : public TESForm
 {
   public:
     TESClimate();
@@ -818,7 +818,7 @@ class TESLoadScreen : public TESForm
     TESLoadScreen();
     unsigned char formData[0x28];
 };
-class TESWaterForm : public TESForm
+struct TESWaterForm : public TESForm
 {
   public:
     TESWaterForm();

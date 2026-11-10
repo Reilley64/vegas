@@ -420,7 +420,7 @@ class Vector4Comparison
 
   private:
     hkQuadReal m_uiMask;
-    friend class hkVector4;
+    friend struct hkVector4;
 };
 
 namespace MathUtilities {
@@ -449,7 +449,7 @@ template <typename T> __forceinline T min2(T x, T y)
 
 class hkRotation;
 
-class hkVector4
+struct hkVector4
 {
   public:
     __forceinline hkQuadReal& getQuad()

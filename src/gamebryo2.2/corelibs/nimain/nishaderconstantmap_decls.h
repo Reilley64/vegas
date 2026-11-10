@@ -12,7 +12,7 @@
 #include "fnv/symbols_011f6000.h"
 class IMemoryHeap;
 #include "MemoryManager.h"
-class NiGlobalStringTable
+struct NiGlobalStringTable
 {
   public:
     static char* AddString(const char*);

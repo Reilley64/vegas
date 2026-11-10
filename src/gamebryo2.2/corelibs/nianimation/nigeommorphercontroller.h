@@ -26,16 +26,16 @@
 #include "NiObject.h"
 #include "NiRefObject.h"
 
-class CloningProcess;
-class RgbaColor;
+struct CloningProcess;
+struct RgbaColor;
 class NiColorData;
 class ColorAnimationKey;
 class NiInterpolator;
 class NiMorphData;
-class NiObjectNET;
-class NiPoint3;
-class NiStream;
-class NiUpdateData;
+struct NiObjectNET;
+struct NiPoint3;
+struct NiStream;
+struct NiUpdateData;
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -64,8 +64,8 @@ class AnimationKey
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-class CloningProcess;
-class NiObjectNET;
+struct CloningProcess;
+struct NiObjectNET;
 class NiTimeController : public NiObject
 {
   public:
@@ -88,13 +88,13 @@ public:
 };
 
 // NiObjectNET is only needed as an opaque target type here.
-class NiObjectNET : public NiObject
+struct NiObjectNET : public NiObject
 {
 };
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-class NiStream;
+struct NiStream;
 class NiInterpController : public NiTimeController
 {
   public:
@@ -174,7 +174,7 @@ int NiStricmp(const char* a, const char* b);
 // out-of-line definitions below stay linker-visible without emitting a
 // second copy of a shared vtable.
 // ---------------------------------------------------------------------------
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0

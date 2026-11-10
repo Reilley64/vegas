@@ -10,8 +10,9 @@ struct __declspec(align(16)) hkVector4
 {
     float x, y, z, w;
 };
-struct hkTransform
+class hkTransform
 {
+  public:
     hkVector4 c0, c1, c2, t;
 };
 

@@ -22,7 +22,7 @@
 #include "fnv/symbols_011f4000.h"
 struct NiStream;
 
-class NiStream;
+struct NiStream;
 struct RgbaColor
 {
 public:
@@ -85,8 +85,9 @@ NiBlendColorInterpolator* __cdecl CreateBlendColorInterpolator()
     return pInterpolator;
 }
 
-struct NiBlendInterpolator
+class NiBlendInterpolator
 {
+  public:
     NiBlendInterpolator(bool, float, unsigned char);
     char _pad[0x30];
 };
@@ -125,7 +126,7 @@ namespace fnv_00a56460 {
 struct NiColorA_Helper
 {
 };
-struct NiBlendInterpolator
+class NiBlendInterpolator
 {
 };
 struct NiColorA_Compare

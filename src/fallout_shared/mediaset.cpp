@@ -695,7 +695,7 @@ void* FUN_00597880_shell::FUN_00597880(unsigned int flags)
 FUN_005978b0::~FUN_005978b0()
 {}
 
-class Sky
+struct Sky
 {
   public:
 };
@@ -713,7 +713,7 @@ struct SoundPlaybackHandle
     ~SoundPlaybackHandle();
 };
 
-class BSAudio
+struct BSAudio
 {
   public:
     SoundPlaybackHandle GetSoundHandleByFormID(unsigned int auiFormID, unsigned int auiFlags, unsigned int auiUnk);

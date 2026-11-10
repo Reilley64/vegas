@@ -51,7 +51,7 @@ int* __cdecl FUN_00c1f4f0()
     return &(*reinterpret_cast<int *>(&::g_01202500));
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct NiPSysVolumeEmitter
 {
     NiPSysVolumeEmitter();
@@ -131,13 +131,13 @@ void* NiPSysMeshEmitter::Destroy(unsigned int flags)
 }
 
 namespace fnv_00c1f990 {
-struct NiAVObject;
+class NiAVObject;
 struct NiBinaryStream;
-struct NiFixedString;
+class NiFixedString;
 struct NiObject;
 struct NiObjectGroup;
 struct NiSearchPath;
-struct NiTexture;
+class NiTexture;
 struct NiThread;
 struct NiMemObject
 {
@@ -152,7 +152,7 @@ struct NiPSysEmitter
 {
     virtual void LinkObject(NiStream&);
 };
-struct NiGeometry;
+class NiGeometry;
 struct NiPSysMeshEmitter : NiPSysEmitter
 {
     char _pad_4[0x50];
@@ -197,8 +197,9 @@ struct NiSkinnedEmitterData
     char _pad[4];
 };
 
-struct NiGeometry
+class NiGeometry
 {
+  public:
     char _pad[0xb8];
     char* unkb8;
     NiSkinnedEmitterData* m_bc;
@@ -316,7 +317,7 @@ class C1E8E0BinaryStream
 
 class C1E8E0Object;
 
-class NiStream
+struct NiStream
 {
   public:
     virtual void unk00();
@@ -579,7 +580,7 @@ struct NiPoint3b
         return *this;
     }
 };
-class NiPoint3;
+struct NiPoint3;
 struct NiPoint3b;
 struct M_004b4500
 {
@@ -587,8 +588,9 @@ struct M_004b4500
 public:
     ::NiPoint3b FUN_004b4500(const ::NiPoint3 *);
 };
-struct NiTransform
+class NiTransform
 {
+  public:
     M_004b4500 rotation;
     NiPoint3b translation;
     float scale;
@@ -598,8 +600,9 @@ public:
 public:
     ::NiTransform operator*(const ::NiTransform &) const;
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
@@ -2448,8 +2451,9 @@ struct CloneEmitter
 #include <windows.h>
 void __cdecl FUN_00aa1460(void* apMemory, unsigned int auiSize);
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual void v00();
     virtual void v04();
     long m_refs;

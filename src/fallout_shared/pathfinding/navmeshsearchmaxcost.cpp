@@ -60,9 +60,9 @@ int FUN_006abb90_shell::GetField2048()
     return *(int*)((char*)this + 0x2048);
 }
 
-struct NavMeshTriangleReference;
-struct NavMeshTriangleEdgeReference;
-template <class N, class L> struct AStarNode
+class NavMeshTriangleReference;
+class NavMeshTriangleEdgeReference;
+template <class N, class L> class AStarNode
 {
 };
 class NavMesh;
@@ -263,7 +263,7 @@ FUN_006abd40::FUN_006abd40()
 
 class NavMeshClosedDoorInfo;
 class NavMeshTriangle;
-class NiPoint3;
+struct NiPoint3;
 class NavMesh
 {
   public:
@@ -280,7 +280,7 @@ template <class T> class NiPointer
     T* m_pObject;
     operator T*() const;
 };
-class NavMeshPtr : public NiPointer<NavMesh>
+struct NavMeshPtr : public NiPointer<NavMesh>
 {
   public:
     NavMeshPtr();
@@ -299,8 +299,8 @@ struct NavMeshSearchLocation
     unsigned short m_usTriangleID;
     NiPoint3 kPosition;
 };
-class NavMeshPtr;
-class PathingLocation
+struct NavMeshPtr;
+struct PathingLocation
 {
   public:
 public:
@@ -2520,15 +2520,17 @@ struct NiPoint3
     float x, y, z;
     NiPoint3 operator-(const NiPoint3&) const;
 };
-struct EdgeExtraInfo
+class EdgeExtraInfo
 {
+  public:
     int type;
 };
-struct NavMeshTriangle
+class NavMeshTriangle
 {
 };
-struct NavMesh
+class NavMesh
 {
+  public:
     NiPoint3 FUN_00558220(unsigned short);
 };
 struct PathingLocation
@@ -2538,8 +2540,9 @@ struct PathingLocation
     unsigned short unk06;
     NiPoint3 position;
 };
-struct NavMeshTriangleReference
+class NavMeshTriangleReference
 {
+  public:
     float cost;
     unsigned int unk04;
     PathingLocation location;
@@ -2554,7 +2557,7 @@ struct DoorBase
 struct Door
 {
 };
-struct Actor;
+class Actor;
 struct PathingRequest
 {
 };

@@ -92,11 +92,11 @@ NiLODNode* NiLODNode::FUN_00a99670(unsigned int flags)
 }
 }  // namespace fnv_00a99670
 
-class NiUpdateData;
+struct NiUpdateData;
 class NiAVObject
 {
   public:
-    void UpdateWorldData(class NiUpdateData&);
+    void UpdateWorldData(struct NiUpdateData&);
 };
 struct Helper
 {
@@ -140,11 +140,11 @@ struct Helper
 };
 struct LODNodeStandIn
 {
-    void FUN_00a99110(class NiUpdateData&);
+    void FUN_00a99110(struct NiUpdateData&);
 };
 // Updates this object's world data, then calls Sel on the helper stored at offset 0xCC if it is non-null.
 // @fnv 0x00a99110
-void LODNodeStandIn::FUN_00a99110(class NiUpdateData& UpdateData)
+void LODNodeStandIn::FUN_00a99110(struct NiUpdateData& UpdateData)
 {
     ((NiAVObject*)this)->UpdateWorldData(UpdateData);
     Helper* p = *(Helper**)((char*)this + 0xCC);
@@ -152,7 +152,7 @@ void LODNodeStandIn::FUN_00a99110(class NiUpdateData& UpdateData)
         p->Sel(this);
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     virtual void f0();

@@ -6,8 +6,8 @@
 class FontData;
 class NiTexturingProperty;
 class NiTriShape;
-class NiPoint3;
-class RgbaColor;
+struct NiPoint3;
+struct RgbaColor;
 class FontCharacterInfo;
 template <class T> class NiPointer
 {

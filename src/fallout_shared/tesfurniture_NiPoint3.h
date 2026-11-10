@@ -2,7 +2,7 @@
 #ifndef FNV_NIPOINT3_H
 #define FNV_NIPOINT3_H
 #include "tesfurniture_layout_support.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     static const NiPoint3 ZERO;

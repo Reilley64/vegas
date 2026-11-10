@@ -2,7 +2,7 @@
 
 class Actor;
 namespace fnv_009e5690 { class Actor; }
-namespace fnv_009e5690 { class PathingRequest; }
+namespace fnv_009e5690 { struct PathingRequest; }
 namespace fnv_009e5690 { struct ActorAvoidEntryList; }
 namespace fnv_009e5690 { struct NiPoint3_ext; }
 struct TES;

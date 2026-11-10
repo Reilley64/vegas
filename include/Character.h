@@ -3,7 +3,7 @@
 #define FNV_CHARACTER_H
 #include "layout_support.h"
 #include "Actor.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class Character : public Actor
 {
   public:

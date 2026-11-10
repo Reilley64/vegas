@@ -1,6 +1,6 @@
 #pragma once
 
-struct Tile;
+class Tile;
 
 struct FUN_00754950_shell {
 public:

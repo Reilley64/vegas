@@ -408,7 +408,7 @@ struct FUN_00588b00_shell : public TESWorldSpace
 };
 
 
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x, y;
@@ -546,8 +546,9 @@ struct FUN_00587e40_shell : public TESWorldSpace
     void FUN_00587e40(TESObjectREFR*);
 };
 
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
+  public:
     T item;
     BSSimpleList<T>* next;
     ~BSSimpleList();
@@ -616,8 +617,9 @@ void TESWorldSpace::AddPersistentReference(TESObjectREFR* ref)
 }
 
 namespace stub {
-struct TESObjectCELL
+class TESObjectCELL
 {
+  public:
     TESObjectCELL();
     char pad[0xe0];
 };
@@ -1058,7 +1060,7 @@ int FUN_005858b0_shell::FUN_00584530(FileH* file, int x, int y)
 }
 }  // namespace fnv_00584530
 
-class TESWaterForm;
+struct TESWaterForm;
 struct FUN_005860c0_shell : TESWorldSpace
 {
     TESWaterForm* FUN_005860c0();
@@ -1158,7 +1160,7 @@ struct CellH
 struct DummyPointerMap
 {
 };
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
 };
 struct OverlapHolder
@@ -1245,10 +1247,10 @@ FormIDData* TESWorldSpace_shell::FUN_00588a90(TESFile* file)
 }
 }  // namespace fnv_00588a90
 
-struct BGSCameraPath;
+class BGSCameraPath;
 struct BGSCameraShot;
 struct NiFormArray;
-struct PerkEntryConditionSet;
+class PerkEntryConditionSet;
 struct CameraPathManager
 {
     void InitializeCameraPaths();
@@ -1299,16 +1301,18 @@ struct TESFormBase
     int x[5];
 };
 namespace stand {
-struct TESFullName
+class TESFullName
 {
+  public:
     TESFullName();
     ~TESFullName();
     virtual void V();
     int x[2];
 };
 }
-struct TESTexture
+class TESTexture
 {
+  public:
     TESTexture();
     ~TESTexture();
     virtual void V();
@@ -1628,8 +1632,9 @@ struct DummyPointerMap
 {
 };
 
-struct BSSimpleList
+class BSSimpleList
 {
+  public:
     bool _ref_008256d0();
 };
 
@@ -2293,8 +2298,9 @@ struct FUN_00591300
     unsigned int nameData, nameLength;
 };
 class TESFile;
-struct TESTexture
+class TESTexture
 {
+  public:
     virtual ~TESTexture();
     unsigned int textureData, textureLength;
 public:
@@ -5067,7 +5073,7 @@ class BGSEncounterZone : public TESForm
 {
 };
 
-class TESWaterForm : public TESForm
+struct TESWaterForm : public TESForm
 {
 };
 

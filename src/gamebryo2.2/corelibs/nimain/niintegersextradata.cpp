@@ -37,11 +37,11 @@
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/NiGlobalStringTable.h"
 #include "fnv/symbols_0109b000.h"
-struct NiFixedString
+class NiFixedString
 {
 };
 
-struct NiAVObject
+class NiAVObject
 {
 public:
     ::NiExtraData *GetExtraData(const ::NiFixedString &);
@@ -108,8 +108,8 @@ bool C00c541e0::FUN_00c541e0(intptr_t a)
     return b;
 }
 
-class NiStream;
-class NiStream;
+struct NiStream;
+struct NiStream;
 struct NiColor
 {
     float r;
@@ -210,7 +210,7 @@ NiAVObject* FUN_00c54210()
     return object;
 }
 
-class NiStream;
+struct NiStream;
 
 struct FUN_00c54040_cls
 {
@@ -257,7 +257,7 @@ void S_00c54550_Foo::FUN_00c54550(float param_1)
     unk0c = (unsigned short)(param_1 * DAT_01017b70);
 }
 
-class NiStream;
+struct NiStream;
 
 
 
@@ -887,7 +887,7 @@ struct NiRTTI
     }
 };
 
-class NiObject
+struct NiObject
 {
   public:
     virtual void v0();

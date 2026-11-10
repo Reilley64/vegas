@@ -7,7 +7,7 @@
 #include "fnv/decl/ThreatMapInit.h"
 #include "fnv/symbols_0108d000.h"
 class TESForm;
-class BGSLoadGameBuffer;
+struct BGSLoadGameBuffer;
 template <class T> class NiPointer
 {
   public:
@@ -47,7 +47,7 @@ class ReadWriteLock
     volatile unsigned int m_uiLockState;
     unsigned int m_uiWriterThreadId;
 };
-class CombatTargetTimestamp
+struct CombatTargetTimestamp
 {
   public:
     float value;

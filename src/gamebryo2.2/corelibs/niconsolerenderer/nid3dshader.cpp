@@ -165,16 +165,16 @@ struct COMUnknownInterface;
 struct CloningProcess;
 struct NiControllerManager;
 struct NiD3DShaderDeclaration;
-struct NiGeometry;
-struct NiGeometryData;
+class NiGeometry;
+class NiGeometryData;
 struct NiLines;
-struct NiNode;
+class NiNode;
 struct NiObject;
 struct NiObjectGroup;
 struct NiParticles;
 struct NiSkinInstance;
 struct NiStream;
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 struct NiTriShape;
 struct NiTriStrips;
 struct NiVBChip;
@@ -277,8 +277,9 @@ void* FUN_00e818a0_t::FUN_00e818a0()
     return this;
 }
 
-struct NiD3DPixelShader
+class NiD3DPixelShader
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -357,8 +358,9 @@ struct NiD3DVertexShader
     virtual void v38();
     virtual void v39();
 };
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     char _0[0x44];
     NiD3DPixelShader* m_spPixelShaderObject;
     char _48[0x14];
@@ -390,8 +392,9 @@ void FUN_00e81470_class::FUN_00e81470()
 }
 
 namespace fnv_00e814b0 {
-struct NiD3DPixelShader
+class NiD3DPixelShader
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -472,8 +475,9 @@ struct NiD3DVertexShader
     virtual void w39();
     virtual void BuildVertexShader();
 };
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     char _00[0x44];
     NiD3DPixelShader* m_spPixelShaderObject;
     char _48[0x14];
@@ -775,7 +779,7 @@ int FUN_00e807d0_shell::FUN_00e807d0(void* unusedFirst, void* geometry, void* in
 }
 
 namespace fnv_00e811d0 {
-struct NiFixedString;
+class NiFixedString;
 struct NiExtraDataStub
 {
     int unk00;

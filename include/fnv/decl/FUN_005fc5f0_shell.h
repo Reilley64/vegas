@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESNPC;
+class TESNPC;
 
 struct FUN_005fc5f0_shell {
 public:

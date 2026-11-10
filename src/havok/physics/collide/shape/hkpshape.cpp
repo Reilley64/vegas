@@ -99,8 +99,9 @@ struct hkMatrix3
     }
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     hkMatrix3 m_rotation;
     hkVector4 m_vTranslation;
 
@@ -111,8 +112,9 @@ struct hkTransform
     }
 };
 
-struct hkAabb
+class hkAabb
 {
+  public:
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
 };

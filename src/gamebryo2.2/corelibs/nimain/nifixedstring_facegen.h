@@ -141,8 +141,9 @@ class BSFaceGenModel
     bool ApplyTextureCoordinate(FaceGenCoordinates*, NiPointer<NiTexture>&, unsigned int);
     void ClearTextureData();
 };
-struct BSFaceGenManager
+class BSFaceGenManager
 {
+  public:
     static FaceGenCoordinates* GetFaceGenCoordinates();
 };
 FaceGenTextureFile* FUN_00659780(const char*);

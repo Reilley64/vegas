@@ -92,7 +92,7 @@ public:
     bool Compare(::ContainerItemExtra *);
 };
 
-class InventoryItemEntry
+struct InventoryItemEntry
 {
   public:
     int count;
@@ -371,8 +371,8 @@ struct FUN_00482090_shell : public TESContainer
     void FUN_00482090(float);
 };
 
-class NiPoint3;
-class TeleportableReference
+struct NiPoint3;
+struct TeleportableReference
 {
   public:
     NiPoint3 const& GetPosition(void);
@@ -413,18 +413,18 @@ struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
 struct LeveledObject;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
-struct TESActorBase;
-struct TESBoundObject;
-struct TESForm;
+class TESActorBase;
+class TESBoundObject;
+class TESForm;
 struct TESGlobal;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct FileEntryList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -436,8 +436,9 @@ struct blob12
 {
     char b[12];
 };
-struct TESLeveledList : public BaseFormComponent
+class TESLeveledList : public BaseFormComponent
 {
+  public:
     virtual unsigned char GetChanceNone();
     virtual bool UsesAllEntries();
     virtual int GetMaxLevelDifference();
@@ -551,14 +552,14 @@ struct ContainerChanges;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESForm;
-struct TESObject;
+class TESBoundObject;
+class TESForm;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct TESWaterForm;
 struct blob8
 {
@@ -634,11 +635,12 @@ bool __cdecl FUN_00481f10(TESObject* pObj)
 
 namespace fnv_004818e0 {
 namespace N {
-struct BSSimpleList
+class BSSimpleList
 {
+  public:
     bool _ref_008256d0();
 };
-struct ContainerItemExtra
+class ContainerItemExtra
 {
 };
 }
@@ -706,28 +708,28 @@ InventoryItemEntry* FUN_004818e0_t::FUN_004818e0(TESObject* apObj, int aiCount, 
 }  // namespace fnv_004818e0
 
 namespace fnv_00482770 {
-struct Actor;
+class Actor;
 struct ActorCause;
 struct ActorPackageData;
 struct AlchemyItem;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
-struct BGSAcousticSpace;
-struct BGSEncounterZone;
+class BGSAcousticSpace;
+class BGSEncounterZone;
 struct BGSListForm;
 struct BGSLoadFormBuffer;
 struct BGSMusicType;
-struct BGSPrimitive;
+class BGSPrimitive;
 struct BGSSaveFormBuffer;
 struct BGSTalkingActivator;
-struct BSExtraData;
+class BSExtraData;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
 struct BSOcclusionPlane;
 struct BSPortal;
 struct SoundPlaybackHandle;
-struct BaseExtraList;
+class BaseExtraList;
 struct BipedAnim;
 struct CellMopp;
 struct CollisionData;
@@ -735,23 +737,23 @@ struct Crime;
 struct TeleportableReference;
 struct ExtraAction;
 struct ExtraActorCause;
-struct ExtraAmmo;
+class ExtraAmmo;
 struct ExtraAnim;
 struct ExtraAshPileReference;
 struct ExtraAudioBuoyMarker;
 struct ExtraAudioMarker;
 struct ExtraCannotWearData;
-struct ExtraDataList;
-struct ExtraDismemberedLimbs;
-struct ExtraFactionChanges;
-struct ExtraFollower;
+class ExtraDataList;
+class ExtraDismemberedLimbs;
+class ExtraFactionChanges;
+class ExtraFollower;
 struct ExtraFollowerSwimBreadcrumbs;
-struct ExtraLeveledItem;
+class ExtraLeveledItem;
 struct ExtraLight;
 struct ExtraLock;
 struct ExtraMapMarker;
 struct ExtraNavMeshPortal;
-struct ExtraRefractionProperty;
+class ExtraRefractionProperty;
 struct ExtraSayToTopicInfo;
 struct ExtraSayTopicInfoOnceADay;
 struct ExtraStartingPosition;
@@ -760,11 +762,11 @@ struct ExtraTeleport;
 struct PositionRotation;
 struct ImpactSwap;
 struct InventoryIterator;
-struct InventoryStackRecord;
-struct MapMarkerData;
+class InventoryStackRecord;
+class MapMarkerData;
 struct MenuTopic;
-struct Point3Offset;
-struct NiNode;
+class Point3Offset;
+class NiNode;
 struct NiPoint3;
 struct NiRenderedTexture;
 struct IndexedPointerCollection;
@@ -773,37 +775,37 @@ struct PatrolRefData;
 struct LinkedReferencePair;
 struct RadioReferenceData;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceFloatEntry;
-struct RagDollData;
+class RagDollData;
 struct PointerFlagNode;
 struct TopicInfoVisitRecord;
-struct Script;
+class Script;
 struct ScriptLocals;
 struct SeenData;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESClimate;
 struct TESCombatStyle;
 struct TESFaction;
-struct TESForm;
+class TESForm;
 struct TESGlobal;
 struct TESImageSpace;
 struct TESLevItem;
-struct TESModel;
-struct TESNPC;
-struct TESObject;
-struct TESObjectCELL;
-struct TESObjectLAND;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
-struct TESRegionList;
-struct TESTopic;
-struct TESTopicInfo;
+class TESModel;
+class TESNPC;
+class TESObject;
+class TESObjectCELL;
+class TESObjectLAND;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
+class TESRegionList;
+class TESTopic;
+class TESTopicInfo;
 struct TESWaterForm;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct TrespassPackage;
 struct WorldLocation;
 struct WaterZone;
@@ -933,8 +935,9 @@ struct FUN_00482770_shell : public TESContainer
     void AddLeveledItemsToChanges(int, InventoryChanges*);
 };
 
-struct ExtraDataList
+class ExtraDataList
 {
+  public:
     char pad[0x20];
     ExtraDataList();
 };
@@ -947,8 +950,9 @@ struct TESHealthForm
 struct Fn40ea20
 {
 };
-struct TESForm
+class TESForm
 {
+  public:
     void SetFormFlags(int);
 };
 struct FUN_004c29a0_t
@@ -1068,7 +1072,7 @@ float FUN_00481e10_shell::FUN_00481e10(unsigned char flag)
     return sum;
 }
 
-class ScriptLocals;
+struct ScriptLocals;
 class Script;
 class ExtraDataList;
 class TESForm
@@ -2006,10 +2010,10 @@ struct TESFileGroup;
 struct HWND__;
 struct NiColor;
 struct NiPoint3;
-struct Script;
-struct TESBoundObject;
-struct TESForm;
-struct TESObjectREFR;
+class Script;
+class TESBoundObject;
+class TESForm;
+class TESObjectREFR;
 struct blob8
 {
     char b[8];
@@ -2033,7 +2037,7 @@ struct TESScriptableForm : public BaseFormComponent
     char _pad_9[3];
 };
 
-struct Script;
+class Script;
 
 extern "C" void* __cdecl FNV_DynamicCast(void*, long, void*, void*, int);
 // Dynamic-casts apForm to TESScriptableForm and returns its script, or null if the cast fails.

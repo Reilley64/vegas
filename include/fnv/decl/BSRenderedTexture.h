@@ -2,7 +2,7 @@
 
 class NiRenderTargetGroup;
 
-class BSRenderedTexture {
+struct BSRenderedTexture {
 public:
     // 0x00b6b260
     ::NiRenderTargetGroup *GetGroup();

@@ -257,7 +257,7 @@ int __cdecl CompareWeatherEntryNames(WeatherEntry* apEntryA, WeatherEntry* apEnt
 struct TESChallenge
 {
 };
-struct BSSimpleArray
+class BSSimpleArray
 {
 };
 extern int DAT_0119fbf4;
@@ -299,8 +299,9 @@ void FUN_00729fb0_shell::FUN_00729fb0(int(__cdecl* cmp)(WeatherEntry*, WeatherEn
 }
 
 struct WeatherEntry;
-struct BSSimpleList
+class BSSimpleList
 {
+  public:
     void Sort(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
 };
 struct FUN_0072add0_shell
@@ -517,8 +518,8 @@ SL::SL()
 SL::~SL()
 {}
 
-struct TESQuest;
-struct Tile;
+class TESQuest;
+class Tile;
 
 template <class T> struct ListBox;
 
@@ -563,7 +564,7 @@ FUN_0072b210::FUN_0072b210()
     ::AddToHeadList((int *)(void *)(this));
 }
 
-struct Tile
+class Tile
 {
 public:
     void Set(int, int);
@@ -3711,7 +3712,7 @@ class RecipeStatsFormView
 };
 
 class Actor;
-struct TESObjectWEAP : public TESForm
+class TESObjectWEAP : public TESForm
 {
 public:
     unsigned char GetDamageForActor(bool, bool, ::Actor *);

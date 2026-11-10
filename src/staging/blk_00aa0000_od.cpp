@@ -732,12 +732,13 @@ void FUN_00aa8a40_Class::FUN_00aa8a40(FUN_00aa8a40_Node* node)
     m_kNode.PushFront(n);
 }
 
-struct HeapFreeBlock
+class HeapFreeBlock
 {
 };
 
-struct HeapFreeList
+class HeapFreeList
 {
+  public:
     void* m0;
     HeapFreeBlock* m4;
 };

@@ -25,7 +25,7 @@ hkInt32 FnvShapeGetter::FUN_00d2a5f0()
     return unk10;
 }
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 
 class hkStatisticsCollectorD2A6;
 
@@ -429,8 +429,9 @@ struct hkMotionState
     hkTransform m_kMotionTransform;
 };
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const hkpShape* m_pCollisionShape;
     hkUint32 m_uiCollisionShapeKey;
     const hkMotionState* m_kMotionState;

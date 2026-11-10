@@ -19,7 +19,7 @@ class NiRefObject : public NiMemObject
     virtual ~NiRefObject();
     virtual void DeleteThis();
 };
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
 template <class T> class NiPointer
@@ -72,18 +72,18 @@ template <class T> class NiTStringPointerMap
     // Unused string-map tail; its field identity is not recovered here.
     unsigned char layoutPadding10[4];
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float fTime;
     bool m_bUpdateEnabled, m_bRender, m_bInterpolate;
     bool m_bTimeToDie, m_bVisible;
 };
-class NiObjectNET;
-class NiControllerManager;
-class CloningProcess;
-class NiObjectNET;
-class NiStream;
+struct NiObjectNET;
+struct NiControllerManager;
+struct CloningProcess;
+struct NiObjectNET;
+struct NiStream;
 class NiTimeController : public NiObject
 {
   public:
@@ -155,7 +155,7 @@ class NiControllerSequence : public NiObject
 };
 class NiAVObjectPalette;
 class BSAnimNoteListener;
-class NiControllerManager : public NiTimeController
+struct NiControllerManager : public NiTimeController
 {
   public:
     NiTObjectArray<NiPointer<NiControllerSequence> > m_kSequences;

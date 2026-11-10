@@ -10,7 +10,7 @@ template <class T> class BSSimpleList
     BSSimpleList<T>* GetNext();
     bool IsEmpty();
 };
-class GlobalObject2_0096a2d0;
+struct GlobalObject2_0096a2d0;
 extern GlobalObject2_0096a2d0 g_011dae48;
 extern void* DAT_011dada4;
 class SurgeryMenu

@@ -2,13 +2,13 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?DAT_011c3b3c@@3PEAUMgrObj@@EA=?g_modelLoader@@3PEAVModelLoader@@EA")
+#pragma comment(linker, "/alternatename:?DAT_011c3b3c@@3PEAUMgrObj@@EA=?g_modelLoader@@3PEAUModelLoader@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011c3f2c@@3PEAUMgr@@EA=?g_dataHandler@@3PEAUDH@@EA")
 #pragma comment(linker, "/alternatename:?DAT_011c3f2c@fnv_00919320@@3PEAUManager70@1@EA=?g_dataHandler@@3PEAUDH@@EA")
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?crimeHandler@@3PEAUCrimeHandler@@EA=?g_dataHandler@@3PEAUDH@@EA")
 #pragma comment(linker, "/alternatename:?g_dataHandler@fnv_0092c680@@3PEAUDH@1@EA=?g_dataHandler@@3PEAUDH@@EA")
-#pragma comment(linker, "/alternatename:?g_modelLoader@fnv_00923020@@3PEAUModelLoader@1@EA=?g_modelLoader@@3PEAVModelLoader@@EA")
+#pragma comment(linker, "/alternatename:?g_modelLoader@fnv_00923020@@3PEAUModelLoader@1@EA=?g_modelLoader@@3PEAUModelLoader@@EA")
 
 extern "C" void fnv_api_TryEnterCriticalSection() __asm__("TryEnterCriticalSection");
 

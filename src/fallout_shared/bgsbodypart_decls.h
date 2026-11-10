@@ -86,7 +86,7 @@ enum IO_TASK_PRIORITY
 };
 
 class QueuedFile;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -147,7 +147,7 @@ class TESModel
     unsigned int GetModelLength() const;
 };
 
-class ModelLoader
+struct ModelLoader
 {
   public:
 };

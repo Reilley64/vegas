@@ -476,8 +476,9 @@ struct FUN_00666570_Class
 struct T_
 {
 };
-struct bhkCharacterController
+class bhkCharacterController
 {
+  public:
     float& GetVectorElement(int);
 };
 struct FUN_0066c9c0_Class
@@ -805,8 +806,9 @@ struct FUN_0067b170
     int pad2[3];
     FUN_0067b170();
 };
-struct TESPackage
+class TESPackage
 {
+  public:
     void* p;
     void* q;
     void* r;
@@ -949,7 +951,7 @@ FUN_0067e3a0_Class::~FUN_0067e3a0_Class()
 }
 
 // @fnv 0x00660400
-template <class T> struct BSSimpleList;
+template <class T> class BSSimpleList;
 BSSimpleList<int>* FUN_00660400(BSSimpleList<int>* a)
 {
     return ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
@@ -1977,7 +1979,7 @@ class B6DF40List
     void RemoveHead();
 };
 
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };

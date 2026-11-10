@@ -4,12 +4,12 @@
 
 #include "nitransformdata_layout_support.h"
 #include "nitransformdata_NiObject.h"
-class RgbaColor;
+struct RgbaColor;
 class NiQuatTransform;
 class NiQuaternion;
 class NiBoolInterpolator;
-class NiObjectNET;
-class NiPoint3;
+struct NiObjectNET;
+struct NiPoint3;
 class NiInterpolator;
 class NiInterpolator : public NiObject
 {

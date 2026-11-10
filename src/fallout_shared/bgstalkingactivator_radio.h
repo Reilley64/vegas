@@ -16,7 +16,7 @@ class TESWorldSpace;
 class TESObjectCELL;
 class NavMeshInfo;
 class PathingActorData;
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -115,7 +115,7 @@ class PathingPath
     PathingPath();
     ~PathingPath();
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     void* m_ppVirtualMethodTable;

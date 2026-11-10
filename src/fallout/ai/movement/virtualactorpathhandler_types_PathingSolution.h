@@ -25,7 +25,7 @@ class PathingInfoEntry;
 class PathingInfoParams;
 class PathingGraphNode;
 class PathingSolution;
-class LocationDescriptor;
+struct LocationDescriptor;
 class BaseProcess;
 class Sphere;
 class TeleportLink;

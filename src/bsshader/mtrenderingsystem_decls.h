@@ -20,11 +20,11 @@ class AILinearTaskThread
     void(__cdecl* m_pTaskFunction)();
     void ExecuteTask();
 };
-class BSRenderedTexture
+struct BSRenderedTexture
 {
   public:
 };
-class NiRenderer
+struct NiRenderer
 {
   public:
     virtual void vfn_0();

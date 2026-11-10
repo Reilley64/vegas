@@ -385,8 +385,9 @@ struct FUN_00c3a140_Class
 struct NiUpdateData
 {
 };
-struct NiNode
+class NiNode
 {
+  public:
     void UpdateDownwardPass(NiUpdateData&, unsigned int);
 };
 struct BSMultiBoundNode : NiNode
@@ -1093,7 +1094,7 @@ struct FUN_00c347d0_cls
 };
 
 
-class Node
+struct Node
 {
   public:
     unsigned int unk00;
@@ -2038,8 +2039,8 @@ FUN_00c3fa70_cls::~FUN_00c3fa70_cls()
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060(pTail2);
 }
 
-struct NiCullingProcess;
-struct NiAVObject
+class NiCullingProcess;
+class NiAVObject
 {
     public:
     void EnsureWorldBound();
@@ -3017,7 +3018,7 @@ void TextureLoader::FUN_00c3b5e0(const char* path)
     }
 }
 
-struct QueuedFile : RefObject
+class QueuedFile : public RefObject
 {
 };
 
@@ -3311,7 +3312,7 @@ bool ListQ::FUN_00c3f960(SPX pSceneObject)
     return bFound;
 }
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -3346,8 +3347,9 @@ struct ClipMatrix
     }
 };
 
-struct NiCamera
+class NiCamera
 {
+  public:
     float x, y, z, w;
     inline int ClassifyPoint(const NiPoint3* point)
     {
@@ -3545,7 +3547,7 @@ bool RectangleClip::FUN_00c33cf0(ClipVolume* volume, bool testCenter, NiPoint3 p
 }
 
 namespace fnv_00c34350 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -3570,8 +3572,9 @@ struct ClipMatrix
                         values[2][0] * point.x + values[2][1] * point.y + values[2][2] * point.z);
     }
 };
-struct NiCamera
+class NiCamera
 {
+  public:
     float x, y, z, w;
     inline int ClassifyPoint(const NiPoint3* point)
     {
@@ -3657,7 +3660,7 @@ unsigned char RectangleClip::FUN_00c34350(ClipVolume* volume)
 
 namespace fnv_00c344c0 {
 extern "C" double __cdecl sqrt(double);
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -3810,7 +3813,7 @@ bool SSNode::FUN_00c344c0(void* planes, const NiPoint3& point)
 // namespace fnv_00c344c0
 
 namespace fnv_00c359d0 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -3838,7 +3841,7 @@ class NiPoint3
     }
 };
 
-class NiPlane
+struct NiPlane
 {
   public:
     NiPoint3 m_kPlaneNormal;
@@ -3923,7 +3926,7 @@ FUN_00c35eb0::~FUN_00c35eb0()
 }
 
 namespace fnv_00c39560 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -6855,7 +6858,7 @@ bool SearchC3::FUN_00c3ffb0(intptr_t index, KeyC3 key, RefC3* value, bool replac
 }
 
 namespace fnv_00c35c10 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

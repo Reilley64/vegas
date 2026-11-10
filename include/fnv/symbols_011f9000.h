@@ -4,21 +4,21 @@
 
 class B57FF0RefObject;
 class B58070AVObject;
-class BSTextureManager;
+struct BSTextureManager;
 class GlobalObjectO2_0045cf30;
 class GlobalObjectO2_0045cfe0;
 class GlobalObjectO2_00a7b610;
 class NiAVObject;
 class NiCamera;
 class NiGeometry;
-class NiPoint2;
+struct NiPoint2;
 class NiRefObject;
-class NiRenderer;
+struct NiRenderer;
 class NiTexture;
 class SetColl_011f96a0_0044f570;
 class ShaderBufferCollection;
 class ShaderEntryBase;
-class ShadowSceneNode;
+struct ShadowSceneNode;
 namespace fnv_00b54630 { class NP; }
 namespace fnv_00b5ddf0 { struct LocalLock; }
 struct BSRenderedTexture;
@@ -26,7 +26,7 @@ struct C0BC90Texture;
 struct Camera;
 struct ImageSpaceManager;
 struct NLPlane;
-struct NiTexture;
+class NiTexture;
 struct TextureReceiver;
 template <class> class NiPointer;
 

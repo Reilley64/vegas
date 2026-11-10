@@ -63,15 +63,15 @@ void* FUN_0048cc50(BaseFormComponent* apComponent)
 struct BGSMenuIcon;
 struct BGSTextureSet;
 struct BipedAnim;
-struct NiAVObject;
+class NiAVObject;
 struct NiPoint3;
-struct TESBoundObject;
+class TESBoundObject;
 struct TESIcon;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct FileEntryList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -94,8 +94,9 @@ struct BGSMessageIcon : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char Icon[12];
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -111,8 +112,9 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-struct TESTexture : public BaseFormComponent
+class TESTexture : public BaseFormComponent
 {
+  public:
     virtual unsigned int GetTexturePathLength();
     virtual char* NormalizeTextureFilePath(void*);
     virtual char* GetRegularTextureFilePath(void*);
@@ -171,14 +173,14 @@ namespace fnv_0048cce0 {
 struct BGSMenuIcon;
 struct BGSTextureSet;
 struct BipedAnim;
-struct NiAVObject;
+class NiAVObject;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class TESBoundObject;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
+class TESObjectREFR;
 struct FileEntryList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -186,8 +188,9 @@ struct blob12
 {
     char b[12];
 };
-struct TESFullName : public BaseFormComponent
+class TESFullName : public BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     void Save();
@@ -203,8 +206,9 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-struct TESTexture : public BaseFormComponent
+class TESTexture : public BaseFormComponent
 {
+  public:
     virtual unsigned int GetTexturePathLength();
     virtual char* NormalizeTextureFilePath(void*);
     virtual char* GetRegularTextureFilePath(void*);

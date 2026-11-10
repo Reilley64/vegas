@@ -30,7 +30,7 @@ template <class K, class V> class NiTPointerMap
     void SetAt(K key, V value);
 };
 
-class ExtraRadioData;
+struct ExtraRadioData;
 class TESObjectREFR : public TESForm
 {
 public:

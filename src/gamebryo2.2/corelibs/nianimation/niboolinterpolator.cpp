@@ -53,7 +53,7 @@ int FUN_00a53090_shell::GetValueFromMember(void* apUnused)
     return *(int*)((char*)p + 0xc);
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
     int _d;
@@ -90,8 +90,9 @@ struct NiBoolData
     virtual void vf20();
     virtual void vf21(NiStream*);
 };
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
 };
 struct NiBoolInterpolator : HC1Base
@@ -122,8 +123,9 @@ struct NiBoolData
             F1();
     }
 };
-struct NiPointer
+class NiPointer
 {
+  public:
     NiBoolData* m_pObject;
     NiPointer& operator=(NiBoolData* p)
     {
@@ -714,7 +716,7 @@ template <class T> class NiPointer
     }
 };
 
-class NiBoolData : public NiRefObject
+struct NiBoolData : public NiRefObject
 {
 };
 

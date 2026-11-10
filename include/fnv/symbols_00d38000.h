@@ -4,7 +4,7 @@ struct S00d386c0_CdBody;
 struct S00d386c0_CdPointCollector;
 struct S00d386c0_CollisionInput;
 struct S_00d389f0_Dispatcher;
-struct hkpCdBody;
+class hkpCdBody;
 struct hkpCdBodyPairCollector;
 
 // 0x00d38130

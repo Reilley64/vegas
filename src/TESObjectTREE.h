@@ -15,7 +15,7 @@ class BGSDestructibleObjectForm;
 class BSFileEntry;
 class CollisionComponent;
 class ShortPoint3;
-class NiPoint2;
+struct NiPoint2;
 class NiTPrimitiveArray_unsigned_int_;
 class TreeRecordData;
 class TESBoundObject__BOUND_DATA;
@@ -297,7 +297,7 @@ class TreeRecordData
     float m_fRustleSpeed;         // +0x1C, 4 bytes
     // void __cdecl TreeRecordData::*()
 };
-class NiPoint2
+struct NiPoint2
 {
   public:
     float x;  // +0x0, 4 bytes

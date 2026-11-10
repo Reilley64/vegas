@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiNodeBooleanState;
+class NiNodeBooleanState;
 
 struct FUN_00464e10_shell {
 public:

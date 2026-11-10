@@ -675,7 +675,7 @@ BA94DD0FadeNode* BA94DD0FadeNode::Clone(BA94DD0CloningProcess& kCloning)
     return pkClone;
 }
 
-class NiStream;
+struct NiStream;
 
 
 // @fnv 0x00a94c60

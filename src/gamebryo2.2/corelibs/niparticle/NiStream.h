@@ -6,8 +6,8 @@
 #include "fnv/decl/S_00a64670_Foo.h"
 #include "NiObject.h"
 
-class NiObject;
-class NiStream : public NiObject
+struct NiObject;
+struct NiStream : public NiObject
 {
   public:
     unsigned int GetLinkIDFromObject(const NiObject* pkObject);

@@ -25,15 +25,15 @@ NavMeshTriangle* NavMeshTriangleReference::FUN_006a78d0() const
     return mesh->GetTriangle(triangle);
 }
 
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct SaveLoadFile;
+class SaveLoadFile;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {

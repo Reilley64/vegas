@@ -396,10 +396,11 @@ struct NiPoint3
 };
 }
 
-struct NiAVObject;
+class NiAVObject;
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     void* m_pVtbl;
     long m_uiRefCount;
 
@@ -409,12 +410,13 @@ struct NiRefObject
     }
 };
 
-struct NiAVObject : NiRefObject
+class NiAVObject : public NiRefObject
 {
 };
 
-struct NiPointer
+class NiPointer
 {
+  public:
     NiAVObject* m_pObject;
 
     NiPointer(NiAVObject* pkObject = 0) : m_pObject(pkObject)
@@ -432,8 +434,9 @@ struct NiPointer
 };
 
 namespace fnv_00adb4e0 {
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     long m_uiRefCount;
     void IncRefCount()
@@ -492,8 +495,9 @@ void __cdecl FUN_00c45830(RefObject*);
 }
 
 namespace fnv_00adad80 {
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual ~NiAVObject();
     virtual void DeleteThis();
     unsigned int refs;
@@ -501,8 +505,9 @@ struct NiAVObject
 }
 
 namespace fnv_00adad80 {
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* object;
     NiPointer(T* p);
     NiPointer();
@@ -583,7 +588,7 @@ typedef unsigned short UInt16;
 }
 
 namespace fnv_00adf080 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -622,7 +627,7 @@ class NiRefObject
 }
 
 namespace fnv_00adf080 {
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
 }
@@ -904,8 +909,9 @@ struct NiPoint3
 
 namespace fnv_00adb610 {
   // NiPoint3::ZERO
-struct NiRefObject
+class NiRefObject
 {
+  public:
     void* m_vtbl;
     long m_uiRefCount;
     void IncRefCount()
@@ -916,8 +922,9 @@ struct NiRefObject
 }
 
 namespace fnv_00adb610 {
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
     NiPointer(T* pObject = 0)
     {
@@ -931,8 +938,9 @@ template <class T> struct NiPointer
 }
 
 namespace fnv_00adb970 {
-struct NiRefObject
+class NiRefObject
 {
+  public:
     void* vtbl;
     unsigned int m_uiRefCount;
     __forceinline void IncRefCount()
@@ -947,8 +955,9 @@ struct NiRefObject
 }
 
 namespace fnv_00adb970 {
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
     __forceinline NiPointer(T* pObject = 0) : m_pObject(pObject)
     {
@@ -976,7 +985,7 @@ struct NiPoint3
 }
 
 namespace fnv_00adb9f0 {
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -1007,7 +1016,7 @@ class NiRefObject
 }
 
 namespace fnv_00adb9f0 {
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
 };
 }
@@ -1107,8 +1116,9 @@ struct NiPoint3
 
 namespace fnv_00adc4e0 {
   // NiPoint3::ZERO
-struct NiRefObject
+class NiRefObject
 {
+  public:
     void* m_vtbl;
     long m_uiRefCount;
     void IncRefCount()
@@ -1119,8 +1129,9 @@ struct NiRefObject
 }
 
 namespace fnv_00adc4e0 {
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
     NiPointer(T* pObject = 0)
     {
@@ -4506,13 +4517,13 @@ struct Link;
 struct Param;
 struct Sink;
 
-struct TESIdleForm;
-template <class, class> struct NiTPrimitiveArray;
-template <class> struct NiTMallocInterface;
+class TESIdleForm;
+template <class, class> class NiTPrimitiveArray;
+template <class> class NiTMallocInterface;
 struct M;
 struct R;
 struct StrArray;
-struct Tile;
+class Tile;
 
 namespace fnv_00adaf80 {  }
 
@@ -5434,8 +5445,9 @@ void FUN_00ae8550_shell::FUN_00ae8550(int* values, int(__cdecl* compare)(int, in
     }
 }
 
-struct Setting_01017720_011f96a0
+class Setting_01017720_011f96a0
 {
+  public:
     void* m_pVtbl;
     int m_iValue;
 };
@@ -8255,8 +8267,9 @@ struct MemoryManagerAllocHelper
     void Deallocate(void* block);
 };
 
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
+  public:
     T m_item;
     BSSimpleList<T>* m_pkNext;
 

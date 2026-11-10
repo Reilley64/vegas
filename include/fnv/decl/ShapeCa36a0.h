@@ -1,6 +1,6 @@
 #pragma once
 
-struct hkTransform;
+class hkTransform;
 
 class ShapeCa36a0 {
 public:

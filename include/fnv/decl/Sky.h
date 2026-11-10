@@ -1,9 +1,9 @@
 #pragma once
 
-class TESClimate;
+struct TESClimate;
 enum Sky__SKY_MODE;
 
-class Sky {
+struct Sky {
 public:
     // 0x0046dd00
     static ::Sky *GetInstance();

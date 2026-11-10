@@ -65,8 +65,9 @@
 #include "fnv/symbols_011d8000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_01202000.h"
-struct TESWorldSpace
+class TESWorldSpace
 {
+  public:
     virtual ~TESWorldSpace();
     virtual const char* V0()
     {}
@@ -356,7 +357,7 @@ std::uintptr_t FUN_006f5800_shell::GetSelectedValue(bool abFlag)
 }
 
 // placeholder declarations
-struct NiNode
+class NiNode
 {
 };
 struct Model
@@ -366,8 +367,9 @@ struct FUN_00528820_shell
 {
     void ClearField(void);
 };
-struct TESObjectCELL
+class TESObjectCELL
 {
+  public:
     unsigned char GetField24(void);
 };
 struct BSFaceGenNiNode

@@ -3,7 +3,7 @@
 #define FNV_INTERFACE_REBASE_IFNV_EARLY_FOLDED_FNV_NIOBJECT_H
 #include "interface_rebase_layout_support.h"
 #include "interface_rebase_NiRefObject.h"
-class NiRTTI;
+struct NiRTTI;
 class NiNode;
 class BSFadeNode;
 class BSMultiBoundNode;
@@ -19,15 +19,15 @@ class bhkNiCollisionObject;
 class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 class NiObjectGroup;
-class NiControllerManager;
-class NiBound;
-template <class, class> struct NiTPrimitiveArray;
-template <class> struct NiTMallocInterface;
+struct NiControllerManager;
+struct NiBound;
+template <class, class> class NiTPrimitiveArray;
+template <class> class NiTMallocInterface;
 typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*>> NiViewerStringsArray;
-class NiObject : public NiRefObject
+struct NiObject : public NiRefObject
 {
   public:
     virtual ~NiObject();

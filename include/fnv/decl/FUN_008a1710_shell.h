@@ -1,6 +1,6 @@
 #pragma once
 
-struct TESObjectWEAP;
+class TESObjectWEAP;
 
 struct FUN_008a1710_shell {
 public:

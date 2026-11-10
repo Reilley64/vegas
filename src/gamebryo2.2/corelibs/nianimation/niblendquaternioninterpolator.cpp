@@ -24,8 +24,9 @@ struct RgbaColor
     void LoadBinary(NiStream&);
 };
 
-struct NiBlendInterpolator
+class NiBlendInterpolator
 {
+  public:
     virtual void LoadBinary(NiStream&);
 };
 
@@ -47,12 +48,13 @@ struct NiStream
     virtual ~NiStream();
 };
 
-struct NiQuaternion
+class NiQuaternion
 {
 };
 
-struct NiBlendInterpolator
+class NiBlendInterpolator
 {
+  public:
     virtual ~NiBlendInterpolator();
 };
 
@@ -162,8 +164,9 @@ bool FUN_00a55450(NiInterpolator* pkInterpolator)
     return pkInterpolator->IsQuaternionInterpolator();
 }
 
-struct NiQuaternion
+class NiQuaternion
 {
+  public:
     float x, y, z, w;
 public:
     bool operator!=(const ::NiQuaternion &) const;

@@ -1,6 +1,6 @@
 #pragma once
 
-struct MapMarkerData;
+class MapMarkerData;
 
 struct FUN_00431360 {
 public:

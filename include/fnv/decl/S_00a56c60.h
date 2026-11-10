@@ -1,6 +1,6 @@
 #pragma once
 
-struct NiRefObject;
+class NiRefObject;
 
 struct S_00a56c60 {
 public:

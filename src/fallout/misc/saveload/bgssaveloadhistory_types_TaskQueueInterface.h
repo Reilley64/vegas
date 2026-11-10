@@ -4,8 +4,8 @@
 
 #include "layout_support.h"
 class PackedTaskQueueProcessor;
-class TaskQueueInterface;
-class TaskQueueInterface
+struct TaskQueueInterface;
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char* buffer, unsigned int size, const char* source);

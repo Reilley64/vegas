@@ -55,7 +55,7 @@ class FNVFileSeek
 };
 
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);

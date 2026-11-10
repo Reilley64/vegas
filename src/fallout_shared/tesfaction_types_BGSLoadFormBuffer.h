@@ -6,12 +6,12 @@
 #include "layout_support.h"
 #include "TESForm.h"
 class FormChangeMask;
-class BGSLoadFormBuffer;
-class BGSLoadGameBuffer;
+struct BGSLoadFormBuffer;
+struct BGSLoadGameBuffer;
 class PackedFormID;
 class FormLoadContext;
 class BGSSaveLoadFormInfo;
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     void** m_ppVirtualMethodTable;               // +0x0, 4 bytes
@@ -93,7 +93,7 @@ class FormLoadContext
     // void __cdecl FormLoadContext::*()
 };
 #pragma pack(pop)
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
     // base BGSLoadGameBuffer at +0x0, size 16

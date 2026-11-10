@@ -65,7 +65,7 @@ class BGSTouchSpellForm;
 class BGSVoiceType;
 class BSFileEntry;
 class TypedData;
-class InventoryItemEntry;
+struct InventoryItemEntry;
 class CreatureSoundCollection;
 class CollisionComponent;
 class FactionReaction;

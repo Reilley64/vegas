@@ -49,8 +49,9 @@ struct FUN_00a5c240_shell : public NiFogProperty
 
 extern unsigned char* DAT_0109b244;
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     virtual void DeleteThis();
     volatile long m_uiRefCount;
@@ -61,7 +62,7 @@ struct NiRefObject
     }
 };
 
-struct NiAVObject
+class NiAVObject
 {
 };
 

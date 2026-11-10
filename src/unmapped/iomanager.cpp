@@ -19,8 +19,9 @@ void FUN_0043daa0_shell::FUN_0043daa0()
 }
 
 extern int DAT_01016a18;
-struct QueuedFile
+class QueuedFile
 {
+  public:
     void* vtbl;
     int m_field;
     int m_auiShapeKeys[8];

@@ -2,7 +2,7 @@
 #ifndef FNV_MAGICCASTER_PRIVATE_NIPOINT3_H
 #define FNV_MAGICCASTER_PRIVATE_NIPOINT3_H
 #include "magiccaster_private_layout_support.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0

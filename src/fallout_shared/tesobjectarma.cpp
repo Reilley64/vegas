@@ -199,8 +199,9 @@ void TESObjectARMA::InitItem()
     SetInitializationState(true);
 }
 
-struct TESObjectARMO
+class TESObjectARMO
 {
+  public:
     TESObjectARMO();
     ~TESObjectARMO();
 };

@@ -7,7 +7,7 @@
 #include "NiRefObject.h"
 #include "NiFixedString.h"
 
-class NiRTTI;
+struct NiRTTI;
 class NiAVObject;
 class BSFadeNode;
 class BSMultiBoundNode;
@@ -24,15 +24,15 @@ class bhkBlendCollisionObject;
 class bhkRigidBody;
 class bhkLimitedHingeConstraint;
 class NiObjectCopyInfo;
-class NiStream;
-class NiBound;
-class NiControllerManager;
+struct NiStream;
+struct NiBound;
+struct NiControllerManager;
 class NiQuatTransform;
 
 // The generated NiObject header omits these virtual declarations. This private
 // declaration supplies the PC slots used by the controller and interpolator.
-class NiRTTI;
-class NiObject : public NiRefObject
+struct NiRTTI;
+struct NiObject : public NiRefObject
 {
   public:
     virtual NiRTTI* GetType();
@@ -72,7 +72,7 @@ public:
     ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     const float& GetTime() const

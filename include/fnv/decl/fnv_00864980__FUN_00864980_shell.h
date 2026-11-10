@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00864980 { struct NiQuaternion; }
+namespace fnv_00864980 { class NiQuaternion; }
 
 namespace fnv_00864980 {
 struct FUN_00864980_shell {

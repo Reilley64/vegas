@@ -955,7 +955,7 @@ FUN_006a04b0_stand* FUN_006a04b0_stand::SetCenterAndRadius(const P3* apCenter, f
     return this;
 }
 
-class NiBound
+struct NiBound
 {
   public:
     char pad[0xc];
@@ -992,7 +992,7 @@ struct FUN_006b1df0_shell : public PathSmootherPOVSearch
     void SetPOVSearchNode(void*, PathSmootherPOVPoint*, int);
 };
 
-struct NiFixedString;
+class NiFixedString;
 class NiAVObject
 {
   public:
@@ -1087,7 +1087,7 @@ FUN_006b3270_Class::~FUN_006b3270_Class()
 
 extern int DAT_0106ba1c;
 
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
     void Clear(bool);
@@ -1125,7 +1125,7 @@ void InitSimpleArray(BSSimpleArray<NavMeshEdgeSegment, 1024>* _this)
 }
 
 namespace fnv_006b3710 {
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
     void Clear(bool);
@@ -1160,7 +1160,7 @@ FUN_006b37b0_stand* FUN_006b37b0_stand::SetObject(int* pObject)
 }
 
 namespace fnv_006b37e0 {
-struct NiAVObject
+class NiAVObject
 {
 };
 
@@ -6770,9 +6770,10 @@ bool POVSearch::FUN_006b1e50(const EdgeLoc& edge, PtEx& sphere, ASCArc arc, Edge
 }
 }  // namespace fnv_006b1e50
 
-struct TESFile;
-struct EdgeExtraInfo
+class TESFile;
+class EdgeExtraInfo
 {
+  public:
     void Clear();
     int GetSaveSize();
     int GetSaveSizeOld();

@@ -4,7 +4,7 @@
 struct A6830Actor;
 struct A69C0Actor;
 struct A69C0Weapon;
-struct Actor;
+class Actor;
 struct ConeRef;
 struct NiPoint3;
 struct S_009a6770_Ref;

@@ -22,8 +22,8 @@
 #include "fnv/symbols_011a0000.h"
 #include "fnv/symbols_011a1000.h"
 #include "fnv/symbols_011de000.h"
-struct Actor;
-struct ActiveEffect
+class Actor;
+class ActiveEffect
 {
 };
 struct DemoralizeEffect : ActiveEffect
@@ -40,9 +40,9 @@ unsigned short DemoralizeEffect::FUN_0080ccf0(Actor* apActor)
     return isize;
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 extern int DAT_01079ddc;
 struct FUN_0080bc70_base
 {
@@ -90,7 +90,7 @@ void DemoralizeEffectShell::FUN_0082b750(Actor* apActor)
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&this->unk48, 1);
 }
 
-struct Actor;
+class Actor;
 struct PackageNodeHandler
 {
     virtual void method000();
@@ -302,8 +302,9 @@ struct PackageNodeHandler
     virtual void method206();
     virtual void Restore(Actor*, Actor*, int, int, int, int, int, int, int, int, int, int, int);
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void method000();
     virtual void method001();
     virtual void method002();
@@ -576,13 +577,13 @@ struct Actor
     virtual void Reset(Actor*);
 };
 class Actor;
-struct MagicTarget
+class MagicTarget
 {
 public:
     ::Actor *GetOwnerActor() const;
 };
 class Actor;
-struct MagicCaster
+class MagicCaster
 {
 public:
     ::Actor *GetCasterActor();
@@ -616,9 +617,9 @@ void EffectController::RestoreEffect()
     }
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 
 struct C70ActiveEffect
 {

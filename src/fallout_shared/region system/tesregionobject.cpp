@@ -6,7 +6,7 @@
 #include "fnv/decl/fnv_004518e0__TESObjectCELL.h"
 #include "fnv/symbols_01015000.h"
 class TESWorldSpace;
-struct TESObjectCELL
+class TESObjectCELL
 {
 public:
     bool IsCellInterior() const;

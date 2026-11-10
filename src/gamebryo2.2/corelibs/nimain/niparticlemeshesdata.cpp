@@ -26,7 +26,7 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a98b00()
     return &::g_011f5f0c;
 }
 
-class NiObject;
+struct NiObject;
 struct NiStream
 {
 public:
@@ -177,7 +177,7 @@ bool FUN_00a98a80_Holder::FUN_00a98a80(NiStream& kStream)
     return 1;
 }
 
-struct NiNode;
+class NiNode;
 struct FUN_00a97290_holder
 {
     void FUN_00a97290(NiStream&);

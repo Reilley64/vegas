@@ -16,7 +16,7 @@ class BGSDestructibleObjectForm;
 class BGSTouchSpellForm;
 class BGSVoiceType;
 class BSFileEntry;
-class InventoryItemEntry;
+struct InventoryItemEntry;
 class CollisionComponent;
 class FactionReaction;
 class MagicItemForm;

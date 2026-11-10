@@ -264,7 +264,7 @@ void DialoguePackage::FUN_009ee060(TESForm* apCopy)
 }
 
 namespace fnv_009ef530 {
-struct MobileObject
+class MobileObject
 {
 };
 
@@ -288,8 +288,8 @@ namespace fnv_009f01d0 {
 class TESTopic;
 class MobileObject;
 class TESObjectREFR;
-struct DialogueItem;
-struct DialogueResponse;
+class DialogueItem;
+class DialogueResponse;
 
 struct FUN_006797c0_shell
 {
@@ -1517,8 +1517,9 @@ struct Sound
     virtual void v75();
     virtual int VCall130();
 };
-struct TESSound
+class TESSound
 {
+  public:
     unsigned int m_00;
 };
 struct FUN_008579e0_shell
@@ -1529,7 +1530,7 @@ struct TimeGlobal : FUN_008579e0_shell
 {
 };
 class TESSound;
-struct EffectSetting : TimeGlobal
+class EffectSetting : public TimeGlobal
 {
 public:
     ::TESSound *GetHitSound();
@@ -1976,8 +1977,9 @@ struct DlgItemX
 {
     void* GetResponseByIndex(unsigned short i);
 };
-struct TESPackage
+class TESPackage
 {
+  public:
     int m_00;
     int m_04;
     int m_08;

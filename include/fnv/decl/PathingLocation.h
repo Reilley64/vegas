@@ -1,14 +1,14 @@
 #pragma once
 
-class BGSLoadGameBuffer;
-class CoordinateTriple;
+struct BGSLoadGameBuffer;
+struct CoordinateTriple;
 class NavMeshInfo;
-class NavMeshPtr;
-class NiPoint3;
+struct NavMeshPtr;
+struct NiPoint3;
 class TESObjectCELL;
 class TESObjectREFR;
 
-class PathingLocation {
+struct PathingLocation {
 public:
     // 0x004ff7e0
     bool HasValidTriangle();

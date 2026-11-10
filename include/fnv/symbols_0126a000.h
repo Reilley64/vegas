@@ -1,6 +1,6 @@
 #pragma once
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 struct BigConst;
 
 // 0x0126a018

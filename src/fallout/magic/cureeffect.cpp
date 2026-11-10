@@ -6,9 +6,10 @@
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/B824800MagicTarget.h"
 #include "fnv/decl/MagicTargetTypedDispel.h"
-struct Actor;
-struct MagicTarget
+class Actor;
+class MagicTarget
 {
+  public:
     Actor* GetOwnerActor() const;
 };
 
@@ -49,12 +50,13 @@ void CureEffect::FUN_0080c210()
         reinterpret_cast<::B824800MagicTarget *>((((Unk824800*)reinterpret_cast<::ActiveEffectFields *>(this)->target)))->RemoveEffectsByArchetype(m_iCureType, 0);
 }
 
-struct MagicCaster;
-struct MagicItem;
-struct EffectItem;
+class MagicCaster;
+class MagicItem;
+class EffectItem;
 
-struct ActiveEffect
+class ActiveEffect
 {
+  public:
     virtual void v00()
     {}
     virtual void v01()

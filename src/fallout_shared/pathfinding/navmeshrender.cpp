@@ -107,8 +107,9 @@ void* FUN_0049f1c0(int** pThis)
     return pThis;
 }
 
-struct NavMeshTriangle
+class NavMeshTriangle
 {
+  public:
     void Clear();
     bool HasEdgeExtraInfo();
     bool IsPreferred();
@@ -232,12 +233,13 @@ struct NiUpdateData
     NiUpdateData(float, bool, bool);
 };
 
-struct NiNode
+class NiNode
 {
 };
 
-struct NiAVObject : public NiNode
+class NiAVObject : public NiNode
 {
+  public:
     void IncRefCount();
     void DecRefCount();
 };
@@ -293,7 +295,7 @@ struct DoorH
 {
 };
 
-struct TESWorldSpace
+class TESWorldSpace
 {
 };
 

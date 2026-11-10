@@ -22,7 +22,7 @@
 #include "fnv/decl/fnv_008b3690__TES.h"
 #include "fnv/decl/fnv_008b3880__FUN_008b3880_target.h"
 #include "fnv/decl/fnv_008b3d30__FUN_008b3d30_shell.h"
-class PathingRequest;
+struct PathingRequest;
 class PathingAvoidNodeArray;
 // Source layout: Actor. PC corrections are in generate_headers.py.
 #ifndef FNV_ACTOR_H

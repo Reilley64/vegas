@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class Actor;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class PatrolActorPackageData;
 class TESActorBase;
 class TESBoundObject;

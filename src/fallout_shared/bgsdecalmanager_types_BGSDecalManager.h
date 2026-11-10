@@ -5,7 +5,7 @@
 #include "layout_support.h"
 #include "layout_support.h"
 class BGSDecalManager;
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class BSShaderAccumulator;
 class NiCamera;
 class NiTAbstractPoolAllocator_unsigned_int_;

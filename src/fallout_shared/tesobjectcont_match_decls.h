@@ -37,7 +37,7 @@ struct ContainerItemExtraOwner
     ContainerItemExtra* item;
 };
 
-class CombatController;
+struct CombatController;
 class CombatProcedure
 {
   public:

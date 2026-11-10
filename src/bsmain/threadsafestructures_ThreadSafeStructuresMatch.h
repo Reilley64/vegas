@@ -10,7 +10,7 @@ unsigned int __cdecl FUN_0044e330();
 class bhkRigidBody;
 class QueuedReference;
 class TESObjectREFR;
-class BSTreeNode;
+struct BSTreeNode;
 template <class T> class NiPointer
 {
   public:

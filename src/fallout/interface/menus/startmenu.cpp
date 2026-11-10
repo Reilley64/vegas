@@ -401,9 +401,9 @@ S007ce620* S007ce620::FUN_007ce620(int pa, int pb, int pc)
 }
 
 struct RecursiveLock;
-struct NiAVObject;
-struct NiNode;
-struct Tile;
+class NiAVObject;
+class NiNode;
+class Tile;
 struct TileShaderProperty;
 struct MenuValueDescriptor;
 struct FUN_007cf8e0_shell : public StartMenu
@@ -411,8 +411,9 @@ struct FUN_007cf8e0_shell : public StartMenu
     void FUN_007cf8e0(int, Tile*);
 };
 
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
     void Set(int, float, bool);
 public:
@@ -500,8 +501,9 @@ bool FUN_007cfd60_shell::FUN_007cfd60(int aiKey)
 }
 
 namespace fnv_007d0490 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, const char*);
 };
 struct StartMenuStandIn
@@ -510,7 +512,7 @@ struct StartMenuStandIn
     Tile* t;
     void FUN_007d48a0(int, int);
 };
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
 };
 // If the start menu exists, sets tile 0xfc4 to the string from g_011d3b50 and calls FUN_007d48a0(0x80, 0).
@@ -526,8 +528,9 @@ void FUN_007d0490()
 }  // namespace fnv_007d0490
 
 namespace fnv_007d0680 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 struct SM0680
@@ -824,7 +827,7 @@ void __cdecl FUN_007d1b40(int* pOptions)
     }
 }
 
-class BSAudio
+struct BSAudio
 {
   public:
     float FUN_00ad7a20();
@@ -881,7 +884,7 @@ void __cdecl FUN_007d28b0(UserOptionLayout_007d28b0* pOption)
 }
 
 namespace fnv_007d29d0 {
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -951,7 +954,7 @@ union SETTING_VALUE
     int i;
 };
 
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT
 {
   public:
@@ -1246,7 +1249,7 @@ bool FUN_007d88a0(void* pThis)
 }
 }  // namespace fnv_007d88a0
 
-class TaskQueueInterface
+struct TaskQueueInterface
 {
   public:
     static void __cdecl CopyStringToBuffer(char*, unsigned int, char const*);
@@ -1347,7 +1350,7 @@ struct S_004ed780
 struct SM7d6
 {
 };
-struct InventoryStackRecord
+class InventoryStackRecord
 {
 };
 struct StartMenuSm
@@ -1476,14 +1479,15 @@ namespace fnv_007d2fc0 {
 struct IM
 {
 };
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 struct Hot
 {
 };
-struct OSGlobals
+class OSGlobals
 {
 };
 struct SaveOpt
@@ -1518,10 +1522,10 @@ void UpdateSaveOption(SaveOpt* pSaveOpt)
 
 namespace fnv_007d51a0 {
 struct RecursiveLock;
-struct NiAVObject;
-struct NiNode;
-struct NiTexture;
-struct Tile;
+class NiAVObject;
+class NiNode;
+class NiTexture;
+class Tile;
 struct TileShaderProperty;
 struct MenuValueDescriptor;
 struct blob4
@@ -1537,8 +1541,9 @@ struct FUN_007d51a0_shell : public StartMenu
     bool FUN_007d51a0(BGSSaveLoadFileEntry*);
 };
 
-struct NiTexture
+class NiTexture
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -1584,8 +1589,9 @@ struct NodeObj
     int FUN_009c8660();
     void FUN_007700b0(unsigned int);
 };
-struct Tile
+class Tile
 {
+  public:
     void Set(int, unsigned int);
     NodeObj* FUN_007d5280();
 };
@@ -1665,7 +1671,7 @@ struct OptionManager
 struct M788
 {
 };
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -1866,7 +1872,7 @@ class TESFile
   public:
     Flt& GetField418();
 };
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
 };
 struct MenuSI
@@ -2198,7 +2204,7 @@ void SyncOptionValue(StartMenu::UserOption* pOption)
 }  // namespace fnv_007d2650
 
 namespace fnv_007d2790 {
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -2233,7 +2239,7 @@ void FUN_007d2790(StartMenu::UserOption* apOption)
 }  // namespace fnv_007d2790
 
 namespace fnv_007d2af0 {
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -2269,7 +2275,7 @@ void FUN_007d2af0(StartMenu::UserOption* apOption)
 }  // namespace fnv_007d2af0
 
 namespace fnv_007d2c10 {
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -2316,7 +2322,7 @@ struct UserOptionStandIn
     int iType;                 // +0x1C
     unsigned int uiNumValues;  // +0x20
 };
-class BSAudio
+struct BSAudio
 {
   public:
 };
@@ -2451,7 +2457,7 @@ struct HotkeyWheelDisplay
 public:
     int SetHotkeyItem(int, int);
 };
-struct OSGlobals
+class OSGlobals
 {
 };
 struct FUN_007d6030_shell
@@ -3015,12 +3021,13 @@ void FUN_007d0700()
 namespace fnv_007d0bf0 {
 struct BSAudio;
 
-struct NiAVObject
+class NiAVObject
 {
 };
 
-struct NiNode
+class NiNode
 {
+  public:
     NiAVObject* operator->()
     {
         return 0;
@@ -3032,7 +3039,7 @@ struct TESResponse
     int GetNext(void);
 };
 
-struct Tile
+class Tile
 {
 };
 
@@ -3289,8 +3296,9 @@ void* FUN_007d64a0::DeleteThis(unsigned int flags)
 }  // namespace fnv_007d64a0
 
 namespace fnv_007d6ff0 {
-struct Tile
+class Tile
 {
+  public:
     struct Value;
     void Set(int, int);
     void Set(int, const char*, bool);
@@ -3396,13 +3404,13 @@ Tile* FUN_007d6ff0_shell::CreateListItem(intptr_t aAssociatedData, const char* a
 }  // namespace fnv_007d6ff0
 
 namespace fnv_007ce7a0 {
-struct FORenderedMenu
+class FORenderedMenu
 {
 };
-struct FOPipboyManager : public FORenderedMenu
+class FOPipboyManager : public FORenderedMenu
 {
 };
-class Interface
+struct Interface
 {
   public:
 };
@@ -3651,19 +3659,21 @@ void __cdecl FUN_007d23b0(UserOptionView_007d23b0* apOption)
     }
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
     int GetFormType() const;
 };
-struct TESBoundObject : public TESForm
+class TESBoundObject : public TESForm
 {
 };
-struct TESQuest : public TESForm
+class TESQuest : public TESForm
 {
+  public:
     void SetEnabled(bool abEnabled);
 };
-struct TESNPC : public TESBoundObject
+class TESNPC : public TESBoundObject
 {
 };
 struct TESFullNameSetFullNameAccess
@@ -3811,8 +3821,9 @@ FUN_007d6350::FUN_007d6350(const char* apName, void* apCallback, int aiID, int a
 }
 
 namespace fnv_007d67b0 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int aiID, int aiValue);
     void Set(int aiID, const char* apValue, bool abPropagate);
 };
@@ -3877,11 +3888,12 @@ void* FUN_007190a0_shell::FUN_007190a0(int aiColorId)
 }  // namespace fnv_007190a0
 
 namespace fnv_007d0440 {
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
 };
-struct Tile
+class Tile
 {
+  public:
     void Set(int, const char*, bool);
 };
 struct S7d8
@@ -3935,7 +3947,7 @@ struct TileStandIn
 {
     void Set(int, const char*, bool);
 };
-struct GlobalObject_0040c150
+class GlobalObject_0040c150
 {
 };
 struct PlayerCharacterStandIn
@@ -3964,8 +3976,9 @@ void FUN_007d0a10()
 }  // namespace fnv_007d0a10
 
 namespace fnv_007d0d70 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 struct VObj
@@ -3991,8 +4004,9 @@ void FUN_007d0d70()
 }  // namespace fnv_007d0d70
 
 namespace fnv_007d0df0 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
 struct VObj
@@ -8391,7 +8405,7 @@ void FUN_007d30d0()
 }
 }  // namespace fnv_007d30d0
 
-struct TESFullName
+class TESFullName
 {
 };
 struct P01ObjA
@@ -8519,11 +8533,11 @@ class NiSourceTexture;
 struct TES
 {
 };
-struct NiAVObject;
+class NiAVObject;
 struct TileAccess
 {
 };
-struct NiAVObject
+class NiAVObject
 {
 };
 struct OptionAccess : StartMenu::Option
@@ -8918,7 +8932,7 @@ struct PrepSaveSettingOps
 struct FUN_007d3c70_shell
 {
 };
-struct GlobalObject_0040c150;
+class GlobalObject_0040c150;
 
 // Updates save/load tiles and the list box; one branch sets labels and flags, while the other calls two methods.
 // @fnv 0x007d3b60

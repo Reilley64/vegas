@@ -9,7 +9,7 @@
 #include "layout_support.h"
 
 // Private declarations retain the canonical twelve-byte PC vector layout.
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;
@@ -24,7 +24,7 @@ class NiPoint3
 
 
 
-class NiPlane
+struct NiPlane
 {
   public:
     NiPoint3 m_kPlaneNormal;

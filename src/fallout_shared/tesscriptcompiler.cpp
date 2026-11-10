@@ -91,7 +91,7 @@ ScriptFunctionInfo* GetFunctionByOpcode(SCRIPT_OUTPUT output)
 
 struct ScriptReferencedObject;
 struct ScriptVariableData;
-struct Script;
+class Script;
 struct ScriptToken;
 struct CStringArgument
 {
@@ -267,8 +267,9 @@ struct List
     bool _ref_008256d0();
     void _ref_0063f7b0();
 };
-struct TESDataHandler
+class TESDataHandler
 {
+  public:
     void ClearHairList();
 };
 // @fnv 0x005ae670
@@ -312,8 +313,9 @@ namespace fnv_005afeb0 {
 struct TaskQueueInterface
 {
 };
-struct TESForm
+class TESForm
 {
+  public:
     static TESForm* __cdecl LookupFormByEditorID(const char*);
 };
 struct ScriptVariableData
@@ -501,8 +503,9 @@ FUN_005ae490::FUN_005ae490()
 }
 
 namespace fnv_005ae5c0 {
-struct TESDataHandler
+class TESDataHandler
 {
+  public:
     unsigned char padding[0x0C];
 };
 
@@ -801,8 +804,8 @@ void FUN_005ae730_shell::FUN_005ae730()
 }
 
 struct ScriptRefHolder;
-struct TESForm;
-struct TESObjectREFR;
+class TESForm;
+class TESObjectREFR;
 struct Target;
 struct ListNode;
 struct Item;
@@ -814,12 +817,13 @@ struct Mgr
 
 void* __cdecl FUN_00ec43fb(void* obj, int vfdelta, void* src, void* dst, int isRef);
 
-struct TESForm
+class TESForm
 {
+  public:
     int FUN_00401170();
 };
 
-struct TESObjectREFR
+class TESObjectREFR
 {
 };
 
@@ -1009,7 +1013,7 @@ struct ScriptHeaderView
     unsigned char scriptType;
     unsigned char flags;
 };
-struct Script
+class Script
 {
 };
 struct ScriptCompiler
@@ -2344,8 +2348,9 @@ class ScriptReferencedObject
     ~ScriptReferencedObject();
 };
 
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
+  public:
     T item;
     BSSimpleList* next;
     T& FUN_006815c0();
@@ -3133,35 +3138,35 @@ struct EncodeReferenceView : EncodeFormView
 {
 };
 
-struct BGSEncounterZone;
+class BGSEncounterZone;
 
-struct TESIdleForm;
+class TESIdleForm;
 
 struct EncodeCellView
 {
 };
 
-struct TESObject;
+class TESObject;
 
-struct EffectSetting;
+class EffectSetting;
 
-struct TESActorBase;
+class TESActorBase;
 
-struct TESPackage;
+class TESPackage;
 
-struct BGSPerk;
+class BGSPerk;
 
 struct BGSMenuIcon;
 
 struct TESCombatStyle;
 
-struct TESObjectBOOK;
+class TESObjectBOOK;
 
-struct TESWorldSpace;
+class TESWorldSpace;
 
 struct SpellItem;
 
-struct MagicItem;
+class MagicItem;
 
 extern char DAT_0118a650[];
 

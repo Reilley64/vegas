@@ -1,7 +1,7 @@
 #pragma once
 
 class BGSSaveLoadFileEntry;
-namespace fnv_007d67b0 { struct Tile; }
+namespace fnv_007d67b0 { class Tile; }
 namespace fnv_anon_startmenu { struct Dummy7d6e90; }
 
 // 0x007d61b0

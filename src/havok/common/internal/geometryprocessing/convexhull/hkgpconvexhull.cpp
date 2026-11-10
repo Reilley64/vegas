@@ -5031,7 +5031,7 @@ namespace MathUtilities
 {inline hkReal __cdecl fabs(hkReal r) { return fabsf(r); }
 }
 class hkRotation;
-class hkVector4
+struct hkVector4
 {
 public:
 __forceinline void* __cdecl operator new(std::size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
@@ -6204,7 +6204,7 @@ template <class K, class V> struct CloneMap
         map.reserve(n);
     }
 };
-class PathingLocation;
+struct PathingLocation;
 struct ArgObj;
 struct BuildStatus;
 struct P0;

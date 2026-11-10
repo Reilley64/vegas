@@ -1,8 +1,8 @@
 #pragma once
 
-class NiPoint3;
-namespace fnv_009ed4b0 { class NiPoint3; }
-namespace fnv_009ed4b0 { struct TESObjectREFR; }
+struct NiPoint3;
+namespace fnv_009ed4b0 { struct NiPoint3; }
+namespace fnv_009ed4b0 { class TESObjectREFR; }
 struct RefPoint;
 
 // 0x009ed380

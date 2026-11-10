@@ -1,8 +1,8 @@
 #pragma once
 
-class NiStream;
+struct NiStream;
 
-class TimedTextEntry {
+struct TimedTextEntry {
 public:
     // 0x00a578d0
     void LoadBinary(::NiStream &);

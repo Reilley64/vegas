@@ -162,8 +162,9 @@ struct NiParticleSystem
 {
     char _pad[0xB8];
 };
-struct NiNode
+class NiNode
 {
+  public:
     virtual void _V00();
     virtual void _V01();
     virtual void _V02();

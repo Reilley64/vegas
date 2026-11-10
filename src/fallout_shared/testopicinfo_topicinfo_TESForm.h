@@ -12,7 +12,7 @@
 #include "fnv/symbols_00485000.h"
 #include "testopicinfo_topicinfo_layout_support.h"
 #include "BaseFormComponent.h"
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class TESForm : public BaseFormComponent
 {
   public:

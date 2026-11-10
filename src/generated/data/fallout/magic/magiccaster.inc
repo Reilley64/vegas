@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 
 namespace CastTargets { const char DAT_0102054c[23] = "SpecialIdle_AreaEffect"; }
 namespace CastTargets { const char DAT_0107acfc[13] = "Find Targets"; }

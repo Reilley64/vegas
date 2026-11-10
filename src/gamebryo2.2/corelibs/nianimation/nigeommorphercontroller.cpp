@@ -268,7 +268,7 @@ unsigned short FUN_00a3adc0(FUN_00a3adc0_t* self, int)
 }
 
 struct CloningProcess;
-struct NiFloatData;
+class NiFloatData;
 struct NiFloatInterpolator;
 struct TimedAnimationKey;
 struct NiStream;
@@ -694,7 +694,7 @@ void FUN_00a3aa10_shell::UpdateMorphWeights(float fTime)
 }  // namespace fnv_00a3aa10
 
 class NiBinaryStream;
-class NiObject;
+struct NiObject;
 class NiObjectGroup;
 class NiTexture;
 template <class> class NiPointer;

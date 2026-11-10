@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00981690 { struct CombatProcedure; }
+namespace fnv_00981690 { class CombatProcedure; }
 
 namespace fnv_00981690 {
 struct CombatController {

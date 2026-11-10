@@ -232,7 +232,7 @@ void FUN_00996e40_shell::FUN_00996e40()
 }
 }  // namespace fnv_00996e40
 
-struct TESObjectWEAP;
+class TESObjectWEAP;
 extern char DAT_0108ddac;
 struct FUN_009d0890 : CombatProcedure
 {

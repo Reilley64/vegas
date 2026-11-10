@@ -7,14 +7,14 @@
 #include "NiPoint3.h"
 #include "layout_support.h"
 class NiAdditionalGeometryData;
-class NiBound;
-class RgbaColor;
+struct NiBound;
+struct RgbaColor;
 class NiGeometryData;
 class NiGeometryData__RendererData;
 class NiParticlesData;
-class NiPoint2;
+struct NiPoint2;
 class NiQuaternion;
-class NiBound
+struct NiBound
 {
   public:
     NiPoint3 m_kCenter;  // +0x0, 12 bytes

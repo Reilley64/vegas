@@ -1,10 +1,10 @@
 #pragma once
 
-namespace fnv_007e76e0 { struct BGSPerk; }
-namespace fnv_007e76e0 { struct Tile; }
+namespace fnv_007e76e0 { class BGSPerk; }
+namespace fnv_007e76e0 { class Tile; }
 struct S_007e7670_Dest;
 struct S_007e7670_Player;
-struct Tile;
+class Tile;
 
 // 0x007e7630
 void FUN_007e7630(::Tile *);

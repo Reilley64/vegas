@@ -1,7 +1,7 @@
 #pragma once
 
 class NiPoint3Ex;
-class PathingLocation;
+struct PathingLocation;
 struct TargetNavInfo;
 struct VirtParam;
 

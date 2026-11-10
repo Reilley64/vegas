@@ -286,16 +286,16 @@ struct PhysicsSimulationContext;
 struct hkMatrix3;
 struct hkMotionState;
 struct hkMultiThreadCheck;
-struct hkReferencedObject;
+class hkReferencedObject;
 struct hkStatisticsCollector;
-struct hkTransform;
+class hkTransform;
 struct hkVector4;
 struct hkaiObjectData;
 struct hkdBreakableBody;
-struct hkpAction;
+class hkpAction;
 struct hkpBreakableBody;
 struct hkpCollidable;
-struct hkpConstraintInstance;
+class hkpConstraintInstance;
 struct hkpContactListener;
 struct hkpDynamicsContactMgr;
 struct hkpEntity;
@@ -2346,8 +2346,9 @@ void __cdecl PlaySoundForRef(unsigned int id)
 }  // namespace fnv_00518cf0
 
 
-struct ExtraFollower
+class ExtraFollower
 {
+  public:
     void* vtable;
     void* next;
     unsigned char type;

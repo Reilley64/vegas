@@ -3,7 +3,7 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 #pragma comment(linker, "/alternatename:?DAT_011a9ea4@@3HA=?IDENTITY@NiQuaternion@@2V1@B")
-#pragma comment(linker, "/alternatename:?IDENTITY@NiQuaternion@@2U1@B=?IDENTITY@NiQuaternion@@2V1@B")
+#pragma comment(linker, "/alternatename:?IDENTITY@NiQuaternion@@2V1@B=?IDENTITY@NiQuaternion@@2V1@B")
 
 int DAT_011a9ea8;
 int DAT_011a9eac;

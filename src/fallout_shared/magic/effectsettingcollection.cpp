@@ -131,7 +131,7 @@ struct G2
 {
     void AddHead(int**);
 };
-struct GlobalObject_00680890 : public G2
+class GlobalObject_00680890 : public G2
 {
 };
 // @fnv 0x00409060

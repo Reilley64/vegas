@@ -31,7 +31,7 @@
 #include "fnv/symbols_011e0000.h"
 #include "layout_support.h"
 #include "magichiteffect_classes.h"
-class SoundPlaybackHandle
+struct SoundPlaybackHandle
 {
   public:
     unsigned int m_uiSoundResourceID;
@@ -55,9 +55,9 @@ class MagicTarget;
 class MagicItem;
 class TESBoundObject;
 class Actor;
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 class BGSPerkEntry;
-class BGSSaveFormBuffer;
+struct BGSSaveFormBuffer;
 template <typename T> class BSSimpleList;
 enum MagicSystem__SpellType
 {
@@ -159,11 +159,11 @@ class EffectSetting
 public:
     ::TESSound *GetHitSound();
 };
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
 };
-class BGSLoadFormBuffer : public BGSLoadGameBuffer
+struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
   public:
 };

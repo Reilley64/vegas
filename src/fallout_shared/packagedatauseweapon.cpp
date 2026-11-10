@@ -613,7 +613,7 @@ void UseWeaponPackageData_Shell::FUN_0067cd90(TESPackageData* apSource)
     this->m_fValue2 = target->m_fValue2;
 }
 
-class BGSSaveFormBuffer
+struct BGSSaveFormBuffer
 {
   public:
 };

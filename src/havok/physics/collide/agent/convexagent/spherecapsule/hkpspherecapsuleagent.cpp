@@ -468,7 +468,7 @@ public:
 hkReferencedObject(class FinishingFlag flag){}
 };
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
 {
@@ -504,7 +504,7 @@ inline hkReal __cdecl sqrt(hkReal r){return::sqrtf(r);}
 inline hkReal __cdecl fabs(hkReal r){return::fabsf(r);}
 }
 class hkTransform;
-class hkVector4
+struct hkVector4
 {
 public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
@@ -1277,7 +1277,7 @@ public:
 hkReferencedObject(class FinishingFlag flag){}
 };
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
 {
@@ -1312,7 +1312,7 @@ inline hkReal __cdecl sqrt(hkReal r){return sqrtf(r);}
 inline hkReal __cdecl fabs(hkReal r){return fabsf(r);}
 }
 class hkTransform;
-class hkVector4
+struct hkVector4
 {
 public:
 __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
@@ -1997,8 +1997,9 @@ struct hkRotation : hkMatrix3
     }
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     inline hkTransform(const hkTransform& t)
     {
         m_rotation.m_kColumn0 = t.m_rotation.m_kColumn0;
@@ -2036,8 +2037,9 @@ struct hkpCapsuleShape : hkpConvexShape
     hkVector4 m_kVertexB;
 };
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const hkpShape* m_pCollisionShape;
     unsigned int m_uiCollisionShapeKey;
     const hkTransform* m_pMotionState;
@@ -2051,8 +2053,9 @@ struct CollisionAgentContext
     float m_fScalar;
 };
 
-struct hkContactPoint
+class hkContactPoint
 {
+  public:
     hkVector4 m_vContactPosition;
     hkVector4 m_vSeparatingNormal;
 };

@@ -277,8 +277,9 @@ struct hkAabbf
     hkVector4f m_kMaximumCorner;
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     __m128 m_kColumn0;
     __m128 m_kColumn1;
     __m128 m_kColumn2;

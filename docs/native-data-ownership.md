@@ -1,8 +1,20 @@
 # Native data ownership composition
 
 The historical files under `src/generated/data/` are committed legacy inputs,
-not the native source of truth. Do not edit them or run an extractor against
-the original game to build the native reconstruction.
+not the native source of truth. Do not edit them, except for the class-key
+respelling described below, or run an extractor against the original game to
+build the native reconstruction.
+
+One mechanical edit of these files is permitted by coordinator ruling for
+VEGAS-11. The VEGAS-11 class-key script, which is kept outside the repository,
+may respell mangled names inside `src/generated/data/` so that they follow a
+type's single `struct` or `class` key: in quoted asm labels, in
+`/alternatename` directives, and in comments that repeat a respelled symbol.
+Three conditions hold together. The retirement patch stays byte-unchanged and
+still applies. A pinned hash is recomputed only for a file the script changed,
+after every existing pin has been checked against the bytes before the
+rewrite. The diff of the composed output is recorded and consists of key-only
+respellings. No other edit of the generated files is permitted.
 
 `src/runtime/native_data_retirements.patch` is the narrowly audited native
 ownership delta. It retires duplicate scalar storage and incompatible,

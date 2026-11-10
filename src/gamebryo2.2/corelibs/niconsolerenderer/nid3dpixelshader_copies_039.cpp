@@ -14,7 +14,7 @@
 class GeometryRelatedType;
 
 // Forward declarations of the renderer types named by the base chain.
-class NiD3DShaderProgramCreator;
+struct NiD3DShaderProgramCreator;
 class Direct3DDeviceInterface;
 class GraphicsRenderer;
 class ShaderPassRenderer;

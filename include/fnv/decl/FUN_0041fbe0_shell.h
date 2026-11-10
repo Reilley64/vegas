@@ -1,6 +1,6 @@
 #pragma once
 
-struct BGSPrimitive;
+class BGSPrimitive;
 
 struct FUN_0041fbe0_shell {
 public:

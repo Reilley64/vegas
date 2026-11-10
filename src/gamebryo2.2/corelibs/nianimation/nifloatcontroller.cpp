@@ -15,17 +15,18 @@
 #include "fnv/symbols_00a6d000.h"
 #include "fnv/symbols_00a7d000.h"
 #include "fnv/symbols_011f4000.h"
-class NiObject;
+struct NiObject;
 struct NiStream
 {
 public:
     ::NiObject *GetLoadedObject();
 };
 
-class CloningProcess;
-class NiStream;
-struct NiTimeController
+struct CloningProcess;
+struct NiStream;
+class NiTimeController
 {
+  public:
     virtual void LoadBinary(NiStream&);
 public:
     void ProcessClone(::CloningProcess &);
@@ -45,7 +46,7 @@ void NiFloatController::FUN_00a57970(NiStream& stream)
     reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
 }
 
-class CloningProcess;
+struct CloningProcess;
 struct HelperBase00a57a40
 {
     void ProcessClone(CloningProcess&);
@@ -157,15 +158,17 @@ struct TimedAnimationKey
 {
     float m_fTime;
 };
-struct AnimationKey
+class AnimationKey
 {
+  public:
     enum KeyType
     {
         NO_KEY = 0
     };
 };
-struct NiFloatData
+class NiFloatData
 {
+  public:
     char _pad[8];
     unsigned int m_uiNumKeys;
     TimedAnimationKey* m_pKeys;

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00459000 { struct TESActorBase; }
+namespace fnv_00459000 { class TESActorBase; }
 
 namespace fnv_00459000 {
 struct TES {

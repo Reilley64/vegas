@@ -305,7 +305,7 @@ struct VTable_00408df0
     virtual void v88();
 };
 
-struct GlobalObject_00680890;
+class GlobalObject_00680890;
 
 // Iterates the global list from g_011c3400 and calls v88 on each item obtained via _ref_006815c0.
 // @fnv 0x00408df0
@@ -642,15 +642,16 @@ struct TESFileGroup;
 struct HWND__;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESForm;
-struct TESObjectREFR;
+class TESBoundObject;
+class TESForm;
+class TESObjectREFR;
 struct blob8
 {
     char b[8];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -827,19 +828,19 @@ int* FUN_004744d0(int* self, FUN_004744d0_arg a)
 }
 
 namespace fnv_0050f9c0 {
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
-struct SaveLoadFile;
+class SaveLoadFile;
 struct CHUNK;
 struct TESFileGroup;
 struct HWND__;
 struct NiColor;
 struct ThreeByThreeMatrix;
 struct NiPoint3;
-struct NiQuaternion;
-struct TESBoundObject;
-struct TESForm;
-struct TESObjectREFR;
+class NiQuaternion;
+class TESBoundObject;
+class TESForm;
+class TESObjectREFR;
 struct hkVector4;
 struct blob4
 {
@@ -913,8 +914,9 @@ struct BGSSaveFormBuffer : public BGSSaveGameBuffer
     char _pad_1d[3];
     TESForm* pForm;
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -1293,8 +1295,9 @@ struct BaseProcess
         POSTANIM_NONE
     };
 };
-struct HighProcess
+class HighProcess
 {
+  public:
     BaseProcess::POSTANIM_ACTION GetPostAnimationAction();
 };
 struct BSFile
@@ -1367,8 +1370,9 @@ public:
 public:
     void SetFile(::TESFile *);
 };
-struct Menu
+class Menu
 {
+  public:
     void* vtbl;
     unsigned int uiElapsedMilliseconds;
     void ParseMenuXML(char const*);
@@ -1729,7 +1733,7 @@ struct ArrSI
 {
 };
 
-struct TESSound
+class TESSound
 {
 };
 

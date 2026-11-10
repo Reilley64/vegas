@@ -148,7 +148,7 @@ void FUN_00dfb490(FUN_00cb0c00_class* self)
     ::FUN_00cb0c00((intptr_t)(self));
 }
 
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 // @fnv 0x00dfb9d0
@@ -228,7 +228,7 @@ void __cdecl FUN_00dfd770(void* pObject, void* arg2)
 }
 
 namespace fnv_00dfd970 {
-struct hkReferencedObject
+class hkReferencedObject
 {
 };
 
@@ -2517,7 +2517,7 @@ void* __cdecl FUN_00de82b0()
     return &(*reinterpret_cast<int *>(&::g_01269ec8));
 }
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_01269ef8;
 // @fnv 0x00de82d0
 GlobalObjectO2_00d472a0* __cdecl FUN_00de82d0()
@@ -3969,7 +3969,7 @@ void* FUN_00dfc6f0()
     return &(*reinterpret_cast<char *>(&::g_0126b858));
 }
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126b888;
 // @fnv 0x00dfc710
 GlobalObjectO2_00d472a0* __cdecl FUN_00dfc710()
@@ -4841,7 +4841,7 @@ int* __cdecl FUN_00dfd2c0()
     return &(*reinterpret_cast<int *>(&::g_0126c200));
 }
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126c230;
 // @fnv 0x00dfd2d0
 GlobalObjectO2_00d472a0* __cdecl FUN_00dfd2d0()
@@ -6126,7 +6126,7 @@ class SpawnSecondaryBase3
     virtual void v0();
 };
 
-class SpawnedObject : public SpawnPrimaryBase,
+struct SpawnedObject : public SpawnPrimaryBase,
                       public SpawnSecondaryBase0,
                       public SpawnSecondaryBase1,
                       public SpawnSecondaryBase2,
@@ -8408,7 +8408,7 @@ void __cdecl FUN_00de0fe0(intptr_t arg1, const void* arg2, int arg3, int arg4)
     }
 }
 
-class GlobalObjectO2_00d472a0;
+struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_01269fe8;
 
 // @fnv 0x00de8370
@@ -9053,7 +9053,7 @@ int FUN_00df3330(FNVPair8* out, FNVVec16* src, __m128* dst, unsigned int index, 
 }
 
 
-class hkVector4
+struct hkVector4
 {
   public:
     __m128 m_vComponents;

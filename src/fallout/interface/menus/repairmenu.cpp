@@ -936,8 +936,9 @@ class TESObjectWEAP : public TESBoundObject
 {
   public:
 };
-struct ExtraDataList
+class ExtraDataList
 {
+  public:
     virtual ~ExtraDataList();
     int flags04;
     int flags08;

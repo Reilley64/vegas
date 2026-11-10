@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 class TESObjectREFR;
 
 struct FUN_0041f080_cls {

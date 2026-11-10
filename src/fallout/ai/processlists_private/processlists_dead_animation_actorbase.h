@@ -17,7 +17,7 @@ class TESActorBase;
 class TESLevItem;
 class BGSVoiceType;
 class FactionReaction;
-class InventoryItemEntry;
+struct InventoryItemEntry;
 class MagicItemForm;
 class SpellItem;
 class TESLevSpell;

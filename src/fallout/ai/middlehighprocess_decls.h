@@ -12,7 +12,7 @@
 class Actor;
 class TESObjectREFR;
 class InventoryStackRecord;
-class Animation;
+struct Animation;
 class ArrowProjectile;
 class BSAnimGroupSequence;
 class BSBound;
@@ -21,7 +21,7 @@ class BSFaceGenAnimationData;
 class BSFaceGenNiNode;
 class BSShaderPPLightingProperty;
 class FurnitureMark;
-class BooleanFloatQuery;
+struct BooleanFloatQuery;
 class BipedAnim;
 class NiNode;
 class LipSyncAnimation;

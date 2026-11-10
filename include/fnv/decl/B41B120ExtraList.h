@@ -1,6 +1,6 @@
 #pragma once
 
-class NiPoint3;
+struct NiPoint3;
 class TESObjectREFR;
 
 class B41B120ExtraList {

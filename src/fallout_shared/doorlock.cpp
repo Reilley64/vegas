@@ -51,7 +51,7 @@ class LockExtraData;
 class TESGlobal;
 class TESClass;
 class TESActorBase;
-class InventoryChanges;
+struct InventoryChanges;
 class DoorAccessData
 {
   public:
@@ -173,7 +173,7 @@ class TESBoundObject : public TESForm
 class TESKey : public TESBoundObject
 {
 };
-class InventoryChanges
+struct InventoryChanges
 {
   public:
 };
@@ -318,8 +318,8 @@ void FUN_00996800_shell::FUN_00996800()
 
 struct BGSLoadGameBuffer;
 struct BGSSaveGameBuffer;
-struct TESObjectCELL;
-struct TESWorldSpace;
+class TESObjectCELL;
+class TESWorldSpace;
 struct blob16
 {
     char b[16];

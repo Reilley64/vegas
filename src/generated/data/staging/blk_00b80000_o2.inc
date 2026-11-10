@@ -6,8 +6,8 @@
 #pragma comment(linker, "/alternatename:?DAT_01011584@fnv_00b8fc50@@3HA=?DAT_01011584@@3QBDB")
 #pragma comment(linker, "/alternatename:?DAT_01011584@fnv_00b8fdb0@@3DA=?DAT_01011584@@3QBDB")
 #pragma comment(linker, "/alternatename:?DAT_01011584@fnv_00b921f0@@3MB=?DAT_01011584@@3QBDB")
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
-#pragma comment(linker, "/alternatename:?ms_pRenderer@NiRenderer@@2PEAU1@EA=?ms_pRenderer@NiRenderer@@2PEAV1@EA")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ms_pRenderer@NiRenderer@@2PEAU1@EA=?ms_pRenderer@NiRenderer@@2PEAU1@EA")
 #pragma comment(linker, "/alternatename:DAT_01011584=?DAT_01011584@@3QBDB")
 
 extern "C" void fnv_fn_00b8f6d0() __asm__("?FUN_00b8f6d0@FUN_00b8f6d0_class@@QEAAPEAX_N@Z");

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_009890e0 { struct Actor; }
+namespace fnv_009890e0 { class Actor; }
 namespace fnv_009890e0 { struct CoordinateTriple; }
 
 namespace fnv_009890e0 {

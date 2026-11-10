@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-class SpawnedObject;
+struct SpawnedObject;
 struct AlignedVec;
 struct D41FD0CollisionDispatcher;
 struct FUN_00d41830_table;

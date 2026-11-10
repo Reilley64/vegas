@@ -32,9 +32,9 @@
 
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
-struct hkTransform;
+class hkTransform;
 
-class hkVector4
+struct hkVector4
 {
   public:
     __m128 m_vComponents;
@@ -47,8 +47,9 @@ class hkVector4
     void FUN_00c7f640(const hkTransform& t, const hkVector4& v);
 };
 
-struct hkTransform
+class hkTransform
 {
+  public:
     hkVector4 m_kColumn0;
     hkVector4 m_kColumn1;
     hkVector4 m_kColumn2;
@@ -144,9 +145,9 @@ class hkBool
     char m_cBooleanValue;
 };
 
-struct hkTransform;
+class hkTransform;
 
-class hkVector4
+struct hkVector4
 {
   public:
     __m128 m_vComponents;
@@ -181,8 +182,9 @@ struct hkVertexArray
     hkVertex3* m_data;
 };
 
-struct hkAabb
+class hkAabb
 {
+  public:
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
 };
@@ -1117,8 +1119,9 @@ struct hkVector4
     }
 };
 
-struct hkAabb
+class hkAabb
 {
+  public:
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
 };

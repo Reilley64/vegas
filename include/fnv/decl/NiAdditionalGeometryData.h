@@ -1,6 +1,6 @@
 #pragma once
 
-class ShadowSceneNode;
+struct ShadowSceneNode;
 
 class NiAdditionalGeometryData {
 public:

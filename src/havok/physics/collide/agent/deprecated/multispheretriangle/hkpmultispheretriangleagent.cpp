@@ -289,8 +289,9 @@ struct Simplex
 };
 
 
-struct hkpCdBody
+class hkpCdBody
 {
+  public:
     const void* m_pCollisionShape;
     unsigned int m_uiCollisionShapeKey;
     const hkTransformf* m_pMotionState;

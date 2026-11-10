@@ -849,7 +849,7 @@ class InventoryItem
 class TESObjectREFR;
 
 class TESObjectREFR;
-class InventoryChanges
+struct InventoryChanges
 {
   public:
 public:

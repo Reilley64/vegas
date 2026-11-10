@@ -1,11 +1,11 @@
 #pragma once
 
-class CloningProcess;
+struct CloningProcess;
 class NiExtraData;
 class NiFixedString;
 class NiNode;
-class NiPoint3;
-class NiUpdateData;
+struct NiPoint3;
+struct NiUpdateData;
 struct NiPoint3;
 
 class NiAVObject {

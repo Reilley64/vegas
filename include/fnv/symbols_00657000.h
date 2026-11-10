@@ -3,9 +3,9 @@
 #include <cstdint>
 
 class TESActorBase;
-namespace fnv_00657010 { struct NiAVObject; }
+namespace fnv_00657010 { class NiAVObject; }
 struct QueryObject;
-struct QueuedFile;
+class QueuedFile;
 struct _vec_60;
 
 // 0x00657010

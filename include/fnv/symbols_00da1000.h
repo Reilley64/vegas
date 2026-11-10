@@ -3,7 +3,7 @@
 
 struct ScriptProgram;
 struct hkGeometry;
-struct hkTransform;
+class hkTransform;
 struct hkVector4;
 template <class> struct MeshArray;
 

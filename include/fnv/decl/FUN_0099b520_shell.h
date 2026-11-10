@@ -1,6 +1,6 @@
 #pragma once
 
-struct MagicItem;
+class MagicItem;
 
 struct FUN_0099b520_shell {
 public:

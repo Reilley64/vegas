@@ -561,7 +561,8 @@ void FUN_00524ac0_shell::FUN_00524ac0(float afAngle)
     *(float*)&m_afEntries[32] = cs;
 }
 
-struct TESObjectCELL {
+class TESObjectCELL {
+  public:
     NiAVObject* GetCellChildAt(int);
 };
 
@@ -578,34 +579,34 @@ bool FUN_00524d10(bool* pThis)
 }
 
 namespace fnv_00524d70 {
-struct ActiveEffect;
-struct Actor;
+class ActiveEffect;
+class Actor;
 struct ActorCause;
 struct ActorMover;
-struct ActorValueOwner;
+class ActorValueOwner;
 struct ActorCombatEntry;
 struct AlchemyItem;
 struct Animation;
 struct TwoIntegerValues;
 struct MediaLocation;
 struct MusicMarkerReference;
-struct BGSEncounterZone;
+class BGSEncounterZone;
 struct ExplosionForm;
 struct BGSLoadFormBuffer;
 struct BGSLoadGameBuffer;
 struct BGSMusicType;
 struct BGSNote;
-struct BGSPerk;
+class BGSPerk;
 struct BGSPerkEntry;
-struct BGSQuestObjective;
+class BGSQuestObjective;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
 struct BGSTextureSet;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct BSAnimNote;
 struct BSAnimNoteReceiver;
-struct BSExtraData;
-struct BSFaceGenAnimationData;
+class BSExtraData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode;
 struct BSMultiBound;
 struct BSMultiBoundRoom;
@@ -615,18 +616,18 @@ struct BipedAnim;
 struct BipedActor;
 struct CombatGroupCollection;
 struct CellMopp;
-struct NiNodeBooleanState;
+class NiNodeBooleanState;
 struct CombatController;
 struct ActorCombatGroup;
 struct ContinuousBeamProjectile;
 struct Crime;
 struct GameFormRecord;
 struct DialoguePackage;
-struct DialogueResponse;
+class DialogueResponse;
 struct DetectionParameters;
 struct TeleportableReference;
-struct EffectItem;
-struct ExtraDataList;
+class EffectItem;
+class ExtraDataList;
 struct ExtraLock;
 struct FormRecordHeader;
 struct TESFileGroup;
@@ -635,81 +636,81 @@ struct BooleanIntegerAccessor;
 struct FurnitureRelatedType;
 struct BooleanFloatQuery;
 struct IDebugText;
-struct ImageSpaceModifierInstanceDOF;
+class ImageSpaceModifierInstanceDOF;
 struct ImageSpaceModifierInstanceDRB;
 struct InventoryChanges;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct CellDataNode;
-struct MagicCaster;
-struct MagicItem;
+class MagicCaster;
+class MagicItem;
 struct MagicEffectCollection;
 struct MagicProjectile;
 struct MagicShaderHitEffect;
-struct MagicTarget;
-struct MapMarkerData;
-struct MediaLocationController;
-struct MobileObject;
-struct Point3Offset;
-struct NiAVObject;
+class MagicTarget;
+class MapMarkerData;
+class MediaLocationController;
+class MobileObject;
+class Point3Offset;
+class NiAVObject;
 struct AnimationInterpolator;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiFixedString;
-struct NiGeometry;
+class NiControllerSequence;
+class NiFixedString;
+class NiGeometry;
 struct NiLight;
 struct ThreeByThreeMatrix;
-struct NiNode;
+class NiNode;
 struct NiPoint3;
 struct NiPointLight;
 struct PlacedObjectInfo;
 struct IndexedPointerCollection;
 struct PlayerTargetLocation;
 struct LocationDescriptor;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 struct PathingLocation;
 struct PathingRequest;
 struct IntegerPairPointerRecord;
-struct Projectile;
-struct QueuedFile;
+class Projectile;
+class QueuedFile;
 struct ReferenceLightData;
-struct LockExtraData;
+class LockExtraData;
 struct ReferenceIntersectionData;
-struct RagDollData;
-struct Script;
+class RagDollData;
+class Script;
 struct ScriptLocals;
-struct TESActorBase;
+class TESActorBase;
 struct TESCaravanCard;
 struct TESClass;
 struct TESCombatStyle;
-struct TESContainer;
+class TESContainer;
 struct TESFaction;
 struct TESGlobal;
-struct TESIdleForm;
-struct TESObjectARMO;
-struct TESObjectBOOK;
-struct TESObjectCELL;
+class TESIdleForm;
+class TESObjectARMO;
+class TESObjectBOOK;
+class TESObjectCELL;
 struct TESObjectCLOT;
 struct TESObjectDOOR;
 struct TESObjectLIGH;
-struct TESObjectREFR;
-struct TESPackage;
-struct TESQuest;
+class TESObjectREFR;
+class TESPackage;
+class TESQuest;
 struct PlayerQuestData;
 struct TESRace;
-struct TESRegion;
-struct TESRegionList;
+class TESRegion;
+class TESRegionList;
 struct TESReputation;
 struct TESSkill;
-struct TESTopic;
-struct TESTopicInfo;
-struct TESWorldSpace;
+class TESTopic;
+class TESTopicInfo;
+class TESWorldSpace;
 struct TargetEntry;
 struct PathingPath;
 struct TrapEntry;
 struct TrespassPackage;
 struct WaterZone;
 struct WeaponObject;
-struct bhkCharacterController;
+class bhkCharacterController;
 struct bhkMouseSpringAction;
 struct bhkNiCollisionObject;
 struct bhkRagdollController;
@@ -731,7 +732,7 @@ void FUN_00524d70(char* this_ptr)
 }
 }  // namespace fnv_00524d70
 
-struct BSFaceGenAnimationData;
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode { BSFaceGenAnimationData* GetAnimationData(); };
 struct Flt {  };
 struct GlobalObject_00633c90 { char pad[4]; };
@@ -799,7 +800,7 @@ int FUN_00522560_shell::FUN_00522560(bool abReturnTwo)
         return m_eSoundLevel;
 }
 
-class BGSLoadFormBuffer;
+struct BGSLoadFormBuffer;
 
 struct FUN_0048ea80_t {
     void FUN_0048ea80(BGSLoadFormBuffer* b);
@@ -825,7 +826,7 @@ void* FUN_00524cb0()
     return (*reinterpret_cast<void * *>(&::DAT_011c621c));
 }
 
-struct NiFixedString;
+class NiFixedString;
 
 // @fnv 0x00524cc0
 NiFixedString* FUN_00524cc0()
@@ -2940,9 +2941,9 @@ int CombatWeapon::FUN_00522c80()
 	}
 }
 
-struct TESObjectCELL;
-struct NiFixedString;
-struct BSFaceGenAnimationData;
+class TESObjectCELL;
+class NiFixedString;
+class BSFaceGenAnimationData;
 BSFaceGenAnimationData* __cdecl FUN_00524c90();
 NiAVObject* FUN_00524cf0(TESObjectCELL*);
 NiFixedString* __cdecl FUN_00524cc0();
@@ -4082,7 +4083,7 @@ struct Sub461130 {
 };
 struct GetterBase {  };
 struct NodeObj : GetterBase {  };
-struct BSFaceGenAnimationData : GetterBase {};
+class BSFaceGenAnimationData : public GetterBase {};
 struct SubA {
     virtual void Unk_00();
     virtual void Unk_01();

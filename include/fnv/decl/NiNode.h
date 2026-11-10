@@ -1,8 +1,8 @@
 #pragma once
 
-class CloningProcess;
+struct CloningProcess;
 class NiAVObject;
-class NiUpdateData;
+struct NiUpdateData;
 
 class NiNode {
 public:

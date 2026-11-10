@@ -1,9 +1,9 @@
 #pragma once
 
-class CloningProcess;
-class NiStream;
+struct CloningProcess;
+struct NiStream;
 
-class NiPSysModifier {
+struct NiPSysModifier {
 public:
     // 0x00c31650
     void LinkObject(::NiStream &);

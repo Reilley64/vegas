@@ -4,7 +4,7 @@
 
 #include "processlists_TESForm.h"
 class NiAVObject;
-class TESWaterForm;
+struct TESWaterForm;
 class TESFormList;
 class BipedAnim;
 class TESObject : public TESForm

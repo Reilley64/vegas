@@ -1,6 +1,6 @@
 #pragma once
 
-struct ImageSpaceEffect;
+class ImageSpaceEffect;
 
 struct FUN_004ebbc0_shell {
 public:

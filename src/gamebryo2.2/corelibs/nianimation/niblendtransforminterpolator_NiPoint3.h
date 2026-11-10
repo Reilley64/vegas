@@ -2,7 +2,7 @@
 #ifndef FNV_NIBLENDTRANSFORMINTERPOLATOR_PRIVATE_FNV_NIPOINT3_H
 #define FNV_NIBLENDTRANSFORMINTERPOLATOR_PRIVATE_FNV_NIPOINT3_H
 #include "niblendtransforminterpolator_layout_support.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0

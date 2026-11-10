@@ -40,7 +40,7 @@ template <> class NiPointer<NiAVObject>
     NiPointer& operator=(NiAVObject* object);
 };
 
-class NiUpdateData;
+struct NiUpdateData;
 class NiAVObject;
 class NiNode
 {
@@ -87,7 +87,7 @@ class GraphicsRenderer
     unsigned int GetRenderTargetWidth();
     unsigned int GetRenderTargetHeight();
 };
-class NiRenderer;
+struct NiRenderer;
 
 class NiMemObject
 {
@@ -101,7 +101,7 @@ class FUN_00a712f0 : public NiMemObject
     FUN_00a712f0();
 };
 
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float value;
@@ -110,7 +110,7 @@ class NiUpdateData
     NiUpdateData(float value, bool first, bool second);
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;
@@ -118,7 +118,7 @@ class NiPoint3
     static const NiPoint3 ZERO;
 };
 
-class NiFrustum
+struct NiFrustum
 {
   public:
     float left, right, top, bottom, nearPlane, farPlane;

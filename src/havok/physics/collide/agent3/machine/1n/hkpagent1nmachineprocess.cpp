@@ -899,7 +899,7 @@ template <typename T> typename HavokElementArray<T>::iterator HavokElementArray<
     return m_data;
 }
 typedef __m128 hkQuadReal;
-class hkVector4;
+struct hkVector4;
 typedef const hkVector4& hkVector4Parameter;
 class VectorComponentValue
 {
@@ -948,7 +948,7 @@ template <int SIZE> inline void forcePrefetch(const void* p)
     }
 }
 }
-class hkVector4
+struct hkVector4
 {
   public:
     __forceinline void* __cdecl operator new(std::size_t Y6)

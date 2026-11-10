@@ -52,10 +52,11 @@ void FUN_00c2bb70_shell::FUN_00c2bb70(void* keys, unsigned int numKeys, int type
     }
 }
 
-struct AnimationKey;
+class AnimationKey;
 extern int DAT_010bfd54;
-struct NiRefObject
+class NiRefObject
 {
+  public:
     ~NiRefObject();
 };
 struct NiPSysEmitterCtlrData
@@ -274,7 +275,7 @@ class NiBinaryStream
     }
 };
 
-class NiStream
+struct NiStream
 {
   public:
     unsigned char m_aucData[0x250];
@@ -534,7 +535,7 @@ enum KeyType
     NUMKEYTYPES
 };
 
-struct AnimationKey;
+class AnimationKey;
 struct TimedAnimationKey;
 
 

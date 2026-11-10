@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class ScrapHeapBuffer;
+struct ScrapHeapBuffer;
 namespace fnv_00a01e20 { struct FUN_00a0ac80; }
 namespace tileext { struct ExtraNode; }
 

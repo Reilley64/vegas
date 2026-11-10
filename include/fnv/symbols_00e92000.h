@@ -2,7 +2,7 @@
 #include <cstdint>
 
 namespace fnv_00e92ee0 { struct NiD3DVertexShader; }
-namespace fnv_00e92f30 { struct NiD3DPixelShader; }
+namespace fnv_00e92f30 { class NiD3DPixelShader; }
 struct Lst;
 struct Nd;
 struct Program;

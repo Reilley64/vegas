@@ -1,6 +1,6 @@
 #pragma once
 
-struct PathingActorData;
+class PathingActorData;
 
 struct FUN_006c9900_shell {
 public:

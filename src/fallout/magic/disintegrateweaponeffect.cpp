@@ -11,8 +11,9 @@
 #include "fnv/symbols_00495000.h"
 #include "fnv/symbols_005b6000.h"
 #include "fnv/symbols_00703000.h"
-struct ActiveEffect
+class ActiveEffect
 {
+  public:
     virtual ~ActiveEffect();
     void CopyData(ActiveEffect*);
 };

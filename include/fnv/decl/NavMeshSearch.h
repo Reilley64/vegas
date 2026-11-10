@@ -4,10 +4,10 @@ class NavMesh;
 class NavMeshInfo;
 class NavMeshTriangleEdgeReference;
 class NavMeshTriangleReference;
-class PathingRequest;
+struct PathingRequest;
 struct NavMeshNodeInfo;
 struct PathingRequest;
-struct PathingSolution;
+class PathingSolution;
 template <class, class> class AStarNode;
 template <class, unsigned int> class BSSimpleArray;
 

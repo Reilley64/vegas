@@ -5,13 +5,13 @@
 #include "NiObject.h"
 #include "NiFixedString.h"
 
-class NiStream;
-class NiPSysData;
-class NiParticleSystem;
-class CloningProcess;
+struct NiStream;
+struct NiPSysData;
+struct NiParticleSystem;
+struct CloningProcess;
 
-class CloningProcess;
-class NiPSysModifier : public NiObject
+struct CloningProcess;
+struct NiPSysModifier : public NiObject
 {
   public:
     virtual void LoadBinary(NiStream& kStream);

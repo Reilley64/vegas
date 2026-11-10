@@ -1,6 +1,6 @@
 #pragma once
 
-struct hkpCdBody;
+class hkpCdBody;
 struct hkpCdBodyPairCollector;
 
 struct hkpMultiSphereTriangleAgent {

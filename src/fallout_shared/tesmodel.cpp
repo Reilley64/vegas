@@ -45,8 +45,8 @@
 #include "fnv/decl/fnv_00503210__Unk.h"
 struct BSFileEntry;
 struct FileFormCollection;
-struct TESFile;
-struct TESForm;
+class TESFile;
+class TESForm;
 struct FileEntryList
 {
     bool ClearData();
@@ -81,8 +81,8 @@ void FUN_00488ff0_shell::FUN_00488ff0()
 namespace fnv_00489620 {
 struct BSFileEntry;
 struct FileFormCollection;
-struct TESFile;
-struct TESForm;
+class TESFile;
+class TESForm;
 struct FileEntryList
 {
     bool ClearData();
@@ -184,36 +184,38 @@ unsigned char* FUN_00489860_shell::FUN_00489860(unsigned char aucByte0, unsigned
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct CHUNK;
-struct ContainerItemExtra;
-struct ExtraDataList;
+class ContainerItemExtra;
+class ExtraDataList;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
 struct LeveledObject;
 struct NiColor;
 struct NiPoint3;
-struct TESBoundObject;
-struct TESContainer;
+class TESBoundObject;
+class TESContainer;
 struct TESFaction;
-struct TESFile;
-struct TESForm;
+class TESFile;
+class TESForm;
 struct TESGlobal;
 struct TESHealthForm;
-struct TESNPC;
-struct TESObjectREFR;
+class TESNPC;
+class TESObjectREFR;
 struct blob8
 {
     char b[8];
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-struct TESLeveledList : public BaseFormComponent
+class TESLeveledList : public BaseFormComponent
 {
+  public:
     virtual unsigned char GetChanceNone();
     virtual bool UsesAllEntries();
     virtual int GetMaxLevelDifference();
@@ -295,8 +297,9 @@ void FUN_00487a00_shell::FUN_00487a00(TESForm* apOwner, unsigned short asLevel, 
     }
 }
 
-struct TESModel
+class TESModel
 {
+  public:
     virtual ~TESModel();
     void* FUN_00489010(unsigned int flags);
 };
@@ -373,11 +376,11 @@ struct HWND__;
 struct NiColor;
 struct NiPoint3;
 struct TESBitArrayFile;
-struct TESBoundObject;
-struct TESFile;
-struct TESForm;
-struct TESObjectCELL;
-struct TESObjectREFR;
+class TESBoundObject;
+class TESFile;
+class TESForm;
+class TESObjectCELL;
+class TESObjectREFR;
 struct _FILETIME;
 struct _SYSTEMTIME;
 struct _WIN32_FIND_DATAA;
@@ -400,8 +403,9 @@ struct FileEntryList
     char _pad_1[3];
     BSFileEntry** m_ppFileEntries;
 };
-struct BaseFormComponent
+class BaseFormComponent
 {
+  public:
     virtual void InitializeComponent();
     virtual void ClearComponent();
     virtual void BaseFormRecord(BaseFormComponent*);
@@ -412,7 +416,7 @@ struct FUN_00489940_shell : public FileEntryList
     void LoadChunkData(TESFile*, TESForm*, char*);
 };
 
-struct TESFile
+class TESFile
 {
 };
 // @fnv 0x00489940
@@ -833,8 +837,8 @@ void FUN_004891d0_cls::WriteToBuffer(char* pcBuffer, void* pkOut)
     }
 }
 
-struct TESForm;
-struct TESObjectREFR;
+class TESForm;
+class TESObjectREFR;
 struct FUN_004895b0_model
 {
     virtual void v0();
@@ -867,8 +871,9 @@ const char* FUN_004895b0(TESForm* apForm)
     return "";
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 };
 
@@ -1204,8 +1209,9 @@ class TESForm_decl : public BaseFormComponent
     tList<TESFile> mods;
 };
 
-struct TESFile
+class TESFile
 {
+  public:
     bool IsEndianConversionRequired();
     bool NextChunk();
 };

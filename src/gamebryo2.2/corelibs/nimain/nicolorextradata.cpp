@@ -57,16 +57,17 @@ NiColorExtraData_shell* NiColorExtraData_shell::Destroy(unsigned int flags)
 
 struct NiStream;
 
-class NiStream;
-struct NiExtraData
+struct NiStream;
+class NiExtraData
 {
+  public:
     NiExtraData();
     virtual ~NiExtraData();
 public:
     void LoadBinary(::NiStream &);
 };
 
-class NiStream;
+struct NiStream;
 struct RgbaColor
 {
     RgbaColor();

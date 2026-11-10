@@ -9,9 +9,9 @@ class NiBlendInterpolator;
 class NiBlendInterpolator__InterpArrayItem;
 class NiBlendTransformInterpolator;
 class NiInterpolator;
-class NiObjectNET;
-class RgbaColor;
-class NiPoint3;
+struct NiObjectNET;
+struct RgbaColor;
+struct NiPoint3;
 class NiQuatTransform;
 class NiQuaternion;
 class NiBoolInterpolator;
@@ -124,7 +124,7 @@ class NiBlendInterpolator : public NiInterpolator
     // NiBlendInterpolator& __cdecl NiBlendInterpolator::*(const NiBlendInterpolator&)
     // void __cdecl NiBlendInterpolator::*()
 };
-class NiObjectNET;
+struct NiObjectNET;
 class NiQuatTransform;
 class NiBlendTransformInterpolator : public NiBlendInterpolator
 {

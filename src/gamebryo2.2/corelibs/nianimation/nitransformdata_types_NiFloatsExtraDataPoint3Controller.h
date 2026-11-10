@@ -8,9 +8,9 @@
 #include "nitransformdata_NiObject.h"
 #include "nitransformdata_NiObjectNET.h"
 #include "nitransformdata_layout_support.h"
-class NiUpdateData;
+struct NiUpdateData;
 class NiBlendInterpolator;
-class NiRTTI;
+struct NiRTTI;
 class NiExtraDataController;
 class NiFloatsExtraDataPoint3Controller;
 class NiInterpController;

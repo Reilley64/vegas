@@ -47,8 +47,9 @@ struct BGSLoadFormBuffer
 {
 };
 
-struct CombatProcedure
+class CombatProcedure
 {
+  public:
     virtual void LoadGame(BGSLoadFormBuffer*);
 };
 
@@ -122,7 +123,7 @@ void* FUN_009d5b10_shell::DestroyIfFlagged(unsigned int flags)
 }
 
 class TESActorBase;
-struct Actor
+class Actor
 {
 public:
     ::TESActorBase *GetActorBase();
@@ -164,14 +165,14 @@ void FUN_009d5fb0_shell::SaveEvadeProcedure(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 0x14), 4, 0);
 }
 
-struct TESObjectREFR;
-class NiPoint3
+class TESObjectREFR;
+struct NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3();
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     int unk00;
@@ -190,7 +191,7 @@ class PathingLocation
 };
 struct EvadeActor;
 template <class, unsigned int> class BSSimpleArray;
-class PathingRequest
+struct PathingRequest
 {
   public:
     int unk00;

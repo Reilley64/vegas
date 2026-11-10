@@ -31,7 +31,7 @@ template <> class NiPointer<NiTexture>
     }
 };
 class ImageSpaceTexture;
-class ImageSpaceEffectParam;
+struct ImageSpaceEffectParam;
 class ImageSpaceEffect;
 
 // PC array layout and the operations used by this effect.
@@ -67,14 +67,14 @@ class NiTexturingProperty
         WRAP_S_WRAP_T
     };
 };
-class ImageSpaceEffectParam
+struct ImageSpaceEffectParam
 {
   public:
     void** m_ppVirtualMethodTable;
     NiTArray<int, NiTMallocInterface<int> > m_kTextureTypes;
     NiTArray<NiTexturingProperty::FilterMode, NiTMallocInterface<NiTexturingProperty::FilterMode> > m_kFilterModes;
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r, g, b, a;
@@ -140,7 +140,7 @@ public:
     void SetTextureArraySize(int);
 };
 // Only the manager prefix accessed by Setup is needed here.
-class ImageSpaceManager
+struct ImageSpaceManager
 {
   public:
     enum ImageSpaceEffectEnum

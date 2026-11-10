@@ -117,11 +117,12 @@ void Holder::FUN_007e7b30()
 }
 
 namespace fnv_007e7de0 {
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
 };
-struct Menu
+class Menu
 {
 };
 struct BGSSaveLoadGame
@@ -168,7 +169,7 @@ struct FUN_007e8860_shell
     void FUN_007e8860(int tile);
 };
 
-struct Tile;
+class Tile;
 struct FUN_007e7ad0_shell
 {
     char _pad[0x28];
@@ -184,7 +185,7 @@ void FUN_007e7ad0_shell::SetTileByID(int aiID, Tile* apTile)
     }
 }
 
-struct Tile;
+class Tile;
 struct TraitSelectMenuStandIn
 {
     char _pad[0x28];
@@ -408,7 +409,7 @@ void C7E85C0Menu::ChangePage(bool bPrevious)
 }
 
 
-struct Tile
+class Tile
 {
 public:
     void Set(int, int);

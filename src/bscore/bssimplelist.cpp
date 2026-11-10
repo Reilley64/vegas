@@ -161,7 +161,7 @@ FUN_004818b0::FUN_004818b0()
     c = 0;
 }
 
-struct NiNode;
+class NiNode;
 struct EqHelper
 {
     bool operator==(NiNode*) const;
@@ -412,7 +412,7 @@ struct FUN_00590b60
 FUN_00590b60::FUN_00590b60()
 {}
 
-struct TESForm;
+class TESForm;
 struct FormFlagRecord
 {
     TESForm* pForm;
@@ -469,8 +469,9 @@ bool RefList::FUN_005f65d0(void** item)
     return pNode != 0;
 }
 
-struct TESTexture
+class TESTexture
 {
+  public:
     char b[8];
     TESTexture();
 };

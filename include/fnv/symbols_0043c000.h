@@ -1,7 +1,7 @@
 #pragma once
 
 class NiNode;
-class NiRenderer;
+struct NiRenderer;
 struct FUN_0043c7a0_arg;
 template <class> class NiPointer;
 

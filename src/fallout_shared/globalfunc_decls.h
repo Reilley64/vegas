@@ -100,14 +100,14 @@ extern const char* DAT_01188f84[5];
 class NiNode;
 class NiTexture;
 class NiSourceTexture;
-class NiRTTI;
-class NiControllerManager;
+struct NiRTTI;
+struct NiControllerManager;
 class NiTimeController
 {
   public:
 };
 class NiProperty;
-class NiObjectNET
+struct NiObjectNET
 {
   public:
     virtual void vfn_0();
@@ -122,7 +122,7 @@ class NiObjectNET
 public:
     void GetNumChildren();
 };
-class NiBound
+struct NiBound
 {
   public:
 };
@@ -325,7 +325,7 @@ class NiExtraData
 {
   public:
 };
-class NiControllerManager
+struct NiControllerManager
 {
   public:
     virtual void vfn_0();
@@ -387,7 +387,7 @@ class EffectSetting
     void SetLight(TESObjectLIGH*);
 };
 
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x, y, z;

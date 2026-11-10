@@ -120,12 +120,13 @@ bool FUN_007e6dd0_shell::FUN_007e6dd0()
 }
 
 namespace fnv_007e73c0 {
-struct Menu
+class Menu
 {
+  public:
     void SetMenuVisibility(bool);
 };
 
-struct HUDMainMenu
+class HUDMainMenu
 {
 };
 
@@ -159,8 +160,9 @@ struct FUN_007e68e0_shell
     void* FUN_007e68e0(unsigned int);
 };
 extern intptr_t DAT_011daf74;
-struct Tile
+class Tile
 {
+  public:
     void Set(int, int);
     void UpdateEffectChanges(Tile*);
 public:
@@ -176,7 +178,7 @@ void FUN_007e7630(Tile* apTile)
     }
 }
 
-struct Tile;
+class Tile;
 struct FUN_007e68b0_shell
 {
     unsigned char _pad[0x28];
@@ -195,7 +197,7 @@ void FUN_007e68b0_shell::SetTileById(int id, Tile* tile)
 }
 
 namespace fnv_007e75d0 {
-struct Tile
+class Tile
 {
 };
 struct Interface
@@ -230,10 +232,10 @@ bool FUN_007e75d0_shell::HandleButton(int aiButton, float afValue)
 }  // namespace fnv_007e75d0
 
 namespace fnv_007e76e0 {
-struct Tile
+class Tile
 {
 };
-struct BGSPerk
+class BGSPerk
 {
 };
 struct PC7d
@@ -544,12 +546,13 @@ void FUN_007e76e0(Tile* apTile, BGSPerk* apPerk)
 }
 }  // namespace fnv_007e76e0
 
-struct BGSPerk;
+class BGSPerk;
 struct FNStub
 {
 };
-struct BGSPerk
+class BGSPerk
 {
+  public:
     virtual ~BGSPerk();
     unsigned char m_ucFormType;
     unsigned char cFormTypePad05;
@@ -560,11 +563,12 @@ struct BGSPerk
     void* pSourceFilesNext;
     FNStub fullName;
 };
-struct BSSimpleList
+class BSSimpleList
 {
 };
-struct PlayerCharacter
+class PlayerCharacter
 {
+  public:
     virtual void v000();
     virtual void v001();
     virtual void v002();
@@ -911,12 +915,14 @@ struct ListBox_TESObjectREFR
 struct TileCenterX
 {
 };
-struct NiNodeBooleanState
+class NiNodeBooleanState
 {
+  public:
     bool GetBooleanValue();
 };
-struct Actor
+class Actor
 {
+  public:
     void ConfigureActorState(bool, bool);
 };
 struct CharacterProgressionShell
@@ -926,7 +932,7 @@ struct StatsMenu
 {
     static void __cdecl UpdateStatusEffects();
 };
-struct Menu
+class Menu
 {
 };
 // @fnv 0x007e6e10
@@ -1161,7 +1167,7 @@ void TraitMenu_007e71b0::UpdateValueDifferenceMessage()
 struct InputManager
 {
 };
-struct OSGlobals
+class OSGlobals
 {
 };
 extern unsigned int DAT_011db004;
@@ -1268,11 +1274,12 @@ void FUN_007e7670(S_007e7670_Dest* pDest, S_007e7670_Player* pPlayer)
     reinterpret_cast<::FUN_00a012d0_t *>((pDest))->FUN_00a012d0(DAT_011daf70, fValue, 1);
 }
 
-struct EffectSetting
+class EffectSetting
 {
+  public:
     bool IsDetrimentalToActorValue(int);
 };
-struct EffectItem
+class EffectItem
 {
 public:
     int GetAffectedActorValue();
@@ -1308,7 +1315,7 @@ struct PerkRankList
 struct ValueTile
 {
 };
-struct Tile;
+class Tile;
 struct LBList
 {
 public:
@@ -1587,7 +1594,7 @@ void TraitMenu_7e6ea0::UpdatePerkTile(int id, Tile* tile)
 }
 
 namespace fnv_007e7280 {
-struct Tile;
+class Tile;
 struct TileValues
 {
 };

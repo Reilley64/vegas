@@ -3,11 +3,11 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 #pragma comment(linker, "/alternatename:?_g_thePlayer@@3PEAVPlayerCharacter@@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
-#pragma comment(linker, "/alternatename:?g_011d2424@@3UGlobalObject_0040c150@@A=?g_011d2424@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d25e0@@3UGlobalObject_0040c150@@A=?g_011d25e0@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2ac0@@3UGlobalObject_0040c150@@A=?g_011d2ac0@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2fd0@@3UGlobalObject_0040c150@@A=?g_011d2fd0@@3VGlobalObject_0040c150@@A")
-#pragma comment(linker, "/alternatename:?g_011d2ff4@@3UGlobalObject_0040c150@@A=?g_011d2ff4@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2424@@3VGlobalObject_0040c150@@A=?g_011d2424@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d25e0@@3VGlobalObject_0040c150@@A=?g_011d25e0@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2ac0@@3VGlobalObject_0040c150@@A=?g_011d2ac0@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2fd0@@3VGlobalObject_0040c150@@A=?g_011d2fd0@@3VGlobalObject_0040c150@@A")
+#pragma comment(linker, "/alternatename:?g_011d2ff4@@3VGlobalObject_0040c150@@A=?g_011d2ff4@@3VGlobalObject_0040c150@@A")
 
 float DAT_0105478c = 175.0f;
 namespace fnv_007c0a40 { const char DAT_010765d8[23] = "SMM_TotalEarningsValue"; }

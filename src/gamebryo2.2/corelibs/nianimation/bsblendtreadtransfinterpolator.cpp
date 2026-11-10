@@ -97,8 +97,9 @@ struct NiPoint3
 {
     float x, y, z;
 };
-struct NiQuaternion
+class NiQuaternion
 {
+  public:
     float w, x, y, z;
 };
 struct NiQuatTransform

@@ -1,6 +1,6 @@
 #pragma once
 
-struct Tile;
+class Tile;
 
 // 0x007f4830
 ::Tile *FUN_007f4830(::Tile *, const char *);

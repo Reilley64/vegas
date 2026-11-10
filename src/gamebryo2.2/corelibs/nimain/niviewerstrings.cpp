@@ -233,8 +233,9 @@ struct RTTI_Stub
 };
 
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     const char* m_kHandle;
     operator const char*() const
     {

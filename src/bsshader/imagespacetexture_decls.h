@@ -15,12 +15,12 @@ class MagicCaster
   public:
 };
 class NiTexture;
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class ImageSpaceTexture
 {
   public:
 };
-class BSTextureManager
+struct BSTextureManager
 {
   public:
 };

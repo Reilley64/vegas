@@ -32,10 +32,10 @@ class TESForm_SkyExt : public TESForm
 {
   public:
 };
-class TESClimate : public TESForm
+struct TESClimate : public TESForm
 {
 };
-class Sky;
+struct Sky;
 class SkyObject
 {
   public:
@@ -44,7 +44,7 @@ class SkyObject
     virtual void vfn_8();
     virtual void Update(Sky*, float);
 };
-class NiColor
+struct NiColor
 {
   public:
     float r, g, b;
@@ -67,11 +67,11 @@ class Precipitation
 {
   public:
 };
-class BGSSaveLoadGame
+struct BGSSaveLoadGame
 {
   public:
 };
-class BGSLoadGameBuffer
+struct BGSLoadGameBuffer
 {
   public:
     virtual unsigned char GetVersion();
@@ -82,12 +82,12 @@ class SettingT_GameSettingCollection_
 {
   public:
 };
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT : public SettingT_GameSettingCollection_
 {
 };
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting76;
-class Sky
+struct Sky
 {
   public:
     virtual ~Sky();

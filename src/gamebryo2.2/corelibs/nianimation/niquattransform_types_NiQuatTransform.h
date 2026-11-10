@@ -4,7 +4,7 @@
 
 #include "layout_support.h"
 #include "NiPoint3.h"
-class NiStream;
+struct NiStream;
 class NiQuatTransform;
 class NiQuaternion;
 class NiQuaternion

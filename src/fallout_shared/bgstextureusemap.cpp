@@ -264,7 +264,7 @@ void FUN_004aa720_shell::AddEntry(int aiKey, int aiValue, int aiItem)
 }
 
 class NiAVObject;
-struct NiNode
+class NiNode
 {
 public:
     ::NiAVObject *GetAt(unsigned int);
@@ -340,7 +340,7 @@ void FUN_004aabb0_shell::FUN_004aabb0(char a1)
 struct NiRTTI
 {
 };
-struct NiAVObject
+class NiAVObject
 {
 };
 extern const char str_0101f524[];
@@ -481,8 +481,9 @@ struct RefObj
 {
 };
 struct TESRegionData;
-template <class T> struct BSSimpleList
+template <class T> class BSSimpleList
 {
+  public:
     T m_item;
     BSSimpleList* m_pkNext;
     bool FUN_008256d0();
@@ -574,9 +575,9 @@ bool TexUseMap::FUN_004aa900(const char* apFileName)
 }
 
 namespace fnv_004aa3d0 {
-struct TESForm;
+class TESForm;
 struct WalkRef;
-struct NiAVObject;
+class NiAVObject;
 
 struct FormTypeHolder
 {
@@ -661,8 +662,9 @@ struct WalkTexVT
 struct WalkGeometry
 {
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v00();
     virtual void v04();
     virtual void v08();

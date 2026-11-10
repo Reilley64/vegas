@@ -37,8 +37,9 @@ FUN_004f5e20::~FUN_004f5e20()
     ClearList();
 }
 
-struct Actor
+class Actor
 {
+  public:
     void* p;
 };
 

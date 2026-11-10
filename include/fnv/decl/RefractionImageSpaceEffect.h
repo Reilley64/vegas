@@ -1,6 +1,6 @@
 #pragma once
 
-class BSRenderedTexture;
+struct BSRenderedTexture;
 
 class RefractionImageSpaceEffect {
 public:

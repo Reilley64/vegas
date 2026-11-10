@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_00474a40 { struct TESForm; }
+namespace fnv_00474a40 { class TESForm; }
 
 namespace fnv_00474a40 {
 struct FUN_00474a40_shell {

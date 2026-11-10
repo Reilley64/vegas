@@ -1,7 +1,7 @@
 #pragma once
 
-namespace fnv_0097f820 { struct TESBoundObject; }
-namespace fnv_0097f820 { struct TESObjectREFR; }
+namespace fnv_0097f820 { class TESBoundObject; }
+namespace fnv_0097f820 { class TESObjectREFR; }
 
 namespace fnv_0097f820 {
 struct FUN_0097f820_shell {

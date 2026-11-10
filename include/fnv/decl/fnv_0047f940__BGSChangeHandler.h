@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fnv_0047f940 { class BGSSaveFormBuffer; }
+namespace fnv_0047f940 { struct BGSSaveFormBuffer; }
 
 namespace fnv_0047f940 {
 class BGSChangeHandler {

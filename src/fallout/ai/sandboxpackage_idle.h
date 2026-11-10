@@ -52,7 +52,7 @@ class PlayerCharacter
     ANIMATION_ACTION GetAnimAction();
 };
 class BSAnimGroupSequence;
-class Animation
+struct Animation
 {
   public:
 };

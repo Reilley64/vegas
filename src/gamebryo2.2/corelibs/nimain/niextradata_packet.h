@@ -8,8 +8,8 @@
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_0109d000.h"
 #include "fnv/symbols_011f4000.h"
-class NiStream;
-class NiObject
+struct NiStream;
+struct NiObject
 {
   public:
     NiObject();
@@ -66,7 +66,7 @@ class NiBinaryStream
         position += ReadRaw(out, n, &size);
     }
 };
-class NiStream
+struct NiStream
 {
   public:
     virtual void vfn_00();
@@ -104,7 +104,7 @@ class NiMemObject
 {
   public:
 };
-class NiBinaryExtraData : public NiExtraData, public NiMemObject
+struct NiBinaryExtraData : public NiExtraData, public NiMemObject
 {
   public:
     unsigned int count;

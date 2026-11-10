@@ -188,7 +188,7 @@ void* SaveGameSizeStateConstructor(void* pThis)
     return pThis;
 }
 
-class GlobalObject_00869f00
+struct GlobalObject_00869f00
 {
   public:
 };
@@ -1133,7 +1133,7 @@ FUN_00844ff0::~FUN_00844ff0()
 namespace fnv_00841580 {
 extern unsigned int _data_011c16bc;
 
-struct TESWorldSpace
+class TESWorldSpace
 {
 };
 
@@ -1363,7 +1363,7 @@ void FUN_008420a0_class::FUN_008420a0(unsigned int a1, unsigned int a2, unsigned
 
 namespace fnv_00842600 {
 
-struct TESObjectCELL
+class TESObjectCELL
 {
 };
 

@@ -3058,7 +3058,7 @@ void Agent_d34b::FUN_00d34b40(intptr_t a1, intptr_t a2, const Input_d34b* input,
 
 extern "C" void _ReadWriteBarrier(void);
 
-class hkVector4 {
+struct hkVector4 {
 public:
     __m128 m_vComponents;
 

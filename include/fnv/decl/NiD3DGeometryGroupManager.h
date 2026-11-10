@@ -3,7 +3,7 @@
 class Direct3DDeviceInterface;
 class VertexDeclarationLayout;
 
-struct NiD3DGeometryGroupManager {
+class NiD3DGeometryGroupManager {
 public:
     // 0x00e88c20
     void FUN_00e88c20(bool);

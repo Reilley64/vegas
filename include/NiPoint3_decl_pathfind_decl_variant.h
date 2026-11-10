@@ -4,7 +4,7 @@
 
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "layout_support.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0

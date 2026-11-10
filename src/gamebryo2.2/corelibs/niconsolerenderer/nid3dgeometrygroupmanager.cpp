@@ -34,7 +34,7 @@ NiD3DGeometryGroupManager* NiD3DGeometryGroupManager::Create(Direct3DDeviceInter
     return p;
 }
 
-struct NiGeometryData;
+class NiGeometryData;
 struct NiSkinInstance;
 struct FUN_00e88fa0_shell : public NiD3DGeometryGroupManager
 {

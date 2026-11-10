@@ -86,7 +86,7 @@ struct BSSimpleListTESRaceSize
 {
     int GetSize();
 };
-struct PlayerCharacter
+class PlayerCharacter
 {
 };
 struct FUN_009f1990_shell
@@ -112,8 +112,8 @@ bool FUN_009f1990_shell::FUN_009f1990()
     return false;
 }
 
-class ExtraRadioData;
-struct TESObjectREFR
+struct ExtraRadioData;
+class TESObjectREFR
 {
 public:
     ::ExtraRadioData *GetExtraRadioData();
@@ -158,7 +158,7 @@ public:
     void SetTargetKind(::PACK_TARG_TYPE);
 };
 
-class LocationDescriptor
+struct LocationDescriptor
 {
   public:
     char pad[0xc];
@@ -171,8 +171,9 @@ struct TESObjectREFR_Flags
 {
 };
 
-struct TESPackage
+class TESPackage
 {
+  public:
     char pad[0x7c];
     TESPackage();
     virtual ~TESPackage();
@@ -194,8 +195,9 @@ struct FUN_009f9250 : public TESPackage
     virtual ~FUN_009f9250();
 };
 
-struct Script
+class Script
 {
+  public:
     char* GetData();
 };
 // Initializes the package fields, sets reach/complete flags and procedure type, and configures the target from apRef.
@@ -266,7 +268,7 @@ void FUN_009f1350_shell::RemoveRef(TESObjectREFR* apRef)
         *(TESObjectREFR**)((char*)this + 0xa4) = 0;
 }
 
-struct TESObjectCELL;
+class TESObjectCELL;
 struct NiPoint3
 {
     float x;
@@ -288,8 +290,9 @@ struct BSOcclusionPlane
 {
 };
 
-struct TESDataHandler
+class TESDataHandler
 {
+  public:
     void GetReferencesInArea(TESObjectCELL*, NiPoint3 const&, float, NiPoint3 const&, float,
                              bool(__cdecl*)(TESObjectREFR*, intptr_t), intptr_t);
 };
@@ -939,8 +942,9 @@ struct TESFormVirtualBase
     virtual void f75() = 0;
 };
 
-struct TESForm : public TESFormVirtualBase
+class TESForm : public TESFormVirtualBase
 {
+  public:
     virtual char* FUN_0130();
 public:
     bool GetDisabled() const;
@@ -1036,7 +1040,7 @@ struct BGSSaveFormBuffer : public SaveFormIDHelper
 {
 };
 
-struct BSSimpleList
+class BSSimpleList
 {
 };
 
@@ -1634,8 +1638,9 @@ struct PathingAvoidanceNode
     PathingAvoidanceNode(NiPoint3 const&, float, float);
 };
 
-struct PathingAvoidNodeArray
+class PathingAvoidNodeArray
 {
+  public:
     PathingAvoidanceNode** nodes;
     unsigned int size;
     unsigned int capacity;
@@ -1825,7 +1830,7 @@ struct DoorAccess
 struct ReferenceAccess
 {
 };
-class PathingLocation
+struct PathingLocation
 {
   public:
     unsigned int unk00, unk04, unk08, unk0c, unk10;

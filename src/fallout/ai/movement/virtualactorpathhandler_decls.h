@@ -26,14 +26,14 @@ class VirtualActorPathHandlerVtableCaller
     virtual int Slot3(float);
 };
 
-class NiPlane;
+struct NiPlane;
 class Actor;
-class NiPoint3;
+struct NiPoint3;
 class TESObjectREFR;
 class TESBoundObject;
 class PlayerCharacter;
 class ActorPackageContext;
-class LocationDescriptor;
+struct LocationDescriptor;
 class BaseProcess;
 
 class AIThreadManager
@@ -166,7 +166,7 @@ class PlayerCall
     bool IsSleepingOrResting();
 };
 
-class BGSLoadFormBuffer
+struct BGSLoadFormBuffer
 {
   public:
 };

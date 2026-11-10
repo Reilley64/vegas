@@ -522,15 +522,15 @@ CombatTargetTimestamp* FUN_004300a0(CombatTargetTimestamp* this_ptr)
 
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct BSAnimGroupSequence;
+class BSAnimGroupSequence;
 struct FindData;
 struct KFModel;
-struct NiAVObject;
+class NiAVObject;
 struct NiControllerManager;
-struct NiControllerSequence;
-struct NiNode;
+class NiControllerSequence;
+class NiNode;
 struct TESAnimGroup;
-struct TESIdleForm;
+class TESIdleForm;
 struct Animation
 {
     void SetField(unsigned char, unsigned char, unsigned char);
@@ -791,7 +791,7 @@ struct FUN_00430f30 : BE430
 FUN_00430f30::FUN_00430f30() : BE430(0x7c)
 {}
 
-struct TESActorBase;
+class TESActorBase;
 struct ExtraLeveledCreature : public BSExtraData
 {
     virtual void __vslot_0();
@@ -830,7 +830,7 @@ FUN_00431230::FUN_00431230(void* p) : BE431(0x2b)
     m_pTeleportData = p;
 }
 
-struct MapMarkerData;
+class MapMarkerData;
 struct ExtraMapMarker : public BSExtraData
 {
     virtual void __vslot_0();
@@ -886,18 +886,18 @@ ExtraAudioMarker* FUN_004314c0(ExtraAudioMarker* pThis, PtrWrap aData)
 struct BGSListForm;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
-struct ExtraDataList;
+class ExtraDataList;
 struct InventoryChanges;
 struct InventoryIterator;
-struct InventoryStackRecord;
+class InventoryStackRecord;
 struct IndexedPointerCollection;
-struct TESActorBase;
+class TESActorBase;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
+class TESBoundObject;
+class TESContainer;
 struct TESLevItem;
-struct TESObject;
-struct TESObjectWEAP;
+class TESObject;
+class TESObjectWEAP;
 struct ExtraContainerChanges : public BSExtraData
 {
     virtual void __vslot_0();
@@ -1244,8 +1244,9 @@ struct BGSLoadFormBuffer;
 struct BGSLoadGameBuffer;
 struct BGSSaveFormBuffer;
 struct BGSSaveGameBuffer;
-struct BGSLoadGameSubBuffer
+class BGSLoadGameSubBuffer
 {
+  public:
     void SetBuffer(char*);
     void ResetReadPosition();
     void RestoreAnimation(TESForm*);
@@ -1359,7 +1360,7 @@ void FUN_00437240_Struct::FUN_00437240(FUN_00437240_Struct* pSource)
     }
 }
 
-struct TESTopicInfo;
+class TESTopicInfo;
 struct ExtraSayToTopicInfo : public BSExtraData
 {
     virtual void __vslot_0();
@@ -1454,8 +1455,9 @@ bool FUN_00437bf0_shell::FUN_00437bf0()
     return reinterpret_cast<::FUN_004f8960_shell *>((this))->FUN_004f8960() == 5 ? true : false;
 }
 
-struct NiFixedString
+class NiFixedString
 {
+  public:
     bool Exists();
     unsigned int GetLength();
     unsigned int GetRefCount();
@@ -2151,8 +2153,9 @@ struct RefX
     virtual void w73();
     virtual bool Cb(int);
 };
-struct MobileObject : public RefX
+class MobileObject : public RefX
 {
+  public:
     unsigned int GetCurrentProcessLevel();
 };
 struct ActorX : public MobileObject
@@ -2205,8 +2208,9 @@ void FUN_004303c0::run()
     reinterpret_cast<::GlobalObject_00869f00 *>((((FUN_0042ff80_s*)((char*)this + 4))))->FUN_0042ff80();
 }
 
-struct MapMarkerData
+class MapMarkerData
 {
+  public:
     ~MapMarkerData();
 };
 struct FUN_004313c0 : public BSExtraData
@@ -2338,8 +2342,9 @@ FUN_00430950::~FUN_00430950()
 
 extern "C" void __cdecl _Deallocate(void*);
 
-struct ExtraFollower
+class ExtraFollower
 {
+  public:
     void FUN_00430ea0();
     void* FUN_00430e70(unsigned int flags);
 };
@@ -2527,7 +2532,7 @@ FUN_004323b0::~FUN_004323b0()
 
 namespace fnv_004326c0 {
 extern int _data_011c16bc;
-struct TESWorldSpace;
+class TESWorldSpace;
 struct BE
 {
     BE(unsigned char);
@@ -3019,8 +3024,9 @@ void* ExtraAnim::FUN_004300f0(unsigned int flags)
 }  // namespace fnv_004300f0
 
 namespace fnv_004302a0 {
-struct ExtraDismemberedLimbs
+class ExtraDismemberedLimbs
 {
+  public:
     void* FUN_004302d0();
     void* FUN_004302a0(unsigned int flags);
 };
@@ -3185,7 +3191,7 @@ bool ExtraRadius::FUN_00436bd0(BSExtraData* apCompare)
     return false;
 }
 
-class ExtraRadioData;
+struct ExtraRadioData;
 
 extern int DAT_011841e8;
 
@@ -3212,8 +3218,8 @@ bool ExtraRadioData::CompareRadioData(BSExtraData* apCompare)
     return false;
 }
 
-struct BGSPrimitive;
-struct BSExtraData;
+class BGSPrimitive;
+class BSExtraData;
 
 struct ExtraPrimitive : BSExtraData
 {
@@ -4134,8 +4140,9 @@ bool ExtraCombatStyle::FUN_00437300(BSExtraData* apCompare)
     return false;
 }
 
-struct ExtraAmmo : BSExtraData
+class ExtraAmmo : public BSExtraData
 {
+  public:
     TESForm* pAmmo;
     int iCount;
     bool FUN_004373c0(BSExtraData* apCompare);
@@ -4783,10 +4790,10 @@ intptr_t FUN_004048e0_cls::FUN_004048e0()
     return (m_04 == 0xffff) ? ((int)(::FUN_0044a670((const char *)(m_00)))) : m_04;
 }
 
-struct TESQuest;
-struct TESTopic;
-struct TESTopicInfo;
-struct MobileObject;
+class TESQuest;
+class TESTopic;
+class TESTopicInfo;
+class MobileObject;
 
 class MenuTopic
 {
@@ -6665,8 +6672,9 @@ struct MyFixedString : public NiFixedString
     ~MyFixedString();
 };
 
-struct NiAVObject
+class NiAVObject
 {
+  public:
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -6760,8 +6768,9 @@ void ExtraSecuritronFaceStandIn::FUN_00437f90(NiNode* pNode)
     }
 }
 
-struct HighProcess
+class HighProcess
 {
+  public:
     HighProcess();
     int unk000;
     int unk004;

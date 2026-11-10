@@ -31,14 +31,16 @@ NiRTTI* __cdecl FUN_00a43ab0()
 struct BSFadeNode
 {
 };
-struct NiTransformInterpolator
+class NiTransformInterpolator
 {
+  public:
     void* vfptr;
     char _pad[68];
 };
-class ThreeByThreeMatrix;
-struct NiQuaternion
+struct ThreeByThreeMatrix;
+class NiQuaternion
 {
+  public:
     float x;
     float y;
     float z;
@@ -140,8 +142,9 @@ BSRotAccumTransfInterpolator* FUN_00a43e90_cls::CreateInterpolator(intptr_t a)
     return obj;
 }
 
-struct TimedRotationKey
+class TimedRotationKey
 {
+  public:
     float m_fTime;
     NiQuaternion m_kRotationValue;
 };

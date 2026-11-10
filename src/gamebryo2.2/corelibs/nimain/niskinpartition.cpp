@@ -68,8 +68,9 @@ void FUN_00a82600(intptr_t pTarget, int b, float c)
 }
 
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 struct NiRenderer
@@ -108,9 +109,9 @@ void S::FUN_00a824d0()
 struct NiTAbstractPoolAllocator_unsigned_int
 {
     struct LinkedListEntry* ms_pFreeList;
-    struct RecursiveSpinLock* ms_kPoolState;
+    class RecursiveSpinLock* ms_kPoolState;
 };
-struct RecursiveSpinLock
+class RecursiveSpinLock
 {
 };
 // @fnv 0x00a82620

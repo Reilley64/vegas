@@ -34,7 +34,7 @@ class NiTexturingProperty
 };
 
 // 32-bit RGBA color (4 bytes).
-class RgbaColor
+struct RgbaColor
 {
   public:
     unsigned int rgba;

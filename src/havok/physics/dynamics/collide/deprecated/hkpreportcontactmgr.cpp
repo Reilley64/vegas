@@ -511,8 +511,9 @@ struct hkVector4
     }
 };
 
-struct hkContactPoint
+class hkContactPoint
 {
+  public:
     hkVector4 m_vContactPosition;
     hkVector4 m_vSeparatingNormal;
 
@@ -584,7 +585,7 @@ struct hkpRigidBody
     }
 };
 
-struct hkpCdBody;
+class hkpCdBody;
 struct GskAgentInput;
 struct ConvexFeaturePairCache;
 

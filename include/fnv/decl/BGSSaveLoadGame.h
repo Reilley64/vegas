@@ -4,7 +4,7 @@ class FormChangeMask;
 class TESForm;
 class TESObjectCELL;
 
-class BGSSaveLoadGame {
+struct BGSSaveLoadGame {
 public:
     // 0x00444d20
     bool GetInitingForms() const;

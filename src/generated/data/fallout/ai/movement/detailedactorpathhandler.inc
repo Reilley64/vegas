@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2U1@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?_g_thePlayer@@3PEAUUpdatePlayer@@EA=?_g_thePlayer@@3PEAUFUN_00950c20_self@@EA")
 #pragma comment(linker, "/alternatename:?g_TES@fnv_009e3110@@3PEAUTESHelper@1@EA=?g_TES@@3PEAUTES@@EA")
 #pragma comment(linker, "/alternatename:?g_calendar@@3VCalendar_1d50@@A=?g_011de7b8@@3VGlobalObject_008677d0@@A")

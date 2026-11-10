@@ -15,7 +15,7 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011df000.h"
 #include "fnv/symbols_01203000.h"
-class NiRTTI;
+struct NiRTTI;
 
 class BSSceneGraph
 {
@@ -79,7 +79,7 @@ class TESWorldSpace
   public:
     BGSTerrainManager* GetWorldTerrainManager();
 };
-class Sky
+struct Sky
 {
   public:
 };

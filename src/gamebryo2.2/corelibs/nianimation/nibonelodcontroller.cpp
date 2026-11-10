@@ -299,7 +299,7 @@ NiBoneLODController* CreateBoneLODController()
     return 0;
 }
 
-class NiStream;
+struct NiStream;
 
 class NiObjectA53
 {
@@ -394,9 +394,9 @@ template <class T> class NiTPrimitiveArray
     unsigned short m_usGrowBy;
 };
 
-class CloningProcess;
-class NiStream;
-class NiObjectNET;
+struct CloningProcess;
+struct NiStream;
+struct NiObjectNET;
 class NiTimeController : public NiObjectA53
 {
   public:
@@ -2017,8 +2017,9 @@ struct NiStream
 {
 };
 
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
     virtual void DeleteThis();
     long m_uiRefCount;
@@ -2033,14 +2034,15 @@ struct NiRefObject
     }
 };
 
-struct NiTriBasedGeom;
-struct NiNode;
+class NiTriBasedGeom;
+class NiNode;
 struct NiSkinInstance : NiRefObject
 {
 };
 
-template <class T> struct NiPointer
+template <class T> class NiPointer
 {
+  public:
     T* m_pObject;
     NiPointer& operator=(T* p)
     {
@@ -2178,7 +2180,7 @@ bool Unknown_00c536a0::FUN_00c536a0(int a)
     return true;
 }
 
-class NiObject;
+struct NiObject;
 struct NiBSBoneLODController : NiObject
 {
     void* m_34;
@@ -2215,14 +2217,14 @@ GlobalObjectO2_00a7b610* FUN_00c53e00_shell::FUN_00c53e00()
     return &(*reinterpret_cast<::GlobalObjectO2_00a7b610 *>(&::g_012031b8));
 }
 
-class NiControllerManager
+struct NiControllerManager
 {
   public:
     char _pad[0x34];
     int m34;
     int m38;
 };
-class CloningProcess
+struct CloningProcess
 {
 };
 class CloneableObj

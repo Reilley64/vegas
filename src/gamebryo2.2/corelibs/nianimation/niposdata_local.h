@@ -22,7 +22,7 @@ enum NiAnimationKey__KeyType
     NiAnimationKey__KeyType_STEPKEY = 5,
     NiAnimationKey__KeyType_NUMKEYTYPES = 6
 };
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0

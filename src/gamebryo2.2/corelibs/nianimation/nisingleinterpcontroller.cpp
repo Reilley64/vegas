@@ -61,7 +61,7 @@ void* FUN_00a38e20_shell::FUN_00a38e20()
     return const_cast<void*>(static_cast<const void*>(&(*reinterpret_cast<const char *const *>(&::g_011f3714))));
 }
 
-struct NiBlendInterpolator;
+class NiBlendInterpolator;
 struct CloningProcess;
 struct NiObjectNET;
 struct NiUpdateData;

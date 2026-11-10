@@ -28,8 +28,8 @@ NiRTTI* __cdecl FUN_00a93740()
     return &(*reinterpret_cast<::NiRTTI *>(&::g_011f5eac));
 }
 
-class NiStream;
-struct NiExtraData
+struct NiStream;
+class NiExtraData
 {
 public:
     void LoadBinary(::NiStream &);
@@ -60,7 +60,7 @@ void* __cdecl FUN_00a93870()
 
 void __cdecl FUN_00a7b300();
 struct NiRTTI;
-struct NiFile;
+class NiFile;
 struct FUN_00a93750_shell
 {
     void* m_pData;

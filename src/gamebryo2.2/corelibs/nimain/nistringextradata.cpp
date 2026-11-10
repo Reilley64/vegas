@@ -18,12 +18,12 @@
 #include "fnv/symbols_00a7d000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011f4000.h"
-class NiStream
+struct NiStream
 {
   public:
 };
 
-class NiStream;
+struct NiStream;
 class NiExtraData
 {
   public:
@@ -76,8 +76,9 @@ void* __cdecl FUN_00a74230()
 }
 
 namespace fnv_00a74260 {
-struct NiFixedString
+class NiFixedString
 {
+  public:
     char m_kStringBuffer[1];
 };
 struct NiStreamHelper

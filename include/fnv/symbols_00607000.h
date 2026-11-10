@@ -2,7 +2,7 @@
 
 class NiExtraData;
 namespace fnv_00607340 { class BSFadeNode; }
-struct NiTriBasedGeom;
+class NiTriBasedGeom;
 
 // 0x00607310
 ::NiExtraData *GetGeomExtraData(::NiTriBasedGeom *);

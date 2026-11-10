@@ -2,11 +2,11 @@
 
 class B6FF0Node;
 class GlobalObject2_0045cfe0;
-class GlobalObject2_0096a2d0;
+struct GlobalObject2_0096a2d0;
 class GlobalObject_0044f440;
-class GlobalObject_0044fae0;
+struct GlobalObject_0044fae0;
 class GlobalObject_0045cf30;
-class GlobalObject_0045cfe0;
+struct GlobalObject_0045cfe0;
 class GlobalObject_0045d260;
 class GlobalObject_00719c00;
 class GlobalObject_0078d3b0;
@@ -14,9 +14,9 @@ class GlobalObject_0087d2c0;
 class GlobalObject_0087d420;
 class GlobalObject_008c71d0;
 class GlobalObject_008caab0;
-class GlobalObject_008caae0;
+struct GlobalObject_008caae0;
 class GlobalObject_00a7b610;
-class TaskQueueInterface;
+struct TaskQueueInterface;
 namespace fnv_008a5580 { struct UpdateActor; }
 
 // 0x011df0c0

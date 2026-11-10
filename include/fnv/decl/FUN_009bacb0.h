@@ -1,6 +1,6 @@
 #pragma once
 
-struct Projectile;
+class Projectile;
 
 struct FUN_009bacb0 {
 public:

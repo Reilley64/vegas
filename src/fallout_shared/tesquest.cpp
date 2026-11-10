@@ -739,8 +739,9 @@ struct TESIcon
     void* p;
     unsigned int n;
 };
-struct TESFullName
+class TESFullName
 {
+  public:
     virtual void f0();
     TESFullName();
     ~TESFullName();

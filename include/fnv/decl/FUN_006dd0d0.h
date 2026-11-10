@@ -1,7 +1,7 @@
 #pragma once
 
-class NiPoint3;
-class PathingLocation;
+struct NiPoint3;
+struct PathingLocation;
 
 struct FUN_006dd0d0 {
 public:

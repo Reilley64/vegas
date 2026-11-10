@@ -9,7 +9,7 @@
 class BSBatchRenderer;
 class BSBatchRenderer__RenderContext;
 class RenderQuery;
-class BSRenderedTexture;
+struct BSRenderedTexture;
 class BSShaderAccumulator;
 class BSShaderProperty__RenderPass;
 class BSTPersistentList_NiTPointerAllocator_unsigned_int__NiGeometry___;
@@ -20,7 +20,7 @@ class NiAccumulator;
 class NiAlphaAccumulator;
 class NiBackToFrontAccumulator;
 class NiCamera;
-class RgbaColor;
+struct RgbaColor;
 class NiCriticalSection;
 class NiGeometry;
 class NiTAbstractPoolAllocator_unsigned_int_;
@@ -36,7 +36,7 @@ class NiTPointerList_ReferenceVolume___;
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiGeometry___;
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__ReferenceVolume___;
 class ShadowSceneLight;
-class ShadowSceneNode;
+struct ShadowSceneNode;
 class RenderQueryState;
 enum BSShaderAccumulator__etAccumulationMode
 {
@@ -283,7 +283,7 @@ class NiTPointerList_ReferenceVolume___ : public NiTPointerListBase_NiTPointerAl
 {
   public:
 };
-class RgbaColor
+struct RgbaColor
 {
   public:
     float r;  // +0x0, 4 bytes

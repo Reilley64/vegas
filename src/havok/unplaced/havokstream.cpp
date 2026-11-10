@@ -68,8 +68,9 @@ void HavokError::FUN_00625650()
 }
 
 namespace fnv_00625a80 {
-struct MessageHandler
+class MessageHandler
 {
+  public:
     static MessageHandler& Handler();
 };
 struct HavokError
@@ -336,8 +337,9 @@ FUN_00626280_shell::~FUN_00626280_shell()
         delete (FUN_00626280_shell*)p;
 }
 
-struct MessageHandler
+class MessageHandler
 {
+  public:
     static MessageHandler& Handler();
     void vprintf(const char*, ...);
 };
@@ -354,8 +356,9 @@ void FUN_006259b0_shell::ReportWarning(const char* apWhat, int aiID, const char*
 }
 
 namespace fnv_00625a40 {
-struct MessageHandler
+class MessageHandler
 {
+  public:
     static MessageHandler& Handler();
 };
 struct FUN_00625a40_shell : HavokError

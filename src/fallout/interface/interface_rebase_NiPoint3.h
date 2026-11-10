@@ -2,7 +2,7 @@
 #ifndef FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_NIPOINT3_H
 #define FNV_INTERFACE_REBASE_FNV_INTERFACE_PLAYER_NIPOINT3_H
 #include "interface_rebase_layout_support.h"
-class NiPoint3
+struct NiPoint3
 {
   public:
     float x;  // +0x0

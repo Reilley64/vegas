@@ -133,7 +133,7 @@ void E04A00Registry::AddEntry(void* a, void* b, void* c, void* d)
 // the object.  The value is tested once and, when it is not zero, the
 // accessor is called a second time (as a tail call) to produce the result;
 // when it is zero the function returns 1.
-class Obj {
+struct Obj {
 public:
     int m();
 };

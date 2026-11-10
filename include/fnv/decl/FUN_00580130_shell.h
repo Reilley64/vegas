@@ -1,6 +1,6 @@
 #pragma once
 
-class BGSPlaceableWater;
+struct BGSPlaceableWater;
 
 struct FUN_00580130_shell {
 public:

@@ -358,8 +358,9 @@ struct FUN_00bcaff0_shell : public TileShader
 struct BSFadeNode
 {
 };
-struct NiD3DShaderConstantMap : public BSFadeNode
+class NiD3DShaderConstantMap : public BSFadeNode
 {
+  public:
     virtual void v0();
     virtual void DeleteThis();
     virtual int AddEntry(const char*, unsigned int, unsigned int, unsigned int, unsigned int, const char*, unsigned int,
@@ -542,13 +543,15 @@ void FUN_00bca0d0_shell::CreateTileVertexShaders()
     }
 }
 
-struct NiShader
+class NiShader
 {
+  public:
     virtual void Initialize();
 };
 template <class> class NiPointer;
-struct NiD3DPass
+class NiD3DPass
 {
+  public:
     void DestroyPass();
 public:
     bool ApplyRenderStateChanges(bool);
@@ -613,8 +616,9 @@ struct A51BF0Base
 {
 };
 
-struct NiD3DVertexDeclaration
+class NiD3DVertexDeclaration
 {
+  public:
 
     virtual void v00();
     virtual void v01();
@@ -1400,8 +1404,9 @@ class NiD3DGPUProgramCache
     static const char* __cdecl GetPixelShaderProfile(bool);
 };
 
-struct NiD3DPixelShader
+class NiD3DPixelShader
 {
+  public:
     virtual void v0();
     virtual void DeleteThis();
     long m_uiRefCount;

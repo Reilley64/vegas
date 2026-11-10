@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class RgbaColor;
+struct RgbaColor;
 class TESObjectREFR;
 namespace fnv_009a9370 { struct CombatController; }
 namespace fnv_009a9370 { struct CombatCoverPointData; }

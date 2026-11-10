@@ -1,6 +1,6 @@
 #pragma once
 
-class FUN_00dba680_cls;
+struct FUN_00dba680_cls;
 
 class hkDataWorldDC76 {
 public:

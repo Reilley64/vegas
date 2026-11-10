@@ -350,8 +350,9 @@ struct B006815c0
     float y;
     float z;
 };
-struct NiAVObject
+class NiAVObject
 {
+  public:
     NiPoint3 GetWorldTranslation();
 };
 struct NiPosData
@@ -363,7 +364,7 @@ struct Twin_0084d030
 };
 struct GameTimerRecord;
 extern float DAT_011d5dd4;
-struct NiTexture;
+class NiTexture;
 struct BSShaderNoLightingProperty
 {
 };
@@ -377,7 +378,7 @@ struct Flt
 {
     operator unsigned int();
 };
-struct TESFile
+class TESFile
 {
 };
 struct FUN_00450570_shell
@@ -1242,7 +1243,7 @@ void ClampAndStoreValue(float value);
 
 float FUN_006655a0();
 
-struct NiRenderTargetGroup;
+class NiRenderTargetGroup;
 
 struct NiRenderer
 {

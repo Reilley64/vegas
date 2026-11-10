@@ -97,20 +97,20 @@ struct CHUNK;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
-struct Script;
-struct TESBoundObject;
-struct TESForm;
-struct TESFullName;
+class Script;
+class TESBoundObject;
+class TESForm;
+class TESFullName;
 struct TESIcon;
-struct TESModel;
-struct TESModelTextureSwap;
-struct TESObject;
+class TESModel;
+class TESModelTextureSwap;
+class TESObject;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESTexture;
+class TESObjectREFR;
+class TESTexture;
 struct FileEntryList;
 struct TESWaterForm;
 struct DistantTreeTextureInfo;
@@ -154,7 +154,7 @@ class SettingT_GameSettingCollection_
   public:
 };
 
-class GameSettingCollection;
+struct GameSettingCollection;
 template <class T> class SettingT;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting43;
 
@@ -337,43 +337,43 @@ void FUN_0048a010_shell::ClearAndDeleteArray()
 
 namespace fnv_00489db0 {
 struct PackedRecordData;
-struct Actor;
+class Actor;
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
 struct BGSVoiceType;
 struct BipedAnim;
 struct CHUNK;
 struct ContainerChanges;
-struct ContainerItemExtra;
+class ContainerItemExtra;
 struct InventoryItemEntry;
 struct FormRecordHeader;
 struct TESFileGroup;
 struct HWND__;
 struct InventoryChanges;
 struct MagicItemForm;
-struct NiAVObject;
+class NiAVObject;
 struct NiColor;
 struct NiPoint3;
 struct PackageList;
 struct SpellItem;
 struct TESAIForm;
-struct TESActorBase;
+class TESActorBase;
 struct TESActorBaseData;
 struct TESAmmo;
-struct TESBoundObject;
-struct TESContainer;
+class TESBoundObject;
+class TESContainer;
 struct TESFaction;
-struct TESForm;
+class TESForm;
 struct TESHealthForm;
 struct TESLevItem;
 struct TESLevSpell;
-struct TESObject;
-struct TESObjectARMO;
+class TESObject;
+class TESObjectARMO;
 struct TESObjectCLOT;
 struct TESFormList;
-struct TESObjectREFR;
-struct TESObjectWEAP;
-struct TESPackage;
+class TESObjectREFR;
+class TESObjectWEAP;
+class TESPackage;
 struct TESWaterForm;
 struct blob8
 {

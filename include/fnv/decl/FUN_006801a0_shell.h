@@ -1,6 +1,6 @@
 #pragma once
 
-struct PackageTargetRecord;
+class PackageTargetRecord;
 
 struct FUN_006801a0_shell {
 public:

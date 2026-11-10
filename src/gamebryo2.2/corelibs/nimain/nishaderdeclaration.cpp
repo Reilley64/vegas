@@ -6,8 +6,9 @@
 #include "fnv/decl/FUN_00a5d3a0.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
 #include "fnv/symbols_00aa1000.h"
-struct NiRefObject
+class NiRefObject
 {
+  public:
     virtual ~NiRefObject();
 };
 

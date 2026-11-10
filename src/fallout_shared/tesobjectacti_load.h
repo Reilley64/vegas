@@ -35,7 +35,7 @@ class TESModelTextureSwap;
 class TESObjectACTI;
 class TESFormList;
 class FileEntryList;
-class TESWaterForm;
+struct TESWaterForm;
 class DistantTreeTextureInfo;
 class TESObject : public TESForm
 {
@@ -138,7 +138,7 @@ class EffectSetting
     void SetEnchantEffectShader(TESEffectShader*);
     void SetBoltSound(TESSound*);
 };
-class CombatController;
+struct CombatController;
 class CombatProcedure
 {
   public:

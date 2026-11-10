@@ -1,7 +1,7 @@
 #pragma once
 
 struct AvoidActor;
-struct PathingAvoidNodeArray;
+class PathingAvoidNodeArray;
 
 struct AvoidWork {
 public:

@@ -93,8 +93,9 @@ FUN_0080bc70_cls::FUN_0080bc70_cls(MagicCaster* apCaster, MagicItem* apMagicItem
     f = 0.0f;
 }
 
-struct TESForm
+class TESForm
 {
+  public:
     virtual ~TESForm();
 public:
     void ClearData();

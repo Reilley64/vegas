@@ -5,12 +5,12 @@
 
 #include "fnv/symbols_005b5000.h"
 class BSExtraData;
-class InventoryChanges;
+struct InventoryChanges;
 class TESBoundObject;
 struct CellDataNode;
 class AnimData;
 class ValidBip01Names;
-class ScriptLocals;
+struct ScriptLocals;
 
 #include "TESForm.h"
 #include "packagelocation_reference.h"

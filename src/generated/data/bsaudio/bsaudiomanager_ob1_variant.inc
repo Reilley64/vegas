@@ -28,7 +28,7 @@
 #pragma comment(linker, "/alternatename:?NiPoint3_ZERO@@3UNiPoint3@@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?NiPoint3_ZERO@fnv_00adbb30@@3UVector3@1@A=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?NiPoint3_ZERO@fnv_00adcb20@@3US_adcb20_Point3@1@A=?ZERO@NiPoint3@@2U1@B")
-#pragma comment(linker, "/alternatename:?NiPoint3_ZERO@fnv_00adf080@@3VNiPoint3@1@B=?ZERO@NiPoint3@@2U1@B")
+#pragma comment(linker, "/alternatename:?NiPoint3_ZERO@fnv_00adf080@@3UNiPoint3@1@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?ZERO@NiPoint3@fnv_00ada0f0@@2U12@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?ZERO@NiPoint3@fnv_00adad80@@2U12@B=?ZERO@NiPoint3@@2U1@B")
 #pragma comment(linker, "/alternatename:?ZERO@NiPoint3B7C0@@2V1@B=?ZERO@NiPoint3@@2U1@B")

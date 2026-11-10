@@ -4,7 +4,7 @@ class BGSQuestObjective;
 class PerkEntryConditionSet;
 class QuestStage;
 class RegionObjectEntry;
-class ScriptLocals;
+struct ScriptLocals;
 template <class> class BSSimpleList;
 
 class TESQuest {

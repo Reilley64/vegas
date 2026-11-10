@@ -489,7 +489,7 @@ void A76340StripsData::FUN_00a76340(A76340Stream& kStream)
     }
 }
 
-class NiStream
+struct NiStream
 {
   public:
     void* m_ppVirtualMethodTable;

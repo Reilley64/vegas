@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class NiAlphaProperty;
-class NiStream;
+struct NiStream;
 namespace fnv_00a5c5b0 { struct VStream; }
 
 // 0x00a5c180

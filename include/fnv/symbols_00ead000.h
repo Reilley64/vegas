@@ -1,6 +1,6 @@
 #pragma once
 
-namespace sead090 { class Node; }
+namespace sead090 { struct Node; }
 struct BoundedObject;
 struct FadeNodeEntry;
 struct Vector3;

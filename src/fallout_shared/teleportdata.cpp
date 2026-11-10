@@ -151,8 +151,9 @@ void FUN_00414030_shell::SwapEndian()
     ::FUN_00401080((int*)this + 6);
 }
 
-struct BSExtraData
+class BSExtraData
 {
+  public:
     int m_iType;
     int m_uiLogicalSize;
     int m_iValue;

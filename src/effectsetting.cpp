@@ -554,8 +554,9 @@ struct FUN_009e3360_Class
     void SetMode(unsigned int value);
 };
 
-struct TESDataHandler
+class TESDataHandler
 {
+  public:
     unsigned int GetNextID();
 };
 

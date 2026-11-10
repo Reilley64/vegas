@@ -3,8 +3,8 @@
 #include <cstdint>
 
 class Actor;
-class BGSSaveFormBuffer;
-namespace fnv_005aaaf0 { class BGSLoadFormBuffer; }
+struct BGSSaveFormBuffer;
+namespace fnv_005aaaf0 { struct BGSLoadFormBuffer; }
 
 // 0x005aa500
 namespace fnv_005aa500 { void FUN_005aa500(std::intptr_t, unsigned char); }

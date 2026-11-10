@@ -47,7 +47,7 @@ class Menu
     char pad2[8];
     int m_iMenuId;
 };
-class Interface
+struct Interface
 {
   public:
     static Menu* GetMenuById(int);

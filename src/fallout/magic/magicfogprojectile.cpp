@@ -400,8 +400,9 @@ struct FUN_0081aa80
 struct SaveManager
 {
 };
-struct Projectile
+class Projectile
 {
+  public:
     virtual void method0();
     virtual void method1();
     virtual void method2();

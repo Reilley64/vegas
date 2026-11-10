@@ -6,7 +6,7 @@
 #include "fnv/symbols_00453000.h"
 #include "layout_support.h"
 #include "BSAudioSyncTimer.h"
-class BSAudio
+struct BSAudio
 {
   public:
     void** m_ppVirtualMethodTable;             // +0x0

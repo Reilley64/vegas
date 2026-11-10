@@ -39,8 +39,9 @@ FUN_0080e030::FUN_0080e030(void* a, void* b, void* c) : ValueModifierEffect(a, b
     *(void**)this = (void*)&DAT_0107a21c;
 }
 
-struct Actor
+class Actor
 {
+  public:
     void UpdateActorPresentation(void);
     virtual void vfn_0x000();
     virtual void vfn_0x004();
@@ -328,12 +329,14 @@ void InvisibilityEffect::ApplyInvisibility(Actor* actor)
 
 namespace fnv_0080e5b0 {
 struct PC7d;
-struct TESForm
+class TESForm
 {
+  public:
     virtual void Revert(unsigned int);
 };
-struct Actor
+class Actor
 {
+  public:
     virtual void v0();
     virtual void v1();
     virtual void v2();

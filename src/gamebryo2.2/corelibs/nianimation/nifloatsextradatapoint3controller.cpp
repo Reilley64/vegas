@@ -46,7 +46,7 @@ int* __cdecl FUN_00a4ecd0()
     return 0;
 }
 
-class NiStream;
+struct NiStream;
 struct NiPSysModifierCtlr {
     void CopyMemberData(NiPSysModifierCtlr* src, void* proc);
 public:

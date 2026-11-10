@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-class NiObject;
+struct NiObject;
 
 // 0x004d74c0
 void ExpandTreeItemsRecursively(void *, intptr_t, int);

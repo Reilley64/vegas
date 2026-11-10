@@ -1,6 +1,6 @@
 #pragma once
 
-class ImpactSwap;
+struct ImpactSwap;
 
 struct FUN_0058f5c0_shell {
 public:

@@ -2,7 +2,7 @@
 #include <cstdint>
 
 class NiQuaternion;
-class NiStream;
+struct NiStream;
 namespace fnv_00a6d2d0 { class TCTimeNode; }
 struct NiQuaternionConjugateValue;
 struct Quaternion;

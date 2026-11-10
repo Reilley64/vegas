@@ -10,14 +10,14 @@ class NiNode;
 class NiCamera;
 class NiCollisionObject;
 class NiPropertyState;
-class NiRenderer;
+struct NiRenderer;
 class NiDynamicEffectState;
-class NiUpdateData;
+struct NiUpdateData;
 class FourComponentFloatVector;
 class BSMemObject
 {
 };
-class ThreeByThreeMatrix : public BSMemObject
+struct ThreeByThreeMatrix : public BSMemObject
 {
   public:
     float m_afEntries[3][3];

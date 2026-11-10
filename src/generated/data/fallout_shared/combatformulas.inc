@@ -10,18 +10,18 @@ extern "C" char fnv_data_011ce4f8[] __asm__("?g_011ce4f8@@3VGlobalObject_0040e0b
 extern "C" char fnv_data_011ce51c[] __asm__("?g_011ce51c@@3VGlobalObject_0040e0b0@@A");
 extern "C" char fnv_data_011ce54c[] __asm__("?g_011ce54c@@3VGlobalObject_0040e0b0@@A");
 extern "C" char fnv_data_011cea2c[] __asm__("?g_011cea2c@@3VGlobalObject_0040e0b0@@A");
-extern "C" char fnv_data_011ceb74[] __asm__("?originalRuntimeFloatSetting559@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011cee18[] __asm__("?originalRuntimeFloatSetting571@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011cef44[] __asm__("?originalRuntimeFloatSetting574@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011cefb0[] __asm__("?originalRuntimeFloatSetting573@@3V?$SettingT@VGameSettingCollection@@@@A");
+extern "C" char fnv_data_011ceb74[] __asm__("?originalRuntimeFloatSetting559@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cee18[] __asm__("?originalRuntimeFloatSetting571@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cef44[] __asm__("?originalRuntimeFloatSetting574@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cefb0[] __asm__("?originalRuntimeFloatSetting573@@3V?$SettingT@UGameSettingCollection@@@@A");
 extern "C" char fnv_data_011cf210[] __asm__("?g_011cf210@@3VGlobalObject_0040e0b0@@A");
 extern "C" char fnv_data_011cf468[] __asm__("?g_011cf468@@3VGlobalObject_0040e0b0@@A");
 extern "C" char fnv_data_011cf7a0[] __asm__("?g_011cf7a0@@3VGlobalObject_0040e0b0@@A");
-extern "C" char fnv_data_011cf974[] __asm__("?originalRuntimeFloatSetting560@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011cf9ec[] __asm__("?originalRuntimeFloatSetting561@@3V?$SettingT@VGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cf974[] __asm__("?originalRuntimeFloatSetting560@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cf9ec[] __asm__("?originalRuntimeFloatSetting561@@3V?$SettingT@UGameSettingCollection@@@@A");
 extern "C" char fnv_data_011cfc38[] __asm__("?g_011cfc38@@3VGlobalObject_0040e0b0@@A");
-extern "C" char fnv_data_011cfd34[] __asm__("?originalRuntimeFloatSetting572@@3V?$SettingT@VGameSettingCollection@@@@A");
-extern "C" char fnv_data_011cfe38[] __asm__("?originalRuntimeFloatSetting558@@3V?$SettingT@VGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cfd34[] __asm__("?originalRuntimeFloatSetting572@@3V?$SettingT@UGameSettingCollection@@@@A");
+extern "C" char fnv_data_011cfe38[] __asm__("?originalRuntimeFloatSetting558@@3V?$SettingT@UGameSettingCollection@@@@A");
 
 SettingT_GameSettingCollection_ *DAT_0119b26c[10] = {(::SettingT_GameSettingCollection_ *)(fnv_data_011cfe38), (::SettingT_GameSettingCollection_ *)(fnv_data_011ceb74), (::SettingT_GameSettingCollection_ *)(fnv_data_011cf974), (::SettingT_GameSettingCollection_ *)(fnv_data_011cf9ec), (::SettingT_GameSettingCollection_ *)(fnv_data_011ce0a8), (::SettingT_GameSettingCollection_ *)(fnv_data_011ce3c0), (::SettingT_GameSettingCollection_ *)(fnv_data_011cfc38), (::SettingT_GameSettingCollection_ *)(fnv_data_011cf7a0), (::SettingT_GameSettingCollection_ *)(fnv_data_011cf210), (::SettingT_GameSettingCollection_ *)(fnv_data_011cf468)};
 SettingT_GameSettingCollection_ *DAT_0119b2bc[10] = {(::SettingT_GameSettingCollection_ *)(fnv_data_011ce314), (::SettingT_GameSettingCollection_ *)(fnv_data_011cee18), (::SettingT_GameSettingCollection_ *)(fnv_data_011cfd34), (::SettingT_GameSettingCollection_ *)(fnv_data_011cefb0), (::SettingT_GameSettingCollection_ *)(fnv_data_011cef44), (::SettingT_GameSettingCollection_ *)(fnv_data_011ce278), (::SettingT_GameSettingCollection_ *)(fnv_data_011cea2c), (::SettingT_GameSettingCollection_ *)(fnv_data_011ce54c), (::SettingT_GameSettingCollection_ *)(fnv_data_011ce51c), (::SettingT_GameSettingCollection_ *)(fnv_data_011ce4f8)};

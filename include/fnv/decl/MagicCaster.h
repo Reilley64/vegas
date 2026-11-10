@@ -5,7 +5,7 @@ class ActiveEffect;
 class Actor;
 class MagicItem;
 class MagicTarget;
-class NiPoint3;
+struct NiPoint3;
 enum MagicCaster__State;
 
 class MagicCaster {

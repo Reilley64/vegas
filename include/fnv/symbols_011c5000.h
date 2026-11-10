@@ -1,21 +1,21 @@
 #pragma once
 
-class GameSettingCollection;
+struct GameSettingCollection;
 class GlobalObject2_0040c150;
 class GlobalObject2_0045cfe0;
-class GlobalObject2_0096a2d0;
+struct GlobalObject2_0096a2d0;
 class GlobalObject_004037b0;
 class GlobalObject_0040e0b0;
 class GlobalObject_0044f440;
 class GlobalObject_0045cf30;
-class GlobalObject_0045cfe0;
-class GlobalObject_004a4a40;
-class GlobalObject_004a9bf0;
-class GlobalObject_004a9d80;
-class GlobalObject_004a9e90;
+struct GlobalObject_0045cfe0;
+struct GlobalObject_004a4a40;
+struct GlobalObject_004a9bf0;
+struct GlobalObject_004a9d80;
+struct GlobalObject_004a9e90;
 class GlobalObject_004aa1b0;
-class GlobalObject_00633c90;
-class GlobalObject_0096a2d0;
+struct GlobalObject_00633c90;
+struct GlobalObject_0096a2d0;
 class TESForm;
 class TESGlobalMap;
 namespace bsrandom_singleton { class MersenneTwister; }

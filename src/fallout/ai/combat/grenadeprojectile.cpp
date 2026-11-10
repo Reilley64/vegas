@@ -174,7 +174,7 @@ bool S4700::FUN_009b4700(int aiArg, bool b)
     return r;
 }
 
-struct NiAVObject;
+class NiAVObject;
 struct Creature
 {
 };
@@ -208,7 +208,7 @@ void S009b4d10::FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer)
     bFlag150 = 0;
 }
 
-struct NiAVObject;
+class NiAVObject;
 
 struct ObjHelper
 {
@@ -1636,7 +1636,7 @@ bool ImpactProjectile::ProcessHits()
 class ActorCause;
 class GrenadeProjectile;
 class NiLight;
-class ThreeByThreeMatrix;
+struct ThreeByThreeMatrix;
 class NiPoint4;
 class NiTransform;
 class Projectile;
@@ -1653,7 +1653,7 @@ class Projectile__ImpactData
     NiPoint3 position;
     NiPoint3 normal;
 };
-class NiUpdateData
+struct NiUpdateData
 {
   public:
     float time;

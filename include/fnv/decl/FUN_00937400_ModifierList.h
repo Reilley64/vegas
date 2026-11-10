@@ -1,6 +1,6 @@
 #pragma once
 
-class Modifier;
+struct Modifier;
 
 class FUN_00937400_ModifierList {
 public:

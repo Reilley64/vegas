@@ -9,10 +9,10 @@
 #include "layout_support.h"
 #include "bhkcollisionobject_decls.h"
 
-class NiRTTI;
-class NiObject;
+struct NiRTTI;
+struct NiObject;
 class NiAVObject;
-class hkpRigidBody;
+struct hkpRigidBody;
 
 class bhkNiCollisionObject
 {
@@ -20,7 +20,7 @@ class bhkNiCollisionObject
     virtual ~bhkNiCollisionObject();
 };
 
-class bhkCollisionObject : public bhkNiCollisionObject
+struct bhkCollisionObject : public bhkNiCollisionObject
 {
   public:
     virtual ~bhkCollisionObject();

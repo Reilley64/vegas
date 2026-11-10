@@ -1,6 +1,6 @@
 #pragma once
 
-class GlobalObject_00869f00;
+struct GlobalObject_00869f00;
 struct FUN_00844130_arg;
 
 // 0x00844130

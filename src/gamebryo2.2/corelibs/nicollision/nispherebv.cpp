@@ -42,7 +42,7 @@ struct NiObject
     virtual void LinkObject(NiStream&);
 };
 
-class NiStream;
+struct NiStream;
 struct NiSphere
 {
     void LoadBinary(NiStream&);

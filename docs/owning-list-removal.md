@@ -24,8 +24,10 @@ no node matches it returns an owning copy of the argument.
 The definition in `shadowscenelight.cpp` carries the address tag. The recipe
 gives `blk_00ba0000_o2.cpp` 245 functions and `0x00b9fcc0` is not one of them;
 its symbol row names the function as something the unit requires. Its body had
-no address tag. It was a second transcription of the callee of `0x00ba01a0`,
-and it is removed. The unit keeps the declaration.
+no address tag. Inference: it was a second transcription of the callee of
+`0x00ba01a0`. The symbol row indicates it, and so do the bytes: the two bodies
+differ only in the two places the next section names. It is removed. The unit
+keeps the declaration.
 
 Every unit that uses the global name binds it to `0x00b9fcc0`. No second
 address exists for it.
@@ -186,12 +188,23 @@ These were open before this change and remain open.
   `shadowscenenode.cpp` each declare their own `List_b9fcc0` and
   `RefPtr_b9fcc0` under the global names. `TextureDesc` and `BA01A0Item` are
   not connected to the real payload classes.
-- The second copy of the removal. `List_b9fcc0::FUN_00b9efa0` in
-  `blk_00ba0000_o2.cpp` is an untagged body without a function row and the
-  only provider of that name; the kept 00b9fcc0 is its only requirer. It goes
-  when 00b9fcc0 calls 00b9efa0 under the recipe's function name, which needs
-  the shared declaration. `fnv_00b5e870::List_b9fcc0::FUN_00b9efa0` in
-  `shadowscenenode.cpp` is a third copy on that unit's own types.
+- The second copy of the removal. The recipe owner of `0x00b9fcc0`, in
+  `shadowscenelight.cpp`, calls `List_b9fcc0::FUN_00b9efa0`. The only
+  definition of that name is the staging copy in `blk_00ba0000_o2.cpp`. That
+  copy has no address tag, and its unit has no function row and no symbol row
+  for the name. The owner does not call the recipe function of its own unit,
+  `fnv_00b9efa0::RemovalList::FUN_00b9efa0` (`0x00b9efa0`, 285 bytes in the
+  recipe). The two removals are instruction-identical: each is a 272-byte
+  section with the same bytes and the same relocations.
+- So this change swaps which half of the pair is staging code. Before it, the
+  two requirers bound the staging body of `0x00b9fcc0`, which called the
+  recipe-bound removal. Now they bind the recipe-bound `0x00b9fcc0`, which
+  calls the staging removal. The kept 00b9fcc0 is the staging removal's only
+  requirer. The staging removal goes when 00b9fcc0 calls 00b9efa0 under the
+  recipe's function name, which needs the shared declaration.
+- A third copy of the removal: `fnv_00b5e870::List_b9fcc0::FUN_00b9efa0` in
+  `shadowscenenode.cpp`, a 192-byte section on that unit's own types, with
+  no function row.
 - The other names for `0x00b9fcc0` and `0x00b9efa0` listed above that have no
   definition, and the `PopFront`, `PopBack`, `RemoveHead`, `RemoveTail` and
   `ReleaseRefCountedNode` members these lists declare without one.

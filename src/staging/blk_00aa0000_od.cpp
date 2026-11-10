@@ -6393,15 +6393,7 @@ void BlendOwner::FUN_00aadac0(int row, int col, float t, BlendValue (*a)[2], Ble
 // then forwards the argument to this->FUN_00aadf50(arg).
 struct FUN_00aade20
 {
-    FUN_00aade20()
-    {
-        int v[68];
-        for (int i = 0; i < 68; i++)
-            v[i] = i;
-        for (int i = 1; i < 68; i++)
-            v[i] += v[i - 1];
-        unk00 = v[68 - 1];
-    }
+    FUN_00aade20();
 
     int unk00;
     int unk01;

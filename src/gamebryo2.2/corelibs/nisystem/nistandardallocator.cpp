@@ -12,6 +12,7 @@
 #include "fnv/decl/MemoryManager.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/PointerCountProcessor.h"
+#include "fnv/ni_allocator.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011f6000.h"
 void __cdecl SwapIntPairs(int* paiFirst, int* paiSecond)
@@ -33,7 +34,7 @@ struct P03MM
 };
 
 // @fnv 0x00aa3370
-void FUN_00aa3370(void* apBlock, int e, unsigned int s)
+void NiStandardAllocator::Free(void* apBlock, int e, unsigned int s)
 {
     if (apBlock)
     {
@@ -51,25 +52,21 @@ struct P03MM
 };
 
 P03MM g_memoryManager;
-
-struct NiStandardAllocator
-{
-};
+}  // namespace fnv_00aa3430
 
 // @fnv 0x00aa3430
-void __cdecl AllocateStandardAllocator()
+void NiStandardAllocator::Initialize()
 {
     void* p = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00aa3430::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x10080);
     if (p)
     {
-        DAT_011f622c = (intptr_t)((void *)(reinterpret_cast<::FUN_00aa3760_cls *>((((NiStandardAllocator*)p)))->InitEntries(0x6400)));
+        ::fnv_00aa3430::DAT_011f622c = (intptr_t)((void *)(reinterpret_cast<::FUN_00aa3760_cls *>(p)->InitEntries(0x6400)));
     }
     else
     {
-        DAT_011f622c = 0;
+        ::fnv_00aa3430::DAT_011f622c = 0;
     }
 }
-}  // namespace fnv_00aa3430
 
 // Reads four bytes from pMemory into an unsigned int and returns it.
 // @fnv 0x00aa3090
@@ -92,7 +89,7 @@ struct SmallAlloc
 };
 unsigned int __cdecl ReadUInt32(void* p);
 // @fnv 0x00aa3150
-void FUN_00aa3150(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
+void NiStandardAllocator::Deallocate(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
 {
     if (pvMemory)
     {
@@ -133,9 +130,11 @@ union Pun
 // 0x00aa30c0: writes a 4-byte count into a buffer obtained from the memory
 // manager, when the record is a 4-byte type and the caller's flag is clear.
 // @fnv 0x00aa30c0
-unsigned char* FUN_00aa30c0(unsigned int* pCount, int* pType, int eType, unsigned char bFlag, int a4, int a5,
-                                      int a6)
+void* NiStandardAllocator::Allocate(unsigned int& sizeInBytes, unsigned int& alignment, int eType, bool bFlag,
+                                    const char* a4, int a5, const char* a6)
 {
+    unsigned int* pCount = &sizeInBytes;
+    unsigned int* pType = &alignment;
     bool bWriteCount = false;
     unsigned char* pBuffer = 0;
 
@@ -266,7 +265,7 @@ struct AA3460Pools
 
 // Deletes the AA3460Pools object at DAT_011f622c and clears the pointer.
 // @fnv 0x00aa3460
-void __cdecl DestroySmallAllocPools()
+void NiStandardAllocator::Shutdown()
 {
     delete reinterpret_cast<AA3460Pools*>((*reinterpret_cast<::SmallAlloc * *>(&::fnv_00aa3430::DAT_011f622c)));
     (*reinterpret_cast<::SmallAlloc * *>(&::fnv_00aa3430::DAT_011f622c)) = 0;
@@ -352,22 +351,11 @@ fwd_body:
 
 unsigned int __cdecl ReadUInt32(void* pMemory);
 void* __cdecl FUN_00aa1250(void* pvMemory, unsigned int stSizeInBytes, unsigned int stAlignment);
-struct StdAllocator
-{
-    virtual ~StdAllocator();
-    virtual void* Allocate(unsigned int& stSizeInBytes, unsigned int& stAlignment, int aiAllocationType,
-                           bool bProvideAccurateSizeOnDeallocate, const char* pcFile, int iLine,
-                           const char* pcFunction);
-    virtual void Deallocate(void* pvMemory, int aiAllocationType, unsigned int stSizeinBytes);
-    void* FUN_00aa31b0(void* pvMemory, unsigned int& stSizeInBytes, unsigned int& stAlignment, int aiAllocationType,
-                       bool bProvideAccurateSizeOnDeallocate, unsigned int stSizeCurrent, const char* pcFile, int iLine,
-                       const char* pcFunction);
-};
-
 // @fnv 0x00aa31b0
-void* StdAllocator::FUN_00aa31b0(void* pvMemory, unsigned int& stSizeInBytes, unsigned int& stAlignment,
-                                 int aiAllocationType, bool bProvideAccurateSizeOnDeallocate,
-                                 unsigned int stSizeCurrent, const char* pcFile, int iLine, const char* pcFunction)
+void* NiStandardAllocator::Reallocate(void* pvMemory, unsigned int& stSizeInBytes, unsigned int& stAlignment,
+                                      int aiAllocationType, bool bProvideAccurateSizeOnDeallocate,
+                                      unsigned int stSizeCurrent, const char* pcFile, int iLine,
+                                      const char* pcFunction)
 {
     if (aiAllocationType != 10 && aiAllocationType != 8 && stSizeCurrent == (unsigned int)-1 &&
         !bProvideAccurateSizeOnDeallocate)
@@ -427,9 +415,12 @@ struct MM
 
 // Allocates memory via the memory manager, applying alignment for type 0xe and zeroing the returned block.
 // @fnv 0x00aa33a0
-void* FUN_00aa33a0(void* pvMem, unsigned int* puiSize, unsigned char* pucAlign, int iType, int iUnk,
-                             int iUnkCur, int iUnkValue, int iNewUnk, int iTmpUnk)
+void* NiStandardAllocator::Realloc(void* pvMem, unsigned int& sizeInBytes, unsigned int& alignment, int iType,
+                                   bool iUnk, unsigned int iUnkCur, const char* iUnkValue, int iNewUnk,
+                                   const char* iTmpUnk)
 {
+    unsigned int* puiSize = &sizeInBytes;
+    unsigned char* pucAlign = reinterpret_cast<unsigned char*>(&alignment);
     void* pNewMem;
     if (iType != 0xe)
     {
@@ -487,9 +478,11 @@ struct MMHeap
 
 // Allocates and zeroes a block, applying the requested alignment when iType is 0xd.
 // @fnv 0x00aa3300
-void* FUN_00aa3300(uintptr_t puiSize, unsigned char* pucAlign, int iType, int iUnk, int iUnkCur,
-                             int iUnkValue, int iNewUnk)
+void* NiStandardAllocator::Alloc(unsigned int& sizeInBytes, unsigned int& alignment, int iType, bool iUnk,
+                                 const char* iUnkCur, int iUnkValue, const char* iNewUnk)
 {
+    uintptr_t puiSize = reinterpret_cast<uintptr_t>(&sizeInBytes);
+    unsigned char* pucAlign = reinterpret_cast<unsigned char*>(&alignment);
     MMHeap* pkHeap = (MMHeap*)&(*reinterpret_cast<::MM *>(&::g_memoryManager));
     void* pvNew;
     if (iType != 0xd)

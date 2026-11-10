@@ -241,6 +241,38 @@ else()
   endforeach()
 endif()
 
+# The published Ni allocator: the actual manager startup entries, the holder's
+# one writer, both recorded allocation entries and the Bethesda allocator.
+add_executable(runtime_ni_allocator_join_test runtime/ni_allocator_join_test.cpp)
+if(WIN32)
+  target_link_libraries(runtime_ni_allocator_join_test PRIVATE game)
+  target_sources(runtime_ni_allocator_join_test PRIVATE ${PROJECT_SOURCE_DIR}/src/runtime/new.cpp)
+else()
+  target_sources(runtime_ni_allocator_join_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nisystem/ni_allocator_holder.cpp
+    ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nisystem/bsniallocator.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/newoverloads.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/new.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/fixed_pool.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/native_memory_pools.cpp
+    ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
+    ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp)
+  target_link_libraries(runtime_ni_allocator_join_test PRIVATE Threads::Threads)
+endif()
+target_include_directories(runtime_ni_allocator_join_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+add_test(NAME runtime.ni_allocator_join COMMAND runtime_ni_allocator_join_test)
+add_test(NAME runtime.ni_allocator_join.unpublished_free
+  COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:runtime_ni_allocator_join_test>
+    -DMODE=--free-without-holder
+    -DMARKER=free-without-holder
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
+
 add_executable(runtime_native_string_test runtime/native_string_test.cpp)
 if(WIN32)
   target_link_libraries(runtime_native_string_test PRIVATE game)

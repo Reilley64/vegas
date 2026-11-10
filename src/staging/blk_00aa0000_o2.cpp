@@ -14,10 +14,10 @@
 #include "fnv/decl/CBaseList9FD.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
-#include "fnv/decl/FUN_00aa2200.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/NiGlobalStringTable.h"
 #include "fnv/decl/NiRefObject.h"
+#include "fnv/ni_allocator.h"
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_00a29000.h"
 #include "fnv/symbols_00a57000.h"
@@ -223,20 +223,6 @@ float GetElapsedSeconds()
     return (float)diff / (float)DAT_011f6070;
 }
 
-struct FUN_00aa21d0_s
-{
-    void* m_p;
-    unsigned char m_kPointB;
-    FUN_00aa21d0_s* FUN_00aa21d0(void* v);
-};
-// @fnv 0x00aa21d0
-FUN_00aa21d0_s* FUN_00aa21d0_s::FUN_00aa21d0(void* v)
-{
-    m_p = v;
-    m_kPointB = 0;
-    return this;
-}
-
 struct HashNode
 {
     HashNode* next;
@@ -314,24 +300,6 @@ unsigned char FUN_00aa0ff0_cls::FUN_00aa0ff0()
     if (m_08 != 0)
         return 1;
     return 0;
-}
-
-struct DeviceInterface
-{
-    virtual void Unknown();
-    virtual void* Dispatch(int* value, int* command, int a, int b, int c, int d, int e);
-};
-
-// Defaults value to 1 if zero, then allocates through the memory manager's allocator (size, alignment 4, operator new) and returns the block.
-// @fnv 0x00aa13e0
-void* __cdecl FUN_00aa13e0(size_t value)
-{
-    if (!value)
-        value = 1;
-    int adjusted = static_cast<int>(value);
-    DeviceInterface* device = *(*reinterpret_cast<::DeviceInterface ** *>(&::DAT_011f6080));
-    int command = 4;
-    return device->Dispatch(&adjusted, &command, 1, 1, 0, -1, 0);
 }
 
 struct FUN_00aff950_shell
@@ -418,43 +386,6 @@ unsigned int FUN_00aa1fd0_cls::AdvanceChars(char* s)
     return count;
 }
 
-namespace fnv_00aa2020 {
-struct FUN_00aa2020_Impl
-{
-    virtual void FUN_00aa2020_00();
-    virtual void FUN_00aa2020_01();
-    virtual void FUN_00aa2020_02();
-    virtual void FUN_00aa2020_03();
-    virtual void FUN_00aa2020_04();
-    virtual void FUN_00aa2020_05();
-    virtual void FUN_00aa2020_06();
-    virtual void FUN_00aa2020_07();
-};
-
-struct FUN_00aa2020_Holder
-{
-    FUN_00aa2020_Impl* m_pImpl;
-};
-
-struct FUN_00aa2020_Allocator
-{
-};
-
-struct FUN_00aa2020_Source
-{
-};
-
-
-// Allocates a 4-byte holder, stores the impl obtained from DAT_011f6118 into it, then calls the impl's method.
-// @fnv 0x00aa2020
-extern "C" void __cdecl InitHolder()
-{
-    (*reinterpret_cast<::fnv_00aa2020::FUN_00aa2020_Holder * *>(&::DAT_011f6080)) = ((::fnv_00aa2020::FUN_00aa2020_Holder *)(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00aa2020::FUN_00aa2020_Allocator *>(&::g_memoryManager))))->FUN_00aa3e40(4)));
-    (*reinterpret_cast<::fnv_00aa2020::FUN_00aa2020_Holder * *>(&::DAT_011f6080))->m_pImpl = ((::fnv_00aa2020::FUN_00aa2020_Impl *)(reinterpret_cast<::CBaseList9FD *>(((*reinterpret_cast<::fnv_00aa2020::FUN_00aa2020_Source * *>(&::DAT_011f6118))))->GetHeadPositionI()));
-    (*reinterpret_cast<::fnv_00aa2020::FUN_00aa2020_Holder * *>(&::DAT_011f6080))->m_pImpl->FUN_00aa2020_07();
-}
-}  // namespace fnv_00aa2020
-
 typedef void(__cdecl* FUN_00aa2080_callback)();
 
 extern FUN_00aa2080_callback DAT_011f60c8[];
@@ -473,11 +404,6 @@ void __cdecl FUN_00aa2080(FUN_00aa2080_callback callback, intptr_t value)
 
 namespace fnv_00aa2170 {
 
-
-struct FUN_00aa21e0_shell
-{
-    void FUN_00aa21e0();
-};
 
 struct FUN_00aa4060_shell
 {
@@ -499,76 +425,13 @@ void __cdecl FUN_00aa2170()
         void* obj = ::DAT_011f6118;
         if (::DAT_011f6118 != 0)
         {
-            ((FUN_00aa21e0_shell*)::DAT_011f6118)->FUN_00aa21e0();
+            static_cast<::NiInitOptions*>(obj)->~NiInitOptions();
             reinterpret_cast<::FNV_MemoryManager *>((((FUN_00aa4060_shell*)&(*reinterpret_cast<unsigned char *>(&::g_memoryManager)))))->FUN_00aa4060(obj);
         }
     }
     ::DAT_011f610c = 0;
 }
 }  // namespace fnv_00aa2170
-
-// FUN_00aa21e0 : 21 bytes, thiscall, /MT /O2
-// Reads a byte flag at this+4; if set, takes the member pointer at this+0,
-// null-checks it, and calls the object's first virtual with the argument 1.
-
-class FUN_00aa21e0_inner
-{
-  public:
-    virtual void v00(int aArg);
-};
-
-class FUN_00aa21e0_cls
-{
-  public:
-    FUN_00aa21e0_inner* m_pObject;
-    unsigned char m_bEnableState;
-
-    void FUN_00aa21e0();
-};
-
-// @fnv 0x00aa21e0
-void FUN_00aa21e0_cls::FUN_00aa21e0()
-{
-    if (m_bEnableState)
-    {
-        if (m_pObject)
-        {
-            m_pObject->v00(1);
-        }
-    }
-}
-
-// ---------------------------------------------------------------------------
-// FUN_00aa2230  (0x00aa2230, 9 bytes)
-//
-//     8b c1                 mov     eax, ecx
-//     c7 00 28 25 0a 01     mov     dword ptr [eax], 010a2528h
-//     c3                    ret
-//
-// This is the constructor of BSNiAllocator (the vftable at 010a2528h carries
-// the RTTI name ".?AVBSNiAllocator@@").  The class has no base class, so the
-// whole constructor is just the vftable store: MSVC copies `this` into EAX
-// (a constructor returns `this` in EAX) and writes the vftable pointer to
-// offset 0 of the object.
-//
-// The stand-in class is named with the FUN_00aa2230 tag so that the mangled
-// constructor symbol ??0FUN_00aa2230_BSNiAllocator@@QAE@XZ is the one and only
-// defined function symbol that carries the tag the checker looks for.
-// One virtual is enough to make the compiler emit a vftable; the checker's
-// literal-content check masks every relocated slot of that table, so the
-// number of slots does not have to match the original's fourteen.
-// ---------------------------------------------------------------------------
-
-struct FUN_00aa2230_BSNiAllocator
-{
-    virtual void m_virtual0();
-    FUN_00aa2230_BSNiAllocator();
-};
-
-// @fnv 0x00aa2230
-FUN_00aa2230_BSNiAllocator::FUN_00aa2230_BSNiAllocator()
-{}
-
 
 struct FUN_00aa24d0
 {
@@ -1220,9 +1083,6 @@ unsigned int __cdecl FUN_00aa1ad0(ProcessingState* state, const void* data, unsi
     return result;
 }
 
-struct FUN_00aa2200_shell
-{
-};
 namespace InitSystemCall {
 }
 // Sets TLS unk2b4 to 15, selects or allocates the object stored in DAT_011f6118, runs FUN_00aa3050 and the init callbacks, restores unk2b4 and sets DAT_011f610c.
@@ -1236,9 +1096,9 @@ void __cdecl FUN_00aa20b0(void* value)
     {
         if (!existing)
         {
-            void* allocated = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::StringHandleAllocatorAA0 *>(&::g_memoryManager))))->FUN_00aa3e40(8);
+            void* allocated = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::StringHandleAllocatorAA0 *>(&::g_memoryManager))))->FUN_00aa3e40(sizeof(::NiInitOptions));
             if (allocated)
-                value = ((void *)(new ((void *)(((FUN_00aa2200_shell*)allocated))) ::FUN_00aa2200()));
+                value = ((void *)(new (allocated) ::NiInitOptions()));
             else
                 value = 0;
             DAT_011f610d = 1;

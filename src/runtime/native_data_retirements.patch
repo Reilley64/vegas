@@ -1,3 +1,7 @@
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc
+@@ -35 +34,0 @@
+-::HolderB3718 *DAT_011f6080;
 --- a/src/generated/data/havok/common/base/types/hkrefvariant.inc
 +++ b/src/generated/data/havok/common/base/types/hkrefvariant.inc
 @@ -8 +7,0 @@
@@ -22,6 +26,10 @@
 -
 -hkReal DAT_011b6924 = 1.0f;
 -hkReal DAT_011b6928 = 0.05f;
+--- a/src/generated/data/staging/blk_00860000_od.inc
++++ b/src/generated/data/staging/blk_00860000_od.inc
+@@ -18 +17,0 @@
+-void *DAT_011f6118;
 --- a/src/generated/data/staging/blk_00d20000_o2.inc
 +++ b/src/generated/data/staging/blk_00d20000_o2.inc
 @@ -6 +5,0 @@
@@ -40,12 +48,33 @@
 -float DAT_011b6928 = 0.05f;
 --- a/src/generated/data/vtables.h
 +++ b/src/generated/data/vtables.h
-@@ -1643 +1642,0 @@
+@@ -1177 +1176,0 @@
+-extern void* fnv_vftable_DAT_010a24d0[] __asm__("?DAT_010a24d0@fnv_00aa24a0@@3HA");
+@@ -1643 +1641,0 @@
 -extern void* fnv_vftable_fnv_00db7a20_Thing[] __asm__("?DAT_010cf7b0@fnv_00d47d70@@3HA");
-@@ -1758 +1756,0 @@
+@@ -1758 +1755,0 @@
 -extern void* fnv_vftable_DAT_010d6a94[] __asm__("DAT_010d6a94");
-@@ -1910 +1907,0 @@
+@@ -1910 +1906,0 @@
 -extern void* fnv_vftable_DAT_010ea51c[] __asm__("DAT_010ea51c");
+--- a/src/generated/data/vtables_010a.cpp
++++ b/src/generated/data/vtables_010a.cpp
+@@ -320 +319,0 @@
+-extern "C" void fnv_fn_00aa24a0() __asm__("?Destroy@BSNiAllocator@fnv_00aa24a0@@QEAAPEAXI@Z");
+@@ -1820,14 +1818,0 @@
+-// ?DAT_010a24d0@fnv_00aa24a0@@3HA
+-void* fnv_vftable_DAT_010a24d0[] = {
+-    reinterpret_cast<void*>(&fnv_fn_00aa24a0),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-    reinterpret_cast<void*>(&fnv_fn_00ec60fa),
+-};
+-
 --- a/src/generated/data/vtables_010c.cpp
 +++ b/src/generated/data/vtables_010c.cpp
 @@ -1716 +1716 @@

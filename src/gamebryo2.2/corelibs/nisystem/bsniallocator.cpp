@@ -8,205 +8,185 @@
 #include "fnv/decl/FUN_00aa4200_Helper.h"
 #include "fnv/decl/MemoryManager.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/symbols_011f6000.h"
+#include "fnv/ni_allocator.h"
 #include <cstdlib>
-struct MM
+#include <limits>
+
+// The recorded bodies write through the manager's result without a null check.
+// Native policy, not recovered behaviour: a successful request behaves as
+// recorded, including the zero fill; a request the manager refuses, or whose
+// size plus alignment does not fit the manager's unsigned entry, returns null
+// and writes nothing.
+static bool FitsWithAlignment(unsigned int size, unsigned char alignment)
 {
-};
-struct BSNiAllocator
+    return size <= std::numeric_limits<unsigned int>::max() - alignment;
+}
+
+// Aligned blocks keep the distance back to the manager's block in the byte
+// before the returned address.
+static void* AlignManagerBlock(void* block, unsigned char alignment)
 {
-    void FUN_00aa22b0(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes);
-};
-// @fnv 0x00aa22b0
-void BSNiAllocator::FUN_00aa22b0(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
+    char* memory = static_cast<char*>(block);
+    unsigned char offset = alignment - ((alignment - 1) & (unsigned char)(uintptr_t)memory);
+    memory += offset;
+    memory[-1] = offset;
+    return memory;
+}
+
+// @fnv 0x00aa24a0
+NiAllocator::~NiAllocator()
+{}
+
+// @fnv 0x00aa2230
+BSNiAllocator::BSNiAllocator()
+{}
+
+// Allocates memory (aligned for event 7, otherwise plain) from g_memoryManager, zeroes sizeInBytes bytes, and returns the pointer.
+// @fnv 0x00aa2240
+void* BSNiAllocator::Allocate(unsigned int& sizeInBytes, unsigned int& alignment, int eventType,
+                              bool provideAccurateSizeOnDeallocate, const char* file, int line,
+                              const char* function)
 {
-    if (aiAllocationType == 10)
+    void* memory;
+    if (eventType == 7)
     {
-        if (pvMemory)
+        unsigned int size = sizeInBytes;
+        unsigned char byteAlignment = (unsigned char)alignment;
+        if (!FitsWithAlignment(size, byteAlignment))
+            return nullptr;
+        void* block = g_memoryManager.FUN_00aa3e40(size + byteAlignment);
+        if (!block)
+            return nullptr;
+        memory = AlignManagerBlock(block, byteAlignment);
+    }
+    else
+    {
+        memory = g_memoryManager.Allocate(sizeInBytes, file, line, function);
+        if (!memory)
+            return nullptr;
+    }
+    std::memset(memory, 0, sizeInBytes);
+    return memory;
+}
+
+// @fnv 0x00aa22b0
+void BSNiAllocator::Deallocate(void* memory, int eventType, unsigned int sizeInBytes)
+{
+    if (eventType == 10)
+    {
+        if (memory)
         {
-            pvMemory = (char*)pvMemory - *((unsigned char*)pvMemory - 1);
-            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(pvMemory);
+            memory = (char*)memory - *((unsigned char*)memory - 1);
+            g_memoryManager.FUN_00aa4060(memory);
             return;
         }
     }
     else
     {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(pvMemory);
+        g_memoryManager.FUN_00aa4060(memory);
     }
 }
 
-namespace fnv_00aa23e0 {
-struct MemoryManager
+// For event 8, reallocates the aligned block and restores its offset byte; otherwise forwards to FUN_00aa4200.
+// @fnv 0x00aa22f0
+void* BSNiAllocator::Reallocate(void* memory, unsigned int& sizeInBytes, unsigned int& alignment, int eventType,
+                                bool provideAccurateSizeOnDeallocate, unsigned int sizeCurrent, const char* file,
+                                int line, const char* function)
 {
-};
-// @fnv 0x00aa23e0
-void FUN_00aa23e0(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
-{
-    if (aiAllocationType == 0x10)
+    if (eventType == 8)
     {
-        if (!pvMemory)
+        unsigned int size = sizeInBytes;
+        unsigned char byteAlignment = (unsigned char)alignment;
+        if (memory != 0)
+        {
+            if (!FitsWithAlignment(size, byteAlignment))
+                return nullptr;
+            char* base = (char*)memory - ((unsigned char*)memory)[-1];
+            void* block = g_memoryManager.Reallocate(base, byteAlignment + size);
+            if (!block)
+                return nullptr;
+            return AlignManagerBlock(block, byteAlignment);
+        }
+        return 0;
+    }
+    return reinterpret_cast<::FUN_00aa4200_Helper *>(&::g_memoryManager)->FUN_00aa4200(memory, sizeInBytes, (uintptr_t)(file), line, (uintptr_t)(function));
+}
+
+// Allocates memory (aligned for event 0xd, otherwise plain) from g_memoryManager, zeroes sizeInBytes bytes, and returns the pointer.
+// @fnv 0x00aa2370
+void* BSNiAllocator::Alloc(unsigned int& sizeInBytes, unsigned int& alignment, int eventType,
+                           bool provideAccurateSizeOnDeallocate, const char* file, int line, const char* function)
+{
+    void* memory;
+    if (eventType == 0xd)
+    {
+        unsigned int size = sizeInBytes;
+        unsigned char byteAlignment = (unsigned char)alignment;
+        if (!FitsWithAlignment(size, byteAlignment))
+            return nullptr;
+        void* block = g_memoryManager.FUN_00aa3e40(size + byteAlignment);
+        if (!block)
+            return nullptr;
+        memory = AlignManagerBlock(block, byteAlignment);
+    }
+    else
+    {
+        memory = g_memoryManager.Allocate(sizeInBytes, file, line, function);
+        if (!memory)
+            return nullptr;
+    }
+    std::memset(memory, 0, sizeInBytes);
+    return memory;
+}
+
+// @fnv 0x00aa23e0
+void BSNiAllocator::Free(void* memory, int eventType, unsigned int sizeInBytes)
+{
+    if (eventType == 0x10)
+    {
+        if (!memory)
             return;
-        pvMemory = (char*)pvMemory - *((unsigned char*)pvMemory - 1);
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00aa23e0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMemory);
+        memory = (char*)memory - *((unsigned char*)memory - 1);
+        g_memoryManager.FUN_00aa4060(memory);
         return;
     }
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00aa23e0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMemory);
+    g_memoryManager.FUN_00aa4060(memory);
 }
-}  // namespace fnv_00aa23e0
-
-namespace fnv_00aa24a0 {
-struct MemoryManager
-{
-};
-extern int DAT_010a24d0;
-struct BSNiAllocator
-{
-    void* Destroy(unsigned int);
-};
-// Sets the vtable pointer to DAT_010a24d0 and, when bit 0 of flags is set, deallocates this via g_memoryManager, then returns this.
-// @fnv 0x00aa24a0
-void* BSNiAllocator::Destroy(unsigned int flags)
-{
-    *(void**)this = (void*)&DAT_010a24d0;
-    if (flags & 1)
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00aa24a0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
-    return this;
-}
-}  // namespace fnv_00aa24a0
-
-struct SpawnHeap_cls
-{
-};
-
-
-// For eType 8, reallocates pBlock with extra *pAdjust bytes and fixes the header offset; otherwise forwards to FUN_00aa4200.
-// @fnv 0x00aa22f0
-char* ResizeHeapBlock(char* pBlock, int* pSize, unsigned char* pAdjust, int eType, int a5, int a6, int a7,
-                                int a8, int a9)
-{
-    SpawnHeap_cls* heap = reinterpret_cast<SpawnHeap_cls*>(&(*reinterpret_cast<::MM *>(&::g_memoryManager)));
-    if (eType == 8)
-    {
-        int sz = *pSize;
-        unsigned char ucAdjust = *pAdjust;
-        if (pBlock != 0)
-        {
-            unsigned char ucHeader = (unsigned char)pBlock[-1];
-            char* base = pBlock - ucHeader;
-            char* r = ((char *)(reinterpret_cast<::MemoryManager *>((heap))->Reallocate(base, ucAdjust + sz)));
-            unsigned char adj = ucAdjust - (unsigned char)((ucAdjust - 1) & (unsigned char)(uintptr_t)r);
-            r += adj;
-            r[-1] = (char)adj;
-            return r;
-        }
-        return 0;
-    }
-    return ((char *)(reinterpret_cast<::FUN_00aa4200_Helper *>((heap))->FUN_00aa4200(pBlock, *pSize, a7, a8, a9)));
-}
-
-struct NiAllocGlobal
-{
-    int unk00;
-};
-
-
-
-// @fnv 0x00aa2370
-uintptr_t AllocateAlignedBuffer(unsigned int* puiSize, unsigned char* pucAlignByte, int aiAlignMode,
-                                             int aiUnused, intptr_t a5, int a6, intptr_t a7)
-{
-    uintptr_t r;
-    if (aiAlignMode == 0xd)
-    {
-        unsigned int uiSize = *puiSize;
-        unsigned char ucAlignByte = *pucAlignByte;
-        uintptr_t base = ((uintptr_t)(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiAllocGlobal *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize + ucAlignByte)));
-        unsigned char adj = (unsigned char)(ucAlignByte - ((ucAlignByte - 1) & (unsigned char)base));
-        *(unsigned char*)(base + adj - 1) = adj;
-        r = base + adj;
-    }
-    else
-    {
-        r = ((uintptr_t)(reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::NiAllocGlobal *>(&::g_memoryManager))))->Allocate(*puiSize, (const char *)(a5), a6, (const char *)(a7))));
-    }
-    std::memset((void *)(r), 0, *puiSize);
-    return r;
-}
-
-
-class MemoryManagerAA2
-{
-  public:
-};
-
-
-enum NiMemEventTypeAA2
-{
-    NI_UNKNOWN,
-    NI_OPER_NEW,
-    NI_OPER_NEW_ARRAY,
-    NI_OPER_DELETE,
-    NI_OPER_DELETE_ARRAY,
-    NI_MALLOC,
-    NI_REALLOC,
-    NI_ALIGNEDMALLOC
-};
-
-// Allocates memory (aligned or plain) via g_kMemoryManagerAA2, zeroes stSizeInBytes bytes, and returns the pointer.
-// @fnv 0x00aa2240
-void* AllocateZeroedMemory(unsigned int& stSizeInBytes, unsigned int& stAlignment,
-                                     NiMemEventTypeAA2 eMemEventType, bool bProvideAccurateSizeOnDeallocate,
-                                     const char* pcFile, int iLine, const char* pcFunction)
-{
-    void* pvMem;
-    if (eMemEventType == NI_ALIGNEDMALLOC)
-    {
-        unsigned int stSize = stSizeInBytes;
-        unsigned char ucAlignment = (unsigned char)stAlignment;
-        char* pcMem = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAA2 *>(&::g_memoryManager))))->FUN_00aa3e40(stSize + ucAlignment);
-        unsigned char ucOffset = ucAlignment - ((ucAlignment - 1) & (unsigned char)(uintptr_t)pcMem);
-        pcMem += ucOffset;
-        pcMem[-1] = ucOffset;
-        pvMem = pcMem;
-    }
-    else
-    {
-        pvMem = reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::MemoryManagerAA2 *>(&::g_memoryManager))))->Allocate(stSizeInBytes, pcFile, iLine, pcFunction);
-    }
-    std::memset(pvMem, 0, stSizeInBytes);
-    return pvMem;
-}
-
-class BAA2420MemoryManager
-{
-  public:
-};
-
 
 // @fnv 0x00aa2420
-void* FUN_00aa2420(void* pvMem, unsigned int& uiSize, unsigned char& ucAlignment, int aiAllocationType,
-                             bool bProvideSize, unsigned int uiCurrentSize, const char* pcFile, int iLine,
-                             const char* pcFunction)
+void* BSNiAllocator::Realloc(void* memory, unsigned int& sizeInBytes, unsigned int& alignment, int eventType,
+                             bool provideAccurateSizeOnDeallocate, unsigned int sizeCurrent, const char* file,
+                             int line, const char* function)
 {
-    if (aiAllocationType == 14)
+    if (eventType == 14)
     {
-        unsigned int uiNewSize = uiSize;
-        unsigned char ucAlign = ucAlignment;
-        if (pvMem)
+        unsigned int size = sizeInBytes;
+        unsigned char byteAlignment = (unsigned char)alignment;
+        if (memory)
         {
-            char* pcBase = (char*)pvMem - ((unsigned char*)pvMem)[-1];
-            char* pcNew = (char*)reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::BAA2420MemoryManager *>(&::g_memoryManager))))->Reallocate(pcBase, ucAlign + uiNewSize);
-            unsigned char ucOffset = ucAlign - ((ucAlign - 1) & (unsigned char)(uintptr_t)pcNew);
-            pcNew += ucOffset;
-            pcNew[-1] = ucOffset;
-            return pcNew;
+            if (!FitsWithAlignment(size, byteAlignment))
+                return nullptr;
+            char* base = (char*)memory - ((unsigned char*)memory)[-1];
+            void* block = g_memoryManager.Reallocate(base, byteAlignment + size);
+            if (!block)
+                return nullptr;
+            return AlignManagerBlock(block, byteAlignment);
         }
         return 0;
     }
-    return reinterpret_cast<::FUN_00aa4200_Helper *>(&((*reinterpret_cast<::BAA2420MemoryManager *>(&::g_memoryManager))))->FUN_00aa4200(pvMem, uiSize, (uintptr_t)(pcFile), iLine, (uintptr_t)(pcFunction));
+    return reinterpret_cast<::FUN_00aa4200_Helper *>(&::g_memoryManager)->FUN_00aa4200(memory, sizeInBytes, (uintptr_t)(file), line, (uintptr_t)(function));
 }
 
+// No body is identified for slots 7 and 8 of this class: its unit has no room
+// for one between 0x00aa2230 and 0x00aa24d0, and its table is not in the
+// generated data. The object has no state and every other slot forwards to the
+// already started g_memoryManager, so these do nothing. That is native policy,
+// not recovered behaviour.
+void BSNiAllocator::Initialize()
+{}
 
+void BSNiAllocator::Shutdown()
+{}
 
 // @fnv 0x00aa4200
 void* FUN_00aa4200_Helper::FUN_00aa4200(void* old, unsigned int size, uintptr_t a, unsigned int b, uintptr_t c)

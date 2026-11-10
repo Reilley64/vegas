@@ -4,6 +4,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/ni_allocator.h"
 #include "fnv/game_timer.h"
 #include <cstddef>
 #include <windows.h>
@@ -2200,19 +2201,6 @@ void FUN_008665d0_class::FUN_008665d0(void* source, unsigned int size, int value
     __memcpy(headerSize, source, size);
 }
 
-struct FUN_00aa2230
-{
-    int m_uiFilterValue;
-    FUN_00aa2230();
-};
-
-struct FUN_00aa21d0
-{
-    void* m_pValue1;
-    void* m_pValue2;
-    FUN_00aa21d0(FUN_00aa2230* value);
-};
-
 struct FUN_00866690_Class
 {
     void InitializeGlobal();
@@ -2233,9 +2221,7 @@ template <class T> T& __cdecl _Immortalize();
 // @fnv 0x00866690
 void FUN_00866690_Class::InitializeGlobal()
 {
-    DAT_011f6118 = new FUN_00aa21d0(new FUN_00aa2230);
-
-    ::fnv_00aa2020::InitHolder();
+    ::fnv::memory::PublishManagerNiAllocator();
 
     std::_Immortalize<std::StandardLibrarySingletonObject>().vfn_04(0, 0, 0);
 }

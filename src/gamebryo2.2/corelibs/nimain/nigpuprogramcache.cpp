@@ -4,6 +4,7 @@
 
 // @fnv 0x00aa1ab0
 #include <cstdint>
+#include "fnv/ni_allocator.h"
 #include <new>
 #include <windows.h>
 #include <cstring>
@@ -156,22 +157,12 @@ FUN_00ee9070_shell* FUN_00ee9070_shell::FUN_00ee9070(bool b)
 struct FUN_00a5e3a0_Helper
 {
 };
-struct NiStandardAllocator
-{
-    virtual void func();
-};
-struct FUN_00aa2200
-{
-    NiStandardAllocator* object;
-    unsigned char initialized;
-    FUN_00aa2200();
-};
-// Allocates a NiStandardAllocator via operator new and stores it in object, then sets initialized to 1.
+// Allocates a NiStandardAllocator via operator new and stores it in allocator, then sets ownsAllocator.
 // @fnv 0x00aa2200
-FUN_00aa2200::FUN_00aa2200()
+NiInitOptions::NiInitOptions()
 {
-    object = new NiStandardAllocator;
-    initialized = 1;
+    allocator = new NiStandardAllocator;
+    ownsAllocator = true;
 }
 
 

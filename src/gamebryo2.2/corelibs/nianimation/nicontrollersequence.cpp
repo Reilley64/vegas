@@ -5,6 +5,7 @@
 
 // @fnv 0x00a31730
 #include <cstdint>
+#include "fnv/ni_allocator.h"
 #include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
@@ -1530,25 +1531,13 @@ bool CtlrSeq::CrossFadeTo(CtlrSeq* pkDestSequence, float fDuration, int iPriorit
 }
 }  // namespace fnv_00a351d0
 
-struct SomeObjectB3718
-{
-    virtual void V00();
-    virtual void V01();
-    virtual void V02(void* pv, unsigned int ItemUpdateArray, int iFlag);
-};
-
-struct HolderB3718
-{
-    SomeObjectB3718* m_pEntryObject;
-};
-
 
 // @fnv 0x00aa10f0
 void __cdecl FUN_00aa10f0(void* pv)
 {
     if (pv != 0)
     {
-        DAT_011f6080->m_pEntryObject->V02(pv, 9, -1);
+        DAT_011f6080->allocator->Deallocate(pv, 9, (unsigned int)-1);
     }
 }
 

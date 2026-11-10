@@ -30,6 +30,9 @@ class PlaceableWaterData
     // True when any bit of auiMask is set.
     bool HasFlags(std::uint32_t auiMask) const { return (ulFlags & auiMask) ? true : false; }
 
+    // Stores the water form that owns this placeable water. The flags are kept.
+    void SetOwningWater(TESWaterForm* apOwner) { m_pOwningWater = apOwner; }
+
     void Clear()
     {
         ulFlags = 0;

@@ -37,18 +37,27 @@ The body at 00589f50 in `bgsacousticspace.cpp` is one store: it writes its
 pointer-sized argument over `m_eCellEnvironmentType`. The unit's header records
 that member at `+0x4C` in the original layout.
 
-The placeable water header records `Data` at `+0x48` with 8 bytes: the flags
-word and, at `+0x4C`, the owning water. The class's recorded member signatures
-hold exactly one `void (TESWaterForm*)`, and `BGSPlaceableWater::InitItem`
-reads the same word as the owning water and falls back to the default water
-when it is null.
+The placeable water header records `Data` at `+0x48` for 8 bytes. It records
+no offset for the two fields inside. Derived from their order and 4-byte size:
+the flags are at `+0x48` and the owning water at `+0x4C`. The class's recorded
+member signatures hold exactly one `void (TESWaterForm*)`, and
+`BGSPlaceableWater::InitItem` reads the second word as the owning water and
+falls back to the default water when it is null.
+
+A third class has a field there. `src/fallout_shared/bgsimpactdata.h` records
+`BGSImpactData::m_pPrimaryImpactSound` at `+0x4C`, 4 bytes, and
+`BGSImpactData::Load` passes the first sound ID of `SNAM` to the same name.
 
 Inference, not a recorded fact: at the original layout a one-store setter of
-`+0x4C` is the environment type setter of an acoustic space and the owning
-water setter of a placeable water, so the original program has one function at
-one address for both, and the two water form producers bind it. The recipe
-records bindings per unit, not call edges. That the producers' last call is
-this one comes from their source, which passes the water form itself.
+`+0x4C` is the environment type setter of an acoustic space, the owning water
+setter of a placeable water and the primary sound setter of an impact data.
+The likely mechanism is identical-code folding: the original linker kept one
+copy of the byte-identical one-field setters of unrelated classes, and each
+class's callers got its address. On that reading the original program has one
+function at one address for all three, and the two water form producers bind
+it. The recipe records bindings per unit, not call edges. That the producers'
+last call is this one comes from their source, which passes the water form
+itself.
 
 The native types do not share that offset. Measured on windows-x64 with each
 unit's own recipe:
@@ -72,9 +81,10 @@ the producers get a typed operation instead.
   `fnv_00580330::FUN_00589f50_shell`. `FUN_00580130` and `FUN_00580330` end
   with `fnv::water::SetOwningWater(water, this)`.
 - `src/fallout_shared/bgsplaceablewater.cpp` defines
-  `fnv::water::SetOwningWater`, which assigns `Data.m_pOwningWater`.
-  `include/fnv/water/placeable_water.h` declares it beside the owner's two
-  other entries.
+  `fnv::water::SetOwningWater`, which calls
+  `PlaceableWaterData::SetOwningWater` on `Data`. That member assigns
+  `m_pOwningWater`. `include/fnv/water/placeable_water.h` defines the member
+  and declares the entry beside the owner's two other entries.
 - `src/fallout_shared/bgsacousticspace.cpp` is unchanged and holds the one
   definition of `FUN_00589f50_shell::SetSound`.
 
@@ -137,8 +147,12 @@ are unchanged and neither can run yet.
   contains all six objects. With duplicates and unresolved names forced, the
   linker bound `SetSound` to the empty body before and to the acoustic body
   now.
+- The forced link of every archive member contains all six objects too and
+  made the same switch: `SetSound` resolved to the empty `teswaterform` body
+  at the previous tip and resolves to the acoustic body now.
 
-No program that links today reaches the changed code.
+Neither forced image is a program: each is written with duplicate and
+unresolved names forced. No program that links today reaches the changed code.
 
 ## Outside this change
 
@@ -148,25 +162,27 @@ These remain open in VEGAS-78.
   windows-x64 the second half covers `m_iFlags`. Its two local callers also
   read 8 bytes from a 4-byte temporary. The acoustic role needs an operation
   that stores the environment type as its own type.
-- The three external requirers still reach the acoustic body with receivers
-  that are not acoustic spaces. Measured on windows-x64 against the store at
-  bytes 128 to 135:
+- The three external requirers now reach the acoustic body's store in both
+  forced images, with receivers that are not acoustic spaces. At the previous
+  tip both images bound them to the empty body, which stored nothing. Measured
+  on windows-x64 against the store at bytes 128 to 135:
 
   | Requirer | Receiver it passes | Storage that unit declares for it |
   | --- | --- | --- |
   | `BGSImpactData::Load`, `SNAM` | the impact data | 176 bytes; primary sound at 120, secondary sound at 128 |
-  | `MagicTarget::AddActiveEffect` | a `ValueAndConditionsEffect` or `LimbConditionEffect` | 8 bytes each in that unit's view |
-  | `LoadHandler::FUN_00467780` | the object `DAT_011c3f38` points to | `LoadTopic`, an empty view |
+  | `MagicTarget::AddActiveEffect`, two sites | a `ValueAndConditionsEffect` and a `LimbConditionEffect` | 8 bytes each in that unit's view |
+  | `LoadHandler::FUN_00467780` | the object `DAT_011c3f38` points to | `LoadTopic`, a 1-byte empty view |
 
   The impact data call therefore stores the form ID of its first sound in the
-  slot of the second. Each of the three needs its own typed operation: a
-  pending sound ID, an active-effect status and a topic group marker. Before
-  this change a complete link could not choose between the two bodies for
-  them; now there is only the acoustic one.
+  slot of the second. The other two store past the storage their units
+  declare. Each of the three needs its own typed operation: a pending sound
+  ID, an active-effect status and a topic group marker. Neither forced image
+  is a program, so no run reaches these stores yet.
 - `BGSPlaceableWater::InitItem`, `Load` and the save entry keep a wire form ID
   and a native pointer in the same member.
-- No test executes the producers or `SetOwningWater`. A complete placeable
-  water cannot be linked, for the reasons in `docs/placeable-water.md`, and
-  the water form layout gap recorded there still applies to both producers.
-  `runtime.placeable_water_data` covers assignment of the member through the
-  header only.
+- No test executes the producers or the entry `fnv::water::SetOwningWater`. A
+  complete placeable water cannot be linked, for the reasons in
+  `docs/placeable-water.md`, and the water form layout gap recorded there
+  still applies to both producers. `runtime.placeable_water_data` covers the
+  header member the entry calls: it sets an owning water, reads it back and
+  checks that the flags are kept.

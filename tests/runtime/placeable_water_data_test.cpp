@@ -113,6 +113,15 @@ void Query()
     Check(!data.HasFlags(0), "a zero mask reports nothing");
 }
 
+void OwningWater()
+{
+    PlaceableWaterData data;
+    data.ulFlags = 0x800000a5u;
+    data.SetOwningWater(Water(1));
+    Check(data.m_pOwningWater == Water(1), "the owning water set is the one read back");
+    Check(data.ulFlags == 0x800000a5u, "setting the owning water keeps the flags");
+}
+
 void ClearCopyAndCompare()
 {
     PlaceableWaterData original;
@@ -154,6 +163,7 @@ int main()
     EveryBit();
     Mutation();
     Query();
+    OwningWater();
     ClearCopyAndCompare();
     return failures == 0 ? 0 : 1;
 }

@@ -1,7 +1,6 @@
 // fallout_shared/screencustomsplatter.cpp: ScreenCustomSplatter, BSPortal, BSCustomSplatterExtraData (15 functions)
 
 #include <cstdint>
-#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/CamLook.h"
@@ -351,6 +350,12 @@ void FUN_004de600()
     }
 }
 
+struct NiFixedString
+{
+    const char* m_kHandle;
+    NiFixedString(const char* str);
+    ~NiFixedString();
+};
 
 struct SplatterParams
 {

@@ -1,5 +1,4 @@
 #include "AutoMemContext.h"
-#include "NiFixedString.h"
 // fallout_shared/tesscriptfunctions.cpp: Script, ActorValue, TESActorBaseData, DelStandIn and more (979 functions)
 #include <cmath>
 #include "fnv/game_timer.h"
@@ -30226,6 +30225,12 @@ bool __cdecl FUN_005c12a0(const ScriptParameter* apParameters, const char* apCom
 }
 }  // namespace fnv_005c12a0
 
+class NiFixedString {
+public:
+    const char* value;
+    NiFixedString(const char*);
+    ~NiFixedString();
+};
 struct AnimSequence5C14 {
 };
 struct AnimManager5C14 {

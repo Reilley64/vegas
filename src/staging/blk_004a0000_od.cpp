@@ -3,7 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
-#include "NiFixedString.h"
+#include "fnv/native_fixed_string.h"
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -27,7 +27,6 @@
 #include "fnv/decl/FUN_00418600_cls.h"
 #include "fnv/decl/FUN_00418720_shell.h"
 #include "fnv/decl/FUN_0041fd00_shell.h"
-#include "fnv/decl/FUN_004381b0_shell.h"
 #include "fnv/decl/FUN_00438af0_Class.h"
 #include "fnv/decl/FUN_00439410_cls.h"
 #include "fnv/decl/FUN_00456650_shell.h"
@@ -1019,7 +1018,7 @@ struct FUN_004b08e0_Class
 // @fnv 0x004b9900
 void* NiFixedString::FUN_004b9900(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004381b0_shell *>(this)->FUN_004381b0();
+    this->~NiFixedString();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

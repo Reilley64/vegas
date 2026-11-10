@@ -1,5 +1,4 @@
 #include "AutoMemContext.h"
-#include "NiFixedString.h"
 
 // src/fallout_shared/bgsautowater.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsautowater.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -672,6 +671,14 @@ unsigned int __cdecl GetCellCornerFlags(Cell* cell, Pt point)
 // Adapted from earlier contributor's unverified source; revised using official checker.
 struct NiMemObject
 {
+};
+class NiFixedString
+{
+    void* m_00;
+
+  public:
+    NiFixedString(const char*);
+    ~NiFixedString();
 };
 using AutoMemHelper = ::AutoMemContext;
 struct FUN_00416870_t

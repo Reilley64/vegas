@@ -18,19 +18,6 @@
 #include "fnv/symbols_0109b000.h"
 #include "nifixedstring_decls.h"
 
-// @fnv 0x00a2e750
-NiFixedString& NiFixedString::operator=(const char* pcString)
-{
-    char* oldHandle = m_kHandle;
-    if (oldHandle != pcString)
-    {
-        m_kHandle = NiGlobalStringTable::AddString(pcString);
-        if (oldHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
-            InterlockedDecrement(reinterpret_cast<volatile long*>(oldHandle - 8));
-    }
-    return *this;
-}
-
 // These trace entries are unoptimized FaceGen consumers of this inline unit.
 // Keep one /O2 unit policy and preserve their original source optimization scope.
 #pragma optimize("", off)

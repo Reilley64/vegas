@@ -1,4 +1,4 @@
-// fallout_shared/tesmodeltextureswap.cpp: TESModelTextureSwap, NiFixedString, TESModel, DistantTreeTextureInfo (23 functions)
+// fallout_shared/tesmodeltextureswap.cpp: TESModelTextureSwap, TESModel, DistantTreeTextureInfo (21 functions)
 
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"

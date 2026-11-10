@@ -3,7 +3,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/simple_list_node_view.h"
-#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include <cstdint>
 #include <new>
@@ -360,6 +359,12 @@ void FUN_007c19c0()
     reinterpret_cast<::FUN_00c4f2d0_class *>((accum))->FUN_00c4f2d0();
 }
 
+struct NiFixedString
+{
+    const char* m_psz;
+    NiFixedString(const char*);
+    ~NiFixedString();
+};
 struct NiUpdateData
 {
     float m_00;

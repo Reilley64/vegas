@@ -3,7 +3,6 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
-#include "NiFixedString.h"
 #include "fnv/decl/BGSImpactData.h"
 #include "fnv/decl/BGSImpactDataSet.h"
 #include "fnv/decl/BSAnimGroupSequence.h"
@@ -979,6 +978,13 @@ class NiPoint3
     NiPoint3(float, float, float);
     NiPoint3 operator-(const NiPoint3&) const;
     NiPoint3 operator+(const NiPoint3&) const;
+};
+class NiFixedString
+{
+  public:
+    const char* value;
+    NiFixedString(const char*);
+    ~NiFixedString();
 };
 struct Bound
 {

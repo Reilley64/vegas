@@ -350,11 +350,4 @@ class TaskQueueInterface
 public:
     void QueueActorDisarm(bool);
 };
-class NiFixedString
-{
-  public:
-    const char* data;
-    NiFixedString(const NiFixedString&);
-    int IsNotEmpty() const;
-};
 #endif

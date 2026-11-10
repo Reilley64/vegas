@@ -1,26 +1,22 @@
-// gamebryo2.2/corelibs/nimain/niglobalstringtable.cpp: NiGlobalStringTable, NiPlaybackFile (3 functions)
+// gamebryo2.2/corelibs/nimain/niglobalstringtable.cpp: NiGlobalStringTable, NiPlaybackFile (2 functions)
 
 #include <cstdint>
 #include <cstring>
 #include "fnv/decl/EC2DF0Registry.h"
 #include "fnv/decl/MovieSignalState.h"
-#include "fnv/decl/StringTable169.h"
-#include "fnv/decl/ThreadedTable.h"
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_0126f000.h"
 #include "niglobalstringtable_decls.h"
-#include <new>
-#include "fnv/decl/FUN_00a5b530.h"
-#include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/symbols_011f6000.h"
 
-// Keep the canonical intern owner in this existing production member so the
-// accepted archive member count and order do not change.
-#define FNV_NATIVE_FIXED_STRING_EXTERNAL_DATA
-#include "native_fixed_string.cpp"
+#pragma optimize("", off)
+// @fnv 0x004f31b0
+void NiGlobalStringTable::AddString()
+{
+    ++m_uiLockCount;
+}
 
 #pragma optimize("", off)
 
@@ -85,3 +81,4 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
     (*reinterpret_cast<::NiPlaybackManager * *>(&::DAT_0126fac4))->vfn_18();
     return local.bSuccess;
 }
+

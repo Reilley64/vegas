@@ -1,7 +1,6 @@
 #include <cstdint>
 #include <cstddef>
-#include "NiFixedString.h"
-#include "NiObjectNET.h"
+#include "fnv/native_fixed_string.h"
 // bsshader/bsshaderaccumulator.cpp: BSShaderAccumulator, AccumWIP, AccumS, Candidate and more (38 functions)
 
 #include <windows.h>
@@ -1266,7 +1265,15 @@ struct NiUpdateData
     bool bVisible;
 };
 
-struct NiNode : NiObjectNET
+struct A51BF0Base
+{
+};
+
+struct NiAVObject : A51BF0Base
+{
+};
+
+struct NiNode : NiAVObject
 {
     unsigned char m_auiShapeKeys[0xAC];
 
@@ -1286,7 +1293,7 @@ NiNode* __cdecl CreateRenderPassesNode()
 
     {
         NiFixedString fixedString("RenderPasses");
-        pNode->SetName(fixedString);
+        ::AssignFixedString((char *)(pNode), 0, &fixedString.m_kHandle);
     }
 
     UpdateData.fTime = 0.0f;

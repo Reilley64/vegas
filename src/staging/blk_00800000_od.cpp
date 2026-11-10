@@ -3,7 +3,6 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
-#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include <new>
 #include <cstdlib>
@@ -2127,6 +2126,14 @@ void FUN_0081f1e0_Class::ApplyVirtualCall(intptr_t arg1, intptr_t arg2)
     ((::FUN_0081f1e0_Virtual *)(reinterpret_cast<::FUN_009d9f40_Class *>((this))->FUN_009d9f40()))->vf50(arg1, arg2);
 }
 
+class NiFixedString
+{
+    const char* value;
+
+  public:
+    NiFixedString(const char*);
+    ~NiFixedString();
+};
 struct EquipObject;
 struct EquipGeometry
 {

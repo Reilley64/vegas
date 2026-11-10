@@ -1,5 +1,4 @@
 #include "AutoMemContext.h"
-#include "NiFixedString.h"
 // fallout/interface/interfacemanager.cpp: InterfaceManager, ConsoleManager, IFH, BSAudioManager and more (208 functions)
 
 #include "fallout/interface/tile_fields.h"
@@ -3853,6 +3852,13 @@ class NiMemObject
   public:
 };
 
+class NiFixedString
+{
+  public:
+    NiFixedString(const char*);
+    ~NiFixedString();
+    const char* m_kHandle;
+};
 
 struct NiPoint3;
 class NiAVObject : public NiMemObject

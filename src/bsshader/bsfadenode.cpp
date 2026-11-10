@@ -37,6 +37,17 @@
 #include "fnv/symbols_01202000.h"
 #include "bsfadenode_decls.h"
 
+#pragma optimize("", off)
+// @fnv 0x00438170
+__forceinline NiFixedString::NiFixedString(const char* apString)
+{
+    if (!apString)
+        m_kHandle = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle;
+    else
+        m_kHandle = NiGlobalStringTable::AddString(apString);
+}
+#pragma optimize("", on)
+
 // @fnv 0x00b4e270
 void BSFadeNode::InitializeMultiBounds()
 {

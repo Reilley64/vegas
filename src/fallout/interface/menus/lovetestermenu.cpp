@@ -4,7 +4,6 @@
 
 
 #include "fnv/simple_array_item.h"
-#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include "fnv/result_slot.h"
 #include <cstdint>
@@ -550,6 +549,12 @@ void FUN_007948d0()
     reinterpret_cast<::FUN_00c4f2d0_class *>((camera))->FUN_00c4f2d0();
 }
 
+struct NiFixedString
+{
+    const char* m_kHandle;
+    NiFixedString(const char* s);
+    ~NiFixedString();
+};
 
 struct NiProperty
 {

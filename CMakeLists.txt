@@ -41,6 +41,7 @@ set_source_files_properties(
   src/fallout/misc/native_memory_pools.cpp
   src/speedtree/native_string.cpp
   src/gamebryo2.2/corelibs/nisystem/ni_allocator_holder.cpp
+  src/gamebryo2.2/corelibs/nimain/native_fixed_string.cpp
   PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
 set_source_files_properties(src/runtime/endian_u16.cpp src/runtime/endian_u32.cpp PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
 set_source_files_properties(src/runtime/havok_router_tls.cpp PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
@@ -58,10 +59,11 @@ include(src/staging/sources.cmake)
 include(src/fallout/sources.cmake)
 include(src/runtime/native_data_composition.cmake)
 # Keep the accepted 2,217 logical-member sequence intact; the canonical native
-# string owner and the Ni allocator holder are the justified appended
-# production members, in that order.
+# string owner, the Ni allocator holder and then the native global string
+# table owner are the only appended production members, in that order.
 target_sources(game PRIVATE src/speedtree/native_string.cpp)
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nisystem/ni_allocator_holder.cpp)
+target_sources(game PRIVATE src/gamebryo2.2/corelibs/nimain/native_fixed_string.cpp)
 
 add_executable(FalloutNV EXCLUDE_FROM_ALL src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)

@@ -1,5 +1,4 @@
 #include "fnv/tls.h"
-#include "NiFixedString.h"
 #include <cstdint>
 #include <cstddef>
 // bsshader/bsshadermanager.cpp: BSShaderManager, NiFixedString, SkyShaderProperty, StringHashMapBase (31 functions)
@@ -146,6 +145,13 @@ class NiObject : public NiRefObject
 {
   public:
     NiObject* DynamicCast(const NiRTTI*);
+};
+class NiFixedString
+{
+  public:
+    char* m_kHandle;
+    NiFixedString(const char*);
+    ~NiFixedString();
 };
 class NiTextureRendererData
 {
@@ -4207,6 +4213,13 @@ void InitRenderSystem()
 struct TangentAllocatorView
 {
 };
+inline NiFixedString::NiFixedString(const char* text) : m_kHandle(::NiGlobalStringTable::AddString(text))
+{}
+inline NiFixedString::~NiFixedString()
+{
+    if (m_kHandle != DAT_0109b220)
+        InterlockedDecrement(reinterpret_cast<volatile long*>(m_kHandle - 8));
+}
 struct NiPoint3
 {
     float x, y, z;

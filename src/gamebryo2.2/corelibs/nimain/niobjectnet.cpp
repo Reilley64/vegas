@@ -25,7 +25,7 @@
 #include "fnv/decl/NiAccumulator.h"
 #include "fnv/decl/NiGPUProgramOwner.h"
 #include "fnv/decl/NiGlobalStringTable.h"
-#include "fnv/native_fixed_string.h"
+#include "fnv/fixed_string_handle.h"
 #include "fnv/decl/S_00a64670_Foo.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
@@ -209,24 +209,14 @@ void NiObjectNET::RefreshExtraData()
 }
 
 
-void NiObjectNET::SetName(const NiFixedString& name)
-{
-    fnv::strings::AssignObjectName(m_kName, name);
-}
+// Both receivers, NiObjectNET and NiExtraData, keep the name directly after the NiObject base.
+static_assert(offsetof(NiObjectNET, m_kName) == sizeof(NiObject));
+static_assert(offsetof(NiExtraData, m_kName) == sizeof(NiObject));
 
 // @fnv 0x00a5b950
 void AssignFixedString(char* pThis, intptr_t, char** ppkName)
 {
-    char* pcNewName = *ppkName;
-    if (*reinterpret_cast<char**>(pThis + 8) != pcNewName)
-    {
-        if (pcNewName != *reinterpret_cast<char**>(&(*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220))))
-            InterlockedIncrement(reinterpret_cast<volatile long*>(pcNewName - 8));
-        char* pcOldName = *reinterpret_cast<char**>(pThis + 8);
-        if (pcOldName != *reinterpret_cast<char**>(&(*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220))))
-            InterlockedDecrement(reinterpret_cast<volatile long*>(pcOldName - 8));
-        *reinterpret_cast<char**>(pThis + 8) = pcNewName;
-    }
+    fnv::strings::AssignHandle(*reinterpret_cast<char**>(pThis + sizeof(NiObject)), *ppkName);
 }
 
 struct FUN_00a5bfa0_shell : public NiObjectNET

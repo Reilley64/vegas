@@ -3,7 +3,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/magic_projectile_fields.h"
-#include "NiFixedString.h"
 #include "fnv/save_load_game_view.h"
 #include <cstdint>
 #include <new>
@@ -1420,6 +1419,13 @@ class TESForm
 {
   public:
     virtual void v00();
+};
+class NiFixedString
+{
+  public:
+    const char* text;
+    NiFixedString(const char*);
+    ~NiFixedString();
 };
 struct SceneNode
 {

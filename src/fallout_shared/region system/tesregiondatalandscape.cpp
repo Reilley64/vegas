@@ -1,7 +1,6 @@
 // fallout_shared/region system/tesregiondatalandscape.cpp: TESRegionDataLandscape, ThisT (15 functions)
 
 #include <new>
-#include "NiFixedString.h"
 #include <cmath>
 #include "fnv/decl/FUN_00408da0_Class.h"
 #include "fnv/decl/FUN_004726b0_class.h"
@@ -215,6 +214,12 @@ struct NiPixelData
     unsigned int unk6C;
     unsigned int unk70;
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int);
+};
+struct NiFixedString
+{
+    const char* m_kHandle;
+    NiFixedString(const char*);
+    ~NiFixedString();
 };
 struct TextureFormatPreferences
 {

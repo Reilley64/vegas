@@ -1,105 +1,109 @@
 # Native fixed-string lifecycle
 
-`NiGlobalStringTable` and `NiFixedString` now have one native C++20 ownership
-contract. The table is a fixed 513-bucket intrusive intern table protected by its
-own mutex; it is not a host `unordered_map` or a facade over a legacy byte
-layout. A node owns its full-width links, owning-table identity, reference count,
-length and terminated text. Handles point at the node's text and remain stable
-until the last release.
+One native owner, `src/gamebryo2.2/corelibs/nimain/native_fixed_string.cpp`,
+supplies the global string table and the owning `NiFixedString` operations. It
+is a production archive member appended after the accepted members, and the
+focused test builds that same unit.
 
-`FUN_00a5b630` publishes the table and the process-stable empty sentinel through
-the existing globals. `ShutdownGlobalStringTable` refuses shutdown while any
-node is retained. The table itself has process lifetime and no static destructor;
-ordered shutdown is explicit. Null `NiFixedString` construction uses the
-sentinel. `AddString(nullptr)` retains its source return contract and returns
-null, while an actual empty string is interned as a normal, distinct node.
+## Handle and node
 
-New nodes and fixed-string arrays allocate and release through the production
-`FUN_00401000` / `FUN_00401030` MemoryManager boundary. Allocation runs under
-the real per-thread context 8 guard. Lookup, allocation and publication stay
-under the table lock. Allocation failure publishes no node and restores both
-the lock and TLS context. Assignment and copy retain before retiring the old
-handle. Stale handles are rejected by identity lookup without dereferencing
-freed storage.
+A handle is the interned text pointer. The null handle is the null string: it
+has no node, `AddString(nullptr)` returns it, and no operation reads through
+it. `DAT_0109b220` keeps its zero value and the owner never writes it. An empty
+text is an ordinary interned string.
+
+A node keeps a 32-bit reference count eight bytes before the text and a 32-bit
+length four bytes before it. This is the header the source allocates in
+`0x00a5b690`, and the one older units still update directly with interlocked
+operations on `handle - 8`. The owner's count is an atomic 32-bit value at that
+address, so both forms act on the same count. The node's link to the next node
+in its bucket sits before the count and is private to the owner.
+
+## Table
+
+The table has the source's 513 buckets and the source hash from `0x00a5b270`:
+`h * 33 + c` over the text with `c` taken as a signed character, modulo 513.
+Lookup, allocation and publication of a node happen under the table lock.
+A lookup matches the same pointer, or an equal length and equal text.
+
+A new node is allocated through `FUN_00401000` with the thread's allocation
+context set to 8, rounded up to four bytes as in the source, and starts with
+one reference. If the text is too long for a 32-bit request or the allocation
+fails, `AddString` returns the null handle, publishes nothing, and leaves the
+lock free and the thread's context restored.
+
+## Retain, release and retirement
+
+Retaining adds one to the count. Releasing subtracts one and never frees.
+An unreferenced node stays interned, and a later `AddString` of the same text
+revives that node under the lock.
+
+`FUN_00a5b460` is the only place a node is retired. Under the lock it unlinks
+and frees every node whose count is zero, as `0x00a5b3c0` did. A count brought
+to zero by an older unit's direct update is retired by the same sweep.
+
+`FUN_00a5b630` starts the table. `A5B660StringTable::FUN_00a5b660` calls
+`ShutdownTable`, which sweeps and then stops the table only if no node remains.
+Live handles refuse the shutdown and stay valid. The table is
+constant-initialized and its destructor is never registered, so handles held by
+static objects in other units stay valid until the process ends.
 
 ## Production joins
 
-`niglobalstringtable.cpp` embeds the owner implementation in its existing
-archive member, so the accepted 2,218-member sequence does not gain or reorder a
-logical member. `NiObjectNET::SetName` uses the typed retain-before-retire name
-operation. `CreateRenderPassesNode` constructs a canonical handle and calls that
-typed name entry instead of releasing a string header as `MyRef`.
+| Source entry | Unit | Join |
+| --- | --- | --- |
+| `0x00a5b690` `NiGlobalStringTable::AddString` | owner | intern |
+| `0x00a5b630`, `0x00a5b460` | owner | start, sweep |
+| `0x00a5b660` | `blk_00a40000_o2.cpp` | calls `ShutdownTable` |
+| `0x00438170`, `0x0048af40`, `0x004381b0`, `0x00a2e750`, `0x0048af70` | owner | `NiFixedString` construct, copy, destroy, assign text, `IsNotEmpty` |
+| `0x00a5b950` `AssignFixedString` | `niobjectnet.cpp` | calls `AssignHandle` on the name slot after the `NiObject` base |
+| `0x00b63420` `CreateRenderPassesNode` | `bsshaderaccumulator.cpp` | owning local name, `AssignFixedString`, owner destructor |
+| `0x00e8e450` cache constructor | `nid3dgpuprogramcache.cpp` | owner construct, assign and destroy for its names and profile list |
+| `0x004b9900` | `blk_004a0000_od.cpp` | calls the owner destructor |
 
-The GPU cache uses canonical names and a MemoryManager-owned fixed-string array.
-Its name, profile, suffix and fallback list are staged before publication. A
-failed intern or array growth leaves the previous cache state and references
-unchanged. Retirement destroys array elements before releasing their storage.
+The older table bodies in `blk_00a40000_o2.cpp` (`0x00a5b270`, `0x00a5b300`,
+`0x00a5b3c0`, `0x00a5b530`, `0x00a5b5a0`) and the two competing destructor
+definitions are removed. `0x004f31b0` stays in `niglobalstringtable.cpp`
+unchanged: its callers apply it to pixel data, not to the table.
 
-The two destructor providers in `bsshaderaccumulator.cpp` and
-`nid3dgpuprogramcache.cpp`, plus dormant inline global constructor/destructor
-bodies, are retired. Source-local namespaced fixed-string classes remain
-separate types. The following 41 archive objects that required the global
-`NiFixedString` destructor now include the complete owner instead of relying on
-incompatible global pointer, integer or four-byte shells:
+`DAT_011f42c0` is no longer written or read. Its old consumers treated it as
+the 32-bit table layout, and all of them now call the owner.
 
-- `src/bsshader/bsshadermanager.cpp`
-- `src/fallout/ai/actor.cpp`
-- `src/fallout/ai/middlehighprocess.cpp`
-- `src/fallout/interface/interfacemanager.cpp`
-- `src/fallout/interface/menus/caravanmenu.cpp`
-- `src/fallout/interface/menus/hudmainmenu.cpp`
-- `src/fallout/interface/menus/loadingmenu.cpp`
-- `src/fallout/interface/menus/lockpickmenu.cpp`
-- `src/fallout/interface/menus/lovetestermenu.cpp`
-- `src/fallout/interface/menus/roulettemenu.cpp`
-- `src/fallout/interface/menus/slotmachinemenu.cpp`
-- `src/fallout/interface/menus/specialbookmenu.cpp`
-- `src/fallout/interface/menus/surgerymenu.cpp`
-- `src/fallout/magic/magicballprojectile.cpp`
-- `src/fallout/magic/magicboltprojectile.cpp`
-- `src/fallout/magic/magicprojectile.cpp`
-- `src/fallout/misc/main.cpp`
-- `src/fallout_shared/bgsautowater.cpp`
-- `src/fallout_shared/distant terrain system/bgsterrainchunk.cpp`
-- `src/fallout_shared/facegen/bsfacegenmanager.cpp`
-- `src/fallout_shared/modelloader.cpp`
-- `src/fallout_shared/region system/tesregiondatalandscape.cpp`
-- `src/fallout_shared/screencustomsplatter.cpp`
-- `src/fallout_shared/screensplatter.cpp`
-- `src/fallout_shared/speedtree/bstreemanager.cpp`
-- `src/fallout_shared/tempeffects/bstempeffectparticle.cpp`
-- `src/fallout_shared/tesland.cpp`
-- `src/fallout_shared/tesnpc.cpp`
-- `src/fallout_shared/tesobjectcell.cpp`
-- `src/fallout_shared/tesobjectrefr.cpp`
-- `src/fallout_shared/tesrace.cpp`
-- `src/fallout_shared/tesscriptfunctions.cpp`
-- `src/gamebryo2.2/corelibs/nianimation/nitextkeyextradata.cpp`
-- `src/gamebryo2.2/corelibs/niconsolerenderer/nid3dgpuprogramcache.cpp`
-- `src/staging/blk_00420000_od.cpp`
-- `src/staging/blk_004a0000_od.cpp`
-- `src/staging/blk_007c0000_od.cpp`
-- `src/staging/blk_00800000_od.cpp`
-- `src/staging/blk_00880000_od.cpp`
-- `src/staging/blk_00a00000_od.cpp`
-- `src/unmapped/debugtextmanager.cpp`
+## Two views of `NiFixedString`
 
-Generated data remains unchanged. On Windows it continues to provide the two
-published pointer globals; native startup assigns their values. Non-Windows
-production tests use the same owner source's definitions rather than test
-providers.
+`fnv/native_fixed_string.h` declares the owning class. `NiFixedString.h` stays
+the plain layout view for units that manage the count by hand; giving those
+units an implicit destructor would release twice. A unit includes only one of
+the two. `fnv/fixed_string_handle.h` declares the handle operations alone and
+can be included from either kind of unit.
+
+Every unit that calls the global `NiFixedString` destructor sees the class as
+one pointer at offset zero. Five of them declared a four-byte shell and now
+include the owning class: `magicprojectile.cpp`, `bgsterrainchunk.cpp`,
+`screensplatter.cpp`, `tesnpc.cpp` and `tesobject.cpp`. The others keep their
+own one-pointer declaration and bind to the owner at link time.
 
 ## Test boundary
 
-`runtime.native_fixed_string` executes the actual table, fixed-string, name
-assignment, GPU-name update, MemoryManager, fixed pools and TLS owners. Checks
-remain active under `NDEBUG`. It covers sentinel and interned empty strings,
-distinct and duplicate strings, table/node/handle identity, high pointers,
-copy/move/retain/release, concurrent interning, heap-initialized/pool-unavailable
-allocation and update rollback, TLS restoration, stale-handle rejection, normal
-retirement, exception unwinding, live-handle shutdown refusal and ordered final
-shutdown. The same test runs under ASan, UBSan and vptr instrumentation.
+`runtime.native_fixed_string` runs the owner unit with the real MemoryManager,
+fixed pools and thread context, with checks active under `NDEBUG`, in optimized
+and ASan, UBSan and vptr builds. It covers the hash against the source form,
+the null handle, an empty text, duplicate and distinct strings, the header an
+older unit reads, copy and both assignments, the name-slot update, revival of
+an unreferenced node, mixed direct and owner count updates, sweep retirement,
+allocation failure with the lock and context restored, an oversized text,
+concurrent interning during sweeps, unwinding, and refused then completed
+shutdown.
 
-This bounded join does not claim complete engine startup, every historical
-manual header-refcount receiver, Windows execution, executable closure, boot,
-play or save compatibility.
+## Not covered
+
+- The units that call the owner (`niobjectnet.cpp`, `bsshaderaccumulator.cpp`,
+  `nid3dgpuprogramcache.cpp`, both staging blocks) build only for Windows and
+  are not executed by any test. Their joins are checked by compiling the
+  complete units and by the symbols and calls in the built objects.
+- Most callers of `AssignFixedString` pass the name in the second argument and
+  nothing in the third, which the definition reads. Only callers that pass it
+  third, such as `CreateRenderPassesNode`, reach the name update.
+- Units that manage the count by hand still do so; they are compatible with
+  the owner but not migrated to it.
+- Engine startup order, Windows execution, boot, play and save compatibility.

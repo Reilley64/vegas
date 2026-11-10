@@ -1,7 +1,6 @@
 // staging/blk_00a40000_o2.cpp: Owner, Controller, Arr, ExtraOwner and more (111 functions)
 
-#include "fnv/tls.h"
-#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/fixed_string_handle.h"
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include <string.h>
@@ -15,7 +14,6 @@
 #include "fnv/decl/AHSeqOwner.h"
 #include "fnv/decl/AlphaPropInit_cls.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
-#include "fnv/decl/CharPtrArr.h"
 #include "fnv/decl/ControllerOwner.h"
 #include "fnv/decl/EqBase.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -456,33 +454,6 @@ void FUN_00a5fba0_class::FUN_00a5fba0(const NiFixedString* kFilename)
     }
     FUN_00a57500(pDest);
     ::fnv_00a76960::FUN_00a76960((char **)(pDest), (char **)(void *)((char*)&this->unk34));
-}
-
-// Hashes the first len&~3 bytes of s four at a time with h*33+c, then hashes remaining chars until NUL, returning h % 513.
-// @fnv 0x00a5b270
-unsigned int FUN_00a5b270(const char* pcString, unsigned int uiLength)
-{
-    unsigned int h = 0;
-    uiLength &= 0xfffffffc;
-    if (uiLength > 0)
-    {
-        unsigned int count = (uiLength - 1) / 4 + 1;
-        do
-        {
-            h = h * 33 + (unsigned int)(signed char)pcString[0];
-            h = h * 33 + (unsigned int)(signed char)pcString[1];
-            h = h * 33 + (unsigned int)(signed char)pcString[2];
-            h = h * 33 + (unsigned int)(signed char)pcString[3];
-            pcString += 4;
-            --count;
-        } while (count);
-    }
-    while (pcString[0])
-    {
-        h = h * 33 + (unsigned int)(signed char)pcString[0];
-        pcString++;
-    }
-    return h % 513;
 }
 
 struct NiGlobalStringTable
@@ -1686,17 +1657,6 @@ void FUN_00a59c60_cls::FUN_00a59c60(std::intptr_t aiValue)
         m_18->v63();
 }
 
-struct SingletonTarget
-{
-    void FUN_00a5b3c0();
-};
-
-// @fnv 0x00a5b460
-void __cdecl FUN_00a5b460()
-{
-    (*reinterpret_cast<::SingletonTarget * *>(&::DAT_011f42c0))->FUN_00a5b3c0();
-}
-
 extern void __cdecl FUN_00aa10f0(char* psz);
 
 struct Ent
@@ -1742,96 +1702,17 @@ void FUN_00a5b470_cls::ResetEntries()
 
 
 
-struct A5B530Entry
-{
-    int* m_piSource;
-    int m_iValue;
-    short m_sA;
-    short m_sB;
-    short m_sC;
-    short m_sCount;
-
-    A5B530Entry()
-    {
-        m_sA = 0;
-        m_sCount = 1;
-        m_sB = 0;
-        m_sC = 0;
-        m_iValue = 0;
-        m_piSource = &::DAT_01021024;
-    }
-};
-
-struct A5B530CriticalSection : CRITICAL_SECTION
-{
-};
-
-class FUN_00a5b530
-{
-  public:
-    A5B530Entry m_akEntries[0x201];
-    int unk2010;
-    int unk2014;
-    int unk2018;
-    int unk201C;
-    int unk2020;
-    int unk2024;
-    int unk2028;
-    int unk202C;
-    int unk2030;
-    int unk2034;
-    int unk2038;
-    int unk203C;
-    int unk2040;
-    int unk2044;
-    int unk2048;
-    int unk204C;
-    int unk2050;
-    int unk2054;
-    int unk2058;
-    int unk205C;
-    int unk2060;
-    int unk2064;
-    int unk2068;
-    int unk206C;
-    int unk2070;
-    int unk2074;
-    int unk2078;
-    int unk207C;
-    A5B530CriticalSection m_kLock;
-
-    FUN_00a5b530();
-};
-
-// Initializes the critical section and sets m_sCount to 10 for all 0x201 entries.
-// @fnv 0x00a5b530
-FUN_00a5b530::FUN_00a5b530()
-{
-    InitializeCriticalSection(&m_kLock);
-    for (unsigned int i = 0; i < 0x201; i++)
-        m_akEntries[i].m_sCount = 10;
-}
-
-class A5B660Heap
-{
-  public:
-};
-
 class A5B660StringTable
 {
   public:
-    ~A5B660StringTable();
-
-
-
     static void FUN_00a5b660();
 };
 
-// Deletes the static string table instance and clears the pointer to null.
+// Stops the string table once no node remains.
 // @fnv 0x00a5b660
 void A5B660StringTable::FUN_00a5b660()
 {
-    ShutdownGlobalStringTable();
+    fnv::strings::ShutdownTable();
 }
 
 struct FUN_00a5b870_cls
@@ -5637,43 +5518,6 @@ NiSequence* NiSequence::FUN_00a47bd0(const char* pcName, unsigned int uiArraySiz
     return this;
 }
 
-extern unsigned int DAT_011f42c8;
-extern unsigned int DAT_011f42c4;
-
-struct ThreadedTableEntry
-{
-    char pad00[0xc];
-    short unk0c;
-    char pad0e[0x2];
-};
-
-struct ThreadedTable
-{
-    ThreadedTableEntry m_entries[0x208];
-    CRITICAL_SECTION_STUB m_kCriticalSection;
-    void FUN_00a5b5a0(const char** key, unsigned int flags);
-};
-
-// Temporarily sets the thread's memory context to 8; under the lock calls FUN_00a5b4b0 on the entry indexed by FUN_00a5b270 and updates two counters.
-// @fnv 0x00a5b5a0
-void ThreadedTable::FUN_00a5b5a0(const char** key, unsigned int flags)
-{
-    const int previousMode = ::g_tlsBlock.memoryContext;
-    ::g_tlsBlock.memoryContext = 8;
-
-    unsigned int index = ::FUN_00a5b270((const char *)(*key), (unsigned int)(flags));
-    CRITICAL_SECTION_STUB* criticalSection = &this->m_kCriticalSection;
-    EnterCriticalSection(criticalSection);
-
-    if (this->m_entries[index].unk0c != 0)
-        ++DAT_011f42c8;
-
-    reinterpret_cast<::CharPtrArr *>(&this->m_entries[index])->FUN_00a5b4b0((*(char * *)(key)));
-    ++DAT_011f42c4;
-    LeaveCriticalSection(criticalSection);
-    ::g_tlsBlock.memoryContext = previousMode;
-}
-
 struct FUN_00a5d310_Class
 {
     virtual void vfunc00();
@@ -5733,76 +5577,6 @@ bool A5d470Class::IsSameAs(A5d470Object* object)
     const char* self = *this->vf08();
 
     return strcmp(self, target) ? false : true;
-}
-
-struct StringBucket169
-{
-    unsigned int unk00;
-    char** entries;
-    unsigned short capacity;
-    unsigned short count;
-    unsigned short used;
-    unsigned short grow;
-};
-struct StringRecord169
-{
-    unsigned int refs;
-    unsigned int length;
-};
-struct StringTable169
-{
-    StringBucket169 buckets[513];
-    unsigned int unk2010;
-    unsigned int unk2014;
-    unsigned int unk2018;
-    unsigned int unk201c;
-    unsigned int unk2020;
-    unsigned int unk2024;
-    unsigned int unk2028;
-    unsigned int unk202c;
-    unsigned int unk2030;
-    unsigned int unk2034;
-    unsigned int unk2038;
-    unsigned int unk203c;
-    unsigned int unk2040;
-    unsigned int unk2044;
-    unsigned int unk2048;
-    unsigned int unk204c;
-    unsigned int unk2050;
-    unsigned int unk2054;
-    unsigned int unk2058;
-    unsigned int unk205c;
-    unsigned int unk2060;
-    unsigned int unk2064;
-    unsigned int unk2068;
-    unsigned int unk206c;
-    unsigned int unk2070;
-    unsigned int unk2074;
-    unsigned int unk2078;
-    unsigned int unk207c;
-    CRITICAL_SECTION_STUB lock;
-    char* FUN_00a5b300(const char* key, unsigned int length);
-};
-// Hashes key, locks the table, scans the bucket's entries for an exact match, and returns the stored string or null.
-// @fnv 0x00a5b300
-char* StringTable169::FUN_00a5b300(const char* key, unsigned int length)
-{
-    unsigned int uiHash = ::FUN_00a5b270((const char *)(key), (unsigned int)(length));
-    CRITICAL_SECTION_STUB* bucket = &lock;
-    EnterCriticalSection(bucket);
-    unsigned int idx = buckets[uiHash].count;
-    for (unsigned int i = 0; i < idx; ++i)
-    {
-        char* tmp = buckets[uiHash].entries[i];
-        if (tmp == key ||
-            (tmp && (reinterpret_cast<const StringRecord169*>(tmp) - 1)->length == length && strcmp(tmp, key) == 0))
-        {
-            LeaveCriticalSection(bucket);
-            return tmp;
-        }
-    }
-    LeaveCriticalSection(bucket);
-    return 0;
 }
 
 void* __cdecl FUN_00aa1070(unsigned int size);
@@ -5933,59 +5707,6 @@ FUN_00a53540_cls* FUN_00a53540_cls::FUN_00a53540(unsigned char acFlags)
         FUN_00aa1460(this, 0x18);
     }
     return this;
-}
-
-// Locks the table and, for each of its 513 buckets, frees string records whose refs is zero and clears their entry slots.
-// @fnv 0x00a5b3c0
-void SingletonTarget::FUN_00a5b3c0()
-{
-    struct
-    {
-        CRITICAL_SECTION_STUB* m_pkLock;
-        unsigned int m_uiLockCount;
-    } kLock;
-    // View of each StringBucket169 starting at its entries field (the bucket's vtable slot is never read here).
-    struct BucketView
-    {
-        char** entries;
-        unsigned short capacity;
-        unsigned short count;
-        unsigned short used;
-        unsigned short grow;
-        unsigned int nextVtable;
-    };
-    StringTable169* pkTable = (StringTable169*)this;
-    kLock.m_pkLock = &pkTable->lock;
-    EnterCriticalSection(kLock.m_pkLock);
-    BucketView* pkBucket = (BucketView*)&pkTable->buckets[0].entries;
-    unsigned int uiHash = 0x201;
-    do
-    {
-        unsigned int uiSize = pkBucket->count;
-        for (unsigned int ui = 0; ui < uiSize; ++ui)
-        {
-            char* pcString = pkBucket->entries[ui];
-            if (pcString)
-            {
-                StringRecord169* pkRecord = (StringRecord169*)(pcString - 8);
-                if (pkRecord->refs == 0)
-                {
-                    FUN_00aa10f0(pkRecord);
-                    if (ui >= pkBucket->count)
-                    {
-                        pkBucket->count = ui + 1;
-                    }
-                    else if (pkBucket->entries[ui] != 0)
-                    {
-                        pkBucket->used--;
-                    }
-                    pkBucket->entries[ui] = 0;
-                }
-            }
-        }
-        pkBucket++;
-    } while (--uiHash);
-    LeaveCriticalSection(kLock.m_pkLock);
 }
 
 struct TextureListView : NiTexture

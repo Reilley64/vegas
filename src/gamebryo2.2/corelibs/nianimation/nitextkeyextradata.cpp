@@ -5,7 +5,6 @@
 
 // Returns the address of the global pointer g_011f3f28.
 #include <cstring>
-#include "NiFixedString.h"
 // @fnv 0x00a46b60
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/ExtraDataObject.h"
@@ -632,6 +631,11 @@ struct DynamicMemoryAllocator
 };
 
 
+struct NiFixedString
+{
+    const char* m_pcString;
+    ~NiFixedString();
+};
 struct TimedTextEntry
 {
     float m_fTime;

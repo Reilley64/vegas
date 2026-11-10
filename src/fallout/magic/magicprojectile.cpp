@@ -3,7 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
-#include "NiFixedString.h"
+#include "fnv/native_fixed_string.h"
 #include "fnv/magic_projectile_fields.h"
 #include "fnv/active_effect_fields.h"
 #include <new>

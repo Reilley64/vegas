@@ -3,7 +3,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fallout/interface/menu_fields.h"
-#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include "fnv/result_slot.h"
 #include <cstdint>
@@ -1129,6 +1128,12 @@ struct UpdData
 };
 struct AVObj
 {
+};
+struct NiFixedString
+{
+    void* m_00;
+    NiFixedString(const char* s);
+    ~NiFixedString();
 };
 struct CtrlNode
 {

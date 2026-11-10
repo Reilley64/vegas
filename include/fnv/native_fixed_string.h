@@ -1,59 +1,33 @@
 #pragma once
 
-#include "NiFixedString.h"
+#include "fnv/fixed_string_handle.h"
 
-#include <cstddef>
-#include <cstdint>
-
-namespace fnv::strings {
-
-// Source-backed native fixed-string array used by the GPU cache. Storage and
-// every element are owned through the production MemoryManager boundary.
-class FixedStringArray {
+// The owning fixed-string handle. Units that still manage the count by hand
+// keep the plain layout view in NiFixedString.h; a unit includes only one.
+class NiFixedString
+{
 public:
-    FixedStringArray() noexcept = default;
-    FixedStringArray(const FixedStringArray&) = delete;
-    FixedStringArray& operator=(const FixedStringArray&) = delete;
-    FixedStringArray(FixedStringArray&& other) noexcept;
-    FixedStringArray& operator=(FixedStringArray&& other) noexcept;
-    ~FixedStringArray() noexcept;
+    char* m_kHandle;
 
-    bool Reserve(std::uint32_t capacity) noexcept;
-    bool PushBack(const NiFixedString& value) noexcept;
-    void Clear() noexcept;
+    NiFixedString() noexcept;
+    // 0x00438170
+    NiFixedString(const char* text) noexcept;
+    // 0x0048af40
+    NiFixedString(const NiFixedString& other) noexcept;
+    // 0x004381b0
+    ~NiFixedString() noexcept;
 
-    const NiFixedString& operator[](std::size_t index) const noexcept { return data_[index]; }
-    std::size_t Size() const noexcept { return count_; }
-    std::size_t Capacity() const noexcept { return capacity_; }
-    const NiFixedString* Data() const noexcept { return data_; }
+    // 0x00a2e750
+    NiFixedString& operator=(const char* text) noexcept;
+    NiFixedString& operator=(const NiFixedString& other) noexcept;
 
-private:
-    NiFixedString* data_ = nullptr;
-    std::uint32_t capacity_ = 0;
-    std::uint32_t count_ = 0;
-    std::uint32_t growBy_ = 0;
-    std::uint32_t flags_ = 0;
+    // 0x0048af70
+    int IsNotEmpty() const noexcept;
+
+    // Defined in nigeommorphercontroller.cpp.
+    operator const char*() const;
+    // 0x004b9900, defined in blk_004a0000_od.cpp: destroys, then frees when bit 0 of flags is set.
+    void* FUN_004b9900(unsigned int flags);
 };
 
-struct GPUProgramCacheNames {
-    NiFixedString name;
-    NiFixedString profile;
-    NiFixedString suffix;
-    FixedStringArray fallbacks;
-
-    bool Update(int kind, const NiFixedString& requested, const char* path) noexcept;
-};
-
-// Production NiObjectNET name update seam. Retain happens before retirement,
-// so self-assignment and aliases are safe.
-bool AssignObjectName(NiFixedString& destination, const NiFixedString& source) noexcept;
-
-// Observable ownership facts used by bounded production-entry tests. These
-// queries do not expose or depend on the node layout.
-const void* TableIdentity() noexcept;
-const void* NodeIdentity(const char* handle) noexcept;
-bool Owns(const char* handle) noexcept;
-std::uint32_t RefCount(const char* handle) noexcept;
-std::size_t LiveNodeCount() noexcept;
-
-} // namespace fnv::strings
+static_assert(sizeof(NiFixedString) == sizeof(char*));

@@ -1,5 +1,4 @@
 #include "AutoMemContext.h"
-#include "NiFixedString.h"
 // fallout_shared/tesrace.cpp: TESRace, Obj, RaceCleanup, RaceReset and more (42 functions)
 
 #include <cstdint>

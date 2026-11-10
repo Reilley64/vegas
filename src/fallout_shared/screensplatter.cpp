@@ -1,7 +1,7 @@
 // fallout_shared/screensplatter.cpp: ScreenSplatter (16 functions)
 
 #include <cstdint>
-#include "NiFixedString.h"
+#include "fnv/native_fixed_string.h"
 #include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/CamLook.h"

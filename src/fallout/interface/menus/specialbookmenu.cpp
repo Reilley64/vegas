@@ -4,7 +4,6 @@
 
 
 #include "fnv/simple_array_item.h"
-#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include <cstdint>
 #include <new>
@@ -215,6 +214,13 @@ template <class T> class NiPointer
     NiPointer(T* p);
     ~NiPointer();
     NiPointer& operator=(T* p);
+};
+class NiFixedString
+{
+  public:
+    const char* m_kHandle;
+    NiFixedString(const char* s);
+    ~NiFixedString();
 };
 struct PropHelper
 {

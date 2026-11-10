@@ -1,5 +1,4 @@
 #include "AutoMemContext.h"
-#include "NiFixedString.h"
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 
 #include "fnv/simple_list_node_view.h"
@@ -87626,6 +87625,13 @@ void PlayerView::SetActiveState(unsigned char selected, unsigned char bypass, un
 }
 }  // namespace fnv_008bb650
 
+class NiFixedString
+{
+  public:
+    const char* data;
+    NiFixedString(const char* s);
+    ~NiFixedString();
+};
 
 struct FUN_008bbc40_entry
 {

@@ -523,13 +523,7 @@ class NiRTTI
 class GlobalObject_00a7b610
 {
 };
-class NiFixedString
-{
-  public:
-    unsigned int handle;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 class TESSound
 {
   public:

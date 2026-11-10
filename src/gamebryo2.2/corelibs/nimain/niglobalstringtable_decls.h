@@ -7,15 +7,20 @@
 #include <cstring>
 #include "fnv/decl/EC2DF0Registry.h"
 #include "fnv/decl/MovieSignalState.h"
-#include "fnv/decl/StringTable169.h"
-#include "fnv/decl/ThreadedTable.h"
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_0126f000.h"
 #include "runtime/crt.h"
-#include "fnv/decl/NiGlobalStringTable.h"
+class NiGlobalStringTable
+{
+  public:
+    void AddString();
+    static char* AddString(const char*);
+    unsigned char padding[0x68];
+    unsigned m_uiLockCount;
+};
 extern "C" unsigned long __readfsdword(unsigned long);
 #pragma intrinsic(__readfsdword)
 struct NiPlaybackTimestamp

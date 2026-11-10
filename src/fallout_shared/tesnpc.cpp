@@ -1,7 +1,7 @@
 // fallout_shared/tesnpc.cpp: TESNPC, ActorValue, TESActorBaseData, FR2MatrixVTCData and more (114 functions)
 
 #include <cstring>
-#include "NiFixedString.h"
+#include "fnv/native_fixed_string.h"
 
 #include <cstdint>
 #include <new>

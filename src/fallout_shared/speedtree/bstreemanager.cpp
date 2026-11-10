@@ -1,7 +1,6 @@
 // fallout_shared/speedtree/bstreemanager.cpp: BSTreeManager, LFFreeList, TreeManager (27 functions)
 
 #include <cstdint>
-#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include <cmath>
 #include <new>
@@ -721,6 +720,13 @@ NiPointer<NiTexture>* Mgr6649c0::GetOrCreateTexturePointer(std::uintptr_t key)
     return value2;
 }
 
+class NiFixedString
+{
+  public:
+    const char* value;
+    NiFixedString(const char*);
+    ~NiFixedString();
+};
 class NiAVObject
 {
   public:

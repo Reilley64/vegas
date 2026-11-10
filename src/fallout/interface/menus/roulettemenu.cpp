@@ -3,7 +3,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/result_slot.h"
-#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
@@ -5761,6 +5760,12 @@ struct PathOwner
 };
 struct ModelLoader
 {
+};
+struct NiFixedString
+{
+    const char* value;
+    NiFixedString(const char*);
+    ~NiFixedString();
 };
 struct Controller
 {

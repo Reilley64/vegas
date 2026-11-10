@@ -4206,9 +4206,6 @@ struct FUN_0087d4a0
     ~FUN_0087d4a0();
 };
 
-FUN_0087d4a0::FUN_0087d4a0(bool)
-{}
-
 FUN_0087d4a0::~FUN_0087d4a0()
 {}
 

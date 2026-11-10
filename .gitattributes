@@ -1,12 +1,16 @@
+src/generated/data/bshavok/bhkrigidbody_h_unit.inc text eol=lf
+src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc text eol=lf
 src/generated/data/havok/common/base/types/hkrefvariant.inc text eol=lf
 src/generated/data/havok/common/serialize/util/hkbuiltintyperegistry.inc text eol=lf
 src/generated/data/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.inc text eol=lf
 src/generated/data/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.inc text eol=lf
 src/generated/data/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.inc text eol=lf
+src/generated/data/staging/blk_00860000_od.inc text eol=lf
 src/generated/data/staging/blk_00d20000_o2.inc text eol=lf
 src/generated/data/staging/blk_00d40000_o2.inc text eol=lf
 src/generated/data/staging/blk_00d60000_o2.inc text eol=lf
 src/generated/data/vtables.h text eol=lf
+src/generated/data/vtables_010a.cpp text eol=lf
 src/generated/data/vtables_010c.cpp text eol=lf
 src/generated/data/vtables_010d.cpp text eol=lf
 src/generated/data/vtables_010e.cpp text eol=lf

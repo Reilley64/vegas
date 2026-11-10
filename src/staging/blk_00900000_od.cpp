@@ -62,12 +62,8 @@ extern int DAT_010159d4;
 struct GlobalObject_00869f00
 {
     int* m_p;
-    void Clear(bool);
     void InitFromGlobal_00905910();
 };
-
-void GlobalObject_00869f00::Clear(bool)
-{}
 
 // @fnv 0x00905910
 void GlobalObject_00869f00::InitFromGlobal_00905910()

@@ -127,12 +127,8 @@ AX* AX::FUN_007ab610()
 
 struct GlobalObject_00869f00
 {
-    void Clear(bool);
     void FUN_007ab670();
 };
-
-void GlobalObject_00869f00::Clear(bool)
-{}
 
 // @fnv 0x007ab670
 void GlobalObject_00869f00::FUN_007ab670()

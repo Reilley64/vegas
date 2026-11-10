@@ -130,20 +130,25 @@ FUN_006cf9a0::FUN_006cf9a0(int maxSize, int growBy)
 }
 
 extern int DAT_0106c9e0;
-struct GlobalObject_00869f00
+namespace fnv_008454f0 {
+struct FUN_008454f0
 {
-    void Clear(bool);
+    void* vfptr;
+    void* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
+    void Clear(bool freeStorage);
 };
-struct FUN_006cfaa0
+}  // namespace fnv_008454f0
+struct FUN_006cfaa0 : fnv_008454f0::FUN_008454f0
 {
-    int* vfptr;
     void FUN_006cfaa0_();
 };
 // @fnv 0x006cfaa0
 void FUN_006cfaa0::FUN_006cfaa0_()
 {
     vfptr = &DAT_0106c9e0;
-    ((GlobalObject_00869f00*)this)->Clear(true);
+    Clear(true);
 }
 
 struct FUN_006e91e0_cls
@@ -378,7 +383,7 @@ struct FUN_006cf440 : _Mem_20a4
 // @fnv 0x006cf440
 FUN_006cf440::~FUN_006cf440()
 {
-    ((GlobalObject_00869f00*)this)->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
 struct ParentSpaceNode
@@ -629,14 +634,6 @@ struct FUN_0072ba80_shell
 {
     void FUN_0072ba80(void* p, unsigned int n);
 };
-struct FUN_008454f0
-{
-    void* vfptr;
-    void* pBuffer;
-    unsigned int iSize;
-    unsigned int SimpleArrayStorage;
-    void Clear(bool freeStorage);
-};
 // @fnv 0x008454f0
 void FUN_008454f0::Clear(bool freeStorage)
 {
@@ -692,7 +689,7 @@ struct FUN_006cf840 : FUN_006cf820
 // @fnv 0x006cf840
 FUN_006cf840::~FUN_006cf840()
 {
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<GlobalObject_00869f00*>(this)))->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
 struct TypeValueCount

@@ -201,16 +201,8 @@ extern int DAT_0104f3e8;
 struct GlobalObject_00869f00
 {
     int* p;
-    void Clear(bool);
     void ResetPointer();
 };
-
-void GlobalObject_00869f00::Clear(bool b)
-{
-    delete[] p;
-    if (b)
-        p = 0;
-}
 
 // @fnv 0x006442e0
 void GlobalObject_00869f00::ResetPointer()

@@ -453,11 +453,6 @@ struct CoordinateTriple
     bool FUN_00527a00();
 };
 
-bool CoordinateTriple::FUN_00527a00()
-{
-    return false;
-}
-
 struct TESObjectREFR_ext : public TESObjectREFR
 {
     bool GetReferencePersistence();

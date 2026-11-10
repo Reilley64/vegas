@@ -1797,10 +1797,6 @@ struct ConePoint
     float x, y, z;
 };
 
-struct ConeWeaponSkill
-{
-    int FUN_005f2420();
-};
 struct ConeWeapon
 {
 };
@@ -2262,8 +2258,8 @@ bool __cdecl IsTargetInCone(ConeRef* pkShooter, ConeRef* pkTarget, float* pfAngl
     bool bInConeX = false;
     int iSkillOut = 0x1a;
     if (pkShooter == (*reinterpret_cast<::ConePlayer * *>(&::_g_thePlayer)) && ((::ConeProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkShooter))->GetBaseTexture())) && ((::ConeProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkShooter))->GetBaseTexture()))->GetLoadedForm() &&
-        ((::ConeWeaponSkill *)(reinterpret_cast<::BSAnimGroupSequence *>((((::ConeProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkShooter))->GetBaseTexture()))->GetLoadedForm()))->GetAnimGroup())))
-        iSkillOut = ((::ConeWeaponSkill *)(reinterpret_cast<::BSAnimGroupSequence *>((((::ConeProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkShooter))->GetBaseTexture()))->GetLoadedForm()))->GetAnimGroup()))->FUN_005f2420();
+        ((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((((::ConeProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkShooter))->GetBaseTexture()))->GetLoadedForm()))->GetAnimGroup())))
+        iSkillOut = ((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((((::ConeProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkShooter))->GetBaseTexture()))->GetLoadedForm()))->GetAnimGroup()))->GetType();
     ConePoint kDeltaA = (*(::ConePoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(pkTarget->GetPos()))->FUN_00439ef0((::NiPoint3 *)&(pkShooter->GetPos()), *(const ::NiPoint3 *)nullptr)));
     float fHeadingLoc = ::GetAngleFromVector((*(const ::NiPoint3 *)(&kDeltaA)));
     float fAimDirectionOffset = 0.0f;

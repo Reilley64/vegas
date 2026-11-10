@@ -8907,10 +8907,6 @@ struct RootHandle
 {
     MotionRoot* value;
 };
-struct MotionGroup
-{
-    int FUN_005f2420();
-};
 struct MotionSequence
 {
 };
@@ -9092,12 +9088,12 @@ bool MovementAnimation::GetMovement(MotionPoint* apMovement, MotionActor* actor,
     MotionPoint delta3 = movement;
     MotionMatrix rotation5 = (*(const ::fnv_00494390::MotionMatrix *)(::FUN_006a9540((char *)(((::fnv_00494390::MotionRoot *)(::FUN_00559450((int *)&(root))))))));
     if (!actor->disabled() && reinterpret_cast<::FUN_004938e0_shell *>((actor))->FUN_004938e0() && sequences[1] &&
-        ((::fnv_00494390::MotionGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[1]))->GetAnimGroup()))->FUN_005f2420() >= 3 && ((::fnv_00494390::MotionGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[1]))->GetAnimGroup()))->FUN_005f2420() <= 16)
+        ((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[1]))->GetAnimGroup()))->GetType() >= 3 && ((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[1]))->GetAnimGroup()))->GetType() <= 16)
     {
-        speed2 = reinterpret_cast<::TESAnimGroup *>((((::fnv_00494390::MotionGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[1]))->GetAnimGroup()))))->GetAnimationSpeed() * moveSpeed * deltaTime7 * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((owner))->FUN_00567400();
+        speed2 = reinterpret_cast<::TESAnimGroup *>((((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[1]))->GetAnimGroup()))))->GetAnimationSpeed() * moveSpeed * deltaTime7 * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((owner))->FUN_00567400();
         if (sequences[4] && ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((sequences[4]))->GetActiveCombatTarget())) == 1)
         {
-            alternate = reinterpret_cast<::TESAnimGroup *>((((::fnv_00494390::MotionGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[4]))->GetAnimGroup()))))->GetAnimationSpeed() * attackSpeed * deltaTime7 * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((owner))->FUN_00567400();
+            alternate = reinterpret_cast<::TESAnimGroup *>((((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequences[4]))->GetAnimGroup()))))->GetAnimationSpeed() * attackSpeed * deltaTime7 * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((owner))->FUN_00567400();
             if (alternate > speed2)
                 speed2 = alternate;
         }

@@ -942,10 +942,6 @@ class TESObjectREFR
     virtual void Unk_4D();
     virtual bool GetStartingPosition(NiPoint3* location, NiPoint3* angle, TESForm** space, TESForm* defaultSpace);
 };
-struct TESFormH
-{
-    int GetFormType();
-};
 struct TESObjectCELLH
 {
 };
@@ -1134,7 +1130,7 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
                     else
                     {
                         TESObjectCELL* pcell = 0;
-                        if (((TESFormH*)pspace)->GetFormType() == 0x41)
+                        if (((::TESForm*)pspace)->GetFormType() == 0x41)
                         {
                             TESWorldSpace* pworld = (TESWorldSpace*)pspace;
                             pcell = reinterpret_cast<::fnv_00587550::FUN_00587550_shell *>((pworld))->FUN_00587550((const ::fnv_00587550::NiPoint3 &)(loc));
@@ -3480,11 +3476,6 @@ class MapOps
   public:
     void FUN_00845760(SourceData*, unsigned int);
 };
-class FormTypeOps
-{
-  public:
-    int FNV_GetFormType();
-};
 class CF845
 {
   public:
@@ -3543,7 +3534,7 @@ void ReconstructLoadContext::FUN_00848e70(BGSSaveLoadChangesMap* changes, TESFil
             reinterpret_cast<::FUN_00849240_class *>(&(buffer))->SetFlag4(1);
             current->Revert((BGSLoadFormBuffer*)&buffer);
             unsigned int name;
-            name = ::FormChangeMask::HasFormChanged(::FormChangeMask{key->unk00}, ::FormChangeMask{0}, ((FormTypeOps*)current)->FNV_GetFormType(), false).flags;
+            name = ::FormChangeMask::HasFormChanged(::FormChangeMask{key->unk00}, ::FormChangeMask{0}, ((::TESForm*)current)->GetFormType(), false).flags;
             if (name)
             {
                 if (!reinterpret_cast<::SaveLoad84 *>(this)->RevertReference((::Ref84 **)(::TESForm **)(&current), ::ChangeFlags84{name}, 1))

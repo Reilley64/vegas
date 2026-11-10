@@ -8320,10 +8320,6 @@ void WeaponDrawProcess::FUN_00915d60(Actor* actor, bool drawn)
     reinterpret_cast<::FUN_00884f80_shell *>((reinterpret_cast<ActorWeaponAccess*>(actor)))->FUN_00884f80();
 }
 
-struct ActorCalls
-{
-    int FUN_00931850();
-};
 struct PackageCalls
 {
 };
@@ -10625,10 +10621,6 @@ struct ResolveBuffer
     virtual void v8();
     virtual RefStub* vc();
 };
-struct FormInfo
-{
-    int FUN_00401170();
-};
 struct RefStub
 {
     virtual void v0();
@@ -11482,7 +11474,7 @@ void Target::ResolveReferences(ResolveBuffer* buffer)
     ::InitLoadGameForEffects((::Actor *)(buffer), (::BSSimpleList< ::ActiveEffect *> *)(unk1b8));
     if (unk140)
     {
-        if (((::fnv_009278d0::FormInfo *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((unk140))->FUN_007af430()))->FUN_00401170() != 39)
+        if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((unk140))->FUN_007af430()))->GetFormType() != 39)
             v84(actor);
         else if (actor && (actor->v22c(0) || actor->FUN_008d6f30() != unk140->FUN_008d6f30()))
             v84(actor);
@@ -12587,7 +12579,6 @@ struct Pt3Y
     float y;
     float z;
 };
-struct FormX;
 struct RefX
 {
     virtual void r0();
@@ -12717,10 +12708,6 @@ struct RefX
     virtual void r124();
     virtual intptr_t V1F4();
     intptr_t GetCull();
-};
-struct FormX
-{
-    int GetFormType();
 };
 struct ActorY;
 struct PackageX
@@ -13343,7 +13330,7 @@ void ProcX::FUN_0092ae20(ActorY* apActor, TargetX* apTarget)
     {
         fRadius3 = ::FUN_00404010(fRadius3, (float)pPackage->GetRadius(apActor));
     }
-    FormX* pBase2 = ((::fnv_0092ae20::FormX *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pRef8))->FUN_007af430()));
+    ::TESForm* pBase2 = ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pRef8))->FUN_007af430()));
     bool bIsType5 = pBase2->GetFormType() == 0x30;
     if (bIsType5)
     {
@@ -13352,7 +13339,7 @@ void ProcX::FUN_0092ae20(ActorY* apActor, TargetX* apTarget)
     PathReq kRequest4;
     reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((apActor))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_0092ae20::PathReq *)(&kRequest4), (void *)(pRef8->V1F4()), (void *)(pRef8->GetCull()), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((pRef8))->FUN_00575d70())), fRadius3, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
     reinterpret_cast<::FUN_008e7c50_cls *>(&(kRequest4))->SetUseSoft(false);
-    if (bIsType5 || pBase2 == (*reinterpret_cast<::fnv_0092ae20::FormX * *>(&::DAT_011ca248)))
+    if (bIsType5 || pBase2 == (*reinterpret_cast<::TESForm * *>(&::DAT_011ca248)))
     {
         ::SetTargetAngle((char *)&(kRequest4), (*(const ::fnv_0092ae20::Pt3Y *)(reinterpret_cast<::TESRecipe *>((void *)(pRef8))->GetData())).z);
     }
@@ -15047,14 +15034,10 @@ struct TaskPointer
 {
     QueueTask* pointer;
 };
-struct QueueObject
-{
-    int FUN_00401170();
-};
 class PaddedFloatRecord
 {
   public:
-    QueueObject* object;
+    ::TESForm* object;
     ExtraDataList* extra;
     int count;
     bool equip;
@@ -15100,7 +15083,7 @@ void QueueProcess::ProcessQueuedItems(QueueActor* actor)
                 reinterpret_cast<::fnv_0088c830::ThisC *>((actor))->FUN_0088c830((::fnv_0088c830::FormC *)(h->object), h->count, h->extra, h->equipFlag1, h->equipFlag2, h->flag3);
                 TESObjectWEAP* e = 0;
                 bool k = false;
-                if (h->object->FUN_00401170() == 40)
+                if (h->object->GetFormType() == 40)
                 {
                     e = (TESObjectWEAP*)h->object;
                     if (e->GetWeaponType() == 10 || e->GetWeaponType() == 11 || e->GetWeaponType() == 12 ||
@@ -23949,23 +23932,23 @@ bool FUN_00916880_shell::TryStartCombatAction(Actor* actor, Actor* target, bool 
     {
         if (target)
         {
-            if (reinterpret_cast<ActorCalls*>(target)->FUN_00931850() !=
-                    reinterpret_cast<ActorCalls*>(actor)->FUN_00931850() &&
+            if (reinterpret_cast<::MobileObject*>(target)->GetCurrentProcessLevel() !=
+                    reinterpret_cast<::MobileObject*>(actor)->GetCurrentProcessLevel() &&
                 actor->GetNiNode() == 0)
                 reinterpret_cast<::LowProcessProxy *>(this)->FUN_0090dc10(actor, target, deferAction, secondaryAction, (void *)(movementOption), optionA, optionB, optionC,
                              optionD, skipDistanceCheck, 0, 1, (void *)(0));
         }
 
-        if (reinterpret_cast<::FUN_00437bf0_shell *>((reinterpret_cast<ActorCalls*>(actor)))->FUN_00437bf0() ||
-            ((bool)(reinterpret_cast<::FUN_00437bd0_stub *>((reinterpret_cast<ActorCalls*>(actor)))->FUN_00437bd0())))
+        if (reinterpret_cast<::FUN_00437bf0_shell *>((reinterpret_cast<::MobileObject*>(actor)))->FUN_00437bf0() ||
+            ((bool)(reinterpret_cast<::FUN_00437bd0_stub *>((reinterpret_cast<::MobileObject*>(actor)))->FUN_00437bd0())))
             return false;
 
         if (target && !actor->GetCombatController() && !stopReason && reinterpret_cast<::FUN_008d0300_shell *>(((*reinterpret_cast<::GlobalCallContext * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_008d0300(actor, target))
         {
             reinterpret_cast<ImmediateAction>((*reinterpret_cast<void***>(actor))[0x410 / 4])(
                 actor, target, 1, 1, 1, 0, 0, ::DAT_01012054, ::DAT_01012054);
-            if (target == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && reinterpret_cast<::MyOuter88230 *>((reinterpret_cast<ActorCalls*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_008a8230((intptr_t)(actor)) > 0)
-                reinterpret_cast<::FUN_0093a690_shell *>((reinterpret_cast<ActorCalls*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_0093a690(actor);
+            if (target == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && reinterpret_cast<::MyOuter88230 *>((reinterpret_cast<::MobileObject*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_008a8230((intptr_t)(actor)) > 0)
+                reinterpret_cast<::FUN_0093a690_shell *>((reinterpret_cast<::MobileObject*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_0093a690(actor);
             return true;
         }
 
@@ -23976,16 +23959,16 @@ bool FUN_00916880_shell::TryStartCombatAction(Actor* actor, Actor* target, bool 
 
         if (target == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && !stopReason)
         {
-            if (((int)(reinterpret_cast<::FUN_00953c20_shell *>((reinterpret_cast<ActorCalls*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00953c20())) >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::TimingSettings *>(&::g_011ccffc)))))))
+            if (((int)(reinterpret_cast<::FUN_00953c20_shell *>((reinterpret_cast<::MobileObject*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00953c20())) >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::TimingSettings *>(&::g_011ccffc)))))))
                 return false;
         }
 
         if (target)
         {
-            bool bTargetHasCondition = reinterpret_cast<::FUN_005a2030_shell *>((reinterpret_cast<ActorCalls*>(target)))->FUN_005a2030();
-            if (!reinterpret_cast<::FUN_0087f3b0_shell *>((reinterpret_cast<ActorCalls*>(actor)))->FUN_0087f3b0() && bTargetHasCondition)
+            bool bTargetHasCondition = reinterpret_cast<::FUN_005a2030_shell *>((reinterpret_cast<::MobileObject*>(target)))->FUN_005a2030();
+            if (!reinterpret_cast<::FUN_0087f3b0_shell *>((reinterpret_cast<::MobileObject*>(actor)))->FUN_0087f3b0() && bTargetHasCondition)
                 return false;
-            if (reinterpret_cast<::FUN_0087f570_shell *>((reinterpret_cast<ActorCalls*>(actor)))->FUN_0087f570() && !bTargetHasCondition)
+            if (reinterpret_cast<::FUN_0087f570_shell *>((reinterpret_cast<::MobileObject*>(actor)))->FUN_0087f570() && !bTargetHasCondition)
                 return false;
         }
 
@@ -23993,7 +23976,7 @@ bool FUN_00916880_shell::TryStartCombatAction(Actor* actor, Actor* target, bool 
         TESPackage* runningPackage = GetOneTimePackage();
         if (runningPackage && reinterpret_cast<::TESPackage *>((reinterpret_cast<PackageCalls*>(runningPackage)))->IsPackageBlockingGreeting())
             runningPackage = reinterpret_cast<TESPackage*>(
-                ((void *)(reinterpret_cast<::FUN_0041cb10_shell *>((reinterpret_cast<ProcessToken*>(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<ActorCalls*>(actor)))->FUN_005d43c0())))->FUN_0041cb10())));
+                ((void *)(reinterpret_cast<::FUN_0041cb10_shell *>((reinterpret_cast<ProcessToken*>(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<::MobileObject*>(actor)))->FUN_005d43c0())))->FUN_0041cb10())));
 
         if (target && runningPackage && reinterpret_cast<::FUN_0067a3f0_shell *>((reinterpret_cast<PackageCalls*>(runningPackage)))->HasFlag400000() &&
             !stopReason && !skipDistanceCheck)
@@ -24002,7 +23985,7 @@ bool FUN_00916880_shell::TryStartCombatAction(Actor* actor, Actor* target, bool 
             float radius = static_cast<float>(reinterpret_cast<::HighProcess *>((reinterpret_cast<PackageCalls*>(runningPackage)))->UpdateHighProcessState(actor));
             if (radius < ::g_01012070)
                 radius = DAT_0101786c;
-            if (radius < reinterpret_cast<::fnv_00572380::Fn572380 *>((reinterpret_cast<ActorCalls*>(target)))->FUN_00572380((::fnv_00572380::NiP3Sub *)(::NiPoint3 *)(&destination)) &&
+            if (radius < reinterpret_cast<::fnv_00572380::Fn572380 *>((reinterpret_cast<::MobileObject*>(target)))->FUN_00572380((::fnv_00572380::NiP3Sub *)(::NiPoint3 *)(&destination)) &&
                 target->GetCombatController() &&
                 !reinterpret_cast<::Unk_0097fa10 *>((reinterpret_cast<ControllerCalls*>(reinterpret_cast<ControllerForTarget>(
                                                         (*reinterpret_cast<void***>(target))[0x428 / 4])(target, actor))))->FUN_0097fa10({}))
@@ -24022,7 +24005,7 @@ bool FUN_00916880_shell::TryStartCombatAction(Actor* actor, Actor* target, bool 
         bool isAggressor = optionC;
         if (actor->Unk_C1())
             isAggressor = false;
-        if (target && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((reinterpret_cast<ActorCalls*>(target)))->FUN_00493bb0())) && target->GetCombatController() &&
+        if (target && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((reinterpret_cast<::MobileObject*>(target)))->FUN_00493bb0())) && target->GetCombatController() &&
             reinterpret_cast<::Unk_0097fa10 *>((reinterpret_cast<ControllerCalls*>(
                 reinterpret_cast<ControllerForTarget>((*reinterpret_cast<void***>(target))[0x428 / 4])(target, actor))))->FUN_0097fa10({}))
             isAggressor = false;
@@ -24034,9 +24017,9 @@ bool FUN_00916880_shell::TryStartCombatAction(Actor* actor, Actor* target, bool 
         reinterpret_cast<ProcessAction>((*reinterpret_cast<void***>(actor))[0x424 / 4])(
             actor, target, movementOption, stopReason, isAggressor, optionA, timedStop, extraOption, callbackValue);
 
-        if (target == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((reinterpret_cast<ActorCalls*>(actor)))->FUN_00493bb0())) &&
-            reinterpret_cast<::MyOuter88230 *>((reinterpret_cast<ActorCalls*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_008a8230((intptr_t)(actor)) > 0)
-            reinterpret_cast<::FUN_0093a690_shell *>((reinterpret_cast<ActorCalls*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_0093a690(actor);
+        if (target == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((reinterpret_cast<::MobileObject*>(actor)))->FUN_00493bb0())) &&
+            reinterpret_cast<::MyOuter88230 *>((reinterpret_cast<::MobileObject*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_008a8230((intptr_t)(actor)) > 0)
+            reinterpret_cast<::FUN_0093a690_shell *>((reinterpret_cast<::MobileObject*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_0093a690(actor);
     }
     return true;
 }
@@ -29147,10 +29130,6 @@ struct B570TargetData
 struct B570ActorCalls : Actor
 {
 };
-struct B570FormCalls
-{
-    int FUN_00401170();
-};
 struct B570PatrolData
 {
 };
@@ -29241,7 +29220,7 @@ void B570ProcessCalls::UpdateTargetTracking(B570ActorCalls* actor, B570TargetDat
         NiPoint3 delta = *actor->GetPos() - *target->GetPos();
         float distance = reinterpret_cast<::FUN_00595c80_shell *>((void *)(((B570PointCalls*)&delta)))->GetSquaredXYLength();
         float radius = 32.0f;
-        if (((B570FormCalls*)((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())))->FUN_00401170() == 48)
+        if (((::TESForm*)((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())))->GetFormType() == 48)
         {
             radius = ::TESPackage::GetPackageDefaultFloat();
         }
@@ -29265,7 +29244,7 @@ void B570ProcessCalls::UpdateTargetTracking(B570ActorCalls* actor, B570TargetDat
         duration = reinterpret_cast<::CombatTargetTimestamp *>((((::B570PatrolData *)(reinterpret_cast<::FUN_0041fe90_shell *>((((::B570ExtraCalls *)(reinterpret_cast<::FUN_005d43c0_ *>((((B570RefCalls*)target)))->FUN_005d43c0()))))->FUN_0041fe90()))))->FUN_006a7f50();
     if (duration > 0.0)
     {
-        int type = ((B570FormCalls*)((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())))->FUN_00401170();
+        int type = ((::TESForm*)((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())))->GetFormType();
         if (type == 48)
             UpdateActiveEffects(actor, target);
     }

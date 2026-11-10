@@ -7157,10 +7157,6 @@ struct DecalList
 struct FUN_0041f050_shell
 {
 };
-struct FUN_00475120_shell
-{
-    int GetFormType();
-};
 struct ScriptS
 {
 };
@@ -7189,9 +7185,9 @@ void FUN_0043fed0_shell::FUN_0043fed0()
         {
             ReferenceIntersectionData* pdata = *((::fnv_0043fed0::ReferenceIntersectionData **)((void *)(pdecallist)));
             pdecallist = ((::fnv_0043fed0::DecalList *)(reinterpret_cast<::Callees *>((pdecallist))->FUN_00726070()));
-            if (pdata->m_pHitReference && ((::fnv_0043fed0::FUN_00475120_shell *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((ScriptS*)pdata->m_pHitReference)))->FUN_007af430()))->GetFormType() == 4)
+            if (pdata->m_pHitReference && ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((ScriptS*)pdata->m_pHitReference)))->FUN_007af430()))->GetFormType() == 4)
             {
-                BGSTextureSet* ptexset = (BGSTextureSet*)((::fnv_0043fed0::FUN_00475120_shell *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((ScriptS*)pdata->m_pHitReference)))->FUN_007af430()));
+                BGSTextureSet* ptexset = (BGSTextureSet*)((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((ScriptS*)pdata->m_pHitReference)))->FUN_007af430()));
                 reinterpret_cast<::BGSTextureSet *>((ptexset))->LoadTextures(reinterpret_cast<::FUN_0043cc80_shell *>((((FUN_0043cc80_shell*)this)))->FUN_0043cc80(), (::QueuedFile *)(void *)(this), false);
             }
         }
@@ -11981,10 +11977,6 @@ struct RefPtr
     RefPtr(void*);
     ~RefPtr();
 };
-struct Base3D
-{
-    int FUN_00401170();
-};
 struct Proc
 {
 };
@@ -12189,7 +12181,7 @@ void ML::FUN_00444850(Ref* ref, std::intptr_t aiValue, bool a3)
 {
     if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::Mgr * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10() && !reinterpret_cast<::BGSSaveLoadGame *>(((*reinterpret_cast<::Mgr * *>(&::g_BGSSaveLoadGame))))->GetInitingForms())
         return;
-    if (((::Base3D *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FUN_00401170() == 0xd)
+    if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->GetFormType() == 0xd)
         return;
     if (((RefV*)ref)->IsX())
     {
@@ -12213,7 +12205,7 @@ void ML::FUN_00444850(Ref* ref, std::intptr_t aiValue, bool a3)
     }
     else
     {
-        switch (((::Base3D *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FUN_00401170())
+        switch (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->GetFormType())
         {
         case 0x25: {
             reinterpret_cast<::FUN_006f74f0_cls *>(&(p))->FUN_006f74f0((::ObjA *)(void *)(new TaskB(ref, aiValue)));

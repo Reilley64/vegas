@@ -20942,9 +20942,6 @@ void __cdecl FUN_005d4c20(FUN_005d4c20_cls* p, float f)
     p->v81(f, 1);
 }
 
-struct SpecialActorState {
-    int FUN_00401170();
-};
 struct RefActor {
 };
 
@@ -20958,8 +20955,8 @@ bool __cdecl FUN_005d4cc0(
     std::uintptr_t itemIndex = 0;
     ::FUN_005accb0((const ::ExtractParameter *)(parameters), (const char *)(text), (unsigned int *)(std::uintptr_t)(offset), (::TESObjectREFR *)(target), (::TESObjectREFR *)(speaker), (::ExtractScript *)(script), (::ScriptLocals *)(variables), &itemIndex);
     if (target != 0) {
-        if (((::SpecialActorState *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430()))->FUN_00401170() == 22) {
-            SpecialActorState* state = ((::SpecialActorState *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430()));
+        if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430()))->GetFormType() == 22) {
+            ::TESForm* state = ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430()));
             reinterpret_cast<::FUN_004ff0e0_cls *>((state))->FUN_004ff0e0((::FUN_004ff0e0_arg *)(itemIndex));
         }
     }

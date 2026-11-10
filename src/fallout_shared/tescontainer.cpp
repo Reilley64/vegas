@@ -971,10 +971,6 @@ struct TgtOps
 {
     void* GetPosition();
 };
-struct ContList
-{
-    bool _ref_008256d0();
-};
 
 // @fnv 0x00482770
 void FUN_00482770_shell::AddLeveledItemsToChanges(int aiLevItemIndex, InventoryChanges* apChanges)
@@ -982,8 +978,8 @@ void FUN_00482770_shell::AddLeveledItemsToChanges(int aiLevItemIndex, InventoryC
     bool bhadChanges = false;
     if (apChanges)
     {
-        ContList* pCurrentElementNext = (ContList*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)this)))->GetCurrentProcessData()));
-        while (pCurrentElementNext && !pCurrentElementNext->_ref_008256d0())
+        ::BSSimpleList< ::InventoryStackRecord *>* pCurrentElementNext = (::BSSimpleList< ::InventoryStackRecord *>*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)this)))->GetCurrentProcessData()));
+        while (pCurrentElementNext && !pCurrentElementNext->IsEmpty())
         {
             InventoryItemEntry* pcont = *((::InventoryItemEntry **)((void *)(pCurrentElementNext)));
             if (pcont)
@@ -996,7 +992,7 @@ void FUN_00482770_shell::AddLeveledItemsToChanges(int aiLevItemIndex, InventoryC
                     reinterpret_cast<::Fn40ea20 *>((((Fn40ea20*)pcont->extra)))->FUN_0040ea20((::ExtraL *)(pextra), (::HealthForm *)(::fnv_00482770::TESHealthForm *)(((::fnv_00482770::TESHealthForm *)(::GetHealthForm((::TESForm *)(::fnv_00482770::TESForm *)((TESForm*)pcont->object))))));
                 reinterpret_cast<::AddInventory *>((((FUN_004c29a0_t*)apChanges)))->FUN_004c29a0((::AddForm *)(pcont->object), (::AddExtra *)(pextra), pcont->count);
             }
-            pCurrentElementNext = ((::fnv_00482770::ContList *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+            pCurrentElementNext = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         }
         if (bhadChanges && ((::fnv_00482770::TESForm *)(reinterpret_cast<::Callees *>((((GridArray*)apChanges)))->FUN_00726070())) && reinterpret_cast<::PatrolActorPackageData *>(((*reinterpret_cast<::fnv_00482770::PatrolActorPackageData * *>(&::g_osGlobals))))->IsPatrolling())
         {
@@ -1822,11 +1818,6 @@ struct RecipeComponentItem
 {
 };
 
-struct RecipeComponentNode
-{
-    bool FUN_008256d0();
-};
-
 struct FUN_004f2770_Class
 {
 };
@@ -1864,12 +1855,12 @@ void CraftRecipe(int count)
         {
             void* compForm;
             {
-                RecipeComponentNode* node;
+                ::BSSimpleList< ::InventoryStackRecord *>* node;
                 {
                     RecipeActorForm* itemForm;
                     {
                         void* recipeTile = ((void *)(reinterpret_cast<::Owner *>(((*reinterpret_cast<::RecipeMenuState * *>(&::DAT_011d8e90))->recipeList))->FindItemData((int *)(void *)(&(*reinterpret_cast<::ActiveRecipe * *>(&::fnv_00726df0::DAT_011d8e94))))));
-                        node = (RecipeComponentNode*)reinterpret_cast<struct ::FUN_005a8080 *>(((*reinterpret_cast<::ActiveRecipe * *>(&::fnv_00726df0::DAT_011d8e94))))->GetField();
+                        node = (::BSSimpleList< ::InventoryStackRecord *>*)reinterpret_cast<struct ::FUN_005a8080 *>(((*reinterpret_cast<::ActiveRecipe * *>(&::fnv_00726df0::DAT_011d8e94))))->GetField();
                         itemForm = 0;
                         compForm = 0;
                         compQty = 0;
@@ -1879,7 +1870,7 @@ void CraftRecipe(int count)
                         }
                         playedSound = 0;
                         isCasinoChip = 0;
-                        for (; node != 0 && !node->FUN_008256d0();)
+                        for (; node != 0 && !node->IsEmpty();)
                         {
                             compForm = reinterpret_cast<::Callees *>(((*((::RecipeComponentItem **)((void *)(node))))))->FUN_00726070();
                             if (!playedSound)
@@ -1925,17 +1916,17 @@ void CraftRecipe(int count)
                                     }
                                 }
                             }
-                            node = ((::RecipeComponentNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                            node = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                         }
                         if (!isCasinoChip)
                         {
                             FUN_004d5e10(0x20, count);
                         }
-                        node = (RecipeComponentNode*)reinterpret_cast<::FUN_005d43c0_ *>(((*reinterpret_cast<::ActiveRecipe * *>(&::fnv_00726df0::DAT_011d8e94))))->FUN_005d43c0();
+                        node = (::BSSimpleList< ::InventoryStackRecord *>*)reinterpret_cast<::FUN_005d43c0_ *>(((*reinterpret_cast<::ActiveRecipe * *>(&::fnv_00726df0::DAT_011d8e94))))->FUN_005d43c0();
                         itemForm = 0;
                         compForm = 0;
                         compQty = 0;
-                        for (; node != 0 && !node->FUN_008256d0();)
+                        for (; node != 0 && !node->IsEmpty();)
                         {
                             compForm = reinterpret_cast<::Callees *>(((*((::RecipeComponentItem **)((void *)(node))))))->FUN_00726070();
                             compQty = ::FUN_00559450((int *)((*((::RecipeComponentItem **)((void *)(node))))));
@@ -1991,7 +1982,7 @@ void CraftRecipe(int count)
                                 ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)(((RecipeStringOps*)&msgStr)))))), 0, (const char *)(str_0101c140),
                                                (const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::FUN_004f2770_Class * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(itemForm), 1, 0)), DAT_010162c0, 0);
                             }
-                            node = ((::RecipeComponentNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                            node = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                         }
                         FUN_00727430();
                     }

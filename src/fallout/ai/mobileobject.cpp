@@ -8611,10 +8611,6 @@ struct VoiceItem
 struct VoiceTopic
 {
 };
-struct VoiceForm
-{
-    int FUN_00401170();
-};
 struct VoiceNode
 {
     const NiPoint3& FUN_0045bb80();
@@ -8778,9 +8774,9 @@ SoundPlaybackHandle VoiceHost::PlayVoiceTopic(VoiceTopic* topic, void* listener,
     float flags = 0.0f;
     reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>(this)->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(topic));
     unsigned int kSound = 0;
-    VoiceForm* pForm;
-    if (((::VoiceForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && ((::VoiceForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 0x16)
-        pForm = ((::VoiceForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
+    ::TESForm* pForm;
+    if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->GetFormType() == 0x16)
+        pForm = ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
     if (time)
     {
         VoiceInfo* pInfo = ((::VoiceInfo *)(reinterpret_cast<::FUN_0084e3a0_Class *>((time))->FUN_0084e3a0()));

@@ -6073,16 +6073,11 @@ struct CellProcessManager
 {
 };
 
-struct ActorProcessProxy
-{
-    int FUN_00931850();
-};
-
 
 // @fnv 0x0096d520
 void __cdecl ProcessPlayerCellActors()
 {
-    CellProcessState* current = ((::CellProcessState *)(reinterpret_cast<::FUN_00422700_shell *>((((::CellProcessManager *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<ActorProcessProxy*>(::_g_thePlayer)))->FUN_005d43c0()))))->FUN_00422700()));
+    CellProcessState* current = ((::CellProcessState *)(reinterpret_cast<::FUN_00422700_shell *>((((::CellProcessManager *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<::MobileObject*>(::_g_thePlayer)))->FUN_005d43c0()))))->FUN_00422700()));
     if (current)
     {
         BSSimpleList<MobileObject*>* removedActors;
@@ -6104,11 +6099,11 @@ void __cdecl ProcessPlayerCellActors()
             MobileObject* actor = (((firstIt))->m_item);
             if (actor && actor != ::_g_thePlayer)
             {
-                if (((intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<ActorProcessProxy*>(actor)))->GetBaseTexture())))
+                if (((intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<::MobileObject*>(actor)))->GetBaseTexture())))
                 {
-                    CellProcessType* process = ((::CellProcessType *)(reinterpret_cast<::Thing *>((reinterpret_cast<ActorProcessProxy*>(actor)))->FUN_00881510()));
+                    CellProcessType* process = ((::CellProcessType *)(reinterpret_cast<::Thing *>((reinterpret_cast<::MobileObject*>(actor)))->FUN_00881510()));
                     CellProcessType* replacement =
-                        ((::CellProcessType *)(reinterpret_cast<::FUN_0041cb10_shell *>((((::CellProcessManager *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<ActorProcessProxy*>(actor)))->FUN_005d43c0()))))->FUN_0041cb10()));
+                        ((::CellProcessType *)(reinterpret_cast<::FUN_0041cb10_shell *>((((::CellProcessManager *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<::MobileObject*>(actor)))->FUN_005d43c0()))))->FUN_0041cb10()));
                     if (replacement)
                         process = replacement;
                     if (!process || (reinterpret_cast<struct ::FUN_0041ca90 *>((process))->get() != 1 && reinterpret_cast<struct ::FUN_0041ca90 *>((process))->get() != 7))
@@ -6117,13 +6112,13 @@ void __cdecl ProcessPlayerCellActors()
                     }
                     else
                     {
-                        int result = reinterpret_cast<ActorProcessProxy*>(actor)->FUN_00931850();
+                        int result = reinterpret_cast<::MobileObject*>(actor)->GetCurrentProcessLevel();
                         if (result)
                         {
                             typedef void(* VirtualAction)(MobileObject*, int);
                             typedef void(* VirtualFloat)(MobileObject*, float);
                             reinterpret_cast<VirtualAction>((*reinterpret_cast<void***>(actor))[0x10D])(actor, 0);
-                            reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((reinterpret_cast<ActorProcessProxy*>(actor)))->FUN_00881680(0);
+                            reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((reinterpret_cast<::MobileObject*>(actor)))->FUN_00881680(0);
                             reinterpret_cast<VirtualFloat>((*reinterpret_cast<void***>(actor))[0x97])(actor,
                                                                                                       ::DAT_01084838);
                         }
@@ -6137,7 +6132,7 @@ void __cdecl ProcessPlayerCellActors()
         while (firstIt && (((firstIt))->m_item))
         {
             MobileObject* actorToRemove = (((firstIt))->m_item);
-            reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((((::CellProcessManager *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<ActorProcessProxy*>(::_g_thePlayer)))->FUN_005d43c0()))))->FUN_00422690((::fnv_00422690::Actor *)(actorToRemove));
+            reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((((::CellProcessManager *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<::MobileObject*>(::_g_thePlayer)))->FUN_005d43c0()))))->FUN_00422690((::fnv_00422690::Actor *)(actorToRemove));
             firstIt = ((::BSSimpleList< ::MobileObject *> *)(reinterpret_cast<::Callees *>((firstIt))->FUN_00726070()));
         }
 
@@ -6146,7 +6141,7 @@ void __cdecl ProcessPlayerCellActors()
         reinterpret_cast<::FileMatchList *>((nextIt))->RemoveAll();
         delete nextIt;
         if (current->actors->IsEmpty())
-            reinterpret_cast<::FUN_00422720_shell *>((((::CellProcessManager *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<ActorProcessProxy*>(::_g_thePlayer)))->FUN_005d43c0()))))->FUN_00422720();
+            reinterpret_cast<::FUN_00422720_shell *>((((::CellProcessManager *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<::MobileObject*>(::_g_thePlayer)))->FUN_005d43c0()))))->FUN_00422720();
     }
 }
 
@@ -8900,7 +8895,7 @@ void LowListProcessLists::UpdateLowListProcessLists(float delta, bool)
         {
             if (tail->IsActor())
                 actor = (LowListObject*)tail;
-            if (tail->GetDisabled() || reinterpret_cast<::FUN_00440d80_shell *>((void *)(tail))->FUN_00440d80() || ((ActorProcessProxy*)tail)->FUN_00931850() != 2)
+            if (tail->GetDisabled() || reinterpret_cast<::FUN_00440d80_shell *>((void *)(tail))->FUN_00440d80() || ((::MobileObject*)tail)->GetCurrentProcessLevel() != 2)
             {
                 nextLevel->AddHead(tail);
             }

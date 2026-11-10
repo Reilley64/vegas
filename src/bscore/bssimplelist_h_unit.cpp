@@ -150,11 +150,6 @@ void FUN_005549d0_shell::FUN_005549d0(bool flag)
 struct FUN_0060f3a0_obj
 {
 };
-struct FUN_0060f3a0_node
-{
-    bool _ref_008256d0();
-    void _ref_0063f7b0();
-};
 struct FUN_0060f3a0_shell
 {
     void FUN_0060f3a0();
@@ -162,13 +157,13 @@ struct FUN_0060f3a0_shell
 // @fnv 0x0060f3a0
 void FUN_0060f3a0_shell::FUN_0060f3a0()
 {
-    FUN_0060f3a0_node* node = ((::FUN_0060f3a0_node *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
-    while (node && !node->_ref_008256d0())
+    ::BSSimpleList< ::InventoryStackRecord *>* node = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
+    while (node && !node->IsEmpty())
     {
         FUN_0060f3a0_obj* item = *((::FUN_0060f3a0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         FUN_0060f3a0_obj* pItem = item;
         pItem ? reinterpret_cast<::FUN_0060f410_class *>((pItem))->FUN_0060f410(1) : 0;
-        node->_ref_0063f7b0();
+        node->RemoveHead();
     }
 }
 
@@ -422,11 +417,6 @@ struct FUN_008d1560_ref
 {
     virtual void Slot0();
 };
-struct FUN_008d1560_list
-{
-    bool _ref_008256d0();
-    void _ref_0063f7b0();
-};
 
 typedef void(* FUN_008d1560_fn)(void*);
 
@@ -434,11 +424,11 @@ typedef void(* FUN_008d1560_fn)(void*);
 // @fnv 0x008d1560
 void FUN_008d1560()
 {
-    while (!(*reinterpret_cast<::FUN_008d1560_list *>(&::g_011dfe14))._ref_008256d0())
+    while (!(*reinterpret_cast<::BSSimpleList< ::InventoryStackRecord *> *>(&::g_011dfe14)).IsEmpty())
     {
-        void** pref = (void**)*((::FUN_008d1560_ref **)(new ((void *)&((*reinterpret_cast<::FUN_008d1560_list *>(&::g_011dfe14)))) ::Vec3()));
+        void** pref = (void**)*((::FUN_008d1560_ref **)(new ((void *)&((*reinterpret_cast<::BSSimpleList< ::InventoryStackRecord *> *>(&::g_011dfe14)))) ::Vec3()));
         ((FUN_008d1560_fn)(*(void***)pref)[0x1c4 / 4])(pref);
-        (*reinterpret_cast<::FUN_008d1560_list *>(&::g_011dfe14))._ref_0063f7b0();
+        (*reinterpret_cast<::BSSimpleList< ::InventoryStackRecord *> *>(&::g_011dfe14)).RemoveHead();
     }
 }
 
@@ -623,16 +613,16 @@ void FUN_0061f360(void* pItem, void* pNode)
 {
     if (pItem && pNode)
     {
-        if (((FUN_0060f3a0_node*)pNode)->_ref_008256d0())
+        if (((::BSSimpleList< ::InventoryStackRecord *>*)pNode)->IsEmpty())
         {
             ((G2*)pNode)->AddHead((FUN_0066deb0* const&)pItem);
         }
         else
         {
             void* node = pNode;
-            while (node && !((FUN_0060f3a0_node*)node)->_ref_008256d0())
+            while (node && !((::BSSimpleList< ::InventoryStackRecord *>*)node)->IsEmpty())
             {
-                void* item = *((::FUN_0060f3a0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(((FUN_0060f3a0_node*)node))->m_item));
+                void* item = *((::FUN_0060f3a0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(((::BSSimpleList< ::InventoryStackRecord *>*)node))->m_item));
                 if (item == pItem)
                     return;
 
@@ -767,12 +757,6 @@ struct FUN_0083dec0_item
 {
 };
 
-struct FUN_0083dec0_node
-{
-    bool _ref_008256d0();
-    void _ref_0063f7b0();
-};
-
 struct FUN_0083dec0 : BSS
 {
     ListX m_kNode;
@@ -786,13 +770,13 @@ FUN_0083dec0::~FUN_0083dec0()
 {
     if (!m_flag)
     {
-        FUN_0083dec0_node* node = (FUN_0083dec0_node*)&m_kNode;
-        while (node && !node->_ref_008256d0())
+        ::BSSimpleList< ::InventoryStackRecord *>* node = (::BSSimpleList< ::InventoryStackRecord *>*)&m_kNode;
+        while (node && !node->IsEmpty())
         {
             FUN_0083dec0_item* item = *((::FUN_0083dec0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
             FUN_0083dec0_item* p = item;
             p ? reinterpret_cast<::FUN_0083c750_class *>((p))->FUN_0083c720(1) : 0;
-            node->_ref_0063f7b0();
+            node->RemoveHead();
         }
     }
 }
@@ -872,11 +856,11 @@ struct Standin_009b3400
 void Standin_009b3400::ClearList()
 {
     fValue150 = 0.0f;
-    while (!((FUN_0060f3a0_node*)&kList)->_ref_008256d0())
+    while (!((::BSSimpleList< ::InventoryStackRecord *>*)&kList)->IsEmpty())
     {
-        FUN_009b3490_shell* item = *(FUN_009b3490_shell**)((::FUN_0060f3a0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(((FUN_0060f3a0_node*)&kList))->m_item));
+        FUN_009b3490_shell* item = *(FUN_009b3490_shell**)((::FUN_0060f3a0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(((::BSSimpleList< ::InventoryStackRecord *>*)&kList))->m_item));
         delete item;
-        ((FUN_0060f3a0_node*)&kList)->_ref_0063f7b0();
+        ((::BSSimpleList< ::InventoryStackRecord *>*)&kList)->RemoveHead();
     }
     reinterpret_cast<::FUN_009c2ff0_shell *>((this))->FUN_009c2ff0();
     cFlag90 = 0;
@@ -1229,15 +1213,6 @@ struct Entry2_00832010
     ~Entry2_00832010();
 };
 
-struct Node_00832010
-{
-    bool _ref_008256d0();
-};
-struct Node2_00832010
-{
-    bool _ref_008256d0();
-};
-
 extern unsigned char DAT_011dd436;
 
 // @fnv 0x00832010
@@ -1245,8 +1220,8 @@ void FUN_00832010()
 {
     DAT_011dd436 = 1;
     ::FalloutRadio::RefreshRadioReceivers(1);
-    Node_00832010* node = &(*reinterpret_cast<::Node_00832010 *>(&::g_011dd554));
-    while (node && !node->_ref_008256d0())
+    ::BSSimpleList< ::InventoryStackRecord *>* node = &(*reinterpret_cast<::BSSimpleList< ::InventoryStackRecord *> *>(&::g_011dd554));
+    while (node && !node->IsEmpty())
     {
         if ((*((::Entry_00832010 **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))->unk04)
         {
@@ -1254,17 +1229,17 @@ void FUN_00832010()
             (*((::Entry_00832010 **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))->unk04 = 0;
         }
         delete *((::Entry_00832010 **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
-        node = ((::Node_00832010 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        node = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
-    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::Node_00832010 *>(&::g_011dd554))))->RemoveAll();
-    Node2_00832010* iter = &(*reinterpret_cast<::Node2_00832010 *>(&::g_011dd58c));
-    while (iter && !iter->_ref_008256d0())
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::BSSimpleList< ::InventoryStackRecord *> *>(&::g_011dd554))))->RemoveAll();
+    ::BSSimpleList< ::InventoryStackRecord *>* iter = &(*reinterpret_cast<::BSSimpleList< ::InventoryStackRecord *> *>(&::g_011dd58c));
+    while (iter && !iter->IsEmpty())
     {
         delete *((::Entry2_00832010 **)(&reinterpret_cast<::BSSimpleList<void*>*>(iter)->m_item));
-        iter = ((::Node2_00832010 *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
+        iter = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }
-    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::Node2_00832010 *>(&::g_011dd58c))))->RemoveAll();
-    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::Node2_00832010 *>(&::g_011dd59c))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::BSSimpleList< ::InventoryStackRecord *> *>(&::g_011dd58c))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::BSSimpleList< ::InventoryStackRecord *> *>(&::g_011dd59c))))->RemoveAll();
 }
 
 class Actor;

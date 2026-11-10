@@ -419,10 +419,6 @@ struct ReactionData
     int offset;
     int fight;
 };
-struct ReactionList
-{
-    bool FUN_008256d0();
-};
 struct ReactionAccess
 {
 };
@@ -437,8 +433,8 @@ bool ReactionCompare::FUN_0048be40(BaseFormComponent* component)
     TESReactionForm* right = dynamic_cast<TESReactionForm*>(component);
     if (!right)
         return true;
-    ReactionList* other = ((::ReactionList *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<ReactionAccess*>(this)))->GetCurrentProcessData()));
-    ReactionList* left = ((::ReactionList *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<ReactionAccess*>(right)))->GetCurrentProcessData()));
+    ::BSSimpleList< ::InventoryStackRecord *>* other = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<ReactionAccess*>(this)))->GetCurrentProcessData()));
+    ::BSSimpleList< ::InventoryStackRecord *>* left = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<ReactionAccess*>(right)))->GetCurrentProcessData()));
     while (other)
     {
         if (!left)
@@ -456,10 +452,10 @@ bool ReactionCompare::FUN_0048be40(BaseFormComponent* component)
         }
         else if (rhs || lhs)
             return true;
-        left = ((::ReactionList *)(reinterpret_cast<::Callees *>((left))->FUN_00726070()));
-        other = ((::ReactionList *)(reinterpret_cast<::Callees *>((other))->FUN_00726070()));
+        left = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((left))->FUN_00726070()));
+        other = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((other))->FUN_00726070()));
     }
-    if (left && !left->FUN_008256d0())
+    if (left && !left->IsEmpty())
         return true;
     return false;
 }

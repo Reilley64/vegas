@@ -1404,10 +1404,6 @@ struct Node505
     unsigned int FUN_0043b480();
     const B006815c0& FUN_0045bb80();
 };
-struct Form505
-{
-    int FUN_00401170();
-};
 struct Player505
 {
 };
@@ -1456,7 +1452,7 @@ void Shell505::UpdateHitEffectNode()
                 vecPosition.z -= 64.0;
         }
         else if (((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pTarget))->FUN_007af430())) &&
-                 reinterpret_cast<Form505*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pTarget))->FUN_007af430())))->FUN_00401170() == 28)
+                 reinterpret_cast<::TESForm*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pTarget))->FUN_007af430())))->GetFormType() == 28)
         {
             vecPosition = (*(::B006815c0 *)(static_cast<void *>(((::Node505 *)(reinterpret_cast<::FUN_0043d450_Owner *>((node))->FUN_0043d450())))));
             vecPosition.z = node->FUN_0045bb80().z;

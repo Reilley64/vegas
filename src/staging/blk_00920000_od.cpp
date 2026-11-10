@@ -5273,10 +5273,6 @@ struct TickInput
 struct TickGlobals
 {
 };
-struct TickAnimGroup
-{
-    int FUN_005f2420();
-};
 struct TickSequence
 {
 };
@@ -7259,7 +7255,7 @@ axesDone:
     {
         TickAnimation* jumpAnim = vf1e4();
         if (reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() == 0xc && ((::TickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((jumpAnim))->FUN_00491040(1))) &&
-            reinterpret_cast<::FUN_005f4db0_cls *>((((::TickAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((((::TickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((jumpAnim))->FUN_00491040(1)))))->GetAnimGroup()))))->FUN_005f4db0())
+            reinterpret_cast<::FUN_005f4db0_cls *>((((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((((::TickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((jumpAnim))->FUN_00491040(1)))))->GetAnimGroup()))))->FUN_005f4db0())
             reinterpret_cast<::fnv_008a73e0::FUN_008a73e0_shell *>(this)->FUN_008a73e0(-1, (::fnv_008a73e0::BSAnimGroupSequence *)(0));
         if (reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() != 0xc)
         {
@@ -7362,8 +7358,8 @@ axesDone:
             case 7: {
                 TickSequence* sequence = ((::TickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((thirdPersonAnim))->FUN_00491040(4)));
                 TickSequence* sequence2 = ((::TickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((thirdPersonAnim))->FUN_00491040(4)));
-                TickAnimGroup* group = sequence ? ((::TickAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence))->GetAnimGroup())) : 0;
-                int type = group ? group->FUN_005f2420() : 0xff;
+                ::TESAnimGroup* group = sequence ? ((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence))->GetAnimGroup())) : 0;
+                int type = group ? group->GetType() : 0xff;
                 if (type < 0xc4 || type >= 0xc7)
                     switchNow = true;
                 else if (sequence)

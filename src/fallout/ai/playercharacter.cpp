@@ -52254,12 +52254,6 @@ void FUN_00967ac0_Class::FUN_00967ac0(char c)
     this->unk608 = c;
 }
 
-class SubObjC
-{
-  public:
-    int M1();
-};
-
 class SubObjB
 {
   public:
@@ -52722,7 +52716,7 @@ bool FUN_00967ae0_cls::FUN_00967ae0()
 {
     if (m_pSub690 != 0 && ((::SubObjB *)(reinterpret_cast<::FUN_00491040_shell *>((m_pSub690))->FUN_00491040(2))) != 0)
     {
-        if (((::SubObjC *)(reinterpret_cast<::BSAnimGroupSequence *>((((::SubObjB *)(reinterpret_cast<::FUN_00491040_shell *>((m_pSub690))->FUN_00491040(2)))))->GetAnimGroup()))->M1() == 0xe2 || ((::SubObjC *)(reinterpret_cast<::BSAnimGroupSequence *>((((::SubObjB *)(reinterpret_cast<::FUN_00491040_shell *>((m_pSub690))->FUN_00491040(2)))))->GetAnimGroup()))->M1() == 0xf0)
+        if (((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((((::SubObjB *)(reinterpret_cast<::FUN_00491040_shell *>((m_pSub690))->FUN_00491040(2)))))->GetAnimGroup()))->GetType() == 0xe2 || ((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((((::SubObjB *)(reinterpret_cast<::FUN_00491040_shell *>((m_pSub690))->FUN_00491040(2)))))->GetAnimGroup()))->GetType() == 0xf0)
         {
             return true;
         }

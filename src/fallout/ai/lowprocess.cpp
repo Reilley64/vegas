@@ -7855,23 +7855,18 @@ struct WeightForm57
     int unk94;
 };
 struct Ref57;
-struct Form57;
 struct Extra57;
 struct Inventory57;
 struct FUN_004459e0_Entry57;
 struct BaseNode57;
 struct Package57;
-struct Form57
-{
-    int FUN_00401170();
-};
 struct Extra57
 {
 };
 struct FUN_0090e600_Record
 {
     Ref57* ref;
-    Form57* form;
+    ::TESForm* form;
     int unk08, count, unk10;
     Extra57* extra;
     int inventory;
@@ -7914,7 +7909,7 @@ struct Package57
     int unk70;
     RecordList57 list;
     int unk7c, unk80;
-    Form57* object;
+    ::TESForm* object;
     int unk88;
     unsigned int category;
     void* condition;
@@ -7990,7 +7985,7 @@ struct Ref57
 struct BaseItem57
 {
     int count;
-    Form57* form;
+    ::TESForm* form;
 };
 struct BaseNode57
 {
@@ -8021,8 +8016,8 @@ bool __cdecl CheckPackageMatch(Ref57* ref, intptr_t aTargetRef)
     bool matches10 = false;
     Package57* package4 = 0;
     bool actor19 = ref->IsActor();
-    Form57* form12 = ((::Form57 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
-    int type23 = form12->FUN_00401170();
+    ::TESForm* form12 = ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
+    int type23 = form12->GetFormType();
     if (((::Package57 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target20))->GetBaseTexture())))
     {
         switch (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::Package57 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target20))->GetBaseTexture()))))->FUN_0045cd60())))
@@ -8054,7 +8049,7 @@ bool __cdecl CheckPackageMatch(Ref57* ref, intptr_t aTargetRef)
             matches10 = true;
         else if (actor19)
         {
-            if (((::Form57 *)(::FUN_004216f0((::BaseExtraList *)(((::Extra57 *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0())))))) == package4->object)
+            if (((::TESForm *)(::FUN_004216f0((::BaseExtraList *)(((::Extra57 *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0())))))) == package4->object)
                 matches10 = true;
         }
     }
@@ -8063,13 +8058,13 @@ bool __cdecl CheckPackageMatch(Ref57* ref, intptr_t aTargetRef)
     switch (type23)
     {
     case 30: {
-        Form57* actorBase = form12;
+        ::TESForm* actorBase = form12;
         if (!reinterpret_cast<::FUN_0046f070_shell *>((actorBase))->FUN_0046f070())
             matches10 = false;
         break;
     }
     case 25: {
-        Form57* activator = form12;
+        ::TESForm* activator = form12;
         if (reinterpret_cast<::FUN_0073b460_shell *>((activator))->FUN_0073b460())
             matches10 = false;
         break;
@@ -8089,7 +8084,7 @@ bool __cdecl CheckPackageMatch(Ref57* ref, intptr_t aTargetRef)
     if (matches10)
     {
         record101 = new FUN_0090e600_Record;
-        record101->form = ((::Form57 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
+        record101->form = ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
         record101->ref = ref;
         record101->count = reinterpret_cast<::FUN_00418770_shell *>((((::Extra57 *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_00418770();
         record101->inventory = 0;
@@ -8179,16 +8174,16 @@ bool __cdecl CheckPackageMatch(Ref57* ref, intptr_t aTargetRef)
                     bool entryMatch = false;
                     if (unused9 && reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(0) <= 0.0 && checkWeight36)
                         entryMatch = false;
-                    else if (package4->category && ::MatchesObjectType((::TESForm *)(::Form57 *)(((::Form57 *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()))), package4->category))
+                    else if (package4->category && ::MatchesObjectType((::TESForm *)(::TESForm *)(((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()))), package4->category))
                         entryMatch = true;
-                    else if (package4->object && package4->object == ((::Form57 *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())))
+                    else if (package4->object && package4->object == ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())))
                         entryMatch = true;
                     else if (!package4->category && !package4->object)
                         entryMatch = true;
                     if (entryMatch && ((void *)(reinterpret_cast<::s575ca0::Owner *>((ref))->FUN_00575ca0())) == ((void *)(reinterpret_cast<::s575ca0::Owner *>((target20))->FUN_00575ca0())))
                     {
                         record101 = new FUN_0090e600_Record;
-                        record101->form = ((::Form57 *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()));
+                        record101->form = ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()));
                         record101->ref = ref;
                         record101->inventory = 1;
                         void* otherContainer = ((void *)(reinterpret_cast<::s55d310::Owner *>((ref))->FUN_0055d310()));

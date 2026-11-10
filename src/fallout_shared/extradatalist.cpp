@@ -18066,10 +18066,6 @@ struct PortalExtra
     PortalExtra(NavPortal);
     ~PortalExtra();
 };
-struct Form
-{
-    int FUN_00401170();
-};
 struct Reference
 {
 };
@@ -18701,7 +18697,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
     }
     case 0x52575058: {
         Reference* ref = (Reference*)owner;
-        if (((::loader::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) && ((::loader::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FUN_00401170() == 0x23)
+        if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) && ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->GetFormType() == 0x23)
             break;
         Power pData;
         ::FUN_00403d30(&pData, 0, 8);
@@ -18719,7 +18715,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
     }
     case 0x57544c58: {
         Reference* ref = (Reference*)owner;
-        if (((::loader::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) && ((::loader::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FUN_00401170() == 0x23)
+        if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) && ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->GetFormType() == 0x23)
             break;
         int value;
         file->ReadChunkInt(&value);

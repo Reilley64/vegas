@@ -43322,10 +43322,6 @@ bool ActorS_008ac6f0::FUN_008ac6f0()
 }  // namespace fnv_008ac6f0
 
 namespace fnv_00567050 {
-struct FNVFormType
-{
-    int _FNV_GetFormType();
-};
 struct FUN_00577330_cls
 {
 };
@@ -43425,7 +43421,7 @@ void FUN_00567050_shell::FUN_00567050()
         return;
 
     bool bNoAnim;
-    switch (((FNVFormType*)*(TESForm**)&this->data.m_pPlacedObject)->_FNV_GetFormType())
+    switch (((::TESForm*)*(TESForm**)&this->data.m_pPlacedObject)->GetFormType())
     {
     case 0x2a:
     case 0x2b:
@@ -57098,10 +57094,6 @@ bool ActS::FUN_00884110()
 }
 
 // FUN_008849c0 candidate
-struct ChainCall2
-{
-    int FUN_005f2420();
-};
 struct ChainCall1
 {
 };
@@ -57250,10 +57242,10 @@ bool FUN_008849c0_cls::FUN_008849c0()
     {
         if (sub->FUN_00491040(1) != 0)
         {
-            if (reinterpret_cast<::TESAnimGroup *>((reinterpret_cast<ChainCall2*>(((::ChainCall2 *)(reinterpret_cast<::BSAnimGroupSequence *>((reinterpret_cast<ChainCall1*>(sub->FUN_00491040(1))))->GetAnimGroup())))))->IsJumpAnimation())
+            if (reinterpret_cast<::TESAnimGroup *>((reinterpret_cast<::TESAnimGroup*>(((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((reinterpret_cast<ChainCall1*>(sub->FUN_00491040(1))))->GetAnimGroup())))))->IsJumpAnimation())
                 return true;
-            switch (reinterpret_cast<ChainCall2*>(((::ChainCall2 *)(reinterpret_cast<::BSAnimGroupSequence *>((reinterpret_cast<ChainCall1*>(sub->FUN_00491040(1))))->GetAnimGroup())))
-                        ->FUN_005f2420())
+            switch (reinterpret_cast<::TESAnimGroup*>(((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((reinterpret_cast<ChainCall1*>(sub->FUN_00491040(1))))->GetAnimGroup())))
+                        ->GetType())
             {
             case 0xe3:
             case 0xe5:
@@ -67000,10 +66992,6 @@ struct CTObj
 struct ExtraListObj
 {
     int EnsureFriendHitExtra();
-};
-struct FormObj
-{
-    int FUN_00401170();
 };
 struct CrimeObj
 {
@@ -87058,7 +87046,6 @@ typedef unsigned short UInt16;
 struct Inventory;
 struct Selection;
 struct SelectedItem;
-struct ItemRoot;
 struct ActorInterface
 {
     virtual int m_virtual_0();
@@ -87343,10 +87330,6 @@ struct ActorInterface
 struct Selection
 {
 };
-struct ItemRoot
-{
-    int FUN_005f2420();
-};
 struct Inventory
 {
 };
@@ -87583,7 +87566,7 @@ void PlayerView::SetActiveState(unsigned char selected, unsigned char bypass, un
     Selection* equipment2 = equipment ? ((::fnv_008bb650::Selection *)(reinterpret_cast<::FUN_00491040_shell *>((equipment))->FUN_00491040(4))) : 0;
     int type = 11;
     if (equipment2 && ((intptr_t)(reinterpret_cast<::LowProcess *>((equipment2))->GetActiveCombatTarget())) != 3)
-        type = DAT_011977e4[((::fnv_008bb650::ItemRoot *)(reinterpret_cast<::BSAnimGroupSequence *>((equipment2))->GetAnimGroup()))->FUN_005f2420()].value;
+        type = DAT_011977e4[((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((equipment2))->GetAnimGroup()))->GetType()].value;
     if (prevent && type == 1)
         return;
     m_68->SetActive(selected);
@@ -87623,7 +87606,7 @@ void PlayerView::SetActiveState(unsigned char selected, unsigned char bypass, un
     case 1: {
         if (equipment2)
         {
-            int current = ((::fnv_008bb650::ItemRoot *)(reinterpret_cast<::BSAnimGroupSequence *>((equipment2))->GetAnimGroup()))->FUN_005f2420();
+            int current = ((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((equipment2))->GetAnimGroup()))->GetType();
             if (::FUN_005f2750(current))
                 current -= 3;
             if (reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10())
@@ -87635,7 +87618,7 @@ void PlayerView::SetActiveState(unsigned char selected, unsigned char bypass, un
             int result = FUN_005f2440(next);
             if (result == current)
             {
-                if (next != reinterpret_cast<::FUN_0047d3b0_shell *>((((::fnv_008bb650::ItemRoot *)(reinterpret_cast<::BSAnimGroupSequence *>((equipment2))->GetAnimGroup()))))->FUN_0047d3b0())
+                if (next != reinterpret_cast<::FUN_0047d3b0_shell *>((((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((equipment2))->GetAnimGroup()))))->FUN_0047d3b0())
                     reinterpret_cast<::fnv_004994f0::FUN_004994f0_shell *>((equipment))->FUN_004994f0(4, 1);
             }
         }
@@ -87645,7 +87628,7 @@ void PlayerView::SetActiveState(unsigned char selected, unsigned char bypass, un
             equipment2 = equipment ? ((::fnv_008bb650::Selection *)(reinterpret_cast<::FUN_00491040_shell *>((equipment))->FUN_00491040(4))) : 0;
             if (equipment2)
             {
-                int current = ((::fnv_008bb650::ItemRoot *)(reinterpret_cast<::BSAnimGroupSequence *>((equipment2))->GetAnimGroup()))->FUN_005f2420();
+                int current = ((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((equipment2))->GetAnimGroup()))->GetType();
                 if (::FUN_005f2750(current))
                     current -= 3;
                 SelectedItem* weapon = m_68->GetSelectedItem();
@@ -87657,7 +87640,7 @@ void PlayerView::SetActiveState(unsigned char selected, unsigned char bypass, un
                 }
                 UInt16 next = FUN_00897910(current, 0, 0, equipment);
                 int result = FUN_005f2440(next);
-                if (result == current && next != reinterpret_cast<::FUN_0047d3b0_shell *>((((::fnv_008bb650::ItemRoot *)(reinterpret_cast<::BSAnimGroupSequence *>((equipment2))->GetAnimGroup()))))->FUN_0047d3b0())
+                if (result == current && next != reinterpret_cast<::FUN_0047d3b0_shell *>((((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((equipment2))->GetAnimGroup()))))->FUN_0047d3b0())
                 {
                     reinterpret_cast<::fnv_004994f0::FUN_004994f0_shell *>((equipment))->FUN_004994f0(4, 1);
                 }
@@ -108489,11 +108472,6 @@ void ActorUpdateShell::FUN_008a3100(float elapsed)
 }  // namespace fnv_008a3100
 
 namespace fnv_008a40e0 {
-class FormView
-{
-  public:
-    int FUN_00401170();
-};
 class RefView;
 class PackageView;
 class ObjectView;
@@ -109271,7 +109249,7 @@ bool MatchActor::FUN_008a40e0(RefView* target)
                 TESForm* form = ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
                 if (form == (*reinterpret_cast<::TESForm * *>(&::DAT_011ca248)))
                     return false;
-                if (((FormView*)((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())))->FUN_00401170() == 0x30)
+                if (((::TESForm*)((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())))->GetFormType() == 0x30)
                 {
                     Animation* active = reinterpret_cast<::FUN_008b70d0_shell *>(this)->FUN_008b70d0();
                     if (active && !reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((((AnimView*)active)))->FUN_004985f0())
@@ -109316,7 +109294,7 @@ bool MatchActor::FUN_008a40e0(RefView* target)
                 {
                     if (form == (*reinterpret_cast<::TESForm * *>(&::DAT_011ca248)))
                         return false;
-                    if (((FormView*)form)->FUN_00401170() == 0x30)
+                    if (((::TESForm*)form)->GetFormType() == 0x30)
                         return false;
                 }
             }
@@ -125758,10 +125736,6 @@ struct FUN_00815380_shell
     virtual void Pad17();
     virtual void V18(void*);
 };
-struct FT
-{
-    int FUN_00401170();
-};
 struct FUN_004bdcc0_Class
 {
 };
@@ -126005,7 +125979,7 @@ bool ThisC::FUN_008c2190(A0* a0, void* a1, A2* a2, char* a3)
                         {
                             if (((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)a0)))->pObject)))
                             {
-                                if (((FT*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)a0)))->pObject)))->FUN_00401170() == 0x28)
+                                if (((::TESForm*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)a0)))->pObject)))->GetFormType() == 0x28)
                                     hdr = (void*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)a0)))->pObject));
                             }
                         }
@@ -129345,10 +129319,6 @@ struct HIdle
 struct HIdleMgr
 {
 };
-struct HGroup
-{
-    int FUN_005f2420();
-};
 struct HSequence
 {
 };
@@ -129933,8 +129903,8 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                 HSequence* sequence = ((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((DAT_011dea3c))->GetBaseTexture()))->vf3e8();
                 if (sequence)
                 {
-                    HGroup* group = ((::fnv_0089a760::HGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence))->GetAnimGroup()));
-                    int animation = group->FUN_005f2420();
+                    ::TESAnimGroup* group = ((::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence))->GetAnimGroup()));
+                    int animation = group->GetType();
                     if ((animation >= 0x61 && animation <= 0x65) || animation == 0xa8)
                     {
                         HSpell* spell = 0;
@@ -141949,11 +141919,6 @@ float ResistanceTarget::FUN_008c40e0(MagicCaster* caster, MagicItem* item, Activ
 namespace fnv_008c1010 {
 extern int DAT_011841cc, DAT_011846d4;
 
-struct FactionFormView1010
-{
-    int FUN_00401170();
-};
-
 struct FactionBaseData1010
 {
     void* FUN_005d8a70();
@@ -142003,7 +141968,7 @@ bool __cdecl FUN_008c1010(TESObjectREFR* ref, TESForm* form, FactionCheck1010* c
 {
     if (form)
     {
-        if (((FactionFormView1010*)form)->FUN_00401170() == 0x2a)
+        if (((::TESForm*)form)->GetFormType() == 0x2a)
         {
             TESNPC* kNpc = (TESNPC*)form;
             void* data7 = ((void *)(reinterpret_cast<::TESRegion *>(&(((FactionBase1010*)kNpc)->factionData))->GetDiffuseColor()));
@@ -142015,7 +141980,7 @@ bool __cdecl FUN_008c1010(TESObjectREFR* ref, TESForm* form, FactionCheck1010* c
                 }
             }
         }
-        else if (((FactionFormView1010*)form)->FUN_00401170() == 8)
+        else if (((::TESForm*)form)->GetFormType() == 8)
         {
             TESFaction* kFaction = (TESFaction*)form;
             if (reinterpret_cast<::fnv_008b8e90::FUN_008b8e90_shell *>((check))->FUN_008b8e90((::fnv_008b8e90::TESFaction *)(kFaction)))
@@ -142043,7 +142008,7 @@ bool __cdecl FUN_008c1010(TESObjectREFR* ref, TESForm* form, FactionCheck1010* c
                 }
             }
         }
-        else if (((FactionFormView1010*)ref)->FUN_00401170() == 0x2a)
+        else if (((::TESForm*)ref)->GetFormType() == 0x2a)
         {
             TESNPC* aNpc2 = (TESNPC*)FUN_00ec43fb(ref, 0, &DAT_011841cc, &(*reinterpret_cast<int *>(&::DAT_01183a1c)), 0);
             if (aNpc2)
@@ -145487,7 +145452,7 @@ void FUN_008987f0_shell::ProcessActorInteraction(Actor* apTarget, int arg1)
                             {
                                 v24a7 = 0;
                                 pForm = reinterpret_cast<::OwnerLookupView *>((this))->FUN_00567790();
-                                if (((FormObj*)pForm)->FUN_00401170() == 8)
+                                if (((::TESForm*)pForm)->GetFormType() == 8)
                                 {
                                     t5438 = pForm;
                                     v24a7 = ((::CrimeObj *)(reinterpret_cast<::fnv_00970b30::Cls *>(&((*reinterpret_cast<::ProcListsObj *>(&::g_011e0e80))))->FUN_00970b30((::fnv_00970b30::TESFaction *)(t5438), 0, 1)));
@@ -158185,11 +158150,6 @@ struct LodManager
 {
 };
 
-struct BaseForm
-{
-    int FUN_00401170();
-};
-
 struct Havok
 {
 };
@@ -158715,7 +158675,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
         {
             bool bUpright = true;
             Actor* pCreature = 0;
-            if (((::ActorUpdate3D::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 0x2b)
+            if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->GetFormType() == 0x2b)
                 pCreature = this;
             if (pCreature && !pCreature->FUN_vt38c())
                 bUpright = false;
@@ -158847,10 +158807,6 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::ActorUpdate3D::ProfileMarker *>(&::g_011df69e))))->ClearData();
 }
 }
-struct P164FormType
-{
-    int FUN_00401170();
-};
 
 extern const char DAT_0102fdc8[];
 __if_not_exists(TESActorBase::TESActorBase)
@@ -159434,7 +159390,7 @@ void P164Actor::FUN_008ab3a0(P164Buffer* buffer)
                 TESForm* equipped = item ? ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())) : 0;
                 if (current)
                 {
-                    if (((P164FormType*)current)->FUN_00401170() == 12)
+                    if (((::TESForm*)current)->GetFormType() == 12)
                         current = 0;
                     else if (current->Unk_3D())
                         current = 0;

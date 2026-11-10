@@ -6459,10 +6459,6 @@ struct TileSimpleList
     ~TileSimpleList();
     void AddHead(Tile*& item);
 };
-struct PickRefList
-{
-    unsigned int ItemsInList();
-};
 struct MenuMgr
 {
 };
@@ -6711,8 +6707,8 @@ void FUN_0070f6e0_shell::HandleGamepadButton(int aiButton)
     {
         this->unk78 += aiButton == 2 ? -1 : 1;
         if (this->unk78 < -1)
-            this->unk78 = ((PickRefList*)((char*)this + 0x70))->ItemsInList() - 1;
-        else if ((unsigned int)this->unk78 > ((PickRefList*)((char*)this + 0x70))->ItemsInList() - 1)
+            this->unk78 = ((::BSSimpleList< ::EffectSetting *>*)((char*)this + 0x70))->ItemsInList() - 1;
+        else if ((unsigned int)this->unk78 > ((::BSSimpleList< ::EffectSetting *>*)((char*)this + 0x70))->ItemsInList() - 1)
             this->unk78 = -1;
         ((IMGamepad*)this)->ClearMenuInput();
     }

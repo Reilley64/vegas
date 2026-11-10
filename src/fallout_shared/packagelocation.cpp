@@ -1457,7 +1457,6 @@ FUN_0067f060_Class* FUN_0067f060_Class::CopyFromSource(FUN_0067f060_Source* sour
 }
 
 class PkgLocNode;
-class PkgLocChild;
 class PkgLocSink;
 
 class FUN_0067f220_cls
@@ -1470,12 +1469,6 @@ class FUN_0067f220_cls
 class PkgLocNode
 {
   public:
-};
-
-class PkgLocChild
-{
-  public:
-    int Kind();
 };
 
 class PkgLocSink
@@ -1493,7 +1486,7 @@ bool FUN_0067f220_cls::LookupAndStore(std::intptr_t a1, std::intptr_t a2, unsign
     {
         return false;
     }
-    if (((::PkgLocChild *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((p))->FUN_007af430()))->Kind() != 0x15)
+    if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((p))->FUN_007af430()))->GetFormType() != 0x15)
     {
         return false;
     }

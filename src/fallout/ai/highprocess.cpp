@@ -19887,11 +19887,6 @@ bool CombatS::FUN_008f74c0(ActorS* apActor, ActorS* apTarget, bool abFlag)
 }
 
 struct WeapData;
-struct FormStub
-{
-    int GetFormType();
-    bool IsUsable();
-};
 struct WeapStub
 {
     bool IsUsable();
@@ -20504,11 +20499,11 @@ void ProcessStub::FUN_008f9180(ActorStub* apActor)
     bool bReady = !((bool)(::GetByteAtOffset17((const char *)(pData)))) && unk2c4 >= ::GetShortAtOffset12((const char *)(pData));
     if (bReady && GetRef148())
     {
-        FormStub* pWeapon = 0;
-        FormStub* pBase = ((::FormStub *)(reinterpret_cast<::Twin_0044ddc0 *>((GetRef148()))->GetName()));
+        ::TESForm* pWeapon = 0;
+        ::TESForm* pBase = ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((GetRef148()))->GetName()));
         if (pBase && pBase->GetFormType() == 0x28)
         {
-            pWeapon = ((::FormStub *)(reinterpret_cast<::Twin_0044ddc0 *>((GetRef148()))->GetName()));
+            pWeapon = ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((GetRef148()))->GetName()));
         }
         if (pWeapon && ::FUN_004c0bf0((::TESObjectWEAP *)(pWeapon)))
         {

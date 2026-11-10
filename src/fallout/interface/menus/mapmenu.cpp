@@ -3503,10 +3503,6 @@ struct PlayerMapView : PlayerCharacter
 {
     TESWorldSpace* FUN_00575d70();
 };
-struct DoorBaseView
-{
-    int GetFormType();
-};
 struct DoorInfoView
 {
 };
@@ -3572,7 +3568,7 @@ void MapView::UpdateLocalMap()
                  node = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
                 MarkerRefView* e = (MarkerRefView*)((::TESObjectREFR *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
-                DoorBaseView* a = ((::DoorBaseView *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((e))->FUN_007af430()))->GetFormType() == 28 ? ((::DoorBaseView *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((e))->FUN_007af430())) : 0;
+                ::TESForm* a = ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((e))->FUN_007af430()))->GetFormType() == 28 ? ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((e))->FUN_007af430())) : 0;
                 NiPoint3 d = *e->GetPos();
                 if (reinterpret_cast<::FUN_00477ba0_shell *>((e))->FUN_00477ba0() || reinterpret_cast<::FUN_0057b4b0_shell *>((e))->FUN_0057b4b0() || (!a || reinterpret_cast<::FUN_00517fd0_shell *>((a))->IsFlag4Set()))
                     continue;

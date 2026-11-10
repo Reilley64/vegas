@@ -2562,10 +2562,6 @@ FUN_005409b0::~FUN_005409b0()
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
-struct BaseFQ
-{
-    int FUN_00401170();
-};
 struct HndQ
 {
     virtual void v0(), v1();
@@ -2609,7 +2605,7 @@ void CellQ::FUN_005570d0()
     while (pIter)
     {
         RefQ* pRef = *((::RefQ **)(new ((void *)(pIter)) ::Vec3()));
-        if (pRef && !reinterpret_cast<::FUN_005651e0_shell *>((pRef))->FUN_005651e0() && ((::BaseFQ *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pRef))->FUN_007af430()))->FUN_00401170() == 0x25 && pRef->Get3DQ())
+        if (pRef && !reinterpret_cast<::FUN_005651e0_shell *>((pRef))->FUN_005651e0() && ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pRef))->FUN_007af430()))->GetFormType() == 0x25 && pRef->Get3DQ())
         {
             ObjQ* pObj = pRef->Get3DQ();
             pObj->GetHandlerQ()->Handle(pObj);

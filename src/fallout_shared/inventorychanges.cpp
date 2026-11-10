@@ -1790,10 +1790,6 @@ const char* FUN_004be2d0_shell::GetTargetFullName()
     return ::g_011d35b8.GetMenuTitle();
 }
 
-struct IsEmptyNode
-{
-    bool _ref_008256d0();
-};
 struct CallerNode
 {
 };
@@ -1810,7 +1806,7 @@ void FUN_004bed00_host::FUN_004bed00()
 {
     _DummySimpleList* pNode = first;
     ExtraDataList* pExtra;
-    while (pNode && !((IsEmptyNode*)pNode)->_ref_008256d0())
+    while (pNode && !((::BSSimpleList< ::InventoryStackRecord *>*)pNode)->IsEmpty())
     {
         pExtra = *((::ExtraDataList **)((void *)(pNode)));
         if (pExtra)
@@ -1958,10 +1954,6 @@ struct FUN_004ce340_stand
 {
     void FUN_004ce340(std::intptr_t a0, std::intptr_t a1, bool a2, bool a3, bool a4, bool a5, int a6, std::intptr_t a7);
 };
-struct C008256d0
-{
-    bool _ref_008256d0();
-};
 struct C004bed00
 {
 };
@@ -1975,7 +1967,7 @@ void S_004d4030::FUN_004d4030()
 {
     ItemNode* cur = head;
     InventoryStackRecord* item;
-    while (cur && !((C008256d0*)cur)->_ref_008256d0())
+    while (cur && !((::BSSimpleList< ::InventoryStackRecord *>*)cur)->IsEmpty())
     {
         item = *((::InventoryStackRecord **)((void *)(cur)));
         if (item)
@@ -2412,13 +2404,9 @@ struct QEntry2
 struct QNode1
 {
 };
-struct QNode2
-{
-    bool _ref_008256d0();
-};
 struct FUN_004d0360_shell
 {
-    QNode2* list;
+    ::BSSimpleList< ::InventoryStackRecord *>* list;
     bool FUN_004d0360();
 };
 // Scans the process container and the list for a quest item whose count does not cancel out, returning whether one is found.
@@ -2442,13 +2430,13 @@ bool FUN_004d0360_shell::FUN_004d0360()
     }
     if (!found)
     {
-        QNode2* node = list;
-        while (node && !node->_ref_008256d0() && !found)
+        ::BSSimpleList< ::InventoryStackRecord *>* node = list;
+        while (node && !node->IsEmpty() && !found)
         {
             QEntry2* item = *((::QEntry2 **)((void *)(node)));
             if (item && item->form && ((TESForm*)item->form)->IsQuestItem() && item->count > 0)
                 found = true;
-            node = ((::QNode2 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
     }
     return found;
@@ -2487,17 +2475,9 @@ struct SEntry2
     int count;
     TESBoundObject* form;
 };
-struct SNode1
-{
-    bool _ref_008256d0();
-};
-struct SNode2
-{
-    bool _ref_008256d0();
-};
 struct FUN_004d0490_shell
 {
-    SNode2* list;
+    ::BSSimpleList< ::InventoryStackRecord *>* list;
     bool FUN_004d0490();
 };
 // @fnv 0x004d0490
@@ -2505,9 +2485,9 @@ bool FUN_004d0490_shell::FUN_004d0490()
 {
     bool bfound9 = false;
     FUN_004d4de0 kMapA(0x25);
-    SNode1* pIterVal =
-        (SNode1*)((BaseProcess*)((::fnv_004d0490::TESContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>((((FUN_004bffb0_shell*)this)))->FUN_004bffb0())))->BaseProcess::GetCurrentProcessData();
-    while (pIterVal && !pIterVal->_ref_008256d0() && !bfound9)
+    ::BSSimpleList< ::InventoryStackRecord *>* pIterVal =
+        (::BSSimpleList< ::InventoryStackRecord *>*)((BaseProcess*)((::fnv_004d0490::TESContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>((((FUN_004bffb0_shell*)this)))->FUN_004bffb0())))->BaseProcess::GetCurrentProcessData();
+    while (pIterVal && !pIterVal->IsEmpty() && !bfound9)
     {
         bool seen5;
         SEntry1* entry7 = *((::fnv_004d0490::SEntry1 **)((void *)(pIterVal)));
@@ -2523,12 +2503,12 @@ bool FUN_004d0490_shell::FUN_004d0490()
                     bfound9 = false;
             }
         }
-        pIterVal = ((::fnv_004d0490::SNode1 *)(reinterpret_cast<::Callees *>((pIterVal))->FUN_00726070()));
+        pIterVal = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pIterVal))->FUN_00726070()));
     }
     if (!bfound9)
     {
-        SNode2* node5 = list;
-        while (node5 && !node5->_ref_008256d0() && !bfound9)
+        ::BSSimpleList< ::InventoryStackRecord *>* node5 = list;
+        while (node5 && !node5->IsEmpty() && !bfound9)
         {
             SEntry2* item = *((::fnv_004d0490::SEntry2 **)((void *)(node5)));
             bool seen8 = false;
@@ -2537,7 +2517,7 @@ bool FUN_004d0490_shell::FUN_004d0490()
                 if (((::fnv_004d0490::Script *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(item->form)))))
                     bfound9 = true;
             }
-            node5 = ((::fnv_004d0490::SNode2 *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
+            node5 = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
         }
     }
     return bfound9;
@@ -2641,20 +2621,12 @@ struct Extra_004d17a0
     virtual ~Extra_004d17a0();
     void FUN_0041d000();
 };
-struct ExtraNode_004d17a0
-{
-    bool _ref_008256d0();
-};
-struct ItemNode_004d17a0
-{
-    bool _ref_008256d0();
-};
 struct ItemCount_004d17a0
 {
 };
 struct FUN_004d17a0_t
 {
-    ItemNode_004d17a0* m_pEntryList;
+    ::BSSimpleList< ::InventoryStackRecord *>* m_pEntryList;
     RefV_004d17a0* pRef;
     void FUN_004d17a0();
 };
@@ -2664,11 +2636,11 @@ struct FUN_004d17a0_t
 void FUN_004d17a0_t::FUN_004d17a0()
 {
     pRef->MarkAsModified(0x8000000);
-    ItemNode_004d17a0* pkNode = m_pEntryList;
-    while (pkNode && !pkNode->_ref_008256d0() && *((::InventoryStackRecord **)((void *)(pkNode))))
+    ::BSSimpleList< ::InventoryStackRecord *>* pkNode = m_pEntryList;
+    while (pkNode && !pkNode->IsEmpty() && *((::InventoryStackRecord **)((void *)(pkNode))))
     {
         InventoryStackRecord* pItem = *((::InventoryStackRecord **)((void *)(pkNode)));
-        ExtraNode_004d17a0* pkExtraNode = (ExtraNode_004d17a0*)pItem->m_pExtraDataLists;
+        ::BSSimpleList< ::InventoryStackRecord *>* pkExtraNode = (::BSSimpleList< ::InventoryStackRecord *>*)pItem->m_pExtraDataLists;
         while (pkExtraNode && *((::Extra_004d17a0 **)((void *)(pkExtraNode))))
         {
             Extra_004d17a0* pExtra = *((::Extra_004d17a0 **)((void *)(pkExtraNode)));
@@ -2680,15 +2652,15 @@ void FUN_004d17a0_t::FUN_004d17a0()
                     reinterpret_cast<::CombatProcedure *>((((ItemCount_004d17a0*)pItem)))->Initialize((::CombatController *)(std::uintptr_t)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemCount_004d17a0*)pItem)))->FUN_00726070())) - reinterpret_cast<::FUN_00418770_shell *>((pExtra))->FUN_00418770()));
                     reinterpret_cast<::ItemChangeListNode *>((pkExtraNode))->FUN_00905330((*(::InventoryStackRecord *const *)(&pExtra)));
                     delete pExtra;
-                    pkExtraNode = (ExtraNode_004d17a0*)pItem->m_pExtraDataLists;
+                    pkExtraNode = (::BSSimpleList< ::InventoryStackRecord *>*)pItem->m_pExtraDataLists;
                 }
                 else
-                    pkExtraNode = ((::ExtraNode_004d17a0 *)(reinterpret_cast<::Callees *>((pkExtraNode))->FUN_00726070()));
+                    pkExtraNode = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pkExtraNode))->FUN_00726070()));
             }
             else
-                pkExtraNode = ((::ExtraNode_004d17a0 *)(reinterpret_cast<::Callees *>((pkExtraNode))->FUN_00726070()));
+                pkExtraNode = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pkExtraNode))->FUN_00726070()));
         }
-        if (pItem && pItem->m_pExtraDataLists && ((ExtraNode_004d17a0*)pItem->m_pExtraDataLists)->_ref_008256d0() &&
+        if (pItem && pItem->m_pExtraDataLists && ((::BSSimpleList< ::InventoryStackRecord *>*)pItem->m_pExtraDataLists)->IsEmpty() &&
             !((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemCount_004d17a0*)pItem)))->FUN_00726070())))
         {
             reinterpret_cast<::ItemChangeListNode *>((m_pEntryList))->FUN_00905330((*(::InventoryStackRecord *const *)(&pItem)));
@@ -2697,7 +2669,7 @@ void FUN_004d17a0_t::FUN_004d17a0()
             pkNode = m_pEntryList;
         }
         else
-            pkNode = ((::ItemNode_004d17a0 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
+            pkNode = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
     }
 }
 
@@ -3112,10 +3084,6 @@ struct ChangeCount4cfe20
 struct ExtraNode4cfe20
 {
 };
-struct ChangeNode4cfe20
-{
-    bool _ref_008256d0();
-};
 struct ExtraRef4cfe20
 {
 };
@@ -3258,12 +3226,6 @@ int FUN_004bd7a0_stand::FindFirstNonNegativeValue()
     return result;
 }
 
-class B4BDF00Form
-{
-  public:
-    int GetFormType();
-};
-
 
 class B4BDF00Data;
 
@@ -3275,7 +3237,7 @@ class B4BDF00Data
 
     int unk00;
     int unk04;
-    B4BDF00Form* m_pkForm;
+    ::TESForm* m_pkForm;
 };
 
 struct BookForm
@@ -4157,13 +4119,9 @@ struct Change
 {
     ExtraNode* extras;
 };
-struct ChangeNode
-{
-    bool _ref_008256d0();
-};
 struct Changes
 {
-    ChangeNode* list;
+    ::BSSimpleList< ::InventoryStackRecord *>* list;
     Container* FUN_004bffb0();
     std::intptr_t FUN_004cba70(TESLevItem* object);
 };
@@ -4188,8 +4146,8 @@ std::intptr_t Changes::FUN_004cba70(TESLevItem* pLeveledItem)
             }
             node = ((::fnv_004cba70::ContainerNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
-        ChangeNode* changeNode = list;
-        while (changeNode && !changeNode->_ref_008256d0() && *((::fnv_004cba70::Change **)((void *)(changeNode))))
+        ::BSSimpleList< ::InventoryStackRecord *>* changeNode = list;
+        while (changeNode && !changeNode->IsEmpty() && *((::fnv_004cba70::Change **)((void *)(changeNode))))
         {
             Change* change = *((::fnv_004cba70::Change **)((void *)(changeNode)));
             if (change)
@@ -4206,7 +4164,7 @@ std::intptr_t Changes::FUN_004cba70(TESLevItem* pLeveledItem)
                     extraNode = ((::fnv_004cba70::ExtraNode *)(reinterpret_cast<::Callees *>((extraNode))->FUN_00726070()));
                 }
             }
-            changeNode = ((::fnv_004cba70::ChangeNode *)(reinterpret_cast<::Callees *>((changeNode))->FUN_00726070()));
+            changeNode = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((changeNode))->FUN_00726070()));
         }
     }
     return result;
@@ -4218,26 +4176,18 @@ extern char DAT_01183128[];
 bool FUN_004d1360(char*);
 int __cdecl FUN_00ec43fb(void*, int, const char*, const char*, int);
 
-struct ObjectForm
-{
-    int FUN_00401170();
-};
 struct InventoryEntry
 {
     void* m_pExtraDataLists;
     int m_iCountChange;
-    ObjectForm* m_pItemObject;
-};
-struct InventoryNode
-{
-    bool FUN_008256d0();
+    ::TESForm* m_pItemObject;
 };
 struct ActorProcessView
 {
 };
 struct InventoryListView
 {
-    InventoryNode* first;
+    ::BSSimpleList< ::InventoryStackRecord *>* first;
     float GetInventoryWeight(ActorProcessView*);
 };
 
@@ -4247,14 +4197,14 @@ float InventoryListView::GetInventoryWeight(ActorProcessView* actor)
 {
     float total = 0.0f;
     float weightModifier = 0.0f;
-    InventoryNode* node = first;
-    while (node && !node->FUN_008256d0() && *((::InventoryEntry **)((void *)(node))))
+    ::BSSimpleList< ::InventoryStackRecord *>* node = first;
+    while (node && !node->IsEmpty() && *((::InventoryEntry **)((void *)(node))))
     {
         InventoryEntry* item = *((::InventoryEntry **)((void *)(node)));
-        ObjectForm* form = item->m_pItemObject;
-        if (reinterpret_cast<::FUN_004bddd0_shell *>((item))->FUN_004bddd0(false) && form->FUN_00401170() != 0x29)
+        ::TESForm* form = item->m_pItemObject;
+        if (reinterpret_cast<::FUN_004bddd0_shell *>((item))->FUN_004bddd0(false) && form->GetFormType() != 0x29)
         {
-            if (form->FUN_00401170() == 0x28)
+            if (form->GetFormType() == 0x28)
             {
                 weightModifier = reinterpret_cast<::TESObjectWEAP *>((form))->GetWeightForForm(((unsigned char)(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((item))->HasEffect(4))));
                 if (weightModifier >= DAT_01020758)
@@ -4269,11 +4219,11 @@ float InventoryListView::GetInventoryWeight(ActorProcessView* actor)
                 weightModifier = ::TESWeightForm::GetWeightForForm((::TESForm *)(form), FUN_004d1360((*reinterpret_cast<char * *>(&::_g_thePlayer))));
             }
             int count = reinterpret_cast<::FUN_004c8f30_shell *>(this)->FUN_004c8f30(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())));
-            if (form->FUN_00401170() == 0x18)
+            if (form->GetFormType() == 0x18)
             {
                 int evaluated = FUN_00ec43fb(form, 0, DAT_01183128, DAT_01183a34, 0);
             }
-            else if (form->FUN_00401170() == 0x28)
+            else if (form->GetFormType() == 0x28)
             {
                 BaseProcess* process = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
                 if (process)
@@ -4290,7 +4240,7 @@ float InventoryListView::GetInventoryWeight(ActorProcessView* actor)
             }
             total += static_cast<float>(count) * weightModifier;
         }
-        node = ((::InventoryNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        node = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     return total;
 }
@@ -4890,10 +4840,6 @@ namespace fnv_004be5a0 {
 struct SaveSizeItem
 {
 };
-struct SaveSizeNode
-{
-    bool _ref_008256d0();
-};
 struct SaveSizeForm
 {
     virtual void v00();
@@ -5009,12 +4955,12 @@ unsigned short InventoryChangesSaveSize::FUN_004be5a0()
     }
     size3 += 8;
     size3 += 4;
-    SaveSizeNode* node5 = (SaveSizeNode*)m_pEntryList;
-    while (node5 && !node5->_ref_008256d0())
+    ::BSSimpleList< ::InventoryStackRecord *>* node5 = (::BSSimpleList< ::InventoryStackRecord *>*)m_pEntryList;
+    while (node5 && !node5->IsEmpty())
     {
         SaveSizeItem* itemB = *((::fnv_004be5a0::SaveSizeItem **)((void *)(node5)));
         size3 += reinterpret_cast<::fnv_00422c40::ExtraDataListQ *>((itemB))->FUN_00422c40(0, (::fnv_00422c40::ObjQ *)(0));
-        node5 = ((::fnv_004be5a0::SaveSizeNode *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
+        node5 = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
     }
     if (*(*reinterpret_cast<::fnv_004be5a0::DebugSettingStub *>(&::g_011de4e8)).Bool())
     {
@@ -6332,7 +6278,7 @@ float B4BDF00Data::GetScaledValue(void* pvActor, float fValue, bool bFlag)
 {
     if (m_pkForm->GetFormType() == 0x28)
     {
-        B4BDF00Form* pkWeapon = m_pkForm;
+        ::TESForm* pkWeapon = m_pkForm;
         float fScale = reinterpret_cast<::FUN_004bcdb0_shell *>(this)->FUN_004bcdb0(0) / ::TESHealthForm::GetBaseHealth((::TESForm *)(pkWeapon));
         return ::FUN_00644ce0((::ActorValueOwner *)(pvActor), (::DmgWeapon *)(pkWeapon), fScale, fValue, 0, bFlag, (::InventoryStackRecord *)(::B4BDF00Data *)(this), 1);
     }
@@ -7497,13 +7443,9 @@ struct Change4cb320
     int m_iCountChange;
     Obj4cb320* pObj;
 };
-struct ChangeNode4cb320
-{
-    bool IsEmpty();
-};
 struct Inv4cb320
 {
-    ChangeNode4cb320* m_pEntryList;
+    ::BSSimpleList< ::InventoryStackRecord *>* m_pEntryList;
     int GetCountableItemCount();
 };
 
@@ -7532,7 +7474,7 @@ int Inv4cb320::GetCountableItemCount()
         }
         pNode = ((::ContNode4cb320 *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
-    ChangeNode4cb320* pChangeNode4 = m_pEntryList;
+    ::BSSimpleList< ::InventoryStackRecord *>* pChangeNode4 = m_pEntryList;
     while (pChangeNode4 && !pChangeNode4->IsEmpty())
     {
         pObj7 = (*((::Change4cb320 **)((void *)(pChangeNode4))))->pObj;
@@ -7541,7 +7483,7 @@ int Inv4cb320::GetCountableItemCount()
             if (!pCont3 || (!reinterpret_cast<::TESContainer *>((pCont3))->HasObjectOfType((::TESObject *)(pObj7)) && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4cb320 **)((void *)(pChangeNode4))))))->FUN_00726070())) > 0))
                 iTotal += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4cb320 **)((void *)(pChangeNode4))))))->FUN_00726070()));
         }
-        pChangeNode4 = ((::ChangeNode4cb320 *)(reinterpret_cast<::Callees *>((pChangeNode4))->FUN_00726070()));
+        pChangeNode4 = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pChangeNode4))->FUN_00726070()));
     }
     return iTotal;
 }
@@ -7565,13 +7507,9 @@ struct IC4cb4b0
     int count;
     TESObject* pObj;
 };
-struct IN4cb4b0
-{
-    bool _ref_008256d0();
-};
 struct Inv4cb4b0
 {
-    IN4cb4b0* m_pEntryList;
+    ::BSSimpleList< ::InventoryStackRecord *>* m_pEntryList;
     void FUN_004cb4b0(std::intptr_t a1, int a2, std::intptr_t a3);
 };
 
@@ -7582,13 +7520,8 @@ struct FUN_00410360;
 typedef FUN_00410360 Extra;
 struct ExtraNode;
 struct BaseNode;
-struct ItemNode;
 struct Container;
 struct Inventory;
-struct FormView
-{
-    int FUN_00401170();
-};
 struct CopiedForm
 {
     virtual void v000();
@@ -7686,10 +7619,6 @@ struct BaseNode
 {
     bool FUN_008256d0();
 };
-struct ItemNode
-{
-    bool FUN_008256d0();
-};
 struct Container
 {
     BaseNode* FUN_00717e50();
@@ -7699,7 +7628,7 @@ struct Registry
 };
 struct Inventory
 {
-    ItemNode* head;
+    ::BSSimpleList< ::InventoryStackRecord *>* head;
     Container* FUN_004bffb0();
     void FUN_004cd9c0(void*, void*);
 };
@@ -7737,7 +7666,7 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
                 CopiedForm* clone = 0;
                 if (((void *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(formSlot11)))))
                 {
-                    clone = ((::InventoryCopy::CopiedForm *)(::TESDataHandler::CreateFormForType(((FormView*)formSlot11)->FUN_00401170())));
+                    clone = ((::InventoryCopy::CopiedForm *)(::TESDataHandler::CreateFormForType(((::TESForm*)formSlot11)->GetFormType())));
                     clone->v108(formSlot11);
                     ::FUN_004ce300((::TESForm *)(clone), 0);
                     reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::InventoryCopy::Registry * *>(&::g_dataHandler))))->AddFormToDataHandler((::TESForm *)(clone));
@@ -7791,8 +7720,8 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
         baseSlot45 = ((::InventoryCopy::BaseNode *)(reinterpret_cast<::Callees *>((baseSlot45))->FUN_00726070()));
     }
     Item* changedSlot20 = 0;
-    ItemNode* nodeSlot26 = head;
-    while (nodeSlot26 && !nodeSlot26->FUN_008256d0())
+    ::BSSimpleList< ::InventoryStackRecord *>* nodeSlot26 = head;
+    while (nodeSlot26 && !nodeSlot26->IsEmpty())
     {
         changedSlot20 = *((::InventoryCopy::FUN_004bc550 **)((void *)(nodeSlot26)));
         if (changedSlot20 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())) > 0)
@@ -7802,7 +7731,7 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
             CopiedForm* clone2 = 0;
             if (((void *)(reinterpret_cast<::FUN_004bde40_shell *>((changedSlot20))->FUN_004bde40())))
             {
-                clone2 = ((::InventoryCopy::CopiedForm *)(::TESDataHandler::CreateFormForType(((FormView*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())))->FUN_00401170())));
+                clone2 = ((::InventoryCopy::CopiedForm *)(::TESDataHandler::CreateFormForType(((::TESForm*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())))->GetFormType())));
                 clone2->v108(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())));
                 ::FUN_004ce300((::TESForm *)(clone2), 0);
                 reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::InventoryCopy::Registry * *>(&::g_dataHandler))))->AddFormToDataHandler((::TESForm *)(clone2));
@@ -7849,7 +7778,7 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
             reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((targetSlot4))->FUN_004c3380((::InventoryStackRecord *)(copySlot14), 1);
             copySlot14 = 0;
         }
-        nodeSlot26 = ((::InventoryCopy::ItemNode *)(reinterpret_cast<::Callees *>((nodeSlot26))->FUN_00726070()));
+        nodeSlot26 = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((nodeSlot26))->FUN_00726070()));
     }
 }
 }
@@ -7919,10 +7848,6 @@ struct MoveItem
     int count;
     TESBoundObject* form;
     MoveItem(TESBoundObject*, int);
-};
-struct MoveItemNode
-{
-    bool FUN_008256d0();
 };
 struct MoveBaseEntry
 {
@@ -8027,7 +7952,7 @@ struct MoveSetting
 };
 struct InventoryMove
 {
-    MoveItemNode* head;
+    ::BSSimpleList< ::InventoryStackRecord *>* head;
     MoveContainer* FUN_004bffb0();
     float FUN_004ce380(MoveOwner*, MoveOwner*, bool, bool, bool, bool, int, MoveFilter*);
 };
@@ -8050,10 +7975,6 @@ struct WeightWeapon
 };
 struct WeightEntry : InventoryStackRecord
 {
-};
-struct WeightChangeNode
-{
-    bool FUN_008256d0();
 };
 struct WeightBaseEntry
 {
@@ -8098,9 +8019,9 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
             WeightEntry* item9 = ((::WeightEntry *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0(form4, 1, 0)));
             if (!((TESForm*)form4)->IsQuestItem())
             {
-                if (((ObjectForm*)form4)->FUN_00401170() == 0x28 && item9)
+                if (((::TESForm*)form4)->GetFormType() == 0x28 && item9)
                 {
-                    ObjectForm* weaponTmp = (ObjectForm*)form4;
+                    ::TESForm* weaponTmp = (::TESForm*)form4;
                     valueA = reinterpret_cast<::TESObjectWEAP *>((weaponTmp))->GetWeightForForm(((unsigned char)(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((item9))->HasEffect(4))));
                     if (valueA >= 10.0)
                     {
@@ -8128,18 +8049,18 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
             }
             nodeX = ((::WeightBaseNode *)(reinterpret_cast<::Callees *>((nodeX))->FUN_00726070()));
         }
-        WeightChangeNode* nodeA = (WeightChangeNode*)m_pEntryList;
-        while (nodeA && !nodeA->FUN_008256d0() && *((::WeightEntry **)((void *)(nodeA))))
+        ::BSSimpleList< ::InventoryStackRecord *>* nodeA = (::BSSimpleList< ::InventoryStackRecord *>*)m_pEntryList;
+        while (nodeA && !nodeA->IsEmpty() && *((::WeightEntry **)((void *)(nodeA))))
         {
             bool current = false;
             WeightEntry* item7 = *((::WeightEntry **)((void *)(nodeA)));
             TESBoundObject* form4 = item7->m_pItemObject;
             if (form4 && (!((::WeightContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) || !reinterpret_cast<::TESContainer *>((((::WeightContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(form4))) && !((TESForm*)form4)->IsQuestItem())
             {
-                if (((ObjectForm*)form4)->FUN_00401170() == 0x28)
+                if (((::TESForm*)form4)->GetFormType() == 0x28)
                 {
                     current = true;
-                    resultB = reinterpret_cast<::TESObjectWEAP *>((((ObjectForm*)form4)))->GetWeightForForm(((unsigned char)(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((item7))->HasEffect(4))));
+                    resultB = reinterpret_cast<::TESObjectWEAP *>((((::TESForm*)form4)))->GetWeightForForm(((unsigned char)(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((item7))->HasEffect(4))));
                     valueA = ::TESWeightForm::GetWeightForForm((::TESForm *)(form4), useAmmoWeight);
                     if (valueA >= 10.0)
                     {
@@ -8165,7 +8086,7 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
                     if (value4 && resultB <= valueTmp)
                         resultB *= scaleA;
                     TESBoundObject* formX = 0;
-                    if (form4 && ((ObjectForm*)form4)->FUN_00401170() == 0x18)
+                    if (form4 && ((::TESForm*)form4)->GetFormType() == 0x18)
                         formX = form4;
                     int count_2 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((item7))->FUN_00726070()));
                     if (((::WeightExtraNode *)(::FUN_00559450((int *)(item7)))) && current && reinterpret_cast<::FUN_004bc8f0_stand *>((item7))->FUN_004bc8f0(true) > 0)
@@ -8209,7 +8130,7 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
                         result5 += valueA;
                 }
             }
-            nodeA = ((::WeightChangeNode *)(reinterpret_cast<::Callees *>((nodeA))->FUN_00726070()));
+            nodeA = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((nodeA))->FUN_00726070()));
         }
         m_fTotalWeight = result5;
         if (actorTmp)
@@ -8233,10 +8154,6 @@ struct ValueBaseNode
 };
 struct ValueChange : InventoryStackRecord
 {
-};
-struct ValueChangeNode
-{
-    bool FUN_008256d0();
 };
 struct ValueContainer
 {
@@ -8272,8 +8189,8 @@ int ValueInventory::FUN_004d0f40(bool includeQuestItems, bool includeType15)
         }
         baseNode = ((::ValueBaseNode *)(reinterpret_cast<::Callees *>((baseNode))->FUN_00726070()));
     }
-    ValueChangeNode* total = (ValueChangeNode*)m_pEntryList;
-    while (total && !total->FUN_008256d0() && *((::ValueChange **)((void *)(total))))
+    ::BSSimpleList< ::InventoryStackRecord *>* total = (::BSSimpleList< ::InventoryStackRecord *>*)m_pEntryList;
+    while (total && !total->IsEmpty() && *((::ValueChange **)((void *)(total))))
     {
         ValueChange* object = *((::ValueChange **)((void *)(total)));
         ValueForm* change = (ValueForm*)object->m_pItemObject;
@@ -8286,7 +8203,7 @@ int ValueInventory::FUN_004d0f40(bool includeQuestItems, bool includeType15)
             if (value && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((object))->FUN_00726070())))
                 changeNode += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((object))->FUN_00726070())) * value;
         }
-        total = ((::ValueChangeNode *)(reinterpret_cast<::Callees *>((total))->FUN_00726070()));
+        total = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((total))->FUN_00726070()));
     }
     return changeNode;
 }
@@ -8803,10 +8720,6 @@ struct CleanupExtra
 {
     virtual ~CleanupExtra();
 };
-struct CleanupExtraNode
-{
-    void FUN_0063f7b0();
-};
 struct CleanupItem : InventoryStackRecord
 {
 };
@@ -8835,10 +8748,10 @@ void CleanupInventory::RemoveAllItems()
     {
         node = *((::CleanupItem **)((void *)(start)));
         CleanupExtra* extra = 0;
-        while (node->m_pExtraDataLists && *((::CleanupExtra **)((void *)(reinterpret_cast<CleanupExtraNode*>(node->m_pExtraDataLists)))))
+        while (node->m_pExtraDataLists && *((::CleanupExtra **)((void *)(reinterpret_cast<::BSSimpleList< ::InventoryStackRecord *>*>(node->m_pExtraDataLists)))))
         {
-            extra = *((::CleanupExtra **)((void *)(reinterpret_cast<CleanupExtraNode*>(node->m_pExtraDataLists))));
-            reinterpret_cast<CleanupExtraNode*>(node->m_pExtraDataLists)->FUN_0063f7b0();
+            extra = *((::CleanupExtra **)((void *)(reinterpret_cast<::BSSimpleList< ::InventoryStackRecord *>*>(node->m_pExtraDataLists))));
+            reinterpret_cast<::BSSimpleList< ::InventoryStackRecord *>*>(node->m_pExtraDataLists)->RemoveHead();
             CleanupReference* ref = 0;
             if (extra)
                 ref = ((::CleanupReference *)(reinterpret_cast<::FUN_00418630_Class *>((extra))->FUN_00418630()));
@@ -8849,21 +8762,21 @@ void CleanupInventory::RemoveAllItems()
                     reinterpret_cast<::FUN_00418600_cls *>((extra))->FUN_00418600();
                     if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((extra))->FUN_0040fe20() < 2 && reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770() != 0)
                         reinterpret_cast<::FUN_0041af10_Class *>((extra))->RemoveExtra24();
-                    reinterpret_cast<::ItemChangeListNode *>((((::CleanupExtraNode *)(::FUN_00559450((int *)(node))))))->FUN_00905330((::InventoryStackRecord *const &)(extra));
+                    reinterpret_cast<::ItemChangeListNode *>((((::BSSimpleList< ::InventoryStackRecord *> *)(::FUN_00559450((int *)(node))))))->FUN_00905330((::InventoryStackRecord *const &)(extra));
                     CleanupInventory* inventory = ((::CleanupInventory *)(reinterpret_cast<::ExtraDataList *>((((::CleanupReferenceExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->GetContainerChangeData()));
                     bool destroy = true;
                     if (inventory)
                     {
                         CleanupItem* entry = ((::CleanupItem *)(reinterpret_cast<::FUN_004bfba0_shell *>((inventory))->FUN_004bfba0(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((node))->GetName())), 1, 0)));
-                        if (entry && ((::CleanupExtraNode *)(::FUN_00559450((int *)(entry)))))
+                        if (entry && ((::BSSimpleList< ::InventoryStackRecord *> *)(::FUN_00559450((int *)(entry)))))
                         {
-                            CleanupExtraNode* scan = ((::CleanupExtraNode *)(::FUN_00559450((int *)(entry))));
+                            ::BSSimpleList< ::InventoryStackRecord *>* scan = ((::BSSimpleList< ::InventoryStackRecord *> *)(::FUN_00559450((int *)(entry))));
                             while (scan && *((::CleanupExtra **)((void *)(scan))) && destroy)
                             {
                                 if (*((::CleanupExtra **)((void *)(scan))) == extra)
                                     destroy = false;
                                 else
-                                    scan = ((::CleanupExtraNode *)(reinterpret_cast<::Callees *>((scan))->FUN_00726070()));
+                                    scan = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((scan))->FUN_00726070()));
                             }
                         }
                     }
@@ -8871,15 +8784,15 @@ void CleanupInventory::RemoveAllItems()
                     if (inventory)
                     {
                         CleanupItem* playerEntry = ((::CleanupItem *)(reinterpret_cast<::FUN_004bfba0_shell *>((inventory))->FUN_004bfba0(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((node))->GetName())), 1, 0)));
-                        if (playerEntry && ((::CleanupExtraNode *)(::FUN_00559450((int *)(playerEntry)))))
+                        if (playerEntry && ((::BSSimpleList< ::InventoryStackRecord *> *)(::FUN_00559450((int *)(playerEntry)))))
                         {
-                            CleanupExtraNode* playerScan = ((::CleanupExtraNode *)(::FUN_00559450((int *)(playerEntry))));
+                            ::BSSimpleList< ::InventoryStackRecord *>* playerScan = ((::BSSimpleList< ::InventoryStackRecord *> *)(::FUN_00559450((int *)(playerEntry))));
                             while (playerScan && *((::CleanupExtra **)((void *)(playerScan))) && destroy)
                             {
                                 if (*((::CleanupExtra **)((void *)(playerScan))) == extra)
                                     destroy = false;
                                 else
-                                    playerScan = ((::CleanupExtraNode *)(reinterpret_cast<::Callees *>((playerScan))->FUN_00726070()));
+                                    playerScan = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((playerScan))->FUN_00726070()));
                             }
                         }
                     }
@@ -8912,11 +8825,6 @@ struct SaveItemChange
 {
     unsigned short GetSaveSize();
 };
-struct SaveItemNode
-{
-    bool IsEmpty();
-    SaveItemChange** Item();
-};
 struct SaveFormRecord
 {
     unsigned int formID;
@@ -8933,7 +8841,7 @@ struct DebugSetting
 
 struct InventorySaveList
 {
-    SaveItemNode* first;
+    ::BSSimpleList< ::InventoryStackRecord *>* first;
     unsigned short FUN_004d3960();
 };
 
@@ -8948,13 +8856,13 @@ unsigned short InventorySaveList::FUN_004d3960()
         size3 += 2;
     }
     size3 += 2;
-    SaveItemNode* node5 = first;
+    ::BSSimpleList< ::InventoryStackRecord *>* node5 = first;
     while (node5 && !node5->IsEmpty())
     {
         SaveItemChange* itemB = *((::fnv_004d3960::SaveItemChange **)((void *)(node5)));
         if (itemB)
             size3 += reinterpret_cast<::fnv_004be5a0::InventoryChangesSaveSize *>((itemB))->FUN_004be5a0();
-        node5 = ((::fnv_004d3960::SaveItemNode *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
+        node5 = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
     }
     if (*(*reinterpret_cast<::fnv_004d3960::DebugSetting *>(&::g_011de4e8)).Bool())
     {
@@ -9082,11 +8990,6 @@ struct DebugFlag
     bool* FUN_00408d60();
 };
 
-struct ItemNode
-{
-    bool FUN_008256d0();
-};
-
 struct ItemChangeStub
 {
     void FUN_004be6f0();
@@ -9110,7 +9013,7 @@ void FUN_004d3ab0_cls::FUN_004d3ab0()
     ItemChangeStub* item2;
     int kTag;
     short count_;
-    ItemNode* aNode;
+    ::BSSimpleList< ::InventoryStackRecord *>* aNode;
     char* kPosB;
     short zero;
     char* cnt;
@@ -9133,8 +9036,8 @@ void FUN_004d3ab0_cls::FUN_004d3ab0()
     count_ = 0;
     cnt = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&count_, 2);
-    aNode = (ItemNode*)m_pEntryList;
-    while (aNode && !aNode->FUN_008256d0())
+    aNode = (::BSSimpleList< ::InventoryStackRecord *>*)m_pEntryList;
+    while (aNode && !aNode->IsEmpty())
     {
         item2 = (ItemChangeStub*)*((void **)((void *)(aNode)));
         if (item2)
@@ -9142,7 +9045,7 @@ void FUN_004d3ab0_cls::FUN_004d3ab0()
             item2->FUN_004be6f0();
             count_++;
         }
-        aNode = ((::fnv_004d3ab0::ItemNode *)(reinterpret_cast<::Callees *>((aNode))->FUN_00726070()));
+        aNode = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((aNode))->FUN_00726070()));
     }
     *(short*)cnt = count_;
     if (*(*reinterpret_cast<::fnv_004d3ab0::DebugFlag *>(&::g_011de4e8)).FUN_00408d60())
@@ -11217,10 +11120,6 @@ struct Transfer4c37ResObj
 struct Transfer4c37M68Obj
 {
 };
-struct Transfer4c37M00Obj
-{
-    bool FUN_008256d0();
-};
 struct Transfer4c37LogObj
 {
 };
@@ -11917,11 +11816,6 @@ struct ItemCh6
     void* m_pItemObject;
 };
 
-struct Node2_6
-{
-    bool FUN_008256d0();
-};
-
 struct Item2_6
 {
 };
@@ -12000,8 +11894,8 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
         }
         else
         {
-            Node2_6* pNode2 = (Node2_6*)this->m_pEntryList;
-            while (pNode2 != 0 && !pNode2->FUN_008256d0() && *((::ItemCh6 **)((void *)(pNode2))) != 0)
+            ::BSSimpleList< ::InventoryStackRecord *>* pNode2 = (::BSSimpleList< ::InventoryStackRecord *>*)this->m_pEntryList;
+            while (pNode2 != 0 && !pNode2->IsEmpty() && *((::ItemCh6 **)((void *)(pNode2))) != 0)
             {
                 void* pObj2 = (*((::ItemCh6 **)((void *)(pNode2))))->m_pItemObject;
                 if (pObj2 != 0 && a2 != 0 && ::MatchesObjectType((::TESForm *)(pObj2), (int)(std::intptr_t)(a2)) &&
@@ -12012,7 +11906,7 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
                     *a4 = FUN_00679ba0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((*((::ItemCh6 **)((void *)(pNode2)))))->GetName())));
                     return true;
                 }
-                pNode2 = ((::Node2_6 *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
+                pNode2 = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
             }
         }
     }
@@ -12117,10 +12011,6 @@ FUN_004bc550* Inventory::FUN_004d0650(Object* object, int arg)
 }
 }
 
-struct InventoryScanNode
-{
-    bool FUN_008256d0();
-};
 struct InventoryScanExtra : ExtraDataList
 {
 };
@@ -12129,11 +12019,11 @@ struct InventoryScanExtra : ExtraDataList
 // @fnv 0x004d1380
 bool Inv4d1440::HasExtraDataWithValue(int value)
 {
-    InventoryScanNode* node;
+    ::BSSimpleList< ::InventoryStackRecord *>* node;
     {
         bool found = false;
-        node = (InventoryScanNode*)m_pEntryList;
-        while (node && !node->FUN_008256d0() && *((::InventoryStackRecord **)((void *)(node))) && !found)
+        node = (::BSSimpleList< ::InventoryStackRecord *>*)m_pEntryList;
+        while (node && !node->IsEmpty() && *((::InventoryStackRecord **)((void *)(node))) && !found)
         {
             InventoryStackRecord* item = *((::InventoryStackRecord **)((void *)(node)));
             if (item)
@@ -12147,7 +12037,7 @@ bool Inv4d1440::HasExtraDataWithValue(int value)
                     extras = ((::BSSimpleList< ::ExtraDataList *> *)(reinterpret_cast<::Callees *>((extras))->FUN_00726070()));
                 }
             }
-            node = ((::InventoryScanNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
         return found;
     }
@@ -12358,10 +12248,6 @@ struct XActor17;
 struct XProcess17;
 struct XExtra17;
 struct XExtra17;
-struct XNodeE17
-{
-    bool _ref_008256d0();
-};
 struct XNodeC17
 {
 };
@@ -13408,10 +13294,6 @@ struct CleanItem
     int count;
     TESBoundObject* form;
 };
-struct CleanItemNode
-{
-    bool FUN_008256d0();
-};
 struct CleanBaseEntry
 {
     int count;
@@ -13425,13 +13307,9 @@ struct CleanContainer
 {
     CleanBaseNode* FUN_00717e50();
 };
-struct CleanFormView
-{
-    int FUN_00401170();
-};
 struct InventoryClean
 {
-    CleanItemNode* head;
+    ::BSSimpleList< ::InventoryStackRecord *>* head;
     void* owner;
     CleanContainer* FUN_004bffb0();
     void FUN_004cbbc0();
@@ -13851,7 +13729,7 @@ void InventoryClean::FUN_004cbbc0()
                     }
                 }
             }
-            if (itemScope4Local28 && reinterpret_cast<CleanFormView*>(formScope7)->FUN_00401170() == 41)
+            if (itemScope4Local28 && reinterpret_cast<::TESForm*>(formScope7)->GetFormType() == 41)
             {
                 CleanExtra* wornScope25 = 0;
 
@@ -13994,8 +13872,8 @@ void InventoryClean::FUN_004cbbc0()
         baseScope8 = ((::CleanBaseNode *)(reinterpret_cast<::Callees *>((baseScope8))->FUN_00726070()));
     }
     CleanItem* itemScope39 = 0;
-    CleanItemNode* changeScope4 = head;
-    while (changeScope4 && !changeScope4->FUN_008256d0())
+    ::BSSimpleList< ::InventoryStackRecord *>* changeScope4 = head;
+    while (changeScope4 && !changeScope4->IsEmpty())
     {
         itemScope39 = *((::CleanItem **)((void *)(changeScope4)));
         int baseCountScope41 = 0;
@@ -14111,7 +13989,7 @@ void InventoryClean::FUN_004cbbc0()
                 }
             }
         }
-        if (itemScope39 && reinterpret_cast<CleanFormView*>(formScope7)->FUN_00401170() == 41)
+        if (itemScope39 && reinterpret_cast<::TESForm*>(formScope7)->GetFormType() == 41)
         {
             int baseCountScope62 = 0;
             if (((::CleanContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) && itemScope39)
@@ -14253,7 +14131,7 @@ void InventoryClean::FUN_004cbbc0()
                 }
             }
         }
-        changeScope4 = ((::CleanItemNode *)(reinterpret_cast<::Callees *>((changeScope4))->FUN_00726070()));
+        changeScope4 = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((changeScope4))->FUN_00726070()));
     }
 }
 struct FUN_00418b10_shell
@@ -15238,8 +15116,8 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
         base5 = ((::MoveBaseNode *)(reinterpret_cast<::Callees *>((base5))->FUN_00726070()));
     }
     MoveItem* itemScope6 = 0;
-    MoveItemNode* change = head;
-    while (change && !change->FUN_008256d0())
+    ::BSSimpleList< ::InventoryStackRecord *>* change = head;
+    while (change && !change->IsEmpty())
     {
         bool removedItem5 = false;
         itemScope6 = *((::MoveItem **)((void *)(change)));
@@ -15248,7 +15126,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
             (type > -1 && itemScope6 &&
              reinterpret_cast<MoveForm*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((itemScope6))->GetName())))->FUN_00401170() != type))
         {
-            change = ((::MoveItemNode *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
+            change = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
             continue;
         }
         if (itemScope6)
@@ -15268,7 +15146,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                         reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope6, (unsigned int)(std::uintptr_t)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((itemScope6))->GetName()))), countScope3, (::XActor17 *)(owner), (::ExtraDataList *)(::MoveExtra *)(0), equipped7,
                                      itemScope6 != 0, (::InventoryStackRecord *)(::MoveItem *)(0), 0);
                     }
-                    change = ((::MoveItemNode *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
+                    change = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
                 }
                 else if (itemScope6 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())) > 0 &&
                          (!skipQuest3 || !reinterpret_cast<MoveForm*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((itemScope6))->GetName())))->IsQuestItem()))
@@ -15444,7 +15322,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                 if (countScope4 <= 0 && !itemScope6)
                                     change = head;
                                 else if (countScope4 <= 0 && itemScope6)
-                                    change = ((::MoveItemNode *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
+                                    change = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
                                 if (itemScope6 && countScope4 > 0)
                                     nodeScope2 = ((::MoveExtraNode *)(::FUN_00559450((int *)(itemScope6))));
                                 else
@@ -15565,13 +15443,13 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                     }
                 }
                 else
-                    change = ((::MoveItemNode *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
+                    change = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
             }
             else
-                change = ((::MoveItemNode *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
+                change = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
         }
         else
-            change = ((::MoveItemNode *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
+            change = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
     }
     return weight7;
 }
@@ -15586,7 +15464,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* ap
     if (entry0 == 0)
         return true;
     *a0 = 1;
-    XNodeE17* node1 = (XNodeE17*)entry0->m_pExtraDataLists;
+    ::BSSimpleList< ::InventoryStackRecord *>* node1 = (::BSSimpleList< ::InventoryStackRecord *>*)entry0->m_pExtraDataLists;
     bool result3 = true;
     int count;
     bool armors2 = false;
@@ -15627,7 +15505,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* ap
                     found = ((::XProcess17 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apActor))->GetBaseTexture()))->CurrentWeapon();
                     if (found != 0)
                     {
-                        if (*((::XExtra17 **)((void *)(((XNodeE17*)found->m_pExtraDataLists)))) == extra || apExtraList == 0)
+                        if (*((::XExtra17 **)((void *)(((::BSSimpleList< ::InventoryStackRecord *>*)found->m_pExtraDataLists)))) == extra || apExtraList == 0)
                         {
                             if (apActor == (XActor17*)(*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))
                                 ::SetField1F0((::FUN_004c0cd0_This *)(((XNPC17*)(*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))), ::FUN_004c0cd0_Arg{nullptr});
@@ -15670,7 +15548,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* ap
                     found = ((::XProcess17 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apActor))->GetBaseTexture()))->CurrentAmmo();
                     if (found != 0)
                     {
-                        if (*((::XExtra17 **)((void *)(((XNodeE17*)found->m_pExtraDataLists)))) == extra)
+                        if (*((::XExtra17 **)((void *)(((::BSSimpleList< ::InventoryStackRecord *>*)found->m_pExtraDataLists)))) == extra)
                         {
                             reinterpret_cast<::TESForm *>((((XForm17*)apActor)))->ClearData();
                             ((::XProcess17 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apActor))->GetBaseTexture()))->SetAmmo(0);
@@ -15695,7 +15573,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* ap
             }
             if (reinterpret_cast<::ExtraDataList *>((extra))->IsEmpty())
             {
-                reinterpret_cast<::ItemChangeListNode *>((((XNodeE17*)entry0->m_pExtraDataLists)))->FUN_00905330((*(::InventoryStackRecord *const *)(&extra)));
+                reinterpret_cast<::ItemChangeListNode *>((((::BSSimpleList< ::InventoryStackRecord *>*)entry0->m_pExtraDataLists)))->FUN_00905330((*(::InventoryStackRecord *const *)(&extra)));
                 delete extra;
                 if ((ExtraDataList*)extra == apExtraList && abRemoved != 0)
                     *abRemoved = true;
@@ -15705,7 +15583,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* ap
             }
             else
             {
-                XNodeE17* node2 = (XNodeE17*)entry0->m_pExtraDataLists;
+                ::BSSimpleList< ::InventoryStackRecord *>* node2 = (::BSSimpleList< ::InventoryStackRecord *>*)entry0->m_pExtraDataLists;
                 while (node2 != 0 && *((::XExtra17 **)((void *)(node2))) != 0 && result3)
                 {
                     XExtra17* extra1 = *((::XExtra17 **)((void *)(node2)));
@@ -15718,7 +15596,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* ap
                     }
                     if (different2 || extra == extra1)
                     {
-                        node2 = ((::XNodeE17 *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
+                        node2 = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
                     }
                     else
                     {
@@ -15730,12 +15608,12 @@ bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* ap
                         }
                         if (reinterpret_cast<::ExtraDataList *>((extra1))->IsEmpty())
                         {
-                            reinterpret_cast<::ItemChangeListNode *>((((XNodeE17*)entry0->m_pExtraDataLists)))->FUN_00905330((*(::InventoryStackRecord *const *)(&extra1)));
+                            reinterpret_cast<::ItemChangeListNode *>((((::BSSimpleList< ::InventoryStackRecord *>*)entry0->m_pExtraDataLists)))->FUN_00905330((*(::InventoryStackRecord *const *)(&extra1)));
                             delete extra1;
                         }
                         else
                         {
-                            reinterpret_cast<::ItemChangeListNode *>((((XNodeE17*)entry0->m_pExtraDataLists)))->FUN_00905330((*(::InventoryStackRecord *const *)(&extra)));
+                            reinterpret_cast<::ItemChangeListNode *>((((::BSSimpleList< ::InventoryStackRecord *>*)entry0->m_pExtraDataLists)))->FUN_00905330((*(::InventoryStackRecord *const *)(&extra)));
                         }
                         delete extra;
                         extra = 0;
@@ -15746,7 +15624,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* ap
             node1 = 0;
         }
         else
-            node1 = ((::XNodeE17 *)(reinterpret_cast<::Callees *>((node1))->FUN_00726070()));
+            node1 = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node1))->FUN_00726070()));
     }
     if (armors2)
     {
@@ -15761,7 +15639,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* ap
     if (((XInv17*)this)->pRef != 0)
         ((XInv17*)this)->pRef->MarkAsModified(0x20);
     count = reinterpret_cast<::FUN_004bffb0_shell *>((((XInv17*)this)))->FUN_004bffb0()->GetObjectCount((TESObject*)a1);
-    if (entry0 != 0 && entry0->m_pExtraDataLists != 0 && ((XNodeE17*)entry0->m_pExtraDataLists)->_ref_008256d0() &&
+    if (entry0 != 0 && entry0->m_pExtraDataLists != 0 && ((::BSSimpleList< ::InventoryStackRecord *>*)entry0->m_pExtraDataLists)->IsEmpty() &&
         (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) == 0 || count == ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070()))))
     {
         reinterpret_cast<::ItemChangeListNode *>((((XNodeC17*)((InventoryChanges*)this)->m_pEntryList)))->FUN_00905330((*(::InventoryStackRecord *const *)(&entry0)));
@@ -16159,11 +16037,6 @@ struct SavedItem
 {
     void Save(int, int);
 };
-struct SavedNode
-{
-    bool Empty();
-    SavedItem** Item();
-};
 struct SavedOwner
 {
 };
@@ -16249,7 +16122,7 @@ struct SavedForm
 };
 struct SaveInventory
 {
-    SavedNode* changes;
+    ::BSSimpleList< ::InventoryStackRecord *>* changes;
     unsigned int owner;
     SavedOwner* container;
     void FUN_004be6f0();
@@ -16276,13 +16149,13 @@ void SaveInventory::FUN_004be6f0()
     unsigned int count4 = 0;
     unsigned int* countPos_ = (unsigned int*)reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&count4, 4);
-    SavedNode* nodeB = changes;
-    while (nodeB && !nodeB->Empty())
+    ::BSSimpleList< ::InventoryStackRecord *>* nodeB = changes;
+    while (nodeB && !nodeB->IsEmpty())
     {
         SavedItem* itemB = *((::fnv_004be6f0::SavedItem **)((void *)(nodeB)));
         reinterpret_cast<::extra_save::SaveShell *>((itemB))->FUN_004235e0(0, (::extra_save::SForm *)(0));
         count4++;
-        nodeB = ((::fnv_004be6f0::SavedNode *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
+        nodeB = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
     }
     *countPos_ = count4;
     if (*(*reinterpret_cast<::fnv_004be6f0::DebugSetting *>(&::g_011de4e8)).Bool())
@@ -16427,8 +16300,8 @@ bool FUN_004cfe20_t::HasItem(std::uintptr_t aId)
         }
         pList = ((::ContNode4cfe20 *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
     }
-    ChangeNode4cfe20* pListInv = (ChangeNode4cfe20*)m_pEntryList;
-    while (pListInv && !pListInv->_ref_008256d0())
+    ::BSSimpleList< ::InventoryStackRecord *>* pListInv = (::BSSimpleList< ::InventoryStackRecord *>*)m_pEntryList;
+    while (pListInv && !pListInv->IsEmpty())
     {
         pitem = *((::InventoryStackRecord **)((void *)(pListInv)));
         ExtraNode4cfe20* pkCurrentObject = *(ExtraNode4cfe20**)pitem;
@@ -16440,7 +16313,7 @@ bool FUN_004cfe20_t::HasItem(std::uintptr_t aId)
                 return true;
             pkCurrentObject = ((::ExtraNode4cfe20 *)(reinterpret_cast<::Callees *>((pkCurrentObject))->FUN_00726070()));
         }
-        pListInv = ((::ChangeNode4cfe20 *)(reinterpret_cast<::Callees *>((pListInv))->FUN_00726070()));
+        pListInv = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pListInv))->FUN_00726070()));
     }
     return false;
 }
@@ -16627,8 +16500,8 @@ void Inv4cb4b0::FUN_004cb4b0(std::intptr_t a1, int a2, std::intptr_t a3)
         }
         pNode2 = ((::CN4cb4b0 *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
     }
-    IN4cb4b0* pItem = m_pEntryList;
-    while (pItem && !pItem->_ref_008256d0())
+    ::BSSimpleList< ::InventoryStackRecord *>* pItem = m_pEntryList;
+    while (pItem && !pItem->IsEmpty())
     {
         pObj = (*((::IC4cb4b0 **)((void *)(pItem))))->pObj;
         if (pObj && FUN_00481f10(pObj))
@@ -16636,7 +16509,7 @@ void Inv4cb4b0::FUN_004cb4b0(std::intptr_t a1, int a2, std::intptr_t a3)
             reinterpret_cast<::Transfer4c37C37This *>(this)->FUN_004c37d0((::Transfer4c37C37Obj *)(a1), (std::intptr_t)(pObj), 0, a2, (::Transfer4c37Form4 *)(0), 0, (::Transfer4c37C37Form *)(a3), 0, 0, 1, 0, (::Transfer4c37Entry *)(0));
             return;
         }
-        pItem = ((::IN4cb4b0 *)(reinterpret_cast<::Callees *>((pItem))->FUN_00726070()));
+        pItem = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((pItem))->FUN_00726070()));
     }
 }
 // @fnv 0x004c37d0
@@ -17364,7 +17237,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
             }
 
             if (aiCount > 0 && itemChange7 != 0 && itemChange7->m00 != 0 &&
-                !((Transfer4c37M00Obj*)itemChange7->m00)->FUN_008256d0())
+                !((::BSSimpleList< ::InventoryStackRecord *>*)itemChange7->m00)->IsEmpty())
             {
                 remainingNode23 = (Transfer4c37Node84*)itemChange7->m00;
                 while (remainingNode23 != 0 && *((::Transfer4c37ItemObj **)((void *)(remainingNode23))) != 0 && aiCount > 0)
@@ -17842,7 +17715,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
     itemChange7 = ((::Transfer4c37Entry *)(reinterpret_cast<::FUN_004bfba0_shell *>((this))->FUN_004bfba0((::TESBoundObject *)(p1), 1, 0)));
     if (itemChange7 != 0 && (leveledItem0 == 0 || apSource->Vcall100()) &&
         ((itemChange7->m04 == 0 && baseCount48 == 0) ||
-         (itemChange7->m00 != 0 && ((Transfer4c37M00Obj*)itemChange7->m00)->FUN_008256d0() && itemChange7->m04 == 0)))
+         (itemChange7->m00 != 0 && ((::BSSimpleList< ::InventoryStackRecord *>*)itemChange7->m00)->IsEmpty() && itemChange7->m04 == 0)))
     {
         if (!::Interface::ContainerIsBarter() && !::Interface::ContainerIsRecipe() && !FUN_00702680(0x40b, 0) && !FUN_00702680(0x40b, 0))
             reinterpret_cast<::FUN_004bc780_shell *>((itemChange7))->ClearExtraDataList();
@@ -19176,13 +19049,8 @@ struct FUN_00410360_ctxr;
 typedef FUN_00410360_ctxr Extra_ctxr;
 struct ExtraNode_ctxr;
 struct BaseNode_ctxr;
-struct ItemNode_ctxr;
 struct Container_ctxr;
 struct Inventory_ctxr;
-struct FormView_ctxr
-{
-    int FUN_00401170();
-};
 struct CopiedForm_ctxr
 {
     virtual void v000();
@@ -19280,10 +19148,6 @@ struct BaseNode_ctxr
 {
     bool FUN_008256d0();
 };
-struct ItemNode_ctxr
-{
-    bool FUN_008256d0();
-};
 struct Container_ctxr
 {
     BaseNode_ctxr* FUN_00717e50();
@@ -19293,7 +19157,7 @@ struct Registry_ctxr
 };
 struct Inventory_ctxr
 {
-    ItemNode_ctxr* head;
+    ::BSSimpleList< ::InventoryStackRecord *>* head;
     Container_ctxr* FUN_004bffb0();
     void FUN_004cd9c0(void*, void*);
 };
@@ -19331,7 +19195,7 @@ void Inventory_ctxr::FUN_004cd9c0(void* source, void* destination)
                 CopiedForm_ctxr* clone = 0;
                 if (((void *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(formSlot11)))))
                 {
-                    clone = ((::InventoryCopy::CopiedForm_ctxr *)(::TESDataHandler::CreateFormForType(((FormView_ctxr*)formSlot11)->FUN_00401170())));
+                    clone = ((::InventoryCopy::CopiedForm_ctxr *)(::TESDataHandler::CreateFormForType(((::TESForm*)formSlot11)->GetFormType())));
                     clone->v108(formSlot11);
                     ::FUN_004ce300((::TESForm *)(clone), 0);
                     reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::InventoryCopy::Registry_ctxr * *>(&::g_dataHandler))))->AddFormToDataHandler((::TESForm *)(clone));
@@ -19385,8 +19249,8 @@ void Inventory_ctxr::FUN_004cd9c0(void* source, void* destination)
         baseSlot45 = ((::InventoryCopy::BaseNode_ctxr *)(reinterpret_cast<::Callees *>((baseSlot45))->FUN_00726070()));
     }
     Item_ctxr* changedSlot20 = 0;
-    ItemNode_ctxr* nodeSlot26 = head;
-    while (nodeSlot26 && !nodeSlot26->FUN_008256d0())
+    ::BSSimpleList< ::InventoryStackRecord *>* nodeSlot26 = head;
+    while (nodeSlot26 && !nodeSlot26->IsEmpty())
     {
         changedSlot20 = *((::InventoryCopy::FUN_004bc550_ctxr **)((void *)(nodeSlot26)));
         if (changedSlot20 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())) > 0)
@@ -19396,7 +19260,7 @@ void Inventory_ctxr::FUN_004cd9c0(void* source, void* destination)
             CopiedForm_ctxr* clone2 = 0;
             if (((void *)(reinterpret_cast<::FUN_004bde40_shell *>((changedSlot20))->FUN_004bde40())))
             {
-                clone2 = ((::InventoryCopy::CopiedForm_ctxr *)(::TESDataHandler::CreateFormForType(((FormView_ctxr*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())))->FUN_00401170())));
+                clone2 = ((::InventoryCopy::CopiedForm_ctxr *)(::TESDataHandler::CreateFormForType(((::TESForm*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())))->GetFormType())));
                 clone2->v108(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())));
                 ::FUN_004ce300((::TESForm *)(clone2), 0);
                 reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::InventoryCopy::Registry_ctxr * *>(&::g_dataHandler))))->AddFormToDataHandler((::TESForm *)(clone2));
@@ -19443,7 +19307,7 @@ void Inventory_ctxr::FUN_004cd9c0(void* source, void* destination)
             reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((targetSlot4))->FUN_004c3380((::InventoryStackRecord *)(copySlot14), 1);
             copySlot14 = 0;
         }
-        nodeSlot26 = ((::InventoryCopy::ItemNode_ctxr *)(reinterpret_cast<::Callees *>((nodeSlot26))->FUN_00726070()));
+        nodeSlot26 = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((nodeSlot26))->FUN_00726070()));
     }
 }
 }
@@ -19454,7 +19318,7 @@ struct MoveContainer_ctxr
 
 struct InventoryMove_ctxr
 {
-    MoveItemNode* head;
+    ::BSSimpleList< ::InventoryStackRecord *>* head;
     MoveContainer_ctxr* FUN_004bffb0();
     float FUN_004ce380(MoveOwner*, MoveOwner*, bool, bool, bool, bool, int, MoveFilter*);
 };
@@ -20139,11 +20003,11 @@ void InventoryMoveTarget::FUN_004cb5f0(MoveOwner* source, MoveOwner* destination
 {
     MoveItem* item = 0;
     TESBoundObject* form = 0;
-    MoveItemNode* itemNode = head;
-    while (itemNode && !itemNode->FUN_008256d0())
+    ::BSSimpleList< ::InventoryStackRecord *>* itemNode = head;
+    while (itemNode && !itemNode->IsEmpty())
     {
 
-        MoveItemNode* savedItemNext = ((::MoveItemNode *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070()));
+        ::BSSimpleList< ::InventoryStackRecord *>* savedItemNext = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070()));
         item = *((::MoveItem **)((void *)(itemNode)));
         bool restartItems = false;
 
@@ -20231,7 +20095,7 @@ void InventoryMoveTarget::FUN_004cb5f0(MoveOwner* source, MoveOwner* destination
                             pExtra = savedExtraNext2;
                         if (!pExtra)
                         {
-                            if (savedItemNext != ((::MoveItemNode *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070())))
+                            if (savedItemNext != ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070())))
                                 itemNode = head;
                             else
                                 itemNode = savedItemNext;
@@ -20241,7 +20105,7 @@ void InventoryMoveTarget::FUN_004cb5f0(MoveOwner* source, MoveOwner* destination
             }
             else
             {
-                if (savedItemNext != ((::MoveItemNode *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070())))
+                if (savedItemNext != ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070())))
                     itemNode = head;
                 else
                     itemNode = savedItemNext;
@@ -20249,7 +20113,7 @@ void InventoryMoveTarget::FUN_004cb5f0(MoveOwner* source, MoveOwner* destination
         }
         else
         {
-            if (savedItemNext != ((::MoveItemNode *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070())))
+            if (savedItemNext != ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070())))
                 itemNode = head;
             else
                 itemNode = savedItemNext;

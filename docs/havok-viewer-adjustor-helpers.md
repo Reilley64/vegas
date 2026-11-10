@@ -15,9 +15,9 @@ require it, and each binds it to a different address:
 | Unit | Address the unit binds the name to | Function the recipe lists at that address |
 | --- | --- | --- |
 | `src/bsshader/bsorderednode.cpp` | `0x00bc2bd0` | `FUN_00bc2bd0_class::FUN_00bc2bd0`, 68 bytes, `src/staging/blk_00bc0000_o2.cpp` |
-| `src/bsshader/precipitationshader.cpp` | `0x00bb04b0` | `FUN_00bb04b0::FUN_00bb04b0()`, 142 bytes, the same unit |
-| `src/bsshader/skyshader.cpp` | `0x00b8a1f0` | `fnv_00b8a1f0::FUN_00b8a1f0::FUN_00b8a1f0()`, 360 bytes, the same unit |
-| `src/staging/blk_004e0000_od.cpp` | `0x004f6fc0` | `fnv_004f6fc0::MyClass004f6fc0::FUN_004f6fc0`, 50 bytes, the same unit |
+| `src/bsshader/precipitationshader.cpp` | `0x00bb04b0` | `FUN_00bb04b0::FUN_00bb04b0()`, 142 bytes, the client's own unit |
+| `src/bsshader/skyshader.cpp` | `0x00b8a1f0` | `fnv_00b8a1f0::FUN_00b8a1f0::FUN_00b8a1f0()`, 360 bytes, the client's own unit |
+| `src/staging/blk_004e0000_od.cpp` | `0x004f6fc0` | `fnv_004f6fc0::MyClass004f6fc0::FUN_004f6fc0`, 50 bytes, the client's own unit |
 | `src/staging/blk_00ba0000_o2.cpp` | `0x0051d0d0` | `FUN_0051d0d0::FUN_0051d0d0()`, 113 bytes, `src/gamebryo2.2/corelibs/nimain/nitribasedgeom.cpp` |
 
 Two Havok units defined the name, each for a class of its own that it also
@@ -107,6 +107,21 @@ Their code is unchanged by this change.
 
 Each of the five declares its own, different `SpawnedObject` at global scope.
 
+What each client allocates on windows-x64, against the function the recipe
+binds the name to in that client's unit:
+
+| Client | Allocation | Recipe function at the bound address | Bytes | Constructor |
+| --- | --- | --- | --- | --- |
+| `bsorderednode.cpp` | `0xc0` | `FUN_00bc2bd0_class::FUN_00bc2bd0` | 68 | no |
+| `precipitationshader.cpp` | `0xb0` | `FUN_00bb04b0::FUN_00bb04b0()` | 142 | yes |
+| `skyshader.cpp` | `0xf8` | `fnv_00b8a1f0::FUN_00b8a1f0::FUN_00b8a1f0()` | 360 | yes |
+| `blk_004e0000_od.cpp` | `0x08` | `fnv_004f6fc0::MyClass004f6fc0::FUN_004f6fc0` | 50 | no |
+| `blk_00ba0000_o2.cpp` | `0x38` | `FUN_0051d0d0::FUN_0051d0d0()`, in `nitribasedgeom.cpp` | 113 | yes |
+
+The byte counts are the recipe's sizes of the original functions. Two of the
+five names the recipe gives those functions are not constructors, although
+each client binds a constructor name to the address.
+
 ## Behaviour before and after
 
 Before, a link that was forced past the duplicate gave all five clients the
@@ -152,10 +167,26 @@ So no program that links today changes.
 Checked over every member of the rebuilt archive, comparing the bytes and
 relocations of every definition of a name.
 
-Before, the two units gave differing definitions to four names:
-`SpawnedObject::SpawnedObject()`, the two tables of `SpawnedObject`, and the
-type record of the second table. The linker reports only the first; for the
-other three it keeps whichever it loads first.
+Before, the two units gave differing definitions to seven names:
+
+- `SpawnedObject::SpawnedObject()`
+- the table of `SpawnedObject` for `PrimaryBase`
+- the table of `SpawnedObject` for `SecondaryBase`
+- the type record of that second table
+- the base-class list among the type records of `SpawnedObject`
+- the table of `PrimaryBase`
+- the table of `SecondaryBase`
+
+The linker reports only the first; for the other six it keeps whichever it
+loads first. The first four stop having differing definitions anywhere in the
+archive, because no other unit emits them. The last three are still emitted by
+other units, with differing content.
+
+The scan's archive-wide count of names with differing definitions covers
+select-any definitions only. Of the seven, the two type records are
+select-any; the constructor allows no duplicate and the four tables are kept
+by largest size. So that count falls by one with this change, for the type
+record of the second table.
 
 After, each of the 52 names the two helpers now emit or require has at most
 one definition, and none of them existed before. The global

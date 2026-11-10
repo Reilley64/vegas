@@ -2480,10 +2480,6 @@ struct TargetPrompt
     virtual void v22c();
     virtual bool IsCreature();
 };
-struct PromptTile
-{
-    void SetInt(int, int);
-};
 class Tile
 {
   public:
@@ -2531,8 +2527,8 @@ struct PromptMenu
     int unk094;
     int unk098;
     int unk09c;
-    PromptTile* primary;
-    PromptTile* secondary;
+    ::Tile* primary;
+    ::Tile* secondary;
 };
 struct PromptSetting
 {
@@ -2548,9 +2544,9 @@ void __cdecl FUN_007eb920(WeaponPrompt* weapon)
         reinterpret_cast<::FUN_007ebd30_This *>((weapon))->FUN_007ebd30() <= (*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))->values.Get(((int)(reinterpret_cast<::FUN_008d85e0_Class *>((weapon))->GetUnk15C()))))
     {
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((PromptMenu*)DAT_011db0d4)->primary))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::fnv_00522be0::FUN_00522be0_shell *>((weapon))->FUN_00522be0()))), true);
-        ((PromptMenu*)DAT_011db0d4)->primary->SetInt(0xfa3, 1);
+        ((PromptMenu*)DAT_011db0d4)->primary->Set(0xfa3, 1);
         DAT_011db0cf = true;
-        ((PromptMenu*)DAT_011db0d4)->secondary->SetInt(0xfa3, 0);
+        ((PromptMenu*)DAT_011db0d4)->secondary->Set(0xfa3, 0);
         DAT_011db0d8 = false;
         DAT_011db0bc = reinterpret_cast<::FUN_008d9140_Class *>((weapon))->GetField378();
         DAT_011db0b8 = reinterpret_cast<::FUN_007ebd10_This *>((weapon))->FUN_007ebd10();
@@ -2566,12 +2562,12 @@ void __cdecl FUN_007eb920(WeaponPrompt* weapon)
         {
             creature = true;
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((PromptMenu*)DAT_011db0d4)->primary))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::PromptSetting *>(&::g_011d2754)).String()), true);
-            ((PromptMenu*)DAT_011db0d4)->primary->SetInt(0xfa3, 1);
+            ((PromptMenu*)DAT_011db0d4)->primary->Set(0xfa3, 1);
         }
         else
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((PromptMenu*)DAT_011db0d4)->primary))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::PromptSetting *>(&::g_011d46c0)).String()), true);
-            ((PromptMenu*)DAT_011db0d4)->primary->SetInt(0xfa3, 1);
+            ((PromptMenu*)DAT_011db0d4)->primary->Set(0xfa3, 1);
         }
         DAT_011db0cf = true;
         DAT_011db0bc = 1.0f;
@@ -2580,7 +2576,7 @@ void __cdecl FUN_007eb920(WeaponPrompt* weapon)
         if (!creature && (*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))->values.Get(0x2d) >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PromptSetting *>(&::originalRuntimeFloatSetting1081)))))))
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((PromptMenu*)DAT_011db0d4)->secondary))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::PromptSetting *>(&::g_011d46d8)).String()), true);
-            ((PromptMenu*)DAT_011db0d4)->secondary->SetInt(0xfa3, 1);
+            ((PromptMenu*)DAT_011db0d4)->secondary->Set(0xfa3, 1);
             DAT_011db0d8 = true;
             DAT_011db0c4 = 1.0f;
             DAT_011db0c0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PromptSetting *>(&::originalRuntimeFloatSetting1084))))));
@@ -2588,15 +2584,15 @@ void __cdecl FUN_007eb920(WeaponPrompt* weapon)
         }
         else
         {
-            ((PromptMenu*)DAT_011db0d4)->secondary->SetInt(0xfa3, 0);
+            ((PromptMenu*)DAT_011db0d4)->secondary->Set(0xfa3, 0);
             DAT_011db0d8 = false;
         }
     }
     else
     {
-        ((PromptMenu*)DAT_011db0d4)->primary->SetInt(0xfa3, 0);
+        ((PromptMenu*)DAT_011db0d4)->primary->Set(0xfa3, 0);
         DAT_011db0cf = false;
-        ((PromptMenu*)DAT_011db0d4)->secondary->SetInt(0xfa3, 0);
+        ((PromptMenu*)DAT_011db0d4)->secondary->Set(0xfa3, 0);
         DAT_011db0cf = false;
     }
 }
@@ -3981,10 +3977,6 @@ struct FormX
 {
     unsigned int FUN_0044ddc0();
 };
-struct TileX
-{
-    void FUN_00700320(int, int);
-};
 struct ChanceX
 {
     char pad00[0x20];
@@ -3994,7 +3986,7 @@ struct ChanceX
     unsigned char b2d;
     char pad2e;
     unsigned char b2f;
-    TileX* tile;
+    ::Tile* tile;
 };
 struct VTarget
 {
@@ -4258,7 +4250,7 @@ void Owner7::UpdateLimbHighlight()
             }
         advance:
             ((ChanceX*)*node7->FUN_006815c0())
-                ->tile->FUN_00700320(
+                ->tile->Set(
                     sLimbNameVisible,
                     (std::intptr_t)((Owner7*)DAT_011db0d4)->FUN_007f3bf0(((Owner7*)DAT_011db0d4)->m_pTargetChance->f20) ==
                             (std::intptr_t)((Owner7*)DAT_011db0d4)->FUN_007f3bf0(((ChanceX*)*node7->FUN_006815c0())->f20)

@@ -743,10 +743,6 @@ class TESNPC
   public:
     TESHair* GetHair();
 };
-struct FUN_007adc60_shell
-{
-    void FUN_007adc60(int, bool);
-};
 struct FUN_007b1ca0_t
 {
     char pad[0xd8];
@@ -780,8 +776,8 @@ void FUN_007b1ca0_t::UpdateHairAndEyes()
         reinterpret_cast<::FUN_00603200_shell *>((pNPC))->SetEyes((::TESEyes *)(::fnv_007b1ca0::TESEyes *)(((FUN_004ac110_shell*)pNPC)->FUN_004ac110()->GetReferencedValue()));
         UpdateEyeTextures();
     }
-    ((FUN_007adc60_shell*)this)->FUN_007adc60(0, true);
-    ((FUN_007adc60_shell*)this)->FUN_007adc60(1, true);
+    ((::FUN_007adc60_shell*)this)->FUN_007adc60(0, true);
+    ((::FUN_007adc60_shell*)this)->FUN_007adc60(1, true);
 }
 }  // namespace fnv_007b1ca0
 

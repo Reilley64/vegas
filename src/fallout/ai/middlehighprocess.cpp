@@ -6070,10 +6070,6 @@ class TESObjectWEAP
 struct ItemChange_S
 {
 };
-struct FUN_00493830_shell
-{
-    bool FUN_00493830();
-};
 struct Animation
 {
     bool IsGroupQueued(unsigned short);
@@ -6253,7 +6249,7 @@ void FUN_00923020_shell::UpdateWeaponAnimation(Actor* apActor)
         {
             apWeapon = ((::fnv_00923020::TESObjectWEAP *)(reinterpret_cast<::Twin_0044ddc0 *>(((*(ItemChange_S**)&this->pWeapon)))->GetName()));
             eWeaponGroup = (*reinterpret_cast<fnv_00923020::ANIM_GROUP_WEAPON_ENUM (*)[]>(&::DAT_0118a838))[apWeapon->GetWeaponType()];
-            if (!(*(FUN_00493830_shell**)&this->pCurrentAnimation)->FUN_00493830() &&
+            if (!(*(::FUN_00493830_shell**)&this->pCurrentAnimation)->FUN_00493830() &&
                 ((::fnv_00923020::NiControllerManager *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>(((*(Animation**)&this->pCurrentAnimation)))->FUN_00496940())) &&
                 !(*(Animation**)&this->pCurrentAnimation)
                      ->IsGroupQueued(::TESAnimGroup::AnimGroup((::ANIM_GROUP_MOVE_ENUM)(0), (*(::ANIM_GROUP_WEAPON_ENUM *)&(eWeaponGroup)), (::ANIM_GROUP_ENUM)(0x18), false)) &&
@@ -6264,7 +6260,7 @@ void FUN_00923020_shell::UpdateWeaponAnimation(Actor* apActor)
                 reinterpret_cast<::S_00490400_Anim *>(((*(Animation**)&this->pCurrentAnimation)))->FUN_00490400(pfileList);
             }
         }
-        if (*(Animation**)&this->pCurrentAnimation && (*(FUN_00493830_shell**)&this->pCurrentAnimation)->FUN_00493830())
+        if (*(Animation**)&this->pCurrentAnimation && (*(::FUN_00493830_shell**)&this->pCurrentAnimation)->FUN_00493830())
             return;
         if (reinterpret_cast<::s5722c0::Actor *>((((Actor_S*)apActor)))->FUN_005722c0(false))
             reinterpret_cast<::BipedAnim *>((((Actor_S*)apActor)))->AttachFaceGenNode();

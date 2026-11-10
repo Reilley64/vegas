@@ -1937,10 +1937,6 @@ struct _Mem_2064
     _Mem_2064(const NiPoint3& p, const void* nm, unsigned short tri);
     ~_Mem_2064();
 };
-struct PLArr
-{
-    unsigned int FUN_006cf1b0(const PathingLocation& loc);
-};
 bool __cdecl FUN_006d7350(PathingLocation& a, PathingLocation& b, PathingLocation* c, void* d);
 
 struct PathingLocationSub
@@ -2069,7 +2065,7 @@ bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
         {
             _Mem_2064 tmpPL(((::DoorHandle *)(reinterpret_cast<::fnv_006cedf0::FUN_006cee10_shell *>((((LocAcc*)&flag)))->GetFirstEntry()))->position, ((::DoorHandle *)(reinterpret_cast<::fnv_006cedf0::FUN_006cee10_shell *>((((LocAcc*)&flag)))->GetFirstEntry()))->mesh,
                             ((::DoorHandle *)(reinterpret_cast<::fnv_006cedf0::FUN_006cee10_shell *>((((LocAcc*)&flag)))->GetFirstEntry()))->triangle);
-            ((PLArr*)&locA)->FUN_006cf1b0(*(PathingLocation*)&tmpPL);
+            ((::PathingLocationArray*)&locA)->FUN_006cf1b0(*(PathingLocation*)&tmpPL);
         }
     }
     {

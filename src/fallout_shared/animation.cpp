@@ -305,12 +305,6 @@ template <typename K, typename V> struct NiTMap
     void NewItem(void*);
 };
 class CombatThreatRecord;
-class NiAVObject
-{
-  public:
-    NiFixedString& GetName();
-    void FUN_00401970();
-};
 struct WaitableObject
 {
 };
@@ -323,9 +317,9 @@ void FUN_0048f010_shell::SetAnimSequence(BSAnimGroupSequence* apSeq, bool abRele
         if (abReleaseModelLoader)
         {
             ((NiTMap<unsigned int, CombatThreatRecord*>*)g_modelLoader)
-                ->NewItem((void*)(const char*)(*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObject*)pForwardSequence)))->GetLinkToList())));
+                ->NewItem((void*)(const char*)(*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((::WaitableObject*)pForwardSequence)))->GetLinkToList())));
         }
-        ((NiAVObject*)pForwardSequence)->FUN_00401970();
+        ((::WaitableObject*)pForwardSequence)->FUN_00401970();
     }
     pForwardSequence = apSeq;
     if (pForwardSequence)

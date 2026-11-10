@@ -155,11 +155,6 @@ public:
     static float GetInterfaceScale();
 };
 namespace fnv_007a8df0 {
-class Tile
-{
-  public:
-    void Set(int, int);
-};
 
 struct Interface
 {
@@ -177,7 +172,7 @@ void __cdecl FUN_007a8df0()
 {
     if ((*reinterpret_cast<void * *>(&::DAT_011da4f0)))
     {
-        ((::fnv_007a8df0::Tile *)(reinterpret_cast<::MenuFields *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->tile))->Set(0x1772, 1);
+        ((::Tile *)(reinterpret_cast<::MenuFields *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->tile))->Set(0x1772, 1);
         if (((std::intptr_t)(::FUN_00707ad0())))
             reinterpret_cast<::fnv_00a1d9e0::FUN_00a1d9e0_shell *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->FUN_00a1d9e0();
         else

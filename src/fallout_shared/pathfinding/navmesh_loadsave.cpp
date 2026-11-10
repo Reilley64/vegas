@@ -476,10 +476,6 @@ struct S5460
 struct GlobalObject_00869f00
 {
 };
-struct FUN_0072ba80_shell
-{
-    void FUN_0072ba80(void*, unsigned int);
-};
 struct FUN_00692320_shell
 {
 };
@@ -515,7 +511,7 @@ void FUN_00694b10_shell::FUN_00694b10(unsigned int size, bool abShrink)
     }
     else if (size < allocated)
     {
-        ((FUN_0072ba80_shell*)this)->FUN_0072ba80((char*)p + size * 0xc, allocated - size);
+        ((::FUN_0072ba80_shell*)this)->FUN_0072ba80((char*)p + size * 0xc, allocated - size);
         allocated = size;
         if (abShrink && size <= capacity / 4)
         {

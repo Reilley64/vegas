@@ -1217,13 +1217,6 @@ class Calendar
   public:
 };
 
-class ProcessLists
-{
-  public:
-    void AddMobileObjectToList(MobileObject*);
-    void RemoveMobileObjectFromList(MobileObject*);
-};
-
 class ActorDeletionQueue
 {
   public:
@@ -1260,7 +1253,7 @@ void FUN_00932d60_shell::FUN_00932d60(BGSLoadFormBuffer* apLoadGameBuffer)
         if (reinterpret_cast<::FUN_00437b90_shell *>((((Actor_Accessor*)this)))->FUN_00437b90())
         {
             reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00932d60::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
-            reinterpret_cast<::ActorDeletionQueue *>((((ActorDeletionQueue*)&(*reinterpret_cast<::fnv_00932d60::ProcessLists *>(&::g_011e0e80)))))->FUN_0096d470(this, (intptr_t)((::fnv_00932d60::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)m_pBaseProcess)))->FUN_0045cd60())));
+            reinterpret_cast<::ActorDeletionQueue *>((((ActorDeletionQueue*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->FUN_0096d470(this, (intptr_t)((::fnv_00932d60::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)m_pBaseProcess)))->FUN_0045cd60())));
             delete m_pBaseProcess;
             reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_00932d60::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fba0();
             m_pBaseProcess = 0;
@@ -1280,11 +1273,11 @@ void FUN_00932d60_shell::FUN_00932d60(BGSLoadFormBuffer* apLoadGameBuffer)
                     else
                         Unk_91();
                     reinterpret_cast<::FUN_00693d50_shell *>((((ActiveEffect*)m_pBaseProcess)))->FUN_00693d50(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_00932d60::Calendar *>(&::g_011de7b8))))->GetGameTime() - 0.5);
-                    (*reinterpret_cast<::fnv_00932d60::ProcessLists *>(&::g_011e0e80)).RemoveMobileObjectFromList(this);
+                    (*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)).RemoveMobileObjectFromList(this);
                 }
                 else
                 {
-                    (*reinterpret_cast<::fnv_00932d60::ProcessLists *>(&::g_011e0e80)).AddMobileObjectToList(this);
+                    (*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)).AddMobileObjectToList(this);
                 }
             }
         }

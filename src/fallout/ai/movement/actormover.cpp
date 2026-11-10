@@ -5036,10 +5036,6 @@ struct PLoc
     ~PLoc();
     Vec3 FUN_005c3420();
 };
-struct Req
-{
-    float FUN_009b0bd0();
-};
 struct SPtr
 {
     void* p;
@@ -5408,21 +5404,21 @@ void Tgt13::UpdateTargeting()
             }
         }
         if (reinterpret_cast<::FUN_00589850_Class *>((void *)&(const ::fnv_009de8b0::Vec3 &)((*(::fnv_009de8b0::Vec3 *)(reinterpret_cast<::FUN_00439ef0_class *>((actor->GetPos()))->FUN_00439ef0((::NiPoint3 *)(::fnv_009de8b0::Vec3 *)((*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer))->GetPos()), *(const ::NiPoint3 *)nullptr)))))->FUN_00589850() >
-            ((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))->FUN_009b0bd0() * 2)
+            ((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))->GetCenterRadius() * 2)
             iAB = true;
     }
     if (actor->FUN_00931850() == 0)
     {
-        bA4 = ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))))->GetContainingCell()));
-        zX = ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))))->GetContainingCell()));
+        bA4 = ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))))->GetContainingCell()));
+        zX = ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))))->GetContainingCell()));
         if (0 != bA4 && 0 != zX)
         {
             bool resultB;
-            resultB = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::fnv_009de8b0::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)(::fnv_009de8b0::Vec3 *)(&ResultSlot(((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420())), (::CellView *)(bA4)) >
-                      ((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420().z;
+            resultB = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::fnv_009de8b0::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)(::fnv_009de8b0::Vec3 *)(&ResultSlot(((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420())), (::CellView *)(bA4)) >
+                      ((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420().z;
             bool y6;
-            y6 = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::fnv_009de8b0::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)(::fnv_009de8b0::Vec3 *)(&ResultSlot(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420())), (::CellView *)(zX)) >
-                 ((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420().z;
+            y6 = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::fnv_009de8b0::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)(::fnv_009de8b0::Vec3 *)(&ResultSlot(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420())), (::CellView *)(zX)) >
+                 ((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420().z;
             if (resultB != y6)
                 iAB = true;
         }
@@ -5434,7 +5430,7 @@ void Tgt13::UpdateTargeting()
     if (iAB)
     {
         Helper13 solution4;
-        reinterpret_cast<::FUN_006d3ac0_Class *>(&(solution4))->AssignPathingLocation((*(const ::PathingLocation *)(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((Req*)((void *)(::FUN_00559450((int *)&(spReq))))))))))));
+        reinterpret_cast<::FUN_006d3ac0_Class *>(&(solution4))->AssignPathingLocation((*(const ::PathingLocation *)(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((::PathingRequest*)((void *)(::FUN_00559450((int *)&(spReq))))))))))));
         solution4.FUN_006d1bc0(actor);
         solution4.FUN_006d3b00(10.0f);
         reinterpret_cast<::FUN_006d3ae0 *>(&(solution4))->SetValue((float)(reinterpret_cast<::fnv_008be280::FloatValueProvider *>((actor))->FUN_008be280() * (double)0.6f));

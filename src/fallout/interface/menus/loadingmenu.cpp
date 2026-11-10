@@ -2794,14 +2794,6 @@ struct NiPoint3
     float x, y, z;
 };
 
-class TileX
-{
-  public:
-    void Set(int aeValue, float afValue, bool abPropagate);
-    void Set(int aeValue, unsigned int auiValue);
-    void FUN_00a0b520();
-};
-
 struct TileListX
 {
 };
@@ -2833,10 +2825,10 @@ class LoadingMenuX
 {
   public:
     unsigned char _pad00[0x50];
-    TileX* pXPBar;
+    ::TileWork* pXPBar;
     unsigned char _pad54[0x10];
-    TileX* pXPText;
-    TileX* pXPBox;
+    ::TileWork* pXPText;
+    ::TileWork* pXPBox;
     unsigned char _pad6c[0xc0 - 0x6c];
     int iXPMin;
     int iXPMin2;
@@ -2856,7 +2848,7 @@ void LoadingMenuX::ApplyXPBarSettings(LoadingTileSettingsX* apSettings)
     void* pos = ((void *)(::FUN_00559450((int *)&(m_kThirdTileList))));
     while (pos)
     {
-        TileX* pTile = ((::fnv_0078c210::TileX *)(reinterpret_cast<::ListStandIn *>(&(m_kThirdTileList))->FUN_0057cbe0((int **)&(pos))));
+        ::TileWork* pTile = ((::TileWork *)(reinterpret_cast<::ListStandIn *>(&(m_kThirdTileList))->FUN_0057cbe0((int **)&(pos))));
         if (pTile)
         {
             if (pTile == pXPBox)

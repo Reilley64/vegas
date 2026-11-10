@@ -420,10 +420,6 @@ struct S_00487010
 struct S_0048a520
 {
 };
-struct FUN_00485e00_shell
-{
-    void FUN_00485e00();
-};
 struct FUN_0059b270_shell
 {
 };
@@ -441,7 +437,7 @@ void FUN_0059b1b0_shell::FUN_0059b1b0()
     reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_shell*)((char*)this + 0x5c))))->FUN_0048e370(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x68))->FUN_0047a240(0x4f43494d);
     reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_shell*)((char*)this + 0x80))))->LogFormIDs();
-    ((FUN_00485e00_shell*)this)->FUN_00485e00();
+    ((::FUN_00485e00_shell*)this)->FUN_00485e00();
     reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)reinterpret_cast<::FUN_0059b270_shell *>((((FUN_0059b270_shell*)this)))->FUN_0059b270(0))))->ProcessAndFreeData(0x32444f4d, 0x54444f4d, 0x53444f4d);
     reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)reinterpret_cast<::FUN_0059b270_shell *>((((FUN_0059b270_shell*)this)))->FUN_0059b270(1))))->ProcessAndFreeData(0x33444f4d, 0x54444f4d, 0x53444f4d);
     ((FUN_00485680*)this)->M();

@@ -636,16 +636,12 @@ struct NavMeshSearchLOSArray
 {
     void FUN_006a8500();
 };
-struct FUN_0072ba80_shell
-{
-    void FUN_0072ba80(void* p, unsigned int n);
-};
 // @fnv 0x008454f0
 void FUN_008454f0::Clear(bool freeStorage)
 {
     if (pBuffer)
     {
-        ((FUN_0072ba80_shell*)this)->FUN_0072ba80(pBuffer, iSize);
+        ((::FUN_0072ba80_shell*)this)->FUN_0072ba80(pBuffer, iSize);
         if (freeStorage)
         {
             ::FUN_006a8500((::DummyClass_006a8500 *)(((NavMeshSearchLOSArray*)this)));

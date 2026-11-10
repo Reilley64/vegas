@@ -659,10 +659,6 @@ struct FUN_008579e0_shell
     void FUN_008579e0(void*, unsigned int);
 };
 namespace fnv_00484d00 {
-struct FUN_008579e0_shell
-{
-    void FUN_008579e0(void* buffer, unsigned int size);
-};
 
 
 struct FUN_00484d00_shell
@@ -673,7 +669,7 @@ struct FUN_00484d00_shell
 // @fnv 0x00484d00
 void FUN_00484d00_shell::FUN_00484d00(void* buffer, unsigned int size)
 {
-    reinterpret_cast<FUN_008579e0_shell*>(::g_TESSaveLoadGame)->FUN_008579e0(buffer, size);
+    reinterpret_cast<::FUN_008579e0_shell*>(::g_TESSaveLoadGame)->FUN_008579e0(buffer, size);
 }
 }  // namespace fnv_00484d00
 
@@ -858,10 +854,6 @@ struct FUN_00855150_s
 {
     void FUN_00855150(TESForm*, unsigned int);
 };
-struct FUN_008579e0_shell
-{
-    void FUN_008579e0(void*, unsigned int);
-};
 struct ATM
 {
 };
@@ -981,7 +973,7 @@ bool FUN_00858730_shell::FUN_00858730(TESForm* apForm)
 
             reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_00858730::ATM *>(&::g_011de494))))->FUN_004538a0((std::intptr_t)"TESSaveLoadGame::LoadForm");
             this->unk14 = ptempbuffer;
-            ((FUN_008579e0_shell*)::g_TESSaveLoadGame)->FUN_008579e0(&formHeader, 4);
+            ((::FUN_008579e0_shell*)::g_TESSaveLoadGame)->FUN_008579e0(&formHeader, 4);
             if (FNV_GetFormType(apForm) != formHeader.type)
             {
                 char pmessageA[260];

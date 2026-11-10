@@ -2805,7 +2805,6 @@ class TESFullName;
 struct GlobalVariableForm;
 struct TESImageSpace;
 class TESObject;
-class TESObjectCELL;
 struct TESTerrainLODManager;
 class TESTexture;
 struct TESWaterForm;
@@ -2829,12 +2828,6 @@ struct NiPoint3
 {
     float x, y, z;
     NiPoint3 operator-(const NiPoint3& kPt) const;
-};
-
-class TESObjectCELL
-{
-  public:
-    bool IsCellInterior() const;
 };
 
 namespace FO {
@@ -3390,12 +3383,12 @@ bool FUN_00676e40_Package::IsActorInPackageRadius(FO::MobileObject* apMobileObje
     bool bsamespace;
     bool boverride;
     char message[300];
-    TESObjectCELL* pactorintcell;
+    ::TESObjectCELL* pactorintcell;
     bool bGoodPt;
     bool bexactpos;
     TESWorldSpace* pactorworld;
     NiPoint3 targloc;
-    TESObjectCELL* ptargintcell;
+    ::TESObjectCELL* ptargintcell;
 
     if (!apMobileObject || !apMobileObject->GetPackageTargetRef())
         return false;
@@ -3409,11 +3402,11 @@ bool FUN_00676e40_Package::IsActorInPackageRadius(FO::MobileObject* apMobileObje
     if (((void *)(reinterpret_cast<::TESObjectREFR *>((ptargref))->GetExtraRadioData())))
         targloc = *((::fnv_00676e40::NiPoint3 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((ptargref))->FUN_00568fa0()));
     ptargworld = ((::fnv_00676e40::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((ptargref))->FUN_00575d70()));
-    ptargintcell = ((::fnv_00676e40::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((ptargref))->GetTarget()));
+    ptargintcell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((ptargref))->GetTarget()));
     if (ptargintcell && !ptargintcell->IsCellInterior())
         ptargintcell = 0;
     pactorworld = ((::fnv_00676e40::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((apMobileObject))->FUN_00575d70()));
-    pactorintcell = ((::fnv_00676e40::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apMobileObject))->GetTarget()));
+    pactorintcell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apMobileObject))->GetTarget()));
     if (pactorintcell && !pactorintcell->IsCellInterior())
         pactorintcell = 0;
 

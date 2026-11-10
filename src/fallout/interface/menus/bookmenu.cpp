@@ -610,12 +610,6 @@ class Menu
 {
 };
 
-class Tile
-{
-  public:
-    void Set(int, int);
-};
-
 class TESObject
 {
 };
@@ -632,7 +626,7 @@ struct FUN_0073b480_shell
 // @fnv 0x0073b480
 void FUN_0073b480_shell::UpdateMenuTile()
 {
-    Tile* ptile = ((::fnv_0073b480::Tile *)(::FUN_00a09030(0x402)));
+    ::Tile* ptile = ((::Tile *)(::FUN_00a09030(0x402)));
     if (ptile && ((::fnv_0073b480::Menu *)(reinterpret_cast<::FUN_00a03c90_shell *>((ptile))->FUN_00a03c90())))
     {
         ptile->Set(0x1772, 1);

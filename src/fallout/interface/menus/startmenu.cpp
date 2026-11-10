@@ -2364,10 +2364,6 @@ struct Interface
 public:
     static float GetInterfaceFloat();
 };
-struct SaveEntryStandIn
-{
-    bool LoadSaveEntry();
-};
 struct SaveEntryNode
 {
 };
@@ -2389,11 +2385,11 @@ struct FUN_008467b0_shell
 // @fnv 0x007d3190
 void HandleSaveLoadMenuAction()
 {
-    if (!(SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134)) || !*((::SaveEntryStandIn **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))
+    if (!(SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134)) || !*((::FUN_008467b0_shell **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))
         (*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))->FUN_00851330();
-    if ((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134)) && *((::SaveEntryStandIn **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))
+    if ((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134)) && *((::FUN_008467b0_shell **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))
     {
-        if (reinterpret_cast<::BGSSaveLoadFileEntry *>(((*((::SaveEntryStandIn **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))))->IsSaveEntryValid())
+        if (reinterpret_cast<::BGSSaveLoadFileEntry *>(((*((::FUN_008467b0_shell **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))))->IsSaveEntryValid())
         {
             ::fnv_00703e80::FUN_00703e80(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1f14))))->GetMenuTitle())), 0, 0, 0, 0, 5, 0.0f, 0.0f, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d38b8))))->GetMenuTitle())),
                                         0);
@@ -2401,7 +2397,7 @@ void HandleSaveLoadMenuAction()
         else
         {
             FUN_00af59e0();
-            (*((::SaveEntryStandIn **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))->LoadSaveEntry();
+            (*((::FUN_008467b0_shell **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))->LoadSaveEntry();
         }
     }
     else

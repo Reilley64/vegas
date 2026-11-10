@@ -125,11 +125,6 @@ public:
 };
 
 namespace fnv_007e7de0 {
-class Tile
-{
-  public:
-    void Set(int, int);
-};
 class Menu
 {
 };
@@ -146,7 +141,7 @@ void FUN_007e7de0()
     {
         if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_007e7de0::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
             reinterpret_cast<::ProcessListsSub *>(&((*reinterpret_cast<::fnv_007e7de0::FUN_00975d10_host *>(&::g_011e0e80))))->UpdateActor3D();
-        ((::fnv_007e7de0::Tile *)(reinterpret_cast<::MenuFields *>(((*reinterpret_cast<::fnv_007e7de0::Menu * *>(&::DAT_011db00c))))->tile))->Set(0x1772, 1);
+        ((::Tile *)(reinterpret_cast<::MenuFields *>(((*reinterpret_cast<::fnv_007e7de0::Menu * *>(&::DAT_011db00c))))->tile))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<::fnv_007e7de0::Menu * *>(&::DAT_011db00c))))->FUN_00a1d910();
     }
 }

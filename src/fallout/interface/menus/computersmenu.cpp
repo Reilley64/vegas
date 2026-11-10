@@ -346,10 +346,6 @@ struct GlobalObject_0048f200
 {
     ~GlobalObject_0048f200();
 };
-struct FUN_00759850_owner
-{
-    void FUN_00759850();
-};
 struct FUN_007597f0 : GlobalObject_0048f200
 {
     ~FUN_007597f0();
@@ -358,7 +354,7 @@ struct FUN_007597f0 : GlobalObject_0048f200
 // @fnv 0x007597f0
 FUN_007597f0::~FUN_007597f0()
 {
-    ((FUN_00759850_owner*)this)->FUN_00759850();
+    ((::Holder*)this)->FUN_00759850();
 }
 }  // namespace fnv_007597f0
 

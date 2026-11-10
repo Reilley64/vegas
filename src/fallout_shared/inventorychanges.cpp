@@ -802,10 +802,6 @@ struct FUN_004bfda0_shell : public InventoryChanges
 struct FUN_00418ab0_shell
 {
 };
-struct FUN_00418b10_shell
-{
-    bool FUN_00418b10();
-};
 struct FUN_0041aa20_shell
 {
 };
@@ -827,7 +823,7 @@ ExtraDataList* FUN_004bfda0_shell::FUN_004bfda0(TESBoundObject* apObj, bool bsho
             ExtraDataList* pExtra = *((::ExtraDataList **)((void *)(node)));
             if (pExtra && reinterpret_cast<::FUN_00418ab0_shell *>((((FUN_00418ab0_shell*)pExtra)))->FUN_00418ab0(false))
                 return pExtra;
-            else if (pExtra && ((FUN_00418b10_shell*)pExtra)->FUN_00418b10() && bshouldwear)
+            else if (pExtra && ((::FUN_00418b10_shell*)pExtra)->FUN_00418b10() && bshouldwear)
             {
                 reinterpret_cast<::FUN_0041aa20_shell *>((((FUN_0041aa20_shell*)pExtra)))->SetWornState(true, false);
                 return pExtra;

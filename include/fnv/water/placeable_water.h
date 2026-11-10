@@ -3,6 +3,7 @@
 #ifndef FNV_WATER_PLACEABLE_WATER_H
 #define FNV_WATER_PLACEABLE_WATER_H
 
+#include <cstddef>
 #include <cstdint>
 
 struct BGSPlaceableWater;
@@ -40,6 +41,8 @@ class PlaceableWaterData
         return ulFlags == arOther.ulFlags && m_pOwningWater == arOther.m_pOwningWater;
     }
 };
+
+static_assert(offsetof(PlaceableWaterData, ulFlags) == 0);
 
 namespace fnv::water
 {

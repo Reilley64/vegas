@@ -36,8 +36,9 @@ owner, so the allocation has the size of the complete type.
 
 The LOD producer now derives from `TESWaterForm` and uses its
 `m_pPlaceableWater` member, as the auto producer uses `m_pPlaceableAutoWater`.
-It used to read and write the pointer at a fixed `0x184` bytes into the
-receiver. Its return type is `::BGSPlaceableWater*`; the separate
+It used to read and write the pointer through a private view of the receiver
+with `0x184` bytes of padding before the member, which on windows-x64 put the
+pointer at `0x188` (392). Its return type is `::BGSPlaceableWater*`; the separate
 `fnv_00580330::BGSPlaceableWater` name is gone, which changes the function's
 linked name for its one caller in `teswater.cpp`.
 
@@ -103,10 +104,37 @@ header. It is not a test of form construction, publication or retirement.
   record through the native `Data` object, and the save entry still constructs
   a `HungerStageData` in a local `PlaceableWaterData`. The owning water's form
   ID is not carried between the record and the pointer on a 64-bit target.
+  This is unchanged from the previous tip.
+- `FUN_004fc860` (copy), `FUN_004fc8c0` (compare) and `FUN_004fc7b0` (save)
+  have no consumer: no object in the archive references them. They run only
+  once the form's dispatch is wired.
 - The producers still end with the empty `SetSound` body. VEGAS-78 owns it.
 - No source path destroys the forms the two water-form producers publish.
-- The receivers that callers cast for `FUN_00580130`, `FUN_00580330` and
-  `HasFlags` are not established to be the complete types.
+- Each producer has one caller, and both pass a `TESWaterForm*`:
+  `bgsautowater.cpp` calls `FUN_00580130` on the result of `FUN_00547770`, and
+  `teswater.cpp` calls `FUN_00580330` on the result of `FUN_005860c0`. Both of
+  those return `::TESWaterForm*`. The receivers that callers cast for
+  `HasFlags` are not established to be the complete type.
+- No water form can exist in a linkable program, and the views of
+  `TESWaterForm` do not agree. Measured on windows-x64:
+
+  | View | Size or offset in bytes |
+  | --- | --- |
+  | shared `TESWaterForm` declaration (`teswaterform_types_TESWaterForm.h`) | 520 |
+  | its `m_pPlaceableAutoWater` | 488 |
+  | its `m_pPlaceableWater` | 496 |
+  | the data handler's private `TESWaterForm`, which sizes the factory's `new TESWaterForm` | 424 |
+  | pointers the constructor body `FUN_0057eba0` nulls | 456 and 464 |
+  | auto producer's read and write, at the previous tip and now | 488 |
+  | LOD producer's read and write at the previous tip | 392 (`0x188`) |
+  | LOD producer's read and write now | 496 |
+
+  Both producers therefore write past the end of a form the factory made, and
+  at offsets the constructor body does not null. None of this can run yet:
+  `TESWaterForm::TESWaterForm`, which the factory calls, has no provider, and
+  nothing references `FUN_0057eba0`. The factory's allocation and the
+  constructor body must be bound to the complete type before any provider of
+  that constructor lands.
 - The owner and `tesobject.cpp` each declare `TESBoundObject`; that the two
   agree is not established.
 - The data handler's other form types are still sized by its private views.

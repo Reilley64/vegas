@@ -131,6 +131,10 @@ void ClearCopyAndCompare()
     copy.SetFlags(0x20, false);
     Check(copy == original, "restored flags compare equal");
 
+    copy.SetFlags(0x80000000u, true);
+    Check(!(copy == original), "flags that differ only in a high bit compare unequal");
+    copy.SetFlags(0x80000000u, false);
+
     copy.m_pOwningWater = Water(1);
     Check(original.m_pOwningWater == Water(0), "a copy does not alias the original's owning water");
     Check(!(copy == original), "a different owning water compares unequal");

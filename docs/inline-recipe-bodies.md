@@ -13,6 +13,14 @@ top of the source folder) and VEGAS-16 (its header, in the Gamebryo folder).
 Their criterion is "each function that existed in several variant units has
 one definition". No repair-family ticket names any of these symbols.
 
+This change checks no acceptance criterion of those tickets. None of the
+eleven functions existed in several variant units: each had one tagged body
+in the tree and one function row in the recipe. The one function here that does have
+a second tagged copy, the list constructor at `0x0096a2d0` in
+`bssimplelist.cpp`, keeps it (`docs/simple-list-default-constructor.md`).
+The change is credited with two things only: each of these names now has one
+emitted definition, and the link measure below.
+
 This is a bounded change. What stays open is under "Not covered" and "The
 rest of the category".
 
@@ -70,6 +78,11 @@ objects differ, one per owning unit.
 | forced unlimited: undefined names | 35,672 | 35,654 |
 | forced unlimited: imports | 137 | the same 137 |
 
+Carried onto 6221c1167 and measured again, both builds from the same export
+path: 35,592 undefined names before and 35,574 after, 0 duplicate symbols,
+the same 137 imports and the same 2,223 members. The same 18 names leave and
+none enters.
+
 The two changes were measured together. Ten of the 18 names that leave are
 from this change, and none enters:
 
@@ -84,8 +97,11 @@ from this change, and none enters:
 - `FUN_0050ea10_class::FUN_0050ea10(NiPoint3&) const`
 - `ActorPathHandler::CompleteNoPathUpdate(float)`
 
-`BSAudioDefinition::operator=` is emitted too, but its one requirer spells
-the return type `struct BSAudioDefinition&` and stays undefined.
+`BSAudioDefinition::operator=` is emitted too, with no requirer under its
+name. Its one requirer, `bsaudiomanager`, spells the return and argument type
+`struct BSAudioDefinition&` and stays undefined. It is emitted because the
+recipe's function row at `0x00ae88c0` owns that name in this unit, not
+because an object requires it.
 
 Each of the eleven definitions is an ordinary function in a section that
 refuses a second definition. None is select-any. The build has the same
@@ -95,7 +111,7 @@ warning count and the same warning classes.
 
 From the objects of the windows-x64 build, before and after:
 
-| Function | Objects that require it | Other names the recipe binds to the address |
+| Function | Objects that require it | Other undefined names in the archive at the address |
 | --- | --- | --- |
 | `NiObject::DynamicCast` | 36 | 13, still undefined |
 | `BSFaceGenMorphData::DynamicCast` | 2 | none |
@@ -112,6 +128,15 @@ From the objects of the windows-x64 build, before and after:
 The other names at an address are second names for the same function under
 another class or signature. They now have a definition to be joined to, which
 is naming work and not part of this change.
+
+The last column counts undefined names in the archive, not recipe rows. The
+recipe binds one more name to `0x00ae8770`:
+`SoundDebugDescription::SoundDebugDescription()`, a symbol row of
+`bsaudiomanager.cpp`. That unit defines it inline and no object requires it.
+
+`vtables_0109.cpp` does not name `CompleteNoPathUpdate` in C++. It declares a
+generated label, `fnv_fn_009dfdf0`, with the member's linker name and stores
+its address in two table slots.
 
 ## Programs
 
@@ -144,14 +169,61 @@ These were open before this change and remain open.
   | `BSFaceGenMorphData::DynamicCast` | passes `this + 0x1ec` on | the same `0x1ec`; the class declares 0x1ec bytes of padding |
   | `FUN_0050ea10` | reads at `0xc` and `0x18` | the same; the class declares 0xc bytes of padding |
 
+  The two getters are 17-byte bodies in the original, and the recipe binds
+  each address under other class names too. `0x005d8a70` has seven:
+  `FormNode::FUN_005d8a70`, `FUN_0047d410_cls::FUN_005d8a70`,
+  `FUN_0047d800_shell::FUN_005d8a70`, `FUN_0047e4a0_cls::GetFactionHead`,
+  `fnv_0047e6f0::TESActorBaseData_Shell::FUN_005d8a70` and
+  `TESRegion::GetDiffuseColor` in the namespaces `fnv_0047ca20` and
+  `fnv_0047d680`. `0x008d8520` has one, `PlayerQuestData::GetLogDate`. 14
+  objects require the `TESRegion` getter and 143 the `GetBaseTexture` getter,
+  149 distinct objects.
+
+  INFERENCE, not measured: these are accessors of several classes that the
+  original linker folded into one address because their bytes were equal. If
+  so, many of the requirers pass a receiver of another class, and for that
+  receiver the windows-x64 offsets `+0x4c` and `+0xa0` are wrong.
+
 - `BSAudioDefinition` storage. The class is 572 bytes in the original and 584
-  in the windows-x64 build, where the constructor writes all 584 bytes and the
-  second pointer sits at `0x110`. `bsaudiomanager.cpp` constructs it in place
-  in three records of its own. Two of them, `DebugInfo` and `DebugPlain`, are
-  576 bytes there and put that pointer at `0x108`. The third,
-  `Sub18_00ae5a50`, is 584 bytes. So two of the three sites would be written 8
-  bytes past their record, with fields at other offsets. `bsaudiomanager` is
-  in no linking program.
+  in the windows-x64 build, with the second pointer at `0x110`. The emitted
+  constructor stores into bytes 0 to 583; its last store covers
+  `[0x240, 0x248)`. `bsaudiomanager.cpp` declares the storage four ways, not
+  three: its own `BSAudioDefinition` without members, 1 byte, as the member
+  `_18` of `FUN_00ae89f0`; `Sub18_00ae5a50`; `DebugInfo`; and `DebugPlain`.
+  Measured in that unit:
+
+  | Record in `bsaudiomanager.cpp` | Size | Where the definition sits |
+  | --- | --- | --- |
+  | `FUN_00ae89f0` | 28, alignment 4 | member `_18` at `0x18`, 1 byte |
+  | `SoundInfoWrap` | 596, alignment 4 | that record as its head, then 568 bytes of padding |
+  | `Msg_00ae5a50` | 608 | `Sub18_00ae5a50` at `0x18`, 584 bytes, second pointer at `0x110` |
+  | `DebugInfo`, `DebugPlain` | 576 each | at offset 0, second pointer at `0x108` |
+  | `TempInfo` | 600 | a `DebugPlain` at `0x18` |
+
+  The owning unit's `BSSoundInfo` is 608 bytes with the definition at `0x18`.
+  The object has six relocations to the constructor:
+
+  | Site | Storage constructed | Written range in the record | Past the record |
+  | --- | --- | --- | --- |
+  | `FUN_00ae89f0::FUN_00ae89f0()`, out of line | `this + 0x18` of the caller's record | `[0x18, 0x260)` | depends on the enclosing record; 580 bytes for a bare 28-byte one |
+  | `Mgr_00ae5a50::FUN_00ae5a50`, `new Msg_00ae5a50` | `0x18` of a 608-byte heap block | `[0x18, 0x260)` | 0, fits |
+  | `ThisClsAda::FUN_00ada5d0`, local `info15` | `0x18` of the 596-byte `SoundInfoWrap` | `[0x18, 0x260)` | 12 |
+  | the same function, local `descB_` | offset 0 of the 576-byte `DebugInfo` | `[0, 0x248)` | 8 |
+  | the same function, local `debug4` | offset 0 of the 576-byte `DebugInfo` | `[0, 0x248)` | 8 |
+  | the same function, temporary `TempInfo` | its `debug` member, `0x18` of 600 bytes | `[0x18, 0x260)` | 8 |
+
+  So four of the six sites would be written past their record, and the three
+  576-byte ones have the second pointer at another offset. The sizes and
+  offsets are compiler-evaluated in the unit; the sites are the relocations
+  and the instructions before them in the windows-x64 object.
+
+  These layouts must be repaired before any program links `bsaudiomanager`.
+  The same holds for the 8-byte list in `bsfacegenanimationdata`
+  (`docs/simple-list-default-constructor.md`). Until this change the
+  constructors were undefined, so such a link failed. It no longer fails on
+  these names. `bsaudiomanager` is in no linking program today.
+- `FUN_0050ea10` calls `NiPoint3::operator-(const NiPoint3&) const`. No object
+  defines it. 46 objects require it, `tesobject` newly.
 - The two destructors are a single return in the windows-x64 build. Their
   bodies only store into the object being destroyed, and the compiler removes
   such stores. The original bodies are 129 and 74 bytes.
@@ -175,8 +247,10 @@ addresses. Of the 42 names that left, 18 are now defined and 24 are second
 names at an address that now has a definition.
 
 The rule applied: emit a body when it exists under the name a requirer uses
-and no object emits it. A body that exists only under another name or
-signature is naming work and was left alone.
+and no object emits it. A member that the recipe's function row names in the
+same unit is emitted with it even when no object requires that spelling;
+`BSAudioDefinition::operator=` is the one case. A body that exists only
+under another name or signature is naming work and was left alone.
 
 What remains, by reason:
 

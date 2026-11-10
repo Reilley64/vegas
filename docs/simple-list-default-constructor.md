@@ -63,6 +63,12 @@ the 18 undefined names that leave are from this change, and none enters:
 Each new definition is select-any, 10 bytes, with no relocation, and all
 eight have the same bytes. Each name has one definition in the archive.
 
+Select-any means the linker will not refuse a second body for one of these
+names if a unit adds one later; it keeps one and says nothing. The archive
+scan for names with differing definitions is the only guard. It counts 528
+such names before and after this change, and none of the eight is among
+them.
+
 ## Requirers
 
 From the objects of the windows-x64 build, before and after:
@@ -83,6 +89,25 @@ windows-x64 body writes 16 bytes: an 8-byte item and an 8-byte next pointer.
 In 24 of the 25 objects the declaration is those two members, 16 bytes. In
 `bsfacegenanimationdata.cpp` it is two `int` members, 8 bytes, so the
 constructor would write 8 bytes past a list that unit declares.
+
+The partition binds a requirement to the address through a symbol row of the
+requiring unit. Of the 27 requirements above, 17 have a row under the
+template's name at `0x0096a2d0`. Ten have none:
+
+| Object | Element type without a row |
+| --- | --- |
+| `tesnpc`, `bsconsolefilecache` | `BGSHeadPart*` |
+| `inventorymenu` | `TESBoundObject*` |
+| `mapmenu`, `actor` | `TESObjectREFR*` |
+| `playercharacter`, `testopicinfo` | `TESTopic*` |
+| `statsmenu_h_unit` | `Tile*` |
+| `levelupmenu`, `extradatalist` | `void*` |
+
+Each of these ten units binds `0x0096a2d0` under another default
+constructor's name: all ten under `fnv_00722f60::SL::SL()`, and
+`inventorymenu` and `playercharacter` also under
+`FUN_0096a2d0::FUN_0096a2d0()`. INFERENCE, not measured: the call the unit
+makes under the template's name is that same call to `0x0096a2d0`.
 
 No test names the constructor.
 
@@ -112,13 +137,18 @@ These were open before this change and remain open.
   `TESCaravanCard*`, `TESQuest*` and `TESTopicInfo*`. Emitting them here
   would mean declaring other units' classes in this unit. The other 102 are
   constructors of other classes, which is naming work.
-- The template is declared separately in 251 files. The constructor belongs
+- The template has no shared definition. Under `src/` and `include/`, 673
+  files mention `BSSimpleList`. 251 of them hold `class BSSimpleList` or
+  `struct BSSimpleList` in some form, 234 hold a template declaration of the
+  class, and 128 hold a body of the primary template. The constructor belongs
   with one shared definition that the requiring units include, so that each
   instantiates it for its own types.
 - More list constructors are undefined that the partition does not bind to
   this address, because the requiring unit has no symbol row for them, such
   as `BSSimpleList<TESForm*>::BSSimpleList()`. They were not touched.
-- The 8-byte list in `bsfacegenanimationdata.cpp` above.
+- The 8-byte list in `bsfacegenanimationdata.cpp` above. It must be repaired
+  before any program links that unit: the constructor was undefined, so such
+  a link failed, and it no longer fails on this name.
 - `bssimplelist.cpp` still holds the second copy of the body. Both it and the
   owning unit emit the class for `InventoryStackRecord*`. Their two
   destructors for that type are written differently.

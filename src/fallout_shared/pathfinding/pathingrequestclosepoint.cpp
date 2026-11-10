@@ -32,9 +32,6 @@ struct FUN_006e3f30 : PathingRequest
     FUN_006e3f30();
 };
 
-PathingRequest::PathingRequest()
-{}
-
 // Initializes the PathingRequest base and sets the name to "p?n" plus two float fields at offsets 0xb0 and 0xb4.
 // @fnv 0x006e3f30
 FUN_006e3f30::FUN_006e3f30() : PathingRequest()

@@ -88,10 +88,6 @@ template <> class NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*>
   public:
     TESTopicInfo* RemoveAt(unsigned int);
 };
-template <> class BSSimpleList<ScriptVariableInfo*>
-{
-  public:
-};
 class CameraFileFormType
 {
   public:

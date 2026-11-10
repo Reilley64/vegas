@@ -876,26 +876,6 @@ class HighProcessDetectionActor
     virtual void vfn_228();
     virtual bool vfn_22c(bool);
 };
-template <> class BSSimpleList<TESForm*>
-{
-  public:
-    TESForm* m_item;
-    BSSimpleList* m_pkNext;
-    bool IsInList(TESForm*&);
-};
-template <> class BSSimpleList<TESTopicInfo*>
-{
-  public:
-    TESTopicInfo* m_item;
-    BSSimpleList* m_pkNext;
-    BSSimpleList();
-    ~BSSimpleList();
-    bool IsEmpty();
-    void AddHead(TESTopicInfo*&);
-    void RemoveAll();
-    void RemoveHead();
-    void SetItem(TESTopicInfo* const&);
-};
 class FleePackage;
 #include "highprocess_actor.h"
 class DoorCell

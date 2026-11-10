@@ -22,12 +22,6 @@ class TESActorBase
 };
 
 class BGSQuestObjective;
-template <> class BSSimpleList<BGSQuestObjective*>
-{
-  public:
-    BGSQuestObjective* m_item;
-    BSSimpleList<BGSQuestObjective*>* m_pkNext;
-};
 
 class TESHairRaceResult
 {

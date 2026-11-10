@@ -63,13 +63,6 @@ TESSpellList::TESSpellList()
     reinterpret_cast<TESForm*>(this)->ClearData();
 }
 
-template <> class BSSimpleList<int>
-{
-  public:
-    int item;
-    BSSimpleList<int>* next;
-    ~BSSimpleList();
-};
 struct FUN_0048d060 : public BaseFormComponent
 {
     BSSimpleList<int> a;

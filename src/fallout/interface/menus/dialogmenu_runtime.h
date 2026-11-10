@@ -67,12 +67,6 @@
 #include "fnv/symbols_011f6000.h"
 #include "dialogmenu_decls.h"
 class MediaSet;
-template <> class BSSimpleList<MediaSet*>
-{
-  public:
-    MediaSet* m_item;
-    BSSimpleList* m_pkNext;
-};
 struct TaskQueueInterface
 {
   public:

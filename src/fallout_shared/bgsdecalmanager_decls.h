@@ -72,11 +72,6 @@ template <class Allocator, class T> class NiTPointerListBaseT
 };
 
 class TESTopic;
-template <> class BSSimpleList<TESTopic*>
-{
-  public:
-    const char* FUN_0043b1b0();
-};
 class TESTopicInfoData
 {
   public:

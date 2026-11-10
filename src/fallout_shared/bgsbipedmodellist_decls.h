@@ -99,11 +99,6 @@ class TESForm
 class BGSPerkEntry;
 #include "fnv/bs_simple_list.h"
 class BGSCameraShot;
-template <> class BSSimpleList<BGSCameraShot*>
-{
-  public:
-    bool IsEmpty();
-};
 class PerkEntryConditionSet;
 class BGSCameraPath
 {

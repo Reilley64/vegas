@@ -455,13 +455,6 @@ void WeatherSave::FUN_005813d0()
 
 class TESRegionData;
 
-template <> class BSSimpleList<TESRegionData*>
-{
-  public:
-    TESRegionData* m_item;
-    BSSimpleList<TESRegionData*>* m_pkNext;
-    unsigned int ItemsInList();
-};
 
 class FUN_005e79a0_t
 {

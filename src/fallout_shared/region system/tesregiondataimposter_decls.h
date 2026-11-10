@@ -18,15 +18,7 @@ struct QuantityData;
 
 #include "fnv/bs_simple_list.h"
 
-template <> class BSSimpleList<TESGrass*>
-{
-  public:
-};
 
-template <> class BSSimpleList<QuantityData*>
-{
-  public:
-};
 
 class TESTopicInfoData
 {

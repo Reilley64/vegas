@@ -134,20 +134,6 @@ public:
 public:
     float GetDuration() const;
 };
-template <> class BSSimpleList<BGSPerkEntry*>
-{
-  public:
-    BGSPerkEntry*& GetItem();
-};
-template <> class BSSimpleList<MagicHitEffect*>
-{
-  public:
-    MagicHitEffect* m_item;
-    BSSimpleList<MagicHitEffect*>* m_pkNext;
-    MagicHitEffect*& GetItem();
-    bool IsEmpty();
-    void RemoveAll();
-};
 
 class TESSound;
 class EffectSetting
@@ -164,10 +150,6 @@ struct BGSLoadGameBuffer
   public:
 };
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
-{
-  public:
-};
-template <> class BSSimpleList<ActiveEffect*>
 {
   public:
 };
@@ -206,11 +188,6 @@ class ActorPackageContext
   public:
 };
 extern const char DAT_010794a8[];
-template <> class BSSimpleList<const char*>
-{
-  public:
-    bool IsEmpty();
-};
 class LowProcess
 {
   public:

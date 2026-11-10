@@ -114,12 +114,6 @@ public:
     void LoadGame(void *);
 };
 
-template <> class BSSimpleList<TESForm*>
-{
-  public:
-    TESForm* m_item;
-    BSSimpleList<TESForm*>* m_pkNext;
-};
 
 class BGSListForm : public TESForm
 {
@@ -142,27 +136,8 @@ class BGSQuestObjective;
 class EffectSetting;
 class MediaSet;
 
-template <> class BSSimpleList<BGSQuestObjective*>
-{
-  public:
-    BGSQuestObjective* m_item;
-    BSSimpleList<BGSQuestObjective*>* m_pkNext;
-};
 
-template <> class BSSimpleList<EffectSetting*>
-{
-  public:
-    EffectSetting* m_item;
-    BSSimpleList<EffectSetting*>* m_pkNext;
-    void AddHead(EffectSetting*& item);
-};
 
-template <> class BSSimpleList<MediaSet*>
-{
-  public:
-    MediaSet* m_item;
-    BSSimpleList<MediaSet*>* m_pkNext;
-};
 
 class BGSCameraShot;
 template <class> class BSSimpleList;
@@ -202,19 +177,4 @@ class BGSRadiationStage
 
 class BGSCameraShot;
 class BGSPerkEntry;
-template <> class BSSimpleList<BGSCameraShot*>
-{
-  public:
-    BGSCameraShot* m_item;
-    BSSimpleList* m_pkNext;
-    bool IsEmpty();
-    void SetItem(BGSCameraShot* const&);
-    void RemoveHead();
-};
-template <> class BSSimpleList<BGSPerkEntry*>
-{
-  public:
-    BGSPerkEntry* m_item;
-    BSSimpleList* m_pkNext;
-};
 #endif

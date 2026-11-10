@@ -33,11 +33,6 @@ struct BGSSaveLoadHistoryNoteLocals
 
 class InventoryStackRecord;
 template <class T> class BSSimpleList;
-template <> class BSSimpleList<InventoryStackRecord*>
-{
-  public:
-    void RemoveAll();
-};
 
 class FormChangeRecord;
 class BGSSaveLoadChangesMap
@@ -46,11 +41,6 @@ class BGSSaveLoadChangesMap
     FormChangeRecord* FUN_009a4250(uintptr_t);
 };
 class ActorCause;
-template <> class BSSimpleList<ActorCause*>
-{
-  public:
-    void RemoveAll();
-};
 struct BGSLoadFormBuffer
 {
   public:

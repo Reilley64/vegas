@@ -1,9 +1,12 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dgpuprogramcache.cpp: NiD3DGPUProgramCache, NiFixedString, Holder, ShaderLoader8e (15 functions)
 
 #include <cstdint>
+#include "NiFixedString.h"
 #include <windows.h>
 #include <new>
+#include <utility>
 #include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/native_fixed_string.h"
 #include "fnv/decl/FUN_0048af90_shell.h"
 #include "fnv/decl/FUN_00e8e330_cls.h"
 #include "fnv/decl/FUN_00e937f0_shell.h"
@@ -377,97 +380,8 @@ __declspec(nothrow) inline long NiAtomicSubtract(volatile long* value)
 {
     return InterlockedDecrement(value);
 }
-struct StringHeader
-{
-    volatile long refs;
-    unsigned int length;
-};
-struct NiGlobalStringTable
-{
-    __declspec(nothrow) static char* AddString(const char*);
-    __declspec(nothrow) static volatile long* GetRefCount(char*& h)
-    {
-        return &((StringHeader*)h - 1)->refs;
-    }
-    __declspec(nothrow) static void IncRefCount(char*& h)
-    {
-        if (h == ::DAT_0109b220)
-            return;
-        InterlockedIncrement(GetRefCount(h));
-    }
-    __declspec(nothrow) static void DecRefCount(char*& h)
-    {
-        if (h == ::DAT_0109b220)
-            return;
-        volatile long* count = GetRefCount(h);
-        NiAtomicSubtract(count);
-    }
-};
-class NiFixedString
-{
-  public:
-    char* data;
-    __declspec(nothrow) NiFixedString() : data(::DAT_0109b220)
-    {}
-    __declspec(nothrow) NiFixedString(const char* text);
-    __declspec(nothrow) ~NiFixedString();
-    NiFixedString& operator=(const char* text)
-    {
-        if (data != text)
-        {
-            char* old = data;
-            data = NiGlobalStringTable::AddString(text);
-            if (old != ::DAT_0109b220)
-                InterlockedDecrement(&((StringHeader*)old - 1)->refs);
-        }
-        return *this;
-    }
-    NiFixedString& operator=(const NiFixedString& other)
-    {
-        char* incoming = other.data;
-        if (data != incoming)
-        {
-            NiGlobalStringTable::IncRefCount(incoming);
-            char* outgoing = data;
-            NiGlobalStringTable::DecRefCount(outgoing);
-            data = incoming;
-        }
-        return *this;
-    }
-    bool operator==(const char* text) const
-    {
-        if (data == text)
-            return true;
-        if (!text || !data)
-            return false;
-        return FUN_00aa1360(data, text) == 0;
-    }
-};
+using W20Profiles = fnv::strings::FixedStringArray;
 
-__declspec(nothrow) NiFixedString::NiFixedString(const char* text)
-{
-    if (!text)
-        data = ::DAT_0109b220;
-    else
-        data = NiGlobalStringTable::AddString(text);
-}
-__declspec(nothrow) NiFixedString::~NiFixedString()
-{
-    NiGlobalStringTable::DecRefCount(data);
-}
-
-struct W20Profiles
-{
-    NiFixedString* data;
-    unsigned int capacity, count, unk0c, unk10;
-    __declspec(nothrow) void FUN_00e8e290(unsigned int);
-    __declspec(nothrow) void PushBack(const NiFixedString& value)
-    {
-        if (count == capacity)
-            FUN_00e8e290(capacity > 0 ? capacity * 2 : 1);
-        data[count++] = value;
-    }
-};
 struct W20Base
 {
     virtual void foo();
@@ -486,104 +400,24 @@ struct FUN_00e8e450 : W20Base
     virtual void foo();
     __declspec(nothrow) FUN_00e8e450(int, const char*, int, const NiFixedString&, const char*, int, bool, int, bool);
 };
-// Builds a shader cache filename from path, requested profile and "DX9", sets name/profile, fills the fallback profile list by kind, and loads if requested.
+// Builds the cache names and fallback profile list transactionally through the
+// canonical intern owner before optional cache loading.
 // @fnv 0x00e8e450
-__declspec(nothrow) FUN_00e8e450::FUN_00e8e450(int a, const char* apcSource, int kind, const NiFixedString& arRequested,
-                                               const char* apcPath, int b, bool use, int c, bool load)
+__declspec(nothrow) FUN_00e8e450::FUN_00e8e450(int a, const char* apcSource, int kind,
+                                               const NiFixedString& arRequested, const char* apcPath,
+                                               int b, bool use, int c, bool load)
     : W20Base(a, b, c)
 {
     flag = use;
     type = kind;
-    suffix = apcPath;
-    char filename[260];
-    ::NiSprintf(filename, 260, "%s_%s_%s.cache", apcPath, arRequested.data, "DX9");
-    name = filename;
+    fnv::strings::GPUProgramCacheNames staged;
+    if (!staged.Update(kind, arRequested, apcPath))
+        return;
+    name = std::move(staged.name);
+    profile = std::move(staged.profile);
+    suffix = std::move(staged.suffix);
+    profiles = std::move(staged.fallbacks);
     reinterpret_cast<::S_00ee8af0 *>(this)->SetString(apcSource);
-    profile = arRequested;
-    if (kind == 0)
-    {
-        if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("vs_1_1"))
-        {
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)("vs_1_1"));
-        }
-        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("vs_2_0"))
-        {
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)("vs_2_0"));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)("vs_1_1"));
-        }
-        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("vs_2_a"))
-        {
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_2_a")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_2_0")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_1_1")));
-        }
-        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("vs_3_0"))
-        {
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_3_0")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_2_a")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_2_0")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("vs_1_1")));
-        }
-    }
-    else if (kind == 2)
-    {
-        if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_1_1"))
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
-        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_1_2"))
-        {
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
-        }
-        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_1_3"))
-        {
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
-        }
-        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_1_4"))
-        {
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_4")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
-        }
-        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_2_0"))
-        {
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_0")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_4")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
-        }
-        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_2_a"))
-        {
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_a")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_0")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_4")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
-        }
-        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_2_b"))
-        {
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_b")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_0")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_4")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
-        }
-        else if (reinterpret_cast<::FUN_0048af90_shell *>((void *)&(const ::NiFixedString &)(profile))->Equals("ps_3_0"))
-        {
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_3_0")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_a")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_2_0")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_4")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_3")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_2")));
-            reinterpret_cast<::FUN_00e8e330_cls *>(&(profiles))->PushBack((char *const *)&(const ::NiFixedString &)(NiFixedString("ps_1_1")));
-        }
-    }
     if (load && apcSource)
         reinterpret_cast<::NiGPUProgramCacheE93 *>(this)->LoadCacheFile();
 }

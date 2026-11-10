@@ -1,4 +1,5 @@
 #include "AutoMemContext.h"
+#include "NiFixedString.h"
 // fallout/misc/main.cpp: Interface, SomeClass, BSFadeNodeCuller, Mover and more (192 functions)
 #include "fnv/av_object_fields.h"
 #include "fnv/game_timer.h"

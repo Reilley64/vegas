@@ -15,5 +15,6 @@ class NiObjectNET : public NiObject
     unsigned short m_usMaxSize;                  // +0x16
 public:
     void SetFlags(unsigned short);
+    void SetName(const NiFixedString&);
 };
 #endif

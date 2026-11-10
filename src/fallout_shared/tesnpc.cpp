@@ -1,6 +1,7 @@
 // fallout_shared/tesnpc.cpp: TESNPC, ActorValue, TESActorBaseData, FR2MatrixVTCData and more (114 functions)
 
 #include <cstring>
+#include "NiFixedString.h"
 
 #include <cstdint>
 #include <new>
@@ -8795,13 +8796,6 @@ struct NiTimeController
     virtual void v63(int, void*);
 };
 
-struct NiFixedString
-{
-    NiFixedString(const char*);
-    ~NiFixedString();
-    operator const char*() const;
-    int f0;
-};
 
 struct ElemRet;
 

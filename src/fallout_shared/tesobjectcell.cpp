@@ -1,4 +1,5 @@
 #include "AutoMemContext.h"
+#include "NiFixedString.h"
 // fallout_shared/tesobjectcell.cpp: TESObjectCELL, Owner, Cell, hkpEntityListener and more (325 functions)
 
 #include "fnv/save_load_game_view.h"

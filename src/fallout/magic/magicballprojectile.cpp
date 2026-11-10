@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/save_load_game_view.h"
+#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include "fnv/magic_projectile_fields.h"
 #include "fnv/simple_list_node_view.h"
@@ -1211,13 +1212,6 @@ struct NiObject
 };
 class NiTimeController : public NiObject
 {
-};
-class NiFixedString
-{
-  public:
-    const char* m_kHandle;
-    NiFixedString(const char* pcString);
-    ~NiFixedString();
 };
 class NiUpdateData
 {

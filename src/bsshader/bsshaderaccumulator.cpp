@@ -1,5 +1,7 @@
 #include <cstdint>
 #include <cstddef>
+#include "NiFixedString.h"
+#include "NiObjectNET.h"
 // bsshader/bsshaderaccumulator.cpp: BSShaderAccumulator, AccumWIP, AccumS, Candidate and more (38 functions)
 
 #include <windows.h>
@@ -1264,15 +1266,7 @@ struct NiUpdateData
     bool bVisible;
 };
 
-struct A51BF0Base
-{
-};
-
-struct NiAVObject : A51BF0Base
-{
-};
-
-struct NiNode : NiAVObject
+struct NiNode : NiObjectNET
 {
     unsigned char m_auiShapeKeys[0xAC];
 
@@ -1280,27 +1274,7 @@ struct NiNode : NiAVObject
     void Update(NiUpdateData const&);
 };
 
-struct NiGlobalStringTable
-{
-    static char* __cdecl AddString(char const*);
-};
-
 extern unsigned int _data_011c16bc;
-
-
-struct NiFixedString
-{
-    char* m_pString;
-
-    NiFixedString(char* pString) : m_pString(pString)
-    {}
-
-    ~NiFixedString()
-    {
-        if (m_pString != ::DAT_0109b220)
-            ::FUN_00c45830((::MyRef *)(void *)(m_pString - 8));
-    }
-};
 
 // Creates a NiNode named "RenderPasses", initializes a NiUpdateData with zeroed flags, updates the node, and returns it.
 // @fnv 0x00b63420
@@ -1311,8 +1285,8 @@ NiNode* __cdecl CreateRenderPassesNode()
     int i = 0;
 
     {
-        NiFixedString fixedString(NiGlobalStringTable::AddString("RenderPasses"));
-        ::AssignFixedString((char *)(pNode), 0, (char **)&(fixedString));
+        NiFixedString fixedString("RenderPasses");
+        pNode->SetName(fixedString);
     }
 
     UpdateData.fTime = 0.0f;

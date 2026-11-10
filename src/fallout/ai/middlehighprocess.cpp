@@ -1,4 +1,5 @@
 #include "AutoMemContext.h"
+#include "NiFixedString.h"
 // fallout/ai/middlehighprocess.cpp: MiddleHighProcess, FurnitureProcess, MiddleHighProcessStandIn, ActorPackage_GetTarget_Helper and more (180 functions)
 
 #include "fnv/simple_list_node_view.h"

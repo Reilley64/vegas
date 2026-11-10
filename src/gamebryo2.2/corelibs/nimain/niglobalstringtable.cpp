@@ -17,51 +17,11 @@
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_011f6000.h"
 
-#pragma optimize("", off)
-// @fnv 0x004f31b0
-void NiGlobalStringTable::AddString()
-{
-    ++m_uiLockCount;
-}
+// Keep the canonical intern owner in this existing production member so the
+// accepted archive member count and order do not change.
+#define FNV_NATIVE_FIXED_STRING_EXTERNAL_DATA
+#include "native_fixed_string.cpp"
 
-#pragma intrinsic(strlen)
-#pragma optimize("gt", on)
-#pragma optimize("y", on)
-// Looks up or allocates a reference-counted copy of s in the global string table under a critical section and returns the string pointer.
-// @fnv 0x00a5b690
-char* NiGlobalStringTable::AddString(const char* s)
-{
-    if (!s)
-        return 0;
-    unsigned len = strlen(s);
-    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)DAT_011f42c0 + 0x2080));
-    char* result = reinterpret_cast<::StringTable169 *>((DAT_011f42c0))->FUN_00a5b300(s, len);
-    if (result)
-    {
-        InterlockedIncrement((long*)(result - 8));
-        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)DAT_011f42c0 + 0x2080));
-        return result;
-    }
-    unsigned tlsIndex = ::DAT_0126fd98;
-
-    char* pTlsData = ((char**)__readgsqword(0x58))[tlsIndex];
-    volatile unsigned uiOldTlsValue = *(unsigned*)(pTlsData + 0x2b4);
-    *(unsigned*)(pTlsData + 0x2b4) = 8;
-    unsigned uiAllocSize = len + 9;
-    unsigned uiRemainder = uiAllocSize & 3;
-    if (uiRemainder)
-        uiAllocSize += 4 - uiRemainder;
-    unsigned* allocation = (unsigned*)::FUN_00aa1070(uiAllocSize);
-    result = (char*)(allocation + 2);
-    allocation[0] = 1;
-    allocation[1] = len;
-    char* handle = result;
-    std::memmove(result, s, len + 1);
-    reinterpret_cast<::ThreadedTable *>((DAT_011f42c0))->FUN_00a5b5a0((const char **)&handle, len);
-    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)DAT_011f42c0 + 0x2080));
-    *(unsigned*)(pTlsData + 0x2b4) = uiOldTlsValue;
-    return result;
-}
 #pragma optimize("", off)
 
 #pragma function(strlen, strcpy)
@@ -124,21 +84,4 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
         reinterpret_cast<::MovieSignalState *>(((*reinterpret_cast<::NiPlaybackManager * *>(&::DAT_0126fac4))))->FUN_00ec1a00();
     (*reinterpret_cast<::NiPlaybackManager * *>(&::DAT_0126fac4))->vfn_18();
     return local.bSuccess;
-}
-
-
-struct P03MM
-{
-};
-
-// @fnv 0x00a5b630
-void FUN_00a5b630()
-{
-    NiGlobalStringTable* allocatedTable = static_cast<NiGlobalStringTable*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x2100));
-    if (allocatedTable)
-    {
-        DAT_011f42c0 = ((::NiGlobalStringTable *)(new ((void *)(allocatedTable)) class ::FUN_00a5b530()));
-        return;
-    }
-    DAT_011f42c0 = 0;
 }

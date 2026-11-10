@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstring>
+#include "NiFixedString.h"
 #include <stdexcept>
 #include "runtime/crt.h"
 #include "fnv/decl/A0D2A0_StringMap.h"
@@ -985,30 +986,6 @@ void* S00a0d7f0::FUN_00a0d7f0(unsigned int flags)
     if (flags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
-}
-
-// The global string table keeps this header in front of each string.
-struct NiGlobalStringHeader
-{
-    long m_lRefCount;
-    unsigned int m_uiLength;
-};
-
-class NiFixedString
-{
-  public:
-    const char* m_pcString;
-    ~NiFixedString();
-};
-
-inline NiFixedString::~NiFixedString()
-{
-    if (m_pcString == ::DAT_0109b220)
-    {
-        return;
-    }
-    NiGlobalStringHeader* pkHeader = (NiGlobalStringHeader*)m_pcString - 1;
-    InterlockedDecrement(&pkHeader->m_lRefCount);
 }
 
 // @fnv 0x00a1c790

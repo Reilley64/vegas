@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "NiFixedString.h"
 #include <cstring>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/FUN_005e50f0_Obj.h"
@@ -468,12 +469,6 @@ struct GeomObj
 {
 };
 
-struct NiFixedString
-{
-    const char* m_psz;
-    NiFixedString(const char* s);
-    ~NiFixedString();
-};
 struct ListObj
 {
     virtual void tv00();

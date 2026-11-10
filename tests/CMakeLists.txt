@@ -294,6 +294,22 @@ endif()
 target_include_directories(runtime_native_string_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
 add_test(NAME runtime.native_string COMMAND runtime_native_string_test)
 
+add_executable(runtime_native_fixed_string_test
+  runtime/native_fixed_string_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nimain/native_fixed_string.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/engine_virtual_memory.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/engine_memory_heap.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/engine_heap_set.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/fixed_pool.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/canonical_memory_manager.cpp
+  ${PROJECT_SOURCE_DIR}/src/fallout/misc/native_memory_pools.cpp
+  ${PROJECT_SOURCE_DIR}/src/bscore/memoryusagetracker.cpp
+  ${PROJECT_SOURCE_DIR}/src/fallout/misc/appmemory_console.cpp
+  ${PROJECT_SOURCE_DIR}/src/runtime/tls.cpp)
+target_include_directories(runtime_native_fixed_string_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(runtime_native_fixed_string_test PRIVATE Threads::Threads)
+add_test(NAME runtime.native_fixed_string COMMAND runtime_native_fixed_string_test)
+
 add_executable(runtime_allocation_context_test runtime/allocation_context_test.cpp)
 if(WIN32)
   target_link_libraries(runtime_allocation_context_test PRIVATE game)

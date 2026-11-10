@@ -1,4 +1,5 @@
 #include "AutoMemContext.h"
+#include "NiFixedString.h"
 // fallout_shared/tesland.cpp: TESPackage (7 functions)
 
 #include "fnv/decl/fnv_0041bb10__FUN_0041bb10_Class.h"
@@ -6662,12 +6663,6 @@ struct NiP2 { float x, y; NiP2(); };
 
 struct NiPoint3_ext { float x, y, z; NiPoint3_ext(); };
 
-class NiFixedString {
-public:
-    const char* value;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
 
 struct Geometry5371 {
     unsigned int unk00;

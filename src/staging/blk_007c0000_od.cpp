@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/simple_array_item.h"
+#include "NiFixedString.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1305,13 +1306,6 @@ class NiUpdateData
     bool updateControllers, isMultiThreaded;
     unsigned int flags;
     NiUpdateData(float, bool, bool);
-};
-class NiFixedString
-{
-  public:
-    const char* text;
-    NiFixedString(const char*);
-    ~NiFixedString();
 };
 struct FUN_00a712f0
 {

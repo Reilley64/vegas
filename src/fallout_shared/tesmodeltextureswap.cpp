@@ -218,20 +218,6 @@ DistantTreeTextureInfo::DistantTreeTextureInfo()
     objectName[0] = 0;
 }
 
-// Copy constructor: calls FUN_0043ba60 on other, then copies other.data into this object's data.
-// @fnv 0x0048af40
-NiFixedString::NiFixedString(const NiFixedString& other)
-{
-    ::fnv_0043ba60::FUN_0043ba60((int *)&(other));
-    data = other.data;
-}
-
-// @fnv 0x0048af70
-int NiFixedString::IsNotEmpty() const
-{
-    return data != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).data;
-}
-
 struct BSTextureSet;
 struct NiMemObject
 {

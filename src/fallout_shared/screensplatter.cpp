@@ -1,6 +1,7 @@
 // fallout_shared/screensplatter.cpp: ScreenSplatter (16 functions)
 
 #include <cstdint>
+#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/CamLook.h"
@@ -244,14 +245,6 @@ struct FUN_004e04e0 : NiMemObject
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
     FUN_004e04e0(const Params&);
-};
-class NiFixedString
-{
-    int value;
-
-  public:
-    NiFixedString(const char*);
-    ~NiFixedString();
 };
 struct ObjectProxy
 {

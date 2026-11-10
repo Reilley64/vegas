@@ -1,4 +1,5 @@
 #include "fnv/tls.h"
+#include "NiFixedString.h"
 #include "AutoMemContext.h"
 // fallout_shared/tesobjectrefr.cpp: XActor, Owner, Thing, Ref and more (522 functions)
 #include "fnv_result_slot.h"
@@ -28999,15 +29000,6 @@ void FNV_569BE0_This::FUN_00569be0(int ignored)
     }
 }
 
-class NiFixedString
-{
-  public:
-    NiFixedString(const char*);
-    ~NiFixedString();
-    void* m_kHandle;
-public:
-    int IsNotEmpty() const;
-};
 
 struct ImageSpaceEffectParam
 {

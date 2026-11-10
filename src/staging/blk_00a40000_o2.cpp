@@ -1,6 +1,7 @@
 // staging/blk_00a40000_o2.cpp: Owner, Controller, Arr, ExtraOwner and more (111 functions)
 
 #include "fnv/tls.h"
+#include "fnv/decl/NiGlobalStringTable.h"
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include <string.h>
@@ -1830,8 +1831,7 @@ class A5B660StringTable
 // @fnv 0x00a5b660
 void A5B660StringTable::FUN_00a5b660()
 {
-    delete (*reinterpret_cast<::A5B660StringTable * *>(&::DAT_011f42c0));
-    (*reinterpret_cast<::A5B660StringTable * *>(&::DAT_011f42c0)) = 0;
+    ShutdownGlobalStringTable();
 }
 
 struct FUN_00a5b870_cls

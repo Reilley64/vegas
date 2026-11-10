@@ -1,6 +1,7 @@
 // fallout/interface/menus/surgerymenu.cpp: SurgeryMenu, AnimOwner, MenuX, PainMenu and more (31 functions)
 
 #include "fnv/result_slot.h"
+#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
@@ -1775,13 +1776,6 @@ void FaceOwnerS::UpdateFaceGenNode()
     reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))))->FUN_00a59c60((std::intptr_t)&(data));
 }
 
-class NiFixedString
-{
-  public:
-    NiFixedString(const char* apString);
-    ~NiFixedString();
-    const char* m_kHandle;
-};
 
 class FUN_006815c0
 {

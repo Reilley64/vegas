@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include <new>
 #include "fnv/decl/A5D2C0Object.h"
@@ -203,12 +204,6 @@ void FUN_0068a8d0_shell::FUN_0068a8d0(void* pValue)
     ((void(*)(void*))InitLoopSounds)(this);
 }
 
-struct NiFixedString
-{
-    const char* m_pString;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
 
 struct BSFadeNode : public NiFixedString
 {

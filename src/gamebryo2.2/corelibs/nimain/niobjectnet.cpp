@@ -25,6 +25,7 @@
 #include "fnv/decl/NiAccumulator.h"
 #include "fnv/decl/NiGPUProgramOwner.h"
 #include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/native_fixed_string.h"
 #include "fnv/decl/S_00a64670_Foo.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
@@ -207,6 +208,11 @@ void NiObjectNET::RefreshExtraData()
     }
 }
 
+
+void NiObjectNET::SetName(const NiFixedString& name)
+{
+    fnv::strings::AssignObjectName(m_kName, name);
+}
 
 // @fnv 0x00a5b950
 void AssignFixedString(char* pThis, intptr_t, char** ppkName)

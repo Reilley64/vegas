@@ -15,14 +15,7 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_0126f000.h"
 #include "runtime/crt.h"
-class NiGlobalStringTable
-{
-  public:
-    void AddString();
-    static char* AddString(const char*);
-    unsigned char padding[0x68];
-    unsigned m_uiLockCount;
-};
+#include "fnv/decl/NiGlobalStringTable.h"
 extern "C" unsigned long __readfsdword(unsigned long);
 #pragma intrinsic(__readfsdword)
 struct NiPlaybackTimestamp

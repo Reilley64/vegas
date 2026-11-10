@@ -1,4 +1,5 @@
 #include "AutoMemContext.h"
+#include "NiFixedString.h"
 // fallout_shared/modelloader.cpp: DelStandIn, QueuedTreeModel, ModelLoader, QueuedHelmet and more (493 functions)
 
 #include "fnv/tls.h"
@@ -20096,13 +20097,6 @@ FUN_0044a040::~FUN_0044a040()
 
 using AutoMemContext_ctx = ::AutoMemContext;
 
-class NiFixedString
-{
-  public:
-    const char* m_str;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
 
 class H_A100
 {

@@ -1,6 +1,7 @@
 // fallout/interface/menus/hudmainmenu.cpp: HUDMainMenu, HUDMainMenuS, Interface, TESSound and more (82 functions)
 
 #include "fallout/interface/tile_fields.h"
+#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
@@ -12168,13 +12169,6 @@ class SettingInt
 class SettingFloat
 {
   public:
-};
-class NiFixedString
-{
-  public:
-    const char* m_kHandle;
-    NiFixedString(const char* text);
-    ~NiFixedString();
 };
 class NiTextureFormatPrefs;
 class NiFixedString;

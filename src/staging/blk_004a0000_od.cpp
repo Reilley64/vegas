@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "NiFixedString.h"
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -1013,11 +1014,6 @@ struct FUN_004b08e0_Class
 {
     void FUN_004b0cf0();
     void* FUN_004b08e0(unsigned int flags);
-};
-struct NiFixedString
-{
-    ~NiFixedString();
-    void* FUN_004b9900(unsigned int flags);
 };
 // Destroys the NiFixedString and, if the flags bit 0 is set, frees the object's memory, returning this.
 // @fnv 0x004b9900

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "NiFixedString.h"
 #include "fnv/magic_projectile_fields.h"
 #include "fnv/active_effect_fields.h"
 #include <new>
@@ -294,13 +295,6 @@ bool S3c60::AddAudioFormEntry(Form* pForm, ArrSI* pAudio)
     return true;
 }
 
-struct NiFixedString
-{
-    NiFixedString(const char*);
-    ~NiFixedString();
-
-    char m_data[4];
-};
 
 struct Calendar;
 

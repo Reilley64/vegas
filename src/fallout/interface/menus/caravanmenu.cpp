@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstring>
+#include "NiFixedString.h"
 #include "fnv/game_timer.h"
 #include "fnv/simple_array_item.h"
 #include "fnv/simple_list_node_view.h"

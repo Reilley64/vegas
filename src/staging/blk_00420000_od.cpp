@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/simple_array_item.h"
+#include "NiFixedString.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -3826,13 +3827,6 @@ FUN_0043b750::~FUN_0043b750()
     m_iSecondInteger = 0;
 }
 
-class NiFixedString
-{
-  public:
-    NiFixedString(const char* pcString);
-    ~NiFixedString();
-    const char* m_kHandle;
-};
 
 class NameSource
 {

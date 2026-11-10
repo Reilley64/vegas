@@ -355,6 +355,7 @@ struct VectorStorage
     }
 };
 
+namespace fnv_00b27910 {
 struct FUN_00449fd0 : VectorStorage
 {
     unsigned int maxSize() const;
@@ -440,6 +441,7 @@ inline float& FUN_00449fd0::operator[](unsigned int n)
         std::abort();
     return first[n];
 }
+}
 
 struct LeafRecord
 {
@@ -467,7 +469,7 @@ void LeafGeometry::FUN_00b27910(Bounds& output)
 {
     if (origins && sizes && lods)
     {
-        FUN_00449fd0 radii;
+        fnv_00b27910::FUN_00449fd0 radii;
         for (int i = 0; i < textureCount; ++i)
         {
             Vec3 center(origins[i][0] * sizes[i][0], origins[i][1] * sizes[i][1], 0);

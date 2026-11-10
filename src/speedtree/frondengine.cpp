@@ -29689,6 +29689,7 @@ struct FUN_00b1e3e0 : FUN_00b39460, FUN_00b1fca0
     }
 };
 
+namespace fnv_00b1b000 {
 struct FUN_00449fd0 : FrondFloatStorage
 {
     FUN_00449fd0();
@@ -29697,20 +29698,21 @@ struct FUN_00449fd0 : FrondFloatStorage
         reinterpret_cast<::FUN_0065f240 *>((((FrondFloatList*)this)))->Clear();
     }
 };
+}
 
 struct FUN_00b1fe80
 {
     void *allocator, *allocationFlags, *growth;
-    FUN_00449fd0* first;
-    FUN_00449fd0* last;
-    FUN_00449fd0* limit;
+    fnv_00b1b000::FUN_00449fd0* first;
+    fnv_00b1b000::FUN_00449fd0* last;
+    fnv_00b1b000::FUN_00449fd0* limit;
     ~FUN_00b1fe80();
 };
 
 struct FUN_00b31270 : FUN_00b39460, FUN_00b1fe80
 {
     FUN_00b31270();
-    FUN_00449fd0& FUN_00b319a0(unsigned int);
+    fnv_00b1b000::FUN_00449fd0& FUN_00b319a0(unsigned int);
 };
 
 struct Color4
@@ -29744,8 +29746,8 @@ struct Geometry
     int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
     int unk60, unk64, unk68, unk6c;
     PackedColors colors;
-    FUN_00449fd0 positions;
-    FUN_00449fd0 windPositions;
+    fnv_00b1b000::FUN_00449fd0 positions;
+    fnv_00b1b000::FUN_00449fd0 windPositions;
     void FUN_00b300c0(const Vector3& point)
     {
         float px = point.x;
@@ -30461,12 +30463,12 @@ void B1FrondBuilder::FUN_00b1b000(FrondInput* frond)
                 geometry->AdvanceVertex();
             }
         }
-        FUN_00449fd0 local2;
+        fnv_00b1b000::FUN_00449fd0 local2;
         FUN_00b31270 cumulativeLengths;
         for (unsigned int column = 0; column < frond->stride; ++column)
         {
             float total = 0.0f;
-            FUN_00449fd0 cumulative;
+            fnv_00b1b000::FUN_00449fd0 cumulative;
             reinterpret_cast<::FloatVec *>(&(cumulative))->PushBack(0.0f);
             for (unsigned int row = 1; row < frond->size(); ++row)
             {

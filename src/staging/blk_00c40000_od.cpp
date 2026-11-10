@@ -1142,7 +1142,6 @@ struct NiPSysPositionModifier { NiPSysPositionModifier(); };
 struct FUN_00c5fd30 : NiPSysPositionModifier {
     FUN_00c5fd30();
 };
-NiPSysPositionModifier::NiPSysPositionModifier() {}
 // @fnv 0x00c5fd30
 FUN_00c5fd30::FUN_00c5fd30()
 {

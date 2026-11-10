@@ -115,8 +115,46 @@ defect is what the cells hold:
 - The unit declares no table pointer and constructs nothing, so the
   destination cell's table, buffer, count and capacity are whatever the
   allocator returned. The definition would use them.
-- The source cells come from the grid's producer `0x0069d800` in the same
-  unit, which allocates the same way and constructs nothing.
+- Two functions produce grid cells. The grid's producer `0x0069d800` in the
+  same unit allocates the same way and constructs nothing. The record loader
+  `0x0069da40` in `tesform.cpp` allocates an array of its own 24-byte cell
+  class, constructs each cell through a constructor name that no object
+  defines, and sizes each cell through `0x005eee80`. Inference, not a recorded
+  fact: one of the two supplies the source of a grid copy. The recipe records
+  no call edges.
+
+`0x005eee80` takes one of four paths on the destination. The count it is given
+is the source's count word; the capacity, count and buffer are the
+destination's own words.
+
+| Condition | What `0x005eee80` does |
+| --- | --- |
+| count above capacity, capacity 0 | calls entry 1 of the table at the cell's `+0` and stores the result as the buffer |
+| count above capacity, capacity not 0 | calls `0x005ef6a0`, which calls table entry 3, or entry 1 followed by a copy from the old buffer and `0x006a8500` on it; entry 1 alone when the buffer is null |
+| count 0, buffer not null | calls `0x0072ba80` on the buffer, then `0x006a8500`, which calls table entry 2 with the buffer |
+| otherwise | constructs or destroys 2-byte elements in the existing buffer |
+
+On a cell that was never constructed, each path calls through, frees through
+or writes through words the allocator left.
+
+The previous tip was not safe either. The retirer `0x0069d2d0` reads the array
+pointer at `+40` of the grid. When the count stored in front of the array is
+not zero, it calls through the first word of cell 0. `0x0069dd50` calls the
+retirer on its destination before anything else, and both `0x0069d800` and
+`0x0069dd50` store the cell count in front of an array of unconstructed cells.
+So a copy into a grid that already held cells called through an uninitialised
+word at retirement. This change moves the first such use from retirement into
+the copy.
+
+The staging unit's symbol rows bind
+`BSSimpleArray<unsigned short, 1024>::BSSimpleArray()` to `0x006917d0`. The
+recipe lists `0x006917d0` as a 35-byte function of `navmesh_util.cpp`, defined
+there as `FUN_006917d0(int**)`. It stores the address of the table
+`0x0106abe4` at `+0` and calls `0x00692290` with two zero arguments, which on
+windows-x64 zeroes `+8` to `+0x17` and does nothing else. Inference from the
+symbol rows, not a recorded edge: that function is the cell constructor the
+staging unit's empty placeholder stands for. `tesform.cpp` binds its own cell
+constructor name to the same address.
 
 The grid itself is 48 bytes with the array pointer at `+40` in
 `blk_00680000_od.cpp`, in `navmesh_loadsave.cpp` and in the retirer's unit
@@ -134,9 +172,13 @@ These were open before this change and remain open.
 - One declaration of the cell. The unit's declaration has no table pointer
   and puts its fields at different offsets from the array the copy reads.
 - Retirement. `0x0069d2d0` in `navmesh.cpp` deletes the array as elements of
-  16 bytes with a virtual destructor, while both producers allocate elements
-  of 24 bytes with none. Allocation and retirement type, stride and domain are
-  not reconciled. `blk_00680000_od.cpp` also keeps an unused empty
+  16 bytes with a virtual destructor, while the grid producer `0x0069d800`
+  and the grid copy allocate elements of 24 bytes with none. The record
+  loader's 24-byte cell class declares a virtual destructor. The 16 bytes are
+  derived from the retirer's own element declaration, `D2d0Elem`. The
+  retirer's code holds no stride: it calls the first entry of the table
+  cell 0 points to. Allocation and retirement type, stride and domain are not
+  reconciled. `blk_00680000_od.cpp` also keeps an unused empty
   `NavMeshGrid::FUN_0069d2d0`.
 - Suppliers. `0x005eee80` requires the element entry `0x0072ba80` under two
   names that have no definition.

@@ -16,23 +16,30 @@ namespace {
 
 constexpr unsigned int BucketCount = 0x201;
 
+// The header of a node. The text is the bytes directly after it, in the same
+// allocation.
 struct Node {
     Node* next;
     std::atomic<std::int32_t> refs;
     std::uint32_t length;
-    char text[1];
 };
 
 // Older units update the count at text - 8 with interlocked 32-bit operations
 // and read the length at text - 4.
 static_assert(std::atomic<std::int32_t>::is_always_lock_free);
 static_assert(sizeof(std::atomic<std::int32_t>) == 4);
-static_assert(offsetof(Node, text) - offsetof(Node, refs) == 8);
-static_assert(offsetof(Node, text) - offsetof(Node, length) == 4);
+static_assert(sizeof(Node) == 16);
+static_assert(sizeof(Node) - offsetof(Node, refs) == 8);
+static_assert(sizeof(Node) - offsetof(Node, length) == 4);
+
+char* TextOf(Node* node) noexcept
+{
+    return reinterpret_cast<char*>(node) + sizeof(Node);
+}
 
 Node* NodeOf(const char* handle) noexcept
 {
-    return reinterpret_cast<Node*>(const_cast<char*>(handle) - offsetof(Node, text));
+    return reinterpret_cast<Node*>(const_cast<char*>(handle) - sizeof(Node));
 }
 
 struct Table {
@@ -45,7 +52,7 @@ struct Table {
     Node* Find(const char* text, std::uint32_t length, unsigned int bucket) noexcept
     {
         for (Node* node = buckets[bucket]; node; node = node->next)
-            if (node->text == text || (node->length == length && std::strcmp(node->text, text) == 0))
+            if (TextOf(node) == text || (node->length == length && std::strcmp(TextOf(node), text) == 0))
                 return node;
         return nullptr;
     }
@@ -54,7 +61,7 @@ struct Table {
     {
         for (Node* bucket : buckets)
             for (Node* node = bucket; node; node = node->next)
-                if (node->text == handle)
+                if (TextOf(node) == handle)
                     return node;
         return nullptr;
     }
@@ -125,7 +132,7 @@ char* NiGlobalStringTable::AddString(const char* text)
         return nullptr;
     const std::size_t wideLength = std::strlen(text);
     // The node size is a 32-bit request rounded up to four bytes.
-    if (wideLength > std::numeric_limits<unsigned int>::max() - offsetof(Node, text) - 4)
+    if (wideLength > std::numeric_limits<unsigned int>::max() - sizeof(Node) - 4)
         return nullptr;
     const auto length = static_cast<std::uint32_t>(wideLength);
     std::lock_guard guard(g_table.lock);
@@ -134,20 +141,20 @@ char* NiGlobalStringTable::AddString(const char* text)
     const unsigned int bucket = fnv::strings::HashString(text, length);
     if (Node* existing = g_table.Find(text, length, bucket)) {
         existing->refs.fetch_add(1);
-        return existing->text;
+        return TextOf(existing);
     }
     AutoMemContext context(8);
-    unsigned int bytes = static_cast<unsigned int>(offsetof(Node, text)) + length + 1;
+    unsigned int bytes = static_cast<unsigned int>(sizeof(Node)) + length + 1;
     if (bytes & 3)
         bytes += 4 - (bytes & 3);
     void* storage = FUN_00401000(bytes);
     if (!storage)
         return nullptr;
-    Node* node = new (storage) Node{g_table.buckets[bucket], 1, length, {0}};
-    std::memcpy(node->text, text, wideLength + 1);
+    Node* node = new (storage) Node{g_table.buckets[bucket], 1, length};
+    std::memcpy(TextOf(node), text, wideLength + 1);
     g_table.buckets[bucket] = node;
     ++g_table.nodeCount;
-    return node->text;
+    return TextOf(node);
 }
 
 void fnv::strings::RetainHandle(char* handle) noexcept

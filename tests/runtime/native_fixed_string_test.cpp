@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <stdexcept>
+#include <string>
 #include <thread>
 
 #ifndef _WIN32
@@ -93,6 +94,75 @@ void CheckOversizedText()
 #endif
 }
 
+// The node header before the text: the bucket link, the count and the length.
+constexpr std::size_t NodeHeaderBytes = 16;
+
+// Texts of zero to three characters share the smallest request: the header,
+// the text and its terminator in 20 bytes. Before the heaps start the manager
+// records the exact request; once the pools run, the node is a 20-byte block.
+void CheckShortTexts(bool pooled)
+{
+    CHECK(fnv::strings::NodeCount() == 0);
+    const char* const texts[] = {"", "s", "sh", "sho"};
+    char* handles[4];
+    for (std::size_t length = 0; length < 4; ++length) {
+        char* handle = handles[length] = NiGlobalStringTable::AddString(texts[length]);
+        CHECK(handle != nullptr);
+        CHECK(handle != texts[length]);
+        CHECK(std::strcmp(handle, texts[length]) == 0);
+        CHECK(fnv::strings::Length(handle) == length);
+        CHECK(fnv::strings::RefCount(handle) == 1);
+        CHECK(LegacyCount(handle).load() == 1);
+        std::uint32_t storedLength = 0;
+        std::memcpy(&storedLength, handle - 4, sizeof(storedLength));
+        CHECK(storedLength == length);
+        const void* storage = handle - NodeHeaderBytes;
+        const std::size_t pool = g_memoryManager.PoolOwnerIndex(storage);
+        if (pooled) {
+            CHECK(pool < g_memoryManager.PoolFamilyCount());
+            CHECK(g_memoryManager.PoolStatistics(pool).blockBytes == 20);
+        } else {
+            CHECK(pool == g_memoryManager.PoolFamilyCount());
+            CHECK(g_memoryManager.Size(storage) == 20);
+        }
+    }
+    // Each stays intact after its neighbours were written.
+    for (std::size_t length = 0; length < 4; ++length) {
+        CHECK(std::strcmp(handles[length], texts[length]) == 0);
+        CHECK(NiGlobalStringTable::AddString(texts[length]) == handles[length]);
+        CHECK(fnv::strings::RefCount(handles[length]) == 2);
+        fnv::strings::ReleaseHandle(handles[length]);
+        fnv::strings::ReleaseHandle(handles[length]);
+    }
+    FUN_00a5b460();
+    CHECK(fnv::strings::NodeCount() == 0);
+}
+
+// A text longer than the largest pool family is allocated from a heap, and
+// the heap is chosen by the thread's allocation context. The caller's context
+// selects its own heap, so the node lands in the main heap only if the intern
+// sets context 8 for the allocation.
+void CheckLongTextHeap()
+{
+    CHECK(g_tlsBlock.memoryContext == 23);
+    const std::size_t before = fnv::strings::NodeCount();
+    const std::string text(700, 'L');
+    char* handle = NiGlobalStringTable::AddString(text.c_str());
+    CHECK(handle != nullptr);
+    CHECK(g_tlsBlock.memoryContext == 23);
+    CHECK(text == handle);
+    CHECK(fnv::strings::Length(handle) == 700);
+    const void* storage = handle - NodeHeaderBytes;
+    CHECK(g_memoryManager.PoolOwnerIndex(storage) == g_memoryManager.PoolFamilyCount());
+    CHECK(g_memoryManager.HeapOwner(storage) == fnv::memory::EngineHeapDomain::Main);
+    CHECK(g_memoryManager.Size(storage) >= NodeHeaderBytes + 700 + 1);
+    fnv::strings::ReleaseHandle(handle);
+    FUN_00a5b460();
+    CHECK(!fnv::strings::Owns(handle));
+    CHECK(g_memoryManager.HeapOwner(storage) == fnv::memory::EngineHeapDomain::None);
+    CHECK(fnv::strings::NodeCount() == before);
+}
+
 } // namespace
 
 int main()
@@ -100,9 +170,9 @@ int main()
     // Before startup the table interns nothing.
     CHECK(NiGlobalStringTable::AddString("early") == nullptr);
     FUN_00a5b630();
-    CHECK(fnv::strings::TableIdentity() != nullptr);
     CHECK(fnv::strings::NodeCount() == 0);
     CheckHashes();
+    CheckShortTexts(false);
 
     {
         // The null handle is the null string and has no node.
@@ -148,6 +218,9 @@ int main()
         std::memcpy(&storedLength, alpha.m_kHandle - 4, sizeof(storedLength));
         CHECK(storedLength == 5);
         CHECK(LegacyCount(alpha.m_kHandle).load() == 2);
+        // The request is the header, the text and its terminator, 22 bytes,
+        // rounded up to four. Before the heaps start the manager records it.
+        CHECK(g_memoryManager.Size(alpha.m_kHandle - NodeHeaderBytes) == 24);
 
         // Copy construction and both assignments.
         NiFixedString copied(alpha);
@@ -248,6 +321,7 @@ int main()
         CHECK(pooled.m_kHandle != nullptr);
         CHECK(g_tlsBlock.memoryContext == 23);
         CHECK(fnv::strings::NodeCount() == 4);
+        CheckLongTextHeap();
         CheckOversizedText();
 
         // Concurrent interning, copying and releasing while another thread sweeps.
@@ -297,6 +371,8 @@ int main()
         fnv::strings::ReleaseHandle(beta.m_kHandle);
     }
 
+    FUN_00a5b460();
+    CheckShortTexts(true);
     CHECK(fnv::strings::ShutdownTable());
     CHECK(fnv::strings::NodeCount() == 0);
     CHECK(g_tlsBlock.memoryContext == 23);

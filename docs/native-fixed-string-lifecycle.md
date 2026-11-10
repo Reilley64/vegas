@@ -17,7 +17,9 @@ length four bytes before it. This is the header the source allocates in
 `0x00a5b690`, and the one older units still update directly with interlocked
 operations on `handle - 8`. The owner's count is an atomic 32-bit value at that
 address, so both forms act on the same count. The node's link to the next node
-in its bucket sits before the count and is private to the owner.
+in its bucket sits before the count and is private to the owner. The owner
+constructs only this 16-byte header; the text is the bytes after it in the same
+allocation.
 
 ## Table
 
@@ -26,11 +28,34 @@ The table has the source's 513 buckets and the source hash from `0x00a5b270`:
 Lookup, allocation and publication of a node happen under the table lock.
 A lookup matches the same pointer, or an equal length and equal text.
 
-A new node is allocated through `FUN_00401000` with the thread's allocation
-context set to 8, rounded up to four bytes as in the source, and starts with
-one reference. If the text is too long for a 32-bit request or the allocation
-fails, `AddString` returns the null handle, publishes nothing, and leaves the
-lock free and the thread's context restored.
+A new node is allocated with the thread's allocation context set to 8, as in
+the source. The request is the header, the text and its terminator, rounded up
+to four bytes as in the source, and the node starts with one reference. The
+source header is the count and the length, 8 bytes; the owner's request is 8
+bytes larger for its bucket link.
+
+The source allocated nodes with `FUN_00aa1070` and freed them with
+`FUN_00aa10f0`, the Ni allocator entries. The owner calls the native memory
+manager entries `FUN_00401000` and `FUN_00401030` directly instead. The two Ni
+entries in this tree dispatch through the allocator object in `DAT_011f6080`,
+which no source in this tree assigns, so they cannot run on the host or in the
+owner's test. The native manager is the one that reads the allocation context
+the source sets to 8. The alignment and tag arguments of the Ni entries are
+not passed on.
+
+## Native policy where the source would fault
+
+These three results are deliberate native policy, not recovered behaviour.
+`AddString` returns the null handle, publishes nothing, and leaves the lock
+free and the thread's context restored:
+
+- before `FUN_00a5b630` has started the table,
+- after a completed shutdown,
+- when the allocation fails, or the text is too long for a 32-bit request.
+
+The source uses the table pointer in `DAT_011f42c0` without a check, so before
+startup it would fault on a null table. It also writes the count into the new
+allocation without a check.
 
 ## Retain, release and retirement
 
@@ -44,7 +69,9 @@ to zero by an older unit's direct update is retired by the same sweep.
 
 `FUN_00a5b630` starts the table. `A5B660StringTable::FUN_00a5b660` calls
 `ShutdownTable`, which sweeps and then stops the table only if no node remains.
-Live handles refuse the shutdown and stay valid. The table is
+Live handles refuse the shutdown and stay valid. The refusal is silent:
+`ShutdownTable` reports it, but `FUN_00a5b660` returns nothing and discards the
+result, so production gets no signal that the table is still running. The table is
 constant-initialized and its destructor is never registered, so handles held by
 static objects in other units stay valid until the process ends.
 
@@ -89,11 +116,14 @@ own one-pointer declaration and bind to the owner at link time.
 fixed pools and thread context, with checks active under `NDEBUG`, in optimized
 and ASan, UBSan and vptr builds. It covers the hash against the source form,
 the null handle, an empty text, duplicate and distinct strings, the header an
-older unit reads, copy and both assignments, the name-slot update, revival of
-an unreferenced node, mixed direct and owner count updates, sweep retirement,
-allocation failure with the lock and context restored, an oversized text,
-concurrent interning during sweeps, unwinding, and refused then completed
-shutdown.
+older unit reads, texts of zero to three characters before the heaps start and
+from the pools, the rounded request size the manager records before the heaps
+start, copy and both assignments, the name-slot update, revival of an
+unreferenced node, mixed direct and owner count updates, sweep retirement,
+allocation failure with the lock and context restored, a text longer than the
+largest pool family landing in the main heap while the caller's context is 23,
+an oversized text, concurrent interning during sweeps, unwinding, and refused
+then completed shutdown.
 
 ## Not covered
 
@@ -102,8 +132,11 @@ shutdown.
   are not executed by any test. Their joins are checked by compiling the
   complete units and by the symbols and calls in the built objects.
 - Most callers of `AssignFixedString` pass the name in the second argument and
-  nothing in the third, which the definition reads. Only callers that pass it
-  third, such as `CreateRenderPassesNode`, reach the name update.
+  `{}` in the third. The definition reads the name through the third argument,
+  so those calls dereference a null pointer in the definition. Only callers
+  that pass the name third, such as `CreateRenderPassesNode`, reach the name
+  update. The mismatch is in the accepted tree, is unchanged here, and is
+  tracked separately.
 - Units that manage the count by hand still do so; they are compatible with
   the owner but not migrated to it.
 - Engine startup order, Windows execution, boot, play and save compatibility.

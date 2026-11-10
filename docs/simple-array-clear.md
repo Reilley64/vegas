@@ -22,6 +22,13 @@ built with.
 
 ## The two callers
 
+At the accepted tip 300f702dc, `build/units.json`, in the unit that defines
+both callers (`src/unmapped/bssimplearray.cpp`), bound the retired name
+`GlobalObject_00869f00::Clear(bool)` to `0x008454f0`, the address of
+`fnv_008454f0::FUN_008454f0::Clear`. The table and sibling-destructor argument
+below corroborates this binding. The recipe entry is removed with the name; the
+same table already binds the canonical name to that address.
+
 **006cfaa0** is the destructor body of the array whose table is `0x0106c9e0`.
 It stores the table and clears with storage release.
 

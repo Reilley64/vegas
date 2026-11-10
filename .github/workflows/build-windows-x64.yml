@@ -50,7 +50,8 @@ jobs:
         run: cmake --build --preset windows-x64 -- -k 0
 
       # Runs after a failed build as well. CTest reports a test whose executable was not built
-      # as Not Run and fails, so a missing test is never counted as passed.
+      # as Not Run or Failed and exits non-zero, so a missing test is never counted as passed.
+      # Each test gets five minutes, so a hang cannot use up the job's time limit.
       - name: "Test: Run the file-format suite"
         if: ${{ !cancelled() && (steps.build.outcome == 'success' || steps.build.outcome == 'failure') }}
-        run: ctest --preset windows-x64
+        run: ctest --preset windows-x64 --timeout 300

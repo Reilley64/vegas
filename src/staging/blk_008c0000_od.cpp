@@ -194,11 +194,6 @@ struct FlaggedData
     int FUN_008c2e30();
 };
 
-int FlaggedData::ContainsAnyFlag(unsigned int)
-{
-    return 0;
-}
-
 // @fnv 0x008c2e30
 int FlaggedData::FUN_008c2e30()
 {

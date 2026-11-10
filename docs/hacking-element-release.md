@@ -6,6 +6,10 @@ The one definition left is the function at 00702220 in
 `src/staging/blk_00700000_od.cpp`, and the class now has one declaration,
 `include/fnv/decl/FUN_00702220.h`, used by every unit that names it.
 
+That header already existed and declared the class empty; this change gives
+it the pointer member. Three units include it: `hackingmenu.cpp`,
+`blk_00700000_od.cpp` and `blk_00840000_od.cpp`. Before, only the last did.
+
 This is the binding only. It is not the repair of the hacking menu arrays; see
 "Not covered".
 
@@ -61,21 +65,35 @@ argument. Its one requirer is the destructor entry 00845690 in
 
 ## Behaviour change
 
-`FUN_007021b0_cls::DestroyOrFree` (007021b0) with bit 2 of its flags clear
+`FUN_007021b0_cls::DestroyOrFree` (007021b0) with mask 2 of its flags clear
 destroys one element. Before, that released nothing and then freed the element
-when bit 1 was set. Now it first releases the buffer the element points to.
-This is the recovered behaviour of the two addresses, not a native policy.
+when mask 1 was set. Now it first releases the buffer the element points to.
 
-The path with bit 2 set, which destroys an array, is not changed.
+This scalar path has no caller in source. The one caller of `DestroyOrFree`,
+`C7687d0::FUN_007687d0`, passes 3, and the compiler inlines the array path
+into it. No object requires `DestroyOrFree`.
 
-A link that held both definitions and needed the name could take either one.
-A link with every archive member reported the duplicate. Now there is one
-definition.
+That 007021b0 calls 00702220 on the scalar path is inferred from the bindings
+of unit 466 of `build/units.json`, the unit of `hackingmenu.cpp`: it lists
+007021b0 as a function and binds the destructor's name to `0x00702220`. The
+recipe records no call edges. This is recovered behaviour of the two
+addresses, not a native policy.
+
+The path with mask 2 set, which destroys an array, is not changed.
+
+A link that held both definitions could take either one. This is measured
+from the order of the duplicate report in two links of the previous tip: the
+link with every archive member named the `hackingmenu.cpp` definition first,
+and the worker-pool test link named the staging definition first. Now there
+is one definition.
 
 No program that contains either caller links today. The complete game link
 does not extract `hackingmenu.cpp.obj` or `blk_00840000_od.cpp.obj`, and the
 link with every archive member fails on other duplicate and undefined names.
-So no executable changes behaviour with this change.
+The worker-pool test link does extract `hackingmenu.cpp.obj` and both staging
+objects, and fails on other duplicates. The other 54 test executables link
+ordinarily; none of them, and not the game executable, contains any of the
+three objects. So no executable changes behaviour with this change.
 
 ## Producers and retirers of the element
 
@@ -84,7 +102,12 @@ So no executable changes behaviour with this change.
   requires it.
 - `ElemArray::CopyFrom` (0076b0c0) deletes and allocates an array of `ArrElem`,
   a second declaration of the same two words. The `ArrElem` constructor and
-  destructor have no definition.
+  destructor have no definition. Unit 466 binds `ArrElem::ArrElem()` and
+  `SL::SL()` to `0x0096a2d0`. The recipe lists that address as a 33-byte
+  function of `bssimplelist_h_unit.cpp`, and the body tagged with it, at
+  `src/bscore/bssimplelist.cpp:33-35`, zeroes two words. This is inferred
+  evidence that the original element constructor zeroes both words. It is not
+  bound here.
 - `C7687d0::FUN_007687d0` (007687d0) is the one caller of `DestroyOrFree`, with
   flags 3. No object requires it.
 - 00768920 and `STR_0076b200::AssignFrom` (0076b200) release and replace the
@@ -95,13 +118,16 @@ So no executable changes behaviour with this change.
 These were open before this change and remain open for VEGAS-72.
 
 - `HackingArrayElement::HackingArrayElement()` is empty, so a new element's
-  pointer is not initialised before 00768920 releases it.
+  pointer is not initialised before 00768920 releases it. That release sits
+  in 00768920, which this change does not touch.
 - The array path of `DestroyOrFree` passes `FUN_007021b0_cls::FUN_00702220` to
   `FUN_00ec5fce`. Neither has a definition. The recipe binds the first to
   `0x00702220`, the function kept here, but the call is not rebound: the path
   reads a 32-bit count four bytes before the array and steps eight bytes per
   element, which is the original release's 32-bit array layout and not the
-  layout the windows-x64 compiler gives `new HackingArrayElement[n]`.
+  layout the windows-x64 compiler gives `new HackingArrayElement[n]`. The
+  windows-x64 object of 00768810 keeps an 8-byte count eight bytes before the
+  array and steps 16 bytes per element.
 - `ArrElem`, `STR_0076b200`, `FUN_00768920_shell` and `HackingArrayElement` are
   four declarations of one element, joined by casts. They are not merged here.
 - `FUN_008456c0` reaches its receiver through a cast and a four-byte offset

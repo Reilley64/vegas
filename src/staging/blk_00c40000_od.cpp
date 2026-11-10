@@ -1014,10 +1014,6 @@ struct FUN_00a744a0 {
     FUN_00a744a0();
 };
 
-FUN_00a744a0::FUN_00a744a0()
-{
-}
-
 struct FUN_00c5ceb0 : public FUN_00a744a0 {
     FUN_00c5ceb0();
 };

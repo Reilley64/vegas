@@ -74,7 +74,7 @@ target_sources(game PRIVATE src/gamebryo2.2/corelibs/nimain/native_fixed_string.
 target_sources(game PRIVATE src/bscore/memory_manager_startup.cpp)
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nimain/nirefobject_lifetime.cpp)
 
-add_executable(FalloutNV EXCLUDE_FROM_ALL src/main.cpp src/runtime/new.cpp)
+add_executable(FalloutNV src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)
 target_link_libraries(FalloutNV PRIVATE game)
 

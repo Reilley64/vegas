@@ -36,13 +36,21 @@ jobs:
         with:
           arch: x64
 
-      - name: "Build: Build the windows-x64 preset"
+      - name: "Build: Configure the windows-x64 preset"
         shell: pwsh
         env:
           MSYS2_ROOT: ${{ steps.msys2.outputs.msys2-location }}
-        run: |
-          cmake --preset windows-x64 "-DMSYS2_ROOT=$env:MSYS2_ROOT"
-          cmake --build --preset windows-x64
+        run: cmake --preset windows-x64 "-DMSYS2_ROOT=$env:MSYS2_ROOT"
 
+      # Ninja keeps going after a failed target, so every target that can be built is built.
+      # The step still fails when any target fails.
+      - name: "Build: Build the windows-x64 preset"
+        id: build
+        shell: pwsh
+        run: cmake --build --preset windows-x64 -- -k 0
+
+      # Runs after a failed build as well. CTest reports a test whose executable was not built
+      # as Not Run and fails, so a missing test is never counted as passed.
       - name: "Test: Run the file-format suite"
+        if: ${{ !cancelled() && (steps.build.outcome == 'success' || steps.build.outcome == 'failure') }}
         run: ctest --preset windows-x64

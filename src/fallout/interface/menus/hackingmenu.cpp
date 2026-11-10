@@ -21,6 +21,7 @@
 #include "fnv/decl/FUN_004ed8c0_shell.h"
 #include "fnv/decl/FUN_00501270_shell.h"
 #include "fnv/decl/FUN_00700110_cls.h"
+#include "fnv/decl/FUN_00702220.h"
 #include "fnv/decl/FUN_007079f0_shell.h"
 #include "fnv/decl/FUN_007190e0_cls.h"
 #include "fnv/decl/FUN_00726d50_class.h"
@@ -608,20 +609,11 @@ TGF* FUN_00767bb0_shell::FUN_00767bb0(unsigned int a, unsigned int b)
 }
 
 
-struct FUN_00702220
-{
-    void* pData;
-    unsigned int ItemUpdateArray;
-    ~FUN_00702220();
-};
-
 struct HackingArrayElement : public FUN_00702220
 {
+    unsigned int ItemUpdateArray;
     HackingArrayElement();
 };
-
-FUN_00702220::~FUN_00702220()
-{}
 
 HackingArrayElement::HackingArrayElement()
 {}

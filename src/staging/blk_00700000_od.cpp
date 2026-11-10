@@ -28,6 +28,7 @@
 #include "fnv/decl/FUN_00559a70_Class.h"
 #include "fnv/decl/FUN_0055d520_shell.h"
 #include "fnv/decl/FUN_005bd580_cls.h"
+#include "fnv/decl/FUN_00702220.h"
 #include "fnv/decl/FUN_007123f0_shell.h"
 #include "fnv/decl/FUN_00714d70.h"
 #include "fnv/decl/FUN_00716a10.h"
@@ -205,11 +206,6 @@ void FUN_007004e0_class::FUN_007004e0()
     FUN_00700500();
 }
 
-struct FUN_00702220
-{
-    void* m;
-    ~FUN_00702220();
-};
 // Destructor that reads the stored pointer m and passes it to Deallocate.
 // @fnv 0x00702220
 FUN_00702220::~FUN_00702220()

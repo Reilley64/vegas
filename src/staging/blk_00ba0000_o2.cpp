@@ -16729,23 +16729,6 @@ __declspec(noinline) RefPtr_b9fcc0 List_b9fcc0::FUN_00b9efa0(void*& key)
     return result;
 }
 
-__declspec(noinline) RefPtr_b9fcc0 List_b9fcc0::FUN_00b9fcc0(const RefPtr_b9fcc0& item)
-{
-    SessionNode* node = head;
-    while (node)
-    {
-        SessionNode* current = node;
-        node = node->next;
-        if (current->payload == item.m_p)
-        {
-            node = current;
-            break;
-        }
-    }
-    void* cursor = node;
-    return cursor ? reinterpret_cast<::fnv_00b9efa0::RemovalList *>(this)->FUN_00b9efa0(cursor) : item;
-}
-
 struct S2760_Xf
 {
     float m00;

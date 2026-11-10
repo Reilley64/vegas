@@ -1,11 +1,12 @@
 #include "fnv/pathing/los_map_array.h"
 
+#include "fnv/decl/MemoryManager.h"
 #include "fnv/symbols_00401000.h"
 
-#include <algorithm>
 #include <cstring>
 #include <limits>
 #include <new>
+#include <stdexcept>
 #include <utility>
 
 namespace {
@@ -26,126 +27,110 @@ void release_bytes(void* memory) noexcept
 }
 }
 
-BGSLoadGameBuffer::BGSLoadGameBuffer() noexcept : pBuffer(nullptr), iBufferSize(0), m_uiReadOffset(0)
+namespace fnv::pathing {
+
+LOSSaveReader::LOSSaveReader(BGSLoadFormBuffer& buffer) noexcept
+    : LOSSaveReader(buffer.pBuffer, buffer.iBufferSize, buffer.m_uiReadOffset)
 {}
 
-BGSLoadGameBuffer::~BGSLoadGameBuffer() noexcept = default;
+LOSSaveReader::LOSSaveReader(const void* bytes, std::uint32_t size, std::uint32_t& readOffset) noexcept
+    : bytes_(static_cast<const std::byte*>(bytes)), size_(bytes ? size : 0), readOffset_(&readOffset)
+{}
 
-unsigned char BGSLoadGameBuffer::GetVersion()
+std::size_t LOSSaveReader::RemainingBytes() const noexcept
 {
-    return 0;
+    return *readOffset_ <= size_ ? size_ - *readOffset_ : 0;
 }
 
-TESForm* BGSLoadGameBuffer::GetForm()
+bool LOSSaveReader::TryReadRaw(void* destination, std::size_t size) noexcept
 {
-    return nullptr;
-}
-
-TESObjectREFR* BGSLoadGameBuffer::GetReference()
-{
-    return nullptr;
-}
-
-Actor* BGSLoadGameBuffer::GetActor()
-{
-    return nullptr;
-}
-
-void BGSLoadGameBuffer::SetBuffer(const void* buffer, std::size_t size, std::size_t position) noexcept
-{
-    if ((!buffer && size != 0) || position > size ||
-        size > std::numeric_limits<std::uint32_t>::max()) {
-        pBuffer = nullptr;
-        iBufferSize = 0;
-        m_uiReadOffset = 0;
-        return;
-    }
-    pBuffer = static_cast<const std::byte*>(buffer);
-    iBufferSize = static_cast<std::uint32_t>(size);
-    m_uiReadOffset = static_cast<std::uint32_t>(position);
-}
-
-const std::byte* BGSLoadGameBuffer::GetCurrentBufferPointer() const noexcept
-{
-    return pBuffer ? pBuffer + m_uiReadOffset : nullptr;
-}
-
-std::size_t BGSLoadGameBuffer::RemainingBytes() const noexcept
-{
-    return m_uiReadOffset <= iBufferSize ? iBufferSize - m_uiReadOffset : 0;
-}
-
-bool BGSLoadGameBuffer::TryReadRaw(void* destination, std::size_t size) noexcept
-{
-    if ((size != 0 && !destination) || !pBuffer || size == std::numeric_limits<std::size_t>::max())
-        return false;
-    const auto needed = size + 1;
-    if (needed > RemainingBytes() || pBuffer[m_uiReadOffset + size] != std::byte{'|'})
+    const auto remaining = RemainingBytes();
+    if ((size != 0 && !destination) || size >= remaining ||
+        bytes_[*readOffset_ + size] != std::byte{'|'})
         return false;
     if (size != 0)
-        std::memcpy(destination, pBuffer + m_uiReadOffset, size);
-    m_uiReadOffset += needed;
+        std::memcpy(destination, bytes_ + *readOffset_, size);
+    *readOffset_ += static_cast<std::uint32_t>(size + 1);
     return true;
 }
 
-bool BGSLoadGameBuffer::TryReadElementCount(std::uint32_t& count) noexcept
+bool LOSSaveReader::TryReadElementCount(std::uint32_t& count) noexcept
 {
-    if (!pBuffer || RemainingBytes() == 0)
+    if (RemainingBytes() == 0)
         return false;
 
-    const auto tag = std::to_integer<std::uint8_t>(pBuffer[m_uiReadOffset]);
-    const auto kind = tag & 3U;
+    const auto kind = std::to_integer<std::uint8_t>(bytes_[*readOffset_]) & 3U;
     const std::size_t width = kind == 0 ? 1 : kind == 1 ? 2 : kind == 2 ? 4 : 0;
-    if (width == 0 || width + 1 > RemainingBytes() ||
-        pBuffer[m_uiReadOffset + width] != std::byte{'|'})
+    std::uint8_t encoded[4] = {};
+    if (width == 0 || !TryReadRaw(encoded, width))
         return false;
-
-    std::uint32_t encoded = 0;
-    for (std::size_t i = 0; i < width; ++i)
-        encoded |= std::uint32_t(std::to_integer<std::uint8_t>(pBuffer[m_uiReadOffset + i])) << (i * 8U);
-    const auto decoded = encoded >> 2U;
-    m_uiReadOffset += width + 1;
-    count = decoded;
+    count = (std::uint32_t(encoded[0]) | std::uint32_t(encoded[1]) << 8U |
+             std::uint32_t(encoded[2]) << 16U | std::uint32_t(encoded[3]) << 24U) >> 2U;
     return true;
 }
 
-namespace fnv::pathing {
+void ThrowMalformedLOSSave()
+{
+    throw std::runtime_error("malformed LOS save data");
+}
+
+LOSByteArray::LOSByteArray() noexcept = default;
 
 LOSByteArray::~LOSByteArray() noexcept
 {
     Clear(true);
 }
 
+std::byte* LOSByteArray::AllocateBytes(std::uint32_t count) noexcept
+{
+    return static_cast<std::byte*>(allocate_bytes(count));
+}
+
+void LOSByteArray::FreeBytes(std::byte* bytes) noexcept
+{
+    release_bytes(bytes);
+}
+
+std::byte* LOSByteArray::ReallocateBytes(std::byte* bytes, std::uint32_t count) noexcept
+{
+    return static_cast<std::byte*>(FUN_00401020()->Reallocate(bytes, count));
+}
+
+// 006e12c0: a full block is reallocated; otherwise the live bytes move to a
+// new block before the old one is freed. Failure keeps the old block.
+bool LOSByteArray::SetCapacity(std::uint32_t capacity) noexcept
+{
+    std::byte* replacement = nullptr;
+    if (!data_) {
+        replacement = AllocateBytes(capacity);
+    } else if (size_ == capacity_) {
+        replacement = ReallocateBytes(data_, capacity);
+    } else if ((replacement = AllocateBytes(capacity))) {
+        std::memcpy(replacement, data_, size_);
+        FreeBytes(data_);
+    }
+    if (!replacement)
+        return false;
+    data_ = replacement;
+    capacity_ = capacity;
+    return true;
+}
+
+// 006e10c0.
 bool LOSByteArray::Resize(std::uint32_t requested, bool shrinkCapacity)
 {
-    if (requested > capacity_) {
-        auto* replacement = static_cast<std::byte*>(allocate_bytes(requested));
-        if (!replacement)
-            return false;
-        if (size_ != 0)
-            std::memcpy(replacement, data_, size_);
-        std::memset(replacement + size_, 0, requested - size_);
-        release_bytes(data_);
-        data_ = replacement;
-        capacity_ = requested;
-    } else if (requested > size_) {
+    if (requested == 0) {
+        Clear(shrinkCapacity);
+        return true;
+    }
+    if (requested > capacity_ && !SetCapacity(requested))
+        return false;
+    const bool reduced = requested < size_;
+    if (requested > size_)
         std::memset(data_ + size_, 0, requested - size_);
-    }
     size_ = requested;
-
-    if (shrinkCapacity && requested <= capacity_ / 4U) {
-        if (requested == 0) {
-            Clear(true);
-        } else {
-            auto* replacement = static_cast<std::byte*>(allocate_bytes(requested));
-            if (replacement) {
-                std::memcpy(replacement, data_, requested);
-                release_bytes(data_);
-                data_ = replacement;
-                capacity_ = requested;
-            }
-        }
-    }
+    if (reduced && shrinkCapacity && requested <= capacity_ / 4U)
+        SetCapacity(requested);
     return true;
 }
 
@@ -153,7 +138,7 @@ void LOSByteArray::Clear(bool releaseStorage) noexcept
 {
     size_ = 0;
     if (releaseStorage) {
-        release_bytes(data_);
+        FreeBytes(data_);
         data_ = nullptr;
         capacity_ = 0;
     }
@@ -166,30 +151,89 @@ void LOSByteArray::Swap(LOSByteArray& other) noexcept
     std::swap(capacity_, other.capacity_);
 }
 
+LOSMapLoad::~LOSMapLoad() noexcept
+{
+    delete newest_;
+    while (kept_ != 0)
+        delete slots_[--kept_].record;
+    release_bytes(slots_);
+}
+
+bool LOSMapLoad::Begin(LOSSaveReader& reader)
+{
+    // Each record holds at least two packed 3-byte form IDs and one count,
+    // every one followed by its separator.
+    constexpr std::size_t minimum_record_bytes = 10;
+    std::uint32_t count = 0;
+    if (slots_ || newest_ || !reader.TryReadElementCount(count))
+        return false;
+    if (count > reader.RemainingBytes() / minimum_record_bytes ||
+        count > std::numeric_limits<unsigned int>::max() / sizeof(Slot))
+        return false;
+    if (count != 0) {
+        slots_ = static_cast<Slot*>(allocate_bytes(std::size_t(count) * sizeof(Slot)));
+        if (!slots_)
+            return false;
+    }
+    count_ = count;
+    return true;
+}
+
+FUN_006e0480* LOSMapLoad::NewRecord()
+{
+    if (newest_ || kept_ == count_)
+        ThrowMalformedLOSSave();
+    newest_ = new FUN_006e0e80();
+    return newest_;
+}
+
+void LOSMapLoad::Keep(std::uint32_t navMeshID) noexcept
+{
+    if (navMeshID == 0 || !newest_)
+        delete newest_;
+    else
+        slots_[kept_++] = Slot{newest_, navMeshID};
+    newest_ = nullptr;
+}
+
+std::uint32_t LOSMapLoad::KeptID(std::uint32_t index) const noexcept
+{
+    return index < kept_ ? slots_[index].navMeshID : 0;
+}
+
+FUN_006e0480* LOSMapLoad::KeptRecord(std::uint32_t index) const noexcept
+{
+    return index < kept_ ? slots_[index].record : nullptr;
+}
+
+void LOSMapLoad::Release(std::uint32_t index) noexcept
+{
+    if (index < kept_)
+        slots_[index].record = nullptr;
+}
+
 } // namespace fnv::pathing
 
 FUN_006e0190::FUN_006e0190() noexcept = default;
 FUN_006e0190::~FUN_006e0190() noexcept = default;
 
-bool FUN_006e0190::TryLoad(BGSLoadGameBuffer& buffer)
+bool FUN_006e0190::TryLoad(fnv::pathing::LOSSaveReader& reader)
 {
     std::uint8_t loaded = 0;
     std::uint32_t value = 0;
-    if (!buffer.TryReadRaw(&loaded, sizeof(loaded)) ||
-        !buffer.TryReadRaw(&value, sizeof(value)))
+    if (!reader.TryReadRaw(&loaded, sizeof(loaded)) ||
+        !reader.TryReadRaw(&value, sizeof(value)))
         return false;
 
     fnv::pathing::LOSByteArray replacement;
     if (loaded == 0) {
         std::uint32_t count = 0;
-        if (!buffer.TryReadElementCount(count) || count > buffer.RemainingBytes() / 2U ||
-            !replacement.Resize(count))
+        if (!reader.TryReadElementCount(count) || count > reader.RemainingBytes() / 2U ||
+            !replacement.Resize(count, true))
             return false;
         for (std::uint32_t i = 0; i < count; ++i) {
-            std::byte byte{};
-            if (!buffer.TryReadRaw(&byte, sizeof(byte)))
+            if (!reader.TryReadRaw(replacement.Data() + i, 1))
                 return false;
-            replacement.Data()[i] = byte;
         }
     }
 
@@ -231,54 +275,54 @@ void FUN_006e1020_shell::FreeItems(FUN_006e0190** items) noexcept
     release_bytes(items);
 }
 
-FUN_006e0190** FUN_006e1020_shell::ReallocateItems(
-    FUN_006e0190** items, std::uint32_t oldCount, std::uint32_t newCount) noexcept
+FUN_006e0190** FUN_006e1020_shell::ReallocateItems(FUN_006e0190** items, std::uint32_t count) noexcept
 {
-    if (newCount == 0) {
-        FreeItems(items);
+    if (count == 0 || count > maximum_pointer_count)
         return nullptr;
-    }
-    auto* replacement = AllocateItems(newCount);
-    if (!replacement)
-        return nullptr;
-    const auto preserved = std::min(oldCount, newCount);
-    if (preserved != 0)
-        std::memcpy(replacement, items, std::size_t(preserved) * sizeof(*items));
-    FreeItems(items);
-    return replacement;
+    return static_cast<FUN_006e0190**>(FUN_00401020()->Reallocate(
+        items, static_cast<unsigned int>(std::size_t(count) * sizeof(FUN_006e0190*))));
 }
 
+// 006e12c0: a full block is reallocated; otherwise the live pointers move to a
+// new block before the old one is freed. Failure keeps the old block.
+bool FUN_006e1020_shell::SetCapacity(std::uint32_t capacity) noexcept
+{
+    FUN_006e0190** replacement = nullptr;
+    if (!data_) {
+        replacement = AllocateItems(capacity);
+    } else if (size_ == capacity_) {
+        replacement = ReallocateItems(data_, capacity);
+    } else if ((replacement = AllocateItems(capacity))) {
+        std::memcpy(replacement, data_, std::size_t(size_) * sizeof(*data_));
+        FreeItems(data_);
+    }
+    if (!replacement)
+        return false;
+    data_ = replacement;
+    capacity_ = capacity;
+    return true;
+}
+
+// 006f2290.
 bool FUN_006e1020_shell::Resize(std::uint32_t newSize, bool shrinkCapacity)
 {
-    if (newSize > maximum_pointer_count)
-        return false;
-
-    if (newSize > capacity_) {
-        auto* replacement = ReallocateItems(data_, size_, newSize);
-        if (!replacement)
-            return false;
-        data_ = replacement;
-        capacity_ = newSize;
-    } else if (newSize > size_) {
-        std::memset(data_ + size_, 0, std::size_t(newSize - size_) * sizeof(*data_));
+    if (newSize == 0) {
+        Clear(shrinkCapacity);
+        return true;
     }
+    if (newSize > capacity_ && !SetCapacity(newSize))
+        return false;
+    if (newSize > size_)
+        std::memset(data_ + size_, 0, std::size_t(newSize - size_) * sizeof(*data_));
 
+    const bool reduced = newSize < size_;
     while (size_ > newSize) {
         DeleteAt(size_ - 1U);
         --size_;
     }
     size_ = newSize;
-
-    if (shrinkCapacity && newSize <= capacity_ / 4U) {
-        if (newSize == 0) {
-            FreeItems(data_);
-            data_ = nullptr;
-            capacity_ = 0;
-        } else if (auto* replacement = ReallocateItems(data_, newSize, newSize)) {
-            data_ = replacement;
-            capacity_ = newSize;
-        }
-    }
+    if (reduced && shrinkCapacity && newSize <= capacity_ / 4U)
+        SetCapacity(newSize);
     return true;
 }
 
@@ -336,21 +380,24 @@ const FUN_006e0190* FUN_006e1020_shell::GetAt(std::uint32_t index) const noexcep
 
 FUN_006e0480::~FUN_006e0480() noexcept = default;
 
-bool FUN_006e0480::TryLoadEntries(BGSLoadGameBuffer& buffer)
+bool FUN_006e0480::TryLoadEntries(fnv::pathing::LOSSaveReader& reader)
 {
+    // Each entry holds at least its flag byte and 4-byte value, each followed
+    // by its separator.
+    constexpr std::size_t minimum_entry_bytes = 7;
     std::uint32_t count = 0;
-    if (!buffer.TryReadElementCount(count) || count > buffer.RemainingBytes() / 7U)
+    if (!reader.TryReadElementCount(count) || count > reader.RemainingBytes() / minimum_entry_bytes)
         return false;
 
     FUN_006e1020_shell replacement;
-    if (!replacement.Resize(count))
+    if (!replacement.Resize(count, true))
         return false;
     for (std::uint32_t i = 0; i < count; ++i) {
         if (!replacement.ConstructAt(i))
             return false;
-        replacement.GetAt(i)->pNavMeshInfo = pNavMeshInfo;
-        if (!replacement.GetAt(i)->TryLoad(buffer))
+        if (!replacement.GetAt(i)->TryLoad(reader))
             return false;
+        replacement.GetAt(i)->pNavMeshInfo = pNavMeshInfo;
     }
     Swap(replacement);
     return true;

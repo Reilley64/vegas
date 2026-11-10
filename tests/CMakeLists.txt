@@ -314,10 +314,13 @@ endif()
 target_include_directories(runtime_native_fixed_string_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
 add_test(NAME runtime.native_fixed_string COMMAND runtime_native_fixed_string_test)
 
-# Exercise the production LOS record array, bounded save reader and canonical
-# manager protocol. Windows extracts the same owner from the complete archive;
-# host builds name its actual production suppliers directly.
-add_executable(runtime_los_map_array_test runtime/los_map_array_test.cpp)
+# Exercise the production LOS record array, map-load owner, bounded save reader
+# and canonical manager protocol under the production global new and delete.
+# Windows extracts the same owner from the complete archive; host builds name
+# its actual production suppliers directly.
+add_executable(runtime_los_map_array_test
+  runtime/los_map_array_test.cpp
+  ${PROJECT_SOURCE_DIR}/src/runtime/new.cpp)
 if(WIN32)
   target_link_libraries(runtime_los_map_array_test PRIVATE game)
 else()

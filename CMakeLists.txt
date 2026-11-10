@@ -11,7 +11,10 @@ enable_testing()
 
 add_subdirectory(third_party)
 
+# llvm-lib stores members in reverse input order. The canonical LOS owner is
+# listed first so that it is the one member stored after the accepted 2,218.
 add_library(game STATIC
+  src/fallout_shared/pathfinding/los_map_array.cpp
   src/bscore/legacy_memory_manager_startup.cpp
   src/gamebryo2.2/corelibs/nimain/nipalette_memory.cpp
   src/bscore/engine_virtual_memory.cpp
@@ -60,13 +63,11 @@ include(src/staging/sources.cmake)
 include(src/fallout/sources.cmake)
 include(src/runtime/native_data_composition.cmake)
 # Keep the accepted 2,217 logical-member sequence intact; the canonical native
-# string owner, the Ni allocator holder, the native global string table owner
-# and then the canonical LOS owner are the only appended production members,
-# in that order.
+# string owner, the Ni allocator holder and then the native global string
+# table owner are the only appended production members, in that order.
 target_sources(game PRIVATE src/speedtree/native_string.cpp)
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nisystem/ni_allocator_holder.cpp)
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nimain/native_fixed_string.cpp)
-target_sources(game PRIVATE src/fallout_shared/pathfinding/los_map_array.cpp)
 
 add_executable(FalloutNV EXCLUDE_FROM_ALL src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)

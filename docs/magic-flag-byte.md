@@ -40,16 +40,21 @@ delegates to `FlagByte::ContainsAnyFlag`.
 time, returning zero for every mask. That body carried no address, and no
 address is recorded for a second flag query: `include/fnv/decl/FlaggedData.h`
 lists `0x0040e210` once. It was a placeholder for the callee of
-`FlaggedData::FUN_008c2e30` (`0x008c2e30`), not a second semantic owner. It is
-removed. The staging unit keeps its declaration and `FUN_008c2e30`, which now
+`FlaggedData::FUN_008c2e30` (`0x008c2e30`), not a second semantic owner. The
+recipe records no call edges: that `0x008c2e30` calls `0x0040e210` is inferred
+from the staging unit binding the query's name to that address and from the
+wrapper's 21-byte size. It is removed. The staging unit keeps its declaration and `FUN_008c2e30`, which now
 calls the one definition with mask 4.
 
 The one production caller of `FUN_008c2e30` is `ApplyActorSpells`
 (`0x008c2b60`) in `src/fallout/ai/actor_magic.cpp`. It walks the spell list of
-the actor's base and passes each `SpellItem*` unadjusted. It dispels the spell
-from the actor only when the query returns zero, so a spell with bit 4 set is
-no longer dispelled there. This is the recovered behaviour of the two
-addresses, not a native policy.
+the actor's base and passes each `SpellItem*` unadjusted. Among spells that pass the type
+filter, it dispels the spell from the actor only when the query returns zero,
+so a spell whose byte at `+0x40` has mask 4 set is no longer dispelled there.
+In the original release's layout that byte is the spell's flag byte, which
+makes this the recovered behaviour of the two addresses, not a native policy.
+Whether `+0x40` is that byte in a windows-x64 object is not established; see
+the next section.
 
 No generated data names either function. No archive member is added, removed or
 reordered.
@@ -62,7 +67,7 @@ The definition reads the byte `0x40` past its receiver. No call site holds a
 | Caller | Receiver passed |
 | --- | --- |
 | `FUN_008c2e30`, from `ApplyActorSpells` | a `SpellItem*` from the base spell list, unadjusted |
-| `MagicCaster` units, masks `0x10` and `0x80` | a spell form pointer, unadjusted |
+| `magiccaster.cpp` (four sites), masks `0x10` and `0x80` | a spell form pointer, unadjusted |
 | `FUN_00823c20`, mask 2, from `MagicTarget::AddActiveEffect` | the `MagicItem*` argument less `0x18` |
 | `interface.cpp` and `recipemenu.cpp`, mask 4 | the result of `FindFormEnchantment`, unadjusted |
 | `FUN_004094a0` in `enchantmentitem.cpp`, mask 1 | `this` less `0x24` |

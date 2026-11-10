@@ -81,4 +81,3 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
     (*reinterpret_cast<::NiPlaybackManager * *>(&::DAT_0126fac4))->vfn_18();
     return local.bSuccess;
 }
-

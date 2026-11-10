@@ -36758,10 +36758,7 @@ void FUN_0094c870_Class::FUN_0094c870(SpellItem* apSpell, bool abImmediate)
     MagicCaster::CastSpellOnCaster(apSpell, abImmediate);
 }
 
-void MagicCaster::CastSpellAtTarget(SpellItem* spell, MagicTarget* target, bool immediate)
-{}
-
-struct FUN_0094c890_Class
+struct FUN_0094c890_Class : MagicCaster
 {
     void FUN_0094c890(SpellItem* spell, MagicTarget* target, bool immediate);
 };
@@ -36769,7 +36766,7 @@ struct FUN_0094c890_Class
 // @fnv 0x0094c890
 void FUN_0094c890_Class::FUN_0094c890(SpellItem* spell, MagicTarget* target, bool immediate)
 {
-    reinterpret_cast<MagicCaster*>(this)->MagicCaster::CastSpellAtTarget(spell, target, immediate);
+    MagicCaster::CastSpellAtTarget(spell, target, immediate);
 }
 
 struct TESAmmoInitCalls

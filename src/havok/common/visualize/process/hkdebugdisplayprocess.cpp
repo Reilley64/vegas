@@ -426,6 +426,7 @@ SinkDDCA* ForwarderInterfaceDDCA::FUN_00ddca10(int aArg1, int aArg2, int aArg3, 
     return pkDelegate->f8(aArg1, aArg2, aArg3, ::g_1269cdc);
 }
 
+namespace fnv_00ddcbf0 {
 // FUN_00ddcbf0: MSVC adjustor thunk for a secondary base at offset 0x20.
 // Derived overrides a virtual that both bases declare; the second base's vtable slot
 // is a thunk that moves `this` back by sizeof(PrimaryBase) and jumps to the override.
@@ -456,6 +457,7 @@ struct SpawnedObject : PrimaryBase, SecondaryBase
 
 SpawnedObject::SpawnedObject()
 {}
+}  // namespace fnv_00ddcbf0
 
 namespace fnv_00ddcc00 {
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases

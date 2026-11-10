@@ -1021,6 +1021,7 @@ FnvHavok00d691a0_AdjOwner* FnvHavok_hkpconvexradiusviewer_make_adj_owner()
     return &o;
 }
 
+namespace fnv_00d691b0 {
 // sub ecx,0x28; jmp target: MSVC adjustor thunk. PrimaryBase is 0x28 bytes (vptr + 9 ints),
 // so the second base sits at +0x28 and the thunk subtracts 0x28 from this.
 struct PrimaryBase
@@ -1051,6 +1052,7 @@ struct SpawnedObject : PrimaryBase, SecondaryBase
 
 SpawnedObject::SpawnedObject()
 {}
+}  // namespace fnv_00d691b0
 
 struct D691C0Primary
 {

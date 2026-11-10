@@ -417027,7 +417027,7 @@
     },
     {
      "address": "0x00ddcbf0",
-     "symbol": "?FUN_00ddcbf0@SpawnedObject@@WCA@AEXXZ",
+     "symbol": "?FUN_00ddcbf0@SpawnedObject@fnv_00ddcbf0@@WCA@AEXXZ",
      "size": 8
     },
     {
@@ -417054,7 +417054,7 @@
     "??0S_00ddcb90_Obj@@QAE@XZ": "0x00ddcaf0",
     "?FUN_00ddcb50@Process@@QAEXXZ": "0x00ddcb50",
     "?FUN_00c85750@fnv_00ddcc10@@YAPAUProcessServices@1@XZ": "0x00c85750",
-    "?FUN_00ddcbf0@SpawnedObject@@UAEXXZ": "0x00ddcc10",
+    "?FUN_00ddcbf0@SpawnedObject@fnv_00ddcbf0@@UAEXXZ": "0x00ddcc10",
     "?FUN_00ddcc00@Derived@fnv_00ddcc00@@UAEXXZ": "0x00ddcc10",
     "?InvokeVirtualSlot15@Thunk@@QAEXHHHHH@Z": "0x00ddc920",
     "?ForwardToOwner@Interface@@QAEXIIIMMMI@Z": "0x00ddc9c0",
@@ -446928,7 +446928,7 @@
     },
     {
      "address": "0x00d691b0",
-     "symbol": "?FUN_00d691b0@SpawnedObject@@WCI@AEXXZ",
+     "symbol": "?FUN_00d691b0@SpawnedObject@fnv_00d691b0@@WCI@AEXXZ",
      "size": 8
     },
     {

@@ -78,6 +78,16 @@ null result storage to `0x0044a170` and then reads through it. The name string
 is never constructed in the emitted code. This is the "default clear passes
 null result storage" contract the ticket lists as unresolved.
 
+The constructor's first call targets the float vector's constructor,
+`std::vector<float>::vector()`, which no archive member defines. Its unwind
+funclet requires `std::vector<float>::~vector()`, which one member defines,
+`bsfacegenmanager.cpp.obj`.
+
+The default clear reads a 32-bit word at `+0xc` of the value and passes it to
+`FUN_0065e000`. Laid out at 32-bit widths, `+0xc` is the float vector's first
+pointer. On windows-x64 that pointer is 8 bytes at `+0x10`, and `+0xc` is the
+vector's second allocator word.
+
 So a caller that reached the constructor today would stop at that trap, where
 a caller that reached the placeholder got one meaningless word and continued
 with an otherwise unwritten value. Neither is the original's behaviour.
@@ -121,8 +131,13 @@ float vector's constructor has no definition, so its writes are not measured.
 
 The staging unit declares the value as fifteen 32-bit words, the size its own
 comment gives for the original release's object. The model-loader class holds
-three native pointers and a pointer-sized string buffer, which grow on
-windows-x64. This change does not endorse either declaration.
+four native pointers in the float vector and a pointer in the string's storage
+union. On windows-x64 the four pointers add 16 bytes, and the union's pointer
+adds 4 bytes of alignment padding in front of the string's storage. The class
+is `0x3c` bytes when clang lays the same declarations out at 32-bit widths and
+`0x50` on windows-x64. Layout arithmetic, not a recorded fact: at 32-bit
+widths the two declarations are the same `0x3c`-byte object. This change does
+not endorse either declaration.
 
 ## One body per name
 
@@ -149,6 +164,20 @@ These were open before this change and remain open.
 - The constructor's body. On windows-x64 it traps after the default clear,
   as described above, and never constructs the name string. The default clear
   `0x0044a0a0` and its null result storage are not repaired here.
+- The order of that repair. The model-loader class extends 20 bytes past each
+  of the two `0x3c`-byte staging temporaries. In `0x00aadde0` the first 8 of
+  those bytes are the function's exception state slot and the other 12 are
+  saved registers. In `0x00aaac10` they are the first 20 bytes of the copy
+  temporary beside it. The name string's length and capacity are 4 bytes each
+  at `+0x48` and `+0x4c`, inside that excess. If the null result storage of
+  `VecStandIn::FUN_0044a0a0` were repaired before the `0x3c` and `0x50`
+  storage is reconciled, the constructor would run to its end and construct
+  the name string there. The storage has to be reconciled first or in the
+  same change. `Vector64D::FUN_0064db70` (`0x0064db70`) in
+  `src/staging/blk_00640000_od.cpp` is the in-tree model for the repair: it
+  makes the same two supplier calls, to `0x0044a170` and `CallWithSelf`, and
+  passes a local pair to each as result storage where `FUN_0044a0a0` passes
+  null.
 - The float vector's constructor, the value's destructor, and the copy
   constructor and destructor of `FUN_006593e0` have no definition. Until they
   do, neither path can run in a linked program.

@@ -284,11 +284,11 @@ void TESValueForm::SetFormValue(unsigned int value)
 }
 // Stores item into m_item when item is non-null; returns early otherwise.
 // @fnv 0x00726c60
-template <> void BSSimpleList<TESFile*>::SetItem(TESFile* const& apFile)
+template <class T> void BSSimpleList<T>::SetItem(const T& item)
 {
-    if (!apFile)
+    if (!item)
         return;
-    m_item = apFile;
+    m_item = item;
 }
 // @fnv 0x00484ee0
 TESFile* TESForm::GetOwnerMaster()
@@ -4064,4 +4064,31 @@ void TESFormLoadProxy::FUN_00484c50(unsigned int flags, unsigned int currentFlag
 
 
 
+// build/units.json gives BSSimpleList<T>::SetItem, one folded body at
+// 0x00726c60, to this unit, so this unit emits it, once per element type that
+// another unit requires. A pointee is forward declared with the key the
+// requiring units use. docs/shared-simple-list.md says which element types
+// are listed.
+class BGSCameraShot;
+class MediaSet;
+class TESCaravanCard;
+class TESForm;
+class TESGrass;
+class TESObjectREFR;
+class TESPackage;
+class TESQuest;
+class TESTopic;
+class TESTopicInfo;
+template void BSSimpleList<TESFile*>::SetItem(TESFile* const&);
+template void BSSimpleList<BGSCameraShot*>::SetItem(BGSCameraShot* const&);
+template void BSSimpleList<MediaSet*>::SetItem(MediaSet* const&);
+template void BSSimpleList<TESCaravanCard*>::SetItem(TESCaravanCard* const&);
+template void BSSimpleList<TESForm*>::SetItem(TESForm* const&);
+template void BSSimpleList<TESGrass*>::SetItem(TESGrass* const&);
+template void BSSimpleList<TESObjectREFR*>::SetItem(TESObjectREFR* const&);
+template void BSSimpleList<TESPackage*>::SetItem(TESPackage* const&);
+template void BSSimpleList<TESQuest*>::SetItem(TESQuest* const&);
+template void BSSimpleList<TESTopic*>::SetItem(TESTopic* const&);
+template void BSSimpleList<TESTopicInfo*>::SetItem(TESTopicInfo* const&);
+template void BSSimpleList<unsigned int>::SetItem(const unsigned int&);
 #include "generated/data/fallout_shared/tesform.inc"

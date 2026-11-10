@@ -136,13 +136,7 @@ struct NiPoint2
 };
 class BGSPerkEntry;
 class EffectSetting;
-template <class T> class BSSimpleList
-{
-  public:
-    T& GetItem();
-    BSSimpleList* GetNext();
-    unsigned int ItemsInList();
-};
+#include "fnv/bs_simple_list.h"
 
 class InputManager
 {

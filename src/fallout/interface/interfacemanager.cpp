@@ -392,8 +392,9 @@ NiPoint2 NiPoint2::operator*(float scale) const
 // Counts the non-null items in the list by walking each node and incrementing a counter when GetItem returns a value.
 // Counts the number of non-null items in the BSSimpleList by traversing from the head node to the end.
 // @fnv 0x005ae380
-template <> unsigned int BSSimpleList<EffectSetting*>::ItemsInList()
+template <class T> unsigned int BSSimpleList<T>::ItemsInList()
 {
+    static_assert(sizeof(T) == sizeof(void*), "ItemsInList reads the item as a pointer: emit it for pointer element types only");
     struct Traversal
     {
         unsigned int count;
@@ -15344,4 +15345,12 @@ void Owner_o2_fpfast::FUN_00b5fd60()
     (*reinterpret_cast<::GlobalObject_0096a2d0 *>(&::fnv_00b5ddf0::DAT_011f9ec0)).Unlock();
     (*reinterpret_cast<::GlobalObject_0096a2d0 *>(&::fnv_00b5ddf0::DAT_011f9ea0)).Unlock();
 }
+// build/units.json gives BSSimpleList<T>::ItemsInList, one folded body at
+// 0x005ae380, to this unit, so this unit emits it, once per element type that
+// another unit requires. A pointee is forward declared with the key the
+// requiring units use. docs/shared-simple-list.md says which element types
+// are listed.
+class TESPackage;
+template unsigned int BSSimpleList<EffectSetting*>::ItemsInList();
+template unsigned int BSSimpleList<TESPackage*>::ItemsInList();
 #include "generated/data/fallout/interface/interfacemanager.inc"

@@ -69,8 +69,4 @@ class InterfaceManager
 };
 template <> void BSSimpleList<ActorCause*>::RemoveAll();
 template <> void BSSimpleList<SpellItem*>::AddHead(SpellItem*&);
-template <> class BSSimpleList<ScriptVariableInfo*>
-{
-  public:
-};
 #endif

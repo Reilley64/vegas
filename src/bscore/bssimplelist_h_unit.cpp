@@ -1513,14 +1513,8 @@ bool FUN_0048b310(void* form, void* variant)
 
 #include "generated/data/bscore/bssimplelist_h_unit.inc"
 
-// The default constructor at 0x0096a2d0 is one folded body for every pointer
-// list. The recipe gives it to this unit, so this unit emits it for the
-// element types it already declares and that other units construct.
-template BSSimpleList<Actor*>::BSSimpleList();
-template BSSimpleList<BGSHeadPart*>::BSSimpleList();
-template BSSimpleList<TESBoundObject*>::BSSimpleList();
-template BSSimpleList<TESObjectREFR*>::BSSimpleList();
-template BSSimpleList<TESTopic*>::BSSimpleList();
-template BSSimpleList<Tile*>::BSSimpleList();
-template BSSimpleList<void*>::BSSimpleList();
+#include "bssimplelist_elements.inl"
+
+// Constructor only: a unit that requires another member of these lists lays
+// the list out differently (docs/shared-simple-list.md).
 template BSSimpleList<const char*>::BSSimpleList();

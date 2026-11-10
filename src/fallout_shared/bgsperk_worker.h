@@ -32,25 +32,7 @@ class PerkEntryPointData
     unsigned char m_ucConditionCount;
 };
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    ~BSSimpleList();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsEmpty();
-    bool IsInList(T& item);
-    void Insert(T item, int(__cdecl* compare)(T, T));
-    void RemoveAll();
-    void RemoveHead();
-    void Remove(const T& item);
-    void AddTail(const T& item);
-    void AddHead(T& item);
-    void SetItem(const T& item);
-};
+#include "fnv/bs_simple_list.h"
 
 class TESFullName;
 class TESFullNameLoader

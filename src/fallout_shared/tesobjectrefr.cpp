@@ -50015,12 +50015,7 @@ struct ChildActivateView : public TESObjectREFR
     void FUN_0056a290(TESObjectREFR*);
 };
 
-template <typename T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-};
+#include "fnv/bs_simple_list.h"
 
 struct TESObjectACTI;
 

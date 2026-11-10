@@ -50,15 +50,7 @@ class ScriptVariableInfo;
 class ScriptHeaderData;
 class ScriptReferencedObject;
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    void AddTail(T& item);
-};
+#include "fnv/bs_simple_list.h"
 
 class QuestStage
 {

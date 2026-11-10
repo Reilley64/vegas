@@ -25,22 +25,7 @@ enum ENUM_FORM_ID
     FORM_CREATURE = 0x2b,
     FORM_QUEST = 0x47
 };
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    ~BSSimpleList();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsEmpty();
-    void AddTail(T& item);
-    void AddHead(T& item);
-    void RemoveHead();
-    void RemoveAll();
-    bool IsInList(T& item);
-};
+#include "fnv/bs_simple_list.h"
 template <class T> class BSStringT
 {
   public:

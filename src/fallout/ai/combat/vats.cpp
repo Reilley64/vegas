@@ -1,4 +1,7 @@
 // fallout/ai/combat/vats.cpp: VATS, PlayerCharacter, SoundListView, ListHolder and more (26 functions)
+// This unit calls BSSimpleList<T>::Remove, which fnv/bs_simple_list.h does not declare,
+// so it keeps the declaration it had (docs/shared-simple-list.md).
+#define FNV_KEEPS_OWN_BSSIMPLELIST
 
 #include "fnv/havok_array_view.h"
 #include "fnv/game_timer.h"

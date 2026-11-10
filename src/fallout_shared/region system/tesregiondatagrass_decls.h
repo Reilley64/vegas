@@ -3,13 +3,7 @@
 #define TESREGIONDATAGRASS_DECLS_H
 
 class TESGrass;
-template <class T> class BSSimpleList
-{
-  public:
-    BSSimpleList();
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-};
+#include "fnv/bs_simple_list.h"
 class TESRegionData
 {
   public:

@@ -24,14 +24,7 @@
 #include "fnv/symbols_01024000.h"
 class TESFile;
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    ~BSSimpleList();
-    void AddHead(T& item);
-};
+#include "fnv/bs_simple_list.h"
 
 struct NiPoint2
 {

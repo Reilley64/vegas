@@ -12,22 +12,7 @@ class TESAmmo;
 class TESSound;
 class SpellItem;
 class BGSListForm;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    BSSimpleList(T& item);
-    ~BSSimpleList();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsEmpty();
-    void AddTail(T& item);
-    void AddHead(T& item);
-    void RemoveHead();
-    void RemoveAll();
-};
+#include "fnv/bs_simple_list.h"
 template <class T> class BSStringT
 {
   public:

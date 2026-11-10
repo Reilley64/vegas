@@ -36,19 +36,7 @@ enum ENUM_FORM_ID
     FORM_ID_LSCR = 75,
     FORM_ID_PBAR = 105
 };
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    ~BSSimpleList();
-    void AddHead(T& item);
-    bool IsEmpty();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    void RemoveAll();
-};
+#include "fnv/bs_simple_list.h"
 template <class T> class BSStringT
 {
   public:

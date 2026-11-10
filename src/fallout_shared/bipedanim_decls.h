@@ -1222,13 +1222,7 @@ struct BipedAttachmentTarget
     NiNode* parent;
 };
 class TESTopic;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList<T>* GetNext();
-};
+#include "fnv/bs_simple_list.h"
 class TESTopicInfoData
 {
   public:

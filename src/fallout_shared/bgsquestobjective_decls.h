@@ -15,15 +15,7 @@ public:
     ::TESObjectREFR *GetReference(bool);
 };
 class BGSPerkEntry;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsEmpty();
-};
+#include "fnv/bs_simple_list.h"
 template <class T> class BSStringT
 {
   public:

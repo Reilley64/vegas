@@ -41,15 +41,7 @@ class Tile__TileTemplate;
 class InventoryStackRecord;
 class TESBoundObject;
 class ListBoxItem_ItemChange___;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    ~BSSimpleList();
-    void AddHead(T&);
-};
+#include "fnv/bs_simple_list.h"
 class Menu
 {
   public:

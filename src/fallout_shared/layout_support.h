@@ -19,6 +19,7 @@ class MediaSet;
 class MediaLocationController;
 class NiNode;
 class TESSound;
+#ifdef FNV_KEEPS_OWN_BSSIMPLELIST
 template <class T> class BSSimpleList
 {
   public:
@@ -36,6 +37,9 @@ template <class T> class BSSimpleList
     void AddHead(T& item);
     void SetItem(const T& item);
 };
+#else
+#include "fnv/bs_simple_list.h"
+#endif
 template <class T> class BSStringT
 {
   public:

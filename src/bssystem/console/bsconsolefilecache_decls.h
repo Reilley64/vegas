@@ -65,14 +65,7 @@ template <class T> class NiTObjectArray
     unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;
 };
 
-template <class T> class BSSimpleList
-{
-  public:
-    BSSimpleList();
-    ~BSSimpleList();
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-};
+#include "fnv/bs_simple_list.h"
 
 // The canonical source binds the folded pointer-array RemoveAll to this name.
 class NiTPrimitiveArray_unsigned_int_

@@ -52,20 +52,7 @@ class DecalDataDeleter
   public:
 };
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    BSSimpleList();
-    BSSimpleList(T& item);
-    ~BSSimpleList();
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-    bool IsEmpty();
-    void AddHead(T& item);
-    void RemoveHead();
-};
+#include "fnv/bs_simple_list.h"
 
 class PerkEntryConditionSet
 {

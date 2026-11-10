@@ -8,12 +8,7 @@
 class ContentMountRecord;
 class DownloadableContentEntry;
 class DownloadableContentInfo;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-};
+#include "fnv/bs_simple_list.h"
 class DownloadableContentManager
 {
   public:

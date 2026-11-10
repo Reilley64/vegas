@@ -1,4 +1,7 @@
 // fallout_shared/bgscamerapath.cpp: BGSCameraPath, CameraPathCompare, CameraPathClone, CameraPath and more (24 functions)
+// This unit calls BSSimpleList<T>::SetItem, which fnv/bs_simple_list.h does not declare,
+// so it keeps the declaration it had (docs/shared-simple-list.md).
+#define FNV_KEEPS_OWN_BSSIMPLELIST
 
 #include <new>
 #include <cstring>

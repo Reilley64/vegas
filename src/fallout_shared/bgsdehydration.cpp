@@ -1,4 +1,7 @@
 // fallout_shared/bgsdehydration.cpp: BGSDehydrationStage, BGSHungerStage, WaitableObject, TESForm and more (45 functions)
+// This unit calls BSSimpleList<T>::SetItem, which fnv/bs_simple_list.h does not declare,
+// so it keeps the declaration it had (docs/shared-simple-list.md).
+#define FNV_KEEPS_OWN_BSSIMPLELIST
 
 #include <new>
 #include <cmath>

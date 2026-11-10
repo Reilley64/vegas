@@ -25,14 +25,7 @@ class ChangesMap : public NiTPointerMap<unsigned int, TESObjectREFR*>
 };
 class BGSNote;
 class BGSCameraShot;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    bool IsInList(T&);
-    void Remove(T const&);
-};
+#include "fnv/bs_simple_list.h"
 class TESSaveLoadGame
 {
   public:

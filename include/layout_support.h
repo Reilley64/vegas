@@ -273,6 +273,7 @@ public:
 public:
     unsigned int FileRead(void *, unsigned int);
 };
+#ifdef FNV_KEEPS_OWN_BSSIMPLELIST
 template <class T> class BSSimpleList
 {
   public:
@@ -293,6 +294,9 @@ template <class T> class BSSimpleList
     void RemoveAll();
     void Sort(int(FNV_CDECL* compare)(T, T));
 };
+#else
+#include "fnv/bs_simple_list.h"
+#endif
 template <class T> class NiTMallocInterface
 {
 };

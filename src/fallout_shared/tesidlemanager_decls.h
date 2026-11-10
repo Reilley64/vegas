@@ -36,21 +36,7 @@ enum ANIM_GROUP_WEAPON_ENUM
     ANIM_GROUP_WEAPON_ENUM_ANIM_GROUP_WEAPON_COUNT = 12
 };
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-
-  public:
-    BSSimpleList();
-    ~BSSimpleList();
-    bool IsEmpty();
-    T& GetItem();
-    void AddHead(T& item);
-    void* AddTail(T item);
-    void RemoveHead();
-};
+#include "fnv/bs_simple_list.h"
 
 class IdleAnimationDirectoryEntry
 {

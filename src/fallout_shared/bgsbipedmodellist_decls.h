@@ -97,14 +97,7 @@ class TESForm
     TESFile* GetFile(int);
 };
 class BGSPerkEntry;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    T& GetItem();
-    BSSimpleList<T>* GetNext();
-};
+#include "fnv/bs_simple_list.h"
 class BGSCameraShot;
 template <> class BSSimpleList<BGSCameraShot*>
 {

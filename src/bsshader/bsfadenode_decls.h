@@ -144,12 +144,7 @@ public:
 class FadingSceneNode;
 class BSMultiBoundRoom;
 class BSPortal;
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList* m_pkNext;
-};
+#include "fnv/bs_simple_list.h"
 class BSFadeNode : public NiNode
 {
   public:

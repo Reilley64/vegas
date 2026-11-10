@@ -31,18 +31,7 @@ class BGSTextureSet;
 class PackageList;
 class TESGrass;
 
-template <class T> class BSSimpleList
-{
-  public:
-    T m_item;
-    BSSimpleList<T>* m_pkNext;
-    bool IsEmpty();
-    T& GetItem();
-    void AddHead(T& item);
-    void RemoveHead();
-    void Remove(const T& item);
-    BSSimpleList<T>* GetNext();
-};
+#include "fnv/bs_simple_list.h"
 
 class TESAIForm
 {

@@ -106,6 +106,116 @@ The class is 592 bytes there. It is incomplete, and the unit contradicts it:
   `FUN_00a0bc80`. The fields the unit accesses through `::Tile` reach offset
   93.
 
+## The views of the object in the owning unit
+
+Measured on f0ed64652, whose code is that of 2277431b8, with the build's
+own command line for `tile.cpp`. A clang plugin reads every record that an
+explicit pointer cast or a derivation connects to `::Tile`, and every field
+access through such a record in each function row. The same text is also
+measured for the 32-bit target, which is the layout the transcriptions were
+written against. A field of a view agrees when its windows-x64 offset is the
+offset of the `::Tile` field that starts at the same 32-bit offset, and is
+stale when it is not. The windows-x64 instructions of the object were then
+searched for each access: 220 of the 224 accesses have a memory operand of
+the measured size at the measured displacement. The other four have no
+operand there, because the optimiser folds or merges them.
+
+- 80 of the 151 function rows touch the object: they access a field
+  through a view, or name a view as receiver, cast target or call object.
+- 47 rows access 224 fields. 34 records are layout views of the object, and
+  30 of them have at least one stale field.
+- `::Tile` itself is used by 20 rows. Each of its accesses agrees, because
+  `::Tile` is the reference.
+- 21 rows make 104 stale accesses. One more row, `TileV::FUN_00a0b420` at
+  `0x00a0b420`, reads 8 bytes at offset 600, past the 592 bytes of `::Tile`:
+  `TileV` derives from `::Tile` and then declares the fields of a
+  standalone 32-bit view, `unk00` at 0 and the child list head at 4.
+
+### The two 64-byte views
+
+`FUN_009ff340`, the class of the destructor row at `0x009ff340`, and
+`fnv_00a00c20::Tile3D`, the base of the six classes that the function at
+`0x00a00c20` creates, are both the 32-bit layout of `Tile` with every pointer
+field spelt as a 4-byte `int`:
+
+| 32-bit offset | `::Tile` field (windows-x64 offset) | `FUN_009ff340` field (windows-x64 offset) | `Tile3D` field (windows-x64 offset) |
+| --- | --- | --- | --- |
+| 0 | table pointer (0) | table pointer (0) | table pointer (0) |
+| 4 | child list head (8) | `int unk00` (8) | `int unk04` (8) |
+| 8 | child list tail (16) | `int unk04` (12) | `int unk08` (12) |
+| 12 | child count (24) | `int e.unk00` (16) | `int unk0c` (16) |
+| 16 | value array table pointer (32) | `int m10.unk00` (20) | `int unk10` (20) |
+| 20 | value array data (40) | `int m10.unk04` (24) | `int unk14` (24) |
+| 24 | value array size (48) | `int m10.unk08` (28) | `int unk18` (28) |
+| 28 | value array capacity (52) | `int m10.unk0c` (32) | `int unk1c` (32) |
+| 32 | name string (56) | `int m20.unk00` (36) | `int unk20` (36) |
+| 36 | name lengths (64) | `int m20.unk04` (40) | `int unk24` (40) |
+| 40 | parent (72) | `int m20.unk08` (44) | `int unk28` (44) |
+| 44 | node pointer (80) | `m2c.m_obj`, a pointer (48) | `int unk2c.value` (48) |
+| 48 | flags (88) | `unsigned int flags` (56) | `int unk30` (52) |
+| 52 | two bytes (92, 93) | | `int unk34` (56) |
+| 56 | | | `int unk38`, data of the derived classes (60) |
+
+Every field after the table pointer is stale on windows-x64. The views are
+stale 32-bit layouts, not layout evidence.
+
+### Rows with stale accesses
+
+| Address | Function | View | Accesses | Stale |
+| --- | --- | --- | --- | --- |
+| `0x009ff340` | `FUN_009ff340::~FUN_009ff340` | `FUN_009ff340` | 8 | 8 |
+| `0x00a00b50` | `TileObject::FUN_00a00b50` | `TileObject` | 3 | 2 |
+| `0x00a00c20` | `fnv_00a00c20::FUN_00a00c20` | `FUN_00a0bc80`, `TileText` (on `Tile3D`) | 4 | 4 |
+| `0x00a01750` | `TileA01::FUN_00a01750` | `TileA01` | 1 | 1 |
+| `0x00a033b0` | `fnv_00a033b0::C00a033b0::FUN_00a033b0` | `R_Tile` | 7 | 7 |
+| `0x00a037e0` | `UpdateTreeNode::FUN_00a037e0` | `UpdateTreeNode` | 5 | 4 |
+| `0x00a03c90` | `FUN_00a03c90_shell::FUN_00a03c90` | `TileMenu` | 1 | 1 |
+| `0x00a03f70` | `fnv_00a03f70::FUN_00a03f70_shell::FUN_00a03f70` | `TileParent_00a03f70` | 1 | 1 |
+| `0x00a040a0` | `sa040a0::Owner::IsAllChildrenFlag0` | `sa040a0::Owner` | 1 | 1 |
+| `0x00a04640` | `RenderTile::FUN_00a04640` | `RenderTile` | 54 | 54 |
+| `0x00a07580` | `fnv_00a07580::FUN_00a07580` | `TileResult_00a07580` | 2 | 2 |
+| `0x00a07690` | `FUN_00a07690` | `FlaggedTile` | 5 | 5 |
+| `0x00a07a40` | `ClipTile::FUN_00a07a40` | `ClipTile` | 4 | 3 |
+| `0x00a080d0` | `FUN_00a080d0` | `FadeTile` | 1 | 1 |
+| `0x00a087d0` | `FUN_00a087d0_shell::FUN_00a087d0` | `::Tile`, `TileFlags_00a087d0` | 23 | 1 |
+| `0x00a08a20` | `SceneNodeOwner::FUN_00a08a20` | `SceneNodeOwner` | 2 | 2 |
+| `0x00a09410` | `fnv_00a09410::EvalValue::FUN_00a09410` | `EvalTile` | 2 | 2 |
+| `0x00a0b020` | `A0B020Tile::FUN_00a0b020` | `A0B020Tile` | 3 | 1 |
+| `0x00a0b1f0` | `A0B1F0Tile::FUN_00a0b1f0` | `A0B1F0Tile` | 1 | 1 |
+| `0x00a0b520` | `TileWork::FUN_00a0b520` | `TileWork` | 3 | 2 |
+| `0x00a0bbf0` | `FUN_00a0bbf0::~FUN_00a0bbf0` | `TileBaseA0BBF0` | 1 | 1 |
+
+The destructor at `0x009ff340` reads and writes the flags at 56 instead of
+88, passes the node pointer from 48 instead of 80, and destroys the value
+array at 20 and the name at 36 instead of 32 and 56. Its deleting
+destructor frees 64 bytes. Slots 7 and 8 read the node pointer at 56 and 48
+instead of 80.
+
+### The creation function
+
+`FUN_00a00c20` creates one of six types by a type number. Each constructor
+starts with the base constructor. The text calls it as
+`fnv_00a00c20::Tile3D::Tile3D`, a name with no key. The symbols map of
+`tile.cpp` binds `Tile3D::Tile3D` to `0x00709860`, whose function row is
+in `tile3d_h_unit.cpp`.
+
+| Type number | Created type | Bytes allocated on windows-x64 | Bytes in the 32-bit layout of the same text |
+| --- | --- | --- | --- |
+| `0x385` | `TileRect` | 64 | 60 |
+| `0x386`, `0x38a` | `TileImage` | 80 | 72 |
+| `0x387` | `TileText` | 80 | 76 |
+| `0x388` | `FUN_00a0bc80` | 104 | 80 |
+| `0x389` | `TileMenu` | 72 | 64 |
+| `0x38c` | `FUN_00a21660` | 80 | 72 |
+
+Every created object is a `Tile` and needs the 94 bytes that the fields of
+`::Tile` reach, plus the type's own fields. All six allocations are smaller
+than that, and five are smaller than the 94 bytes alone. The writes of the
+function itself are stale too: `FUN_00a0bc80` clears its own two fields at
+60 and 64, inside the name of `Tile`, and passes the node pointer at 48. The
+lazy link of the game does not load the object of `tile.cpp`, so no program
+that links today contains this code.
+
 ## The virtual table
 
 The recipe binds four addresses under a table name of the family:

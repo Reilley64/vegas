@@ -202,6 +202,8 @@ template class BSSimpleList<MagicHitEffect*>;
 template class BSSimpleList<MediaLocationController*>;
 template class BSSimpleList<MediaSet*>;
 template class BSSimpleList<MenuTopic*>;
+// A list of lists. The pointee is the list emitted on the line above.
+template class BSSimpleList<BSSimpleList<MenuTopic*>*>;
 template class BSSimpleList<MobileObject*>;
 template class BSSimpleList<Modifier*>;
 template class BSSimpleList<ModifierEntryView*>;

@@ -247,7 +247,7 @@ struct MemoryManager
 
 struct PoolInfo
 {
-    unsigned int f0;
+    const char* f0;
     unsigned int f1;
     unsigned int f2;
     unsigned int f3;
@@ -259,36 +259,22 @@ struct PoolInfo
     unsigned int f9;
 };
 
-struct FUN_00aa6d00_holder
-{
-    unsigned int m0;
-    char pad0[0x3c];
-    unsigned int m40;
-    unsigned int m44;
-    char pad1[4];
-    unsigned int m4c;
-    unsigned int m50;
-    unsigned int m54;
-    unsigned int m58;
-    PoolInfo GetPoolInfo();
-};
-
-// Builds a PoolInfo from the holder's fields, computing f1 from m4c and f9 as f5 divided by m40 minus m54.
+// Builds a PoolInfo from the pool's fields, computing f1 from the page count and f9 as f5 divided by the block size minus the free block count.
 // @fnv 0x00aa6d00
-PoolInfo FUN_00aa6d00_holder::GetPoolInfo()
+PoolInfo MemoryPool::GetPoolInfo()
 {
     PoolInfo info;
     std::memset(&info, 0, sizeof(PoolInfo));
-    info.f0 = m0;
-    info.f1 = m4c * 2 + 0x80;
-    info.f2 = m40;
-    info.f3 = m50;
-    info.f4 = m4c;
-    info.f5 = m58 << 12;
-    info.f6 = m58;
-    info.f7 = m44;
-    info.f8 = m54;
-    info.f9 = info.f5 / m40 - m54;
+    info.f0 = pDescription;
+    info.f1 = m_uiPageCount * 2 + 0x80;
+    info.f2 = m_uiAllocationSize;
+    info.f3 = m_uiPoolSize;
+    info.f4 = m_uiPageCount;
+    info.f5 = m_uiAllocatedPageCount << 12;
+    info.f6 = m_uiAllocatedPageCount;
+    info.f7 = m_uiPeakPageCount;
+    info.f8 = m_uiFreeBlockCount;
+    info.f9 = info.f5 / m_uiAllocationSize - m_uiFreeBlockCount;
     return info;
 }
 

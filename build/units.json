@@ -5372,7 +5372,7 @@
     },
     {
      "address": "0x00aa6d00",
-     "symbol": "?GetPoolInfo@FUN_00aa6d00_holder@@QAE?AUPoolInfo@@XZ",
+     "symbol": "?GetPoolInfo@MemoryPool@@QAE?AUPoolInfo@@XZ",
      "size": 161
     },
     {
@@ -5426,7 +5426,7 @@
     "?ClearPoolSlots@MemoryPool@@QAEXXZ": "0x00aa6a10",
     "?SortList@NodeSorter@@QAEPAULinkedNode@@PAU2@@Z": "0x00aa70c0",
     "?RegisterInPools@MemoryPool@@QAEXXZ": "0x00aa6980",
-    "?GetPoolInfo@FUN_00aa6d00_holder@@QAE?AUPoolInfo@@XZ": "0x00aa6d00",
+    "?GetPoolInfo@MemoryPool@@QAE?AUPoolInfo@@XZ": "0x00aa6d00",
     "?PushFreeBlock@MemoryPool@@QAEXPAX@Z": "0x00aa6e00",
     "?ms_pPoolAddressMap@@3PAPAVMemoryPool@@A": "0x011f63b8",
     "?CommitPage@MemoryPool@@QAE_NIAAPAD@Z": "0x00aa6610",

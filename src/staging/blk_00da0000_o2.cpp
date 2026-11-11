@@ -1443,7 +1443,6 @@ struct CallbackHolder
     void(* callback)(void* argument);
 };
 
-extern void*(* DAT_00fdf110)();
 
 struct FUN_00da2b30_Class
 {
@@ -1460,7 +1459,7 @@ void FUN_00da2b30_Class::InvokeCallback()
     CallbackHolder* value = holder;
     if (value->callback)
     {
-        value->callback(DAT_00fdf110());
+        value->callback(GetCurrentProcess());
     }
 }
 

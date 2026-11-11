@@ -5,7 +5,6 @@
 #include <windows.h>
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
-extern LPVOID(WINAPI* DAT_00fdf044)(DWORD);
 extern const char str_010d3824[];
 
 
@@ -71,7 +70,7 @@ void __cdecl FUN_00d85ef0(ListenerOwner* pOwner)
     int i = (int)pArr->m_wCount - 1;
     if (i >= 0)
     {
-        LPVOID(WINAPI * pfnTls)(DWORD) = DAT_00fdf044;
+        LPVOID(WINAPI * pfnTls)(DWORD) = TlsGetValue;
         do
         {
             if (pArr->m_ppItems[i] != 0)

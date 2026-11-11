@@ -17594,7 +17594,6 @@ void S00ca5da0_Builder::FUN_00ca5da0(S00ca5da0_Node* parent, S00ca5da0_Pt* pt)
 
 extern const char DAT_010c9288[];
 
-extern void*(* DAT_00fdf044)(unsigned long);
 
 struct S00cbfaa0_Entry
 {
@@ -17701,7 +17700,7 @@ void S00cbfaa0_Obj::FUN_00cbfaa0(S00cbfaa0_Base* a0, S00cbfaa0_Src* a1, int a2, 
                                  int a6)
 {
     volatile unsigned int ts;
-    void*(* getStream)(unsigned long) = DAT_00fdf044;
+    void*(* getStream)(unsigned long) = TlsGetValue;
     S00cbfaa0_Stream* st = (S00cbfaa0_Stream*)getStream(DAT_0126835c);
     S00cbfaa0_Entry* cur = st->m_cur;
     if (cur < st->m_kRayEnd)

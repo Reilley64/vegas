@@ -3480,8 +3480,6 @@ struct xFindData
     char cFileName[260];
     char cAlternateFileName[14];
 };
-extern "C" char*(* xg_lstrcpyA)(char*, const char*);
-extern "C" char*(* xg_lstrcatA)(char*, const char*);
 extern "C" void*(* xg_FindFirstFileA)(const char*, xFindData*);
 extern "C" int(* xg_FindNextFileA)(void*, xFindData*);
 extern "C" long(* xg_CompareFileTime)(const xFileTime*, const xFileTime*);
@@ -3550,14 +3548,14 @@ bool FUN_004624b0_cls::FUN_004624b0(const char* DIR)
     }
     for (qrEZrs = 0; qrEZrs < 2; qrEZrs++)
     {
-        xg_lstrcpyA(qsSDDgz, qbGYp);
+        lstrcpyA(qsSDDgz, qbGYp);
         switch (qrEZrs)
         {
         case 0:
-            xg_lstrcatA(qsSDDgz, "*.esm");
+            lstrcatA(qsSDDgz, "*.esm");
             break;
         case 1:
-            xg_lstrcatA(qsSDDgz, "*.esp");
+            lstrcatA(qsSDDgz, "*.esp");
             break;
         }
         qnuVZg = xg_FindFirstFileA(qsSDDgz, &qvyWyw);
@@ -3639,8 +3637,8 @@ bool FUN_004624b0_cls::FUN_004624b0(const char* DIR)
     while (qpqRa && *((void **)(new ((void *)(qpqRa)) ::Vec3())))
     {
         qdqWL = (xFile*)*((void **)(new ((void *)(qpqRa)) ::Vec3()));
-        xg_lstrcpyA(qsSDDgz, reinterpret_cast<::FUN_00462e80_shell *>((qdqWL))->FUN_00462e80());
-        xg_lstrcatA(qsSDDgz, ((const char *)(reinterpret_cast<::BGSCameraPath *>((qdqWL))->GetShotList())));
+        lstrcpyA(qsSDDgz, reinterpret_cast<::FUN_00462e80_shell *>((qdqWL))->FUN_00462e80());
+        lstrcatA(qsSDDgz, ((const char *)(reinterpret_cast<::BGSCameraPath *>((qdqWL))->GetShotList())));
         qnuVZg = xg_FindFirstFileA(qsSDDgz, &qvyWyw);
         if (qnuVZg == (void*)-1)
         {

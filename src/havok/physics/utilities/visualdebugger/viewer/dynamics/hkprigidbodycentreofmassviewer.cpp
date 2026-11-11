@@ -536,7 +536,6 @@ FUN_00d6a0a0::~FUN_00d6a0a0()
 
 
 
-extern "C" void*(* DAT_00fdf044)(unsigned long);
 
 extern float DAT_011b6194;
 extern char DAT_010d2224[];
@@ -574,7 +573,7 @@ static __forceinline void monBegin(const char* tag, volatile unsigned int* stamp
 }
 static __forceinline void monEnd(const char* tag, volatile unsigned int* stamped)
 {
-    MonStream* s = (MonStream*)DAT_00fdf044((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+    MonStream* s = (MonStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     MonRec* c = s->cur;
     if (c < s->end)
     {

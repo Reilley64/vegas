@@ -1474,7 +1474,6 @@ void __cdecl FUN_00cfffb0(void* apOwner, void* apParam)
     FUN_00cff9b0(*(CFF9B0SmallArray*)pItemTable);
 }
 
-extern LPVOID(WINAPI* DAT_00fdf044)(DWORD);
 struct TaskContext
 {
     DWORD unk00;
@@ -1505,7 +1504,7 @@ void __cdecl FUN_00d00270(void* pOwner, TaskContext* pContext)
     int i = (int)pArr->m_iElementCount - 1;
     if (i >= 0)
     {
-        LPVOID(WINAPI * pfnTls)(DWORD) = DAT_00fdf044;
+        LPVOID(WINAPI * pfnTls)(DWORD) = TlsGetValue;
         do
         {
             if (pArr->m_data[i] != 0)

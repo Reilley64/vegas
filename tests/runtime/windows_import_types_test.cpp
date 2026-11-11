@@ -23,6 +23,11 @@ static_assert(std::is_same_v<decltype(&FlushFileBuffers), int (*)(void*)>);
 static_assert(std::is_same_v<decltype(&OutputDebugStringA), void (*)(const char*)>);
 static_assert(std::is_same_v<decltype(&FindClose), int (*)(void*)>);
 static_assert(std::is_same_v<decltype(&CopyFileA), int (*)(const char*, const char*, int)>);
+static_assert(std::is_same_v<decltype(&TlsGetValue), void* (*)(unsigned long)>);
+static_assert(std::is_same_v<decltype(&lstrcpyA), char* (*)(char*, const char*)>);
+static_assert(std::is_same_v<decltype(&lstrcatA), char* (*)(char*, const char*)>);
+static_assert(std::is_same_v<decltype(&GetStockObject), void* (*)(int)>);
+static_assert(std::is_same_v<decltype(&GetCurrentProcess), void* (*)()>);
 
 // InterlockedExchangeAdd is a compiler intrinsic on this build target, so it
 // has no address. The units' variable was long (*)(volatile long*, long).

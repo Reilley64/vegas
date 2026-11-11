@@ -1377,7 +1377,6 @@ struct WndClass4d63
 extern int(* DAT_00fdf024)(InitCommonControls4d63*);
 extern void*(* DAT_00fdf280)(void*, const char*);
 extern void*(* DAT_00fdf2a0)(void*, const char*);
-extern void*(* DAT_00fdf03c)(int);
 extern unsigned short(* DAT_00fdf2b4)(const WndClass4d63*);
 extern void*(* DAT_00fdf2b8)(unsigned long, const char*, const char*, unsigned long, int, int, int, int, void*,
                                       void*, void*, void*);
@@ -1411,7 +1410,7 @@ void TreeCtrl4d63::CreateTreeWindows(int iX, int iY, int iWidth, int iHeight)
     kClass.hInstance = m_hInstance;
     kClass.hIcon = DAT_00fdf280(0, (const char*)0x7F00);
     kClass.hCursor = DAT_00fdf2a0(0, (const char*)0x7F00);
-    kClass.hbrBackground = DAT_00fdf03c(0);
+    kClass.hbrBackground = GetStockObject(0);
     kClass.lpszClassName = ((const char *)(::FUN_00464f30((intptr_t)(DAT_01189338))));
     kClass.lpszMenuName = 0;
     DAT_00fdf2b4(&kClass);

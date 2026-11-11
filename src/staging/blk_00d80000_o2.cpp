@@ -2085,7 +2085,6 @@ void FUN_00d9fce0(int) {
 
 
 typedef void* (* D85TlsFn)(unsigned long);
-extern D85TlsFn DAT_00fdf044;
 
 
 struct D85Ev {
@@ -2145,7 +2144,7 @@ void __cdecl FUN_00d85fa0(D85Msg a) {
     hkpConstraintInstanceSmallArraySerializeOverrideType* ctn = &a.p->m_constraint->m_kListeners;
     int i = ctn->m_iElementCount - 1;
     if (i >= 0) {
-        D85TlsFn tls = DAT_00fdf044;
+        D85TlsFn tls = TlsGetValue;
         do {
             if (((void**)ctn->m_data)[i] != 0) {
                 D85Prof* prof = (D85Prof*)tls(DAT_0126835c);
@@ -2924,7 +2923,6 @@ void __cdecl SetPivotAtom(PivotCData* data, const __m128* pivot, int pivotIndex)
 }
 
 typedef void* (* D90TlsFn)(unsigned long);
-extern D90TlsFn DAT_00fdf044;
 
 typedef hkpConstraintInstanceSmallArraySerializeOverrideType D90Ctn;
 
@@ -2959,7 +2957,7 @@ D90Ctn* __cdecl FUN_00d85d90(D90Owner* pOwner) {
     D90Ctn* ctn = &pOwner->m_kListeners;
     int i = ctn->m_iElementCount - 1;
     if (i >= 0) {
-        D90TlsFn tls = DAT_00fdf044;
+        D90TlsFn tls = TlsGetValue;
         do {
             if (((void**)ctn->m_data)[i] != 0) {
                 D90Prof* prof = (D90Prof*)tls(DAT_0126835c);
@@ -4892,7 +4890,6 @@ struct D94Tls {
     D94Rec16* pEnd;
 };
 typedef void* (*D94TlsGetFn)(unsigned long);
-extern D94TlsGetFn DAT_00fdf044;
 extern const char str_010d3ef4[];
 struct D94Sub {
     int u00;
@@ -4928,7 +4925,7 @@ struct D94Obj {
 // @fnv 0x00d94df0
 int __cdecl FUN_00d94df0(char* a1, D94Obj* a2, D94Body* a3)
 {
-    D94TlsGetFn fn = DAT_00fdf044;
+    D94TlsGetFn fn = TlsGetValue;
     D94Tls* tp = (D94Tls*)fn(DAT_0126835c);
     D94Rec16* cur = tp->pCur;
     if (cur < tp->pEnd) {

@@ -27,21 +27,12 @@ void MemoryPool::PushFreeBlock(void* apBlock)
     ++m_uiFreeBlockCount;
 }
 
-struct DummyClass_00aa6db0
-{
-    char pad[0x48];
-    unsigned short* pData;  // +0x48
-    unsigned int ItemUpdateArray;   // +0x4c
-
-    unsigned int FindFree();
-};
-
 // @fnv 0x00aa6db0
-unsigned int FUN_00aa6db0(DummyClass_00aa6db0* pThis)
+unsigned int MemoryPool::FUN_00aa6db0()
 {
-    for (unsigned int i = 0; i < pThis->ItemUpdateArray; ++i)
+    for (unsigned int i = 0; i < m_uiPageCount; ++i)
     {
-        if (pThis->pData[i] == 0xFFFF)
+        if (m_pPageBlockCounts[i] == 0xFFFF)
         {
             return i;
         }
@@ -196,7 +187,6 @@ struct Node_00aa6e60;
 struct FUN_00aa6e60_shell
 {
 };
-struct DummyClass_00aa6db0;
 struct MemoryPool_PCP
 {
 };
@@ -230,7 +220,7 @@ void* FUN_00aa6aa0_shell::FUN_00aa6aa0(unsigned int requested)
                                                 reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_kCriticalSection))->FUN_0040fbf0((char *)("MemoryPool::Allocate"));
                                                 if (!m_pFreeBlockHead)
                                                 {
-                                                    inewPageIndex = ::FUN_00aa6db0((::DummyClass_00aa6db0 *)(::fnv_00aa6aa0::DummyClass_00aa6db0 *)((DummyClass_00aa6db0*)this));
+                                                    inewPageIndex = FUN_00aa6db0();
                                                     if (inewPageIndex == -1)
                                                     {
                                                         l1 = &m_kCriticalSection;

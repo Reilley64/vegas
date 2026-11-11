@@ -5377,7 +5377,7 @@
     },
     {
      "address": "0x00aa6db0",
-     "symbol": "?FUN_00aa6db0@@YAIPAUDummyClass_00aa6db0@@@Z",
+     "symbol": "?FUN_00aa6db0@MemoryPool@@QAEIXZ",
      "size": 72
     },
     {
@@ -5431,7 +5431,7 @@
     "?ms_pPoolAddressMap@@3PAPAVMemoryPool@@A": "0x011f63b8",
     "?CommitPage@MemoryPool@@QAE_NIAAPAD@Z": "0x00aa6610",
     "?FUN_0040fbf0@FUN_0040fbf0_shell@@QAEXPAD@Z": "0x0040fbf0",
-    "?FUN_00aa6db0@@YAIPAUDummyClass_00aa6db0@@@Z": "0x00aa6db0"
+    "?FUN_00aa6db0@MemoryPool@@QAEIXZ": "0x00aa6db0"
    }
   },
   {

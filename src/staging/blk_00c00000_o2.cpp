@@ -5990,6 +5990,7 @@ static __forceinline void AssignRef(RefTex111*& dst, RefTex111* src)
             InterlockedIncrement(&src->m_iObjectReferenceCount);
     }
 }
+namespace fnv_00c0d200 {
 struct StagePtr
 {
     StageReturn* m_pObject;
@@ -6007,6 +6008,7 @@ struct StagePtr
             Release(m_pObject);
     }
 };
+}  // namespace fnv_00c0d200
 struct ClusterObj
 {
     unsigned int unk00;
@@ -6188,7 +6190,7 @@ struct FUN_00c0d200_class
 void FUN_00c0d200_class::InitClusterStages()
 {
     ClusterPtr cur;
-    StagePtr stage;
+    ::fnv_00c0d200::StagePtr stage;
     cur = DAT_01202230;
     if (cur->GetCount() < 7)
     {

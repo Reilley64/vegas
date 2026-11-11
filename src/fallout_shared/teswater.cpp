@@ -12651,8 +12651,8 @@ void WaterPlaneHost_o2_od_oy_noo2::FUN_004ecef0(float x, float y, float z, float
     NiMatrixEx project;
     reinterpret_cast<::FUN_004ed110_shell *>(&(project))->CopyFrom(reinterpret_cast<::FUN_004ed210_shell *>((((::CameraMatrixSource *)(::FUN_004a0e90()))))->GetOffsetPointer());
     NiMatrix transform = translated.FUN_004ed140(project);
-    ::FUN_00ee6dda();
-    ::FUN_00ee6dd4();
+    ::FUN_00ee6dda(&inverse, 0, &transform);
+    ::FUN_00ee6dd4(&transform, &inverse);
     hkVector4 plane, result;
     plane.x = x;
     plane.y = y;

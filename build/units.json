@@ -188579,7 +188579,6 @@
     "?g_011f4428@@3VGlobalObjectO2_00a7b610@@A": "0x011f4428",
     "?CalculateInverse@NiTransform@@QAEXAAV1@@Z": "0x004b4880",
     "?DAT_011f474c@@3UNiPoint3@@A": "0x011f474c",
-    "?FUN_00ee6dda@@YAXXZ": "0x00ee6dda",
     "___security_cookie": "0x011c16bc",
     "?FUN_00ec65a6@@YAHPADIPBD@Z": "0x00ec65a6",
     "?DAT_0109b220@@3PADA": "0x0109b220",
@@ -188606,7 +188605,8 @@
     "?FUN_00476980@FUN_00476980_S@@QAEPAU1@HHH@Z": "0x00476980",
     "?FUN_00a59c60@FUN_00a59c60_cls@@QAEXH@Z": "0x00a59c60",
     "?g_011f444c@@3VGlobalObjectO2_00a7b610@@A": "0x011f444c",
-    "?UpdateViewFrustum@NiCamera@@QAEXABUNiFrustum@@@Z": "0x00a6faf0"
+    "?UpdateViewFrustum@NiCamera@@QAEXABUNiFrustum@@@Z": "0x00a6faf0",
+    "?FUN_00ee6dda@@YAPAXPAXPAMPBX@Z": "0x00ee6dda"
    }
   },
   {
@@ -248382,8 +248382,6 @@
     "?FUN_0043c4b0@@YAPAUNiRenderer@@XZ": "0x0043c4b0",
     "?FUN_004a0e90@@YAIXZ": "0x004a0e90",
     "?FUN_004ed140@NiMatrix@@QAE?AU1@ABU1@@Z": "0x004ed140",
-    "?FUN_00ee6dda@@YAXXZ": "0x00ee6dda",
-    "?FUN_00ee6dd4@@YAXXZ": "0x00ee6dd4",
     "?FUN_00ee6dce@@YGPAXPAXPBX@Z": "0x00ee6dce",
     "?FUN_00ee6dc8@@YGPAUD3DXPLANE@@PAU1@PBU1@PBUD3DXMATRIX@@@Z": "0x00ee6dc8",
     "?GetOffset980@FUN_004ed1f0_shell@@QAEPAXXZ": "0x004ed1f0",
@@ -248393,7 +248391,8 @@
     "?FUN_00ee6dd4@@YAPAXPAXPBX@Z": "0x00ee6dd4",
     "?FUN_00ee6dc8@@YAPAUD3DXPLANE@@PAU1@PBU1@PBUD3DXMATRIX@@@Z": "0x00ee6dc8",
     "?FUN_00ee6dce@@YAPAXPAXPBX@Z": "0x00ee6dce",
-    "?FUN_004a0e90@@YAPAXXZ": "0x004a0e90"
+    "?FUN_004a0e90@@YAPAXXZ": "0x004a0e90",
+    "?FUN_00ee6dda@@YAPAXPAXPAMPBX@Z": "0x00ee6dda"
    }
   },
   {

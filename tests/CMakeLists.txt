@@ -678,6 +678,22 @@ foreach(d3dx_math_test vector3_normalize matrix_rotation_yaw_pitch_roll plane_no
   endif()
   add_test(NAME runtime.d3dx_${d3dx_math_test} COMMAND runtime_d3dx_${d3dx_math_test}_test)
 endforeach()
+
+# Argument patterns of the D3DX calls restored from before 3f0599801 (VEGAS-90).
+foreach(d3dx_call_test fallout_shared)
+  add_executable(runtime_d3dx_call_arguments_${d3dx_call_test}_test
+    runtime/d3dx_call_arguments_${d3dx_call_test}_test.cpp)
+  target_include_directories(runtime_d3dx_call_arguments_${d3dx_call_test}_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/include)
+  if(WIN32)
+    target_link_libraries(runtime_d3dx_call_arguments_${d3dx_call_test}_test PRIVATE game)
+  else()
+    target_sources(runtime_d3dx_call_arguments_${d3dx_call_test}_test PRIVATE
+      ${PROJECT_SOURCE_DIR}/src/unmapped/d3dxmath.cpp)
+  endif()
+  add_test(NAME runtime.d3dx_call_arguments_${d3dx_call_test}
+    COMMAND runtime_d3dx_call_arguments_${d3dx_call_test}_test)
+endforeach()
 add_executable(fileformat_dds_header_test fileformat/dds_header_test.cpp)
 target_include_directories(fileformat_dds_header_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src)
 if(WIN32)

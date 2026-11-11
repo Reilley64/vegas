@@ -452,7 +452,7 @@ void __cdecl FUN_00c4c2d0(NiAVObject* pObj, const void* bInverse, Mat4* pOut)
         kM.m[3][0] = rPos.x;
         kM.m[3][1] = rPos.y;
         kM.m[3][2] = rPos.z;
-        ::FUN_00ee6dda();
+        ::FUN_00ee6dda(pOut, 0, &kM);
     }
 }
 }

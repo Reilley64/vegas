@@ -260,7 +260,6 @@ struct S00d369a0_ProcessInput
     __m128 unk60;
     __m128 tim;
 };
-extern "C" unsigned int _rotl(unsigned int, int);
 struct S00d369a0_ListAgent
 {
     int unk00, unk04;

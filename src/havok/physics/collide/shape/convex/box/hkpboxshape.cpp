@@ -286,11 +286,6 @@ void* BoxShapeHelper::FUN_00c9dd30(__m128* sphereBuffer) const
     return sphereBuffer;
 }
 
-extern "C"
-{
-    unsigned __int64 __rdtsc(void);
-    void _ReadWriteBarrier(void);
-}
 
 
 struct BRMonitorStream

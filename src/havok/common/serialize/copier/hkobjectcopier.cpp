@@ -895,7 +895,6 @@ static int AppendListEntry(Ctx* ctx, List* list, intptr_t a, intptr_t b);
 static void __cdecl FUN_00e03360(Reader* obj, int n);
 static void FUN_00e03170(unsigned int a, unsigned int b, unsigned int type, Target* obj, void* p);
 
-extern "C" void _ReadWriteBarrier();
 struct S00e03ea0_Schema;
 
 struct S00e03ea0_Member {

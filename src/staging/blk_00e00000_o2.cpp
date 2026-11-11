@@ -7289,7 +7289,6 @@ struct FUN_00e11480
 FUN_00e11480::~FUN_00e11480()
 {}
 
-extern "C" void _ReadWriteBarrier();
 struct VecNode113
 {
     VecNode113* next;
@@ -7596,7 +7595,6 @@ void Mesh::FUN_00e192c0(Mesh* apSrcMesh)
     mapVertexToNew.destroy();
 }
 
-extern "C" void _ReadWriteBarrier();
 
 struct ScalarQ
 {

@@ -3017,7 +3017,6 @@ void __cdecl RenderAccumulationPasses(AccumWIP2* apAccumWIP)
     apAccumWIP->ClearActivePasses();
 }
 
-extern "C" void _ReadWriteBarrier(void);
 struct S00b66050_heap
 {
 };

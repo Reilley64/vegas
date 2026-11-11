@@ -519,7 +519,6 @@ static __forceinline void decodeWord(const unsigned char* __restrict p, unsigned
     out[index] += p[1];
 }
 
-extern "C" void _ReadWriteBarrier();
 
 static unsigned int readBig16(const unsigned char* p)
 {

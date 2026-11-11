@@ -534,7 +534,6 @@ void hkpPointToPathConstraintData::FUN_00deea00(const hkVector4& kPivotA, const 
 #include "fnv/symbols_simd.h"
 extern "C" void _WriteBarrier(void);
 extern "C" void _ReadBarrier(void);
-extern "C" void _ReadWriteBarrier(void);
 
 
 struct TransformQ;

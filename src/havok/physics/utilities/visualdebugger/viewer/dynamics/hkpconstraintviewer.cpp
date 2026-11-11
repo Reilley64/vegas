@@ -554,8 +554,6 @@ FUN_00d69af0::FUN_00d69af0()
 }  // namespace fnv_00d69af0
 
 #include <windows.h>
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 struct CommandTimingEntry
 {

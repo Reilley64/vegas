@@ -896,8 +896,6 @@ void Phantom_d65f::FUN_00d65fc0(int index)
     m_kNodeCollection.removeAt(index);
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 struct TtShapeDisplayBase : FUN_00d652a0_cls
 {
     int m_1c;
@@ -1463,7 +1461,6 @@ void Shell::FUN_00d65750(int index)
 }  // namespace fnv_00d65750
 
 // Remove a displayed entity and its cached display geometry.
-extern "C" void _ReadWriteBarrier();
 // The voice object that receives the finished sample.
 struct AudioVoiceHost
 {

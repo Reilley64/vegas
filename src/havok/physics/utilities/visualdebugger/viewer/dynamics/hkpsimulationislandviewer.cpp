@@ -459,8 +459,6 @@ void FUN_00d651c0();
 
 #include <xmmintrin.h>
 #include <windows.h>
-extern "C" void _ReadWriteBarrier(void);
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct TraceRecord
 {

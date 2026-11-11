@@ -253,7 +253,6 @@ void Shape_e608::FUN_00e60800(const Transform_e608& kLocalToWorld, float fTolera
     kOut.m_kMaximumCorner = _mm_add_ps(kOut.m_kMaximumCorner, r);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
 

@@ -458,8 +458,6 @@ fail:
 #include <windows.h>
 #include "fnv/symbols_simd.h"
 
-extern "C" void _ReadWriteBarrier(void);
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct ProfRec
 {

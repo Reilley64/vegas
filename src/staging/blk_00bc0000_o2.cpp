@@ -8955,7 +8955,6 @@ void FUN_00bc3540_class::SetInterpolatorFromValue(void* value)
     }
 }
 
-extern "C" void _ReadWriteBarrier();
 
 struct EffectRef
 {
@@ -17531,7 +17530,6 @@ struct ShaderPassOwner
                                  unsigned short* count, bool flag, bool* out, bool b8, bool b9, bool b10, bool b11,
                                  bool b12, bool b13, bool b14);
 };
-extern "C" void _ReadWriteBarrier();
 // Picks a pass id (233-250) from the b8-b14 flags and adds it to pPasses with the lights when flag is true, else increments *count; always clears *out.
 // @fnv 0x00bdc530
 int ShaderPassOwner::AddShadowPass(NiGeometry* apGeometry, ShadowSceneLight* apLight0,
@@ -20879,7 +20877,6 @@ regular:
     return reinterpret_cast<S3e40_Light*>(passes);
 }
 
-extern "C" void _ReadWriteBarrier();
 static __forceinline float Lower(float a, float b)
 {
     return a < b ? a : b;

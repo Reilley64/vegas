@@ -1051,7 +1051,6 @@ E5C4Ref E5C4Foo::FUN_00e5c4d0(E5C4Key akKey)
     return r;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 volatile intptr_t S00e3eba0_sink;
 __declspec(noinline) void FUN_00c90510(void* self)
 {

@@ -902,7 +902,6 @@ struct ShaderView : ShaderBaseView
     void FUN_00e8dc30(void*, void*, void*, ShaderGeometry*, void*, void*, void*);
 };
 
-extern "C" void _ReadWriteBarrier();
 struct BinaryDataRecord
 {
     unsigned int field00;

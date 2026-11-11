@@ -2745,7 +2745,6 @@ bool SelfObj::FUN_00b67a40(CallerArg* arg)
     return true;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 struct Vec
 {
     float x, y, z;

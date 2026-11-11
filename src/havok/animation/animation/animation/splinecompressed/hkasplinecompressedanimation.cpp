@@ -876,7 +876,6 @@ int FUN_00e32ec0_Class::FUN_00e32ec0() const
 }
 
 
-extern "C" unsigned __int64 __rdtsc(void);
 
 struct S00e340e0_Cmd { const char* name; unsigned int ticks; unsigned int extra; };
 struct S00e340e0_Mon {
@@ -996,7 +995,6 @@ int __cdecl FUN_00e63c60(bool*);
 extern char DAT_010c3aa0[];
 extern void __cdecl FUN_00cb1750(const char* message);
 extern int __cdecl FUN_00e29910();
-extern "C" void _ReadWriteBarrier(void);
 
 static int hexDigit(char c)
 {

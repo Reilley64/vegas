@@ -3535,7 +3535,6 @@ void FUN_00a5d7b0_shell::FUN_00a5d7b0(::NiStream& kStream)
     ::fnv_00a5c5b0::SaveNiObjectLinks((char*)this, 0, (::fnv_00a5c5b0::VStream*)&kStream);
 }
 
-extern "C" void __cdecl _ReadWriteBarrier(void);
 
 class NiRefObjectAAC0
 {

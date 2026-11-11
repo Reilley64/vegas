@@ -723,7 +723,6 @@ S00dcd380_Mesh* S00dcd380_Host::FUN_00dcd380(int finishing)
 
 // Retain required legacy providers until their generated-table callers migrate.
 struct MeshAabb;
-extern "C" void _ReadWriteBarrier();
 
 // Use the canonical descriptor rather than another global type definition.
 static const float kRealMax = 3.402820018375656e+38f;

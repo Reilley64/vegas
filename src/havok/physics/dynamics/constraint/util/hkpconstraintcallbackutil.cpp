@@ -8,8 +8,6 @@
 extern LPVOID(WINAPI* DAT_00fdf044)(DWORD);
 extern const char str_010d3824[];
 
-unsigned __int64 __cdecl __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 struct ProfRec
 {

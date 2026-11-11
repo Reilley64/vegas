@@ -392,10 +392,8 @@ void d409d0_probe_caller(void);
 static void FUN_00d40a10(int* a, FNVTypeRecord** b, FNVObject** objs, D40A10Entry* out);
 void D40A10Caller(int* a, FNVTypeRecord** b, FNVObject** objs, D40A10Entry* out);
 
-extern "C" unsigned __int64 __rdtsc(void);
 #include <math.h>
 #include <xmmintrin.h>
-extern "C" void _ReadWriteBarrier();
 
 struct Vec
 {

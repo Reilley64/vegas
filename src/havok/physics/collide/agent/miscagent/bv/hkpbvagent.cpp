@@ -538,8 +538,6 @@ void FUN_00d461e0_Cls::FUN_00d461e0(int aiArg1, int aiArg2, int aiArg3, int aiVa
 }
 }  // namespace fnv_00d461e0
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 extern char DAT_010cebd0;
 
 struct MonStream
@@ -1720,10 +1718,8 @@ struct __declspec(align(16)) Vector228
 {
     float x, y, z, w;
 };
-extern "C" void _ReadWriteBarrier(void);
 
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct BvProfBuf
 {

@@ -56268,7 +56268,6 @@ struct C9FA20_Owner_o2_nood_rtm
 };
 
 
-extern "C" void _ReadWriteBarrier(void);
 
 struct ScaleParams
 {
@@ -59413,7 +59412,6 @@ FUN_00d54e60::~FUN_00d54e60()
     --DAT_01268f8c;
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 struct LoadStream
 {
@@ -61693,7 +61691,6 @@ void S00cbe9f0_cls::FUN_00cbe9f0(std::intptr_t a1, FUN_00cbe9f0_Target* a2)
     reinterpret_cast<::S_00c85c10_o2 *>(this)->FUN_00c85c10((int *)(p ? reinterpret_cast<::PropertyOwner *>((p))->FUN_00c85c80((void *)(0)) : 0), (int *)(0));
 }
 
-extern "C" unsigned short __cdecl _byteswap_ushort(unsigned short);
 
 struct FUN_00c9d4f0_obj
 {

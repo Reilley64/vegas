@@ -1347,8 +1347,6 @@ void __cdecl FUN_00d43370(const void* a2, const void* a1, const Input_d2e9* inpu
     }
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 
 
 struct S_00d42b50_TimerCommand {

@@ -1955,7 +1955,6 @@ struct VehicleInstanceStandIn
     WheelStateStandIn* m_kWheelStates;  // at 0x48
 };
 
-extern "C" void _ReadWriteBarrier(void);
 
 inline float dot3(__m128 a, __m128 b)
 {

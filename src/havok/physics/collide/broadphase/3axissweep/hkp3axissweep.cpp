@@ -1865,7 +1865,6 @@ int FUN_00d11e80_cls::InsertEndpoints(char* nodes, int axis, S_00d1a180_EndPoint
     return (dst - m_data) + 1;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 struct d11Out {
     char* m_data;
     int m_iElementCount;
@@ -2581,7 +2580,6 @@ hkVector4q mx; mx.set(fInvScaleX*hx,fInvScaleY*hy,fInvScaleZ*hz,0.0f);
 }
 }  // namespace fnv_00d11650
 
-extern "C" void _ReadWriteBarrier();
 // Havok axis sweep. Based on community near miss nm_5cdcf740ad53441b93a7.
 //
 // The sweep shape keeps a block of 32 sixteen byte records; every block owns
@@ -2736,7 +2734,6 @@ void AxisSweep::FUN_00d14100(int* index, EventList* events)
         s2.bufFree(buffer, (masks & 0x3fffffff) * 4);
 }
 
-extern "C" void _ReadWriteBarrier();
 struct SweepNodeX {
  unsigned int minimum;
  unsigned int maximum;
@@ -3702,7 +3699,6 @@ __forceinline void SweepManager::update(unsigned id, const SweepBounds& bounds, 
 }
 }  // namespace fnv_00d175f0
 
-extern "C" void _ReadBarrier();
 template<class T> struct Arr;
 template<class T> struct Arr {
     T* data;

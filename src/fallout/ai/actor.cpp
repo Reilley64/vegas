@@ -156738,7 +156738,6 @@ void PoseState_o2::FUN_00cda4c0()
 ShapeArrays::~ShapeArrays()
 {}
 
-extern "C" void _ReadWriteBarrier(void);
 struct AllocHolderX
 {
     int unk00, unk04, unk08, unk0C;
@@ -159687,7 +159686,6 @@ void ReviewedContext::FUN_00c7b4f0(ReviewedNode* node, ReviewedArray* output, Re
     }
 }
 
-extern "C" void _ReadWriteBarrier();
 __forceinline __m128 ScalePrimaryLine(const float* v, float f) {
     __m128 low = _mm_load_ss(&f);
     return _mm_mul_ps(_mm_shuffle_ps(low, low, 0), _mm_load_ps(v));

@@ -264,8 +264,6 @@ void RotatedDir_d409::FUN_00d40940()
     setRotatedInverseDir_d409(m_localDir, m_rotation, m_dirCopy);
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier();
 struct MonitorRecord
 {
     const char* marker;

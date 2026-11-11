@@ -426,10 +426,6 @@ void __cdecl FUN_00d38130(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const 
 void __cdecl FUN_00cd7850(const hkVector4& position, const hkVector4* triangle, const S_00d37e60_Plane& cache,
                           CollisionDistanceInfo& result, void* featureOut);
 
-extern "C" {
-void _ReadWriteBarrier(void);
-unsigned __int64 __rdtsc(void);
-}
 struct VectorWords { unsigned int x, y, z, w; };
 struct FloatWords { float x, y, z, w; };
 union FourFloatVector { __m128 q; VectorWords bits; FloatWords values; };

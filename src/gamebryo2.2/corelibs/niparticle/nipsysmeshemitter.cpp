@@ -2691,7 +2691,6 @@ void FUN_00c1f790_cls::SetSkinGeom(NiSkinGeom790* pkGeom)
     }
 }
 
-extern "C" void _ReadWriteBarrier(void);
 struct GeometryCapability
 {
     virtual void Unknown00();

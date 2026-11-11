@@ -16021,7 +16021,6 @@ void Actor9BE::FUN_009be0a0()
 
 
 extern const char str_010c4ad8[], str_010c4ac0[];
-extern "C" void _ReadWriteBarrier();
 extern float DAT_01267bc4;
 extern float DAT_01267bb0;
 struct Point { float x,y,z;

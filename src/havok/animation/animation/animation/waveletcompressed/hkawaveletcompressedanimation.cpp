@@ -517,7 +517,6 @@ void FUN_00e2fbc0(int, int, unsigned int count, DestWrap dest)
     }
 }
 
-extern "C" void __cdecl _ReadWriteBarrier(void);
 struct SwapCountsE2 {
     int a, b, c, d, e, f, g, h, i, j, k, l, m;
     float n;
@@ -582,8 +581,6 @@ void FUN_00e2fc10(hkaWaveletCompressedAnimation* self) {
 }
 
 #include <string.h>
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 extern void* DAT_00fdf044;
 typedef void* (* S00e306d0_TlsFn)(unsigned long);
 extern unsigned long DAT_0126835c;
@@ -994,9 +991,7 @@ void AnimRetry::FUN_00e2fa60(int block, ChunkRetry& chunk) const {
 }
 
 
-extern "C" unsigned __int64 __rdtsc();
 
-extern "C" void _ReadWriteBarrier();
 
 struct TimerRecord {const char* name;unsigned int time,secondary;};
 

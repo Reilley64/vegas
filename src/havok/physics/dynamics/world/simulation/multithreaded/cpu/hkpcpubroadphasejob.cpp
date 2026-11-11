@@ -26,8 +26,6 @@ typedef unsigned char u8;
 typedef unsigned __int64 u64;
 
 extern "C" long (* DAT_00fdf1ec)(volatile long*, long);
-extern "C" u64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 
 extern const char str_010d3e68[];
 extern const char str_010d3e4c[];

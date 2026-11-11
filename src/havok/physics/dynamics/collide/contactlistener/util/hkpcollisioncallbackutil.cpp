@@ -131,10 +131,8 @@ FUN_00d0b180_cls* FUN_00d0b180_cls::Initialize()
 }
 
 #include <windows.h>
-extern "C" void _ReadWriteBarrier(void);
 
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct ProfRec
 {

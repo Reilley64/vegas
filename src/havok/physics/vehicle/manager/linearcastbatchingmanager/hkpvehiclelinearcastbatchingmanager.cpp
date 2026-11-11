@@ -107,8 +107,6 @@ int FUN_00e42fe0_impl::FUN_00e42fe0()
     return total;
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 typedef unsigned long DWORD;
 
 

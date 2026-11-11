@@ -280,8 +280,6 @@ void* FUN_00d37780_impl(void* aiArg1, void* aiArg2, void* aiArg3, void* aiArg4)
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
 
@@ -544,9 +542,7 @@ void Agent378::FUN_00d378e0(Body378* a, Body378* b, void* input, ContactBuffer37
 void FUN_00d378a0(void* aiArg1, void* aiArg2, void* aiArg3, void* aiId);
 
 
-extern "C" unsigned __int64 __rdtsc();
 
-extern "C" void _ReadWriteBarrier();
 
 
 

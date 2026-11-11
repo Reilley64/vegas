@@ -5173,7 +5173,6 @@ FUN_00a64470::~FUN_00a64470()
     _NiFree(m_pData);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 struct S_00a6d290_Obj
 {
     virtual void v00() throw();

@@ -1798,9 +1798,7 @@ void FUN_00d2c960_cls::FUN_00d2c960(const S00d2c960_Info* pkInfo)
     pkBody->m_kMotion.vf58(fTime, &m_kRoomNode, &kPosition);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
-extern "C" unsigned __int64 __rdtsc(void);
 
 extern char DAT_010ce8e8[];
 

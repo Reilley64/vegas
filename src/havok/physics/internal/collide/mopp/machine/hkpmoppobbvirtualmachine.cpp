@@ -101,7 +101,6 @@ struct GridCell {
     void FUN_00dd1da0(GridSource* a1, GridBounds* a2, void* a3);
 };
 
-extern "C" void _ReadWriteBarrier();
 extern "C" void __debugbreak();
 struct __declspec(align(16)) QueryState {
  union {int lower[4]; struct {int f00;int f04;int f08;int unk0c;};};

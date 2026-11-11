@@ -78,7 +78,6 @@ hkpAction* hkpDashpotActionX::FUN_00d4d9d0(const hkArray<hkpEntity*>& newEntitie
 #include "fnv/decl/hkpEntityC9C.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_01268000.h"
-extern "C" void _ReadWriteBarrier(void);
 extern double DAT_010d09b8;
 
 namespace DashpotApplyDetail {

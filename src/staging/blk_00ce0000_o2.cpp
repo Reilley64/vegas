@@ -1475,7 +1475,6 @@ void FUN_00cf09a0(StreamOwner* owner, Record* rec)
     WriteData(owner->stream, &rec->unk28, 4);
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 struct ArrayData
 {
@@ -2126,8 +2125,6 @@ struct CE0020Buffer
 };
 
 extern char DAT_010cb81c[];
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 __forceinline void CE0020TimerMark(const char* pTag)
 {
@@ -2305,7 +2302,6 @@ void SerializableCF42::FUN_00cf4260(NiStreamCF42& kStream)
 // vptr(0), memSizeAndFlags(4), referenceCount(6), motor type(8), min/max force, tau, damping, velocity-clamp bool.
 extern const void* DAT_010cc0ec[];
 
-extern "C" void _ReadWriteBarrier();
 
 struct hkBoolC43
 {

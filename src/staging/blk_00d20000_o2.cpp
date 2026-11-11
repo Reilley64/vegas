@@ -2667,7 +2667,6 @@ void Holder::FUN_00d2f3f0(intptr_t a, intptr_t b, intptr_t c, int aiValue)
     ::FUN_00d315f0((void *)this, (void *)(b), (void *)(a), (void *)(c));
 }
 
-extern "C" void _ReadWriteBarrier();
 struct ShapeD2F630 {
     int unk00;
     int unk04;
@@ -3056,7 +3055,6 @@ void Agent_d34b::FUN_00d34b40(intptr_t a1, intptr_t a2, const Input_d34b* input,
 }
 }  // namespace fnv_00d34b40
 
-extern "C" void _ReadWriteBarrier(void);
 
 struct hkVector4 {
 public:
@@ -3478,8 +3476,6 @@ template<> void hkpSymmetricAgent<hkpListAgent>::FUN_00d36d20(
     hkpListAgent::FUN_00d36b00(b, a, input, collector);
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 extern char DAT_010ced28[];
 
@@ -4048,10 +4044,6 @@ void hkOrientHingedBodyAction::FUN_00d2ad50(const hkStepInfo& stepInfo)
 
 typedef __m128 S00d386c0_Quad;
 
-extern "C" {
-unsigned __int64 __rdtsc(void);
-void _ReadWriteBarrier(void);
-}
 
 extern const char str_010ceed4[];
 

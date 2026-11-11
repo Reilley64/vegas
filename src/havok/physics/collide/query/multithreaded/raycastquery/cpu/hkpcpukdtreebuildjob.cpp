@@ -17,8 +17,6 @@
 #include "fnv/symbols_010cc000.h"
 #include "fnv/symbols_010d3000.h"
 #include "fnv/symbols_01268000.h"
-extern "C" void _ReadWriteBarrier(void);
-unsigned __int64 __cdecl __rdtsc(void);
 struct __declspec(align(8)) ScratchWord
 {
     DWORD unk00;

@@ -2287,7 +2287,6 @@ float S_00cacc50::FUN_00cacc50(const S_A& a, S_B* b, S_Pad<S_V4> c, S_Pad<S_V4> 
 
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C" void _ReadWriteBarrier(void);
 
 
 
@@ -3603,10 +3602,6 @@ void S00caefd0_Proxy::FUN_00caefd0(const S00caefd0_Vec& direction, S00caefd0_Sur
 #include "fnv/symbols_01076000.h"
 
 #include <string.h>
-extern "C" {
-void _ReadWriteBarrier();
-unsigned __int64 __rdtsc();
-}
 extern char str_010c8508[],str_010c8500[],str_010c84f0[],str_010c84dc[],str_010c84d0[],str_010c84c4[],str_010c84b8[];
 template<class T> class PStorage {
     T value;

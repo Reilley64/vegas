@@ -722,7 +722,6 @@ FUN_00b6f0b0::~FUN_00b6f0b0()
     mac = S_00b6f0b0_Ptr(0);
 }
 
-extern "C" void _ReadWriteBarrier();
 
 struct MemoryManager
 {

@@ -714,9 +714,7 @@ void FUN_00cf2280_cls::FUN_00cf2280(const __m128* a, const __m128* b)
     m_40 = _mm_setzero_ps();
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct ProfRec
 {

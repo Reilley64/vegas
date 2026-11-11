@@ -593,8 +593,6 @@ void hkpListShapeq::FUN_00cf5590(const hkTransform& localToWorld, float toleranc
     }
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 #include <string.h>
 extern const char str_010cc398[];
 

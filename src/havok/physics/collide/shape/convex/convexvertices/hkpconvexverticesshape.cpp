@@ -775,7 +775,6 @@ void MatchShape::FUN_00d58ee0(const MatchVector& direction, MatchVector& support
     supportingVertexOut.setInt24W(vertexId);
 }
 
-extern "C" void _ReadWriteBarrier();
 
 
 struct InputValues {
@@ -867,10 +866,6 @@ struct FUN_00d59bd0 : ConvexPart {
 };
 
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" void _ReadBarrier(void);
-extern "C" void _WriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 
 
 struct ConvexPiece;

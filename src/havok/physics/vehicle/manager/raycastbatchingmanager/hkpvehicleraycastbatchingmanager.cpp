@@ -44,8 +44,6 @@ void Obj::ComputeBufferLayout(char* base,intptr_t unused,Buffers* out) const {
  char* p=base+align16(n*80);out->second=p;p+=align16(n*96);char* pThird=p;p+=align16(iByteSize);out->first=base;out->fourth=p;out->third=pThird;
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
 struct TimerRecord { const char* name; unsigned time; unsigned extra; };
 struct TimerStream { void* start; TimerRecord* current; void* unused; TimerRecord* end; };

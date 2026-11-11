@@ -4926,7 +4926,6 @@ void __cdecl ConvertOldSequence(OldSequence* pkOld, SeqPtr<NewSequence>& spOut) 
     spOut = spSeq;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 struct S00a32fa0_Ctl
 {
     virtual void V00();

@@ -191,8 +191,6 @@ void KeepAlive_00d00320(FNV_SmallArray_00d00320* pArray)
     RemoveZeroEntries(pArray);
 }
 
-extern "C" void _ReadWriteBarrier();
-extern "C" unsigned __int64 __rdtsc();
 extern unsigned long DAT_0126835c;
 class hkpAction;
 class hkpActionListener
@@ -851,8 +849,6 @@ void __cdecl NotifyPhantomAdded(World833* world, hkpPhantom* phantom)
 #include <windows.h>
 
 extern DWORD DAT_0126835c;
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 struct TraceRecord
 {
@@ -3360,8 +3356,6 @@ void __cdecl NotifyShapeSetListeners(D019B0World* world, D019B0Event* event)
     D019B0CleanupNullPointers(listeners);
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 extern unsigned long DAT_0126835c;
 extern char DAT_010cca74[];
 struct TimerEntry
@@ -4134,9 +4128,7 @@ void __cdecl FUN_00d008c0(D008C0World* world, void* entity)
     D008C0CleanupNullPointers(listeners);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 extern DWORD DAT_0126835c;
-unsigned __int64 __cdecl __rdtsc(void);
 struct ProfRec
 {
     const char* name;
@@ -4204,8 +4196,6 @@ void __cdecl NotifyTargets(ProfOwner* pOwner, void* a2)
     FUN_00d00370(targets);
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 extern unsigned long DAT_0126835c;
 extern char DAT_010ccab0[];
 struct Phantom
@@ -4249,7 +4239,6 @@ void __cdecl FUN_00d00aa0(OwnerD* owner, const void* a2)
     FUN_00d00370(listen);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 extern "C" char str_010ccaf8;
 extern "C" char str_010ccaec;
 struct Scene;
@@ -4638,8 +4627,6 @@ void __cdecl ProcessSceneCallbacks(Game* game, Scene* scene)
     }
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 extern unsigned long DAT_0126835c;
 extern char DAT_010cca50[];
 struct ContactListener
@@ -4787,9 +4774,7 @@ void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, void* a2)
 }
 
 // Based on an unverified 2026-10-22 contribution.
-extern "C" void _ReadWriteBarrier(void);
 extern DWORD DAT_0126835c;
-unsigned __int64 __cdecl __rdtsc(void);
 struct S00d01850_Out
 {
     int unk00, unk04, unk08;
@@ -4966,8 +4951,6 @@ void __cdecl FUN_00d01850(S00d01850_Owner* pOwner, S00d01850_Out* pOut)
 #include <windows.h>
 
 extern DWORD DAT_0126835c;
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 extern const char str_010ccb10[];
 extern const char str_010ccb04[];
 

@@ -22529,7 +22529,6 @@ FUN_00c705c0::~FUN_00c705c0()
 }
 }  // namespace fnv_00c705c0
 
-extern "C" void _ReadWriteBarrier(void);
 struct GlobalObjectO2_00a7b610;
 struct C70940Vec
 {
@@ -25463,7 +25462,6 @@ struct S_00c7fb50_portal
         return items_ac[i];
     }
 };
-extern "C" void _ReadWriteBarrier(void);
 inline SmallFlag S_00c7fb50_node::Broken(const S_00c7fb50_item* x) const
 {
     return x->data_30->bytes_1c[index_1c];

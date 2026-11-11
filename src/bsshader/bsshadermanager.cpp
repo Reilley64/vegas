@@ -4626,7 +4626,6 @@ void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 
 // Keep the scalar sharing and the two first-reference markers when resuming.
 
-extern "C" void _ReadWriteBarrier();
 
 class NiPixelFormat
 {

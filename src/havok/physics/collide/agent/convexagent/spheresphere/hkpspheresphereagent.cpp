@@ -54,8 +54,6 @@ void FUN_00d3fcc0(void* a, void* c, void* b, void* d);
 
 #include <xmmintrin.h>
 #include <windows.h>
-unsigned __int64 __cdecl __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 struct SRadius
 {

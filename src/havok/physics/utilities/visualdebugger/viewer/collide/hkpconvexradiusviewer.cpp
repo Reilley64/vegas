@@ -735,7 +735,6 @@ FUN_00d690d0::~FUN_00d690d0() throw()
     m30._clearAndDeallocate(hkMemoryRouter::getInstance().heap());
 }
 
-extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
 extern void* DAT_01269010;

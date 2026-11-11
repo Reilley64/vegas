@@ -6975,7 +6975,6 @@ void CharacterProxy::FUN_00c6cf30(uintptr_t formID)
     reinterpret_cast<::FUN_00cac110_Class *>((this))->FUN_00cac110();
 }
 
-extern "C" void _ReadWriteBarrier();
 
 struct hkVector4
 {
@@ -8288,9 +8287,7 @@ extern char str_010c41fc[];
 
 extern int DAT_010c3bd4;
 
-extern "C" unsigned __int64 __rdtsc();
 
-extern "C" void _ReadWriteBarrier();
 
 struct Result;
 
@@ -9432,7 +9429,6 @@ DST* __cdecl FUN_00c74d50(DST* dst, const SRC* src)
     return dst;
 }
 
-extern "C" void _ReadWriteBarrier();
 
 
 inline const NiPoint3& ZeroPoint()

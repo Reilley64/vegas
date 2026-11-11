@@ -6173,7 +6173,6 @@ void BufferOwner::WriteToStream(void* source)
     stream->transferred += stream->write(stream, data + 0x60, 64, &length, 1);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 struct FUN_00cbe820_sub
 {
@@ -12037,7 +12036,6 @@ void ScopeHost_cls::FUN_00ca6590()
     --::DAT_012682e4;
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 struct FUN_00ca6780_sub
 {
     unsigned int unk00;
@@ -13388,7 +13386,6 @@ struct FUN_00cbda30_cls
 
 void SwapEndianBlocks(void* p);
 
-extern "C" void _ReadWriteBarrier(void);
 unsigned int* __cdecl SwapEndianBlocks(unsigned int* arg);
 
 // Calls FUN_00c8a230, reads the two 0x40-byte blocks of m04 via a1->m24C, and byte-swaps them unless a1->m1E5 is 1.
@@ -13753,7 +13750,6 @@ struct Owner9bd0
     Ctx9bd0* ctx;
     void FUN_00ca9bd0(Rec9bd0* r, Key9bd0 key);
 };
-extern "C" void _ReadWriteBarrier();
 // Uses r or allocates a Rec9bd0, attaches an item made by CreateF4A30Result from ctx->coll and key, copies ctx->score, then calls ReleaseObject(rec, key).
 // @fnv 0x00ca9bd0
 void Owner9bd0::FUN_00ca9bd0(Rec9bd0* apRecord, Key9bd0 key)
@@ -13936,7 +13932,6 @@ unsigned int __cdecl FUN_00cabe30(float h, float s, float v, float afAlpha)
 
 extern "C" void _ReadBarrier();
 extern "C" void _WriteBarrier();
-extern "C" void _ReadWriteBarrier();
 void __cdecl FUN_00c856c0(void*, void*);
 static __declspec(noinline) void* FUN_00cb0ad0(char* s, int maxLen)
 {
@@ -14724,7 +14719,6 @@ void S_ca5870::FUN_00ca5870(void* arg)
     this->SlotB(arg);
 }
 
-extern "C" void __cdecl _ReadWriteBarrier(void);
 
 struct FUN_00cb1130_class
 {
@@ -19890,7 +19884,6 @@ void FUN_00cac890(VecNode* nodes, int count, const __m128* axis)
         } while (--c >= 0);
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
 
 extern char DAT_010c9278;
 

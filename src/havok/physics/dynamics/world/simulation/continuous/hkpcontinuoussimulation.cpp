@@ -1870,8 +1870,6 @@ void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float d
 }
 
 // expanded integer AABB into thread-stack local arrays, add them to the 3-axis sweep, then remove duplicate pairs.
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
   // "LtBroadPhase"
 extern char DAT_010cd3e8[];  // "StGatherAabbs"
@@ -2221,8 +2219,6 @@ void PartitionMotionPairs(PairEntryArray* apEntryArray, int* apiFixedCount, int 
     }
 }
 
-extern "C" void _ReadBarrier(void);
-extern "C" void _WriteBarrier(void);
 // FUN_00d0ef40 v1 - Havok collide step: monitor ticks, reverse vcall loop, two ctx array loops
  // TtCollide
  // TtIslandPostCollideCb
@@ -3084,8 +3080,6 @@ void FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, const void* aiVa
 }
 
 typedef unsigned long DWORD;
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 
 struct S_00d0e210_TimerCommand {
@@ -4050,7 +4044,6 @@ int S_00d0e9c0::FUN_00d0e9c0(float minTime) {
     }
 }
 
-extern "C" unsigned __int64 __rdtsc();
 extern char DAT_010cd3e8[];
 
 struct ScratchSpan {
@@ -5385,8 +5378,6 @@ FUN_00d0d020_cls *FUN_00d0d020_cls::FUN_00d0d020(Owner *apOwner) {
 
 template<class T> class ScanPointer {T p;public:__forceinline ScanPointer(){} __forceinline ScanPointer(T q):p(q){} __forceinline void operator=(T q){p=q;} __forceinline operator T()const{return p;} __forceinline T const& val()const{return p;}};
 // Resolve an event and remove obsolete queued events.
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 extern char DAT_010cd540[];
 extern char DAT_010cd534[];
 extern char DAT_010cd520[];
@@ -5983,9 +5974,6 @@ void Self::FUN_00d100a0(Arg0* world,Entry70* pair,float delta,float rotation) {
     if(!(cap&0x80000000))heap->bufFree(active.m_data,(cap&0x3fffffff)*4);
 }
 
-extern "C" void _ReadBarrier(void);
-extern "C" void _WriteBarrier(void);
-extern "C" void _ReadWriteBarrier(void);
 struct AdvanceSimulation;
 struct Res { DWORD unk; };
 
@@ -6123,7 +6111,6 @@ struct Flags_cls {
     void* m_pHolder;
 };
 
-extern "C" void _ReadWriteBarrier(void);
 
 // For each item of owner calls FUN_00cf1b10(a1), appends it to arr once, copies two 16-byte blocks, and sets sub+0x4c to a1 and sub+0x5c to 1/(Get()-a1).
 // @fnv 0x00d0cde0

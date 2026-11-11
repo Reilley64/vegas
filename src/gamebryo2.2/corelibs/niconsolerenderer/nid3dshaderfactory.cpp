@@ -1325,7 +1325,6 @@ FUN_00e925a0::~FUN_00e925a0()
     }
 }
 
-extern "C" void _ReadWriteBarrier();
 class ShaderRefObject
 {
   public:

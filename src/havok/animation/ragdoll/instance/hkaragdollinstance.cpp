@@ -2062,7 +2062,6 @@ void RagdollMapperC18::FUN_00ce18f0(hkQsTransformC18* pkPoseOut, const hkQsTrans
         pkPoseOut[i].SetProduct(kModelFromWorld, pkPoseOut[i]);
 }
 
-extern "C" void _ReadWriteBarrier();
 // Near miss: two load-encodings remain under accepted GS- flags and RTM.
 
 struct hkVec4

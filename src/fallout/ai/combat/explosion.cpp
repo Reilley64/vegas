@@ -4758,7 +4758,6 @@ void* FUN_00cbd4e0_shell::FUN_00cbd4e0(unsigned char flag)
     return this;
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 struct FUN_00cbc650_obj
 {

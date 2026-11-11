@@ -316,8 +316,6 @@ extern "C" void* __cdecl FUN_00d41860_impl(void* apOut, void* apRecord, void* aO
 
 // Adapted from an unverified 2026-10-23 prior contributor draft; independently checked under this claim.
 typedef unsigned long DWORD;
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 struct ProfileEvent
 {
     const char* name;

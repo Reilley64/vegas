@@ -15,7 +15,6 @@
 #include "fnv/symbols_0104d000.h"
 #include "havok/hkpWorldCinfo.h"
 
-extern "C" void _ReadWriteBarrier();
 extern const float DAT_0104da48 = 3.402820018375656e38f;
 extern const float DAT_010141cc = 0.0001f;
 extern const float DAT_010209a0, DAT_010c636c,

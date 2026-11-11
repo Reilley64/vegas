@@ -6240,7 +6240,6 @@ bool CObj::FUN_00c8c3d0(std::intptr_t value)
     return r;
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 // @fnv 0x00c8c020
 void __cdecl FUN_00c8c020(unsigned int* apData)

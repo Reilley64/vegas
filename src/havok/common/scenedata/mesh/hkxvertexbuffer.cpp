@@ -499,7 +499,6 @@ void BufferHelper::FUN_00e3e030(const hkxVertexBuffer* src, int srcIndex, int ds
     }
 }
 
-extern "C" void _ReadWriteBarrier();
 
 
 struct VertexDeclMatch

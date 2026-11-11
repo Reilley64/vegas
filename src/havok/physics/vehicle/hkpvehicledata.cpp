@@ -20,10 +20,6 @@
 #include "fnv/symbols_00e59000.h"
 
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    void _ReadWriteBarrier();
-}
 
 
 

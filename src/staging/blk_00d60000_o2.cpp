@@ -4237,10 +4237,6 @@ static __declspec(noinline) void FUN_00d6c630(const VectorR2& pa, const VectorR2
     cursor.m_pQueryResultSchema = (SchemaR2*)out;
 }
 
-extern "C"
-{
-    void _ReadWriteBarrier();
-}
 
 struct BoolD72
 {

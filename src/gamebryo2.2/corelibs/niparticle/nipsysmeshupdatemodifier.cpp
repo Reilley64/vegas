@@ -1285,7 +1285,6 @@ void FUN_00c21400_cls::AttachMesh(MeshLookup* pkLookup, unsigned short usIndex)
         pkMesh->Destroy();
 }
 
-extern "C" void _ReadWriteBarrier();
 class NiCloningProcess_c217;
 struct S_c21770_Slot
 {

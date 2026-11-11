@@ -23,7 +23,6 @@
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_010d5000.h"
 #include "fnv/symbols_01268000.h"
-extern "C" void _ReadWriteBarrier(void);
 
 struct LongRayScalar
 {

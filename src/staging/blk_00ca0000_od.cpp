@@ -30,7 +30,6 @@
 #include "fnv/symbols_010c4000.h"
 #include "fnv/decl/FUN_00c84df0_cls.h"
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 class hkTransform;
 
@@ -1458,9 +1457,7 @@ void MeshShape::FUN_00ca7a70(NiStream& stream)
 }
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
-extern "C" unsigned __int64 __rdtsc(void);
 
 extern char DAT_010c9268[];
 

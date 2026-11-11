@@ -325,8 +325,6 @@ float TransformShape_cf5a::FUN_00cf5a20(const __m128& direction)
 #include <windows.h>
 #include "fnv/symbols_010c4000.h"
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 extern const char str_010cc448[];
 struct CF5Mon
 {

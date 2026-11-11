@@ -3139,7 +3139,6 @@ struct FUN_00e247a0_cls {
     unsigned int m_0c;
     FUN_00e247a0_cls* FUN_00e247a0();
 };
-extern "C" void _ReadWriteBarrier(void);
 
 // @fnv 0x00e247a0
 FUN_00e247a0_cls* FUN_00e247a0_cls::FUN_00e247a0() {
@@ -13518,7 +13517,6 @@ void S_e1ce10_Mesh::FUN_00e1ce10(const S_e1ce10_Geometry& geom, const S_e1ce10_T
     reinterpret_cast<::FUN_00e114c0_Class *>(this)->ReleaseSubobject();
 }
 
-extern "C" void _ReadBarrier();
 
 
 struct __declspec(align(16)) LocalVec4 {
@@ -15556,7 +15554,6 @@ void SplitHull::FUN_00e1aec0(int firstTag, int secondTag) {
 
 struct EdgeByte {char value;EdgeByte(int b):value((char)b) {} __forceinline operator bool() const {return value!=0;}};
 
-extern "C" void _ReadWriteBarrier();
 
 
 struct EdgeFlag {int value;EdgeFlag(int b):value(b) {} __forceinline operator bool() const {return value!=0;}};
@@ -17010,9 +17007,6 @@ void S_00e27c90_Obj::FUN_00e27c90(intptr_t a, intptr_t angle, int b, int c)
     reinterpret_cast<::E27850This *>(this)->FUN_00e27850((::PointsArg *)(a), (::Float4 *)(::S_00e27c90_U *)(&u), b, c);
 }
 
-extern "C" void _ReadBarrier();
-extern "C" void _WriteBarrier();
-extern "C" void _ReadWriteBarrier();
 
 
 struct __declspec(align(16)) OptVec4 {
@@ -18396,7 +18390,6 @@ int E13B00This::FUN_00e13b00(float afMinDot, float afMaxWDiff, bool a3)
     return result;
 }
 
-extern "C" void _WriteBarrier();
 
 struct __declspec(align(16)) CollapsePosition {
     float x,y,z,w;

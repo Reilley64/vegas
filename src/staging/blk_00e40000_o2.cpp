@@ -1192,7 +1192,6 @@ void __cdecl FUN_00e53000(unsigned char* bytes)
     SwapByte(bytes[4], bytes[5]);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 // @fnv 0x00e53030
 void __cdecl FUN_00e53030(unsigned char* pucBuffer)
@@ -6528,7 +6527,6 @@ void __cdecl FUN_00e58900(E589Destination* destination,E589Values* values,const 
     }
 }
 
-extern "C" void _ReadWriteBarrier();
 struct __declspec(align(16)) PlaneVector {
 
     float f[4];
@@ -8097,7 +8095,6 @@ static __forceinline int moppHighLast(int middle,const volatile unsigned char& h
 
 static __forceinline int moppRead24(const unsigned char* p) { int middle = p[1]; middle += int(p[0]) << 8; return (middle << 8) + p[2]; }
 
-extern "C" void _ReadBarrier();
 
 struct MoppState {
     int terminalBase;

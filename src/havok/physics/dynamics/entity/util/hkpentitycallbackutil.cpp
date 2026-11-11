@@ -39,8 +39,6 @@ void CFF9B0CleanupListeners(CFF9B0SmallArray* a, CFF9B0SmallArray* b)
     FUN_00cff9b0(*b);
 }
 
-extern "C" void _ReadWriteBarrier();
-extern "C" unsigned __int64 __rdtsc();
 class ContactPointEvent;
 class ContactPointListener
 {
@@ -815,10 +813,8 @@ void __cdecl FUN_00cffcf0(CFFCF0Owner* owner)
     }
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct ProfRec
 {
@@ -923,9 +919,7 @@ void __cdecl InvokeMotionTypeCallbacks(TaskOwner* pOwner)
     }
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 class ListItem
 {
@@ -1013,8 +1007,6 @@ void __cdecl DeleteCallbacks(ProfOwner* pOwner)
     }
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 extern char DAT_010cca44[];
 struct TimerEntry
 {
@@ -1310,7 +1302,6 @@ void FUN_00d001c0(CManager* mgr, CEvent* ev)
 // string literals used inline
 // (see below)
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct ProfRec_cffa00
 {
@@ -1409,7 +1400,6 @@ void __cdecl FUN_00cffa00(ProfOwner_cffa00* pOwner)
     }
 }
 
-unsigned __int64 __cdecl __rdtsc(void);
 struct TraceTick
 {
     volatile DWORD value;
@@ -1485,8 +1475,6 @@ void __cdecl FUN_00cfffb0(void* apOwner, void* apParam)
 }
 
 extern LPVOID(WINAPI* DAT_00fdf044)(DWORD);
-unsigned __int64 __cdecl __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 struct TaskContext
 {
     DWORD unk00;

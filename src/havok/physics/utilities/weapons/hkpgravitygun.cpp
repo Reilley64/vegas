@@ -888,7 +888,6 @@ Body_e45e* World_e45e::FUN_00e45e60(int index)
 #include "fnv/decl/hkpEntityC9C.h"
 #include "fnv/symbols_01012000.h"
 
-extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_mm_load_ss, _mm_load_ps, _mm_shuffle_ps, _mm_mul_ps, _mm_store_ss, _mm_store_ps)
 
 struct UnkCall
@@ -1326,7 +1325,6 @@ struct ViewE45
     __m128 m_kTranslationalVelocity;
 };
 
-extern "C" void _ReadWriteBarrier(void);
 
 static inline __m128 bcastE45(const float& f)
 {

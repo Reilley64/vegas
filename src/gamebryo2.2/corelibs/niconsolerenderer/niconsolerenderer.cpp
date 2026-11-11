@@ -31840,7 +31840,6 @@ __forceinline void StripRenderer::DrawExpanded(StripRendererData* rd, StripIndex
     }
 }
 
-extern "C" void _ReadWriteBarrier();
 struct LineColor { float r, g, b; };
 struct LineColorA : LineColor { float a; };
 struct LineTexCoord { float u, v; };
@@ -34017,7 +34016,6 @@ NiPixelData* ScrDX9Renderer::FUN_00e6f4e0(const ScrRect* pkScreenRect, ScrTarget
     return pkPixelData;
 }
 
-extern "C" void _ReadWriteBarrier();
 struct Xf {
     float m[3][3];
     NiPoint3 t;

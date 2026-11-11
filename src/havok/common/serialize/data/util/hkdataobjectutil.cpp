@@ -2316,7 +2316,6 @@ void DWC_Cloner::FUN_00dc56f0(DWC_MemberArray& dstInfos, const DWC_Class& dstCla
     }
 }
 
-extern "C" void _ReadWriteBarrier(void);
 struct S_00dc3920_E
 {
     unsigned int key0;
@@ -2821,7 +2820,6 @@ void ValueCloner::FUN_00dc4210(DataObject& dstObj, const DataObject& srcObj, con
     }
 }
 
-extern "C" void _ReadWriteBarrier();
 struct AllocatorVtbl;
 struct DC4430Memory
 {

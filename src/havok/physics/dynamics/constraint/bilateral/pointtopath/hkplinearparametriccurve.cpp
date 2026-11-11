@@ -582,7 +582,6 @@ FUN_00e48030::FUN_00e48030() throw() : m_fSmoothingValue(0.01f), m_bClosedLoop(f
 }  // namespace fnv_00e48030
 
 
-extern "C" void _ReadWriteBarrier();
 extern "C" void* FUN_00e48030(void* p);
 class ScalarLane
 {

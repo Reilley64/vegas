@@ -2032,7 +2032,6 @@ int __cdecl FUN_00e7cd40()
 // vtable before the pointer clears, flag read between the two pointer
 // clears) and keeps the flag read from folding into the zero store.
 
-extern "C" void _ReadWriteBarrier();
 
 extern const void* DAT_0109c4c4[];
 

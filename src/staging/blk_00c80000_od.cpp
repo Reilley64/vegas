@@ -632,7 +632,6 @@ void FUN_00c9ecb0_cls::FUN_00c9ecb0(HingeVectorSet* set)
 }
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 namespace fnv_00c88520 {
 struct FnvMat4

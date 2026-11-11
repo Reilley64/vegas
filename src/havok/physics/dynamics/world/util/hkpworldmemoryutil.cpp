@@ -248,12 +248,10 @@ void __cdecl ProcessChildLoop(ParamObj* param)
 
 #include <windows.h>
 
-extern "C" void _ReadWriteBarrier(void);
 
 
 typedef LPVOID(WINAPI* PFN_TlsGetValue)(DWORD dwTlsIndex);
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct ProfRec
 {

@@ -511,7 +511,6 @@ void zz_call()
 
 void FUN_00d6c030(D6Owner* a, V16* b, D6Idx* c, void* d, void* e);
 
-extern "C" void _ReadWriteBarrier();
 
 struct hkQuaternionD6B5;
 

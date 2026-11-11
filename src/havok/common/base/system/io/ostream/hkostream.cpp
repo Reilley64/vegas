@@ -746,7 +746,6 @@ struct bhkMoppBvTreeShape
     unsigned int FUN_00cc9f60(NiStream& stream);
 };
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 // Gets a size and buffer, reads binary data and warns for versions below 6, otherwise calls FUN_00c87710 and may byte-swap m_data.
 // @fnv 0x00cc9f60

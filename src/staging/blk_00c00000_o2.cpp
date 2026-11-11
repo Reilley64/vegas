@@ -9257,7 +9257,6 @@ float __cdecl FUN_00c05870()
     return 1.0f;
 }
 
-extern "C" unsigned int __cdecl _rotl(unsigned int, int);
 struct ConstantEntryStandin
 {
     int unk00;
@@ -9508,7 +9507,6 @@ struct FUN_00c1a630_shell
     return reinterpret_cast<::fnv_00a74640::FUN_00a74640 *>(this)->Clone(kCloning);
 }
 
-extern "C" void _ReadWriteBarrier();
 struct P440Light;
 struct P440Pass;
 struct P440Camera;

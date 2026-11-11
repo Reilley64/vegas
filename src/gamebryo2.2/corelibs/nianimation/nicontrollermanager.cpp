@@ -2212,7 +2212,6 @@ FUN_00a2eb80::~FUN_00a2eb80()
 }
 }  // namespace fnv_00a2eb80
 
-extern "C" void _ReadWriteBarrier(void);
 
 struct MgrPoolStub
 {

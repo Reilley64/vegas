@@ -1395,8 +1395,6 @@ void hkQueue128::FUN_00d056d0(int aiMinCapacity)
     }
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 extern "C" const char str_010ccd90[];
 
 static __forceinline short& Ref212(Registry* r, unsigned char sub)

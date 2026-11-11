@@ -7800,8 +7800,6 @@ char* FUN_00df7210_Class::FUN_00df7210(char* out)
     return out;
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 extern unsigned long DAT_0126835c;
 extern char DAT_010dba3c[];
@@ -11033,10 +11031,6 @@ float __cdecl FUN_00df2510(const VelocityBody* a, const VelocityBody* b, const V
     return relative.dot(contact->normal);
 }
 
-extern "C"
-{
-    void _ReadWriteBarrier();
-}
 
 struct V4
 {
@@ -11166,7 +11160,6 @@ float InertiaHolder::FUN_00df6380(const Pair4* p)
     return lin.horizontalAdd3();
 }
 
-extern "C" void _ReadWriteBarrier();
 
 struct JobSrc
 {
@@ -11490,10 +11483,8 @@ int __cdecl FUN_00df33b0(const BndBuffers* buffers, int begin, int end, BndSplit
     return 0;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 // Today's tree (blk_00de0000_o2.cpp) has no windows.h; declare the Win32 pieces the
 // way the unit itself does (see the TlsGetValue profile macro users in the file).
-extern "C" unsigned __int64 __rdtsc(void);
 
 extern unsigned long DAT_0126835c;
 

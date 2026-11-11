@@ -514,7 +514,6 @@ void hkpMotionD1E5::FUN_00d1e560(float fMoveElapsedTime, const hkVector4D1E5& kF
 
 // Moved from hkpspheremotion_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
 
-extern "C" void _ReadWriteBarrier();
 struct ScalarE4
 {
     __m128 value;

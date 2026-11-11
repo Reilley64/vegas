@@ -718,8 +718,6 @@ struct CapsulePointTransforms {
 };
 
 extern "C" const char DAT_010d1074[];
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 
 struct CommandTimingEntry
 {
@@ -812,7 +810,6 @@ void FUN_00d3baf0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const Collisio
 #include "fnv/symbols_00d3c000.h"
 #include "fnv/symbols_010c4000.h"
 
-extern "C" unsigned __int64 __rdtsc(void);
 // The profiler keeps one 12 byte entry per marked call site in a per thread buffer.
 // The entry holds the name of the marked site and a timestamp taken from the TSC.
 struct ProfilerTls

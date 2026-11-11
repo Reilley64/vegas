@@ -678,8 +678,6 @@ hkpPhantomDisplayViewer::~hkpPhantomDisplayViewer()
 }
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 extern "C" const char str_010d1c38[];
 struct MonitorCommand
 {

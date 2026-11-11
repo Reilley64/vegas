@@ -680,8 +680,6 @@ void RayCasterD0A4::CastRay(const RayInputD0A4* pkInput, QueryD0A4* pkQuery, int
     FUN_00d98ca0(m_pkShape, pkInput, &pkInput->m_vTo, &kCollector);
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 extern const char str_010cd2d8[];
 extern const char str_010cd2cc[];
 extern const char str_010cd2c0[];

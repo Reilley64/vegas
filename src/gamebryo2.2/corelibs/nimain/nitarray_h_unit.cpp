@@ -574,7 +574,6 @@ void CCCFD0Derived::FUN_00cccfd0(BCCCFD0StringArray* pkStrings)
     pkStrings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_0126867c))));
 }
 
-extern "C" void _ReadWriteBarrier();
 struct CAA010Inner
 {
     virtual void OpA();

@@ -401,7 +401,6 @@ struct DwordList
 
 namespace fnvc_adapt {
 }
-extern "C" void _ReadWriteBarrier(void);
 
 struct FUN_00d6a000_cls
 {
@@ -536,7 +535,6 @@ FUN_00d6a0a0::~FUN_00d6a0a0()
 }  // namespace fnv_00d6a0a0
 
 
-extern "C" unsigned __int64 __rdtsc(void);
 
 extern "C" void*(* DAT_00fdf044)(unsigned long);
 

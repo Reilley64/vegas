@@ -280,11 +280,6 @@ void __cdecl FUN_00dacca0(D41FD0CollisionDispatcher* dispatcher)
 #include "fnv/symbols_01268000.h"
 void __cdecl InitVtable(FUN_00dacc70_vt* p);
 
-extern "C"
-{
-    unsigned __int64 __rdtsc();
-    void _ReadWriteBarrier();
-}
 
 typedef unsigned long DWORD;
 

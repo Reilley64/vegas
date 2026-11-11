@@ -3,7 +3,6 @@
 #define NID3DDEFAULTSHADER_DECLS_H
 #include <windows.h>
 #include "fnv/symbols_0109b000.h"
-extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 class NiFixedString
 {

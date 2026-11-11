@@ -3893,7 +3893,6 @@ void FUN_00d7ac40_cls::FUN_00d7ac40(unsigned char flag)
     }
 }
 
-extern "C" void _ReadWriteBarrier(void);
 struct S_00d790d0_V4 {
     float x;
     float y;
@@ -6692,7 +6691,6 @@ void S00d756a0_Shape::FUN_00d756a0(S00d756a0_Plain& out)
     }
 }
 
-extern "C" void _ReadWriteBarrier();
 
 struct Vec4 {
     __m128 q;
@@ -7484,7 +7482,6 @@ BlendObject* __cdecl FUN_00d78ca0(const BlendInput* a,const BlendInput* b,const 
 }
 
 
-extern "C" void _ReadWriteBarrier();
 
 
 struct Scalar352 {
@@ -8636,7 +8633,6 @@ float PlaneHull::FUN_00d75880(PlaneArgument point) {
     }
     return best;
 }
-extern "C" unsigned __int64 __rdtsc(void);
 
 
 
@@ -10054,7 +10050,6 @@ __declspec(noinline) int HullImpl::FUN_00d7a200(const HullVec& plane,float eps,i
  if(counts[0]) return 1;
  return 0;
 }
-extern "C" void _ReadWriteBarrier();
 
 
 struct VecNode {
@@ -10277,8 +10272,6 @@ accepted:
 namespace tolerance { extern const float DAT_0104da4c=1.1920928955078125e-7f; }
 
 
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 
 
 void __cdecl ResizeAudioStream(void*,void*,int);
@@ -10418,12 +10411,6 @@ int PlaneHull::FUN_00d774a0(const PlaneVector* planes,int count,intptr_t config)
 
 }
 
-extern "C" {
-
-void _ReadWriteBarrier();
-
-
-}
 
 
 struct AllocHolder {

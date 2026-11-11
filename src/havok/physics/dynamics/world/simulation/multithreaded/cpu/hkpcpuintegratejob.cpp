@@ -203,7 +203,6 @@ void call_target(BlockList* blocks, Owner* owner, Group** groupHead, Block** blo
 
 #include <xmmintrin.h>
 #include <windows.h>
-extern "C" void _ReadWriteBarrier();
 
 struct FlagByte {
     char value;

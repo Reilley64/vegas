@@ -480,7 +480,6 @@ struct OrderArg
 {
     const unsigned short* p;
 };
-extern "C" void _ReadWriteBarrier();
 extern const char str_010f14e8[];
 struct ArrayShader : VS_00e972e0_Shader
 {

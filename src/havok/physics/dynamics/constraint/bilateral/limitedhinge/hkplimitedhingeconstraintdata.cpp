@@ -591,10 +591,6 @@ void hkpLimitedHingeConstraintDataEx::FUN_00cb8b60(const hkTransform& bodyATrans
     reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_vTranslation)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 }
 
-extern "C"
-{
-    void _ReadWriteBarrier(void);
-}
 
 struct hkVector4_Havok
 {

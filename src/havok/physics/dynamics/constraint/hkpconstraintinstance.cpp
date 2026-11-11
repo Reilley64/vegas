@@ -578,7 +578,6 @@ hkpModifierConstraintAtom* __cdecl FindModifierConstraintAtom(hkpConstraintInsta
     return atom;
 }
 
-extern "C" void _ReadWriteBarrier();
 
 struct S00cf3df0_Arr
 {

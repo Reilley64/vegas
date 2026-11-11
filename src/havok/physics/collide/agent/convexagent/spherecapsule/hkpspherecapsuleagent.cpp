@@ -148,8 +148,6 @@ void CollisionDispatcher::FUN_00d3f000(void* bodyA, void* bodyB, void* volatile 
 }
 
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 extern const char str_010cf158[];
 
@@ -1046,7 +1044,6 @@ collector.AddCdPoint(event);
 #include "fnv/symbols_01017000.h"
 
 #include <math.h>
-extern "C" void _ReadWriteBarrier();
 struct Vec4f { float x, y, z, w; __forceinline __m128& quad() { return *(__m128*)this; } __forceinline float& at(int i) { return (&x)[i]; } };
 struct MatF { Vec4f v[4]; };
 struct InnerP { float unk00, unk04, unk08, unk0c, f10; float unk14, unk18, unk1c; Vec4f endpoints[2]; };

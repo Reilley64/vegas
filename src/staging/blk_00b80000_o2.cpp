@@ -10492,7 +10492,6 @@ void B9B3D0Shader::SetupStage(B9B3D0Pass* pkPass, int iStage)
         ::DispatchPass((void *)(m_apkLowStages[iStage]), 0, (void *)(pkPass), false);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 class FUN_00b9b400_cls
 {

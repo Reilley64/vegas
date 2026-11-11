@@ -98,7 +98,6 @@ void SimulationIsland::SetFlags(Arg1Struct* a1, unsigned int uiFlags)
 
 #include <xmmintrin.h>
 #include <windows.h>
-extern "C" void _ReadWriteBarrier();
 extern "C" const char str_010d3e28[], str_010d3e14[];
 
 

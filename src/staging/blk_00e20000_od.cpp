@@ -39,9 +39,6 @@
 #include "fnv/symbols_01022000.h"
 #include "fnv/symbols_0104d000.h"
 
-extern "C" {
-void _ReadWriteBarrier();
-}
 
 struct Vertex { __m128 position; __m128 supportA; __m128 supportB; int flags; int unk34; int unk38; int unk3c; };
 
@@ -383,9 +380,7 @@ void __cdecl FUN_00e2b510(Owner* owner, RayBatch* input, int mode, FourFloatVect
     } while (--n >= 0);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct ProfRec
 {

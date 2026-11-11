@@ -56,7 +56,6 @@ void FUN_00d892d0()
 
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern"C"void _ReadBarrier();
 
 // @fnv 0x00d8d030
 typedef float hkReal;
@@ -3495,7 +3494,6 @@ Vec4Dst* __cdecl FUN_00891060(Vec4Dst* out, Vec4Src* b, Vec4Src* a)
 
 // Moved from hkpsolver_rtm_variant.cpp (VEGAS-15).
 
-extern "C" void _ReadWriteBarrier();
 
 struct SpawnedVec4 {
     unsigned int m_uiX;

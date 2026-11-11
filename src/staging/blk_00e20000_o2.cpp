@@ -1628,7 +1628,6 @@ bool* FUN_00e33910_cls::AreAllItemsValid(bool* out)
     return out;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 extern int DAT_010eb770;
 
 struct SubObj_b4888
@@ -3682,7 +3681,6 @@ float __cdecl FUN_00e32ea0(int type)
     return 0.0f;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 struct Chain
 {
     int unk00;
@@ -3814,7 +3812,6 @@ void __cdecl FUN_00e2b9b0(Chain* chain, Node* source, Manager* manager)
     }
 }
 
-extern "C" void _ReadWriteBarrier();
 struct PlaneIndex
 {
     unsigned short value;
@@ -4688,7 +4685,6 @@ void __cdecl CallHandlerByIndex(int a, int b, int c);
 void __cdecl FUN_00e315a0(unsigned char a1, unsigned int a2, unsigned int a3, uintptr_t* a4);
 
 
-extern "C" unsigned int __cdecl _rotl(unsigned int, int);
 
 // @fnv 0x00e315a0
 void __cdecl FUN_00e315a0(unsigned char flags, unsigned int count, unsigned int wide, uintptr_t* cursor)

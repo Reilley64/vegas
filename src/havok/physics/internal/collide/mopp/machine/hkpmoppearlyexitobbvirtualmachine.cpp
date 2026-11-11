@@ -125,7 +125,6 @@ hkBool S00e63f10::hkpMoppEarlyExitObbVirtualMachine::SetupAndProcessShape(S_00e6
 
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
-extern "C" void _ReadWriteBarrier();
 
 
 struct S_00e645b0_Transform {

@@ -466,10 +466,6 @@ void __cdecl FUN_00d3c440(const S_00d3c440_Body* bodyA, const S_00d3c440_Body* b
 #include <intrin.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/symbols_010c4000.h"
-extern "C" {
-unsigned __int64 __rdtsc(void);
-void _ReadWriteBarrier(void);
-}
 
 extern const char str_010cf050[];
 class S3c5_Transform;
@@ -1206,8 +1202,6 @@ void CpuObject::FUN_00d3d000(void* first, void* second, const void* third, void*
 }
 
 
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 typedef float hkReal;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;

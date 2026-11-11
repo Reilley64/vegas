@@ -33,7 +33,6 @@ FUN_00cfa860::~FUN_00cfa860()
     m_vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
 #include <xmmintrin.h>
 struct __declspec(align(16)) S_00cfab30_vec
 {
@@ -128,7 +127,6 @@ struct S_00cfab30_this
     void RecordAndDispatch(S_00cfab30_object*, S_00cfab30_arg*, void*, void*, void*);
 };
 
-extern "C" void _ReadWriteBarrier(void);
 extern const char str_010cc668[];
 
 // Records a start timestamp, stores arguments into fields, invokes target_call on arg08 with a local struct, then records an end timestamp.

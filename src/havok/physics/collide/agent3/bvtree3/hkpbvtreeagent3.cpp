@@ -227,8 +227,6 @@ void __cdecl FUN_00d2d460(void* a, void* b, void* c)
     ::FUN_00da3510((*(::AgentSectorPointerArray *)(b)), (*(::CollisionAgentContext *)(c)));
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 extern "C" const char str_010ce7ec[];
 extern "C" const char str_010ce7d4[];
 

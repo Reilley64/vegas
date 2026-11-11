@@ -166,8 +166,6 @@ void Cls_00d5d800::GetAabb(const hkTransform& t, float tol, Aabb_00d5d800& out)
 }
 
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 extern const char str_010d1074[];
 
 struct StringCursor

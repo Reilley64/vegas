@@ -3556,7 +3556,6 @@ static Comparison4 FUN_00dd31b0(const __m128* l, const __m128* r);
 
 void hcaller(const __m128* ca, const __m128* cb, __m128* cd);
 
-extern "C" void _ReadWriteBarrier(void);
 
 extern "C" void _WriteBarrier(void);
 

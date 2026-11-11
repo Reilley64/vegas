@@ -1314,7 +1314,6 @@ void CubeMapLoader::FUN_00a612a0(NiStream& kStream)
 }
 
 extern "C" void* DAT_0109babc;
-extern "C" void _ReadWriteBarrier();
 
 struct CubePixels
 {

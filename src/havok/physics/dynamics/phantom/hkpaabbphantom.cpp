@@ -762,8 +762,6 @@ FUN_00cf2bf0* FUN_00cf2bf0::DestroyAndFree(unsigned int uiFlags) throw()
 }  // namespace fnv_00cf2f60
 
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 struct StringCursor
 {

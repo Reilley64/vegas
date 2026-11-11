@@ -331,7 +331,6 @@ FUN_00a6d220::FUN_00a6d220() throw()
     uFlags = (uFlags & 0xff6c) | 0x4c;
 }
 
-extern "C" void _ReadWriteBarrier();
 extern float g_010be6a8;
 extern double g_010241b0;
 

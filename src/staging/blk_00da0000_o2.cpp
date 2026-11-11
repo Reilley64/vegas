@@ -2695,7 +2695,6 @@ struct S00da6eb0_Ctx
 
 extern char str_010d50b8[];
 
-extern "C" void _ReadWriteBarrier(void);
 
 
 inline void S00da6eb0_TimerMark(const char* pName)

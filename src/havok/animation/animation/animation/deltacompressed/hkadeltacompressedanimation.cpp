@@ -275,8 +275,6 @@ void S00e34c10_Anim::FUN_00e34c10(
 // FUN_00e34d80 - hkaDeltaCompressedAnimation block decode launcher (Havok timer-wrapped)
 // Per-TU private conventions: anim arrives in eax; callee FUN_00e349c0 takes dst in eax.
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 
 extern char DAT_010eb77c[];
 
@@ -585,8 +583,6 @@ void* SampleCaller(const hkaDeltaCompressedAnimation* anim, int block, int numPo
 }
 }  // namespace fnv_00e34e80
 
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 
 struct ProfileRecord {
     const char* name;

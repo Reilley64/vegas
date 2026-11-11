@@ -1779,8 +1779,6 @@ FUN_00d93310_cls* FUN_00d93310_cls::FUN_00d93310()
 }
 
 extern "C" {
-    unsigned __int64 __rdtsc(void);
-    void _ReadWriteBarrier(void);
     void __cdecl FUN_00d89f80(void* p, int a2, int a3, int a4, bool* pb);
 }
 
@@ -3548,10 +3546,6 @@ static __declspec(noinline) void FUN_00d93ab0(CleanupObject* self) {
 CleanupObject* volatile cleanupInput;
 void CleanupEntry() { FUN_00d93ab0(cleanupInput); }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" {
-    unsigned __int64 __rdtsc(void);
-}
 
 extern "C" char str_010d3e98[];
 
@@ -6091,8 +6085,6 @@ void __cdecl FreeGlobalBlock();
 void __cdecl FUN_00d880e0();
 
 extern "C" {
-    unsigned __int64 __rdtsc(void);
-    void _ReadWriteBarrier(void);
     void __cdecl FUN_00d89f80(void* p, int a2, int a3, int a4, bool* pb);
 }
 

@@ -11257,7 +11257,6 @@ __m128* SupportOwner::FUN_00e62c60(Arg<__m128> out, const Vector* direction, Arg
 
 extern "C"
 {
-    void _ReadWriteBarrier();
     void _WriteBarrier();
 }
 
@@ -12772,7 +12771,6 @@ int Solver::FUN_00e63770(E63Out* out)
 
 
 
-extern "C" void _ReadWriteBarrier();
 
 struct MoppState
 {

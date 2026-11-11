@@ -491,7 +491,6 @@ void hkpMotionB::FUN_00d1e9f0(const hkVec4Q& imp, const hkVec4Q& p)
     m_kAngularVelocity.add4(deltaVelWs);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 struct Mat
 {
     __m128 c0, c1, c2;
@@ -574,7 +573,6 @@ const hkMatrix3& S00d1e750_cls::FUN_00d1e750(const hkMatrix3& inertia)
     return inertia;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 
 
@@ -818,7 +816,6 @@ void FUN_00d1e9b0_cls::FUN_00d1e9b0(float f, float* v)
 }
 
 
-extern "C" void _ReadWriteBarrier();
 class BoxMotionCandidate : public hkpBoxMotion
 {
   public:

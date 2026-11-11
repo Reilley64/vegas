@@ -291,8 +291,6 @@ FUN_00e402e0::FUN_00e402e0(SrcAnimX* apSrcAnim)
     }
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 using TlsGetValueFn = decltype(&TlsGetValue);
 
 struct ProfRec

@@ -557,8 +557,6 @@ FUN_00d32190_cls* __cdecl FUN_00d32190(const void* a1, const void* a2, const voi
 // Moved from hkpheightfieldagent_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
 #include "fnv/symbols_010c4000.h"
 
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 extern char DAT_010cea14[];
 
 union CastVector {

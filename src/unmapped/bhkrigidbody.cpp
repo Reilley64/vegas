@@ -3047,7 +3047,6 @@ void Entity_c8ea::FUN_00c8ea30(char* pkStream)
     pkLoad->m_pkIstr->Read(&m_iSlotCount, 4);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 struct RTTI_eb20
 {

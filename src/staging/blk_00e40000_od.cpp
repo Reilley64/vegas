@@ -185,11 +185,8 @@ extern "C" void __cdecl FUN_00e5d010(intptr_t first, intptr_t second, void* thir
     reinterpret_cast<::GridCell *>(&(instance))->FUN_00dd1da0((::GridSource *)(first),(::GridBounds *)(second),third);
 }
 
-extern "C" void _ReadWriteBarrier();
 
-extern "C" void _ReadBarrier();
 
-extern "C" void _WriteBarrier();
 
 struct hkQuatStore_e52d90 { __m128 m_vec; };
 
@@ -223,7 +220,6 @@ void __cdecl FUN_00e52d90(const unsigned short* in, hkQuatStore_e52d90* out)
         f[missing] = -f[missing];
 }
 
-extern "C" void _ReadWriteBarrier();
 
 static __forceinline int readPacked(const unsigned char* q) {int a=q[0]; int b=q[1]; int c=q[2]; return ((a<<8)+b<<8)+c;}
 
@@ -524,15 +520,12 @@ __forceinline void Cls::interpret(P1* a1, unsigned char* p, F8* const& a3) {
 // @fnv 0x00e5f070
 void Cls::FUN_00e5f070(P1* a1, unsigned char* p, F8* a3) { interpret(a1, p, a3); }
 
-extern "C" void _ReadWriteBarrier();
 
 __forceinline int rightPacked(const unsigned char* q){return ((q[0]<<8)+q[1]<<8)+q[2];}
 
-extern "C" void _ReadWriteBarrier();
 
 __forceinline int packedLocal(const unsigned char* q){_ReadWriteBarrier(); int a=q[0]; return ((a<<8)+q[1]<<8)+q[2];}
 
-extern "C" void _ReadWriteBarrier();
 
 static __forceinline int read24(const unsigned char* q) {_ReadWriteBarrier(); int a=q[0]; int b=q[1]; int c=q[2]; return ((a<<8)+b<<8)+c;}
 

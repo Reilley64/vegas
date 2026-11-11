@@ -3849,8 +3849,6 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
     return f028;
 }
 
-extern "C" void _ReadWriteBarrier(void);
-unsigned __int64 __cdecl __rdtsc(void);
 
 
 struct Pair
@@ -6453,7 +6451,6 @@ void NotifyPhantomCollision(PairD020* pkPair);
 static S00d02880_Elem* FUN_00d02880(S00d02880_Arr* b, S00d02880_Key t);
 S00d02880_Elem* S00d02880_Call(S00d02880_Arr* a, S00d02880_Key key);
 
-extern "C" void _ReadWriteBarrier();
 extern "C" void __debugbreak();
 extern char DAT_010ccbb0;
 namespace StepBeginDetail {

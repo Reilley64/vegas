@@ -160,8 +160,6 @@ FUN_00c9d990::FUN_00c9d990(Shape_00c9d990* apBoundingVolume, Shape_00c9d990* chi
     reinterpret_cast<::FUN_00c90510_class *>((boundingVolume))->FUN_00c90510();
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 extern const char str_010c7024[];
 
 struct Rs_c9d9e0_Cmd

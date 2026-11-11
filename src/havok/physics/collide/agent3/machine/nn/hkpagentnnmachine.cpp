@@ -1639,9 +1639,7 @@ extern "C"
 {
 
     void _ReadBarrier();
-    void _ReadWriteBarrier();
     void _WriteBarrier();
-    void _ReadWriteBarrier();
 }
 
 typedef float hkReal;

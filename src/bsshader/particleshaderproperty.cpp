@@ -957,7 +957,6 @@ struct ParticleUpdater : FUN_00ba7f70
     void FUN_00ba7b60(float time, bool compensate, bool emit);
 };
 #include <stdlib.h>
-extern "C" void _ReadWriteBarrier();
 struct SpawnVector
 {
     float x, y, z;

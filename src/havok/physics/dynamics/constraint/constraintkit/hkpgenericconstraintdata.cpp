@@ -1797,7 +1797,6 @@ struct __declspec(align(16)) MotorStuff
 
 extern int DAT_011b5a90[];
 
-extern "C" void _ReadWriteBarrier(void);
 
 static __forceinline __m128 dot3(__m128 p, __m128 q)
 {

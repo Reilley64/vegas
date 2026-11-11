@@ -2997,7 +2997,6 @@ struct FUN_00cc3440_cls
     void SwapEndianFields(FUN_00cc3440_obj* a1);
 };
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 // @fnv 0x00cc3440
 void FUN_00cc3440_cls::SwapEndianFields(FUN_00cc3440_obj* volatile apObj)
@@ -5263,7 +5262,6 @@ void* FUN_00cc7890_cls::FUN_00cc7890(uintptr_t arg)
 }
 }  // namespace fnv_00cc7890
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 struct NiBinaryStreamSI {
     void* m_pVtable;
@@ -6820,7 +6818,6 @@ CCAA80Object* __cdecl CreateCCAA80Object()
     return new CCAA80Object;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 struct FUN_00ccab60_arg {
     int unk00;
@@ -7200,7 +7197,6 @@ struct FUN_00ccabf0_Data {
     volatile unsigned int unk3c;
 };
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long value);
 
 struct FUN_00ccabf0_class {
     virtual void FUN_00ccabf0_00();
@@ -9211,7 +9207,6 @@ FUN_00ccd100* __cdecl FUN_00ccd250() {
     return new FUN_00ccd100;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 struct S_00ccd330_Arg {
     int unk00;
@@ -16578,7 +16573,6 @@ void bhkDerivedX::FUN_00cceb90(NiStreamX& kStream)
     }
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 namespace cce {
 struct Block { char pad[0x30]; unsigned long m_kPointA; unsigned long m_kPointB; unsigned long m_iThirdValue; unsigned long m_iFourthElementInteger; };
@@ -20782,7 +20776,6 @@ FUN_00cdf2f0::FUN_00cdf2f0()
     unk134 = 0.8f;
 }
 
-extern "C" void _ReadWriteBarrier();
 
 struct CdfSubObject
 {
@@ -21650,7 +21643,6 @@ void* CD3AD0Construct(void* pvMem)
 }
 }  // namespace fnv_00cd3ad0
 
-extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void* DAT_00fdf044;
 
 struct FUN_00cdfe00_Object {
@@ -23067,8 +23059,6 @@ void FNV_TCtrlArray::FUN_00cc1cf0() {
 
 
 
-unsigned __int64 __cdecl __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 extern char DAT_010c9544[];
 
 struct ProfRec
@@ -26863,7 +26853,6 @@ bool FootPlacementSolver::FUN_00cd8a50(const FootCastInput& context, const FootV
 
 // namespace fnv_00cd8a50
 
-extern "C" unsigned __int64 __rdtsc();
 
 extern char DAT_010cb7b8[];
 

@@ -1622,9 +1622,6 @@ namespace Simd840 {
 
 }
 typedef __m128 NativeSimd840;
-extern "C" {
-void _ReadWriteBarrier();
-}
 __forceinline void copyCount840(int* a,const int* b){_ReadWriteBarrier();*a=*b;}
 struct Vector840 {
  union { NativeSimd840 q; struct { float x,y,z,w; }; };

@@ -89,8 +89,6 @@ void Shape_00cd8100_cls::GetAabb(const Vec_00cd8100* t, float afTolerance, Aabb_
     apAabb->m_kMaximumCorner = _mm_add_ps(t->m_pos, s);
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 
 struct hkMonitorStreamCD81
 {
@@ -151,8 +149,6 @@ void* HostCD81::RecordTimerCommands(void* pvResult, int a, int b)
     return pvResult;
 }
 
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 class RayMask
 {
     __m128 bits;
@@ -340,8 +336,6 @@ struct ProbeStream
     int reserved2;
     char* end;
 };
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 struct ProbeSphere : hkpSphereShape
 {
     RayMask FUN_00cd8220(const RayQuerySet&, RayHits&, const RayMask&) const;

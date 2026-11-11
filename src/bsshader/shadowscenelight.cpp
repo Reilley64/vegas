@@ -1435,7 +1435,6 @@ RefPtr_b9fcc0 RemovalList::FUN_00b9efa0(void*& position)
 }
 }  // namespace fnv_00b9efa0
 
-extern "C" void _ReadWriteBarrier(void);
 #include <string.h>
 #include "fnv/decl/FUN_00c4a070.h"
 #include "fnv/decl/FUN_00c4a1e0.h"

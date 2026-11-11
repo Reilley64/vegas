@@ -817,9 +817,7 @@ void S00d5e480_Class::FUN_00d5e480(S00d5e480_Visitor* visitor, int)
 }
 
 #include <windows.h>
-extern "C" void _ReadWriteBarrier(void);
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct ProfRec
 {
@@ -916,8 +914,6 @@ bool* Node::FUN_00d5e500(bool* __restrict result, void* other, State* st)
     return result;
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 
 struct StringCursor

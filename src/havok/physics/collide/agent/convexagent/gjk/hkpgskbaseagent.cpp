@@ -82,8 +82,6 @@ void FUN_00dabed0_cls::SetValueIfExpected(float expected, float value, const voi
     }
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 class hkpCdBody
 {

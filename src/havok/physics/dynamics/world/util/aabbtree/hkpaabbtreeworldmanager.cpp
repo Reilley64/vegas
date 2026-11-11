@@ -1493,8 +1493,6 @@ void __cdecl FUN_00d08b90(hkArrayD08C<int*>& out, hkpWorldB90* world)
 
 extern char DAT_010cd234[];
 extern char DAT_010c41f8[];
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 struct MonitorEvent { const char* tag; unsigned int time; unsigned int extra; };
 struct MonitorStream { int unk00; MonitorEvent* current; int unk08; MonitorEvent* end; };
 struct UpdateOwner {

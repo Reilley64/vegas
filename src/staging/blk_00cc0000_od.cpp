@@ -1925,7 +1925,6 @@ void Cc7Owner::FUN_00cc7fe0(void* arg)
     reinterpret_cast<::fnv_00d52ca0::FUN_00d52ca0_cls *>(&(kit))->AppendZeroItem();
 }
 
-extern "C" void _ReadWriteBarrier();
 
 struct TypeHeader
 {
@@ -4283,9 +4282,7 @@ void MeshInitOwner::FUN_00ccc080(MeshInitInput* pkInput)
     update(pkInput);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 static __forceinline void StoreTimer(DWORD& out) { out = (DWORD)__rdtsc(); }
 
@@ -4432,9 +4429,7 @@ void __cdecl FUN_00cdf850(FNVSoftContactSource* a1, int a2, int a3, FNVSoftConta
     }
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 // @fnv 0x00cdfac0
 void __cdecl FUN_00cdfac0(FNVSoftContactSource* a1, int a2, int a3, FNVSoftContactTarget* a4, __m128* a5, __m128* a6)
@@ -5019,10 +5014,6 @@ void ScaledNode::FUN_00ccbf00(TargetArg* pkTarget, ScaleArg* pkArg)
     reinterpret_cast<::FUN_00c84df0_cls *>(this)->FUN_00c84df0((::FUN_00c84df0_cls *)(pkDst), (::FUN_00c84df0_cls *)(pkScale));
 }
 
-extern "C" {
-void _ReadBarrier();
-void _ReadWriteBarrier();
-}
 
 struct Motion;
 
@@ -5470,7 +5461,6 @@ void FUN_00cd3cb0(Motion* object) {
     if (11 != object->state) reinterpret_cast<FUN_00c6cba0_class*>(object)->FUN_00c6cba0();
 }
 
-extern "C" void _ReadBarrier(void);
 
 #pragma intrinsic(_ReadBarrier)
 
@@ -6034,9 +6024,6 @@ void S00cd3fb0_MotionContext::FUN_00cd3fb0(S00cd3fb0_MotionObject* object)
     reinterpret_cast<::FUN_00c6e2e0_cls *>((((S00cd3fb0_FUN_00c6e2e0_cls*)object)))->FUN_00c6e2e0();
 }
 
-extern "C" {
-void _ReadWriteBarrier();
-}
 
 struct MotionData {
     __m128 orientation;
@@ -6595,9 +6582,6 @@ template<class T> struct NativeArray {
     __forceinline T& operator[](int i) {return data[i];}
 };
 
-extern "C" {
-void _ReadWriteBarrier();
-}
 
 struct NScalar {
 private:
@@ -6982,11 +6966,8 @@ const NVector& offset=self->drift;
 
 typedef unsigned long DWORD;
 
-extern "C" unsigned __int64 __cdecl __rdtsc(void);
 
-extern "C" void _ReadBarrier(void);
 
-extern "C" void _WriteBarrier(void);
 
 // (0,0,0,1)
  // -0.5 splat

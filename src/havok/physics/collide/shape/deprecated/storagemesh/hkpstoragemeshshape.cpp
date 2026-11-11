@@ -399,7 +399,6 @@ struct FnvHavok00d4bdf0_Derived : FnvHavok00d4bdf0_PrimaryBase, FnvHavok00d4bdf0
 FnvHavok00d4bdf0_Derived::FnvHavok00d4bdf0_Derived()
 {}
 
-extern "C" void _ReadWriteBarrier();
 
 
 static __declspec(noinline) int __cdecl FUN_00d4b390(int a, int n)

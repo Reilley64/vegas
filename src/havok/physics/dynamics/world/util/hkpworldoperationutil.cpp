@@ -8090,7 +8090,6 @@ void __cdecl FUN_00cb55d0(S55Owner* owner)
     ::FUN_00c910b0();
 }
 
-extern "C" void _ReadWriteBarrier();
 
 namespace fnv_00cb4640 {
 struct TaskCtx;
@@ -8292,7 +8291,6 @@ void FUN_00cb3ee0(void* m, MotionObj* motion, void* w, int mode);
 
 struct SplitIsland_Target;
 struct SplitIsland_Node2;
-extern "C" void _ReadWriteBarrier(void);
 // Partition physics island nodes into groups, relink owners, and redistribute stream records.
 template <class T> __forceinline void SplitIsland_copyItems(T* destination, int n, const T& value)
 {

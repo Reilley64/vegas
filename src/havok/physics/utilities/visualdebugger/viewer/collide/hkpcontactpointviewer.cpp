@@ -288,11 +288,6 @@ void FUN_00de2a00_cls::ProcessSpawnedList()
     }
 }
 
-extern "C"
-{
-    unsigned __int64 __rdtsc(void);
-    void _ReadWriteBarrier(void);
-}
 
 
 struct StringCursor
@@ -417,7 +412,6 @@ HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
 extern "C" void _ReadBarrier();
 extern "C" void _WriteBarrier();
 
-extern "C" unsigned __int64 __rdtsc();
 
 
 struct ProfEntry

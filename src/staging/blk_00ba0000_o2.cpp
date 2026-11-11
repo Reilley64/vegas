@@ -3788,7 +3788,6 @@ void FUN_00bae720_Class::FUN_00bae720(int a1)
     this->unk7c = (a1 != 3) ? 3 : 0;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 class FUN_00bae980_cls
 {
@@ -18242,7 +18241,6 @@ void FFTUploadEffect::FUN_00ba1f20(bool* pDirty)
     tex->Unlock(0);
 }
 
-extern "C" void _ReadWriteBarrier();
 
 enum P368Enum
 {

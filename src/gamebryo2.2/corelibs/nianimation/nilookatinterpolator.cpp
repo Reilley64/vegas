@@ -1455,7 +1455,6 @@ FUN_00a4bcf0::FUN_00a4bcf0(unsigned int pkLookAt, unsigned int eAxis, bool bFlip
     m_akReferencedObjects[2] = 0;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 const float DAT_01017d00 = 0.0010000000474974513f;
 const float DAT_01098c00 = 1.0010000467300415f;
 const double DAT_01098bf8 = 0.9990000128746033;

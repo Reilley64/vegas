@@ -56,8 +56,6 @@ Holder* Holder::Destroy(unsigned char flags)
     return this;
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned long DAT_0126835c;
 
 struct hkBoolRet

@@ -1271,7 +1271,6 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
 // Moved from hkpbvtreeagent_ehsc_noehsc_variant.cpp (VEGAS-15).
 
 void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD);
-unsigned __int64 __cdecl __rdtsc(void);
 extern LPVOID(WINAPI* DAT_00fdf044)(unsigned int);
 
 struct S312_Split

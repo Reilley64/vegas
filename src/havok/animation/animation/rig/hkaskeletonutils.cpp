@@ -592,8 +592,6 @@ void __cdecl FUN_00cde1d0(const hkaSkeleton* skeleton, hkQsTransform* poseModel)
 }
 
 
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 extern char DAT_010cb7dc[];
 
 struct TimerEntry
@@ -771,12 +769,6 @@ void __cdecl MultiplyBoneScales(S_00cdd600_Obj* obj, S_00cdd600_Bone* bones, int
     *out.val() = r;
 }
 
-extern "C"
-{
-
-
-    void _ReadWriteBarrier(void);
-}
 
 
 struct Simd

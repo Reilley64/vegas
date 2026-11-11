@@ -222,11 +222,6 @@ class ParticleSystemOps
 
 typedef unsigned long DWORD;
 
-extern "C"
-{
-    unsigned __int64 __rdtsc();
-    void _ReadWriteBarrier();
-}
 
 
 struct __declspec(align(16)) Vec4
@@ -662,10 +657,6 @@ void CpuObject::FUN_00d3e0d0(void* first, void* second, void* third, void* uiVal
 }
 }  // namespace fnv_00d3e0d0
 
-extern "C" {
-unsigned __int64 __rdtsc(void);
-void _ReadWriteBarrier(void);
-}
 
 struct Transform;
 

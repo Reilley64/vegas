@@ -1283,7 +1283,6 @@ struct SpawnedPtrArray
     unsigned int m_uiCapacity;
 };
 
-extern "C" void _ReadWriteBarrier(void);
 
 // Resolves an item from a1, grows arr by 4 if full, then stores the item at the next slot and increments the count.
 // @fnv 0x00c809e0
@@ -5822,8 +5821,6 @@ bool C8CCC0Derived::FUN_00c8ccc0(const C8CCC0Derived& kOther) const
     return bEqual;
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
-extern "C" unsigned short __cdecl _byteswap_ushort(unsigned short);
 
 struct SwapMatrix_c8ce70
 {
@@ -12444,7 +12441,6 @@ int C8AAHost::GetResultValue(char c)
     return y ? y->m_0c : 0;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 struct FUN_00c8aa80_cls : BaseThunk
 {
@@ -14172,7 +14168,6 @@ void H_00c8b1d0::ProcessFileContext(FileContext* volatile object)
     ::LoadIntArray((::S_00cf10f0_Stream *)(stableObject), (::S_00cf10f0_Arr4 *)(char *)(data + 0x10));
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 // @fnv 0x00c84d00
 void FUN_00c84d00_cls::FUN_00c84d00(FUN_00c84d00_obj* apObj)
@@ -15003,7 +14998,6 @@ struct C8AC00_Self
     bool FUN_00c8ac00();
 };
 
-extern "C" void _ReadWriteBarrier(void);
 extern "C" void _ReadBarrier(void);
 extern "C" void _WriteBarrier(void);
 

@@ -4809,7 +4809,6 @@ int* Class9::GetOrCreateData(unsigned char* wasEmpty) {
     return data;
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 typedef unsigned int (__cdecl* ReadFn)(NiBinaryStream* pThis, void* pvBuffer, unsigned int uiBytes, unsigned int* puiComponentSizes, unsigned int uiNumComponents);
 
@@ -6018,8 +6017,6 @@ void hkpWorldHelper::SubmitClosestPointsJobs(ClosestPointsCommand* commandArray,
 }
 }  // namespace fnv_00c92290
 
-extern "C" void _ReadWriteBarrier();
-extern "C" unsigned __int64 __rdtsc();
 extern const char str_010c64b8[];
 extern const char str_010c41f8[];
 extern void* DAT_010c6488;
@@ -9459,8 +9456,6 @@ void MatchWorld::AddPhysicsSystem(hkArrayXc937a0<FUN_00d065e0*>* systems)
     FUN_00c928c0((FUN_00c928c0_Context*)this, (hkpPhysicsSystem*)system);
 }
 
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 extern const char str_010c6758[];
 extern const char str_010c6734[];
 extern const char str_010c6720[];
@@ -9671,8 +9666,6 @@ void WorldC944::UpdatePhantom(PhantomC944* apPhantom, int abProcessContacts)
     arr.releaseHeap(hkMemoryRouter::getInstance().heap());
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 
 
@@ -11846,8 +11839,6 @@ if(mStream.memoryAvailable()){ TMS::CommandTimingEntry*h=reinterpret_cast<TMS::C
 mStream.setEnd(reinterpret_cast<char*>(h+1)); } } ;
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void __movsd(unsigned long*, unsigned long const*, size_t);
 extern const char str_010c68c8[];
 extern const char str_010c41f8[];
 struct Sbp_TimerEntry { const char* name; unsigned int tick; unsigned int unk08; };
@@ -12709,7 +12700,6 @@ unsigned int LimitedHingeWrapper::FUN_00caa3f0()
 }
 }  // namespace fnv_00caa3f0
 
-extern "C" void _ReadWriteBarrier();
 
 extern int DAT_01268188;
 extern int DAT_01268318;

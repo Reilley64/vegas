@@ -135,7 +135,6 @@ void FUN_00e3cd20_Class::FUN_00e3cd20(float afScale, hkVector4* a2, hkVector4* a
     ::fnv_00e3cc20::FUN_00e3cc20((*(const ::hkArray<unsigned short> *)(&unk10)), (*(const ::fnv_00e3cc20::hkVector4q *)(this)), afScale, (*(::fnv_00e3cc20::hkAabbq *)(a2)), (*(const ::fnv_00e3cc20::hkVector4q *)(a3)));
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 extern const void* DAT_010d0fc4[];
 

@@ -1066,7 +1066,6 @@ struct DispatchContext
     int unkec;
     DispatchEntry handlers[256];
 };
-extern "C" void _ReadWriteBarrier(void);
 // Computes a byte offset from the node subtype and invokes the handler pointer stored at that offset in the context's handler table.
 // @fnv 0x00d04570
 int __cdecl FUN_00d04570(DispatchContext* apContext, int b, DispatchNode* apNode)
@@ -1134,8 +1133,6 @@ __m128 __cdecl FUN_00d1b280()
     return DAT_011b3810;
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 extern char DAT_010cd648[];
 
@@ -1236,7 +1233,6 @@ struct FUN_00d1ba90
 FUN_00d1ba90::~FUN_00d1ba90()
 {}
 
-extern "C" void _ReadWriteBarrier();
 struct D01B40_Sub
 {
     virtual void v00();
@@ -1285,7 +1281,6 @@ bool* D01B40_cls::FUN_00d01b40(bool* pbResult)
 
 
 extern __m128 DAT_011b3810;
-extern "C" void _ReadWriteBarrier(void);
 
 
 struct KdNode

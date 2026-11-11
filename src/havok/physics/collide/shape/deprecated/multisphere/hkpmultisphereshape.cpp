@@ -93,7 +93,6 @@ FUN_00d2a760::FUN_00d2a760(const hkVector4* spheres, int count)
 
 
 
-extern "C" void _ReadWriteBarrier();
 
 struct __declspec(align(16)) Ray
 {
@@ -302,8 +301,6 @@ char* S00d2ab90_Shape::FUN_00d2ab90(char* ok, RayCtx* in, void* p3)
 
 #include <math.h>
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 extern const char str_010ce4f0[];
 
 

@@ -117,8 +117,6 @@ void FUN_00d43760_cls::DispatchToEntries(float afArg1, float afArg2, int aiArg3)
 }
 }  // namespace fnv_00d43760
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 
 struct StringCursor
@@ -1458,10 +1456,8 @@ void __cdecl FUN_00d43dc0(const S_00d43dc0_CdBody& bodyA, const S_00d43dc0_CdBod
     S_00d43dc0_Timer("Et");
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct ProfRec
 {
@@ -1646,10 +1642,8 @@ void __cdecl FUN_00d43b90(const hkpCdBody* bodyA, const hkpCdBody* bodyB, const 
     hkTimerBegin(::DAT_010c41f8);
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 
-unsigned __int64 __cdecl __rdtsc(void);
 
 struct CollectionProcessHandler
 {

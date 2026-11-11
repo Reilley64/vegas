@@ -1338,7 +1338,6 @@ int __cdecl FUN_00ced090(S_00ced090_State* apState, S_00ced090_Out* out)
     return 0;
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 struct S00cf0f40_Guard
 {

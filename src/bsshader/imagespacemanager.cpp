@@ -1010,7 +1010,6 @@ void FUN_00b8aea0(char* self)
     }
 }
 
-extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long ulValue);
 
 class B8AD00Header
 {

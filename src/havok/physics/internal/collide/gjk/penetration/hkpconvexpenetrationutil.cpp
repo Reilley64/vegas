@@ -903,7 +903,6 @@ S_00df9d90_Out* S_00df9d90_This::FUN_00df9d90(S_00df9d90_OwnerP owner, S_00df9d9
 #include "fnv/symbols_01017000.h"
 #include "fnv/symbols_010c9000.h"
 
-extern "C" void _ReadWriteBarrier();
 extern "C" void _ReadBarrier();
 #include <math.h>
 

@@ -5810,7 +5810,6 @@ struct C868_Iface
     virtual void vfn_30(void* p);
 };
 
-extern "C" void _ReadWriteBarrier(void);
 
 class FUN_00c868b0_cls
 {

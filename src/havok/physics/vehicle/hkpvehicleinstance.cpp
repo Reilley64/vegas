@@ -25,8 +25,6 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpVehicleInstance.h"
 
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
 
 
 struct VUC_Mon

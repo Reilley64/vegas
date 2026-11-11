@@ -10,7 +10,6 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
-extern "C" void _ReadWriteBarrier();
 
 typedef unsigned char Byte;
 

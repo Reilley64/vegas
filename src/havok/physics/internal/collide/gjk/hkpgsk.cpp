@@ -2677,9 +2677,7 @@ template <class T> struct S00daac40_RayArgument
         return value;
     }
 };
-extern "C" void _ReadWriteBarrier(void);
 
-extern "C" unsigned __int64 __rdtsc(void);
 
 struct S00daac40_ProfRec
 {

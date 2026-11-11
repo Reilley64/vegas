@@ -251,7 +251,6 @@ unsigned char NiObject_00a7b3d0::FUN_00a7b3d0(NiObject_00a7b3d0* object)
     return _08 == object->_08;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 
 struct Cls
 {

@@ -4525,7 +4525,6 @@ struct FieldWord
         return value;
     }
 };
-extern "C" void _ReadWriteBarrier();
 struct S_00d49660_Foo
 {
     void* unk00;

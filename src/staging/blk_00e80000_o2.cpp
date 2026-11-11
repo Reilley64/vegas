@@ -12134,7 +12134,6 @@ FUN_00e9ec90::~FUN_00e9ec90() {
 }
 
 static const void* kNull = 0;
-extern "C" void _ReadWriteBarrier();
 
 
 struct S00e8fa80_Node {

@@ -651,9 +651,7 @@ hkpConvexListAgent* hkpConvexListAgent::FUN_00d33940(const hkpCdBodyD33D* a, con
     return this;
 }
 
-extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
-extern "C" void _ReadWriteBarrier(void);
 extern DWORD DAT_0126835c;
 extern char DAT_010cebd0;
 
@@ -728,8 +726,6 @@ extern "C" void __cdecl FUN_00d33b90(void* a, void* b, void* c, void* d)
     }
 }
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 
 extern unsigned long DAT_0126835c;
 extern const char str_010cec28[];

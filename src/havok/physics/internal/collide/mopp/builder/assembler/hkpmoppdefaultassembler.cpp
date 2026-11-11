@@ -2087,7 +2087,6 @@ void FUN_00e07550_cls::FUN_00e07550(Arg1Flags* apFlags, Arg2Layout* apLayout)
     }
 }
 
-extern "C" unsigned int __cdecl _rotl(unsigned int, int);
 
 struct KdNode;
 struct KdCtx;

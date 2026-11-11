@@ -96,8 +96,6 @@ hkUint32 SimulationDerived::FUN_00cf8730(hkReal afDeltaTime) {
 }
 
 extern "C" {
-    unsigned __int64 __rdtsc(void);
-    void _ReadWriteBarrier(void);
     extern const char str_010cc530[];
 }
 
@@ -1261,8 +1259,6 @@ int S00cf8bc0_Sim::FUN_00cf8bc0() {
 }
 
 typedef unsigned int u32;
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 extern const char str_010cc618[], str_010cc60c[];
 struct Arr;
 struct Ctx64 {   };
@@ -2032,9 +2028,7 @@ int Simulation::FUN_00cf8da0(const TimeInterval* step) {
 
 #include <string.h>
 #include "fnv/symbols_simd.h"
-extern "C" void _ReadWriteBarrier(void);
 
-extern "C" unsigned __int64 __cdecl __rdtsc(void);
 struct TraceEntry { const char* m_name; unsigned int m_low; unsigned int m_high; };
 struct TraceState { unsigned int unk00; TraceEntry* m_next; unsigned int unk08; TraceEntry* m_last; };
 __forceinline void stamp(const char* name, volatile unsigned int& clockSlot) {

@@ -439,8 +439,6 @@ S54520_Out* S54520_Owner::FUN_00d54520(S54520_Out* out, int p1, S54520_Params* p
 }
 }  // namespace fnv_00d54520
 
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned __int64 __rdtsc(void);
 
 extern "C" const char str_010d0df0[];
 
@@ -659,8 +657,6 @@ hkVector4ComparisonD546 hkpMoppBvTreeShapeD546::FUN_00d54610(const hkpShapeRayBu
     return kRet;
 }
 
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 extern void* DAT_00fdf044;
 struct S00d54720_Record
 {

@@ -99,13 +99,8 @@ void MemoryPool::FUN_00aa6c70(void* apPointer)
     }
 }
 
-namespace fnv_00aa6f90 {
-struct FUN_00aa6f90_shell : public MemoryPool
-{
-    void FUN_00aa6f90();
-};
 // @fnv 0x00aa6f90
-void FUN_00aa6f90_shell::FUN_00aa6f90()
+void MemoryPool::FUN_00aa6f90()
 {
     bool blistSorted;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_kCriticalSection))->FUN_0040fbf0((char *)("MemoryPool::FreeUnusedPagesForAllPools()"));
@@ -130,7 +125,6 @@ void FUN_00aa6f90_shell::FUN_00aa6f90()
             pl->m_uiOwningThreadID = 0;
     }
 }
-}  // namespace fnv_00aa6f90
 
 // Locks the pool, allocates a new page and free list if empty, pops a free block, updates page usage, and returns the block or null.
 // @fnv 0x00aa6aa0

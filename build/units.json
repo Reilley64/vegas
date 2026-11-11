@@ -5397,7 +5397,7 @@
     },
     {
      "address": "0x00aa6f90",
-     "symbol": "?FUN_00aa6f90@FUN_00aa6f90_shell@fnv_00aa6f90@@QAEXXZ",
+     "symbol": "?FUN_00aa6f90@MemoryPool@@QAEXXZ",
      "size": 157
     },
     {
@@ -511494,7 +511494,7 @@
     "?DAT_011f6bd0@@3IA": "0x011f6bd0",
     "?DAT_011f6bb8@@3V_RTL_CRITICAL_SECTION@@A": "0x011f6bb8",
     "?FUN_00fdb2a0@@YAXXZ": "0x00fdb2a0",
-    "?FUN_00aa6f90@FUN_00aa6f90_shell@fnv_00aa6f90@@QAEXXZ": "0x00aa6f90",
+    "?FUN_00aa6f90@MemoryPool@@QAEXXZ": "0x00aa6f90",
     "__imp_?QueryPerformanceCounter@@YGHPA_J@Z": "0x00fdf0a0",
     "?FUN_00aa9e50@AbstractHeap@@QAEXPAVHeapFreeList@@PAVHeapFreeBlock@@@Z": "0x00aa9e50",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",

@@ -23,7 +23,6 @@
 #include "fnv/decl/FUN_00ac5c00_cls.h"
 #include "fnv/decl/Vec410.h"
 #include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
-#include "fnv/decl/fnv_00aa6f90__FUN_00aa6f90_shell.h"
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_00aa4000.h"
@@ -2771,7 +2770,7 @@ void FUN_00aa7030()
     {
         if (DAT_011f67b8[i] != 0)
         {
-            reinterpret_cast<::fnv_00aa6f90::FUN_00aa6f90_shell *>((DAT_011f67b8[i]))->FUN_00aa6f90();
+            DAT_011f67b8[i]->FUN_00aa6f90();
         }
     }
     DAT_00fdf100(&DAT_011f6bb8);

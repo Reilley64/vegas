@@ -3437,7 +3437,10 @@ struct Tri
 };
 struct Words
 {
-    int a, b, c, d;
+    void* table;
+    unsigned short* data;
+    unsigned int size;
+    unsigned int capacity;
     Words();
     ~Words();
 };

@@ -17839,7 +17839,10 @@ struct S00c4db20_Pt
 
 struct FUN_006917d0_Arr
 {
-    int unk00, unk04, unk08, unk0c;
+    int* table;
+    unsigned short* data;
+    unsigned int size;
+    unsigned int capacity;
     FUN_006917d0_Arr();
 };
 

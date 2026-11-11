@@ -2057,10 +2057,10 @@ template <> class BSSimpleArray<unsigned short, 1024>
     ~BSSimpleArray();
 
   private:
-    void* m_data;
+    void* m_table;
+    unsigned short* m_data;
     unsigned int m_iElementCount;
-    unsigned int m_pRayCursor;
-    unsigned int m_auiShapeKeys;
+    unsigned int m_capacity;
 };
 
 

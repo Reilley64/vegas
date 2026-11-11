@@ -116,28 +116,62 @@ the recipe gives `SetItem`, `ItemsInList`, `GetSize` or a placeholder member
 to `tesform.cpp`, `interfacemanager.cpp` or `modelloader.cpp`. The owner
 does not define those members, so those types may be emitted.
 
+Since VEGAS-72 the rule has one extension, admitted by the coordinator. The
+owner may emit a list whose element type is a pointer to another list that
+the owner already emits. The pointee is then the owner's own
+specialisation, so the file needs no forward declaration for it. Every other
+condition above is measured as for any element type.
+
+The element-rule script does not know this extension yet. By its sort key it
+would place the list of lists between `BGSVoiceType*` and `char*`. The file
+keeps it after `MenuTopic*`, the line its comment refers to. Teaching the
+script the extension is a follow-up.
+
 The list is kept by hand under these rules. Check it again whenever a
 requiring unit changes the class-key of a pointee, as VEGAS-11 batches do.
 The key in the list is the requiring units' key, and another declaration in
 the tree may have the other one: `TileCollection` is a `class` in
 `include/fnv/decl` and `MagicEffectContext` is a `class` in
 `include/layout_support.h`, and both are listed as `struct`. 60 of the 127
-pointees are declared with the other key somewhere in the tree.
+pointees are declared with the other key somewhere in the tree. That is the
+first step's count.
 
-Of 176 element types that undefined names use, 131 are emitted. One more,
-`ModifierEntryView*`, is emitted for the unit that lost its second copy
-(below). The other 45:
+Of 176 element types that undefined names use, 133 are emitted: 131 in the
+first step, `BGSCameraShot*` since step 3, and since VEGAS-72 the list of
+lists below. One more, `ModifierEntryView*`, is emitted for the unit that
+lost its second copy (below). The other 43, counted again on b93461c52 with
+the VEGAS-72 commits; each of their 72 names is still undefined:
 
 | Reason | Element types | Undefined names that stay |
 | --- | --- | --- |
 | The pointee has a placeholder name | 19 | 27 |
 | The pointee is nested in a class or in a namespace, so the owner would have to declare the enclosing scope | 12 | 19 |
-| A requiring unit declares the list as an empty class, 1 byte | 5 | 18 |
-| Not a pointer or builtin: a list of lists, a struct by value, two list-box items | 4 | 8 |
+| A requiring unit declares the list as an empty class, 1 byte | 4 | 12 |
+| Not a pointer or builtin: a struct by value, two list-box items | 3 | 4 |
 | `TESRegionData*`, required as `class` by some units and as `struct` by others; counted once per key | 2 | 6 |
 | A Windows SDK tag, `_ULARGE_INTEGER` | 1 | 2 |
 | The owning unit declares its own `struct EnchantmentItem`; the requirer says `class` | 1 | 1 |
 | `SpellItem*`: the one name required is `AddHead`, which the owning unit declares as an explicit specialisation and never defines | 1 | 1 |
+
+Since VEGAS-72, one list of lists is emitted: `BSSimpleList<MenuTopic*>*`,
+under the extension of the element type rule above. It was one of the four
+types of the "Not a pointer or builtin" row. The rule refused it because its
+pointee is a template specialisation, which the file cannot forward
+declare. The list for `MenuTopic*` is emitted on the line before it. Its
+four requiring units declare it as 16 bytes with both pointers, and no row
+gives one of its ten members to another unit. Its four undefined names
+left: the default constructor, the destructor, `AddHead` and `RemoveHead`.
+
+The integration checks on the archive of the VEGAS-72 head, on b93461c52:
+
+- (a) 249 pairs of unit and list in 114 units and 136 lists; 247 pass; the
+  same two exceptions, neither on a name defined since this change.
+  (b93461c52: 245 pairs in 113 units and 135 lists, 243 pass.)
+- (b) 1,376 defined names (b93461c52: 1,366), 0 with two definitions; 519
+  names with differing definitions in the archive before and after, none
+  entering.
+- (c) 128 and 12 forward declarations, 0 mismatches. The list of lists
+  adds no forward declaration.
 
 The default constructor for `const char*` stays emitted alone, as before:
 `surgerymenu`, `activeeffect` and `tesobjectcell` require other members of

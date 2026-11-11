@@ -113,7 +113,8 @@ follows the compiler's prefix: `vtable`, `rtti-...`, `throw-info`,
 `data`.
 
 A recorded name is an open conflict, not an accepted one. VEGAS-89 owns the
-list.
+list, and `docs/differing-definitions.md` has the cause of each function name
+and the data names counted by cause.
 
 - **A `NEW` name is repaired at its source.** The command has no way to add a
   line. A line is added only by hand, in a change of its own that states the

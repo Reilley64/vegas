@@ -237,9 +237,7 @@ FUN_006ec660::FUN_006ec660(unsigned int auiSlotCount, unsigned int auiBucketCoun
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(auiSlotCount);
 }
 
-template <class T> class NiPointer
-{
-};
+#include "fnv/ni_pointer.h"
 class QueuedReference
 {
 };

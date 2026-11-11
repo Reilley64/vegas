@@ -264,11 +264,7 @@ public:
 class TESObjectREFR : public TESForm
 {
 };
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 struct NavMeshPtr : public NiPointer<NavMesh>
 {
   public:

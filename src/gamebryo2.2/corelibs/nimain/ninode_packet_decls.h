@@ -53,9 +53,7 @@ struct NiBound;
 struct CloningProcess;
 struct ShaderBufferRecord;
 
-template <class T> class NiPointer
-{
-};
+#include "fnv/ni_pointer.h"
 template <class T> class NiTNewInterface
 {
 };

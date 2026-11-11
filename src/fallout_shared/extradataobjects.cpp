@@ -1483,12 +1483,7 @@ void FUN_004381b0_shell::FUN_004381b0()
 }
 
 class NiNode;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-    NiPointer<T>& operator=(T* pObject);
-};
+#include "fnv/ni_pointer.h"
 
 struct FUN_00438230_Class
 {

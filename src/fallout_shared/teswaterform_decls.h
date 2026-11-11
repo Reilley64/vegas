@@ -58,11 +58,7 @@ enum Index
 };
 }
 typedef ActorValue::Index ActorValue__Index;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 class TESFormInitFlag
 {
   public:

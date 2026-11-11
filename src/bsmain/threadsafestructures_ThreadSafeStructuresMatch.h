@@ -11,11 +11,7 @@ class bhkRigidBody;
 class QueuedReference;
 class TESObjectREFR;
 struct BSTreeNode;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 enum MEM_CONTEXT
 {
     MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD = 6

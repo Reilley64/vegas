@@ -47,11 +47,7 @@ class NiPixelData;
 class NiSourceTexture;
 template <class T> class NiTArray;
 template <class T> class NiRect;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 class NiMemObject
 {
   public:

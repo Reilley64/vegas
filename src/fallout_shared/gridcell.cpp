@@ -196,11 +196,7 @@ template <class T> class BSStringT
     operator const char*() const;
 };
 
-template <class T> class NiPointer
-{
-  public:
-    NiPointer<T>& operator=(T*);
-};
+#include "fnv/ni_pointer.h"
 
 extern char DAT_01189184;
 

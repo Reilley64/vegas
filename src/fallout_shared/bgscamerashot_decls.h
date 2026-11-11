@@ -19,11 +19,7 @@ class AnimData;
 class ValidBip01Names;
 struct ScriptLocals;
 class NiAVObject;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 class VATS
 {
   public:

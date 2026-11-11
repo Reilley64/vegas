@@ -90,11 +90,7 @@ struct NiBoolData
     virtual void vf20();
     virtual void vf21(NiStream*);
 };
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 struct NiBoolInterpolator : HC1Base
 {
     NiPointer<NiBoolData> m_spBoolData;

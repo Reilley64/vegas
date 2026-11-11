@@ -20,11 +20,7 @@ class NiProperty;
 class NiTexture;
 class ParentSpaceNode;
 struct RgbaColor;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 #include "fnv/image_space_effect_param.h"
 struct RgbaColor
 {

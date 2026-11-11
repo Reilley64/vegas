@@ -9,11 +9,7 @@ class NiTriShape;
 struct NiPoint3;
 struct RgbaColor;
 class FontCharacterInfo;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 #include "fnv/bs_string.h"
 template <class T, unsigned int Growth> class BSSimpleArray
 {

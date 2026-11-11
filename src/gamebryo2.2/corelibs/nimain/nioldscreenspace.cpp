@@ -1988,11 +1988,7 @@ class NiCameraA91F
 
 class NiControllerSequence;
 
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 
 template <class T> class NiTNewInterface
 {

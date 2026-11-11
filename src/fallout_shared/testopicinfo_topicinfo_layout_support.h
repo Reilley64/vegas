@@ -311,13 +311,7 @@ template <class T, unsigned int Growth> class BSSimpleArray
     T& GetAt(int index);
 };
 #include "fnv/bs_string.h"
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-    ~NiPointer();
-    NiPointer<T>& operator=(T* object);
-};
+#include "fnv/ni_pointer.h"
 template <class K, class V> class NiTMapItem
 {
   public:

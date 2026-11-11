@@ -50,11 +50,7 @@ template <class T> class NiTPrimitiveArray
     unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;
 };
 
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 
 template <class T> class NiTObjectArray
 {

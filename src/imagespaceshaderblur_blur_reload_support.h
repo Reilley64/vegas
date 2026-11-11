@@ -22,11 +22,7 @@ class BSShaderManager
     };
 };
 class NiD3DPass;
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-};
+#include "fnv/ni_pointer.h"
 template <class T> class NiTMallocInterface
 {
 };

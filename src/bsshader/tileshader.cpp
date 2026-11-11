@@ -46,12 +46,7 @@ void TileShader::UpdateMaterial(const NiPropertyState* state)
 
 class NiGPUProgram;
 
-template <class T> class NiPointer
-{
-  public:
-    T* m_pObject;
-    NiPointer<T>& operator=(T* pObject);
-};
+#include "fnv/ni_pointer.h"
 
 
 struct SelectGPUProgram_Shader

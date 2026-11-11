@@ -286,11 +286,7 @@ bool TESModelTextureSwap::ApplyTextureSwapToNode(NiAVObject* object, BSMap<int, 
     return false;
 }
 
-template <class T> class NiPointer
-{
-  public:
-    NiPointer<T>& operator=(T*);
-};
+#include "fnv/ni_pointer.h"
 
 // @fnv 0x0048b2f0
 void FUN_0048b2f0_shell::SetTextureSet(BSTextureSet* apTextureSet)

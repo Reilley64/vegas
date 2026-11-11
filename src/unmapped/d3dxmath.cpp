@@ -355,6 +355,31 @@ void* FUN_00ee6dce(void* pout, const void* pp)
     return pout;
 }
 
+// Native plane transformation in borrowed storage: the coefficients
+// (a, b, c, d) as a four-component row vector times the matrix. As the public
+// D3DX reference describes the function, the caller passes the inverse
+// transpose of the transformation and a plane with a normalized normal.
+// @fnv 0x00ee6dc8
+D3DXPLANE* FUN_00ee6dc8(D3DXPLANE* output, const D3DXPLANE* plane, const D3DXMATRIX* matrix)
+{
+    static_assert(sizeof(float) == 4 && sizeof(D3DXPLANE) == 16 && sizeof(D3DXMATRIX) == 64);
+    // Callers pass their own plane and matrix types through these pointers,
+    // so copy representations. Stage the result before any output write.
+    float coefficients[4], source[16], result[4];
+    std::memcpy(coefficients, plane, sizeof(coefficients));
+    std::memcpy(source, matrix, sizeof(source));
+    for (unsigned int column = 0; column < 4; ++column)
+    {
+        // Products of binary32 values are exact in binary64.
+        double value = 0;
+        for (unsigned int row = 0; row < 4; ++row)
+            value += double(coefficients[row]) * source[row * 4 + column];
+        result[column] = Narrow(value);
+    }
+    std::memcpy(output, result, sizeof(result));
+    return output;
+}
+
 // Native transposed product in caller-owned matrix storage.
 // @fnv 0x00ee6dfe
 D3DXMATRIX* FUN_00ee6dfe(D3DXMATRIX* pOut, const D3DXMATRIX* first, const D3DXMATRIX* second)

@@ -219,16 +219,6 @@ void __cdecl FUN_00ee6dc2()
     D3DXSaveTextureToFileA();
 }
 
-struct D3DXPLANE;
-struct D3DXMATRIX;
-
-
-// @fnv 0x00ee6dc8
-D3DXPLANE* FUN_00ee6dc8(D3DXPLANE* output, const D3DXPLANE* plane, const D3DXMATRIX* matrix)
-{
-    return ::FUN_00ee6dc8(output, plane, matrix);
-}
-
 typedef void(__cdecl* PFN_D3DXMatrixInverse)(void);
 extern "C" PFN_D3DXMatrixInverse __imp__D3DXMatrixInverse;
 

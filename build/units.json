@@ -565939,11 +565939,6 @@
      "size": 6
     },
     {
-     "address": "0x00ee6dc8",
-     "symbol": "?FUN_00ee6dc8@@YAPAUD3DXPLANE@@PAU1@PBU1@PBUD3DXMATRIX@@@Z",
-     "size": 6
-    },
-    {
      "address": "0x00ee6dda",
      "symbol": "?FUN_00ee6dda@@YAXXZ",
      "size": 6
@@ -566129,7 +566124,6 @@
     "?FUN_00DF3880@@3Q6AXXZA": "0x00fdf380",
     "_DAT_00fdf37c": "0x00fdf37c",
     "__imp__ImportedFunction": "0x00fdf3d4",
-    "__imp__D3DXPlaneTransform@12": "0x00fdf418",
     "___imp__D3DXMatrixInverse": "0x00fdf428",
     "__imp__D3DXMatrixMultiply@12": "0x00fdf424",
     "__imp__D3DXLoadSurfaceFromSurface@32": "0x00fdf3d0",
@@ -569422,6 +569416,11 @@
      "size": 210
     },
     {
+     "address": "0x00ee6dc8",
+     "symbol": "?FUN_00ee6dc8@@YAPAUD3DXPLANE@@PAU1@PBU1@PBUD3DXMATRIX@@@Z",
+     "size": 6
+    },
+    {
      "address": "0x00ee6dce",
      "symbol": "?FUN_00ee6dce@@YAPAXPAXPBX@Z",
      "size": 6
@@ -569452,7 +569451,9 @@
     "?FUN_00ee6e04@@YAPAXPAXMMM@Z": "0x00ee6e04",
     "__imp__D3DXMatrixRotationYawPitchRoll@16": "0x00fdf40c",
     "?FUN_00ee6dce@@YAPAXPAXPBX@Z": "0x00ee6dce",
-    "__imp__D3DXPlaneNormalize@8": "0x00fdf430"
+    "__imp__D3DXPlaneNormalize@8": "0x00fdf430",
+    "?FUN_00ee6dc8@@YAPAUD3DXPLANE@@PAU1@PBU1@PBUD3DXMATRIX@@@Z": "0x00ee6dc8",
+    "__imp__D3DXPlaneTransform@12": "0x00fdf418"
    }
   },
   {

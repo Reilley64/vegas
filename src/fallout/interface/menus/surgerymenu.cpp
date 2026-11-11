@@ -1777,13 +1777,7 @@ void FaceOwnerS::UpdateFaceGenNode()
     reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))))->FUN_00a59c60((std::intptr_t)&(data));
 }
 
-class NiFixedString
-{
-  public:
-    NiFixedString(const char* apString) noexcept;
-    ~NiFixedString();
-    const char* m_kHandle;
-};
+#include "fnv/native_fixed_string.h"
 
 class FUN_006815c0
 {

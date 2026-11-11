@@ -1,3 +1,4 @@
+#include "fnv/native_fixed_string.h"
 #include "AutoMemContext.h"
 // fallout_shared/tesrace.cpp: TESRace, Obj, RaceCleanup, RaceReset and more (42 functions)
 
@@ -2260,13 +2261,6 @@ class GlobalObject_0045cf30
   public:
     unsigned char* Bool();
 };
-class NiFixedString
-{
-  public:
-    const char* value;
-    NiFixedString(const char*) noexcept;
-    ~NiFixedString();
-};
 class BSFaceGenModel
 {
   public:
@@ -2349,7 +2343,7 @@ bool RaceTexture::ApplyBodyTexture(NiPointer<NiSourceTexture>& source, NiPointer
         if (!texture)
             return false;
         NiFixedString kPath3(path3);
-        reinterpret_cast<::FUN_00a5fba0_class *>((((TextureAccess*)(NiTexture*)texture)))->FUN_00a5fba0((const ::NiFixedString *)(const ::fnv_006149b0::NiFixedString *)(&kPath3));
+        reinterpret_cast<::FUN_00a5fba0_class *>((((TextureAccess*)(NiTexture*)texture)))->FUN_00a5fba0((const ::NiFixedString *)(&kPath3));
         ::TextureFileEntrySetter::SetTexture((::NiTexture *)(::fnv_006149b0::NiTexture *)(texture), (const ::BSFileEntry *)(0));
     }
     return true;

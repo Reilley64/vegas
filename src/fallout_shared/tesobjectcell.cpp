@@ -1,3 +1,4 @@
+#include "fnv/native_fixed_string.h"
 #include "AutoMemContext.h"
 // fallout_shared/tesobjectcell.cpp: TESObjectCELL, Owner, Cell, hkpEntityListener and more (325 functions)
 
@@ -16325,14 +16326,6 @@ struct ThreeByThreeMatrix
     float m[9];
 };
 
-class NiFixedString
-{
-  public:
-    const char* m_data;
-    NiFixedString(const char* s) noexcept;
-    ~NiFixedString();
-};
-
 
 class NiMemObject
 {
@@ -17227,7 +17220,7 @@ void FNV_Cell::FUN_00548880(FNV_Ref* reference, int unused)
                 reinterpret_cast<::S00416a70 *>((EntryLoc7))->FUN_00416a70((::M00416a70 *)&(const ::fnv_00548880::ThreeByThreeMatrix &)(reference->FUN_0056fa00()));
                 reinterpret_cast<::FUN_00420e00_cls *>((((::fnv_00548880::FNV_Sub *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_00420e00(EntryLoc7);
                 DiffA = new ClassC4(EntryLoc7);
-                ::AssignFixedString((char *)(DiffA), (std::intptr_t)&(const ::fnv_00548880::NiFixedString &)(NiFixedString(DAT_0102edc4)), {});
+                ::AssignFixedString((char *)(DiffA), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(DAT_0102edc4)), {});
                 reinterpret_cast<::FUN_00549610_Class *>((EntryLoc7))->FUN_00549610(DiffA);
                 DiffX = ((::fnv_00548880::FNV_Effects *)(reinterpret_cast<::fnv_009d9f20::FUN_009d9f20_shell *>(this)->FUN_009d9f20()));
                 ((::fnv_00548880::FNV_Scene *)(::fnv_00546930::FUN_00546930((::fnv_00546930::FUN_00546930_Class *)(DiffX))))->vdc(DiffA, 1);

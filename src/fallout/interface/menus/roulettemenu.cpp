@@ -5762,13 +5762,7 @@ struct PathOwner
 struct ModelLoader
 {
 };
-class NiFixedString
-{
-  public:
-    const char* value;
-    NiFixedString(const char*) noexcept;
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct Controller
 {
 };
@@ -15211,13 +15205,6 @@ struct ColorFlags
     ColorFlags(float afValue, bool abA, bool abB);
 };
 
-struct FixedStr
-{
-    const char* pString;
-    FixedStr(const char* apString) noexcept;
-    ~FixedStr();
-};
-
 struct NiObj
 {
     virtual void v00();
@@ -15259,7 +15246,7 @@ struct NiObj
     virtual void v36();
     virtual void v37();
     virtual void v38();
-    virtual NiObj* GetObjectByName(const FixedStr& arName);
+    virtual NiObj* GetObjectByName(const ::NiFixedString& arName);
 };
 
 struct NiObjPtr
@@ -15952,7 +15939,7 @@ void RouletteMenuX::FUN_007bd2a0()
                 m_pHighlight = ((::fnv_007bd2a0::NiObj *)(::FUN_004aae30((::NiAVObject *)(m_pTableNode), (::NiFixedString *)(m_aSlots[iHover].szNodeName))));
                 if (m_pHighlight == 0)
                 {
-                    m_pHighlight = m_pTableNode->GetObjectByName(FixedStr(m_aSlots[iHover].szNodeName));
+                    m_pHighlight = m_pTableNode->GetObjectByName(::NiFixedString(m_aSlots[iHover].szNodeName));
                 }
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pInfoTile))->FUN_00a01350(0xfc4, (char *)(m_aSlots[iHover].szLabel), true);
                 if (reinterpret_cast<::FUN_00456630_helper *>((m_pValidMarker))->FUN_00456610())

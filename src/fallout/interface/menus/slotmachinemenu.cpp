@@ -359,13 +359,7 @@ void FUN_007c19c0()
     reinterpret_cast<::FUN_00c4f2d0_class *>((accum))->FUN_00c4f2d0();
 }
 
-class NiFixedString
-{
-  public:
-    const char* m_psz;
-    NiFixedString(const char*) noexcept;
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct NiUpdateData
 {
     float m_00;

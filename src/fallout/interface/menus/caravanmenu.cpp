@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/caravanmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/caravanmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/native_fixed_string.h"
 #include <cstring>
 #include "fnv/game_timer.h"
 #include "fnv/simple_array_item.h"
@@ -3082,14 +3083,6 @@ struct NiRTTI
     int unk00;
 };
 
-class NiFixedString
-{
-  public:
-    const char* m_kHandle;
-    NiFixedString(const char* s) noexcept;
-    ~NiFixedString();
-};
-
 class NiControllerSequence;
 
 struct NiControllerManager
@@ -3277,7 +3270,7 @@ void CaravanCardMenu::PlayCardPlacement(int aiIndex)
         if (pController4)
         {
             NiControllerManager* pManager5 = pController4;
-            pSequenceTmp = ((::fnv_0074fc00::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((pManager5))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::fnv_0074fc00::NiFixedString &)(NiFixedString("Top_Place")))));
+            pSequenceTmp = ((::fnv_0074fc00::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((pManager5))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Top_Place")))));
             reinterpret_cast<::NiControllerManager *>((pManager5))->ActivateControllerSequence((::NiControllerSequence *)(pSequenceTmp), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(::fnv_0074fc00::NiControllerSequence *)(0));
             ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(pNode));
         }
@@ -3286,7 +3279,7 @@ void CaravanCardMenu::PlayCardPlacement(int aiIndex)
         if (pController4)
         {
             NiControllerManager* pMgr4 = pController4;
-            pSequenceTmp = ((::fnv_0074fc00::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((pMgr4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::fnv_0074fc00::NiFixedString &)(NiFixedString("Bottom_Place")))));
+            pSequenceTmp = ((::fnv_0074fc00::NiControllerSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((pMgr4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Bottom_Place")))));
             reinterpret_cast<::NiControllerManager *>((pMgr4))->ActivateControllerSequence((::NiControllerSequence *)(pSequenceTmp), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(::fnv_0074fc00::NiControllerSequence *)(0));
             ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(pNode));
         }
@@ -4130,12 +4123,6 @@ struct UpdateInfo
     unsigned int flags;
     UpdateInfo(float, bool, bool);
 };
-struct FixedName
-{
-    const char* data;
-    FixedName(const char*) noexcept;
-    ~FixedName();
-};
 struct Controller
 {
 };
@@ -4422,9 +4409,9 @@ void SceneMenu::InitCaravanTable()
     if (control3)
     {
         controller = control3;
-        sequence244 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((controller))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::FixedName &)(FixedName("Bet_to_Deck")))));
-        sequence248 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((controller))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::FixedName &)(FixedName("Deck_to_Play")))));
-        sequence24c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((controller))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::FixedName &)(FixedName("Play_to_Bet")))));
+        sequence244 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((controller))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Bet_to_Deck")))));
+        sequence248 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((controller))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Deck_to_Play")))));
+        sequence24c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((controller))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Play_to_Bet")))));
         reinterpret_cast<::NiControllerManager *>((controller))->DeactivateAllSequences(0.0f);
         ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(model));
     }
@@ -5208,12 +5195,6 @@ void CurrencyQuery::ComputePlayerAndTargetTotals()
 }
 
 namespace CaravanSetup {
-struct FixedString
-{
-    const char* value;
-    FixedString(const char*) noexcept;
-    ~FixedString();
-};
 struct UpdateData
 {
     float time;
@@ -5961,12 +5942,12 @@ void Menu::InitMenu()
     if (pNode)
     {
         unk270 = pNode;
-        unk274 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_010714c8)))));
-        unk278 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_010714b4)))));
-        unk27c = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_010714a8)))));
-        unk280 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_01071494)))));
-        unk284 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_01071480)))));
-        unk288 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_01071474)))));
+        unk274 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_010714c8)))));
+        unk278 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_010714b4)))));
+        unk27c = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_010714a8)))));
+        unk280 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_01071494)))));
+        unk284 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_01071480)))));
+        unk288 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk270))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_01071474)))));
         reinterpret_cast<::NiControllerManager *>((unk270))->DeactivateAllSequences(0);
         ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(unk18c));
     }
@@ -5974,12 +5955,12 @@ void Menu::InitMenu()
     if (pNode)
     {
         unk254 = pNode;
-        unk258 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_0107145c)))));
-        unk25c = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_01071444)))));
-        unk260 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_01071430)))));
-        unk264 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_01071418)))));
-        unk268 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_01071400)))));
-        unk26c = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::CaravanSetup::FixedString &)(FixedString(DAT_010713f0)))));
+        unk258 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_0107145c)))));
+        unk25c = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_01071444)))));
+        unk260 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_01071430)))));
+        unk264 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_01071418)))));
+        unk268 = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_01071400)))));
+        unk26c = ((::CaravanSetup::Node *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((unk254))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(DAT_010713f0)))));
         reinterpret_cast<::NiControllerManager *>((unk254))->DeactivateAllSequences(0);
         ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(unk188));
     }

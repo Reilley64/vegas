@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/blackjackmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/blackjackmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/native_fixed_string.h"
 #include "fnv/simple_list_node_view.h"
 #include "fnv/game_timer.h"
 #include <cstdint>
@@ -1719,12 +1720,6 @@ FUN_007c06f0::FUN_007c06f0()
 }
 }  // namespace fnv_007c06f0
 
-struct String90
-{
-    const char* value;
-    String90(const char*) noexcept;
-    ~String90();
-};
 struct Controller90
 {
 };
@@ -2800,8 +2795,8 @@ void Menu90::InitBlackjackScene()
     if (controller158)
     {
         ctrldf4 = controller158;
-        anime04 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Players_Discard")))));
-        anime08 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Dealers_Discard")))));
+        anime04 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Players_Discard")))));
+        anime08 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Dealers_Discard")))));
         reinterpret_cast<::NiControllerManager *>((ctrldf4))->DeactivateAllSequences(0.0f);
         ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(rootdb4));
     }
@@ -2809,14 +2804,14 @@ void Menu90::InitBlackjackScene()
     if (controller217)
     {
         ctrldf8 = controller217;
-        anime0c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand1_Discard")))));
-        anime10 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand1_01")))));
-        anime14 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand1_02")))));
-        anime18 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand1_03")))));
-        anime1c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand1_04")))));
-        anime20 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand1_05")))));
-        anime24 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand1_06")))));
-        anime28 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand1_07")))));
+        anime0c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand1_Discard")))));
+        anime10 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand1_01")))));
+        anime14 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand1_02")))));
+        anime18 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand1_03")))));
+        anime1c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand1_04")))));
+        anime20 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand1_05")))));
+        anime24 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand1_06")))));
+        anime28 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldf8))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand1_07")))));
         reinterpret_cast<::NiControllerManager *>((ctrldf8))->DeactivateAllSequences(0.0f);
         ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(rootdb8));
     }
@@ -2824,14 +2819,14 @@ void Menu90::InitBlackjackScene()
     if (controller321)
     {
         ctrldfc = controller321;
-        anime2c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand2_Discard")))));
-        anime30 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand2_01")))));
-        anime34 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand2_02")))));
-        anime38 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand2_03")))));
-        anime3c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand2_04")))));
-        anime40 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand2_05")))));
-        anime44 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand2_06")))));
-        anime48 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Hand2_07")))));
+        anime2c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand2_Discard")))));
+        anime30 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand2_01")))));
+        anime34 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand2_02")))));
+        anime38 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand2_03")))));
+        anime3c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand2_04")))));
+        anime40 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand2_05")))));
+        anime44 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand2_06")))));
+        anime48 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrldfc))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Hand2_07")))));
         reinterpret_cast<::NiControllerManager *>((ctrldfc))->DeactivateAllSequences(0.0f);
         ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(rootdbc));
     }
@@ -2839,15 +2834,15 @@ void Menu90::InitBlackjackScene()
     if (controller415)
     {
         ctrle00 = controller415;
-        anime4c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Dealer_Discard")))));
-        anime50 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Dealer_01")))));
-        anime54 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Dealer_02")))));
-        anime58 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Dealer_03")))));
-        anime5c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Dealer_04")))));
-        anime60 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Dealer_05")))));
-        anime64 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Dealer_06")))));
-        anime68 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Dealer_07")))));
-        anime6c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::String90 &)(String90("Dealer_Reveal")))));
+        anime4c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Dealer_Discard")))));
+        anime50 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Dealer_01")))));
+        anime54 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Dealer_02")))));
+        anime58 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Dealer_03")))));
+        anime5c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Dealer_04")))));
+        anime60 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Dealer_05")))));
+        anime64 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Dealer_06")))));
+        anime68 = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Dealer_07")))));
+        anime6c = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((ctrle00))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("Dealer_Reveal")))));
         reinterpret_cast<::NiControllerManager *>((ctrle00))->DeactivateAllSequences(0.0f);
         ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(rootdc0));
     }

@@ -35,13 +35,7 @@
 #include "fnv/symbols_011db000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f4000.h"
-class NiFixedString
-{
-  public:
-    const char* m_kHandle;
-    NiFixedString(const char*) noexcept;
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct NiRTTI
 {
     const char* name;

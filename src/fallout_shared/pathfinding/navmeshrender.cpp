@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshrender.cpp: NavMeshObstacleManager, ObstacleTask, NavRenderX, RenderTask and more (12 functions)
 
+#include "fnv/native_fixed_string.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -382,12 +383,6 @@ struct UpdateDataX
     short sPad;
     int iActionIndex;
     UpdateDataX(float afTime, bool abUpdateControllers, bool abIsMultiThreaded);
-};
-struct FixedStrX
-{
-    const char* pString;
-    FixedStrX(const char* apString) noexcept;
-    ~FixedStrX();
 };
 struct AVObjX;
 struct ObjX
@@ -1251,7 +1246,7 @@ void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
         memcpy(qFffvLe, &qkJsUdT.GetAt(0), qXMUYT * sizeof(Pt3X));
         memcpy(qZAdkzg, &qrEZrs.GetAt(0), qXMUYT * sizeof(ColorX));
         SpX<AVObjX> qpTd(new TriShapeX(qXMUYT, qFffvLe, 0, qZAdkzg, 0, 0, 0, qMBds, qaGEwZ));
-        ::AssignFixedString((char *)(((AVObjX*)qpTd)), (std::intptr_t)&(const ::FixedStrX &)(FixedStrX("NavMesh Triangles")), {});
+        ::AssignFixedString((char *)(((AVObjX*)qpTd)), (std::intptr_t)&(const ::NiFixedString &)(::NiFixedString("NavMesh Triangles")), {});
         SpX<AVObjX> qSVM(new PropX());
         ((AVObjX*)qSVM)->SetFlags(0x20, 0);
         reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qpTd)))->FUN_00439410((::ArgObject *)(::AVObjX *)(spVertexColor));

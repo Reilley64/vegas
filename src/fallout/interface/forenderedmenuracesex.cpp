@@ -2,6 +2,7 @@
 // src/fallout/interface/forenderedmenuracesex.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/forenderedmenuracesex.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/native_fixed_string.h"
 #include "fallout/interface/rendered_menu_fields.h"
 #include "fnv/game_timer.h"
 #include <cstdint>
@@ -892,12 +893,6 @@ struct xMat3
     xMat3 FUN_0043f8d0(const xMat3&) const;
     float m[9];
 };
-struct xFixedStr
-{
-    xFixedStr(const char*) noexcept;
-    ~xFixedStr();
-    const char* m_p;
-};
 struct xUpdateData
 {
     xUpdateData(float, bool, bool);
@@ -958,7 +953,7 @@ struct xAV
     virtual void v36();
     virtual void v37();
     virtual void v38();
-    virtual struct xAV* GetObjectByName(const xFixedStr&);
+    virtual struct xAV* GetObjectByName(const ::NiFixedString&);
     virtual void v40();
     virtual void v41();
     virtual void v42();
@@ -1144,19 +1139,19 @@ void xRenderedMenu::Init()
     }
     reinterpret_cast<::FUN_00440490_shell *>((qdqWL))->FUN_00440490(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db544)))))));
     reinterpret_cast<::FUN_004dc540_shell *>(this)->FUN_004dc540((::NiAVObject *)(qdqWL));
-    xAV* qSuoDt = qdqWL->GetObjectByName(xFixedStr(s_szScreen));
+    xAV* qSuoDt = qdqWL->GetObjectByName(::NiFixedString(s_szScreen));
     reinterpret_cast<::MenuStub *>(this)->FUN_007fae70(0);
     reinterpret_cast<::FUN_00810530_c *>(this)->FUN_00810530(false);
     m_fc.FUN_0066b0d0(0);
     m_104.FUN_0066b0d0(0);
-    m_d8.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szSexBtn)));
-    m_dc.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szRaceBtn)));
-    m_e0.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szFaceBtn)));
-    m_e4.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szBodyBtn)));
-    m_e8.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szSexGlow)));
-    m_ec.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szRaceGlow)));
-    m_f0.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szFaceGlow)));
-    m_f4.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szBodyGlow)));
+    m_d8.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szSexBtn)));
+    m_dc.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szRaceBtn)));
+    m_e0.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szFaceBtn)));
+    m_e4.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szBodyBtn)));
+    m_e8.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szSexGlow)));
+    m_ec.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szRaceGlow)));
+    m_f0.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szFaceGlow)));
+    m_f4.FUN_0066b0d0(qdqWL->GetObjectByName(::NiFixedString(s_szBodyGlow)));
     m_150 = 0.0f;
     m_154 = 0.0f;
     reinterpret_cast<::FUN_008d7f00_class *>(this)->FUN_008d7f00(0.0f);

@@ -1,5 +1,6 @@
 // fallout_shared/teslight.cpp: TESObjectLIGH, TESFullName, Owner, LightLoader and more (29 functions)
 
+#include "fnv/native_fixed_string.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
@@ -831,12 +832,6 @@ struct Color
     float r, g, b;
     Color(float, float, float);
 };
-struct FixedString
-{
-    const char* text;
-    FixedString(const char*) noexcept;
-    ~FixedString();
-};
 struct FUN_00a7d670
 {
     unsigned int unk00;
@@ -1331,7 +1326,7 @@ Light* LightForm::FUN_0050d810(Reference* reference, Scene* pScene, bool force)
         char name[260];
         ::FUN_00406d00(name, 260, DAT_010290a4, Name());
         lightSlot12 = new Light;
-        ::AssignFixedString((char *)(lightSlot12), (std::intptr_t)&(const ::LightCreation::FixedString &)(FixedString(name)), {});
+        ::AssignFixedString((char *)(lightSlot12), (std::intptr_t)&(const ::NiFixedString &)(::NiFixedString(name)), {});
         rootSlot19->Attach(lightSlot12, true);
     }
     if (reference)

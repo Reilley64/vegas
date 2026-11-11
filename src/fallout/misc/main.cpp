@@ -5645,7 +5645,7 @@ struct ScaleSource
 
 extern NiPoint3 DAT_012003e0;
 
-// Compares the object's current scale vectors against stored ones, sets DAT_012003cc when any component ratio exceeds 1.1, and stores the new vectors.
+// Compares the object's current scale vectors against stored ones, sets DAT_012003cc when any component ratio exceeds 0.01, and stores the new vectors.
 // @fnv 0x008744a0
 void __cdecl FUN_008744a0(ScaleSource* apScaleSource)
 {
@@ -5661,8 +5661,8 @@ void __cdecl FUN_008744a0(ScaleSource* apScaleSource)
     NiPoint3 kDiffB5 = kCurB - (*reinterpret_cast<::NiPoint3 *>(&::DAT_012003d4));
     Point3Ctor kRatioA(kDiffA_2.x / DAT_012003e0.x, kDiffA_2.y / DAT_012003e0.y, kDiffA_2.z / DAT_012003e0.z);
     Point3Ctor kRatioB4(kDiffB5.x / (*reinterpret_cast<::NiPoint3 *>(&::DAT_012003d4)).x, kDiffB5.y / (*reinterpret_cast<::NiPoint3 *>(&::DAT_012003d4)).y, kDiffB5.z / (*reinterpret_cast<::NiPoint3 *>(&::DAT_012003d4)).z);
-    if (kRatioA.x > 1.1 || kRatioA.y > 1.1 || kRatioA.z > 1.1 || kRatioB4.x > 1.1 || kRatioB4.y > 1.1 ||
-        kRatioB4.z > 1.1)
+    if (kRatioA.x > 0.01 || kRatioA.y > 0.01 || kRatioA.z > 0.01 || kRatioB4.x > 0.01 || kRatioB4.y > 0.01 ||
+        kRatioB4.z > 0.01)
     {
         (*reinterpret_cast<bool *>(&::DAT_012003cc)) = true;
     }

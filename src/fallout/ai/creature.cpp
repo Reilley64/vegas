@@ -40,14 +40,14 @@ void Creature::LoadGame(BGSLoadFormBuffer* buffer)
     m_uiActorFlags = 0;
 }
 
-// Returns the run speed from actor value 21 scaled by 1.1 and the run animation group multiplier, or 0 if overencumbered.
+// Returns the run speed from actor value 21 scaled by 0.01 and the run animation group multiplier, or 0 if overencumbered.
 // @fnv 0x008d4eb0
 float Creature::CalculateRunSpeed()
 {
     float fRunSpeed = 0.0f;
     typedef bool(* IsOverencumberedFn)(Creature*);
     if (!((IsOverencumberedFn)(*(void***)(this))[214])(this))
-        fRunSpeed = actorValues.GetCurrentActorValue(21) * 1.1 * Creature::GetAnimationSpeedMultiplier(kAnimGroupRun);
+        fRunSpeed = actorValues.GetCurrentActorValue(21) * 0.01 * Creature::GetAnimationSpeedMultiplier(kAnimGroupRun);
     return fRunSpeed;
 }
 

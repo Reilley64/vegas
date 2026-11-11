@@ -23152,8 +23152,8 @@ void CaravanGame::FUN_00741500()
                     }
                     else if (!reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x800))
                     {
-                        int stepX = (int)(E_Fn::FUN_00408840(mx) < 1.1 ? 0.0 : mx / E_Fn::FUN_00408840(mx));
-                        int stepY = (int)(E_Fn::FUN_00408840(my) < 1.1 ? 0.0 : my / E_Fn::FUN_00408840(my));
+                        int stepX = (int)(E_Fn::FUN_00408840(mx) < 0.01 ? 0.0 : mx / E_Fn::FUN_00408840(mx));
+                        int stepY = (int)(E_Fn::FUN_00408840(my) < 0.01 ? 0.0 : my / E_Fn::FUN_00408840(my));
                         if (reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x2000))
                         {
                             reinterpret_cast<::S_0074ed40_Cls *>(this)->FUN_0074ed40(curLane);

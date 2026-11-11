@@ -89,26 +89,38 @@ static objects in other units stay valid until the process ends.
 | `0x004b9900` | `blk_004a0000_od.cpp` | calls the owner destructor |
 
 The older table bodies in `blk_00a40000_o2.cpp` (`0x00a5b270`, `0x00a5b300`,
-`0x00a5b3c0`, `0x00a5b530`, `0x00a5b5a0`) and the two competing destructor
-definitions are removed. `0x004f31b0` stays in `niglobalstringtable.cpp`
-unchanged: its callers apply it to pixel data, not to the table.
+`0x00a5b3c0`, `0x00a5b530`, `0x00a5b5a0`) and two competing definitions of
+the destructor under the class's name are removed. A second body tagged with
+the destructor's address remains: `extradataobjects.cpp` holds the function
+row of `0x004381b0` under the stand-in name `FUN_004381b0_shell::FUN_004381b0`
+and emits that body (`docs/shared-fixed-string.md`). `0x004f31b0` stays in
+`niglobalstringtable.cpp` unchanged: its callers apply it to pixel data, not
+to the table.
 
 `DAT_011f42c0` is no longer written or read. Its old consumers treated it as
 the 32-bit table layout, and all of them now call the owner.
 
 ## Two views of `NiFixedString`
 
-`fnv/native_fixed_string.h` declares the owning class. `NiFixedString.h` stays
-the plain layout view for units that manage the count by hand; giving those
-units an implicit destructor would release twice. A unit includes only one of
-the two. `fnv/fixed_string_handle.h` declares the handle operations alone and
-can be included from either kind of unit.
+`fnv/native_fixed_string.h` declares the owning class. It is the shared
+declaration: `NiFixedString.h` includes it, and 113 units use it
+(`docs/shared-fixed-string.md`).
+
+`NiFixedString.h` keeps the plain layout view, a field without constructor or
+destructor, for a unit that defines `FNV_KEEPS_PLAIN_NIFIXEDSTRING` before its
+includes. Nine units do. They hold fixed strings by value. Compiled on the
+shared declaration, each of their objects gains calls of the owner's
+constructor or destructor, and `nitextureeffect.cpp` also a static
+initialiser with an `atexit` registration; on the plain view none of these
+calls is made. A unit sees one of the two views, never both.
+`fnv/fixed_string_handle.h` declares the handle operations alone and can be
+included from either kind of unit.
 
 Every unit that calls the global `NiFixedString` destructor sees the class as
-one pointer at offset zero. Five of them declared a four-byte shell and now
-include the owning class: `magicprojectile.cpp`, `bgsterrainchunk.cpp`,
-`screensplatter.cpp`, `tesnpc.cpp` and `tesobject.cpp`. The others keep their
-own one-pointer declaration and bind to the owner at link time.
+one pointer at offset zero. Five of them declared a four-byte shell and
+include the owning class since VEGAS-69: `magicprojectile.cpp`,
+`bgsterrainchunk.cpp`, `screensplatter.cpp`, `tesnpc.cpp` and `tesobject.cpp`.
+66 units still keep a declaration of their own.
 
 ## Test boundary
 

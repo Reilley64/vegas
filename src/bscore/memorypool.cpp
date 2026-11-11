@@ -85,13 +85,8 @@ void MemoryPool::RegisterInPools()
     }
 }
 
-struct FUN_00aa6c70_shell : public MemoryPool
-{
-    void FUN_00aa6c70(void*);
-};
-
 // @fnv 0x00aa6c70
-void FUN_00aa6c70_shell::FUN_00aa6c70(void* apPointer)
+void MemoryPool::FUN_00aa6c70(void* apPointer)
 {
     unsigned int ipageIndex;
     int u1, u2;

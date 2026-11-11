@@ -25,7 +25,6 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/decl/FUN_00aa42c0_class.h"
 #include "fnv/decl/FUN_00aa45a0_Class.h"
-#include "fnv/decl/FUN_00aa6c70_shell.h"
 void* __cdecl FUN_00a8b070()
 {
     return &(*reinterpret_cast<void * *>(&::g_011f5c08));

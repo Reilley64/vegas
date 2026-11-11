@@ -5367,7 +5367,7 @@
     },
     {
      "address": "0x00aa6c70",
-     "symbol": "?FUN_00aa6c70@FUN_00aa6c70_shell@@QAEXPAX@Z",
+     "symbol": "?FUN_00aa6c70@MemoryPool@@QAEXPAX@Z",
      "size": 138
     },
     {
@@ -5408,7 +5408,7 @@
    ],
    "symbols": {
     "??_C@_0BB@IIOPBCPH@MemoryPool?3?3Free?$AA@": "0x010a27f4",
-    "?FUN_00aa6c70@FUN_00aa6c70_shell@@QAEXPAX@Z": "0x00aa6c70",
+    "?FUN_00aa6c70@MemoryPool@@QAEXPAX@Z": "0x00aa6c70",
     "?FUN_00aa7260@MemoryPool@@QAEXXZ": "0x00aa7260",
     "?DAT_011f67b8@@3PAPAUMemoryPool@@A": "0x011f67b8",
     "??_C@_0CJ@NPEOBHMF@MemoryPool?3?3FreeUnusedPagesForAl@": "0x010a2808",
@@ -278048,7 +278048,7 @@
     "?ReadFromSource@DataArray@fnv_00a8b2c0@@QAEXPAUDataSource@2@@Z": "0x00a8b2c0",
     "?FreePointer@FUN_00aa42c0_class@@QAEXPAXH@Z": "0x00aa42c0",
     "?ms_pPoolAddressMap@@3PAPAVMemoryPool@@A": "0x011f63b8",
-    "?FUN_00aa6c70@FUN_00aa6c70_shell@@QAEXPAX@Z": "0x00aa6c70",
+    "?FUN_00aa6c70@MemoryPool@@QAEXPAX@Z": "0x00aa6c70",
     "?FindItemByArg@FUN_00aa45a0_Class@@QAEPAUFUN_00aa45a0_vt@@H@Z": "0x00aa45a0",
     "?FUN_00a89af0@@YAXH@Z": "0x00a89af0"
    }

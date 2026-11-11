@@ -40,9 +40,12 @@ the pull request text quotes for VEGAS-11, and the figures cannot be compared.
 | 1acae4a58 | 3 stand-ins become the shared list | 5 | 35,271 to 35,266 |
 | 09e7b0d91 | move 25 class definitions (and 10 blocks they need) | 0 | 35,266, unchanged |
 | 2277431b8 | stand-in batch 4: 42 stand-ins in 22 units | 42 | 35,266 to 35,224 |
+| d0d8fd469 | 19 stand-ins become the shared ImageSpaceEffectParam | 19 | 35,185 to 35,166 |
 
 No step leaves a name newly undefined, adds a duplicate symbol, or changes the
-137 imports or the 2,223 archive members and their order. The count moves
+137 imports or the archive members and their order. The archive had 2,223
+members at 2277431b8, by the review record of that step, and has 2,225 at
+5b1781acf, measured; no step of this table added the member. The count moves
 between the steps through other tickets' commits. The totals of the first four
 rows, and the 1,582, are from the review record of those changes; their commit
 messages give the names retired and not the totals.
@@ -53,8 +56,12 @@ and the 107 are from the review record of that change and were not measured
 again.
 
 1acae4a58 belongs to the shared list declaration and is described in
-`docs/shared-simple-list.md`, under "Stand-in receivers". The runtime library
-names of VEGAS-23 are in `docs/runtime-library-map.md`.
+`docs/shared-simple-list.md`, under "Stand-in receivers". d0d8fd469 belongs
+to the shared ImageSpaceEffectParam declaration and is described in
+`docs/shared-image-space-effect-param.md`, under "Stand-in classes". The
+rules page closed the stand-in route at 2277431b8; d0d8fd469 reopens it for
+stand-ins with fields, under that document's storage and identity rule. The
+runtime library names of VEGAS-23 are in `docs/runtime-library-map.md`.
 
 ## The rule: the definition's name
 
@@ -550,6 +557,41 @@ the function row can carry another element type.
 
 3 addresses, 4 keys respelled and 1 merged. All 3 still carry more than one
 name at 2277431b8.
+
+### Shared ImageSpaceEffectParam, d0d8fd469
+
+One address. Every old key is the constructor of a stand-in; each unit now
+carries the key of the function row.
+
+| Address | Recipe function row | Row's unit | New key | Keys respelled | Keys merged | Units |
+| --- | --- | --- | --- | --- | --- | --- |
+| `0x00414430` | `??0ImageSpaceEffectParam@@QAE@MMMM@Z` | `bsshader/imagespaceeffectparam_h_unit.cpp` | `??0ImageSpaceEffectParam@@QAE@MMMM@Z` | 14 | 5 | 16 |
+
+The 19 old keys:
+
+| Unit | Old key | Into the new key |
+| --- | --- | --- |
+| `fallout/ai/actor.cpp` | `??0ImpactColor@@QAE@MMMM@Z` | respelled |
+| `fallout/ai/combat/combatmanager.cpp` | `??0RgbaColor@fnv_00991770@@QAE@MMMM@Z` | respelled |
+| `fallout/ai/combat/explosion.cpp` | `??0Color810@@QAE@MMMM@Z` | merged |
+| `fallout/ai/combat/missileprojectile.cpp` | `??0UpdateColor@@QAE@MMMM@Z` | respelled |
+| `fallout/ai/combat/projectile.cpp` | `??0NiColorAPB@@QAE@MMMM@Z` | respelled |
+| `fallout/ai/combat/projectile.cpp` | `??0NiColorAP9@@QAE@MMMM@Z` | merged |
+| `fallout/interface/menus/computersmenu.cpp` | `??0Color@fnv_00757b70@@QAE@MMMM@Z` | respelled |
+| `fallout/interface/menus/hackingmenu.cpp` | `??0Color84@fnv_00765b80@@QAE@MMMM@Z` | respelled |
+| `fallout/interface/menus/racesexmenu.cpp` | `??0ColorB50@fnv_007b2b50@@QAE@MMMM@Z` | respelled |
+| `fallout/magic/absorbeffect.cpp` | `??0NiColorAStandIn@fnv_008034c0@@QAE@MMMM@Z` | respelled |
+| `fallout/magic/bhkcharacterlistenerspell.cpp` | `??0ColorA807@@QAE@MMMM@Z` | respelled |
+| `fallout_shared/facegen/bsfacegenmanager.cpp` | `??0RgbaColor@fnv_00655fa0@@QAE@MMMM@Z` | respelled |
+| `fallout_shared/sky/sun.cpp` | `??0RgbaColor@fnv_00641830@@QAE@MMMM@Z` | respelled |
+| `fallout_shared/tempeffects/bstempeffectsimpledecal.cpp` | `??0Color4@@QAE@MMMM@Z` | respelled |
+| `fallout_shared/tempeffects/bstempeffectsimpledecal.cpp` | `??0DecalColor@@QAE@MMMM@Z` | merged |
+| `fallout_shared/tesobjectweap.cpp` | `??0FireColor@@QAE@MMMM@Z` | respelled |
+| `fallout_shared/tesscriptfunctions.cpp` | `??0ImageSpaceEffectParam@fnv_005d3780@@QAE@MMMM@Z` | merged |
+| `fallout_shared/tesscriptfunctions.cpp` | `??0ImageSpaceEffectParam@fnv_005d3930@@QAE@MMMM@Z` | merged |
+| `fallout_shared/testerrainlodmanager.cpp` | `??0FUN_00414430_Color@fnv_0057de00@@QAE@MMMM@Z` | respelled |
+
+At d0d8fd469 the address still carries 65 names in 73 units.
 
 ## The 368 types and their keys
 

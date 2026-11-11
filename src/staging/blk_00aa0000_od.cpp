@@ -1213,42 +1213,6 @@ extern FUN_00fdf100_t DAT_00fdf100;
 
 void __cdecl FUN_00fdb2b0(void);
 
-struct FUN_00aa7300_node
-{
-    int m_00;
-    FUN_00aa7300_node* m_04;
-};
-
-struct FUN_00aa7300_pool
-{
-    int m_00;
-    int m_04;
-    void FUN_0040fbf0(const char* name);
-};
-
-class FUN_00aa7300_cls
-{
-  public:
-    int m_00;
-    int m_04;
-    FUN_00aa7300_node* m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    FUN_00aa7300_pool m_20;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    unsigned int m_40;
-
-    void FUN_00aa7300();
-};
-
 // @fnv 0x00aa7370
 void FUN_00aa7370(void)
 {
@@ -1266,7 +1230,7 @@ void FUN_00aa7370(void)
         MemoryPool* pool = DAT_011f67b8[index];
         if (pool != 0)
         {
-            reinterpret_cast<::FUN_00aa7300_cls*>(pool)->FUN_00aa7300();
+            pool->FUN_00aa7300();
         }
     }
 
@@ -1920,26 +1884,26 @@ bool FUN_00aa6650_Class::FreeMemory(unsigned int size, void* pMemory)
 }
 
 // @fnv 0x00aa7300
-void FUN_00aa7300_cls::FUN_00aa7300()
+void MemoryPool::FUN_00aa7300()
 {
     int scratch0;
     int scratch1;
-    FUN_00aa7300_node* cur;
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_20))->FUN_0040fbf0((char *)((const char*)"CheckFreeBlocks"));
-    if (m_40 > 8)
+    MemoryPool__FreePoolBlock* cur;
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_kCriticalSection))->FUN_0040fbf0((char *)((const char*)"CheckFreeBlocks"));
+    if (m_uiAllocationSize > 8)
     {
-        cur = m_08;
+        cur = m_pFreeBlockHead;
         while (cur != 0)
         {
-            cur = cur->m_04;
+            cur = cur->pNext;
         }
     }
     {
-        FUN_00aa7300_pool* pool = &m_20;
-        pool->m_04 = pool->m_04 - 1;
-        if (pool->m_04 == 0)
+        RecursiveSpinLock* pool = &m_kCriticalSection;
+        pool->m_uiRecursionCount = pool->m_uiRecursionCount - 1;
+        if (pool->m_uiRecursionCount == 0)
         {
-            pool->m_00 = 0;
+            pool->m_uiOwningThreadID = 0;
         }
     }
 }

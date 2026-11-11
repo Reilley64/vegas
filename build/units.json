@@ -511104,7 +511104,7 @@
     },
     {
      "address": "0x00aa7300",
-     "symbol": "?FUN_00aa7300@FUN_00aa7300_cls@@QAEXXZ",
+     "symbol": "?FUN_00aa7300@MemoryPool@@QAEXXZ",
      "size": 106
     },
     {
@@ -511405,7 +511405,7 @@
     "?DAT_011f6bd4@@3HA": "0x011f6bd4",
     "?FUN_00fdb2b0@@YAXXZ": "0x00fdb2b0",
     "?FUN_00ec658f@@YAHP6AXXZ@Z": "0x00ec658f",
-    "?FUN_00aa7300@FUN_00aa7300_cls@@QAEXXZ": "0x00aa7300",
+    "?FUN_00aa7300@MemoryPool@@QAEXXZ": "0x00aa7300",
     "_DAT_00fdf1c0": "0x00fdf1c0",
     "_DAT_011f6bfc": "0x011f6bfc",
     "_DAT_011f6c00": "0x011f6c00",

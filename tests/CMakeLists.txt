@@ -658,3 +658,23 @@ else()
   target_sources(fileformat_dds_header_test PRIVATE ${PROJECT_SOURCE_DIR}/src/fileformat/dds_header.cpp)
 endif()
 add_test(NAME fileformat.dds_header COMMAND fileformat_dds_header_test)
+
+# Fails when an external name of the game archive has definitions that differ
+# between members and is not recorded in the allowlist. The allowlist was
+# measured on the cross build, with its compiler and standard library, and the
+# set of names depends on both. So the test is registered for the cross build
+# only, and a native Windows build has no such test. The tool reads the archive
+# on the build host and is run with Go, which the cross build therefore
+# requires.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  find_program(GO_EXECUTABLE go)
+  if(NOT GO_EXECUTABLE)
+    message(FATAL_ERROR
+      "Go was not found. The cross build needs Go to run the "
+      "archive.differing_definitions test (tools/differing-definitions).")
+  endif()
+  add_test(NAME archive.differing_definitions
+    COMMAND ${GO_EXECUTABLE} run . --archive $<TARGET_FILE:game>
+            --allowlist ${PROJECT_SOURCE_DIR}/tools/differing-definitions/allowlist.tsv
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/differing-definitions)
+endif()

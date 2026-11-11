@@ -527,7 +527,7 @@ void FUN_007fb250_owner::FUN_007fb250(float afDuration, float afIntensity)
 {
     this->unk60 = true;
     this->unk68 = afDuration;
-    this->unk6c = afIntensity * (double)0.0001f;
+    this->unk6c = afIntensity * (double)0.001f;
     this->unk64 = (float)::fnv::timer::Time();
     this->unk70 = 0.0f;
 }

@@ -624,3 +624,15 @@ else()
   target_sources(runtime_d3dx_vector3_coordinate_transform_test PRIVATE ${PROJECT_SOURCE_DIR}/src/unmapped/d3dxmath.cpp)
 endif()
 add_test(NAME runtime.d3dx_vector3_coordinate_transform COMMAND runtime_d3dx_vector3_coordinate_transform_test)
+
+# Check the startup copy of the pixel-format table against its owning unit.
+add_executable(runtime_pixel_format_startup_table_test runtime/pixel_format_startup_table_test.cpp)
+target_include_directories(runtime_pixel_format_startup_table_test PRIVATE
+  ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+if(WIN32)
+  target_link_libraries(runtime_pixel_format_startup_table_test PRIVATE game)
+else()
+  target_sources(runtime_pixel_format_startup_table_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nimain/console/nipoint3_console.cpp)
+endif()
+add_test(NAME runtime.pixel_format_startup_table COMMAND runtime_pixel_format_startup_table_test)

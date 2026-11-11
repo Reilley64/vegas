@@ -65,19 +65,8 @@ class BSSoundInfo
     unsigned char layoutPadding15[3];
     BSAudioDefinition m_kAudioDefinition;  // +0x18, 572 bytes
 
-// @fnv 0x00ae8a40
-    BSSoundInfo(BSSoundInfo* aCopy)
-    {
-        m_uiSoundID = aCopy->m_uiSoundID;
-        m_fSoundVolume = aCopy->m_fSoundVolume;
-        m_fFadeDuration = aCopy->m_fFadeDuration;
-        m_uiValueAt0C = aCopy->m_uiValueAt0C;
-        m_uiPlaybackFlags = aCopy->m_uiPlaybackFlags;
-        m_bValueAt14 = aCopy->m_bValueAt14;
-        m_kAudioDefinition = aCopy->m_kAudioDefinition;
-    }
-
     // Defined once, in bsaudiodefines_h_unit.cpp.
+    BSSoundInfo(BSSoundInfo* aCopy);
     ~BSSoundInfo();
 };
 

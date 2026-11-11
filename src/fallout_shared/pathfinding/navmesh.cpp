@@ -543,8 +543,9 @@ struct GlobalObject_00869f00
 
 
 // @fnv 0x00691800
-void FUN_00691800(GlobalObject_00869f00* pThis)
+BSSimpleArray<unsigned short, 1024>::~BSSimpleArray()
 {
+    GlobalObject_00869f00* pThis = reinterpret_cast<GlobalObject_00869f00*>(this);
     pThis->vtable = &(*reinterpret_cast<void * *>(&::DAT_0106abe4));
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
 }

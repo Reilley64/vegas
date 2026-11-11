@@ -173668,7 +173668,7 @@
     },
     {
      "address": "0x00691800",
-     "symbol": "?FUN_00691800@@YAXPAUGlobalObject_00869f00@@@Z",
+     "symbol": "??1?$BSSimpleArray@G$0EAA@@@UAE@XZ",
      "size": 30
     },
     {
@@ -174018,7 +174018,7 @@
     "?FUN_0068f320@@YA_NPBVNavMeshInfo@@@Z": "0x0068f320",
     "?FUN_00690800@@YAPAVTESWorldSpace@@PBVNavMeshInfo@@@Z": "0x00690800",
     "?FUN_00690830@@YAPAVTESForm@@PBVNavMeshInfo@@@Z": "0x00690830",
-    "?FUN_00691800@@YAXPAUGlobalObject_00869f00@@@Z": "0x00691800",
+    "??1?$BSSimpleArray@G$0EAA@@@UAE@XZ": "0x00691800",
     "?InitNavMeshClosedDoorInfo@@YAPAVNavMeshClosedDoorInfo@@PAV1@@Z": "0x00692870",
     "?FUN_00558200@@YAIPAD@Z": "0x00558200",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",

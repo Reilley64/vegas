@@ -3,6 +3,7 @@
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/ni_point3_startup_table.h"
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_011aa000.h"
 #include "fnv/symbols_011f4000.h"
@@ -12,10 +13,6 @@
 // region, first 68 bytes active here) is copied into the BSS buffer at
 // process start. The MSVC /O2 .ctors for the global copy-initialization
 // below lowers to a frameless "rep movsd" of 17 DWORDs.
-struct NiPoint3StartupTable
-{
-    int data[17];
-};
 
 // @fnv 0x00a62110
 NiPoint3StartupTable gNiPoint3StartupSrc = {{8193, 1, 0, -1, 0, 0, 264, 1, 0, 264, 2, 0, 264, 3, 0, 264, 3}};

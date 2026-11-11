@@ -114,6 +114,7 @@
 #include "fnv/symbols_00a5f000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011aa000.h"
+#include "fnv/ni_point3_startup_table.h"
 #include <math.h>
 
 struct NiGlobalStringTable
@@ -5076,7 +5077,7 @@ void FUN_00b55bb0()
     prefs.m_eMipFlag = 0;
     prefs.m_eAlphaFormat = 0;
 
-    PixelOwner error(new NiPixelData(16, 16, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
+    PixelOwner error(new NiPixelData(16, 16, ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc), 1, 1));
 
     pixel = error.object->pixels + error.object->offsets[0];
 
@@ -5124,7 +5125,7 @@ void FUN_00b55bb0()
         (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9510)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(normal.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
-    PixelOwner gloss(new NiPixelData(16, 16, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
+    PixelOwner gloss(new NiPixelData(16, 16, ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc), 1, 1));
 
     pixel = gloss.object->pixels + gloss.object->offsets[0];
 
@@ -5174,7 +5175,7 @@ void FUN_00b55bb0()
 
     BSShaderManager::GetTexture("Data\\Textures\\Effects\\WindowEnvironmentMap02.dds", true, (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9524)), true, false);
 
-    PixelOwner secret(new NiPixelData(4, 4, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
+    PixelOwner secret(new NiPixelData(4, 4, ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc), 1, 1));
 
     pixel = secret.object->pixels + secret.object->offsets[0];
 
@@ -5199,7 +5200,7 @@ void FUN_00b55bb0()
         (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9528)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(secret.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
-    PixelOwner effect(new NiPixelData(4, 4, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
+    PixelOwner effect(new NiPixelData(4, 4, ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc), 1, 1));
 
     pixel = effect.object->pixels + effect.object->offsets[0];
 
@@ -5257,7 +5258,7 @@ void FUN_00b55bb0()
         (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f953c)) = ::NiSourceTexture::Create(name, (::NiTexture__FormatPrefs &)((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))), true, false);
     }
 
-    PixelOwner noise(new NiPixelData(4, 4, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
+    PixelOwner noise(new NiPixelData(4, 4, ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc), 1, 1));
 
     pixel = noise.object->pixels + noise.object->offsets[0];
 

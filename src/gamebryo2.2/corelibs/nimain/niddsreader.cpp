@@ -19,6 +19,7 @@
 #include "fnv/symbols_010a2000.h"
 #include "fnv/symbols_011aa000.h"
 #include "fnv/symbols_011f6000.h"
+#include "fnv/ni_point3_startup_table.h"
 #include "niddsreader_decls.h"
 #include "niddsreader_decls_decl_niddsreader.h"
 // Initializes the NiBMPReader fields: zeroes height, width, unknown, x, y, sets format to DAT_011aa2e8 and clears b1 and b2.
@@ -104,12 +105,12 @@ NiPixelFormat NormalizePixelFormat(NiPixelFormat aFormat)
     {
     case 16:
         if (reinterpret_cast<::A62190PixelFormat *>((void *)&(static_cast<NiPixelFormatMaskView&>(aFormat)))->GetComponentMask(3) != 0)
-            return (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc));
+            return ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc);
         return DAT_011aa2e8;
     case 24:
         return DAT_011aa2e8;
     case 32:
-        return (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc));
+        return ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc);
     }
     return aFormat;
 }
@@ -1173,7 +1174,7 @@ bool DDSReader::FUN_00a8dce0(ReadStream* stream, int* apWidth, int* apHeight, Ni
     }
     else
     {
-        m_eFormat = bIs32Bit ? (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)) : DAT_011aa2e8;
+        m_eFormat = bIs32Bit ? ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc) : DAT_011aa2e8;
     }
     switch (b112)
     {
@@ -1371,7 +1372,7 @@ void __cdecl FUN_00a8cc40(NiBinaryStream* stream, NiPixelData* apPixelData, NiPi
         if (total - done < 0x200)
             uiChunkBytes = total - done;
         stream->Read(buf, uiChunkBytes);
-        if (dstFmt == (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)))
+        if (dstFmt == ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc))
         {
             unsigned short* p = buf;
             for (unsigned int i = 0; i < (uiChunkBytes >> 1); i++)

@@ -158,6 +158,7 @@
 #include "bsfacegenmanager_decls.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/symbols_011c5000.h"
+#include "fnv/ni_point3_startup_table.h"
 #include <vector>
 #include <string.h>
 
@@ -2138,7 +2139,7 @@ FUN_00650ea0_BSFaceGenManager::FUN_00650ea0_BSFaceGenManager()
     reinterpret_cast<::NiObjectNET *>(((m_spAlpha).operator->()))->SetFlags(4);
     reinterpret_cast<::FUN_0094db80_shell *>(((m_spAlpha).operator->()))->FUN_0094db80(100);
 
-    pbasepixeldata = new NiPixelData(32, 32, (*reinterpret_cast<const ::fnv_00650ea0::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1);
+    pbasepixeldata = new NiPixelData(32, 32, ::NiPoint3StartupTableAs<const ::fnv_00650ea0::NiPixelFormat>(::gNiPoint3StartupSrc), 1, 1);
     pbasepixels = ((unsigned char *)(reinterpret_cast<::S_0064dac0 *>((pbasepixeldata))->FUN_0064dac0(0, 0)));
     memset(pbasepixels, 128, 4096);
     reinterpret_cast<::NiGlobalStringTable *>((pbasepixeldata))->AddString();
@@ -2146,7 +2147,7 @@ FUN_00650ea0_BSFaceGenManager::FUN_00650ea0_BSFaceGenManager()
     NiFixedString kBaseName("DefaultBaseModFaceGenTexture");
     m_spBaseTexture = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pbasepixeldata), &kBaseName, (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::fnv_00650ea0::TextureFormatPreferences *>(&::DAT_011a9598))))));
 
-    pdetailpixeldata = new NiPixelData(32, 32, (*reinterpret_cast<const ::fnv_00650ea0::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1);
+    pdetailpixeldata = new NiPixelData(32, 32, ::NiPoint3StartupTableAs<const ::fnv_00650ea0::NiPixelFormat>(::gNiPoint3StartupSrc), 1, 1);
     pdecalpixels = ((unsigned char *)(reinterpret_cast<::S_0064dac0 *>((pdetailpixeldata))->FUN_0064dac0(0, 0)));
     for (int i = 0; i < 1024; ++i)
     {

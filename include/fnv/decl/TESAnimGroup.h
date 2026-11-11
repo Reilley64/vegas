@@ -30,4 +30,6 @@ public:
     // 0x005f4d60
     bool IsJumpAnimation() const;
 };
+#else
+class TESAnimGroup;
 #endif

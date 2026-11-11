@@ -640,7 +640,7 @@ endif()
 add_test(NAME runtime.pixel_format_startup_table COMMAND runtime_pixel_format_startup_table_test)
 
 # Native replacements for the remaining D3DX math leaves (VEGAS-24).
-foreach(d3dx_math_test vector3_normalize matrix_rotation_yaw_pitch_roll)
+foreach(d3dx_math_test vector3_normalize matrix_rotation_yaw_pitch_roll plane_normalize)
   add_executable(runtime_d3dx_${d3dx_math_test}_test runtime/d3dx_${d3dx_math_test}_test.cpp)
   target_include_directories(runtime_d3dx_${d3dx_math_test}_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
   if(WIN32)

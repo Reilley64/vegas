@@ -316,6 +316,45 @@ void* FUN_00ee6e04(void* pOut, float yaw, float pitch, float roll)
     return pOut;
 }
 
+namespace
+{
+// Round a binary64 intermediate to binary32 once, with an explicit infinity
+// rather than an out-of-range conversion.
+float Narrow(double value)
+{
+    return std::fabs(value) > std::numeric_limits<float>::max() ?
+        std::copysign(std::numeric_limits<float>::infinity(), value) : static_cast<float>(value);
+}
+}
+
+// Native plane normalization in borrowed storage: all four coefficients
+// (a, b, c, d) divided by the length of the normal (a, b, c).
+// Project choices, not D3DX behaviour: a zero-length normal gives the zero
+// plane, and the length is evaluated in double precision.
+// @fnv 0x00ee6dce
+void* FUN_00ee6dce(void* pout, const void* pp)
+{
+    static_assert(sizeof(float) == 4);
+    // Value copies avoid overlaying callers' plane types; staging the result
+    // supports an exact input/output alias.
+    float plane[4];
+    std::memcpy(plane, pp, sizeof(plane));
+    const double a = plane[0], b = plane[1], c = plane[2];
+    // Squares of binary32 values are exact in binary64: no overflow or underflow.
+    const double length = std::sqrt(a * a + b * b + c * c);
+    float result[4]{0, 0, 0, 0};
+    if (length != 0)
+    {
+        result[0] = static_cast<float>(a / length);
+        result[1] = static_cast<float>(b / length);
+        result[2] = static_cast<float>(c / length);
+        // The distance is not bounded by the normal's length.
+        result[3] = Narrow(double(plane[3]) / length);
+    }
+    std::memcpy(pout, result, sizeof(result));
+    return pout;
+}
+
 // Native transposed product in caller-owned matrix storage.
 // @fnv 0x00ee6dfe
 D3DXMATRIX* FUN_00ee6dfe(D3DXMATRIX* pOut, const D3DXMATRIX* first, const D3DXMATRIX* second)

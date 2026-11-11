@@ -229,13 +229,6 @@ D3DXPLANE* FUN_00ee6dc8(D3DXPLANE* output, const D3DXPLANE* plane, const D3DXMAT
     return ::FUN_00ee6dc8(output, plane, matrix);
 }
 
-
-// @fnv 0x00ee6dce
-void* FUN_00ee6dce(void* pout, const void* pp)
-{
-    return ::FUN_00ee6dce(pout, pp);
-}
-
 typedef void(__cdecl* PFN_D3DXMatrixInverse)(void);
 extern "C" PFN_D3DXMatrixInverse __imp__D3DXMatrixInverse;
 

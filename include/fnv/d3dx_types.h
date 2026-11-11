@@ -21,6 +21,12 @@ struct D3DXMATRIX : public _D3DMATRIX
 {
 };
 
+// Plane a*x + b*y + c*z + d = 0.
+struct D3DXPLANE
+{
+    float a, b, c, d;
+};
+
 struct D3DXVECTOR4
 {
     float x, y, z, w;

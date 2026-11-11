@@ -47,9 +47,8 @@ class Tile
     // name. Nothing defines this name yet.
     Tile();
 
-    // The first nine slots of the virtual table, in order. A later slot is declared in the change
-    // that makes tile.cpp define it. Slots 1, 2, 3, 4 and 6 have no body: the repository does not
-    // show which function the table of Tile holds in them.
+    // The ten slots of the virtual table, in order. Slots 1, 2, 3, 4 and 6 have no body: the
+    // repository does not show which function the table of Tile holds in them.
     virtual ~Tile();
     virtual void Init(Tile*, const char*, Tile*);
     virtual NiNode* CalculateNode();
@@ -59,6 +58,7 @@ class Tile
     virtual Tile* SetTraitValue(int, float, const char*);
     virtual void FUN_00a0b020();
     virtual TileShaderProperty* FUN_00a0b1f0();
+    virtual void ApplyAlphaAndColorToChildren(NiNode*, float, void*);
 
     TileChildListStorage m_kChildren;
     TileValueArrayStorage m_kValues;

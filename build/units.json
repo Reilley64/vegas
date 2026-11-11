@@ -8777,7 +8777,7 @@
     },
     {
      "address": "0x00a0b280",
-     "symbol": "?ApplyAlphaAndColorToChildren@FUN_00a0b280_shell@@QAEXPAVNiNode@@MPAX@Z",
+     "symbol": "?ApplyAlphaAndColorToChildren@Tile@@UAEXPAVNiNode@@MPAX@Z",
      "size": 202
     },
     {
@@ -9262,7 +9262,7 @@
     "?AppendFloatAction@P03Value@@QAEXHM@Z": "0x00a09080",
     "?ClearList@OH2TileTemplate@fnv_00a0ab70@@QAEXXZ": "0x00a0ab70",
     "?FindTemplateByName@BuildStorage_00a0af10@@QAEPAUTileTemplate_00a0af10@@PBD@Z": "0x00a0af10",
-    "?ApplyAlphaAndColorToChildren@FUN_00a0b280_shell@@QAEXPAVNiNode@@MPAX@Z": "0x00a0b280",
+    "?ApplyAlphaAndColorToChildren@Tile@@UAEXPAVNiNode@@MPAX@Z": "0x00a0b280",
     "?ClearActionsAndFreeBuffer@FUN_00a09330_shell@fnv_00a09330@@QAEXXZ": "0x00a09330",
     "?GetField0C@FUN_00a0c060_shell@@QAEHXZ": "0x00a0c060",
     "?GetArg1String@FUN_00a0c080_shell@@QAEPBDXZ": "0x00a0c080",

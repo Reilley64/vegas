@@ -1394,10 +1394,6 @@ struct NiStream;
 class NiTexture;
 struct TileShaderProperty;
 struct blob4 { char b[4]; };
-struct FUN_00a0b280_shell : public Tile {
-    void ApplyAlphaAndColorToChildren(NiNode*, float, void*);
-};
-
 struct PropHelper {  };
 struct OH3Color { float r, g, b, a; };
 struct OH3Child {
@@ -1405,7 +1401,7 @@ struct OH3Child {
     virtual void v4(); virtual void v5(); virtual PropHelper* v6();
 };
 // @fnv 0x00a0b280
-void FUN_00a0b280_shell::ApplyAlphaAndColorToChildren(NiNode* apNode, float afAlpha, void* apColor)
+void Tile::ApplyAlphaAndColorToChildren(NiNode* apNode, float afAlpha, void* apColor)
 {
     if (!apNode)
         return;

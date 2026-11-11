@@ -4732,9 +4732,7 @@ FUN_00ac5490::FUN_00ac5490(S00ac5490_Str a) : S00ac5490_Base(a)
 
 struct _RTL_CRITICAL_SECTION;
 
-class FUN_009ff340;
-
-struct S009ff340_List { int FUN_0057c730(FUN_009ff340* const& p); };
+struct S009ff340_List { int FUN_0057c730(Tile* const& p); };
 
 extern char DAT_011f3330;
 
@@ -4753,25 +4751,13 @@ struct S009ff340_RefObj {
     void DecRefCount() { if (!InterlockedDecrement(&m_iObjectReferenceCount)) DeleteThis(); }
 };
 
-struct S009ff340_Ptr {
-    S009ff340_RefObj* m_obj;
-    ~S009ff340_Ptr() { if (m_obj) m_obj->DecRefCount(); }
-};
+// The destructors of the four members of Tile that tile_class.h declares as storage. They run after
+// the body of the destructor of Tile, the node pointer first and the child list last.
+inline TileNodeStorage::~TileNodeStorage() { if (m_pObject) ((S009ff340_RefObj*)m_pObject)->DecRefCount(); }
 
-struct S009ff340_Str {
-    int unk00;
-    int unk04;
-    int unk08;
-    ~S009ff340_Str() { int scratch[13]; reinterpret_cast<::TextString *>(this)->FUN_004037f0((const char *)(0), 0); }
-};
+inline TileNameStorage::~TileNameStorage() { int scratch[13]; reinterpret_cast<::TextString *>(this)->FUN_004037f0((const char *)(0), 0); }
 
-struct S009ff340_M10 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    ~S009ff340_M10() { reinterpret_cast<::fnv_00709eb0::FUN_00709eb0_Class *>(this)->InitAndClear(); }
-};
+inline TileValueArrayStorage::~TileValueArrayStorage() { reinterpret_cast<::fnv_00709eb0::FUN_00709eb0_Class *>(this)->InitAndClear(); }
 
 void __cdecl S_00a04150_Free(void*);
 
@@ -4817,52 +4803,12 @@ struct S_00a04150_List {
     }
 };
 
-struct S009ff340_Empty {
-    int unk00;
-    ~S009ff340_Empty() {}
-};
-
-struct S009ff340_Base04 {
-    int unk00;
-    int unk04;
-    S009ff340_Empty e;
-    ~S009ff340_Base04() { reinterpret_cast<S_00a04150_List*>(this)->FUN_004ed900(); }
-};
+inline TileChildListStorage::~TileChildListStorage() { reinterpret_cast<S_00a04150_List*>(this)->FUN_004ed900(); }
 
 inline void S009ff340_Detach(S009ff340_RefObj* p) { int scratch[10]; ::FUN_00c45830((::MyRef *)(p)); }
 
-class FUN_009ff340 : public S009ff340_Base04 {
-public:
-    virtual ~FUN_009ff340();
-    S009ff340_M10 m10;
-    S009ff340_Str m20;
-    S009ff340_Ptr m2c;
-    unsigned int flags;
-    bool GetFlag(unsigned int m) { return (flags & m) != 0; }
-    template<unsigned int M> void SetFlag(bool b) { b ? (flags |= M) : (flags &= ~M); }
-    void FUN_009ff690();
-    
-};
-
-// @fnv 0x009ff340
-FUN_009ff340::~FUN_009ff340()
-{
-    EnterCriticalSection((_RTL_CRITICAL_SECTION*)&DAT_011f3330);
-    ::ClearInterfaceRefs((unsigned int)(this));
-    if (!GetFlag(0x2000)) {
-        ::FUN_005b5e40();
-        FUN_009ff690();
-    }
-    if (GetFlag(0x400))
-        DAT_011f3318.FUN_0057c730(this);
-    SetFlag<0x400>(false);
-    if (DAT_011f3324.FUN_0057c730(this) && GetFlag(0x800))
-        --DAT_011f32d8;
-    SetFlag<0x800>(false);
-    SetFlag<0x1000>(false);
-    S009ff340_Detach(m2c.m_obj);
-    LeaveCriticalSection((_RTL_CRITICAL_SECTION*)&DAT_011f3330);
-}
+inline bool S009ff340_GetFlag(const Tile* t, unsigned int m) { return (t->m_uiFlags & m) != 0; }
+template<unsigned int M> inline void S009ff340_SetFlag(Tile* t, bool b) { b ? (t->m_uiFlags |= M) : (t->m_uiFlags &= ~M); }
 
 namespace fnv_009ff690 {
 __forceinline int GetMemoryContext() { return ::g_tlsBlock.memoryContext; }
@@ -5013,6 +4959,26 @@ void ReleaseTile::FUN_009ff690() {
 }
 
 // namespace fnv_009ff690
+
+// @fnv 0x009ff340
+Tile::~Tile()
+{
+    EnterCriticalSection((_RTL_CRITICAL_SECTION*)&DAT_011f3330);
+    ::ClearInterfaceRefs((unsigned int)(this));
+    if (!S009ff340_GetFlag(this, 0x2000)) {
+        ::FUN_005b5e40();
+        reinterpret_cast<::fnv_009ff690::ReleaseTile *>(this)->FUN_009ff690();
+    }
+    if (S009ff340_GetFlag(this, 0x400))
+        DAT_011f3318.FUN_0057c730(this);
+    S009ff340_SetFlag<0x400>(this, false);
+    if (DAT_011f3324.FUN_0057c730(this) && S009ff340_GetFlag(this, 0x800))
+        --DAT_011f32d8;
+    S009ff340_SetFlag<0x800>(this, false);
+    S009ff340_SetFlag<0x1000>(this, false);
+    S009ff340_Detach((S009ff340_RefObj*)m_spNode.m_pObject);
+    LeaveCriticalSection((_RTL_CRITICAL_SECTION*)&DAT_011f3330);
+}
 
 namespace fnv_00a00a30 {
 class MemoryManagerA00 {

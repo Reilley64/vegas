@@ -1,6 +1,9 @@
 include(ExternalProject)
 include(FetchContent)
 
+# Checked first, so a missing SDK stops the configure before anything is downloaded.
+include(steamworks_sdk.cmake)
+
 FetchContent_Declare(SDL3
   URL https://github.com/libsdl-org/SDL/releases/download/release-3.4.18/SDL3-3.4.18.tar.gz
   URL_HASH SHA256=9c75cf16330322c217dedd2e0609f1124f1b54b8633e763467b4684d0f4334a3

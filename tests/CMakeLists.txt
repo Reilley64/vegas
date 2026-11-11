@@ -804,3 +804,9 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
             --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
+
+add_test(NAME build.steamworks_sdk_configure
+  COMMAND ${CMAKE_COMMAND}
+    -DMODULE=${PROJECT_SOURCE_DIR}/third_party/steamworks_sdk.cmake
+    -DWORK=${CMAKE_CURRENT_BINARY_DIR}/steamworks_sdk_configure
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/steamworks_sdk/configure_test.cmake)

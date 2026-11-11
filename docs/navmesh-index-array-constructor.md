@@ -4,8 +4,9 @@ VEGAS-65 asks for coherent navmesh grid, record and array storage with genuine
 construction, copying and retirement. `docs/navmesh-index-array-copy.md` is its
 first part. This is the second: the constructor of the grid cell, the function
 at `0x006917d0`, now has its own name and one definition, and two declarations
-that gave it 16 bytes give it 24. Everything else on the ticket is listed
-under "Not covered".
+that gave it 16 bytes give it 24. The third part gives the destructor at
+`0x00691800` its name, described under "The destructor at its owner".
+Everything else on the ticket is listed under "Not covered".
 
 ## The constructor
 
@@ -202,31 +203,25 @@ compiler lays out no array there. `pathfind.cpp`, `tesform.cpp` and
 name it.
 
 A shared declaration of the array has to declare its destructor, because
-units destroy the array. The destructor has no owner yet. The only body under
-its name is an empty one in `blk_00680000_od.cpp`, with no address tag, and
-no row of the recipe binds the name to an address, so the ruling on
-placeholder removal does not cover it. A header that declared the destructor
-now would bind every unit that moved onto it to the empty body. A header
-without it would stop those units from destroying the array. So the
-declarations stay where they are, and this change gives no unit a new
-requirement for the destructor's name.
+units destroy the array. When the constructor moved to its owner, the
+destructor had no owner. The only body under its name was an empty one in
+`blk_00680000_od.cpp`, with no address tag, and no row of the recipe bound
+the name to an address, so the ruling on placeholder removal did not cover
+it. A header that declared the destructor then would have bound every unit
+that moved onto it to the empty body. A header without it would stop those
+units from destroying the array. So the declarations stayed where they were,
+and that change gave no unit a new requirement for the destructor's name.
+
+The virtual destructor now has its owner; see "The destructor at its owner".
+The empty body is still there, under the non-virtual spelling, and the
+declarations still stay where they are.
 
 ## Not covered
 
 These were open before this change and remain open.
 
-- The destructor. `0x00691800` is a 30-byte function row of `navmesh.cpp`,
-  spelled `FUN_00691800(GlobalObject_00869f00*)`. Its body stores the table
-  `0x0106abe4` at `+0` and clears the buffer through `0x008454f0`. Table
-  entry 0, `0x0069d9a0`, calls it for one object and for each element of an
-  array. Seven units have a symbol row at the address under the free
-  function's name. `navmesh_util.cpp.obj` and
-  `bgsdefaultobjectmanager.cpp.obj` require
-  `BSSimpleArray<unsigned short, 1024>::~BSSimpleArray()` and get the empty
-  body of `blk_00680000_od.cpp`. `navmesh.cpp.obj` requires the virtual
-  spelling of the same destructor, which no object defines. Giving
-  `0x00691800` the destructor's name and removing the empty body is the next
-  step, and it needs an admission, because no symbol row binds the name.
+- The destructor's other spellings. "The destructor at its owner" lists
+  what stays open after it.
 - Retirement of the grid. `0x0069d2d0` still deletes the cells as its own
   16-byte element class. `0x0069d9a0` passes an element size of 16 to the
   array destruction helper, while the cells are 24 bytes on windows-x64.
@@ -262,25 +257,189 @@ archive and the complete links.
 No generated data is changed. No archive member is added, removed or
 reordered.
 
-## The next step and its yield
+## The destructor at its owner
 
-The coordinator has decided the next step; it is a separate change. The
-function row `0x00691800` is admitted as the array's destructor in its
-virtual spelling, `BSSimpleArray<unsigned short, 1024>::~BSSimpleArray()`
-declared `virtual`. The evidence:
+The coordinator admitted the function row `0x00691800` as the array's
+destructor in its virtual spelling,
+`BSSimpleArray<unsigned short, 1024>::~BSSimpleArray()` declared `virtual`.
+This third part carries that out. It is one commit, for one address.
 
-- Entry 0 of the table `0x0106abe4`, `0x0069d9a0`, is a deleting
-  destructor, so the destructor is virtual.
-- `navmesh.cpp.obj` requires the virtual spelling.
-- The three objects that name a non-virtual spelling move onto the virtual
-  one together with the shared declaration of the array:
-  `blk_00680000_od.cpp.obj` defines the empty body under it, and
-  `navmesh_util.cpp.obj` and `bgsdefaultobjectmanager.cpp.obj` require it.
+### The function and its table
 
-In the forced link with no error limit, eight undefined names are a
-constructor or destructor of this array, under its own name or a stand-in's. The admission of the destructor alone moves at most one of them:
-the virtual destructor that `navmesh.cpp` requires. The other seven are the
-constructors and destructors of the stand-in classes:
+`build/units.json` lists `0x00691800` once as a function, 30 bytes, in the
+unit `src/fallout_shared/pathfinding/navmesh.cpp`. The row was spelled as a
+free function, `FUN_00691800(GlobalObject_00869f00*)`. Its body stores the
+address of the table `0x0106abe4` at `+0` and calls `0x008454f0` with
+`true`, which clears the array.
+
+The table is in the generated data, in `vtables_0106.cpp`, with the four
+entries listed under "The constructor". Entry 0, `0x0069d9a0`, is a
+106-byte function row of `blk_00680000_od.cpp`. With bit 2 of its argument
+set it destroys each element of an array through `0x00691800`, and otherwise
+one object. With bit 1 set it then frees the memory. It is the vector
+deleting destructor, so the destructor is virtual and its slot is 0. The
+constructor `0x006917d0` stores the same table.
+
+`navmesh.cpp` already declares the array as a specialisation with one
+virtual function, the destructor, which is slot 0 there as well. The change
+uses that class. It adds no field, no table and no other virtual function.
+
+### The change
+
+1. In `navmesh.cpp` the body tagged `0x00691800` is now the definition of
+   the virtual destructor that the unit's specialisation declares. Its two
+   statements are unchanged. `this` takes the place of the first parameter,
+   held in a local of that parameter's type.
+2. The recipe's function row at `0x00691800` and `navmesh.cpp`'s symbols key
+   at that address carry the destructor's name,
+   `??1?$BSSimpleArray@G$0EAA@@@UAE@XZ`. The address, the size and the unit
+   are unchanged. Every other row is unchanged.
+
+No generated data is changed. No archive member is added, removed or
+reordered.
+
+### Names for the address
+
+Seven units have a symbols key of the free function's name at
+`0x00691800`. The ruling of 2026-11-11 on respelling a function row
+requires each key to be respelled in the same change or left honestly
+undefined. As for the constructor, each is decided by what its
+windows-x64 object names.
+
+| Unit | Keys | The windows-x64 object | Decision |
+| --- | --- | --- | --- |
+| `navmesh.cpp` | the function row; cdecl key | defined the free function and required the virtual destructor; now defines the destructor | respelled |
+| `blk_00680000_od.cpp` | cdecl and fastcall keys | requires the free function's name | kept |
+| `navmesh_util.cpp` | cdecl key | requires the non-virtual spelling of the destructor, not the free function | kept |
+| `navmeshpovsearch.cpp`, `pathfind.cpp`, `tesform.cpp` | cdecl key | names neither spelling | kept |
+| `blk_006a0000_od.cpp` | cdecl and fastcall keys | names neither spelling | kept |
+
+`blk_00680000_od.cpp` requires the free function's name in `0x0069d9a0`,
+twice: once to call it for one object, once to pass its address to the
+helper that destroys the elements of an array. That function's receiver is
+a stand-in class of the unit. The unit's own specialisation of the array
+declares a destructor that is not virtual, with the empty body. So the unit
+cannot name the virtual destructor without changing its copy of the class,
+which waits for a shared declaration. Its key stays, and the name is now
+undefined.
+
+### What the objects show
+
+Measured on the windows-x64 objects of the tip and of this change. Only
+`navmesh.cpp.obj` differs.
+
+The ruling on respelling a function row asks for an object that is equal
+once names are respelled. This object is not, so the change does not rest on
+that clause. It rests on ruling 2026-11-11 (3), which accepts an object
+proof in which each difference is listed and justified, and on the
+coordinator's admission of the virtual spelling. Each difference below is a
+consequence of that spelling.
+
+- The destructor stores the same table at `+0` and calls `0x008454f0` with
+  the same arguments as the free function did. A destructor is `noexcept`,
+  and `Clear` is not, so the call now sits in a frame with a handler that
+  calls `std::terminate` if it throws. Before, the function ended with a
+  jump to `0x008454f0`.
+- The compiler emits what a class with a defined virtual destructor gets:
+  its own table for the class, with one entry; the scalar deleting
+  destructor, which runs the destructor and frees 24 bytes; the vector
+  deleting destructor, which the compiler makes a weak name for the scalar
+  one; and the class's type information. Nothing stores the compiler's
+  table. The destructor's own store of it is overwritten by the store of
+  `0x0106abe4` and is not emitted, and the constructor stores `0x0106abe4`.
+  No relocation in the object refers to the compiler's table. No other
+  archive member defines any of these names.
+- The out-of-line destructor has no caller in the archive at this commit.
+  No other member requires its name, and in `navmesh.cpp.obj` the
+  destructor of `0x0068ed70` and the scalar deleting destructor expand it
+  in line. The scalar deleting destructor is reached only through the
+  compiler's table, which nothing refers to.
+- `fnv_0068ed70::FUN_0068ed70::~FUN_0068ed70()` (`0x0068ed70`) destroys
+  three members of the array type, at `+0x88`, `+0xb0` and `+0x108`. Each
+  used to be a call to the destructor. The destructor is now defined in the
+  unit and the compiler expands it in line: each stores `0x0106abe4` at the
+  member and calls `0x008454f0` with `true`, in the same order. The
+  function's one handler that calls `std::terminate` becomes four.
+
+### The exception specification
+
+The destructor keeps the specification it gets by default, `noexcept`. The
+other choice, `noexcept(false)` on the declaration and the definition, was
+compiled for `navmesh.cpp` and not committed. With it the code of
+`0x00691800` is equal to the free function's, ending with a jump to
+`0x008454f0`. But it changes the specification of
+`fnv_0068ed70::FUN_0068ed70::~FUN_0068ed70()` (`0x0068ed70`), whose class
+has a member of the array type, to `noexcept(false)`. Its bases `Base5a`
+and `EBase` declare destructors that are `noexcept`, so the override is
+looser than the function it overrides. That is ill-formed in ISO C++;
+clang-cl accepts it as a Microsoft extension and warns
+(`-Wmicrosoft-exception-spec`, at the declaration of `~FUN_0068ed70()` in
+`navmesh.cpp`). It also changes the code and exception tables of
+`~FUN_0068ed70()`, and gives the scalar deleting destructor of
+`FUN_0068ed70` exception tables that it does not have now.
+
+The windows-x64 object of the free function shows that it let an exception
+from `0x008454f0` propagate, because it ended with a jump. The repository
+does not show how the original release behaved when `0x008454f0` throws: it
+holds no record of the exception handling of `0x00691800` or `0x0068ed70`.
+The choice is to be decided again when `0x0069d9a0` binds to the
+destructor.
+
+### The binding this step cuts
+
+Before this change `0x0069d9a0`, entry 0 of `0x0106abe4`, reached the real
+body of `0x00691800` through the free function's name, which
+`navmesh.cpp.obj` defined. That binding was correct. After it the name is
+defined nowhere, so `0x0069d9a0` reaches no body. The next step, one shared
+declaration of the array with all four slots of the table, moves
+`blk_00680000_od.cpp` onto the virtual destructor and restores the binding.
+
+### Conditions until the four slots are declared
+
+- Nothing in `navmesh.cpp` may construct the array until all four slots
+  are declared. A constructor compiled in the unit would store the
+  compiler's table of one entry, not `0x0106abe4`.
+- When a declaration with a table of four entries lands, `navmesh.cpp`
+  moves onto the shared header in the same commit. Otherwise two members
+  would emit the class's table, with one entry and with four, and the
+  linker would keep the larger of the two by its COMDAT rule.
+- The scalar deleting destructor frees 24 bytes with the global sized
+  `operator delete`, while `0x0069d9a0` frees through `0x00401030`
+  (`FUN_00401030`). It must not become reachable before slot 0 binds to
+  `0x0069d9a0`.
+- The `reinterpret_cast` of `this` to `GlobalObject_00869f00*` in the
+  destructor goes away in the step that declares the four slots.
+
+### Links
+
+In the forced link with no error limit, 35,185 names are undefined before
+and after. The virtual destructor that `navmesh.cpp.obj` required leaves
+the list. The free function's name that `blk_00680000_od.cpp.obj` requires
+enters it. The other three cells are unchanged, and so are duplicates,
+imports, the 15 members that the lazy link loads, and the 525 names with
+differing definitions. The change moves one name and adds one, so the
+count of undefined names does not fall.
+
+### What stays open
+
+- The non-virtual spelling. `blk_00680000_od.cpp` still defines
+  `BSSimpleArray<unsigned short, 1024>::~BSSimpleArray()` with an empty
+  body, and `navmesh_util.cpp.obj` and `bgsdefaultobjectmanager.cpp.obj`
+  require it. Arrays they destroy are not cleared. All three objects move
+  onto the virtual spelling together with a shared declaration of the
+  array.
+- `0x0069d9a0` requires the free function's name, which is now undefined.
+  It still passes an element size of 16.
+- The table's entries 1 to 3, `0x00691870`, `0x006db090` and `0x006918a0`,
+  are not declared as virtual functions of the class in `navmesh.cpp`, so
+  the compiler's table has one entry where the generated one has four. A
+  shared declaration of the array has to declare all four slots.
+- No test runs the destructor. `navmesh.cpp` compiles for the host, but the
+  host game library it belongs to does not build, so no host test that
+  links that library builds. The other host tests do not contain the unit.
+
+In the forced link with no error limit, seven undefined names are still a
+constructor or destructor of this array under a stand-in's name:
 
 - `FUN_006917d0_Arr::FUN_006917d0_Arr()`
 - `TriangleIndices::TriangleIndices()` and its destructor

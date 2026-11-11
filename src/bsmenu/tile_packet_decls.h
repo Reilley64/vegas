@@ -18,6 +18,9 @@ class TileListBoxCalls
   public:
     float GetFloat(int);
 };
+// tile.cpp declares the class in tile_class.h. The copy below is for the units that include this
+// header alone.
+#ifndef FNV_BSMENU_TILE_CLASS_H
 // Storage of the Tile members below; the tile.cpp stand-ins cast their addresses to the list,
 // array, string and pointer types they use.
 struct TileChildListStorage
@@ -79,6 +82,7 @@ class Tile
 public:
     static bool IsSpecialTileName(const char *);
 };
+#endif
 template <class T> class NiTPointerList;
 template <> class NiTPointerList<Tile*>
 {

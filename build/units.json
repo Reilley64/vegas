@@ -8782,7 +8782,7 @@
     },
     {
      "address": "0x00a0bae0",
-     "symbol": "?IsPointInside@Tile@@QAE_NMM@Z",
+     "symbol": "?IsPointInside@Tile@@UAE_NMM@Z",
      "size": 15
     },
     {
@@ -9287,7 +9287,7 @@
     "?GetInterfaceScale@Tile@@SAMXZ": "0x00a01530",
     "?IsMenuRendered@Tile@@QAE_NXZ": "0x00a03c60",
     "?SetSpeechChallengeFailure@Tile@@QAEX_N@Z": "0x00a04620",
-    "?IsPointInside@Tile@@QAE_NMM@Z": "0x00a0bae0",
+    "?IsPointInside@Tile@@UAE_NMM@Z": "0x00a0bae0",
     "?AddToHead@S_00a0c7c0_List@@QAEXPAPAX@Z": "0x00a0c7c0",
     "?IsAllChildrenFlag0@Owner@sa040a0@@QAE_NXZ": "0x00a040a0",
     "?FUN_00a0cbe0@?$List_00a0cbe0@PAVInventoryStackRecord@@@@QAEXABQAVInventoryStackRecord@@@Z": "0x00a0cbe0",

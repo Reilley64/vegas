@@ -66,6 +66,7 @@ float Tile__FloatAction::GetStoredFloatValue()
     return fValue;
 }
 
+#include "tile_class.h"
 #include "tile_packet_decls.h"
 
 // Layout views for objects tile.cpp reaches through other types; the pads stand for members not named here.
@@ -4440,20 +4441,7 @@ inline bool HasValue(TileValueV* pList, int m_iValueId)
 class TileV : public FUN_00a07530_shell
 {
 public:
-    int unk00;
-    TileItemV* m_pkChildList;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    unsigned int unk30;
-    TileItemV* GetHeadPos() { return m_pkChildList; }
+    TileItemV* GetHeadPos() { return (TileItemV*)m_kChildren.m_pHead; }
     TileV*& GetNext(TileItemV*& pos) { TileV*& element = pos->m_element; pos = pos->m_pkNext; return element; }
     float GetFloat(int);
     void FUN_00a0b420(TileValueV* pValues, float fValue);

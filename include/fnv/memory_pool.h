@@ -6,9 +6,16 @@
 // MemoryPool: the engine's pool of equal blocks, cut from pages of one
 // reserved address range. A free block holds the two links of the free list.
 //
-// This is the one shared declaration of the class. It declares the members
-// that build/units.json gives an address under the class's name. The header
-// has no body: each member is defined by the unit that owns its address.
+// This is the declaration shared by the units that own the class's members.
+// It declares the members that build/units.json gives an address under the
+// class's name. The header has no body: each member is defined by the unit
+// that owns its address. include/MemoryPool.h is another definition, used by
+// bscore/memorymanager.cpp. In the 32-bit layout and on windows-x64 the two
+// have the same size, and the fields both declare have the same offsets
+// (docs/memory-pool.md).
+//
+// The lock is the shared RecursiveSpinLock. Its alignment of 32 alone produces
+// the three gaps of the 32-bit layout.
 //
 // No production code constructs this class. MemoryManager::CreateMemoryPool
 // builds fnv::memory::FixedPool instead (docs/native-engine-heaps.md).

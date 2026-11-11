@@ -812,11 +812,12 @@ class TESLoadScreen : public TESForm
     TESLoadScreen();
     unsigned char formData[0x28];
 };
+// The owner creates a water form (fnv::water::NewWaterForm). This view gives
+// the factory the TESForm base. It does not size the form.
 struct TESWaterForm : public TESForm
 {
   public:
-    TESWaterForm();
-    unsigned char formData[0x17c];
+    TESWaterForm() = delete;
 };
 class TESLevSpell : public TESForm
 {

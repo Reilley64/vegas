@@ -155,6 +155,7 @@ struct TESWaterForm : public TESForm, public TESFullName, public TESAttackDamage
     int m_iHealthMagnitude;                    // +0x18C, 4 bytes
     bool m_bResetNoiseTextures;                // +0x190, 1 bytes
     unsigned char layoutPadding191[3];
+    TESWaterForm();
     void ResetFormData();
     virtual void InitItem();
     virtual bool Load(TESFile*);

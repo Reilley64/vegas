@@ -289,6 +289,7 @@
 #include "fnv/symbols_01272000.h"
 #include "fnv/tls.h"
 #include "fnv/water/placeable_water.h"
+#include "fnv/water/water_form.h"
 #include "tesdatahandler_decls.h"
 // Allocates and returns a new TESForm subclass instance matching the given type code, warning on unknown types.
 // @fnv 0x00465110
@@ -514,7 +515,7 @@ TESForm* TESDataHandler::CreateFormForType(unsigned char type)
         form = new TESLoadScreen;
         break;
     case 78:
-        form = new TESWaterForm;
+        form = fnv::water::NewWaterForm();
         break;
     case 76:
         form = new TESLevSpell;
@@ -2907,7 +2908,7 @@ void TESDataHandler::InitializeMagicSystem()
     DAT_011ca53c = dynamic_cast<TESWaterForm*>(::FUN_004839c0(0x18));
     if (!DAT_011ca53c)
     {
-        DAT_011ca53c = new TESWaterForm;
+        DAT_011ca53c = fnv::water::NewWaterForm();
         DAT_011ca53c->SetRefID(0x18, true);
         DAT_011ca53c->SetEditorID_AtRuntime("DefaultWater");
         ((::BSSimpleList< ::TESWaterForm *> *)(reinterpret_cast<::FUN_0045a730_shell *>(this)->FUN_0045a730()))->AddHead(DAT_011ca53c);

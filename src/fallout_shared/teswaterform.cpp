@@ -61,6 +61,7 @@
 #include "teswaterform_decls.h"
 #include "teswaterform_types_TESWaterForm.h"
 #include "fnv/water/placeable_water.h"
+#include "fnv/water/water_form.h"
 
 // Initializes the object's fields with default constants and global values.
 // @fnv 0x0057e9c0
@@ -105,6 +106,14 @@ void WaterShaderSettings::Initialize()
     WaterShaderParameters = 1.0f;
     MaterialParametersWithLeadingFloat = DAT_01022958;
     MaterialParameters = 1.0f;
+}
+
+// The form factory does not see the complete type, so the owner sizes the
+// allocation. TESWaterForm::TESWaterForm has no definition; the recipe binds
+// the name to 0x0057eba0. See docs/water-form-storage.md.
+::TESWaterForm* fnv::water::NewWaterForm()
+{
+    return new TESWaterForm;
 }
 
 // @fnv 0x0057f8b0

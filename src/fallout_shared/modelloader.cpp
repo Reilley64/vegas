@@ -22513,7 +22513,7 @@ inline Aade20Matrix::Aade20Matrix()
 {
     columns = 0;
     rows = 0;
-    reinterpret_cast<::VecStandIn *>(this)->FUN_0044a0a0();
+    clear();
 }
 
 // @fnv 0x00aade20

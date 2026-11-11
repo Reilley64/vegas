@@ -565944,11 +565944,6 @@
      "size": 6
     },
     {
-     "address": "0x00ee6de0",
-     "symbol": "?FUN_00ee6de0@@YAPAXPAXPBX1@Z",
-     "size": 6
-    },
-    {
      "address": "0x00ee6de6",
      "symbol": "?FUN_00ee6de6@@YAHPAXPBX1011II@Z",
      "size": 6
@@ -565956,21 +565951,6 @@
     {
      "address": "0x00ee6df2",
      "symbol": "?FUN_00ee6df2@@YAXXZ",
-     "size": 6
-    },
-    {
-     "address": "0x00ee6df8",
-     "symbol": "?FUN_00ee6df8@@YAPAXPAXPBX1@Z",
-     "size": 6
-    },
-    {
-     "address": "0x00ee6dfe",
-     "symbol": "?FUN_00ee6dfe@@YAPAUD3DXMATRIX@@PAU1@PBU1@1@Z",
-     "size": 6
-    },
-    {
-     "address": "0x00ee6e34",
-     "symbol": "?FUN_00ee6e34@@YAPAUD3DXVECTOR4@@PAU1@PBU1@PBUD3DXMATRIX@@@Z",
      "size": 6
     },
     {
@@ -566125,11 +566105,8 @@
     "_DAT_00fdf37c": "0x00fdf37c",
     "__imp__ImportedFunction": "0x00fdf3d4",
     "___imp__D3DXMatrixInverse": "0x00fdf428",
-    "__imp__D3DXMatrixMultiply@12": "0x00fdf424",
     "__imp__D3DXLoadSurfaceFromSurface@32": "0x00fdf3d0",
     "?g_D3DXVec3TransformNormal@@3P6AXXZA": "0x00fdf420",
-    "__imp__D3DXVec3TransformCoord@12": "0x00fdf414",
-    "__imp__D3DXMatrixMultiplyTranspose@12": "0x00fdf410",
     "__imp__DirectInput8Create@20": "0x00fdf02c",
     "__imp__DirectSoundCreate8@12": "0x00fdf034",
     "__imp__ov_clear": "0x00fdf43c",
@@ -566148,7 +566125,6 @@
     "??_7FUN_00eea580@@6B@": "0x01101464",
     "?AssignRefCounted@FUN_00eea710_class@fnv_00eea710@@QAEXPAPAX@Z": "0x00eea710",
     "?ReleaseStrings@FixedStringOwner@@QAEXXZ": "0x00eea5e0",
-    "__imp__D3DXVec4Transform@12": "0x00fdf3ec",
     "?GetTotalValue@FUN_00ee8850_C@@QAEIH@Z": "0x00ee8850",
     "?FUN_00eea4e0@@YAGPADH@Z": "0x00eea4e0"
    }
@@ -569431,13 +569407,33 @@
      "size": 6
     },
     {
+     "address": "0x00ee6de0",
+     "symbol": "?FUN_00ee6de0@@YAPAXPAXPBX1@Z",
+     "size": 6
+    },
+    {
      "address": "0x00ee6dec",
      "symbol": "?FUN_00ee6dec@@YAPAXPAXPBX@Z",
      "size": 6
     },
     {
+     "address": "0x00ee6df8",
+     "symbol": "?FUN_00ee6df8@@YAPAXPAXPBX1@Z",
+     "size": 6
+    },
+    {
+     "address": "0x00ee6dfe",
+     "symbol": "?FUN_00ee6dfe@@YAPAUD3DXMATRIX@@PAU1@PBU1@1@Z",
+     "size": 6
+    },
+    {
      "address": "0x00ee6e04",
      "symbol": "?FUN_00ee6e04@@YAPAXPAXMMM@Z",
+     "size": 6
+    },
+    {
+     "address": "0x00ee6e34",
+     "symbol": "?FUN_00ee6e34@@YAPAUD3DXVECTOR4@@PAU1@PBU1@PBUD3DXMATRIX@@@Z",
      "size": 6
     }
    ],
@@ -569453,7 +569449,15 @@
     "?FUN_00ee6dce@@YAPAXPAXPBX@Z": "0x00ee6dce",
     "__imp__D3DXPlaneNormalize@8": "0x00fdf430",
     "?FUN_00ee6dc8@@YAPAUD3DXPLANE@@PAU1@PBU1@PBUD3DXMATRIX@@@Z": "0x00ee6dc8",
-    "__imp__D3DXPlaneTransform@12": "0x00fdf418"
+    "__imp__D3DXPlaneTransform@12": "0x00fdf418",
+    "?FUN_00ee6de0@@YAPAXPAXPBX1@Z": "0x00ee6de0",
+    "__imp__D3DXMatrixMultiply@12": "0x00fdf424",
+    "?FUN_00ee6df8@@YAPAXPAXPBX1@Z": "0x00ee6df8",
+    "__imp__D3DXVec3TransformCoord@12": "0x00fdf414",
+    "?FUN_00ee6dfe@@YAPAUD3DXMATRIX@@PAU1@PBU1@1@Z": "0x00ee6dfe",
+    "__imp__D3DXMatrixMultiplyTranspose@12": "0x00fdf410",
+    "?FUN_00ee6e34@@YAPAUD3DXVECTOR4@@PAU1@PBU1@PBUD3DXMATRIX@@@Z": "0x00ee6e34",
+    "__imp__D3DXVec4Transform@12": "0x00fdf3ec"
    }
   },
   {

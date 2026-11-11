@@ -46,6 +46,7 @@ class MemoryPool
     unsigned char layoutPadding64[28];
 
     // Owned by src/bscore/memorypool.cpp.
+    ~MemoryPool();                            // 0x00aa6800
     MemoryPool(unsigned int aiBlockSize, unsigned int aiPoolSize, const char* apDesc); // 0x00aa66a0
     void PushFreeBlock(void* pointer);        // 0x00aa6e00
     unsigned int FUN_00aa6db0();              // 0x00aa6db0

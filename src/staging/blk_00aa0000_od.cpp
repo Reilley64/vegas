@@ -17,7 +17,6 @@
 #include "fnv/decl/FUN_0044a690_cls.h"
 #include "fnv/decl/FUN_0044a8d0_Class.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
-#include "fnv/decl/FUN_00aa6800.h"
 #include "fnv/memory_pool.h"
 #include "fnv/decl/FUN_00ac03a0_cls.h"
 #include "fnv/decl/FUN_00ac0460_cls.h"
@@ -2095,7 +2094,7 @@ void __cdecl DestroyMemoryPools()
         _pool = tmp;
         if (_pool != 0)
         {
-            reinterpret_cast<::FUN_00aa6800 *>((reinterpret_cast<FUN_00aa6800_class*>(_pool)))->FUN_00aa6800::~FUN_00aa6800();
+            _pool->~MemoryPool();
             // Inlined bool-policy helper from the original (unit is really /Ob1): the flag survives as an int temp.
             if ((_pool, 1) & 1)
             {

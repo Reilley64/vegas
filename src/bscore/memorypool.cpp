@@ -244,15 +244,6 @@ struct MemoryManager
 {
 };
 
-struct FUN_00aa6800
-{
-    char pad0[4];
-    char* m_pPoolBase;
-    char pad1[0x40];
-    void* pBlock;
-    ~FUN_00aa6800();
-};
-
 
 struct PoolInfo
 {
@@ -358,14 +349,14 @@ struct FUN_00aa6a10_shell
     void ClearPoolSlots();
 };
 // @fnv 0x00aa6800
-FUN_00aa6800::~FUN_00aa6800()
+MemoryPool::~MemoryPool()
 {
     if (m_pPoolBase)
     {
         reinterpret_cast<::FUN_00aa6680_class *>(this)->FreeAllocation();
         reinterpret_cast<::FUN_00aa6a10_shell *>(this)->ClearPoolSlots();
     }
-    void* block = pBlock;
+    void* block = m_pPageBlockCounts;
     reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(block);
 }
 

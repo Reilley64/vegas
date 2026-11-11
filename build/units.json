@@ -5264,7 +5264,7 @@
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060",
     "??0MemoryPool@@QAE@IIPBD@Z": "0x00aa66a0",
-    "??1FUN_00aa6800@@QAE@XZ": "0x00aa6800",
+    "??1MemoryPool@@QAE@XZ": "0x00aa6800",
     "?FUN_00404eb0@S4eb0@@QAEPAU1@H_NPADH@Z": "0x00404eb0",
     "??1AutoMemContext@@QAE@XZ": "0x00404ee0",
     "?FUN_00401000@@YAPAXI@Z": "0x00401000",
@@ -5347,7 +5347,7 @@
     },
     {
      "address": "0x00aa6800",
-     "symbol": "??1FUN_00aa6800@@QAE@XZ",
+     "symbol": "??1MemoryPool@@QAE@XZ",
      "size": 61
     },
     {
@@ -511432,7 +511432,7 @@
     "?FUN_00aa8a80@PoolA@@QAEPAUCounterA@@XZ": "0x00aa8a80",
     "_DAT_00fdf1c8": "0x00fdf1c8",
     "?FUN_0044a730@FUN_0044a730_cls@fnv_0044a730@@QAEX_NI@Z": "0x0044a730",
-    "??1FUN_00aa6800@@QAE@XZ": "0x00aa6800",
+    "??1MemoryPool@@QAE@XZ": "0x00aa6800",
     "__Xlen": "0x00ec30b0",
     "?FUN_0044a8d0@FUN_0044a8d0_Class@@QAE_NI_N@Z": "0x0044a8d0",
     "?FUN_00aae180@FUN_00aae180_cls@@QAEXHHD@Z": "0x00aae180",

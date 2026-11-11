@@ -119,14 +119,6 @@ void FUN_00aa6c70_shell::FUN_00aa6c70(void* apPointer)
     }
 }
 
-struct FUN_00aa7260_holder
-{
-    char pad0[8];
-    void* ptr;
-    char pad1[0x48];
-    unsigned int count;
-    void FUN_00aa7260();
-};
 namespace fnv_00aa6f90 {
 struct FUN_00aa6f90_shell : public MemoryPool
 {
@@ -149,7 +141,7 @@ void FUN_00aa6f90_shell::FUN_00aa6f90()
             int u1, u2;
             if (!blistSorted)
             {
-                ((::FUN_00aa7260_holder*)this)->FUN_00aa7260();
+                FUN_00aa7260();
                 blistSorted = true;
             }
             reinterpret_cast<::FUN_00aa6eb0_shell *>((((FUN_00aa6eb0_shell*)this)))->FUN_00aa6eb0(i, false);
@@ -325,7 +317,7 @@ void FUN_00aa6eb0_shell::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequi
     char* ppageAddress = this->m_pPoolBase + (aiPageIndex << 12);
     if (abSortRequired)
     {
-        reinterpret_cast<::FUN_00aa7260_holder *>((((Helper_00aa6eb0*)this)))->FUN_00aa7260();
+        FUN_00aa7260();
     }
     DoublyLinkedListNode* pfirstFreeBlock = (DoublyLinkedListNode*)ppageAddress;
     unsigned int ientriesPerPage = 0x1000 / this->m_uiAllocationSize;
@@ -352,13 +344,13 @@ void FUN_00aa6eb0_shell::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequi
     this->m_uiAllocatedPageCount -= 1;
 }
 
-// If count is greater than 1, replaces ptr with the result of SortList(ptr).
+// If more than one block is free, replaces the free list by the result of SortList on it.
 // @fnv 0x00aa7260
-void FUN_00aa7260_holder::FUN_00aa7260()
+void MemoryPool::FUN_00aa7260()
 {
-    if (count > 1)
+    if (m_uiFreeBlockCount > 1)
     {
-        ptr = ((void *)(reinterpret_cast<::NodeSorter *>(this)->SortList((::LinkedNode *)(ptr))));
+        m_pFreeBlockHead = ((MemoryPool__FreePoolBlock *)(reinterpret_cast<::NodeSorter *>(this)->SortList((::LinkedNode *)(m_pFreeBlockHead))));
     }
 }
 

@@ -5402,14 +5402,14 @@
     },
     {
      "address": "0x00aa7260",
-     "symbol": "?FUN_00aa7260@FUN_00aa7260_holder@@QAEXXZ",
+     "symbol": "?FUN_00aa7260@MemoryPool@@QAEXXZ",
      "size": 41
     }
    ],
    "symbols": {
     "??_C@_0BB@IIOPBCPH@MemoryPool?3?3Free?$AA@": "0x010a27f4",
     "?FUN_00aa6c70@FUN_00aa6c70_shell@@QAEXPAX@Z": "0x00aa6c70",
-    "?FUN_00aa7260@FUN_00aa7260_holder@@QAEXXZ": "0x00aa7260",
+    "?FUN_00aa7260@MemoryPool@@QAEXXZ": "0x00aa7260",
     "?DAT_011f67b8@@3PAPAUMemoryPool@@A": "0x011f67b8",
     "??_C@_0CJ@NPEOBHMF@MemoryPool?3?3FreeUnusedPagesForAl@": "0x010a2808",
     "?FUN_00aa6eb0@FUN_00aa6eb0_shell@@QAEXI_N@Z": "0x00aa6eb0",
@@ -511397,7 +511397,7 @@
     "__imp__VirtualFree@12": "0x00fdf10c",
     "?DAT_010a2850@@3DA": "0x010a2850",
     "?FUN_0040fbf0@FUN_0040fbf0_shell@@QAEXPAD@Z": "0x0040fbf0",
-    "?FUN_00aa7260@FUN_00aa7260_holder@@QAEXXZ": "0x00aa7260",
+    "?FUN_00aa7260@MemoryPool@@QAEXXZ": "0x00aa7260",
     "?DAT_00fdf054@@3P6GXPAX@ZA": "0x00fdf054",
     "?DAT_00fdf05c@@3P6GXPAX@ZA": "0x00fdf05c",
     "?DAT_00fdf100@@3P6GXPAX@ZA": "0x00fdf100",

@@ -18,7 +18,6 @@
 #include "fnv/decl/FUN_0044a8d0_Class.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00aa6800.h"
-#include "fnv/decl/FUN_00aa7260_holder.h"
 #include "fnv/memory_pool.h"
 #include "fnv/decl/FUN_00ac03a0_cls.h"
 #include "fnv/decl/FUN_00ac0460_cls.h"
@@ -1194,7 +1193,7 @@ void FUN_00aa7290(int aiIndex)
     if (DAT_011f67b8[aiIndex])
     {
         reinterpret_cast<::FUN_0040fbf0_shell *>(&DAT_011f67b8[aiIndex]->m_kCriticalSection)->FUN_0040fbf0(&DAT_010a2850);
-        reinterpret_cast<::FUN_00aa7260_holder *>((DAT_011f67b8[aiIndex]))->FUN_00aa7260();
+        DAT_011f67b8[aiIndex]->FUN_00aa7260();
         pool = &DAT_011f67b8[aiIndex]->m_kCriticalSection;
         pool->m_uiRecursionCount = pool->m_uiRecursionCount - 1;
         if (pool->m_uiRecursionCount == 0)

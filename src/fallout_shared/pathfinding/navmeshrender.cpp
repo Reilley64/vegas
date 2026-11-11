@@ -386,7 +386,7 @@ struct UpdateDataX
 struct FixedStrX
 {
     const char* pString;
-    FixedStrX(const char* apString);
+    FixedStrX(const char* apString) noexcept;
     ~FixedStrX();
 };
 struct AVObjX;

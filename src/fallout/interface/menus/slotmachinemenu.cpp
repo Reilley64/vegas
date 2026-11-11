@@ -363,7 +363,7 @@ class NiFixedString
 {
   public:
     const char* m_psz;
-    NiFixedString(const char*);
+    NiFixedString(const char*) noexcept;
     ~NiFixedString();
 };
 struct NiUpdateData

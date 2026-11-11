@@ -894,7 +894,7 @@ struct xMat3
 };
 struct xFixedStr
 {
-    xFixedStr(const char*);
+    xFixedStr(const char*) noexcept;
     ~xFixedStr();
     const char* m_p;
 };

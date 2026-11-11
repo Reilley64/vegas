@@ -16329,7 +16329,7 @@ class NiFixedString
 {
   public:
     const char* m_data;
-    NiFixedString(const char* s);
+    NiFixedString(const char* s) noexcept;
     ~NiFixedString();
 };
 

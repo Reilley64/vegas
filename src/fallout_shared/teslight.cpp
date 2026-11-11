@@ -834,7 +834,7 @@ struct Color
 struct FixedString
 {
     const char* text;
-    FixedString(const char*);
+    FixedString(const char*) noexcept;
     ~FixedString();
 };
 struct FUN_00a7d670

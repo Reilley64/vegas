@@ -3086,7 +3086,7 @@ class NiFixedString
 {
   public:
     const char* m_kHandle;
-    NiFixedString(const char* s);
+    NiFixedString(const char* s) noexcept;
     ~NiFixedString();
 };
 
@@ -4133,7 +4133,7 @@ struct UpdateInfo
 struct FixedName
 {
     const char* data;
-    FixedName(const char*);
+    FixedName(const char*) noexcept;
     ~FixedName();
 };
 struct Controller
@@ -5211,7 +5211,7 @@ namespace CaravanSetup {
 struct FixedString
 {
     const char* value;
-    FixedString(const char*);
+    FixedString(const char*) noexcept;
     ~FixedString();
 };
 struct UpdateData

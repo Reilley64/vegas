@@ -1722,7 +1722,7 @@ FUN_007c06f0::FUN_007c06f0()
 struct String90
 {
     const char* value;
-    String90(const char*);
+    String90(const char*) noexcept;
     ~String90();
 };
 struct Controller90

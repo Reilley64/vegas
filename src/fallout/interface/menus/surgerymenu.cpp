@@ -1780,7 +1780,7 @@ void FaceOwnerS::UpdateFaceGenNode()
 class NiFixedString
 {
   public:
-    NiFixedString(const char* apString);
+    NiFixedString(const char* apString) noexcept;
     ~NiFixedString();
     const char* m_kHandle;
 };

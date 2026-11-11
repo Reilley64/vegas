@@ -2264,7 +2264,7 @@ class NiFixedString
 {
   public:
     const char* value;
-    NiFixedString(const char*);
+    NiFixedString(const char*) noexcept;
     ~NiFixedString();
 };
 class BSFaceGenModel

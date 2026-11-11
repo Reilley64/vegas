@@ -5766,7 +5766,7 @@ class NiFixedString
 {
   public:
     const char* value;
-    NiFixedString(const char*);
+    NiFixedString(const char*) noexcept;
     ~NiFixedString();
 };
 struct Controller
@@ -15214,7 +15214,7 @@ struct ColorFlags
 struct FixedStr
 {
     const char* pString;
-    FixedStr(const char* apString);
+    FixedStr(const char* apString) noexcept;
     ~FixedStr();
 };
 

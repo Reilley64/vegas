@@ -2558,7 +2558,6 @@ void __cdecl FUN_009feae2()
 
 namespace fnv_009f9cd0 {
 extern void*(* DAT_00fdf460)(unsigned long);
-extern void(* DAT_00fdf45c)(void*);
 
 
 // @fnv 0x009f9cd0
@@ -2570,7 +2569,7 @@ intptr_t FUN_009f9cd0(intptr_t a)
 
     if (::FUN_009f9bb0((::S_009f9bb0_Rec *)(obj), (::S_009f9bb0_Rec *)(a)) < 0)
     {
-        DAT_00fdf45c(obj);
+        CoTaskMemFree(obj);
         return 0;
     }
 

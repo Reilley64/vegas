@@ -1,3 +1,4 @@
+#include <windows.h>
 #include "AutoMemContext.h"
 
 // src/staging/blk_00460000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -3483,7 +3484,6 @@ extern "C" char*(* xg_lstrcpyA)(char*, const char*);
 extern "C" char*(* xg_lstrcatA)(char*, const char*);
 extern "C" void*(* xg_FindFirstFileA)(const char*, xFindData*);
 extern "C" int(* xg_FindNextFileA)(void*, xFindData*);
-extern "C" int(* xg_FindClose)(void*);
 extern "C" long(* xg_CompareFileTime)(const xFileTime*, const xFileTime*);
 int xFileExist(const char*, char*, unsigned int, unsigned int);
 using xAutoMem = ::AutoMemContext;
@@ -3631,7 +3631,7 @@ bool FUN_004624b0_cls::FUN_004624b0(const char* DIR)
                     }
                 }
             } while (xg_FindNextFileA(qnuVZg, &qvyWyw));
-            xg_FindClose(qnuVZg);
+            FindClose(qnuVZg);
         }
     }
     qpqRa = ((::xList *)(reinterpret_cast<::FUN_0045dfc0_shell *>(this)->FUN_0045dfc0()));
@@ -3657,7 +3657,7 @@ bool FUN_004624b0_cls::FUN_004624b0(const char* DIR)
         {
             qfTOqo = qpqRa;
             qpqRa = ((::xList *)(reinterpret_cast<::Callees *>((qpqRa))->FUN_00726070()));
-            xg_FindClose(qnuVZg);
+            FindClose(qnuVZg);
         }
     }
     if (xFileExist("Update.bsa", qpTd, 1, -1))

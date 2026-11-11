@@ -14933,7 +14933,6 @@ struct MemMgrQ
 };
 extern "C" char DAT_011f6238;
 typedef unsigned long(* TidFnQ)();
-extern "C" TidFnQ DAT_00fdf048;
 inline int GetMemCtx()
 {
     return g_tlsBlock.memoryContext;
@@ -14981,7 +14980,7 @@ FUN_00c42180::FUN_00c42180(unsigned int n)
     m_C = 0;
     m_uiItemCount = n;
     m_pBuckets = new BucketQ[m_uiItemCount];
-    m_tid = DAT_00fdf048();
+    m_tid = TlsAlloc();
 }
 }
 

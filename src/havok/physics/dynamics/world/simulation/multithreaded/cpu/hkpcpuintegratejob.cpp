@@ -788,7 +788,6 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
 }
 
 namespace fnv_00d95cf0 {
-extern "C" int (*DAT_00fdf04c)(unsigned long, void*);
 
 typedef short sshort;
 typedef unsigned char byte;
@@ -813,7 +812,7 @@ template <class E, class S> struct EnumField {
 template <class T> struct TlsSlot {
     unsigned long slotId;
     __forceinline T get() const { return (T)(intptr_t)TlsGetValue(slotId); }
-    __forceinline void set(T p) { DAT_00fdf04c(slotId, (void*)(intptr_t)p); }
+    __forceinline void set(T p) { TlsSetValue(slotId, (void*)(intptr_t)p); }
 };
 
 template <class T> struct PaddedPtr {

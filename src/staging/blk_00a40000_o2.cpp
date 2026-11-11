@@ -5006,8 +5006,6 @@ void Controller::Load(Stream* pkStream)
 
 }
 
-extern "C" void(* DAT_00fdf05c)(CRITICAL_SECTION_STUB*);
-extern "C" void(* DAT_00fdf100)(CRITICAL_SECTION_STUB*);
 
 struct FUN_00a5fa50_Obj
 {
@@ -5109,9 +5107,9 @@ void FUN_00a5fa50_Obj::FUN_00a5fa50(int param)
 {
     if ((*reinterpret_cast<unsigned char *>(&::DAT_011a9594)))
     {
-        DAT_00fdf05c(&(*reinterpret_cast<::CRITICAL_SECTION_STUB *>(&::fnv_NiStreamCriticalSection)));
+        EnterCriticalSection(&(*reinterpret_cast<::CRITICAL_SECTION_STUB *>(&::fnv_NiStreamCriticalSection)));
         FUN_00a5f8b0();
-        return DAT_00fdf100(&(*reinterpret_cast<::CRITICAL_SECTION_STUB *>(&::fnv_NiStreamCriticalSection)));
+        return LeaveCriticalSection(&(*reinterpret_cast<::CRITICAL_SECTION_STUB *>(&::fnv_NiStreamCriticalSection)));
     }
 }
 

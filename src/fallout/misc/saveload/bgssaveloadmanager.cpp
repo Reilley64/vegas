@@ -1,3 +1,4 @@
+#include <windows.h>
 #include "AutoMemContext.h"
 // fallout/misc/saveload/bgssaveloadmanager.cpp: BGSSaveLoadManager, PathManager, Interface, FakeSaveMgr and more (39 functions)
 
@@ -234,7 +235,7 @@ void BGSSaveLoadManager::GetSaveDirectory(char* pcPath)
     {
         char defaultIni[260];
         TaskQueueInterface::CopyStringToBuffer(defaultIni, 260, DAT_01082d70);
-        DAT_00fdf1b8(defaultIni, pcPath, 1);
+        CopyFileA(defaultIni, pcPath, 1);
     }
 }
 

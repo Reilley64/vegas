@@ -3474,13 +3474,12 @@ struct S_00aff060_Class
     int FUN_00aff060();
 };
 
-extern int(* DAT_00fdf138)(void*);
 
-// Returns 0 if DAT_00fdf138 returns nonzero for this->unk10, otherwise 4.
+// Returns 0 if FlushFileBuffers returns nonzero for this->unk10, otherwise 4.
 // @fnv 0x00aff060
 int S_00aff060_Class::FUN_00aff060()
 {
-    return DAT_00fdf138(this->unk10) ? 0 : 4;
+    return FlushFileBuffers(this->unk10) ? 0 : 4;
 }
 
 

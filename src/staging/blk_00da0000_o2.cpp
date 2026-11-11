@@ -2549,7 +2549,6 @@ namespace fnv_00da2840 {
 extern char* DAT_011b76d0;
 extern void*(* DAT_00fdf0b0)(const char*);
 extern void*(* DAT_00fdf0ac)(void*, const char*);
-extern void(* DAT_00fdf16c)(const char*);
 extern HANDLE(* DAT_00fdf110)(int, int);
 
 extern char str_010d4da0[];
@@ -2600,7 +2599,7 @@ struct DA2840Object
 void DA2840Object::FUN_00da2840()
 {
     HMODULE module = (HMODULE)DAT_00fdf0b0(DAT_011b76d0);
-    DA2840_OutputDebugString outputDebugString = DAT_00fdf16c;
+    DA2840_OutputDebugString outputDebugString = OutputDebugStringA;
     m_module = module;
 
     if (!module)

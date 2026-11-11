@@ -907,7 +907,6 @@ struct Obj18c
     int m_0c;
     Obj18c();
 };
-extern void(__cdecl* DAT_00fdf0c8)();
 struct BSString
 {
     char* m_p;
@@ -1647,7 +1646,7 @@ void ThisObj::BuildSkinPartitions()
                                      (unsigned int)((int)arr54LocalAD[count194LocalBA].m_24 *
                                                     (int)arr54LocalAD[count194LocalBA].m_1c));
                         if ((unsigned int)count194LocalBA >= (unsigned int)cnt88LocalFB)
-                            DAT_00fdf0c8();
+                            DebugBreak();
                         a148LocalAD[count194LocalBA] = (unsigned short)wordD4bValueBD;
                         count194LocalBA = count194LocalBA + 1;
                     }

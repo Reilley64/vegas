@@ -47,7 +47,7 @@ class Tile
     // name. Nothing defines this name yet.
     Tile();
 
-    // The first seven slots of the virtual table, in order. A later slot is declared in the change
+    // The first eight slots of the virtual table, in order. A later slot is declared in the change
     // that makes tile.cpp define it. Slots 1, 2, 3, 4 and 6 have no body: the repository does not
     // show which function the table of Tile holds in them.
     virtual ~Tile();
@@ -57,6 +57,7 @@ class Tile
     virtual const char* GetImageTag();
     virtual bool IsPointInside(float, float);
     virtual Tile* SetTraitValue(int, float, const char*);
+    virtual void FUN_00a0b020();
 
     TileChildListStorage m_kChildren;
     TileValueArrayStorage m_kValues;

@@ -4228,26 +4228,16 @@ struct A0B020List {
     A0B020Child*& GetNext(A0B020Node*& pos) { A0B020Child*& r = pos->m_element; pos = pos->m_pkNext; return r; }
 };
 
-class A0B020Tile {
-public:
-    virtual void v00(); virtual void v01(); virtual void v02(); virtual int GetType();
-    A0B020List m_kChildList;
-    int unk, unk0C, unkCur, unkValue, uNewnk, unk1C, uTmpnk, unk24, unk28;
-    ChildPtr<NiNode> m_spNode;
-    NiNode* GetNode() const { return m_spNode; }
-    void FUN_00a0b020();
-};
-
 // @fnv 0x00a0b020
-void A0B020Tile::FUN_00a0b020()
+void Tile::FUN_00a0b020()
 {
     A0B020Node* pos2;
     NiAVObject* pNewkChild;
     TileShaderProperty* pkProp;
     A0B020Child* pkTile;
-    if (GetNode())
+    if (((NiNode*)m_spNode.m_pObject))
     {
-        pNewkChild = A0B1F0GetChild(GetNode(), 0);
+        pNewkChild = A0B1F0GetChild(((NiNode*)m_spNode.m_pObject), 0);
         if (GetType() == 0x386 && pNewkChild)
         {
             pkProp = ((::TileShaderProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)pNewkChild)))->FUN_00a59d30(3)));
@@ -4258,10 +4248,10 @@ void A0B020Tile::FUN_00a0b020()
             }
         }
     }
-    pos2 = m_kChildList.GetHeadPos();
+    pos2 = ((A0B020List*)&m_kChildren)->GetHeadPos();
     while (pos2)
     {
-        pkTile = m_kChildList.GetNext(pos2);
+        pkTile = ((A0B020List*)&m_kChildren)->GetNext(pos2);
         if (!((FUN_00a03c90_shell*)pkTile)->FUN_00a03c90()) pkTile->v07();
     }
 }

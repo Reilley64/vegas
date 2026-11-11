@@ -1,5 +1,6 @@
 
-#include "memorypool_console_decls.h"
+#include <windows.h>
+#include "fnv/memory_pool.h"
 // @fnv 0x00aa6610
 bool MemoryPool::CommitPage(unsigned int pageIndex, char*& page)
 {

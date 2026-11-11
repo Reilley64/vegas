@@ -13,7 +13,7 @@
 #include "fnv/symbols_00aa6000.h"
 #include "fnv/symbols_01000000.h"
 #include "fnv/symbols_011f6000.h"
-#include "memorypool_decls.h"
+#include "fnv/memory_pool.h"
 
 // @fnv 0x00aa6e00
 void MemoryPool::PushFreeBlock(void* apBlock)

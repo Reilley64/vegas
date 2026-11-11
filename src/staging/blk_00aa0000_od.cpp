@@ -1085,16 +1085,10 @@ bool FUN_00aa6330_Class::IsCurrentThread()
     return threadId == unk4;
 }
 
-struct FUN_00aa6680_class
-{
-    unsigned int unk00;
-    void* allocation;
-    void FreeAllocation();
-};
 // @fnv 0x00aa6680
-void FUN_00aa6680_class::FreeAllocation()
+void MemoryPool::FreeAllocation()
 {
-    VirtualFree(allocation, 0, 0x8000);
+    VirtualFree(m_pPoolBase, 0, 0x8000);
 }
 
 struct LinkedNode

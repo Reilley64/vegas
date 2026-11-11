@@ -66,6 +66,7 @@ class MemoryPool
     // Owned by src/staging/blk_00aa0000_od.cpp.
     void FUN_00aa65b0();                      // 0x00aa65b0
     void FUN_00aa7300();                      // 0x00aa7300
+    void FreeAllocation();                    // 0x00aa6680
 };
 
 #endif

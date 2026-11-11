@@ -5422,7 +5422,7 @@
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "?FreeMemory@FUN_00aa6650_Class@@QAE_NIPAX@Z": "0x00aa6650",
     "?UnlinkNode@MemoryPool@@QAEXPAUMemoryPool__FreePoolBlock@@@Z": "0x00aa6e60",
-    "?FreeAllocation@FUN_00aa6680_class@@QAEXXZ": "0x00aa6680",
+    "?FreeAllocation@MemoryPool@@QAEXXZ": "0x00aa6680",
     "?ClearPoolSlots@MemoryPool@@QAEXXZ": "0x00aa6a10",
     "?SortList@NodeSorter@@QAEPAULinkedNode@@PAU2@@Z": "0x00aa70c0",
     "?RegisterInPools@MemoryPool@@QAEXXZ": "0x00aa6980",
@@ -511069,7 +511069,7 @@
     },
     {
      "address": "0x00aa6680",
-     "symbol": "?FreeAllocation@FUN_00aa6680_class@@QAEXXZ",
+     "symbol": "?FreeAllocation@MemoryPool@@QAEXXZ",
      "size": 31
     },
     {
@@ -511481,7 +511481,7 @@
     "?InitPerformanceFrequency@@YAXXZ": "0x00aa4d50",
     "?RemoveEntry@ScrapHeapManager@@QAEXI@Z": "0x00aa5f50",
     "?IsCurrentThread@FUN_00aa6330_Class@@QAE_NXZ": "0x00aa6330",
-    "?FreeAllocation@FUN_00aa6680_class@@QAEXXZ": "0x00aa6680",
+    "?FreeAllocation@MemoryPool@@QAEXXZ": "0x00aa6680",
     "?SortList@NodeSorter@@QAEPAULinkedNode@@PAU2@@Z": "0x00aa70c0",
     "?ClearList@FUN_00aa8be0_cls@@QAEXXZ": "0x00aa8be0",
     "?InitializeSlots@FUN_00aa8dd0_cls@@QAEXXZ": "0x00aa8dd0",

@@ -6,7 +6,6 @@
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_00aa6650_Class.h"
-#include "fnv/decl/FUN_00aa6680_class.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/NodeSorter.h"
 #include "fnv/symbols_00aa6000.h"
@@ -297,7 +296,7 @@ MemoryPool::~MemoryPool()
 {
     if (m_pPoolBase)
     {
-        reinterpret_cast<::FUN_00aa6680_class *>(this)->FreeAllocation();
+        FreeAllocation();
         ClearPoolSlots();
     }
     void* block = m_pPageBlockCounts;

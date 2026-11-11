@@ -136,7 +136,9 @@ header. It is not a test of form construction, publication or retirement.
   `TESWaterForm::TESWaterForm`, which the factory calls, has no provider, and
   nothing references `FUN_0057eba0`. The factory's allocation and the
   constructor body must be bound to the complete type before any provider of
-  that constructor lands.
+  that constructor lands. The factory's allocation is now made by the owner
+  with the complete type, 520 bytes; the constructor body is still its own
+  class. See `docs/water-form-storage.md`.
 - The owner and `tesobject.cpp` each declare `TESBoundObject`; that the two
   agree is not established.
 - The data handler's other form types are still sized by its private views.

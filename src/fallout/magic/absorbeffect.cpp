@@ -2,6 +2,7 @@
 // src/fallout/magic/absorbeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/absorbeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/native_fixed_string.h"
 #include <cstdint>
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
@@ -1355,13 +1356,6 @@ namespace fnv_008034c0 {
 void* __cdecl FUN_00aa13e0(unsigned int uiSize);
 void __cdecl BoltFree(void* pvMem);
 
-struct NiFixedStringStandIn
-{
-    const char* m_kHandle;
-    NiFixedStringStandIn(const char* pString);
-    ~NiFixedStringStandIn();
-};
-
 struct NiColorAStandIn
 {
     float r, g, b, a;
@@ -1452,7 +1446,7 @@ struct BoltNodeLookup
     virtual void v32();
     virtual void v33();
     virtual void v34();
-    virtual NiAVObjectStandIn* GetObjectByName(const NiFixedStringStandIn& kName);
+    virtual NiAVObjectStandIn* GetObjectByName(const ::NiFixedString& kName);
 };
 
 struct BoltModelInfo
@@ -1721,7 +1715,7 @@ void BoltEffectImpl::InitBoltEffect()
         if (pkRootRes)
         {
             m_spSource.FUN_0066b0d0(
-                ((::fnv_008034c0::BoltNodeLookup *)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::fnv_008034c0::BoltModelInfo *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((pkRootRes))->FUN_00496940()))))))->GetObjectByName(NiFixedStringStandIn(s_szSpine1)));
+                ((::fnv_008034c0::BoltNodeLookup *)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::fnv_008034c0::BoltModelInfo *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((pkRootRes))->FUN_00496940()))))))->GetObjectByName(::NiFixedString(s_szSpine1)));
             if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(m_spSource))->operator==((int)(0)))
                 m_spSource.FUN_0066b0d0(pkAY->Get3D());
         }
@@ -1729,7 +1723,7 @@ void BoltEffectImpl::InitBoltEffect()
         if (pkRootRes)
         {
             m_spReferencedObject.FUN_0066b0d0(
-                ((::fnv_008034c0::BoltNodeLookup *)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::fnv_008034c0::BoltModelInfo *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((pkRootRes))->FUN_00496940()))))))->GetObjectByName(NiFixedStringStandIn(s_szSpine1)));
+                ((::fnv_008034c0::BoltNodeLookup *)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::fnv_008034c0::BoltModelInfo *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((pkRootRes))->FUN_00496940()))))))->GetObjectByName(::NiFixedString(s_szSpine1)));
             if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(m_spReferencedObject))->operator==((int)(0)))
                 m_spReferencedObject.FUN_0066b0d0(pkBOut->Get3D());
         }

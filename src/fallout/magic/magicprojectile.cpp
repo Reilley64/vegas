@@ -1507,12 +1507,6 @@ struct NiPoint3
 public:
     static const ::NiPoint3 ZERO;
 };
-struct MADName
-{
-    char* m_kHandle;
-    MADName(const char* pcString);
-    ~MADName();
-};
 struct NiMemObject
 {
 };
@@ -1531,7 +1525,7 @@ struct MADObject
         v18(), v19();
     virtual void v20(), v21(), v22(), v23(), v24(), v25(), v26(), v27(), v28(), v29(), v30(), v31(), v32(), v33(),
         v34(), v35(), v36(), v37(), v38();
-    virtual MADObject* GetObjectByName(const MADName& kName);
+    virtual MADObject* GetObjectByName(const ::NiFixedString& kName);
 };
 struct MADNode : MADObject
 {
@@ -1573,7 +1567,7 @@ struct MagicAreaOwner
 void MagicAreaOwner::CreateMagicAreaDisplay()
 {
     MADObject* pRoot = Get3D();
-    if (!pRoot || pRoot->GetObjectByName(MADName("MagicAreaDisplay")))
+    if (!pRoot || pRoot->GetObjectByName(::NiFixedString("MagicAreaDisplay")))
     {
         return;
     }
@@ -1582,7 +1576,7 @@ void MagicAreaOwner::CreateMagicAreaDisplay()
     {
         float fRadius3 = reinterpret_cast<::FUN_00404420_shell *>((((::MADCount *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_00404420() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MADSetting *>(&::originalRuntimeFloatSetting1112)))))) / reinterpret_cast<::FUN_009cdae0_shell *>((pRoot))->GetFloatAt64();
         MADObject* pDisplaySphere = ((::MADObject *)(::FUN_00c56680(fRadius3, 10, 10, (const ::Color4 *)(0))));
-        ::AssignFixedString((char *)(pDisplaySphere), (intptr_t)&(const ::MADName &)(MADName("MagicAreaDisplay")), {});
+        ::AssignFixedString((char *)(pDisplaySphere), (intptr_t)&(const ::NiFixedString &)(::NiFixedString("MagicAreaDisplay")), {});
         reinterpret_cast<::FUN_00440460_S *>((pDisplaySphere))->FUN_00440460((const ::V3 *)((*reinterpret_cast<const char (*)[]>((void *)&::NiPoint3::ZERO))));
         NiPoint3 kZero_(0.0f, 0.0f, 0.0f);
         ::GetLayerColor((uintptr_t)(FUN_00931ed0().m_pObject), (::NiColor &)(kZero_));

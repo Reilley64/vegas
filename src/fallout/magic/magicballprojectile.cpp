@@ -1213,13 +1213,7 @@ struct NiObject
 class NiTimeController : public NiObject
 {
 };
-class NiFixedString
-{
-  public:
-    const char* m_kHandle;
-    NiFixedString(const char* pcString);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct NiUpdateData
 {
   public:
@@ -1429,12 +1423,6 @@ struct Vec
 };
 struct Sequence
 {
-};
-struct Fixed
-{
-    const char* text;
-    Fixed(const char*);
-    ~Fixed();
 };
 struct Controller
 {
@@ -1737,7 +1725,7 @@ void AreaProjectile::FUN_008106d0(float afDeltaTime)
             Controller* swapModel = ((::fnv_008106d0::Controller *)(::FUN_00653270((const ::NiRTTI *)(const int *)(&(*reinterpret_cast<int *>(&::g_011f36ac))), (::NiObject *)(ctrl))));
             if (swapModel)
             {
-                Sequence* sequence = ((::fnv_008106d0::Sequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((swapModel))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::fnv_008106d0::Fixed &)(Fixed("SpecialIdle_AreaEffect")))));
+                Sequence* sequence = ((::fnv_008106d0::Sequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((swapModel))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString("SpecialIdle_AreaEffect")))));
                 if (!sequence || (sequence && (reinterpret_cast<::BSFaceGenMorphData *>((sequence))->FUN_00508120() > reinterpret_cast<::FUN_00508100_shell *>((sequence))->FUN_00508100() ||
                                                ((intptr_t)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())) == 0)))
                 {

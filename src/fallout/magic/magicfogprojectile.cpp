@@ -2,6 +2,7 @@
 // src/fallout/magic/magicfogprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicfogprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/native_fixed_string.h"
 #include "fnv/magic_projectile_fields.h"
 #include "fnv/save_load_game_view.h"
 #include <cstdint>
@@ -619,12 +620,6 @@ struct FxMatrix3
     float m[9];
     FxMatrix3();
 };
-struct FxFixedString
-{
-    const char* m_kHandle;
-    FxFixedString(const char* pcString);
-    ~FxFixedString();
-};
 struct FxTransformTime
 {
     int unk00, unk04, unk08;
@@ -679,7 +674,7 @@ struct FxNode
     virtual void v036();
     virtual void v037();
     virtual void v038();
-    virtual FxAVObject* GetObjectByName(const FxFixedString& kName);
+    virtual FxAVObject* GetObjectByName(const ::NiFixedString& kName);
 
 };
 
@@ -836,13 +831,13 @@ void FogProjectileInit::InitProjectileEffect()
         reinterpret_cast<::FUN_00a59660_cls *>(&(kKRot))->FUN_00a59660(kAngleX.z, kAngleX.x, kAngleX.y);
         reinterpret_cast<::FUN_0043fa80_s *>((pkNode))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(kKRot));
         ::fnv_00c4b500::FUN_00c4b500((::fnv_00c4b500::Node *)(pkNode));
-        FxAVObject* pkArea_2 = pkNode->GetObjectByName(FxFixedString(s_szAreaEffect));
+        FxAVObject* pkArea_2 = pkNode->GetObjectByName(::NiFixedString(s_szAreaEffect));
         if (pkArea_2)
             reinterpret_cast<::Effect *>(this)->ScaleEffect((::Object *)(pkArea_2));
         FxControllerManager* pkManagerTmp = ((::FxControllerManager *)(::FUN_00653270((const ::NiRTTI *)((*reinterpret_cast<char (*)[]>(&::g_011f36ac))), (::NiObject *)(void *)(((void *)(::fnv_0043b230::FUN_0043b230((const char *)(pkNode))))))));
         if (pkManagerTmp)
         {
-            FxSequence* pkSeqCur = ((::FxSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((pkManagerTmp))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::FxFixedString &)(FxFixedString(s_szSpecialIdle)))));
+            FxSequence* pkSeqCur = ((::FxSequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((pkManagerTmp))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(::NiFixedString(s_szSpecialIdle)))));
             if (pkSeqCur)
             {
                 reinterpret_cast<::NiControllerManager *>((pkManagerTmp))->DeactivateAllSequences(0.0f);

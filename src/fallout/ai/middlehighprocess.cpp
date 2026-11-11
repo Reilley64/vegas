@@ -1,3 +1,4 @@
+#include "fnv/native_fixed_string.h"
 #include "AutoMemContext.h"
 // fallout/ai/middlehighprocess.cpp: MiddleHighProcess, FurnitureProcess, MiddleHighProcessStandIn, ActorPackage_GetTarget_Helper and more (180 functions)
 
@@ -969,14 +970,6 @@ struct FUN_0091e830_shell : public MiddleHighProcess
 };
 
 class PlayerCharacter;
-
-class NiFixedString
-{
-  public:
-    char* m_kHandle;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
 
 struct NiAVObjectPalette
 {

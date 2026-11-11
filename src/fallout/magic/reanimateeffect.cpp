@@ -2,6 +2,7 @@
 // src/fallout/magic/reanimateeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/reanimateeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/native_fixed_string.h"
 #include "fnv/active_effect_fields.h"
 #include <cstdint>
 #include "fnv/decl/ActiveEffectLoader.h"
@@ -745,12 +746,6 @@ void FUN_00827230_shell::FUN_00827230()
     }
 }
 
-struct BoneName
-{
-    const char* text;
-    BoneName(const char*);
-    ~BoneName();
-};
 struct ReanimateNode
 {
     virtual void slot0();
@@ -792,7 +787,7 @@ struct ReanimateNode
     virtual void slot36();
     virtual void slot37();
     virtual void slot38();
-    virtual ReanimateNode* GetObject(const BoneName&);
+    virtual ReanimateNode* GetObject(const ::NiFixedString&);
 };
 struct ReanimateBody
 {
@@ -899,7 +894,7 @@ void ReanimateState::UpdateReanimation(Actor* actor)
         }
         if (state < 30)
             ::FUN_00c6a350((::NiAVObject *)(root), true, true, false, true);
-        ReanimateNode* spine = root->GetObject(BoneName("Bip01 Spine2"));
+        ReanimateNode* spine = root->GetObject(::NiFixedString("Bip01 Spine2"));
         if (spine)
         {
             BoneCollision* collision8 = ((::BoneCollision *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(spine))));
@@ -946,12 +941,6 @@ struct RValues
     virtual void v2();
     virtual float GetCurrent(int);
 };
-struct BoneKey
-{
-    const char* text;
-    BoneKey(const char*);
-    ~BoneKey();
-};
 struct RNode
 {
     virtual void v0();
@@ -993,7 +982,7 @@ struct RNode
     virtual void v36();
     virtual void v37();
     virtual void v38();
-    virtual RNode* GetObject(const BoneKey&);
+    virtual RNode* GetObject(const ::NiFixedString&);
 };
 struct RProcess
 {
@@ -1913,7 +1902,7 @@ void Reanimation::StartReanimation()
         if (node)
         {
             ::FUN_00c6a350((::NiAVObject *)(node), 1, true, false, true);
-            RNode* bone = node->GetObject(BoneKey("Bip01 Spine2"));
+            RNode* bone = node->GetObject(::NiFixedString("Bip01 Spine2"));
             if (bone)
             {
                 RCollision* collision = ((::RCollision *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(bone))));

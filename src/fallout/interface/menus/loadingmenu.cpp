@@ -1,3 +1,4 @@
+#include "fnv/native_fixed_string.h"
 #include "AutoMemContext.h"
 // fallout/interface/menus/loadingmenu.cpp: LoadingMenu, BSAudio, LoadingMenuStandIn, LoadingMenuX and more (71 functions)
 
@@ -1009,14 +1010,6 @@ struct FUN_007890e0_shell : public LoadingMenu
 
 class NiProperty;
 class TESObjectREFR;
-
-class NiFixedString
-{
-  public:
-    NiFixedString(const char*);
-    ~NiFixedString();
-    const char* m_kHandle;
-};
 
 struct NiUpdateDataH
 {

@@ -6142,9 +6142,6 @@ struct SA00694f80 : DA00694f80
     void FUN_00694f80(DA00694f80*);
 };
 
-BSSimpleArray<unsigned short, 1024>::BSSimpleArray()
-{}
-
 BSSimpleArray<unsigned short, 1024>::~BSSimpleArray()
 {}
 

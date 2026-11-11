@@ -131980,7 +131980,7 @@
     "?FUN_00691d40@@YAPAXPAPAX@Z": "0x00691d40",
     "?FUN_00691d90@@YAPAPBDPAPBD@Z": "0x00691d90",
     "?FUN_00691fb0@fnv_00691fb0@@YAPAXPAPAH@Z": "0x00691fb0",
-    "?FUN_006917d0@@YAPAXPAPAH@Z": "0x006917d0",
+    "??0?$BSSimpleArray@G$0EAA@@@QAE@XZ": "0x006917d0",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40"
    },
    "eh_tails": [
@@ -174517,7 +174517,7 @@
     },
     {
      "address": "0x006917d0",
-     "symbol": "?FUN_006917d0@@YAPAXPAPAH@Z",
+     "symbol": "??0?$BSSimpleArray@G$0EAA@@@QAE@XZ",
      "size": 35
     },
     {

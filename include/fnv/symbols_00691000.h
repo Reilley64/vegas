@@ -8,8 +8,6 @@ struct FUN_006916f0_arg;
 int *FUN_006916f0(int *, ::FUN_006916f0_arg);
 // 0x00691720
 namespace fnv_00691720 { int *FUN_00691720(int *, ::fnv_00691720::FUN_00691720_arg); }
-// 0x006917d0
-void *FUN_006917d0(int **);
 // 0x00691800
 void FUN_00691800(::GlobalObject_00869f00 *);
 // 0x00691a60

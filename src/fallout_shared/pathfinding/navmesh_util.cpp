@@ -214,16 +214,11 @@ unsigned short& FUN_005eeda0_this::GetBufferEntry(unsigned int aiIndex)
 }
 
 
-struct Dummy0042f800
-{
-};
-
 // @fnv 0x006917d0
-void* FUN_006917d0(int** pThis)
+template <> BSSimpleArray<unsigned short, 1024>::BSSimpleArray()
 {
-    *pThis = &::DAT_0106abe4;
-    reinterpret_cast<::FUN_00692290_class *>((reinterpret_cast<Dummy0042f800*>(pThis)))->FUN_00692290(0, 0);
-    return pThis;
+    vtable = &::DAT_0106abe4;
+    reinterpret_cast<::FUN_00692290_class *>(this)->FUN_00692290(0, 0);
 }
 
 struct FUN_006969e0_shell : public NavMesh

@@ -77,6 +77,7 @@ template <class T, unsigned int N = 1024> class BSSimpleArray
     unsigned int Append(const T&);
     T& GetElement(unsigned int);
 };
+template <> BSSimpleArray<unsigned short, 1024>::BSSimpleArray();
 class NavMeshVertexEdgeData
 {
   public:

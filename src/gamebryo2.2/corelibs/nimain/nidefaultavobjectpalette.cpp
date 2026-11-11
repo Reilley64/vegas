@@ -781,8 +781,8 @@ struct Map
         vtable = &DAT_0109ca08;
         size = 37;
         count = 0;
-        buckets = (Item**)NiMalloc(148);
-        std::memset(buckets, 0, size * 4);
+        buckets = (Item**)NiMalloc(size * sizeof(*buckets));
+        std::memset(buckets, 0, size * sizeof(*buckets));
         vtable = &DAT_0109ca18;
     }
     void FUN_00aa01f0();

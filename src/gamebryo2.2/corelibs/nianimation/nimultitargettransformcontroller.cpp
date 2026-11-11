@@ -1552,8 +1552,8 @@ void Controller::FUN_00a2feb0(unsigned short n)
     for (unsigned short i = 0; i < n; i++)
         m_pkBlendInterpolators[i].IncRefCount();
 
-    m_ppTargetObjects = (void**)::FUN_00aa1070((unsigned int)n * 4);
-    std::memset(m_ppTargetObjects, 0, (unsigned int)n * 4);
+    m_ppTargetObjects = (void**)::FUN_00aa1070((unsigned int)n * sizeof(*m_ppTargetObjects));
+    std::memset(m_ppTargetObjects, 0, (unsigned int)n * sizeof(*m_ppTargetObjects));
 }
 
 struct MMDealloc : public MemoryManager
@@ -1613,6 +1613,6 @@ void FUN_00a30160_cls::FUN_00a30160()
         } while (i < m_usNumTargets);
     }
 
-    std::memset(m_ppTargetObjects, 0, m_usNumTargets * 4);
+    std::memset(m_ppTargetObjects, 0, m_usNumTargets * sizeof(*m_ppTargetObjects));
 }
 #include "generated/data/gamebryo2.2/corelibs/nianimation/nimultitargettransformcontroller.inc"

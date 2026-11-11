@@ -2268,8 +2268,8 @@ struct WeightMap
         table = &(*reinterpret_cast<::SkinWeights::MapVTable *>(&::fnv_00a82670::DAT_0109e50c));
         bucketsCount = 37;
         count = 0;
-        buckets = (Node**)::FUN_00aa1070(37 * 4);
-        std::memset(buckets, 0, bucketsCount * 4);
+        buckets = (Node**)::FUN_00aa1070(37 * sizeof(*buckets));
+        std::memset(buckets, 0, bucketsCount * sizeof(*buckets));
         table = &(*reinterpret_cast<::SkinWeights::MapVTable *>(&::fnv_00a82cf0::DAT_0109e52c));
     }
 

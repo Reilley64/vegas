@@ -75,6 +75,10 @@ target_sources(game PRIVATE src/gamebryo2.2/corelibs/nimain/native_fixed_string.
 target_sources(game PRIVATE src/bscore/memory_manager_startup.cpp)
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nimain/nirefobject_lifetime.cpp)
 target_sources(game PRIVATE src/fileformat/pack_structure.cpp)
+# Added at the end of the source list, after them: the DDS header reader
+# (VEGAS-24). The archive lists the appended members in reverse order, so it
+# is the first member listed.
+target_sources(game PRIVATE src/fileformat/dds_header.cpp)
 
 add_executable(FalloutNV src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)

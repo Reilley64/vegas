@@ -13,6 +13,18 @@ target_include_directories(fileformat_compression_test PRIVATE ${CMAKE_CURRENT_S
 target_link_libraries(fileformat_compression_test PRIVATE game)
 add_test(NAME fileformat.compression COMMAND fileformat_compression_test)
 
+# Where the game archive builds, on Windows, the test links it. On other hosts
+# the unit is compiled directly, so the test runs there under the sanitizers.
+add_executable(fileformat_pack_structure_test fileformat/pack_structure_test.cpp)
+target_include_directories(fileformat_pack_structure_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src)
+if(WIN32)
+  target_link_libraries(fileformat_pack_structure_test PRIVATE game)
+else()
+  target_sources(fileformat_pack_structure_test PRIVATE ${PROJECT_SOURCE_DIR}/src/fileformat/pack_structure.cpp)
+  target_link_libraries(fileformat_pack_structure_test PRIVATE ZLIB::ZLIBSTATIC)
+endif()
+add_test(NAME fileformat.pack_structure COMMAND fileformat_pack_structure_test)
+
 add_executable(runtime_crt_test runtime/crt_test.cpp)
 target_include_directories(runtime_crt_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(runtime_crt_test PRIVATE game)

@@ -66,13 +66,15 @@ include(src/fallout/sources.cmake)
 include(src/runtime/native_data_composition.cmake)
 # Keep the accepted 2,217 logical-member sequence intact; the canonical native
 # string owner, the Ni allocator holder, the native global string table owner,
-# the process memory startup and then the NiRefObject lifetime owner are the
-# only appended production members, in that order.
+# the process memory startup, the NiRefObject lifetime owner and then the
+# structural reader of the data pack are the only appended production
+# members, in that order.
 target_sources(game PRIVATE src/speedtree/native_string.cpp)
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nisystem/ni_allocator_holder.cpp)
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nimain/native_fixed_string.cpp)
 target_sources(game PRIVATE src/bscore/memory_manager_startup.cpp)
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nimain/nirefobject_lifetime.cpp)
+target_sources(game PRIVATE src/fileformat/pack_structure.cpp)
 
 add_executable(FalloutNV src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)

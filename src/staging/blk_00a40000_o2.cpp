@@ -5622,7 +5622,7 @@ bool Holder::FUN_00a5ba40(NiTexture* p)
     if (m_pRayCursor < 1)
     {
         m_uiItemCount = m_pRayCursor = 1;
-        m_data = (NiTexture**)FUN_00aa1070(4);
+        m_data = (NiTexture**)FUN_00aa1070(sizeof(*m_data));
         m_data[0] = p;
         LeaveCriticalSection(reinterpret_cast<CRITICAL_SECTION *>(&::DAT_011f4380));
         return true;
@@ -5630,8 +5630,8 @@ bool Holder::FUN_00a5ba40(NiTexture* p)
     if (m_uiItemCount == m_pRayCursor)
     {
         m_pRayCursor = (unsigned short)(m_pRayCursor * 2 + 1);
-        NiTexture** newData = (NiTexture**)FUN_00aa1070(m_pRayCursor * 4);
-        memmove(newData, m_data, m_uiItemCount * 4);
+        NiTexture** newData = (NiTexture**)FUN_00aa1070(m_pRayCursor * sizeof(*newData));
+        memmove(newData, m_data, m_uiItemCount * sizeof(*m_data));
         NiFreeAlias(m_data);
         m_data = newData;
     }

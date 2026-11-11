@@ -13,23 +13,7 @@ class TESSound;
 class SpellItem;
 class BGSListForm;
 #include "fnv/bs_simple_list.h"
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen;
-    unsigned short sMaxLen;
-    BSStringT();
-    ~BSStringT();
-    const T* String();
-    int PrintfString(const char* format, ...);
-    bool Set(const T* text, unsigned int length);
-    void Init();
-    unsigned int MaxLength();
-    void SetLength(unsigned int length);
-    void SetMaxLength(unsigned int length);
-    BSStringT<T>& operator=(const T* text);
-};
+#include "fnv/bs_string.h"
 namespace ActorValue {
 enum Index
 {

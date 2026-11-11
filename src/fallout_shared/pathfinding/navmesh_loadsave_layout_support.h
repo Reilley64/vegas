@@ -314,23 +314,7 @@ template <class T, unsigned int Growth> class BSSimpleArray
     void FUN_00694fe0(BSSimpleArray*);
     void FUN_00695040(BSSimpleArray*);
 };
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen;
-    unsigned short sMaxLen;
-    BSStringT();
-    ~BSStringT();
-    const T* String();
-    int PrintfString(const char* format, ...);
-    bool Set(const T* text, unsigned int length);
-    void Init();
-    unsigned int MaxLength();
-    void SetLength(unsigned int length);
-    void SetMaxLength(unsigned int length);
-    BSStringT<T>& operator=(const T* text);
-};
+#include "fnv/bs_string.h"
 template <class T> class NiPointer
 {
   public:

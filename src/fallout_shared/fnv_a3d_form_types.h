@@ -26,15 +26,7 @@ enum ENUM_FORM_ID
     FORM_QUEST = 0x47
 };
 #include "fnv/bs_simple_list.h"
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen, sMaxLen;
-    BSStringT();
-    ~BSStringT();
-    const T* String();
-};
+#include "fnv/bs_string.h"
 class BaseFormComponent
 {
   public:

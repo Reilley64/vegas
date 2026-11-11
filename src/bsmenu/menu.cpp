@@ -117,14 +117,7 @@ template <class T> class BSSimpleList
     void AddHead(T& item);
 };
 
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen;
-    unsigned short sMaxLen;
-    bool Set(const T* apText, unsigned int auLength);
-};
+#include "fnv/bs_string.h"
 
 class MenuClassArray
 {

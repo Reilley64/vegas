@@ -19,17 +19,7 @@ class MediaLocationController;
 class NiNode;
 class TESSound;
 #include "fnv/bs_simple_list.h"
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen;
-    unsigned short sMaxLen;
-    BSStringT();
-    ~BSStringT();
-    bool Set(const T* text, unsigned int length);
-    const T* String();
-};
+#include "fnv/bs_string.h"
 enum ENUM_FORM_ID
 {
     ENUM_FORM_ID_NO_FORM = 0,

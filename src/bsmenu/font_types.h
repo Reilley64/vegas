@@ -14,13 +14,7 @@ template <class T> class NiPointer
   public:
     T* m_pObject;
 };
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen;
-    unsigned short sMaxLen;
-};
+#include "fnv/bs_string.h"
 template <class T, unsigned int Growth> class BSSimpleArray
 {
   public:

@@ -37,16 +37,7 @@ enum ENUM_FORM_ID
     FORM_ID_PBAR = 105
 };
 #include "fnv/bs_simple_list.h"
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen;
-    unsigned short sMaxLen;
-    BSStringT();
-    ~BSStringT();
-    bool Set(const T*, unsigned int);
-};
+#include "fnv/bs_string.h"
 // Community LoadForm fields (JohnnyGuitar TESLoadScreen.hpp), matching PC record offsets.
 class WorldCellRecord
 {

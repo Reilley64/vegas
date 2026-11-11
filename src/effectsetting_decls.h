@@ -36,16 +36,7 @@ class TESObjectLIGH;
 class TESEffectShader;
 class EffectSetting;
 class BSFileEntry;
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen;
-    unsigned short sMaxLen;
-    BSStringT();
-    ~BSStringT();
-    int StrCmp(const T* text, bool notCaseSensitive) const;
-};
+#include "fnv/bs_string.h"
 template <class T> class BSSimpleList
 {
   public:

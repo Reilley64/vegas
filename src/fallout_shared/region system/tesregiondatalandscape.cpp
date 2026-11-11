@@ -340,15 +340,7 @@ FUN_004f2930_cls::~FUN_004f2930_cls()
     }
 }
 
-template <class T> class BSStringT
-{
-  public:
-    T* pString;
-    unsigned short sLen;
-    unsigned short sMaxLen;
-    BSStringT();
-    ~BSStringT();
-};
+#include "fnv/bs_string.h"
 
 struct ThisT
 {

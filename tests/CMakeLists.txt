@@ -398,6 +398,15 @@ add_test(NAME runtime.process_startup.unpublished_ni_startup
     -DMARKER=ni-startup-unpublished
     -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
 
+# Runs the built FalloutNV.exe with no arguments and requires exit code 0.
+# It shows that the process image loads, its imports resolve, the C++ runtime
+# starts, process memory initialisation completes and main returns 0. It does
+# not show pack handling, the engine link, startup or boot: main opens no file
+# and reads no game data, pack or working-directory content.
+if(WIN32)
+  add_test(NAME falloutnv.process_exit COMMAND FalloutNV)
+endif()
+
 add_executable(runtime_native_string_test runtime/native_string_test.cpp)
 if(WIN32)
   target_link_libraries(runtime_native_string_test PRIVATE game)

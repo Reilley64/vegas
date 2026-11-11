@@ -14,6 +14,11 @@ onto the header, removes 23 private specialisations and replaces three
 stand-in classes by the list. Sections above "Step 2" describe the first
 step and keep its numbers, except where a sentence says "since step 2".
 
+A third step, made on 2277431b8 and carried onto cc219db84, is described
+under "Step 3". It is a census of what the call sites of the remaining
+stand-ins pass, one more element type from the owner, and four stand-in
+classes replaced by the list.
+
 ## Where the declaration lives
 
 `include/fnv/bs_simple_list.h`. `include/fnv/` already holds the native
@@ -749,6 +754,376 @@ What each row waits for:
   declared the list as an empty class were not looked at again. Some of
   those declarations are among the 23 removed, such as the one for
   `const char*` in `activeeffect.cpp`.
+
+## Step 3
+
+The census below was made on 2277431b8. The two code commits were made
+there, reviewed, and carried onto cc219db84 with one repair: the
+replacement in `startmenu.cpp` was taken out (see "Limits of the census
+rule"). Every number of this section that names cc219db84 or "after step
+3" was measured on the carried commits. The census itself was run again on
+cc219db84 and is equal, pair by pair; its sites differ only in the line
+numbers of one unit.
+
+It starts with a dry census that the reviewers of step 2 asked for, and
+then makes the few substitutions the census allows. The yield is small: 9
+of the 1,448 names leave. The census is the main result.
+
+Forced link of every archive member, windows-x64, 2,224 members in the same
+order at every commit:
+
+| | cc219db84 | One more element type | Stand-ins |
+| --- | --- | --- | --- |
+| Undefined names | 35,230 | 35,225 | 35,221 |
+| Left / entered | | 5 / 0 | 4 / 0 |
+| Duplicate symbols | 0 | 0 | 0 |
+| Imports | 137 | the same | the same |
+| Objects that differ from the column before | | 1 | 4 |
+| Names with differing definitions in the archive | 525 | 525 | 525 |
+
+Every build has 2,321 steps, none failed, and 20,788 warning lines that are
+equal once line and column are removed. `src/generated` is untouched.
+
+### The census
+
+The question: for the 562 names behind stand-ins whose members name no
+element type, or more than one, can the element type be read from what each
+call site passes, without guessing?
+
+A pair is a unit and a stand-in class in it. The 562 names are 455 pairs
+in 101 units, with 857 sites. A site is a member call or a construction of
+a bound member. For each site the compiler's syntax tree gives the object
+expression. The census removes the casts the site itself applies,
+parentheses, `*` and `&`, and reads the declared type of what is left.
+
+A site has evidence when that type is `BSSimpleList<E>`, or a pointer or
+reference to it, from the shared header, or when the operand of the site's
+cast to the stand-in has that type. Nothing else counts. `void*`, an
+integer and `char*` give no element type. A pointer to another class gives
+none. A variable declared as a pointer to the stand-in gives none: its
+declared type is the stand-in.
+
+| Evidence of the site | Sites |
+| --- | --- |
+| The declared type is the list | 56 |
+| The operand of the cast is the list | 6 |
+| A variable, field, parameter or result declared as a pointer to the stand-in | 446 |
+| An object of the stand-in that the unit holds | 209 |
+| `void*`, an integer, `char*` | 90 |
+| A pointer to another class | 50 |
+
+A pair is accepted when all of this holds.
+
+- Every required name has a site in the unit's own text, and every site
+  has evidence, for one `E`.
+- No other element type is named: not inside a site's chain of casts, not
+  by any cast in the unit that has the stand-in on one side, not by a
+  member the stand-in declares. This reads every member of the stand-in,
+  also one that nothing calls. A member that takes or returns `X**` or
+  `X*&` speaks of items of type `X*`.
+- Each bound member has the list member's own parameter form.
+- The unit holds no object of the stand-in.
+- The stand-in is declared in the unit's own text, is no template
+  specialisation and declares no field.
+
+Each pair has one verdict, the first that applies:
+
+| Verdict | Pairs | Names |
+| --- | --- | --- |
+| The stand-in is declared in a header | 1 | 1 |
+| A required name has no site in the unit | 17 | 19 |
+| The unit holds an object of the stand-in | 189 | 251 |
+| No site names a list | 215 | 256 |
+| Some sites name a list, others do not | 4 | 5 |
+| Every site names a list, and two element types are named | 8 | 8 |
+| Every site names a list; a bound member takes a pointer or a const reference where the list member takes a reference | 6 | 7 |
+| Every site names a list; the stand-in is a template specialisation | 1 | 1 |
+| Every site names a list; the stand-in declares fields | 1 | 1 |
+| Accepted | 13 | 13 |
+
+So every site names a list for 29 of the 455 pairs, and 36 pairs have at
+least one such site. Of the 215 pairs where no site names a list, 146 have
+only sites on a variable declared as a pointer to the stand-in, 39 only
+opaque operands, 17 only pointers to another class, and 13 a mix.
+
+Four of the eight contradictions come from a member that nothing calls.
+`P157List` in `highprocess.cpp` is called on a member declared
+`BSSimpleList<TESTopicInfo*>` and declares `P157Entry** FUN_006815c0()`.
+`AcquireList` in `middlehighprocess.cpp` is called on a member declared
+`BSSimpleList<TargetDoorController*>` and declares members that speak of
+`AcquireObject*`. Both passed until the census read the unused members.
+Both units read the items of that member as the other type elsewhere.
+
+The plan of step 2 then applies its own rules to the 13:
+
+| Outcome | Pairs |
+| --- | --- |
+| Passed the plan; 4 replaced, `startmenu.cpp` refused in review | 5 |
+| The stand-in member returns `int` where `ItemsInList` returns `unsigned int` | 4 |
+| The stand-in member returns `unsigned char` where `IsEmpty` returns `bool` | 1 |
+| The stand-in member is const, the list member is not | 1 |
+| The stand-in has a base class | 1 |
+| The owner does not emit the element type, and cannot: `ReferenceFloatEntry*` | 1 |
+
+`extradatalist.cpp` names the pointee `struct ReferenceFloatEntry`. The
+owner emits the list for `class ReferenceFloatEntry`, as other units
+require. The two are different symbols until one class-key is used
+everywhere.
+
+### Limits of the census rule
+
+The census reads the declared type of what a site passes. That type is the
+unit's own claim, and the rule above accepts it when nothing at the site
+contradicts it. Review of the five replacements found a case where the
+claim is visibly wrong although every site has evidence:
+`fnv_007d69f0::List_007d69f0` in `startmenu.cpp`. Its only site passes
+`GetActiveEffectList()` of `NonActorMagicTarget`, called on `kPDLC`, the
+DLC manager (`DLC_007d69f0*`), through a cast to that unrelated class. The
+element type `ActiveEffect*` comes only from the return type of that
+getter: `0x007d6bb0`, a 17-byte row that returns the address of a member
+of its own class. The same function then walks a list of `kPDLC` node by
+node, reading each item as an `Item_007d69f0` and copying a name string
+from it; review read this as the same list. The replacement would have
+claimed `BSSimpleList<ActiveEffect*>` for a list of the DLC manager, and
+was taken out.
+
+Two clauses are added to the rule. They were applied by reading to the
+five pairs that passed the plan, not by the census script (the script
+still accepts the pair; the carried run removes it by a listed exclusion
+before the plan, with the reason):
+
+1. The result of a call is evidence only if the receiver's declared type,
+   before any cast, is the called function's own class or a class derived
+   from it.
+2. Every other access to the same object in the unit must not name another
+   element type: other stand-ins, shared node views, raw offsets, and the
+   item types passed to add and remove helpers. An access that names
+   another type counts only as a placeholder, and only when the items the
+   unit reads or writes through the object show it to be one.
+
+A cast from `void*` is not evidence. This answers the open question of
+`HeadPartCompare` in `tesnpc.cpp`, whose only evidence was
+`(BSSimpleList<BGSHeadPart*>*)(void*)…`. It was refused anyway, for its
+base class.
+
+Clause 1 alone does not accept the site of `bgscamerapath.cpp` either: the
+receiver there is `this` of the unit's `CameraPath`, cast to
+`BGSCameraPath`, and `CameraPath` does not derive from it. That pair is
+accepted on its other accesses and items, below; the census numbers above
+are those of the rule without the two clauses.
+
+### What was replaced
+
+| Unit | Stand-in | List | Where the element type comes from |
+| --- | --- | --- | --- |
+| `activeeffect.cpp` | `ListProxy008060e0` | `BSSimpleList<ActiveEffect*>` | the parameter `apActiveEffectList` of `FUN_008060e0`; its caller in `middlehighprocess.cpp` passes the member `m_pActiveEffectList` |
+| `bgscamerapath.cpp` | `CameraFlag` | `BSSimpleList<BGSCameraShot*>` | the unit's own field `FUN_0058a450::m_kCameraShotList` and `BGSCameraPath::m_kCameraShotList` in `bgscamerapath.h`, the list `GetShotList()` returns; the unit stores the shots it resolves with `dynamic_cast<BGSCameraShot*>` into it |
+| `bgslistform.cpp` | `_ref_008256d0_shell2` | `BSSimpleList<TESForm*>` | two local variables set by a C-style cast from `GetConditions()` |
+| `extradatalist.cpp` | `fnv_0041dda0::ContNode` | `BSSimpleList<TESObjectREFR*>` | the field `ExtraEnableStateChildren::kChildren` (line 1183) |
+
+Accesses of the same objects that name another element type:
+
+- `bgslistform.cpp`: `BGSListForm::InitItem` (lines 112 and 113) types the
+  same list `BSSimpleList<BGSCameraShot*>`, and other functions name
+  `ActorCause*`, `BGSQuestObjective*`, `EffectSetting*`, `MediaSet*` and
+  `BGSPerkEntry*`. These are placeholders: the items written are
+  `TESForm*` (line 123, and `IncludeForm`), and the items read are
+  compared as `TESForm*` (line 260). `MediaSet*` wraps a form id that
+  `Load` adds before it is resolved.
+- `extradatalist.cpp`: one access contradicts. At line 12848 the unit
+  removes an item declared `BSExtraData*`, the parameter of
+  `FUN_0041dda0`, from `kChildren`. This is recorded as a placeholder
+  parameter type, not shown.
+- `bgscamerapath.cpp`: at line 243 the unit adds a form id cast to
+  `ScriptVariableInfo*` to `m_kCameraShotList`; `InitItem` resolves those
+  ids to `BGSCameraShot*`.
+- `activeeffect.cpp`: none.
+
+Each stand-in declared one member, bound to `IsEmpty` at `0x008256d0`. The
+four definitions leave, type names and member names are respelled, nothing
+is declared and no cast is added. Every cast that named a stand-in had the
+same list as its operand and is a no-op now. Each object is equal to the
+object before once the retired names are respelled. `bgscamerapath.cpp`
+differs in one more place: its undefined name of the stand-in member merged
+into `BSSimpleList<BGSCameraShot*>::IsEmpty`, which the unit already
+required. The symbol table has one entry fewer, and one symbol index in
+the address-significance table (`.llvm_addrsig`) falls by one. The other
+three objects keep the same number of symbols.
+
+`build/units.json`: four symbols keys leave and three enter, by the rule of
+step 2 for the key of a folded template member. `bgscamerapath.cpp`
+already had the new key at the address. The key of `startmenu.cpp` is
+unchanged.
+
+The element type is the one the unit already declares for the object it
+passes. The substitution claims no more than the unit did. It does not
+show that declaration to be right.
+
+### One more element type
+
+The owner now emits the list for `BGSCameraShot*`. The first step left it
+out because two units declared that list as an empty class. Step 2 removed
+those two declarations and did not apply the element rule again. Applied
+on this tip, every rule holds:
+
+- The pointee is a class at global scope with one class-key in every
+  symbol of the archive.
+- No recipe row gives one of the ten members of that list to another unit.
+- Eight units require one of the ten names. The compiler in each measures
+  the list as 16 bytes with fields at 0 and 8. Five are on the shared
+  header. Three are on a copy of their own with the same size and offsets:
+  `tesdatahandler.cpp` (fields named `item`, `next`),
+  `tesreactionform.cpp` (a private specialisation, fields `item`, `next`)
+  and `navmeshobstaclemanager.cpp` (its copy under the macro rename).
+
+Five names leave: the default constructor, the destructor, `AddHead`,
+`IsEmpty` and `RemoveHead`. The recipe of every requiring unit binds the
+last three to the member's address. `bgscamerapath.cpp` has no row for the
+constructor and the destructor: those two bindings are INFERRED from the
+template's name, as 27 were in the first step.
+
+The owner defines ten names for the type. Five are required, and five are
+not: the item constructor, `GetItem`, `GetNext`, `AddTail` and `RemoveAll`.
+
+`BGSCameraShot*` is a placeholder element at most of the sites that
+require these names. `navmeshobstaclemanager.cpp` (line 211) calls
+`IsEmpty` on a list it declares `BSSimpleList<BGSPerkEntry*>`;
+`tesleveledlist.cpp`, `tesreactionform.cpp`, `bgslistform.cpp`,
+`bgsbipedmodellist.cpp` and `tesidleform.cpp` reach these names through a
+cast of a list that the unit declares, or uses elsewhere, with another
+element type. Only `bgscamerapath.cpp` and `tesdatahandler.cpp`
+(line 3745, `AddHead` of a `BGSCameraShot*`) hold camera shots. The names
+still resolve correctly: the ten member bodies do not depend on the
+element type, and every requirer lays the list out the same way. The
+placeholder spellings stay the units' own claims.
+
+`tesreactionform_decls.h:81` joins the table of private specialisations for
+an emitted element type. Its unit requires `IsEmpty` and `RemoveHead`,
+which bind to the owner now, at the same size and offsets.
+
+### Integration checks on step 3
+
+- (a) 245 pairs of unit and list in 113 units and 135 lists; 243 pass; the
+  same two exceptions, neither on a name defined since this step. The
+  eight units that require a name of `BSSimpleList<BGSCameraShot*>` all
+  pass: 16 bytes, fields at 0 and 8. (cc219db84: 236 pairs in 109 units,
+  234 pass.)
+- (b) 1,366 defined names (cc219db84: 1,356), 0 with two definitions; 525
+  names with differing definitions in the archive before and after, none
+  entering. The two names that check (b) alone guards have one definition
+  each, in their units.
+- (c) 128 and 12 forward declarations (cc219db84: 127 and 12), 0
+  mismatches.
+
+### The names under the template's own name
+
+92 at cc219db84, 87 after this step. The element rule was applied again to
+each of the 55 element types, with the member rule per name:
+
+| What keeps the name | Names |
+| --- | --- |
+| The pointee has a placeholder name or is a Windows SDK tag | 29 |
+| The pointee is nested, or the element is no pointer or builtin | 26 |
+| A requiring unit declares the list with another layout, or the layout is not measured there | 13 |
+| The element type is emitted, and the name is not a shared member | 12 |
+| The pointee has two class-keys, in the archive or in the owner's text | 7 |
+| Left with `BGSCameraShot*` | 5 |
+
+The 13 layout rows are `const char*` (4 names; `surgerymenu.cpp` and
+`tesobjectcell.cpp` declare it as an empty class), `DebrisModelEntry*` (3;
+`magicshaderhiteffect.cpp`, empty), `TESRace*` (3; `interface.cpp`,
+empty), `ItemListContainer*` (2; `vatsmenu.cpp`, empty) and
+`ListBoxItem_int_*` (1; not measured in `dialogmenu.cpp`). Each needs the
+private declaration removed or the unit moved onto the shared header.
+
+The 12 member rows: `AddHead` taking a const reference (7), `GetSize`,
+`SetItem(T&)`, `Remove`, `FUN_008256d0`, and `AddHead` for `SpellItem*`,
+which the owner declares as an explicit specialisation and never defines.
+
+No element type other than `BGSCameraShot*` passes the rule at this tip.
+
+### The 42 names whose stand-in names an unemitted element type
+
+28 pairs. For these the element type comes from the stand-in's own
+signature. The census of receivers was run on them too:
+
+- In 16 pairs the unit holds an object of the stand-in. Each needs a
+  storage comparison with the 16-byte list and field-compatible use.
+- In the other 12 no site names a list.
+- Two pairs have a site that names a list, and both contradict the
+  signature: `AvoidAreaList` in `highprocess.cpp` (signature `AvoidArea*`,
+  site `BSSimpleList<TESTopicInfo*>`) and `RecList` in `falloutradio.cpp`
+  (signature `Rec*`, site `BSSimpleList<FalloutRadio::RadioReceiver*>`).
+- By the element rule: 4 pointees have a placeholder name, 5 are nested or
+  no pointer, and 1 has two class-keys. By a count of the text, the name
+  of 13 pointees is declared in one file of the tree and that of 15 in
+  more than one.
+
+No pair has evidence for its element type at any call site. The signature
+alone stays unsafe, so none is a candidate.
+
+### Open after step 3
+
+The accounting of "Open after step 2", applied to the archive of cc219db84
+and to the archive of the last code commit:
+
+| Cause | cc219db84 | After step 3 |
+| --- | --- | --- |
+| The template's own name | 92 | 87 |
+| A constructor or destructor of another class folded at `0x006815c0` | 353 | 353 |
+| A free function | 18 | 18 |
+| A requiring unit has no row that binds the name to the address | 6 | 6 |
+| A requiring unit is not on the shared header | 347 | 347 |
+| The stand-in's members name no element type, or more than one | 562 | 558 |
+| Candidate: the owner does not emit the element type | 42 | 42 |
+| Candidate: the unit holds an object of the stand-in | 14 | 14 |
+| Candidate: a cast pairs the stand-in with a list of another element type | 10 | 10 |
+| Candidate: derived from, has a base, or defined inside a declarator | 4 | 4 |
+| Total | 1,448 | 1,439 |
+
+9 names leave and none enters or changes row: the 5 of
+`BGSCameraShot*` from the first row, and the 4 stand-in names.
+
+Run again on the result with the census and the plan as scripted, 9 pairs
+pass the census and the plan accepts one: `List_007d69f0` in
+`startmenu.cpp`, which the two clauses above refuse.
+
+What the census says about the 558:
+
+- 251 names sit behind a stand-in the unit holds as an object. The
+  stand-in is the storage. They need the class of that storage, not a
+  receiver rule.
+- 256 names have no list type at any site. 446 of the 857 sites go through
+  a variable declared as a pointer to the stand-in. A rule that follows
+  what the unit assigns to such a variable was measured and not applied:
+  for 2 pairs (4 names) every source is a declared list, and for 12 more
+  (16 names) one source is a declared list and the others are opaque,
+  mostly the next pointer. Two of the 14 contradict a signature.
+- The 8 pairs refused for a return type, const, a base class or a
+  class-key each need a change that is not a substitution.
+
+### Where list work goes from here
+
+Stand-in receiver work on the list stops with this step. What remains
+belongs elsewhere:
+
+- The names behind stand-ins (558 whose members name no element type)
+  and the 353 constructors and destructors folded at `0x006815c0` belong
+  to the shared declarations of the classes that own those lists. They
+  leave when those classes are declared once and their lists are typed
+  there.
+- The 347 names of units not yet on the shared header leave by moving
+  those units under the rule for moving a unit.
+- A small change for 20 of the template's own names: the 13 layout names
+  above, whose five units declare the list as an empty class of their own
+  (remove those declarations), and the 7 class-key names.
+- A stand-in member's return type may change only as a commit of its own
+  with an identical object or a full proof. `int` to `unsigned int` and
+  `unsigned char` to `bool` can change the code of a caller; such a change
+  is refused unless every use is a truth test or the object is equal byte
+  for byte.
+
+Nothing executes these functions. Windows execution: not run.
 
 ## Not covered
 

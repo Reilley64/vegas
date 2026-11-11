@@ -229,10 +229,6 @@ struct BSSimpleListTESRaceSize
 {
     int GetSize();
 };
-struct _ref_008256d0_shell2
-{
-    bool FUN_008256d0();
-};
 struct _ref_006815c0_shell2
 {
 };
@@ -258,8 +254,8 @@ bool FUN_0058fbc0_shell::IsNotEqual(TESForm* apCompare)
         return true;
     BSSimpleList<TESForm*>* pCurrentElementNext = (BSSimpleList<TESForm*>*)GetConditions();
     BSSimpleList<TESForm*>* pcomplist = (BSSimpleList<TESForm*>*)((BGSCameraPath*)pcompare)->GetConditions();
-    while (pCurrentElementNext && !((_ref_008256d0_shell2*)pCurrentElementNext)->FUN_008256d0() && pcomplist &&
-           !((_ref_008256d0_shell2*)pcomplist)->FUN_008256d0())
+    while (pCurrentElementNext && !((::BSSimpleList< ::TESForm *>*)pCurrentElementNext)->IsEmpty() && pcomplist &&
+           !((::BSSimpleList< ::TESForm *>*)pcomplist)->IsEmpty())
     {
         if (*((::TESForm **)((void *)(((_ref_006815c0_shell2*)pCurrentElementNext)))) != *((::TESForm **)((void *)(((_ref_006815c0_shell2*)pcomplist)))))
             return true;
@@ -290,7 +286,7 @@ void FUN_0058fb30_shell::CopyConditionsFromListForm(TESForm* apCopy)
         return;
     BSSimpleList<TESForm*>* pCurrentElementNext =
         reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<BGSCameraPath*>(pListForm)->GetConditions());
-    while (pCurrentElementNext && !reinterpret_cast<_ref_008256d0_shell2*>(pCurrentElementNext)->FUN_008256d0())
+    while (pCurrentElementNext && !reinterpret_cast<::BSSimpleList< ::TESForm *>*>(pCurrentElementNext)->IsEmpty())
     {
         TESForm* pform = ((::TESForm **)((void *)(reinterpret_cast<_ref_006815c0_shell2*>(pCurrentElementNext))))[0];
         reinterpret_cast<::Callees *>((reinterpret_cast<SoundListView*>(GetConditions())))->FUN_00905820((void *)&(reinterpret_cast<char* const&>(pform)));

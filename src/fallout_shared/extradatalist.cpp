@@ -12837,10 +12837,6 @@ struct Dummy_0041dda0
 {
     void FUN_0041dda0(BSExtraData*);
 };
-struct ContNode
-{
-    bool ref_008256d0();
-};
 // @fnv 0x0041dda0
 void Dummy_0041dda0::FUN_0041dda0(BSExtraData* extra)
 {
@@ -12849,8 +12845,8 @@ void Dummy_0041dda0::FUN_0041dda0(BSExtraData* extra)
         BSExtraData* pData = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((((BaseExtraList*)this)))->FUN_00410220(0x38);
         if (pData)
         {
-            reinterpret_cast<::ItemChangeListNode *>((((ContNode*)(&static_cast<::ExtraEnableStateChildren*>(pData)->kChildren))))->FUN_00905330((*(::InventoryStackRecord *const *)(&extra)));
-            if (((ContNode*)(&static_cast<::ExtraEnableStateChildren*>(pData)->kChildren))->ref_008256d0())
+            reinterpret_cast<::ItemChangeListNode *>((((::BSSimpleList< ::TESObjectREFR *>*)(&static_cast<::ExtraEnableStateChildren*>(pData)->kChildren))))->FUN_00905330((*(::InventoryStackRecord *const *)(&extra)));
+            if (((::BSSimpleList< ::TESObjectREFR *>*)(&static_cast<::ExtraEnableStateChildren*>(pData)->kChildren))->IsEmpty())
                 ((::FUN_00410020_t*)this)->FUN_00410020(pData, true);
         }
     }

@@ -774,10 +774,6 @@ TESForm* CameraPathClone::FUN_0058a870(bool abPersist, CameraPathMap* apMap)
 struct CameraResponse
 {
 };
-struct CameraFlag
-{
-    bool FUN_008256d0();
-};
 struct CameraPath : FUN_0058b600_shell
 {
     CameraPath* FUN_0058b510(unsigned int context, unsigned int flags);
@@ -791,7 +787,7 @@ CameraPath* CameraPath::FUN_0058b510(unsigned int context, unsigned int flags)
     {
         if (reinterpret_cast<::PerkEntryConditionSet *>((((::CameraResponse *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()))))->ContainsTrait({}, {}))
         {
-            if (reinterpret_cast<FUN_0058b470_shell*>(this)->IsFlag80Set() || !((::CameraFlag *)(reinterpret_cast<::BGSCameraPath *>(this)->GetShotList()))->FUN_008256d0())
+            if (reinterpret_cast<FUN_0058b470_shell*>(this)->IsFlag80Set() || !((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::BGSCameraPath *>(this)->GetShotList()))->IsEmpty())
             {
                 result = this;
             }

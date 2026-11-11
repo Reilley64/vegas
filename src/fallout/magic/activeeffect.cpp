@@ -1023,10 +1023,6 @@ void FUN_00804ba0_shell::ClearFlags(unsigned int mask)
     m_flags &= ~mask;
 }
 
-struct ListProxy008060e0
-{
-    bool _ref_008256d0();
-};
 struct VProxy008060e0
 {
     virtual void f00();
@@ -1045,11 +1041,11 @@ struct VProxy008060e0
 void FUN_008060e0(BSSimpleList<ActiveEffect*>* apActiveEffectList, BGSLoadFormBuffer* apLoadGameBuffer)
 {
     ActiveEffect* pEffect;
-    while (apActiveEffectList && !((ListProxy008060e0*)apActiveEffectList)->_ref_008256d0())
+    while (apActiveEffectList && !((::BSSimpleList< ::ActiveEffect *>*)apActiveEffectList)->IsEmpty())
     {
-        pEffect = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(((ListProxy008060e0*)apActiveEffectList))->m_item)));
+        pEffect = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(((::BSSimpleList< ::ActiveEffect *>*)apActiveEffectList))->m_item)));
         ((VProxy008060e0*)pEffect)->f10(apLoadGameBuffer);
-        apActiveEffectList = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((((ListProxy008060e0*)apActiveEffectList)))->FUN_00726070()));
+        apActiveEffectList = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((((::BSSimpleList< ::ActiveEffect *>*)apActiveEffectList)))->FUN_00726070()));
     }
 }
 

@@ -1,4 +1,6 @@
 
+// Keeps the member-only TESAnimGroup of playercharacter_decls.h: it names a member of TESAnimGroup before its NiPoint3 is complete.
+#define FNV_KEEPS_OWN_TESANIMGROUP
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_AnimationOwner.h"

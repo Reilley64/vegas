@@ -192,6 +192,7 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f1000.h"
 #include "multi_bound_marker_data.h"
+#include "fnv/tes_anim_group.h"
 #include "fnv/decl/C008d46f0.h"
 #include "fnv/decl/FUN_008d85e0_Class.h"
 #include "fnv/symbols_00703000.h"

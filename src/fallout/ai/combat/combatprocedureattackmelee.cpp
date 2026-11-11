@@ -459,6 +459,7 @@ public:
 public:
     static const ::NiPoint3 ZERO;
 };
+#include "fnv/tes_anim_group.h"
 struct FUN_00906f60
 {
     FUN_00906f60();

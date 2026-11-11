@@ -769,6 +769,7 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_0126f000.h"
 #include "PlayerCharacter.h"
+#include "fnv/tes_anim_group.h"
 #include "fnv/decl/FUN_00621c40_Class.h"
 #include "fnv/decl/xCaster.h"
 #include "fnv/symbols_011cc000.h"

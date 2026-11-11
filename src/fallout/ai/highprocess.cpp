@@ -1,5 +1,7 @@
 // fallout/ai/highprocess.cpp: HighProcess, HighProcessStandIn, Process, HighProcessHack and more (352 functions)
 
+// Keeps the member-only TESAnimGroup of fnv/decl/TESAnimGroup.h: the unit defines its own NiMemObject (src/fallout/ai/highprocess_decls.h).
+#define FNV_KEEPS_OWN_TESANIMGROUP
 #include "fnv/simple_list_node_view.h"
 #include "fnv/game_timer.h"
 #include "fnv/combat_controller_fields.h"

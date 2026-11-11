@@ -4,6 +4,11 @@ enum ANIM_GROUP_ENUM;
 enum ANIM_GROUP_MOVE_ENUM;
 enum ANIM_GROUP_WEAPON_ENUM;
 
+// fnv/tes_anim_group.h declares TESAnimGroup. A unit on this header includes that one
+// where its NiPoint3 is complete. A unit that cannot take the shared declaration yet
+// defines FNV_KEEPS_OWN_TESANIMGROUP before its includes and says why; it gets the
+// member-only class this header held. docs/shared-tesanimgroup.md lists those units.
+#ifdef FNV_KEEPS_OWN_TESANIMGROUP
 class TESAnimGroup {
 public:
     // 0x005f2370
@@ -25,3 +30,4 @@ public:
     // 0x005f4d60
     bool IsJumpAnimation() const;
 };
+#endif

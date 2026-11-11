@@ -107,6 +107,7 @@ class TESObjectWEAP;
 class TESAmmo;
 class TESAmmoEffect;
 #include "combatformulas_camera.h"
+#include "fnv/tes_anim_group.h"
 #include "combatformulas_dependencies.h"
 
 // @fnv 0x004be0b0

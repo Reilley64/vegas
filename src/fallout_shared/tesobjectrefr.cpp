@@ -1,3 +1,5 @@
+// Keeps the member-only TESAnimGroup of fnv/decl/TESAnimGroup.h: the unit defines its own NiMemObject.
+#define FNV_KEEPS_OWN_TESANIMGROUP
 #include "fnv/tls.h"
 #include "AutoMemContext.h"
 // fallout_shared/tesobjectrefr.cpp: XActor, Owner, Thing, Ref and more (522 functions)

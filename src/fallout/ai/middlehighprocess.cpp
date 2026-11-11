@@ -523,6 +523,7 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01202000.h"
 #include "middlehighprocess_decls.h"
+#include "fnv/tes_anim_group.h"
 #include "fnv/decl/FUN_00935a40_cls.h"
 #include "../../../include/Actor_decl_middlehighprocess.h"
 #include "fnv/decl/AIFormFlags.h"

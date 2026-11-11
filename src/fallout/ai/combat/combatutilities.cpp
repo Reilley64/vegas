@@ -192,6 +192,7 @@ public:
 public:
     static const ::NiPoint3 ZERO;
 };
+#include "fnv/tes_anim_group.h"
 class TESObjectREFR
 {
   public:

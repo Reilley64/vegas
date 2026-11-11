@@ -1,3 +1,5 @@
+// Keeps the member-only TESAnimGroup of fnv/decl/TESAnimGroup.h: the unit defines its own NiMemObject.
+#define FNV_KEEPS_OWN_TESANIMGROUP
 #include "AutoMemContext.h"
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 

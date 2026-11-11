@@ -1,3 +1,5 @@
+// Keeps the member-only TESAnimGroup of fnv/decl/TESAnimGroup.h: the unit's NiPoint3 is 1 byte (include/fnv/decl/NiPoint3.h).
+#define FNV_KEEPS_OWN_TESANIMGROUP
 #include "AutoMemContext.h"
 
 // src/staging/blk_005e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit

@@ -35,6 +35,9 @@ public:
 enum ANIM_GROUP_ENUM;
 enum ANIM_GROUP_MOVE_ENUM;
 enum ANIM_GROUP_WEAPON_ENUM;
+// fnv/tes_anim_group.h declares TESAnimGroup; a unit of this header includes it where its
+// NiPoint3 is complete. A unit that cannot yet defines FNV_KEEPS_OWN_TESANIMGROUP and says why.
+#ifdef FNV_KEEPS_OWN_TESANIMGROUP
 class TESAnimGroup
 {
   public:
@@ -48,6 +51,9 @@ public:
 public:
     static bool IsValidAnimationGroup(unsigned short);
 };
+#else
+class TESAnimGroup;
+#endif
 struct PlayerCharacterAnimGroupInfo
 {
     bool availableInThirdPerson;

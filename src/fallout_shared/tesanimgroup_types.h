@@ -1,20 +1,10 @@
-// fallout_shared/tesanimgroup_types.h: declares NiMemObject, NiRefObject, NiPoint3, _AnimationGroupActionType, TESAnimGroup and more
+// fallout_shared/tesanimgroup_types.h: declares NiPoint3, the animation group enumerations and more; includes the shared TESAnimGroup
 #ifndef FNV_TESANIMGROUP_TYPES_H
 #define FNV_TESANIMGROUP_TYPES_H
 
 #include <stddef.h>
 #include <cstring>
 #include "fnv/symbols_01197000.h"
-class NiMemObject
-{
-};
-class NiRefObject : public NiMemObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-};
 struct NiPoint3
 {
   public:
@@ -362,68 +352,7 @@ enum ANIM_GROUP_ACTION
     ANIM_GROUP_ACTION_AGA_CAST_HIT = 1,
     ANIM_GROUP_ACTION_AGA_CAST_STOP = 2
 };
-// Public JohnnyGuitar BSEnums.hpp declaration, adapted to C++03 enum syntax.
-struct _AnimationGroupActionType
-{
-    enum Type
-    {
-        START_STOP,
-        LOOP,
-        SPECIAL_IDLE,
-        EQUIP,
-        UNEQUIP,
-        ATTACK,
-        ATTACK_POWER,
-        ATTACK_THROW,
-        ATTACK_THROW_ATTACH,
-        ATTACK_SPIN,
-        COUNT
-    };
-};
-typedef _AnimationGroupActionType::Type ANIM_GROUP_ACTION_TYPE;
-class TESAnimGroup : public NiRefObject
-{
-  public:
-    virtual ~TESAnimGroup();
-    struct AnimGroupSound
-    {
-        float fTime;
-        union
-        {
-            unsigned char ucVolume;
-            unsigned char eType;
-        };
-        union
-        {
-            float fCurrentSpeed;
-            unsigned int uiEnumData;
-        };
-        TESSound* SoundAssetTmp;
-    };
-    unsigned char m_ucSectionPriorities[8];
-    unsigned short sType;
-    unsigned int frameCount;
-    float* times;
-    NiPoint3 speed;
-    char m_cByteAfterSpeed;
-    unsigned char m_ucBlendCount, m_ucBlendInCount, m_ucBlendOutCount, m_ucDecal;
-    const char* pParentName;
-    unsigned int m_uiSoundEntryCount;
-    AnimGroupSound* sounds;
-    static unsigned short AnimGroup(ANIM_GROUP_MOVE_ENUM, ANIM_GROUP_WEAPON_ENUM, ANIM_GROUP_ENUM, bool);
-    static ANIM_GROUP_MOVE_ENUM GetMoveType(unsigned short);
-    static ANIM_GROUP_ENUM GetType(unsigned short);
-    ANIM_GROUP_ENUM GetType() const;
-    static bool IsActionTypeValid(ANIM_GROUP_ACTION_TYPE);
-    static bool IsActionTypeValid(unsigned short);
-    static bool IsAimAnimation(unsigned short);
-    static bool IsValidAnimationGroup(ANIM_GROUP_ACTION_TYPE);
-    static bool IsValidAnimationGroup(unsigned short);
-    bool IsJumpAnimation() const;
-    float GetAnimationSpeed() const;
-    static char* FindNextLine(char*);
-    void SetSoundsFromSequence(NiControllerSequence*);
-};
+#include "fnv/tes_anim_group.h"
                    // C++ <string.h> overload, ?strchr@@YAPADPADH@Z = 0x0043B9D0
 struct TESAnimGroupActionEntry
 {

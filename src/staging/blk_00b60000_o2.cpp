@@ -8603,7 +8603,7 @@ template <class Allocator, class T> inline T NiTPointerListBase<Allocator, T>::R
     else
         this->m_pkTail = 0;
     T element = pkNode->m_element;
-    ::FUN_00e6e8a0((::LinkedListEntry *)this);
+    ::FUN_00e6e8a0((::LinkedListEntry *)pkNode);
     this->m_kItemCount.m_uiCount--;
     return element;
 }
@@ -8629,7 +8629,7 @@ template <class Allocator, class T> inline T NiTPointerListBase<Allocator, T>::R
     if (pkNext)
         pkNext->m_pkPrev = pkPrev;
     T element = pkDelNode->m_element;
-    ::FUN_00e6e8a0((::LinkedListEntry *)this);
+    ::FUN_00e6e8a0((::LinkedListEntry *)pkDelNode);
     this->m_kItemCount.m_uiCount--;
     return element;
 }

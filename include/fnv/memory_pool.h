@@ -1,6 +1,8 @@
 #ifndef FNV_MEMORY_POOL_H
 #define FNV_MEMORY_POOL_H
 
+#include "RecursiveSpinLock.h"
+
 // MemoryPool: the engine's pool of equal blocks, cut from pages of one
 // reserved address range. A free block holds the two links of the free list.
 //
@@ -14,16 +16,6 @@ struct MemoryPool__FreePoolBlock
 {
     MemoryPool__FreePoolBlock* m_pPreviousBlock;
     MemoryPool__FreePoolBlock* pNext;
-};
-
-// The owning unit's copy of the lock. The lock has no shared declaration yet.
-class RecursiveSpinLock
-{
-  public:
-    volatile unsigned int m_uiOwningThreadID;
-    unsigned int m_uiRecursionCount;
-    unsigned char layoutPadding8[24];
-
 };
 
 struct PoolInfo;

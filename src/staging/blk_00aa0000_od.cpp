@@ -2027,10 +2027,6 @@ S_00aba220_Class* S_00aba220_Class::FUN_00aba220()
     return this;
 }
 
-struct FUN_00aa6800_class
-{
-};
-
 // @fnv 0x00aa68a0
 void __cdecl DestroyMemoryPools()
 {

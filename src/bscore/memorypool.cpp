@@ -40,32 +40,19 @@ unsigned int MemoryPool::FUN_00aa6db0()
     return 0xFFFFFFFF;
 }
 
-struct Node_00aa6e60
-{
-    Node_00aa6e60* prev;
-    Node_00aa6e60* next;
-};
-
-struct FUN_00aa6e60_shell
-{
-    char pad[0x54];
-    int count;
-    void UnlinkNode(Node_00aa6e60* node);
-};
-
 // Unlinks node from its doubly linked list by patching its neighbours' pointers and decrementing count.
 // @fnv 0x00aa6e60
-void FUN_00aa6e60_shell::UnlinkNode(Node_00aa6e60* node)
+void MemoryPool::UnlinkNode(MemoryPool__FreePoolBlock* node)
 {
-    if (node->prev != 0)
+    if (node->m_pPreviousBlock != 0)
     {
-        node->prev->next = node->next;
+        node->m_pPreviousBlock->pNext = node->pNext;
     }
-    if (node->next != 0)
+    if (node->pNext != 0)
     {
-        node->next->prev = node->prev;
+        node->pNext->m_pPreviousBlock = node->m_pPreviousBlock;
     }
-    count--;
+    m_uiFreeBlockCount--;
 }
 
 struct FUN_00aa6eb0_shell : public MemoryPool
@@ -183,10 +170,6 @@ struct FUN_00aa6aa0_shell : public MemoryPool
     void* FUN_00aa6aa0(unsigned int);
 };
 
-struct Node_00aa6e60;
-struct FUN_00aa6e60_shell
-{
-};
 struct MemoryPool_PCP
 {
 };
@@ -252,7 +235,7 @@ void* FUN_00aa6aa0_shell::FUN_00aa6aa0(unsigned int requested)
                                                     pmem = m_pFreeBlockHead;
                                                     ptemp = m_pFreeBlockHead;
                                                     m_pFreeBlockHead = m_pFreeBlockHead->pNext;
-                                                    reinterpret_cast<::FUN_00aa6e60_shell *>((((FUN_00aa6e60_shell*)this)))->UnlinkNode((::Node_00aa6e60 *)(::fnv_00aa6aa0::Node_00aa6e60 *)((Node_00aa6e60*)ptemp));
+                                                    UnlinkNode(ptemp);
                                                     ipageIndex = (unsigned int)((char*)pmem - m_pPoolBase) >> 12;
                                                     m_pPageBlockCounts[ipageIndex]++;
                                                 }

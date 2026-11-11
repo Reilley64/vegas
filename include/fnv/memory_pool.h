@@ -46,6 +46,7 @@ class MemoryPool
     // Owned by src/bscore/memorypool.cpp.
     void PushFreeBlock(void* pointer);        // 0x00aa6e00
     unsigned int FUN_00aa6db0();              // 0x00aa6db0
+    void UnlinkNode(MemoryPool__FreePoolBlock* node); // 0x00aa6e60
     // Owned by src/bscore/console/memorypool_console_h_unit.cpp.
     bool CommitPage(unsigned int, char *&);   // 0x00aa6610
 };

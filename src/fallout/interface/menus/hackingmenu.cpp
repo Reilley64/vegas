@@ -1327,17 +1327,9 @@ unsigned int FUN_0076ae90_cls::FUN_0076ae90()
     return result2;
 }
 
-struct ArrElem
-{
-    void* f0;
-    unsigned int f4;
-    ArrElem();
-    ~ArrElem();
-};
-
 struct ElemArray
 {
-    ArrElem* pItems;
+    HackingArrayElement* pItems;
     unsigned int uiSize;
 
     ElemArray* CopyFrom(ElemArray* src);
@@ -1356,9 +1348,9 @@ ElemArray* ElemArray::CopyFrom(ElemArray* src)
 {
     uiSize = src->uiSize;
     delete[] pItems;
-    pItems = new ArrElem[src->uiSize];
+    pItems = new HackingArrayElement[src->uiSize];
     for (unsigned int i = 0; i < uiSize; i++)
-        reinterpret_cast<::STR_0076b200 *>(&(pItems[i]))->AssignFrom((::STR_0076b200 *)(::ArrElem *)(&src->pItems[i]));
+        reinterpret_cast<::STR_0076b200 *>(&(pItems[i]))->AssignFrom((::STR_0076b200 *)(::HackingArrayElement *)(&src->pItems[i]));
     return this;
 }
 

@@ -616,8 +616,14 @@ struct HackingArrayElement : public FUN_00702220
     HackingArrayElement();
 };
 
+// Shares address 0x0096a2d0 with BSSimpleList<T>::BSSimpleList() (identical
+// constructors that zero two words, folded by the linker). The element is a
+// buffer and its length, not a list: docs/hacking-element-release.md.
 HackingArrayElement::HackingArrayElement()
-{}
+{
+    m = 0;
+    ItemUpdateArray = 0;
+}
 
 struct FUN_00768810
 {

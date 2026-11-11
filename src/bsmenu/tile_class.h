@@ -66,8 +66,8 @@ class Tile
     Tile* m_pParent;
     TileNodeStorage m_spNode;
     unsigned int m_uiFlags;
-    // tile.cpp never reads or writes this byte. It is declared to place the next field.
-    char unk34;
+    // tile.cpp never reads or writes this byte. Its name and type are those of the other copies.
+    bool m_bFlagAfterUiFlags;
     bool m_bSpeechChallengeFailure;
 
     class Value

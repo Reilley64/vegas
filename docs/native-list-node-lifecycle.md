@@ -105,13 +105,6 @@ Exceptions in migrated units, each left on its accepted form:
   16-byte node. That is the three-pointer node's `previous` field, which
   `FUN_00559a70` (`blk_00540000_od.cpp`) then overwrites. This is unchanged
   from the accepted tree.
-- `blk_00b60000_o2.cpp`, the local `RemoveHead` and `RemovePos` templates,
-  pass the list object (`this`), not the node, to `FUN_00e6e8a0`. This is
-  unchanged from the accepted tree, where it silently corrupted the pool. With
-  the manager-owned pool, `FUN_00e6e8a0` (`niconsolerenderer.cpp`) first zeroes
-  two fields of the list and then aborts as a foreign recycle. The path is
-  reachable through `FUN_00b61570` from `testerrainlodmanager.cpp`. The fix,
-  passing `pkNode` and `pkDelNode`, is tracked separately.
 - `ReleaseRefCountedNode` (`0x00e6e830`) and `FUN_00e6e8a0` receive an untyped
   node. Besides their source callers they fill generated virtual-table slots
   (4 and 28 slots in `vtables_0109.cpp`, `vtables_010e.cpp` and
@@ -120,6 +113,64 @@ Exceptions in migrated units, each left on its accepted form:
 
 Units that this work did not migrate still convert the result of `0x0043a010`
 to their own node types by cast. Moving them to `AdoptNode` is separate work.
+
+## Terrain LOD owner list
+
+`FUN_00b61570` (`blk_00b60000_o2.cpp`), called from
+`testerrainlodmanager.cpp`, removes an owner from a bucket's list through the
+unit's local `RemovePos` and `RemoveHead` templates. Until VEGAS-88 both
+passed the list object to `FUN_00e6e8a0` (`niconsolerenderer.cpp`), which
+cleared the list's tail and count through its node view and then aborted as a
+foreign recycle. Each now passes the node it has just unlinked.
+
+What the receiver takes is established from two sources:
+
+- Before each recipe address was given one name, the recipe named `0x00e6e8a0`
+  as the `DeleteItem` member of this list type, taking the list item, and the
+  templates called `DeleteItem` with the node. The renaming replaced the item
+  argument with the receiver.
+- `FUN_00b61370` (`tesland.cpp`) removes from the same bucket list. Its middle
+  branch clears the node's element and previous link and recycles the node.
+
+The list after a removal, read from the templates and the bodies they call:
+
+| Removed | Head | Tail | Count | Position |
+| --- | --- | --- | --- | --- |
+| Head, more nodes follow | the next node, its previous link null | unchanged | one less | the next node |
+| Only node | null | null | zero | null |
+| Middle | unchanged | unchanged | one less | the next node |
+| Tail, more nodes precede | unchanged | the previous node, its next link null | one less | null |
+
+In every row the removed node's element and previous link are cleared before
+its slot returns to the pool. The first three rows end in `FUN_00e6e8a0`. The
+tail row is `RemoveTail`, whose body at `0x00e7d5b0` recycles the node itself.
+
+Still open:
+
+- The tail row does not link. The unit calls `RemoveTail` on
+  `NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>`, which no unit
+  defines. The recipe gives this unit the body at `0x00e7d5b0`, which
+  `niconsolerenderer.cpp` defines under the class name `NiTPointerListBaseT`.
+- `StringOwner::~StringOwner`, which `FUN_00b61570` calls for the removed
+  owner, has no definition either, so no executable can link the function.
+- No test reaches these templates. Neither `blk_00b60000_o2.cpp` nor
+  `niconsolerenderer.cpp` compiles for a host test, since both include
+  `windows.h`, and the templates are local to the unit. The only part of the
+  path a host test can build is the pool's own recycler, which
+  `runtime.list_node_recycling` already covers.
+- The recipe gives the out-of-line `RemoveHead` (`0x00b602d0`) and
+  `RemovePos` (`0x00e7d7f0`) of this list type to
+  `nitpointerlistbase_h_unit.cpp`, whose copies recycle through
+  `FUN_0045cee0`. This unit's recipe lists neither among the names it refers
+  to, so its inline copies stay. Calling the shared copies instead is a
+  separate decision.
+- The recipe does not list `0x00e6e8a0` among the names this unit refers to.
+  It lists the unit's own `FreePoolNode` (`0x00b63df0`), which nothing in the
+  unit calls. Which recycler the source function used is not established.
+  Calling `FUN_00e6e8a0` is kept from the accepted tree.
+- `OwnerBucket`, `OwnerMap` and `StringOwner` are local views with 32-bit
+  integer fields. Which unit builds the bucket and its list nodes, and under
+  which layout, is not established.
 
 `FUN_00b584e0` is not a pool client. Its list allocates each node directly from
 the memory manager, so it keeps that allocation domain, sized as three native

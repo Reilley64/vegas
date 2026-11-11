@@ -105,4 +105,46 @@ bool FUN_00c9a420(void* unk00)
 // and for each element type that another unit requires. A pointee is forward
 // declared with the key the requiring units use. docs/shared-ni-pointer.md
 // says which element types are listed.
+class AnimIdle;
+class BSFaceGenNiNode;
+class BSFadeNode;
+class BSShaderAccumulator;
+struct CameraView;
+struct DecalNode;
+class NiAlphaProperty;
+class NiColorData;
+struct NiControllerManager;
+class NiExtraData;
+class NiFloatData;
+class NiGeometry;
+class NiGeometryData;
+class NiPointLight;
+class NiSourceTexture;
+class NiTexture;
+class NiTriShape;
+struct NodeView;
+struct PathingRequest;
+class PathingSolution;
+class SceneGraph;
 template NiPointer<NiAVObject>& NiPointer<NiAVObject>::operator=(NiAVObject*);
+template NiPointer<AnimIdle>& NiPointer<AnimIdle>::operator=(AnimIdle*);
+template NiPointer<BSFaceGenNiNode>& NiPointer<BSFaceGenNiNode>::operator=(BSFaceGenNiNode*);
+template NiPointer<BSFadeNode>& NiPointer<BSFadeNode>::operator=(BSFadeNode*);
+template NiPointer<BSShaderAccumulator>& NiPointer<BSShaderAccumulator>::operator=(BSShaderAccumulator*);
+template NiPointer<CameraView>& NiPointer<CameraView>::operator=(CameraView*);
+template NiPointer<DecalNode>& NiPointer<DecalNode>::operator=(DecalNode*);
+template NiPointer<NiAlphaProperty>& NiPointer<NiAlphaProperty>::operator=(NiAlphaProperty*);
+template NiPointer<NiColorData>& NiPointer<NiColorData>::operator=(NiColorData*);
+template NiPointer<NiControllerManager>& NiPointer<NiControllerManager>::operator=(NiControllerManager*);
+template NiPointer<NiExtraData>& NiPointer<NiExtraData>::operator=(NiExtraData*);
+template NiPointer<NiFloatData>& NiPointer<NiFloatData>::operator=(NiFloatData*);
+template NiPointer<NiGeometry>& NiPointer<NiGeometry>::operator=(NiGeometry*);
+template NiPointer<NiGeometryData>& NiPointer<NiGeometryData>::operator=(NiGeometryData*);
+template NiPointer<NiPointLight>& NiPointer<NiPointLight>::operator=(NiPointLight*);
+template NiPointer<NiSourceTexture>& NiPointer<NiSourceTexture>::operator=(NiSourceTexture*);
+template NiPointer<NiTexture>& NiPointer<NiTexture>::operator=(NiTexture*);
+template NiPointer<NiTriShape>& NiPointer<NiTriShape>::operator=(NiTriShape*);
+template NiPointer<NodeView>& NiPointer<NodeView>::operator=(NodeView*);
+template NiPointer<PathingRequest>& NiPointer<PathingRequest>::operator=(PathingRequest*);
+template NiPointer<PathingSolution>& NiPointer<PathingSolution>::operator=(PathingSolution*);
+template NiPointer<SceneGraph>& NiPointer<SceneGraph>::operator=(SceneGraph*);

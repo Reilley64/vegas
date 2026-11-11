@@ -201,6 +201,7 @@ enum OnDestructionRemapInfo
     ON_DESTRUCTION_REMOVE = 1,
     ON_DESTRUCTION_RESET_REMOVE = 2
 };
+namespace fnv_00cf3ea0 {
 class BaseObj
 {
   public:
@@ -208,7 +209,8 @@ class BaseObj
     {}
     virtual ~BaseObj() throw();
 };
-class RefObject : public BaseObj
+}  // namespace fnv_00cf3ea0
+class RefObject : public ::fnv_00cf3ea0::BaseObj
 {
   public:
     RefObject() throw()

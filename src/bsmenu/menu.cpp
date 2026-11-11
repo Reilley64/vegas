@@ -1258,32 +1258,6 @@ struct IMemoryHeap
     virtual void Unk02();
     virtual void Deallocate(void*, bool);
 };
-struct MemoryPool
-{
-    int unk00;
-    unsigned int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    unsigned int unk50;
-    void Free(void*);
-};
-extern MemoryPool* DAT_011f63b8[256];
 
 struct MemoryManager
 {
@@ -1357,35 +1331,6 @@ struct MemoryManager
     int unk108;
     int unk10C;
     IMemoryHeap* unk110;
-    void FreePointer(void*, int);
-    IMemoryHeap* GetHeapForPointer(const void*);
-    void Deallocate(void* pvBuffer)
-    {
-        if (!pvBuffer)
-            return;
-        if (!unk00)
-        {
-            FreePointer(pvBuffer, 0);
-            return;
-        }
-        IMemoryHeap* heap = unk110;
-        if (!heap)
-        {
-            FreePointer(pvBuffer, 0);
-            return;
-        }
-        MemoryPool* pool = DAT_011f63b8[(unsigned int)pvBuffer >> 24];
-        if (pool && (unsigned int)pvBuffer >= pool->unk04 && (unsigned int)pvBuffer < pool->unk04 + pool->unk50)
-        {
-            pool->Free(pvBuffer);
-            return;
-        }
-        IMemoryHeap* owner = GetHeapForPointer(pvBuffer);
-        if (owner)
-            owner->Deallocate(pvBuffer, false);
-        else
-            FreePointer(pvBuffer, 0);
-    }
 };
 extern MemoryManager _g_memoryManager;
 

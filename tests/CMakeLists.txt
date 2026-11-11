@@ -740,3 +740,32 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
   endforeach()
 endif()
+
+if(WIN32)
+  add_executable(runtime_windows_import_types_test runtime/windows_import_types_test.cpp)
+  add_test(NAME runtime.windows_import_types COMMAND runtime_windows_import_types_test)
+endif()
+
+# Fails when a member of the game archive refers to an import slot variable
+# that holds no function at run time. Generated data defines the slot of
+# InterlockedExchangeAdd as null, because no x64 library exports the function,
+# under a C++ name that a C name of the same slot is redirected to. The two
+# critical section slot names with this C++ type have no definition at all.
+# The archive is read with llvm-objdump on the build host, so the test is
+# registered for the cross build only, like archive.differing_definitions.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  get_filename_component(compiler_dir "${CMAKE_CXX_COMPILER}" DIRECTORY)
+  find_program(LLVM_OBJDUMP_EXECUTABLE llvm-objdump HINTS "${compiler_dir}")
+  if(NOT LLVM_OBJDUMP_EXECUTABLE)
+    message(FATAL_ERROR
+      "llvm-objdump was not found. The cross build needs it to run the "
+      "archive.empty_import_slots test.")
+  endif()
+  add_test(NAME archive.empty_import_slots
+    COMMAND ${CMAKE_COMMAND}
+      -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+      -DARCHIVE=$<TARGET_FILE:game>
+      -DWORK=${CMAKE_CURRENT_BINARY_DIR}/empty_import_slots.relocations.txt
+      "-DNAMES=DAT_00fdf1ec,?DAT_00fdf1ec@@3P6AJPECJJ@ZEA,?DAT_00fdf05c@@3P6AXPEAU_RTL_CRITICAL_SECTION@@@ZEA,?DAT_00fdf100@@3P6AXPEAU_RTL_CRITICAL_SECTION@@@ZEA"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_no_relocation.cmake)
+endif()

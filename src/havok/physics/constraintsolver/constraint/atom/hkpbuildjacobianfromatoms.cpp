@@ -6,6 +6,7 @@
 // original image, so it is only declared here.
 
 // arg1: the six float vector
+#include <windows.h>
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
 #include <xmmintrin.h>
@@ -1987,7 +1988,6 @@ void TargetCaller()
     FUN_00d6dd60(sourcePacket, sourceRecord, sourceA, sourceB, sourceCursor);
 }
 
-extern long(* DAT_00fdf1ec)(long volatile*, long);
 union __declspec(align(16)) V4
 {
     __m128& simd()
@@ -2166,7 +2166,7 @@ static void __declspec(noinline)
         __m128 diff = _mm_sub_ss(apConstraint->speedLimit.simd(), Dot3V(velocity.simd(), velocity.simd()));
         if (_mm_movemask_ps(diff) & 1)
         {
-            unsigned int n = (unsigned int)DAT_00fdf1ec(apConstraint->notifications, 1);
+            unsigned int n = (unsigned int)InterlockedExchangeAdd(apConstraint->notifications, 1);
             if (n < 128)
                 apConstraint->notifications[n + 1] = apConstraint->identifier;
         }

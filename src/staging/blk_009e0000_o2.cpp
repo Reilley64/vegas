@@ -114,8 +114,6 @@ int FUN_009fa480(intptr_t aSource, intptr_t apOut)
     return 0;
 }
 
-extern void(* DAT_00fdf05c)(CRITICAL_SECTION*);
-extern void(* DAT_00fdf100)(CRITICAL_SECTION*);
 
 struct FUN_009fa4e0_class
 {
@@ -133,9 +131,9 @@ struct FUN_009fa4e0_Obj
 int FUN_009fa4e0_class::FUN_009fa4e0(intptr_t a, int aiValue)
 {
     CRITICAL_SECTION* p = ((FUN_009fa4e0_Obj*)a)->unk10;
-    DAT_00fdf05c(p);
+    EnterCriticalSection(p);
     ((FUN_009fa4e0_Obj*)a)->unk1c = aiValue;
-    DAT_00fdf100(p);
+    LeaveCriticalSection(p);
     return 0;
 }
 
@@ -403,12 +401,12 @@ int FUN_009faca0(intptr_t pSource, int* pOutput)
         d = &outer->unk10;
     else
         d = 0;
-    DAT_00fdf05c(d);
+    EnterCriticalSection(d);
     pOutput[1] = outer->unk40;
     pOutput[0] = outer->unk38;
     pOutput[2] = outer->unk44;
     pOutput[3] = outer->unk48;
-    DAT_00fdf100(d);
+    LeaveCriticalSection(d);
     return 0;
 }
 
@@ -487,18 +485,18 @@ struct FUN_009fd530_class
 int FUN_009fd530_class::FUN_009fd530(intptr_t b)
 {
     CRITICAL_SECTION* lock = this->unk20;
-    DAT_00fdf05c(lock);
+    EnterCriticalSection(lock);
     char* base = (char*)this->unk98;
     if (::FUN_009f9980((const void *)((intptr_t)(base + 0x1a0)), (const void *)(b)))
     {
         char* p = base + 0x1b0;
         if (::FUN_009f9980((const void *)((intptr_t)p), (const void *)((intptr_t)&DAT_01093f04)) || ::FUN_009f9980((const void *)((intptr_t)p), (const void *)(b + 0x10)))
         {
-            DAT_00fdf100(lock);
+            LeaveCriticalSection(lock);
             return 0;
         }
     }
-    DAT_00fdf100(lock);
+    LeaveCriticalSection(lock);
     return 1;
 }
 
@@ -6404,8 +6402,6 @@ int SetLockedPointer(LockedOwner_b5d0* apOwner, void* apNewPointer)
     return 0;
 }
 
-extern void(* DAT_00fdf05c)(CRITICAL_SECTION* pkCriticalSection);
-extern void(* DAT_00fdf100)(CRITICAL_SECTION* pkCriticalSection);
 
 class CriticalSectionLock
 {

@@ -2,6 +2,7 @@
 // src/staging/blk_00d60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkMemoryRouter.h"
 #include "havok/InlineStorageString.h"
@@ -4103,7 +4104,6 @@ struct OutputR2
     PaddedR2<SchemaR2*> m_pQueryResultSchema;
 };
 
-extern long(* DAT_00fdf1ec)(volatile long*, long);
 
 struct NativeRow
 {
@@ -4209,7 +4209,7 @@ static __declspec(noinline) void FUN_00d6c630(const VectorR2& pa, const VectorR2
         (_mm_movemask_ps(_mm_sub_ss(ctx.m_fMaxConstraintViolationSquared.getQuad(), error.lengthSquared3().getQuad())) &
          1))
     {
-        unsigned idx = DAT_00fdf1ec((volatile long*)&ctx.m_pOpaqueData->m_uiConstraintCount, 1);
+        unsigned idx = InterlockedExchangeAdd((volatile long*)&ctx.m_pOpaqueData->m_uiConstraintCount, 1);
         if (idx < 128)
             ctx.m_pOpaqueData->m_ppConstraints[idx] = ctx.m_pConstraintChainInstance;
     }

@@ -25,7 +25,6 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned __int64 u64;
 
-extern "C" long (* DAT_00fdf1ec)(volatile long*, long);
 
 extern const char str_010d3e68[];
 extern const char str_010d3e4c[];
@@ -589,7 +588,7 @@ int __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Job*
     if (block->numThreads == 1)
         { prev = *ref; *ref = prev - 1; }
     else
-        prev = DAT_00fdf1ec(ref, -1);
+        prev = InterlockedExchangeAdd(ref, -1);
 
     if (prev == block->numThreads) {
         if (marker) {
@@ -622,7 +621,7 @@ int __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Job*
         if (block->numThreads <= 2)
             left = -1;
         else
-            left = DAT_00fdf1ec(ref, -1) - 1;
+            left = InterlockedExchangeAdd(ref, -1) - 1;
     }
 
     if (first.m_iElementCount + second.m_iElementCount > 0) {

@@ -55,11 +55,6 @@ void MemoryPool::UnlinkNode(MemoryPool__FreePoolBlock* node)
     m_uiFreeBlockCount--;
 }
 
-struct FUN_00aa6eb0_shell : public MemoryPool
-{
-    void FUN_00aa6eb0(unsigned int, bool);
-};
-
 struct Helper_00aa6eb0
 {
 };
@@ -109,10 +104,6 @@ struct FUN_00aa6f90_shell : public MemoryPool
 {
     void FUN_00aa6f90();
 };
-
-struct FUN_00aa6eb0_shell
-{
-};
 // @fnv 0x00aa6f90
 void FUN_00aa6f90_shell::FUN_00aa6f90()
 {
@@ -129,7 +120,7 @@ void FUN_00aa6f90_shell::FUN_00aa6f90()
                 FUN_00aa7260();
                 blistSorted = true;
             }
-            reinterpret_cast<::FUN_00aa6eb0_shell *>((((FUN_00aa6eb0_shell*)this)))->FUN_00aa6eb0(i, false);
+            FUN_00aa6eb0(i, false);
         }
     }
     {
@@ -264,7 +255,7 @@ PoolInfo MemoryPool::GetPoolInfo()
 }
 
 // @fnv 0x00aa6eb0
-void FUN_00aa6eb0_shell::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequired)
+void MemoryPool::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequired)
 {
     char* ppageAddress = this->m_pPoolBase + (aiPageIndex << 12);
     if (abSortRequired)

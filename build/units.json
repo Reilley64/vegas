@@ -5392,7 +5392,7 @@
     },
     {
      "address": "0x00aa6eb0",
-     "symbol": "?FUN_00aa6eb0@FUN_00aa6eb0_shell@@QAEXI_N@Z",
+     "symbol": "?FUN_00aa6eb0@MemoryPool@@QAEXI_N@Z",
      "size": 209
     },
     {
@@ -5412,7 +5412,7 @@
     "?FUN_00aa7260@MemoryPool@@QAEXXZ": "0x00aa7260",
     "?DAT_011f67b8@@3PAPAUMemoryPool@@A": "0x011f67b8",
     "??_C@_0CJ@NPEOBHMF@MemoryPool?3?3FreeUnusedPagesForAl@": "0x010a2808",
-    "?FUN_00aa6eb0@FUN_00aa6eb0_shell@@QAEXI_N@Z": "0x00aa6eb0",
+    "?FUN_00aa6eb0@MemoryPool@@QAEXI_N@Z": "0x00aa6eb0",
     "??_C@_0BF@BBLPFHMB@MemoryPool?3?3Allocate?$AA@": "0x010a27dc",
     "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
     "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060",

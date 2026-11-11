@@ -79,6 +79,12 @@ add_executable(runtime_magic_flag_byte_test runtime/magic_flag_byte_test.cpp)
 target_include_directories(runtime_magic_flag_byte_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
 add_test(NAME runtime.magic_flag_byte COMMAND runtime_magic_flag_byte_test)
 
+# BSAudioDefinition from the bodies its owning unit includes, in storage of
+# exactly the size the shared declaration gives.
+add_executable(runtime_audio_definition_test runtime/audio_definition_test.cpp)
+target_include_directories(runtime_audio_definition_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+add_test(NAME runtime.audio_definition COMMAND runtime_audio_definition_test)
+
 add_executable(runtime_placeable_water_data_test runtime/placeable_water_data_test.cpp)
 target_include_directories(runtime_placeable_water_data_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
 add_test(NAME runtime.placeable_water_data COMMAND runtime_placeable_water_data_test)

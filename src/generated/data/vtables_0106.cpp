@@ -384,7 +384,7 @@ extern "C" void fnv_fn_0098f280() __asm__("?FUN_0098f280@FUN_0098f280_Class@@QEA
 extern "C" void fnv_fn_009b3120() __asm__("?FUN_009b3120@FUN_009b3120_shell@@QEAAHXZ");
 extern "C" void fnv_fn_009cbb10() __asm__("?FUN_009cbb10@FUN_009cbb10_shell@@QEAAHXZ");
 extern "C" void fnv_fn_009d6b60() __asm__("?GetType@MagicShaderHitEffect@@UEAA?AW4TEMP_EFFECT_TYPE@@XZ");
-extern "C" void fnv_fn_00a0b1f0() __asm__("?FUN_00a0b1f0@A0B1F0Tile@@QEAAPEAUTileShaderProperty@@XZ");
+extern "C" void fnv_fn_00a0b1f0() __asm__("?FUN_00a0b1f0@Tile@@UEAAPEAUTileShaderProperty@@XZ");
 extern "C" void fnv_fn_00a0b280() __asm__("?ApplyAlphaAndColorToChildren@FUN_00a0b280_shell@@QEAAXPEAVNiNode@@MPEAX@Z");
 extern "C" void fnv_fn_00a0bae0() __asm__("?IsPointInside@Tile@@UEAA_NMM@Z");
 extern "C" void fnv_fn_00a1ef30() __asm__("?Init@TileMenu@@UEAAXPEAVTile@@PEBD0@Z");

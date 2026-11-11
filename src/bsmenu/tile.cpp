@@ -4034,25 +4034,6 @@ void __cdecl FUN_00a07690(FlaggedTile* apTile) {
     }
 }
 
-class A0B1F0Tile {
-public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    ChildPtr<NiNode> m_spNode;
-
-    NiNode* GetNode() const { return m_spNode; }
-    TileShaderProperty* FUN_00a0b1f0();
-};
-
 static inline NiAVObject* A0B1F0GetChild(NiNode* pkNode, unsigned int uiIndex) {
     if (uiIndex >= pkNode->GetChildren().m_usSize)
         return 0;
@@ -4061,9 +4042,9 @@ static inline NiAVObject* A0B1F0GetChild(NiNode* pkNode, unsigned int uiIndex) {
 }
 
 // @fnv 0x00a0b1f0
-TileShaderProperty* A0B1F0Tile::FUN_00a0b1f0() {
+TileShaderProperty* Tile::FUN_00a0b1f0() {
     TileShaderProperty* pkProperty = 0;
-    NiNode* pkNode = GetNode();
+    NiNode* pkNode = ((NiNode*)m_spNode.m_pObject);
     NiAVObject* pkCurrentObject = pkNode ? A0B1F0GetChild(pkNode, 0) : 0;
     if (pkCurrentObject)
         pkProperty = ((::TileShaderProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((reinterpret_cast<PropHelper*>(pkCurrentObject)))->FUN_00a59d30(3)));

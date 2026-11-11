@@ -316,7 +316,7 @@ extern "C" void fnv_fn_009fdbb0() __asm__("?FUN_009fdbb0@@YAHH@Z");
 extern "C" void fnv_fn_009fdbd0() __asm__("?FUN_009fdbd0@@YAHH@Z");
 extern "C" void fnv_fn_009fdbf0() __asm__("?CallVirtualMethod9@@YAXHHH@Z");
 extern "C" void fnv_fn_00a0b020() __asm__("?FUN_00a0b020@Tile@@UEAAXXZ");
-extern "C" void fnv_fn_00a0b1f0() __asm__("?FUN_00a0b1f0@A0B1F0Tile@@QEAAPEAUTileShaderProperty@@XZ");
+extern "C" void fnv_fn_00a0b1f0() __asm__("?FUN_00a0b1f0@Tile@@UEAAPEAUTileShaderProperty@@XZ");
 extern "C" void fnv_fn_00a0b280() __asm__("?ApplyAlphaAndColorToChildren@FUN_00a0b280_shell@@QEAAXPEAVNiNode@@MPEAX@Z");
 extern "C" void fnv_fn_00a0c000() __asm__("?GetStoredFloatValue@Tile__FloatAction@@QEAAMXZ");
 extern "C" void fnv_fn_00a0c080() __asm__("?GetArg1String@FUN_00a0c080_shell@@QEAAPEBDXZ");

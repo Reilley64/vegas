@@ -1,3 +1,6 @@
+// Stays on its own copy of TESForm: it renames the list template, so its source-file list has another type.
+// docs/shared-tesform.md has the rule.
+#define FNV_KEEPS_OWN_TESFORM
 #include "AutoMemContext.h"
 // fallout_shared/bgsmusictype.cpp: BGSMusicType, MusicTypeDeletion, MusicTypeWriter, MusicTypeCopyEntry and more (8 functions)
 

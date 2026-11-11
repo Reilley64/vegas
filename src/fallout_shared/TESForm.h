@@ -1,5 +1,6 @@
-// Unit-local declaration extension; copied pack declarations remain otherwise unchanged.
-// Source layout: TESForm. PC corrections are in generate_headers.py.
+// TESForm: the shared declaration in include/fnv/tes_form.h. A unit that
+// defines FNV_KEEPS_OWN_TESFORM gets its former copy below instead (source
+// layout: TESForm; PC corrections are in generate_headers.py).
 #ifndef FNV_TESFORM_H
 #define FNV_TESFORM_H
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -13,6 +14,7 @@
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 enum ENUM_FORM_ID;
+#ifdef FNV_KEEPS_OWN_TESFORM
 class TESForm : public BaseFormComponent
 {
   public:
@@ -104,4 +106,7 @@ class TESForm : public BaseFormComponent
 public:
     ::ENUM_FORM_ID GetFormType() const;
 };
+#else
+#include "fnv/tes_form.h"
+#endif
 #endif

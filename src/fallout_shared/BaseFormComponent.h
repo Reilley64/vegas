@@ -1,13 +1,6 @@
-// Source layout: BaseFormComponent. PC corrections are in generate_headers.py.
+// BaseFormComponent: the shared declaration in include/fnv/base_form_component.h.
 #ifndef FNV_BASEFORMCOMPONENT_H
 #define FNV_BASEFORMCOMPONENT_H
 #include "layout_support.h"
-class BaseFormComponent
-{
-  public:
-    virtual void Init();
-    virtual void Free();
-    virtual void CopyFromBase(BaseFormComponent* component);
-    virtual bool CompareWithBase(BaseFormComponent* component);
-};
+#include "fnv/base_form_component.h"
 #endif

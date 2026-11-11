@@ -11446,6 +11446,22 @@ struct SoundDebugDescription
     }
 };
 
+// The records above that this unit still uses in place of BSSoundInfo and
+// BSAudioDefinition. Each must keep the size of the class it stands for, and
+// the definition at the same offset, for as long as it is cast to that class
+// or passed to its members.
+static_assert(sizeof(FUN_00ae89f0) == sizeof(BSSoundInfo));
+static_assert(offsetof(FUN_00ae89f0, _18) == offsetof(BSSoundInfo, m_kAudioDefinition));
+static_assert(sizeof(SoundInfoWrap) == sizeof(BSSoundInfo));
+static_assert(offsetof(SoundInfoWrap, head._18) == offsetof(BSSoundInfo, m_kAudioDefinition));
+static_assert(sizeof(TempInfo) == sizeof(BSSoundInfo));
+static_assert(offsetof(TempInfo, debug) == offsetof(BSSoundInfo, m_kAudioDefinition));
+static_assert(sizeof(BSSoundInfoC) == sizeof(BSSoundInfo));
+static_assert(offsetof(BSSoundInfoC, debug) == offsetof(BSSoundInfo, m_kAudioDefinition));
+static_assert(sizeof(fnv_00ae5a50::Msg_00ae5a50) == sizeof(BSSoundInfo));
+static_assert(offsetof(fnv_00ae5a50::Msg_00ae5a50, sub18) == offsetof(BSSoundInfo, m_kAudioDefinition));
+static_assert(sizeof(SoundDebugDescription) == sizeof(BSAudioDefinition));
+
 struct SoundRecord
 {
     unsigned int id;

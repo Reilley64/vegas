@@ -1866,13 +1866,9 @@ bool FUN_00abc260_cls::FUN_00abc260(unsigned int count)
     return true;
 }
 
-struct FUN_00aa6650_Class
-{
-    bool FreeMemory(unsigned int size, void* p);
-};
 // Releases the memory block at p with VirtualFree using MEM_DECOMMIT and returns whether the call succeeded.
 // @fnv 0x00aa6650
-bool FUN_00aa6650_Class::FreeMemory(unsigned int size, void* pMemory)
+bool MemoryPool::FreeMemory(unsigned int size, void* pMemory)
 {
     return VirtualFree(pMemory, 0x1000, 0x4000) != 0;
 }

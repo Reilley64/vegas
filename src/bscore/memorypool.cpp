@@ -5,7 +5,6 @@
 #include <cstring>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
-#include "fnv/decl/FUN_00aa6650_Class.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/NodeSorter.h"
 #include "fnv/symbols_00aa6000.h"
@@ -52,10 +51,6 @@ void MemoryPool::UnlinkNode(MemoryPool__FreePoolBlock* node)
     }
     m_uiFreeBlockCount--;
 }
-
-struct Helper_00aa6eb0
-{
-};
 
 struct DoublyLinkedListNode
 {
@@ -274,7 +269,7 @@ void MemoryPool::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequired)
     }
 
     this->m_uiFreeBlockCount -= ientriesPerPage;
-    reinterpret_cast<::FUN_00aa6650_Class *>((((Helper_00aa6eb0*)this)))->FreeMemory(aiPageIndex, ppageAddress);
+    FreeMemory(aiPageIndex, ppageAddress);
     (this->m_pPageBlockCounts)[aiPageIndex] = 0xffff;
     this->m_uiAllocatedPageCount -= 1;
 }

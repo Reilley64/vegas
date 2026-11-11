@@ -67,6 +67,7 @@ class MemoryPool
     void FUN_00aa65b0();                      // 0x00aa65b0
     void FUN_00aa7300();                      // 0x00aa7300
     void FreeAllocation();                    // 0x00aa6680
+    bool FreeMemory(unsigned int size, void* p); // 0x00aa6650
 };
 
 #endif

@@ -330,7 +330,7 @@ void FUN_00c3c700_cls::FUN_00c3c700(QueuedFile* apChild)
     {
         pChildren = reinterpret_cast<QueuedChildren*>(new FUN_00c3c4e0);
     }
-    reinterpret_cast<::OwnArr *>((reinterpret_cast<ChildrenOps*>(pChildren)))->FUN_00c3d4f0((const ::RefPtr &)((const ::QueuedFileRef &)(apChild)));
+    reinterpret_cast<::OwnArr *>((reinterpret_cast<ChildrenOps*>(pChildren)))->FUN_00c3d4f0((const ::fnv_00c3c7e0::RefPtr &)((const ::QueuedFileRef &)(apChild)));
 }
 
 static __forceinline void DeadQ1()

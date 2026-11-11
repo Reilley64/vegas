@@ -3858,6 +3858,7 @@ struct RefObject
             f1();
     }
 };
+namespace fnv_00b660d0 {
 struct RefPtr
 {
     RefObject* object;
@@ -3880,6 +3881,7 @@ struct RefPtr
         }
     }
 };
+}  // namespace fnv_00b660d0
 struct FUN_00bd9120
 {
     void* state;
@@ -3949,7 +3951,7 @@ struct FUN_00b660d0 : NiAlphaProperty
     void** queries;
     List12 fog;
     PassList20 rendered[4], renderedFirst[4];
-    RefPtr bound;
+    ::fnv_00b660d0::RefPtr bound;
     List12 volumes;
     unsigned lastRef;
     bool lastResult;
@@ -3966,9 +3968,9 @@ struct FUN_00b660d0 : NiAlphaProperty
     bool* actives;
     unsigned batchCount, passCount;
     void* scene;
-    RefPtr waterTarget;
+    ::fnv_00b660d0::RefPtr waterTarget;
     int renderMode;
-    RefPtr shadow;
+    ::fnv_00b660d0::RefPtr shadow;
     struct FUN_00ba8ec0 alpha;
     Map16 room;
     int unk1c4, unk1c8, unk1cc, unk1d0, unk1d4, unk1d8, unk1dc, unk1e0, unk1e4, unk1e8, unk1ec, unk1f0, unk1f4, unk1f8,

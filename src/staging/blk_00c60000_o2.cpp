@@ -21175,6 +21175,7 @@ static void* AllocEntry(unsigned int size)
     ((AllocHeader*)p)->m_iElementCount = (unsigned short)size;
     return p;
 }
+namespace fnv_00c6da50 {
 struct RefPtr
 {
     CallbackTarget* p;
@@ -21195,6 +21196,7 @@ struct RefPtr
         return *this;
     }
 };
+}  // namespace fnv_00c6da50
 struct FUN_00c6cde0
 {
     FUN_00c6cde0();
@@ -21261,7 +21263,7 @@ struct FUN_00c6da50 : FUN_00c6cde0
     int m_78;
     int m_7c;
     InitialDefaults defaults;
-    RefPtr m_a4;
+    ::fnv_00c6da50::RefPtr m_a4;
     float m_a8;
     float m_ac;
     int m_b0;

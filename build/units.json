@@ -6635,7 +6635,7 @@
     "??0FUN_00c3c4e0@@QAE@XZ": "0x00c3c4e0",
     "__imp__InterlockedIncrement@4": "0x00fdf1c0",
     "__ehhandler$?FUN_00c3c700@FUN_00c3c700_cls@@QAEXPAVQueuedFile@@@Z": "0x00f2dce1",
-    "?FUN_00c3d4f0@OwnArr@@QAEIABURefPtr@@@Z": "0x00c3d4f0",
+    "?FUN_00c3d4f0@OwnArr@@QAEIABURefPtr@fnv_00c3c7e0@@@Z": "0x00c3d4f0",
     "?FUN_0044dd60@fnv_0044dd60@@YIXPAUVirtualDeletable@1@@Z": "0x0044dd60",
     "__allshr": "0x00ec77e0",
     "__allshl": "0x00ec7810",

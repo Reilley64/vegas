@@ -5084,6 +5084,7 @@ struct RefObj
     }
 };
 
+namespace fnv_00c3c7e0 {
 struct RefPtr
 {
     RefObj* m_p;
@@ -5116,12 +5117,13 @@ struct RefPtr
             ::fnv_0044dd60::FUN_0044dd60((::fnv_0044dd60::VirtualDeletable *)(m_p));
     }
 };
+}  // namespace fnv_00c3c7e0
 
-__forceinline void ConstructRefs(RefPtr* buffer, unsigned count)
+__forceinline void ConstructRefs(::fnv_00c3c7e0::RefPtr* buffer, unsigned count)
 {
     for (unsigned i = 0; i < count; ++i)
     {
-        new (buffer + i) RefPtr;
+        new (buffer + i) ::fnv_00c3c7e0::RefPtr;
     }
 }
 
@@ -5191,13 +5193,13 @@ struct OwnArr
         ++m_uiItemCount;
         return m_uiItemCount - 1;
     }
-    inline unsigned FUN_00c3d4f0(const RefPtr& item)
+    inline unsigned FUN_00c3d4f0(const ::fnv_00c3c7e0::RefPtr& item)
     {
         unsigned index = FUN_00c3d6c0();
-        RefPtr* first = (RefPtr*)(m_data + index);
+        ::fnv_00c3c7e0::RefPtr* first = (::fnv_00c3c7e0::RefPtr*)(m_data + index);
         unsigned count = 1;
         ConstructRefs(first, count);
-        RefPtr* destination = (RefPtr*)(m_data + index);
+        ::fnv_00c3c7e0::RefPtr* destination = (::fnv_00c3c7e0::RefPtr*)(m_data + index);
         *destination = item;
         return index;
     }

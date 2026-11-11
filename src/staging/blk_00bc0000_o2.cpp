@@ -3975,6 +3975,7 @@ struct PassPtr
         }
     }
 };
+namespace fnv_00bc4830 {
 struct RefPtr
 {
     CountedRef* ptr;
@@ -4008,6 +4009,7 @@ struct RefPtr
         }
     }
 };
+}  // namespace fnv_00bc4830
 struct FUN_00be2200
 {
     virtual ~FUN_00be2200();
@@ -4020,7 +4022,7 @@ struct FUN_00be2200
     int unk1c;
     int unk20;
     unsigned char flag24;
-    RefPtr source;
+    ::fnv_00bc4830::RefPtr source;
     int unk2c;
     int unk30;
     int unk34;
@@ -4045,8 +4047,8 @@ struct FUN_00be2200
 struct FUN_00bc4830 : FUN_00be2200
 {
     PassPtr pass;
-    RefPtr first;
-    RefPtr second;
+    ::fnv_00bc4830::RefPtr first;
+    ::fnv_00bc4830::RefPtr second;
     FUN_00bc4830(CountedRef* source);
     virtual ~FUN_00bc4830();
 };
@@ -19871,8 +19873,8 @@ struct FUN_00bc0c90 : FUN_00be2200
     float f180;
     float f184;
     float f188;
-    RefPtr first;
-    RefPtr second;
+    ::fnv_00bc4830::RefPtr first;
+    ::fnv_00bc4830::RefPtr second;
 
     FUN_00bc0c90(CountedRef* source);
     virtual ~FUN_00bc0c90();

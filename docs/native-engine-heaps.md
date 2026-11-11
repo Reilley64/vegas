@@ -182,6 +182,14 @@ and `delete` in pools and in the heaps of contexts 0, 9, 23 and 36, a
 bootstrap block that outlives startup, retirement, and startup after
 retirement. A refused pool or publication stage is not exercised.
 
+On Windows, `falloutnv.process_exit` runs the built `FalloutNV.exe` with no
+arguments and requires exit code 0. It shows that the image loads, its imports
+resolve, the C++ runtime starts, `StartProcessMemory` completes and `main`
+returns 0. `main` opens no file, so the test needs no game data, pack or
+working-directory content. It says nothing about pack handling, the engine
+link, startup or boot: the executable links only the archive members that
+`main` reaches. The cross build registers the test but cannot run it.
+
 ## Required whole-engine join
 
 The complete global is available to heap/bootstrap/fixed-pool allocation clients,

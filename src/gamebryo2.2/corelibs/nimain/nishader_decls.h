@@ -19,10 +19,4 @@ class WaitableObject
     void FUN_00401970();
 };
 class NiAVObject;
-template <> class NiPointer<NiAVObject>
-{
-  public:
-    NiAVObject* m_pObject;
-    NiPointer<NiAVObject>& operator=(NiAVObject* object);
-};
 #endif

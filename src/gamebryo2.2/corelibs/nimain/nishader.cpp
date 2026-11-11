@@ -1,4 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nishader.cpp: NiShader (10 functions)
+// This unit owns NiPointer<T>::operator=(T*), so it takes the template from
+// fnv/ni_pointer.h (docs/shared-ni-pointer.md).
+#define FNV_SHARED_NI_POINTER
 
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -17,7 +20,7 @@ bool NiShader::Initialize()
 
 #pragma optimize("", off)
 // @fnv 0x0066b0d0
-NiPointer<NiAVObject>& NiPointer<NiAVObject>::operator=(NiAVObject* object)
+template <class T> NiPointer<T>& NiPointer<T>::operator=(T* object)
 {
     if (m_pObject != object)
     {
@@ -96,3 +99,10 @@ bool FUN_00c9a420(void* unk00)
 {
     return false;
 }
+
+// build/units.json gives NiPointer<T>::operator=(T*), one folded body at
+// 0x0066b0d0, to this unit, so this unit emits it: for its own element type
+// and for each element type that another unit requires. A pointee is forward
+// declared with the key the requiring units use. docs/shared-ni-pointer.md
+// says which element types are listed.
+template NiPointer<NiAVObject>& NiPointer<NiAVObject>::operator=(NiAVObject*);

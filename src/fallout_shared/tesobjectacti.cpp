@@ -44,6 +44,8 @@
 #include <malloc.h>
 #include "fnv/symbols_00472000.h"
 
+// The destructor of the string holder; the function row of this unit.
+// @fnv 0x004037d0
 template <> BSStringT<char>::~BSStringT()
 {
     reinterpret_cast<::TextString *>(this)->FUN_004037f0(0, 0);

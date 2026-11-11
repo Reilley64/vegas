@@ -1,4 +1,4 @@
-// bscore/bsstring.cpp: free functions (15 functions)
+// bscore/bsstring.cpp: free functions (14 functions)
 
 #include <cstdint>
 #include <cstring>
@@ -70,12 +70,6 @@ template <class T> BSStringT<T>::BSStringT()
     Init();
 }
 
-// @fnv 0x004037d0
-template <class T> BSStringT<T>::~BSStringT()
-{
-    reinterpret_cast<::TextString *>(this)->FUN_004037f0(0, 0);
-}
-
 // Resets the string by nulling pString and setting length and max length to zero.
 // @fnv 0x00403970
 template <class T> void BSStringT<T>::Init()
@@ -111,7 +105,6 @@ template <class T> BSStringT<T>& BSStringT<T>::operator=(const T* text)
 }
 
 template BSStringT<char>::BSStringT();
-template BSStringT<char>::~BSStringT();
 template bool BSStringT<char>::Set(const char* text, unsigned int minimumCapacity);
 template void BSStringT<char>::Init();
 template unsigned int BSStringT<char>::MaxLength();

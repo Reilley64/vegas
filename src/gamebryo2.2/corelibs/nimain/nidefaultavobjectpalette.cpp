@@ -1,5 +1,9 @@
 // gamebryo2.2/corelibs/nimain/nidefaultavobjectpalette.cpp: NiDefaultAVObjectPalette, Map, PaletteOwner, PaletteShell and more (18 functions)
 
+// Keeps the plain layout view of NiFixedString: this unit holds fixed strings
+// by value. On the shared declaration its object would gain calls of the
+// owner's constructor and destructor.
+#define FNV_KEEPS_PLAIN_NIFIXEDSTRING
 #include <cstdint>
 #include <new>
 #include <cstdio>

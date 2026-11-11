@@ -53,6 +53,8 @@ add_executable(runtime_d3d_texture_stage_lifetime_test
   ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/niconsolerenderer/nid3dtexturestage_lifetime.cpp
   ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/niconsolerenderer/nid3dtexturestage.cpp
 )
+# Built together with a unit that keeps the plain layout view of NiFixedString.
+set_source_files_properties(runtime/d3d_texture_stage_lifetime_test.cpp PROPERTIES COMPILE_DEFINITIONS FNV_KEEPS_PLAIN_NIFIXEDSTRING)
 target_include_directories(runtime_d3d_texture_stage_lifetime_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
 add_test(NAME runtime.d3d_texture_stage_lifetime COMMAND runtime_d3d_texture_stage_lifetime_test)
 add_test(NAME runtime.d3d_texture_stage_outstanding_owner

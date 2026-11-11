@@ -2,8 +2,10 @@
 
 #include "fnv/fixed_string_handle.h"
 
-// The owning fixed-string handle. Units that still manage the count by hand
-// keep the plain layout view in NiFixedString.h; a unit includes only one.
+// The owning fixed-string handle, and the one shared declaration of the class.
+// NiFixedString.h includes it. A unit that holds fixed strings by value without
+// the owner's constructor and destructor defines FNV_KEEPS_PLAIN_NIFIXEDSTRING
+// before its includes and gets the plain layout view of that header instead.
 class NiFixedString
 {
 public:

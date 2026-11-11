@@ -10,7 +10,7 @@
 #include "fnv/decl/FUN_00657be0_class.h"
 #include "fnv/decl/FUN_0065cc30_class.h"
 #include "fnv/decl/FUN_00a673d0_shell.h"
-#include "fnv/decl/NiFixedString.h"
+#include "fnv/native_fixed_string.h"
 #include "fnv/decl/NiGeometryData.h"
 #include "fnv/decl/S00a67410.h"
 #include "fnv/symbols_00401000.h"

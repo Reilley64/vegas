@@ -1,3 +1,7 @@
+// Keeps the plain layout view of NiFixedString: this unit holds fixed strings
+// by value. On the shared declaration its object would gain calls of the
+// owner's constructor and destructor.
+#define FNV_KEEPS_PLAIN_NIFIXEDSTRING
 #include "fnv/tls.h"
 #include <cstdint>
 #include <cstddef>

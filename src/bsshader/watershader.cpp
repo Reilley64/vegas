@@ -1,5 +1,9 @@
 // bsshader/watershader.cpp: WaterShader, MaterialShader, WaterShaderLoader, WaterShaderReleaser and more (12 functions)
 
+// Keeps the plain layout view of NiFixedString: this unit holds fixed strings
+// by value. On the shared declaration its object would gain calls of the
+// owner's constructor and destructor.
+#define FNV_KEEPS_PLAIN_NIFIXEDSTRING
 #include <cstdint>
 #include <windows.h>
 #include <cstring>

@@ -7,7 +7,7 @@
 #include "fnv/decl/FUN_0076b610_Class.h"
 #include "fnv/decl/FUN_00a6e1f0_shell.h"
 #include "fnv/decl/KFShell.h"
-#include "fnv/decl/NiFixedString.h"
+#include "fnv/native_fixed_string.h"
 #include "fnv/decl/NiPlane.h"
 #include "fnv/decl/Sd4e0.h"
 #include "fnv/decl/Twin_0044ddc0.h"

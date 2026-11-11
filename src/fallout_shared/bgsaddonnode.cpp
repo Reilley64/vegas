@@ -15,7 +15,7 @@
 #include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "fnv/decl/FormCloneOperation.h"
 #include "fnv/decl/Holder.h"
-#include "fnv/decl/NiFixedString.h"
+#include "fnv/native_fixed_string.h"
 #include "fnv/decl/S00485110.h"
 #include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"

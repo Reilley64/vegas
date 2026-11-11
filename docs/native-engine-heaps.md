@@ -263,6 +263,16 @@ These are bounded production-entry tests. Complete manager startup success,
 physical/range domains, recovery, nonempty scrap, full engine shutdown and actual
 Windows execution remain separate, unclaimed coverage.
 
+The game archive does not hold `src/runtime/new.cpp`, so each executable
+that needs the game's global `operator new` and `operator delete` has that
+file among its sources or object groups, as `FalloutNV` and the executables
+of `runtime.new`, `runtime.manager_new`, `runtime.manager_static_*`,
+`runtime.ni_allocator_join`, `runtime.process_startup` and
+`runtime.los_map_array` do (the CMake files are the authority); without it
+the link takes the toolchain's allocation functions, and the first check of
+`tests/runtime/manager_static_client.cpp`, that the manager owns the block
+allocated before `main`, fails.
+
 ## Supplier checks
 
 `tests/runtime/engine_heap_set_test.cpp` executes the actual supplier modules,

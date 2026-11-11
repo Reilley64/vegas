@@ -3043,7 +3043,7 @@ void FUN_00bbc050(LightingSource* source, EffectOp* op, unsigned int type, Other
                 vPoint.x = vNeg.x;
                 vPoint.y = vNeg.y;
                 vPoint.z = vNeg.z;
-                ::FUN_00ee6df2();
+                ::FUN_00ee6df2(&vTransformed, &vPoint, matrix);
                 ::FUN_00ee6dec(&vPoint, &vTransformed);
                 LocalPoint3 vTemp(vPoint.x, vPoint.y, vPoint.z);
                 v = vTemp;
@@ -5903,8 +5903,8 @@ __forceinline Shadow* Shadow::UpdateFrustum(ClipFull* clip, Plane* src, Shadow* 
     Mat proj = projectionRenderer->projection;
     MatA vp, inv;
     ::FUN_00ee6de0(&vp, &view, &proj);
-    ::FUN_00ee6dda();
-    ::FUN_00ee6dd4();
+    ::FUN_00ee6dda(&inv, 0, &vp);
+    ::FUN_00ee6dd4(&vp, &inv);
     Plane out[6];
     for (int i = 0; i < 6; i++)
     {
@@ -6459,7 +6459,7 @@ void S00bbe6b0_Renderer::FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, const
             (id >= 0x2d8 && id <= 0x2ef))
         {
             mat = m_18->kView;
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&mat, &mat);
             (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._11 = mat._11;
             (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._12 = mat._12;
             (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._13 = mat._13;
@@ -6490,7 +6490,7 @@ void S00bbe6b0_Renderer::FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, const
                 world._43 += DAT_011f4754;
                 ::FUN_00ee6de0(&res, &world, &(id - 0x1c4 <= 3 ? pair->first : pair->second)->world);
                 mat = res;
-                ::FUN_00ee6dd4();
+                ::FUN_00ee6dd4(&mat, &mat);
                 std::memmove(&(*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170)), &mat, 0x40);
             }
         }

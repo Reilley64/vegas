@@ -12081,7 +12081,7 @@ void UpdateLightPass(Property119* pProperty, Pass119* pass, M_bbb890 matrix, Sca
                 lightDirection.y = -reinterpret_cast<const Quad119*>(DAT_011fa1f0)[index].y;
                 lightDirection.z = -reinterpret_cast<const Quad119*>(DAT_011fa1f0)[index].z;
                 P3_bbb890 transformedPos;
-                ::FUN_00ee6df2();
+                ::FUN_00ee6df2(&transformedPos, &lightDirection, &matrix);
                 ::FUN_00ee6dec(&lightDirection, &transformedPos);
                 reinterpret_cast<Quad119*>(const_cast<float*>(DAT_011fd9a8))[index].x = lightDirection.x;
                 reinterpret_cast<Quad119*>(const_cast<float*>(DAT_011fd9a8))[index].y = lightDirection.y;

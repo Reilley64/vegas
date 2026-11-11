@@ -680,7 +680,7 @@ foreach(d3dx_math_test vector3_normalize matrix_rotation_yaw_pitch_roll plane_no
 endforeach()
 
 # Argument patterns of the D3DX calls restored from before 3f0599801 (VEGAS-90).
-foreach(d3dx_call_test fallout_shared shader_constants)
+foreach(d3dx_call_test fallout_shared shader_constants lighting)
   add_executable(runtime_d3dx_call_arguments_${d3dx_call_test}_test
     runtime/d3dx_call_arguments_${d3dx_call_test}_test.cpp)
   target_include_directories(runtime_d3dx_call_arguments_${d3dx_call_test}_test PRIVATE

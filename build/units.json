@@ -19679,7 +19679,6 @@
     "?DAT_01201c7c@@3JA": "0x01201c7c",
     "_DAT_01016248": "0x01016248",
     "?DAT_01201c80@@3PAUFUN_00bb95b0_entry@@A": "0x01201c80",
-    "?FUN_00ee6df2@@YAXXZ": "0x00ee6df2",
     "?FUN_00ee6dec@@YGPAXPAXPBX@Z": "0x00ee6dec",
     "?FUN_004a0c10@FUN_004a0c10_s@@QAEXXZ": "0x004a0c10",
     "__real@48f42400": "0x010ad6e0",
@@ -19726,8 +19725,6 @@
     "?DAT_011f4750@@3MA": "0x011f4750",
     "?DAT_011f4754@@3MA": "0x011f4754",
     "?FUN_00ee6de0@@YGPAXPAXPBX1@Z": "0x00ee6de0",
-    "?FUN_00ee6dda@@YAXXZ": "0x00ee6dda",
-    "?FUN_00ee6dd4@@YAXXZ": "0x00ee6dd4",
     "?FUN_00ee6dce@@YGPAXPAXPBX@Z": "0x00ee6dce",
     "?FUN_00ee6dc8@@YGPAUD3DXPLANE@@PAU1@PBU1@PBUD3DXMATRIX@@@Z": "0x00ee6dc8",
     "?ms_pRenderer@NiRenderer@@2PAU1@A": "0x011f4748",
@@ -19915,7 +19912,9 @@
     "?FUN_00b4f5c0@@YAPAXXZ": "0x00b4f5c0",
     "?FUN_00b4f5d0@@YAPAXXZ": "0x00b4f5d0",
     "?FUN_00c0bbd0@@YAXPAUFUN_00c0bbd0_Arg@@@Z": "0x00c0bbd0",
-    "?SetNodeResultValue@@YAXPAUFNV_A1@@PAUFNV_Node@@H@Z": "0x00c0bc00"
+    "?SetNodeResultValue@@YAXPAUFNV_A1@@PAUFNV_Node@@H@Z": "0x00c0bc00",
+    "?FUN_00ee6df2@@YAPAXPAXPBX1@Z": "0x00ee6df2",
+    "?FUN_00ee6dda@@YAPAXPAXPAMPBX@Z": "0x00ee6dda"
    }
   },
   {
@@ -19943,7 +19942,6 @@
     "?DAT_01201098@ConstantMaps@@3UPointer@1@A": "0x01201098",
     "?FUN_00b799a0@@YAXPAMPBD@Z": "0x00b799a0",
     "?FUN_00ee6de0@@YGPAXPAXPBX1@Z": "0x00ee6de0",
-    "?FUN_00ee6dd4@@YAXXZ": "0x00ee6dd4",
     "?DAT_01201170@ConstantMaps@@3PADA": "0x01201170",
     "?DAT_012010b8@ConstantMaps@@3UPointer@1@A": "0x012010b8",
     "?DAT_012012b0@ConstantMaps@@3PADA": "0x012012b0",
@@ -22804,7 +22802,6 @@
     "?FUN_00b4f5d0@@YAHXZ": "0x00b4f5d0",
     "?DAT_011fa170@@3PAUQuad119@@A": "0x011fa170",
     "?DAT_011f91c8@@3PAPAUShadowSceneNode@@A": "0x011f91c8",
-    "?FUN_00ee6df2@@YAXXZ": "0x00ee6df2",
     "?FUN_00ee6dec@@YGPAXPAXPBX@Z": "0x00ee6dec",
     "?GetFirstActiveLight@BSShaderLightingProperty@@QAEPAVShadowSceneLight@@AAPAX@Z": "0x00b70590",
     "__ehhandler$?FUN_00bfbf60@fnv_00bfbf60@@YAXXZ": "0x00f2d3e0",
@@ -23519,7 +23516,8 @@
     "?FUN_00b4f5d0@@YAPAXXZ": "0x00b4f5d0",
     "?UpdateWorldMatrix@@YAXPAUFUN_00b7b930_Arg@@PBXPBUFUN_00b7b930_Transform@@@Z": "0x00b7b930",
     "?FUN_00b7b730@Owner132@@QAEXPAUGroup132@@IPBXPBD@Z": "0x00b7b730",
-    "?FUN_00c02c30@@YAXPAXHPAUFUN_00c02c30_Obj@@H@Z": "0x00c02c30"
+    "?FUN_00c02c30@@YAXPAXHPAUFUN_00c02c30_Obj@@H@Z": "0x00c02c30",
+    "?FUN_00ee6df2@@YAPAXPAXPBX1@Z": "0x00ee6df2"
    }
   },
   {

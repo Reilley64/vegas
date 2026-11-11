@@ -399,63 +399,22 @@ void FUN_00aa6a10_shell::ClearPoolSlots()
 }
 
 namespace fnv_00aa66a0 {
-struct MemoryManager
-{
-};
-
 struct PageRefCount66a0
 {
     unsigned short iCount;
 };
-
-struct PoolSpinLock66a0
-{
-    unsigned int m_uiOwningThreadID;
-    unsigned int m_uiRecursionCount;
-    PoolSpinLock66a0()
-    {
-        m_uiOwningThreadID = 0;
-        m_uiRecursionCount = 0;
-    }
-};
-
-struct FUN_00aa66a0
-{
-    const char* pDescription;
-    char* m_pPoolBase;
-    void* m_pFreeBlockHead;
-    unsigned int iReserved0C;
-    unsigned int iReserved10;
-    unsigned int iReserved14;
-    unsigned int iReserved18;
-    unsigned int iReserved1C;
-    PoolSpinLock66a0 kLock;
-    unsigned int iLockReserved28;
-    unsigned int iLockReserved2C;
-    unsigned int iLockReserved30;
-    unsigned int iLockReserved34;
-    unsigned int iLockReserved38;
-    unsigned int iLockReserved3C;
-    unsigned int m_uiAllocationSize;
-    unsigned int m_uiPeakPageCount;
-    unsigned short* m_pPageBlockCounts;
-    unsigned int m_uiPageCount;
-    unsigned int m_uiPoolSize;
-    unsigned int m_uiFreeBlockCount;
-    unsigned int m_uiAllocatedPageCount;
-    unsigned int iFirstReserve;
-    unsigned int iSecondReserve;
-    FUN_00aa66a0(unsigned int aiBlockSize, unsigned int aiPoolSize, const char* apDesc);
-};
+}  // namespace fnv_00aa66a0
 
 // Initializes a memory pool: rounds the block size, allocates the page ref-count array, computes reserve counts and sets each page count to 0xffff.
 // @fnv 0x00aa66a0
-FUN_00aa66a0::FUN_00aa66a0(unsigned int aiBlockSize, unsigned int aiPoolSize, const char* apDesc)
+MemoryPool::MemoryPool(unsigned int aiBlockSize, unsigned int aiPoolSize, const char* apDesc)
     : pDescription(apDesc), m_pPoolBase(0), m_pFreeBlockHead(0), m_uiPeakPageCount(0), m_pPageBlockCounts(0),
       m_uiPoolSize(aiPoolSize), m_uiFreeBlockCount(0), m_uiAllocatedPageCount(0)
 {
     unsigned int nA;
     unsigned int i;
+    m_kCriticalSection.m_uiOwningThreadID = 0;
+    m_kCriticalSection.m_uiRecursionCount = 0;
     m_uiPageCount = aiPoolSize >> 12;
     m_uiAllocationSize = aiBlockSize;
     if (m_uiAllocationSize)
@@ -463,7 +422,7 @@ FUN_00aa66a0::FUN_00aa66a0(unsigned int aiBlockSize, unsigned int aiPoolSize, co
     reinterpret_cast<::VirtualReservationSearch *>(this)->FUN_00aa65b0();
     if (!m_pPoolBase)
         return;
-    m_pPageBlockCounts = (unsigned short*)new PageRefCount66a0[aiPoolSize >> 12];
+    m_pPageBlockCounts = (unsigned short*)new fnv_00aa66a0::PageRefCount66a0[aiPoolSize >> 12];
     nA = 0x1000 / m_uiAllocationSize;
     iFirstReserve = nA / 6;
     iSecondReserve = nA - iFirstReserve;
@@ -471,6 +430,5 @@ FUN_00aa66a0::FUN_00aa66a0(unsigned int aiBlockSize, unsigned int aiPoolSize, co
         m_pPageBlockCounts[i] = 0xffff;
     reinterpret_cast<::FUN_00aa6980_stub *>(this)->RegisterInPools();
 }
-}  // namespace fnv_00aa66a0
 
 #include "generated/data/bscore/memorypool.inc"

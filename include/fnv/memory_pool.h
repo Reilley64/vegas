@@ -41,9 +41,12 @@ class MemoryPool
     unsigned int m_uiPoolSize;
     unsigned int m_uiFreeBlockCount;
     unsigned int m_uiAllocatedPageCount;
-    unsigned char layoutPadding5C[36];
+    unsigned int iFirstReserve;
+    unsigned int iSecondReserve;
+    unsigned char layoutPadding64[28];
 
     // Owned by src/bscore/memorypool.cpp.
+    MemoryPool(unsigned int aiBlockSize, unsigned int aiPoolSize, const char* apDesc); // 0x00aa66a0
     void PushFreeBlock(void* pointer);        // 0x00aa6e00
     unsigned int FUN_00aa6db0();              // 0x00aa6db0
     void UnlinkNode(MemoryPool__FreePoolBlock* node); // 0x00aa6e60
